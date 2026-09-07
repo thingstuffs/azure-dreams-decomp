@@ -1,21 +1,13 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 s32 func_800374F4();                         /* extern */
 M2C_UNK func_800C9ED0();                         /* extern */
 M2C_UNK func_800C9ED4();                         /* extern */
 extern void (*D_800D65D8[])(void *, void *, M2C_UNK);
 
-typedef struct S_800C9DB8_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-} S_800C9DB8_0;   /* arg1 in func_800C9DB8 */
 
 typedef struct S_800C9DB8_1 {
     u8 pad_00[0x72];
@@ -28,7 +20,7 @@ typedef struct S_800C9DB8_1 {
     s16 unk_8E;
 } S_800C9DB8_1;   /* arg0 in func_800C9DB8 */
 
-void func_800C9DB8(S_800C9DB8_1 *arg0, S_800C9DB8_0 *arg1, M2C_UNK arg2) {
+void func_800C9DB8(S_800C9DB8_1 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
     s16 temp_a0;
     s16 temp_a0_2;
     s16 temp_a0_3;
@@ -42,8 +34,8 @@ void func_800C9DB8(S_800C9DB8_1 *arg0, S_800C9DB8_0 *arg1, M2C_UNK arg2) {
 
     var_s2 = 0x10;
     ASM_KEEP(var_s2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    arg1->unk_10 = 0;
-    arg1->unk_0C = 0;
+    arg1->unk_10.at00_s32.v = 0;
+    arg1->unk_0C.as_s32 = 0;
     ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
     var_s2 -= 1;
 loop_1:
@@ -55,7 +47,7 @@ loop_1:
             if (temp_v1 == 0) {
                 temp_a0 = arg0->unk_8C;
                 var_s2 -= 1;
-                if (arg1->unk_02 < (arg0->unk_84 + temp_a0)) {
+                if (arg1->unk_00.at02_s16.v < (arg0->unk_84 + temp_a0)) {
                     var_s2 += 1;
                     ASM_KEEP(var_s2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
                     tail_value = 0x400;
@@ -68,7 +60,7 @@ loop_1:
             if (temp_v1 == var_s1) {
                 temp_a0_2 = arg0->unk_8E;
                 var_s2 -= 1;
-                if (arg1->unk_06 < (arg0->unk_86 + temp_a0_2)) {
+                if (arg1->unk_04.at02_s16.v < (arg0->unk_86 + temp_a0_2)) {
                     var_s2 += 1;
                     ASM_KEEP(var_s2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
                     arg0->unk_72 = 0;
@@ -78,7 +70,7 @@ loop_1:
                 goto loop_1;
             }
             if (temp_v1 == 2) {
-                temp_a0_3 = arg1->unk_02;
+                temp_a0_3 = arg1->unk_00.at02_s16.v;
                 var_s2 -= 1;
                 if ((arg0->unk_84 - arg0->unk_8C) < temp_a0_3) {
                     var_s2 += 1;
@@ -92,7 +84,7 @@ loop_1:
             }
             temp_v0_4 = arg0->unk_86;
             temp_v1_4 = arg0->unk_8E;
-            temp_a0_4 = arg1->unk_06;
+            temp_a0_4 = arg1->unk_04.at02_s16.v;
             var_s2 -= 1;
             if ((temp_v0_4 - temp_v1_4) < temp_a0_4) {
                 var_s2 += 1;

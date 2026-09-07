@@ -1,18 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_800BFD80_0 {
-    u8 pad_00[0x1];
-    u8 unk_01;
-    u8 pad_02[0x11];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0xF];
-    u8 unk_27;
-    u8 pad_28[0x41];
-    u8 unk_69;
-    u8 pad_6A[0xA6];
-    s32 unk_110;
-} S_800BFD80_0;   /* arg0 in func_800BFD80 */
 
 
 
@@ -44,7 +32,7 @@ s32 func_800BFD80(void *arg0, s32 arg1, s16 arg2)
     u8 temp_v1;
 
     if (arg0 == D_800E3D7C[0]) {
-        ((S_800BFD80_0 *)arg0)->unk_110 = arg1;
+        ((Rec_D_800E3D7C *)arg0)->unk_110 = arg1;
         func_8008D330(arg0, D_80083780, D_80082E80, arg0);
         return 0;
     }
@@ -52,27 +40,27 @@ s32 func_800BFD80(void *arg0, s32 arg1, s16 arg2)
     if ((u32)arg0 <= 0x9FFFFFFF) {
         func_800A63B8(arg0, arg1, arg2);
         if (func_800AD6FC(
-                arg0, (D_800DDE84[((S_800BFD80_0 *)arg0)->unk_13] >> 6) & 3, 0) == 0) {
+                arg0, (D_800DDE84[((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v] >> 6) & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
             return 1;
         }
     }
 
-    if (((S_800BFD80_0 *)arg0)->unk_27 == ((S_800BFD80_0 *)arg0)->unk_69) {
-        temp_v1 = ((S_800BFD80_0 *)arg0)->unk_01;
+    if (((Rec_D_800E3D7C *)arg0)->unk_27 == ((Rec_D_800E3D7C *)arg0)->unk_69) {
+        temp_v1 = ((Rec_D_800E3D7C *)arg0)->unk_00.at01_u8.v;
         if (temp_v1 < 0xFF) {
-            ((S_800BFD80_0 *)arg0)->unk_01 = temp_v1 + 1;
+            ((Rec_D_800E3D7C *)arg0)->unk_00.at01_u8.v = temp_v1 + 1;
             func_80041E70(arg0);
         }
     }
 
-    temp_a0 = ((S_800BFD80_0 *)arg0)->unk_27;
+    temp_a0 = ((Rec_D_800E3D7C *)arg0)->unk_27;
     temp_v1_2 = temp_a0 & 0xFF;
-    if (temp_v1_2 < 0xFF && temp_v1_2 < ((S_800BFD80_0 *)arg0)->unk_69) {
-        ((S_800BFD80_0 *)arg0)->unk_27 = temp_a0 + 1;
+    if (temp_v1_2 < 0xFF && temp_v1_2 < ((Rec_D_800E3D7C *)arg0)->unk_69) {
+        ((Rec_D_800E3D7C *)arg0)->unk_27 = temp_a0 + 1;
     }
 
-    if (((S_800BFD80_0 *)arg0)->unk_14 & 0x4000) {
+    if (((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) {
         func_80099844(arg0, D_800E2056);
     }
     func_800D4FC8((u8 *)arg0 - 0x20, 0x20F020, 0x616);

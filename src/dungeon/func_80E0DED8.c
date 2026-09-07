@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_801716D8_0 {
     u8 pad_00[0x1C];
@@ -12,13 +13,6 @@ typedef struct S_801716D8_0 {
     s16 unk_8A;
 } S_801716D8_0;   /* state in func_801716D8 */
 
-typedef struct S_801716D8_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_801716D8_1;   /* arg2 in func_801716D8 */
 
 typedef struct S_801716D8_2 {
     u8 pad_00[0x74];
@@ -67,12 +61,12 @@ void func_801716D8(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *state = arg3;
 
     if ((((S_801716D8_0 *)state)->unk_71 > 0) && ((s32) (u8) ((S_801716D8_0 *)state)->unk_71 > ((S_801716D8_0 *)state)->unk_8A)) {
-        if (((S_801716D8_1 *)arg2)->unk_2C != D_80176460) {
+        if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pv != D_80176460) {
             (*(void **)((u8 *)arg2 + 0x2C)) = D_80176460;
             func_80047784(arg2, D_80176460[((D_80083228 + ((S_801716D8_0 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
         }
-        temp_s1 = ((S_801716D8_1 *)arg2)->unk_24;
-        temp_s2 = ((S_801716D8_1 *)arg2)->unk_25;
+        temp_s1 = ((Rec_D_80082E80 *)arg2)->unk_24;
+        temp_s2 = ((Rec_D_80082E80 *)arg2)->unk_25;
         var_a2 = 0x3000;
         if (((S_801716D8_0 *)state)->unk_1C & 0x2000) {
             var_a2 = 0x300;
@@ -81,12 +75,12 @@ void func_801716D8(void *arg0, void *arg1, void *arg2, void *arg3) {
         temp_v0 = state + ((S_801716D8_0 *)state)->unk_8A;
         temp_v0_2 = func_800A0818(temp_s1, temp_s2, ((S_801716D8_2 *)temp_v0)->unk_74, ((S_801716D8_2 *)temp_v0)->unk_7C, arg0 + 0x98);
         func_8009A66C(temp_v0_2, arg2, state, 0x20);
-        ((S_801716D8_1 *)arg2)->unk_24 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_74;
-        ((S_801716D8_1 *)arg2)->unk_25 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_7C;
+        ((Rec_D_80082E80 *)arg2)->unk_24 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_74;
+        ((Rec_D_80082E80 *)arg2)->unk_25 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_7C;
         ((S_801716D8_0 *)state)->unk_8A = (s16) ((u16) ((S_801716D8_0 *)state)->unk_8A + 1);
         next_flag = ((S_801716D8_0 *)state)->unk_1C & 0x2000;
-        next_x = ((S_801716D8_1 *)arg2)->unk_24;
-        next_y = ((S_801716D8_1 *)arg2)->unk_25;
+        next_x = ((Rec_D_80082E80 *)arg2)->unk_24;
+        next_y = ((Rec_D_80082E80 *)arg2)->unk_25;
         var_a2_2 = 0x3000;
         if (next_flag) {
             var_a2_2 = 0x300;

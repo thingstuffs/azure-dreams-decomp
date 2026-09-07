@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80165018_0 {
     u8 pad_00[0x8];
@@ -9,10 +10,6 @@ typedef struct S_80165018_0 {
     s32 unk_20;
 } S_80165018_0;   /* obj in func_80165018 */
 
-typedef struct S_80165018_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80165018_1;   /* arg0 in func_80165018 */
 
 typedef struct S_80165018_2 {
     u8 pad_00[0x14];
@@ -41,7 +38,7 @@ typedef struct S_80165018_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80165018_5;   /* ((S_80165018_1 *)arg0)->unk_08 in func_80165018 */
+} S_80165018_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80165018 */
 
 typedef struct S_80165018_6 {
     u8 pad_00[0x2];
@@ -67,7 +64,7 @@ extern u8 D_80164BC4[];
 extern u8 D_80164DA4[];
 
 
-void func_80165018(S_80165018_1 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4,
+void func_80165018(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4,
                    s32 arg5) {
     register s32 held_arg4 ASM_REG("$19") = arg4;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
     register s32 held_arg5 ASM_REG("$20") = arg5;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
@@ -82,17 +79,17 @@ void func_80165018(S_80165018_1 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4,
     if (obj != 0) {
         ((S_80165018_0 *)obj)->unk_10 = D_80164DA4;
         random = rand() & 7;
-        value = ((S_80165018_5 *)(arg0->unk_08))->unk_02 + arg3;
+        value = ((S_80165018_5 *)(arg0->unk_08.at00_pv.v))->unk_02 + arg3;
         value -= 3;
         value += random;
         ((S_80165018_6 *)(((S_80165018_0 *)obj)->unk_08))->unk_02 = (s16)value;
         random = rand() & 7;
-        value = ((S_80165018_5 *)(arg0->unk_08))->unk_06 + held_arg4;
+        value = ((S_80165018_5 *)(arg0->unk_08.at00_pv.v))->unk_06 + held_arg4;
         value -= 3;
         value += random;
         ((S_80165018_6 *)(((S_80165018_0 *)obj)->unk_08))->unk_06 = (s16)value;
         random = rand() & 7;
-        value = ((S_80165018_5 *)(arg0->unk_08))->unk_0A + held_arg5;
+        value = ((S_80165018_5 *)(arg0->unk_08.at00_pv.v))->unk_0A + held_arg5;
         value -= 3;
         value += random;
         ((S_80165018_6 *)(((S_80165018_0 *)obj)->unk_08))->unk_0A = (s16)value;

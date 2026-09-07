@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_8016CC70_0 {
     u8 pad_00[0x8C];
@@ -42,10 +43,6 @@ typedef struct S_8016CC70_4 {
     u16 unk_02;
 } S_8016CC70_4;   /* held_base in func_8016CC70 */
 
-typedef struct S_8016CC70_5 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_8016CC70_5;   /* D_800814A8 in func_8016CC70 */
 
 typedef struct S_8016CC70_6 {
     u8 pad_00[0x26];
@@ -196,7 +193,7 @@ action_body:
         goto done;
     }
     if ((func_800A2C34(actor) << 0x10) != 0) {
-        if ((func_8009A180(actor, (u8 *)((S_8016CC70_5 *)D_800814A8)->unk_58 + 0x20) << 0x10) != 0) {
+        if ((func_8009A180(actor, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 0x10) != 0) {
             goto done;
         }
     }

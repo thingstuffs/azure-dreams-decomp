@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
 #define NULL 0
@@ -26,13 +27,6 @@ typedef struct S_80172494_1 {
     u8 unk_9B;
 } S_80172494_1;   /* arg0 in func_80172494 */
 
-typedef struct S_80172494_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172494_2;   /* arg2 in func_80172494 */
 
 typedef struct S_80172494_3 {
     u8 pad_00[0x2];
@@ -151,9 +145,9 @@ void func_80172494(void *arg0, void *arg1, void *arg2, void *arg3) {
 
     switch (state) {
     case 0:
-        if (((S_80172494_2 *)arg2)->unk_14 & 0x8000) {
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
             ((S_80172494_1 *)arg0)->unk_9B = 0xFF;
-            ((S_80172494_2 *)arg2)->unk_14 |= 0x6000;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
             func_8009C12C(arg3_reg, arg2, ((S_80172494_0 *)arg3_reg)->unk_2A.u, 1);
             goto L_end;
         }
@@ -192,7 +186,7 @@ void func_80172494(void *arg0, void *arg1, void *arg2, void *arg3) {
         ((S_80172494_3 *)arg1)->unk_10 = temp_v1 - (temp_v1 >> 3);
         ((S_80172494_3 *)arg1)->unk_14 = temp_v0_4 - (temp_v0_4 >> 3);
         if ((((S_80172494_1 *)arg0)->unk_96.u == 4) ||
-            (((S_80172494_2 *)arg2)->unk_14 & 0x8000)) {
+            (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
             ((S_80172494_3 *)arg1)->unk_0C = 0;
             ((S_80172494_3 *)arg1)->unk_10 = 0;
             ((S_80172494_3 *)arg1)->unk_14 = 0;
@@ -203,7 +197,7 @@ void func_80172494(void *arg0, void *arg1, void *arg2, void *arg3) {
         if (((S_80172494_1 *)arg0)->unk_96.u > 0) {
             goto L_end;
         }
-        if (!(((S_80172494_2 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
             goto L_end;
         }
         ((S_80172494_1 *)arg0)->unk_96.s = 4;
@@ -232,7 +226,7 @@ L_inc_after_load:
 
     case 4:
         ((S_80172494_1 *)arg0)->unk_90 += 0x80000;
-        if (!(((S_80172494_2 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
             goto L_end;
         }
         ((S_80172494_3 *)arg1)->unk_14 = 0;
@@ -244,18 +238,18 @@ L_inc_after_load:
         goto L_end;
 
     case 0xFF:
-        temp_v0 = ((S_80172494_2 *)arg2)->unk_24 << 6;
+        temp_v0 = ((Rec_D_80082E80 *)arg2)->unk_24 << 6;
         temp_v1 = ((S_80172494_3 *)arg1)->unk_02.s - 0x20;
         temp_v0 -= temp_v1;
         temp_v0 = (temp_v0 << 15) >> 1;
         ((S_80172494_3 *)arg1)->unk_0C = temp_v0;
         ASM_USE(temp_v0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        temp_v0 = ((S_80172494_2 *)arg2)->unk_25 << 6;
+        temp_v0 = ((Rec_D_80082E80 *)arg2)->unk_25 << 6;
         temp_v1 = ((S_80172494_3 *)arg1)->unk_06.s - 0x20;
         temp_v0 -= temp_v1;
         temp_v0 = (temp_v0 << 15) >> 1;
         ((S_80172494_3 *)arg1)->unk_10 = temp_v0;
-        if (!(((S_80172494_2 *)arg2)->unk_14 & 0x8000) &&
+        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) &&
             (((S_80172494_1 *)arg0)->unk_96.u != 0)) {
             var_s2 = 9;
             sp10 = temp_s0 * 0x28;
@@ -297,13 +291,13 @@ L_inc_after_load:
                 var_s2--;
             } while (var_s2 >= 0);
         }
-        if (!(((S_80172494_2 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
             goto L_end;
         }
         ((S_80172494_3 *)arg1)->unk_10 = 0;
         ((S_80172494_3 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_80172494_2 *)arg2)->unk_24,
-                      ((S_80172494_2 *)arg2)->unk_25);
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24,
+                      ((Rec_D_80082E80 *)arg2)->unk_25);
         func_800AD594(arg3_reg, 0x100);
         ((S_80172494_1 *)arg0)->unk_8C = D_80171138;
         D_8008346C = 0;

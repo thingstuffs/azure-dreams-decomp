@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_8102F348_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -25,20 +26,13 @@ typedef struct S_8102F348_1 {
     s32 unk_64;
 } S_8102F348_1;   /* arg0 in func_8102F348 */
 
-typedef struct S_8102F348_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8102F348_2;   /* arg2 in func_8102F348 */
 
 
 
 extern s32 func_800A45D8(u16, u16, s16);
 extern s16 func_800BCB04(u16, u16, s16);
 extern void func_800478B8(void *);
-void func_8102F348(void *arg0, S_8102F348_0 *arg1, S_8102F348_2 *arg2) {
+void func_8102F348(void *arg0, S_8102F348_0 *arg1, Rec_D_80082E80 *arg2) {
     s32 temp_s0;
 
     arg1->unk_00.at00.v += ((S_8102F348_1 *)arg0)->unk_50;
@@ -80,14 +74,14 @@ void func_8102F348(void *arg0, S_8102F348_0 *arg1, S_8102F348_2 *arg2) {
         func_800478B8(arg2);
     }
 
-    arg2->unk_1C += 100;
-    if (arg2->unk_1C > 0x1000) {
-        arg2->unk_1C = 0x1000;
+    arg2->unk_1C.at00_u16.v += 100;
+    if (arg2->unk_1C.at00_u16.v > 0x1000) {
+        arg2->unk_1C.at00_u16.v = 0x1000;
     }
 
-    arg2->unk_1E += 100;
-    if (arg2->unk_1E > 0x1000) {
-        arg2->unk_1E = 0x1000;
+    arg2->unk_1C.at02_u16.v += 100;
+    if (arg2->unk_1C.at02_u16.v > 0x1000) {
+        arg2->unk_1C.at02_u16.v = 0x1000;
     }
 
     ((S_8102F348_1 *)arg0)->unk_1E.u = ((S_8102F348_1 *)arg0)->unk_1E.u - 1;
@@ -98,7 +92,7 @@ void func_8102F348(void *arg0, S_8102F348_0 *arg1, S_8102F348_2 *arg2) {
         status_page[0x14A0 / 4] |= 0x8000;
     }
 
-    if (arg2->unk_14 & 0x8000) {
+    if (arg2->unk_14.at00_u16.v & 0x8000) {
         register s32 *status_page ASM_REG("$3") = (s32 *)0x80080000;   /* MATCH pin: retail register colouring depends on it */
         ASM_KEEP(status_page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
         ((S_8102F348_1_pre *)arg0)[-1].unk_00 |= 0x8000;

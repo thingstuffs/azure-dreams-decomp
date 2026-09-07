@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 typedef void (*Callback)(void *, void *, void *, void *);
@@ -29,17 +30,6 @@ typedef struct S_80170A58_0 {
     s32 unk_14;
 } S_80170A58_0;   /* arg1 in func_80170A58 */
 
-typedef struct S_80170A58_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80170A58_1;   /* arg2 in func_80170A58 */
 
 typedef struct S_80170A58_2 {
     u8 pad_00[0x1C];
@@ -101,27 +91,27 @@ void func_80170A58(void *arg0, S_80170A58_0 *arg1, void *arg2)
     }
     (*(s32 *)((u8 *)arg0 + 0x90)) += arg1->unk_14;
 
-    part_flags = ((S_80170A58_1 *)arg2)->unk_14;
+    part_flags = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
     if (!(part_flags & 0x8000)) {
         dir = ((D_80083228 + state->unk_2A + 0x100) >> 9) & 7;
         idx = dir;
         if ((*(s16 *)((u8 *)arg0 + 0x94)) != idx) {
-            func_80047738(arg2, ((S_80170A58_1 *)arg2)->unk_2C[idx],
-                          ((S_80170A58_1 *)arg2)->unk_04);
+            func_80047738(arg2, ((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8[idx],
+                          ((Rec_D_80082E80 *)arg2)->unk_04.as_s8);
             (*(s16 *)((u8 *)arg0 + 0x94)) = dir;
         }
         if (D_8006CCF8[idx] != 0) {
-            ((S_80170A58_1 *)arg2)->unk_14 |= 1;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 1;
         } else {
-            ((S_80170A58_1 *)arg2)->unk_14 &= 0xFFFE;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xFFFE;
         }
         func_800A020C(state->unk_1C, (u8 *)arg2 + 0xC);
         if (!(state->unk_1C & 0x20)) {
-            if (!(((S_80170A58_1 *)arg2)->unk_14 & 0x40)) {
+            if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x40)) {
                 func_800478B8(arg2);
             }
         } else {
-            ((S_80170A58_1 *)arg2)->unk_14 |= 0x7000;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x7000;
             state->unk_1C &= 0xFFFBFFFF;
         }
 
@@ -130,8 +120,8 @@ void func_80170A58(void *arg0, S_80170A58_0 *arg1, void *arg2)
         state->unk_1C = flags;
         flags &= 0x40000;
         if (flags != 0) {
-            if (!(((S_80170A58_1 *)arg2)->unk_14 & 0x40)) {
-                if (((S_80170A58_1 *)arg2)->unk_2C == D_8017420C) {
+            if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x40)) {
+                if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 == D_8017420C) {
                     u16 count = (*(u16 *)((u8 *)arg0 + 0x9E));
                     (*(u16 *)((u8 *)arg0 + 0x9E)) = count + 1;
                     (*(s32 *)((u8 *)arg0 + 0xA0)) += func_800644B8((s16)count * 0xAA) << 5;
@@ -168,9 +158,9 @@ void func_80170A58(void *arg0, S_80170A58_0 *arg1, void *arg2)
         }
     } else {
         if (!(part_flags & 0x800)) {
-            ((S_80170A58_1 *)arg2)->unk_14 = part_flags | 0x7000;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = part_flags | 0x7000;
         } else {
-            ((S_80170A58_1 *)arg2)->unk_14 = part_flags & 0x8FFF;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = part_flags & 0x8FFF;
         }
 
         flags = state->unk_1C;
@@ -194,8 +184,8 @@ void func_80170A58(void *arg0, S_80170A58_0 *arg1, void *arg2)
                 }
             }
         } else {
-            if (!(((S_80170A58_1 *)arg2)->unk_14 & 0x40)) {
-                if (((S_80170A58_1 *)arg2)->unk_2C == D_8017420C) {
+            if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x40)) {
+                if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 == D_8017420C) {
                     u16 count = (*(u16 *)((u8 *)arg0 + 0x9E));
                     (*(u16 *)((u8 *)arg0 + 0x9E)) = count + 1;
                     (*(s32 *)((u8 *)arg0 + 0xA0)) += func_800644B8((s16)count * 0xAA) << 5;
@@ -219,8 +209,8 @@ void func_80170A58(void *arg0, S_80170A58_0 *arg1, void *arg2)
     flags = state->unk_1C;
     if (flags & 0x40000000) {
         state->unk_1C = flags & 0xBFFFFFFF;
-        ground = func_800BCB04((((S_80170A58_1 *)arg2)->unk_24 << 6) | 0x20,
-                               (((S_80170A58_1 *)arg2)->unk_25 << 6) | 0x20,
+        ground = func_800BCB04((((Rec_D_80082E80 *)arg2)->unk_24 << 6) | 0x20,
+                               (((Rec_D_80082E80 *)arg2)->unk_25 << 6) | 0x20,
                                (s16)(state->unk_88 - 0x20));
         if ((s16)ground < 0x200) {
             (*(s16 *)((u8 *)arg0 + 0x92)) =
@@ -231,7 +221,7 @@ void func_80170A58(void *arg0, S_80170A58_0 *arg1, void *arg2)
 
     arg1->unk_0A = state->unk_88 + (*(u16 *)((u8 *)arg0 + 0x92)) -
                             (*(u16 *)((u8 *)arg0 + 0xA2));
-    ((S_80170A58_1 *)arg2)->unk_14 |= 0x40;
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x40;
 }
 
 /* MECHANISM: baseline rebuild (eval 1) */

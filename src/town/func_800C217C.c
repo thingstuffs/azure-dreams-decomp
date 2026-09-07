@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082D58.h"
 
 s32 func_800352FC();                             /* extern */
 M2C_UNK func_80053DA8();                     /* extern */
@@ -8,14 +9,8 @@ M2C_UNK func_800BF9D0();                            /* extern */
 s32 func_800C2AB4();                          /* extern */
 extern u8 D_80083780[];
 
-typedef struct S_800BF8DC_0 {
-    u8 pad_00[0x68];
-    s16 unk_68;
-    u8 pad_6A[0x2];
-    s16 unk_6C;
-} S_800BF8DC_0;   /* arg0 in func_800BF8DC */
 
-void func_800BF8DC(S_800BF8DC_0 *arg0, s32 *arg1) {
+void func_800BF8DC(Rec_D_80082D58 *arg0, s32 *arg1) {
     s16 temp_v1;
     s32 temp_a0;
     s32 var_v0;
@@ -54,7 +49,7 @@ block_10:
                 func_80053DA8(0x50B);
                 distance = (u16)arg0->unk_68;
                 threshold = 0x20;
-                arg0->unk_6C = threshold;
+                arg0->unk_6C.as_s16 = threshold;
                 distance++;
                 ASM_TAILSLOT_PIN_TIED(distance);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
                 func_800BF9CC();

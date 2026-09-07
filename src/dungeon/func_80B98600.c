@@ -1,30 +1,14 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
-typedef struct S_80171E00_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x25];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-    u8 pad_72[0x12];
-    s8 unk_84;
-    s8 unk_85;
-} S_80171E00_0;   /* arg3 in func_80171E00 */
 
 typedef struct S_80171E00_1 {
     u8 pad_00[0x2];
     u16 unk_02;
 } S_80171E00_1;   /* flags_base in func_80171E00 */
 
-typedef struct S_80171E00_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80171E00_2;   /* arg2 in func_80171E00 */
 
 typedef struct S_80171E00_3 {
     u8 pad_00[0x8C];
@@ -54,12 +38,12 @@ s32 func_80171E00(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     s32 temp_v0;
     u16 flags;
 
-    ((S_80171E00_0 *)arg3)->unk_71 = (u8) (((S_80171E00_0 *)arg3)->unk_71 & 0x7F);
+    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
     flags_base = (u8 *) &D_80083460;
     if (((S_80171E00_1 *)flags_base)->unk_02 & 0x2000) {
         goto return_minus_one;
     }
-    temp_v0 = func_800A04F0(arg3, ((S_80171E00_2 *)arg2)->unk_24, ((S_80171E00_2 *)arg2)->unk_25, ((S_80171E00_0 *)arg3)->unk_2A);
+    temp_v0 = func_800A04F0(arg3, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16);
     if ((func_800A2CB8(arg3, temp_v0) << 0x10) == 0) {
         return 0;
     }
@@ -67,7 +51,7 @@ s32 func_80171E00(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     if (flags & 0x2000) {
         return -1;
     }
-    if (!(((S_80171E00_0 *)arg3)->unk_46 & 0x8000)) {
+    if (!(((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000)) {
         if (flags & 8) {
             return -1;
         }
@@ -88,13 +72,13 @@ success:
     ((S_80171E00_3 *)arg0)->unk_9A = 0x11;
     ((S_80171E00_3 *)arg0)->unk_9B = 0;
     ((S_80171E00_3 *)arg0)->unk_8C = 0;
-    ((S_80171E00_0 *)arg3)->unk_84 = 0x7C;
-    ((S_80171E00_0 *)arg3)->unk_85 = 0;
+    ((Rec_D_800E3D7C *)arg3)->unk_84.as_s8 = 0x7C;
+    ((Rec_D_800E3D7C *)arg3)->unk_85.as_s8 = 0;
     table = &D_80174F28;
     (*(u8 **)((u8 *)arg2 + 0x2C)) = table;
-    func_80047784(arg2, table[((s32) (D_80083228 + ((S_80171E00_0 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
-    ((S_80171E00_0 *)arg3)->unk_6D = (u8) (((S_80171E00_0 *)arg3)->unk_6D - 1);
-    func_8009C93C(arg3, arg2, ((S_80171E00_0 *)arg3)->unk_2A, 1, 0);
+    func_80047784(arg2, table[((s32) (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 - 1);
+    func_8009C93C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1, 0);
     return 1;
 }
 

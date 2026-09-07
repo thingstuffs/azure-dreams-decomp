@@ -1,19 +1,11 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 typedef s32 M2C_UNK;
 
 typedef struct S_81940800_0_pre {
     u16 unk_00;
 } S_81940800_0_pre;   /* the 0x2 bytes before arg0 in BODY_NAME, addressed as arg0[-1] */
 
-typedef struct S_81940800_0 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    s16 unk_2C;
-    u8 pad_2E[0x4];
-    s16 unk_32;
-    u8 pad_34[0x2C];
-    s32 unk_60;
-} S_81940800_0;   /* arg0 in BODY_NAME */
 
 typedef struct S_81940800_1 {
     u8 pad_00[0x6];
@@ -27,7 +19,7 @@ typedef struct S_81940800_1 {
 typedef struct S_81940800_2 {
     u8 pad_00[0x46];
     s16 unk_46;
-} S_81940800_2;   /* ((((S_81940800_0 *)arg0)->unk_32 * 2) + ((S_81940800_0 *)arg0)->unk_60) in BODY_NAME */
+} S_81940800_2;   /* ((((Rec_D_800E3D7C *)arg0)->unk_32 * 2) + ((Rec_D_800E3D7C *)arg0)->unk_60.as_s32) in BODY_NAME */
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_81940800") __attribute__((section(".text.func_81940800"), aligned(4))) = {
@@ -50,14 +42,14 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2)
 ;
 void BODY_NAME(void *arg0, void *arg1, void *arg2) {
     s32 temp_lo; u16 temp_a0;
-    temp_a0 = ((S_81940800_0 *)arg0)->unk_2A - 1;
-    temp_lo = (s32)((s32)(temp_a0 << 0x10) >> 9) / (s16)((S_81940800_0 *)arg0)->unk_2C;
-    D_8002571C = 1; ((S_81940800_0 *)arg0)->unk_2A = temp_a0;
+    temp_a0 = ((Rec_D_800E3D7C *)arg0)->unk_2A.as_u16 - 1;
+    temp_lo = (s32)((s32)(temp_a0 << 0x10) >> 9) / (s16)((Rec_D_800E3D7C *)arg0)->unk_2C;
+    D_8002571C = 1; ((Rec_D_800E3D7C *)arg0)->unk_2A.as_u16 = temp_a0;
     ((S_81940800_1 *)arg2)->unk_0E = (s8)temp_lo; ((S_81940800_1 *)arg2)->unk_0D = (s8)temp_lo;
     ((S_81940800_1 *)arg2)->unk_0C = (s8)(temp_lo + 0x10);
     if (((S_81940800_1 *)arg2)->unk_06 >= -6) ((S_81940800_1 *)arg2)->unk_06 = (s16)((u16)((S_81940800_1 *)arg2)->unk_06 - 2);
-    if ((s16)((S_81940800_0 *)arg0)->unk_2A <= 0) {
-        ((S_81940800_2 *)(((((S_81940800_0 *)arg0)->unk_32 * 2) + ((S_81940800_0 *)arg0)->unk_60)))->unk_46 = 0;
+    if ((s16)((Rec_D_800E3D7C *)arg0)->unk_2A.as_u16 <= 0) {
+        ((S_81940800_2 *)(((((Rec_D_800E3D7C *)arg0)->unk_32 * 2) + ((Rec_D_800E3D7C *)arg0)->unk_60.as_s32)))->unk_46 = 0;
         (*(u16 *)((u8 *)arg0 + -2)) = (u16)(((S_81940800_0_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0 = D_800814A0 | 0x8000;
     }

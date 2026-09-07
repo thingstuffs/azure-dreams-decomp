@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 
@@ -29,28 +31,12 @@ typedef struct S_80173ED8_0 {
     s16 unk_A8;
 } S_80173ED8_0;   /* arg0 in func_80173ED8 */
 
-typedef struct S_80173ED8_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80173ED8_1;   /* arg2 in func_80173ED8 */
 
 typedef struct S_80173ED8_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_80173ED8_2;   /* counter in func_80173ED8 */
 
-typedef struct S_80173ED8_3 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80173ED8_3;   /* arg3 in func_80173ED8 */
 
 typedef struct S_80173ED8_4 {
     u8 pad_00[0x2];
@@ -93,7 +79,7 @@ void func_80173ED8(void *arg0, void *arg1, void *arg2, void *arg3)
     {
         u8 *counter;
 
-        if ((((S_80173ED8_1 *)arg2)->unk_14 & 0xE000) == 0) {
+        if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
@@ -103,18 +89,18 @@ void func_80173ED8(void *arg0, void *arg1, void *arg2, void *arg3)
         ((S_80173ED8_2 *)counter)->unk_0A--;
         effect = D_80175188;
         (*(void * *)((u8 *)arg2 + 0x2C)) = effect;
-        index = (D_80083228 + ((S_80173ED8_3 *)arg3)->unk_2A + 0x100) >> 9;
+        index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
         func_80047784(arg2, effect[index & 7], 0);
         goto increment_state;
     }
 
     case 1:
-        if (((S_80173ED8_3 *)arg3)->unk_25 != 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v != 0) {
             register u8 *counter;
 
             effect = D_80175180;
             (*(void * *)((u8 *)arg2 + 0x2C)) = effect;
-            index = (D_80083228 + ((S_80173ED8_3 *)arg3)->unk_2A + 0x100) >> 9;
+            index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
             func_80047784(arg2, effect[index & 7], 0);
             (*(u32 *)((u8 *)arg3 + 0x1C)) |= 0x40000;
             counter = (u8 *)&D_80083460;
@@ -129,7 +115,7 @@ void func_80173ED8(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
 
-        if ((((S_80173ED8_3 *)arg3)->unk_64 != 0) &&
+        if ((((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) &&
             func_800AA6B4(arg0, arg1, arg2, 0)) {
             return;
         }
@@ -138,19 +124,19 @@ void func_80173ED8(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
 
-        if (((S_80173ED8_3 *)arg3)->unk_1C & 0x100) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
             return;
         }
 
-        if (((S_80173ED8_3 *)arg3)->unk_1C & 0x80000) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x80000) {
             func_800AA888(arg0, arg1, arg2, arg3);
             ((S_80173ED8_0 *)arg0)->unk_A8 = 0;
             func_80174218(arg0, arg1, arg2, arg3);
             return;
         }
 
-        if (((S_80173ED8_3 *)arg3)->unk_6D == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
             return;
         }
 
@@ -165,15 +151,15 @@ void func_80173ED8(void *arg0, void *arg1, void *arg2, void *arg3)
 
         func_800A9A0C(arg3);
         func_800A9A04(arg3);
-        if (((S_80173ED8_3 *)arg3)->unk_25 == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
             return;
         }
 
         effect = D_80175180;
         (*(void * *)((u8 *)arg2 + 0x2C)) = effect;
-        index = (D_80083228 + ((S_80173ED8_3 *)arg3)->unk_2A + 0x100) >> 9;
+        index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
         func_80047784(arg2, effect[index & 7], 0);
-        ((S_80173ED8_3 *)arg3)->unk_1C |= 0x40000;
+        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x40000;
         ((S_80173ED8_4 *)global)->unk_0A++;
 
 increment_state:
@@ -184,7 +170,7 @@ increment_state:
     {
         u8 *counter;
 
-        if ((((S_80173ED8_1 *)arg2)->unk_14 & 0xE000) == 0) {
+        if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
@@ -192,7 +178,7 @@ increment_state:
 #ifndef __mips__
 #endif
         ((S_80173ED8_2 *)counter)->unk_0A--;
-        ((S_80173ED8_3 *)arg3)->unk_1C &= ~0x208;
+        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x208;
         ((S_80173ED8_0 *)arg0)->unk_8C = D_80171400;
         return;
     }

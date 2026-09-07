@@ -1,15 +1,7 @@
 #include "common.h"
+#include "records/Rec_func_800A9E70_arg0.h"
+#include "records/Rec_D_800814A8.h"
 
-typedef struct S_80171400_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0xC];
-    s16 unk_A8;
-} S_80171400_0;   /* arg0 in func_80171400 */
 
 typedef struct S_80171400_1 {
     u8 pad_00[0x1C];
@@ -34,10 +26,6 @@ typedef struct S_80171400_2 {
     void * unk_2C;
 } S_80171400_2;   /* arg2 in func_80171400 */
 
-typedef struct S_80171400_3 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80171400_3;   /* D_800814A8 in func_80171400 */
 
 typedef struct S_80171400_4 {
     u8 pad_00[0x24];
@@ -109,7 +97,7 @@ void func_80171400(void *arg0, void *arg1, void *in_arg2, void *in_arg3)
 #endif
 
     if (initial_flags & 0x1000) {
-        ((S_80171400_0 *)arg0)->unk_9A = 0xE;
+        ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xE;
         func_80171960();
         return;
     }
@@ -133,9 +121,9 @@ void func_80171400(void *arg0, void *arg1, void *in_arg2, void *in_arg3)
 
     if (((S_80171400_1 *)arg3)->unk_1C & 0x200) {
         if (((S_80171400_2 *)arg2)->unk_2C == D_80175190) {
-            ((S_80171400_0 *)arg0)->unk_9A = 0xD;
-            ((S_80171400_0 *)arg0)->unk_9B = 1;
-            ((S_80171400_0 *)arg0)->unk_8C = 0;
+            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xD;
+            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9B.as_u8 = 1;
+            ((Rec_func_800A9E70_arg0 *)arg0)->unk_8C = 0;
             ((S_80171400_1 *)arg3)->unk_1C &= ~0x40000;
             return;
         }
@@ -150,23 +138,23 @@ void func_80171400(void *arg0, void *arg1, void *in_arg2, void *in_arg3)
             return;
         }
 
-        if (((S_80171400_0 *)arg0)->unk_9A != 0xE) {
-            ((S_80171400_0 *)arg0)->unk_9A = 0xE;
+        if (((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 != 0xE) {
+            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xE;
         }
 
         if ((((S_80171400_2 *)arg2)->unk_2C != D_80175140) &&
             (((S_80171400_2 *)arg2)->unk_2C != D_80175148)) {
             u8 *table = D_80175140;
 
-            ((S_80171400_0 *)arg0)->unk_A8 = 0;
+            ((Rec_func_800A9E70_arg0 *)arg0)->unk_A8 = 0;
             (*(void * *)((u8 *)arg2 + 0x2C)) = table;
             func_80047784(arg2,
                 table[((D_80083228 + ((S_80171400_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
-                ((S_80171400_0 *)arg0)->unk_A8);
+                ((Rec_func_800A9E70_arg0 *)arg0)->unk_A8);
         }
 
         ((S_80171400_1 *)arg3)->unk_1C |= 0x40000;
-        ((S_80171400_0 *)arg0)->unk_98 &= 0xFFF7;
+        ((Rec_func_800A9E70_arg0 *)arg0)->unk_98 &= 0xFFF7;
 
         if (((S_80171400_1 *)arg3)->unk_64 != 0) {
             if (func_800AA6B4(arg0, arg1, arg2, D_80175150) != 0) {
@@ -176,7 +164,7 @@ void func_80171400(void *arg0, void *arg1, void *in_arg2, void *in_arg3)
 
         if (((S_80171400_1 *)arg3)->unk_1C & 0x80000) {
             func_800AA888(arg0, arg1, arg2, arg3);
-            ((S_80171400_0 *)arg0)->unk_A8 = 0;
+            ((Rec_func_800A9E70_arg0 *)arg0)->unk_A8 = 0;
             func_80174218(arg0, arg1, arg2, arg3);
             return;
         }
@@ -201,7 +189,7 @@ void func_80171400(void *arg0, void *arg1, void *in_arg2, void *in_arg3)
         if (!(((S_80171400_1 *)arg3)->unk_46 & 0x8000)) {
             if (D_80083462 & 0x2000) {
                 if ((func_8009A180(arg3,
-                        (u8 *)((S_80171400_3 *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                     return;
                 }
             }

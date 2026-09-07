@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 
 extern void func_8004491C(void *, void *);
@@ -60,12 +61,6 @@ typedef struct S_800240F0_4 {
     u16 unk_1E;
 } S_800240F0_4;   /* arg2 in func_800240F0 */
 
-typedef struct S_800240F0_5 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    s16 unk_88;
-} S_800240F0_5;   /* D_800814A8 in func_800240F0 */
 
 typedef struct S_800240F0_6 {
     u8 pad_00[0x8];
@@ -162,11 +157,11 @@ state_two:
         ((S_800240F0_2 *)arg1)->unk_0C = ((S_800240F0_3 *)position)->unk_00.at00.v;
         ((S_800240F0_2 *)arg1)->unk_10 = ((S_800240F0_3 *)position)->unk_04.at00.v;
     }
-    ((S_800240F0_2 *)arg1)->unk_14 = (((S_800240F0_5 *)D_800814A8)->unk_88 - 0x50) << 16;
+    ((S_800240F0_2 *)arg1)->unk_14 = (((Rec_D_800814A8 *)D_800814A8)->unk_88.as_s16 - 0x50) << 16;
 
     {
         s32 k;
-        k = (D_80083228 + ((S_800240F0_5 *)D_800814A8)->unk_2A + 0x100) >> 7;
+        k = (D_80083228 + ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_s16 + 0x100) >> 7;
         if (func_8003DE58(*(void **)((k & 0x1C) + (s32)D_800E3D18),
                           D_80082E80, vec, 0) != 0) {
             ((S_800240F0_2 *)arg1)->unk_0C += ((s16 *)vec)[0] << 16;

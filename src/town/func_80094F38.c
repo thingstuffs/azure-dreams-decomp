@@ -1,6 +1,7 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_80094268_arg0.h"
 
-typedef s32 M2C_UNK;
 
 #ifndef NULL
 #define NULL 0
@@ -29,22 +30,14 @@ extern u8 D_800CFCEF[9];
 extern u8 D_800FE488[9];
 
 
-typedef struct S_80092698_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80092698_0;   /* arg1 in func_80092698 */
 
-typedef struct S_80092698_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80092698_1;   /* arg0 in func_80092698 */
 
 typedef struct S_80092698_2 {
     u8 pad_00[0x14];
     u8 unk_14;
 } S_80092698_2;   /* D_800CFCC4[0] in func_80092698 */
 
-void func_80092698(S_80092698_1 *arg0, S_80092698_0 *arg1, M2C_UNK arg2) {
+void func_80092698(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
     s16 temp_v0;
     u16 temp_v0_2;
     State80083160 *state = &D_80083160;
@@ -56,7 +49,7 @@ void func_80092698(S_80092698_1 *arg0, S_80092698_0 *arg1, M2C_UNK arg2) {
     func_80095094(arg1);
     data = D_800FE488;
     temp_v0 = func_80095978(arg1, data);
-    if ((temp_v0 - arg1->unk_0A) >= 4) {
+    if ((temp_v0 - arg1->unk_08.at02_s16.v) >= 4) {
         if (D_800CFCEF[0] == 0) {
             func_80094378(arg0, arg1, saved_arg2);
             func_800927C8();
@@ -68,8 +61,8 @@ void func_80092698(S_80092698_1 *arg0, S_80092698_0 *arg1, M2C_UNK arg2) {
         func_80095A94(arg1, temp_v0, data);
     }
 block_6:
-    temp_v0_2 = arg0->unk_0A - 1;
-    arg0->unk_0A = temp_v0_2;
+    temp_v0_2 = arg0->unk_0A.as_u16 - 1;
+    arg0->unk_0A.as_u16 = temp_v0_2;
     if ((s16)temp_v0_2 < 0) {
         if (D_800CFCC4[0] != NULL) {
             if (((S_80092698_2 *)(D_800CFCC4[0]))->unk_14 == 2) {

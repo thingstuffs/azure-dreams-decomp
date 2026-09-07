@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80173140_0 {
     u8 pad_00[0x8];
@@ -24,10 +25,6 @@ typedef struct S_80173140_2 {
     u16 unk_0A;
 } S_80173140_2;   /* temp_a1 in func_80173140 */
 
-typedef struct S_80173140_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80173140_3;   /* &D_80083498 in func_80173140 */
 
 typedef struct S_80173140_4 {
     u8 pad_00[0x1C];
@@ -43,7 +40,7 @@ typedef struct S_80173140_4 {
 typedef struct S_80173140_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80173140_5;   /* ((S_80173140_3 *)(&D_80083498))->unk_08 in func_80173140 */
+} S_80173140_5;   /* ((Rec_D_800E3D7C *)(&D_80083498))->unk_08.at00_pv.v in func_80173140 */
 
 
 void *func_8003FD64();            /* extern */
@@ -84,7 +81,7 @@ void func_80173140(void) {
         func_8004491C(temp_v0, &D_80045340);
         temp_v1_global = (u8 *)&D_80082E80;
         temp_a1 = ((S_80173140_0 *)temp_v0)->unk_08;
-        ((S_80173140_2 *)temp_a1)->unk_0A = (u16) ((S_80173140_5 *)(((S_80173140_3 *)(&D_80083498))->unk_08))->unk_0A;
+        ((S_80173140_2 *)temp_a1)->unk_0A = (u16) ((S_80173140_5 *)(((Rec_D_800E3D7C *)(&D_80083498))->unk_08.at00_pv.v))->unk_0A;
         temp_s0 = ((S_80173140_0 *)temp_v0)->unk_0C;
         env_first = temp_v1_global[0x24];
         ((S_80173140_4 *)temp_s0)->unk_24 = (u8) (env_first - 1);

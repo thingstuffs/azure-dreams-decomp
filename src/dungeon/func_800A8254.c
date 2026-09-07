@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 
 typedef struct {
@@ -21,27 +23,12 @@ typedef struct S_800AD9B4_0_pre {
     u16 unk_00;
 } S_800AD9B4_0_pre;   /* the 0x2 bytes before arg1 in func_800AD9B4, addressed as arg1[-1] */
 
-typedef struct S_800AD9B4_0 {
-    u8 pad_00[0x25];
-    u8 unk_25;
-    u8 pad_26[0x4B];
-    s8 unk_71;
-    u8 pad_72[0x16];
-    s16 unk_88;
-    u16 unk_8A;
-} S_800AD9B4_0;   /* arg1 in func_800AD9B4 */
 
 typedef struct S_800AD9B4_1 {
     u8 pad_00[0x26];
     s8 unk_26;
 } S_800AD9B4_1;   /* base in func_800AD9B4 */
 
-typedef struct S_800AD9B4_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    s8 unk_26;
-} S_800AD9B4_2;   /* arg0 in func_800AD9B4 */
 
 typedef struct S_800AD9B4_3 {
     u8 pad_00[0x2];
@@ -50,7 +37,7 @@ typedef struct S_800AD9B4_3 {
     u16 unk_08;
 } S_800AD9B4_3;   /* state in func_800AD9B4 */
 
-s32 func_800AD9B4(S_800AD9B4_2 *arg0, void *arg1)
+s32 func_800AD9B4(Rec_D_80082E80 *arg0, void *arg1)
 {
     u8 *base;
     u8 *state;
@@ -67,7 +54,7 @@ s32 func_800AD9B4(S_800AD9B4_2 *arg0, void *arg1)
     ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
     base = page + 0x2E80;
     ASM_KEEP(base);   /* MATCH pin: load-bearing for the whole function shape */
-    if (((S_800AD9B4_1 *)base)->unk_26 == arg0->unk_26) {
+    if (((S_800AD9B4_1 *)base)->unk_26 == arg0->unk_26.as_s8) {
         goto body;
     }
     if (func_8009FD40(base, arg0) < 7) {
@@ -79,13 +66,13 @@ tail:
     return 1;
 
 body:
-    if (((S_800AD9B4_0 *)arg1)->unk_25 == 0) {
+    if (((Rec_D_800E3D7C *)arg1)->unk_24.at01_u8.v == 0) {
         goto tail;
     }
 
     index = func_800B500C(arg0->unk_24,
                           arg0->unk_25,
-                          ((S_800AD9B4_0 *)arg1)->unk_88);
+                          ((Rec_D_800E3D7C *)arg1)->unk_88.as_s16);
     ASM_KEEP(index);   /* MATCH pin: keeps a statement from moving across a call/branch */
     result = 1;
     if (index >= 0) {
@@ -100,12 +87,12 @@ body:
         state = page + 0x3460;
         ASM_KEEP(state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
         if (((S_800AD9B4_3 *)state)->unk_02 & 0x1000) {
-            amount = ((S_800AD9B4_0 *)arg1)->unk_71;
+            amount = ((Rec_D_800E3D7C *)arg1)->unk_71.as_s8;
             if (amount > 0) {
                 ((S_800AD9B4_3 *)state)->unk_08 =
                     ((S_800AD9B4_3 *)state)->unk_08 -
-                    (amount - ((S_800AD9B4_0 *)arg1)->unk_8A);
-                ((S_800AD9B4_0 *)arg1)->unk_71 = 0;
+                    (amount - ((Rec_D_800E3D7C *)arg1)->unk_8A.as_u16);
+                ((Rec_D_800E3D7C *)arg1)->unk_71.as_s8 = 0;
             }
         }
 

@@ -1,15 +1,10 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_80175DD0_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x1C];
-    s32 unk_28;
-} S_80175DD0_0;   /* arg2 in func_80175DD0 */
 
 typedef struct S_80175DD0_1 {
     u8 pad_00[0x8];
@@ -74,7 +69,7 @@ extern s16 D_80083228;
 extern s32 D_80175C60;
 extern s32 D_80175D74;
 
-void func_80175DD0(void *arg0, S_80175DD0_4 *arg1, S_80175DD0_0 *arg2, s16 arg3) {
+void func_80175DD0(void *arg0, S_80175DD0_4 *arg1, Rec_D_80082E80 *arg2, s16 arg3) {
     u16 position[3];
     u16 angle;
     s32 table_offset;
@@ -91,7 +86,7 @@ void func_80175DD0(void *arg0, S_80175DD0_4 *arg1, S_80175DD0_0 *arg2, s16 arg3)
               object_data->unk_1E = 0x400,
               object_data->unk_1C = 0x400,
               object_data->unk_0C = 0x808080,
-              object_data->unk_28 = arg2->unk_28,
+              object_data->unk_28 = arg2->unk_28.at00_s32.v,
               coords->unk_02 = arg1->unk_02 + position[0],
               coords->unk_06 = arg1->unk_06 + position[1],
               coords->unk_0A = arg1->unk_0A + position[2],

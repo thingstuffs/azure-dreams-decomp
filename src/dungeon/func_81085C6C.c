@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
 
@@ -30,19 +31,13 @@ typedef struct S_8017346C_1 {
     u8 unk_25;
 } S_8017346C_1;   /* arg2 in func_8017346C */
 
-typedef struct S_8017346C_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8017346C_2;   /* arg1 in func_8017346C */
 
 typedef struct S_8017346C_3 {
     u8 pad_00[0x14];
     s32 unk_14;
 } S_8017346C_3;   /* arg3 in func_8017346C */
 
-void func_8017346C(S_8017346C_0 *arg0, S_8017346C_2 *arg1, S_8017346C_1 *arg2, S_8017346C_3 *arg3) {
+void func_8017346C(S_8017346C_0 *arg0, Rec_D_800E3D7C *arg1, S_8017346C_1 *arg2, S_8017346C_3 *arg3) {
     u8 temp_v1;
 
     temp_v1 = arg0->unk_9B;
@@ -59,9 +54,9 @@ void func_8017346C(S_8017346C_0 *arg0, S_8017346C_2 *arg1, S_8017346C_1 *arg2, S
         func_80173594();
         return;
     }
-    arg1->unk_14 = 0;
-    arg1->unk_10 = 0;
-    arg1->unk_0C = 0;
+    arg1->unk_14.as_s32 = 0;
+    arg1->unk_10.at00_s32.v = 0;
+    arg1->unk_0C.as_s32 = 0;
     arg0->unk_9B = (u8) (arg0->unk_9B + 1);
 block_8:
     if (((arg2->unk_04 == 5) && (arg2->unk_14 & 0x1000)) || (arg2->unk_14 & 0x8000)) {
@@ -70,9 +65,9 @@ block_8:
     if (arg2->unk_14 & 0xE000) {
         arg0->unk_AE = 1;
         arg3->unk_14 = (s32) (arg3->unk_14 | 0x40000000);
-        arg1->unk_14 = 0;
-        arg1->unk_10 = 0;
-        arg1->unk_0C = 0;
+        arg1->unk_14.as_s32 = 0;
+        arg1->unk_10.at00_s32.v = 0;
+        arg1->unk_0C.as_s32 = 0;
         func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
         arg0->unk_8C = &D_80170E94;
         D_8008346C = 0;

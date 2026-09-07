@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80175060_0 {
     u8 pad_00[0x8];
@@ -24,14 +25,6 @@ typedef struct S_80175060_1 {
     s16 unk_1E;
 } S_80175060_1;   /* temp_s0 in func_80175060 */
 
-typedef struct S_80175060_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80175060_2;   /* arg1 in func_80175060 */
 
 typedef struct S_80175060_3 {
     s32 unk_00;
@@ -57,7 +50,7 @@ extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEA68;
 extern M2C_UNK D_80174F64;
 
-s32 func_80175060(S_80175060_4 *arg0, S_80175060_2 *arg1) {
+s32 func_80175060(S_80175060_4 *arg0, Rec_D_800E3D7C *arg1) {
     s32 color;
     s32 four;
     s32 temp_a0;
@@ -105,16 +98,16 @@ s32 func_80175060(S_80175060_4 *arg0, S_80175060_2 *arg1) {
 
             temp_v1_2 = ((S_80175060_0 *)temp_v0)->unk_08;
             ASM_KEEP(temp_v1_2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-            copy0 = arg1->unk_00;
-            copy1 = arg1->unk_04;
-            copy2 = arg1->unk_08;
-            copy3 = arg1->unk_0C;
+            copy0 = arg1->unk_00.at00_s32.v;
+            copy1 = arg1->unk_04.at00_s32.v;
+            copy2 = arg1->unk_08.at00_s32.v;
+            copy3 = arg1->unk_0C.as_s32;
             temp_v1_2->unk_00 = copy0;
             temp_v1_2->unk_04 = copy1;
             temp_v1_2->unk_08.at00.v = copy2;
             temp_v1_2->unk_0C = copy3;
-            copy0 = arg1->unk_10;
-            copy1 = arg1->unk_14;
+            copy0 = arg1->unk_10.at00_s32.v;
+            copy1 = arg1->unk_14.as_s32;
             temp_v1_2->unk_10 = copy0;
             temp_v1_2->unk_14 = copy1;
             ASM_MEM_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */

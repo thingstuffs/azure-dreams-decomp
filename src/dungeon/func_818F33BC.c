@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 #ifndef NULL
 #define NULL 0
@@ -11,10 +12,6 @@ typedef struct S_80024BBC_0 {
     void * unk_10;
 } S_80024BBC_0;   /* object in func_80024BBC */
 
-typedef struct S_80024BBC_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80024BBC_1;   /* arg0 in func_80024BBC */
 
 typedef struct S_80024BBC_2 {
     u8 pad_00[0x2];
@@ -49,7 +46,7 @@ typedef struct S_80024BBC_6 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80024BBC_6;   /* ((S_80024BBC_1 *)arg0)->unk_08 in func_80024BBC */
+} S_80024BBC_6;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80024BBC */
 
 
 
@@ -60,7 +57,7 @@ extern void func_80024B6C(void);
 extern void func_800248EC(void);
 
 void func_80024BBC(
-    S_80024BBC_1 *arg0, s16 arg1, void *arg2, s16 arg3,
+    Rec_D_800E3D7C *arg0, s16 arg1, void *arg2, s16 arg3,
     s32 arg4, s32 arg5, s32 arg6)
 {
     register s32 held_arg4 ASM_REG("$18") = arg4;   /* MATCH pin: keeps a statement from moving across a call/branch */
@@ -87,14 +84,14 @@ void func_80024BBC(
         ((S_80024BBC_0 *)object)->unk_10 = func_80024B6C;
 
         random1 = rand() & 0x1F;
-        value1 = ((S_80024BBC_6 *)(arg0->unk_08))->unk_02;
+        value1 = ((S_80024BBC_6 *)(arg0->unk_08.at00_pv.v))->unk_02;
         dest1 = ((S_80024BBC_0 *)object)->unk_08;
         value1 += random1;
         offset1 = held_arg4 - 0x10;
         value1 += offset1;
         dest1->unk_02 = value1;
         random2 = rand() & 0x1F;
-        value2 = ((S_80024BBC_6 *)(arg0->unk_08))->unk_06;
+        value2 = ((S_80024BBC_6 *)(arg0->unk_08.at00_pv.v))->unk_06;
         dest2 = ((S_80024BBC_0 *)object)->unk_08;
         value2 += random2;
         offset2 = held_arg5 - 0x10;
@@ -103,7 +100,7 @@ void func_80024BBC(
 
         base = (u8 *)object + 0x20;
         random3 = rand() & 0x1F;
-        value3 = ((S_80024BBC_6 *)(arg0->unk_08))->unk_0A;
+        value3 = ((S_80024BBC_6 *)(arg0->unk_08.at00_pv.v))->unk_0A;
         dest3 = ((S_80024BBC_0 *)object)->unk_08;
         value3 += random3;
         offset3 = held_arg6 - 0x10;

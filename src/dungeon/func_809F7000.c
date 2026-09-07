@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 typedef struct {
@@ -48,16 +49,8 @@ typedef struct S_80174800_2 {
     s16 unk_0A;
 } S_80174800_2;   /* pos in func_80174800 */
 
-typedef struct S_80174800_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80174800_3;   /* arg1 in func_80174800 */
 
-void func_80174800(void *arg0, S_80174800_3 *arg1, s32 arg2, s16 arg3)
+void func_80174800(void *arg0, Rec_D_800E3D7C *arg1, s32 arg2, s16 arg3)
 {
     void *node;
     S_80174800_0 *part;
@@ -74,9 +67,9 @@ void func_80174800(void *arg0, S_80174800_3 *arg1, s32 arg2, s16 arg3)
         data->unk_10 = 0x60;
         data->unk_14 |= 0xC;
         pos = (*(void * *)((u8 *)node + 8));
-        pos->unk_02 = arg1->unk_02;
-        pos->unk_06 = arg1->unk_06;
-        pos->unk_0A = arg1->unk_0A - 0x28;
+        pos->unk_02 = arg1->unk_00.at02_u16.v;
+        pos->unk_06 = arg1->unk_04.at02_u16.v;
+        pos->unk_0A = arg1->unk_08.at02_u16.v - 0x28;
         data = (*(void * *)((u8 *)node + 0xC));
         data->unk_06 = 6;
         data->unk_1E = arg3;

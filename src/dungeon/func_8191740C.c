@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 extern void func_80024A34();
@@ -25,18 +26,6 @@ typedef struct S_80024C0C_1 {
     u16 unk_16;
 } S_80024C0C_1;   /* object in func_80024C0C */
 
-typedef struct S_80024C0C_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80024C0C_2;   /* arg2 in func_80024C0C */
 
 typedef struct S_80024C0C_3 {
     s32 unk_00;
@@ -69,7 +58,7 @@ void func_80024C0C(void *arg0, void *arg1, void *arg2) {
     func_80024E60();
 
 state0:
-    ((S_80024C0C_2 *)arg2)->unk_1A += 0x200;
+    ((Rec_D_80082E80 *)arg2)->unk_1A.as_u16 += 0x200;
     x = func_800644B8(((S_80024C0C_0 *)arg0)->unk_0E);
     x = (x >> 4) * (func_800644B8(((S_80024C0C_0 *)arg0)->unk_10) >> 4);
     ((S_80024C0C_3 *)arg1)->unk_00 += x * 0x1C;
@@ -114,18 +103,18 @@ state0:
     func_80024E60();
 
 state1:
-    if (((S_80024C0C_2 *)arg2)->unk_0C != 0) {
-        byte = ((S_80024C0C_2 *)arg2)->unk_0E - 0x20;
-        ((S_80024C0C_2 *)arg2)->unk_0E = byte;
-        ((S_80024C0C_2 *)arg2)->unk_0D = byte;
-        ((S_80024C0C_2 *)arg2)->unk_0C = byte;
+    if (((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v != 0) {
+        byte = ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v - 0x20;
+        ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v = byte;
+        ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v = byte;
+        ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v = byte;
     }
-    value = ((S_80024C0C_2 *)arg2)->unk_1E + 0x400;
-    ((S_80024C0C_2 *)arg2)->unk_1E = value;
-    ((S_80024C0C_2 *)arg2)->unk_1C = value;
+    value = ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v + 0x400;
+    ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = value;
+    ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = value;
     func_800478B8(arg2);
     func_800478B8(arg2);
-    if (((S_80024C0C_2 *)arg2)->unk_14 & 0x6000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
         object = ((S_80024C0C_0 *)arg0)->unk_00;
         ((S_80024C0C_1 *)object)->unk_16++;
         global = &D_800814A0;

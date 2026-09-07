@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 
 extern void *D_80170858[];
@@ -89,19 +91,7 @@ typedef struct S_80174648_3 {
     u8 unk_02;
 } S_80174648_3;   /* vec in func_80174648 */
 
-typedef struct S_80174648_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80174648_4;   /* arg1 in func_80174648 */
 
-typedef struct S_80174648_5 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80174648_5;   /* arg2 in func_80174648 */
 
 typedef struct S_80174648_6_pre {
     void * unk_00;
@@ -142,7 +132,7 @@ typedef struct S_80174648_11 {
     u8 unk_00;
 } S_80174648_11;   /* ((S_80174648_7 *)obj)->unk_2C + index in func_80174648 */
 
-void func_80174648(void *arg0, S_80174648_4 *arg1, S_80174648_5 *arg2, void *arg3)
+void func_80174648(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
 {
     static void *const keepalive[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4,
@@ -235,10 +225,10 @@ case_3:
     func_8004491C(work, D_801740F4);
     flags = 0x00808080;
     ((S_80174648_0 *)arg0)->unk_AC = work;
-    ((S_80174648_9 *)(work->unk_08))->unk_00 = arg1->unk_00;
-    ((S_80174648_9 *)(work->unk_08))->unk_04 = arg1->unk_04;
+    ((S_80174648_9 *)(work->unk_08))->unk_00 = arg1->unk_00.at00_s32.v;
+    ((S_80174648_9 *)(work->unk_08))->unk_04 = arg1->unk_04.at00_s32.v;
     ((S_80174648_9 *)(work->unk_08))->unk_08 =
-        (value = arg1->unk_08, D_80174D14[0] = 5, value);
+        (value = arg1->unk_08.at00_s32.v, D_80174D14[0] = 5, value);
     work = work->unk_0C.p;
     work->unk_1E = 0x1000;
     work->unk_1C = 0x1000;
@@ -248,7 +238,7 @@ case_3:
         index = func_80069EF8() % 3;
     }
     func_8003DB94(work, D_8014A000 + (s32)D_80174CFC[index], 0);
-    arg2->unk_14 |= 0x80;
+    arg2->unk_14.at00_u16.v |= 0x80;
     ((S_80174648_0 *)arg0)->unk_96.s = 0;
     ((S_80174648_0 *)arg0)->unk_9B++;
     func_801743BC(arg0, arg1, arg2);

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 /* This data symbol has no shared-catalog address. */
@@ -16,23 +18,14 @@ extern void func_800A4410(void) __attribute__((noreturn));
 extern void func_800A4414(void) __attribute__((noreturn));
 
 
-typedef struct S_800A4300_0 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800A4300_0;   /* arg0 in func_800A4300 */
 
-typedef struct S_800A4300_1 {
-    u8 pad_00[0x88];
-    s16 unk_88;
-} S_800A4300_1;   /* arg1 in func_800A4300 */
 
 typedef struct S_800A4300_2 {
     u8 pad_00[0xF0];
     union { void * p; s32 i; } unk_F0;   /* accessed as both */
 } S_800A4300_2;   /* D_800814A8[0] in func_800A4300 */
 
-void func_800A4300(S_800A4300_0 *arg0, S_800A4300_1 *arg1) {
+void func_800A4300(Rec_D_80082E80 *arg0, Rec_D_800E3D7C *arg1) {
     s32 first;
     u32 map_raw, floor_raw ASM_REG("$2");
     u8 *map_base, *floor_base ASM_REG("$2");
@@ -59,7 +52,7 @@ void func_800A4300(S_800A4300_0 *arg0, S_800A4300_1 *arg1) {
 
     map_raw = (u32)func_800B500C(arg0->unk_24,
                                   arg0->unk_25,
-                                  arg1->unk_88) << 16;
+                                  arg1->unk_88.as_s16) << 16;
     map_index = (s16)((s32)map_raw >> 16);
     if (map_index >= 0) {
         map_base = D_800E3648;
@@ -75,7 +68,7 @@ void func_800A4300(S_800A4300_0 *arg0, S_800A4300_1 *arg1) {
 
     floor_raw = (u32)func_800A70E4(arg0->unk_24,
                                     arg0->unk_25,
-                                    arg1->unk_88) << 16;
+                                    arg1->unk_88.as_s16) << 16;
     floor_index = (s16)((s32)floor_raw >> 16);
     if (floor_index >= 0) {
         floor_base = D_800E3548;

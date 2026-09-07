@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 
@@ -31,20 +33,9 @@ typedef struct S_8008D9F0_0 {
     s8 unk_9B;
 } S_8008D9F0_0;   /* arg0 in func_8008D9F0 */
 
-typedef struct S_8008D9F0_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_8008D9F0_1;   /* arg2 in func_8008D9F0 */
 
-typedef struct S_8008D9F0_2 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_8008D9F0_2;   /* arg3 in func_8008D9F0 */
 
-void func_8008D9F0(S_8008D9F0_0 *arg0, s32 arg1, S_8008D9F0_1 *arg2, S_8008D9F0_2 *arg3) {
+void func_8008D9F0(S_8008D9F0_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
     s16 temp_v0;
     s16 temp_v0_2;
 
@@ -53,8 +44,8 @@ void func_8008D9F0(S_8008D9F0_0 *arg0, s32 arg1, S_8008D9F0_1 *arg2, S_8008D9F0_
     arg0->unk_8C = 0;
     func_80094E34();
     if (func_80042900(arg3, 0xA) == 0) {
-        arg2->unk_2C = D_800DCFB0;
-        func_80048A44(arg2, D_800DCFB0[((s32)(D_80083228[0] + arg3->unk_2A + 0x100) >> 9) & 7], 0, 1);
+        arg2->unk_2C.as_pu8 = D_800DCFB0;
+        func_80048A44(arg2, D_800DCFB0[((s32)(D_80083228[0] + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
     }
     temp_v0 = func_800A4474(arg2->unk_24, arg2->unk_25);
     if (temp_v0 == 3) {

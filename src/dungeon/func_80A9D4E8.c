@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
 
@@ -56,17 +57,6 @@ typedef struct S_80172CE8_3 {
     void * unk_2C;
 } S_80172CE8_3;   /* arg2 in func_80172CE8 */
 
-typedef struct S_80172CE8_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172CE8_4;   /* arg1 in func_80172CE8 */
 
 typedef struct S_80172CE8_5 {
     u8 pad_00[0xA];
@@ -197,9 +187,9 @@ copy_existing:
         }
 
 object_ready:
-        pos[0] = ((S_80172CE8_4 *)arg1)->unk_02;
-        pos[1] = ((S_80172CE8_4 *)arg1)->unk_06;
-        pos[2] = ((S_80172CE8_4 *)arg1)->unk_0A;
+        pos[0] = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v;
+        pos[1] = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v;
+        pos[2] = ((Rec_D_800E3D7C *)arg1)->unk_08.at02_u16.v;
         if (func_800A94A0(arg3, item, special, (u8 *)arg0 + 0x98)) {
             ((S_80172CE8_3 *)arg2)->unk_14 &= 0xF7FF;
             func_800A56E0(0x703);
@@ -209,9 +199,9 @@ object_ready:
         goto end;
 
 no_item:
-        ((S_80172CE8_4 *)arg1)->unk_14 = 0;
-        ((S_80172CE8_4 *)arg1)->unk_10 = 0;
-        ((S_80172CE8_4 *)arg1)->unk_0C = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
         func_800A2B04(arg1, ((S_80172CE8_3 *)arg2)->unk_24, ((S_80172CE8_3 *)arg2)->unk_25);
         D_8008346C = 0;
         {
@@ -270,9 +260,9 @@ increment_state:
             goto end;
         }
 
-        ((S_80172CE8_4 *)arg1)->unk_14 = 0;
-        ((S_80172CE8_4 *)arg1)->unk_10 = 0;
-        ((S_80172CE8_4 *)arg1)->unk_0C = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
         func_800A2B04(arg1, ((S_80172CE8_3 *)arg2)->unk_24, ((S_80172CE8_3 *)arg2)->unk_25);
 
         if (((S_80172CE8_3 *)arg2)->unk_2C != D_80174C3C) {

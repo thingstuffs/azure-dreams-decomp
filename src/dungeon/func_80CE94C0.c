@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172CC0_0 {
     u8 pad_00[0x1C];
@@ -13,15 +14,6 @@ typedef struct S_80172CC0_0 {
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
 } S_80172CC0_0;   /* state in func_80172CC0 */
 
-typedef struct S_80172CC0_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80172CC0_1;   /* arg2 in func_80172CC0 */
 
 typedef struct S_80172CC0_2 {
     u8 pad_00[0x74];
@@ -100,17 +92,17 @@ void func_80172CC0(void *arg0, s32 arg1, void *arg2, void *arg3)
     goto setup;
 
 kind_0d:
-    current = ((S_80172CC0_1 *)arg2)->unk_2C;
+    current = ((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8;
     selected = (u8 *)&D_80175DC4;
     goto selected_kind;
 
 kind_0e:
-    current = ((S_80172CC0_1 *)arg2)->unk_2C;
+    current = ((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8;
     selected = (u8 *)&D_80175DCC;
     goto selected_kind;
 
 kind_0f:
-    current = ((S_80172CC0_1 *)arg2)->unk_2C;
+    current = ((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8;
     selected = (u8 *)&D_80175DD4;
 
 selected_kind:
@@ -124,8 +116,8 @@ selected_kind:
 
 setup:
     call_mode = 0x3000;
-    x = ((S_80172CC0_1 *)arg2)->unk_24;
-    y = ((S_80172CC0_1 *)arg2)->unk_25;
+    x = ((Rec_D_80082E80 *)arg2)->unk_24;
+    y = ((Rec_D_80082E80 *)arg2)->unk_25;
     if (((S_80172CC0_0 *)state)->unk_1C & 0x2000) {
         call_mode = 0x300;
     }
@@ -138,14 +130,14 @@ setup:
     result = (s16)func_8009A66C(step, arg2, state, 0x20);
 
     entry = (u8 *)state + ((S_80172CC0_0 *)state)->unk_8A.s;
-    ((S_80172CC0_1 *)arg2)->unk_24 = ((S_80172CC0_2 *)entry)->unk_74;
+    ((Rec_D_80082E80 *)arg2)->unk_24 = ((S_80172CC0_2 *)entry)->unk_74;
     call_mode = 0x3000;
     entry = (u8 *)state + ((S_80172CC0_0 *)state)->unk_8A.s;
-    ((S_80172CC0_1 *)arg2)->unk_25 = ((S_80172CC0_2 *)entry)->unk_7C;
+    ((Rec_D_80082E80 *)arg2)->unk_25 = ((S_80172CC0_2 *)entry)->unk_7C;
     ((S_80172CC0_0 *)state)->unk_8A.u++;
     {
-        s32 next_x = ((S_80172CC0_1 *)arg2)->unk_24;
-        s32 next_y = ((S_80172CC0_1 *)arg2)->unk_25;
+        s32 next_x = ((Rec_D_80082E80 *)arg2)->unk_24;
+        s32 next_y = ((Rec_D_80082E80 *)arg2)->unk_25;
 
         if (((S_80172CC0_0 *)state)->unk_1C & 0x2000) {
             call_mode = 0x300;
@@ -156,7 +148,7 @@ setup:
     ASM_KEEP(result);   /* MATCH pin: keeps a statement from moving across a call/branch */
     ((S_80172CC0_0 *)state)->unk_2A = step;
     if (result == 3) {
-        if (!(D_80083462 & 0x80) && !(((S_80172CC0_1 *)arg2)->unk_14 & 0x8000)) {
+        if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
             func_80173678(arg0, arg1, arg2, state);
             ((S_80172CC0_3 *)arg0)->unk_8C = 0;
             goto finish_state;

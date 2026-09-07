@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80016000.h"
 
 typedef struct S_80170F6C_0 {
     u8 pad_00[0x8C];
@@ -80,10 +81,6 @@ typedef struct S_80170F6C_6 {
     u16 unk_1E;
 } S_80170F6C_6;   /* part in func_80170F6C */
 
-typedef struct S_80170F6C_7 {
-    u8 pad_00[0x4];
-    u32 unk_04;
-} S_80170F6C_7;   /* D_800DEA68 in func_80170F6C */
 
 typedef struct S_80170F6C_8 {
     u8 pad_00[0x58];
@@ -335,7 +332,7 @@ sw1_case2: {
                     ((S_80170F6C_6 *)part)->unk_10 = 0;
                     ((S_80170F6C_6 *)part)->unk_00 = D_800DEA68;
                     ((S_80170F6C_6 *)part)->unk_14 |= 0xC;
-                    texture_word = ((S_80170F6C_7 *)D_800DEA68)->unk_04;
+                    texture_word = ((Rec_D_80016000 *)D_800DEA68)->unk_04.at00_u32.v;
                     color |= 0x8080;
                     ((S_80170F6C_6 *)part)->unk_04 = 0;
                     ((S_80170F6C_6 *)part)->unk_05 = 0;

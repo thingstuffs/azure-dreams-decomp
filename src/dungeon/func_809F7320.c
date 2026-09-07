@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80174B20_13 {
     u8 pad_00[0x8];
@@ -75,11 +77,6 @@ typedef struct S_80174B20_5 {
     M2C_UNK * unk_10;
 } S_80174B20_5;   /* temp_v0_2 in func_80174B20 */
 
-typedef struct S_80174B20_6 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80174B20_6;   /* arg1 in func_80174B20 */
 
 typedef struct S_80174B20_7 {
     u8 pad_00[0x14A0];
@@ -107,13 +104,6 @@ typedef struct S_80174B20_9 {
     u8 * unk_2C;
 } S_80174B20_9;   /* temp_s0 in func_80174B20 */
 
-typedef struct S_80174B20_10 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80174B20_10;   /* arg2 in func_80174B20 */
 
 typedef struct S_80174B20_11_pre {
     void * unk_00;
@@ -169,7 +159,7 @@ extern M2C_UNK D_8017521C;
 extern M2C_UNK D_8017521D;
 extern s32 D_80175220;
 
-void func_80174B20(void *arg0, S_80174B20_6 *arg1, S_80174B20_10 *arg2, void *arg3) {
+void func_80174B20(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
     register s32 temp_a3 ASM_REG("$7");   /* MATCH pin: retail schedule: same instructions, different order without it */
     S_80174B20_7 *temp_a1_base;
@@ -268,12 +258,12 @@ jt_c4:
     temp_a3 = 0x808080;
     temp_a0_arg = arg3;
     ((S_80174B20_0 *)arg0)->unk_AC = temp_v0_2;
-    ((S_80174B20_15 *)(((S_80174B20_13 *)temp_v0_2)->unk_08))->unk_00 = (s32) arg1->unk_00;
-    ((S_80174B20_15 *)(((S_80174B20_13 *)temp_v0_2)->unk_08))->unk_04 = (s32) arg1->unk_04;
+    ((S_80174B20_15 *)(((S_80174B20_13 *)temp_v0_2)->unk_08))->unk_00 = (s32) arg1->unk_00.at00_s32.v;
+    ((S_80174B20_15 *)(((S_80174B20_13 *)temp_v0_2)->unk_08))->unk_04 = (s32) arg1->unk_04.at00_s32.v;
     temp_a2 = temp_v0_2->unk_08;
     temp_a1_base = (void *)0x80170000;
     ASM_KEEP(temp_a3);   /* MATCH pin: retail immediate-load split depends on it */
-    temp_v1_copy = arg1->unk_08;
+    temp_v1_copy = arg1->unk_08.at00_s32.v;
     temp_a1_base->unk_5218 = -4;
     temp_a2->unk_08 = temp_v1_copy;
     temp_s0 = temp_v0_2->unk_0C;
@@ -294,7 +284,7 @@ jt_c4:
     temp_a0_arg = temp_s0;
 block_16:
     func_8003DB94(temp_a0_arg, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) var_v1 * 4))], 0);
-    arg2->unk_14 = (u16) (arg2->unk_14 | 0x80);
+    arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v | 0x80);
     var_s0 = 1;
     ((S_80174B20_0 *)arg0)->unk_96 = 0U;
     ((S_80174B20_0 *)arg0)->unk_9B = (u8) (((S_80174B20_0 *)arg0)->unk_9B + 1);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 extern s32 func_80047784();
@@ -44,15 +45,6 @@ typedef struct S_8016BD14_2 {
     s32 unk_14;
 } S_8016BD14_2;   /* arg1 in func_8016BD14 */
 
-typedef struct S_8016BD14_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_8016BD14_3;   /* arg2 in func_8016BD14 */
 
 typedef struct S_8016BD14_4 {
     u8 pad_00[0x7C];
@@ -97,7 +89,7 @@ void func_8016BD14(void *arg0, void *arg1, void *arg2, void *arg3) {
         return;
     }
 
-    if (((S_8016BD14_3 *)arg2)->unk_2C != D_80174674) {
+    if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 != D_80174674) {
         (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80174674;
         func_80047784(
             arg2,
@@ -106,8 +98,8 @@ void func_8016BD14(void *arg0, void *arg1, void *arg2, void *arg3) {
     }
 
     mode = ((S_8016BD14_0 *)ctx)->unk_1C;
-    x = ((S_8016BD14_3 *)arg2)->unk_24;
-    y = ((S_8016BD14_3 *)arg2)->unk_25;
+    x = ((Rec_D_80082E80 *)arg2)->unk_24;
+    y = ((Rec_D_80082E80 *)arg2)->unk_25;
     mode = mode & 0x2000;
     func_8009A3D0(x, y, mode ? 0x300 : 0x3000);
 
@@ -119,22 +111,22 @@ void func_8016BD14(void *arg0, void *arg1, void *arg2, void *arg3) {
 
     tmp = ((S_8016BD14_5 *)((u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s))->unk_74;
     raw = raw << 16;
-    ((S_8016BD14_3 *)arg2)->unk_24 = tmp;
+    ((Rec_D_80082E80 *)arg2)->unk_24 = tmp;
     row = (u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s;
     result = raw >> 16;
     ASM_KEEP(result);   /* MATCH pin: load-bearing for the whole function shape */
-    ((S_8016BD14_3 *)arg2)->unk_25 = ((S_8016BD14_4 *)row)->unk_7C;
+    ((Rec_D_80082E80 *)arg2)->unk_25 = ((S_8016BD14_4 *)row)->unk_7C;
     index = ((S_8016BD14_0 *)ctx)->unk_8A.u;
     mode2 = ((S_8016BD14_0 *)ctx)->unk_1C;
     index = index + 1;
     mode2 = mode2 & 0x2000;
     ((S_8016BD14_0 *)ctx)->unk_8A.u = index;
-    func_8009A21C(((S_8016BD14_3 *)arg2)->unk_24, ((S_8016BD14_3 *)arg2)->unk_25,
+    func_8009A21C(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
                   mode2 ? 0x300 : 0x3000);
     ((S_8016BD14_0 *)ctx)->unk_2A = next;
 
     if (result == 3) {
-        if (!(D_80083462 & 0x80) && !(((S_8016BD14_3 *)arg2)->unk_14 & 0x8000)) {
+        if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
             func_8016C698(arg0, arg1, arg2, ctx);
             ((S_8016BD14_1 *)arg0)->unk_8C = 0;
             func_8016BEF4();

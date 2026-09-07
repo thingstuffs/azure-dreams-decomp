@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80172D74_0 {
     u8 pad_00[0x1C];
@@ -55,16 +56,6 @@ typedef struct S_80172D74_5 {
     u16 unk_04;
 } S_80172D74_5;   /* part20 in func_80172D74 */
 
-typedef struct S_80172D74_6 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172D74_6;   /* arg1 in func_80172D74 */
 
 typedef struct S_80172D74_7 {
     u8 pad_00[0x14];
@@ -266,9 +257,9 @@ ready_item:
     goto increment_state_loaded;
 
 empty_slot:
-    ((S_80172D74_6 *)arg1)->unk_14 = 0;
-    ((S_80172D74_6 *)arg1)->unk_10 = 0;
-    ((S_80172D74_6 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_80172D74_4 *)arg2)->unk_24, ((S_80172D74_4 *)arg2)->unk_25);
     {
         void *entity = D_800814A8;
@@ -312,8 +303,8 @@ increment_state_loaded:
 
 state3:
     if (((S_80172D74_1 *)arg0)->unk_96.u < 4) {
-        ((S_80172D74_6 *)arg1)->unk_0C = -xdir << 18;
-        ((S_80172D74_6 *)arg1)->unk_10 = -zdir << 18;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = -xdir << 18;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = -zdir << 18;
     }
     if (((S_80172D74_1 *)arg0)->unk_96.u > 0) {
         return;
@@ -328,23 +319,23 @@ set_state:
 state16:
     {
         s32 coord = ((S_80172D74_4 *)arg2)->unk_24 << 6;
-        s32 current = ((S_80172D74_6 *)arg1)->unk_02 - 0x20;
+        s32 current = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v - 0x20;
 
-        ((S_80172D74_6 *)arg1)->unk_0C = (coord - current) << 14;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = (coord - current) << 14;
     }
     {
         s32 coord = ((S_80172D74_4 *)arg2)->unk_25 << 6;
-        s32 current = ((S_80172D74_6 *)arg1)->unk_06 - 0x20;
+        s32 current = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v - 0x20;
 
-        ((S_80172D74_6 *)arg1)->unk_10 = (coord - current) << 14;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = (coord - current) << 14;
     }
     if (!(((S_80172D74_7 *)part28)->unk_14 & 0x8000) &&
         ((S_80172D74_1 *)arg0)->unk_96.u > 0) {
         return;
     }
-    ((S_80172D74_6 *)arg1)->unk_14 = 0;
-    ((S_80172D74_6 *)arg1)->unk_10 = 0;
-    ((S_80172D74_6 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_80172D74_4 *)arg2)->unk_24, ((S_80172D74_4 *)arg2)->unk_25);
     {
         u8 *animation = ((S_80172D74_4 *)arg2)->unk_2C;

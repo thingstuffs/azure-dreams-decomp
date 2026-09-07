@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 typedef float f32;
 typedef double f64;
 typedef long long s64;
@@ -76,10 +77,6 @@ typedef struct S_8009D218_1_pre {
     u8 pad_04[0x14];
 } S_8009D218_1_pre;   /* the 0x18 bytes before arg0 in func_8009D218, addressed as arg0[-1] */
 
-typedef struct S_8009D218_1 {
-    u8 pad_00[0x50];
-    u8 * unk_50;
-} S_8009D218_1;   /* arg0 in func_8009D218 */
 
 /* extern */
 
@@ -104,7 +101,7 @@ s32 func_8009D218(void *arg0, s32 arg1, S_8009D218_0 *arg2) {
         if (!(arg1 & 4) || (((func_80042900(arg0, 0x16) << 0x10) == 0) && ((func_80042900(arg0, 0x15) << 0x10) == 0)) || (arg2->unk_13 < 0)) {
 block_17:
             if (arg2 != NULL) {
-                temp_v0 = ((S_8009D218_1 *)arg0)->unk_50;
+                temp_v0 = ((Rec_D_800E3D7C *)arg0)->unk_50.at00_pu8.v;
                 if (temp_v0 != NULL) {
                     if ((*temp_v0 == 3) && (arg2->unk_13 >= 0) && (func_800A6D30() & 3)) {
                         /* Duplicate return node #22. Try simplifying control flow for better match */

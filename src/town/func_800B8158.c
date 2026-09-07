@@ -1,29 +1,23 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 extern s32 D_800814A8;
 
-typedef struct S_800B58B8_0 {
-    u8 pad_00[0x4C];
-    s32 unk_4C;
-    s32 unk_50;
-    u8 pad_54[0x84];
-    s32 unk_D8;
-} S_800B58B8_0;   /* arg1 in func_800B58B8 */
 
-void func_800B58B8(s32 *arg0, S_800B58B8_0 *arg1) {
+void func_800B58B8(s32 *arg0, Rec_D_800E3D7C *arg1) {
     s32 *var_a0;
     s32 temp_a1;
     s32 temp_v0;
     s32 temp_v0_2;
 
     var_a0 = arg0;
-    temp_v0 = arg1->unk_4C;
+    temp_v0 = arg1->unk_4C.as_s32;
     if (temp_v0 != 0) {
         *var_a0 = temp_v0;
         var_a0 += 1;
     }
-    temp_v0_2 = arg1->unk_50;
+    temp_v0_2 = arg1->unk_50.at00_s32.v;
     if (temp_v0_2 != 0) {
         *var_a0 = temp_v0_2;
         var_a0 += 1;

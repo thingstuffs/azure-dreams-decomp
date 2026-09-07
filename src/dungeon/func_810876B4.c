@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_800AA258_arg2.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80174EB4_0 {
     u8 pad_00[0x8];
@@ -29,19 +31,7 @@ typedef struct S_80174EB4_2 {
     s32 unk_28;
 } S_80174EB4_2;   /* prim in func_80174EB4 */
 
-typedef struct S_80174EB4_3 {
-    u8 pad_00[0x28];
-    s32 unk_28;
-} S_80174EB4_3;   /* arg2 in func_80174EB4 */
 
-typedef struct S_80174EB4_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80174EB4_4;   /* arg1 in func_80174EB4 */
 
 typedef struct S_80174EB4_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -67,7 +57,7 @@ extern s32 func_8003DE58(s32, void *, u16 *, s32);
 extern u8 D_80045340[9];
 extern u8 D_80174D24[9];
 
-s32 func_80174EB4(s32 arg0, S_80174EB4_4 *arg1, S_80174EB4_3 *arg2) {
+s32 func_80174EB4(s32 arg0, Rec_D_800E3D7C *arg1, Rec_func_800AA258_arg2 *arg2) {
     u16 query_result[3];
     void *obj;
     S_80174EB4_5 *dst;
@@ -108,16 +98,16 @@ s32 func_80174EB4(s32 arg0, S_80174EB4_4 *arg1, S_80174EB4_3 *arg2) {
             query_out = query_result;
             ASM_KEEP(query_out);   /* MATCH pin: load-bearing for the whole function shape */
 
-            w0 = arg1->unk_00;
-            w1 = arg1->unk_04;
-            w2 = arg1->unk_08;
-            w3 = arg1->unk_0C;
+            w0 = arg1->unk_00.at00_s32.v;
+            w1 = arg1->unk_04.at00_s32.v;
+            w2 = arg1->unk_08.at00_s32.v;
+            w3 = arg1->unk_0C.as_s32;
             dst->unk_00.at00.v = w0;
             dst->unk_04.at00.v = w1;
             dst->unk_08.at00.v = w2;
             dst->unk_0C = w3;
-            w0 = arg1->unk_10;
-            w1 = arg1->unk_14;
+            w0 = arg1->unk_10.at00_s32.v;
+            w1 = arg1->unk_14.as_s32;
             dst->unk_10 = w0;
             dst->unk_14 = w1;
 

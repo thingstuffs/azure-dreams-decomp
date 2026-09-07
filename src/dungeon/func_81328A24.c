@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_800A9E70_arg0.h"
 
 typedef struct S_80170224_0 {
     u8 pad_00[0x46];
@@ -9,10 +10,6 @@ typedef struct S_80170224_0 {
     u16 unk_B0;
 } S_80170224_0;   /* base in func_80170224 */
 
-typedef struct S_80170224_1 {
-    u8 pad_00[0x9A];
-    u8 unk_9A;
-} S_80170224_1;   /* arg0 in func_80170224 */
 
 
 
@@ -22,7 +19,7 @@ extern void func_800A9A0C(void *);
 extern s16 func_800A2BDC(void *);
 extern u16 D_80083462;
 
-s32 func_80170224(S_80170224_1 *arg0, s32 arg1, s32 arg2, s16 arg3) {
+s32 func_80170224(Rec_func_800A9E70_arg0 *arg0, s32 arg1, s32 arg2, s16 arg3) {
     void *base = arg0;
     s16 ret;
 
@@ -41,7 +38,7 @@ s32 func_80170224(S_80170224_1 *arg0, s32 arg1, s32 arg2, s16 arg3) {
 
     switch (ret) {
     case 0:
-        arg0->unk_9A = 14;
+        arg0->unk_9A.as_u8 = 14;
         func_800A9A0C(base);
         return 0;
 

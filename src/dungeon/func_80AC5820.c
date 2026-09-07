@@ -1,6 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
-typedef long long s64;
 
 typedef struct S_80AC5820_0 {
     u8 pad_00[0x2];
@@ -32,10 +32,6 @@ typedef struct S_80AC5820_2 {
     u16 unk_0A;
 } S_80AC5820_2;   /* other in func_80AC5820 */
 
-typedef struct S_80AC5820_3 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_80AC5820_3;   /* arg2 in func_80AC5820 */
 
 
 
@@ -54,7 +50,7 @@ typedef struct StackWork {
     s32 out24;
 } StackWork;
 
-void func_80AC5820(void *arg0, S_80AC5820_0 *arg1, S_80AC5820_3 *arg2)
+void func_80AC5820(void *arg0, S_80AC5820_0 *arg1, Rec_D_80082E80 *arg2)
 {
     StackWork work;
     s16 count;
@@ -79,7 +75,7 @@ void func_80AC5820(void *arg0, S_80AC5820_0 *arg1, S_80AC5820_3 *arg2)
     table_entry = &D_800DCECC[
         ((*(s16 *)(angle_page + 0x3228) +
           ((S_80AC5820_1 *)arg0)->unk_94 + 0x100) >> 9) & 7];
-    arg2->unk_06 = first - second - *table_entry * 2;
+    arg2->unk_06.as_s16 = first - second - *table_entry * 2;
 
     func_800478B8(arg2, table_entry);
     count = ((S_80AC5820_1 *)arg0)->unk_96 - 1;

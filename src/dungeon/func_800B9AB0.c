@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 typedef struct {
@@ -26,14 +27,8 @@ extern s32 func_800AD6FC(void *, s32, s32);
 extern s32 func_800BF334(void);
 
 
-typedef struct S_800BF210_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0xFC];
-    s32 unk_110;
-} S_800BF210_0;   /* arg0 in func_800BF210 */
 
-s32 func_800BF210(S_800BF210_0 *arg0, s32 arg1, s16 arg2, s32 arg3)
+s32 func_800BF210(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
 {
     if (arg2 == 13) {
         func_80098864(arg1, arg3);
@@ -50,7 +45,7 @@ s32 func_800BF210(S_800BF210_0 *arg0, s32 arg1, s16 arg2, s32 arg3)
     if ((u32)arg0 <= 0x9FFFFFFF) {
         func_800A6480(arg0, arg1, arg2);
         if (func_800AD6FC(arg0,
-                          D_800DDE84[arg0->unk_13] & 3,
+                          D_800DDE84[arg0->unk_10.at03_u8.v] & 3,
                           arg1) == 0) {
             func_800A5F38(arg0, arg1);
             func_800BF334();

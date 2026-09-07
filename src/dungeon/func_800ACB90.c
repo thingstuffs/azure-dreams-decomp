@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800B22F0_0 {
     u8 pad_00[0xC];
@@ -25,14 +26,6 @@ typedef struct S_800B22F0_1 {
     u8 unk_AD;
 } S_800B22F0_1;   /* state in func_800B22F0 */
 
-typedef struct S_800B22F0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800B22F0_2;   /* arg1 in func_800B22F0 */
 
 
 
@@ -43,7 +36,7 @@ extern void func_80099FDC(void *);
 extern void func_8009A21C(u8, u8, s32);
 extern void func_800BC26C(void *, s32, void *, void *);
 
-void func_800B22F0(void *arg0, S_800B22F0_2 *arg1, void *arg2)
+void func_800B22F0(void *arg0, Rec_D_800E3D7C *arg1, void *arg2)
 {
     u8 *state = (u8 *)arg0 + 0x20;
 
@@ -52,8 +45,8 @@ void func_800B22F0(void *arg0, S_800B22F0_2 *arg1, void *arg2)
     func_800A2B04(arg1, ((S_800B22F0_0 *)arg2)->unk_24, ((S_800B22F0_0 *)arg2)->unk_25);
 
     ((S_800B22F0_1 *)state)->unk_88 =
-        func_800BCB04(arg1->unk_02, arg1->unk_06,
-                      (s16)(arg1->unk_0A - 0x20));
+        func_800BCB04(arg1->unk_00.at02_u16.v, arg1->unk_04.at02_u16.v,
+                      (s16)(arg1->unk_08.at02_u16.v - 0x20));
 
     ((S_800B22F0_0 *)arg2)->unk_1E = 0x1000;
     ((S_800B22F0_0 *)arg2)->unk_1C = 0x1000;

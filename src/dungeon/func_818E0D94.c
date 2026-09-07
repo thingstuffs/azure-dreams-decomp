@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_818E0D94_0_pre {
     u16 unk_00;
@@ -17,20 +18,6 @@ typedef struct S_818E0D94_1 {
     u16 unk_52;
 } S_818E0D94_1;   /* inner in func_818E0D94 */
 
-typedef struct S_818E0D94_2 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x6];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_818E0D94_2;   /* arg2 in func_818E0D94 */
 
 typedef struct S_818E0D94_3 {
     u8 pad_00[0x2];
@@ -70,7 +57,7 @@ extern s32 rand(void);
 extern void func_800DBA90(void *);
 extern u32 D_800814A0;
 
-void func_818E0D94(void *arg0, S_818E0D94_3 *arg1, S_818E0D94_2 *arg2)
+void func_818E0D94(void *arg0, S_818E0D94_3 *arg1, Rec_D_80082E80 *arg2)
 {
     CallRecord record;
     OutputVector output;
@@ -82,9 +69,9 @@ void func_818E0D94(void *arg0, S_818E0D94_3 *arg1, S_818E0D94_2 *arg2)
     inner->unk_52 |= 0x8000;
     ((S_818E0D94_0 *)arg0)->unk_48.u16++;
 
-    temp = arg2->unk_1E - 0x50;
-    arg2->unk_1E = temp;
-    arg2->unk_1C = temp;
+    temp = arg2->unk_1C.at02_u16.v - 0x50;
+    arg2->unk_1C.at02_u16.v = temp;
+    arg2->unk_1C.at00_u16.v = temp;
 
     {
         register s32 call_arg ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
@@ -112,9 +99,9 @@ void func_818E0D94(void *arg0, S_818E0D94_3 *arg1, S_818E0D94_2 *arg2)
     }
 
     value = ((u8)output.x + 0x28) - ((S_818E0D94_0 *)arg0)->unk_48.u8;
-    arg2->unk_0D = value;
-    arg2->unk_0C = value;
-    arg2->unk_0E = ((u8)output.x + 0x60) - ((S_818E0D94_0 *)arg0)->unk_48.u8;
+    arg2->unk_0C.at01_s8.v = value;
+    arg2->unk_0C.at00_s8.v = value;
+    arg2->unk_0C.at02_s8.v = ((u8)output.x + 0x60) - ((S_818E0D94_0 *)arg0)->unk_48.u8;
 
     record.field0 = &output;
     record.field4 = &output;
@@ -129,9 +116,9 @@ void func_818E0D94(void *arg0, S_818E0D94_3 *arg1, S_818E0D94_2 *arg2)
     arg1->unk_0A = output.z;
     func_800478B8(arg2);
 
-    if (arg2->unk_14 & 0x6000) {
-        arg2->unk_04 = 0;
-        arg2->unk_05 = 0;
+    if (arg2->unk_14.at00_u16.v & 0x6000) {
+        arg2->unk_04.as_s8 = 0;
+        arg2->unk_05.as_s8 = 0;
     }
 
     if (((S_818E0D94_0 *)arg0)->unk_48.s16 >= 0x20) {

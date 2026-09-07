@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 s32 func_80042900(void *, s32);
 s32 func_800A1C58(void *);
@@ -23,17 +24,6 @@ typedef struct S_800AAB10_0 {
     s32 unk_0C;
 } S_800AAB10_0;   /* state in func_800AAB10 */
 
-typedef struct S_800AAB10_1 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    u8 pad_12[0x1];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0x34];
-    s32 unk_54;
-} S_800AAB10_1;   /* arg3 in func_800AAB10 */
 
 typedef struct S_800AAB10_2_pre {
     u16 unk_00;
@@ -45,7 +35,7 @@ typedef struct S_800AAB10_3 {
     s32 unk_0C;
 } S_800AAB10_3;   /* &D_80083460 in func_800AAB10 */
 
-s32 func_800AAB10(s32 arg0, M2C_UNK arg1, M2C_UNK arg2, S_800AAB10_1 *arg3) {
+s32 func_800AAB10(s32 arg0, M2C_UNK arg1, M2C_UNK arg2, Rec_D_800E3D7C *arg3) {
     s32 var_s1;
     u8 temp_a0;
     u8 *state;
@@ -64,9 +54,9 @@ s32 func_800AAB10(s32 arg0, M2C_UNK arg1, M2C_UNK arg2, S_800AAB10_1 *arg3) {
                             D_80080AA0 = 1;
                             D_80080A88 = 0;
                         }
-                        if (!(arg3->unk_54 & 0x800000) && (arg3->unk_14 & 0x4000)) {
-                            temp_a0 = arg3->unk_13;
-                            if ((((S_800AAB10_2_pre *)(((temp_a0 * 0x14) + D_8007359C)))[-1].unk_00 & 0x80) && (temp_a0 >= 2U) && ((u8) arg3->unk_11 >= 0x14U) && !(arg3->unk_1C & 0x228) && ((func_80042900(arg3, 0x18) << 0x10) == 0)) {
+                        if (!(arg3->unk_54.as_s32 & 0x800000) && (arg3->unk_14.as_s32 & 0x4000)) {
+                            temp_a0 = arg3->unk_10.at03_u8.v;
+                            if ((((S_800AAB10_2_pre *)(((temp_a0 * 0x14) + D_8007359C)))[-1].unk_00 & 0x80) && (temp_a0 >= 2U) && ((u8) arg3->unk_10.at01_u8.v >= 0x14U) && !(arg3->unk_1C.as_s32 & 0x228) && ((func_80042900(arg3, 0x18) << 0x10) == 0)) {
                                 var_s1 = 1;
                             }
                         }

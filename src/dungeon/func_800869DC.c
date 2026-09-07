@@ -1,25 +1,8 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
-typedef struct S_8008C13C_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x30];
-    s32 unk_5C;
-    u8 pad_60[0x28];
-    s16 unk_88;
-} S_8008C13C_0;   /* arg3 in func_8008C13C */
 
-typedef struct S_8008C13C_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8008C13C_1;   /* arg2 in func_8008C13C */
 
 typedef struct S_8008C13C_2 {
     u8 pad_00[0x8C];
@@ -82,20 +65,20 @@ void func_8008C13C(void *arg0, s32 arg1, void *arg2, void *arg3) {
     u8 *table;
 
     global_base = D_80083160;
-    action = func_8009ABA0(((S_8008C13C_0 *)arg3)->unk_2A, arg1, arg2,
-                           ((S_8008C13C_0 *)arg3)->unk_88, 0x20);
+    action = func_8009ABA0(((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, arg1, arg2,
+                           ((Rec_D_800E3D7C *)arg3)->unk_88.as_s16, 0x20);
 
     if (action > 0) {
-        func_8009A3D0(((S_8008C13C_1 *)arg2)->unk_24, ((S_8008C13C_1 *)arg2)->unk_25, 0x300);
+        func_8009A3D0(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25, 0x300);
 
-        index = ((u16)((S_8008C13C_0 *)arg3)->unk_2A >> 8) & 0xE;
+        index = ((u16)((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 >> 8) & 0xE;
         table = D_8006CCD8;
-        value = ((S_8008C13C_1 *)arg2)->unk_24;
+        value = ((Rec_D_80082E80 *)arg2)->unk_24;
         value += table[index];
-        ((S_8008C13C_1 *)arg2)->unk_24 = value;
-        ((S_8008C13C_1 *)arg2)->unk_25 += D_8006CCE8[index];
+        ((Rec_D_80082E80 *)arg2)->unk_24 = value;
+        ((Rec_D_80082E80 *)arg2)->unk_25 += D_8006CCE8[index];
 
-        func_8009A21C(((S_8008C13C_1 *)arg2)->unk_24, ((S_8008C13C_1 *)arg2)->unk_25, 0x300);
+        func_8009A21C(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25, 0x300);
 
         D_80083460.flags |= 8;
         ((S_8008C13C_2 *)arg0)->unk_8C.s = 0;
@@ -110,33 +93,33 @@ void func_8008C13C(void *arg0, s32 arg1, void *arg2, void *arg3) {
 
         state = &D_80083460;
         if ((state->flags & 0x80) || (action == 1)) {
-            if (((S_8008C13C_1 *)arg2)->unk_2C != D_800DCFD8) {
+            if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pv != D_800DCFD8) {
                 (*(void * *)((u8 *)arg2 + 0x2C)) = D_800DCFD8;
-                index = ((D_80083228 + ((S_8008C13C_0 *)arg3)->unk_2A + 0x100) >> 9) & 7;
+                index = ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
                 func_80048A44(arg2, D_800DCFD8[index], 0, 1);
             }
-            func_80099F70(((S_8008C13C_0 *)arg3)->unk_5C);
-            func_80099F04(((S_8008C13C_0 *)arg3)->unk_5C);
+            func_80099F70(((Rec_D_800E3D7C *)arg3)->unk_5C);
+            func_80099F04(((Rec_D_800E3D7C *)arg3)->unk_5C);
             state->value = 8;
             ((S_8008C13C_2 *)arg0)->unk_9A = 0x1D;
         } else {
             ((S_8008C13C_2 *)arg0)->unk_98 |= 0xC;
-            ((S_8008C13C_1 *)arg2)->unk_14 |= 0x4000;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x4000;
             func_80094ED4(arg0, arg1, arg2, arg3);
             if (action == 2) {
                 ((S_8008C13C_2 *)arg0)->unk_9B = 8;
             }
             state->value = 8;
             ((S_8008C13C_2 *)arg0)->unk_9A = 0x1E;
-            ((S_8008C13C_0 *)arg3)->unk_1C |= 0x40000000;
+            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 |= 0x40000000;
             func_8009F644(arg3, 8, 0, 0);
             return;
         }
 
         func_8009F644(arg3, 8, 0, 0);
     } else {
-        ((S_8008C13C_1 *)arg2)->unk_2C = D_800DD0B8;
-        index = ((((S_8008C13C_3 *)global_base)->unk_C8 + ((S_8008C13C_0 *)arg3)->unk_2A + 0x100) >> 9) & 7;
+        ((Rec_D_80082E80 *)arg2)->unk_2C.as_pv = D_800DD0B8;
+        index = ((((S_8008C13C_3 *)global_base)->unk_C8 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
         func_80048A44(arg2, D_800DD0B8[index], 0, 1);
         ((S_8008C13C_2 *)arg0)->unk_8C.u = D_8008EAC8;
         return;
@@ -144,6 +127,6 @@ void func_8008C13C(void *arg0, s32 arg1, void *arg2, void *arg3) {
 
     func_800A67F4();
     func_80094ED4(arg0, arg1, arg2, arg3);
-    ((S_8008C13C_0 *)arg3)->unk_1C |= 0x40000000;
+    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 |= 0x40000000;
     D_80083460.flags |= 0x812;
 }

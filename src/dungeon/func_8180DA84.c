@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
 #define NULL 0
@@ -22,10 +23,6 @@ extern s32 D_800CEEFC[3];
 extern u8 D_800DDC40[9];
 
 
-typedef struct S_80026A84_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80026A84_0;   /* arg3 in func_80026A84 */
 
 typedef struct S_80026A84_1 {
     u8 pad_00[0x8];
@@ -96,7 +93,7 @@ typedef struct S_80026A84_7 {
     s16 unk_0A;
 } S_80026A84_7;   /* arg1 in func_80026A84 */
 
-void *func_80026A84(S_80026A84_2 *arg0, S_80026A84_7 *arg1, s32 arg2, S_80026A84_0 *arg3)
+void *func_80026A84(S_80026A84_2 *arg0, S_80026A84_7 *arg1, s32 arg2, Rec_D_80082E80 *arg3)
 {
     u16 position[3];
     s32 *callback;

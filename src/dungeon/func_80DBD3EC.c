@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80174BEC_0_pre {
     void * unk_00;
@@ -14,27 +16,7 @@ typedef struct S_80174BEC_0 {
     u8 unk_9B;
 } S_80174BEC_0;   /* arg0 in func_80174BEC */
 
-typedef struct S_80174BEC_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80174BEC_1;   /* arg1 in func_80174BEC */
 
-typedef struct S_80174BEC_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80174BEC_2;   /* arg2 in func_80174BEC */
 
 typedef struct S_80174BEC_3 {
     u8 pad_00[0x24];
@@ -170,19 +152,19 @@ void func_80174BEC(void *arg0, void *arg1, void *arg2, void *arg3)
     }
 
 state_0:
-    ((S_80174BEC_1 *)arg1)->unk_14 = 0;
-    ((S_80174BEC_1 *)arg1)->unk_10 = 0;
-    ((S_80174BEC_1 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     ((S_80174BEC_0 *)arg0)->unk_96.s = 0;
     ((S_80174BEC_0 *)arg0)->unk_9B++;
-    ((S_80174BEC_2 *)arg2)->unk_14 &= 0x9FFF;
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0x9FFF;
 
 state_1:
     count = ((S_80174BEC_0 *)arg0)->unk_96.u;
     if (count == 0 || count == 7) {
         s16 i;
 
-        if (!(((S_80174BEC_2 *)arg2)->unk_14 & 0x8000)) {
+        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
             func_800A56E0(0x80D);
         }
 
@@ -238,9 +220,9 @@ state_1:
                 func_80047784(render, animation, 0);
 
                 position = ((S_80174BEC_4 *)object)->unk_08;
-                ((S_80174BEC_6 *)position)->unk_02 = ((S_80174BEC_1 *)arg1)->unk_02;
-                ((S_80174BEC_6 *)position)->unk_06 = ((S_80174BEC_1 *)arg1)->unk_06;
-                ((S_80174BEC_6 *)position)->unk_0A = ((S_80174BEC_1 *)arg1)->unk_0A;
+                ((S_80174BEC_6 *)position)->unk_02 = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v;
+                ((S_80174BEC_6 *)position)->unk_06 = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v;
+                ((S_80174BEC_6 *)position)->unk_0A = ((Rec_D_800E3D7C *)arg1)->unk_08.at02_u16.v;
 
                 map = ((S_80174BEC_0_pre *)arg0)[-1].unk_00;
                 if (func_8003DF74(((S_80174BEC_7 *)map)->unk_08, map, &delta, 1)) {
@@ -324,9 +306,9 @@ particle1_increment:
                 ((S_80174BEC_5 *)render)->unk_14 |= 2;
 
                 position = ((S_80174BEC_4 *)object)->unk_08;
-                ((S_80174BEC_6 *)position)->unk_02 = ((S_80174BEC_1 *)arg1)->unk_02;
-                ((S_80174BEC_6 *)position)->unk_06 = ((S_80174BEC_1 *)arg1)->unk_06;
-                ((S_80174BEC_6 *)position)->unk_0A = ((S_80174BEC_1 *)arg1)->unk_0A;
+                ((S_80174BEC_6 *)position)->unk_02 = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v;
+                ((S_80174BEC_6 *)position)->unk_06 = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v;
+                ((S_80174BEC_6 *)position)->unk_0A = ((Rec_D_800E3D7C *)arg1)->unk_08.at02_u16.v;
 
                 map = ((S_80174BEC_0_pre *)arg0)[-1].unk_00;
                 if (func_8003DE58(((S_80174BEC_7 *)map)->unk_08, map, &delta, 1)) {
@@ -377,7 +359,7 @@ particle2_increment:
     }
 
     ((S_80174BEC_0 *)arg0)->unk_96.s++;
-    if (((S_80174BEC_2 *)arg2)->unk_14 & 0xE000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
         void *active;
 
         ((S_80174BEC_0 *)arg0)->unk_9B++;
@@ -389,18 +371,18 @@ particle2_increment:
     goto done;
 
 state_2:
-    if (((S_80174BEC_2 *)arg2)->unk_14 & 0xE000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
         s32 index;
 
-        ((S_80174BEC_1 *)arg1)->unk_14 = 0;
-        ((S_80174BEC_1 *)arg1)->unk_10 = 0;
-        ((S_80174BEC_1 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_80174BEC_2 *)arg2)->unk_24, ((S_80174BEC_2 *)arg2)->unk_25);
-        if (((S_80174BEC_2 *)arg2)->unk_2C != D_801753BC) {
-            ((S_80174BEC_2 *)arg2)->unk_2C = D_801753BC;
-            ((S_80174BEC_2 *)arg2)->unk_14 &= 0xF7FF;
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
+        if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 != D_801753BC) {
+            ((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 = D_801753BC;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
             index = (D_80083228 + ((S_80174BEC_8 *)arg3)->unk_2A.u + 0x100) >> 9;
-            func_80047784(arg2, ((S_80174BEC_2 *)arg2)->unk_2C[index & 7], 0);
+            func_80047784(arg2, ((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8[index & 7], 0);
             ((S_80174BEC_0 *)arg0)->unk_96.s = 0x14;
             ((S_80174BEC_0 *)arg0)->unk_9B++;
         }
@@ -413,7 +395,7 @@ state_3:
 
         old_count = ((S_80174BEC_0 *)arg0)->unk_96.s;
         ((S_80174BEC_0 *)arg0)->unk_96.s = old_count - 1;
-        if ((s16)old_count <= 0 || (((S_80174BEC_2 *)arg2)->unk_14 & 0xE000)) {
+        if ((s16)old_count <= 0 || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
             func_800AD594(arg3, 0x1000);
             ((S_80174BEC_0 *)arg0)->unk_8C = D_80171E20;
             D_8008346C = 0;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80174F24_0 {
     u8 pad_00[0x8C];
@@ -22,14 +23,6 @@ typedef struct S_80174F24_1 {
     u8 unk_25;
 } S_80174F24_1;   /* arg2 in func_80174F24 */
 
-typedef struct S_80174F24_2 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-} S_80174F24_2;   /* arg3 in func_80174F24 */
 
 typedef struct S_80174F24_3 {
     u8 pad_00[0x2];
@@ -75,10 +68,10 @@ void func_80174F24(void *arg0, void *in_arg1, void *in_arg2, void *arg3)
 
             (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
             func_80047784(arg2,
-                table[((D_80083228 + ((S_80174F24_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             ((S_80174F24_0 *)arg0)->unk_98 |= 8;
-            ((S_80174F24_2 *)arg3)->unk_1C &= ~0x08000000;
+            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x08000000;
             ((S_80174F24_0 *)arg0)->unk_9E.s = 5;
             ((S_80174F24_0 *)arg0)->unk_A0 = 0;
             ((S_80174F24_0 *)arg0)->unk_9B++;
@@ -122,14 +115,14 @@ void func_80174F24(void *arg0, void *in_arg1, void *in_arg2, void *arg3)
             }
             ((S_80174F24_0 *)arg0)->unk_90 = 0;
             ((S_80174F24_0 *)arg0)->unk_98 &= 0xFFF7;
-            ((S_80174F24_2 *)arg3)->unk_1C |= 0x08000000;
+            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x08000000;
             ((S_80174F24_0 *)arg0)->unk_9B++;
         }
         /* fall through */
 
     case 2:
 state2:
-        if (((S_80174F24_2 *)arg3)->unk_1C & 0x08000000) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x08000000) {
             u8 *table;
 
             ((S_80174F24_0 *)arg0)->unk_98 &= 0xFFF7;
@@ -141,7 +134,7 @@ state2:
             table = D_80176340;
             (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
             func_80047784(arg2,
-                table[((D_80083228 + ((S_80174F24_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             ((S_80174F24_0 *)arg0)->unk_9B++;
         }
@@ -176,10 +169,10 @@ shared:
             counter[4]--;
         }
 
-        flags = ((S_80174F24_2 *)arg3)->unk_1C;
+        flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32;
         if (flags & 0x2000) {
-            if (((S_80174F24_2 *)arg3)->unk_46 & 0x8000) {
-                ((S_80174F24_2 *)arg3)->unk_46 &= 0x7FFF;
+            if (((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000) {
+                ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
             }
             goto update_actor;
         }
@@ -187,7 +180,7 @@ shared:
             goto update_actor;
         }
         if (flags & 0x20000) {
-            ((S_80174F24_2 *)arg3)->unk_2A = func_800A0818(
+            ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(
                 ((S_80174F24_1 *)arg2)->unk_24, ((S_80174F24_1 *)arg2)->unk_25,
                 D_80082E80[0x24], D_80082E80[0x25], &scratch);
         }

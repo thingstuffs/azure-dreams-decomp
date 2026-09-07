@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_8017142C_0 {
     s16 unk_00;
@@ -22,17 +23,6 @@ typedef struct S_8017142C_1 {
     union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
 } S_8017142C_1;   /* arg1 in func_8017142C */
 
-typedef struct S_8017142C_2 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8017142C_2;   /* arg2 in func_8017142C */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -91,15 +81,15 @@ void func_8017142C(void *arg0, void *arg1, void *arg2) {
         if (!(temp_v0_3 & 3)) {
             func_800478B8(arg2);
         }
-        temp_v0_4 = ((S_8017142C_2 *)arg2)->unk_1C + 0x64;
-        ((S_8017142C_2 *)arg2)->unk_1C = temp_v0_4;
+        temp_v0_4 = ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v + 0x64;
+        ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = temp_v0_4;
         if ((u32)(temp_v0_4 & 0xFFFF) >= 0x2001U) {
-            ((S_8017142C_2 *)arg2)->unk_1C = 0x2000;
+            ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = 0x2000;
         }
-        temp_v0_5 = ((S_8017142C_2 *)arg2)->unk_1E + 0x64;
-        ((S_8017142C_2 *)arg2)->unk_1E = temp_v0_5;
+        temp_v0_5 = ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v + 0x64;
+        ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = temp_v0_5;
         if ((u32)(temp_v0_5 & 0xFFFF) >= 0x2001U) {
-            ((S_8017142C_2 *)arg2)->unk_1E = 0x2000;
+            ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = 0x2000;
         }
         temp_v0_6 = ((S_8017142C_0 *)arg0)->unk_24 - 1;
         ((S_8017142C_0 *)arg0)->unk_24 = temp_v0_6;
@@ -107,7 +97,7 @@ void func_8017142C(void *arg0, void *arg1, void *arg2) {
             ((S_8017142C_0 *)arg0)->unk_1A = 0;
             ((S_8017142C_0 *)arg0)->unk_00 = (u16)((S_8017142C_0 *)arg0)->unk_00 + 1;
         }
-        if (((S_8017142C_2 *)arg2)->unk_14 & 0x8000) {
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
             (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
             D_800814A0 |= 0x8000;
         }
@@ -121,15 +111,15 @@ void func_8017142C(void *arg0, void *arg1, void *arg2) {
             ((S_8017142C_0 *)arg0)->unk_64 = 0;
             ((S_8017142C_0 *)arg0)->unk_60 = 0;
         }
-        temp_v0_7 = ((S_8017142C_2 *)arg2)->unk_1C + 0xC8;
-        ((S_8017142C_2 *)arg2)->unk_1C = temp_v0_7;
+        temp_v0_7 = ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v + 0xC8;
+        ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = temp_v0_7;
         if ((u32)(temp_v0_7 & 0xFFFF) >= 0x2001U) {
-            ((S_8017142C_2 *)arg2)->unk_1C = 0x2000;
+            ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = 0x2000;
         }
-        temp_v0_8 = ((S_8017142C_2 *)arg2)->unk_1E + 0xC8;
-        ((S_8017142C_2 *)arg2)->unk_1E = temp_v0_8;
+        temp_v0_8 = ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v + 0xC8;
+        ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = temp_v0_8;
         if ((u32)(temp_v0_8 & 0xFFFF) >= 0x2001U) {
-            ((S_8017142C_2 *)arg2)->unk_1E = 0x2000;
+            ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = 0x2000;
         }
         ((S_8017142C_1 *)arg1)->unk_08.at00.v += ((S_8017142C_0 *)arg0)->unk_68;
         ((S_8017142C_0 *)arg0)->unk_68 += ((S_8017142C_0 *)arg0)->unk_74;
@@ -144,9 +134,9 @@ void func_8017142C(void *arg0, void *arg1, void *arg2) {
             }
         }
         temp_lo = ((s16)((S_8017142C_0 *)arg0)->unk_24 << 7) / (s16)((S_8017142C_0 *)arg0)->unk_26;
-        ((S_8017142C_2 *)arg2)->unk_0E = 0;
-        ((S_8017142C_2 *)arg2)->unk_0D = temp_lo;
-        ((S_8017142C_2 *)arg2)->unk_0C = temp_lo;
+        ((Rec_D_80082E80 *)arg2)->unk_0C.at02_s8.v = 0;
+        ((Rec_D_80082E80 *)arg2)->unk_0C.at01_s8.v = temp_lo;
+        ((Rec_D_80082E80 *)arg2)->unk_0C.at00_s8.v = temp_lo;
         temp_v0_9 = ((S_8017142C_0 *)arg0)->unk_24 - 1;
         ((S_8017142C_0 *)arg0)->unk_24 = temp_v0_9;
         if ((temp_v0_9 << 0x10) <= 0) {

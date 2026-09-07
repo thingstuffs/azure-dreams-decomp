@@ -1,34 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_func_800A9E70_arg0.h"
 
-typedef struct S_80171F24_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x25];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-    u8 pad_72[0x12];
-    s8 unk_84;
-    s8 unk_85;
-} S_80171F24_0;   /* arg3 in func_80171F24 */
 
-typedef struct S_80171F24_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80171F24_1;   /* arg2 in func_80171F24 */
 
-typedef struct S_80171F24_2 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    s8 unk_9A;
-    s8 unk_9B;
-} S_80171F24_2;   /* arg0 in func_80171F24 */
 
 
 void func_80047784(void *, u8, s32);
@@ -48,15 +25,15 @@ s32 func_80171F24(void *arg0, s32 arg1, void *arg2, void *arg3) {
     u16 flags;
     u16 dead_mask;
 
-    ((S_80171F24_0 *)arg3)->unk_71 = (u8) (((S_80171F24_0 *)arg3)->unk_71 & 0x7F);
+    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
     if (D_80083462 & 0x2000) {
         goto late_failure;
     }
 
-    result = func_800A04F0(arg3, ((S_80171F24_1 *)arg2)->unk_24,
-        ((S_80171F24_1 *)arg2)->unk_25, ((S_80171F24_0 *)arg3)->unk_2A);
+    result = func_800A04F0(arg3, ((Rec_D_80082E80 *)arg2)->unk_24,
+        ((Rec_D_80082E80 *)arg2)->unk_25, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16);
 
-    if (!(((S_80171F24_2 *)arg0)->unk_98 & 0x8000)) {
+    if (!(((Rec_func_800A9E70_arg0 *)arg0)->unk_98 & 0x8000)) {
         goto no_flag;
     }
     if (result != 0) {
@@ -75,7 +52,7 @@ checks:
     if (flags & 0x2000) {
         return -1;
     }
-    if (!(((S_80171F24_0 *)arg3)->unk_46 & 0x8000)) {
+    if (!(((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000)) {
         if (flags & 8) {
             return -1;
         }
@@ -102,19 +79,19 @@ late_failure:
     return -1;
 
 success:
-    ((S_80171F24_2 *)arg0)->unk_9A = 0x11;
-    ((S_80171F24_2 *)arg0)->unk_9B = 0;
-    ((S_80171F24_2 *)arg0)->unk_8C = 0;
-    ((S_80171F24_0 *)arg3)->unk_84 = 0x7C;
-    ((S_80171F24_0 *)arg3)->unk_85 = 0;
-    dead_mask = ((S_80171F24_2 *)arg0)->unk_98 & 0x8000;
+    ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_s8 = 0x11;
+    ((Rec_func_800A9E70_arg0 *)arg0)->unk_9B.as_s8 = 0;
+    ((Rec_func_800A9E70_arg0 *)arg0)->unk_8C = 0;
+    ((Rec_D_800E3D7C *)arg3)->unk_84.as_s8 = 0x7C;
+    ((Rec_D_800E3D7C *)arg3)->unk_85.as_s8 = 0;
+    dead_mask = ((Rec_func_800A9E70_arg0 *)arg0)->unk_98 & 0x8000;
     ASM_KEEP(dead_mask);   /* MATCH pin: retail basic-block layout depends on it */
     (*(u8 **)((u8 *)arg2 + 0x2C)) = D_80173FB8;
     func_80047784(arg2,
-        D_80173FB8[((D_80083228 + ((S_80171F24_0 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+        D_80173FB8[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
-    ((S_80171F24_0 *)arg3)->unk_6D = (u8) (((S_80171F24_0 *)arg3)->unk_6D - 1);
-    func_8009C93C(arg3, arg2, ((S_80171F24_0 *)arg3)->unk_2A, 1, 0);
+    ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 - 1);
+    func_8009C93C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1, 0);
     return 1;
 }
 

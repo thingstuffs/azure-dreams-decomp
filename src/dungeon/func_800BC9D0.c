@@ -1,11 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_800C2130_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0xFC];
-    s32 unk_110;
-} S_800C2130_0;   /* arg0 in func_800C2130 */
 
 
 extern s32 func_8008D344();
@@ -30,7 +25,7 @@ extern u8 D_800E3648[];
 extern u8 *D_800E3D7C;
 
 
-s32 func_800C2130(S_800C2130_0 *arg0, s32 arg1, s16 arg2, s32 arg3) {
+s32 func_800C2130(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3) {
     s32 call_arg;
     volatile u8 *entry;
     u8 *state;
@@ -52,7 +47,7 @@ s32 func_800C2130(S_800C2130_0 *arg0, s32 arg1, s16 arg2, s32 arg3) {
         func_800A6480(arg0, arg1);
         if (func_800AD6FC(
                 arg0,
-                ((u16 *)D_800DDE84)[arg0->unk_13] & 3,
+                ((u16 *)D_800DDE84)[arg0->unk_10.at03_u8.v] & 3,
                 arg1) == 0) {
             func_800A5F38(arg0, arg1);
             return 1;

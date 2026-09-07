@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80023994_0 {
     u8 pad_00[0x10];
@@ -12,12 +13,6 @@ typedef struct S_80023994_1 {
     s32 unk_0C;
 } S_80023994_1;   /* record_base in func_80023994 */
 
-typedef struct S_80023994_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_80023994_2;   /* arg1 in func_80023994 */
 
 
 typedef struct {
@@ -41,7 +36,7 @@ extern u8 D_800D00C0[];
 extern u8 D_800D0128[];
 
 
-void func_80023994(void *arg0, S_80023994_2 *arg1)
+void func_80023994(void *arg0, Rec_D_800E3D7C *arg1)
 {
     u8 *button_base;
     s32 result;
@@ -87,9 +82,9 @@ void func_80023994(void *arg0, S_80023994_2 *arg1)
     }
 
 tail:
-    arg1->unk_14 += 0x1D000;
-    if (result < arg1->unk_0A) {
-        arg1->unk_0A = result;
-        arg1->unk_14 = 0;
+    arg1->unk_14.as_s32 += 0x1D000;
+    if (result < arg1->unk_08.at02_s16.v) {
+        arg1->unk_08.at02_s16.v = result;
+        arg1->unk_14.as_s32 = 0;
     }
 }

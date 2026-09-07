@@ -1,8 +1,8 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 
-typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -49,19 +49,13 @@ typedef struct S_80172480_2 {
     u16 unk_C8;
 } S_80172480_2;   /* base_83160 in func_80172480 */
 
-typedef struct S_80172480_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    M2C_UNK * unk_2C;
-} S_80172480_3;   /* arg2 in func_80172480 */
 
 typedef struct S_80172480_4 {
     u8 pad_00[0x9A];
     u8 unk_9A;
 } S_80172480_4;   /* D_800E3D7C[0] in func_80172480 */
 
-void func_80172480(S_80172480_0 *arg0, s32 arg1, S_80172480_3 *arg2, S_80172480_1 *arg3) {
+void func_80172480(S_80172480_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2, S_80172480_1 *arg3) {
     s32 temp_a0;
     u8 temp_v1;
     u8 *base_83160 = D_80083160;
@@ -90,12 +84,12 @@ jt_c1:
         table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
         ASM_KEEP(table_page);   /* MATCH pin: load-bearing for the whole function shape */
         table_page += 0x5EC8;
-        if ((arg2->unk_14 & 0x8000) == 0) {
+        if ((arg2->unk_14.at00_u16.v & 0x8000) == 0) {
             return;
         }
         goto block_14_ready;
 jt_c2:
-        if (arg2->unk_14 & 0xE000) {
+        if (arg2->unk_14.at00_u16.v & 0xE000) {
             table_page = DGN_TABLE_PAGE(D_80175ED0, 0x5ED0);
             ASM_KEEP(table_page);   /* MATCH pin: load-bearing for the whole function shape */
             table_page += 0x5ED0;
@@ -122,7 +116,7 @@ block_14_ready:
         {
             u8 *table;
             table = (u8 *)table_page;
-            arg2->unk_2C = table;
+            arg2->unk_2C.as_pm = table;
             {
                 unsigned long entry = (unsigned long)(((s32) (D_80083228[0] + (s16) arg3->unk_2A + 0x100) >> 9) & 7);
                 entry += (unsigned long)table;
@@ -134,11 +128,11 @@ advance:
         arg0->unk_9B = temp_v1;
         return;
 jt_c4:
-        if (arg2->unk_14 & 0xE000) {
+        if (arg2->unk_14.at00_u16.v & 0xE000) {
             arg3->unk_1C = (s32) (arg3->unk_1C | 0x40000);
             {
                 u8 *table = D_80175EB8;
-                arg2->unk_2C = table;
+                arg2->unk_2C.as_pm = table;
                 func_80047784(arg2, table[((s32) (D_80083228[0] + (s16) arg3->unk_2A + 0x100) >> 9) & 7], 0);
             }
             arg0->unk_8C = D_801710EC;

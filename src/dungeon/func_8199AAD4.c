@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 #ifndef NULL
 #define NULL 0
@@ -62,10 +63,6 @@ typedef struct S_8199AAD4_6 {
     s32 unk_04;
 } S_8199AAD4_6;   /* target_node in func_8199AAD4 */
 
-typedef struct S_8199AAD4_7 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_8199AAD4_7;   /* D_800814A8 in func_8199AAD4 */
 
 typedef struct S_8199AAD4_8 {
     u8 pad_00[0xC];
@@ -245,7 +242,7 @@ state_two:
     target[1] = target_node->unk_04;
     target[2] = (((S_8199AAD4_0 *)self)->unk_38 - 0x50) << 16;
 
-    index = (D_80083228 + ((S_8199AAD4_7 *)D_800814A8)->unk_2A + 0x100) >> 7;
+    index = (D_80083228 + ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_s16 + 0x100) >> 7;
     hit_out = delta;
     entry_base = D_800E3D18;
     index &= 0x1C;

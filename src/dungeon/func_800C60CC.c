@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800CB82C_0 {
     u8 pad_00[0x8];
@@ -80,14 +81,6 @@ typedef struct S_800CB82C_7 {
     u8 unk_25;
 } S_800CB82C_7;   /* temp_v1 in func_800CB82C */
 
-typedef struct S_800CB82C_8 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0x68];
-    u16 unk_88;
-} S_800CB82C_8;   /* arg1 in func_800CB82C */
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -134,10 +127,10 @@ void *func_800CB82C(void *arg0, void *arg1, void *arg2) {
         temp_v1 = ((S_800CB82C_6_pre *)arg2)[-1].unk_00;
         ((S_800CB82C_4 *)temp_a0_3)->unk_72 = (u8) ((S_800CB82C_7 *)temp_v1)->unk_24;
         ((S_800CB82C_4 *)temp_a0_3)->unk_73 = (u8) ((S_800CB82C_7 *)temp_v1)->unk_25;
-        ((S_800CB82C_4 *)temp_a0_3)->unk_88 = (u16) ((S_800CB82C_8 *)arg1)->unk_88;
+        ((S_800CB82C_4 *)temp_a0_3)->unk_88 = (u16) ((Rec_D_800E3D7C *)arg1)->unk_88.as_u16;
         ((S_800CB82C_4 *)temp_a0_3)->unk_13 = 0xFF;
-        ((S_800CB82C_4 *)temp_a0_3)->unk_14 = (s32) ((S_800CB82C_8 *)arg1)->unk_14;
-        ((S_800CB82C_4 *)temp_a0_3)->unk_1C = (s32) ((S_800CB82C_8 *)arg1)->unk_1C;
+        ((S_800CB82C_4 *)temp_a0_3)->unk_14 = (s32) ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32;
+        ((S_800CB82C_4 *)temp_a0_3)->unk_1C = (s32) ((Rec_D_800E3D7C *)arg1)->unk_1C.as_s32;
         ((S_800CB82C_4 *)temp_a0_3)->unk_2A = (s16) (((S_800CB82C_6 *)arg2)->unk_2A - 0x800);
         ((S_800CB82C_4 *)temp_a0_3)->unk_90 = (s32) ((S_800CB82C_2 *)arg0)->unk_08.at00.v;
         if (func_800A94A0(temp_a0_3, temp_v0 + 0x28, 0, temp_v0 + 0xB8) == 0) {

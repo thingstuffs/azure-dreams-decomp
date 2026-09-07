@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_8002520C_22 {
     u8 pad_00[0xC];
@@ -65,9 +66,6 @@ typedef struct S_8002520C_2 {
     u16 unk_1E;
 } S_8002520C_2;   /* arg2_local in func_8002520C */
 
-typedef struct S_8002520C_3 {
-    s32 unk_00;
-} S_8002520C_3;   /* &D_800E3D7C in func_8002520C */
 
 typedef struct S_8002520C_4 {
     u8 pad_00[0x10];
@@ -310,7 +308,7 @@ jt_c1:
         jt_c2:
         }
         if (D_80027156[0] == 0) {
-            temp_v1_5 = func_8009074C(((u16) arg2_local->unk_1A >> 9) & 7, ((S_8002520C_3 *)(&D_800E3D7C))->unk_00 + 0xA2, 0) & 0xFFFF;
+            temp_v1_5 = func_8009074C(((u16) arg2_local->unk_1A >> 9) & 7, ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v + 0xA2, 0) & 0xFFFF;
             if ((temp_v1_5 != 0xFFF) && (((S_8002520C_4 *)state_base)->unk_10 & 0xF000)) {
                 s32 table_idx;
                 s32 slot_a0;

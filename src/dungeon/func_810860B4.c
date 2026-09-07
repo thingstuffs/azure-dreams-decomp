@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 typedef s32 M2C_UNK;
@@ -50,12 +51,6 @@ typedef struct S_801738B4_2 {
     u8 * unk_2C;
 } S_801738B4_2;   /* entity in func_801738B4 */
 
-typedef struct S_801738B4_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801738B4_3;   /* arg1 in func_801738B4 */
 
 typedef struct S_801738B4_4 {
     u8 pad_00[0xA];
@@ -214,9 +209,9 @@ apply_item:
     goto done;
 
 empty_item:
-    ((S_801738B4_3 *)arg1)->unk_14 = 0;
-    ((S_801738B4_3 *)arg1)->unk_10 = 0;
-    ((S_801738B4_3 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
     object = D_800814A8;
     D_8008346C = 0;
@@ -264,9 +259,9 @@ state_3:
         goto epilogue;
     }
 
-    ((S_801738B4_3 *)arg1)->unk_14 = 0;
-    ((S_801738B4_3 *)arg1)->unk_10 = 0;
-    ((S_801738B4_3 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
     if (((S_801738B4_2 *)entity)->unk_2C != D_80175F10) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_80175F10;

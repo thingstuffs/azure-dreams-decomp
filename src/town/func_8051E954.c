@@ -1,12 +1,9 @@
 #include "common.h"
+#include "records/Rec_D_80016000.h"
 
 
 
-typedef s32 M2C_UNK;
 
-typedef struct S_8051E954_2 {
-    void * unk_00;
-} S_8051E954_2;   /* &D_80016000 in func_8051E954 */
 
 typedef struct S_8051E954_3 {
     u8 pad_00[0x208];
@@ -16,12 +13,12 @@ typedef struct S_8051E954_3 {
 typedef struct S_8051E954_4 {
     u8 pad_00[0x20];
     void * unk_20;
-} S_8051E954_4;   /* ((S_8051E954_2 *)(&D_80016000))->unk_00 in func_8051E954 */
+} S_8051E954_4;   /* ((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v in func_8051E954 */
 
 typedef struct S_8051E954_5 {
     u8 pad_00[0x224];
     M2C_UNK (*unk_224)(s32 *);
-} S_8051E954_5;   /* ((S_8051E954_4 *)(((S_8051E954_2 *)(&D_80016000))->unk_00))->unk_20 in func_8051E954 */
+} S_8051E954_5;   /* ((S_8051E954_4 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20 in func_8051E954 */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -35,9 +32,6 @@ typedef struct S_8051E954_0 {
     s32 unk_08;
 } S_8051E954_0;   /* temp_s0 in func_8051E954 */
 
-typedef struct S_8051E954_1 {
-    void * unk_00;
-} S_8051E954_1;   /* &D_80016000 in func_8051E954 */
 
 void func_8051E954(s32 arg0) {
     register s32 *temp_s0 ASM_REG("$16");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
@@ -51,8 +45,8 @@ void func_8051E954(s32 arg0) {
     temp_s0 = &D_80019158;
     ((S_8051E954_0 *)temp_s0)->unk_04 = temp_a0_2;
     arg0 = (temp_a0_2 & 0xFFFF) | 0xFF000000;
-    temp_v1 = ((S_8051E954_1 *)(&D_80016000))->unk_00;
+    temp_v1 = ((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v;
     ((S_8051E954_0 *)temp_s0)->unk_08 = arg0;
     ((S_8051E954_3 *)((*(void **)((u8 *)temp_v1 + 0x20))))->unk_208(0);
-    ((S_8051E954_5 *)(((S_8051E954_4 *)(((S_8051E954_2 *)(&D_80016000))->unk_00))->unk_20))->unk_224(temp_s0);
+    ((S_8051E954_5 *)(((S_8051E954_4 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20))->unk_224(temp_s0);
 }

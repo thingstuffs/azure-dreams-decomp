@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_818154FC_0_pre {
     u16 unk_00;
@@ -36,13 +37,6 @@ typedef struct S_818154FC_1 {
     void * unk_0C;
 } S_818154FC_1;   /* temp_s2 in func_818154FC */
 
-typedef struct S_818154FC_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818154FC_2;   /* arg2 in func_818154FC */
 
 typedef struct S_818154FC_3_pre {
     u8 * unk_00;
@@ -186,7 +180,7 @@ u8 *func_8003FC64();   /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 extern M2C_UNK D_800246DC;
 
-void func_818154FC(void *arg0, S_818154FC_5 *arg1, S_818154FC_2 *arg2) {
+void func_818154FC(void *arg0, S_818154FC_5 *arg1, Rec_D_80082E80 *arg2) {
     Offset offset;
     LocalPoints points;
     LocalPoint *point_base;
@@ -246,9 +240,9 @@ void func_818154FC(void *arg0, S_818154FC_5 *arg1, S_818154FC_2 *arg2) {
     return;
 
 block_state0:
-    arg2->unk_0C = 0x00808080;
-    arg2->unk_1E = 0x1000;
-    arg2->unk_1C = 0x1000;
+    arg2->unk_0C.at00_s32.v = 0x00808080;
+    arg2->unk_1C.at02_s16.v = 0x1000;
+    arg2->unk_1C.at00_s16.v = 0x1000;
     func_8003DB94(arg2, D_800DEC00, 0, arg2);
     angle = ((S_818154FC_3 *)temp_s1)->unk_2A;
     D_80025338[0] = 1;

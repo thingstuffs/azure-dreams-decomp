@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 M2C_UNK func_8003DB94();  /* extern */
 M2C_UNK func_800478B8();                      /* extern */
@@ -31,12 +32,8 @@ typedef struct S_818A4B40_2 {
     s16 unk_0A;
 } S_818A4B40_2;   /* arg1 in func_818A4B40 */
 
-typedef struct S_818A4B40_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_818A4B40_3;   /* arg2 in func_818A4B40 */
 
-void func_818A4B40(S_818A4B40_0 *arg0, S_818A4B40_2 *arg1, S_818A4B40_3 *arg2) {
+void func_818A4B40(S_818A4B40_0 *arg0, S_818A4B40_2 *arg1, Rec_D_80082E80 *arg2) {
     s16 temp_s0;
     s32 temp_v0_2;
     s32 var_s0;
@@ -61,7 +58,7 @@ void func_818A4B40(S_818A4B40_0 *arg0, S_818A4B40_2 *arg1, S_818A4B40_3 *arg2) {
     }
     arg1->unk_0A = (s16) (arg0->unk_0C + arg0->unk_04);
     func_800478B8(arg2);
-    if (arg2->unk_14 & 0x6000) {
+    if (arg2->unk_14.at00_u16.v & 0x6000) {
         func_8003DB94(arg2, &D_800DECF8, 0);
     }
 }

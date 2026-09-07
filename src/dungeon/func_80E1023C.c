@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80173A3C_0 {
     u8 pad_00[0x96];
@@ -21,18 +22,6 @@ typedef struct S_80173A3C_1 {
     u8 unk_25;
 } S_80173A3C_1;   /* arg2 in func_80173A3C */
 
-typedef struct S_80173A3C_2 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-    u8 pad_20[0x29];
-    u8 unk_49;
-    u8 pad_4A[0x1];
-    u8 unk_4B;
-    u8 pad_4C[0x3C];
-    s16 unk_88;
-} S_80173A3C_2;   /* arg3 in func_80173A3C */
 
 typedef struct S_80173A3C_3 {
     u8 pad_00[0x10];
@@ -84,7 +73,7 @@ state_zero:
     ((S_80173A3C_1 *)arg2)->unk_10 = 0x20;
     ((S_80173A3C_1 *)arg2)->unk_12 -= 0x80;
     ((S_80173A3C_1 *)arg2)->unk_14 |= 0xC;
-    ((S_80173A3C_2 *)arg3)->unk_1C |= 0x10000000;
+    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x10000000;
     func_800A56E0(0x805);
     ((S_80173A3C_1 *)arg2)->unk_0C.at00.v = 0x00808080;
     ((S_80173A3C_0 *)arg0)->unk_96.s = 0xC;
@@ -107,23 +96,23 @@ update:
         }
     }
 
-    if ((((S_80173A3C_2 *)arg3)->unk_14 & 0x20000000) == 0) {
+    if ((((Rec_D_800E3D7C *)arg3)->unk_14.as_u32 & 0x20000000) == 0) {
         u8 *global = (u8 *)&D_80083460;
         if (((S_80173A3C_3 *)global)->unk_10.p == (u8 *)arg3 - 0x20) {
             ((S_80173A3C_3 *)global)->unk_10.i &= 0x7FFFFFFF;
         }
     }
 
-    if ((((S_80173A3C_2 *)arg3)->unk_14 & 0x4000) == 0) {
+    if ((((Rec_D_800E3D7C *)arg3)->unk_14.as_u32 & 0x4000) == 0) {
         func_800A2FE0(arg3);
         func_800A32A4(arg3);
-        if (((S_80173A3C_2 *)arg3)->unk_49 != 0 &&
-            (((S_80173A3C_2 *)arg3)->unk_4B & 0x20) == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_48.at01_u8.v != 0 &&
+            (((Rec_D_800E3D7C *)arg3)->unk_48.at03_u8.v & 0x20) == 0) {
             func_800B8228(((S_80173A3C_4 *)arg1)->unk_02, ((S_80173A3C_4 *)arg1)->unk_06,
-                          ((S_80173A3C_2 *)arg3)->unk_88, (u8 *)arg3 + 0x48);
+                          ((Rec_D_800E3D7C *)arg3)->unk_88.as_s16, (u8 *)arg3 + 0x48);
         }
         if ((func_80042900(arg3, 0x1B) << 16) == 0) {
-            s32 flags = ((S_80173A3C_2 *)arg3)->unk_1C;
+            s32 flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32;
             s32 color0 = ((S_80173A3C_1 *)arg2)->unk_24;
             s32 color1 = ((S_80173A3C_1 *)arg2)->unk_25;
             s32 effect = 0x3000;
@@ -138,13 +127,13 @@ update:
         return;
     }
 
-    if ((((S_80173A3C_2 *)arg3)->unk_14 & 0x20000000) == 0) {
+    if ((((Rec_D_800E3D7C *)arg3)->unk_14.as_u32 & 0x20000000) == 0) {
         func_800ACF88(arg3);
     }
     func_800A2FE0(arg3);
     func_800A32A4(arg3);
     if ((func_80042900(arg3, 0x1B) << 16) == 0) {
-        s32 flags = ((S_80173A3C_2 *)arg3)->unk_1C;
+        s32 flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32;
         s32 color0 = ((S_80173A3C_1 *)arg2)->unk_24;
         s32 color1 = ((S_80173A3C_1 *)arg2)->unk_25;
         s32 effect = 0x3000;

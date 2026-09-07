@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 extern void func_8002436C(void) __attribute__((noreturn));
@@ -20,17 +21,8 @@ typedef struct S_80024264_1 {
     u16 unk_14;
 } S_80024264_1;   /* owner in func_80024264 */
 
-typedef struct S_80024264_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80024264_2;   /* arg2 in func_80024264 */
 
-void func_80024264(S_80024264_0 *arg0, s32 arg1, S_80024264_2 *arg2)
+void func_80024264(S_80024264_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2)
 {
     s16 state;
     S_80024264_1 *owner;
@@ -63,17 +55,17 @@ state_0: {
     u16 upper;
     u16 lower;
 
-    value = arg2->unk_0E;
-    upper = arg2->unk_1E;
+    value = arg2->unk_0C.at02_u8.v;
+    upper = arg2->unk_1C.at02_u16.v;
     value++;
-    arg2->unk_0E = value;
-    arg2->unk_0D = value;
-    arg2->unk_0C = value;
-    lower = arg2->unk_1C;
+    arg2->unk_0C.at02_u8.v = value;
+    arg2->unk_0C.at01_u8.v = value;
+    arg2->unk_0C.at00_u8.v = value;
+    lower = arg2->unk_1C.at00_u16.v;
     upper += 0x10;
-    arg2->unk_1E = upper;
+    arg2->unk_1C.at02_u16.v = upper;
     lower += 0x100;
-    arg2->unk_1C = lower;
+    arg2->unk_1C.at00_u16.v = lower;
     func_80024370();
 }
 
@@ -82,14 +74,14 @@ state_1: {
     u16 lower;
     s32 tail_value;
 
-    value = arg2->unk_0E;
-    lower = arg2->unk_1C;
+    value = arg2->unk_0C.at02_u8.v;
+    lower = arg2->unk_1C.at00_u16.v;
     value++;
     lower += 0x80;
-    arg2->unk_0E = value;
-    arg2->unk_0D = value;
-    arg2->unk_0C = value;
-    arg2->unk_1C = lower;
+    arg2->unk_0C.at02_u8.v = value;
+    arg2->unk_0C.at01_u8.v = value;
+    arg2->unk_0C.at00_u8.v = value;
+    arg2->unk_1C.at00_u16.v = lower;
     tail_value = arg0->unk_02.s << 8;
     ASM_TAILSLOT_PIN_TIED(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     func_8002436C();
@@ -99,13 +91,13 @@ state_2: {
     u8 value;
     s32 position;
 
-    value = arg2->unk_0E + 6;
-    arg2->unk_0E = value;
-    arg2->unk_0D = value;
-    arg2->unk_0C = value;
+    value = arg2->unk_0C.at02_u8.v + 6;
+    arg2->unk_0C.at02_u8.v = value;
+    arg2->unk_0C.at01_u8.v = value;
+    arg2->unk_0C.at00_u8.v = value;
     position = arg0->unk_02.s;
     
-    arg2->unk_1E = (position + 0x10) << 8;
+    arg2->unk_1C.at02_u16.v = (position + 0x10) << 8;
     if (arg0->unk_02.s < arg0->unk_04) {
         goto done;
     }

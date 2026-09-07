@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef s32 M2C_UNK;
 
@@ -40,10 +41,6 @@ typedef struct S_80170E9C_2 {
     M2C_UNK * unk_2C;
 } S_80170E9C_2;   /* arg2 in func_80170E9C */
 
-typedef struct S_80170E9C_3 {
-    u8 pad_00[0x58];
-    s32 unk_58;
-} S_80170E9C_3;   /* D_800814A8 in func_80170E9C */
 
 typedef struct S_80170E9C_4 {
     u8 pad_00[0x9A];
@@ -226,7 +223,7 @@ block_30:
     if (!(D_80083462 & 0x2000)) {
         goto block_36;
     }
-    if ((func_8009A180(arg3, ((S_80170E9C_3 *)D_800814A8)->unk_58 + 0x20) << 0x10) != 0) {
+    if ((func_8009A180(arg3, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) != 0) {
         goto block_63;
     }
 block_36:

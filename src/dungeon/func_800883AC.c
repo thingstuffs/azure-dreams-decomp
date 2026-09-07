@@ -1,18 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_8008ACDC_arg0.h"
 
-typedef struct S_8008DB0C_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x46];
-    s8 unk_72;
-    s8 unk_73;
-    u8 pad_74[0x16];
-    s16 unk_8A;
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_8008DB0C_0;   /* arg0 in func_8008DB0C */
 
 typedef struct S_8008DB0C_1 {
     u8 pad_00[0x8A];
@@ -35,22 +23,22 @@ void func_8008DB0C(void *arg0, s32 arg1, void *arg2, s32 arg3, u16 arg4) {
     s32 value;
     register s32 held3 ASM_REG("$16") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
 
-    ((S_8008DB0C_0 *)arg0)->unk_9A = 0x26;
-    ((S_8008DB0C_0 *)arg0)->unk_9B = 0;
-    ((S_8008DB0C_0 *)arg0)->unk_8C = 0;
+    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_s8 = 0x26;
+    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9B.as_s8 = 0;
+    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8C.as_s32 = 0;
     (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
     func_80048A44(
         arg2,
-        table[((D_80083228 + ((S_8008DB0C_0 *)arg0)->unk_2A + 0x100) >> 9) & 7],
+        table[((D_80083228 + ((Rec_func_8008ACDC_arg0 *)arg0)->unk_2A + 0x100) >> 9) & 7],
         0,
         1);
 
-    ((S_8008DB0C_0 *)arg0)->unk_72 = held3;
-    ((S_8008DB0C_0 *)arg0)->unk_73 = (s8)arg4;
+    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_72 = held3;
+    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_73 = (s8)arg4;
 
     if (D_80082EB0 != 0) {
         value = func_80098C80(D_80082EB0);
-        func_8008DBC4(arg0, 0x68, ((S_8008DB0C_0 *)arg0)->unk_8A, (s16)value);
+        func_8008DBC4(arg0, 0x68, ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8A, (s16)value);
         return;
     }
 

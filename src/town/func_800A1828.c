@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800CFCB4.h"
 
 #ifndef NULL
 #define NULL 0
@@ -30,19 +31,6 @@ typedef struct S_8009EF88_1 {
     s32 unk_08;
 } S_8009EF88_1;   /* temp_a2 in func_8009EF88 */
 
-typedef struct S_8009EF88_2 {
-    u8 pad_00[0x4D];
-    u8 unk_4D;
-    u8 pad_4E[0x1E];
-    u16 unk_6C;
-    u8 pad_6E[0x16];
-    u16 unk_84;
-    u16 unk_86;
-    u8 pad_88[0xD];
-    u8 unk_95;
-    u8 pad_96[0x2];
-    s8 * unk_98;
-} S_8009EF88_2;   /* arg0 in func_8009EF88 */
 
 void func_8009EF88(void *arg0, s32 arg1, void *arg2, s32 arg3) {
     s32 sp18[5];
@@ -61,16 +49,16 @@ void func_8009EF88(void *arg0, s32 arg1, void *arg2, s32 arg3) {
     temp_v1 = ((S_8009EF88_0 *)arg2)->unk_08 + 0x200000;
     ((S_8009EF88_0 *)arg2)->unk_14 = (s32)((s32)(((S_8009EF88_1 *)temp_a2)->unk_08 - temp_v1) / 2);
     func_8009539C(arg2);
-    temp_v0_2 = ((S_8009EF88_2 *)arg0)->unk_6C - 1;
-    ((S_8009EF88_2 *)arg0)->unk_6C = temp_v0_2;
+    temp_v0_2 = ((Rec_D_800CFCB4 *)arg0)->unk_6C.as_u16 - 1;
+    ((Rec_D_800CFCB4 *)arg0)->unk_6C.as_u16 = temp_v0_2;
     if ((temp_v0_2 << 16) <= 0) {
-        temp_s1 = ((S_8009EF88_2 *)arg0)->unk_95;
+        temp_s1 = ((Rec_D_800CFCB4 *)arg0)->unk_95;
         if (func_8009EB9C(arg0, arg1, arg2, arg3, sp18) != 0) {
-            if (((S_8009EF88_2 *)arg0)->unk_4D == 0x13) {
+            if (((Rec_D_800CFCB4 *)arg0)->unk_4D.as_u8 == 0x13) {
                 u8 *table = (u8 *)0x80010000;
                 s32 index = table[temp_s1 * 4 + 0x983] & 0x3F;
                 table[index * 0x54 + 0xAC4] = 1;
-                temp_a0 = ((S_8009EF88_2 *)arg0)->unk_98;
+                temp_a0 = ((Rec_D_800CFCB4 *)arg0)->unk_98;
                 if (temp_a0 != NULL) {
                     *temp_a0 = 0;
                 }
@@ -79,7 +67,7 @@ void func_8009EF88(void *arg0, s32 arg1, void *arg2, s32 arg3) {
                 return;
             }
             (*(s32 *)((u8 *)((temp_s1 * 4)) + (0x80010980))) = 0;
-            temp_a0_2 = ((S_8009EF88_2 *)arg0)->unk_98;
+            temp_a0_2 = ((Rec_D_800CFCB4 *)arg0)->unk_98;
             if (temp_a0_2 != NULL) {
                 *temp_a0_2 = 0;
             }
@@ -89,8 +77,8 @@ void func_8009EF88(void *arg0, s32 arg1, void *arg2, s32 arg3) {
         }
         ((S_8009EF88_0 *)arg2)->unk_00.at00.v = 0;
         ((S_8009EF88_0 *)arg2)->unk_04.at00.v = 0;
-        ((S_8009EF88_0 *)arg2)->unk_00.at02.v = ((S_8009EF88_2 *)arg0)->unk_84;
-        ((S_8009EF88_0 *)arg2)->unk_04.at02.v = ((S_8009EF88_2 *)arg0)->unk_86;
+        ((S_8009EF88_0 *)arg2)->unk_00.at02.v = ((Rec_D_800CFCB4 *)arg0)->unk_84;
+        ((S_8009EF88_0 *)arg2)->unk_04.at02.v = ((Rec_D_800CFCB4 *)arg0)->unk_86;
         func_8009F148(arg0, arg1, arg2, arg3);
     }
 }

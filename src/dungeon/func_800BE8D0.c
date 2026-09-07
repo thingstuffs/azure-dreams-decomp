@@ -1,11 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_800C4030_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0xFC];
-    s32 unk_110;
-} S_800C4030_0;   /* arg0 in func_800C4030 */
 
 typedef struct S_800C4030_1 {
     u8 pad_00[0xA];
@@ -41,7 +36,7 @@ extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 extern void *D_800E3D7C;
 
-s32 func_800C4030(S_800C4030_0 *arg0, s32 arg1, s16 arg2, s32 arg3)
+s32 func_800C4030(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
 {
     s32 value;
     s32 i;
@@ -81,7 +76,7 @@ s32 func_800C4030(S_800C4030_0 *arg0, s32 arg1, s16 arg2, s32 arg3)
         ASM_KEEP(call_x);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
         state = (u8 *)0x800E0000;
         ASM_KEEP(state);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-        copy = arg0->unk_13;
+        copy = arg0->unk_10.at03_u8.v;
         state -= 0x217C;
         call_y = ((u16 *)state)[copy];
         ASM_KEEP(state);   /* MATCH pin: retail callee-saved set / frame layout depends on it */

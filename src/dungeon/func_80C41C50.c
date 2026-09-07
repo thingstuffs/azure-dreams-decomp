@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80173450_0 {
     u8 pad_00[0x96];
@@ -7,12 +8,6 @@ typedef struct S_80173450_0 {
     u8 unk_9B;
 } S_80173450_0;   /* arg0 in func_80173450 */
 
-typedef struct S_80173450_1 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_80173450_1;   /* arg3 in func_80173450 */
 
 typedef struct S_80173450_2 {
     u8 pad_00[0xC];
@@ -82,7 +77,7 @@ state_zero:
     ((S_80173450_0 *)arg0)->unk_9B = 1;
 
 process:
-    flags = ((S_80173450_1 *)arg3)->unk_14;
+    flags = ((Rec_D_80082E80 *)arg3)->unk_14.at00_s32.v;
     if (flags & 0x4000) {
         if (!(flags & 0x20000000)) {
             func_800ACF88(arg3);
@@ -94,7 +89,7 @@ process:
     ((S_80173450_2 *)arg2)->unk_12 -= 0x80;
 
 update:
-    ((S_80173450_1 *)arg3)->unk_1C |= 0x10000000;
+    ((Rec_D_80082E80 *)arg3)->unk_1C.at00_s32.v |= 0x10000000;
     count = ((S_80173450_0 *)arg0)->unk_96 - 1;
     ((S_80173450_0 *)arg0)->unk_96 = count;
     if ((s16)count <= 0) {
@@ -124,7 +119,7 @@ update:
     x = ((S_80173450_2 *)arg2)->unk_24;
     y = ((S_80173450_2 *)arg2)->unk_25;
     mode = 0x3000;
-    if (((S_80173450_1 *)arg3)->unk_1C & 0x2000) {
+    if (((Rec_D_80082E80 *)arg3)->unk_1C.at00_s32.v & 0x2000) {
         mode = 0x300;
     }
     func_8009A3D0(x, y, mode);

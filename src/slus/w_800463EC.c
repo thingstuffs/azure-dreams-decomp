@@ -1,15 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "records/Rec_D_80016000.h"
 
-typedef struct S_800463EC_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800463EC_0;   /* arg1 in func_800463EC */
 
 typedef struct S_800463EC_1 {
     u16 unk_00;
@@ -135,9 +128,9 @@ void func_800463EC(void *arg0, u8 *arg1, RenderObject *arg2, s16 arg3)
     SPAD_NV(scratch, s32, 0x30) = vertexIndex;
     SPAD_NV(scratch, s32, 0x34) = arg2->scale[1];
     SPAD_NV(scratch, s32, 0x38) = arg2->scale[2];
-    SPAD_NV(scratch, s32, 0x40) = ((S_800463EC_0 *)arg1)->unk_02;
-    SPAD_NV(scratch, s32, 0x44) = ((S_800463EC_0 *)arg1)->unk_06;
-    SPAD_NV(scratch, s32, 0x48) = ((S_800463EC_0 *)arg1)->unk_0A;
+    SPAD_NV(scratch, s32, 0x40) = ((Rec_D_80016000 *)arg1)->unk_00.at02_s16.v;
+    SPAD_NV(scratch, s32, 0x44) = ((Rec_D_80016000 *)arg1)->unk_04.at02_s16.v;
+    SPAD_NV(scratch, s32, 0x48) = ((Rec_D_80016000 *)arg1)->unk_08.at02_s16.v;
 
     ReadRotMatrix(&matrix);
     rotVertex0 = (u8 *)scratch;

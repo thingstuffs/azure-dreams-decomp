@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 s32 func_8003AD08();                        /* extern */
 s32 func_800990FC();                                /* extern */
@@ -17,12 +18,6 @@ extern M2C_UNK D_800E09E6;
 extern M2C_UNK D_800E09EE;
 extern M2C_UNK D_800E09FB;
 
-typedef struct S_800A2FE0_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x48];
-    void * unk_60;
-} S_800A2FE0_0;   /* arg0 in func_800A2FE0 */
 
 typedef struct S_800A2FE0_1 {
     u8 pad_00[0x14];
@@ -45,7 +40,7 @@ typedef struct S_800A2FE0_4 {
     M2C_UNK * unk_04;
 } S_800A2FE0_4;   /* temp_global in func_800A2FE0 */
 
-void func_800A2FE0(S_800A2FE0_0 *arg0) {
+void func_800A2FE0(Rec_D_800E3D7C *arg0) {
     s32 temp_v0_3;
     s32 temp_v0_4;
     register s32 temp_v0_5 ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
@@ -60,28 +55,28 @@ void func_800A2FE0(S_800A2FE0_0 *arg0) {
     S_800A2FE0_3 *temp_v1_2;
 
     var_s2 = 0;
-    temp_v0 = arg0->unk_60;
+    temp_v0 = arg0->unk_60.as_pv;
     var_v1 = 0;
     if ((temp_v0 != NULL) && (temp_v0->unk_14 & 0x4000)) {
-        temp_a = arg0->unk_14 & 0x4000;
+        temp_a = arg0->unk_14.as_s32 & 0x4000;
         var_v1 = temp_a != 0;
     }
     if (var_v1 == 0) {
         var_s2 = func_800A2DB8(arg0);
     }
-    temp_v1 = arg0->unk_14;
+    temp_v1 = arg0->unk_14.as_s32;
     if (!(temp_v1 & 0x20000000)) {
         if (!(temp_v1 & 0x4000)) {
-            temp_v0_2 = arg0->unk_60;
+            temp_v0_2 = arg0->unk_60.as_pv;
             if ((temp_v0_2 != NULL) && (temp_v0_2->unk_13 >= 0)) {
                 do { temp_v0_3 = func_800990FC(); } while (0);
                 func_80099290(func_80099194(&D_80089000, func_80099734(arg0, func_80099194(&D_800E09CD, temp_v0_3))));
                 func_800A5720(temp_v0_3);
             }
         }
-        if ((var_s2 != 0) && (temp_v1_2 = arg0->unk_60, (temp_v1_2 != NULL))) {
+        if ((var_s2 != 0) && (temp_v1_2 = arg0->unk_60.as_pv, (temp_v1_2 != NULL))) {
             if (temp_v1_2->unk_14 & 0x4000) {
-                if (!(arg0->unk_14 & 0x4000)) {
+                if (!(arg0->unk_14.as_s32 & 0x4000)) {
                     do { temp_v0_raw = func_800990FC(); } while (0);
                     temp_global = D_8007359C;
                     ASM_KEEP(temp_v0_raw);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
@@ -92,7 +87,7 @@ void func_800A2FE0(S_800A2FE0_0 *arg0) {
                 }
             } else if (temp_v1_2->unk_13 >= 0) {
                 do { temp_v0_4 = func_800990FC(); } while (0);
-                func_80099290(func_80099194(&D_800E09FB, func_8003AD08(var_s2, func_80099194(&D_800E09EE, func_80099734(arg0->unk_60, temp_v0_4)))));
+                func_80099290(func_80099194(&D_800E09FB, func_8003AD08(var_s2, func_80099194(&D_800E09EE, func_80099734(arg0->unk_60.as_pv, temp_v0_4)))));
                 func_800A5720(temp_v0_4);
             }
         }

@@ -1,12 +1,8 @@
 #include "common.h"
-
-typedef struct S_8069761C_0 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_8069761C_0;   /* D_80016000 in func_8069761C */
+#include "records/Rec_D_80016000.h"
 
 
-typedef s32 M2C_UNK;
+
 
 typedef struct S_8069761C_1 {
     u8 pad_00[0x68];
@@ -25,7 +21,7 @@ typedef struct S_8069761C_1 {
 #endif
 
 M2C_UNK func_800165C4();
-extern S_8069761C_0 *D_80016000;
+extern Rec_D_80016000 *D_80016000;
 extern M2C_UNK D_80018AE8;
 extern s32 D_80018BE8;
 

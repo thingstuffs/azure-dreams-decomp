@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 typedef struct {
@@ -34,13 +35,8 @@ typedef struct S_800A6684_0 {
     u16 unk_14;
 } S_800A6684_0;   /* arg2 in func_800A6684 */
 
-typedef struct S_800A6684_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800A6684_1;   /* arg1 in func_800A6684 */
 
-void func_800A6684(void *arg0, S_800A6684_1 *arg1, S_800A6684_0 *arg2)
+void func_800A6684(void *arg0, Rec_D_800E3D7C *arg1, S_800A6684_0 *arg2)
 {
     StackRecord rec;
     s32 index;
@@ -71,12 +67,12 @@ void func_800A6684(void *arg0, S_800A6684_1 *arg1, S_800A6684_0 *arg2)
         call_a0 = arg2;
         func_800478B8(call_a0);
 
-        above = arg1->unk_04 > 0x06500000;
+        above = arg1->unk_04.at00_s32.v > 0x06500000;
         if (!above && (*(s32 *)((u8 *)arg0 + 0xA0)) > 0x06500000) {
             arg2->unk_0C = arg2->unk_0D = arg2->unk_0E = 0xFF;
-            rec.unk0 = arg1->unk_00;
+            rec.unk0 = arg1->unk_00.at00_s32.v;
             rec.unk4 = 0x06400000;
-            rec.unk8 = arg1->unk_08 - 0x00280000;
+            rec.unk8 = arg1->unk_08.at00_s32.v - 0x00280000;
             func_800A6A94(&rec);
             func_800A6888();
             return;
@@ -85,9 +81,9 @@ void func_800A6684(void *arg0, S_800A6684_1 *arg1, S_800A6684_0 *arg2)
         if (above && (*(s32 *)((u8 *)arg0 + 0xA0)) <= 0x06500000 &&
             (*(s32 *)((u8 *)arg0 + 0xA4)) <= 0x06500000) {
             arg2->unk_0C = arg2->unk_0D = arg2->unk_0E = 0xFF;
-            rec.unk0 = arg1->unk_00;
+            rec.unk0 = arg1->unk_00.at00_s32.v;
             rec.unk4 = 0x06600000;
-            rec.unk8 = arg1->unk_08 - 0x00280000;
+            rec.unk8 = arg1->unk_08.at00_s32.v - 0x00280000;
             func_800A6B70(&rec);
             func_800A6888();
             return;
@@ -105,6 +101,6 @@ void func_800A6684(void *arg0, S_800A6684_1 *arg1, S_800A6684_0 *arg2)
         }
         arg2->unk_0E = arg2->unk_0D;
         (*(s32 *)((u8 *)arg0 + 0xA4)) = (*(s32 *)((u8 *)arg0 + 0xA0));
-        (*(s32 *)((u8 *)arg0 + 0xA0)) = arg1->unk_04;
+        (*(s32 *)((u8 *)arg0 + 0xA0)) = arg1->unk_04.at00_s32.v;
     }
 }

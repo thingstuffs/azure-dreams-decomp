@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_800A9E70_arg0.h"
 
 typedef struct S_800D92C0_0 {
     u8 pad_00[0x14];
@@ -32,12 +33,6 @@ typedef struct S_800D92C0_2 {
     s8 unk_26;
 } S_800D92C0_2;   /* arg2 in func_800D92C0 */
 
-typedef struct S_800D92C0_3 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    s8 unk_9C;
-} S_800D92C0_3;   /* arg0 in func_800D92C0 */
 
 typedef struct S_800D92C0_4 {
     u8 pad_00[0x74];
@@ -163,14 +158,14 @@ block_24:
                 }
             } else {
 block_25:
-                func_800A0E6C(arg2, ((S_800D92C0_3 *)arg0)->unk_9C, arg3, arg0 + 0x98);
+                func_800A0E6C(arg2, ((Rec_func_800A9E70_arg0 *)arg0)->unk_9C.as_s8, arg3, arg0 + 0x98);
             }
 init_loop:
             var_s1 = 0;
 loop_entry:
             table_base = (u8 *)D_8006CD00;
 loop_27:
-            temp_v0 = ((S_800D92C0_3 *)arg0)->unk_98;
+            temp_v0 = ((Rec_func_800A9E70_arg0 *)arg0)->unk_98;
             temp_v1 = ((S_800D92C0_0 *)arg3)->unk_2A.s;
             if (temp_v0 & 2) {
                 temp_v0 = (s32) (var_s1 << 0x10) >> 0xF;
@@ -245,7 +240,7 @@ post_loop:
                     return;
                 }
             }
-            ((S_800D92C0_3 *)arg0)->unk_9C = (s8) (u8) arg2->unk_26;
+            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9C.as_s8 = (s8) (u8) arg2->unk_26;
             ((S_800D92C0_0 *)arg3)->unk_6D.u = (u8) (((S_800D92C0_0 *)arg3)->unk_6D.u - 1);
             {
                 u16 *end_state = (u16 *)D_80083460;

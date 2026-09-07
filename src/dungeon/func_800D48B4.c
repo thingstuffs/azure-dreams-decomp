@@ -1,4 +1,7 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_800DA014_0 {
     u8 pad_00[0x8C];
@@ -7,25 +10,7 @@ typedef struct S_800DA014_0 {
     u8 unk_9B;
 } S_800DA014_0;   /* in_arg0 in func_800DA014 */
 
-typedef struct S_800DA014_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-} S_800DA014_1;   /* in_arg2 in func_800DA014 */
 
-typedef struct S_800DA014_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_800DA014_2;   /* in_arg3 in func_800DA014 */
 
 typedef struct S_800DA014_3 {
     u8 pad_00[0x2];
@@ -34,10 +19,6 @@ typedef struct S_800DA014_3 {
     u16 unk_0A;
 } S_800DA014_3;   /* system_base in func_800DA014 */
 
-typedef struct S_800DA014_4 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_800DA014_4;   /* D_800814A8 in func_800DA014 */
 
 typedef struct S_800DA014_5 {
     u8 pad_00[0x26];
@@ -91,14 +72,14 @@ state_ge_two:
     return;
 
 state_zero:
-    if (((S_800DA014_1 *)in_arg2)->unk_14 & 0xE000) {
+    if (((Rec_D_80082E80 *)in_arg2)->unk_14.at00_u16.v & 0xE000) {
         u8 *table;
         u8 *system_base;
 
         table = D_800E262C;
         (*(void * *)((u8 *)in_arg2 + 0x2C)) = table;
         func_8003DB94(in_arg2,
-            *(void **)(table + (((D_80083228 + ((S_800DA014_2 *)in_arg3)->unk_2A + 0x100) >> 7) & 28)),
+            *(void **)(table + (((D_80083228 + ((Rec_D_800E3D7C *)in_arg3)->unk_2A.as_s16 + 0x100) >> 7) & 28)),
             0);
         system_base = (u8 *)&D_80083460;
         ((S_800DA014_3 *)system_base)->unk_0A--;
@@ -116,12 +97,12 @@ state_one:
             return;
         }
 
-        if ((((S_800DA014_2 *)in_arg3)->unk_64 != 0) &&
+        if ((((Rec_D_800E3D7C *)in_arg3)->unk_64.as_s16 != 0) &&
             (func_800AA6B4(in_arg0, in_arg1, in_arg2, 0) != 0)) {
             return;
         }
 
-        if (((S_800DA014_2 *)in_arg3)->unk_25 == 0) {
+        if (((Rec_D_800E3D7C *)in_arg3)->unk_24.at01_u8.v == 0) {
             if (((S_800DA014_3 *)system_base)->unk_02 & 0x2008) {
                 return;
             }
@@ -133,7 +114,7 @@ state_one:
             return;
         }
 
-        flags = ((S_800DA014_2 *)in_arg3)->unk_1C;
+        flags = ((Rec_D_800E3D7C *)in_arg3)->unk_1C.as_s32;
         if (flags & 0x100) {
             func_800AA258(in_arg0, in_arg1, in_arg2, in_arg3);
             return;
@@ -145,13 +126,13 @@ state_one:
             return;
         }
 
-        if (((S_800DA014_2 *)in_arg3)->unk_6D == 0) {
+        if (((Rec_D_800E3D7C *)in_arg3)->unk_6D.as_s8 == 0) {
             return;
         }
 
         if ((func_800A2C34(in_arg3) << 16) != 0) {
             if ((func_8009A180(in_arg3,
-                    (u8 *)((S_800DA014_4 *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                 return;
             }
         }
@@ -164,7 +145,7 @@ state_one:
             s8 coordinate;
 
             origin = D_80082E80;
-            coordinate = ((S_800DA014_1 *)in_arg2)->unk_26;
+            coordinate = ((Rec_D_80082E80 *)in_arg2)->unk_26.as_s8;
             if ((((coordinate == ((S_800DA014_5 *)origin)->unk_26) &&
                         (coordinate >= 0)) ||
                     (func_8009FD40(origin, in_arg2) < 2)) &&
@@ -179,14 +160,14 @@ state_one:
         table = D_800E262C;
         (*(void * *)((u8 *)in_arg2 + 0x2C)) = table;
         func_8003DB94(in_arg2,
-            *(void **)(table + (((D_80083228 + ((S_800DA014_2 *)in_arg3)->unk_2A + 0x100) >> 7) & 28)),
+            *(void **)(table + (((D_80083228 + ((Rec_D_800E3D7C *)in_arg3)->unk_2A.as_s16 + 0x100) >> 7) & 28)),
             0);
         } else {
             return;
         }
     }
 
-    if (!(((S_800DA014_1 *)in_arg2)->unk_14 & 0x8000)) {
+    if (!(((Rec_D_80082E80 *)in_arg2)->unk_14.at00_u16.v & 0x8000)) {
         u8 *system_base = (u8 *)&D_80083460;
 
         ((S_800DA014_3 *)system_base)->unk_0A++;
@@ -196,7 +177,7 @@ state_one:
     goto finish;
 
 state_two:
-    if (!(((S_800DA014_1 *)in_arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)in_arg2)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
     {
@@ -205,6 +186,6 @@ state_two:
     }
 
 finish:
-    ((S_800DA014_2 *)in_arg3)->unk_1C &= ~0x200;
+    ((Rec_D_800E3D7C *)in_arg3)->unk_1C.as_s32 &= ~0x200;
     ((S_800DA014_0 *)in_arg0)->unk_8C = D_800D8C64;
 }

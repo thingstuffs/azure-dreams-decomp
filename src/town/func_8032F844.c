@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80016000.h"
 
 
 typedef s32 (*TownCallback)(void *, void *, s32);
@@ -32,9 +33,6 @@ typedef struct S_8001A044_4 {
     s32 unk_10;
 } S_8001A044_4;   /* temp_v0_2_ptr in func_8001A044 */
 
-typedef struct S_8001A044_5 {
-    void * unk_00;
-} S_8001A044_5;   /* D_80016000 in func_8001A044 */
 
 typedef struct S_8001A044_6 {
     u8 pad_00[0x6000];
@@ -72,7 +70,7 @@ typedef struct S_8001A044_11 {
 typedef struct S_8001A044_12 {
     u8 pad_00[0x20];
     void * unk_20;
-} S_8001A044_12;   /* ((S_8001A044_5 *)D_80016000)->unk_00 in func_8001A044 */
+} S_8001A044_12;   /* ((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v in func_8001A044 */
 
 typedef struct S_8001A044_13 {
     u8 pad_00[0x30];
@@ -183,7 +181,7 @@ block_9:
         }
     }
 
-    root1 = ((S_8001A044_12 *)(((S_8001A044_5 *)D_80016000)->unk_00))->unk_20;
+    root1 = ((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20;
     (*(TownCallback *)((u8 *)root1 + 0x168))
         (D_80016094, D_800160A0,
          (u32)(current - (u8 *)arg1) / 20);
@@ -225,7 +223,7 @@ loop_11:
         }
     }
 
-    (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((S_8001A044_5 *)D_80016000)->unk_00))->unk_20) + 0x168))
+    (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x168))
         (D_80016094, D_800160CC, ((u32)var_a2 - (u32)arg2) >> 2);
 
     var_v1 = D_8001DC10;
@@ -236,6 +234,6 @@ loop_11:
             var_a2_2 += 1;
         } while (((S_8001A044_9 *)var_v1)->unk_04 != 0);
     }
-    temp_callback = (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((S_8001A044_5 *)D_80016000)->unk_00))->unk_20) + 0x168));
+    temp_callback = (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x168));
     temp_callback(D_80016094, D_800160FC, var_a2_2);
 }

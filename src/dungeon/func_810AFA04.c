@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_80173204_0 {
     u8 pad_00[0x8C];
@@ -18,18 +20,6 @@ typedef struct S_80173204_1 {
     u8 * unk_2C;
 } S_80173204_1;   /* arg2 in func_80173204 */
 
-typedef struct S_80173204_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80173204_2;   /* arg3 in func_80173204 */
 
 typedef struct S_80173204_3 {
     u8 pad_00[0xA];
@@ -41,10 +31,6 @@ typedef struct S_80173204_4 {
     u16 unk_02;
 } S_80173204_4;   /* status in func_80173204 */
 
-typedef struct S_80173204_5 {
-    u8 pad_00[0x58];
-    s32 unk_58;
-} S_80173204_5;   /* D_800814A8 in func_80173204 */
 
 typedef struct S_80173204_6 {
     u8 pad_00[0x26];
@@ -81,7 +67,7 @@ extern u8 D_80170E54;
 extern u8 D_80173C9C[];
 extern u8 D_80173CA4[];
 
-void func_80173204(S_80173204_0 *arg0, s32 arg1, S_80173204_1 *arg2, S_80173204_2 *arg3)
+void func_80173204(S_80173204_0 *arg0, s32 arg1, S_80173204_1 *arg2, Rec_D_800E3D7C *arg3)
 {
     s32 state;
     s32 flags;
@@ -121,7 +107,7 @@ dispatch:
     goto done;
 
 state_0:
-    arg3->unk_1C |= 0x10000000;
+    arg3->unk_1C.as_s32 |= 0x10000000;
     if (!(arg2->unk_14 & 0xE000)) {
         goto done;
     }
@@ -129,7 +115,7 @@ state_0:
     arg2->unk_2C = table;
     func_80047784(
         arg2,
-        table[((D_80083228[0] + arg3->unk_2A + 0x100) >> 9) & 7],
+        table[((D_80083228[0] + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     counter_base = D_80083460;
     ((S_80173204_3 *)counter_base)->unk_0A =
@@ -142,11 +128,11 @@ state_1:
         arg2->unk_2C = table;
         func_80047784(
             arg2,
-            table[((D_80083228[0] + arg3->unk_2A + 0x100) >> 9) & 7],
+            table[((D_80083228[0] + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         if (arg2->unk_14 & 0x8000) {
-            arg3->unk_1C &= ~0x200;
-            arg3->unk_1C &= 0xEFFFFFFF;
+            arg3->unk_1C.as_s32 &= ~0x200;
+            arg3->unk_1C.as_s32 &= 0xEFFFFFFF;
             arg2->unk_0C.s32 = 0x808080;
             arg0->unk_8C = &D_80170E54;
             goto done;
@@ -161,12 +147,12 @@ state_1:
     if (((S_80173204_4 *)status)->unk_02 & 0x1000) {
         goto done;
     }
-    if (arg3->unk_64 != 0) {
+    if (arg3->unk_64.as_s16 != 0) {
         if (func_800AA6B4(arg0, mode, arg2, 0) != 0) {
             goto done;
         }
     }
-    if (arg3->unk_25 == 0) {
+    if (arg3->unk_24.at01_u8.v == 0) {
         if (((S_80173204_4 *)status)->unk_02 & 0x2008) {
             goto done;
         }
@@ -177,7 +163,7 @@ state_1:
         goto done;
     }
 
-    flags = arg3->unk_1C;
+    flags = arg3->unk_1C.as_s32;
     if (flags & 0x100) {
         func_800AA258(arg0, mode, arg2, arg3);
         goto done;
@@ -187,13 +173,13 @@ state_1:
         func_80173A20(arg0, mode, arg2, arg3);
         goto done;
     }
-    if (arg3->unk_6D == 0) {
+    if (arg3->unk_6D.as_s8 == 0) {
         goto done;
     }
     if ((func_800A2C34(arg3) << 16) != 0) {
         if ((func_8009A180(
                  arg3,
-                 ((S_80173204_5 *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                 ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 16) != 0) {
             goto done;
         }
     }
@@ -220,11 +206,11 @@ second_check:
     arg2->unk_2C = table;
     func_80047784(
         arg2,
-        table[((D_80083228[0] + arg3->unk_2A + 0x100) >> 9) & 7],
+        table[((D_80083228[0] + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     if (arg2->unk_14 & 0x8000) {
-        arg3->unk_1C &= ~0x200;
-        arg3->unk_1C &= 0xEFFFFFFF;
+        arg3->unk_1C.as_s32 &= ~0x200;
+        arg3->unk_1C.as_s32 &= 0xEFFFFFFF;
         arg2->unk_0C.s32 = 0x808080;
         arg0->unk_8C = &D_80170E54;
         goto done;
@@ -251,9 +237,9 @@ state_2:
         u8 *counter = D_80083460;
         ((S_80173204_7 *)counter)->unk_0A--;
     }
-    arg3->unk_1C &= 0xEFFFFFFF;
+    arg3->unk_1C.as_s32 &= 0xEFFFFFFF;
     arg2->unk_0C.s32 = 0x808080;
-    arg3->unk_1C &= ~0x200;
+    arg3->unk_1C.as_s32 &= ~0x200;
     arg0->unk_8C = &D_80170E54;
 
 done:

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 
@@ -42,12 +43,8 @@ typedef struct S_8008D024_2 {
     s16 unk_120;
 } S_8008D024_2;   /* arg0 in func_8008D024 */
 
-typedef struct S_8008D024_3 {
-    u8 pad_00[0x2C];
-    u8 * unk_2C;
-} S_8008D024_3;   /* arg2 in func_8008D024 */
 
-s32 func_8008D024(S_8008D024_2 *arg0, s32 arg1, S_8008D024_3 *arg2, s32 arg3, s32 arg4) {
+s32 func_8008D024(S_8008D024_2 *arg0, s32 arg1, Rec_D_80082E80 *arg2, s32 arg3, s32 arg4) {
     s32 temp_v1;
     s32 temp_offset;
     S_8008D024_1 *temp_a0;
@@ -82,7 +79,7 @@ s32 func_8008D024(S_8008D024_2 *arg0, s32 arg1, S_8008D024_3 *arg2, s32 arg3, s3
                 } else {
                     temp_a1 = D_800DCFB0;
                 }
-                arg2->unk_2C = temp_a1;
+                arg2->unk_2C.as_pu8 = temp_a1;
                 func_80048A44(arg2, temp_a1[((s32)(D_80083228[0] + ((Arg0 *)temp_s2)->field_2A + 0x100) >> 9) & 7], 0, 1);
                 arg0->unk_120 = temp_s3;
                 return 1;

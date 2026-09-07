@@ -1,8 +1,8 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 
-typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type, offset) (*(type)((s8 *)(expr) + (offset)))
 
@@ -15,10 +15,6 @@ extern M2C_UNK D_800D562C;
 extern M2C_UNK D_800D5654;
 extern M2C_UNK D_800D5658;
 
-typedef struct S_800C5C70_0 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_800C5C70_0;   /* arg2 in func_800C5C70 */
 
 typedef struct S_800C5C70_1 {
     u8 pad_00[0x58];
@@ -34,7 +30,7 @@ typedef struct S_800C5C70_1 {
 } S_800C5C70_1;   /* arg0 in func_800C5C70 */
 
 void func_800C5C70(void *arg0, M2C_UNK arg1, void *arg2) {
-    if (((S_800C5C70_0 *)arg2)->unk_14 & 0x6000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
         func_800C2E84(arg0, arg2, &D_800D5518);
         *((((S_800C5C70_1 *)arg0)->unk_60 * 8) + &D_80082660) = 0;
         ((S_800C5C70_1 *)arg0)->unk_58 = &D_800D5654;

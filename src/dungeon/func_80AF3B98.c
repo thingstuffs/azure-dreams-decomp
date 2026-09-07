@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
 #define NULL 0
@@ -124,13 +125,6 @@ typedef struct S_80175398_3 {
     u8 unk_02;
 } S_80175398_3;   /* target in func_80175398 */
 
-typedef struct S_80175398_4 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80175398_4;   /* arg2 in func_80175398 */
 
 typedef struct S_80175398_5_pre {
     u8 * unk_00;
@@ -152,7 +146,7 @@ typedef struct S_80175398_7 {
     u16 unk_2A;
 } S_80175398_7;   /* ((S_80175398_1 *)arg3)->unk_60 in func_80175398 */
 
-void func_80175398(void *arg0, void *arg1, S_80175398_4 *arg2, void *arg3) {
+void func_80175398(void *arg0, void *arg1, Rec_D_80082E80 *arg2, void *arg3) {
     static void *const jt_keep[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
         &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8
@@ -274,7 +268,7 @@ jt_c4:
         }
         func_8003DB94(var_s0, D_8014A000 + D_80175A00[selector], 0);
     }
-    arg2->unk_14 |= 0x80;
+    arg2->unk_14.at00_u16.v |= 0x80;
     ((S_80175398_0 *)arg0)->unk_96.u = 0;
     ((S_80175398_0 *)arg0)->unk_9B++;
     func_801758EC();

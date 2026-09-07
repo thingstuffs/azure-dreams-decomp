@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 extern s32 D_800814A0[3];
 extern s32 D_800DEDB0[3];
@@ -14,20 +15,6 @@ typedef struct S_80024A34_0 {
     u16 unk_1E;
 } S_80024A34_0;   /* temp_a0 in func_80024A34 */
 
-typedef struct S_80024A34_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80024A34_1;   /* arg2 in func_80024A34 */
 
 typedef struct S_80024A34_2 {
     s32 unk_00;
@@ -35,7 +22,7 @@ typedef struct S_80024A34_2 {
     s32 unk_08;
 } S_80024A34_2;   /* arg1 in func_80024A34 */
 
-void func_80024A34(void *arg0, S_80024A34_2 *arg1, S_80024A34_1 *arg2) {
+void func_80024A34(void *arg0, S_80024A34_2 *arg1, Rec_D_80082E80 *arg2) {
     s16 temp_s1;
     s16 temp_s2;
     s32 temp_s0;
@@ -69,20 +56,20 @@ void func_80024A34(void *arg0, S_80024A34_2 *arg1, S_80024A34_1 *arg2) {
         var_a1 += 1;
     } while (var_a2 < 3);
     func_8003DB94(arg2, D_800DEDB0, 0, flags_base);
-    arg2->unk_0E = 0xC0;
-    arg2->unk_0D = 0xC0;
-    arg2->unk_0C = 0xC0;
-    arg2->unk_1E = 0x800;
-    arg2->unk_1C = 0x800;
-    arg2->unk_14 = (u16) (arg2->unk_14 | 0xC);
-    arg2->unk_10 = (u16) (arg2->unk_10 | 0x20);
+    arg2->unk_0C.at02_u8.v = 0xC0;
+    arg2->unk_0C.at01_u8.v = 0xC0;
+    arg2->unk_0C.at00_u8.v = 0xC0;
+    arg2->unk_1C.at02_s16.v = 0x800;
+    arg2->unk_1C.at00_s16.v = 0x800;
+    arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v | 0xC);
+    arg2->unk_10.as_u16 = (u16) (arg2->unk_10.as_u16 | 0x20);
     var_v0 = rand();
     temp_v0 = var_v0;
     if (temp_v0 < 0) {
         var_v0 = (s32) (temp_v0 + 0xFFF);
     }
     var_v0 >>= 0xC;
-    arg2->unk_1A = (s16) (temp_v0 - (var_v0 << 0xC));
+    arg2->unk_1A.as_s16 = (s16) (temp_v0 - (var_v0 << 0xC));
     temp_v0_2 = rand();
     var_v0_2 = temp_v0_2;
     if (temp_v0_2 < 0) {

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_8008ACDC_arg0.h"
 
 typedef struct S_80095538_3 {
     void * unk_00;
@@ -24,10 +25,6 @@ typedef struct S_80095538_1 {
     s32 unk_04;
 } S_80095538_1;   /* &D_80082EB0 in func_80095538 */
 
-typedef struct S_80095538_2 {
-    u8 pad_00[0xBC];
-    void * unk_BC;
-} S_80095538_2;   /* arg0 in func_80095538 */
 
 
 M2C_UNK func_8008D388();    /* extern */
@@ -37,7 +34,7 @@ s32 func_80098920(); /* extern */
 s32 func_8009FADC();                             /* extern */
 extern M2C_UNK D_80082EB0;
 
-s32 func_80095538(S_80095538_2 *arg0, s16 arg1, s16 arg2) {
+s32 func_80095538(Rec_func_8008ACDC_arg0 *arg0, s16 arg1, s16 arg2) {
     s32 temp_s3;
     s32 temp_s4;
     register s32 var_s5 ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */

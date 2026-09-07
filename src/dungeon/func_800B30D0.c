@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 #ifndef NULL
 #define NULL 0
@@ -89,10 +90,6 @@ typedef struct S_800B8830_6 {
     s16 unk_3228;
 } S_800B8830_6;   /* page_base in func_800B8830 */
 
-typedef struct S_800B8830_7 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_800B8830_7;   /* D_800814A8 in func_800B8830 */
 
 typedef struct S_800B8830_8 {
     void * unk_00;
@@ -209,7 +206,7 @@ state_two:
     target[2] = (((S_800B8830_0 *)arg0)->unk_32 - 0x50) << 16;
 
     index = ((((S_800B8830_6 *)page_base)->unk_3228 +
-              ((S_800B8830_7 *)D_800814A8)->unk_2A + 0x100) >> 7) & 0x1C;
+              ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C;
     index += (s32)D_800E3D18;
     entry = ((S_800B8830_8 *)((void *)index))->unk_00;
     if (func_8003DE58(entry, ((S_800B8830_12 *)(((S_800B8830_0 *)arg0)->unk_04))->unk_0C, &delta, 0) != NULL) {

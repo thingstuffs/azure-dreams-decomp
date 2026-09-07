@@ -1,4 +1,7 @@
 #include "common.h"
+#include "records/Rec_func_800AA258_arg2.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_801736F4_0 {
     u8 pad_00[0x8C];
@@ -7,27 +10,7 @@ typedef struct S_801736F4_0 {
     u8 unk_9B;
 } S_801736F4_0;   /* arg0 in func_801736F4 */
 
-typedef struct S_801736F4_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-    u8 pad_27[0x5];
-    void * unk_2C;
-} S_801736F4_1;   /* arg2 in func_801736F4 */
 
-typedef struct S_801736F4_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_801736F4_2;   /* arg3 in func_801736F4 */
 
 typedef struct S_801736F4_3 {
     u8 pad_00[0xA];
@@ -39,10 +22,6 @@ typedef struct S_801736F4_4 {
     u16 unk_02;
 } S_801736F4_4;   /* status in func_801736F4 */
 
-typedef struct S_801736F4_5 {
-    u8 pad_00[0x58];
-    s32 unk_58;
-} S_801736F4_5;   /* D_800814A8 in func_801736F4 */
 
 typedef struct S_801736F4_6 {
     u8 pad_00[0x26];
@@ -97,7 +76,7 @@ void func_801736F4(void *arg0, s32 arg1, void *arg2, void *arg3)
     goto exit;
 
 state_zero:
-    if (!(((S_801736F4_1 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000)) {
         goto exit;
     }
     {
@@ -105,7 +84,7 @@ state_zero:
         func_80047784(
             arg2,
             D_80174190[((D_80083228
-                         + ((S_801736F4_2 *)arg3)->unk_2A + 0x100)
+                         + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100)
                         >> 9) & 7],
             0);
     }
@@ -118,19 +97,19 @@ state_zero:
     goto exit;
 
 state_one:
-    if (((S_801736F4_1 *)arg2)->unk_14 & 0xE000) {
+    if (((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000) {
         void *current_table;
-        current_table = ((S_801736F4_1 *)arg2)->unk_2C;
+        current_table = ((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv;
         if (current_table == D_80174140) {
-            ((S_801736F4_1 *)arg2)->unk_2C = D_80174188;
+            ((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv = D_80174188;
         } else if (current_table == D_80174188) {
-            ((S_801736F4_1 *)arg2)->unk_2C = D_80174190;
+            ((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv = D_80174190;
         }
         func_80047784(
             arg2,
-            ((u8 *)((S_801736F4_1 *)arg2)->unk_2C)
+            ((u8 *)((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv)
                 [((D_80083228
-                   + ((S_801736F4_2 *)arg3)->unk_2A + 0x100)
+                   + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100)
                   >> 9) & 7],
             0);
     }
@@ -139,11 +118,11 @@ state_one:
         (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174188;
         func_80047784(
             arg2,
-            D_80174188[((D_80083228 + ((S_801736F4_2 *)arg3)->unk_2A + 0x100)
+            D_80174188[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100)
                         >> 9) & 7],
             0);
-        if (((S_801736F4_1 *)arg2)->unk_14 & 0x8000) {
-            ((S_801736F4_2 *)arg3)->unk_1C &= ~0x200;
+        if (((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0x8000) {
+            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 &= ~0x200;
             ((S_801736F4_0 *)arg0)->unk_8C = &D_80170E54;
             goto exit;
         }
@@ -156,10 +135,10 @@ state_one:
     } else {
     status = D_80083460;
     if (!(((S_801736F4_4 *)status)->unk_02 & 0x1000)
-        && ((((S_801736F4_2 *)arg3)->unk_64 == 0)
+        && ((((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 == 0)
             || (func_800AA6B4(arg0, arg1, arg2, 0) == 0))) {
 
-        if (((S_801736F4_2 *)arg3)->unk_25 == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
             if (((S_801736F4_4 *)status)->unk_02 & 0x2008) {
                 goto exit;
             }
@@ -170,7 +149,7 @@ state_one:
         if ((func_800A2C34(arg3) << 16) != 0) {
             goto exit;
         }
-        flags = ((S_801736F4_2 *)arg3)->unk_1C;
+        flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32;
         if (flags & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
             goto exit;
@@ -180,13 +159,13 @@ state_one:
             func_80173EF4(arg0, arg1, arg2, arg3);
             goto exit;
         }
-        if (((S_801736F4_2 *)arg3)->unk_6D == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
             goto exit;
         }
         if ((func_800A2C34(arg3) << 16) != 0) {
             if ((func_8009A180(
                      arg3,
-                     ((S_801736F4_5 *)D_800814A8)->unk_58
+                     ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32
                          + 0x20)
                  << 16)
                 != 0) {
@@ -200,7 +179,7 @@ state_one:
             u8 *room_base;
             s32 room_value;
             room_base = D_80082E80;
-            room_value = ((S_801736F4_1 *)arg2)->unk_26;
+            room_value = ((Rec_func_800AA258_arg2 *)arg2)->unk_26.as_s8;
             if (((room_value == ((S_801736F4_6 *)room_base)->unk_26)
                  && (room_value >= 0))
                 || (func_8009FD40(room_base, arg2) < 2)) {
@@ -216,11 +195,11 @@ state_one:
         (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174188;
         func_80047784(
             arg2,
-            D_80174188[((D_80083228 + ((S_801736F4_2 *)arg3)->unk_2A + 0x100)
+            D_80174188[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100)
                         >> 9) & 7],
             0);
-        if (((S_801736F4_1 *)arg2)->unk_14 & 0x8000) {
-            ((S_801736F4_2 *)arg3)->unk_1C &= ~0x200;
+        if (((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0x8000) {
+            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 &= ~0x200;
             ((S_801736F4_0 *)arg0)->unk_8C = &D_80170E54;
             goto exit;
         }
@@ -235,7 +214,7 @@ state_one:
     goto exit;
 
 state_two:
-    if (!(((S_801736F4_1 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000)) {
         goto exit;
     }
     {
@@ -243,11 +222,11 @@ state_two:
         counter = D_80083460;
         ((S_801736F4_3 *)counter)->unk_0A--;
     }
-    ((S_801736F4_2 *)arg3)->unk_1C &= ~0x200;
+    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 &= ~0x200;
     (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174188;
     func_80047784(
         arg2,
-        D_80174188[((D_80083228 + ((S_801736F4_2 *)arg3)->unk_2A + 0x100)
+        D_80174188[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100)
                     >> 9) & 7],
         0);
     ((S_801736F4_0 *)arg0)->unk_8C = &D_80170E54;

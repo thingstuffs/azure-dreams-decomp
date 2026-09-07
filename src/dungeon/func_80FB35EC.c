@@ -1,4 +1,7 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_80172DEC_0 {
     u8 pad_00[0x8C];
@@ -37,34 +40,8 @@ typedef struct S_80172DEC_3 {
     u8 unk_25;
 } S_80172DEC_3;   /* rec in func_80172DEC */
 
-typedef struct S_80172DEC_4 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80172DEC_4;   /* arg2 in func_80172DEC */
 
-typedef struct S_80172DEC_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172DEC_5;   /* arg1 in func_80172DEC */
 
-typedef struct S_80172DEC_6 {
-    u8 pad_00[0xA6];
-    u16 unk_A6;
-} S_80172DEC_6;   /* D_800814A8 in func_80172DEC */
 
 typedef struct S_80172DEC_7 {
     u8 pad_00[0xA];
@@ -177,7 +154,7 @@ void func_80172DEC(void *arg0, void *arg1, void *arg2, void *arg3)
                 goto do_step;
             }
             ((S_80172DEC_1 *)arg3)->unk_60 =
-                func_800A05A4(arg3, ((S_80172DEC_4 *)arg2)->unk_24, ((S_80172DEC_4 *)arg2)->unk_25,
+                func_800A05A4(arg3, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
                               ((S_80172DEC_1 *)arg3)->unk_2A, 0x10);
             ASM_KEEP(arg3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
             x = ((S_80172DEC_1 *)arg3)->unk_72.u;
@@ -191,25 +168,25 @@ void func_80172DEC(void *arg0, void *arg1, void *arg2, void *arg3)
             ((S_80172DEC_1 *)arg3)->unk_72.s = x;
             ((S_80172DEC_1 *)arg3)->unk_73.s = y;
         do_step:
-            pending[0] = ((S_80172DEC_5 *)arg1)->unk_02;
-            pending[1] = ((S_80172DEC_5 *)arg1)->unk_06;
-            pending[2] = ((S_80172DEC_5 *)arg1)->unk_0A;
+            pending[0] = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v;
+            pending[1] = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v;
+            pending[2] = ((Rec_D_800E3D7C *)arg1)->unk_08.at02_u16.v;
             if (func_800A94A0(arg3, sel, special, (u8 *)arg0 + 0x98) == 0) {
                 return;
             }
-            ((S_80172DEC_4 *)arg2)->unk_14 &= 0xF7FF;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
             func_800A56E0(0x703);
             func_800DB2DC(arg1, arg2, arg3, 0x10);
             ((S_80172DEC_0 *)arg0)->unk_9B = ((S_80172DEC_0 *)arg0)->unk_9B + 1;
             return;
         }
 
-        ((S_80172DEC_5 *)arg1)->unk_14 = 0;
-        ((S_80172DEC_5 *)arg1)->unk_10 = 0;
-        ((S_80172DEC_5 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_80172DEC_4 *)arg2)->unk_24, ((S_80172DEC_4 *)arg2)->unk_25);
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
         D_8008346C = 0;
-        ((S_80172DEC_6 *)D_800814A8)->unk_A6 = (*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1;
+        ((Rec_D_800814A8 *)D_800814A8)->unk_A6 = (*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1;
         func_800A4ACC(arg3);
         ((S_80172DEC_1 *)arg3)->unk_6D.s = ((S_80172DEC_1 *)arg3)->unk_6D.s - 1;
         ((S_80172DEC_0 *)arg0)->unk_8C = D_80170F6C;
@@ -220,16 +197,16 @@ void func_80172DEC(void *arg0, void *arg1, void *arg2, void *arg3)
 
     case 1:
         if (func_8003F270() != 0) {
-            ((S_80172DEC_4 *)arg2)->unk_14 |= 0x800;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x800;
             return;
         }
-        ((S_80172DEC_4 *)arg2)->unk_14 &= 0xF7FF;
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
         ((S_80172DEC_0 *)arg0)->unk_9B = ((S_80172DEC_0 *)arg0)->unk_9B + 1;
         /* fallthrough */
     case 2:
-        if ((((S_80172DEC_4 *)arg2)->unk_04 == 3 && (((S_80172DEC_4 *)arg2)->unk_14 & 0x1000)) ||
-            (((S_80172DEC_4 *)arg2)->unk_14 & 0xE000)) {
-            ((S_80172DEC_4 *)arg2)->unk_14 |= 0x800;
+        if ((((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 3 && (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000)) ||
+            (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x800;
             ((S_80172DEC_0 *)arg0)->unk_96 = 0xE;
             ((S_80172DEC_0 *)arg0)->unk_98 |= 0x80;
         }
@@ -237,19 +214,19 @@ void func_80172DEC(void *arg0, void *arg1, void *arg2, void *arg3)
         ((S_80172DEC_0 *)arg0)->unk_96 = counter;
         if ((s16)counter <= 0) {
             ((S_80172DEC_0 *)arg0)->unk_96 = 0;
-            ((S_80172DEC_4 *)arg2)->unk_14 &= 0xF7FF;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
         }
-        if ((((S_80172DEC_4 *)arg2)->unk_14 & 0xE000) == 0) {
+        if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
-        ((S_80172DEC_5 *)arg1)->unk_14 = 0;
-        ((S_80172DEC_5 *)arg1)->unk_10 = 0;
-        ((S_80172DEC_5 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_80172DEC_4 *)arg2)->unk_24, ((S_80172DEC_4 *)arg2)->unk_25);
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
         {
             u8 *table = D_80175258;
 
-            if (((S_80172DEC_4 *)arg2)->unk_2C != table) {
+            if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 != table) {
                 (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
                 func_80047784(arg2,
                     table[((D_80083228 + ((S_80172DEC_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
@@ -261,7 +238,7 @@ void func_80172DEC(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
         ((S_80172DEC_7 *)block)->unk_0A = ((S_80172DEC_7 *)block)->unk_0A - 1;
-        ((S_80172DEC_4 *)arg2)->unk_14 &= 0xF7FF;
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
         ((S_80172DEC_0 *)arg0)->unk_8C = D_80170F6C;
         func_800A4ACC(arg3);
         if (((S_80172DEC_1 *)arg3)->unk_6D.u > 0) {

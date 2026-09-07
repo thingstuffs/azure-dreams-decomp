@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_800A9E70_arg0.h"
 
 typedef struct S_8016C98C_0 {
     u8 pad_00[0x46];
@@ -9,10 +10,6 @@ typedef struct S_8016C98C_0 {
     u16 unk_AE;
 } S_8016C98C_0;   /* base in func_8016C98C */
 
-typedef struct S_8016C98C_1 {
-    u8 pad_00[0x9A];
-    s8 unk_9A;
-} S_8016C98C_1;   /* arg0 in func_8016C98C */
 
 
 
@@ -25,7 +22,7 @@ extern void func_8016CAB0(void) __attribute__((noreturn));
 extern void func_8016CAE8(void) __attribute__((noreturn));
 extern u16 D_80083462;
 
-s32 func_8016C98C(S_8016C98C_1 *arg0, s32 arg1, s32 arg2, s32 arg3)
+s32 func_8016C98C(Rec_func_800A9E70_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     void *base = arg0;
     s16 var_v1;
@@ -77,7 +74,7 @@ block_8:
 
 case_0: {
         register s32 tail_result ASM_REG("$2") = 0;   /* MATCH pin: retail keeps a computation the compiler would drop */
-        arg0->unk_9A = var_v0;
+        arg0->unk_9A.as_s8 = var_v0;
         func_800A9A0C(base);
         tail_result = 0;
         ASM_TAILSLOT_PIN(tail_result);   /* MATCH pin: retail delay-slot contents depend on it */

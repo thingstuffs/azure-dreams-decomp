@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_800A9E70_arg0.h"
+#include "records/Rec_D_800814A8.h"
 #ifdef NON_MATCHING
 #include <stdint.h>
 typedef uintptr_t uptr;
@@ -47,17 +49,7 @@ typedef struct S_8016FCE4_4 {
     u16 unk_2A;
 } S_8016FCE4_4;   /* heading_base in func_8016FCE4 */
 
-typedef struct S_8016FCE4_5 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    s8 unk_9C;
-} S_8016FCE4_5;   /* arg0 in func_8016FCE4 */
 
-typedef struct S_8016FCE4_6 {
-    u8 pad_00[0x58];
-    s32 unk_58;
-} S_8016FCE4_6;   /* D_800814A8 in func_8016FCE4 */
 
 typedef struct S_8016FCE4_7 {
     u8 pad_00[0x8];
@@ -207,7 +199,7 @@ void func_8016FCE4(void *arg0, void *arg1, void *in2, void *in3) {
                 }
                 goto block_cleanup;
             }
-            func_800A0E6C(arg2, ((S_8016FCE4_5 *)arg0)->unk_9C, arg3, arg0 + 0x98);
+            func_800A0E6C(arg2, ((Rec_func_800A9E70_arg0 *)arg0)->unk_9C.as_s8, arg3, arg0 + 0x98);
 block_26:
             ASM_SCHED_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
             var_s4 = 0;
@@ -218,7 +210,7 @@ block_27:
         var_s1 = D_8006CD00;
 loop_28:
         temp_v1_2 = ((S_8016FCE4_0 *)arg3)->unk_2A.s;
-        if (((S_8016FCE4_5 *)arg0)->unk_98 & 2) {
+        if (((Rec_func_800A9E70_arg0 *)arg0)->unk_98 & 2) {
             temp_v0_3 = *var_s1;
             temp_s0_2 = temp_v1_2 - temp_v0_3;
             ASM_TAILSLOT_PIN(temp_s0_2);   /* MATCH pin: retail delay-slot fill depends on it */
@@ -261,7 +253,7 @@ block_step:
                 call_80170110();
             }
         }
-        if ((var_s4 != 0) || (D_80082EA4 == ((S_8016FCE4_1 *)arg2)->unk_24.at00u.v) || ((func_8009A180(arg3, ((S_8016FCE4_6 *)D_800814A8)->unk_58 + 0x20) << 0x10) == 0)) {
+        if ((var_s4 != 0) || (D_80082EA4 == ((S_8016FCE4_1 *)arg2)->unk_24.at00u.v) || ((func_8009A180(arg3, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) == 0)) {
             var_s4 += 1;
             var_s1 += 1;
             if (var_s4 >= 8) {
@@ -276,7 +268,7 @@ block_48:
                     return;
                 }
                 ((S_8016FCE4_0 *)arg3)->unk_46 = (u16) (((S_8016FCE4_0 *)arg3)->unk_46 & 0x7FFF);
-                ((S_8016FCE4_5 *)arg0)->unk_9C = (s8) ((S_8016FCE4_1 *)arg2)->unk_26;
+                ((Rec_func_800A9E70_arg0 *)arg0)->unk_9C.as_s8 = (s8) ((S_8016FCE4_1 *)arg2)->unk_26;
                 ((S_8016FCE4_0 *)arg3)->unk_6D.u = (u8) (((S_8016FCE4_0 *)arg3)->unk_6D.u - 1);
                 counter_base = D_80083460;
                 ((S_8016FCE4_7 *)counter_base)->unk_08 = (u16) (((S_8016FCE4_7 *)counter_base)->unk_08 + 1);

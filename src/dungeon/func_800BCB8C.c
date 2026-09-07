@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 void func_80041E70(void *);             /* extern */
 s32 func_80042900();            /* extern */
@@ -22,12 +23,6 @@ extern s32 D_800E3D7C;
 extern void *D_800E3DF0[];
 
 
-typedef struct S_800C22EC_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0xFC];
-    s32 unk_110;
-} S_800C22EC_0;   /* arg0 in func_800C22EC */
 
 typedef struct S_800C22EC_1 {
     u8 pad_00[0xA];
@@ -49,7 +44,7 @@ typedef struct S_800C22EC_3 {
     u8 unk_29;
 } S_800C22EC_3;   /* temp_s0 in func_800C22EC */
 
-s32 func_800C22EC(S_800C22EC_0 *arg0, s32 arg1, s16 arg2, M2C_UNK arg3) {
+s32 func_800C22EC(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, M2C_UNK arg3) {
     s32 temp_v1;
     s32 mask;
     s32 var_s2;
@@ -69,7 +64,7 @@ s32 func_800C22EC(S_800C22EC_0 *arg0, s32 arg1, s16 arg2, M2C_UNK arg3) {
     }
     if ((u32) arg0 <= 0x9FFFFFFFU) {
         func_800A63B8(arg0, arg1, arg2);
-        if (func_800AD6FC(arg0, ((u16 *)D_800DDE84)[arg0->unk_13] & 3, 0) == 0) {
+        if (func_800AD6FC(arg0, ((u16 *)D_800DDE84)[arg0->unk_10.at03_u8.v] & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
             func_800C248C();
             return 1;

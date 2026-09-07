@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 
@@ -16,10 +17,6 @@ typedef struct S_80D659DC_6 {
     void * unk_08;
 } S_80D659DC_6;   /* temp_v0 in func_80D659DC */
 
-typedef struct S_80D659DC_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80D659DC_7;   /* arg0 in func_80D659DC */
 
 typedef struct S_80D659DC_8 {
     u8 pad_00[0x2];
@@ -40,7 +37,7 @@ typedef struct S_80D659DC_9 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80D659DC_9;   /* ((S_80D659DC_7 *)arg0)->unk_08 in func_80D659DC */
+} S_80D659DC_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80D659DC */
 
 
 typedef struct EffectBase {
@@ -99,7 +96,7 @@ typedef struct S_80D659DC_5 {
     s32 unk_10;
 } S_80D659DC_5;   /* temp_a2 in func_80D659DC */
 
-void func_80D659DC(S_80D659DC_7 *arg0, u32 arg1, s32 arg2) {
+void func_80D659DC(Rec_D_800E3D7C *arg0, u32 arg1, s32 arg2) {
     S_80D659DC_1 *temp_a0;
     S_80D659DC_3 *temp_a0_2;
     S_80D659DC_4 *temp_a1;
@@ -113,11 +110,11 @@ void func_80D659DC(S_80D659DC_7 *arg0, u32 arg1, s32 arg2) {
         temp_s0_2 = &temp_v0->base;
         ((S_80D659DC_0 *)temp_v0)->unk_10 = &D_800D707C;
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)temp_v0)->unk_08))->unk_02 = (u16)
-            ((S_80D659DC_9 *)(arg0->unk_08))->unk_02;
+            ((S_80D659DC_9 *)(arg0->unk_08.at00_pv.v))->unk_02;
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)temp_v0)->unk_08))->unk_06 = (u16)
-            ((S_80D659DC_9 *)(arg0->unk_08))->unk_06;
+            ((S_80D659DC_9 *)(arg0->unk_08.at00_pv.v))->unk_06;
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)temp_v0)->unk_08))->unk_0A = (s16)
-            (((S_80D659DC_9 *)(arg0->unk_08))->unk_0A - 0x58);
+            (((S_80D659DC_9 *)(arg0->unk_08.at00_pv.v))->unk_0A - 0x58);
         temp_s0 = (void *)D_800E2468 + ((arg1 >> 7) & 0x1C);
         temp_a0 = ((S_80D659DC_0 *)temp_v0)->unk_08;
         temp_a0->unk_02 = (u16)

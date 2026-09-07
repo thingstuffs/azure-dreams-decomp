@@ -1,11 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_80094F58_0 {
-    u8 pad_00[0xC];
-    volatile s32 unk_0C;
-    volatile s32 unk_10;
-} S_80094F58_0;   /* arg2 in func_80094F58 */
 
 
 s32 func_8003BD84();                        /* extern */
@@ -44,18 +40,18 @@ void func_80094F58(s16 arg0, s32 arg1, FuncData *arg2) {
         }
         divisor = adjusted_result >> 12;
         first_quotient =
-            ((S_80094F58_0 *)arg2)->unk_0C / divisor;
+            ((Rec_D_800E3D7C *)arg2)->unk_0C.as_vs32 / divisor;
         ASM_KEEP(first_quotient);   /* MATCH pin: keeps a statement from moving across a call/branch */
         rounded_arg = arg1;
         if (arg1 < 0) {
             rounded_arg = arg1 + 0xFFF;
         }
         rounded_arg >>= 12;
-        ((S_80094F58_0 *)arg2)->unk_0C =
+        ((Rec_D_800E3D7C *)arg2)->unk_0C.as_vs32 =
             first_quotient * rounded_arg;
         second_quotient =
-            ((S_80094F58_0 *)arg2)->unk_10 / divisor;
-        ((S_80094F58_0 *)arg2)->unk_10 =
+            ((Rec_D_800E3D7C *)arg2)->unk_10.at00_vs32.v / divisor;
+        ((Rec_D_800E3D7C *)arg2)->unk_10.at00_vs32.v =
             second_quotient * rounded_arg;
     }
 }

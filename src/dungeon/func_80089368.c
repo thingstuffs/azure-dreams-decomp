@@ -1,5 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_8008ACDC_arg0.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 M2C_UNK func_8002534C(); /* extern */
 M2C_UNK func_80048A44(); /* extern */
@@ -56,27 +59,6 @@ extern M2C_UNK D_800E3544;
 extern s32 D_800E4940;
 
 
-typedef struct S_8008EAC8_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-    s8 unk_9B;
-    u8 pad_9C[0x2];
-    s16 unk_9E;
-    u8 pad_A0[0x2];
-    u16 unk_A2;
-    u8 pad_A4[0x24];
-    s32 unk_C8;
-    u8 pad_CC[0x38];
-    s32 unk_104;
-    u8 pad_108[0x4];
-    u16 unk_10C;
-    u8 pad_10E[0x16];
-    s32 unk_124;
-} S_8008EAC8_0;   /* arg0 in func_8008EAC8 */
 
 typedef struct S_8008EAC8_1 {
     u8 pad_00[0x14];
@@ -91,19 +73,7 @@ typedef struct S_8008EAC8_1 {
     s16 unk_8A;
 } S_8008EAC8_1;   /* arg3 in func_8008EAC8 */
 
-typedef struct S_8008EAC8_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-} S_8008EAC8_2;   /* arg1 in func_8008EAC8 */
 
-typedef struct S_8008EAC8_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_8008EAC8_3;   /* arg2 in func_8008EAC8 */
 
 typedef struct S_8008EAC8_4 {
     u8 pad_00[0x2];
@@ -171,8 +141,8 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *temp_v0;
     void *temp_v0_2;
 
-    if (((S_8008EAC8_0 *)arg0)->unk_9A != 0xE) {
-        if (((S_8008EAC8_0 *)arg0)->unk_A2 & 0x100) {
+    if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_u8 != 0xE) {
+        if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x100) {
             func_8008D94C();
             func_8008F3FC();
             return;
@@ -180,19 +150,19 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
         goto block_5;
     }
 block_5:
-    ((S_8008EAC8_0 *)arg0)->unk_9A = 0xEU;
+    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_u8 = 0xEU;
     if (!(((S_8008EAC8_1 *)arg3)->unk_14 & 0x100000)) {
         func_800A4300(arg2, arg3);
-        ((S_8008EAC8_2 *)arg1)->unk_10 = 0;
-        ((S_8008EAC8_2 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_8008EAC8_3 *)arg2)->unk_24, ((S_8008EAC8_3 *)arg2)->unk_25);
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     }
-    ((S_8008EAC8_3 *)arg2)->unk_14 = (u16) (((S_8008EAC8_3 *)arg2)->unk_14 & 0xF7FF);
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xF7FF);
     held_D_80083460 = (u8 *) &D_80083460;
-    ((S_8008EAC8_0 *)arg0)->unk_9B = 0;
+    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9B.as_s8 = 0;
     ((S_8008EAC8_4 *)held_D_80083460)->unk_02 = (u16) (((S_8008EAC8_4 *)held_D_80083460)->unk_02 & 0xFF7F);
     temp_v1 = ((S_8008EAC8_1 *)arg3)->unk_64;
-    if ((temp_v1 < 0) || (((S_8008EAC8_0 *)arg0)->unk_10C & 1)) {
+    if ((temp_v1 < 0) || (((Rec_func_8008ACDC_arg0 *)arg0)->unk_10C & 1)) {
         func_8008CAA0(arg0, arg1, arg2, arg3);
         func_8008F3FC();
         return;
@@ -204,7 +174,7 @@ block_5:
     if (temp_v1_2 & 0x20000) {
         ((S_8008EAC8_1 *)arg3)->unk_14 = (s32) (temp_v1_2 & 0xFFFDFFFF);
     }
-    if (!(((S_8008EAC8_0 *)arg0)->unk_A2 & 0x10)) {
+    if (!(((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x10)) {
         func_8008C468(arg0, arg1, arg2, arg3);
         func_8008F3FC();
         return;
@@ -224,13 +194,13 @@ block_5:
             {
                 void *data = &D_800DCFB0;
                 ASM_KEEP(data);   /* MATCH pin: retail schedule: same instructions, different order without it */
-                ((S_8008EAC8_0 *)arg0)->unk_8C = callback;
+                ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8C.as_pv = callback;
                 func_8008F3C8(call_arg, data);
             }
         }
         return;
     }
-    if ((((S_8008EAC8_0 *)arg0)->unk_124 != 0) && (((func_800A1C58(arg3) << 0x10) == 0) || (func_8008D1D0(arg0, arg1, arg2, arg3) == 0))) {
+    if ((((Rec_func_8008ACDC_arg0 *)arg0)->unk_124 != 0) && (((func_800A1C58(arg3) << 0x10) == 0) || (func_8008D1D0(arg0, arg1, arg2, arg3) == 0))) {
         if (!(((S_8008EAC8_4 *)held_D_80083460)->unk_02 & 4)) {
             if (((S_8008EAC8_1 *)arg3)->unk_1C & 0x20) {
                 ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
@@ -239,8 +209,8 @@ block_5:
                     D_800E4940 = 2;
                     func_8008CF6C(arg0, arg1, arg2, &D_8004F5F4);
                     D_80082EB0 = 0;
-                    ((S_8008EAC8_0 *)arg0)->unk_C8 = 0;
-                    ((S_8008EAC8_0 *)arg0)->unk_104 = 0;
+                    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_C8 = 0;
+                    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_104 = 0;
                     func_8008F3FC();
                     return;
                 }
@@ -248,10 +218,10 @@ block_5:
             }
             ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
             if (D_80013714_second & 1) {
-                temp_v1_4 = ((S_8008EAC8_0 *)arg0)->unk_A2;
-                ((S_8008EAC8_0 *)arg0)->unk_A2 = (u16) (temp_v1_4 & 0xFFFE);
+                temp_v1_4 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
+                ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_4 & 0xFFFE);
                 if (temp_v1_4 & 0x200) {
-                    ((S_8008EAC8_0 *)arg0)->unk_A2 = (u16) (temp_v1_4 & 0xFDFE);
+                    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_4 & 0xFDFE);
                 }
                 temp_v0 = func_8009F868();
                 if (temp_v0 != NULL) {
@@ -447,11 +417,11 @@ code_D8:
             } else {
                 s32 flag_200;
 
-                flag_200 = ((S_8008EAC8_0 *)arg0)->unk_A2 & 0x200;
+                flag_200 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x200;
                 ((S_8008EAC8_10 *)(&D_800E3544))->unk_00 = 0;
                 if (flag_200 && ((func_800A2C34(arg3) << 0x10) == 0) && !(((S_8008EAC8_4 *)held_D_80083460)->unk_02 & 4)) {
-                    ((S_8008EAC8_0 *)arg0)->unk_A2 = (u16) (((S_8008EAC8_0 *)arg0)->unk_A2 & 0xFDFF);
-                    if ((func_800A4474(((S_8008EAC8_3 *)arg2)->unk_24, ((S_8008EAC8_3 *)arg2)->unk_25) << 0x10) != 0) {
+                    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFDFF);
+                    if ((func_800A4474(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25) << 0x10) != 0) {
                         func_8008CF6C(arg0, arg1, arg2, &D_800245A8);
                         func_8008F3FC();
                         ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
@@ -464,13 +434,13 @@ code_D8:
                     return;
                 }
                 if ((((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 0x10) || !(((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 3) || (func_8008D024(arg0, arg1, arg2, (((u32) ((S_8008EAC8_5 *)held_D_80083160)->unk_08 >> 1) ^ 1) & 1, 0) == 0)) {
-                    temp_v0_3 = func_8009074C(((S_8008EAC8_0 *)arg0)->unk_9E, arg0 + 0xA2, arg3 + 0x2A);
+                    temp_v0_3 = func_8009074C(((Rec_func_8008ACDC_arg0 *)arg0)->unk_9E, arg0 + 0xA2, arg3 + 0x2A);
                     if (temp_v0_3 != 0xFFF) {
                         ((S_8008EAC8_1 *)arg3)->unk_2A.u = (u16) temp_v0_3;
                         if (!(((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 0x10)) {
-                            temp_v1_8 = ((S_8008EAC8_0 *)arg0)->unk_A2;
+                            temp_v1_8 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
                             if (!(temp_v1_8 & 0x400)) {
-                                ((S_8008EAC8_0 *)arg0)->unk_A2 = (u16) (temp_v1_8 & 0xFFFE);
+                                ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_8 & 0xFFFE);
                                 code8_a0 = arg0;
                                 if (((S_8008EAC8_1 *)arg3)->unk_1C & 0x400) {
                                     ((S_8008EAC8_1 *)arg3)->unk_2A.u = (u16) (((S_8008EAC8_1 *)arg3)->unk_2A.u + (func_800A6D30(code8_a0) & 0xE00));
@@ -486,7 +456,7 @@ code_8:
                     }
                     tail_data_flags = ((S_8008EAC8_5 *)held_D_80083160)->unk_08;
                     if ((tail_data_flags & 0x30) == 0x30) {
-                        ((S_8008EAC8_0 *)arg0)->unk_A2 = (u16) (((S_8008EAC8_0 *)arg0)->unk_A2 & 0xFFFE);
+                        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFFFE);
                         func_8008C7B4(arg0, arg1, arg2, arg3);
                         func_8008F3FC();
                         return;
@@ -494,7 +464,7 @@ code_8:
                     {
                         register s32 flag40 ASM_REG("$2");   /* MATCH pin: retail branch polarity depends on it */
 
-                        temp_v1_6 = ((S_8008EAC8_0 *)arg0)->unk_A2;
+                        temp_v1_6 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
                         flag40 = temp_v1_6 & 0x40;
                         if (flag40) {
                             flag40 = tail_data_flags & 0x40;
@@ -504,7 +474,7 @@ code_8:
 
                                 ASM_SET(tail_a0);   /* MATCH pin: retail basic-block layout depends on it */
                                 ASM_SET(tail_a1);   /* MATCH pin: retail basic-block layout depends on it */
-                                ((S_8008EAC8_0 *)arg0)->unk_A2 = (u16) (temp_v1_6 & 0xFFBF);
+                                ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_6 & 0xFFBF);
                                 func_8008F3C0(tail_a0, tail_a1);
                                 return;
                             }
@@ -522,7 +492,7 @@ code_28:
                             return;
                         }
 code_30:
-                        ((S_8008EAC8_0 *)arg0)->unk_96 = 6;
+                        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_96.as_s16 = 6;
                         func_8008FA14(arg0, arg1, arg2, arg3);
                         func_8008F3FC();
                         return;

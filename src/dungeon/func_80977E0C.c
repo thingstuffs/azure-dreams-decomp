@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_8017360C_0 {
     u8 pad_00[0x8C];
@@ -15,12 +16,6 @@ typedef struct S_8017360C_0 {
     u16 unk_A2;
 } S_8017360C_0;   /* arg0 in func_8017360C */
 
-typedef struct S_8017360C_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-} S_8017360C_1;   /* arg2 in func_8017360C */
 
 typedef struct S_8017360C_2 {
     u8 pad_00[0x1C];
@@ -102,7 +97,7 @@ state_0:
     {
         u8 *global;
         register u8 *effect_page ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
-        if ((((S_8017360C_1 *)arg2)->unk_14 & 0xE000) == 0) {
+        if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
@@ -209,7 +204,7 @@ state_3:
             func_800A9A04(arg3);
             if ((func_80042900(arg3, 1) << 16) != 0) {
                 u8 *room_base = D_80082E80;
-                s8 room = ((S_8017360C_1 *)arg2)->unk_26;
+                s8 room = ((Rec_D_80082E80 *)arg2)->unk_26.as_s8;
 
                 if ((room != ((S_8017360C_5 *)room_base)->unk_26) || (room < 0)) {
                     if ((s16)func_8009FD40(room_base, arg2) >= 2) {
@@ -239,7 +234,7 @@ final_check:
         index &= 7;
         index += (s32)effect;
         func_80047784(arg2, *(u8 *)index, 0);
-        if ((((S_8017360C_1 *)arg2)->unk_14 & 0x8000) != 0) {
+        if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) != 0) {
             goto finished;
         }
         ((S_8017360C_0 *)arg0)->unk_9B++;
@@ -255,7 +250,7 @@ state_4:
         register u8 *effect_page ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
         u32 phase_flags;
 
-        if ((((S_8017360C_1 *)arg2)->unk_14 & 0xE000) == 0) {
+        if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 

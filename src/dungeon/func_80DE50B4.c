@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_801728B4_0 {
     u8 pad_00[0x8C];
@@ -22,12 +23,6 @@ typedef struct S_801728B4_2 {
     u16 unk_46;
 } S_801728B4_2;   /* actor in func_801728B4 */
 
-typedef struct S_801728B4_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801728B4_3;   /* arg1 in func_801728B4 */
 
 
 M2C_UNK func_8009C12C(); /* extern */
@@ -54,9 +49,9 @@ void func_801728B4(void *arg0, void *arg1, void *arg2, void *arg3) {
             func_8009C12C(actor, entity, ((S_801728B4_2 *)actor)->unk_2A, 1);
             return;
         }
-        ((S_801728B4_3 *)arg1)->unk_14 = 0;
-        ((S_801728B4_3 *)arg1)->unk_10 = 0;
-        ((S_801728B4_3 *)arg1)->unk_0C = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
         ((S_801728B4_0 *)obj)->unk_9B =
             (u8)(((S_801728B4_0 *)obj)->unk_9B + 1);
         return;

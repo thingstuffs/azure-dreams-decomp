@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 typedef struct Vec3 {
@@ -7,7 +8,6 @@ typedef struct Vec3 {
     s32 z;
 } Vec3;
 
-typedef s32 M2C_UNK;
 
 typedef struct S_800236BC_0 {
     s32 unk_00;
@@ -28,16 +28,6 @@ typedef struct S_800236BC_1 {
     s16 unk_54;
 } S_800236BC_1;   /* arg0 in func_800236BC */
 
-typedef struct S_800236BC_2 {
-    u8 pad_00[0x4];
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    u8 pad_0C[0x6];
-    s16 unk_12;
-    u16 unk_14;
-} S_800236BC_2;   /* arg2 in func_800236BC */
 
 typedef struct S_800236BC_3 {
     u8 pad_00[0x62];
@@ -150,10 +140,10 @@ state_2:
         ((S_800236BC_0 *)arg1)->unk_08 = 0;
         if (((S_800236BC_1 *)arg0)->unk_06.s < 0) {
             value = D_800244DC[((S_800236BC_1 *)arg0)->unk_54];
-            ((S_800236BC_2 *)arg2)->unk_12 = 0;
-            ((S_800236BC_2 *)arg2)->unk_04 = 0;
-            ((S_800236BC_2 *)arg2)->unk_05 = 0;
-            ((S_800236BC_2 *)arg2)->unk_08 = value;
+            ((Rec_D_80082E80 *)arg2)->unk_12.at00_s16.v = 0;
+            ((Rec_D_80082E80 *)arg2)->unk_04.as_u8 = 0;
+            ((Rec_D_80082E80 *)arg2)->unk_05.as_u8 = 0;
+            ((Rec_D_80082E80 *)arg2)->unk_08 = value;
             ((S_800236BC_0 *)arg1)->unk_14 = 0;
             ((S_800236BC_1 *)arg0)->unk_06.s = 150;
             ((S_800236BC_1 *)arg0)->unk_04.u++;
@@ -206,11 +196,11 @@ state_4:
         }
         if ((((S_800236BC_1 *)arg0)->unk_06.u >> 2) & 1) {
             s32 tail_value;
-            tail_value = ((S_800236BC_2 *)arg2)->unk_14 | 0x80;
+            tail_value = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 0x80;
             ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
             return func_80023B5C();
         }
-        ((S_800236BC_2 *)arg2)->unk_14 &= 0xFF7F;
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xFF7F;
         ((S_800236BC_1 *)arg0)->unk_06.u--;
         if (((S_800236BC_1 *)arg0)->unk_06.s > 0) {
             return;

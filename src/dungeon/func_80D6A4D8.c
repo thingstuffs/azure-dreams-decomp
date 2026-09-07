@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80175CD8_0 {
     u8 pad_00[0x8C];
@@ -17,26 +19,7 @@ typedef struct S_80175CD8_0 {
     union { s16 s; u16 u; } unk_B4;   /* accessed as both */
 } S_80175CD8_0;   /* arg0 in func_80175CD8 */
 
-typedef struct S_80175CD8_1 {
-    u8 pad_00[0x5];
-    u8 unk_05;
-    u8 pad_06[0x1E];
-    u8 unk_24;
-    u8 unk_25;
-} S_80175CD8_1;   /* arg2 in func_80175CD8 */
 
-typedef struct S_80175CD8_2 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    u8 pad_12[0xA];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x40];
-    u16 unk_88;
-} S_80175CD8_2;   /* arg3 in func_80175CD8 */
 
 typedef struct S_80175CD8_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -161,8 +144,8 @@ state_0:
         pin_a1 = 0x2000;
         ASM_KEEP(pin_a1);   /* MATCH pin: retail keeps a computation the compiler would drop */
         w24 = world0[0x24];
-        c24 = ((S_80175CD8_1 *)arg2)->unk_24;
-        c25 = ((S_80175CD8_1 *)arg2)->unk_25;
+        c24 = ((Rec_D_80082E80 *)arg2)->unk_24;
+        c25 = ((Rec_D_80082E80 *)arg2)->unk_25;
         dx = w24;
         dx -= c24;
         w25 = world0[0x25];
@@ -179,21 +162,21 @@ state_0:
         func_800AD594(pin_a0, pin_a1);
     }
 
-    if (world0[0x24] == ((S_80175CD8_1 *)arg2)->unk_24) {
-        if (world0[0x25] > ((S_80175CD8_1 *)arg2)->unk_25) {
+    if (world0[0x24] == ((Rec_D_80082E80 *)arg2)->unk_24) {
+        if (world0[0x25] > ((Rec_D_80082E80 *)arg2)->unk_25) {
             direction = 2;
         } else {
             direction = 6;
         }
-    } else if (world0[0x25] == ((S_80175CD8_1 *)arg2)->unk_25) {
-        direction = (((S_80175CD8_1 *)arg2)->unk_24 >= world0[0x24]) * 4;
-    } else if (((S_80175CD8_1 *)arg2)->unk_24 < world0[0x24]) {
-        if (((S_80175CD8_1 *)arg2)->unk_25 < world0[0x25]) {
+    } else if (world0[0x25] == ((Rec_D_80082E80 *)arg2)->unk_25) {
+        direction = (((Rec_D_80082E80 *)arg2)->unk_24 >= world0[0x24]) * 4;
+    } else if (((Rec_D_80082E80 *)arg2)->unk_24 < world0[0x24]) {
+        if (((Rec_D_80082E80 *)arg2)->unk_25 < world0[0x25]) {
             direction = 1;
         } else {
             direction = 7;
         }
-    } else if (((S_80175CD8_1 *)arg2)->unk_25 < world0[0x25]) {
+    } else if (((Rec_D_80082E80 *)arg2)->unk_25 < world0[0x25]) {
         direction = 3;
     } else {
         direction = 5;
@@ -201,7 +184,7 @@ state_0:
     (*(s16 *)((u8 *)arg3 + 0x2A)) = direction << 9;
 
     if ((D_80012090 != 0) || (D_8008146C != 0x28)) {
-        if (((S_80175CD8_2 *)arg3)->unk_11 >= D_8008146C) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_10.at01_u8.v >= D_8008146C) {
             counter = 0;
             do {
                 object = *(u8 **)(D_800E3D7C + 0xAC + counter * 4);
@@ -249,7 +232,7 @@ state_1:
 
 state_2:
     (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_800E2368;
-    value = (D_80083228 + ((S_80175CD8_2 *)arg3)->unk_2A + 0x100) >> 9;
+    value = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
     func_80047784(arg2, D_800E2368[value & 7], 0);
     ((S_80175CD8_0 *)arg0)->unk_96.s = 0;
     ((S_80175CD8_0 *)arg0)->unk_9B++;
@@ -295,7 +278,7 @@ state_4:
     ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
     if ((D_80012090 == 0) && (D_8008146C == 0x28)) {
         ((S_80175CD8_0 *)arg0)->unk_9B = 7;
-    } else if (((S_80175CD8_2 *)arg3)->unk_11 >= D_8008146C) {
+    } else if (((Rec_D_800E3D7C *)arg3)->unk_10.at01_u8.v >= D_8008146C) {
         ((S_80175CD8_0 *)arg0)->unk_9B++;
     } else {
         ((S_80175CD8_0 *)arg0)->unk_9B = 7;
@@ -378,8 +361,8 @@ state_7:
     func_800A5720(saved);
 
 state_8:
-    target_x = ((((S_80175CD8_1 *)arg2)->unk_24 << 6) + 0x20) << 16;
-    target_y = ((((S_80175CD8_1 *)arg2)->unk_25 << 6) + 0x20) << 16;
+    target_x = ((((Rec_D_80082E80 *)arg2)->unk_24 << 6) + 0x20) << 16;
+    target_y = ((((Rec_D_80082E80 *)arg2)->unk_25 << 6) + 0x20) << 16;
     target_z = (((S_80175CD8_0 *)arg0)->unk_B4.s - 0x20) << 16;
     timer8 = ((S_80175CD8_0 *)arg0)->unk_96.s;
     if (timer8 >= 0xE) {
@@ -428,23 +411,23 @@ state_9:
     ((S_80175CD8_0 *)arg0)->unk_8C = &D_80171F1C;
     ((S_80175CD8_0 *)arg0)->unk_9A = 0xE;
     D_8008346C = 0;
-    ((S_80175CD8_2 *)arg3)->unk_1C |= 0x40000;
+    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x40000;
     (*(u16 *)((u8 *)arg0 + 0x98)) &= 0xFFF7;
     (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_800E2348;
-    value = (D_80083228 + ((S_80175CD8_2 *)arg3)->unk_2A + 0x100) >> 9;
+    value = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
     func_80047784(arg2, D_800E2348[value & 7], 0);
-    ((S_80175CD8_1 *)arg2)->unk_05 = 1;
+    ((Rec_D_80082E80 *)arg2)->unk_05.as_u8 = 1;
     ((S_80175CD8_0 *)arg0)->unk_A2.s = 0;
     ((S_80175CD8_0 *)arg0)->unk_9E = 0;
     ((S_80175CD8_0 *)arg0)->unk_90.at02.v = -0x20;
-    ((S_80175CD8_2 *)arg3)->unk_88 = ((S_80175CD8_0 *)arg0)->unk_B4.u;
-    ((S_80175CD8_3 *)arg1)->unk_00.at02.v = (((S_80175CD8_1 *)arg2)->unk_24 << 6) + 0x20;
-    ((S_80175CD8_3 *)arg1)->unk_04.at02.v = (((S_80175CD8_1 *)arg2)->unk_25 << 6) + 0x20;
-    ((S_80175CD8_3 *)arg1)->unk_0A = ((S_80175CD8_2 *)arg3)->unk_88 +
+    ((Rec_D_800E3D7C *)arg3)->unk_88.as_u16 = ((S_80175CD8_0 *)arg0)->unk_B4.u;
+    ((S_80175CD8_3 *)arg1)->unk_00.at02.v = (((Rec_D_80082E80 *)arg2)->unk_24 << 6) + 0x20;
+    ((S_80175CD8_3 *)arg1)->unk_04.at02.v = (((Rec_D_80082E80 *)arg2)->unk_25 << 6) + 0x20;
+    ((S_80175CD8_3 *)arg1)->unk_0A = ((Rec_D_800E3D7C *)arg3)->unk_88.as_u16 +
         ((S_80175CD8_0 *)arg0)->unk_90.at02u.v - ((S_80175CD8_0 *)arg0)->unk_A2.u;
 
 clear_object_flag:
-    ((S_80175CD8_2 *)arg3)->unk_46 &= 0x7FFF;
+    ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
 
 done:
     return;

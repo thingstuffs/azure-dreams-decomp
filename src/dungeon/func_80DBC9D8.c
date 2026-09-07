@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_801741D8_0 {
     u8 pad_00[0x8C];
@@ -37,15 +39,7 @@ typedef struct S_801741D8_4 {
     u16 unk_02;
 } S_801741D8_4;   /* global_state in func_801741D8 */
 
-typedef struct S_801741D8_5 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_801741D8_5;   /* D_800814A8 in func_801741D8 */
 
-typedef struct S_801741D8_6 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_801741D8_6;   /* D_80082E80 in func_801741D8 */
 
 
 
@@ -150,7 +144,7 @@ void func_801741D8(void *in0, void *in1, void *in2, void *in3)
 
         if ((s16)func_800A2C34(arg3) != 0) {
             if ((s16)func_8009A180(
-                    arg3, (u8 *)((S_801741D8_5 *)D_800814A8)->unk_58 + 0x20) != 0) {
+                    arg3, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                 break;
             }
         }
@@ -160,7 +154,7 @@ void func_801741D8(void *in0, void *in1, void *in2, void *in3)
         if ((s16)func_80042900(arg3, 1) != 0) {
             path_arg = D_80082E80;
             tile = ((S_801741D8_1 *)arg2)->unk_26;
-            if (tile != ((S_801741D8_6 *)D_80082E80)->unk_26 || tile < 0) {
+            if (tile != ((Rec_D_80082E80 *)D_80082E80)->unk_26.as_s8 || tile < 0) {
                 s16 distance;
 
                 distance = func_8009FD40(D_80082E80, arg2);

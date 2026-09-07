@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80023158_0 {
     void * unk_00;
@@ -12,17 +13,13 @@ typedef struct S_80023158_1 {
     s16 unk_2C;
 } S_80023158_1;   /* obj in func_80023158 */
 
-typedef struct S_80023158_2 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_80023158_2;   /* arg1 in func_80023158 */
 
 
 
 extern s32 rand(void *);
 extern void func_800ABD74(void *);
 
-void func_80023158(S_80023158_0 *arg0, S_80023158_2 *arg1)
+void func_80023158(S_80023158_0 *arg0, Rec_D_800E3D7C *arg1)
 {
     s16 state;
     s32 count;
@@ -46,7 +43,7 @@ void func_80023158(S_80023158_0 *arg0, S_80023158_2 *arg1)
     }
 
     case 1:
-        arg1->unk_04 += 0xFFF00000;
+        arg1->unk_04.at00_s32.v += 0xFFF00000;
         if (!(rand(obj) & 7)) {
             func_800ABD74(arg1);
         }
@@ -65,7 +62,7 @@ increment_state:
     case 2:
         if (obj->unk_2C < 3) {
             arg0->unk_18.s = 0;
-            arg1->unk_04 += 0x01400000;
+            arg1->unk_04.at00_s32.v += 0x01400000;
         }
         break;
     }

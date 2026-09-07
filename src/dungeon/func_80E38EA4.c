@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_801726A4_0 {
     u8 pad_00[0x8C];
@@ -10,15 +12,7 @@ typedef struct S_801726A4_0 {
     u8 unk_9B;
 } S_801726A4_0;   /* arg0 in func_801726A4 */
 
-typedef struct S_801726A4_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_801726A4_1;   /* arg2 in func_801726A4 */
 
-typedef struct S_801726A4_2 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_801726A4_2;   /* arg3 in func_801726A4 */
 
 typedef struct S_801726A4_3 {
     u8 pad_00[0xC];
@@ -72,11 +66,11 @@ state_zero:
     ((S_801726A4_0 *)arg0)->unk_9B++;
 
 state_one:
-    flags = ((S_801726A4_1 *)arg2)->unk_14;
+    flags = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
     if (flags & 0x8000) {
         ((S_801726A4_0 *)arg0)->unk_9B = 3;
-        ((S_801726A4_1 *)arg2)->unk_14 |= 0x6000;
-        func_8009C12C(arg3, arg2, ((S_801726A4_2 *)arg3)->unk_2A, 1);
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
+        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
         return;
     }
 
@@ -86,7 +80,7 @@ state_one:
             ((S_801726A4_3 *)arg1)->unk_14 = 0;
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80176600;
         func_80047784(arg2,
-            D_80176600[((D_80083228 + ((S_801726A4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            D_80176600[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         func_80174690((u8 *)arg0 - 0x20);
         ((S_801726A4_0 *)arg0)->unk_96 = 0;
@@ -101,14 +95,14 @@ state_two:
     ((S_801726A4_0 *)arg0)->unk_96 = timer;
 
     if ((s16)timer == state ||
-        (((S_801726A4_1 *)arg2)->unk_14 & 0x8000)) {
-        func_8009C12C(arg3, arg2, ((S_801726A4_2 *)arg3)->unk_2A, 1);
+        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
+        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
     }
 
-    if (((S_801726A4_1 *)arg2)->unk_14 & 0xE000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80176668;
         func_80047784(arg2,
-            D_80176668[((D_80083228 + ((S_801726A4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            D_80176668[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((S_801726A4_0 *)arg0)->unk_9B++;
         ((S_801726A4_0 *)arg0)->unk_98 &= 0xFFFE;
@@ -117,7 +111,7 @@ state_two:
     return;
 
 state_three:
-    if (((S_801726A4_1 *)arg2)->unk_14 & 0xE000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
         func_800AD594(arg3, 0x100);
         ((S_801726A4_0 *)arg0)->unk_8C = D_80170EE4;
         D_8008346C = 0;

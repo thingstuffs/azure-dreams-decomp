@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 extern void func_80047784();
@@ -17,16 +18,6 @@ typedef struct S_80173C40_0 {
     u16 unk_0A;
 } S_80173C40_0;   /* state in func_80173C40 */
 
-typedef struct S_80173C40_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x29];
-    u8 unk_71;
-} S_80173C40_1;   /* arg3 in func_80173C40 */
 
 typedef struct S_80173C40_2 {
     u8 pad_00[0x8C];
@@ -42,7 +33,7 @@ void func_80173C40(void *arg0, void *arg1, void *arg2, void *arg3) {
     u8 *state = D_80083460;
 
     if (((S_80173C40_0 *)state)->unk_02 & 0x2000) {
-        ((S_80173C40_1 *)arg3)->unk_71 &= 0x7F;
+        ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 &= 0x7F;
         func_80173D20();
     }
 
@@ -54,12 +45,12 @@ void func_80173C40(void *arg0, void *arg1, void *arg2, void *arg3) {
         ((S_80173C40_2 *)arg0)->unk_8C = 0;
         (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80176670;
 
-        index = ((D_80083228 + ((S_80173C40_1 *)arg3)->unk_2A + 0x100) >> 9) & 7;
+        index = ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
         func_80047784(arg2, D_80176670[index], 0);
 
         ((S_80173C40_2 *)arg0)->unk_96 = 0;
-        ((S_80173C40_1 *)arg3)->unk_1C |= 0x10000000;
+        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 |= 0x10000000;
         ((S_80173C40_0 *)state)->unk_0A++;
-        ((S_80173C40_1 *)arg3)->unk_46 &= 0x7FFF;
+        ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
     }
 }

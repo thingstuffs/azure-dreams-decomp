@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172F04_0 {
     u8 pad_00[0x8C];
@@ -9,12 +10,6 @@ typedef struct S_80172F04_0 {
     u8 unk_9B;
 } S_80172F04_0;   /* arg0 in func_80172F04 */
 
-typedef struct S_80172F04_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    u8 * unk_2C;
-} S_80172F04_1;   /* arg2 in func_80172F04 */
 
 typedef struct S_80172F04_2 {
     u8 pad_00[0x2A];
@@ -50,7 +45,7 @@ extern u8 D_80083228[];
 extern u8 D_801714B8[];
 extern u8 D_801760CC[];
 
-void func_80172F04(S_80172F04_0 *arg0, S_80172F04_3 *arg1, S_80172F04_1 *arg2, void *arg3)
+void func_80172F04(S_80172F04_0 *arg0, S_80172F04_3 *arg1, Rec_D_80082E80 *arg2, void *arg3)
 {
     register void *actor ASM_REG("$17");   /* MATCH pin: keeps a statement from moving across a call/branch */
     s32 state;
@@ -82,9 +77,9 @@ void func_80172F04(S_80172F04_0 *arg0, S_80172F04_3 *arg1, S_80172F04_1 *arg2, v
     goto end;
 
 state_0:
-    if (arg2->unk_14 & 0x8000) {
+    if (arg2->unk_14.at00_u16.v & 0x8000) {
         arg0->unk_9B = 3;
-        arg2->unk_14 |= 0x6000;
+        arg2->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(actor, arg2, ((S_80172F04_2 *)actor)->unk_2A, 1);
         goto end;
     }
@@ -97,12 +92,12 @@ state_1:
     timer = arg0->unk_96 + 1;
     arg0->unk_96 = timer;
     table = (u8 *)0x80170000;
-    if (((s16)timer == 4) || (arg2->unk_14 & 0x8000)) {
+    if (((s16)timer == 4) || (arg2->unk_14.at00_u16.v & 0x8000)) {
         ASM_KEEP(table);   /* MATCH pin: load-bearing for the whole function shape */
         table += 0x60CC;
         work = 0x80080000;
         ASM_KEEP(work);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        arg2->unk_2C = table;
+        arg2->unk_2C.as_pu8 = table;
         work = ((S_80172F04_4 *)((u8 *)work))->unk_3228 + ((S_80172F04_2 *)actor)->unk_2A + 0x100;
         work = ((s32)work >> 9) & 7;
         work += (u32)table;
@@ -117,7 +112,7 @@ state_1:
 state_2:
     timer = arg0->unk_96 + 1;
     arg0->unk_96 = timer;
-    if (((s16)timer == 4) || (arg2->unk_14 & 0x8000)) {
+    if (((s16)timer == 4) || (arg2->unk_14.at00_u16.v & 0x8000)) {
         func_8009C12C(actor, arg2, ((S_80172F04_2 *)actor)->unk_2A, 1);
         goto advance;
     }
@@ -130,7 +125,7 @@ advance:
     goto end;
 
 state_3:
-    if (arg2->unk_14 & 0xE000) {
+    if (arg2->unk_14.at00_u16.v & 0xE000) {
         func_800AD594(actor, 0x140);
         call_actor = actor;
         work = (u32)D_801714B8;

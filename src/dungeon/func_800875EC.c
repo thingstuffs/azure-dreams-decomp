@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_8008ACDC_arg0.h"
 
 typedef struct S_8008CD4C_0 {
     u8 pad_00[0x24];
@@ -8,17 +9,6 @@ typedef struct S_8008CD4C_0 {
     u8 * unk_2C;
 } S_8008CD4C_0;   /* arg2 in func_8008CD4C */
 
-typedef struct S_8008CD4C_1 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0x88];
-    s32 unk_124;
-} S_8008CD4C_1;   /* arg0 in func_8008CD4C */
 
 typedef struct S_8008CD4C_2 {
     u8 pad_00[0x1C];
@@ -36,7 +26,6 @@ typedef struct S_8008CD4C_3 {
 } S_8008CD4C_3;   /* control in func_8008CD4C */
 
 
-typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
@@ -56,7 +45,7 @@ extern u8 D_80083460[9];
 extern u8 D_800DCFB8[];
 extern u8 D_800DD018[];
 
-void func_8008CD4C(S_8008CD4C_1 *arg0, M2C_UNK arg1, S_8008CD4C_0 *arg2, void *arg3, s32 arg4) {
+void func_8008CD4C(Rec_func_8008ACDC_arg0 *arg0, M2C_UNK arg1, S_8008CD4C_0 *arg2, void *arg3, s32 arg4) {
     register S_8008CD4C_2 *actor ASM_REG("$20") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     register s32 state ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     s32 offset;
@@ -69,9 +58,9 @@ void func_8008CD4C(S_8008CD4C_1 *arg0, M2C_UNK arg1, S_8008CD4C_0 *arg2, void *a
 
     arg2->unk_2C = D_800DD018;
     state = arg4;
-    arg0->unk_9A = 0x18;
-    arg0->unk_9B = 0;
-    arg0->unk_8C = 0;
+    arg0->unk_9A.as_u8 = 0x18;
+    arg0->unk_9B.as_u8 = 0;
+    arg0->unk_8C.as_s32 = 0;
 
     if ((s16)state != -2) {
         offset = ((actor->unk_2A.s >> 8) & 0xE);
@@ -98,9 +87,9 @@ void func_8008CD4C(S_8008CD4C_1 *arg0, M2C_UNK arg1, S_8008CD4C_0 *arg2, void *a
                 control = D_80083460;
                 ((S_8008CD4C_3 *)control)->unk_04 = 0x20;
                 ((S_8008CD4C_3 *)control)->unk_02 |= 8;
-                arg0->unk_9B = 0x10;
+                arg0->unk_9B.as_u8 = 0x10;
                 arg2->unk_2C = D_800DCFB8;
-                arg0->unk_96 = 4;
+                arg0->unk_96.as_s16 = 4;
                 func_8009F644(actor, 8, 0, 0);
                 func_800A56E0(0x50B);
                 func_80094ED4(arg0, arg1, arg2, actor);

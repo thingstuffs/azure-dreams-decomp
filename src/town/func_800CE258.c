@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082D58.h"
 
 M2C_UNK func_80033D08();                      /* extern */
 s32 func_800644B8();                             /* extern */
@@ -7,10 +8,6 @@ s32 func_80064584();                             /* extern */
 M2C_UNK func_800C30A4();                      /* extern */
 s32 func_800CB7D0();                          /* extern */
 M2C_UNK func_800CBA8C();                            
-typedef struct S_800CB9B8_0 {
-    u8 pad_00[0x9C];
-    void * unk_9C;
-} S_800CB9B8_0;   /* arg0 in func_800CB9B8 */
 
 typedef struct S_800CB9B8_1 {
     u8 pad_00[0x8];
@@ -38,7 +35,7 @@ typedef struct S_800CB9B8_4 {
 typedef struct S_800CB9B8_5 {
     u8 pad_00[0x72];
     s16 unk_72;
-} S_800CB9B8_5;   /* ((S_800CB9B8_0 *)arg0)->unk_9C in func_800CB9B8 */
+} S_800CB9B8_5;   /* ((Rec_D_80082D58 *)arg0)->unk_9C in func_800CB9B8 */
 
 typedef struct S_800CB9B8_6 {
     u8 pad_00[0x3];
@@ -47,7 +44,7 @@ typedef struct S_800CB9B8_6 {
 
 /* extern */
 
-void func_800CB9B8(S_800CB9B8_0 *arg0, S_800CB9B8_2 *arg1) {
+void func_800CB9B8(Rec_D_80082D58 *arg0, S_800CB9B8_2 *arg1) {
     void *temp_a0;
     S_800CB9B8_3 *temp_s0;
     S_800CB9B8_4 *temp_s3;

@@ -1,34 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_800A9E70_arg0.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_8016B778_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x4];
-    u16 unk_98;
-    u8 unk_9A;
-    s8 unk_9B;
-    u8 pad_9C[0x17];
-    u8 unk_B3;
-    u8 unk_B4;
-} S_8016B778_0;   /* arg0 in func_8016B778 */
 
-typedef struct S_8016B778_1 {
-    u8 pad_00[0x18];
-    s32 unk_18;
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x1C];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-} S_8016B778_1;   /* arg3 in func_8016B778 */
 
 typedef struct S_8016B778_2 {
     u8 pad_00[0x24];
@@ -89,7 +64,7 @@ M2C_UNK func_8016EF10();
 extern M2C_UNK D_8017469C;
 extern M2C_UNK D_801746BC;
 
-void func_8016B778(S_8016B778_0 *arg0, M2C_UNK arg1, S_8016B778_2 *arg2, void *arg3) {
+void func_8016B778(Rec_func_800A9E70_arg0 *arg0, M2C_UNK arg1, S_8016B778_2 *arg2, void *arg3) {
     static void *const jt_keep[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&state_store };
     M2C_UNK sp18;
     s32 temp_a1_value;
@@ -113,21 +88,21 @@ void func_8016B778(S_8016B778_0 *arg0, M2C_UNK arg1, S_8016B778_2 *arg2, void *a
     if (!(*D_80083462 & 0x1000)) {
         goto block_3;
     }
-    arg0->unk_9A = 0xEU;
+    arg0->unk_9A.as_u8 = 0xEU;
     func_8016BD14();
     return;
 block_3:
-    if (!(((S_8016B778_1 *)arg3)->unk_1C & 0x200)) {
+    if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x200)) {
         goto block_8;
     }
     if (arg2->unk_2C.p != D_801746A4) {
         goto block_7;
     }
     clear_mask_hi = (s32)0xFFFB0000;
-    arg0->unk_9A = 0xDU;
-    arg0->unk_9B = 1;
+    arg0->unk_9A.as_u8 = 0xDU;
+    arg0->unk_9B.as_s8 = 1;
     arg0->unk_8C = 0;
-    ((S_8016B778_1 *)arg3)->unk_1C &= clear_mask_hi | 0xFFFF;
+    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 &= clear_mask_hi | 0xFFFF;
     return;
 block_7:
     if (func_800AA924(arg0, arg1, arg2, &D_8017469C) != 0) {
@@ -137,7 +112,7 @@ block_8:
     if (*D_80083462 & 0x2000) {
         goto block_33;
     }
-    bits_100 = ((S_8016B778_1 *)arg3)->unk_1C;
+    bits_100 = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32;
     mask_100 = bits_100 & 0x100;
     call_obj = arg0;
     if (!mask_100) {
@@ -146,7 +121,7 @@ block_8:
     func_800AA258(call_obj, arg1, arg2, arg3);
     return;
 block_12:
-    if (arg0->unk_9A != 0xE) {
+    if (arg0->unk_9A.as_u8 != 0xE) {
         if (arg0->unk_B3 == 0) {
             temp_v1_dispatch = arg2->unk_2C.p2;
             ASM_KEEP(temp_v1_dispatch);   /* MATCH pin: retail basic-block layout depends on it */
@@ -159,10 +134,10 @@ block_12:
         }
         if (arg2->unk_2C.p != D_80174684) {
             arg2->unk_2C.p = D_80174684;
-            func_80047784(arg2, D_80174684[((s32) (*D_80083228 + ((S_8016B778_1 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
+            func_80047784(arg2, D_80174684[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
         }
 state_store:
-        arg0->unk_9A = 0xEU;
+        arg0->unk_9A.as_u8 = 0xEU;
     }
     arg0->unk_98 = (u16) (arg0->unk_98 & 0xFFF3);
     if (arg0->unk_B4 != 0) {
@@ -171,7 +146,7 @@ state_store:
     if ((u16) *D_80013714 & 8) {
         goto block_25;
     }
-    if (((S_8016B778_1 *)arg3)->unk_64 == 0) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 == 0) {
         goto block_28;
     }
     if (func_800AA6B4(arg0, arg1, arg2, D_801746C4) == 0) {
@@ -179,7 +154,7 @@ state_store:
     }
     return;
 block_25:
-    if (((S_8016B778_1 *)arg3)->unk_64 == 0) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 == 0) {
         goto block_28;
     }
     global_83460 = D_80083460;
@@ -188,34 +163,34 @@ block_25:
     }
     global_83460[4] &= 0x7FFFFFFF;
 block_28:
-    if (!(((S_8016B778_1 *)arg3)->unk_1C & 0x80000)) {
+    if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x80000)) {
         goto block_31;
     }
     func_800AA888(arg0, arg1, arg2, arg3);
     func_8016DAA4(arg0, arg1, arg2, arg3);
     arg2->unk_2C.p = D_8017467C;
-    func_80047784(arg2, D_8017467C[((s32) (*D_80083228 + ((S_8016B778_1 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
-    arg0->unk_90 = 0;
+    func_80047784(arg2, D_8017467C[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    arg0->unk_90.at00_s32.v = 0;
     return;
 block_31:
     if ((func_800A1C58(arg3) << 0x10) == 0) {
         goto block_33;
     }
-    ((S_8016B778_1 *)arg3)->unk_18 = 0;
+    ((Rec_D_800E3D7C *)arg3)->unk_18 = 0;
     *D_8008346C = 0;
 block_33:
     temp_v0 = func_8009FB34(arg2->unk_24.at00.v, arg2->unk_24.at01.v);
     arg2->unk_26 = temp_v0;
-    if (((S_8016B778_1 *)arg3)->unk_6D <= 0) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 <= 0) {
         goto block_58;
     }
-    if (((S_8016B778_1 *)arg3)->unk_1C & 0x20) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x20) {
         goto block_50;
     }
     if (arg2->unk_24.at00u.v == *D_80082EA4) {
         goto block_56;
     }
-    if (((S_8016B778_1 *)arg3)->unk_46 & 0x8000) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000) {
         goto block_44;
     }
     if (!(*D_80083462 & 0x2000)) {
@@ -229,21 +204,21 @@ block_39:
         goto block_42;
     }
     func_8016EF10(arg0, arg1, arg2);
-    ((S_8016B778_1 *)arg3)->unk_71 = (u8) (((S_8016B778_1 *)arg3)->unk_71 & 0x7F);
+    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
     func_800A9A0C(arg3);
-    ((S_8016B778_1 *)arg3)->unk_46 &= 0x7FFF;
+    ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
     return;
 block_42:
     if ((func_8016C98C(arg0, arg1, arg2, 0) << 0x10) == 0) {
         goto block_65;
     }
-    temp_v0_2 = ((S_8016B778_1 *)arg3)->unk_46 | 0x4000;
-    ((S_8016B778_1 *)arg3)->unk_46 = temp_v0_2;
+    temp_v0_2 = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v | 0x4000;
+    ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v = temp_v0_2;
     if (!(temp_v0_2 & 0x8000)) {
         goto block_56;
     }
 block_44:
-    temp_v0_3 = ((S_8016B778_1 *)arg3)->unk_46 & 0x3FFF;
+    temp_v0_3 = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x3FFF;
     if ((u32) (temp_v0_3 - 1) >= 0xCU) {
         goto block_55;
     }
@@ -260,7 +235,7 @@ jt_c6:
 jt_c7:
     a0818_result = func_800A0818(arg2->unk_24.at00.v, arg2->unk_24.at01.v, D_80082E80[0x24], D_80082E80[0x25], &sp18);
     global_814A8 = (u8 *)*D_800814A8;
-    ((S_8016B778_1 *)arg3)->unk_2A = a0818_result;
+    ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = a0818_result;
     if (((S_8016B778_4 *)global_814A8)->unk_9A == 0x11) {
         var_v0 = (u8 *)0x80170000;
         goto block_53_low;
@@ -286,7 +261,7 @@ block_56:
     func_8016BF74(arg0, arg1, arg2, arg3);
     return;
 block_58:
-    temp_a1_value = ((S_8016B778_1 *)arg3)->unk_1C;
+    temp_a1_value = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32;
     if (temp_a1_value & 0x2000) {
         goto block_65;
     }
@@ -310,7 +285,7 @@ block_62:
     if ((func_8009FD7C(arg2->unk_24.at00.v, arg2->unk_24.at01.v, dungeon_obj[0x24], dungeon_obj[0x25]) << 0x10) == 0) {
         goto block_65;
     }
-    ((S_8016B778_1 *)arg3)->unk_2A = func_800A0818(arg2->unk_24.at00.v, arg2->unk_24.at01.v, dungeon_obj[0x24], dungeon_obj[0x25], &sp18);
+    ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(arg2->unk_24.at00.v, arg2->unk_24.at01.v, dungeon_obj[0x24], dungeon_obj[0x25], &sp18);
 block_65:
     return;
 }

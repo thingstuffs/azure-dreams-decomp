@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80091C64_0 {
     u8 pad_00[0x8C];
@@ -31,11 +32,6 @@ typedef struct S_80091C64_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
 } S_80091C64_2;   /* arg1 in func_80091C64 */
 
-typedef struct S_80091C64_3 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80091C64_3;   /* arg2 in func_80091C64 */
 
 typedef struct S_80091C64_4 {
     u8 pad_00[0xA];
@@ -125,10 +121,10 @@ jt_c3:
     if (temp_a0 == 0) {
         goto block_13;
     }
-    temp_byte = ((S_80091C64_3 *)arg2)->unk_24 << 6;
+    temp_byte = ((Rec_D_80082E80 *)arg2)->unk_24 << 6;
     temp_coord = ((S_80091C64_2 *)arg1)->unk_00.at02.v - 0x20;
     ((S_80091C64_2 *)arg1)->unk_00.at00.v = (s32) (((S_80091C64_2 *)arg1)->unk_00.at00.v + ((temp_byte - temp_coord) << 0x10) / temp_a0);
-    temp_y_num = ((S_80091C64_3 *)arg2)->unk_25;
+    temp_y_num = ((Rec_D_80082E80 *)arg2)->unk_25;
     temp_y_work = ((S_80091C64_2 *)arg1)->unk_04.at02.v;
     temp_y_num <<= 6;
     ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
@@ -145,7 +141,7 @@ block_13:
     if ((temp_v0_3 << 0x10) > 0) {
         goto block_19;
     }
-    func_800A2B04(arg1, ((S_80091C64_3 *)arg2)->unk_24, ((S_80091C64_3 *)arg2)->unk_25);
+    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     ((S_80091C64_0 *)arg0)->unk_92 = 0;
     ((S_80091C64_0 *)arg0)->unk_9B = (u8) (((S_80091C64_0 *)arg0)->unk_9B + 1);
     (*(u8 **)((u8 *)arg2 + 0x2C)) = D_800DD058;

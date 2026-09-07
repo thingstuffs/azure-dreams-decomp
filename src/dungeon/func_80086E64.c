@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
 
@@ -21,12 +22,6 @@ extern u8 D_800DCFC8[];
 extern u8 D_800E0495[];
 
 
-typedef struct S_8008C5C4_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    u16 unk_2A;
-} S_8008C5C4_0;   /* arg3 in func_8008C5C4 */
 
 typedef struct S_8008C5C4_1 {
     u8 pad_00[0x24];
@@ -69,7 +64,7 @@ typedef struct S_8008C5C4_6 {
     void * unk_60;
 } S_8008C5C4_6;   /* ((S_8008C5C4_2 *)arg0)->unk_124 in func_8008C5C4 */
 
-s32 func_8008C5C4(S_8008C5C4_2 *arg0, void *arg1, S_8008C5C4_1 *arg2, S_8008C5C4_0 *arg3) {
+s32 func_8008C5C4(S_8008C5C4_2 *arg0, void *arg1, S_8008C5C4_1 *arg2, Rec_D_800E3D7C *arg3) {
     s32 temp_a3;
     s32 temp_v0;
     s32 temp_v1;
@@ -79,7 +74,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *arg0, void *arg1, S_8008C5C4_1 *arg2, S_8008C5C4
     s32 state_value;
     register s32 temp_v1_2 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
 
-    temp_v1 = ((u16)arg3->unk_2A >> 8) & 0xE;
+    temp_v1 = ((u16)arg3->unk_2A.as_u16 >> 8) & 0xE;
     temp_v0 = func_8009B5AC(
         arg3,
         (s16)(arg2->unk_24 + *(u16 *)(D_8006CCD8 + temp_v1)),
@@ -120,7 +115,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *arg0, void *arg1, S_8008C5C4_1 *arg2, S_8008C5C4
             }
             temp_a3 = arg0->unk_124;
             ((S_8008C5C4_5 *)temp_a3)->unk_1C |= 0x80000;
-            arg3->unk_1C |= 0x100000;
+            arg3->unk_1C.as_s32 |= 0x100000;
             ((S_8008C5C4_6 *)(arg0->unk_124))->unk_60 = arg3;
             func_8009F644(arg3, 0x20, 0, 0);
             func_800A56E0(0x511);
@@ -131,7 +126,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *arg0, void *arg1, S_8008C5C4_1 *arg2, S_8008C5C4
             func_80048A44(
                 arg2,
                 D_800DCFC8[((s32)(D_80083228[0] +
-                                         (s16)arg3->unk_2A + 0x100) >>
+                                         (s16)arg3->unk_2A.as_u16 + 0x100) >>
                                   9) &
                                  7],
                 0, 1);

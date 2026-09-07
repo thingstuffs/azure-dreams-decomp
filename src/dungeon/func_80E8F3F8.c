@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 #ifdef NON_MATCHING
@@ -30,16 +31,6 @@ typedef struct S_80174BF8_0 {
     u8 unk_9B;
 } S_80174BF8_0;   /* arg0 in func_80174BF8 */
 
-typedef struct S_80174BF8_1 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    s8 unk_48;
-    s8 unk_49;
-    u8 pad_4A[0x23];
-    s8 unk_6D;
-} S_80174BF8_1;   /* arg3 in func_80174BF8 */
 
 typedef struct S_80174BF8_2 {
     u8 pad_00[0x14];
@@ -53,7 +44,7 @@ typedef struct S_80174BF8_3 {
     u16 unk_0A;
 } S_80174BF8_3;   /* counter in func_80174BF8 */
 
-void func_80174BF8(S_80174BF8_0 *arg0, void *arg1, S_80174BF8_2 *arg2, S_80174BF8_1 *arg3)
+void func_80174BF8(S_80174BF8_0 *arg0, void *arg1, S_80174BF8_2 *arg2, Rec_D_800E3D7C *arg3)
 {
     void *call_arg;
     u8 *counter;
@@ -71,8 +62,8 @@ void func_80174BF8(S_80174BF8_0 *arg0, void *arg1, S_80174BF8_2 *arg2, S_80174BF
     func_800A56E0(0x50C);
     arg0->unk_96 = 10;
     func_80174D48(arg1, arg2, arg3);
-    arg3->unk_48 = 0;
-    arg3->unk_49 = 0;
+    arg3->unk_48.at00_s8.v = 0;
+    arg3->unk_48.at01_s8.v = 0;
     arg0->unk_9B++;
 
 active:
@@ -92,10 +83,10 @@ active:
     arg2->unk_2C = D_80174F00;
     func_800AD594(call_arg, 0x200);
     func_80047784(arg2,
-        arg2->unk_2C[((D_80083228[0] + arg3->unk_2A + 0x100) >> 9) & 7],
+        arg2->unk_2C[((D_80083228[0] + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     arg0->unk_8C = D_801710F4;
     func_800A4ACC(arg3);
-    arg3->unk_6D = 0;
-    arg3->unk_46 &= 0x7FFF;
+    arg3->unk_6D.as_s8 = 0;
+    arg3->unk_44.at02_u16.v &= 0x7FFF;
 }

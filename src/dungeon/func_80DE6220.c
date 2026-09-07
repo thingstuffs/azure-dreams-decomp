@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80173A20_0 {
     u8 pad_00[0x8C];
@@ -9,15 +10,6 @@ typedef struct S_80173A20_0 {
     void * unk_A4;
 } S_80173A20_0;   /* actor in func_80173A20 */
 
-typedef struct S_80173A20_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80173A20_1;   /* entity in func_80173A20 */
 
 typedef struct S_80173A20_2 {
     u8 pad_00[0x1E];
@@ -64,10 +56,10 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
 {
     switch (((S_80173A20_0 *)actor)->unk_9B) {
     case 0: {
-        u16 flags = ((S_80173A20_1 *)entity)->unk_14;
+        u16 flags = ((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v;
 
         if (flags & 0x8000) {
-            ((S_80173A20_1 *)entity)->unk_14 = flags | 0x6000;
+            ((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v = flags | 0x6000;
             ((S_80173A20_0 *)actor)->unk_9B = 2;
             return;
         }
@@ -75,9 +67,9 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
     }
         /* fall through */
     case 1:
-        if (((((S_80173A20_1 *)entity)->unk_04 == 8) &&
-             (((S_80173A20_1 *)entity)->unk_14 & 0x1000)) ||
-            (((S_80173A20_1 *)entity)->unk_14 & 0xE000)) {
+        if (((((Rec_D_80082E80 *)entity)->unk_04.as_s8 == 8) &&
+             (((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x1000)) ||
+            (((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000)) {
             func_80174460(creature);
             func_800A56E0(0x80C);
             func_80174084(actor, context, entity);
@@ -103,7 +95,7 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
         void *shadow;
         void *object;
 
-        if (!(((S_80173A20_1 *)entity)->unk_14 & 0xE000)) {
+        if (!(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
 
@@ -118,10 +110,10 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
         xbase = (u8 *)&D_8006CCD8;
         index = shifted & 0xE;
         xoff = (s16 *)(xbase + index);
-        xarg = ((((S_80173A20_1 *)entity)->unk_24 + *xoff) << 6) & 0xFFC0;
+        xarg = ((((Rec_D_80082E80 *)entity)->unk_24 + *xoff) << 6) & 0xFFC0;
         yoff = (s16 *)((u8 *)&D_8006CCE8 + index);
         height = func_800BCB04(xarg,
-            ((((S_80173A20_1 *)entity)->unk_25 + *yoff) << 6) & 0xFFC0,
+            ((((Rec_D_80082E80 *)entity)->unk_25 + *yoff) << 6) & 0xFFC0,
             (s16)(raw - 0x20));
 
         if (((S_80173A20_3 *)creature)->unk_88.u < height) {
@@ -131,8 +123,8 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
         bit = ((S_80173A20_3 *)creature)->unk_1C & 0x2000;
         object = func_800D3F74(
             bit != 0,
-            (s16)(((S_80173A20_1 *)entity)->unk_24 + (u16)*xoff),
-            (s16)(((S_80173A20_1 *)entity)->unk_25 + (u16)*yoff),
+            (s16)(((Rec_D_80082E80 *)entity)->unk_24 + (u16)*xoff),
+            (s16)(((Rec_D_80082E80 *)entity)->unk_25 + (u16)*yoff),
             height);
         func_80042640(object, 0x36);
 
@@ -147,8 +139,8 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
         ((S_80173A20_4 *)object)->unk_29 = value;
 
         func_800AD594(creature, 0x400);
-        func_800A2B04(context, ((S_80173A20_1 *)entity)->unk_24,
-                     ((S_80173A20_1 *)entity)->unk_25);
+        func_800A2B04(context, ((Rec_D_80082E80 *)entity)->unk_24,
+                     ((Rec_D_80082E80 *)entity)->unk_25);
         ((S_80173A20_0 *)actor)->unk_8C = D_80170E5C;
         D_8008346C = 0;
         (*(u16 *)((u8 *)creature + 0x46)) &= 0x7FFF;

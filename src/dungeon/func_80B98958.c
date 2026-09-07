@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80172158_0 {
     u8 pad_00[0x8C];
@@ -14,15 +16,6 @@ typedef struct S_80172158_0 {
     s32 unk_A0;
 } S_80172158_0;   /* arg0 in func_80172158 */
 
-typedef struct S_80172158_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172158_1;   /* arg2 in func_80172158 */
 
 typedef struct S_80172158_2 {
     u8 pad_00[0x1C];
@@ -33,16 +26,6 @@ typedef struct S_80172158_2 {
     u16 unk_46;
 } S_80172158_2;   /* arg3 in func_80172158 */
 
-typedef struct S_80172158_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172158_3;   /* arg1 in func_80172158 */
 
 typedef struct S_80172158_4 {
     u8 pad_00[0x8];
@@ -95,9 +78,9 @@ void func_80172158(void *arg0, void *arg1, void *arg2, void *arg3)
     goto block_18;
 
 state_0:
-    if (((((S_80172158_1 *)arg2)->unk_04 == 1) &&
-         (((S_80172158_1 *)arg2)->unk_14 & 0x1000)) ||
-        (((S_80172158_1 *)arg2)->unk_14 & 0xE000)) {
+    if (((((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 1) &&
+         (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000)) ||
+        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         ((S_80172158_0 *)arg0)->unk_98 |= 8;
         ((S_80172158_2 *)arg3)->unk_1C.s &= 0xF7FFFFFF;
         ((S_80172158_0 *)arg0)->unk_9E = 6;
@@ -112,16 +95,16 @@ block_12:
     ((S_80172158_0 *)arg0)->unk_90 =
         ((S_80172158_0 *)arg0)->unk_90 - ((S_80172158_0 *)arg0)->unk_A0;
     if (temp_a0 != 0) {
-        temp_axis = ((S_80172158_1 *)arg2)->unk_24;
-        temp_delta = ((S_80172158_3 *)arg1)->unk_02;
+        temp_axis = ((Rec_D_80082E80 *)arg2)->unk_24;
+        temp_delta = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v;
         temp_axis <<= 6;
         temp_delta -= 0x20;
         temp_axis -= temp_delta;
         temp_axis <<= 16;
-        ((S_80172158_3 *)arg1)->unk_0C = temp_axis / temp_a0;
-        temp_delta = ((S_80172158_3 *)arg1)->unk_06 - 0x20;
-        ((S_80172158_3 *)arg1)->unk_10 =
-            (((((S_80172158_1 *)arg2)->unk_25 << 6) - temp_delta) << 16) /
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = temp_axis / temp_a0;
+        temp_delta = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v - 0x20;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
+            (((((Rec_D_80082E80 *)arg2)->unk_25 << 6) - temp_delta) << 16) /
             (s16)((S_80172158_0 *)arg0)->unk_9E;
         ((S_80172158_0 *)arg0)->unk_A0 =
             (-func_800644B8(((S_80172158_0 *)arg0)->unk_9E * 0x155)) << 9;
@@ -138,10 +121,10 @@ block_12:
 block_16:
     if (((S_80172158_2 *)arg3)->unk_1C.s & 0x08000000) {
         ((S_80172158_0 *)arg0)->unk_98 &= 0xFFF7;
-        ((S_80172158_3 *)arg1)->unk_14 = 0;
-        ((S_80172158_3 *)arg1)->unk_10 = 0;
-        ((S_80172158_3 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_80172158_1 *)arg2)->unk_24, ((S_80172158_1 *)arg2)->unk_25);
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80174EE0;
         func_80047784(
             arg2,
@@ -154,10 +137,10 @@ block_18:
     temp_v0 = ((S_80172158_0 *)arg0)->unk_96 - 1;
     ((S_80172158_0 *)arg0)->unk_96 = temp_v0;
     if ((temp_v0 << 16) <= 0) {
-        ((S_80172158_3 *)arg1)->unk_14 = 0;
-        ((S_80172158_3 *)arg1)->unk_10 = 0;
-        ((S_80172158_3 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_80172158_1 *)arg2)->unk_24, ((S_80172158_1 *)arg2)->unk_25);
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
         func_800AD594(arg3, 3);
         func_800A4ACC(arg3);
 
@@ -180,7 +163,7 @@ block_18:
             goto block_28;
         }
         ((S_80172158_2 *)arg3)->unk_2A = func_800A0818(
-            ((S_80172158_1 *)arg2)->unk_24, ((S_80172158_1 *)arg2)->unk_25,
+            ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
             D_80082E80[0x24], D_80082E80[0x25], &sp18);
 
 block_28:

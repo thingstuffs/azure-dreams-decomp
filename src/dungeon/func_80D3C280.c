@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_80171A80_0 {
     u8 pad_00[0x8C];
@@ -19,20 +21,6 @@ typedef struct S_80171A80_0 {
     u8 unk_B5;
 } S_80171A80_0;   /* arg0 in func_80171A80 */
 
-typedef struct S_80171A80_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x1C];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80171A80_1;   /* arg3 in func_80171A80 */
 
 typedef struct S_80171A80_2 {
     u8 pad_00[0x5];
@@ -44,10 +32,6 @@ typedef struct S_80171A80_2 {
     void * unk_2C;
 } S_80171A80_2;   /* arg2 in func_80171A80 */
 
-typedef struct S_80171A80_3 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80171A80_3;   /* D_800814A8 in func_80171A80 */
 
 typedef struct S_80171A80_4 {
     u8 pad_00[0x24];
@@ -133,7 +117,7 @@ void func_80171A80(void *arg0, void *arg1, void *arg2, void *arg3)
         return;
     }
 
-    if (((S_80171A80_1 *)arg3)->unk_25 == 0) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
         if (((S_80171A80_0 *)arg0)->unk_B5 == 0) {
             void *table;
 
@@ -144,7 +128,7 @@ void func_80171A80(void *arg0, void *arg1, void *arg2, void *arg3)
             table = D_800E2420;
             (*(void * *)((u8 *)arg2 + 0x2C)) = table;
             func_80047784(arg2,
-                ((u8 *)table)[((D_80083228 + ((S_80171A80_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                ((u8 *)table)[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             return;
         } else {
@@ -153,12 +137,12 @@ void func_80171A80(void *arg0, void *arg1, void *arg2, void *arg3)
         }
     }
 
-    if (((S_80171A80_1 *)arg3)->unk_1C & 0x200) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x200) {
         if (((S_80171A80_2 *)arg2)->unk_2C == D_800E2428) {
             ((S_80171A80_0 *)arg0)->unk_9A.n = 0xD;
             ((S_80171A80_0 *)arg0)->unk_9B = 1;
             ((S_80171A80_0 *)arg0)->unk_8C = 0;
-            ((S_80171A80_1 *)arg3)->unk_1C &= 0xFFFBFFFF;
+            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= 0xFFFBFFFF;
             return;
         }
         if (func_800AA924(arg0, arg1, arg2, D_800E2420) != 0) {
@@ -167,7 +151,7 @@ void func_80171A80(void *arg0, void *arg1, void *arg2, void *arg3)
     }
 
     if (!(D_80083462 & 0x2000)) {
-        if (((S_80171A80_1 *)arg3)->unk_1C & 0x100) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
             return;
         }
@@ -181,7 +165,7 @@ void func_80171A80(void *arg0, void *arg1, void *arg2, void *arg3)
             if (((S_80171A80_2 *)arg2)->unk_2C != table) {
                 (*(void * *)((u8 *)arg2 + 0x2C)) = table;
                 func_80047784(arg2,
-                    ((u8 *)table)[((D_80083228 + ((S_80171A80_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                    ((u8 *)table)[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                     0);
                 ((S_80171A80_2 *)arg2)->unk_05 = 1;
                 (void)((S_80171A80_0 *)arg0)->unk_B0.v;
@@ -194,18 +178,18 @@ void func_80171A80(void *arg0, void *arg1, void *arg2, void *arg3)
                 func_801708B8(arg0, arg1, arg2);
             }
             if (((S_80171A80_0 *)arg0)->unk_B5 == 0) {
-                ((S_80171A80_1 *)arg3)->unk_1C |= 0x40000;
+                ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x40000;
                 ((S_80171A80_0 *)arg0)->unk_98 &= 0xFFF7;
             }
         }
 
-        if (((S_80171A80_1 *)arg3)->unk_64 != 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
             if (func_800AA6B4(arg0, arg1, arg2, D_800E23F8) != 0) {
                 return;
             }
         }
 
-        if (((S_80171A80_1 *)arg3)->unk_1C & 0x80000) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x80000) {
             s16 delta;
 
             func_800AA888(arg0, arg1, arg2, arg3);
@@ -225,31 +209,31 @@ void func_80171A80(void *arg0, void *arg1, void *arg2, void *arg3)
     result = func_8009FB34(((S_80171A80_2 *)arg2)->unk_24.at00.v, ((S_80171A80_2 *)arg2)->unk_24.at01.v);
     ((S_80171A80_2 *)arg2)->unk_26 = result;
 
-    if (((S_80171A80_1 *)arg3)->unk_6D > 0) {
-        if (((S_80171A80_1 *)arg3)->unk_1C & 0x20) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 > 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x20) {
             goto jt_c12;
         }
         if (((S_80171A80_2 *)arg2)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
             goto ordinary_cleanup;
         }
-        if (!(((S_80171A80_1 *)arg3)->unk_46 & 0x8000)) {
+        if (!(((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000)) {
             if (D_80083462 & 0x2000) {
                 if ((func_8009A180(arg3,
-                        (u8 *)((S_80171A80_3 *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                     return;
                 }
             }
             if ((func_80172EA8(arg0, arg1, arg2, 0) << 16) == 0) {
                 return;
             }
-            state = ((S_80171A80_1 *)arg3)->unk_46 | 0x4000;
-            ((S_80171A80_1 *)arg3)->unk_46 = state;
+            state = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v | 0x4000;
+            ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v = state;
             if (!(state & 0x8000)) {
                 goto ordinary_cleanup;
             }
         }
 
-        state = ((S_80171A80_1 *)arg3)->unk_46 & 0x3FFF;
+        state = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x3FFF;
         if ((u32)(state - 1) >= 12) {
             goto ordinary_cleanup;
         }
@@ -295,7 +279,7 @@ jt_c7:
                 ((S_80171A80_4 *)origin)->unk_24, ((S_80171A80_4 *)origin)->unk_25,
                 &scratch);
             player = D_800814A8;
-            ((S_80171A80_1 *)arg3)->unk_2A = coordinate;
+            ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = coordinate;
             if (((S_80171A80_5 *)player)->unk_9A == 0x11) {
                 goto coords_continue;
             }
@@ -345,18 +329,18 @@ ordinary_cleanup:
         return;
     }
 
-    if (!(((S_80171A80_1 *)arg3)->unk_1C & 0x2000)) {
+    if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x2000)) {
         s32 index = result;
 
         if ((index < 0) ||
             !(((DungeonRecord *)D_800E2970)[index].flags & 2)) {
-            if (!(((S_80171A80_1 *)arg3)->unk_1C & 0x430)) {
+            if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x430)) {
                 u8 *origin = D_80082E80;
 
                 if ((func_8009FD7C(
                         ((S_80171A80_2 *)arg2)->unk_24.at00.v, ((S_80171A80_2 *)arg2)->unk_24.at01.v,
                         ((S_80171A80_4 *)origin)->unk_24, ((S_80171A80_4 *)origin)->unk_25) << 16) != 0) {
-                    ((S_80171A80_1 *)arg3)->unk_2A = func_800A0818(
+                    ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(
                         ((S_80171A80_2 *)arg2)->unk_24.at00.v, ((S_80171A80_2 *)arg2)->unk_24.at01.v,
                         ((S_80171A80_4 *)origin)->unk_24, ((S_80171A80_4 *)origin)->unk_25,
                         &scratch);

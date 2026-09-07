@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80172478_0 {
     u8 pad_00[0x8C];
@@ -14,13 +16,6 @@ typedef struct S_80172478_0 {
     union { s16 s; u16 u; } unk_A8;   /* accessed as both */
 } S_80172478_0;   /* arg0 in func_80172478 */
 
-typedef struct S_80172478_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172478_1;   /* arg2 in func_80172478 */
 
 typedef struct S_80172478_2 {
     u8 pad_00[0x1C];
@@ -31,16 +26,6 @@ typedef struct S_80172478_2 {
     u16 unk_46;
 } S_80172478_2;   /* arg3 in func_80172478 */
 
-typedef struct S_80172478_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172478_3;   /* arg1 in func_80172478 */
 
 typedef struct S_80172478_4 {
     u8 pad_00[0x8];
@@ -103,7 +88,7 @@ void func_80172478(void *arg0, void *arg1, void *arg2, void *arg3)
     goto tick;
 
 state_zero:
-    if (!(((S_80172478_1 *)arg2)->unk_14 & 0x6000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000)) {
         goto tick;
     }
     (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80174160;
@@ -121,17 +106,17 @@ state_one:
     remaining = ((S_80172478_0 *)arg0)->unk_A8.s;
     ((S_80172478_0 *)arg0)->unk_90 -= ((S_80172478_0 *)arg0)->unk_A4;
     if (remaining != 0) {
-        tile_x = ((S_80172478_1 *)arg2)->unk_24;
-        x = ((S_80172478_3 *)arg1)->unk_02;
+        tile_x = ((Rec_D_80082E80 *)arg2)->unk_24;
+        x = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v;
         tile_x <<= 6;
         x -= 0x20;
         
-        ((S_80172478_3 *)arg1)->unk_0C = ((tile_x - x) << 16) / remaining;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = ((tile_x - x) << 16) / remaining;
 
-        y = ((S_80172478_3 *)arg1)->unk_06;
+        y = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v;
         y -= 0x20;
-        ((S_80172478_3 *)arg1)->unk_10 =
-            (((((S_80172478_1 *)arg2)->unk_25 << 6) - y) << 16) /
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
+            (((((Rec_D_80082E80 *)arg2)->unk_25 << 6) - y) << 16) /
             ((S_80172478_0 *)arg0)->unk_A8.s;
 
         ((S_80172478_0 *)arg0)->unk_A4 =
@@ -157,10 +142,10 @@ state_one:
 state_two:
     if (((S_80172478_2 *)arg3)->unk_1C.s & 0x08000000) {
         ((S_80172478_0 *)arg0)->unk_98 &= 0xFFF7;
-        ((S_80172478_3 *)arg1)->unk_14 = 0;
-        ((S_80172478_3 *)arg1)->unk_10 = 0;
-        ((S_80172478_3 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_80172478_1 *)arg2)->unk_24, ((S_80172478_1 *)arg2)->unk_25);
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80174168;
         func_80047784(
             arg2,
@@ -178,10 +163,10 @@ tick:
         return;
     }
 
-    ((S_80172478_3 *)arg1)->unk_14 = 0;
-    ((S_80172478_3 *)arg1)->unk_10 = 0;
-    ((S_80172478_3 *)arg1)->unk_0C = 0;
-    func_800A2B04(arg1, ((S_80172478_1 *)arg2)->unk_24, ((S_80172478_1 *)arg2)->unk_25);
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     func_800AD594(arg3, 4);
     func_800A4ACC(arg3);
 
@@ -205,8 +190,8 @@ tick:
     }
     map_base = D_80082E80;
     ((S_80172478_2 *)arg3)->unk_2A = func_800A0818(
-        ((S_80172478_1 *)arg2)->unk_24,
-        ((S_80172478_1 *)arg2)->unk_25,
+        ((Rec_D_80082E80 *)arg2)->unk_24,
+        ((Rec_D_80082E80 *)arg2)->unk_25,
         ((S_80172478_5 *)map_base)->unk_24,
         ((S_80172478_5 *)map_base)->unk_25,
         &sp18);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082D58.h"
 
 
 
@@ -19,13 +20,6 @@ s32 func_8008CC90();
 s32 func_8009D404();
 extern u16 D_80082D08[];
 
-typedef struct S_8009D20C_0 {
-    u8 pad_00[0x84];
-    u16 unk_84;
-    u16 unk_86;
-    u8 pad_88[0x10];
-    void * unk_98;
-} S_8009D20C_0;   /* arg0 in func_8009D20C */
 
 typedef struct S_8009D20C_1 {
     u8 pad_00[0x1];
@@ -40,7 +34,7 @@ typedef struct S_8009D20C_2 {
     u16 unk_06;
 } S_8009D20C_2;   /* arg1 in func_8009D20C */
 
-s32 func_8009D20C(S_8009D20C_0 *arg0, void *arg1_)
+s32 func_8009D20C(Rec_D_80082D58 *arg0, void *arg1_)
 {
     S_8009D20C_2 *arg1 = arg1_;
     register s32 var_v0 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
@@ -49,7 +43,7 @@ s32 func_8009D20C(S_8009D20C_0 *arg0, void *arg1_)
     s32 temp_v0;
     S_8009D20C_1 *temp_s0;
 
-    temp_s0 = arg0->unk_98;
+    temp_s0 = arg0->unk_98.as_pv;
     if (temp_s0 != NULL) {
         if (!(temp_s0->unk_01 & 1)) {
             if (func_80033B2C(temp_s0->unk_02) == 0) {

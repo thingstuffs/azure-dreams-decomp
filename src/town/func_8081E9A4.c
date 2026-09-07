@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 typedef struct {
@@ -141,14 +142,6 @@ typedef struct S_800211A4_7 {
     s32 unk_10;
 } S_800211A4_7;   /* state_global in func_800211A4 */
 
-typedef struct S_800211A4_8 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800211A4_8;   /* D_80083780 in func_800211A4 */
 
 typedef struct S_800211A4_9 {
     u8 pad_00[0x8];
@@ -364,7 +357,7 @@ state_3_after_shake:
         if (arg0->amount > 0) {
             arg0->state = 3;
             arg0->timer = 9;
-            ((S_800211A4_8 *)D_80083780)->unk_14 = -0x240000;
+            ((Rec_D_800E3D7C *)D_80083780)->unk_14.as_s32 = -0x240000;
             goto common_done;
         }
         goto common_done;
@@ -416,11 +409,11 @@ state_5:
     value = *timer_ptr - 1;
     *timer_ptr = (s16)value;
     if ((s16)value <= 0) {
-        ((S_800211A4_8 *)D_80083780)->unk_00 = 0x03600000;
-        ((S_800211A4_8 *)D_80083780)->unk_04 = 0x02A00000;
-        ((S_800211A4_8 *)D_80083780)->unk_10 = 0;
-        ((S_800211A4_8 *)D_80083780)->unk_0C = 0;
-        ((S_800211A4_8 *)D_80083780)->unk_14 = 0x00180000;
+        ((Rec_D_800E3D7C *)D_80083780)->unk_00.at00_s32.v = 0x03600000;
+        ((Rec_D_800E3D7C *)D_80083780)->unk_04.at00_s32.v = 0x02A00000;
+        ((Rec_D_800E3D7C *)D_80083780)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)D_80083780)->unk_0C.as_s32 = 0;
+        ((Rec_D_800E3D7C *)D_80083780)->unk_14.as_s32 = 0x00180000;
         arg0->state = 12;
     }
     goto common_done;
@@ -519,12 +512,12 @@ counter_f:
     goto counter_done;
 counter_g:
     func_80053DA8(0x508);
-    ((S_800211A4_8 *)D_80083780)->unk_14 = (s32)0xFFFC0000;
+    ((Rec_D_800E3D7C *)D_80083780)->unk_14.as_s32 = (s32)0xFFFC0000;
     func_80093CEC(D_800D0078);
     goto counter_done;
 counter_h:
     func_80053DA8(0x508);
-    ((S_800211A4_8 *)D_80083780)->unk_14 = (s32)0xFFFC8000;
+    ((Rec_D_800E3D7C *)D_80083780)->unk_14.as_s32 = (s32)0xFFFC8000;
     func_80093CEC(D_800D0078);
 
 counter_done:
@@ -575,7 +568,7 @@ counter_j:
     goto counter9_done;
 counter_k:
     func_80053DA8(0x508);
-    ((S_800211A4_8 *)D_80083780)->unk_14 = (s32)0xFFFC0000;
+    ((Rec_D_800E3D7C *)D_80083780)->unk_14.as_s32 = (s32)0xFFFC0000;
     func_80093CEC(D_800D0078);
     goto counter9_done;
 counter_l:

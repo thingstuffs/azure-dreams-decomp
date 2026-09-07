@@ -1,4 +1,7 @@
 #include "common.h"
+#include "records/Rec_func_800AA258_arg2.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_80175574_0 {
     u8 pad_00[0x8C];
@@ -7,37 +10,13 @@ typedef struct S_80175574_0 {
     u8 unk_9B;
 } S_80175574_0;   /* arg0 in func_80175574 */
 
-typedef struct S_80175574_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    void * unk_2C;
-} S_80175574_1;   /* arg2 in func_80175574 */
 
 typedef struct S_80175574_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_80175574_2;   /* counter_base in func_80175574 */
 
-typedef struct S_80175574_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x1C];
-    u8 unk_48;
-    u8 pad_49[0x1B];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80175574_3;   /* arg3 in func_80175574 */
 
-typedef struct S_80175574_4 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80175574_4;   /* D_800814A8 in func_80175574 */
 
 
 
@@ -116,7 +95,7 @@ void func_80175574(Obj0 *arg0, void *arg1, Obj2 *arg2, Obj3 *arg3)
 
     switch (((S_80175574_0 *)arg0)->unk_9B) {
     case 0:
-        if (!(((S_80175574_1 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000)) {
             return;
         }
         {
@@ -127,7 +106,7 @@ void func_80175574(Obj0 *arg0, void *arg1, Obj2 *arg2, Obj3 *arg3)
         {
             register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
 
-            switch (((S_80175574_3 *)arg3)->unk_48) {
+            switch (((Rec_D_800E3D7C *)arg3)->unk_48.at00_u8.v) {
             default:
                 goto increment_state;
             case 13:
@@ -141,7 +120,7 @@ void func_80175574(Obj0 *arg0, void *arg1, Obj2 *arg2, Obj3 *arg3)
                 break;
             }
             (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-            table_index = ((D_80083228 + ((S_80175574_3 *)arg3)->unk_2A + 0x100) >> 9) & 7;
+            table_index = ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
             table_index += (unsigned long)table;
             func_80047784(arg2,
                 *(u8 *)table_index,
@@ -154,25 +133,25 @@ void func_80175574(Obj0 *arg0, void *arg1, Obj2 *arg2, Obj3 *arg3)
             u8 *table;
             void *current;
 
-            switch (((S_80175574_3 *)arg3)->unk_48) {
+            switch (((Rec_D_800E3D7C *)arg3)->unk_48.at00_u8.v) {
             default:
                 break;
             case 13:
-                current = ((S_80175574_1 *)arg2)->unk_2C;
+                current = ((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv;
                 table = D_80175E54;
                 goto check_first_table;
             case 14:
-                current = ((S_80175574_1 *)arg2)->unk_2C;
+                current = ((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv;
                 table = D_80175E5C;
                 goto check_first_table;
             case 15:
-                current = ((S_80175574_1 *)arg2)->unk_2C;
+                current = ((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv;
                 table = D_80175E64;
                 goto check_first_table;
 check_first_table:
                 if (current != table) {
                     (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-                    table_index = ((D_80083228 + ((S_80175574_3 *)arg3)->unk_2A + 0x100) >> 9) & 7;
+                    table_index = ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
                     table_index += (unsigned long)table;
                     func_80047784(arg2,
                         *(u8 *)table_index,
@@ -182,11 +161,11 @@ check_first_table:
             }
         }
 
-        if (((S_80175574_3 *)arg3)->unk_25 != 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v != 0) {
             {
                 register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
 
-                kind = ((S_80175574_3 *)arg3)->unk_48;
+                kind = ((Rec_D_800E3D7C *)arg3)->unk_48.at00_u8.v;
                 if (kind == 14) {
                     goto early_second_table_14;
                 }
@@ -205,7 +184,7 @@ early_second_table_14:
                 table = D_80175E6C + 8;
 second_table_call:
                 (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-                table_index = ((D_80083228 + ((S_80175574_3 *)arg3)->unk_2A + 0x100) >> 9) & 7;
+                table_index = ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
                 table_index += (unsigned long)table;
                 func_80047784(arg2,
                     *(u8 *)table_index,
@@ -216,7 +195,7 @@ second_table_call:
         if (D_80083462 & 0x1000) {
             return;
         }
-        if (((S_80175574_3 *)arg3)->unk_64 != 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
             if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
                 return;
             }
@@ -225,7 +204,7 @@ second_table_call:
             return;
         }
         {
-            s32 flags = ((S_80175574_3 *)arg3)->unk_1C;
+            s32 flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32;
 
             if (flags & 0x100) {
                 func_800AA258(arg0, arg1, arg2, arg3);
@@ -237,23 +216,23 @@ second_table_call:
                 return;
             }
         }
-        if (((S_80175574_3 *)arg3)->unk_6D == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
             return;
         }
         if ((func_800A2C34(arg3) << 16) != 0) {
             if ((func_8009A180(arg3,
-                    (u8 *)((S_80175574_4 *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                 return;
             }
         }
         func_800A9A0C(arg3);
         func_800A9A04(arg3);
-        if (((S_80175574_3 *)arg3)->unk_25 == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
             return;
         }
 
 select_second_table:
-        kind = ((S_80175574_3 *)arg3)->unk_48;
+        kind = ((Rec_D_800E3D7C *)arg3)->unk_48.at00_u8.v;
         {
             register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
 
@@ -281,7 +260,7 @@ second_table_15:
             table = D_80175E7C;
 selected_second_table:
             (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-            table_index = ((D_80083228 + ((S_80175574_3 *)arg3)->unk_2A + 0x100) >> 9) & 7;
+            table_index = ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
             table_index += (unsigned long)table;
             func_80047784(arg2,
                 *(u8 *)table_index,
@@ -299,7 +278,7 @@ increment_state:
         return;
 
     case 2:
-        if (!(((S_80175574_1 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000)) {
             return;
         }
         {

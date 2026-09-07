@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_8017573C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -6,13 +7,6 @@ typedef struct S_8017573C_0 {
     s16 unk_04;
 } S_8017573C_0;   /* arg0 in func_8017573C */
 
-typedef struct S_8017573C_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8017573C_1;   /* arg2 in func_8017573C */
 
 
 
@@ -21,7 +15,7 @@ extern void func_800478B8(void *);
 extern s16 D_80083228;
 extern u8 D_80176460[8];
 
-void func_8017573C(S_8017573C_0 *arg0, s32 arg1, S_8017573C_1 *arg2) {
+void func_8017573C(S_8017573C_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
     s32 index;
     s16 state;
     u16 state_u;
@@ -29,7 +23,7 @@ void func_8017573C(S_8017573C_0 *arg0, s32 arg1, S_8017573C_1 *arg2) {
 
     arg0->unk_02.s = arg0->unk_02.s + 1;
     func_800478B8(arg2);
-    if (arg2->unk_14 & 0x6000) {
+    if (arg2->unk_14.at00_u16.v & 0x6000) {
         index = D_80083228;
         index += arg0->unk_04;
         index += 0x100;
@@ -56,19 +50,19 @@ void func_8017573C(S_8017573C_0 *arg0, s32 arg1, S_8017573C_1 *arg2) {
     goto done;
 
 state_one:
-    value = arg2->unk_1E + 0x100;
-    arg2->unk_1E = value;
-    arg2->unk_1C = value;
+    value = arg2->unk_1C.at02_u16.v + 0x100;
+    arg2->unk_1C.at02_u16.v = value;
+    arg2->unk_1C.at00_u16.v = value;
     if ((u16)value >= 0x1000U) {
         goto clamp;
     }
-    if (arg2->unk_1E < 0x1000U) {
+    if (arg2->unk_1C.at02_u16.v < 0x1000U) {
         goto done;
     }
 
 clamp:
-    arg2->unk_1E = 0x1000;
-    arg2->unk_1C = 0x1000;
+    arg2->unk_1C.at02_u16.v = 0x1000;
+    arg2->unk_1C.at00_u16.v = 0x1000;
     arg0->unk_00.u = arg0->unk_00.u + 1;
 
 done:

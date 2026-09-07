@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800A5FDC_0 {
     s32 unk_00;
@@ -17,13 +18,6 @@ typedef struct S_800A5FDC_1 {
     union { s16 s; u16 u; } unk_C8;   /* accessed as both */
 } S_800A5FDC_1;   /* globals in func_800A5FDC */
 
-typedef struct S_800A5FDC_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800A5FDC_2;   /* table in func_800A5FDC */
 
 typedef struct S_800A5FDC_3 {
     u8 pad_00[0x2];
@@ -103,14 +97,14 @@ void func_800A5FDC(u8 *state, u8 *table, void *arg2)
 
 after_updates:
     result = func_80095978(table, D_800FE488);
-    if (((S_800A5FDC_2 *)table)->unk_0A >= result) {
+    if (((Rec_D_800E3D7C *)table)->unk_08.at02_s16.v >= result) {
         func_80095A94(table, result, D_800FE488);
         coordinates = D_80083780;
         goto coordinates_ready;
     }
 
     if (D_800CFCEE[1] != 0) {
-        ((S_800A5FDC_2 *)table)->unk_14 = 0;
+        ((Rec_D_800E3D7C *)table)->unk_14.as_s32 = 0;
         func_800954F4(table);
         coordinates = D_80083780;
         goto coordinates_ready;
@@ -122,11 +116,11 @@ coordinates_ready:
     value = func_8008C180(((S_800A5FDC_3 *)coordinates)->unk_02,
                           ((S_800A5FDC_3 *)coordinates)->unk_06);
     if (func_800C1D44((u16)value) != 0) {
-        ((S_800A5FDC_2 *)table)->unk_14 -= func_800A5894(table);
+        ((Rec_D_800E3D7C *)table)->unk_14.as_s32 -= func_800A5894(table);
     }
 
-    value = func_8003BD84(((S_800A5FDC_2 *)table)->unk_0C,
-                          ((S_800A5FDC_2 *)table)->unk_10);
+    value = func_8003BD84(((Rec_D_800E3D7C *)table)->unk_0C.as_s32,
+                          ((Rec_D_800E3D7C *)table)->unk_10.at00_s32.v);
     if (D_80100E20[0] != 0) {
         delta = abs(D_80100E20[0] - value);
         quotient = (s32)((u32)delta * 7U) / D_80100E20[0];

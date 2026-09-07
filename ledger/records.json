@@ -1,0 +1,8129 @@
+{
+"Rec_D_800E3D7C": {
+"class": "global:D_80174704",
+"header": "records/Rec_D_800E3D7C.h",
+"sha256": "90a7668bd9c0d6ae1f5199e4a047c6617507d809b05dcc2b1027aa18a9cd853e",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_80091A10|S_8008F170_0": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_80091B1C|S_8008F27C_1": {
+"0x8": "unk_08.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_80093314|S_80090A74_0": {
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_800938A0|S_80091000_0": {
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_80094478|S_80091BD8_0": {
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_8009460C|S_80091D6C_1": {
+"0x8": "unk_08.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_80094754|S_80091EB4_1": {
+"0x8": "unk_08.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_800948EC|S_8009204C_0": {
+"0x14": "unk_14.as_s32"
+},
+"town/func_80094994|S_800920F4_1": {
+"0xA": "unk_08.at02_s16.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_80094BC0|S_80092320_0": {
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_80094D8C|S_800924EC_0": {
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_80094F38|S_80092698_0": {
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_8009508C|S_800927EC_0": {
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_80095324|S_80092A84_0": {
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_80095648|S_80092DA8_1": {
+"0xA": "unk_08.at02_s16.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_800977F8|S_80094F58_0": {
+"0xC": "unk_0C.as_vs32",
+"0x10": "unk_10.at00_vs32.v"
+},
+"town/func_80097934|S_80095094_0": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v"
+},
+"town/func_80097C28|S_80095388_0": {
+"0x14": "unk_14.as_s32"
+},
+"town/func_80097C3C|S_8009539C_0": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_80098F68|S_800966C8_0": {
+"0x0": "unk_00.at00_s32.v",
+"0xC": "unk_0C.as_s32"
+},
+"town/func_80098F98|S_800966F8_0": {
+"0x0": "unk_00.at00_s32.v",
+"0xC": "unk_0C.as_s32"
+},
+"town/func_80099080|S_800967E0_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_800990B0|S_80096810_0": {
+"0x8": "unk_08.at00_s32.v"
+},
+"town/func_8009A79C|S_80097EFC_0": {
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_8009AAE4|S_80098244_0": {
+"0x2": "unk_00.at02_s16.v"
+},
+"town/func_8009AC5C|S_800983BC_0": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_8009AD4C|S_800984AC_0": {
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_8009B004|S_80098764_1": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v"
+},
+"town/func_8009B35C|S_80098ABC_1": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_8009B3D0|S_80098B30_1": {
+"0x14": "unk_14.as_s32"
+},
+"town/func_8009BFF4|S_80099754_0": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_8009C030|S_80099790_0": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_8009C134|S_80099894_0": {
+"0x4": "unk_04.at00_s32.v",
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_8009C3A0|S_80099B00_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_8009D610|S_8009AD70_1": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v"
+},
+"town/func_8009D8B4|S_8009B014_0": {
+"0x4": "unk_04.at00_s32.v",
+"0x10": "unk_10.at00_s32.v"
+},
+"town/func_8009DF54|S_8009B6B4_0": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xA": "unk_08.at02_s16.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_8009E0C8|S_8009B828_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_8009E25C|S_8009B9BC_0": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"town/func_8009E878|S_8009BFD8_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xA": "unk_08.at02_u16.v"
+},
+"town/func_8009E9E8|S_8009C148_1": {
+"0x8": "unk_08.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_8009ED88|S_8009C4E8_1": {
+"0xA": "unk_08.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_800A161C|S_8009ED7C_0": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_800A1C14|S_8009F374_0": {
+"0x8": "unk_08.at00_s32.v"
+},
+"town/func_800A2ACC|S_800A022C_1": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_800A5690|S_800A2DF0_1": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v"
+},
+"town/func_800A602C|S_800A378C_1": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_800A7150|S_800A48B0_1": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_800A7E6C|S_800A55CC_1": {
+"0x8": "unk_08.at00_s32.v"
+},
+"town/func_800A7ED8|S_800A5638_1": {
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v",
+"0x10": "unk_10.at00_s32.v"
+},
+"town/func_800A887C|S_800A5FDC_2": {
+"0xA": "unk_08.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_800A8F24|S_800A6684_1": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"town/func_800A9234|S_800A6994_1": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"town/func_800A9BA8|S_800A7308_0": {
+"0x14": "unk_14.as_s32"
+},
+"town/func_800A9C00|S_800A7360_0": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_800B7E1C|S_800B557C_0": {
+"0x26": "unk_26",
+"0x27": "unk_27",
+"0x68": "unk_68",
+"0x69": "unk_69"
+},
+"town/func_800B8158|S_800B58B8_0": {
+"0x4C": "unk_4C.as_s32",
+"0x50": "unk_50.at00_s32.v",
+"0xD8": "unk_D8"
+},
+"town/func_800B8B44|S_800B62A4_1": {
+"0x49": "unk_48.at01_u8.v"
+},
+"town/func_800C2A7C|S_800C01DC_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_800C67E4|S_800C3F44_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_800C780C|S_800C4F6C_3": {
+"0x0": "unk_00.at00_s32.v"
+},
+"town/func_800C79A0|S_800C5100_0": {
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_800C9F14|S_800C7674_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v"
+},
+"town/func_800CAA34|S_800C8194_0": {
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_800CB028|S_800C8788_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_800CB3FC|S_800C8B5C_0": {
+"0x14": "unk_14.as_s32"
+},
+"town/func_800CC658|S_800C9DB8_0": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v"
+},
+"town/func_800CCBA8|S_800CA308_1": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xA": "unk_08.at02_s16.v"
+},
+"town/func_800D04CC|S_800CDC2C_1": {
+"0x8": "unk_08.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_80818F60|S_80022F60_7": {
+"0x0": "unk_00.at00_s32.v"
+},
+"town/func_80819994|S_80023994_2": {
+"0xA": "unk_08.at02_s16.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_8081E9A4|S_800211A4_8": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"town/func_80956158|S_80023158_2": {
+"0x4": "unk_04.at00_s32.v"
+},
+"dungeon/func_7FFF6B50|S_800942B0_0": {
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_7FFF6E58|S_800945B8_0": {
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_7FFFE188|S_7FFFE188_0": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v"
+},
+"dungeon/func_7FFFE25C|S_7FFFE25C_0": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_80086110|S_8008B870_0": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v"
+},
+"dungeon/func_80086110|S_8008B870_2": {
+"0x1C": "unk_1C.as_s32",
+"0x64": "unk_64.as_s16",
+"0x8A": "unk_8A.as_s16"
+},
+"dungeon/func_8008629C|S_8008B9FC_0": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x5C": "unk_5C",
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_800869DC|S_8008C13C_0": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x5C": "unk_5C",
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_80086D08|S_8008C468_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_80086E64|S_8008C5C4_0": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_u16"
+},
+"dungeon/func_80087054|S_8008C7B4_3": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_80087340|S_8008CAA0_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_80088290|S_8008D9F0_2": {
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_80088488|S_8008DBE8_2": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80088488|S_8008DBE8_4": {
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_80088688|S_8008DDE8_1": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0xC": "unk_0C.as_u32",
+"0x10": "unk_10.at00_s32.v"
+},
+"dungeon/func_80088688|S_8008DDE8_2": {
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_s16"
+},
+"dungeon/func_80088964|S_8008E0C4_3": {
+"0x28": "unk_28",
+"0x29": "unk_29",
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_80088B04|S_8008E264_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80088B04|S_8008E264_3": {
+"0x2A": "unk_2A.as_s16",
+"0x5C": "unk_5C"
+},
+"dungeon/func_80089368|S_8008EAC8_2": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v"
+},
+"dungeon/func_80089F8C|S_8008F6EC_0": {
+"0x2A": "unk_2A.as_s16",
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_80089F8C|S_8008F6EC_1": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v"
+},
+"dungeon/func_8008A5F0|S_8008FD50_0": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_8008A5F0|S_8008FD50_3": {
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_8008AAA0|S_80090200_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_8008B4B0|S_80090C10_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x4C": "unk_4C.as_pv",
+"0x50": "unk_50.at00_pv.v",
+"0x8A": "unk_8A.as_s16"
+},
+"dungeon/func_8008CDFC|S_8009255C_2": {
+"0x2A": "unk_2A.as_s16",
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_8008D730|S_80092E90_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_8008D990|S_800930F0_11": {
+"0xC8": "unk_C8"
+},
+"dungeon/func_8008D990|S_800930F0_0": {
+"0x96": "unk_96",
+"0x9B": "unk_9B",
+"0xC8": "unk_C8"
+},
+"dungeon/func_8008E510|S_80093C70_2": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v"
+},
+"dungeon/func_8008E62C|S_80093D8C_2": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v"
+},
+"dungeon/func_8008E714|S_80093E74_0": {
+"0x60": "unk_60.as_pv",
+"0x8A": "unk_8A.as_s16"
+},
+"dungeon/func_8008F228|S_80094988_11": {
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_8008F774|S_80094ED4_0": {
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_800918EC|S_8009704C_1": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80091A48|S_800971A8_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80091A48|S_800971A8_2": {
+"0x5C": "unk_5C"
+},
+"dungeon/func_80091D7C|S_800974DC_1": {
+"0x20": "unk_20",
+"0x2A": "unk_2A.as_s16",
+"0x5C": "unk_5C",
+"0x60": "unk_60.as_pv"
+},
+"dungeon/func_80091D7C|S_800974DC_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_800921D4|S_80097934_2": {
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_800921D4|S_80097934_3": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_800924F0|S_80097C50_1": {
+"0x1C": "unk_1C.as_s32"
+},
+"dungeon/func_80093FD4|S_80099734_0": {
+"0x1C": "unk_1C.as_s32"
+},
+"dungeon/func_80093FD4|S_80099734_1": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0xA6": "unk_A4.at02_s16.v"
+},
+"dungeon/func_80094A20|S_8009A180_1": {
+"0x1C": "unk_1C.as_s32",
+"0x58": "unk_58",
+"0x5C": "unk_5C"
+},
+"dungeon/func_80096084|S_8009B7E4_1": {
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_800975F8|S_8009CD58_0": {
+"0x14": "unk_14.as_u16",
+"0x4C": "unk_4C.as_pv",
+"0x50": "unk_50.at00_pu8.v"
+},
+"dungeon/func_80097AB8|S_8009D218_1": {
+"0x50": "unk_50.at00_pu8.v"
+},
+"dungeon/func_8009A9D4|S_800A0134_1": {
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_8009AE44|S_800A05A4_0": {
+"0x72": "unk_72.as_s8",
+"0x73": "unk_73.as_s8",
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_8009C3E4|S_800A1B44_0": {
+"0x5C": "unk_5C"
+},
+"dungeon/func_8009D3A4|S_800A2B04_0": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v"
+},
+"dungeon/func_8009D558|S_800A2CB8_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_u32",
+"0x1C": "unk_1C.as_u32",
+"0x98": "unk_98"
+},
+"dungeon/func_8009D880|S_800A2FE0_0": {
+"0x14": "unk_14.as_s32",
+"0x60": "unk_60.as_pv"
+},
+"dungeon/func_8009DB44|S_800A32A4_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x1C": "unk_1C.as_s32"
+},
+"dungeon/func_8009E5B8|S_800A3D18_6": {
+"0x128": "unk_128"
+},
+"dungeon/func_8009EBA0|S_800A4300_1": {
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_8009F428|S_800A4B88_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x1C": "unk_1C.as_s32"
+},
+"dungeon/func_800A069C|S_800A5DFC_0": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x29": "unk_29",
+"0x2A": "unk_2A.as_u16",
+"0x64": "unk_64.as_s16",
+"0x6A": "unk_6A.as_s16"
+},
+"dungeon/func_800A1160|S_800A68C0_0": {
+"0x1C": "unk_1C.as_u32"
+},
+"dungeon/func_800A1194|S_800A68F4_0": {
+"0x1C": "unk_1C.as_s32"
+},
+"dungeon/func_800A3D40|S_800A94A0_1": {
+"0x0": "unk_00.at00_u8.v",
+"0x1": "unk_00.at01_u8.v"
+},
+"dungeon/func_800A42AC|S_800A9A0C_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x1C": "unk_1C.as_s32",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_s8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_800A4710|S_800A9E70_0": {
+"0x14": "unk_14.as_s32",
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x43": "unk_43",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_s8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_800A4AF8|S_800AA258_1": {
+"0x1C": "unk_1C.as_s32",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_800A4E84|S_800AA5E4_1": {
+"0x1C": "unk_1C.as_s32"
+},
+"dungeon/func_800A5128|S_800AA888_3": {
+"0x60": "unk_60.as_pv"
+},
+"dungeon/func_800A5128|S_800AA888_2": {
+"0x1C": "unk_1C.as_s32",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_800A53B0|S_800AAB10_1": {
+"0x11": "unk_10.at01_u8.v",
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x1C": "unk_1C.as_s32",
+"0x54": "unk_54.as_s32"
+},
+"dungeon/func_800A5544|S_800AACA4_6": {
+"0xA": "unk_08.at02_s16.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_800A5A60|S_800AB1C0_3": {
+"0x1C": "unk_1C.as_s32",
+"0x46": "unk_44.at02_u16.v",
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_800A6018|S_800AB778_18": {
+"0x0": "unk_00.at00_pv.v"
+},
+"dungeon/func_800A6018|S_800AB778_5": {
+"0x0": "unk_00.at00_pv.v"
+},
+"dungeon/func_800A68B0|S_800AC010_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_800A68B0|S_800AC010_3": {
+"0x1C": "unk_1C.as_s32",
+"0x6A": "unk_6A.as_s16",
+"0x71": "unk_71.as_s8",
+"0x88": "unk_88.as_s16",
+"0x8A": "unk_8A.as_u16"
+},
+"dungeon/func_800A6D20|S_800AC480_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_800A6E68|S_800AC5C8_2": {
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_800A70CC|S_800AC82C_4": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v"
+},
+"dungeon/func_800A7438|S_800ACB98_2": {
+"0x1C": "unk_1C.as_s32"
+},
+"dungeon/func_800A7614|S_800ACD74_2": {
+"0x1C": "unk_1C.as_s32"
+},
+"dungeon/func_800A78F8|S_800AD058_4": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0xA": "unk_08.at02_s16.v"
+},
+"dungeon/func_800A8254|S_800AD9B4_0": {
+"0x25": "unk_24.at01_u8.v",
+"0x71": "unk_71.as_s8",
+"0x88": "unk_88.as_s16",
+"0x8A": "unk_8A.as_u16"
+},
+"dungeon/func_800A84EC|S_800ADC4C_2": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v"
+},
+"dungeon/func_800ABD54|S_800B14B4_0": {
+"0x104": "unk_104"
+},
+"dungeon/func_800ABD7C|S_800B14DC_0": {
+"0x9A": "unk_9A"
+},
+"dungeon/func_800ACB90|S_800B22F0_2": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v"
+},
+"dungeon/func_800ACDDC|S_800B253C_0": {
+"0x14": "unk_14.as_s32",
+"0x1C": "unk_1C.as_s32",
+"0x43": "unk_43",
+"0x6D": "unk_6D.as_s8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_800ADD2C|S_800B348C_1": {
+"0x14": "unk_14.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x4C": "unk_4C.as_s32",
+"0x5C": "unk_5C",
+"0x60": "unk_60.as_pv"
+},
+"dungeon/func_800ADD2C|S_800B348C_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_800AE5B0|S_800B3D10_5": {
+"0x4C": "unk_4C.as_pv"
+},
+"dungeon/func_800AE5B0|S_800B3D10_0": {
+"0x14": "unk_14.as_s32",
+"0x20": "unk_20",
+"0x4C": "unk_4C.as_pv"
+},
+"dungeon/func_800B127C|S_800B69DC_0": {
+"0x1C": "unk_1C.as_s32",
+"0x64": "unk_64.as_s16"
+},
+"dungeon/func_800B2014|S_800B7774_3": {
+"0x11": "unk_10.at01_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800B7CFC|S_800BD45C_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x1C": "unk_1C.as_s32",
+"0x110": "unk_110"
+},
+"dungeon/func_800B7E64|S_800BD5C4_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x1C": "unk_1C.as_s32",
+"0x110": "unk_110"
+},
+"dungeon/func_800B7FCC|S_800BD72C_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x1C": "unk_1C.as_s32",
+"0x110": "unk_110"
+},
+"dungeon/func_800B82E4|S_800BDA44_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x26": "unk_26",
+"0x68": "unk_68",
+"0x110": "unk_110"
+},
+"dungeon/func_800B8414|S_800BDB74_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x27": "unk_27",
+"0x69": "unk_69",
+"0x110": "unk_110"
+},
+"dungeon/func_800B8F90|S_800BE6F0_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x1C": "unk_1C.as_s32",
+"0x110": "unk_110"
+},
+"dungeon/func_800B93D0|S_800BEB30_1": {
+"0x13": "unk_10.at03_u8.v"
+},
+"dungeon/func_800B9914|S_800BF074_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800B9AB0|S_800BF210_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800B9BEC|S_800BF34C_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800B9D18|S_800BF478_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800B9E44|S_800BF5A4_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800B9F70|S_800BF6D0_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800BA09C|S_800BF7FC_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x88": "unk_88.as_s16",
+"0x110": "unk_110"
+},
+"dungeon/func_800BA28C|S_800BF9EC_0": {
+"0x11": "unk_10.at01_u8.v",
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800BA4A0|S_800BFC00_0": {
+"0x0": "unk_00.at00_u8.v",
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x26": "unk_26",
+"0x68": "unk_68",
+"0x110": "unk_110"
+},
+"dungeon/func_800BA620|S_800BFD80_0": {
+"0x1": "unk_00.at01_u8.v",
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x27": "unk_27",
+"0x69": "unk_69",
+"0x110": "unk_110"
+},
+"dungeon/func_800BA7A0|S_800BFF00_0": {
+"0x11": "unk_10.at01_u8.v",
+"0x13": "unk_10.at03_u8.v",
+"0x18": "unk_18",
+"0x41": "unk_41",
+"0x42": "unk_42",
+"0x110": "unk_110"
+},
+"dungeon/func_800BA8DC|S_800C003C_0": {
+"0x2": "unk_00.at02_u8.v",
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x110": "unk_110"
+},
+"dungeon/func_800BC3BC|S_800C1B1C_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800BC9D0|S_800C2130_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800BCB8C|S_800C22EC_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800BDAD8|S_800C3238_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800BDBDC|S_800C333C_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800BE1A0|S_800C3900_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x1C": "unk_1C.as_u32",
+"0x24": "unk_24.at00_s16.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800BE4A8|S_800C3C08_0": {
+"0x3": "unk_00.at03_u8.v",
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x110": "unk_110"
+},
+"dungeon/func_800BE8D0|S_800C4030_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800BEAC0|S_800C4220_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x110": "unk_110"
+},
+"dungeon/func_800BED30|S_800C4490_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x28": "unk_28",
+"0x29": "unk_29",
+"0x64": "unk_64.as_s16",
+"0x110": "unk_110"
+},
+"dungeon/func_800C29F0|S_800C8150_0": {
+"0x12": "unk_10.at02_u8.v",
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_u32",
+"0x54": "unk_54.as_u32"
+},
+"dungeon/func_800C3028|S_800C8788_0": {
+"0x11": "unk_10.at01_u8.v"
+},
+"dungeon/func_800C47D4|S_800C9F34_2": {
+"0x18": "unk_18",
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_800C587C|S_800CAFDC_4": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_800C60CC|S_800CB82C_8": {
+"0x14": "unk_14.as_s32",
+"0x1C": "unk_1C.as_s32",
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_800C6540|S_800CBCA0_0": {
+"0x3": "unk_00.at03_u8.v",
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_800C72B4|S_800CCA14_3": {
+"0x11": "unk_10.at01_u8.v"
+},
+"dungeon/func_800C7A44|S_800CD1A4_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_800C7C24|S_800CD384_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_800C8234|S_800CD994_0": {
+"0x13": "unk_10.at03_u8.v",
+"0x14": "unk_14.as_s32",
+"0xA4": "unk_A4.at00_s32.v",
+"0xAA": "unk_AA"
+},
+"dungeon/func_800CC320|S_800D1A80_2": {
+"0x1C": "unk_1C.as_s32"
+},
+"dungeon/func_800CDD6C|S_800D34CC_1": {
+"0x1C": "unk_1C.as_s32"
+},
+"dungeon/func_800D066C|S_800D5DCC_1": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_800D0820|S_800D5F80_0": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xA": "unk_08.at02_s16.v"
+},
+"dungeon/func_800D0820|S_800D5F80_1": {
+"0x2A": "unk_2A.as_u16"
+},
+"dungeon/func_800D1374|S_800D6AD4_7": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_800D3504|S_800D8C64_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_800D3504|S_800D8C64_3": {
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_800D41BC|S_800D991C_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_800D41BC|S_800D991C_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_800D451C|S_800D9C7C_0": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_800D451C|S_800D9C7C_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_800D48B4|S_800DA014_2": {
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_800D56E4|S_800DAE44_1": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v"
+},
+"dungeon/func_807B0238|S_807B0238_4": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_80921000|S_80921000_0": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0x8": "unk_08.at00_s16.v"
+},
+"dungeon/func_80975CD4|S_801714D4_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80976D48|S_80172548_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_80977248|S_80172A48_4": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80977A94|S_80173294_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80977A94|S_80173294_2": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_809782AC|S_80173AAC_3": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80978600|S_80173E00_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_8099F8EC|S_801710EC_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_809A079C|S_80171F9C_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_809A0A34|S_809A0A34_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_809A10A8|S_801728A8_3": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_809A15DC|S_80172DDC_2": {
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_809A15DC|S_80172DDC_3": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_809A1D60|S_80173560_5": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_809A2A14|S_80174214_3": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_809A35A0|S_80174DA0_1": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_809A58EC|S_8016B0EC_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_809AB8EC|S_801650EC_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_809B18EC|S_8015F0EC_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_809B78EC|S_801590EC_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_809BD8EC|S_801530EC_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_809C38EC|S_8014D0EC_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_809C9654|S_80170E54_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_809CA5A0|S_80171DA0_0": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_u8",
+"0x85": "unk_85.as_u8"
+},
+"dungeon/func_809CA764|S_80171F64_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_809CAA58|S_80172258_2": {
+"0x1C": "unk_1C.as_u32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_809CAA58|S_80172258_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_809CB224|S_80172A24_5": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_809CB714|S_80172F14_0": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_809CB714|S_80172F14_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_809CBEF4|S_801736F4_3": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_809F4C34|S_80172434_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_809F5574|S_80172D74_6": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_809F5B54|S_80173354_0": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_809F5B54|S_80173354_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_809F622C|S_80173A2C_2": {
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_809F622C|S_80173A2C_7": {
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_809F66D8|S_80173ED8_3": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_809F7000|S_80174800_3": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v"
+},
+"dungeon/func_809F7320|S_80174B20_6": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_80A1EA88|S_80172288_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80A1EA88|S_80172288_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80A1EED4|S_801726D4_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80A1F0C4|S_801728C4_5": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80A1F8B8|S_801730B8_0": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80A1F8B8|S_801730B8_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80A48C28|S_80172428_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_80A48F8C|S_8017278C_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80A48F8C|S_8017278C_3": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80A49170|S_80172970_5": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80A495D0|S_80172DD0_0": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80A495D0|S_80172DD0_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80A4BA70|S_80175270_4": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_80A71654|S_80170E54_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80A71654|S_80170E54_6": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v"
+},
+"dungeon/func_80A72C78|S_80172478_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80A7304C|S_8017284C_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80A7304C|S_8017284C_3": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80A734C0|S_80172CC0_4": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80A73A38|S_80173238_0": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80A73EF4|S_801736F4_2": {
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80A79A38|S_8016D238_0": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80A7FA38|S_80167238_0": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80A85A38|S_80161238_0": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80A8BA38|S_8015B238_0": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80A91A38|S_80155238_0": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80A97A38|S_8014F238_0": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80A9B67C|S_80170E7C_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80A9B67C|S_80170E7C_6": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v"
+},
+"dungeon/func_80A9D030|S_80172830_3": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80A9D4E8|S_80172CE8_4": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80A9DA34|S_80173234_2": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80A9EBBC|S_801743BC_2": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v"
+},
+"dungeon/func_80A9EE48|S_80174648_4": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_80AA3A34|S_8016D234_2": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80AA9A34|S_80167234_2": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80AAFA34|S_80161234_2": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80AB5A34|S_8015B234_2": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80ABBA34|S_80155234_2": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80AC1A34|S_8014F234_2": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80AC5F28|S_80171728_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80AC73AC|S_80172BAC_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80AC73AC|S_80172BAC_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80AC77D8|S_80172FD8_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80AC7A30|S_80173230_4": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80AC8164|S_80173964_1": {
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80AC8164|S_80173964_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80AC88DC|S_801740DC_3": {
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80AC9128|S_80174928_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_80ACD3AC|S_8016CBAC_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80ACD3AC|S_8016CBAC_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80AD33AC|S_80166BAC_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80AD33AC|S_80166BAC_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80AD93AC|S_80160BAC_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80AD93AC|S_80160BAC_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80ADF3AC|S_80ADF3AC_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80ADF3AC|S_80ADF3AC_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80AE53AC|S_80154BAC_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80AE53AC|S_80154BAC_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80AEB3AC|S_8014EBAC_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80AEB3AC|S_8014EBAC_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80AEFFF4|S_801717F4_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80AF1454|S_80172C54_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80AF1454|S_80172C54_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80AF1880|S_80173080_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80AF1A80|S_80173280_4": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80AF200C|S_8017380C_1": {
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80AF200C|S_8017380C_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80AF7454|S_8016CC54_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80AF7454|S_8016CC54_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80AFD454|S_80166C54_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80AFD454|S_80166C54_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B03454|S_80160C54_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80B03454|S_80160C54_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B09454|S_80B09454_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80B09454|S_80B09454_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B0F454|S_80154C54_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80B0F454|S_80154C54_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B15454|S_8014EC54_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80B15454|S_8014EC54_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B1AA58|S_80172258_2": {
+"0x1C": "unk_1C.as_u32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80B1AA58|S_80172258_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B1AE20|S_80172620_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80B1B010|S_80172810_5": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B44A90|S_80172290_2": {
+"0x1C": "unk_1C.as_u32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80B44A90|S_80172290_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B452F8|S_80172AF8_5": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B6EA90|S_80172290_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B6EA90|S_80172290_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80B6EDD0|S_801725D0_5": {
+"0xA": "unk_08.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B6F204|S_80172A04_5": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B6F6F4|S_80172EF4_0": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80B6F6F4|S_80172EF4_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B98600|S_80171E00_0": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_80B987C4|S_80171FC4_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_80B98958|S_80172158_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B98D24|S_80172524_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B98D24|S_80172524_3": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80B9913C|S_8017293C_4": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B995B4|S_80172DB4_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80B995B4|S_80172DB4_2": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80B9993C|S_8017313C_2": {
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80B99D64|S_80173564_3": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80B9B1A8|S_801749A8_4": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_80BC3120|S_80172920_0": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_80BC32AC|S_80172AAC_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_80BC35B0|S_80172DB0_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80BC3AC4|S_801732C4_4": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80BC4214|S_80173A14_1": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80BC4214|S_80173A14_2": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28"
+},
+"dungeon/func_80BC489C|S_8017409C_3": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80BEB814|S_80171014_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80BEC6CC|S_80171ECC_0": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_u8",
+"0x85": "unk_85.as_u8"
+},
+"dungeon/func_80BEC890|S_80172090_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_80BECBF0|S_801723F0_2": {
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_80BEE4EC|S_80173CEC_6": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_80C15BA8|S_801713A8_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80C4194C|S_8017314C_0": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80C4194C|S_8017314C_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80C429A0|S_801741A0_1": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_80C42F04|S_80174704_5": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_80C6B604|S_80172E04_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80C6B878|S_80173078_4": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80C94C58|S_80172458_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_80C94C58|S_80172458_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80C951A8|S_801729A8_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80C958E0|S_801730E0_1": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80C958E0|S_801730E0_2": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28"
+},
+"dungeon/func_80C97514|S_80C97514_6": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_80CBE9B0|S_801721B0_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80CBEDB8|S_801725B8_2": {
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_80CBEF98|S_80172798_4": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80CBF410|S_80172C10_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80CBF410|S_80172C10_2": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80CBFBF0|S_801733F0_3": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80CC0398|S_80173B98_1": {
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80CC1724|S_80174F24_2": {
+"0x1C": "unk_1C.as_u32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80CC266C|S_80175E6C_0": {
+"0x2A": "unk_2A.as_s16",
+"0x60": "unk_60.as_pv",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_80CC2828|S_80176028_1": {
+"0x60": "unk_60.as_pu8",
+"0x8A": "unk_8A.as_u16"
+},
+"dungeon/func_80CE7A1C|S_8017121C_7": {
+"0x14": "unk_14.as_u32",
+"0x2A": "unk_2A.as_u16",
+"0x60": "unk_60.as_pv",
+"0x72": "unk_72.as_u8",
+"0x73": "unk_73.as_u8"
+},
+"dungeon/func_80CE8CBC|S_801724BC_1": {
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x48": "unk_48.at00_u8.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80CEA86C|S_8017406C_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80CEA86C|S_8017406C_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80CEABC4|S_801743C4_3": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x48": "unk_48.at00_u8.v"
+},
+"dungeon/func_80CEAF2C|S_8017472C_5": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80CEB444|S_80174C44_1": {
+"0x28": "unk_28",
+"0x48": "unk_48.at00_u8.v",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80CEB444|S_80174C44_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80CEBD74|S_80175574_3": {
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x48": "unk_48.at00_u8.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80CF0BC4|S_8016E3C4_3": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x48": "unk_48.at00_u8.v"
+},
+"dungeon/func_80CF6BC4|S_801683C4_3": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x48": "unk_48.at00_u8.v"
+},
+"dungeon/func_80CFCBC4|S_801623C4_3": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x48": "unk_48.at00_u8.v"
+},
+"dungeon/func_80D02BC4|S_8015C3C4_3": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x48": "unk_48.at00_u8.v"
+},
+"dungeon/func_80D08BC4|S_801563C4_3": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x48": "unk_48.at00_u8.v"
+},
+"dungeon/func_80D0EBC4|S_801503C4_3": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x48": "unk_48.at00_u8.v"
+},
+"dungeon/func_80D11820|S_80171020_5": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_80D11F60|S_80171760_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80D137FC|S_80172FFC_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80D13E4C|S_8017364C_4": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80D14F6C|S_8017476C_0": {
+"0x2A": "unk_2A.as_s16",
+"0x60": "unk_60.as_s32",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_80D150D0|S_801748D0_1": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80D150D0|S_801748D0_5": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x60": "unk_60.as_pv"
+},
+"dungeon/func_80D3BFD0|S_801717D0_1": {
+"0xA6": "unk_A4.at02_u16.v"
+},
+"dungeon/func_80D3C280|S_80171A80_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80D3D3B0|S_80172BB0_0": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_80D3D588|S_80172D88_1": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_80D3D8C4|S_801730C4_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80D3E260|S_80173A60_3": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80D3EF88|S_80174788_3": {
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80D3FD8C|S_8017558C_2": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80D3FD8C|S_8017558C_3": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_80D40884|S_80176084_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80D40884|S_80176084_3": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80D659DC|S_80D659DC_7": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_80D6671C|S_80171F1C_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80D6760C|S_80172E0C_1": {
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_80D67680|S_80172E80_0": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_u8",
+"0x85": "unk_85.as_u8"
+},
+"dungeon/func_80D678A4|S_801730A4_0": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_80D67BB4|S_801733B4_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80D67FF8|S_801737F8_3": {
+"0x1C": "unk_1C.as_u32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_80D68308|S_80173B08_4": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80D69CF0|S_801754F0_0": {
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_80D6A3E0|S_80175BE0_0": {
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_80D6A3E0|S_80175BE0_2": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80D6A4D8|S_80175CD8_2": {
+"0x11": "unk_10.at01_u8.v",
+"0x1C": "unk_1C.as_u32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_80D8F668|S_80170E68_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80D90580|S_80171D80_0": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_u8",
+"0x85": "unk_85.as_u8"
+},
+"dungeon/func_80D90790|S_80171F90_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_80D90ABC|S_801722BC_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80D91070|S_80172870_5": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80D91524|S_80172D24_0": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80D91524|S_80172D24_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80DBBDE8|S_801735E8_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80DBBFC8|S_801737C8_4": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80DBD29C|S_80174A9C_0": {
+"0x2A": "unk_2A.as_s16",
+"0x60": "unk_60.as_s32",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_80DBD3EC|S_80174BEC_1": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80DE4B6C|S_8017236C_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_80DE4CE8|S_801724E8_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80DE50B4|S_801728B4_3": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80DE56D0|S_80172ED0_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80DE56D0|S_80172ED0_2": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80DE5A54|S_80173254_2": {
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80DE5D7C|S_8017357C_3": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80E0E9C0|S_801721C0_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_80E0EAE4|S_801722E4_4": {
+"0x60": "unk_60.as_pv"
+},
+"dungeon/func_80E0EAE4|S_801722E4_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_80E0F03C|S_8017283C_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_80E0F14C|S_8017294C_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_80E0F498|S_80172C98_1": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E0F498|S_80172C98_2": {
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_80E0F7C0|S_80172FC0_1": {
+"0x1C": "unk_1C.as_u32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x60": "unk_60.as_pv",
+"0x6D": "unk_6D.as_u8",
+"0x72": "unk_72.as_s8",
+"0x73": "unk_73.as_s8",
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_80E0FF70|S_80173770_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E0FF70|S_80173770_2": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80E1023C|S_80173A3C_2": {
+"0x14": "unk_14.as_u32",
+"0x1C": "unk_1C.as_u32",
+"0x49": "unk_48.at01_u8.v",
+"0x4B": "unk_48.at03_u8.v",
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_80E109CC|S_801741CC_3": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80E10F64|S_80174764_2": {
+"0x14": "unk_14.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x60": "unk_60.as_pv"
+},
+"dungeon/func_80E11860|S_80175060_2": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E38ABC|S_801722BC_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80E38ABC|S_801722BC_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E38EA4|S_801726A4_2": {
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_80E390E4|S_801728E4_2": {
+"0x0": "unk_00.at00_u8.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E39504|S_80172D04_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E39504|S_80172D04_2": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80E3A440|S_80173C40_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_80E3A540|S_80173D40_2": {
+"0x1C": "unk_1C.as_s32"
+},
+"dungeon/func_80E61EF4|S_801716F4_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80E6334C|S_80172B4C_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80E6334C|S_80172B4C_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E63794|S_80172F94_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80E639C8|S_801731C8_4": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E6934C|S_8016CB4C_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80E6934C|S_8016CB4C_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E6F34C|S_80166B4C_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80E6F34C|S_80166B4C_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E7534C|S_80160B4C_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80E7534C|S_80160B4C_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E7B34C|S_80E7B34C_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80E7B34C|S_80E7B34C_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E8134C|S_80154B4C_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80E8134C|S_80154B4C_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E8734C|S_8014EB4C_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80E8734C|S_8014EB4C_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E8B8F4|S_801710F4_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80E8CD40|S_80172540_2": {
+"0x1C": "unk_1C.as_u32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80E8CD40|S_80172540_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E8D108|S_80172908_0": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80E8D108|S_80172908_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E8DC20|S_80173420_1": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80E8DC20|S_80173420_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80E8DEEC|S_801736EC_1": {
+"0x1C": "unk_1C.as_s32",
+"0x48": "unk_48.at00_s8.v",
+"0x49": "unk_48.at01_u8.v"
+},
+"dungeon/func_80E8F3F8|S_80174BF8_1": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x48": "unk_48.at00_s8.v",
+"0x49": "unk_48.at01_s8.v",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80EB59A4|S_801711A4_1": {
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80EB6CF4|S_801724F4_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v"
+},
+"dungeon/func_80EB6FC8|S_801727C8_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x60": "unk_60.as_pv",
+"0x6D": "unk_6D.as_u8",
+"0x72": "unk_72.as_s8",
+"0x73": "unk_73.as_s8"
+},
+"dungeon/func_80EB6FC8|S_801727C8_6": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80EB751C|S_80172D1C_6": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80EE18E0|S_801730E0_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80EE1D14|S_80173514_3": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80EE1FB0|S_801737B0_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x60": "unk_60.as_pv",
+"0x6D": "unk_6D.as_u8",
+"0x72": "unk_72.as_s8",
+"0x73": "unk_73.as_s8"
+},
+"dungeon/func_80EE1FB0|S_801737B0_5": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80EE2534|S_80173D34_1": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80EE2534|S_80173D34_2": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28"
+},
+"dungeon/func_80EE3024|S_80174824_0": {
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_80EE78E0|S_8016D0E0_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80EED8E0|S_801670E0_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80EF38E0|S_801610E0_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80EF98E0|S_80EF98E0_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80EFF8E0|S_801550E0_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80F058E0|S_8014F0E0_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80F0B2A8|S_80172AA8_5": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80F0B798|S_80172F98_1": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80F0B798|S_80172F98_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80F348D8|S_801720D8_0": {
+"0x14": "unk_14.as_s32",
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_u16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_80F34FB4|S_801727B4_1": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80F34FB4|S_801727B4_3": {
+"0x14": "unk_14.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x60": "unk_60.as_s32",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80F3575C|S_80172F5C_5": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80F35C5C|S_8017345C_0": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80F35C5C|S_8017345C_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80F36BE8|S_801743E8_2": {
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_80F5EA88|S_80172288_2": {
+"0x1C": "unk_1C.as_u32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80F5EA88|S_80172288_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80F60808|S_80F60808_0": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_80F89240|S_80172A40_5": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80F89700|S_80172F00_1": {
+"0x1C": "unk_1C.as_u32",
+"0x28": "unk_28",
+"0x2A": "unk_2A.as_s16",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80F89700|S_80172F00_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80F89D7C|S_8017357C_2": {
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80F89D7C|S_8017357C_7": {
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80F8A1F8|S_801739F8_3": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80F8A8F4|S_801740F4_0": {
+"0x14": "unk_14.as_s32",
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_u16",
+"0x60": "unk_60.as_s32",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_80FB2B14|S_80172314_0": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_u8",
+"0x85": "unk_85.as_u8"
+},
+"dungeon/func_80FB2D14|S_80172514_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_u8",
+"0x85": "unk_85.as_u8"
+},
+"dungeon/func_80FB3034|S_80172834_2": {
+"0x1C": "unk_1C.as_u32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_80FB3034|S_80172834_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80FB33FC|S_80172BFC_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80FB35EC|S_80172DEC_5": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80FB3AB4|S_801732B4_0": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_80FB3AB4|S_801732B4_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80FB402C|S_8017382C_4": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80FDB6A8|S_80170EA8_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80FDC88C|S_8017208C_0": {
+"0x3": "unk_00.at03_u8.v",
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_80FDCFEC|S_801727EC_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_80FDD7E4|S_80172FE4_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_80FDD7E4|S_80172FE4_2": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_81006AE0|S_801722E0_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_81007034|S_80172834_5": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_810074E0|S_80172CE0_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_810074E0|S_80172CE0_2": {
+"0x1C": "unk_1C.as_s32",
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_s16"
+},
+"dungeon/func_81007CE0|S_801734E0_3": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_81008208|S_80173A08_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_81008208|S_80173A08_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_810312D8|S_80172AD8_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_810312D8|S_80172AD8_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_810318E4|S_801730E4_4": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_81031F30|S_80173730_1": {
+"0x28": "unk_28",
+"0x6A": "unk_6A.as_u16"
+},
+"dungeon/func_81031F30|S_80173730_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_8105A724|S_80171F24_0": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_8105B1D4|S_801729D4_5": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_8105C45C|S_80173C5C_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_8105C45C|S_80173C5C_3": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_81084A18|S_80172218_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_81084B34|S_80172334_1": {
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_81085198|S_80172998_1": {
+"0x1C": "unk_1C.as_u32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_81085198|S_80172998_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_81085C6C|S_8017346C_2": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_81085DBC|S_801735BC_2": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_810860B4|S_801738B4_3": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_810876B4|S_80174EB4_4": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_810AEB74|S_80172374_1": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_810AEB74|S_80172374_2": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_810AEEC4|S_801726C4_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_810AF0B4|S_801728B4_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x60": "unk_60.as_pv",
+"0x6D": "unk_6D.as_u8",
+"0x72": "unk_72.as_s8",
+"0x73": "unk_73.as_s8"
+},
+"dungeon/func_810AFA04|S_80173204_2": {
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_812A524C|S_812A524C_2": {
+"0x0": "unk_00.at00_pv.v"
+},
+"dungeon/func_812A67A4|S_80171FA4_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_812A7C08|S_80173408_3": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_812A8130|S_80173930_2": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_812A8130|S_80173930_3": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_812AC7A4|S_8016BFA4_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_812B27A4|S_80165FA4_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_812B87A4|S_8015FFA4_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_812BE7A4|S_80159FA4_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_812C47A4|S_80153FA4_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_812CA7A4|S_8014DFA4_1": {
+"0x1C": "unk_1C.as_u32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_813238E8|S_8016B0E8_7": {
+"0x0": "unk_00.at00_s32.v"
+},
+"dungeon/func_81323F78|S_8016B778_1": {
+"0x18": "unk_18",
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_813250AC|S_8016C8AC_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_s8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_81325380|S_8016CB80_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_81325380|S_8016CB80_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_81325EF0|S_8016D6F0_3": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8"
+},
+"dungeon/func_81326920|S_8016E120_0": {
+"0xD2": "unk_D2"
+},
+"dungeon/func_81327F8C|S_8016F78C_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_81328CA0|S_801704A0_1": {
+"0x1C": "unk_1C.as_s32",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v"
+},
+"dungeon/func_81328CA0|S_801704A0_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_8132B074|S_80172874_5": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_8132C76C|S_80173F6C_4": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_8132C8F8|S_801740F8_3": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_8132DED0|S_80164ED0_3": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_8132E018|S_80165018_1": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_8132E6F8|S_801656F8_3": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_813306CC|S_801676CC_4": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_8133336C|S_8016A36C_2": {
+"0x18": "unk_18",
+"0x1C": "unk_1C.as_s32",
+"0x25": "unk_24.at01_u8.v",
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x64": "unk_64.as_s16",
+"0x6D": "unk_6D.as_s8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_81334954|S_8016B954_0": {
+"0x2A": "unk_2A.as_s16",
+"0x46": "unk_44.at02_u16.v",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8",
+"0x84": "unk_84.as_u8",
+"0x85": "unk_85.as_s8"
+},
+"dungeon/func_81335190|S_8016C190_4": {
+"0xC": "unk_0C.as_s32",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14.as_s32"
+},
+"dungeon/func_813366F8|S_8016D6F8_0": {
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_81336AC0|S_8016DAC0_0": {
+"0x2A": "unk_2A.as_s16",
+"0x6D": "unk_6D.as_u8",
+"0x71": "unk_71.as_u8"
+},
+"dungeon/func_81337998|S_8016E998_4": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_81337E8C|S_8016EE8C_3": {
+"0x0": "unk_00.at00_s32.v"
+},
+"dungeon/func_8133AD74|S_80171D74_9": {
+"0x0": "unk_00.at00_vs32.v",
+"0x4": "unk_04.at00_s32.v"
+},
+"dungeon/func_8133C140|S_80173140_3": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_81809800|S_81809800_5": {
+"0xA": "unk_08.at02_s16.v"
+},
+"dungeon/func_81809A0C|S_8002520C_3": {
+"0x0": "unk_00.at00_s32.v"
+},
+"dungeon/func_8182C800|S_8182C800_0": {
+"0x0": "unk_00.at00_pv.v",
+"0x4": "unk_04.at00_pu16.v",
+"0x9": "unk_08.at01_u8.v",
+"0xA": "unk_08.at02_s16.v",
+"0xC": "unk_0C.as_s32",
+"0x44": "unk_44.at00_s32.v",
+"0x48": "unk_48.at00_s32.v",
+"0x4C": "unk_4C.as_s32",
+"0x50": "unk_50.at00_u16.v",
+"0x52": "unk_50.at02_u16.v"
+},
+"dungeon/func_818B0850|S_818B0850_0": {
+"0x28": "unk_28",
+"0x64": "unk_64.as_u16"
+},
+"dungeon/func_818B6824|S_818B6824_0": {
+"0x28": "unk_28",
+"0x64": "unk_64.as_u16"
+},
+"dungeon/func_818BC824|S_818BC824_0": {
+"0x64": "unk_64.as_u16"
+},
+"dungeon/func_818D4B94|S_818D4B94_3": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_818F33BC|S_80024BBC_1": {
+"0x8": "unk_08.at00_pv.v"
+},
+"dungeon/func_81940800|S_81940800_0": {
+"0x2A": "unk_2A.as_u16",
+"0x2C": "unk_2C",
+"0x32": "unk_32",
+"0x60": "unk_60.as_s32"
+},
+"dungeon/func_81994800|S_81994800_0": {
+"0x2A": "unk_2A.as_u16",
+"0x2C": "unk_2C",
+"0x32": "unk_32",
+"0x60": "unk_60.as_s32"
+},
+"dungeon/func_819ACDA0|S_819ACDA0_2": {
+"0x2A": "unk_2A.as_s16"
+}
+},
+"unmapped": [
+"town/func_80092C9C|S_800903FC_0",
+"town/func_80093B00|S_80091260_0",
+"town/func_8009408C|S_800917EC_0",
+"town/func_80098520|S_80095C80_1",
+"town/func_8009C410|S_80099B70_0",
+"town/func_800A1828|S_8009EF88_0",
+"town/func_800A8134|S_800A5894_0",
+"town/func_800BF718|S_800BCE78_1",
+"town/func_800C2BFC|S_800C035C_1",
+"town/func_800C5DFC|S_800C355C_0",
+"town/func_800C674C|S_800C3EAC_0",
+"town/func_800CAF8C|S_800C86EC_0",
+"town/func_800CB4DC|S_800C8C3C_0",
+"town/func_800CC3E4|S_800C9B44_0",
+"town/func_800CE910|S_800CC070_1",
+"town/func_800D037C|S_800CDADC_0",
+"town/func_800D0548|S_800CDCA8_1",
+"town/func_800D10A0|S_800CE800_0",
+"town/func_80816DF0|S_80020DF0_2",
+"town/func_80956260|S_80023260_1",
+"dungeon/func_80087440|S_8008CBA0_0",
+"dungeon/func_80088964|S_8008E0C4_0",
+"dungeon/func_80089368|S_8008EAC8_1",
+"dungeon/func_8008C504|S_80091C64_2",
+"dungeon/func_8008C8B8|S_80092018_3",
+"dungeon/func_8008D084|S_800927E4_3",
+"dungeon/func_80090C24|S_80096384_3",
+"dungeon/func_80092EB4|S_80098614_0",
+"dungeon/func_8009D658|S_800A2DB8_0",
+"dungeon/func_800A5544|S_800AACA4_1",
+"dungeon/func_800A57A0|S_800AAF00_2",
+"dungeon/func_800A7E34|S_800AD594_0",
+"dungeon/func_800B89C0|S_800BE120_0",
+"dungeon/func_800C3650|S_800C8DB0_0",
+"dungeon/func_800D3B60|S_800D92C0_0",
+"dungeon/func_80977E0C|S_8017360C_2",
+"dungeon/func_809A10A8|S_801728A8_4",
+"dungeon/func_809A2650|S_80173E50_2",
+"dungeon/func_809CAE20|S_80172620_2",
+"dungeon/func_809CB224|S_80172A24_1",
+"dungeon/func_809F5574|S_80172D74_0",
+"dungeon/func_80A1F0C4|S_801728C4_1",
+"dungeon/func_80A49170|S_80172970_1",
+"dungeon/func_80A72C78|S_80172478_2",
+"dungeon/func_80A73A38|S_80173238_2",
+"dungeon/func_80A79A38|S_8016D238_2",
+"dungeon/func_80A7FA38|S_80167238_2",
+"dungeon/func_80A85A38|S_80161238_2",
+"dungeon/func_80A8BA38|S_8015B238_2",
+"dungeon/func_80A91A38|S_80155238_2",
+"dungeon/func_80A97A38|S_8014F238_2",
+"dungeon/func_80A9D030|S_80172830_2",
+"dungeon/func_80A9DA34|S_80173234_1",
+"dungeon/func_80AA3A34|S_8016D234_1",
+"dungeon/func_80AA9A34|S_80167234_1",
+"dungeon/func_80AAFA34|S_80161234_1",
+"dungeon/func_80AB5A34|S_8015B234_1",
+"dungeon/func_80ABBA34|S_80155234_1",
+"dungeon/func_80AC1A34|S_8014F234_1",
+"dungeon/func_80AC9228|S_80174A28_3",
+"dungeon/func_80AF1A80|S_80173280_1",
+"dungeon/func_80AF3098|S_80174898_3",
+"dungeon/func_80B1B010|S_80172810_1",
+"dungeon/func_80B44E54|S_80172654_1",
+"dungeon/func_80B452F8|S_80172AF8_1",
+"dungeon/func_80B6EDD0|S_801725D0_0",
+"dungeon/func_80B6F204|S_80172A04_1",
+"dungeon/func_80B98958|S_80172158_2",
+"dungeon/func_80BC1BA8|S_801713A8_0",
+"dungeon/func_80BC7BA8|S_8016B3A8_0",
+"dungeon/func_80BCDBA8|S_801653A8_0",
+"dungeon/func_80BD3BA8|S_8015F3A8_0",
+"dungeon/func_80BD9BA8|S_801593A8_0",
+"dungeon/func_80BDFBA8|S_801533A8_0",
+"dungeon/func_80BE5BA8|S_8014D3A8_0",
+"dungeon/func_80BEB258|S_80170A58_0",
+"dungeon/func_80CC085C|S_8017405C_0",
+"dungeon/func_80CE7CFC|S_801714FC_0",
+"dungeon/func_80CEAF2C|S_8017472C_1",
+"dungeon/func_80D13E4C|S_8017364C_1",
+"dungeon/func_80D17000|S_80D17000_2",
+"dungeon/func_80D23000|S_80D23000_2",
+"dungeon/func_80D29000|S_80D29000_2",
+"dungeon/func_80D35000|S_80D35000_2",
+"dungeon/func_80D3D8C4|S_801730C4_2",
+"dungeon/func_80D3DD10|S_80173510_2",
+"dungeon/func_80D3EBDC|S_801743DC_2",
+"dungeon/func_80D66CB0|S_801724B0_0",
+"dungeon/func_80D67BB4|S_801733B4_1",
+"dungeon/func_80D90ABC|S_801722BC_2",
+"dungeon/func_80D91070|S_80172870_1",
+"dungeon/func_80DBD3EC|S_80174BEC_8",
+"dungeon/func_80DE4CE8|S_801724E8_2",
+"dungeon/func_80DE6220|S_80173A20_3",
+"dungeon/func_80E0EC38|S_80172438_0",
+"dungeon/func_80E105D4|S_80173DD4_2",
+"dungeon/func_80E390E4|S_801728E4_1",
+"dungeon/func_80E3AA7C|S_8017427C_2",
+"dungeon/func_80E8D490|S_80172C90_0",
+"dungeon/func_80E8D490|S_80172C90_2",
+"dungeon/func_80EB6CF4|S_801724F4_0",
+"dungeon/func_80EB751C|S_80172D1C_2",
+"dungeon/func_80EE18E0|S_801730E0_1",
+"dungeon/func_80EE78E0|S_8016D0E0_1",
+"dungeon/func_80EED8E0|S_801670E0_1",
+"dungeon/func_80EF38E0|S_801610E0_1",
+"dungeon/func_80EF98E0|S_80EF98E0_1",
+"dungeon/func_80EFF8E0|S_801550E0_1",
+"dungeon/func_80F03000|S_80F03000_0",
+"dungeon/func_80F058E0|S_8014F0E0_1",
+"dungeon/func_80F0A9A4|S_801721A4_0",
+"dungeon/func_80F0B2A8|S_80172AA8_1",
+"dungeon/func_80F3575C|S_80172F5C_1",
+"dungeon/func_80F89240|S_80172A40_1",
+"dungeon/func_80FB35EC|S_80172DEC_1",
+"dungeon/func_80FB4E68|S_80174668_2",
+"dungeon/func_80FDE420|S_80173C20_1",
+"dungeon/func_81005278|S_80170A78_0",
+"dungeon/func_81007034|S_80172834_1",
+"dungeon/func_8102FCB8|S_801714B8_1",
+"dungeon/func_81033FE0|S_801757E0_2",
+"dungeon/func_81033FE0|S_801757E0_8",
+"dungeon/func_8105B1D4|S_801729D4_1",
+"dungeon/func_81085508|S_80172D08_2",
+"dungeon/func_81088290|S_80175A90_4",
+"dungeon/func_810AF0B4|S_801728B4_5",
+"dungeon/func_812A7C08|S_80173408_4",
+"dungeon/func_813238E8|S_8016B0E8_15",
+"dungeon/func_81333FC4|S_8016AFC4_0",
+"dungeon/func_81335190|S_8016C190_1",
+"dungeon/func_81339D2C|S_80170D2C_4",
+"dungeon/func_81844800|S_81844800_0",
+"dungeon/func_818E0800|S_818E0800_0"
+],
+"rows": 537,
+"structs": 642,
+"span": 300,
+"containers": {
+"town": 73,
+"dungeon": 569
+},
+"unions": 26,
+"members": 52
+},
+"Rec_D_80082E80": {
+"class": "global:D_800848F8",
+"header": "records/Rec_D_80082E80.h",
+"sha256": "b1af355ead917f49e49d814d65fd3bad96acccf55a92ae4a9b84a2f60053e796",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"town/func_8009DAB8|S_8009B218_1": {
+"0x0": "unk_00",
+"0x4": "unk_04.as_s8",
+"0x5": "unk_05.as_s8"
+},
+"town/func_8009E878|S_8009BFD8_2": {
+"0x8": "unk_08"
+},
+"town/func_800A052C|S_8009DC8C_1": {
+"0x12": "unk_12.at00_s16.v"
+},
+"town/func_800A5DA8|S_800A3508_0": {
+"0x0": "unk_00",
+"0x4": "unk_04.as_s8",
+"0x5": "unk_05.as_s8",
+"0x8": "unk_08",
+"0xC": "unk_0C.at00_s32.v",
+"0x1C": "unk_1C.at00_s16.v",
+"0x1E": "unk_1C.at02_s16.v"
+},
+"town/func_800A602C|S_800A378C_2": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v",
+"0x10": "unk_10.as_s16",
+"0x14": "unk_14.at00_u16.v"
+},
+"town/func_800AACE0|S_800A8440_0": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v"
+},
+"town/func_800AAF5C|S_800A86BC_2": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v"
+},
+"town/func_800AD3C0|S_800AAB20_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v"
+},
+"town/func_800ADA80|S_800AB1E0_2": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v"
+},
+"town/func_800AE3C0|S_800ABB20_2": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v"
+},
+"town/func_800BE8AC|S_800BC00C_1": {
+"0xC": "unk_0C.at00_s32.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"town/func_800BEF6C|S_800BC6CC_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"town/func_800BF004|S_800BC764_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"town/func_800BF170|S_800BC8D0_0": {
+"0x14": "unk_14.at00_u16.v"
+},
+"town/func_800BF718|S_800BCE78_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"town/func_800C0AB4|S_800BE214_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"town/func_800C2BFC|S_800C035C_8": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x2C": "unk_2C.as_s32"
+},
+"town/func_800C55D4|S_800C2D34_1": {
+"0x5": "unk_05.as_s8"
+},
+"town/func_800C837C|S_800C5ADC_0": {
+"0x14": "unk_14.at00_u16.v"
+},
+"town/func_800C8510|S_800C5C70_0": {
+"0x14": "unk_14.at00_u16.v"
+},
+"town/func_800CB73C|S_800C8E9C_0": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v"
+},
+"town/func_800CD454|S_800CABB4_0": {
+"0x8": "unk_08"
+},
+"town/func_800CE380|S_800CBAE0_1": {
+"0x8": "unk_08"
+},
+"town/func_80820EBC|S_800236BC_2": {
+"0x4": "unk_04.as_u8",
+"0x5": "unk_05.as_u8",
+"0x8": "unk_08",
+"0x12": "unk_12.at00_s16.v",
+"0x14": "unk_14.at00_u16.v"
+},
+"town/func_809541C4|S_800211C4_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x2C": "unk_2C.as_s32"
+},
+"town/func_80956260|S_80023260_2": {
+"0x28": "unk_28.at00_s32.v",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80086110|S_8008B870_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8008629C|S_8008B9FC_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_800869DC|S_8008C13C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_80086DB4|S_8008C514_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_800878C4|S_8008D024_3": {
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80088290|S_8008D9F0_1": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80088488|S_8008DBE8_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80088688|S_8008DDE8_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80088B04|S_8008E264_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80089368|S_8008EAC8_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80089F8C|S_8008F6EC_2": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8008A5F0|S_8008FD50_1": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_8008B4B0|S_80090C10_7": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8008C3FC|S_80091B5C_0": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8008C504|S_80091C64_3": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8008C8B8|S_80092018_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_8008CDFC|S_8009255C_4": {
+"0x8": "unk_08",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8008D084|S_800927E4_6": {
+"0x8": "unk_08",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8008E510|S_80093C70_4": {
+"0x28": "unk_28.at00_s32.v"
+},
+"dungeon/func_8008E62C|S_80093D8C_4": {
+"0x28": "unk_28.at00_s32.v"
+},
+"dungeon/func_8008E8CC|S_8009402C_1": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8008F774|S_80094ED4_1": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80090C24|S_80096384_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_800918EC|S_8009704C_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80091A48|S_800971A8_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80091D7C|S_800974DC_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_800921D4|S_80097934_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_800943B8|S_80099B18_0": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v",
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80096084|S_8009B7E4_0": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8009A5E0|S_8009FD40_0": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8009A5E0|S_8009FD40_1": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8009EBA0|S_800A4300_0": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_800A4E84|S_800AA5E4_2": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x26": "unk_26.as_s8"
+},
+"dungeon/func_800A5544|S_800AACA4_7": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_800A5A60|S_800AB1C0_1": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_800A6018|S_800AB778_0": {
+"0x13": "unk_12.at01_u8.v",
+"0x14": "unk_14.at00_s32.v",
+"0x1C": "unk_1C.at00_s32.v",
+"0x43": "unk_43",
+"0x44": "unk_44",
+"0xA8": "unk_A8"
+},
+"dungeon/func_800A68B0|S_800AC010_1": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x26": "unk_26.as_u8"
+},
+"dungeon/func_800A6E68|S_800AC5C8_1": {
+"0x14": "unk_14.at00_s32.v",
+"0x1C": "unk_1C.at00_s32.v",
+"0x2A": "unk_28.at02_u16.v",
+"0x6A": "unk_6A",
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_800A70CC|S_800AC82C_0": {
+"0x6": "unk_06.as_s16",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_800A7438|S_800ACB98_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_800A7614|S_800ACD74_1": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v",
+"0xF": "unk_0C.at03_s8.v",
+"0x10": "unk_10.as_s16",
+"0x12": "unk_12.at00_u16.v",
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_800A8254|S_800AD9B4_2": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x26": "unk_26.as_s8"
+},
+"dungeon/func_800AD84C|S_800B2FAC_1": {
+"0x1C": "unk_1C.at00_s32.v"
+},
+"dungeon/func_800ADD2C|S_800B348C_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_800B0C48|S_800B63A8_2": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v"
+},
+"dungeon/func_800B127C|S_800B69DC_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_800B24B4|S_800B7C14_0": {
+"0x0": "unk_00",
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v",
+"0x14": "unk_14.at00_u16.v",
+"0x16": "unk_14.at02_u16.v",
+"0x18": "unk_18"
+},
+"dungeon/func_800BC7C8|S_800C1F28_0": {
+"0x1C": "unk_1C.at00_u32.v",
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_800BFCCC|S_800C542C_2": {
+"0x14": "unk_14.at00_s32.v"
+},
+"dungeon/func_800C0304|S_800C5A64_0": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v"
+},
+"dungeon/func_800C0620|S_800C5D80_1": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v"
+},
+"dungeon/func_800C5448|S_800CABA8_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_800CE9F8|S_800D4158_0": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_800D0178|S_800D58D8_1": {
+"0x4": "unk_04.as_s8",
+"0x6": "unk_06.as_u16",
+"0x2C": "unk_2C.as_s32"
+},
+"dungeon/func_800D25D0|S_800D7D30_2": {
+"0x4": "unk_04.as_s8",
+"0x5": "unk_05.as_s8",
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v",
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_800D38EC|S_800D904C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_800D41BC|S_800D991C_3": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_800D451C|S_800D9C7C_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_800D48B4|S_800DA014_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x26": "unk_26.as_s8"
+},
+"dungeon/func_800D5A04|S_800DB164_1": {
+"0xC": "unk_0C.at00_s32.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_80286894|S_80019894_1": {
+"0x0": "unk_00"
+},
+"dungeon/func_80921A44|S_80921A44_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_809750E8|S_809750E8_1": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v"
+},
+"dungeon/func_80975170|S_80975170_3": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_80977064|S_80172864_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80977A94|S_80173294_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80977E0C|S_8017360C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x26": "unk_26.as_s8"
+},
+"dungeon/func_8097B0E8|S_8016A8E8_1": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v"
+},
+"dungeon/func_809870E8|S_8015E8E8_1": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v"
+},
+"dungeon/func_8098D0E8|S_801588E8_1": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v"
+},
+"dungeon/func_809990E8|S_8014C8E8_1": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v"
+},
+"dungeon/func_809A0C80|S_80172480_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x2C": "unk_2C.as_pm"
+},
+"dungeon/func_809A10A8|S_801728A8_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_809A15DC|S_80172DDC_1": {
+"0x5": "unk_05.as_u8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_809A2650|S_80173E50_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x26": "unk_26.as_s8"
+},
+"dungeon/func_809C9B9C|S_8017139C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_809CAA58|S_80172258_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_809CAE20|S_80172620_1": {
+"0x4": "unk_04.as_s8",
+"0xC": "unk_0C.at00_s32.v",
+"0x12": "unk_12.at00_u16.v",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x28": "unk_28.at00_s32.v",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_809CB224|S_80172A24_4": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_809CB714|S_80172F14_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_809F4C34|S_80172434_2": {
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_809F5B54|S_80173354_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_809F622C|S_80173A2C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x26": "unk_26.as_s8"
+},
+"dungeon/func_809F66D8|S_80173ED8_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_809F6BEC|S_801743EC_1": {
+"0x4": "unk_04.as_s8",
+"0x5": "unk_05.as_s8",
+"0xC": "unk_0C.at00_s32.v",
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_809F7320|S_80174B20_10": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A1EA88|S_80172288_4": {
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_80A1EED4|S_801726D4_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A1F8B8|S_801730B8_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A1FBBC|S_801733BC_7": {
+"0x14": "unk_14.at00_u32.v",
+"0x1C": "unk_1C.at00_u32.v"
+},
+"dungeon/func_80A48F8C|S_8017278C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80A495D0|S_80172DD0_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A4BA70|S_80175270_5": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A71D70|S_80171570_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80A72C78|S_80172478_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A7304C|S_8017284C_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_80A734C0|S_80172CC0_3": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_80A73A38|S_80173238_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A79A38|S_8016D238_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A7FA38|S_80167238_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A85A38|S_80161238_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A8BA38|S_8015B238_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A91A38|S_80155238_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A97A38|S_8014F238_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A9D030|S_80172830_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A9DA34|S_80173234_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80A9EE48|S_80174648_5": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80AA3A34|S_8016D234_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80AA9A34|S_80167234_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80AAFA34|S_80161234_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80AB5A34|S_8015B234_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80ABBA34|S_80155234_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80AC1A34|S_8014F234_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80AC5820|S_80AC5820_3": {
+"0x6": "unk_06.as_s16"
+},
+"dungeon/func_80AC64D4|S_80171CD4_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80AC73AC|S_80172BAC_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80AC77D8|S_80172FD8_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80AC7A30|S_80173230_3": {
+"0x4": "unk_04.as_s8",
+"0x12": "unk_12.at00_u16.v",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80AC8164|S_80173964_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_80AC88DC|S_801740DC_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80ACD3AC|S_8016CBAC_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80AD33AC|S_80166BAC_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80AD93AC|S_80160BAC_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80ADF3AC|S_80ADF3AC_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80AE53AC|S_80154BAC_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80AEB3AC|S_8014EBAC_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80AF1454|S_80172C54_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80AF1880|S_80173080_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80AF200C|S_8017380C_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_80AF3B98|S_80175398_4": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80AF7454|S_8016CC54_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80AFD454|S_80166C54_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80B03454|S_80160C54_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80B09454|S_80B09454_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80B0F454|S_80154C54_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80B15454|S_8014EC54_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80B1AA58|S_80172258_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80B1AE20|S_80172620_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80B44A90|S_80172290_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80B44E54|S_80172654_2": {
+"0x4": "unk_04.as_s8",
+"0x8": "unk_08",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80B47C70|S_80175470_4": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80B6EA90|S_80172290_3": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80B6EDD0|S_801725D0_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80B6F6F4|S_80172EF4_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80B98600|S_80171E00_2": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80B98958|S_80172158_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80B98D24|S_80172524_2": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80B9913C|S_8017293C_3": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80B995B4|S_80172DB4_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80B99D64|S_80173564_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80B9B1A8|S_801749A8_9": {
+"0x60": "unk_60.as_pv"
+},
+"dungeon/func_80B9B1A8|S_801749A8_1": {
+"0x13": "unk_12.at01_u8.v",
+"0x2A": "unk_28.at02_u16.v",
+"0x60": "unk_60.as_pv",
+"0x6D": "unk_6D",
+"0x8A": "unk_8A"
+},
+"dungeon/func_80B9B1A8|S_801749A8_5": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80BC1BA8|S_801713A8_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80BC3120|S_80172920_2": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80BC35B0|S_80172DB0_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80BC3AC4|S_801732C4_3": {
+"0x4": "unk_04.as_s8",
+"0x5": "unk_05.as_u8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80BC4214|S_80173A14_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80BC7BA8|S_8016B3A8_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80BCDBA8|S_801653A8_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80BD3BA8|S_8015F3A8_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80BD9BA8|S_801593A8_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80BDFBA8|S_801533A8_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80BE5BA8|S_8014D3A8_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80BEB258|S_80170A58_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80BEC890|S_80172090_2": {
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80BECBF0|S_801723F0_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80BEDF38|S_80173738_1": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v",
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80BEE4EC|S_80173CEC_1": {
+"0x13": "unk_12.at01_u8.v",
+"0x1C": "unk_1C.at00_s32.v",
+"0x2A": "unk_28.at02_u16.v",
+"0x60": "unk_60.as_s32",
+"0x8A": "unk_8A"
+},
+"dungeon/func_80BEE4EC|S_80173CEC_10": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80C4194C|S_8017314C_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80C41C50|S_80173450_1": {
+"0x14": "unk_14.at00_s32.v",
+"0x1C": "unk_1C.at00_s32.v"
+},
+"dungeon/func_80C429A0|S_801741A0_2": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v"
+},
+"dungeon/func_80C42F04|S_80174704_7": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80C6B604|S_80172E04_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80C6B878|S_80173078_3": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80C94C58|S_80172458_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80C951A8|S_801729A8_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80C958E0|S_801730E0_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80C97514|S_80C97514_13": {
+"0x60": "unk_60.as_pv"
+},
+"dungeon/func_80C97514|S_80C97514_1": {
+"0x13": "unk_12.at01_u8.v",
+"0x2A": "unk_28.at02_u16.v",
+"0x60": "unk_60.as_pv",
+"0x6D": "unk_6D",
+"0x8A": "unk_8A"
+},
+"dungeon/func_80C97514|S_80C97514_8": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80CBE9B0|S_801721B0_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80CBEDB8|S_801725B8_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80CBEF98|S_80172798_3": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80CBF410|S_80172C10_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80CE7794|S_80170F94_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_80CE94C0|S_80172CC0_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80CE9E78|S_80173678_2": {
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80CEA86C|S_8017406C_2": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80CEABC4|S_801743C4_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80CEB444|S_80174C44_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80CF0BC4|S_8016E3C4_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80CF6BC4|S_801683C4_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80CFCBC4|S_801623C4_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80D02BC4|S_8015C3C4_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80D08BC4|S_801563C4_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80D0EBC4|S_801503C4_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80D137FC|S_80172FFC_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80D13E4C|S_8017364C_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pm"
+},
+"dungeon/func_80D3D3B0|S_80172BB0_1": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80D3D8C4|S_801730C4_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80D3DD10|S_80173510_1": {
+"0x4": "unk_04.as_s8",
+"0x5": "unk_05.as_u8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80D3E260|S_80173A60_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80D3EBDC|S_801743DC_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x26": "unk_26.as_s8"
+},
+"dungeon/func_80D3F464|S_80174C64_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80D3FD8C|S_8017558C_1": {
+"0x4": "unk_04.as_s8",
+"0x6": "unk_06.as_s16",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80D40884|S_80176084_2": {
+"0x6": "unk_06.as_s16",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80D65534|S_80D65534_2": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_80D66CB0|S_801724B0_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80D67680|S_80172E80_2": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80D67BB4|S_801733B4_3": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80D67FF8|S_801737F8_2": {
+"0x10": "unk_10.as_s16",
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80D68308|S_80173B08_3": {
+"0x10": "unk_10.as_s16",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80D6A4D8|S_80175CD8_1": {
+"0x5": "unk_05.as_u8",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80D90580|S_80171D80_1": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80D90ABC|S_801722BC_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80D91524|S_80172D24_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80DB9840|S_80171040_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80DB9C2C|S_8017142C_2": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v",
+"0x14": "unk_14.at00_u16.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_80DBBDE8|S_801735E8_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x2C": "unk_2C.as_pm"
+},
+"dungeon/func_80DBBFC8|S_801737C8_3": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80DBC9D8|S_801741D8_6": {
+"0x26": "unk_26.as_s8"
+},
+"dungeon/func_80DBD3EC|S_80174BEC_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80DE4CE8|S_801724E8_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80DE56D0|S_80172ED0_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80DE5A54|S_80173254_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x26": "unk_26.as_s8"
+},
+"dungeon/func_80DE5D7C|S_8017357C_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80DE6220|S_80173A20_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80DE6A54|S_80DE6A54_0": {
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_80E0DED8|S_801716D8_1": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_80E0F03C|S_8017283C_2": {
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80E0F14C|S_8017294C_2": {
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80E0F498|S_80172C98_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80E0FF70|S_80173770_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80E105D4|S_80173DD4_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x26": "unk_26.as_s8"
+},
+"dungeon/func_80E10F64|S_80174764_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80E11F3C|S_8017573C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_80E38ABC|S_801722BC_2": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80E38EA4|S_801726A4_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80E39504|S_80172D04_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80E3ADF0|S_801745F0_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80E3B4CC|S_80174CCC_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80E3C5D0|S_80175DD0_0": {
+"0x8": "unk_08",
+"0x28": "unk_28.at00_s32.v"
+},
+"dungeon/func_80E3C98C|S_80E3C98C_0": {
+"0x14": "unk_14.at00_s32.v",
+"0x1C": "unk_1C.at00_u32.v",
+"0x60": "unk_60.as_s32",
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_80E61558|S_80170D58_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_80E6334C|S_80172B4C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x1E": "unk_1C.at02_s16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80E63794|S_80172F94_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80E639C8|S_801731C8_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80E6934C|S_8016CB4C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x1E": "unk_1C.at02_s16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80E6F34C|S_80166B4C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x1E": "unk_1C.at02_s16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80E7534C|S_80160B4C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x1E": "unk_1C.at02_s16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80E7B34C|S_80E7B34C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x1E": "unk_1C.at02_s16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80E8134C|S_80154B4C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x1E": "unk_1C.at02_s16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80E8734C|S_8014EB4C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x1E": "unk_1C.at02_s16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80E8CD40|S_80172540_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80E8D108|S_80172908_2": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80E8D490|S_80172C90_5": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80E8DC20|S_80173420_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80EB6CF4|S_801724F4_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80EB6FC8|S_801727C8_4": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pm"
+},
+"dungeon/func_80EB751C|S_80172D1C_4": {
+"0x12": "unk_12.at00_u16.v",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x28": "unk_28.at00_s32.v"
+},
+"dungeon/func_80EE18E0|S_801730E0_2": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80EE1D14|S_80173514_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80EE1FB0|S_801737B0_4": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_80EE2534|S_80173D34_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80EE78E0|S_8016D0E0_2": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80EED8E0|S_801670E0_2": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80EF38E0|S_801610E0_2": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80EF98E0|S_80EF98E0_2": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80EFF8E0|S_801550E0_2": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80F058E0|S_8014F0E0_2": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80F0B798|S_80172F98_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80F34FB4|S_801727B4_2": {
+"0x4": "unk_04.as_s8",
+"0x8": "unk_08",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80F35C5C|S_8017345C_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80F5EA88|S_80172288_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80F5FAA4|S_801732A4_1": {
+"0xC": "unk_0C.at00_s32.v",
+"0x12": "unk_12.at00_u16.v",
+"0x14": "unk_14.at00_u16.v",
+"0x26": "unk_26.as_s8",
+"0x28": "unk_28.at00_s32.v",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80F606C0|S_80F606C0_2": {
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_80F60808|S_80F60808_2": {
+"0x2C": "unk_2C.as_pm"
+},
+"dungeon/func_80F88C94|S_80172494_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80F89700|S_80172F00_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80F89D7C|S_8017357C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x26": "unk_26.as_s8"
+},
+"dungeon/func_80F8A1F8|S_801739F8_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80F8A70C|S_80173F0C_1": {
+"0x4": "unk_04.as_s8",
+"0x5": "unk_05.as_s8",
+"0xC": "unk_0C.at00_s32.v",
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_80F8A8F4|S_801740F4_2": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80FB2B14|S_80172314_1": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80FB3034|S_80172834_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80FB33FC|S_80172BFC_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80FB35EC|S_80172DEC_4": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_80FB3AB4|S_801732B4_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80FB3DB8|S_801735B8_2": {
+"0x14": "unk_14.at00_s32.v",
+"0x1C": "unk_1C.at00_s32.v"
+},
+"dungeon/func_80FB402C|S_8017382C_11": {
+"0x26": "unk_26.as_s8"
+},
+"dungeon/func_80FDCFEC|S_801727EC_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80FDD7E4|S_80172FE4_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80FDE420|S_80173C20_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_81007034|S_80172834_4": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_810074E0|S_80172CE0_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_81008208|S_80173A08_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8102F0D4|S_8102F0D4_3": {
+"0x6": "unk_06.as_s16"
+},
+"dungeon/func_8102F348|S_8102F348_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_810312D8|S_80172AD8_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x1C": "unk_1C.at00_s16.v",
+"0x1E": "unk_1C.at02_s16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_81031704|S_80172F04_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_810318E4|S_801730E4_3": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_81031F30|S_80173730_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8105A724|S_80171F24_1": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8105C45C|S_80173C5C_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_81085198|S_80172998_2": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_81085508|S_80172D08_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_81085DBC|S_801735BC_3": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8108726C|S_80174A6C_2": {
+"0x28": "unk_28.at00_s32.v"
+},
+"dungeon/func_810873C8|S_80174BC8_2": {
+"0x8": "unk_08",
+"0x28": "unk_28.at00_s32.v"
+},
+"dungeon/func_81087524|S_80174D24_3": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_8108809C|S_8017589C_3": {
+"0x28": "unk_28.at00_s32.v"
+},
+"dungeon/func_810AEB74|S_80172374_3": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_810AEEC4|S_801726C4_1": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_810AF0B4|S_801728B4_4": {
+"0x4": "unk_04.as_s8",
+"0xC": "unk_0C.at00_s32.v",
+"0x12": "unk_12.at00_u16.v",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x28": "unk_28.at00_s32.v",
+"0x2C": "unk_2C.as_pm"
+},
+"dungeon/func_81251544|S_80170D44_3": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_812A7C08|S_80173408_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_812A8130|S_80173930_1": {
+"0x5": "unk_05.as_u8",
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_81324514|S_8016BD14_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_81325EF0|S_8016D6F0_1": {
+"0x14": "unk_14.at00_u16.v",
+"0x26": "unk_26.as_s8",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_81327F8C|S_8016F78C_2": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x26": "unk_26.as_s8",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_81328CA0|S_801704A0_2": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_81329CB0|S_801714B0_2": {
+"0x4": "unk_04.as_s8",
+"0x14": "unk_14.at00_u16.v",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_8132B5FC|S_80172DFC_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_81330540|S_80167540_1": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v",
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_81333FC4|S_8016AFC4_2": {
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_81334954|S_8016B954_2": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_8180DA84|S_80026A84_0": {
+"0x8": "unk_08"
+},
+"dungeon/func_818154FC|S_818154FC_2": {
+"0xC": "unk_0C.at00_s32.v",
+"0x1C": "unk_1C.at00_s16.v",
+"0x1E": "unk_1C.at02_s16.v"
+},
+"dungeon/func_8182718C|S_8182718C_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_818330F0|S_818330F0_2": {
+"0xC": "unk_0C.at00_s32.v"
+},
+"dungeon/func_8184AEAC|S_800246AC_1": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_8185CB30|S_8185CB30_3": {
+"0x14": "unk_14.at00_u16.v",
+"0x1A": "unk_1A.as_s16"
+},
+"dungeon/func_81862B74|S_81862B74_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_818931B8|S_818931B8_3": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_8189EA64|S_80024264_2": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_818A4B40|S_818A4B40_3": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_818B0AE0|S_800242E0_3": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_818B68B8|S_818B68B8_3": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_818BD0C0|S_818BD0C0_2": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v",
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_818BD3B0|S_818BD3B0_3": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_818C2F10|S_818C2F10_3": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_818C3448|S_818C3448_2": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v",
+"0x14": "unk_14.at00_u16.v",
+"0x1A": "unk_1A.as_u16",
+"0x1C": "unk_1C.at00_s16.v",
+"0x1E": "unk_1C.at02_s16.v"
+},
+"dungeon/func_818C3898|S_818C3898_2": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v",
+"0x1A": "unk_1A.as_u16",
+"0x1C": "unk_1C.at00_s16.v",
+"0x1E": "unk_1C.at02_s16.v"
+},
+"dungeon/func_818CEDC8|S_818CEDC8_2": {
+"0x14": "unk_14.at00_u16.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_818E0D94|S_818E0D94_2": {
+"0x4": "unk_04.as_s8",
+"0x5": "unk_05.as_s8",
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v",
+"0x14": "unk_14.at00_u16.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_81917234|S_80024A34_1": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v",
+"0x10": "unk_10.as_u16",
+"0x14": "unk_14.at00_u16.v",
+"0x1A": "unk_1A.as_s16",
+"0x1C": "unk_1C.at00_s16.v",
+"0x1E": "unk_1C.at02_s16.v"
+},
+"dungeon/func_8191740C|S_80024C0C_2": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v",
+"0x14": "unk_14.at00_u16.v",
+"0x1A": "unk_1A.as_u16",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_81917894|S_80025094_2": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v",
+"0x1A": "unk_1A.as_u16",
+"0x1C": "unk_1C.at00_s16.v",
+"0x1E": "unk_1C.at02_s16.v"
+},
+"dungeon/func_81917A70|S_80025270_2": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v",
+"0x10": "unk_10.as_u16",
+"0x12": "unk_12.at00_s16.v",
+"0x14": "unk_14.at00_u16.v",
+"0x1A": "unk_1A.as_s16",
+"0x1C": "unk_1C.at00_s16.v",
+"0x1E": "unk_1C.at02_s16.v"
+},
+"dungeon/func_8191C848|S_8191C848_2": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_8194CD5C|S_8002455C_3": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v",
+"0x14": "unk_14.at00_u16.v",
+"0x1A": "unk_1A.as_u16",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_8196ACE4|S_8196ACE4_3": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v",
+"0x14": "unk_14.at00_u16.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_81977E0C|S_81977E0C_1": {
+"0xC": "unk_0C.at00_u8.v",
+"0xD": "unk_0C.at01_u8.v",
+"0xE": "unk_0C.at02_u8.v",
+"0x14": "unk_14.at00_u16.v",
+"0x1C": "unk_1C.at00_u16.v",
+"0x1E": "unk_1C.at02_u16.v"
+},
+"dungeon/func_8197D3B8|S_8197D3B8_3": {
+"0x14": "unk_14.at00_u16.v"
+},
+"dungeon/func_819A0EF0|S_800246F0_1": {
+"0xC": "unk_0C.at00_s8.v",
+"0xD": "unk_0C.at01_s8.v",
+"0xE": "unk_0C.at02_s8.v"
+}
+},
+"unmapped": [
+"town/func_80816DF0|S_80020DF0_3",
+"town/func_8081DED0|S_800206D0_2",
+"dungeon/func_800875EC|S_8008CD4C_0",
+"dungeon/func_800A4710|S_800A9E70_2",
+"dungeon/func_800C5C14|S_800CB374_1",
+"dungeon/func_800C5EA0|S_800CB600_0",
+"dungeon/func_800D3B60|S_800D92C0_2",
+"dungeon/func_809F5F24|S_80173724_1",
+"dungeon/func_80A4BA70|S_80175270_1",
+"dungeon/func_80A9EE48|S_80174648_1",
+"dungeon/func_80AF3B98|S_80175398_1",
+"dungeon/func_80B47C70|S_80175470_1",
+"dungeon/func_80B9993C|S_8017313C_1",
+"dungeon/func_80C15BA8|S_801713A8_2",
+"dungeon/func_80C42F04|S_80174704_1",
+"dungeon/func_80CC0398|S_80173B98_2",
+"dungeon/func_80CC085C|S_8017405C_1",
+"dungeon/func_80CE8CBC|S_801724BC_2",
+"dungeon/func_80E3A578|S_80173D78_1",
+"dungeon/func_80E3A578|S_80173D78_2",
+"dungeon/func_80E3AA7C|S_8017427C_1",
+"dungeon/func_80EB59A4|S_801711A4_2",
+"dungeon/func_80EB79FC|S_801731FC_1",
+"dungeon/func_81005278|S_80170A78_1",
+"dungeon/func_8102FCB8|S_801714B8_2",
+"dungeon/func_810AFA04|S_80173204_1",
+"dungeon/func_813238E8|S_8016B0E8_14",
+"dungeon/func_81323F78|S_8016B778_2",
+"dungeon/func_81325380|S_8016CB80_2",
+"dungeon/func_8182D544|S_8182D544_3",
+"dungeon/func_81839358|S_81839358_3",
+"dungeon/func_8183EFD8|S_8183EFD8_2",
+"dungeon/func_81881398|S_80024B98_1",
+"dungeon/func_818E71DC|S_800249DC_3",
+"dungeon/func_8192365C|S_80024E5C_1"
+],
+"rows": 377,
+"structs": 383,
+"span": 169,
+"containers": {
+"town": 26,
+"dungeon": 357
+},
+"unions": 14,
+"members": 25
+},
+"Rec_D_80016000": {
+"class": "global:D_80126000",
+"header": "records/Rec_D_80016000.h",
+"sha256": "84a72711e6581b3a964cb0bc29c70e818af111f8d067a5fbb2a60f410a54a8ae",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"town/func_8032BC24|S_80016424_0": {
+"0x20": "unk_20"
+},
+"town/func_8032CC58|S_80017458_0": {
+"0x20": "unk_20"
+},
+"town/func_8032D78C|S_80017F8C_0": {
+"0x20": "unk_20"
+},
+"town/func_8032D894|S_80018094_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x30": "unk_30.as_ps32"
+},
+"town/func_8032D960|S_80018160_0": {
+"0x20": "unk_20"
+},
+"town/func_8032D9A0|S_800181A0_0": {
+"0x20": "unk_20"
+},
+"town/func_8032DD44|S_80018544_0": {
+"0x20": "unk_20"
+},
+"town/func_8032DFF0|S_800187F0_0": {
+"0x20": "unk_20"
+},
+"town/func_8032E060|S_80018860_0": {
+"0x20": "unk_20"
+},
+"town/func_8032E0B8|S_800188B8_0": {
+"0x40": "unk_40.as_pv"
+},
+"town/func_8032E0D4|S_800188D4_0": {
+"0x40": "unk_40.as_pv"
+},
+"town/func_8032E0EC|S_800188EC_0": {
+"0x40": "unk_40.as_pv"
+},
+"town/func_8032E10C|S_8001890C_0": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_8032E1BC|S_800189BC_1": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_8032E22C|S_80018A2C_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_8032F234|S_80019A34_1": {
+"0x20": "unk_20"
+},
+"town/func_8032F844|S_8001A044_5": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_8032FBFC|S_8001A3FC_0": {
+"0x0": "unk_00.at00_vs32.v",
+"0x14": "unk_14"
+},
+"town/func_8032FEDC|S_8001A6DC_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_803302F0|S_8001AAF0_0": {
+"0x24": "unk_24"
+},
+"town/func_803304A0|S_8001ACA0_2": {
+"0x24": "unk_24"
+},
+"town/func_803308C8|S_8001B0C8_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_80353F64|S_80353F64_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_8035A5E4|S_8035A5E4_0": {
+"0x20": "unk_20"
+},
+"town/func_80468514|S_80019514_0": {
+"0x20": "unk_20"
+},
+"town/func_80468BB0|S_80019BB0_0": {
+"0x20": "unk_20"
+},
+"town/func_80468DE0|S_80019DE0_3": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_80468DE0|S_80019DE0_4": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_8046AFF4|S_8001BFF4_0": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_8046B778|S_8001C778_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_8046C048|S_8001D048_0": {
+"0x38": "unk_38.as_ps8"
+},
+"town/func_80470808|S_80017808_0": {
+"0x40": "unk_40.as_pv"
+},
+"town/func_80470BF0|S_80017BF0_0": {
+"0x40": "unk_40.as_pv"
+},
+"town/func_80470E5C|S_80017E5C_0": {
+"0x20": "unk_20"
+},
+"town/func_8047109C|S_8001809C_0": {
+"0x20": "unk_20"
+},
+"town/func_80471108|S_80018108_0": {
+"0x20": "unk_20"
+},
+"town/func_80471198|S_80018198_0": {
+"0x38": "unk_38.as_s32"
+},
+"town/func_8047130C|S_8047130C_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_80471334|S_80471334_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_804713B8|S_804713B8_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_8047E24C|S_8047E24C_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_8047E278|S_8047E278_1": {
+"0x20": "unk_20"
+},
+"town/func_8047E278|S_8047E278_0": {
+"0x38": "unk_38.as_s32"
+},
+"town/func_80480208|S_80480208_0": {
+"0x1C": "unk_1C.as_ppv"
+},
+"town/func_804803D8|S_804803D8_0": {
+"0x20": "unk_20"
+},
+"town/func_80480494|S_80480494_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_804804BC|S_804804BC_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_804B81F8|S_800169F8_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x40": "unk_40.as_s32"
+},
+"town/func_804B865C|S_80016E5C_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_804B871C|S_80016F1C_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_804B8740|S_80016F40_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_804B8B08|S_80017308_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x40": "unk_40.as_s32"
+},
+"town/func_804F027C|S_804F027C_0": {
+"0x20": "unk_20"
+},
+"town/func_80500158|S_80500158_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_8050E188|S_8050E188_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_8051E954|S_8051E954_2": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_8051E954|S_8051E954_1": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_8051F51C|S_80016D1C_0": {
+"0x0": "unk_00.at00_ppv.v"
+},
+"town/func_8051F5E0|S_80016DE0_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_8051F638|S_80016E38_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_8051FC84|S_8051FC84_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x40": "unk_40.as_s32"
+},
+"town/func_8051FC84|S_8051FC84_2": {
+"0x20": "unk_20"
+},
+"town/func_8051FCE8|S_8051FCE8_0": {
+"0x20": "unk_20"
+},
+"town/func_8054FAA0|S_8054FAA0_0": {
+"0x20": "unk_20"
+},
+"town/func_8054FAEC|S_8054FAEC_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_8054FB90|S_8054FB90_0": {
+"0x20": "unk_20"
+},
+"town/func_80559100|S_80559100_0": {
+"0x20": "unk_20"
+},
+"town/func_80579100|S_80579100_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_8059E664|S_8059E664_0": {
+"0x20": "unk_20"
+},
+"town/func_8059E6D8|S_8059E6D8_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_8059E700|S_8059E700_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_8059E824|S_80016824_0": {
+"0x40": "unk_40.as_s32"
+},
+"town/func_8059E874|S_80016874_0": {
+"0x40": "unk_40.as_s32"
+},
+"town/func_805D21B4|S_805D21B4_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x40": "unk_40.as_s32"
+},
+"town/func_805D21D8|S_805D21D8_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x40": "unk_40.as_s32"
+},
+"town/func_805D2FC4|S_805D2FC4_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x40": "unk_40.as_s32"
+},
+"town/func_805D352C|S_805D352C_1": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_805D352C|S_805D352C_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x40": "unk_40.as_s32"
+},
+"town/func_805D3588|S_805D3588_0": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_805D3860|S_805D3860_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x40": "unk_40.as_s32"
+},
+"town/func_805D3984|S_805D3984_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_805D39AC|S_805D39AC_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_805D39D4|S_805D39D4_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_805D3D50|S_805D3D50_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_80614930|S_80614930_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_80614978|S_80614978_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_80614998|S_80614998_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_806149C0|S_806149C0_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_806149E8|S_806149E8_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_8061506C|S_8001686C_0": {
+"0x20": "unk_20"
+},
+"town/func_80615130|S_80016930_0": {
+"0x20": "unk_20"
+},
+"town/func_8065C1A0|S_8065C1A0_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_8065C308|S_8065C308_0": {
+"0x20": "unk_20"
+},
+"town/func_8065C3FC|S_8065C3FC_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_8065C424|S_8065C424_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_8069761C|S_8069761C_0": {
+"0x20": "unk_20"
+},
+"town/func_80697764|S_80697764_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_8069778C|S_8069778C_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_806977B4|S_806977B4_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_806A9100|S_806A9100_0": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_806C51B0|S_806C51B0_0": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_806C52C4|S_800162C4_0": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_806C5334|S_80016334_0": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_806C54E0|S_800164E0_0": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_806C559C|S_8001659C_4": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_806C5858|S_80016858_0": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_806D30B4|S_800168B4_0": {
+"0x30": "unk_30.as_s32"
+},
+"town/func_806D30B4|S_800168B4_2": {
+"0x20": "unk_20"
+},
+"town/func_806D33D4|S_80016BD4_0": {
+"0x0": "unk_00.at00_s32.v",
+"0x14": "unk_14"
+},
+"town/func_806D3434|S_80016C34_0": {
+"0x28": "unk_28",
+"0x2C": "unk_2C",
+"0x34": "unk_34"
+},
+"town/func_806D45CC|S_806D45CC_1": {
+"0x8": "unk_08.at00_s32.v",
+"0x40": "unk_40.as_s32"
+},
+"town/func_806D4714|S_80016714_0": {
+"0x8": "unk_08.at00_s32.v",
+"0x40": "unk_40.as_pu8"
+},
+"town/func_806D4EA0|S_806D4EA0_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_806D4ECC|S_806D4ECC_0": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_806D85A0|S_806D85A0_0": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_806DB134|S_806DB134_0": {
+"0x20": "unk_20"
+},
+"town/func_806DB17C|S_806DB17C_0": {
+"0x38": "unk_38.as_pv"
+},
+"town/func_806F18F8|S_806F18F8_2": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_806F18F8|S_806F18F8_0": {
+"0x0": "unk_00.at00_pv.v"
+},
+"town/func_806F1A40|S_806F1A40_0": {
+"0x20": "unk_20"
+},
+"town/func_8070DDBC|S_80016DBC_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_8070E0DC|S_800170DC_0": {
+"0x20": "unk_20"
+},
+"town/func_8070E534|S_80017534_0": {
+"0x20": "unk_20"
+},
+"town/func_8070EBC4|S_80017BC4_0": {
+"0x20": "unk_20"
+},
+"town/func_8070F594|S_8070F594_0": {
+"0x1C": "unk_1C.as_pv",
+"0x20": "unk_20"
+},
+"town/func_8072A100|S_80016100_0": {
+"0x20": "unk_20"
+},
+"town/func_8072A244|S_8072A244_0": {
+"0x1C": "unk_1C.as_pv"
+},
+"town/func_8072A2C8|S_8072A2C8_0": {
+"0x20": "unk_20"
+},
+"town/func_8072A398|S_8072A398_1": {
+"0x0": "unk_00.at00_pv.v"
+},
+"dungeon/func_8008A118|S_8008F878_6": {
+"0x0": "unk_00.at00_s32.v"
+},
+"dungeon/func_800A0EC0|S_800A6620_0": {
+"0x3": "unk_00.at03_u8.v"
+},
+"dungeon/func_80FB176C|S_80170F6C_7": {
+"0x4": "unk_04.at00_u32.v"
+},
+"dungeon/func_80FB4E68|S_80174668_9": {
+"0x4": "unk_04.at00_u32.v"
+},
+"dungeon/func_8183EFD8|S_8183EFD8_7": {
+"0x4": "unk_04.at00_s32.v"
+},
+"dungeon/func_81844800|S_81844800_13": {
+"0x4": "unk_04.at00_u32.v"
+},
+"dungeon/func_8197D468|S_8197D468_7": {
+"0x4": "unk_04.at00_s32.v"
+},
+"slus/w_800463EC|S_800463EC_0": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xA": "unk_08.at02_s16.v"
+}
+},
+"unmapped": [],
+"rows": 130,
+"structs": 137,
+"span": 68,
+"containers": {
+"town": 129,
+"dungeon": 7,
+"slus": 1
+},
+"unions": 7,
+"members": 13
+},
+"Rec_func_80094268_arg0": {
+"class": "param:dungeon:func_80094268:arg0",
+"header": "records/Rec_func_80094268_arg0.h",
+"sha256": "615b0480fbcd0af57efbf9cbe435c1ff3ef7f8ffd1cdac872b83c519ffedacf4",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"town/func_80091944|S_8008F0A4_0": {
+"0x14": "unk_14"
+},
+"town/func_800919D4|S_8008F134_0": {
+"0x0": "unk_00.as_pv",
+"0x4": "unk_04.as_ppv"
+},
+"town/func_8009408C|S_800917EC_1": {
+"0xA": "unk_0A.as_u16",
+"0x3E": "unk_3E.as_u16"
+},
+"town/func_80094478|S_80091BD8_1": {
+"0xA": "unk_0A.as_s16"
+},
+"town/func_80094580|S_80091CE0_0": {
+"0xA": "unk_0A.as_s16"
+},
+"town/func_8009460C|S_80091D6C_0": {
+"0xA": "unk_0A.as_s16",
+"0x34": "unk_34.as_s16"
+},
+"town/func_80094754|S_80091EB4_0": {
+"0xA": "unk_0A.as_u16",
+"0x34": "unk_34.as_s16"
+},
+"town/func_80094994|S_800920F4_0": {
+"0xA": "unk_0A.as_u16"
+},
+"town/func_80094BC0|S_80092320_3": {
+"0xA": "unk_0A.as_u16"
+},
+"town/func_80094F38|S_80092698_1": {
+"0xA": "unk_0A.as_u16"
+},
+"town/func_8009508C|S_800927EC_3": {
+"0x2C": "unk_2C"
+},
+"town/func_80095324|S_80092A84_2": {
+"0x2C": "unk_2C",
+"0x3E": "unk_3E.as_u16"
+},
+"town/func_80095BC8|S_80093328_0": {
+"0xA": "unk_0A.as_u16"
+},
+"town/func_800965E8|S_80093D48_0": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"town/func_80096778|S_80093ED8_0": {
+"0x0": "unk_00.as_pm",
+"0x3E": "unk_3E.as_s16"
+},
+"town/func_800967E8|S_80093F48_0": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A.as_s16",
+"0x3E": "unk_3E.as_s16"
+},
+"town/func_80096970|S_800940D0_0": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"town/func_800969D0|S_80094130_0": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A.as_s16",
+"0x34": "unk_34.as_u16"
+},
+"town/func_80096B50|S_800942B0_1": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"town/func_80096C58|S_800943B8_0": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"town/func_80096DFC|S_8009455C_0": {
+"0x0": "unk_00.as_pm",
+"0x3E": "unk_3E.as_s16"
+},
+"town/func_8009706C|S_800947CC_0": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A.as_s16",
+"0x30": "unk_30",
+"0x32": "unk_32"
+},
+"town/func_80097224|S_80094984_0": {
+"0x16": "unk_16"
+},
+"town/func_8009B268|S_800989C8_0": {
+"0x4": "unk_04.as_pm"
+},
+"town/func_8009B2D0|S_80098A30_0": {
+"0x4": "unk_04.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"town/func_8009B35C|S_80098ABC_0": {
+"0x4": "unk_04.as_pm",
+"0x10": "unk_10.as_s16"
+},
+"town/func_8009B43C|S_80098B9C_0": {
+"0x4": "unk_04.as_pm",
+"0xA": "unk_0A.as_s16",
+"0x10": "unk_10.as_s16"
+},
+"town/func_8009B4E0|S_80098C40_0": {
+"0x4": "unk_04.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"town/func_8009B590|S_80098CF0_0": {
+"0x4": "unk_04.as_pm",
+"0xA": "unk_0A.as_s16",
+"0x10": "unk_10.as_s16"
+},
+"town/func_8009B600|S_80098D60_0": {
+"0x4": "unk_04.as_pm",
+"0x10": "unk_10.as_s16"
+},
+"town/func_8009B6C0|S_80098E20_0": {
+"0x4": "unk_04.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"town/func_8009B7E8|S_80098F48_0": {
+"0x4": "unk_04.as_pm",
+"0xA": "unk_0A.as_s16",
+"0x40": "unk_40"
+},
+"town/func_8009B85C|S_80098FBC_0": {
+"0x4": "unk_04.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"town/func_8009B9EC|S_8009914C_0": {
+"0x4": "unk_04.as_pm",
+"0xA": "unk_0A.as_s16",
+"0x40": "unk_40"
+},
+"town/func_8009BF20|S_80099680_0": {
+"0x4": "unk_04.as_pm",
+"0xA": "unk_0A.as_s16",
+"0x10": "unk_10.as_s16"
+},
+"town/func_8009BF88|S_800996E8_0": {
+"0x4": "unk_04.as_pm",
+"0xA": "unk_0A.as_s16",
+"0x10": "unk_10.as_s16"
+},
+"town/func_8009C030|S_80099790_1": {
+"0xA": "unk_0A.as_u16",
+"0xE": "unk_0E",
+"0x10": "unk_10.as_u16",
+"0x30": "unk_30",
+"0x32": "unk_32"
+},
+"town/func_8009C134|S_80099894_1": {
+"0xA": "unk_0A.as_u16"
+},
+"town/func_8009C580|S_80099CE0_1": {
+"0x44": "unk_44"
+},
+"town/func_8009C580|S_80099CE0_0": {
+"0x4": "unk_04.as_pm",
+"0xA": "unk_0A.as_s16",
+"0x40": "unk_40"
+},
+"town/func_8009C710|S_80099E70_1": {
+"0x44": "unk_44"
+},
+"town/func_8009C710|S_80099E70_0": {
+"0x4": "unk_04.as_pm",
+"0x10": "unk_10.as_s16",
+"0x40": "unk_40"
+},
+"town/func_8009CA44|S_8009A1A4_1": {
+"0x44": "unk_44"
+},
+"town/func_8009CA44|S_8009A1A4_0": {
+"0x4": "unk_04.as_pm"
+},
+"town/func_8009CBE4|S_8009A344_0": {
+"0x44": "unk_44"
+},
+"town/func_8009CC44|S_8009A3A4_0": {
+"0x44": "unk_44"
+},
+"town/func_8009CD9C|S_8009A4FC_0": {
+"0x40": "unk_40"
+},
+"town/func_8009D610|S_8009AD70_0": {
+"0x4": "unk_04.as_pv",
+"0xA": "unk_0A.as_u16",
+"0x10": "unk_10.as_s16",
+"0x30": "unk_30",
+"0x32": "unk_32"
+},
+"town/func_8009DAB8|S_8009B218_0": {
+"0x50": "unk_50.as_pm",
+"0x58": "unk_58",
+"0x8C": "unk_8C",
+"0x8E": "unk_8E"
+},
+"town/func_8009E860|S_8009BFC0_1": {
+"0x50": "unk_50.as_pm"
+},
+"town/func_8009E878|S_8009BFD8_0": {
+"0x7C": "unk_7C.as_pv"
+},
+"town/func_8009E960|S_8009C0C0_1": {
+"0x50": "unk_50.as_pm"
+},
+"town/func_8009E978|S_8009C0D8_0": {
+"0x15": "unk_15"
+},
+"town/func_800A052C|S_8009DC8C_0": {
+"0x93": "unk_93"
+},
+"town/func_800A10FC|S_8009E85C_0": {
+"0x4C": "unk_4C",
+"0x4D": "unk_4D",
+"0x6C": "unk_6C.as_s16",
+"0x95": "unk_95",
+"0xA0": "unk_A0"
+},
+"town/func_800A1B48|S_8009F2A8_1": {
+"0x6C": "unk_6C.as_s16",
+"0xA0": "unk_A0"
+},
+"town/func_800A1D60|S_8009F4C0_0": {
+"0x4C": "unk_4C",
+"0x4D": "unk_4D",
+"0x4F": "unk_4F",
+"0x50": "unk_50.as_pm",
+"0x6C": "unk_6C.as_s16",
+"0x95": "unk_95"
+},
+"town/func_800A9234|S_800A6994_3": {
+"0x72": "unk_72.as_u16"
+},
+"town/func_800AA070|S_800A77D0_0": {
+"0x50": "unk_50.as_pm",
+"0x90": "unk_90.as_u16"
+},
+"town/func_800AA1AC|S_800A790C_0": {
+"0x50": "unk_50.as_pm",
+"0x6C": "unk_6C.as_s16",
+"0x90": "unk_90.as_s16"
+},
+"town/func_800AA71C|S_800A7E7C_0": {
+"0x60": "unk_60",
+"0x96": "unk_96.as_u8"
+},
+"town/func_800C5520|S_800C2C80_0": {
+"0x92": "unk_92"
+},
+"town/func_800C55D4|S_800C2D34_0": {
+"0x72": "unk_72.as_s16",
+"0x78": "unk_78"
+},
+"town/func_800C5944|S_800C30A4_0": {
+"0x60": "unk_60"
+},
+"town/func_800C5A14|S_800C3174_0": {
+"0x50": "unk_50.as_s32",
+"0x98": "unk_98"
+},
+"town/func_800C5CD8|S_800C3438_0": {
+"0x7C": "unk_7C.as_pps32",
+"0x8C": "unk_8C",
+"0x8E": "unk_8E"
+},
+"town/func_800C5D8C|S_800C34EC_0": {
+"0x6C": "unk_6C.as_u16"
+},
+"town/func_800C6064|S_800C37C4_0": {
+"0x50": "unk_50.as_pm",
+"0x6C": "unk_6C.as_s16",
+"0x7C": "unk_7C.as_ps32"
+},
+"town/func_800C60CC|S_800C382C_1": {
+"0x50": "unk_50.as_pv",
+"0x72": "unk_72.as_s16",
+"0x7C": "unk_7C.as_pv",
+"0x84": "unk_84.as_s16",
+"0x86": "unk_86.as_s16",
+"0x8C": "unk_8C",
+"0x8E": "unk_8E"
+},
+"town/func_800C6228|S_800C3988_0": {
+"0x5C": "unk_5C",
+"0x60": "unk_60"
+},
+"town/func_800C67E4|S_800C3F44_2": {
+"0x80": "unk_80"
+},
+"town/func_800C67E4|S_800C3F44_1": {
+"0x54": "unk_54"
+},
+"town/func_800C6A14|S_800C4174_0": {
+"0x80": "unk_80"
+},
+"town/func_800C7104|S_800C4864_1": {
+"0x80": "unk_80"
+},
+"town/func_800C7104|S_800C4864_0": {
+"0x54": "unk_54",
+"0x60": "unk_60",
+"0x72": "unk_72.as_s16"
+},
+"town/func_800C7F48|S_800C56A8_1": {
+"0x6C": "unk_6C.as_u16"
+},
+"town/func_800C7FC4|S_800C5724_0": {
+"0x54": "unk_54",
+"0x6C": "unk_6C.as_s16"
+},
+"town/func_800C8104|S_800C5864_0": {
+"0x54": "unk_54",
+"0x6C": "unk_6C.as_s16"
+},
+"town/func_800C8194|S_800C58F4_0": {
+"0x54": "unk_54",
+"0x60": "unk_60"
+},
+"town/func_800C81BC|S_800C591C_0": {
+"0x54": "unk_54",
+"0x60": "unk_60"
+},
+"town/func_800C81E4|S_800C5944_0": {
+"0x54": "unk_54",
+"0x60": "unk_60"
+},
+"town/func_800C8B84|S_800C62E4_0": {
+"0x54": "unk_54",
+"0x60": "unk_60",
+"0x6C": "unk_6C.as_s16"
+},
+"town/func_800C8CE0|S_800C6440_1": {
+"0x80": "unk_80"
+},
+"town/func_800C8CE0|S_800C6440_0": {
+"0x7C": "unk_7C.as_ppm"
+},
+"town/func_800C8F20|S_800C6680_0": {
+"0x54": "unk_54",
+"0x6C": "unk_6C.as_u16"
+},
+"town/func_800C8FE0|S_800C6740_0": {
+"0x6C": "unk_6C.as_u16"
+},
+"town/func_800C90B4|S_800C6814_0": {
+"0x6C": "unk_6C.as_u16"
+},
+"town/func_800C9958|S_800C70B8_0": {
+"0x60": "unk_60",
+"0x72": "unk_72.as_s16",
+"0x80": "unk_80"
+},
+"town/func_800CA364|S_800C7AC4_0": {
+"0x50": "unk_50.as_pv",
+"0x72": "unk_72.as_s16",
+"0x84": "unk_84.as_s16",
+"0x86": "unk_86.as_s16",
+"0x8C": "unk_8C",
+"0x8E": "unk_8E"
+},
+"town/func_800CA54C|S_800C7CAC_0": {
+"0x94": "unk_94"
+},
+"town/func_800CA658|S_800C7DB8_0": {
+"0x6C": "unk_6C.as_u16",
+"0x84": "unk_84.as_u16",
+"0x86": "unk_86.as_u16"
+},
+"town/func_800CA8A0|S_800C8000_0": {
+"0x54": "unk_54",
+"0x6C": "unk_6C.as_s16",
+"0x72": "unk_72.as_s16"
+},
+"town/func_800CA950|S_800C80B0_0": {
+"0x54": "unk_54",
+"0x72": "unk_72.as_s16"
+},
+"town/func_800CAC2C|S_800C838C_0": {
+"0x80": "unk_80"
+},
+"town/func_800CADC4|S_800C8524_0": {
+"0x54": "unk_54",
+"0x6C": "unk_6C.as_u16"
+},
+"town/func_800CB028|S_800C8788_1": {
+"0x54": "unk_54"
+},
+"town/func_800CB0A8|S_800C8808_0": {
+"0x54": "unk_54"
+},
+"town/func_800CB820|S_800C8F80_0": {
+"0x50": "unk_50.as_pm",
+"0x6C": "unk_6C.as_u16",
+"0x72": "unk_72.as_s16",
+"0x96": "unk_96.as_u8"
+},
+"town/func_800CB890|S_800C8FF0_0": {
+"0x50": "unk_50.as_pm",
+"0x6C": "unk_6C.as_u16",
+"0x72": "unk_72.as_s16"
+},
+"town/func_800CC4AC|S_800C9C0C_0": {
+"0x50": "unk_50.as_pm",
+"0x6C": "unk_6C.as_s16"
+},
+"town/func_800CC4F4|S_800C9C54_0": {
+"0x50": "unk_50.as_pm"
+},
+"town/func_800CCBA8|S_800CA308_0": {
+"0x6C": "unk_6C.as_u16",
+"0x84": "unk_84.as_u16",
+"0x86": "unk_86.as_u16"
+},
+"town/func_800CCCF8|S_800CA458_1": {
+"0x6C": "unk_6C.as_u16"
+},
+"town/func_800CCF9C|S_800CA6FC_0": {
+"0x54": "unk_54"
+},
+"town/func_800CD8EC|S_800CB04C_0": {
+"0x80": "unk_80"
+},
+"town/func_800CD990|S_800CB0F0_0": {
+"0x6C": "unk_6C.as_u16",
+"0x96": "unk_96.as_u8"
+},
+"town/func_800CE010|S_800CB770_0": {
+"0x96": "unk_96.as_u8"
+},
+"town/func_800CE08C|S_800CB7EC_0": {
+"0x6C": "unk_6C.as_u16",
+"0x88": "unk_88",
+"0x8A": "unk_8A",
+"0x96": "unk_96.as_s8"
+},
+"town/func_800CECBC|S_800CC41C_0": {
+"0x54": "unk_54",
+"0x60": "unk_60",
+"0x6C": "unk_6C.as_s16"
+},
+"town/func_800CFEF0|S_800CD650_0": {
+"0x6C": "unk_6C.as_u16"
+},
+"town/func_800D037C|S_800CDADC_1": {
+"0x90": "unk_90.as_u16"
+},
+"town/func_800D0548|S_800CDCA8_0": {
+"0x6E": "unk_6E",
+"0x72": "unk_72.as_u16",
+"0x90": "unk_90.as_u16"
+},
+"town/func_800D069C|S_800CDDFC_0": {
+"0x50": "unk_50.as_pm",
+"0x6C": "unk_6C.as_s16",
+"0x84": "unk_84.as_s16"
+},
+"town/func_800D10A0|S_800CE800_1": {
+"0x54": "unk_54",
+"0x90": "unk_90.as_u16"
+},
+"town/func_800D1568|S_800CECC8_0": {
+"0x54": "unk_54"
+},
+"town/func_800D15C4|S_800CED24_0": {
+"0x54": "unk_54",
+"0x60": "unk_60",
+"0x90": "unk_90.as_s16"
+},
+"dungeon/func_7FFF6B08|S_80094268_0": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"dungeon/func_7FFF6B50|S_800942B0_1": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"dungeon/func_7FFF6BD0|S_80094330_0": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"dungeon/func_7FFF6C58|S_800943B8_0": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"dungeon/func_7FFF6D5C|S_800944BC_0": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"dungeon/func_7FFF6DFC|S_8009455C_0": {
+"0x0": "unk_00.as_pm",
+"0x3E": "unk_3E.as_s16"
+},
+"dungeon/func_7FFF6F9C|S_800946FC_0": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A.as_s16"
+},
+"dungeon/func_8002DB1C|S_800CB27C_0": {
+"0x54": "unk_54",
+"0x60": "unk_60",
+"0x6C": "unk_6C.as_s16"
+},
+"dungeon/func_8002DB7C|S_800CB2DC_0": {
+"0x6C": "unk_6C.as_u16"
+},
+"dungeon/func_8002DBE8|S_800CB348_0": {
+"0x54": "unk_54",
+"0x60": "unk_60",
+"0x6C": "unk_6C.as_s16"
+},
+"dungeon/func_8002DD14|S_800CB474_0": {
+"0x6C": "unk_6C.as_u16"
+},
+"dungeon/func_8002DD50|S_800CB4B0_0": {
+"0x54": "unk_54",
+"0x6C": "unk_6C.as_u16"
+}
+},
+"unmapped": [
+"town/func_8009D8B4|S_8009B014_1",
+"town/func_800C5DFC|S_800C355C_1",
+"town/func_800C9F14|S_800C7674_0",
+"town/func_800CE910|S_800CC070_0",
+"town/func_80816DF0|S_80020DF0_0"
+],
+"rows": 122,
+"structs": 128,
+"span": 164,
+"containers": {
+"town": 116,
+"dungeon": 12
+},
+"unions": 14,
+"members": 43
+},
+"Rec_D_800814A8": {
+"class": "global:D_800814A8",
+"header": "records/Rec_D_800814A8.h",
+"sha256": "c44feb467fc6fbecec9cf3c18186f08a2c0ef73c1e86d5fc0a4808202dab69e7",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_800947A4|S_80099F04_0": {
+"0x0": "unk_00.as_s32"
+},
+"dungeon/func_80094810|S_80099F70_0": {
+"0x0": "unk_00.as_s32"
+},
+"dungeon/func_8009A9D4|S_800A0134_0": {
+"0x88": "unk_88.as_u16"
+},
+"dungeon/func_800B30D0|S_800B8830_7": {
+"0x2A": "unk_2A.as_s16"
+},
+"dungeon/func_800C47D4|S_800C9F34_4": {
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_800D48B4|S_800DA014_4": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80975CD4|S_801714D4_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80976434|S_80171C34_4": {
+"0x2A": "unk_2A.as_u16",
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_809782AC|S_80173AAC_5": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_8099F8EC|S_801710EC_3": {
+"0x58": "unk_58.as_pv",
+"0x9A": "unk_9A"
+},
+"dungeon/func_809A2A14|S_80174214_5": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_809A58EC|S_8016B0EC_3": {
+"0x58": "unk_58.as_pv",
+"0x9A": "unk_9A"
+},
+"dungeon/func_809AB8EC|S_801650EC_3": {
+"0x58": "unk_58.as_pv",
+"0x9A": "unk_9A"
+},
+"dungeon/func_809B18EC|S_8015F0EC_3": {
+"0x58": "unk_58.as_pv",
+"0x9A": "unk_9A"
+},
+"dungeon/func_809B78EC|S_801590EC_3": {
+"0x58": "unk_58.as_pv",
+"0x9A": "unk_9A"
+},
+"dungeon/func_809BD8EC|S_801530EC_3": {
+"0x58": "unk_58.as_pv",
+"0x9A": "unk_9A"
+},
+"dungeon/func_809C38EC|S_8014D0EC_3": {
+"0x58": "unk_58.as_pv",
+"0x9A": "unk_9A"
+},
+"dungeon/func_809C9654|S_80170E54_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_809CB224|S_80172A24_6": {
+"0xA6": "unk_A6"
+},
+"dungeon/func_809CBB58|S_80173358_4": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_809CBEF4|S_801736F4_5": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_809F3C00|S_80171400_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80A2008C|S_8017388C_4": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80A47C0C|S_8017140C_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80A4A0E0|S_801738E0_5": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80A71654|S_80170E54_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80A73EF4|S_801736F4_5": {
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_80A9B67C|S_80170E7C_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80AC5F28|S_80171728_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80AC854C|S_80173D4C_5": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80AC88DC|S_801740DC_5": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80AEFFF4|S_801717F4_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80B1B010|S_80172810_6": {
+"0xA6": "unk_A6"
+},
+"dungeon/func_80B43670|S_80170E70_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80B452F8|S_80172AF8_6": {
+"0xA6": "unk_A6"
+},
+"dungeon/func_80B6D65C|S_80170E5C_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80B6F204|S_80172A04_6": {
+"0xA6": "unk_A6"
+},
+"dungeon/func_80B9769C|S_80170E9C_3": {
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_80BC21DC|S_801719DC_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80BC44D4|S_80173CD4_5": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80BC489C|S_8017409C_5": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80BEB814|S_80171014_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80C15BA8|S_801713A8_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80C180E0|S_801738E0_4": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80CC0398|S_80173B98_3": {
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_80CC085C|S_8017405C_6": {
+"0x2A": "unk_2A.as_u16",
+"0x58": "unk_58.as_pu8",
+"0xAC": "unk_AC",
+"0xB0": "unk_B0"
+},
+"dungeon/func_80CE8CBC|S_801724BC_3": {
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_80CE9758|S_80172F58_5": {
+"0x2A": "unk_2A.as_u16",
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_80CEBD74|S_80175574_4": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80D11F60|S_80171760_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80D13E4C|S_8017364C_5": {
+"0xA6": "unk_A6"
+},
+"dungeon/func_80D3C280|S_80171A80_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80D3EF88|S_80174788_5": {
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_80D6671C|S_80171F1C_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80D8F668|S_80170E68_2": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80D91070|S_80172870_6": {
+"0xA6": "unk_A6"
+},
+"dungeon/func_80DBA620|S_80171E20_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80DBC9D8|S_801741D8_5": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80DE365C|S_80170E5C_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80DE5A54|S_80173254_4": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80E0D894|S_80171094_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80E109CC|S_801741CC_5": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80E376E4|S_80170EE4_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80E37EA4|S_801716A4_4": {
+"0x2A": "unk_2A.as_u16",
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80E61EF4|S_801716F4_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80E8B8F4|S_801710F4_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80E8E080|S_80173880_5": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80EB59A4|S_801711A4_5": {
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_80EB6FC8|S_801727C8_7": {
+"0xA6": "unk_A6"
+},
+"dungeon/func_80F0B2A8|S_80172AA8_6": {
+"0xA6": "unk_A6"
+},
+"dungeon/func_80F33E3C|S_8017163C_4": {
+"0x2A": "unk_2A.as_u16",
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80F3575C|S_80172F5C_6": {
+"0xA6": "unk_A6"
+},
+"dungeon/func_80F5FAA4|S_801732A4_4": {
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_80F87938|S_80171138_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80FB35EC|S_80172DEC_6": {
+"0xA6": "unk_A6"
+},
+"dungeon/func_80FB402C|S_8017382C_10": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_80FDB6A8|S_80170EA8_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_81007CE0|S_801734E0_5": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_8102FCB8|S_801714B8_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_81059768|S_80170F68_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_810ADDF4|S_801715F4_5": {
+"0x2A": "unk_2A.as_u16",
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_810AF0B4|S_801728B4_8": {
+"0xA6": "unk_A6"
+},
+"dungeon/func_810AFA04|S_80173204_5": {
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_81251D14|S_80171514_2": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_812A67A4|S_80171FA4_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_812AC7A4|S_8016BFA4_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_812B27A4|S_80165FA4_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_812B87A4|S_8015FFA4_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_812BE7A4|S_80159FA4_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_812C47A4|S_80153FA4_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_812CA7A4|S_8014DFA4_3": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_81324774|S_8016BF74_6": {
+"0x2A": "unk_2A.as_u16",
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_81327F8C|S_8016F78C_3": {
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_813284E4|S_8016FCE4_6": {
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_81330C74|S_80167C74_3": {
+"0x2A": "unk_2A.as_u16",
+"0x6A": "unk_6A",
+"0x10C": "unk_10C"
+},
+"dungeon/func_8133336C|S_8016A36C_5": {
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_81334230|S_8016B230_6": {
+"0x2A": "unk_2A.as_u16",
+"0x58": "unk_58.as_s32"
+},
+"dungeon/func_81335C70|S_8016CC70_5": {
+"0x58": "unk_58.as_pv"
+},
+"dungeon/func_813360FC|S_8016D0FC_4": {
+"0x58": "unk_58.as_pu8"
+},
+"dungeon/func_8194C8F0|S_800240F0_5": {
+"0x2A": "unk_2A.as_s16",
+"0x88": "unk_88.as_s16"
+},
+"dungeon/func_81958878|S_80024078_1": {
+"0xA6": "unk_A6",
+"0x102": "unk_102"
+},
+"dungeon/func_8195E81C|S_8002401C_1": {
+"0xA8": "unk_A8",
+"0xF4": "unk_F4",
+"0x102": "unk_102"
+},
+"dungeon/func_8197192C|S_8197192C_6": {
+"0x0": "unk_00.as_pv"
+},
+"dungeon/func_81982864|S_80024064_1": {
+"0x0": "unk_00.as_pv"
+},
+"dungeon/func_81988800|S_81988800_1": {
+"0x2A": "unk_2A.as_u16",
+"0xF4": "unk_F4",
+"0x102": "unk_102"
+},
+"dungeon/func_8199AAD4|S_8199AAD4_7": {
+"0x2A": "unk_2A.as_s16"
+}
+},
+"unmapped": [
+"dungeon/func_80094A20|S_8009A180_0",
+"dungeon/func_80FB4E68|S_80174668_0",
+"dungeon/func_8195281C|S_8195281C_1"
+],
+"rows": 106,
+"structs": 106,
+"span": 270,
+"containers": {
+"dungeon": 106
+},
+"unions": 4,
+"members": 13
+},
+"Rec_func_800A9E70_arg0": {
+"class": "param:dungeon:func_800A9E70:arg0",
+"header": "records/Rec_func_800A9E70_arg0.h",
+"sha256": "7e611a0dc7d15336e0219868980ad58b9565fb52cc4f38ec4649e0120a99899b",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_800A4710|S_800A9E70_1": {
+"0x8C": "unk_8C",
+"0x94": "unk_94",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8"
+},
+"dungeon/func_800A4AF8|S_800AA258_0": {
+"0x8C": "unk_8C",
+"0x96": "unk_96.as_s16",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_800A4E84|S_800AA5E4_0": {
+"0x8C": "unk_8C",
+"0x96": "unk_96.as_s16",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_800A4F54|S_800AA6B4_0": {
+"0x1C": "unk_1C",
+"0x2A": "unk_2A",
+"0x64": "unk_64",
+"0x8C": "unk_8C",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_800A5128|S_800AA888_0": {
+"0x8C": "unk_8C",
+"0x96": "unk_96.as_s16",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_800A5544|S_800AACA4_0": {
+"0x8C": "unk_8C",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_800A68B0|S_800AC010_0": {
+"0x92": "unk_90.at02_s16.v",
+"0x96": "unk_96.as_s16",
+"0x98": "unk_98",
+"0x9C": "unk_9C.as_u8"
+},
+"dungeon/func_800A70CC|S_800AC82C_1": {
+"0x92": "unk_90.at02_s16.v",
+"0x98": "unk_98",
+"0x9B": "unk_9B.as_u8"
+},
+"dungeon/func_800A7438|S_800ACB98_0": {
+"0x8C": "unk_8C",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_800A7614|S_800ACD74_0": {
+"0x8C": "unk_8C",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_800ACDDC|S_800B253C_1": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8",
+"0xAD": "unk_AD"
+},
+"dungeon/func_800D3504|S_800D8C64_0": {
+"0x8C": "unk_8C",
+"0x90": "unk_90.at00_s32.v",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8"
+},
+"dungeon/func_800D3B60|S_800D92C0_3": {
+"0x98": "unk_98",
+"0x9C": "unk_9C.as_s8"
+},
+"dungeon/func_80976D48|S_80172548_1": {
+"0x8C": "unk_8C",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_809A079C|S_80171F9C_2": {
+"0x8C": "unk_8C",
+"0x92": "unk_90.at02_u16.v",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8",
+"0x9E": "unk_9E.as_s16",
+"0xA2": "unk_A0.at02_u16.v"
+},
+"dungeon/func_809C9654|S_80170E54_0": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8"
+},
+"dungeon/func_809CA5A0|S_80171DA0_2": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8"
+},
+"dungeon/func_809CA764|S_80171F64_1": {
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_809F3C00|S_80171400_0": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8",
+"0xA8": "unk_A8"
+},
+"dungeon/func_809F4C34|S_80172434_1": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_80A71654|S_80170E54_0": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8",
+"0xA0": "unk_A0.at00_pv.v",
+"0xAA": "unk_AA"
+},
+"dungeon/func_80A9B67C|S_80170E7C_0": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8",
+"0xA0": "unk_A0.at00_pv.v",
+"0xAA": "unk_AA"
+},
+"dungeon/func_80AC5F28|S_80171728_0": {
+"0x8C": "unk_8C",
+"0x90": "unk_90.at00_s32.v",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8",
+"0x9E": "unk_9E.as_s16",
+"0xA0": "unk_A0.at00_s16.v"
+},
+"dungeon/func_80AC9128|S_80174928_1": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_80AEFFF4|S_801717F4_0": {
+"0x8C": "unk_8C",
+"0x90": "unk_90.at00_s32.v",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8",
+"0x9E": "unk_9E.as_s16",
+"0xA0": "unk_A0.at00_s16.v"
+},
+"dungeon/func_80BEC6CC|S_80171ECC_2": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8"
+},
+"dungeon/func_80BEC890|S_80172090_1": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_80C15BA8|S_801713A8_0": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8",
+"0xA8": "unk_A8"
+},
+"dungeon/func_80C160D0|S_801718D0_2": {
+"0x96": "unk_96.as_u16",
+"0x9A": "unk_9A.as_u8",
+"0xA8": "unk_A8"
+},
+"dungeon/func_80CC0398|S_80173B98_0": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_80CC085C|S_8017405C_5": {
+"0x98": "unk_98",
+"0x9C": "unk_9C.as_s8",
+"0xA4": "unk_A4",
+"0xA6": "unk_A6"
+},
+"dungeon/func_80CC266C|S_80175E6C_4": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_80CE8CBC|S_801724BC_0": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_80D11F60|S_80171760_0": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8",
+"0x9E": "unk_9E.as_s16",
+"0xA0": "unk_A0.at00_s16.v"
+},
+"dungeon/func_80D14F6C|S_8017476C_1": {
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_80D3BFD0|S_801717D0_4": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8"
+},
+"dungeon/func_80D3D3B0|S_80172BB0_2": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8",
+"0xB5": "unk_B5"
+},
+"dungeon/func_80D3D588|S_80172D88_0": {
+"0x8C": "unk_8C",
+"0x96": "unk_96.as_s16",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8",
+"0xB5": "unk_B5"
+},
+"dungeon/func_80D67680|S_80172E80_3": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8"
+},
+"dungeon/func_80D678A4|S_801730A4_1": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_80D69CF0|S_801754F0_1": {
+"0x8C": "unk_8C",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_80D8F668|S_80170E68_0": {
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8"
+},
+"dungeon/func_80D90580|S_80171D80_2": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8"
+},
+"dungeon/func_80D90790|S_80171F90_1": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_80E61EF4|S_801716F4_0": {
+"0x8C": "unk_8C",
+"0x90": "unk_90.at00_s32.v",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8",
+"0x9E": "unk_9E.as_s16",
+"0xA0": "unk_A0.at00_s16.v"
+},
+"dungeon/func_80E8B8F4|S_801710F4_0": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8"
+},
+"dungeon/func_80EB59A4|S_801711A4_0": {
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0xA8": "unk_A8",
+"0xAE": "unk_AE"
+},
+"dungeon/func_80FDC88C|S_8017208C_1": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8",
+"0xAC": "unk_AC"
+},
+"dungeon/func_81059768|S_80170F68_0": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8",
+"0xAE": "unk_AE"
+},
+"dungeon/func_8105A724|S_80171F24_2": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_81084A18|S_80172218_1": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_81323F78|S_8016B778_0": {
+"0x8C": "unk_8C",
+"0x90": "unk_90.at00_s32.v",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_s8",
+"0xB3": "unk_B3",
+"0xB4": "unk_B4"
+},
+"dungeon/func_813250AC|S_8016C8AC_1": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_8132518C|S_8016C98C_1": {
+"0x9A": "unk_9A.as_s8"
+},
+"dungeon/func_813284E4|S_8016FCE4_5": {
+"0x98": "unk_98",
+"0x9C": "unk_9C.as_s8"
+},
+"dungeon/func_81328A24|S_80170224_1": {
+"0x9A": "unk_9A.as_u8"
+},
+"dungeon/func_8133336C|S_8016A36C_1": {
+"0x8C": "unk_8C",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_s8",
+"0x9E": "unk_9E.as_u16",
+"0xA0": "unk_A0.at00_s16.v",
+"0xAC": "unk_AC",
+"0xAD": "unk_AD",
+"0xB0": "unk_B0"
+},
+"dungeon/func_81333FC4|S_8016AFC4_1": {
+"0x8C": "unk_8C",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_s8",
+"0xAC": "unk_AC",
+"0xB0": "unk_B0"
+},
+"dungeon/func_81334954|S_8016B954_3": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_81334BC0|S_8016BBC0_1": {
+"0x9A": "unk_9A.as_s8"
+},
+"dungeon/func_813366F8|S_8016D6F8_1": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_81336AC0|S_8016DAC0_1": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8",
+"0xAC": "unk_AC"
+}
+},
+"unmapped": [
+"dungeon/func_80975CD4|S_801714D4_0",
+"dungeon/func_8099F8EC|S_801710EC_0",
+"dungeon/func_809A58EC|S_8016B0EC_0",
+"dungeon/func_809AB8EC|S_801650EC_0",
+"dungeon/func_809B18EC|S_8015F0EC_0",
+"dungeon/func_809B78EC|S_801590EC_0",
+"dungeon/func_809BD8EC|S_801530EC_0",
+"dungeon/func_809C38EC|S_8014D0EC_0",
+"dungeon/func_80BEB814|S_80171014_0",
+"dungeon/func_80D3C280|S_80171A80_0",
+"dungeon/func_80D6671C|S_80171F1C_0",
+"dungeon/func_80F36BE8|S_801743E8_0",
+"dungeon/func_80FDB6A8|S_80170EA8_0",
+"dungeon/func_8102FCB8|S_801714B8_0",
+"dungeon/func_810ADDF4|S_801715F4_8",
+"dungeon/func_812A67A4|S_80171FA4_0",
+"dungeon/func_812AC7A4|S_8016BFA4_0",
+"dungeon/func_812B27A4|S_80165FA4_0",
+"dungeon/func_812B87A4|S_8015FFA4_0",
+"dungeon/func_812BE7A4|S_80159FA4_0",
+"dungeon/func_812C47A4|S_80153FA4_0",
+"dungeon/func_812CA7A4|S_8014DFA4_0",
+"dungeon/func_81327F8C|S_8016F78C_0"
+],
+"rows": 62,
+"structs": 62,
+"span": 182,
+"containers": {
+"dungeon": 62
+},
+"unions": 7,
+"members": 24
+},
+"Rec_func_800AA258_arg2": {
+"class": "param:dungeon:func_800AA258:arg2",
+"header": "records/Rec_func_800AA258_arg2.h",
+"sha256": "226c86c6e5b2609505ba3d34a853a28f61c1857a4001401af9ddf9e16276b631",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_800A4F54|S_800AA6B4_1": {
+"0x2C": "unk_2C.as_s32"
+},
+"dungeon/func_800A5128|S_800AA888_1": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_800D3504|S_800D8C64_2": {
+"0x14": "unk_14",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x26": "unk_26.as_u8",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_809782AC|S_80173AAC_1": {
+"0x14": "unk_14"
+},
+"dungeon/func_80978600|S_80173E00_0": {
+"0x4": "unk_04",
+"0x2C": "unk_2C.as_pu8"
+},
+"dungeon/func_809A2A14|S_80174214_1": {
+"0x14": "unk_14",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_809CBEF4|S_801736F4_1": {
+"0x14": "unk_14"
+},
+"dungeon/func_80A73EF4|S_801736F4_1": {
+"0x14": "unk_14",
+"0x26": "unk_26.as_s8",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_80BC489C|S_8017409C_1": {
+"0x14": "unk_14"
+},
+"dungeon/func_80CBFBF0|S_801733F0_1": {
+"0x14": "unk_14",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_80CEBD74|S_80175574_1": {
+"0x14": "unk_14",
+"0x2C": "unk_2C.as_pv"
+},
+"dungeon/func_80D14F6C|S_8017476C_2": {
+"0x14": "unk_14",
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80D3EF88|S_80174788_1": {
+"0x14": "unk_14"
+},
+"dungeon/func_80E109CC|S_801741CC_1": {
+"0x14": "unk_14"
+},
+"dungeon/func_80F36BE8|S_801743E8_1": {
+"0x14": "unk_14",
+"0x1C": "unk_1C",
+"0x1E": "unk_1E"
+},
+"dungeon/func_80FB402C|S_8017382C_1": {
+"0x8": "unk_08",
+"0x12": "unk_12",
+"0x14": "unk_14",
+"0x26": "unk_26.as_s8"
+},
+"dungeon/func_81007CE0|S_801734E0_1": {
+"0x14": "unk_14"
+},
+"dungeon/func_810876B4|S_80174EB4_3": {
+"0x28": "unk_28"
+}
+},
+"unmapped": [
+"dungeon/func_800A4AF8|S_800AA258_2",
+"dungeon/func_80975CD4|S_801714D4_2",
+"dungeon/func_8099F8EC|S_801710EC_2",
+"dungeon/func_809A58EC|S_8016B0EC_2",
+"dungeon/func_809AB8EC|S_801650EC_2",
+"dungeon/func_809B18EC|S_8015F0EC_2",
+"dungeon/func_809B78EC|S_801590EC_2",
+"dungeon/func_809BD8EC|S_801530EC_2",
+"dungeon/func_809C38EC|S_8014D0EC_2",
+"dungeon/func_809C9654|S_80170E54_2",
+"dungeon/func_80A71654|S_80170E54_2",
+"dungeon/func_80A9B67C|S_80170E7C_2",
+"dungeon/func_80AC5F28|S_80171728_2",
+"dungeon/func_80AEFFF4|S_801717F4_2",
+"dungeon/func_80BEB814|S_80171014_2",
+"dungeon/func_80D11F60|S_80171760_2",
+"dungeon/func_80D3C280|S_80171A80_2",
+"dungeon/func_80D6671C|S_80171F1C_2",
+"dungeon/func_80E61EF4|S_801716F4_2",
+"dungeon/func_80E8B8F4|S_801710F4_2",
+"dungeon/func_80FDB6A8|S_80170EA8_2",
+"dungeon/func_812A67A4|S_80171FA4_2",
+"dungeon/func_812AC7A4|S_8016BFA4_2",
+"dungeon/func_812B27A4|S_80165FA4_2",
+"dungeon/func_812B87A4|S_8015FFA4_2",
+"dungeon/func_812BE7A4|S_80159FA4_2",
+"dungeon/func_812C47A4|S_80153FA4_2",
+"dungeon/func_812CA7A4|S_8014DFA4_2"
+],
+"rows": 18,
+"structs": 18,
+"span": 48,
+"containers": {
+"dungeon": 18
+},
+"unions": 2,
+"members": 11
+},
+"Rec_func_8008ACDC_arg0": {
+"class": "param:dungeon:func_8008ACDC:arg0",
+"header": "records/Rec_func_8008ACDC_arg0.h",
+"sha256": "4e9d0bb5e59f7fc9f591dd620881eb9617fb6df68861bcd42aa5410cc13a54d1",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"dungeon/func_7FFEED68|S_8008C4C8_0": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08"
+},
+"dungeon/func_8008557C|S_8008ACDC_0": {
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_s8",
+"0x9E": "unk_9E",
+"0xA2": "unk_A2",
+"0xA4": "unk_A4.as_u16",
+"0xC8": "unk_C8",
+"0x104": "unk_104",
+"0x10C": "unk_10C"
+},
+"dungeon/func_80086110|S_8008B870_3": {
+"0x9A": "unk_9A.as_u8",
+"0xC8": "unk_C8",
+"0x104": "unk_104",
+"0x10C": "unk_10C"
+},
+"dungeon/func_80086D08|S_8008C468_0": {
+"0x8C": "unk_8C.as_s32",
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8",
+"0xA2": "unk_A2"
+},
+"dungeon/func_80086DB4|S_8008C514_0": {
+"0x8C": "unk_8C.as_s32",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8",
+"0xA2": "unk_A2"
+},
+"dungeon/func_80087340|S_8008CAA0_0": {
+"0x8C": "unk_8C.as_s32",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8",
+"0x10C": "unk_10C"
+},
+"dungeon/func_800875EC|S_8008CD4C_1": {
+"0x8C": "unk_8C.as_s32",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_u8",
+"0x124": "unk_124"
+},
+"dungeon/func_800883AC|S_8008DB0C_0": {
+"0x2A": "unk_2A",
+"0x72": "unk_72",
+"0x73": "unk_73",
+"0x8A": "unk_8A",
+"0x8C": "unk_8C.as_s32",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_80088488|S_8008DBE8_3": {
+"0x8C": "unk_8C.as_s32",
+"0xA2": "unk_A2"
+},
+"dungeon/func_80088688|S_8008DDE8_0": {
+"0x8C": "unk_8C.as_pm",
+"0x96": "unk_96.as_u16",
+"0x9B": "unk_9B.as_u8",
+"0x10C": "unk_10C"
+},
+"dungeon/func_80088B04|S_8008E264_0": {
+"0x8C": "unk_8C.as_pm",
+"0x98": "unk_98",
+"0x9B": "unk_9B.as_u8"
+},
+"dungeon/func_80089368|S_8008EAC8_0": {
+"0x8C": "unk_8C.as_pv",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_s8",
+"0x9E": "unk_9E",
+"0xA2": "unk_A2",
+"0xC8": "unk_C8",
+"0x104": "unk_104",
+"0x10C": "unk_10C",
+"0x124": "unk_124"
+},
+"dungeon/func_80089F8C|S_8008F6EC_3": {
+"0x8C": "unk_8C.as_s32",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_8008A2B4|S_8008FA14_0": {
+"0x8C": "unk_8C.as_s32",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8",
+"0xA2": "unk_A2"
+},
+"dungeon/func_8008A5F0|S_8008FD50_2": {
+"0x8C": "unk_8C.as_pm",
+"0xA2": "unk_A2"
+},
+"dungeon/func_8008AAA0|S_80090200_0": {
+"0x8C": "unk_8C.as_s32",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_8008C3FC|S_80091B5C_2": {
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8",
+"0x11A": "unk_11A"
+},
+"dungeon/func_8008CDFC|S_8009255C_0": {
+"0x1C": "unk_1C",
+"0x8C": "unk_8C.as_s32",
+"0x9B": "unk_9B.as_u8",
+"0x110": "unk_110",
+"0x124": "unk_124"
+},
+"dungeon/func_8008EB10|S_80094270_0": {
+"0x60": "unk_60",
+"0x8A": "unk_8A",
+"0xC8": "unk_C8"
+},
+"dungeon/func_8008FDD8|S_80095538_2": {
+"0xBC": "unk_BC"
+},
+"dungeon/func_80090C24|S_80096384_0": {
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_u8",
+"0x9B": "unk_9B.as_s8",
+"0x9E": "unk_9E",
+"0xA2": "unk_A2",
+"0xA4": "unk_A4.as_s16",
+"0xC8": "unk_C8",
+"0x104": "unk_104"
+},
+"dungeon/func_80091360|S_80096AC0_0": {
+"0x8C": "unk_8C.as_s32",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8",
+"0xA2": "unk_A2"
+},
+"dungeon/func_800918EC|S_8009704C_3": {
+"0x8C": "unk_8C.as_pm",
+"0xA2": "unk_A2",
+"0x100": "unk_100"
+},
+"dungeon/func_80091A48|S_800971A8_0": {
+"0x8C": "unk_8C.as_pv",
+"0x96": "unk_96.as_u16",
+"0x98": "unk_98",
+"0x9B": "unk_9B.as_u8",
+"0x100": "unk_100"
+},
+"dungeon/func_800921D4|S_80097934_0": {
+"0x8C": "unk_8C.as_pv",
+"0x96": "unk_96.as_s16",
+"0x9B": "unk_9B.as_u8"
+},
+"dungeon/func_800924F0|S_80097C50_0": {
+"0x8C": "unk_8C.as_s32",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_800B127C|S_800B69DC_1": {
+"0x9A": "unk_9A.as_u8",
+"0x10C": "unk_10C"
+}
+},
+"unmapped": [
+"dungeon/func_8008629C|S_8008B9FC_1",
+"dungeon/func_800869DC|S_8008C13C_2",
+"dungeon/func_80086E64|S_8008C5C4_2"
+],
+"rows": 27,
+"structs": 27,
+"span": 296,
+"containers": {
+"dungeon": 27
+},
+"unions": 5,
+"members": 25
+},
+"Rec_D_80082D58": {
+"class": "global:D_80082D58",
+"header": "records/Rec_D_80082D58.h",
+"sha256": "826edce6dbcd48147bb3044cdd6ab3a21799b8ac8cd9ed4a63eb3b0ca0a5978a",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"town/func_800972D8|S_80094A38_0": {
+"0x10": "unk_10",
+"0x1C": "unk_1C"
+},
+"town/func_8009D9E8|S_8009B148_0": {
+"0x50": "unk_50.as_x151a23",
+"0x98": "unk_98.as_ps8"
+},
+"town/func_8009E25C|S_8009B9BC_2": {
+"0x58": "unk_58"
+},
+"town/func_8009FAAC|S_8009D20C_0": {
+"0x84": "unk_84",
+"0x86": "unk_86",
+"0x98": "unk_98.as_pv"
+},
+"town/func_800A05E0|S_8009DD40_0": {
+"0x4D": "unk_4D",
+"0x50": "unk_50.as_x151a23",
+"0x98": "unk_98.as_ps8"
+},
+"town/func_800A161C|S_8009ED7C_2": {
+"0x6C": "unk_6C.as_u16"
+},
+"town/func_800A9BA8|S_800A7308_1": {
+"0x50": "unk_50.as_pm",
+"0x90": "unk_90.as_s16"
+},
+"town/func_800AD3C0|S_800AAB20_0": {
+"0x50": "unk_50.as_xcdccad",
+"0x64": "unk_64",
+"0x72": "unk_72",
+"0x74": "unk_74",
+"0x78": "unk_78",
+"0x98": "unk_98.as_ps8"
+},
+"town/func_800BC604|S_800B9D64_0": {
+"0x66": "unk_66",
+"0x97": "unk_97",
+"0x98": "unk_98.as_pu8",
+"0x9C": "unk_9C"
+},
+"town/func_800BD164|S_800BA8C4_0": {
+"0x98": "unk_98.as_pu8"
+},
+"town/func_800BF718|S_800BCE78_0": {
+"0x68": "unk_68",
+"0x6C": "unk_6C.as_u16",
+"0xA0": "unk_A0",
+"0xAC": "unk_AC"
+},
+"town/func_800C217C|S_800BF8DC_0": {
+"0x68": "unk_68",
+"0x6C": "unk_6C.as_s16"
+},
+"town/func_800C72D0|S_800C4A30_0": {
+"0x60": "unk_60"
+},
+"town/func_800CB3FC|S_800C8B5C_1": {
+"0x50": "unk_50.as_pm",
+"0x90": "unk_90.as_s16"
+},
+"town/func_800CB4DC|S_800C8C3C_1": {
+"0x90": "unk_90.as_u16"
+},
+"town/func_800CE258|S_800CB9B8_0": {
+"0x9C": "unk_9C"
+},
+"dungeon/func_7FFFE25C|S_7FFFE25C_2": {
+"0x58": "unk_58"
+},
+"slus/konami_runtime_w_8003C0C0|S_8003C0C0_0": {
+"0x4": "unk_04"
+},
+"slus/konami_runtime_w_8003C2B8|S_8003C2B8_0": {
+"0x0": "unk_00"
+}
+},
+"unmapped": [
+"town/func_800BC238|S_800B9998_0",
+"town/func_800C0840|S_800BDFA0_0"
+],
+"rows": 19,
+"structs": 19,
+"span": 176,
+"containers": {
+"town": 16,
+"dungeon": 1,
+"slus": 2
+},
+"unions": 4,
+"members": 23
+},
+"Rec_D_800814A0": {
+"class": "global:D_800814A0",
+"header": "records/Rec_D_800814A0.h",
+"sha256": "c3df686aaac047cf4d214b31f2cc7a9834d81de7bf5177e1d24676829530ea40",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_8008DCFC|S_8009345C_6": {
+"0x0": "unk_00"
+},
+"dungeon/func_800A6018|S_800AB778_10": {
+"0x0": "unk_00"
+},
+"dungeon/func_800BF7C0|S_800C4F20_9": {
+"0x0": "unk_00"
+},
+"dungeon/func_800C0620|S_800C5D80_4": {
+"0x0": "unk_00"
+},
+"dungeon/func_800D2A74|S_800D81D4_3": {
+"0x0": "unk_00"
+},
+"dungeon/func_809990E8|S_8014C8E8_2": {
+"0x0": "unk_00"
+},
+"dungeon/func_80BEDF38|S_80173738_2": {
+"0x0": "unk_00"
+},
+"dungeon/func_80C97514|S_80C97514_10": {
+"0x0": "unk_00"
+},
+"dungeon/func_81814A80|S_81814A80_1": {
+"0x0": "unk_00"
+},
+"dungeon/func_8182C800|S_8182C800_22": {
+"0x0": "unk_00"
+},
+"dungeon/func_818AAE60|S_80024660_11": {
+"0x0": "unk_00"
+},
+"dungeon/func_818B7F38|S_80025738_12": {
+"0x0": "unk_00"
+},
+"dungeon/func_818FF710|S_818FF710_29": {
+"0x0": "unk_00"
+},
+"dungeon/func_81912154|S_80025954_13": {
+"0x0": "unk_00"
+},
+"dungeon/func_8195281C|S_8195281C_9": {
+"0x0": "unk_00"
+},
+"dungeon/func_819A0EF0|S_800246F0_3": {
+"0x0": "unk_00"
+}
+},
+"unmapped": [],
+"rows": 16,
+"structs": 16,
+"span": 4,
+"containers": {
+"dungeon": 16
+},
+"unions": 0,
+"members": 1
+},
+"Rec_D_800CFCB4": {
+"class": "global:D_800CFCB4",
+"header": "records/Rec_D_800CFCB4.h",
+"sha256": "d5e0ad049cc4d7b482725337421bf4639b54fab1b3b86d03182fef290a530138",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800918BC|S_8008F01C_0": {
+"0x8": "unk_08",
+"0xC": "unk_0C",
+"0x14": "unk_14",
+"0x15": "unk_15"
+},
+"town/func_80091974|S_8008F0D4_0": {
+"0x14": "unk_14"
+},
+"town/func_800919A4|S_8008F104_0": {
+"0x14": "unk_14"
+},
+"town/func_80091B1C|S_8008F27C_0": {
+"0x35": "unk_35"
+},
+"town/func_80097F1C|S_8009567C_2": {
+"0x10": "unk_10",
+"0x18": "unk_18"
+},
+"town/func_8009DB64|S_8009B2C4_2": {
+"0x20": "unk_20",
+"0x3B": "unk_3B"
+},
+"town/func_8009DF54|S_8009B6B4_1": {
+"0x3B": "unk_3B"
+},
+"town/func_8009E860|S_8009BFC0_0": {
+"0x15": "unk_15"
+},
+"town/func_8009E960|S_8009C0C0_0": {
+"0x15": "unk_15"
+},
+"town/func_8009E9E8|S_8009C148_0": {
+"0x15": "unk_15"
+},
+"town/func_8009F048|S_8009C7A8_0": {
+"0x94": "unk_94"
+},
+"town/func_800A1828|S_8009EF88_2": {
+"0x4D": "unk_4D.as_u8",
+"0x6C": "unk_6C.as_u16",
+"0x84": "unk_84",
+"0x86": "unk_86",
+"0x95": "unk_95",
+"0x98": "unk_98"
+},
+"town/func_800A1C14|S_8009F374_1": {
+"0x6C": "unk_6C.as_s16",
+"0xA0": "unk_A0"
+},
+"town/func_800BF170|S_800BC8D0_1": {
+"0x48": "unk_48",
+"0x50": "unk_50",
+"0xA0": "unk_A0",
+"0xA4": "unk_A4",
+"0xA8": "unk_A8"
+},
+"town/func_800C8A20|S_800C6180_0": {
+"0x4C": "unk_4C",
+"0x4D": "unk_4D.as_s8"
+}
+},
+"unmapped": [],
+"rows": 15,
+"structs": 15,
+"span": 172,
+"containers": {
+"town": 15
+},
+"unions": 2,
+"members": 22
+},
+"Rec_D_8001E950": {
+"class": "global:D_8001E950",
+"header": "records/Rec_D_8001E950.h",
+"sha256": "7310afbbe96069a059520b187d59a4c7c13b3465f4347c97831ec6c1360f8b89",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_80468730|S_80019730_0": {
+"0x1": "unk_01"
+},
+"town/func_8046888C|S_8001988C_0": {
+"0x1": "unk_01"
+},
+"town/func_804693E8|S_8001A3E8_0": {
+"0x2": "unk_02"
+},
+"town/func_80469C10|S_8001AC10_0": {
+"0x5": "unk_05"
+},
+"town/func_80469DF8|S_8001ADF8_0": {
+"0x3": "unk_03",
+"0x5": "unk_05"
+},
+"town/func_8046B2FC|S_8001C2FC_0": {
+"0x4": "unk_04"
+},
+"town/func_8046B33C|S_8001C33C_0": {
+"0x4": "unk_04"
+},
+"town/func_8046B35C|S_8001C35C_0": {
+"0x4": "unk_04"
+},
+"town/func_8046B37C|S_8001C37C_0": {
+"0x4": "unk_04"
+},
+"town/func_8046BED4|S_8001CED4_0": {
+"0x1": "unk_01"
+}
+},
+"unmapped": [],
+"rows": 10,
+"structs": 10,
+"span": 6,
+"containers": {
+"town": 10
+},
+"unions": 0,
+"members": 5
+}
+}

@@ -1,17 +1,7 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_80099734_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_80099734_0;   /* D_800E3D7C in func_80099734 */
 
-typedef struct S_80099734_1 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x8E];
-    s16 unk_A6;
-} S_80099734_1;   /* arg0 in func_80099734 */
 
 typedef struct S_80099734_2 {
     u8 pad_00[0x359C];
@@ -37,20 +27,20 @@ u8 *func_80099734(void *arg0, u8 *out)
     register u8 *table_page ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
     u8 ch;
 
-    if ((((S_80099734_0 *)D_800E3D7C)->unk_1C & 0x10) &&
-        (((S_80099734_1 *)arg0)->unk_13 != 0)) {
+    if ((((Rec_D_800E3D7C *)D_800E3D7C)->unk_1C.as_s32 & 0x10) &&
+        (((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v != 0)) {
         src = (u8 *)D_800DD728;
         goto copy;
     }
 
-    if (((S_80099734_1 *)arg0)->unk_14 & 0x4000) {
+    if (((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) {
         src = (u8 *)arg0 + 0x34;
         goto copy;
     }
 
-    index = ((S_80099734_1 *)arg0)->unk_13;
+    index = ((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v;
     if (index == 0x23) {
-        if (((S_80099734_1 *)arg0)->unk_A6 != 0) {
+        if (((Rec_D_800E3D7C *)arg0)->unk_A4.at02_s16.v != 0) {
             src = (u8 *)D_800DD728;
             goto copy;
         }

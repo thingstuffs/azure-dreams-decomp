@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800814A0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *D_80088A58[];
@@ -97,9 +98,6 @@ typedef struct S_8009345C_5_pre {
     u16 unk_00;
 } S_8009345C_5_pre;   /* the 0x2 bytes before temp_v1_2 in func_8009345C, addressed as temp_v1_2[-1] */
 
-typedef struct S_8009345C_6 {
-    s32 unk_00;
-} S_8009345C_6;   /* &D_800814A0 in func_8009345C */
 
 typedef struct S_8009345C_7 {
     u8 unk_00;
@@ -262,7 +260,7 @@ block_12:
     func_8009A028(((S_8009345C_2 *)ctx)->unk_60);
     temp_v1_2 = ((S_8009345C_2 *)ctx)->unk_60;
     ((S_8009345C_5_pre *)temp_v1_2)[-1].unk_00 = (u16) (((S_8009345C_5_pre *)temp_v1_2)[-1].unk_00 | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((S_8009345C_6 *)(&D_800814A0))->unk_00 | 0x8000);
+    (*(s32 *)&D_800814A0) = (s32) (((Rec_D_800814A0 *)(&D_800814A0))->unk_00 | 0x8000);
     if (D_80082EB0[0] != NULL) {
         goto block_33;
     }

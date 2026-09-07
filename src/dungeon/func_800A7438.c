@@ -1,4 +1,7 @@
 #include "common.h"
+#include "records/Rec_func_800A9E70_arg0.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 
@@ -9,32 +12,15 @@ extern struct {
     u16 field_0xA;
 } D_80083460;
 
-typedef struct S_800ACB98_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_800ACB98_0;   /* arg0 in func_800ACB98 */
 
-typedef struct S_800ACB98_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_800ACB98_1;   /* arg2 in func_800ACB98 */
 
-typedef struct S_800ACB98_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_800ACB98_2;   /* arg3 in func_800ACB98 */
 
-void func_800ACB98(S_800ACB98_0 *arg0, void *arg1, S_800ACB98_1 *arg2, S_800ACB98_2 *arg3) {
-    arg0->unk_9A = 0x14;
-    arg0->unk_9B = 0;
+void func_800ACB98(Rec_func_800A9E70_arg0 *arg0, void *arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
+    arg0->unk_9A.as_s8 = 0x14;
+    arg0->unk_9B.as_s8 = 0;
     arg0->unk_8C = 0;
-    arg2->unk_14 = (u16)(arg2->unk_14 | 0x800);
-    arg0->unk_96 = 0;
+    arg2->unk_14.at00_u16.v = (u16)(arg2->unk_14.at00_u16.v | 0x800);
+    arg0->unk_96.as_s16 = 0;
     D_80083460.field_0xA = D_80083460.field_0xA + 1;
-    arg3->unk_1C = (s32)(arg3->unk_1C | 0x10000000);
+    arg3->unk_1C.as_s32 = (s32)(arg3->unk_1C.as_s32 | 0x10000000);
 }

@@ -1,18 +1,15 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 
 typedef s32 M2C_UNK;
 
-typedef struct S_801722E4_4 {
-    u8 pad_00[0x60];
-    void * unk_60;
-} S_801722E4_4;   /* arg3 in func_801722E4 */
 
 typedef struct S_801722E4_5_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_801722E4_5_pre;   /* the 0x14 bytes before ((S_801722E4_4 *)arg3)->unk_60 in func_801722E4, addressed as ((S_801722E4_4 *)arg3)->unk_60[-1] */
+} S_801722E4_5_pre;   /* the 0x14 bytes before ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in func_801722E4, addressed as ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv[-1] */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -27,14 +24,6 @@ extern s16 D_80083228;
 extern u16 D_80083462;
 extern u8 D_801764A0[];
 
-typedef struct S_801722E4_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x41];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-} S_801722E4_0;   /* arg3 in func_801722E4 */
 
 typedef struct S_801722E4_1 {
     u8 pad_00[0x24];
@@ -66,15 +55,15 @@ void func_801722E4(S_801722E4_3 *arg0, M2C_UNK arg1, S_801722E4_1 *arg2, void *a
     u8 *temp_tbl;
     s8 *page_8008;
 
-    ((S_801722E4_0 *)arg3)->unk_71 =
-        (u8)(((S_801722E4_0 *)arg3)->unk_71 & 0x7F);
+    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 =
+        (u8)(((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
     if (!(D_80083462 & 0x2008)) {
         temp_s3 = (s8 *)arg3 - 0x20;
         if ((func_800A2B5C(arg3) << 0x10) == 0) {
             func_800C7930(temp_s3, arg1, 8, 0x300);
             if ((func_800A2B5C(arg3) << 0x10) == 0) {
-                temp_v0 = ((S_801722E4_5_pre *)(((S_801722E4_4 *)arg3)->unk_60))[-1].unk_00;
-                ((S_801722E4_0 *)arg3)->unk_2A = func_800A0818(
+                temp_v0 = ((S_801722E4_5_pre *)(((Rec_D_800E3D7C *)arg3)->unk_60.as_pv))[-1].unk_00;
+                ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(
                     arg2->unk_24,
                     arg2->unk_25,
                     temp_v0->unk_24,
@@ -91,12 +80,12 @@ void func_801722E4(S_801722E4_3 *arg0, M2C_UNK arg1, S_801722E4_1 *arg2, void *a
                 func_80047784(
                     arg2,
                     temp_tbl[((s32)(*(s16 *)(page_8008 + 0x3228) +
-                                    ((S_801722E4_0 *)arg3)->unk_2A + 0x100) >> 9) &
+                                    ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) &
                              7],
                     0);
                 func_800A4ACC(arg3);
-                ((S_801722E4_0 *)arg3)->unk_6D =
-                    (u8)(((S_801722E4_0 *)arg3)->unk_6D - 1);
+                ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 =
+                    (u8)(((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 - 1);
                 arg0->unk_98 =
                     (u16)(arg0->unk_98 | 8);
                 func_800C77D0(temp_s3, arg1, 8, 0x300);

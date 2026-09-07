@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 typedef struct {
@@ -29,20 +30,11 @@ typedef struct S_800BD72C_0_pre {
     u8 pad_04[0x14];
 } S_800BD72C_0_pre;   /* the 0x18 bytes before arg0 in func_800BD72C, addressed as arg0[-1] */
 
-typedef struct S_800BD72C_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xF0];
-    s32 unk_110;
-} S_800BD72C_0;   /* arg0 in func_800BD72C */
 
 s32 func_800BD72C(void *arg0, s32 arg1, s16 arg2)
 {
     if (arg0 == D_800E3D7C) {
-        ((S_800BD72C_0 *)arg0)->unk_110 = arg1;
+        ((Rec_D_800E3D7C *)arg0)->unk_110 = arg1;
         func_8008D330(arg0, D_80083780, D_80082E80, arg0);
         func_800BD854();
         return 0;
@@ -51,7 +43,7 @@ s32 func_800BD72C(void *arg0, s32 arg1, s16 arg2)
     if ((s32)arg0 <= 0x9FFFFFFF) {
         func_800A63B8(arg0, arg1, arg2);
         if (func_800AD6FC(
-                arg0, (D_800DDE84[((S_800BD72C_0 *)arg0)->unk_13] >> 6) & 3, 0) == 0) {
+                arg0, (D_800DDE84[((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v] >> 6) & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
             func_800BD854();
             return 1;
@@ -59,8 +51,8 @@ s32 func_800BD72C(void *arg0, s32 arg1, s16 arg2)
     }
 
     func_800C4AFC(((S_800BD72C_0_pre *)arg0)[-1].unk_00, 0xC0C0C0, arg0);
-    if ((((S_800BD72C_0 *)arg0)->unk_14 & 0x4000) &&
-        !(((S_800BD72C_0 *)arg0)->unk_1C & 0x200)) {
+    if ((((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) &&
+        !(((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 & 0x200)) {
         func_800997FC(D_800E0E9B);
     }
     func_80042B68(arg0, 1);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172C90_0 {
     u8 pad_00[0x1C];
@@ -57,20 +58,6 @@ typedef struct S_80172C90_4 {
     u8 unk_25;
 } S_80172C90_4;   /* localLinked in func_80172C90 */
 
-typedef struct S_80172C90_5 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80172C90_5;   /* arg2 in func_80172C90 */
 
 typedef struct S_80172C90_6 {
     u8 pad_00[0xA];
@@ -117,7 +104,7 @@ extern u8 D_801710F4[];
 extern u8 D_80174EF8[];
 extern u8 D_80174F00[];
 
-void func_80172C90(void *arg0, S_80172C90_2 *arg1, S_80172C90_5 *arg2, void *arg3)
+void func_80172C90(void *arg0, S_80172C90_2 *arg1, Rec_D_80082E80 *arg2, void *arg3)
 {
     u32 directionOffset;
     u16 angle;
@@ -279,7 +266,7 @@ IEnd:
         if (!moveResult) {
             return;
         }
-        arg2->unk_14 &= 0xF7FF;
+        arg2->unk_14.at00_u16.v &= 0xF7FF;
         func_800A56E0(0x703);
         func_800DB2DC(arg1, arg2, arg3, 10);
         ((S_80172C90_1 *)arg0)->unk_90 = 0;
@@ -326,7 +313,7 @@ IEnd:
     func_801733F0();
 
 L1:
-    if (arg2->unk_14 & 0x8000) {
+    if (arg2->unk_14.at00_u16.v & 0x8000) {
         ((S_80172C90_1 *)arg0)->unk_9B = 16;
         ((S_80172C90_1 *)arg0)->unk_98 |= 0x80;
         func_801733F0();
@@ -352,20 +339,20 @@ L1:
 
 L2:
     if (func_8003F270()) {
-        arg2->unk_14 |= 0x0800;
+        arg2->unk_14.at00_u16.v |= 0x0800;
         func_801733F0();
     }
-    arg2->unk_14 &= 0xF7FF;
+    arg2->unk_14.at00_u16.v &= 0xF7FF;
     ((S_80172C90_1 *)arg0)->unk_9B++;
 
 L3:
     arg1->unk_14.s += 0x30000;
-    if (arg2->unk_04 == 4) {
-        if (arg2->unk_14 & 0x1000) {
+    if (arg2->unk_04.as_s8 == 4) {
+        if (arg2->unk_14.at00_u16.v & 0x1000) {
             goto L3Activate;
         }
     }
-    if (!(arg2->unk_14 & 0xE000)) {
+    if (!(arg2->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
 L3Activate:
@@ -401,10 +388,10 @@ L4Activate:
     arg1->unk_10.s = 0;
     arg1->unk_0C.s = 0;
     ((S_80172C90_1 *)arg0)->unk_96.s = 4;
-    arg2->unk_1C = 0x1400;
-    arg2->unk_1E = 0x0C00;
+    arg2->unk_1C.at00_u16.v = 0x1400;
+    arg2->unk_1C.at02_u16.v = 0x0C00;
     effect = D_80174F00;
-    arg2->unk_2C = effect;
+    arg2->unk_2C.as_pu8 = effect;
     func_80047784(arg2,
         effect[((D_80083228[0] + ((S_80172C90_0 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
         0);
@@ -421,14 +408,14 @@ L5:
         squareInput = ((S_80172C90_1 *)arg0)->unk_96.u;
         square = squareInput * squareInput;
         ASM_USE_NV(squareInput);   /* MATCH pin: retail register colouring depends on it */
-        arg2->unk_1C = 0x1000 + square * 300;
+        arg2->unk_1C.at00_u16.v = 0x1000 + square * 300;
         ASM_MEM_BARRIER();   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-        arg2->unk_1E = 0x1000 - square * 200;
+        arg2->unk_1C.at02_u16.v = 0x1000 - square * 200;
     }
     if (((S_80172C90_1 *)arg0)->unk_96.u > 0) {
         return;
     }
-    arg2->unk_2C = D_80174EF8;
+    arg2->unk_2C.as_pu8 = D_80174EF8;
     func_80047784(arg2,
         D_80174EF8[((D_80083228[0] + ((S_80172C90_0 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
         0);
@@ -469,7 +456,7 @@ L6:
     arg1->unk_14.s = 0;
     arg1->unk_10.s = 0;
     arg1->unk_0C.s = 0;
-    arg2->unk_14 |= 0x6000;
+    arg2->unk_14.at00_u16.v |= 0x6000;
     ((S_80172C90_1 *)arg0)->unk_9B = 16;
     func_801733F0();
 
@@ -477,15 +464,15 @@ L16:
     {
     u8 *counter;
 
-    if (!(arg2->unk_14 & 0xE000)) {
+    if (!(arg2->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
     arg1->unk_14.s = 0;
     arg1->unk_10.s = 0;
     arg1->unk_0C.s = 0;
     func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-    if (arg2->unk_2C != D_80174F00) {
-        arg2->unk_2C = D_80174F00;
+    if (arg2->unk_2C.as_pu8 != D_80174F00) {
+        arg2->unk_2C.as_pu8 = D_80174F00;
         func_80047784(arg2,
             D_80174F00[((D_80083228[0] + ((S_80172C90_0 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
             0);
@@ -495,7 +482,7 @@ L16:
         return;
     }
     ((S_80172C90_6 *)counter)->unk_0A--;
-    arg2->unk_14 &= 0xF7FF;
+    arg2->unk_14.at00_u16.v &= 0xF7FF;
     ((S_80172C90_1 *)arg0)->unk_8C = D_801710F4;
     func_800A4ACC(arg3);
     if (((S_80172C90_0 *)arg3)->unk_6D.u > 0) {

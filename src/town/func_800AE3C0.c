@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_800ABB20_0 {
     s32 unk_00;
@@ -17,18 +18,12 @@ typedef struct S_800ABB20_1 {
     s16 unk_06;
 } S_800ABB20_1;   /* arg0 in func_800ABB20; pointer addresses record offset 0x2 */
 
-typedef struct S_800ABB20_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-} S_800ABB20_2;   /* arg2 in func_800ABB20 */
 
 
 extern void func_800478B8(void *arg0);
 extern s32 D_800814A0[3];
 
-void func_800ABB20(void *arg0, S_800ABB20_0 *arg1, S_800ABB20_2 *arg2) {
+void func_800ABB20(void *arg0, S_800ABB20_0 *arg1, Rec_D_80082E80 *arg2) {
     u16 temp_v0_3;
     u8 temp_v0;
 
@@ -38,12 +33,12 @@ void func_800ABB20(void *arg0, S_800ABB20_0 *arg1, S_800ABB20_2 *arg2) {
     arg1->unk_04 = (s32) (arg1->unk_04 + arg1->unk_10);
     arg1->unk_08 = (s32) (arg1->unk_08 + arg1->unk_14);
     func_800478B8(arg2);
-    temp_v0 = arg2->unk_0C;
+    temp_v0 = arg2->unk_0C.at00_u8.v;
     if (temp_v0 != 0) {
         temp_v0 = temp_v0 - 0x10;
-        arg2->unk_0C = temp_v0;
-        arg2->unk_0E = temp_v0;
-        arg2->unk_0D = temp_v0;
+        arg2->unk_0C.at00_u8.v = temp_v0;
+        arg2->unk_0C.at02_u8.v = temp_v0;
+        arg2->unk_0C.at01_u8.v = temp_v0;
     }
     temp_v0_3 = ((S_800ABB20_1 *)((u8 *)arg0 - 0x2))->unk_04 - 1;
     ((S_800ABB20_1 *)((u8 *)arg0 - 0x2))->unk_04 = temp_v0_3;

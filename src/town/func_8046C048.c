@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80016000.h"
 
 typedef struct S_8001D048_3 {
     u8 pad_00[0x2D0];
@@ -7,10 +8,6 @@ typedef struct S_8001D048_3 {
 } S_8001D048_3;   /* callback_base in func_8001D048 */
 
 
-typedef struct S_8001D048_0 {
-    u8 pad_00[0x38];
-    s8 * unk_38;
-} S_8001D048_0;   /* D_80016000 in func_8001D048 */
 
 typedef struct S_8001D048_1 {
     u8 pad_00[0x3640];
@@ -25,7 +22,7 @@ typedef struct S_8001D048_2 {
 
 s32 func_8001D280();                   /* extern */
 s32 func_8001E7E4();                         /* extern */
-extern S_8001D048_0 *D_80016000;
+extern Rec_D_80016000 *D_80016000;
 extern s16 D_8001902C[];
 
 void func_8001D048(void) {
@@ -47,7 +44,7 @@ void func_8001D048(void) {
     S_8001D048_3 *callback_base;
     M2C_UNK (*callback)(s32, u8, s32);
 
-    work_s0 = (long)D_80016000->unk_38;
+    work_s0 = (long)D_80016000->unk_38.as_ps8;
     result = func_8001E7E4(1);
     mode = 0;
     if (result != 0) {

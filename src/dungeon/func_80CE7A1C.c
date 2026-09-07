@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 #ifndef NULL
 #define NULL 0
@@ -67,17 +68,6 @@ typedef struct S_8017121C_6 {
     void * unk_08;
 } S_8017121C_6;   /* source in func_8017121C */
 
-typedef struct S_8017121C_7 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-    u8 pad_18[0x12];
-    u16 unk_2A;
-    u8 pad_2C[0x34];
-    void * unk_60;
-    u8 pad_64[0xE];
-    u8 unk_72;
-    u8 unk_73;
-} S_8017121C_7;   /* arg3 in func_8017121C */
 
 typedef struct S_8017121C_8_pre {
     void * unk_00;
@@ -96,7 +86,7 @@ typedef struct S_8017121C_9 {
 typedef struct S_8017121C_10 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_8017121C_10;   /* ((S_8017121C_7 *)arg3)->unk_60 in func_8017121C */
+} S_8017121C_10;   /* ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in func_8017121C */
 
 
 
@@ -115,7 +105,7 @@ extern u8 D_80170CEC[];
 extern u8 D_80170D40[];
 extern s16 D_80175EBC[];
 
-void func_8017121C(void *arg0, S_8017121C_4 *arg1, s32 arg2, S_8017121C_7 *arg3)
+void func_8017121C(void *arg0, S_8017121C_4 *arg1, s32 arg2, Rec_D_800E3D7C *arg3)
 {
     Vec3u16 offset;
     void *effect;
@@ -192,10 +182,10 @@ void func_8017121C(void *arg0, S_8017121C_4 *arg1, s32 arg2, S_8017121C_7 *arg3)
     ((S_8017121C_0 *)base)->unk_01 = part->unk_0D;
     ((S_8017121C_0 *)base)->unk_02 = part->unk_0E;
 
-    if (arg3->unk_60 == NULL) {
+    if (arg3->unk_60.as_pv == NULL) {
         goto no_tracked;
     }
-    flags = arg3->unk_14;
+    flags = arg3->unk_14.as_u32;
     mask = 0x04000000;
     if ((flags & mask) == 0) {
         table_base = D_80175EBC;
@@ -203,9 +193,9 @@ void func_8017121C(void *arg0, S_8017121C_4 *arg1, s32 arg2, S_8017121C_7 *arg3)
         ((S_8017121C_0 *)base)->unk_5C = 0;
         ((S_8017121C_0 *)base)->unk_58 = 0;
 
-        index1 = arg3->unk_2A;
+        index1 = arg3->unk_2A.as_u16;
         ASM_KEEP_NV(index1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        owner = arg3->unk_60;
+        owner = arg3->unk_60.as_pv;
         ASM_KEEP_NV(owner);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
         coord1 = coords->unk_02.u;
         ASM_KEEP_NV(coord1);   /* MATCH pin: retail schedule: same instructions, different order without it */
@@ -221,7 +211,7 @@ void func_8017121C(void *arg0, S_8017121C_4 *arg1, s32 arg2, S_8017121C_7 *arg3)
         value -= table1;
         ((S_8017121C_0 *)base)->unk_5A = value / 2;
 
-        index2 = arg3->unk_2A;
+        index2 = arg3->unk_2A.as_u16;
         ASM_KEEP_NV(index2);   /* MATCH pin: load-bearing for the whole function shape */
         tracked2 = tracked->unk_06;
         ASM_KEEP_NV(tracked2);   /* MATCH pin: retail basic-block layout depends on it */
@@ -239,7 +229,7 @@ void func_8017121C(void *arg0, S_8017121C_4 *arg1, s32 arg2, S_8017121C_7 *arg3)
 
         coord3 = coords->unk_0A.u;
         value = tracked->unk_0A - coord3;
-        value -= D_800DDC40[((S_8017121C_10 *)(arg3->unk_60))->unk_13] >> 1;
+        value -= D_800DDC40[((S_8017121C_10 *)(arg3->unk_60.as_pv))->unk_13] >> 1;
         ((S_8017121C_0 *)base)->unk_62 = value / 2;
         return;
     }
@@ -249,8 +239,8 @@ no_tracked:
     ((S_8017121C_0 *)base)->unk_5C = 0;
     ((S_8017121C_0 *)base)->unk_58 = 0;
 
-    raw_y = arg3->unk_73;
-    raw_x = arg3->unk_72;
+    raw_y = arg3->unk_73.as_u8;
+    raw_x = arg3->unk_72.as_u8;
     ASM_KEEP(raw_y);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     raw_y <<= 24;
     y = raw_y >> 24;

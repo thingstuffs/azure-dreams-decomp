@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_8016E998_0 {
     u8 pad_00[0x1];
@@ -45,11 +46,6 @@ typedef struct S_8016E998_3 {
     s32 unk_08;
 } S_8016E998_3;   /* temp_v1 in func_8016E998 */
 
-typedef struct S_8016E998_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_8016E998_4;   /* arg0 in func_8016E998 */
 
 typedef struct S_8016E998_5 {
     u8 pad_00[0xC];
@@ -70,7 +66,7 @@ extern M2C_UNK D_80045340;
 extern M2C_UNK D_8016E4E8;
 extern void *D_80175D78;
 
-void func_8016E998(S_8016E998_4 *arg0) {
+void func_8016E998(Rec_D_800E3D7C *arg0) {
     s32 temp_a1_2;
     s32 temp_s1;
     s32 temp_v0_3;
@@ -119,9 +115,9 @@ void func_8016E998(S_8016E998_4 *arg0) {
             temp_a1->unk_10 = 0x20;
             temp_a1->unk_14 = (u16) (temp_v1_3 | 0x80);
             temp_v1 = ((S_8016E998_1 *)temp_v0)->unk_08;
-            temp_v1->unk_00 = (s32) arg0->unk_00;
-            temp_v1->unk_04.at00.v = (s32) arg0->unk_04;
-            temp_a1_2 = arg0->unk_08;
+            temp_v1->unk_00 = (s32) arg0->unk_00.at00_s32.v;
+            temp_v1->unk_04.at00.v = (s32) arg0->unk_04.at00_s32.v;
+            temp_a1_2 = arg0->unk_08.at00_s32.v;
             temp_v1->unk_04.at02.v = (u16) (temp_v1->unk_04.at02.v - 0x440);
             temp_v1->unk_08 = temp_a1_2;
             temp_s0->unk_7E = -0x40;

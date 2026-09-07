@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_800A86BC_0 {
     s32 unk_00;
@@ -19,12 +20,6 @@ typedef struct S_800A86BC_1 {
     s32 unk_04;
 } S_800A86BC_1;   /* arg0 in func_800A86BC */
 
-typedef struct S_800A86BC_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-} S_800A86BC_2;   /* arg2 in func_800A86BC */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -32,7 +27,7 @@ typedef struct S_800A86BC_2 {
 extern void func_800478B8();
 extern s32 D_800814A0[];
 
-void func_800A86BC(void *arg0, S_800A86BC_0 *arg1, S_800A86BC_2 *arg2) {
+void func_800A86BC(void *arg0, S_800A86BC_0 *arg1, Rec_D_80082E80 *arg2) {
     u8 temp;
     u16 count;
 
@@ -41,12 +36,12 @@ void func_800A86BC(void *arg0, S_800A86BC_0 *arg1, S_800A86BC_2 *arg2) {
     arg1->unk_04 = arg1->unk_04 + arg1->unk_10;
     arg1->unk_08 = arg1->unk_08 + arg1->unk_14;
     func_800478B8(arg2);
-    temp = arg2->unk_0C;
+    temp = arg2->unk_0C.at00_u8.v;
     if (temp != 0) {
         temp -= 0x10;
-        arg2->unk_0C = temp;
-        arg2->unk_0E = temp;
-        arg2->unk_0D = temp;
+        arg2->unk_0C.at00_u8.v = temp;
+        arg2->unk_0C.at02_u8.v = temp;
+        arg2->unk_0C.at01_u8.v = temp;
     }
     count = ((S_800A86BC_1 *)arg0)->unk_02 - 1;
     ((S_800A86BC_1 *)arg0)->unk_02 = count;

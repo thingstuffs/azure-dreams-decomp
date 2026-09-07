@@ -1,6 +1,7 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_80094268_arg0.h"
 
-typedef s32 M2C_UNK;
 
 typedef struct S_800A6994_0 {
     u8 pad_00[0x10];
@@ -9,21 +10,12 @@ typedef struct S_800A6994_0 {
     u16 unk_38;
 } S_800A6994_0;   /* temp_a0 in func_800A6994 */
 
-typedef struct S_800A6994_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800A6994_1;   /* arg2 in func_800A6994 */
 
 typedef struct S_800A6994_2 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_800A6994_2;   /* temp_v0 in func_800A6994 */
 
-typedef struct S_800A6994_3 {
-    u8 pad_00[0x72];
-    u16 unk_72;
-} S_800A6994_3;   /* arg0 in func_800A6994 */
 
 typedef struct S_800A6994_4 {
     u8 pad_00[0x4];
@@ -55,13 +47,13 @@ void func_800A6994(void *arg0, M2C_UNK arg1, void *arg2, M2C_UNK arg3) {
     temp_a0 = D_80083498;
     if (((S_800A6994_0 *)temp_a0)->unk_10 != &D_800A5638) {
         func_800A6328(&D_800D0D54, 0);
-        D_800D0C78 = ((S_800A6994_1 *)arg2)->unk_00;
+        D_800D0C78 = ((Rec_D_800E3D7C *)arg2)->unk_00.at00_s32.v;
         temp_v0 = &D_800D0C78;
-        (*(s32 *)((u8 *)temp_v0 + 4)) = ((S_800A6994_1 *)arg2)->unk_04;
+        (*(s32 *)((u8 *)temp_v0 + 4)) = ((Rec_D_800E3D7C *)arg2)->unk_04.at00_s32.v;
         ((S_800A6994_2 *)temp_v0)->unk_08 = (*(s32 *)((u8 *)arg2 + 8));
         func_800C2E84(arg0, arg3, D_80100E24);
         func_8009BFD8(arg0, arg1, arg2, arg3);
-        tail_value = ((S_800A6994_3 *)arg0)->unk_72;
+        tail_value = ((Rec_func_80094268_arg0 *)arg0)->unk_72.as_u16;
         tail_value += 0x200;
         tail_value &= 0xFC00;
         ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
@@ -69,10 +61,10 @@ void func_800A6994(void *arg0, M2C_UNK arg1, void *arg2, M2C_UNK arg3) {
         return;
     }
     temp_v0_2 = &D_80083780;
-    ((S_800A6994_1 *)arg2)->unk_00 = D_80083780;
-    ((S_800A6994_1 *)arg2)->unk_04 = ((S_800A6994_4 *)temp_v0_2)->unk_04;
-    ((S_800A6994_1 *)arg2)->unk_08 = ((S_800A6994_4 *)temp_v0_2)->unk_08;
-    ((S_800A6994_3 *)arg0)->unk_72 = ((S_800A6994_0 *)temp_a0)->unk_38;
+    ((Rec_D_800E3D7C *)arg2)->unk_00.at00_s32.v = D_80083780;
+    ((Rec_D_800E3D7C *)arg2)->unk_04.at00_s32.v = ((S_800A6994_4 *)temp_v0_2)->unk_04;
+    ((Rec_D_800E3D7C *)arg2)->unk_08.at00_s32.v = ((S_800A6994_4 *)temp_v0_2)->unk_08;
+    ((Rec_func_80094268_arg0 *)arg0)->unk_72.as_u16 = ((S_800A6994_0 *)temp_a0)->unk_38;
 }
 
 /* MECHANISM: A held byte-pointer base for D_80083498 forces the retail two-register la,

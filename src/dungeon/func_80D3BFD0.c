@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_800A9E70_arg0.h"
 
 typedef struct S_801717D0_0 {
     u8 pad_00[0x14];
@@ -17,10 +19,6 @@ typedef struct S_801717D0_0 {
     u8 unk_71;
 } S_801717D0_0;   /* self in func_801717D0 */
 
-typedef struct S_801717D0_1 {
-    u8 pad_00[0xA6];
-    u16 unk_A6;
-} S_801717D0_1;   /* D_800E3D7C in func_801717D0 */
 
 typedef struct S_801717D0_2 {
     u8 pad_00[0xA];
@@ -34,13 +32,6 @@ typedef struct S_801717D0_3 {
     u16 unk_A6;
 } S_801717D0_3;   /* player in func_801717D0 */
 
-typedef struct S_801717D0_4 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    u8 unk_9A;
-    u8 unk_9B;
-} S_801717D0_4;   /* arg0 in func_801717D0 */
 
 typedef struct S_801717D0_5 {
     u8 pad_00[0x12];
@@ -99,7 +90,7 @@ void func_801717D0(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s32 arg4)
     if (((S_801717D0_0 *)self)->unk_1C & 0x2000) {
         if ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5) {
             active = 1;
-            if (((S_801717D0_1 *)D_800E3D7C)->unk_A6 == 2) {
+            if (((Rec_D_800E3D7C *)D_800E3D7C)->unk_A4.at02_u16.v == 2) {
                 counter_base = (u8 *)&D_80083460;
                 ASM_KEEP(counter_base);   /* MATCH pin: retail register colouring depends on it */
                 counter = ((S_801717D0_2 *)counter_base)->unk_0A;
@@ -119,7 +110,7 @@ void func_801717D0(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s32 arg4)
 
             func_800A4ACC(self);
             ((S_801717D0_0 *)self)->unk_6D--;
-            ((S_801717D0_4 *)arg0)->unk_8C = arg4;
+            ((Rec_func_800A9E70_arg0 *)arg0)->unk_8C = arg4;
             goto done;
         }
     }
@@ -167,9 +158,9 @@ process:
         }
     }
 
-    ((S_801717D0_4 *)arg0)->unk_9A = 0x12;
-    ((S_801717D0_4 *)arg0)->unk_9B = 0;
-    ((S_801717D0_4 *)arg0)->unk_8C = 0;
+    ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0x12;
+    ((Rec_func_800A9E70_arg0 *)arg0)->unk_9B.as_u8 = 0;
+    ((Rec_func_800A9E70_arg0 *)arg0)->unk_8C = 0;
 
     if (call_arg3 != 0) {
         (*(u8 * *)((u8 *)call_arg2 + 0x2C)) = call_arg3;

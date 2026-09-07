@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
 #define NULL 0
@@ -105,24 +107,12 @@ typedef struct S_80174704_4 {
     u8 unk_02;
 } S_80174704_4;   /* target in func_80174704 */
 
-typedef struct S_80174704_5 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80174704_5;   /* arg1 in func_80174704 */
 
 typedef struct S_80174704_6 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_80174704_6;   /* repeat_dst in func_80174704 */
 
-typedef struct S_80174704_7 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80174704_7;   /* arg2 in func_80174704 */
 
 typedef struct S_80174704_8_pre {
     u8 * unk_00;
@@ -150,7 +140,7 @@ typedef struct S_80174704_11 {
     u16 unk_2A;
 } S_80174704_11;   /* ((S_80174704_1 *)arg3)->unk_60 in func_80174704 */
 
-void func_80174704(void *arg0, S_80174704_5 *arg1, S_80174704_7 *arg2, void *arg3) {
+void func_80174704(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3) {
     static void *const jt_keep[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
         &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8
@@ -252,12 +242,12 @@ jt_c4:
     func_8004491C(var_s0, D_80173F68);
     color = 0x00808080;
     ((S_80174704_0 *)arg0)->unk_AC.p = var_s0;
-    ((S_80174704_10 *)(((S_80174704_3 *)var_s0)->unk_08))->unk_00 = arg1->unk_00;
-    ((S_80174704_10 *)(((S_80174704_3 *)var_s0)->unk_08))->unk_04 = arg1->unk_04;
-    ((S_80174704_10 *)(((S_80174704_3 *)var_s0)->unk_08))->unk_08 = arg1->unk_08;
+    ((S_80174704_10 *)(((S_80174704_3 *)var_s0)->unk_08))->unk_00 = arg1->unk_00.at00_s32.v;
+    ((S_80174704_10 *)(((S_80174704_3 *)var_s0)->unk_08))->unk_04 = arg1->unk_04.at00_s32.v;
+    ((S_80174704_10 *)(((S_80174704_3 *)var_s0)->unk_08))->unk_08 = arg1->unk_08.at00_s32.v;
     {
         S_80174704_6 *repeat_dst = ((S_80174704_3 *)var_s0)->unk_08;
-        s32 repeat_z = arg1->unk_08;
+        s32 repeat_z = arg1->unk_08.at00_s32.v;
 
         D_80174E38[0] = -0x10;
         repeat_dst->unk_08 = repeat_z;
@@ -274,7 +264,7 @@ jt_c4:
         }
         func_8003DB94(var_s0, D_8014A000 + D_80174E2C[selector], 0);
     }
-    arg2->unk_14 |= 0x80;
+    arg2->unk_14.at00_u16.v |= 0x80;
     ((S_80174704_0 *)arg0)->unk_96.u = 0;
     ((S_80174704_0 *)arg0)->unk_9B++;
     func_80174CB0();

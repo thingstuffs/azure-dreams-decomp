@@ -1,16 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
-typedef struct S_800A3508_0 {
-    s32 unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800A3508_0;   /* arg2 in func_800A3508 */
 
 typedef struct S_800A3508_1 {
     void * unk_00;
@@ -38,7 +28,7 @@ extern s16 D_800D0B18[];
 extern s32 D_800D0B20[];
 extern s32 D_800D0B50[];
 
-void func_800A3508(void *arg0, void *arg1, S_800A3508_0 *arg2)
+void func_800A3508(void *arg0, void *arg1, Rec_D_80082E80 *arg2)
 {
     u8 *obj = arg0;
     s32 *vec = arg1;
@@ -58,14 +48,14 @@ void func_800A3508(void *arg0, void *arg1, S_800A3508_0 *arg2)
     table1 = D_800D0B50;
     table2 = D_800D0B20;
     color = 0x808080;
-    arg2->unk_0C = color;
+    arg2->unk_0C.at00_s32.v = color;
     fixed = 0x1000;
-    arg2->unk_1E = fixed;
-    arg2->unk_1C = fixed;
+    arg2->unk_1C.at02_s16.v = fixed;
+    arg2->unk_1C.at00_s16.v = fixed;
     arg2->unk_08 = table1[((S_800A3508_1 *)obj)->unk_22];
     arg2->unk_00 = 0;
-    arg2->unk_04 = 0;
-    arg2->unk_05 = 0;
+    arg2->unk_04.as_s8 = 0;
+    arg2->unk_05.as_s8 = 0;
 
     value = table2[((S_800A3508_1 *)obj)->unk_22];
     if (value != 0) {

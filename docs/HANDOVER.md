@@ -28,21 +28,25 @@ Dashboard: http://<lan-host>:8002/ (`tools/dashboard_serve.sh`; restart it if th
   1000–2000 (538 rows, 746 KB) then 2000+ (120 rows). Relaunch the same command after a quota
   reset; it resumes. Campaign output is committed separately ("campaign: …" commits): journal +
   `ledger/agents/out/` + `refine/`.
-- **Layer 3 groundwork:** `docs/STRUCT_CENSUS.md` / `tools/struct_census.py` — record classes by
-  provenance (biggest: D_80083780 596 rows, D_800848F8 436, D_80126000 128, D_800814A8 105,
-  D_80082D58 91; dungeon handler ABI as parameter classes). T7 shared headers is the next
-  workstream (plan at the end of `docs/STRUCT_CENSUS.md`).
+- **T7 shared headers: done for every class with ≥ 10 rows** (`docs/STRUCT_CENSUS.md`, "T7
+  result"). `tools/gen_records.py` writes `include/records/Rec_*.h` (12 records) and
+  `ledger/records.json` from the census; `tools/xform/t7_headers.py` (sweep `t7_headers`)
+  converted 1,014 rows / 611,680 B (23.9 %) with 0 mismatches; touched windows re-gated
+  (562/562 windows byte-identical), SLUS gate MATCH. Re-running the census carries converted structs forward, so
+  headers only ever gain views. Rows below the 10-row threshold keep their local structs
+  (`--min-rows` lowers it; the same machinery applies).
 
 ## What happens next (in order)
 
-1. **T7 shared headers** from the struct census: for each class with ≥ 10 rows emit
-   `include/records/<Class>.h` (majority type per member, union views for hard conflicts,
-   explicit padding, `unk_XX` names), then a verified transform (`tools/xform/t7_headers.py`)
-   that replaces each member row's local `S_<fn>_<n>` typedef with the shared type and rewrites
-   conflicting members to their union view; **every row through the window gate**, header sha in
-   the journal; refusals journalled, never guessed. Then modules and names (L4), pin
-   documentation complete (L5). The campaign keeps running underneath.
-2. Whole-container link (every fragment C or checked-in data) as the L4/L5-era standing gate.
+1. **Names and modules (L4).** The 12 record headers are the place to name things: a member
+   name changed in `include/records/Rec_*.h` reaches every user, and the gate proves it. Evidence
+   for names: the randomizer data map (README credits), call-site roles, the parameter classes
+   (dungeon handler ABI). Then modules: group rows by record/dispatcher into `src/<container>/
+   <module>.c` in retail order (the per-row ledger stays the unit of proof).
+2. Lower the T7 threshold (`tools/gen_records.py --min-rows 5`, then the sweep and the gate)
+   once the ≥ 10 classes have names, so small classes inherit them.
+3. Whole-container link (every fragment C or checked-in data) as the L4/L5-era standing gate.
+The campaign keeps running underneath (next tier 1000–2000 B).
 
 ## Commands that prove things
 

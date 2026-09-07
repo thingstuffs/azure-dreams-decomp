@@ -1,19 +1,10 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_80E3C98C_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-    u8 pad_20[0x40];
-    s32 unk_60;
-    u8 pad_64[0x24];
-    s16 unk_88;
-} S_80E3C98C_0;   /* arg3 in func_80E3C98C */
 
 typedef struct S_80E3C98C_1 {
     u8 pad_00[0x24];
@@ -84,7 +75,7 @@ extern s8 D_800E2968;
 extern u8 D_800E3548[];
 extern u8 *D_800E3D7C;
 
-void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *arg2, S_80E3C98C_0 *arg3) {
+void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *arg2, Rec_D_80082E80 *arg3) {
     s32 var_a0;
     s32 temp_a0;
     u8 *table_base;
@@ -97,12 +88,12 @@ void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *arg2, S_80E3C98C
     S_80E3C98C_4 *var_s0_2;
     void *var_v0;
 
-    temp_a0 = arg3->unk_60;
+    temp_a0 = arg3->unk_60.as_s32;
     if (temp_a0 > 0) {
-        var_s0 = func_800B23F8(((u32)arg3->unk_1C >> 0xD) & 1,
+        var_s0 = func_800B23F8(((u32)arg3->unk_1C.at00_u32.v >> 0xD) & 1,
                                arg2->unk_24, arg2->unk_25,
-                               arg3->unk_88,
-                               func_800A7A38(((s32)(((u16)arg3->unk_60 - 1) << 0x10) >> 0xE) + D_800E3548));
+                               arg3->unk_88.as_s16,
+                               func_800A7A38(((s32)(((u16)arg3->unk_60.as_s32 - 1) << 0x10) >> 0xE) + D_800E3548));
         if (var_s0 != NULL) {
             ((S_80E3C98C_2 *)var_s0)->unk_14 = 0;
             ((S_80E3C98C_2 *)var_s0)->unk_1C = 0;
@@ -125,10 +116,10 @@ void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *arg2, S_80E3C98C
         temp_s0 = func_800A0B94(((S_80E3C98C_3 *)var_s1)->unk_13, var_s0_2, 1);
         func_8003F320();
         var_a0 = 4;
-        if (arg3->unk_1C & 0x2000) {
+        if (arg3->unk_1C.at00_u32.v & 0x2000) {
             var_a0 = 7;
         }
-        var_s0 = temp_s0(var_a0, arg2->unk_24, arg2->unk_25, arg3->unk_88);
+        var_s0 = temp_s0(var_a0, arg2->unk_24, arg2->unk_25, arg3->unk_88.as_s16);
         if (var_s0 != NULL) {
             func_80042640(var_s0, ((S_80E3C98C_2 *)var_s0)->unk_13);
             ((S_80E3C98C_2 *)var_s0)->unk_14 = 0;
@@ -142,7 +133,7 @@ void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *arg2, S_80E3C98C
             ((S_80E3C98C_2 *)var_s0)->unk_1C = (((S_80E3C98C_2 *)var_s0)->unk_1C | 0x02000000) & 0xFFFEFFFF;
         }
 block_11:
-        if (arg3->unk_14 & 0x4000) {
+        if (arg3->unk_14.at00_s32.v & 0x4000) {
             table_offset = func_800A1BD0(arg3);
             table_base = D_800E3D7C;
             temp_v0 = (void *)(((s32)(table_offset << 0x10) >> 0xE) +

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
 #define NULL 0
@@ -26,10 +27,6 @@ typedef struct S_800C542C_2_pre {
     u8 pad_08[0x10];
 } S_800C542C_2_pre;   /* the 0x18 bytes before arg0 in func_800C542C, addressed as arg0[-1] */
 
-typedef struct S_800C542C_2 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_800C542C_2;   /* arg0 in func_800C542C */
 
 typedef struct S_800C542C_3 {
     u8 pad_00[0x2];
@@ -136,7 +133,7 @@ void *func_800C542C(void *arg0, s16 arg1, s32 arg2, s16 arg3)
         }
 
         record->unk_36 = stored_arg3;
-        ((S_800C542C_2 *)arg0)->unk_14 |= 0x100000;
+        ((Rec_D_80082E80 *)arg0)->unk_14.at00_s32.v |= 0x100000;
     }
     return object;
 }

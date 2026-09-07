@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_801748D0_0 {
     u8 pad_00[0x8C];
@@ -9,12 +10,6 @@ typedef struct S_801748D0_0 {
     u8 unk_9B;
 } S_801748D0_0;   /* arg0 in func_801748D0 */
 
-typedef struct S_801748D0_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801748D0_1;   /* arg1 in func_801748D0 */
 
 typedef struct S_801748D0_2 {
     u8 pad_00[0x14];
@@ -48,14 +43,6 @@ typedef struct S_801748D0_4 {
     void * unk_10;
 } S_801748D0_4;   /* obj in func_801748D0 */
 
-typedef struct S_801748D0_5 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void * unk_60;
-} S_801748D0_5;   /* arg3 in func_801748D0 */
 
 typedef struct S_801748D0_6_pre {
     void * unk_00;
@@ -164,7 +151,7 @@ typedef struct {
     s32 w[4];
 } Copy16;
 
-void func_801748D0(void *arg0, S_801748D0_1 *arg1, void *arg2, S_801748D0_5 *arg3)
+void func_801748D0(void *arg0, Rec_D_800E3D7C *arg1, void *arg2, Rec_D_800E3D7C *arg3)
 {
     LocalFrame local;
     void *obj;
@@ -216,9 +203,9 @@ void func_801748D0(void *arg0, S_801748D0_1 *arg1, void *arg2, S_801748D0_5 *arg
     goto done;
 
 state0:
-    arg1->unk_14 = 0;
-    arg1->unk_10 = 0;
-    arg1->unk_0C = 0;
+    arg1->unk_14.as_s32 = 0;
+    arg1->unk_10.at00_s32.v = 0;
+    arg1->unk_0C.as_s32 = 0;
     timer = ((S_801748D0_0 *)arg0)->unk_96 - 1;
     ((S_801748D0_0 *)arg0)->unk_96 = timer;
     if (((s32)(timer << 16) <= 0) ||
@@ -262,7 +249,7 @@ state1_call:
     ((S_801748D0_3 *)body)->unk_96 = 0x2D;
     ((S_801748D0_3 *)body)->unk_9E = 0x2D;
     ((S_801748D0_4 *)obj)->unk_10 = D_80170AD0;
-    body_link = arg3->unk_60;
+    body_link = arg3->unk_60.as_pv;
     if (body_link == 0) {
         ((S_801748D0_3 *)body)->unk_A8 = arg1;
         ((S_801748D0_3 *)body)->unk_A2 = 0;
@@ -271,7 +258,7 @@ state1_call:
         ((S_801748D0_3 *)body)->unk_A2 = 1;
         ((S_801748D0_3 *)body)->unk_A8 = link_value;
     }
-    ((S_801748D0_3 *)body)->unk_94 = arg3->unk_2A;
+    ((S_801748D0_3 *)body)->unk_94 = arg3->unk_2A.as_s16;
     mesh = ((S_801748D0_4 *)obj)->unk_0C;
     anchor = ((S_801748D0_3 *)body)->unk_A8;
     src = arg2;
@@ -314,7 +301,7 @@ state1_call:
     ((S_801748D0_4 *)obj)->unk_06 = ((S_801748D0_9 *)anchor)->unk_06;
     z = ((S_801748D0_9 *)anchor)->unk_0A;
     ((S_801748D0_4 *)obj)->unk_08.at02.v = z;
-    if (arg3->unk_60 == 0) {
+    if (arg3->unk_60.as_pv == 0) {
         scratch = local.owner;
         link = ((S_801748D0_10 *)scratch)->unk_0C;
         if (func_8003DE58(link->unk_08, link, local.delta, 0) != 0) {
@@ -397,7 +384,7 @@ state2:
             tex_base = (u8 *)&D_80083228 - 0x3228;
 #endif
             timer = ((((S_801748D0_8 *)tex_base)->unk_3228 +
-                      arg3->unk_2A + 0x100) >> 9) & 7;
+                      arg3->unk_2A.as_s16 + 0x100) >> 9) & 7;
             call_a0 = arg2;
             calc_v1 = (s32)((S_801748D0_2 *)arg2)->unk_2C;
             call_a1 = (void *)(s32)((S_801748D0_14 *)((void *)(calc_v1 + timer)))->unk_00;
@@ -412,9 +399,9 @@ state2:
             goto done;
         }
     }
-    arg1->unk_14 = 0;
-    arg1->unk_10 = 0;
-    arg1->unk_0C = 0;
+    arg1->unk_14.as_s32 = 0;
+    arg1->unk_10.at00_s32.v = 0;
+    arg1->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_801748D0_2 *)arg2)->unk_24, ((S_801748D0_2 *)arg2)->unk_25);
 #ifdef __mips__
     tex_base = (void *)0x80170000;
@@ -433,7 +420,7 @@ state2:
         tex_base = (u8 *)&D_80083228 - 0x3228;
 #endif
         timer = ((((S_801748D0_8 *)tex_base)->unk_3228 +
-                  arg3->unk_2A + 0x100) >> 9) & 7;
+                  arg3->unk_2A.as_s16 + 0x100) >> 9) & 7;
         call_a0 = arg2;
         calc_v1 = (s32)((S_801748D0_2 *)arg2)->unk_2C;
         call_a1 = (void *)(s32)((S_801748D0_14 *)((void *)(calc_v1 + timer)))->unk_00;
@@ -448,7 +435,7 @@ increment_state_loaded:
     goto done;
 
 state3:
-    link = arg3->unk_60;
+    link = arg3->unk_60.as_pv;
     if (link != 0) {
         func_800C8788(arg3, link);
     }
@@ -461,7 +448,7 @@ state3:
 #endif
     ASM_KEEP(body_link);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     ((S_801748D0_6 *)body_link)->unk_346C = 0;
-    arg3->unk_46 &= 0x7FFF;
+    arg3->unk_44.at02_u16.v &= 0x7FFF;
 
 done:
     return;

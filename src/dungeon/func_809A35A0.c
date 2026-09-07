@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80174DA0_0 {
     u8 pad_00[0x8];
@@ -9,10 +10,6 @@ typedef struct S_80174DA0_0 {
     s32 unk_20;
 } S_80174DA0_0;   /* obj in func_80174DA0 */
 
-typedef struct S_80174DA0_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80174DA0_1;   /* arg0 in func_80174DA0 */
 
 typedef struct S_80174DA0_2 {
     u8 pad_00[0x2];
@@ -58,7 +55,7 @@ typedef struct S_80174DA0_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80174DA0_5;   /* ((S_80174DA0_1 *)arg0)->unk_08 in func_80174DA0 */
+} S_80174DA0_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80174DA0 */
 
 
 
@@ -66,7 +63,7 @@ extern void *func_8003FD64();
 extern u8 D_80174AD4[9];
 extern u8 D_80175F90[9];
 
-void func_80174DA0(S_80174DA0_1 *arg0, s32 arg1, u8 *arg2)
+void func_80174DA0(Rec_D_800E3D7C *arg0, s32 arg1, u8 *arg2)
 {
     void *obj;
     S_80174DA0_2 *dst;
@@ -80,15 +77,15 @@ void func_80174DA0(S_80174DA0_1 *arg0, s32 arg1, u8 *arg2)
         ((S_80174DA0_0 *)obj)->unk_10 = D_80174AD4;
         dst = ((S_80174DA0_0 *)obj)->unk_08;
 
-        value = ((S_80174DA0_5 *)(arg0->unk_08))->unk_02;
+        value = ((S_80174DA0_5 *)(arg0->unk_08.at00_pv.v))->unk_02;
         dst->unk_0E = value;
         dst->unk_02 = value;
 
-        value = ((S_80174DA0_5 *)(arg0->unk_08))->unk_06;
+        value = ((S_80174DA0_5 *)(arg0->unk_08.at00_pv.v))->unk_06;
         dst->unk_12 = value;
         dst->unk_06 = value;
 
-        value = ((S_80174DA0_5 *)(arg0->unk_08))->unk_0A;
+        value = ((S_80174DA0_5 *)(arg0->unk_08.at00_pv.v))->unk_0A;
         dst->unk_16 = value;
         dst->unk_0A = value;
 
@@ -99,7 +96,7 @@ void func_80174DA0(S_80174DA0_1 *arg0, s32 arg1, u8 *arg2)
         aux->unk_0C = 0;
         aux->unk_06 = 8;
 
-        p8 = arg0->unk_08;
+        p8 = arg0->unk_08.at00_pv.v;
         tail = (u8 *)obj + 0x20;
         tail->unk_0C = arg1;
         tail->unk_10 = arg2;

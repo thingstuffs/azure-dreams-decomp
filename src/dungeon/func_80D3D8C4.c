@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_801730C4_0 {
     u8 pad_00[0x8C];
@@ -16,15 +18,6 @@ typedef struct S_801730C4_0 {
     u8 unk_B0;
 } S_801730C4_0;   /* arg0 in func_801730C4 */
 
-typedef struct S_801730C4_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_801730C4_1;   /* arg2 in func_801730C4 */
 
 typedef struct S_801730C4_2 {
     u8 pad_00[0x1C];
@@ -35,16 +28,6 @@ typedef struct S_801730C4_2 {
     u16 unk_46;
 } S_801730C4_2;   /* arg3 in func_801730C4 */
 
-typedef struct S_801730C4_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801730C4_3;   /* arg1 in func_801730C4 */
 
 typedef struct S_801730C4_4 {
     u8 pad_00[0x8];
@@ -95,7 +78,7 @@ void func_801730C4(void *arg0, void *arg1, void *arg2, void *arg3)
     goto done;
 
 state_zero:
-    if (!(((S_801730C4_1 *)arg2)->unk_14 & 0x6000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000)) {
         goto done;
     }
     {
@@ -123,17 +106,17 @@ state_one:
             s32 delta;
             s32 position;
 
-            delta = ((S_801730C4_1 *)arg2)->unk_24 << 6;
-            position = ((S_801730C4_3 *)arg1)->unk_02;
+            delta = ((Rec_D_80082E80 *)arg2)->unk_24 << 6;
+            position = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v;
             position -= 0x20;
             delta -= position;
-            ((S_801730C4_3 *)arg1)->unk_0C = (delta << 16) / initial_timer;
+            ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = (delta << 16) / initial_timer;
 
-            position = ((S_801730C4_3 *)arg1)->unk_06;
-            delta = ((S_801730C4_1 *)arg2)->unk_25 << 6;
+            position = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v;
+            delta = ((Rec_D_80082E80 *)arg2)->unk_25 << 6;
             position -= 0x20;
             delta -= position;
-            ((S_801730C4_3 *)arg1)->unk_10 =
+            ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
                 (delta << 16) / ((S_801730C4_0 *)arg0)->unk_A8;
             ((S_801730C4_0 *)arg0)->unk_A4 =
                 -func_800644B8(((S_801730C4_0 *)arg0)->unk_A8 * 0x199) << 9;
@@ -156,10 +139,10 @@ state_two:
         goto done;
     }
     ((S_801730C4_0 *)arg0)->unk_98 &= 0xFFF7;
-    ((S_801730C4_3 *)arg1)->unk_14 = 0;
-    ((S_801730C4_3 *)arg1)->unk_10 = 0;
-    ((S_801730C4_3 *)arg1)->unk_0C = 0;
-    func_800A2B04(arg1, ((S_801730C4_1 *)arg2)->unk_24, ((S_801730C4_1 *)arg2)->unk_25);
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     {
         u8 *model = D_800E2460;
 
@@ -175,7 +158,7 @@ state_three:
     {
         u8 *model = D_800E23E0;
 
-        if (((S_801730C4_1 *)arg2)->unk_2C == model) {
+        if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 == model) {
             goto done;
         }
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = model;
@@ -199,10 +182,10 @@ done:
         }
     }
 
-    ((S_801730C4_3 *)arg1)->unk_14 = 0;
-    ((S_801730C4_3 *)arg1)->unk_10 = 0;
-    ((S_801730C4_3 *)arg1)->unk_0C = 0;
-    func_800A2B04(arg1, ((S_801730C4_1 *)arg2)->unk_24, ((S_801730C4_1 *)arg2)->unk_25);
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     func_800AD594(arg3, 0x10);
     func_800A4ACC(arg3);
     {
@@ -224,7 +207,7 @@ done:
         if (!(flags & 0x410)) {
             if (flags & 0x20000) {
                 ((S_801730C4_2 *)arg3)->unk_2A = func_800A0818(
-                    ((S_801730C4_1 *)arg2)->unk_24, ((S_801730C4_1 *)arg2)->unk_25,
+                    ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
                     D_80082E80[0x24], D_80082E80[0x25], &sp18);
             }
         }

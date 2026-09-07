@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_8016D0FC_0 {
     u8 pad_00[0x8C];
@@ -34,10 +35,6 @@ typedef struct S_8016D0FC_3 {
     s8 unk_6D;
 } S_8016D0FC_3;   /* actor in func_8016D0FC */
 
-typedef struct S_8016D0FC_4 {
-    u8 pad_00[0x58];
-    u8 * unk_58;
-} S_8016D0FC_4;   /* D_800814A8 in func_8016D0FC */
 
 
 
@@ -175,7 +172,7 @@ after_ac8:
         goto done;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
-        if ((func_8009A180(actor, ((S_8016D0FC_4 *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+        if ((func_8009A180(actor, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pu8 + 0x20) << 16) != 0) {
             goto done;
         }
     }

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_800CABA8_0 {
     u8 pad_00[0x8C];
@@ -19,13 +20,6 @@ typedef struct S_800CABA8_0 {
     s16 unk_B8;
 } S_800CABA8_0;   /* arg0 in func_800CABA8 */
 
-typedef struct S_800CABA8_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_800CABA8_1;   /* arg2 in func_800CABA8 */
 
 typedef struct S_800CABA8_2 {
     u8 pad_00[0x2A];
@@ -80,7 +74,7 @@ void func_800CABA8(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     (void)jt_keep; goto *D_80089440[(u32)(temp_v1)];
 jt_c0:
     ((S_800CABA8_0 *)arg0)->unk_B8 = 1;
-    if (!(((S_800CABA8_1 *)arg2)->unk_14 & 0x8000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
         goto block_4;
     }
     func_8009C12C(temp_s2, arg2, ((S_800CABA8_2 *)temp_s2)->unk_2A, 0);
@@ -175,7 +169,7 @@ block_16:
     ((S_800CABA8_0 *)arg0)->unk_9B = (u8) (((S_800CABA8_0 *)arg0)->unk_9B + 1);
 jt_c4:
     ((S_800CABA8_0 *)arg0)->unk_A0.at02.v = 0U;
-    func_800A2B04(arg1, ((S_800CABA8_1 *)arg2)->unk_24, ((S_800CABA8_1 *)arg2)->unk_25);
+    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     D_8008346C = 0;
     ((S_800CABA8_2 *)temp_s2)->unk_46 = (u16) ((*(u16 *)((u8 *)temp_s2 + 0x46)) & 0x7FFF);
     func_800A4ACC(temp_s2);

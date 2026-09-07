@@ -1,25 +1,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_8008ACDC_arg0.h"
 
-typedef struct S_8008ACDC_0 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-    s8 unk_9B;
-    u8 pad_9C[0x2];
-    s16 unk_9E;
-    u8 pad_A0[0x2];
-    u16 unk_A2;
-    u16 unk_A4;
-    u8 pad_A6[0x22];
-    s32 unk_C8;
-    u8 pad_CC[0x38];
-    s32 unk_104;
-    u8 pad_108[0x4];
-    u16 unk_10C;
-} S_8008ACDC_0;   /* arg0 in func_8008ACDC */
 
 typedef struct S_8008ACDC_1 {
     u8 pad_00[0x14];
@@ -195,25 +178,25 @@ void func_8008ACDC(void *arg0, void *arg1_raw, void *arg2_raw, void *arg3_raw) {
     arg2 = arg2_raw;
     arg3 = arg3_raw;
     data = D_80083160;
-    temp_v1 = ((S_8008ACDC_0 *)arg0)->unk_9A;
+    temp_v1 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_u8;
     if (temp_v1 != 0xE) {
         if (temp_v1 != 0x17) {
-            if (((S_8008ACDC_0 *)arg0)->unk_A2 & 0x100) {
+            if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x100) {
                 func_8008D94C(arg0);
                 goto epilogue;
             }
-            ((S_8008ACDC_0 *)arg0)->unk_9A = 0xEU;
-            ((S_8008ACDC_0 *)arg0)->unk_A2 = (u16) (((S_8008ACDC_0 *)arg0)->unk_A2 & 0xFEFF);
+            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_u8 = 0xEU;
+            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFEFF);
             ((S_8008ACDC_1 *)arg2)->unk_14 = (u16) (((S_8008ACDC_1 *)arg2)->unk_14 & 0xF7FF);
-            ((S_8008ACDC_0 *)arg0)->unk_9B = 0;
-            ((S_8008ACDC_0 *)arg0)->unk_A4 = 0U;
+            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9B.as_s8 = 0;
+            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A4.as_u16 = 0U;
             ((S_8008ACDC_2 *)arg1)->unk_10 = 0;
             ((S_8008ACDC_2 *)arg1)->unk_0C = 0;
             func_800A2B04(arg1, ((S_8008ACDC_1 *)arg2)->unk_24, ((S_8008ACDC_1 *)arg2)->unk_25);
             goto block_6;
         }
 block_6:
-        ((S_8008ACDC_0 *)arg0)->unk_96 = 0;
+        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_96.as_s16 = 0;
         func_800A4300(arg2, arg3);
         goto block_7;
     }
@@ -221,7 +204,7 @@ block_7:
     status = D_80083460;
     ((S_8008ACDC_3 *)status)->unk_02 = (u16) (((S_8008ACDC_3 *)status)->unk_02 & 0xFF7F);
     temp_v1_2 = ((S_8008ACDC_4 *)arg3)->unk_64;
-    if ((temp_v1_2 < 0) || (((S_8008ACDC_0 *)arg0)->unk_10C & 1)) {
+    if ((temp_v1_2 < 0) || (((Rec_func_8008ACDC_arg0 *)arg0)->unk_10C & 1)) {
         func_8008CAA0(arg0, arg1, arg2, arg3);
         goto epilogue;
     }
@@ -232,7 +215,7 @@ block_7:
         func_80091B5C(arg0, arg1, arg2, arg3);
         goto epilogue;
     }
-    if (!(((S_8008ACDC_0 *)arg0)->unk_A2 & 0x10)) {
+    if (!(((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x10)) {
         func_8008C468(arg0, arg1, arg2, arg3);
         goto epilogue;
     }
@@ -241,7 +224,7 @@ block_7:
         goto epilogue;
     }
     if (((func_800A1C58(arg3) << 0x10) == 0) || (func_8008D1D0(arg0, arg1, arg2, arg3) == 0)) {
-        temp_v1_3 = ((S_8008ACDC_0 *)arg0)->unk_A2;
+        temp_v1_3 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
         if (temp_v1_3 & 0x80) {
             func_8008D7D0(arg0, arg1, arg2, arg3);
             goto epilogue;
@@ -254,8 +237,8 @@ block_7:
                     D_800E4940 = 2;
                     func_8008CF6C(arg0, arg1, arg2, &D_8004F5F4);
                     D_80082EB0 = 0;
-                    ((S_8008ACDC_0 *)arg0)->unk_C8 = 0;
-                    ((S_8008ACDC_0 *)arg0)->unk_104 = 0;
+                    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_C8 = 0;
+                    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_104 = 0;
                     goto epilogue;
                 }
                 goto call_C7B4;
@@ -263,9 +246,9 @@ block_7:
             flags_page = (u16 *) 0x80010000;
             flags = flags_page[0x1B8A];
             if (flags & 1) {
-                ((S_8008ACDC_0 *)arg0)->unk_A2 = (u16) (temp_v1_3 & 0xFFFE);
+                ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_3 & 0xFFFE);
                 if (temp_v1_3 & 0x200) {
-                    ((S_8008ACDC_0 *)arg0)->unk_A2 = (u16) (temp_v1_3 & 0xFDFE);
+                    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_3 & 0xFDFE);
                 }
                 temp_v0 = func_8009F868(flags);
                 if (temp_v0 != NULL) {
@@ -423,7 +406,7 @@ call_94270:
                         func_8002534C(arg0, arg1, arg2, arg3);
                         goto epilogue;
                     case 0xC8:
-                        ((S_8008ACDC_0 *)arg0)->unk_96 = (s16) (((S_8008ACDC_6 *)temp_v0)->unk_00 & 0x7F);
+                        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_96.as_s16 = (s16) (((S_8008ACDC_6 *)temp_v0)->unk_00 & 0x7F);
                         func_8008D368(arg0, arg1, arg2, &D_800DD148, 2);
                         goto epilogue;
                     case 0xD8:
@@ -441,10 +424,10 @@ call_94270:
                     }
                 } else {
                     if ((func_80094EA4(flags) << 0x10) != 0) {
-                        ((S_8008ACDC_0 *)arg0)->unk_A4 = 0U;
+                        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A4.as_u16 = 0U;
                     }
-                    if ((((S_8008ACDC_0 *)arg0)->unk_A2 & 0x200) && ((func_800A2C34(arg3) << 0x10) == 0) && !(((S_8008ACDC_3 *)status)->unk_02 & 4)) {
-                        ((S_8008ACDC_0 *)arg0)->unk_A2 = (u16) (((S_8008ACDC_0 *)arg0)->unk_A2 & 0xFDFF);
+                    if ((((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x200) && ((func_800A2C34(arg3) << 0x10) == 0) && !(((S_8008ACDC_3 *)status)->unk_02 & 4)) {
+                        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFDFF);
                         if ((func_800A4474(((S_8008ACDC_1 *)arg2)->unk_24, ((S_8008ACDC_1 *)arg2)->unk_25) << 0x10) != 0) {
                             func_8008CF6C(arg0, arg1, arg2, &D_800245A8);
                             goto epilogue;
@@ -455,39 +438,39 @@ call_94270:
                         goto epilogue;
                     }
                     if ((((S_8008ACDC_5 *)data)->unk_08 & 0x10) || !(((S_8008ACDC_5 *)data)->unk_08 & 3) || (func_8008D024(arg0, arg1, arg2, (((u32) ((S_8008ACDC_5 *)data)->unk_08 >> 1) ^ 1) & 1, 0) == 0)) {
-                        temp_v0_3 = func_8009074C(((S_8008ACDC_0 *)arg0)->unk_9E, arg0 + 0xA2, arg3 + 0x2A);
+                        temp_v0_3 = func_8009074C(((Rec_func_8008ACDC_arg0 *)arg0)->unk_9E, arg0 + 0xA2, arg3 + 0x2A);
                         if (temp_v0_3 != 0xFFF) {
                             ((S_8008ACDC_4 *)arg3)->unk_2A.s = (u16) temp_v0_3;
                             if (!(((S_8008ACDC_5 *)data)->unk_08 & 0x10)) {
-                                temp_v1_7 = ((S_8008ACDC_0 *)arg0)->unk_A2;
+                                temp_v1_7 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
                                 if (!(temp_v1_7 & 0x400)) {
-                                    ((S_8008ACDC_0 *)arg0)->unk_A2 = (u16) (temp_v1_7 & 0xFFFE);
+                                    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_7 & 0xFFFE);
                                     if (((S_8008ACDC_4 *)arg3)->unk_1C & 0x400) {
                                         ((S_8008ACDC_4 *)arg3)->unk_2A.s = (u16) (((S_8008ACDC_4 *)arg3)->unk_2A.s + (func_800A6D30() & 0xE00));
                                     }
                                     func_8008B9FC(arg0, arg1, arg2, arg3);
-                                    if (((S_8008ACDC_0 *)arg0)->unk_9A != 0xE) {
+                                    if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_u8 != 0xE) {
                                         goto epilogue;
                                     }
                                     goto block_163;
                                 }
                             }
-                            ((S_8008ACDC_0 *)arg0)->unk_96 = 0;
+                            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_96.as_s16 = 0;
                             goto block_163;
                         }
 block_163:
                         tail_data_flags = ((S_8008ACDC_5 *)data)->unk_08;
                         if ((tail_data_flags & 0x30) == 0x30) {
-                            ((S_8008ACDC_0 *)arg0)->unk_A2 = (u16) (((S_8008ACDC_0 *)arg0)->unk_A2 & 0xFFFE);
+                            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFFFE);
                             func_8008C7B4(arg0, arg1, arg2, arg3);
                             goto epilogue;
                         }
-                        temp_v1_8 = ((S_8008ACDC_0 *)arg0)->unk_A2;
+                        temp_v1_8 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
                         current_s = temp_v1_8 & 0x40;
                         if (current_s != 0) {
                             current_s = tail_data_flags & 0x40;
                             if (current_s == 0) {
-                                ((S_8008ACDC_0 *)arg0)->unk_A2 = (u16) (temp_v1_8 & 0xFFBF);
+                                ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_8 & 0xFFBF);
                             }
                             goto block_176;
                         }
@@ -505,13 +488,13 @@ block_163:
 block_176:
                             ASM_MEM_BARRIER();   /* MATCH pin: retail register colouring depends on it */
                             if (D_80013714 & 9) {
-                                ((S_8008ACDC_0 *)arg0)->unk_A4 = 0U;
+                                ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A4.as_u16 = 0U;
                             }
-                            if (((S_8008ACDC_0 *)arg0)->unk_9A == 0xE) {
-                                temp_v0_5 = ((S_8008ACDC_0 *)arg0)->unk_A4 + 1;
-                                ((S_8008ACDC_0 *)arg0)->unk_A4 = temp_v0_5;
+                            if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_u8 == 0xE) {
+                                temp_v0_5 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A4.as_u16 + 1;
+                                ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A4.as_u16 = temp_v0_5;
                                 if ((s16) temp_v0_5 >= 0x3D) {
-                                    ((S_8008ACDC_0 *)arg0)->unk_A4 = 0x3CU;
+                                    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A4.as_u16 = 0x3CU;
                                     func_8008CCB0(arg0, arg1, arg2, arg3);
                                     goto epilogue;
                                 }
@@ -523,9 +506,9 @@ block_176:
             }
         } else {
 block_182:
-            temp_v1_9 = ((S_8008ACDC_0 *)arg0)->unk_A2;
+            temp_v1_9 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
             if (temp_v1_9 & 1) {
-                ((S_8008ACDC_0 *)arg0)->unk_A2 = (u16) (temp_v1_9 & 0xFFFE);
+                ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_9 & 0xFFFE);
                 (*(u8 **)((u8 *)arg2 + 0x2C)) = D_800DD058;
                 func_80048A44(arg2, D_800DD058[((s32) (D_80083228 + (s16) ((S_8008ACDC_4 *)arg3)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
             }

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 typedef struct Copy48 {
@@ -57,25 +59,7 @@ typedef struct S_80173A60_1_pre {
     u8 pad_04[0x10];
 } S_80173A60_1_pre;   /* the 0x14 bytes before active in func_80173A60, addressed as active[-1] */
 
-typedef struct S_80173A60_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80173A60_2;   /* arg2 in func_80173A60 */
 
-typedef struct S_80173A60_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80173A60_3;   /* arg1 in func_80173A60 */
 
 typedef struct S_80173A60_4 {
     u8 pad_00[0x2A];
@@ -209,8 +193,8 @@ L_copy_linked:
                 s32 y;
 
                 active = func_800A05A4(arg3,
-                                       ((S_80173A60_2 *)arg2)->unk_24,
-                                       ((S_80173A60_2 *)arg2)->unk_25,
+                                       ((Rec_D_80082E80 *)arg2)->unk_24,
+                                       ((Rec_D_80082E80 *)arg2)->unk_25,
                                        (*(s16 *)((u8 *)arg3 + 0x2A)), 0x10);
                 (*(void * volatile *)((u8 *)arg3 + 0x60)) = active;
                 ASM_USE(active);   /* MATCH pin: keeps a statement from moving across a call/branch */
@@ -235,10 +219,10 @@ L_copy_linked:
             return;
         }
 
-        ((S_80173A60_3 *)arg1)->unk_14 = 0;
-        ((S_80173A60_3 *)arg1)->unk_10 = 0;
-        ((S_80173A60_3 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_80173A60_2 *)arg2)->unk_24, ((S_80173A60_2 *)arg2)->unk_25);
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
         D_8008346C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         func_800A4ACC(arg3);
@@ -251,10 +235,10 @@ L_copy_linked:
 
     case 1:
         if (func_8003F270() != 0) {
-            ((S_80173A60_2 *)arg2)->unk_14 |= 0x0800;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
             return;
         }
-        ((S_80173A60_2 *)arg2)->unk_14 &= 0xF7FF;
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
         ((S_80173A60_0 *)arg0)->unk_9B++;
         func_800A56E0(0x703);
         /* fall through */
@@ -311,9 +295,9 @@ L_copy_linked:
                     ((S_80173A60_4 *)state)->unk_2A = ((S_80173A60_0 *)arg0)->unk_2A.u;
 
                     target = ((S_80173A60_5 *)object)->unk_08;
-                    ((S_80173A60_8 *)target)->unk_02 = ((S_80173A60_3 *)arg1)->unk_02;
-                    ((S_80173A60_8 *)target)->unk_06 = ((S_80173A60_3 *)arg1)->unk_06;
-                    ((S_80173A60_8 *)target)->unk_0A = ((S_80173A60_3 *)arg1)->unk_0A;
+                    ((S_80173A60_8 *)target)->unk_02 = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v;
+                    ((S_80173A60_8 *)target)->unk_06 = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v;
+                    ((S_80173A60_8 *)target)->unk_0A = ((Rec_D_800E3D7C *)arg1)->unk_08.at02_u16.v;
                 }
             }
 
@@ -331,13 +315,13 @@ L_copy_linked:
             }
 
             if (((S_80173A60_0 *)arg0)->unk_96.s == 0x13 ||
-                (((S_80173A60_2 *)arg2)->unk_14 & 0xE000)) {
+                (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
                 ((S_80173A60_0 *)arg0)->unk_98 |= 0x80;
                 func_800A56E0(0x81B);
             }
 
             if (((S_80173A60_0 *)arg0)->unk_96.s < 0x19 &&
-                !(((S_80173A60_2 *)arg2)->unk_14 & 0xE000)) {
+                !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
                 return;
             }
             ((S_80173A60_0 *)arg0)->unk_9B++;

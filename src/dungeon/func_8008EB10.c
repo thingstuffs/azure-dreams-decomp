@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_8008ACDC_arg0.h"
 
 typedef struct S_80094270_3 {
     u8 pad_00[0xFA];
@@ -44,14 +45,6 @@ extern M2C_UNK D_800E0769;
 extern M2C_UNK D_800E077C;
 extern M2C_UNK D_800E078A;
 
-typedef struct S_80094270_0 {
-    u8 pad_00[0x60];
-    s32 unk_60;
-    u8 pad_64[0x26];
-    s16 unk_8A;
-    u8 pad_8C[0x3C];
-    s32 unk_C8;
-} S_80094270_0;   /* arg0 in func_80094270 */
 
 typedef struct S_80094270_1 {
     u8 pad_00[0xD0];
@@ -76,13 +69,13 @@ s32 func_80094270(void *arg0, M2C_UNK arg1, M2C_UNK arg2, S_80094270_2 *arg3, s3
     register M2C_UNK *hdr3 ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
     register s32 call_a0 ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
 
-    ((S_80094270_0 *)arg0)->unk_8A = (s16) arg4;
+    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8A = (s16) arg4;
     if (func_80094208(0) == 0) {
         if (((S_80094270_3 *)((arg0 + (s16) arg4)))->unk_FA == 2) {
             func_800997FC(&D_800E0633);
             return 1;
         }
-        temp_v1 = (void *) ((((S_80094270_0 *)arg0)->unk_8A * 4) + (u32) arg0);
+        temp_v1 = (void *) ((((Rec_func_8008ACDC_arg0 *)arg0)->unk_8A * 4) + (u32) arg0);
         if (temp_v1->unk_D0 == arg3) {
             call_a0 = (s32) arg0;
             if (!(((S_80094270_5 *)(((S_80094270_4 *)temp_v1)->unk_AC))->unk_1C & 0x20000)) {
@@ -102,7 +95,7 @@ s32 func_80094270(void *arg0, M2C_UNK arg1, M2C_UNK arg2, S_80094270_2 *arg3, s3
                  * always ends in "return 1". */
                 temp_s2 = func_800990FC(call_a0);
                 temp_a1 = func_80099194(&D_800E0726, temp_s2);
-                if (((S_80094270_0 *)arg0)->unk_8A != 0) {
+                if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_8A != 0) {
                     hdr = &D_800E05F0;
                 } else {
                     hdr = &D_800E05E1;
@@ -116,7 +109,7 @@ s32 func_80094270(void *arg0, M2C_UNK arg1, M2C_UNK arg2, S_80094270_2 *arg3, s3
             func_80094E34();
             *D_80082EB0 = 0;
             func_8008DB0C(arg0, arg1, arg2, 0, 0);
-            ((S_80094270_0 *)arg0)->unk_60 = 0;
+            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_60 = 0;
             goto return_zero;
         }
         temp_v0 = func_8009402C(arg0, arg1, arg2, &sp18, &sp1A, arg3);
@@ -173,7 +166,7 @@ s32 func_80094270(void *arg0, M2C_UNK arg1, M2C_UNK arg2, S_80094270_2 *arg3, s3
             func_800A56E0(0x506);
             return 1;
         }
-        ((S_80094270_0 *)arg0)->unk_C8 = 0;
+        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_C8 = 0;
         *D_80082EB0 = (s32) arg3;
         func_8008DB0C(arg0, arg1, arg2, sp18, (s32) sp1A);
         func_80094E34();

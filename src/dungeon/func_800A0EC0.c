@@ -1,9 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80016000.h"
 
-typedef struct S_800A6620_0 {
-    u8 pad_00[0x3];
-    u8 unk_03;
-} S_800A6620_0;   /* arg0 in func_800A6620 */
 
 typedef struct S_800A6620_1_pre {
     void * unk_00;
@@ -58,7 +55,7 @@ s16 func_800A6620(void *arg0, s32 arg1)
     u8 sound_y;
 
     table = D_800E3DF0;
-    index = ((S_800A6620_0 *)arg0)->unk_03 & 0x1F;
+    index = ((Rec_D_80016000 *)arg0)->unk_00.at03_u8.v & 0x1F;
     slot = &table[index];
     object = *slot;
     *slot = 0;
@@ -69,7 +66,7 @@ s16 func_800A6620(void *arg0, s32 arg1)
         func_800422DC((void *)(0x80010A80 + index * 0x54), object);
     }
 
-    if (((S_800A6620_0 *)arg0)->unk_03 & 0x20) {
+    if (((Rec_D_80016000 *)arg0)->unk_00.at03_u8.v & 0x20) {
         index = func_800A1BD0(object);
         if (index >= 0) {
             entry = (void *)(index * 4 + D_800E3D7C);

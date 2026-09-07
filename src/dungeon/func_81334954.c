@@ -1,39 +1,16 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_func_800A9E70_arg0.h"
 
-typedef unsigned long long u64;
 
-typedef struct S_8016B954_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x25];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-    u8 pad_72[0x12];
-    u8 unk_84;
-    s8 unk_85;
-} S_8016B954_0;   /* arg3 in func_8016B954 */
 
 typedef struct S_8016B954_1 {
     u8 pad_00[0x2];
     u16 unk_02;
 } S_8016B954_1;   /* flags in func_8016B954 */
 
-typedef struct S_8016B954_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8016B954_2;   /* arg2 in func_8016B954 */
 
-typedef struct S_8016B954_3 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0xA];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_8016B954_3;   /* arg0 in func_8016B954 */
 
 
 
@@ -46,12 +23,12 @@ extern s32 func_800A2B5C(void *);
 extern s32 func_800A2CB8(void *, s32);
 extern void func_800C7930(void *, s32, s32, s32);
 
-s32 func_8016B954(S_8016B954_3 *arg0, s32 arg1, S_8016B954_2 *arg2, void *arg3) {
+s32 func_8016B954(Rec_func_800A9E70_arg0 *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3) {
     volatile u64 frame_pad;
     s32 result;
     s32 *flags;
 
-    ((S_8016B954_0 *)arg3)->unk_71 &= 0x7F;
+    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 &= 0x7F;
     flags = &D_80083460;
 
     if (((S_8016B954_1 *)flags)->unk_02 & 0x2000) {
@@ -62,7 +39,7 @@ s32 func_8016B954(S_8016B954_3 *arg0, s32 arg1, S_8016B954_2 *arg2, void *arg3) 
         arg3,
         arg2->unk_24,
         arg2->unk_25,
-        ((S_8016B954_0 *)arg3)->unk_2A);
+        ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16);
 
     if ((func_800A2CB8(arg3, result) << 16) == 0) {
         return 0;
@@ -72,7 +49,7 @@ s32 func_8016B954(S_8016B954_3 *arg0, s32 arg1, S_8016B954_2 *arg2, void *arg3) 
         return -1;
     }
 
-    if (!(((S_8016B954_0 *)arg3)->unk_46 & 0x8000) &&
+    if (!(((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000) &&
         (((S_8016B954_1 *)flags)->unk_02 & 8)) {
         return -1;
     }
@@ -95,14 +72,14 @@ shared_failure:
     return -1;
 
 success:
-    arg0->unk_9A = 0x11;
-    arg0->unk_9B = 0;
+    arg0->unk_9A.as_s8 = 0x11;
+    arg0->unk_9B.as_s8 = 0;
     arg0->unk_8C = 0;
-    ((S_8016B954_0 *)arg3)->unk_84 = 0x80;
-    ((S_8016B954_0 *)arg3)->unk_85 = 32;
-    ((S_8016B954_0 *)arg3)->unk_6D--;
+    ((Rec_D_800E3D7C *)arg3)->unk_84.as_u8 = 0x80;
+    ((Rec_D_800E3D7C *)arg3)->unk_85.as_s8 = 32;
+    ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8--;
 
-    func_8009C93C(arg3, arg2, ((S_8016B954_0 *)arg3)->unk_2A, 1, 0);
+    func_8009C93C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1, 0);
     return 1;
 }
 

@@ -61,6 +61,10 @@ def main():
             for l in range(0, x["level"] + 1): L[l] += by[x["id"]]["size"]
         out.append("| level | bytes | % |\n|---|---:|---:|")
         for l in range(6): out.append(f"| L{l} | {L[l]:,} | {100*L[l]/tot:.1f}% |")
+        recs = [x for x in read_jsonl(lv) if x.get("records")]
+        rb = sum(by[x["id"]]["size"] for x in recs)
+        out.append(f"\nOn shared record headers (T7, `include/records/`): {len(recs)} rows, {rb:,} bytes ({100*rb/tot:.1f}%); "
+                   f"records used: {len({r for x in recs for r in x['records']})}.")
     else:
         exb = sum(r["size"] for r in rs if r["stock"] and (base.get(r["id"], {}).get("exact") is True or (r["kind"] == "slus" and base.get(r["id"], {}).get("status") == "ok")))
         out.append(f"L0 (verified byte-exact at the pin): {exb:,} bytes ({100*exb/tot:.1f}%). No transforms applied yet; every row is at L0.\n")

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_801714B0_0 {
     u8 pad_00[0x2A];
@@ -10,14 +11,6 @@ typedef struct S_801714B0_1 {
     s16 unk_94;
 } S_801714B0_1;   /* arg0 in func_801714B0 */
 
-typedef struct S_801714B0_2 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    u8 * unk_2C;
-} S_801714B0_2;   /* arg2 in func_801714B0 */
 
 
 
@@ -29,7 +22,7 @@ extern void func_80047738(void *, u8, s8);
 extern void func_800478B8(void *);
 extern void func_80171570(void) __attribute__((noreturn));
 
-void func_801714B0(S_801714B0_1 *arg0, void *arg1, S_801714B0_2 *arg2)
+void func_801714B0(S_801714B0_1 *arg0, void *arg1, Rec_D_80082E80 *arg2)
 {
     S_801714B0_0 *entity;
     u8 *table;
@@ -45,8 +38,8 @@ void func_801714B0(S_801714B0_1 *arg0, void *arg1, S_801714B0_2 *arg2)
 
         if (arg0->unk_94 != direction) {
             func_80047738(arg2,
-                arg2->unk_2C[direction],
-                arg2->unk_04);
+                arg2->unk_2C.as_pu8[direction],
+                arg2->unk_04.as_s8);
             arg0->unk_94 = calculated_direction;
         }
 
@@ -54,11 +47,11 @@ void func_801714B0(S_801714B0_1 *arg0, void *arg1, S_801714B0_2 *arg2)
         if (table[direction] != 0) {
             u32 tail_value;
 
-            tail_value = arg2->unk_14 | 1;
+            tail_value = arg2->unk_14.at00_u16.v | 1;
             ASM_TAILSLOT_PIN_TIED(tail_value);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
             func_80171570();
         }
 
-        arg2->unk_14 &= 0xFFFE;
+        arg2->unk_14.at00_u16.v &= 0xFFFE;
     }
 }

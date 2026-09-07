@@ -1,10 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80016000.h"
 
-typedef struct S_80579100_0 {
-    u8 pad_00[0x38];
-    void * unk_38;
-} S_80579100_0;   /* D_80016000 in func_80579100 */
 
 typedef struct S_80579100_1 {
     u8 pad_00[0x35C0];
@@ -13,7 +10,7 @@ typedef struct S_80579100_1 {
 
 
 M2C_UNK func_80017398();             /* extern */
-extern S_80579100_0 *D_80016000;
+extern Rec_D_80016000 *D_80016000;
 extern M2C_UNK D_80017500;
 extern s16 D_800175B4;
 extern M2C_UNK *D_800175B8;
@@ -22,7 +19,7 @@ void func_80579100(void) {
     S_80579100_1 *temp_a1;
     s32 temp_v1;
 
-    temp_a1 = D_80016000->unk_38;
+    temp_a1 = D_80016000->unk_38.as_pv;
     temp_v1 = temp_a1->unk_35C0;
     D_800175B8 = &D_80017500;
     if (temp_v1 < 0x1E) {

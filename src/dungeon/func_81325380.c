@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
@@ -34,14 +35,6 @@ typedef struct S_8016CB80_0 {
     u8 unk_B3;
 } S_8016CB80_0;   /* arg0 in func_8016CB80 */
 
-typedef struct S_8016CB80_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-} S_8016CB80_1;   /* arg3 in func_8016CB80 */
 
 typedef struct S_8016CB80_2 {
     u8 pad_00[0x24];
@@ -51,16 +44,6 @@ typedef struct S_8016CB80_2 {
     union { void * p; u8 * p2; } unk_2C;   /* accessed as both */
 } S_8016CB80_2;   /* arg2 in func_8016CB80 */
 
-typedef struct S_8016CB80_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8016CB80_3;   /* arg1 in func_8016CB80 */
 
 typedef struct S_8016CB80_4 {
     u8 pad_00[0x8];
@@ -110,7 +93,7 @@ void func_8016CB80(void *arg0, void *arg1, void *arg2, void *arg3) {
     return;
 block_0:
     ((S_8016CB80_0 *)arg0)->unk_98 = (u16) (((S_8016CB80_0 *)arg0)->unk_98 | 8);
-    ((S_8016CB80_1 *)arg3)->unk_1C = (s32) (((S_8016CB80_1 *)arg3)->unk_1C & 0xF7FFFFFF);
+    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0xF7FFFFFF);
     ((S_8016CB80_0 *)arg0)->unk_9E = 5;
     ((S_8016CB80_0 *)arg0)->unk_A0 = 0;
     ((S_8016CB80_0 *)arg0)->unk_9B = (u8) (((S_8016CB80_0 *)arg0)->unk_9B + 1);
@@ -120,10 +103,10 @@ block_10:
     if (temp_a0 != 0) {
         scaled = ((S_8016CB80_2 *)arg2)->unk_24;
         ASM_KEEP(scaled);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        delta = ((S_8016CB80_3 *)arg1)->unk_02 - 0x20;
-        ((S_8016CB80_3 *)arg1)->unk_0C = (s32) ((s32) (((scaled << 6) - delta) << 0x10) / temp_a0);
-        delta = ((S_8016CB80_3 *)arg1)->unk_06 - 0x20;
-        ((S_8016CB80_3 *)arg1)->unk_10 = (s32) ((s32) (((((S_8016CB80_2 *)arg2)->unk_25 << 6) - delta) << 0x10) / (s16) ((S_8016CB80_0 *)arg0)->unk_9E);
+        delta = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v - 0x20;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = (s32) ((s32) (((scaled << 6) - delta) << 0x10) / temp_a0);
+        delta = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v - 0x20;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = (s32) ((s32) (((((S_8016CB80_2 *)arg2)->unk_25 << 6) - delta) << 0x10) / (s16) ((S_8016CB80_0 *)arg0)->unk_9E);
         ((S_8016CB80_0 *)arg0)->unk_A0 = (s32) ((0 - func_800644B8(((S_8016CB80_0 *)arg0)->unk_9E * 0x199)) << 0xA);
     }
     ((S_8016CB80_0 *)arg0)->unk_90 = (s32) (((S_8016CB80_0 *)arg0)->unk_90 + ((S_8016CB80_0 *)arg0)->unk_A0);
@@ -132,15 +115,15 @@ block_10:
     if ((temp_v1_2 << 0x10) < 0) {
         ((S_8016CB80_0 *)arg0)->unk_90 = 0;
         ((S_8016CB80_0 *)arg0)->unk_98 = (u16) (((S_8016CB80_0 *)arg0)->unk_98 & 0xFFF7);
-        ((S_8016CB80_1 *)arg3)->unk_1C = (s32) (((S_8016CB80_1 *)arg3)->unk_1C | 0x08000000);
+        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 | 0x08000000);
         ((S_8016CB80_0 *)arg0)->unk_9B = (u8) (((S_8016CB80_0 *)arg0)->unk_9B + 1);
     }
 block_14:
-    if (((S_8016CB80_1 *)arg3)->unk_1C & 0x08000000) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x08000000) {
         ((S_8016CB80_0 *)arg0)->unk_98 = (u16) (((S_8016CB80_0 *)arg0)->unk_98 & 0xFFF7);
-        ((S_8016CB80_3 *)arg1)->unk_14 = 0;
-        ((S_8016CB80_3 *)arg1)->unk_10 = 0;
-        ((S_8016CB80_3 *)arg1)->unk_0C = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
         func_800A2B04(arg1, ((S_8016CB80_2 *)arg2)->unk_24, ((S_8016CB80_2 *)arg2)->unk_25);
         ((S_8016CB80_0 *)arg0)->unk_9B = (u8) (((S_8016CB80_0 *)arg0)->unk_9B + 1);
         func_8016CDC0();
@@ -160,28 +143,28 @@ block_18:
     }
     if (((S_8016CB80_2 *)arg2)->unk_2C.p2 != D_80174684) {
         (*(u8 **)((u8 *)arg2 + 0x2C)) = D_80174684;
-        func_80047784(arg2, D_80174684[((s32) (D_80083228 + ((S_8016CB80_1 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
+        func_80047784(arg2, D_80174684[((s32) (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     }
 block_22:
     temp_v0 = ((S_8016CB80_0 *)arg0)->unk_96 - 1;
     ((S_8016CB80_0 *)arg0)->unk_96 = temp_v0;
     if ((temp_v0 << 0x10) <= 0) {
-        ((S_8016CB80_3 *)arg1)->unk_14 = 0;
-        ((S_8016CB80_3 *)arg1)->unk_10 = 0;
-        ((S_8016CB80_3 *)arg1)->unk_0C = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
         func_800A2B04(arg1, ((S_8016CB80_2 *)arg2)->unk_24, ((S_8016CB80_2 *)arg2)->unk_25);
         func_800A4ACC(arg3);
         temp_a0_2 = D_80083460;
         if (((S_8016CB80_4 *)temp_a0_2)->unk_08 != 0) {
             ((S_8016CB80_4 *)temp_a0_2)->unk_08 = (s16) ((u16) ((S_8016CB80_4 *)temp_a0_2)->unk_08 - 1);
         }
-        temp_v1_3 = ((S_8016CB80_1 *)arg3)->unk_1C;
+        temp_v1_3 = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32;
         if (temp_v1_3 & 0x2000) {
-            temp_v1_4 = ((S_8016CB80_1 *)arg3)->unk_46;
+            temp_v1_4 = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v;
             if (!(temp_v1_4 & 0x8000)) {
                 goto block_32;
             }
-            ((S_8016CB80_1 *)arg3)->unk_46 = temp_v1_4 & 0x7FFF;
+            ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v = temp_v1_4 & 0x7FFF;
             func_8016CE8C(temp_a0_2);
             return;
         }
@@ -191,7 +174,7 @@ block_22:
         if (!(temp_v1_3 & 0x20000)) {
             goto block_32;
         }
-        ((S_8016CB80_1 *)arg3)->unk_2A = func_800A0818(((S_8016CB80_2 *)arg2)->unk_24, ((S_8016CB80_2 *)arg2)->unk_25, D_80082E80[0x24], D_80082E80[0x25], &sp18);
+        ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(((S_8016CB80_2 *)arg2)->unk_24, ((S_8016CB80_2 *)arg2)->unk_25, D_80082E80[0x24], D_80082E80[0x25], &sp18);
 block_32:
         if ((func_800AD9B4(arg2, arg3) << 0x10) > 0) {
             ((S_8016CB80_0 *)arg0)->unk_8C = D_8016B778;

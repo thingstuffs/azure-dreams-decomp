@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 extern s32 func_800419EC();
@@ -35,16 +36,6 @@ typedef struct S_80092E90_1 {
     u8 unk_25;
 } S_80092E90_1;   /* arg2 in func_80092E90 */
 
-typedef struct S_80092E90_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80092E90_2;   /* arg1 in func_80092E90 */
 
 typedef struct S_80092E90_3 {
     u8 pad_00[0x4];
@@ -112,20 +103,20 @@ void func_80092E90(void *arg0, void *arg1, void *arg2, void *arg3)
     divisor = ((S_80092E90_0 *)global)->unk_04;
     if (divisor != 0) {
         pixel = ((S_80092E90_1 *)arg2)->unk_24 << 6;
-        adjusted = ((S_80092E90_2 *)arg1)->unk_02 - 0x20;
-        ((S_80092E90_2 *)arg1)->unk_0C =
+        adjusted = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v - 0x20;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 =
             ((pixel - adjusted) << 16) / divisor;
-        adjusted = ((S_80092E90_2 *)arg1)->unk_06;
+        adjusted = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v;
         adjusted -= 0x20;
         pixel = ((S_80092E90_1 *)arg2)->unk_25 << 6;
-        ((S_80092E90_2 *)arg1)->unk_10 =
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
             ((pixel - adjusted) << 16) / ((S_80092E90_0 *)global)->unk_04;
         func_80092F30(divisor, global);
         return;
     }
 
-    ((S_80092E90_2 *)arg1)->unk_0C = 0;
-    ((S_80092E90_2 *)arg1)->unk_10 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
     ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
     countBase = &D_80083460_count;
     count = ((S_80092E90_3 *)countBase)->unk_04.n;
@@ -204,9 +195,9 @@ state1:
 #endif
         }
 
-    ((S_80092E90_2 *)arg1)->unk_14 = 0;
-    ((S_80092E90_2 *)arg1)->unk_10 = 0;
-    ((S_80092E90_2 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_80092E90_1 *)arg2)->unk_24, ((S_80092E90_1 *)arg2)->unk_25);
     ((S_80092E90_4 *)arg0)->unk_8C = &D_8008ACDC;
     endBase = &D_80083460;

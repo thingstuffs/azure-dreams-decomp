@@ -1,15 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_80094268_arg0.h"
 
-typedef struct S_800C838C_0 {
-    u8 pad_00[0x80];
-    void * unk_80;
-} S_800C838C_0;   /* arg0 in func_800C838C */
 
 typedef struct S_800C838C_1 {
     u8 pad_00[0x4];
     M2C_UNK * unk_04;
-} S_800C838C_1;   /* ((S_800C838C_0 *)arg0)->unk_80 in func_800C838C */
+} S_800C838C_1;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in func_800C838C */
 
 
 
@@ -22,7 +19,7 @@ extern M2C_UNK D_800D6308;
 extern M2C_UNK D_800D630C;
 
 
-void func_800C838C(S_800C838C_0 *arg0) {
+void func_800C838C(Rec_func_80094268_arg0 *arg0) {
     func_800C3050(arg0, 0xA, &D_800D6308, &D_800D630C, &D_800D62D8, &D_800D62E0);
     ((S_800C838C_1 *)(arg0->unk_80))->unk_04 = &D_800D6244;
 }

@@ -1,5 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_801728B4_0 {
     u8 pad_00[0x8C];
@@ -13,21 +16,6 @@ typedef struct S_801728B4_0 {
     void * unk_A0;
 } S_801728B4_0;   /* arg0 in func_801728B4 */
 
-typedef struct S_801728B4_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x18];
-    void * unk_60;
-    u8 pad_64[0x9];
-    u8 unk_6D;
-    u8 pad_6E[0x4];
-    s8 unk_72;
-    s8 unk_73;
-} S_801728B4_1;   /* arg3 in func_801728B4 */
 
 typedef struct S_801728B4_2_pre {
     void * unk_00;
@@ -40,21 +28,6 @@ typedef struct S_801728B4_3 {
     u8 unk_25;
 } S_801728B4_3;   /* temp_v1_3 in func_801728B4 */
 
-typedef struct S_801728B4_4 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0x7];
-    s32 unk_0C;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x2];
-    s32 unk_28;
-    M2C_UNK * unk_2C;
-} S_801728B4_4;   /* arg2 in func_801728B4 */
 
 typedef struct S_801728B4_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -89,10 +62,6 @@ typedef struct S_801728B4_7 {
     s32 unk_28;
 } S_801728B4_7;   /* temp_a0 in func_801728B4 */
 
-typedef struct S_801728B4_8 {
-    u8 pad_00[0xA6];
-    u16 unk_A6;
-} S_801728B4_8;   /* D_800814A8 in func_801728B4 */
 
 typedef struct S_801728B4_9 {
     u8 pad_00[0xC];
@@ -173,10 +142,10 @@ block_4:
     }
     return;
 block_6:
-    if (!(((S_801728B4_1 *)arg3)->unk_1C & 0x2000)) {
+    if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x2000)) {
         goto block_12;
     }
-    temp_v0 = ((S_801728B4_1 *)arg3)->unk_46 & 0x3FFF;
+    temp_v0 = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x3FFF;
     if ((u32) (temp_v0 - 1) >= 7U) {
         goto block_20;
     }
@@ -191,7 +160,7 @@ jt_c5:
     var_s4 = 1;
     goto block_19;
 block_12:
-    temp_v1_2 = ((S_801728B4_1 *)arg3)->unk_46 & 0x3FFF;
+    temp_v1_2 = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x3FFF;
     if (temp_v1_2 == 2) {
         goto block_18;
     }
@@ -237,26 +206,26 @@ block_21:
         }
     }
     var_v0 = D_800814A8;
-    ((S_801728B4_1 *)arg3)->unk_60 = var_v0;
+    ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv = var_v0;
     goto block_26;
 block_24:
     if (D_8006DE24[(*var_s0 * 0x14) + 0x12] != 2) {
         goto block_27;
     }
-    var_v0 = ((S_801728B4_1 *)arg3)->unk_60;
+    var_v0 = ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv;
     if (var_v0 == NULL) {
         goto block_33;
     }
 block_26:
     temp_v1_3 = ((S_801728B4_2_pre *)var_v0)[-1].unk_00;
-    ((S_801728B4_1 *)arg3)->unk_72 = (s8) ((S_801728B4_3 *)temp_v1_3)->unk_24;
-    ((S_801728B4_1 *)arg3)->unk_73 = (s8) ((S_801728B4_3 *)temp_v1_3)->unk_25;
+    ((Rec_D_800E3D7C *)arg3)->unk_72.as_s8 = (s8) ((S_801728B4_3 *)temp_v1_3)->unk_24;
+    ((Rec_D_800E3D7C *)arg3)->unk_73.as_s8 = (s8) ((S_801728B4_3 *)temp_v1_3)->unk_25;
     goto block_32;
 block_27:
-    ((S_801728B4_1 *)arg3)->unk_60 = func_800A05A4(arg3, ((S_801728B4_4 *)arg2)->unk_24, ((S_801728B4_4 *)arg2)->unk_25, ((S_801728B4_1 *)arg3)->unk_2A, 0x10);
+    ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv = func_800A05A4(arg3, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 0x10);
     ASM_KEEP(arg3);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    var_v0_2 = ((S_801728B4_1 *)arg3)->unk_72;
-    var_v1 = ((S_801728B4_1 *)arg3)->unk_73;
+    var_v0_2 = ((Rec_D_800E3D7C *)arg3)->unk_72.as_s8;
+    var_v1 = ((Rec_D_800E3D7C *)arg3)->unk_73.as_s8;
     if (var_v0_2 >= 0) {
         goto block_29;
     }
@@ -267,8 +236,8 @@ block_29:
     }
     var_v1 = 0 - var_v1;
 block_31:
-    ((S_801728B4_1 *)arg3)->unk_72 = var_v0_2;
-    ((S_801728B4_1 *)arg3)->unk_73 = var_v1;
+    ((Rec_D_800E3D7C *)arg3)->unk_72.as_s8 = var_v0_2;
+    ((Rec_D_800E3D7C *)arg3)->unk_73.as_s8 = var_v1;
 block_32:
 block_33:
     pending[0] = ((S_801728B4_5 *)arg1)->unk_00.at02.v;
@@ -277,7 +246,7 @@ block_33:
     if (func_800A94A0(arg3, var_s0, var_s4, arg0 + 0x98) == 0) {
         goto block_56;
     }
-    ((S_801728B4_4 *)arg2)->unk_14 = (u16) (((S_801728B4_4 *)arg2)->unk_14 & 0xF7FF);
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xF7FF);
     func_800A56E0(0x703);
     ((S_801728B4_0 *)arg0)->unk_9B = (u8) (((S_801728B4_0 *)arg0)->unk_9B + 1);
     temp_v0_2 = func_8003FD64(0x112, &D_80083498);
@@ -292,43 +261,43 @@ block_33:
     ((S_801728B4_11 *)(((S_801728B4_6 *)temp_v0_2)->unk_08))->unk_08 = (s32) (((S_801728B4_5 *)arg1)->unk_08.at00.v + 0xFF800000);
     ((S_801728B4_6 *)temp_v0_2)->unk_BB = 0;
     temp_a0 = ((S_801728B4_6 *)temp_v0_2)->unk_0C;
-    ((S_801728B4_6 *)temp_v0_2)->unk_4A = (u16) ((S_801728B4_1 *)arg3)->unk_2A;
-    temp_v1_2 = ((S_801728B4_4 *)arg2)->unk_28;
+    ((S_801728B4_6 *)temp_v0_2)->unk_4A = (u16) ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16;
+    temp_v1_2 = ((Rec_D_80082E80 *)arg2)->unk_28.at00_s32.v;
     ((S_801728B4_7 *)temp_a0)->unk_1E = 0x1000;
     ((S_801728B4_7 *)temp_a0)->unk_1C = 0x1000;
     ((S_801728B4_7 *)temp_a0)->unk_28 = temp_v1_2;
-    temp_v0_3 = ((S_801728B4_4 *)arg2)->unk_14;
+    temp_v0_3 = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
     temp_a1_2 = 0x2D;
     ((S_801728B4_7 *)temp_a0)->unk_14 = temp_v0_3;
-    temp_v1_5 = ((S_801728B4_4 *)arg2)->unk_12;
+    temp_v1_5 = ((Rec_D_80082E80 *)arg2)->unk_12.at00_u16.v;
     ((S_801728B4_7 *)temp_a0)->unk_10 = 0;
     ((S_801728B4_7 *)temp_a0)->unk_14 = (u16) (temp_v0_3 | 0xC);
     ((S_801728B4_7 *)temp_a0)->unk_12 = (s16) (temp_v1_5 - 0x80);
-    ((S_801728B4_7 *)temp_a0)->unk_0C = (s32) ((S_801728B4_4 *)arg2)->unk_0C;
+    ((S_801728B4_7 *)temp_a0)->unk_0C = (s32) ((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v;
     func_80047784(temp_a0, temp_a1_2, 0);
     return;
 block_36:
     ((S_801728B4_5 *)arg1)->unk_14 = 0;
     ((S_801728B4_5 *)arg1)->unk_10 = 0;
     ((S_801728B4_5 *)arg1)->unk_0C = 0;
-    func_800A2B04(arg1, ((S_801728B4_4 *)arg2)->unk_24, ((S_801728B4_4 *)arg2)->unk_25);
+    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     D_8008346C = 0;
-    ((S_801728B4_8 *)D_800814A8)->unk_A6 = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
+    ((Rec_D_800814A8 *)D_800814A8)->unk_A6 = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
     func_800A4ACC(arg3);
-    ((S_801728B4_1 *)arg3)->unk_6D = (u8) (((S_801728B4_1 *)arg3)->unk_6D - 1);
+    ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 - 1);
     ((S_801728B4_0 *)arg0)->unk_8C = &D_80170E54;
-    ((S_801728B4_1 *)arg3)->unk_73 = 0;
-    ((S_801728B4_1 *)arg3)->unk_72 = 0;
-    ((S_801728B4_1 *)arg3)->unk_46 = (u16) (((S_801728B4_1 *)arg3)->unk_46 & 0x7FFF);
+    ((Rec_D_800E3D7C *)arg3)->unk_73.as_s8 = 0;
+    ((Rec_D_800E3D7C *)arg3)->unk_72.as_s8 = 0;
+    ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v = (u16) (((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x7FFF);
     return;
 block_37:
     if (func_8003F270() == 0) {
         goto block_39;
     }
-    ((S_801728B4_4 *)arg2)->unk_14 = (u16) (((S_801728B4_4 *)arg2)->unk_14 | 0x800);
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 0x800);
     return;
 block_39:
-    ((S_801728B4_4 *)arg2)->unk_14 = (u16) (((S_801728B4_4 *)arg2)->unk_14 & 0xF7FF);
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xF7FF);
     ((S_801728B4_0 *)arg0)->unk_9B = (u8) (((S_801728B4_0 *)arg0)->unk_9B + 1);
 block_40:
     temp_v0_4 = ((S_801728B4_0 *)arg0)->unk_A0;
@@ -343,18 +312,18 @@ block_40:
     ((S_801728B4_9 *)var_s0)->unk_BB = 0xFF;
     ((S_801728B4_0 *)arg0)->unk_A0 = NULL;
 block_43:
-    if (((S_801728B4_4 *)arg2)->unk_04 != 4) {
+    if (((Rec_D_80082E80 *)arg2)->unk_04.as_s8 != 4) {
         goto block_45;
     }
-    if (((S_801728B4_4 *)arg2)->unk_14 & 0x1000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000) {
         goto block_46;
     }
 block_45:
-    if (!(((S_801728B4_4 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         goto block_47;
     }
 block_46:
-    ((S_801728B4_4 *)arg2)->unk_14 = (u16) (((S_801728B4_4 *)arg2)->unk_14 | 0x800);
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 0x800);
     ((S_801728B4_0 *)arg0)->unk_96 = 3U;
     ((S_801728B4_0 *)arg0)->unk_98 = (u16) (((S_801728B4_0 *)arg0)->unk_98 | 0x80);
 block_47:
@@ -364,37 +333,37 @@ block_47:
         goto block_49;
     }
     ((S_801728B4_0 *)arg0)->unk_96 = 0U;
-    ((S_801728B4_4 *)arg2)->unk_14 = (u16) (((S_801728B4_4 *)arg2)->unk_14 & 0xF7FF);
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xF7FF);
 block_49:
-    if (!(((S_801728B4_4 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         goto block_56;
     }
     ((S_801728B4_5 *)arg1)->unk_14 = 0;
     ((S_801728B4_5 *)arg1)->unk_10 = 0;
     ((S_801728B4_5 *)arg1)->unk_0C = 0;
-    func_800A2B04(arg1, ((S_801728B4_4 *)arg2)->unk_24, ((S_801728B4_4 *)arg2)->unk_25);
-    if (((S_801728B4_4 *)arg2)->unk_2C == &D_80173C6C) {
+    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
+    if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pm == &D_80173C6C) {
         goto block_52;
     }
     (*(M2C_UNK **)((u8 *)arg2 + 0x2C)) = &D_80173C6C;
-    func_80047784(arg2, D_80173C6C[((s32) (D_80083228 + ((S_801728B4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(arg2, D_80173C6C[((s32) (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
 block_52:
     temp_v1_4 = D_80083460;
     if (((S_801728B4_10 *)temp_v1_4)->unk_0C != 0) {
         goto block_56;
     }
     ((S_801728B4_10 *)temp_v1_4)->unk_0A = (u16) (((S_801728B4_10 *)temp_v1_4)->unk_0A - 1);
-    ((S_801728B4_4 *)arg2)->unk_14 = (u16) (((S_801728B4_4 *)arg2)->unk_14 & 0xF7FF);
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xF7FF);
     ((S_801728B4_0 *)arg0)->unk_8C = &D_80170E54;
     func_800A4ACC(arg3);
-    if ((s8) ((S_801728B4_1 *)arg3)->unk_6D <= 0) {
+    if ((s8) ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 <= 0) {
         goto block_55;
     }
-    ((S_801728B4_1 *)arg3)->unk_6D = (u8) (((S_801728B4_1 *)arg3)->unk_6D - 1);
+    ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 = (u8) (((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 - 1);
 block_55:
-    ((S_801728B4_1 *)arg3)->unk_73 = 0;
-    ((S_801728B4_1 *)arg3)->unk_72 = 0;
-    ((S_801728B4_1 *)arg3)->unk_46 = (u16) (((S_801728B4_1 *)arg3)->unk_46 & 0x7FFF);
+    ((Rec_D_800E3D7C *)arg3)->unk_73.as_s8 = 0;
+    ((Rec_D_800E3D7C *)arg3)->unk_72.as_s8 = 0;
+    ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v = (u16) (((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x7FFF);
     func_800A56E0(0xB4);
 block_56:
     return;

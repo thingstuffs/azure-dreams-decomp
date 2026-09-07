@@ -1,13 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_80921000_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    s16 unk_08;
-} S_80921000_0;   /* arg0 in BODY_NAME */
 
 
 typedef struct {
@@ -46,7 +40,7 @@ __asm__(".globl func_80921000\n"
 #define BODY_NAME func_80921000
 #endif
 
-void BODY_NAME(S_80921000_0 *arg0) {
+void BODY_NAME(Rec_D_800E3D7C *arg0) {
     ByteBuf sp18;
     CoordBuf sp20;
     s16 temp_s0;
@@ -56,33 +50,33 @@ void BODY_NAME(S_80921000_0 *arg0) {
     u16 temp_v0_2;
 
     M2C_ERROR(/* Read from unset register $at */) << 0;
-    temp_v0 = arg0->unk_02 - 1;
-    arg0->unk_02 = temp_v0;
+    temp_v0 = arg0->unk_00.at02_u16.v - 1;
+    arg0->unk_00.at02_u16.v = temp_v0;
     if ((temp_v0 << 0x10) <= 0) {
-        arg0->unk_02 = 1U;
-        temp_v0_2 = arg0->unk_06 + 8;
-        arg0->unk_06 = temp_v0_2;
+        arg0->unk_00.at02_u16.v = 1U;
+        temp_v0_2 = arg0->unk_04.at02_u16.v + 8;
+        arg0->unk_04.at02_u16.v = temp_v0_2;
         if ((s16) temp_v0_2 >= 0x70) {
-            arg0->unk_06 = 0U;
+            arg0->unk_04.at02_u16.v = 0U;
         }
-        func_8003F80C(D_800F6D48 + ((s16) arg0->unk_06 * 4), 0x7380, 1, 2);
+        func_8003F80C(D_800F6D48 + ((s16) arg0->unk_04.at02_u16.v * 4), 0x7380, 1, 2);
     }
     if ((func_80033BC0(0xA2) != 0) && ((func_800F61BC(6, 3) << 0x10) == 0) && ((func_800F6208(6, 3) << 0x10) == 0)) {
         u8 *mode;
         mode = D_80081484;
         if ((mode[0] != 3) || (mode[1] != 6)) {
-            if (arg0->unk_08 == 0) {
-                arg0->unk_08 = 0x40;
+            if (arg0->unk_08.at00_s16.v == 0) {
+                arg0->unk_08.at00_s16.v = 0x40;
                 goto block_11;
             }
             goto block_12;
         }
     }
 block_11:
-    if (arg0->unk_08 != 0) {
+    if (arg0->unk_08.at00_s16.v != 0) {
 block_12:
-        temp_v0_3 = (u16) arg0->unk_08 - 1;
-        arg0->unk_08 = temp_v0_3;
+        temp_v0_3 = (u16) arg0->unk_08.at00_s16.v - 1;
+        arg0->unk_08.at00_s16.v = temp_v0_3;
         if ((temp_v0_3 << 0x10) == 0) {
             sp18.a = 3;
             sp18.b = 6;

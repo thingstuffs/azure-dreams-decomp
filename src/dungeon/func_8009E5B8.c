@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800A3D18_0 {
     u8 pad_00[0x24];
@@ -43,10 +44,6 @@ typedef struct S_800A3D18_5 {
     s32 unk_1C;
 } S_800A3D18_5;   /* best in func_800A3D18 */
 
-typedef struct S_800A3D18_6 {
-    u8 pad_00[0x128];
-    s32 unk_128;
-} S_800A3D18_6;   /* D_800E3D7C in func_800A3D18 */
 
 
 
@@ -168,7 +165,7 @@ done:
             best = special;
             goto out;
         }
-        if ((((S_800A3D18_6 *)D_800E3D7C)->unk_128 + ((S_800A3D18_1 *)cur)->unk_43) & 3) {
+        if ((((Rec_D_800E3D7C *)D_800E3D7C)->unk_128 + ((S_800A3D18_1 *)cur)->unk_43) & 3) {
             goto out;
         }
         best = special;

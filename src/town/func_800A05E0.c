@@ -1,18 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082D58.h"
 
 typedef struct S_8009DD40_0_pre {
     u16 unk_00;
 } S_8009DD40_0_pre;   /* the 0x2 bytes before arg0 in func_8009DD40, addressed as arg0[-1] */
 
-typedef struct S_8009DD40_0 {
-    u8 pad_00[0x4D];
-    u8 unk_4D;
-    u8 pad_4E[0x2];
-    M2C_UNK (*unk_50)(void *, void *, M2C_UNK, M2C_UNK);
-    u8 pad_54[0x44];
-    s8 * unk_98;
-} S_8009DD40_0;   /* arg0 in func_8009DD40 */
 
 
 M2C_UNK func_80033D08();                      /* extern */
@@ -29,7 +22,7 @@ void func_8009DD40(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
 
     if (func_8009D20C() != 0) {
         func_8008F134(arg0);
-        temp_v0 = ((S_8009DD40_0 *)arg0)->unk_98;
+        temp_v0 = ((Rec_D_80082D58 *)arg0)->unk_98.as_ps8;
         if (temp_v0 != NULL) {
             *temp_v0 = 0;
         }
@@ -38,10 +31,10 @@ void func_8009DD40(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
         D_800814A0[0] = D_800814A0[0] | 0x8000;
         return func_8009DE0C();
     }
-    ((S_8009DD40_0 *)arg0)->unk_50(arg0, arg0, arg1, arg2);
+    ((Rec_D_80082D58 *)arg0)->unk_50.as_x151a23(arg0, arg0, arg1, arg2);
     if (!(((S_8009DD40_0_pre *)arg0)[-1].unk_00 & 0x8000)) {
         func_800970AC(func_80096FF4(arg1), arg0);
-        if (((S_8009DD40_0 *)arg0)->unk_4D == 0x13) {
+        if (((Rec_D_80082D58 *)arg0)->unk_4D == 0x13) {
             func_800478B8(arg2);
         }
     }

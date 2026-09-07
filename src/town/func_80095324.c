@@ -1,6 +1,7 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_80094268_arg0.h"
 
-typedef s32 M2C_UNK;
 
 
 M2C_UNK func_80035208();
@@ -37,10 +38,6 @@ extern u8 D_800FE488[];
 extern s32 *D_800FE5D8;
 
 
-typedef struct S_80092A84_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80092A84_0;   /* arg1 in func_80092A84 */
 
 typedef struct S_80092A84_1 {
     u8 pad_00[0x8];
@@ -49,12 +46,6 @@ typedef struct S_80092A84_1 {
     s32 unk_10;
 } S_80092A84_1;   /* state in func_80092A84 */
 
-typedef struct S_80092A84_2 {
-    u8 pad_00[0x2C];
-    void * unk_2C;
-    u8 pad_30[0xE];
-    u16 unk_3E;
-} S_80092A84_2;   /* arg0 in func_80092A84 */
 
 typedef struct S_80092A84_3 {
     u8 pad_00[0x50];
@@ -66,7 +57,7 @@ typedef struct S_80092A84_4 {
     s32 unk_10;
 } S_80092A84_4;   /* base in func_80092A84 */
 
-void func_80092A84(S_80092A84_2 *arg0, S_80092A84_0 *arg1, M2C_UNK arg2) {
+void func_80092A84(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
     u8 *state;
     u8 *pal;
     s32 *ctrl;
@@ -83,7 +74,7 @@ void func_80092A84(S_80092A84_2 *arg0, S_80092A84_0 *arg1, M2C_UNK arg2) {
 
     pal = D_800FE488;
     position = func_80095978(arg1, pal);
-    if ((position - arg1->unk_0A) >= 4) {
+    if ((position - arg1->unk_08.at02_s16.v) >= 4) {
         if (D_800CFCEF == 0) {
             func_80094660(arg0, arg1, arg2);
             func_80092CB0();
@@ -140,8 +131,8 @@ void func_80092A84(S_80092A84_2 *arg0, S_80092A84_0 *arg1, M2C_UNK arg2) {
     }
 
     if (((S_80092A84_1 *)state)->unk_08 & 0xF000) {
-        position = arg0->unk_3E - 1;
-        arg0->unk_3E = position;
+        position = arg0->unk_3E.as_u16 - 1;
+        arg0->unk_3E.as_u16 = position;
         func_80094944(position, 0xC);
         func_80094C1C(arg0);
         func_80094C74(arg1);
