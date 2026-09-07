@@ -67,3 +67,17 @@ python3 tools/complete_tree.py && python3 tools/levels.py && python3 tools/statu
 Rows whose upstream text changed are re-derived (the sweep journals key on the input hash);
 unchanged rows are skipped. `refine/` bodies are re-verified against the new pin and any that
 no longer match are reported, never silently kept.
+
+## Credits
+
+- **Azure Dreams De-Randomizer** by ProGrammar-R (https://github.com/ProGrammar-R/ProGrammar-R.github.io, MPL-2.0).
+  Its address and table map of the retail binary (`initialStatsTable`, `trapTable`,
+  `itemCategoryTable`, record layouts, the RNG constants) anchored many of the symbol names and
+  struct layouts here. Only those facts were used; none of its code is included.
+- **sotn-decomp** (https://github.com/Xeeynamo/sotn-decomp): naming vocabulary for common
+  PlayStation game structures, borrowed only where the Azure Dreams evidence supports the same concept.
+- Toolchain: **splat** (https://github.com/ethteck/splat), **m2c** (https://github.com/matt-kempster/m2c),
+  **maspsx** (https://github.com/mkst/maspsx), **decompals old-gcc** builds of the Psy-Q-era GCC
+  (https://github.com/decompals/old-gcc), **mkpsxiso** (https://github.com/Lameguy64/mkpsxiso),
+  **spimdisasm**, GNU binutils.
+- *Azure Dreams* is © Konami. This repository contains no game data; you must supply your own disc.
