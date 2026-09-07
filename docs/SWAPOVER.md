@@ -50,6 +50,16 @@ per-row scorer alone.** The remaining mismatching windows and the 38 error windo
 drift (page bodies whose bytes changed with the assembler; retired bridge compiler cells) and
 fail identically from `raw/`.
 
+### Container-wide gate result (2026-09-07, `ledger/gate.jsonl`)
+
+All 2181 windows gated from this tree with every transform applied: **2139 byte-identical**
+(TOWN 711/711, MAIN 3/4, OVMOVIE 1/1, DUNGEON all but the drift set). Not green: 35 windows
+whose rows were landed through bridge compiler cells upstream retired today (cannot be rebuilt
+from the pin any more), 4 dungeon page windows and 1 MAIN dial row that fail identically from
+`raw/` (assembler change upstream today), and the engine mirror (gated from the pinned engine
+copies until its roster is folded into the dungeon rows). Every one of those resolves at the
+pin bump; none is attributable to a transform.
+
 ## 2. Gaps found in the inventory
 
 1. **Overlay containers are proven per window, not linked whole.** SLUS has a whole-binary

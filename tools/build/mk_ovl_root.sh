@@ -15,7 +15,10 @@ mkdir -p "$B/overlays" "$B/config" "$B/work/s3_splat" "$B/work/overlay_recon"
 rm -rf "$B/asm"; ln -sfn "$ROOT/build_slus/asm" "$B/asm"
 for o in main town dungeon dungeon_engine ovmovie; do
   mkdir -p "$B/overlays/$o"
-  src="$SRCROOT/$o"; [ "$o" = dungeon_engine ] && src="$SRCROOT/dungeon"
+  src="$SRCROOT/$o"
+  # the engine mirror names its rows in true space; until the mirror roster is folded into the
+  # dungeon rows it gates the pinned engine copies (upstream/) as-is
+  [ "$o" = dungeon_engine ] && src="$ROOT/upstream/overlays/dungeon_engine/first_pass_matched"
   ln -sfn "$src" "$B/overlays/$o/first_pass_matched"
   ln -sfn "$ROOT/upstream/overlays/$o/overlay_first_pass_results.json" "$B/overlays/$o/overlay_first_pass_results.json"
 done
@@ -26,6 +29,7 @@ ln -sfn "$UP/toolchain"           "$B/toolchain"
 ln -sfn "$UP/.venv"               "$B/.venv"
 ln -sfn "$UP/bin"                 "$B/bin"
 ln -sfn "$UP/work/s3_splat/extract" "$B/work/s3_splat/extract"
+mkdir -p "$B/work/roundtrip"; ln -sfn "$UP/work/roundtrip/extract" "$B/work/roundtrip/extract"   # main_7fdd reads the round-trip extract
 ln -sfn "$ROOT/tools/gate/extract_bins.py" "$B/work/overlay_recon/extract_bins.py"
 for f in names.tsv slus_006.14.yaml slus_006.14.symbols.txt noreturn_syms.txt noreturn_syms.dungeon.txt noreturn_syms.town.txt noreturn_syms.ovmovie.txt sibcall_syms.txt sibcall_syms.dungeon.txt sibcall_syms.town.txt sibcall_syms.ovmovie.txt noreturn_false_members.jsonl; do
   [ -f "$ROOT/config/$f" ] && ln -sfn "$ROOT/config/$f" "$B/config/$f"
