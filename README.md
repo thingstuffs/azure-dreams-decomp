@@ -54,7 +54,7 @@ python3 tools/registry.py           # rows.jsonl: new/changed rows (bridge rows 
 python3 tools/verify.py --baseline  # byte-exact verdict per row (resumable; only new rows compile)
 python3 tools/census.py
 for t in t1_boiler t4_fields t3_epilogue t2_pins t6_pin_notes; do python3 tools/sweep.py $t --workers 6; done
-python3 tools/levels.py && python3 tools/status.py
+python3 tools/complete_tree.py && python3 tools/levels.py && python3 tools/status.py
 ```
 
 Rows whose upstream text changed are re-derived (the sweep journals key on the input hash);
