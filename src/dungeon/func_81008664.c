@@ -70,10 +70,10 @@ void func_81008664(void *_arg0, void *_arg1, void *_arg2, void *volatile arg3) {
     u32 call2_x;
     u32 call2_y;
     s32 temp_divisor;
-    register s32 temp_numer1 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    s32 temp_numer1;   /* MATCH pin: keeps a constant in a register as retail does */
     s32 temp_numer2;
     u8 *temp_table_c0a;
-    register u8 *temp_table_c0b ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    u8 *temp_table_c0b;   /* MATCH pin: keeps a constant in a register as retail does */
     s16 *temp_ptr_c0b;
     u32 case4_x;
     u32 case4_y;
@@ -132,7 +132,7 @@ void func_81008664(void *_arg0, void *_arg1, void *_arg2, void *volatile arg3) {
     void *arg1 = _arg1;
     register void *arg2 = _arg2;
 
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
     temp_s4 = M2C_FIELD(arg0, void **, 0xA8);
     ASM_KEEP(temp_s4);   /* MATCH pin: retail schedule: same instructions, different order without it */
     temp_v1 = M2C_FIELD(arg0, u8 *, 0x9B);
@@ -197,14 +197,14 @@ block_15:
     temp_arg3_2 = arg3;
     ASM_KEEP_NV(temp_arg3_2);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     temp_mask = 0xFFFB0000;
-    ASM_KEEP_NV(temp_mask);
+    ASM_KEEP_NV(temp_mask);   /* MATCH pin: keeps a statement from moving across a call/branch */
     temp_rm = M2C_FIELD(temp_arg3_2, s32 *, 0x1C);
-    ASM_KEEP_NV(temp_rm);
+    ASM_KEEP_NV(temp_rm);   /* MATCH pin: retail register colouring depends on it */
     temp_mask |= 0xFFFF;
     temp_rm &= temp_mask;
     M2C_FIELD(temp_arg3_2, s32 *, 0x1C) = temp_rm;
     temp_flags16 = M2C_FIELD(arg0, u16 *, 0x98);
-    ASM_KEEP(temp_flags16);
+    ASM_KEEP(temp_flags16);   /* MATCH pin: load-bearing for the whole function shape */
     temp_angle = M2C_FIELD(temp_arg3_2, u16 *, 0x2A);
     ASM_KEEP_NV(temp_angle);
     temp_flags16 |= 0xC;
@@ -479,7 +479,6 @@ block_50:
         s32 case3_a0;
         register u32 case3_t0 ASM_REG("$8");   /* MATCH pin: keeps a statement from moving across a call/branch */
 
-        ASM_SCHED_BARRIER();
         case3_v1 = M2C_FIELD(temp_arg3_10, u16 *, 0x2A);
         case3_v0 = 8;
         M2C_FIELD(arg1, s32 *, 0x14) = 0;
@@ -522,24 +521,19 @@ block_54:
     case4_x = ((case4_x << 6) + 0x20) << 0x10;
     M2C_FIELD(arg1, s32 *, 0) = case4_x;
     case4_y = M2C_FIELD(arg2, u8 *, 0x25);
-    ASM_KEEP_NV(case4_y);
     case4_a0 = arg3;
     M2C_FIELD(arg1, s32 *, 0x10) = 0;
     M2C_FIELD(arg1, s32 *, 0xC) = 0;
-    ASM_SCHED_BARRIER();
     case4_y = ((case4_y << 6) + 0x20) << 0x10;
     M2C_FIELD(arg1, s32 *, 4) = case4_y;
     case4_saved = M2C_FIELD(arg0, s32 *, 0xAC);
     M2C_FIELD(temp_s5, s32 *, 0x8C) = case4_saved;
     func_800AD594(case4_a0, 0x100);
     case4_handler = &D_80171058;
-    ASM_KEEP_NV(case4_handler);
     case4_global = D_80083460;
     M2C_FIELD(arg0, M2C_UNK **, 0x8C) = case4_handler;
     case4_count = M2C_FIELD(case4_global, u16 *, 0xA);
-    ASM_KEEP_NV(case4_count);
     case4_a0b = arg3;
-    ASM_KEEP_NV(case4_a0b);
     case4_count -= 1;
     M2C_FIELD(case4_global, u16 *, 0xA) = case4_count;
     func_800A4ACC(case4_a0b);
@@ -554,13 +548,11 @@ block_54:
 
         ASM_SCHED_BARRIER();
         case4_flags = M2C_FIELD(temp_arg3_11, s32 *, 0x1C);
-        ASM_KEEP_NV(case4_flags);
         case4_mask = 0x40000;
         case4_flags |= case4_mask;
         M2C_FIELD(temp_arg3_11, s32 *, 0x1C) = case4_flags;
         case4_flags &= 0x2000;
         case4_call_x = M2C_FIELD(arg2, u8 *, 0x24);
-        ASM_KEEP_NV(case4_call_x);
         case4_call_y = M2C_FIELD(arg2, u8 *, 0x25);
         var_a2_3 = 0x3000;
         if (!case4_flags) {

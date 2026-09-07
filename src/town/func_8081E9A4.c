@@ -1,6 +1,5 @@
 #include "common.h"
 
-#define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
 
 typedef struct {
     u8 *child;
@@ -77,6 +76,109 @@ extern void func_80093D48(void *, void *, void *, ...);
 extern s32 func_800B1BEC(s32, s32, s32);
 extern void func_800B1DBC(s32);
 
+
+typedef struct S_800211A4_0 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    void * unk_10;
+} S_800211A4_0;   /* object in func_800211A4 */
+
+typedef struct S_800211A4_1 {
+    u8 pad_00[0x4];
+    u8 unk_04;
+    u8 unk_05;
+    u8 pad_06[0x2];
+    u32 unk_08;
+    u32 unk_0C;
+    u8 pad_10[0x4];
+    u16 unk_14;
+    u8 pad_16[0x6];
+    u16 unk_1C;
+    u16 unk_1E;
+} S_800211A4_1;   /* object_child in func_800211A4 */
+
+typedef struct S_800211A4_2 {
+    u8 pad_00[0x4];
+    void * unk_04;
+} S_800211A4_2;   /* object_link in func_800211A4 */
+
+typedef struct S_800211A4_3 {
+    u8 pad_00[0x10];
+    s32 unk_10;
+    s32 unk_14;
+    u8 pad_18[0x2];
+    s16 unk_1A;
+} S_800211A4_3;   /* arg0 in func_800211A4 */
+
+typedef struct S_800211A4_4 {
+    u8 pad_00[0x4];
+    s32 unk_04;
+    s32 unk_08;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_800211A4_4;   /* motion in func_800211A4 */
+
+typedef struct S_800211A4_5 {
+    void * unk_00;
+    void * unk_04;
+    u8 pad_08[0x8];
+    u16 unk_10;
+} S_800211A4_5;   /* primitive in func_800211A4 */
+
+typedef struct S_800211A4_6 {
+    u8 pad_00[0x70];
+    s16 unk_70;
+    s16 unk_72;
+    s16 unk_74;
+} S_800211A4_6;   /* child in func_800211A4 */
+
+typedef struct S_800211A4_7 {
+    u8 pad_00[0x8];
+    s32 unk_08;
+    u8 pad_0C[0x4];
+    s32 unk_10;
+} S_800211A4_7;   /* state_global in func_800211A4 */
+
+typedef struct S_800211A4_8 {
+    s32 unk_00;
+    s32 unk_04;
+    u8 pad_08[0x4];
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_800211A4_8;   /* D_80083780 in func_800211A4 */
+
+typedef struct S_800211A4_9 {
+    u8 pad_00[0x8];
+    s32 unk_08;
+    u8 pad_0C[0x4];
+    s32 unk_10;
+    s32 unk_14;
+} S_800211A4_9;   /* m in func_800211A4 */
+
+typedef struct S_800211A4_10 {
+    u8 pad_00[0x14];
+    s32 unk_14;
+} S_800211A4_10;   /* (u8 *)counter in func_800211A4 */
+
+typedef struct S_800211A4_11 {
+    u8 pad_00[0x1D];
+    u8 unk_1D;
+} S_800211A4_11;   /* &message in func_800211A4 */
+
+typedef struct S_800211A4_12 {
+    u8 pad_00[0x70];
+    union { s16 s; u16 u; } unk_70;   /* accessed as both */
+} S_800211A4_12;   /* digit in func_800211A4 */
+
+typedef struct S_800211A4_13 {
+    u32 unk_00;
+    u32 unk_04;
+    u32 unk_08;
+} S_800211A4_13;   /* ((S_800211A4_0 *)object)->unk_08 in func_800211A4 */
+
 void func_800211A4(TownEffect *input)
 {
     u8 *state_global;
@@ -114,7 +216,7 @@ void func_800211A4(TownEffect *input)
 state_0:
 {
     void *object;
-    void *object_child;
+    S_800211A4_1 *object_child;
     u8 *object_link;
     s32 i;
     s32 base;
@@ -164,22 +266,22 @@ state0_inner:
     for (i = 2; i >= 0; i--) {
         object = func_8003FD64(0x112, D_80083498);
         if (object != 0) {
-            object_child = FIELD(object, void *, 0x0C);
-            FIELD(object, void *, 0x10) = D_800220A8;
+            object_child = ((S_800211A4_0 *)object)->unk_0C;
+            ((S_800211A4_0 *)object)->unk_10 = D_800220A8;
             object_link = (u8 *)object + 0x20;
             func_8004491C(object, D_80045340);
-            FIELD(FIELD(object, void *, 0x08), u32, 0x00) =
+            ((S_800211A4_13 *)(((S_800211A4_0 *)object)->unk_08))->unk_00 =
                 (i << 23) + 0x04600000;
-            FIELD(FIELD(object, void *, 0x08), u32, 0x04) = 0x03600000;
-            FIELD(FIELD(object, void *, 0x08), u32, 0x08) = 0xFE000000;
-            FIELD(object_child, u16, 0x1C) =
-                FIELD(object_child, u16, 0x1E) = 0x1000;
-            FIELD(object_child, u16, 0x14) |= 0x000C;
-            FIELD(object_child, u32, 8) = *(u32 *)(D_80024450 + (i << 2));
-            FIELD(object_child, u8, 4) = 0;
-            FIELD(object_child, u8, 5) = 0;
-            FIELD(object_child, u32, 0x0C) = 0x00808080;
-            FIELD(object_link, void *, 4) = arg0;
+            ((S_800211A4_13 *)(((S_800211A4_0 *)object)->unk_08))->unk_04 = 0x03600000;
+            ((S_800211A4_13 *)(((S_800211A4_0 *)object)->unk_08))->unk_08 = 0xFE000000;
+            object_child->unk_1C =
+                object_child->unk_1E = 0x1000;
+            object_child->unk_14 |= 0x000C;
+            object_child->unk_08 = *(u32 *)(D_80024450 + (i << 2));
+            object_child->unk_04 = 0;
+            object_child->unk_05 = 0;
+            object_child->unk_0C = 0x00808080;
+            ((S_800211A4_2 *)object_link)->unk_04 = arg0;
         }
     }
     goto common_done;
@@ -197,20 +299,20 @@ state_1:
     handle = func_800B1BEC(0, -80, 64);
     value = 6 / (arg0->phase + 1);
     D_80024558[0] = handle;
-    FIELD(arg0, s32, 0x10) = value;
+    ((S_800211A4_3 *)arg0)->unk_10 = value;
     if (func_800352FC(value) == 0) {
         motion = D_80083780;
-        FIELD(motion, s32, 0x14) = 0;
-        FIELD(motion, s32, 0x10) = 0;
-        FIELD(motion, s32, 0x0C) = 0;
-        FIELD(primitive, u16, 0x10) = 0;
+        ((S_800211A4_4 *)motion)->unk_14 = 0;
+        ((S_800211A4_4 *)motion)->unk_10 = 0;
+        ((S_800211A4_4 *)motion)->unk_0C = 0;
+        ((S_800211A4_5 *)primitive)->unk_10 = 0;
         func_80093CEC(D_800D0078);
-        FIELD(primitive, void *, 0) = D_80097D2C;
-        FIELD(primitive, void *, 4) = func_8002222C;
+        ((S_800211A4_5 *)primitive)->unk_00 = D_80097D2C;
+        ((S_800211A4_5 *)primitive)->unk_04 = func_8002222C;
     }
-    FIELD(child, s16, 0x70) = 1;
-    FIELD(child, s16, 0x72) = 16;
-    FIELD(child, s16, 0x74) = 20;
+    ((S_800211A4_6 *)child)->unk_70 = 1;
+    ((S_800211A4_6 *)child)->unk_72 = 16;
+    ((S_800211A4_6 *)child)->unk_74 = 20;
     arg0->timer = 5;
     arg0->state = 2;
     goto common_done;
@@ -219,15 +321,15 @@ state_1:
 state_2:
 {
     s32 value;
-    if ((FIELD(state_global, s32, 8) & 0x5000) != 0) {
+    if ((((S_800211A4_7 *)state_global)->unk_08 & 0x5000) != 0) {
         if (arg0->timer-- < 0) {
             arg0->timer = 0;
         }
     } else {
         arg0->timer = 5;
     }
-    if ((FIELD(state_global, s32, 0x10) & 0x1000) == 0) {
-        if ((FIELD(state_global, s32, 8) & 0x1000) == 0 || arg0->timer > 0) {
+    if ((((S_800211A4_7 *)state_global)->unk_10 & 0x1000) == 0) {
+        if ((((S_800211A4_7 *)state_global)->unk_08 & 0x1000) == 0 || arg0->timer > 0) {
             goto state_3_body;
         }
     }
@@ -240,8 +342,8 @@ state_2:
 
 state_3:
 state_3_body:
-    if ((FIELD(state_global, s32, 0x10) & 0x4000) == 0) {
-        if ((FIELD(state_global, s32, 8) & 0x4000) == 0 || arg0->timer > 0) {
+    if ((((S_800211A4_7 *)state_global)->unk_10 & 0x4000) == 0) {
+        if ((((S_800211A4_7 *)state_global)->unk_08 & 0x4000) == 0 || arg0->timer > 0) {
             goto state_3_after_shake;
         }
     }
@@ -254,15 +356,15 @@ state_3_body:
 state_3_after_shake:
     arg0->ticks = arg0->amount / 100;
     if (arg0->ticks != 0) {
-        value = FIELD(state_global, s32, 0x10);
+        value = ((S_800211A4_7 *)state_global)->unk_10;
     } else {
-        value = FIELD(state_global, s32, 0x10);
+        value = ((S_800211A4_7 *)state_global)->unk_10;
     }
     if ((value & 0x40) != 0) {
         if (arg0->amount > 0) {
             arg0->state = 3;
             arg0->timer = 9;
-            FIELD(D_80083780, s32, 0x14) = -0x240000;
+            ((S_800211A4_8 *)D_80083780)->unk_14 = -0x240000;
             goto common_done;
         }
         goto common_done;
@@ -270,8 +372,8 @@ state_3_after_shake:
     if ((value & 0x20) == 0) {
         goto common_done;
     }
-    if (FIELD(child, s16, 0x70) != 0) {
-        FIELD(child, s16, 0x70) = 3;
+    if (((S_800211A4_6 *)child)->unk_70 != 0) {
+        ((S_800211A4_6 *)child)->unk_70 = 3;
     }
     arg0->state = 10;
     goto common_done;
@@ -314,11 +416,11 @@ state_5:
     value = *timer_ptr - 1;
     *timer_ptr = (s16)value;
     if ((s16)value <= 0) {
-        FIELD(D_80083780, s32, 0) = 0x03600000;
-        FIELD(D_80083780, s32, 4) = 0x02A00000;
-        FIELD(D_80083780, s32, 0x10) = 0;
-        FIELD(D_80083780, s32, 0x0C) = 0;
-        FIELD(D_80083780, s32, 0x14) = 0x00180000;
+        ((S_800211A4_8 *)D_80083780)->unk_00 = 0x03600000;
+        ((S_800211A4_8 *)D_80083780)->unk_04 = 0x02A00000;
+        ((S_800211A4_8 *)D_80083780)->unk_10 = 0;
+        ((S_800211A4_8 *)D_80083780)->unk_0C = 0;
+        ((S_800211A4_8 *)D_80083780)->unk_14 = 0x00180000;
         arg0->state = 12;
     }
     goto common_done;
@@ -329,12 +431,12 @@ state_6:
     u8 *motion;
     s32 value;
     motion = D_80083780;
-    value = (FIELD(primitive, u16, 0x10) + 0x200) & 0xFFF;
-    FIELD(primitive, u16, 0x10) = value;
-    if (FIELD(motion, s32, 8) < (s32)0xFF000000 || value != 0) {
+    value = (((S_800211A4_5 *)primitive)->unk_10 + 0x200) & 0xFFF;
+    ((S_800211A4_5 *)primitive)->unk_10 = value;
+    if (((S_800211A4_4 *)motion)->unk_08 < (s32)0xFF000000 || value != 0) {
         goto common_done;
     }
-    FIELD(motion, s32, 8) = (s32)0xFF000000;
+    ((S_800211A4_4 *)motion)->unk_08 = (s32)0xFF000000;
     arg0->state = 4;
     func_80093D48(primitive, motion, D_80082E80, (s32)0xFF000000);
     func_80093C70();
@@ -344,15 +446,15 @@ state_6:
 state_7:
 {
     u8 *motion;
-    if ((FIELD(state_global, s32, 0x10) & 0x40) == 0 ||
-        FIELD(child, s16, 0x70) != 2) {
+    if ((((S_800211A4_7 *)state_global)->unk_10 & 0x40) == 0 ||
+        ((S_800211A4_6 *)child)->unk_70 != 2) {
         goto common_done;
     }
     func_80053DA8(0x50A);
     func_80093CEC(D_800D00A0);
     motion = D_80083780;
-    FIELD(motion, s32, 0x10) = 0x48000;
-    FIELD(motion, s32, 0x14) = (s32)0xFFF40000;
+    ((S_800211A4_4 *)motion)->unk_10 = 0x48000;
+    ((S_800211A4_4 *)motion)->unk_14 = (s32)0xFFF40000;
     arg0->count = 0;
     arg0->state = 5;
     goto common_done;
@@ -366,10 +468,10 @@ state_8:
     s32 counter;
     limit = 0x9FFFF;
     motion = D_80083780;
-    FIELD(motion, s32, 4) += FIELD(motion, s32, 0x10);
-    FIELD(motion, s32, 8) += FIELD(motion, s32, 0x14);
-    if (FIELD(motion, s32, 0x14) <= limit) {
-        FIELD(motion, s32, 0x14) += 0x20000;
+    ((S_800211A4_4 *)motion)->unk_04 += ((S_800211A4_4 *)motion)->unk_10;
+    ((S_800211A4_4 *)motion)->unk_08 += ((S_800211A4_4 *)motion)->unk_14;
+    if (((S_800211A4_4 *)motion)->unk_14 <= limit) {
+        ((S_800211A4_4 *)motion)->unk_14 += 0x20000;
     }
     value = (u16)arg0->count;
     arg0->count = (s16)(value + 1);
@@ -393,8 +495,8 @@ counter_c:
         u8 *p = D_800D0078;
         u8 *m;
         m = D_80083780;
-        FIELD(m, s32, 0x14) = (s32)0xFFF40000;
-        FIELD(m, s32, 0x10) = vx;
+        ((S_800211A4_9 *)m)->unk_14 = (s32)0xFFF40000;
+        ((S_800211A4_9 *)m)->unk_10 = vx;
         func_80093CEC(p);
     }
     goto counter_done;
@@ -410,32 +512,32 @@ counter_f:
         u8 *p = D_800D0078;
         u8 *m;
         m = D_80083780;
-        FIELD(m, s32, 0x14) = (s32)0xFFF80000;
-        FIELD(m, s32, 0x10) = 0x20000;
+        ((S_800211A4_9 *)m)->unk_14 = (s32)0xFFF80000;
+        ((S_800211A4_9 *)m)->unk_10 = 0x20000;
         func_80093CEC(p);
     }
     goto counter_done;
 counter_g:
     func_80053DA8(0x508);
-    FIELD(D_80083780, s32, 0x14) = (s32)0xFFFC0000;
+    ((S_800211A4_8 *)D_80083780)->unk_14 = (s32)0xFFFC0000;
     func_80093CEC(D_800D0078);
     goto counter_done;
 counter_h:
     func_80053DA8(0x508);
-    FIELD(D_80083780, s32, 0x14) = (s32)0xFFFC8000;
+    ((S_800211A4_8 *)D_80083780)->unk_14 = (s32)0xFFFC8000;
     func_80093CEC(D_800D0078);
 
 counter_done:
-    if (FIELD(child, s16, 0x70) != 3) {
+    if (((S_800211A4_6 *)child)->unk_70 != 3) {
         goto common_done;
     }
     {
         u8 *p = D_800D0078;
         u8 *m;
         m = D_80083780;
-        FIELD(m, s32, 0x14) = (s32)0xFFFB0000;
-        FIELD(m, s32, 0x10) = 0;
-        FIELD(m, s32, 8) = (s32)0xFFC00000;
+        ((S_800211A4_9 *)m)->unk_14 = (s32)0xFFFB0000;
+        ((S_800211A4_9 *)m)->unk_10 = 0;
+        ((S_800211A4_9 *)m)->unk_08 = (s32)0xFFC00000;
         func_80093CEC(p);
     }
     arg0->count = 0;
@@ -449,17 +551,19 @@ state_9:
     s32 *motion_word;
     s32 value;
     s32 counter;
+    s32 index;
 
     motion = D_80083780;
     motion_word = (s32 *)motion;
     motion_word[2] += motion_word[5];
     motion_word[5] += 0x10000;
     value = (u16)arg0->count;
-    arg0->count = (s16)(value + 1);
-    counter = (s16)value;
-    if ((u32)counter < 27) {
+    counter = value + 1;
+    arg0->count = (s16)counter;
+    index = (s16)value;
+    if ((u32)index < 27) {
         (void)counter_labels;
-        goto *D_800201B0[(u32)counter];
+        goto *D_800201B0[(u32)index];
     }
     goto counter9_done;
 
@@ -471,14 +575,16 @@ counter_j:
     goto counter9_done;
 counter_k:
     func_80053DA8(0x508);
-    FIELD(D_80083780, s32, 0x14) = (s32)0xFFFC0000;
+    ((S_800211A4_8 *)D_80083780)->unk_14 = (s32)0xFFFC0000;
     func_80093CEC(D_800D0078);
     goto counter9_done;
 counter_l:
     func_80053DA8(0x508);
     {
-        s32 vy = (s32)0xFFFD0000;
-        FIELD(D_80083780, s32, 0x14) = vy;
+        s32 vy;
+        counter = (s32)(D_800834B8 + 0x2C8);
+        vy = (s32)0xFFFD0000;
+        ((S_800211A4_10 *)((u8 *)counter))->unk_14 = vy;
     }
     func_80093CEC(D_800D0078);
 
@@ -489,10 +595,10 @@ counter9_done:
     {
         u8 *p = D_800D0078;
         u8 *m;
-        FIELD(child, s16, 0x70) = 4;
+        ((S_800211A4_6 *)child)->unk_70 = 4;
         m = D_80083780;
-        FIELD(m, s32, 0x14) = 0;
-        FIELD(m, s32, 8) = (s32)0xFFC00000;
+        ((S_800211A4_9 *)m)->unk_14 = 0;
+        ((S_800211A4_9 *)m)->unk_08 = (s32)0xFFC00000;
         func_80093CEC(p);
     }
     arg0->count = 3;
@@ -517,11 +623,11 @@ state_10:
     if (--arg0->count == 0) {
         func_80093CEC(D_800D0080);
     }
-    if (FIELD(child, s16, 0x70) != 0) {
+    if (((S_800211A4_6 *)child)->unk_70 != 0) {
         goto common_done;
     }
     if (arg0->phase == arg0->phase2) {
-        FIELD(child, s16, 0x70) = 6;
+        ((S_800211A4_6 *)child)->unk_70 = 6;
         arg0->timer = 30;
         arg0->state = 8;
     } else {
@@ -546,6 +652,7 @@ state_11:
     s32 digit_sum;
     s32 random_value;
     s32 digit_signed;
+    u16 digit_hp;
     u8 *digit;
     tick_dec = (u16)arg0->ticks - 2;
     arg0->ticks = (s16)tick_dec;
@@ -560,8 +667,8 @@ state_11:
         goto common_done;
     }
 
-    i = (FIELD(arg0, s32, 0x14) * FIELD(arg0, s32, 0x10)) / 100;
-    FIELD(arg0, s16, 0x1A) = 0xF0;
+    i = (((S_800211A4_3 *)arg0)->unk_14 * ((S_800211A4_3 *)arg0)->unk_10) / 100;
+    ((S_800211A4_3 *)arg0)->unk_1A = 0xF0;
     quotient = i / 10;
     one = i - quotient * 10;
     digits[0] = (s16)one;
@@ -587,7 +694,7 @@ state_11:
     arg0->flags &= ~8;
     message.kind = 1;
     message.owner = arg0;
-    FIELD(&message, u8, 0x1D) = 0;
+    ((S_800211A4_11 *)(&message))->unk_1D = 0;
     message.unused = 8;
     i = 0;
     while (i < digit_sum) {
@@ -595,10 +702,12 @@ state_11:
             random_value = func_80069EF8();
             message.x = (s16)(random_value % 3);
             digit = (u8 *)((s32)message.x * 2 + (s32)(u8 *)&frame);
-            digit_signed = FIELD(digit, s16, 0x70);
-            hp = FIELD(digit, u16, 0x70);
+            digit_signed = ((S_800211A4_12 *)digit)->unk_70.s;
+            digit_hp = ((S_800211A4_12 *)digit)->unk_70.u;
         } while (digit_signed <= 0);
-        FIELD(digit, s16, 0x70) = hp - 1;
+        do {
+            ((S_800211A4_12 *)digit)->unk_70.s = digit_hp - 1;
+        } while (0);
         hp = 0x03600000;
         angle = (i << 12) / digit_sum;
         scratch.a = hp;
@@ -632,7 +741,7 @@ state_12_amount:
 {
     s32 value;
     s32 money;
-    if (FIELD(arg0, s32, 0x14) != 0) {
+    if (((S_800211A4_3 *)arg0)->unk_14 != 0) {
         money = D_80012D5C[0];
         if (arg0->ticks < 2) {
             D_80012D5C[0] = money + 100;

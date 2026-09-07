@@ -1,18 +1,30 @@
 #include "common.h"
 
-#define FIELD(ptr, type, offset) (*(type *)((u8 *)(ptr) + (offset)))
 
 extern s32 func_8052BC28() __attribute__((noreturn));
 extern s32 D_80084D5C;
 
+
+typedef struct S_80810F98_0 {
+    s16 unk_00;
+    u8 pad_02[0x2];
+    void * unk_04;
+    s32 unk_08;
+} S_80810F98_0;   /* arg0 in func_80810F98 */
+
+typedef struct S_80810F98_1 {
+    u8 pad_00[0xC];
+    u16 unk_0C;
+} S_80810F98_1;   /* object in func_80810F98 */
+
 s32 func_80810F98(void *arg0)
 {
     s16 state;
-    register s32 call_arg ASM_REG("$4");
+    register s32 call_arg ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
     void *object;
 
-    state = FIELD(arg0, s16, 0);
-    object = FIELD(arg0, void *, 4);
+    state = ((S_80810F98_0 *)arg0)->unk_00;
+    object = ((S_80810F98_0 *)arg0)->unk_04;
     call_arg = state;
     if (state == 0) {
         goto state_0;
@@ -24,22 +36,22 @@ s32 func_80810F98(void *arg0)
     return func_8052BC28(call_arg, arg0);
 
 state_0: {
-        ASM_KEEP(call_arg);
-        if (FIELD(object, u16, 0xC) & 2) {
-            register s32 result ASM_REG("$2");
+        ASM_KEEP(call_arg);   /* MATCH pin: retail immediate-load split depends on it */
+        if (((S_80810F98_1 *)object)->unk_0C & 2) {
+            s32 result;
             result = call_arg + 1;
-            FIELD(arg0, s16, 0) = result;
+            ((S_80810F98_0 *)arg0)->unk_00 = result;
             return func_8052BC28(call_arg, arg0);
         }
         return call_arg + 1;
     }
 state_1: {
-        register s32 result ASM_REG("$2");
+        register s32 result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
         call_arg |= 0xF7F8;
-        result = FIELD(arg0, s32, 8) + call_arg;
-        FIELD(arg0, s32, 8) = result;
+        result = ((S_80810F98_0 *)arg0)->unk_08 + call_arg;
+        ((S_80810F98_0 *)arg0)->unk_08 = result;
         if (result <= 0x80808) {
-            FIELD(arg0, u16, -2) |= 0x8000;
+            (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
             result = D_80084D5C | 0x8000;
             D_80084D5C = result;
         }

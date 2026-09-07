@@ -146,7 +146,7 @@ void func_80025738(void *arg0, void *arg1_in, void *arg2) {
     u16 *var_a2;
     register s32 temp_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     s16 temp_a0_2;
-    register s16 temp_a1_2 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    s16 temp_a1_2;   /* MATCH pin: load-bearing for the whole function shape */
     register u16 temp_block_z ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
     register u16 temp_block_dz ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
     s16 temp_v0_4;
@@ -168,7 +168,7 @@ void func_80025738(void *arg0, void *arg1_in, void *arg2) {
     s32 out_idx;
     s32 signed_a1;
     register s32 signed_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 offset_x ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    s32 offset_x;   /* MATCH pin: retail schedule: same instructions, different order without it */
     s32 offset_y;
     register s32 temp_t0 ASM_REG("$8");   /* MATCH pin: keeps a constant in a register as retail does */
     s16 *table_x_entry;

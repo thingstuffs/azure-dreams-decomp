@@ -17,11 +17,11 @@ s32 func_800A44E0(u16 x, u16 y, s16 height, u32 flags)
     u16 *x_base;
     u16 *x_offset;
     u16 *y_offset;
-    register s16 saved_height ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    s16 saved_height;   /* MATCH pin: load-bearing for the whole function shape */
     u32 cell_x;
     u32 cell_y;
     s32 layer;
-    register s32 call_x ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    s32 call_x;   /* MATCH pin: keeps a statement from moving across a call/branch */
     s32 call_y;
 
     saved_height = height;

@@ -94,7 +94,7 @@ s32 func_801732A4(Entity *arg0, s32 arg1, Aux *arg2)
     aux = arg2;
     ent_arg3 = ent;
     ASM_KEEP(ent);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(saved_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
 top:
     if (aux->flags14 & 0x40) {
         goto return_zero;

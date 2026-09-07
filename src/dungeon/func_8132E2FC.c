@@ -79,7 +79,7 @@ void func_801652FC(
     S_801652FC_2 *saved_arg0 = arg0;
     s32 saved_arg1 = arg1;
     register s32 saved_arg3 ASM_REG("$22") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 saved_arg4 ASM_REG("$19") = arg3;   /* MATCH pin: load-bearing for the whole function shape */
+    s32 saved_arg4 = arg3;   /* MATCH pin: load-bearing for the whole function shape */
     s32 saved_arg5 = arg4;
     s32 saved_arg6 = arg5;
     register void *obj ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */

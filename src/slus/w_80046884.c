@@ -50,7 +50,6 @@ void func_80046884(
     s32 origin[2];
     UVec4_80046884 screen_point;
     SVec4_80046884 center;
-    s32 hit;
     GlobalGeometry_80046884 *global;
     UVec4_80046884 *corner;
     SVec4_80046884 *transformed_corner;
@@ -67,7 +66,6 @@ void func_80046884(
 
     left = rect->x;
     hits = 0;
-    hit = hits;
     corners[3].x = left;
     corners[0].x = left;
 
@@ -101,8 +99,7 @@ first_loop:
     func_80046A5C(corner, transformed_corner);
     if (func_80046AFC(
             &geometry->vectors[5], transformed_corner, output, (s16)depth)) {
-        hit = 1;
-        hits |= hit;
+        hits = 1;
     }
     output--;
     transformed_corner--;
@@ -112,6 +109,7 @@ first_loop:
         goto first_loop;
     }
 
+    ASM_USE(hits);   /* MATCH pin: slus-diff */
     if (hits != 0) {
         angle = global->angle + 0x600;
         screen_point.x = global->base_x;

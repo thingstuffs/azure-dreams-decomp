@@ -213,7 +213,7 @@ void func_8017121C(void *arg0, S_8017121C_4 *arg1, s32 arg2, S_8017121C_7 *arg3)
         index1 += (u32)table_base;
         entry1 = (s16 *)index1;
         tracked = ((S_8017121C_8_pre *)owner)[-1].unk_00;
-        ASM_KEEP_NV(tracked);   /* MATCH pin: retail basic-block layout depends on it */
+           /* MATCH pin: retail basic-block layout depends on it */
         table1 = *entry1;
         tracked1 = tracked->unk_02;
         table1 <<= 4;

@@ -1,6 +1,5 @@
 #include "common.h"
 
-#define FIELD(expr, type, offset) (*(type *)((s8 *)(expr) + (offset)))
 
 extern s32 func_80098464();
 extern s32 func_80098480();
@@ -9,21 +8,36 @@ extern s32 func_80098490();
 extern s32 func_80098988();
 extern s16 func_800C2AE8();
 
-void func_800983BC(void *arg0, void *arg1, s32 arg2) {
+
+typedef struct S_800983BC_0 {
+    s32 unk_00;
+    s32 unk_04;
+    u8 pad_08[0x2];
+    s16 unk_0A;
+} S_800983BC_0;   /* arg1 in func_800983BC */
+
+typedef struct S_800983BC_1 {
+    u8 pad_00[0xA];
+    u16 unk_0A;
+    u8 pad_0C[0x4];
+    s16 unk_10;
+} S_800983BC_1;   /* arg0 in func_800983BC */
+
+void func_800983BC(S_800983BC_1 *arg0, S_800983BC_0 *arg1, s32 arg2) {
     s16 temp_a0;
     u16 temp_v0;
-    register s32 side_v0 ASM_REG("$2");
-    register s32 side_v1 ASM_REG("$3");
+    s32 side_v0;
+    register s32 side_v1 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
 
-    FIELD(arg1, s16, 0xA) = func_800C2AE8(arg1);
-    temp_v0 = FIELD(arg0, u16, 0xA) - 1;
-    FIELD(arg0, u16, 0xA) = temp_v0;
+    arg1->unk_0A = func_800C2AE8(arg1);
+    temp_v0 = arg0->unk_0A - 1;
+    arg0->unk_0A = temp_v0;
     if ((s16)temp_v0 < 0) {
         func_80098988(arg0, arg1, arg2);
         func_80098490();
         return;
     }
-    temp_a0 = FIELD(arg0, s16, 0x10);
+    temp_a0 = arg0->unk_10;
     if (temp_a0 == 0x400) {
         goto case_400;
     }
@@ -41,23 +55,23 @@ void func_800983BC(void *arg0, void *arg1, s32 arg2) {
     return;
 
 case_400:
-    side_v0 = FIELD(arg1, s32, 0);
+    side_v0 = arg1->unk_00;
     side_v1 = 0x120000;
-    ASM_KEEP(side_v0);
-    ASM_TAILSLOT_PIN(side_v1);
+    ASM_KEEP(side_v0);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_TAILSLOT_PIN(side_v1);   /* MATCH pin: retail delay-slot contents depend on it */
     func_80098464();
     return;
 
 case_C00:
-    FIELD(arg1, s32, 0) -= 0x120000;
+    arg1->unk_00 -= 0x120000;
     func_80098490();
     return;
 
 case_0:
-    side_v0 = FIELD(arg1, s32, 4);
+    side_v0 = arg1->unk_04;
     side_v1 = 0x120000;
-    ASM_KEEP(side_v0);
-    ASM_LIVE_SIBCALL_PIN(side_v1, 1179648);
+    ASM_KEEP(side_v0);   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_LIVE_SIBCALL_PIN(side_v1, 1179648);   /* MATCH pin: load-bearing for the whole function shape */
     func_80098488();
-    FIELD(arg1, s32, 4) -= 0x120000;
+    arg1->unk_04 -= 0x120000;
 }

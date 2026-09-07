@@ -295,7 +295,7 @@ state2_loop:
         func_8004491C(base, func_80045340);
 
         a3ptr = PTR(base, 0xC);
-        ASM_KEEP_NV(a3ptr);   /* MATCH pin: retail basic-block layout depends on it */
+           /* MATCH pin: retail basic-block layout depends on it */
         v1ptr = (void *)(u32)U16(a3ptr, 0x14);
         jump_table = (void **)0x20;
         U16(a3ptr, 0x10) = (u32)jump_table;
@@ -523,7 +523,6 @@ state_6:
     } while ((s32)position < 2);
 
     child = PTR(owner, 0x60);
-    ASM_KEEP_NV(child);
     jump_table = (void **)(u32)U32(child, 0x1C);
     v1ptr = (void *)0x10000000;
     jump_table = (void **)((u32)jump_table | (u32)v1ptr);

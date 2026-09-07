@@ -17,7 +17,7 @@ extern u8 D_800E2968[16];
 
 void func_80043914(S_80043914_Arg *a0)
 {
-    S_80043914_Arg *a1 = a0;
+    register S_80043914_Arg *a1 ASM_REG("$5") = a0;
 
     if (a1->field_0x00 == 0x16) {
         S_800E3E48 *base = D_800E3E48;

@@ -1,6 +1,5 @@
 #include "common.h"
 
-#define FIELD(p, type, offset) (*(type *)((u8 *)(p) + (offset)))
 
 typedef s32 M2C_UNK;
 
@@ -8,7 +7,6 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
-extern void func_8016F248(void) __attribute__((noreturn));
 
 extern u8 D_80045340;
 extern s32 D_80083498;
@@ -17,20 +15,61 @@ extern M2C_UNK D_8016F78C;
 extern u8 D_80174A2C[];
 extern void *D_80174CD8;
 
+
+typedef struct S_8016F160_0 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    void * unk_10;
+} S_8016F160_0;   /* obj in func_8016F160 */
+
+typedef struct S_8016F160_1 {
+    u8 pad_00[0x13];
+    s8 unk_13;
+    s32 unk_14;
+    u8 pad_18[0x4];
+    s32 unk_1C;
+} S_8016F160_1;   /* work in func_8016F160 */
+
+typedef struct S_8016F160_2 {
+    u8 pad_00[0xA];
+    s16 unk_0A;
+} S_8016F160_2;   /* part_a in func_8016F160 */
+
+typedef struct S_8016F160_3 {
+    u8 pad_00[0x14];
+    u16 unk_14;
+    u8 pad_16[0xE];
+    s8 unk_24;
+    s8 unk_25;
+    u8 pad_26[0x6];
+    void * unk_2C;
+} S_8016F160_3;   /* part_b in func_8016F160 */
+
+typedef struct S_8016F160_4 {
+    u8 pad_00[0x8C];
+    void * unk_8C;
+    u8 pad_90[0xA];
+    u8 unk_9A;
+    u8 unk_9B;
+    s8 unk_9C;
+    u8 pad_9D[0x13];
+    s16 unk_B0;
+} S_8016F160_4;   /* tail_ptr in func_8016F160 */
+
 void *func_8016F160(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
 {
     s32 kind;
     void *obj;
-    void *part_a;
-    void *part_b;
+    S_8016F160_2 *part_a;
+    S_8016F160_3 *part_b;
     void *work;
-    register s16 mode_copy ASM_REG("$23");
-    register s32 left ASM_REG("$2");
-    register s32 right ASM_REG("$3");
-    register s8 saved_arg1 ASM_REG("$22");
-    register s16 saved_arg3 ASM_REG("$18");
-    register s8 saved_arg2 ASM_REG("$21");
-    register void *actor ASM_REG("$21");
+    s16 mode_copy;
+    register s8 saved_arg1 ASM_REG("$22");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    s16 saved_arg3;
+    register s8 saved_arg2 ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    void *actor;
+    void *tail_ptr;
 
     work = 0;
     saved_arg1 = arg1;
@@ -41,41 +80,37 @@ void *func_8016F160(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         D_80174CD8 = obj;
-        FIELD(obj, void *, 0x10) = D_8016F2E0;
-        FIELD(work, s8, 0x13) = 0x32;
+        ((S_8016F160_0 *)obj)->unk_10 = D_8016F2E0;
+        ((S_8016F160_1 *)work)->unk_13 = 0x32;
         func_8004491C(obj, &D_80045340);
 
-        part_a = FIELD(obj, void *, 8);
-        FIELD(part_a, s16, 0xA) = saved_arg3;
-        part_b = FIELD(obj, void *, 0xC);
+        part_a = ((S_8016F160_0 *)obj)->unk_08;
+        part_a->unk_0A = saved_arg3;
+        part_b = ((S_8016F160_0 *)obj)->unk_0C;
         kind = arg0 & 3;
-        FIELD(part_b, s8, 0x25) = saved_arg2;
+        part_b->unk_25 = saved_arg2;
         actor = work;
-        FIELD(part_b, void *, 0x2C) = D_80174A2C;
-        FIELD(part_b, s8, 0x24) = saved_arg1;
+        part_b->unk_2C = D_80174A2C;
+        part_b->unk_24 = saved_arg1;
 
         if (kind == 1) {
-            left = FIELD(work, s32, 0x14) | 0x6000;
-            right = FIELD(work, s32, 0x1C) | 0x6000;
-            ASM_KEEP(left);
-            ASM_TAILSLOT_PIN(right);
-            func_8016F248();
-        }
-        if (kind >= 2) {
-            FIELD(work, s32, 0x14) |= 0x2000;
-            FIELD(work, s32, 0x1C) |= 0x2000;
-            ASM_CLOBBER("$4");
+            ((S_8016F160_1 *)work)->unk_14 |= 0x6000;
+            ((S_8016F160_1 *)work)->unk_1C |= 0x6000;
+        } else if (kind >= 2) {
+            ((S_8016F160_1 *)work)->unk_14 |= 0x2000;
+            ((S_8016F160_1 *)work)->unk_1C |= 0x2000;
         }
 
         func_800A9C18(obj, part_a, part_b, mode_copy);
-        FIELD(actor, u8, 0x9A) = 0xFF;
-        FIELD(actor, s8, 0x9C) = -1;
-        FIELD(actor, void *, 0x8C) = &D_8016F78C;
-        FIELD(actor, u8, 0x9B) = 0;
-        FIELD(actor, s16, 0xB0) = 0;
-        FIELD(part_b, u16, 0x14) |= 0x80;
-        ASM_KEEP_NV(work);
-        func_800AA36C(actor, part_a, part_b, work);
+        ASM_USE_NV(actor);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        tail_ptr = actor;
+        ((S_8016F160_4 *)tail_ptr)->unk_9A = 0xFF;
+        ((S_8016F160_4 *)tail_ptr)->unk_9C = -1;
+        ((S_8016F160_4 *)tail_ptr)->unk_8C = &D_8016F78C;
+        ((S_8016F160_4 *)tail_ptr)->unk_9B = 0;
+        ((S_8016F160_4 *)tail_ptr)->unk_B0 = 0;
+        part_b->unk_14 |= 0x80;
+        func_800AA36C(tail_ptr, part_a, part_b, work);
     }
     return work;
 }

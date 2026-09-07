@@ -196,7 +196,7 @@ void func_80172840(void *in0, void *in1, void *in2, void *in3)
         i = heading >> 8;
         index = i & 0xE;
         xptr = index + xptr;
-        ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+           /* MATCH pin: keeps a statement from moving across a call/branch */
         yptr = (u8 *)D_8006CCE8;
         xvalue = *(s16 *)xptr;
         yaddr = (u8 *)((unsigned long)index + (unsigned long)yptr);

@@ -23,7 +23,7 @@ void func_800A9358(s32 arg0, s32 arg1)
     register u32 temp_114 ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
     register u32 temp_e8 ASM_REG("$3");   /* MATCH pin: retail schedule: same instructions, different order without it */
     register u32 temp_ec ASM_REG("$4");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register u32 temp_124 ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
+    u32 temp_124;   /* MATCH pin: keeps a constant in a register as retail does */
     register u32 loop_114 ASM_REG("$3");   /* MATCH pin: retail schedule: same instructions, different order without it */
     register u32 loop_e8 ASM_REG("$4");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
     register u32 loop_ec ASM_REG("$5");   /* MATCH pin: keeps a constant in a register as retail does */
@@ -37,7 +37,7 @@ void func_800A9358(s32 arg0, s32 arg1)
     volatile u32 save_114[1];
     u32 save_e8;
     u32 save_ec;
-    register u32 save_124 ASM_REG("$22");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    u32 save_124;   /* MATCH pin: retail schedule: same instructions, different order without it */
 
     saved_arg0 = arg0;
     ASM_KEEP_NV(saved_arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */

@@ -54,22 +54,36 @@ def rows(only=None):
         rs = [r for r in rs if r["id"] in keep]
     return rs
 
+KEYED_ASFLAG_RE = re.compile(r"(^|\s)--retail-")          # a per-function maspsx dial (upstream: ASM_KEYED_FLAG_RE)
+ORDINARY_FLAG_RE = re.compile(r"-(G\d+|O[0-3]|f(?!retail-|sn-|driver-)[a-z0-9-]+|m[a-z0-9-]+)")
+
 def parse_cfg(cfg: str):
     """'2.7.2-cdk-G0 -fno-schedule-insns' -> ('2.7.2-cdk', ['-G0','-fno-schedule-insns']).
-    Mirrors upstream tools/match.py parse_config_label: a -G0 glued to the version is a flag."""
+    Mirrors upstream tools/match.py parse_config_label: both label dialects parse identically —
+    space dialect '2.8.1 -G0 -f..' and plus dialect '2.8.1+-G0 -f..' (a '+' glues the first
+    flag to the version); a -G0 glued to the version is a flag."""
     parts = cfg.split()
     head, flags = parts[0], parts[1:]
-    if head.endswith("+"):
-        head = head[:-1]
+    if "+" in head:
+        head, plus = head.split("+", 1)
+        if plus:
+            flags.insert(0, plus)
     if head.endswith("-G0"):
         head = head[:-3]; flags.insert(0, "-G0")
     return head, flags
 
 def is_stock_cfg(cfg) -> bool:
+    """A stock cc1 with ordinary gcc flags only (no -fretail-/-fsn-/-fdriver- bridge flags),
+    the same rule upstream's live_truth applies to its census."""
     if not cfg:
         return False
     head, flags = parse_cfg(cfg)
-    return head in STOCK_CELLS and all(re.fullmatch(r"-(G0|O[0-3]|f[a-z0-9-]+)", f) for f in flags)
+    return head in STOCK_CELLS and all(ORDINARY_FLAG_RE.fullmatch(f) for f in flags)
+
+def is_keyed_asflags(asflags) -> bool:
+    """True when a row's maspsx options include a per-function --retail-* dial (non-stock);
+    general-purpose options (--expand-div, --aspsx-version=, --preserve-*, ...) are stock."""
+    return bool(asflags) and bool(KEYED_ASFLAG_RE.search(asflags))
 
 def run(cmd, cwd=None, env=None, timeout=900):
     t0 = time.time()

@@ -119,7 +119,7 @@ void *func_801588DC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     void *allocated;
     register uptr temp_t0 ASM_REG("$8");   /* MATCH pin: keeps a constant in a register as retail does */
     register s32 allocation_size ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *allocation_pool ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    void *allocation_pool;   /* MATCH pin: retail schedule: same instructions, different order without it */
 
     saved_kind = arg0;
     object = 0;
@@ -127,7 +127,7 @@ void *func_801588DC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     ASM_KEEP_NV(allocation_size);   /* MATCH pin: retail schedule: same instructions, different order without it */
     outer = (void *)(s32)arg1;
     allocation_pool = D_80083498;
-    ASM_KEEP_NV(allocation_pool);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
     saved_arg3 = arg3;
     saved_arg2 = arg2;
     allocated = func_8003FD64(allocation_size, allocation_pool);

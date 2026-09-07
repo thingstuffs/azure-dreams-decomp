@@ -27,15 +27,15 @@ void func_8052BCCC(void *arg0, void *arg1, void *incoming_out) {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4,
         &&case_5, &&case_6, &&case_7, &&case_8, &&case_9
     };
-    register void *self ASM_REG("$16") = arg0;
-    register void *motion ASM_REG("$17") = arg1;
-    register void *aux ASM_REG("$18");
-    register void *out ASM_REG("$19");
+    void *self = arg0;
+    void *motion = arg1;
+    void *aux;
+    register void *out ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
     u16 table[14];
     s32 a0;
     s32 a1;
     s32 value;
-    register s32 next_state ASM_REG("$2");
+    register s32 next_state ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
     s32 flag;
     s32 state;
     s16 phase_u16;
@@ -47,7 +47,7 @@ void func_8052BCCC(void *arg0, void *arg1, void *incoming_out) {
 #define arg2 out
 #define s2 aux
     aux = FIELD(arg0, void **, 0xAC);
-    ASM_KEEP(aux);
+    ASM_KEEP(aux);   /* MATCH pin: keeps a constant in a register as retail does */
     __builtin_memcpy(table, D_805266C0, 12);
     __builtin_memcpy((u8 *)table + 16, D_805266CC, 12);
 
@@ -144,7 +144,7 @@ case_1: {
 }
 
 case_2: {
-            register u16 phase ASM_REG("$4");
+            register u16 phase ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
             if (FIELD(arg0, s16 *, 0xA2) <= 0) {
                 phase = FIELD(arg0, u16 *, 0xA6);
                 mode = FIELD(arg0, u16 *, 0xA0);
@@ -177,7 +177,7 @@ case_3:
                 FIELD(arg2, s8 *, 4) = 0;
                 FIELD(arg2, s8 *, 5) = 0;
                 if (func_80071494() & 7) {
-                    register u16 phase3 ASM_REG("$3");
+                    u16 phase3;
                     phase3 = FIELD(arg0, u16 *, 0xA6);
                     FIELD(arg0, volatile u16 *, 0xA2) = 16;
                     FIELD(arg0, u16 *, 0xA2) = phase3;
@@ -186,7 +186,7 @@ case_3:
                     FIELD(arg1, s32 *, 0x14) = next_state;
                     next_state = 4;
                 } else {
-                    register s32 pos ASM_REG("$3");
+                    s32 pos;
                     FIELD(arg0, u16 *, 0xA2) = 12;
                     next_state = (func_80071494() & 0xFF) << 12;
                     pos = FIELD(arg1, s32 *, 8);
@@ -238,14 +238,14 @@ case_6:
 	                FIELD(arg0, u16 *, 0xA2) = 8;
 	                next_state = (s32)0xFF900000 - FIELD(arg1, s32 *, 8);
 	                FIELD(arg1, s32 *, 0x14) = next_state / FIELD(arg0, s16 *, 0xA2);
-	                ASM_SCHED_BARRIER();
+	                ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
 	                next_state = 4;
                 goto set_state;
             }
             goto state7_finished;
 
 case_7: {
-            register void *call_out ASM_REG("$4");
+            void *call_out;
             if (FIELD(arg0, s16 *, 0xA2) <= 0) {
                 call_out = arg2;
                 if (FIELD(arg0, s16 *, 0xA0) & 1) {
@@ -302,7 +302,6 @@ case_9: {
             }
 	            if (FIELD(arg0, s16 *, 0xA2) > 0)
 	                goto state7_finished;
-	            ASM_SCHED_BARRIER();
 	set_state_8:
 	            next_state = 8;
 	            goto set_state;

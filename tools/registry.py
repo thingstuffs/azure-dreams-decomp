@@ -7,7 +7,7 @@ defines are listed).  dungeon_engine is recorded as a mirror count only.
 """
 import json, re, collections
 from pathlib import Path
-from common import UP, LEDGER, OVERLAYS, is_stock_cfg, parse_cfg, write_jsonl, sha_file
+from common import UP, LEDGER, OVERLAYS, is_stock_cfg, is_keyed_asflags, parse_cfg, write_jsonl, sha_file
 
 DEF_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_ \*]*?\b\**(func_[0-9A-F]{8})\s*\(", re.M)
 
@@ -34,7 +34,7 @@ def overlay_rows():
                 "exists": src.exists(), "src_sha": sha_file(src) if src.exists() else None,
                 "gate_config": r.get("gate_config"), "instances": int(r.get("instances") or 1),
                 "row_asflags": asflags.get(r["func_vram"]),
-                "stock": is_stock_cfg(cfg) and r["func_vram"] not in asflags and cfg != "platform-asm",
+                "stock": is_stock_cfg(cfg) and not is_keyed_asflags(asflags.get(r["func_vram"])) and cfg != "platform-asm",
                 "kind": "overlay",
             })
     return out
@@ -63,7 +63,7 @@ def slus_rows():
             "size": sum(sizes.get(d, 0) for d in defs), "foff": None, "c_path": e["src"],
             "exists": src.exists(), "src_sha": sha_file(src) if src.exists() else None,
             "gate_config": "build.ninja", "instances": 1, "row_asflags": e["asflags"] or None,
-            "stock": e["ccver"] in {"2.6.3","2.7.2","2.7.2-cdk","2.8.0","2.8.1","2.91.66","2.95.2"} and not e["asflags"],
+            "stock": is_stock_cfg(cfg) and not is_keyed_asflags(e["asflags"]),
             "kind": "slus", "defs": defs, "ndefs": len(defs),
         })
     return out

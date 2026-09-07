@@ -62,7 +62,7 @@ void func_80096C3C(void) {
     state[14] = 0;
     state[15] = c065FFFFF;
     state[16] = cF0000000;
-    ASM_KEEP(cF0000000);   /* MATCH pin: retail register colouring depends on it */
+       /* MATCH pin: retail register colouring depends on it */
     state[18] = temp_v1;
     state[19] = c065FFFFF;
     state[21] = c30000000;

@@ -29,8 +29,8 @@ void func_8001E994(void)
     u16 temp_v1;
     s16 *var_t3;
     u8 *var_a3;
-    register u8 *var_t2 ASM_REG("$10");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register u8 *var_v0_ptr ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+    u8 *var_t2;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    u8 *var_v0_ptr;   /* MATCH pin: retail register colouring depends on it */
 
     var_t0 = 0;
     var_t1 = 1;

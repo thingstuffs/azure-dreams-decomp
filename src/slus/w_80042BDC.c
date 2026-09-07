@@ -48,12 +48,13 @@ typedef struct S_80042BDC_83460 {
     /* 0x04 */ u8  pad04[0x08 - 0x04];
     /* 0x08 */ u16 x8;
     /* 0x0A */ u16 xA;
+    /* 0x0C */ u8  pad0C[0x14 - 0x0C];
 } S_80042BDC_83460;
 
 extern S_80042BDC_83460 D_80083460;
 
 extern void *D_800E3DF0[32];
-extern int   D_800814A0[];   /* incomplete array -> %hi/%lo (not $gp small-data) */
+extern int   D_800814A0[4];  /* 16B: <= gcc -G16 -> bare macro; > as -G8 -> $at */
 extern u8   *D_800E3D7C[];   /* by-value pointer global; %hi/%lo, [0] = the pointer */
 
 extern char D_800E1D55[];

@@ -72,8 +72,8 @@ void func_80174D24(void *arg0, void *arg1, void *arg2)
     copy1 = source->words[1];
     copy2 = source->words[2];
     copy3 = source->words[3];
-    ASM_KEEP(copy0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(copy1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
     ((S_80174D24_1 *)arg1)->unk_00.at00.v = copy0;
     ((S_80174D24_1 *)arg1)->unk_04.at00.v = copy1;
     ((S_80174D24_1 *)arg1)->unk_08.at00.v = copy2;

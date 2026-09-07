@@ -35,6 +35,7 @@ s32 func_8004491C(RegistrationNode *arg0, s32 arg1)
                 head->prev = node;
             }
             D_800833E0[i] = node;
+            ASM_USE(&D_800833E0[i]);   /* MATCH pin: slus-diff */
             result = 1;
             node->prev = (RegistrationNode *)&D_800833E0[i];
             node->type = i;

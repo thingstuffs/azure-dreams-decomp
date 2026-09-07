@@ -141,7 +141,7 @@ interpolate:
     final_coord <<= 6;
     final_coord += 0x20;
     U16_AT(obj, 0x12) = final_coord;
-    ASM_KEEP(final_coord);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+       /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     final_state = U16_AT(obj, 0x64);
     final_z = U16_AT(&D_80083780, 0x0A);
     U16_AT(obj, 0x64) = final_state + 1;

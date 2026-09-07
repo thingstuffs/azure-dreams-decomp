@@ -42,7 +42,7 @@ extern void func_80043DB8(void);
 
 void func_80043D04(void)
 {
-    register unsigned int value ASM_REG("$2");   /* MATCH pin: slus-diff */
+    register unsigned int value ASM_REG("$2");
     struct S_80082E60 *p;
 
     value = D_8008148C.field0;

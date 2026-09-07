@@ -89,7 +89,7 @@ void func_81934C5C(void *arg0) {
     s16 temp_v1_2;
     s32 temp_a2;
     s32 temp_a3;
-    register s32 temp_state2_x ASM_REG("$2");   /* MATCH pin: retail basic-block layout depends on it */
+    s32 temp_state2_x;   /* MATCH pin: retail basic-block layout depends on it */
     s32 temp_state2_dx;
     s32 temp_call_a1;
     s32 temp_call_a0;

@@ -181,7 +181,7 @@ void func_801733BC(void *arg0, void *arg1, void *arg2, void *arg3)
                     register u16 size ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
                     register s32 command ASM_REG("$5");   /* MATCH pin: retail delay-slot fill depends on it */
                     register s32 zeroArg ASM_REG("$6");   /* MATCH pin: retail delay-slot fill depends on it */
-                    register u32 objectColor ASM_REG("$8");   /* MATCH pin: retail delay-slot fill depends on it */
+                    u32 objectColor;   /* MATCH pin: retail delay-slot fill depends on it */
                     register u16 objectArg ASM_REG("$7");   /* MATCH pin: retail delay-slot fill depends on it */
 
                     random %= ((S_801733BC_1 *)arg0)->unk_A8.s + 0x60;

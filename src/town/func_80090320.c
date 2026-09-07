@@ -1,6 +1,5 @@
 #include "common.h"
 
-#define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
 
 typedef struct Scratch80090320 {
     u8 pad00[4]; u16 tile; u8 pad06[0x12]; u8 *height_data;
@@ -22,6 +21,63 @@ extern s32 D_800FE480;
 extern s32 D_800FE484;
 extern s32 func_8008CE08();
 
+
+typedef struct S_8008DA80_0 {
+    u8 pad_00[0x1DC];
+    u16 * unk_1DC;
+} S_8008DA80_0;   /* base in func_8008DA80 */
+
+typedef struct S_8008DA80_1 {
+    u16 unk_00;
+    u16 unk_02;
+    u16 unk_04;
+    u16 unk_06;
+    u8 pad_08[0x8];
+    u16 unk_10;
+    u8 pad_12[0x4];
+    union { struct { u16 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; } unk_16;   /* overlapping accesses */
+} S_8008DA80_1;   /* entry in func_8008DA80 */
+
+typedef struct S_8008DA80_2 {
+    s16 unk_00;
+    s16 unk_02;
+    s16 unk_04;
+} S_8008DA80_2;   /* plane in func_8008DA80 */
+
+typedef struct S_8008DA80_3 {
+    s16 unk_00;
+    s16 unk_02;
+    s16 unk_04;
+} S_8008DA80_3;   /* vertex in func_8008DA80 */
+
+typedef struct S_8008DA80_4 {
+    s16 unk_00;
+} S_8008DA80_4;   /* ((S_8008DA80_1 *)entry)->unk_10 * 8 + scratch->height_data in func_8008DA80 */
+
+typedef struct S_8008DA80_5 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u16 unk_04;
+} S_8008DA80_5;   /* ((S_8008DA80_1 *)entry)->unk_00 * 8 + vertices in func_8008DA80 */
+
+typedef struct S_8008DA80_6 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u16 unk_04;
+} S_8008DA80_6;   /* ((S_8008DA80_1 *)entry)->unk_02 * 8 + vertices in func_8008DA80 */
+
+typedef struct S_8008DA80_7 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u16 unk_04;
+} S_8008DA80_7;   /* ((S_8008DA80_1 *)entry)->unk_06 * 8 + vertices in func_8008DA80 */
+
+typedef struct S_8008DA80_8 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u16 unk_04;
+} S_8008DA80_8;   /* ((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices in func_8008DA80 */
+
 s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
 {
     Scratch80090320 *scratch;
@@ -35,10 +91,11 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
     s16 block_base;
     s16 tile;
     s16 value;
-    s32 x;
+    s16 x;
     u16 y;
-    u16 ysum;
+    s32 ysum;
     s32 quotient;
+    s16 xsum;
 
     x = arg0;
     y = arg1;
@@ -51,18 +108,18 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
     scratch->origin_z = arg2;
     base = D_80083160;
     grid = (Grid80090320 *)(base + 0x1DC);
-    arg0 &= 0x3F;
-    scratch->result = arg0;
+    ASM_USE(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    scratch->result = (arg0 &= 0x3F);
     scratch->saved_y = arg1 & 0x3F;
     scratch->height_data = grid->height_data;
-    occupancy = FIELD(base, u16 *, 0x1DC);
+    occupancy = ((S_8008DA80_0 *)base)->unk_1DC;
     vertices = grid->vertices;
-    if ((scratch->result) >= 0x20) {
+    if (arg0 >= 0x20) {
         scratch->x_step = 0x40;
     } else {
         scratch->x_step = -0x40;
     }
-    if ((s16)scratch->origin_y >= 0x20) {
+    if ((s16)*(volatile u16 *)((u8 *)scratch + 0x1E) >= 0x20) {
         s32 ystep_pos = 0x40;
         scratch->y_step = ystep_pos;
     } else {
@@ -87,12 +144,12 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
         scratch->inner_offset = 0;
         scratch->origin_y = scratch->saved_y - (u16)scratch->outer_offset;
         while (scratch->inner_count < 2) {
-            ysum = (u16)scratch->start_x + (u16)scratch->inner_offset;
-            x = ysum;
+            xsum = (u16)scratch->start_x + (u16)scratch->inner_offset;
+            x = xsum;
             if (scratch->x_step >= 0) {
-                if ((s16)ysum >= D_800FE480)
+                if ((s16)xsum >= D_800FE480)
                     goto inner_done;
-            } else if ((s16)ysum < 0) {
+            } else if ((s16)xsum < 0) {
                 goto inner_done;
             }
 
@@ -105,30 +162,31 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
                 scratch->inner_index = scratch->inner_offset;
                 entry = grid->entries[occupancy[(s16)scratch->tile] & 0x3FFF];
                 for (;;) {
-                    if (FIELD(FIELD(entry, u16, 0x10) * 8 + grid->height_data,
-                              s16, 0) < 0 &&
-                        !(FIELD(entry, u8, 0x17) & 1)) {
-                        scratch->d0 = FIELD(FIELD(entry, u16, 0x00) * 8 + vertices, u16, 2) - scratch->origin_y;
-                        scratch->d1 = FIELD(FIELD(entry, u16, 0x00) * 8 + vertices, u16, 4) - scratch->origin_z;
-                        scratch->d2 = FIELD(FIELD(entry, u16, 0x02) * 8 + vertices, u16, 2) - scratch->origin_y;
-                        scratch->d3 = FIELD(FIELD(entry, u16, 0x02) * 8 + vertices, u16, 4) - scratch->origin_z;
-                        scratch->d4 = FIELD(FIELD(entry, u16, 0x06) * 8 + vertices, u16, 2) - scratch->origin_y;
-                        scratch->d5 = FIELD(FIELD(entry, u16, 0x06) * 8 + vertices, u16, 4) - scratch->origin_z;
-                        scratch->d6 = FIELD(FIELD(entry, u16, 0x04) * 8 + vertices, u16, 2) - scratch->origin_y;
-                        scratch->d7 = FIELD(FIELD(entry, u16, 0x04) * 8 + vertices, u16, 4) - scratch->origin_z;
+                    if (((S_8008DA80_4 *)(((S_8008DA80_1 *)entry)->unk_10 * 8 + scratch->height_data))->unk_00 < 0 &&
+                        !(((S_8008DA80_1 *)entry)->unk_16.at01.v & 1)) {
+                        scratch->d0 = ((S_8008DA80_5 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 + vertices))->unk_02 - scratch->origin_y;
+                        scratch->d1 = ((S_8008DA80_5 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 + vertices))->unk_04 - scratch->origin_z;
+                        scratch->d2 = ((S_8008DA80_6 *)(((S_8008DA80_1 *)entry)->unk_02 * 8 + vertices))->unk_02 - scratch->origin_y;
+                        scratch->d3 = ((S_8008DA80_6 *)(((S_8008DA80_1 *)entry)->unk_02 * 8 + vertices))->unk_04 - scratch->origin_z;
+                        scratch->d4 = ((S_8008DA80_7 *)(((S_8008DA80_1 *)entry)->unk_06 * 8 + vertices))->unk_02 - scratch->origin_y;
+                        scratch->d5 = ((S_8008DA80_7 *)(((S_8008DA80_1 *)entry)->unk_06 * 8 + vertices))->unk_04 - scratch->origin_z;
+                        scratch->d6 = ((S_8008DA80_8 *)(((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices))->unk_02 - scratch->origin_y;
+                        scratch->d7 = ((S_8008DA80_8 *)(((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices))->unk_04 - scratch->origin_z;
 
                         if (func_8008CE08(scratch) != 0) {
-                            plane = FIELD(entry, u16, 0x10) * 8 + scratch->height_data;
-                            vertex = FIELD(entry, u16, 0x00) * 8 + vertices;
+                            plane = (u8 *)(((S_8008DA80_1 *)entry)->unk_10 * 8 +
+                                           (u32)scratch->height_data);
+                            vertex = (u8 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 +
+                                            (u32)vertices);
                             quotient =
-                                (FIELD(plane, s16, 2) *
-                                     (FIELD(vertex, s16, 2) -
-                                      (s16)scratch->origin_y) +
-                                 FIELD(plane, s16, 4) *
-                                     (FIELD(vertex, s16, 4) -
-                                      (s16)scratch->origin_z) +
-                                 FIELD(plane, s16, 0) * FIELD(vertex, s16, 0)) /
-                                FIELD(plane, s16, 0);
+                                (((S_8008DA80_2 *)plane)->unk_02 *
+                                     (((S_8008DA80_3 *)vertex)->unk_02 -
+                                      (s16)*(volatile u16 *)((u8 *)scratch + 0x1E)) +
+                                 ((S_8008DA80_2 *)plane)->unk_04 *
+                                     (((S_8008DA80_3 *)vertex)->unk_04 -
+                                      (s16)*(volatile u16 *)((u8 *)scratch + 0x20)) +
+                                 ((S_8008DA80_2 *)plane)->unk_00 * ((S_8008DA80_3 *)vertex)->unk_00) /
+                                ((S_8008DA80_2 *)plane)->unk_00;
                             scratch->result = quotient;
                             quotient += scratch->inner_index;
                             scratch->result = quotient;
@@ -137,7 +195,7 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
                                 scratch->best = value;
                         }
                     }
-                    if ((FIELD(entry, u16, 0x16) & 0x80FF) == 0x8001)
+                    if ((((S_8008DA80_1 *)entry)->unk_16.at00.v & 0x80FF) == 0x8001)
                         break;
                     entry += 0x18;
                 }

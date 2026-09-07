@@ -1,9 +1,27 @@
 #include "common.h"
 
-typedef struct TownRecord { u8 pad_00; u8 flags; u8 pad_02[2]; u8 value; u8 pad_05[7]; s32 kind; u8 pad_10[4]; } TownRecord;
+typedef struct TownRecord {
+    u8 pad_00;
+    u8 flags;
+    u8 pad_02[2];
+    u8 value;
+    u8 pad_05[7];
+    s32 kind;
+    u8 pad_10[4];
+} TownRecord;
+
 typedef s32 (*TownIndexFunc)(s32);
-typedef struct TownDispatch { u8 pad_00[0x2D4]; TownIndexFunc index; } TownDispatch;
-typedef struct TownRoot { u8 pad_00[0x20]; TownDispatch *dispatch; } TownRoot;
+
+typedef struct TownDispatch {
+    u8 pad_00[0x2D4];
+    TownIndexFunc index;
+} TownDispatch;
+
+typedef struct TownRoot {
+    u8 pad_00[0x20];
+    TownDispatch *dispatch;
+} TownRoot;
+
 void func_8001A188(TownRecord *, s32 *);
 s32 func_8001C57C(TownRecord *);
 extern TownRoot *D_80016000;
@@ -22,55 +40,48 @@ TownRecord *func_8001CBF8(void)
     source = source_table[D_80016000->dispatch->index(0)];
     index = 0;
     values = value_table[D_80016000->dispatch->index(index)];
-    if ((D_80018A18->flags & 0xC0) != 0x80) {
-        s32 offset = 0;
+    if ((((volatile TownRecord *)D_80018A18)->flags & 0xC0) != 0x80) {
+        register s32 work;
+        u8 next_flags;
+        s32 masked_flags;
         TownRecord *record;
 
         do {
             s32 *copy_source = source + index;
             TownRecord *write_record;
-            record = (TownRecord *)((u8 *)D_80018A18 + offset);
+
+            record = (TownRecord *)((u8 *)D_80018A18 + (index * sizeof(TownRecord)));
             func_8001A188(record, copy_source);
-            write_record = (TownRecord *)((u8 *)D_80018A18 + offset);
-            write_record->value = values[index];
-            offset += sizeof(TownRecord);
+            write_record = (TownRecord *)((s32)(index * sizeof(TownRecord)) + (s32)D_80018A18);
+            next_flags = values[index];
+            write_record->value = next_flags;
             index++;
-            record = (TownRecord *)((u8 *)D_80018A18 + offset);
-        } while ((((record->flags & 0xC0) ^ 0x80) != 0));
+            work = (s32)(index * sizeof(TownRecord)) + (s32)D_80018A18;
+            next_flags = *(volatile u8 *)&((TownRecord *)work)->flags;
+            masked_flags = next_flags;
+            work = 128;
+            masked_flags &= 0xC0;
+        } while (masked_flags != work);
     }
-    if ((D_80018A18->flags & 0xC0) != 0x80) {
-        s32 offset = 0;
+    if ((((volatile TownRecord *)D_80018A18)->flags & 0xC0) != 0x80) {
+        s32 i = 0;
         s32 end_flags;
-        TownRecord *state;
-        TownRecord *record;
 
         for (;;) {
-            s32 result;
-            s32 observed_kind;
-            s32 wanted_kind;
-            s32 replacement_kind;
-
-            state = D_80018A18;
-            record = (TownRecord *)((u8 *)state + offset);
-            observed_kind = record->kind;
-            if (observed_kind == 11)
-                wanted_kind = 11;
-            else {
-                wanted_kind = 11;
+            TownRecord *record = (TownRecord *)((s32)(i * sizeof(TownRecord)) + (s32)D_80018A18);
+            if (record->kind == 11) {
                 end_flags = 128;
-                goto next_record;
+                if (func_8001C57C(D_80018A18) != 0)
+                    goto done;
+                ((TownRecord *)((s32)(i * sizeof(TownRecord)) + (s32)D_80018A18))->kind = 10;
+                goto done;
+            } else {
+                end_flags = 128;
             }
-            end_flags = 128;
-            result = func_8001C57C(state);
-            replacement_kind = wanted_kind - 1;
-            if (result != 0) goto done;
-            record = (TownRecord *)((u8 *)D_80018A18 + offset);
-            record->kind = replacement_kind;
-            goto done;
-next_record:
-            offset += sizeof(TownRecord);
-            record = (TownRecord *)((u8 *)state + offset);
-            if ((record->flags & 0xC0) == end_flags) break;
+            i++;
+            record = (TownRecord *)((s32)(i * sizeof(TownRecord)) + (s32)D_80018A18);
+            if ((record->flags & 0xC0) == end_flags)
+                break;
         }
     }
 done:

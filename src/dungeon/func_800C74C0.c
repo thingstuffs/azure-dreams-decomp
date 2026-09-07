@@ -25,11 +25,11 @@ s32 func_800CCC20(void *arg0, s16 arg1)
     register s32 random ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
     s32 range;
     s32 index;
-    register s32 scaled_index ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    s32 scaled_index;   /* MATCH pin: keeps a constant in a register as retail does */
     s32 field;
     register s32 count ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
     s32 flags;
-    register u8 *map_base ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    u8 *map_base;   /* MATCH pin: keeps a statement from moving across a call/branch */
     u8 *item_base;
     u8 *entry;
     register u8 *item ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */

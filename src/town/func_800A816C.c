@@ -101,7 +101,7 @@ void func_800A58CC(S_800A58CC_2 *arg0, void *arg1) {
     }
     temp_v0_3 = arg0->unk_0A.s - 1;
     arg0->unk_0A.s = temp_v0_3;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+       /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     {
         s32 sign_v0;
         s32 count_a0;

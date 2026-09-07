@@ -14,6 +14,11 @@ void func_8004DDE4(void *arg)
     s32 initial_index;
     s32 work;
     s32 index;
+    s32 off1;
+    s32 off2;
+    s32 cb_off;
+    s32 *p1;
+    s32 *p2;
 
     index = D_80081554 & 0xF;
     saved_index = index;
@@ -26,16 +31,20 @@ void func_8004DDE4(void *arg)
     D_80081554 = initial_index + 1;
     func_8004DCA8(arg);
 
-    work = D_80081554;
-    index = work;
     saved_index = 0x20C11;
-    D_80083D98[index] = saved_index;
-    work = index + 1;
-    D_80081554 = work;
-    saved_index = 1;
-    D_80083D98[work] = saved_index;
-    work += 1;
-    D_80081554 = work;
+    work = D_80081554;
     callback_index = D_80081558;
-    func_8003528C(&D_80083D98[callback_index]);
+    off1 = work * 4;
+    work += 1;
+    cb_off = callback_index * 4;
+    p1 = (s32 *)((u8 *)D_80083D98 + off1);
+    *p1 = saved_index;
+    off2 = work * 4;
+    p2 = (s32 *)((u8 *)D_80083D98 + off2);
+    saved_index = 1;
+    D_80081554 = work;
+    work += 1;
+    *p2 = saved_index;
+    D_80081554 = work;
+    func_8003528C((s32 *)((u8 *)D_80083D98 + cb_off));
 }

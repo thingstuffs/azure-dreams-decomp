@@ -154,7 +154,7 @@ positive_store_first:
                                            (arg0->unk_00 << 5)) >> 1);
     }
     {
-        register void *call_object ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        void *call_object;   /* MATCH pin: retail schedule: same instructions, different order without it */
         void *call_arg2;
         void *call_scratch;
         void *call_root;
@@ -207,7 +207,7 @@ positive_store_first:
                                            (arg0->unk_00 << 5)) >> 1);
     }
     {
-        register void *call_object ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        void *call_object;   /* MATCH pin: retail schedule: same instructions, different order without it */
         void *call_arg2;
         void *call_scratch;
         void *call_root;
@@ -268,7 +268,7 @@ negative_store_first:
                                            (arg0->unk_00 << 5)) >> 1);
     }
     {
-        register void *call_object ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        void *call_object;   /* MATCH pin: retail schedule: same instructions, different order without it */
         void *call_arg2;
         void *call_scratch;
         void *call_root;
@@ -321,7 +321,7 @@ negative_store_first:
                                            (arg0->unk_00 << 5)) >> 1);
     }
     {
-        register void *call_object ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        void *call_object;   /* MATCH pin: retail schedule: same instructions, different order without it */
         void *call_arg2;
         void *call_scratch;
         void *call_root;

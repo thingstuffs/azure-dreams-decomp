@@ -60,7 +60,7 @@ s32 func_800CA1E0(u32 arg0, void *arg1, void *volatile arg2, u16 arg3) {
     u16 *temp_s6;
     u16 *temp_dceac_page;
     u16 *temp_dcebc_page;
-    register u16 temp_s7 ASM_REG("$23");   /* MATCH pin: load-bearing for the whole function shape */
+    u16 temp_s7;   /* MATCH pin: load-bearing for the whole function shape */
     register u32 temp_table_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
     s32 temp_tail_value;
     u32 temp_v0;

@@ -28,7 +28,6 @@ void func_8001EB98(void *arg0) {
         var_s0 = (u8 *)var_s0 + 4;
         if (var_s1 >= 5) {
             func_80405A00(*((s32 *)arg0 + 7), *((s32 *)arg0 + 0xA));
-            ASM_KEEP(var_s1);
             return;
         }
     }

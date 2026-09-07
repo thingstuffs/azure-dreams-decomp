@@ -158,7 +158,7 @@ extern u8 D_80083160[];
 
 void func_800C9088(void *arg0, void *arg1, void *arg2, s16 arg3)
 {
-    register u8 *ptr_s1 ASM_REG("$17") = arg0;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    u8 *ptr_s1 = arg0;   /* MATCH pin: retail schedule: same instructions, different order without it */
     u8 *ptr_s0 = arg1;
     u8 *object = arg2;
     register u8 *scratch ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */

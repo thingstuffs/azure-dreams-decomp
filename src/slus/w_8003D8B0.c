@@ -10,7 +10,7 @@ typedef struct S_80083120 {
 extern S_80083120 D_80083120[8];
 extern int D_80082EC0[128];
 extern int D_80083110[4];
-extern volatile s16 D_80013714[8];
+extern volatile s16 D_80013714[6];
 
 extern void func_8003DB4C(int *p, int n);
 extern void func_800499BC(void);

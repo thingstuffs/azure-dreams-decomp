@@ -4,7 +4,6 @@
 #define NULL 0
 #endif
 
-#define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
 
 typedef struct State8081FF68 {
     u8 pad00[0x4C];
@@ -58,12 +57,113 @@ extern void func_8008F074(void *arg0, void *arg1, void *arg2);
 
 extern void func_80022804(void) __attribute__((noreturn));
 extern void func_80022904(void) __attribute__((noreturn));
-extern void func_80022F6C(void) __attribute__((noreturn));
 extern void func_80022F50(void) __attribute__((noreturn));
 extern void func_800230D0(void) __attribute__((noreturn));
 extern void func_80023280(void) __attribute__((noreturn));
 extern void func_80023284(void) __attribute__((noreturn));
 extern void func_800232C8(void) __attribute__((noreturn));
+
+
+typedef struct S_80022768_0 {
+    u8 pad_00[0x58];
+    s32 unk_58;
+    union { u16 u; s16 s; } unk_5C;   /* accessed as both */
+    union { u16 u; s16 s; } unk_5E;   /* accessed as both */
+    union { u16 u; s16 s; } unk_60;   /* accessed as both */
+    u16 unk_62;
+    u16 unk_64;
+} S_80022768_0;   /* state in func_80022768 */
+
+typedef struct S_80022768_1 {
+    u8 pad_00[0x8];
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
+} S_80022768_1;   /* angles in func_80022768 */
+
+typedef struct S_80022768_2 {
+    u8 pad_00[0x8];
+    u32 unk_08;
+    u8 pad_0C[0x4];
+    u32 unk_10;
+} S_80022768_2;   /* global in func_80022768 */
+
+typedef struct S_80022768_3 {
+    u8 pad_00[0x4C];
+    void * unk_4C;
+} S_80022768_3;   /* slotp in func_80022768 */
+
+typedef struct S_80022768_4 {
+    u8 pad_00[0x8];
+    union { u8 * p; void * p2; } unk_08;   /* accessed as both */
+    u8 * unk_0C;
+    void * unk_10;
+    u8 pad_14[0x10];
+    s16 unk_24;
+} S_80022768_4;   /* obj in func_80022768 */
+
+typedef struct S_80022768_5 {
+    u8 pad_00[0x4C];
+    void * unk_4C;
+} S_80022768_5;   /* (u8 *)(((s32)index << 2) + (s32)state) in func_80022768 */
+
+typedef struct S_80022768_6 {
+    u8 pad_00[0x4C];
+    void * unk_4C;
+} S_80022768_6;   /* p in func_80022768 */
+
+typedef struct S_80022768_7 {
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
+} S_80022768_7;   /* arg1 in func_80022768 */
+
+typedef struct S_80022768_8 {
+    u8 pad_00[0x4];
+    u8 unk_04;
+    u8 unk_05;
+    u8 pad_06[0x2];
+    s32 unk_08;
+    s32 unk_0C;
+    s32 unk_10;
+} S_80022768_8;   /* prim in func_80022768 */
+
+typedef struct S_80022768_9 {
+    u8 pad_00[0x12];
+    u16 unk_12;
+    u8 pad_14[0x8];
+    s16 unk_1C;
+    s16 unk_1E;
+} S_80022768_9;   /* draw in func_80022768 */
+
+typedef struct S_80022768_10 {
+    void * unk_00;
+    u8 pad_04[0x4C];
+    void * unk_50;
+    s16 unk_54;
+} S_80022768_10;   /* sub in func_80022768 */
+
+typedef struct S_80022768_11 {
+    u8 pad_00[0x4];
+    s32 unk_04;
+} S_80022768_11;   /* source in func_80022768 */
+
+typedef struct S_80022768_12 {
+    u8 pad_00[0x4C];
+    void * unk_4C;
+} S_80022768_12;   /* (u8 *)(((s32)(s16)((S_80022768_0 *)state)->unk_5E.s << 2) +
+                          (s32)state) in func_80022768 */
+
+typedef struct S_80022768_13 {
+    u8 pad_00[0x2A];
+    s16 unk_2A;
+} S_80022768_13;   /* ((S_80022768_6 *)p)->unk_4C in func_80022768 */
+
+typedef struct S_80022768_14 {
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
+    u8 pad_0C[0x8];
+    s32 unk_14;
+} S_80022768_14;   /* ((S_80022768_4 *)obj)->unk_08.p in func_80022768 */
 
 void func_80022768(void *arg0, void *arg1_input)
 {
@@ -72,7 +172,7 @@ void func_80022768(void *arg0, void *arg1_input)
         &&sw_4, &&sw_5, &&sw_6, &&sw_7
     };
     State8081FF68 *state = arg0;
-    register void *arg1 ASM_REG("$21") = arg1_input;
+    register void *arg1 ASM_REG("$21") = arg1_input;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     u8 *global = D_80083160;
     u8 *callback;
     s32 values[3][3];
@@ -80,32 +180,30 @@ void func_80022768(void *arg0, void *arg1_input)
     (void)sw_keep;
     callback = D_80020224;
 
-    if ((u32)((u16)FIELD(state, u16, 0x5C) - 2) < 5U) {
+    if ((u32)((u16)((S_80022768_0 *)state)->unk_5C.u - 2) < 5U) {
         s16 *angles = (s16 *)D_80083780;
-        register s32 angle ASM_REG("$6");
+        register s32 angle ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
 
         angle = func_800C2AE8(angles);
         if (angle > 0) {
-            FIELD(angles, s32, 8) = 0xFFEE0000;
+            ((S_80022768_1 *)angles)->unk_08.at00.v = 0xFFEE0000;
             angle = func_800C2AE8(angles);
             func_80022804();
         }
         {
-            s16 current = FIELD(angles, s16, 0xA);
-            register s32 delta ASM_REG("$2") = angle - current;
-            register s32 half ASM_REG("$7");
-            ASM_KEEP_NV(delta);
+            s16 current = ((S_80022768_1 *)angles)->unk_08.at02.v;
+            register s32 delta ASM_REG("$2") = angle - current;   /* MATCH pin: load-bearing for the whole function shape */
+            register s32 half ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
             half = delta >> 1;
             {
-                register s32 result ASM_REG("$2") = angle - half;
-                ASM_KEEP_NV(result);
-                FIELD(angles, s16, 0xA) = result;
+                register s32 result ASM_REG("$2") = angle - half;   /* MATCH pin: load-bearing for the whole function shape */
+                ((S_80022768_1 *)angles)->unk_08.at02.v = result;
             }
         }
     }
 
     {
-        s32 mode = FIELD(state, s16, 0x5C);
+        s32 mode = ((S_80022768_0 *)state)->unk_5C.s;
         if ((u32)mode >= 8U) {
             return;
         }
@@ -113,13 +211,13 @@ void func_80022768(void *arg0, void *arg1_input)
     }
 
 sw_0:
-    FIELD(state, u16, 0x62) = 0;
-    FIELD(state, u16, 0x64) = 0;
+    ((S_80022768_0 *)state)->unk_62 = 0;
+    ((S_80022768_0 *)state)->unk_64 = 0;
     func_80093864();
     {
         s32 one = 1;
         do {
-            FIELD(state, s16, 0x5C) = one;
+            ((S_80022768_0 *)state)->unk_5C.s = one;
         } while (0);
     }
     {
@@ -136,83 +234,83 @@ sw_0:
         func_80093C70();
         money[0] -= 100;
     }
-    FIELD(state, u16, 0x64) = 1;
-    FIELD(state, u16, 0x5E) = 5;
-    FIELD(state, s16, 0x5C) = 2;
+    (*(u16 *)((u8 *)state + (0x64))) = 1;
+    (*(u16 *)((u8 *)state + (0x5E))) = 5;
+    (*(s16 *)((u8 *)state + (0x5C))) = 2;
     func_800232C8();
 
 sw_1:
-    if ((FIELD(global, u32, 8) & 0x5000) != 0) {
-        u16 timer = FIELD(state, u16, 0x5E);
-        FIELD(state, u16, 0x5E) = (u16)(timer - 1);
+    if ((((S_80022768_2 *)global)->unk_08 & 0x5000) != 0) {
+        u16 timer = ((S_80022768_0 *)state)->unk_5E.u;
+        ((S_80022768_0 *)state)->unk_5E.u = (u16)(timer - 1);
         if ((s16)timer < 0) {
-            FIELD(state, u16, 0x5E) = 0;
+            ((S_80022768_0 *)state)->unk_5E.u = 0;
             func_80022904();
         }
     } else {
-        FIELD(state, u16, 0x5E) = 5;
+        ((S_80022768_0 *)state)->unk_5E.u = 5;
     }
 
-    if ((FIELD(global, u32, 0x10) & 0x1000) != 0 ||
-        ((FIELD(global, u32, 8) & 0x1000) != 0 &&
-         (s16)FIELD(state, s16, 0x5E) <= 0)) {
-        if (FIELD(state, u16, 0x64) < 3) {
+    if ((((S_80022768_2 *)global)->unk_10 & 0x1000) != 0 ||
+        ((((S_80022768_2 *)global)->unk_08 & 0x1000) != 0 &&
+         (s16)((S_80022768_0 *)state)->unk_5E.s <= 0)) {
+        if (((S_80022768_0 *)state)->unk_64 < 3) {
             func_80053DA8(0x502);
             if ((u32)D_80012D5C[0] < 100U) {
                 return;
             }
-            FIELD(state, u16, 0x64)++;
+            ((S_80022768_0 *)state)->unk_64++;
             D_80012D5C[0] -= 100;
             func_800232C8();
         }
     }
 
-    if ((FIELD(global, u32, 0x10) & 0x4000) != 0 ||
-        ((FIELD(global, u32, 8) & 0x4000) != 0 &&
-         (s16)FIELD(state, s16, 0x5E) <= 0)) {
-        if (FIELD(state, u16, 0x64) >= 2) {
+    if ((((S_80022768_2 *)global)->unk_10 & 0x4000) != 0 ||
+        ((((S_80022768_2 *)global)->unk_08 & 0x4000) != 0 &&
+         (s16)((S_80022768_0 *)state)->unk_5E.s <= 0)) {
+        if (((S_80022768_0 *)state)->unk_64 >= 2) {
             func_80053DA8(0x502);
             D_80012D5C[0] += 100;
-            FIELD(state, u16, 0x64)--;
+            ((S_80022768_0 *)state)->unk_64--;
             func_800232C8();
         }
     }
 
-    if ((FIELD(global, u32, 0x10) & 0x20) != 0) {
-        FIELD(state, u16, 0x5E) = 10;
-        FIELD(state, s16, 0x5C) = 3;
+    if ((((S_80022768_2 *)global)->unk_10 & 0x20) != 0) {
+        ((S_80022768_0 *)state)->unk_5E.u = 10;
+        ((S_80022768_0 *)state)->unk_5C.s = 3;
         func_800232C8();
     }
-    ASM_SCHED_BARRIER();
-    if ((FIELD(global, u32, 0x10) & 0x40) == 0 ||
-        FIELD(state, u16, 0x64) == 0) {
+    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    if ((((S_80022768_2 *)global)->unk_10 & 0x40) == 0 ||
+        ((S_80022768_0 *)state)->unk_64 == 0) {
         return;
     }
     func_80053DA8(0x526);
-    FIELD(state, u16, 0x5E) = 20;
-    FIELD(state, s16, 0x5C) = 4;
+    ((S_80022768_0 *)state)->unk_5E.u = 20;
+    ((S_80022768_0 *)state)->unk_5C.s = 4;
     func_800232C8();
 
 sw_2:
     {
-        u16 timer = (u16)(FIELD(state, u16, 0x5E) - 1);
-        FIELD(state, u16, 0x5E) = timer;
+        u16 timer = (u16)(((S_80022768_0 *)state)->unk_5E.u - 1);
+        ((S_80022768_0 *)state)->unk_5E.u = timer;
         if ((s16)timer > 0) {
             return;
         }
-        D_80012D5C[0] += FIELD(state, u16, 0x64) * 100;
+        D_80012D5C[0] += ((S_80022768_0 *)state)->unk_64 * 100;
         func_800B1DBC((void *)D_80024638[0]);
-        FIELD(state, s16, 0x5C) = 0;
+        ((S_80022768_0 *)state)->unk_5C.s = 0;
         func_800232C8();
     }
 
 sw_5:
     {
-        u16 timer = (u16)(FIELD(state, u16, 0x5E) - 1);
+        u16 timer = (u16)(((S_80022768_0 *)state)->unk_5E.u - 1);
         u8 *slotp;
-        register s32 i ASM_REG("$7");
+        register s32 i ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
         s32 value;
-        FIELD(state, u16, 0x5E) = timer;
+        ((S_80022768_0 *)state)->unk_5E.u = timer;
         if ((s16)timer > 0) {
             return;
         }
@@ -220,61 +318,60 @@ sw_5:
         value = i;
         slotp = (u8 *)state + 8;
         do {
-            void *obj = FIELD(slotp, void *, 0x4C);
+            void *obj = ((S_80022768_3 *)slotp)->unk_4C;
             slotp -= 4;
             i--;
-            FIELD(obj, s16, 0x24) = (s16)value;
+            ((S_80022768_4 *)obj)->unk_24 = (s16)value;
         } while (i >= 0);
-        FIELD(state, s16, 0x5C) = 5;
+        ((S_80022768_0 *)state)->unk_5C.s = 5;
         func_800232C8();
     }
 
 sw_3:
     {
-        s16 index = FIELD(state, s16, 0x5E);
-        void *obj = FIELD((u8 *)(((s32)index << 2) + (s32)state),
-                          void *, 0x4C);
-        if (FIELD(obj, s16, 0x24) != 3) {
+        s16 index = ((S_80022768_0 *)state)->unk_5E.s;
+        void *obj = ((S_80022768_5 *)((u8 *)(((s32)index << 2) + (s32)state)))->unk_4C;
+        if (((S_80022768_4 *)obj)->unk_24 != 3) {
             return;
         }
-        FIELD(state, s16, 0x5C) = 6;
-        FIELD(state, u16, 0x60) = 0;
+        ((S_80022768_0 *)state)->unk_5C.s = 6;
+        ((S_80022768_0 *)state)->unk_60.u = 0;
         func_800232C8();
     }
 
 sw_4:
     func_80053DA8(0x524);
     {
-        u16 timer = FIELD(state, u16, 0x60);
-        FIELD(state, u16, 0x60) = timer - 1;
+        u16 timer = ((S_80022768_0 *)state)->unk_60.u;
+        ((S_80022768_0 *)state)->unk_60.u = timer - 1;
         if ((s16)timer <= 0)
-            FIELD(state, u16, 0x60) = 0;
+            ((S_80022768_0 *)state)->unk_60.u = 0;
     }
-    if ((FIELD(global, u32, 0x10) & 0x40) != 0 &&
-        FIELD(state, s16, 0x60) == 0) {
+    if ((((S_80022768_2 *)global)->unk_10 & 0x40) != 0 &&
+        ((S_80022768_0 *)state)->unk_60.s == 0) {
         void *obj;
         func_80053DA8(0x522);
-        obj = FIELD((u8 *)(((s32)(s16)FIELD(state, s16, 0x5E) << 2) +
-                          (s32)state), void *, 0x4C);
-        FIELD(obj, s16, 0x24) = 4;
-        FIELD(state, u16, 0x60) = 10;
-        FIELD(state, u16, 0x5E)++;
+        obj = ((S_80022768_12 *)((u8 *)(((s32)(s16)((S_80022768_0 *)state)->unk_5E.s << 2) +
+                          (s32)state)))->unk_4C;
+        ((S_80022768_4 *)obj)->unk_24 = 4;
+        ((S_80022768_0 *)state)->unk_60.u = 10;
+        ((S_80022768_0 *)state)->unk_5E.u++;
     }
     goto sw_6;
 
 sw_6:
     {
         s32 i = 2;
-    if (FIELD(state, s16, 0x5E) != 3) {
+    if (((S_80022768_0 *)state)->unk_5E.s != 3) {
         return;
     }
-    FIELD(state, s32, 0x58) = 0;
+    ((S_80022768_0 *)state)->unk_58 = 0;
     {
-        register u8 *slotp ASM_REG("$12") = (u8 *)state + 8;
-        register u8 *table_base ASM_REG("$2") = D_800244B8;
-        register u8 *table ASM_REG("$10") = table_base + 0x18;
-        register s32 *out ASM_REG("$8") = &values[2][0];
-        register s32 j ASM_REG("$6");
+        register u8 *slotp ASM_REG("$12") = (u8 *)state + 8;   /* MATCH pin: retail register colouring depends on it */
+        register u8 *table_base ASM_REG("$2") = D_800244B8;   /* MATCH pin: load-bearing for the whole function shape */
+        register u8 *table ASM_REG("$10") = table_base + 0x18;   /* MATCH pin: retail register colouring depends on it */
+        s32 *out = &values[2][0];
+        register s32 j ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
         u8 *row;
         u8 *p;
         s32 *q;
@@ -286,8 +383,8 @@ sw_6:
         q = out + 2;
     inner_top:
         {
-            register s32 n ASM_REG("$4");
-            n = (s16)FIELD(FIELD(p, void *, 0x4C), s16, 0x2A);
+            register s32 n ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
+            n = (s16)((S_80022768_13 *)(((S_80022768_6 *)p)->unk_4C))->unk_2A;
             *q = row[(j + n) % 12];
             q--;
         }
@@ -298,9 +395,8 @@ sw_6:
         if (--i >= 0) goto outer_top;
 
         {
-            register s32 k ASM_REG("$7");
-            k = 0;
-            if (FIELD(state, u16, 0x64) == 0)
+            i = 0;
+            if (((S_80022768_0 *)state)->unk_64 == 0)
                 goto count_done;
             {
                 s16 *lookup_base = D_800244E8;
@@ -310,46 +406,43 @@ sw_6:
                 s32 multiplier;
                 s32 value;
                 u16 flags;
-                switch (k) {
-                default:
-                    func_80022F6C();
+                switch (i) {
                 case 0:
                     if (values[0][1] == values[1][1] &&
                         values[0][1] == values[2][1]) {
                         value = values[0][1];
                         multiplier = (s32)lookup[value] * 100;
-                        amount = FIELD(state, u16, 0x64) * multiplier;
-                        flags = FIELD(state, u16, 0x62);
-                        FIELD(state, u16, 0x62) = flags | 4;
-                        FIELD(state, s32, 0x58) += amount;
+                        amount = ((S_80022768_0 *)state)->unk_64 * multiplier;
+                        flags = ((S_80022768_0 *)state)->unk_62;
+                        ((S_80022768_0 *)state)->unk_62 = flags | 4;
+                        ((S_80022768_0 *)state)->unk_58 += amount;
                         if (values[1][1] == 0) {
-                            FIELD(state, u16, 0x62) = flags | 5;
-                            func_80022F6C();
+                            ((S_80022768_0 *)state)->unk_62 = flags | 5;
                         }
                     }
                     break;
                 case 1:
                     if (values[0][0] == values[1][0] &&
                         values[0][0] == values[2][0]) {
-                        FIELD(state, u16, 0x62) |= 0x10;
+                        ((S_80022768_0 *)state)->unk_62 |= 0x10;
                         value = values[0][0];
                         multiplier = (s32)lookup[value] * 100;
-                        amount = FIELD(state, u16, 0x64) * multiplier;
-                        FIELD(state, s32, 0x58) += amount;
+                        amount = ((S_80022768_0 *)state)->unk_64 * multiplier;
+                        ((S_80022768_0 *)state)->unk_58 += amount;
                         if (values[0][0] == 0) {
-                            FIELD(state, u16, 0x62) |= 1;
+                            ((S_80022768_0 *)state)->unk_62 |= 1;
                         }
                     }
                     if (values[0][2] == values[1][2] &&
                         values[0][2] == values[2][2]) {
-                        FIELD(state, u16, 0x62) |= 8;
+                        ((S_80022768_0 *)state)->unk_62 |= 8;
                         value = values[2][2];
                         multiplier = (s32)lookup[value] * 100;
-                        amount = FIELD(state, u16, 0x64) * multiplier;
-                        FIELD(state, s32, 0x58) += amount;
+                        amount = ((S_80022768_0 *)state)->unk_64 * multiplier;
+                        ((S_80022768_0 *)state)->unk_58 += amount;
                         {
                             s32 tail_value = values[2][2];
-                            ASM_KEEP(tail_value);
+                            ASM_KEEP(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
                         }
                         func_80022F50();
                     }
@@ -357,74 +450,72 @@ sw_6:
                 case 2:
                     if (values[0][0] == values[1][1] &&
                         values[2][2] == values[0][0]) {
-                        FIELD(state, u16, 0x62) |= 0x40;
+                        ((S_80022768_0 *)state)->unk_62 |= 0x40;
                         value = values[1][1];
                         multiplier = (s32)lookup[value] * 100;
-                        amount = FIELD(state, u16, 0x64) * multiplier;
-                        FIELD(state, s32, 0x58) += amount;
+                        amount = ((S_80022768_0 *)state)->unk_64 * multiplier;
+                        ((S_80022768_0 *)state)->unk_58 += amount;
                         if (values[1][1] == 0) {
-                            FIELD(state, u16, 0x62) |= 1;
+                            ((S_80022768_0 *)state)->unk_62 |= 1;
                         }
                     }
                     if (values[0][2] == values[1][1] &&
                         values[2][0] == values[0][2]) {
-                        FIELD(state, u16, 0x62) |= 0x20;
+                        ((S_80022768_0 *)state)->unk_62 |= 0x20;
                         value = values[1][1];
                         multiplier = (s32)lookup[value] * 100;
-                        amount = FIELD(state, u16, 0x64) * multiplier;
-                        FIELD(state, s32, 0x58) += amount;
+                        amount = ((S_80022768_0 *)state)->unk_64 * multiplier;
+                        ((S_80022768_0 *)state)->unk_58 += amount;
                         if (values[1][1] == 0) {
-                            FIELD(state, u16, 0x62) |= 1;
+                            ((S_80022768_0 *)state)->unk_62 |= 1;
                         }
                     }
                     break;
                 }
-                    k++;
-                } while (k < FIELD(state, u16, 0x64));
+                    i++;
+                } while (i < ((S_80022768_0 *)state)->unk_64);
             }
         }
 count_done:
     }
-    if (FIELD(state, s32, 0x58) == 0) {
-        FIELD(state, u16, 0x5E) = 10;
-        FIELD(state, u16, 0x64) = 0;
-        FIELD(state, s16, 0x5C) = 3;
+    if (((S_80022768_0 *)state)->unk_58 == 0) {
+        ((S_80022768_0 *)state)->unk_5E.u = 10;
+        ((S_80022768_0 *)state)->unk_64 = 0;
+        ((S_80022768_0 *)state)->unk_5C.s = 3;
         func_800232C8();
     }
 
-    if ((FIELD(state, u16, 0x62) & 1) != 0) {
-        register void *obj ASM_REG("$17") = func_8003FC64(0x100);
+    if ((((S_80022768_0 *)state)->unk_62 & 1) != 0) {
+        register void *obj ASM_REG("$17") = func_8003FC64(0x100);   /* MATCH pin: retail register colouring depends on it */
         if (obj != NULL) {
-            FIELD(obj, void *, 0x10) = D_80023BCC;
+            ((S_80022768_4 *)obj)->unk_10 = D_80023BCC;
         }
     }
 
     {
-        register s32 value ASM_REG("$2") = FIELD(state, s32, 0x58);
-        register s32 q1 ASM_REG("$7");
+        register s32 value ASM_REG("$2") = ((S_80022768_0 *)state)->unk_58;   /* MATCH pin: load-bearing for the whole function shape */
         s32 q2;
         s32 q3;
-        register s32 raw0 ASM_REG("$8");
+        s32 raw0;
         s32 raw1;
         s32 raw2;
         s32 d0;
-        register s32 d1 ASM_REG("$9");
+        s32 d1;
         s32 d2;
         s32 product2;
-        register s32 sum ASM_REG("$6");
-        q1 = value / 100;
-        q2 = q1 / 10;
+        register s32 sum ASM_REG("$6");   /* MATCH pin: retail register colouring depends on it */
+        i = value / 100;
+        q2 = i / 10;
         value = q2 * 10;
-        raw0 = q1 - value;
+        raw0 = i - value;
         value = raw0 << 16;
         d0 = value >> 16;
-        ASM_KEEP_NV(d0);
+        ASM_KEEP_NV(d0);   /* MATCH pin: load-bearing for the whole function shape */
         q3 = q2 / 10;
         value = q3 * 10;
         raw1 = q2 - value;
         value = raw1 << 16;
         d1 = value >> 16;
-        ASM_KEEP_NV(d1);
         sum = d0 + d1;
         product2 = (q3 / 10) * 10;
         raw2 = q3 - product2;
@@ -451,30 +542,30 @@ count_done:
         }
         }
     }
-    FIELD(state, u16, 0x5E) = 0;
-    FIELD(state, s16, 0x5C) = 7;
+    ((S_80022768_0 *)state)->unk_5E.u = 0;
+    ((S_80022768_0 *)state)->unk_5C.s = 7;
     func_800232C8();
     }
 
 sw_7:
-    FIELD(state, u16, 0x5E)++;
-    if ((s16)FIELD(state, u16, 0x5E) == 9) {
+    ((S_80022768_0 *)state)->unk_5E.u++;
+    if ((s16)((S_80022768_0 *)state)->unk_5E.u == 9) {
         func_80093864();
     }
-    if ((FIELD(state, u16, 0x5E) & 3) != 0) {
+    if ((((S_80022768_0 *)state)->unk_5E.u & 3) != 0) {
         return;
     }
     {
         s16 *digits = D_80024630;
     if ((s16)digits[0] + (s16)digits[1] + (s16)digits[2] == 0) {
-        if ((FIELD(state, u16, 0x62) & 2) == 0) {
+        if ((((S_80022768_0 *)state)->unk_62 & 2) == 0) {
             void *old_obj = (void *)D_80024638[0];
-            FIELD(state, u16, 0x64) = 0;
+            ((S_80022768_0 *)state)->unk_64 = 0;
             func_800B1DBC(old_obj);
-            FIELD(state, u16, 0x5E) = 10;
-            FIELD(state, s16, 0x5C) = 3;
+            ((S_80022768_0 *)state)->unk_5E.u = 10;
+            ((S_80022768_0 *)state)->unk_5C.s = 3;
         }
-        FIELD(state, u16, 0x62) &= (u16)~2;
+        ((S_80022768_0 *)state)->unk_62 &= (u16)~2;
         func_800232C8();
     }
 
@@ -483,52 +574,51 @@ sw_7:
         void *call_obj;
         u8 *prim;
         u8 *draw;
-        register u8 *sub ASM_REG("$18");
+        register u8 *sub ASM_REG("$18");   /* MATCH pin: retail immediate-load split depends on it */
         if (obj == NULL) {
             return;
         }
         call_obj = obj;
-        ASM_KEEP_NV(call_obj);
-        FIELD(obj, void *, 0x10) = D_800236BC;
-        FIELD(FIELD(obj, u8 *, 8), s32, 0) =
-            FIELD(arg1, s32, 0) + (s32)0xFEC00000;
-        FIELD(FIELD(obj, u8 *, 8), s32, 4) =
-            FIELD(arg1, s32, 4) + (s32)0xFFC00000;
-        FIELD(FIELD(obj, u8 *, 8), s32, 8) =
-            FIELD(arg1, s32, 8) + (s32)0xFFC00000;
-        prim = FIELD(obj, u8 *, 8);
-        FIELD(prim, s32, 0x10) = 0;
-        FIELD(prim, s32, 0xC) = 0;
-        FIELD(FIELD(obj, u8 *, 8), s32, 0x14) = 0x40000;
+        ((S_80022768_4 *)obj)->unk_10 = D_800236BC;
+        ((S_80022768_14 *)(((S_80022768_4 *)obj)->unk_08.p))->unk_00 =
+            ((S_80022768_7 *)arg1)->unk_00 + (s32)0xFEC00000;
+        ((S_80022768_14 *)(((S_80022768_4 *)obj)->unk_08.p))->unk_04 =
+            ((S_80022768_7 *)arg1)->unk_04 + (s32)0xFFC00000;
+        ((S_80022768_14 *)(((S_80022768_4 *)obj)->unk_08.p))->unk_08 =
+            ((S_80022768_7 *)arg1)->unk_08 + (s32)0xFFC00000;
+        prim = ((S_80022768_4 *)obj)->unk_08.p;
+        ((S_80022768_8 *)prim)->unk_10 = 0;
+        ((S_80022768_8 *)prim)->unk_0C = 0;
+        ((S_80022768_14 *)(((S_80022768_4 *)obj)->unk_08.p))->unk_14 = 0x40000;
         func_8004491C(call_obj, D_80045340);
-        draw = FIELD(obj, u8 *, 0xC);
-        FIELD(draw, s16, 0x1E) = 0x1000;
-        FIELD(draw, s16, 0x1C) = 0x1000;
+        draw = ((S_80022768_4 *)obj)->unk_0C;
+        ((S_80022768_9 *)draw)->unk_1E = 0x1000;
+        ((S_80022768_9 *)draw)->unk_1C = 0x1000;
         sub = (u8 *)obj + 0x20;
         if (digits[2] != 0) {
             digits[2]--;
-            FIELD(sub, s16, 0x54) = 2;
+            ((S_80022768_10 *)sub)->unk_54 = 2;
         } else if (digits[1] != 0) {
             digits[1]--;
-            FIELD(sub, s16, 0x54) = 1;
-            FIELD(draw, u16, 0x12) = (u16)(FIELD(draw, u16, 0x12) - 5);
+            ((S_80022768_10 *)sub)->unk_54 = 1;
+            ((S_80022768_9 *)draw)->unk_12 = (u16)(((S_80022768_9 *)draw)->unk_12 - 5);
         } else if (digits[0] != 0) {
             digits[0]--;
-            FIELD(sub, s16, 0x54) = 0;
-            FIELD(draw, u16, 0x12) = (u16)(FIELD(draw, u16, 0x12) + 5);
+            ((S_80022768_10 *)sub)->unk_54 = 0;
+            ((S_80022768_9 *)draw)->unk_12 = (u16)((*(u16 *)((u8 *)draw + (0x12))) + 5);
         }
         {
             u8 *prim = draw;
             u8 *source = D_8007947C;
-            FIELD(prim, void *, 0) = source;
-            FIELD(prim, s32, 8) = FIELD(source, s32, 4);
-            FIELD(prim, u8, 4) = 0;
-            FIELD(prim, u8, 5) = 0;
-            FIELD(prim, s32, 0xC) = 0x00808080;
+            (*(void * *)((u8 *)prim + (0))) = source;
+            ((S_80022768_8 *)prim)->unk_08 = ((S_80022768_11 *)source)->unk_04;
+            ((S_80022768_8 *)prim)->unk_04 = 0;
+            ((S_80022768_8 *)prim)->unk_05 = 0;
+            ((S_80022768_8 *)prim)->unk_0C = 0x00808080;
         }
-        FIELD(sub, void *, 0) = state;
-        FIELD(sub, void *, 0x50) = callback;
-        func_8008F074(sub + 8, FIELD(obj, void *, 8), D_80024488);
+        ((S_80022768_10 *)sub)->unk_00 = state;
+        ((S_80022768_10 *)sub)->unk_50 = callback;
+        func_8008F074(sub + 8, ((S_80022768_4 *)obj)->unk_08.p2, D_80024488);
     }
     }
 }

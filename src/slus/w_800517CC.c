@@ -36,18 +36,13 @@ extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern s32 rand(void);
 extern void *jtbl_8002E964[8];
-extern s32 D_800814A0;
+extern s32 D_800814A0[3];
 
 void func_800517CC(
     EffectState800517CC *arg0,
     VecState800517CC *arg1,
     ColorState800517CC *arg2)
 {
-    s32 trig;
-    s32 base;
-    s32 origin;
-    s32 delta;
-    s32 value;
     u32 idx;
     void **table;
     static void *const keepalive[] = {
@@ -105,72 +100,125 @@ state_4:
     if ((s16)arg0->timer < arg0->wait) {
         goto check_trigger;
     }
-    arg0->state = (u16)arg0->state + 1;
-    arg0->timer = 0;
+    {
+        s32 v = (u16)arg0->state + 1;
+        arg0->timer = 0;
+        arg0->state = v;
+    }
     goto check_trigger;
 
 state_5:
-    trig = rcos(((s16)arg0->timer + 0x100) << 3);
-    trig >>= 4;
-    trig = (trig * 3) << 11;
-    base = arg1->x;
-    origin = (s32)0xFF280000;
-    base += origin;
-    delta = trig - base;
-    delta = (delta + (s32)((u32)delta >> 31)) >> 1;
-    arg1->vx += delta;
-    arg1->x += arg1->vx;
+    {
+        s32 a;
+        s32 t;
+        s32 b;
+        s32 o;
+        s32 sgn;
+        s32 vx;
+        s32 x;
 
-    trig = rcos((s16)arg0->timer << 3);
-    trig >>= 4;
-    trig <<= 10;
-    base = arg1->y;
-    origin = (s32)0xFFD40000;
-    base += origin;
-    delta = trig - base;
-    delta = (delta + (s32)((u32)delta >> 31)) >> 1;
-    arg1->vy += delta;
-    arg1->y += arg1->vy;
+        a = rcos(((s16)arg0->timer + 0x100) << 3) >> 4;
+        t = (a * 3) << 11;
+        b = arg1->x;
+        o = (s32)0xFF280000;
+        b += o;
+        t -= b;
+        sgn = (s32)((u32)t >> 31);
+        t += sgn;
+        t >>= 1;
+        vx = arg1->vx + t;
+        x = arg1->x + vx;
+        arg1->vx = vx;
+        arg1->x = x;
+    }
+
+    {
+        s32 t;
+        s32 b;
+        s32 o;
+        s32 sgn;
+        s32 vy;
+        s32 y;
+
+        t = rcos((s16)arg0->timer << 3) >> 4;
+        t <<= 10;
+        b = arg1->y;
+        o = (s32)0xFFD40000;
+        b += o;
+        t -= b;
+        sgn = (s32)((u32)t >> 31);
+        t += sgn;
+        t >>= 1;
+        vy = arg1->vy + t;
+        y = arg1->y + vy;
+        arg1->vy = vy;
+        arg1->y = y;
+    }
 
     if ((s16)arg0->timer < 0x100) {
         goto check_trigger;
     }
-    value = (u16)arg0->state + 1;
-    arg0->timer = 0;
-    goto store_state;
+    {
+        s32 v = (u16)arg0->state + 1;
+        arg0->timer = 0;
+        arg0->state = v;
+    }
+    goto check_trigger;
 
 state_6:
-    trig = rcos((s16)arg0->timer << 4);
-    trig >>= 4;
-    trig = (trig * 3) << 11;
-    base = arg1->x;
-    origin = (s32)0xFF280000;
-    base += origin;
-    delta = trig - base;
-    delta = (delta + (s32)((u32)delta >> 31)) >> 1;
-    arg1->vx += delta;
-    arg1->x += arg1->vx;
+    {
+        s32 a;
+        s32 t;
+        s32 b;
+        s32 o;
+        s32 sgn;
+        s32 vx;
+        s32 x;
 
-    trig = rcos(((s16)arg0->timer + 0x80) << 4);
-    trig >>= 4;
-    trig <<= 10;
-    base = arg1->y;
-    origin = (s32)0xFFD40000;
-    base += origin;
-    delta = trig - base;
-    delta = (delta + (s32)((u32)delta >> 31)) >> 1;
-    arg1->vy += delta;
-    arg1->y += arg1->vy;
+        a = rcos((s16)arg0->timer << 4) >> 4;
+        t = (a * 3) << 11;
+        b = arg1->x;
+        o = (s32)0xFF280000;
+        b += o;
+        t -= b;
+        sgn = (s32)((u32)t >> 31);
+        t += sgn;
+        t >>= 1;
+        vx = arg1->vx + t;
+        x = arg1->x + vx;
+        arg1->vx = vx;
+        arg1->x = x;
+    }
+
+    {
+        s32 t;
+        s32 b;
+        s32 o;
+        s32 sgn;
+        s32 vy;
+        s32 y;
+
+        t = rcos(((s16)arg0->timer + 0x80) << 4) >> 4;
+        t <<= 10;
+        b = arg1->y;
+        o = (s32)0xFFD40000;
+        b += o;
+        t -= b;
+        sgn = (s32)((u32)t >> 31);
+        t += sgn;
+        t >>= 1;
+        vy = arg1->vy + t;
+        y = arg1->y + vy;
+        arg1->vy = vy;
+        arg1->y = y;
+    }
 
     if ((s16)arg0->timer < 0x80) {
         goto check_trigger;
     }
     arg0->wait = (rand() % 64) + 0x20;
-    value = 4;
     arg0->timer = 0;
-
-store_state:
-    arg0->state = value;
+    arg0->state = 4;
 
 check_trigger:
     if (arg0->trigger != 0) {
@@ -197,5 +245,5 @@ destroy:
     ((ParentState800517CC *)arg0->parent)->child10 = 0;
     ((ParentState800517CC *)arg0->parent)->timer++;
     *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    D_800814A0[0] |= 0x8000;
 }

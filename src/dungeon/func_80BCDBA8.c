@@ -67,7 +67,7 @@ void func_801653A8(void *arg0, S_801653A8_0 *arg1, void *arg2)
     register void *base ASM_REG("$19") = arg0;   /* MATCH pin: retail delay-slot fill depends on it */
     register s16 old_state ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     register u8 old_raw ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register void *call_arg0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    void *call_arg0;   /* MATCH pin: retail schedule: same instructions, different order without it */
     void *call_arg1;
     void *call_arg2;
     s32 motion_value;

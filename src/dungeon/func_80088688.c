@@ -68,7 +68,7 @@ void func_8008DDE8(void *arg0, void *arg1, void *arg2, void *arg3) {
     u16 temp_v0_3;
     u16 temp_timer;
     u32 temp_v0_2;
-    register u32 temp_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    u32 temp_page;   /* MATCH pin: load-bearing for the whole function shape */
     u8 *temp_table;
     s32 *temp_global;
 

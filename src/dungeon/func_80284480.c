@@ -12,12 +12,12 @@ extern DungeonCell D_800EA000[];
 void func_80017480(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
 {
     s32 y;
-    register s32 height ASM_REG("$7");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 y_test ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
+    s32 height;   /* MATCH pin: load-bearing for the whole function shape */
+    s32 y_test;   /* MATCH pin: retail delay-slot fill depends on it */
     s32 y_end;
     s32 x;
     s32 x_end;
-    register s32 width ASM_REG("$12");   /* MATCH pin: retail register colouring depends on it */
+    s32 width;   /* MATCH pin: retail register colouring depends on it */
     s16 *config;
     DungeonCell *cells;
 

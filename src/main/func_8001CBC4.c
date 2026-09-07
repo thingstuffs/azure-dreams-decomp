@@ -1,6 +1,5 @@
 #include "common.h"
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
 typedef void (*Callback)(void *);
 
@@ -23,17 +22,24 @@ extern u8 D_8040861C[];
 extern u8 D_80409C90[];
 extern u16 D_80409CAE;
 
+
+typedef struct S_8001CBC4_0 {
+    u8 pad_00[0x1B4];
+    s32 unk_1B4;
+} S_8001CBC4_0;   /* subobject in func_8001CBC4 */
+
 s32 func_8001CBC4(s32 arg0) {
     s32 result;
     s32 status;
     u8 *object = D_80409C90;
-    u8 *subobject = object + 0x20;
+    u8 *subobject;
+    register u8 *callarg ASM_REG("$4");
 
-    status = func_80047FD8(object);
-    if (status != 0) {
-        goto initialized;
-    }
-    {
+    ASM_KEEP_NV(object);
+    callarg = object;
+    subobject = object + 0x20;
+    status = func_80047FD8(callarg);
+    if (status == 0) {
         result = func_8003C714(0, object, 0x118);
         if (result == 0) {
             func_8007C040(D_804005A0, D_804005C8, 0x151);
@@ -42,17 +48,15 @@ s32 func_8001CBC4(s32 arg0) {
         func_80040560(result, D_8040861C);
         return func_80403C78(subobject);
     }
-initialized:
-    object += status == 0;
-    subobject += status == 0;
     func_80403D24(object);
     D_80409CAE &= 0x7FFF;
     func_8007BFE0(subobject, 0x440);
     func_80403AC8(subobject, 0x12);
-    FIELD(object, void *, 0xC) = subobject + 0x1A8;
-    FIELD(subobject, s32, 0x1B4) = func_80403AA0(subobject + 0x1B8);
+    ASM_KEEP_NV(subobject);
+    (*(void * *)((u8 *)object + (0xC))) = subobject + 0x1A8;
+    ((S_8001CBC4_0 *)subobject)->unk_1B4 = func_80403AA0(subobject + 0x1B8);
     func_80403B84(subobject, arg0);
-    FIELD(object, Callback, 0x10) = func_804034D8;
+    (*(Callback *)((u8 *)object + (0x10))) = func_804034D8;
     func_804034D8(subobject);
     return (s32)object;
 }

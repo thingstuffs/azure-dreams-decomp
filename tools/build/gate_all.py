@@ -16,6 +16,21 @@ B = ROOT / "build_ovl"; JOURNAL = ROOT / "ledger/gate.jsonl"
 sys.path.insert(0, str(ROOT / "tools"))
 from common import read_jsonl, append_jsonl
 
+def superseded(yamls):
+    """Synthetic-base seed windows (TF-1B gate_carver: `<stem>.overlay.yaml`, vram = foff + a sweep
+    constant) whose range is re-gated by a `<stem>_truebase_<vram>.overlay.yaml` twin at the proven
+    base. The seed's own target is a data row; the matched rows inside it are registered under the
+    truebase twin and match there, while the seed encodes j/%hi/%lo at the wrong base. Skipped and
+    dropped from the journal; the twin is the window of record."""
+    names = {y.name for y in yamls}
+    owned = window_rows()      # a seed that is still some registered row's window of record is kept
+    out = set()
+    for y in yamls:
+        stem = y.name.replace(".overlay.yaml", "")
+        if "_truebase_" in stem or y.name in owned: continue
+        if any(n.startswith(stem + "_truebase_") for n in names): out.add(y.name)
+    return out
+
 def container_of(name):
     return name.split("_")[0] if not name.startswith("dungeon_engine") else "dungeon_engine"
 
@@ -63,8 +78,16 @@ def main():
     ap.add_argument("--container"); ap.add_argument("--workers", type=int, default=6); ap.add_argument("--limit", type=int); ap.add_argument("--retry", action="store_true")
     a = ap.parse_args()
     yamls = sorted((B / "config/overlays").glob("*.overlay.yaml"))
+    sup = superseded(yamls)
+    yamls = [y for y in yamls if y.name not in sup]
     if a.container: yamls = [y for y in yamls if container_of(y.stem) == a.container]
     prior = {j["window"]: j for j in read_jsonl(JOURNAL)}
+    dead = [w for w in prior if w + ".overlay.yaml" in sup]
+    if dead:
+        from common import write_jsonl
+        write_jsonl(JOURNAL, [j for j in read_jsonl(JOURNAL) if j["window"] + ".overlay.yaml" not in sup])
+        prior = {j["window"]: j for j in read_jsonl(JOURNAL)}
+        print(f"{len(sup)} superseded synthetic-base seed windows skipped ({len(dead)} stale journal records dropped); their _truebase_ twins are gated")
     todo = []
     for y in yamls:
         w = y.stem.replace(".overlay", ""); p = prior.get(w)

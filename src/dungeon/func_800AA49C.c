@@ -169,7 +169,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *arg0, s32 unused, Arg2_800AFBFC *arg2) {
     s32 raw_axis;
     s32 raw_y;
     register s32 call_pos ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *call_arg1 ASM_REG("$5");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    void *call_arg1;   /* MATCH pin: keeps a statement from moving across a call/branch */
     register s16 *call_arg2 ASM_REG("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
     register s32 call_arg3 ASM_REG("$7");   /* MATCH pin: retail schedule: same instructions, different order without it */
     s32 scaled_y;

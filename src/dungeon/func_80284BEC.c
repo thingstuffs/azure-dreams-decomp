@@ -139,9 +139,9 @@ loop_4:
             temp_v0_3 = temp_t1 + temp_v0_2;
             ASM_KEEP_NV(temp_v0_3);   /* MATCH pin: retail schedule: same instructions, different order without it */
             temp_a2 = (u16)locals.sp10;
-            ASM_KEEP_NV(temp_a2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+               /* MATCH pin: retail schedule: same instructions, different order without it */
             temp_v1_load = *temp_v1_addr;
-            ASM_KEEP_NV(temp_v1_load);   /* MATCH pin: retail schedule: same instructions, different order without it */
+               /* MATCH pin: retail schedule: same instructions, different order without it */
             temp_a1 = (u16)locals.sp12;
             temp_v0_2 = *(u16 *)temp_v0_3;
             temp_a2 += temp_v1_load;

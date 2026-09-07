@@ -67,8 +67,8 @@ void *func_80170894(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
     register s8 saved_arg1 ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     void *part_a;
     s16 original_arg0;
-    register s32 call_id ASM_REG("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */
-    register const void *call_target ASM_REG("$5");   /* MATCH pin: retail immediate-load split depends on it */
+    s32 call_id;   /* MATCH pin: keeps a statement from moving across a call/branch */
+    const void *call_target;   /* MATCH pin: retail immediate-load split depends on it */
 
     saved_arg0 = arg0;
     work = 0;

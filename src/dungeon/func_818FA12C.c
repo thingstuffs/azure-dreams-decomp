@@ -396,9 +396,9 @@ case 2:
 
     i = 0;
     do {
-        register u8 *a0v ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+        u8 *a0v;   /* MATCH pin: retail schedule: same instructions, different order without it */
         s32 a1v;
-        register s32 a2v ASM_REG("$6");   /* MATCH pin: retail basic-block layout depends on it */
+        s32 a2v;   /* MATCH pin: retail basic-block layout depends on it */
         s32 a3v;
         random = func_80069EF8();
         a0v = self - 0x20;

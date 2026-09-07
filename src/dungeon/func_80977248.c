@@ -106,7 +106,7 @@ void func_80172A48(void *arg0, void *arg1, void *arg2, void *arg3)
 #define arg3 held_arg3
 
     ASM_KEEP(held_arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(held_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
 
     special = 0;
     state = ((S_80172A48_0 *)arg0)->unk_9B;

@@ -4,9 +4,9 @@ extern void func_8052FE88() __attribute__((noreturn));
 extern s32 D_80084D5C;
 
 void func_808151F8(void *arg0) {
-    register u8 *inner ASM_REG("$2");
+    u8 *inner;
     s16 state;
-    register s32 call_arg ASM_REG("$4");
+    register s32 call_arg ASM_REG("$4");   /* MATCH pin: retail immediate-load split depends on it */
     s32 value;
 
     state = *(s16 *)arg0;

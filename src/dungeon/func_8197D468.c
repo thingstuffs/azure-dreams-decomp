@@ -218,7 +218,7 @@ state_2:
                     ((S_8197D468_9 *)(((S_8197D468_5 *)temp_v0_2)->unk_08))->unk_10 = (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
                     ((S_8197D468_9 *)(((S_8197D468_5 *)temp_v0_2)->unk_08))->unk_14 = (s32) (0 - ((func_80069EF8() & 0x3FF) << 8));
                     temp_a0_5 = 0xC00000;
-                    ASM_KEEP(temp_a0_5);   /* MATCH pin: retail immediate-load split depends on it */
+                       /* MATCH pin: retail immediate-load split depends on it */
                     ((S_8197D468_6 *)temp_s0)->unk_1E = 0xC00;
                     ((S_8197D468_6 *)temp_s0)->unk_1C = 0xC00;
                     ((S_8197D468_6 *)temp_s0)->unk_10 = 0x20;

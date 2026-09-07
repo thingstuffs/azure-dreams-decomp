@@ -75,7 +75,7 @@ void func_80171498(
     void *arg0, s16 arg1, s32 arg2, s16 arg3,
     s32 arg4, s32 arg5, s32 arg6)
 {
-    register s32 held_arg4 ASM_REG("$18") = arg4;   /* MATCH pin: load-bearing for the whole function shape */
+    s32 held_arg4 = arg4;   /* MATCH pin: load-bearing for the whole function shape */
     s32 held_arg5 = arg5;
     s32 held_arg6 = arg6;
     volatile u16 sp10;

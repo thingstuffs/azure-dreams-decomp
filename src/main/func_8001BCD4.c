@@ -19,7 +19,7 @@ void *func_8001BCD4(void *arg0)
     s32 first_x;
     s32 first_y;
     s32 kind;
-    u32 address;
+    register u32 address ASM_REG("$5");
     s32 second_x;
     u32 height_source;
     u8 *record;
@@ -31,8 +31,8 @@ void *func_8001BCD4(void *arg0)
     values = *(Bytes4 *)D_80400544;
     first_x = 5;
     first_y = 5;
-    address = 0x101010;
     kind = 0x48;
+    address = 0x101010;
     second_x = 6;
     height_source = sizeof(Fields);
     value = values.bytes;

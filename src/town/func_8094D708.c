@@ -15,26 +15,25 @@ extern void func_8001672C(void) __attribute__((noreturn));
 extern void func_8001672C_tail(void) __asm__("func_8001672C");
 
 s32 func_8094D708(Func8094D708Object *arg0) {
-    register s32 i ASM_REG("$16");
-    register Func8094D708Callback *base ASM_REG("$2");
-    register u8 *address ASM_REG("$3");
-    register void *call_arg ASM_REG("$4");
+    register s32 i ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
+    Func8094D708Callback *base;
+    register u8 *address ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    void *call_arg;
     Func8094D708Callback callback;
 
     func_800166A4(arg0->field14, arg0->field1A);
     i = 0;
-    ASM_KEEP(i);
+    ASM_KEEP(i);   /* MATCH pin: retail immediate-load split depends on it */
     call_arg = arg0;
-    ASM_KEEP(arg0);
+    ASM_KEEP(arg0);   /* MATCH pin: retail register colouring depends on it */
     base = arg0->callbacks;
     address = (u8 *)(i << 4);
     address = (u8 *)((s32)address + (s32)base);
-    ASM_KEEP(address);
     callback = *(Func8094D708Callback *)address;
     if (callback(call_arg, i) == 0) {
         return i;
     }
     func_8001672C_tail();
     i++;
-    ASM_KEEP(i);
+    ASM_KEEP(i);   /* MATCH pin: retail immediate-load split depends on it */
 }

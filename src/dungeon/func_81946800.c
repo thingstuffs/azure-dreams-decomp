@@ -50,7 +50,7 @@ void func_81946800(void *arg0_in, void *arg1) __asm__("func_81946800_body")
 void func_81946800(void *arg0_in, void *arg1)
 {
   void *arg0;
-  register void *base ASM_REG("$20");   /* MATCH pin: retail schedule: same instructions, different order without it */
+  void *base;   /* MATCH pin: retail schedule: same instructions, different order without it */
   register u8 *context ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
   register void *object ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
   void *part;

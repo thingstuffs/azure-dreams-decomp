@@ -90,6 +90,23 @@ extern Copy32 D_801648DC;
 extern M2C_UNK D_80168C88[3];
 extern u8 D_80175DD8[96];
 
+
+typedef struct S_801690D8_8 {
+    u16 unk_00;
+    u16 unk_02;
+    u16 unk_04;
+    u16 unk_06;
+    u16 unk_08;
+    u16 unk_0A;
+    u8 pad_0C[0x48];
+    u16 unk_54;
+    u16 unk_56;
+    u16 unk_58;
+    u16 unk_5A;
+    u16 unk_5C;
+    u16 unk_5E;
+} S_801690D8_8;   /* ((temp_s0->unk_1C * 0x60) + table_base) in func_801690D8 */
+
 void func_801690D8(S_801690D8_1 *arg0_in, void *arg1, s32 arg2, s32 arg3) {
     s32 sp10[8];
     s32 var_s1;
@@ -156,12 +173,12 @@ void func_801690D8(S_801690D8_1 *arg0_in, void *arg1, s32 arg2, s32 arg3) {
             temp_s0->unk_82 = 0U;
             temp_s0->unk_86 = 0U;
             temp_s0->unk_80 = 0U;
-            temp_s0->unk_74 = (u16) (M2C_FIELD(stack_base, s16 *, (((u16) arg0_work->unk_2A >> 7) & 0x1C)) * 0xF);
-            temp_s0->unk_7A = (u16) (M2C_FIELD(stack_base, s16 *, (((u16) arg0_work->unk_2A >> 7) & 0x1C)) * 0xF);
+            temp_s0->unk_74 = (u16) ((*(s16 *)((u8 *)stack_base + ((((u16) arg0_work->unk_2A >> 7) & 0x1C)))) * 0xF);
+            temp_s0->unk_7A = (u16) ((*(s16 *)((u8 *)stack_base + ((((u16) arg0_work->unk_2A >> 7) & 0x1C)))) * 0xF);
             temp_s0->unk_76 = (u16) ((s16) *(volatile u16 *)(((s8 *) stack_base + (((u16) arg0_work->unk_2A >> 7) & 0x1C)) + 2) * 0xF);
             temp_s0->unk_7C = (u16) ((s16) *(volatile u16 *)(((s8 *) stack_base + (((u16) arg0_work->unk_2A >> 7) & 0x1C)) + 2) * 0xF);
             temp_a2 = var_s1 - 1;
-            temp_s0->unk_5C.s = M2C_FIELD(stack_base, s16 *, ((((s32) (arg0_work->unk_2A << 0x10) >> 0x19) + 6) & 7) << 2) * 0x3333;
+            temp_s0->unk_5C.s = (*(s16 *)((u8 *)stack_base + (((((s32) (arg0_work->unk_2A << 0x10) >> 0x19) + 6) & 7) << 2))) * 0x3333;
             coeff_ptr = (u16 *)((s8 *)stack_base + (((((s32) (arg0_work->unk_2A << 0x10) >> 0x19) + 6) & 7) << 2));
             temp_s0->unk_60 = (s32) ((s16) coeff_ptr[1] * 0x3333);
             var_a1 = temp_s0->unk_5C.s * temp_a2;
@@ -215,18 +232,18 @@ void func_801690D8(S_801690D8_1 *arg0_in, void *arg1, s32 arg2, s32 arg3) {
             temp_s0->unk_01 = (u8) temp_a0_3->unk_0D;
             temp_s0->unk_02 = (u8) temp_a0_3->unk_0E;
             func_8003DB94(temp_a0_3, &D_800DEAE0, 0);
-            M2C_FIELD(((temp_s0->unk_1C * 0x60) + table_base), u16 *, 0) = temp_s0->unk_80;
-            M2C_FIELD(((temp_s0->unk_1C * 0x60) + table_base), u16 *, 2) = (u16) temp_s0->unk_82;
-            M2C_FIELD(((temp_s0->unk_1C * 0x60) + table_base), u16 *, 4) = (u16) temp_s0->unk_84;
-            M2C_FIELD(((temp_s0->unk_1C * 0x60) + table_base), u16 *, 6) = (u16) temp_s0->unk_86;
-            M2C_FIELD(((temp_s0->unk_1C * 0x60) + table_base), u16 *, 8) = (u16) temp_s0->unk_88;
-            M2C_FIELD(((temp_s0->unk_1C * 0x60) + table_base), u16 *, 0xA) = (u16) temp_s0->unk_8A;
-            M2C_FIELD(((temp_s0->unk_1C * 0x60) + table_base), u16 *, 0x54) = (u16) temp_s0->unk_74;
-            M2C_FIELD(((temp_s0->unk_1C * 0x60) + table_base), u16 *, 0x56) = (u16) temp_s0->unk_76;
-            M2C_FIELD(((temp_s0->unk_1C * 0x60) + table_base), u16 *, 0x58) = (u16) temp_s0->unk_78;
-            M2C_FIELD(((temp_s0->unk_1C * 0x60) + table_base), u16 *, 0x5A) = (u16) temp_s0->unk_7A;
-            M2C_FIELD(((temp_s0->unk_1C * 0x60) + table_base), u16 *, 0x5C) = (u16) temp_s0->unk_7C;
-            M2C_FIELD(((temp_s0->unk_1C * 0x60) + table_base), u16 *, 0x5E) = (u16) temp_s0->unk_7E;
+            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_00 = temp_s0->unk_80;
+            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_02 = (u16) temp_s0->unk_82;
+            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_04 = (u16) temp_s0->unk_84;
+            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_06 = (u16) temp_s0->unk_86;
+            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_08 = (u16) temp_s0->unk_88;
+            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_0A = (u16) temp_s0->unk_8A;
+            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_54 = (u16) temp_s0->unk_74;
+            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_56 = (u16) temp_s0->unk_76;
+            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_58 = (u16) temp_s0->unk_78;
+            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_5A = (u16) temp_s0->unk_7A;
+            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_5C = (u16) temp_s0->unk_7C;
+            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_5E = (u16) temp_s0->unk_7E;
         }
         var_s1 += 1;
     } while (var_s1 < 8);

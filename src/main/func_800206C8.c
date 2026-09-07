@@ -1,6 +1,5 @@
 #include "common.h"
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
 extern u8 D_804007A4[];
 extern u8 D_804007CC[];
@@ -22,17 +21,27 @@ extern u32 func_80407688(void *arg0, s32 arg1);
 extern void func_8040777C(void *arg0);
 extern void func_804077D4(void *arg0);
 
-static __inline__ void store_final_owner(u32 address)
-{
-    FIELD((void *)(unsigned long)address, s32, 0x10) =
-        (s32)(unsigned long)D_80407298;
-}
+
+typedef struct S_800206C8_0 {
+    u8 pad_00[0xC];
+    s32 unk_0C;
+} S_800206C8_0;   /* base_use in func_800206C8 */
+
+typedef struct S_800206C8_1 {
+    u8 pad_00[0x5C];
+    s32 unk_5C;
+    s32 unk_60;
+} S_800206C8_1;   /* sub in func_800206C8 */
+
+typedef struct S_800206C8_2 {
+    u8 pad_00[0x10];
+    s32 unk_10;
+} S_800206C8_2;   /* final_base in func_800206C8 */
 
 void func_800206C8(s32 arg0)
 {
     void *base;
-    void *base_use;
-    u32 final_addr;
+    S_800206C8_0 *base_use;
     void *sub;
     void *work;
 
@@ -56,13 +65,15 @@ void func_800206C8(s32 arg0)
     } else {
         base_use = (u8 *)sub - 0x20;
     }
-    FIELD(base_use, s32, 0xC) = (s32)(unsigned long)((u8 *)sub + 0x50);
-    FIELD(sub, s32, 0x5C) = func_804075A8(FIELD(sub, s32, 0x60));
-    final_addr = func_80407688(sub, arg0);
-    if (final_addr != 0) {
-        final_addr = (u32)(unsigned long)base_use;
-    } else {
-        final_addr = (u32)(unsigned long)base_use;
+    base_use->unk_0C = (s32)(unsigned long)((u8 *)sub + 0x50);
+    ((S_800206C8_1 *)sub)->unk_5C = func_804075A8(((S_800206C8_1 *)sub)->unk_60);
+    func_80407688(sub, arg0);
+    {
+        register void *final_base ASM_REG("$2");
+
+        final_base = base_use;
+        ASM_KEEP(final_base);
+        ((S_800206C8_2 *)final_base)->unk_10 =
+            (s32)(unsigned long)D_80407298;
     }
-    store_final_owner(final_addr);
 }

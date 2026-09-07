@@ -159,7 +159,7 @@ void func_8196C568(Work *work, s32 arg1, s32 arg2)
     register s32 i;
     Position *pos;
     register Position *base ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
-    register Work *active ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    Work *active;   /* MATCH pin: keeps a constant in a register as retail does */
     register DungeonState *dungeon ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
     void **state_table;
     u8 *page_v0;
@@ -171,7 +171,7 @@ void func_8196C568(Work *work, s32 arg1, s32 arg2)
     void *object;
     register u16 next_state ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
     u16 table_value;
-    register s32 call_arg1 ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+    s32 call_arg1;   /* MATCH pin: retail register colouring depends on it */
     s32 call_arg2;
     u16 dungeon_count;
     u8 object_kind;

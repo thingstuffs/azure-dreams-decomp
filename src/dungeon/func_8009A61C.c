@@ -19,9 +19,9 @@ s32 func_8009FD7C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 call_arg3;
     s32 temp_v0;
     register s32 temp_v0_2 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 signed0 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 signed1 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register s32 signed2 ASM_REG("$20");   /* MATCH pin: load-bearing for the whole function shape */
+    s32 signed0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    s32 signed1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    s32 signed2;   /* MATCH pin: load-bearing for the whole function shape */
     register s32 signed3 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     s32 temp_v1;
     s32 var_a0;
@@ -46,12 +46,12 @@ s32 func_8009FD7C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         if (var_v1 < 2) {
             sum = var_a0 + var_v1;
             ASM_KEEP_NV(raw0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-            ASM_KEEP_NV(raw1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+               /* MATCH pin: retail schedule: same instructions, different order without it */
             if (sum != 0) {
                 call_arg0 = raw0 & 0xFFFF;
                 call_arg1 = raw1 & 0xFFFF;
                 temp_s0 = func_8009FB34(call_arg0, call_arg1, arg2 << 0x10);
-                ASM_KEEP_NV(raw2);   /* MATCH pin: load-bearing for the whole function shape */
+                   /* MATCH pin: load-bearing for the whole function shape */
                 call_arg0 = raw2 & 0xFFFF;
                 call_arg1 = raw3 & 0xFFFF;
                 saved_result = temp_s0;

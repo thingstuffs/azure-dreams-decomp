@@ -143,7 +143,7 @@ void func_801745BC(void *arg0, s32 arg1, s32 arg2, s32 arg3)
         } while (node != head);
     }
 
-    ASM_KEEP(head);   /* MATCH pin: load-bearing for the whole function shape */
+       /* MATCH pin: load-bearing for the whole function shape */
     ASM_KEEP(saved);   /* MATCH pin: retail schedule: same instructions, different order without it */
     ASM_KEEP(position);   /* MATCH pin: retail register colouring depends on it */
     ASM_KEEP(key2);   /* MATCH pin: retail register colouring depends on it */
