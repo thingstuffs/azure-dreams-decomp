@@ -1,6 +1,6 @@
 # azure-clean status
 
-Generated 2026-09-07T09:22:05Z. Upstream pin `7b62e858` (7b62e858ff29, extracted 2026-09-07T03:01:54Z).
+Generated 2026-09-07T09:49:32Z. Upstream pin `7b62e858` (7b62e858ff29, extracted 2026-09-07T03:01:54Z).
 
 ## Denominator (rows matched upstream at the pin)
 
@@ -42,6 +42,6 @@ Pin sites: 25,629 total; REG 12,667, KEEP 6,869, KEEP_NV 2,462, SCHED_BARRIER 1,
 | L0 | 2,492,724 | 97.4% |
 | L1 | 1,822,620 | 71.2% |
 | L2 | 1,729,864 | 67.6% |
-| L3 | 93,872 | 3.7% |
+| L3 | 116,832 | 4.6% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
