@@ -4,7 +4,7 @@ import json, sys, time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import ROOT, UP, LEDGER, rows, append_jsonl, sha_text
+from common import ROOT, LEDGER, rows, append_jsonl, sha_text, raw_path
 from verify import verify, gate_fallback
 INCLUDE = ROOT / "include"
 def one(r):
@@ -17,7 +17,7 @@ def main():
     todo = []
     for r in rows():
         if not r["exists"] or not r["stock"]: continue
-        cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name; up = UP / r["c_path"]
+        cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name; up = raw_path(r)
         if cp.exists() and cp.read_bytes() != up.read_bytes(): todo.append(r)
     out = LEDGER / "reverify.jsonl"; out.write_text("")
     print(f"{len(todo)} transformed rows to re-verify", flush=True); t0 = time.time(); n = 0; bad = 0

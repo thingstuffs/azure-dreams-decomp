@@ -1,0 +1,89 @@
+{
+ "_comment": "What proves bytes in this tree: every external piece, pinned. tools/setup.sh provisions and checks it; tools/disc.py extract/rebuild/check the disc.",
+ "disc": {
+  "name": "Azure Dreams.bin",
+  "cue": "Azure Dreams.cue",
+  "sha1": "fab68454be5e4e48f7a43ac797cc8c47325c6a20",
+  "size": 298576992,
+  "track": "MODE2/2352, single data track (SLUS_006.14, Azure Dreams (USA))"
+ },
+ "containers": {
+  "SLUS_006.14": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "MAIN_MAIN.BIN": "69f63236b7ab2260e2e9aa2048ce7aa540bdbe6d",
+  "TOWN_TOWN.BIN": "b946a57aa5fc8cec29db3ecabad6e6b76df418b7",
+  "DUNGEON_DUNGEON.BIN": "27f9fcc384a570a991e349b920881e7070c0e13c",
+  "OVMOVIE.BIN": "4f6f2cb2b4a74a601137b7dc0ed5168493b2c7bb"
+ },
+ "compilers": {
+  "_comment": "the seven stock cc1 drops (decompals/old-gcc release 0.17); toolchain/compilers/ holds these and nothing else",
+  "base_url": "https://github.com/decompals/old-gcc/releases/download/0.17",
+  "drops": {
+   "2.6.3": {
+    "asset": "gcc-2.6.3-psx.tar.gz",
+    "cc1": "f4391c56fe7c602a0287619cfc4c94a3abbea76b2a1d67a23bf15206f6ae50f2",
+    "gcc": "3a47745f26bcb1f022709453374bf1cc2ebf9f8c3b1c531e125cdbff6a5b17fc"
+   },
+   "2.7.2": {
+    "asset": "gcc-2.7.2-psx.tar.gz",
+    "cc1": "0359379289db8e3904b8ed3b25b422ca631c8d71ab2f543d533c39ed2967764f",
+    "gcc": "c85c2a18e0ebab8639f29fce427242dfc1419285e220a7d277c656cf70e3c016"
+   },
+   "2.7.2-cdk": {
+    "asset": "gcc-2.7.2-cdk.tar.gz",
+    "cc1": "90db2db7bcfe372244ca4d9785a7bfbf7613d711f69ee3bfe6c91d82a85e611d",
+    "gcc": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b"
+   },
+   "2.8.0": {
+    "asset": "gcc-2.8.0-psx.tar.gz",
+    "cc1": "f752a0865ae4b9e7570c2f245e6562c7eb7c4349e553265c99d7f6dc8dfc97c6",
+    "gcc": "2dfa41a50f60ce63ff82b57cd07701213c3a5e96cd8324b32328d49cd9ccf174"
+   },
+   "2.8.1": {
+    "asset": "gcc-2.8.1-psx.tar.gz",
+    "cc1": "1a48ec5ac87a146a074a9d66d7a67734a4d1ad56553d02d91e8b71c7fecc2d52",
+    "gcc": "451e6521d860fc6ff49000567d94d983125263bb0ae2149f89d95eaed34b3a02"
+   },
+   "2.91.66": {
+    "asset": "gcc-2.91.66-psx.tar.gz",
+    "cc1": "ab7bacfde8c88dd781d093362b5a57bad09b1cb686e0193659629442fe04f403",
+    "gcc": "34c7d480a6da2522f1683cc6ce28b5e077b3b1d80f27dadbe87e2a6a6e0fc17e"
+   },
+   "2.95.2": {
+    "asset": "gcc-2.95.2-psx.tar.gz",
+    "cc1": "2aa85925dfa10855107c78e29ec36965b953976a45b1a47fb68beb5a74096079",
+    "gcc": "ce696e96e95c25c31d3c290466c355fa92006d7779b567afcfb3b7388282ed5b"
+   }
+  }
+ },
+ "assembler": {
+  "maspsx": "vendored at tools/maspsx (MIT, base github.com/mkst/maspsx; carries the delay-slot store scheduling and %lo-fold fixes the matches depend on; function-blind: no name tables, no per-function options); toolchain/maspsx is a symlink to it",
+  "gnu_as": "mipsel-linux-gnu-as from the host binutils-mipsel-linux-gnu package (2.42 observed); invoked by maspsx --run-assembler and by tools/build/as.sh"
+ },
+ "mkpsxiso": {
+  "repo": "https://github.com/Lameguy64/mkpsxiso.git",
+  "commit": "633adc6778b7a7c677eecaebc7da41bd19068048",
+  "version": "2.20",
+  "patch": "tools/patches/mkpsxiso-abstract-bibliographic.patch",
+  "why": "the disc's primary volume descriptor carries abstract/bibliographic identifiers (KONAMI); stock mkpsxiso drops them and the image is not byte-identical"
+ },
+ "python": {
+  "venv": ".venv",
+  "requires": [
+   "splat64[mips]==0.41.0"
+  ],
+  "host": "python3 >= 3.10 with PyYAML importable by the system interpreter (the window gate runs under python3, not the venv)",
+  "requires_dev": [
+   "pytest"
+  ],
+  "tests": "cd tools/maspsx && ../../.venv/bin/python -m pytest tests -q   (aspsx/ tests need the proprietary ASPSX binary and are not run)"
+ },
+ "host_packages": [
+  "binutils-mipsel-linux-gnu",
+  "ninja-build",
+  "cmake",
+  "build-essential",
+  "python3-venv",
+  "git",
+  "curl"
+ ]
+}

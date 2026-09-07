@@ -9,3 +9,8 @@ __pycache__/
 /build_ovl/
 /build_ovl_raw/
 /dashboard/
+/toolchain/
+/.venv/
+/bin/
+/baserom/
+.pytest_cache/

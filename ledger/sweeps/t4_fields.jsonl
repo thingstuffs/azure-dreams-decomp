@@ -9874,3 +9874,4 @@
 {"id":"dungeon/func_80AC5000","transform":"t4_fields","in_sha":"7af3bd76ff519d6615a8bd10a3ffc76ee8c6f3b30e7f0b429a85c5877b3e732b","from_clean":true,"size":644,"outcome":"refused","reason":"no M2C_FIELD/FIELD","at":"2026-09-07T14:02:31Z"}
 {"id":"dungeon/func_80FC3000","transform":"t4_fields","in_sha":"e8f81fa10367640ca4e7e2976a07bbd6110c0861e0b4807a7f9b58824e273510","from_clean":true,"size":832,"outcome":"refused","reason":"no M2C_FIELD/FIELD","at":"2026-09-07T14:02:31Z"}
 {"id":"dungeon/func_818F8800","transform":"t4_fields","in_sha":"9b25e4c9502b0fa0857516a87862683c582e08a0689bcdf05ef806455d6b8584","from_clean":true,"size":3284,"outcome":"refused","reason":"no M2C_FIELD/FIELD","at":"2026-09-07T14:02:31Z"}
+{"id":"dungeon/func_80093A28","transform":"t4_fields","in_sha":"647865d1200104785e8a021e6a19aac07c439876eefb4689b6e01fa4eded0233","from_clean":true,"size":12,"outcome":"refused","reason":"no M2C_FIELD/FIELD","at":"2026-09-07T22:42:36Z"}

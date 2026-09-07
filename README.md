@@ -1,25 +1,29 @@
 # azure-clean
 
-Readable, byte-exact C for Azure Dreams (PlayStation, SLUS-006.14), derived from a
-byte-matching decompilation of the game (the "upstream" tree, not published yet).
-Every function here still compiles to the retail bytes; the work is to make the C human.
+Readable, byte-exact C for Azure Dreams (PlayStation, SLUS-006.14). Every function here still
+compiles to the retail bytes; the work is to make the C human.
 
-Upstream pin: see `PIN` (the upstream commit the tree is derived from). This tree is a
-**replay**: `upstream@PIN → machine transforms → hand refinements`, so it is refreshed by
-bumping the pin and re-running, never by hand-merging.
+The tree started as a replay of a byte-matching decompilation at one commit (`PIN`): its sources
+are frozen in `raw/`, and everything else — machine transforms, hand refinements, the row
+database, the gates, the toolchain — lives here. There is no upstream any more (the swap-over is
+recorded in `docs/SWAPOVER.md`).
 
 ## Layout
 
 | path | what |
 |---|---|
-| `raw/<container>/` | the pinned upstream sources, untouched: every matched function as it is upstream (`slus`, `main`, `town`, `dungeon`, `ovmovie`); `raw/include/` its headers |
-| `src/<container>/` | the current best version of **every** function: transformed where the machine layers have reached it, otherwise identical to `raw/`. `INDEX.md` per container lists file, function, bytes, compiler cell and cleanliness level |
+| `raw/<container>/` | the pinned sources, frozen: every matched function as it was at `PIN` (`slus`, `main`, `town`, `dungeon`, `ovmovie`); `raw/include/` the pinned headers. Never edited |
+| `src/<container>/` | the current best version of **every** function: transformed where the machine layers have reached it, otherwise identical to `raw/` |
 | `refine/<container>/` | hand/agent-refined bodies (level 3+) that supersede `src/` for that function |
-| `include/` | headers the clean tree compiles against (`common.h` from upstream, `m2c_compat.h` for the hoisted m2c macros) |
-| `ledger/` | machine-readable truth: `rows.jsonl` (registry), `baseline.jsonl` (byte-exact verdict per row at the pin), `census.jsonl`, `levels.jsonl`, `sweeps/*.jsonl` (every transform verdict), `pins.jsonl` (pin census), `agents/` (bake-off and campaign journals), `struct_census.json` |
-| `tools/` | refresh, registry, verify, census, pin_census, xform plugins, sweep, levels, status, agent_task, struct_census |
-| `docs/` | `PLAN.md` (strategy and decisions), `REPORT_20260907.md` (day-one results), `PIN_CENSUS.md`, `STRUCT_CENSUS.md`, `BAKEOFF.md` |
+| `include/` | headers the clean tree compiles against (`common.h`, `m2c_compat.h` for the hoisted m2c macros) |
+| `ledger/` | machine-readable truth: `splits/` (the row database: every container's split table, the SLUS recipe), `rows.jsonl` (registry of matched rows), `baseline.jsonl` (byte-exact verdict per row at the pin), `reverify.jsonl`, `gate.jsonl` / `gate_slus.jsonl` / `containers.jsonl` (gate verdicts), `census.jsonl`, `levels.jsonl`, `sweeps/*.jsonl` (every transform verdict), `pins.jsonl`, `agents/` (campaign journals and bodies), `pin_bumps/` |
+| `config/` | the SLUS split (`slus_006.14.yaml`, symbols, SHA-1), the 2,181 overlay window YAMLs and symbol/as-flags/rowbase files (`overlays/`), noreturn/sibcall lists, `func_sizes.json` |
+| `tools/` | `setup.sh` + `toolchain.lock.json` (provisioning), `disc.py`, `row_db.py`, `registry.py`, `verify.py`, `sweep.py` + `xform/`, `census.py`, `levels.py`, `status.py`, `agent_task.py`, `struct_census.py`; `build/` (SLUS build, window gate runner, container check), `gate/` (the window gate and the per-row scorer), `maspsx/` (vendored assembler front end), `patches/` |
+| `docs/` | `PLAN.md` (strategy and levels), `SWAPOVER.md` (how the tree came to own everything), `REPORT_20260907.md`, `PIN_CENSUS.md`, `STRUCT_CENSUS.md`, `BAKEOFF.md`, `HANDOVER.md` |
 | `STATUS.md` | generated: bytes per cleanliness level, shape census before/after |
+
+Not committed: the disc image (`bin/`), its extract (`work/disc/`), the toolchain (`toolchain/`),
+the venv, `baserom/`, and the build roots (`build_slus/`, `build_ovl/`).
 
 ## Cleanliness levels
 
@@ -32,57 +36,64 @@ bumping the pin and re-running, never by hand-merging.
 | L4 | in a module with a shared header |
 | L5 | pin-free, or every remaining pin documented (`/* MATCH pin: ... */` states the measured reason) |
 
+## Provisioning
+
+```sh
+cp "/path/to/Azure Dreams.bin" "/path/to/Azure Dreams.cue" bin/   # your own disc; SHA-1 in tools/toolchain.lock.json
+tools/setup.sh                                                    # venv, the seven stock cc1 drops, maspsx link, mkpsxiso, extract
+tools/setup.sh --check                                            # verify only
+```
+
+`tools/toolchain.lock.json` pins every external piece with a hash: the disc and its five
+containers, the decompals old-gcc drops (`toolchain/compilers/` holds those seven and nothing
+else — the guard that no compiler bridge can be reintroduced), the mkpsxiso commit and patch, the
+splat version. The assembler front end is vendored (`tools/maspsx`, MIT): function-blind, no name
+tables, no per-function options. `tools/disc.py extract|rebuild|check` is the disc round trip.
+
 ## Verifying
 
-`tools/verify.py <container>/<func> <file.c>` compiles a candidate through the pinned stock
-toolchain of the upstream checkout and compares it with the retail bytes (overlays) or the
-pinned object (SLUS). Transforms are applied with `tools/sweep.py <transform>`; every row is
-verified and journalled, mismatches are refused, nothing is guessed.
+Three proofs, from cheapest to the one of record:
 
-Requires the upstream checkout (toolchain, scorer, retail extracts): put its path in a
-`.upstream` file at the repo root (gitignored) or in `AZURE_CLEAN_UPSTREAM`; see `tools/common.py`.
+```sh
+python3 tools/verify.py <container>/<func> <file.c>     # one row: the per-row scorer (overlays) or object identity (SLUS)
+tools/build/build_slus.sh [--fresh]                     # the SLUS gate: split, configure, build, SHA-1 (ledger/gate_slus.jsonl)
+bash tools/build/mk_ovl_root.sh && python3 tools/build/gate_all.py [--retry]   # every overlay window (ledger/gate.jsonl)
+python3 tools/build/container_check.py --rebuild-disc   # whole containers from the gated windows + SLUS, then the disc (ledger/containers.jsonl)
+```
+
+The window gate's compile command is the only compile command; the per-row scorer is a dev
+tool, and a row it cannot prove is gated through its window (`verify.py::gate_fallback`).
+Transforms are applied with `tools/sweep.py <transform>`; every row is verified and journalled,
+mismatches are refused, nothing is guessed. `tools/reverify.py` re-proves every transformed row.
 
 ## Dashboard
 
 `tools/dashboard_serve.sh` regenerates `dashboard/index.html` every minute from the ledger and
 journals and serves it on port 8002: levels by bytes and by container, what is running, the
-agent campaign, the container gate verdicts, remaining work and recent commits. `ovmovie` is
-parked (movie playback exists elsewhere) and listed without being counted.
+agent campaign, the gate verdicts, remaining work and recent commits. `ovmovie` is parked (movie
+playback exists elsewhere) and listed without being counted.
 
-## Syncing with upstream
+## Row database
 
-The tree is derived from one upstream commit (`PIN`). To take a newer upstream:
-
-```sh
-python3 tools/pin_bump.py <commit> [--workers 6]        # ~35 min end to end
-```
-
-Pause the Layer-2 agent campaign first (it writes `refine/`; the script warns if one is running in
-the tree) and relaunch it afterwards. The script runs, in order: `refresh` (mirror at the new pin),
-`import` (the upstream files this repo carries copies of — `config/overlays/*`, the symbol lists,
-`tools/configure.py`, the pinned headers — re-copied with the schema rename; every changed file is
-listed), `slus` (`build_slus/` view root, `splat split`, `configure.py` at the pin: the pinned
-`build.ninja` is **derived from the pinned `configure.py`**, never copied from the live tree),
-`registry` (diff against the previous registry: text changed, config/dial changed, stock flips),
-`stale` (those rows: `raw/` refreshed, `src/` reset to the new raw text so the sweeps re-derive
-them, `refine/` bodies set aside, the baseline cleared for a full rebuild — the toolchain is the
-live one, so an unchanged row can still change bytes), `baseline`, `sweeps` (census, T1/T4/T2/T6,
-complete_tree, levels), `refine` (set-aside bodies re-verified at the new pin: exact ones restored,
-the rest journalled in `ledger/agents/pin_bump_refine.jsonl` and left under `work/pin_bump/<pin>/`
-— never kept silently; the campaign serves those rows again), `status`, `gate_slus` (ninja SHA-1
-gate) and `gate_ovl` (fresh `ledger/gate.jsonl`, every window). `--from STEP` resumes,
-`--stop-after STEP` stops early. The report is `ledger/pin_bumps/<pin>.json`.
-
-Two gate rules the tools apply: a row the per-row scorer cannot measure (a `.text` data prefix
-under the true-name symbol, a data row written as C) is proven through its window instead
-(`tools/verify.py::gate_fallback`, recorded with `proof: window-gate`); and a synthetic-base
-seed window whose bytes are re-gated by a `_truebase_` twin at the proven base is skipped by
-`gate_all.py` unless a registered row still names it as its window (9 such seeds at `82f20568`).
+`ledger/splits/<container>.jsonl` is the split table of each container: every row the gate lays
+out (matched or not) with its extent, verdict, compiler config and source; `ledger/splits/slus.jsonl`
+the per-TU recipe of the executable. `tools/registry.py` derives `ledger/rows.jsonl` (the
+registry of matched rows) from them and assigns every row its gate window: the gate compiles
+every matched row whose extent lies inside a window's file range, so a row is never "windowless"
+(`gate_config_derived` marks rows whose split record did not name one). `tools/row_db.py check`
+verifies the tables; `tools/row_db.py export <root>` writes them in the gate's input format
+(the build-root scripts do this).
 
 A row is **stock** when its cc1 is a stock cell, its gcc flags are ordinary (no
-`-fretail-`/`-fsn-`/`-fdriver-`), and its maspsx options carry no per-function `--retail-*` dial —
-the rule upstream's `live_truth` census applies. Both config label dialects (`2.8.1 -G0 …` and
-`2.8.1+-G0 …`) parse identically (`tools/common.py::parse_cfg`).
+`-fretail-`/`-fsn-`/`-fdriver-`), and its maspsx options carry no per-function `--retail-*` dial.
+Both config label dialects (`2.8.1 -G0 …` and `2.8.1+-G0 …`) parse identically
+(`tools/common.py::parse_cfg`). Every registered row is stock at the pin.
+
+## History: the pin
+
+`PIN` names the commit of the byte-matching tree this one was derived from; `tools/pin_bump.py`
+was the sync recipe (refresh a mirror, re-import, re-derive, re-verify, re-gate) and stays as a
+record. It needs a checkout of that tree named in `.upstream`; nothing else does.
 
 ## Credits
 

@@ -12,7 +12,7 @@ Output: ledger/struct_census.json and a Markdown summary on stdout.
 import json, re, collections, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import ROOT, UP, LEDGER, rows
+from common import ROOT, LEDGER, rows, raw_path
 
 TYPEDEF = re.compile(r"typedef struct (S_[0-9A-F]+_[0-9a-z_]+)(?:_pre)? \{\n(.*?)\n\} \1(?:_pre)?;\s*/\* (.*?) \*/", re.S)
 MEMBER = re.compile(r"^\s+(?:union \{ (.*?) \} unk_([0-9A-F]+)|(.+?)\s+(?:\(\*)?unk_([0-9A-F]+)(?:\))?(?:\([^)]*\))?;)", re.M)
@@ -21,7 +21,7 @@ CALL = re.compile(r"\b(func_[0-9A-F]{8})\s*\(")
 
 def current_text(r):
     p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
-    return (p if p.exists() else UP / r["c_path"]).read_text(errors="replace")
+    return (p if p.exists() else raw_path(r)).read_text(errors="replace")
 
 def split_args(s):
     out, depth, cur = [], 0, ""
@@ -167,9 +167,14 @@ def main():
         hard = sum(1 for off, c in merged.items() if len({wkind(t) for t in c}) > 1)
         soft = sum(1 for off, c in merged.items() if len(c) > 1) - hard
         layout = {f"0x{off:X}": dict(c.most_common(3)) for off, c in sorted(merged.items())}
-        groups.append({"key": k, "structs": len(names), "rows": len({structs[n]["row"] for n in names}), "members": len(merged), "hard_conflicts": hard, "soft_conflicts": soft, "span": max(merged) + 4 if merged else 0, "names": names[:50], "layout": layout})
+        groups.append({"key": k, "structs": len(names), "rows": len({structs[n]["row"] for n in names}), "members": len(merged), "hard_conflicts": hard, "soft_conflicts": soft, "span": max(merged) + 4 if merged else 0, "names": names[:50], "members_all": sorted(names), "layout": layout})
     groups.sort(key=lambda g: -g["structs"])
     json.dump({"structs": len(structs), "groups": groups, "provenance_keys": len(prov)}, open(LEDGER / "struct_census.json", "w"), indent=0)
+    # the full table T7 (tools/gen_records.py) reads: every struct's provenance class and local layout
+    json.dump({n: {"row": s["row"], "container": s["container"], "fn": s["fn"], "base": s["base"],
+                   "layout": {f"0x{o:X}": ty for o, ty in sorted(s["layout"].items())},
+                   "class": next((k for k, names in prov.items() if n in names), None)}
+               for n, s in structs.items()}, open(LEDGER / "struct_census_structs.json", "w"), indent=0)
     kinds = collections.Counter(k.split(":")[0] for k in prov)
     print(f"structs {len(structs)} from {len({s['row'] for s in structs.values()})} rows; provenance keys {len(prov)} ({dict(kinds)}); groups with >=2 structs: {len(groups)}")
     print("\n| provenance | structs | rows | members | hard conflicts | soft (sign/qualifier) | span |\n|---|---:|---:|---:|---:|---:|---:|")

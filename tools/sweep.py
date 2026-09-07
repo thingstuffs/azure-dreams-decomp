@@ -12,7 +12,7 @@ import argparse, json, random, sys, tempfile, time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import ROOT, UP, LEDGER, rows, read_jsonl, append_jsonl, sha_text
+from common import ROOT, LEDGER, rows, read_jsonl, append_jsonl, sha_text, raw_path
 from verify import verify
 import xform
 
@@ -27,7 +27,7 @@ def clean_path(row):
 
 def current_text(row):
     p = clean_path(row)
-    return (p if p.exists() else UP / row["c_path"]).read_text(errors="replace"), p.exists()
+    return (p if p.exists() else raw_path(row)).read_text(errors="replace"), p.exists()
 
 def one(args):
     T, row, cen = args
@@ -50,6 +50,8 @@ def one(args):
     except Exception as e:  # a plugin bug is a refusal, never a crash of the sweep
         return dict(rec, outcome="refused", reason=f"apply error: {e!r}"[:200])
     rec.update(info)
+    if new is None and info.get("refused"):
+        return dict(rec, outcome="refused", reason="; ".join(info["refused"])[:300])
     if new is None or new == text:
         return dict(rec, outcome="noop")
     with tempfile.TemporaryDirectory() as td:

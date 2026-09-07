@@ -1,9 +1,12 @@
 """Shared paths and helpers for azure-clean tools.
 
-UP_LIVE is the upstream byte-matching tree: read-only here (toolchain, scorer, row DB).
-Its location comes from $AZURE_CLEAN_UPSTREAM or the gitignored file `.upstream` at the repo
-root (one line: the path); default `../upstream-decomp`.
-UP is the mirror of that tree's tracked sources at the pinned commit (tools/refresh.py).
+RAW is the frozen pinned source snapshot (raw/<container>/<file>.c, raw/include): the text every
+row started from.  The clean file of a row is src/<container>/<file>.c (clean_path), its pinned
+text raw/<container>/<file>.c (raw_path).  The row database is ledger/splits/ + ledger/rows.jsonl
+(tools/row_db.py, tools/registry.py); the toolchain, venv, disc and containers live in this tree
+(tools/setup.sh).  UP / UP_LIVE only matter to tools/refresh.py and tools/pin_bump.py, the
+historical sync path: a transient mirror of another checkout at a commit, gone after the
+swap-over (docs/SWAPOVER.md).
 """
 from __future__ import annotations
 import hashlib, json, os, re, subprocess, time
@@ -17,7 +20,8 @@ def _upstream():
     if f.exists(): return Path(f.read_text().strip())
     return ROOT.parent / "upstream-decomp"
 UP_LIVE = _upstream()
-UP = ROOT / "upstream"
+UP = ROOT / "upstream"          # transient mirror (pin bumps only)
+RAW = ROOT / "raw"
 LEDGER = ROOT / "ledger"
 CACHE = LEDGER / "cache"
 PIN = (ROOT / "PIN").read_text().strip()
@@ -46,6 +50,40 @@ def write_jsonl(p, recs):
     with open(p, "w") as fh:
         for r in recs:
             fh.write(json.dumps(r, separators=(",", ":")) + "\n")
+
+def raw_path(row) -> Path:
+    """The row's pinned text (frozen)."""
+    return RAW / row["container"] / Path(row["c_path"]).name
+
+def clean_path(row) -> Path:
+    """The row's clean file (every registered row has one: tools/complete_tree.py)."""
+    return ROOT / "src" / row["container"] / Path(row["c_path"]).name
+
+def current_text(row) -> str:
+    p = clean_path(row)
+    return (p if p.exists() else raw_path(row)).read_text(errors="replace")
+
+_WM = None
+def window_map():
+    """{container: [(name, file_start, file_end, vram_start), ...]} from config/overlays/*.overlay.yaml
+    (the engine window is a dungeon-container window)."""
+    global _WM
+    if _WM is None:
+        _WM = {}
+        for y in sorted((ROOT / "config/overlays").glob("*.overlay.yaml")):
+            t = y.read_text(errors="replace")
+            tp = re.search(r"target_path:\s*(\S+)", t); fs = re.search(r"file_start:\s*(0x[0-9A-Fa-f]+)", t)
+            fe = re.search(r"file_end:\s*(0x[0-9A-Fa-f]+)", t); vs = re.search(r"vram_start:\s*(0x[0-9A-Fa-f]+)", t)
+            if not (tp and fs and fe): continue
+            cont = Path(tp.group(1)).name.split("_")[0].lower().replace(".bin", "")
+            _WM.setdefault(cont, []).append((y.name, int(fs.group(1), 16), int(fe.group(1), 16), int(vs.group(1), 16) if vs else None))
+    return _WM
+
+def covering_windows(container, foff, size, wm=None):
+    """Windows whose file range holds [foff, foff+size): the gate compiles every MATCH row inside
+    a window's range, whether or not the row's record names that window."""
+    wm = wm or window_map()
+    return [w for w in wm.get(container, []) if w[1] <= foff and foff + size <= w[2]]
 
 def rows(only=None):
     rs = read_jsonl(LEDGER / "rows.jsonl")

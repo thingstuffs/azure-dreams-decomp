@@ -13,7 +13,7 @@ time and token usage from the codex session log.
 import argparse, json, os, random, re, shutil, subprocess, sys, tempfile, time
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import ROOT, UP, LEDGER, rows, read_jsonl, append_jsonl, sha_text
+from common import ROOT, LEDGER, rows, read_jsonl, append_jsonl, sha_text, raw_path
 from verify import verify
 
 INCLUDE = ROOT / "include"
@@ -64,7 +64,7 @@ def run_codex(model, effort, prompt, workdir, timeout):
 def one(row, model, effort, timeout):
     name = Path(row["c_path"]).name
     cp = ROOT / "src" / row["container"] / name
-    src = (cp if cp.exists() else UP / row["c_path"]).read_text(errors="replace")
+    src = (cp if cp.exists() else raw_path(row)).read_text(errors="replace")
     work = Path(tempfile.mkdtemp(prefix="agent_", dir=str(ROOT / "work")))
     out = work / name; out.write_text(src)
     verify_cmd = f"python3 {ROOT}/tools/verify.py {row['id']} {out} --include-root {INCLUDE}"
@@ -116,7 +116,7 @@ def main():
     if a.with_gotos:
         def has_goto(r):
             cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name
-            t = (cp if cp.exists() else UP / r["c_path"]).read_text(errors="replace")
+            t = (cp if cp.exists() else raw_path(r)).read_text(errors="replace")
             return bool(re.search(r"\bgoto\b", t))
         rs = [r for r in rs if has_goto(r)]
     if a.rows: keep = set(a.rows.split(",")); rs = [r for r in rows() if r["id"] in keep]

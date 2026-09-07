@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Move the tree to a newer upstream commit and re-derive everything the pin change touches.
+"""Move the tree to a newer commit of the historical upstream checkout and re-derive everything the
+pin change touches.  HISTORICAL after the swap-over (docs/SWAPOVER.md): this tree owns its
+toolchain, disc, row database and gates; the mirror upstream/ exists only while this script runs
+and needs a checkout named in .upstream / $AZURE_CLEAN_UPSTREAM.
 
     python3 tools/pin_bump.py <commit> [--workers 6] [--stop-after STEP] [--from STEP]
 
@@ -10,7 +13,10 @@ Steps (each prints a header; --from resumes at a step, --stop-after stops after 
              the raw/include copy); every changed file is listed
   slus       build_slus/ view root, `splat split`, configure.py at the pin ->
              upstream/build.ninja.pinned is DERIVED FROM THE PIN (not copied from the live tree)
-  registry   ledger/rows.jsonl regenerated; diff against the previous registry
+  rowdb      ledger/splits/ (the row database: every container's split table, the SLUS recipe
+             edges, config/func_sizes.json, config/decomp_audit_baseline.json) re-imported from
+             the mirror (tools/row_db.py import)
+  registry   ledger/rows.jsonl regenerated from ledger/splits/; diff against the previous registry
   stale      rows whose upstream text / config / stock status changed: raw/ refreshed, src/ reset to
              the new raw text (the sweeps re-derive), refine/ body set aside for re-verification,
              baseline record dropped; removed rows set aside; all under work/pin_bump/<commit>/
@@ -33,7 +39,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, UP, UP_LIVE, LEDGER, CACHE, read_jsonl, write_jsonl, append_jsonl, sha_file, run
 
-STEPS = ["refresh", "import", "slus", "registry", "stale", "baseline", "sweeps", "refine", "reverify", "status", "gate_slus", "gate_ovl"]
+STEPS = ["refresh", "import", "slus", "rowdb", "registry", "stale", "baseline", "sweeps", "refine", "reverify", "status", "gate_slus", "gate_ovl"]
 SWEEPS = ["t1_boiler", "t4_fields", "t2_pins", "t6_pin_notes"]   # t3_epilogue retired 2026-09-07 (window gate)
 CONFIG_TOP = ["names.tsv", "slus_006.14.yaml", "slus_006.14.symbols.txt", "slus_006.14.sha1",
               "noreturn_syms.txt", "noreturn_syms.dungeon.txt", "noreturn_syms.town.txt", "noreturn_syms.ovmovie.txt",
@@ -150,6 +156,11 @@ def step_slus(commit):
     diff = sorted(k for k in a if k in b and a[k] != b[k])
     REPORT["slus"] = {"tus": len(a), "live_tus": len(b), "cells_differ_from_live": diff, "only_pinned": sorted(set(a) - set(b)), "only_live": sorted(set(b) - set(a))}
     print(f"pinned recipe: {len(a)} TUs; live tree: {len(b)}; cells differing from live: {len(diff)}")
+
+
+def step_rowdb(commit):
+    sh([sys.executable, "tools/row_db.py", "import", "--mirror", str(UP)], cwd=ROOT)
+    REPORT["rowdb"] = {"splits": sorted(p.name for p in (LEDGER / "splits").iterdir())}
 
 
 def step_registry(commit):
