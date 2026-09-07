@@ -2,8 +2,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef s8 M2C_UNK8;
-
 typedef void (*Func_800B0E0C_Callback)(M2C_UNK);
 extern Func_800B0E0C_Callback D_800D157C[];
 

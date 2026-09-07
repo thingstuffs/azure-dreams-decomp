@@ -44,10 +44,13 @@ def normalise_definition(row, cfile):
 
 def verify_overlay(row, cfile, regions=False, include_root=None):
     env = _env()
-    if include_root: env["C_INCLUDE_PATH"] = str(Path(include_root).resolve())
+    # the include root is passed as a USER include directory (-I), exactly as the window gate's
+    # cc.sh does; C_INCLUDE_PATH would make it a system header and GCC then tolerates
+    # redefinitions the gate rejects
+    cfg = row["cfg"] + (f" -I{Path(include_root).resolve()}" if include_root else "")
     cfile = normalise_definition(row, cfile)
     cmd = NICE + ["python3", str(UP_LIVE / "tools/aligned_score.py"), "--func", row["func"],
-                  "--overlay", row["container"], "--configs", row["cfg"]]
+                  "--overlay", row["container"], "--configs", cfg]
     cmd += ["--regions", str(cfile)] if regions else ["--summary-json", str(cfile)]
     t0 = time.time()
     try:

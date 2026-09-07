@@ -1,8 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef s8 M2C_UNK8;
-
 M2C_UNK func_800C2E84(void *arg0, M2C_UNK arg1, M2C_UNK *arg2);
 extern s8 D_80082660[];
 extern M2C_UNK D_800CB570;
