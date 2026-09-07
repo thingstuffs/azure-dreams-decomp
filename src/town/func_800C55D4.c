@@ -2,8 +2,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef s8 M2C_UNK8;
-
 M2C_UNK func_800C2CB0();
 s32 func_800C2D0C();
 

@@ -1,8 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef s8 M2C_UNK8;
-
 extern u8 *D_80175D50[3];
 extern u8 D_80083780[12];
 

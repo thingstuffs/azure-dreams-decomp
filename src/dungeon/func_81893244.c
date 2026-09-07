@@ -1,8 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef s8 M2C_UNK8;
-
 typedef struct Func81893244Data Func81893244Data;
 typedef struct Func81893244Sub Func81893244Sub;
 typedef struct Func81893244Status Func81893244Status;

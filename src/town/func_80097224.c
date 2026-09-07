@@ -1,8 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef s8 M2C_UNK8;
-
 extern M2C_UNK func_80094A60();
 
 typedef struct S_80094984_0 {
