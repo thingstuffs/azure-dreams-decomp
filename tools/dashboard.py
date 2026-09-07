@@ -22,11 +22,16 @@ def sh(cmd):
 
 def running():
     out = []
-    ps = sh("ps -eo pid,etime,args")
+    ps = sh("ps -eo pid,args")
     for line in ps.splitlines():
         for key, label in (("tools/agent_task.py", "agent campaign"), ("tools/sweep.py", "sweep"), ("tools/build/gate_all.py", "container gate"), ("overlay_local_gate.py", "window gate"), ("tools/reverify.py", "re-verify"), ("tools/pin_census.py", "pin census"), ("verify.py --baseline", "baseline")):
             if key in line and "grep" not in line:
-                pid, elapsed, *args = line.split(None, 2)
+                pid, *args = line.split(None, 1)
+                try:
+                    secs = int(time.time() - os.stat(f"/proc/{pid}").st_mtime)     # ps etime is unreliable on this host
+                    elapsed = f"{secs//3600}h{(secs%3600)//60:02d}m"
+                except OSError:
+                    elapsed = "?"
                 a = " ".join(args); m = re.search(r"--model (\S+).*?--limit (\d+)", a)
                 out.append({"what": label, "pid": pid, "elapsed": elapsed, "args": (m.group(0) if m else a[-80:])})
     return out
