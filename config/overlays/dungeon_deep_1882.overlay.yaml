@@ -1,0 +1,57 @@
+# Standalone overlay-local build seed for a DEEP-DUNGEON code subwindow.
+# Do NOT add to configure.py / build.ninja.
+#
+# Covers addressing-lane candidate func_81862B74 at file 0x1882B74. The
+# dungeon sweep marks this region as proven-engine/derived-backhalf:
+# vram = file_offset + 0x7FFE0000.
+#
+# vram_start CORRECTED 2026-07-13 (commit b4ae80e trap class; this window was named in
+# b4ae80e's survey). It was 0x81802000 (delta 0x7FF80000) -- a typo that matched NOTHING:
+# not this file's own "vram = file_offset + 0x7FFE0000" note, not the overlays/dungeon rows
+# (all 2526 named under delta 0x7FFE0000: func_81862B74 @0x1882B74, func_8186298C @0x188298C,
+# func_81862ED8 @0x1882ED8), and not any sibling dungeon_deep_* window (every one uses
+# vram_start == file_start + 0x7FFE0000). overlay_local_gate places each split segment at
+# foff + (vram_start - file_start), so at the old base a future candidate calling a DEFINED
+# in-window asm row (e.g. func_8186298C) would place it at 0x8180298C and byte-mismatch
+# retail's 0x8186298C. func_81862B74 stayed gate-green only because it references solely
+# out-of-window (name-fallback) symbols. This was a plain error, NOT a proven alternate load
+# base, so unlike the two-base windows there is no true_vram_start to record.
+name: dungeon_deep_1882
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
+options:
+  basename: dungeon_deep_1882
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0x1882000
+    file_end: 0x1883000
+    vram_start: 0x81862000          # = 0x1882000 + 0x7FFE0000 (func_8186xxxx naming base); was 0x81802000 (typo)
+    base_confidence: proven-engine/derived-backhalf
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: true
+segments:
+  - [0x0, bin]
+  - type: code
+    start: 0x1882000
+    vram: 0x81862000                 # = file_start + 0x7FFE0000 (== window.vram_start)
+    subsegments:
+      - [0x1882000, asm]
+  - [0x1883000, bin]
+  - [0x1A86800]

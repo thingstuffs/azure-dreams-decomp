@@ -1,0 +1,22 @@
+#include "common.h"
+#include "m2c_compat.h"
+
+void *func_8003FC64();                       /* extern */
+M2C_UNK func_800C0D80();                            /* extern */
+extern M2C_UNK D_800C0C28;
+
+typedef struct S_800C0C48_0 {
+    u8 pad_00[0x10];
+    M2C_UNK * unk_10;
+} S_800C0C48_0;   /* temp_v0 in func_800C0C48 */
+
+s32 func_800C0C48(void) {
+    S_800C0C48_0 *temp_v0;
+
+    func_800C0D80();
+    temp_v0 = func_8003FC64(0);
+    if (temp_v0 != NULL) {
+        temp_v0->unk_10 = &D_800C0C28;
+    }
+    return -1;
+}

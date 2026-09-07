@@ -1,0 +1,45 @@
+# Standalone overlay-local build seed for a DEEP-DUNGEON code subwindow.
+# Do NOT add to configure.py / build.ninja.
+#
+# Covers held candidate func_80D678A4 at file 0xD878A4.  The dungeon sweep
+# marks this region as proven-engine/derived-backhalf:
+# vram = file_offset + 0x7FFE0000.
+name: dungeon_deep_0d87
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
+options:
+  basename: dungeon_deep_0d87
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0xD87000
+    file_end: 0xD88000
+    vram_start: 0x80D67000
+    base_confidence: proven-engine/derived-backhalf
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: true
+segments:
+  - [0x0, bin]
+  - type: code
+    start: 0xD87000
+    vram: 0x80D67000
+    subsegments:
+      - [0xD87000, asm]
+  - [0xD88000, bin]
+  - [0x1A86800]

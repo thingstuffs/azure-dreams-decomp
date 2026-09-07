@@ -1,0 +1,70 @@
+# Standalone overlay seed -- DUNGEON back-half MAIN-BODY region, base_confidence: proven-static-xref.
+# Do NOT add to configure.py / build.ninja. Purpose: a PROVEN-base sibcall-evidence window for
+# tools/gen_sibcall_syms.py so the arg-carrying j-only dispatchers tail-called from the dungeon
+# back-half main body (foff 0xBB769C..0xBB9FC4, synthetic vram ~0x80B90000) are collected. Wired
+# into tools/gen_sibcall_syms.py CONTAINERS["dungeon"]["windows"].
+#
+# ============================ BASE PROOF (proven-static-xref) ============================
+# Established 2026-07-17 by STATIC cross-reference from retail bytes alone (no emulator/RAM
+# capture). Full evidence table + method: work/fable_plan_20260717/t8_backhalf_proof.md.
+#
+# The DUNGEON container is one statically-linked image: internal jal/j operands are absolute
+# and encode the container's link space. Front-half [0xa0000,0x100000) is proven at runtime
+# delta K_true = 0x7FFE5760 (work/t8/T8_FINDINGS.md "Addendum: dungeon_f1/deep"; also
+# reproduced by tools/gate_base_proof.py find_deep_engine: delta=0x5760, 180/188). The window
+# below is proven to be REAL CODE linked in that SAME space:
+#
+#   * 120 jal sites in the window; 90 (75.0%) decode (target - 0x7FFE5760) onto a container
+#     function-entry file offset, and ALL 90 land on entries INSIDE the already-proven
+#     front-half window [0xa0000,0x100000) -- 41 distinct engine functions
+#     (func_800969CC, func_8009FF80, func_8009D3A4, func_800A7E34, func_8009F36C, ...).
+#     These are gold cross-region anchors: proven-region callees hit at exactly their proven
+#     addresses => the window's code is the same link image. 0 out-of-band (bogus) jals.
+#   * Base uniqueness: hits peak SHARPLY at delta 0x7FFE5760 (90) vs next-best 9 at +/-~0x800;
+#     the +/-0x800 and +/-0x1000 alternates all fail -- the base is uniquely determined.
+#   * tools/gate_base_proof.py score_region on this window at the container-proven K=0x7FFE5760
+#     returns verdict=provable (Evidence A slus_confirm=16, distinct=4, contra=0;
+#     Evidence B b1=90 call-hits, 0 violations). [The tool's AUTO run reports "insufficient"
+#     only because its per-region jump-table K-solver cannot auto-derive the +0x5760 shift from
+#     THIS region's EXTERNAL jr-switch tables; the shift is proven container-wide, not a
+#     contradiction: contra=0, viol=0.]
+#   * Corroboration: build/switch_recover/proofs/overlay_dungeon_func_80B98D24.json proves
+#     func_80B98D24 is real code (proven-ram-reloc, runtime code-signature at 0x80160524).
+#
+# vram_start below is the SYNTHETIC func_ naming base (= foff + 0x7FFE0000), matching the row
+# names and what gen_sibcall reproduces from the retail j-operands. gen_sibcall reads ONLY
+# [file_start,file_end); it does not read vram_start as a coordinate. No true_vram_start: this
+# region is a DMA'd overlay whose runtime slot (func_80B98D24 -> 0x80160524) is not the whole-
+# window constant, so no single runtime base is asserted -- only that it is proven code whose
+# j-operands are trustworthy.
+# ========================================================================================
+name: dungeon_deep_backhalf_mainbody
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c   # DUNGEON.BIN
+options:
+  basename: dungeon_deep_backhalf_mainbody
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0xBB769C
+    file_end: 0xBB9FC4
+    vram_start: 0x80B9769C          # = 0xBB769C + 0x7FFE0000 (synthetic func_ naming base)
+    base_confidence: proven-static-xref   # 90 cross-region jal anchors into proven front-half; see BASE PROOF
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: True

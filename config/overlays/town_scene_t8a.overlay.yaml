@@ -1,0 +1,77 @@
+# Standalone overlay-local build seed — T8 runtime-proven town-scene EXTENSION.
+# Do NOT add to configure.py / build.ninja; use tools/overlay_local_gate.py.
+#
+# Extends the town-scene code overlay BEYOND the existing town_scene window
+# (file 0x0..0x52000). The T8 RAM capture proved the TOWN_TOWN.BIN scene image
+# is resident continuously across file 0xB000..~0x7F166 at load delta
+# 0x8007D760 (file 0x28A0 -> vram 0x80080000), i.e. vram 0x80080000..0x800FC8C6.
+# This window carves the proven extension file 0x52000..0x7F166 -> vram
+# 0x800CF760..0x800FC8C6 as a NEW standalone gate window so a bounded census can
+# reach the ~180 KB of proven-resident scene code past the old frontier.
+#
+# BASE NOTE: the RAM-capture delta is 0x8007D760, NOT the 0x80080000 the
+# existing town_scene / town_first_pass rows are NAMED under. The byte gate is
+# blind to a uniform base (an all-raw window is byte-identical at any base); the
+# base truth here is the T8 RAM match, not the compare. Evidence:
+# work/t8/T8_FINDINGS.md  Seed A (ram_town.bin / ram_town_menu.bin / ram_menu.bin,
+# 3 dumps, identical delta; == loadmap_town.json proven band 0x272F8-0x43368).
+# Expected first state: zero matched functions in range (census has not run past
+# 0x52000) -> all-raw window == container bytes.
+#
+# TWO BASES, TWO FIELDS (2026-07-13, commit b4ae80e trap class; this window was named
+# in b4ae80e's survey). window.vram_start now carries the SYNTHETIC func_ NAMING base
+# (delta 0x80080000 -- the uniform base all overlays/town rows are named under and what
+# retail on-disc jals byte-match); the T8 RAM-proven RUNTIME base (0x800CF760, delta
+# 0x8007D760) moves to window.true_vram_start. The two differ by exactly 0x28A0 (file
+# 0x28A0 -> 0x80080000). overlay_local_gate places every split segment at foff +
+# (vram_start - file_start), so once the census fills this window with matched C, a
+# reference to a DEFINED in-window func_800Dxxxx only byte-matches when vram_start == the
+# naming base. See b4ae80e (dungeon_engine); the current all-raw state is base-invariant,
+# which is why the runtime-base shift stayed gate-green until now.
+name: town_scene_t8a
+sha1: b946a57aa5fc8cec29db3ecabad6e6b76df418b7   # TOWN.BIN
+options:
+  basename: town_scene_t8a
+  target_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  window:
+    file_start: 0x52000
+    file_end: 0x7F166
+    # SYNTHETIC func_ NAMING base = 0x52000 + 0x80080000. All overlays/town split rows are
+    # named under the uniform delta 0x80080000 (e.g. func_800B43A4 @0x343A4, func_800C0138
+    # @0x40138), so this window's future census will name func_800Dxxxx the same way. Must
+    # equal the naming base so a DEFINED in-window func_800Dxxxx segment places at its name
+    # address and byte-matches retail (b4ae80e trap class). Runtime base is true_vram_start.
+    vram_start: 0x800D2000          # = 0x52000 + 0x80080000 (town func_800Dxxxx naming base)
+    # RUNTIME-TRUE load base, T8 RAM-proven (file 0x52000 -> 0x800CF760, delta 0x8007D760;
+    # 0x28A0 below the naming base -- file 0x28A0 -> 0x80080000; work/t8/T8_FINDINGS.md
+    # Seed A). Documentation + future tooling only; the byte gate never reads this.
+    true_vram_start: 0x800CF760
+    base_confidence: proven-ram-capture   # work/t8/T8_FINDINGS.md Seed A (attests true_vram_start)
+  split_results: overlays/town/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/town
+      results: overlays/town/overlay_first_pass_results.json
+      source_dir: overlays/town/first_pass_matched
+      skip_rerun: true
+segments:
+  - [0x0, bin]
+  - type: code
+    start: 0x52000
+    vram: 0x800D2000                 # synthetic naming base (== window.vram_start); runtime base is true_vram_start
+    subsegments:
+      - [0x52000, asm]              # proven-resident scene code (census pending)
+  - [0x7F166, bin]                  # rest of TOWN.BIN = later per-map overlays + assets
+  - [0x101B800]                     # EOF (TOWN.BIN size)

@@ -1,0 +1,34 @@
+# Semantic function renames (Phase C). Applied to source by tools/apply_names.py and
+# consumed at BUILD time by tools/ccproc.py, which keeps the original
+# .text.func_<addr> section name (so the SORT_BY_NAME link order is unchanged) and
+# emits a `func_<addr> = <new_name>` symbol alias (so any un-renamed asm/C caller
+# still resolves). Both are stripped by objcopy => the byte-exact binary is unaffected.
+#
+# Columns (TAB-separated): addr  old_name  new_name  evidence
+#   addr     : hex address (0x........)
+#   old_name : original symbol, must equal func_<ADDR>
+#   new_name : readable camelCase C identifier (never starts with func_)
+#   evidence : non-empty justification (config/knowledge/*.json, adrando anchor, idiom)
+#
+# Names are conservative: they describe the verified mechanical operation, not guessed
+# gameplay semantics. Confidence noted in evidence where medium.
+0x8003E188	func_8003E188	setPacked2bitFlag	knowledge/func_8003E188.json: sets a 2-bit packed flag/state in byte table D_80013614, index=arg0>>2 (medium)
+0x8003E70C	func_8003E70C	cdIncRetryCounters	knowledge/func_8003E70C.json: increments two u16 counters in the CD retry/frame-count state block at D_80083958 (medium)
+0x8003F688	func_8003F688	bcdToInt	knowledge/func_8003F688.json: converts a value whose nibbles hold decimal digits 0-9 into the equivalent base-10 integer (BCD unpack)
+0x80042518	func_80042518	findSlotByType	knowledge/func_80042518.json: searches backward a 4-entry array of 2-byte (type,value) slots at obj+0x2C for a slot matching a type (medium)
+0x80042640	func_80042640	initMonsterFromStats	knowledge/func_80042640.json: inits a monster-object from initialStatsTable[id] (adrando MonsterInitialStats, 24B record @0x8006D168)
+0x80047AB0	func_80047AB0	uploadImageTiles	knowledge/func_80047AB0.json: streams 4 image tiles via func_8004713C into a scratch addr and issues two func_8003F80C draw/DMA calls (medium)
+0x80047E30	func_80047E30	advanceEffectState	knowledge/func_80047E30.json: advances the D_80016000 timer/state struct via func_80046F88 then applies a fixed effect via func_80047054 (medium)
+0x80048EE4	func_80048EE4	allocPointerPool	knowledge/func_80048EE4.json: allocates a 0x104-byte pool via func_8004B404 and partitions it into a leading array of a1 pointers (medium)
+0x80049004	func_80049004	reallocField0Buffer	knowledge/func_80049004.json: zeroes a0[0]'s existing buffer (a2*4 bytes) via bzero, then replaces a0[0] with a fresh 0x104-byte buffer (medium)
+0x800497F4	func_800497F4	fadeColorToGray	knowledge/func_800497F4.json: fades an object color toward neutral gray 0x808080 by -0x10 per channel per call
+0x80049D80	func_80049D80	initSubRecordPair	knowledge/func_80049D80.json: wrapper initializing two consecutive sub-records in a caller struct via func_80049CF4 (medium)
+0x8004B42C	func_8004B42C	allocBufferArray	knowledge/func_8004B42C.json: fills an array of cnt s32 slots, each from func_8004B404(0x82); on any failure frees via func_8004B248 (medium)
+0x8004DC14	func_8004DC14	allocObject100	knowledge/func_8004DC14.json: allocates a fixed 0x100-byte object via func_8004B404, forwarding a1-a3 through (medium)
+0x8004E21C	func_8004E21C	decodeItemCode	knowledge/func_8004E21C.json: decodes an item/equipment byte code (a1) into a 4-byte value written to the struct at a0 (medium)
+0x8004E478	func_8004E478	reverseBytes	knowledge/func_8004E478.json: in-place byte reversal of the first len bytes of buf, returns buf (classic strrev idiom)
+0x8004E5A0	func_8004E5A0	formatIntSpacePadded	knowledge/func_8004E5A0.json: formats value into buf right-justified in width columns, space-padded (func_8004E57C) then reverses
+0x8004E5E8	func_8004E5E8	formatIntZeroPadded	knowledge/func_8004E5E8.json: sibling of func_8004E5A0 with the pad char hardcoded to '0' (0x30)
+0x8004E634	func_8004E634	uintToDecStr	knowledge/func_8004E634.json: converts an unsigned int to a decimal ASCII string (0xCCCCCCCD /10 magic-multiply idiom, utoa)
+0x8004E928	func_8004E928	allocParsedString	knowledge/func_8004E928.json: allocates a 0x100 buffer and fills it by parsing string a0 via func_8004E298, unless a0 is blank (medium)
+0x8005D550	func_8005D550	storeU16TableEntry	knowledge/func_8005D550.json: stores a value into u16 table D_80079958.ptr[a0], optionally right-shifted by D_80079980[0] when a2!=0 (medium)

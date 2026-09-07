@@ -1,0 +1,48 @@
+# DRAFT — not wired into build (Task T7 overlay inventory).
+# Do NOT add to configure.py / build.ninja. Starting point for Phase-B splitting.
+#
+# MDEC movie-player overlay, carved from OVMOVIE.BIN.
+# PROVEN load map: vram = file_offset + 0x80040000  (file 0x0 -> vram 0x80040000).
+#   objdump at file 0xAC -> vram 0x800400AC is a clean prologue (addiu sp,sp,-40) that reads
+#   resident globals at 0x80082e60 / 0x80080a88 (so 0x80080000+ stays resident during playback).
+#   File 0x0..0xAC is the leading MDEC debug-string blob. Dominant internal jal target 0x80040000.
+# Code window ~file 0x0..0x20000 (vram 0x80040000..0x80060000); rest of the 3 MiB file is MDEC
+# frame/scratch buffers (mostly empty). Upper bound APPROXIMATE — refine after T8.
+name: ovmovie
+sha1: 4f6f2cb2b4a74a601137b7dc0ed5168493b2c7bb
+options:
+  basename: ovmovie
+  target_path: work/s3_splat/extract/OVMOVIE.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/OVMOVIE.BIN
+  window:
+    file_start: 0x0
+    file_end: 0x20000
+    vram_start: 0x80040000
+    base_confidence: proven
+  split_results: overlays/ovmovie/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/ovmovie
+      results: overlays/ovmovie/overlay_first_pass_results.json
+      source_dir: overlays/ovmovie/first_pass_matched
+      skip_rerun: true
+segments:
+  - type: code
+    start: 0x0
+    vram: 0x80040000
+    subsegments:
+      - [0x0, bin]              # MDEC debug-string blob (to ~0xAC)
+      - [0xAC, asm]             # .text (movie player)
+  - [0x20000, bin]              # MDEC frame/scratch buffers
+  - [0x300000]                  # EOF (OVMOVIE.BIN size)

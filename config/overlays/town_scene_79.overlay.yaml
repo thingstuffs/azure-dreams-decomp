@@ -1,0 +1,46 @@
+# Standalone overlay-local build seed for a later TOWN code subwindow.
+# Do NOT add to configure.py / build.ninja.
+#
+# Covers the 0x794000..0x79D000 cluster.  The synthetic func_ naming base is
+# file offset + 0x80080000, but it is not the link base for every row in this
+# window.  In particular, rowbase region town100_7946C8 is proven at delta
+# 0x7FD9AC00 (true function func_8052F2C8).  Landing/scoring consumers must
+# apply config/overlays/town.rowbase.jsonl for true-space compilation.
+name: town_scene_79
+sha1: b946a57aa5fc8cec29db3ecabad6e6b76df418b7
+options:
+  basename: town_scene_79
+  target_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  window:
+    file_start: 0x794000
+    file_end: 0x79D000
+    vram_start: 0x80814000
+    base_confidence: synthetic-naming
+  split_results: overlays/town/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/town
+      results: overlays/town/overlay_first_pass_results.json
+      source_dir: overlays/town/first_pass_matched
+      skip_rerun: true
+segments:
+  - [0x0, bin]
+  - type: code
+    start: 0x794000
+    vram: 0x80814000
+    subsegments:
+      - [0x794000, asm]
+  - [0x79D000, bin]
+  - [0x101B800]

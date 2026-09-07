@@ -1,0 +1,15 @@
+#include "common.h"
+#include "m2c_compat.h"
+
+s32 func_800173CC();                    /* extern */
+s32 func_80017FEC();                                /* extern */
+
+s32 func_800164A4(s32 arg0, M2C_UNK arg1) {
+    s32 var_s0;
+
+    var_s0 = 0;
+    if (func_80017FEC() > 0) {
+        var_s0 = func_800173CC(arg0, arg1) != 0;
+    }
+    return var_s0;
+}

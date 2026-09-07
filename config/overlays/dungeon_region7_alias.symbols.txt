@@ -1,0 +1,18 @@
+// Region-0x7 aliases for the container's SYNTHETIC-base windows (2026-08-24).
+//
+// WHY.  A landed DUNGEON C source names its call targets in TRUE space
+// (func_80065F90, func_8008CF34).  `jal`/`j` encode only 26 bits, so binutils
+// requires (symbol & 0xF0000000) == (PC & 0xF0000000).  A synthetic window puts
+// the row at vram = foff + 0x7FFE0000, which for foff < 0x20000 is region 0x7,
+// while the true callee is region 0x8 -- "relocation truncated to fit:
+// R_MIPS_26".  The TRUE-base window has the opposite problem with the old
+// m2c-artefact names (func_70XXXXXX, REPORT.md 2026-08-23 §D).
+//
+// FIX.  The C carries the TRUE name everywhere; the SYNTHETIC window maps that
+// name onto the same low 28 bits in region 0x7.  `jal`/`j` encode the low 28
+// bits only, so BOTH windows emit the identical instruction word and both are
+// byte-exact.  Only synthetic windows below foff 0x20000 need this file.
+//
+// Used by: config/overlays/dungeon_deep_t8b_00f6a8.overlay.yaml
+func_80065F90 = 0x70065F90;
+func_8008CF34 = 0x7008CF34;

@@ -1,0 +1,23 @@
+#include "common.h"
+
+
+
+typedef s32 M2C_UNK;
+
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
+
+extern M2C_UNK func_80033CD8();
+extern M2C_UNK func_80098928();
+extern u8 D_80082660[];
+extern M2C_UNK D_800970FC;
+
+typedef struct S_8009A4FC_0 {
+    u8 pad_00[0x40];
+    s32 unk_40;
+} S_8009A4FC_0;   /* arg0 in func_8009A4FC */
+
+void func_8009A4FC(S_8009A4FC_0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
+    func_80033CD8(arg0, &D_800970FC);
+    D_80082660[arg0->unk_40 * 8] = 0;
+    func_80098928(arg0, arg1, arg2);
+}

@@ -1,0 +1,44 @@
+# Standalone overlay-local build seed for a later TOWN code subwindow.
+# Do NOT add to configure.py / build.ninja.
+#
+# Covers reg-rename/arity candidates func_806971A4, func_8069725C, and
+# func_80697314. Rows in overlays/town/overlay_first_pass_results.json mark the
+# file->vram base as proven: vram = file_offset + 0x80080000.
+name: town_scene_61
+sha1: b946a57aa5fc8cec29db3ecabad6e6b76df418b7
+options:
+  basename: town_scene_61
+  target_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  window:
+    file_start: 0x617000
+    file_end: 0x618000
+    vram_start: 0x80697000
+    base_confidence: proven
+  split_results: overlays/town/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/town
+      results: overlays/town/overlay_first_pass_results.json
+      source_dir: overlays/town/first_pass_matched
+      skip_rerun: true
+segments:
+  - [0x0, bin]
+  - type: code
+    start: 0x617000
+    vram: 0x80697000
+    subsegments:
+      - [0x617000, asm]
+  - [0x618000, bin]
+  - [0x101B800]

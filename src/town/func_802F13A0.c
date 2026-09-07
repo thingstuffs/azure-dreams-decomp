@@ -1,0 +1,73 @@
+
+struct S_80083178
+{
+  char pad0[2];
+  unsigned short unk2;
+  char pad4[6];
+  unsigned short unkA;
+  char padC[0x94];
+  short f_A0;
+  char pad_a2[2];
+  short f_A4;
+  short f_A6;
+  short f_A8;
+  char pad_aa[0xB4 - 0xAA];
+  void (*callback)(void);
+  void *field_B8;
+  char pad_bc[(0xD8 - 0xB8) - 4];
+  void *ptr;
+  char pad_dc[0x1C4 - 0xDC];
+};
+typedef struct 
+{
+  unsigned char data[24];
+} MonsterInitialStats;
+typedef struct 
+{
+  unsigned char data[12];
+} Trap;
+typedef struct 
+{
+  unsigned char data[8];
+} StatGrowth;
+extern int D_800814C8;
+extern int D_80081550;
+extern int D_80081558;
+extern int D_80081554;
+extern unsigned char D_80071298[];
+extern volatile int D_80071250[];
+extern int D_800712B4[];
+extern int D_80084130[3];
+extern short D_80084808[8];
+extern struct S_80083178 D_80083178;
+extern void *D_804081AC;
+typedef unsigned char u8;
+typedef signed char s8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+typedef int s32;
+typedef float f32;
+typedef double f64;
+typedef long long s64;
+typedef unsigned long long u64;
+typedef s32 M2C_UNK;
+typedef s8 M2C_UNK8;
+typedef s16 M2C_UNK16;
+typedef s32 M2C_UNK32;
+typedef s64 M2C_UNK64;
+M2C_UNK func_80400948();
+s32 func_80404C84();
+s32 func_804076C8();
+void func_802F13A0(void *arg0)
+{
+  s32 temp_s1;
+  temp_s1 = arg0 - 0x20;
+  *((s32 *) (((s8 *) arg0) + 0x20)) = func_80404C84(temp_s1, arg0 + 0xC);
+  *((s32 *) (((s8 *) arg0) + 0x24)) = func_804076C8(temp_s1);
+  func_80400948();
+  *((void **) (((s8 *) arg0) + (-0x10))) = &D_804081AC;
+}
+/* MECHANISM: Preserved the seed's 0x20 frame, s0/s1 holds, and call/delay-slot shape.
+   Replaced the float-rounded address literal with the declared global's address,
+   producing retail's %hi/%lo lui+addiu pair and closing both substitutions. */

@@ -1,0 +1,38 @@
+// Symbol seeds for the dungeon engine overlay (DUNGEON.BIN).
+// Names from ref/adrando-findings.md (facts: addresses/record sizes — not copyrightable).
+// Addresses are RUNTIME vram. CORRECTED 2026-07-13: shifted +0x5760 to the RAM-captured
+// true load base  vram = DUNGEON.BIN_file + 0x7FFE5760  (work/t8/T8_FINDINGS.md "Addendum:
+// dungeon_f1"; work/t8/analysis_dungeon_f1.md §3). The prior +0x7FFE0000 values were
+// runtime-contradicted (0/64 pages at 0x80080000). T8-confirmed anchors:
+//   placeMonsterLeveledUp file 0xC0B08 -> 0x800A6268 ; initMonsterSpawnRate file 0xC69E8 -> 0x800AC148.
+// NOTE: NONE of these names are consumed by any matched C source (grep-verified) — they feed
+// human attribution / future work, NOT the byte gate, so the +0x5760 shift changes zero
+// compiled bytes. The gate's func_/D_ symbols remain in the synthetic K=0x7FFE0000 space;
+// see config/overlays/dungeon_engine.overlay.yaml + work/t8/dungeon_engine_base_correction.md.
+// NOT wired into build.
+placeMonsterRollGamma   = 0x800A61B8; // type:func
+placeMonsterLeveledUp   = 0x800A6268; // type:func
+towerItemCap            = 0x800A63BC; // type:func
+turnMonsterSpawnRate    = 0x800A657C; // type:func
+popupExperience1        = 0x800A864C; // type:func
+popupExperience2        = 0x800A86C8; // type:func
+initMonsterSpawnRate    = 0x800AC148; // type:func
+resetElementStartAtk    = 0x800B8C48; // type:func
+resetElementAfterMix    = 0x800B9414; // type:func
+experiencePopupBug      = 0x800BA674; // type:func
+eggBombLevelUp          = 0x800BD0AC; // type:func
+goUpTrapIncrement       = 0x800D1230; // type:func
+monsterDenLeveledUp     = 0x800D43D8; // type:func
+f2suspElevAppearance    = 0x800F0510; // type:func
+kohsReplyToGhoshPart    = 0x800FE55E; // type:func
+usedBallItemTable       = 0x800E2AE4; // type:data
+itemCategDamageTable    = 0x800E2E64; // type:data
+floorMonsterTable       = 0x800E33DC; // type:data
+statGrowthTable         = 0x800E341C; // type:data
+salamParticleGraphic    = 0x800E5B10; // type:data
+toUpstairsBattleText    = 0x800E7258; // type:data
+beldoLocation           = 0x800EB7AA; // type:data
+// --- Beldo boss cluster: SEPARATE DUNGEON.BIN overlay (base ~0x80169000, file offset TBD via T8) ---
+// NOT part of this floor-engine window; base still unresolved, so NOT shifted by the +0x5760 correction.
+// beldoSetFast         = 0x80169FA4; beldoInvulnerability = 0x8016C688;
+// customBeldoCode      = 0x80171DAC; beldoIdle            = 0x80173BCC;

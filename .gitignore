@@ -1,0 +1,9 @@
+/upstream/
+/ledger/cache/
+/work/
+*.o
+*.pyc
+__pycache__/
+/.upstream
+/build_slus/
+/build_ovl/

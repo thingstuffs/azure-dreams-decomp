@@ -1,0 +1,56 @@
+# Standalone overlay-local build seed for a later TOWN code subwindow.
+# Do NOT add to configure.py / build.ninja.
+#
+# This window covers verified close-gap candidates near file 0x3E8BB0.
+#
+# BASE CORRECTION (owner item D1, 2026-07-20): the original claim ("rows mark
+# the file->vram base as proven: vram = file_offset + 0x80080000") is REFUTED.
+# Retail call words inside the window encode true-space targets: func_804688AC
+# and func_80469C10 carry in-body epilogue j words (0x80019AE8 / 0x8001AC60)
+# valid only at delta 0x7FC31000, and func_80468800 jal's its in-window
+# neighbor func_80468AFC as 0x80019AFC. The window belongs to the 0x7FC31000
+# back-half overlay (config/overlays/town.rowbase.jsonl region sweep_3EA000,
+# extended to 0x3E8560; t8 callee-span corroboration from 0x3E5164).
+# vram_start below remains the SYNTHETIC NAMING base only; landed matches
+# byte-verify under it because their absolute call words resolve via pinned
+# symbols and sibcall-set epilogue aliases (see sibcall_syms.town.txt header).
+# Re-keying the rows to true-space names is the queued coordinate-correction
+# program (t8_town_proof.md section 7).
+name: town_scene_3e
+sha1: b946a57aa5fc8cec29db3ecabad6e6b76df418b7
+options:
+  basename: town_scene_3e
+  target_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  window:
+    file_start: 0x3E8000
+    file_end: 0x3EA000
+    vram_start: 0x80468000
+    base_confidence: synthetic-naming
+  split_results: overlays/town/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/town
+      results: overlays/town/overlay_first_pass_results.json
+      source_dir: overlays/town/first_pass_matched
+      skip_rerun: true
+segments:
+  - [0x0, bin]
+  - type: code
+    start: 0x3E8000
+    vram: 0x80468000
+    subsegments:
+      - [0x3E8000, asm]
+  - [0x3EA000, bin]
+  - [0x101B800]

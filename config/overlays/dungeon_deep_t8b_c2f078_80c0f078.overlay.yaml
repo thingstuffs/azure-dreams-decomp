@@ -1,0 +1,26 @@
+# Persistent fail-closed gate for recarved func_80C0F078.
+name: dungeon_deep_t8b_c2f078_80c0f078
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
+options:
+  basename: dungeon_deep_t8b_c2f078_80c0f078
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  window:
+    file_start: 0xC2F078
+    file_end: 0xC2F258
+    vram_start: 0x80C0F078
+    base_confidence: rowbase-authenticated
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: True

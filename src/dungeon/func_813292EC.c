@@ -1,0 +1,57 @@
+#include "common.h"
+
+typedef struct Node {
+    u8 pad0[8];
+    void *part8;
+    void *partC;
+    void *data10;
+} Node;
+
+extern Node *func_8003FC64(s32);
+extern void func_8004491C(Node *, void *);
+extern void func_8003DB94(void *, void *, s32);
+
+extern u8 D_80045340[9];
+extern u32 D_80083780[3];
+extern u8 D_800DE870[9];
+extern u8 D_80170A54[9];
+
+void func_80170AEC(void)
+{
+    Node *node;
+    s16 *embedded;
+    s16 *effect;
+    u32 *dst;
+    u32 *src;
+    register void *partC ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+
+    node = func_8003FC64(0x212);
+    if (node != 0) {
+        embedded = (s16 *)((u8 *)node + 0x20);
+        embedded[11] = 0x1E;
+        embedded[12] = 0x1E;
+        node->data10 = D_80170A54;
+        func_8004491C(node, D_80045340);
+
+        partC = node->partC;
+        *(s16 *)((u8 *)partC + 6) = 0;
+        dst = (u32 *)node->part8;
+        src = D_80083780;
+        dst[0] = src[0];
+        dst[1] = src[1];
+        dst[2] = src[2];
+
+        effect = (s16 *)node->partC;
+        effect[15] = 0x1000;
+        effect[14] = 0x1000;
+        ((u8 *)effect)[14] = 0;
+        ((u8 *)effect)[13] = 0;
+        ((u8 *)effect)[12] = 0;
+        effect[10] |= 0x80;
+        func_8003DB94(effect, D_800DE870, 0);
+    }
+}
+
+/* MECHANISM: Node * stays live in s0, inducing the retail 0x18 frame and sole
+   s0 save; separate embedded/effect locals encode retail's disjoint v1/a0 lives.
+   Exact sh/sb/lhu widths and the three-word global copy preserve body shape. */

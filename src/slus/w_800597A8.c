@@ -1,0 +1,33 @@
+#include "common.h"
+
+typedef struct PlaybackState {
+    s32 position;
+    s32 pad04[5];
+    s32 step;
+    s32 next_position;
+    s32 pad20[6];
+    s32 previous_position;
+} PlaybackState;
+
+extern s32 func_800588C8(s32);
+extern u32 func_80058ABC(PlaybackState *);
+
+s32 func_800597A8(PlaybackState *state)
+{
+    s32 result;
+    u32 step;
+    s32 position;
+
+    result = func_800588C8(state->position);
+    state->position = result;
+    if (result == -1) {
+        return 1;
+    }
+
+    step = func_80058ABC(state);
+    state->step = step;
+    position = state->position;
+    state->next_position = position + step;
+    state->previous_position = position;
+    return 0;
+}
