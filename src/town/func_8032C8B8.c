@@ -3,6 +3,7 @@
 extern s32 func_8001ADE0(s32 arg0);
 extern void func_8001ACE8(s32 arg0);
 extern void func_8001AD60(s32 arg0);
+extern void func_800170F4(void) __attribute__((noreturn));
 extern u8 D_8001E259[];
 extern u8 D_8001E405[];
 
@@ -20,7 +21,7 @@ void *func_800170B8(void) {
 #else
         (void)D_8001E405;
 #endif
-        return;
+        func_800170F4();
     }
     func_8001AD60(0xD53);
     return D_8001E259;

@@ -1,5 +1,16 @@
 #include "common.h"
 
+
+extern s32 func_800AB1C0(void);
+extern void func_800A4ACC(void *);
+extern void func_800CAA94(void *, s32, s32);
+extern void func_800CAB88(void);
+
+extern u16 D_80013714;
+extern u16 D_80083462;
+extern u8 D_800C9F34;
+
+
 typedef struct S_800CAAC8_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -16,20 +27,9 @@ typedef struct S_800CAAC8_1 {
     s16 unk_8A;
 } S_800CAAC8_1;   /* actor in func_800CAAC8 */
 
-
-
-extern s32 func_800AB1C0(void);
-extern void func_800A4ACC(void *);
-extern void func_800CAA94(void *, s32, s32);
-extern void func_800CAB88(void);
-
-extern u16 D_80013714;
-extern u16 D_80083462;
-extern u8 D_800C9F34;
-
 void func_800CAAC8(void *arg0, s32 arg1, s32 arg2, void *arg3)
 {
-    S_800CAAC8_0 *entity = arg0;
+    void *entity = arg0;
     register s32 value1 ASM_REG("$18") = arg1;   /* MATCH pin: retail schedule: same instructions, different order without it */
     register s32 value2 ASM_REG("$19") = arg2;   /* MATCH pin: retail schedule: same instructions, different order without it */
     register void *actor ASM_REG("$16") = arg3;   /* MATCH pin: load-bearing for the whole function shape */
@@ -40,8 +40,8 @@ void func_800CAAC8(void *arg0, s32 arg1, s32 arg2, void *arg3)
     }
 
     func_800A4ACC(actor);
-    count = entity->unk_B6 - 1;
-    entity->unk_B6 = count;
+    count = ((S_800CAAC8_0 *)entity)->unk_B6 - 1;
+    ((S_800CAAC8_0 *)entity)->unk_B6 = count;
 
     if ((count << 16) > 0) {
         ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
@@ -55,14 +55,15 @@ void func_800CAAC8(void *arg0, s32 arg1, s32 arg2, void *arg3)
     }
 
     func_800CAA94(entity, value1, value2);
+    func_800CAB88();
     return;
 
 set_callback:
-    entity->unk_8C = &D_800C9F34;
+    ((S_800CAAC8_0 *)entity)->unk_8C = &D_800C9F34;
 
 check_flag:
     if (D_80083462 & 0x80) {
-        entity->unk_92 = -0x20;
+        ((S_800CAAC8_0 *)entity)->unk_92 = -0x20;
     }
 }
 

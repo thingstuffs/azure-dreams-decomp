@@ -23,6 +23,7 @@ extern void func_8016A1E8() __attribute__((noreturn));
 extern void func_8016A280() __attribute__((noreturn));
 extern void func_8016A298() __attribute__((noreturn));
 extern void func_8016A318() __attribute__((noreturn));
+extern void func_8016A348() __attribute__((noreturn));
 extern void D_8016A36C();
 
 extern u16 D_80013714;
@@ -87,7 +88,7 @@ typedef struct S_80169EC0_5 {
 void func_80169EC0(void *arg0, void *arg1, void *arg2)
 {
     void *owner = arg0;
-    S_80169EC0_5 *motion = arg1;
+    void *motion = arg1;
     register void *data ASM_REG("$19") = arg2;   /* MATCH pin: load-bearing for the whole function shape */
     register void *actor ASM_REG("$16") = owner;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     register s16 initialWork ASM_REG("$18");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
@@ -105,12 +106,12 @@ void func_80169EC0(void *arg0, void *arg1, void *arg2)
     u16 height;
     s16 signedHeight;
 
-    if ((*(u8 *)((u8 *)owner + 0xB1)) == 0 &&
+    if ((*(u8 *)((u8 *)owner + (0xB1))) == 0 &&
         !(D_80013714 & 1) && D_8008346A == 0) {
-        (*(u8 *)((u8 *)owner + 0xB1)) = 1;
+        (*(u8 *)((u8 *)owner + (0xB1))) = 1;
         func_800353F4(D_80173DDC);
-        (*(u8 *)((u8 *)owner + 0x6D)) = 0;
-        (*(u8 *)((u8 *)owner + 0x9B)) = 0;
+        (*(u8 *)((u8 *)owner + (0x6D))) = 0;
+        (*(u8 *)((u8 *)owner + (0x9B))) = 0;
     }
 
     ASM_MEM_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
@@ -129,7 +130,7 @@ void func_80169EC0(void *arg0, void *arg1, void *arg2)
         } while (i >= 0);
     }
 
-    if ((*(u8 *)((u8 *)owner + 0xB0)) == 1) {
+    if ((*(u8 *)((u8 *)owner + (0xB0))) == 1) {
         u32 page;
         func_800A48F0(actor, 7, 1);
         page = 0x80080000;
@@ -140,12 +141,14 @@ void func_80169EC0(void *arg0, void *arg1, void *arg2)
 
     func_80042B68(actor, 7);
     if (D_80083462 & 0x2000) {
-        callback = (*(Callback *)((u8 *)owner + 0x8C));
+        callback = (*(Callback *)((u8 *)owner + (0x8C)));
         if (callback == (Callback)D_8016A36C) {
             callback(owner, motion, data, actor);
+            func_8016A348();
             return;
         } else {
             ((S_80169EC0_3 *)actor)->unk_71 &= 0x7F;
+            func_8016A348();
             return;
         }
     }
@@ -164,11 +167,11 @@ void func_80169EC0(void *arg0, void *arg1, void *arg2)
         }
     }
 
-    callback2 = (*(Callback *)((u8 *)owner + 0x8C));
+    callback2 = (*(Callback *)((u8 *)owner + (0x8C)));
     if (callback2 != NULL) {
         callback2(owner, motion, data, actor);
     }
-    D_80173B94[(*(u8 *)((u8 *)owner + 0x9A))](owner, motion, data, actor);
+    D_80173B94[(*(u8 *)((u8 *)owner + (0x9A)))](owner, motion, data, actor);
     if (initialWork != ((S_80169EC0_3 *)actor)->unk_6D.s) {
         func_800AA36C(owner, motion, data, actor);
     }
@@ -180,12 +183,12 @@ void func_80169EC0(void *arg0, void *arg1, void *arg2)
         u16 lowCleared;
         angleCalc = D_80083228 + ((S_80169EC0_3 *)actor)->unk_2A + 0x100;
         work = (angleCalc >> 9) & 7;
-        if ((*(s16 *)((u8 *)owner + 0x94)) != work) {
+        if ((*(s16 *)((u8 *)owner + (0x94))) != work) {
             u8 *steps = ((S_80169EC0_4 *)data)->unk_2C;
             if (steps != NULL) {
                 func_80047738(data, steps[work], ((S_80169EC0_4 *)data)->unk_04);
             }
-            (*(s16 *)((u8 *)owner + 0x94)) = work;
+            (*(s16 *)((u8 *)owner + (0x94))) = work;
         }
 
         lowStatus = ((S_80169EC0_4 *)data)->unk_14;
@@ -208,50 +211,50 @@ void func_80169EC0(void *arg0, void *arg1, void *arg2)
     ((S_80169EC0_4 *)data)->unk_14 = (status & 0x800) ?
                             (status & 0x8FFF) : (status | 0x7000);
 
-    motion->unk_00.at00.v += motion->unk_0C;
-    motion->unk_04.at00.v += motion->unk_10;
-    if ((*(u16 *)((u8 *)owner + 0x98)) & 8) {
-        (*(u8 *)((u8 *)owner + 0x9D)) = 0;
+    ((S_80169EC0_5 *)motion)->unk_00.at00.v += ((S_80169EC0_5 *)motion)->unk_0C;
+    ((S_80169EC0_5 *)motion)->unk_04.at00.v += ((S_80169EC0_5 *)motion)->unk_10;
+    if ((*(u16 *)((u8 *)owner + (0x98))) & 8) {
+        (*(u8 *)((u8 *)owner + (0x9D))) = 0;
         func_8016A1E8();
         return;
     }
 
-    motion->unk_14 += (*(s8 *)((u8 *)owner + 0x9D)) * 0x14000;
-    (*(u8 *)((u8 *)owner + 0x9D))++;
+    ((S_80169EC0_5 *)motion)->unk_14 += (*(s8 *)((u8 *)owner + (0x9D))) * 0x14000;
+    (*(u8 *)((u8 *)owner + (0x9D)))++;
     ASM_MEM_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
-    (*(s32 *)((u8 *)owner + 0x90)) += motion->unk_14;
+    (*(s32 *)((u8 *)owner + (0x90))) += ((S_80169EC0_5 *)motion)->unk_14;
 
-    if ((*(u16 *)((u8 *)owner + 0x98)) & 4) {
+    if ((*(u16 *)((u8 *)owner + (0x98))) & 4) {
         goto clear_movement_flag;
     }
-    result = func_800BCB04(motion->unk_00.at02.v, motion->unk_04.at02.v,
+    result = func_800BCB04(((S_80169EC0_5 *)motion)->unk_00.at02.v, ((S_80169EC0_5 *)motion)->unk_04.at02.v,
                            (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20));
     if ((s16)result >= 0x200) {
         goto clear_movement_flag;
     }
     signedHeight = ((S_80169EC0_3 *)actor)->unk_88.s;
     height = ((S_80169EC0_3 *)actor)->unk_88.u;
-    if ((*(s16 *)((u8 *)owner + 0x92)) + signedHeight < (s16)result) {
+    if ((*(s16 *)((u8 *)owner + (0x92))) + signedHeight < (s16)result) {
         ((S_80169EC0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
         func_8016A298(height, result, signedHeight);
         return;
     }
     if ((s16)result >= signedHeight) {
-        (*(s32 *)((u8 *)owner + 0x90)) = 0;
+        (*(s32 *)((u8 *)owner + (0x90))) = 0;
         func_8016A280(height, result, signedHeight);
         return;
     }
-    (*(s16 *)((u8 *)owner + 0x92)) = result - height;
-    motion->unk_14 = 0;
+    (*(s16 *)((u8 *)owner + (0x92))) = result - height;
+    ((S_80169EC0_5 *)motion)->unk_14 = 0;
     ((S_80169EC0_3 *)actor)->unk_1C |= 0x08000000;
-    (*(u8 *)((u8 *)owner + 0x9D)) = 0;
+    (*(u8 *)((u8 *)owner + (0x9D))) = 0;
     flags = ((S_80169EC0_3 *)actor)->unk_1C;
     if (flags & 0x40000000) {
         ((S_80169EC0_3 *)actor)->unk_1C = flags & 0xBFFFFFFF;
         result = func_800BCB04((((S_80169EC0_4 *)data)->unk_24 << 6) | 0x20,
                                (((S_80169EC0_4 *)data)->unk_25 << 6) | 0x20,
                                (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20));
-        (*(s16 *)((u8 *)owner + 0x92)) += ((S_80169EC0_3 *)actor)->unk_88.u - result;
+        (*(s16 *)((u8 *)owner + (0x92))) += ((S_80169EC0_3 *)actor)->unk_88.u - result;
         ((S_80169EC0_3 *)actor)->unk_88.u = result;
         func_8016A318();
         return;
@@ -262,9 +265,9 @@ clear_movement_flag:
     ((S_80169EC0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
 
 finish:
-    motion->unk_0A = (*(s8 *)((u8 *)owner + 0xAA)) +
+    ((S_80169EC0_5 *)motion)->unk_0A = (*(s8 *)((u8 *)owner + (0xAA))) +
                               (((S_80169EC0_3 *)actor)->unk_88.u +
-                               (*(u16 *)((u8 *)owner + 0x92)));
+                               (*(u16 *)((u8 *)owner + (0x92))));
     ((S_80169EC0_4 *)data)->unk_14 |= 0x40;
     ASM_KEEP(owner);   /* MATCH pin: retail schedule: same instructions, different order without it */
     ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */

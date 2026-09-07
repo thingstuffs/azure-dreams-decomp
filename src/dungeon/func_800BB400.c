@@ -58,6 +58,7 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
         *(u8 **)(entity + 0x110) = event;
         ASM_KEEP_NV(a0keep);   /* MATCH pin: retail register colouring depends on it */
         func_8008D330(a0keep, D_80083780, D_80082E80, a0keep);
+        func_800C0E68();
         return 0;
     }
     ASM_CLOBBER("$4");   /* MATCH pin: retail keeps a computation the compiler would drop */
@@ -66,6 +67,7 @@ s32 func_800C0B60(u8 *arg0, u8 *arg1, s32 value)
         func_800A63B8(entity, event, (s16)value);
         if (func_800AD6FC(entity, (D_800DDE84[entity[0x13]] >> 6) & 3, 0) == 0) {
             func_800A5F38(entity, event);
+            func_800C0E68();
             return 1;
         }
         *(s32 *)(entity + 0x14) &= -8;

@@ -1,6 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+M2C_UNK func_800CA204();                            /* extern */
+M2C_UNK func_800CA75C();                            /* extern */
+extern u8 D_80083498[];
+
+
 typedef struct S_800CA134_0 {
     u8 pad_00[0x6C];
     u16 unk_6C;
@@ -25,12 +30,7 @@ typedef struct S_800CA134_3 {
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_800CA134_3;   /* (*(void * volatile *)((u8 *)base + 8)) in func_800CA134 */
-
-
-M2C_UNK func_800CA204();                            /* extern */
-M2C_UNK func_800CA75C();                            /* extern */
-extern u8 D_80083498[];
+} S_800CA134_3;   /* (*(void * volatile *)((u8 *)base + (8))) in func_800CA134 */
 
 void func_800CA134(void *arg0, void *arg1) {
     u8 *base;
@@ -42,26 +42,27 @@ void func_800CA134(void *arg0, void *arg1) {
     ((S_800CA134_0 *)arg0)->unk_6C = temp_v0;
     if ((temp_v0 << 0x10) <= 0) {
         func_800CA75C();
+        func_800CA204();
         return;
     }
     base = D_80083498;
-    var_v0 = ((S_800CA134_3 *)((*(void * volatile *)((u8 *)base + 8))))->unk_02 - ((S_800CA134_1 *)arg1)->unk_02;
+    var_v0 = ((S_800CA134_3 *)((*(void * volatile *)((u8 *)base + (8)))))->unk_02 - ((S_800CA134_1 *)arg1)->unk_02;
     if (var_v0 < 0) {
         var_v0 += 3;
     }
-    (*(s16 *)((u8 *)arg1 + 2)) = (s16) ((u16) ((S_800CA134_1 *)arg1)->unk_02 + (var_v0 >> 2));
-    var_v0_2 = ((S_800CA134_3 *)((*(void * volatile *)((u8 *)base + 8))))->unk_06 - ((S_800CA134_1 *)arg1)->unk_06;
+    (*(s16 *)((u8 *)arg1 + (2))) = (s16) ((u16) ((S_800CA134_1 *)arg1)->unk_02 + (var_v0 >> 2));
+    var_v0_2 = ((S_800CA134_3 *)((*(void * volatile *)((u8 *)base + (8)))))->unk_06 - ((S_800CA134_1 *)arg1)->unk_06;
     if (var_v0_2 < 0) {
         var_v0_2 += 3;
     }
-    (*(s16 *)((u8 *)arg1 + 6)) = (s16) ((u16) ((S_800CA134_1 *)arg1)->unk_06 + (var_v0_2 >> 2));
+    (*(s16 *)((u8 *)arg1 + (6))) = (s16) ((u16) ((S_800CA134_1 *)arg1)->unk_06 + (var_v0_2 >> 2));
     {
         void *target;
         register s32 current ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
         s32 target_value;
         register u32 current_u ASM_REG("$3");   /* MATCH pin: retail delay-slot contents depend on it */
 
-        target = (*(void * volatile *)((u8 *)base + 8));
+        target = (*(void * volatile *)((u8 *)base + (8)));
         current = ((S_800CA134_1 *)arg1)->unk_0A.n;
         target_value = ((S_800CA134_2 *)target)->unk_0A;
         current += 0xD0;

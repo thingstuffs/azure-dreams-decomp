@@ -4,6 +4,29 @@
 #define NULL 0
 #endif
 
+
+typedef struct ShortVec {
+    s16 x;
+    s16 y;
+    s16 z;
+} ShortVec;
+
+extern s32 D_80045340;
+extern s32 D_800814A0;
+extern void *D_800814A8;
+extern s16 D_80083228[5];
+extern void *D_800E3D18;
+
+extern void *func_8003DE58(void *, void *, ShortVec *, s16);
+extern void func_8004491C(void *, void *);
+extern s32 func_800644B8(s32);
+extern void func_800B8994(void) __attribute__((noreturn));
+extern void func_800B8BE8(void) __attribute__((noreturn));
+extern void func_800B8BF8(void) __attribute__((noreturn));
+extern void func_800B8D64(s16, s16, s16);
+extern void func_800B8EA8(void *, s16, s16, s16, ShortVec *, s32, s32, s32, s32);
+
+
 typedef struct S_800B8830_0_pre {
     u16 unk_00;
 } S_800B8830_0_pre;   /* the 0x2 bytes before arg0 in func_800B8830, addressed as arg0[-1] */
@@ -95,28 +118,6 @@ typedef struct S_800B8830_12 {
     void * unk_08;
     void * unk_0C;
 } S_800B8830_12;   /* ((S_800B8830_0 *)arg0)->unk_04 in func_800B8830 */
-
-
-
-typedef struct ShortVec {
-    s16 x;
-    s16 y;
-    s16 z;
-} ShortVec;
-
-extern s32 D_80045340;
-extern s32 D_800814A0;
-extern void *D_800814A8;
-extern s16 D_80083228[5];
-extern void *D_800E3D18;
-
-extern void *func_8003DE58(void *, void *, ShortVec *, s16);
-extern void func_8004491C(void *, void *);
-extern s32 func_800644B8(s32);
-extern void func_800B8994(void) __attribute__((noreturn));
-extern void func_800B8BE8(void) __attribute__((noreturn));
-extern void func_800B8D64(s16, s16, s16);
-extern void func_800B8EA8(void *, s16, s16, s16, ShortVec *, s32, s32, s32, s32);
 
 void func_800B8830(void *arg0, S_800B8830_3 *arg1, S_800B8830_1 *arg2) {
     ShortVec delta;
@@ -260,6 +261,7 @@ state_two:
         ((S_800B8830_0 *)arg0)->unk_20.u = count;
         ((S_800B8830_9 *)flags_page)->unk_14A0 = final_flags;
     }
+    func_800B8BF8();
     return;
 
 done:

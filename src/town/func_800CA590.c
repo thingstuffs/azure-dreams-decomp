@@ -1,5 +1,12 @@
 #include "common.h"
 
+
+extern void *D_800834A0;
+
+extern void func_800C4174(void *);
+extern void func_800C7D9C(void);
+
+
 typedef struct S_800C7CF0_0 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -19,13 +26,6 @@ typedef struct S_800C7CF0_2 {
     s16 unk_06;
 } S_800C7CF0_2;   /* out in func_800C7CF0 */
 
-
-
-extern void *D_800834A0;
-
-extern void func_800C4174(void *);
-extern void func_800C7D9C(void);
-
 void func_800C7CF0(void *arg0, void *arg1) {
     register void *object ASM_REG("$7") = arg0;   /* MATCH pin: retail register colouring depends on it */
     register void *out ASM_REG("$16") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
@@ -44,6 +44,7 @@ void func_800C7CF0(void *arg0, void *arg1) {
         func_800C4174(object);
         ((S_800C7CF0_2 *)out)->unk_02 = target_x;
         ((S_800C7CF0_2 *)out)->unk_06 = target_y;
+        func_800C7D9C();
         return;
     }
 

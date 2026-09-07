@@ -3,7 +3,9 @@
 
 extern M2C_UNK func_8003DB94();
 extern M2C_UNK func_800478B8();
+extern void func_800BC828(void) __attribute__((noreturn));
 extern M2C_UNK D_800F15E4;
+
 
 typedef struct S_800BC764_0 {
     u8 pad_00[0x68];
@@ -29,12 +31,12 @@ void func_800BC764(S_800BC764_0 *arg0, void *arg1, S_800BC764_1 *arg2) {
         if (temp_v1 == 0) {
             goto state_0;
         }
-        return;
+        func_800BC828();
     }
     if (temp_v1 == 2) {
         goto state_2;
     }
-    return;
+    func_800BC828();
 
 state_0:
     arg0->unk_6C = 0x3CU;
@@ -44,7 +46,7 @@ state_1:
     arg0->unk_6C = temp_v0;
     if ((temp_v0 << 0x10) <= 0) {
         arg0->unk_68 = (s16) ((u16) arg0->unk_68 + 1);
-        return;
+        func_800BC828();
     }
     return;
 

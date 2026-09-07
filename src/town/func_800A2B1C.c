@@ -15,6 +15,7 @@ extern M2C_UNK D_800D073C;
 extern M2C_UNK D_800D0754;
 extern M2C_UNK D_800D076C;
 
+
 typedef struct S_800A027C_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -80,6 +81,7 @@ void *func_800A027C(S_800A027C_5 *arg0, S_800A027C_2 *arg1) {
 
     temp_v0 = func_8003FD64(0x136, &D_80083498);
     if (temp_v0 == NULL) {
+        func_800A03B8();
         return NULL;
     }
     temp_s2 = ((S_800A027C_0 *)temp_v0)->unk_08;

@@ -2,6 +2,25 @@
 
 typedef s32 M2C_UNK;
 
+extern M2C_UNK func_80048A44();
+extern s32 func_8008C730();
+extern void func_8008C798(void) __attribute__((noreturn));
+extern void func_8008c798(void) __attribute__((noreturn));
+extern M2C_UNK func_80099844();
+extern s32 func_8009B5AC();
+extern M2C_UNK func_8009F644();
+extern M2C_UNK func_800A56E0();
+extern s32 D_80012090[];
+extern u8 D_8006CCD8[];
+extern u8 D_8006CCE8[];
+extern s32 D_80081484[];
+extern s32 D_80083170[];
+extern s16 D_80083228[];
+extern u8 D_8008ACDC[];
+extern u8 D_800DCFC8[];
+extern u8 D_800E0495[];
+
+
 typedef struct S_8008C5C4_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -19,7 +38,7 @@ typedef struct S_8008C5C4_1 {
 
 typedef struct S_8008C5C4_2 {
     u8 pad_00[0x8C];
-    union { void * s; u8 * u; } unk_8C;   /* accessed as both */
+    union { void * p; u8 * p2; } unk_8C;   /* accessed as both */
     u8 pad_90[0xA];
     s8 unk_9A;
     s8 unk_9B;
@@ -49,24 +68,6 @@ typedef struct S_8008C5C4_6 {
     u8 pad_00[0x60];
     void * unk_60;
 } S_8008C5C4_6;   /* ((S_8008C5C4_2 *)arg0)->unk_124 in func_8008C5C4 */
-
-
-extern M2C_UNK func_80048A44();
-extern s32 func_8008C730();
-extern void func_8008c798(void) __attribute__((noreturn));
-extern M2C_UNK func_80099844();
-extern s32 func_8009B5AC();
-extern M2C_UNK func_8009F644();
-extern M2C_UNK func_800A56E0();
-extern s32 D_80012090[];
-extern u8 D_8006CCD8[];
-extern u8 D_8006CCE8[];
-extern s32 D_80081484[];
-extern s32 D_80083170[];
-extern s16 D_80083228[];
-extern u8 D_8008ACDC[];
-extern u8 D_800DCFC8[];
-extern u8 D_800E0495[];
 
 s32 func_8008C5C4(S_8008C5C4_2 *arg0, void *arg1, S_8008C5C4_1 *arg2, S_8008C5C4_0 *arg3) {
     s32 temp_a3;
@@ -113,8 +114,8 @@ s32 func_8008C5C4(S_8008C5C4_2 *arg0, void *arg1, S_8008C5C4_1 *arg2, S_8008C5C4
                     ASM_KEEP(tail_page);   /* MATCH pin: keeps a statement from moving across a call/branch */
                     tail_page -= 0x5324;
                     arg0->unk_124 = 0;
-                    arg0->unk_8C.s = (void *)tail_page;
-                    return;
+                    arg0->unk_8C.p = (void *)tail_page;
+                    func_8008C798();
                 }
             }
             temp_a3 = arg0->unk_124;
@@ -125,7 +126,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *arg0, void *arg1, S_8008C5C4_1 *arg2, S_8008C5C4
             func_800A56E0(0x511);
             arg0->unk_9A = 0x1B;
             arg0->unk_9B = 0;
-            arg0->unk_8C.s = 0;
+            arg0->unk_8C.p = 0;
             arg2->unk_2C = D_800DCFC8;
             func_80048A44(
                 arg2,
@@ -140,7 +141,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *arg0, void *arg1, S_8008C5C4_1 *arg2, S_8008C5C4
         }
         return var_v0;
     }
-    arg0->unk_8C.u = D_8008ACDC;
+    arg0->unk_8C.p2 = D_8008ACDC;
     var_v0 = 0;
     return var_v0;
 }

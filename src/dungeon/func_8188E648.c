@@ -1,5 +1,30 @@
 #include "common.h"
 
+
+typedef struct {
+    u16 value;
+    u8 pad[8];
+} Counter;
+
+typedef struct {
+    s32 value;
+    u8 pad[8];
+} Flags;
+
+void func_80025EB8(void) __attribute__((noreturn));
+void func_800260F0(void) __attribute__((noreturn));
+void func_800260F4(void) __attribute__((noreturn));
+void func_8002626C(void) __attribute__((noreturn));
+void func_8002628C(void) __attribute__((noreturn));
+s32 func_800644B8(s16);
+s32 func_80064584(s16);
+void func_800B835C(void *, s32 *, s32, s32);
+
+extern Counter D_80026472;
+extern u8 D_80026478[];
+extern Flags D_800814A0;
+
+
 typedef struct S_80025E48_0_pre {
     u16 unk_00;
 } S_80025E48_0_pre;   /* the 0x2 bytes before arg0 in func_80025E48, addressed as arg0[-1] */
@@ -42,31 +67,6 @@ typedef struct S_80025E48_2 {
     u8 pad_00[0xD];
     u8 unk_0D;
 } S_80025E48_2;   /* arg2 in func_80025E48 */
-
-
-
-typedef struct {
-    u16 value;
-    u8 pad[8];
-} Counter;
-
-typedef struct {
-    s32 value;
-    u8 pad[8];
-} Flags;
-
-void func_80025EB8(void) __attribute__((noreturn));
-void func_800260F0(void) __attribute__((noreturn));
-void func_800260F4(void) __attribute__((noreturn));
-void func_8002626C(void) __attribute__((noreturn));
-void func_8002628C(void) __attribute__((noreturn));
-s32 func_800644B8(s16);
-s32 func_80064584(s16);
-void func_800B835C(void *, s32 *, s32, s32);
-
-extern Counter D_80026472;
-extern u8 D_80026478[];
-extern Flags D_800814A0;
 
 void func_80025E48(void *arg0, S_80025E48_1 *arg1, S_80025E48_2 *arg2)
 {
@@ -114,15 +114,16 @@ void func_80025E48(void *arg0, S_80025E48_1 *arg1, S_80025E48_2 *arg2)
         if (state == 0) {
             goto state_0;
         }
-        return;
+        func_8002628C();
     }
+    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_2;
     }
     if (state == 3) {
         goto state_3;
     }
-    return;
+    func_8002628C();
 
 state_0:
     {
@@ -210,6 +211,7 @@ state_2:
         }
         ((S_80025E48_0 *)arg0)->unk_1A.u = 8;
         ((S_80025E48_0 *)arg0)->unk_0A.u++;
+        func_8002628C();
         return;
     }
 
@@ -275,7 +277,7 @@ fade_slow:
         if ((timer3 << 16) > 0) {
             goto epilogue;
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
         ((S_80025E48_0_pre *)arg0)[-1].unk_00 |= 0x8000;
         D_800814A0.value |= 0x8000;
     }

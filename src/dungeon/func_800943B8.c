@@ -1,5 +1,16 @@
 #include "common.h"
 
+
+extern void func_800478B8(void *arg0);
+extern void func_80099C3C(void);
+typedef struct {
+    s32 value;
+    s32 pad[2];
+} GlobalFlags;
+
+extern GlobalFlags D_800814A0;
+
+
 typedef struct S_80099B18_0 {
     u8 pad_00[0xC];
     u8 unk_0C;
@@ -28,17 +39,6 @@ typedef struct S_80099B18_2 {
     s32 unk_14;
 } S_80099B18_2;   /* arg1 in func_80099B18 */
 
-
-
-extern void func_800478B8(void *arg0);
-extern void func_80099C3C(void);
-typedef struct {
-    s32 value;
-    s32 pad[2];
-} GlobalFlags;
-
-extern GlobalFlags D_800814A0;
-
 void func_80099B18(void *arg0, S_80099B18_2 *arg1, S_80099B18_0 *arg2)
 {
     u16 temp_v0;
@@ -50,6 +50,7 @@ void func_80099B18(void *arg0, S_80099B18_2 *arg1, S_80099B18_0 *arg2)
         ((S_80099B18_1_pre *)arg0)[-1].unk_00 =
             (s16)(((S_80099B18_1_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0.value |= 0x8000;
+        func_80099C3C();
         return;
     }
     temp_v0 = ((S_80099B18_1 *)arg0)->unk_10 + 1;

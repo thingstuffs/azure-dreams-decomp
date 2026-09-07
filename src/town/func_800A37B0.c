@@ -8,6 +8,7 @@ extern M2C_UNK D_80091260;
 extern M2C_UNK D_80091528;
 extern M2C_UNK D_800CFCB4;
 
+
 typedef struct S_800A0F10_0 {
     u8 pad_00[0x10];
     u16 unk_10;
@@ -29,6 +30,7 @@ s32 func_800A0F10(S_800A0F10_1 *arg0, M2C_UNK arg1) {
 
         if ((u32) (((object_angle & 0xFFF) - (global_angle & 0xFFF)) + 0x3FF) < 0x7FFU) {
             if ((D_800834B8 == (s32)&D_80091260) || (D_800834B8 == (s32)&D_80091528)) {
+                func_800A0F88();
                 return 1;
             }
             return 0;

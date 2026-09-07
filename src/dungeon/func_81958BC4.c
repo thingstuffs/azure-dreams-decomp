@@ -1,5 +1,27 @@
 #include "common.h"
 
+
+extern s32 func_8003DE58(void *, void *, void *, s32);
+extern void func_80024450(void) __attribute__((noreturn));
+extern s32 func_80024ED4(void *);
+extern void func_8004491C(void *, void *);
+extern void func_8002455C(void) __attribute__((noreturn));
+
+typedef struct CounterView {
+    u16 value;
+    u16 pad[5];
+} CounterView;
+
+typedef struct FlagsView {
+    s32 value;
+    s32 pad[2];
+} FlagsView;
+
+extern CounterView D_800281F8;
+extern u8 D_80045340[];
+extern FlagsView D_800814A0;
+
+
 typedef struct S_800243C4_0_pre {
     u16 unk_00;
 } S_800243C4_0_pre;   /* the 0x2 bytes before arg0 in func_800243C4, addressed as arg0[-1] */
@@ -52,27 +74,6 @@ typedef struct S_800243C4_5 {
     void * unk_0C;
 } S_800243C4_5;   /* ((S_800243C4_0 *)arg0)->unk_08 in func_800243C4 */
 
-
-
-extern s32 func_8003DE58(void *, void *, void *, s32);
-extern void func_80024450(void) __attribute__((noreturn));
-extern s32 func_80024ED4(void *);
-extern void func_8004491C(void *, void *);
-
-typedef struct CounterView {
-    u16 value;
-    u16 pad[5];
-} CounterView;
-
-typedef struct FlagsView {
-    s32 value;
-    s32 pad[2];
-} FlagsView;
-
-extern CounterView D_800281F8;
-extern u8 D_80045340[];
-extern FlagsView D_800814A0;
-
 void func_800243C4(void *arg0, S_800243C4_2 *arg1, S_800243C4_4 *arg2)
 {
     s16 temp_v1;
@@ -111,15 +112,15 @@ void func_800243C4(void *arg0, S_800243C4_2 *arg1, S_800243C4_4 *arg2)
         if (func_80024ED4(arg1) != 0) {
             func_8004491C((u8 *)arg0 - 0x20, D_80045340);
             ((S_800243C4_0 *)arg0)->unk_2C.u = ((S_800243C4_0 *)arg0)->unk_2C.u + 1;
-            return;
+            func_8002455C();
         }
     } else if (temp_v1 == 1) {
         if (arg2->unk_0C.u8 < 0xC0) {
             arg2->unk_0C.u32 += 0x202020;
-            return;
+            func_8002455C();
         }
         ((S_800243C4_0 *)arg0)->unk_2C.u = temp_a0 + 1;
-        return;
+        func_8002455C();
     } else if (temp_v1 == 2) {
         arg2->unk_0C.u32 += 0xFFFBFBFC;
         if (arg2->unk_0C.u8 == 0) {

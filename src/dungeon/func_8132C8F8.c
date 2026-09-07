@@ -1,5 +1,15 @@
 #include "common.h"
 
+
+extern void func_80047784(void *, s32, s32);
+extern s32 func_800644B8(s32);
+extern void func_800A2B04(void *, u8, u8);
+extern void func_80174300(void) __attribute__((noreturn));
+
+extern s16 D_80083228;
+extern u8 D_80174A7C[];
+
+
 typedef struct S_801740F8_0 {
     u8 pad_00[0x90];
     s32 unk_90;
@@ -35,15 +45,6 @@ typedef struct S_801740F8_3 {
     s32 unk_14;
 } S_801740F8_3;   /* arg1 in func_801740F8 */
 
-
-
-extern void func_80047784(void *, s32, s32);
-extern s32 func_800644B8(s32);
-extern void func_800A2B04(void *, u8, u8);
-
-extern s16 D_80083228;
-extern u8 D_80174A7C[];
-
 void func_801740F8(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     s32 timer;
@@ -61,7 +62,7 @@ void func_801740F8(void *arg0, void *arg1, void *arg2, void *arg3)
         if (state == 0) {
             goto state_0;
         }
-        return;
+        func_80174300();
     } else {
         if (state == 2) {
             goto test_done;
@@ -69,14 +70,14 @@ void func_801740F8(void *arg0, void *arg1, void *arg2, void *arg3)
         if (state == 3) {
             goto state_3;
         }
-        return;
+        func_80174300();
     }
 
 state_0:
     ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
     tbl = page + 0x4A7C;
     if (((S_801740F8_1 *)arg2)->unk_2C != tbl) {
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = tbl;
+        (*(u8 * *)((u8 *)arg2 + (0x2C))) = tbl;
         func_80047784(
             arg2,
             *(u8 *)(((((D_80083228 + ((S_801740F8_2 *)arg3)->unk_2A + 0x100) >> 9) & 7)) + (u32)tbl),
@@ -115,11 +116,11 @@ test_done:
     ((S_801740F8_3 *)arg1)->unk_0C = 0;
     func_800A2B04(arg1, ((S_801740F8_1 *)arg2)->unk_24, ((S_801740F8_1 *)arg2)->unk_25);
     ((S_801740F8_0 *)arg0)->unk_9B++;
-    return;
+    func_80174300();
 
 state_3:
     if (((S_801740F8_1 *)arg2)->unk_2C != D_80174A7C - 0x50) {
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80174A7C - 0x50;
+        (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80174A7C - 0x50;
         func_80047784(
             arg2,
             (D_80174A7C - 0x50)[((D_80083228 + ((S_801740F8_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],

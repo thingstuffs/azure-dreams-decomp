@@ -1,6 +1,22 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+M2C_UNK func_80048A44(void *, u8, s32, s32); /* extern */
+s32 func_800644B8();                             /* extern */
+s32 func_80064584();                             /* extern */
+M2C_UNK func_8008CAA0(); /* extern */
+M2C_UNK func_8008CBD4(); /* extern */
+M2C_UNK func_8008E0A4();                            /* extern */
+M2C_UNK func_800A2B04();              /* extern */
+M2C_UNK func_800AD4D0();                      /* extern */
+extern s16 D_80083228;
+extern M2C_UNK D_80083460;
+extern M2C_UNK D_8008ACDC;
+extern u8 D_800DCFB0[8];
+extern u8 D_800DCFE0[8];
+extern s32 D_800E296C;
+
+
 typedef struct S_8008DDE8_0 {
     u8 pad_00[0x8C];
     M2C_UNK * unk_8C;
@@ -44,22 +60,6 @@ typedef struct S_8008DDE8_4 {
     s32 unk_10;
 } S_8008DDE8_4;   /* temp_global in func_8008DDE8 */
 
-
-M2C_UNK func_80048A44(void *, u8, s32, s32); /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
-M2C_UNK func_8008CAA0(); /* extern */
-M2C_UNK func_8008CBD4(); /* extern */
-M2C_UNK func_8008E0A4();                            /* extern */
-M2C_UNK func_800A2B04();              /* extern */
-M2C_UNK func_800AD4D0();                      /* extern */
-extern s16 D_80083228;
-extern M2C_UNK D_80083460;
-extern M2C_UNK D_8008ACDC;
-extern u8 D_800DCFB0[8];
-extern u8 D_800DCFE0[8];
-extern s32 D_800E296C;
-
 void func_8008DDE8(void *arg0, void *arg1, void *arg2, void *arg3) {
     s16 temp_a0;
     s32 temp_a1;
@@ -81,6 +81,7 @@ void func_8008DDE8(void *arg0, void *arg1, void *arg2, void *arg3) {
     }
     if (((S_8008DDE8_0 *)arg0)->unk_10C & 1) {
         func_8008CAA0(arg0, arg1, arg2, arg3);
+        func_8008E0A4();
         return;
     }
     if ((((S_8008DDE8_3 *)arg2)->unk_2C == D_800DCFE0) && (((S_8008DDE8_3 *)arg2)->unk_14 & 0x6000)) {
@@ -109,7 +110,7 @@ void func_8008DDE8(void *arg0, void *arg1, void *arg2, void *arg3) {
     }
     if (((S_8008DDE8_3 *)arg2)->unk_14 & 0xE000) {
         temp_table = D_800DCFB0;
-        (*(u8 **)((u8 *)arg2 + 0x2C)) = temp_table;
+        (*(u8 **)((u8 *)arg2 + (0x2C))) = temp_table;
         func_80048A44(arg2, temp_table[((s32) (D_80083228 + ((S_8008DDE8_2 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0, 1);
         temp_page = 0x80080000;
         ASM_KEEP(temp_page);   /* MATCH pin: load-bearing for the whole function shape */
@@ -124,6 +125,7 @@ void func_8008DDE8(void *arg0, void *arg1, void *arg2, void *arg3) {
             }
             ((S_8008DDE8_2 *)arg3)->unk_28 = 0U;
             func_8008CBD4(arg0, arg1, arg2, arg3);
+            func_8008E0A4();
             return;
         }
         temp_timer = 8U;

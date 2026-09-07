@@ -1,5 +1,30 @@
 #include "common.h"
 
+
+extern void *D_800814A8;
+extern s16 D_80083228;
+extern s32 D_80083460;
+extern s32 D_8008346C;
+extern u8 D_80170838[16];
+extern s32 D_80170F68;
+extern u8 D_80173FB8[8];
+
+extern s32 func_8003F270();
+extern void func_80047784();
+extern void *func_800A05A4();
+extern void func_800A2B04();
+extern void func_800A4ACC();
+extern void func_800A56E0();
+extern s32 func_800A94A0();
+extern void func_800DA840();
+extern void func_80172AE0(void) __attribute__((noreturn));
+extern void func_80172AE8(void) __attribute__((noreturn));
+extern void func_80172AF0(void) __attribute__((noreturn));
+extern void func_80172AFC(void) __attribute__((noreturn));
+extern void func_80172B9C(void) __attribute__((noreturn));
+extern void func_80172E64(void) __attribute__((noreturn));
+
+
 typedef struct S_801729D4_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -20,10 +45,10 @@ typedef struct S_801729D4_1 {
     u8 pad_48[0x18];
     void * unk_60;
     u8 pad_64[0x9];
-    union { u8 s; s8 u; } unk_6D;   /* accessed as both */
+    union { u8 u; s8 s; } unk_6D;   /* accessed as both */
     u8 pad_6E[0x4];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
+    union { u8 u; s8 s; } unk_72;   /* accessed as both */
+    union { u8 u; s8 s; } unk_73;   /* accessed as both */
 } S_801729D4_1;   /* arg3 in func_801729D4 */
 
 typedef struct S_801729D4_2_pre {
@@ -67,30 +92,6 @@ typedef struct S_801729D4_6 {
     s32 unk_0C;
 } S_801729D4_6;   /* status in func_801729D4 */
 
-
-
-extern void *D_800814A8;
-extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_8008346C;
-extern u8 D_80170838[16];
-extern s32 D_80170F68;
-extern u8 D_80173FB8[8];
-
-extern s32 func_8003F270();
-extern void func_80047784();
-extern void *func_800A05A4();
-extern void func_800A2B04();
-extern void func_800A4ACC();
-extern void func_800A56E0();
-extern s32 func_800A94A0();
-extern void func_800DA840();
-extern void func_80172AE0(void) __attribute__((noreturn));
-extern void func_80172AE8(void) __attribute__((noreturn));
-extern void func_80172AF0(void) __attribute__((noreturn));
-extern void func_80172AFC(void) __attribute__((noreturn));
-extern void func_80172B9C(void) __attribute__((noreturn));
-
 void func_801729D4(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     static void *const jt_keep[] = {
@@ -118,12 +119,13 @@ void func_801729D4(void *arg0, void *arg1, void *arg2, void *arg3)
         if (state == 0) {
             goto state_0;
         }
-        return;
+        func_80172E64();
     }
+    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_2;
     }
-    return;
+    func_80172E64();
 
 state_0:
     if (!(((S_801729D4_1 *)arg3)->unk_1C & 0x2000)) {
@@ -198,28 +200,28 @@ selected:
         root = D_800814A8;
         ((S_801729D4_1 *)arg3)->unk_60 = root;
         source = ((S_801729D4_2_pre *)root)[-1].unk_00;
-        ((S_801729D4_1 *)arg3)->unk_72.s = ((S_801729D4_3 *)source)->unk_24;
-        ((S_801729D4_1 *)arg3)->unk_73.s = ((S_801729D4_3 *)source)->unk_25;
+        ((S_801729D4_1 *)arg3)->unk_72.u = ((S_801729D4_3 *)source)->unk_24;
+        ((S_801729D4_1 *)arg3)->unk_73.u = ((S_801729D4_3 *)source)->unk_25;
         func_80172B9C();
     }
 
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
     created = func_800A05A4(
         arg3, ((S_801729D4_4 *)arg2)->unk_24, ((S_801729D4_4 *)arg2)->unk_25,
         ((S_801729D4_1 *)arg3)->unk_2A, 0x10);
     ((S_801729D4_1 *)arg3)->unk_60 = created;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
-    x = ((S_801729D4_1 *)arg3)->unk_72.u;
-    y = ((S_801729D4_1 *)arg3)->unk_73.u;
+    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+    x = ((S_801729D4_1 *)arg3)->unk_72.s;
+    y = ((S_801729D4_1 *)arg3)->unk_73.s;
     if (x < 0) {
         x = -x;
     }
     if (y < 0) {
         y = -y;
     }
-    ((S_801729D4_1 *)arg3)->unk_72.s = x;
-    ((S_801729D4_1 *)arg3)->unk_73.s = y;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+    ((S_801729D4_1 *)arg3)->unk_72.u = x;
+    ((S_801729D4_1 *)arg3)->unk_73.u = y;
+    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
 
     pos[0] = ((S_801729D4_5 *)arg1)->unk_02;
     pos[1] = ((S_801729D4_5 *)arg1)->unk_06;
@@ -229,7 +231,7 @@ selected:
         func_800A56E0(0x703);
         func_800DA840(pos, (s16)((*anim - 1) % 3));
         ((S_801729D4_0 *)arg0)->unk_9B++;
-        return;
+        func_80172E64();
     }
     goto done;
 
@@ -239,19 +241,19 @@ empty_anim:
     ((S_801729D4_5 *)arg1)->unk_0C = 0;
     func_800A2B04(arg1, ((S_801729D4_4 *)arg2)->unk_24, ((S_801729D4_4 *)arg2)->unk_25);
     D_8008346C = 0;
-    (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+    (*(u16 *)((u8 *)D_800814A8 + (0xA6)))--;
     func_800A4ACC(arg3);
-    ((S_801729D4_1 *)arg3)->unk_6D.s--;
+    ((S_801729D4_1 *)arg3)->unk_6D.u--;
     ((S_801729D4_0 *)arg0)->unk_8C = &D_80170F68;
-    ((S_801729D4_1 *)arg3)->unk_73.s = 0;
-    ((S_801729D4_1 *)arg3)->unk_72.s = 0;
+    ((S_801729D4_1 *)arg3)->unk_73.u = 0;
+    ((S_801729D4_1 *)arg3)->unk_72.u = 0;
     ((S_801729D4_1 *)arg3)->unk_46 &= 0x7FFF;
-    return;
+    func_80172E64();
 
 state_1:
     if (func_8003F270() != 0) {
         ((S_801729D4_4 *)arg2)->unk_14 |= 0x800;
-        return;
+        func_80172E64();
     }
     ((S_801729D4_4 *)arg2)->unk_14 &= 0xF7FF;
     ((S_801729D4_0 *)arg0)->unk_9B++;
@@ -275,7 +277,7 @@ state_2:
         ((S_801729D4_5 *)arg1)->unk_0C = 0;
         func_800A2B04(arg1, ((S_801729D4_4 *)arg2)->unk_24, ((S_801729D4_4 *)arg2)->unk_25);
         if (((S_801729D4_4 *)arg2)->unk_2C != D_80173FB8) {
-            (*(void * *)((u8 *)arg2 + 0x2C)) = D_80173FB8;
+            (*(void * *)((u8 *)arg2 + (0x2C))) = D_80173FB8;
             func_80047784(
                 arg2,
                 D_80173FB8[((D_80083228 + ((S_801729D4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
@@ -287,11 +289,11 @@ state_2:
             ((S_801729D4_4 *)arg2)->unk_14 &= 0xF7FF;
             ((S_801729D4_0 *)arg0)->unk_8C = &D_80170F68;
             func_800A4ACC(arg3);
-            if (((S_801729D4_1 *)arg3)->unk_6D.u > 0) {
-                ((S_801729D4_1 *)arg3)->unk_6D.s--;
+            if (((S_801729D4_1 *)arg3)->unk_6D.s > 0) {
+                ((S_801729D4_1 *)arg3)->unk_6D.u--;
             }
-            ((S_801729D4_1 *)arg3)->unk_73.s = 0;
-            ((S_801729D4_1 *)arg3)->unk_72.s = 0;
+            ((S_801729D4_1 *)arg3)->unk_73.u = 0;
+            ((S_801729D4_1 *)arg3)->unk_72.u = 0;
             ((S_801729D4_1 *)arg3)->unk_46 &= 0x7FFF;
             func_800A56E0(0xB4);
         }

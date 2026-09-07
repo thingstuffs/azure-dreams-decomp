@@ -2,36 +2,6 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct S_80092A84_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80092A84_0;   /* arg1 in func_80092A84 */
-
-typedef struct S_80092A84_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_80092A84_1;   /* state in func_80092A84 */
-
-typedef struct S_80092A84_2 {
-    u8 pad_00[0x2C];
-    void * unk_2C;
-    u8 pad_30[0xE];
-    u16 unk_3E;
-} S_80092A84_2;   /* arg0 in func_80092A84 */
-
-typedef struct S_80092A84_3 {
-    u8 pad_00[0x50];
-    void * unk_50;
-} S_80092A84_3;   /* entity in func_80092A84 */
-
-typedef struct S_80092A84_4 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_80092A84_4;   /* base in func_80092A84 */
-
-
 
 M2C_UNK func_80035208();
 M2C_UNK func_8008B158();
@@ -66,6 +36,36 @@ extern M2C_UNK D_800D0128;
 extern u8 D_800FE488[];
 extern s32 *D_800FE5D8;
 
+
+typedef struct S_80092A84_0 {
+    u8 pad_00[0xA];
+    s16 unk_0A;
+} S_80092A84_0;   /* arg1 in func_80092A84 */
+
+typedef struct S_80092A84_1 {
+    u8 pad_00[0x8];
+    s32 unk_08;
+    u8 pad_0C[0x4];
+    s32 unk_10;
+} S_80092A84_1;   /* state in func_80092A84 */
+
+typedef struct S_80092A84_2 {
+    u8 pad_00[0x2C];
+    void * unk_2C;
+    u8 pad_30[0xE];
+    u16 unk_3E;
+} S_80092A84_2;   /* arg0 in func_80092A84 */
+
+typedef struct S_80092A84_3 {
+    u8 pad_00[0x50];
+    void * unk_50;
+} S_80092A84_3;   /* entity in func_80092A84 */
+
+typedef struct S_80092A84_4 {
+    u8 pad_00[0x10];
+    s32 unk_10;
+} S_80092A84_4;   /* base in func_80092A84 */
+
 void func_80092A84(S_80092A84_2 *arg0, S_80092A84_0 *arg1, M2C_UNK arg2) {
     u8 *state;
     u8 *pal;
@@ -86,6 +86,7 @@ void func_80092A84(S_80092A84_2 *arg0, S_80092A84_0 *arg1, M2C_UNK arg2) {
     if ((position - arg1->unk_0A) >= 4) {
         if (D_800CFCEF == 0) {
             func_80094660(arg0, arg1, arg2);
+            func_80092CB0();
             return;
         }
     } else if (D_800CFCEF == 0) {
@@ -95,10 +96,12 @@ void func_80092A84(S_80092A84_2 *arg0, S_80092A84_0 *arg1, M2C_UNK arg2) {
     flags = ((S_80092A84_1 *)state)->unk_10;
     if (flags & 0x10) {
         func_800945B8(arg0, arg1, arg2);
+        func_80092CB0();
         return;
     }
     if (flags & 0x40) {
         func_800946A0(arg0, arg1, arg2);
+        func_80092CB0();
         return;
     }
 
@@ -132,6 +135,7 @@ void func_80092A84(S_80092A84_2 *arg0, S_80092A84_0 *arg1, M2C_UNK arg2) {
 
         func_8008B158(base->unk_10);
         D_800FE5D8 = (s32 *)&D_80093B00;
+        func_80092CB0();
         return;
     }
 
@@ -141,6 +145,7 @@ void func_80092A84(S_80092A84_2 *arg0, S_80092A84_0 *arg1, M2C_UNK arg2) {
         func_80094944(position, 0xC);
         func_80094C1C(arg0);
         func_80094C74(arg1);
+        func_80092CB0();
         return;
     }
 

@@ -2,6 +2,38 @@
 
 typedef s32 M2C_UNK;
 
+
+extern M2C_UNK func_80048A44();
+extern s32 rand();
+extern M2C_UNK func_8008F610();
+extern M2C_UNK func_8008F684();
+extern M2C_UNK func_8008F694();
+extern M2C_UNK func_8008F6CC();
+extern s32 func_800990FC();
+extern s32 func_80099194();
+extern M2C_UNK func_80099290();
+extern s32 func_80099734();
+extern M2C_UNK func_80099844();
+extern M2C_UNK func_80099F04();
+extern M2C_UNK func_80099F70();
+extern M2C_UNK func_800A56E0();
+extern M2C_UNK func_800A5720();
+extern s16 func_800A6DA4();
+
+extern s32 D_80081484;
+extern s16 D_80083228;
+extern s32 D_8008ACDC;
+extern u8 D_8008EAC8[];
+extern u8 D_800DCFB0[8];
+extern u8 D_800DD0B8[8];
+extern u8 D_800E0523[];
+extern u8 D_800E0683[];
+extern u8 D_80083460[12];
+extern s32 D_800E3540;
+extern s16 D_800E3DA8[2];
+
+#line 1 "a"
+
 typedef struct S_8008F428_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -51,38 +83,6 @@ typedef struct S_8008F428_6 {
     s32 unk_1C;
 } S_8008F428_6;   /* ((S_8008F428_0 *)arg0)->unk_124 in func_8008F428 */
 
-
-
-extern M2C_UNK func_80048A44();
-extern s32 rand();
-extern M2C_UNK func_8008F610();
-extern M2C_UNK func_8008F684();
-extern M2C_UNK func_8008F694();
-extern M2C_UNK func_8008F6CC();
-extern s32 func_800990FC();
-extern s32 func_80099194();
-extern M2C_UNK func_80099290();
-extern s32 func_80099734();
-extern M2C_UNK func_80099844();
-extern M2C_UNK func_80099F04();
-extern M2C_UNK func_80099F70();
-extern M2C_UNK func_800A56E0();
-extern M2C_UNK func_800A5720();
-extern s16 func_800A6DA4();
-
-extern s32 D_80081484;
-extern s16 D_80083228;
-extern s32 D_8008ACDC;
-extern u8 D_8008EAC8[];
-extern u8 D_800DCFB0[8];
-extern u8 D_800DD0B8[8];
-extern u8 D_800E0523[];
-extern u8 D_800E0683[];
-extern u8 D_80083460[12];
-extern s32 D_800E3540;
-extern s16 D_800E3DA8[2];
-
-#line 1 "a"
 void func_8008F428(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 value;
     s32 saved;
@@ -182,6 +182,7 @@ use_effect:
 start_wait:
         ((S_8008F428_0 *)arg0)->unk_96 = 0x10;
         ((S_8008F428_0 *)arg0)->unk_9B = ((S_8008F428_0 *)arg0)->unk_9B + 1;
+        func_8008F6CC();
         return;
     }
 
@@ -206,7 +207,7 @@ start_wait:
         func_800A5720(saved_value);
         ((S_8008F428_0 *)arg0)->unk_8C = &D_8008ACDC;
         call_arg = arg2;
-        (*(u8 * *)((u8 *)call_arg + 0x2C)) = D_800DCFB0;
+        (*(u8 * *)((u8 *)call_arg + (0x2C))) = D_800DCFB0;
         func_80048A44(call_arg,
             D_800DCFB0[((D_80083228 + ((S_8008F428_4 *)arg3)->unk_2A + 0x100) >> 9) & 7],
             0, 1);

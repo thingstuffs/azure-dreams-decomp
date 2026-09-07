@@ -2,30 +2,6 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct S_800BDEB8_0_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_800BDEB8_0_pre;   /* the 0x14 bytes before var_s2 in func_800BDEB8, addressed as var_s2[-1] */
-
-typedef struct S_800BDEB8_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x8];
-    u32 unk_1C;
-    u8 pad_20[0x84];
-    s32 unk_A4;
-    u8 pad_A8[0x2];
-    s16 unk_AA;
-    u8 pad_AC[0x64];
-    s32 unk_110;
-} S_800BDEB8_0;   /* var_s2 in func_800BDEB8 */
-
-typedef struct S_800BDEB8_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-} S_800BDEB8_1;   /* ((S_800BDEB8_0_pre *)var_s2)[-1].unk_00 in func_800BDEB8 */
-
-
 
 M2C_UNK func_8008D330();
 M2C_UNK func_80098B38();
@@ -58,6 +34,30 @@ extern u8 D_800E0FB9[];
 extern u8 D_800E0FD7[];
 extern u8 *D_800E3D7C;
 
+
+typedef struct S_800BDEB8_0_pre {
+    void * unk_00;
+    u8 pad_04[0x10];
+} S_800BDEB8_0_pre;   /* the 0x14 bytes before var_s2 in func_800BDEB8, addressed as var_s2[-1] */
+
+typedef struct S_800BDEB8_0 {
+    u8 pad_00[0x13];
+    u8 unk_13;
+    u8 pad_14[0x8];
+    u32 unk_1C;
+    u8 pad_20[0x84];
+    s32 unk_A4;
+    u8 pad_A8[0x2];
+    s16 unk_AA;
+    u8 pad_AC[0x64];
+    s32 unk_110;
+} S_800BDEB8_0;   /* var_s2 in func_800BDEB8 */
+
+typedef struct S_800BDEB8_1 {
+    u8 pad_00[0x6];
+    s16 unk_06;
+} S_800BDEB8_1;   /* ((S_800BDEB8_0_pre *)var_s2)[-1].unk_00 in func_800BDEB8 */
+
 s32 func_800BDEB8(void *arg0, s32 arg1, s16 arg2) {
     void *current_entity = D_800E3D7C;
     void *var_s2 = arg0;
@@ -77,6 +77,7 @@ s32 func_800BDEB8(void *arg0, s32 arg1, s16 arg2) {
     if (var_s2 == current_entity) {
         ((S_800BDEB8_0 *)var_s2)->unk_110 = var_s5;
         func_8008D330(arg0, D_80083780, D_80082E80, arg0);
+        func_800BE0F8();
         return 0;
     }
 
@@ -84,6 +85,7 @@ s32 func_800BDEB8(void *arg0, s32 arg1, s16 arg2) {
         func_800A63B8(var_s2, var_s5, arg2);
         if (func_800AD6FC(var_s2, (D_800DDE84[((S_800BDEB8_0 *)var_s2)->unk_13] >> 6) & 3, 0) == 0) {
             func_800A5F38(var_s2, var_s5);
+            func_800BE0F8();
             return 1;
         }
     }

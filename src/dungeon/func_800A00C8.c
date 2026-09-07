@@ -13,6 +13,7 @@ extern s32 func_800644B8(s32);
 extern void func_800A58A4(void) __attribute__((noreturn));
 extern void func_800A5938(void) __attribute__((noreturn));
 extern void func_800A5994(void) __attribute__((noreturn));
+extern void func_800A5A00(void) __attribute__((noreturn));
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -73,7 +74,7 @@ void func_800A5828(void *arg0, s32 arg1, void *arg2)
             U8_AT(prim, 0xE) = 0x80;
             U16_AT(arg0, -2) |= 0x8000;
             D_800814A0[0] |= 0x8000;
-            return;
+            func_800A5A00();
         }
     }
 

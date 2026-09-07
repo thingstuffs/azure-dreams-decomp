@@ -308,6 +308,7 @@ finish:
             ((u16 *)w)[-1] = work_flags | 0x8000;
             *(u32 *)(flags_page + 0x14A0) |= 0x8000;
         }
+        func_800BA050();
         return;
     }
 

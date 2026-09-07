@@ -1,5 +1,41 @@
 #include "common.h"
 
+
+extern void func_8003DB94();
+extern void func_80040AA0(s32);
+extern void func_8008CBA0();
+extern void func_8008CF6C();
+extern s16 func_8009074C();
+extern s32 func_80094EA4(void);
+extern void func_8009693C(void) __attribute__((noreturn));
+extern void func_80096990() __attribute__((noreturn));
+extern void func_800969B8();
+extern void func_80096AC0();
+extern void func_80096C24();
+extern s32 func_800973F0();
+extern void func_80097898();
+extern void func_80097C50();
+extern void *func_8009F868();
+extern void func_8009F988();
+extern s32 func_800A2C34();
+extern void func_800A4300();
+extern s32 func_800A4474();
+extern void func_800A56E0();
+extern s32 func_800A6D30(void);
+
+extern u16 D_80013714[];
+extern u8 D_800245A8[];
+extern u8 D_8004F5F4[];
+extern s32 D_80082EB0[];
+extern u8 D_80083160[];
+extern s16 D_80083228[];
+extern u8 D_80083460[];
+extern void *D_800DD274[];
+extern void (*D_800DD830[])();
+extern u8 D_800E3544[];
+extern s32 D_800E4940[];
+
+
 typedef struct S_80096384_0 {
     u8 pad_00[0x96];
     s16 unk_96;
@@ -57,41 +93,6 @@ typedef struct S_80096384_5 {
     u8 unk_01;
 } S_80096384_5;   /* temp_v0_2 in func_80096384 */
 
-
-
-extern void func_8003DB94();
-extern void func_80040AA0(s32);
-extern void func_8008CBA0();
-extern void func_8008CF6C();
-extern s16 func_8009074C();
-extern s32 func_80094EA4(void);
-extern void func_8009693C(void) __attribute__((noreturn));
-extern void func_800969B8();
-extern void func_80096AC0();
-extern void func_80096C24();
-extern s32 func_800973F0();
-extern void func_80097898();
-extern void func_80097C50();
-extern void *func_8009F868();
-extern void func_8009F988();
-extern s32 func_800A2C34();
-extern void func_800A4300();
-extern s32 func_800A4474();
-extern void func_800A56E0();
-extern s32 func_800A6D30(void);
-
-extern u16 D_80013714[];
-extern u8 D_800245A8[];
-extern u8 D_8004F5F4[];
-extern s32 D_80082EB0[];
-extern u8 D_80083160[];
-extern s16 D_80083228[];
-extern u8 D_80083460[];
-extern void *D_800DD274[];
-extern void (*D_800DD830[])();
-extern u8 D_800E3544[];
-extern s32 D_800E4940[];
-
 void func_80096384(void *arg0, s32 arg1, S_80096384_1 *arg2, void *arg3)
 {
     s16 temp_v0;
@@ -142,7 +143,7 @@ void func_80096384(void *arg0, s32 arg1, S_80096384_1 *arg2, void *arg3)
     temp_v0 = ((S_80096384_3 *)arg3)->unk_64;
     if (temp_v0 < 0) {
         func_80097898(arg0, arg1, arg2, arg3);
-        return;
+        func_80096990();
     }
     if (temp_v0 > 0) {
         func_8008CBA0(arg0, arg1, arg2, arg3);
@@ -156,13 +157,13 @@ void func_80096384(void *arg0, s32 arg1, S_80096384_1 *arg2, void *arg3)
     temp_v1_2 = ((S_80096384_0 *)arg0)->unk_A2;
     if (!(temp_v1_2 & 0x10)) {
         func_80096AC0(arg0, arg1, arg2, arg3);
-        return;
+        func_80096990();
     }
 
     temp_a0 = ((S_80096384_3 *)arg3)->unk_1C;
     if (temp_a0 & 0x200) {
         func_80097C50(arg0, arg1, arg2, arg3);
-        return;
+        func_80096990();
     }
 
     if (!(((S_80096384_4 *)temp_s4)->unk_02 & 4)) {
@@ -249,10 +250,10 @@ void func_80096384(void *arg0, s32 arg1, S_80096384_1 *arg2, void *arg3)
                     goto block_state_10;
 block_state_8:
                     func_80096C24(arg0, arg1, arg2, arg3);
-                    return;
+                    func_80096990();
 block_state_10:
                     func_800969B8(arg0, arg1, arg2, arg3);
-                    return;
+                    func_80096990();
 block_state_18:
                     func_800973F0(arg0, arg1, arg2, arg3);
                     func_8009693C();
@@ -264,7 +265,7 @@ block_state_D8:
                 D_800E3544[0] = 0;
                 if (flags & 4) {
                     func_80040AA0(3);
-                    return;
+                    func_80096990();
                 }
 
                 if ((func_80094EA4() << 16) != 0) {
@@ -278,7 +279,7 @@ block_state_D8:
                         arg2->unk_25) << 16) != 0)) {
                     ((S_80096384_0 *)arg0)->unk_A2 &= 0xFDFF;
                     func_8008CF6C(arg0, arg1, arg2, D_800245A8);
-                    return;
+                    func_80096990();
                 }
 
                 if (((S_80096384_2 *)temp_s5)->unk_08.s & 0x80) {
@@ -288,13 +289,14 @@ block_state_D8:
                     D_80082EB0[0] = 0;
                     ((S_80096384_0 *)arg0)->unk_C8 = 0;
                     ((S_80096384_0 *)arg0)->unk_104 = 0;
-                    return;
+                    func_80096990();
                 }
 
+                ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
                 temp_a1_2 = (u8 *)arg0 + 0xA2;
                 if (((S_80096384_2 *)temp_s5)->unk_08.s & 3) {
                     func_800A56E0(0x506, temp_a1_2);
-                    return;
+                    func_80096990();
                 }
 
                 temp_v0_3 = func_8009074C(((S_80096384_0 *)arg0)->unk_9E,
@@ -312,7 +314,7 @@ block_state_D8:
                             }
                             func_80096C24(arg0, arg1, arg2, arg3);
                             if (((S_80096384_0 *)arg0)->unk_9A != 0x32) {
-                                return;
+                                func_80096990();
                             }
                             goto block_78;
                         }
@@ -325,7 +327,7 @@ block_78:
                 if ((tail_data_flags & 0x30) == 0x30) {
                     ((S_80096384_0 *)arg0)->unk_A2 &= 0xFFFE;
                     func_800969B8(arg0, arg1, arg2, arg3);
-                    return;
+                    func_80096990();
                 }
 
                 temp_v1_6 = ((S_80096384_0 *)arg0)->unk_A2;

@@ -1,10 +1,31 @@
 #include "common.h"
 
+
+extern void func_80047784(void *, s32, s32);
+extern s32 func_800644B8(s32);
+extern void func_8009C12C(void *, void *, s16, s32);
+extern void func_800A2B04(void *, u8, u8);
+extern void func_800A4ACC(void *);
+extern void func_800A56E0(s32);
+extern void func_800AD594(void *, s32);
+extern void func_80173DAC(void) __attribute__((noreturn));
+extern void func_8017586C(void *, void *, void *);
+
+extern s8 D_8006CCD8;
+extern s8 D_8006CCE8;
+extern s16 D_80083228;
+extern s32 D_8008346C;
+extern void *D_80170860[6];
+extern u8 D_80171FA4[9];
+extern u8 D_80175C68[8];
+extern u8 D_80175C70[8];
+
+
 typedef struct S_80173930_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
     u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
+    union { u16 u; s16 s; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
     u8 pad_9C[0x4];
@@ -38,26 +59,6 @@ typedef struct S_80173930_3 {
     s32 unk_14;
 } S_80173930_3;   /* arg1 in func_80173930 */
 
-
-
-extern void func_80047784(void *, s32, s32);
-extern s32 func_800644B8(s32);
-extern void func_8009C12C(void *, void *, s16, s32);
-extern void func_800A2B04(void *, u8, u8);
-extern void func_800A4ACC(void *);
-extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
-extern void func_8017586C(void *, void *, void *);
-
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
-extern s16 D_80083228;
-extern s32 D_8008346C;
-extern void *D_80170860[6];
-extern u8 D_80171FA4[9];
-extern u8 D_80175C68[8];
-extern u8 D_80175C70[8];
-
 void func_80173930(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     u8 state;
@@ -78,10 +79,10 @@ L0:
 
 L1:
     if (((S_80173930_1 *)arg2)->unk_14 & 0x8000) {
-        ((S_80173930_0 *)arg0)->unk_96.s = 0x100;
+        ((S_80173930_0 *)arg0)->unk_96.u = 0x100;
         ((S_80173930_0 *)arg0)->unk_9B = 5;
         func_8009C12C(arg3, arg2, ((S_80173930_2 *)arg3)->unk_2A, 1);
-        return;
+        func_80173DAC();
     }
 
     ((S_80173930_1 *)arg2)->unk_05 -= 2;
@@ -93,7 +94,7 @@ L1:
             (s32)*(s16 *)((u8 *)&D_8006CCE8 + index) << 16;
     }
     if (((S_80173930_1 *)arg2)->unk_14 & 0x6000) {
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80175C68;
+        (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80175C68;
         func_80047784(
             arg2,
             D_80175C68[((D_80083228 + ((S_80173930_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
@@ -124,7 +125,7 @@ L2:
     {
         s32 current_state = ((S_80173930_0 *)arg0)->unk_9B;
 
-        ((S_80173930_0 *)arg0)->unk_96.s = 0;
+        ((S_80173930_0 *)arg0)->unk_96.u = 0;
         if (current_state == 0) {
             return;
         }
@@ -133,7 +134,7 @@ L2:
     ((S_80173930_0 *)arg0)->unk_9B++;
     func_8017586C((u8 *)arg0 - 0x20, (u8 *)arg3 + 0x2A,
                   (u8 *)arg0 + 0x9B);
-    return;
+    func_80173DAC();
 
 L3:
     {
@@ -149,15 +150,15 @@ L3:
             (s32)*(s16 *)(table_y +
                 (((u16)((S_80173930_2 *)arg3)->unk_2A >> 8) & 0xE)) << 17;
 
-        ((S_80173930_0 *)arg0)->unk_A0.at00.v -= (s32)((S_80173930_0 *)arg0)->unk_96.u << 17;
-        timer = ((S_80173930_0 *)arg0)->unk_96.s + 1;
-        ((S_80173930_0 *)arg0)->unk_96.s = timer;
+        ((S_80173930_0 *)arg0)->unk_A0.at00.v -= (s32)((S_80173930_0 *)arg0)->unk_96.s << 17;
+        timer = ((S_80173930_0 *)arg0)->unk_96.u + 1;
+        ((S_80173930_0 *)arg0)->unk_96.u = timer;
         if ((s16)timer < 9) {
             return;
         }
 
         func_8009C12C(arg3, arg2, ((S_80173930_2 *)arg3)->unk_2A, 1);
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80175C70;
+        (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80175C70;
         func_80047784(
             arg2,
             D_80175C70[((D_80083228 + ((S_80173930_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
@@ -172,22 +173,22 @@ L3:
                 (((u16)((S_80173930_2 *)arg3)->unk_2A >> 8) & 0xE)) << 20;
         ((S_80173930_0 *)arg0)->unk_A8 = ((S_80173930_3 *)arg1)->unk_0C / 6;
         ((S_80173930_0 *)arg0)->unk_AC = ((S_80173930_3 *)arg1)->unk_10 / 6;
-        ((S_80173930_0 *)arg0)->unk_96.s = 0;
+        ((S_80173930_0 *)arg0)->unk_96.u = 0;
         ((S_80173930_0 *)arg0)->unk_9B++;
-        return;
+        func_80173DAC();
     }
 
 L4:
     ((S_80173930_3 *)arg1)->unk_0C -= ((S_80173930_0 *)arg0)->unk_A8;
     ((S_80173930_3 *)arg1)->unk_10 -= ((S_80173930_0 *)arg0)->unk_AC;
     ((S_80173930_0 *)arg0)->unk_A0.at00.v =
-        func_800644B8(((S_80173930_0 *)arg0)->unk_96.u * 146) * 160 + 0x100000;
+        func_800644B8(((S_80173930_0 *)arg0)->unk_96.s * 146) * 160 + 0x100000;
 
 L5:
     {
-        u16 timer = ((S_80173930_0 *)arg0)->unk_96.s + 1;
+        u16 timer = ((S_80173930_0 *)arg0)->unk_96.u + 1;
 
-        ((S_80173930_0 *)arg0)->unk_96.s = timer;
+        ((S_80173930_0 *)arg0)->unk_96.u = timer;
         if ((s16)timer < 7 && !(((S_80173930_1 *)arg2)->unk_14 & 0x8000)) {
             return;
         }

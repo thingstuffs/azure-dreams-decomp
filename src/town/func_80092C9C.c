@@ -75,13 +75,13 @@ void func_800903FC(void *arg0, S_800903FC_0 *arg1, s32 arg2) {
     u8 *work;
     s16 value;
 
-    handler = (*(void * *)((u8 *)arg0 + 0));
+    handler = (*(void * *)((u8 *)arg0 + (0)));
     if (handler != D_80097D2C || handler != D_80090A64) {
         func_800953D0(arg1);
     }
     func_8009539C(arg1);
 
-    handler = (*(void * *)((u8 *)arg0 + 0));
+    handler = (*(void * *)((u8 *)arg0 + (0)));
     if (handler != D_80097D2C || handler != D_80090A64) {
         func_80096FF4(arg1);
     }
@@ -97,14 +97,14 @@ void func_800903FC(void *arg0, S_800903FC_0 *arg1, s32 arg2) {
     func_80095460(arg1);
 
     work = (u8 *)&D_800FE490;
-    ((S_800903FC_1 *)work)->unk_16 = (*(u16 *)((u8 *)arg0 + 0x10));
+    ((S_800903FC_1 *)work)->unk_16 = (*(u16 *)((u8 *)arg0 + (0x10)));
     func_80095910(work);
     if (func_8009593C(work) != 0) {
-        (*(s32 *)((u8 *)arg0 + 0x2C)) = 0;
+        (*(s32 *)((u8 *)arg0 + (0x2C))) = 0;
         func_8008B158(((S_800903FC_1 *)work)->unk_10);
 
         object = D_80082BC0;
-        (*(ObjectCallback *)((u8 *)object + 0x10))(object + 0x20, 0, 0);
+        (*(ObjectCallback *)((u8 *)object + (0x10)))(object + 0x20, 0, 0);
 
         if (func_800352FC() != 0) {
             base = (u8 *)&D_800CFCB4;
@@ -127,17 +127,18 @@ void func_800903FC(void *arg0, S_800903FC_0 *arg1, s32 arg2) {
 
 skip_update:
             func_8009550C(arg1);
-            if ((*(void * *)((u8 *)arg0 + 0)) != D_80097D2C) {
+            if ((*(void * *)((u8 *)arg0 + (0))) != D_80097D2C) {
                 func_80098868(arg0, arg1, arg2);
             }
         }
     }
 
     func_8008F664(&D_800CFCB4, arg1);
-    (*(ActorCallback *)((u8 *)arg0 + 0))(arg0, arg1, arg2);
+    (*(ActorCallback *)((u8 *)arg0 + (0)))(arg0, arg1, arg2);
 
-    if ((*(void * *)((u8 *)arg0 + -0x10)) == D_800A5638) {
+    if ((*(void * *)((u8 *)arg0 + (-0x10))) == D_800A5638) {
         func_800A573C(arg0, arg1, arg2);
+        func_8009063C();
         return;
     }
     func_8009065C(arg0, arg1, arg2);

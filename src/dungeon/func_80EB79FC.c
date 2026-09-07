@@ -1,5 +1,25 @@
 #include "common.h"
 
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
+
+typedef s32 M2C_UNK;
+
+extern void *D_80170858[];
+M2C_UNK func_8009A028();
+M2C_UNK func_8009A3D0();
+M2C_UNK func_800A2FE0();
+M2C_UNK func_800A32A4();
+M2C_UNK func_800A56E0();
+M2C_UNK func_800ACF88();
+s16 func_800BCB04();
+M2C_UNK func_80173494() __attribute__((noreturn));
+extern s8 D_8006CCD8;
+extern s8 D_8006CCE8;
+extern s32 D_800814A0[3];
+extern M2C_UNK D_80083460;
+extern s16 D_8008346A;
+
+
 typedef struct S_801731FC_0 {
     u8 pad_00[0x96];
     u16 unk_96;
@@ -16,7 +36,7 @@ typedef struct S_801731FC_1 {
     u8 pad_00[0x14];
     s32 unk_14;
     u8 pad_18[0x4];
-    union { u32 s; s32 u; } unk_1C;   /* accessed as both */
+    union { u32 u; s32 s; } unk_1C;   /* accessed as both */
     u8 pad_20[0x4A];
     u16 unk_6A;
 } S_801731FC_1;   /* arg3 in func_801731FC */
@@ -51,26 +71,6 @@ typedef struct S_801731FC_4 {
     u8 pad_00[0x10];
     s32 unk_10;
 } S_801731FC_4;   /* global_ptr in func_801731FC */
-
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-typedef s32 M2C_UNK;
-
-extern void *D_80170858[];
-M2C_UNK func_8009A028();
-M2C_UNK func_8009A3D0();
-M2C_UNK func_800A2FE0();
-M2C_UNK func_800A32A4();
-M2C_UNK func_800A56E0();
-M2C_UNK func_800ACF88();
-s16 func_800BCB04();
-M2C_UNK func_80173494() __attribute__((noreturn));
-extern s8 D_8006CCD8;
-extern s8 D_8006CCE8;
-extern s32 D_800814A0[3];
-extern M2C_UNK D_80083460;
-extern s16 D_8008346A;
 
 void func_801731FC(S_801731FC_0 *arg0, S_801731FC_2 *arg1, S_801731FC_3 *arg2, void *arg3) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
@@ -108,10 +108,10 @@ jt_c0:
         mask_v1 = 0xFFFBFFFF;
         field98 |= 8;
         arg0->unk_98 = field98;
-        flags = ((S_801731FC_1 *)arg3)->unk_1C.s;
+        flags = ((S_801731FC_1 *)arg3)->unk_1C.u;
         flags &= mask_a0;
         flags &= mask_v1;
-        ((S_801731FC_1 *)arg3)->unk_1C.s = flags;
+        ((S_801731FC_1 *)arg3)->unk_1C.u = flags;
         arg1->unk_0C = temp_a2 << 0x10;
         arg1->unk_10 = temp_a3 << 0x10;
         arg1->unk_14 = 0xFFF40000;
@@ -153,9 +153,10 @@ jt_c3:
     }
     arg0->unk_96 = 0x80U;
     arg0->unk_9B = arg0->unk_9B + 1;
+    func_80173494();
     return;
 jt_c4:
-    ((S_801731FC_1 *)arg3)->unk_1C.u |= 0x10000000;
+    ((S_801731FC_1 *)arg3)->unk_1C.s |= 0x10000000;
     temp_v0 = (u8)arg0->unk_96;
     arg2->unk_0E = temp_v0;
     arg2->unk_0D = temp_v0;
@@ -176,7 +177,7 @@ block_17:
     sound_x = arg2->unk_24;
     sound_y = arg2->unk_25;
     var_a2 = 0x3000;
-    if (!(((S_801731FC_1 *)arg3)->unk_1C.u & 0x2000)) {
+    if (!(((S_801731FC_1 *)arg3)->unk_1C.s & 0x2000)) {
         goto block_19;
     }
     var_a2 = 0x300;

@@ -1,6 +1,14 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+M2C_UNK func_80048A44(); /* extern */
+M2C_UNK func_80091C44();                            /* extern */
+s16 func_800A0818();       /* extern */
+extern s16 D_80083228;
+extern M2C_UNK D_80083460;
+extern u8 D_800DD030[];
+
+
 typedef struct S_80091B5C_0 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -17,9 +25,7 @@ typedef struct S_80091B5C_1 {
 } S_80091B5C_1;   /* arg3 in func_80091B5C */
 
 typedef struct S_80091B5C_2 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x6];
+    u8 pad_00[0x96];
     s16 unk_96;
     u8 pad_98[0x2];
     s8 unk_9A;
@@ -45,14 +51,6 @@ typedef struct S_80091B5C_5_pre {
     u8 pad_04[0x10];
 } S_80091B5C_5_pre;   /* the 0x14 bytes before ((S_80091B5C_3 *)base)->unk_0C in func_80091B5C, addressed as ((S_80091B5C_3 *)base)->unk_0C[-1] */
 
-
-M2C_UNK func_80048A44(); /* extern */
-M2C_UNK func_80091C44();                            /* extern */
-s16 func_800A0818();       /* extern */
-extern s16 D_80083228;
-extern M2C_UNK D_80083460;
-extern u8 D_800DD030[];
-
 void func_80091B5C(void *arg0, void *arg1, void *arg2, void *arg3) {
     M2C_UNK sp18;
     void *base;
@@ -60,15 +58,16 @@ void func_80091B5C(void *arg0, void *arg1, void *arg2, void *arg3) {
 
     if (((S_80091B5C_0 *)arg2)->unk_14 & 0x8000) {
         ((S_80091B5C_1 *)arg3)->unk_14 &= 0xFFFDFFFF;
+        func_80091C44();
         return;
     }
     base = &D_80083460;
     ((S_80091B5C_2 *)arg0)->unk_9A = 0x2A;
     ((S_80091B5C_2 *)arg0)->unk_9B = 0;
-    ((S_80091B5C_2 *)arg0)->unk_8C = 0;
+    (*(s32 *)((u8 *)arg0 + (0x8C))) = 0;
     ((S_80091B5C_3 *)base)->unk_0A = (u16) (((S_80091B5C_3 *)base)->unk_0A + 1);
     ((S_80091B5C_2 *)arg0)->unk_96 = 0x10;
-    (*(u8 **)((u8 *)arg2 + 0x2C)) = D_800DD030;
+    (*(u8 **)((u8 *)arg2 + (0x2C))) = D_800DD030;
     func_80048A44(arg2, D_800DD030[((s32) (D_80083228 + ((S_80091B5C_1 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     temp_v0 = ((S_80091B5C_5_pre *)(((S_80091B5C_3 *)base)->unk_0C))[-1].unk_00;
     ((S_80091B5C_2 *)arg0)->unk_11A = (u16) ((S_80091B5C_1 *)arg3)->unk_2A;

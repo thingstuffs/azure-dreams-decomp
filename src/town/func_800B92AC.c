@@ -12,6 +12,7 @@ extern M2C_UNK D_8004CAA0;
 extern M2C_UNK D_800814A0;
 extern M2C_UNK D_800B6754;
 
+
 typedef struct S_800B6A0C_0 {
     u8 pad_00[0xC];
     void * unk_0C;
@@ -39,6 +40,7 @@ void *func_800B6A0C(s32 arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3, s32 arg4) {
             func_800B691C(temp_s1, arg0, arg1, arg2, arg3, arg4);
             ((S_800B6A0C_0 *)var_s0)->unk_10 = &D_800B6754;
             func_8004491C(var_s0, &D_8004CAA0);
+            func_800B6AE8();
             return var_s0;
         }
         func_8004B248(var_s0 + 0xBC);

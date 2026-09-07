@@ -1,5 +1,11 @@
 #include "common.h"
 
+
+extern void func_800478B8(void *arg0);
+extern void func_80024B48(void) __attribute__((noreturn));
+extern s32 D_800814A0[3];
+
+
 typedef struct S_800249DC_0_pre {
     u16 unk_00;
 } S_800249DC_0_pre;   /* the 0x2 bytes before arg0 in func_800249DC, addressed as arg0[-1] */
@@ -38,11 +44,6 @@ typedef struct S_800249DC_3 {
     u8 pad_10[0x4];
     u16 unk_14;
 } S_800249DC_3;   /* arg2 in func_800249DC */
-
-
-
-extern void func_800478B8(void *arg0);
-extern s32 D_800814A0[3];
 
 void func_800249DC(void *arg0, S_800249DC_2 *arg1, S_800249DC_3 *arg2) {
     s32 temp_a0;
@@ -93,6 +94,7 @@ void func_800249DC(void *arg0, S_800249DC_2 *arg1, S_800249DC_3 *arg2) {
         ((S_800249DC_0_pre *)arg0)[-1].unk_00 =
             (u16)(((S_800249DC_0_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
+        func_80024B48();
         return;
     }
 

@@ -79,7 +79,7 @@ void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *ob
     if (state == 3) {
         goto state_3;
     }
-    return;
+    func_801735F8();
 
 state_0:
     if (*(s16 *)(D_80083460 + 0xA) != 0) {
@@ -115,7 +115,7 @@ state_2:
     index = ((D_80083228 + object->angle + 0x100) >> 9) & 7;
     func_80047784(entity, entity->table[index], 0);
     effect->state++;
-    return;
+    func_801735F8();
 
 state_3:
     delta = 0xFFF7F7F8;

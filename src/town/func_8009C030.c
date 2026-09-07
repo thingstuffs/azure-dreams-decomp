@@ -3,8 +3,7 @@
 
 M2C_UNK func_80098928();     /* extern */
 M2C_UNK func_80099858();                            /* extern */
-s16 func_800C2AE8();                          /* extern */
-
+s16 func_800C2AE8();                          
 typedef struct S_80099790_0 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -25,6 +24,8 @@ typedef struct S_80099790_1 {
     u16 unk_32;
 } S_80099790_1;   /* arg0 in func_80099790 */
 
+/* extern */
+
 void func_80099790(S_80099790_1 *arg0, S_80099790_0 *arg1, M2C_UNK arg2) {
     u16 temp_v0;
 
@@ -36,6 +37,7 @@ void func_80099790(S_80099790_1 *arg0, S_80099790_0 *arg1, M2C_UNK arg2) {
         arg1->unk_06 = (u16) arg0->unk_32;
         arg0->unk_10 = (u16) arg0->unk_0E;
         func_80098928(arg0, arg1, arg2);
+        func_80099858();
         return;
     }
     arg1->unk_02 = (u16) (arg1->unk_02 + ((s32) ((s16) arg0->unk_30 - (s16) arg1->unk_02) / (s16) temp_v0));

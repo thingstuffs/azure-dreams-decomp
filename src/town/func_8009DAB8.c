@@ -2,6 +2,16 @@
 
 typedef s32 M2C_UNK;
 
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
+
+M2C_UNK func_80033CD8();
+M2C_UNK func_8009BFD8();
+M2C_UNK func_8009B29C();
+extern M2C_UNK D_80045340;
+extern M2C_UNK D_8009B148;
+extern M2C_UNK D_8009B2BC;
+
+
 typedef struct S_8009B218_0_pre {
     M2C_UNK * unk_00;
     u8 pad_04[0xC];
@@ -23,16 +33,6 @@ typedef struct S_8009B218_1 {
     s8 unk_05;
 } S_8009B218_1;   /* arg2 in func_8009B218 */
 
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-M2C_UNK func_80033CD8();
-M2C_UNK func_8009BFD8();
-M2C_UNK func_8009B29C();
-extern M2C_UNK D_80045340;
-extern M2C_UNK D_8009B148;
-extern M2C_UNK D_8009B2BC;
-
 void func_8009B218(void *arg0, M2C_UNK arg1, S_8009B218_1 *arg2, s32 arg3) {
     ((S_8009B218_0_pre *)arg0)[-1].unk_00 = &D_8009B148;
     func_80033CD8(arg0, &D_80045340);
@@ -44,6 +44,7 @@ void func_8009B218(void *arg0, M2C_UNK arg1, S_8009B218_1 *arg2, s32 arg3) {
     if (arg3 != 0) {
         ((S_8009B218_0 *)arg0)->unk_58 = arg3;
         func_8009BFD8(arg0, arg0, arg1, arg2);
+        func_8009B29C();
         return;
     }
     ((S_8009B218_0 *)arg0)->unk_50 = &D_8009B2BC;

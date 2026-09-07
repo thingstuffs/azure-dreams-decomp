@@ -4,9 +4,17 @@
 #define NULL 0
 #endif
 
+
+extern void *D_800E3D7C[];
+
+extern void func_800A2D68(void *, s32);
+extern void func_800A2FBC(void);
+extern void func_800B4C7C(s32, void *, s16, s32);
+
+
 typedef struct S_800A2DB8_0 {
     u8 pad_00[0x6];
-    union { u16 s; s16 u; } unk_06;   /* accessed as both */
+    union { u16 u; s16 s; } unk_06;   /* accessed as both */
     u8 pad_08[0x9];
     u8 unk_11;
     u8 pad_12[0x42];
@@ -61,17 +69,9 @@ typedef struct S_800A2DB8_8 {
     s32 unk_14;
 } S_800A2DB8_8;   /* final_target in func_800A2DB8 */
 
-
-
-extern void *D_800E3D7C[];
-
-extern void func_800A2D68(void *, s32);
-extern void func_800A2FBC(void);
-extern void func_800B4C7C(s32, void *, s16, s32);
-
 s32 func_800A2DB8(S_800A2DB8_0 *arg0)
 {
-    S_800A2DB8_1 *initial_target;
+    void *initial_target;
     void *target;
     S_800A2DB8_8 *final_target;
     S_800A2DB8_7 *global_member;
@@ -92,12 +92,12 @@ s32 func_800A2DB8(S_800A2DB8_0 *arg0)
     if (initial_target == NULL) {
         goto done;
     }
-    if (initial_target->unk_13 < 0) {
+    if (((S_800A2DB8_1 *)initial_target)->unk_13 < 0) {
         goto done;
     }
 
-    result = arg0->unk_06.s;
-    if (initial_target->unk_54 & 0x20) {
+    result = arg0->unk_06.u;
+    if (((S_800A2DB8_1 *)initial_target)->unk_54 & 0x20) {
         result *= 2;
     }
 
@@ -152,17 +152,18 @@ s32 func_800A2DB8(S_800A2DB8_0 *arg0)
         }
         func_800A2D68(global_member, amount & 0xFFFF);
         func_800B4C7C(0x82, ((S_800A2DB8_6 *)global_page)->unk_3D7C, (s16)amount, 1);
+        func_800A2FBC();
         return amount;
     }
 
-    result = arg0->unk_06.s;
+    result = arg0->unk_06.u;
     func_800A2D68(target, result);
     final_target = arg0->unk_60;
     opcode = 0x83;
     if (final_target->unk_14 & 0x2000) {
         opcode = 0x82;
     }
-    func_800B4C7C(opcode, final_target, arg0->unk_06.u, 1);
+    func_800B4C7C(opcode, final_target, arg0->unk_06.s, 1);
 done:
     return result;
 }

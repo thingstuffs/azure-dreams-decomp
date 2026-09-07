@@ -1,7 +1,5 @@
 #include "common.h"
 
-
-
 typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -14,6 +12,7 @@ extern s32 D_800834B8[3];
 extern M2C_UNK D_80093328;
 extern M2C_UNK D_80093524[3];
 extern s32 D_800CFCC4[3];
+
 
 typedef struct S_8009EE9C_0 {
     u8 pad_00[0x8];
@@ -39,6 +38,7 @@ void func_8009EE9C(S_8009EE9C_1 *arg0, s32 arg1, S_8009EE9C_0 *arg2, M2C_UNK arg
     if (D_800CFCC4[0] == arg1) {
         if (D_800834B8[0] == &D_80093328) {
             func_8009F1C0(arg0, D_800CFCC4[0], arg2, arg3);
+            func_8009EF64();
             return;
         }
         if (D_800834B8[0] == D_80093524) {

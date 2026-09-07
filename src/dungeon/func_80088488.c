@@ -1,5 +1,20 @@
 #include "common.h"
 
+extern void func_80048A44(void *, u8, s32, s32);
+extern void func_8008D94C(void *, void *, void *, void *);
+extern void func_8008DCEC(void);
+extern void func_8008DDC8(void);
+extern s32 func_80094F74(void *, void *, void *, void *);
+extern void func_800A2B04(void *, u8, u8);
+
+extern u16 D_80013714;
+extern s16 D_80083228;
+extern s32 D_80083460;
+extern s32 D_8008ACDC;
+extern u8 D_800DD050[];
+
+
+
 typedef struct S_8008DBE8_0 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -42,21 +57,6 @@ typedef struct S_8008DBE8_5 {
     s16 unk_04;
 } S_8008DBE8_5;   /* late_status in func_8008DBE8 */
 
-
-extern void func_80048A44(void *, u8, s32, s32);
-extern void func_8008D94C(void *, void *, void *, void *);
-extern void func_8008DCEC(void);
-extern void func_8008DDC8(void);
-extern s32 func_80094F74(void *, void *, void *, void *);
-extern void func_800A2B04(void *, u8, u8);
-
-extern u16 D_80013714;
-extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_8008ACDC;
-extern u8 D_800DD050[];
-
-
 void func_8008DBE8(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *status = &D_80083460;
     void *late_status;
@@ -80,7 +80,6 @@ void func_8008DBE8(void *arg0, void *arg1, void *arg2, void *arg3) {
             timer;
         coordinate = ((S_8008DBE8_2 *)arg1)->unk_04;
         ((S_8008DBE8_2 *)arg1)->unk_0C = quotient;
-        ASM_MEM_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
         divisor2 = ((S_8008DBE8_0 *)status)->unk_04;
         ((S_8008DBE8_2 *)arg1)->unk_10 =
             ((((((S_8008DBE8_1 *)arg2)->unk_25 << 6) + 0x20) << 16) -
@@ -101,6 +100,7 @@ void func_8008DBE8(void *arg0, void *arg1, void *arg2, void *arg3) {
         }
 
         func_8008D94C(arg0, arg1, arg2, arg3);
+        func_8008DDC8();
         return;
     }
 
@@ -109,7 +109,7 @@ continue_update:
     if (!(flags & 0x10)) {
         if (((S_8008DBE8_1 *)arg2)->unk_2C != D_800DD050) {
             ((S_8008DBE8_3 *)arg0)->unk_A2 = flags | 1;
-            (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_800DD050;
+            (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_800DD050;
             func_80048A44(
                 arg2,
                 D_800DD050[((D_80083228 + ((S_8008DBE8_4 *)arg3)->unk_2A + 0x100) >> 9) & 7],

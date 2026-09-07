@@ -1,5 +1,16 @@
 #include "common.h"
 
+
+extern void func_8004E994();
+extern void func_800B0EF4(void);
+extern void func_800B0EF8(void);
+extern void func_800B0F3C(void);
+
+extern s32 D_800814A0;
+extern u8 D_800DDC40[];
+extern u8 *D_800E3D7C[];
+
+
 typedef struct S_800B0D34_0 {
     u8 pad_00[0x4];
     void * unk_04;
@@ -38,7 +49,7 @@ typedef struct S_800B0D34_3 {
     u8 pad_00[0x4];
     u8 unk_04;
     u8 pad_05[0x13];
-    union { u16 s; s16 u; } unk_18;   /* accessed as both */
+    union { u16 u; s16 s; } unk_18;   /* accessed as both */
 } S_800B0D34_3;   /* arg2 in func_800B0D34 */
 
 typedef struct S_800B0D34_4 {
@@ -72,17 +83,6 @@ typedef struct S_800B0D34_8 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } S_800B0D34_8;   /* source in func_800B0D34 */
-
-
-
-extern void func_8004E994();
-extern void func_800B0EF4(void);
-extern void func_800B0EF8(void);
-extern void func_800B0F3C(void);
-
-extern s32 D_800814A0;
-extern u8 D_800DDC40[];
-extern u8 *D_800E3D7C[];
 
 void func_800B0D34(void *arg0, void *arg1, void *arg2) {
     u16 packed;
@@ -136,9 +136,9 @@ void func_800B0D34(void *arg0, void *arg1, void *arg2) {
 
 mode_zero:
     {
-        u16 value = ((S_800B0D34_3 *)arg2)->unk_18.s;
+        u16 value = ((S_800B0D34_3 *)arg2)->unk_18.u;
         if (value != 0) {
-            ((S_800B0D34_3 *)arg2)->unk_18.s = value + 0x80;
+            ((S_800B0D34_3 *)arg2)->unk_18.u = value + 0x80;
         }
     }
     if (((S_800B0D34_4 *)(D_800E3D7C[0]))->unk_104 !=
@@ -151,10 +151,10 @@ mode_zero:
 
 mode_one:
     {
-        s16 signed_value = ((S_800B0D34_3 *)arg2)->unk_18.u;
-        u16 value = ((S_800B0D34_3 *)arg2)->unk_18.s;
+        s16 signed_value = ((S_800B0D34_3 *)arg2)->unk_18.s;
+        u16 value = ((S_800B0D34_3 *)arg2)->unk_18.u;
         if (signed_value >= -0x3FF) {
-            ((S_800B0D34_3 *)arg2)->unk_18.s = value - 0x100;
+            ((S_800B0D34_3 *)arg2)->unk_18.u = value - 0x100;
             func_800B0EF4();
             return;
         }
@@ -174,8 +174,9 @@ mode_one:
             object = (u8 *)object + 4;
         } while (i < 4);
     }
-    (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
     D_800814A0 |= 0x8000;
+    func_800B0F3C();
     return;
 
 finish:

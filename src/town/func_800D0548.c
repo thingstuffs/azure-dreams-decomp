@@ -1,6 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+M2C_UNK func_80095388();                      /* extern */
+s16 func_800C2AE8();                          /* extern */
+s32 func_800C30E0();         /* extern */
+M2C_UNK func_800CDD7C();                            /* extern */
+M2C_UNK func_800CDE9C();     /* extern */
+M2C_UNK func_800CDFF8();     
 typedef struct S_800CDCA8_0 {
     u8 pad_00[0x6E];
     u16 unk_6E;
@@ -17,13 +23,7 @@ typedef struct S_800CDCA8_1 {
     s32 unk_14;
 } S_800CDCA8_1;   /* arg1 in func_800CDCA8 */
 
-
-M2C_UNK func_80095388();                      /* extern */
-s16 func_800C2AE8();                          /* extern */
-s32 func_800C30E0();         /* extern */
-M2C_UNK func_800CDD7C();                            /* extern */
-M2C_UNK func_800CDE9C();     /* extern */
-M2C_UNK func_800CDFF8();     /* extern */
+/* extern */
 
 void func_800CDCA8(S_800CDCA8_0 *arg0, S_800CDCA8_1 *arg1, M2C_UNK arg2) {
     u16 temp_v0;
@@ -38,11 +38,12 @@ void func_800CDCA8(S_800CDCA8_0 *arg0, S_800CDCA8_1 *arg1, M2C_UNK arg2) {
             arg1->unk_14 = 0;
             arg0->unk_72 = (u16) arg0->unk_6E;
             func_800CDE9C(arg0, arg1, arg2);
+            func_800CDD7C();
             return;
         }
         if (func_800C30E0(arg0, arg1, arg2) == 0) {
             func_800CDFF8(arg0, arg1, arg2);
-            return;
+            func_800CDD7C();
         }
     } else {
         func_80095388(arg1);

@@ -37,6 +37,7 @@ common:
         previous = base[0x360A];
         base[0x360A] = (u8)raw;
         base[0x360B] = previous;
+        func_800B8A38();
         return;
     }
 
@@ -48,6 +49,7 @@ small:
         ASM_KEEP(base);   /* MATCH pin: keeps a constant in a register as retail does */
         small_index >>= 15;
         base[0x33A5 + small_index] = (u8)raw;
+        func_800B8A38();
         return;
     }
 

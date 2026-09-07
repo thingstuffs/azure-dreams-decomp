@@ -1,5 +1,15 @@
 #include "common.h"
 
+
+extern void func_800478B8(void *);
+extern s32 func_800644B8(s32);
+extern s32 func_80064584(s32);
+extern s32 rand(void);
+extern void func_800D7F1C();
+extern s32 D_800814A0;
+extern u16 D_80083460[];
+
+
 typedef struct S_800D7D30_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -37,16 +47,6 @@ typedef struct S_800D7D30_2 {
     u8 pad_0F[0x5];
     u16 unk_14;
 } S_800D7D30_2;   /* arg2 in func_800D7D30 */
-
-
-
-extern void func_800478B8(void *);
-extern s32 func_800644B8(s32);
-extern s32 func_80064584(s32);
-extern s32 rand(void);
-extern void func_800D7F1C();
-extern s32 D_800814A0;
-extern u16 D_80083460[];
 
 void func_800D7D30(void *arg0, void *arg1, void *arg2) {
     register s32 x ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
@@ -115,6 +115,7 @@ void func_800D7D30(void *arg0, void *arg1, void *arg2) {
 
     if (((S_800D7D30_0 *)arg1)->unk_08.at02.v < ((S_800D7D30_1 *)arg0)->unk_10 - 0x60) {
         ((S_800D7D30_1 *)arg0)->unk_4C.u++;
+        func_800D7F1C();
         return;
     }
     return;
@@ -124,6 +125,6 @@ state_one:
         u16 *fixed = D_80083460;
         fixed[5]--;
     }
-    (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
     D_800814A0 |= 0x8000;
 }

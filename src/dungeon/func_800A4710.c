@@ -1,5 +1,26 @@
 #include "common.h"
 
+
+extern s32 func_800A9E38(void *arg0);
+extern s32 func_800A2BDC(void *arg0);
+extern void func_8003DB94(void *arg0, s32 arg1, s8 arg2);
+extern void func_80047738(void *arg0, u8 arg1, s8 arg2);
+extern void func_800478B8(void *arg0);
+extern s32 func_800A9F24(void);
+extern void func_800A9F58(void) __attribute__((noreturn));
+extern s32 func_800AA048(void);
+extern void func_800AA060(void) __attribute__((noreturn));
+extern s32 func_800AA22C(void);
+extern s32 func_800AA234(void);
+extern void func_800ACB98(void *arg0, s32 arg1, void *arg2, void *arg3);
+extern void func_800ACD74(void *arg0, s32 arg1, void *arg2, void *arg3);
+
+extern s16 D_80083228;
+extern s16 D_800DCE68;
+extern u8 D_8006CCF8[8];
+extern u8 D_80083460[0x14];
+
+
 typedef struct S_800A9E70_0 {
     u8 pad_00[0x14];
     s32 unk_14;
@@ -34,7 +55,7 @@ typedef struct S_800A9E70_2 {
     u8 pad_05[0xF];
     u16 unk_14;
     u8 pad_16[0x16];
-    union { s32 * s; u8 * u; } unk_2C;   /* accessed as both */
+    union { s32 * p; u8 * p2; } unk_2C;   /* accessed as both */
 } S_800A9E70_2;   /* arg2 in func_800A9E70 */
 
 typedef struct S_800A9E70_3 {
@@ -46,27 +67,6 @@ typedef struct S_800A9E70_3 {
     void * unk_0C;
     s32 unk_10;
 } S_800A9E70_3;   /* state in func_800A9E70 */
-
-
-
-extern s32 func_800A9E38(void *arg0);
-extern s32 func_800A2BDC(void *arg0);
-extern void func_8003DB94(void *arg0, s32 arg1, s8 arg2);
-extern void func_80047738(void *arg0, u8 arg1, s8 arg2);
-extern void func_800478B8(void *arg0);
-extern s32 func_800A9F24(void);
-extern void func_800A9F58(void) __attribute__((noreturn));
-extern s32 func_800AA048(void);
-extern void func_800AA060(void) __attribute__((noreturn));
-extern s32 func_800AA22C(void);
-extern s32 func_800AA234(void);
-extern void func_800ACB98(void *arg0, s32 arg1, void *arg2, void *arg3);
-extern void func_800ACD74(void *arg0, s32 arg1, void *arg2, void *arg3);
-
-extern s16 D_80083228;
-extern s16 D_800DCE68;
-extern u8 D_8006CCF8[8];
-extern u8 D_80083460[0x14];
 
 s32 func_800A9E70(S_800A9E70_1 *arg0, s32 arg1, S_800A9E70_2 *arg2, S_800A9E70_0 *arg3) {
     u8 *state;
@@ -81,12 +81,12 @@ s32 func_800A9E70(S_800A9E70_1 *arg0, s32 arg1, S_800A9E70_2 *arg2, S_800A9E70_0
         direction = ((D_80083228 + arg3->unk_2A + 0x100) >> 9) & 7;
         if (arg0->unk_94 != direction) {
             if (func_800A9E38(arg3) != 0) {
-                func_8003DB94(arg2, arg2->unk_2C.s[direction],
+                func_8003DB94(arg2, arg2->unk_2C.p[direction],
                               arg2->unk_04);
                 arg0->unk_94 = direction;
                 return func_800A9F24();
             }
-            func_80047738(arg2, arg2->unk_2C.u[direction],
+            func_80047738(arg2, arg2->unk_2C.p2[direction],
                           arg2->unk_04);
             arg0->unk_94 = direction;
         }
@@ -102,6 +102,7 @@ s32 func_800A9E70(S_800A9E70_1 *arg0, s32 arg1, S_800A9E70_2 *arg2, S_800A9E70_0
         arg2->unk_14 &= 0xFFFE;
         ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
         func_800478B8(arg2);
+        func_800AA234();
         return 1;
     }
 
@@ -122,11 +123,11 @@ s32 func_800A9E70(S_800A9E70_1 *arg0, s32 arg1, S_800A9E70_2 *arg2, S_800A9E70_0
             direction = ((D_80083228 + arg3->unk_2A + 0x100) >> 9) & 7;
             if (func_800A9E38(arg3) != 0) {
                 ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
-                func_8003DB94(arg2, arg2->unk_2C.s[direction],
+                func_8003DB94(arg2, arg2->unk_2C.p[direction],
                               arg2->unk_04);
                 return func_800AA048();
             }
-            func_80047738(arg2, arg2->unk_2C.u[direction],
+            func_80047738(arg2, arg2->unk_2C.p2[direction],
                           arg2->unk_04);
             {
                 u32 tail_value;
@@ -175,6 +176,7 @@ s32 func_800A9E70(S_800A9E70_1 *arg0, s32 arg1, S_800A9E70_2 *arg2, S_800A9E70_0
                             if (flags14 & 0x20000000) {
                                 arg3->unk_14 = flags14 | 0x400000;
                                 func_800ACB98(arg0, held_arg1, arg2, arg3);
+                                func_800AA234();
                                 return 0;
                             }
                             arg3->unk_14 = flags14 & 0xFFBFFFFF;
@@ -187,6 +189,7 @@ s32 func_800A9E70(S_800A9E70_1 *arg0, s32 arg1, S_800A9E70_2 *arg2, S_800A9E70_0
                             arg3->unk_1C &= 0xFDFFFFFF;
                             if (arg3->unk_14 & 0x20000000) {
                                 func_800ACD74(arg0, held_arg1, arg2, arg3);
+                                func_800AA234();
                                 return 0;
                             }
                             arg0->unk_9A = 0;

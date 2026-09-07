@@ -1,6 +1,18 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+M2C_UNK func_800649A0();                            /* extern */
+M2C_UNK func_80064A40();                            /* extern */
+M2C_UNK func_80064CF0();                      /* extern */
+M2C_UNK func_80064D80();                      /* extern */
+M2C_UNK func_80065320();     /* extern */
+M2C_UNK func_800A1DD4();                            /* extern */
+M2C_UNK func_800A1E14();                            /* extern */
+M2C_UNK func_800A1E54();                            /* extern */
+M2C_UNK func_800A1EDC();                            /* extern */
+extern s32 D_800814A0;
+
+
 typedef struct S_800A1D1C_0_pre {
     u16 unk_00;
 } S_800A1D1C_0_pre;   /* the 0x2 bytes before arg0 in func_800A1D1C, addressed as arg0[-1] */
@@ -57,18 +69,6 @@ typedef struct S_800A1D1C_5 {
     u16 unk_0A;
 } S_800A1D1C_5;   /* arg1 in func_800A1D1C */
 
-
-M2C_UNK func_800649A0();                            /* extern */
-M2C_UNK func_80064A40();                            /* extern */
-M2C_UNK func_80064CF0();                      /* extern */
-M2C_UNK func_80064D80();                      /* extern */
-M2C_UNK func_80065320();     /* extern */
-M2C_UNK func_800A1DD4();                            /* extern */
-M2C_UNK func_800A1E14();                            /* extern */
-M2C_UNK func_800A1E54();                            /* extern */
-M2C_UNK func_800A1EDC();                            /* extern */
-extern s32 D_800814A0;
-
 void func_800A1D1C(void *arg0, S_800A1D1C_5 *arg1, void *arg2) {
     s32 temp_s0;
     s32 var_v0;
@@ -89,6 +89,7 @@ void func_800A1D1C(void *arg0, S_800A1D1C_5 *arg1, void *arg2) {
         global_page = (u8 *)0x80080000;
         ASM_KEEP(global_page);   /* MATCH pin: retail immediate-load split depends on it */
         ((S_800A1D1C_2 *)global_page)->unk_14A0 |= 0x8000;
+        func_800A1EDC();
         return;
     }
     ASM_KEEP(arg2_local);   /* MATCH pin: retail keeps a computation the compiler would drop */

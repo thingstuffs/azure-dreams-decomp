@@ -25,6 +25,7 @@ extern void func_80170D3C(void) __attribute__((noreturn));
 extern void func_80170E24(void) __attribute__((noreturn));
 extern void func_80170FDC(void) __attribute__((noreturn));
 extern void func_80171020(void) __attribute__((noreturn));
+extern void func_801710C4(void) __attribute__((noreturn));
 extern u8 D_8006CCF8[32];
 extern S16Global D_80083228;
 extern U16Global D_80083462;
@@ -63,12 +64,12 @@ void func_80170A94(void *input0, void *input1, void *input2)
     {
       ASM_KEEP(entry_arg0);   /* MATCH pin: retail register colouring depends on it */
       callback(entry_arg0, arg1, arg2, entry_arg0);
-      return;
+      func_801710C4();
     }
     else
     {
       *((u8 *) (((u8 *) arg0) + 0x71)) &= 0x7F;
-      return;
+      func_801710C4();
     }
   }
   ASM_CLOBBER("$4");   /* MATCH pin: keeps a statement from moving across a call/branch */

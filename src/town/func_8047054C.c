@@ -1,5 +1,6 @@
 #include "common.h"
 
+extern void func_8001759C(void) __attribute__((noreturn));
 extern void func_80019618(s32, s32);
 extern void func_80019928(s32, s32);
 extern s32 func_8001A510(s32);
@@ -15,7 +16,7 @@ void func_8001754C(s32 arg0, s32 arg1) {
         __asm__ __volatile__("" : "=r"(dispatch_result) : "0"(dispatch_result));
         dispatch_result = 1;
 #endif
-        return;
+        func_8001759C();
     }
     func_80019928(arg0, arg1);
 }

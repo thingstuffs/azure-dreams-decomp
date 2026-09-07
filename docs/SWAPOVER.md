@@ -37,6 +37,19 @@ text (six name-table SLUS units, six dungeon page bodies and one page file whose
 when upstream's assembler changed on 2026-09-07) and resolve at the pin bump. Rule for the swap: **the gate's compile command is the only compile
 command**; verification tools must call it, not imitate it.
 
+### Second lesson: the per-row scorer is blind to relocation targets (2026-09-07)
+
+The container-wide gate run (2,181 windows, 10 minutes, 2,136 byte-identical) caught one window
+the per-row scorer had passed: a row where T3a had replaced jumps to `func_800257F0`, a
+*resident-executable* shared tail, with `return`. The scorer compares relocation-normalised
+words, so a `j` to a different target looks identical; the linked window does not. Every one of
+the 400 rows T3a touched jumps to a tail outside its own extent, so T3a is retired (it now
+refuses any target outside the row) and those rows were re-derived without it. Rule: **any
+transform that can move a jump or call target is proven by the window gate, never by the
+per-row scorer alone.** The remaining mismatching windows and the 38 error windows are upstream
+drift (page bodies whose bytes changed with the assembler; retired bridge compiler cells) and
+fail identically from `raw/`.
+
 ## 2. Gaps found in the inventory
 
 1. **Overlay containers are proven per window, not linked whole.** SLUS has a whole-binary

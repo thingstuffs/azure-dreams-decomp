@@ -16,6 +16,7 @@ extern void func_80170F3C(void) __attribute__((noreturn));
 extern void func_80170FE4(void) __attribute__((noreturn));
 extern void func_80171050(void) __attribute__((noreturn));
 extern void func_80171408(void) __attribute__((noreturn));
+extern void func_801714AC(void) __attribute__((noreturn));
 
 extern u8 D_8006CCF8[8];
 extern s16 D_80083228;
@@ -85,57 +86,57 @@ void func_80170DA8(void *arg0_, void *arg1_, void *arg2_)
     Callback callback2;
 
     if (D_80083462 & 0x2000) {
-        callback = (*(Callback *)((u8 *)arg0 + 0x8C));
+        callback = (*(Callback *)((u8 *)arg0 + (0x8C)));
         if (callback == (Callback)D_801714D4) {
             ASM_KEEP(arg0_);   /* MATCH pin: retail register colouring depends on it */
             callback(arg0_, arg1_, arg2_, arg0_);
-            return;
+            func_801714AC();
         }
-        (*(u8 *)((u8 *)arg0 + 0x71)) &= 0x7F;
-        return;
+        (*(u8 *)((u8 *)arg0 + (0x71))) &= 0x7F;
+        func_801714AC();
     }
 
     ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
     ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
     ASM_KEEP(arg2);   /* MATCH pin: keeps a statement from moving across a call/branch */
 
-    old_state = (s8)(*(u8 *)((u8 *)arg0 + 0x6D));
+    old_state = (s8)(*(u8 *)((u8 *)arg0 + (0x6D)));
     if (func_800A9E70(arg0, arg1, arg2, arg0) != 0) {
         return;
     }
 
-    callback2 = (*(Callback *)((u8 *)arg0 + 0x8C));
+    callback2 = (*(Callback *)((u8 *)arg0 + (0x8C)));
     if (callback2 != 0) {
         callback2(arg0, arg1, arg2, arg0);
     }
-    D_80174168[(*(u8 *)((u8 *)arg0 + 0x9A))](arg0, arg1, arg2, arg0);
-    if ((s16)old_state != (*(s8 *)((u8 *)arg0 + 0x6D))) {
+    D_80174168[(*(u8 *)((u8 *)arg0 + (0x9A)))](arg0, arg1, arg2, arg0);
+    if ((s16)old_state != (*(s8 *)((u8 *)arg0 + (0x6D)))) {
         func_800AA36C(arg0, arg1, arg2, arg0);
     }
 
     ((S_80170DA8_0 *)arg1)->unk_00.at00.v += ((S_80170DA8_0 *)arg1)->unk_0C;
     ((S_80170DA8_0 *)arg1)->unk_04.at00.v += ((S_80170DA8_0 *)arg1)->unk_10;
 
-    if (!((*(u32 *)((u8 *)arg0 + 0x1C)) & 0x40000) &&
-        !((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
-        ((S_80170DA8_0 *)arg1)->unk_14 += (*(s8 *)((u8 *)arg0 + 0x9D)) * 0x14000;
-        (*(u8 *)((u8 *)arg0 + 0x9D))++;
+    if (!((*(u32 *)((u8 *)arg0 + (0x1C))) & 0x40000) &&
+        !((*(u16 *)((u8 *)arg0 + (0x98))) & 8)) {
+        ((S_80170DA8_0 *)arg1)->unk_14 += (*(s8 *)((u8 *)arg0 + (0x9D))) * 0x14000;
+        (*(u8 *)((u8 *)arg0 + (0x9D)))++;
         func_80170F3C();
     }
 
-    (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
+    (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
     ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
-    (*(s32 *)((u8 *)arg0 + 0x90)) += ((S_80170DA8_0 *)arg1)->unk_14;
+    (*(s32 *)((u8 *)arg0 + (0x90))) += ((S_80170DA8_0 *)arg1)->unk_14;
     part_flags = ((S_80170DA8_1 *)arg2)->unk_14;
 
     if (!(part_flags & 0x8000)) {
         direction = ((D_80083228 + ((S_80170DA8_2 *)state)->unk_2A + 0x100) >> 9) & 7;
         direction_copy = direction;
-        if ((*(s16 *)((u8 *)arg0 + 0x94)) != direction_copy) {
+        if ((*(s16 *)((u8 *)arg0 + (0x94))) != direction_copy) {
             func_80047738(arg2,
-                (*(u8 *)((u8 *)(((S_80170DA8_1 *)arg2)->unk_2C) + direction_copy)),
+                (*(u8 *)((u8 *)(((S_80170DA8_1 *)arg2)->unk_2C) + (direction_copy))),
                 ((S_80170DA8_1 *)arg2)->unk_04.s8);
-            (*(s16 *)((u8 *)arg0 + 0x94)) = direction;
+            (*(s16 *)((u8 *)arg0 + (0x94))) = direction;
         }
         if (D_8006CCF8[direction_copy] != 0) {
             u32 scratch;
@@ -170,17 +171,17 @@ void func_80170DA8(void *arg0_, void *arg1_, void *arg2_)
         if (!(((S_80170DA8_1 *)arg2)->unk_14 & 0x40)) {
             if (((S_80170DA8_1 *)arg2)->unk_2C == D_801740E0) {
                 if (((S_80170DA8_1 *)arg2)->unk_04.u16 == 0x100) {
-                    (*(u16 *)((u8 *)arg0 + 0x9E)) = 0;
+                    (*(u16 *)((u8 *)arg0 + (0x9E))) = 0;
                 }
-                count = (*(u16 *)((u8 *)arg0 + 0x9E));
+                count = (*(u16 *)((u8 *)arg0 + (0x9E)));
                 angle = (s32)((u32)count << 16) >> 16;
                 call_arg = angle * 0xE3;
                 count++;
-                (*(u16 *)((u8 *)arg0 + 0x9E)) = count;
-                (*(s32 *)((u8 *)arg0 + 0xA0)) = func_800644B8(call_arg) << 7;
+                (*(u16 *)((u8 *)arg0 + (0x9E))) = count;
+                (*(s32 *)((u8 *)arg0 + (0xA0))) = func_800644B8(call_arg) << 7;
                 if (((S_80170DA8_1 *)arg2)->unk_04.u16 == 0x103) {
                     tail_base = D_801740E8;
-                    (*(u8 * *)((u8 *)arg2 + 0x2C)) = tail_base;
+                    (*(u8 * *)((u8 *)arg2 + (0x2C))) = tail_base;
                     tail_index = D_80083228;
                     tail_state = ((S_80170DA8_2 *)state)->unk_2A;
                     tail_arg = arg2;
@@ -189,14 +190,14 @@ void func_80170DA8(void *arg0_, void *arg1_, void *arg2_)
                     goto play_tail_value_1;
                 }
             } else if (((S_80170DA8_1 *)arg2)->unk_2C == D_801740E8) {
-                count = (*(u16 *)((u8 *)arg0 + 0x9E));
+                count = (*(u16 *)((u8 *)arg0 + (0x9E)));
                 angle = (s32)((u32)count << 16) >> 16;
                 call_arg = angle * 0xE3;
                 count++;
-                (*(u16 *)((u8 *)arg0 + 0x9E)) = count;
-                (*(s32 *)((u8 *)arg0 + 0xA0)) = func_800644B8(call_arg) << 7;
+                (*(u16 *)((u8 *)arg0 + (0x9E))) = count;
+                (*(s32 *)((u8 *)arg0 + (0xA0))) = func_800644B8(call_arg) << 7;
                 if (((S_80170DA8_1 *)arg2)->unk_04.u16 == 0x103) {
-                    (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_801740E0;
+                    (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_801740E0;
                     tail_index = D_80083228;
                     tail_state = ((S_80170DA8_2 *)state)->unk_2A;
                     tail_arg = arg2;
@@ -208,13 +209,13 @@ play_tail_value_1:
             }
         }
 
-        if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
+        if (!((*(u16 *)((u8 *)arg0 + (0x98))) & 8)) {
             s32 height_work = -0x20;
-            height = (*(s16 *)((u8 *)arg0 + 0x92));
-            raw_height = (*(u16 *)((u8 *)arg0 + 0x92));
+            height = (*(s16 *)((u8 *)arg0 + (0x92)));
+            raw_height = (*(u16 *)((u8 *)arg0 + (0x92)));
             if (height_work < height) {
                 height_work = raw_height - 8;
-                (*(s16 *)((u8 *)arg0 + 0x92)) = height_work;
+                (*(s16 *)((u8 *)arg0 + (0x92))) = height_work;
                 func_80171408();
             }
             goto low_height_adjustment;
@@ -228,18 +229,18 @@ play_tail_value_1:
     ((S_80170DA8_2 *)state)->unk_1C.u &= 0xF7FFFFFF;
     if (!(((S_80170DA8_2 *)state)->unk_1C.u & 0x40000)) {
 reset_offset:
-        saved_offset = (*(s32 *)((u8 *)arg0 + 0xA0));
-        (*(u16 *)((u8 *)arg0 + 0x9E)) = 0;
-        (*(s32 *)((u8 *)arg0 + 0xA0)) = 0;
-        (*(s32 *)((u8 *)arg0 + 0x90)) -= saved_offset;
-        if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
+        saved_offset = (*(s32 *)((u8 *)arg0 + (0xA0)));
+        (*(u16 *)((u8 *)arg0 + (0x9E))) = 0;
+        (*(s32 *)((u8 *)arg0 + (0xA0))) = 0;
+        (*(s32 *)((u8 *)arg0 + (0x90))) -= saved_offset;
+        if (!((*(u16 *)((u8 *)arg0 + (0x98))) & 8)) {
             ground = func_800BCB04(((S_80170DA8_0 *)arg1)->unk_00.at02.v,
                 ((S_80170DA8_0 *)arg1)->unk_04.at02.v,
                 (s16)(((S_80170DA8_2 *)state)->unk_88 - 0x20));
             delta = ground - ((S_80170DA8_2 *)state)->unk_88;
-            if (delta < (*(s16 *)((u8 *)arg0 + 0x92))) {
-                (*(s16 *)((u8 *)arg0 + 0x92)) = delta;
-                (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
+            if (delta < (*(s16 *)((u8 *)arg0 + (0x92)))) {
+                (*(s16 *)((u8 *)arg0 + (0x92))) = delta;
+                (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
                 ((S_80170DA8_0 *)arg1)->unk_14 = 0;
                 ((S_80170DA8_2 *)state)->unk_1C.u |= 0x08000000;
                 func_80171408();
@@ -251,17 +252,17 @@ reset_offset:
     if (!(((S_80170DA8_1 *)arg2)->unk_14 & 0x40)) {
         if (((S_80170DA8_1 *)arg2)->unk_2C == D_801740E0) {
             if (((S_80170DA8_1 *)arg2)->unk_04.u16 == 0x100) {
-                (*(u16 *)((u8 *)arg0 + 0x9E)) = 0;
+                (*(u16 *)((u8 *)arg0 + (0x9E))) = 0;
             }
-            count = (*(u16 *)((u8 *)arg0 + 0x9E));
+            count = (*(u16 *)((u8 *)arg0 + (0x9E)));
             angle = (s32)((u32)count << 16) >> 16;
             call_arg = angle * 0xE3;
             count++;
-            (*(u16 *)((u8 *)arg0 + 0x9E)) = count;
-            (*(s32 *)((u8 *)arg0 + 0xA0)) = func_800644B8(call_arg) << 7;
+            (*(u16 *)((u8 *)arg0 + (0x9E))) = count;
+            (*(s32 *)((u8 *)arg0 + (0xA0))) = func_800644B8(call_arg) << 7;
             if (((S_80170DA8_1 *)arg2)->unk_04.u16 == 0x103) {
                 tail_base = D_801740E8;
-                (*(u8 * *)((u8 *)arg2 + 0x2C)) = tail_base;
+                (*(u8 * *)((u8 *)arg2 + (0x2C))) = tail_base;
                 tail_index = D_80083228;
                 tail_state = ((S_80170DA8_2 *)state)->unk_2A;
                 tail_arg = arg2;
@@ -270,14 +271,14 @@ reset_offset:
                 goto play_tail_value_2;
             }
         } else if (((S_80170DA8_1 *)arg2)->unk_2C == D_801740E8) {
-            count = (*(u16 *)((u8 *)arg0 + 0x9E));
+            count = (*(u16 *)((u8 *)arg0 + (0x9E)));
             angle = (s32)((u32)count << 16) >> 16;
             call_arg = angle * 0xE3;
             count++;
-            (*(u16 *)((u8 *)arg0 + 0x9E)) = count;
-            (*(s32 *)((u8 *)arg0 + 0xA0)) = func_800644B8(call_arg) << 7;
+            (*(u16 *)((u8 *)arg0 + (0x9E))) = count;
+            (*(s32 *)((u8 *)arg0 + (0xA0))) = func_800644B8(call_arg) << 7;
             if (((S_80170DA8_1 *)arg2)->unk_04.u16 == 0x103) {
-                (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_801740E0;
+                (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_801740E0;
                 tail_index = D_80083228;
                 tail_state = ((S_80170DA8_2 *)state)->unk_2A;
                 tail_arg = arg2;
@@ -289,19 +290,19 @@ play_tail_value_2:
         }
     }
 
-    if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
+    if (!((*(u16 *)((u8 *)arg0 + (0x98))) & 8)) {
         s32 height_work = -0x20;
-        height = (*(s16 *)((u8 *)arg0 + 0x92));
-        raw_height = (*(u16 *)((u8 *)arg0 + 0x92));
+        height = (*(s16 *)((u8 *)arg0 + (0x92)));
+        raw_height = (*(u16 *)((u8 *)arg0 + (0x92)));
         if (height_work < height) {
             height_work = raw_height - 8;
-            (*(s16 *)((u8 *)arg0 + 0x92)) = height_work;
+            (*(s16 *)((u8 *)arg0 + (0x92))) = height_work;
         } else {
 low_height_adjustment:
             height_work = height < -0x28;
             if (height_work) {
                 height_work = raw_height + 8;
-                (*(s16 *)((u8 *)arg0 + 0x92)) = height_work;
+                (*(s16 *)((u8 *)arg0 + (0x92))) = height_work;
             }
         }
     }
@@ -315,14 +316,14 @@ final_adjustment:
             (((S_80170DA8_1 *)arg2)->unk_25 << 6) | 0x20,
             (s16)(((S_80170DA8_2 *)state)->unk_88 - 0x20));
         if (ground < 0x200) {
-            (*(s16 *)((u8 *)arg0 + 0x92)) =
+            (*(s16 *)((u8 *)arg0 + (0x92))) =
                 (((S_80170DA8_2 *)state)->unk_88 - ground) +
-                (*(u16 *)((u8 *)arg0 + 0x92));
+                (*(u16 *)((u8 *)arg0 + (0x92)));
             ((S_80170DA8_2 *)state)->unk_88 = ground;
         }
     }
 
     ((S_80170DA8_0 *)arg1)->unk_0A = ((S_80170DA8_2 *)state)->unk_88 +
-        (*(u16 *)((u8 *)arg0 + 0x92)) - (*(u16 *)((u8 *)arg0 + 0xA2));
+        (*(u16 *)((u8 *)arg0 + (0x92))) - (*(u16 *)((u8 *)arg0 + (0xA2)));
     ((S_80170DA8_1 *)arg2)->unk_14 |= 0x40;
 }

@@ -1,5 +1,34 @@
 #include "common.h"
 
+
+s32 func_80042900(void *, s32);
+void func_80042B68(void *, s32);
+void func_80047784(void *, s32, s32);
+s32 func_8009A180(void *, void *);
+s16 func_8009FD40(void *, void *);
+s32 func_800A2C34(void *);
+s32 func_800A6D30(void);
+void func_800A9A04(void *);
+void func_800A9A0C(void *);
+void func_800AA258(void *, s32, void *, void *);
+s32 func_800AA6B4(void *, s32, void *, void *);
+void func_800AA888(void *, s32, void *, void *);
+void func_8016DA34(void) __attribute__((noreturn));
+void func_8016DA7C(void) __attribute__((noreturn));
+void func_8016DAA4(void *, s32, void *, void *);
+
+extern u16 D_80013714;
+extern u8 *D_800814A8;
+extern u8 D_80082E80[];
+extern s16 D_80083228;
+extern u8 D_80083460[];
+extern u16 D_80083462;
+extern u8 D_8016B778[];
+extern u8 D_801746A4[];
+extern u8 D_801746AC[];
+extern u8 D_801746C4[];
+
+
 typedef struct S_8016D6F0_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -68,35 +97,6 @@ typedef struct S_8016D6F0_9 {
     void * unk_58;
 } S_8016D6F0_9;   /* ((S_8016D6F0_2 *)base8008)->unk_14A8 in func_8016D6F0 */
 
-
-
-s32 func_80042900(void *, s32);
-void func_80042B68(void *, s32);
-void func_80047784(void *, s32, s32);
-s32 func_8009A180(void *, void *);
-s16 func_8009FD40(void *, void *);
-s32 func_800A2C34(void *);
-s32 func_800A6D30(void);
-void func_800A9A04(void *);
-void func_800A9A0C(void *);
-void func_800AA258(void *, s32, void *, void *);
-s32 func_800AA6B4(void *, s32, void *, void *);
-void func_800AA888(void *, s32, void *, void *);
-void func_8016DA34(void) __attribute__((noreturn));
-void func_8016DA7C(void) __attribute__((noreturn));
-void func_8016DAA4(void *, s32, void *, void *);
-
-extern u16 D_80013714;
-extern u8 *D_800814A8;
-extern u8 D_80082E80[];
-extern s16 D_80083228;
-extern u8 D_80083460[];
-extern u16 D_80083462;
-extern u8 D_8016B778[];
-extern u8 D_801746A4[];
-extern u8 D_801746AC[];
-extern u8 D_801746C4[];
-
 void func_8016D6F0(S_8016D6F0_0 *arg0, s32 arg1, S_8016D6F0_1 *arg2, void *arg3)
 {
     S_8016D6F0_7 *room_base;
@@ -106,7 +106,7 @@ void func_8016D6F0(S_8016D6F0_0 *arg0, s32 arg1, S_8016D6F0_1 *arg2, void *arg3)
     u8 *base8001;
     register u8 *clear_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
     u8 *clear_base;
-    void *call_obj;
+    register void *call_obj ASM_REG("$4");   /* MATCH pin: retail basic-block layout depends on it */
     register u8 *update_base ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
     s32 state;
     s32 bits;
@@ -121,11 +121,14 @@ void func_8016D6F0(S_8016D6F0_0 *arg0, s32 arg1, S_8016D6F0_1 *arg2, void *arg3)
         if (state == 0) {
             goto state_zero;
         }
+        func_8016DA7C();
         return;
     }
+    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_two;
     }
+    func_8016DA7C();
     return;
 
 state_zero:
@@ -160,6 +163,7 @@ state_one:
         if (!(((S_8016D6F0_5 *)base8001)->unk_3714 & 8)) {
             if (((S_8016D6F0_3 *)arg3)->unk_64 != 0) {
                 if (func_800AA6B4(arg0, arg1, arg2, D_801746C4) != 0) {
+                    func_8016DA7C();
                     return;
                 }
             }
@@ -185,11 +189,13 @@ action_body:
     call_obj = arg0;
     if (mask) {
         func_800AA258(call_obj, arg1, arg2, arg3);
+        func_8016DA7C();
         return;
     }
     if (bits & 0x80000) {
         func_800AA888(call_obj, arg1, arg2, arg3);
         func_8016DAA4(arg0, arg1, arg2, arg3);
+        func_8016DA7C();
         return;
     }
     if (((S_8016D6F0_3 *)arg3)->unk_6D == 0) {
@@ -241,6 +247,7 @@ post_actions:
     update_base = D_80083460;
     ((S_8016D6F0_8 *)update_base)->unk_0A++;
     arg0->unk_9B++;
+    func_8016DA7C();
     return;
 
 state_two:

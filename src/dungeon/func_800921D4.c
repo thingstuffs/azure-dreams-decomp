@@ -1,5 +1,18 @@
 #include "common.h"
 
+
+extern void func_8003DB94(void *arg0, void *arg1, s32 arg2);
+extern void func_80042B68(void *arg0, s32 arg1);
+extern void func_8008CBD4(void *arg0, void *arg1, void *arg2, void *arg3);
+extern void func_80096384(void);
+extern void func_80097A48(void) __attribute__((noreturn));
+extern void func_800AD4D0(void *arg0);
+
+extern s16 D_80083228[5];
+extern s32 D_80083460[5];
+extern void *D_800DD274[8];
+
+
 typedef struct S_80097934_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -29,18 +42,6 @@ typedef struct S_80097934_3 {
     s32 unk_10;
     s32 unk_14;
 } S_80097934_3;   /* arg1 in func_80097934 */
-
-
-
-extern void func_8003DB94(void *arg0, void *arg1, s32 arg2);
-extern void func_80042B68(void *arg0, s32 arg1);
-extern void func_8008CBD4(void *arg0, void *arg1, void *arg2, void *arg3);
-extern void func_80096384(void);
-extern void func_800AD4D0(void *arg0);
-
-extern s16 D_80083228[5];
-extern s32 D_80083460[5];
-extern void *D_800DD274[8];
 
 void func_80097934(S_80097934_0 *arg0, S_80097934_3 *arg1, S_80097934_1 *arg2, void *arg3)
 {
@@ -73,7 +74,7 @@ void func_80097934(S_80097934_0 *arg0, S_80097934_3 *arg1, S_80097934_1 *arg2, v
             arg1->unk_0C = 0;
             func_80042B68(arg3, 10);
             func_8008CBD4(arg0, arg1, arg2, arg3);
-            return;
+            func_80097A48();
         }
 
         arg0->unk_96 = 8;

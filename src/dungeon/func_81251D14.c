@@ -16,6 +16,7 @@ extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, s32, void *);
 
 extern void func_801718A4() __attribute__((noreturn));
+extern void func_801719A0(void) __attribute__((noreturn));
 extern void func_801719C0(void *);
 extern void func_80171BE0(void *, void *, void *, void *);
 extern s32 func_80172330(void *, void *, void *, s32);
@@ -97,19 +98,19 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
     s16 distance;
 
     if (entry_status & 0x1000) {
-        (*(u8 *)((u8 *)arg0 + 0x9A)) = 14;
+        (*(u8 *)((u8 *)arg0 + (0x9A))) = 14;
         func_801719C0(arg0);
-        return;
+        func_801719A0();
     }
     ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
 
     if (((S_80171514_0 *)arg3)->unk_1C & 0x200) {
         if (((S_80171514_1 *)arg2)->unk_2C == D_80173EC4) {
-            (*(u8 *)((u8 *)arg0 + 0x9A)) = 13;
-            (*(u8 *)((u8 *)arg0 + 0x9B)) = 1;
-            (*(u32 *)((u8 *)arg0 + 0x8C)) = 0;
+            (*(u8 *)((u8 *)arg0 + (0x9A))) = 13;
+            (*(u8 *)((u8 *)arg0 + (0x9B))) = 1;
+            (*(u32 *)((u8 *)arg0 + (0x8C))) = 0;
             ((S_80171514_0 *)arg3)->unk_1C &= ~0x40000;
-            return;
+            func_801719A0();
         }
         if (func_800AA924(arg0, arg1, arg2, D_80173E94) != 0) {
             return;
@@ -119,26 +120,26 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
     if ((D_80083462 & 0x2000) == 0) {
         if (((S_80171514_0 *)arg3)->unk_1C & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
-            return;
+            func_801719A0();
         }
 
-        ASM_KEEP(obj);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        if ((*(u8 *)((u8 *)arg0 + 0x9A)) != 14) {
-            (*(u8 *)((u8 *)arg0 + 0x9A)) = 14;
+        ASM_KEEP(obj);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        if ((*(u8 *)((u8 *)arg0 + (0x9A))) != 14) {
+            (*(u8 *)((u8 *)arg0 + (0x9A))) = 14;
         }
         if (((S_80171514_1 *)arg2)->unk_2C != D_80173E8C) {
-            (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80173E8C;
+            (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80173E8C;
             func_80047784(
                 arg2,
                 D_80173E8C[((D_80083228 + ((S_80171514_0 *)arg3)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80171514_1 *)arg2)->unk_05 = 1;
-            (*(s16 *)((u8 *)arg0 + 0xA2)) = 0;
-            (*(s16 *)((u8 *)arg0 + 0x9E)) = 0;
+            (*(s16 *)((u8 *)arg0 + (0xA2))) = 0;
+            (*(s16 *)((u8 *)arg0 + (0x9E))) = 0;
         }
 
         ((S_80171514_0 *)arg3)->unk_1C |= 0x40000;
-        (*(u16 *)((u8 *)arg0 + 0x98)) &= 0xFFF7;
+        (*(u16 *)((u8 *)arg0 + (0x98))) &= 0xFFF7;
 
         if (((S_80171514_0 *)arg3)->unk_64 != 0) {
             if (func_800AA6B4(arg0, arg1, arg2, D_80173EE4) != 0) {
@@ -151,13 +152,13 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
             u16 amount;
 
             func_800AA888(arg0, arg1, arg2, arg3);
-            old_value = (*(u16 *)((u8 *)arg0 + 0x92));
-            amount = (*(u16 *)((u8 *)arg0 + 0xA2));
-            (*(s16 *)((u8 *)arg0 + 0xA2)) = 0;
-            (*(s16 *)((u8 *)arg0 + 0x9E)) = 0;
-            (*(u16 *)((u8 *)arg0 + 0x92)) = old_value - amount;
+            old_value = (*(u16 *)((u8 *)arg0 + (0x92)));
+            amount = (*(u16 *)((u8 *)arg0 + (0xA2)));
+            (*(s16 *)((u8 *)arg0 + (0xA2))) = 0;
+            (*(s16 *)((u8 *)arg0 + (0x9E))) = 0;
+            (*(u16 *)((u8 *)arg0 + (0x92))) = old_value - amount;
             func_801736B8(arg0, arg1, arg2, arg3);
-            return;
+            func_801719A0();
         }
 
         if ((s16)func_800A1C58(arg3) != 0) {
@@ -218,21 +219,21 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
 
 case_stop:
         func_800A9A0C(arg3);
-        return;
+        func_801719A0();
 
 case_callback:
-        (*(void * volatile *)((u8 *)arg0 + 0x8C)) = &D_80171514;
+        (*(void * volatile *)((u8 *)arg0 + (0x8C))) = &D_80171514;
         func_800A9A0C(arg3);
         ((S_80171514_0 *)arg3)->unk_46 &= 0x7FFF;
-        return;
+        func_801719A0();
 
 case_action:
         func_800AAF00(arg0, arg1, arg2, 0, &D_80171514);
-        return;
+        func_801719A0();
 
 case_default:
         func_80171BE0(arg0, arg1, arg2, arg3);
-        return;
+        func_801719A0();
     }
 
     flags = ((S_80171514_0 *)arg3)->unk_1C;

@@ -1,5 +1,10 @@
 #include "common.h"
 
+
+extern void func_800C4174(void *arg0, void *arg1, s32 arg2);
+extern void func_800CA3D4(void);
+
+
 typedef struct S_800CA308_0 {
     u8 pad_00[0x6C];
     u16 unk_6C;
@@ -17,11 +22,6 @@ typedef struct S_800CA308_1 {
     s16 unk_0A;
 } S_800CA308_1;   /* arg1 in func_800CA308 */
 
-
-
-extern void func_800C4174(void *arg0, void *arg1, s32 arg2);
-extern void func_800CA3D4(void);
-
 void func_800CA308(S_800CA308_0 *arg0, S_800CA308_1 *arg1, s32 arg2) {
     s32 delta;
     s32 delta2;
@@ -35,6 +35,7 @@ void func_800CA308(S_800CA308_0 *arg0, S_800CA308_1 *arg1, s32 arg2) {
         arg1->unk_02 = arg0->unk_84;
         arg1->unk_06 = arg0->unk_86;
         arg1->unk_0A = 0;
+        func_800CA3D4();
         return;
     }
 

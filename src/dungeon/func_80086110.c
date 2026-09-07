@@ -14,6 +14,7 @@ extern M2C_UNK D_80083160[];
 extern u16 D_80083462[];
 extern s32 D_800E4940[];
 
+
 typedef struct S_8008B870_0 {
     u8 pad_00[0xC];
     s32 unk_0C;
@@ -59,6 +60,7 @@ void func_8008B870(S_8008B870_3 *arg0, S_8008B870_0 *arg1, S_8008B870_1 *arg2, S
     if ((temp_v1 < 0) || (arg0->unk_10C & 1)) {
         arg2->unk_14 = (u16)(arg2->unk_14 & 0xF7FF);
         func_8008CAA0(arg0, arg1, arg2, arg3);
+        func_8008B9D8();
         return;
     }
     if (temp_v1 > 0) {
@@ -71,6 +73,7 @@ void func_8008B870(S_8008B870_3 *arg0, S_8008B870_0 *arg1, S_8008B870_1 *arg2, S
         D_80082EB0[0] = 0;
         arg0->unk_C8 = 0;
         arg0->unk_104 = 0;
+        func_8008B9D8();
         return;
     }
     if ((arg0->unk_9A != 0xD) && (arg3->unk_1C & 0x200)) {

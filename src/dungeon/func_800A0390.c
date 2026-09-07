@@ -1,5 +1,12 @@
 #include "common.h"
 
+
+extern void func_800A5BC4(void) __attribute__((noreturn));
+extern void func_800A5C68(void) __attribute__((noreturn));
+extern s32 D_800814A0[3];
+extern s32 D_80083170[3];
+
+
 typedef struct S_800A5AF0_0_pre {
     u16 unk_00;
 } S_800A5AF0_0_pre;   /* the 0x2 bytes before arg0 in func_800A5AF0, addressed as arg0[-1] */
@@ -24,12 +31,6 @@ typedef struct S_800A5AF0_2 {
     u8 pad_0F[0xD];
     u16 unk_1C;
 } S_800A5AF0_2;   /* arg2 in func_800A5AF0 */
-
-
-
-extern void func_800A5BC4(void) __attribute__((noreturn));
-extern s32 D_800814A0[3];
-extern s32 D_80083170[3];
 
 void func_800A5AF0(void *arg0, S_800A5AF0_1 *arg1, S_800A5AF0_2 *arg2) {
     s16 divisor;
@@ -72,7 +73,7 @@ void func_800A5AF0(void *arg0, S_800A5AF0_1 *arg1, S_800A5AF0_2 *arg2) {
 
             ((S_800A5AF0_0 *)arg0)->unk_06 = 0x20;
             ((S_800A5AF0_0 *)arg0)->unk_04.u = next_state + 1;
-            return;
+            func_800A5C68();
         }
     } else {
         arg2->unk_0E = (u8)(

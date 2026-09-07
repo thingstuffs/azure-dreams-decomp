@@ -1,72 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef struct S_800B7774_0_pre {
-    u16 unk_00;
-} S_800B7774_0_pre;   /* the 0x2 bytes before arg0 in func_800B7774, addressed as arg0[-1] */
-
-typedef struct S_800B7774_0 {
-    u8 unk_00;
-    u8 pad_01[0x3];
-    s32 * unk_04;
-    u8 pad_08[0x2];
-    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
-    u16 unk_0C;
-    s16 unk_0E;
-} S_800B7774_0;   /* arg0 in func_800B7774 */
-
-typedef struct S_800B7774_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_800B7774_1;   /* controls_base in func_800B7774 */
-
-typedef struct S_800B7774_2_pre {
-    s32 unk_00;
-    u8 pad_04[0x10];
-} S_800B7774_2_pre;   /* the 0x14 bytes before temp_v0 in func_800B7774, addressed as temp_v0[-1] */
-
-typedef struct S_800B7774_2 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    u8 pad_12[0x1];
-    u8 unk_13;
-    u8 pad_14[0x4];
-    s32 unk_18;
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    u16 unk_2A;
-    u8 pad_2C[0x17];
-    u8 unk_43;
-    u8 pad_44[0x2];
-    union { u16 s; s16 u; } unk_46;   /* accessed as both */
-    u8 pad_48[0x18];
-    s32 unk_60;
-} S_800B7774_2;   /* temp_v0 in func_800B7774 */
-
-typedef struct S_800B7774_3 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    u8 pad_12[0xFE];
-    s32 unk_110;
-} S_800B7774_3;   /* D_800E3D7C in func_800B7774 */
-
-typedef struct S_800B7774_4 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_800B7774_4;   /* arg2 in func_800B7774 */
-
-typedef struct S_800B7774_5 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_800B7774_5;   /* state_base in func_800B7774 */
-
-typedef struct S_800B7774_6_pre {
-    u16 unk_00;
-} S_800B7774_6_pre;   /* the 0x2 bytes before temp_v0_6 in func_800B7774, addressed as temp_v0_6[-1] */
-
-
 typedef struct {
     u8 pad0[2];
     u16 x;
@@ -107,6 +41,72 @@ M2C_UNK func_800B7B40();
 extern M2C_UNK D_800E0A42;
 extern M2C_UNK D_800E0A56;
 extern M2C_UNK D_800E0A6A;
+
+
+typedef struct S_800B7774_0_pre {
+    u16 unk_00;
+} S_800B7774_0_pre;   /* the 0x2 bytes before arg0 in func_800B7774, addressed as arg0[-1] */
+
+typedef struct S_800B7774_0 {
+    u8 unk_00;
+    u8 pad_01[0x3];
+    s32 * unk_04;
+    u8 pad_08[0x2];
+    union { s16 s; u16 u; } unk_0A;   /* accessed as both */
+    u16 unk_0C;
+    s16 unk_0E;
+} S_800B7774_0;   /* arg0 in func_800B7774 */
+
+typedef struct S_800B7774_1 {
+    u8 pad_00[0x2];
+    u16 unk_02;
+    u8 pad_04[0x6];
+    u16 unk_0A;
+} S_800B7774_1;   /* controls_base in func_800B7774 */
+
+typedef struct S_800B7774_2_pre {
+    s32 unk_00;
+    u8 pad_04[0x10];
+} S_800B7774_2_pre;   /* the 0x14 bytes before temp_v0 in func_800B7774, addressed as temp_v0[-1] */
+
+typedef struct S_800B7774_2 {
+    u8 pad_00[0x11];
+    u8 unk_11;
+    u8 pad_12[0x1];
+    u8 unk_13;
+    u8 pad_14[0x4];
+    s32 unk_18;
+    s32 unk_1C;
+    u8 pad_20[0xA];
+    u16 unk_2A;
+    u8 pad_2C[0x17];
+    u8 unk_43;
+    u8 pad_44[0x2];
+    union { u16 u; s16 s; } unk_46;   /* accessed as both */
+    u8 pad_48[0x18];
+    s32 unk_60;
+} S_800B7774_2;   /* temp_v0 in func_800B7774 */
+
+typedef struct S_800B7774_3 {
+    u8 pad_00[0x11];
+    u8 unk_11;
+    u8 pad_12[0xFE];
+    s32 unk_110;
+} S_800B7774_3;   /* D_800E3D7C in func_800B7774 */
+
+typedef struct S_800B7774_4 {
+    u8 pad_00[0x14];
+    u16 unk_14;
+} S_800B7774_4;   /* arg2 in func_800B7774 */
+
+typedef struct S_800B7774_5 {
+    u8 pad_00[0x10];
+    s32 unk_10;
+} S_800B7774_5;   /* state_base in func_800B7774 */
+
+typedef struct S_800B7774_6_pre {
+    u16 unk_00;
+} S_800B7774_6_pre;   /* the 0x2 bytes before temp_v0_6 in func_800B7774, addressed as temp_v0_6[-1] */
 
 void func_800B7774(void *arg0, Coord *arg1, void *arg2) {
     s16 sp18;
@@ -153,8 +153,9 @@ state_0:
         ((S_800B7774_1 *)controls_base)->unk_0A = (u16) (((S_800B7774_1 *)controls_base)->unk_0A - 1);
         }
         func_800997FC(&D_800E0A42);
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_800B7774_0_pre *)arg0)[-1].unk_00 | 0x8000);
+        (*(u16 *)((u8 *)arg0 + (-2))) = (u16) (((S_800B7774_0_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0 = D_800814A0 | 0x8000;
+        func_800B7B40();
         return;
     }
     held_x = sp18;
@@ -232,22 +233,22 @@ state_2:
         ((S_800B7774_1 *)controls_base)->unk_02 = (u16) (((S_800B7774_1 *)controls_base)->unk_02 | 2);
         }
         temp_a1 = ((S_800B7774_2 *)temp_v0)->unk_60;
-        ((S_800B7774_2 *)temp_v0)->unk_46.s = 0x800C;
+        ((S_800B7774_2 *)temp_v0)->unk_46.u = 0x800C;
         if (temp_a1 != 0) {
             temp_v0_4 = func_800A384C(temp_v0, temp_a1, &sp1C, 1);
             ((S_800B7774_2 *)temp_v0)->unk_2A = sp1C;
             if ((s16) temp_v0_4 >= 0) {
-                ((S_800B7774_2 *)temp_v0)->unk_46.u = (s16) (temp_v0_4 | 0x8000);
+                ((S_800B7774_2 *)temp_v0)->unk_46.s = (s16) (temp_v0_4 | 0x8000);
             }
         }
     }
     ((S_800B7774_3 *)D_800E3D7C)->unk_110 = 0;
-    (*(s32 *)((u8 *)temp_v0 + 0x1C)) = (s32) (((S_800B7774_2 *)temp_v0)->unk_1C | 0x400000);
+    (*(s32 *)((u8 *)temp_v0 + (0x1C))) = (s32) (((S_800B7774_2 *)temp_v0)->unk_1C | 0x400000);
     {
     u8 *controls_base = (u8 *)&D_80083460;
     ((S_800B7774_1 *)controls_base)->unk_0A = (u16) (((S_800B7774_1 *)controls_base)->unk_0A - 1);
     }
-    (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_800B7774_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    (*(u16 *)((u8 *)arg0 + (-2))) = (u16) (((S_800B7774_0_pre *)arg0)[-1].unk_00 | 0x8000);
     D_800814A0 = D_800814A0 | 0x8000;
 block_30:
     temp_v0_6 = ((S_800B7774_0 *)arg0)->unk_04;

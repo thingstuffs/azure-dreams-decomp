@@ -8,6 +8,7 @@ M2C_UNK func_800A388C();                            /* extern */
 extern M2C_UNK D_800A38A8;
 extern M2C_UNK D_800D0B20;
 
+
 typedef struct S_800A378C_0 {
     M2C_UNK * unk_00;
     u8 pad_04[0x1E];
@@ -56,6 +57,7 @@ void func_800A378C(S_800A378C_0 *arg0, S_800A378C_1 *arg1, S_800A378C_2 *arg2) {
         arg1->unk_10 = 0;
         arg1->unk_14 =
             ((((u16) func_800374F4(0x1000)) << 1) + 0x2000) << 4;
+        func_800A388C();
         return;
     }
     arg1->unk_0C = (s32) (arg1->unk_0C - arg0->unk_2C);

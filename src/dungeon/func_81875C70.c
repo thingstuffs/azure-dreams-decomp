@@ -4,6 +4,7 @@ extern s32 func_80069EF8(void);
 extern void func_80025338(void *, s32, s32, s32, s32, s32, s32);
 extern void func_800256AC(void) __attribute__((noreturn));
 extern void func_800257A8(void) __attribute__((noreturn));
+extern void func_800257F0(void) __attribute__((noreturn));
 extern void *D_80024038[];
 
 typedef struct {
@@ -90,6 +91,7 @@ jt_c1:
         *(s32 *)(p + 0x74) = 0;
         *(s32 *)(p + 0x80) = -0x900;
         *(u16 *)(p + 0x6A) = h1;
+        func_800257F0();
         return;
 
 jt_c2:
@@ -105,6 +107,7 @@ jt_c2:
         *(s32 *)(p + 0x68) += velocity;
         *(s32 *)(p + 0x74) = velocity;
         *(u16 *)(p + 0x1A) = *(u16 *)(p + 0x6A);
+        func_800257F0();
         return;
 
 jt_c3:
@@ -118,6 +121,7 @@ jt_c3:
         if ((s16)temp >= 31) {
             goto advance;
         }
+        func_800257F0();
         return;
 
 jt_c4:
@@ -149,6 +153,7 @@ jt_c5:
         if ((s16)temp >= 16) {
             goto advance;
         }
+        func_800257F0();
         return;
 
 jt_c6:
@@ -166,7 +171,7 @@ advance:
     temp = *(u16 *)p;
     *(u16 *)(p + 2) = 0;
     *(u16 *)p = temp + 1;
-    return;
+    func_800257F0();
 
 jt_c7:
         temp = *(u16 *)(p + 2) - 1;
@@ -177,4 +182,5 @@ jt_c7:
         *(u16 *)(p - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
         return;
+    return;
 }

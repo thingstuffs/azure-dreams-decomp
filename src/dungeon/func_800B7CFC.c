@@ -1,23 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef struct S_800BD45C_0 {
-    s32 unk_00;
-    u8 pad_04[0x27];
-    u8 unk_2B;
-    s32 unk_2C;
-    u8 pad_30[0x4];
-    s32 unk_34;
-    u8 pad_38[0xF0];
-    s32 unk_128;
-} S_800BD45C_0;   /* arg0 in func_800BD45C; pointer addresses record offset 0x18 */
-
-typedef struct S_800BD45C_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800BD45C_1;   /* counter in func_800BD45C */
-
-
 M2C_UNK func_80042B68();             /* extern */
 M2C_UNK func_8008D330(); /* extern */
 M2C_UNK func_80098B38();                         /* extern */
@@ -37,13 +20,35 @@ extern u16 D_800DDE84[];
 extern M2C_UNK D_800E0E69;
 extern void *D_800E3D7C[];
 
+
+typedef struct S_800BD45C_0_pre {
+    s32 unk_00;
+    u8 pad_04[0x14];
+} S_800BD45C_0_pre;   /* the 0x18 bytes before arg0 in func_800BD45C, addressed as arg0[-1] */
+
+typedef struct S_800BD45C_0 {
+    u8 pad_00[0x13];
+    u8 unk_13;
+    s32 unk_14;
+    u8 pad_18[0x4];
+    s32 unk_1C;
+    u8 pad_20[0xF0];
+    s32 unk_110;
+} S_800BD45C_0;   /* arg0 in func_800BD45C */
+
+typedef struct S_800BD45C_1 {
+    u8 pad_00[0xA];
+    u16 unk_0A;
+} S_800BD45C_1;   /* counter in func_800BD45C */
+
 s32 func_800BD45C(void *arg0, s32 arg1, s16 arg2) {
     u16 *table;
     M2C_UNK *counter;
 
     if (arg0 == D_800E3D7C[0]) {
-        ((S_800BD45C_0 *)((u8 *)arg0 - 0x18))->unk_128 = arg1;
+        ((S_800BD45C_0 *)arg0)->unk_110 = arg1;
         func_8008D330(arg0, &D_80083780, &D_80082E80, arg0);
+        func_800BD5A8();
         return 0;
     }
     if ((u32) arg0 <= 0x9FFFFFFFU) {
@@ -55,19 +60,20 @@ s32 func_800BD45C(void *arg0, s32 arg1, s16 arg2) {
         call_obj = arg0;
         table_page = (u8 *)0x800E0000;
         ASM_KEEP(table_page);   /* MATCH pin: load-bearing for the whole function shape */
-        table_index = ((S_800BD45C_0 *)((u8 *)arg0 - 0x18))->unk_2B;
+        table_index = ((S_800BD45C_0 *)arg0)->unk_13;
         ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
         table = (u16 *)(table_page - 0x217C);
         ASM_KEEP(table);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
         if (func_800AD6FC(call_obj, (table[table_index] >> 6) & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
+            func_800BD5A8();
             return 1;
         }
         goto block_8;
     }
 block_8:
-    func_800C4AFC(((S_800BD45C_0 *)((u8 *)arg0 - 0x18))->unk_00, 0x802080, arg0);
-    if ((((S_800BD45C_0 *)((u8 *)arg0 - 0x18))->unk_2C & 0x4000) && !(((S_800BD45C_0 *)((u8 *)arg0 - 0x18))->unk_34 & 0x40)) {
+    func_800C4AFC(((S_800BD45C_0_pre *)arg0)[-1].unk_00, 0x802080, arg0);
+    if ((((S_800BD45C_0 *)arg0)->unk_14 & 0x4000) && !(((S_800BD45C_0 *)arg0)->unk_1C & 0x40)) {
         M2C_UNK *format_obj;
         register s32 format_arg ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
         register s32 saved_result ASM_REG("$16");   /* MATCH pin: keeps a statement from moving across a call/branch */

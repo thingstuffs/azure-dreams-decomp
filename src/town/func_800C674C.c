@@ -1,6 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+M2C_UNK func_80095388();                      /* extern */
+s16 func_800C2B38();                          /* extern */
+M2C_UNK func_800C3F28();                            /* extern */
+M2C_UNK func_800C4174();        
 typedef struct S_800C3EAC_0 {
     u8 pad_00[0x8];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
@@ -8,17 +12,14 @@ typedef struct S_800C3EAC_0 {
     s32 unk_14;
 } S_800C3EAC_0;   /* arg1 in func_800C3EAC */
 
-
-M2C_UNK func_80095388();                      /* extern */
-s16 func_800C2B38();                          /* extern */
-M2C_UNK func_800C3F28();                            /* extern */
-M2C_UNK func_800C4174();        /* extern */
+/* extern */
 
 void func_800C3EAC(s32 arg0, S_800C3EAC_0 *arg1, M2C_UNK arg2) {
     arg1->unk_08.at00.v = (s32) (arg1->unk_08.at00.v + arg1->unk_14);
     if (func_800C2B38(arg1) < arg1->unk_08.at02.v) {
         arg1->unk_08.at02.v = func_800C2B38(arg1);
         func_800C4174(arg0, arg1, arg2);
+        func_800C3F28();
         return;
     }
     func_80095388(arg1);

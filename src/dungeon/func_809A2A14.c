@@ -1,5 +1,26 @@
 #include "common.h"
 
+
+extern void func_80047784(void *, s32, s32);
+extern s32 func_8009A180(void *, void *);
+extern s32 func_800A2C34(void *);
+extern void func_800A9A04(void *);
+extern void func_800A9A0C(void *);
+extern void func_800AA258(void *, void *, void *, void *);
+extern s32 func_800AA6B4(void *, void *, void *, s32);
+extern void func_800AA888(void *, void *, void *, void *);
+extern void func_801744F8(void) __attribute__((noreturn));
+extern void func_80174550(void) __attribute__((noreturn));
+extern void func_80174574(void *, void *, void *, void *);
+
+extern void *D_800814A8;
+extern s16 D_80083228;
+extern s32 D_80083460;
+extern s32 D_801710EC;
+extern u8 D_80175EA0[];
+extern u8 D_80175EC0[];
+
+
 typedef struct S_80174214_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -50,26 +71,6 @@ typedef struct S_80174214_5 {
     void * unk_58;
 } S_80174214_5;   /* D_800814A8 in func_80174214 */
 
-
-
-extern void func_80047784(void *, s32, s32);
-extern s32 func_8009A180(void *, void *);
-extern s32 func_800A2C34(void *);
-extern void func_800A9A04(void *);
-extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, s32);
-extern void func_800AA888(void *, void *, void *, void *);
-extern void func_801744F8(void) __attribute__((noreturn));
-extern void func_80174574(void *, void *, void *, void *);
-
-extern void *D_800814A8;
-extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_801710EC;
-extern u8 D_80175EA0[];
-extern u8 D_80175EC0[];
-
 void func_80174214(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     s32 state;
@@ -84,13 +85,14 @@ void func_80174214(void *arg0, void *arg1, void *arg2, void *arg3)
     if (state == 0) {
         goto state_zero;
     }
-    return;
+    func_80174550();
 
 at_least_two:
+    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_two;
     }
-    return;
+    func_80174550();
 
 state_zero:
     {
@@ -105,7 +107,7 @@ state_zero:
         ((S_80174214_2 *)base)->unk_0A--;
         table = D_80175EA0;
         if (((S_80174214_1 *)arg2)->unk_2C != table) {
-            (*(void * *)((u8 *)arg2 + 0x2C)) = table;
+            (*(void * *)((u8 *)arg2 + (0x2C))) = table;
             func_80047784(arg2,
                 table[((D_80083228 + ((S_80174214_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
                 0);
@@ -122,7 +124,7 @@ state_one:
         if (((S_80174214_3 *)arg3)->unk_25 != 0) {
             s32 *base;
 
-            (*(void * *)((u8 *)arg2 + 0x2C)) = D_80175EC0;
+            (*(void * *)((u8 *)arg2 + (0x2C))) = D_80175EC0;
             func_80047784(arg2,
                 D_80175EC0[((D_80083228 + ((S_80174214_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
                 0);
@@ -132,7 +134,7 @@ state_one:
             func_801744F8();
         }
 
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
         global = (u8 *)&D_80083460;
         if (((S_80174214_4 *)global)->unk_02 & 0x1000) {
             goto done;
@@ -154,9 +156,10 @@ state_one:
 
         if (flags & 0x100) {
             func_800AA258(call_arg0, arg1, arg2, arg3);
-            return;
+            func_80174550();
         }
 
+        ASM_KEEP(call_arg0);   /* MATCH pin: retail basic-block layout depends on it */
         if (flags & 0x80000) {
             u16 old_value;
             u16 amount;
@@ -168,7 +171,7 @@ state_one:
             ((S_80174214_0 *)arg0)->unk_9E = 0;
             ((S_80174214_0 *)arg0)->unk_92 = old_value - amount;
             func_80174574(arg0, arg1, arg2, arg3);
-            return;
+            func_80174550();
         }
         }
 
@@ -188,7 +191,7 @@ state_one:
             goto done;
         }
 
-        (*(void * *)((u8 *)arg2 + 0x2C)) = D_80175EC0;
+        (*(void * *)((u8 *)arg2 + (0x2C))) = D_80175EC0;
         func_80047784(arg2,
             D_80175EC0[((D_80083228 + ((S_80174214_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
             0);
@@ -198,7 +201,7 @@ state_one:
 
 increment_state:
     ((S_80174214_0 *)arg0)->unk_9B++;
-    return;
+    func_80174550();
 
 state_two:
     if (((S_80174214_1 *)arg2)->unk_14 & 0xE000) {

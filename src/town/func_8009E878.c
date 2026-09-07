@@ -1,5 +1,13 @@
 #include "common.h"
 
+
+extern s32 func_8008C180();
+extern void func_8009BFC0();
+extern void func_8009C0A4(void) __attribute__((noreturn));
+extern s32 func_800C1D44();
+extern s16 D_800D45AA[];
+
+
 typedef struct S_8009BFD8_0 {
     u8 pad_00[0x7C];
     void * unk_7C;
@@ -25,13 +33,6 @@ typedef struct S_8009BFD8_3 {
     s32 unk_08;
 } S_8009BFD8_3;   /* ((S_8009BFD8_0 *)arg0)->unk_7C in func_8009BFD8 */
 
-
-
-extern s32 func_8008C180();
-extern void func_8009BFC0();
-extern s32 func_800C1D44();
-extern s16 D_800D45AA[];
-
 void func_8009BFD8(S_8009BFD8_0 *arg0, void *arg1, S_8009BFD8_1 *arg2, S_8009BFD8_2 *arg3)
 {
     s32 index;
@@ -50,11 +51,11 @@ void func_8009BFD8(S_8009BFD8_0 *arg0, void *arg1, S_8009BFD8_1 *arg2, S_8009BFD
             if (delta < 0x29) {
                 arg3->unk_08 =
                     ((S_8009BFD8_3 *)(arg0->unk_7C))->unk_04;
-                return;
+                func_8009C0A4();
             }
             arg3->unk_08 =
                 ((S_8009BFD8_3 *)(arg0->unk_7C))->unk_08;
-            return;
+            func_8009C0A4();
         }
     }
 

@@ -1,45 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef struct S_800927EC_5 {
-    u8 pad_00[0x2C];
-    void * unk_2C;
-} S_800927EC_5;   /* arg0 in func_800927EC */
-
-typedef struct S_800927EC_6 {
-    u8 pad_00[0x50];
-    s32 unk_50;
-} S_800927EC_6;   /* ((S_800927EC_5 *)arg0)->unk_2C in func_800927EC */
-
-
-typedef struct S_800927EC_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800927EC_0;   /* arg1 in func_800927EC */
-
-typedef struct S_800927EC_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_800927EC_1;   /* state in func_800927EC */
-
-typedef struct S_800927EC_2 {
-    u8 pad_00[0x14];
-    u8 unk_14;
-} S_800927EC_2;   /* D_800CFCC4 in func_800927EC */
-
-typedef struct S_800927EC_3 {
-    u8 pad_00[0x2C];
-    void * unk_2C;
-} S_800927EC_3;   /* arg0 in func_800927EC */
-
-typedef struct S_800927EC_4 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_800927EC_4;   /* var_v0 in func_800927EC */
-
-
 M2C_UNK func_80035208();                         /* extern */
 M2C_UNK func_8008B158();                         /* extern */
 M2C_UNK func_80092A30();                            /* extern */
@@ -69,11 +30,44 @@ extern M2C_UNK D_8009B828;
 extern M2C_UNK D_8009B8E8;
 extern M2C_UNK D_8009B9BC;
 extern M2C_UNK D_800CFCB4;
-extern S_800927EC_2 *D_800CFCC4;
+extern void *D_800CFCC4;
 extern u8 D_800CFCEF[];
 extern M2C_UNK D_800FE488;
 extern s32 D_800FE518[];
 extern s32 *D_800FE5D8;
+
+
+typedef struct S_800927EC_0 {
+    u8 pad_00[0xA];
+    s16 unk_0A;
+} S_800927EC_0;   /* arg1 in func_800927EC */
+
+typedef struct S_800927EC_1 {
+    u8 pad_00[0x8];
+    s32 unk_08;
+    u8 pad_0C[0x4];
+    s32 unk_10;
+} S_800927EC_1;   /* state in func_800927EC */
+
+typedef struct S_800927EC_2 {
+    u8 pad_00[0x14];
+    u8 unk_14;
+} S_800927EC_2;   /* D_800CFCC4 in func_800927EC */
+
+typedef struct S_800927EC_3 {
+    u8 pad_00[0x2C];
+    void * unk_2C;
+} S_800927EC_3;   /* arg0 in func_800927EC */
+
+typedef struct S_800927EC_4 {
+    u8 pad_00[0x10];
+    s32 unk_10;
+} S_800927EC_4;   /* var_v0 in func_800927EC */
+
+typedef struct S_800927EC_5 {
+    u8 pad_00[0x50];
+    s32 unk_50;
+} S_800927EC_5;   /* ((S_800927EC_3 *)arg0)->unk_2C in func_800927EC */
 
 void func_800927EC(void *arg0, S_800927EC_0 *arg1, M2C_UNK arg2) {
     u8 *state = D_80083160;
@@ -89,6 +83,7 @@ void func_800927EC(void *arg0, S_800927EC_0 *arg1, M2C_UNK arg2) {
     if ((temp_v0 - arg1->unk_0A) >= 4) {
         if (D_800CFCEF[0] == 0) {
             func_80094660(arg0, arg1, arg2);
+            func_80092A60();
             return;
         }
         goto block_6;
@@ -99,13 +94,15 @@ void func_800927EC(void *arg0, S_800927EC_0 *arg1, M2C_UNK arg2) {
 block_6:
     if (((S_800927EC_1 *)state)->unk_10 & 0x10) {
         func_800945B8(arg0, arg1, arg2);
+        func_80092A60();
         return;
     }
     if (((S_800927EC_1 *)state)->unk_10 & 0x80) {
-        if ((D_800CFCC4 != NULL) && (D_800CFCC4->unk_14 == 4)) {
+        if ((D_800CFCC4 != NULL) && (((S_800927EC_2 *)D_800CFCC4)->unk_14 == 4)) {
             func_8009550C(arg1);
             func_80094774(arg0, arg1, arg2);
             D_800FE518[0] = 1;
+            func_80092A60();
             return;
         }
         func_80099754(arg1);
@@ -121,13 +118,14 @@ block_6:
     } else {
         if (((S_800927EC_1 *)state)->unk_10 & 0x40) {
             func_800946A0(arg0, arg1, arg2);
+            func_80092A60();
             return;
         }
         if ((func_80095760(&D_800CFCB4) == -1) && (func_8009FF50() == 0)) {
             func_8009567C(&D_800CFCB4);
             func_80094C1C(arg0);
             func_800988C8(arg0, arg1, arg2);
-            temp_v1 = ((S_800927EC_6 *)(((S_800927EC_5 *)arg0)->unk_2C))->unk_50;
+            temp_v1 = ((S_800927EC_5 *)(((S_800927EC_3 *)arg0)->unk_2C))->unk_50;
             if ((temp_v1 != &D_8009B828) && (temp_v1 != &D_8009B8E8)) {
                 if (temp_v1 != &D_8009B9BC) {
                     ((S_800927EC_3 *)arg0)->unk_2C = NULL;
@@ -146,6 +144,7 @@ block_6:
             }
             func_8008B158(((S_800927EC_4 *)var_v0)->unk_10);
             D_800FE5D8 = &D_80093B00;
+            func_80092A60();
             return;
         }
         if (((S_800927EC_1 *)state)->unk_08 & 0xF000) {

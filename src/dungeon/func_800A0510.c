@@ -1,5 +1,13 @@
 #include "common.h"
 
+
+extern void func_800A5D3C(void);
+extern u16 D_80013714;
+extern u8 D_80082E80[];
+extern s32 D_800E296C[];
+extern void *D_800E3D7C;
+
+
 typedef struct S_800A5C70_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -24,14 +32,6 @@ typedef struct S_800A5C70_2 {
     u8 unk_25;
 } S_800A5C70_2;   /* other in func_800A5C70 */
 
-
-
-extern void func_800A5D3C(void);
-extern u16 D_80013714;
-extern u8 D_80082E80[];
-extern s32 D_800E296C[];
-extern void *D_800E3D7C;
-
 s32 func_800A5C70(void) {
     u16 buttons;
     u8 *coords;
@@ -49,6 +49,7 @@ s32 func_800A5C70(void) {
         return 1;
     }
     if (buttons & 9) {
+        func_800A5D3C();
         return 0;
     }
     if (D_800E296C[0] & 0x200000) {

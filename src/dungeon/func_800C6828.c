@@ -25,6 +25,7 @@ s32 func_800CBF88(s32 arg0)
 
     if (arg0 == D_800E3D7C) {
         if (func_8003FA44(1) == 0) {
+            func_800CC044();
             return 0;
         }
         result = func_80042900(arg0, 0x1C);
@@ -45,6 +46,7 @@ s32 func_800CBF88(s32 arg0)
                 counter[5] = (u16)(counter[5] + 1);
                 func_800419EC(val, 8);
                 func_800A56E0(0x818);
+                func_800CC044();
                 return 1;
             }
         } else {

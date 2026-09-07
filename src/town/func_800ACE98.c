@@ -50,6 +50,7 @@ void func_800AA5F8(void *arg0, void *arg1, s32 arg2) {
     if ((*(s32 *)(buttons + 0x10) & 0x40) && D_80100D1C >= 0x800) {
         func_800AAA58(arg0, arg1, arg2_local);
         D_800D0B14 = 0;
+        func_800AA820();
         return;
     }
 

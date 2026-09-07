@@ -47,12 +47,15 @@ void func_800DA398(void *arg0, s32 arg1, void *arg2, void *arg3) {
     if (state == 0) {
         goto state_zero;
     }
+    func_800DA63C();
     return;
 
 state_high:
+    ASM_KEEP(state);   /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_two;
     }
+    func_800DA63C();
     return;
 
 state_zero:
@@ -83,11 +86,13 @@ state_one:
     flags = S32_AT(arg3, 0x1C);
     if (flags & 0x100) {
         func_800AA258(arg0, arg1, arg2, arg3);
+        func_800DA63C();
         return;
     }
     if (flags & 0x80000) {
         func_800AA888(arg0, arg1, arg2, arg3);
         func_800DA660(arg0, arg1, arg2, arg3);
+        func_800DA63C();
         return;
     }
     if (S8_AT(arg3, 0x6D) == 0) {
@@ -115,6 +120,7 @@ permitted:
     S32_AT(arg3, 0x1C) |= 0x40000;
     D_80083460.count++;
     U8_AT(arg0, 0x9B)++;
+    func_800DA63C();
     return;
 
 state_two:

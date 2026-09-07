@@ -16,6 +16,7 @@ extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
 
 extern void func_80171320(void) __attribute__((noreturn));
+extern void func_80171364(void) __attribute__((noreturn));
 extern void func_80171388(void *);
 extern void func_801715CC(void *, void *, void *, void *);
 extern s32 func_80171D80(void *, void *, void *, void *);
@@ -97,7 +98,7 @@ void func_80170E68(S_80170E68_0 *arg0, void *arg1, void *arg2, S_80170E68_1 *arg
     if (status[1] & 0x1000) {
         arg0->unk_9A = 14;
         func_80171388(arg0);
-        return;
+        func_80171364();
     }
 
     if (arg3->unk_25 == 0) {
@@ -115,13 +116,14 @@ void func_80170E68(S_80170E68_0 *arg0, void *arg1, void *arg2, S_80170E68_1 *arg
     if ((status_flags & 0x2000) == 0) {
         if (initial_flags & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
-            return;
+            func_80171364();
         }
 
         
+        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
         if (arg0->unk_9A != 14) {
-            if ((*(u8 * *)((u8 *)arg2 + 0x2C)) != D_8017386C) {
-                (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_8017386C;
+            if ((*(u8 * *)((u8 *)arg2 + (0x2C))) != D_8017386C) {
+                (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_8017386C;
                 func_80047784(
                     arg2,
                     D_8017386C[((D_80083228 + arg3->unk_2A + 0x100) >> 9) & 7],
@@ -141,7 +143,7 @@ void func_80170E68(S_80170E68_0 *arg0, void *arg1, void *arg2, S_80170E68_1 *arg
         if (arg3->unk_1C & 0x80000) {
             func_800AA888(arg0, arg1, arg2, arg3);
             func_80173478(arg0, arg1, arg2, arg3);
-            return;
+            func_80171364();
         }
 
         if ((s16)func_800A1C58(arg3) != 0) {
@@ -149,15 +151,15 @@ void func_80170E68(S_80170E68_0 *arg0, void *arg1, void *arg2, S_80170E68_1 *arg
         }
     }
 
-    result = func_8009FB34((*(u8 *)((u8 *)arg2 + 0x24)), (*(u8 *)((u8 *)arg2 + 0x25)));
-    (*(u8 *)((u8 *)arg2 + 0x26)) = result;
+    result = func_8009FB34((*(u8 *)((u8 *)arg2 + (0x24))), (*(u8 *)((u8 *)arg2 + (0x25))));
+    (*(u8 *)((u8 *)arg2 + (0x26))) = result;
 
     if (arg3->unk_6D > 0) {
         if (arg3->unk_1C & 0x20) {
             goto case_12;
         }
 
-        if ((*(u16 *)((u8 *)arg2 + 0x24)) == *(u16 *)&D_80082EA4) {
+        if ((*(u16 *)((u8 *)arg2 + (0x24))) == *(u16 *)&D_80082EA4) {
             goto case_default;
         }
 
@@ -197,11 +199,11 @@ case_8:
             return;
         }
         func_80171F90(arg0, arg1, arg2, arg3);
-        return;
+        func_80171364();
 
 case_5_7:
         result = func_800A0818(
-            (*(u8 *)((u8 *)arg2 + 0x24)), (*(u8 *)((u8 *)arg2 + 0x25)),
+            (*(u8 *)((u8 *)arg2 + (0x24))), (*(u8 *)((u8 *)arg2 + (0x25))),
             D_80082E80[0x24], D_80082E80[0x25], (s16 *)&distance);
         player = D_800814A8;
         arg3->unk_2A = result;
@@ -211,12 +213,12 @@ case_5_7:
 
 case_12:
         func_800A9A0C(arg3);
-        return;
+        func_80171364();
 
 case_1_3:
 case_1_3_common:
         func_800AAF00(arg0, arg1, arg2, D_8017389C, D_80170E68);
-        return;
+        func_80171364();
 
 case_default:
         func_801715CC(arg0, arg1, arg2, arg3);
@@ -236,10 +238,10 @@ case_default:
         if ((flags & 0x430) == 0) {
             animation = D_80082E80;
             if ((s16)func_8009FD7C(
-                    (*(u8 *)((u8 *)arg2 + 0x24)), (*(u8 *)((u8 *)arg2 + 0x25)),
+                    (*(u8 *)((u8 *)arg2 + (0x24))), (*(u8 *)((u8 *)arg2 + (0x25))),
                     animation[0x24], animation[0x25]) != 0) {
                 result = func_800A0818(
-                    (*(u8 *)((u8 *)arg2 + 0x24)), (*(u8 *)((u8 *)arg2 + 0x25)),
+                    (*(u8 *)((u8 *)arg2 + (0x24))), (*(u8 *)((u8 *)arg2 + (0x25))),
                     animation[0x24], animation[0x25], (s16 *)&distance);
                 arg3->unk_2A = result;
             }
@@ -250,11 +252,11 @@ tail_checks:
     if (D_80083462 & 0x2000) {
         return;
     }
-    if ((*(u16 *)((u8 *)arg2 + 0x14)) & 0x40) {
+    if ((*(u16 *)((u8 *)arg2 + (0x14))) & 0x40) {
         return;
     }
-    if ((*(u8 * volatile *)((u8 *)arg2 + 0x2C)) != D_8017386C) {
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_8017386C;
+    if ((*(u8 * volatile *)((u8 *)arg2 + (0x2C))) != D_8017386C) {
+        (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_8017386C;
         func_80047784(
             arg2,
             D_8017386C[((D_80083228 + arg3->unk_2A + 0x100) >> 9) & 7],

@@ -2,6 +2,43 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+/* Value-preserving cse-equivalence launder for the first callback's 4th
+ * argument: a block-scoped $a0-pinned temp with the empty "=r"/"0" tie
+ * (expression form of ASM_REG+ASM_KEEP_NV). Port build folds to the plain
+ * value. */
+#ifdef NON_MATCHING
+#define KEEP_A0_EXPR(v) (v)
+#else
+#define KEEP_A0_EXPR(v) ({ register void *t_ ASM_REG("$4") = (v); ASM_KEEP_NV(t_); t_; })
+#endif
+
+void func_80047738(void *, u8, s8);              /* extern */
+void func_80047784(void *, u8, s32);             /* extern */
+void func_800478B8(void *);                       /* extern */
+s32 func_800644B8(s32);                            /* extern */
+M2C_UNK func_800A020C(s32, void *);               /* extern */
+s32 func_800A9E70(void *, void *, void *, void *); /* extern */
+M2C_UNK func_800AA36C(void *, void *, void *, void *); /* extern */
+s16 func_800BCB04(s32, s32, s16);                 /* extern */
+void func_80170D94(void) __attribute__((noreturn));  /* extern */
+void func_80170E3C(void) __attribute__((noreturn));  /* extern */
+void func_80170EB8(void) __attribute__((noreturn));  /* extern */
+void func_80170F54(void) __attribute__((noreturn));  /* extern */
+void func_80171210(void) __attribute__((noreturn));  /* extern */
+void func_80171320(void) __attribute__((noreturn));  /* extern */
+void func_80171330(void) __attribute__((noreturn));  /* extern */
+void func_801713D4(void) __attribute__((noreturn));  /* extern */
+extern u8 D_8006CCF8[12];
+extern s16 D_80083228[5];
+extern u16 D_80083462[5];
+extern M2C_UNK D_80171400[3];
+extern u8 D_80175140[12];
+extern u8 D_80175148[12];
+extern u8 D_80175170[12];
+extern u8 D_80175178[12];
+extern void *D_80175198[3];
+
+
 typedef struct S_80170BF8_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -50,45 +87,8 @@ typedef struct S_80170BF8_3 {
     u8 pad_20[0xA];
     s16 unk_2A;
     u8 pad_2C[0x5C];
-    union { u16 s; s16 u; } unk_88;   /* accessed as both */
+    union { u16 u; s16 s; } unk_88;   /* accessed as both */
 } S_80170BF8_3;   /* actor2 in func_80170BF8 */
-
-
-/* Value-preserving cse-equivalence launder for the first callback's 4th
- * argument: a block-scoped $a0-pinned temp with the empty "=r"/"0" tie
- * (expression form of ASM_REG+ASM_KEEP_NV). Port build folds to the plain
- * value. */
-#ifdef NON_MATCHING
-#define KEEP_A0_EXPR(v) (v)
-#else
-#define KEEP_A0_EXPR(v) ({ register void *t_ ASM_REG("$4") = (v); ASM_KEEP_NV(t_); t_; })
-#endif
-
-void func_80047738(void *, u8, s8);              /* extern */
-void func_80047784(void *, u8, s32);             /* extern */
-void func_800478B8(void *);                       /* extern */
-s32 func_800644B8(s32);                            /* extern */
-M2C_UNK func_800A020C(s32, void *);               /* extern */
-s32 func_800A9E70(void *, void *, void *, void *); /* extern */
-M2C_UNK func_800AA36C(void *, void *, void *, void *); /* extern */
-s16 func_800BCB04(s32, s32, s16);                 /* extern */
-void func_80170D94(void) __attribute__((noreturn));  /* extern */
-void func_80170E3C(void) __attribute__((noreturn));  /* extern */
-void func_80170EB8(void) __attribute__((noreturn));  /* extern */
-void func_80170F54(void) __attribute__((noreturn));  /* extern */
-void func_80171210(void) __attribute__((noreturn));  /* extern */
-void func_80171320(void) __attribute__((noreturn));  /* extern */
-void func_80171330(void) __attribute__((noreturn));  /* extern */
-void func_801713D4(void) __attribute__((noreturn));  /* extern */
-extern u8 D_8006CCF8[12];
-extern s16 D_80083228[5];
-extern u16 D_80083462[5];
-extern M2C_UNK D_80171400[3];
-extern u8 D_80175140[12];
-extern u8 D_80175148[12];
-extern u8 D_80175170[12];
-extern u8 D_80175178[12];
-extern void *D_80175198[3];
 
 void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
     u16 initial_flags = D_80083462[0];
@@ -96,7 +96,7 @@ void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
     register void *motion ASM_REG("$21") = arg1_;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     register void *object ASM_REG("$20") = arg2_;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     s32 var_s6 = 0;
-    S_80170BF8_3 *actor2 = actor;
+    void *actor2 = actor;
 #define arg0 actor
 #define arg1 motion
 #define arg2 object
@@ -140,9 +140,11 @@ void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
             temp_v1 = ((S_80170BF8_0 *)arg0)->unk_8C;
         if (temp_v1 == &D_80171400) {
             temp_v1(arg0_, arg1_, arg2_, KEEP_A0_EXPR(arg0_));
+            func_801713D4();
             return;
         }
         ((S_80170BF8_0 *)arg0)->unk_71 = (u8) (((S_80170BF8_0 *)arg0)->unk_71 & 0x7F);
+        func_801713D4();
         return;
     }
     ASM_KEEP_NV(actor);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
@@ -171,7 +173,7 @@ void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
         ((S_80170BF8_0 *)arg0)->unk_90.at00.v = (s32) (((S_80170BF8_0 *)arg0)->unk_90.at00.v + ((S_80170BF8_1 *)arg1)->unk_14);
         temp_v1_2 = ((S_80170BF8_2 *)arg2)->unk_14;
         if (!(temp_v1_2 & 0x8000)) {
-            temp_s3 = ((s32) (D_80083228[0] + actor2->unk_2A + 0x100) >> 9) & 7;
+            temp_s3 = ((s32) (D_80083228[0] + ((S_80170BF8_3 *)actor2)->unk_2A + 0x100) >> 9) & 7;
             temp_s0 = (s16) temp_s3;
             if (((S_80170BF8_0 *)arg0)->unk_94 != temp_s0) {
                 func_80047738(arg2, *(((S_80170BF8_2 *)arg2)->unk_2C + temp_s0), ((S_80170BF8_2 *)arg2)->unk_04);
@@ -186,9 +188,9 @@ void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
             }
             ((S_80170BF8_2 *)arg2)->unk_14 = (u16) (((S_80170BF8_2 *)arg2)->unk_14 & 0xFFFE);
             if (((S_80170BF8_0 *)arg0)->unk_9A != 8) {
-                func_800A020C(actor2->unk_1C, arg2 + 0xC);
+                func_800A020C(((S_80170BF8_3 *)actor2)->unk_1C, arg2 + 0xC);
             }
-            if (!(actor2->unk_1C & 0x20)) {
+            if (!(((S_80170BF8_3 *)actor2)->unk_1C & 0x20)) {
                 if (!(((S_80170BF8_2 *)arg2)->unk_14 & 0x40)) {
                     func_800478B8(arg2);
                     page_base = 0xF7FF0000;
@@ -199,10 +201,10 @@ void func_80170BF8(void *arg0_, void *arg1_, void *arg2_) {
                 goto block_28;
             }
             ((S_80170BF8_2 *)arg2)->unk_14 = (u16) (((S_80170BF8_2 *)arg2)->unk_14 | 0x7000);
-            actor2->unk_1C = (s32) (actor2->unk_1C & 0xFFFBFFFF);
+            ((S_80170BF8_3 *)actor2)->unk_1C = (s32) (((S_80170BF8_3 *)actor2)->unk_1C & 0xFFFBFFFF);
 block_28:
-            temp_v1_3 = actor2->unk_1C & 0xF7FFFFFF;
-            actor2->unk_1C = temp_v1_3;
+            temp_v1_3 = ((S_80170BF8_3 *)actor2)->unk_1C & 0xF7FFFFFF;
+            ((S_80170BF8_3 *)actor2)->unk_1C = temp_v1_3;
             if (temp_v1_3 & 0x40000) {
                 if (!(((S_80170BF8_2 *)arg2)->unk_14 & 0x40)) {
                     temp_v1_4 = ((S_80170BF8_0 *)arg0)->unk_98;
@@ -231,7 +233,7 @@ block_28:
                         }
 block_39:
                         ((S_80170BF8_2 *)arg2)->unk_2C = var_a1;
-                        address_1 = (u32) ((((s32) (D_80083228[0] + actor2->unk_2A + 0x100) >> 9) & 7));
+                        address_1 = (u32) ((((s32) (D_80083228[0] + ((S_80170BF8_3 *)actor2)->unk_2A + 0x100) >> 9) & 7));
                         address_1 += (u32) var_a1;
                         func_80047784(arg2, *(u8 *) address_1, 0);
                         goto block_40;
@@ -249,7 +251,7 @@ block_40:
                 }
 block_44:
                 if (!(((S_80170BF8_0 *)arg0)->unk_98 & 8)) {
-                    temp_v0_2 = (s16) (func_800BCB04(((S_80170BF8_1 *)arg1)->unk_00.at02.v, ((S_80170BF8_1 *)arg1)->unk_04.at02.v, (s16) (actor2->unk_88.s - 0x20)) - actor2->unk_88.s);
+                    temp_v0_2 = (s16) (func_800BCB04(((S_80170BF8_1 *)arg1)->unk_00.at02.v, ((S_80170BF8_1 *)arg1)->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor2)->unk_88.u - 0x20)) - ((S_80170BF8_3 *)actor2)->unk_88.u);
                     temp_v1_9 = (u16) ((S_80170BF8_0 *)arg0)->unk_90.at02.v;
                     if (((S_80170BF8_0 *)arg0)->unk_90.at02.v > (temp_v0_2 - 0x20)) {
                         ((S_80170BF8_0 *)arg0)->unk_90.at02.v = (s16) (temp_v1_9 - 8);
@@ -270,15 +272,15 @@ block_44:
             ((S_80170BF8_0 *)arg0)->unk_A8 = 0;
             ((S_80170BF8_0 *)arg0)->unk_98 = (u16) (temp_v0_3 & 0x7FFF);
             if (!(temp_v0_3 & 8)) {
-                temp_a0 = func_800BCB04(((S_80170BF8_1 *)arg1)->unk_00.at02.v, ((S_80170BF8_1 *)arg1)->unk_04.at02.v, (s16) (actor2->unk_88.s - 0x20));
+                temp_a0 = func_800BCB04(((S_80170BF8_1 *)arg1)->unk_00.at02.v, ((S_80170BF8_1 *)arg1)->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor2)->unk_88.u - 0x20));
                 temp_v0_4 = (s16) temp_a0;
-                temp_a0_3 = actor2->unk_88.u;
+                temp_a0_3 = ((S_80170BF8_3 *)actor2)->unk_88.s;
                 temp_a0 = (s32) temp_v0_4 - temp_a0_3;
                 if (temp_a0 < ((S_80170BF8_0 *)arg0)->unk_90.at02.v) {
                     ((S_80170BF8_0 *)arg0)->unk_90.at02.v = temp_a0;
                     ((S_80170BF8_0 *)arg0)->unk_9D.s = 0;
                     ((S_80170BF8_1 *)arg1)->unk_14 = 0;
-                    actor2->unk_1C = actor2->unk_1C | 0x08000000;
+                    ((S_80170BF8_3 *)actor2)->unk_1C = ((S_80170BF8_3 *)actor2)->unk_1C | 0x08000000;
                     func_80171330();
                     return;
                 }
@@ -286,22 +288,22 @@ block_44:
             goto block_82;
         }
         ((S_80170BF8_2 *)arg2)->unk_14 = (temp_v1_2 & 0x800) ? (temp_v1_2 & 0x8FFF) : (temp_v1_2 | 0x7000);
-        temp_v1_6 = actor2->unk_1C & 0xF7FFFFFF;
-        actor2->unk_1C = temp_v1_6;
+        temp_v1_6 = ((S_80170BF8_3 *)actor2)->unk_1C & 0xF7FFFFFF;
+        ((S_80170BF8_3 *)actor2)->unk_1C = temp_v1_6;
         if (!(temp_v1_6 & 0x40000)) {
             ((S_80170BF8_0 *)arg0)->unk_A8 = 0;
             ((S_80170BF8_0 *)arg0)->unk_90.at02.v = (s16) ((u16) ((S_80170BF8_0 *)arg0)->unk_90.at02.v - var_s6);
             var_s6 = 0;
             if (!(((S_80170BF8_0 *)arg0)->unk_98 & 8)) {
-                temp_a0 = func_800BCB04(((S_80170BF8_1 *)arg1)->unk_00.at02.v, ((S_80170BF8_1 *)arg1)->unk_04.at02.v, (s16) (actor2->unk_88.s - 0x20));
+                temp_a0 = func_800BCB04(((S_80170BF8_1 *)arg1)->unk_00.at02.v, ((S_80170BF8_1 *)arg1)->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor2)->unk_88.u - 0x20));
                 temp_v0_5 = (s16) temp_a0;
-                temp_a0_4 = actor2->unk_88.u;
+                temp_a0_4 = ((S_80170BF8_3 *)actor2)->unk_88.s;
                 temp_a0 = (s32) temp_v0_5 - temp_a0_4;
                 if (temp_a0 < ((S_80170BF8_0 *)arg0)->unk_90.at02.v) {
                     ((S_80170BF8_0 *)arg0)->unk_90.at02.v = temp_a0;
                     ((S_80170BF8_0 *)arg0)->unk_9D.s = 0;
                     ((S_80170BF8_1 *)arg1)->unk_14 = 0;
-                    actor2->unk_1C = actor2->unk_1C | 0x08000000;
+                    ((S_80170BF8_3 *)actor2)->unk_1C = ((S_80170BF8_3 *)actor2)->unk_1C | 0x08000000;
                     func_80171320();
                     return;
                 }
@@ -335,7 +337,7 @@ block_44:
                 }
 block_72:
                 ((S_80170BF8_2 *)arg2)->unk_2C = var_a1_2;
-                address_1 = (u32) ((((s32) (D_80083228[0] + actor2->unk_2A + 0x100) >> 9) & 7));
+                address_1 = (u32) ((((s32) (D_80083228[0] + ((S_80170BF8_3 *)actor2)->unk_2A + 0x100) >> 9) & 7));
                 address_1 += (u32) var_a1_2;
                 func_80047784(arg2, *(u8 *) address_1, 0);
                 goto block_73;
@@ -353,7 +355,7 @@ block_73:
         }
 block_77:
         if (!(((S_80170BF8_0 *)arg0)->unk_98 & 8)) {
-            temp_v0_6 = func_800BCB04(((S_80170BF8_1 *)arg1)->unk_00.at02.v, ((S_80170BF8_1 *)arg1)->unk_04.at02.v, (s16) (actor2->unk_88.s - 0x20)) - actor2->unk_88.s;
+            temp_v0_6 = func_800BCB04(((S_80170BF8_1 *)arg1)->unk_00.at02.v, ((S_80170BF8_1 *)arg1)->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor2)->unk_88.u - 0x20)) - ((S_80170BF8_3 *)actor2)->unk_88.u;
             temp_a0_5 = ((S_80170BF8_0 *)arg0)->unk_90.at02.v;
             if (temp_a0_5 > (temp_v0_6 - 0x20)) {
                 temp_v1_9 = (u16) ((S_80170BF8_0 *)arg0)->unk_90.at02.v;
@@ -367,16 +369,16 @@ block_81:
         ((S_80170BF8_0 *)arg0)->unk_A8 = 0;
         ((S_80170BF8_0 *)arg0)->unk_98 = (u16) (((S_80170BF8_0 *)arg0)->unk_98 & 0x7FFF);
 block_82:
-        temp_v1_10 = actor2->unk_1C;
+        temp_v1_10 = ((S_80170BF8_3 *)actor2)->unk_1C;
         if (temp_v1_10 & 0x40000000) {
-            actor2->unk_1C = (s32) (temp_v1_10 & 0xBFFFFFFF);
-            temp_v0_7 = func_800BCB04((((S_80170BF8_2 *)arg2)->unk_24 << 6) | 0x20, (((S_80170BF8_2 *)arg2)->unk_25 << 6) | 0x20, (s16) (actor2->unk_88.s - 0x20));
+            ((S_80170BF8_3 *)actor2)->unk_1C = (s32) (temp_v1_10 & 0xBFFFFFFF);
+            temp_v0_7 = func_800BCB04((((S_80170BF8_2 *)arg2)->unk_24 << 6) | 0x20, (((S_80170BF8_2 *)arg2)->unk_25 << 6) | 0x20, (s16) (((S_80170BF8_3 *)actor2)->unk_88.u - 0x20));
             if (temp_v0_7 < 0x200) {
-                ((S_80170BF8_0 *)arg0)->unk_90.at02.v = (s16) ((u16) ((S_80170BF8_0 *)arg0)->unk_90.at02.v + (actor2->unk_88.s - temp_v0_7));
-                actor2->unk_88.s = (u16) temp_v0_7;
+                ((S_80170BF8_0 *)arg0)->unk_90.at02.v = (s16) ((u16) ((S_80170BF8_0 *)arg0)->unk_90.at02.v + (((S_80170BF8_3 *)actor2)->unk_88.u - temp_v0_7));
+                ((S_80170BF8_3 *)actor2)->unk_88.u = (u16) temp_v0_7;
             }
         }
-        temp_final = (s32) (actor2->unk_88.s + (u16) ((S_80170BF8_0 *)arg0)->unk_90.at02.v + var_s6);
+        temp_final = (s32) (((S_80170BF8_3 *)actor2)->unk_88.u + (u16) ((S_80170BF8_0 *)arg0)->unk_90.at02.v + var_s6);
         ((S_80170BF8_1 *)arg1)->unk_0A = (s16) temp_final;
         ((S_80170BF8_2 *)arg2)->unk_14 = (u16) (((S_80170BF8_2 *)arg2)->unk_14 | 0x40);
     }

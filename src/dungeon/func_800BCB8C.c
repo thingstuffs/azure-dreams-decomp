@@ -21,6 +21,7 @@ extern M2C_UNK D_800E15A2;
 extern s32 D_800E3D7C;
 extern void *D_800E3DF0[];
 
+
 typedef struct S_800C22EC_0 {
     u8 pad_00[0x13];
     u8 unk_13;
@@ -63,12 +64,14 @@ s32 func_800C22EC(S_800C22EC_0 *arg0, s32 arg1, s16 arg2, M2C_UNK arg3) {
     if (arg0 == D_800E3D7C) {
         arg0->unk_110 = arg1;
         func_8008D344(arg0, &D_80083780, &D_80082E80, arg0);
+        func_800C248C();
         return 0;
     }
     if ((u32) arg0 <= 0x9FFFFFFFU) {
         func_800A63B8(arg0, arg1, arg2);
         if (func_800AD6FC(arg0, ((u16 *)D_800DDE84)[arg0->unk_13] & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
+            func_800C248C();
             return 1;
         }
         /* Duplicate return node #16. Try simplifying control flow for better match */

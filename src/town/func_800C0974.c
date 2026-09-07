@@ -57,6 +57,7 @@ L1After:
     return;
 L2:
     if (func_800352FC() && func_800C2AB4(obj)) {
+        func_800BE1FC();
         return;
     }
     goto Linc;
@@ -67,6 +68,7 @@ L3:
     func_8003DB94(dst, obj->fieldA0, 0);
 Linc:
     obj->state = (u16)obj->state + 1;
+    func_800BE1FC();
     return;
 L4:
     if (func_800352FC()) {

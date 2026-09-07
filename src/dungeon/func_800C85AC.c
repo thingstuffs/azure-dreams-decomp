@@ -60,6 +60,7 @@ main_path:
                           (entry->y << 6) | 0x20,
                           *(s16 *)((u8 *)arg0 + 0x88), D_800DF870, 0);
             func_800A56E0(0x70A);
+            func_800CDDF8();
             return 1;
         }
         return 1;

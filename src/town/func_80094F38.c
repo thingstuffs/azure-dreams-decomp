@@ -1,7 +1,5 @@
 #include "common.h"
 
-
-
 typedef s32 M2C_UNK;
 
 #ifndef NULL
@@ -29,6 +27,7 @@ extern State80083160 D_80083160;
 extern void *D_800CFCC4[3];
 extern u8 D_800CFCEF[9];
 extern u8 D_800FE488[9];
+
 
 typedef struct S_80092698_0 {
     u8 pad_00[0xA];
@@ -60,6 +59,7 @@ void func_80092698(S_80092698_1 *arg0, S_80092698_0 *arg1, M2C_UNK arg2) {
     if ((temp_v0 - arg1->unk_0A) >= 4) {
         if (D_800CFCEF[0] == 0) {
             func_80094378(arg0, arg1, saved_arg2);
+            func_800927C8();
             return;
         }
         goto block_6;
@@ -74,12 +74,15 @@ block_6:
         if (D_800CFCC4[0] != NULL) {
             if (((S_80092698_2 *)(D_800CFCC4[0]))->unk_14 == 2) {
                 func_80093D48(arg0, arg1, saved_arg2);
+                func_800927C8();
                 return;
             }
             func_8009451C(arg0, arg1, saved_arg2);
+            func_800927C8();
             return;
         }
         func_8009451C(arg0, arg1, saved_arg2);
+        func_800927C8();
         return;
     }
     if (state->field_10 & 0x10) {

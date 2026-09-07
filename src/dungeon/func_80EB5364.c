@@ -1,6 +1,31 @@
 #include "common.h"
 
 typedef s32 M2C_UNK;
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
+
+M2C_UNK func_80047738();
+M2C_UNK func_800478B8();
+M2C_UNK func_800A020C();
+s32 func_800A9E70();
+M2C_UNK func_800AA36C();
+s32 func_800BCB04();
+void func_80170CF8() __attribute__((noreturn));
+void func_80170DA0() __attribute__((noreturn));
+void func_80170E0C() __attribute__((noreturn));
+void func_80170EB8() __attribute__((noreturn));
+void func_80170EC0() __attribute__((noreturn));
+void func_80171064() __attribute__((noreturn));
+void func_8017106C() __attribute__((noreturn));
+void func_801710D8() __attribute__((noreturn));
+void func_8017117C() __attribute__((noreturn));
+extern u8 D_8006CCF8[];
+extern s16 D_80083228[];
+extern u16 D_80083462[];
+extern M2C_UNK D_801711A4[];
+extern M2C_UNK D_80174174[];
+extern M2C_UNK D_8017418C[];
+extern M2C_UNK D_801741D4[];
+
 
 typedef struct S_80170B64_0 {
     u8 pad_00[0x1C];
@@ -57,31 +82,6 @@ typedef struct S_80170B64_3 {
     u16 unk_88;
 } S_80170B64_3;   /* work in func_80170B64 */
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-M2C_UNK func_80047738();
-M2C_UNK func_800478B8();
-M2C_UNK func_800A020C();
-s32 func_800A9E70();
-M2C_UNK func_800AA36C();
-s32 func_800BCB04();
-void func_80170CF8() __attribute__((noreturn));
-void func_80170DA0() __attribute__((noreturn));
-void func_80170E0C() __attribute__((noreturn));
-void func_80170EB8() __attribute__((noreturn));
-void func_80170EC0() __attribute__((noreturn));
-void func_80171064() __attribute__((noreturn));
-void func_8017106C() __attribute__((noreturn));
-void func_801710D8() __attribute__((noreturn));
-void func_8017117C() __attribute__((noreturn));
-extern u8 D_8006CCF8[];
-extern s16 D_80083228[];
-extern u16 D_80083462[];
-extern M2C_UNK D_801711A4[];
-extern M2C_UNK D_80174174[];
-extern M2C_UNK D_8017418C[];
-extern M2C_UNK D_801741D4[];
-
 void func_80170B64(void *in0, void *in1, void *in2)
 {
     register void *p0 ASM_REG("$17") = in0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
@@ -122,9 +122,11 @@ void func_80170B64(void *in0, void *in1, void *in2)
         if (temp_v1 == &D_801711A4) {
             ASM_KEEP(raw0);   /* MATCH pin: retail register colouring depends on it */
             temp_v1(raw0, arg1, arg2, raw0);
+            func_8017117C();
             return;
         }
         ((S_80170B64_0 *)arg0)->unk_71 &= 0x7F;
+        func_8017117C();
         return;
     }
 

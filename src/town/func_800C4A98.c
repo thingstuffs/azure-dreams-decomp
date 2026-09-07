@@ -1,15 +1,5 @@
 #include "common.h"
 
-typedef struct S_800C21F8_0 {
-    void (*unk_00)(void);
-    s16 unk_04;
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s16 unk_0C;
-    s16 unk_0E;
-} S_800C21F8_0;   /* arg0 in func_800C21F8 */
-
-
 typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -24,6 +14,16 @@ extern void func_800C170C(s32 arg0);
 extern s32 func_800C2124(void);
 extern void func_800C2290(void);
 extern Position D_80083780;
+
+
+typedef struct S_800C21F8_0 {
+    void (*unk_00)(void);
+    s16 unk_04;
+    s16 unk_06;
+    u8 pad_08[0x4];
+    s16 unk_0C;
+    s16 unk_0E;
+} S_800C21F8_0;   /* arg0 in func_800C21F8 */
 
 s32 func_800C21F8(S_800C21F8_0 *arg0) {
     s32 temp_a0;
@@ -48,6 +48,8 @@ s32 func_800C21F8(S_800C21F8_0 *arg0) {
         ((s16)temp_a0 > arg0->unk_0E)) {
         func_800C170C(temp_a0);
         arg0->unk_00 = (void (*)(void))func_800C2124;
+        ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+        func_800C2290();
         return 1;
     }
     return 0;

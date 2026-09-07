@@ -28,7 +28,7 @@ void func_800A0708(void *arg0, M2C_UNK arg1, M2C_UNK arg2)
             FIELD(arg0, u16 *, -2) =
                 (u16)(FIELD(arg0, u16 *, -2) | 0x8000);
             D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
-            return;
+            func_800A0788();
         } else {
             register void *self ASM_REG("$5") = callarg;   /* MATCH pin: keeps a statement from moving across a call/branch */
 

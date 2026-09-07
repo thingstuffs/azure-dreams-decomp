@@ -47,6 +47,7 @@ s32 func_800C8CD8(void *arg0, s32 arg1, s32 arg2) {
             if (*(u8 *)((u8 *)entity + 0x13) == 0) {
                 func_800DC1B8(D_800DCF10[0]);
             }
+            func_800C8D94();
             return 1;
         }
     }

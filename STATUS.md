@@ -1,6 +1,6 @@
 # azure-clean status
 
-Generated 2026-09-07T08:01:03Z. Upstream pin `7b62e858` (7b62e858ff29, extracted 2026-09-07T03:01:54Z).
+Generated 2026-09-07T09:22:05Z. Upstream pin `7b62e858` (7b62e858ff29, extracted 2026-09-07T03:01:54Z).
 
 ## Denominator (rows matched upstream at the pin)
 
@@ -21,10 +21,10 @@ Baseline NOT exact: 0 rows
 
 | defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |
 |---|---:|---:|---:|---:|---:|---:|
-| m2c boilerplate block | 2334 | 516,520 | 20.2% | 44 | 15,968 | 0.6% |
+| m2c boilerplate block | 2334 | 516,520 | 20.2% | 43 | 15,852 | 0.6% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 160 | 156,700 | 6.1% |
 | m2c local names | 5181 | 2,172,116 | 84.9% | 5181 | 2,172,116 | 84.9% |
-| ASM_ pins | 2096 | 1,441,328 | 56.3% | 2030 | 1,411,452 | 55.2% |
+| ASM_ pins | 2096 | 1,441,328 | 56.3% | 2038 | 1,415,992 | 55.4% |
 | goto | 1545 | 1,318,004 | 51.5% | 1545 | 1,318,004 | 51.5% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 317 | 437,288 | 17.1% |
 | inline asm outside macros | 361 | 255,964 | 10.0% | 361 | 255,964 | 10.0% |
@@ -40,8 +40,8 @@ Pin sites: 25,629 total; REG 12,667, KEEP 6,869, KEEP_NV 2,462, SCHED_BARRIER 1,
 | level | bytes | % |
 |---|---:|---:|
 | L0 | 2,492,724 | 97.4% |
-| L1 | 1,822,504 | 71.2% |
-| L2 | 1,729,748 | 67.6% |
-| L3 | 37,892 | 1.5% |
+| L1 | 1,822,620 | 71.2% |
+| L2 | 1,729,864 | 67.6% |
+| L3 | 93,872 | 3.7% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |

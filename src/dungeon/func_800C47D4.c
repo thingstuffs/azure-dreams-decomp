@@ -1,5 +1,22 @@
 #include "common.h"
 
+typedef s32 M2C_UNK;
+
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
+
+extern s32 func_8009A180();
+extern s8 func_8009FB34();
+extern s32 func_800A1C58();
+extern void func_800CA0B8(void) __attribute__((noreturn));
+extern M2C_UNK func_800CA0DC();
+extern M2C_UNK func_800CA93C();
+extern M2C_UNK func_800CAA94();
+extern u16 D_80013714;
+extern void *D_800814A8;
+extern M2C_UNK D_80083460;
+extern u16 D_80083462;
+
+
 typedef struct S_800C9F34_0 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -36,28 +53,13 @@ typedef struct S_800C9F34_4 {
     s32 unk_58;
 } S_800C9F34_4;   /* D_800814A8 in func_800C9F34 */
 
-
-typedef s32 M2C_UNK;
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-extern s32 func_8009A180();
-extern s8 func_8009FB34();
-extern s32 func_800A1C58();
-extern M2C_UNK func_800CA0DC();
-extern M2C_UNK func_800CA93C();
-extern M2C_UNK func_800CAA94();
-extern u16 D_80013714;
-extern S_800C9F34_4 *D_800814A8;
-extern M2C_UNK D_80083460;
-extern u16 D_80083462;
-
 void func_800C9F34(S_800C9F34_1 *arg0, M2C_UNK arg1, S_800C9F34_3 *arg2, void *arg3) {
     void *st = &D_80083460;
 
     if (((S_800C9F34_0 *)st)->unk_02 & 0x1000) {
         arg0->unk_9A = 0xE;
         func_800CA0DC(arg0);
+        func_800CA0B8();
         return;
     }
     if (((S_800C9F34_0 *)st)->unk_02 & 0x2000) {
@@ -77,6 +79,7 @@ void func_800C9F34(S_800C9F34_1 *arg0, M2C_UNK arg1, S_800C9F34_3 *arg2, void *a
     }
 call_aa94:
     func_800CAA94(arg0, arg1, arg2);
+    func_800CA0B8();
     return;
 
 path_a1c58:
@@ -88,7 +91,7 @@ path_a1c58:
         !(((S_800C9F34_0 *)st)->unk_02 & 8)) {
         ((S_800C9F34_2 *)arg3)->unk_18 = 0;
         ((S_800C9F34_0 *)st)->unk_0C = 0;
-        return;
+        func_800CA0B8();
     }
     return;
 
@@ -98,7 +101,7 @@ block_14:
     if ((((S_800C9F34_2 *)arg3)->unk_6D > 0) &&
         (!(D_80083462 & 0x2000) ||
          ((func_8009A180(arg3,
-            D_800814A8->unk_58 + 0x20) << 0x10) == 0))) {
+            ((S_800C9F34_4 *)D_800814A8)->unk_58 + 0x20) << 0x10) == 0))) {
         func_800CA93C(arg0, arg1, arg2);
     }
 }

@@ -1,5 +1,24 @@
 #include "common.h"
 
+
+typedef struct {
+    u8 pad[0xA];
+    u16 field_A;
+} D_80083460_t;
+
+extern D_80083460_t D_80083460;
+extern s32 D_800814A0[3];
+
+extern void func_8009A028();
+extern void func_8009A21C();
+extern void func_800A2B04();
+extern void func_800A32A4();
+extern s32 func_800AC7C8();
+extern void func_800AC7CC(void) __attribute__((noreturn));
+extern void func_800AC7CC_returning(void) __asm__("func_800AC7CC");
+extern s16 func_800BCB04();
+
+
 typedef struct S_800AC5C8_0 {
     u8 pad_00[0x90];
     s32 unk_90;
@@ -38,25 +57,6 @@ typedef struct S_800AC5C8_3 {
     u8 unk_25;
 } S_800AC5C8_3;   /* arg2 in func_800AC5C8 */
 
-
-
-typedef struct {
-    u8 pad[0xA];
-    u16 field_A;
-} D_80083460_t;
-
-extern D_80083460_t D_80083460;
-extern s32 D_800814A0[3];
-
-extern void func_8009A028();
-extern void func_8009A21C();
-extern void func_800A2B04();
-extern void func_800A32A4();
-extern s32 func_800AC7C8();
-extern void func_800AC7CC(void) __attribute__((noreturn));
-extern void func_800AC7CC_returning(void) __asm__("func_800AC7CC");
-extern s16 func_800BCB04();
-
 s32 func_800AC5C8(S_800AC5C8_0 *arg0, S_800AC5C8_2 *arg1, S_800AC5C8_3 *arg2, void *arg3) {
     s32 force;
     u16 count;
@@ -78,6 +78,8 @@ s32 func_800AC5C8(S_800AC5C8_0 *arg0, S_800AC5C8_2 *arg1, S_800AC5C8_3 *arg2, vo
         s32 rv_low;
 
         rv_low = 0;
+        ASM_KEEP(rv_low);   /* MATCH pin: retail delay-slot contents depend on it */
+        func_800AC7CC();
         return rv_low;
     }
 
@@ -89,6 +91,8 @@ state_ge_2:
         s32 rv_high;
 
         rv_high = 0;
+        ASM_KEEP(rv_high);   /* MATCH pin: retail delay-slot contents depend on it */
+        func_800AC7CC();
         return rv_high;
     }
 

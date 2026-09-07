@@ -1,5 +1,49 @@
 #include "common.h"
 
+
+typedef struct {
+    u8 pad0[0xC];
+    u16 flags;
+    u8 padE[6];
+} DungeonRecord;
+
+extern void func_80047784(void *, s32, s32);
+extern s32 func_8009A180(void *, void *);
+extern s8 func_8009FB34(s32, s32);
+extern s32 func_8009FD7C(s32, s32, s32, s32);
+extern s16 func_800A0818(s32, s32, s32, s32, void *);
+extern s32 func_800A1C58(void *);
+extern void func_800A9A0C(void *);
+extern void func_800AA258(void *, void *, void *, void *);
+extern s32 func_800AA6B4(void *, void *, void *, void *);
+extern void func_800AA79C(void *, void *, void *, void *);
+extern void func_800AA888(void *, void *, void *, void *);
+extern s32 func_800AA924(void *, void *, void *, void *);
+extern s32 func_800AAB10(void *, void *, void *, void *);
+extern void func_800AAF00(void *, void *, void *, void *, void *);
+extern void func_80171FA4(void) __attribute__((noreturn));
+extern void func_80171FC8(void);
+extern void func_801721D8(void *, void *, void *, void *);
+extern s32 func_80172920(void *, void *, void *, void *);
+extern void func_80172AAC(void *, void *, void *, void *);
+extern s32 func_80172B8C(void *, void *, void *, void *);
+extern void func_801743F0(void *, void *, void *, void *);
+
+extern void *D_800814A8;
+extern u8 D_80082E80[];
+extern s8 D_80082EA4;
+extern s16 D_80083228;
+extern u16 D_80083462;
+extern s8 D_800E2970[];
+extern void *D_80170808[];
+extern s32 D_801719DC;
+extern u8 D_80174634[];
+extern u8 D_80174644[];
+extern u8 D_80174674[];
+extern u8 D_8017467C[];
+extern u8 D_80174684[];
+
+
 typedef struct S_801719DC_0 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -61,49 +105,6 @@ typedef struct S_801719DC_5 {
     u8 unk_9A;
 } S_801719DC_5;   /* player in func_801719DC */
 
-
-
-typedef struct {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} DungeonRecord;
-
-extern void func_80047784(void *, s32, s32);
-extern s32 func_8009A180(void *, void *);
-extern s8 func_8009FB34(s32, s32);
-extern s32 func_8009FD7C(s32, s32, s32, s32);
-extern s16 func_800A0818(s32, s32, s32, s32, void *);
-extern s32 func_800A1C58(void *);
-extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, void *);
-extern void func_800AA79C(void *, void *, void *, void *);
-extern void func_800AA888(void *, void *, void *, void *);
-extern s32 func_800AA924(void *, void *, void *, void *);
-extern s32 func_800AAB10(void *, void *, void *, void *);
-extern void func_800AAF00(void *, void *, void *, void *, void *);
-extern void func_80171FC8(void);
-extern void func_801721D8(void *, void *, void *, void *);
-extern s32 func_80172920(void *, void *, void *, void *);
-extern void func_80172AAC(void *, void *, void *, void *);
-extern s32 func_80172B8C(void *, void *, void *, void *);
-extern void func_801743F0(void *, void *, void *, void *);
-
-extern void *D_800814A8;
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
-extern s16 D_80083228;
-extern u16 D_80083462;
-extern s8 D_800E2970[];
-extern void *D_80170808[];
-extern s32 D_801719DC;
-extern u8 D_80174634[];
-extern u8 D_80174644[];
-extern u8 D_80174674[];
-extern u8 D_8017467C[];
-extern u8 D_80174684[];
-
 void func_801719DC(void *in0, void *in1, void *in2, void *in3)
 {
     static void *const jt_keep[] = {
@@ -122,6 +123,7 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
     if (D_80083462 & 0x1000) {
         ((S_801719DC_0 *)arg0)->unk_9A = 0xE;
         func_80171FC8();
+        func_80171FA4();
         return;
     }
     ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
@@ -135,10 +137,11 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
             return;
         }
         table = D_8017467C;
-        (*(void * *)((u8 *)arg2 + 0x2C)) = table;
+        (*(void * *)((u8 *)arg2 + (0x2C))) = table;
         func_80047784(arg2,
             ((u8 *)table)[((D_80083228 + ((S_801719DC_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
             0);
+        func_80171FA4();
         return;
     }
 
@@ -148,6 +151,7 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
             ((S_801719DC_0 *)arg0)->unk_9B = 1;
             ((S_801719DC_0 *)arg0)->unk_8C = 0;
             ((S_801719DC_1 *)arg3)->unk_1C &= 0xFFFBFFFF;
+            func_80171FA4();
             return;
         }
         if (func_800AA924(arg0, arg1, arg2, D_8017467C) != 0) {
@@ -158,6 +162,7 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
     if (!(D_80083462 & 0x2000)) {
         if (((S_801719DC_1 *)arg3)->unk_1C & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
+            func_80171FA4();
             return;
         }
 
@@ -169,12 +174,13 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
             s32 reset_value;
 
             current_state = ((S_801719DC_0 *)arg0)->unk_9A;
+            ASM_KEEP(current_state);   /* MATCH pin: retail delay-slot fill depends on it */
             actor_state = 0xE;
             if (current_state != actor_state) {
                 current = ((S_801719DC_2 *)arg2)->unk_2C;
                 table = D_80174634;
                 if (current != table) {
-                    (*(void * *)((u8 *)arg2 + 0x2C)) = table;
+                    (*(void * *)((u8 *)arg2 + (0x2C))) = table;
                     func_80047784(arg2,
                         ((u8 *)table)[((D_80083228 + ((S_801719DC_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
                         1);
@@ -215,6 +221,7 @@ void func_801719DC(void *in0, void *in1, void *in2, void *in3)
             ((S_801719DC_0 *)arg0)->unk_92 = old_value - delta;
             ((S_801719DC_0 *)arg0)->unk_A8 = value;
             func_801743F0(arg0, arg1, arg2, arg3);
+            func_80171FA4();
             return;
         }
 
@@ -263,6 +270,7 @@ jt_c9:
             return;
         }
         func_80172AAC(arg0, arg1, arg2, arg3);
+        func_80171FA4();
         return;
 
 jt_c5:
@@ -287,6 +295,7 @@ jt_c7:
 jt_c12:
 case_12:
         func_800A9A0C(arg3);
+        func_80171FA4();
         return;
 
 jt_c1:
@@ -294,6 +303,7 @@ jt_c2:
 jt_c3:
 case_123:
         func_800AAF00(arg0, arg1, arg2, D_80174674, &D_801719DC);
+        func_80171FA4();
         return;
 
 jt_c4:
@@ -301,6 +311,7 @@ jt_c10:
 jt_c11:
 generic:
         func_801721D8(arg0, arg1, arg2, arg3);
+        func_80171FA4();
         return;
     }
 
@@ -335,7 +346,7 @@ generic:
         s32 reset_value;
 
         if (((S_801719DC_2 *)arg2)->unk_2C != table) {
-            (*(void * *)((u8 *)arg2 + 0x2C)) = table;
+            (*(void * *)((u8 *)arg2 + (0x2C))) = table;
             func_80047784(arg2,
                 ((u8 *)table)[((D_80083228 + ((S_801719DC_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
                 1);

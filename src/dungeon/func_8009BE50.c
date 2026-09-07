@@ -14,6 +14,7 @@ s32 func_800A15B0(s16 arg0) {
             i = next;
             p += 8;
         } else {
+            func_800A1610();
             return 1;
         }
     } while (next < 6);

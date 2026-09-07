@@ -1,5 +1,25 @@
 #include "common.h"
 
+
+extern s32 func_8003FA44();
+extern void *func_8003FC64();
+extern void func_8004491C();
+extern void func_800A56E0();
+extern void func_800A6508();
+extern s32 func_800A6D30();
+extern void func_800CD6AC();
+extern void func_800CD744();
+extern void func_800CD8E4();
+
+extern u8 D_80045C34[];
+extern s16 D_8006CCD8[];
+extern s16 D_8006CCE8[];
+extern u16 D_80083460[6];
+extern u8 D_800CD474[];
+extern u8 D_800E03E0[];
+extern u8 D_800E3D40;
+
+
 typedef struct S_800CD6E0_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -69,26 +89,6 @@ typedef struct S_800CD6E0_7 {
     u16 unk_0A;
 } S_800CD6E0_7;   /* link in func_800CD6E0 */
 
-
-
-extern s32 func_8003FA44();
-extern void *func_8003FC64();
-extern void func_8004491C();
-extern void func_800A56E0();
-extern void func_800A6508();
-extern s32 func_800A6D30();
-extern void func_800CD6AC();
-extern void func_800CD744();
-extern void func_800CD8E4();
-
-extern u8 D_80045C34[];
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
-extern u16 D_80083460[6];
-extern u8 D_800CD474[];
-extern u8 D_800E03E0[];
-extern u8 D_800E3D40;
-
 s32 func_800CD6E0(void *arg0) {
     void *obj;
     S_800CD6E0_1 *owner;
@@ -128,9 +128,11 @@ s32 func_800CD6E0(void *arg0) {
         owner = ((S_800CD6E0_0_pre *)arg0)[-1].unk_00;
         if (owner->unk_14 & 0x8000) {
             func_800CD6AC(arg0, 0x10);
+            func_800CD8E4();
             return 1;
         }
         if (func_8003FA44(4) == 0) {
+            func_800CD8E4();
             return 0;
         }
 
@@ -190,6 +192,7 @@ s32 func_800CD6E0(void *arg0) {
             func_800A56E0(call_arg, spr, prim, color);
         } while (i < 4);
 
+        func_800CD8E4();
         return 1;
     }
 

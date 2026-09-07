@@ -1,5 +1,15 @@
 #include "common.h"
 
+
+extern void func_80033D08(void *);
+extern void func_80095388(void *);
+extern s16 func_800C2AE8(void *);
+extern void func_800C8B5C(void *, void *, s32);
+extern void func_800C8D18(void);
+extern void func_800C8D34(void *, void *, s32);
+extern s32 D_800D636C[2];
+
+
 typedef struct S_800C8C3C_0 {
     s32 unk_00;
     s32 unk_04;
@@ -12,16 +22,6 @@ typedef struct S_800C8C3C_1 {
     u8 pad_00[0x90];
     u16 unk_90;
 } S_800C8C3C_1;   /* arg0 in func_800C8C3C */
-
-
-
-extern void func_80033D08(void *);
-extern void func_80095388(void *);
-extern s16 func_800C2AE8(void *);
-extern void func_800C8B5C(void *, void *, s32);
-extern void func_800C8D18(void);
-extern void func_800C8D34(void *, void *, s32);
-extern s32 D_800D636C[2];
 
 void func_800C8C3C(S_800C8C3C_1 *arg0, S_800C8C3C_0 *arg1, s32 arg2)
 {
@@ -39,9 +39,11 @@ void func_800C8C3C(S_800C8C3C_1 *arg0, S_800C8C3C_0 *arg1, s32 arg2)
         if ((s16)temp_v0 < 0) {
             func_80033D08(arg0);
             func_800C8D34(arg0, arg1, arg2);
+            func_800C8D18();
             return;
         }
         func_800C8B5C(arg0, arg1, arg2);
+        func_800C8D18();
         return;
     }
     func_80095388(arg1);

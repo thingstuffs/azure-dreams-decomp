@@ -1,15 +1,33 @@
 #include "common.h"
 
+
+typedef struct {
+    u16 unk0;
+    u16 flags;
+    u8 pad4[6];
+    u16 fieldA;
+    void *fieldC;
+    void *field10;
+} D_80083460_t;
+
+extern D_80083460_t D_80083460;
+extern s32 D_8008346C;
+extern s32 D_800814A0[3];
+
+void func_8009A028(void *arg0);
+void func_800CB818(void);
+
+
 typedef struct S_800CB600_0_pre {
     u16 unk_00;
 } S_800CB600_0_pre;   /* the 0x2 bytes before arg0 in func_800CB600, addressed as arg0[-1] */
 
 typedef struct S_800CB600_0 {
     u8 pad_00[0x8A];
-    union { u16 s; s16 u; } unk_8A;   /* accessed as both */
+    union { u16 u; s16 s; } unk_8A;   /* accessed as both */
     u8 pad_8C[0x6];
     u16 unk_92;
-    union { u16 s; s16 u; } unk_94;   /* accessed as both */
+    union { u16 u; s16 s; } unk_94;   /* accessed as both */
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u16 unk_98;
     u8 unk_9A;
@@ -37,24 +55,6 @@ typedef struct S_800CB600_3 {
     s32 unk_10;
 } S_800CB600_3;   /* temp_a0 in func_800CB600 */
 
-
-
-typedef struct {
-    u16 unk0;
-    u16 flags;
-    u8 pad4[6];
-    u16 fieldA;
-    void *fieldC;
-    void *field10;
-} D_80083460_t;
-
-extern D_80083460_t D_80083460;
-extern s32 D_8008346C;
-extern s32 D_800814A0[3];
-
-void func_8009A028(void *arg0);
-void func_800CB818(void);
-
 void func_800CB600(void *arg0, S_800CB600_2 *arg1, S_800CB600_1 *arg2) {
     u16 temp_v0;
     s8 value;
@@ -69,15 +69,15 @@ void func_800CB600(void *arg0, S_800CB600_2 *arg1, S_800CB600_1 *arg2) {
     S_800CB600_3 *temp_a0;
     D_80083460_t *state;
 
-    temp_v0 = ((S_800CB600_0 *)arg0)->unk_94.s + 1;
-    ((S_800CB600_0 *)arg0)->unk_94.s = temp_v0;
+    temp_v0 = ((S_800CB600_0 *)arg0)->unk_94.u + 1;
+    ((S_800CB600_0 *)arg0)->unk_94.u = temp_v0;
     if ((s16)temp_v0 >= 0x41) {
-        ((S_800CB600_0 *)arg0)->unk_94.s = 0x40;
+        ((S_800CB600_0 *)arg0)->unk_94.u = 0x40;
     }
 
-    product = ((S_800CB600_0 *)arg0)->unk_94.u * 2;
+    product = ((S_800CB600_0 *)arg0)->unk_94.s * 2;
     product *= ((S_800CB600_0 *)arg0)->unk_9D & 1;
-    value = (u8)((S_800CB600_0 *)arg0)->unk_94.s + product;
+    value = (u8)((S_800CB600_0 *)arg0)->unk_94.u + product;
     arg2->unk_0C = value;
     arg2->unk_0E = value;
     arg2->unk_0D = value;
@@ -85,14 +85,14 @@ void func_800CB600(void *arg0, S_800CB600_2 *arg1, S_800CB600_1 *arg2) {
     phase = ((S_800CB600_0 *)arg0)->unk_9A;
     ((S_800CB600_0 *)arg0)->unk_9D = ((S_800CB600_0 *)arg0)->unk_9D + 1;
     if (phase == 0) {
-        temp_v0 = ((S_800CB600_0 *)arg0)->unk_8A.s - 8;
-        ((S_800CB600_0 *)arg0)->unk_8A.s = temp_v0;
+        temp_v0 = ((S_800CB600_0 *)arg0)->unk_8A.u - 8;
+        ((S_800CB600_0 *)arg0)->unk_8A.u = temp_v0;
         if ((s16)temp_v0 < -0x80) {
-            ((S_800CB600_0 *)arg0)->unk_8A.u = -0x80;
+            ((S_800CB600_0 *)arg0)->unk_8A.s = -0x80;
         }
 
         arg1->unk_0A =
-            (s16)(((S_800CB600_0 *)arg0)->unk_92 + ((S_800CB600_0 *)arg0)->unk_8A.s);
+            (s16)(((S_800CB600_0 *)arg0)->unk_92 + ((S_800CB600_0 *)arg0)->unk_8A.u);
 
         temp_v1_2 = arg2->unk_1C;
         temp_a0_value = ((S_800CB600_0 *)arg0)->unk_96.s;
@@ -121,6 +121,7 @@ void func_800CB600(void *arg0, S_800CB600_2 *arg1, S_800CB600_1 *arg2) {
         state->fieldC = arg0;
         ((S_800CB600_0 *)arg0)->unk_98 |= 0x80;
         ((S_800CB600_0 *)arg0)->unk_9A++;
+        func_800CB818();
         return;
     }
 
@@ -134,6 +135,7 @@ void func_800CB600(void *arg0, S_800CB600_2 *arg1, S_800CB600_1 *arg2) {
         temp_a0->unk_10 |= 0x80000000;
         ((S_800CB600_0 *)arg0)->unk_96.u = 0x10;
         ((S_800CB600_0 *)arg0)->unk_9A++;
+        func_800CB818();
         return;
     }
 

@@ -1,15 +1,5 @@
 #include "common.h"
 
-typedef struct S_80098614_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x30];
-    union { u8 * s; void * u; } unk_50;   /* accessed as both */
-    u8 pad_54[0x32];
-    u8 unk_86;
-} S_80098614_0;   /* arg0 in func_80098614 */
-
-
 extern void func_800483AC(s32);
 extern void func_800485B8(s32);
 extern u8 *func_80097F84(u8 *, void *, void *, s32);
@@ -32,6 +22,16 @@ extern u8 D_800E08AB[];
 extern u8 D_800E08BA[];
 
 
+
+typedef struct S_80098614_0 {
+    u8 pad_00[0x1C];
+    s32 unk_1C;
+    u8 pad_20[0x30];
+    union { u8 * p; void * p2; } unk_50;   /* accessed as both */
+    u8 pad_54[0x32];
+    u8 unk_86;
+} S_80098614_0;   /* arg0 in func_80098614 */
+
 void func_80098614(S_80098614_0 *arg0, u8 *arg1)
 {
     u8 *current;
@@ -53,7 +53,7 @@ void func_80098614(S_80098614_0 *arg0, u8 *arg1)
         }
     }
 
-    object = arg0->unk_50.s;
+    object = arg0->unk_50.p;
     if (object != 0) {
         flags = object[3];
         if (flags & 0x40) {
@@ -64,6 +64,7 @@ void func_80098614(S_80098614_0 *arg0, u8 *arg1)
             result = func_80099194(D_800E0874, result);
             func_80099290(result);
             func_800A5720(state);
+            func_80098844();
             return;
         }
         object[3] = flags & 0xDF;
@@ -106,13 +107,13 @@ void func_80098614(S_80098614_0 *arg0, u8 *arg1)
     if (check != 0) {
         state = func_800990FC();
         result = func_8009929C(8, state);
-        result = func_80099368(arg0->unk_50.u, result);
+        result = func_80099368(arg0->unk_50.p2, result);
         result = func_80099194(D_800E08BA, result);
         func_80099290(result);
         func_800A5720(state);
     }
 
-    arg0->unk_50.s = current;
+    arg0->unk_50.p = current;
     func_800A56E0(0x508);
     {
         s32 call_id;
@@ -124,6 +125,7 @@ void func_80098614(S_80098614_0 *arg0, u8 *arg1)
         arg0->unk_86 = *(u8 *)((u32)call_id + (u32)table);
         if (call_id != 0) {
             func_800485B8(call_id);
+            func_80098844();
             return;
         }
     }

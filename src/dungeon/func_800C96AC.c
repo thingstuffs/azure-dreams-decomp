@@ -20,7 +20,7 @@ unsigned int func_800CEE0C(void *arg0, s16 arg1)
     int new_var;
 
     if (*((u8 *)arg0 + 0x13) != 0) {
-        return 1;
+        func_800CEED8();
         result = 1;
     } else {
 #ifdef NON_MATCHING

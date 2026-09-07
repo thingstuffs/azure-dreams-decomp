@@ -1,24 +1,5 @@
 #include "common.h"
 
-typedef struct S_800C1B1C_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0xFC];
-    s32 unk_110;
-} S_800C1B1C_0;   /* arg0 in func_800C1B1C */
-
-typedef struct S_800C1B1C_1 {
-    u8 pad_00[0x4];
-    void * unk_04;
-} S_800C1B1C_1;   /* base in func_800C1B1C */
-
-typedef struct S_800C1B1C_2 {
-    u8 pad_00[0x1];
-    u8 unk_01;
-    union { s8 s; u8 u; } unk_02;   /* accessed as both */
-} S_800C1B1C_2;   /* ((S_800C1B1C_1 *)base)->unk_04 in func_800C1B1C */
-
-
 
 typedef struct {
     u8 pad[0xA];
@@ -50,6 +31,25 @@ extern s32 func_800AD6FC(void *, s32, s32);
 extern s32 func_800C1C90(void);
 extern s32 func_800C1CC0(void);
 
+
+typedef struct S_800C1B1C_0 {
+    u8 pad_00[0x13];
+    u8 unk_13;
+    u8 pad_14[0xFC];
+    s32 unk_110;
+} S_800C1B1C_0;   /* arg0 in func_800C1B1C */
+
+typedef struct S_800C1B1C_1 {
+    u8 pad_00[0x4];
+    void * unk_04;
+} S_800C1B1C_1;   /* base in func_800C1B1C */
+
+typedef struct S_800C1B1C_2 {
+    u8 pad_00[0x1];
+    u8 unk_01;
+    union { s8 s; u8 u; } unk_02;   /* accessed as both */
+} S_800C1B1C_2;   /* ((S_800C1B1C_1 *)base)->unk_04 in func_800C1B1C */
+
 s32 func_800C1B1C(S_800C1B1C_0 *arg0, s32 arg1, s16 arg2, s32 arg3)
 {
     s32 *base;
@@ -64,6 +64,7 @@ s32 func_800C1B1C(S_800C1B1C_0 *arg0, s32 arg1, s16 arg2, s32 arg3)
     if (arg0 == D_800E3D7C) {
         arg0->unk_110 = arg1;
         func_8008D344(arg0, D_80083780, D_80082E80, arg0);
+        func_800C1CC0();
         return 0;
     }
 
@@ -72,6 +73,7 @@ s32 func_800C1B1C(S_800C1B1C_0 *arg0, s32 arg1, s16 arg2, s32 arg3)
         if (func_800AD6FC(
                 arg0, D_800DDE84[arg0->unk_13] & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
+            func_800C1CC0();
             return 1;
         }
     } else {

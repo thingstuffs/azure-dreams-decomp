@@ -1,24 +1,5 @@
 #include "common.h"
 
-typedef struct S_800C4490_0_pre {
-    s32 unk_00;
-    u8 pad_04[0x14];
-} S_800C4490_0_pre;   /* the 0x18 bytes before arg0 in func_800C4490, addressed as arg0[-1] */
-
-typedef struct S_800C4490_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x10];
-    u8 unk_28;
-    u8 unk_29;
-    u8 pad_2A[0x3A];
-    s16 unk_64;
-    u8 pad_66[0xAA];
-    s32 unk_110;
-} S_800C4490_0;   /* arg0 in func_800C4490 */
-
-
 
 extern s32 func_8003AD08();
 extern void func_8008D330();
@@ -43,6 +24,25 @@ extern u8 D_800DDE84[];
 extern s32 D_800E18A4;
 extern s32 D_800E3D7C;
 
+
+typedef struct S_800C4490_0_pre {
+    s32 unk_00;
+    u8 pad_04[0x14];
+} S_800C4490_0_pre;   /* the 0x18 bytes before arg0 in func_800C4490, addressed as arg0[-1] */
+
+typedef struct S_800C4490_0 {
+    u8 pad_00[0x13];
+    u8 unk_13;
+    s32 unk_14;
+    u8 pad_18[0x10];
+    u8 unk_28;
+    u8 unk_29;
+    u8 pad_2A[0x3A];
+    s16 unk_64;
+    u8 pad_66[0xAA];
+    s32 unk_110;
+} S_800C4490_0;   /* arg0 in func_800C4490 */
+
 s32 func_800C4490(void *arg0, s32 arg1, s16 arg2) {
     s16 difference;
     s32 amount;
@@ -53,6 +53,7 @@ s32 func_800C4490(void *arg0, s32 arg1, s16 arg2) {
     if (arg0 == D_800E3D7C) {
         ((S_800C4490_0 *)arg0)->unk_110 = arg1;
         func_8008D330(arg0, &D_80083780, &D_80082E80, arg0);
+        func_800C4624();
         return 0;
     }
 
@@ -63,6 +64,7 @@ s32 func_800C4490(void *arg0, s32 arg1, s16 arg2) {
                                    ((S_800C4490_0 *)arg0)->unk_13 * 2) >> 6) & 3,
                          arg1) == 0) {
             func_800A5F38(arg0, arg1);
+            func_800C4624();
             return 1;
         }
     }

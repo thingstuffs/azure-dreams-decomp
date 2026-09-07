@@ -17,7 +17,7 @@ void func_80096208(s32 *arg0) {
         temp_a1 = func_80096368() << 0x10;
         if (*arg0 >= temp_a1) {
             func_800966C8(arg0, temp_a1);
-            return;
+            func_800962A4();
         }
     } else {
         if (D_800FE5CC >= 0) {

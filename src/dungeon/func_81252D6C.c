@@ -3,6 +3,35 @@
 
 typedef s32 M2C_UNK;
 
+extern s32 func_8003F270(void);
+extern s32 func_80047784();
+extern void *func_800A05A4();
+extern void func_800A2B04();
+extern void func_800A4ACC();
+extern void func_800A56E0();
+extern s32 func_800A94A0();
+extern void func_80170E18();
+extern void func_80172670(void) __attribute__((noreturn));
+extern void func_80172678(void) __attribute__((noreturn));
+extern void func_80172680(void) __attribute__((noreturn));
+extern void func_8017268C(void) __attribute__((noreturn));
+extern void func_80172700(void) __attribute__((noreturn));
+extern void func_80172764(void) __attribute__((noreturn));
+extern void func_80172998(void) __attribute__((noreturn));
+extern void func_80172B24(void) __attribute__((noreturn));
+
+extern u8 D_8006DE24[];
+extern void *D_800814A8;
+extern s16 D_80083228;
+extern s32 D_80083460;
+extern s32 D_8008346C;
+extern void *D_80170838[];
+extern void *D_80170860[];
+extern M2C_UNK D_80171514;
+extern u8 D_80173E8C[8];
+extern u8 D_80173EDC[8];
+
+
 typedef struct S_8017256C_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -27,12 +56,12 @@ typedef struct S_8017256C_1 {
     u8 pad_2C[0x1A];
     u16 unk_46;
     u8 pad_48[0x18];
-    union { void * s; u8 * u; } unk_60;   /* accessed as both */
+    union { void * p; u8 * p2; } unk_60;   /* accessed as both */
     u8 pad_64[0x9];
     u8 unk_6D;
     u8 pad_6E[0x4];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
+    union { u8 u; s8 s; } unk_72;   /* accessed as both */
+    union { u8 u; s8 s; } unk_73;   /* accessed as both */
 } S_8017256C_1;   /* arg3 in func_8017256C */
 
 typedef struct S_8017256C_2_pre {
@@ -68,34 +97,6 @@ typedef struct S_8017256C_6 {
     u16 unk_0A;
     s32 unk_0C;
 } S_8017256C_6;   /* global in func_8017256C */
-
-
-extern s32 func_8003F270(void);
-extern s32 func_80047784();
-extern void *func_800A05A4();
-extern void func_800A2B04();
-extern void func_800A4ACC();
-extern void func_800A56E0();
-extern s32 func_800A94A0();
-extern void func_80170E18();
-extern void func_80172670(void) __attribute__((noreturn));
-extern void func_80172678(void) __attribute__((noreturn));
-extern void func_80172680(void) __attribute__((noreturn));
-extern void func_8017268C(void) __attribute__((noreturn));
-extern void func_80172700(void) __attribute__((noreturn));
-extern void func_80172764(void) __attribute__((noreturn));
-extern void func_80172998(void) __attribute__((noreturn));
-
-extern u8 D_8006DE24[];
-extern void *D_800814A8;
-extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_8008346C;
-extern void *D_80170838[];
-extern void *D_80170860[];
-extern M2C_UNK D_80171514;
-extern u8 D_80173E8C[8];
-extern u8 D_80173EDC[8];
 
 void func_8017256C(void *in0, void *in1, void *in2, void *in3)
 {
@@ -201,41 +202,41 @@ kind_chosen:
 
         ASM_KEEP(special_copy);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
         if (special_copy) {
-            ((S_8017256C_1 *)arg3)->unk_60.s = D_800814A8;
+            ((S_8017256C_1 *)arg3)->unk_60.p = D_800814A8;
             func_80172700();
         }
     }
 
     ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
     if (D_8006DE24[*kind_ptr * 20 + 0x12] == 2) {
-        u8 *linked = ((S_8017256C_1 *)arg3)->unk_60.u;
+        u8 *linked = ((S_8017256C_1 *)arg3)->unk_60.p2;
         if (linked != 0) {
             register u8 *src ASM_REG("$3") = ((S_8017256C_2_pre *)linked)[-1].unk_00;   /* MATCH pin: load-bearing for the whole function shape */
 
-            ((S_8017256C_1 *)arg3)->unk_72.s = ((S_8017256C_3 *)src)->unk_24;
-            ((S_8017256C_1 *)arg3)->unk_73.s = ((S_8017256C_3 *)src)->unk_25;
+            ((S_8017256C_1 *)arg3)->unk_72.u = ((S_8017256C_3 *)src)->unk_24;
+            ((S_8017256C_1 *)arg3)->unk_73.u = ((S_8017256C_3 *)src)->unk_25;
             func_80172764();
         }
     } else {
         register s32 x ASM_REG("$2");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
         s32 y;
 
-        ((S_8017256C_1 *)arg3)->unk_60.s = func_800A05A4(
+        ((S_8017256C_1 *)arg3)->unk_60.p = func_800A05A4(
             arg3,
             ((S_8017256C_4 *)arg2)->unk_24,
             ((S_8017256C_4 *)arg2)->unk_25,
             ((S_8017256C_1 *)arg3)->unk_2A,
             0x10);
-        x = ((S_8017256C_1 *)arg3)->unk_72.u;
-        y = ((S_8017256C_1 *)arg3)->unk_73.u;
+        x = ((S_8017256C_1 *)arg3)->unk_72.s;
+        y = ((S_8017256C_1 *)arg3)->unk_73.s;
         if (x < 0) {
             x = -x;
         }
         if (y < 0) {
             y = -y;
         }
-        ((S_8017256C_1 *)arg3)->unk_72.s = x;
-        ((S_8017256C_1 *)arg3)->unk_73.s = y;
+        ((S_8017256C_1 *)arg3)->unk_72.u = x;
+        ((S_8017256C_1 *)arg3)->unk_73.u = y;
     }
 
 state0_copy:
@@ -247,7 +248,7 @@ state0_copy:
     ((S_8017256C_5 *)arg1)->unk_14 = 0;
     ((S_8017256C_5 *)arg1)->unk_10 = 0;
     ((S_8017256C_5 *)arg1)->unk_0C = 0;
-    return;
+    func_80172B24();
 
 state0_empty:
     ((S_8017256C_5 *)arg1)->unk_14 = 0;
@@ -255,19 +256,19 @@ state0_empty:
     ((S_8017256C_5 *)arg1)->unk_0C = 0;
     func_800A2B04(arg1, ((S_8017256C_4 *)arg2)->unk_24, ((S_8017256C_4 *)arg2)->unk_25);
     D_8008346C = 0;
-    (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+    (*(u16 *)((u8 *)D_800814A8 + (0xA6)))--;
     func_800A4ACC(arg3);
     ((S_8017256C_1 *)arg3)->unk_6D--;
     ((S_8017256C_0 *)arg0)->unk_8C = &D_80171514;
-    ((S_8017256C_1 *)arg3)->unk_73.s = 0;
-    ((S_8017256C_1 *)arg3)->unk_72.s = 0;
+    ((S_8017256C_1 *)arg3)->unk_73.u = 0;
+    ((S_8017256C_1 *)arg3)->unk_72.u = 0;
     ((S_8017256C_1 *)arg3)->unk_46 &= 0x7FFF;
-    return;
+    func_80172B24();
 
 state1:
     if (func_8003F270() != 0) {
         ((S_8017256C_4 *)arg2)->unk_14 |= 0x800;
-        return;
+        func_80172B24();
     }
     ((S_8017256C_4 *)arg2)->unk_14 &= 0xF7FF;
     ((S_8017256C_0 *)arg0)->unk_9B++;
@@ -297,12 +298,12 @@ state2:
     ((S_8017256C_0 *)arg0)->unk_96 = 0;
     ((S_8017256C_0 *)arg0)->unk_9B++;
     func_800A56E0(0x703);
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80173EDC;
+    (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80173EDC;
     func_80047784(
         arg2,
         D_80173EDC[((D_80083228 + ((S_8017256C_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
         0);
-    return;
+    func_80172B24();
 
 state3:
     func_80170E18(arg0, arg1, arg2, arg3);
@@ -317,7 +318,7 @@ state3:
     increment_state_value = ((S_8017256C_0 *)arg0)->unk_9B;
 increment_state:
     ((S_8017256C_0 *)arg0)->unk_9B = increment_state_value + 1;
-    return;
+    func_80172B24();
 
 state4:
     ((S_8017256C_4 *)arg2)->unk_14 |= 0x800;
@@ -331,14 +332,14 @@ state4:
     ((S_8017256C_0 *)arg0)->unk_96 = 0;
     ((S_8017256C_0 *)arg0)->unk_9B++;
     ((S_8017256C_4 *)arg2)->unk_14 &= 0xF7FF;
-    return;
+    func_80172B24();
 
 state5:
 state6:
     ((S_8017256C_0 *)arg0)->unk_98 |= 0x80;
     ((S_8017256C_0 *)arg0)->unk_96 = 0;
     ((S_8017256C_0 *)arg0)->unk_9B++;
-    return;
+    func_80172B24();
 
 state7:
     if (!(((S_8017256C_4 *)arg2)->unk_14 & 0xE000)) {
@@ -352,14 +353,14 @@ state7:
     if (((S_8017256C_4 *)arg2)->unk_2C == D_80173E8C) {
         return;
     }
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80173E8C;
+    (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80173E8C;
     func_80047784(
         arg2,
         D_80173E8C[((D_80083228 + ((S_8017256C_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_8017256C_0 *)arg0)->unk_9E = 0;
     ((S_8017256C_0 *)arg0)->unk_92 = -0x20;
-    return;
+    func_80172B24();
 
 state8:
     {
@@ -372,8 +373,8 @@ state8:
         ((S_8017256C_0 *)arg0)->unk_8C = &D_80171514;
         func_800A4ACC(arg3);
         ((S_8017256C_1 *)arg3)->unk_6D--;
-        ((S_8017256C_1 *)arg3)->unk_73.s = 0;
-        ((S_8017256C_1 *)arg3)->unk_72.s = 0;
+        ((S_8017256C_1 *)arg3)->unk_73.u = 0;
+        ((S_8017256C_1 *)arg3)->unk_72.u = 0;
         ((S_8017256C_1 *)arg3)->unk_46 &= 0x7FFF;
         func_800A56E0(0xB4);
     }

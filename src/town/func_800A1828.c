@@ -4,6 +4,17 @@
 #define NULL 0
 #endif
 
+
+extern s32 func_8009539C(void *);
+extern s32 func_8009EB9C();
+extern s32 func_8009F0E8();
+extern s32 func_8009F124();
+extern s32 func_8009F148();
+extern s32 func_800C0C88();
+extern s32 D_80083780[];
+extern s32 D_800D09C8[];
+
+
 typedef struct S_8009EF88_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -32,17 +43,6 @@ typedef struct S_8009EF88_2 {
     u8 pad_96[0x2];
     s8 * unk_98;
 } S_8009EF88_2;   /* arg0 in func_8009EF88 */
-
-
-
-extern s32 func_8009539C(void *);
-extern s32 func_8009EB9C();
-extern s32 func_8009F0E8();
-extern s32 func_8009F124();
-extern s32 func_8009F148();
-extern s32 func_800C0C88();
-extern s32 D_80083780[];
-extern s32 D_800D09C8[];
 
 void func_8009EF88(void *arg0, s32 arg1, void *arg2, s32 arg3) {
     s32 sp18[5];
@@ -78,12 +78,13 @@ void func_8009EF88(void *arg0, s32 arg1, void *arg2, s32 arg3) {
                 func_8009F0E8(temp_a0);
                 return;
             }
-            (*(s32 *)((u8 *)((temp_s1 * 4)) + 0x80010980)) = 0;
+            (*(s32 *)((u8 *)((temp_s1 * 4)) + (0x80010980))) = 0;
             temp_a0_2 = ((S_8009EF88_2 *)arg0)->unk_98;
             if (temp_a0_2 != NULL) {
                 *temp_a0_2 = 0;
             }
             func_800C0C88(temp_a0_2);
+            func_8009F124();
             return;
         }
         ((S_8009EF88_0 *)arg2)->unk_00.at00.v = 0;

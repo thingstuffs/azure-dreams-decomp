@@ -1,5 +1,22 @@
 #include "common.h"
 
+
+typedef struct {
+    u8 pad[3];
+    u8 flags;
+} DungeonEntry;
+
+extern s16 func_8009FD40(void *, void *);
+extern void func_800A9A0C(void *, void *);
+extern void func_800AAA28(void *, void *);
+extern void func_800ADACC(void);
+extern s16 func_800B500C(u8, u8, s16);
+
+extern u8 D_80082E80[];
+extern s32 D_80083460;
+extern DungeonEntry D_800E3648[];
+
+
 typedef struct S_800AD9B4_0_pre {
     u16 unk_00;
 } S_800AD9B4_0_pre;   /* the 0x2 bytes before arg1 in func_800AD9B4, addressed as arg1[-1] */
@@ -33,23 +50,6 @@ typedef struct S_800AD9B4_3 {
     u16 unk_08;
 } S_800AD9B4_3;   /* state in func_800AD9B4 */
 
-
-
-typedef struct {
-    u8 pad[3];
-    u8 flags;
-} DungeonEntry;
-
-extern s16 func_8009FD40(void *, void *);
-extern void func_800A9A0C(void *, void *);
-extern void func_800AAA28(void *, void *);
-extern void func_800ADACC(void);
-extern s16 func_800B500C(u8, u8, s16);
-
-extern u8 D_80082E80[];
-extern s32 D_80083460;
-extern DungeonEntry D_800E3648[];
-
 s32 func_800AD9B4(S_800AD9B4_2 *arg0, void *arg1)
 {
     u8 *base;
@@ -75,6 +75,7 @@ s32 func_800AD9B4(S_800AD9B4_2 *arg0, void *arg1)
     }
 
 tail:
+    func_800ADACC();
     return 1;
 
 body:
@@ -85,7 +86,7 @@ body:
     index = func_800B500C(arg0->unk_24,
                           arg0->unk_25,
                           ((S_800AD9B4_0 *)arg1)->unk_88);
-    ASM_KEEP(index);   /* MATCH pin: load-bearing for the whole function shape */
+    ASM_KEEP(index);   /* MATCH pin: keeps a statement from moving across a call/branch */
     result = 1;
     if (index >= 0) {
         table = D_800E3648;

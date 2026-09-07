@@ -22,6 +22,7 @@ extern void func_801713EC(void) __attribute__((noreturn));
 extern void func_80171458(void) __attribute__((noreturn));
 extern void func_801716F0(void) __attribute__((noreturn));
 extern void func_80171704(void) __attribute__((noreturn));
+extern void func_801717A8(void) __attribute__((noreturn));
 
 
 typedef struct S_801711B0_0 {
@@ -60,7 +61,7 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
     register void *obj ASM_REG("$17") = arg0;   /* MATCH pin: retail register colouring depends on it */
     register void *motion ASM_REG("$21") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     register void *part ASM_REG("$20") = arg2;   /* MATCH pin: load-bearing for the whole function shape */
-    S_801711B0_2 *base = obj;
+    void *base = obj;
     register s32 work ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
     s32 direction;
     register s32 state_load ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
@@ -81,16 +82,16 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
     s32 effect_arg;
 
     if (D_80083462[0] & 0x2000) {
-        callback_high = (*(Callback *)((u8 *)obj + 0x8C));
+        callback_high = (*(Callback *)((u8 *)obj + (0x8C)));
         if (callback_high == (Callback)D_80171A80) {
             void *entry0 = arg0;
 
             ASM_UNDEF(entry0);   /* MATCH pin: load-bearing for the whole function shape */
             callback_high(entry0, arg1, arg2, entry0);
-            return;
+            func_801717A8();
         }
-        (*(u8 *)((u8 *)obj + 0x71)) &= 0x7F;
-        return;
+        (*(u8 *)((u8 *)obj + (0x71))) &= 0x7F;
+        func_801717A8();
     }
 
     ASM_KEEP(obj);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
@@ -100,7 +101,7 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
     call0 = obj;
     call1 = motion;
     call2 = part;
-    state_load = (*(u8 *)((u8 *)obj + 0x6D));
+    state_load = (*(u8 *)((u8 *)obj + (0x6D)));
     ASM_KEEP(state_load);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     call3 = obj;
     work = (s8)state_load;
@@ -108,14 +109,14 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
         return;
     }
 
-    callback = (*(Callback *)((u8 *)obj + 0x8C));
+    callback = (*(Callback *)((u8 *)obj + (0x8C)));
     if (callback != 0) {
         callback(obj, motion, part, obj);
     }
-    D_80176374[(*(u8 *)((u8 *)obj + 0x9A))](obj, motion, part, obj);
+    D_80176374[(*(u8 *)((u8 *)obj + (0x9A)))](obj, motion, part, obj);
 
     state_load = (s32)work << 16;
-    compare_new = (*(s8 *)((u8 *)obj + 0x6D));
+    compare_new = (*(s8 *)((u8 *)obj + (0x6D)));
     state_load >>= 16;
     if (state_load != compare_new) {
         func_800AA36C(obj, motion, part, obj);
@@ -124,28 +125,28 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
     ((S_801711B0_0 *)motion)->unk_00.at00.v += ((S_801711B0_0 *)motion)->unk_0C;
     ((S_801711B0_0 *)motion)->unk_04.at00.v += ((S_801711B0_0 *)motion)->unk_10;
 
-    if (!((*(u32 *)((u8 *)obj + 0x1C)) & 0x40000) &&
-        !((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
-        ((S_801711B0_0 *)motion)->unk_14 += (*(s8 *)((u8 *)obj + 0x9D)) * 0x14000;
-        (*(u8 *)((u8 *)obj + 0x9D))++;
+    if (!((*(u32 *)((u8 *)obj + (0x1C))) & 0x40000) &&
+        !((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
+        ((S_801711B0_0 *)motion)->unk_14 += (*(s8 *)((u8 *)obj + (0x9D))) * 0x14000;
+        (*(u8 *)((u8 *)obj + (0x9D)))++;
         func_80171344();
     }
 
-    (*(u8 *)((u8 *)obj + 0x9D)) = 0;
+    (*(u8 *)((u8 *)obj + (0x9D))) = 0;
     ASM_KEEP(obj);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    (*(s32 *)((u8 *)obj + 0x90)) += ((S_801711B0_0 *)motion)->unk_14;
+    (*(s32 *)((u8 *)obj + (0x90))) += ((S_801711B0_0 *)motion)->unk_14;
     part_flags = ((S_801711B0_1 *)part)->unk_14;
 
     if (!(part_flags & 0x8000)) {
-        direction = ((D_80083228[0] + base->unk_2A + 0x100) >> 9) & 7;
+        direction = ((D_80083228[0] + ((S_801711B0_2 *)base)->unk_2A + 0x100) >> 9) & 7;
         ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        state_load = (*(s16 *)((u8 *)obj + 0x94));
+        state_load = (*(s16 *)((u8 *)obj + (0x94)));
         work = direction;
         if (state_load != work) {
             func_80047738(part,
-                (*(u8 *)((u8 *)(((S_801711B0_1 *)part)->unk_2C) + work)),
+                (*(u8 *)((u8 *)(((S_801711B0_1 *)part)->unk_2C) + (work))),
                 ((S_801711B0_1 *)part)->unk_04);
-            (*(s16 *)((u8 *)obj + 0x94)) = direction;
+            (*(s16 *)((u8 *)obj + (0x94))) = direction;
         }
 
         if (D_8006CCF8[work] != 0) {
@@ -157,8 +158,8 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
         ASM_KEEP(work);   /* MATCH pin: load-bearing for the whole function shape */
         ((S_801711B0_1 *)part)->unk_14 &= 0xFFFE;
 
-        func_800A020C(base->unk_1C, (u8 *)part + 0xC);
-        if (!(base->unk_1C & 0x20)) {
+        func_800A020C(((S_801711B0_2 *)base)->unk_1C, (u8 *)part + 0xC);
+        if (!(((S_801711B0_2 *)base)->unk_1C & 0x20)) {
             if (!(((S_801711B0_1 *)part)->unk_14 & 0x40)) {
                 func_800478B8(part);
                 state_load = 0xF7FF0000;
@@ -167,52 +168,52 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
             }
         } else {
             ((S_801711B0_1 *)part)->unk_14 |= 0x7000;
-            base->unk_1C &= 0xFFFBFFFF;
+            ((S_801711B0_2 *)base)->unk_1C &= 0xFFFBFFFF;
         }
 
-        normal_flags = base->unk_1C & 0xF7FFFFFF;
-        base->unk_1C = normal_flags;
+        normal_flags = ((S_801711B0_2 *)base)->unk_1C & 0xF7FFFFFF;
+        ((S_801711B0_2 *)base)->unk_1C = normal_flags;
         if (normal_flags & 0x40000) {
             if (!(((S_801711B0_1 *)part)->unk_14 & 0x40) &&
                 ((S_801711B0_1 *)part)->unk_2C == D_800E23E0) {
-                counter = (*(u16 *)((u8 *)obj + 0x9E));
+                counter = (*(u16 *)((u8 *)obj + (0x9E)));
                 state_load = (s32)counter << 16;
                 state_load >>= 16;
                 effect_arg = state_load * 0x55;
                 ASM_KEEP_DEP_NV(counter, effect_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
                 counter++;
-                (*(u16 *)((u8 *)obj + 0x9E)) = counter;
-                (*(s32 *)((u8 *)obj + 0xA0)) +=
+                (*(u16 *)((u8 *)obj + (0x9E))) = counter;
+                (*(s32 *)((u8 *)obj + (0xA0))) +=
                     func_800644B8(effect_arg) << 4;
             }
 
             floor = -0x20;
-            if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
-                if (floor < (*(s16 *)((u8 *)obj + 0x92))) {
-                    (*(u16 *)((u8 *)obj + 0x92)) = (*(u16 *)((u8 *)obj + 0x92)) - 8;
+            if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
+                if (floor < (*(s16 *)((u8 *)obj + (0x92)))) {
+                    (*(u16 *)((u8 *)obj + (0x92))) = (*(u16 *)((u8 *)obj + (0x92))) - 8;
                     func_80171704();
                 }
                 ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
-                if ((*(s16 *)((u8 *)obj + 0x92)) < -0x28) {
-                    (*(u16 *)((u8 *)obj + 0x92)) = (*(u16 *)((u8 *)obj + 0x92)) + 8;
+                if ((*(s16 *)((u8 *)obj + (0x92))) < -0x28) {
+                    (*(u16 *)((u8 *)obj + (0x92))) = (*(u16 *)((u8 *)obj + (0x92))) + 8;
                     func_80171704();
                 }
             }
         } else {
-            state_load = (*(s32 *)((u8 *)obj + 0xA0));
-            (*(u16 *)((u8 *)obj + 0x9E)) = 0;
-            (*(s32 *)((u8 *)obj + 0xA0)) = 0;
-            (*(s32 *)((u8 *)obj + 0x90)) -= state_load;
-            if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
+            state_load = (*(s32 *)((u8 *)obj + (0xA0)));
+            (*(u16 *)((u8 *)obj + (0x9E))) = 0;
+            (*(s32 *)((u8 *)obj + (0xA0))) = 0;
+            (*(s32 *)((u8 *)obj + (0x90))) -= state_load;
+            if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
                 floor = func_800BCB04(((S_801711B0_0 *)motion)->unk_00.at02.v,
                                       ((S_801711B0_0 *)motion)->unk_04.at02.v,
-                                      (s16)(base->unk_88 - 0x20)) -
-                        base->unk_88;
-                if (floor < (*(s16 *)((u8 *)obj + 0x92))) {
-                    (*(s16 *)((u8 *)obj + 0x92)) = floor;
-                    (*(u8 *)((u8 *)obj + 0x9D)) = 0;
+                                      (s16)(((S_801711B0_2 *)base)->unk_88 - 0x20)) -
+                        ((S_801711B0_2 *)base)->unk_88;
+                if (floor < (*(s16 *)((u8 *)obj + (0x92)))) {
+                    (*(s16 *)((u8 *)obj + (0x92))) = floor;
+                    (*(u8 *)((u8 *)obj + (0x9D))) = 0;
                     ((S_801711B0_0 *)motion)->unk_14 = 0;
-                    base->unk_1C |= 0x08000000;
+                    ((S_801711B0_2 *)base)->unk_1C |= 0x08000000;
                     func_80171704();
                 }
             }
@@ -227,69 +228,69 @@ void func_801711B0(void *arg0, void *arg1, void *arg2)
         ((S_801711B0_1 *)part)->unk_14 = new_part_flags;
         ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
 
-        special_flags = base->unk_1C & 0xF7FFFFFF;
-        base->unk_1C = special_flags;
+        special_flags = ((S_801711B0_2 *)base)->unk_1C & 0xF7FFFFFF;
+        ((S_801711B0_2 *)base)->unk_1C = special_flags;
         if (!(special_flags & 0x40000)) {
-            state_load = (*(s32 *)((u8 *)obj + 0xA0));
-            (*(u16 *)((u8 *)obj + 0x9E)) = 0;
-            (*(s32 *)((u8 *)obj + 0xA0)) = 0;
-            (*(s32 *)((u8 *)obj + 0x90)) -= state_load;
-            if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
+            state_load = (*(s32 *)((u8 *)obj + (0xA0)));
+            (*(u16 *)((u8 *)obj + (0x9E))) = 0;
+            (*(s32 *)((u8 *)obj + (0xA0))) = 0;
+            (*(s32 *)((u8 *)obj + (0x90))) -= state_load;
+            if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
                 floor = func_800BCB04(((S_801711B0_0 *)motion)->unk_00.at02.v,
                                       ((S_801711B0_0 *)motion)->unk_04.at02.v,
-                                      (s16)(base->unk_88 - 0x20)) -
-                        base->unk_88;
-                if (floor < (*(s16 *)((u8 *)obj + 0x92))) {
-                    (*(s16 *)((u8 *)obj + 0x92)) = floor;
-                    (*(u8 *)((u8 *)obj + 0x9D)) = 0;
+                                      (s16)(((S_801711B0_2 *)base)->unk_88 - 0x20)) -
+                        ((S_801711B0_2 *)base)->unk_88;
+                if (floor < (*(s16 *)((u8 *)obj + (0x92)))) {
+                    (*(s16 *)((u8 *)obj + (0x92))) = floor;
+                    (*(u8 *)((u8 *)obj + (0x9D))) = 0;
                     ((S_801711B0_0 *)motion)->unk_14 = 0;
-                    base->unk_1C |= 0x08000000;
+                    ((S_801711B0_2 *)base)->unk_1C |= 0x08000000;
                     func_801716F0();
                 }
             }
         } else {
             if (!(((S_801711B0_1 *)part)->unk_14 & 0x40) &&
                 ((S_801711B0_1 *)part)->unk_2C == D_800E23E0) {
-                counter = (*(u16 *)((u8 *)obj + 0x9E));
+                counter = (*(u16 *)((u8 *)obj + (0x9E)));
                 state_load = (s32)counter << 16;
                 state_load >>= 16;
                 effect_arg = state_load * 0x55;
                 ASM_KEEP_DEP_NV(counter, effect_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */
                 counter++;
-                (*(u16 *)((u8 *)obj + 0x9E)) = counter;
-                (*(s32 *)((u8 *)obj + 0xA0)) +=
+                (*(u16 *)((u8 *)obj + (0x9E))) = counter;
+                (*(s32 *)((u8 *)obj + (0xA0))) +=
                     func_800644B8(effect_arg) << 4;
             }
 
             floor = -0x20;
-            if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
-                if (floor < (*(s16 *)((u8 *)obj + 0x92))) {
-                    (*(u16 *)((u8 *)obj + 0x92)) = (*(u16 *)((u8 *)obj + 0x92)) - 8;
-                } else if ((*(s16 *)((u8 *)obj + 0x92)) < -0x28) {
-                    (*(u16 *)((u8 *)obj + 0x92)) = (*(u16 *)((u8 *)obj + 0x92)) + 8;
+            if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
+                if (floor < (*(s16 *)((u8 *)obj + (0x92)))) {
+                    (*(u16 *)((u8 *)obj + (0x92))) = (*(u16 *)((u8 *)obj + (0x92))) - 8;
+                } else if ((*(s16 *)((u8 *)obj + (0x92))) < -0x28) {
+                    (*(u16 *)((u8 *)obj + (0x92))) = (*(u16 *)((u8 *)obj + (0x92))) + 8;
                 }
             }
         }
 
-        if ((*(u8 *)((u8 *)obj + 0xB5)) != 0) {
-            (*(u16 *)((u8 *)obj + 0x92)) = 0;
+        if ((*(u8 *)((u8 *)obj + (0xB5))) != 0) {
+            (*(u16 *)((u8 *)obj + (0x92))) = 0;
         }
     }
 
-    flags = base->unk_1C;
+    flags = ((S_801711B0_2 *)base)->unk_1C;
     if (flags & 0x40000000) {
-        base->unk_1C = flags & 0xBFFFFFFF;
+        ((S_801711B0_2 *)base)->unk_1C = flags & 0xBFFFFFFF;
         floor = func_800BCB04(
             (((S_801711B0_1 *)part)->unk_24 << 6) | 0x20,
             (((S_801711B0_1 *)part)->unk_25 << 6) | 0x20,
-            (s16)(base->unk_88 - 0x20));
+            (s16)(((S_801711B0_2 *)base)->unk_88 - 0x20));
         if (floor < 0x200) {
-            (*(u16 *)((u8 *)obj + 0x92)) += base->unk_88 - floor;
-            base->unk_88 = floor;
+            (*(u16 *)((u8 *)obj + (0x92))) += ((S_801711B0_2 *)base)->unk_88 - floor;
+            ((S_801711B0_2 *)base)->unk_88 = floor;
         }
     }
 
-    ((S_801711B0_0 *)motion)->unk_0A = base->unk_88 +
-        (*(u16 *)((u8 *)obj + 0x92)) - (*(u16 *)((u8 *)obj + 0xA2));
+    ((S_801711B0_0 *)motion)->unk_0A = ((S_801711B0_2 *)base)->unk_88 +
+        (*(u16 *)((u8 *)obj + (0x92))) - (*(u16 *)((u8 *)obj + (0xA2)));
     ((S_801711B0_1 *)part)->unk_14 |= 0x40;
 }

@@ -1,19 +1,5 @@
 #include "common.h"
 
-typedef struct S_800BFC00_0 {
-    u8 unk_00;
-    u8 pad_01[0x12];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0xE];
-    u8 unk_26;
-    u8 pad_27[0x41];
-    u8 unk_68;
-    u8 pad_69[0xA7];
-    s32 unk_110;
-} S_800BFC00_0;   /* arg0 in func_800BFC00 */
-
-
 
 typedef struct {
     u8 pad[0xA];
@@ -37,6 +23,20 @@ extern u16 D_800DDE84[];
 extern u8 D_800E1350[];
 extern void *D_800E3D7C[];
 
+
+typedef struct S_800BFC00_0 {
+    u8 unk_00;
+    u8 pad_01[0x12];
+    u8 unk_13;
+    s32 unk_14;
+    u8 pad_18[0xE];
+    u8 unk_26;
+    u8 pad_27[0x41];
+    u8 unk_68;
+    u8 pad_69[0xA7];
+    s32 unk_110;
+} S_800BFC00_0;   /* arg0 in func_800BFC00 */
+
 s32 func_800BFC00(void *arg0, s32 arg1, s16 arg2)
 {
     u32 temp_v1_2;
@@ -46,6 +46,7 @@ s32 func_800BFC00(void *arg0, s32 arg1, s16 arg2)
     if (arg0 == D_800E3D7C[0]) {
         ((S_800BFC00_0 *)arg0)->unk_110 = arg1;
         func_8008D330(arg0, D_80083780, D_80082E80, arg0);
+        func_800BFD68();
         return 0;
     }
 
@@ -54,6 +55,7 @@ s32 func_800BFC00(void *arg0, s32 arg1, s16 arg2)
         if (func_800AD6FC(
                 arg0, (D_800DDE84[((S_800BFC00_0 *)arg0)->unk_13] >> 6) & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
+            func_800BFD68();
             return 1;
         }
     }

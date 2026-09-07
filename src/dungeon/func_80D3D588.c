@@ -1,5 +1,14 @@
 #include "common.h"
 
+
+extern s32 func_8009C93C();
+extern s32 func_800A2B5C();
+extern void func_800C7930();
+extern void func_80172E88(void) __attribute__((noreturn));
+extern void func_80175F44();
+extern u16 D_80083462;
+
+
 typedef struct S_80172D88_0 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -24,14 +33,6 @@ typedef struct S_80172D88_1 {
     s8 unk_85;
 } S_80172D88_1;   /* arg3 in func_80172D88 */
 
-
-
-extern s32 func_8009C93C();
-extern s32 func_800A2B5C();
-extern void func_800C7930();
-extern void func_80175F44();
-extern u16 D_80083462;
-
 void func_80172D88(S_80172D88_0 *arg0, s32 arg1, s32 arg2, void *arg3)
 {
     if (arg0->unk_B5 == 0) {
@@ -48,7 +49,7 @@ void func_80172D88(S_80172D88_0 *arg0, s32 arg1, s32 arg2, void *arg3)
                 func_8009C93C(arg3, arg2, ((S_80172D88_1 *)arg3)->unk_2A, 1, 0);
                 ((S_80172D88_1 *)arg3)->unk_84 = 0x7C;
                 ((S_80172D88_1 *)arg3)->unk_85 = 0;
-                return;
+                func_80172E88();
             }
         }
     } else {

@@ -1,22 +1,5 @@
 #include "common.h"
 
-typedef struct S_800A4300_0 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800A4300_0;   /* arg0 in func_800A4300 */
-
-typedef struct S_800A4300_1 {
-    u8 pad_00[0x88];
-    s16 unk_88;
-} S_800A4300_1;   /* arg1 in func_800A4300 */
-
-typedef struct S_800A4300_2 {
-    u8 pad_00[0xF0];
-    union { void * s; s32 u; } unk_F0;   /* accessed as both */
-} S_800A4300_2;   /* D_800814A8[0] in func_800A4300 */
-
-
 
 /* This data symbol has no shared-catalog address. */
 __asm__(".set D_80081470, 0x80081470");
@@ -30,6 +13,24 @@ extern s32 func_800A4474(u8, u8);
 extern s16 func_800B500C(u8, u8, s16);
 extern s16 func_800A70E4(u8, u8, s16);
 extern void func_800A4410(void) __attribute__((noreturn));
+extern void func_800A4414(void) __attribute__((noreturn));
+
+
+typedef struct S_800A4300_0 {
+    u8 pad_00[0x24];
+    u8 unk_24;
+    u8 unk_25;
+} S_800A4300_0;   /* arg0 in func_800A4300 */
+
+typedef struct S_800A4300_1 {
+    u8 pad_00[0x88];
+    s16 unk_88;
+} S_800A4300_1;   /* arg1 in func_800A4300 */
+
+typedef struct S_800A4300_2 {
+    u8 pad_00[0xF0];
+    union { void * p; s32 i; } unk_F0;   /* accessed as both */
+} S_800A4300_2;   /* D_800814A8[0] in func_800A4300 */
 
 void func_800A4300(S_800A4300_0 *arg0, S_800A4300_1 *arg1) {
     s32 first;
@@ -65,11 +66,11 @@ void func_800A4300(S_800A4300_0 *arg0, S_800A4300_1 *arg1) {
         map_entry = map_base + map_index * 4;
         if (!(map_entry[3] & 0x40)) {
             *(void **)D_80081470 = *(void **)map_entry;
-            ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.s = map_entry;
-            return;
+            ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.p = map_entry;
+            func_800A4414();
         }
-        ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.u = 0;
-        return;
+        ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.i = 0;
+        func_800A4414();
     }
 
     floor_raw = (u32)func_800A70E4(arg0->unk_24,
@@ -80,10 +81,11 @@ void func_800A4300(S_800A4300_0 *arg0, S_800A4300_1 *arg1) {
         floor_base = D_800E3548;
         floor_entry = floor_base + floor_index * 4;
         *(void **)D_80081470 = *(void **)floor_entry;
-        ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.s = floor_entry;
-        return;
+        ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.p = floor_entry;
+        func_800A4414();
     }
 
+    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
     *(void **)D_80081470 = 0;
-    ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.u = 0;
+    ((S_800A4300_2 *)(D_800814A8[0]))->unk_F0.i = 0;
 }

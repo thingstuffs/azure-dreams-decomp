@@ -1,5 +1,32 @@
 #include "common.h"
 
+typedef long long s64;
+#ifndef NULL
+#define NULL 0
+#endif
+typedef s32 M2C_UNK;
+
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
+
+void func_8008C9F4();
+#ifndef NON_MATCHING
+void func_8008CA80(void);
+#else
+void func_8008CA80(void *arg0);
+#endif
+M2C_UNK func_80099F70();
+s32 func_8009A540();
+s32 func_8009B25C();
+M2C_UNK func_8009C93C();
+M2C_UNK func_8009F644();
+s32 func_800A5C70();
+extern u16 D_80013714;
+extern u8 D_80013186;
+extern u16 D_8006CCD8[];
+extern u16 D_8006CCE8[];
+extern u8 D_80083460[];
+
+
 typedef struct S_8008C8BC_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -7,7 +34,7 @@ typedef struct S_8008C8BC_0 {
     u16 unk_2A;
     u8 pad_2C[0x30];
     s32 unk_5C;
-    union { s32 s; void * u; } unk_60;   /* accessed as both */
+    union { s32 i; void * p; } unk_60;   /* accessed as both */
     u8 pad_64[0x24];
     u16 unk_88;
 } S_8008C8BC_0;   /* held3 in func_8008C8BC */
@@ -51,82 +78,56 @@ typedef struct S_8008C8BC_5 {
     void * unk_0C;
 } S_8008C8BC_5;   /* state in func_8008C8BC */
 
-
-typedef long long s64;
-#ifndef NULL
-#define NULL 0
-#endif
-typedef s32 M2C_UNK;
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-void func_8008C9F4();
-#ifndef NON_MATCHING
-void func_8008CA80(void);
-#else
-void func_8008CA80(void *arg0);
-#endif
-M2C_UNK func_80099F70();
-s32 func_8009A540();
-s32 func_8009B25C();
-M2C_UNK func_8009C93C();
-M2C_UNK func_8009F644();
-s32 func_800A5C70();
-extern u16 D_80013714;
-extern u8 D_80013186;
-extern u16 D_8006CCD8[];
-extern u16 D_8006CCE8[];
-extern u8 D_80083460[];
-
 s32 func_8008C8BC(void *arg0, void *arg1, void *arg2, void *arg3) {
-    register S_8008C8BC_4 *held0 ASM_REG("$18") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register S_8008C8BC_1 *held2 ASM_REG("$19") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register S_8008C8BC_0 *held3 ASM_REG("$16") = arg3;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register void *held0 ASM_REG("$18") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *held2 ASM_REG("$19") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register void *held3 ASM_REG("$16") = arg3;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
     register s32 temp_s1 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
     u8 *r4;
     s32 temp_v1;
     u8 *state;
 
     ASM_KEEP(held0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    temp_s1 = ((u16) held3->unk_2A >> 9) & 7;
-    if ((func_8009A540(temp_s1, held2->unk_24, held2->unk_25, (s16) (held3->unk_88 - 0x20)) << 0x10) != 0) {
-        temp_v1 = func_8009B25C(held3, (held2->unk_24 + D_8006CCD8[temp_s1]) & 0xFFFF, (held2->unk_25 + D_8006CCE8[temp_s1]) & 0xFFFF, (s16) held3->unk_88);
+    temp_s1 = ((u16) ((S_8008C8BC_0 *)held3)->unk_2A >> 9) & 7;
+    if ((func_8009A540(temp_s1, ((S_8008C8BC_1 *)held2)->unk_24, ((S_8008C8BC_1 *)held2)->unk_25, (s16) (((S_8008C8BC_0 *)held3)->unk_88 - 0x20)) << 0x10) != 0) {
+        temp_v1 = func_8009B25C(held3, (((S_8008C8BC_1 *)held2)->unk_24 + D_8006CCD8[temp_s1]) & 0xFFFF, (((S_8008C8BC_1 *)held2)->unk_25 + D_8006CCE8[temp_s1]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)held3)->unk_88);
         ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
         r4 = (u8 *)0x80010000;
-        held3->unk_60.s = temp_v1;
+        ((S_8008C8BC_0 *)held3)->unk_60.i = temp_v1;
         if (!(((S_8008C8BC_2 *)r4)->unk_3714 & 1) && (temp_v1 != 0) && (((S_8008C8BC_3 *)temp_v1)->unk_14 & 0x4000)
-            && (((S_8008C8BC_2 *)r4)->unk_3186 & 1) && !(held3->unk_1C & 0x410)) {
-            held3->unk_60.u = NULL;
+            && (((S_8008C8BC_2 *)r4)->unk_3186 & 1) && !(((S_8008C8BC_0 *)held3)->unk_1C & 0x410)) {
+            ((S_8008C8BC_0 *)held3)->unk_60.p = NULL;
+            ASM_MEM_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
 #ifndef NON_MATCHING
-            return 0;
+            func_8008CA80();
 #else
             func_8008CA80(held3);
 #endif
             return 0;
         }
         r4 = (u8 *)held3;
-        ASM_KEEP(r4);   /* MATCH pin: retail register colouring depends on it */
-        func_8009C93C(r4, held2, (s16) held3->unk_2A, 1, 0);
+        ASM_KEEP(r4);   /* MATCH pin: load-bearing for the whole function shape */
+        func_8009C93C(r4, held2, (s16) ((S_8008C8BC_0 *)held3)->unk_2A, 1, 0);
         func_8008C9F4();
         return 0x11;
     }
-    held3->unk_60.u = NULL;
+    ((S_8008C8BC_0 *)held3)->unk_60.p = NULL;
     ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
-    held0->unk_9A = 0x11;
+    ((S_8008C8BC_4 *)held0)->unk_9A = 0x11;
     state = D_80083460;
-    held0->unk_9B = 0;
-    held0->unk_8C = 0;
+    ((S_8008C8BC_4 *)held0)->unk_9B = 0;
+    ((S_8008C8BC_4 *)held0)->unk_8C = 0;
     ((S_8008C8BC_5 *)state)->unk_0C = held3;
-    held0->unk_A6 = 0;
-    held0->unk_98 = (u16) ((held0->unk_98 | 0x2000) & 0xEFFF);
+    ((S_8008C8BC_4 *)held0)->unk_A6 = 0;
+    ((S_8008C8BC_4 *)held0)->unk_98 = (u16) ((((S_8008C8BC_4 *)held0)->unk_98 | 0x2000) & 0xEFFF);
     ((S_8008C8BC_5 *)state)->unk_02 = (u16) (((S_8008C8BC_5 *)state)->unk_02 | 0x400);
-    func_80099F70(held3->unk_5C);
+    func_80099F70(((S_8008C8BC_0 *)held3)->unk_5C);
     func_8009F644(held3, 0x18, 0, 0);
     if (func_800A5C70() != 0) {
         ((S_8008C8BC_5 *)state)->unk_02 = (u16) (((S_8008C8BC_5 *)state)->unk_02 | 0x80);
     }
-    held0->unk_96 = 6;
-    held0->unk_102 = 0;
+    ((S_8008C8BC_4 *)held0)->unk_96 = 6;
+    ((S_8008C8BC_4 *)held0)->unk_102 = 0;
     return 0;
 }
 

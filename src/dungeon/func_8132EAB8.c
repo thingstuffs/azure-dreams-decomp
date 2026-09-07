@@ -1,5 +1,15 @@
 #include "common.h"
 
+
+extern s16 D_801760D8;
+extern s32 D_800814A0;
+extern void *D_80164808[];
+extern s16 func_800BCB04(u16, u16, s16);
+extern void func_80165C3C(void) __attribute__((noreturn));
+extern void func_80165CC8(void) __attribute__((noreturn));
+extern void func_80165CF0(void) __attribute__((noreturn));
+
+
 typedef struct S_80165AB8_0 {
     u8 pad_00[0x17];
     u8 unk_17;
@@ -33,15 +43,6 @@ typedef struct S_80165AB8_2 {
     u16 unk_1C;
     u16 unk_1E;
 } S_80165AB8_2;   /* arg2 in func_80165AB8 */
-
-
-
-extern s16 D_801760D8;
-extern s32 D_800814A0;
-extern void *D_80164808[];
-extern s16 func_800BCB04(u16, u16, s16);
-extern void func_80165C3C(void) __attribute__((noreturn));
-extern void func_80165CC8(void) __attribute__((noreturn));
 
 void func_80165AB8(u8 *arg0, u8 *arg1, u8 *arg2)
 {
@@ -112,7 +113,7 @@ case_3:
 
         ((S_80165AB8_0 *)arg0)->unk_32.s = 0;
         ((S_80165AB8_0 *)arg0)->unk_17++;
-        return;
+        func_80165CF0();
 
 case_4:
         ((S_80165AB8_2 *)arg2)->unk_0C =
@@ -124,7 +125,7 @@ case_4:
         }
 
 finish:
-    (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
     D_800814A0 |= 0x8000;
 
 done:

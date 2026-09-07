@@ -48,6 +48,7 @@ void func_800B66C8(void *arg0)
     func_8009A350(x - 1, y >> 6, 0, &effect.flags);
     if (effect.flags & 0x400) {
         func_800B6814(object);
+        func_800B67F0();
         return;
     }
 

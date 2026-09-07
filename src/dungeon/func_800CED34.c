@@ -17,6 +17,7 @@ void func_800D4494(s32 arg0, s32 arg1, s32 arg2, u8 *arg3) {
     if (!(D_80083462 & 0x2000)) {
         if (*(s32 *)(arg3 + 0x1C) & 0x100) {
             func_800AA258();
+            func_800D45AC();
             return;
         }
         if (*(u8 *)(arg0 + 0x9A) != 0xE) {
@@ -38,6 +39,7 @@ void func_800D4494(s32 arg0, s32 arg1, s32 arg2, u8 *arg3) {
         if (*(u8 *)(arg3 + 0x28) == 0) {
             D_80083470 = arg3 - 0x20;
             func_800AAA54(arg0, arg1, arg2, 0);
+            func_800D45AC();
             return;
         }
     }

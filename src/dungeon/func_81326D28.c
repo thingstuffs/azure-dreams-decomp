@@ -1,6 +1,19 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+extern void *D_8016A868[];
+s32 func_800A45D8();
+s32 func_800A7234();
+M2C_UNK func_800A7A7C();
+s16 func_800BCB04();
+void func_8016E63C(void) __attribute__((noreturn));
+void func_8016E824(void) __attribute__((noreturn));
+void func_8016E9E0(void) __attribute__((noreturn));
+void func_8016EAF4(void) __attribute__((noreturn));
+extern s32 D_800814A0;
+extern u8 D_80174708;
+
+
 typedef struct S_8016E528_0_pre {
     u16 unk_00;
 } S_8016E528_0_pre;   /* the 0x2 bytes before arg0 in func_8016E528, addressed as arg0[-1] */
@@ -60,19 +73,6 @@ typedef struct S_8016E528_4 {
     u8 pad_00[0x2];
     u8 unk_02;
 } S_8016E528_4;   /* ((((S_8016E528_0 *)arg0)->unk_18 * 4) + table_base) in func_8016E528 */
-
-
-extern void *D_8016A868[];
-s32 func_800A45D8();
-s32 func_800A7234();
-M2C_UNK func_800A7A7C();
-s16 func_800BCB04();
-void func_8016E63C(void) __attribute__((noreturn));
-void func_8016E824(void) __attribute__((noreturn));
-void func_8016E9E0(void) __attribute__((noreturn));
-void func_8016EAF4(void) __attribute__((noreturn));
-extern s32 D_800814A0;
-extern u8 D_80174708;
 
 void func_8016E528(void *arg0, void *arg1, void *arg2) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
@@ -203,8 +203,9 @@ block_28:
     }
     ((S_8016E528_2 *)arg1)->unk_08.at02.v = func_800BCB04((((S_8016E528_0 *)arg0)->unk_48 << 6) & 0xFFC0, (((S_8016E528_0 *)arg0)->unk_49 << 6) & 0xFFC0, (s16) ((u16) ((S_8016E528_2 *)arg1)->unk_08.at02.v - 0x20));
     ((S_8016E528_2 *)arg1)->unk_08.at00u.v = 0;
-    (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_8016E528_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    (*(u16 *)((u8 *)arg0 + (-2))) = (u16) (((S_8016E528_0_pre *)arg0)[-1].unk_00 | 0x8000);
     D_800814A0 |= 0x8000;
+    func_8016EAF4();
     return;
 block_32:
     if (((S_8016E528_1 *)arg2)->unk_14 & 0x8000) {
