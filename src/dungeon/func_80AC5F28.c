@@ -1,0 +1,334 @@
+#include "common.h"
+
+
+typedef struct {
+    u8 pad0[0xC];
+    u16 flags;
+    u8 padE[6];
+} DungeonRecord;
+
+extern void func_80047784(void *, s32, s32);
+extern s32 func_8009A180(void *, void *);
+extern s8 func_8009FB34(s32, s32);
+extern s32 func_8009FD7C(s32, s32, s32, s32);
+extern s16 func_800A0818(s32, s32, s32, s32, void *);
+extern s32 func_800A1C58(void *);
+extern void func_800A9A0C(void *);
+extern void func_800AA258(void *, void *, void *, void *);
+extern s32 func_800AA6B4(void *, void *, void *, void *);
+extern void func_800AA79C(void *, void *, void *, void *);
+extern void func_800AA888(void *, void *, void *, void *);
+extern s32 func_800AA924(void *, void *, void *, void *);
+extern void func_800AAB10(void *, void *, void *, void *);
+extern void func_800AAF00(void *, void *, void *, void *, void *);
+extern void func_80171CD4(void);
+extern void func_80171F40(void *, void *, void *, void *);
+extern s32 func_80172710(void *, void *, void *, void *);
+extern void func_801728D4(void *, void *, void *, void *);
+extern s32 func_801729EC(void *, void *, void *, s32);
+extern void func_801743E8(void *, void *, void *, void *);
+extern void func_80174928(void *, void *, void *, void *);
+
+extern void *D_800814A8;
+extern u8 D_80082E80[];
+extern s8 D_80082EA4;
+extern s16 D_80083228;
+extern u16 D_80083462;
+extern s8 D_800E2970[];
+extern void *D_80170808[];
+extern s32 D_80171728;
+extern u8 D_80174DEC[];
+extern u8 D_80174DFC[];
+extern u8 D_80174E2C[];
+extern u8 D_80174E44[];
+extern u8 D_80174E4C[];
+
+
+typedef struct S_80171728_0 {
+    u8 pad_00[0x8C];
+    s32 unk_8C;
+    s32 unk_90;
+    u8 pad_94[0x4];
+    u16 unk_98;
+    u8 unk_9A;
+    u8 unk_9B;
+    u8 pad_9C[0x2];
+    s16 unk_9E;
+    s16 unk_A0;
+} S_80171728_0;   /* arg0 in func_80171728 */
+
+typedef struct S_80171728_1 {
+    u8 pad_00[0x1C];
+    u32 unk_1C;
+    u8 pad_20[0x5];
+    u8 unk_25;
+    u8 pad_26[0x4];
+    s16 unk_2A;
+    u8 pad_2C[0x1A];
+    u16 unk_46;
+    u8 pad_48[0x1C];
+    s16 unk_64;
+    u8 pad_66[0x7];
+    s8 unk_6D;
+} S_80171728_1;   /* arg3 in func_80171728 */
+
+typedef struct S_80171728_2 {
+    u8 pad_00[0x14];
+    u16 unk_14;
+    u8 pad_16[0xE];
+    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    u8 unk_26;
+    u8 pad_27[0x5];
+    void * unk_2C;
+} S_80171728_2;   /* arg2 in func_80171728 */
+
+typedef struct S_80171728_3 {
+    u8 pad_00[0x58];
+    void * unk_58;
+} S_80171728_3;   /* D_800814A8 in func_80171728 */
+
+typedef struct S_80171728_4 {
+    u8 pad_00[0x24];
+    u8 unk_24;
+    u8 unk_25;
+} S_80171728_4;   /* origin in func_80171728 */
+
+typedef struct S_80171728_5 {
+    u8 pad_00[0x9A];
+    u8 unk_9A;
+} S_80171728_5;   /* player in func_80171728 */
+
+void func_80171728(void *arg0, void *arg1, void *arg2, void *arg3)
+{
+    static void *const jt_keep[] = {
+        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
+        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8,
+        &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
+    };
+    void *p0;
+    void *p1;
+    void *p2;
+    register void *p3 ASM_REG("$18");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    u8 *table;
+    s32 scratch;
+    s8 result;
+    u16 state;
+    u32 initial_flags = D_80083462;
+
+    p0 = arg0;
+    p1 = arg1;
+    p2 = arg2;
+    p3 = arg3;
+#define arg0 p0
+#define arg1 p1
+#define arg2 p2
+#define arg3 p3
+
+    if (initial_flags & 0x1000) {
+        ((S_80171728_0 *)arg0)->unk_9A = 0xE;
+        func_80171CD4();
+        return;
+    }
+
+    ASM_KEEP(p0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(p1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(p2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    ASM_KEEP(p3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+
+    if (((S_80171728_1 *)arg3)->unk_25 == 0) {
+        func_800AA79C(arg0, arg1, arg2, arg3);
+        if (((S_80171728_2 *)arg2)->unk_2C == D_80174E4C) {
+            return;
+        }
+        {
+            register u8 *early_page ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
+
+            early_page = (u8 *)0x80170000;
+            ASM_KEEP(early_page);   /* MATCH pin: load-bearing for the whole function shape */
+            table = early_page + 0x4E44;
+        }
+        goto set_table;
+    }
+
+    if (((S_80171728_1 *)arg3)->unk_1C & 0x200) {
+        if (((S_80171728_2 *)arg2)->unk_2C == D_80174E4C) {
+            ((S_80171728_0 *)arg0)->unk_9A = 0xD;
+            ((S_80171728_0 *)arg0)->unk_9B = 1;
+            ((S_80171728_0 *)arg0)->unk_8C = 0;
+            ((S_80171728_1 *)arg3)->unk_1C &= 0xFFFBFFFF;
+            return;
+        }
+        if (func_800AA924(arg0, arg1, arg2, D_80174E44) != 0) {
+            return;
+        }
+    }
+
+    if (!(D_80083462 & 0x2000)) {
+        if (((S_80171728_1 *)arg3)->unk_1C & 0x100) {
+            func_800AA258(arg0, arg1, arg2, arg3);
+            return;
+        }
+
+        {
+            u32 current_state = ((S_80171728_0 *)arg0)->unk_9A;
+            u32 actor_state;
+
+            actor_state = 0xE;
+            if (current_state != actor_state) {
+                table = D_80174DEC;
+                if (((S_80171728_2 *)arg2)->unk_2C != table) {
+                    (*(void * *)((u8 *)arg2 + 0x2C)) = table;
+                    func_80047784(arg2,
+                        table[((D_80083228 + ((S_80171728_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                        0);
+                }
+                ((S_80171728_0 *)arg0)->unk_9E = 0;
+                ((S_80171728_0 *)arg0)->unk_A0 = 0x14;
+                ((S_80171728_0 *)arg0)->unk_9A = actor_state;
+            }
+        }
+
+        ((S_80171728_0 *)arg0)->unk_98 &= 0xFFF3;
+        if (((S_80171728_1 *)arg3)->unk_64 != 0) {
+            if (func_800AA6B4(arg0, arg1, arg2, D_80174DFC) != 0) {
+                return;
+            }
+        }
+
+        if (((S_80171728_1 *)arg3)->unk_1C & 0x80000) {
+            func_800AA888(arg0, arg1, arg2, arg3);
+            func_801743E8(arg0, arg1, arg2, arg3);
+            (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174DEC;
+            func_80047784(arg2,
+                D_80174DEC[((D_80083228 + ((S_80171728_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            ((S_80171728_0 *)arg0)->unk_90 = 0;
+            return;
+        }
+
+        if ((func_800A1C58(arg3) << 16) != 0) {
+            func_800AAB10(arg0, arg1, arg2, arg3);
+        }
+    }
+
+    result = func_8009FB34(((S_80171728_2 *)arg2)->unk_24.at00.v, ((S_80171728_2 *)arg2)->unk_24.at01.v);
+    ((S_80171728_2 *)arg2)->unk_26 = result;
+
+    if (((S_80171728_1 *)arg3)->unk_6D > 0) {
+        if (((S_80171728_1 *)arg3)->unk_1C & 0x20) {
+            goto jt_c12;
+        }
+        if (((S_80171728_2 *)arg2)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+            goto generic;
+        }
+        if (!(((S_80171728_1 *)arg3)->unk_46 & 0x8000)) {
+            if (D_80083462 & 0x2000) {
+                if ((func_8009A180(arg3,
+                        (u8 *)((S_80171728_3 *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                    return;
+                }
+            }
+            if ((func_801729EC(arg0, arg1, arg2, 0) << 16) == 0) {
+                return;
+            }
+            state = ((S_80171728_1 *)arg3)->unk_46 | 0x4000;
+            ((S_80171728_1 *)arg3)->unk_46 = state;
+            if (!(state & 0x8000)) {
+                goto generic;
+            }
+        }
+
+        state = ((S_80171728_1 *)arg3)->unk_46 & 0x3FFF;
+        if ((u32)(state - 1) >= 12) {
+            goto generic;
+        }
+        (void)jt_keep;
+        goto *D_80170808[(u32)(state - 1)];
+
+jt_c8:
+jt_c9:
+        if ((func_80172710(arg0, arg1, arg2, arg3) << 16) != 0) {
+            return;
+        }
+        func_801728D4(arg0, arg1, arg2, arg3);
+        return;
+
+jt_c10:
+        func_80174928(arg0, arg1, arg2, arg3);
+        return;
+
+jt_c5:
+jt_c6:
+jt_c7:
+        {
+            u8 *origin = D_80082E80;
+            void *player;
+            s16 coordinate;
+
+            coordinate = func_800A0818(
+                ((S_80171728_2 *)arg2)->unk_24.at00.v, ((S_80171728_2 *)arg2)->unk_24.at01.v,
+                ((S_80171728_4 *)origin)->unk_24, ((S_80171728_4 *)origin)->unk_25,
+                &scratch);
+            player = D_800814A8;
+#ifndef __mips__
+#endif
+            ((S_80171728_1 *)arg3)->unk_2A = coordinate;
+            if (((S_80171728_5 *)player)->unk_9A == 0x11) {
+                goto case_123;
+            }
+        }
+
+jt_c12:
+        func_800A9A0C(arg3);
+        return;
+
+jt_c1:
+jt_c2:
+jt_c3:
+case_123:
+        func_800AAF00(arg0, arg1, arg2, D_80174E2C, &D_80171728);
+        return;
+
+jt_c4:
+jt_c11:
+generic:
+        func_80171F40(arg0, arg1, arg2, arg3);
+        return;
+    }
+
+    if (!(((S_80171728_1 *)arg3)->unk_1C & 0x2000)) {
+        s32 index = result;
+
+        if ((index < 0) ||
+            !(((DungeonRecord *)D_800E2970)[index].flags & 2)) {
+            if (!(((S_80171728_1 *)arg3)->unk_1C & 0x430)) {
+                u8 *origin = D_80082E80;
+
+                if ((func_8009FD7C(
+                        ((S_80171728_2 *)arg2)->unk_24.at00.v, ((S_80171728_2 *)arg2)->unk_24.at01.v,
+                        ((S_80171728_4 *)origin)->unk_24, ((S_80171728_4 *)origin)->unk_25) << 16) != 0) {
+                    ((S_80171728_1 *)arg3)->unk_2A = func_800A0818(
+                        ((S_80171728_2 *)arg2)->unk_24.at00.v, ((S_80171728_2 *)arg2)->unk_24.at01.v,
+                        ((S_80171728_4 *)origin)->unk_24, ((S_80171728_4 *)origin)->unk_25,
+                        &scratch);
+                }
+            }
+        }
+    }
+
+    if (D_80083462 & 0x2000) {
+        return;
+    }
+    if (((S_80171728_2 *)arg2)->unk_14 & 0x40) {
+        return;
+    }
+    table = D_80174DEC;
+    if (((S_80171728_2 *)arg2)->unk_2C == table) {
+        return;
+    }
+set_table:
+    (*(void * *)((u8 *)arg2 + 0x2C)) = table;
+    func_80047784(arg2,
+        *(u8 *)(((((D_80083228 + ((S_80171728_1 *)arg3)->unk_2A + 0x100) >> 9) & 7)) + (u32)table),
+        0);
+}

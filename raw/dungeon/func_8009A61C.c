@@ -1,0 +1,89 @@
+#include "common.h"
+
+extern s32 func_8009FB34();
+extern s32 func_800A0818(s32, s32, s32, s32, s16 *);
+
+s32 func_8009FD7C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    register u16 raw0 ASM_REG("$8") = arg0;
+    register u16 raw1 ASM_REG("$9") = arg1;
+    register u16 raw2 ASM_REG("$16") = arg2;
+    register u16 raw3 ASM_REG("$21") = arg3;
+    s16 sp18;
+    s32 temp_s0;
+    register s32 call_arg0 ASM_REG("$4");
+    register s32 call_arg1 ASM_REG("$5");
+    register s32 saved_result ASM_REG("$16");
+    register s32 second_result ASM_REG("$2");
+    register s16 *stack_arg ASM_REG("$2");
+    register s32 call_arg2 ASM_REG("$6");
+    register s32 call_arg3 ASM_REG("$7");
+    register s32 temp_v0 ASM_REG("$2");
+    register s32 temp_v0_2 ASM_REG("$2");
+    register s32 signed0 ASM_REG("$19");
+    register s32 signed1 ASM_REG("$17");
+    register s32 signed2 ASM_REG("$20");
+    register s32 signed3 ASM_REG("$18");
+    s32 temp_v1;
+    register s32 var_a0 ASM_REG("$4");
+    register s32 var_v0 ASM_REG("$2");
+    register s32 var_v1 ASM_REG("$3");
+    register s32 sum ASM_REG("$2");
+
+    signed2 = (s16) arg2;
+    signed0 = (s16) arg0;
+    temp_v0 = signed2 - signed0;
+    var_a0 = __builtin_abs(temp_v0);
+    if (var_a0 < 2) {
+        temp_v0_2 = arg3 << 0x10;
+        signed3 = temp_v0_2 >> 0x10;
+        temp_v0_2 = arg1 << 0x10;
+        signed1 = temp_v0_2 >> 0x10;
+        temp_v0_2 = signed3 - signed1;
+        var_v1 = temp_v0_2;
+        if (temp_v0_2 < 0) {
+            var_v1 = -var_v1;
+        }
+        if (var_v1 < 2) {
+            sum = var_a0 + var_v1;
+            ASM_KEEP_NV(raw0);
+            ASM_KEEP_NV(raw1);
+            if (sum != 0) {
+                call_arg0 = raw0 & 0xFFFF;
+                ASM_KEEP_DEP_NV(call_arg0, sum);
+                call_arg1 = raw1 & 0xFFFF;
+                temp_s0 = func_8009FB34(call_arg0, call_arg1, arg2 << 0x10);
+                ASM_KEEP_NV(raw2);
+                ASM_KEEP_NV(raw3);
+                call_arg0 = raw2 & 0xFFFF;
+                call_arg1 = raw3 & 0xFFFF;
+                ASM_KEEP_NV(call_arg0);
+                ASM_KEEP_NV(call_arg1);
+                saved_result = temp_s0;
+                second_result = func_8009FB34(call_arg0, call_arg1);
+                ASM_KEEP_NV(saved_result);
+                if ((saved_result << 0x10) == (second_result << 0x10)) {
+                    return 1;
+                }
+                call_arg0 = signed0;
+                ASM_KEEP(call_arg0);
+                call_arg1 = signed1;
+                ASM_KEEP(call_arg1);
+                stack_arg = &sp18;
+                ASM_KEEP(stack_arg);
+                call_arg2 = signed2;
+                call_arg3 = signed3;
+                temp_v1 = (s32) (func_800A0818(call_arg0, call_arg1, call_arg2, call_arg3, stack_arg) << 0x10) >> 0x19;
+                sp18 = (s16) temp_v1;
+                var_v0 = 1;
+                if (temp_v1 & 1) {
+                    goto block_11;
+                }
+                return var_v0;
+            }
+        }
+        goto block_11;
+    }
+block_11:
+    var_v0 = 0;
+    return var_v0;
+}

@@ -1,0 +1,109 @@
+#include "common.h"
+
+#define F(base, type, off) (*(type *)((char *)(base) + (off)))
+
+extern void *D_800DF364[];
+extern void *D_800E3D7C[];
+extern s32 D_800814A0[];
+extern s32 D_8008346C[];
+
+extern void func_800A56E0(s32);
+extern void func_800478B8(void *, void *, void *);
+extern void func_800B9760(void) __attribute__((noreturn));
+extern void func_800B97CC(void) __attribute__((noreturn));
+extern void func_800B97DC(void) __attribute__((noreturn));
+extern void func_800B9828(void) __attribute__((noreturn));
+extern void func_800B9930(void) __attribute__((noreturn));
+
+void func_800B96C4(void *p, void *out_arg, void *q_arg) {
+    register void *out ASM_REG("$18") = out_arg;
+    register void *q ASM_REG("$17") = q_arg;
+    void *base;
+    void *a1p;
+
+    if (F(p, s16, 0xC) == 0) {
+        void *v1 = F(F(p, void *, 0), void *, 0);
+        if (v1 != 0) {
+            if (D_800DF364[0] != v1) {
+                func_800A56E0(0x507);
+                F(p, s16, 0xE) = 4;
+                D_800DF364[0] = F(F(p, void *, 0), void *, 0);
+                func_800B9760();
+            }
+        } else {
+            void *t;
+            u16 c;
+            F(p, s16, 0xE) = 4;
+            t = D_800E3D7C[0];
+            c = F(p, u16, 0xC);
+            D_800DF364[0] = t;
+            F(p, u16, 0xC) = c + 1;
+        }
+        if (F(q, u16, 0x1C) < 0x1000) {
+            u16 t = F(q, u16, 0x1E) + 0x200;
+            F(q, u16, 0x1E) = t;
+            F(q, u16, 0x1C) = t;
+            if (t >= 0x1001) {
+                F(q, u16, 0x1E) = 0x1000;
+                func_800B97CC();
+            }
+        }
+    } else {
+        s16 e = F(p, s16, 0xE);
+        if (e != 0) {
+            u16 v = F(q, u16, 0x1E);
+            u16 r = (u16)((s32)v - (s32)v / e);
+            F(q, u16, 0x1E) = r;
+            F(q, u16, 0x1C) = r;
+            func_800B97DC();
+        } else {
+            F(q, u16, 0x1E) = 0;
+            F(q, u16, 0x1C) = 0;
+        }
+    }
+
+    {
+        void *w1 = F(F(p, void *, 0), void *, 0);
+        if (w1 == 0) {
+            register u32 dead ASM_REG("$2") = 0x808080;
+            ASM_TAILSLOT_PIN(dead);
+            func_800B9828();
+        }
+        ASM_SCHED_BARRIER();
+        if (w1 == F(D_800E3D7C[0], void *, 0xAC)) {
+            register u32 dead2 ASM_REG("$2") = 0x101080;
+            ASM_TAILSLOT_PIN(dead2);
+            func_800B9828();
+        }
+        ASM_SCHED_BARRIER();
+    }
+    F(q, s32, 0xC) = 0x801010;
+    base = D_800DF364[0];
+    a1p = F((char *)base - 0x18, void *, 0);
+    if (F(p, s16, 0xE) != 0) {
+        F(out, s32, 0) = F(out, s32, 0) + (F(a1p, s32, 0) - F(out, s32, 0)) / F(p, s16, 0xE);
+        F(out, s32, 4) = F(out, s32, 4) + (F(a1p, s32, 4) - F(out, s32, 4)) / F(p, s16, 0xE);
+        F(out, s32, 8) = F(out, s32, 8) + (((s32)(F(base, s16, 0x88) - F(out, s16, 0xA))) << 16) / F(p, s16, 0xE);
+        {
+            s16 dec = F(p, u16, 0xE) - 1;
+            F(p, u16, 0xE) = dec;
+            if (dec == 0) {
+                if (F(p, s16, 0xC) == 0) {
+                    F(out, u16, 2) = F(a1p, u16, 2);
+                    F(out, u16, 6) = F(a1p, u16, 6);
+                    F(out, u16, 0xA) = F(base, u16, 0x88);
+                    func_800B9930();
+                }
+                F(p, u16, -2) = F(p, u16, -2) | 0x8000;
+                D_8008346C[0] = 0;
+                D_800814A0[0] = D_800814A0[0] | 0x8000;
+            }
+        }
+    }
+    F(q, u16, 0x1A) = F(q, u16, 0x1A) + 0x40;
+    func_800478B8(q, a1p, base);
+}
+
+/* MECHANISM: Guarded s2/s1 argument pins produce the retail 0x28 frame and saved-register roles.
+   Two merge-seam scheduling fences select the retail fall-through luis in the color-test slots.
+   Split t/c live ranges plus global-before-halfword store order close the null-object block. */

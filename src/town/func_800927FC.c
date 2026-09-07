@@ -1,0 +1,24 @@
+#include "common.h"
+#include "m2c_compat.h"
+
+extern M2C_UNK D_800D0208;
+extern M2C_UNK D_800D0248;
+extern M2C_UNK D_800D0288;
+extern M2C_UNK D_800D02E8;
+extern M2C_UNK D_800D0348;
+extern M2C_UNK D_800D03A8;
+extern M2C_UNK *D_800D0408;
+extern M2C_UNK *D_800D040C;
+extern M2C_UNK *D_800D0410;
+extern M2C_UNK *D_800D0414;
+extern M2C_UNK *D_800D0418;
+extern M2C_UNK *D_800D041C;
+
+void func_8008FF5C(void) {
+    D_800D0408 = &D_800D0208;
+    D_800D040C = &D_800D0248;
+    D_800D0410 = &D_800D0288;
+    D_800D0414 = &D_800D02E8;
+    D_800D0418 = &D_800D0348;
+    D_800D041C = &D_800D03A8;
+}

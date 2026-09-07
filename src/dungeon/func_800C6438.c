@@ -1,0 +1,87 @@
+#include "common.h"
+#include "m2c_compat.h"
+
+M2C_UNK func_8003DB94();
+void *func_8003FC64();
+M2C_UNK func_8004491C();
+M2C_UNK func_800A56E0();
+extern M2C_UNK D_80045340;
+extern u8 D_80083460[0xC];
+extern M2C_UNK D_800CB9DC;
+extern u8 D_800DF650[];
+
+typedef struct S_800CBB98_0 {
+    u8 pad_00[0x8];
+    void * unk_08;
+    void * unk_0C;
+    M2C_UNK * unk_10;
+    u8 pad_14[0xC];
+    void * unk_20;
+} S_800CBB98_0;   /* temp_v0 in func_800CBB98 */
+
+typedef struct S_800CBB98_1 {
+    u8 pad_00[0x2];
+    s16 unk_02;
+    u8 pad_04[0x2];
+    s16 unk_06;
+    u8 pad_08[0x2];
+    s16 unk_0A;
+} S_800CBB98_1;   /* temp_v1 in func_800CBB98 */
+
+typedef struct S_800CBB98_2 {
+    u8 pad_00[0xC];
+    s32 unk_0C;
+    u8 pad_10[0xC];
+    s16 unk_1C;
+    s16 unk_1E;
+} S_800CBB98_2;   /* temp_a0 in func_800CBB98 */
+
+typedef struct S_800CBB98_3 {
+    u8 pad_00[0x14];
+    s32 unk_14;
+} S_800CBB98_3;   /* held_arg3 in func_800CBB98 */
+
+typedef struct S_800CBB98_4 {
+    u8 pad_00[0xA];
+    u16 unk_0A;
+} S_800CBB98_4;   /* global_base in func_800CBB98 */
+
+void *func_800CBB98(s32 arg0, s32 arg1, s16 arg2, void *arg3) {
+    register s16 held_arg2 ASM_REG("$20") = arg2;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
+    register S_800CBB98_3 *held_arg3 ASM_REG("$19") = arg3;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 held_arg0 ASM_REG("$17") = arg0;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    register s32 held_arg1 ASM_REG("$18") = arg1;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    S_800CBB98_2 *temp_a0;
+    S_800CBB98_0 *temp_v0;
+    S_800CBB98_1 *temp_v1;
+    u8 *global_base;
+    u32 t0;
+    u32 t1;
+
+    temp_v0 = func_8003FC64(2);
+    if (temp_v0 != NULL) {
+        temp_v0->unk_10 = &D_800CB9DC;
+        func_8004491C(temp_v0, &D_80045340);
+        temp_v1 = temp_v0->unk_08;
+        t0 = (u32)held_arg0 & 0xFFFFU;
+        temp_v1->unk_02 = (s16) (t0 * 64 + 0x20);
+        t1 = (u32)held_arg1 & 0xFFFFU;
+        temp_v1->unk_06 = (s16) (t1 * 64 + 0x20);
+        temp_v1->unk_0A = held_arg2;
+        temp_a0 = temp_v0->unk_0C;
+        temp_a0->unk_0C = 0x808080;
+        temp_a0->unk_1E = 0x1000;
+        temp_a0->unk_1C = 0x1000;
+        func_8003DB94(temp_a0, D_800DF650, 0);
+        temp_v0->unk_20 = held_arg3;
+        held_arg3->unk_14 = (s32) (held_arg3->unk_14 | 0x100000);
+        func_800A56E0(0x614);
+        ASM_KEEP(held_arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(held_arg3);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(held_arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        ASM_KEEP(held_arg1);   /* MATCH pin: keeps a statement from moving across a call/branch */
+        global_base = D_80083460;
+        ((S_800CBB98_4 *)global_base)->unk_0A = (u16) (((S_800CBB98_4 *)global_base)->unk_0A + 1);
+    }
+    return temp_v0;
+}

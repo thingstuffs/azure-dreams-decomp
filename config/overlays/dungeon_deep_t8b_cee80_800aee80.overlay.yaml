@@ -1,0 +1,33 @@
+# Persistent standalone gate for the ordinary-C func_800AEE80 bridge.
+name: dungeon_deep_t8b_cee80_800aee80
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
+options:
+  basename: dungeon_deep_t8b_cee80_800aee80
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  window:
+    file_start: 0xCEE80
+    file_end: 0xCF1AC
+    vram_start: 0x800AEE80
+    # RUNTIME-TRUE load base of the dungeon-engine image: file + 0x7FFE5760
+    # (jal coherence 2960/2966 = 99.8%, vs 18/2966 for the 0x7FFE0000 naming
+    # base) -- docs/port_handback_20260822/dungeon_static_census.md section 3c.
+    # ANNOTATION ONLY: vram_start stays the synthetic naming base (moving it
+    # would rename every row); the byte gate never reads this field and
+    # base_confidence is NOT upgraded by recording it.
+    true_vram_start: 0x800B45E0
+    base_confidence: rowbase-authenticated
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: True

@@ -1,0 +1,74 @@
+#include "common.h"
+
+#define FIELD(expr, type, offset) (*(type *)((u8 *)(expr) + (offset)))
+
+extern void func_80024C28() __attribute__((noreturn));
+extern s32 func_8003DB94();
+extern void *func_8003FC64();
+extern s32 func_8004491C();
+extern u8 D_80024A08[9];
+extern u8 D_80025B38[9];
+extern u8 D_80045C34[9];
+
+s32 func_818C32F4(s32 *arg0, void *arg1, void *arg2) {
+    register void *template_arg ASM_REG("$18") = arg2;
+    register s32 result ASM_REG("$2");
+    s32 temp_a0;
+    s32 temp_a1;
+    s32 temp_a2;
+    s32 temp_a3;
+    u16 temp_angle;
+    void *temp_init;
+    void *temp_s0;
+    void *temp_v0;
+    void *temp_v0_2;
+    void *temp_v1;
+
+    temp_v0 = func_8003FC64(0x212);
+    ASM_KEEP(template_arg);
+    if (temp_v0 != 0) {
+        FIELD(temp_v0, void *, 0x10) = D_80024A08;
+        FIELD(temp_v0, s32, 0x20) = *arg0;
+        temp_v0_2 = (u8 *)temp_v0 + 0x20;
+        FIELD(temp_v0_2, s16, 4) = 0;
+        FIELD(temp_v0_2, s16, 6) = 0;
+        temp_s0 = FIELD(temp_v0, void *, 0xC);
+        FIELD(temp_s0, s32, 0xC) = FIELD(template_arg, s32, 0xC);
+        if ((u8)FIELD(temp_s0, s32, 0xC) != 0) {
+            FIELD(temp_s0, u8, 0xC) = 0xC0;
+        }
+        if (FIELD(temp_s0, u8, 0xD) != 0) {
+            FIELD(temp_s0, u8, 0xD) = 0xC0;
+        }
+        if (FIELD(temp_s0, u8, 0xE) != 0) {
+            FIELD(temp_s0, u8, 0xE) = 0xC0;
+        }
+        FIELD(temp_s0, u16, 0x14) = FIELD(temp_s0, u16, 0x14) | 0xC;
+        FIELD(temp_s0, u16, 0x10) = FIELD(temp_s0, u16, 0x10) | 0x60;
+        func_8003DB94(temp_s0, D_80025B38, 0);
+        temp_init = D_80045C34;
+        temp_angle = FIELD(template_arg, u16, 0x1A);
+        FIELD(temp_s0, s16, 0x1E) = 0x1400;
+        FIELD(temp_s0, s16, 0x1C) = 0x1400;
+        FIELD(temp_s0, u16, 0x1A) = temp_angle;
+        func_8004491C(temp_v0, temp_init);
+        temp_v1 = FIELD(temp_v0, void *, 8);
+        ASM_KEEP(temp_v1);
+        result = (s32)temp_v0;
+        ASM_KEEP(result);
+        temp_a0 = FIELD(arg1, s32, 0);
+        temp_a1 = FIELD(arg1, s32, 4);
+        temp_a2 = FIELD(arg1, s32, 8);
+        temp_a3 = FIELD(arg1, s32, 0xC);
+        FIELD(temp_v1, s32, 0) = temp_a0;
+        FIELD(temp_v1, s32, 4) = temp_a1;
+        FIELD(temp_v1, s32, 8) = temp_a2;
+        FIELD(temp_v1, s32, 0xC) = temp_a3;
+        temp_a0 = FIELD(arg1, s32, 0x10);
+        temp_a1 = FIELD(arg1, s32, 0x14);
+        FIELD(temp_v1, s32, 0x10) = temp_a0;
+        FIELD(temp_v1, s32, 0x14) = temp_a1;
+        func_80024C28(temp_a0, temp_a1, temp_a2, temp_a3);
+    }
+    return 0;
+}

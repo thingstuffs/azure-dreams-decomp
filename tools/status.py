@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+"""Generate STATUS.md from the ledger (rows, baseline, census, levels)."""
+import collections, json, time
+from common import LEDGER, ROOT, rows, read_jsonl
+
+def main():
+    rs = rows(); by = {r["id"]: r for r in rs}
+    base = {b["id"]: b for b in read_jsonl(LEDGER / "baseline.jsonl")}
+    cen = {c["id"]: c for c in read_jsonl(LEDGER / "census.jsonl")}
+    pin = json.load(open(LEDGER / "pin.json"))
+    out = []
+    out.append(f"# azure-clean status\n\nGenerated {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}. Upstream pin `{pin['pin']}` ({pin['commit'][:12]}, extracted {pin['extracted_at']}).\n")
+    out.append("## Denominator (rows matched upstream at the pin)\n\n| container | rows | bytes | stock rows | stock bytes | baseline exact | exact bytes | unverified |\n|---|---:|---:|---:|---:|---:|---:|---:|")
+    T = collections.Counter()
+    for c in ("slus", "main", "town", "dungeon", "ovmovie", "ALL"):
+        sel = [r for r in rs if c == "ALL" or r["container"] == c]
+        st = [r for r in sel if r["stock"]]
+        ex = [r for r in st if base.get(r["id"], {}).get("exact") is True or (r["kind"] == "slus" and base.get(r["id"], {}).get("status") == "ok")]
+        nb = [r for r in st if r["id"] not in base]
+        out.append(f"| {c} | {len(sel)} | {sum(r['size'] for r in sel):,} | {len(st)} | {sum(r['size'] for r in st):,} | {len(ex)} | {sum(r['size'] for r in ex):,} | {len(nb)} |")
+    bad = [r for r in rs if r["stock"] and r["id"] in base and base[r["id"]].get("exact") is False]
+    out.append(f"\nSLUS rows are verified by object identity with the pinned TU (upstream SLUS is byte-exact by its SHA-1 gate); overlay rows by retail-slice comparison through upstream's scorer. Non-stock rows (bridge cells, per-row assembler dials, platform asm) are excluded until they close upstream.\n\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
+    out.append("## Shape census: pinned upstream vs current clean tree (files / bytes carrying each defect)\n\n| defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |\n|---|---:|---:|---:|---:|---:|---:|")
+    tot = sum(r["size"] for r in rs)
+    import re as _re
+    from pathlib import Path as _P
+    PIN_RE = _re.compile(r"\bASM_([A-Z0-9_]+)\(")
+    def cur_facts(r):
+        cp = ROOT / "src" / r["container"] / _P(r["c_path"]).name
+        p = cp if cp.exists() else ROOT / "upstream" / r["c_path"]
+        if not p.exists(): return None
+        t = p.read_text(errors="replace")
+        return {"boiler": "This header contains macros emitted by m2c" in t or "typedef float f32;" in t,
+                "m2c_field": len(_re.findall(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in t.splitlines() if not l.lstrip().startswith("#")))),
+                "pin_total": len(PIN_RE.findall(t)), "gotos": len(_re.findall(r"\bgoto\s+[A-Za-z_]", t)),
+                "computed_goto": len(_re.findall(r"\bgoto\s*\*", t)), "inline_asm": len(_re.findall(r"__asm__|\basm\s*\(", t)),
+                "m2c_locals": len(set(_re.findall(r"\b(temp_[a-z0-9_]+|arg[0-9]|sp[0-9A-F]{2,}|var_[a-z0-9_]+|phi_[a-z0-9_]+)\b", t))),
+                "n_local_structs": len(set(_re.findall(r"\b((?:S_|Struct|Func)[0-9A-F]{7,8}[A-Za-z0-9_]*)\b", t))),
+                "audit": cen.get(r["id"], {}).get("audit", {})}
+    curc = {r["id"]: cur_facts(r) for r in rs}
+    defs = [("m2c boilerplate block", lambda c: c["boiler"]), ("M2C_FIELD raw offsets", lambda c: c["m2c_field"] > 0), ("m2c local names", lambda c: c["m2c_locals"] > 0),
+            ("ASM_ pins", lambda c: c["pin_total"] > 0), ("goto", lambda c: c["gotos"] > 0), ("computed-goto jump table", lambda c: c["computed_goto"] > 0),
+            ("inline asm outside macros", lambda c: c["inline_asm"] > 0), ("fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS)", lambda c: any(k in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS") for k in c["audit"])),
+            ("any fidelity site", lambda c: bool(c["audit"])), ("local address-named struct", lambda c: c["n_local_structs"] > 0),
+            ("clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names)", lambda c: not c["boiler"] and c["m2c_field"] == 0 and c["pin_total"] == 0 and c["gotos"] == 0 and c["m2c_locals"] == 0)]
+    for name, f in defs:
+        sel = [by[i] for i, c in cen.items() if not c.get("missing") and f(c)]
+        b = sum(r["size"] for r in sel)
+        sel2 = [by[i] for i, c in curc.items() if c and f(c)]
+        b2 = sum(r["size"] for r in sel2)
+        out.append(f"| {name} | {len(sel)} | {b:,} | {100*b/tot:.1f}% | {len(sel2)} | {b2:,} | {100*b2/tot:.1f}% |")
+    pins = collections.Counter(); 
+    for c in cen.values():
+        for k, v in c.get("pins", {}).items(): pins[k] += v
+    out.append(f"\nPin sites: {sum(pins.values()):,} total; " + ", ".join(f"{k} {v:,}" for k, v in pins.most_common(8)) + ".\n")
+    lv = LEDGER / "levels.jsonl"
+    out.append("## Cleanliness levels (bytes at or above each level)\n")
+    if lv.exists():
+        L = collections.Counter()
+        for x in read_jsonl(lv):
+            for l in range(0, x["level"] + 1): L[l] += by[x["id"]]["size"]
+        out.append("| level | bytes | % |\n|---|---:|---:|")
+        for l in range(6): out.append(f"| L{l} | {L[l]:,} | {100*L[l]/tot:.1f}% |")
+    else:
+        exb = sum(r["size"] for r in rs if r["stock"] and (base.get(r["id"], {}).get("exact") is True or (r["kind"] == "slus" and base.get(r["id"], {}).get("status") == "ok")))
+        out.append(f"L0 (verified byte-exact at the pin): {exb:,} bytes ({100*exb/tot:.1f}%). No transforms applied yet; every row is at L0.\n")
+    (ROOT / "STATUS.md").write_text("\n".join(out) + "\n")
+    print("\n".join(out))
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,85 @@
+# Standalone overlay-local build seed — T8 runtime-proven MAIN boot/menu overlay.
+# Do NOT add to configure.py / build.ninja; use tools/overlay_local_gate.py.
+#
+# The T8 RAM capture (ram_title.bin) proved MAIN_MAIN.BIN file 0x217FC -> vram
+# 0x8008875C, load delta 0x80066F60, extent 28,676 B (zero-tail verified past the
+# span end -> a real overlay, not a matcher artifact). This resolves overlay
+# inventory open-unknown #4 (MAIN boot/menu overlay base) with direct runtime
+# proof and DEPRECATES the old 0x80022D60 heuristic.
+#
+# BASE NOTE vs main_7fdd: this file region is the same bytes main_7fdd carries at
+# its DERIVED base (file 0x20000 -> vram 0x7FDD0000, delta 0x7FDB0000). The T8 RAM
+# match contradicts that derived base: the true delta is 0x80066F60 (nibble 0x8,
+# not the derived nibble 0x7). The 11 first-pass matched C sources for this region
+# (overlays/main/first_pass_matched/func_7FDDxxxx.c) are BASE-BAKED at the wrong
+# 0x7FDB0000 base: their jal targets were reconstructed as func_70xxxxxx (e.g.
+# func_70088BD0, func_7003FC64) with the wrong PC top nibble. Those link fine
+# under main_7fdd (PC nibble 0x7 -> same 256 MB R_MIPS_26 segment; the jal FIELD
+# bytes are identical, which is why main_7fdd is byte-green) but they CANNOT link
+# at the true base (nibble 0x8 -> "relocation truncated to fit"). So the matched C
+# is NOT reusable here without regeneration at the true base. This window is
+# therefore carved ALL-RAW (matched_sources intentionally empty): every split row
+# is incbin'd from the container -> byte-identical regardless of base, the correct
+# proven-base first state. Re-generating the 11 matches' C at 0x80066F60 (a bounded
+# census over this window) is the follow-on that lands real C here; main_7fdd stays
+# untouched (do-not-destabilize) meanwhile.
+# Evidence: work/t8/T8_FINDINGS.md Seed B (corroborated by loadmap_main.json
+# unresolved MAIN jal sites -> 0x80088770 / 0x800888B4, and by the R_MIPS_26
+# nibble-0x7 link failure above, which is itself proof the true base is nibble 0x8).
+#
+# TWO BASES, TWO FIELDS (2026-07-13, commit b4ae80e trap class; this window was named
+# in b4ae80e's survey). window.vram_start now carries the SYNTHETIC func_ NAMING base
+# (delta 0x7FDB0000, nibble 0x7 -- what the overlays/main func_7FDDxxxx rows encode and
+# what retail on-disc jals byte-match); the T8 RAM-proven RUNTIME base (0x8008875C,
+# nibble 0x8) moves to window.true_vram_start. overlay_local_gate places every split
+# segment at foff + (vram_start - file_start), so once this window carries matched C, a
+# reference to a DEFINED in-window func_7FDDxxxx only byte-matches when vram_start == the
+# naming base. See b4ae80e (dungeon_engine) for the full mechanism; the all-raw state here
+# is base-invariant, which is why the runtime-base shift stayed gate-green until now.
+name: main_menu_t8
+sha1: 69f63236b7ab2260e2e9aa2048ce7aa540bdbe6d   # MAIN.BIN
+options:
+  basename: main_menu_t8
+  target_path: work/s3_splat/extract/MAIN_MAIN.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/MAIN_MAIN.BIN
+  window:
+    file_start: 0x217FC
+    file_end: 0x28800
+    # SYNTHETIC func_ NAMING base = 0x217FC + 0x7FDB0000. The 23 overlays/main split rows
+    # in range are named func_7FDDxxxx under delta 0x7FDB0000 (cross-checked func_7FDD19D0
+    # @0x219D0, func_7FDD2AB4 @0x22AB4, func_7FDD3AE0 @0x23AE0 -- all agree). Must equal the
+    # naming base so a DEFINED in-window func_7FDDxxxx segment places at its name address and
+    # byte-matches retail (b4ae80e trap class). Runtime-true base is in true_vram_start below.
+    vram_start: 0x7FDD17FC          # = 0x217FC + 0x7FDB0000 (func_7FDDxxxx naming base)
+    # RUNTIME-TRUE load base, T8 RAM-proven (file 0x217FC -> 0x8008875C, delta 0x80066F60;
+    # work/t8/T8_FINDINGS.md Seed B). Documentation + future tooling only; the byte gate
+    # never reads this. base_confidence attests THIS value.
+    true_vram_start: 0x8008875C
+    base_confidence: proven-ram-capture   # work/t8/T8_FINDINGS.md Seed B (attests true_vram_start)
+  split_results: overlays/main/overlay_first_pass_results.json
+  # Intentionally EMPTY: the existing overlays/main matched C is base-baked at the
+  # wrong 0x7FDB0000 base (func_70xxxxxx jal targets) and will not link at the
+  # proven 0x80066F60 base. Window is all-raw until the matches are regenerated
+  # at the true base. See BASE NOTE above.
+  matched_sources: []
+segments:
+  - [0x0, bin]
+  - type: code
+    start: 0x217FC
+    vram: 0x7FDD17FC                 # synthetic naming base (== window.vram_start); runtime base is true_vram_start
+    subsegments:
+      - [0x217FC, asm]              # boot/menu overlay .text
+  - [0x28800, bin]
+  - [0x275800]                      # EOF (MAIN.BIN size, ISO9660 LBA 1817; the old 0x276000 was one 2 KB sector too big)

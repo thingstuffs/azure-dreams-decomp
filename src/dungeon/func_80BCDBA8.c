@@ -1,0 +1,321 @@
+#include "common.h"
+
+
+typedef void (*Callback)(void *, void *, void *, void *);
+
+extern void func_80047738();
+extern void func_800478B8();
+extern void func_800A020C();
+extern s32 func_800A9E70();
+extern void func_800AA36C();
+extern s16 func_800BCB04();
+extern void func_8016553C() __attribute__((noreturn));
+extern void func_801655E4() __attribute__((noreturn));
+extern void func_80165650() __attribute__((noreturn));
+extern void func_8016574C() __attribute__((noreturn));
+extern void func_801657E4() __attribute__((noreturn));
+extern void func_801658D4() __attribute__((noreturn));
+extern void func_801658D8() __attribute__((noreturn));
+extern void func_80165910() __attribute__((noreturn));
+
+extern u8 D_8006CCF8[8];
+extern s16 D_80083228;
+extern u16 D_80083462;
+extern s32 D_801659DC;
+extern u8 D_80168634[8];
+extern u8 D_80168644[8];
+extern u8 D_80168654[8];
+extern u8 D_8016865C[8];
+extern u8 D_80168664[8];
+extern u8 D_8016866C[8];
+extern Callback D_801686A0[];
+
+
+typedef struct S_801653A8_0 {
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
+    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
+    u8 pad_08[0x2];
+    s16 unk_0A;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_801653A8_0;   /* arg1 in func_801653A8 */
+
+typedef struct S_801653A8_1 {
+    u8 pad_00[0x4];
+    s8 unk_04;
+    u8 pad_05[0xF];
+    u16 unk_14;
+    u8 pad_16[0xE];
+    u8 unk_24;
+    u8 unk_25;
+    u8 pad_26[0x6];
+    u8 * unk_2C;
+} S_801653A8_1;   /* arg2 in func_801653A8 */
+
+typedef struct S_801653A8_2 {
+    u8 pad_00[0x1C];
+    s32 unk_1C;
+    u8 pad_20[0xA];
+    s16 unk_2A;
+    u8 pad_2C[0x5C];
+    u16 unk_88;
+} S_801653A8_2;   /* base in func_801653A8 */
+
+void func_801653A8(void *arg0, S_801653A8_0 *arg1, void *arg2)
+{
+    register void *base ASM_REG("$19") = arg0;   /* MATCH pin: retail delay-slot fill depends on it */
+    register s16 old_state ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    register u8 old_raw ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    register void *call_arg0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    void *call_arg1;
+    void *call_arg2;
+    s32 motion_value;
+    register u32 motion_raw ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    s16 index;
+    s16 value;
+    s32 flags;
+    register s32 amount ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    u16 initial_mode;
+    u16 mode;
+
+    if (D_80083462 & 0x2000) {
+        void *entry_self = arg0;
+        Callback entry_callback;
+
+        entry_callback = (*(Callback *)((u8 *)arg0 + 0x8C));
+        if (entry_callback == (Callback)&D_801659DC) {
+            ASM_KEEP(entry_self);   /* MATCH pin: retail register colouring depends on it */
+            entry_callback(entry_self, arg1, arg2, entry_self);
+            return;
+        }
+        (*(u8 *)((u8 *)arg0 + 0x71)) &= 0x7F;
+        return;
+    }
+
+    call_arg0 = arg0;
+    call_arg1 = arg1;
+    call_arg2 = arg2;
+    ASM_KEEP4(call_arg0, call_arg1, call_arg2, base);   /* MATCH pin: retail keeps a computation the compiler would drop */
+    old_raw = (*(u8 *)((u8 *)arg0 + 0x6D));
+    old_state = (s8)old_raw;
+    if (func_800A9E70(call_arg0, call_arg1, call_arg2, arg0) != 0) {
+        return;
+    }
+
+    {
+        Callback ordinary_callback = (*(Callback *)((u8 *)arg0 + 0x8C));
+
+        if (ordinary_callback != 0) {
+            ordinary_callback(arg0, arg1, arg2, arg0);
+        }
+    }
+    D_801686A0[(*(u8 *)((u8 *)arg0 + 0x9A))](arg0, arg1, arg2, arg0);
+    {
+        register s32 old_compare ASM_REG("$2");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+
+        old_compare = (u32)(u16)old_state << 16;
+        ASM_KEEP_NV(old_compare);   /* MATCH pin: retail delay-slot fill depends on it */
+        old_compare >>= 16;
+        if (old_compare != (*(s8 *)((u8 *)arg0 + 0x6D))) {
+            func_800AA36C(arg0, arg1, arg2, arg0);
+        }
+    }
+
+    arg1->unk_00.at00.v += arg1->unk_0C;
+    arg1->unk_04.at00.v += arg1->unk_10;
+
+    if (!((*(s32 *)((u8 *)arg0 + 0x1C)) & 0x40000) &&
+        !((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
+        arg1->unk_14 += (*(s8 *)((u8 *)arg0 + 0x9D)) * 0x14000;
+        (*(u8 *)((u8 *)arg0 + 0x9D))++;
+        func_8016553C();
+        return;
+    }
+
+    do { (*(u8 *)((u8 *)arg0 + 0x9D)) = 0; } while (0);
+    (*(s32 *)((u8 *)arg0 + 0x90)) += arg1->unk_14;
+    initial_mode = ((S_801653A8_1 *)arg2)->unk_14;
+
+    if (!(initial_mode & 0x8000)) {
+        index = ((D_80083228 + ((S_801653A8_2 *)base)->unk_2A + 0x100) >> 9) & 7;
+        if ((*(s16 *)((u8 *)arg0 + 0x94)) != index) {
+            func_80047738(arg2,
+                *(u8 *)(((S_801653A8_1 *)arg2)->unk_2C + index),
+                ((S_801653A8_1 *)arg2)->unk_04);
+            (*(s16 *)((u8 *)arg0 + 0x94)) = index;
+        }
+        if (D_8006CCF8[index] != 0) {
+            u32 tail_value;
+
+            tail_value = ((S_801653A8_1 *)arg2)->unk_14 | 1;
+            ASM_TAILSLOT_PIN(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            func_801655E4();
+            return;
+        }
+
+        ((S_801653A8_1 *)arg2)->unk_14 &= 0xFFFE;
+        func_800A020C(((S_801653A8_2 *)base)->unk_1C, (u8 *)arg2 + 0xC);
+        if (!(((S_801653A8_2 *)base)->unk_1C & 0x20)) {
+            if (!(((S_801653A8_1 *)arg2)->unk_14 & 0x40)) {
+                func_800478B8(arg2);
+                goto clear_8000000;
+            }
+        } else {
+            ((S_801653A8_1 *)arg2)->unk_14 |= 0x7000;
+            ((S_801653A8_2 *)base)->unk_1C &= 0xFFFBFFFF;
+        }
+
+clear_8000000:
+        ((S_801653A8_2 *)base)->unk_1C &= 0xF7FFFFFF;
+        flags = ((S_801653A8_2 *)base)->unk_1C;
+        if (flags & 0x40000) {
+            mode = ((S_801653A8_1 *)arg2)->unk_14;
+            if (!(mode & 0x40)) {
+                u8 *kind = ((S_801653A8_1 *)arg2)->unk_2C;
+
+                if (kind == D_80168634) {
+                    if (((S_801653A8_1 *)arg2)->unk_04 == 3 && (mode & 0x1000)) {
+                        (*(s32 *)((u8 *)arg0 + 0xAC)) = 0x60000;
+                        (*(s32 *)((u8 *)arg0 + 0xB0)) = (s32)0xFFFF3000;
+                    }
+                    (*(s32 *)((u8 *)arg0 + 0xA4)) += (*(s32 *)((u8 *)arg0 + 0xAC));
+                    (*(s32 *)((u8 *)arg0 + 0xAC)) += (*(s32 *)((u8 *)arg0 + 0xB0));
+                    if ((*(s32 *)((u8 *)arg0 + 0xA4)) <= 0) {
+                        (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
+                        func_8016574C();
+                        return;
+                    }
+                } else if (kind == D_80168644 || kind == D_8016866C) {
+                    (*(s32 *)((u8 *)arg0 + 0xA4)) -= 0x40000;
+                    if ((*(s32 *)((u8 *)arg0 + 0xA4)) <= 0) {
+                        (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
+                        func_8016574C();
+                        return;
+                    }
+                } else if (kind != D_80168654 && kind != D_8016865C &&
+                           kind != D_80168664) {
+                    (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
+                }
+            }
+
+            amount = (*(u16 *)((u8 *)arg0 + 0x98)) & 8;
+            if (amount == 0) {
+                motion_value = (*(s16 *)((u8 *)arg0 + 0x92));
+                motion_raw = (*(u16 *)((u8 *)arg0 + 0x92));
+                if (amount < motion_value) {
+                    amount = motion_raw - 8;
+                    (*(s16 *)((u8 *)arg0 + 0x92)) = amount;
+                    func_80165910();
+                    return;
+                }
+                goto adjust_positive;
+            }
+            goto finish_motion;
+        }
+
+        {
+            s32 tail_sum;
+            register u16 tail_mode ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
+
+            amount = (*(s32 *)((u8 *)arg0 + 0xA4));
+            tail_sum = (*(s32 *)((u8 *)arg0 + 0x90));
+            tail_mode = (*(u16 *)((u8 *)arg0 + 0x98));
+            (*(s16 *)((u8 *)arg0 + 0xB8)) = 0;
+            (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
+            tail_sum += amount;
+            ASM_USE_NV(tail_mode);   /* MATCH pin: retail basic-block layout depends on it */
+            ASM_TAILSLOT_PIN(tail_sum);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+            func_801657E4();
+            return;
+        }
+    }
+
+    if (initial_mode & 0x800) {
+        ((S_801653A8_1 *)arg2)->unk_14 = initial_mode & 0x8FFF;
+    } else {
+        ((S_801653A8_1 *)arg2)->unk_14 = initial_mode | 0x7000;
+    }
+    ((S_801653A8_2 *)base)->unk_1C &= 0xF7FFFFFF;
+    flags = ((S_801653A8_2 *)base)->unk_1C;
+
+    if (!(flags & 0x40000)) {
+        amount = (*(s32 *)((u8 *)arg0 + 0xA4));
+        (*(s16 *)((u8 *)arg0 + 0xB8)) = 0;
+        (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
+        (*(s32 *)((u8 *)arg0 + 0x90)) -= amount;
+        if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
+            value = func_800BCB04(arg1->unk_00.at02.v,
+                                  arg1->unk_04.at02.v,
+                                  (s16)(((S_801653A8_2 *)base)->unk_88 - 0x20)) -
+                    ((S_801653A8_2 *)base)->unk_88;
+            if (value < (*(s16 *)((u8 *)arg0 + 0x92))) {
+                (*(s16 *)((u8 *)arg0 + 0x92)) = value;
+                (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
+                arg1->unk_14 = 0;
+                ((S_801653A8_2 *)base)->unk_1C |= 0x08000000;
+                func_80165910();
+                return;
+            }
+        }
+        goto finish_motion;
+    }
+
+    if (!(((S_801653A8_1 *)arg2)->unk_14 & 0x40)) {
+        u8 *kind = ((S_801653A8_1 *)arg2)->unk_2C;
+
+        if (kind == D_80168634) {
+            (*(s32 *)((u8 *)arg0 + 0xAC)) = 0;
+            func_801658D4();
+            return;
+        }
+        if (kind == D_80168644 || kind == D_8016866C) {
+            (*(s32 *)((u8 *)arg0 + 0xA4)) -= 0x40000;
+            if ((*(s32 *)((u8 *)arg0 + 0xA4)) <= 0) {
+                (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
+                func_801658D8();
+                return;
+            }
+        } else if (kind != D_80168654 && kind != D_8016865C &&
+                   kind != D_80168664) {
+            (*(s32 *)((u8 *)arg0 + 0xA4)) = 0;
+        }
+    }
+
+    amount = (*(u16 *)((u8 *)arg0 + 0x98)) & 8;
+    if (amount == 0) {
+        motion_value = (*(s16 *)((u8 *)arg0 + 0x92));
+        motion_raw = (*(u16 *)((u8 *)arg0 + 0x92));
+        if (amount < motion_value) {
+            amount = motion_raw - 8;
+            goto store_adjustment;
+        }
+adjust_positive:
+        amount = motion_value < -8;
+        if (amount != 0) {
+            amount = motion_raw + 8;
+        } else {
+            goto finish_motion;
+        }
+store_adjustment:
+        (*(s16 *)((u8 *)arg0 + 0x92)) = amount;
+    }
+finish_motion:
+    flags = ((S_801653A8_2 *)base)->unk_1C;
+    if (flags & 0x40000000) {
+        ((S_801653A8_2 *)base)->unk_1C = flags & 0xBFFFFFFF;
+        value = func_800BCB04((((S_801653A8_1 *)arg2)->unk_24 << 6) | 0x20,
+                              (((S_801653A8_1 *)arg2)->unk_25 << 6) | 0x20,
+                              (s16)(((S_801653A8_2 *)base)->unk_88 - 0x20));
+        if (value < 0x200) {
+            (*(s16 *)((u8 *)arg0 + 0x92)) =
+                (u16)(*(s16 *)((u8 *)arg0 + 0x92)) +
+                (((S_801653A8_2 *)base)->unk_88 - value);
+            ((S_801653A8_2 *)base)->unk_88 = value;
+        }
+    }
+    arg1->unk_0A = ((S_801653A8_2 *)base)->unk_88 +
+                             (u16)(*(s16 *)((u8 *)arg0 + 0x92)) -
+                             (*(u16 *)((u8 *)arg0 + 0xA6));
+    ((S_801653A8_1 *)arg2)->unk_14 |= 0x40;
+}

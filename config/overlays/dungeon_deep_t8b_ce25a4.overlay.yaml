@@ -1,0 +1,53 @@
+# Standalone overlay-local gate seed -- DEEP/BACK-HALF dungeon subwindow (T8 gate-expansion, zq finisher).
+# Do NOT add to configure.py / build.ninja; run via tools/overlay_local_gate.py --clean.
+#
+# Gives a gate_config to permuter/idiom-knob byte-verified match(es) that previously had NO
+# gate window (result==NOMATCH in the split JSON, closed by mutation/knob search), so they can be landed:
+#   func_80CC25A4
+#
+# BASE NOTE -- base_confidence: synthetic-self-consistent (NOT proven).
+# This region has NEITHER a runtime RAM-capture base (the f15 RAM dump proved only the floor-engine K=0x7FFE5760 at file 0xA3000-0xFD08E) NOR a static jr-table proof (work/overlay_recon/loadmap_dungeon.json carries one proven band, 0xA8B04-0xF2E30). Per docs/gate_expansion_notes.md the window uses the synthetic self-consistent sweep base vram = file + 0x7FFE0000.
+# The byte gate is blind to a uniform base (an all-raw window is byte-identical at any base), so landing
+# here is byte-SOUND; the base label stays honest until a RAM dump or local jr-table proof upgrades it.
+# Refs: docs/gate_expansion_notes.md; work/t8/T8_FINDINGS.md. vram_start is the func_ naming base only
+# (chain-G trap b4ae80e) -- no proven load base here, so no true_vram_start.
+# Expected first state: targets are result==NOMATCH -> all-raw window == container bytes.
+name: dungeon_deep_t8b_ce25a4
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
+options:
+  basename: dungeon_deep_t8b_ce25a4
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0xCE25A4
+    file_end: 0xCE2614
+    vram_start: 0x80CC25A4          # = 0xCE25A4 + 0x7FFE0000 (synthetic sweep base)
+    base_confidence: synthetic-self-consistent   # NOT proven; see BASE NOTE
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: true
+segments:
+  - [0x0, bin]
+  - type: code
+    start: 0xCE25A4
+    vram: 0x80CC25A4
+    subsegments:
+      - [0xCE25A4, asm]
+  - [0xCE2614, bin]
+  - [0x1A86800]

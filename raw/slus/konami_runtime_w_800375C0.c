@@ -1,0 +1,112 @@
+#include "common.h"
+
+typedef struct Source {
+    s16 f00;
+    unsigned char pad02[2];
+    s16 f04;
+    s16 f06;
+    s16 f08;
+    unsigned char pad0a[2];
+    s16 f0c;
+    s16 f0e;
+    s16 f10;
+    unsigned char pad12[2];
+    u16 f14;
+    u16 f16;
+    u16 f18;
+    s32 f1c;
+    s32 f20;
+    s32 f24;
+    s32 f28;
+    s32 f2c;
+    u16 f30;
+    u16 f32;
+    s32 f34;
+    s32 f38;
+    s32 f3c;
+    s32 f40;
+    s32 f44;
+    s32 f48;
+    u16 f4c;
+    u16 f4e;
+} Source;
+
+typedef struct Destination {
+    unsigned char pad00[8];
+    u16 f08;
+    u16 f0a;
+    u16 f0c;
+    s32 f10;
+    s32 f14;
+    s32 f18;
+    unsigned char pad1c[4];
+    u16 f20;
+    u16 f22;
+    u16 f24;
+    u16 f26;
+    s32 f28;
+    s32 f2c;
+    s32 f30;
+    s32 f34;
+    s32 f38;
+    u16 f3c;
+    u16 f3e;
+    u16 f40;
+    u16 f42;
+    unsigned char pad44[0x1c];
+    s32 f60;
+} Destination;
+
+typedef struct Container {
+    Destination *ptr;
+    unsigned char pad04[8];
+    s32 f0c;
+    s32 f10;
+    s32 f14;
+    s32 f18;
+    s32 f1c;
+    u16 f20;
+    u16 f22;
+    u16 f24;
+    u16 f26;
+    s32 f28;
+    s32 f2c;
+    s32 f30;
+    s32 f34;
+    s32 f38;
+    u16 f3c;
+    u16 f3e;
+    u16 f40;
+    u16 f42;
+} Container;
+
+void func_800375C0(Container *arg0, Source *arg1) {
+    arg0->ptr->f60 = arg1->f00;
+    arg0->ptr->f10 = arg1->f04;
+    arg0->ptr->f14 = arg1->f06;
+    arg0->ptr->f18 = arg1->f08;
+    arg0->ptr->f30 = arg1->f0c;
+    arg0->ptr->f34 = arg1->f0e;
+    arg0->ptr->f38 = arg1->f10;
+    arg0->ptr->f08 = arg1->f14;
+    arg0->ptr->f0a = arg1->f16;
+    arg0->ptr->f0c = arg1->f18;
+    arg0->f0c = arg1->f1c;
+    arg0->f10 = arg1->f20;
+    arg0->f14 = arg1->f24;
+    arg0->f18 = arg1->f28;
+    arg0->f1c = arg1->f2c;
+    arg0->f20 = arg1->f30;
+    arg0->f22 = arg1->f32;
+    arg0->f26 = 0;
+    arg0->f24 = 0;
+    arg0->f28 = arg1->f38;
+    arg0->f2c = arg1->f3c;
+    arg0->f30 = arg1->f40;
+    arg0->f34 = arg1->f44;
+    arg0->f38 = arg1->f48;
+    arg0->f3c = arg1->f4c;
+    arg0->f3e = arg1->f4e;
+    arg0->f42 = 0;
+    arg0->f40 = 0;
+}

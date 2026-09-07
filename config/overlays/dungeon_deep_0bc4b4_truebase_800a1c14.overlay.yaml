@@ -1,0 +1,36 @@
+# Tight standalone gate for func_8009C4B4 at its authenticated true link base
+# (2026-08-23 dungeon lane).  The row lives in overlays/dungeon but its only
+# covering window was dungeon_engine, whose split_results are the
+# dungeon_engine rows -- so the row was ungateable ("staged function ... is not
+# in the configured split window").  This window is the row extent exactly.
+# Base: func_800A1C14 (config/overlays/dungeon.rowbase.jsonl / row true_name).
+name: dungeon_deep_0bc4b4_truebase_800a1c14
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
+options:
+  basename: dungeon_deep_0bc4b4_truebase_800a1c14
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0xBC4B4
+    file_end: 0xBC4F8
+    vram_start: 0x800A1C14
+    base_confidence: proven-rowbase
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: true

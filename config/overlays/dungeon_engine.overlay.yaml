@@ -1,0 +1,113 @@
+# Standalone overlay-local build seed.
+# Do NOT add to configure.py / build.ninja; use tools/overlay_local_gate.py for the
+# isolated dungeon-engine overlay gate.
+#
+# Dungeon engine (main / floor-1) overlay, carved from DUNGEON/DUNGEON.BIN.
+#
+# TWO BASES, TWO FIELDS (re-corrected 2026-07-13; see diagnosis below):
+#
+# window.vram_start = SYNTHETIC COMPILE BASE 0x80080000 (K=0x7FFE0000, file 0xA0000).
+#   This is the ONLY value the byte gate may carry, because overlay_local_gate.py places
+#   every split segment at foff + (vram_start - file_start). The func_/D_ symbol NAMES and
+#   the retail on-disc jal encodings all live in this synthetic space (e.g. the retail jal
+#   at file 0xD8DB0 encodes 0x800A6480 = the synthetic addr). A matched C that references
+#   an IN-WINDOW symbol DEFINED by a placed segment -- an asm split row (write_raw_asm emits
+#   `.global func_XXXXXXXX`) or another matched C -- resolves that ref to the segment's
+#   PLACED vram, not to name-fallback. So placement MUST land defined func_XXXXXXXX at
+#   0xXXXXXXXX or the C's `jal` byte-mismatches retail. window.vram_start therefore has to
+#   equal the func_ naming base. (Undefined refs alone -- name-fallback in write_linker_script
+#   -> 0x800Axxxx synthetic -- ARE invariant to vram_start; the earlier "gate is fully
+#   invariant to vram_start" claim was WRONG: it held only until a candidate referenced a
+#   DEFINED in-window segment. func_80087C28 -> `jal func_8008D458` (asm split row at file
+#   0xAD458) was that first candidate: at the shifted 0x80085760 base it encoded the placed
+#   0x80092BB8 instead of the synthetic 0x8008D458 and failed to land at file 0xA7C7C.)
+#
+# window.true_vram_start = RUNTIME LOAD BASE 0x80085760 (vram = file_offset + 0x7FFE5760;
+#   file 0xA0000 -> 0x80085760; code proper file 0xA3D40 -> 0x800894A0). PROVEN by T8 RAM
+#   capture -- work/t8/T8_FINDINGS.md "Addendum: dungeon_f1" + analysis_dungeon_f1.md §3
+#   (floor-engine image byte-resident at delta 0x7FFE5760, 64/64 pages runtime-confirmed;
+#   the 0x80080000 base was CONTRADICTED, 0/64 pages). base_confidence attests THIS value.
+#   This field is documentation + future tooling only; the byte gate never reads it. Adrando
+#   runtime vrams are all +0x5760 from the synthetic seed (placeMonsterLeveledUp file 0xC0B08
+#   -> 0x800A6268; initMonsterSpawnRate file 0xC69E8 -> 0x800AC148). The full migration
+#   (rename every func_/D_ symbol +0x5760, so compile space == runtime space and both fields
+#   coincide) is DEFERRED -- see work/t8/dungeon_engine_base_correction.md.
+#   The 108+ landed dungeon matches come from the full-container overlays/dungeon sweep in
+#   this same synthetic space and are NOT invalidated.
+# NOTE: this overlay shares its synthetic 0x80080000 compile base with the town scene overlay
+#       (mutually exclusive scenes). The Beldo boss cluster (adrando 0x80169FA4+) is a
+#       SEPARATE DUNGEON.BIN overlay (base still TBD; not shifted by this correction).
+name: dungeon_engine
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c   # DUNGEON.BIN
+options:
+  basename: dungeon_engine
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    # The stream contract keeps work/overlay_recon/ read-only. The gate first
+    # tries this path, then falls back to the main-tree copy used for T7/T8.
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0xA0000
+    file_end: 0x100000
+    # SYNTHETIC COMPILE BASE -- must stay 0x80080000 (see header "TWO BASES, TWO FIELDS").
+    # overlay_local_gate.py places every segment at foff + (vram_start - file_start), so a
+    # matched C referencing an in-window DEFINED segment (asm split row / another matched C)
+    # byte-matches retail ONLY when defined func_XXXXXXXX lands at 0xXXXXXXXX -- i.e. only at
+    # the func_ naming base. Shifting this to the runtime 0x80085760 broke landing (2026-07-13
+    # diagnosis: func_80087C28 -> jal func_8008D458 encoded 0x80092BB8 not 0x8008D458, NO MATCH
+    # at file 0xA7C7C). The runtime-true base lives in true_vram_start below.
+    vram_start: 0x80080000
+    # RUNTIME-TRUE load base, T8 RAM-proven (file 0xA0000 -> 0x80085760, +0x5760). Documentation
+    # + future tooling only; the byte gate never reads this. base_confidence attests THIS value.
+    true_vram_start: 0x80085760
+    # tools/gen_sibcall_syms.py uses only [file_start,file_end) and requires base_confidence to
+    # be a proven-family value; it does not read either vram field as a coordinate.
+    base_confidence: proven-ram-capture
+  # Function split source: one row per discovered dungeon-engine function
+  # fragment. Non-matched rows become incbin-backed INCLUDE_ASM-equivalent
+  # sections in the standalone linker.
+  split_results: overlays/dungeon_engine/overlay_first_pass_results.json
+  matched_sources:
+    # Canonical full-container sweep. These are part of the measured 599
+    # all-overlay first-pass matches; 51 land in this engine window.
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: true
+    # Older engine pilot, only for the three engine-local C matches that the
+    # joint full-container sweep attributed elsewhere.
+    - name: overlays/dungeon_engine_pilot_only
+      results: overlays/dungeon_engine/overlay_first_pass_results.json
+      source_dir: overlays/dungeon_engine/first_pass_matched
+      skip_rerun: true
+      only_if_missing: true
+segments:
+  # file 0x0..0xA0000 = KDT sound bank + assets + (probable) other overlays — treat as bin for now
+  - [0x0, bin]
+  # Dungeon engine overlay image. NOTE: this vram is the SYNTHETIC compile-space base
+  # (file 0xA0000 -> 0x80080000, K=0x7FFE0000) that the func_/D_ symbol names and retail
+  # on-disc jals are self-consistent with -- and it MATCHES window.vram_start (which the byte
+  # gate requires; see header). Runtime-true base is window.true_vram_start (0x80085760,
+  # +0x5760). Kept synthetic to stay in sync with func_ naming until the full +0x5760
+  # migration lands (work/t8/dungeon_engine_base_correction.md).
+  - type: code
+    start: 0xA0000
+    vram: 0x80080000
+    subsegments:
+      - [0xA0000, bin]          # overlay data/header lead-in (synthetic ~0xA3D40 / 0x80083D40; runtime +0x5760)
+      - [0xA3D40, asm]          # .text (func_/D_ names synthetic from file 0xC0000 / 0x800A0000)
+  # code window end; runtime tail proven resident to file 0xFD08E (T8) — refine window later
+  - [0x100000, bin]
+  - [0x1a86800]                 # EOF (DUNGEON.BIN size)

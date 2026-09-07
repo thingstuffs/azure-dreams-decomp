@@ -1,0 +1,247 @@
+#include "common.h"
+
+typedef struct S_80024198_0 {
+    u8 pad_00[0x24];
+    union { u8 * p; u32 * p2; } unk_24;   /* accessed as both */
+    u16 unk_28;
+    u8 pad_2A[0xA];
+    s32 unk_34;
+    s32 unk_38;
+    s32 unk_3C;
+    u8 pad_40[0x48];
+    s32 unk_88;
+    s32 unk_8C;
+    s32 unk_90;
+    u8 pad_94[0x10];
+    u16 unk_A4;
+    u16 unk_A6;
+    u16 unk_A8;
+    u8 pad_AA[0x6];
+    u16 unk_B0;
+    u16 unk_B2;
+    u16 unk_B4;
+    u8 pad_B6[0x2];
+    u16 unk_B8;
+    u16 unk_BA;
+    u16 unk_BC;
+    u8 pad_BE[0x2];
+    u16 unk_C0;
+    u16 unk_C2;
+    u16 unk_C4;
+    u8 pad_C6[0x2];
+    u16 unk_C8;
+    u16 unk_CA;
+    u16 unk_CC;
+    u8 pad_CE[0x32];
+    s32 unk_100;
+} S_80024198_0;   /* scratch in func_80024198 */
+
+typedef struct S_80024198_1 {
+    u8 pad_00[0x2];
+    s16 unk_02;
+    u8 pad_04[0x2];
+    s16 unk_06;
+    u8 pad_08[0x2];
+    s16 unk_0A;
+} S_80024198_1;   /* arg1 in func_80024198 */
+
+typedef struct S_80024198_2 {
+    u8 pad_00[0xF];
+    u8 unk_0F;
+    u8 pad_10[0x4];
+    u16 unk_14;
+    u16 unk_16;
+    u16 unk_18;
+    u16 unk_1A;
+} S_80024198_2;   /* arg2 in func_80024198 */
+
+typedef struct S_80024198_3 {
+    u8 pad_00[0xB0];
+    u32 unk_B0;
+    u8 pad_B4[0x81C];
+    u8 * unk_8D0;
+} S_80024198_3;   /* *(u8 **)D_80083160 in func_80024198 */
+
+typedef struct S_80024198_4 {
+    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
+    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
+    u16 unk_08;
+    u16 unk_0A;
+    u32 unk_0C;
+    u16 unk_10;
+    u16 unk_12;
+    u32 unk_14;
+    u16 unk_18;
+    u16 unk_1A;
+    u32 unk_1C;
+    u16 unk_20;
+    u16 unk_22;
+} S_80024198_4;   /* packet in func_80024198 */
+
+typedef struct S_80024198_5 {
+    u8 pad_00[0x8D0];
+    u8 * unk_8D0;
+} S_80024198_5;   /* context in func_80024198 */
+
+typedef struct S_80024198_6 {
+    u32 unk_00;
+    u32 unk_04;
+    u32 unk_08;
+    u32 unk_0C;
+    u8 pad_10[0x10];
+    u16 unk_20;
+    u16 unk_22;
+    u16 unk_24;
+    u16 unk_26;
+    u16 unk_28;
+    u16 unk_2A;
+    u16 unk_2C;
+    u16 unk_2E;
+    u16 unk_30;
+    u16 unk_32;
+    u16 unk_34;
+    u16 unk_36;
+} S_80024198_6;   /* arg0 in func_80024198 */
+
+typedef struct S_80024198_7 {
+    u8 pad_00[0x8D0];
+    u8 * unk_8D0;
+} S_80024198_7;   /* *global in func_80024198 */
+
+
+
+typedef struct {
+    s16 m[3][3];
+    s16 pad;
+    s32 t[3];
+} MATRIX;
+
+extern void func_80064840(void *, void *, void *);
+extern void func_800649A0(void);
+extern void func_80064A40(void);
+extern void func_80064AE0(void *);
+extern void func_80064BC0(void *, void *);
+extern void func_80064CF0(void *);
+extern void func_80064D80(void *);
+extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void func_80065820(void *, void *);
+extern u16 func_80066460(s32, s32, s32, s32);
+extern void func_80067F20(void *, s32, s32, u16, s32);
+extern u8 D_80083160[];
+
+void func_80024198(void *arg0, void *arg1, void *arg2, s16 arg3)
+{
+    u8 *scratch = (u8 *)0x1F800000;
+    u8 *packet;
+    u8 *texture;
+    s32 index;
+    u16 flags;
+    u8 texFlags;
+    u8 **global = (u8 **)D_80083160;
+    MATRIX matrix;
+
+    ((S_80024198_0 *)scratch)->unk_24.p = *(u8 **)D_80083160 + 0xB0;
+    ((S_80024198_0 *)scratch)->unk_88 = ((S_80024198_1 *)arg1)->unk_02;
+    ((S_80024198_0 *)scratch)->unk_8C = ((S_80024198_1 *)arg1)->unk_06;
+    ((S_80024198_0 *)scratch)->unk_90 = ((S_80024198_1 *)arg1)->unk_0A;
+    ((S_80024198_2 *)arg2)->unk_14 |= 0x8000;
+
+    func_800649A0();
+
+    ((S_80024198_0 *)scratch)->unk_3C = 0x2000;
+    ((S_80024198_0 *)scratch)->unk_38 = 0x2000;
+    ((S_80024198_0 *)scratch)->unk_34 = 0x2000;
+    ((S_80024198_0 *)scratch)->unk_A4 = ((S_80024198_2 *)arg2)->unk_16;
+    ((S_80024198_0 *)scratch)->unk_A8 = ((S_80024198_2 *)arg2)->unk_1A;
+    ((S_80024198_0 *)scratch)->unk_A6 = ((S_80024198_2 *)arg2)->unk_18;
+    func_80065820(scratch + 0xA4, scratch + 0x74);
+    func_80064AE0(&matrix);
+    func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
+    func_80064BC0(scratch + 0x54, scratch + 0x34);
+    func_80064D80(scratch + 0x54);
+    func_80064CF0(scratch + 0x54);
+
+    texture = (*(u8 * *)((u8 *)arg2 + 8));
+    ((S_80024198_0 *)scratch)->unk_28 = ((S_80024198_2 *)arg2)->unk_14;
+
+    packet = ((S_80024198_3 *)(*(u8 **)D_80083160))->unk_8D0;
+    ((S_80024198_3 *)(*(u8 **)D_80083160))->unk_8D0 = packet + 0xC;
+    func_80067F20(packet, 0, 1, func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
+    (*(u32 *)((u8 *)packet + 0)) = (((S_80024198_4 *)packet)->unk_00.at00.v & 0xFF000000) |
+        (((S_80024198_3 *)(*(u8 **)D_80083160))->unk_B0 & 0x00FFFFFF);
+    (*(u32 *)((u8 *)(*(u8 **)D_80083160) + 0xB0)) =
+        (((S_80024198_3 *)(*(u8 **)D_80083160))->unk_B0 & 0xFF000000) |
+        ((u32)packet & 0x00FFFFFF);
+
+    {
+        u8 *context;
+
+        context = *(u8 * volatile *)D_80083160;
+        packet = ((S_80024198_5 *)context)->unk_8D0;
+        ((S_80024198_5 *)context)->unk_8D0 = packet + 0x24;
+    }
+
+    ((S_80024198_0 *)scratch)->unk_B0 = ((S_80024198_6 *)arg0)->unk_20;
+    ((S_80024198_0 *)scratch)->unk_B8 = ((S_80024198_6 *)arg0)->unk_26;
+    ((S_80024198_0 *)scratch)->unk_C0 = ((S_80024198_6 *)arg0)->unk_2C;
+    ((S_80024198_0 *)scratch)->unk_C8 = ((S_80024198_6 *)arg0)->unk_32;
+    ((S_80024198_0 *)scratch)->unk_B2 = ((S_80024198_6 *)arg0)->unk_22;
+    ((S_80024198_0 *)scratch)->unk_BA = ((S_80024198_6 *)arg0)->unk_28;
+    ((S_80024198_0 *)scratch)->unk_C2 = ((S_80024198_6 *)arg0)->unk_2E;
+    ((S_80024198_0 *)scratch)->unk_CA = ((S_80024198_6 *)arg0)->unk_34;
+    ((S_80024198_0 *)scratch)->unk_B4 = ((S_80024198_6 *)arg0)->unk_24;
+    ((S_80024198_0 *)scratch)->unk_BC = ((S_80024198_6 *)arg0)->unk_2A;
+    ((S_80024198_0 *)scratch)->unk_C4 = ((S_80024198_6 *)arg0)->unk_30;
+    ((S_80024198_0 *)scratch)->unk_CC = ((S_80024198_6 *)arg0)->unk_36;
+
+    index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+                          scratch + 0xC0, scratch + 0xC8,
+                          packet + 8, packet + 0x10,
+                          packet + 0x18, packet + 0x20,
+                          scratch + 0xD0, scratch + 0xD4) - arg3 - 6;
+    ((S_80024198_0 *)scratch)->unk_100 = index;
+
+    if ((u32)index < 0x1E0) {
+        if ((((u16)(((S_80024198_4 *)packet)->unk_08 + 0x20) < 0x181) &&
+             ((u16)(((S_80024198_4 *)packet)->unk_0A + 0x20) < 0x121)) |
+            (((u16)(((S_80024198_4 *)packet)->unk_10 + 0x20) < 0x181) &&
+             ((u16)(((S_80024198_4 *)packet)->unk_12 + 0x20) < 0x121)) |
+            (((u16)(((S_80024198_4 *)packet)->unk_18 + 0x20) < 0x181) &&
+             ((u16)(((S_80024198_4 *)packet)->unk_1A + 0x20) < 0x121)) |
+            (((u16)(((S_80024198_4 *)packet)->unk_20 + 0x20) < 0x181) &&
+             ((u16)(((S_80024198_4 *)packet)->unk_22 + 0x20) < 0x121))) {
+            ((S_80024198_2 *)arg2)->unk_14 &= 0x7FFF;
+            texFlags = texture[1];
+            ((S_80024198_2 *)arg2)->unk_0F = texFlags;
+            flags = ((S_80024198_0 *)scratch)->unk_28;
+            if (flags & 8) {
+                ((S_80024198_2 *)arg2)->unk_0F = (flags & 4) ?
+                    (texFlags | 2) : (texFlags & 0xFD);
+            }
+
+            ((S_80024198_4 *)packet)->unk_04.at00.v = ((S_80024198_6 *)arg0)->unk_00;
+            ((S_80024198_4 *)packet)->unk_0C = ((S_80024198_6 *)arg0)->unk_04;
+            ((S_80024198_4 *)packet)->unk_14 = ((S_80024198_6 *)arg0)->unk_08;
+            ((S_80024198_4 *)packet)->unk_1C = ((S_80024198_6 *)arg0)->unk_0C;
+            ((S_80024198_4 *)packet)->unk_00.at03.v = 8;
+            ((S_80024198_4 *)packet)->unk_04.at03.v = 0x3A;
+
+            ((S_80024198_4 *)packet)->unk_00.at00.v = (((S_80024198_4 *)packet)->unk_00.at00.v & 0xFF000000) |
+                ((*(u32 *)((u8 *)(((S_80024198_0 *)scratch)->unk_24.p2) + ((S_80024198_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
+            (*(u32 *)((u8 *)(((S_80024198_0 *)scratch)->unk_24.p2) + ((S_80024198_0 *)scratch)->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(((S_80024198_0 *)scratch)->unk_24.p2) + ((S_80024198_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+                ((u32)packet & 0x00FFFFFF);
+
+            packet = ((S_80024198_7 *)(*global))->unk_8D0;
+            ((S_80024198_7 *)(*global))->unk_8D0 = packet + 0xC;
+            func_80067F20(packet, 0, 1, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+            ((S_80024198_4 *)packet)->unk_00.at00.v = (((S_80024198_4 *)packet)->unk_00.at00.v & 0xFF000000) |
+                ((*(u32 *)((u8 *)(((S_80024198_0 *)scratch)->unk_24.p2) + ((S_80024198_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
+            (*(u32 *)((u8 *)(((S_80024198_0 *)scratch)->unk_24.p2) + ((S_80024198_0 *)scratch)->unk_100 * 4)) =
+                ((*(u32 *)((u8 *)(((S_80024198_0 *)scratch)->unk_24.p2) + ((S_80024198_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+                ((u32)packet & 0x00FFFFFF);
+        }
+    }
+
+    func_80064A40();
+}

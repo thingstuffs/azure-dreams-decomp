@@ -1,0 +1,36 @@
+# Standalone overlay-local gate for the solved BA5000 rowbase window.
+# The adjacent synthetic seed uses the sweep naming base and produces wrong
+# absolute-j relocations for this solved region.  This variant preserves the
+# same 560-byte window while linking at the solved true base 0x80158854.
+name: dungeon_deep_t8b_ba5000_truebase_80158854
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
+options:
+  basename: dungeon_deep_t8b_ba5000_truebase_80158854
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0xBA5000
+    file_end: 0xBA5230
+    # The function begins 0x54 bytes into this window: 0xBA5054 maps to
+    # the authenticated true base 0x80158854.
+    vram_start: 0x80158800
+    base_confidence: solved-rowbase
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: True

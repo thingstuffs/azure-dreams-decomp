@@ -1,0 +1,318 @@
+name: slus_006.14
+sha1: e6bfbb95ff6676899e077481221d73ddd4d3bf52
+options:
+  basename: slus_006.14
+  target_path: baserom/slus_006.14
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  extensions_path: tools/splat_ext
+
+  create_asm_dependencies: False
+
+  ld_align_segment_vram_end: False
+  ld_align_section_vram_end: False
+  ld_dependencies: False
+  # TODO: We may be able to turn this off once more of the binary is mapped
+  ld_legacy_generation: True
+  ld_script_path: build/slus_006.14.ld
+
+  subalign: 4
+
+  find_file_boundaries: False
+  gp_value: 0x80080994
+
+  o_as_suffix: True
+  use_legacy_include_asm: False
+
+  symbol_addrs_path: config/slus_006.14.symbols.txt
+  reloc_addrs_path: config/generated/slus_006.14.reloc.txt
+
+  undefined_funcs_auto_path: config/generated/slus_006.14.undefined_funcs.txt
+  undefined_syms_auto_path: config/generated/slus_006.14.undefined_syms.txt
+segments:
+  - [0x0, header]
+  - type: code
+    start: 0x800
+    vram: 0x8002D000
+    subsegments:
+      # NB: 0x800 was added to all the offsets here to account for start addr
+      - [0x800, bin]
+      - [0x6b60, data, psyq/libcd]
+      - [0x6e44, data, psyq/libgpu]
+      - [0x7130, asm, psyq/libsn/SNMAIN] # __SN_ENTRY_POINT / __main / __do_global_dtors
+      # 2026-08-22 CARVE: was `bin` (36688 B never in any denominator). The Konami/SN engine
+      # runtime object block, linked between SNMAIN and the hand-asm `main`. 320 functions,
+      # split at `jr $ra` + delay slot and cross-checked against port/docs/uncarved_census.tsv
+      # (438/438 exact agreement). Function symbols are declared in
+      # config/slus_006.14.symbols.txt under "carved 0x72a8".
+      - [0x72a8, c, konami_runtime]
+      - [0x101f8, asm, main]
+      - [0x102c4, c, code]
+      # - [0x2d854, shiftjis, str/name/kimbr]
+      # - [0x2d860, shiftjis, str/name/girl2]
+      # - [0x2d86c, shiftjis, str/name/girl1]
+      - [0x33618, asm, psyq/libetc/VSYNC] # VSync
+      # 2026-08-23 PSY-Q RELABEL: was `bin`. LIBETC interrupt-callback objects,
+      # identified byte-for-byte against toolchain/psx_psyq_signatures (see
+      # docs/port_handback_20260822/psyq_relabel_applied.md). Library code: named
+      # `asm` keeps it out of the decomp denominator, exactly like the other psyq segments.
+      - [0x337fc, asm, psyq/libetc/INTR] # ResetCallback / InterruptCallback / DMACallback / VSyncCallback(s) / Stop+RestartCallback / CheckCallback / Get+SetIntrMask / startIntr / trapIntr / setIntr / stopIntr / restartIntr / memclr
+      - [0x33f0c, asm, psyq/libetc/INTR_VB] # startIntrVSync / trapIntrVSync / setIntrVSync / memclr (declared memclr_vb)
+      - [0x34034, asm, psyq/libetc/INTR_DMA] # startIntrDMA / trapIntrDMA / setIntrDMA / memclr (declared memclr_dma)
+      - [0x342dc, asm, psyq/libetc/VMODE] # SetVideoMode / GetVideoMode
+      - [0x34334, asm, psyq/libcd/EVENT] # CdInit
+      - [0x34444, asm, psyq/libcd/S_003] # CdStatus
+      - [0x34454, asm, psyq/libcd/S_004] # CdMode
+      - [0x34464, asm, psyq/libcd/S_005] # CdLastCom
+      - [0x34474, asm, psyq/libcd/S_006] # CdLastPos
+      - [0x34484, asm, psyq/libcd/S_007] # CdReset
+      - [0x344f0, asm, psyq/libcd/S_008] # CdFlush
+      - [0x34510, asm, psyq/libcd/S_009] # CdSetDebug
+      - [0x34528, asm, psyq/libcd/S_010] # CdComstr
+      - [0x3455c, asm, psyq/libcd/S_011] # CdIntstr
+      - [0x34590, asm, psyq/libcd/S_012] # CdSync
+      - [0x345b0, asm, psyq/libcd/S_013] # CdReady
+      - [0x345d0, asm, psyq/libcd/S_014] # CdSyncCallback
+      - [0x345e8, asm, psyq/libcd/S_015] # CdReadyCallback
+      - [0x34600, asm, psyq/libcd/S_016] # CdControl / CdControlF / CdControlB
+      - [0x349a8, asm, psyq/libcd/S_020] # CdMix
+      - [0x349c8, asm, psyq/libcd/S_021] # CdGetSector
+      - [0x349e8, asm, psyq/libcd/S_022] # CdGetSector2
+      - [0x34a08, asm, psyq/libcd/S_023] # CdDataCallback
+      - [0x34a2c, asm, psyq/libcd/S_024] # CdDataSync
+      - [0x34a4c, asm, psyq/libcd/S_002] # CdIntToPos
+      - [0x34b50, asm, psyq/libcd/SYS] # CdPosToInt
+      # BIOS_1 extended back over the old `bin` at 0x34bd0: PSY-Q 4.0 ships this whole
+      # run as ONE object (LIBCD BIOS.OBJ, 6104 B, file 0x34bd0..0x363a8 -- getintr at +0,
+      # callback at +5876); 4.6/4.7 split its naming into BIOS_1/2/3, which is where the
+      # existing segment names come from.
+      - [0x34bd0, asm, psyq/libcd/BIOS_1] # getintr / CD_sync / CD_ready / CD_cw / CD_vol / CD_flush / CD_initvol / CD_initintr / CD_init / CD_datasync
+      - [0x360c4, asm, psyq/libcd/BIOS_2] # CD_getsector
+      - [0x361c4, asm, psyq/libcd/BIOS_3] # CD_getsector2 / CD_set_test_parmnum / callback
+      # BIOS_3 now runs to 0x363a8 (it absorbs the last two functions of BIOS.OBJ) and
+      # CDR_1 starts at 0x363a8, the true start of LIBCD CDREAD.OBJ (2172 B, cb_read at +0,
+      # CdReadBreak at +1504, CdReadCallback at +2124 = the CDR_2 segment).
+      - [0x363a8, asm, psyq/libcd/CDR_1] # cb_read / cb_data / cd_read_retry / CdReadBreak / CdRead / CdReadSync
+      - [0x36bf4, asm, psyq/libcd/CDR_2] # CdReadCallback
+      - [0x36c24, asm, psyq/libcd/CDREAD2] # CdRead2
+      - [0x36cd8, asm, psyq/libcd/C_002] # StClearRing
+      - [0x36d38, asm, psyq/libcd/C_003] # StUnSetRing
+      - [0x36dbc, asm, psyq/libcd/C_004] # data_ready_callback StGetBackloc
+      - [0x36eac, asm, psyq/libcd/C_005] # StSetStream
+      - [0x36f34, asm, psyq/libcd/C_007] # StFreeRing
+      - [0x36fec, asm, psyq/libcd/C_008] # init_ring_status
+      - [0x37028, asm, psyq/libcd/C_009] # StGetNext
+      - [0x370ec, asm, psyq/libcd/C_010] # StSetMask
+      - [0x3710c, asm, psyq/libcd/C_011] # StCdInterrupt
+      # C_011 extended over the old `bin` at 0x37a7c: LIBCD C_011.OBJ is 2912 B
+      # (StCdInterrupt at +0, mem2mem at +2416, dma_execute at +2468), i.e. file
+      # 0x3710c..0x37c6c, and 0x37c6c is DSCB_1, the missing sibling of DSCB_2/DSCB_4.
+      - [0x37c6c, asm, psyq/libds/DSCB_1] # DsSyncCallback
+      - [0x37c80, asm, psyq/libds/DSCB_2] # DsReadyCallback
+      - [0x37c94, asm, psyq/libds/DSCB_4] # DsDataCallback
+      - [0x37cb8, asm, psyq/libgte/GEO_00] # rsin / sin_1
+      - [0x37d84, asm, psyq/libgte/GEO_01] # rcos
+      - [0x37e24, asm, psyq/libgte/FOG_00] # SetFogFar
+      - [0x37e80, bin] # 8 B: the two header data words of MSC00.OBJ (same shape as 0x3d608)
+      - [0x37e88, asm, psyq/libgte/MSC00] # InitGeom (COP2 enable + GTE control-register init; jals _patch_gte)
+      - [0x37f10, asm, psyq/libgte/MSC01] # SquareRoot0
+      - [0x37fa0, asm, psyq/libgte/MSC09] # SquareRoot12
+      - [0x38040, asm, psyq/libgte/MTX_003] # CompMatrix
+      - [0x381a0, asm, psyq/libgte/MTX_006] # PushMatrix / PopMatrix
+      - [0x382e0, asm, psyq/libgte/MTX_009] # ReadRotMatrix
+      - [0x38330, asm, psyq/libgte/MTX_06] # ApplyMatrixSV
+      - [0x38390, asm, psyq/libgte/MTX_07] # TransMatrix
+      - [0x383c0, asm, psyq/libgte/MTX_08] # ScaleMatrix
+      - [0x384f0, asm, psyq/libgte/MTX_09] # SetRotMatrix
+      - [0x38520, asm, psyq/libgte/MTX_10] # SetLightMatrix
+      - [0x38550, asm, psyq/libgte/MTX_11] # SetColorMatrix
+      - [0x38580, asm, psyq/libgte/MTX_12] # SetTransMatrix
+      - [0x385a0, asm, psyq/libgte/REG03_1] # SetVertex0
+      - [0x385b0, asm, psyq/libgte/REG03_2] # SetVertex1
+      - [0x385c0, asm, psyq/libgte/REG03_3] # SetVertex2
+      - [0x385d0, asm, psyq/libgte/REG03_4] # SetVertexTri
+      - [0x385f0, asm, psyq/libgte/REG03_5] # SetRGBfifo
+      - [0x38604, asm, psyq/libgte/REG03_6] # SetIR123
+      - [0x38618, asm, psyq/libgte/REG03_7] # SetIR0
+      - [0x38624, asm, psyq/libgte/REG03_8] # SetSZfifo3
+      - [0x38638, asm, psyq/libgte/REG03_9] # SetSZfifo4
+      - [0x38650, asm, psyq/libgte/REG03_10] # SetSXSYfifo
+      - [0x38664, asm, psyq/libgte/REG03_11] # SetRii
+      - [0x38678, asm, psyq/libgte/REG03_12] # SetMAC123
+      - [0x3868c, asm, psyq/libgte/REG03_13] # SetData32
+      - [0x38698, asm, psyq/libgte/REG03_14] # SetDQA
+      - [0x386a4, asm, psyq/libgte/REG03_15] # SetDQB
+      - [0x386b0, asm, psyq/libgte/REG09] # ReadGeomScreen
+      - [0x386c0, asm, psyq/libgte/REG10] # SetBackColor
+      - [0x386e0, asm, psyq/libgte/REG11] # SetFarColor
+      - [0x38700, asm, psyq/libgte/REG12] # SetGeomOffset
+      - [0x38720, asm, psyq/libgte/REG13] # SetGeomScreen
+      # NB: More GTE stuff? SMP_XX / CMP_XX?
+      - [0x38730, asm, psyq/libgte/SMP] # LocalLight / DpqColor / NormalColor(3) / NormalColorDpq(3) / NormalColorCol(3) / ColorDpq / ColorCol / AverageSZ3 / AverageSZ4
+      - [0x38910, asm, psyq/libgte/SMP_00] # LightColor / DpqColorLight / DpqColor3 / Intpl / Square12 / Square0
+      - [0x38a10, asm, psyq/libgte/SMP_00_7] # AverageZ3
+      - [0x38a30, asm, psyq/libgte/SMP_00_8] # AverageZ4
+      - [0x38a54, asm, psyq/libgte/SMP_00_9] # OuterProduct12
+      - [0x38aac, asm, psyq/libgte/SMP_00_1] # OuterProduct0 / Lzc
+      - [0x38b20, asm, psyq/libgte/SMP_01_1] # RotTransSV
+      - [0x38bc0, asm, psyq/libgte/SMP_01_4] # SquareSL12
+      - [0x38bf0, asm, psyq/libgte/SMP_01_5] # SquareSL0
+      - [0x38c20, asm, psyq/libgte/SMP_02] # RotTransPers
+      - [0x38c50, asm, psyq/libgte/SMP_04] # RotTrans
+      - [0x38c80, asm, psyq/libgte/SMP_05] # NormalClip
+      - [0x38cb0, asm, psyq/libgte/CMB_00] # RotTransPers4
+      - [0x38d30, asm, psyq/libgte/CMB_01] # RotAverage3
+      - [0x38d90, asm, psyq/libgte/CMB_02] # RotAverage4
+      - [0x38e10, asm, psyq/libgte/CMB_05] # RotNclip4
+      - [0x38ec0, asm, psyq/libgte/CMB_07] # RotAverageNclip4
+      - [0x38f70, asm, psyq/libgte/CMB_16] # RotTransPersN
+      - [0x38fe0, asm, psyq/libgte/FGO_00] # TransposeMatrix
+      - [0x39020, asm, psyq/libgte/FGO_01] # RotMatrix
+      - [0x392b0, asm, psyq/libgte/FGO_04] # RotMatrixX
+      - [0x39450, asm, psyq/libgte/FGO_05] # RotMatrixY
+      - [0x395f0, asm, psyq/libgte/FGO_06] # RotMatrixZ
+      - [0x39788, bin] # 8 B of zero padding after FGO_06/RotMatrixZ
+      - [0x39790, asm, psyq/libgte/RATAN] # ratan2
+      - [0x39910, asm, psyq/libgte/PATCHGTE] # _patch_gte + the 48 B COP2 exception stub it installs
+      - [0x399b0, asm, psyq/libgpu/E00] # LoadTPage
+      - [0x39a9c, asm, psyq/libgpu/E01] # LoadClut
+      - [0x39b04, asm, psyq/libgpu/E02] # LoadClut2
+      - [0x39b6c, asm, psyq/libgpu/E03] # SetDefDrawEnv
+      - [0x39c24, asm, psyq/libgpu/E04] # SetDefDispEnv
+      - [0x39c60, asm, psyq/libgpu/P00] # GetTPage
+      - [0x39c9c, asm, psyq/libgpu/P01] # GetClut
+      - [0x39cb4, asm, psyq/libgpu/P02] # DumpTPage
+      - [0x39d14, asm, psyq/libgpu/P03] # DumpClut
+      - [0x39d54, asm, psyq/libgpu/P04] # NextPrim
+      - [0x39d70, asm, psyq/libgpu/P05] # IsEndPrim
+      - [0x39d8c, asm, psyq/libgpu/P06] # AddPrim
+      - [0x39dc8, asm, psyq/libgpu/P07] # AddPrims
+      - [0x39e04, asm, psyq/libgpu/P08] # CatPrim
+      - [0x39e28, asm, psyq/libgpu/P09] # TermPrim
+      - [0x39e40, asm, psyq/libgpu/P10] # SetSemiTrans
+      - [0x39e68, asm, psyq/libgpu/P11] # SetShadeTex
+      - [0x39e90, asm, psyq/libgpu/P12] # SetPolyF3
+      - [0x39ea4, asm, psyq/libgpu/P13] # SetPolyFT3
+      - [0x39eb8, asm, psyq/libgpu/P14] # SetPolyG3
+      - [0x39ecc, asm, psyq/libgpu/P15] # SetPolyGT3
+      - [0x39ee0, asm, psyq/libgpu/P16] # SetPolyF4
+      - [0x39ef4, asm, psyq/libgpu/P17] # SetPolyFT4
+      - [0x39f08, asm, psyq/libgpu/P18] # SetPolyG4
+      - [0x39f1c, asm, psyq/libgpu/P19] # SetPolyGT4
+      - [0x39f30, asm, psyq/libgpu/P20] # SetSprt8
+      - [0x39f44, asm, psyq/libgpu/P21] # SetSprt16
+      - [0x39f58, asm, psyq/libgpu/P22] # SetSprt
+      - [0x39f6c, asm, psyq/libgpu/P23] # SetTile1
+      - [0x39f80, asm, psyq/libgpu/P24] # SetTile8
+      - [0x39f94, asm, psyq/libgpu/P25] # SetTile16
+      - [0x39fa8, asm, psyq/libgpu/P26] # SetTile
+      - [0x39fbc, asm, psyq/libgpu/P27] # SetLineF2
+      - [0x39fd0, asm, psyq/libgpu/P28] # SetLineG2
+      - [0x39fe4, asm, psyq/libgpu/P29] # SetLineF3
+      - [0x3a004, asm, psyq/libgpu/P30] # SetLineG3
+      - [0x3a024, asm, psyq/libgpu/P31] # SetLineF4
+      - [0x3a044, asm, psyq/libgpu/P32] # SetLineG4
+      - [0x3a064, asm, psyq/libgpu/P33] # SetDrawTPage
+      - [0x3a090, asm, psyq/libgpu/P34] # SetDrawMove
+      - [0x3a0f0, asm, psyq/libgpu/P35] # SetDrawLoad
+      - [0x3a15c, asm, psyq/libgpu/P36] # MargePrim
+      - [0x3a194, asm, psyq/libgpu/P37] # DumpDrawEnv / DumpDispEnv
+      # SYS extended over the old `bin` at 0x3b588: LIBGPU SYS.OBJ is 12436 B, file
+      # 0x3a354..0x3d3e8 exactly (ResetGraph at +0 ... memset at +12392), so the `bin`
+      # was simply the second half of a segment that was already named.
+      - [0x3a354, asm, psyq/libgpu/SYS] # ResetGraph ... GetDispEnv / SetDrawEnv(2) / _otc / _clr / _dws / _drs / _addque(2) / _exeque / _reset / _sync / _version / memset (declared memset_gpu)
+      - [0x3d3e8, asm, psyq/libapi/C112] # _bu_init
+      - [0x3d3f8, asm, psyq/libcard/C171] # _card_info
+      - [0x3d408, asm, psyq/libcard/C172] # _card_load
+      - [0x3d418, asm, psyq/libcard/A92] # _card_status
+      - [0x3d428, asm, psyq/libcard/A93] # _card_wait
+      - [0x3d438, asm, psyq/libcard/CARD] # _card_clear
+      - [0x3d470, asm, psyq/libcard/A78] # _card_write
+      - [0x3d480, asm, psyq/libcard/A80] # _new_card
+      - [0x3d490, asm, psyq/libcard/INIT] # InitCARD / StartCARD / StopCARD
+      - [0x3d548, asm, psyq/libcard/A74] # InitCARD2
+      - [0x3d558, asm, psyq/libcard/A75] # StartCARD2
+      - [0x3d568, asm, psyq/libcard/A76] # StopCARD2
+      - [0x3d578, asm, psyq/libcard/END] # _ExitCard (zero-frame $ra->BSS BIOS-vector installer)
+      - [0x3d5f8, asm, psyq/libc/A56] # exit
+      - [0x3d608, bin]
+      - [0x3d610, asm, psyq/libc/A63] # puts
+      - [0x3d628, asm, psyq/libc/C19] # setjmp
+      - [0x3d638, asm, psyq/libc/C21] # strcat
+      - [0x3d648, asm, psyq/libc/C22] # strncat
+      - [0x3d658, asm, psyq/libc/C23] # strcmp
+      - [0x3d668, asm, psyq/libc/C24] # strncmp
+      - [0x3d678, asm, psyq/libc/C25] # strcpy
+      - [0x3d688, asm, psyq/libc/C26] # strncpy
+      - [0x3d698, asm, psyq/libc/C27] # strlen
+      - [0x3d6a8, asm, psyq/libc/C29] # rindex
+      - [0x3d6b8, asm, psyq/libc/C31] # strrchr
+      - [0x3d6c8, asm, psyq/libc/C40] # bzero
+      - [0x3d6d8, asm, psyq/libc/C42] # memcpy
+      - [0x3d6e8, asm, psyq/libc/C43] # memset
+      - [0x3d6f8, asm, psyq/libc/C47] # rand
+      - [0x3d708, asm, psyq/libc/C48] # srand
+      - [0x3d718, asm, psyq/libc/C63] # printf
+      - [0x3d728, asm, psyq/libc/MEMMOVE] # memmove
+      - [0x3d794, asm, psyq/libapi/C57] # InitHeap
+      - [0x3d7a4, asm, psyq/libapi/C68] # FlushCache
+      - [0x3d7b4, asm, psyq/libapi/C73] # GPU_cw
+      - [0x3d7cc, asm, psyq/libapi/C114] # _96_remove
+      - [0x3d7e4, asm, psyq/libapi/A07]
+      - [0x3d7f4, asm, psyq/libapi/A08]
+      - [0x3d804, asm, psyq/libapi/A09]
+      - [0x3d814, asm, psyq/libapi/A10]
+      - [0x3d824, asm, psyq/libapi/A11]
+      - [0x3d834, asm, psyq/libapi/A12]
+      - [0x3d844, asm, psyq/libapi/A13]
+      - [0x3d854, asm, psyq/libapi/A23]
+      - [0x3d864, asm, psyq/libapi/A24]
+      - [0x3d874, asm, psyq/libapi/A25]
+      - [0x3d884, asm, psyq/libapi/A36]
+      - [0x3d894, asm, psyq/libapi/A37]
+      - [0x3d8a4, asm, psyq/libapi/A50]
+      - [0x3d8b4, asm, psyq/libapi/A51]
+      - [0x3d8c4, asm, psyq/libapi/A52]
+      - [0x3d8d4, asm, psyq/libapi/A53]
+      - [0x3d8e4, asm, psyq/libapi/A54]
+      - [0x3d8f4, asm, psyq/libapi/A65]
+      - [0x3d904, asm, psyq/libapi/A66]
+      - [0x3d914, asm, psyq/libapi/A67]
+      - [0x3d924, asm, psyq/libapi/A68]
+      - [0x3d934, asm, psyq/libapi/A69]
+      - [0x3d944, asm, psyq/libapi/A81]
+      - [0x3d954, asm, psyq/libapi/A91]
+      - [0x3d964, asm, psyq/libapi/L10]
+      - [0x3d974, asm, psyq/libapi/COUNTER] # SetRCnt / GetRCnt / StartRCnt / StopRCnt / ResetRCnt
+      # 2026-08-23: file 0x3daec..0x3e018 is CODE the T8 census missed (its text range
+      # stopped at 0x3daec) -- 14 PSY-Q libapi PAD functions, incl. six `li t2,B0/C0;
+      # jr t2` BIOS-vector trampolines. Named `asm`, never `func_` rows.
+      - [0x3daec, asm, psyq/libapi/PAD] # SetInitPadFlag / ReadInitPadFlag / PAD_init / InitPAD / StartPAD / StopPAD / SetPatchPad / RemovePatchPad / _Pad1 / _IsVSync
+      - [0x3de0c, asm, psyq/libapi/A18] # InitPAD2    (BIOS B0:0x12 trampoline)
+      - [0x3de1c, asm, psyq/libapi/A19] # StartPAD2   (BIOS B0:0x13 trampoline)
+      - [0x3de2c, asm, psyq/libapi/A20] # StopPAD2    (BIOS B0:0x14 trampoline)
+      - [0x3de3c, asm, psyq/libapi/A21] # PAD_init2   (BIOS B0:0x15 trampoline)
+      - [0x3de4c, asm, psyq/libapi/L02] # SysEnqIntRP (BIOS C0:0x02 trampoline)
+      - [0x3de5c, asm, psyq/libapi/L03] # SysDeqIntRP (BIOS C0:0x03 trampoline)
+      - [0x3de6c, asm, psyq/libapi/PATCH] # EnablePAD / DisablePAD / _patch_pad
+      - [0x3defc, asm, psyq/libapi/SENDPAD] # _SendPAD / _send_pad
+      - [0x3dfbc, asm, psyq/libapi/CHCLRPAD] # _remove_ChgclrPAD
+      - [0x3e018, bin] # resident data: the 0x8006AA90 VM handler table and friends
+      - [0x541d0, shiftjis, str/name/boy]
+      - [0x541d8, shiftjis, str/name/man]
+      - [0x541e0, shiftjis, str/name/cat]
+      - [0x541e8, shiftjis, str/name/dog]
+      - [0x541f0, shiftjis, str/name/pop]
+      - [0x541f8, shiftjis, str/name/see]
+      - [0x54200, shiftjis, str/name/bet]
+      - [0x54208, shiftjis, str/name/dar]
+      - [0x54210, shiftjis, str/name/kay]
+      - [0x54218, shiftjis, str/name/mee]
+      - [0x54220, shiftjis, str/name/dai]
+      - [0x54228, shiftjis, str/name/fon]
+      - [0x54230, shiftjis, str/name/pen]
+      - [0x54238, shiftjis, str/name/mia]
+      - [0x54240, bin]
+
+  - [0x80000]

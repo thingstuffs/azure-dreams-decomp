@@ -1,0 +1,49 @@
+# Standalone overlay-local gate seed -- DEEP/BACK-HALF dungeon subwindow (TF-1B gate_carver).
+# Do NOT add to configure.py / build.ninja; run via tools/overlay_local_gate.py --clean.
+#
+# NEW window for 1 banked byte-verified candidate(s) that lacked an economically bounded verification window
+# (result==NOMATCH in the split JSON,
+# closed by mutation/knob/model search), so overlay_reconcile_lane can freeze + land them:
+#   func_800D50E0
+#
+# BASE NOTE -- base_confidence: synthetic-self-consistent (copied from config/overlays/dungeon_deep_t8b_007800.overlay.yaml, NOT upgraded).
+# vram_start is the func_ synthetic naming base only (chain-G trap b4ae80e) -- no proven
+# load base here, so no true_vram_start. Provenance: tight verification shadow for economically broad gate dungeon_engine (config/overlays/dungeon_engine.overlay.yaml, 0xA0000..0x100000); base synthetic-self-consistent from config/overlays/dungeon_deep_t8b_007800.overlay.yaml
+# Expected first state: targets are result==NOMATCH -> all-raw window == container bytes.
+name: dungeon_deep_t8b_0f50e0
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
+options:
+  basename: dungeon_deep_t8b_0f50e0
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0xF50E0
+    file_end: 0xF51DC
+    vram_start: 0x800D50E0          # = 0xF50E0 + 0x7FFE0000 (synthetic sweep base)
+    # RUNTIME-TRUE load base of the dungeon-engine image: file + 0x7FFE5760
+    # (jal coherence 2960/2966 = 99.8%, vs 18/2966 for the 0x7FFE0000 naming
+    # base) -- docs/port_handback_20260822/dungeon_static_census.md section 3c.
+    # ANNOTATION ONLY: vram_start stays the synthetic naming base (moving it
+    # would rename every row); the byte gate never reads this field and
+    # base_confidence is NOT upgraded by recording it.
+    true_vram_start: 0x800DA840
+    base_confidence: synthetic-self-consistent   # copied; see BASE NOTE
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: True

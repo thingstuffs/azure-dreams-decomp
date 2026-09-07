@@ -1,0 +1,197 @@
+#include "common.h"
+
+#define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
+#define S8(p, o)  (*(s8 *)((u8 *)(p) + (o)))
+#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
+#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
+#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
+#define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
+
+extern void func_80047784(void *, u8, s32);
+extern void func_8009C12C(void *, void *, s16, s32);
+extern void func_800A2B04(void *, u8, u8);
+extern void func_800A4ACC(void *);
+extern void func_800A56E0(s32);
+extern void func_800AD594(void *, s32);
+extern void func_80173F68(void) __attribute__((noreturn));
+extern void func_80173F80(void) __attribute__((noreturn));
+extern void func_8017401C(void) __attribute__((noreturn));
+extern void func_80174078(void) __attribute__((noreturn));
+
+extern s16 D_8006CCD8[];
+extern s16 D_8006CCE8[];
+extern s16 D_80083228[];
+extern s32 D_8008346C[];
+extern u8 D_80171FA4[];
+extern u8 D_80175C78[];
+extern u8 D_80175CA8[];
+
+void func_80173DD4(void *arg0, void *arg1, void *arg2, void *arg3)
+{
+    register s32 delta_x ASM_REG("$4");
+    s32 delta_y;
+    register s32 table_off ASM_REG("$3");
+    s32 table_idx;
+    s32 object_type;
+    register s32 count ASM_REG("$5");
+    register s32 next_count ASM_REG("$7");
+    u16 flags;
+    s32 state;
+
+    state = U8(arg0, 0x9B);
+    if (state == 1) {
+        goto state_one;
+    }
+    if ((s32)state >= 2) {
+        goto state_two_test;
+    }
+    if (state == 0) {
+        goto state_zero;
+    }
+    func_80174078();
+
+state_two_test:
+    if (state == 2) {
+        goto state_two;
+    }
+    func_80174078();
+
+state_zero:
+{
+    register u8 *byte_table ASM_REG("$5");
+    register u8 *phase_page ASM_REG("$2");
+
+    flags = U16(arg2, 0x14);
+    if (flags & 0x8000) {
+        U16(arg2, 0x14) = flags | 0x6000;
+        U8(arg0, 0x9B) = 2;
+        func_8009C12C(arg3, arg2, S16(arg3, 0x2A), 1);
+        func_80174078();
+    }
+    ASM_SCHED_BARRIER();
+    if ((flags & 0x6000) == 0) {
+        goto done;
+    }
+    byte_table = (u8 *)0x80170000;
+    if (S16(arg0, 0x92) != 0) {
+        goto done;
+    }
+    ASM_KEEP_NV(byte_table);
+    byte_table += 0x5C78;
+    ASM_KEEP(byte_table);
+    phase_page = (u8 *)0x80080000;
+    ASM_KEEP(phase_page);
+    PTR(arg2, 0x2C) = byte_table;
+    table_idx = (*(s16 *)(phase_page + 0x3228) + S16(arg3, 0x2A) + 0x100) >> 9;
+    table_idx &= 7;
+    phase_page = (u8 *)(table_idx + (s32)byte_table);
+    ASM_KEEP_NV(phase_page);
+    func_80047784(arg2, *phase_page, 0);
+    U16(arg0, 0x96) = 0;
+    func_800A56E0(0x808);
+    func_8017401C();
+}
+
+state_one:
+{
+    register u8 *direction_base ASM_REG("$2");
+    register s32 active_x ASM_REG("$2");
+    register s32 active_y ASM_REG("$3");
+    register s32 limit ASM_REG("$2");
+    register s32 raw_y ASM_REG("$2");
+
+    direction_base = (u8 *)0x80070000;
+    ASM_KEEP_NV(direction_base);
+    count = U16(arg0, 0x96);
+    direction_base -= 0x3328;
+    next_count = count + 1;
+    count -= 3;
+    U16(arg0, 0x96) = next_count;
+    table_off = (U16(arg3, 0x2A) >> 8) & 0xE;
+    count = (u32)count < 8U;
+    direction_base = (u8 *)(table_off + (s32)direction_base);
+    ASM_KEEP_NV(direction_base);
+    delta_x = *(s16 *)direction_base;
+    direction_base = (u8 *)0x80070000;
+    ASM_KEEP_NV(direction_base);
+    direction_base -= 0x3318;
+    table_off = table_off + (s32)direction_base;
+    ASM_KEEP_NV(table_off);
+    raw_y = *(s16 *)table_off;
+    delta_x = -delta_x;
+    delta_x <<= 16;
+    raw_y = -raw_y;
+    delta_y = raw_y << 16;
+    if (count) {
+        active_x = S32(arg1, 0xC) - delta_x;
+        active_y = S32(arg1, 0x10) - delta_y;
+        ASM_KEEP(active_x);
+        ASM_TAILSLOT_PIN_TIED(active_y);
+        func_80173F68();
+    }
+    limit = (s16)next_count;
+    if (limit < 0x12) {
+        S32(arg1, 0xC) += delta_x;
+        S32(arg1, 0x10) += delta_y;
+        func_80173F80();
+    }
+    ASM_CLOBBER("$5");
+    S32(arg1, 0x14) = 0;
+    S32(arg1, 0x10) = 0;
+    S32(arg1, 0xC) = 0;
+    object_type = S8(arg2, 4);
+    ASM_SCHED_BARRIER();
+    if (object_type == 5 && (U16(arg2, 0x14) & 0x9000)) {
+        func_8009C12C(arg3, arg2, S16(arg3, 0x2A), 1);
+    }
+    {
+        register u8 *byte_table ASM_REG("$5");
+        register u8 *phase_page ASM_REG("$2");
+
+        byte_table = (u8 *)0x80170000;
+        if ((U16(arg2, 0x14) & 0x6000) == 0) {
+            goto done;
+        }
+        ASM_KEEP_NV(byte_table);
+        byte_table += 0x5CA8;
+        ASM_KEEP(byte_table);
+        phase_page = (u8 *)0x80080000;
+        ASM_KEEP(phase_page);
+        PTR(arg2, 0x2C) = byte_table;
+        table_idx = (*(s16 *)(phase_page + 0x3228) + S16(arg3, 0x2A) + 0x100) >> 9;
+        table_idx &= 7;
+        phase_page = (u8 *)(table_idx + (s32)byte_table);
+        ASM_KEEP_NV(phase_page);
+        func_80047784(arg2, *phase_page, 0);
+    }
+    S32(arg1, 0x14) = 0;
+    S32(arg1, 0x10) = 0;
+    S32(arg1, 0xC) = 0;
+    func_800A2B04(arg1, U8(arg2, 0x24), U8(arg2, 0x25));
+    U8(arg0, 0x9B)++;
+    func_80174078();
+}
+
+state_two:
+{
+    register u8 *global_page ASM_REG("$2");
+    register void *call_arg ASM_REG("$4");
+
+    if ((U16(arg2, 0x14) & 0xE000) == 0) {
+        goto done;
+    }
+    func_800AD594(arg3, 0x100);
+    call_arg = arg3;
+    ASM_KEEP(call_arg);
+    PTR(arg0, 0x8C) = D_80171FA4;
+    ASM_SCHED_BARRIER();
+    global_page = (u8 *)0x80080000;
+    ASM_KEEP(global_page);
+    S32(global_page, 0x346C) = 0;
+    func_800A4ACC(call_arg);
+    U16(arg3, 0x46) &= 0x7FFF;
+}
+
+done:
+    return;
+}

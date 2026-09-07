@@ -1,0 +1,66 @@
+# Standalone overlay-local gate seed -- DEEP/BACK-HALF town subwindow (TF-1B gate_carver).
+# Do NOT add to configure.py / build.ninja; run via tools/overlay_local_gate.py --clean.
+#
+# NEW window for 26 banked byte-verified candidate(s) that lacked an economically bounded verification window
+# (result==NOMATCH in the split JSON,
+# closed by mutation/knob/model search), so overlay_reconcile_lane can freeze + land them:
+#   func_808119EC
+#   func_80811C54
+#   func_808127A4
+#   func_808128B8
+#   func_80812A2C
+#   func_80812B70
+#   func_80813078
+#   func_80813294
+#   func_80813368
+#   func_808135E0
+#   func_8081380C
+#   func_808138C0
+#   func_808139C8
+#   func_80813AB0
+#   func_80813E14
+#   func_808141B8
+#   func_80814610
+#   func_808146C8
+#   func_80814CC4
+#   func_80814D60
+#   func_80814E64
+#   func_80814F08
+#   func_8081508C
+#   func_8081510C
+#   func_80815160
+#   func_808151F8
+#
+# BASE NOTE -- base_confidence: synthetic-self-consistent (copied from config/overlays/town_deep_t8b_026e.overlay.yaml, NOT upgraded).
+# vram_start is the func_ synthetic naming base only (chain-G trap b4ae80e) -- no proven
+# load base here, so no true_vram_start. Provenance: merged tail-adjacent; base synthetic-self-consistent from config/overlays/town_deep_t8b_026e.overlay.yaml
+# Expected first state: targets are result==NOMATCH -> all-raw window == container bytes.
+name: town_deep_t8b_7919ec
+sha1: b946a57aa5fc8cec29db3ecabad6e6b76df418b7
+options:
+  basename: town_deep_t8b_7919ec
+  target_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/TOWN_TOWN.BIN
+  window:
+    file_start: 0x7919EC
+    file_end: 0x795294
+    vram_start: 0x808119EC          # = 0x7919EC + 0x80080000 (synthetic sweep base)
+    base_confidence: synthetic-self-consistent   # copied; see BASE NOTE
+  split_results: overlays/town/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/town
+      results: overlays/town/overlay_first_pass_results.json
+      source_dir: overlays/town/first_pass_matched
+      skip_rerun: True

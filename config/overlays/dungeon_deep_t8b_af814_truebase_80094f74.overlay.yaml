@@ -1,0 +1,34 @@
+# Standalone overlay-local gate for func_8008F814 at its proven
+# xfer_dungeon_A3000 true link base func_80094F74.
+name: dungeon_deep_t8b_af814_truebase_80094f74
+options:
+  basename: dungeon_deep_t8b_af814_truebase_80094f74
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0xAF814
+    file_end: 0xAFD04
+    vram_start: 0x80094F74
+    true_vram_start: 0x80094F74
+    base_confidence: proven-rowbase
+    true_link_base: 0x80094F74
+    rowbase: xfer_dungeon_A3000
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: True

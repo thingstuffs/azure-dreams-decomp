@@ -1,0 +1,35 @@
+# Persistent standalone gate for the ordinary-C func_800B5DFC bridge.
+# Moved out of the gitignored work/codex_wave/next_close_wave2_800B5DFC_20260822/gate_persistent_800B5DFC.yaml
+# on 2026-08-22 (intake §E): a landed row's gate_config may not point into work/.
+name: dungeon_deep_bridge_800b5dfc
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
+options:
+  basename: dungeon_deep_bridge_800b5dfc
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  window:
+    file_start: 0xD5DFC
+    file_end: 0xD62C0
+    vram_start: 0x800B5DFC
+    # RUNTIME-TRUE load base of the dungeon-engine image: file + 0x7FFE5760
+    # (jal coherence 2960/2966 = 99.8%, vs 18/2966 for the 0x7FFE0000 naming
+    # base) -- docs/port_handback_20260822/dungeon_static_census.md section 3c.
+    # ANNOTATION ONLY: vram_start stays the synthetic naming base (moving it
+    # would rename every row); the byte gate never reads this field and
+    # base_confidence is NOT upgraded by recording it.
+    true_vram_start: 0x800BB55C
+    base_confidence: rowbase-authenticated
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: True

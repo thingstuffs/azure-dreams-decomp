@@ -1,0 +1,201 @@
+#include "common.h"
+
+typedef struct EffectState800517CC {
+    void *parent;
+    s16 state;
+    u16 timer;
+    s16 wait;
+    s16 unkA;
+    s16 trigger;
+} EffectState800517CC;
+
+typedef struct VecState800517CC {
+    s32 x;
+    s32 y;
+    s32 z;
+    s32 vx;
+    s32 vy;
+} VecState800517CC;
+
+typedef struct ColorState800517CC {
+    u8 pad[0xC];
+    u8 r;
+    u8 g;
+    u8 b;
+} ColorState800517CC;
+
+typedef struct ParentState800517CC {
+    u8 pad0[6];
+    u16 timer;
+    u8 pad8[8];
+    void *child10;
+} ParentState800517CC;
+
+extern void func_800478B8(void *);
+extern s32 rsin(s32);
+extern s32 rcos(s32);
+extern s32 rand(void);
+extern void *jtbl_8002E964[8];
+extern s32 D_800814A0;
+
+void func_800517CC(
+    EffectState800517CC *arg0,
+    VecState800517CC *arg1,
+    ColorState800517CC *arg2)
+{
+    s32 trig;
+    s32 base;
+    s32 origin;
+    s32 delta;
+    s32 value;
+    u32 idx;
+    void **table;
+    static void *const keepalive[] = {
+        &&state_0, &&state_1, &&state_2, &&state_3,
+        &&state_4, &&state_5, &&state_6, &&state_7
+    };
+
+    (void)keepalive;
+    arg0->timer++;
+    func_800478B8(arg2);
+
+    idx = arg0->state;
+    if (idx >= 8) {
+        goto state_default;
+    }
+    table = jtbl_8002E964;
+    goto *table[idx];
+
+state_0:
+    if (arg0->trigger != 0) {
+        arg0->trigger = 0;
+        arg0->timer = 0;
+        arg0->state = (u16)arg0->state + 1;
+    }
+    return;
+
+state_1:
+    if ((s16)arg0->timer >= 0x60) {
+        arg0->timer = 0;
+        arg0->state = (u16)arg0->state + 1;
+    }
+    return;
+
+state_2:
+    arg1->x = 0x01A00000 - ((rsin((s16)arg0->timer << 4) >> 4) << 16);
+    arg1->y = ((rcos((s16)arg0->timer << 4) >> 4) << 14) + 0x00200000;
+    if ((s16)arg0->timer >= 0x40) {
+        arg0->timer = 0;
+        arg0->state = (u16)arg0->state + 1;
+    }
+    return;
+
+state_3:
+    arg1->x = 0x00C00000 - ((rcos((s16)arg0->timer << 5) >> 4) << 13);
+    arg1->y = ((rsin((s16)arg0->timer << 5) >> 4) << 12) + 0x00200000;
+    if ((s16)arg0->timer >= 0x20) {
+        arg1->z = 0x00800000;
+        arg0->wait = (rand() % 64) + 0x20;
+        arg0->timer = 0;
+        arg0->state = (u16)arg0->state + 1;
+    }
+    return;
+
+state_4:
+    if ((s16)arg0->timer < arg0->wait) {
+        goto check_trigger;
+    }
+    arg0->state = (u16)arg0->state + 1;
+    arg0->timer = 0;
+    goto check_trigger;
+
+state_5:
+    trig = rcos(((s16)arg0->timer + 0x100) << 3);
+    trig >>= 4;
+    trig = (trig * 3) << 11;
+    base = arg1->x;
+    origin = (s32)0xFF280000;
+    base += origin;
+    delta = trig - base;
+    delta = (delta + (s32)((u32)delta >> 31)) >> 1;
+    arg1->vx += delta;
+    arg1->x += arg1->vx;
+
+    trig = rcos((s16)arg0->timer << 3);
+    trig >>= 4;
+    trig <<= 10;
+    base = arg1->y;
+    origin = (s32)0xFFD40000;
+    base += origin;
+    delta = trig - base;
+    delta = (delta + (s32)((u32)delta >> 31)) >> 1;
+    arg1->vy += delta;
+    arg1->y += arg1->vy;
+
+    if ((s16)arg0->timer < 0x100) {
+        goto check_trigger;
+    }
+    value = (u16)arg0->state + 1;
+    arg0->timer = 0;
+    goto store_state;
+
+state_6:
+    trig = rcos((s16)arg0->timer << 4);
+    trig >>= 4;
+    trig = (trig * 3) << 11;
+    base = arg1->x;
+    origin = (s32)0xFF280000;
+    base += origin;
+    delta = trig - base;
+    delta = (delta + (s32)((u32)delta >> 31)) >> 1;
+    arg1->vx += delta;
+    arg1->x += arg1->vx;
+
+    trig = rcos(((s16)arg0->timer + 0x80) << 4);
+    trig >>= 4;
+    trig <<= 10;
+    base = arg1->y;
+    origin = (s32)0xFFD40000;
+    base += origin;
+    delta = trig - base;
+    delta = (delta + (s32)((u32)delta >> 31)) >> 1;
+    arg1->vy += delta;
+    arg1->y += arg1->vy;
+
+    if ((s16)arg0->timer < 0x80) {
+        goto check_trigger;
+    }
+    arg0->wait = (rand() % 64) + 0x20;
+    value = 4;
+    arg0->timer = 0;
+
+store_state:
+    arg0->state = value;
+
+check_trigger:
+    if (arg0->trigger != 0) {
+        arg0->trigger = 0;
+        arg0->timer = 0;
+        arg0->state = 7;
+    }
+    return;
+
+state_7:
+    arg1->x += (s32)0xFFF40000;
+    arg1->y += 0x00020000;
+    if ((s16)arg0->timer < 0x40) {
+        return;
+    }
+    goto destroy;
+
+state_default:
+    arg2->b = 0;
+    arg2->g = 0;
+    arg2->r = 0;
+
+destroy:
+    ((ParentState800517CC *)arg0->parent)->child10 = 0;
+    ((ParentState800517CC *)arg0->parent)->timer++;
+    *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    D_800814A0 |= 0x8000;
+}

@@ -1,0 +1,60 @@
+# Standalone overlay-local gate seed -- DEEP/BACK-HALF dungeon subwindow (T8 gate-expansion batch, third wave / t8b).
+# Do NOT add to configure.py / build.ninja; run via tools/overlay_local_gate.py --clean.
+#
+# Gives a gate_config to 1 banked byte-verified reconcile-lane match(es) (permuter
+# frontier, result==NOMATCH in the split JSON, verified via the attempts journal, not yet
+# integrated) that previously had NO gate window, so overlay_reconcile_lane can freeze +
+# land them (and the growing blitz stream in this file region):
+#   func_80F0C3B8
+#
+# BASE NOTE -- base_confidence: synthetic-self-consistent (NOT proven).
+# This region has NEITHER a runtime RAM-capture base (the f15 RAM dump proved only the floor-engine K=0x7FFE5760 at file 0xA3000-0xFD08E plus per-floor asset/far-overlay {file,vram} pairs, none of which cover this file region) NOR a static jr-table
+# proof (work/overlay_recon/loadmap_dungeon.json carries one proven band, 0xA8B04-0xF2E30 (floor-engine, delta +0x5760 -> K=0x7FFE5760); this region is an
+# unresolved/insufficient jr-switch site -- deep/back-half scenes make ~0 intra-region
+# calls, so the v3 call-graph/jtbl K-test does not reach a consensus delta). Per
+# docs/gate_expansion_notes.md the window therefore uses the synthetic self-consistent
+# sweep base  vram = file + 0x7FFE0000  -- the SAME base these matches were byte-verified
+# under and that the landed dungeon corpus lives in. The byte gate is blind to a uniform
+# base (an all-raw window is byte-identical at any base), so landing here is byte-SOUND;
+# the base label stays honest until a dungeon/boss RAM dump or a local jr-table proof
+# upgrades it. Refs: docs/gate_expansion_notes.md; work/t8/T8_FINDINGS.md.
+# Expected first state: targets are result==NOMATCH -> all-raw window == container bytes.
+name: dungeon_deep_t8b_0f2c
+sha1: 27f9fcc384a570a991e349b920881e7070c0e13c
+options:
+  basename: dungeon_deep_t8b_0f2c
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0xF2C3B8
+    file_end: 0xF2C480
+    vram_start: 0x80F0C3B8          # = 0xF2C3B8 + 0x7FFE0000 (synthetic sweep base)
+    base_confidence: synthetic-self-consistent   # NOT proven; see BASE NOTE
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: true
+segments:
+  - [0x0, bin]
+  - type: code
+    start: 0xF2C3B8
+    vram: 0x80F0C3B8
+    subsegments:
+      - [0xF2C3B8, asm]
+  - [0xF2C480, bin]
+  - [0x1A86800]

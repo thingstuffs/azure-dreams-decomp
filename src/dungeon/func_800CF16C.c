@@ -1,0 +1,21 @@
+#include "common.h"
+
+typedef struct {
+    u8 pad12[0x12];
+    s16 value12;
+    u16 value14;
+} Func800CF16CArg;
+
+extern s32 func_800D1A80(void);
+extern void func_800A56C0(void);
+extern void func_800D4908(void);
+
+void func_800D48CC(void *arg0, void *arg1, Func800CF16CArg *arg2) {
+    if (func_800D1A80() != 0) {
+        func_800A56C0();
+        return func_800D4908();
+    }
+
+    arg2->value12 = 0x7E40;
+    arg2->value14 |= 0x100;
+}

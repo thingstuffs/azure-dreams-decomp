@@ -1,0 +1,43 @@
+#include "common.h"
+
+#define FIELD(obj, type, offset) (*(volatile type *)((u8 *)(obj) + (offset)))
+
+extern void func_800B0DBC(void);
+extern void func_800B0E10(void);
+extern s32 D_800786DC[];
+extern s32 D_800786E8[];
+
+void func_800B0D7C(void *arg0) {
+    if (FIELD(arg0, s32, 0x10) > 0) {
+        register s32 flags ASM_REG("$2");
+        void **state;
+
+        state = FIELD(arg0, void **, 0xCC);
+        *FIELD(state, void **, 0x74) = D_800786DC;
+        flags = FIELD(arg0, s32, 0x1C);
+        flags &= ~2;
+        ASM_TAILSLOT_PIN(flags);
+        func_800B0DBC();
+        return;
+    }
+
+    FIELD(arg0, s32, 0x1C) |= 2;
+    if (FIELD(arg0, s32, 0x10) < FIELD(arg0, s32, 0x14)) {
+        register s32 mask ASM_REG("$3");
+        void **state;
+
+        mask = ~1;
+        ASM_KEEP(mask);
+        FIELD(arg0, s32, 0x1C) &= mask;
+        state = FIELD(arg0, void **, 0xCC);
+        *FIELD(state, void **, 0x78) = D_800786E8;
+        func_800B0E10();
+        return;
+    }
+
+    FIELD(arg0, s32, 0x1C) |= 1;
+}
+
+/* MECHANISM: Branch-local state pointers preserve the frameless 39-word shape and rowbase tail edges.
+   ASM_TAILSLOT_PIN sinks the first masked value into its tail jump; the $v1 mask plus ASM_KEEP
+   forces li -2 into the second branch delay slot ahead of the volatile flags load. */

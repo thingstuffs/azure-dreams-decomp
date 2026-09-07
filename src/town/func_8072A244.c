@@ -1,0 +1,28 @@
+#include "common.h"
+#include "m2c_compat.h"
+
+typedef struct S_8072A244_0 {
+    u8 pad_00[0x1C];
+    void * unk_1C;
+} S_8072A244_0;   /* D_80016000 in func_8072A244 */
+
+typedef struct S_8072A244_1 {
+    u8 pad_00[0x40];
+    M2C_UNK * unk_40;
+} S_8072A244_1;   /* ((S_8072A244_0 *)D_80016000)->unk_1C in func_8072A244 */
+
+
+
+
+M2C_UNK func_80016100();                            /* extern */
+extern S_8072A244_0 *D_80016000;
+extern M2C_UNK D_80017A7C;
+extern M2C_UNK *D_80017B90;
+extern M2C_UNK D_80017F64;
+
+
+void func_8072A244(void) {
+    func_80016100();
+    D_80017B90 = &D_80017A7C;
+    ((S_8072A244_1 *)(D_80016000->unk_1C))->unk_40 = &D_80017F64;
+}

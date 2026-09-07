@@ -1,0 +1,56 @@
+#include "common.h"
+
+typedef struct TownRuntime {
+    u8 pad_00[0x28];
+    void *field_28;
+    void *field_2C;
+    u8 pad_30[4];
+    void *field_34;
+} TownRuntime;
+
+extern s16 D_8001B8A8[3];
+extern s32 D_8001C370;
+extern u8 D_8001C480[0x10];
+extern u8 D_8001DA10;
+extern u8 D_8001DC10;
+extern u8 D_8001DCD0;
+extern u8 D_80016000[0x10];
+
+extern void func_80019860(s32, s32, s32);
+extern void func_80016748(void);
+extern void func_8001A044(s32, void *, void *);
+
+/* Initializes town resources and stores their pointers in the runtime. */
+void func_8001A484(void) {
+    s16 *position;
+    u8 *address_base;
+    s32 resource_id;
+    void *callback;
+    void *resource_data;
+    TownRuntime *runtime;
+
+    do {
+        position = D_8001B8A8;
+    } while (0);
+    func_80019860(D_8001B8A8[0], position[1], position[2]);
+    address_base = (u8 *)0x80020000;
+    ASM_KEEP(address_base);   /* MATCH pin: keeps a statement from moving across a call/branch */
+    func_80016748();
+    do {
+        resource_id = D_8001C370;
+    } while (0);
+    ASM_KEEP(resource_id);   /* MATCH pin: retail schedule: same instructions, different order without it */
+    callback = address_base - 0x3B80;
+    resource_data = &D_8001DA10;
+    func_8001A044(resource_id, callback, resource_data);
+    ASM_KEEP(address_base);   /* MATCH pin: keeps a statement from moving across a call/branch */
+
+    do {
+        runtime = *(TownRuntime **)D_80016000;
+    } while (0);
+    do {
+        runtime->field_28 = address_base - 0x3B80;
+    } while (0);
+    runtime->field_34 = &D_8001DC10;
+    runtime->field_2C = &D_8001DCD0;
+}
