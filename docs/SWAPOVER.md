@@ -25,6 +25,16 @@ Not needed: agent-campaign payloads (`config/knowledge*`, `config/function_dossi
 `work/wave_*`, `work/dungeon_p1`, dossiers, learnings), the 132 tool tests that cover them,
 and the campaign docs. The build closure is roughly 30 tools, 2,200 config files and 2 patches.
 
+### Lesson from the first gate runs (2026-09-07)
+
+The per-row verifier passed a header via `C_INCLUDE_PATH`; GCC then treats it as a *system*
+header and tolerates typedef redefinitions that the window gate (which uses `-I`, a user
+directory) rejects. Seven files carried a stray `typedef s8 M2C_UNK8;` next to the hoisted
+compat header and were "exact" per the verifier but broke the gate. The verifier now passes
+the include root as `-I`, the seven files are fixed, and every transformed row is re-verified
+under the strict rule. Rule for the swap: **the gate's compile command is the only compile
+command**; verification tools must call it, not imitate it.
+
 ## 2. Gaps found in the inventory
 
 1. **Overlay containers are proven per window, not linked whole.** SLUS has a whole-binary
