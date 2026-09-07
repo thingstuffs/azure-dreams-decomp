@@ -74,6 +74,11 @@ def one(row, model, effort, timeout):
     reply = (work / "last_message.txt").read_text(errors="replace").strip()[-200:] if (work / "last_message.txt").exists() else ""
     rec = {"id": row["id"], "model": model, "effort": effort, "rc": rc, "secs": secs, "usage": usage, "reply": reply,
            "changed": new != src, "in_sha": sha_text(src), "lines_in": src.count("\n"), "lines_out": new.count("\n")}
+    quota = rc != 0 and any(k in (err or "").lower() for k in ("rate limit", "usage limit", "quota", "429", "too many requests"))
+    if quota:
+        rec["outcome"] = "quota"; rec["err"] = (err or "")[-200:]
+        shutil.rmtree(work, ignore_errors=True)
+        return rec
     if new == src:
         rec["outcome"] = "unchanged"
     else:
@@ -120,7 +125,7 @@ def main():
     (ROOT / "work").mkdir(exist_ok=True)
     if a.container: rs = [r for r in rs if r["container"] == a.container]
     if a.all:
-        done = {j["id"] for j in read_jsonl(journal) if j.get("outcome") in ("accepted", "unchanged")}
+        done = {j["id"] for j in read_jsonl(journal) if j.get("outcome") in ("accepted", "unchanged")}   # 'quota' and 'rejected' rows are retried
         rs = [r for r in rs if r["id"] not in done]
         rs.sort(key=lambda r: r["size"])
     if a.limit: rs = rs[:a.limit]
@@ -129,9 +134,14 @@ def main():
     def work(r):
         rec = one(r, a.model, a.effort, a.timeout); rec["at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
         return rec
+    quota_hits = 0
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
         for rec in ex.map(work, rs):
             append_jsonl(journal, rec); print(json.dumps({k: rec.get(k) for k in ("id", "outcome", "secs", "class", "total", "m2c_locals_in", "m2c_locals_left", "gotos_in", "gotos_out", "reply")}), flush=True)
+            quota_hits = quota_hits + 1 if rec["outcome"] == "quota" else 0
+            if quota_hits >= 3:
+                print("QUOTA: three consecutive rate-limit failures; stopping (relaunch with --all after the reset)", flush=True)
+                ex.shutdown(wait=False, cancel_futures=True); break
 
 if __name__ == "__main__":
     main()
