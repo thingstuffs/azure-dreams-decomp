@@ -47,6 +47,7 @@ s32 func_800A2424(void *arg0, s32 arg1) {
 
     s1 = (u8 *)arg0;
     if (s1[0x11] < 2U) {
+        func_800A2AB8();
         return 0;
     }
     s1[0x11] -= 1;

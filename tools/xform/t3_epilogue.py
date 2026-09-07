@@ -21,10 +21,20 @@ def index():
                 _idx.setdefault((r["container"], r["row_key"]), []).append(r)
     return _idx
 
+def in_row(row, target):
+    """An epilogue jump is the row's own only if the target lies inside the row's extent; a jump
+    to a resident or foreign tail must stay a call (the linked bytes differ, even though a
+    per-row relocation-normalised compare cannot see it)."""
+    try:
+        vram = int(row["func"][5:], 16); tgt = int(target[5:], 16)
+    except (TypeError, ValueError):
+        return False
+    return vram <= tgt < vram + row["size"]
+
 def sites_for(row):
     idx = index()
     keys = [(row["container"], f) for f in (row.get("defs") or [row["func"]])]
-    return [s for k in keys for s in idx.get(k, [])]
+    return [s for k in keys for s in idx.get(k, []) if in_row(row, s["target"])]
 
 class T:
     name = "t3_epilogue"; level = 1

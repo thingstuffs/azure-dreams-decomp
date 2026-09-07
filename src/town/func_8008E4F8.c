@@ -45,12 +45,13 @@ void func_8008BC58(u8 *object, void *arg1, void *arg2) {
             if (buttons & 0x40) {
                 D_800FC418 = 1;
                 func_80035208(D_80072214);
-        return;
+        func_8008BEBC();
             return;
             }
             if (buttons & 0x20) {
                 D_800FC418 = 1;
                 func_80035208(D_80072210, arg1);
+                func_8008BEBC();
                 return;
             }
         }
@@ -61,6 +62,7 @@ void func_8008BC58(u8 *object, void *arg1, void *arg2) {
         position = (s16 *)D_80083780;
         *(s32 *)(*(u8 **)object + 0x30) = position[1] / 64 - 0x18;
         *(s32 *)(*(u8 **)object + 0x34) = position[3] / 64 - 0x40;
+        func_8008BEBC();
         return;
     } else if (state == 10) {
         s32 buttons;

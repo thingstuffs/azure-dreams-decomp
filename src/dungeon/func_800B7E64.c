@@ -1,18 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef struct S_800BD5C4_0 {
-    s32 unk_00;
-    u8 pad_04[0x27];
-    u8 unk_2B;
-    s32 unk_2C;
-    u8 pad_30[0x4];
-    s32 unk_34;
-    u8 pad_38[0xF0];
-    s32 unk_128;
-} S_800BD5C4_0;   /* arg0 in func_800BD5C4; pointer addresses record offset 0x18 */
-
-
 M2C_UNK func_80042B68();             /* extern */
 M2C_UNK func_8008D330(); /* extern */
 M2C_UNK func_80098B38();                         /* extern */
@@ -36,6 +24,22 @@ extern u16 D_800DDE84[];
 extern M2C_UNK D_800E0E82;
 extern void *D_800E3D7C[];
 
+
+typedef struct S_800BD5C4_0_pre {
+    s32 unk_00;
+    u8 pad_04[0x14];
+} S_800BD5C4_0_pre;   /* the 0x18 bytes before arg0 in func_800BD5C4, addressed as arg0[-1] */
+
+typedef struct S_800BD5C4_0 {
+    u8 pad_00[0x13];
+    u8 unk_13;
+    s32 unk_14;
+    u8 pad_18[0x4];
+    s32 unk_1C;
+    u8 pad_20[0xF0];
+    s32 unk_110;
+} S_800BD5C4_0;   /* arg0 in func_800BD5C4 */
+
 s32 func_800BD5C4(void *arg0, s32 arg1, s16 arg2) {
     u16 *table;
     register void *call_arg ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
@@ -47,8 +51,9 @@ s32 func_800BD5C4(void *arg0, s32 arg1, s16 arg2) {
     s32 result;
 
     if (arg0 == D_800E3D7C[0]) {
-        ((S_800BD5C4_0 *)((u8 *)arg0 - 0x18))->unk_128 = arg1;
+        ((S_800BD5C4_0 *)arg0)->unk_110 = arg1;
         func_8008D330(arg0, &D_80083780, &D_80082E80, arg0);
+        func_800BD710();
         return 0;
     }
     if ((u32) arg0 <= 0x9FFFFFFFU) {
@@ -56,19 +61,20 @@ s32 func_800BD5C4(void *arg0, s32 arg1, s16 arg2) {
         call_arg = arg0;
         table = (u16 *)0x800E0000;
         ASM_KEEP(table);   /* MATCH pin: retail immediate-load split depends on it */
-        table_index = ((S_800BD5C4_0 *)((u8 *)arg0 - 0x18))->unk_2B;
+        table_index = ((S_800BD5C4_0 *)arg0)->unk_13;
         ASM_KEEP(table_index);   /* MATCH pin: retail immediate-load split depends on it */
         table = (u16 *)((u8 *)table - 0x217C);
         ASM_KEEP(table);   /* MATCH pin: retail immediate-load split depends on it */
         if (func_800AD6FC(call_arg, (table[table_index] >> 6) & 3, 0) == 0) {
             func_800A5F38(arg0, arg1);
+            func_800BD710();
             return 1;
         }
         goto block_8;
     }
 block_8:
-    func_800C4AFC(((S_800BD5C4_0 *)((u8 *)arg0 - 0x18))->unk_00, 0xC02020, arg0);
-    if ((((S_800BD5C4_0 *)((u8 *)arg0 - 0x18))->unk_2C & 0x4000) && !(((S_800BD5C4_0 *)((u8 *)arg0 - 0x18))->unk_34 & 0x400)) {
+    func_800C4AFC(((S_800BD5C4_0_pre *)arg0)[-1].unk_00, 0xC02020, arg0);
+    if ((((S_800BD5C4_0 *)arg0)->unk_14 & 0x4000) && !(((S_800BD5C4_0 *)arg0)->unk_1C & 0x400)) {
         temp_v0 = func_800990FC();
         call_arg = &D_800E0E82;
         ASM_KEEP(call_arg);   /* MATCH pin: retail schedule: same instructions, different order without it */

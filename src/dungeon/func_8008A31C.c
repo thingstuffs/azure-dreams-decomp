@@ -1,5 +1,37 @@
 #include "common.h"
 
+
+typedef struct {
+    u8 pad0[2];
+    u16 field2;
+    u8 pad4[6];
+    s16 fieldA;
+} D_80083460_t;
+
+extern void func_8008FD34();
+extern void func_8008FD1C(void *, u8, s32);
+#ifndef NON_MATCHING
+extern void func_8008FD1C_state0(void *, u8, s32) __asm__("func_8008FD1C");
+#endif
+extern void func_8008FCE8(void) __attribute__((noreturn));
+extern void func_80099F70(s32);
+extern void func_80099F04(s32);
+extern void func_80048A44(void *, u8, s16, s32);
+extern s16 func_8009AF18(s16, void *, void *, s32);
+
+extern s32 D_80081484[3];
+extern s16 D_80083228[];
+extern D_80083460_t D_80083460;
+extern s32 D_8008ACDC;
+extern u8 D_8008EAC8[];
+extern u8 D_800DCFB0[8];
+extern u8 D_800DCFD0[8];
+extern u8 D_800DD060[8];
+extern u8 D_800DD0B8[8];
+extern volatile u8 D_800DD0C8[8];
+extern s32 D_800E3540[];
+
+
 typedef struct S_8008FA7C_0 {
     u8 pad_00[0x14];
     s32 unk_14;
@@ -71,38 +103,6 @@ typedef struct S_8008FA7C_10 {
     u8 unk_85;
 } S_8008FA7C_10;   /* ((S_8008FA7C_3 *)arg0)->unk_124.p in func_8008FA7C */
 
-
-
-typedef struct {
-    u8 pad0[2];
-    u16 field2;
-    u8 pad4[6];
-    s16 fieldA;
-} D_80083460_t;
-
-extern void func_8008FD34();
-extern void func_8008FD1C(void *, u8, s32);
-#ifndef NON_MATCHING
-extern void func_8008FD1C_state0(void *, u8, s32) __asm__("func_8008FD1C");
-#endif
-extern void func_8008FCE8(void) __attribute__((noreturn));
-extern void func_80099F70(s32);
-extern void func_80099F04(s32);
-extern void func_80048A44(void *, u8, s16, s32);
-extern s16 func_8009AF18(s16, void *, void *, s32);
-
-extern s32 D_80081484[3];
-extern s16 D_80083228[];
-extern D_80083460_t D_80083460;
-extern s32 D_8008ACDC;
-extern u8 D_8008EAC8[];
-extern u8 D_800DCFB0[8];
-extern u8 D_800DCFD0[8];
-extern u8 D_800DD060[8];
-extern u8 D_800DD0B8[8];
-extern volatile u8 D_800DD0C8[8];
-extern s32 D_800E3540[];
-
 void func_8008FA7C(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3) {
     s16 countdown;
     s32 index;
@@ -143,6 +143,7 @@ void func_8008FA7C(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3) {
     if (state == 3) {
         goto state_3;
     }
+    func_8008FD34();
     return;
 
 state_0:
@@ -241,8 +242,8 @@ state_1:
             state1_v1 = ((S_8008FA7C_3 *)arg0)->unk_124.i;
             ((S_8008FA7C_6 *)((u8 *)state1_v1))->unk_85 = 2;
 #else
-            ((S_8008FA7C_11 *)(((S_8008FA7C_3 *)arg0)->unk_124.p))->unk_84 = 0x78;
-            ((S_8008FA7C_11 *)(((S_8008FA7C_3 *)arg0)->unk_124.p))->unk_85 = 2;
+            ((S_8008FA7C_10 *)(((S_8008FA7C_3 *)arg0)->unk_124.p))->unk_84 = 0x78;
+            ((S_8008FA7C_10 *)(((S_8008FA7C_3 *)arg0)->unk_124.p))->unk_85 = 2;
 #endif
 #ifndef NON_MATCHING
             masked_flags = ((S_8008FA7C_2 *)arg3)->unk_1C;
@@ -349,12 +350,12 @@ state_3:
         dead_v0 = (u8 *)0x80090000;
 #endif
         ((S_8008FA7C_3 *)arg0)->unk_8C.p2 = &D_8008ACDC;
-        (*(u8 * *)((u8 *)state3_arg2 + 0x2C)) = D_800DCFB0;
+        (*(u8 * *)((u8 *)state3_arg2 + (0x2C))) = D_800DCFB0;
 #ifndef NON_MATCHING
         ASM_KEEP(state3_arg2);   /* MATCH pin: keeps a statement from moving across a call/branch */
 #endif
         index = ((D_80083228[0] + ((S_8008FA7C_2 *)arg3)->unk_2A + 0x100) >> 9) & 7;
-        func_80048A44(state3_arg2, (*(u8 * volatile *)((u8 *)state3_arg2 + 0x2C))[index], 0, 1);
+        func_80048A44(state3_arg2, (*(u8 * volatile *)((u8 *)state3_arg2 + (0x2C)))[index], 0, 1);
         goto increment_state;
 
 increment_state:

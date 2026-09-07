@@ -7,6 +7,7 @@ M2C_UNK func_80097DCC();                            /* extern */
 M2C_UNK func_80098988();    /* extern */
 extern M2C_UNK D_800CFFF0;
 
+
 typedef struct S_80097D54_0 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -23,6 +24,7 @@ void func_80097D54(S_80097D54_0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
         if ((temp_v0 << 0x10) <= 0) {
             if (arg0->unk_1C == &D_800CFFF0) {
                 func_80093D90(arg0, arg1, arg2);
+                func_80097DCC();
                 return;
             }
             goto block_6;

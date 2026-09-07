@@ -1,23 +1,5 @@
 #include "common.h"
 
-typedef struct S_8009B2C4_0 {
-    u8 pad_00[0x3A];
-    u8 unk_3A;
-} S_8009B2C4_0;   /* (u8 *)arg1 + D_800CFDD8[index] in func_8009B2C4 */
-
-typedef struct S_8009B2C4_1 {
-    u8 pad_00[0x3A];
-    u8 unk_3A;
-} S_8009B2C4_1;   /* entry in func_8009B2C4 */
-
-typedef struct S_8009B2C4_2 {
-    u8 pad_00[0x20];
-    void * unk_20;
-    u8 pad_24[0x17];
-    u8 unk_3B;
-} S_8009B2C4_2;   /* arg1 in func_8009B2C4 */
-
-
 
 typedef struct {
     u8 pad_00[0x10];
@@ -56,6 +38,24 @@ extern TownControl D_800CFCB4;
 extern s32 D_800CFCCC;
 extern s32 D_800CFDD8[];
 
+
+typedef struct S_8009B2C4_0 {
+    u8 pad_00[0x3A];
+    u8 unk_3A;
+} S_8009B2C4_0;   /* (u8 *)arg1 + D_800CFDD8[index] in func_8009B2C4 */
+
+typedef struct S_8009B2C4_1 {
+    u8 pad_00[0x3A];
+    u8 unk_3A;
+} S_8009B2C4_1;   /* entry in func_8009B2C4 */
+
+typedef struct S_8009B2C4_2 {
+    u8 pad_00[0x20];
+    void * unk_20;
+    u8 pad_24[0x17];
+    u8 unk_3B;
+} S_8009B2C4_2;   /* arg1 in func_8009B2C4 */
+
 s32 func_8009B2C4(TownObject *arg0, void *arg1) {
     register TownControl *control ASM_REG("$9");   /* MATCH pin: retail register colouring depends on it */
     register TownControl *initial_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
@@ -76,7 +76,7 @@ s32 func_8009B2C4(TownObject *arg0, void *arg1) {
             if (((S_8009B2C4_1 *)entry)->unk_3A == 1) {
                 if (D_800834B8 == (s32)&D_800924EC) {
                     arg0->vtable->func0();
-                    return 1;
+                    func_8009B444();
                     return 1;
                 }
                 goto block_7;
@@ -84,7 +84,8 @@ s32 func_8009B2C4(TownObject *arg0, void *arg1) {
 block_7:
             if (D_800834B8 == (s32)&D_80092698) {
                 func_8009C120();
-                return 1;
+                func_8009B444();
+                ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
                 return 1;
             }
             var_v0 = (TownControl *)0x800D0000;
@@ -92,7 +93,8 @@ block_7:
                 var_v0 = (TownControl *)0x800D0000;
                 if (D_800CFCCC == 0) {
                     func_8009C148();
-                    return 1;
+                    func_8009B444();
+                    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
                     return 1;
                 }
             }

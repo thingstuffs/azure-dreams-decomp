@@ -1,5 +1,27 @@
 #include "common.h"
 
+
+extern s32 func_800419EC();
+extern s32 func_80042900();
+extern s32 func_80042B68();
+extern s32 func_80048A44();
+extern s32 func_80092F30();
+extern s32 func_8009307C();
+extern void func_800930C4(void) __attribute__((noreturn));
+extern s32 func_800997FC();
+extern s32 func_800A2B04();
+
+extern u16 D_80013714;
+extern u8 D_80082E80[];
+extern s16 D_80083228;
+extern s32 D_80083460;
+extern s32 D_80083460_count __asm__("D_80083460");
+extern s32 D_8008ACDC;
+extern u8 D_800DCFF8[];
+extern u8 D_800E0597;
+extern u8 D_800E05C3;
+
+
 typedef struct S_80092E90_0 {
     u8 pad_00[0x4];
     s16 unk_04;
@@ -26,7 +48,7 @@ typedef struct S_80092E90_2 {
 
 typedef struct S_80092E90_3 {
     u8 pad_00[0x4];
-    union { s16 s; volatile u16 u; u16 p; } unk_04;   /* accessed as both */
+    union { s16 n; volatile u16 v; u16 n2; } unk_04;   /* accessed as both */
 } S_80092E90_3;   /* countBase in func_80092E90 */
 
 typedef struct S_80092E90_4 {
@@ -68,27 +90,6 @@ typedef struct S_80092E90_9 {
     s8 unk_26;
 } S_80092E90_9;   /* ((S_80092E90_7_pre *)node)[-1].unk_00 in func_80092E90 */
 
-
-
-extern s32 func_800419EC();
-extern s32 func_80042900();
-extern s32 func_80042B68();
-extern s32 func_80048A44();
-extern s32 func_80092F30();
-extern s32 func_8009307C();
-extern s32 func_800997FC();
-extern s32 func_800A2B04();
-
-extern u16 D_80013714;
-extern u8 D_80082E80[];
-extern s16 D_80083228;
-extern s32 D_80083460;
-extern s32 D_80083460_count __asm__("D_80083460");
-extern s32 D_8008ACDC;
-extern u8 D_800DCFF8[];
-extern u8 D_800E0597;
-extern u8 D_800E05C3;
-
 void func_80092E90(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     register void *savedArg3 ASM_REG("$21") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
@@ -127,10 +128,10 @@ void func_80092E90(void *arg0, void *arg1, void *arg2, void *arg3)
     ((S_80092E90_2 *)arg1)->unk_10 = 0;
     ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
     countBase = &D_80083460_count;
-    count = ((S_80092E90_3 *)countBase)->unk_04.s;
-    rawCount = ((S_80092E90_3 *)countBase)->unk_04.u;
+    count = ((S_80092E90_3 *)countBase)->unk_04.n;
+    rawCount = ((S_80092E90_3 *)countBase)->unk_04.v;
     if (count != 0) {
-        ((S_80092E90_3 *)countBase)->unk_04.p = rawCount - 1;
+        ((S_80092E90_3 *)countBase)->unk_04.n2 = rawCount - 1;
     }
 
     state = ((S_80092E90_4 *)arg0)->unk_9B;
@@ -140,7 +141,7 @@ void func_80092E90(void *arg0, void *arg1, void *arg2, void *arg3)
     if (state == 1) {
         goto state1;
     }
-    return;
+    func_800930C4();
 
 state0:
         initArg = 0x10;
@@ -148,14 +149,14 @@ state0:
             return;
         }
         func_800419EC(initArg, 8);
-        (*(void * *)((u8 *)arg2 + 0x2C)) = D_800DCFF8;
+        (*(void * *)((u8 *)arg2 + (0x2C))) = D_800DCFF8;
         func_80048A44(
             arg2,
             D_800DCFF8[((D_80083228 + ((S_80092E90_5 *)savedArg3)->unk_2A + 0x100) >> 9) & 7],
             0,
             1);
         ((S_80092E90_4 *)arg0)->unk_9B++;
-        return;
+        func_800930C4();
 
 state1:
         if (!(((S_80092E90_1 *)arg2)->unk_14 & 0xE000)) {

@@ -1,6 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+/* cfail-repair: tf7-phase1-cache-v3 */
+extern u8 D_80080000[];
+extern void func_80024C0C(void) __attribute__((noreturn));
+
+
 typedef struct S_80024B48_0_pre {
     u16 unk_00;
 } S_80024B48_0_pre;   /* the 0x2 bytes before arg0 in func_80024B48, addressed as arg0[-1] */
@@ -28,10 +33,6 @@ typedef struct S_80024B48_2 {
     u16 unk_52;
 } S_80024B48_2;   /* ((S_80024B48_0 *)arg0)->unk_00 in func_80024B48 */
 
-
-/* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_80080000[];
-
 void func_80024B48(void *arg0) {
     s32 temp_v0;
     s32 temp_v1;
@@ -43,6 +44,7 @@ void func_80024B48(void *arg0) {
     ((S_80024B48_0 *)arg0)->unk_48 = (u16) (((S_80024B48_0 *)arg0)->unk_48 + 1);
     if (((S_80024B48_0 *)arg0)->unk_4C != 0) {
         if (((S_80024B48_0 *)arg0)->unk_4C != 1) {
+            func_80024C0C();
             return;
         }
         goto block_5;
@@ -59,7 +61,7 @@ void func_80024B48(void *arg0) {
     ((S_80024B48_0 *)arg0)->unk_4C = (s16) ((u16) ((S_80024B48_0 *)arg0)->unk_4C + 1);
 block_5:
     if ((s16) ((S_80024B48_0 *)arg0)->unk_48 >= 0x20) {
-        ((S_80024B48_0_pre *)arg0)[-1].unk_00 = (u16) (((S_80024B48_0_pre *)arg0)[-1].unk_00 | 0x8000);
-        (*(s32 *)((u8 *)D_80080000 + 0x14A0)) = (s32) (((S_80024B48_1 *)D_80080000)->unk_14A0 | 0x8000);
+        (*(u16 *)((u8 *)arg0 + (-2))) = (u16) (((S_80024B48_0_pre *)arg0)[-1].unk_00 | 0x8000);
+        (*(s32 *)((u8 *)D_80080000 + (0x14A0))) = (s32) (((S_80024B48_1 *)D_80080000)->unk_14A0 | 0x8000);
     }
 }

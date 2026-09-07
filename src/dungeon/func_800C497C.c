@@ -1,5 +1,12 @@
 #include "common.h"
 
+
+extern s16 func_800A0818(s32, s32, s32, s32, void *);
+extern void func_800CA1C8(void) __attribute__((noreturn));
+
+extern u16 D_80083462;
+
+
 typedef struct S_800CA0DC_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -31,12 +38,6 @@ typedef struct S_800CA0DC_3 {
     u8 unk_7C;
 } S_800CA0DC_3;   /* (u8 *)arg3 + ((S_800CA0DC_0 *)arg3)->unk_8A.s in func_800CA0DC */
 
-
-
-extern s16 func_800A0818(s32, s32, s32, s32, void *);
-
-extern u16 D_80083462;
-
 void func_800CA0DC(void *arg0, s32 arg1, void *arg2, void *arg3)
 {
     s32 count;
@@ -63,11 +64,11 @@ void func_800CA0DC(void *arg0, s32 arg1, void *arg2, void *arg3)
                       ((S_800CA0DC_1 *)arg2)->unk_25, (u8 *)arg0 + 0x98);
     ((S_800CA0DC_0 *)arg3)->unk_1C |= 0x40000000;
     ((S_800CA0DC_2 *)arg0)->unk_9A = 0xF;
-    (*(s32 *)((u8 *)arg0 + 0x8C)) = 0;
+    (*(s32 *)((u8 *)arg0 + (0x8C))) = 0;
 
     if (D_80083462 & 0x80) {
         ((S_800CA0DC_2 *)arg0)->unk_96 = 0;
-        return;
+        func_800CA1C8();
     }
 
     ((S_800CA0DC_2 *)arg0)->unk_96 = 8;

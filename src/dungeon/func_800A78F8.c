@@ -2,6 +2,26 @@
 
 typedef s32 M2C_UNK;
 
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
+
+extern s16 D_8008346A[];
+extern u8 D_80083780[12];
+extern s32 D_80083460[3];
+extern s32 D_800814A0[3];
+s32 func_800644B8(s32);
+s32 func_80064584(s32);
+M2C_UNK func_8009A028();
+M2C_UNK func_8009A3D0();
+M2C_UNK func_800A2FE0();
+M2C_UNK func_800A32A4();
+M2C_UNK func_800A56E0();
+M2C_UNK func_800ACF88();
+s32 func_80042900();
+s32 func_800AD44C();
+s32 func_800AD4AC();
+M2C_UNK func_800B8228();
+
+
 typedef struct S_800AD058_0 {
     u8 pad_00[0x96];
     s16 unk_96;
@@ -59,26 +79,6 @@ typedef struct S_800AD058_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_800AD058_5;   /* base in func_800AD058 */
-
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-extern s16 D_8008346A[];
-extern u8 D_80083780[12];
-extern s32 D_80083460[3];
-extern s32 D_800814A0[3];
-s32 func_800644B8(s32);
-s32 func_80064584(s32);
-M2C_UNK func_8009A028();
-M2C_UNK func_8009A3D0();
-M2C_UNK func_800A2FE0();
-M2C_UNK func_800A32A4();
-M2C_UNK func_800A56E0();
-M2C_UNK func_800ACF88();
-s32 func_80042900();
-s32 func_800AD44C();
-s32 func_800AD4AC();
-M2C_UNK func_800B8228();
 
 s32 func_800AD058(u8 *arg0, s32 *arg1, u8 *arg2, u8 *arg3) {
     M2C_UNK var_a0;
@@ -198,6 +198,7 @@ block_15:
         ((S_800AD058_2_pre *)arg3_local)[-1].unk_00 = (u16) (((S_800AD058_2_pre *)arg3_local)[-1].unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
         func_800A56E0(0x609);
+        func_800AD4AC();
         return 1;
     }
     return var_v0;

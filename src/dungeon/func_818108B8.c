@@ -1,22 +1,5 @@
 #include "common.h"
 
-typedef struct S_800258B8_0 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    s32 unk_14;
-    u8 pad_18[0x70];
-    s32 unk_88;
-} S_800258B8_0;   /* object in func_800258B8 */
-
-typedef struct S_800258B8_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x10];
-    s32 unk_1C;
-} S_800258B8_1;   /* subobject in func_800258B8 */
-
-
 typedef struct {
     u8 pad0[0xC];
     s32 value;
@@ -48,8 +31,26 @@ typedef struct {
 
 extern ItemCategory D_80073414[];
 extern void func_8004A7D8();
+extern void func_8002594C(void) __attribute__((noreturn));
 extern void strcpy();
 
+
+
+typedef struct S_800258B8_0 {
+    u8 pad_00[0xC];
+    s32 unk_0C;
+    u8 pad_10[0x4];
+    s32 unk_14;
+    u8 pad_18[0x70];
+    s32 unk_88;
+} S_800258B8_0;   /* object in func_800258B8 */
+
+typedef struct S_800258B8_1 {
+    u8 pad_00[0x8];
+    s32 unk_08;
+    u8 pad_0C[0x10];
+    s32 unk_1C;
+} S_800258B8_1;   /* subobject in func_800258B8 */
 
 void func_800258B8(void *arg0)
 {
@@ -67,7 +68,7 @@ void func_800258B8(void *arg0)
             D_80073414[((S_800258B8_0 *)object)->unk_0C]
                 .records[subobject->unk_1C].value =
                 subobject->unk_08;
-            return;
+            func_8002594C();
         }
     }
     strcpy(((S_800258B8_0 *)object)->unk_88, (u8 *)object + 0x78);

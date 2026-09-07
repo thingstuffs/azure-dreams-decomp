@@ -92,6 +92,7 @@ loop_first:
         if ((s32)firstCallback < (s32)(firstBase + 0x20)) {
             goto loop_first;
         }
+        func_80089A74();
         return;
     }
 
@@ -174,6 +175,7 @@ second_next:
         if ((s32)secondCallback < (s32)(secondBase + 0x20)) {
             goto loop_second;
         }
+        func_80089A74();
         return;
     }
 

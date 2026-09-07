@@ -74,6 +74,7 @@ s32 func_800BEDEC(u32 arg0, u8 *arg1, s16 arg2, s32 arg3) {
         func_800A6480(object, item, arg2);
         if (func_800AD6FC(object, D_800DDE84[*(u8 *)(object + 0x13)] & 3, 0) == 0) {
             func_800A5F38(object, item);
+            func_800BF050();
             return 1;
         }
         D_80083460.fieldA--;

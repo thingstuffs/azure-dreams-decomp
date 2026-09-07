@@ -16,6 +16,7 @@ extern void func_800AD594(void *, s32);
 extern void func_80173420(void) __attribute__((noreturn));
 extern void func_80173438(void) __attribute__((noreturn));
 extern void func_801734E8(void) __attribute__((noreturn));
+extern void func_80173540(void) __attribute__((noreturn));
 
 extern s16 D_8006CCD8[];
 extern s16 D_8006CCE8[];
@@ -47,13 +48,13 @@ void func_8017328C(void *arg0, void *arg1, void *arg2, void *arg3)
     if (state == 0) {
         goto state_zero;
     }
-    return;
+    func_80173540();
 
 state_two_test:
     if (state == 2) {
         goto state_two;
     }
-    return;
+    func_80173540();
 
 state_zero:
 {
@@ -65,8 +66,9 @@ state_zero:
         U16(arg2, 0x14) = flags | 0x6000;
         U8(arg0, 0x9B) = 2;
         func_8009C12C(arg3, arg2, S16(arg3, 0x2A), 1);
-        return;
+        func_80173540();
     }
+    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
     if ((flags & 0x6000) == 0) {
         goto done;
     }
@@ -169,7 +171,7 @@ after_c12c:
     S32(arg1, 0xC) = 0;
     func_800A2B04(arg1, U8(arg2, 0x24), U8(arg2, 0x25));
     U8(arg0, 0x9B)++;
-    return;
+    func_80173540();
 }
 
 state_two:
@@ -181,7 +183,7 @@ state_two:
     }
     func_800AD594(arg3, 0x100);
     PTR(arg0, 0x8C) = D_801710EC;
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
     global_page = (u8 *)0x80080000;
     ASM_KEEP(global_page);   /* MATCH pin: retail register colouring depends on it */
     S32(global_page, 0x346C) = 0;

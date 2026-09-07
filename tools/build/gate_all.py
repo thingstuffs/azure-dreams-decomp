@@ -78,7 +78,11 @@ def main():
         for rec in ex.map(run_window, todo):
             append_jsonl(JOURNAL, rec); n += 1; tally[rec["result"]] = tally.get(rec["result"], 0) + 1
             if n % 50 == 0: print(f"{n}/{len(todo)} {time.time()-t0:.0f}s {tally}", flush=True)
-    print(f"done {n} in {time.time()-t0:.0f}s: {tally}")
+    # a parallel run can leave transient failures (shared extract reads); retry those serially
+    retry = [y for y in todo if (lambda w: w and w["result"] != "MATCH" and "No such file" not in w["detail"])({j["window"]: j for j in read_jsonl(JOURNAL)}.get(y.stem.replace(".overlay", "")))]
+    for y in retry:
+        rec = run_window(y); rec["retry"] = True; append_jsonl(JOURNAL, rec); tally[rec["result"] + " (retry)"] = tally.get(rec["result"] + " (retry)", 0) + 1
+    print(f"done {n} (+{len(retry)} serial retries) in {time.time()-t0:.0f}s: {tally}")
 
 if __name__ == "__main__":
     main()

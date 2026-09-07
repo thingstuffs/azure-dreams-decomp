@@ -17,6 +17,7 @@ extern void func_8016F610() __attribute__((noreturn));
 extern void func_8016F6A8() __attribute__((noreturn));
 extern void func_8016F6C0() __attribute__((noreturn));
 extern void func_8016F740() __attribute__((noreturn));
+extern void func_8016F764() __attribute__((noreturn));
 
 extern u16 D_80013714;
 extern u8 D_8006CCF8[8];
@@ -81,7 +82,7 @@ typedef struct S_8016F2E0_5 {
 void func_8016F2E0(void *a0, void *a1, void *a2)
 {
     void *arg0 = a0;
-    S_8016F2E0_5 *arg1 = a1;
+    void *arg1 = a1;
     register void *arg2 ASM_REG("$19") = a2;   /* MATCH pin: load-bearing for the whole function shape */
     register void *actor ASM_REG("$17") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     s32 old_direction;
@@ -104,12 +105,12 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
     void *node;
     S_8016F2E0_2 *record;
 
-    if ((*(s32 *)((u8 *)arg0 + 0x14)) & 0x00800000) {
-        (*(s32 *)((u8 *)arg0 + 0x14)) &= 0xFF7FFFFF;
+    if ((*(s32 *)((u8 *)arg0 + (0x14))) & 0x00800000) {
+        (*(s32 *)((u8 *)arg0 + (0x14))) &= 0xFF7FFFFF;
         func_800353F4(&D_800F8BBC);
-        (*(u8 *)((u8 *)arg0 + 0x6D)) = 0;
-        (*(u8 *)((u8 *)arg0 + 0x9B)) = 0;
-        (*(u8 *)((u8 *)arg0 + 0x71)) &= 0x7F;
+        (*(u8 *)((u8 *)arg0 + (0x6D))) = 0;
+        (*(u8 *)((u8 *)arg0 + (0x9B))) = 0;
+        (*(u8 *)((u8 *)arg0 + (0x71))) &= 0x7F;
     }
 
     if (D_80013714 & 8) {
@@ -127,12 +128,14 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
     }
 
     if (D_80083462 & 0x2000) {
-        callback = (*(Callback *)((u8 *)arg0 + 0x8C));
+        callback = (*(Callback *)((u8 *)arg0 + (0x8C)));
         if (callback == (Callback)&D_8016F78C) {
             callback(arg0, arg1, arg2, actor);
+            func_8016F764();
             return;
         }
         ((S_8016F2E0_3 *)actor)->unk_71 &= 0x7F;
+        func_8016F764();
         return;
     }
 
@@ -143,12 +146,12 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
     }
 
     {
-        Callback callback2 = (*(Callback *)((u8 *)arg0 + 0x8C));
+        Callback callback2 = (*(Callback *)((u8 *)arg0 + (0x8C)));
         if (callback2 != 0) {
             callback2(arg0, arg1, arg2, actor);
         }
     }
-    D_80174AD4[(*(u8 *)((u8 *)arg0 + 0x9A))](arg0, arg1, arg2, actor);
+    D_80174AD4[(*(u8 *)((u8 *)arg0 + (0x9A)))](arg0, arg1, arg2, actor);
 
     ASM_KEEP(old_direction);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     direction_check = (s16)old_direction;
@@ -160,7 +163,7 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
     new_flags = flags & 0x8000;
     if (new_flags == 0) {
         old_direction = ((D_80083228 + ((S_8016F2E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7;
-        previous_direction = (*(s16 *)((u8 *)arg0 + 0x94));
+        previous_direction = (*(s16 *)((u8 *)arg0 + (0x94)));
         ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
         direction_value = old_direction;
         ASM_KEEP(old_direction);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
@@ -173,7 +176,7 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
                     *tile_slot,
                     ((S_8016F2E0_4 *)arg2)->unk_04);
             }
-            (*(s16 *)((u8 *)arg0 + 0x94)) = old_direction;
+            (*(s16 *)((u8 *)arg0 + (0x94))) = old_direction;
         }
 
         direction_slot = D_8006CCF8 + direction_copy;
@@ -210,48 +213,48 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
     }
     ((S_8016F2E0_4 *)arg2)->unk_14.n = new_flags;
 
-    arg1->unk_00.at00.v += arg1->unk_0C;
-    arg1->unk_04.at00.v += arg1->unk_10;
+    ((S_8016F2E0_5 *)arg1)->unk_00.at00.v += ((S_8016F2E0_5 *)arg1)->unk_0C;
+    ((S_8016F2E0_5 *)arg1)->unk_04.at00.v += ((S_8016F2E0_5 *)arg1)->unk_10;
 
-    if ((*(u16 *)((u8 *)arg0 + 0x98)) & 8) {
-        (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
+    if ((*(u16 *)((u8 *)arg0 + (0x98))) & 8) {
+        (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
         func_8016F610();
         return;
     }
 
-    arg1->unk_14 += (*(s8 *)((u8 *)arg0 + 0x9D)) * 0x14000;
-    (*(volatile u8 *)((u8 *)arg0 + 0x9D))++;
-    (*(s32 *)((u8 *)arg0 + 0x90)) += arg1->unk_14;
+    ((S_8016F2E0_5 *)arg1)->unk_14 += (*(s8 *)((u8 *)arg0 + (0x9D))) * 0x14000;
+    (*(volatile u8 *)((u8 *)arg0 + (0x9D)))++;
+    (*(s32 *)((u8 *)arg0 + (0x90))) += ((S_8016F2E0_5 *)arg1)->unk_14;
 
-    if (!((*(volatile u16 *)((u8 *)arg0 + 0x98)) & 4)) {
-        floor = func_800BCB04(arg1->unk_00.at02.v,
-                              arg1->unk_04.at02.v,
+    if (!((*(volatile u16 *)((u8 *)arg0 + (0x98))) & 4)) {
+        floor = func_800BCB04(((S_8016F2E0_5 *)arg1)->unk_00.at02.v,
+                              ((S_8016F2E0_5 *)arg1)->unk_04.at02.v,
                               (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));
         if ((s16)floor < 0x200) {
             actor_height = ((S_8016F2E0_3 *)actor)->unk_88.s;
             actor_height_u = ((S_8016F2E0_3 *)actor)->unk_88.u;
-            if ((*(s16 *)((u8 *)arg0 + 0x92)) + actor_height < (s16)floor) {
+            if ((*(s16 *)((u8 *)arg0 + (0x92))) + actor_height < (s16)floor) {
                 ((S_8016F2E0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
                 func_8016F6C0(actor_height_u, floor, actor_height);
                 return;
             }
             if ((s16)floor >= actor_height) {
-                (*(s32 *)((u8 *)arg0 + 0x90)) = 0;
+                (*(s32 *)((u8 *)arg0 + (0x90))) = 0;
                 func_8016F6A8(actor_height_u, floor, actor_height);
                 return;
             }
 
-            (*(s16 *)((u8 *)arg0 + 0x92)) = floor - actor_height_u;
-            arg1->unk_14 = 0;
+            (*(s16 *)((u8 *)arg0 + (0x92))) = floor - actor_height_u;
+            ((S_8016F2E0_5 *)arg1)->unk_14 = 0;
             ((S_8016F2E0_3 *)actor)->unk_1C |= 0x08000000;
-            (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
+            (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
 
             if (((S_8016F2E0_3 *)actor)->unk_1C & 0x40000000) {
                 ((S_8016F2E0_3 *)actor)->unk_1C &= 0xBFFFFFFF;
                 floor = func_800BCB04((((S_8016F2E0_4 *)arg2)->unk_24 << 6) | 0x20,
                                       (((S_8016F2E0_4 *)arg2)->unk_25 << 6) | 0x20,
                                       (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));
-                (*(s16 *)((u8 *)arg0 + 0x92)) += ((S_8016F2E0_3 *)actor)->unk_88.u - floor;
+                (*(s16 *)((u8 *)arg0 + (0x92))) += ((S_8016F2E0_3 *)actor)->unk_88.u - floor;
                 ((S_8016F2E0_3 *)actor)->unk_88.u = floor;
                 func_8016F740();
                 return;
@@ -263,7 +266,7 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
     ((S_8016F2E0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
 
 finish:
-    arg1->unk_0A = ((S_8016F2E0_3 *)actor)->unk_88.u + (*(u16 *)((u8 *)arg0 + 0x92));
+    ((S_8016F2E0_5 *)arg1)->unk_0A = ((S_8016F2E0_3 *)actor)->unk_88.u + (*(u16 *)((u8 *)arg0 + (0x92)));
     ((S_8016F2E0_4 *)arg2)->unk_14.n |= 0x40;
     ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
     ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */

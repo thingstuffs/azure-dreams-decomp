@@ -2,6 +2,12 @@
 
 typedef s32 M2C_UNK;
 
+
+extern M2C_UNK func_800A4B94();
+extern M2C_UNK func_800A4CD8();
+extern M2C_UNK D_800A4B94;
+
+
 typedef struct S_800A4C10_0 {
     void * unk_00;
     void * unk_04;
@@ -26,12 +32,6 @@ typedef struct S_800A4C10_2 {
     s32 unk_08;
 } S_800A4C10_2;   /* ((S_800A4C10_0 *)arg0)->unk_00 in func_800A4C10 */
 
-
-
-extern M2C_UNK func_800A4B94();
-extern M2C_UNK func_800A4CD8();
-extern M2C_UNK D_800A4B94;
-
 void func_800A4C10(S_800A4C10_0 *arg0) {
     s32 temp_v0;
     S_800A4C10_1 *temp_v1;
@@ -44,6 +44,7 @@ void func_800A4C10(S_800A4C10_0 *arg0) {
         arg0->unk_1C = 0;
         arg0->unk_04 = temp_v1;
         func_800A4B94(arg0);
+        func_800A4CD8();
         return;
     }
     arg0->unk_08 +=

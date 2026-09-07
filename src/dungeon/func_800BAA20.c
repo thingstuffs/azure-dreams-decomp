@@ -18,6 +18,7 @@ s32 func_800C0180(void)
     u8 *table_page;
 
     if (func_800C07AC(&D_80083498) == 0) {
+        func_800C0210();
         return 0;
     }
 

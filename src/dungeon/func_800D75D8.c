@@ -42,6 +42,7 @@ void *func_800DCD38(void) {
             func_800DC988(object);
             *(u8 **)(object + 0x10) = D_800DC8F8;
             func_8004491C(object, D_8004CAA0);
+            func_800DCDF0();
             return object;
         }
         *(u16 *)(object + 0x1E) |= 0x8000;

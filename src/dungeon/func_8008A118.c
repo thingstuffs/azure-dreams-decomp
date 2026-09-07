@@ -1,14 +1,17 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef struct S_8008F878_8 {
-    void * unk_00;
-} S_8008F878_8;   /* &D_800DD25C in func_8008F878 */
-
-typedef struct S_8008F878_9 {
-    u8 pad_00[0x6D];
-    s8 unk_6D;
-} S_8008F878_9;   /* ((S_8008F878_8 *)(&D_800DD25C))->unk_00 in func_8008F878 */
+s32 func_8004CAE8();                    /* extern */
+M2C_UNK func_8008F9F8();                            /* extern */
+M2C_UNK func_80099F04();                         /* extern */
+M2C_UNK func_80099F70();                         /* extern */
+M2C_UNK func_8009A350();          /* extern */
+M2C_UNK func_800A56E0();                     /* extern */
+extern M2C_UNK D_80081484;
+extern M2C_UNK D_80083460;
+extern M2C_UNK D_8008ACDC;
+extern M2C_UNK D_800DD25C;
+extern s32 D_800E3540;
 
 
 typedef struct S_8008F878_0 {
@@ -31,7 +34,7 @@ typedef struct S_8008F878_1 {
 } S_8008F878_1;   /* arg2 in func_8008F878 */
 
 typedef struct S_8008F878_2 {
-    union { void * s; s32 u; } unk_00;   /* accessed as both */
+    union { void * p; s32 i; } unk_00;   /* accessed as both */
 } S_8008F878_2;   /* &D_800DD25C in func_8008F878 */
 
 typedef struct S_8008F878_3 {
@@ -64,18 +67,10 @@ typedef struct S_8008F878_7 {
     u16 unk_0A;
 } S_8008F878_7;   /* temp_s0 in func_8008F878 */
 
-
-s32 func_8004CAE8();                    /* extern */
-M2C_UNK func_8008F9F8();                            /* extern */
-M2C_UNK func_80099F04();                         /* extern */
-M2C_UNK func_80099F70();                         /* extern */
-M2C_UNK func_8009A350();          /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
-extern M2C_UNK D_80081484;
-extern M2C_UNK D_80083460;
-extern M2C_UNK D_8008ACDC;
-extern M2C_UNK D_800DD25C;
-extern s32 D_800E3540;
+typedef struct S_8008F878_8 {
+    u8 pad_00[0x6D];
+    s8 unk_6D;
+} S_8008F878_8;   /* ((S_8008F878_2 *)(&D_800DD25C))->unk_00.p in func_8008F878 */
 
 void func_8008F878(S_8008F878_0 *arg0, void *arg1, S_8008F878_1 *arg2, S_8008F878_5 *arg3) {
     u16 sp10;
@@ -98,9 +93,9 @@ void func_8008F878(S_8008F878_0 *arg0, void *arg1, S_8008F878_1 *arg2, S_8008F87
     }
     if (func_8004CAE8(arg2->unk_08, 0) == 0) {
         temp_v0 = arg0->unk_124;
-        ((S_8008F878_2 *)(&D_800DD25C))->unk_00.s = temp_v0;
+        ((S_8008F878_2 *)(&D_800DD25C))->unk_00.p = temp_v0;
         if (temp_v0->unk_13 <= 0) {
-            ((S_8008F878_2 *)(&D_800DD25C))->unk_00.u = 0;
+            ((S_8008F878_2 *)(&D_800DD25C))->unk_00.i = 0;
         }
         temp_v1_2 = arg0->unk_124;
         temp_v1_2->unk_1C = (s32) (temp_v1_2->unk_1C & 0xFFF7FFFF);
@@ -115,6 +110,7 @@ void func_8008F878(S_8008F878_0 *arg0, void *arg1, S_8008F878_1 *arg2, S_8008F87
         ((S_8008F878_6 *)(&D_80081484))->unk_00 = 0;
         D_800E3540 = temp_saved;
         arg0->unk_9B++;
+        func_8008F9F8();
         return;
     }
     return;
@@ -125,8 +121,8 @@ state_1:
         temp_s0->unk_02 = (u16) (temp_s0->unk_02 | 0x412);
         func_80099F70(arg3->unk_5C);
         func_80099F04(arg3->unk_5C);
-        if (((S_8008F878_2 *)(&D_800DD25C))->unk_00.s != NULL) {
-            ((S_8008F878_9 *)(((S_8008F878_8 *)(&D_800DD25C))->unk_00))->unk_6D = 0;
+        if (((S_8008F878_2 *)(&D_800DD25C))->unk_00.p != NULL) {
+            ((S_8008F878_8 *)(((S_8008F878_2 *)(&D_800DD25C))->unk_00.p))->unk_6D = 0;
         }
         arg0->unk_8C = &D_8008ACDC;
         temp_s0->unk_0A = (u16) (temp_s0->unk_0A - 1);

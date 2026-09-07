@@ -105,6 +105,7 @@ void func_8009E504(void *arg0, s32 arg1, void *arg2)
             *(s32 *)&base[
                 ((base[BU(arg0, 0x95) * 4 + 0x983] & 0x3F) * 0x54)
                     + 0xA94]);
+        func_8009E6F8();
         return;
     }
 

@@ -60,7 +60,7 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
     register void *state ASM_REG("$17") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     register void *motion ASM_REG("$21") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     register void *part ASM_REG("$19") = arg2;   /* MATCH pin: retail delay-slot fill depends on it */
-    S_800C9AAC_2 *secondary = state;
+    void *secondary = state;
     Callback callback;
     s16 direction;
     s16 direction_index;
@@ -70,7 +70,7 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
     u16 old_height;
 
     if (entry_value & 0x2000) {
-        Callback early_callback = (*(Callback *)((u8 *)state + 0x8C));
+        Callback early_callback = (*(Callback *)((u8 *)state + (0x8C)));
         if (early_callback == (Callback)&D_800C9F34) {
             register void *incoming_a0 ASM_REG("$4");   /* MATCH pin: retail delay-slot fill depends on it */
             ASM_KEEP(incoming_a0);   /* MATCH pin: retail register colouring depends on it */
@@ -78,8 +78,9 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
             func_800C9F0C(incoming_a0);
             return;
         } else {
-            (*(u8 *)((u8 *)state + 0x71)) &= 0x7F;
+            (*(u8 *)((u8 *)state + (0x71))) &= 0x7F;
         }
+        func_800C9F0C();
         return;
     }
 
@@ -98,35 +99,35 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
         }
     }
 
-    callback = (*(Callback *)((u8 *)state + 0x8C));
+    callback = (*(Callback *)((u8 *)state + (0x8C)));
     if (callback != 0) {
         callback(state, motion, part, state);
     }
-    D_800E0354[(*(u8 *)((u8 *)state + 0x9A))](state, motion, part, state);
+    D_800E0354[(*(u8 *)((u8 *)state + (0x9A)))](state, motion, part, state);
 
-    if ((*(s16 *)((u8 *)state + 0xB8)) == 0) {
+    if ((*(s16 *)((u8 *)state + (0xB8))) == 0) {
         ((S_800C9AAC_0 *)part)->unk_0C += 4;
         ((S_800C9AAC_0 *)part)->unk_0D += 4;
         ((S_800C9AAC_0 *)part)->unk_0E += 4;
         if (((S_800C9AAC_0 *)part)->unk_0C >= 0x40) {
-            (*(s16 *)((u8 *)state + 0xB8)) = 1;
+            (*(s16 *)((u8 *)state + (0xB8))) = 1;
         }
     }
 
     ((S_800C9AAC_1 *)motion)->unk_00.at00.v += ((S_800C9AAC_1 *)motion)->unk_0C;
     ((S_800C9AAC_1 *)motion)->unk_04.at00.v += ((S_800C9AAC_1 *)motion)->unk_10;
-    (*(s32 *)((u8 *)state + 0x90)) += ((S_800C9AAC_1 *)motion)->unk_14;
+    (*(s32 *)((u8 *)state + (0x90))) += ((S_800C9AAC_1 *)motion)->unk_14;
 
     flags = ((S_800C9AAC_0 *)part)->unk_14;
     adjusted_flags = flags & 0x8000;
     if (!adjusted_flags) {
-        direction = ((D_80083228 + secondary->unk_2A + 0x100) >> 9) & 7;
+        direction = ((D_80083228 + ((S_800C9AAC_2 *)secondary)->unk_2A + 0x100) >> 9) & 7;
         direction_index = direction;
-        if ((*(s16 *)((u8 *)state + 0x94)) != direction_index) {
+        if ((*(s16 *)((u8 *)state + (0x94))) != direction_index) {
             func_8003DB94(part,
-                ((s32 *)(*(void * *)((u8 *)state + 0xA4)))[direction_index],
+                ((s32 *)(*(void * *)((u8 *)state + (0xA4))))[direction_index],
                 ((S_800C9AAC_0 *)part)->unk_04);
-            (*(s16 *)((u8 *)state + 0x94)) = direction;
+            (*(s16 *)((u8 *)state + (0x94))) = direction;
         }
 
         if (D_8006CCF8[direction_index] != 0) {
@@ -138,9 +139,9 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
         }
 
         ((S_800C9AAC_0 *)part)->unk_14 &= 0xFFFE;
-        func_800A020C(secondary->unk_1C, (u8 *)part + 0xC);
+        func_800A020C(((S_800C9AAC_2 *)secondary)->unk_1C, (u8 *)part + 0xC);
 
-        if (!(secondary->unk_1C & 0x20)) {
+        if (!(((S_800C9AAC_2 *)secondary)->unk_1C & 0x20)) {
             if (!(((S_800C9AAC_0 *)part)->unk_14 & 0x40)) {
                 func_800478B8(part);
                 func_800C9D08();
@@ -148,56 +149,56 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
             }
         } else {
             ((S_800C9AAC_0 *)part)->unk_14 |= 0x7000;
-            secondary->unk_1C &= 0xFFFBFFFF;
+            ((S_800C9AAC_2 *)secondary)->unk_1C &= 0xFFFBFFFF;
         }
 
-        if (secondary->unk_1C & 0x40000) {
+        if (((S_800C9AAC_2 *)secondary)->unk_1C & 0x40000) {
             if (!(((S_800C9AAC_0 *)part)->unk_14 & 0x40)) {
-                u16 phase = (*(u16 *)((u8 *)state + 0x9E));
-                (*(u16 *)((u8 *)state + 0x9E)) = phase + 1;
-                (*(s32 *)((u8 *)state + 0xA0)) += func_800644B8((s16)phase * 0xAA) << 5;
+                u16 phase = (*(u16 *)((u8 *)state + (0x9E)));
+                (*(u16 *)((u8 *)state + (0x9E))) = phase + 1;
+                (*(s32 *)((u8 *)state + (0xA0))) += func_800644B8((s16)phase * 0xAA) << 5;
             }
 
-            if (!((*(u16 *)((u8 *)state + 0x98)) & 8)) {
+            if (!((*(u16 *)((u8 *)state + (0x98))) & 8)) {
                 s32 lower_bound = -0x20;
                 s16 height;
                 func_800BCB04(((S_800C9AAC_1 *)motion)->unk_00.at02.v, ((S_800C9AAC_1 *)motion)->unk_04.at02.v,
-                    (s16)(secondary->unk_88 - 0x20));
-                height = (*(s16 *)((u8 *)state + 0x92));
+                    (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20));
+                height = (*(s16 *)((u8 *)state + (0x92)));
                 if (lower_bound < height) {
-                    (*(u16 *)((u8 *)state + 0x92)) -= 8;
+                    (*(u16 *)((u8 *)state + (0x92))) -= 8;
                     func_800C9E68(height);
                     return;
                 }
                 if (height < -0x28) {
-                    (*(u16 *)((u8 *)state + 0x92)) += 8;
+                    (*(u16 *)((u8 *)state + (0x92))) += 8;
                     func_800C9E68();
                     return;
                 }
             }
         } else {
-            register s32 accumulated ASM_REG("$2") = (*(s32 *)((u8 *)state + 0xA0));   /* MATCH pin: load-bearing for the whole function shape */
-            s32 position = (*(s32 *)((u8 *)state + 0x90));
-            register u32 motion_flags ASM_REG("$4") = (*(u16 *)((u8 *)state + 0x98));   /* MATCH pin: retail delay-slot fill depends on it */
-            (*(u16 *)((u8 *)state + 0x9E)) = 0;
-            (*(s32 *)((u8 *)state + 0xA0)) = 0;
+            register s32 accumulated ASM_REG("$2") = (*(s32 *)((u8 *)state + (0xA0)));   /* MATCH pin: load-bearing for the whole function shape */
+            s32 position = (*(s32 *)((u8 *)state + (0x90)));
+            register u32 motion_flags ASM_REG("$4") = (*(u16 *)((u8 *)state + (0x98)));   /* MATCH pin: retail delay-slot fill depends on it */
+            (*(u16 *)((u8 *)state + (0x9E))) = 0;
+            (*(s32 *)((u8 *)state + (0xA0))) = 0;
             position -= accumulated;
-            (*(s32 *)((u8 *)state + 0x90)) = position;
+            (*(s32 *)((u8 *)state + (0x90))) = position;
 
             if (!(motion_flags & 8)) {
                 target = func_800BCB04(((S_800C9AAC_1 *)motion)->unk_00.at02.v, ((S_800C9AAC_1 *)motion)->unk_04.at02.v,
-                    (s16)(secondary->unk_88 - 0x20)) -
-                    secondary->unk_88;
-                old_height = (*(u16 *)((u8 *)state + 0x92));
-                if ((*(s16 *)((u8 *)state + 0x92)) < target) {
-                    (*(u16 *)((u8 *)state + 0x92)) = old_height + 8;
-                    if (target < (*(s16 *)((u8 *)state + 0x92))) {
-                        (*(s16 *)((u8 *)state + 0x92)) = target;
+                    (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20)) -
+                    ((S_800C9AAC_2 *)secondary)->unk_88;
+                old_height = (*(u16 *)((u8 *)state + (0x92)));
+                if ((*(s16 *)((u8 *)state + (0x92))) < target) {
+                    (*(u16 *)((u8 *)state + (0x92))) = old_height + 8;
+                    if (target < (*(s16 *)((u8 *)state + (0x92)))) {
+                        (*(s16 *)((u8 *)state + (0x92))) = target;
                         func_800C9E68();
                         return;
                     }
                 } else {
-                    (*(s16 *)((u8 *)state + 0x92)) = target;
+                    (*(s16 *)((u8 *)state + (0x92))) = target;
                     func_800C9E68();
                     return;
                 }
@@ -215,23 +216,23 @@ void func_800C9AAC(void *arg0, void *arg1, void *arg2)
 
     {
         s32 object_flags;
-        object_flags = secondary->unk_1C;
+        object_flags = ((S_800C9AAC_2 *)secondary)->unk_1C;
         if (object_flags & 0x40000000) {
         adjusted_flags = object_flags & 0xBFFFFFFF;
-        secondary->unk_1C = adjusted_flags;
+        ((S_800C9AAC_2 *)secondary)->unk_1C = adjusted_flags;
         target = func_800BCB04(
             (((S_800C9AAC_0 *)part)->unk_24 << 6) | 0x20,
             (((S_800C9AAC_0 *)part)->unk_25 << 6) | 0x20,
-            (s16)(secondary->unk_88 - 0x20));
+            (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20));
         if (target < 0x200) {
-            (*(u16 *)((u8 *)state + 0x92)) += secondary->unk_88 - target;
-            secondary->unk_88 = target;
+            (*(u16 *)((u8 *)state + (0x92))) += ((S_800C9AAC_2 *)secondary)->unk_88 - target;
+            ((S_800C9AAC_2 *)secondary)->unk_88 = target;
         }
     }
     }
 
-    ((S_800C9AAC_1 *)motion)->unk_0A = secondary->unk_88 +
-        (*(u16 *)((u8 *)state + 0x92)) - (*(u16 *)((u8 *)state + 0xA2));
+    ((S_800C9AAC_1 *)motion)->unk_0A = ((S_800C9AAC_2 *)secondary)->unk_88 +
+        (*(u16 *)((u8 *)state + (0x92))) - (*(u16 *)((u8 *)state + (0xA2)));
     ((S_800C9AAC_0 *)part)->unk_14 |= 0x40;
 }
 

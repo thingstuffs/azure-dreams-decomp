@@ -1,10 +1,26 @@
 #include "common.h"
 
+
+extern void func_80047784(void *, s32, s32);
+extern void func_8009C12C(void *, void *, s16, s32);
+extern void func_800A4ACC(void *);
+extern void func_800A56E0(s32);
+extern void func_800AD594(void *, s32);
+extern void func_8017373C() __attribute__((noreturn));
+extern void func_80173798(void) __attribute__((noreturn));
+
+extern s16 D_80083228;
+extern s32 D_8008346C;
+extern u8 D_80170870[20];
+extern s32 D_80171CE8;
+extern u8 D_80174EE0[];
+
+
 typedef struct S_80173514_0 {
     u8 pad_00[0x8C];
     s32 * unk_8C;
     u8 pad_90[0x6];
-    union { u16 s; s16 u; } unk_96;   /* accessed as both */
+    union { u16 u; s16 s; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_80173514_0;   /* arg0 in func_80173514 */
@@ -27,21 +43,6 @@ typedef struct S_80173514_3 {
     u8 pad_2C[0x1A];
     u16 unk_46;
 } S_80173514_3;   /* arg3 in func_80173514 */
-
-
-
-extern void func_80047784(void *, s32, s32);
-extern void func_8009C12C(void *, void *, s16, s32);
-extern void func_800A4ACC(void *);
-extern void func_800A56E0(s32);
-extern void func_800AD594(void *, s32);
-extern void func_8017373C() __attribute__((noreturn));
-
-extern s16 D_80083228;
-extern s32 D_8008346C;
-extern u8 D_80170870[20];
-extern s32 D_80171CE8;
-extern u8 D_80174EE0[];
 
 void func_80173514(void *arg0, void *arg1, void *arg2, void *arg3)
 {
@@ -66,50 +67,51 @@ L0:
     ((S_80173514_2 *)arg1)->unk_14 = 0;
     ((S_80173514_2 *)arg1)->unk_10 = 0;
     ((S_80173514_2 *)arg1)->unk_0C = 0;
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80174EE0;
+    (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80174EE0;
     func_80047784(arg2,
         D_80174EE0[((D_80083228 + ((S_80173514_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
         0);
-    ((S_80173514_0 *)arg0)->unk_96.s = 0;
+    ((S_80173514_0 *)arg0)->unk_96.u = 0;
     ((S_80173514_0 *)arg0)->unk_9B++;
+    func_80173798();
     return;
     }
 
 L1:
-    if ((s16)++((S_80173514_0 *)arg0)->unk_96.s == 5) {
-        ((S_80173514_0 *)arg0)->unk_96.s = 0;
+    if ((s16)++((S_80173514_0 *)arg0)->unk_96.u == 5) {
+        ((S_80173514_0 *)arg0)->unk_96.u = 0;
         ((S_80173514_0 *)arg0)->unk_9B++;
         ((S_80173514_1 *)arg2)->unk_14 |= 0x0800;
-        return;
+        func_80173798();
     }
     return;
 
 L2:
-    if ((s16)++((S_80173514_0 *)arg0)->unk_96.s == 6 ||
+    if ((s16)++((S_80173514_0 *)arg0)->unk_96.u == 6 ||
         (((S_80173514_1 *)arg2)->unk_14 & 0xE000)) {
-        ((S_80173514_0 *)arg0)->unk_96.s = 0;
+        ((S_80173514_0 *)arg0)->unk_96.u = 0;
         ((S_80173514_0 *)arg0)->unk_9B++;
         ((S_80173514_1 *)arg2)->unk_14 &= 0xF7FF;
         func_800A56E0(0x804);
-        return;
+        func_80173798();
     }
     return;
 
 L3:
-    if ((s16)++((S_80173514_0 *)arg0)->unk_96.s == 5 ||
+    if ((s16)++((S_80173514_0 *)arg0)->unk_96.u == 5 ||
         (((S_80173514_1 *)arg2)->unk_14 & 0xE000)) {
         ((S_80173514_1 *)arg2)->unk_14 |= 0x0800;
     }
-    if (((S_80173514_0 *)arg0)->unk_96.u == 12 ||
+    if (((S_80173514_0 *)arg0)->unk_96.s == 12 ||
         (((S_80173514_1 *)arg2)->unk_14 & 0xE000)) {
-        ((S_80173514_0 *)arg0)->unk_96.s = 0;
+        ((S_80173514_0 *)arg0)->unk_96.u = 0;
         ((S_80173514_0 *)arg0)->unk_9B++;
         ((S_80173514_1 *)arg2)->unk_14 &= 0xF7FF;
     }
-    if (((S_80173514_0 *)arg0)->unk_96.u == 1 ||
+    if (((S_80173514_0 *)arg0)->unk_96.s == 1 ||
         (((S_80173514_1 *)arg2)->unk_14 & 0xE000)) {
         func_8009C12C(arg3, arg2, ((S_80173514_3 *)arg3)->unk_2A, 1);
-        return;
+        func_80173798();
     }
     return;
 

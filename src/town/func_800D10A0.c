@@ -1,6 +1,13 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+M2C_UNK func_80095388();                      /* extern */
+s16 func_800C2AE8();                          /* extern */
+M2C_UNK func_800C4174();     /* extern */
+M2C_UNK func_800CE8B0();                            /* extern */
+extern M2C_UNK D_800CE8CC;
+
+
 typedef struct S_800CE800_0 {
     u8 pad_00[0x8];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
@@ -15,13 +22,6 @@ typedef struct S_800CE800_1 {
     u16 unk_90;
 } S_800CE800_1;   /* arg0 in func_800CE800 */
 
-
-M2C_UNK func_80095388();                      /* extern */
-s16 func_800C2AE8();                          /* extern */
-M2C_UNK func_800C4174();     /* extern */
-M2C_UNK func_800CE8B0();                            /* extern */
-extern M2C_UNK D_800CE8CC;
-
 void func_800CE800(S_800CE800_1 *arg0, S_800CE800_0 *arg1, M2C_UNK arg2) {
     u16 temp_v0;
 
@@ -33,10 +33,12 @@ void func_800CE800(S_800CE800_1 *arg0, S_800CE800_0 *arg1, M2C_UNK arg2) {
         if ((temp_v0 << 0x10) <= 0) {
             arg1->unk_14 = 0;
             func_800C4174(arg0, arg1, arg2);
+            func_800CE8B0();
             return;
         }
         arg1->unk_14 = 0xFFF60000;
         arg0->unk_54 = &D_800CE8CC;
+        func_800CE8B0();
         return;
     }
     func_80095388(arg1);

@@ -1,12 +1,29 @@
 #include "common.h"
 
+
+extern void func_8004491C(void *, void *);
+extern s32 func_8003DE58(void *, void *, void *, s32);
+extern s32 func_800644B8(s32);
+extern void func_80024228() __attribute__((noreturn));
+extern void func_800243F8() __attribute__((noreturn));
+extern void func_80024468() __attribute__((noreturn));
+extern void func_80024478() __attribute__((noreturn));
+
+extern s32 D_80045340;
+extern s32 D_800814A0;
+extern void *D_800814A8;
+extern u8 D_80082E80[];
+extern s16 D_80083228;
+extern s32 *D_800E3D18;
+
+
 typedef struct S_800240F0_0 {
     void * unk_00;
     void * unk_04;
     void * unk_08;
-    union { s16 s; u16 u; volatile u16 p; } unk_0C;   /* accessed as both */
+    union { s16 n; u16 n2; volatile u16 v; } unk_0C;   /* accessed as both */
     u8 pad_0E[0x2];
-    union { u16 s; s16 u; } unk_10;   /* accessed as both */
+    union { u16 u; s16 s; } unk_10;   /* accessed as both */
     u16 unk_12;
 } S_800240F0_0;   /* arg0 in func_800240F0 */
 
@@ -65,29 +82,13 @@ typedef struct S_800240F0_8 {
     void * unk_08;
 } S_800240F0_8;   /* ((S_800240F0_0 *)arg0)->unk_04 in func_800240F0 */
 
-
-
-extern void func_8004491C(void *, void *);
-extern s32 func_8003DE58(void *, void *, void *, s32);
-extern s32 func_800644B8(s32);
-extern void func_80024228() __attribute__((noreturn));
-extern void func_800243F8() __attribute__((noreturn));
-extern void func_80024468() __attribute__((noreturn));
-
-extern s32 D_80045340;
-extern s32 D_800814A0;
-extern void *D_800814A8;
-extern u8 D_80082E80[];
-extern s16 D_80083228;
-extern s32 *D_800E3D18;
-
 void func_800240F0(void *arg0, void *arg1, void *arg2)
 {
     u16 stv;
     u16 vec[3];
     s32 state;
 
-    state = ((S_800240F0_0 *)arg0)->unk_0C.s;
+    state = ((S_800240F0_0 *)arg0)->unk_0C.n;
     if (state == 1) {
         goto state_one;
     }
@@ -107,7 +108,7 @@ void func_800240F0(void *arg0, void *arg1, void *arg2)
 
 state_zero:
     func_8004491C((u8 *)arg0 - 0x20, &D_80045340);
-    ((S_800240F0_0 *)arg0)->unk_0C.u = ((S_800240F0_0 *)arg0)->unk_0C.u + 1;
+    ((S_800240F0_0 *)arg0)->unk_0C.n2 = ((S_800240F0_0 *)arg0)->unk_0C.n2 + 1;
 state_one:
     {
         void *source;
@@ -142,8 +143,8 @@ state_one:
 
         ten = 10;
         ASM_KEEP_NV(ten);   /* MATCH pin: load-bearing for the whole function shape */
-        stv = ((S_800240F0_0 *)arg0)->unk_0C.p;
-        ((S_800240F0_0 *)arg0)->unk_10.s = ten;
+        stv = ((S_800240F0_0 *)arg0)->unk_0C.v;
+        ((S_800240F0_0 *)arg0)->unk_10.u = ten;
         func_800243F8();
     }
     goto tick;
@@ -176,19 +177,19 @@ state_two:
 
     ((S_800240F0_2 *)arg1)->unk_00.at00.v +=
         (((S_800240F0_2 *)arg1)->unk_0C - ((S_800240F0_2 *)arg1)->unk_00.at00.v) /
-        ((S_800240F0_0 *)arg0)->unk_10.u;
+        ((S_800240F0_0 *)arg0)->unk_10.s;
     ((S_800240F0_2 *)arg1)->unk_04.at00.v +=
         (((S_800240F0_2 *)arg1)->unk_10 - ((S_800240F0_2 *)arg1)->unk_04.at00.v) /
-        ((S_800240F0_0 *)arg0)->unk_10.u;
+        ((S_800240F0_0 *)arg0)->unk_10.s;
     ((S_800240F0_2 *)arg1)->unk_08.at00.v +=
         (((S_800240F0_2 *)arg1)->unk_14 - ((S_800240F0_2 *)arg1)->unk_08.at00.v) /
-            ((S_800240F0_0 *)arg0)->unk_10.u -
-        (func_800644B8(((S_800240F0_0 *)arg0)->unk_10.u * 0xAA) << 7);
+            ((S_800240F0_0 *)arg0)->unk_10.s -
+        (func_800644B8(((S_800240F0_0 *)arg0)->unk_10.s * 0xAA) << 7);
 
     {
         u16 c;
-        c = ((S_800240F0_0 *)arg0)->unk_10.s - 1;
-        ((S_800240F0_0 *)arg0)->unk_10.s = c;
+        c = ((S_800240F0_0 *)arg0)->unk_10.u - 1;
+        ((S_800240F0_0 *)arg0)->unk_10.u = c;
         if ((s16)c > 0) {
             goto tick;
         }
@@ -197,11 +198,11 @@ state_two:
     ((S_800240F0_2 *)arg1)->unk_00.at00.v = ((S_800240F0_2 *)arg1)->unk_0C;
     ((S_800240F0_2 *)arg1)->unk_04.at00.v = ((S_800240F0_2 *)arg1)->unk_10;
     ((S_800240F0_2 *)arg1)->unk_08.at00.v = ((S_800240F0_2 *)arg1)->unk_14;
-    stv = ((S_800240F0_0 *)arg0)->unk_0C.u;
-    ((S_800240F0_0 *)arg0)->unk_10.s = state;
+    stv = ((S_800240F0_0 *)arg0)->unk_0C.n2;
+    ((S_800240F0_0 *)arg0)->unk_10.u = state;
 
 adv:
-    ((S_800240F0_0 *)arg0)->unk_0C.u = stv + 1;
+    ((S_800240F0_0 *)arg0)->unk_0C.n2 = stv + 1;
     func_80024468();
 
 state_three:
@@ -218,16 +219,16 @@ state_three:
     }
     {
         u16 c;
-        c = ((S_800240F0_0 *)arg0)->unk_10.s - 1;
-        ((S_800240F0_0 *)arg0)->unk_10.s = c;
+        c = ((S_800240F0_0 *)arg0)->unk_10.u - 1;
+        ((S_800240F0_0 *)arg0)->unk_10.u = c;
         if ((s16)c > 0) {
             goto tick;
         }
     }
 
-    (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
     D_800814A0 |= 0x8000;
-    return;
+    func_80024478();
 
 tick:
     ((S_800240F0_0 *)arg0)->unk_12 = ((S_800240F0_0 *)arg0)->unk_12 + 1;

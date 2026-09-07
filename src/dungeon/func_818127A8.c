@@ -2,9 +2,29 @@
 
 typedef s32 M2C_UNK;
 
+
+extern s32 func_8002553C();
+extern M2C_UNK func_80025598();
+extern M2C_UNK func_800255AC();
+extern M2C_UNK func_8002661C();
+extern M2C_UNK func_80026CD8();
+extern M2C_UNK func_80026D0C();
+extern M2C_UNK func_80027454();
+extern M2C_UNK func_800274A8();
+extern void func_80027954() __attribute__((noreturn));
+extern void func_80027968() __attribute__((noreturn));
+extern void func_80027A08() __attribute__((noreturn));
+extern M2C_UNK func_80028620();
+extern M2C_UNK func_80053DA8();
+
+extern M2C_UNK D_80027E10;
+extern M2C_UNK D_80027E84;
+extern u8 D_80083160[];
+
+
 typedef struct S_800277A8_0 {
     u8 pad_00[0x8];
-    union { s32 s; volatile s32 u; } unk_08;   /* accessed as both */
+    union { s32 n; volatile s32 v; } unk_08;   /* accessed as both */
     u8 pad_0C[0x4];
     volatile s32 unk_10;
 } S_800277A8_0;   /* input in func_800277A8 */
@@ -31,25 +51,6 @@ typedef struct S_800277A8_1 {
     s32 unk_88;
 } S_800277A8_1;   /* arg0 in func_800277A8 */
 
-
-
-extern s32 func_8002553C();
-extern M2C_UNK func_80025598();
-extern M2C_UNK func_800255AC();
-extern M2C_UNK func_8002661C();
-extern M2C_UNK func_80026CD8();
-extern M2C_UNK func_80026D0C();
-extern M2C_UNK func_80027454();
-extern M2C_UNK func_800274A8();
-extern void func_80027954() __attribute__((noreturn));
-extern void func_80027968() __attribute__((noreturn));
-extern M2C_UNK func_80028620();
-extern M2C_UNK func_80053DA8();
-
-extern M2C_UNK D_80027E10;
-extern M2C_UNK D_80027E84;
-extern u8 D_80083160[];
-
 void func_800277A8(void *arg0) {
     u8 *input = D_80083160;
     s32 input_word;
@@ -62,7 +63,7 @@ void func_800277A8(void *arg0) {
     s32 remaining;
     s32 tail_flags;
 
-    input_word = ((S_800277A8_0 *)input)->unk_08.s;
+    input_word = ((S_800277A8_0 *)input)->unk_08.n;
     if (input_word == 0) {
         return;
     }
@@ -74,6 +75,7 @@ void func_800277A8(void *arg0) {
         ((S_800277A8_1 *)arg0)->unk_00 = ((S_800277A8_1 *)arg0)->unk_04;
         func_80028620((u8 *)arg0 - 0x20);
         func_80025598(((S_800277A8_1 *)arg0)->unk_44);
+        func_80027A08();
         return;
     }
 
@@ -81,6 +83,7 @@ void func_800277A8(void *arg0) {
         func_80053DA8(0x503);
         func_800274A8(arg0);
         func_800255AC(((S_800277A8_1 *)arg0)->unk_44);
+        func_80027A08();
         return;
     }
 
@@ -92,6 +95,7 @@ void func_800277A8(void *arg0) {
         func_8002661C(func_8002553C(((S_800277A8_1 *)arg0)->unk_44),
                      ((S_800277A8_1 *)arg0)->unk_40 +
                          (((S_800277A8_1 *)arg0)->unk_08 % 72) * 2);
+        func_80027A08();
         return;
     }
 
@@ -117,7 +121,7 @@ void func_800277A8(void *arg0) {
     }
 
     ((S_800277A8_1 *)arg0)->unk_0C = counter - 1;
-    flags = ((S_800277A8_0 *)input)->unk_08.u;
+    flags = ((S_800277A8_0 *)input)->unk_08.v;
     if (!(flags & 0x1000)) {
         goto test_positive;
     }
@@ -161,6 +165,7 @@ check_delta:
         func_80026CD8(((S_800277A8_1 *)arg0)->unk_88);
         ((S_800277A8_1_pre *)arg0)[-1].unk_00 = &D_80027E84;
         ((S_800277A8_1 *)arg0)->unk_00 = ((S_800277A8_1 *)arg0)->unk_04;
+        func_80027A08();
         return;
     }
 

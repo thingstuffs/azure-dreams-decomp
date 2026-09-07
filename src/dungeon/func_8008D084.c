@@ -1,5 +1,33 @@
 #include "common.h"
 
+
+extern s32 func_8003DE58();
+extern void func_80048A44();
+extern void func_80091934();
+extern void func_80092A08();
+extern void func_80092AFC() __attribute__((noreturn));
+extern void func_80092B98() __attribute__((noreturn));
+extern s32 func_800990FC();
+extern s32 func_80099194();
+extern s32 func_80099290();
+extern s32 func_8009929C();
+extern s32 func_80099368();
+extern s32 func_8009965C();
+extern s32 func_80099734();
+extern void func_80099F04();
+extern void func_80099F70();
+extern void func_800A5720();
+extern void *func_800A8608(void *, void *, s32, s32, s32);
+
+extern s16 D_80083228[12];
+extern u8 D_80083460[12];
+extern u8 D_8008ACDC[12];
+extern u8 D_8008D470[12];
+extern u8 D_800DD0B8[8];
+extern u8 D_800E06EE[9];
+extern u8 D_800E06F7[9];
+
+
 typedef struct S_800927E4_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
@@ -93,33 +121,6 @@ typedef struct S_800927E4_11 {
     u16 unk_02;
 } S_800927E4_11;   /* flagsBase in func_800927E4 */
 
-
-
-extern s32 func_8003DE58();
-extern void func_80048A44();
-extern void func_80091934();
-extern void func_80092A08();
-extern void func_80092AFC() __attribute__((noreturn));
-extern s32 func_800990FC();
-extern s32 func_80099194();
-extern s32 func_80099290();
-extern s32 func_8009929C();
-extern s32 func_80099368();
-extern s32 func_8009965C();
-extern s32 func_80099734();
-extern void func_80099F04();
-extern void func_80099F70();
-extern void func_800A5720();
-extern void *func_800A8608(void *, void *, s32, s32, s32);
-
-extern s16 D_80083228[12];
-extern u8 D_80083460[12];
-extern u8 D_8008ACDC[12];
-extern u8 D_8008D470[12];
-extern u8 D_800DD0B8[8];
-extern u8 D_800E06EE[9];
-extern u8 D_800E06F7[9];
-
 void func_800927E4(void *arg0, s32 arg1, S_800927E4_6 *arg2, S_800927E4_3 *arg3) {
     u16 pos[3];
     register void *obj ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
@@ -207,6 +208,7 @@ state_zero:
             nextCoord = coordUnsigned + 0x200;
             arg3->unk_2A.u = nextCoord;
         }
+        func_80092B98();
         return;
 
 state_one:
@@ -274,6 +276,7 @@ state_one:
 
         ((S_800927E4_0 *)arg0)->unk_96 = 0x1E;
         ((S_800927E4_0 *)arg0)->unk_9B++;
+        func_80092B98();
         return;
 
 state_two:
@@ -283,6 +286,7 @@ state_two:
              (s32)(timer << 16) <= 0)) {
             if (((S_800927E4_0 *)arg0)->unk_110 != 0) {
                 func_80091934(arg0, arg1, arg2, arg3);
+                func_80092B98();
                 return;
             }
             func_80099F70(arg3->unk_5C);

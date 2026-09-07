@@ -1,5 +1,17 @@
 #include "common.h"
 
+
+extern void func_80024C90(void) __attribute__((noreturn));
+extern void func_80024D74(void) __attribute__((noreturn));
+extern void func_80024FD8();
+extern void func_800254C4();
+extern void func_800478B8();
+extern s32 func_800644B8();
+extern s16 D_800257CC;
+extern s16 D_800257CE;
+extern s32 D_800814A0;
+
+
 typedef struct S_80024B98_0 {
     u8 pad_00[0xA];
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
@@ -25,17 +37,6 @@ typedef struct S_80024B98_2 {
     u8 pad_0C[0x8];
     s32 unk_14;
 } S_80024B98_2;   /* arg1 in func_80024B98 */
-
-
-
-extern void func_80024C90(void) __attribute__((noreturn));
-extern void func_80024FD8();
-extern void func_800254C4();
-extern void func_800478B8();
-extern s32 func_800644B8();
-extern s16 D_800257CC;
-extern s16 D_800257CE;
-extern s32 D_800814A0;
 
 void func_80024B98(void *arg0, void *arg1, void *arg2) {
     s16 state;
@@ -67,8 +68,9 @@ advance:
         ((S_80024B98_1 *)arg2)->unk_0C.s32 += 0xFFFBFBFC;
         if (((S_80024B98_1 *)arg2)->unk_0C.u8 < 4) {
             D_800257CC--;
-            (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+            (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
             D_800814A0 |= 0x8000;
+            func_80024D74();
             return;
         }
 common:

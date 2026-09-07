@@ -14,6 +14,7 @@ extern void func_80170C0C(void) __attribute__((noreturn));
 extern void func_80170D30(void) __attribute__((noreturn));
 extern void func_80171064(void) __attribute__((noreturn));
 extern void func_80171068(void) __attribute__((noreturn));
+extern void func_8017110C(void) __attribute__((noreturn));
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
@@ -77,53 +78,53 @@ void func_80170A70(void *arg0, void *raw_arg1, void *raw_arg2)
     arg2 = raw_arg2;
     bob = 0;
     if (D_80083462 & 0x2000) {
-        callback = (*(Callback *)((u8 *)arg0 + 0x8C));
+        callback = (*(Callback *)((u8 *)arg0 + (0x8C)));
         if (callback == (Callback)D_80171138) {
             callback(arg0, raw_arg1, raw_arg2, arg0);
-            return;
+            func_8017110C();
         }
-        (*(u8 *)((u8 *)arg0 + 0x71)) &= 0x7F;
-        return;
+        (*(u8 *)((u8 *)arg0 + (0x71))) &= 0x7F;
+        func_8017110C();
     }
 
     ASM_KEEP_NV(arg1);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     ASM_KEEP_NV(arg2);   /* MATCH pin: keeps a statement from moving across a call/branch */
-    old_state = (s8)(*(u8 *)((u8 *)arg0 + 0x6D));
+    old_state = (s8)(*(u8 *)((u8 *)arg0 + (0x6D)));
     if (func_800A9E70(arg0, arg1, arg2, arg0) != 0) {
         return;
     }
 
-    callback2 = (*(Callback *)((u8 *)arg0 + 0x8C));
+    callback2 = (*(Callback *)((u8 *)arg0 + (0x8C)));
     if (callback2 != 0) {
         callback2(arg0, arg1, arg2, arg0);
     }
-    D_80174B1C[(*(u8 *)((u8 *)arg0 + 0x9A))](arg0, arg1, arg2, arg0);
-    if ((s16)old_state != (*(s8 *)((u8 *)arg0 + 0x6D))) {
+    D_80174B1C[(*(u8 *)((u8 *)arg0 + (0x9A)))](arg0, arg1, arg2, arg0);
+    if ((s16)old_state != (*(s8 *)((u8 *)arg0 + (0x6D)))) {
         func_800AA36C(arg0, arg1, arg2, arg0);
     }
 
     ((S_80170A70_0 *)arg1)->unk_00.at00.v += ((S_80170A70_0 *)arg1)->unk_0C;
     ((S_80170A70_0 *)arg1)->unk_04.at00.v += ((S_80170A70_0 *)arg1)->unk_10;
 
-    if (!((*(s32 *)((u8 *)arg0 + 0x1C)) & 0x40000) &&
-        !((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
-        ((S_80170A70_0 *)arg1)->unk_14 += (*(s8 *)((u8 *)arg0 + 0x9D)) * 0x14000;
-        (*(u8 *)((u8 *)arg0 + 0x9D))++;
+    if (!((*(s32 *)((u8 *)arg0 + (0x1C))) & 0x40000) &&
+        !((*(u16 *)((u8 *)arg0 + (0x98))) & 8)) {
+        ((S_80170A70_0 *)arg1)->unk_14 += (*(s8 *)((u8 *)arg0 + (0x9D))) * 0x14000;
+        (*(u8 *)((u8 *)arg0 + (0x9D)))++;
         func_80170C0C();
     }
 
-    do { (*(u8 *)((u8 *)arg0 + 0x9D)) = 0; } while (0);
-    (*(s32 *)((u8 *)arg0 + 0x90)) += ((S_80170A70_0 *)arg1)->unk_14;
+    do { (*(u8 *)((u8 *)arg0 + (0x9D))) = 0; } while (0);
+    (*(s32 *)((u8 *)arg0 + (0x90))) += ((S_80170A70_0 *)arg1)->unk_14;
     flags = ((S_80170A70_1 *)arg2)->unk_14;
 
     if (!(flags & 0x8000)) {
         angle = ((D_80083228 + object->unk_2A + 0x100) >> 9) & 7;
         old_state = angle;
-        if ((*(s16 *)((u8 *)arg0 + 0x94)) != old_state) {
+        if ((*(s16 *)((u8 *)arg0 + (0x94))) != old_state) {
             func_80047738(arg2,
                 ((u8 *)((S_80170A70_1 *)arg2)->unk_2C)[old_state],
                 ((S_80170A70_1 *)arg2)->unk_04);
-            (*(s16 *)((u8 *)arg0 + 0x94)) = angle;
+            (*(s16 *)((u8 *)arg0 + (0x94))) = angle;
         }
 
         {
@@ -137,7 +138,7 @@ void func_80170A70(void *arg0, void *raw_arg1, void *raw_arg2)
             ((S_80170A70_1 *)arg2)->unk_14 = bit_flags;
         }
 
-        if ((*(u8 *)((u8 *)arg0 + 0x9A)) != 8) {
+        if ((*(u8 *)((u8 *)arg0 + (0x9A))) != 8) {
             func_800A020C(object->unk_1C, (u8 *)arg2 + 0xC);
         }
 
@@ -162,38 +163,38 @@ clear_motion_flag:
             if (!(((S_80170A70_1 *)arg2)->unk_14 & 0x40)) {
                 {
                     s32 value = func_800644B8(
-                        ((*(s16 *)((u8 *)arg0 + 0xA0)) << 12) / 40);
+                        ((*(s16 *)((u8 *)arg0 + (0xA0))) << 12) / 40);
                     bob = value >> 9;
-                    if ((*(u8 *)((u8 *)arg0 + 0x9A)) == 0x12) {
+                    if ((*(u8 *)((u8 *)arg0 + (0x9A))) == 0x12) {
                         bob = value >> 10;
                     }
                 }
 phase_update_a:
-                (*(s16 *)((u8 *)arg0 + 0xA0)) = ((*(s16 *)((u8 *)arg0 + 0xA0)) + 1) % 40;
+                (*(s16 *)((u8 *)arg0 + (0xA0))) = ((*(s16 *)((u8 *)arg0 + (0xA0))) + 1) % 40;
             }
 
-            if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
+            if (!((*(u16 *)((u8 *)arg0 + (0x98))) & 8)) {
                 ground = (s16)(func_800BCB04(
                     ((S_80170A70_0 *)arg1)->unk_00.at02.v, ((S_80170A70_0 *)arg1)->unk_04.at02.v,
                     (s16)(object->unk_88.u - 0x20)) -
                     object->unk_88.u);
-                if ((*(s16 *)((u8 *)arg0 + 0x92)) > ground - 0x30) {
-                    (*(s16 *)((u8 *)arg0 + 0x92)) =
-                        (u16)(*(s16 *)((u8 *)arg0 + 0x92)) - 8;
+                if ((*(s16 *)((u8 *)arg0 + (0x92))) > ground - 0x30) {
+                    (*(s16 *)((u8 *)arg0 + (0x92))) =
+                        (u16)(*(s16 *)((u8 *)arg0 + (0x92))) - 8;
                     func_80171068();
                 }
                 ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
-                if (ground - 0x3A > (*(s16 *)((u8 *)arg0 + 0x92))) {
-                    (*(s16 *)((u8 *)arg0 + 0x92)) =
-                        (u16)(*(s16 *)((u8 *)arg0 + 0x92)) + 8;
+                if (ground - 0x3A > (*(s16 *)((u8 *)arg0 + (0x92)))) {
+                    (*(s16 *)((u8 *)arg0 + (0x92))) =
+                        (u16)(*(s16 *)((u8 *)arg0 + (0x92))) + 8;
                     func_80171068();
                 }
             }
             goto reset_bob;
         }
 
-        (*(s16 *)((u8 *)arg0 + 0xA0)) = 0;
-        if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
+        (*(s16 *)((u8 *)arg0 + (0xA0))) = 0;
+        if (!((*(u16 *)((u8 *)arg0 + (0x98))) & 8)) {
             register s32 object_height ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
 
             ground32 = (s16)func_800BCB04(
@@ -201,9 +202,9 @@ phase_update_a:
                 (s16)(object->unk_88.u - 0x20));
             object_height = object->unk_88.s;
             ground32 -= object_height;
-            if ((*(s16 *)((u8 *)arg0 + 0x92)) > ground32) {
-                (*(s16 *)((u8 *)arg0 + 0x92)) = ground32;
-                (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
+            if ((*(s16 *)((u8 *)arg0 + (0x92))) > ground32) {
+                (*(s16 *)((u8 *)arg0 + (0x92))) = ground32;
+                (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
                 ((S_80170A70_0 *)arg1)->unk_14 = 0;
                 object->unk_1C |= 0x08000000;
                 func_80171068();
@@ -224,10 +225,10 @@ phase_update_a:
     object->unk_1C &= 0xF7FFFFFF;
 
     if (!(object->unk_1C & 0x40000)) {
-        (*(s16 *)((u8 *)arg0 + 0xA0)) = 0;
-        (*(s16 *)((u8 *)arg0 + 0x92)) = (u16)(*(s16 *)((u8 *)arg0 + 0x92)) - bob;
+        (*(s16 *)((u8 *)arg0 + (0xA0))) = 0;
+        (*(s16 *)((u8 *)arg0 + (0x92))) = (u16)(*(s16 *)((u8 *)arg0 + (0x92))) - bob;
         bob = 0;
-        if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
+        if (!((*(u16 *)((u8 *)arg0 + (0x98))) & 8)) {
             register s32 object_height ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
 
             ground32 = (s16)func_800BCB04(
@@ -235,9 +236,9 @@ phase_update_a:
                 (s16)(object->unk_88.u - 0x20));
             object_height = object->unk_88.s;
             ground32 -= object_height;
-            if ((*(s16 *)((u8 *)arg0 + 0x92)) > ground32) {
-                (*(s16 *)((u8 *)arg0 + 0x92)) = ground32;
-                (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
+            if ((*(s16 *)((u8 *)arg0 + (0x92))) > ground32) {
+                (*(s16 *)((u8 *)arg0 + (0x92))) = ground32;
+                (*(u8 *)((u8 *)arg0 + (0x9D))) = 0;
                 ((S_80170A70_0 *)arg1)->unk_14 = 0;
                 object->unk_1C |= 0x08000000;
                 func_80171064();
@@ -249,34 +250,34 @@ phase_update_a:
     if (!(((S_80170A70_1 *)arg2)->unk_14 & 0x40)) {
         {
             s32 value = func_800644B8(
-                ((*(s16 *)((u8 *)arg0 + 0xA0)) << 12) / 40);
+                ((*(s16 *)((u8 *)arg0 + (0xA0))) << 12) / 40);
             bob = value >> 9;
-            if ((*(u8 *)((u8 *)arg0 + 0x9A)) == 0x12) {
+            if ((*(u8 *)((u8 *)arg0 + (0x9A))) == 0x12) {
                 bob = value >> 10;
             }
         }
 phase_update_b:
-        (*(s16 *)((u8 *)arg0 + 0xA0)) = ((*(s16 *)((u8 *)arg0 + 0xA0)) + 1) % 40;
+        (*(s16 *)((u8 *)arg0 + (0xA0))) = ((*(s16 *)((u8 *)arg0 + (0xA0))) + 1) % 40;
     }
 
-    if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
+    if (!((*(u16 *)((u8 *)arg0 + (0x98))) & 8)) {
         ground = (s16)(func_800BCB04(
             ((S_80170A70_0 *)arg1)->unk_00.at02.v, ((S_80170A70_0 *)arg1)->unk_04.at02.v,
             (s16)(object->unk_88.u - 0x20)) -
             object->unk_88.u);
-        if ((*(s16 *)((u8 *)arg0 + 0x92)) > ground - 0x30) {
-            (*(s16 *)((u8 *)arg0 + 0x92)) =
-                (u16)(*(s16 *)((u8 *)arg0 + 0x92)) - 8;
-        } else if (ground - 0x3A > (*(s16 *)((u8 *)arg0 + 0x92))) {
-            (*(s16 *)((u8 *)arg0 + 0x92)) =
-                (u16)(*(s16 *)((u8 *)arg0 + 0x92)) + 8;
+        if ((*(s16 *)((u8 *)arg0 + (0x92))) > ground - 0x30) {
+            (*(s16 *)((u8 *)arg0 + (0x92))) =
+                (u16)(*(s16 *)((u8 *)arg0 + (0x92))) - 8;
+        } else if (ground - 0x3A > (*(s16 *)((u8 *)arg0 + (0x92)))) {
+            (*(s16 *)((u8 *)arg0 + (0x92))) =
+                (u16)(*(s16 *)((u8 *)arg0 + (0x92))) + 8;
         } else {
             goto finish_height;
         }
     }
 
 finish_height:
-    (*(s16 *)((u8 *)arg0 + 0xA0)) = 0;
+    (*(s16 *)((u8 *)arg0 + (0xA0))) = 0;
 
 reset_bob:
     if (object->unk_1C & 0x40000000) {
@@ -286,14 +287,14 @@ reset_bob:
             (((S_80170A70_1 *)arg2)->unk_25 << 6) | 0x20,
             (s16)(object->unk_88.u - 0x20));
         if (ground < 0x200) {
-            (*(s16 *)((u8 *)arg0 + 0x92)) =
-                (u16)(*(s16 *)((u8 *)arg0 + 0x92)) +
+            (*(s16 *)((u8 *)arg0 + (0x92))) =
+                (u16)(*(s16 *)((u8 *)arg0 + (0x92))) +
                 (object->unk_88.u - ground);
             object->unk_88.u = ground;
         }
     }
 
     ((S_80170A70_0 *)arg1)->unk_0A =
-        object->unk_88.u + (u16)(*(s16 *)((u8 *)arg0 + 0x92)) + bob;
+        object->unk_88.u + (u16)(*(s16 *)((u8 *)arg0 + (0x92))) + bob;
     ((S_80170A70_1 *)arg2)->unk_14 |= 0x40;
 }

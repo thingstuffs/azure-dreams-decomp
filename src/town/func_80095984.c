@@ -15,6 +15,7 @@ extern u8 D_80083160[];
 extern u8 D_800CFCEF;
 extern u8 D_800FE488[];
 
+
 typedef struct S_800930E4_0 {
     u8 pad_00[0xA];
     s16 unk_0A;
@@ -37,8 +38,8 @@ typedef struct S_800930E4_3 {
 } S_800930E4_3;   /* state in func_800930E4 */
 
 void func_800930E4(void *arg0, void *arg1, M2C_UNK arg2) {
-    S_800930E4_2 *self;
-    register S_800930E4_0 *target ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
+    void *self;
+    register void *target ASM_REG("$17");   /* MATCH pin: load-bearing for the whole function shape */
     M2C_UNK third;
     s16 temp_v0;
     u16 temp_v0_2;
@@ -58,9 +59,10 @@ void func_800930E4(void *arg0, void *arg1, M2C_UNK arg2) {
     func_80095094(target);
     if (func_8009FF50() == 0) {
         temp_v0 = func_80095978(target, D_800FE488);
-        if ((temp_v0 - target->unk_0A) >= 4) {
+        if ((temp_v0 - ((S_800930E4_0 *)target)->unk_0A) >= 4) {
             if (((S_800930E4_1 *)(&D_800CFCEF))->unk_00 == 0) {
                 func_80094378(self, target, third);
+                func_8009322C();
                 return;
             }
             goto block_7;
@@ -69,23 +71,24 @@ void func_800930E4(void *arg0, void *arg1, M2C_UNK arg2) {
             func_80095A94(target, temp_v0, D_800FE488);
         }
 block_7:
-        temp_v0_2 = self->unk_0A - 1;
-        self->unk_0A = temp_v0_2;
+        temp_v0_2 = ((S_800930E4_2 *)self)->unk_0A - 1;
+        ((S_800930E4_2 *)self)->unk_0A = temp_v0_2;
         if ((s16) temp_v0_2 >= 0) {
             if (((S_800930E4_3 *)state)->unk_08 & 0xF000) {
                 func_80093ED8(self, target, third);
+                func_8009322C();
                 return;
             }
             if (((S_800930E4_3 *)state)->unk_10 & 0x10) {
                 func_800942B0(self, target, third);
-                return;
+                func_8009322C();
             }
         } else {
             goto block_15;
         }
     } else {
-        temp_v0_3 = self->unk_0A - 1;
-        self->unk_0A = temp_v0_3;
+        temp_v0_3 = ((S_800930E4_2 *)self)->unk_0A - 1;
+        ((S_800930E4_2 *)self)->unk_0A = temp_v0_3;
         if ((s16) temp_v0_3 < 0) {
 block_15:
             func_80093D48(self, target, third);

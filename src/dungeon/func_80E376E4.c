@@ -1,5 +1,53 @@
 #include "common.h"
 
+
+typedef struct DungeonRecord {
+    u8 pad0[0xC];
+    u16 flags;
+    u8 padE[6];
+} DungeonRecord;
+
+extern void func_80047784(void *, u8, s32);
+extern s32 func_8009A180(void *, void *);
+extern s8 func_8009FB34(u8, u8);
+extern s32 func_8009FD7C(u8, u8, u8, u8);
+extern s16 func_800A0818(u8, u8, u8, u8, s16 *);
+extern s32 func_800A1C58(void *);
+extern void func_800A9A0C(void *);
+extern void func_800AA258(void *, void *, void *, void *);
+extern s32 func_800AA6B4(void *, void *, void *, void *);
+extern void func_800AA79C(void *, void *, void *, void *);
+extern void func_800AA888(void *, void *, void *, void *);
+extern s32 func_800AA924(void *, void *, void *, void *);
+extern void func_800AAB10(void *, void *, void *, void *);
+extern void func_800AAF00(void *, void *, void *, void *, void *);
+
+extern void func_80171278(void) __attribute__((noreturn));
+extern void func_80171408(void) __attribute__((noreturn));
+extern void func_8017143C(void) __attribute__((noreturn));
+extern void func_80171460(void);
+extern void func_801716A4(void *, void *, void *, void *);
+extern s32 func_80171E38(void *, void *, void *, void *);
+extern void func_80171FFC(void *, void *, void *, void *);
+extern s32 func_80172114(void *, void *, void *, s32);
+extern void func_801737B8(void *, void *, void *, void *);
+extern void func_80173C40(void *, void *, void *, void *);
+
+extern void *D_800814A8;
+extern u8 D_80082E80[];
+extern s8 D_80082EA4;
+extern s16 D_80083228;
+extern u16 D_80083462;
+extern s8 D_800E2970[];
+extern void *D_80170808[];
+extern u8 D_80170EE4[];
+extern u8 D_801765D8[];
+extern u8 D_801765E0[];
+extern u8 D_80176650[];
+extern u8 D_80176660[];
+extern u8 D_80176678[];
+
+
 typedef struct S_80170EE4_0 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -52,53 +100,6 @@ typedef struct S_80170EE4_5 {
     u8 unk_25;
 } S_80170EE4_5;   /* origin in func_80170EE4 */
 
-
-
-typedef struct DungeonRecord {
-    u8 pad0[0xC];
-    u16 flags;
-    u8 padE[6];
-} DungeonRecord;
-
-extern void func_80047784(void *, u8, s32);
-extern s32 func_8009A180(void *, void *);
-extern s8 func_8009FB34(u8, u8);
-extern s32 func_8009FD7C(u8, u8, u8, u8);
-extern s16 func_800A0818(u8, u8, u8, u8, s16 *);
-extern s32 func_800A1C58(void *);
-extern void func_800A9A0C(void *);
-extern void func_800AA258(void *, void *, void *, void *);
-extern s32 func_800AA6B4(void *, void *, void *, void *);
-extern void func_800AA79C(void *, void *, void *, void *);
-extern void func_800AA888(void *, void *, void *, void *);
-extern s32 func_800AA924(void *, void *, void *, void *);
-extern void func_800AAB10(void *, void *, void *, void *);
-extern void func_800AAF00(void *, void *, void *, void *, void *);
-
-extern void func_80171278(void) __attribute__((noreturn));
-extern void func_80171408(void) __attribute__((noreturn));
-extern void func_80171460(void);
-extern void func_801716A4(void *, void *, void *, void *);
-extern s32 func_80171E38(void *, void *, void *, void *);
-extern void func_80171FFC(void *, void *, void *, void *);
-extern s32 func_80172114(void *, void *, void *, s32);
-extern void func_801737B8(void *, void *, void *, void *);
-extern void func_80173C40(void *, void *, void *, void *);
-
-extern void *D_800814A8;
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
-extern s16 D_80083228;
-extern u16 D_80083462;
-extern s8 D_800E2970[];
-extern void *D_80170808[];
-extern u8 D_80170EE4[];
-extern u8 D_801765D8[];
-extern u8 D_801765E0[];
-extern u8 D_80176650[];
-extern u8 D_80176660[];
-extern u8 D_80176678[];
-
 void func_80170EE4(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
 {
     static void *const jt_keep[] = {
@@ -123,7 +124,7 @@ void func_80170EE4(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
     if (initial_flags & 0x1000) {
         ((S_80170EE4_0 *)arg0)->unk_9A = 14;
         func_80171460();
-        return;
+        func_8017143C();
     }
 
     ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
@@ -148,7 +149,7 @@ void func_80170EE4(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
             ((S_80170EE4_0 *)arg0)->unk_9B = 1;
             ((S_80170EE4_0 *)arg0)->unk_8C = 0;
             ((S_80170EE4_1 *)arg3)->unk_1C &= ~0x40000;
-            return;
+            func_8017143C();
         }
         if (func_800AA924(arg0, arg1, arg2, D_80176678) != 0) {
             return;
@@ -158,15 +159,15 @@ void func_80170EE4(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
     if ((D_80083462 & 0x2000) == 0) {
         if (((S_80170EE4_1 *)arg3)->unk_1C & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
-            return;
+            func_8017143C();
         }
 
-        ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
         {
             u8 current_state = 14;
             if (((S_80170EE4_0 *)arg0)->unk_9A != current_state) {
                 if (((S_80170EE4_2 *)arg2)->unk_2C != D_801765D8) {
-                    (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_801765D8;
+                    (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_801765D8;
                     func_80047784(
                         arg2,
                         D_801765D8[((D_80083228 + ((S_80170EE4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
@@ -187,7 +188,7 @@ void func_80170EE4(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
         if (((S_80170EE4_1 *)arg3)->unk_1C & 0x80000) {
             func_800AA888(arg0, arg1, arg2, arg3);
             func_801737B8(arg0, arg1, arg2, arg3);
-            return;
+            func_8017143C();
         }
 
         if ((s16)func_800A1C58(arg3) != 0) {
@@ -245,10 +246,10 @@ jt_c9:
 jt_c8:
         if (!(((S_80170EE4_1 *)arg3)->unk_14 & 0x20000000)) {
             func_80173C40(arg0, arg1, arg2, arg3);
-            return;
+            func_8017143C();
         }
         func_80171FFC(arg0, arg1, arg2, arg3);
-        return;
+        func_8017143C();
 
 jt_c5:
 jt_c6:
@@ -264,21 +265,21 @@ jt_c7:
 
 jt_c12:
         func_800A9A0C(arg3);
-        return;
+        func_8017143C();
 
 jt_c1:
 jt_c2:
 jt_c3:
 jt_call:
         func_800AAF00(arg0, arg1, arg2, D_80176660, D_80170EE4);
-        return;
+        func_8017143C();
 
 jt_c4:
 jt_c10:
 jt_c11:
 jt_default:
         func_801716A4(arg0, arg1, arg2, arg3);
-        return;
+        func_8017143C();
     }
 
     flags = ((S_80170EE4_1 *)arg3)->unk_1C;
@@ -309,7 +310,7 @@ jt_default:
         return;
     }
     ASM_KEEP(arg2);   /* MATCH pin: retail basic-block layout depends on it */
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
+    (*(u8 * *)((u8 *)arg2 + (0x2C))) = table;
     func_80047784(
         arg2,
         table[((D_80083228 + ((S_80170EE4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],

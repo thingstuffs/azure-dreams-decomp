@@ -50,12 +50,12 @@ void func_80024C40(Entity *entity)
         if (state == 0) {
             goto state_zero;
         }
-        return;
+        func_80024F20();
     }
     if (state == 2) {
         goto state_two;
     }
-    return;
+    func_80024F20();
 
 state_zero:
     entity->timer48--;

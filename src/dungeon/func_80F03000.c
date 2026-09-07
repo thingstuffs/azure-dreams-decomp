@@ -13,6 +13,7 @@ extern s32 D_800814A0[3];
 
 extern void func_8014CBD8(void) __attribute__((noreturn));
 extern void func_8014CD98(void) __attribute__((noreturn));
+extern void func_8014CEB8(void) __attribute__((noreturn));
 extern void func_8014CA0C(void) __attribute__((noreturn));
 #ifdef __mips__
 __asm__(".set func_8014CBD8, 0x8014CBD8");
@@ -440,6 +441,7 @@ state_zero_z:
         ((S_80F03000_0 *)arg0)->unk_2C = 2;
         ((S_80F03000_0 *)arg0)->unk_74 = -0x80000;
 #ifdef __mips__
+        func_8014CEB8();
         return;
 #endif
     }

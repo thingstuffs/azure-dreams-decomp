@@ -21,6 +21,7 @@ extern void func_800D8A78(void) __attribute__((noreturn));
 extern void func_800D8AC4(void) __attribute__((noreturn));
 extern void func_800D8B98(void) __attribute__((noreturn));
 extern void func_800D8C18(void) __attribute__((noreturn));
+extern void func_800D8C3C(void) __attribute__((noreturn));
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228;
@@ -52,10 +53,10 @@ void func_800D8728(void *arg0, void *arg1, void *arg2)
         Callback special_callback = FIELD(entity, Callback, 0x8C);
         if (special_callback == (Callback)&D_800D8C64) {
             special_callback(entity, motion, monster, self);
-            return;
+            func_800D8C3C();
         }
         FIELD(entity, u8, 0x71) &= 0x7F;
-        return;
+        func_800D8C3C();
     }
 
     ASM_CLOBBER("$5");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */

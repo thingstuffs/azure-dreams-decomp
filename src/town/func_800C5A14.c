@@ -9,6 +9,7 @@ M2C_UNK func_800C3200();                            /* extern */
 M2C_UNK func_800C321C();    /* extern */
 extern M2C_UNK D_800C3960;
 
+
 typedef struct S_800C3174_0 {
     u8 pad_00[0x50];
     s32 unk_50;
@@ -30,6 +31,7 @@ void func_800C3174(S_800C3174_0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
             }
             func_80033D08(arg0);
             func_800C30A4(arg0);
+            func_800C3200();
             return;
         }
         /* Duplicate return node #8. Try simplifying control flow for better match */

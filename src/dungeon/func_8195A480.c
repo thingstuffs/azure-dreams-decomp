@@ -1,6 +1,33 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+M2C_UNK func_8002589C();        /* extern */
+void func_8002600C(void) __attribute__((noreturn)); /* extern */
+void func_80026270(void) __attribute__((noreturn)); /* extern */
+void func_8002633C() __attribute__((noreturn));        /* extern */
+void func_80026368(void) __attribute__((noreturn)); /* extern */
+M2C_UNK func_80026548();                 /* extern */
+M2C_UNK func_8002660C();    /* extern */
+M2C_UNK func_800266D0();                  /* extern */
+s32 func_8003DE58(); /* extern */
+M2C_UNK func_8004491C();           /* extern */
+s32 func_8009B4B0();                /* extern */
+M2C_UNK func_8009CE1C(); /* extern */
+s32 func_800A44E0();              /* extern */
+extern u16 D_800281F8;
+extern s16 D_8002966C[6];
+extern u8 D_8002966E;
+extern s32 D_80029670;
+extern s16 D_8006CCD8[];
+extern s16 D_8006CCE8[];
+extern s32 D_800814A0;
+extern M2C_UNK D_80082E80;
+extern u16 D_80082E94;
+extern u16 D_80083780[];
+extern M2C_UNK D_800C9034;
+extern void *D_800E3D7C;
+
+
 typedef struct S_80025C80_0_pre {
     u16 unk_00;
 } S_80025C80_0_pre;   /* the 0x2 bytes before arg0 in func_80025C80, addressed as arg0[-1] */
@@ -105,33 +132,6 @@ typedef struct S_80025C80_8 {
     void * unk_0C;
 } S_80025C80_8;   /* ((S_80025C80_0 *)arg0)->unk_20 in func_80025C80 */
 
-
-M2C_UNK func_8002589C();        /* extern */
-void func_8002600C(void) __attribute__((noreturn)); /* extern */
-void func_80026270(void) __attribute__((noreturn)); /* extern */
-void func_8002633C() __attribute__((noreturn));        /* extern */
-void func_80026368(void) __attribute__((noreturn)); /* extern */
-M2C_UNK func_80026548();                 /* extern */
-M2C_UNK func_8002660C();    /* extern */
-M2C_UNK func_800266D0();                  /* extern */
-s32 func_8003DE58(); /* extern */
-M2C_UNK func_8004491C();           /* extern */
-s32 func_8009B4B0();                /* extern */
-M2C_UNK func_8009CE1C(); /* extern */
-s32 func_800A44E0();              /* extern */
-extern u16 D_800281F8;
-extern s16 D_8002966C[6];
-extern u8 D_8002966E;
-extern s32 D_80029670;
-extern s16 D_8006CCD8[];
-extern s16 D_8006CCE8[];
-extern s32 D_800814A0;
-extern M2C_UNK D_80082E80;
-extern u16 D_80082E94;
-extern u16 D_80083780[];
-extern M2C_UNK D_800C9034;
-extern void *D_800E3D7C;
-
 void func_80025C80(void *arg0_in, void *arg1_in, void *arg2_in) {
     void *arg0;
     void *arg1;
@@ -183,9 +183,9 @@ void func_80025C80(void *arg0_in, void *arg1_in, void *arg2_in) {
     u8 temp_v1_2;
     u8 temp_v1_3;
     u8 case0_byte;
-    void *temp_a0;
-    void *temp_s0;
-    void *var_a0;
+    S_80025C80_6 *temp_a0;
+    S_80025C80_7 *temp_s0;
+    S_80025C80_5 *var_a0;
 
     arg0 = arg0_in;
     arg1 = arg1_in;
@@ -279,9 +279,9 @@ case1_check_flag:
 
 case1_add_base:
     var_a0 = &D_80083780;
-    ((S_80025C80_2 *)arg1)->unk_00.at02.v = (s16) (((S_80025C80_5 *)var_a0)->unk_02 + ((S_80025C80_0 *)arg0)->unk_24);
-    ((S_80025C80_2 *)arg1)->unk_04.at02.v = (s16) (((S_80025C80_5 *)var_a0)->unk_06 + ((S_80025C80_0 *)arg0)->unk_26);
-    ((S_80025C80_2 *)arg1)->unk_08.at02.v = (s16) (((S_80025C80_5 *)var_a0)->unk_0A + ((S_80025C80_0 *)arg0)->unk_28);
+    ((S_80025C80_2 *)arg1)->unk_00.at02.v = (s16) (var_a0->unk_02 + ((S_80025C80_0 *)arg0)->unk_24);
+    ((S_80025C80_2 *)arg1)->unk_04.at02.v = (s16) (var_a0->unk_06 + ((S_80025C80_0 *)arg0)->unk_26);
+    ((S_80025C80_2 *)arg1)->unk_08.at02.v = (s16) (var_a0->unk_0A + ((S_80025C80_0 *)arg0)->unk_28);
     func_8002633C();
     return;
 
@@ -402,29 +402,31 @@ linked_monster:
     ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
     ASM_KEEP(arg1);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
     ASM_KEEP(arg2);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    if (((S_80025C80_6 *)temp_a0)->unk_1E & 0x8000) {
+    if (temp_a0->unk_1E & 0x8000) {
         linked_flags = ((S_80025C80_0_pre *)arg0)[-1].unk_00;
         ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
         linked_global = &D_800814A0;
         linked_flags |= 0x8000;
-        (*(u16 *)((u8 *)arg0 + -2)) = linked_flags;
+        ((S_80025C80_0_pre *)arg0)[-1].unk_00 = linked_flags;
+        ASM_MEM_BARRIER();   /* MATCH pin: keeps a constant in a register as retail does */
         *linked_global |= 0x8000;
+        func_80026368();
         return;
     }
-    temp_v1_6 = ((S_80025C80_6 *)temp_a0)->unk_08;
+    temp_v1_6 = temp_a0->unk_08;
     ((S_80025C80_2 *)arg1)->unk_00.at02.v = (s16) ((S_80025C80_3 *)temp_v1_6)->unk_02;
     ((S_80025C80_2 *)arg1)->unk_04.at02.v = (s16) ((S_80025C80_3 *)temp_v1_6)->unk_06;
     ((S_80025C80_2 *)arg1)->unk_08.at02.v = (s16) ((S_80025C80_3 *)temp_v1_6)->unk_0A;
     temp_s0 = ((S_80025C80_8 *)(((S_80025C80_0 *)arg0)->unk_20))->unk_0C;
-    func_800266D0(arg2, ((S_80025C80_7 *)temp_s0)->unk_04);
+    func_800266D0(arg2, temp_s0->unk_04);
     func_80026548(arg0, ((S_80025C80_1 *)arg2)->unk_00);
-    ((S_80025C80_1 *)arg2)->unk_1C = (u16) ((S_80025C80_7 *)temp_s0)->unk_1C;
-    ((S_80025C80_1 *)arg2)->unk_1E = (u16) ((S_80025C80_7 *)temp_s0)->unk_1E;
-    ((S_80025C80_1 *)arg2)->unk_20 = (u16) ((S_80025C80_7 *)temp_s0)->unk_20;
-    ((S_80025C80_1 *)arg2)->unk_0C.at00u.v = ((S_80025C80_7 *)temp_s0)->unk_0C;
-    ((S_80025C80_1 *)arg2)->unk_16 = (u16) ((S_80025C80_7 *)temp_s0)->unk_16;
-    ((S_80025C80_1 *)arg2)->unk_18 = (u16) ((S_80025C80_7 *)temp_s0)->unk_18;
-    ((S_80025C80_1 *)arg2)->unk_1A = (u16) ((S_80025C80_7 *)temp_s0)->unk_1A;
+    ((S_80025C80_1 *)arg2)->unk_1C = (u16) temp_s0->unk_1C;
+    ((S_80025C80_1 *)arg2)->unk_1E = (u16) temp_s0->unk_1E;
+    ((S_80025C80_1 *)arg2)->unk_20 = (u16) temp_s0->unk_20;
+    ((S_80025C80_1 *)arg2)->unk_0C.at00u.v = temp_s0->unk_0C;
+    ((S_80025C80_1 *)arg2)->unk_16 = (u16) temp_s0->unk_16;
+    ((S_80025C80_1 *)arg2)->unk_18 = (u16) temp_s0->unk_18;
+    ((S_80025C80_1 *)arg2)->unk_1A = (u16) temp_s0->unk_1A;
 block_54:
     if (((S_80025C80_0 *)arg0)->unk_2E == 0) {
         func_8004491C(arg0 - 0x20, &D_800C9034);

@@ -24,6 +24,7 @@ extern void func_800A56E0();
 extern void func_800AD594();
 extern void func_800C8150();
 extern void func_80174510(void) __attribute__((noreturn));
+extern void func_801745B8(void) __attribute__((noreturn));
 
 extern s16 D_80083228;
 extern s32 D_80083460;
@@ -66,11 +67,14 @@ void func_80174260(void *arg0, void *arg1, void *arg2, void *arg3) {
         if (state == 0) {
             goto state_zero;
         }
+        func_801745B8();
         return;
     }
+    ASM_KEEP(state);   /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_two;
     }
+    func_801745B8();
     return;
 
 state_zero:
@@ -81,6 +85,7 @@ state_zero:
                 func_800C8150(effect, 0x10, 0x10);
             }
             U8_AT(p0, 0x9B) = 2;
+            func_801745B8();
             return;
         }
 
@@ -146,6 +151,7 @@ state_one:
             D_80174B14[((D_80083228 + S16_AT(p3, 0x2A) + 0x100) >> 9) & 7],
             0);
         U8_AT(p0, 0x9B)++;
+        func_801745B8();
         return;
 state_two:
         if (U16_AT(p2, 0x14) & 0xE000) {

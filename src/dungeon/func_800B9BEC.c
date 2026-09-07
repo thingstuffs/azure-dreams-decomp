@@ -1,13 +1,5 @@
 #include "common.h"
 
-typedef struct S_800BF34C_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0xFC];
-    s32 unk_110;
-} S_800BF34C_0;   /* arg0 in func_800BF34C */
-
-
 
 typedef struct {
     u8 pad[0xA];
@@ -31,6 +23,14 @@ extern void func_800A6480(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
 extern s32 func_800BF460(void);
 
+
+typedef struct S_800BF34C_0 {
+    u8 pad_00[0x13];
+    u8 unk_13;
+    u8 pad_14[0xFC];
+    s32 unk_110;
+} S_800BF34C_0;   /* arg0 in func_800BF34C */
+
 s32 func_800BF34C(S_800BF34C_0 *arg0, s32 arg1, s16 arg2, s32 arg3)
 {
     if (arg2 == 13) {
@@ -41,6 +41,7 @@ s32 func_800BF34C(S_800BF34C_0 *arg0, s32 arg1, s16 arg2, s32 arg3)
     if (arg0 == D_800E3D7C) {
         arg0->unk_110 = arg1;
         func_8008D344(arg0, D_80083780, D_80082E80, arg0);
+        func_800BF460();
         return 0;
     }
 
@@ -50,6 +51,7 @@ s32 func_800BF34C(S_800BF34C_0 *arg0, s32 arg1, s16 arg2, s32 arg3)
                           D_800DDE84[arg0->unk_13] & 3,
                           arg1) == 0) {
             func_800A5F38(arg0, arg1);
+            func_800BF460();
             return 1;
         }
     } else {

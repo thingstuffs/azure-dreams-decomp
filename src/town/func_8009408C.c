@@ -2,6 +2,28 @@
 
 typedef s32 M2C_UNK;
 
+#define M2C_FIELD(expr, type_ptr, offset) \
+    (*(type_ptr)((s8 *)(expr) + (offset)))
+
+s32 func_800374F4();
+M2C_UNK func_8009196C();
+M2C_UNK func_80094048();
+M2C_UNK func_80094378();
+M2C_UNK func_80094944();
+M2C_UNK func_80094C1C();
+M2C_UNK func_8009503C();
+M2C_UNK func_800951B4();
+s16 func_80095978();
+M2C_UNK func_80095A94();
+M2C_UNK func_80095C80();
+M2C_UNK func_800A895C();
+extern u8 D_80083160[];
+extern u8 D_800CFCEF[];
+extern u8 D_800D043C[];
+extern u8 D_800FE488[];
+extern s32 D_800FE4E0;
+
+
 typedef struct S_800917EC_0 {
     s32 unk_00;
     s32 unk_04;
@@ -26,28 +48,6 @@ typedef struct S_800917EC_3 {
     s32 unk_08;
 } S_800917EC_3;   /* state in func_800917EC */
 
-
-#define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
-
-s32 func_800374F4();
-M2C_UNK func_8009196C();
-M2C_UNK func_80094048();
-M2C_UNK func_80094378();
-M2C_UNK func_80094944();
-M2C_UNK func_80094C1C();
-M2C_UNK func_8009503C();
-M2C_UNK func_800951B4();
-s16 func_80095978();
-M2C_UNK func_80095A94();
-M2C_UNK func_80095C80();
-M2C_UNK func_800A895C();
-extern u8 D_80083160[];
-extern u8 D_800CFCEF[];
-extern u8 D_800D043C[];
-extern u8 D_800FE488[];
-extern s32 D_800FE4E0;
-
 void func_800917EC(S_800917EC_1 *arg0, S_800917EC_0 *arg1, M2C_UNK arg2) {
     u8 *state = D_80083160;
     s16 temp_v0;
@@ -62,6 +62,7 @@ void func_800917EC(S_800917EC_1 *arg0, S_800917EC_0 *arg1, M2C_UNK arg2) {
     if ((temp_v0 - arg1->unk_08.at02.v) >= 4) {
         if (D_800CFCEF[0] == 0) {
             func_80094378(arg0, arg1, arg2);
+            func_8009196C();
             return;
         }
     } else if (D_800CFCEF[0] == 0) {
@@ -86,6 +87,7 @@ void func_800917EC(S_800917EC_1 *arg0, S_800917EC_0 *arg1, M2C_UNK arg2) {
         func_80094944(temp_v0_3, 8);
         func_80094C1C(arg0);
         func_8009503C(arg1);
+        func_8009196C();
         return;
     }
     func_80094048(arg0, arg1, arg2);

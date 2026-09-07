@@ -3,18 +3,6 @@ typedef float f32;
 typedef double f64;
 typedef long long s64;
 typedef unsigned long long u64;
-
-typedef struct S_8009D218_0 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-} S_8009D218_0;   /* arg2 in func_8009D218 */
-
-typedef struct S_8009D218_1 {
-    s32 unk_00;
-    u8 pad_04[0x64];
-    u8 * unk_68;
-} S_8009D218_1;   /* arg0 in func_8009D218; pointer addresses record offset 0x18 */
-
 #ifndef NULL
 #define NULL 0
 #endif
@@ -77,7 +65,23 @@ s32 func_80042900();                 /* extern */
 s32 func_8009D34C();                                /* extern */
 void func_8009D368();                               /* extern */
 s32 func_800A6D30();                                /* extern */
-M2C_UNK func_800CB82C();         /* extern */
+M2C_UNK func_800CB82C();         
+typedef struct S_8009D218_0 {
+    u8 pad_00[0x13];
+    s8 unk_13;
+} S_8009D218_0;   /* arg2 in func_8009D218 */
+
+typedef struct S_8009D218_1_pre {
+    s32 unk_00;
+    u8 pad_04[0x14];
+} S_8009D218_1_pre;   /* the 0x18 bytes before arg0 in func_8009D218, addressed as arg0[-1] */
+
+typedef struct S_8009D218_1 {
+    u8 pad_00[0x50];
+    u8 * unk_50;
+} S_8009D218_1;   /* arg0 in func_8009D218 */
+
+/* extern */
 
 s32 func_8009D218(void *arg0, s32 arg1, S_8009D218_0 *arg2) {
     u8 *temp_v0;
@@ -100,11 +104,12 @@ s32 func_8009D218(void *arg0, s32 arg1, S_8009D218_0 *arg2) {
         if (!(arg1 & 4) || (((func_80042900(arg0, 0x16) << 0x10) == 0) && ((func_80042900(arg0, 0x15) << 0x10) == 0)) || (arg2->unk_13 < 0)) {
 block_17:
             if (arg2 != NULL) {
-                temp_v0 = ((S_8009D218_1 *)((u8 *)arg0 - 0x18))->unk_68;
+                temp_v0 = ((S_8009D218_1 *)arg0)->unk_50;
                 if (temp_v0 != NULL) {
                     if ((*temp_v0 == 3) && (arg2->unk_13 >= 0) && (func_800A6D30() & 3)) {
                         /* Duplicate return node #22. Try simplifying control flow for better match */
-                        func_800CB82C(((S_8009D218_1 *)((u8 *)arg0 - 0x18))->unk_00, arg0, arg2);
+                        func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
+                        func_8009D368();
                         return 1;
                     }
                     /* Duplicate return node #25. Try simplifying control flow for better match */
@@ -115,7 +120,8 @@ block_17:
             /* Duplicate return node #25. Try simplifying control flow for better match */
             return 0;
         }
-        func_800CB82C(((S_8009D218_1 *)((u8 *)arg0 - 0x18))->unk_00, arg0, arg2);
+        func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
+        func_8009D368();
         return 1;
     }
 block_24:

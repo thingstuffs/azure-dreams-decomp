@@ -50,10 +50,12 @@ s32 func_800AA36C(void *arg0, void *arg1, void *arg2, void *arg3) {
 
             if (result == 1) {
                 func_800AA508(arg0, arg1, arg2, arg3);
-                return 1;
+                func_800AA4DC();
+                ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot contents depend on it */
                 return 1;
             } else {
                 func_800AA5E4(arg0, arg1, arg2, arg3);
+                func_800AA4DC();
                 return 1;
             }
         }

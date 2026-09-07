@@ -7,6 +7,7 @@ void func_800B1F10(s32 arg0, s32 arg1);
 void func_800B1F48(s32 arg0, s32 arg1, s32 arg2);
 void func_800B204C(void);
 
+
 typedef struct S_800B1F80_0 {
     u8 pad_00[0xC];
     s32 unk_0C;
@@ -32,6 +33,7 @@ void func_800B1F80(s8 *arg0, s32 arg1) {
     temp_v0 = temp_ret;
     if (temp_v0 >= temp_s0->unk_0C) {
         temp_s0->unk_08 = 0;
+        func_800B204C();
         return;
     }
     if (temp_v0 != temp_s0->unk_08) {

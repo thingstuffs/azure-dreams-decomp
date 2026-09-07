@@ -7,6 +7,7 @@ M2C_UNK func_800AA754();         /* extern */
 extern s16 D_80083228[8];
 extern void *D_80083470[3];
 
+
 typedef struct S_800AA6B4_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -29,6 +30,7 @@ typedef struct S_800AA6B4_1 {
 s32 func_800AA6B4(void *arg0, M2C_UNK arg1, S_800AA6B4_1 *arg2, s32 arg3) {
     if (((S_800AA6B4_0 *)arg0)->unk_64 > 0) {
         func_800AA754(arg0, arg1, arg2, arg0);
+        func_800AA744();
         return 0;
     }
     D_80083470[0] = (void *) ((s8 *) arg0 - 0x20);

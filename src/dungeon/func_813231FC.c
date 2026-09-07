@@ -1,18 +1,5 @@
 #include "common.h"
 
-typedef struct S_8016A9FC_0 {
-    u8 pad_00[0x12];
-    union { s16 s; u16 u; } unk_12;   /* accessed as both */
-    u8 pad_14[0x6];
-    u16 unk_1A;
-} S_8016A9FC_0;   /* arg0 in func_8016A9FC */
-
-typedef struct S_8016A9FC_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_8016A9FC_1;   /* counter_base in func_8016A9FC */
-
-
 
 extern s32 func_800990FC(s32, u8 *, void *);
 extern s32 func_80099194(u8 *, s32);
@@ -26,6 +13,19 @@ extern s32 D_800814A0;
 extern u8 D_80083160[];
 extern u8 D_80083460[];
 extern u8 D_8016A808[];
+
+
+typedef struct S_8016A9FC_0 {
+    u8 pad_00[0x12];
+    union { s16 s; u16 u; } unk_12;   /* accessed as both */
+    u8 pad_14[0x6];
+    u16 unk_1A;
+} S_8016A9FC_0;   /* arg0 in func_8016A9FC */
+
+typedef struct S_8016A9FC_1 {
+    u8 pad_00[0xA];
+    u16 unk_0A;
+} S_8016A9FC_1;   /* counter_base in func_8016A9FC */
 
 void func_8016A9FC(void *arg0) {
     s32 state;
@@ -52,13 +52,14 @@ void func_8016A9FC(void *arg0) {
     if (state == 0) {
         goto state_0;
     }
-    return;
+    func_8016ABB4();
 
 state_ge_2:
+    ASM_KEEP(state);   /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_2;
     }
-    return;
+    func_8016ABB4();
 
 state_0:
     if (base[0xA8] >= 0x65) {
@@ -85,7 +86,7 @@ state_0:
     value = func_8009929C(1, value);
     func_80099290(value);
     func_800A5720(first_value);
-    return;
+    func_8016ABB4();
 
 state_1:
     counter = ((S_8016A9FC_0 *)arg0)->unk_1A;
@@ -95,7 +96,7 @@ state_1:
     }
     ((S_8016A9FC_0 *)arg0)->unk_1A = 0;
     ((S_8016A9FC_0 *)arg0)->unk_12.u++;
-    return;
+    func_8016ABB4();
 
 state_2:
     value = base[0xA8];
@@ -104,14 +105,15 @@ state_2:
         base[0xA8] = value + 4;
         base[0xA9] += 4;
         base[0xAA] += 4;
-        return;
+        func_8016ABB4();
     }
+    ASM_KEEP_NV(value);   /* MATCH pin: retail schedule: same instructions, different order without it */
     base[0xAA] = 0x80;
     base[0xA9] = 0x80;
     base[0xA8] = 0x80;
     counter_base = D_80083460;
     ((S_8016A9FC_1 *)counter_base)->unk_0A--;
-    (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
     D_800814A0 |= 0x8000;
 
 finish:

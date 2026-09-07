@@ -13,6 +13,7 @@ extern u8 D_80083160[];
 extern M2C_UNK D_800CFCEF;
 extern M2C_UNK D_800FE488;
 
+
 typedef struct S_80091000_0 {
     u8 pad_00[0xA];
     s16 unk_0A;
@@ -39,6 +40,7 @@ void func_80091000(s32 arg0, S_80091000_0 *arg1, M2C_UNK arg2) {
     if ((temp_v0 - arg1->unk_0A) >= 4) {
         if (((S_80091000_1 *)(&D_800CFCEF))->unk_00 == 0) {
             func_80094378(arg0, arg1, arg2);
+            func_800910F0();
             return;
         }
         goto block_6;
@@ -49,6 +51,7 @@ void func_80091000(s32 arg0, S_80091000_0 *arg1, M2C_UNK arg2) {
 block_6:
     if (((S_80091000_2 *)state)->unk_10 & 0x10) {
         func_800942B0(arg0, arg1, arg2);
+        func_800910F0();
         return;
     }
     if (((S_80091000_2 *)state)->unk_08 & 0xF000) {

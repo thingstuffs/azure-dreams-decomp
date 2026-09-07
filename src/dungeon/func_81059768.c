@@ -22,6 +22,7 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
+extern void func_801714EC(void) __attribute__((noreturn));
 extern void func_80171510(void);
 extern void func_80171768(void *, void *, void *, void *);
 extern s32 func_80171F24(void *, void *, void *, void *);
@@ -120,6 +121,7 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
     if (initial_flags & 0x1000) {
         ((S_80170F68_0 *)arg0)->unk_9A = 0xE;
         func_80171510();
+        func_801714EC();
         return;
     }
 
@@ -133,13 +135,14 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
         func_800AA79C(arg0, arg1, arg2, arg3);
         if (((S_80170F68_2 *)arg2)->unk_2C != D_80174000) {
             zero_table = D_80173FF8;
-            (*(void * *)((u8 *)arg2 + 0x2C)) = zero_table;
+            (*(void * *)((u8 *)arg2 + (0x2C))) = zero_table;
             func_80047784(arg2,
                 zero_table[((D_80083228 + ((S_80170F68_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
         ((S_80170F68_0 *)arg0)->unk_AE = 0;
         func_80042B68(arg3, 0x1A);
+        func_801714EC();
         return;
     }
 
@@ -149,6 +152,7 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
             ((S_80170F68_0 *)arg0)->unk_9B = 1;
             ((S_80170F68_0 *)arg0)->unk_8C = 0;
             ((S_80170F68_1 *)arg3)->unk_1C &= ~0x40000;
+            func_801714EC();
             return;
         }
         if (func_800AA924(arg0, arg1, arg2, D_80173FF8)) {
@@ -159,16 +163,17 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
     if (!(D_80083462 & 0x2000)) {
         if (((S_80170F68_1 *)arg3)->unk_1C & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
+            func_801714EC();
             return;
         }
 
-        ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
         if (((S_80170F68_0 *)arg0)->unk_9A != 0xE) {
             u8 state = 0xE;
 
             table = D_80173FB8;
             if (((S_80170F68_2 *)arg2)->unk_2C != table) {
-                (*(void * *)((u8 *)arg2 + 0x2C)) = table;
+                (*(void * *)((u8 *)arg2 + (0x2C))) = table;
                 func_80047784(arg2,
                     table[((D_80083228 + ((S_80170F68_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
                     0);
@@ -186,6 +191,7 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
         if (((S_80170F68_1 *)arg3)->unk_1C & 0x80000) {
             func_800AA888(arg0, arg1, arg2, arg3);
             func_80173900(arg0, arg1, arg2, arg3);
+            func_801714EC();
             return;
         }
 
@@ -246,7 +252,7 @@ handler_case:
 #endif
             if ((s16)func_80171F24(arg0, arg1, arg2, arg3) == 0) {
                 func_80172110(arg0, arg1, arg2, arg3);
-                return;
+                func_801714EC();
             }
             return;
 
@@ -256,6 +262,7 @@ extra_cleanup:
         case 4:
 #endif
             func_80173AD4(arg0, arg1, arg2, arg3);
+            func_801714EC();
             return;
 
 #ifdef __mips__
@@ -299,14 +306,17 @@ coords_case:
 
 special_cleanup:
         func_800A9A0C(arg3);
+        func_801714EC();
         return;
 
 aaf_cleanup:
         func_800AAF00(arg0, arg1, arg2, D_80173FF0, &D_80170F68);
+        func_801714EC();
         return;
 
 ordinary_cleanup:
         func_80171768(arg0, arg1, arg2, arg3);
+        func_801714EC();
         return;
     } else if (!(((S_80170F68_1 *)arg3)->unk_1C & 0x2000)) {
         s32 index = (s8)result;
@@ -337,7 +347,7 @@ ordinary_cleanup:
     if (((S_80170F68_2 *)arg2)->unk_2C == table) {
         return;
     }
-    (*(void * *)((u8 *)arg2 + 0x2C)) = table;
+    (*(void * *)((u8 *)arg2 + (0x2C))) = table;
     func_80047784(arg2,
         ((((D_80083228 + ((S_80170F68_1 *)arg3)->unk_2A + 0x100) >> 9) & 7) + table)[0],
         0);

@@ -32,6 +32,7 @@ void func_8008B4B0(void) {
     if (func_8008B328() != 0) {
         D_800CF828[0] = 1;
         D_800CF828[1] = 0;
+        func_8008B534();
         return;
     }
     D_800CF828[0] = 0;

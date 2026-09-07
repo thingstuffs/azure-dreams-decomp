@@ -21,6 +21,7 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern s32 func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
+extern void func_80171D58(void) __attribute__((noreturn));
 extern void func_80171D7C(void);
 extern void func_80171FE8(void *, void *, void *, void *);
 extern s32 func_801727B8(void *, void *, void *, void *);
@@ -125,6 +126,7 @@ void func_801717F4(void *arg0, void *arg1, void *arg2, void *arg3)
     if (initial_flags & 0x1000) {
         ((S_801717F4_0 *)arg0)->unk_9A = 0xE;
         func_80171D7C();
+        func_80171D58();
         return;
     }
 
@@ -140,10 +142,11 @@ void func_801717F4(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
         table = D_801759E0;
-        (*(void * *)((u8 *)arg2 + 0x2C)) = table;
+        (*(void * *)((u8 *)arg2 + (0x2C))) = table;
         func_80047784(arg2,
             table[((D_80083228 + ((S_801717F4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
             0);
+        func_80171D58();
         return;
     }
 
@@ -153,6 +156,7 @@ void func_801717F4(void *arg0, void *arg1, void *arg2, void *arg3)
             ((S_801717F4_0 *)arg0)->unk_9B = 1;
             ((S_801717F4_0 *)arg0)->unk_8C = 0;
             ((S_801717F4_1 *)arg3)->unk_1C &= 0xFFFBFFFF;
+            func_80171D58();
             return;
         }
         if (func_800AA924(arg0, arg1, arg2, D_801759E0) != 0) {
@@ -163,6 +167,7 @@ void func_801717F4(void *arg0, void *arg1, void *arg2, void *arg3)
     if (!(D_80083462 & 0x2000)) {
         if (((S_801717F4_1 *)arg3)->unk_1C & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
+            func_80171D58();
             return;
         }
 
@@ -170,12 +175,13 @@ void func_801717F4(void *arg0, void *arg1, void *arg2, void *arg3)
             u32 current_state = ((S_801717F4_0 *)arg0)->unk_9A;
             u32 actor_state;
 
+            ASM_KEEP(current_state);   /* MATCH pin: retail delay-slot fill depends on it */
             actor_state = 0xE;
             if (current_state != actor_state) {
                 u8 *table = D_80175988;
 
                 if (((S_801717F4_2 *)arg2)->unk_2C != table) {
-                    (*(void * *)((u8 *)arg2 + 0x2C)) = table;
+                    (*(void * *)((u8 *)arg2 + (0x2C))) = table;
                     func_80047784(arg2,
                         table[((D_80083228 + ((S_801717F4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
                         0);
@@ -197,11 +203,12 @@ void func_801717F4(void *arg0, void *arg1, void *arg2, void *arg3)
         if (((S_801717F4_1 *)arg3)->unk_1C & 0x80000) {
             func_800AA888(arg0, arg1, arg2, arg3);
             func_80174258(arg0, arg1, arg2, arg3);
-            (*(void * *)((u8 *)arg2 + 0x2C)) = D_80175988;
+            (*(void * *)((u8 *)arg2 + (0x2C))) = D_80175988;
             func_80047784(arg2,
                 D_80175988[((D_80083228 + ((S_801717F4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_801717F4_0 *)arg0)->unk_90 = 0;
+            func_80171D58();
             return;
         }
 
@@ -253,10 +260,12 @@ jt_c9:
         }
         func_8017297C(arg0, arg1, arg2, arg3);
         ASM_KEEP(p0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+        func_80171D58();
         return;
 
 jt_c10:
         func_80174798(arg0, arg1, arg2, arg3);
+        func_80171D58();
         return;
 
 jt_c5:
@@ -284,6 +293,7 @@ jt_c7:
 jt_c12:
 special_cleanup:
         func_800A9A0C(arg3);
+        func_80171D58();
         return;
 
 jt_c1:
@@ -291,12 +301,14 @@ jt_c2:
 jt_c3:
 aaf_cleanup:
         func_800AAF00(arg0, arg1, arg2, D_801759D0, &D_801717F4);
+        func_80171D58();
         return;
 
 jt_c4:
 jt_c11:
 ordinary_cleanup:
         func_80171FE8(arg0, arg1, arg2, arg3);
+        func_80171D58();
         return;
     }
 

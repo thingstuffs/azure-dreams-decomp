@@ -1,5 +1,42 @@
 #include "common.h"
 
+
+extern s32 D_8006CD58[];
+extern u8 D_8006DE24[];
+extern u8 D_80080A84;
+extern void *D_800814A8;
+extern s16 D_80083228;
+extern s32 D_80083460;
+extern u8 D_800DCF50;
+extern s32 D_800DDAB8[];
+extern void *D_80170880[];
+extern void *D_80170898[];
+extern u8 D_801710EC[];
+extern u8 D_80175E40[];
+extern u8 D_80175F40[];
+extern u16 D_80175F6E;
+
+extern s32 func_8003E4FC();
+extern s32 func_8003F270();
+extern s32 func_8003F540();
+extern s32 func_800445E0();
+extern s32 func_80047784();
+extern void *func_800A05A4();
+extern s32 func_800A2B04();
+extern s32 func_800A4ACC();
+extern s32 func_800A56E0();
+extern s32 func_800A9400();
+extern s32 func_800A94A0();
+extern s32 func_800BB044();
+extern void func_80173624() __attribute__((noreturn));
+extern void func_80173698() __attribute__((noreturn));
+extern void func_801736FC() __attribute__((noreturn));
+extern void func_801737D4() __attribute__((noreturn));
+extern void func_80173AB0() __attribute__((noreturn));
+extern s32 func_80175814();
+extern s32 func_80175D7C();
+
+
 typedef struct S_80173560_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -7,7 +44,7 @@ typedef struct S_80173560_0 {
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u16 unk_98;
     u8 pad_9A[0x1];
-    union { u8 s; volatile u8 u; } unk_9B;   /* accessed as both */
+    union { u8 n; volatile u8 v; } unk_9B;   /* accessed as both */
 } S_80173560_0;   /* arg0 in func_80173560 */
 
 typedef struct S_80173560_1 {
@@ -22,8 +59,8 @@ typedef struct S_80173560_1 {
     u8 pad_64[0x9];
     u8 unk_6D;
     u8 pad_6E[0x4];
-    union { u8 s; s8 u; } unk_72;   /* accessed as both */
-    union { u8 s; s8 u; } unk_73;   /* accessed as both */
+    union { u8 u; s8 s; } unk_72;   /* accessed as both */
+    union { u8 u; s8 s; } unk_73;   /* accessed as both */
 } S_80173560_1;   /* arg3 in func_80173560 */
 
 typedef struct S_80173560_2_pre {
@@ -57,42 +94,6 @@ typedef struct S_80173560_5 {
     s32 unk_14;
 } S_80173560_5;   /* arg1 in func_80173560 */
 
-
-
-extern s32 D_8006CD58[];
-extern u8 D_8006DE24[];
-extern u8 D_80080A84;
-extern void *D_800814A8;
-extern s16 D_80083228;
-extern s32 D_80083460;
-extern u8 D_800DCF50;
-extern s32 D_800DDAB8[];
-extern void *D_80170880[];
-extern void *D_80170898[];
-extern u8 D_801710EC[];
-extern u8 D_80175E40[];
-extern u8 D_80175F40[];
-extern u16 D_80175F6E;
-
-extern s32 func_8003E4FC();
-extern s32 func_8003F270();
-extern s32 func_8003F540();
-extern s32 func_800445E0();
-extern s32 func_80047784();
-extern void *func_800A05A4();
-extern s32 func_800A2B04();
-extern s32 func_800A4ACC();
-extern s32 func_800A56E0();
-extern s32 func_800A9400();
-extern s32 func_800A94A0();
-extern s32 func_800BB044();
-extern void func_80173624() __attribute__((noreturn));
-extern void func_80173698() __attribute__((noreturn));
-extern void func_801736FC() __attribute__((noreturn));
-extern void func_801737D4() __attribute__((noreturn));
-extern s32 func_80175814();
-extern s32 func_80175D7C();
-
 void func_80173560(void *arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
     static void *const state_labels[] = {
         &&state0, &&state1, &&state2, &&state3, &&state4
@@ -117,7 +118,7 @@ void func_80173560(void *arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
     register s32 raw ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
     void *ptr;
 
-    state = ((S_80173560_0 *)arg0)->unk_9B.s;
+    state = ((S_80173560_0 *)arg0)->unk_9B.n;
     ASM_KEEP(state);   /* MATCH pin: keeps a statement from moving across a call/branch */
     if ((u32)state >= 5) {
         return;
@@ -180,8 +181,8 @@ item_default:
         void *outer = ((S_80173560_1 *)arg3)->unk_60;
         if (outer != 0) {
             register void *inner ASM_REG("$3") = ((S_80173560_2_pre *)outer)[-1].unk_00;   /* MATCH pin: load-bearing for the whole function shape */
-            ((S_80173560_1 *)arg3)->unk_72.s = ((S_80173560_3 *)inner)->unk_24;
-            ((S_80173560_1 *)arg3)->unk_73.s = ((S_80173560_3 *)inner)->unk_25;
+            ((S_80173560_1 *)arg3)->unk_72.u = ((S_80173560_3 *)inner)->unk_24;
+            ((S_80173560_1 *)arg3)->unk_73.u = ((S_80173560_3 *)inner)->unk_25;
             func_801736FC(a0v, (void *)s0);
         }
     } else {
@@ -190,16 +191,16 @@ item_default:
         ptr = func_800A05A4(arg3, ((S_80173560_4 *)arg2)->unk_24,
                             ((S_80173560_4 *)arg2)->unk_25, ((S_80173560_1 *)arg3)->unk_2A, 0x10);
         ((S_80173560_1 *)arg3)->unk_60 = ptr;
-        abs_value = ((S_80173560_1 *)arg3)->unk_72.u;
-        abs_temp = ((S_80173560_1 *)arg3)->unk_73.u;
+        abs_value = ((S_80173560_1 *)arg3)->unk_72.s;
+        abs_temp = ((S_80173560_1 *)arg3)->unk_73.s;
         if (abs_value < 0) {
             abs_value = -abs_value;
         }
         if (abs_temp < 0) {
             abs_temp = -abs_temp;
         }
-        ((S_80173560_1 *)arg3)->unk_72.s = abs_value;
-        ((S_80173560_1 *)arg3)->unk_73.s = abs_temp;
+        ((S_80173560_1 *)arg3)->unk_72.u = abs_value;
+        ((S_80173560_1 *)arg3)->unk_73.u = abs_temp;
     }
 
     if (func_800A94A0(arg3, (void *)s0, s1, (u8 *)arg0 + 0x98) == 0) {
@@ -220,7 +221,7 @@ item_default:
     ((S_80173560_1 *)arg3)->unk_13 &= 0x7F;
     *(u16 *)&D_80175E40[0x12E] &= 0xFF7F;
     func_800BB044(arg3);
-    ((S_80173560_0 *)arg0)->unk_9B.s++;
+    ((S_80173560_0 *)arg0)->unk_9B.n++;
     ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
     s0 = (s32)&D_80175F6E;
     if (*(u16 *)s0 & 0x80) {
@@ -230,13 +231,13 @@ item_default:
         func_800A56E0(0x300);
         key = (s16)func_800A9400(*(u16 *)s0 & 0x7F);
         ((S_80173560_0 *)arg0)->unk_96.s = D_80175F40[key] - 0x10;
-        ((S_80173560_0 *)arg0)->unk_9B.s++;
-        return;
+        ((S_80173560_0 *)arg0)->unk_9B.n++;
+        func_80173AB0();
     }
-    key = ((S_80173560_0 *)arg0)->unk_9B.u;
+    key = ((S_80173560_0 *)arg0)->unk_9B.v;
     key += 2;
-    ((S_80173560_0 *)arg0)->unk_9B.s = key;
-    return;
+    ((S_80173560_0 *)arg0)->unk_9B.n = key;
+    func_80173AB0();
 
 state1:
     ((S_80173560_0 *)arg0)->unk_96.u -= D_80080A84;
@@ -259,15 +260,15 @@ state1:
                   ((s32 *)(((sv << 17) >> 14) + s1))[1]);
     value = func_800445E0();
     func_8003E4FC(0x15, value, 0);
-    ((S_80173560_0 *)arg0)->unk_9B.s++;
+    ((S_80173560_0 *)arg0)->unk_9B.n++;
 
 state2:
     if (func_8003F270() != 0) {
         ((S_80173560_4 *)arg2)->unk_14 |= 0x800;
-        return;
+        func_80173AB0();
     }
     ((S_80173560_4 *)arg2)->unk_14 &= 0xF7FF;
-    ((S_80173560_0 *)arg0)->unk_9B.s++;
+    ((S_80173560_0 *)arg0)->unk_9B.n++;
 
 state3:
     if (!(((S_80173560_0 *)arg0)->unk_98 & 0x80)) {
@@ -295,7 +296,7 @@ check_high_flags:
     func_800A2B04(arg1, ((S_80173560_4 *)arg2)->unk_24, ((S_80173560_4 *)arg2)->unk_25);
     ptr = D_80175E40;
     if (((S_80173560_4 *)arg2)->unk_2C != ptr) {
-        (*(void * *)((u8 *)arg2 + 0x2C)) = ptr;
+        (*(void * *)((u8 *)arg2 + (0x2C))) = ptr;
         index = ((D_80083228 + ((S_80173560_1 *)arg3)->unk_2A + 0x100) >> 9) & 7;
         func_80047784(arg2, D_80175E40[index], 0);
     }
@@ -311,8 +312,8 @@ check_high_flags:
     ((S_80173560_1 *)arg3)->unk_6D--;
     ((S_80173560_1 *)arg3)->unk_46 &= 0x7FFF;
     ((S_80173560_0 *)arg0)->unk_98 &= 0xFFBF;
-    ((S_80173560_1 *)arg3)->unk_73.s = 0;
-    ((S_80173560_1 *)arg3)->unk_72.s = 0;
+    ((S_80173560_1 *)arg3)->unk_73.u = 0;
+    ((S_80173560_1 *)arg3)->unk_72.u = 0;
     func_800A56E0(0xB4);
 }
 

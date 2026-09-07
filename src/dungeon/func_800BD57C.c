@@ -1,5 +1,35 @@
 #include "common.h"
 
+
+extern s32 func_80042900(void *arg0, s32 arg1);
+extern void func_80042B68(void *arg0, s32 arg1);
+extern void func_8008D344(void *arg0, void *arg1, void *arg2, void *arg3);
+extern void func_80098B38(void *arg0);
+extern s32 func_800990FC(void);
+extern s32 func_80099194(void *arg0, s32 arg1);
+extern void func_80099290(s32 arg0);
+extern s32 func_8009929C(s32 arg0, s32 arg1);
+extern s32 func_80099368(void *arg0, s32 arg1);
+extern s32 func_80099734(void *arg0, s32 arg1);
+extern s32 func_800999B0(s32 arg0);
+extern void func_8009A21C(u8 arg0, u8 arg1, s32 arg2);
+extern void func_8009A3D0(u8 arg0, u8 arg1, s32 arg2);
+extern void func_800A56E0(s32 arg0);
+extern void func_800A5720(s32 arg0);
+extern s16 func_800B60B8(u8 arg0, u8 arg1, s16 arg2, s32 arg3, s32 arg4);
+extern s32 func_800C2F04(void);
+extern s32 func_800C7380(u8 arg0, u8 arg1, s16 arg2, s32 arg3, s32 arg4);
+
+extern u8 D_80082E80[];
+extern s32 D_80083460;
+extern u8 D_80083780[];
+extern u8 D_800893D4[];
+extern u8 D_800E1684[];
+extern u8 D_800E169A[];
+extern u8 D_800E39C8[];
+extern u8 D_800E3D7C[];
+
+
 typedef struct S_800C2CDC_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -37,36 +67,6 @@ typedef struct S_800C2CDC_4 {
     u16 unk_0A;
 } S_800C2CDC_4;   /* counter_base in func_800C2CDC */
 
-
-
-extern s32 func_80042900(void *arg0, s32 arg1);
-extern void func_80042B68(void *arg0, s32 arg1);
-extern void func_8008D344(void *arg0, void *arg1, void *arg2, void *arg3);
-extern void func_80098B38(void *arg0);
-extern s32 func_800990FC(void);
-extern s32 func_80099194(void *arg0, s32 arg1);
-extern void func_80099290(s32 arg0);
-extern s32 func_8009929C(s32 arg0, s32 arg1);
-extern s32 func_80099368(void *arg0, s32 arg1);
-extern s32 func_80099734(void *arg0, s32 arg1);
-extern s32 func_800999B0(s32 arg0);
-extern void func_8009A21C(u8 arg0, u8 arg1, s32 arg2);
-extern void func_8009A3D0(u8 arg0, u8 arg1, s32 arg2);
-extern void func_800A56E0(s32 arg0);
-extern void func_800A5720(s32 arg0);
-extern s16 func_800B60B8(u8 arg0, u8 arg1, s16 arg2, s32 arg3, s32 arg4);
-extern s32 func_800C2F04(void);
-extern s32 func_800C7380(u8 arg0, u8 arg1, s16 arg2, s32 arg3, s32 arg4);
-
-extern u8 D_80082E80[];
-extern s32 D_80083460;
-extern u8 D_80083780[];
-extern u8 D_800893D4[];
-extern u8 D_800E1684[];
-extern u8 D_800E169A[];
-extern u8 D_800E39C8[];
-extern u8 D_800E3D7C[];
-
 s32 func_800C2CDC(void *arg0, u8 *arg1, s16 arg2) {
     S_800C2CDC_1 *entity;
     s32 object_fields;
@@ -79,6 +79,7 @@ s32 func_800C2CDC(void *arg0, u8 *arg1, s16 arg2) {
     if (arg0 == *(u8 **)D_800E3D7C) {
         ((S_800C2CDC_0 *)arg0)->unk_110 = arg1;
         func_8008D344(arg0, D_80083780, D_80082E80, arg0);
+        func_800C2F04();
         return 0;
     }
 

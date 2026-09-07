@@ -7,6 +7,7 @@ M2C_UNK func_800A2B04();              /* extern */
 extern M2C_UNK D_80083460;
 extern M2C_UNK D_80096384;
 
+
 typedef struct S_8009704C_0 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -68,6 +69,7 @@ void func_8009704C(S_8009704C_3 *arg0, S_8009704C_1 *arg1, S_8009704C_2 *arg2, M
         arg2->unk_14 = (u16) (arg2->unk_14 | 0x4000);
         if (arg0->unk_100 >= 0) {
             func_80095DD0(arg0, arg1, arg2, saved_arg3);
+            func_80097188();
             return;
         }
         arg0->unk_8C = &D_80096384;

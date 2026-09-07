@@ -42,9 +42,9 @@ typedef struct S_800D2664_2 {
 } S_800D2664_2;   /* ent in func_800D2664 */
 
 void func_800D2664(void *arg0, void *arg1, void *arg2) {
-    S_800D2664_1 *obj = arg0;
-    S_800D2664_0 *pos = arg1;
-    S_800D2664_2 *ent = arg2;
+    void *obj = arg0;
+    void *pos = arg1;
+    void *ent = arg2;
     register void *work ASM_REG("$16") = obj;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     DungeonCallback callback;
     s32 x;
@@ -59,7 +59,8 @@ void func_800D2664(void *arg0, void *arg1, void *arg2) {
     s32 uheight;
 
     if (D_80083462 & 0x2000) {
-        (*(u8 *)((u8 *)work + 0x71)) &= 0x7F;
+        (*(u8 *)((u8 *)work + (0x71))) &= 0x7F;
+        func_800D28C4();
         return;
     }
 
@@ -68,83 +69,83 @@ void func_800D2664(void *arg0, void *arg1, void *arg2) {
     ASM_KEEP(ent);   /* MATCH pin: retail schedule: same instructions, different order without it */
     ASM_KEEP(work);   /* MATCH pin: retail basic-block layout depends on it */
 
-    callback = (*(DungeonCallback *)((u8 *)work + 0x8C));
+    callback = (*(DungeonCallback *)((u8 *)work + (0x8C)));
     if (callback != 0) {
         callback(work, pos, ent, work);
     }
-    D_800E2228[(*(u8 *)((u8 *)work + 0x9A))](work, pos, ent, work);
+    D_800E2228[(*(u8 *)((u8 *)work + (0x9A)))](work, pos, ent, work);
 
-    x = pos->unk_00.at00.v;
-    dx = pos->unk_0C;
-    y = pos->unk_04.at00.v;
-    dy = pos->unk_10;
-    pos->unk_00.at00.v = x + dx;
-    pos->unk_04.at00.v = y + dy;
+    x = ((S_800D2664_0 *)pos)->unk_00.at00.v;
+    dx = ((S_800D2664_0 *)pos)->unk_0C;
+    y = ((S_800D2664_0 *)pos)->unk_04.at00.v;
+    dy = ((S_800D2664_0 *)pos)->unk_10;
+    ((S_800D2664_0 *)pos)->unk_00.at00.v = x + dx;
+    ((S_800D2664_0 *)pos)->unk_04.at00.v = y + dy;
 
-    if ((*(u16 *)((u8 *)work + 0x98)) & 8) {
-        (*(u8 *)((u8 *)work + 0x9D)) = 0;
+    if ((*(u16 *)((u8 *)work + (0x98))) & 8) {
+        (*(u8 *)((u8 *)work + (0x9D))) = 0;
         func_800D276C(dx, dy);
         return;
     }
 
-    pos->unk_14 += (*(s8 *)((u8 *)work + 0x9D)) * 0x14000;
-    (*(u8 *)((u8 *)work + 0x9D))++;
-    fall_accum = obj->unk_90.at00.v;
-    fall_delta = pos->unk_14;
-    fall_flags = obj->unk_98;
-    obj->unk_90.at00.v = fall_accum + fall_delta;
+    ((S_800D2664_0 *)pos)->unk_14 += (*(s8 *)((u8 *)work + (0x9D))) * 0x14000;
+    (*(u8 *)((u8 *)work + (0x9D)))++;
+    fall_accum = ((S_800D2664_1 *)obj)->unk_90.at00.v;
+    fall_delta = ((S_800D2664_0 *)pos)->unk_14;
+    fall_flags = ((S_800D2664_1 *)obj)->unk_98;
+    ((S_800D2664_1 *)obj)->unk_90.at00.v = fall_accum + fall_delta;
 
     if (fall_flags & 4) {
         goto clear_fall_flag;
     }
 
     result = func_800BCB04(
-        pos->unk_00.at02.v,
-        pos->unk_04.at02.v,
-        (s16)((*(u16 *)((u8 *)work + 0x88)) - 0x20));
+        ((S_800D2664_0 *)pos)->unk_00.at02.v,
+        ((S_800D2664_0 *)pos)->unk_04.at02.v,
+        (s16)((*(u16 *)((u8 *)work + (0x88))) - 0x20));
     if (result >= 0x200) {
         goto clear_fall_flag;
     }
 
-    uheight = (*(u16 *)((u8 *)work + 0x88));
-    height = (*(s16 *)((u8 *)work + 0x88));
-    if (obj->unk_90.at02.v + height < result) {
-        u16 tail_flags = obj->unk_98;
+    uheight = (*(u16 *)((u8 *)work + (0x88)));
+    height = (*(s16 *)((u8 *)work + (0x88)));
+    if (((S_800D2664_1 *)obj)->unk_90.at02.v + height < result) {
+        u16 tail_flags = ((S_800D2664_1 *)obj)->unk_98;
         ASM_KEEP(tail_flags);   /* MATCH pin: retail basic-block layout depends on it */
         func_800D2810();
         return;
     }
     if (result >= height) {
-        obj->unk_90.at00.v = 0;
+        ((S_800D2664_1 *)obj)->unk_90.at00.v = 0;
         func_800D27F8();
         return;
     }
 
-    obj->unk_90.at02.v = result - uheight;
-    pos->unk_14 = 0;
-    (*(u32 *)((u8 *)work + 0x1C)) |= 0x08000000;
-    obj->unk_9D = 0;
+    ((S_800D2664_1 *)obj)->unk_90.at02.v = result - uheight;
+    ((S_800D2664_0 *)pos)->unk_14 = 0;
+    (*(u32 *)((u8 *)work + (0x1C))) |= 0x08000000;
+    ((S_800D2664_1 *)obj)->unk_9D = 0;
 
-    if ((*(u32 *)((u8 *)work + 0x1C)) & 0x40000000) {
+    if ((*(u32 *)((u8 *)work + (0x1C))) & 0x40000000) {
         s32 tile_x;
         s32 tile_y;
-        (*(u32 *)((u8 *)work + 0x1C)) &= ~0x40000000;
-        tile_x = (ent->unk_24 << 6) | 0x20;
-        tile_y = (ent->unk_25 << 6) | 0x20;
+        (*(u32 *)((u8 *)work + (0x1C))) &= ~0x40000000;
+        tile_x = (((S_800D2664_2 *)ent)->unk_24 << 6) | 0x20;
+        tile_y = (((S_800D2664_2 *)ent)->unk_25 << 6) | 0x20;
         result = func_800BCB04(
-            tile_x, tile_y, (s16)((*(u16 *)((u8 *)work + 0x88)) - 0x20));
-        obj->unk_90.at02.v += (*(u16 *)((u8 *)work + 0x88)) - result;
-        (*(s16 *)((u8 *)work + 0x88)) = result;
+            tile_x, tile_y, (s16)((*(u16 *)((u8 *)work + (0x88))) - 0x20));
+        ((S_800D2664_1 *)obj)->unk_90.at02.v += (*(u16 *)((u8 *)work + (0x88))) - result;
+        (*(s16 *)((u8 *)work + (0x88))) = result;
         func_800D2890();
         return;
     }
     goto finish;
 
 clear_fall_flag:
-    (*(u32 *)((u8 *)work + 0x1C)) &= ~0x08000000;
+    (*(u32 *)((u8 *)work + (0x1C))) &= ~0x08000000;
 
 finish:
-    pos->unk_0A = (*(u16 *)((u8 *)work + 0x88)) + obj->unk_90.at02u.v;
-    ent->unk_14 |= 0x40;
-    (*(u32 *)((u8 *)work + 0x1C)) |= 0x200;
+    ((S_800D2664_0 *)pos)->unk_0A = (*(u16 *)((u8 *)work + (0x88))) + ((S_800D2664_1 *)obj)->unk_90.at02u.v;
+    ((S_800D2664_2 *)ent)->unk_14 |= 0x40;
+    (*(u32 *)((u8 *)work + (0x1C))) |= 0x200;
 }

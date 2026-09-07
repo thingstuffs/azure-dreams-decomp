@@ -1,16 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef struct S_800AAB10_0_pre {
-    u16 unk_00;
-    u8 pad_02[0x12];
-} S_800AAB10_0_pre;   /* the 0x14 bytes before ((temp_a0 * 0x14) + D_8007359C) in func_800AAB10, addressed as ((temp_a0 * 0x14) + D_8007359C)[-1] */
-
-
-
-
-
-
 s32 func_80042900(void *, s32);
 s32 func_800A1C58(void *);
 void func_800A1D4C(void *, s32);
@@ -23,6 +13,7 @@ extern s8 D_80080A88;
 extern s8 D_80080AA0;
 extern M2C_UNK D_80083460;
 extern s32 D_800E296C;
+
 
 typedef struct S_800AAB10_0 {
     u8 pad_00[0x2];
@@ -44,10 +35,15 @@ typedef struct S_800AAB10_1 {
     s32 unk_54;
 } S_800AAB10_1;   /* arg3 in func_800AAB10 */
 
-typedef struct S_800AAB10_2 {
+typedef struct S_800AAB10_2_pre {
+    u16 unk_00;
+    u8 pad_02[0x12];
+} S_800AAB10_2_pre;   /* the 0x14 bytes before ((temp_a0 * 0x14) + D_8007359C) in func_800AAB10, addressed as ((temp_a0 * 0x14) + D_8007359C)[-1] */
+
+typedef struct S_800AAB10_3 {
     u8 pad_00[0xC];
     s32 unk_0C;
-} S_800AAB10_2;   /* &D_80083460 in func_800AAB10 */
+} S_800AAB10_3;   /* &D_80083460 in func_800AAB10 */
 
 s32 func_800AAB10(s32 arg0, M2C_UNK arg1, M2C_UNK arg2, S_800AAB10_1 *arg3) {
     s32 var_s1;
@@ -70,7 +66,7 @@ s32 func_800AAB10(s32 arg0, M2C_UNK arg1, M2C_UNK arg2, S_800AAB10_1 *arg3) {
                         }
                         if (!(arg3->unk_54 & 0x800000) && (arg3->unk_14 & 0x4000)) {
                             temp_a0 = arg3->unk_13;
-                            if ((((S_800AAB10_0_pre *)(((temp_a0 * 0x14) + D_8007359C)))[-1].unk_00 & 0x80) && (temp_a0 >= 2U) && ((u8) arg3->unk_11 >= 0x14U) && !(arg3->unk_1C & 0x228) && ((func_80042900(arg3, 0x18) << 0x10) == 0)) {
+                            if ((((S_800AAB10_2_pre *)(((temp_a0 * 0x14) + D_8007359C)))[-1].unk_00 & 0x80) && (temp_a0 >= 2U) && ((u8) arg3->unk_11 >= 0x14U) && !(arg3->unk_1C & 0x228) && ((func_80042900(arg3, 0x18) << 0x10) == 0)) {
                                 var_s1 = 1;
                             }
                         }
@@ -87,9 +83,10 @@ s32 func_800AAB10(s32 arg0, M2C_UNK arg1, M2C_UNK arg2, S_800AAB10_1 *arg3) {
     }
     goto return_result;
 tail_call:
+    func_800AAC8C();
     return 0;
 clear_state:
-    ((S_800AAB10_2 *)(&D_80083460))->unk_0C = 0;
+    ((S_800AAB10_3 *)(&D_80083460))->unk_0C = 0;
 return_result:
     return var_s1;
 }

@@ -38,6 +38,7 @@ void func_800A4E1C(TownTransition *state) {
         state->unk1C = 0;
         state->previous_target = saved_target;
         func_800A4D4C(state, state);
+        func_800A4F3C();
         return;
     }
 

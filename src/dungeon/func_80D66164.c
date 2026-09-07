@@ -11,6 +11,7 @@ extern s32 func_800A9E70(void *, void *, void *, void *);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern s16 func_800BCB04(u16, u16, s16);
 extern void func_80171C0C(void) __attribute__((noreturn));
+extern void func_80171EF4(void) __attribute__((noreturn));
 
 extern u8 D_8006CCF8[];
 extern s16 D_80083228[];
@@ -56,7 +57,7 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
     void *obj = arg0;
     register void *motion ASM_REG("$21") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     register void *part ASM_REG("$20") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    S_80171964_2 *base = obj;
+    void *base = obj;
     Callback first_callback;
     Callback dispatch_callback;
     s32 flags;
@@ -68,17 +69,17 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
     u16 part_flags;
 
     if (D_80083462[0] & 0x2000) {
-        first_callback = (*(Callback *)((u8 *)obj + 0x8C));
+        first_callback = (*(Callback *)((u8 *)obj + (0x8C)));
         if (first_callback == (Callback)D_80171F1C) {
             {
                 void *entryArg0 = arg0;
 
                 first_callback(entryArg0, arg1, arg2, entryArg0);
             }
-            return;
+            func_80171EF4();
         }
-        (*(u8 *)((u8 *)obj + 0x71)) &= 0x7F;
-        return;
+        (*(u8 *)((u8 *)obj + (0x71))) &= 0x7F;
+        func_80171EF4();
     }
 
     ASM_KEEP(obj);   /* MATCH pin: retail schedule: same instructions, different order without it */
@@ -86,17 +87,17 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
     ASM_KEEP(part);   /* MATCH pin: keeps a statement from moving across a call/branch */
 
     {
-        s16 old_state = (s8)(*(u8 *)((u8 *)obj + 0x6D));
+        s16 old_state = (s8)(*(u8 *)((u8 *)obj + (0x6D)));
 
         if (func_800A9E70(obj, motion, part, obj) != 0) {
             return;
         }
-        dispatch_callback = (*(Callback *)((u8 *)obj + 0x8C));
+        dispatch_callback = (*(Callback *)((u8 *)obj + (0x8C)));
         if (dispatch_callback != 0) {
             dispatch_callback(obj, motion, part, obj);
         }
-        D_8017664C[(*(u8 *)((u8 *)obj + 0x9A))](obj, motion, part, obj);
-        if ((s16)old_state != (s8)(*(u8 *)((u8 *)obj + 0x6D))) {
+        D_8017664C[(*(u8 *)((u8 *)obj + (0x9A)))](obj, motion, part, obj);
+        if ((s16)old_state != (s8)(*(u8 *)((u8 *)obj + (0x6D)))) {
             func_800AA36C(obj, motion, part, obj);
         }
     }
@@ -104,15 +105,15 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
     ((S_80171964_0 *)motion)->unk_00.at00.v += ((S_80171964_0 *)motion)->unk_0C;
     ((S_80171964_0 *)motion)->unk_04.at00.v += ((S_80171964_0 *)motion)->unk_10;
 
-    if (!((*(u32 *)((u8 *)obj + 0x1C)) & 0x40000) &&
-        !((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
-        ((S_80171964_0 *)motion)->unk_14 += (*(s8 *)((u8 *)obj + 0x9D)) * 0x14000;
-        (*(u8 *)((u8 *)obj + 0x9D))++;
+    if (!((*(u32 *)((u8 *)obj + (0x1C))) & 0x40000) &&
+        !((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
+        ((S_80171964_0 *)motion)->unk_14 += (*(s8 *)((u8 *)obj + (0x9D))) * 0x14000;
+        (*(u8 *)((u8 *)obj + (0x9D)))++;
     } else {
-        (*(u8 *)((u8 *)obj + 0x9D)) = 0;
+        (*(u8 *)((u8 *)obj + (0x9D))) = 0;
     }
 
-    (*(s32 *)((u8 *)obj + 0x90)) += ((S_80171964_0 *)motion)->unk_14;
+    (*(s32 *)((u8 *)obj + (0x90))) += ((S_80171964_0 *)motion)->unk_14;
     part_flags = ((S_80171964_1 *)part)->unk_14;
 
     if (!(part_flags & 0x8000)) {
@@ -121,14 +122,14 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
         register s32 page_index ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
         register u8 *page_table ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
 
-        direction = (D_80083228[0] + base->unk_2A + 0x100) >> 9;
+        direction = (D_80083228[0] + ((S_80171964_2 *)base)->unk_2A + 0x100) >> 9;
         index = direction & 7;
         page_index = index;
-        if ((*(s16 *)((u8 *)obj + 0x94)) != (s16)page_index) {
+        if ((*(s16 *)((u8 *)obj + (0x94))) != (s16)page_index) {
             func_80047738(part,
-                (*(u8 *)((u8 *)(((S_80171964_1 *)part)->unk_2C) + page_index)),
+                (*(u8 *)((u8 *)(((S_80171964_1 *)part)->unk_2C) + (page_index))),
                 ((S_80171964_1 *)part)->unk_04.s8);
-            (*(s16 *)((u8 *)obj + 0x94)) = index;
+            (*(s16 *)((u8 *)obj + (0x94))) = index;
         }
         page_table = D_8006CCF8;
         if (page_table[page_index] != 0) {
@@ -136,9 +137,9 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
         } else {
             ((S_80171964_1 *)part)->unk_14 &= 0xFFFE;
         }
-        func_800A020C(base->unk_1C.s, (u8 *)part + 0xC);
+        func_800A020C(((S_80171964_2 *)base)->unk_1C.s, (u8 *)part + 0xC);
 
-        if (!(base->unk_1C.u & 0x20)) {
+        if (!(((S_80171964_2 *)base)->unk_1C.u & 0x20)) {
             if (!(((S_80171964_1 *)part)->unk_14 & 0x40)) {
                 func_800478B8(part);
                 {
@@ -150,12 +151,12 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
             }
         } else {
             ((S_80171964_1 *)part)->unk_14 |= 0x7000;
-            base->unk_1C.u &= 0xFFFBFFFF;
+            ((S_80171964_2 *)base)->unk_1C.u &= 0xFFFBFFFF;
         }
 
-        flags = base->unk_1C.u;
+        flags = ((S_80171964_2 *)base)->unk_1C.u;
         flags &= 0xF7FFFFFF;
-        base->unk_1C.u = flags;
+        ((S_80171964_2 *)base)->unk_1C.u = flags;
         flags &= 0x40000;
         if (!flags) {
             goto clear_velocity;
@@ -164,16 +165,16 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
         if (!(((S_80171964_1 *)part)->unk_14 & 0x40) &&
             ((S_80171964_1 *)part)->unk_2C == D_800E2348) {
             if (((S_80171964_1 *)part)->unk_04.u16 == 0x400) {
-                (*(u16 *)((u8 *)obj + 0x9E)) = 0;
+                (*(u16 *)((u8 *)obj + (0x9E))) = 0;
             }
             {
-                u16 counter = (*(u16 *)((u8 *)obj + 0x9E));
+                u16 counter = (*(u16 *)((u8 *)obj + (0x9E)));
 
-                (*(u16 *)((u8 *)obj + 0x9E)) = counter + 1;
-                (*(s32 *)((u8 *)obj + 0xA0)) = -func_800644B8((s16)counter * 0xC3) << 7;
+                (*(u16 *)((u8 *)obj + (0x9E))) = counter + 1;
+                (*(s32 *)((u8 *)obj + (0xA0))) = -func_800644B8((s16)counter * 0xC3) << 7;
             }
         }
-        if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
+        if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
             floor_limit = -0x20;
             floor_value = *(s16 *)((u8 *)obj + 0x92);
             raw_floor = *(volatile u16 *)((u8 *)obj + 0x92);
@@ -192,26 +193,26 @@ void func_80171964(void *arg0, void *arg1, void *arg2)
     } else {
         ((S_80171964_1 *)part)->unk_14 = part_flags | 0x7000;
     }
-    flags = base->unk_1C.u;
+    flags = ((S_80171964_2 *)base)->unk_1C.u;
     flags &= 0xF7FFFFFF;
-    base->unk_1C.u = flags;
+    ((S_80171964_2 *)base)->unk_1C.u = flags;
     flags &= 0x40000;
     if (!flags) {
 clear_velocity:
-        velocity = (*(s32 *)((u8 *)obj + 0xA0));
-        (*(u16 *)((u8 *)obj + 0x9E)) = 0;
-        (*(s32 *)((u8 *)obj + 0xA0)) = 0;
-        (*(s32 *)((u8 *)obj + 0x90)) -= velocity;
-        if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
+        velocity = (*(s32 *)((u8 *)obj + (0xA0)));
+        (*(u16 *)((u8 *)obj + (0x9E))) = 0;
+        (*(s32 *)((u8 *)obj + (0xA0))) = 0;
+        (*(s32 *)((u8 *)obj + (0x90))) -= velocity;
+        if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
             floor = func_800BCB04(((S_80171964_0 *)motion)->unk_00.at02.v,
                                   ((S_80171964_0 *)motion)->unk_04.at02.v,
-                                  (s16)(base->unk_88 - 0x20)) -
-                    base->unk_88;
-            if (floor < (*(s16 *)((u8 *)obj + 0x92))) {
-                (*(s16 *)((u8 *)obj + 0x92)) = floor;
-                (*(u8 *)((u8 *)obj + 0x9D)) = 0;
+                                  (s16)(((S_80171964_2 *)base)->unk_88 - 0x20)) -
+                    ((S_80171964_2 *)base)->unk_88;
+            if (floor < (*(s16 *)((u8 *)obj + (0x92)))) {
+                (*(s16 *)((u8 *)obj + (0x92))) = floor;
+                (*(u8 *)((u8 *)obj + (0x9D))) = 0;
                 ((S_80171964_0 *)motion)->unk_14 = 0;
-                base->unk_1C.u |= 0x08000000;
+                ((S_80171964_2 *)base)->unk_1C.u |= 0x08000000;
                 goto common_tail;
             }
         }
@@ -221,16 +222,16 @@ clear_velocity:
     if (!(((S_80171964_1 *)part)->unk_14 & 0x40) &&
         ((S_80171964_1 *)part)->unk_2C == D_800E2348) {
         if (((S_80171964_1 *)part)->unk_04.u16 == 0x400) {
-            (*(u16 *)((u8 *)obj + 0x9E)) = 0;
+            (*(u16 *)((u8 *)obj + (0x9E))) = 0;
         }
         {
-            u16 counter = (*(u16 *)((u8 *)obj + 0x9E));
+            u16 counter = (*(u16 *)((u8 *)obj + (0x9E)));
 
-            (*(u16 *)((u8 *)obj + 0x9E)) = counter + 1;
-            (*(s32 *)((u8 *)obj + 0xA0)) = -func_800644B8((s16)counter * 0xC3) << 7;
+            (*(u16 *)((u8 *)obj + (0x9E))) = counter + 1;
+            (*(s32 *)((u8 *)obj + (0xA0))) = -func_800644B8((s16)counter * 0xC3) << 7;
         }
     }
-    if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
+    if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
         floor_limit = -0x20;
         floor_value = *(s16 *)((u8 *)obj + 0x92);
         raw_floor = *(volatile u16 *)((u8 *)obj + 0x92);
@@ -248,24 +249,24 @@ raise_floor:
     }
 
 common_tail:
-    flags = base->unk_1C.u;
+    flags = ((S_80171964_2 *)base)->unk_1C.u;
     if (flags & 0x40000000) {
-        base->unk_1C.u = flags & 0xBFFFFFFF;
+        ((S_80171964_2 *)base)->unk_1C.u = flags & 0xBFFFFFFF;
         floor = func_800BCB04(
             (((S_80171964_1 *)part)->unk_24 << 6) | 0x20,
             (((S_80171964_1 *)part)->unk_25 << 6) | 0x20,
-            (s16)(base->unk_88 - 0x20));
+            (s16)(((S_80171964_2 *)base)->unk_88 - 0x20));
         if (floor < 0x200) {
-            (*(u16 *)((u8 *)obj + 0x92)) += base->unk_88 - floor;
-            base->unk_88 = floor;
+            (*(u16 *)((u8 *)obj + (0x92))) += ((S_80171964_2 *)base)->unk_88 - floor;
+            ((S_80171964_2 *)base)->unk_88 = floor;
         }
     }
-    if ((*(u8 *)((u8 *)obj + 0x9A)) != 0x18) {
+    if ((*(u8 *)((u8 *)obj + (0x9A))) != 0x18) {
         ((S_80171964_0 *)motion)->unk_0A =
-            base->unk_88 + (*(u16 *)((u8 *)obj + 0x92)) -
-            (*(u16 *)((u8 *)obj + 0xA2));
+            ((S_80171964_2 *)base)->unk_88 + (*(u16 *)((u8 *)obj + (0x92))) -
+            (*(u16 *)((u8 *)obj + (0xA2)));
     } else {
-        ((S_80171964_0 *)motion)->unk_0A = (*(u16 *)((u8 *)obj + 0x92)) - (*(u16 *)((u8 *)obj + 0xA2));
+        ((S_80171964_0 *)motion)->unk_0A = (*(u16 *)((u8 *)obj + (0x92))) - (*(u16 *)((u8 *)obj + (0xA2)));
     }
     ((S_80171964_1 *)part)->unk_14 |= 0x40;
 }

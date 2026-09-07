@@ -1,5 +1,21 @@
 #include "common.h"
 
+
+extern s32 func_800C30E0(void *arg0, void *arg1, void *arg2);
+extern s16 func_800C2B38(void *arg0, s32 arg1, s32 arg2);
+extern void func_800C3688(void) __attribute__((noreturn));
+extern void func_800C36B0(void);
+extern void func_800C36B0_zero(void) __asm__("func_800C36B0");
+extern void func_800C3764(void) __attribute__((noreturn));
+extern void func_800C37C4(void *arg0, void *arg1, void *arg2);
+extern int abs(int);
+
+extern s32 D_800D4FE8[4];
+extern s32 D_800D4FF8[4];
+extern s32 D_800D5008[4];
+extern s32 D_800D5018[4];
+
+
 typedef struct S_800C355C_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_04;   /* overlapping accesses */
@@ -19,21 +35,6 @@ typedef struct S_800C355C_1 {
     union { s16 s; u16 u; } unk_8C;   /* accessed as both */
     union { s16 s; u16 u; } unk_8E;   /* accessed as both */
 } S_800C355C_1;   /* arg0 in func_800C355C */
-
-
-
-extern s32 func_800C30E0(void *arg0, void *arg1, void *arg2);
-extern s16 func_800C2B38(void *arg0, s32 arg1, s32 arg2);
-extern void func_800C3688(void) __attribute__((noreturn));
-extern void func_800C36B0(void);
-extern void func_800C36B0_zero(void) __asm__("func_800C36B0");
-extern void func_800C37C4(void *arg0, void *arg1, void *arg2);
-extern int abs(int);
-
-extern s32 D_800D4FE8[4];
-extern s32 D_800D4FF8[4];
-extern s32 D_800D5008[4];
-extern s32 D_800D5018[4];
 
 void func_800C355C(S_800C355C_1 *arg0, void *arg1, void *arg2)
 {
@@ -127,6 +128,7 @@ case_three:
         bound_y = arg0->unk_8E.u;
         ((S_800C355C_0 *)arg1)->unk_04.at02u.v = bound_x - bound_y;
         func_800C37C4(arg0, arg1, arg2);
+        func_800C3764();
         return;
     }
 

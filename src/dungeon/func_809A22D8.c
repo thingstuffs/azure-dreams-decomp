@@ -10,6 +10,7 @@ extern void func_800A2B04(void *, u8, u8);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
 extern void func_80173C60() __attribute__((noreturn));
+extern void func_80173D8C(void) __attribute__((noreturn));
 extern s16 D_8006CCD8[8];
 extern s16 D_8006CCE8[8];
 extern s32 D_80083460[];
@@ -38,12 +39,13 @@ void func_80173AD8(void *arg0, void *arg1, void *arg2, void *arg3) {
         if (initial_state == 0) {
             goto state_0;
         }
-        return;
+        func_80173D8C();
     }
+    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
     if (initial_state == 2) {
         goto state_2;
     }
-    return;
+    func_80173D8C();
 
 state_0:
     func_800AD4D0(arg3);
@@ -54,7 +56,7 @@ state_0:
     if (FIELD_U16(arg2, 0x14) & 0x8000) {
         FIELD_S16(arg0, 0x96) = 0;
         FIELD_U8(arg0, 0x9B) = 2;
-        return;
+        func_80173D8C();
     }
     FIELD_S32(arg1, 0xC) =
         (-*(s16 *)((u8 *)D_8006CCD8 + ((FIELD_U16(arg3, 0x6A) >> 8) & 0xE))) << 15;
@@ -99,14 +101,14 @@ reset_motion:
     FIELD_S32(arg1, 0x10) = 0;
     FIELD_S32(arg1, 0xC) = 0;
     func_800AAA54(arg0, arg1, arg2, D_80175E90);
-    return;
+    func_80173D8C();
 
 advance_state:
     state = FIELD_U8(arg0, 0x9B);
     motion_count = 8;
     FIELD_S16(arg0, 0x96) = motion_count;
     FIELD_U8(arg0, 0x9B) = state + 1;
-    return;
+    func_80173D8C();
 
 state_2:
     state_2_count = FIELD_S16(arg0, 0x96);
@@ -115,7 +117,7 @@ state_2:
             byte_value = FIELD_U8(arg2, 0x24);
         } while (0);
         delta = FIELD_S16(arg1, 2);
-        ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
         FIELD_S32(arg1, 0xC) = (((byte_value << 6) - (delta -= 0x20)) << 15) /
                                state_2_count;
         delta = FIELD_S16(arg1, 6) - 0x20;

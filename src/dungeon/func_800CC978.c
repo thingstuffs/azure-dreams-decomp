@@ -27,6 +27,7 @@ void func_800D20D8(s32 arg0, s32 arg1, s32 arg2, u8 *arg3) {
         if (*(u8 *)(arg3 + 0x28) == 0) {
             D_80083470 = arg3 - 0x20;
             func_800AAA54(arg0, arg1, arg2, 0);
+            func_800D21A8();
             return;
         }
     }

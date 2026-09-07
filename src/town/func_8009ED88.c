@@ -1,5 +1,16 @@
 #include "common.h"
 
+
+extern s32 func_80033D08();
+extern s32 func_80095388();
+extern s32 func_8009539C();
+extern s32 func_8009C5BC();
+extern s16 func_800C2AE8();
+
+extern s32 D_800814A0[3];
+extern u8 D_8009C5D8[];
+
+
 typedef struct S_8009C4E8_0_pre {
     u16 unk_00;
 } S_8009C4E8_0_pre;   /* the 0x2 bytes before arg0 in func_8009C4E8, addressed as arg0[-1] */
@@ -30,17 +41,6 @@ typedef struct S_8009C4E8_2 {
     u16 unk_14;
 } S_8009C4E8_2;   /* arg2 in func_8009C4E8 */
 
-
-
-extern s32 func_80033D08();
-extern s32 func_80095388();
-extern s32 func_8009539C();
-extern s32 func_8009C5BC();
-extern s16 func_800C2AE8();
-
-extern s32 D_800814A0[3];
-extern u8 D_8009C5D8[];
-
 void func_8009C4E8(void *arg0, S_8009C4E8_1 *arg1, S_8009C4E8_2 *arg2) {
     s16 value;
     u16 timer;
@@ -51,6 +51,7 @@ void func_8009C4E8(void *arg0, S_8009C4E8_1 *arg1, S_8009C4E8_2 *arg2) {
         func_80033D08();
         ((S_8009C4E8_0_pre *)arg0)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
+        func_8009C5BC();
         return;
     }
 

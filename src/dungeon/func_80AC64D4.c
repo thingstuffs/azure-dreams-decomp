@@ -1,5 +1,21 @@
 #include "common.h"
 
+
+extern s32 func_80047784();
+extern s32 func_8009A21C();
+extern s32 func_8009A3D0();
+extern s16 func_8009A66C();
+extern s16 func_800A0818();
+extern void func_80171EBC() __attribute__((noreturn));
+extern void func_80171EC0() __attribute__((noreturn));
+extern void func_80171F14() __attribute__((noreturn));
+extern s32 func_80172688();
+
+extern s16 D_80083228;
+extern u16 D_80083462;
+extern u8 D_80174DE4[];
+
+
 typedef struct S_80171CD4_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -45,21 +61,6 @@ typedef struct S_80171CD4_4 {
     u8 unk_7C;
 } S_80171CD4_4;   /* (u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s in func_80171CD4 */
 
-
-
-extern s32 func_80047784();
-extern s32 func_8009A21C();
-extern s32 func_8009A3D0();
-extern s16 func_8009A66C();
-extern s16 func_800A0818();
-extern void func_80171EBC() __attribute__((noreturn));
-extern void func_80171EC0() __attribute__((noreturn));
-extern s32 func_80172688();
-
-extern s16 D_80083228;
-extern u16 D_80083462;
-extern u8 D_80174DE4[];
-
 void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
     register void *state ASM_REG("$17") = arg3;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
     s32 move_flags;
@@ -83,7 +84,7 @@ void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
     }
 
     if (((S_80171CD4_3 *)arg2)->unk_2C != D_80174DE4) {
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80174DE4;
+        (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80174DE4;
         func_80047784(
             arg2,
             D_80174DE4[((D_80083228 + ((S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
@@ -138,9 +139,10 @@ void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
 
     ((S_80171CD4_1 *)arg0)->unk_9A = 0xF;
     ((S_80171CD4_1 *)arg0)->unk_8C = 0;
-    (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
+    (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
     if (D_80083462 & 0x80) {
         ((S_80171CD4_1 *)arg0)->unk_96 = 0;
+        func_80171F14();
         return;
     }
 

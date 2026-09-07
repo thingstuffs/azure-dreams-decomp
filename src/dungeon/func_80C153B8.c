@@ -27,6 +27,7 @@ extern void func_80170EF0(void) __attribute__((noreturn));
 extern void func_801711A0(void) __attribute__((noreturn));
 extern void func_801712C8(void) __attribute__((noreturn));
 extern void func_801712D8(void) __attribute__((noreturn));
+extern void func_8017137C(void) __attribute__((noreturn));
 
 
 typedef struct S_80170BB8_0 {
@@ -86,15 +87,15 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
     register u32 actor_flags ASM_REG("$3");   /* MATCH pin: keeps a constant in a register as retail does */
 
     if (initial_flags & 0x2000) {
-        EntityCallback early_callback = (*(EntityCallback *)((u8 *)actor + 0x8C));
+        EntityCallback early_callback = (*(EntityCallback *)((u8 *)actor + (0x8C)));
         if ((void *)early_callback == (void *)D_801713A8) {
             register void *entry_arg0 ASM_REG("$4") = arg0;   /* MATCH pin: retail delay-slot contents depend on it */
             ASM_KEEP_NV(entry_arg0);   /* MATCH pin: retail register colouring depends on it */
             early_callback(arg0, arg1, arg2, entry_arg0);
-            return;
+            func_8017137C();
         } else {
-            (*(u8 *)((u8 *)actor + 0x71)) &= 0x7F;
-            return;
+            (*(u8 *)((u8 *)actor + (0x71))) &= 0x7F;
+            func_8017137C();
         }
     }
 
@@ -102,35 +103,35 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
     ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
     ASM_KEEP(object);   /* MATCH pin: retail schedule: same instructions, different order without it */
 
-    index = (s8)(*(u8 *)((u8 *)actor + 0x6D));
+    index = (s8)(*(u8 *)((u8 *)actor + (0x6D)));
     if (func_800A9E70(actor, motion, object, actor) != 0) {
         return;
     }
 
-    callback = (*(EntityCallback *)((u8 *)actor + 0x8C));
+    callback = (*(EntityCallback *)((u8 *)actor + (0x8C)));
     if (callback != 0) {
         callback(actor, motion, object, actor);
     }
-    D_80174504[(*(u8 *)((u8 *)actor + 0x9A))](actor, motion, object, actor);
-    if ((s16)index != (s8)(*(u8 *)((u8 *)actor + 0x6D))) {
+    D_80174504[(*(u8 *)((u8 *)actor + (0x9A)))](actor, motion, object, actor);
+    if ((s16)index != (s8)(*(u8 *)((u8 *)actor + (0x6D)))) {
         func_800AA36C(actor, motion, object, actor);
     }
 
     ((S_80170BB8_0 *)motion)->unk_00.at00.v += ((S_80170BB8_0 *)motion)->unk_0C;
     ((S_80170BB8_0 *)motion)->unk_04.at00.v += ((S_80170BB8_0 *)motion)->unk_10;
 
-    if (!((*(u32 *)((u8 *)actor + 0x1C)) & 0x40000) &&
-        !((*(u16 *)((u8 *)actor + 0x98)) & 8)) {
-        ((S_80170BB8_0 *)motion)->unk_14 += (s8)(*(u8 *)((u8 *)actor + 0x9D)) * 0x14000;
-        (*(u8 *)((u8 *)actor + 0x9D))++;
+    if (!((*(u32 *)((u8 *)actor + (0x1C))) & 0x40000) &&
+        !((*(u16 *)((u8 *)actor + (0x98))) & 8)) {
+        ((S_80170BB8_0 *)motion)->unk_14 += (s8)(*(u8 *)((u8 *)actor + (0x9D))) * 0x14000;
+        (*(u8 *)((u8 *)actor + (0x9D)))++;
         func_80170D54();
         return;
     }
 
     do {
-        (*(volatile u8 *)((u8 *)actor + 0x9D)) = 0;
+        (*(volatile u8 *)((u8 *)actor + (0x9D))) = 0;
     } while (0);
-    (*(s32 *)((u8 *)actor + 0x90)) += ((S_80170BB8_0 *)motion)->unk_14;
+    (*(s32 *)((u8 *)actor + (0x90))) += ((S_80170BB8_0 *)motion)->unk_14;
     object_flags = ((S_80170BB8_1 *)object)->unk_14;
 
     if (!(object_flags & 0x8000)) {
@@ -139,10 +140,10 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
             dir_calc = (D_80083228 + ((S_80170BB8_2 *)actor2)->unk_2A + 0x100) >> 9;
             direction = dir_calc & 7;
         }
-        if ((*(s16 *)((u8 *)actor + 0x94)) != direction) {
+        if ((*(s16 *)((u8 *)actor + (0x94))) != direction) {
             func_80047738(object, ((S_80170BB8_1 *)object)->unk_2C[direction],
                           ((S_80170BB8_1 *)object)->unk_04);
-            (*(s16 *)((u8 *)actor + 0x94)) = direction;
+            (*(s16 *)((u8 *)actor + (0x94))) = direction;
         }
         if (D_8006CCF8[direction] != 0) {
             u32 tail_v0 = ((S_80170BB8_1 *)object)->unk_14 | 1;
@@ -151,7 +152,7 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
         }
 
         ((S_80170BB8_1 *)object)->unk_14 &= 0xFFFE;
-        if ((*(u8 *)((u8 *)actor + 0x9A)) != 8) {
+        if ((*(u8 *)((u8 *)actor + (0x9A))) != 8) {
             func_800A020C(((S_80170BB8_2 *)actor2)->unk_1C.s, (u8 *)object + 0xC);
         }
 
@@ -173,9 +174,9 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
         ((S_80170BB8_2 *)actor2)->unk_1C.u = actor_flags;
         if (actor_flags & 0x40000) {
             if (!(((S_80170BB8_1 *)object)->unk_14 & 0x40)) {
-                object_flags = (*(u16 *)((u8 *)actor + 0x98));
+                object_flags = (*(u16 *)((u8 *)actor + (0x98)));
                 if (object_flags & 0x8000) {
-                    (*(u16 *)((u8 *)actor + 0x98)) = object_flags & 0x7FFF;
+                    (*(u16 *)((u8 *)actor + (0x98))) = object_flags & 0x7FFF;
                     palette = ((S_80170BB8_1 *)object)->unk_2C;
                     if (palette == D_8017449C) {
                         register void *tail_a1 ASM_REG("$5") = D_80174494;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
@@ -184,55 +185,55 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
                     }
                     else if (palette == D_80174494) {
                         ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
-                        (*(u8 * *)((u8 *)object + 0x2C)) = D_8017449C;
+                        (*(u8 * *)((u8 *)object + (0x2C))) = D_8017449C;
                         func_80047784(object,
                             D_8017449C[((D_80083228 + ((S_if_0 *)actor2)->unk_2A + 0x100) >> 9) & 7],
                             0);
                     }
                 }
                 if (((S_80170BB8_1 *)object)->unk_14 & 0x6000) {
-                    (*(u16 *)((u8 *)actor + 0x98)) |= 0x8000;
+                    (*(u16 *)((u8 *)actor + (0x98))) |= 0x8000;
                     if (((S_80170BB8_1 *)object)->unk_2C == D_80174494) {
-                        (*(s16 *)((u8 *)actor + 0xA8)) = 0;
+                        (*(s16 *)((u8 *)actor + (0xA8))) = 0;
                     }
                 }
-                result = func_800644B8(((*(s16 *)((u8 *)actor + 0xA8)) << 12) / 21);
+                result = func_800644B8(((*(s16 *)((u8 *)actor + (0xA8))) << 12) / 21);
                 bob = result >> 8;
-                if ((*(u8 *)((u8 *)actor + 0x9A)) == 0x12) {
+                if ((*(u8 *)((u8 *)actor + (0x9A))) == 0x12) {
                     bob = result >> 10;
                 }
-                (*(s16 *)((u8 *)actor + 0xA8))++;
+                (*(s16 *)((u8 *)actor + (0xA8)))++;
             }
 
-            if (!((*(u16 *)((u8 *)actor + 0x98)) & 8)) {
+            if (!((*(u16 *)((u8 *)actor + (0x98))) & 8)) {
                 ground = (s16)(func_800BCB04(((S_80170BB8_0 *)motion)->unk_00.at02.v,
                     ((S_80170BB8_0 *)motion)->unk_04.at02.v,
                     (s16)(((S_80170BB8_2 *)actor2)->unk_88.u - 0x20)) -
                     ((S_80170BB8_2 *)actor2)->unk_88.u);
-                if ((*(s16 *)((u8 *)actor + 0x92)) > ground - 0x30) {
-                    (*(s16 *)((u8 *)actor + 0x92)) = (*(s16 *)((u8 *)actor + 0x92)) - 8;
+                if ((*(s16 *)((u8 *)actor + (0x92))) > ground - 0x30) {
+                    (*(s16 *)((u8 *)actor + (0x92))) = (*(s16 *)((u8 *)actor + (0x92))) - 8;
                     func_801712D8();
                     return;
                 }
                 ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
-                if (ground - 0x3A > (*(s16 *)((u8 *)actor + 0x92))) {
-                    (*(s16 *)((u8 *)actor + 0x92)) = (*(s16 *)((u8 *)actor + 0x92)) + 8;
+                if (ground - 0x3A > (*(s16 *)((u8 *)actor + (0x92)))) {
+                    (*(s16 *)((u8 *)actor + (0x92))) = (*(s16 *)((u8 *)actor + (0x92))) + 8;
                     func_801712D8();
                     return;
                 }
         }
         } else {
-            common_flags = (*(u16 *)((u8 *)actor + 0x98));
-            (*(s16 *)((u8 *)actor + 0xA8)) = 0;
-            (*(u16 *)((u8 *)actor + 0x98)) = common_flags & 0x7FFF;
+            common_flags = (*(u16 *)((u8 *)actor + (0x98)));
+            (*(s16 *)((u8 *)actor + (0xA8))) = 0;
+            (*(u16 *)((u8 *)actor + (0x98))) = common_flags & 0x7FFF;
             if (!(common_flags & 8)) {
                 ground32 = func_800BCB04(((S_80170BB8_0 *)motion)->unk_00.at02.v,
                     ((S_80170BB8_0 *)motion)->unk_04.at02.v,
                     (s16)(((S_80170BB8_2 *)actor2)->unk_88.u - 0x20)) -
                     ((S_80170BB8_2 *)actor2)->unk_88.s;
-                if (ground32 < (*(s16 *)((u8 *)actor + 0x92))) {
-                    (*(s16 *)((u8 *)actor + 0x92)) = ground32;
-                    (*(u8 *)((u8 *)actor + 0x9D)) = 0;
+                if (ground32 < (*(s16 *)((u8 *)actor + (0x92)))) {
+                    (*(s16 *)((u8 *)actor + (0x92))) = ground32;
+                    (*(u8 *)((u8 *)actor + (0x9D))) = 0;
                     ((S_80170BB8_0 *)motion)->unk_14 = 0;
                     ((S_80170BB8_2 *)actor2)->unk_1C.u |= 0x08000000;
                     func_801712D8();
@@ -252,17 +253,17 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
     ((S_80170BB8_2 *)actor2)->unk_1C.u = actor_flags;
 
     if (!(actor_flags & 0x40000)) {
-        (*(s16 *)((u8 *)actor + 0xA8)) = 0;
-        (*(s16 *)((u8 *)actor + 0x92)) -= bob;
+        (*(s16 *)((u8 *)actor + (0xA8))) = 0;
+        (*(s16 *)((u8 *)actor + (0x92))) -= bob;
         bob = 0;
-        if (!((*(u16 *)((u8 *)actor + 0x98)) & 8)) {
+        if (!((*(u16 *)((u8 *)actor + (0x98))) & 8)) {
             ground32 = func_800BCB04(((S_80170BB8_0 *)motion)->unk_00.at02.v,
                 ((S_80170BB8_0 *)motion)->unk_04.at02.v,
                 (s16)(((S_80170BB8_2 *)actor2)->unk_88.u - 0x20)) -
                 ((S_80170BB8_2 *)actor2)->unk_88.s;
-            if (ground32 < (*(s16 *)((u8 *)actor + 0x92))) {
-                (*(s16 *)((u8 *)actor + 0x92)) = ground32;
-                (*(u8 *)((u8 *)actor + 0x9D)) = 0;
+            if (ground32 < (*(s16 *)((u8 *)actor + (0x92)))) {
+                (*(s16 *)((u8 *)actor + (0x92))) = ground32;
+                (*(u8 *)((u8 *)actor + (0x9D))) = 0;
                 ((S_80170BB8_0 *)motion)->unk_14 = 0;
                 ((S_80170BB8_2 *)actor2)->unk_1C.u |= 0x08000000;
                 func_801712C8();
@@ -271,9 +272,9 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
         }
     } else {
         if (!(((S_80170BB8_1 *)object)->unk_14 & 0x40)) {
-            object_flags = (*(u16 *)((u8 *)actor + 0x98));
+            object_flags = (*(u16 *)((u8 *)actor + (0x98)));
             if (object_flags & 0x8000) {
-                (*(u16 *)((u8 *)actor + 0x98)) = object_flags & 0x7FFF;
+                (*(u16 *)((u8 *)actor + (0x98))) = object_flags & 0x7FFF;
                 palette = ((S_80170BB8_1 *)object)->unk_2C;
                 if (palette == D_8017449C) {
                     register void *tail_a1 ASM_REG("$5") = D_80174494;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
@@ -281,42 +282,42 @@ void func_80170BB8(void *arg0, void *arg1, void *arg2)
                     func_801711A0();
                 } else if (palette == D_80174494) {
                     ASM_KEEP(palette);   /* MATCH pin: retail basic-block layout depends on it */
-                    (*(u8 * *)((u8 *)object + 0x2C)) = D_8017449C;
+                    (*(u8 * *)((u8 *)object + (0x2C))) = D_8017449C;
                     func_80047784(object,
                         D_8017449C[((D_80083228 + ((S_80170BB8_2 *)actor2)->unk_2A + 0x100) >> 9) & 7],
                         0);
                 }
             }
             if (((S_80170BB8_1 *)object)->unk_14 & 0x6000) {
-                (*(u16 *)((u8 *)actor + 0x98)) |= 0x8000;
+                (*(u16 *)((u8 *)actor + (0x98))) |= 0x8000;
                 if (((S_80170BB8_1 *)object)->unk_2C == D_80174494) {
-                    (*(s16 *)((u8 *)actor + 0xA8)) = 0;
+                    (*(s16 *)((u8 *)actor + (0xA8))) = 0;
                 }
             }
-            result = func_800644B8(((*(s16 *)((u8 *)actor + 0xA8)) << 12) / 21);
+            result = func_800644B8(((*(s16 *)((u8 *)actor + (0xA8))) << 12) / 21);
             bob = result >> 8;
-            if ((*(u8 *)((u8 *)actor + 0x9A)) == 0x12) {
+            if ((*(u8 *)((u8 *)actor + (0x9A))) == 0x12) {
                 bob = result >> 10;
             }
-            (*(s16 *)((u8 *)actor + 0xA8))++;
+            (*(s16 *)((u8 *)actor + (0xA8)))++;
         }
 
-        if (!((*(u16 *)((u8 *)actor + 0x98)) & 8)) {
+        if (!((*(u16 *)((u8 *)actor + (0x98))) & 8)) {
             ground = (s16)(func_800BCB04(((S_80170BB8_0 *)motion)->unk_00.at02.v,
                 ((S_80170BB8_0 *)motion)->unk_04.at02.v,
                 (s16)(((S_80170BB8_2 *)actor2)->unk_88.u - 0x20)) -
                 ((S_80170BB8_2 *)actor2)->unk_88.u);
-            if ((*(s16 *)((u8 *)actor + 0x92)) > ground - 0x30) {
-                (*(s16 *)((u8 *)actor + 0x92)) = (*(s16 *)((u8 *)actor + 0x92)) - 8;
-            } else if (ground - 0x3A > (*(s16 *)((u8 *)actor + 0x92))) {
-                (*(s16 *)((u8 *)actor + 0x92)) = (*(s16 *)((u8 *)actor + 0x92)) + 8;
+            if ((*(s16 *)((u8 *)actor + (0x92))) > ground - 0x30) {
+                (*(s16 *)((u8 *)actor + (0x92))) = (*(s16 *)((u8 *)actor + (0x92))) - 8;
+            } else if (ground - 0x3A > (*(s16 *)((u8 *)actor + (0x92)))) {
+                (*(s16 *)((u8 *)actor + (0x92))) = (*(s16 *)((u8 *)actor + (0x92))) + 8;
             }
         }
     }
 
 cleanup_tail:
-    (*(s16 *)((u8 *)actor + 0xA8)) = 0;
-    (*(u16 *)((u8 *)actor + 0x98)) &= 0x7FFF;
+    (*(s16 *)((u8 *)actor + (0xA8))) = 0;
+    (*(u16 *)((u8 *)actor + (0x98))) &= 0x7FFF;
 
 common_tail:
     if (((S_80170BB8_2 *)actor2)->unk_1C.u & 0x40000000) {
@@ -325,12 +326,12 @@ common_tail:
             (((S_80170BB8_1 *)object)->unk_25 << 6) | 0x20,
             (s16)(((S_80170BB8_2 *)actor2)->unk_88.u - 0x20));
         if (ground < 0x200) {
-            (*(s16 *)((u8 *)actor + 0x92)) += ((S_80170BB8_2 *)actor2)->unk_88.u - ground;
+            (*(s16 *)((u8 *)actor + (0x92))) += ((S_80170BB8_2 *)actor2)->unk_88.u - ground;
             ((S_80170BB8_2 *)actor2)->unk_88.u = ground;
         }
     }
     final_value = ((S_80170BB8_2 *)actor2)->unk_88.u +
-        (u16)(*(s16 *)((u8 *)actor + 0x92));
+        (u16)(*(s16 *)((u8 *)actor + (0x92)));
     final_value += bob;
     ((S_80170BB8_0 *)motion)->unk_0A = final_value;
     ((S_80170BB8_1 *)object)->unk_14 |= 0x40;

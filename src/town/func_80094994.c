@@ -18,6 +18,7 @@ extern u8 D_800CFCEF;
 extern M2C_UNK D_800D00B8;
 extern M2C_UNK D_800FE488;
 
+
 typedef struct S_800920F4_0 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -55,6 +56,7 @@ void func_800920F4(S_800920F4_0 *arg0, S_800920F4_1 *arg1, M2C_UNK arg2) {
         arg1->unk_14 = 0;
         func_800954F4(arg1);
         func_80094330(arg0, arg1, arg2);
+        func_800921F8();
         return;
     }
     func_80095388(arg1);

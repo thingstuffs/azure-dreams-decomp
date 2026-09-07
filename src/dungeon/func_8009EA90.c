@@ -13,7 +13,7 @@ extern s32 func_800A4284(void);
 s32 func_800A41F0(void *arg0) {
     u16 sp10;
     void *v1;
-    s32 result;
+    register s32 result ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
 
     if ((*(u8 *)((u8 *)arg0 + 0x28) + *(s16 *)((u8 *)arg0 + 0x64)) > 0) {
         if (*(s32 *)((u8 *)arg0 + 0x1C) & 0x2000) {
@@ -27,6 +27,7 @@ s32 func_800A41F0(void *arg0) {
         if (!(*(s32 *)((u8 *)arg0 + 0x1C) & 0x290000)) {
             result = func_80042900(arg0, 0x1B) << 16;
             LEGACY_KEEP(result);
+            func_800A4284();
             return result == 0;
         }
         return 0;

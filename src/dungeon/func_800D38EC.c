@@ -1,5 +1,21 @@
 #include "common.h"
 
+
+extern void func_8003DB94(void *, void *, s32);
+extern void func_8009A21C(s32, s32, s32);
+extern void func_8009A3D0(s32, s32, s32);
+extern s16 func_8009A66C(s16, void *, void *, s32);
+extern s16 func_800A0818(s32, s32, s32, s32, void *);
+extern void func_800D910C(void *, void *, void *);
+extern void func_800D9240(void);
+extern void func_800D9298(void);
+extern void func_800D9820(void *, s32, void *, void *);
+
+extern s16 D_80083228;
+extern u16 D_80083462;
+extern u8 D_800E260C[];
+
+
 typedef struct S_800D904C_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -44,22 +60,6 @@ typedef struct S_800D904C_4 {
     u8 unk_7C;
 } S_800D904C_4;   /* (u8 *)state + ((S_800D904C_0 *)state)->unk_8A in func_800D904C */
 
-
-
-extern void func_8003DB94(void *, void *, s32);
-extern void func_8009A21C(s32, s32, s32);
-extern void func_8009A3D0(s32, s32, s32);
-extern s16 func_8009A66C(s16, void *, void *, s32);
-extern s16 func_800A0818(s32, s32, s32, s32, void *);
-extern void func_800D910C(void *, void *, void *);
-extern void func_800D9240(void);
-extern void func_800D9298(void);
-extern void func_800D9820(void *, s32, void *, void *);
-
-extern s16 D_80083228;
-extern u16 D_80083462;
-extern u8 D_800E260C[];
-
 void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
 {
     register void *state ASM_REG("$17") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
@@ -78,7 +78,7 @@ void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
         if (current != D_800E260C) {
             void *dispatch;
 
-            (*(void * *)((u8 *)arg2 + 0x2C)) = D_800E260C;
+            (*(void * *)((u8 *)arg2 + (0x2C))) = D_800E260C;
             dispatch = D_800E260C +
                 (((D_80083228 + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C);
             ASM_TAILSLOT_PIN(dispatch);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
@@ -135,9 +135,10 @@ void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
 
         func_800D9820(arg0, arg1, arg2, state);
         ((S_800D904C_3 *)arg0)->unk_8C = 0;
-        (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
+        (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
         if (D_80083462 & 0x80) {
             ((S_800D904C_3 *)arg0)->unk_96 = 0;
+            func_800D9298();
             return;
         }
 

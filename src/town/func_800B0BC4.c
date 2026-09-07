@@ -1,5 +1,19 @@
 #include "common.h"
 
+
+extern void *func_8003FC64(s32 arg0);
+extern void *func_8003FD64(s32 arg0, s32 arg1);
+extern void func_8004DCE0(s32 arg0);
+extern void func_8004DCEC(void);
+extern s32 func_800AE360(void);
+extern s32 func_800AE3F8(void);
+extern void func_800AE414(void *arg0);
+extern s32 func_800B0214(void *arg0);
+extern s32 func_800B0718(void);
+extern s32 func_800B1BEC(void *arg0, s32 arg1, s32 arg2);
+extern u8 D_8001029C[];
+
+
 typedef struct S_800AE324_0 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -16,20 +30,6 @@ typedef struct S_800AE324_1 {
     u8 pad_00[0x20];
     s32 unk_20;
 } S_800AE324_1;   /* object in func_800AE324 */
-
-
-
-extern void *func_8003FC64(s32 arg0);
-extern void *func_8003FD64(s32 arg0, s32 arg1);
-extern void func_8004DCE0(s32 arg0);
-extern void func_8004DCEC(void);
-extern s32 func_800AE360(void);
-extern s32 func_800AE3F8(void);
-extern void func_800AE414(void *arg0);
-extern s32 func_800B0214(void *arg0);
-extern s32 func_800B0718(void);
-extern s32 func_800B1BEC(void *arg0, s32 arg1, s32 arg2);
-extern u8 D_8001029C[];
 
 s32 func_800AE324(s32 arg0) {
     register s32 held_arg ASM_REG("$18") = arg0;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
@@ -72,6 +72,7 @@ s32 func_800AE324(s32 arg0) {
         }
     }
 cleanup:
+    func_800AE3F8();
     return (s32)object;
 failure:
     func_800AE414(state);

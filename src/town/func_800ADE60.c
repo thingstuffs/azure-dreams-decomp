@@ -1,5 +1,14 @@
 #include "common.h"
 
+
+extern s32 func_800AAE98(void *);
+extern void func_800AAFE0(void *, s32);
+extern s32 func_800AB030(void *);
+extern void func_800AB6EC(void);
+extern u8 D_800AB408[];
+extern u8 D_800AB708[];
+
+
 typedef struct S_800AB5C0_0 {
     u8 pad_00[0x50];
     void * unk_50;
@@ -11,11 +20,11 @@ typedef struct S_800AB5C0_0 {
 
 typedef struct S_800AB5C0_1 {
     u8 pad_00[0x2];
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
+    union { u16 u; s16 s; } unk_02;   /* accessed as both */
     u8 pad_04[0x2];
-    union { u16 s; s16 u; } unk_06;   /* accessed as both */
+    union { u16 u; s16 s; } unk_06;   /* accessed as both */
     u8 pad_08[0x2];
-    union { u16 s; s16 u; } unk_0A;   /* accessed as both */
+    union { u16 u; s16 s; } unk_0A;   /* accessed as both */
     u8 pad_0C[0x2];
     u16 unk_0E;
     u8 pad_10[0x2];
@@ -23,15 +32,6 @@ typedef struct S_800AB5C0_1 {
     u8 pad_14[0x2];
     u16 unk_16;
 } S_800AB5C0_1;   /* arg1 in func_800AB5C0 */
-
-
-
-extern s32 func_800AAE98(void *);
-extern void func_800AAFE0(void *, s32);
-extern s32 func_800AB030(void *);
-extern void func_800AB6EC(void);
-extern u8 D_800AB408[];
-extern u8 D_800AB708[];
 
 void func_800AB5C0(S_800AB5C0_0 *arg0, S_800AB5C0_1 *arg1) {
     s16 buf[12];
@@ -47,16 +47,17 @@ void func_800AB5C0(S_800AB5C0_0 *arg0, S_800AB5C0_1 *arg1) {
     timer = arg0->unk_6C - 1;
     arg0->unk_6C = timer;
     if ((s16)timer < 0) {
-        arg1->unk_0E = arg1->unk_02.s = buf[1];
-        arg1->unk_12 = arg1->unk_06.s = buf[3];
-        arg1->unk_16 = arg1->unk_0A.s = buf[5];
+        arg1->unk_0E = arg1->unk_02.u = buf[1];
+        arg1->unk_12 = arg1->unk_06.u = buf[3];
+        arg1->unk_16 = arg1->unk_0A.u = buf[5];
         arg0->unk_50 = D_800AB408;
         arg0->unk_6C = 150;
+        func_800AB6EC();
         return;
     }
-    arg1->unk_02.u = (arg1->unk_02.u + buf[1]) / 2;
-    arg1->unk_06.u = (arg1->unk_06.u + buf[3]) / 2;
-    arg1->unk_0A.u = (arg1->unk_0A.u + buf[5]) / 2;
+    arg1->unk_02.s = (arg1->unk_02.s + buf[1]) / 2;
+    arg1->unk_06.s = (arg1->unk_06.s + buf[3]) / 2;
+    arg1->unk_0A.s = (arg1->unk_0A.s + buf[5]) / 2;
 }
 
 /* MECHANISM: A 24-byte s16 stack object keeps the sampled coordinates at

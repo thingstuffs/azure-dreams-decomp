@@ -1,5 +1,21 @@
 #include "common.h"
 
+
+extern s32 func_80042900();
+extern void func_80047784();
+extern void func_8009A21C();
+extern void func_8009A3D0();
+extern s16 func_8009A66C();
+extern s16 func_800A0818();
+extern void func_801708B8();
+extern void func_80172378() __attribute__((noreturn));
+extern void func_801723CC() __attribute__((noreturn));
+extern void func_80172B4C();
+extern s16 D_80083228[5];
+extern u16 D_80083462[5];
+extern u8 D_800E23E0[];
+
+
 typedef struct S_80172144_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -47,21 +63,6 @@ typedef struct S_80172144_4 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } S_80172144_4;   /* (u8 *)state + ((S_80172144_0 *)state)->unk_8A in func_80172144 */
-
-
-
-extern s32 func_80042900();
-extern void func_80047784();
-extern void func_8009A21C();
-extern void func_8009A3D0();
-extern s16 func_8009A66C();
-extern s16 func_800A0818();
-extern void func_801708B8();
-extern void func_80172378() __attribute__((noreturn));
-extern void func_80172B4C();
-extern s16 D_80083228[5];
-extern u16 D_80083462[5];
-extern u8 D_800E23E0[];
 
 void func_80172144(void *arg0, s32 arg1, void *arg2, void *arg3) {
     register void *state ASM_REG("$17") = arg3;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
@@ -142,6 +143,7 @@ block_21:
         ((S_80172144_0 *)state)->unk_1C |= 0x40000000;
         if (D_80083462[0] & 0x80) {
             ((S_80172144_1 *)arg0)->unk_96 = 0;
+            func_801723CC();
             return;
         }
         ((S_80172144_1 *)arg0)->unk_96 = 8;

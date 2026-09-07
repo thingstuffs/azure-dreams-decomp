@@ -1,5 +1,15 @@
 #include "common.h"
 
+
+extern void func_80024A34();
+extern void func_80024D78() __attribute__((noreturn));
+extern void func_80024E60() __attribute__((noreturn));
+extern void func_800478B8();
+extern s32 func_800644B8();
+extern s32 func_80064584();
+extern s32 D_800814A0;
+
+
 typedef struct S_80024C0C_0 {
     void * unk_00;
     union { s16 s; u16 u; } unk_04;   /* accessed as both */
@@ -35,15 +45,6 @@ typedef struct S_80024C0C_3 {
     s32 unk_0C;
 } S_80024C0C_3;   /* arg1 in func_80024C0C */
 
-
-
-extern void func_80024A34();
-extern void func_80024D78() __attribute__((noreturn));
-extern void func_800478B8();
-extern s32 func_800644B8();
-extern s32 func_80064584();
-extern s32 D_800814A0;
-
 void func_80024C0C(void *arg0, void *arg1, void *arg2) {
     register s32 x ASM_REG("$16");   /* MATCH pin: retail register colouring depends on it */
     s32 a0;
@@ -65,7 +66,7 @@ void func_80024C0C(void *arg0, void *arg1, void *arg2) {
     if (state == 1) {
         goto state1;
     }
-    return;
+    func_80024E60();
 
 state0:
     ((S_80024C0C_2 *)arg2)->unk_1A += 0x200;
@@ -110,7 +111,7 @@ state0:
     }
     func_80024A34(arg0, arg1, arg2);
     ((S_80024C0C_0 *)arg0)->unk_04.u++;
-    return;
+    func_80024E60();
 
 state1:
     if (((S_80024C0C_2 *)arg2)->unk_0C != 0) {
@@ -128,7 +129,7 @@ state1:
         object = ((S_80024C0C_0 *)arg0)->unk_00;
         ((S_80024C0C_1 *)object)->unk_16++;
         global = &D_800814A0;
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
         *global |= 0x8000;
     }
 

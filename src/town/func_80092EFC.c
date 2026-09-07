@@ -159,6 +159,7 @@ after_initial:
         func_800A48B0(state, arg1);
     if (D_80100E18[0] == 0) {
         *(s32 *)(state + 8) = 0;
+        func_80090980();
         return;
     }
     if (D_80100E18[0] == 2) {

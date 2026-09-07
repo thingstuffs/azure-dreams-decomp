@@ -1,5 +1,21 @@
 #include "common.h"
 
+
+extern s32 func_80047784();
+extern s32 func_8009A21C();
+extern s32 func_8009A3D0();
+extern s16 func_8009A66C();
+extern s16 func_800A0818();
+extern void func_80171574() __attribute__((noreturn));
+extern void func_80171578() __attribute__((noreturn));
+extern void func_801715CC() __attribute__((noreturn));
+extern s32 func_80171D3C();
+
+extern s16 D_80083228;
+extern u16 D_80083462;
+extern u8 D_80173C74[];
+
+
 typedef struct S_8017139C_0 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -37,21 +53,6 @@ typedef struct S_8017139C_3 {
     u8 unk_7C;
 } S_8017139C_3;   /* (u8 *)state + ((S_8017139C_0 *)state)->unk_8A.s in func_8017139C */
 
-
-
-extern s32 func_80047784();
-extern s32 func_8009A21C();
-extern s32 func_8009A3D0();
-extern s16 func_8009A66C();
-extern s16 func_800A0818();
-extern void func_80171574() __attribute__((noreturn));
-extern void func_80171578() __attribute__((noreturn));
-extern s32 func_80171D3C();
-
-extern s16 D_80083228;
-extern u16 D_80083462;
-extern u8 D_80173C74[];
-
 void func_8017139C(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     register void *state ASM_REG("$17") = arg3;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
@@ -71,7 +72,7 @@ void func_8017139C(void *arg0, void *arg1, void *arg2, void *arg3)
     }
 
     if (((S_8017139C_1 *)arg2)->unk_2C != D_80173C74) {
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80173C74;
+        (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80173C74;
         func_80047784(
             arg2,
             D_80173C74[((D_80083228 + ((S_8017139C_0 *)state)->unk_2A + 0x100) >> 9) & 7],
@@ -130,9 +131,10 @@ void func_8017139C(void *arg0, void *arg1, void *arg2, void *arg3)
     ((S_8017139C_2 *)arg0)->unk_98 = flags;
     ASM_KEEP(flags);   /* MATCH pin: retail schedule: same instructions, different order without it */
     ((S_8017139C_2 *)arg0)->unk_8C = 0;
-    (*(s32 *)((u8 *)state + 0x1C)) |= 0x40000000;
+    (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
     if (D_80083462 & 0x80) {
         ((S_8017139C_2 *)arg0)->unk_96 = 0;
+        func_801715CC();
         return;
     }
 

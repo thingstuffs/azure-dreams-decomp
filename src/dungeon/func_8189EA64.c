@@ -1,8 +1,15 @@
 #include "common.h"
 
+
+extern void func_8002436C(void) __attribute__((noreturn));
+extern void func_80024370(void) __attribute__((noreturn));
+extern void func_800243A4(void) __attribute__((noreturn));
+extern void func_800478B8(void *arg0);
+
+
 typedef struct S_80024264_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
-    union { u16 s; s16 u; } unk_02;   /* accessed as both */
+    union { u16 u; s16 s; } unk_02;   /* accessed as both */
     s16 unk_04;
     u8 pad_06[0x2];
     void * unk_08;
@@ -23,12 +30,6 @@ typedef struct S_80024264_2 {
     u16 unk_1E;
 } S_80024264_2;   /* arg2 in func_80024264 */
 
-
-
-extern void func_8002436C(void) __attribute__((noreturn));
-extern void func_80024370(void) __attribute__((noreturn));
-extern void func_800478B8(void *arg0);
-
 void func_80024264(S_80024264_0 *arg0, s32 arg1, S_80024264_2 *arg2)
 {
     s16 state;
@@ -36,7 +37,7 @@ void func_80024264(S_80024264_0 *arg0, s32 arg1, S_80024264_2 *arg2)
 
     owner = arg0->unk_08;
     owner->unk_14++;
-    arg0->unk_02.s++;
+    arg0->unk_02.u++;
     func_800478B8(arg2);
 
     state = arg0->unk_00.s;
@@ -47,7 +48,7 @@ void func_80024264(S_80024264_0 *arg0, s32 arg1, S_80024264_2 *arg2)
         if (state == 0) {
             goto state_0;
         }
-        return;
+        func_800243A4();
     }
     if (state == 2) {
         goto state_2;
@@ -55,7 +56,7 @@ void func_80024264(S_80024264_0 *arg0, s32 arg1, S_80024264_2 *arg2)
     if (state == 3) {
         goto state_3;
     }
-    return;
+    func_800243A4();
 
 state_0: {
     u8 value;
@@ -89,7 +90,7 @@ state_1: {
     arg2->unk_0D = value;
     arg2->unk_0C = value;
     arg2->unk_1C = lower;
-    tail_value = arg0->unk_02.u << 8;
+    tail_value = arg0->unk_02.s << 8;
     ASM_TAILSLOT_PIN_TIED(tail_value);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     func_8002436C();
 }
@@ -102,15 +103,15 @@ state_2: {
     arg2->unk_0E = value;
     arg2->unk_0D = value;
     arg2->unk_0C = value;
-    position = arg0->unk_02.u;
+    position = arg0->unk_02.s;
     
     arg2->unk_1E = (position + 0x10) << 8;
-    if (arg0->unk_02.u < arg0->unk_04) {
+    if (arg0->unk_02.s < arg0->unk_04) {
         goto done;
     }
-    arg0->unk_02.s = 0;
+    arg0->unk_02.u = 0;
     arg0->unk_00.u++;
-    return;
+    func_800243A4();
 }
 
 state_3:

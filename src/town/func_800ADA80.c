@@ -50,8 +50,9 @@ void func_800AB1E0(void *arg0, s32 arg1, S_800AB1E0_2 *arg2) {
 
     if (D_800834A8 == 0) {
         func_80033D08();
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
         D_800814A0 |= 0x8000;
+        func_800AB3E8();
         return;
     }
 
@@ -61,31 +62,31 @@ void func_800AB1E0(void *arg0, s32 arg1, S_800AB1E0_2 *arg2) {
         buf[5] != ((S_800AB1E0_0 *)ref)->unk_0A || func_800352FC() != 0 ||
         (((S_800AB1E0_1 *)base)->unk_08 & 0xF000) != 0) {
         func_800AAF5C();
-        (*(s16 *)((u8 *)arg0 + 0x90)) = 0;
+        (*(s16 *)((u8 *)arg0 + (0x90))) = 0;
         func_800AB2F4();
         return;
     }
 
-    (*(s16 *)((u8 *)arg0 + 0x90)) = (*(s16 *)((u8 *)arg0 + 0x90)) + 1;
-    if ((*(s16 *)((u8 *)arg0 + 0x90)) > 100) {
-        (*(s16 *)((u8 *)arg0 + 0x90)) = 100;
+    (*(s16 *)((u8 *)arg0 + (0x90))) = (*(s16 *)((u8 *)arg0 + (0x90))) + 1;
+    if ((*(s16 *)((u8 *)arg0 + (0x90))) > 100) {
+        (*(s16 *)((u8 *)arg0 + (0x90))) = 100;
         ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
     }
-    (*(Callback *)((u8 *)arg0 + 0x50))(arg0, arg1, arg2);
-    if (((*(u16 *)((u8 *)arg0 + -2)) & 0x8000) != 0) {
+    (*(Callback *)((u8 *)arg0 + (0x50)))(arg0, arg1, arg2);
+    if (((*(u16 *)((u8 *)arg0 + (-2))) & 0x8000) != 0) {
         return;
     }
 
-    idx = func_800C2E1C((*(s16 *)((u8 *)arg0 + 0x72)), (*(s16 *)((u8 *)arg0 + 0x64)));
-    if ((*(s16 *)((u8 *)arg0 + 0x74)) != idx) {
-        func_800C2CB0(arg0, arg2, ((void **)(*(void * *)((u8 *)arg0 + 0x78)))[idx],
+    idx = func_800C2E1C((*(s16 *)((u8 *)arg0 + (0x72))), (*(s16 *)((u8 *)arg0 + (0x64))));
+    if ((*(s16 *)((u8 *)arg0 + (0x74))) != idx) {
+        func_800C2CB0(arg0, arg2, ((void **)(*(void * *)((u8 *)arg0 + (0x78))))[idx],
                       arg2->unk_04);
-        (*(s16 *)((u8 *)arg0 + 0x74)) = idx;
+        (*(s16 *)((u8 *)arg0 + (0x74))) = idx;
     }
 
-    if (((*(u8 *)((u8 *)arg0 + 0x71)) & 1) == 0) {
-        if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + 0x72)),
-                               (*(s16 *)((u8 *)arg0 + 0x64))) == 0) {
+    if (((*(u8 *)((u8 *)arg0 + (0x71))) & 1) == 0) {
+        if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + (0x72))),
+                               (*(s16 *)((u8 *)arg0 + (0x64)))) == 0) {
             u16 cleared;
             cleared = arg2->unk_14 & 0xFFFE;
             ASM_TAILSLOT_PIN(cleared);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
@@ -93,8 +94,8 @@ void func_800AB1E0(void *arg0, s32 arg1, S_800AB1E0_2 *arg2) {
             return;
         }
     } else {
-        if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + 0x72)),
-                               (*(s16 *)((u8 *)arg0 + 0x64))) != 0) {
+        if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + (0x72))),
+                               (*(s16 *)((u8 *)arg0 + (0x64)))) != 0) {
             u16 cleared;
             cleared = arg2->unk_14 & 0xFFFE;
             ASM_TAILSLOT_PIN(cleared);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */

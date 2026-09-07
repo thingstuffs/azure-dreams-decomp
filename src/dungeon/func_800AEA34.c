@@ -190,7 +190,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   if (amount == 0)
   {
     return 0;
-    return 0;
+    func_800B45C0();
   }
   contextp->value64 += delta;
   func_800B4C7C(0x10, contextp, amount, 1);

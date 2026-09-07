@@ -1,11 +1,12 @@
 #include "common.h"
 
 extern s32 func_8001ADE0(s32 arg0);
+extern void func_80016AAC(void) __attribute__((noreturn));
 extern u8 D_8001EB20[];
 extern u8 D_8001EC6A[];
 
 #ifndef NON_MATCHING
-register s32 dispatch_result ASM_REG("$2");   /* MATCH pin: retail immediate-load split depends on it */
+register s32 dispatch_result ASM_REG("$2");
 #endif
 
 void *func_80016A84(void) {
@@ -16,7 +17,7 @@ void *func_80016A84(void) {
 #else
         (void)D_8001EC6A;
 #endif
-        return;
+        func_80016AAC();
     }
     __asm__ __volatile__("" ::: "memory");
 #ifndef NON_MATCHING

@@ -1,6 +1,17 @@
 #include "common.h"
 #include "m2c_compat.h"
 
+M2C_UNK func_80033CD8();           /* extern */
+M2C_UNK func_8003DB94();  /* extern */
+void *func_8003FD64();            /* extern */
+s32 func_800C8B3C();                                /* extern */
+M2C_UNK func_800C8B5C();      /* extern */
+extern M2C_UNK D_80045340;
+extern M2C_UNK D_80083498;
+extern M2C_UNK D_800C8B8C;
+extern M2C_UNK D_800EE344;
+
+
 typedef struct S_800C8A68_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -35,17 +46,6 @@ typedef struct S_800C8A68_4 {
     s16 unk_1E;
 } S_800C8A68_4;   /* temp_s1 in func_800C8A68 */
 
-
-M2C_UNK func_80033CD8();           /* extern */
-M2C_UNK func_8003DB94();  /* extern */
-void *func_8003FD64();            /* extern */
-s32 func_800C8B3C();                                /* extern */
-M2C_UNK func_800C8B5C();      /* extern */
-extern M2C_UNK D_80045340;
-extern M2C_UNK D_80083498;
-extern M2C_UNK D_800C8B8C;
-extern M2C_UNK D_800EE344;
-
 s32 func_800C8A68(S_800C8A68_2 *arg0) {
     S_800C8A68_1 *temp_a1;
     S_800C8A68_3 *temp_s0;
@@ -74,6 +74,7 @@ s32 func_800C8A68(S_800C8A68_2 *arg0) {
     temp_s1->unk_0C = 0x808080;
     func_8003DB94(temp_s1, &D_800EE344, 0);
     func_80033CD8(temp_s0, &D_80045340);
+    func_800C8B3C();
     return (s32) temp_v0;
 }
 
