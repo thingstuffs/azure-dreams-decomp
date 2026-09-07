@@ -19,15 +19,22 @@ from common import read_jsonl, append_jsonl
 def container_of(name):
     return name.split("_")[0] if not name.startswith("dungeon_engine") else "dungeon_engine"
 
+_WROWS = None
+def window_rows():
+    global _WROWS
+    if _WROWS is None:
+        _WROWS = {}
+        for l in (ROOT / "ledger/rows.jsonl").read_text().splitlines():
+            r = json.loads(l); g = r.get("gate_config") or ""
+            if g: _WROWS.setdefault(Path(g).name, []).append(r)
+    return _WROWS
+
 def inputs_sha(yaml_path):
     """sha over the window YAML and every src/<container>/*.c the window's rows point at."""
     h = hashlib.sha256(yaml_path.read_bytes())
-    cont = container_of(yaml_path.stem.replace(".overlay", ""))
-    rows = [json.loads(l) for l in (ROOT / "ledger/rows.jsonl").read_text().splitlines()]
-    for r in rows:
-        if r.get("gate_config", "").endswith(yaml_path.name):
-            p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
-            if p.exists(): h.update(p.read_bytes())
+    for r in window_rows().get(yaml_path.name, []):
+        p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+        if p.exists(): h.update(p.read_bytes())
     return h.hexdigest()
 
 def run_window(yaml_path):
@@ -43,6 +50,10 @@ def run_window(yaml_path):
             res, detail = ("MATCH" if last.startswith("MATCH") else "NO MATCH"), last[:200]
     except subprocess.TimeoutExpired:
         res, detail = "ERROR", "timeout"
+    detail = detail.replace(str(ROOT), "<repo>")
+    try:
+        from common import UP_LIVE; detail = detail.replace(str(UP_LIVE), "<upstream>")
+    except Exception: pass
     m = re.search(r"\((\d+) bytes\)", detail)
     return {"window": yaml_path.stem.replace(".overlay", ""), "container": container_of(yaml_path.stem), "result": res, "bytes": int(m.group(1)) if m else None,
             "detail": detail, "secs": round(time.time() - t0, 1), "inputs_sha": inputs_sha(yaml_path), "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
