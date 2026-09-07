@@ -31,8 +31,10 @@ The per-row verifier passed a header via `C_INCLUDE_PATH`; GCC then treats it as
 header and tolerates typedef redefinitions that the window gate (which uses `-I`, a user
 directory) rejects. Seven files carried a stray `typedef s8 M2C_UNK8;` next to the hoisted
 compat header and were "exact" per the verifier but broke the gate. The verifier now passes
-the include root as `-I`, the seven files are fixed, and every transformed row is re-verified
-under the strict rule. Rule for the swap: **the gate's compile command is the only compile
+the include root as `-I`, the seven files are fixed, and every transformed row was re-verified
+under the strict rule: 4,628 of 4,643 exact. The 15 others fail identically from the raw pinned
+text (six name-table SLUS units, six dungeon page bodies and one page file whose bytes moved
+when upstream's assembler changed on 2026-09-07) and resolve at the pin bump. Rule for the swap: **the gate's compile command is the only compile
 command**; verification tools must call it, not imitate it.
 
 ## 2. Gaps found in the inventory
