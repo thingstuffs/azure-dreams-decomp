@@ -28,7 +28,7 @@ extern LargeWord D_80080A7C;
 extern LargeWord D_8008148C;
 extern LargeWord D_80081480;
 extern State D_80082E60;
-extern s32 D_80126804;
+extern u8 D_80126804[];
 
 extern void func_800411FC(u16);
 extern void func_8003E1FC(void);
@@ -39,19 +39,23 @@ void func_80040C08(void)
 {
     State *p = &D_80082E60;
     State *q;
-    s32 old_value = D_8008148C.field_0;
-    s32 magic = 0x38000;
+    register s32 old_value ASM_REG("$2");
+    register s32 magic ASM_REG("$4");
     s32 next;
-    u8 state = p->field_B;
+    u8 state;
     u8 arg;
     u8 flags;
+
+    old_value = D_8008148C.field_0;
+    magic = 0x38000;
+    state = p->field_B;
 
     D_80080A7C.field_0 = magic;
     D_80081480.field_0 = old_value;
     if (state != 0) {
         next = 3;
     } else {
-        D_8008148C.field_0 = (s32)&D_80126804;
+        D_8008148C.field_0 = (s32)D_80126804;
         func_800411FC(0);
         func_8003E1FC();
         next = func_8003E240(0);

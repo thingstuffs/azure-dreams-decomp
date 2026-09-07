@@ -40,7 +40,7 @@ void *func_800A3F28(s32 x, s32 y, void *end, void *owner)
     s32 dy;
 
     x_hold = x;
-    ASM_KEEP_NV(x_hold);   /* MATCH pin: keeps a statement from moving across a call/branch */
+       /* MATCH pin: keeps a statement from moving across a call/branch */
     y_hold = y;
     end_hold = end;
     current = owner;

@@ -156,7 +156,7 @@ jt_c6:
     M2C_FIELD(arg2, u8 **, 0x2C) = D_80174C64;
     func_80047784(arg2, D_80174C64[((s32) (D_80083228 + M2C_FIELD(temp_s3, s16 *, 0x2A) + 0x100) >> 9) & 7], 0);
     {
-        register void *case6_a0 ASM_REG("$4") = arg0;   /* MATCH pin: retail keeps a computation the compiler would drop */
+        void *case6_a0 = arg0;   /* MATCH pin: retail keeps a computation the compiler would drop */
         void *case6_a1 = arg1;
         void *case6_a2;
         u8 case6_state;

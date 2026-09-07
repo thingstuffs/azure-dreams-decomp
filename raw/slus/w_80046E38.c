@@ -37,19 +37,25 @@ void func_80046E38(s16 arg0, u8 *arg1)
     s32 saved_align;
     s32 cursor;
     s32 count;
-    u8 *slot_base;
+    register u8 *slot_base ASM_REG("$2");
+    s32 index;
+    s32 tmp;
     Info80046E38 **slot;
     Info80046E38 *info;
     s32 *data;
 
     state = arg1;
-    original = state;
+    ASM_KEEP_NV(state);
+    original = arg1;
     D_80081480 = D_8008148C[0];
     saved_align = (s32)D_8008148C[0];
     DrawSync(0);
 
+    tmp = arg0 << 16;
+    ASM_KEEP_NV(tmp);
     slot_base = (u8 *)D_8006E7F0;
-    slot = (Info80046E38 **)(slot_base + ((s32)arg0 * 4));
+    index = tmp >> 14;
+    slot = (Info80046E38 **)(index + (u32)slot_base);
     data = (*slot)->data;
     pair = *(Pair80046E38 *)data;
     info = *slot;
@@ -69,8 +75,13 @@ void func_80046E38(s16 arg0, u8 *arg1)
 
     func_80046D64(original, arg0);
     {
-        u8 mode;
-        mode = D_80082E60.mode;
+        register s32 mode ASM_REG("$3");
+        register u32 page ASM_REG("$2");
+
+        page = 0x80080000;
+        ASM_KEEP_NV(page);
+        mode = *(u8 *)(page + 0x2E6A);
+        ASM_KEEP_NV(mode);
         {
             s32 out;
 

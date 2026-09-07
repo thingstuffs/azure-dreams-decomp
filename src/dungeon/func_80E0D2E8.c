@@ -102,7 +102,7 @@ void func_80170AE8(Actor *arg0, Motion *arg1, Entity *arg2)
     }
 
     ASM_KEEP(actor);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
 
     oldType = (s8)actor->type;
     if (func_800A9E70(actor, motion, entity, actor) != 0) {

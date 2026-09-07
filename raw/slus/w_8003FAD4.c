@@ -34,12 +34,17 @@ extern void func_8003DB4C(s32 *p, s32 n);
 void func_8003FAD4(void)
 {
     s32 i;
-    S_801EAFE8 *p = D_801EAFE8;
+    register u32 page ASM_REG("$2");
+    S_801EAFE8 *p;
     S_801EAFE8 *cur;
     S_80044AAC **e0_base;
     S_80044AAC **s60_base;
     S_80044AAC **e0;
     S_80044AAC **s60;
+
+    page = 0x801F0000;
+    ASM_KEEP_NV(page);
+    p = (S_801EAFE8 *)(page - 20504);
 
     for (i = 0, cur = p; i < 0x100; i++) {
         func_8003DB4C((s32 *)cur, 0x49);

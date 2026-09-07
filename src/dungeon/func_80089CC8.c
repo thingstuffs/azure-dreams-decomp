@@ -135,7 +135,7 @@ use_effect:
                 void *entity;
                 s32 old_value;
                 register u32 mask1 ASM_REG("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
-                register u32 mask2 ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
+                u32 mask2;   /* MATCH pin: retail register colouring depends on it */
                 u8 *old_value_page;
                 register s32 flags ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
 

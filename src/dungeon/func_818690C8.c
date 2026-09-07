@@ -335,7 +335,7 @@ shared:
 #endif
         entry_word = average << 2;
 #ifdef __mips__
-        ASM_KEEP(entry_word);   /* MATCH pin: load-bearing for the whole function shape */
+           /* MATCH pin: load-bearing for the whole function shape */
 #endif
         table_base = ((S_800248C8_0 *)scratch)->unk_18;
 #ifdef __mips__

@@ -269,7 +269,7 @@ finish:
                               (((S_80169EC0_3 *)actor)->unk_88.u +
                                (*(u16 *)((u8 *)owner + (0x92))));
     ((S_80169EC0_4 *)data)->unk_14 |= 0x40;
-    ASM_KEEP(owner);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
     ASM_KEEP(work);   /* MATCH pin: load-bearing for the whole function shape */
 }

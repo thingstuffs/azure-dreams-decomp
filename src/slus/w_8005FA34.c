@@ -51,6 +51,8 @@ void func_8005FA34(S_8005FA34 *arg0)
   s32 idx;
   s32 i;
   S_8005FA34_ent *ent;
+  S_8005FA34_ent *entp;
+  register s32 off ASM_REG("$3");   /* MATCH pin: slus-diff */
   u16 *p;
   u16 *p2;
   s32 va;
@@ -76,12 +78,15 @@ void func_8005FA34(S_8005FA34 *arg0)
   {
     return;
   }
+  ca = 0;
+  off = idx * 16;
+  ent = D_80079958.ptr;
+  ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
   h = idx * 2;
   e = idx * 8;
-  ca = 0;
-  ent = D_80079958.ptr;
-  va = ent[idx].unk0;
-  vb = ent[idx].unk2;
+  entp = (S_8005FA34_ent *)(off + (u32)ent);
+  va = entp->unk0;
+  vb = entp->unk2;
   if (va & 0x8000)
   {
     switch (va & 0xF000)

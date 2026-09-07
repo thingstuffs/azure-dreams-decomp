@@ -1,8 +1,8 @@
 #include "common.h"
 
 extern s32 D_80079950[3];
-extern s32 D_80079954[3];
-extern s32 D_800794EC[3];
+extern s32 D_80079954[];
+extern s32 D_800794EC[];
 
 extern void EnterCriticalSection(void);
 extern void ExitCriticalSection(void);

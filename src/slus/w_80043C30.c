@@ -42,6 +42,7 @@ void func_80043C30(void)
 
     D_80082E60.field0 |= 1;
     value = D_8008148C.field0;
+    ASM_KEEP(value);   /* MATCH pin: slus-diff */
     D_80081480.field0 = value;
     func_8003FAD4(value);
     func_800410FC();

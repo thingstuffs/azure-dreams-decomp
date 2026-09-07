@@ -25,14 +25,6 @@ typedef struct {
     void *part10;
 } Object;
 
-extern void func_80025DD8(void) __attribute__((noreturn));
-extern void func_80025EE0(void) __attribute__((noreturn));
-extern void func_80025F5C(void);
-extern void func_80025F7C(void);
-#if 0
-extern void func_80025F5C(void) __attribute__((noreturn));
-extern void func_80025F7C(void) __attribute__((noreturn));
-#endif
 extern Object *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 
@@ -41,7 +33,6 @@ extern u8 D_80025800[];
 extern void *D_80028630;
 extern u8 D_80028664[];
 extern s32 D_800814A0;
-extern s32 D_80083498;
 extern u8 D_800C9034[];
 
 s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
@@ -51,7 +42,7 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
     register Copy32 *copy_source ASM_REG("$6");
     register s32 i ASM_REG("$17");
     register Object **slot ASM_REG("$19");
-    Object *allocated;
+    register Object *allocated ASM_REG("$3");
     register Object *cleanup ASM_REG("$4");
     register Object *object_after ASM_REG("$2");
     void *part8;
@@ -64,11 +55,9 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
     register s32 asset_offset ASM_REG("$3");
     register u16 part_flags ASM_REG("$3");
     register u16 cleanup_flags ASM_REG("$3");
-    register s32 *global_flags;
     register s32 color ASM_REG("$5");
     register Object *dispatch_arg ASM_REG("$5");
     register u8 *alloc_page ASM_REG("$2");
-    register void *alloc_arg ASM_REG("$5");
 
     copy_page = (u8 *)0x80020000;
     ASM_KEEP(copy_page);
@@ -79,20 +68,20 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
     copy.third = copy_source->third;
     ASM_KEEP(copy_page);
     i = 0;
-    global_flags = (s32 *)0x80080000;
     do {
         if (((u32)(u16)i << 16) != 0) {
             alloc_page = (u8 *)0x80080000;
             ASM_KEEP(alloc_page);
             dispatch_arg = objects[0];
             ASM_KEEP(dispatch_arg);
-            func_80025DD8();
+            goto call_alloc;
         }
         alloc_page = (u8 *)0x80080000;
         ASM_KEEP(alloc_page);
-        alloc_arg = alloc_page + 0x3498;
-        ASM_KEEP(alloc_arg);
-        allocated = func_8003FD64(0x12, alloc_arg);
+        dispatch_arg = (Object *)(alloc_page + 0x3498);
+        ASM_KEEP(dispatch_arg);
+    call_alloc:
+        allocated = func_8003FD64(0x12, dispatch_arg);
         slot_offset = ((s32)(s16)i) << 2;
         ASM_KEEP(slot_offset);
         slot = (Object **)((uptr)slot_offset + (uptr)objects);
@@ -116,14 +105,20 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
             asset_offset = (s32)(s16)i * 0x10;
             ASM_KEEP(asset_offset);
             FIELD(partC, s16, 0x1A) = arg3 - 0x400;
+            ASM_SCHED_BARRIER();
             FIELD(partC, s16, 0x16) = 0x400;
             FIELD(partC, s16, 0x20) = 0x1000;
             FIELD(partC, s16, 0x1E) = 0x1000;
             FIELD(partC, s16, 0x1C) = 0x1000;
-            FIELD(partC, void *, 8) = D_80028664 + asset_offset;
+            ASM_SCHED_BARRIER();
+            entry = D_80028664 + asset_offset;
+            ASM_KEEP(entry);
+            FIELD(partC, void *, 8) = entry;
             part_flags = FIELD(partC, u16, 0x14);
             ASM_KEEP(part_flags);
-            FIELD(partC, s16, 0x10) = 0x20;
+            entry_x = 0x20;
+            ASM_KEEP(entry_x);
+            FIELD(partC, s16, 0x10) = entry_x;
             FIELD(partC, s32, 0xC) = color;
 #ifndef NON_MATCHING
             color = 0x800D0000;
@@ -144,12 +139,13 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
                 entry = (u8 *)object_after + 0x20;
                 ASM_KEEP(entry);
                 FIELD(entry, Object *, 0x20) = objects[0];
-                func_80025EE0();
+                goto shared_tail;
             }
             entry = (u8 *)object_after + 0x20;
             alloc_page = (u8 *)0x80030000;
             ASM_KEEP(alloc_page);
             FIELD(alloc_page, void *, -0x79D0) = part8;
+        shared_tail:
             FIELD(partC, s16, 0x1E) = 0;
             FIELD(partC, s16, 0x1C) = 0;
             FIELD(partC, s16, 0x20) = 0;
@@ -157,7 +153,7 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
             FIELD(entry, u16, 0x36) = arg3;
             FIELD(entry, s16, 0x3A) = 0;
             FIELD(entry, s16, 0x38) = 0xF;
-            func_80025F5C();
+            goto continue_loop;
         }
             slot_offset = i - 1;
             i = slot_offset;
@@ -178,19 +174,18 @@ s32 func_80025CE8(u16 arg0, u16 arg1, u16 arg2, u16 arg3) {
                     cleanup = *(Object **)alloc_page;
                     ASM_KEEP(cleanup);
                     cleanup_flags = FIELD(cleanup, u16, 0x1E);
-                    slot_offset = global_flags[0x528];
+                    slot_offset = D_800814A0;
                     slot_offset |= 0x8000;
-                    global_flags[0x528] = slot_offset;
+                    D_800814A0 = slot_offset;
                     ASM_SCHED_BARRIER();
                     cleanup_flags |= 0x8000;
                     FIELD(cleanup, u16, 0x1E) = cleanup_flags;
                 } while (next >= 0);
-                slot_offset = 0;
-                ASM_TAILSLOT_PIN_TIED(slot_offset);
-                func_80025F7C();
+                return 0;
             } else {
                 return 0;
             }
+        continue_loop:
         ASM_SCHED_BARRIER();
         slot_offset = i + 1;
         ASM_KEEP(slot_offset);

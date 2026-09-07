@@ -208,8 +208,8 @@ state2:
     register void *entry ASM_REG("$7");   /* MATCH pin: keeps a statement from moving across a call/branch */
     s0 = 0;
     do {
-        register void *call_obj ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-        register s32 call_code ASM_REG("$6");   /* MATCH pin: retail basic-block layout depends on it */
+        void *call_obj;   /* MATCH pin: retail schedule: same instructions, different order without it */
+        s32 call_code;   /* MATCH pin: retail basic-block layout depends on it */
         s32 call_shade;
         s32 random = func_80069EF8();
         call_obj = (u8 *)arg0 - 32;

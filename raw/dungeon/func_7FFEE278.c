@@ -62,6 +62,6 @@ typedef s64 M2C_UNK64;
 #define M2C_STRUCT_COPY memcpy
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_8008BA78(void *arg0) {
+void func_8008B9D8(void *arg0) {
     M2C_FIELD(arg0, M2C_UNK (**)(), 0x68)();
 }

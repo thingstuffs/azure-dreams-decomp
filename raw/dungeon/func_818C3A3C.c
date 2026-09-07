@@ -17,6 +17,10 @@ s32 func_818C3A3C(void *arg0, void *arg1) {
     s32 temp_a1;
     s32 temp_a2;
     s32 temp_a3;
+    register s32 color ASM_REG("$3");
+    register s32 call_zero ASM_REG("$6");
+    register s32 alpha ASM_REG("$2");
+    register void *handler ASM_REG("$2");
     s32 temp_lo;
     s32 temp_v1;
     s32 var_v0;
@@ -25,24 +29,41 @@ s32 func_818C3A3C(void *arg0, void *arg1) {
     void *temp_s2;
     void *temp_v0;
     void *temp_v1_ptr;
+    void *effect_name;
 
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 != 0) {
         temp_s2 = (u8 *)temp_v0 + 0x20;
-        FIELD(temp_v0, void *, 0x10) = D_80025098;
+        effect_name = D_80025AF0;
+        handler = D_80025098;
+        ASM_KEEP_NV(handler);
+        ASM_CLOBBER("$3");
+        color = 0x7DCF;
+        FIELD(temp_v0, void *, 0x10) = handler;
         FIELD(temp_v0, void *, 0x20) = arg0;
         FIELD(temp_s2, s16, 0x10) = 0;
-        FIELD(temp_s2, u16, 0x14) = FIELD(arg0, u16, 0x14);
+        alpha = FIELD(arg0, u16, 0x14);
+        ASM_CLOBBER("$6");
+        call_zero = 0;
+        ASM_KEEP(alpha);
+        *(volatile u16 *)((u8 *)temp_s2 + 0x14) = alpha;
 
         temp_s0 = FIELD(temp_v0, void *, 0xC);
-        FIELD(temp_s0, u8, 0xE) = 0x80;
-        FIELD(temp_s0, u8, 0xD) = 0x80;
-        FIELD(temp_s0, u8, 0xC) = 0x80;
-        FIELD(temp_s0, s16, 0x12) = 0x7DCF;
-        FIELD(temp_s0, u16, 0x14) |= 0xC;
-        FIELD(temp_s0, u16, 0x10) |= 0x20;
-        FIELD(temp_s0, u16, 0x14) |= 0x100;
-        func_8003DB94(temp_s0, D_80025AF0, 0);
+        alpha = 0x80;
+        FIELD(temp_s0, u8, 0xE) = alpha;
+        FIELD(temp_s0, u8, 0xD) = alpha;
+        FIELD(temp_s0, u8, 0xC) = alpha;
+        alpha = FIELD(temp_s0, u16, 0x14);
+        FIELD(temp_s0, s16, 0x12) = color;
+        alpha |= 0xC;
+        FIELD(temp_s0, u16, 0x14) = alpha;
+        alpha = FIELD(temp_s0, u16, 0x10);
+        color = FIELD(temp_s0, u16, 0x14);
+        alpha |= 0x20;
+        color |= 0x100;
+        FIELD(temp_s0, u16, 0x10) = alpha;
+        FIELD(temp_s0, u16, 0x14) = color;
+        func_8003DB94(temp_s0, effect_name, call_zero);
 
         var_v0 = func_80069EF8();
         temp_v1 = var_v0;

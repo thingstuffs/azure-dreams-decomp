@@ -20,10 +20,10 @@ void func_800BC1B4(void *arg0) {
 
         pa0 = sp10;
         pa1 = 0x270;
-        ASM_KEEP(pa1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+           /* MATCH pin: retail schedule: same instructions, different order without it */
         v0 = *(u16 *)((unsigned char *)arg0 + 2);
         v1 = *(u16 *)((unsigned char *)arg0 + 0xC);
-        ASM_KEEP_MEM(v1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+           /* MATCH pin: retail schedule: same instructions, different order without it */
         pa2 = 0x100;
         v0 = (v0 - v1) & 0x1F;
         *(u16 *)((unsigned char *)arg0 + 2) = (u16)v0;

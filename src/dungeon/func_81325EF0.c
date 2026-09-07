@@ -104,7 +104,7 @@ void func_8016D6F0(S_8016D6F0_0 *arg0, s32 arg1, S_8016D6F0_1 *arg2, void *arg3)
     u8 *counter_base;
     u8 *base8008;
     u8 *base8001;
-    register u8 *clear_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
+    u8 *clear_page;   /* MATCH pin: load-bearing for the whole function shape */
     u8 *clear_base;
     register void *call_obj ASM_REG("$4");   /* MATCH pin: retail basic-block layout depends on it */
     register u8 *update_base ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */

@@ -16,11 +16,18 @@ s32 func_818B6F90(s32 arg0, u8 *arg1)
     u8 *scratch;
     s32 xpos;
     s32 shade;
-    s16 tpage;
+    register s16 tpage ASM_REG("$2");
     u32 *ot;
     u32 *ot2;
     u32 index;
     u32 index2;
+    u32 otword;
+    u8 *a70;
+    u8 *a74;
+    u8 *a78;
+    u8 *a7C;
+    u8 *a08;
+    u8 *a0C;
 
     scratch = (u8 *)0x1F800000;
     base = *(u8 **)D_80083160;
@@ -33,11 +40,18 @@ s32 func_818B6F90(s32 arg0, u8 *arg1)
     tpage = func_80066460(0, 3, 0x300, 0x100);
     xpos = (arg0 << 16) >> 13;
     xpos += 0x80;
-    shade = 0x40;
-    ASM_KEEP(shade);
+    a70 = scratch + 0x70;
+    a74 = scratch + 0x74;
+    a78 = scratch + 0x78;
+    a7C = scratch + 0x7C;
+    a08 = scratch + 0x08;
+    a0C = scratch + 0x0C;
 
     FIELD(packet, s16, 0x1A) = tpage;
-    FIELD(packet, s16, 0x0E) = 0x7DCF;
+    tpage = 0x7DCF;
+    shade = 0x40;
+    ASM_KEEP_NV(shade);
+    FIELD(packet, s16, 0x0E) = tpage;
     FIELD(packet, u8, 0x18) = xpos | 7;
     FIELD(packet, u8, 0x24) = xpos | 7;
     FIELD(packet, u8, 0x0C) = xpos;
@@ -77,8 +91,8 @@ s32 func_818B6F90(s32 arg0, u8 *arg1)
 
     FIELD(scratch, volatile s32, 0x04) = func_80065590(
         scratch + 0x10, scratch + 0x18, scratch + 0x20, scratch + 0x28,
-        scratch + 0x70, scratch + 0x74, scratch + 0x78, scratch + 0x7C,
-        scratch + 0x08, scratch + 0x0C);
+        a70, a74, a78, a7C,
+        a08, a0C);
 
     FIELD(packet, u16, 0x08) = FIELD(scratch, u16, 0x70);
     FIELD(packet, u16, 0x0A) = FIELD(scratch, u16, 0x72);
@@ -92,9 +106,10 @@ s32 func_818B6F90(s32 arg0, u8 *arg1)
     index = FIELD(scratch, volatile u32, 0x04);
     if (index < 0x1E0) {
         ot = FIELD(scratch, u32 * volatile, 0x00);
+        otword = ot[index];
         FIELD(packet, u32, 0x00) =
             (FIELD(packet, u32, 0x00) & 0xFF000000) |
-            (ot[index] & 0x00FFFFFF);
+            (otword & 0x00FFFFFF);
         index2 = FIELD(scratch, volatile u32, 0x04);
         ot2 = FIELD(scratch, u32 * volatile, 0x00);
         ot2[index2] =

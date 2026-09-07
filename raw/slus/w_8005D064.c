@@ -14,6 +14,7 @@ extern s32 D_800799A8;
 void func_8005D064(void)
 {
     u32 count;
+    register u32 event ASM_REG("$4");
     SpuRegs *regs;
 
     if (D_800799A8 == 0) {
@@ -23,19 +24,17 @@ void func_8005D064(void)
     regs = D_80079958;
     regs->control &= 0xFFCF;
     count = 0;
-    if (regs->control & 0x30) {
-loop:
+    while (regs->control & 0x30) {
         count++;
-        if (count < 0xF01) {
-            if (regs->control & 0x30) {
-                goto loop;
-            }
+        if (count >= 0xF01) {
+            break;
         }
     }
 
+    event = 0xF0000000;
     if (D_80079990 != 0) {
-        D_80079990(0xF0000000);
+        D_80079990(event);
     } else {
-        DeliverEvent(0xF0000009, 0x20);
+        DeliverEvent(event | 9, 0x20);
     }
 }

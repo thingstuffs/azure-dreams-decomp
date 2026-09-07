@@ -56,7 +56,7 @@ void func_80170A28(void *input0, void *input1, void *input2)
     register void *call0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
     register void *call1 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
     register void *call2 ASM_REG("$6");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *call3 ASM_REG("$7");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    void *call3;   /* MATCH pin: retail schedule: same instructions, different order without it */
     register s32 state_load ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
     u32 tail_value;
     register s32 floor_height ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */

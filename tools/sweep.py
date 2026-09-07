@@ -18,6 +18,10 @@ import xform
 
 INCLUDE = ROOT / "include"
 
+def _scrub(t):
+    """Error text goes into a tracked journal: no absolute paths."""
+    return (t or "").replace(str(ROOT), "<repo>").replace(str(Path.home()), "<home>")
+
 def clean_path(row):
     return ROOT / "src" / row["container"] / Path(row["c_path"]).name
 
@@ -52,7 +56,7 @@ def one(args):
         p = Path(td) / Path(row["c_path"]).name
         p.write_text(new)
         v = verify(row, p, include_root=INCLUDE)
-    rec.update({"exact": v.get("exact"), "status": v.get("status"), "class": v.get("class"), "total": v.get("total"), "secs": v.get("secs"), "err": v.get("err")})
+    rec.update({"exact": v.get("exact"), "status": v.get("status"), "class": v.get("class"), "total": v.get("total"), "secs": v.get("secs"), "err": _scrub(v.get("err"))})
     if v.get("exact"):
         cp = clean_path(row); cp.parent.mkdir(parents=True, exist_ok=True); cp.write_text(new)
         return dict(rec, outcome="applied", out_sha=sha_text(new), lines_delta=new.count("\n") - text.count("\n"))

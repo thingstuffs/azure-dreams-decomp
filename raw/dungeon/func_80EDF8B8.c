@@ -1,15 +1,12 @@
 #include "common.h"
 
-extern void func_8017120C(void) __attribute__((noreturn));
-extern void func_80171264(void) __attribute__((noreturn));
-
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 
 void func_801710B8(void *arg0, void *arg1)
 {
-    u32 tail_page;
     s32 delta;
+    s32 value;
 
     S32_AT(arg1, 0x0) += S32_AT(arg0, 0x40);
     S32_AT(arg1, 0x4) += S32_AT(arg0, 0x44);
@@ -43,20 +40,13 @@ void func_801710B8(void *arg0, void *arg1)
         if (delta < 0) {
             delta = -delta;
         }
-        if (delta < 17) {
-            S32_AT(arg0, 0x4c) = 0x1000;
-        } else {
-            tail_page = 0x10000;
-            ASM_PAGEBASE_PIN(tail_page);
-            func_8017120C();
-            return;
-        }
+        S32_AT(arg0, 0x4c) = (delta >= 17) ? 0x10000 : 0x1000;
     } else {
         delta = S16_AT(arg0, 0x5a) - S16_AT(arg1, 0x2);
         if (delta < 0) {
             delta = -delta;
         }
-        S32_AT(arg0, 0x4c) = (delta < 17) ? -0x1000 : -0x10000;
+        S32_AT(arg0, 0x4c) = (delta >= 17) ? -0x10000 : -0x1000;
     }
 
     if (S16_AT(arg0, 0x5e) > S16_AT(arg1, 0x6)) {
@@ -64,20 +54,13 @@ void func_801710B8(void *arg0, void *arg1)
         if (delta < 0) {
             delta = -delta;
         }
-        if (delta < 17) {
-            S32_AT(arg0, 0x50) = 0x1000;
-        } else {
-            tail_page = 0x10000;
-            ASM_PAGEBASE_PIN(tail_page);
-            func_80171264();
-            return;
-        }
+        S32_AT(arg0, 0x50) = (delta >= 17) ? 0x10000 : 0x1000;
     } else {
         delta = S16_AT(arg0, 0x5e) - S16_AT(arg1, 0x6);
         if (delta < 0) {
             delta = -delta;
         }
-        S32_AT(arg0, 0x50) = (delta < 17) ? -0x1000 : -0x10000;
+        S32_AT(arg0, 0x50) = (delta >= 17) ? -0x10000 : -0x1000;
     }
 
     if (S16_AT(arg0, 0x62) > S16_AT(arg1, 0xa)) {
@@ -85,19 +68,24 @@ void func_801710B8(void *arg0, void *arg1)
         if (delta < 0) {
             delta = -delta;
         }
-        if (delta < 17) {
-            S32_AT(arg0, 0x54) = 0x1000;
-            return;
+        if (delta >= 17) {
+            ASM_SCHED_BARRIER();
+            value = 0x10000;
         } else {
-            S32_AT(arg0, 0x54) = 0x10000;
-            return;
+            value = 0x1000;
         }
     } else {
         delta = S16_AT(arg0, 0x62) - S16_AT(arg1, 0xa);
         if (delta < 0) {
             delta = -delta;
         }
-        S32_AT(arg0, 0x54) = (delta < 17) ? -0x1000 : -0x10000;
-        return;
+        if (delta >= 17) {
+            ASM_SCHED_BARRIER();
+            value = -0x10000;
+        } else {
+            value = -0x1000;
+        }
     }
+    ASM_SCHED_BARRIER();
+    S32_AT(arg0, 0x54) = value;
 }

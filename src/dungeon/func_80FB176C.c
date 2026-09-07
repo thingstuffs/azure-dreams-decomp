@@ -186,8 +186,8 @@ void func_80170F6C(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
     }
 
     ASM_KEEP(arg0);   /* MATCH pin: load-bearing for the whole function shape */
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg2);   /* MATCH pin: load-bearing for the whole function shape */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: load-bearing for the whole function shape */
 
     if (((S_80170F6C_1 *)arg3)->unk_25 == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);

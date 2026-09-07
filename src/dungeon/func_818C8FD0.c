@@ -44,7 +44,7 @@ void func_818C8FD0(void *arg0, void *arg1, void *arg2)
     u8 *base;
     register u8 *out ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     u8 *position;
-    register OffsetTable *tablep ASM_REG("$21");   /* MATCH pin: retail register colouring depends on it */
+    OffsetTable *tablep;   /* MATCH pin: retail register colouring depends on it */
     s32 one;
     void *part;
     OffsetTable *source = &D_80024004;
@@ -157,7 +157,7 @@ mode2:
                 FIELD(work, s32, 0x58) = (s32)entry[0] << 16;
             }
             {
-                register u16 *entry ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */
+                u16 *entry;   /* MATCH pin: retail register colouring depends on it */
 
                 index = FIELD(state, s16, 0x7E);
                 entry = (u16 *)((u8 *)tablep + index * 4);

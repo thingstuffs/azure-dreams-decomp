@@ -449,17 +449,19 @@ state_9:
     s32 *motion_word;
     s32 value;
     s32 counter;
+    s32 index;
 
     motion = D_80083780;
     motion_word = (s32 *)motion;
     motion_word[2] += motion_word[5];
     motion_word[5] += 0x10000;
     value = (u16)arg0->count;
-    arg0->count = (s16)(value + 1);
-    counter = (s16)value;
-    if ((u32)counter < 27) {
+    counter = value + 1;
+    arg0->count = (s16)counter;
+    index = (s16)value;
+    if ((u32)index < 27) {
         (void)counter_labels;
-        goto *D_800201B0[(u32)counter];
+        goto *D_800201B0[(u32)index];
     }
     goto counter9_done;
 
@@ -477,8 +479,10 @@ counter_k:
 counter_l:
     func_80053DA8(0x508);
     {
-        s32 vy = (s32)0xFFFD0000;
-        FIELD(D_80083780, s32, 0x14) = vy;
+        s32 vy;
+        counter = (s32)(D_800834B8 + 0x2C8);
+        vy = (s32)0xFFFD0000;
+        FIELD((u8 *)counter, s32, 0x14) = vy;
     }
     func_80093CEC(D_800D0078);
 
@@ -546,6 +550,7 @@ state_11:
     s32 digit_sum;
     s32 random_value;
     s32 digit_signed;
+    u16 digit_hp;
     u8 *digit;
     tick_dec = (u16)arg0->ticks - 2;
     arg0->ticks = (s16)tick_dec;
@@ -596,9 +601,11 @@ state_11:
             message.x = (s16)(random_value % 3);
             digit = (u8 *)((s32)message.x * 2 + (s32)(u8 *)&frame);
             digit_signed = FIELD(digit, s16, 0x70);
-            hp = FIELD(digit, u16, 0x70);
+            digit_hp = FIELD(digit, u16, 0x70);
         } while (digit_signed <= 0);
-        FIELD(digit, s16, 0x70) = hp - 1;
+        do {
+            FIELD(digit, s16, 0x70) = digit_hp - 1;
+        } while (0);
         hp = 0x03600000;
         angle = (i << 12) / digit_sum;
         scratch.a = hp;

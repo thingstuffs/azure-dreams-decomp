@@ -80,9 +80,9 @@ typedef struct S_8008C8BC_5 {
 
 s32 func_8008C8BC(void *arg0, void *arg1, void *arg2, void *arg3) {
     register void *held0 ASM_REG("$18") = arg0;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *held2 ASM_REG("$19") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    void *held2 = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     register void *held3 ASM_REG("$16") = arg3;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
-    register s32 temp_s1 ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    s32 temp_s1;   /* MATCH pin: retail register colouring depends on it */
     u8 *r4;
     s32 temp_v1;
     u8 *state;

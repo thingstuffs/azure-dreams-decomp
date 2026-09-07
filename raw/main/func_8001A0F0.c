@@ -13,6 +13,7 @@ s32 func_804010F0(void) {
     s32 result;
     u32 *destination_one;
     s32 *destination_three;
+    s32 selection;
     u32 state;
 
     state = D_804094E8;
@@ -29,7 +30,7 @@ s32 func_804010F0(void) {
             goto state_three;
         }
         result = 5;
-        goto done;
+        goto five_exit;
 
 state_one:
         destination_one = &D_8009E390[0];
@@ -53,15 +54,29 @@ state_one:
         goto done;
 
 state_three:
-        destination_three = &D_8009E390[0];
-        if (D_804094EC != 0) {
-            destination_three = &D_8009E390[1];
+        selection = D_804094EC;
+        ASM_SCHED_BARRIER();
+        destination_three = (s32 *)0x800A0000;
+        ASM_KEEP_NV(destination_three);
+        destination_three = (s32 *)((u8 *)destination_three - 0x1C70);
+        ASM_KEEP_NV(destination_three);
+        if (selection != 0) {
+            destination_three++;
         }
-        *destination_three = 1;
         result = 2;
+        ASM_KEEP_NV(result);
+        {
+            register s32 store_value ASM_REG("$2");
+            store_value = 1;
+            ASM_KEEP_NV(store_value);
+            *destination_three = store_value;
+        }
         D_804094E8 = 0;
+        return result;
     }
 
+five_exit:
+    ASM_SCHED_BARRIER();
 done:
     return result;
 }

@@ -121,8 +121,8 @@ void func_80172B00(void *arg0, S_80172B00_6 *arg1, void *arg2) {
             word1 = var_a3->words[1];
             word2 = var_a3->words[2];
             word3 = var_a3->words[3];
-            ASM_KEEP(word0);   /* MATCH pin: keeps a statement from moving across a call/branch */
-            ASM_KEEP(word1);   /* MATCH pin: load-bearing for the whole function shape */
+               /* MATCH pin: keeps a statement from moving across a call/branch */
+               /* MATCH pin: load-bearing for the whole function shape */
             var_a2->words[0] = word0;
             var_a2->words[1] = word1;
             var_a2->words[2] = word2;
@@ -151,7 +151,7 @@ void func_80172B00(void *arg0, S_80172B00_6 *arg1, void *arg2) {
         ((S_80172B00_3 *)temp_s1)->unk_0C = 0x80;
         table_index = ((S_80172B00_4 *)base_83160)->unk_C8;
         angle = ((S_80172B00_2 *)arg0)->unk_2A.u;
-        ASM_KEEP(angle);   /* MATCH pin: keeps a statement from moving across a call/branch */
+           /* MATCH pin: keeps a statement from moving across a call/branch */
         call_arg1 = 0;
         table_index += angle;
         table_index += 0x100;

@@ -50,16 +50,15 @@ extern s32 func_80174698();
 extern s32 func_80174EB4();
 extern s32 func_80175ED4();
 
-void func_80170E94(void *in0, void *arg1, void *arg2, void *arg3) {
-    void *arg0 = in0;
+void func_80170E94(void *arg0, void *arg1, void *arg2, void *arg3) {
     s16 out;
     s32 tile;
     u32 swi;
     u32 state;
     u32 state25;
-    u32 state_work;
+    register u32 state_work ASM_REG("$17");
     u8 *seq;
-    u8 *seq10;
+    register u8 *seq10 ASM_REG("$5");
     u8 *effect_ptr;
     u8 *map;
     static void *const sw_keep[] = {
@@ -111,12 +110,12 @@ void func_80170E94(void *in0, void *arg1, void *arg2, void *arg3) {
             goto state_check_14;
         }
         if (F(arg0, u8, 0xAE) != 0) {
-            state_work = (u32)D_80175F38;
-            if (F(arg2, void *, 0x2C) != (void *)state_work) {
+            u8 *active_seq = D_80175F38;
+            if (F(arg2, void *, 0x2C) != active_seq) {
                 func_80174EB4(arg0, arg1, arg2);
-                F(arg2, void *, 0x2C) = (void *)state_work;
+                F(arg2, void *, 0x2C) = active_seq;
                 func_80047784(arg2,
-                    ((u8 *)state_work)[((D_80083228 + F(arg3, s16, 0x2A) + 0x100) >> 9) & 7],
+                    active_seq[((D_80083228 + F(arg3, s16, 0x2A) + 0x100) >> 9) & 7],
                     0);
             }
             F(arg0, u8, 0x9A) = state25;
@@ -127,11 +126,11 @@ state_check_14:
         state_work = 14;
         if (state != state_work) {
             if (F(arg0, u8, 0xAE) == 0) {
-                seq10 = D_80175F10;
-                if (F(arg2, void *, 0x2C) != seq10) {
-                    F(arg2, void *, 0x2C) = seq10;
+                u8 *state_seq = D_80175F10;
+                if (F(arg2, void *, 0x2C) != state_seq) {
+                    F(arg2, void *, 0x2C) = state_seq;
                     func_80047784(arg2,
-                        seq10[((D_80083228 + F(arg3, s16, 0x2A) + 0x100) >> 9) & 7],
+                        state_seq[((D_80083228 + F(arg3, s16, 0x2A) + 0x100) >> 9) & 7],
                         0);
                 }
                 F(arg0, u8, 0x9A) = state_work;
@@ -222,9 +221,16 @@ case_9:
     register void *effect_owner;
 
     if (F(arg0, u8, 0xAE) != 0) {
-        if ((F(arg3, u32, 0x1C) & 0x400) && (F(arg3, s32, 0x14) >= 0)) {
-            F(arg3, u32, 0x14) |= 0x80000000;
-            F(arg3, u16, 0x2A) += (func_800A6D30(arg0, arg1) & 7) << 9;
+        if (F(arg3, u32, 0x1C) & 0x400) {
+            register s32 value ASM_REG("$2") = F(arg3, s32, 0x14);
+            if (value >= 0) {
+                register void *random_arg0 ASM_REG("$4") = arg0;
+                register void *random_arg1 ASM_REG("$5") = arg1;
+                value = (u32)value | 0x80000000;
+                F(arg3, u32, 0x14) = value;
+                F(arg3, u16, 0x2A) +=
+                    (func_800A6D30(random_arg0, random_arg1) & 7) << 9;
+            }
         }
         func_80172504(arg0, arg1, arg2, arg3);
         goto done;
@@ -315,17 +321,21 @@ final_checks:
         effect_ptr = seq + (((D_80083228 + F(arg3, s16, 0x2A) + 0x100) >> 9) & 7);
     } else {
         void *current_seq;
+        u8 *default_seq;
 
         current_seq = F(arg2, void *, 0x2C);
-        seq10 = D_80175F10;
-        if (current_seq == seq10) {
+        default_seq = D_80175F10;
+        if (current_seq == default_seq) {
             goto done;
         }
+        seq10 = default_seq;
 
 set_seq10:
         F(arg2, void *, 0x2C) = seq10;
         effect_owner = arg2;
-        effect_ptr = seq10 + (((D_80083228 + F(arg3, s16, 0x2A) + 0x100) >> 9) & 7);
+        effect_ptr = (u8 *)((unsigned long)
+            (((D_80083228 + F(arg3, s16, 0x2A) + 0x100) >> 9) & 7) +
+            (unsigned long)seq10);
     }
 
     func_80047784(effect_owner, *effect_ptr, 0);

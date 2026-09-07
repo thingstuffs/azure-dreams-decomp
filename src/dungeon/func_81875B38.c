@@ -21,7 +21,7 @@ void func_81875B38(
     s32 arg5,
     s32 arg6)
 {
-    register s32 held_arg4 ASM_REG("$18") = arg4;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    s32 held_arg4 = arg4;   /* MATCH pin: retail schedule: same instructions, different order without it */
     void *held_arg0 = arg0;
     register s16 held_arg1 ASM_REG("$22") = arg1;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
     register s32 held_arg2 ASM_REG("$23") = arg2;   /* MATCH pin: retail schedule: same instructions, different order without it */

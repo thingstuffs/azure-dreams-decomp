@@ -14,7 +14,7 @@ slus rows    : compile the TU through the same three-step pipeline cc.sh uses (g
 import argparse, json, os, re, subprocess, sys, tempfile, time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from common import ROOT, UP, UP_LIVE, LEDGER, CACHE, NICE, rows, read_jsonl, append_jsonl, sha_file
+from common import ROOT, UP, UP_LIVE, LEDGER, CACHE, NICE, rows, read_jsonl, append_jsonl, write_jsonl, sha_file
 
 MASPSX = UP_LIVE / "toolchain/maspsx/maspsx.py"
 VENV_PY = UP_LIVE / ".venv/bin/python"
@@ -34,6 +34,11 @@ def normalise_definition(row, cfile):
     text = Path(cfile).read_text(errors="replace")
     defs = DEF_SYM.findall(text)
     if not defs or row["func"] in defs or (row.get("true_name") and row["true_name"] in defs):
+        return cfile
+    # a data row (`const T func_X __attribute__((section(".text.func_X")))`) or a row that names
+    # itself in an asm string already carries its symbol: renaming the file's helper function onto
+    # it would only manufacture "redeclared as different kind of symbol"
+    if re.search(r"\b" + re.escape(row["func"]) + r"\b", text) or (row.get("true_name") and re.search(r"\b" + re.escape(row["true_name"]) + r"\b", text)):
         return cfile
     if len(set(defs)) != 1:
         return cfile
@@ -76,6 +81,54 @@ def verify_overlay(row, cfile, regions=False, include_root=None):
             "gen_words": lw.get("generated"), "tgt_words": lw.get("target"),
             "class": rs.get("class"), "signals": rs.get("signals"), "secs": secs,
             "err": (best.get("error") or None)}
+
+# ---------------------------------------------------------------- window-gate fallback
+# The per-row scorer compiles one function in isolation and slices the row's extent; a few row
+# shapes it cannot measure are still proven by the window gate (the only compile authority):
+# rows whose .text carries a data prefix under the true-name symbol, and data rows written as C.
+# For a text that lives in raw/ (baseline) or src/ (reverify) the row's window can be gated
+# directly through a view root over that tree.
+_ROOTS = {}
+_GATE_CACHE = {}
+def gate_root(raw: bool) -> Path:
+    b = ROOT / ("build_ovl_raw" if raw else "build_ovl")
+    if raw not in _ROOTS:
+        env = dict(os.environ); env["RAW"] = "1" if raw else "0"
+        subprocess.run(["bash", str(ROOT / "tools/build/mk_ovl_root.sh")], env=env, capture_output=True, text=True, check=True)
+        _ROOTS[raw] = b
+    return b
+
+def gate_window(row, raw: bool):
+    """Run the row's window gate over raw/ (raw=True) or src/ -> ('MATCH'|'NO MATCH'|'ERROR', detail)."""
+    yaml = row.get("gate_config")
+    if not yaml or row["kind"] != "overlay":
+        return "ERROR", "row has no gate window"
+    key = (raw, Path(yaml).name)
+    if key in _GATE_CACHE:
+        return _GATE_CACHE[key]
+    b = gate_root(raw)
+    res = ("ERROR", "")
+    for attempt in range(2):
+        r = subprocess.run(NICE + ["python3", "tools/overlay_local_gate.py", "--config", "config/overlays/" + Path(yaml).name, "--clean"],
+                           cwd=b, capture_output=True, text=True, timeout=3600)
+        out = (r.stdout + r.stderr).strip().splitlines()
+        last = next((l for l in reversed(out) if l.startswith(("MATCH", "NO MATCH"))), None)
+        if last is not None:
+            res = ("MATCH" if last.startswith("MATCH") else "NO MATCH", last[:200]); break
+        res = ("ERROR", (out[-1] if out else "")[:200].replace(str(ROOT), "<repo>"))
+    _GATE_CACHE[key] = res
+    return res
+
+def gate_fallback(row, rec, raw: bool):
+    """Scorer said not exact: consult the window gate; a MATCH proves the row's current text."""
+    if rec.get("exact") is True or row["kind"] != "overlay" or not row.get("gate_config"):
+        return rec
+    res, detail = gate_window(row, raw)
+    rec = dict(rec, scorer_exact=rec.get("exact"), scorer_class=rec.get("class"), scorer_total=rec.get("total"),
+               gate=res, window=Path(row["gate_config"]).stem.replace(".overlay", ""))
+    if res == "MATCH":
+        rec.update(exact=True, proof="window-gate", err=None)
+    return rec
 
 # ---------------------------------------------------------------- slus rows
 def compile_slus(row, cfile, outdir, include_root=None):
@@ -164,7 +217,7 @@ def main():
         slus_cache = read_baseline_slus()
         def one(r):
             if r["kind"] == "slus": return baseline_slus(r)
-            return dict(verify_overlay(r, UP / r["c_path"]), id=r["id"])
+            return gate_fallback(r, dict(verify_overlay(r, UP / r["c_path"]), id=r["id"]), raw=True)
         n = 0; t0 = time.time()
         with ThreadPoolExecutor(max_workers=a.workers) as ex:
             for rec in ex.map(one, rs):
@@ -177,6 +230,18 @@ def main():
                     el = time.time() - t0; print(f"{n}/{len(rs)} {el:.0f}s eta {el/n*(len(rs)-n):.0f}s", flush=True)
         json.dump(slus_cache, open(CACHE / "slus_obj.json", "w"), indent=0)
         print(f"done {n} in {time.time()-t0:.0f}s")
+        # gate pass: overlay records the scorer left not exact and no gate verdict yet
+        recs = read_jsonl(out); todo = [b for b in recs if b.get("exact") is not True and "gate" not in b and by.get(b["id"], {}).get("kind") == "overlay" and by[b["id"]].get("gate_config")]
+        if todo:
+            print(f"gate pass: {len(todo)} not-exact overlay rows -> window gate over raw/", flush=True)
+            upd = {}
+            with ThreadPoolExecutor(max_workers=min(a.workers, 4)) as ex:
+                for rec in ex.map(lambda b: gate_fallback(by[b["id"]], dict(verify_overlay(by[b["id"]], UP / by[b["id"]]["c_path"]), id=b["id"], src_sha=b.get("src_sha")), raw=True), todo):
+                    rec["at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()); upd[rec["id"]] = rec
+            write_jsonl(out, [upd.get(b["id"], b) for b in recs])
+            print(f"gate pass: {sum(1 for r in upd.values() if r.get('exact') is True and r.get('proof') != 'window-gate')} exact on re-score, "
+                  f"{sum(1 for r in upd.values() if r.get('proof') == 'window-gate')} proven by the window gate, "
+                  f"{sum(1 for r in upd.values() if r.get('exact') is not True)} still not exact")
         return
     row = by[a.row_id]
     print(json.dumps(verify(row, Path(a.cfile).resolve(), a.regions, a.include_root), indent=1))

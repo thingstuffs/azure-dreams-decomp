@@ -5,7 +5,7 @@
 extern void func_800232F4(s32 current, s32 value, void *cursor4,
                           void *cursor1);
 
-void func_80023258(void *arg0)
+s32 func_80023258(void *arg0)
 {
     s32 stage;
     s32 difference;
@@ -17,7 +17,7 @@ void func_80023258(void *arg0)
     register s32 result ASM_REG("$2");
     register u8 *slot ASM_REG("$8");
     s32 value;
-    u8 value2;
+    register u8 value2 ASM_REG("$2");
     u8 stored_value;
     u8 *cursor4;
     u8 *cursor1;
@@ -41,21 +41,21 @@ loop:
     value = FIELD(cursor1, u8, 0x7C);
     if (index == FIELD(arg0, s32, 0x88)) {
         s32 tail_numerator;
-        s32 tail_denominator;
-        s32 tail_quotient;
+        register s32 tail_value ASM_REG("$5");
+        register s32 tail_quotient ASM_REG("$3");
 
+        tail_value = value;
         tail_numerator = 8;
-        tail_denominator = FIELD(arg0, s32, 0x80);
+        result = FIELD(arg0, s32, 0x80);
         current = FIELD(arg0, s32, 0x84);
-        tail_numerator -= value;
-        tail_denominator -= current;
-        tail_denominator++;
-        tail_quotient = tail_numerator / tail_denominator;
-        result = value + tail_quotient;
+        tail_numerator -= tail_value;
+        result -= current;
+        result++;
+        tail_quotient = tail_numerator / result;
         ASM_KEEP(tail_quotient);
-        ASM_TAILSLOT_PIN(result);
-        func_800232F4(current, value, cursor4, cursor1);
-        return;
+        func_800232F4(current, tail_value, cursor4, cursor1);
+        result = tail_value + tail_quotient;
+        return result;
     }
 
     slot = cursor1 + 0x7C;
@@ -93,6 +93,10 @@ loop:
 
     final_current = FIELD(arg0, s32, 0x84);
     if (final_current < FIELD(arg0, s32, 0x80)) {
-        FIELD(arg0, s32, 0x84) = final_current + 1;
+        result = final_current + 1;
+        FIELD(arg0, s32, 0x84) = result;
+    } else {
+        result = final_current + 1;
     }
+    return result;
 }

@@ -27,7 +27,7 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
 {
     void *held_arg0 = arg0;
     register void *held_arg1 ASM_REG("$20") = arg1;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
-    register void *held_arg2 ASM_REG("$23") = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
+    void *held_arg2 = arg2;   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     s16 held_arg3 = arg3;
     register s32 first ASM_REG("$21");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     register s32 second ASM_REG("$22");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
@@ -40,7 +40,7 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     u8 *entry_base;
     void *global_object;
 
-    ASM_KEEP_NV(held_arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
     if (held_arg0 != (void *)&D_80081484 &&
         held_arg0 != (void *)D_80081470 &&
         held_arg0 != *(void **)((u8 *)D_800814A8 + 0xF0)) {

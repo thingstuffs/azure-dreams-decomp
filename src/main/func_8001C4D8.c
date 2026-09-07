@@ -1,8 +1,96 @@
 #include "common.h"
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
-void func_804034D8(void *arg0)
+
+typedef struct S_804034D8_0 {
+    u8 pad_00[0x80];
+    s32 unk_80;
+    s32 unk_84;
+    s32 unk_88;
+    s32 unk_8C;
+    u8 pad_90[0x12C];
+    void * unk_1BC;
+} S_804034D8_0;   /* arg0 in func_804034D8 */
+
+typedef struct S_804034D8_1 {
+    u8 pad_00[0x7C];
+    u8 unk_7C;
+} S_804034D8_1;   /* cursor1 in func_804034D8 */
+
+typedef struct S_804034D8_2 {
+    u8 pad_00[0x1C0];
+    void * unk_1C0;
+    u8 pad_1C4[0xC];
+    void * unk_1D0;
+    u8 pad_1D4[0xC];
+    void * unk_1E0;
+    u8 pad_1E4[0xC];
+    void * unk_1F0;
+} S_804034D8_2;   /* cursor4 in func_804034D8 */
+
+typedef struct S_804034D8_3 {
+    u8 pad_00[0x4];
+    void * unk_04;
+} S_804034D8_3;   /* node in func_804034D8 */
+
+typedef struct S_804034D8_4 {
+    u8 pad_00[0x4];
+    void * unk_04;
+} S_804034D8_4;   /* ((S_804034D8_0 *)arg0)->unk_1BC in func_804034D8 */
+
+typedef struct S_804034D8_5 {
+    u8 pad_00[0x4];
+    void * unk_04;
+} S_804034D8_5;   /* ((S_804034D8_2 *)cursor4)->unk_1E0 in func_804034D8 */
+
+typedef struct S_804034D8_6 {
+    u8 pad_00[0x4];
+    void * unk_04;
+} S_804034D8_6;   /* ((S_804034D8_2 *)cursor4)->unk_1F0 in func_804034D8 */
+
+typedef struct S_804034D8_7 {
+    u8 pad_00[0x4];
+    void * unk_04;
+} S_804034D8_7;   /* ((S_804034D8_2 *)cursor4)->unk_1C0 in func_804034D8 */
+
+typedef struct S_804034D8_8 {
+    u8 pad_00[0x4];
+    void * unk_04;
+} S_804034D8_8;   /* ((S_804034D8_2 *)cursor4)->unk_1D0 in func_804034D8 */
+
+typedef struct S_804034D8_9 {
+    u8 pad_00[0x2];
+    u8 unk_02;
+} S_804034D8_9;   /* ((S_804034D8_3 *)node)->unk_04 in func_804034D8 */
+
+typedef struct S_804034D8_10 {
+    u8 pad_00[0xA];
+    s16 unk_0A;
+} S_804034D8_10;   /* ((S_804034D8_4 *)(((S_804034D8_0 *)arg0)->unk_1BC))->unk_04 in func_804034D8 */
+
+typedef struct S_804034D8_11 {
+    u8 unk_00;
+    u8 unk_01;
+    u8 pad_02[0x6];
+    s16 unk_08;
+} S_804034D8_11;   /* ((S_804034D8_5 *)(((S_804034D8_2 *)cursor4)->unk_1E0))->unk_04 in func_804034D8 */
+
+typedef struct S_804034D8_12 {
+    u8 pad_00[0x8];
+    s16 unk_08;
+} S_804034D8_12;   /* ((S_804034D8_6 *)(((S_804034D8_2 *)cursor4)->unk_1F0))->unk_04 in func_804034D8 */
+
+typedef struct S_804034D8_13 {
+    u8 pad_00[0x8];
+    s16 unk_08;
+} S_804034D8_13;   /* ((S_804034D8_7 *)(((S_804034D8_2 *)cursor4)->unk_1C0))->unk_04 in func_804034D8 */
+
+typedef struct S_804034D8_14 {
+    u8 pad_00[0x8];
+    s16 unk_08;
+} S_804034D8_14;   /* ((S_804034D8_8 *)(((S_804034D8_2 *)cursor4)->unk_1D0))->unk_04 in func_804034D8 */
+
+void func_804034D8(S_804034D8_0 *arg0)
 {
     s32 stage;
     s32 difference;
@@ -10,38 +98,38 @@ void func_804034D8(void *arg0)
     s32 product;
     s32 quotient;
     s32 final_current;
-    register u8 *slot ASM_REG("$9");
-    register s32 index ASM_REG("$10");
+    u8 *slot;
+    register s32 index ASM_REG("$10");   /* MATCH pin: retail register colouring depends on it */
     u32 value;
     u32 next_value;
     u8 stored_value;
     void *cursor4;
     void *cursor1;
-    void *node;
+    S_804034D8_3 *node;
 
-    stage = FIELD(arg0, s32, 0x8C);
-    difference = FIELD(arg0, s32, 0x88) - stage;
-    scaled = FIELD(arg0, s32, 0x84) * 0x10;
+    stage = arg0->unk_8C;
+    difference = arg0->unk_88 - stage;
+    scaled = arg0->unk_84 * 0x10;
     product = difference * scaled;
-    quotient = product / FIELD(arg0, s32, 0x80);
+    quotient = product / arg0->unk_80;
     index = 0;
     cursor4 = arg0;
     cursor1 = arg0;
     quotient += 10;
-    FIELD(FIELD(FIELD(arg0, void *, 0x1BC), void *, 4), s16, 0xA) =
+    ((S_804034D8_10 *)(((S_804034D8_4 *)(arg0->unk_1BC))->unk_04))->unk_0A =
         stage * 0x10 + quotient;
 
 loop:
     slot = (u8 *)cursor1 + 0x7C;
     value = *slot;
-    if (index == FIELD(arg0, s32, 0x88)) {
+    if (index == arg0->unk_88) {
         s32 tail_numerator;
         s32 tail_denominator;
 
         tail_numerator = 8;
-        tail_denominator = FIELD(arg0, s32, 0x80);
+        tail_denominator = arg0->unk_80;
         tail_numerator -= value;
-        tail_denominator -= FIELD(arg0, s32, 0x84);
+        tail_denominator -= arg0->unk_84;
         tail_denominator++;
         quotient = tail_numerator / tail_denominator;
         next_value = value + quotient;
@@ -51,31 +139,31 @@ loop:
             next_value--;
     }
     *slot = next_value;
-    stored_value = FIELD(cursor1, u8, 0x7C);
+    stored_value = ((S_804034D8_1 *)cursor1)->unk_7C;
 
-    FIELD(FIELD(FIELD(cursor4, void *, 0x1E0), void *, 4), s16, 8) =
+    ((S_804034D8_11 *)(((S_804034D8_5 *)(((S_804034D8_2 *)cursor4)->unk_1E0))->unk_04))->unk_08 =
         stored_value + 0x24;
-    FIELD(FIELD(FIELD(cursor4, void *, 0x1F0), void *, 4), s16, 8) =
+    ((S_804034D8_12 *)(((S_804034D8_6 *)(((S_804034D8_2 *)cursor4)->unk_1F0))->unk_04))->unk_08 =
         stored_value + 0x8F;
-    FIELD(FIELD(FIELD(cursor4, void *, 0x1C0), void *, 4), s16, 8) =
+    ((S_804034D8_13 *)(((S_804034D8_7 *)(((S_804034D8_2 *)cursor4)->unk_1C0))->unk_04))->unk_08 =
         stored_value + 9;
     index++;
-    FIELD(FIELD(FIELD(cursor4, void *, 0x1D0), void *, 4), s16, 8) =
+    ((S_804034D8_14 *)(((S_804034D8_8 *)(((S_804034D8_2 *)cursor4)->unk_1D0))->unk_04))->unk_08 =
         stored_value + 0x42;
 
-    FIELD(FIELD(FIELD(cursor4, void *, 0x1E0), void *, 4), u8, 0) =
-        FIELD(cursor1, u8, 0x7C) * 3 + 0x68;
-    FIELD(FIELD(FIELD(cursor4, void *, 0x1E0), void *, 4), u8, 1) =
-        FIELD(cursor1, u8, 0x7C) * 3 + 0x68;
-    node = FIELD(cursor4, void *, 0x1E0);
+    ((S_804034D8_11 *)(((S_804034D8_5 *)(((S_804034D8_2 *)cursor4)->unk_1E0))->unk_04))->unk_00 =
+        ((S_804034D8_1 *)cursor1)->unk_7C * 3 + 0x68;
+    ((S_804034D8_11 *)(((S_804034D8_5 *)(((S_804034D8_2 *)cursor4)->unk_1E0))->unk_04))->unk_01 =
+        ((S_804034D8_1 *)cursor1)->unk_7C * 3 + 0x68;
+    node = ((S_804034D8_2 *)cursor4)->unk_1E0;
     cursor4 += 4;
-    FIELD(FIELD(node, void *, 4), u8, 2) =
-        FIELD(cursor1, u8, 0x7C) * 4 + 0x60;
+    ((S_804034D8_9 *)(node->unk_04))->unk_02 =
+        ((S_804034D8_1 *)cursor1)->unk_7C * 4 + 0x60;
     cursor1++;
     if (index < 4)
         goto loop;
 
-    final_current = FIELD(arg0, s32, 0x84);
-    if (final_current < FIELD(arg0, s32, 0x80))
-        FIELD(arg0, s32, 0x84) = final_current + 1;
+    final_current = arg0->unk_84;
+    if (final_current < arg0->unk_80)
+        arg0->unk_84 = final_current + 1;
 }

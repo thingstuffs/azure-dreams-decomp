@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern u8 D_80027E68[];
 extern void func_800269B4(void *arg0);
 extern void func_8004CBFC(void *arg0, s32 arg1, s32 *arg2);
 
@@ -14,6 +13,8 @@ void func_80026B18(void *arg0, s32 *arg1, s32 *arg2)
     s32 used;
     u8 *owner;
     u8 *record;
+    u8 *destination;
+    u8 *global_base;
 
     value = arg2;
     used = 0;
@@ -32,8 +33,13 @@ void func_80026B18(void *arg0, s32 *arg1, s32 *arg2)
             value = *(s32 **)(owner + 0x68);
             used = 1;
             if (*enabled != 0) {
-                func_8004CBFC((u8 *)arg0 + offset,
-                              (s32)(unsigned long)D_80027E68, value);
+                destination = (u8 *)arg0 + offset;
+                ASM_KEEP_NV(destination);
+                global_base = (u8 *)0x80020000;
+                ASM_KEEP_DEP_NV(global_base, destination);
+                global_base -= -0x7E68;
+                func_8004CBFC(destination,
+                              (s32)(unsigned long)global_base, value);
             } else {
                 *value = 0;
                 *(s32 *)(record + 8) = 0;

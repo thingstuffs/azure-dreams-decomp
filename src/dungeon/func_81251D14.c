@@ -102,7 +102,7 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
         func_801719C0(arg0);
         func_801719A0();
     }
-    ASM_KEEP(motion);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
 
     if (((S_80171514_0 *)arg3)->unk_1C & 0x200) {
         if (((S_80171514_1 *)arg2)->unk_2C == D_80173EC4) {

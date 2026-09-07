@@ -8,7 +8,6 @@ extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
-extern void func_8016F248(void) __attribute__((noreturn));
 
 extern u8 D_80045340;
 extern s32 D_80083498;
@@ -20,17 +19,16 @@ extern void *D_80174CD8;
 void *func_8016F160(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
 {
     s32 kind;
-    void *obj;
+    register void *obj ASM_REG("$16");
     void *part_a;
     void *part_b;
-    void *work;
+    register void *work ASM_REG("$17");
     register s16 mode_copy ASM_REG("$23");
-    register s32 left ASM_REG("$2");
-    register s32 right ASM_REG("$3");
     register s8 saved_arg1 ASM_REG("$22");
     register s16 saved_arg3 ASM_REG("$18");
     register s8 saved_arg2 ASM_REG("$21");
-    register void *actor ASM_REG("$21");
+    void *actor;
+    register void *tail_ptr ASM_REG("$4");
 
     work = 0;
     saved_arg1 = arg1;
@@ -55,27 +53,25 @@ void *func_8016F160(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
         FIELD(part_b, s8, 0x24) = saved_arg1;
 
         if (kind == 1) {
-            left = FIELD(work, s32, 0x14) | 0x6000;
-            right = FIELD(work, s32, 0x1C) | 0x6000;
-            ASM_KEEP(left);
-            ASM_TAILSLOT_PIN(right);
-            func_8016F248();
-        }
-        if (kind >= 2) {
+            FIELD(work, s32, 0x14) |= 0x6000;
+            FIELD(work, s32, 0x1C) |= 0x6000;
+        } else if (kind >= 2) {
             FIELD(work, s32, 0x14) |= 0x2000;
             FIELD(work, s32, 0x1C) |= 0x2000;
-            ASM_CLOBBER("$4");
         }
 
         func_800A9C18(obj, part_a, part_b, mode_copy);
-        FIELD(actor, u8, 0x9A) = 0xFF;
-        FIELD(actor, s8, 0x9C) = -1;
-        FIELD(actor, void *, 0x8C) = &D_8016F78C;
-        FIELD(actor, u8, 0x9B) = 0;
-        FIELD(actor, s16, 0xB0) = 0;
+        ASM_USE_NV(actor);
+        tail_ptr = actor;
+        ASM_KEEP_NV(tail_ptr);
+        FIELD(tail_ptr, u8, 0x9A) = 0xFF;
+        FIELD(tail_ptr, s8, 0x9C) = -1;
+        FIELD(tail_ptr, void *, 0x8C) = &D_8016F78C;
+        FIELD(tail_ptr, u8, 0x9B) = 0;
+        FIELD(tail_ptr, s16, 0xB0) = 0;
         FIELD(part_b, u16, 0x14) |= 0x80;
         ASM_KEEP_NV(work);
-        func_800AA36C(actor, part_a, part_b, work);
+        func_800AA36C(tail_ptr, part_a, part_b, work);
     }
     return work;
 }

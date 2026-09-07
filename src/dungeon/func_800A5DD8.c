@@ -56,10 +56,10 @@ extern s16 D_8008378A;
 
 s32 func_800AB538(void *arg0, void *arg1, void *arg2, void *arg3)
 {
-    register u8 *p0 ASM_REG("$16") = arg0;
-    register u8 *p1 ASM_REG("$17") = arg1;
-    register u8 *p2 ASM_REG("$19") = arg2;
-    register u8 *p3 ASM_REG("$18") = arg3;
+    u8 *p0 = arg0;
+    u8 *p1 = arg1;
+    u8 *p2 = arg2;
+    u8 *p3 = arg3;
     s32 count;
     s16 value;
     s32 result;
@@ -77,7 +77,7 @@ s32 func_800AB538(void *arg0, void *arg1, void *arg2, void *arg3)
         goto state_0;
     }
     {
-        register s32 continuation_state ASM_REG("$2") = 0;
+        s32 continuation_state = 0;
 
         ASM_KEEP(continuation_state);   /* MATCH pin: retail basic-block layout depends on it */
         return func_800AB758();
@@ -88,7 +88,7 @@ state_ge_2:
         goto state_2;
     }
     {
-        register s32 continuation_state ASM_REG("$2") = 0;
+        s32 continuation_state = 0;
 
         ASM_KEEP(continuation_state);   /* MATCH pin: retail basic-block layout depends on it */
         return func_800AB758();
@@ -108,7 +108,7 @@ state_0:
     }
     ((S_800AB538_1 *)p3)->unk_8A = 0x800 / ((S_800AB538_0 *)p0)->unk_96.s;
     {
-        register s32 continuation_state ASM_REG("$2") =
+        s32 continuation_state =
             ((S_800AB538_0 *)p0)->unk_9B + 1;
 
         ASM_TAILSLOT_PIN(continuation_state);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
@@ -169,9 +169,9 @@ state_1:
 state_2:
     ((S_800AB538_4 *)p2)->unk_1E = 0;
     ((S_800AB538_4 *)p2)->unk_1C = 0;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail branch polarity depends on it */
+       /* MATCH pin: retail branch polarity depends on it */
     {
-        register s32 flags ASM_REG("$2") = ((S_800AB538_1 *)p3)->unk_1C;
+        s32 flags = ((S_800AB538_1 *)p3)->unk_1C;
 
         flags |= 0x800000;
         ((S_800AB538_1 *)p3)->unk_1C = flags;

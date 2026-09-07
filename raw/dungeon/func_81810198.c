@@ -31,6 +31,7 @@ extern u8 D_80082E6A;
 
 void *func_80025198(s32 arg0, s32 arg1, s32 arg2, void *arg3, s32 arg4) {
     s32 *temp_s0;
+    register s32 temp_a0 ASM_REG("$4");
     s32 var_a0;
     void *temp_a1;
     void *temp_s2;
@@ -49,17 +50,19 @@ void *func_80025198(s32 arg0, s32 arg1, s32 arg2, void *arg3, s32 arg4) {
         M2C_FIELD(temp_s2, s32 *, 0x1C) = (s32) M2C_FIELD(temp_a1, u8 *, 0);
         func_800250B4(temp_s2, temp_a1, arg4);
         M2C_FIELD(temp_v0, s32 *, 0x10) = 0;
+        temp_a0 = 8;
         if (D_80082E6A != 1) {
-            func_800DBF38(8);
+            func_800DBF38();
+            temp_a0 = 8;
         }
-        temp_s5 = (s32 *) 0x80080000;
         temp_s0 = &D_80029498;
-        M2C_FIELD(temp_s2, s32 *, 0x2C) = func_8004A330(8, 0xEC, 0x64, 0xEC, 0x64, 0x50, 1, D_80029498);
+        M2C_FIELD(temp_s2, s32 *, 0x2C) = func_8004A330(temp_a0, 0xEC, 0x64, 0xEC, 0x64, 0x50, 1, D_80029498);
         M2C_FIELD(temp_s2, s32 *, 0x30) = func_8004A330(4, 0xEC, 0x64, 0xEC, 0x74, 0x50, 1, M2C_FIELD(temp_s0, s32 *, 4));
         M2C_FIELD(temp_s2, s32 *, 0x34) = func_8004A330(0x10, 0xEC, 0x64, 0xEC, 0x84, 0x50, 1, M2C_FIELD(temp_s0, s32 *, 8));
         M2C_FIELD(temp_s2, s32 *, 0x20) = func_80026168(temp_v0, M2C_FIELD(temp_s2, s32 *, 0x14), M2C_FIELD(temp_s2, s32 *, 4));
         M2C_FIELD(temp_s2, s32 *, 0x24) = func_8002845C(temp_v0, M2C_FIELD(temp_s2, s32 *, 0x14));
         M2C_FIELD(temp_s2, s32 *, 0x28) = func_80026A64(temp_v0, M2C_FIELD(temp_s2, s32 *, 0x14), M2C_FIELD(temp_s2, s32 *, 4));
+        temp_s5 = (s32 *) 0x80080000;
         var_a0 = 0;
         var_v1 = temp_s2;
 loop_4:

@@ -25,7 +25,7 @@ extern u8 D_80024734[];
 void func_80024798(Object *arg0, s32 arg1, s32 arg2, s32 arg3,
                    s32 arg4, s32 arg5, s32 arg6) {
     Object *base = arg0;
-    register s32 xoff ASM_REG("$18") = arg4;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    s32 xoff = arg4;   /* MATCH pin: retail schedule: same instructions, different order without it */
     s32 yoff = arg5;
     s32 zoff = arg6;
     s32 held_arg1 = arg1;

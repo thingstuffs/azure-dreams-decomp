@@ -34,7 +34,7 @@ void func_80047054(void *arg0, s32 arg1, s32 arg2, s32 arg3)
     u8 *entry;
     u8 *part;
     register u8 *coords ASM_REG("$8");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 type ASM_REG("$11");   /* MATCH pin: slus-diff */
+    s32 type;   /* MATCH pin: slus-diff */
     u32 limit;
     u16 value;
     u8 flags;

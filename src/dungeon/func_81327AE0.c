@@ -268,7 +268,7 @@ void func_8016F2E0(void *a0, void *a1, void *a2)
 finish:
     ((S_8016F2E0_5 *)arg1)->unk_0A = ((S_8016F2E0_3 *)actor)->unk_88.u + (*(u16 *)((u8 *)arg0 + (0x92)));
     ((S_8016F2E0_4 *)arg2)->unk_14.n |= 0x40;
-    ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
     ASM_KEEP(direction_copy);   /* MATCH pin: retail callee-saved set / frame layout depends on it */
 }

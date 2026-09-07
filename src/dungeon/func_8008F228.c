@@ -197,7 +197,7 @@ void func_80094988(S_80094988_1 *arg0, S_80094988_11 *arg1, u16 arg2, u16 arg3) 
     register u32 dispatch_probe ASM_REG("$3");   /* MATCH pin: retail delay-slot fill depends on it */
     register u8 *dispatch_page ASM_REG("$4");   /* MATCH pin: load-bearing for the whole function shape */
     u32 dispatch_idx;
-    register s32 sign_temp ASM_REG("$2");   /* MATCH pin: retail delay-slot fill depends on it */
+    s32 sign_temp;   /* MATCH pin: retail delay-slot fill depends on it */
     s32 signed_index;
     register s32 scaled_index ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
 

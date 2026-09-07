@@ -1,6 +1,5 @@
 #include "common.h"
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
 extern void func_800672D8();
 
@@ -9,6 +8,17 @@ extern u8 D_80024660[];
 extern u8 D_80024680[];
 extern u8 D_800246C0[];
 extern s32 D_800814A0[];
+
+
+typedef struct S_80023BCC_0_pre {
+    u16 unk_00;
+} S_80023BCC_0_pre;   /* the 0x2 bytes before arg0 in func_80023BCC, addressed as arg0[-1] */
+
+typedef struct S_80023BCC_0 {
+    u8 pad_00[0x5C];
+    union { s16 s; u16 u; } unk_5C;   /* accessed as both */
+    u16 unk_5E;
+} S_80023BCC_0;   /* arg0 in func_80023BCC */
 
 void func_80023BCC(void *arg0)
 {
@@ -20,10 +30,10 @@ void func_80023BCC(void *arg0)
     rect[2] = 0x10;
     rect[3] = 1;
 
-    switch (FIELD(arg0, s16, 0x5C)) {
+    switch (((S_80023BCC_0 *)arg0)->unk_5C.s) {
     case 0:
-        FIELD(arg0, u16, 0x5E) = 0x78;
-        FIELD(arg0, u16, 0x5C)++;
+        ((S_80023BCC_0 *)arg0)->unk_5E = 0x78;
+        ((S_80023BCC_0 *)arg0)->unk_5C.u++;
         break;
     case 1:
         break;
@@ -32,7 +42,7 @@ void func_80023BCC(void *arg0)
     }
 
     rect[1] = 0x1D0;
-    if ((FIELD(arg0, u16, 0x5E) >> 1) & 1) {
+    if ((((S_80023BCC_0 *)arg0)->unk_5E >> 1) & 1) {
         image = D_80024660;
         rect[0] = 0x40;
         func_800672D8(rect, image);
@@ -47,7 +57,7 @@ void func_80023BCC(void *arg0)
     }
 
     rect[1] = 0x1F8;
-    phase = (s16)FIELD(arg0, u16, 0x5E) % 3;
+    phase = (s16)((S_80023BCC_0 *)arg0)->unk_5E % 3;
     switch (phase) {
     case 0:
         image = D_800246C0;
@@ -59,7 +69,7 @@ void func_80023BCC(void *arg0)
         break;
     case 1:
         image = (u8 *)0x80020000;
-        ASM_KEEP(image);
+        ASM_KEEP(image);   /* MATCH pin: keeps a constant in a register as retail does */
         image += 0x4680;
         rect[0] = 0xE0;
         func_800672D8(rect, image);
@@ -76,12 +86,12 @@ void func_80023BCC(void *arg0)
         break;
     }
 
-    timer = FIELD(arg0, u16, 0x5E) - 1;
-    FIELD(arg0, u16, 0x5E) = timer;
+    timer = ((S_80023BCC_0 *)arg0)->unk_5E - 1;
+    ((S_80023BCC_0 *)arg0)->unk_5E = timer;
     if ((s16)timer <= 0) {
         u8 *page = (u8 *)0x80080000;
-        FIELD(arg0, u16, -2) |= 0x8000;
-        ASM_KEEP(page);
+        ((S_80023BCC_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+        ASM_KEEP(page);   /* MATCH pin: keeps a statement from moving across a call/branch */
         (*(s32 *)(page + 0x14A0)) |= 0x8000;
     }
 }

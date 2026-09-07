@@ -70,7 +70,7 @@ void func_80173AD4(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 call_flags;
     void *var_s1 = arg3;
     void *var_s0;
-    register void *var_s2 ASM_REG("$18");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    void *var_s2;   /* MATCH pin: retail schedule: same instructions, different order without it */
     u8 *var_s3;
 
     temp_byte = ((S_80173AD4_0 *)var_s1)->unk_71;

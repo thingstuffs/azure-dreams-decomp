@@ -6,6 +6,7 @@ typedef struct S_80083958 {
     /* 0x6 */ u16 counter1;
     /* 0x8 */ u16 counter2;
     /* 0xA */ u16 flags;
+    /* 0xC */ u8  pad0C[40 - 0xC];   /* >gcc -G32 -> gcc SPLITS the address */
 } S_80083958;
 
 typedef struct S_80083968 {
@@ -19,6 +20,7 @@ typedef struct S_80083968 {
 typedef struct S_80083164 {
     /* 0x0 */ u16 unk0;
     /* 0x2 */ u8  pad2[0xE];
+    /* 0x10 */ u8 pad10[40 - 0x10]; /* >gcc -G32 -> gcc SPLITS the address */
 } S_80083164;
 
 extern S_80083958 D_80083958;
@@ -87,6 +89,7 @@ void func_8003E758(void)
     int r, n;
     u8  st;
     int idx;
+    int kb;
     u8  loc[8];
     u8  res[8];
 
@@ -103,9 +106,13 @@ loop:
     if (state == 0xFF) {
         q = D_80083968;
         idx = D_800814D0;
-        switch (q[idx].unk00) {
+        /* idx*24 SPLIT into two carriers (idx*3, then <<3): one 4-ref temp for
+         * the whole chain outranks the address %hi in local-alloc
+         * (floor_log2(4)*4/5 vs floor_log2(2)*2/4) and steals $v0; two 2-ref
+         * carriers do not, so the %hi keeps retail's $v0.  Same 3 insns. */
+        kb = idx * 3;
+        switch (*((u8 *)q + kb * 8)) {
         case 0:
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
             D_800814D3_2[0] = 0xFF;
             p->unk4 = 0;
             D_800814D2[0] = 0;
@@ -122,7 +129,6 @@ loop:
             goto tail;
 
         case 2:
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
             r = CdSync(1, res);
             if (r == 0) goto tail;
             { int five5; five5 = 5;  if (r == five5) func_8003E70C(); }
@@ -137,7 +143,6 @@ loop:
         case 6: {
             u32 *hdr;
             u32 word, base, hi;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
             r = CdSync(1, res);
             if (r == 0) goto tail;
             { int five5; five5 = 5;  if (r == five5) func_8003E70C(); }
@@ -250,7 +255,6 @@ loop:
             }
 
         case 0xA:
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
             D_800814D2[0] = 0;
             p->unk4 = 0;
             n = 0x10;
@@ -263,7 +267,6 @@ loop:
             goto tail;
 
         case 0xFF:
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
             (*(void (*)(u32))q[idx].unk04)(*(u32 *)D_80083968[D_800814D0].unk08);
             D_800814D0 = D_800814D0 + 1;
             goto tail;
@@ -294,7 +297,6 @@ loop:
         q3 = D_80083968;
         idx = D_800814D0;
         e3 = &q3[idx];
-        ASM_USE_NV(e3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
         sel = e3->unk00;
         if (sel >= 0x1C) goto tail;
         goto *jtbl_8002D5C0[sel];
@@ -344,7 +346,6 @@ loop:
             }
         c6_neg:
             if (D_80080AD8 >= 0) goto tail;
-            ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
             goto p2_done;
 
         L_s1_09:
@@ -399,17 +400,13 @@ loop:
                 ff2 = 0xFF;
                 q2 = D_80083968;
                 ASM_KEEP_NV(hp2);   /* MATCH pin: slus-diff */
-                ASM_USE_NV(q2);   /* MATCH pin: slus-diff */
                 D_800814D2[0] = 0;
                 D_800814D3[0] = ff2;
                 hi2 = hp2[-2];
                 ep = &q2[hi2];
+                ASM_SET(q2);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
                 if (ep->unk17 != 0xFF) {
-                    register int four ASM_REG("$3");   /* MATCH pin: slus-diff */
-                    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-                    four = 4;
-                    D_80083958.unk4 = four;
-                    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                    D_80083958.unk4 = 4;
                     D_80080AD4 = 1;
                 }
                 hp2[-2] += 1;

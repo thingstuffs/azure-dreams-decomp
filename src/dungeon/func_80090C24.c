@@ -118,7 +118,7 @@ void func_80096384(void *arg0, s32 arg1, S_80096384_1 *arg2, void *arg3)
     S_80096384_5 *temp_v0_2;
     u8 *temp_s5 = D_80083160;
     u8 *temp_s4;
-    register u16 *flags_page ASM_REG("$4");   /* MATCH pin: retail register colouring depends on it */
+    u16 *flags_page;   /* MATCH pin: retail register colouring depends on it */
     s32 flags;
     s32 temp_s4_value = 0x32;
     s32 temp_state;

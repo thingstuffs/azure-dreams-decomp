@@ -13,6 +13,7 @@ void func_8001ED54(void *arg0)
     s32 one;
     void *owner;
     s32 index;
+    void (*callback)(void);
 
     owner = (u8 *)arg0 - 0x20;
     index = *(s32 *)((u8 *)arg0 + 0x28);
@@ -20,6 +21,8 @@ void func_8001ED54(void *arg0)
         one = 1;
         *(s32 *)((u8 *)arg0 + 0x3C) = one;
         func_804031E4(owner, (u8 *)arg0 + 0x40);
+        callback = func_80405D2C;
+        ASM_KEEP(callback);
         *(s32 *)((u8 *)arg0 + 0x40) = one;
         func_80405DC4();
     }

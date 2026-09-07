@@ -1,28 +1,36 @@
 #include "common.h"
 
-extern u8 D_80080A8A;
-extern u32 D_80081494;
-extern u8 D_800814AC;
-extern u8 D_800814A4;
+extern u8 D_80080A8A[12];
+extern u32 D_80081494[3];
+extern u8 D_800814AC[12];
+extern u8 D_800814A4[12];
 
 void func_800439F8(void)
 {
-    u8 *page = (u8 *)0x80010000;
-
-    if (D_80080A8A != 0) {
-        u32 value0 = D_80081494;
-        u8 value4 = D_800814AC;
-        u8 value6 = D_800814A4;
-        *(u8 *)0x80080A8A = 0;
+    if (D_80080A8A[0] != 0) {
+        register u8 *page ASM_REG("$2");
+        register u32 value0 ASM_REG("$3");
+        register u8 value4 ASM_REG("$4");
+        register u8 value6 ASM_REG("$5");
+        page = (u8 *)0x80010000;
+        value0 = D_80081494[0];
+        value4 = D_800814AC[0];
+        value6 = D_800814A4[0];
+        D_80080A8A[0] = 0;
         *(u32 *)(page + 0x3180) = value0;
         *(u8 *)(page + 0x3184) = value4;
         *(u8 *)(page + 0x3186) = value6;
     } else {
-        u32 value0 = *(u32 *)(page + 0x3180);
-        u8 value4 = *(u8 *)(page + 0x3184);
-        u8 value6 = *(u8 *)(page + 0x3186);
-        D_80081494 = value0;
-        D_800814AC = value4;
-        D_800814A4 = value6;
+        register u8 *page ASM_REG("$2");
+        register u32 value0 ASM_REG("$3");
+        register u8 value4 ASM_REG("$4");
+        register u8 value6 ASM_REG("$2");
+        page = (u8 *)0x80010000;
+        value0 = *(u32 *)(page + 0x3180);
+        value4 = *(u8 *)(page + 0x3184);
+        value6 = *(u8 *)(page + 0x3186);
+        D_80081494[0] = value0;
+        D_800814AC[0] = value4;
+        D_800814A4[0] = value6;
     }
 }

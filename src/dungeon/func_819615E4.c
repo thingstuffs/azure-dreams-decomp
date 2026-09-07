@@ -67,6 +67,7 @@ void func_819615E4(State *state, Target *target, u8 *color)
     s32 a;
     s16 value;
     u16 next;
+    register u32 table_page ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
 
     D_80027330[0]++;
 
@@ -81,11 +82,12 @@ void func_819615E4(State *state, Target *target, u8 *color)
         return;
     }
 
-    ASM_KEEP(color);
+    ASM_KEEP(color);   /* MATCH pin: retail immediate-load split depends on it */
     if (state->state == 2) {
         goto fade;
     }
     if (state->state == 3) {
+        table_page = 0x80080000;
         goto phase;
     }
     func_800271EC();
@@ -165,11 +167,10 @@ update:
     }
     func_800B8D64(state->x, state->y, state->z);
     next = state->state;
-    ASM_KEEP(next);
+    ASM_KEEP(next);   /* MATCH pin: retail basic-block layout depends on it */
     {
-        register u16 reset_timer ASM_REG("$3") = 5;
+        register u16 reset_timer ASM_REG("$3") = 5;   /* MATCH pin: retail register colouring depends on it */
 
-        ASM_KEEP(reset_timer);
         state->timer = reset_timer;
     }
     func_8002711C();
@@ -196,7 +197,7 @@ phase:
         s32 index;
         u8 *table;
 
-        table = D_80082E80;
+        table = (u8 *)(table_page + 0x2E80);
         func_8003DE58(*(void **)(table + 8), table, &base, 0);
         next = state->phase - 1;
         state->phase = next;

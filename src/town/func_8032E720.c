@@ -43,7 +43,7 @@ s32 func_80018F20(s32 *arg0)
     s32 current;
     s32 count;
     u32 index;
-    register u8 *map_base ASM_REG("$17");   /* MATCH pin: retail register colouring depends on it */
+    u8 *map_base;   /* MATCH pin: retail register colouring depends on it */
     u8 *mark;
     u8 *initial_page;
     u8 *initial_root;

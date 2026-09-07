@@ -321,7 +321,7 @@ jt_c1:
                 register u32 base_x ASM_REG("$10");   /* MATCH pin: retail delay-slot fill depends on it */
                 u32 x_value;
                 u32 y_value;
-                register s32 compare_x ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                s32 compare_x;   /* MATCH pin: load-bearing for the whole function shape */
 
                 {
                     u32 shifted;
@@ -338,7 +338,7 @@ jt_c1:
                 cell = ((S_8002520C_5_pre *)dest)[-1].unk_00;
                 {
                     s32 load_v0;
-                    register s32 load_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                    s32 load_v1;   /* MATCH pin: load-bearing for the whole function shape */
 
                     load_v0 = (s32) D_8006CCD8;
                     x_table = (u16 *) (slot_a0 + load_v0);
@@ -356,12 +356,12 @@ jt_c1:
                 }
                 sp18 = (u16) y_value;
                 ASM_USE2_NV(table_idx, dest);   /* MATCH pin: retail register colouring depends on it */
-                ASM_USE_NV(y_value);   /* MATCH pin: retail register colouring depends on it */
+                   /* MATCH pin: retail register colouring depends on it */
                 compare_x = x_value & 0xFFFF;
                 if (compare_x == 1) {
                     if ((y_value & 0xFFFF) == compare_x) {
                         register s32 add_v0 ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-                        register s32 add_v1 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+                        s32 add_v1;   /* MATCH pin: load-bearing for the whole function shape */
 
                         add_v1 = *x_table;
                         add_v0 = *(u16 *) slot_a0;

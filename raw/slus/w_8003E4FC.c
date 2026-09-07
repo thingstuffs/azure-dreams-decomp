@@ -1,5 +1,9 @@
 #include "common.h"
 
+typedef union ResultBox_8003E4FC {
+    s32 value;
+} ResultBox_8003E4FC;
+
 typedef struct EventSource_8003E4FC {
     s32 field0;
     void *field4;
@@ -11,7 +15,7 @@ extern s32 func_8003E39C();
 
 s32 func_8003E4FC(s32 arg0, void *arg1)
 {
-    s32 result;
+    ResultBox_8003E4FC result;
     s32 kind;
     s32 call_kind;
     s32 null_kind;
@@ -99,18 +103,19 @@ case_2:
     goto call_arg1;
 
 case_ff:
-    result = func_8003E39C(0xFF, arg1);
+    result.value = func_8003E39C(0xFF, arg1);
     goto done;
 
 case_6:
     call_arg = arg1;
     D_80080ADC = ((EventSource_8003E4FC *)call_arg)->field4;
-    result = func_8003E39C((u8)arg0, call_arg);
+    result.value = func_8003E39C((u8)arg0, call_arg);
     goto done;
 
 case_9:
     call_kind = (u8)arg0;
     call_arg = 0;
+    result = (ResultBox_8003E4FC){ 0 };
     goto call_three;
 
 case_13:
@@ -121,14 +126,14 @@ case_13:
     }
     func_8003E39C(13, 0);
     func_8003E39C(2, arg1, 0);
-    result = func_8003E39C(27, arg1, 0);
+    result.value = func_8003E39C(27, arg1, 0);
     D_80080ADC = arg1;
     goto done;
 
 case_14:
     null_kind = 14;
 call_null:
-    result = func_8003E39C(null_kind, 0);
+    result.value = func_8003E39C(null_kind, 0);
     goto done;
 
 case_21:
@@ -141,11 +146,11 @@ case_27:
 call_arg1:
     call_arg = arg1;
 call_three:
-    result = func_8003E39C(call_kind, call_arg, 0);
+    result.value = func_8003E39C(call_kind, call_arg, 0);
     goto done;
 
 return_zero:
-    result = 0;
+    result.value = 0;
 done:
-    return result;
+    return result.value;
 }

@@ -34,25 +34,32 @@ extern Template3 D_8002E5E8;
 
 void func_80022B48(Entity *arg0, s32 count)
 {
-    Entity *self;
-    s32 index;
+    register Entity *self ASM_REG("$11");
+    register s32 index ASM_REG("$7");
     u8 *data_base;
     u8 *pointer_base;
     s32 node_offset;
     s32 data_offset;
     Template3 *common;
-    u8 *source_page;
-    Template4 *source;
+    register u8 *source_page ASM_REG("$13");
+    register Template4 *source ASM_REG("$12");
     s32 value0;
     s32 value1;
     s32 value2;
     s32 value3;
 
     self = arg0;
+    ASM_KEEP(self);
+    index = 0;
     if (count > 0) {
-        index = 0;
+#ifdef NON_MATCHING
         source_page = (u8 *)&D_8002E5D8 + 0x1A28;
+#else
+        source_page = (u8 *)0x80030000;
+#endif
+        ASM_KEEP(source_page);
         source = (Template4 *)(source_page - 0x1A28);
+        ASM_KEEP(source);
         common = &self->common;
         data_offset = 0x958;
         data_base = (u8 *)self;

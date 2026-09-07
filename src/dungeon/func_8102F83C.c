@@ -61,8 +61,8 @@ void func_8017103C(void *a0, void *a1, void *a2)
     register s32 direction ASM_REG("$16");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     register s32 direction_copy ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
     register s32 direction_value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register void *call0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *call1 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    void *call0;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    void *call1;   /* MATCH pin: retail schedule: same instructions, different order without it */
     void *call2;
     void *call3;
     s32 direction_index;

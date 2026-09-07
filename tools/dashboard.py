@@ -124,11 +124,11 @@ pre{{background:#1b1f24;color:#c9d1d9;padding:10px;border-radius:6px;overflow-x:
     for line in (
         f"raw offset access still in <b>{off_files}</b> functions / {fmt(off_sites)} sites (T4 refusals: search-failed shapes in the largest dungeon functions, unparsed struct-typed pointers)",
         f"pins surviving in <b>{pin_rows}</b> functions / {fmt(pin_sites)} sites, each annotated with its measured class; classes and alternatives in docs/PIN_CENSUS.md",
-        f"<b>{len(drift)}</b> rows and the gate's non-green windows are upstream drift at the pin (retired bridge cells, assembler change); resolve at the <b>pin bump</b> once the bridge lane is at zero",
-        f"{windowless} rows have no gate window; {nonstock} rows are non-stock at the pin (become stock at the pin bump)",
+        (f"<b>{len(drift)}</b> rows and the gate's non-green windows are upstream drift at the pin (retired bridge cells, assembler change); resolve at the <b>pin bump</b> (tools/pin_bump.py)" if drift else "no per-row drift at the pin (ledger/reverify.jsonl)"),
+        f"{windowless} rows have no gate window; {nonstock} rows are non-stock at the pin" + (" (become stock at the pin bump)" if nonstock else ""),
         "T3a (epilogue label-as-call → return) retired: every target is a resident shared tail; needs a linked-gate-verified treatment later",
         "Layer 3 next: shared headers from docs/STRUCT_CENSUS.md (record classes by provenance), then modules and names (L4), pin documentation complete (L5)",
-        "swap-over checklist: docs/SWAPOVER.md (disc round-trip script, whole-container link, 17 windowless rows, maspsx name tables)",
+        "swap-over checklist: docs/SWAPOVER.md (disc round-trip script, whole-container link, windowless rows)",
         "ovmovie parked by the owner (movie playback exists elsewhere); listed, not counted"):
         H.append(f"<li>{line}</li>")
     H.append("</ul>")

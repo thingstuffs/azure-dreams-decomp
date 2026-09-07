@@ -985,7 +985,6 @@ AS_FLAGS = {
     # enabling --expand-div globally changes already-matched runtime-div functions.
     "src/w_8005D598.c": "--expand-div",
     "src/w_8005CB88.c": "--preserve-immediate-funcaddr-la",
-    "src/w_8003E4FC.c": "--retail-func-8003e4fc-zero-copy",
 }
 # C translation units — recompile if the .c OR any INCLUDE_ASM'd nonmatching asm changes
 nonmatch = " ".join(sorted(glob.glob("asm/nonmatchings/**/*.s", recursive=True)))

@@ -41,7 +41,7 @@ loop:
     direction = func_800374F4(4) & 0xFFFF;
     if (direction == 0) {
         s32 total;
-        register s32 position ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        s32 position;   /* MATCH pin: retail register colouring depends on it */
         s32 component;
 
         total = arg0->unk_84;
@@ -55,7 +55,7 @@ loop:
         }
     } else if (direction == 1) {
         s32 total;
-        register s32 position ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+        s32 position;   /* MATCH pin: retail register colouring depends on it */
         s32 component;
 
         total = arg0->unk_86;
@@ -75,7 +75,7 @@ loop:
         difference = arg0->unk_84;
         component = arg0->unk_8C;
         limit = ((S_800C7AC4_1 *)bounds)->unk_02;
-        ASM_KEEP_NV(difference);   /* MATCH pin: load-bearing for the whole function shape */
+           /* MATCH pin: load-bearing for the whole function shape */
         difference -= component;
         difference = difference < limit;
         if (difference != 0) {
@@ -90,7 +90,7 @@ loop:
         difference = arg0->unk_86;
         component = arg0->unk_8E;
         limit = ((S_800C7AC4_1 *)bounds)->unk_06;
-        ASM_KEEP_NV(difference);   /* MATCH pin: load-bearing for the whole function shape */
+           /* MATCH pin: load-bearing for the whole function shape */
         difference -= component;
         difference = difference < limit;
         if (difference != 0) {

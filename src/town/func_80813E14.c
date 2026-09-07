@@ -10,7 +10,6 @@
    plus the global materialised in $a0. */
 #include "common.h"
 
-#define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))
 
 typedef struct Func80813E14Stack {
     void *object;
@@ -70,6 +69,13 @@ extern void func_8023FB18(void *);
 extern void func_8052E4C0(u32, s32, s32, u32);
 extern void func_8052E5C8(void *, s32, s32);
 extern void func_8052FE94(s32);
+
+
+typedef struct S_8052EA14_0 {
+    u32 unk_00;
+    u32 unk_04;
+    u16 unk_08;
+} S_8052EA14_0;   /* record in func_8052EA14 */
 
 void func_8052EA14(Func80813E14Object *object,
                    Func80813E14State *state,
@@ -149,9 +155,9 @@ void func_8052EA14(Func80813E14Object *object,
     }
     record = &D_80530220[base->row * 400] + base->column * 40;
     record += object->column * 12 + 4;
-    local.half = FIELD(record, u16, 8);
-    local.word0 = FIELD(record, u32, 0);
-    local.word1 = FIELD(record, u32, 4);
+    local.half = ((S_8052EA14_0 *)record)->unk_08;
+    local.word0 = ((S_8052EA14_0 *)record)->unk_00;
+    local.word1 = ((S_8052EA14_0 *)record)->unk_04;
     local.zero0 = 0;
     local.zero1 = 0;
     local.object = object;
@@ -213,7 +219,7 @@ case_3_high:
         goto cleanup;
     }
     func_8023FB18((u8 *)object + 4);
-    FIELD(object, u16, -2) |= 0x8000;
+    (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
     D_80084D5C |= 0x8000;
     }
 

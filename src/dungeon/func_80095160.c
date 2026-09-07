@@ -77,7 +77,7 @@ s32 func_8009A8C0(u32 arg0, FuncArg1 *arg1, FuncArg2 * volatile arg2, u16 arg3) 
     temp_s3 = temp_a0 * 2;
     temp_fp = (u16 *)((s32)temp_s3 + (s32)base_6ccd8);
     var_v1 = arg1->x;
-    ASM_KEEP(var_v1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
     temp_v0_load = *temp_fp;
     call_a0 = temp_a0;
     sp18 = saved_arg3;
@@ -119,9 +119,9 @@ s32 func_8009A8C0(u32 arg0, FuncArg1 *arg1, FuncArg2 * volatile arg2, u16 arg3) 
                         temp_v0_load = (s32)((u8 *)D_800DCEBC + temp_s3);
                         ASM_KEEP_NV(temp_v0_load);   /* MATCH pin: retail schedule: same instructions, different order without it */
                         call_a0 = arg1->x;
-                        ASM_KEEP_NV(call_a0);   /* MATCH pin: retail delay-slot fill depends on it */
+                           /* MATCH pin: retail delay-slot fill depends on it */
                         call_a1 = arg1->y;
-                        ASM_KEEP_NV(call_a1);   /* MATCH pin: retail delay-slot fill depends on it */
+                           /* MATCH pin: retail delay-slot fill depends on it */
                         var_v1 = *(u16 *)var_v1;
                         temp_v0_load = *(u16 *)temp_v0_load;
                         temp_s1 = var_v1 + temp_s0;

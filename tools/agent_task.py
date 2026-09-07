@@ -125,7 +125,12 @@ def main():
     (ROOT / "work").mkdir(exist_ok=True)
     if a.container: rs = [r for r in rs if r["container"] == a.container]
     if a.all:
-        done = {j["id"] for j in read_jsonl(journal) if j.get("outcome") in ("accepted", "unchanged")}   # 'quota' and 'rejected' rows are retried
+        # 'quota' and 'rejected' rows are retried; an accepted row whose refine/ body was set aside by a pin
+        # bump (tools/pin_bump.py: not exact at the new pin) is served again
+        by_id = {r["id"]: r for r in rows()}
+        def has_refine(i):
+            r = by_id.get(i); return bool(r) and (ROOT / "refine" / r["container"] / Path(r["c_path"]).name).exists()
+        done = {j["id"] for j in read_jsonl(journal) if j.get("outcome") == "unchanged" or (j.get("outcome") == "accepted" and has_refine(j["id"]))}
         rs = [r for r in rs if r["id"] not in done]
         rs.sort(key=lambda r: r["size"])
     if a.limit: rs = rs[:a.limit]

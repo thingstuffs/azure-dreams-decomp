@@ -180,7 +180,7 @@ void func_80167C74(void *arg0, S_80167C74_2 *arg1, S_80167C74_11 *arg2) {
     u8 *var_v0;
     register u8 *table_join ASM_REG("$6");   /* MATCH pin: retail delay-slot fill depends on it */
     register u8 *clamp_base ASM_REG("$8");   /* MATCH pin: retail delay-slot fill depends on it */
-    register u8 *var_v0_2 ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
+    u8 *var_v0_2;   /* MATCH pin: keeps a constant in a register as retail does */
     s16 *temp_v1_3;
     s16 *temp_v1_4;
     s16 temp_v0_5;

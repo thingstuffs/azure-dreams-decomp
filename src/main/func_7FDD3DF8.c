@@ -15,8 +15,6 @@ typedef struct ColorRampEffect {
 } ColorRampEffect;
 
 extern u32 D_800814A0[];
-extern void func_8008ADBC();
-extern void func_8008AE20();
 
 void func_8008AD58(ColorRampEffect *effect)
 {
@@ -45,21 +43,20 @@ void func_8008AD58(ColorRampEffect *effect)
             active = 1;
             break;
         }
-        func_8008ADBC(active, effect, owner);
-        return;
+        goto update_color;
     }
 
     if (effect->active == 0) {
         active = 1;
     }
+update_color:
     if (active != 0) {
         color = effect->color + 0x101010;
         effect->color = color;
         if (color > 0x808080) {
             color = 0x808080;
             effect->color = color;
-            func_8008AE20(color, effect, owner);
-            return;
+            goto propagate_flag;
         }
     } else {
         effect->color -= 0x101010;
@@ -68,6 +65,7 @@ void func_8008AD58(ColorRampEffect *effect)
         }
     }
 
+propagate_flag:
     loaded_active = (s16)owner->flags;
     if ((loaded_active & 0x8000) != 0) {
         ((u16 *)effect)[-1] |= 0x8000;

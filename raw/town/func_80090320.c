@@ -35,10 +35,11 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
     s16 block_base;
     s16 tile;
     s16 value;
-    s32 x;
+    s16 x;
     u16 y;
-    u16 ysum;
+    s32 ysum;
     s32 quotient;
+    s16 xsum;
 
     x = arg0;
     y = arg1;
@@ -51,18 +52,18 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
     scratch->origin_z = arg2;
     base = D_80083160;
     grid = (Grid80090320 *)(base + 0x1DC);
-    arg0 &= 0x3F;
-    scratch->result = arg0;
+    ASM_USE(arg0);
+    scratch->result = (arg0 &= 0x3F);
     scratch->saved_y = arg1 & 0x3F;
     scratch->height_data = grid->height_data;
     occupancy = FIELD(base, u16 *, 0x1DC);
     vertices = grid->vertices;
-    if ((scratch->result) >= 0x20) {
+    if (arg0 >= 0x20) {
         scratch->x_step = 0x40;
     } else {
         scratch->x_step = -0x40;
     }
-    if ((s16)scratch->origin_y >= 0x20) {
+    if ((s16)*(volatile u16 *)((u8 *)scratch + 0x1E) >= 0x20) {
         s32 ystep_pos = 0x40;
         scratch->y_step = ystep_pos;
     } else {
@@ -87,12 +88,12 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
         scratch->inner_offset = 0;
         scratch->origin_y = scratch->saved_y - (u16)scratch->outer_offset;
         while (scratch->inner_count < 2) {
-            ysum = (u16)scratch->start_x + (u16)scratch->inner_offset;
-            x = ysum;
+            xsum = (u16)scratch->start_x + (u16)scratch->inner_offset;
+            x = xsum;
             if (scratch->x_step >= 0) {
-                if ((s16)ysum >= D_800FE480)
+                if ((s16)xsum >= D_800FE480)
                     goto inner_done;
-            } else if ((s16)ysum < 0) {
+            } else if ((s16)xsum < 0) {
                 goto inner_done;
             }
 
@@ -105,7 +106,7 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
                 scratch->inner_index = scratch->inner_offset;
                 entry = grid->entries[occupancy[(s16)scratch->tile] & 0x3FFF];
                 for (;;) {
-                    if (FIELD(FIELD(entry, u16, 0x10) * 8 + grid->height_data,
+                    if (FIELD(FIELD(entry, u16, 0x10) * 8 + scratch->height_data,
                               s16, 0) < 0 &&
                         !(FIELD(entry, u8, 0x17) & 1)) {
                         scratch->d0 = FIELD(FIELD(entry, u16, 0x00) * 8 + vertices, u16, 2) - scratch->origin_y;
@@ -118,15 +119,17 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
                         scratch->d7 = FIELD(FIELD(entry, u16, 0x04) * 8 + vertices, u16, 4) - scratch->origin_z;
 
                         if (func_8008CE08(scratch) != 0) {
-                            plane = FIELD(entry, u16, 0x10) * 8 + scratch->height_data;
-                            vertex = FIELD(entry, u16, 0x00) * 8 + vertices;
+                            plane = (u8 *)(FIELD(entry, u16, 0x10) * 8 +
+                                           (u32)scratch->height_data);
+                            vertex = (u8 *)(FIELD(entry, u16, 0x00) * 8 +
+                                            (u32)vertices);
                             quotient =
                                 (FIELD(plane, s16, 2) *
                                      (FIELD(vertex, s16, 2) -
-                                      (s16)scratch->origin_y) +
+                                      (s16)*(volatile u16 *)((u8 *)scratch + 0x1E)) +
                                  FIELD(plane, s16, 4) *
                                      (FIELD(vertex, s16, 4) -
-                                      (s16)scratch->origin_z) +
+                                      (s16)*(volatile u16 *)((u8 *)scratch + 0x20)) +
                                  FIELD(plane, s16, 0) * FIELD(vertex, s16, 0)) /
                                 FIELD(plane, s16, 0);
                             scratch->result = quotient;

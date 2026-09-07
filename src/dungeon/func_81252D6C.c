@@ -123,7 +123,7 @@ void func_8017256C(void *in0, void *in1, void *in2, void *in3)
     u16 next_count;
 
     ASM_KEEP(arg0);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    ASM_KEEP(arg1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
 
     state = ((S_8017256C_0 *)arg0)->unk_9B;
     if (state >= 9) {

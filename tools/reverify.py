@@ -5,12 +5,13 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, UP, LEDGER, rows, append_jsonl, sha_text
-from verify import verify
+from verify import verify, gate_fallback
 INCLUDE = ROOT / "include"
 def one(r):
     cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name
-    v = verify(r, cp, include_root=INCLUDE)
-    return {"id": r["id"], "exact": v.get("exact"), "status": v.get("status"), "class": v.get("class"), "err": (v.get("err") or "")[:160], "src_sha": sha_text(cp.read_text(errors="replace"))}
+    v = gate_fallback(r, verify(r, cp, include_root=INCLUDE), raw=False)   # scorer, then the window gate over src/
+    return {"id": r["id"], "exact": v.get("exact"), "status": v.get("status"), "class": v.get("class"), "err": (v.get("err") or "")[:160], "src_sha": sha_text(cp.read_text(errors="replace")),
+            **({k: v[k] for k in ("proof", "gate", "window", "scorer_class", "scorer_total") if k in v})}
 def main():
     workers = int(sys.argv[1]) if len(sys.argv) > 1 else 6
     todo = []

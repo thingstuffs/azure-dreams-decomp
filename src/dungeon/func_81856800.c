@@ -77,7 +77,7 @@ BODY_STORAGE void FUNC_81856800_BODY(void *param0, void *param1) BODY_ATTR;
 BODY_STORAGE void FUNC_81856800_BODY(void *param0, void *param1)
 {
 #ifdef __mips__
-    register void *arg0 ASM_REG("$21") = param0;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    void *arg0 = param0;   /* MATCH pin: retail schedule: same instructions, different order without it */
     register void *arg1 ASM_REG("$20");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
 #else
     void *arg0 = param0;
@@ -576,7 +576,7 @@ done:
     ASM_SET(t5_reserve);   /* MATCH pin: retail register colouring depends on it */
     ASM_SET(t6_reserve);   /* MATCH pin: retail register colouring depends on it */
     ASM_SET(t7_reserve);   /* MATCH pin: retail register colouring depends on it */
-    ASM_SET(t8_reserve);
+    ASM_SET(t8_reserve);   /* MATCH pin: retail register colouring depends on it */
     ASM_SET(t9_reserve);
     return;
 }

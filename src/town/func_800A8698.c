@@ -104,7 +104,7 @@ after_effect:
     }
     temp_v0_3 = var_s2->unk_0A.s - 1;
     var_s2->unk_0A.s = temp_v0_3;
-    ASM_SCHED_BARRIER();   /* MATCH pin: load-bearing for the whole function shape */
+       /* MATCH pin: load-bearing for the whole function shape */
     {
         s32 sign_v0;
         s32 count_a0;

@@ -46,20 +46,24 @@ void func_80174A28(void *arg0, void *arg1, void *arg2, void *arg3)
             s32 x;
             s32 x_sum;
             s32 x_raw;
-            s32 y_offset;
-            s32 scratch;
+            s32 off_x;
+            register s32 y_offset ASM_REG("$2");
+            register s32 scratch ASM_REG("$3");
+            register void *call_arg0 ASM_REG("$4");
 
             flags = FIELD(arg2, u16, 0x14);
+            call_arg0 = arg3;
             FIELD(arg2, u16, 0x14) = flags | 0x0800;
             height = FIELD(arg1, s16, 0x0A);
             x_raw = FIELD(arg2, u8, 0x24);
             offset = &offsets.entries[(FIELD(arg3, u16, 0x2A) >> 9) & 7];
-            scratch = offset->x;
-            x_sum = x_raw + scratch;
+            off_x = offset->x;
+            x_sum = x_raw + off_x;
             y_offset = offset->y;
-            scratch = FIELD(arg2, u8, 0x25) + y_offset;
+            ASM_USE(y_offset);
             x = x_sum & 0xFFFF;
-            func_80174800(arg3, x, scratch & 0xFFFF, height);
+            scratch = FIELD(arg2, u8, 0x25) + y_offset;
+            func_80174800(call_arg0, x, scratch & 0xFFFF, height);
         }
         if ((FIELD(arg0, s16, 0x96) == 0x0A) ||
             (FIELD(arg2, u16, 0x14) & 0x8000)) {
@@ -122,4 +126,3 @@ void func_80174A28(void *arg0, void *arg1, void *arg2, void *arg3)
         break;
     }
 }
-

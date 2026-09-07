@@ -86,7 +86,7 @@ void *func_80026C88(u16 arg0, u16 arg1, s32 arg2, void *arg3)
     S_80026C88_3 *temp_a2;
     void *temp_v0;
     register void *var_a1 ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
-    register S_80026C88_0 *callee_arg ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    S_80026C88_0 *callee_arg;   /* MATCH pin: load-bearing for the whole function shape */
     u16 *position_arg;
     register s32 held_arg2 ASM_REG("$21");   /* MATCH pin: load-bearing for the whole function shape */
     void *var_s6;

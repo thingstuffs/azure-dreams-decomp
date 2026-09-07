@@ -28,24 +28,33 @@ void func_80176028(void *arg0, s32 arg1, void *arg2, void *arg3)
     u8 *work = arg3;
     register s32 state = owner[0x9B];
     register u8 *actor = *(u8 **)(work + 0x60);
+    register s32 type_check ASM_REG("$2");
 
-    switch (state) {
-    case 0:
-        goto state_0;
-    case 1:
+    if (state == 1) {
         goto state_1;
-    case 2:
+    }
+    if (state < 2) {
+        type_check = 3;
+        if (state == 0) {
+            goto state_0;
+        }
+        func_8017629C();
+        return;
+    }
+    if (state == 2) {
         goto state_2;
-    case 3:
+    }
+    if (state == 3) {
         goto state_3;
-    default:
+    }
+    {
         func_8017629C();
         return;
     }
 
 state_0:
     {
-        if ((FIELD(arg2, s8, 4) == 3) &&
+        if ((FIELD(arg2, s8, 4) == type_check) &&
             (FIELD(arg2, u16, 0x14) & 0x1000)) {
             func_800A56E0(0x808);
         }
@@ -73,6 +82,9 @@ state_1:
         table2 = D_80082E80;
         value_map = D_800E3D7C;
         owner[0xA9] = value;
+        ASM_KEEP_DEP_NV(actor, value);
+        ASM_JALDELAY_PIN(actor);
+        ASM_KEEP_NV(actor);
         FIELD(D_800E3D7C, u8 *, 0x60) = actor;
         FIELD(value_map, u16, 0x8A) = value;
         func_80093E74(D_800E3D7C, table1, table2, D_800E3D7C);
@@ -109,7 +121,17 @@ state_2:
         func_8009A028(actor);
         FIELD(actor, u16, -2) |= 0x8000;
         D_800814A0 |= 0x8000;
-        D_800E3D7C[0xFA + owner[0xA9]] = state;
+        ASM_MEM_BARRIER();
+        {
+            register u8 *map_value ASM_REG("$2");
+            register s32 owner_index ASM_REG("$3");
+
+            map_value = D_800E3D7C;
+            owner_index = owner[0xA9];
+            ASM_KEEP_DEP_NV(owner_index, map_value);
+            map_value += owner_index;
+            map_value[0xFA] = state;
+        }
         owner[0xA8] = owner[0xA9] + 1;
         owner[0x9B]++;
         func_8017629C();

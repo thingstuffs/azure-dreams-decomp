@@ -75,8 +75,8 @@ void func_800AC4C4(void) {
     register s32 inner_sub ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
     s32 row_limit;
     register void *call_a0 ASM_REG("$4");   /* MATCH pin: retail keeps a computation the compiler would drop */
-    register void *call_a1 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
-    register void *call_a2 ASM_REG("$6");   /* MATCH pin: keeps a constant in a register as retail does */
+    void *call_a1;   /* MATCH pin: retail schedule: same instructions, different order without it */
+    void *call_a2;   /* MATCH pin: keeps a constant in a register as retail does */
     void *call_a3;
     u32 tag_low_mask;
     u32 tag_high_mask;

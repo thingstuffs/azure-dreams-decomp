@@ -61,7 +61,7 @@ dispatch:
         ptr = (void *)0x80010000;
         ptr = *(void **)((s8 *)ptr + 0x6000);
         ptr = *(void **)((s8 *)ptr + 0x20);
-        ASM_KEEP(ptr);   /* MATCH pin: retail schedule: same instructions, different order without it */
+           /* MATCH pin: retail schedule: same instructions, different order without it */
         first_arg = 0xF;
         ptr = *(void **)((s8 *)ptr + 0x2F8);
         ((Callback)ptr)(first_arg, 0x200);

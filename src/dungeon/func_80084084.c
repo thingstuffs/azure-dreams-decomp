@@ -114,7 +114,7 @@ loop_first:
         secondPage = (u8 *)0x800E0000;
         ASM_KEEP(secondPage);   /* MATCH pin: retail basic-block layout depends on it */
         secondSpecial = (Callback *)(secondPage - 0x3080);
-        ASM_KEEP(secondSpecial);   /* MATCH pin: retail schedule: same instructions, different order without it */
+           /* MATCH pin: retail schedule: same instructions, different order without it */
         secondBase = D_80083360;
         secondCallback = secondBase;
         secondEntryp = D_800833E0;

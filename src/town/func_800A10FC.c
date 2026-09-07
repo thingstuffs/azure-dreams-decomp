@@ -63,10 +63,10 @@ void func_8009E85C(void *arg0, S_8009E85C_1 *arg1, S_8009E85C_2 *arg2) {
     s32 *active_base;
     s32 active;
     s32 init_flags;
-    register S_8009E85C_4 *tail_self ASM_REG("$16");   /* MATCH pin: keeps a statement from moving across a call/branch */
+    S_8009E85C_4 *tail_self;   /* MATCH pin: keeps a statement from moving across a call/branch */
     register M2C_UNK (*callback)(void *, void *, void *) ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
     void *call_a0;
-    register void *call_a1 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
+    void *call_a1;   /* MATCH pin: retail schedule: same instructions, different order without it */
     void *call_a2;
     u16 flags;
     u8 temp_v1;
@@ -96,13 +96,13 @@ void func_8009E85C(void *arg0, S_8009E85C_1 *arg1, S_8009E85C_2 *arg2) {
         return;
     }
     tail_self = arg0;
-    ASM_KEEP(tail_self);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
     tail_self->unk_6C = 0;
     ASM_MEM_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
     call_a0 = tail_self;
     call_a1 = arg1;
     call_a2 = arg2;
-    ASM_KEEP(call_a0);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
     callback = ((S_8009E85C_5_pre *)call_a0)[-1].unk_00;
     D_800D09C8[0] = 0;
     callback(call_a0, call_a1, call_a2);

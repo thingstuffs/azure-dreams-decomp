@@ -112,7 +112,7 @@ void func_80023260(void *arg0, void *arg1, void *arg2) {
     s32 constant2;
     s32 old_c;
     register s32 old_10 ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 angle_obj ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
+    s32 angle_obj;   /* MATCH pin: load-bearing for the whole function shape */
     s32 angle_base;
     s32 final_kind;
     s32 case_value;

@@ -136,8 +136,8 @@ void func_80040CBC(s16 arg0)
     {
       struct S_8006CE80_ptr *p;
       struct S_8006CE80_ptr *q;
-      register s32 first ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-      register s32 second ASM_REG("$2");   /* MATCH pin: slus-diff */
+      s32 first;
+      s32 second;
       func_800418B4();
       p = node->field8;
       q = p;
@@ -149,8 +149,8 @@ void func_80040CBC(s16 arg0)
     }
   }
   {
-    register s32 value ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-    register s32 address ASM_REG("$2");   /* MATCH pin: slus-diff */
+    s32 value;
+    s32 address;
     if (s5 == 2)
     {
       value = 0x18800;
@@ -164,5 +164,6 @@ void func_80040CBC(s16 arg0)
     D_8008148C[0] = address;
     D_80080A7C[0] = value;
   }
+  ASM_SCHED_BARRIER();   /* MATCH pin: slus-diff */
   D_80082E60.field_4 = D_8006CE44[s5].field0;
 }

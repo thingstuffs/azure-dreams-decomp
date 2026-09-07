@@ -151,8 +151,8 @@ void func_8080E59C(void)
             copy1 = data->unk_04;
             copy2 = data->unk_08.v;
             copy3 = data->unk_0C;
-            ASM_KEEP(copy0);   /* MATCH pin: load-bearing for the whole function shape */
-            ASM_KEEP(copy1);   /* MATCH pin: retail schedule: same instructions, different order without it */
+               /* MATCH pin: load-bearing for the whole function shape */
+               /* MATCH pin: retail schedule: same instructions, different order without it */
             ((S_8080E59C_0 *)obj)->unk_78 = copy0;
             ((S_8080E59C_0 *)obj)->unk_7C = copy1;
             ((S_8080E59C_0 *)obj)->unk_80 = copy2;

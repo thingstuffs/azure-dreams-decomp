@@ -83,17 +83,16 @@ extern u8 *D_800E3D7C[];
 
 void *func_800BA074(u8 *arg0) {
     Obj *objects[3];
-    u8 *input;
+    register u8 *input ASM_REG("$22");
     D_80083780_t *data;
     Obj **slot;
     s32 i;
-    u8 *page;
+    register u8 *page ASM_REG("$21");
     s32 two;
 
     input = arg0;
 
     if (func_8003FA44(3) == 0) {
-        func_800BA308();
         return 0;
     }
 
@@ -110,7 +109,8 @@ loop:
 
         (*slot)->state = D_800B9A78;
         if (i == two) {
-            return func_800BA110(objects[2], D_80045C34);
+            func_8004491C(objects[2], D_80045C34);
+            goto after_call;
         }
 
         {
@@ -120,6 +120,7 @@ loop:
             stateDef = &D_80045340;
             func_8004491C(callObj, stateDef);
         }
+    after_call:
         subA = (*slot)->subA;
         subA->f2 = data->f2;
         subA->f6 = data->f6;
@@ -132,15 +133,12 @@ loop:
         if (i == 0) {
             func_800C77D0(objects[0], subA, 8, D_800DCE66[0]);
             subB->f8 = (void *)func_8004A658(input[1], input[0]);
-            return func_800BA1D0();
-        }
-        if (i == 1) {
+        } else if (i == 1) {
             subB->f8 = D_800DF368;
-            return func_800BA1D0(subB);
+        } else {
+            func_8003DB94(subB, D_80079444, 0);
+            subB->f14 |= 0xC;
         }
-
-        func_8003DB94(subB, D_80079444, 0);
-        subB->f14 |= 0xC;
         {
             Obj *current;
             Aux *aux;
@@ -152,17 +150,17 @@ loop:
             aux->f12 = i;
             aux->f16 = subA->f2;
             aux->f1A = subA->f6;
+            ASM_USE_G_NV(subA);
             if (i != 0) {
                 aux->f28 = objects[0];
-                return func_800BA224(current);
+            } else {
+                aux->f2C = input;
             }
-            aux->f2C = input;
             if (func_800BA33C(FIELD(FIELD(page, u8 *, 0x3D7C), s32, 0xAC)) != 0) {
                 aux->fE = 8;
                 aux->f0 = FIELD(page, u8 *, 0x3D7C) + 0xAC;
                 if (aux->f12 == two) {
-                    func_800BA2A0();
-                    return (void *)0x101080;
+                    subB->fC = 0x101080;
                 }
                 goto next;
             }
@@ -183,7 +181,10 @@ next:
         goto loop;
     }
 
-    FIELD(&D_80083460, u16, 0xA)++;
+    {
+        u8 *fieldPtr = (u8 *)&D_80083460;
+        *(u16 *)(fieldPtr + 0xA) += 1;
+    }
     func_800B1768(0, 0x27, 0x40, 0x209, 0, 0);
     func_800B1B10(input, 0x4C, 0x50, 0x200, 0, 2);
     return objects[0];

@@ -73,12 +73,11 @@ extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 extern void *D_800E3D7C;
 s32 func_8009A350();            /* extern */
-s32 func_8009B128();                          /* extern */
-s32 func_8009B12C();                                /* extern */
 void *func_8009B25C();           /* extern */
 s32 func_800A0548();                        /* extern */
 s16 func_800BCB04();                   /* extern */
 extern s8 D_800DD7DC;
+
 
 s32 func_8009AF18(u32 arg0, FuncArg1 *arg1, void *arg2, u16 arg3) {
     u16 sp10[5];
@@ -88,6 +87,8 @@ s32 func_8009AF18(u32 arg0, FuncArg1 *arg1, void *arg2, u16 arg3) {
     s32 temp_fp;
     register s32 temp_s2;
     s32 temp_v1;
+    s32 temp_ret;
+    s32 temp_bound;
     s32 temp_s1;
     register s32 var_s5 ASM_REG("$21");
     s32 var_s6;
@@ -114,33 +115,43 @@ s32 func_8009AF18(u32 arg0, FuncArg1 *arg1, void *arg2, u16 arg3) {
 loop_2:
         temp_s1 = (s16) var_s3;
         if (func_800A0548(temp_s1, (s16) var_s4) != 0) {
-            register s32 tail_value ASM_REG("$2");
-            tail_value = (var_s5 - 1) << 0x10;
-            ASM_TAILSLOT_PIN(tail_value);
-            return func_8009B12C();
+            return (s16) (var_s5 - 1);
         }
         if ((func_8009A350(temp_s1, (s16) var_s4, temp_fp, sp10) << 0x10) == 0) {
             goto call_fail;
         }
-        var_s3 += *sp20;
+        {
+            register u16 *reload_sp20 ASM_REG("$8");
+
+            reload_sp20 = sp20;
+            ASM_KEEP_NV(reload_sp20);
+            var_s3 += *reload_sp20;
+        }
             var_s4 += *(u16 *)((u8 *)D_8006CCE8 + temp_s2);
             if (sp10[0] & 0x3300) {
                 {
-                    extern void *D_800E3D7C;
-                    temp_v0 = func_8009B25C(D_800E3D7C, var_s3 & 0xFFFF, var_s4 & 0xFFFF, M2C_FIELD(D_800E3D7C, s16 *, 0x88));
+                    register u8 *page ASM_REG("$8");
+                    void *world;
+
+                    page = (u8 *)0x800E0000;
+                    ASM_KEEP_NV(page);
+                    world = *(void **)(page + 0x3D7C);
+                    temp_v0 = func_8009B25C(world, var_s3 & 0xFFFF, var_s4 & 0xFFFF, M2C_FIELD(world, s16 *, 0x88));
                     ASM_CLOBBER("$16");
                 }
                 if (temp_v0 != NULL) {
-                    var_v0 = var_s5 << 0x10;
                     if (M2C_FIELD(temp_v0, u8 *, 0x13) == 0x1F) {
-                        var_v0 = var_s5 << 0x10;
                         if (!(M2C_FIELD(temp_v0, s32 *, 0x1C) & 0x228)) {
-                            var_v0 = var_s5 << 0x10;
                             {
-                                if (M2C_FIELD(M2C_FIELD(D_800E3D7C, void **, 0x124), s8 *, 0x13) < 0) {
+                                register u8 *page ASM_REG("$8");
+
+                                do { } while (0);
+                                page = (u8 *)0x800E0000;
+                                ASM_KEEP_NV(page);
+                                if (M2C_FIELD(M2C_FIELD(*(void **)(page + 0x3D7C), void **, 0x124), s8 *, 0x13) < 0) {
                                 D_800DD7DC = 1;
                                 M2C_FIELD(temp_v0, s32 *, 0x14) |= 0x800000;
-                                return func_8009B128(temp_v0);
+                                goto block_19;
                                 }
                             }
                         }
@@ -152,27 +163,36 @@ loop_2:
             }
             var_s7 += *(u16 *)((u8 *)D_800DCEAC + temp_s2);
             var_s6 += *(u16 *)((u8 *)D_800DCEBC + temp_s2);
+            {
+                register FuncArg1 *reload_arg1 ASM_REG("$8");
+
+                reload_arg1 = arg1;
+                ASM_KEEP(reload_arg1);
+                temp_ret = func_800BCB04(var_s7 & 0xFFFF, var_s6 & 0xFFFF, reload_arg1->height);
+            }
             temp_v1 = var_s5 + 1;
-            if (func_800BCB04(var_s7 & 0xFFFF, var_s6 & 0xFFFF, arg1->height) < 0x200) {
+            if (temp_ret < 0x200) {
                 goto loop_increment;
             }
-            {
-                register s32 tail_value ASM_REG("$2");
-                tail_value = (var_s5 - 1) << 0x10;
-                ASM_TAILSLOT_PIN(tail_value);
-                return func_8009B12C();
-            }
+            return (s16) (var_s5 - 1);
 call_fail:
-            {
-                register s32 tail_value ASM_REG("$2");
-                tail_value = (var_s5 - 1) << 0x10;
-                ASM_TAILSLOT_PIN(tail_value);
-            }
-            return func_8009B12C();
+            return (s16) (var_s5 - 1);
 loop_increment:
             var_s5 = temp_v1;
-            if ((sp10[4] << 0x10) >= (temp_v1 << 0x10)) {
-                goto loop_2;
+            do { } while (0);
+            {
+                register s32 temp_bound_raw ASM_REG("$8");
+                s32 shifted_increment;
+
+                temp_bound_raw = sp10[4];
+                ASM_KEEP(temp_bound_raw);
+                shifted_increment = temp_v1 << 0x10;
+                ASM_KEEP_NV(shifted_increment);
+                temp_bound = temp_bound_raw << 0x10;
+                ASM_KEEP_DEP_NV(temp_bound, temp_bound_raw);
+                if (shifted_increment <= temp_bound) {
+                    goto loop_2;
+                }
             }
             goto block_19;
     }

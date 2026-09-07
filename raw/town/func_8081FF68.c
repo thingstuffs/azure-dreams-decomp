@@ -58,7 +58,6 @@ extern void func_8008F074(void *arg0, void *arg1, void *arg2);
 
 extern void func_80022804(void) __attribute__((noreturn));
 extern void func_80022904(void) __attribute__((noreturn));
-extern void func_80022F6C(void) __attribute__((noreturn));
 extern void func_80022F50(void) __attribute__((noreturn));
 extern void func_800230D0(void) __attribute__((noreturn));
 extern void func_80023280(void) __attribute__((noreturn));
@@ -298,8 +297,7 @@ sw_6:
         if (--i >= 0) goto outer_top;
 
         {
-            register s32 k ASM_REG("$7");
-            k = 0;
+            i = 0;
             if (FIELD(state, u16, 0x64) == 0)
                 goto count_done;
             {
@@ -310,9 +308,7 @@ sw_6:
                 s32 multiplier;
                 s32 value;
                 u16 flags;
-                switch (k) {
-                default:
-                    func_80022F6C();
+                switch (i) {
                 case 0:
                     if (values[0][1] == values[1][1] &&
                         values[0][1] == values[2][1]) {
@@ -324,7 +320,6 @@ sw_6:
                         FIELD(state, s32, 0x58) += amount;
                         if (values[1][1] == 0) {
                             FIELD(state, u16, 0x62) = flags | 5;
-                            func_80022F6C();
                         }
                     }
                     break;
@@ -379,8 +374,8 @@ sw_6:
                     }
                     break;
                 }
-                    k++;
-                } while (k < FIELD(state, u16, 0x64));
+                    i++;
+                } while (i < FIELD(state, u16, 0x64));
             }
         }
 count_done:
@@ -401,21 +396,20 @@ count_done:
 
     {
         register s32 value ASM_REG("$2") = FIELD(state, s32, 0x58);
-        register s32 q1 ASM_REG("$7");
         s32 q2;
         s32 q3;
-        register s32 raw0 ASM_REG("$8");
+        s32 raw0;
         s32 raw1;
         s32 raw2;
         s32 d0;
-        register s32 d1 ASM_REG("$9");
+        s32 d1;
         s32 d2;
         s32 product2;
         register s32 sum ASM_REG("$6");
-        q1 = value / 100;
-        q2 = q1 / 10;
+        i = value / 100;
+        q2 = i / 10;
         value = q2 * 10;
-        raw0 = q1 - value;
+        raw0 = i - value;
         value = raw0 << 16;
         d0 = value >> 16;
         ASM_KEEP_NV(d0);
@@ -424,7 +418,6 @@ count_done:
         raw1 = q2 - value;
         value = raw1 << 16;
         d1 = value >> 16;
-        ASM_KEEP_NV(d1);
         sum = d0 + d1;
         product2 = (q3 / 10) * 10;
         raw2 = q3 - product2;

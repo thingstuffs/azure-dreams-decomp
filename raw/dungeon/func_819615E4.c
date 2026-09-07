@@ -67,6 +67,7 @@ void func_819615E4(State *state, Target *target, u8 *color)
     s32 a;
     s16 value;
     u16 next;
+    register u32 table_page ASM_REG("$2");
 
     D_80027330[0]++;
 
@@ -86,6 +87,7 @@ void func_819615E4(State *state, Target *target, u8 *color)
         goto fade;
     }
     if (state->state == 3) {
+        table_page = 0x80080000;
         goto phase;
     }
     func_800271EC();
@@ -194,9 +196,10 @@ fade:
 phase:
     {
         s32 index;
-        u8 *table;
+        register u8 *table ASM_REG("$17");
 
-        table = D_80082E80;
+        table = (u8 *)(table_page + 0x2E80);
+        ASM_KEEP_NV(table);
         func_8003DE58(*(void **)(table + 8), table, &base, 0);
         next = state->phase - 1;
         state->phase = next;

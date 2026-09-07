@@ -91,7 +91,7 @@ check_flag_8:
         void *call_a0;
         register void *call_a1 ASM_REG("$5");   /* MATCH pin: retail schedule: same instructions, different order without it */
         s32 call_a2;
-        register s32 call_a3 ASM_REG("$7");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+        s32 call_a3;   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
         s32 word_14;
         s32 word_1C;
 
@@ -106,7 +106,7 @@ check_flag_8:
         ASM_SCHED_BARRIER();   /* MATCH pin: retail branch polarity depends on it */
         word_14 = ((S_800CA788_1 *)actor)->unk_14;
         word_1C = ((S_800CA788_1 *)actor)->unk_1C;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail branch polarity depends on it */
+           /* MATCH pin: retail branch polarity depends on it */
         call_a3 = 0;
         actor[0x85] = 0;
         word_14 |= 0x2000;

@@ -116,7 +116,10 @@ typedef union ScratchS1 {
 } ScratchS1;
 
 void func_8009345C(void *arg0, void *arg1, void *arg2, void *arg3) {
-    void *actor = arg0;
+    register void *actor ASM_REG("$18") = arg0;
+    register void *map ASM_REG("$20") = arg1;
+    register void *entity ASM_REG("$16") = arg2;
+    register void *ctx ASM_REG("$19") = arg3;
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
     M2C_UNK *var_a0;
     M2C_UNK *var_a0_2;
@@ -133,14 +136,14 @@ void func_8009345C(void *arg0, void *arg1, void *arg2, void *arg3) {
     s16 temp_idx;
     s32 temp_slot;
     u8 temp_v1;
-    u8 var_v0;
+    register u8 var_v0 ASM_REG("$2");
     void *temp_v0_5;
     void *temp_case0_ptr;
     void *temp_case2_ptr;
     void *temp_v1_2;
     void *temp_v1_3;
     void *temp_v1_4;
-    ScratchS1 scratch_s1;
+    register ScratchS1 scratch_s1 ASM_REG("$17");
 
     temp_v1 = M2C_FIELD(actor, u8 *, 0x9B);
     if (temp_v1 >= 0xAU) {
@@ -148,22 +151,22 @@ void func_8009345C(void *arg0, void *arg1, void *arg2, void *arg3) {
     }
     (void)jt_keep; goto *D_80088A58[(u32)(temp_v1)];
 jt_c0:
-    if (!(M2C_FIELD(arg2, u16 *, 0x14) & 0x6000)) {
+    if (!(M2C_FIELD(entity, u16 *, 0x14) & 0x6000)) {
         goto block_36;
     }
-    M2C_FIELD(arg2, void **, 0x2C) = D_800DD138;
-    func_80048A44(arg2, D_800DD138[((s32) (D_80083228 + M2C_FIELD(arg3, s16 *, 0x2A) + 0x100) >> 9) & 7], 0, 1);
-    func_80093C70(actor, arg1, arg2);
-    func_80093D8C(actor, arg1, arg2);
-    temp_flags = M2C_FIELD(arg2, u16 *, 0x14);
+    M2C_FIELD(entity, void **, 0x2C) = D_800DD138;
+    func_80048A44(entity, D_800DD138[((s32) (D_80083228 + M2C_FIELD(ctx, s16 *, 0x2A) + 0x100) >> 9) & 7], 0, 1);
+    func_80093C70(actor, map, entity);
+    func_80093D8C(actor, map, entity);
+    temp_flags = M2C_FIELD(entity, u16 *, 0x14);
     D_800DD260 = 0;
-    M2C_FIELD(arg2, u16 *, 0x14) = (u16) (temp_flags | 0x200);
+    M2C_FIELD(entity, u16 *, 0x14) = (u16) (temp_flags | 0x200);
     M2C_FIELD(actor, u16 *, 0x96) = 0x10U;
-    temp_idx = M2C_FIELD(arg3, s16 *, 0x8A);
-    temp_raw = M2C_FIELD(arg3, u16 *, 0x8A);
+    temp_idx = M2C_FIELD(ctx, s16 *, 0x8A);
+    temp_raw = M2C_FIELD(ctx, u16 *, 0x8A);
     temp_case0_ptr = (void *) M2C_FIELD(((temp_idx * 4) + actor), void **, 0xAC);
     M2C_FIELD(&D_800DD262, u16 *, 0) = temp_raw;
-    M2C_FIELD(arg3, void **, 0x60) = temp_case0_ptr;
+    M2C_FIELD(ctx, void **, 0x60) = temp_case0_ptr;
     goto block_33;
 jt_c1:
     temp_v0 = M2C_FIELD(actor, u16 *, 0x96) - 1;
@@ -171,16 +174,16 @@ jt_c1:
     if ((temp_v0 << 0x10) > 0) {
         goto block_36;
     }
-    if (M2C_FIELD(arg3, void **, 0x60) == NULL) {
+    if (M2C_FIELD(ctx, void **, 0x60) == NULL) {
         goto block_7;
     }
-    func_80093E74(actor, arg1, arg2, arg3);
+    func_80093E74(actor, map, entity, ctx);
     goto block_33;
 block_7:
     var_v0 = M2C_FIELD(actor, u8 *, 0x9B) + 2;
     goto block_35;
 jt_c2:
-    if (!(M2C_FIELD(M2C_FIELD(arg3, void **, 0x60), s32 *, 0x1C) & 0x800000)) {
+    if (!(M2C_FIELD(M2C_FIELD(ctx, void **, 0x60), s32 *, 0x1C) & 0x800000)) {
         goto block_36;
     }
     scratch_s1.value = func_800990FC();
@@ -193,15 +196,15 @@ jt_c2:
 block_11:
     var_a0 = &D_800E05E1;
 block_12:
-    func_80099290(func_80099194(&D_800E06FA, func_80099734(M2C_FIELD(arg3, void **, 0x60), func_80099194(var_a0, temp_a1))));
+    func_80099290(func_80099194(&D_800E06FA, func_80099734(M2C_FIELD(ctx, void **, 0x60), func_80099194(var_a0, temp_a1))));
     func_800A5720(scratch_s1.value);
-    temp_case2_ptr = M2C_FIELD(arg3, void **, 0x60);
+    temp_case2_ptr = M2C_FIELD(ctx, void **, 0x60);
     D_800DD260 = 1;
     func_800A31D0(temp_case2_ptr);
     M2C_FIELD(((M2C_FIELD(&D_800DD262, s16 *, 0) * 4) + actor), s32 *, 0xAC) = 0;
-    func_800A18E8(M2C_FIELD(M2C_FIELD(arg3, void **, 0x60), u8 *, 0x13), 3);
-    func_8009A028(M2C_FIELD(arg3, void **, 0x60));
-    temp_v1_2 = M2C_FIELD(arg3, void **, 0x60);
+    func_800A18E8(M2C_FIELD(M2C_FIELD(ctx, void **, 0x60), u8 *, 0x13), 3);
+    func_8009A028(M2C_FIELD(ctx, void **, 0x60));
+    temp_v1_2 = M2C_FIELD(ctx, void **, 0x60);
     M2C_FIELD(temp_v1_2, u16 *, -2) = (u16) (M2C_FIELD(temp_v1_2, u16 *, -2) | 0x8000);
     (*(s32 *)&D_800814A0) = (s32) (M2C_FIELD(&D_800814A0, s32 *, 0) | 0x8000);
     if (D_80082EB0[0] != NULL) {
@@ -240,7 +243,7 @@ jt_c5:
         goto block_28;
     }
     func_80043914(*scratch_s1.base);
-    temp_v0_5 = func_800A0B94(M2C_FIELD(*scratch_s1.base, u8 *, 0), temp_v0_4, 1)(1, M2C_FIELD(arg3, s8 *, 0x72), M2C_FIELD(arg3, s8 *, 0x73), (s16) (M2C_FIELD(arg3, u16 *, 0x88) - 0x20));
+    temp_v0_5 = func_800A0B94(M2C_FIELD(*scratch_s1.base, u8 *, 0), temp_v0_4, 1)(1, M2C_FIELD(ctx, s8 *, 0x72), M2C_FIELD(ctx, s8 *, 0x73), (s16) (M2C_FIELD(ctx, u16 *, 0x88) - 0x20));
     if (temp_v0_5 == NULL) {
         goto block_28;
     }
@@ -250,9 +253,9 @@ jt_c5:
     M2C_FIELD(temp_v1_3, s16 *, 0x1E) = 0x800;
     M2C_FIELD(temp_v1_3, s16 *, 0x1C) = 0x800;
     temp_v1_4 = M2C_FIELD(temp_v0_5, void **, -0x18);
-    M2C_FIELD(temp_v1_4, u16 *, 2) = (u16) M2C_FIELD(arg1, u16 *, 2);
-    M2C_FIELD(temp_v1_4, u16 *, 6) = (u16) M2C_FIELD(arg1, u16 *, 6);
-    M2C_FIELD(temp_v1_4, s16 *, 0xA) = (s16) (M2C_FIELD(arg1, u16 *, 0xA) - 0x10);
+    M2C_FIELD(temp_v1_4, u16 *, 2) = (u16) M2C_FIELD(map, u16 *, 2);
+    M2C_FIELD(temp_v1_4, u16 *, 6) = (u16) M2C_FIELD(map, u16 *, 6);
+    M2C_FIELD(temp_v1_4, s16 *, 0xA) = (s16) (M2C_FIELD(map, u16 *, 0xA) - 0x10);
     func_80042640(temp_v0_5, M2C_FIELD(temp_v0_5, u8 *, 0x13));
     func_800424E0(temp_v0_5, M2C_FIELD(temp_v0_5, u8 *, 0x13), *scratch_s1.base);
     temp_object_flags = M2C_FIELD(temp_v0_5, s32 *, 0x1C);
@@ -283,6 +286,8 @@ block_27:
     func_80042560(temp_v0_5);
     func_800A56E0(0x704);
 block_28:
+    var_v0 = M2C_FIELD(actor, u8 *, 0x9B);
+    ASM_SCHED_BARRIER();
     M2C_FIELD(actor, u16 *, 0x96) = 0x10U;
     goto block_34;
 jt_c7:
@@ -291,22 +296,23 @@ jt_c7:
     if ((temp_v0_7 << 0x10) > 0) {
         goto block_36;
     }
-    M2C_FIELD(arg2, void **, 0x2C) = D_800DD140;
-    func_80048A44(arg2, D_800DD140[((s32) (D_80083228 + M2C_FIELD(arg3, s16 *, 0x2A) + 0x100) >> 9) & 7], 0, 1);
+    M2C_FIELD(entity, void **, 0x2C) = D_800DD140;
+    func_80048A44(entity, D_800DD140[((s32) (D_80083228 + M2C_FIELD(ctx, s16 *, 0x2A) + 0x100) >> 9) & 7], 0, 1);
     goto block_33;
 jt_c8:
-    if (!(M2C_FIELD(arg2, u16 *, 0x14) & 0x6000)) {
+    if (!(M2C_FIELD(entity, u16 *, 0x14) & 0x6000)) {
         goto block_36;
     }
     M2C_FIELD(actor, M2C_UNK **, 0x8C) = &D_8008ACDC;
-    func_80099F70(M2C_FIELD(arg3, s32 *, 0x5C));
-    func_80099F04(M2C_FIELD(arg3, s32 *, 0x5C));
+    func_80099F70(M2C_FIELD(ctx, s32 *, 0x5C));
+    func_80099F04(M2C_FIELD(ctx, s32 *, 0x5C));
     D_80083460[1] = (u16) (D_80083460[1] | 0x812);
-    M2C_FIELD(arg2, u16 *, 0x14) = (u16) (M2C_FIELD(arg2, u16 *, 0x14) & 0xFDFF);
+    M2C_FIELD(entity, u16 *, 0x14) = (u16) (M2C_FIELD(entity, u16 *, 0x14) & 0xFDFF);
 jt_c6:
 block_33:
+    var_v0 = M2C_FIELD(actor, u8 *, 0x9B);
 block_34:
-    var_v0 = M2C_FIELD(actor, u8 *, 0x9B) + 1;
+    var_v0 = var_v0 + 1;
 block_35:
     M2C_FIELD(actor, u8 *, 0x9B) = var_v0;
 block_36:

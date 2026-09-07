@@ -206,7 +206,7 @@ s32 func_818C29D4(S_818C29D4_6 *arg0, S_818C29D4_4 *arg1)
                      func_80066460(first_x, first_y, first_w, first_h) & 0xFFFF,
                      &rect);
         tp_x = 0; hi_mask = 0xFF000000; tp_y = 1; tp_w = 0x280;
-        ASM_KEEP(tp_x); ASM_KEEP(hi_mask); ASM_KEEP(tp_y); 
+        ASM_KEEP(tp_x);      /* MATCH pin: retail schedule: same instructions, different order without it */
         { u32 *ot; u32 prim_tag; u32 ot_tag;
             ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
              prim_tag = *(u32 *)packet; ot_tag = *ot;

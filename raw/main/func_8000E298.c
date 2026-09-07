@@ -30,14 +30,19 @@ s32 func_80021298(void)
 
 state_one:
     func_80021538();
-    if (func_80069C38(D_800287CC) != 0 &&
-        (func_80069C18(D_800287CC != 0) & 4) != 0) {
-        D_800287E0 = state;
-        D_800287C8++;
+    if (func_80069C38(D_800287CC) != 0) {
+        if ((func_80069C18(D_800287CC != 0) & 4) != 0) {
+            D_800287E0 = state;
+            D_800287C8++;
+            goto done;
+        }
+        result = 5;
+        D_800287C8 = 0;
         goto done;
     }
     result = 5;
-    goto clear_state;
+    D_800287C8 = 0;
+    goto done;
 
 state_three:
     {
@@ -49,10 +54,9 @@ state_three:
         }
         result = 3;
         *value = 0;
+        D_800287C8 = 0;
+        ASM_SCHED_BARRIER();
     }
-
-clear_state:
-    D_800287C8 = 0;
 
 done:
     return result;

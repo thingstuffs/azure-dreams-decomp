@@ -34,12 +34,17 @@ extern void func_8003DB4C(s32 *p, s32 n);
 void func_8003FAD4(void)
 {
     s32 i;
-    S_801EAFE8 *p = D_801EAFE8;
+    u32 page;
+    S_801EAFE8 *p;
     S_801EAFE8 *cur;
     S_80044AAC **e0_base;
     S_80044AAC **s60_base;
     S_80044AAC **e0;
     S_80044AAC **s60;
+
+    page = 0x801F0000;
+    ASM_KEEP_NV(page);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+    p = (S_801EAFE8 *)(page - 20504);
 
     for (i = 0, cur = p; i < 0x100; i++) {
         func_8003DB4C((s32 *)cur, 0x49);
@@ -53,13 +58,11 @@ void func_8003FAD4(void)
 
     i = 0x1F;
     e0_base = D_800833E0;
-    ASM_KEEP(e0_base);
     e0 = e0_base + 0x1F;
-    ASM_KEEP(e0_base);
+    ASM_KEEP(e0_base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     s60_base = D_80083360;
-    ASM_KEEP(s60_base);
     s60 = s60_base + 0x1F;
-    ASM_KEEP(s60_base);
+    ASM_KEEP(s60_base);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     p->next = 0;
     D_80081498.head = 0;
     D_80081490.head = D_801EAFE8;

@@ -51,22 +51,38 @@ parked (movie playback exists elsewhere) and listed without being counted.
 
 ## Syncing with upstream
 
-The tree is derived from one upstream commit (`PIN`). To take a newer upstream (for example
-after the compiler-bridge rows are closed there):
+The tree is derived from one upstream commit (`PIN`). To take a newer upstream:
 
 ```sh
-echo <commit> > PIN
-python3 tools/refresh.py            # re-extract upstream/ at the pin
-python3 tools/registry.py           # rows.jsonl: new/changed rows (bridge rows become stock)
-python3 tools/verify.py --baseline  # byte-exact verdict per row (resumable; only new rows compile)
-python3 tools/census.py
-for t in t1_boiler t4_fields t3_epilogue t2_pins t6_pin_notes; do python3 tools/sweep.py $t --workers 6; done
-python3 tools/complete_tree.py && python3 tools/levels.py && python3 tools/status.py
+python3 tools/pin_bump.py <commit> [--workers 6]        # ~35 min end to end
 ```
 
-Rows whose upstream text changed are re-derived (the sweep journals key on the input hash);
-unchanged rows are skipped. `refine/` bodies are re-verified against the new pin and any that
-no longer match are reported, never silently kept.
+Pause the Layer-2 agent campaign first (it writes `refine/`; the script warns if one is running in
+the tree) and relaunch it afterwards. The script runs, in order: `refresh` (mirror at the new pin),
+`import` (the upstream files this repo carries copies of — `config/overlays/*`, the symbol lists,
+`tools/configure.py`, the pinned headers — re-copied with the schema rename; every changed file is
+listed), `slus` (`build_slus/` view root, `splat split`, `configure.py` at the pin: the pinned
+`build.ninja` is **derived from the pinned `configure.py`**, never copied from the live tree),
+`registry` (diff against the previous registry: text changed, config/dial changed, stock flips),
+`stale` (those rows: `raw/` refreshed, `src/` reset to the new raw text so the sweeps re-derive
+them, `refine/` bodies set aside, the baseline cleared for a full rebuild — the toolchain is the
+live one, so an unchanged row can still change bytes), `baseline`, `sweeps` (census, T1/T4/T2/T6,
+complete_tree, levels), `refine` (set-aside bodies re-verified at the new pin: exact ones restored,
+the rest journalled in `ledger/agents/pin_bump_refine.jsonl` and left under `work/pin_bump/<pin>/`
+— never kept silently; the campaign serves those rows again), `status`, `gate_slus` (ninja SHA-1
+gate) and `gate_ovl` (fresh `ledger/gate.jsonl`, every window). `--from STEP` resumes,
+`--stop-after STEP` stops early. The report is `ledger/pin_bumps/<pin>.json`.
+
+Two gate rules the tools apply: a row the per-row scorer cannot measure (a `.text` data prefix
+under the true-name symbol, a data row written as C) is proven through its window instead
+(`tools/verify.py::gate_fallback`, recorded with `proof: window-gate`); and a synthetic-base
+seed window whose bytes are re-gated by a `_truebase_` twin at the proven base is skipped by
+`gate_all.py` unless a registered row still names it as its window (9 such seeds at `82f20568`).
+
+A row is **stock** when its cc1 is a stock cell, its gcc flags are ordinary (no
+`-fretail-`/`-fsn-`/`-fdriver-`), and its maspsx options carry no per-function `--retail-*` dial —
+the rule upstream's `live_truth` census applies. Both config label dialects (`2.8.1 -G0 …` and
+`2.8.1+-G0 …`) parse identically (`tools/common.py::parse_cfg`).
 
 ## Credits
 

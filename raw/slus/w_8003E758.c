@@ -6,6 +6,7 @@ typedef struct S_80083958 {
     /* 0x6 */ u16 counter1;
     /* 0x8 */ u16 counter2;
     /* 0xA */ u16 flags;
+    /* 0xC */ u8  pad0C[40 - 0xC];   /* >gcc -G32 -> gcc SPLITS the address */
 } S_80083958;
 
 typedef struct S_80083968 {
@@ -19,6 +20,7 @@ typedef struct S_80083968 {
 typedef struct S_80083164 {
     /* 0x0 */ u16 unk0;
     /* 0x2 */ u8  pad2[0xE];
+    /* 0x10 */ u8 pad10[40 - 0x10]; /* >gcc -G32 -> gcc SPLITS the address */
 } S_80083164;
 
 extern S_80083958 D_80083958;
@@ -87,6 +89,7 @@ void func_8003E758(void)
     int r, n;
     u8  st;
     int idx;
+    int kb;
     u8  loc[8];
     u8  res[8];
 
@@ -103,7 +106,12 @@ loop:
     if (state == 0xFF) {
         q = D_80083968;
         idx = D_800814D0;
-        switch (q[idx].unk00) {
+        /* idx*24 SPLIT into two carriers (idx*3, then <<3): one 4-ref temp for
+         * the whole chain outranks the address %hi in local-alloc
+         * (floor_log2(4)*4/5 vs floor_log2(2)*2/4) and steals $v0; two 2-ref
+         * carriers do not, so the %hi keeps retail's $v0.  Same 3 insns. */
+        kb = idx * 3;
+        switch (*((u8 *)q + kb * 8)) {
         case 0:
             ASM_SCHED_BARRIER();
             D_800814D3_2[0] = 0xFF;
@@ -399,16 +407,13 @@ loop:
                 ff2 = 0xFF;
                 q2 = D_80083968;
                 ASM_KEEP_NV(hp2);
-                ASM_USE_NV(q2);
                 D_800814D2[0] = 0;
                 D_800814D3[0] = ff2;
                 hi2 = hp2[-2];
                 ep = &q2[hi2];
+                ASM_SET(q2);
                 if (ep->unk17 != 0xFF) {
-                    register int four ASM_REG("$3");
-                    ASM_SCHED_BARRIER();
-                    four = 4;
-                    D_80083958.unk4 = four;
+                    D_80083958.unk4 = 4;
                     ASM_SCHED_BARRIER();
                     D_80080AD4 = 1;
                 }

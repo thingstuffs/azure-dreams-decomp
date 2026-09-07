@@ -81,7 +81,7 @@ jt_c1: {
     p1->unk_08 = (s32) (p1->unk_08 + p1->unk_14.at00.v);
     pos = ((S_800D81D4_0 *)arg0)->unk_1C.at00.v;
     speed = ((S_800D81D4_0 *)arg0)->unk_28;
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
     color = 0x40000;
     ((S_800D81D4_0 *)arg0)->unk_1C.at00.v = pos + speed;
     pos = p2->unk_0C;

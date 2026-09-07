@@ -136,7 +136,7 @@ void *func_8016AEDC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 
         func_800A9C18(object, part_a, part_b, (s16)held_arg0);
         {
-            register u8 *a0_copy ASM_REG("$4") = work_copy;   /* MATCH pin: retail schedule: same instructions, different order without it */
+            u8 *a0_copy = work_copy;   /* MATCH pin: retail schedule: same instructions, different order without it */
             u8 *a1_copy = part_a;
             u8 *a2_copy = part_b;
             ((S_8016AEDC_4 *)a0_copy)->unk_9A = 0xFF;

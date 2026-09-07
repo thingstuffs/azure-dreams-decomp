@@ -166,5 +166,6 @@ void func_80040CBC(s16 arg0)
     D_8008148C[0] = address;
     D_80080A7C[0] = value;
   }
+  ASM_SCHED_BARRIER();
   D_80082E60.field_4 = D_8006CE44[s5].field0;
 }

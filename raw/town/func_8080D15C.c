@@ -386,42 +386,31 @@ block_state8:
                         temp_a1 = M2C_FIELD(state8_item_addr, void **, 8);
                         temp_a2 = M2C_FIELD(temp_a1, u16 *, 0x28);
                         {
-                            union {
-                                void *ptr;
-                                s32 value;
-                            } state8_a0;
-
-                            state8_a0.ptr = M2C_FIELD(temp_a1, void **, 8);
+                            var_a0 = (s32) M2C_FIELD(temp_a1, void **, 8);
                             if (!(temp_a2 & 3)) {
                                 s32 delta0;
-                                s32 delta1;
-                                union {
-                                    s32 x_origin;
-                                    s32 y_position;
-                                } state8_v1;
                                 s32 state8_v0;
 
-                                state8_v0 = M2C_FIELD(state8_a0.ptr, s16 *, 2);
-                                state8_v1.x_origin = M2C_FIELD(temp_s2, s16 *, 2);
-                                state8_v0 -= state8_v1.x_origin;
-                                state8_v1.y_position = M2C_FIELD(state8_a0.ptr, s16 *, 6);
-                                delta1 = state8_v1.y_position;
-                                state8_a0.value = M2C_FIELD(temp_s2, s16 *, 6);
+                                state8_v0 = M2C_FIELD((void *) var_a0, s16 *, 2);
+                                var_v1 = M2C_FIELD(temp_s2, s16 *, 2);
+                                state8_v0 -= var_v1;
+                                var_v1 = M2C_FIELD((void *) var_a0, s16 *, 6);
+                                var_a0 = M2C_FIELD(temp_s2, s16 *, 6);
                                 delta0 = __builtin_abs(state8_v0);
-                                delta1 -= state8_a0.value;
-                                if (delta1 < 0) {
-                                    delta1 = -delta1;
+                                var_v1 -= var_a0;
+                                if (var_v1 < 0) {
+                                    var_v1 = -var_v1;
                                 }
-                                if ((delta0 + delta1) < 0x20) {
+                                if ((delta0 + var_v1) < 0x20) {
                                     M2C_FIELD(temp_a1, u16 *, 0x28) = (u16) (temp_a2 | 1);
                                     temp_v1_2 = M2C_FIELD(arg0, s16 *, 0x34) * 2;
                                     temp_v1_2 += (s32) temp_s3;
                                     M2C_FIELD(temp_v1_2, u16 *, 0) = (u16) (M2C_FIELD(temp_v1_2, u16 *, 0) + 1);
-                                    state8_a0.value = 0x703;
+                                    var_a0 = 0x703;
                                     if (M2C_FIELD(temp_s3, s16 *, (M2C_FIELD(arg0, s16 *, 0x34) * 2)) < 7) {
-                                        state8_a0.value = 0x702;
+                                        var_a0 = 0x702;
                                     }
-                                    func_80058F88(state8_a0.value, temp_a1, temp_a2);
+                                    func_80058F88(var_a0, temp_a1, temp_a2);
                                 }
                             }
                         }

@@ -94,7 +94,7 @@ void func_801685CC(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4)
             ((PackedCopy16 *)copy_dst)->words[2] = copy2;
             ((PackedCopy16 *)copy_dst)->words[3] = copy3;
             ASM_KEEP(copy0);   /* MATCH pin: retail register colouring depends on it */
-            ASM_KEEP(copy1);   /* MATCH pin: retail register colouring depends on it */
+               /* MATCH pin: retail register colouring depends on it */
             copy_src += 0x10;
             copy_dst += 0x10;
         } while (copy_src != copy_end);
@@ -113,7 +113,7 @@ void func_801685CC(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4)
         ((Copy16 *)copy_dst)->words[2] = copy2;
         ((Copy16 *)copy_dst)->words[3] = copy3;
         ASM_KEEP(copy0);   /* MATCH pin: retail register colouring depends on it */
-        ASM_KEEP(copy1);   /* MATCH pin: retail register colouring depends on it */
+           /* MATCH pin: retail register colouring depends on it */
         copy_src += 0x10;
         copy_dst += 0x10;
     } while (copy_src != copy_end);
