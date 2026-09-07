@@ -23,6 +23,7 @@ CACHE = LEDGER / "cache"
 PIN = (ROOT / "PIN").read_text().strip()
 NICE = ["nice", "-n10", "ionice", "-c2", "-n7"]
 OVERLAYS = ("main", "town", "dungeon", "ovmovie")   # dungeon_engine is a mirror of dungeon
+PARKED_CONTAINERS = {"ovmovie"}   # owner 2026-09-07: movie playback exists elsewhere (ffmpeg); a curiosity at most
 STOCK_CELLS = {"2.6.3", "2.7.2", "2.7.2-cdk", "2.8.0", "2.8.1", "2.91.66", "2.95.2"}
 
 def sha_file(p) -> str:

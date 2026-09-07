@@ -1,6 +1,6 @@
 # azure-clean status
 
-Generated 2026-09-07T09:49:32Z. Upstream pin `7b62e858` (7b62e858ff29, extracted 2026-09-07T03:01:54Z).
+Generated 2026-09-07T10:19:29Z. Upstream pin `7b62e858` (7b62e858ff29, extracted 2026-09-07T03:01:54Z).
 
 ## Denominator (rows matched upstream at the pin)
 
@@ -11,9 +11,9 @@ Generated 2026-09-07T09:49:32Z. Upstream pin `7b62e858` (7b62e858ff29, extracted
 | town | 2695 | 457,832 | 2662 | 428,088 | 2662 | 428,088 | 0 |
 | dungeon | 2742 | 1,560,880 | 2713 | 1,540,628 | 2713 | 1,540,628 | 0 |
 | ovmovie | 22 | 2,852 | 21 | 2,712 | 21 | 2,712 | 0 |
-| ALL | 6766 | 2,558,112 | 6662 | 2,492,724 | 6662 | 2,492,724 | 0 |
+| ALL | 6744 | 2,555,260 | 6641 | 2,490,012 | 6641 | 2,490,012 | 0 |
 
-SLUS rows are verified by object identity with the pinned TU (upstream SLUS is byte-exact by its SHA-1 gate); overlay rows by retail-slice comparison through upstream's scorer. Non-stock rows (bridge cells, per-row assembler dials, platform asm) are excluded until they close upstream.
+ovmovie is parked by the owner (listed, excluded from ALL). SLUS rows are verified by object identity with the pinned TU (upstream SLUS is byte-exact by its SHA-1 gate); overlay rows by retail-slice comparison through upstream's scorer. Non-stock rows (bridge cells, per-row assembler dials, platform asm) are excluded until they close upstream.
 
 Baseline NOT exact: 0 rows
 
