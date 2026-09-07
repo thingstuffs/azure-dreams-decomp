@@ -23,7 +23,12 @@ def superseded(yamls):
     truebase twin and match there, while the seed encodes j/%hi/%lo at the wrong base. Skipped and
     dropped from the journal; the twin is the window of record."""
     names = {y.name for y in yamls}
-    owned = window_rows()      # a seed that is still some registered row's window of record is kept
+    # a seed that some registered row still names as its window of record (not a derived assignment) is kept
+    owned = set()
+    for l in (ROOT / "ledger/rows.jsonl").read_text().splitlines():
+        if l.strip():
+            r = json.loads(l)
+            if r.get("gate_config") and not r.get("gate_config_derived"): owned.add(Path(r["gate_config"]).name)
     out = set()
     for y in yamls:
         stem = y.name.replace(".overlay.yaml", "")
@@ -32,21 +37,31 @@ def superseded(yamls):
     return out
 
 def container_of(name):
+    name = name.replace(".overlay", "")
     return name.split("_")[0] if not name.startswith("dungeon_engine") else "dungeon_engine"
 
 _WROWS = None
 def window_rows():
+    """{window yaml name: registered rows the gate compiles for it} — every row whose extent lies
+    inside the window's file range, which is what the gate does (a row's own gate_config only says
+    which window landed it)."""
     global _WROWS
     if _WROWS is None:
+        from common import window_map
         _WROWS = {}
-        for l in (ROOT / "ledger/rows.jsonl").read_text().splitlines():
-            r = json.loads(l); g = r.get("gate_config") or ""
-            if g: _WROWS.setdefault(Path(g).name, []).append(r)
+        rows = [json.loads(l) for l in (ROOT / "ledger/rows.jsonl").read_text().splitlines() if l.strip()]
+        for cont, wins in window_map().items():
+            crows = sorted((r for r in rows if r["container"] == cont), key=lambda r: r["foff"])
+            for name, fs, fe, _ in wins:
+                _WROWS[name] = [r for r in crows if fs <= r["foff"] and r["foff"] + r["size"] <= fe]
     return _WROWS
 
 def inputs_sha(yaml_path):
-    """sha over the window YAML and every src/<container>/*.c the window's rows point at."""
+    """sha over the window YAML, the row table and every src/<container>/*.c inside the window."""
     h = hashlib.sha256(yaml_path.read_bytes())
+    cont = container_of(yaml_path.stem); fam = "dungeon" if cont == "dungeon_engine" else cont
+    t = ROOT / "ledger/splits" / f"{cont}.jsonl"
+    if t.exists(): h.update(t.read_bytes())
     for r in window_rows().get(yaml_path.name, []):
         p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
         if p.exists(): h.update(p.read_bytes())
@@ -65,10 +80,7 @@ def run_window(yaml_path):
             res, detail = ("MATCH" if last.startswith("MATCH") else "NO MATCH"), last[:200]
     except subprocess.TimeoutExpired:
         res, detail = "ERROR", "timeout"
-    detail = detail.replace(str(ROOT), "<repo>")
-    try:
-        from common import UP_LIVE; detail = detail.replace(str(UP_LIVE), "<upstream>")
-    except Exception: pass
+    detail = detail.replace(str(ROOT), "<repo>").replace(str(Path.home()), "<home>")
     m = re.search(r"\((\d+) bytes\)", detail)
     return {"window": yaml_path.stem.replace(".overlay", ""), "container": container_of(yaml_path.stem), "result": res, "bytes": int(m.group(1)) if m else None,
             "detail": detail, "secs": round(time.time() - t0, 1), "inputs_sha": inputs_sha(yaml_path), "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
@@ -102,7 +114,8 @@ def main():
             append_jsonl(JOURNAL, rec); n += 1; tally[rec["result"]] = tally.get(rec["result"], 0) + 1
             if n % 50 == 0: print(f"{n}/{len(todo)} {time.time()-t0:.0f}s {tally}", flush=True)
     # a parallel run can leave transient failures (shared extract reads); retry those serially
-    retry = [y for y in todo if (lambda w: w and w["result"] != "MATCH" and "No such file" not in w["detail"])({j["window"]: j for j in read_jsonl(JOURNAL)}.get(y.stem.replace(".overlay", "")))]
+    last = {j["window"]: j for j in read_jsonl(JOURNAL)}
+    retry = [y for y in todo if (lambda w: w and w["result"] != "MATCH" and "No such file" not in w["detail"])(last.get(y.stem.replace(".overlay", "")))]
     for y in retry:
         rec = run_window(y); rec["retry"] = True; append_jsonl(JOURNAL, rec); tally[rec["result"] + " (retry)"] = tally.get(rec["result"] + " (retry)", 0) + 1
     print(f"done {n} (+{len(retry)} serial retries) in {time.time()-t0:.0f}s: {tally}")

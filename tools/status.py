@@ -9,8 +9,8 @@ def main():
     cen = {c["id"]: c for c in read_jsonl(LEDGER / "census.jsonl")}
     pin = json.load(open(LEDGER / "pin.json"))
     out = []
-    out.append(f"# azure-clean status\n\nGenerated {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}. Upstream pin `{pin['pin']}` ({pin['commit'][:12]}, extracted {pin['extracted_at']}).\n")
-    out.append("## Denominator (rows matched upstream at the pin)\n\n| container | rows | bytes | stock rows | stock bytes | baseline exact | exact bytes | unverified |\n|---|---:|---:|---:|---:|---:|---:|---:|")
+    out.append(f"# azure-clean status\n\nGenerated {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}. Pin `{pin['pin']}` ({pin['commit'][:12]}, raw/ frozen at {pin['extracted_at']}).\n")
+    out.append("## Denominator (rows matched at the pin)\n\n| container | rows | bytes | stock rows | stock bytes | baseline exact | exact bytes | unverified |\n|---|---:|---:|---:|---:|---:|---:|---:|")
     T = collections.Counter()
     for c in ("slus", "main", "town", "dungeon", "ovmovie", "ALL"):
         sel = [r for r in rs if (c == "ALL" and r["container"] not in PARKED_CONTAINERS) or r["container"] == c]
@@ -19,15 +19,15 @@ def main():
         nb = [r for r in st if r["id"] not in base]
         out.append(f"| {c} | {len(sel)} | {sum(r['size'] for r in sel):,} | {len(st)} | {sum(r['size'] for r in st):,} | {len(ex)} | {sum(r['size'] for r in ex):,} | {len(nb)} |")
     bad = [r for r in rs if r["stock"] and r["id"] in base and base[r["id"]].get("exact") is False]
-    out.append(f"\novmovie is parked by the owner (listed, excluded from ALL). SLUS rows are verified by object identity with the pinned TU (upstream SLUS is byte-exact by its SHA-1 gate); overlay rows by retail-slice comparison through upstream's scorer. Non-stock rows (bridge cells, per-row assembler dials, platform asm) are excluded until they close upstream.\n\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
-    out.append("## Shape census: pinned upstream vs current clean tree (files / bytes carrying each defect)\n\n| defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |\n|---|---:|---:|---:|---:|---:|---:|")
+    out.append(f"\novmovie is parked by the owner (listed, excluded from ALL). SLUS rows are verified by object identity with the pinned TU (SLUS is byte-exact by its SHA-1 gate, tools/build/build_slus.sh); overlay rows by retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are none at the pin.\n\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
+    out.append("## Shape census: pinned raw text vs current clean tree (files / bytes carrying each defect)\n\n| defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |\n|---|---:|---:|---:|---:|---:|---:|")
     tot = sum(r["size"] for r in rs)
     import re as _re
     from pathlib import Path as _P
     PIN_RE = _re.compile(r"\bASM_([A-Z0-9_]+)\(")
     def cur_facts(r):
         cp = ROOT / "src" / r["container"] / _P(r["c_path"]).name
-        p = cp if cp.exists() else ROOT / "upstream" / r["c_path"]
+        p = cp if cp.exists() else ROOT / "raw" / r["container"] / _P(r["c_path"]).name
         if not p.exists(): return None
         t = p.read_text(errors="replace")
         return {"boiler": "This header contains macros emitted by m2c" in t or "typedef float f32;" in t,

@@ -2,7 +2,7 @@
 """Static census of every row's C at the pin -> ledger/census.jsonl (one record per row)."""
 import json, re, collections
 from pathlib import Path
-from common import UP, LEDGER, rows, write_jsonl
+from common import ROOT, LEDGER, rows, write_jsonl, raw_path
 
 PIN_RE = re.compile(r"\bASM_([A-Z0-9_]+)\(")
 REG_RE = re.compile(r'ASM_REG\("\$?([a-z0-9]+)"\)')
@@ -14,7 +14,7 @@ LABEL_RE = re.compile(r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*:\s*(?://.*|/\*.*)?$", re
 DEF_RE = re.compile(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \*]*?\b\**(func_[0-9A-F]{8})\s*\(", re.M)
 
 def audit_index():
-    d = json.load(open(UP / "config/decomp_audit_baseline.json"))
+    d = json.load(open(ROOT / "config/decomp_audit_baseline.json"))
     idx = {}
     for key, v in d.get("sites", {}).items():
         c = collections.Counter(s.split("|")[0] for s in v.get("sites", []))
@@ -22,7 +22,7 @@ def audit_index():
     return idx
 
 def census_one(row, audit):
-    p = UP / row["c_path"]
+    p = raw_path(row)
     if not p.exists():
         return {"id": row["id"], "missing": True}
     text = p.read_text(errors="replace")

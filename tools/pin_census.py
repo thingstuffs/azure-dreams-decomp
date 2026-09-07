@@ -15,7 +15,7 @@ that pin's own necessity.  Greedy multi-site erasure is a separate transform (xf
 import argparse, collections, json, os, random, re, sys, tempfile, time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from common import UP, LEDGER, ROOT, rows, read_jsonl, append_jsonl
+from common import LEDGER, ROOT, rows, read_jsonl, append_jsonl, raw_path
 from verify import verify
 
 STMT_RE = re.compile(r"^([ \t]*)(ASM_(?!REG\b)[A-Z0-9_]+)\(([^;\n]*)\);[ \t]*(\\?)[ \t]*\n", re.M)
@@ -74,7 +74,7 @@ def erase(text, site):
 
 def one(job):
     row, idx = job
-    text = (UP / row["c_path"]).read_text(errors="replace")
+    text = raw_path(row).read_text(errors="replace")
     sites = sites_of(text)
     if idx >= len(sites):
         return None
@@ -135,7 +135,7 @@ def main():
         pinned = random.sample(pinned, min(a.sample, len(pinned)))
     jobs = []
     for r in pinned:
-        n = len(sites_of((UP / r["c_path"]).read_text(errors="replace")))
+        n = len(sites_of(raw_path(r).read_text(errors="replace")))
         jobs += [(r, i) for i in range(min(n, a.max_sites))]
     out = ROOT / a.out
     done = {(x["id"], x["site"]) for x in read_jsonl(out) if x}

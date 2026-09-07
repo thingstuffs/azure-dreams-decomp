@@ -7,7 +7,7 @@ module with a shared header.  L5 pin-free or every pin documented.
 """
 import re, collections
 from pathlib import Path
-from common import ROOT, UP, LEDGER, rows, read_jsonl, write_jsonl
+from common import ROOT, LEDGER, rows, read_jsonl, write_jsonl, raw_path
 from census import PIN_RE, M2C_LOCAL_RE, audit_index
 
 def main():
@@ -23,7 +23,7 @@ def main():
         if not l0:
             out.append({"id": r["id"], "level": -1}); tally[-1] += r["size"]; continue
         cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name
-        text = (cp if cp.exists() else UP / r["c_path"]).read_text(errors="replace")
+        text = (cp if cp.exists() else raw_path(r)).read_text(errors="replace")
         keys = [f"{r['container']}/{f}" for f in (r.get("defs") or [r["func"]])]
         blocking = any(k2 in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS") for k in keys for k2 in audit.get(k, {}))
         pins = len(PIN_RE.findall(text))

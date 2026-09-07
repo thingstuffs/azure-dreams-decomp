@@ -61,3 +61,28 @@ verified transform that rewrites every member function's `S_<addr>_<n>` uses to 
 type (member names by offset stay `unk_XX`, so the rewrite is mechanical); a row that
 mismatches keeps its local struct and is journalled. Globals get `extern <Record> D_XXXXXXXX;`
 declarations so `((S *)D_x)->unk_08` becomes `D_x.unk_08`.
+
+## T7 shared headers — mechanics (2026-09-07 late)
+
+- `tools/struct_census.py` now also writes `ledger/struct_census_structs.json`: every local struct
+  with its row, function, base, layout and provenance class (the census re-run after the campaign:
+  11,026 structs from 2,783 rows, 240 classes with ≥ 2 structs).
+- `tools/gen_records.py` emits `include/records/Rec_<root>.h` for every global- or
+  parameter-rooted class with ≥ 10 member functions (13 headers). The layout is the union of every
+  view the member functions use: one type at an offset → `T unk_XX;`; several types of one width →
+  `union { s16 s; u16 u; } unk_XX;` (a view per type, T4's tag rule); overlapping spans →
+  `union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;`; gaps →
+  `u8 pad_XX[0xN]`. A class is named after the global most of its member structs are rooted at
+  (stable across census re-runs; the header comment lists every root and the parameter routes).
+  Structs with an in-row union or an unknown-width type are `unmapped` and keep their local
+  struct. `ledger/records.json` carries, per class, the header sha and per local struct the access
+  path of each member.
+- `tools/xform/t7_headers.py` (sweep `t7_headers`): drops the local typedef, adds
+  `#include "records/<Rec>.h"`, renames the struct, and rewrites each member access whose type sits
+  in a union view to that view (`arg2->unk_0C` → `arg2->unk_0C.n`, `->unk_00` → `->unk_00.at00.v`),
+  attributing every site to its struct through the cast `((S *)expr)->` or an identifier declared
+  `S *ident`; anything it cannot attribute, `sizeof(S)`, and `_pre` records are refused. The
+  function reads every offset with exactly the type it read before, so the bytes cannot move;
+  each row is still verified (all structs at once, then one at a time on a mismatch) and the
+  touched windows are re-gated afterwards. Verified exact on the first three rows tried, one per
+  class kind (global scalar, the big dungeon record via union views, a parameter class).

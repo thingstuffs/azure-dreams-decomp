@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Verify one candidate C file for one row, or build the whole baseline.
 
-overlay rows : upstream tools/aligned_score.py against the retail slice (exact / aligned
-               distance / residue class), through the live toolchain, compiled in a temp dir.
+overlay rows : the per-row scorer (tools/gate/aligned_score.py, run in the build_ovl/ view root)
+               against the retail slice (exact / aligned distance / residue class), through this
+               tree's toolchain, compiled in a temp dir.
 slus rows    : compile the TU through the same three-step pipeline cc.sh uses (gcc -S ->
-               ccproc -> maspsx+as) with the MIRROR include root and compare the object hash
-               with the pinned TU's object (bit-reproducible).  Upstream SLUS is byte-exact by
-               its SHA-1 gate, so the pinned object is the reference.
+               ccproc -> maspsx+as) with the pinned include root (raw/include) and compare the
+               object hash with the pinned TU's object (bit-reproducible).  SLUS is byte-exact by
+               its SHA-1 gate (tools/build/build_slus.sh), so the pinned object is the reference.
 
     python3 tools/verify.py town/func_800A0284 cand.c [--regions]
     python3 tools/verify.py --baseline [--workers 6] [--container town] [--limit 50]
@@ -14,10 +15,12 @@ slus rows    : compile the TU through the same three-step pipeline cc.sh uses (g
 import argparse, json, os, re, subprocess, sys, tempfile, time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from common import ROOT, UP, UP_LIVE, LEDGER, CACHE, NICE, rows, read_jsonl, append_jsonl, write_jsonl, sha_file
+from common import ROOT, RAW, LEDGER, CACHE, NICE, rows, read_jsonl, append_jsonl, write_jsonl, sha_file, raw_path
 
-MASPSX = UP_LIVE / "toolchain/maspsx/maspsx.py"
-VENV_PY = UP_LIVE / ".venv/bin/python"
+MASPSX = ROOT / "tools/maspsx/maspsx.py"
+VENV_PY = ROOT / ".venv/bin/python"
+CCPROC = ROOT / "tools/build/ccproc.py"
+COMPILERS = ROOT / "toolchain/compilers"
 
 def _env():
     env = dict(os.environ)
@@ -54,12 +57,12 @@ def verify_overlay(row, cfile, regions=False, include_root=None):
     # redefinitions the gate rejects
     cfg = row["cfg"] + (f" -I{Path(include_root).resolve()}" if include_root else "")
     cfile = normalise_definition(row, cfile)
-    cmd = NICE + ["python3", str(UP_LIVE / "tools/aligned_score.py"), "--func", row["func"],
+    cmd = NICE + ["python3", "tools/aligned_score.py", "--func", row["func"],
                   "--overlay", row["container"], "--configs", cfg]
     cmd += ["--regions", str(cfile)] if regions else ["--summary-json", str(cfile)]
     t0 = time.time()
     try:
-        r = subprocess.run(cmd, capture_output=True, text=True, timeout=900, cwd=UP_LIVE, env=env)
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=900, cwd=gate_root(False), env=env)
     except subprocess.TimeoutExpired:
         return {"status": "TIMEOUT", "exact": False, "secs": round(time.time() - t0, 2)}
     secs = round(time.time() - t0, 2)
@@ -91,10 +94,14 @@ def verify_overlay(row, cfile, regions=False, include_root=None):
 _ROOTS = {}
 _GATE_CACHE = {}
 def gate_root(raw: bool) -> Path:
+    """build_ovl/ (over src/) or build_ovl_raw/ (over raw/).  Created when missing; never rebuilt
+    here, because verify runs concurrently (campaign workers, gates) and mk_ovl_root.sh replaces
+    the tools copy.  Rebuild explicitly: `bash tools/build/mk_ovl_root.sh` / `RAW=1 bash ...`."""
     b = ROOT / ("build_ovl_raw" if raw else "build_ovl")
     if raw not in _ROOTS:
-        env = dict(os.environ); env["RAW"] = "1" if raw else "0"
-        subprocess.run(["bash", str(ROOT / "tools/build/mk_ovl_root.sh")], env=env, capture_output=True, text=True, check=True)
+        if not (b / "tools/aligned_score.py").exists() or not (b / "overlays/dungeon/overlay_first_pass_results.json").exists():
+            env = dict(os.environ); env["RAW"] = "1" if raw else "0"
+            subprocess.run(["bash", str(ROOT / "tools/build/mk_ovl_root.sh")], env=env, capture_output=True, text=True, check=True)
         _ROOTS[raw] = b
     return b
 
@@ -132,8 +139,8 @@ def gate_fallback(row, rec, raw: bool):
 
 # ---------------------------------------------------------------- slus rows
 def compile_slus(row, cfile, outdir, include_root=None):
-    inc = Path(include_root).resolve() if include_root else UP / "include"
-    cc_dir = UP_LIVE / "toolchain/compilers" / f"gcc-{row['cell']}"
+    inc = Path(include_root).resolve() if include_root else RAW / "include"
+    cc_dir = COMPILERS / f"gcc-{row['cell']}"
     s_path = Path(outdir) / "a.s"; o_path = Path(outdir) / "a.o"
     # compile from the source's own directory by basename: the ELF FILE symbol records the path
     # as given, and the object hash must not depend on where the candidate lives
@@ -143,9 +150,9 @@ def compile_slus(row, cfile, outdir, include_root=None):
     if r.returncode != 0:
         return None, "gcc: " + (r.stderr or r.stdout)[-300:]
     asflags = (row.get("row_asflags") or "").split()
-    pipe = (f"python3 {UP_LIVE}/tools/ccproc.py < {s_path} | {VENV_PY} {MASPSX} --aspsx-version=2.56 --dont-force-G0 "
-            f"--run-assembler --gnu-as-path=mipsel-linux-gnu-as -I{UP} -I{inc} -EL -march=r3000 -G8 {' '.join(asflags)} -o {o_path}")
-    r = subprocess.run(pipe, shell=True, capture_output=True, text=True, cwd=UP_LIVE, env=_env())
+    pipe = (f"python3 {CCPROC} < {s_path} | {VENV_PY} {MASPSX} --aspsx-version=2.56 --dont-force-G0 "
+            f"--run-assembler --gnu-as-path=mipsel-linux-gnu-as -I{RAW} -I{inc} -EL -march=r3000 -G8 {' '.join(asflags)} -o {o_path}")
+    r = subprocess.run(pipe, shell=True, capture_output=True, text=True, cwd=ROOT, env=_env())
     if r.returncode != 0 or not o_path.exists():
         return None, "as: " + (r.stderr or r.stdout)[-300:]
     return o_path, None
@@ -185,7 +192,7 @@ def baseline_slus(row):
     t0 = time.time()
     (CACHE / "slus_dis").mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as td:
-        obj, err = compile_slus(row, UP / row["c_path"], td)
+        obj, err = compile_slus(row, raw_path(row), td)
         if obj is None:
             return {"id": row["id"], "status": "failed", "exact": False, "err": err, "secs": round(time.time() - t0, 2)}
         h = sha_file(obj)
@@ -217,7 +224,7 @@ def main():
         slus_cache = read_baseline_slus()
         def one(r):
             if r["kind"] == "slus": return baseline_slus(r)
-            return gate_fallback(r, dict(verify_overlay(r, UP / r["c_path"]), id=r["id"]), raw=True)
+            return gate_fallback(r, dict(verify_overlay(r, raw_path(r)), id=r["id"]), raw=True)
         n = 0; t0 = time.time()
         with ThreadPoolExecutor(max_workers=a.workers) as ex:
             for rec in ex.map(one, rs):
@@ -236,7 +243,7 @@ def main():
             print(f"gate pass: {len(todo)} not-exact overlay rows -> window gate over raw/", flush=True)
             upd = {}
             with ThreadPoolExecutor(max_workers=min(a.workers, 4)) as ex:
-                for rec in ex.map(lambda b: gate_fallback(by[b["id"]], dict(verify_overlay(by[b["id"]], UP / by[b["id"]]["c_path"]), id=b["id"], src_sha=b.get("src_sha")), raw=True), todo):
+                for rec in ex.map(lambda b: gate_fallback(by[b["id"]], dict(verify_overlay(by[b["id"]], raw_path(by[b["id"]])), id=b["id"], src_sha=b.get("src_sha")), raw=True), todo):
                     rec["at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()); upd[rec["id"]] = rec
             write_jsonl(out, [upd.get(b["id"], b) for b in recs])
             print(f"gate pass: {sum(1 for r in upd.values() if r.get('exact') is True and r.get('proof') != 'window-gate')} exact on re-score, "

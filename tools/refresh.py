@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Rebuild upstream/ as a read-only mirror of the tracked sources at PIN.
+"""Rebuild upstream/ as a read-only mirror of another checkout's tracked sources at PIN.
+HISTORICAL (docs/SWAPOVER.md): only tools/pin_bump.py consumes the mirror; nothing else does.
 
     python3 tools/refresh.py            # (re)extract src overlays include config docs at PIN
 The live tree's untracked build.ninja (SLUS per-TU compiler recipes) is copied alongside

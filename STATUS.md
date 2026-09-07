@@ -1,36 +1,36 @@
 # azure-clean status
 
-Generated 2026-09-07T14:10:48Z. Upstream pin `82f20568` (82f20568997a, extracted 2026-09-07T12:42:23Z).
+Generated 2026-09-07T23:05:02Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
-## Denominator (rows matched upstream at the pin)
+## Denominator (rows matched at the pin)
 
 | container | rows | bytes | stock rows | stock bytes | baseline exact | exact bytes | unverified |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | slus | 884 | 473,788 | 884 | 473,788 | 884 | 473,788 | 0 |
 | main | 423 | 62,760 | 423 | 62,760 | 423 | 62,760 | 0 |
 | town | 2695 | 457,832 | 2695 | 457,832 | 2695 | 457,832 | 0 |
-| dungeon | 2742 | 1,560,880 | 2742 | 1,560,880 | 2742 | 1,560,880 | 0 |
+| dungeon | 2743 | 1,560,892 | 2743 | 1,560,892 | 2743 | 1,560,892 | 0 |
 | ovmovie | 22 | 2,852 | 22 | 2,852 | 22 | 2,852 | 0 |
-| ALL | 6744 | 2,555,260 | 6744 | 2,555,260 | 6744 | 2,555,260 | 0 |
+| ALL | 6745 | 2,555,272 | 6745 | 2,555,272 | 6745 | 2,555,272 | 0 |
 
-ovmovie is parked by the owner (listed, excluded from ALL). SLUS rows are verified by object identity with the pinned TU (upstream SLUS is byte-exact by its SHA-1 gate); overlay rows by retail-slice comparison through upstream's scorer. Non-stock rows (bridge cells, per-row assembler dials, platform asm) are excluded until they close upstream.
+ovmovie is parked by the owner (listed, excluded from ALL). SLUS rows are verified by object identity with the pinned TU (SLUS is byte-exact by its SHA-1 gate, tools/build/build_slus.sh); overlay rows by retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are none at the pin.
 
 Baseline NOT exact: 0 rows
 
-## Shape census: pinned upstream vs current clean tree (files / bytes carrying each defect)
+## Shape census: pinned raw text vs current clean tree (files / bytes carrying each defect)
 
 | defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |
 |---|---:|---:|---:|---:|---:|---:|
-| m2c boilerplate block | 2331 | 515,080 | 20.1% | 32 | 6,088 | 0.2% |
+| m2c boilerplate block | 2332 | 515,092 | 20.1% | 32 | 6,088 | 0.2% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 120 | 122,816 | 4.8% |
-| m2c local names | 5181 | 2,172,116 | 84.9% | 5181 | 2,172,116 | 84.9% |
+| m2c local names | 5182 | 2,172,128 | 84.9% | 5182 | 2,172,128 | 84.9% |
 | ASM_ pins | 2137 | 1,466,884 | 57.3% | 2077 | 1,440,156 | 56.3% |
 | goto | 1545 | 1,318,412 | 51.5% | 1545 | 1,318,412 | 51.5% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 317 | 437,288 | 17.1% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 362 | 256,260 | 10.0% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 1489 | 680,132 | 26.6% |
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 2655 | 1,286,668 | 50.3% |
-| local address-named struct | 633 | 346,988 | 13.6% | 3429 | 1,647,740 | 64.4% |
+| local address-named struct | 633 | 346,988 | 13.6% | 3277 | 1,627,996 | 63.6% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 155,088 | 6.1% | 1243 | 193,136 | 7.5% |
 
 Pin sites: 25,878 total; REG 12,818, KEEP 6,889, KEEP_NV 2,501, SCHED_BARRIER 1,355, TAILSLOT_PIN 501, USE 299, USE_NV 261, KEEP_DEP_NV 184.
@@ -39,9 +39,9 @@ Pin sites: 25,878 total; REG 12,818, KEEP 6,889, KEEP_NV 2,501, SCHED_BARRIER 1,
 
 | level | bytes | % |
 |---|---:|---:|
-| L0 | 2,558,112 | 100.0% |
-| L1 | 1,870,760 | 73.1% |
-| L2 | 1,775,744 | 69.4% |
-| L3 | 329,624 | 12.9% |
+| L0 | 2,558,124 | 100.0% |
+| L1 | 1,870,772 | 73.1% |
+| L2 | 1,775,756 | 69.4% |
+| L3 | 744,240 | 29.1% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
