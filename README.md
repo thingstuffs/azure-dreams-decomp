@@ -1,7 +1,8 @@
-# azure-clean
+# azure-dreams-decomp
 
 Readable, byte-exact C for Azure Dreams (PlayStation, SLUS-006.14). Every function here still
-compiles to the retail bytes; the work is to make the C human.
+compiles to the retail bytes; the work is to make the C human. (The working checkout is called
+`azure-clean` locally; tool docstrings and the dashboard use that name.)
 
 The tree started as a replay of a byte-matching decompilation at one commit (`PIN`): its sources
 are frozen in `raw/`, and everything else — machine transforms, hand refinements, the row

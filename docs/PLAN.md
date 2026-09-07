@@ -1,4 +1,4 @@
-# azure-clean: readable, byte-exact C for the whole game
+# azure-dreams-decomp (local checkout `azure-clean`): readable, byte-exact C for the whole game
 
 Written 2026-09-07 after re-grounding in the upstream tree and an earlier clean-C attempt
 (one function at a time through a heavy admission gate; 0.15 % of the game in 37 hours), which

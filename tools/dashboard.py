@@ -81,7 +81,7 @@ def main():
     drift = [b for b in read_jsonl(LEDGER / "reverify.jsonl") if not (b["exact"] or (b["status"] == "ok" and b["exact"] is None))]
     # ---- html
     now = time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime())
-    H = [f"""<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="60"><meta name="viewport" content="width=device-width, initial-scale=1"><title>azure-clean</title>
+    H = [f"""<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="60"><meta name="viewport" content="width=device-width, initial-scale=1"><title>azure-dreams-decomp</title>
 <style>
 :root{{color-scheme:dark}} body{{font:15px/1.5 system-ui,-apple-system,sans-serif;margin:0;padding:16px;color:#d6d6d6;background:#121417;max-width:1100px}}
 h1{{margin:0 0 4px;font-size:22px;color:#fff}} h2{{margin:26px 0 8px;font-size:16px;color:#fff;border-bottom:1px solid #2c3136;padding-bottom:4px}}
@@ -93,7 +93,7 @@ th{{background:#1b1f24;color:#aab}} td:first-child,th:first-child{{text-align:le
 pre{{background:#1b1f24;color:#c9d1d9;padding:10px;border-radius:6px;overflow-x:auto;font-size:12.5px}} ul{{padding-left:20px}} li{{margin:4px 0}} a{{color:#6cb6ff}}
 @media (max-width:640px){{body{{padding:10px;font-size:14px}} .kpi b{{font-size:20px}} td,th{{padding:4px 6px}} .bar{{width:38vw}}}}
 </style></head><body>
-<h1>azure-clean</h1><div class="muted">pin <code>{PIN}</code> · generated {now} · refreshes every 60 s · ovmovie parked (listed, not counted)</div>"""]
+<h1>azure-dreams-decomp</h1><div class="muted">pin <code>{PIN}</code> · generated {now} · refreshes every 60 s · ovmovie parked (listed, not counted)</div>"""]
     H.append('<div class="kpis">' + "".join(f'<div class="kpi"><b>{v}</b><span>{k}</span></div>' for k, v in (
         ("functions (rows)", fmt(tot_n)), ("bytes", fmt(tot_b)), ("at ≥ L2", pct(cum[2][1], tot_b)), ("at ≥ L3", pct(cum[3][1], tot_b)),
         ("windows byte-identical", f"{sum(v for (c, r), v in gc.items() if r == 'MATCH')} / {len(gate)}"), ("agent rows accepted", fmt(ag["accepted"])))) + '</div>')
