@@ -1,6 +1,7 @@
 # Handover (written 2026-09-07 late evening UTC) — start here in a fresh session
 
-Repo: https://github.com/thingstuffs/azure-clean (private), local `~/azure-clean`, branch `master`.
+Repo: https://github.com/thingstuffs/azure-dreams-decomp (private; renamed from azure-clean on
+2026-09-08, the old URL redirects), local `~/azure-clean`, branch `master`.
 Dashboard: http://<lan-host>:8002/ (`tools/dashboard_serve.sh`; restart it if the box rebooted).
 
 ## Where things stand

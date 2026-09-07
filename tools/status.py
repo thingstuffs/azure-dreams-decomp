@@ -9,7 +9,7 @@ def main():
     cen = {c["id"]: c for c in read_jsonl(LEDGER / "census.jsonl")}
     pin = json.load(open(LEDGER / "pin.json"))
     out = []
-    out.append(f"# azure-clean status\n\nGenerated {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}. Pin `{pin['pin']}` ({pin['commit'][:12]}, raw/ frozen at {pin['extracted_at']}).\n")
+    out.append(f"# azure-dreams-decomp status\n\nGenerated {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}. Pin `{pin['pin']}` ({pin['commit'][:12]}, raw/ frozen at {pin['extracted_at']}).\n")
     out.append("## Denominator (rows matched at the pin)\n\n| container | rows | bytes | stock rows | stock bytes | baseline exact | exact bytes | unverified |\n|---|---:|---:|---:|---:|---:|---:|---:|")
     T = collections.Counter()
     for c in ("slus", "main", "town", "dungeon", "ovmovie", "ALL"):

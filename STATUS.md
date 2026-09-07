@@ -1,6 +1,6 @@
-# azure-clean status
+# azure-dreams-decomp status
 
-Generated 2026-09-07T23:21:52Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-07T23:31:55Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
