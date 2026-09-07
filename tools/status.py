@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate STATUS.md from the ledger (rows, baseline, census, levels)."""
 import collections, json, time
-from common import LEDGER, ROOT, rows, read_jsonl
+from common import LEDGER, ROOT, rows, read_jsonl, PARKED_CONTAINERS
 
 def main():
     rs = rows(); by = {r["id"]: r for r in rs}
@@ -13,13 +13,13 @@ def main():
     out.append("## Denominator (rows matched upstream at the pin)\n\n| container | rows | bytes | stock rows | stock bytes | baseline exact | exact bytes | unverified |\n|---|---:|---:|---:|---:|---:|---:|---:|")
     T = collections.Counter()
     for c in ("slus", "main", "town", "dungeon", "ovmovie", "ALL"):
-        sel = [r for r in rs if c == "ALL" or r["container"] == c]
+        sel = [r for r in rs if (c == "ALL" and r["container"] not in PARKED_CONTAINERS) or r["container"] == c]
         st = [r for r in sel if r["stock"]]
         ex = [r for r in st if base.get(r["id"], {}).get("exact") is True or (r["kind"] == "slus" and base.get(r["id"], {}).get("status") == "ok")]
         nb = [r for r in st if r["id"] not in base]
         out.append(f"| {c} | {len(sel)} | {sum(r['size'] for r in sel):,} | {len(st)} | {sum(r['size'] for r in st):,} | {len(ex)} | {sum(r['size'] for r in ex):,} | {len(nb)} |")
     bad = [r for r in rs if r["stock"] and r["id"] in base and base[r["id"]].get("exact") is False]
-    out.append(f"\nSLUS rows are verified by object identity with the pinned TU (upstream SLUS is byte-exact by its SHA-1 gate); overlay rows by retail-slice comparison through upstream's scorer. Non-stock rows (bridge cells, per-row assembler dials, platform asm) are excluded until they close upstream.\n\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
+    out.append(f"\novmovie is parked by the owner (listed, excluded from ALL). SLUS rows are verified by object identity with the pinned TU (upstream SLUS is byte-exact by its SHA-1 gate); overlay rows by retail-slice comparison through upstream's scorer. Non-stock rows (bridge cells, per-row assembler dials, platform asm) are excluded until they close upstream.\n\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
     out.append("## Shape census: pinned upstream vs current clean tree (files / bytes carrying each defect)\n\n| defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |\n|---|---:|---:|---:|---:|---:|---:|")
     tot = sum(r["size"] for r in rs)
     import re as _re

@@ -42,6 +42,13 @@ verified and journalled, mismatches are refused, nothing is guessed.
 Requires the upstream checkout (toolchain, scorer, retail extracts): put its path in a
 `.upstream` file at the repo root (gitignored) or in `AZURE_CLEAN_UPSTREAM`; see `tools/common.py`.
 
+## Dashboard
+
+`tools/dashboard_serve.sh` regenerates `dashboard/index.html` every minute from the ledger and
+journals and serves it on port 8002: levels by bytes and by container, what is running, the
+agent campaign, the container gate verdicts, remaining work and recent commits. `ovmovie` is
+parked (movie playback exists elsewhere) and listed without being counted.
+
 ## Syncing with upstream
 
 The tree is derived from one upstream commit (`PIN`). To take a newer upstream (for example
