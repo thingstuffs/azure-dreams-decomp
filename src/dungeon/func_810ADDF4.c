@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_801715F4_0 {
     u8 pad_00[0x2];
@@ -49,12 +50,6 @@ typedef struct S_801715F4_4 {
     u8 unk_25;
 } S_801715F4_4;   /* other in func_801715F4 */
 
-typedef struct S_801715F4_5 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x2C];
-    void * unk_58;
-} S_801715F4_5;   /* D_800814A8 in func_801715F4 */
 
 typedef struct S_801715F4_6 {
     u8 pad_00[0xC];
@@ -214,7 +209,7 @@ void func_801715F4(void *arg0, void *arg1, void *arg2_p, void *arg3_p) {
                 o = D_80082E80;
                 offset =
                     ((((S_801715F4_1 *)arg3)->unk_45 +
-                      ((s32)(((S_801715F4_5 *)D_800814A8)->unk_2A << 16) >> 25)) &
+                      ((s32)(((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 << 16) >> 25)) &
                      7) *
                     2;
 
@@ -439,7 +434,7 @@ loop:
             ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
             if ((s16)func_8009A180(
                     arg3,
-                    (u8 *)((S_801715F4_5 *)D_800814A8)->unk_58 + 0x20) != 0) {
+                    (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                 goto end;
             }
         }

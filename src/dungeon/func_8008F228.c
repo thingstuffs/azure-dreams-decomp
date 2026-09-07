@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 struct S_800E3E48 {
     u8 pad00[0x14];
@@ -115,10 +116,6 @@ typedef struct S_80094988_10 {
     s32 unk_D0;
 } S_80094988_10;   /* var_v1 in func_80094988 */
 
-typedef struct S_80094988_11 {
-    u8 pad_00[0x88];
-    s16 unk_88;
-} S_80094988_11;   /* arg1 in func_80094988 */
 
 typedef struct S_80094988_12 {
     u8 pad_00[0xAC];
@@ -145,7 +142,7 @@ typedef struct S_80094988_15 {
     s16 unk_3714;
 } S_80094988_15;   /* page2 in func_80094988 */
 
-void func_80094988(S_80094988_1 *arg0, S_80094988_11 *arg1, u16 arg2, u16 arg3) {
+void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3) {
     s16 sp18;
     s16 sp1A;
     u8 sp1C;
@@ -334,7 +331,7 @@ loop_1:
                                 }
                                 temp_v0_2 = func_800A0B94(*var_s2, temp_v0, 1)(
                                     1, sp18, sp1A,
-                                    arg1->unk_88);
+                                    arg1->unk_88.as_s16);
                                 sign_temp = var_s1 << 16;
                                 signed_index = sign_temp >> 16;
                                 scaled_index = signed_index * 4;

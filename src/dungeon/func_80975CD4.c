@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_800814A8.h"
 
 
 typedef struct DungeonRecord {
@@ -59,20 +61,6 @@ typedef struct S_801714D4_0 {
     union { s16 s; u16 u; } unk_A2;   /* accessed as both */
 } S_801714D4_0;   /* arg0 in func_801714D4 */
 
-typedef struct S_801714D4_1 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x1C];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_801714D4_1;   /* arg3 in func_801714D4 */
 
 typedef struct S_801714D4_2 {
     u8 pad_00[0x5];
@@ -84,10 +72,6 @@ typedef struct S_801714D4_2 {
     u8 * unk_2C;
 } S_801714D4_2;   /* arg2 in func_801714D4 */
 
-typedef struct S_801714D4_3 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_801714D4_3;   /* D_800814A8 in func_801714D4 */
 
 typedef struct S_801714D4_4 {
     u8 pad_00[0x9A];
@@ -129,7 +113,7 @@ void func_801714D4(void *arg0, void *arg1, void *arg2, void *arg3)
     ASM_KEEP(p2);   /* MATCH pin: retail basic-block layout depends on it */
     ASM_KEEP(p3);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
 
-    if (((S_801714D4_1 *)arg3)->unk_25 == 0) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
         func_800AA79C(arg0, arg1, arg2, arg3);
         if (((S_801714D4_2 *)arg2)->unk_2C == D_80174158) {
             return;
@@ -137,17 +121,17 @@ void func_801714D4(void *arg0, void *arg1, void *arg2, void *arg3)
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80174150;
         func_80047784(
             arg2,
-            D_80174150[((D_80083228 + ((S_801714D4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            D_80174150[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         return;
     }
 
-    if (((S_801714D4_1 *)arg3)->unk_1C & 0x200) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x200) {
         if (((S_801714D4_2 *)arg2)->unk_2C == D_80174158) {
             ((S_801714D4_0 *)arg0)->unk_9A = 13;
             ((S_801714D4_0 *)arg0)->unk_9B = 1;
             ((S_801714D4_0 *)arg0)->unk_8C = 0;
-            ((S_801714D4_1 *)arg3)->unk_1C &= ~0x40000;
+            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x40000;
             return;
         }
         if (func_800AA924(arg0, arg1, arg2, D_801740F0) != 0) {
@@ -156,7 +140,7 @@ void func_801714D4(void *arg0, void *arg1, void *arg2, void *arg3)
     }
 
     if ((D_80083462 & 0x2000) == 0) {
-        if (((S_801714D4_1 *)arg3)->unk_1C & 0x100) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
             return;
         }
@@ -170,23 +154,23 @@ void func_801714D4(void *arg0, void *arg1, void *arg2, void *arg3)
             (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_801740E0;
             func_80047784(
                 arg2,
-                D_801740E0[((D_80083228 + ((S_801714D4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                D_801740E0[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             ((S_801714D4_2 *)arg2)->unk_05 = 1;
             ((S_801714D4_0 *)arg0)->unk_A2.s = 0;
             ((S_801714D4_0 *)arg0)->unk_9E = 0;
         }
 
-        ((S_801714D4_1 *)arg3)->unk_1C |= 0x40000;
+        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x40000;
         ((S_801714D4_0 *)arg0)->unk_98 &= 0xFFF7;
 
-        if (((S_801714D4_1 *)arg3)->unk_64 != 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
             if (func_800AA6B4(arg0, arg1, arg2, D_80174140) != 0) {
                 return;
             }
         }
 
-        if (((S_801714D4_1 *)arg3)->unk_1C & 0x80000) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x80000) {
             func_800AA888(arg0, arg1, arg2, arg3);
             ((S_801714D4_0 *)arg0)->unk_92 -= ((S_801714D4_0 *)arg0)->unk_A2.u;
             ((S_801714D4_0 *)arg0)->unk_A2.s = 0;
@@ -203,32 +187,32 @@ void func_801714D4(void *arg0, void *arg1, void *arg2, void *arg3)
     tile = func_8009FB34(((S_801714D4_2 *)arg2)->unk_24.at00.v, ((S_801714D4_2 *)arg2)->unk_24.at01.v);
     ((S_801714D4_2 *)arg2)->unk_26 = tile;
 
-    if (((S_801714D4_1 *)arg3)->unk_6D > 0) {
-        if (((S_801714D4_1 *)arg3)->unk_1C & 0x20) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 > 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x20) {
             goto jt_c12;
         }
         if (((S_801714D4_2 *)arg2)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
             goto jt_default;
         }
-        field46 = ((S_801714D4_1 *)arg3)->unk_46;
+        field46 = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v;
         if ((field46 & 0x8000) == 0) {
             if (D_80083462 & 0x2000) {
                 if ((s16)func_8009A180(
-                        arg3, (u8 *)((S_801714D4_3 *)D_800814A8)->unk_58 + 0x20) != 0) {
+                        arg3, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
                 }
             }
             if ((s16)func_80172628(arg0, arg1, arg2, 0) == 0) {
                 return;
             }
-            field46 = ((S_801714D4_1 *)arg3)->unk_46 | 0x4000;
-            ((S_801714D4_1 *)arg3)->unk_46 = field46;
+            field46 = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v | 0x4000;
+            ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v = field46;
             if ((field46 & 0x8000) == 0) {
                 goto jt_default;
             }
         }
 
-        kind = (((S_801714D4_1 *)arg3)->unk_46 & 0x3FFF) - 1;
+        kind = (((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x3FFF) - 1;
         if ((u32)kind >= 12U) {
             goto jt_default;
         }
@@ -250,7 +234,7 @@ jt_c7:
             ((S_801714D4_2 *)arg2)->unk_24.at00.v, ((S_801714D4_2 *)arg2)->unk_24.at01.v,
             D_80082E80[0x24], D_80082E80[0x25], &sp18);
         owner = D_800814A8;
-        ((S_801714D4_1 *)arg3)->unk_2A = angle;
+        ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = angle;
         if (((S_801714D4_4 *)owner)->unk_9A == 0x11) {
             goto jt_c1;
         }
@@ -276,7 +260,7 @@ jt_default:
         return;
     }
 
-    flags = ((S_801714D4_1 *)arg3)->unk_1C;
+    flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32;
     if (flags & 0x2000) {
         return;
     }
@@ -297,7 +281,7 @@ jt_default:
                 origin[0x24], origin[0x25]) == 0) {
             return;
         }
-        ((S_801714D4_1 *)arg3)->unk_2A = func_800A0818(
+        ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(
             ((S_801714D4_2 *)arg2)->unk_24.at00.v, ((S_801714D4_2 *)arg2)->unk_24.at01.v,
             origin[0x24], origin[0x25], &sp18);
     }

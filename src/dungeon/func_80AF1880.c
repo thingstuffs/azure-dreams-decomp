@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 extern void func_80047784(void *, s32, s32);
@@ -24,17 +26,7 @@ typedef struct S_80173080_0 {
     u8 unk_9B;
 } S_80173080_0;   /* arg0 in func_80173080 */
 
-typedef struct S_80173080_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80173080_1;   /* arg2 in func_80173080 */
 
-typedef struct S_80173080_2 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-} S_80173080_2;   /* arg3 in func_80173080 */
 
 typedef struct S_80173080_3 {
     u8 pad_00[0xC];
@@ -73,10 +65,10 @@ void func_80173080(void *arg0, void *arg1, void *arg2, void *arg3)
     goto state_1;
 
 state_0:
-    if (((S_80173080_1 *)arg2)->unk_14 & 0x8000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
         ((S_80173080_0 *)arg0)->unk_9B = 3;
-        ((S_80173080_1 *)arg2)->unk_14 |= 0x6000;
-        func_8009C12C(arg3, arg2, ((S_80173080_2 *)arg3)->unk_2A, 1);
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
+        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
         func_80173268();
         return;
     }
@@ -89,12 +81,12 @@ state_0:
 state_1:
     timer = ((S_80173080_0 *)arg0)->unk_96.u + 1;
     ((S_80173080_0 *)arg0)->unk_96.u = timer;
-    if (((s16)timer == 4) || (((S_80173080_1 *)arg2)->unk_14 & 0x8000)) {
+    if (((s16)timer == 4) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
         u8 *table = D_801759C0;
 
         (*(u8 * *)((u8 *)arg2 + (0x2C))) = table;
         func_80047784(arg2,
-                     table[((D_80083228 + ((S_80173080_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                     table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                      0);
         ((S_80173080_0 *)arg0)->unk_96.u = 0;
         ((S_80173080_0 *)arg0)->unk_9B++;
@@ -106,8 +98,8 @@ state_1:
 state_2:
     timer = ((S_80173080_0 *)arg0)->unk_96.u + 1;
     ((S_80173080_0 *)arg0)->unk_96.u = timer;
-    if (((s16)timer == 7) || (((S_80173080_1 *)arg2)->unk_14 & 0x8000)) {
-        func_8009C12C(arg3, arg2, ((S_80173080_2 *)arg3)->unk_2A, 1);
+    if (((s16)timer == 7) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
+        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
         ((S_80173080_0 *)arg0)->unk_96.u = 0;
         ((S_80173080_0 *)arg0)->unk_9B++;
     }
@@ -119,12 +111,12 @@ state_2:
     goto done;
 
 state_3:
-    if (((S_80173080_1 *)arg2)->unk_14 & 0xE000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
         func_800AD594(arg3, 0x100);
         ((S_80173080_0 *)arg0)->unk_8C = D_801717F4;
         D_8008346C = 0;
         func_800A4ACC(arg3);
-        ((S_80173080_2 *)arg3)->unk_46 &= 0x7FFF;
+        ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
     }
 
 done:

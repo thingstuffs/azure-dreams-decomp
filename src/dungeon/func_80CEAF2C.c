@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_8017472C_0 {
     u8 pad_00[0x8C];
@@ -50,12 +51,6 @@ typedef struct S_8017472C_4 {
     void * unk_2C;
 } S_8017472C_4;   /* arg2 in func_8017472C */
 
-typedef struct S_8017472C_5 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8017472C_5;   /* arg1 in func_8017472C */
 
 typedef struct S_8017472C_6 {
     u8 pad_00[0xA];
@@ -248,9 +243,9 @@ move_setup:
         return;
     }
 
-    ((S_8017472C_5 *)arg1)->unk_14 = 0;
-    ((S_8017472C_5 *)arg1)->unk_10 = 0;
-    ((S_8017472C_5 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_8017472C_4 *)arg2)->unk_24, ((S_8017472C_4 *)arg2)->unk_25);
     D_8008346C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -307,9 +302,9 @@ state_3:
         return;
     }
 
-    ((S_8017472C_5 *)arg1)->unk_14 = 0;
-    ((S_8017472C_5 *)arg1)->unk_10 = 0;
-    ((S_8017472C_5 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_8017472C_4 *)arg2)->unk_24, ((S_8017472C_4 *)arg2)->unk_25);
 
     kind = ((S_8017472C_1 *)arg3)->unk_48;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800A94A0_0 {
     void * unk_00;
@@ -12,10 +13,6 @@ typedef struct S_800A94A0_0 {
     s16 unk_A0;
 } S_800A94A0_0;   /* arg0 in func_800A94A0; pointer addresses record offset 0x18 */
 
-typedef struct S_800A94A0_1 {
-    u8 unk_00;
-    u8 unk_01;
-} S_800A94A0_1;   /* arg1 in func_800A94A0 */
 
 typedef struct S_800A94A0_2 {
     u8 pad_00[0x8];
@@ -119,7 +116,7 @@ extern u8 D_800DD8B4[];
 extern M2C_UNK D_800E1C58;
 extern u8 D_800E3D68;
 
-void *func_800A94A0(void *arg0, S_800A94A0_1 *arg1, s16 arg2, void *arg3) {
+void *func_800A94A0(void *arg0, Rec_D_800E3D7C *arg1, s16 arg2, void *arg3) {
     s32 temp_s0_2;
     s32 temp_v0_2;
     register s32 temp_v0_5 ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
@@ -148,8 +145,8 @@ void *func_800A94A0(void *arg0, S_800A94A0_1 *arg1, s16 arg2, void *arg3) {
         {
             register s32 entry_a1 ASM_REG("$5") = entry_arg2;   /* MATCH pin: retail schedule: same instructions, different order without it */
             u8 entry_v1;
-            do { temp_s2 = arg1->unk_00; } while (0);
-            entry_v1 = arg1->unk_01;
+            do { temp_s2 = arg1->unk_00.at00_u8.v; } while (0);
+            entry_v1 = arg1->unk_00.at01_u8.v;
             D_800E3D68 = entry_v1;
             temp_v0_2 = func_800A982C((u8) temp_s2, entry_a1, ((S_800A94A0_0 *)((u8 *)arg0 - 0x18))->unk_2B);
         }
@@ -167,7 +164,7 @@ void *func_800A94A0(void *arg0, S_800A94A0_1 *arg1, s16 arg2, void *arg3) {
         temp_v0_3->unk_04 = arg3;
         temp_v0_3->unk_08 = temp_s2;
         D_800E3CC8[0] = temp_s2;
-        temp_a0_2 = arg1->unk_01;
+        temp_a0_2 = arg1->unk_00.at01_u8.v;
         temp_v0_3->unk_09 = temp_a0_2;
         D_800E3CC8[1] = temp_a0_2;
         if (arg2 == 0) {

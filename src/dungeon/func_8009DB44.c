@@ -1,13 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_800A32A4_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_800A32A4_0;   /* arg0 in func_800A32A4 */
 
 typedef struct S_800A32A4_1 {
     u8 pad_00[0x14A8];
@@ -100,7 +94,7 @@ s32 func_800A32A4(void *arg0) {
     func_80042B68(arg0, 0x1A);
     func_80042B68(arg0, 0x1C);
     func_80042B68(arg0, 0x1D);
-    if (!(((S_800A32A4_0 *)arg0)->unk_14 & 0x20000000)) {
+    if (!(((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x20000000)) {
         func_800A31D0(arg0);
         var_v1 = 0;
         page_base = (u8 *)0x80080000;
@@ -113,12 +107,12 @@ loop_2:
         temp_a0 = temp_a1_2 + ((S_800A32A4_1 *)page_base)->unk_14A8;
         var_v1 += 1;
         if (temp_a0->unk_AC == arg0) {
-            ((S_800A32A4_0 *)arg0)->unk_14 = (s32)(((S_800A32A4_0 *)arg0)->unk_14 & flags_mask);
+            ((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 = (s32)(((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & flags_mask);
             temp_a0->unk_AC = 0;
-            flag_value = ((S_800A32A4_0 *)arg0)->unk_1C;
+            flag_value = ((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32;
             flag_value |= 0x04000000;
             flag_value |= 0x00020000;
-            ((S_800A32A4_0 *)arg0)->unk_1C = flag_value;
+            ((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 = flag_value;
             temp_s2 = temp_a0->unk_D0;
             temp_s2->unk_03 = (u8)(temp_s2->unk_03 & 0xDF);
             computed_dest = (void *)((S_800A32A4_1 *)page_base)->unk_14A8;
@@ -152,7 +146,7 @@ loop_2:
     }
 block_8:
     if (var_s1 == 0) {
-        temp_v1_2 = ((S_800A32A4_0 *)arg0)->unk_14;
+        temp_v1_2 = ((Rec_D_800E3D7C *)arg0)->unk_14.as_s32;
         var_s1 = 3;
         if (!(temp_v1_2 & 0x4000)) {
             status_page = (u8 *)(temp_v1_2 & 0x2000);
@@ -178,8 +172,8 @@ block_8:
         }
     }
 block_18:
-    if (!(((S_800A32A4_0 *)arg0)->unk_14 & 0x20000000)) {
-        func_800A18E8(((S_800A32A4_0 *)arg0)->unk_13, var_s1);
+    if (!(((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x20000000)) {
+        func_800A18E8(((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v, var_s1);
     }
     return (s32)temp_s2;
 }

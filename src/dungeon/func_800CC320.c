@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800D1A80_0 {
     u8 pad_00[0x96];
@@ -23,10 +24,6 @@ typedef struct S_800D1A80_2_pre {
     u16 unk_00;
 } S_800D1A80_2_pre;   /* the 0x2 bytes before arg3 in func_800D1A80, addressed as arg3[-1] */
 
-typedef struct S_800D1A80_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_800D1A80_2;   /* arg3 in func_800D1A80 */
 
 typedef struct S_800D1A80_3 {
     u8 pad_00[0x10];
@@ -71,7 +68,7 @@ s32 func_800D1A80(S_800D1A80_0 *arg0, void *arg1, S_800D1A80_1 *arg2, void *arg3
         arg2->unk_10 = 0x20;
         arg2->unk_12 = (u16) (arg2->unk_12 - 0x80);
         arg2->unk_14 = (u16) (arg2->unk_14 | 0xC);
-        ((S_800D1A80_2 *)arg3)->unk_1C = (s32) (((S_800D1A80_2 *)arg3)->unk_1C | 0x10000000);
+        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 | 0x10000000);
         func_800A56E0(0x805);
         arg2->unk_0C.at00.v = 0x808080;
         arg0->unk_96 = 0x10;
@@ -101,7 +98,7 @@ block_6:
                 temp_a0_2 = arg2->unk_24;
                 temp_a1_2 = arg2->unk_25;
                 var_a2 = 0x3000;
-                if (((S_800D1A80_2 *)arg3)->unk_1C & 0x2000) {
+                if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x2000) {
                     var_a2 = 0x300;
                 }
                 func_8009A3D0(temp_a0_2, temp_a1_2, var_a2);

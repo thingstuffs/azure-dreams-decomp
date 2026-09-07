@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_801743DC_0 {
     u8 pad_00[0x8C];
@@ -13,12 +14,6 @@ typedef struct S_801743DC_0 {
     u16 unk_A2;
 } S_801743DC_0;   /* arg0 in func_801743DC */
 
-typedef struct S_801743DC_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-} S_801743DC_1;   /* arg2 in func_801743DC */
 
 typedef struct S_801743DC_2 {
     u8 pad_00[0x1C];
@@ -102,7 +97,7 @@ void func_801743DC(void *arg0, void *arg1, void *arg2, void *arg3)
     goto done;
 
 state_zero:
-    if (!(((S_801743DC_1 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
     (*(void * *)((u8 *)arg2 + 0x2C)) = D_800E2428;
@@ -167,7 +162,7 @@ state_one:
     func_800A9A04(arg3);
     if ((func_80042900(arg3, 1) << 16) != 0) {
         u8 *origin = D_80082E80;
-        s8 tile = ((S_801743DC_1 *)arg2)->unk_26;
+        s8 tile = ((Rec_D_80082E80 *)arg2)->unk_26.as_s8;
 
         if (((tile == ((S_801743DC_6 *)origin)->unk_26) && (tile >= 0)) ||
             ((s16)func_8009FD40(origin, arg2) < 2)) {
@@ -184,7 +179,7 @@ state_one:
         D_800E2430[((D_80083228 + ((S_801743DC_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801743DC_2 *)arg3)->unk_1C.u |= 0x40000;
-    if (((S_801743DC_1 *)arg2)->unk_14 & 0x8000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
         goto set_callback;
     }
     {
@@ -196,7 +191,7 @@ state_one:
     goto done;
 
 state_two:
-    if (!(((S_801743DC_1 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
     {

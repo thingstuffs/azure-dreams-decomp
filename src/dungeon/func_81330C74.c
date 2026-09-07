@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_80167C74_0_pre {
     u16 unk_00;
@@ -37,14 +38,6 @@ typedef struct S_80167C74_2 {
     s32 unk_08;
 } S_80167C74_2;   /* arg1 in func_80167C74 */
 
-typedef struct S_80167C74_3 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x3E];
-    s16 unk_6A;
-    u8 pad_6C[0xA0];
-    u16 unk_10C;
-} S_80167C74_3;   /* D_800814A8 in func_80167C74 */
 
 typedef struct S_80167C74_4 {
     u8 pad_00[0x2];
@@ -168,7 +161,7 @@ M2C_UNK func_800A56E0();
 M2C_UNK func_80165018();
 M2C_UNK func_80167A98();
 extern s32 D_800814A0[3];
-extern S_80167C74_3 *D_800814A8;
+extern Rec_D_800814A8 *D_800814A8;
 extern M2C_UNK D_800DEAE0;
 extern M2C_UNK D_80166D14;
 extern M2C_UNK D_80167C30;
@@ -299,7 +292,7 @@ void func_80167C74(void *arg0, S_80167C74_2 *arg1, S_80167C74_11 *arg2) {
         if (temp_v0 == 0xC) {
             func_80167A98(arg0, arg1, arg2);
             D_800814A8->unk_10C = (u16) (D_800814A8->unk_10C | 1);
-            D_800814A8->unk_6A = (s16) (D_800814A8->unk_2A + 0x800);
+            D_800814A8->unk_6A = (s16) (D_800814A8->unk_2A.as_u16 + 0x800);
             func_800419EC(6, 0xC, D_800814A8);
             func_800A56E0(0x601);
         }

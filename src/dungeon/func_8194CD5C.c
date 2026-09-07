@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_8002455C_0_pre {
     u16 unk_00;
@@ -27,18 +28,6 @@ typedef struct S_8002455C_2 {
     s32 unk_14;
 } S_8002455C_2;   /* arg1 in func_8002455C */
 
-typedef struct S_8002455C_3 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8002455C_3;   /* arg2 in func_8002455C */
 
 
 M2C_UNK func_800478B8();                      /* extern */
@@ -88,11 +77,11 @@ void func_8002455C(void *arg0, void *arg1, void *arg2) {
     if (((S_8002455C_0 *)arg0)->unk_30 != 0) {
         ((S_8002455C_0 *)arg0)->unk_30 = 0U;
     }
-    temp_v0 = ((S_8002455C_3 *)arg2)->unk_0E - 8;
-    ((S_8002455C_3 *)arg2)->unk_0E = temp_v0;
-    ((S_8002455C_3 *)arg2)->unk_0D = temp_v0;
-    ((S_8002455C_3 *)arg2)->unk_0C = temp_v0;
-    if (!(temp_v0 & 0xFF) || (temp_v0_2 = ((S_8002455C_3 *)arg2)->unk_1E - 0x100, ((S_8002455C_3 *)arg2)->unk_1E = temp_v0_2, ((S_8002455C_3 *)arg2)->unk_1C = temp_v0_2, ((S_8002455C_3 *)arg2)->unk_1A = (u16) ((S_8002455C_0 *)arg0)->unk_2E, func_800478B8(arg2), ((((S_8002455C_3 *)arg2)->unk_14 & 0x6000) != 0))) {
+    temp_v0 = ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v - 8;
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v = temp_v0;
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v = temp_v0;
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v = temp_v0;
+    if (!(temp_v0 & 0xFF) || (temp_v0_2 = ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v - 0x100, ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = temp_v0_2, ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = temp_v0_2, ((Rec_D_80082E80 *)arg2)->unk_1A.as_u16 = (u16) ((S_8002455C_0 *)arg0)->unk_2E, func_800478B8(arg2), ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) != 0))) {
         (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_8002455C_0_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
     }

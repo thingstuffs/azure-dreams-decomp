@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_80171C34_0 {
     u8 pad_00[0x2];
@@ -43,12 +44,6 @@ typedef struct S_80171C34_3 {
     s32 unk_1C;
 } S_80171C34_3;   /* other in func_80171C34 */
 
-typedef struct S_80171C34_4 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x2C];
-    void * unk_58;
-} S_80171C34_4;   /* D_800814A8 in func_80171C34 */
 
 typedef struct S_80171C34_5 {
     u8 pad_00[0x98];
@@ -209,7 +204,7 @@ active:
             u8 *buffer;
             {
                 u8 *origin = D_80082E80_initial;
-                s32 direction = ((S_80171C34_4 *)D_800814A8)->unk_2A;
+                s32 direction = ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16;
                 s32 table_index =
                     ((((S_80171C34_1 *)arg3)->unk_45 + ((s16)direction >> 9)) & 7) << 1;
                 target_x = origin[0x24] +
@@ -349,7 +344,7 @@ loop_body:
         *(u16 *)&D_80082EA4 != ((S_80171C34_2 *)arg2)->unk_24.at00u.v) {
         ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
         if (func_8009A180(arg3,
-                (u8 *)((S_80171C34_4 *)D_800814A8)->unk_58 + 0x20) != 0) {
+                (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
             return;
         }
     }

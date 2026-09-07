@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172D04_0 {
     u8 pad_00[0x8C];
@@ -11,33 +13,8 @@ typedef struct S_80172D04_0 {
     union { s16 s; u16 u; } unk_A8;   /* accessed as both */
 } S_80172D04_0;   /* arg0 in func_80172D04 */
 
-typedef struct S_80172D04_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172D04_1;   /* arg1 in func_80172D04 */
 
-typedef struct S_80172D04_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x8];
-    u8 unk_28;
-    u8 pad_29[0x41];
-    u16 unk_6A;
-} S_80172D04_2;   /* arg3 in func_80172D04 */
 
-typedef struct S_80172D04_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172D04_3;   /* arg2 in func_80172D04 */
 
 
 
@@ -54,7 +31,7 @@ extern s32 D_80083460;
 extern u8 D_80170EE4[];
 extern u8 D_80176640[];
 
-void func_80172D04(S_80172D04_0 *arg0, S_80172D04_1 *arg1, S_80172D04_3 *arg2, void *arg3)
+void func_80172D04(S_80172D04_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
 {
     s16 timer;
     s32 value;
@@ -83,19 +60,19 @@ void func_80172D04(S_80172D04_0 *arg0, S_80172D04_1 *arg1, S_80172D04_3 *arg2, v
 state_0:
     func_80176480(arg1, arg2);
     func_800AD4D0(arg3);
-    arg1->unk_0C =
+    arg1->unk_0C.as_s32 =
         -*(s16 *)((u8 *)&D_8006CCD8 +
-            ((((S_80172D04_2 *)arg3)->unk_6A >> 8) & 0xE)) << 15;
-    arg1->unk_10 =
+            ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
+    arg1->unk_10.at00_s32.v =
         -*(s16 *)((u8 *)&D_8006CCE8 +
-            ((((S_80172D04_2 *)arg3)->unk_6A >> 8) & 0xE)) << 15;
+            ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
     arg0->unk_9B++;
 
-    if (((S_80172D04_2 *)arg3)->unk_28 == 0) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
         goto reset_motion;
     }
     random = func_800A6D30() & 3;
-    if (arg2->unk_14 & 0x8000) {
+    if (arg2->unk_14.at00_u16.v & 0x8000) {
         if (random == 0) {
             func_8017516C(arg0, arg1, arg2, arg3);
         }
@@ -105,7 +82,7 @@ state_0:
         return;
     }
     timer = -1;
-    if (((S_80172D04_2 *)arg3)->unk_1C & 0x228) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228) {
         timer = 8;
     }
     arg0->unk_96.s = timer;
@@ -116,19 +93,19 @@ state_0:
     arg0->unk_A8.u = one;
 
 state_1:
-    value = arg1->unk_0C;
+    value = arg1->unk_0C.as_s32;
     adjusted = value;
     if (value < 0) {
         adjusted = value + 3;
     }
-    value2 = arg1->unk_10;
-    arg1->unk_0C = value - (adjusted >> 2);
+    value2 = arg1->unk_10.at00_s32.v;
+    arg1->unk_0C.as_s32 = value - (adjusted >> 2);
 
     adjusted = value2;
     if (value2 < 0) {
         adjusted = value2 + 3;
     }
-    arg1->unk_10 = value2 - (adjusted >> 2);
+    arg1->unk_10.at00_s32.v = value2 - (adjusted >> 2);
 
     timer = arg0->unk_A8.u - 1;
     arg0->unk_A8.u = timer;
@@ -138,21 +115,21 @@ state_1:
 
     if (arg0->unk_96.s > 0) {
         arg0->unk_96.u = arg0->unk_96.u - 1;
-    } else if (arg2->unk_14 & 0x6000) {
+    } else if (arg2->unk_14.at00_u16.v & 0x6000) {
         arg0->unk_96.s = 0;
     }
 
     if (arg0->unk_96.s != 0) {
         return;
     }
-    if (((S_80172D04_2 *)arg3)->unk_28 != 0) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
         goto increment_state;
     }
 
 reset_motion:
-    arg1->unk_14 = 0;
-    arg1->unk_10 = 0;
-    arg1->unk_0C = 0;
+    arg1->unk_14.as_s32 = 0;
+    arg1->unk_10.at00_s32.v = 0;
+    arg1->unk_0C.as_s32 = 0;
     func_800AAA54(arg0, arg1, arg2, D_80176640);
     return;
 
@@ -167,10 +144,10 @@ state_2:
         s32 sub, m;
         m = arg2->unk_24;
         m <<= 6;
-        sub = arg1->unk_02 - 0x20;
-        arg1->unk_0C = ((m - sub) << 15) / timer;
-        sub = arg1->unk_06 - 0x20;
-        arg1->unk_10 =
+        sub = arg1->unk_00.at02_s16.v - 0x20;
+        arg1->unk_0C.as_s32 = ((m - sub) << 15) / timer;
+        sub = arg1->unk_04.at02_s16.v - 0x20;
+        arg1->unk_10.at00_s32.v =
             (((arg2->unk_25 << 6) - sub) << 15) /
             arg0->unk_96.s;
     }
@@ -187,9 +164,9 @@ state_2:
         return;
     }
 
-    arg1->unk_14 = 0;
-    arg1->unk_10 = 0;
-    arg1->unk_0C = 0;
+    arg1->unk_14.as_s32 = 0;
+    arg1->unk_10.at00_s32.v = 0;
+    arg1->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, arg2->unk_24,
         arg2->unk_25);
     {

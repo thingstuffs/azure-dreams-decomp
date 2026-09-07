@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_800DB164_0_pre {
     u16 unk_00;
@@ -14,13 +15,6 @@ typedef struct S_800DB164_0 {
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
 } S_800DB164_0;   /* arg0 in func_800DB164 */
 
-typedef struct S_800DB164_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0xC];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_800DB164_1;   /* arg2 in func_800DB164 */
 
 typedef struct S_800DB164_2 {
     u8 pad_00[0x8];
@@ -60,8 +54,8 @@ check_2:
     goto block_16;
 
 case_0:
-    ((S_800DB164_1 *)arg2)->unk_1C = (u16) (((S_800DB164_1 *)arg2)->unk_1C - ((rand(temp_a0) & 0xFF) + 0x300));
-    ((S_800DB164_1 *)arg2)->unk_1E = (u16) (((S_800DB164_1 *)arg2)->unk_1E + ((rand() & 0xFF) + 0x200));
+    ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v - ((rand(temp_a0) & 0xFF) + 0x300));
+    ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v + ((rand() & 0xFF) + 0x200));
     if ((s16) ((S_800DB164_0 *)arg0)->unk_48 > 0) {
         goto block_16;
     }
@@ -69,7 +63,7 @@ case_0:
     goto store_increment;
 
 case_1:
-    ((S_800DB164_1 *)arg2)->unk_0C = (s32) (((S_800DB164_1 *)arg2)->unk_0C + 0xFFF3F3F4);
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v = (s32) (((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v + 0xFFF3F3F4);
     ((S_800DB164_2 *)arg1)->unk_14 = (s32) (((S_800DB164_2 *)arg1)->unk_14 - ((rand(temp_a0) & 0xFF) << 0xA));
     if (((S_800DB164_2 *)arg1)->unk_08.at02.v < ((S_800DB164_0 *)arg0)->unk_10) {
         temp_v1 = 4;

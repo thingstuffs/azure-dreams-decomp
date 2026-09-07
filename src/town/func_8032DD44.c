@@ -1,18 +1,14 @@
 #include "common.h"
+#include "records/Rec_D_80016000.h"
 
 
 
-typedef s32 M2C_UNK;
 
-typedef struct S_80018544_0 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_80018544_0;   /* D_80016000 in func_80018544 */
 
 typedef struct S_80018544_1 {
     u8 pad_00[0x78];
     M2C_UNK (*unk_78)(M2C_UNK);
-} S_80018544_1;   /* ((S_80018544_0 *)D_80016000)->unk_20 in func_80018544 */
+} S_80018544_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_20 in func_80018544 */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -22,7 +18,7 @@ extern void func_80019BC0(void);
 extern void func_80019DFC(void *, void *, s32, s32);
 extern void func_8001ACE8(s32);
 extern s32 func_8001ADE0(s32);
-extern S_80018544_0 *D_80016000;
+extern Rec_D_80016000 *D_80016000;
 extern M2C_UNK D_8001BE2C;
 extern M2C_UNK D_8001BE44;
 extern M2C_UNK D_8001C354;

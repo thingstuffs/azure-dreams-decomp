@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80092018_0 {
     u8 pad_00[0x8C];
@@ -14,15 +15,6 @@ typedef struct S_80092018_0 {
     void * unk_124;
 } S_80092018_0;   /* arg0 in func_80092018 */
 
-typedef struct S_80092018_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80092018_1;   /* arg2 in func_80092018 */
 
 typedef struct S_80092018_2 {
     u8 pad_00[0x2A];
@@ -106,10 +98,10 @@ void func_80092018(void *arg0, void *arg1, void *arg2, void *arg3) {
     }
     (void)jt_keep; goto *D_800889C0[(u32)(temp_v1)];
 jt_c0:
-    if (!(((S_80092018_1 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         goto block_5;
     }
-    if (((S_80092018_1 *)arg2)->unk_2C == D_800DD028) {
+    if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 == D_800DD028) {
         goto block_27;
     }
     (*(u8 **)((u8 *)arg2 + 0x2C)) = D_800DD028;
@@ -144,7 +136,7 @@ jt_c16:
     ((S_80092018_0 *)arg0)->unk_9B = (u8) (((S_80092018_0 *)arg0)->unk_9B + 1);
     return;
 jt_c17:
-    if (!(((S_80092018_1 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         goto block_13;
     }
     (*(u8 **)((u8 *)arg2 + 0x2C)) = D_800DD020;
@@ -160,7 +152,7 @@ block_13:
     {
         s32 coordinate;
         s32 table_value;
-        coordinate = ((S_80092018_1 *)arg2)->unk_24 << 6;
+        coordinate = ((Rec_D_80082E80 *)arg2)->unk_24 << 6;
         table_value = *((s16 *)(D_8006CCD8 + (((u16) ((S_80092018_2 *)arg3)->unk_2A >> 8) & 0xE))) * 0x10;
         table_value += 0x20;
         coordinate += table_value;
@@ -171,7 +163,7 @@ block_13:
     {
         s32 coordinate;
         s32 table_value;
-        coordinate = ((S_80092018_1 *)arg2)->unk_25 << 6;
+        coordinate = ((Rec_D_80082E80 *)arg2)->unk_25 << 6;
         table_value = *((s16 *)(D_8006CCE8 + (((u16) ((S_80092018_2 *)arg3)->unk_2A >> 8) & 0xE))) * 0x10;
         table_value += 0x20;
         coordinate += table_value;
@@ -206,7 +198,7 @@ jt_c19:
     {
         s32 coordinate;
         s32 origin;
-        coordinate = ((S_80092018_1 *)arg2)->unk_24 << 6;
+        coordinate = ((Rec_D_80082E80 *)arg2)->unk_24 << 6;
         origin = ((S_80092018_3 *)arg1)->unk_02;
         origin -= 0x20;
         coordinate -= origin;
@@ -217,7 +209,7 @@ jt_c19:
         s32 origin;
         origin = ((S_80092018_3 *)arg1)->unk_06;
         origin -= 0x20;
-        coordinate = ((S_80092018_1 *)arg2)->unk_25 << 6;
+        coordinate = ((Rec_D_80082E80 *)arg2)->unk_25 << 6;
         coordinate -= origin;
         ((S_80092018_3 *)arg1)->unk_10.at00.v = (s32) ((coordinate << 0x10) / (s16) ((S_80092018_0 *)arg0)->unk_96.s);
     }
@@ -232,7 +224,7 @@ jt_c19:
     ((S_80092018_3 *)arg1)->unk_10.at00.v = 0;
     ((S_80092018_3 *)arg1)->unk_0C.at00.v = 0;
 block_23:
-    temp_v1_3 = ((S_80092018_1 *)arg2)->unk_14;
+    temp_v1_3 = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
     if (temp_v1_3 & 0x8000) {
         goto block_26;
     }
@@ -246,7 +238,7 @@ block_26:
     ((S_80092018_3 *)arg1)->unk_14 = 0;
     ((S_80092018_3 *)arg1)->unk_10.at00.v = 0;
     ((S_80092018_3 *)arg1)->unk_0C.at00.v = 0;
-    func_800A2B04(arg1, ((S_80092018_1 *)arg2)->unk_24, ((S_80092018_1 *)arg2)->unk_25);
+    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     func_80099F70(((S_80092018_2 *)arg3)->unk_5C);
     func_80099F04(((S_80092018_2 *)arg3)->unk_5C);
     {

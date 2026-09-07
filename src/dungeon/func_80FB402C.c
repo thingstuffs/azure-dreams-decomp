@@ -1,4 +1,8 @@
 #include "common.h"
+#include "records/Rec_func_800AA258_arg2.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_800814A8.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_8017382C_0 {
     u8 pad_00[0x8C];
@@ -12,15 +16,6 @@ typedef struct S_8017382C_0 {
     u16 unk_AE;
 } S_8017382C_0;   /* arg0 in func_8017382C */
 
-typedef struct S_8017382C_1 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 pad_0C[0x6];
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-} S_8017382C_1;   /* arg2 in func_8017382C */
 
 typedef struct S_8017382C_2 {
     u8 unk_00;
@@ -31,18 +26,6 @@ typedef struct S_8017382C_3 {
     u16 unk_06;
 } S_8017382C_3;   /* entry in func_8017382C */
 
-typedef struct S_8017382C_4 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_8017382C_4;   /* arg3 in func_8017382C */
 
 typedef struct S_8017382C_5 {
     u8 pad_00[0xA];
@@ -76,15 +59,7 @@ typedef struct S_8017382C_9 {
     u16 unk_02;
 } S_8017382C_9;   /* status_base in func_8017382C */
 
-typedef struct S_8017382C_10 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_8017382C_10;   /* D_800814A8 in func_8017382C */
 
-typedef struct S_8017382C_11 {
-    u8 pad_00[0x26];
-    s8 unk_26;
-} S_8017382C_11;   /* D_80082E80 in func_8017382C */
 
 typedef struct S_8017382C_12 {
     u8 pad_00[0xA];
@@ -155,12 +130,12 @@ state_zero:
         u16 facing;
 
         i = 0;
-        if (!(((S_8017382C_1 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000)) {
             goto done;
         }
 
-        ((S_8017382C_0 *)arg0)->unk_AE = ((S_8017382C_1 *)arg2)->unk_12;
-        records = ((S_8017382C_1 *)arg2)->unk_08;
+        ((S_8017382C_0 *)arg0)->unk_AE = ((Rec_func_800AA258_arg2 *)arg2)->unk_12;
+        records = ((Rec_func_800AA258_arg2 *)arg2)->unk_08;
 scan_zero:
         scaled = i << 1;
         if (!(((S_8017382C_2 *)records)->unk_00 & 0x20)) {
@@ -172,7 +147,7 @@ scan_zero:
         scan_zero_done:
         index = scaled + i;
         entry = (u8 *)((unsigned long)(index << 2) +
-                       (unsigned long)((S_8017382C_1 *)arg2)->unk_08);
+                       (unsigned long)((Rec_func_800AA258_arg2 *)arg2)->unk_08);
         ((S_8017382C_0 *)arg0)->unk_AC.s =
             ((S_8017382C_3 *)entry)->unk_06 & 0xFFC0;
 
@@ -180,7 +155,7 @@ scan_zero:
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
         func_80047784(
             arg2,
-            table[((D_80083228 + ((S_8017382C_4 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
 
         global = (u8 *)&D_80083460;
@@ -217,7 +192,7 @@ state_one:
             rounded += 7;
         }
         remainder = signed_angle - ((rounded >> 3) << 3);
-        ((S_8017382C_1 *)arg2)->unk_12 =
+        ((Rec_func_800AA258_arg2 *)arg2)->unk_12 =
             func_8006649C(
                 ((((s32)(remainder << 16) >> 18) << 6) + 0x340),
                 ((angle >> 19) + 0x100)) -
@@ -226,11 +201,11 @@ state_one:
         timer = ((S_8017382C_0 *)arg0)->unk_96 - 1;
         ((S_8017382C_0 *)arg0)->unk_96 = timer;
         if ((s16)timer > 0) {
-            if (!(((S_8017382C_1 *)arg2)->unk_14 & 0x8000)) {
+            if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0x8000)) {
                 goto done;
             }
         }
-        ((S_8017382C_1 *)arg2)->unk_12 = ((S_8017382C_0 *)arg0)->unk_AE - 0x40;
+        ((Rec_func_800AA258_arg2 *)arg2)->unk_12 = ((S_8017382C_0 *)arg0)->unk_AE - 0x40;
         goto increment_state;
     }
 
@@ -253,7 +228,7 @@ state_two:
 
         if (((S_8017382C_0 *)arg0)->unk_AC.u == 0) {
             i = 0;
-            records = ((S_8017382C_1 *)arg2)->unk_08;
+            records = ((Rec_func_800AA258_arg2 *)arg2)->unk_08;
 scan_two:
             scaled = i << 1;
             if (!(((S_8017382C_2 *)records)->unk_00 & 0x20)) {
@@ -265,7 +240,7 @@ scan_two:
 scan_two_done:
             index = scaled + i;
             entry = (u8 *)((unsigned long)(index << 2) +
-                           (unsigned long)((S_8017382C_1 *)arg2)->unk_08);
+                           (unsigned long)((Rec_func_800AA258_arg2 *)arg2)->unk_08);
             ((S_8017382C_0 *)arg0)->unk_AC.s =
                 ((S_8017382C_3 *)entry)->unk_06 & 0xFFC0;
         }
@@ -278,7 +253,7 @@ scan_two_done:
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
         func_80047784(
             arg2,
-            table[((D_80083228 + ((S_8017382C_4 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
 
         effect = func_8003FD64(0x10, D_80083498);
@@ -296,7 +271,7 @@ scan_two_done:
             ((S_8017382C_7 *)child)->unk_9E = 1;
         }
 
-        ((S_8017382C_0 *)arg0)->unk_AE = ((S_8017382C_1 *)arg2)->unk_12 + 0x40;
+        ((S_8017382C_0 *)arg0)->unk_AE = ((Rec_func_800AA258_arg2 *)arg2)->unk_12 + 0x40;
         early_counter = (u8 *)&D_80083460;
         ((S_8017382C_8 *)early_counter)->unk_0A++;
 
@@ -309,13 +284,13 @@ state_two_active:
         if (((S_8017382C_9 *)status_base)->unk_02 & 0x1000) {
             goto done;
         }
-        if (((S_8017382C_4 *)arg3)->unk_64 != 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
             if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
                 goto done;
             }
         }
 
-        if (((S_8017382C_4 *)arg3)->unk_25 == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
             if (((S_8017382C_9 *)status_base)->unk_02 & 0x2008) {
                 goto done;
             }
@@ -330,7 +305,7 @@ state_two_active:
         {
             u32 flags;
 
-            flags = ((S_8017382C_4 *)arg3)->unk_1C;
+            flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32;
             if (flags & 0x100) {
                 func_800AA258(arg0, arg1, arg2, arg3);
                 goto done;
@@ -342,12 +317,12 @@ state_two_active:
             }
         }
 
-        if (((S_8017382C_4 *)arg3)->unk_6D == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
             goto done;
         }
         if ((s16)func_800A2C34(arg3) != 0) {
             if ((s16)func_8009A180(
-                    arg3, (u8 *)((S_8017382C_10 *)D_800814A8)->unk_58 + 0x20) != 0) {
+                    arg3, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                 goto done;
             }
         }
@@ -358,8 +333,8 @@ state_two_active:
             s8 tile;
 
             random_arg = D_80082E80;
-            tile = ((S_8017382C_1 *)arg2)->unk_26;
-            if ((tile != ((S_8017382C_11 *)D_80082E80)->unk_26) || (tile < 0)) {
+            tile = ((Rec_func_800AA258_arg2 *)arg2)->unk_26.as_s8;
+            if ((tile != ((Rec_D_80082E80 *)D_80082E80)->unk_26.as_s8) || (tile < 0)) {
                 s32 r;
 
                 r = (s16)func_8009FD40(D_80082E80, arg2);
@@ -383,7 +358,7 @@ second_call:
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = late_table;
         func_80047784(
             arg2,
-            late_table[((D_80083228 + ((S_8017382C_4 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            late_table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
 
         effect = func_8003FD64(0x10, D_80083498);
@@ -403,7 +378,7 @@ second_call:
         late_counter = (u8 *)&D_80083460;
         ((S_8017382C_12 *)late_counter)->unk_0A++;
         ((S_8017382C_0 *)arg0)->unk_9B++;
-        ((S_8017382C_0 *)arg0)->unk_AE = ((S_8017382C_1 *)arg2)->unk_12 + 0x40;
+        ((S_8017382C_0 *)arg0)->unk_AE = ((Rec_func_800AA258_arg2 *)arg2)->unk_12 + 0x40;
         goto done;
     }
 
@@ -423,13 +398,13 @@ state_three:
             rounded += 7;
         }
         remainder = signed_angle - ((rounded >> 3) << 3);
-        ((S_8017382C_1 *)arg2)->unk_12 =
+        ((Rec_func_800AA258_arg2 *)arg2)->unk_12 =
             func_8006649C(
                 ((((s32)(remainder << 16) >> 18) << 6) + 0x340),
                 ((angle >> 19) + 0x102)) -
             ((S_8017382C_0 *)arg0)->unk_AC.s;
 
-        if (!(((S_8017382C_1 *)arg2)->unk_14 & 0x8000)) {
+        if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0x8000)) {
             timer = ((S_8017382C_0 *)arg0)->unk_96 - 1;
             ((S_8017382C_0 *)arg0)->unk_96 = timer;
             if ((s16)timer > 0) {
@@ -439,9 +414,9 @@ state_three:
 
         global = (u8 *)&D_80083460;
         ((S_8017382C_5 *)global)->unk_0A--;
-        ((S_8017382C_4 *)arg3)->unk_1C &= ~0x200;
+        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x200;
         ((S_8017382C_0 *)arg0)->unk_8C = D_80170F6C;
-        ((S_8017382C_1 *)arg2)->unk_12 = ((S_8017382C_0 *)arg0)->unk_AE;
+        ((Rec_func_800AA258_arg2 *)arg2)->unk_12 = ((S_8017382C_0 *)arg0)->unk_AE;
     }
 
 done:

@@ -1,21 +1,8 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
-typedef s32 M2C_UNK;
 
-typedef struct S_801740F4_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    u16 unk_2A;
-    u8 pad_2C[0x34];
-    s32 unk_60;
-    u8 pad_64[0x9];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-} S_801740F4_0;   /* arg3 in func_801740F4 */
 
 typedef struct S_801740F4_1 {
     u8 pad_00[0x8C];
@@ -25,11 +12,6 @@ typedef struct S_801740F4_1 {
     s8 unk_9B;
 } S_801740F4_1;   /* arg0 in func_801740F4 */
 
-typedef struct S_801740F4_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801740F4_2;   /* arg2 in func_801740F4 */
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -63,24 +45,24 @@ void func_801740F4(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 field_60;
     u8 *table_base;
 
-    ((S_801740F4_0 *)arg3)->unk_71 = (u8)(((S_801740F4_0 *)arg3)->unk_71 & 0x7F);
+    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = (u8)(((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
     if (!(D_80083462 & 0x2000) && ((func_800A2BDC(arg3) << 0x10) == 0)) {
         ((S_801740F4_1 *)arg0)->unk_8C = 0;
         ((S_801740F4_1 *)arg0)->unk_9A = 0x17;
         ((S_801740F4_1 *)arg0)->unk_9B = 0;
-        if (((S_801740F4_0 *)arg3)->unk_1C & 0x400) {
-            temp_v0 = ((S_801740F4_0 *)arg3)->unk_14;
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x400) {
+            temp_v0 = ((Rec_D_800E3D7C *)arg3)->unk_14.as_s32;
             if (temp_v0 >= 0) {
-                ((S_801740F4_0 *)arg3)->unk_14 = (s32)(temp_v0 | 0x80000000);
-                ((S_801740F4_0 *)arg3)->unk_2A = (u16)(((S_801740F4_0 *)arg3)->unk_2A + ((func_800A6D30() & 7) << 9));
+                ((Rec_D_800E3D7C *)arg3)->unk_14.as_s32 = (s32)(temp_v0 | 0x80000000);
+                ((Rec_D_800E3D7C *)arg3)->unk_2A.as_u16 = (u16)(((Rec_D_800E3D7C *)arg3)->unk_2A.as_u16 + ((func_800A6D30() & 7) << 9));
             }
         }
-        field_60 = func_800A04F0(arg3, ((S_801740F4_2 *)arg2)->unk_24, ((S_801740F4_2 *)arg2)->unk_25, (s16)((S_801740F4_0 *)arg3)->unk_2A);
+        field_60 = func_800A04F0(arg3, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25, (s16)((Rec_D_800E3D7C *)arg3)->unk_2A.as_u16);
         table_base = D_80174B0C;
-        ((S_801740F4_0 *)arg3)->unk_60 = field_60;
+        ((Rec_D_800E3D7C *)arg3)->unk_60.as_s32 = field_60;
         (*(u8 **)((u8 *)arg2 + 0x2C)) = table_base;
-        func_80047784(arg2, table_base[((s32)(D_80083228 + (s16)((S_801740F4_0 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
-        ((S_801740F4_0 *)arg3)->unk_6D = (u8)(((S_801740F4_0 *)arg3)->unk_6D - 1);
+        func_80047784(arg2, table_base[((s32)(D_80083228 + (s16)((Rec_D_800E3D7C *)arg3)->unk_2A.as_u16 + 0x100) >> 9) & 7], 0);
+        ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 = (u8)(((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 - 1);
         D_80083460.value = (u16)(D_80083460.value + 1);
         raw_result = func_800990FC();
         call_arg = arg3;

@@ -1,15 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_80173F6C_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80173F6C_4;   /* D_80083498 in func_80173F6C */
 
 typedef struct S_80173F6C_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80173F6C_5;   /* ((S_80173F6C_4 *)D_80083498)->unk_08 in func_80173F6C */
+} S_80173F6C_5;   /* ((Rec_D_800E3D7C *)D_80083498)->unk_08.at00_pv.v in func_80173F6C */
 
 
 
@@ -89,7 +86,7 @@ void func_80173F6C(void) {
         func_8004491C(temp_v0, D_80045340);
         temp_v1 = D_80082E80;
         temp_s3 = ((S_80173F6C_1 *)temp_v0)->unk_08;
-        temp_s3->unk_0A = (u16) ((S_80173F6C_5 *)(((S_80173F6C_4 *)D_80083498)->unk_08))->unk_0A;
+        temp_s3->unk_0A = (u16) ((S_80173F6C_5 *)(((Rec_D_800E3D7C *)D_80083498)->unk_08.at00_pv.v))->unk_0A;
         temp_s0 = ((S_80173F6C_1 *)temp_v0)->unk_0C;
         temp_s0->unk_24 = (u8) (temp_v1[0x24] + 9);
         temp_s0->unk_25 = (u8) (temp_v1[0x25] - 9);

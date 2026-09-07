@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80172874_0_pre {
     u16 unk_00;
@@ -43,11 +44,6 @@ typedef struct S_80172874_4 {
     s32 unk_4CE0;
 } S_80172874_4;   /* flag_base in func_80172874 */
 
-typedef struct S_80172874_5 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80172874_5;   /* arg1 in func_80172874 */
 
 typedef struct S_80172874_6 {
     s32 unk_00;
@@ -67,7 +63,7 @@ extern s32 D_800814A0;
 extern u8 D_80174C8C[];
 extern s32 D_80174CE0;
 
-void func_80172874(void *arg0, S_80172874_5 *arg1, S_80172874_2 *arg2)
+void func_80172874(void *arg0, Rec_D_800E3D7C *arg1, S_80172874_2 *arg2)
 {
     void *base = arg0;
     S_80172874_6 *source;
@@ -140,9 +136,9 @@ mode_one:
         ((S_80172874_0 *)base)->unk_16.s = 0x14;
         ((S_80172874_0 *)base)->unk_12.s = ((S_80172874_0 *)base)->unk_12.p + 1;
     }
-    arg1->unk_00 = source->unk_00;
-    arg1->unk_04 = source->unk_04;
-    arg1->unk_08 = source->unk_08;
+    arg1->unk_00.at00_s32.v = source->unk_00;
+    arg1->unk_04.at00_s32.v = source->unk_04;
+    arg1->unk_08.at00_s32.v = source->unk_08;
     func_80172A0C();
     }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 extern void func_800478B8(void *);
@@ -36,17 +37,6 @@ typedef struct S_800D7D30_1 {
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
 } S_800D7D30_1;   /* arg0 in func_800D7D30 */
 
-typedef struct S_800D7D30_2 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x6];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-} S_800D7D30_2;   /* arg2 in func_800D7D30 */
 
 void func_800D7D30(void *arg0, void *arg1, void *arg2) {
     register s32 x ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
@@ -74,9 +64,9 @@ void func_800D7D30(void *arg0, void *arg1, void *arg2) {
     }
 
     func_800478B8(arg2);
-    if (((S_800D7D30_2 *)arg2)->unk_14 & 0x6000) {
-        ((S_800D7D30_2 *)arg2)->unk_04 = 0;
-        ((S_800D7D30_2 *)arg2)->unk_05 = 0;
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
+        ((Rec_D_80082E80 *)arg2)->unk_04.as_s8 = 0;
+        ((Rec_D_80082E80 *)arg2)->unk_05.as_s8 = 0;
     }
 
     ((S_800D7D30_0 *)arg1)->unk_00.at02.v = (s16)(((S_800D7D30_1 *)arg0)->unk_0C +
@@ -102,15 +92,15 @@ void func_800D7D30(void *arg0, void *arg1, void *arg2) {
     }
     ((S_800D7D30_1 *)arg0)->unk_1C.at00.v = value + x;
 
-    c0 = ((S_800D7D30_2 *)arg2)->unk_0C;
-    c1 = ((S_800D7D30_2 *)arg2)->unk_0D;
-    ((S_800D7D30_2 *)arg2)->unk_0C = c0 - (c0 >> 4);
-    ((S_800D7D30_2 *)arg2)->unk_0D = c1 - (c1 >> 4);
-    c2 = ((S_800D7D30_2 *)arg2)->unk_0E;
-    ((S_800D7D30_2 *)arg2)->unk_0E = c2 - (c2 >> 4);
-    if (((S_800D7D30_2 *)arg2)->unk_14 & 0x6000) {
-        ((S_800D7D30_2 *)arg2)->unk_04 = 0;
-        ((S_800D7D30_2 *)arg2)->unk_05 = 0;
+    c0 = ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v;
+    c1 = ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v;
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v = c0 - (c0 >> 4);
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v = c1 - (c1 >> 4);
+    c2 = ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v;
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v = c2 - (c2 >> 4);
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
+        ((Rec_D_80082E80 *)arg2)->unk_04.as_s8 = 0;
+        ((Rec_D_80082E80 *)arg2)->unk_05.as_s8 = 0;
     }
 
     if (((S_800D7D30_0 *)arg1)->unk_08.at02.v < ((S_800D7D30_1 *)arg0)->unk_10 - 0x60) {

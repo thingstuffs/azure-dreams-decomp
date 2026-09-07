@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_8017313C_0 {
     u8 pad_00[0x8C];
@@ -22,18 +23,6 @@ typedef struct S_8017313C_1 {
     union { void * s; u8 * u; } unk_2C;   /* accessed as both */
 } S_8017313C_1;   /* arg2 in func_8017313C */
 
-typedef struct S_8017313C_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_8017313C_2;   /* arg3 in func_8017313C */
 
 typedef struct S_8017313C_3 {
     u8 pad_00[0xA];
@@ -79,7 +68,7 @@ extern s32 D_80083460;
 extern u8 D_80170E9C[];
 extern u8 D_80174F00[];
 
-void func_8017313C(S_8017313C_0 *arg0, void *arg1, S_8017313C_1 *arg2, S_8017313C_2 *arg3)
+void func_8017313C(S_8017313C_0 *arg0, void *arg1, S_8017313C_1 *arg2, Rec_D_800E3D7C *arg3)
 {
     s32 flags;
     u16 timer;
@@ -116,7 +105,7 @@ state_zero:
     arg2->unk_0C = 0x40;
     func_80047784(arg2,
         arg2->unk_2C.u[
-            ((D_80083228 + arg3->unk_2A + 0x100) >> 9) & 7],
+            ((D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     {
         u8 *counter_base = (u8 *)&D_80083460;
@@ -138,8 +127,8 @@ state_one:
             arg2->unk_0E = 0x80;
             arg2->unk_0D = 0x80;
             arg2->unk_0C = 0x80;
-            first_mask = arg3->unk_1C & 0xEFFFFFFF;
-            arg3->unk_1C = first_mask & ~0x200;
+            first_mask = arg3->unk_1C.as_s32 & 0xEFFFFFFF;
+            arg3->unk_1C.as_s32 = first_mask & ~0x200;
             arg0->unk_8C = D_80170E9C;
             goto done;
         }
@@ -149,12 +138,12 @@ state_one:
     if (((S_8017313C_4 *)global_base)->unk_02 & 0x1000) {
         goto done;
     }
-    if (arg3->unk_64 != 0) {
+    if (arg3->unk_64.as_s16 != 0) {
         if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
             goto done;
         }
     }
-    if (arg3->unk_25 == 0) {
+    if (arg3->unk_24.at01_u8.v == 0) {
         if (((S_8017313C_4 *)global_base)->unk_02 & 0x2008) {
             goto done;
         }
@@ -164,7 +153,7 @@ state_one:
     if ((func_800A2C34(arg3) << 16) != 0) {
         goto done;
     }
-    flags = arg3->unk_1C;
+    flags = arg3->unk_1C.as_s32;
     if (flags & 0x100) {
         func_800AA258(arg0, arg1, arg2, arg3);
         goto done;
@@ -174,7 +163,7 @@ state_one:
         func_801737C4(arg0, arg1, arg2, arg3);
         goto done;
     }
-    if (arg3->unk_6D == 0) {
+    if (arg3->unk_6D.as_s8 == 0) {
         goto done;
     }
     if ((func_800A2C34(arg3) << 16) != 0) {
@@ -208,8 +197,8 @@ state_one:
         arg2->unk_0E = 0x80;
         arg2->unk_0D = 0x80;
         arg2->unk_0C = 0x80;
-        second_mask = arg3->unk_1C & 0xEFFFFFFF;
-        arg3->unk_1C = second_mask & ~0x200;
+        second_mask = arg3->unk_1C.as_s32 & 0xEFFFFFFF;
+        arg3->unk_1C.as_s32 = second_mask & ~0x200;
         arg0->unk_8C = D_80170E9C;
         goto done;
     }
@@ -249,8 +238,8 @@ state_two:
     arg2->unk_0E = 0x80;
     arg2->unk_0D = 0x80;
     arg2->unk_0C = 0x80;
-    final_mask = arg3->unk_1C & 0xEFFFFFFF;
-    arg3->unk_1C = final_mask & ~0x200;
+    final_mask = arg3->unk_1C.as_s32 & 0xEFFFFFFF;
+    arg3->unk_1C.as_s32 = final_mask & ~0x200;
     arg0->unk_8C = D_80170E9C;
     }
 

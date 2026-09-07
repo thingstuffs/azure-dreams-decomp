@@ -1,15 +1,8 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
 
-typedef struct S_801722E0_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x41];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-} S_801722E0_0;   /* arg3 in func_801722E0 */
 
 typedef struct S_801722E0_1 {
     u8 pad_00[0x2];
@@ -52,7 +45,7 @@ void func_801722E0(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 result;
     u8 *state = D_80083460;
 
-    ((S_801722E0_0 *)arg3)->unk_71 = (u8)(((S_801722E0_0 *)arg3)->unk_71 & 0x7F);
+    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = (u8)(((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
     if (!(((S_801722E0_1 *)state)->unk_02 & 0x2000) &&
         ((func_800A2BDC(arg3) << 0x10) == 0)) {
         u8 *table = D_80174880;
@@ -63,9 +56,9 @@ void func_801722E0(void *arg0, void *arg1, void *arg2, void *arg3) {
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
         func_80047784(
             arg2,
-            table[((D_80083228 + ((S_801722E0_0 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        ((S_801722E0_0 *)arg3)->unk_6D = (u8)(((S_801722E0_0 *)arg3)->unk_6D - 1);
+        ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 = (u8)(((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 - 1);
         ((S_801722E0_1 *)state)->unk_0A = (u16)(((S_801722E0_1 *)state)->unk_0A + 1);
         result = func_800990FC();
         call_arg = arg3;

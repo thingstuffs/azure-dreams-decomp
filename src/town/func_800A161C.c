@@ -1,14 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082D58.h"
 
-typedef struct S_8009ED7C_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8009ED7C_0;   /* arg2 in func_8009ED7C */
 
 typedef struct S_8009ED7C_1 {
     s32 unk_00;
@@ -20,10 +14,6 @@ typedef struct S_8009ED7C_2_pre {
     u16 unk_00;
 } S_8009ED7C_2_pre;   /* the 0x2 bytes before arg0 in func_8009ED7C, addressed as arg0[-1] */
 
-typedef struct S_8009ED7C_2 {
-    u8 pad_00[0x6C];
-    u16 unk_6C;
-} S_8009ED7C_2;   /* arg0 in func_8009ED7C */
 
 
 M2C_UNK func_80033D08();                      /* extern */
@@ -47,14 +37,14 @@ void func_8009ED7C(void *arg0, M2C_UNK arg1, void *arg2) {
     u16 temp_v0;
 
     temp_a0 = D_80100B50;
-    ((S_8009ED7C_0 *)arg2)->unk_0C = (s32) ((s32) (((S_8009ED7C_1 *)temp_a0)->unk_00 - ((S_8009ED7C_0 *)arg2)->unk_00) / 2);
-    ((S_8009ED7C_0 *)arg2)->unk_10 = (s32) ((s32) (((S_8009ED7C_1 *)temp_a0)->unk_04 - ((S_8009ED7C_0 *)arg2)->unk_04) / 2);
-    ((S_8009ED7C_0 *)arg2)->unk_14 = (s32) ((s32) (((S_8009ED7C_1 *)temp_a0)->unk_08 - ((S_8009ED7C_0 *)arg2)->unk_08) / 2);
+    ((Rec_D_800E3D7C *)arg2)->unk_0C.as_s32 = (s32) ((s32) (((S_8009ED7C_1 *)temp_a0)->unk_00 - ((Rec_D_800E3D7C *)arg2)->unk_00.at00_s32.v) / 2);
+    ((Rec_D_800E3D7C *)arg2)->unk_10.at00_s32.v = (s32) ((s32) (((S_8009ED7C_1 *)temp_a0)->unk_04 - ((Rec_D_800E3D7C *)arg2)->unk_04.at00_s32.v) / 2);
+    ((Rec_D_800E3D7C *)arg2)->unk_14.as_s32 = (s32) ((s32) (((S_8009ED7C_1 *)temp_a0)->unk_08 - ((Rec_D_800E3D7C *)arg2)->unk_08.at00_s32.v) / 2);
     func_8009539C(arg2);
     func_8008F294(arg1, arg2);
     func_8008F664(arg1, arg2);
-    temp_v0 = ((S_8009ED7C_2 *)arg0)->unk_6C - 1;
-    ((S_8009ED7C_2 *)arg0)->unk_6C = temp_v0;
+    temp_v0 = ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 - 1;
+    ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = temp_v0;
     if ((temp_v0 << 0x10) <= 0) {
         func_800A0150(D_80100B68[0], arg0 + 0x4C, &D_80100AF8, 0);
         func_8008F134(arg0);

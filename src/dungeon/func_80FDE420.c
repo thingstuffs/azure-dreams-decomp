@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80173C20_0 {
     u8 pad_00[0x8C];
@@ -26,10 +27,6 @@ typedef struct S_80173C20_1 {
     s8 unk_6D;
 } S_80173C20_1;   /* arg3 in func_80173C20 */
 
-typedef struct S_80173C20_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80173C20_2;   /* arg2 in func_80173C20 */
 
 typedef struct S_80173C20_3 {
     u8 pad_00[0xC];
@@ -97,10 +94,10 @@ state_zero:
     }
     func_800A5720(saved);
 
-    if (((S_80173C20_2 *)arg2)->unk_14 & 0x8000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
         ((S_80173C20_0 *)arg0)->unk_9B = 3;
         ((S_80173C20_0 *)arg0)->unk_96 = 0;
-        ((S_80173C20_2 *)arg2)->unk_14 |= 0x6000;
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(arg3, arg2, ((S_80173C20_1 *)arg3)->unk_2A.u, 1);
         goto end;
     }
@@ -117,7 +114,7 @@ state_one:
     value = ((S_80173C20_3 *)arg1)->unk_14 + 0x20000;
     ((S_80173C20_3 *)arg1)->unk_14 = value;
     ((S_80173C20_0 *)arg0)->unk_90 += value;
-    if (!(((S_80173C20_2 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         goto end;
     }
 
@@ -132,10 +129,10 @@ state_one:
 state_two:
     timer = ((S_80173C20_0 *)arg0)->unk_96 - 1;
     ((S_80173C20_0 *)arg0)->unk_96 = timer;
-    if (((timer << 16) == 0) || (((S_80173C20_2 *)arg2)->unk_14 & 0x8000)) {
+    if (((timer << 16) == 0) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
         func_8009C12C(arg3, arg2, ((S_80173C20_1 *)arg3)->unk_2A.u, 1);
     }
-    if (!(((S_80173C20_2 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         goto end;
     }
 
@@ -148,7 +145,7 @@ increment_state:
     goto end;
 
 state_three:
-    if (!(((S_80173C20_2 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         goto end;
     }
     ((S_80173C20_3 *)arg1)->unk_10 = 0;

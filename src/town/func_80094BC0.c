@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_80094268_arg0.h"
 
 s32 func_80033B2C();                         /* extern */
 M2C_UNK func_80094088();     /* extern */
@@ -21,10 +23,6 @@ extern M2C_UNK D_800CFCB4;
 extern M2C_UNK D_800CFCEF;
 extern M2C_UNK D_800FE488;
 
-typedef struct S_80092320_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80092320_0;   /* arg1 in func_80092320 */
 
 typedef struct S_80092320_1 {
     u8 unk_00;
@@ -35,12 +33,8 @@ typedef struct S_80092320_2 {
     s32 unk_10;
 } S_80092320_2;   /* state in func_80092320 */
 
-typedef struct S_80092320_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80092320_3;   /* arg0 in func_80092320 */
 
-void func_80092320(S_80092320_3 *arg0, S_80092320_0 *arg1, M2C_UNK arg2) {
+void func_80092320(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
     u8 *state = D_80083160;
     s16 temp_v0;
     s32 temp_v0_3;
@@ -50,7 +44,7 @@ void func_80092320(S_80092320_3 *arg0, S_80092320_0 *arg1, M2C_UNK arg2) {
     func_80094C1C(arg0);
     func_80095094(arg1);
     temp_v0 = func_80095978(arg1, &D_800FE488);
-    if ((temp_v0 - arg1->unk_0A) >= 4) {
+    if ((temp_v0 - arg1->unk_08.at02_s16.v) >= 4) {
         if (((S_80092320_1 *)(&D_800CFCEF))->unk_00 == 0) {
             func_80094378(arg0, arg1, arg2);
             goto block_end;
@@ -65,8 +59,8 @@ block_6:
         func_800942B0(arg0, arg1, arg2);
         goto block_end;
     }
-    temp_v0_2 = arg0->unk_0A - 1;
-    arg0->unk_0A = temp_v0_2;
+    temp_v0_2 = arg0->unk_0A.as_u16 - 1;
+    arg0->unk_0A.as_u16 = temp_v0_2;
     if ((s16) temp_v0_2 < 0) {
         func_80094414(arg0, arg1, arg2);
         goto block_end;

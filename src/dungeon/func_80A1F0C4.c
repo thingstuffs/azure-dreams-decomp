@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_801728C4_0 {
     u8 pad_00[0x8C];
@@ -69,17 +70,6 @@ typedef struct S_801728C4_4 {
     void * unk_2C;
 } S_801728C4_4;   /* arg2 in func_801728C4 */
 
-typedef struct S_801728C4_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801728C4_5;   /* arg1 in func_801728C4 */
 
 typedef struct S_801728C4_6 {
     u8 pad_00[0xA6];
@@ -290,9 +280,9 @@ copy_parent:
     }
 
 object_ready:
-    pos[0] = ((S_801728C4_5 *)arg1)->unk_02;
-    pos[1] = ((S_801728C4_5 *)arg1)->unk_06;
-    pos[2] = ((S_801728C4_5 *)arg1)->unk_0A;
+    pos[0] = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v;
+    pos[1] = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v;
+    pos[2] = ((Rec_D_800E3D7C *)arg1)->unk_08.at02_u16.v;
     if (func_800A94A0(arg3, anim, mode, (u8 *)arg0 + 0x98) != 0) {
         ((S_801728C4_4 *)arg2)->unk_14 &= 0xF7FF;
         func_800A56E0(0x703);
@@ -304,9 +294,9 @@ object_ready:
     goto done;
 
 empty_anim:
-    ((S_801728C4_5 *)arg1)->unk_14 = 0;
-    ((S_801728C4_5 *)arg1)->unk_10 = 0;
-    ((S_801728C4_5 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_801728C4_4 *)arg2)->unk_24, ((S_801728C4_4 *)arg2)->unk_25);
     global = D_800814A8;
     D_8008346C[0] = 0;
@@ -345,11 +335,11 @@ state_2:
                 part = (u8 *)entity + 0x20;
                 ((S_801728C4_7 *)entity)->unk_10 = func_801740FC;
                 ((S_801728C4_10 *)(((S_801728C4_7 *)entity)->unk_08))->unk_02 =
-                    ((S_801728C4_5 *)arg1)->unk_02 + delta[0];
+                    ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v + delta[0];
                 ((S_801728C4_10 *)(((S_801728C4_7 *)entity)->unk_08))->unk_06 =
-                    ((S_801728C4_5 *)arg1)->unk_06 + delta[1];
+                    ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v + delta[1];
                 ((S_801728C4_10 *)(((S_801728C4_7 *)entity)->unk_08))->unk_0A =
-                    ((S_801728C4_5 *)arg1)->unk_0A + delta[2];
+                    ((Rec_D_800E3D7C *)arg1)->unk_08.at02_u16.v + delta[2];
                 ((S_801728C4_8 *)part)->unk_A4 = 0;
                 ((S_801728C4_8 *)part)->unk_96 = 4;
                 parent = ((S_801728C4_7 *)entity)->unk_0C;
@@ -382,11 +372,11 @@ state_2:
                 func_8004491C(entity, func_80045340);
                 ((S_801728C4_7 *)entity)->unk_10 = callback;
                 ((S_801728C4_10 *)(((S_801728C4_7 *)entity)->unk_08))->unk_02 =
-                    ((S_801728C4_5 *)arg1)->unk_02 + delta[0] + (func_80069EF8() & 0xF) - 8;
+                    ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v + delta[0] + (func_80069EF8() & 0xF) - 8;
                 ((S_801728C4_10 *)(((S_801728C4_7 *)entity)->unk_08))->unk_06 =
-                    ((S_801728C4_5 *)arg1)->unk_06 + delta[1] + (func_80069EF8() & 0xF) - 8;
+                    ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v + delta[1] + (func_80069EF8() & 0xF) - 8;
                 ((S_801728C4_10 *)(((S_801728C4_7 *)entity)->unk_08))->unk_0A =
-                    ((S_801728C4_5 *)arg1)->unk_0A + delta[2] + (func_80069EF8() & 0xF) - 8;
+                    ((Rec_D_800E3D7C *)arg1)->unk_08.at02_u16.v + delta[2] + (func_80069EF8() & 0xF) - 8;
                 ((S_801728C4_10 *)(((S_801728C4_7 *)entity)->unk_08))->unk_0C =
                     ((func_80069EF8() & 0xFF) - 0x80) << 11;
                 ((S_801728C4_10 *)(((S_801728C4_7 *)entity)->unk_08))->unk_10 =
@@ -429,9 +419,9 @@ state_3:
     if (!(((S_801728C4_4 *)arg2)->unk_14 & 0xE000)) {
         goto done;
     }
-    ((S_801728C4_5 *)arg1)->unk_14 = 0;
-    ((S_801728C4_5 *)arg1)->unk_10 = 0;
-    ((S_801728C4_5 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_801728C4_4 *)arg2)->unk_24, ((S_801728C4_4 *)arg2)->unk_25);
     if (((S_801728C4_4 *)arg2)->unk_2C != D_80174820) {
         (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174820;

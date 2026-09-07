@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_80167540[3];
@@ -35,11 +36,6 @@ typedef struct S_801676CC_3 {
     s32 unk_08;
 } S_801676CC_3;   /* temp_a0_2 in func_801676CC */
 
-typedef struct S_801676CC_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_801676CC_4;   /* arg0 in func_801676CC */
 
 typedef struct S_801676CC_5 {
     u8 pad_00[0x6];
@@ -56,7 +52,7 @@ typedef struct S_801676CC_5 {
     s16 unk_1E;
 } S_801676CC_5;   /* temp_a0_3 in func_801676CC */
 
-void func_801676CC(S_801676CC_4 *arg0) {
+void func_801676CC(Rec_D_800E3D7C *arg0) {
     s16 var_s1;
     s16 var_s2;
     s32 var_s3;
@@ -85,9 +81,9 @@ void func_801676CC(S_801676CC_4 *arg0) {
             temp_a0->unk_10 = 0x60;
             temp_a0->unk_14 = (u16) (temp_a0->unk_14 | 0xC);
             temp_a0_2 = ((S_801676CC_1 *)temp_v0)->unk_08;
-            temp_a0_2->unk_00 = (s32) arg0->unk_00;
-            temp_a0_2->unk_04 = (s32) arg0->unk_04;
-            temp_a0_2->unk_08 = (s32) (arg0->unk_08 + 0xFFC00000);
+            temp_a0_2->unk_00 = (s32) arg0->unk_00.at00_s32.v;
+            temp_a0_2->unk_04 = (s32) arg0->unk_04.at00_s32.v;
+            temp_a0_2->unk_08 = (s32) (arg0->unk_08.at00_s32.v + 0xFFC00000);
             temp_a0_3 = ((S_801676CC_1 *)temp_v0)->unk_0C;
             temp_a0_3->unk_1C = var_s1;
             temp_a0_3->unk_1E = var_s2;

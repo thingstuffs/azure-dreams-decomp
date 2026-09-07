@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_801730E0_0 {
     u8 pad_00[0x8C];
@@ -10,27 +12,8 @@ typedef struct S_801730E0_0 {
     u8 unk_9B;
 } S_801730E0_0;   /* arg0 in func_801730E0 */
 
-typedef struct S_801730E0_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801730E0_1;   /* arg1 in func_801730E0 */
 
-typedef struct S_801730E0_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x8];
-    u8 unk_28;
-} S_801730E0_2;   /* arg3 in func_801730E0 */
 
-typedef struct S_801730E0_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_801730E0_3;   /* arg2 in func_801730E0 */
 
 
 extern s32 D_80083460[3];
@@ -42,7 +25,7 @@ extern void func_800AD4D0(void *);
 extern void func_800B66C8(void *);
 extern void func_800419EC(s32, s32);
 
-void func_801730E0(S_801730E0_0 *arg0, S_801730E0_1 *arg1, S_801730E0_3 *arg2, void *arg3) {
+void func_801730E0(S_801730E0_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3) {
     s16 temp_v1;
     u16 temp_v0;
     s16 var_v1;
@@ -63,29 +46,29 @@ void func_801730E0(S_801730E0_0 *arg0, S_801730E0_1 *arg1, S_801730E0_3 *arg2, v
 
 case_0:
         func_800AD4D0(arg3);
-        arg1->unk_10 = 0;
-        arg1->unk_0C = 0;
+        arg1->unk_10.at00_s32.v = 0;
+        arg1->unk_0C.as_s32 = 0;
         func_800B66C8(arg1);
         func_800B66C8(arg1);
         func_800B66C8(arg1);
         func_800B66C8(arg1);
         func_800419EC(4, 6);
         arg0->unk_9B = arg0->unk_9B + 1;
-        if (((S_801730E0_2 *)arg3)->unk_28 != 0) {
-            if (arg2->unk_14 & 0x8000) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
+            if (arg2->unk_14.at00_u16.v & 0x8000) {
                 arg0->unk_96.s = 0;
                 arg0->unk_9B = 2;
                 goto epilogue;
             }
             var_v1 = -1U;
-            if (((S_801730E0_2 *)arg3)->unk_1C & 0x228)
+            if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228)
                 var_v1 = 8;
             arg0->unk_96.s = var_v1;
             goto block_15;
         }
-        arg1->unk_14 = 0;
-        arg1->unk_10 = 0;
-        arg1->unk_0C = 0;
+        arg1->unk_14.as_s32 = 0;
+        arg1->unk_10.at00_s32.v = 0;
+        arg1->unk_0C.as_s32 = 0;
         func_800AAA54(arg0, arg1, arg2, &D_801752E4);
         goto epilogue;
 
@@ -96,15 +79,15 @@ block_15:
             arg0->unk_96.s = temp_v0;
             goto block_20;
         }
-        if (arg2->unk_14 & 0x6000)
+        if (arg2->unk_14.at00_u16.v & 0x6000)
             arg0->unk_96.s = 0;
 block_20:
         if (arg0->unk_96.u != 0)
             goto epilogue;
-        if (((S_801730E0_2 *)arg3)->unk_28 == 0) {
-            arg1->unk_14 = 0;
-            arg1->unk_10 = 0;
-            arg1->unk_0C = 0;
+        if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
+            arg1->unk_14.as_s32 = 0;
+            arg1->unk_10.at00_s32.v = 0;
+            arg1->unk_0C.as_s32 = 0;
             func_800AAA54(arg0, arg1, arg2, &D_801752E4);
             goto epilogue;
         }
@@ -118,9 +101,9 @@ case_2:
         arg0->unk_96.s = temp_v0;
         if ((temp_v0 << 0x10) > 0)
             goto epilogue;
-        arg1->unk_14 = 0;
-        arg1->unk_10 = 0;
-        arg1->unk_0C = 0;
+        arg1->unk_14.as_s32 = 0;
+        arg1->unk_10.at00_s32.v = 0;
+        arg1->unk_0C.as_s32 = 0;
         func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
         var_a0 = D_80083460;
         if (var_a0[4] == (arg3 - 0x20)) {

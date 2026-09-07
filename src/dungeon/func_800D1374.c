@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 
@@ -9,10 +10,6 @@ typedef struct S_800D6AD4_6 {
     void * unk_08;
 } S_800D6AD4_6;   /* temp_v0 in func_800D6AD4 */
 
-typedef struct S_800D6AD4_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800D6AD4_7;   /* arg0 in func_800D6AD4 */
 
 typedef struct S_800D6AD4_8 {
     u8 pad_00[0x2];
@@ -32,7 +29,7 @@ typedef struct S_800D6AD4_9 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D6AD4_9;   /* ((S_800D6AD4_7 *)arg0)->unk_08 in func_800D6AD4 */
+} S_800D6AD4_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_800D6AD4 */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
@@ -81,7 +78,7 @@ typedef struct S_800D6AD4_5 {
     s16 unk_34;
 } S_800D6AD4_5;   /* temp_s0 in func_800D6AD4 */
 
-void func_800D6AD4(S_800D6AD4_7 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
+void func_800D6AD4(Rec_D_800E3D7C *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
                    s32 arg5) {
     s32 held_arg4 = arg4;
     s32 held_arg5 = arg5;
@@ -97,11 +94,11 @@ void func_800D6AD4(S_800D6AD4_7 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
     if (temp_v0 != 0) {
         ((S_800D6AD4_0 *)temp_v0)->unk_10 = D_800D6804;
         ((S_800D6AD4_8 *)(((S_800D6AD4_6 *)temp_v0)->unk_08))->unk_02 =
-            (u16)((S_800D6AD4_9 *)(arg0->unk_08))->unk_02;
+            (u16)((S_800D6AD4_9 *)(arg0->unk_08.at00_pv.v))->unk_02;
         ((S_800D6AD4_8 *)(((S_800D6AD4_6 *)temp_v0)->unk_08))->unk_06 =
-            (u16)((S_800D6AD4_9 *)(arg0->unk_08))->unk_06;
+            (u16)((S_800D6AD4_9 *)(arg0->unk_08.at00_pv.v))->unk_06;
         ((S_800D6AD4_8 *)(((S_800D6AD4_6 *)temp_v0)->unk_08))->unk_0A =
-            (u16)((S_800D6AD4_9 *)(arg0->unk_08))->unk_0A;
+            (u16)((S_800D6AD4_9 *)(arg0->unk_08.at00_pv.v))->unk_0A;
         temp_v1 = ((S_800D6AD4_0 *)temp_v0)->unk_08;
         temp_v1->unk_02 =
             (u16)(temp_v1->unk_02 + arg2);

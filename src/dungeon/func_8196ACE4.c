@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_8196ACE4_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -32,17 +33,6 @@ typedef struct S_8196ACE4_2 {
     s16 unk_69B4;
 } S_8196ACE4_2;   /* page_8002 in func_8196ACE4 */
 
-typedef struct S_8196ACE4_3 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8196ACE4_3;   /* arg2 in func_8196ACE4 */
 
 typedef struct S_8196ACE4_4 {
     u8 pad_00[0x14A0];
@@ -57,7 +47,7 @@ s16 func_800BCB04();                   /* extern */
 extern s16 D_800269B4[];
 extern M2C_UNK D_800814A0;
 
-void func_8196ACE4(void *arg0, S_8196ACE4_0 *arg1, S_8196ACE4_3 *arg2) {
+void func_8196ACE4(void *arg0, S_8196ACE4_0 *arg1, Rec_D_80082E80 *arg2) {
     s32 temp_s0;
     s16 temp_v0_4;
     s32 temp_lo;
@@ -108,24 +98,24 @@ void func_8196ACE4(void *arg0, S_8196ACE4_0 *arg1, S_8196ACE4_3 *arg2) {
         }
     }
     temp_lo = (s32) (((S_8196ACE4_1 *)arg0)->unk_2C << 7) / (s16) ((S_8196ACE4_1 *)arg0)->unk_2E;
-    arg2->unk_0E = (s8) temp_lo;
-    arg2->unk_0D = (s8) temp_lo;
-    arg2->unk_0C = (s8) temp_lo;
+    arg2->unk_0C.at02_s8.v = (s8) temp_lo;
+    arg2->unk_0C.at01_s8.v = (s8) temp_lo;
+    arg2->unk_0C.at00_s8.v = (s8) temp_lo;
     temp_v0 = ((S_8196ACE4_1 *)arg0)->unk_34 + 1;
     ((S_8196ACE4_1 *)arg0)->unk_34 = temp_v0;
     if ((s16) temp_v0 == 3) {
         func_800478B8(arg2);
         ((S_8196ACE4_1 *)arg0)->unk_34 = 0U;
     }
-    temp_v0_2 = arg2->unk_1C + 0xC8;
-    arg2->unk_1C = temp_v0_2;
+    temp_v0_2 = arg2->unk_1C.at00_u16.v + 0xC8;
+    arg2->unk_1C.at00_u16.v = temp_v0_2;
     if ((u32) (temp_v0_2 & 0xFFFF) >= 0x1001U) {
-        arg2->unk_1C = 0x1000U;
+        arg2->unk_1C.at00_u16.v = 0x1000U;
     }
-    temp_v0_3 = arg2->unk_1E + 0xC8;
-    arg2->unk_1E = temp_v0_3;
+    temp_v0_3 = arg2->unk_1C.at02_u16.v + 0xC8;
+    arg2->unk_1C.at02_u16.v = temp_v0_3;
     if ((u32) (temp_v0_3 & 0xFFFF) >= 0x1001U) {
-        arg2->unk_1E = 0x1000U;
+        arg2->unk_1C.at02_u16.v = 0x1000U;
     }
     temp_v0_4 = (u16) ((S_8196ACE4_1 *)arg0)->unk_2C - 1;
     ((S_8196ACE4_1 *)arg0)->unk_2C = temp_v0_4;
@@ -136,7 +126,7 @@ void func_8196ACE4(void *arg0, S_8196ACE4_0 *arg1, S_8196ACE4_3 *arg2) {
             ((S_8196ACE4_4 *)page_8008)->unk_14A0 |= 0x8000;
         }
     }
-    if (arg2->unk_14 & 0x8000) {
+    if (arg2->unk_14.at00_u16.v & 0x8000) {
         ((S_8196ACE4_1_pre *)arg0)[-1].unk_00 = (u16) (((S_8196ACE4_1_pre *)arg0)[-1].unk_00 | 0x8000);
         {
             u8 *page_8008 = (u8 *)0x80080000;

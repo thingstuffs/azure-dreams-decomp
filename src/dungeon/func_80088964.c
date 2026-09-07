@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
 extern struct S_8003E2D8 D_80083160;
@@ -34,12 +35,6 @@ typedef struct S_8008E0C4_2 {
     u8 unk_00;
 } S_8008E0C4_2;   /* D_800E3CD0 in func_8008E0C4 */
 
-typedef struct S_8008E0C4_3 {
-    u8 pad_00[0x28];
-    u8 unk_28;
-    u8 unk_29;
-    s16 unk_2A;
-} S_8008E0C4_3;   /* arg3 in func_8008E0C4 */
 
 typedef struct S_8008E0C4_4 {
     u8 pad_00[0xC8];
@@ -51,7 +46,7 @@ typedef struct S_8008E0C4_5 {
     u16 unk_0A;
 } S_8008E0C4_5;   /* counter_base in func_8008E0C4 */
 
-void func_8008E0C4(S_8008E0C4_0 *arg0, void *unused, S_8008E0C4_1 *arg2, S_8008E0C4_3 *arg3) {
+void func_8008E0C4(S_8008E0C4_0 *arg0, void *unused, S_8008E0C4_1 *arg2, Rec_D_800E3D7C *arg3) {
     S_8008E0C4_4 *global_base;
     S_8008E0C4_5 *counter_base;
     u16 temp_v0;
@@ -116,7 +111,7 @@ state_16:
     if (arg2->unk_14 & 0xE000) {
         counter_base = D_80083460;
         arg3->unk_28 = arg3->unk_29;
-        arg3->unk_2A = 0x400 - ((global_base->unk_C8 + 0x100) & 0xE00);
+        arg3->unk_2A.as_s16 = 0x400 - ((global_base->unk_C8 + 0x100) & 0xE00);
         arg0->unk_8C = D_8008ACDC;
         counter_base->unk_0A = counter_base->unk_0A - 1;
     }

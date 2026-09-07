@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_800AA258_arg2.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_801743E8_0_pre {
     u16 unk_00;
@@ -11,18 +13,7 @@ typedef struct S_801743E8_0 {
     u8 unk_9B;
 } S_801743E8_0;   /* arg0 in func_801743E8 */
 
-typedef struct S_801743E8_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_801743E8_1;   /* arg2 in func_801743E8 */
 
-typedef struct S_801743E8_2 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_801743E8_2;   /* arg1 in func_801743E8 */
 
 
 
@@ -31,7 +22,7 @@ typedef struct Page8008 {
     u32 flags;
 } Page8008;
 
-void func_801743E8(void *arg0, S_801743E8_2 *arg1, S_801743E8_1 *arg2)
+void func_801743E8(void *arg0, Rec_D_800E3D7C *arg1, Rec_func_800AA258_arg2 *arg2)
 {
     s32 state;
     u16 value;
@@ -78,7 +69,7 @@ state_1:
     goto exit;
 
 state_2:
-    arg1->unk_08 += 0x28000;
+    arg1->unk_08.at00_s32.v += 0x28000;
     value = arg2->unk_1E - 0x80;
     arg2->unk_1E = value;
     arg2->unk_1C = value;

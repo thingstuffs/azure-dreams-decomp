@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_80094268_arg0.h"
 
 typedef struct S_8009F4C0_3 {
     u8 pad_00[0xAC3];
@@ -46,18 +47,6 @@ extern M2C_UNK D_80100A10;
 extern struct TownCopy84 D_80100AF8;
 extern u8 D_80010000[];
 
-typedef struct S_8009F4C0_0 {
-    u8 pad_00[0x4C];
-    u8 unk_4C;
-    u8 unk_4D;
-    u8 pad_4E[0x1];
-    u8 unk_4F;
-    M2C_UNK * unk_50;
-    u8 pad_54[0x18];
-    s16 unk_6C;
-    u8 pad_6E[0x27];
-    u8 unk_95;
-} S_8009F4C0_0;   /* arg0 in func_8009F4C0 */
 
 typedef struct S_8009F4C0_1 {
     u8 pad_00[0x981];
@@ -71,7 +60,7 @@ typedef struct S_8009F4C0_2 {
     u8 unk_983;
 } S_8009F4C0_2;   /* temp_v1 in func_8009F4C0 */
 
-void func_8009F4C0(S_8009F4C0_0 *arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3) {
+void func_8009F4C0(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3) {
     void *var_s1;
     s32 temp_a1;
     s32 temp_s0;
@@ -108,6 +97,6 @@ void func_8009F4C0(S_8009F4C0_0 *arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3)
     temp_s0_2 = ((S_8009F4C0_5 *)(((temp_s3 * 0x54) + (u8 *)baseD)))->unk_A94;
     func_8003E188(arg0->unk_4C, 1, baseD);
     func_8009DC8C(arg0, arg3, arg0->unk_4C, temp_s0_2);
-    arg0->unk_50 = &D_8009F374;
-    arg0->unk_6C = 0xA;
+    arg0->unk_50.as_pm = &D_8009F374;
+    arg0->unk_6C.as_s16 = 0xA;
 }

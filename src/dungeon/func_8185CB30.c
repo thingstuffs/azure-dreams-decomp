@@ -1,8 +1,8 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 
-typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -40,14 +40,8 @@ typedef struct S_8185CB30_2 {
     s16 unk_06;
 } S_8185CB30_2;   /* arg1 in func_8185CB30 */
 
-typedef struct S_8185CB30_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-} S_8185CB30_3;   /* arg2 in func_8185CB30 */
 
-void func_8185CB30(S_8185CB30_0 *arg0, S_8185CB30_2 *arg1, S_8185CB30_3 *arg2)
+void func_8185CB30(S_8185CB30_0 *arg0, S_8185CB30_2 *arg1, Rec_D_80082E80 *arg2)
 {
     s16 temp_v0_2;
     u16 temp_a0;
@@ -87,12 +81,12 @@ void func_8185CB30(S_8185CB30_0 *arg0, S_8185CB30_2 *arg1, S_8185CB30_3 *arg2)
         (s16)(arg0->unk_0A +
         ((s32)((func_80064584((s16)arg0->unk_1C) >> 4) *
         (s16)arg0->unk_20) >> 8));
-    arg2->unk_1A =
+    arg2->unk_1A.as_s16 =
         (s16)((s32)(0 - ((func_80064584(
         (s16)arg0->unk_1C -
         temp_s3[100]) >> 4) << 8)) >> 8);
     func_800478B8(arg2);
-    if (arg2->unk_14 & 0x6000) {
+    if (arg2->unk_14.at00_u16.v & 0x6000) {
         func_8003DB94(arg2, D_800DEAE0, 0);
     }
 }

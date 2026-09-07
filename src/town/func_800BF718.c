@@ -1,15 +1,7 @@
 #include "common.h"
+#include "records/Rec_D_80082D58.h"
+#include "records/Rec_D_80082E80.h"
 
-typedef struct S_800BCE78_0 {
-    u8 pad_00[0x68];
-    s16 unk_68;
-    u8 pad_6A[0x2];
-    u16 unk_6C;
-    u8 pad_6E[0x32];
-    s32 unk_A0;
-    u8 pad_A4[0x8];
-    s32 unk_AC;
-} S_800BCE78_0;   /* arg0 in func_800BCE78 */
 
 typedef struct S_800BCE78_1 {
     s32 unk_00;
@@ -20,10 +12,6 @@ typedef struct S_800BCE78_1 {
     s32 unk_14;
 } S_800BCE78_1;   /* arg1 in func_800BCE78 */
 
-typedef struct S_800BCE78_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_800BCE78_2;   /* arg2 in func_800BCE78 */
 
 
 
@@ -54,15 +42,15 @@ void func_800BCE78(void *arg0, void *arg1, void *arg2)
 
     callback = 0;
     if ((func_800352FC() != 0) && (func_800C2AB4(arg0) != 0)) {
-        if (!(((S_800BCE78_0 *)arg0)->unk_AC & 1)) {
+        if (!(((Rec_D_80082D58 *)arg0)->unk_AC & 1)) {
             func_80053DA8(0x60B);
-            ((S_800BCE78_0 *)arg0)->unk_AC |= 1;
+            ((Rec_D_80082D58 *)arg0)->unk_AC |= 1;
         }
     } else {
-        ((S_800BCE78_0 *)arg0)->unk_AC &= ~1;
+        ((Rec_D_80082D58 *)arg0)->unk_AC &= ~1;
     }
 
-    state = ((S_800BCE78_0 *)arg0)->unk_68;
+    state = ((Rec_D_80082D58 *)arg0)->unk_68;
     arg_31 = 0x31;
     if (state == arg_31) {
         goto case_31;
@@ -119,7 +107,7 @@ case_0: {
         register s32 vx;
 
         ((S_800BCE78_1 *)arg1)->unk_08.at02.v = func_800C2AE8(arg1);
-        if (!(((S_800BCE78_2 *)arg2)->unk_14 & 0x6000)) {
+        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000)) {
             goto tail;
         }
         result = rand();
@@ -152,21 +140,21 @@ random_high:
 
 random_case_0:
             callback = (s32 *)D_800E9E7C;
-            ((S_800BCE78_0 *)arg0)->unk_68 = state_10;
-            ((S_800BCE78_0 *)arg0)->unk_6C = (rand() % 2) + 2;
+            ((Rec_D_80082D58 *)arg0)->unk_68 = state_10;
+            ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = (rand() % 2) + 2;
             goto random_done;
 
 random_case_1: {
             s32 limit;
             s32 case_vx;
 
-            ((S_800BCE78_0 *)arg0)->unk_68 = 0x20;
-            ((S_800BCE78_2 *)arg2)->unk_14 |= 0x800;
-            ((S_800BCE78_0 *)arg0)->unk_6C = (rand() & 1) + 2;
+            ((Rec_D_80082D58 *)arg0)->unk_68 = 0x20;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x800;
+            ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = (rand() & 1) + 2;
             limit = 0x1FFFFF;
             ((S_800BCE78_1 *)arg1)->unk_14 = -0x30000;
             dx = ((S_800BCE78_1 *)arg1)->unk_00;
-            dx -= ((S_800BCE78_0 *)arg0)->unk_A0;
+            dx -= ((Rec_D_80082D58 *)arg0)->unk_A0;
             abs_dx = __builtin_abs(dx);
             limit = limit < abs_dx;
             if (!limit) {
@@ -186,9 +174,9 @@ case_1_store:
             ((S_800BCE78_1 *)arg1)->unk_0C.s = case_vx;
 case_1_after_store:
             if (((S_800BCE78_1 *)arg1)->unk_0C.s > 0) {
-                ((S_800BCE78_2 *)arg2)->unk_14 |= 1;
+                ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 1;
             } else {
-                ((S_800BCE78_2 *)arg2)->unk_14 &= 0xFFFE;
+                ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xFFFE;
             }
             goto random_done;
         }
@@ -200,13 +188,13 @@ random_case_2: {
 
             case_callback = D_800E9ECC;
             callback = case_callback;
-            ((S_800BCE78_0 *)arg0)->unk_68 = 0x30;
+            ((Rec_D_80082D58 *)arg0)->unk_68 = 0x30;
             rng_result = rand();
             limit = 0xFFFFF;
             vx = (rng_result & 0x1FF) << 8;
             ((S_800BCE78_1 *)arg1)->unk_0C.s = vx;
             dx = ((S_800BCE78_1 *)arg1)->unk_00;
-            dx -= ((S_800BCE78_0 *)arg0)->unk_A0;
+            dx -= ((Rec_D_80082D58 *)arg0)->unk_A0;
             abs_dx = __builtin_abs(dx);
             limit = limit < abs_dx;
             if (!limit) {
@@ -219,18 +207,18 @@ random_case_2: {
                 ((S_800BCE78_1 *)arg1)->unk_0C.s = -vx;
             }
             if (((S_800BCE78_1 *)arg1)->unk_0C.s > 0) {
-                ((S_800BCE78_2 *)arg2)->unk_14 |= 1;
+                ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 1;
             } else {
-                ((S_800BCE78_2 *)arg2)->unk_14 &= 0xFFFE;
+                ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xFFFE;
             }
             ((S_800BCE78_1 *)arg1)->unk_14 = -0x20000;
             goto random_done;
         }
 
 random_case_4:
-            ((S_800BCE78_0 *)arg0)->unk_68 = 0x40;
-            ((S_800BCE78_0 *)arg0)->unk_6C = 0x14;
-            ((S_800BCE78_2 *)arg2)->unk_14 |= 0x800;
+            ((Rec_D_80082D58 *)arg0)->unk_68 = 0x40;
+            ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = 0x14;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x800;
 random_done:
         goto tail;
     }
@@ -238,11 +226,11 @@ random_done:
 case_10: {
         register u16 timer;
 
-        if (((S_800BCE78_2 *)arg2)->unk_14 & 0x6000) {
-            timer = ((S_800BCE78_0 *)arg0)->unk_6C - 1;
-            ((S_800BCE78_0 *)arg0)->unk_6C = timer;
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
+            timer = ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 - 1;
+            ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = timer;
             if ((s16)timer <= 0) {
-                ((S_800BCE78_0 *)arg0)->unk_68 = 0;
+                ((Rec_D_80082D58 *)arg0)->unk_68 = 0;
             }
             callback = (s32 *)D_800E9E7C;
         }
@@ -282,13 +270,13 @@ case_20: {
         compare = floor < ((S_800BCE78_1 *)arg1)->unk_08.at02.v;
         if (compare) {
             ((S_800BCE78_1 *)arg1)->unk_08.at02.v = floor;
-            timer = ((S_800BCE78_0 *)arg0)->unk_6C - 1;
-            ((S_800BCE78_0 *)arg0)->unk_6C = timer;
+            timer = ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 - 1;
+            ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = timer;
             if ((s16)timer <= 0) {
                 ((S_800BCE78_1 *)arg1)->unk_14 = 0;
                 ((S_800BCE78_1 *)arg1)->unk_0C.s = 0;
-                ((S_800BCE78_2 *)arg2)->unk_14 &= 0xF7FF;
-                ((S_800BCE78_0 *)arg0)->unk_68 = 0;
+                ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
+                ((Rec_D_80082D58 *)arg0)->unk_68 = 0;
             } else {
                 ((S_800BCE78_1 *)arg1)->unk_14 = -0x30000;
             }
@@ -321,10 +309,10 @@ case_30: {
             y += vy;
             ((S_800BCE78_1 *)arg1)->unk_08.at00.v = y;
         }
-        if (((S_800BCE78_2 *)arg2)->unk_14 & 0x6000) {
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
             callback = D_800E9E34;
-            ((S_800BCE78_0 *)arg0)->unk_68 = arg_31;
-            ((S_800BCE78_0 *)arg0)->unk_6C = 3;
+            ((Rec_D_80082D58 *)arg0)->unk_68 = arg_31;
+            ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = 3;
         }
         goto tail;
     }
@@ -342,15 +330,15 @@ case_31: {
         vy = ((S_800BCE78_1 *)arg1)->unk_14;
         ((S_800BCE78_1 *)arg1)->unk_00 = x + vx;
         ((S_800BCE78_1 *)arg1)->unk_08.at00.v = y + vy;
-        if (((S_800BCE78_2 *)arg2)->unk_14 & 0x6000) {
-            timer = ((S_800BCE78_0 *)arg0)->unk_6C - 1;
-            ((S_800BCE78_0 *)arg0)->unk_6C = timer;
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
+            timer = ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 - 1;
+            ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = timer;
             if ((s16)timer <= 0) {
                 callback = D_800E9E34;
                 ((S_800BCE78_1 *)arg1)->unk_14 = -0x10000;
                 ((S_800BCE78_1 *)arg1)->unk_0C.s >>= 1;
-                ((S_800BCE78_0 *)arg0)->unk_68 = 0x32;
-                ((S_800BCE78_0 *)arg0)->unk_6C = (rand() & 3) + 3;
+                ((Rec_D_80082D58 *)arg0)->unk_68 = 0x32;
+                ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = (rand() & 3) + 3;
             }
         }
         goto tail;
@@ -373,17 +361,17 @@ case_32: {
         vy = ((S_800BCE78_1 *)arg1)->unk_14;
         ((S_800BCE78_1 *)arg1)->unk_00 = x + vx;
         ((S_800BCE78_1 *)arg1)->unk_08.at00.v = y + vy;
-        if (((S_800BCE78_2 *)arg2)->unk_14 & 0x6000) {
-            timer = ((S_800BCE78_0 *)arg0)->unk_6C - 1;
-            ((S_800BCE78_0 *)arg0)->unk_6C = timer;
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
+            timer = ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 - 1;
+            ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = timer;
             if ((s16)timer <= 0) {
-                ((S_800BCE78_0 *)arg0)->unk_6C = 8;
+                ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = 8;
                 new_vx = -((S_800BCE78_1 *)arg1)->unk_0C.s;
                 ((S_800BCE78_1 *)arg1)->unk_0C.s = new_vx;
                 if (new_vx > 0) {
-                    ((S_800BCE78_2 *)arg2)->unk_14 |= 1;
+                    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 1;
                 } else {
-                    ((S_800BCE78_2 *)arg2)->unk_14 &= 0xFFFE;
+                    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xFFFE;
                 }
                 floor = func_800C2AE8(arg1);
                 floor_scaled = (s32)floor << 16;
@@ -392,9 +380,9 @@ case_32: {
                 height = height + 0x100000;
                 ((S_800BCE78_1 *)arg1)->unk_14 =
                     (floor_scaled - height) /
-                    (s16)((S_800BCE78_0 *)arg0)->unk_6C;
+                    (s16)((Rec_D_80082D58 *)arg0)->unk_6C.as_u16;
                 callback = D_800E9E14;
-                ((S_800BCE78_0 *)arg0)->unk_68 = 0x33;
+                ((Rec_D_80082D58 *)arg0)->unk_68 = 0x33;
             }
         }
         goto tail;
@@ -413,16 +401,16 @@ case_33: {
         vy = ((S_800BCE78_1 *)arg1)->unk_14;
         ((S_800BCE78_1 *)arg1)->unk_00 = x + vx;
         ((S_800BCE78_1 *)arg1)->unk_08.at00.v = y + vy;
-        if (((S_800BCE78_2 *)arg2)->unk_14 & 0x6000) {
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
             callback = D_800E9E14;
         }
-        timer = ((S_800BCE78_0 *)arg0)->unk_6C - 1;
-        ((S_800BCE78_0 *)arg0)->unk_6C = timer;
+        timer = ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 - 1;
+        ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = timer;
         if ((s16)timer <= 0) {
             callback = D_800E9E54;
             ((S_800BCE78_1 *)arg1)->unk_14 = 0;
             ((S_800BCE78_1 *)arg1)->unk_0C.s = 0;
-            ((S_800BCE78_0 *)arg0)->unk_68 = state_34;
+            ((Rec_D_80082D58 *)arg0)->unk_68 = state_34;
         }
         goto tail;
     }
@@ -434,9 +422,9 @@ case_34: {
         floor = func_800C2AE8(arg1);
         ((S_800BCE78_1 *)arg1)->unk_08.at02.v =
             (u16)((S_800BCE78_1 *)arg1)->unk_08.at02.v + ((floor - ((S_800BCE78_1 *)arg1)->unk_08.at02.v) >> 1);
-        if (((S_800BCE78_2 *)arg2)->unk_14 & 0x6000) {
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
             callback = (s32 *)D_800E9E7C;
-            ((S_800BCE78_0 *)arg0)->unk_68 = 0;
+            ((Rec_D_80082D58 *)arg0)->unk_68 = 0;
         }
         goto tail;
     }
@@ -444,11 +432,11 @@ case_34: {
 case_40: {
         register u16 timer;
 
-        timer = ((S_800BCE78_0 *)arg0)->unk_6C - 1;
-        ((S_800BCE78_0 *)arg0)->unk_6C = timer;
+        timer = ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 - 1;
+        ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = timer;
         if ((s16)timer <= 0) {
-            ((S_800BCE78_0 *)arg0)->unk_68 = 0;
-            ((S_800BCE78_2 *)arg2)->unk_14 &= 0xF7FF;
+            ((Rec_D_80082D58 *)arg0)->unk_68 = 0;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
         }
         goto tail;
     }

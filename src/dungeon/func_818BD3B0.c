@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_818BD3B0_0_pre {
     u16 unk_00;
@@ -28,10 +29,6 @@ typedef struct S_818BD3B0_2 {
     s32 unk_14;
 } S_818BD3B0_2;   /* arg1 in func_818BD3B0 */
 
-typedef struct S_818BD3B0_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_818BD3B0_3;   /* arg2 in func_818BD3B0 */
 
 
 extern void func_80024D10(void) __attribute__((noreturn));
@@ -42,7 +39,7 @@ s32 func_80064584();
 extern s32 D_800814A0[3];
 extern M2C_UNK D_800DEC70[3];
 
-void func_818BD3B0(void *arg0, S_818BD3B0_2 *arg1, S_818BD3B0_3 *arg2) {
+void func_818BD3B0(void *arg0, S_818BD3B0_2 *arg1, Rec_D_80082E80 *arg2) {
     s16 temp_v0_2;
     s32 temp_lo;
     s32 temp_v1_2;
@@ -69,7 +66,7 @@ void func_818BD3B0(void *arg0, S_818BD3B0_2 *arg1, S_818BD3B0_3 *arg2) {
     arg1->unk_00 = (s32) (arg1->unk_0C + (((func_80064584(temp_v0_2) >> 4) * ((S_818BD3B0_0 *)arg0)->unk_08) << 8));
     arg1->unk_04 = (s32) (arg1->unk_10 + (((func_800644B8((s16) ((S_818BD3B0_0 *)arg0)->unk_0C) >> 4) * ((S_818BD3B0_0 *)arg0)->unk_08) << 8));
     func_800478B8(arg2);
-    if (arg2->unk_14 & 0x6000) {
+    if (arg2->unk_14.at00_u16.v & 0x6000) {
         func_8003DB94(arg2, &D_800DEC70, 0);
     }
 }

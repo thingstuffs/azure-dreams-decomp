@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80093C70_0 {
     u8 pad_00[0x8];
@@ -19,14 +21,6 @@ typedef struct S_80093C70_1 {
     u16 unk_0A;
 } S_80093C70_1;   /* temp_v1 in func_80093C70 */
 
-typedef struct S_80093C70_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80093C70_2;   /* arg1 in func_80093C70 */
 
 typedef struct S_80093C70_3 {
     u8 pad_00[0x6];
@@ -42,10 +36,6 @@ typedef struct S_80093C70_3 {
     s32 unk_28;
 } S_80093C70_3;   /* temp_s0 in func_80093C70 */
 
-typedef struct S_80093C70_4 {
-    u8 pad_00[0x28];
-    s32 unk_28;
-} S_80093C70_4;   /* arg2 in func_80093C70 */
 
 typedef struct S_80093C70_5 {
     u8 pad_00[0x6];
@@ -61,7 +51,7 @@ extern M2C_UNK D_80045340;
 extern u16 D_80082E94;
 extern M2C_UNK D_80093A94;
 
-void func_80093C70(s32 arg0, S_80093C70_2 *arg1, S_80093C70_4 *arg2) {
+void func_80093C70(s32 arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2) {
     S_80093C70_3 *temp_s0;
     void *temp_v0;
     S_80093C70_1 *temp_v1;
@@ -72,11 +62,11 @@ void func_80093C70(s32 arg0, S_80093C70_2 *arg1, S_80093C70_4 *arg2) {
     if (temp_v0 != NULL) {
         temp_v1 = ((S_80093C70_0 *)temp_v0)->unk_08;
         ((S_80093C70_0 *)temp_v0)->unk_10 = &D_80093A94;
-        temp_v1->unk_02 = (u16) arg1->unk_02;
-        temp_v1->unk_06 = (u16) arg1->unk_06;
-        temp_v1->unk_0A = (u16) arg1->unk_0A;
+        temp_v1->unk_02 = (u16) arg1->unk_00.at02_u16.v;
+        temp_v1->unk_06 = (u16) arg1->unk_04.at02_u16.v;
+        temp_v1->unk_0A = (u16) arg1->unk_08.at02_u16.v;
         temp_s0 = ((S_80093C70_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_28 = (s32) arg2->unk_28;
+        temp_s0->unk_28 = (s32) arg2->unk_28.at00_s32.v;
         temp_s0->unk_1E = 0x1000;
         temp_s0->unk_1C = 0x1000;
         temp_flags = temp_s0->unk_14.s;

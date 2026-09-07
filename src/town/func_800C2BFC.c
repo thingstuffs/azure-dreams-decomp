@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_800C035C_0 {
     u8 pad_00[0x8];
@@ -65,14 +66,6 @@ typedef struct S_800C035C_7 {
     u16 unk_30;
 } S_800C035C_7;   /* ((temp_v1_9 * 2) + (s8 *) temp_s5) in func_800C035C */
 
-typedef struct S_800C035C_8 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    s32 unk_2C;
-} S_800C035C_8;   /* arg2 in func_800C035C */
 
 typedef struct S_800C035C_9 {
     u8 pad_00[0x8];
@@ -120,7 +113,7 @@ extern u8 D_800CFCEE;
 extern M2C_UNK D_800FE490;
 extern M2C_UNK D_80100D98;
 
-void func_800C035C(void *arg0, S_800C035C_1 *arg1, S_800C035C_8 *arg2) {
+void func_800C035C(void *arg0, S_800C035C_1 *arg1, Rec_D_80082E80 *arg2) {
     Blk24 sp10;
     Blk20 sp28;
     s32 temp_s0;
@@ -376,17 +369,17 @@ sw_end:
     }
     ((S_800C035C_0 *)arg0)->unk_10.s = (u16) ((((S_800C035C_0 *)arg0)->unk_10.s + 0x2000) & 0xFFF);
     if (((S_800C035C_0 *)arg0)->unk_12 != temp_s0_2) {
-        if (arg2->unk_2C != 0) {
-            func_800489F4(arg2, ((u8 *)((S_800C035C_0 *)arg0)->unk_1C)[temp_s0_2], arg2->unk_04, 0);
+        if (arg2->unk_2C.as_s32 != 0) {
+            func_800489F4(arg2, ((u8 *)((S_800C035C_0 *)arg0)->unk_1C)[temp_s0_2], arg2->unk_04.as_s8, 0);
         }
         ((S_800C035C_0 *)arg0)->unk_12 = (s16) temp_s0_2;
     }
     if (((u8 *)&D_8006CCF8)[temp_s0_2] != 0) {
-        var_v0_10 = arg2->unk_14 | 1;
+        var_v0_10 = arg2->unk_14.at00_u16.v | 1;
     } else {
-        var_v0_10 = arg2->unk_14 & 0xFFFE;
+        var_v0_10 = arg2->unk_14.at00_u16.v & 0xFFFE;
     }
-    arg2->unk_14 = var_v0_10;
+    arg2->unk_14.at00_u16.v = var_v0_10;
     ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
     func_80048AC8(arg2, 0);
     func_800A48B0(&D_80100D98, arg1);

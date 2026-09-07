@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 
 typedef struct DungeonRecord {
@@ -83,10 +84,6 @@ typedef struct S_80170E70_2 {
     void * unk_2C;
 } S_80170E70_2;   /* arg2 in func_80170E70 */
 
-typedef struct S_80170E70_3 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80170E70_3;   /* D_800814A8 in func_80170E70 */
 
 typedef struct S_80170E70_4 {
     u8 pad_00[0x9A];
@@ -221,7 +218,7 @@ void func_80170E70(void *in0, void *in1, void *in2, void *in3)
         if ((field46 & 0x8000) == 0) {
             if (D_80083462 & 0x2000) {
                 if ((s16)func_8009A180(
-                        arg3, (u8 *)((S_80170E70_3 *)D_800814A8)->unk_58 + 0x20) != 0) {
+                        arg3, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
                 }
             }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80170D58_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -21,13 +22,6 @@ typedef struct S_80170D58_1 {
     s32 unk_68;
 } S_80170D58_1;   /* arg0 in func_80170D58 */
 
-typedef struct S_80170D58_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80170D58_2;   /* arg2 in func_80170D58 */
 
 
 
@@ -85,16 +79,16 @@ void func_80170D58(void *arg0, void *arg1, void *arg2)
         func_800478B8(arg2);
     }
 
-    value = ((S_80170D58_2 *)arg2)->unk_1C + 0x64;
-    ((S_80170D58_2 *)arg2)->unk_1C = value;
+    value = ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v + 0x64;
+    ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = value;
     if (value > 0x1000) {
-        ((S_80170D58_2 *)arg2)->unk_1C = 0x1000;
+        ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = 0x1000;
     }
 
-    value = ((S_80170D58_2 *)arg2)->unk_1E + 0x64;
-    ((S_80170D58_2 *)arg2)->unk_1E = value;
+    value = ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v + 0x64;
+    ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = value;
     if (value > 0x1000) {
-        ((S_80170D58_2 *)arg2)->unk_1E = 0x1000;
+        ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = 0x1000;
     }
 
     value = ((S_80170D58_1 *)arg0)->unk_26.u - 1;
@@ -104,7 +98,7 @@ void func_80170D58(void *arg0, void *arg1, void *arg2)
         D_800814A0 |= 0x8000;
     }
 
-    if (((S_80170D58_2 *)arg2)->unk_14 & 0x8000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
         (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }

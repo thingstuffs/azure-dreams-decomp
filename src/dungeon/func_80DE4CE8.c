@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_801724E8_0 {
     u8 pad_00[0x8C];
@@ -14,15 +16,6 @@ typedef struct S_801724E8_0 {
     s32 unk_A0;
 } S_801724E8_0;   /* arg0 in func_801724E8 */
 
-typedef struct S_801724E8_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_801724E8_1;   /* arg2 in func_801724E8 */
 
 typedef struct S_801724E8_2 {
     u8 pad_00[0x1C];
@@ -33,16 +26,6 @@ typedef struct S_801724E8_2 {
     u16 unk_46;
 } S_801724E8_2;   /* arg3 in func_801724E8 */
 
-typedef struct S_801724E8_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801724E8_3;   /* arg1 in func_801724E8 */
 
 
 
@@ -92,9 +75,9 @@ state_ge_two:
     goto update_countdown;
 
 state_zero:
-    if (((((S_801724E8_1 *)arg2)->unk_04 == 2) &&
-         (((S_801724E8_1 *)arg2)->unk_14 & 0x1000)) ||
-        (((S_801724E8_1 *)arg2)->unk_14 & 0xE000)) {
+    if (((((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 2) &&
+         (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000)) ||
+        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         ((S_801724E8_0 *)arg0)->unk_98 |= 8;
         ((S_801724E8_2 *)arg3)->unk_1C.s &= 0xF7FFFFFF;
         ((S_801724E8_0 *)arg0)->unk_9E.s = 5;
@@ -108,10 +91,10 @@ state_one:
     timer = ((S_801724E8_0 *)arg0)->unk_9E.s;
     ((S_801724E8_0 *)arg0)->unk_90 -= ((S_801724E8_0 *)arg0)->unk_A0;
     if (timer != 0) {
-        ((S_801724E8_3 *)arg1)->unk_0C =
-            (((((S_801724E8_1 *)arg2)->unk_24 << 6) - ({ ((S_801724E8_3 *)arg1)->unk_02 - 0x20; })) << 16) / timer;
-        ((S_801724E8_3 *)arg1)->unk_10 =
-            (((((S_801724E8_1 *)arg2)->unk_25 << 6) - (delta = ((S_801724E8_3 *)arg1)->unk_06 - 0x20)) << 16) /
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 =
+            (((((Rec_D_80082E80 *)arg2)->unk_24 << 6) - ({ ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v - 0x20; })) << 16) / timer;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
+            (((((Rec_D_80082E80 *)arg2)->unk_25 << 6) - (delta = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v - 0x20)) << 16) /
             ((S_801724E8_0 *)arg0)->unk_9E.s;
         ((S_801724E8_0 *)arg0)->unk_A0 =
             (-func_800644B8(((S_801724E8_0 *)arg0)->unk_9E.s * 0x199)) << 9;
@@ -130,10 +113,10 @@ state_one:
 state_two:
     if (((S_801724E8_2 *)arg3)->unk_1C.s & 0x08000000) {
         ((S_801724E8_0 *)arg0)->unk_98 &= 0xFFF7;
-        ((S_801724E8_3 *)arg1)->unk_14 = 0;
-        ((S_801724E8_3 *)arg1)->unk_10 = 0;
-        ((S_801724E8_3 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_801724E8_1 *)arg2)->unk_24, ((S_801724E8_1 *)arg2)->unk_25);
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
         (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174520;
         func_80047784(
             arg2,
@@ -146,10 +129,10 @@ update_countdown:
     countdown = ((S_801724E8_0 *)arg0)->unk_96 - 1;
     ((S_801724E8_0 *)arg0)->unk_96 = countdown;
     if ((s16)countdown <= 0) {
-        ((S_801724E8_3 *)arg1)->unk_14 = 0;
-        ((S_801724E8_3 *)arg1)->unk_10 = 0;
-        ((S_801724E8_3 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_801724E8_1 *)arg2)->unk_24, ((S_801724E8_1 *)arg2)->unk_25);
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
         func_800AD594(arg3, 4);
         func_800A4ACC(arg3);
 
@@ -172,7 +155,7 @@ update_countdown:
             }
             map = D_80082E80;
             ((S_801724E8_2 *)arg3)->unk_2A = func_800A0818(
-                ((S_801724E8_1 *)arg2)->unk_24, ((S_801724E8_1 *)arg2)->unk_25,
+                ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
                 map[0x24], map[0x25], &scratch);
         }
 

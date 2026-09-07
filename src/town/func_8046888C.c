@@ -1,13 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
-
-typedef struct S_8001988C_0 {
-    u8 pad_00[0x1];
-    u8 unk_01;
-} S_8001988C_0;   /* D_8001E950 in func_8001988C */
+#include "records/Rec_D_8001E950.h"
 
 
-extern S_8001988C_0 *D_8001E950;
+
+extern Rec_D_8001E950 *D_8001E950;
 
 s32 func_8001988C(void) {
     return D_8001E950->unk_01 == 2;

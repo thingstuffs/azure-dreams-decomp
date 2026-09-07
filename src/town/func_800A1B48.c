@@ -1,17 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_80094268_arg0.h"
 
 typedef struct S_8009F2A8_0 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_8009F2A8_0;   /* arg2 in func_8009F2A8 */
 
-typedef struct S_8009F2A8_1 {
-    u8 pad_00[0x6C];
-    s16 unk_6C;
-    u8 pad_6E[0x32];
-    s32 unk_A0;
-} S_8009F2A8_1;   /* arg0 in func_8009F2A8 */
 
 
 M2C_UNK func_80053DA8();                     /* extern */
@@ -26,8 +21,8 @@ extern s32 D_800CFCC4;
 void func_8009F2A8(void *arg0, s32 arg1, void *arg2, M2C_UNK arg3) {
     s32 temp_s2;
 
-    ((S_8009F2A8_0 *)arg2)->unk_08 = (s32) (((S_8009F2A8_1 *)arg0)->unk_A0 + (func_800644B8(((S_8009F2A8_1 *)arg0)->unk_6C) << 7));
-    (*(s16 *)((u8 *)arg0 + 0x6C)) = (s16) ((u16) ((S_8009F2A8_1 *)arg0)->unk_6C + 0x40);
+    ((S_8009F2A8_0 *)arg2)->unk_08 = (s32) (((Rec_func_80094268_arg0 *)arg0)->unk_A0 + (func_800644B8(((Rec_func_80094268_arg0 *)arg0)->unk_6C.as_s16) << 7));
+    (*(s16 *)((u8 *)arg0 + 0x6C)) = (s16) ((u16) ((Rec_func_80094268_arg0 *)arg0)->unk_6C.as_s16 + 0x40);
     temp_s2 = D_800CFCC4;
     if ((temp_s2 == arg1) && (D_800834B8 == &D_800935BC)) {
         func_800A33E8(arg2);

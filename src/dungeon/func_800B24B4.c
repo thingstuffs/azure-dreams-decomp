@@ -1,17 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
-typedef struct S_800B7C14_0 {
-    s32 unk_00;
-    u8 pad_04[0x8];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-} S_800B7C14_0;   /* arg2 in func_800B7C14 */
 
 typedef struct S_800B7C14_1_pre {
     u16 unk_00;
@@ -46,9 +36,9 @@ void func_800B7C14(void *arg0, void *arg1, void *arg2) {
     u16 temp_v0_3;
     u8 temp_v0;
 
-    if (((S_800B7C14_0 *)arg2)->unk_00 != 0) {
+    if (((Rec_D_80082E80 *)arg2)->unk_00 != 0) {
         func_800478B8(arg2);
-        if (((S_800B7C14_0 *)arg2)->unk_14 & 0x4000) {
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x4000) {
             func_8003DB94(arg2, ((S_800B7C14_1 *)arg0)->unk_08, 0);
         }
     }
@@ -60,16 +50,16 @@ void func_800B7C14(void *arg0, void *arg1, void *arg2) {
     ((S_800B7C14_2 *)arg1)->unk_10 = (s32) (((S_800B7C14_2 *)arg1)->unk_10 - (((S_800B7C14_2 *)arg1)->unk_10 >> 4));
     ((S_800B7C14_2 *)arg1)->unk_14 = (s32) (((S_800B7C14_2 *)arg1)->unk_14 + 0x40000);
     if (((S_800B7C14_1 *)arg0)->unk_12 != 0) {
-        temp_v0 = ((S_800B7C14_0 *)arg2)->unk_0C;
+        temp_v0 = ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v;
         if (temp_v0 != 0) {
             temp_v0 -= 8;
-            ((S_800B7C14_0 *)arg2)->unk_0C = temp_v0;
-            ((S_800B7C14_0 *)arg2)->unk_0E = temp_v0;
-            ((S_800B7C14_0 *)arg2)->unk_0D = temp_v0;
+            ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v = temp_v0;
+            ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v = temp_v0;
+            ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v = temp_v0;
         }
     }
-    ((S_800B7C14_0 *)arg2)->unk_16 = (u16) (((S_800B7C14_0 *)arg2)->unk_16 + ((S_800B7C14_1 *)arg0)->unk_14);
-    ((S_800B7C14_0 *)arg2)->unk_18 = (u16) (((S_800B7C14_0 *)arg2)->unk_18 + ((S_800B7C14_1 *)arg0)->unk_16);
+    ((Rec_D_80082E80 *)arg2)->unk_14.at02_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_14.at02_u16.v + ((S_800B7C14_1 *)arg0)->unk_14);
+    ((Rec_D_80082E80 *)arg2)->unk_18 = (u16) (((Rec_D_80082E80 *)arg2)->unk_18 + ((S_800B7C14_1 *)arg0)->unk_16);
     temp_v0_3 = ((S_800B7C14_1 *)arg0)->unk_10 - 1;
     ((S_800B7C14_1 *)arg0)->unk_10 = temp_v0_3;
     if ((temp_v0_3 << 0x10) <= 0) {

@@ -1,4 +1,7 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_800814A8.h"
 
 
 extern s32 func_80042900(void *, s32);
@@ -32,25 +35,7 @@ typedef struct S_80173254_0 {
     u8 unk_9B;
 } S_80173254_0;   /* arg0 in func_80173254 */
 
-typedef struct S_80173254_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-} S_80173254_1;   /* arg2 in func_80173254 */
 
-typedef struct S_80173254_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80173254_2;   /* arg3 in func_80173254 */
 
 typedef struct S_80173254_3 {
     u8 pad_00[0x2];
@@ -59,10 +44,6 @@ typedef struct S_80173254_3 {
     u16 unk_0A;
 } S_80173254_3;   /* system_base in func_80173254 */
 
-typedef struct S_80173254_4 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80173254_4;   /* D_800814A8 in func_80173254 */
 
 typedef struct S_80173254_5 {
     u8 pad_00[0x26];
@@ -90,14 +71,14 @@ void func_80173254(void *arg0, void *arg1, void *arg2, void *arg3)
     return;
 
 state_zero:
-    if (((S_80173254_1 *)arg2)->unk_14 & 0xE000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
         u8 *table;
         u8 *system_base;
 
         table = D_80174538;
         (*(void * *)((u8 *)arg2 + 0x2C)) = table;
         func_80047784(arg2,
-            table[((D_80083228 + ((S_80173254_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         system_base = (u8 *)&D_80083460;
         ((S_80173254_3 *)system_base)->unk_0A--;
@@ -117,12 +98,12 @@ state_one:
                 return;
             }
 
-            if ((((S_80173254_2 *)arg3)->unk_64 != 0) &&
+            if ((((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) &&
                 (func_800AA6B4(arg0, arg1, arg2, 0) != 0)) {
                 return;
             }
 
-            if (((S_80173254_2 *)arg3)->unk_25 == 0) {
+            if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
                 if (((S_80173254_3 *)system_base)->unk_02 & 0x2008) {
                     return;
                 }
@@ -134,7 +115,7 @@ state_one:
                 return;
             }
 
-            flags = ((S_80173254_2 *)arg3)->unk_1C;
+            flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32;
             if (flags & 0x100) {
                 func_800AA258(arg0, arg1, arg2, arg3);
                 return;
@@ -146,13 +127,13 @@ state_one:
                 return;
             }
 
-            if (((S_80173254_2 *)arg3)->unk_6D == 0) {
+            if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
                 return;
             }
 
             if ((func_800A2C34(arg3) << 16) != 0) {
                 if ((func_8009A180(arg3,
-                        (u8 *)((S_80173254_4 *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -165,7 +146,7 @@ state_one:
                 s8 coordinate;
 
                 origin = D_80082E80;
-                coordinate = ((S_80173254_1 *)arg2)->unk_26;
+                coordinate = ((Rec_D_80082E80 *)arg2)->unk_26.as_s8;
                 if ((((coordinate == ((S_80173254_5 *)origin)->unk_26) &&
                             (coordinate >= 0)) ||
                         (func_8009FD40(origin, arg2) < 2)) &&
@@ -186,9 +167,9 @@ state_one:
         table = D_80174520;
         (*(void * *)((u8 *)arg2 + 0x2C)) = table;
         func_80047784(arg2,
-            table[((D_80083228 + ((S_80173254_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        ((S_80173254_2 *)arg3)->unk_1C &= ~0x200;
+        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 &= ~0x200;
         ((S_80173254_0 *)arg0)->unk_8C = D_80170E5C;
     }
     ASM_KEEP(p2);   /* MATCH pin: load-bearing for the whole function shape */

@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80171D74_0 {
     s32 unk_00;
@@ -65,10 +66,6 @@ typedef struct S_80171D74_8 {
     u16 unk_2A;
 } S_80171D74_8;   /* temp_a1_2 in func_80171D74 */
 
-typedef struct S_80171D74_9 {
-    volatile s32 unk_00;
-    s32 unk_04;
-} S_80171D74_9;   /* &D_80083780 in func_80171D74 */
 
 typedef struct S_80171D74_10 {
     u8 pad_00[0x32];
@@ -475,12 +472,12 @@ jt_c15:
         /* fallthrough */
 jt_c16:
         {
-            s32 target_x = ((S_80171D74_9 *)(&D_80083780))->unk_00;
+            s32 target_x = ((Rec_D_800E3D7C *)(&D_80083780))->unk_00.at00_vs32.v;
             temp_a1_4 = ((S_80171D74_3 *)arg1)->unk_00.at00u.v;
             ((S_80171D74_3 *)arg1)->unk_0C.n = (target_x - temp_a1_4) / (s16) ((S_80171D74_1 *)arg0)->unk_96;
         }
         {
-            s32 next_y = (((S_80171D74_9 *)(&D_80083780))->unk_04 - ((S_80171D74_3 *)arg1)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)arg0)->unk_96;
+            s32 next_y = (((Rec_D_800E3D7C *)(&D_80083780))->unk_04.at00_s32.v - ((S_80171D74_3 *)arg1)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)arg0)->unk_96;
             s32 vel_x = ((S_80171D74_3 *)arg1)->unk_0C.v;
             s32 pos_y = ((S_80171D74_3 *)arg1)->unk_04.at00u.v;
             s32 next_x;

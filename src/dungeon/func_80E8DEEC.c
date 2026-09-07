@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 
@@ -18,13 +19,6 @@ typedef struct S_801736EC_0 {
     u8 unk_9B;
 } S_801736EC_0;   /* arg0 in func_801736EC */
 
-typedef struct S_801736EC_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x28];
-    s8 unk_48;
-    u8 unk_49;
-} S_801736EC_1;   /* arg3 in func_801736EC */
 
 typedef struct S_801736EC_2 {
     u8 pad_00[0xC];
@@ -34,7 +28,7 @@ typedef struct S_801736EC_2 {
     u16 unk_14;
 } S_801736EC_2;   /* arg2 in func_801736EC */
 
-void func_801736EC(S_801736EC_0 *arg0, M2C_UNK arg1, S_801736EC_2 *arg2, S_801736EC_1 *arg3) {
+void func_801736EC(S_801736EC_0 *arg0, M2C_UNK arg1, S_801736EC_2 *arg2, Rec_D_800E3D7C *arg3) {
     M2C_UNK one;
     M2C_UNK color;
     M2C_UNK temp_v1;
@@ -65,17 +59,17 @@ block_8:
     arg0->unk_9B = (u8)one;
 
 block_10:
-    if (arg3->unk_49 != 0) {
+    if (arg3->unk_48.at01_u8.v != 0) {
         func_80174D48(arg1, arg2, arg3);
-        arg3->unk_48 = 0;
-        arg3->unk_49 = 0U;
+        arg3->unk_48.at00_s8.v = 0;
+        arg3->unk_48.at01_u8.v = 0U;
     }
     color = 0x808080;
     ASM_KEEP(color);   /* MATCH pin: retail immediate-load split depends on it */
     arg2->unk_10 = 0x20;
     arg2->unk_12 = (u16)(arg2->unk_12 - 0x80);
     arg2->unk_14 = (u16)(arg2->unk_14 | 0xC);
-    arg3->unk_1C = arg3->unk_1C | 0x10000000;
+    arg3->unk_1C.as_s32 = arg3->unk_1C.as_s32 | 0x10000000;
     arg2->unk_0C = color;
     arg0->unk_96 = 0x10;
     arg0->unk_9B = (u8)(arg0->unk_9B + 1);

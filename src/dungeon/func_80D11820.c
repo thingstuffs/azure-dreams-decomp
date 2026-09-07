@@ -1,15 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80171020_4 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_80171020_4;   /* temp_v0 in func_80171020 */
 
-typedef struct S_80171020_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80171020_5;   /* arg0 in func_80171020 */
 
 typedef struct S_80171020_6 {
     u8 pad_00[0x2];
@@ -27,7 +24,7 @@ typedef struct S_80171020_7 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80171020_7;   /* ((S_80171020_5 *)arg0)->unk_08 in func_80171020 */
+} S_80171020_7;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80171020 */
 
 
 
@@ -72,7 +69,7 @@ typedef struct S_80171020_3 {
     s32 unk_04;
 } S_80171020_3;   /* temp_a2_2 in func_80171020 */
 
-void func_80171020(S_80171020_5 *arg0, s16 arg1, s32 arg2, s32 arg3, volatile s32 arg4, volatile s32 arg5, volatile s32 arg6) {
+void func_80171020(Rec_D_800E3D7C *arg0, s16 arg1, s32 arg2, s32 arg3, volatile s32 arg4, volatile s32 arg5, volatile s32 arg6) {
     register s32 temp_s2 = arg4;
     register s32 temp_s3 = arg5;
     register s32 temp_s4 = arg6;
@@ -88,9 +85,9 @@ void func_80171020(S_80171020_5 *arg0, s16 arg1, s32 arg2, s32 arg3, volatile s3
         return;
     }
         ((S_80171020_0 *)temp_v0)->unk_10 = &D_80170F0C;
-        ((S_80171020_6 *)(((S_80171020_4 *)temp_v0)->unk_08))->unk_02 = (s16) (((S_80171020_7 *)(arg0->unk_08))->unk_02 + temp_s2);
-        ((S_80171020_6 *)(((S_80171020_4 *)temp_v0)->unk_08))->unk_06 = (s16) (((S_80171020_7 *)(arg0->unk_08))->unk_06 + temp_s3);
-        ((S_80171020_6 *)(((S_80171020_4 *)temp_v0)->unk_08))->unk_0A = (s16) (((S_80171020_7 *)(arg0->unk_08))->unk_0A + temp_s4);
+        ((S_80171020_6 *)(((S_80171020_4 *)temp_v0)->unk_08))->unk_02 = (s16) (((S_80171020_7 *)(arg0->unk_08.at00_pv.v))->unk_02 + temp_s2);
+        ((S_80171020_6 *)(((S_80171020_4 *)temp_v0)->unk_08))->unk_06 = (s16) (((S_80171020_7 *)(arg0->unk_08.at00_pv.v))->unk_06 + temp_s3);
+        ((S_80171020_6 *)(((S_80171020_4 *)temp_v0)->unk_08))->unk_0A = (s16) (((S_80171020_7 *)(arg0->unk_08.at00_pv.v))->unk_0A + temp_s4);
         temp_s0 = temp_v0 + 0x20;
         temp_s0->unk_40 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
         temp_s0->unk_44 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);

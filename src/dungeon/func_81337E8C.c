@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_8016EE8C_0 {
     u8 pad_00[0xAB];
@@ -20,9 +21,6 @@ typedef struct S_8016EE8C_2 {
     s32 unk_371C;
 } S_8016EE8C_2;   /* page_8001 in func_8016EE8C */
 
-typedef struct S_8016EE8C_3 {
-    s32 unk_00;
-} S_8016EE8C_3;   /* &D_800E3D7C in func_8016EE8C */
 
 typedef struct S_8016EE8C_4 {
     u8 pad_00[0x10];
@@ -32,7 +30,7 @@ typedef struct S_8016EE8C_4 {
 typedef struct S_8016EE8C_5 {
     u8 pad_00[0xAC];
     s32 unk_AC;
-} S_8016EE8C_5;   /* (temp_s0 + ((S_8016EE8C_3 *)(&D_800E3D7C))->unk_00) in func_8016EE8C */
+} S_8016EE8C_5;   /* (temp_s0 + ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v) in func_8016EE8C */
 
 
 M2C_UNK func_8009A028();                         /* extern */
@@ -78,10 +76,10 @@ void func_8016EE8C(void) {
     ((S_8016EE8C_0 *)temp_a3)->unk_AB = 0;
     do {
         temp_s0 = var_s1 * 4;
-        temp_a0 = ((S_8016EE8C_5 *)((temp_s0 + ((S_8016EE8C_3 *)(&D_800E3D7C))->unk_00)))->unk_AC;
+        temp_a0 = ((S_8016EE8C_5 *)((temp_s0 + ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v)))->unk_AC;
         if (temp_a0 != 0) {
             func_8009A028(temp_a0);
-            temp_v1 = ((S_8016EE8C_5 *)((temp_s0 + ((S_8016EE8C_3 *)(&D_800E3D7C))->unk_00)))->unk_AC - 0x20;
+            temp_v1 = ((S_8016EE8C_5 *)((temp_s0 + ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v)))->unk_AC - 0x20;
             ((S_8016EE8C_4 *)temp_v1)->unk_10 = (s32) (((S_8016EE8C_4 *)temp_v1)->unk_10 | 0x80000000);
         }
         var_s1 += 1;

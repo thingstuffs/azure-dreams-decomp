@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 #ifndef NULL
 #define NULL 0
@@ -53,12 +54,6 @@ typedef struct S_80172F58_4 {
     u8 unk_25;
 } S_80172F58_4;   /* object in func_80172F58 */
 
-typedef struct S_80172F58_5 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x2C];
-    s32 unk_58;
-} S_80172F58_5;   /* D_800814A8 in func_80172F58 */
 
 typedef struct S_80172F58_6 {
     u8 pad_00[0x24];
@@ -228,7 +223,7 @@ void func_80172F58(u8 *in0, void *arg1, u8 *in2, u8 *in3) {
 
             target = (u8 *)&D_80082EA4 - 0x24;
             direction = (((S_80172F58_1 *)arg3)->unk_45 +
-                         ((s32)(((S_80172F58_5 *)D_800814A8)->unk_2A << 16) >> 25)) & 7;
+                         ((s32)(((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 << 16) >> 25)) & 7;
             target_x = ((S_80172F58_6 *)target)->unk_24 +
                        ((u16 *)&D_8006CCD8)[direction];
             target_y = ((S_80172F58_6 *)target)->unk_25 +
@@ -370,7 +365,7 @@ loop:
 
     if (i == 0) {
         if ((((S_80172F58_11 *)(&D_80082EA4))->unk_00 != ((S_80172F58_2 *)arg2)->unk_24.at00u.v) &&
-            ((s16)func_8009A180(arg3, ((S_80172F58_5 *)D_800814A8)->unk_58 + 0x20) != 0)) {
+            ((s16)func_8009A180(arg3, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) != 0)) {
             goto end;
         }
     }

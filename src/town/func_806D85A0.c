@@ -1,9 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80016000.h"
 
-typedef struct S_806D85A0_0 {
-    void * unk_00;
-} S_806D85A0_0;   /* &D_80016000 in func_806D85A0 */
 
 typedef struct S_806D85A0_1 {
     u8 pad_00[0x2D0];
@@ -32,12 +30,12 @@ typedef struct S_806D85A0_5 {
     void * unk_20;
     u8 pad_24[0x14];
     void * unk_38;
-} S_806D85A0_5;   /* ((S_806D85A0_0 *)(&D_80016000))->unk_00 in func_806D85A0 */
+} S_806D85A0_5;   /* ((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v in func_806D85A0 */
 
 typedef struct S_806D85A0_6 {
     u8 pad_00[0x2D0];
     M2C_UNK (*unk_2D0)(s32, s32, s32);
-} S_806D85A0_6;   /* ((S_806D85A0_5 *)(((S_806D85A0_0 *)(&D_80016000))->unk_00))->unk_20 in func_806D85A0 */
+} S_806D85A0_6;   /* ((S_806D85A0_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20 in func_806D85A0 */
 
 
 void *func_80017024();                 /* extern */
@@ -65,7 +63,7 @@ void func_806D85A0(void) {
     register void *temp_s3 ASM_REG("$19");   /* MATCH pin: retail register colouring depends on it */
     void *var_s6;
 
-    temp_s0 = ((S_806D85A0_5 *)(((S_806D85A0_0 *)(&D_80016000))->unk_00))->unk_38;
+    temp_s0 = ((S_806D85A0_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_38;
     if (func_8001876C(1) == 0) {
         temp_v0 = func_8001876C(2);
         var_s7 = 2;
@@ -110,7 +108,7 @@ loop_10:
                         var_a2 = var_s1 + var_s0;
                         temp_a0 = ((S_806D85A0_4 *)temp_s3)->unk_00 + var_s1;
                         temp_a1 = ((S_806D85A0_4 *)temp_s3)->unk_02 + var_s0;
-                        ((S_806D85A0_6 *)(((S_806D85A0_5 *)(((S_806D85A0_0 *)(&D_80016000))->unk_00))->unk_20))->unk_2D0(temp_a0, temp_a1, var_a2);
+                        ((S_806D85A0_6 *)(((S_806D85A0_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20))->unk_2D0(temp_a0, temp_a1, var_a2);
                         var_s0 += 1;
                         if (var_s0 < 2) {
                             goto loop_10;

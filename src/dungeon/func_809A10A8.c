@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 extern void func_80047784(void *, s32, s32);
@@ -39,25 +41,12 @@ typedef struct S_801728A8_0 {
     s32 unk_AC;
 } S_801728A8_0;   /* arg0 in func_801728A8 */
 
-typedef struct S_801728A8_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_801728A8_1;   /* arg2 in func_801728A8 */
 
 typedef struct S_801728A8_2 {
     u8 pad_00[0x2A];
     s16 unk_2A;
 } S_801728A8_2;   /* call_a0 in func_801728A8 */
 
-typedef struct S_801728A8_3 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801728A8_3;   /* arg1 in func_801728A8 */
 
 typedef struct S_801728A8_4 {
     u8 pad_00[0x2A];
@@ -80,31 +69,31 @@ L0:
     {
         register void *call_a0 ASM_REG("$4") = arg3;   /* MATCH pin: retail basic-block layout depends on it */
 
-        if (((S_801728A8_1 *)arg2)->unk_14 & 0x8000) {
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
             ((S_801728A8_0 *)arg0)->unk_9B.n = 4;
-            ((S_801728A8_1 *)arg2)->unk_14 |= 0x6000;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
             func_8009C12C(call_a0, arg2, ((S_801728A8_2 *)call_a0)->unk_2A, 1);
             func_80172DB4();
         }
     }
 
 L1:
-    ((S_801728A8_3 *)arg1)->unk_0C -=
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 -=
         *(s16 *)((u8 *)&D_8006CCD8 +
                  (((u16)((S_801728A8_4 *)arg3)->unk_2A.u >> 8) & 0xE)) << 14;
-    ((S_801728A8_3 *)arg1)->unk_10 -=
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v -=
         *(s16 *)((u8 *)&D_8006CCE8 +
                  (((u16)((S_801728A8_4 *)arg3)->unk_2A.u >> 8) & 0xE)) << 14;
     ((S_801728A8_0 *)arg0)->unk_A0.at00.v += 0x60000;
     if (((S_801728A8_0 *)arg0)->unk_A0.at02.v >= 0x31) {
         ((S_801728A8_0 *)arg0)->unk_A0.at02.v = 0x30;
     }
-    if (!(((S_801728A8_1 *)arg2)->unk_14 & 0x6000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000)) {
         return;
     }
-    ((S_801728A8_3 *)arg1)->unk_14 = 0;
-    ((S_801728A8_3 *)arg1)->unk_10 = 0;
-    ((S_801728A8_3 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     if (((S_801728A8_0 *)arg0)->unk_A0.at02.v < 0x30) {
         return;
     }
@@ -141,8 +130,8 @@ L2:
         direction_y = *addr_y;
         shifted_x = direction_x << 16;
         shifted_y = direction_y << 16;
-        ((S_801728A8_3 *)arg1)->unk_0C += shifted_x;
-        ((S_801728A8_3 *)arg1)->unk_10 += shifted_y;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 += shifted_x;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v += shifted_y;
         arc = -func_800644B8(((S_801728A8_0 *)arg0)->unk_96.s * 170);
         ((S_801728A8_0 *)arg0)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
         timer = ((S_801728A8_0 *)arg0)->unk_96.u + 1;
@@ -188,8 +177,8 @@ L3:
         direction_y = *addr_y;
         shifted_x = direction_x << 16;
         shifted_y = direction_y << 16;
-        ((S_801728A8_3 *)arg1)->unk_0C += shifted_x;
-        ((S_801728A8_3 *)arg1)->unk_10 += shifted_y;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 += shifted_x;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v += shifted_y;
         arc = -func_800644B8(((S_801728A8_0 *)arg0)->unk_96.s * 170);
         ((S_801728A8_0 *)arg0)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
         timer = ((S_801728A8_0 *)arg0)->unk_96.u + 1;
@@ -205,34 +194,34 @@ L3:
         velocity_x = -*(s16 *)((u8 *)base_x +
             (((u16)((S_801728A8_4 *)arg3)->unk_2A.u >> 8) & 0xE)) << 18;
         velocity_x += velocity_x >> 2;
-        ((S_801728A8_3 *)arg1)->unk_0C = velocity_x;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = velocity_x;
 
         velocity_y = -*(s16 *)((u8 *)base_y +
             (((u16)((S_801728A8_4 *)arg3)->unk_2A.u >> 8) & 0xE)) << 18;
         velocity_y += velocity_y >> 2;
-        ((S_801728A8_3 *)arg1)->unk_10 = velocity_y;
-        ((S_801728A8_0 *)arg0)->unk_A8 = ((S_801728A8_3 *)arg1)->unk_0C / 24;
-        ((S_801728A8_0 *)arg0)->unk_AC = ((S_801728A8_3 *)arg1)->unk_10 / 24;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = velocity_y;
+        ((S_801728A8_0 *)arg0)->unk_A8 = ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 / 24;
+        ((S_801728A8_0 *)arg0)->unk_AC = ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v / 24;
     }
     ((S_801728A8_0 *)arg0)->unk_96.s = 12;
     ((S_801728A8_0 *)arg0)->unk_9B.n++;
     func_80172DB4();
 
 L4:
-    ((S_801728A8_3 *)arg1)->unk_0C -= ((S_801728A8_0 *)arg0)->unk_A8;
-    ((S_801728A8_3 *)arg1)->unk_10 -= ((S_801728A8_0 *)arg0)->unk_AC;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 -= ((S_801728A8_0 *)arg0)->unk_A8;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v -= ((S_801728A8_0 *)arg0)->unk_AC;
     if (((S_801728A8_0 *)arg0)->unk_A0.at02.v > 0) {
         ((S_801728A8_0 *)arg0)->unk_A0.at02u.v -= 0x10;
         func_80172D40();
     }
     ((S_801728A8_0 *)arg0)->unk_A0.at02.v = 0;
-    if (!(((S_801728A8_1 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
-    ((S_801728A8_3 *)arg1)->unk_14 = 0;
-    ((S_801728A8_3 *)arg1)->unk_10 = 0;
-    ((S_801728A8_3 *)arg1)->unk_0C = 0;
-    func_800A2B04(arg1, ((S_801728A8_1 *)arg2)->unk_24, ((S_801728A8_1 *)arg2)->unk_25);
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     func_800AD594(arg3, 0x100);
     ((S_801728A8_0 *)arg0)->unk_8C = &D_801710EC;
     D_8008346C = 0;

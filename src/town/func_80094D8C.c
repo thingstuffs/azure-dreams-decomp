@@ -1,9 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_800924EC_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800924EC_0;   /* arg1 in func_800924EC */
 
 typedef struct S_800924EC_1 {
     u8 pad_00[0x8];
@@ -45,7 +42,7 @@ void func_800924EC(void *arg0, void *arg1, s32 arg2)
     func_80095C80(arg1);
     func_80095094(arg1);
     value = func_80095978(arg1, D_800FE488);
-    if ((value - ((S_800924EC_0 *)arg1)->unk_0A) >= 4)
+    if ((value - ((Rec_D_800E3D7C *)arg1)->unk_08.at02_s16.v) >= 4)
     {
         if (D_800CFCEF == 0)
         {

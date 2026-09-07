@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80D65534_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -27,15 +28,6 @@ typedef struct S_80D65534_1 {
     s32 unk_40;
 } S_80D65534_1;   /* arg0 in func_80D65534 */
 
-typedef struct S_80D65534_2 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0xD];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80D65534_2;   /* arg2 in func_80D65534 */
 
 
 
@@ -44,7 +36,7 @@ extern s32 func_800A45D8(u16 arg0, u16 arg1, s16 arg2);
 extern s16 func_800BCB04(u16 arg0, u16 arg1, s16 arg2);
 extern s32 D_800814A0[3];
 
-void func_80D65534(void *arg0, S_80D65534_0 *arg1, S_80D65534_2 *arg2)
+void func_80D65534(void *arg0, S_80D65534_0 *arg1, Rec_D_80082E80 *arg2)
 {
     s16 count;
     s32 old_z;
@@ -105,9 +97,9 @@ void func_80D65534(void *arg0, S_80D65534_0 *arg1, S_80D65534_2 *arg2)
 
     scale = (((S_80D65534_1 *)arg0)->unk_0C.s << 7) /
             ((S_80D65534_1 *)arg0)->unk_0E;
-    arg2->unk_0E = scale;
-    arg2->unk_0D = scale;
-    arg2->unk_0C = scale;
+    arg2->unk_0C.at02_s8.v = scale;
+    arg2->unk_0C.at01_s8.v = scale;
+    arg2->unk_0C.at00_s8.v = scale;
 
     value = ((S_80D65534_1 *)arg0)->unk_18 + 1;
     ((S_80D65534_1 *)arg0)->unk_18 = value;
@@ -116,16 +108,16 @@ void func_80D65534(void *arg0, S_80D65534_0 *arg1, S_80D65534_2 *arg2)
         ((S_80D65534_1 *)arg0)->unk_18 = 0;
     }
 
-    value = arg2->unk_1C + 0xC8;
-    arg2->unk_1C = value;
+    value = arg2->unk_1C.at00_u16.v + 0xC8;
+    arg2->unk_1C.at00_u16.v = value;
     if (value > 0x1000) {
-        arg2->unk_1C = 0x1000;
+        arg2->unk_1C.at00_u16.v = 0x1000;
     }
 
-    value = arg2->unk_1E + 0xC8;
-    arg2->unk_1E = value;
+    value = arg2->unk_1C.at02_u16.v + 0xC8;
+    arg2->unk_1C.at02_u16.v = value;
     if (value > 0x1000) {
-        arg2->unk_1E = 0x1000;
+        arg2->unk_1C.at02_u16.v = 0x1000;
     }
 
     count = ((S_80D65534_1 *)arg0)->unk_0C.u - 1;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 extern void *func_8003FE78();
 extern M2C_UNK func_8008EF58();
@@ -33,14 +34,6 @@ typedef struct S_800C01DC_1 {
     u16 unk_16;
 } S_800C01DC_1;   /* base in func_800C01DC */
 
-typedef struct S_800C01DC_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800C01DC_2;   /* &D_80083780 in func_800C01DC */
 
 void func_800C01DC(void) {
     S_800C01DC_0 *temp_v0;
@@ -60,9 +53,9 @@ void func_800C01DC(void) {
 
         base = (s8 *) &D_8006ADBC;
         ptr10 = ((S_800C01DC_1 *)base)->unk_10;
-        ((S_800C01DC_2 *)(&D_80083780))->unk_02 = (s16) (((S_800C01DC_1 *)base)->unk_14 + ptr10[0]);
-        ((S_800C01DC_2 *)(&D_80083780))->unk_06 = (s16) (((S_800C01DC_1 *)base)->unk_16 + ptr10[1]);
-        ((S_800C01DC_2 *)(&D_80083780))->unk_0A = func_800C2AE8(&D_80083780, ptr10);
+        ((Rec_D_800E3D7C *)(&D_80083780))->unk_00.at02_s16.v = (s16) (((S_800C01DC_1 *)base)->unk_14 + ptr10[0]);
+        ((Rec_D_800E3D7C *)(&D_80083780))->unk_04.at02_s16.v = (s16) (((S_800C01DC_1 *)base)->unk_16 + ptr10[1]);
+        ((Rec_D_800E3D7C *)(&D_80083780))->unk_08.at02_s16.v = func_800C2AE8(&D_80083780, ptr10);
     }
     func_8009550C(&D_80083780);
 }

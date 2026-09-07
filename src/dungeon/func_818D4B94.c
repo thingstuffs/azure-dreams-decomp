@@ -1,15 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_818D4B94_2 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_818D4B94_2;   /* temp_v0 in func_818D4B94 */
 
-typedef struct S_818D4B94_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_818D4B94_3;   /* arg0 in func_818D4B94 */
 
 typedef struct S_818D4B94_4 {
     u8 pad_00[0x2];
@@ -27,7 +24,7 @@ typedef struct S_818D4B94_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_818D4B94_5;   /* ((S_818D4B94_3 *)arg0)->unk_08 in func_818D4B94 */
+} S_818D4B94_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_818D4B94 */
 
 
 
@@ -58,7 +55,7 @@ typedef struct S_818D4B94_1 {
     s32 unk_50;
 } S_818D4B94_1;   /* temp_s0 in func_818D4B94 */
 
-void func_818D4B94(S_818D4B94_3 *arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+void func_818D4B94(Rec_D_800E3D7C *arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
     s16 held_arg1 = arg1;
     s32 held_arg2 = arg2;
     s32 held_arg3 = arg3;
@@ -78,13 +75,13 @@ void func_818D4B94(S_818D4B94_3 *arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4, s
     temp_v0 = func_8003FD64(0x211, arg0);
     if (temp_v0 != NULL) {
         ((S_818D4B94_0 *)temp_v0)->unk_10 = &D_80024294;
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)temp_v0)->unk_08))->unk_02 = (s16) (((S_818D4B94_5 *)(arg0->unk_08))->unk_02 + held_arg4);
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)temp_v0)->unk_08))->unk_06 = (s16) (((S_818D4B94_5 *)(arg0->unk_08))->unk_06 + held_arg5);
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)temp_v0)->unk_08))->unk_0A = (s16) (((S_818D4B94_5 *)(arg0->unk_08))->unk_0A + held_arg6);
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)temp_v0)->unk_08))->unk_02 = (s16) (((S_818D4B94_5 *)(arg0->unk_08.at00_pv.v))->unk_02 + held_arg4);
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)temp_v0)->unk_08))->unk_06 = (s16) (((S_818D4B94_5 *)(arg0->unk_08.at00_pv.v))->unk_06 + held_arg5);
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)temp_v0)->unk_08))->unk_0A = (s16) (((S_818D4B94_5 *)(arg0->unk_08.at00_pv.v))->unk_0A + held_arg6);
         temp_s0 = temp_v0 + 0x20;
-        temp_s0->unk_34 = (u16) ((S_818D4B94_5 *)(arg0->unk_08))->unk_02;
-        temp_s0->unk_36 = (u16) ((S_818D4B94_5 *)(arg0->unk_08))->unk_06;
-        temp_s0->unk_38 = (u16) ((S_818D4B94_5 *)(arg0->unk_08))->unk_0A;
+        temp_s0->unk_34 = (u16) ((S_818D4B94_5 *)(arg0->unk_08.at00_pv.v))->unk_02;
+        temp_s0->unk_36 = (u16) ((S_818D4B94_5 *)(arg0->unk_08.at00_pv.v))->unk_06;
+        temp_s0->unk_38 = (u16) ((S_818D4B94_5 *)(arg0->unk_08.at00_pv.v))->unk_0A;
         signed_arg3 = (s16) held_arg3;
         var_v1 = signed_arg3;
         numerator = 0 - (held_arg4 << 0x10);

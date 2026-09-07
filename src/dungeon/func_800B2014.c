@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct {
     u8 pad0[2];
@@ -87,12 +88,6 @@ typedef struct S_800B7774_2 {
     s32 unk_60;
 } S_800B7774_2;   /* temp_v0 in func_800B7774 */
 
-typedef struct S_800B7774_3 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-    u8 pad_12[0xFE];
-    s32 unk_110;
-} S_800B7774_3;   /* D_800E3D7C in func_800B7774 */
 
 typedef struct S_800B7774_4 {
     u8 pad_00[0x14];
@@ -174,7 +169,7 @@ state_0:
         register s32 first_call_arg ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
         s32 first_call_mode;
         s32 raw_first_result;
-        clamp_value = ((S_800B7774_3 *)D_800E3D7C)->unk_11 + 0x32;
+        clamp_value = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_10.at01_u8.v + 0x32;
         var_v1 = clamp_value;
         ASM_KEEP(clamp_value);   /* MATCH pin: retail register colouring depends on it */
         if (clamp_value >= 0x64) {
@@ -242,7 +237,7 @@ state_2:
             }
         }
     }
-    ((S_800B7774_3 *)D_800E3D7C)->unk_110 = 0;
+    ((Rec_D_800E3D7C *)D_800E3D7C)->unk_110 = 0;
     (*(s32 *)((u8 *)temp_v0 + (0x1C))) = (s32) (((S_800B7774_2 *)temp_v0)->unk_1C | 0x400000);
     {
     u8 *controls_base = (u8 *)&D_80083460;

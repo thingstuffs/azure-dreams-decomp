@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_801743EC_0 {
     u8 pad_00[0x4];
@@ -9,15 +10,6 @@ typedef struct S_801743EC_0 {
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
 } S_801743EC_0;   /* arg0 in func_801743EC */
 
-typedef struct S_801743EC_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x6];
-    s32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-} S_801743EC_1;   /* arg2 in func_801743EC */
 
 typedef struct S_801743EC_2 {
     u8 pad_00[0x2];
@@ -74,12 +66,12 @@ void func_801743EC(void *arg0, void *arg1, void *arg2)
 
 state_zero:
     func_800478B8(arg2);
-    if (((S_801743EC_1 *)arg2)->unk_14 & 0x6000) {
-        ((S_801743EC_1 *)arg2)->unk_04 = 0;
-        ((S_801743EC_1 *)arg2)->unk_05 = 0;
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
+        ((Rec_D_80082E80 *)arg2)->unk_04.as_s8 = 0;
+        ((Rec_D_80082E80 *)arg2)->unk_05.as_s8 = 0;
     }
-    ((S_801743EC_1 *)arg2)->unk_0C += 0xFFE7E7E8;
-    if ((u8)((S_801743EC_1 *)arg2)->unk_0C < 0x30U) {
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v += 0xFFE7E7E8;
+    if ((u8)((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v < 0x30U) {
         ((S_801743EC_0 *)arg0)->unk_4C.u++;
     }
 

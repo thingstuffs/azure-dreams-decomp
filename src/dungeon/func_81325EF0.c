@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 s32 func_80042900(void *, s32);
@@ -38,14 +40,6 @@ typedef struct S_8016D6F0_0 {
     u8 unk_B4;
 } S_8016D6F0_0;   /* arg0 in func_8016D6F0 */
 
-typedef struct S_8016D6F0_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-    u8 pad_27[0x5];
-    u8 * unk_2C;
-} S_8016D6F0_1;   /* arg2 in func_8016D6F0 */
 
 typedef struct S_8016D6F0_2 {
     u8 pad_00[0x14A8];
@@ -56,16 +50,6 @@ typedef struct S_8016D6F0_2 {
     u16 unk_3462;
 } S_8016D6F0_2;   /* base8008 in func_8016D6F0 */
 
-typedef struct S_8016D6F0_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_8016D6F0_3;   /* arg3 in func_8016D6F0 */
 
 typedef struct S_8016D6F0_4 {
     u8 pad_00[0xA];
@@ -97,7 +81,7 @@ typedef struct S_8016D6F0_9 {
     void * unk_58;
 } S_8016D6F0_9;   /* ((S_8016D6F0_2 *)base8008)->unk_14A8 in func_8016D6F0 */
 
-void func_8016D6F0(S_8016D6F0_0 *arg0, s32 arg1, S_8016D6F0_1 *arg2, void *arg3)
+void func_8016D6F0(S_8016D6F0_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3)
 {
     S_8016D6F0_7 *room_base;
     register u8 *table ASM_REG("$5");   /* MATCH pin: retail register colouring depends on it */
@@ -132,17 +116,17 @@ void func_8016D6F0(S_8016D6F0_0 *arg0, s32 arg1, S_8016D6F0_1 *arg2, void *arg3)
     return;
 
 state_zero:
-    if (!(arg2->unk_14 & 0xE000)) {
+    if (!(arg2->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
     base8008 = (u8 *)0x80080000;
     table = D_801746A4;
     ASM_KEEP(base8008);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    arg2->unk_2C = table;
+    arg2->unk_2C.as_pu8 = table;
     func_80047784(
         arg2,
         table[((((S_8016D6F0_2 *)base8008)->unk_3228 +
-                ((S_8016D6F0_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     counter_base = D_80083460;
     ((S_8016D6F0_4 *)counter_base)->unk_0A--;
@@ -161,7 +145,7 @@ state_one:
     if (arg0->unk_B4 == 0) {
         base8001 = (u8 *)0x80010000;
         if (!(((S_8016D6F0_5 *)base8001)->unk_3714 & 8)) {
-            if (((S_8016D6F0_3 *)arg3)->unk_64 != 0) {
+            if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
                 if (func_800AA6B4(arg0, arg1, arg2, D_801746C4) != 0) {
                     func_8016DA7C();
                     return;
@@ -170,7 +154,7 @@ state_one:
             goto action_body;
         }
     }
-    if (((S_8016D6F0_3 *)arg3)->unk_64 != 0) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
         clear_page = (u8 *)0x80080000;
         ASM_KEEP(clear_page);   /* MATCH pin: load-bearing for the whole function shape */
         clear_base = clear_page + 0x3460;
@@ -184,7 +168,7 @@ action_body:
     if ((func_800A2C34(arg3) << 0x10) != 0) {
         goto done;
     }
-    bits = ((S_8016D6F0_3 *)arg3)->unk_1C;
+    bits = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32;
     mask = bits & 0x100;
     call_obj = arg0;
     if (mask) {
@@ -198,7 +182,7 @@ action_body:
         func_8016DA7C();
         return;
     }
-    if (((S_8016D6F0_3 *)arg3)->unk_6D == 0) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
         goto done;
     }
     if ((func_800A2C34(arg3) << 0x10) != 0) {
@@ -215,7 +199,7 @@ action_body:
     func_800A9A04(arg3);
     if ((func_80042900(arg3, 1) << 0x10) != 0) {
         room_base = D_80082E80;
-        room = arg2->unk_26;
+        room = arg2->unk_26.as_s8;
         if ((room != room_base->unk_26) || (room < 0)) {
             if (func_8009FD40(room_base, arg2) >= 2) {
                 goto second_check;
@@ -235,13 +219,13 @@ post_actions:
     table = D_801746AC;
     base8008 = (u8 *)0x80080000;
     ASM_KEEP(base8008);   /* MATCH pin: retail schedule: same instructions, different order without it */
-    arg2->unk_2C = table;
+    arg2->unk_2C.as_pu8 = table;
     func_80047784(
         arg2,
         table[((((S_8016D6F0_2 *)base8008)->unk_3228 +
-                ((S_8016D6F0_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
-    if (arg2->unk_14 & 0x8000) {
+    if (arg2->unk_14.at00_u16.v & 0x8000) {
         goto set_callback;
     }
     update_base = D_80083460;
@@ -251,7 +235,7 @@ post_actions:
     return;
 
 state_two:
-    if (!(arg2->unk_14 & 0xE000)) {
+    if (!(arg2->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
     update_base = D_80083460;

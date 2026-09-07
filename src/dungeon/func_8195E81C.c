@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_8002401C_0 {
     union { void * s; u8 * u; } unk_00;   /* accessed as both */
@@ -11,14 +12,6 @@ typedef struct S_8002401C_0 {
     union { s16 s; u16 u; } unk_1C;   /* accessed as both */
 } S_8002401C_0;   /* obj in func_8002401C */
 
-typedef struct S_8002401C_1 {
-    u8 pad_00[0xA8];
-    u8 unk_A8;
-    u8 pad_A9[0x4B];
-    s32 unk_F4;
-    u8 pad_F8[0xA];
-    u8 unk_102;
-} S_8002401C_1;   /* D_800814A8 in func_8002401C */
 
 typedef struct S_8002401C_2_pre {
     void * unk_00;
@@ -119,9 +112,9 @@ jt_c0:
         D_800273C0 = ((S_8002401C_0 *)obj)->unk_00.s;
         D_8002732C = obj0;
 
-        ((S_8002401C_1 *)D_800814A8)->unk_F4 = 0;
-        ((S_8002401C_1 *)D_800814A8)->unk_102 = 1;
-        ((S_8002401C_1 *)D_800814A8)->unk_A8 = ((S_8002401C_0 *)obj)->unk_08;
+        ((Rec_D_800814A8 *)D_800814A8)->unk_F4 = 0;
+        ((Rec_D_800814A8 *)D_800814A8)->unk_102 = 1;
+        ((Rec_D_800814A8 *)D_800814A8)->unk_A8 = ((S_8002401C_0 *)obj)->unk_08;
 
         clear_row = D_800274DC;
 jt_zero_outer:

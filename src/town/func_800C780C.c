@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800C4F6C_5 {
     u8 pad_00[0x80];
@@ -32,9 +33,6 @@ typedef struct S_800C4F6C_2 {
     s16 unk_1E;
 } S_800C4F6C_2;   /* arg2 in func_800C4F6C */
 
-typedef struct S_800C4F6C_3 {
-    s32 unk_00;
-} S_800C4F6C_3;   /* D_80083780 in func_800C4F6C */
 
 typedef struct S_800C4F6C_4 {
     u8 pad_00[0x4];
@@ -72,7 +70,7 @@ void func_800C4F6C(void *arg0, S_800C4F6C_0 *arg1, S_800C4F6C_2 *arg2) {
     arg2->unk_1E = 0x800;
     arg2->unk_1C = 0x800;
     arg1->unk_04 = 0x04300000;
-    ((S_800C4F6C_3 *)D_80083780)->unk_00 = arg1->unk_00;
+    ((Rec_D_800E3D7C *)D_80083780)->unk_00.at00_s32.v = arg1->unk_00;
     temp_a1 = (s32 *)D_80083780;
     ((S_800C4F6C_4 *)temp_a1)->unk_04 = (s32) arg1->unk_04;
     ((S_800C4F6C_4 *)temp_a1)->unk_08 = (s32) arg1->unk_08;

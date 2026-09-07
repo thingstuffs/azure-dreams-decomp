@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172D08_0 {
     u8 pad_00[0x8C];
@@ -15,15 +16,6 @@ typedef struct S_80172D08_0 {
     u8 unk_AF;
 } S_80172D08_0;   /* arg0 in func_80172D08 */
 
-typedef struct S_80172D08_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172D08_1;   /* arg2 in func_80172D08 */
 
 typedef struct S_80172D08_2 {
     u8 pad_00[0x1C];
@@ -95,9 +87,9 @@ state_zero: {
     s32 direction;
     s32 value;
 
-    if (((S_80172D08_1 *)arg2)->unk_14 & 0x8000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172D08_0 *)arg0)->unk_9B = 4;
-        ((S_80172D08_1 *)arg2)->unk_14 |= 0x6000;
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(arg3, arg2, ((S_80172D08_2 *)arg3)->unk_2A.s, 1);
         return;
     }
@@ -105,14 +97,14 @@ state_zero: {
     ((S_80172D08_0 *)arg0)->unk_AF = 0;
     if (((S_80172D08_2 *)arg3)->unk_60 == 0) {
         direction = (((S_80172D08_2 *)arg3)->unk_2A.u >> 9) & 7;
-        if ((s16)func_800A44E0(((S_80172D08_1 *)arg2)->unk_24 << 6,
-                               ((S_80172D08_1 *)arg2)->unk_25 << 6,
+        if ((s16)func_800A44E0(((Rec_D_80082E80 *)arg2)->unk_24 << 6,
+                               ((Rec_D_80082E80 *)arg2)->unk_25 << 6,
                                ((S_80172D08_2 *)arg3)->unk_88.s,
                                direction << 9) == 0) {
             value = func_800BCB04(
-                (((((S_80172D08_1 *)arg2)->unk_24 +
+                (((((Rec_D_80082E80 *)arg2)->unk_24 +
                    ((s16 *)&D_8006CCD8)[direction]) << 6) + 0x20) & 0xFFE0,
-                (((((S_80172D08_1 *)arg2)->unk_25 +
+                (((((Rec_D_80082E80 *)arg2)->unk_25 +
                    ((s16 *)&D_8006CCE8)[direction]) << 6) + 0x20) & 0xFFE0,
                 (s16)(((S_80172D08_2 *)arg3)->unk_88.u - 0x20));
             if ((u16)(value - ((S_80172D08_2 *)arg3)->unk_88.u + 0x3F) >= 0x7F) {
@@ -198,9 +190,9 @@ state_two: {
 
             direction = (((S_80172D08_2 *)arg3)->unk_2A.u >> 8) & 0xE;
             terrain_height = func_800BCB04(
-                (((((S_80172D08_1 *)arg2)->unk_24 +
+                (((((Rec_D_80082E80 *)arg2)->unk_24 +
                    ((s16 *)&D_8006CCD8)[direction >> 1]) << 6) + 0x20) & 0xFFE0,
-                (((((S_80172D08_1 *)arg2)->unk_25 +
+                (((((Rec_D_80082E80 *)arg2)->unk_25 +
                    ((s16 *)&D_8006CCE8)[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                 (s16)(((S_80172D08_2 *)arg3)->unk_88.u - 0x20));
             value = func_800644B8(((S_80172D08_0 *)arg0)->unk_96.s << 7);
@@ -234,18 +226,18 @@ store_vertical:
 state_three: {
     s32 direction;
 
-    if (((((S_80172D08_1 *)arg2)->unk_04 == 0xC) &&
-         (((S_80172D08_1 *)arg2)->unk_14 & 0x1000)) ||
-        (((S_80172D08_1 *)arg2)->unk_14 & 0xE000)) {
+    if (((((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 0xC) &&
+         (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000)) ||
+        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         if (func_8009C12C(arg3, arg2, ((S_80172D08_2 *)arg3)->unk_2A.s, 1) != 0) {
             func_800A56E0(0x809);
             func_80174A6C(arg0, arg1, arg2);
         }
     }
 
-    if (((((S_80172D08_1 *)arg2)->unk_04 == 0x14) &&
-         (((S_80172D08_1 *)arg2)->unk_14 & 0x1000)) ||
-        (((S_80172D08_1 *)arg2)->unk_14 & 0xE000)) {
+    if (((((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 0x14) &&
+         (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000)) ||
+        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         if (((S_80172D08_0 *)arg0)->unk_AF == 0) {
             direction = (((S_80172D08_2 *)arg3)->unk_2A.u >> 8) & 0xE;
             ((S_80172D08_3 *)arg1)->unk_0C =
@@ -300,9 +292,9 @@ state_four: {
 
             direction = (((S_80172D08_2 *)arg3)->unk_2A.u >> 8) & 0xE;
             terrain_height = func_800BCB04(
-                (((((S_80172D08_1 *)arg2)->unk_24 +
+                (((((Rec_D_80082E80 *)arg2)->unk_24 +
                    ((s16 *)&D_8006CCD8)[direction >> 1]) << 6) + 0x20) & 0xFFE0,
-                (((((S_80172D08_1 *)arg2)->unk_25 +
+                (((((Rec_D_80082E80 *)arg2)->unk_25 +
                    ((s16 *)&D_8006CCE8)[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                 (s16)(((S_80172D08_2 *)arg3)->unk_88.u - 0x20));
             random_value = func_800644B8(((S_80172D08_0 *)arg0)->unk_96.s << 8);
@@ -325,12 +317,12 @@ state_four: {
 
 vertical_done:
     ((S_80172D08_0 *)arg0)->unk_90 += ((S_80172D08_0 *)arg0)->unk_A0;
-    if (((S_80172D08_1 *)arg2)->unk_14 & 0xE000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
         ((S_80172D08_3 *)arg1)->unk_14 = 0;
         ((S_80172D08_3 *)arg1)->unk_10 = 0;
         ((S_80172D08_3 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_80172D08_1 *)arg2)->unk_24,
-                      ((S_80172D08_1 *)arg2)->unk_25);
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24,
+                      ((Rec_D_80082E80 *)arg2)->unk_25);
         func_800AD594(arg3, 0x200);
         ((S_80172D08_0 *)arg0)->unk_8C = &D_80170E94;
         D_8008346C = 0;

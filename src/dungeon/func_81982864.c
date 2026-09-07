@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_80024064_0_pre {
     u16 unk_00;
@@ -19,9 +20,6 @@ typedef struct S_80024064_0 {
     s16 unk_22;
 } S_80024064_0;   /* arg0 in func_80024064 */
 
-typedef struct S_80024064_1 {
-    void * unk_00;
-} S_80024064_1;   /* D_800814A8 in func_80024064 */
 
 typedef struct S_80024064_2 {
     u8 pad_00[0xA8];
@@ -55,7 +53,7 @@ typedef struct S_80024064_6 {
 typedef struct S_80024064_7 {
     u8 pad_00[0x102];
     s8 unk_102;
-} S_80024064_7;   /* ((S_80024064_1 *)D_800814A8)->unk_00 in func_80024064 */
+} S_80024064_7;   /* ((Rec_D_800814A8 *)D_800814A8)->unk_00.as_pv in func_80024064 */
 
 
 typedef struct StackPair {
@@ -112,7 +110,7 @@ jt_c0:
     func_8003F80C(&D_80027C74, 0x7AC0, 1, 2);
     D_80027C94 = 1;
     temp_u8 = ((S_80024064_0 *)arg0)->unk_09;
-    state_base = ((S_80024064_1 *)D_800814A8)->unk_00;
+    state_base = ((Rec_D_800814A8 *)D_800814A8)->unk_00.as_pv;
     D_800269D0 = 0;
     D_80027C96 = temp_u8;
     arg_value = (*(void **)((u8 *)arg0 + 0));
@@ -121,7 +119,7 @@ jt_c0:
     ((S_80024064_2 *)state_base)->unk_A8 = (u8) ((S_80024064_0 *)arg0)->unk_08;
     func_800263F0(state_base);
     ((S_80024064_6 *)((*(void **)((u8 *)D_800814A8 + 0))))->unk_96 = 0x14;
-    ((S_80024064_7 *)(((S_80024064_1 *)D_800814A8)->unk_00))->unk_102 = 1;
+    ((S_80024064_7 *)(((Rec_D_800814A8 *)D_800814A8)->unk_00.as_pv))->unk_102 = 1;
     ((S_80024064_0 *)arg0)->unk_0A.s = (s16) ((u16) ((S_80024064_0 *)arg0)->unk_0A.s + 1);
 jt_c1:
     if (!(*((S_80024064_0 *)arg0)->unk_04 & 0x80)) {

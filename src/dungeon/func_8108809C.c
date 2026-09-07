@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 #ifndef NULL
 #define NULL 0
@@ -55,10 +56,6 @@ typedef struct S_8017589C_2 {
     s32 unk_28;
 } S_8017589C_2;   /* node in func_8017589C */
 
-typedef struct S_8017589C_3 {
-    u8 pad_00[0x28];
-    s32 unk_28;
-} S_8017589C_3;   /* arg2 in func_8017589C */
 
 typedef struct S_8017589C_4 {
     u8 pad_00[0x8];
@@ -74,7 +71,7 @@ typedef struct S_8017589C_5 {
     u16 unk_0A;
 } S_8017589C_5;   /* copy in func_8017589C */
 
-void *func_8017589C(s32 arg0, Copy24 *arg1, S_8017589C_3 *arg2)
+void *func_8017589C(s32 arg0, Copy24 *arg1, Rec_D_80082E80 *arg2)
 {
     u16 delta[3];
     s32 temp_v0_2;
@@ -115,7 +112,7 @@ void *func_8017589C(s32 arg0, Copy24 *arg1, S_8017589C_3 *arg2)
     work->unk_4C = arg0;
 
     node = ((S_8017589C_0 *)object)->unk_0C;
-    node->unk_28 = arg2->unk_28;
+    node->unk_28 = arg2->unk_28.at00_s32.v;
     node->unk_0E = 0x80;
     node->unk_0D = 0x80;
     node->unk_0C = 0x80;

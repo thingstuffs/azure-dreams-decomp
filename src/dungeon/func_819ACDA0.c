@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_819ACDA0_0 {
     u8 pad_00[0x2A];
@@ -12,10 +13,6 @@ typedef struct S_819ACDA0_1 {
     volatile u16 unk_2C;
 } S_819ACDA0_1;   /* motion in func_819ACDA0 */
 
-typedef struct S_819ACDA0_2 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_819ACDA0_2;   /* D_800E3D7C in func_819ACDA0 */
 
 
 
@@ -203,7 +200,7 @@ effect:
             D_80083780.x + base.x,
             D_80083780.y + base.y,
             D_80083780.z + base.z,
-            ((S_819ACDA0_2 *)D_800E3D7C)->unk_2A, 0);
+            ((Rec_D_800E3D7C *)D_800E3D7C)->unk_2A.as_s16, 0);
     }
 
     motion->effect_timer--;
@@ -214,7 +211,7 @@ effect:
         D_80083780.x,
         D_80083780.y,
         D_80083780.z - 0x20,
-        ((S_819ACDA0_2 *)D_800E3D7C)->unk_2A);
+        ((Rec_D_800E3D7C *)D_800E3D7C)->unk_2A.as_s16);
 
 finish:
     (*(u16 *)((u8 *)motion + -2)) |= 0x8000;

@@ -1,13 +1,8 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
 
-typedef struct S_8009B014_0 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-    u8 pad_08[0x8];
-    s32 unk_10;
-} S_8009B014_0;   /* arg1 in func_8009B014 */
 
 typedef struct S_8009B014_1 {
     u8 pad_00[0x4];
@@ -39,11 +34,11 @@ void func_8009B014(void *arg0, void *arg1, M2C_UNK arg2) {
     temp_index = D_800D0620;
     temp_base = D_800D0640;
     temp_a2 = temp_base + temp_index;
-    ((S_8009B014_0 *)arg1)->unk_10 = (s32) ((u32) (((S_8009B014_1 *)arg0)->unk_32 * 0x10000) + (u32) *temp_a2 - (u32) ((S_8009B014_0 *)arg1)->unk_04) / ((S_8009B014_1 *)arg0)->unk_0A.s;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = (s32) ((u32) (((S_8009B014_1 *)arg0)->unk_32 * 0x10000) + (u32) *temp_a2 - (u32) ((Rec_D_800E3D7C *)arg1)->unk_04.at00_s32.v) / ((S_8009B014_1 *)arg0)->unk_0A.s;
     temp_v0 = (u16) ((S_8009B014_1 *)arg0)->unk_0A.s - 1;
     ((S_8009B014_1 *)arg0)->unk_0A.u = temp_v0;
     if (((s16) temp_v0 * 0x10000) <= 0) {
-        ((S_8009B014_0 *)arg1)->unk_04 = (s32) ((u32) (((S_8009B014_1 *)arg0)->unk_32 * 0x10000) + (u32) *temp_a2);
+        ((Rec_D_800E3D7C *)arg1)->unk_04.at00_s32.v = (s32) ((u32) (((S_8009B014_1 *)arg0)->unk_32 * 0x10000) + (u32) *temp_a2);
         func_80099754(arg1);
         ((S_8009B014_1 *)arg0)->unk_10 = 0x400;
         ((S_8009B014_1 *)arg0)->unk_0A.u = 0xA;

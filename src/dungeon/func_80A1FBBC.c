@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_801733BC_0 {
     u8 pad_00[0xC];
@@ -65,12 +66,6 @@ typedef struct S_801733BC_6 {
     s16 unk_0A;
 } S_801733BC_6;   /* D_80083460 in func_801733BC */
 
-typedef struct S_801733BC_7 {
-    u8 pad_00[0x14];
-    u32 unk_14;
-    u8 pad_18[0x4];
-    u32 unk_1C;
-} S_801733BC_7;   /* arg3 in func_801733BC */
 
 typedef struct S_801733BC_8 {
     u8 pad_00[0x2];
@@ -226,8 +221,8 @@ void func_801733BC(void *arg0, void *arg1, void *arg2, void *arg3)
         if (((S_801733BC_6 *)D_80083460)->unk_0A != 0) {
             break;
         }
-        if (((S_801733BC_7 *)arg3)->unk_14 & 0x4000) {
-            if (!(((S_801733BC_7 *)arg3)->unk_14 & 0x20000000)) {
+        if (((Rec_D_80082E80 *)arg3)->unk_14.at00_u32.v & 0x4000) {
+            if (!(((Rec_D_80082E80 *)arg3)->unk_14.at00_u32.v & 0x20000000)) {
                 func_800ACF88(arg3);
             }
         }
@@ -255,7 +250,7 @@ void func_801733BC(void *arg0, void *arg1, void *arg2, void *arg3)
             func_800B8FC8(centerCallObject, rectArg, centerArg, 1, 0);
         }
 
-        ((S_801733BC_7 *)arg3)->unk_1C |= 0x10000000;
+        ((Rec_D_80082E80 *)arg3)->unk_1C.at00_u32.v |= 0x10000000;
         ((S_801733BC_0 *)arg2)->unk_10 = 0x60;
         ((S_801733BC_0 *)arg2)->unk_0C.u32 = 0x00C0C0C0;
         ((S_801733BC_0 *)arg2)->unk_14 |= 0xC;
@@ -285,7 +280,7 @@ void func_801733BC(void *arg0, void *arg1, void *arg2, void *arg3)
         break;
 
     case 2:
-        ((S_801733BC_7 *)arg3)->unk_1C |= 0x10000000;
+        ((Rec_D_80082E80 *)arg3)->unk_1C.at00_u32.v |= 0x10000000;
         ((S_801733BC_0 *)arg2)->unk_0C.u32 += 0xFFEFEFF0;
         if (((S_801733BC_0 *)arg2)->unk_0C.u8 < 0x11) {
             ((S_801733BC_1 *)arg0)->unk_96 = 10;
@@ -306,7 +301,7 @@ void func_801733BC(void *arg0, void *arg1, void *arg2, void *arg3)
         func_800A2FE0(arg3);
         func_800A32A4(arg3);
         func_8009A3D0(((S_801733BC_0 *)arg2)->unk_24, ((S_801733BC_0 *)arg2)->unk_25,
-            (((S_801733BC_7 *)arg3)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+            (((Rec_D_80082E80 *)arg3)->unk_1C.at00_u32.v & 0x2000) ? 0x300 : 0x3000);
         func_8009A028(arg3);
         (*(u16 *)((u8 *)arg3 + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;

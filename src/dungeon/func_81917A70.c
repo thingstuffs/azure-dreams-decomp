@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct Copy24 {
     s32 word0;
@@ -40,20 +41,6 @@ typedef struct S_80025270_1 {
     s32 unk_28;
 } S_80025270_1;   /* temp_a0_2 in func_80025270 */
 
-typedef struct S_80025270_2 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x4];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80025270_2;   /* arg0 in func_80025270 */
 
 typedef struct S_80025270_3 {
     s32 unk_00;
@@ -87,22 +74,22 @@ s32 func_80025270(void *arg0, Copy24 *arg1, s16 arg2) {
         temp_a0_2->unk_24 = arg1->word10;
         temp_a0_2->unk_28 = arg1->word14;
         arg0 = ((S_80025270_0 *)temp_v0)->unk_0C;
-        ((S_80025270_2 *)arg0)->unk_0E = 0x20;
-        ((S_80025270_2 *)arg0)->unk_0D = 0x20;
-        ((S_80025270_2 *)arg0)->unk_0C = 0x20;
-        ((S_80025270_2 *)arg0)->unk_12 = 0x7DCF;
-        ((S_80025270_2 *)arg0)->unk_14 = (u16) (((S_80025270_2 *)arg0)->unk_14 | 0xC);
-        ((S_80025270_2 *)arg0)->unk_10 = (u16) (((S_80025270_2 *)arg0)->unk_10 | 0x20);
-        ((S_80025270_2 *)arg0)->unk_14 = (u16) (((S_80025270_2 *)arg0)->unk_14 | 0x100);
+        ((Rec_D_80082E80 *)arg0)->unk_0C.at02_s8.v = 0x20;
+        ((Rec_D_80082E80 *)arg0)->unk_0C.at01_s8.v = 0x20;
+        ((Rec_D_80082E80 *)arg0)->unk_0C.at00_s8.v = 0x20;
+        ((Rec_D_80082E80 *)arg0)->unk_12.at00_s16.v = 0x7DCF;
+        ((Rec_D_80082E80 *)arg0)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg0)->unk_14.at00_u16.v | 0xC);
+        ((Rec_D_80082E80 *)arg0)->unk_10.as_u16 = (u16) (((Rec_D_80082E80 *)arg0)->unk_10.as_u16 | 0x20);
+        ((Rec_D_80082E80 *)arg0)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg0)->unk_14.at00_u16.v | 0x100);
         func_8003DB94(arg0, &D_800DEB70, 0);
         var_v0 = rand();
         temp_v1_2 = var_v0;
         if (temp_v1_2 < 0) {
             var_v0 = temp_v1_2 + 0xFFF;
         }
-        ((S_80025270_2 *)arg0)->unk_1A = (s16) (temp_v1_2 - ((var_v0 >> 0xC) << 0xC));
-        ((S_80025270_2 *)arg0)->unk_1E = 0x400;
-        ((S_80025270_2 *)arg0)->unk_1C = 0x400;
+        ((Rec_D_80082E80 *)arg0)->unk_1A.as_s16 = (s16) (temp_v1_2 - ((var_v0 >> 0xC) << 0xC));
+        ((Rec_D_80082E80 *)arg0)->unk_1C.at02_s16.v = 0x400;
+        ((Rec_D_80082E80 *)arg0)->unk_1C.at00_s16.v = 0x400;
         func_8004491C(temp_v0, D_80045340);
         temp_v1 = ((S_80025270_0 *)temp_v0)->unk_08;
         *temp_v1 = *arg1;

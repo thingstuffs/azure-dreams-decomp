@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_8016BF74_0 {
     u8 pad_00[0x2];
@@ -54,12 +55,6 @@ typedef struct S_8016BF74_5 {
     u8 unk_B2;
 } S_8016BF74_5;   /* arg0 in func_8016BF74 */
 
-typedef struct S_8016BF74_6 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x2C];
-    s32 unk_58;
-} S_8016BF74_6;   /* D_800814A8 in func_8016BF74 */
 
 typedef struct S_8016BF74_7 {
     u8 pad_00[0x1C];
@@ -221,7 +216,7 @@ void func_8016BF74(void *raw_arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
                 var_s3 = 0;
                 if (!(((S_8016BF74_1 *)arg3)->unk_46 & 0x8000)) {
                     if (temp_v1 & 0x20000) {
-                    temp_v1_2 = ((((S_8016BF74_1 *)arg3)->unk_45 + ((s32) (((S_8016BF74_6 *)D_800814A8)->unk_2A << 0x10) >> 0x19)) & 7) * 2;
+                    temp_v1_2 = ((((S_8016BF74_1 *)arg3)->unk_45 + ((s32) (((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 << 0x10) >> 0x19)) & 7) * 2;
                     temp_w2 = D_80082E80[0x24];
                     temp_w1 = D_80082E80[0x25];
                     temp_t2 = (*(u16 *)((u8 *)(&D_8006CCD8) + temp_v1_2));
@@ -364,7 +359,7 @@ block_step_loop:
 block_cleanup_loop:
             goto block_clear_71;
         }
-        if ((var_s3 != 0) || (D_80082EA4 == arg2->unk_24.at00u.v) || (var_v0 = func_8009A180(arg3, ((S_8016BF74_6 *)D_800814A8)->unk_58 + 0x20) << 0x10, (var_v0 == 0))) {
+        if ((var_s3 != 0) || (D_80082EA4 == arg2->unk_24.at00u.v) || (var_v0 = func_8009A180(arg3, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10, (var_v0 == 0))) {
             var_s3 += 1;
             var_s1 += 2;
             if (var_s3 >= 8) {

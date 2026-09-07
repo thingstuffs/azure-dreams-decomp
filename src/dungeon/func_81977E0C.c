@@ -1,5 +1,5 @@
 #include "common.h"
-typedef s32 M2C_UNK;
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_81977E0C_0_pre {
     u16 unk_00;
@@ -13,17 +13,6 @@ typedef struct S_81977E0C_0 {
     u16 unk_0A;
 } S_81977E0C_0;   /* arg0 in func_81977E0C */
 
-typedef struct S_81977E0C_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_81977E0C_1;   /* arg2 in func_81977E0C */
 
 typedef struct S_81977E0C_2 {
     s32 unk_00;
@@ -56,22 +45,22 @@ void func_81977E0C(void *arg0, void *arg1, void *arg2) {
     temp_v0 = ((S_81977E0C_0 *)arg0)->unk_04 + 1;
     ((S_81977E0C_0 *)arg0)->unk_04 = temp_v0;
     if ((s16) temp_v0 >= 0xA) {
-        temp_v0_2 = ((S_81977E0C_1 *)arg2)->unk_0E - 0x10;
-        ((S_81977E0C_1 *)arg2)->unk_0E = temp_v0_2;
-        ((S_81977E0C_1 *)arg2)->unk_0D = temp_v0_2;
-        ((S_81977E0C_1 *)arg2)->unk_0C = temp_v0_2;
+        temp_v0_2 = ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v - 0x10;
+        ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v = temp_v0_2;
+        ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v = temp_v0_2;
+        ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v = temp_v0_2;
     }
     ((S_81977E0C_0 *)arg0)->unk_08 = (u16) (((S_81977E0C_0 *)arg0)->unk_08 + 0x100);
     ((S_81977E0C_0 *)arg0)->unk_06 = (u16) (((S_81977E0C_0 *)arg0)->unk_06 + 1);
     temp_a1 = (u16) (((S_81977E0C_0 *)arg0)->unk_0A - 8) - (rand() % 9);
     ((S_81977E0C_0 *)arg0)->unk_0A = temp_a1;
-    if ((u16) ((S_81977E0C_1 *)arg2)->unk_1C < 0x400U) {
-        temp_v0_3 = ((S_81977E0C_1 *)arg2)->unk_1E + 0x40;
-        ((S_81977E0C_1 *)arg2)->unk_1E = temp_v0_3;
-        ((S_81977E0C_1 *)arg2)->unk_1C = temp_v0_3;
+    if ((u16) ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v < 0x400U) {
+        temp_v0_3 = ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v + 0x40;
+        ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = temp_v0_3;
+        ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = temp_v0_3;
     }
     func_800478B8(arg2);
-    if (((S_81977E0C_1 *)arg2)->unk_14 & 0x6000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
         (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_81977E0C_0_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
         func_8002579C();

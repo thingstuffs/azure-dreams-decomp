@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80172970_0 {
     u8 pad_00[0x8C];
@@ -47,12 +48,6 @@ typedef struct S_80172970_4 {
     u8 * unk_2C;
 } S_80172970_4;   /* arg2 in func_80172970 */
 
-typedef struct S_80172970_5 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172970_5;   /* arg1 in func_80172970 */
 
 typedef struct S_80172970_6 {
     u8 pad_00[0xA];
@@ -215,9 +210,9 @@ apply_move:
         goto done;
     }
 
-    ((S_80172970_5 *)arg1)->unk_14 = 0;
-    ((S_80172970_5 *)arg1)->unk_10 = 0;
-    ((S_80172970_5 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_80172970_4 *)arg2)->unk_24, ((S_80172970_4 *)arg2)->unk_25);
     D_8008346C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -249,9 +244,9 @@ state_2:
     if (!(((S_80172970_4 *)arg2)->unk_14 & 0xE000)) {
         goto done;
     }
-    ((S_80172970_5 *)arg1)->unk_14 = 0;
-    ((S_80172970_5 *)arg1)->unk_10 = 0;
-    ((S_80172970_5 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_80172970_4 *)arg2)->unk_24, ((S_80172970_4 *)arg2)->unk_25);
     if (((S_80172970_4 *)arg2)->unk_2C != D_8017586C) {
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_8017586C;

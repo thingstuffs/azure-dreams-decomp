@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 extern void func_80047784(void *, s32, s32);
@@ -29,12 +30,6 @@ typedef struct S_80172864_0 {
     s16 unk_A2;
 } S_80172864_0;   /* s0 in func_80172864 */
 
-typedef struct S_80172864_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    u8 * unk_2C;
-} S_80172864_1;   /* arg2 in func_80172864 */
 
 typedef struct S_80172864_2 {
     u8 pad_00[0x2A];
@@ -43,7 +38,7 @@ typedef struct S_80172864_2 {
     u16 unk_46;
 } S_80172864_2;   /* s1 in func_80172864 */
 
-void func_80172864(void *arg0, void *arg1, S_80172864_1 *arg2, void *arg3)
+void func_80172864(void *arg0, void *arg1, Rec_D_80082E80 *arg2, void *arg3)
 {
     static void *const state_keep[] = {
         &&state_0, &&state_1, &&state_2, &&state_3, &&state_4
@@ -63,7 +58,7 @@ void func_80172864(void *arg0, void *arg1, S_80172864_1 *arg2, void *arg3)
 state_0:
     timer = ((S_80172864_0 *)s0)->unk_96.u;
     ((S_80172864_0 *)s0)->unk_96.u = timer + 1;
-    if ((s16)timer < 4 && !(arg2->unk_14 & 0x8000)) {
+    if ((s16)timer < 4 && !(arg2->unk_14.at00_u16.v & 0x8000)) {
         goto done;
     }
     (void)((S_80172864_0 *)s0)->unk_9B.v;
@@ -72,10 +67,10 @@ state_0:
 
 state_1:
     if (((S_80172864_0 *)s0)->unk_A2 != 0 &&
-        !(arg2->unk_14 & 0x8000)) {
+        !(arg2->unk_14.at00_u16.v & 0x8000)) {
         goto done;
     }
-    arg2->unk_2C = D_80174108;
+    arg2->unk_2C.as_pu8 = D_80174108;
     func_80047784(
         arg2,
         D_80174108[((D_80083228[0] + ((S_80172864_2 *)s1)->unk_2A + 0x100) >> 9) & 7],
@@ -90,7 +85,7 @@ state_1:
 state_2:
     timer = ((S_80172864_0 *)s0)->unk_96.u + 1;
     ((S_80172864_0 *)s0)->unk_96.u = timer;
-    if ((s16)timer == 9 || (arg2->unk_14 & 0x8000)) {
+    if ((s16)timer == 9 || (arg2->unk_14.at00_u16.v & 0x8000)) {
         func_8009C12C(s1, arg2, ((S_80172864_2 *)s1)->unk_2A, 1);
         ((S_80172864_0 *)s0)->unk_96.u = 0;
         ((S_80172864_0 *)s0)->unk_9B.n++;
@@ -106,7 +101,7 @@ state_4:
     state = ((S_80172864_0 *)s0)->unk_9B.n;
     ((S_80172864_0 *)s0)->unk_96.u = 0;
     ((S_80172864_0 *)s0)->unk_9B.n = state + 1;
-    if (!(arg2->unk_14 & 0xE000)) {
+    if (!(arg2->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
     func_800AD594(s1, 0x100);

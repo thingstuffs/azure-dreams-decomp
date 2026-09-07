@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, raw_path
 
 TYPEDEF = re.compile(r"typedef struct (S_[0-9A-F]+_[0-9a-z_]+)(?:_pre)? \{\n(.*?)\n\} \1(?:_pre)?;\s*/\* (.*?) \*/", re.S)
-MEMBER = re.compile(r"^\s+(?:union \{ (.*?) \} unk_([0-9A-F]+)|(.+?)\s+(?:\(\*)?unk_([0-9A-F]+)(?:\))?(?:\([^)]*\))?;)", re.M)
+MEMBER = re.compile(r"^\s+(?:union \{ (.*?) \} unk_([0-9A-F]+)|(.+?)\s+(?:\(\*)?unk_([0-9A-F]+)(?:\))?(\([^)]*\))?;)", re.M)
 DEF_HEAD = re.compile(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \*]*?\b\**(func_[0-9A-F]{8}|[A-Za-z_][A-Za-z0-9_]*)\s*\(([^;{]*)\)\s*\{", re.M)
 CALL = re.compile(r"\b(func_[0-9A-F]{8})\s*\(")
 
@@ -39,7 +39,10 @@ def layout_of(body):
         if m.group(2):
             lay[int(m.group(2), 16)] = "union:" + re.sub(r"\s+", " ", m.group(1))[:60]
         elif m.group(4) and not m.group(3).strip().startswith("u8 pad"):
-            lay[int(m.group(4), 16)] = m.group(3).strip()
+            ty = m.group(3).strip()
+            if m.group(5):                       # `ret (*unk_XX)(args)`: a function pointer, not its return type
+                ty = f"{ty} (*){m.group(5)}"
+            lay[int(m.group(4), 16)] = ty
     return lay
 
 def main():
@@ -54,7 +57,8 @@ def main():
         for m in TYPEDEF.finditer(t):
             note = m.group(3); mm = re.match(r"(.+?) in (\S+)", note)
             if not mm: continue
-            structs[m.group(1) + ("_pre" if "_pre" in m.group(0)[:60] else "")] = {"row": r["id"], "container": r["container"], "fn": mm.group(2), "base": mm.group(1), "layout": layout_of(m.group(2))}
+            # keyed by row|name: the same S_<fn>_<n> name exists in several rows (true-name collisions)
+            structs[r["id"] + "|" + m.group(1) + ("_pre" if "_pre" in m.group(0)[:60] else "")] = {"row": r["id"], "container": r["container"], "fn": mm.group(2), "base": mm.group(1), "layout": layout_of(m.group(2))}
         for d in DEF_HEAD.finditer(t):
             ps = [p.strip() for p in split_args(d.group(2))]
             names = [re.sub(r".*?\b([A-Za-z_][A-Za-z0-9_]*)\s*$", r"\1", p) for p in ps]
@@ -78,6 +82,17 @@ def main():
                     arg += ch
                 if depth == 0:
                     calls[c.group(1)].append((r["id"], split_args(arg)))
+    # a struct T7 already replaced by a shared record header is gone from the text; carry it forward
+    # from the previous census so the class keeps every vote (headers stay supersets, never shrink)
+    prev_p = LEDGER / "struct_census_structs.json"
+    if prev_p.exists():
+        prev = json.load(open(prev_p)); carried = 0
+        for k, s in prev.items():
+            if k in structs or s["row"] not in texts: continue
+            if '#include "records/' in texts[s["row"]]:
+                s = dict(s); s["layout"] = {int(o, 16): ty for o, ty in s["layout"].items()}; s["converted"] = True
+                s.pop("class", None); structs[k] = s; carried += 1
+        if carried: print(f"carried forward {carried} structs already converted to shared records")
     # transitive provenance: union-find over (container, fn, param) nodes linked by call edges
     parent = {}
     def find(x):
@@ -171,9 +186,10 @@ def main():
     groups.sort(key=lambda g: -g["structs"])
     json.dump({"structs": len(structs), "groups": groups, "provenance_keys": len(prov)}, open(LEDGER / "struct_census.json", "w"), indent=0)
     # the full table T7 (tools/gen_records.py) reads: every struct's provenance class and local layout
+    class_of = {n: k for k, names in prov.items() for n in names}
     json.dump({n: {"row": s["row"], "container": s["container"], "fn": s["fn"], "base": s["base"],
                    "layout": {f"0x{o:X}": ty for o, ty in sorted(s["layout"].items())},
-                   "class": next((k for k, names in prov.items() if n in names), None)}
+                   "class": class_of.get(n), **({"converted": True} if s.get("converted") else {})}
                for n, s in structs.items()}, open(LEDGER / "struct_census_structs.json", "w"), indent=0)
     kinds = collections.Counter(k.split(":")[0] for k in prov)
     print(f"structs {len(structs)} from {len({s['row'] for s in structs.values()})} rows; provenance keys {len(prov)} ({dict(kinds)}); groups with >=2 structs: {len(groups)}")

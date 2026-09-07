@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 
@@ -22,26 +23,22 @@ typedef struct S_80098764_0 {
     s16 unk_32;
 } S_80098764_0;   /* arg0 in func_80098764 */
 
-typedef struct S_80098764_1 {
-    s32 unk_00;
-    s32 unk_04;
-} S_80098764_1;   /* arg1 in func_80098764 */
 
-void func_80098764(void *arg0, S_80098764_1 *arg1) {
+void func_80098764(void *arg0, Rec_D_800E3D7C *arg1) {
     u16 temp_v0;
     s32 old4;
 
     temp_v0 = ((S_80098764_0 *)arg0)->unk_0A - 1;
     ((S_80098764_0 *)arg0)->unk_0A = temp_v0;
     if ((temp_v0 << 0x10) > 0) {
-        arg1->unk_00 =
+        arg1->unk_00.at00_s32.v =
             ((func_800644B8(((S_80098764_0 *)arg0)->unk_10) << 9)
              + (((S_80098764_0 *)arg0)->unk_30 << 0x10)
-             + arg1->unk_00) / 2;
-        arg1->unk_04 =
+             + arg1->unk_00.at00_s32.v) / 2;
+        arg1->unk_04.at00_s32.v =
             ((func_80064584(((S_80098764_0 *)arg0)->unk_10) << 9)
              + (((S_80098764_0 *)arg0)->unk_32 << 0x10)
-             + (old4 = arg1->unk_04)) / 2;
+             + (old4 = arg1->unk_04.at00_s32.v)) / 2;
         func_8009881C(old4);
         return;
     }

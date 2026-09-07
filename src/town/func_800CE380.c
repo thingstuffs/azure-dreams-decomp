@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_800CBAE0_0 {
     M2C_UNK * unk_00;
@@ -9,10 +10,6 @@ typedef struct S_800CBAE0_0 {
     u8 unk_A6;
 } S_800CBAE0_0;   /* arg0 in func_800CBAE0; pointer addresses record offset 0x10 */
 
-typedef struct S_800CBAE0_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_800CBAE0_1;   /* arg2 in func_800CBAE0 */
 
 
 M2C_UNK func_8008F104();                   /* extern */
@@ -21,7 +18,7 @@ extern M2C_UNK D_800CBAAC;
 extern M2C_UNK D_800D68B0;
 extern M2C_UNK D_800D6A58;
 
-void func_800CBAE0(void *arg0, M2C_UNK arg1, S_800CBAE0_1 *arg2) {
+void func_800CBAE0(void *arg0, M2C_UNK arg1, Rec_D_80082E80 *arg2) {
     u8 temp_v1;
 
     temp_v1 = ((S_800CBAE0_0 *)((u8 *)arg0 - 0x10))->unk_A6;

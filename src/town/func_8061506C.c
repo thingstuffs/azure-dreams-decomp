@@ -1,12 +1,9 @@
 #include "common.h"
+#include "records/Rec_D_80016000.h"
 
 
 typedef void (*Callback)(s32, s32);
 
-typedef struct S_8001686C_0 {
-    u8 pad_00[0x20];
-    void * unk_20;
-} S_8001686C_0;   /* D_80016000 in func_8001686C */
 
 
 extern void func_80018B58();
@@ -26,6 +23,6 @@ s32 func_8001686C(void)
         return 1;
     }
 
-    (*(Callback *)((u8 *)(((S_8001686C_0 *)D_80016000)->unk_20) + 0x2F8))(0x10, 0x200);
+    (*(Callback *)((u8 *)(((Rec_D_80016000 *)D_80016000)->unk_20) + 0x2F8))(0x10, 0x200);
     return 0;
 }

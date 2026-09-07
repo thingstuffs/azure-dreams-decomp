@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_801735B8_0 {
     u8 pad_00[0x96];
@@ -13,12 +14,6 @@ typedef struct S_801735B8_1 {
     s16 unk_0A;
 } S_801735B8_1;   /* &D_80083460 in func_801735B8 */
 
-typedef struct S_801735B8_2 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-} S_801735B8_2;   /* arg3 in func_801735B8 */
 
 typedef struct S_801735B8_3 {
     u8 pad_00[0xC];
@@ -67,7 +62,7 @@ void func_801735B8(void *arg0, void *arg1, void *arg2, void *arg3) {
         ((S_801735B8_0 *)arg0)->unk_9B = 1;
         /* fallthrough */
     case 1:
-        flags = ((S_801735B8_2 *)arg3)->unk_14;
+        flags = ((Rec_D_80082E80 *)arg3)->unk_14.at00_s32.v;
         if (flags & 0x4000) {
             if (!(flags & 0x20000000)) {
                 func_800ACF88(arg3);
@@ -79,7 +74,7 @@ void func_801735B8(void *arg0, void *arg1, void *arg2, void *arg3) {
         ((S_801735B8_3 *)held_arg2)->unk_12 = 0xFF80;
         /* fallthrough */
     case 2:
-        ((S_801735B8_2 *)arg3)->unk_1C |= 0x10000000;
+        ((Rec_D_80082E80 *)arg3)->unk_1C.at00_s32.v |= 0x10000000;
         countdown = ((S_801735B8_0 *)arg0)->unk_96.u - 1;
         ((S_801735B8_0 *)arg0)->unk_96.u = countdown;
         if ((countdown << 16) <= 0) {
@@ -113,7 +108,7 @@ void func_801735B8(void *arg0, void *arg1, void *arg2, void *arg3) {
         call_arg0 = ((S_801735B8_3 *)held_arg2)->unk_24;
         call_arg1 = ((S_801735B8_3 *)held_arg2)->unk_25;
         call_arg2 = 0x3000;
-        if (((S_801735B8_2 *)arg3)->unk_1C & 0x2000) {
+        if (((Rec_D_80082E80 *)arg3)->unk_1C.at00_s32.v & 0x2000) {
             call_arg2 = 0x300;
         }
         func_8009A3D0(call_arg0, call_arg1, call_arg2);

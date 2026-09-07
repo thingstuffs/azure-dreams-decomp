@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172DFC_0_pre {
     u16 unk_00;
@@ -23,20 +24,13 @@ typedef struct S_80172DFC_1 {
     s32 unk_08;
 } S_80172DFC_1;   /* arg1 in func_80172DFC */
 
-typedef struct S_80172DFC_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80172DFC_2;   /* arg2 in func_80172DFC */
 
 
 
 extern void func_800478B8(void *);
 extern s32 D_800814A0[3];
 
-void func_80172DFC(void *arg0, S_80172DFC_1 *arg1, S_80172DFC_2 *arg2) {
+void func_80172DFC(void *arg0, S_80172DFC_1 *arg1, Rec_D_80082E80 *arg2) {
     u16 temp_v0;
     u16 temp_v0_2;
 
@@ -51,15 +45,15 @@ void func_80172DFC(void *arg0, S_80172DFC_1 *arg1, S_80172DFC_2 *arg2) {
     if (!(temp_v0 & 1)) {
         func_800478B8(arg2);
     }
-    arg2->unk_1C = arg2->unk_1C + 0x28;
-    arg2->unk_1E = arg2->unk_1E + 0x28;
+    arg2->unk_1C.at00_u16.v = arg2->unk_1C.at00_u16.v + 0x28;
+    arg2->unk_1C.at02_u16.v = arg2->unk_1C.at02_u16.v + 0x28;
     temp_v0_2 = ((S_80172DFC_0 *)arg0)->unk_16 - 1;
     ((S_80172DFC_0 *)arg0)->unk_16 = temp_v0_2;
     if ((temp_v0_2 << 0x10) <= 0) {
         ((S_80172DFC_0_pre *)arg0)[-1].unk_00 = ((S_80172DFC_0_pre *)arg0)[-1].unk_00 | 0x8000;
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
-    if (arg2->unk_14 & 0x8000) {
+    if (arg2->unk_14.at00_u16.v & 0x8000) {
         ((S_80172DFC_0_pre *)arg0)[-1].unk_00 = ((S_80172DFC_0_pre *)arg0)[-1].unk_00 | 0x8000;
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }

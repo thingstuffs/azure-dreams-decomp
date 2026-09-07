@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80174CCC_0_pre {
     union { volatile u16 s; u16 u; } unk_00;   /* accessed as both */
@@ -25,10 +26,6 @@ typedef struct S_80174CCC_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_08;   /* overlapping accesses */
 } S_80174CCC_1;   /* arg1 in func_80174CCC */
 
-typedef struct S_80174CCC_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80174CCC_2;   /* arg2 in func_80174CCC */
 
 typedef struct S_80174CCC_3 {
     u8 pad_00[0xA];
@@ -118,7 +115,7 @@ extern s32 func_800A1618(s32, s32);
 extern void *func_801708B4(s32, s16, s16, s16);
 extern void func_80174FBC(void) __attribute__((noreturn));
 
-void func_80174CCC(void *arg0, S_80174CCC_1 *arg1, S_80174CCC_2 *arg2)
+void func_80174CCC(void *arg0, S_80174CCC_1 *arg1, Rec_D_80082E80 *arg2)
 {
     s32 state;
     s32 trig;
@@ -194,7 +191,7 @@ void func_80174CCC(void *arg0, S_80174CCC_1 *arg1, S_80174CCC_2 *arg2)
     goto cleanup;
 
 state_one:
-    if ((arg2->unk_14 & 0xE000) == 0) {
+    if ((arg2->unk_14.at00_u16.v & 0xE000) == 0) {
         goto cleanup;
     }
     if (func_800A1618(0x1E, 1) == 0) {

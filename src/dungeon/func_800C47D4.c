@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef s32 M2C_UNK;
 
@@ -31,15 +33,6 @@ typedef struct S_800C9F34_1 {
     s8 unk_9A;
 } S_800C9F34_1;   /* arg0 in func_800C9F34 */
 
-typedef struct S_800C9F34_2 {
-    u8 pad_00[0x18];
-    s32 unk_18;
-    s32 unk_1C;
-    u8 pad_20[0x8];
-    u8 unk_28;
-    u8 pad_29[0x44];
-    s8 unk_6D;
-} S_800C9F34_2;   /* arg3 in func_800C9F34 */
 
 typedef struct S_800C9F34_3 {
     u8 pad_00[0x24];
@@ -48,10 +41,6 @@ typedef struct S_800C9F34_3 {
     s8 unk_26;
 } S_800C9F34_3;   /* arg2 in func_800C9F34 */
 
-typedef struct S_800C9F34_4 {
-    u8 pad_00[0x58];
-    s32 unk_58;
-} S_800C9F34_4;   /* D_800814A8 in func_800C9F34 */
 
 void func_800C9F34(S_800C9F34_1 *arg0, M2C_UNK arg1, S_800C9F34_3 *arg2, void *arg3) {
     void *st = &D_80083460;
@@ -66,11 +55,11 @@ void func_800C9F34(S_800C9F34_1 *arg0, M2C_UNK arg1, S_800C9F34_3 *arg2, void *a
         goto block_14;
     }
     arg0->unk_9A = 0xE;
-    ((S_800C9F34_2 *)arg3)->unk_1C =
-        ((S_800C9F34_2 *)arg3)->unk_1C | 0x40000;
+    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 =
+        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 | 0x40000;
     arg0->unk_98 =
         arg0->unk_98 & 0xFFF7;
-    if (((S_800C9F34_2 *)arg3)->unk_28 == 0) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
         goto call_aa94;
     }
     ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
@@ -89,7 +78,7 @@ path_a1c58:
     if ((((S_800C9F34_0 *)st)->unk_0C == arg3) &&
         (((S_800C9F34_0 *)st)->unk_0A == 0) &&
         !(((S_800C9F34_0 *)st)->unk_02 & 8)) {
-        ((S_800C9F34_2 *)arg3)->unk_18 = 0;
+        ((Rec_D_800E3D7C *)arg3)->unk_18 = 0;
         ((S_800C9F34_0 *)st)->unk_0C = 0;
         func_800CA0B8();
     }
@@ -98,10 +87,10 @@ path_a1c58:
 block_14:
     arg2->unk_26 = func_8009FB34(
         arg2->unk_24, arg2->unk_25);
-    if ((((S_800C9F34_2 *)arg3)->unk_6D > 0) &&
+    if ((((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 > 0) &&
         (!(D_80083462 & 0x2000) ||
          ((func_8009A180(arg3,
-            ((S_800C9F34_4 *)D_800814A8)->unk_58 + 0x20) << 0x10) == 0))) {
+            ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) == 0))) {
         func_800CA93C(arg0, arg1, arg2);
     }
 }

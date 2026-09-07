@@ -1,16 +1,10 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_8009CD58_0 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x36];
-    void * unk_4C;
-    u8 * unk_50;
-} S_8009CD58_0;   /* arg0 in func_8009CD58 */
 
 typedef struct S_8009CD58_1 {
     u8 unk_00;
@@ -19,7 +13,7 @@ typedef struct S_8009CD58_1 {
 
 
 
-s32 func_8009CD58(S_8009CD58_0 *arg0, s32 arg1, s32 arg2) {
+s32 func_8009CD58(Rec_D_800E3D7C *arg0, s32 arg1, s32 arg2) {
     s32 temp_a2;
     s32 temp_t0;
     register s32 var_a3 ASM_REG("$7");   /* MATCH pin: retail register colouring depends on it */
@@ -30,10 +24,10 @@ s32 func_8009CD58(S_8009CD58_0 *arg0, s32 arg1, s32 arg2) {
     S_8009CD58_1 *temp_a0_3;
 
     temp_a2 = arg2 << 16;
-    temp_t0 = arg0->unk_14 & arg1;
+    temp_t0 = arg0->unk_14.as_u16 & arg1;
     var_a3 = temp_t0;
     if (temp_a2 != 0) {
-        temp_a0_3 = arg0->unk_4C;
+        temp_a0_3 = arg0->unk_4C.as_pv;
         if (temp_a0_3 != NULL) {
             if (temp_a0_3->unk_01 == 15) {
                 temp_a0 = temp_a0_3->unk_00;
@@ -62,7 +56,7 @@ s32 func_8009CD58(S_8009CD58_0 *arg0, s32 arg1, s32 arg2) {
         }
         return var_a3;
     }
-    temp_a0_4 = arg0->unk_50;
+    temp_a0_4 = arg0->unk_50.at00_pu8.v;
     if (temp_a0_4 != NULL) {
         temp_a0 = *temp_a0_4;
         if (temp_a0 == 8) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 
@@ -16,10 +17,6 @@ typedef struct S_80164ED0_2 {
     void * unk_0C;
 } S_80164ED0_2;   /* temp_v0 in func_80164ED0 */
 
-typedef struct S_80164ED0_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80164ED0_3;   /* arg0 in func_80164ED0 */
 
 typedef struct S_80164ED0_4 {
     u8 pad_00[0x2];
@@ -40,7 +37,7 @@ typedef struct S_80164ED0_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_80164ED0_5;   /* ((S_80164ED0_3 *)arg0)->unk_08 in func_80164ED0 */
+} S_80164ED0_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80164ED0 */
 
 typedef struct S_80164ED0_6 {
     u8 pad_00[0x6];
@@ -69,7 +66,7 @@ typedef struct S_80164ED0_1 {
     s16 unk_34;
 } S_80164ED0_1;   /* temp_s0 in func_80164ED0 */
 
-void func_80164ED0(S_80164ED0_3 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4, s32 arg5)
+void func_80164ED0(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4, s32 arg5)
 {
     register s32 held_arg4 ASM_REG("$19") = arg4;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
     register s32 held_arg5 ASM_REG("$20") = arg5;   /* MATCH pin: retail callee-saved set / frame layout depends on it */
@@ -80,11 +77,11 @@ void func_80164ED0(S_80164ED0_3 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4, s
     if (temp_v0 != NULL) {
         ((S_80164ED0_0 *)temp_v0)->unk_10 = D_80164DA4;
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)temp_v0)->unk_08))->unk_02 = (s16)
-            (((S_80164ED0_5 *)(arg0->unk_08))->unk_02 + arg3);
+            (((S_80164ED0_5 *)(arg0->unk_08.at00_pv.v))->unk_02 + arg3);
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)temp_v0)->unk_08))->unk_06 = (s16)
-            (((S_80164ED0_5 *)(arg0->unk_08))->unk_06 + held_arg4);
+            (((S_80164ED0_5 *)(arg0->unk_08.at00_pv.v))->unk_06 + held_arg4);
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)temp_v0)->unk_08))->unk_0A = (s16)
-            (((S_80164ED0_5 *)(arg0->unk_08))->unk_0A + held_arg5);
+            (((S_80164ED0_5 *)(arg0->unk_08.at00_pv.v))->unk_0A + held_arg5);
         ((S_80164ED0_6 *)(((S_80164ED0_2 *)temp_v0)->unk_0C))->unk_06 = 6;
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)temp_v0)->unk_08))->unk_0C = (s32)
             (((rand() & 0x7FFF) - 0x4000) << 6);

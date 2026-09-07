@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 typedef __SIZE_TYPE__ uptr;
@@ -28,13 +29,6 @@ typedef struct S_801728E4_1 {
     union { u8 s; s8 u; } unk_73;   /* accessed as both */
 } S_801728E4_1;   /* arg3 in func_801728E4 */
 
-typedef struct S_801728E4_2 {
-    u8 unk_00;
-    u8 pad_01[0xB];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801728E4_2;   /* arg1 in func_801728E4 */
 
 typedef struct S_801728E4_3 {
     u8 pad_00[0x24];
@@ -150,7 +144,7 @@ K8:
     arg1 = (u8 *)arg3 + 8;
 KNone:
 HaveSource:
-    if (((S_801728E4_2 *)arg1)->unk_00 == 0) {
+    if (((Rec_D_800E3D7C *)arg1)->unk_00.at00_u8.v == 0) {
         return;
     }
 
@@ -167,7 +161,7 @@ HaveSource:
         }
     }
 
-    if (D_8006DE24[((S_801728E4_2 *)arg1)->unk_00].field12 != 2) {
+    if (D_8006DE24[((Rec_D_800E3D7C *)arg1)->unk_00.at00_u8.v].field12 != 2) {
         goto MakeSource;
     }
 
@@ -266,9 +260,9 @@ L4:
             table[((D_80083228 + ((S_801728E4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
-    ((S_801728E4_2 *)arg1)->unk_14 = 0;
-    ((S_801728E4_2 *)arg1)->unk_10 = 0;
-    ((S_801728E4_2 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_801728E4_4 *)arg2)->unk_24, ((S_801728E4_4 *)arg2)->unk_25);
     {
         u8 *global = D_80083460;

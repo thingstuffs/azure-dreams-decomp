@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800BE6F0_0_pre {
     void * unk_00;
@@ -7,15 +8,6 @@ typedef struct S_800BE6F0_0_pre {
     u16 unk_16;
 } S_800BE6F0_0_pre;   /* the 0x18 bytes before arg0 in func_800BE6F0, addressed as arg0[-1] */
 
-typedef struct S_800BE6F0_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xF0];
-    s32 unk_110;
-} S_800BE6F0_0;   /* arg0 in func_800BE6F0 */
 
 typedef struct S_800BE6F0_1 {
     u8 pad_00[0x2];
@@ -102,7 +94,7 @@ s32 func_800BE6F0(void *arg0, s32 arg1, s16 arg2)
     s32 state_masked;
 
     if (arg0 == D_800E3D7C) {
-        ((S_800BE6F0_0 *)arg0)->unk_110 = arg1;
+        ((Rec_D_800E3D7C *)arg0)->unk_110 = arg1;
         func_8008D330(arg0, D_80083780, D_80082E80, arg0);
         return 0;
     }
@@ -111,9 +103,9 @@ s32 func_800BE6F0(void *arg0, s32 arg1, s16 arg2)
         func_800A63B8(arg0, arg1, arg2);
     }
 
-    if (((S_800BE6F0_0 *)arg0)->unk_14 & 0x4000) {
+    if (((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) {
         temp_s1 = func_800990FC();
-        if ((u32)(((S_800BE6F0_0 *)arg0)->unk_13 - 3) < 0x2B) {
+        if ((u32)(((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v - 3) < 0x2B) {
             temp_v0 = func_80099734(arg0, temp_s1);
             message = (u8 *)0x800E0000;
             ASM_KEEP(message);   /* MATCH pin: load-bearing for the whole function shape */
@@ -129,10 +121,10 @@ s32 func_800BE6F0(void *arg0, s32 arg1, s16 arg2)
         func_800A5720(temp_s1);
     }
 
-    type = ((S_800BE6F0_0 *)arg0)->unk_13;
+    type = ((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v;
     if ((u32)(type - 3) < 0x2B) {
         local[0] = type;
-        type2 = ((S_800BE6F0_0 *)arg0)->unk_13;
+        type2 = ((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v;
         if ((type2 == 3) || (type2 == 5) || (type2 == 7) ||
             (type2 == 9) || (type2 == 0xB) || (type2 == 0xD) ||
             (type2 == 0xF) || (type2 == 0x11) || (type2 == 0x13)) {
@@ -178,7 +170,7 @@ s32 func_800BE6F0(void *arg0, s32 arg1, s16 arg2)
             record_x = record2->unk_24;
             record_y = record2->unk_25;
             arg_a2 = 0x3000;
-            if (((S_800BE6F0_0 *)arg0)->unk_1C & 0x2000) {
+            if (((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 & 0x2000) {
                 arg_a2 = 0x300;
             }
             func_8009A3D0(record_x, record_y, arg_a2);

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_800A9E70_arg0.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_8017405C_0 {
     u8 pad_00[0x14];
@@ -45,25 +47,7 @@ typedef struct S_8017405C_4 {
     u16 unk_2A;
 } S_8017405C_4;   /* root in func_8017405C */
 
-typedef struct S_8017405C_5 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    u8 pad_9A[0x2];
-    s8 unk_9C;
-    u8 pad_9D[0x7];
-    s16 unk_A4;
-    u8 unk_A6;
-} S_8017405C_5;   /* a in func_8017405C */
 
-typedef struct S_8017405C_6 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-    u8 pad_2C[0x2C];
-    u8 * unk_58;
-    u8 pad_5C[0x50];
-    void * unk_AC;
-    void * unk_B0;
-} S_8017405C_6;   /* D_800814A8 in func_8017405C */
 
 typedef struct S_8017405C_7_pre {
     void * unk_00;
@@ -244,7 +228,7 @@ void func_8017405C(void *a, s32 b, S_8017405C_1 *c, void *d)
         s32 m = c->unk_26.s;
         if (m >= 0 && (D_800E2970[m].flags & 2)) {
 call_e6c:
-            func_800A0E6C(c, ((S_8017405C_5 *)a)->unk_9C, d, (u8 *)a + 0x98);
+            func_800A0E6C(c, ((Rec_func_800A9E70_arg0 *)a)->unk_9C.as_s8, d, (u8 *)a + 0x98);
             goto loop_entry;
         }
     }
@@ -261,10 +245,10 @@ call_e6c:
     if (((S_8017405C_0 *)d)->unk_1C & 0x20000) {
         void *pa;
         void *pb;
-        ((S_8017405C_5 *)a)->unk_A6 = 0;
-        pa = ((S_8017405C_6 *)D_800814A8)->unk_AC;
+        ((Rec_func_800A9E70_arg0 *)a)->unk_A6 = 0;
+        pa = ((Rec_D_800814A8 *)D_800814A8)->unk_AC;
         if (pa != 0) {
-            pb = ((S_8017405C_6 *)D_800814A8)->unk_B0;
+            pb = ((Rec_D_800814A8 *)D_800814A8)->unk_B0;
             if (pb != 0) {
                 goto masters;
             }
@@ -275,7 +259,7 @@ call_e6c:
             s32 t;
             delta = func_800A07D0(e80[0x24], e80[0x25],
                                   c->unk_24.at00.v, c->unk_24.at01.v);
-            t = (((S_8017405C_6 *)D_800814A8)->unk_2A + delta) & 0xFFF;
+            t = (((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 + delta) & 0xFFF;
             if (t > 0x400 && t < 0xC00) {
                 ((S_8017405C_0 *)d)->unk_45 = 3;
             } else if (t == 0x400 || t == 0xC00) {
@@ -361,11 +345,11 @@ masters:
             goto clear71;
         }
     }
-    if (((S_8017405C_5 *)a)->unk_A6 != 0) {
+    if (((Rec_func_800A9E70_arg0 *)a)->unk_A6 != 0) {
         goto loop_entry;
     }
-    ((S_8017405C_5 *)a)->unk_A6 = 1;
-    ((S_8017405C_5 *)a)->unk_A4 = ((func_800A6D30() & 3) << 10) + 0x200;
+    ((Rec_func_800A9E70_arg0 *)a)->unk_A6 = 1;
+    ((Rec_func_800A9E70_arg0 *)a)->unk_A4 = ((func_800A6D30() & 3) << 10) + 0x200;
 
 loop_entry:
     idx = 0;
@@ -373,16 +357,16 @@ loop_entry:
         s16 *tbl = D_8006CD00;
 loop_head:
         {
-            if (((S_8017405C_5 *)a)->unk_A6 != 0) {
-                s32 bb = ((S_8017405C_5 *)a)->unk_A4;
-                if (((S_8017405C_5 *)a)->unk_98 & 2) {
+            if (((Rec_func_800A9E70_arg0 *)a)->unk_A6 != 0) {
+                s32 bb = ((Rec_func_800A9E70_arg0 *)a)->unk_A4;
+                if (((Rec_func_800A9E70_arg0 *)a)->unk_98 & 2) {
                     dir = bb - tbl[idx];
                 } else {
                     dir = bb + tbl[idx];
                 }
             } else {
                 register s32 bb ASM_REG("$3") = ((S_8017405C_0 *)d)->unk_2A.s;   /* MATCH pin: retail delay-slot fill depends on it */
-                if (((S_8017405C_5 *)a)->unk_98 & 2) {
+                if (((Rec_func_800A9E70_arg0 *)a)->unk_98 & 2) {
                     dir = bb - tbl[idx];
                 } else {
                     dir = bb + tbl[idx];
@@ -393,7 +377,7 @@ loop_head:
                     if (hit != 0) {
                         goto clear71;
                     }
-                    if (((S_8017405C_5 *)a)->unk_A6 != 0) {
+                    if (((Rec_func_800A9E70_arg0 *)a)->unk_A6 != 0) {
                         goto clear71;
                     }
                 }
@@ -421,7 +405,7 @@ loop_head:
             }
             if (idx == 0 && D_80082EA4 != c->unk_24.at00u.v) {
                 ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
-                if (func_8009A180(d, ((S_8017405C_6 *)D_800814A8)->unk_58 + 0x20) != 0) {
+                if (func_8009A180(d, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pu8 + 0x20) != 0) {
                     return;
                 }
             }
@@ -442,7 +426,7 @@ loop_done:
     {
         u16 *cnt = D_80083460;
         ((S_8017405C_0 *)d)->unk_46 &= 0x7FFF;
-        ((S_8017405C_5 *)a)->unk_9C = c->unk_26.u;
+        ((Rec_func_800A9E70_arg0 *)a)->unk_9C.as_s8 = c->unk_26.u;
         ((S_8017405C_0 *)d)->unk_6D.u = ((S_8017405C_0 *)d)->unk_6D.u - 1;
         cnt[4] = cnt[4] + 1;
     }

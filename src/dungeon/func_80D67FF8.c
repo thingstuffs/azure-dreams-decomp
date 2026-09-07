@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 extern void func_80047784(void *, s32, s32);
@@ -41,23 +43,7 @@ typedef struct S_801737F8_1 {
     s32 unk_14;
 } S_801737F8_1;   /* arg1 in func_801737F8 */
 
-typedef struct S_801737F8_2 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_801737F8_2;   /* arg2 in func_801737F8 */
 
-typedef struct S_801737F8_3 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-    u8 pad_48[0x40];
-    u16 unk_88;
-} S_801737F8_3;   /* arg3 in func_801737F8 */
 
 void func_801737F8(void *arg0, void *arg1, void *arg2, void *arg3)
 {
@@ -74,25 +60,25 @@ L0:
     ((S_801737F8_1 *)arg1)->unk_14 = 0;
     ((S_801737F8_1 *)arg1)->unk_10 = 0;
     ((S_801737F8_1 *)arg1)->unk_0C = 0;
-    if (((S_801737F8_2 *)arg2)->unk_14 & 0x8000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
         ((S_801737F8_0 *)arg0)->unk_9B = 4;
-        ((S_801737F8_2 *)arg2)->unk_14 |= 0x6000;
-        func_8009C12C(arg3, arg2, ((S_801737F8_3 *)arg3)->unk_2A, 1);
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
+        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
         func_80173AE8();
     }
     if (((S_801737F8_0 *)arg0)->unk_92.s !=
         (s16)(func_800BCB04(((S_801737F8_1 *)arg1)->unk_02,
                             ((S_801737F8_1 *)arg1)->unk_06,
-                            (s16)(((S_801737F8_3 *)arg3)->unk_88 - 0x20)) -
-              ((S_801737F8_3 *)arg3)->unk_88)) {
+                            (s16)(((Rec_D_800E3D7C *)arg3)->unk_88.as_u16 - 0x20)) -
+              ((Rec_D_800E3D7C *)arg3)->unk_88.as_u16)) {
         return;
     }
     ((S_801737F8_0 *)arg0)->unk_9B++;
-    ((S_801737F8_2 *)arg2)->unk_10 = 0x20;
+    ((Rec_D_80082E80 *)arg2)->unk_10.as_s16 = 0x20;
     {
         u16 tail_flags;
 
-        tail_flags = ((S_801737F8_2 *)arg2)->unk_14 | 0x000C;
+        tail_flags = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v | 0x000C;
         ASM_TAILSLOT_PIN(tail_flags);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
         func_80173AE4();
     }
@@ -100,7 +86,7 @@ L0:
 L1:
     (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_800E2380;
     func_80047784(arg2,
-        D_800E2380[((D_80083228 + ((S_801737F8_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+        D_800E2380[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((S_801737F8_0 *)arg0)->unk_96.u = 0;
     ((S_801737F8_0 *)arg0)->unk_9B++;
@@ -112,11 +98,11 @@ L2:
         u16 timer = ((S_801737F8_0 *)arg0)->unk_96.u + 1;
 
         ((S_801737F8_0 *)arg0)->unk_96.u = timer;
-        if ((s16)timer == ten || (((S_801737F8_2 *)arg2)->unk_14 & 0x8000)) {
-            func_8009C12C(arg3, arg2, ((S_801737F8_3 *)arg3)->unk_2A, 1);
+        if ((s16)timer == ten || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
+            func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
             ((S_801737F8_0 *)arg0)->unk_96.u = ten;
             ((S_801737F8_0 *)arg0)->unk_9B++;
-            ((S_801737F8_2 *)arg2)->unk_14 |= 0x0800;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
         }
         if (((S_801737F8_0 *)arg0)->unk_96.s == 9) {
             func_800A56E0(0x809);
@@ -133,11 +119,11 @@ L3:
         if ((timer << 16) != 0) {
             return;
         }
-        ((S_801737F8_2 *)arg2)->unk_14 &= 0xF7FF;
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
         ((S_801737F8_0 *)arg0)->unk_98 |= 8;
         (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_800E2388;
         func_80047784(arg2,
-            D_800E2388[((D_80083228 + ((S_801737F8_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            D_800E2388[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         func_80173AE8();
     }
@@ -148,15 +134,15 @@ L4:
         func_80173AE8();
     }
     ((S_801737F8_0 *)arg0)->unk_9B++;
-    if (!(((S_801737F8_2 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
     func_800AD594(arg3, 0x100);
     ((S_801737F8_0 *)arg0)->unk_8C = &D_80171F1C;
     D_8008346C = 0;
     func_800A4ACC(arg3);
-    ((S_801737F8_3 *)arg3)->unk_46 &= 0x7FFF;
-    ((S_801737F8_3 *)arg3)->unk_1C |= 0x40000;
+    ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
+    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x40000;
     ((S_801737F8_0 *)arg0)->unk_98 |= 8;
-    ((S_801737F8_2 *)arg2)->unk_14 &= 0xFFF3;
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xFFF3;
 }

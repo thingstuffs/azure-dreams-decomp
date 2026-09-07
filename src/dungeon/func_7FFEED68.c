@@ -1,13 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_8008ACDC_arg0.h"
 
 extern s32 func_8008CFB4(s32 *);
 
-typedef struct S_8008C4C8_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_8008C4C8_0;   /* arg0 in func_8008C4C8 */
 
 typedef struct S_8008C4C8_1 {
     s32 unk_00;
@@ -15,7 +11,7 @@ typedef struct S_8008C4C8_1 {
     s32 unk_08;
 } S_8008C4C8_1;   /* temp_s0 in func_8008C4C8 */
 
-s16 func_8008C4C8(S_8008C4C8_0 *arg0, s32 arg1, s32 arg2) {
+s16 func_8008C4C8(Rec_func_8008ACDC_arg0 *arg0, s32 arg1, s32 arg2) {
     s32 sp[5];
     s32 temp_v0;
     s32 temp_a2;

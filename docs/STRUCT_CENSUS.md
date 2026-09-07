@@ -70,19 +70,55 @@ declarations so `((S *)D_x)->unk_08` becomes `D_x.unk_08`.
 - `tools/gen_records.py` emits `include/records/Rec_<root>.h` for every global- or
   parameter-rooted class with ≥ 10 member functions (13 headers). The layout is the union of every
   view the member functions use: one type at an offset → `T unk_XX;`; several types of one width →
-  `union { s16 s; u16 u; } unk_XX;` (a view per type, T4's tag rule); overlapping spans →
-  `union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;`; gaps →
+  `union { s16 as_s16; u16 as_u16; } unk_XX;` (a view per type); overlapping spans →
+  `union { struct { s32 v; } at00_s32; struct { u8 pad[0x2]; s16 v; } at02_s16; } unk_00;`; gaps →
   `u8 pad_XX[0xN]`. A class is named after the global most of its member structs are rooted at
   (stable across census re-runs; the header comment lists every root and the parameter routes).
   Structs with an in-row union or an unknown-width type are `unmapped` and keep their local
   struct. `ledger/records.json` carries, per class, the header sha and per local struct the access
-  path of each member.
+  path of each member. View names derive from the type alone, so a regenerated header (more rows
+  joining a class) adds views but never renames one; structs are keyed by row and name because the
+  same `S_<fn>_<n>` name exists in several rows (true-name collisions; the first pass tripped on
+  this and was redone). Structs already converted are carried forward from the previous census so
+  a class never loses votes.
 - `tools/xform/t7_headers.py` (sweep `t7_headers`): drops the local typedef, adds
   `#include "records/<Rec>.h"`, renames the struct, and rewrites each member access whose type sits
-  in a union view to that view (`arg2->unk_0C` → `arg2->unk_0C.n`, `->unk_00` → `->unk_00.at00.v`),
+  in a union view to that view (`arg2->unk_0C` → `arg2->unk_0C.as_s32`, `->unk_00` → `->unk_00.at00_s32.v`),
   attributing every site to its struct through the cast `((S *)expr)->` or an identifier declared
   `S *ident`; anything it cannot attribute, `sizeof(S)`, and `_pre` records are refused. The
   function reads every offset with exactly the type it read before, so the bytes cannot move;
   each row is still verified (all structs at once, then one at a time on a mismatch) and the
   touched windows are re-gated afterwards. Verified exact on the first three rows tried, one per
   class kind (global scalar, the big dungeon record via union views, a parameter class).
+
+### T7 result (2026-09-08 00:xx UTC)
+
+Four passes, the first three thrown away (source reverted, journal deleted) as each found a
+defect in the machinery, never in a row:
+
+1. struct names collide across rows (`S_<fn>_<n>` is keyed on the true name, and several rows
+   carry the same true name), so the census kept one layout per name and the transform refused
+   the others ("member not in the record mapping") — the census is now keyed by row and name;
+2. union-view names came from vote order (`s`/`u`/`n`, `at00`/`at00u`), so a regenerated header
+   could rename a view under an already-converted row — names now derive from the type alone
+   (`as_s16`, `as_pv`, `as_pps32`, `at02_u16`, `as_x<hash>` for function pointers) and every
+   header is compiled standalone by the 2.7.2 cell before it is used;
+3. the census parsed a function-pointer member as its return type (`M2C_UNK (*unk_50)(...)` →
+   `M2C_UNK`), so the shared view was not callable — fixed in the member parser; rows with a
+   hand-trimmed prelude (a lone `typedef s32 M2C_UNK;`) clashed with the compat include the
+   headers pull in — the duplicate typedef lines are dropped (byte-neutral), any other definition
+   of those names is refused.
+
+Pass 4 (`ledger/sweeps/t7_headers.jsonl`): **1,014 rows applied, 1,563 local structs replaced by
+12 shared records, 7,791 access sites routed through union views, 0 mismatches, 0 build failures,
+0 partial refusals**; the only refusals are rows with no struct of a record class. 611,680 bytes
+of matched C (23.9 % of the registry) now compile against `include/records/` (dungeon 674 rows,
+town 337, SLUS 3). Every class converted every mapped member (e.g. `Rec_D_800E3D7C` 537/537).
+Proof of record: the SLUS SHA-1 gate rebuilt the three executable TUs (MATCH) and the window gate
+re-ran every touched window: **562 windows, 562 byte-identical** (369 s; journal 2,172 / 2,172 MATCH).
+
+What the headers are not yet: named. Members are offsets, classes are addresses, and the
+overlap unions in the big dungeon record (`unk_0C` with eight views, `unk_14` with four) are
+honest but ugly — they record that different functions read the same bytes with different
+widths. Naming (L4) starts from these files, and a name change in a header reaches every user at
+once, verified through the same gate.

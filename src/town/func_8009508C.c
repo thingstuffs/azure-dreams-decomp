@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_80094268_arg0.h"
 
 M2C_UNK func_80035208();                         /* extern */
 M2C_UNK func_8008B158();                         /* extern */
@@ -37,10 +39,6 @@ extern s32 D_800FE518[];
 extern s32 *D_800FE5D8;
 
 
-typedef struct S_800927EC_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_800927EC_0;   /* arg1 in func_800927EC */
 
 typedef struct S_800927EC_1 {
     u8 pad_00[0x8];
@@ -54,10 +52,6 @@ typedef struct S_800927EC_2 {
     u8 unk_14;
 } S_800927EC_2;   /* D_800CFCC4 in func_800927EC */
 
-typedef struct S_800927EC_3 {
-    u8 pad_00[0x2C];
-    void * unk_2C;
-} S_800927EC_3;   /* arg0 in func_800927EC */
 
 typedef struct S_800927EC_4 {
     u8 pad_00[0x10];
@@ -67,9 +61,9 @@ typedef struct S_800927EC_4 {
 typedef struct S_800927EC_5 {
     u8 pad_00[0x50];
     s32 unk_50;
-} S_800927EC_5;   /* ((S_800927EC_3 *)arg0)->unk_2C in func_800927EC */
+} S_800927EC_5;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_2C in func_800927EC */
 
-void func_800927EC(void *arg0, S_800927EC_0 *arg1, M2C_UNK arg2) {
+void func_800927EC(void *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
     u8 *state = D_80083160;
     M2C_UNK *var_v0;
     s16 temp_v0;
@@ -80,7 +74,7 @@ void func_800927EC(void *arg0, S_800927EC_0 *arg1, M2C_UNK arg2) {
     func_80094C1C(arg0);
     func_80095094(arg1);
     temp_v0 = func_80095978(arg1, &D_800FE488);
-    if ((temp_v0 - arg1->unk_0A) >= 4) {
+    if ((temp_v0 - arg1->unk_08.at02_s16.v) >= 4) {
         if (D_800CFCEF[0] == 0) {
             func_80094660(arg0, arg1, arg2);
             func_80092A60();
@@ -125,14 +119,14 @@ block_6:
             func_8009567C(&D_800CFCB4);
             func_80094C1C(arg0);
             func_800988C8(arg0, arg1, arg2);
-            temp_v1 = ((S_800927EC_5 *)(((S_800927EC_3 *)arg0)->unk_2C))->unk_50;
+            temp_v1 = ((S_800927EC_5 *)(((Rec_func_80094268_arg0 *)arg0)->unk_2C))->unk_50;
             if ((temp_v1 != &D_8009B828) && (temp_v1 != &D_8009B8E8)) {
                 if (temp_v1 != &D_8009B9BC) {
-                    ((S_800927EC_3 *)arg0)->unk_2C = NULL;
+                    ((Rec_func_80094268_arg0 *)arg0)->unk_2C = NULL;
                 }
             }
             var_v0 = &D_800CFCB4;
-            temp_v0_2 = func_800A9D74(((S_800927EC_4 *)var_v0)->unk_10, ((S_800927EC_3 *)arg0)->unk_2C);
+            temp_v0_2 = func_800A9D74(((S_800927EC_4 *)var_v0)->unk_10, ((Rec_func_80094268_arg0 *)arg0)->unk_2C);
             if (temp_v0_2 != 0) {
                 register u32 page ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
 

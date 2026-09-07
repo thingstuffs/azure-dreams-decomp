@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_8182718C_0_pre {
     u16 unk_00;
@@ -19,17 +20,13 @@ typedef struct S_8182718C_1 {
     u16 unk_52;
 } S_8182718C_1;   /* temp_v1 in func_8182718C */
 
-typedef struct S_8182718C_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_8182718C_2;   /* arg2 in func_8182718C */
 
 
 extern int D_800814A0[];
 extern u8 D_80045340[];
 extern void func_80024A7C(void) __attribute__((noreturn));
 
-void func_8182718C(void *arg0, void *arg1, S_8182718C_2 *arg2) {
+void func_8182718C(void *arg0, void *arg1, Rec_D_80082E80 *arg2) {
     s16 temp_v1_2;
     u16 temp_v0;
     u16 temp_v0_2;
@@ -72,7 +69,7 @@ one_state:
             func_800478B8(arg2);
             ((S_8182718C_0 *)arg0)->unk_48 = (u16) ((S_8182718C_0 *)arg0)->unk_4E;
         }
-        if (arg2->unk_14 & 0x6000) {
+        if (arg2->unk_14.at00_u16.v & 0x6000) {
             ((S_8182718C_0_pre *)arg0)[-1].unk_00 = (u16) (((S_8182718C_0_pre *)arg0)[-1].unk_00 | 0x8000);
             D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 
 extern void func_80047784(void *, u8, s32);
@@ -63,10 +64,6 @@ typedef struct S_80171514_1 {
     u8 * unk_2C;
 } S_80171514_1;   /* arg2 in func_80171514 */
 
-typedef struct S_80171514_2 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80171514_2;   /* D_800814A8 in func_80171514 */
 
 typedef struct S_80171514_3 {
     u8 pad_00[0xC];
@@ -181,7 +178,7 @@ void func_80171514(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
         if ((((S_80171514_0 *)arg3)->unk_46 & 0x8000) == 0) {
             if (D_80083462 & 0x2000) {
                 if ((s16)func_8009A180(
-                        arg3, (u8 *)((S_80171514_2 *)D_800814A8)->unk_58 + 0x20) != 0) {
+                        arg3, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
                 }
             }

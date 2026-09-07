@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_801722BC_0 {
     u8 pad_00[0x8C];
@@ -14,31 +16,8 @@ typedef struct S_801722BC_0 {
     s32 unk_A0;
 } S_801722BC_0;   /* arg0 in func_801722BC */
 
-typedef struct S_801722BC_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x1A];
-    u16 unk_46;
-} S_801722BC_1;   /* arg3 in func_801722BC */
 
-typedef struct S_801722BC_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801722BC_2;   /* arg2 in func_801722BC */
 
-typedef struct S_801722BC_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801722BC_3;   /* arg1 in func_801722BC */
 
 typedef struct S_801722BC_4 {
     u8 pad_00[0x8];
@@ -86,10 +65,10 @@ void func_801722BC(void *arg0, void *arg1, void *arg2, void *arg3)
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_801765F0;
         func_80047784(
             arg2,
-            D_801765F0[((D_80083228 + ((S_801722BC_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            D_801765F0[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((S_801722BC_0 *)arg0)->unk_98 |= 8;
-        ((S_801722BC_1 *)arg3)->unk_1C &= 0xF7FFFFFF;
+        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 &= 0xF7FFFFFF;
         ((S_801722BC_0 *)arg0)->unk_9E.s = 5;
         ((S_801722BC_0 *)arg0)->unk_A0 = 0;
         ((S_801722BC_0 *)arg0)->unk_9B++;
@@ -99,17 +78,17 @@ void func_801722BC(void *arg0, void *arg1, void *arg2, void *arg3)
         ((S_801722BC_0 *)arg0)->unk_90 -= ((S_801722BC_0 *)arg0)->unk_A0;
         count = ((S_801722BC_0 *)arg0)->unk_9E.u;
         if (count != 0) {
-            delta = ((S_801722BC_2 *)arg2)->unk_24 << 6;
-            position = ((S_801722BC_3 *)arg1)->unk_02;
+            delta = ((Rec_D_80082E80 *)arg2)->unk_24 << 6;
+            position = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v;
             position -= 0x20;
             delta -= position;
-            ((S_801722BC_3 *)arg1)->unk_0C = (delta << 16) / count;
+            ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = (delta << 16) / count;
 
-            position = ((S_801722BC_3 *)arg1)->unk_06;
-            delta = ((S_801722BC_2 *)arg2)->unk_25 << 6;
+            position = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v;
+            delta = ((Rec_D_80082E80 *)arg2)->unk_25 << 6;
             position -= 0x20;
             delta -= position;
-            ((S_801722BC_3 *)arg1)->unk_10 =
+            ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
                 (delta << 16) / ((S_801722BC_0 *)arg0)->unk_9E.u;
             ((S_801722BC_0 *)arg0)->unk_A0 =
                 (-func_800644B8(((S_801722BC_0 *)arg0)->unk_9E.u * 0x199)) << 9;
@@ -121,24 +100,24 @@ void func_801722BC(void *arg0, void *arg1, void *arg2, void *arg3)
         if ((s16)next < 0) {
             ((S_801722BC_0 *)arg0)->unk_90 = 0;
             ((S_801722BC_0 *)arg0)->unk_98 &= 0xFFF7;
-            ((S_801722BC_1 *)arg3)->unk_1C |= 0x08000000;
+            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 |= 0x08000000;
             ((S_801722BC_0 *)arg0)->unk_9B++;
         }
         /* fallthrough */
 
     case 2:
-        if (((S_801722BC_1 *)arg3)->unk_1C & 0x08000000) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x08000000) {
             ((S_801722BC_0 *)arg0)->unk_98 &= 0xFFF7;
-            ((S_801722BC_3 *)arg1)->unk_14 = 0;
-            ((S_801722BC_3 *)arg1)->unk_10 = 0;
-            ((S_801722BC_3 *)arg1)->unk_0C = 0;
-            func_800A2B04(arg1, ((S_801722BC_2 *)arg2)->unk_24,
-                          ((S_801722BC_2 *)arg2)->unk_25);
+            ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+            ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+            ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+            func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24,
+                          ((Rec_D_80082E80 *)arg2)->unk_25);
 
             (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_801765F8;
             func_80047784(
                 arg2,
-                D_801765F8[((D_80083228 + ((S_801722BC_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                D_801765F8[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             ((S_801722BC_0 *)arg0)->unk_9B++;
         }
@@ -148,11 +127,11 @@ void func_801722BC(void *arg0, void *arg1, void *arg2, void *arg3)
     next = ((S_801722BC_0 *)arg0)->unk_96 - 1;
     ((S_801722BC_0 *)arg0)->unk_96 = next;
     if ((s16)next <= 0) {
-        ((S_801722BC_3 *)arg1)->unk_14 = 0;
-        ((S_801722BC_3 *)arg1)->unk_10 = 0;
-        ((S_801722BC_3 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_801722BC_2 *)arg2)->unk_24,
-                      ((S_801722BC_2 *)arg2)->unk_25);
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24,
+                      ((Rec_D_80082E80 *)arg2)->unk_25);
         func_800AD594(arg3, 4);
         func_800A4ACC(arg3);
 
@@ -161,16 +140,16 @@ void func_801722BC(void *arg0, void *arg1, void *arg2, void *arg3)
             ((S_801722BC_4 *)global)->unk_08.u--;
         }
 
-        flags = ((S_801722BC_1 *)arg3)->unk_1C;
+        flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32;
         if (flags & 0x2000) {
-            if (((S_801722BC_1 *)arg3)->unk_46 & 0x8000) {
-                ((S_801722BC_1 *)arg3)->unk_46 &= 0x7FFF;
+            if (((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000) {
+                ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
             }
         } else if (!(flags & 0x410)) {
             if (flags & 0x20000) {
-                ((S_801722BC_1 *)arg3)->unk_2A =
-                    func_800A0818(((S_801722BC_2 *)arg2)->unk_24,
-                                   ((S_801722BC_2 *)arg2)->unk_25,
+                ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 =
+                    func_800A0818(((Rec_D_80082E80 *)arg2)->unk_24,
+                                   ((Rec_D_80082E80 *)arg2)->unk_25,
                                    D_80082E80[0x24], D_80082E80[0x25], &sp18);
             }
         }

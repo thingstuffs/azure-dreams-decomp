@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_81809800_0 {
     u8 pad_00[0x26];
@@ -26,10 +27,6 @@ typedef struct S_81809800_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
 } S_81809800_4;   /* temp_a2 in BODY_NAME */
 
-typedef struct S_81809800_5 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_81809800_5;   /* arg0 in BODY_NAME */
 
 typedef struct S_81809800_6 {
     u8 pad_00[0x14];
@@ -83,18 +80,18 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2) {
     temp_a1 = ((S_81809800_4 *)temp_a2)->unk_00.at02.v;
     counter[0] = (s16) ((u16) counter[0] + 1);
     if ((temp_a1 != arg1_y) || (((S_81809800_4 *)temp_a2)->unk_04.at02.v != ((S_81809800_2 *)arg1)->unk_04.at02.v)) {
-        ((S_81809800_5 *)arg0)->unk_0A = 2;
+        ((Rec_D_800E3D7C *)arg0)->unk_08.at02_s16.v = 2;
     }
-    temp_a0 = ((S_81809800_5 *)arg0)->unk_0A;
+    temp_a0 = ((Rec_D_800E3D7C *)arg0)->unk_08.at02_s16.v;
     if (temp_a0 != 0) {
         ((S_81809800_2 *)arg1)->unk_00.at00.v = (s32) (((S_81809800_2 *)arg1)->unk_00.at00.v + ((s32) (((S_81809800_4 *)temp_a2)->unk_00.at00.v - ((S_81809800_2 *)arg1)->unk_00.at00.v) / temp_a0));
-        ((S_81809800_2 *)arg1)->unk_04.at00.v = (s32) (((S_81809800_2 *)arg1)->unk_04.at00.v + ((s32) (((S_81809800_4 *)temp_a2)->unk_04.at00.v - ((S_81809800_2 *)arg1)->unk_04.at00.v) / (s16) ((S_81809800_5 *)arg0)->unk_0A));
-        temp_v0 = (u16) ((S_81809800_5 *)arg0)->unk_0A - 1;
-        ((S_81809800_5 *)arg0)->unk_0A = temp_v0;
+        ((S_81809800_2 *)arg1)->unk_04.at00.v = (s32) (((S_81809800_2 *)arg1)->unk_04.at00.v + ((s32) (((S_81809800_4 *)temp_a2)->unk_04.at00.v - ((S_81809800_2 *)arg1)->unk_04.at00.v) / (s16) ((Rec_D_800E3D7C *)arg0)->unk_08.at02_s16.v));
+        temp_v0 = (u16) ((Rec_D_800E3D7C *)arg0)->unk_08.at02_s16.v - 1;
+        ((Rec_D_800E3D7C *)arg0)->unk_08.at02_s16.v = temp_v0;
         if ((temp_v0 << 0x10) <= 0) {
             ((S_81809800_2 *)arg1)->unk_00.at02.v = (s16) (u16) ((S_81809800_4 *)temp_a2)->unk_00.at02.v;
             ((S_81809800_2 *)arg1)->unk_04.at02.v = (s16) (u16) ((S_81809800_4 *)temp_a2)->unk_04.at02.v;
-            ((S_81809800_5 *)arg0)->unk_0A = 0;
+            ((Rec_D_800E3D7C *)arg0)->unk_08.at02_s16.v = 0;
         }
     }
     func_800478B8(arg2, temp_a1, temp_a2, arg1);

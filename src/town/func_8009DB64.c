@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800CFCB4.h"
 
 
 typedef struct {
@@ -49,12 +50,6 @@ typedef struct S_8009B2C4_1 {
     u8 unk_3A;
 } S_8009B2C4_1;   /* entry in func_8009B2C4 */
 
-typedef struct S_8009B2C4_2 {
-    u8 pad_00[0x20];
-    void * unk_20;
-    u8 pad_24[0x17];
-    u8 unk_3B;
-} S_8009B2C4_2;   /* arg1 in func_8009B2C4 */
 
 s32 func_8009B2C4(TownObject *arg0, void *arg1) {
     register TownControl *control ASM_REG("$9");   /* MATCH pin: retail register colouring depends on it */
@@ -107,7 +102,7 @@ block_15:
     ASM_KEEP(var_v0);   /* MATCH pin: keeps a constant in a register as retail does */
     base = (TownControl *)((u8 *)var_v0 - 0x34C);
     if ((base->state == 0) || (base->owner != arg1)) {
-        if ((((S_8009B2C4_2 *)arg1)->unk_3B != 0) && (((S_8009B2C4_2 *)arg1)->unk_20 == base)) {
+        if ((((Rec_D_800CFCB4 *)arg1)->unk_3B != 0) && (((Rec_D_800CFCB4 *)arg1)->unk_20 == base)) {
             goto block_20;
         }
     } else {

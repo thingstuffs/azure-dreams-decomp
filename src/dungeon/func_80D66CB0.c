@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_801724B0_0 {
     u8 pad_00[0x1C];
@@ -11,15 +12,6 @@ typedef struct S_801724B0_0 {
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
 } S_801724B0_0;   /* arg3 in func_801724B0 */
 
-typedef struct S_801724B0_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_801724B0_1;   /* arg2 in func_801724B0 */
 
 typedef struct S_801724B0_2 {
     u8 pad_00[0x8C];
@@ -61,7 +53,7 @@ void func_801724B0(void *arg0, s32 arg1, void *arg2, void *arg3) {
 
     if ((((S_801724B0_0 *)arg3)->unk_71.s > 0) &&
         (((S_801724B0_0 *)arg3)->unk_71.u > ((S_801724B0_0 *)arg3)->unk_8A.s)) {
-        if (((S_801724B0_1 *)arg2)->unk_2C != D_800E2348) {
+        if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 != D_800E2348) {
             (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_800E2348;
             func_80047784(
                 arg2,
@@ -70,8 +62,8 @@ void func_801724B0(void *arg0, s32 arg1, void *arg2, void *arg3) {
             ((S_801724B0_2 *)arg0)->unk_9E = 0;
         }
 
-        x = ((S_801724B0_1 *)arg2)->unk_24;
-        y = ((S_801724B0_1 *)arg2)->unk_25;
+        x = ((Rec_D_80082E80 *)arg2)->unk_24;
+        y = ((Rec_D_80082E80 *)arg2)->unk_25;
         mode = (((S_801724B0_0 *)arg3)->unk_1C & 0x2000) ? 0x300 : 0x3000;
         func_8009A3D0(x, y, mode);
 
@@ -83,16 +75,16 @@ void func_801724B0(void *arg0, s32 arg1, void *arg2, void *arg3) {
             (u8 *)arg0 + 0x98);
         state = (s16)func_8009A66C(result, arg2, arg3, 0x20);
 
-        ((S_801724B0_1 *)arg2)->unk_24 =
+        ((Rec_D_80082E80 *)arg2)->unk_24 =
             ((S_801724B0_3 *)((u8 *)arg3 + ((S_801724B0_0 *)arg3)->unk_8A.s))->unk_74;
         mode = 0x3000;
-        ((S_801724B0_1 *)arg2)->unk_25 =
+        ((Rec_D_80082E80 *)arg2)->unk_25 =
             ((S_801724B0_3 *)((u8 *)arg3 + ((S_801724B0_0 *)arg3)->unk_8A.s))->unk_7C;
         ((S_801724B0_0 *)arg3)->unk_8A.u++;
 
         {
-            s32 next_x = ((S_801724B0_1 *)arg2)->unk_24;
-            s32 next_y = ((S_801724B0_1 *)arg2)->unk_25;
+            s32 next_x = ((Rec_D_80082E80 *)arg2)->unk_24;
+            s32 next_y = ((Rec_D_80082E80 *)arg2)->unk_25;
 
             if (((S_801724B0_0 *)arg3)->unk_1C & 0x2000) {
                 mode = 0x300;
@@ -103,7 +95,7 @@ void func_801724B0(void *arg0, s32 arg1, void *arg2, void *arg3) {
         ASM_KEEP(state);   /* MATCH pin: keeps a statement from moving across a call/branch */
         ((S_801724B0_0 *)arg3)->unk_2A = result;
         if (state == 3) {
-            if (!(D_80083462 & 0x80) && !(((S_801724B0_1 *)arg2)->unk_14 & 0x8000)) {
+            if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
                 func_80172E0C(arg0, arg1, arg2, arg3);
                 ((S_801724B0_2 *)arg0)->unk_8C = 0;
                 goto post_state;

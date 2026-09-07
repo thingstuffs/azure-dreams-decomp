@@ -1,4 +1,7 @@
 #include "common.h"
+#include "records/Rec_func_800AA258_arg2.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_800814A8.h"
 
 
 extern void func_80047784(void *, s32, s32);
@@ -34,30 +37,12 @@ typedef struct S_80174214_0 {
     u16 unk_A2;
 } S_80174214_0;   /* arg0 in func_80174214 */
 
-typedef struct S_80174214_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    void * unk_2C;
-} S_80174214_1;   /* arg2 in func_80174214 */
 
 typedef struct S_80174214_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_80174214_2;   /* base in func_80174214 */
 
-typedef struct S_80174214_3 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80174214_3;   /* arg3 in func_80174214 */
 
 typedef struct S_80174214_4 {
     u8 pad_00[0x2];
@@ -66,10 +51,6 @@ typedef struct S_80174214_4 {
     u16 unk_0A;
 } S_80174214_4;   /* global in func_80174214 */
 
-typedef struct S_80174214_5 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80174214_5;   /* D_800814A8 in func_80174214 */
 
 void func_80174214(void *arg0, void *arg1, void *arg2, void *arg3)
 {
@@ -99,17 +80,17 @@ state_zero:
         s32 *base;
         u8 *table;
 
-        if (!(((S_80174214_1 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000)) {
             goto done;
         }
 
         base = &D_80083460;
         ((S_80174214_2 *)base)->unk_0A--;
         table = D_80175EA0;
-        if (((S_80174214_1 *)arg2)->unk_2C != table) {
+        if (((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv != table) {
             (*(void * *)((u8 *)arg2 + (0x2C))) = table;
             func_80047784(arg2,
-                table[((D_80083228 + ((S_80174214_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             func_801744F8();
         }
@@ -121,14 +102,14 @@ state_one:
         u8 *global;
         u32 flags;
 
-        if (((S_80174214_3 *)arg3)->unk_25 != 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v != 0) {
             s32 *base;
 
             (*(void * *)((u8 *)arg2 + (0x2C))) = D_80175EC0;
             func_80047784(arg2,
-                D_80175EC0[((D_80083228 + ((S_80174214_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                D_80175EC0[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
-            ((S_80174214_3 *)arg3)->unk_1C |= 0x40000;
+            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x40000;
             base = &D_80083460;
             ((S_80174214_2 *)base)->unk_0A++;
             func_801744F8();
@@ -140,7 +121,7 @@ state_one:
             goto done;
         }
 
-        if (((S_80174214_3 *)arg3)->unk_64 != 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
             if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
                 goto done;
             }
@@ -150,7 +131,7 @@ state_one:
             goto done;
         }
 
-        flags = ((S_80174214_3 *)arg3)->unk_1C;
+        flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32;
         {
         void *call_arg0 = arg0;
 
@@ -175,27 +156,27 @@ state_one:
         }
         }
 
-        if (((S_80174214_3 *)arg3)->unk_6D == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
             goto done;
         }
         if ((func_800A2C34(arg3) << 16) != 0) {
             if ((func_8009A180(arg3,
-                    (u8 *)((S_80174214_5 *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                 goto done;
             }
         }
 
         func_800A9A0C(arg3);
         func_800A9A04(arg3);
-        if (((S_80174214_3 *)arg3)->unk_25 == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
             goto done;
         }
 
         (*(void * *)((u8 *)arg2 + (0x2C))) = D_80175EC0;
         func_80047784(arg2,
-            D_80175EC0[((D_80083228 + ((S_80174214_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            D_80175EC0[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        ((S_80174214_3 *)arg3)->unk_1C |= 0x40000;
+        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x40000;
         ((S_80174214_4 *)global)->unk_0A++;
     }
 
@@ -204,12 +185,12 @@ increment_state:
     func_80174550();
 
 state_two:
-    if (((S_80174214_1 *)arg2)->unk_14 & 0xE000) {
+    if (((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000) {
         s32 *base;
 
         base = &D_80083460;
         ((S_80174214_2 *)base)->unk_0A--;
-        ((S_80174214_3 *)arg3)->unk_1C &= ~8;
+        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~8;
         ((S_80174214_0 *)arg0)->unk_8C = &D_801710EC;
     }
 

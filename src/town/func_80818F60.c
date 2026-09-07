@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
 
@@ -80,9 +81,6 @@ typedef struct S_80022F60_6 {
     s16 unk_1E;
 } S_80022F60_6;   /* image in func_80022F60 */
 
-typedef struct S_80022F60_7 {
-    s32 unk_00;
-} S_80022F60_7;   /* &D_80083780 in func_80022F60 */
 
 
 
@@ -400,8 +398,8 @@ void func_80022F60(void *arg0) {
             s32 current;
 
             two = 0x03800000;
-            current = ((S_80022F60_7 *)(&D_80083780))->unk_00;
-            ((S_80022F60_7 *)(&D_80083780))->unk_00 =
+            current = ((Rec_D_800E3D7C *)(&D_80083780))->unk_00.at00_s32.v;
+            ((Rec_D_800E3D7C *)(&D_80083780))->unk_00.at00_s32.v =
                 current + ((two - current) >> 1);
             if (((S_80022F60_0 *)arg)->unk_02.u <= 0) {
                 obj = func_8003FC64(0x136);

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172654_0 {
     u8 pad_00[0x8C];
@@ -19,17 +20,6 @@ typedef struct S_80172654_1 {
     s8 unk_6D;
 } S_80172654_1;   /* arg3 in func_80172654 */
 
-typedef struct S_80172654_2 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0x3];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172654_2;   /* arg2 in func_80172654 */
 
 typedef struct S_80172654_3 {
     u8 pad_00[0x2A];
@@ -128,9 +118,9 @@ void func_80172654(void *arg0, void *arg1, void *arg2, void *arg3) {
 
 state_0:
     call_a0 = arg3;
-    if (((S_80172654_2 *)arg2)->unk_14 & 0x8000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172654_0 *)arg0)->unk_9B.s = 0xFF;
-        ((S_80172654_2 *)arg2)->unk_14 |= 0x6000;
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(call_a0, arg2, ((S_80172654_3 *)call_a0)->unk_2A, 1);
         func_80172ACC();
     }
@@ -157,12 +147,12 @@ state_1:
     func_80172990();
 
 state_2:
-    if (((((S_80172654_2 *)arg2)->unk_04 == 4) &&
-         (((S_80172654_2 *)arg2)->unk_14 & 0x1000)) ||
-        (((S_80172654_2 *)arg2)->unk_14 & 0x8000)) {
-        ((S_80172654_2 *)arg2)->unk_14 |= 0x800;
+    if (((((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 4) &&
+         (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000)) ||
+        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x800;
         ((S_80172654_0 *)arg0)->unk_96.s = 0x10;
-        if (func_8003DE58(((S_80172654_2 *)arg2)->unk_08, arg2, pos, 0) == 0) {
+        if (func_8003DE58(((Rec_D_80082E80 *)arg2)->unk_08, arg2, pos, 0) == 0) {
             pos[2] = 0;
             pos[1] = 0;
             pos[0] = 0;
@@ -178,8 +168,8 @@ state_2:
             ((S_80172654_6 *)tail)->unk_08 = 0xC0C0C0;
             ((S_80172654_6 *)tail)->unk_0E = 8;
             ((S_80172654_6 *)tail)->unk_12 =
-                func_800BCB04(((((S_80172654_2 *)arg2)->unk_24 + temp_s5) << 6) & 0xFFC0,
-                              ((((S_80172654_2 *)arg2)->unk_25 + temp_s6) << 6) & 0xFFC0,
+                func_800BCB04(((((Rec_D_80082E80 *)arg2)->unk_24 + temp_s5) << 6) & 0xFFC0,
+                              ((((Rec_D_80082E80 *)arg2)->unk_25 + temp_s6) << 6) & 0xFFC0,
                               (s16)(((S_80172654_4 *)arg1)->unk_0A - 0x80)) -
                 ((S_80172654_4 *)arg1)->unk_0A;
             ((S_80172654_6 *)tail)->unk_10 = ((S_80172654_1 *)arg3)->unk_2A.s;
@@ -196,7 +186,7 @@ state_3:
     }
     if (((S_80172654_0 *)arg0)->unk_96.u > 0) goto done;
     ((S_80172654_0 *)arg0)->unk_96.s = 8;
-    ((S_80172654_2 *)arg2)->unk_14 &= 0xF7FF;
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
     goto increment_state;
 
 increment_state:
@@ -217,18 +207,18 @@ state_4:
 
 state_255:
     ((S_80172654_4 *)arg1)->unk_0C =
-        (s32)((((((S_80172654_2 *)arg2)->unk_24 << 6) + 0x20) << 16) -
+        (s32)((((((Rec_D_80082E80 *)arg2)->unk_24 << 6) + 0x20) << 16) -
               ((S_80172654_4 *)arg1)->unk_00.at00.v) >> 1;
     ((S_80172654_4 *)arg1)->unk_10 =
-        (s32)((((((S_80172654_2 *)arg2)->unk_25 << 6) + 0x20) << 16) -
+        (s32)((((((Rec_D_80082E80 *)arg2)->unk_25 << 6) + 0x20) << 16) -
               ((S_80172654_4 *)arg1)->unk_04.at00.v) >> 1;
-    if ((((S_80172654_2 *)arg2)->unk_14 & 0xE000) ||
+    if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) ||
         (((S_80172654_0 *)arg0)->unk_96.u <= 0)) {
         ((S_80172654_4 *)arg1)->unk_14 = 0;
         ((S_80172654_4 *)arg1)->unk_10 = 0;
         ((S_80172654_4 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_80172654_2 *)arg2)->unk_24,
-                     ((S_80172654_2 *)arg2)->unk_25);
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24,
+                     ((Rec_D_80082E80 *)arg2)->unk_25);
         func_800AD594(arg3, 0x100);
         ((S_80172654_0 *)arg0)->unk_8C = &D_80170E70;
         D_8008346C = 0;

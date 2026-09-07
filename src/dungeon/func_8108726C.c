@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80174A6C_0 {
     u8 pad_00[0x8];
@@ -25,10 +26,6 @@ typedef struct S_80174A6C_1 {
     s32 unk_28;
 } S_80174A6C_1;   /* prim in func_80174A6C */
 
-typedef struct S_80174A6C_2 {
-    u8 pad_00[0x28];
-    s32 unk_28;
-} S_80174A6C_2;   /* arg2 in func_80174A6C */
 
 typedef struct S_80174A6C_3 {
     s32 unk_00;
@@ -63,7 +60,7 @@ extern s32 func_8003DE58(s32, void *, u16 *, s32);
 extern u8 D_80045340[9];
 extern u8 D_80174A00[9];
 
-s32 func_80174A6C(void *arg0, S_80174A6C_3 *arg1, S_80174A6C_2 *arg2)
+s32 func_80174A6C(void *arg0, S_80174A6C_3 *arg1, Rec_D_80082E80 *arg2)
 {
     u16 query_result[3];
     S_80174A6C_0 *obj;
@@ -76,7 +73,7 @@ s32 func_80174A6C(void *arg0, S_80174A6C_3 *arg1, S_80174A6C_2 *arg2)
         func_8004491C(obj, D_80045340);
 
         prim = obj->unk_0C;
-        prim->unk_28 = arg2->unk_28;
+        prim->unk_28 = arg2->unk_28.at00_s32.v;
         prim->unk_0E = 0x80;
         prim->unk_0D = 0x80;
         prim->unk_0C = 0x80;

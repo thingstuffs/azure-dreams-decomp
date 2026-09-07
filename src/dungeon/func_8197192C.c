@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_8197192C_0_pre {
     u16 unk_00;
@@ -91,9 +92,6 @@ typedef struct S_8197192C_5 {
     void * unk_08;
 } S_8197192C_5;   /* map_base in func_8197192C */
 
-typedef struct S_8197192C_6 {
-    void * unk_00;
-} S_8197192C_6;   /* &D_800814A8 in func_8197192C */
 
 typedef struct S_8197192C_7 {
     u8 pad_00[0xC];
@@ -185,7 +183,7 @@ typedef struct S_8197192C_14 {
 typedef struct S_8197192C_15 {
     u8 pad_00[0x60];
     void * unk_60;
-} S_8197192C_15;   /* ((S_8197192C_6 *)(&D_800814A8))->unk_00 in func_8197192C */
+} S_8197192C_15;   /* ((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_pv in func_8197192C */
 
 
 
@@ -321,7 +319,7 @@ case_2:
             (u8 *)arg0 + 0x2E, 0) != 0) {
             i = 0;
             do {
-                func_800248A8((u8 *)((S_8197192C_6 *)(&D_800814A8))->unk_00 - 0x20, 0,
+                func_800248A8((u8 *)((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_pv - 0x20, 0,
                               0xE04040, (func_80069EF8() & 0x3F) | 0x40,
                               ((S_8197192C_0 *)arg0)->unk_2E.s,
                               ((S_8197192C_0 *)arg0)->unk_30.s,
@@ -720,7 +718,7 @@ case_4:
         status_page = (u8 *)0x80080000;
         goto case_4_global_use;
     }
-    obj = ((S_8197192C_15 *)(((S_8197192C_6 *)(&D_800814A8))->unk_00))->unk_60;
+    obj = ((S_8197192C_15 *)(((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_pv))->unk_60;
     if (obj != 0) {
         lookup = D_800DDC40;
         count = lookup[((S_8197192C_1 *)obj)->unk_10.at03.v];

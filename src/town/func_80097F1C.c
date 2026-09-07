@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800CFCB4.h"
 
 typedef struct S_8009567C_0 {
     u8 pad_00[0x3A];
@@ -10,12 +11,6 @@ typedef struct S_8009567C_1 {
     void * unk_1C;
 } S_8009567C_1;   /* (u8 *)arg0 + temp_v1 * 4 in func_8009567C */
 
-typedef struct S_8009567C_2 {
-    u8 pad_00[0x10];
-    void * unk_10;
-    u8 pad_14[0x4];
-    s32 unk_18;
-} S_8009567C_2;   /* arg0 in func_8009567C */
 
 typedef struct S_8009567C_3 {
     u8 pad_00[0x14];
@@ -62,8 +57,8 @@ loop:
             temp_v1 = *var_a1;
             if (((S_8009567C_0 *)((u8 *)arg0 + temp_v1))->unk_3A != 0) {
                 temp_v0_2 = ((S_8009567C_1 *)((u8 *)arg0 + temp_v1 * 4))->unk_1C;
-                ((S_8009567C_2 *)arg0)->unk_18 = temp_v1;
-                ((S_8009567C_2 *)arg0)->unk_10 = temp_v0_2;
+                ((Rec_D_800CFCB4 *)arg0)->unk_18 = temp_v1;
+                ((Rec_D_800CFCB4 *)arg0)->unk_10 = temp_v0_2;
                 temp_v1_2 = temp_v0_2->unk_14;
                 ASM_USE(temp_v0_2);   /* MATCH pin: load-bearing for the whole function shape */
                 if (temp_v1_2 != temp_t0) {

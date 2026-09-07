@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80921A44_0 {
     union { s32 s; volatile s32 u; } unk_00;   /* accessed as both */
@@ -9,10 +10,6 @@ typedef struct S_80921A44_0 {
     s32 unk_10;
 } S_80921A44_0;   /* arg1 in func_80921A44 */
 
-typedef struct S_80921A44_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80921A44_1;   /* arg2 in func_80921A44 */
 
 typedef struct S_80921A44_2_pre {
     u16 unk_00;
@@ -38,7 +35,7 @@ void func_80921A44(void *arg0, void *arg1, void *arg2) {
     ((S_80921A44_0 *)arg1)->unk_0C.u = (s32) ((temp_a3 * 4) / 5);
     ((S_80921A44_0 *)arg1)->unk_10 = (s32) ((temp_a2 * 4) / 5);
     func_800478B8(arg2, arg1, (s32) (temp_a2 * 4) >> 0x1F, (s32) (temp_a3 * 4) >> 0x1F);
-    if (((S_80921A44_1 *)arg2)->unk_14 & 0x6000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
         (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_80921A44_2_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
     }

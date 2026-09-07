@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_800D58D8_0_pre {
     void * unk_00;
@@ -15,14 +16,6 @@ typedef struct S_800D58D8_0 {
     u16 unk_96;
 } S_800D58D8_0;   /* arg0 in func_800D58D8 */
 
-typedef struct S_800D58D8_1 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0x1];
-    u16 unk_06;
-    u8 pad_08[0x24];
-    s32 unk_2C;
-} S_800D58D8_1;   /* arg2 in func_800D58D8 */
 
 typedef struct S_800D58D8_2 {
     u8 pad_00[0x8];
@@ -101,9 +94,9 @@ void func_800D58D8(void *arg0, void *arg1, void *arg2) {
 
     temp_s0 = ((s32) (D_80083228[0] + ((S_800D58D8_0 *)arg0)->unk_2A + 0x100) >> 9) & 7;
     if (((S_800D58D8_0 *)arg0)->unk_94 != temp_s0) {
-        temp_v0 = ((S_800D58D8_1 *)arg2)->unk_2C;
+        temp_v0 = ((Rec_D_80082E80 *)arg2)->unk_2C.as_s32;
         if (temp_v0 != 0) {
-            func_80047738(arg2, *((u8 *)temp_v0 + temp_s0), ((S_800D58D8_1 *)arg2)->unk_04);
+            func_80047738(arg2, *((u8 *)temp_v0 + temp_s0), ((Rec_D_80082E80 *)arg2)->unk_04.as_s8);
         }
         ((S_800D58D8_0 *)arg0)->unk_94 = temp_s0;
     }
@@ -127,7 +120,7 @@ void func_800D58D8(void *arg0, void *arg1, void *arg2) {
             ((S_800D58D8_3 *)temp_a0)->unk_0E = 0x80;
             ((S_800D58D8_3 *)temp_a0)->unk_0D = 0x80;
             ((S_800D58D8_3 *)temp_a0)->unk_0C = 0x80;
-            ((S_800D58D8_3 *)temp_a0)->unk_06 = (u16) ((S_800D58D8_1 *)arg2)->unk_06;
+            ((S_800D58D8_3 *)temp_a0)->unk_06 = (u16) ((Rec_D_80082E80 *)arg2)->unk_06.as_u16;
             ((S_800D58D8_2 *)temp_v0_3)->unk_10 = &D_800D586C;
             temp_a1 = ((S_800D58D8_0_pre *)arg0)[-1].unk_00;
             if (func_8003DE58(((S_800D58D8_6 *)temp_a1)->unk_08, temp_a1, &delta, 0) != 0) {

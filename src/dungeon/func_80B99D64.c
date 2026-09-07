@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80173564_0 {
     u8 pad_00[0x8C];
@@ -7,28 +9,12 @@ typedef struct S_80173564_0 {
     u8 unk_9B;
 } S_80173564_0;   /* arg0 in func_80173564 */
 
-typedef struct S_80173564_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80173564_1;   /* arg2 in func_80173564 */
 
 typedef struct S_80173564_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_80173564_2;   /* global in func_80173564 */
 
-typedef struct S_80173564_3 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_80173564_3;   /* arg3 in func_80173564 */
 
 typedef struct S_80173564_4 {
     u8 pad_00[0x58];
@@ -76,7 +62,7 @@ state_zero:
     u8 *global;
     u8 *stateEffect;
 
-    if ((((S_80173564_1 *)arg2)->unk_14 & 0xE000) == 0) {
+    if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) == 0) {
         return;
     }
 
@@ -84,19 +70,19 @@ state_zero:
     stateEffect = D_80174F00;
     ((S_80173564_2 *)global)->unk_0A--;
     (*(void * *)((u8 *)arg2 + 0x2C)) = stateEffect;
-    index = (D_80083228 + ((S_80173564_3 *)arg3)->unk_2A + 0x100) >> 9;
+    index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
     func_80047784(arg2, stateEffect[index & 7], 0);
     ((S_80173564_0 *)arg0)->unk_9B++;
     return func_801737A4();
     }
 
 state_one:
-    if (((S_80173564_3 *)arg3)->unk_25 == 0) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
         if (D_80083462 & 0x1000) {
             return;
         }
 
-        if ((((S_80173564_3 *)arg3)->unk_64 != 0) &&
+        if ((((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) &&
             func_800AA6B4(arg0, arg1, arg2, 0)) {
             return;
         }
@@ -108,19 +94,19 @@ state_one:
         {
         register void *callArg0 ASM_REG("$4") = arg0;   /* MATCH pin: retail basic-block layout depends on it */
 
-        if (((S_80173564_3 *)arg3)->unk_1C & 0x100) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
             func_800AA258(callArg0, arg1, arg2, arg3);
             return func_801737A4();
         }
 
-        if (((S_80173564_3 *)arg3)->unk_1C & 0x80000) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x80000) {
             func_800AA888(callArg0, arg1, arg2, arg3);
             func_801737C4(arg0, arg1, arg2, arg3);
             return func_801737A4();
         }
         }
 
-        if (((S_80173564_3 *)arg3)->unk_6D == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
             return;
         }
 
@@ -135,15 +121,15 @@ state_one:
 
         func_800A9A0C(arg3);
         func_800A9A04(arg3);
-        if (((S_80173564_3 *)arg3)->unk_25 == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
             return;
         }
     }
 
     effect = D_80174EE0;
     (*(void * *)((u8 *)arg2 + 0x2C)) = effect;
-    index = (D_80083228 + ((S_80173564_3 *)arg3)->unk_2A + 0x100) >> 9;
+    index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
     func_80047784(arg2, effect[index & 7], 0);
-    ((S_80173564_3 *)arg3)->unk_1C &= ~0x200;
+    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x200;
     ((S_80173564_0 *)arg0)->unk_8C = D_80170E9C;
 }

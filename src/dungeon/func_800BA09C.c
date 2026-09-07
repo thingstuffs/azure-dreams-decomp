@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 typedef struct {
@@ -43,14 +44,6 @@ typedef struct S_800BF7FC_0_pre {
     u8 pad_04[0x10];
 } S_800BF7FC_0_pre;   /* the 0x14 bytes before arg0 in func_800BF7FC, addressed as arg0[-1] */
 
-typedef struct S_800BF7FC_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x74];
-    s16 unk_88;
-    u8 pad_8A[0x86];
-    s32 unk_110;
-} S_800BF7FC_0;   /* arg0 in func_800BF7FC */
 
 typedef struct S_800BF7FC_1 {
     u8 pad_00[0x24];
@@ -76,7 +69,7 @@ s32 func_800BF7FC(void *arg0, u8 *arg1, s16 arg2, s32 arg3)
     }
 
     if (arg0 == D_800E3D7C) {
-        ((S_800BF7FC_0 *)arg0)->unk_110 = (s32)arg1;
+        ((Rec_D_800E3D7C *)arg0)->unk_110 = (s32)arg1;
         func_8008D344(arg0, D_80083780, D_80082E80, arg0);
         func_800BF9CC();
         ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot contents depend on it */
@@ -86,7 +79,7 @@ s32 func_800BF7FC(void *arg0, u8 *arg1, s16 arg2, s32 arg3)
     if ((u32)arg0 <= 0x9FFFFFFF) {
         func_800A6480(arg0, (s32)arg1, arg2);
         if (func_800AD6FC(arg0,
-                          D_800DDE84[((S_800BF7FC_0 *)arg0)->unk_13] & 3,
+                          D_800DDE84[((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v] & 3,
                           (s32)arg1) == 0) {
             func_800A5F38(arg0, (s32)arg1);
             func_800BF9CC();
@@ -98,7 +91,7 @@ s32 func_800BF7FC(void *arg0, u8 *arg1, s16 arg2, s32 arg3)
         if (index >= 0 && !(D_800E2970[index].flags & 2)) {
             if (func_800C4EB4(((S_800BF7FC_1 *)obj)->unk_24,
                               ((S_800BF7FC_1 *)obj)->unk_25,
-                              ((S_800BF7FC_0 *)arg0)->unk_88,
+                              ((Rec_D_800E3D7C *)arg0)->unk_88.as_s16,
                               arg1[0], index) == 0) {
                 func_800BF9CC();
                 return 0;

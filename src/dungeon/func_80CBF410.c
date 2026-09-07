@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172C10_0 {
     u8 pad_00[0x8C];
@@ -12,33 +14,8 @@ typedef struct S_80172C10_0 {
     u8 unk_A8;
 } S_80172C10_0;   /* arg0 in func_80172C10 */
 
-typedef struct S_80172C10_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172C10_1;   /* arg1 in func_80172C10 */
 
-typedef struct S_80172C10_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x8];
-    u8 unk_28;
-    u8 pad_29[0x41];
-    u16 unk_6A;
-} S_80172C10_2;   /* arg3 in func_80172C10 */
 
-typedef struct S_80172C10_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172C10_3;   /* arg2 in func_80172C10 */
 
 
 
@@ -55,7 +32,7 @@ extern u8 D_80173B98[];
 extern u8 D_80176318[];
 extern u8 D_80176378[];
 
-void func_80172C10(S_80172C10_0 *arg0, S_80172C10_1 *arg1, S_80172C10_3 *arg2, void *arg3)
+void func_80172C10(S_80172C10_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
 {
     s32 one;
     s32 value;
@@ -65,18 +42,18 @@ void func_80172C10(S_80172C10_0 *arg0, S_80172C10_1 *arg1, S_80172C10_3 *arg2, v
     switch (arg0->unk_9B) {
     case 0:
         func_800AD4D0(arg3);
-        arg1->unk_0C =
+        arg1->unk_0C.as_s32 =
             *(s16 *)((u8 *)&D_8006CCD8 +
-                     ((((S_80172C10_2 *)arg3)->unk_6A >> 8) & 0xE)) << 19;
-        arg1->unk_10 =
+                     ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
+        arg1->unk_10.at00_s32.v =
             *(s16 *)((u8 *)&D_8006CCE8 +
-                     ((((S_80172C10_2 *)arg3)->unk_6A >> 8) & 0xE)) << 19;
+                     ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
         arg0->unk_9B++;
 
-        if (((S_80172C10_2 *)arg3)->unk_28 == 0) {
-            arg1->unk_14 = 0;
-            arg1->unk_10 = 0;
-            arg1->unk_0C = 0;
+        if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
+            arg1->unk_14.as_s32 = 0;
+            arg1->unk_10.at00_s32.v = 0;
+            arg1->unk_0C.as_s32 = 0;
             if (arg0->unk_A7 != 0) {
                 func_800AAA54(arg0, arg1, arg2, D_80176378);
                 if (arg0->unk_A8 != 0) {
@@ -92,35 +69,35 @@ void func_80172C10(S_80172C10_0 *arg0, S_80172C10_1 *arg1, S_80172C10_3 *arg2, v
             return;
         }
 
-        if (arg2->unk_14 & 0x8000) {
+        if (arg2->unk_14.at00_u16.v & 0x8000) {
             arg0->unk_96.s = 0;
             arg0->unk_9B = 2;
             return;
         }
         arg0->unk_96.s =
-            (((S_80172C10_2 *)arg3)->unk_1C & 0x228) ? 8 : -1;
+            (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228) ? 8 : -1;
         /* fall through */
 
     case 1:
-        arg1->unk_0C -= arg1->unk_0C / 4;
-        arg1->unk_10 -= arg1->unk_10 / 4;
+        arg1->unk_0C.as_s32 -= arg1->unk_0C.as_s32 / 4;
+        arg1->unk_10.at00_s32.v -= arg1->unk_10.at00_s32.v / 4;
 
         if (arg0->unk_96.s > 0) {
             arg0->unk_96.s = arg0->unk_96.u - 1;
-        } else if (arg2->unk_14 & 0x6000) {
+        } else if (arg2->unk_14.at00_u16.v & 0x6000) {
             arg0->unk_96.s = 0;
         }
 
         if (arg0->unk_96.s != 0) {
             return;
         }
-        if (((S_80172C10_2 *)arg3)->unk_28 != 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
             goto increment_state;
         }
 
-        arg1->unk_14 = 0;
-        arg1->unk_10 = 0;
-        arg1->unk_0C = 0;
+        arg1->unk_14.as_s32 = 0;
+        arg1->unk_10.at00_s32.v = 0;
+        arg1->unk_0C.as_s32 = 0;
         if (arg0->unk_A7 != 0) {
             func_800AAA54(arg0, arg1, arg2, D_80176378);
             if (arg0->unk_A8 != 0) {
@@ -150,13 +127,13 @@ increment_state:
         case_timer = arg0->unk_96.s;
         if (case_timer > 0) {
             case_x = arg2->unk_24 << 6;
-            case_delta = arg1->unk_02 - 0x20;
+            case_delta = arg1->unk_00.at02_s16.v - 0x20;
             case_x = (case_x - case_delta) << 16;
             case_x = case_x / case_timer;
-            case_delta = arg1->unk_06 - 0x20;
-            arg1->unk_0C = case_x;
+            case_delta = arg1->unk_04.at02_s16.v - 0x20;
+            arg1->unk_0C.as_s32 = case_x;
             case_y = (arg2->unk_25 << 6) - case_delta;
-            arg1->unk_10 =
+            arg1->unk_10.at00_s32.v =
                 (case_y << 16) / arg0->unk_96.s;
         }
 
@@ -166,9 +143,9 @@ increment_state:
             return;
         }
 
-        arg1->unk_14 = 0;
-        arg1->unk_10 = 0;
-        arg1->unk_0C = 0;
+        arg1->unk_14.as_s32 = 0;
+        arg1->unk_10.at00_s32.v = 0;
+        arg1->unk_0C.as_s32 = 0;
         func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
 
         global_state = &D_80083460;

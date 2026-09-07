@@ -39,10 +39,13 @@ def main():
                         level = 4
                         if pins == 0 or r["id"] in sweeps.get("l5_pins_documented", {}):
                             level = 5
-        out.append({"id": r["id"], "level": level, "pins_left": pins, "m2c_field": len(re.findall(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in text.splitlines() if not l.lstrip().startswith("#")))), "blocking": blocking}); tally[level] += r["size"]
+        recs = sorted(set(re.findall(r'#include "records/(Rec_[A-Za-z0-9_]+)\.h"', text)))
+        out.append({"id": r["id"], "level": level, "pins_left": pins, "m2c_field": len(re.findall(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in text.splitlines() if not l.lstrip().startswith("#")))), "blocking": blocking, "records": recs}); tally[level] += r["size"]
+        if recs: tally["records"] += r["size"]; tally["records_rows"] += 1
     write_jsonl(LEDGER / "levels.jsonl", out)
     tot = sum(r["size"] for r in rows())
-    for l in sorted(tally): print(f"L{l}: {tally[l]:,} B ({100*tally[l]/tot:.1f}%)")
+    for l in sorted(k for k in tally if isinstance(k, int)): print(f"L{l}: {tally[l]:,} B ({100*tally[l]/tot:.1f}%)")
+    print(f"on shared record headers (T7): {tally['records_rows']} rows, {tally['records']:,} B ({100*tally['records']/tot:.1f}%)")
 
 if __name__ == "__main__":
     main()

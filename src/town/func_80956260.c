@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80023260_0 {
     s32 unk_00;
@@ -29,11 +30,6 @@ typedef struct S_80023260_1 {
     s32 unk_14;
 } S_80023260_1;   /* arg1 in func_80023260 */
 
-typedef struct S_80023260_2 {
-    u8 pad_00[0x28];
-    s32 unk_28;
-    u8 * unk_2C;
-} S_80023260_2;   /* arg2 in func_80023260 */
 
 typedef struct S_80023260_3 {
     s16 unk_00;
@@ -181,8 +177,8 @@ kind_1:
     ((S_80023260_0 *)arg0)->unk_2A = 0x800;
     case_value = D_80081458[0];
     case_base = D_800D2388;
-    ((S_80023260_2 *)arg2)->unk_2C = case_base;
-    ((S_80023260_2 *)arg2)->unk_28 = case_value;
+    ((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 = case_base;
+    ((Rec_D_80082E80 *)arg2)->unk_28.at00_s32.v = case_value;
     func_80047784(arg2, D_800D2388[((D_80083228 + ((S_80023260_0 *)arg0)->unk_2A + 0x100) >> 9) & 7], 0);
     ((S_80023260_0 *)arg0)->unk_18.p = (u16) (((S_80023260_0 *)arg0)->unk_18.p + 1);
     goto block_69;

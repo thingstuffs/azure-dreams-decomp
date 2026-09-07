@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 void func_800353F4(void *);                   /* extern */
 void func_80047738(void *, u8, s8);              /* extern */
@@ -101,9 +102,6 @@ typedef struct S_8016B0E8_6 {
     s32 unk_10;
 } S_8016B0E8_6;   /* temp_v1_2 in func_8016B0E8 */
 
-typedef struct S_8016B0E8_7 {
-    s32 unk_00;
-} S_8016B0E8_7;   /* &D_800E3D7C in func_8016B0E8 */
 
 typedef struct S_8016B0E8_8 {
     u8 pad_00[0xAC];
@@ -276,7 +274,7 @@ block_16:
         ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
         if ((*(u16 *)D_80013714) & 8) {
             var_s0_2 = 1;
-            var_a0 = ((S_8016B0E8_7 *)(&D_800E3D7C))->unk_00 + 4;
+            var_a0 = ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v + 4;
             do {
                 temp_v0_2 = ((S_8016B0E8_8 *)var_a0)->unk_AC;
                 if (temp_v0_2 != NULL) {

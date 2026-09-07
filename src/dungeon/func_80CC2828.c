@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 extern void func_80093E74(void *, void *, void *, void *);
@@ -29,12 +30,6 @@ typedef struct S_80176028_0 {
     u16 unk_14;
 } S_80176028_0;   /* arg2 in func_80176028 */
 
-typedef struct S_80176028_1 {
-    u8 pad_00[0x60];
-    u8 * unk_60;
-    u8 pad_64[0x26];
-    u16 unk_8A;
-} S_80176028_1;   /* D_800E3D7C in func_80176028 */
 
 typedef struct S_80176028_2 {
     u8 pad_00[0x8A];
@@ -116,8 +111,8 @@ state_1:
         register u8 *table1;
         register u8 *table2;
 
-        saved_value = ((S_80176028_1 *)D_800E3D7C)->unk_8A;
-        saved_actor = ((S_80176028_1 *)D_800E3D7C)->unk_60;
+        saved_value = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_8A.as_u16;
+        saved_actor = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_60.as_pu8;
         value = func_800A1BD0(actor);
         table1 = D_80083780;
         table2 = D_80082E80;
@@ -126,11 +121,11 @@ state_1:
         ASM_KEEP_DEP_NV(actor, value);   /* MATCH pin: keeps a statement from moving across a call/branch */
         ASM_JALDELAY_PIN(actor);   /* MATCH pin: retail schedule: same instructions, different order without it */
         ASM_KEEP_NV(actor);   /* MATCH pin: retail schedule: same instructions, different order without it */
-        ((S_80176028_1 *)D_800E3D7C)->unk_60 = actor;
+        ((Rec_D_800E3D7C *)D_800E3D7C)->unk_60.as_pu8 = actor;
         ((S_80176028_2 *)value_map)->unk_8A = value;
         func_80093E74(D_800E3D7C, table1, table2, D_800E3D7C);
         (*(u8 * *)((u8 *)D_800E3D7C + (0x60))) = saved_actor;
-        ((S_80176028_1 *)D_800E3D7C)->unk_8A = saved_value;
+        ((Rec_D_800E3D7C *)D_800E3D7C)->unk_8A.as_u16 = saved_value;
         counter = (u8 *)&D_80083460;
         ((S_80176028_3 *)counter)->unk_0A--;
         owner[0x9B]++;

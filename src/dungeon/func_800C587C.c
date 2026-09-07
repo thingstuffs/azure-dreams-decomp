@@ -1,10 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_800CAFDC_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800CAFDC_4;   /* arg0 in func_800CAFDC */
 
 typedef struct S_800CAFDC_5 {
     u8 pad_00[0x2];
@@ -13,7 +10,7 @@ typedef struct S_800CAFDC_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800CAFDC_5;   /* ((S_800CAFDC_4 *)arg0)->unk_08 in func_800CAFDC */
+} S_800CAFDC_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_800CAFDC */
 
 
 
@@ -64,7 +61,7 @@ typedef struct S_800CAFDC_3 {
     s16 unk_B0;
 } S_800CAFDC_3;   /* temp_s0 in func_800CAFDC */
 
-void func_800CAFDC(S_800CAFDC_4 *arg0, s16 arg1, s32 arg2) {
+void func_800CAFDC(Rec_D_800E3D7C *arg0, s16 arg1, s32 arg2) {
     s16 temp_v0_2;
     s32 var_s3;
     S_800CAFDC_3 *temp_s0;
@@ -79,9 +76,9 @@ void func_800CAFDC(S_800CAFDC_4 *arg0, s16 arg1, s32 arg2) {
             ((S_800CAFDC_0 *)temp_v0)->unk_10 = &D_800CAED0;
             func_8004491C(temp_v0, &D_80045340);
             temp_s1 = ((S_800CAFDC_0 *)temp_v0)->unk_08;
-            temp_s1->unk_02 = (s16) ((((S_800CAFDC_5 *)(arg0->unk_08))->unk_02 + (rand() & 0x3F)) - 0x20);
-            temp_s1->unk_06 = (s16) ((((S_800CAFDC_5 *)(arg0->unk_08))->unk_06 + (rand() & 0x3F)) - 0x20);
-            temp_s1->unk_0A = (s16) ((((S_800CAFDC_5 *)(arg0->unk_08))->unk_0A + (rand() & 0x3F)) - 0x20);
+            temp_s1->unk_02 = (s16) ((((S_800CAFDC_5 *)(arg0->unk_08.at00_pv.v))->unk_02 + (rand() & 0x3F)) - 0x20);
+            temp_s1->unk_06 = (s16) ((((S_800CAFDC_5 *)(arg0->unk_08.at00_pv.v))->unk_06 + (rand() & 0x3F)) - 0x20);
+            temp_s1->unk_0A = (s16) ((((S_800CAFDC_5 *)(arg0->unk_08.at00_pv.v))->unk_0A + (rand() & 0x3F)) - 0x20);
             temp_v0_2 = rand();
             temp_s1->unk_0C = (s32) (func_80064584(temp_v0_2) << 5);
             temp_s1->unk_10 = (s32) (func_800644B8(temp_v0_2) << 5);

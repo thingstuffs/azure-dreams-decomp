@@ -1,4 +1,7 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_8008ACDC_arg0.h"
 
 extern void func_80048A44(void *, u8, s32, s32);
 extern void func_8008D94C(void *, void *, void *, void *);
@@ -21,36 +24,9 @@ typedef struct S_8008DBE8_0 {
     s16 unk_04;
 } S_8008DBE8_0;   /* status in func_8008DBE8 */
 
-typedef struct S_8008DBE8_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_8008DBE8_1;   /* arg2 in func_8008DBE8 */
 
-typedef struct S_8008DBE8_2 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8008DBE8_2;   /* arg1 in func_8008DBE8 */
 
-typedef struct S_8008DBE8_3 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x12];
-    u16 unk_A2;
-} S_8008DBE8_3;   /* arg0 in func_8008DBE8 */
 
-typedef struct S_8008DBE8_4 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-} S_8008DBE8_4;   /* arg3 in func_8008DBE8 */
 
 typedef struct S_8008DBE8_5 {
     u8 pad_00[0x4];
@@ -75,19 +51,19 @@ void func_8008DBE8(void *arg0, void *arg1, void *arg2, void *arg3) {
     timer = ((S_8008DBE8_0 *)status)->unk_04;
     if (timer != 0) {
         quotient =
-            ((((((S_8008DBE8_1 *)arg2)->unk_24 << 6) + 0x20) << 16) -
-             ((S_8008DBE8_2 *)arg1)->unk_00) /
+            ((((((Rec_D_80082E80 *)arg2)->unk_24 << 6) + 0x20) << 16) -
+             ((Rec_D_800E3D7C *)arg1)->unk_00.at00_s32.v) /
             timer;
-        coordinate = ((S_8008DBE8_2 *)arg1)->unk_04;
-        ((S_8008DBE8_2 *)arg1)->unk_0C = quotient;
+        coordinate = ((Rec_D_800E3D7C *)arg1)->unk_04.at00_s32.v;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = quotient;
         divisor2 = ((S_8008DBE8_0 *)status)->unk_04;
-        ((S_8008DBE8_2 *)arg1)->unk_10 =
-            ((((((S_8008DBE8_1 *)arg2)->unk_25 << 6) + 0x20) << 16) -
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
+            ((((((Rec_D_80082E80 *)arg2)->unk_25 << 6) + 0x20) << 16) -
              coordinate) /
             divisor2;
     }
 
-    if (((S_8008DBE8_3 *)arg0)->unk_A2 & 0x100) {
+    if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x100) {
         ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
         mode = ((S_8008DBE8_0 *)status)->unk_04;
         if (D_80013714 & 8) {
@@ -105,14 +81,14 @@ void func_8008DBE8(void *arg0, void *arg1, void *arg2, void *arg3) {
     }
 
 continue_update:
-    flags = ((S_8008DBE8_3 *)arg0)->unk_A2;
+    flags = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
     if (!(flags & 0x10)) {
-        if (((S_8008DBE8_1 *)arg2)->unk_2C != D_800DD050) {
-            ((S_8008DBE8_3 *)arg0)->unk_A2 = flags | 1;
+        if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 != D_800DD050) {
+            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = flags | 1;
             (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_800DD050;
             func_80048A44(
                 arg2,
-                D_800DD050[((D_80083228 + ((S_8008DBE8_4 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                D_800DD050[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0,
                 1);
         }
@@ -128,14 +104,14 @@ continue_update:
     }
 
     ((S_8008DBE8_5 *)late_status)->unk_04 = 0;
-    ((S_8008DBE8_2 *)arg1)->unk_14 = 0;
-    ((S_8008DBE8_2 *)arg1)->unk_10 = 0;
-    ((S_8008DBE8_2 *)arg1)->unk_0C = 0;
-    func_800A2B04(arg1, ((S_8008DBE8_1 *)arg2)->unk_24, ((S_8008DBE8_1 *)arg2)->unk_25);
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
 
-    ((S_8008DBE8_1 *)arg2)->unk_14 |= 0x4000;
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x4000;
     if ((s16)func_80094F74(arg0, arg1, arg2, arg3) > 0) {
-        ((S_8008DBE8_3 *)arg0)->unk_8C = (s32)&D_8008ACDC;
+        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8C.as_s32 = (s32)&D_8008ACDC;
     }
 }
 

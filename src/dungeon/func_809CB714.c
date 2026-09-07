@@ -1,13 +1,7 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
-typedef struct S_80172F14_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x8];
-    u8 unk_28;
-    u8 pad_29[0x41];
-    u16 unk_6A;
-} S_80172F14_0;   /* arg3 in func_80172F14 */
 
 typedef struct S_80172F14_1 {
     u8 pad_00[0x8C];
@@ -18,24 +12,7 @@ typedef struct S_80172F14_1 {
     u8 unk_9B;
 } S_80172F14_1;   /* arg0 in func_80172F14 */
 
-typedef struct S_80172F14_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172F14_2;   /* arg1 in func_80172F14 */
 
-typedef struct S_80172F14_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172F14_3;   /* arg2 in func_80172F14 */
 
 
 
@@ -49,7 +26,7 @@ extern s32 D_80083460;
 extern u8 D_80170E54;
 extern s32 D_80173CC4;
 
-void func_80172F14(S_80172F14_1 *arg0, S_80172F14_2 *arg1, S_80172F14_3 *arg2, void *arg3)
+void func_80172F14(S_80172F14_1 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
 {
     s16 timer;
     s32 direction;
@@ -57,50 +34,50 @@ void func_80172F14(S_80172F14_1 *arg0, S_80172F14_2 *arg1, S_80172F14_3 *arg2, v
     s32 value;
     s32 *state;
 
-    direction = (((S_80172F14_0 *)arg3)->unk_6A >> 9) & 7;
+    direction = (((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 9) & 7;
 
     switch (arg0->unk_9B) {
     case 0:
         func_800AD4D0(arg3);
-        arg1->unk_0C =
+        arg1->unk_0C.as_s32 =
             *(s16 *)((u8 *)&D_8006CCD8 + direction * 2) << 19;
-        arg1->unk_10 =
+        arg1->unk_10.at00_s32.v =
             *(s16 *)((u8 *)&D_8006CCE8 + direction * 2) << 19;
         arg0->unk_9B++;
 
-        if (((S_80172F14_0 *)arg3)->unk_28 == 0) {
-            arg1->unk_14 = 0;
-            arg1->unk_10 = 0;
-            arg1->unk_0C = 0;
+        if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
+            arg1->unk_14.as_s32 = 0;
+            arg1->unk_10.at00_s32.v = 0;
+            arg1->unk_0C.as_s32 = 0;
             func_800AAA54(arg0, arg1, arg2, &D_80173CC4);
             return;
         }
-        if (arg2->unk_14 & 0x8000) {
+        if (arg2->unk_14.at00_u16.v & 0x8000) {
             arg0->unk_96.s = 0;
             arg0->unk_9B = 2;
             return;
         }
 
         timer = 5;
-        if (((S_80172F14_0 *)arg3)->unk_1C & 0x228) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228) {
             timer = 8;
         }
         arg0->unk_96.s = timer;
 
         {
-            s32 velocity = arg1->unk_0C;
-            arg1->unk_0C = velocity - velocity / 4;
+            s32 velocity = arg1->unk_0C.as_s32;
+            arg1->unk_0C.as_s32 = velocity - velocity / 4;
         }
         {
-            s32 velocity = arg1->unk_10;
-            arg1->unk_10 = velocity - velocity / 4;
+            s32 velocity = arg1->unk_10.at00_s32.v;
+            arg1->unk_10.at00_s32.v = velocity - velocity / 4;
         }
         /* fall through */
 
     case 1:
         limit = 0x7FFF;
         {
-            s32 velocity = arg1->unk_0C;
+            s32 velocity = arg1->unk_0C.as_s32;
             s32 magnitude = velocity;
 
             if (magnitude < 0) {
@@ -108,12 +85,12 @@ void func_80172F14(S_80172F14_1 *arg0, S_80172F14_2 *arg1, S_80172F14_3 *arg2, v
                 magnitude = 0 - magnitude;
             }
             if (limit < magnitude) {
-                arg1->unk_0C = velocity -
+                arg1->unk_0C.as_s32 = velocity -
                     (*(s16 *)((u8 *)&D_8006CCD8 + direction * 2) << 15);
             }
         }
         {
-            s32 velocity = arg1->unk_10;
+            s32 velocity = arg1->unk_10.at00_s32.v;
             s32 magnitude = velocity;
 
             if (magnitude < 0) {
@@ -121,7 +98,7 @@ void func_80172F14(S_80172F14_1 *arg0, S_80172F14_2 *arg1, S_80172F14_3 *arg2, v
                 magnitude = 0 - magnitude;
             }
             if (limit < magnitude) {
-                arg1->unk_10 = velocity -
+                arg1->unk_10.at00_s32.v = velocity -
                     (*(s16 *)((u8 *)&D_8006CCE8 + direction * 2) << 15);
             }
         }
@@ -131,34 +108,34 @@ void func_80172F14(S_80172F14_1 *arg0, S_80172F14_2 *arg1, S_80172F14_3 *arg2, v
             arg0->unk_96.s = arg0->unk_96.u - 1;
             goto check_timer;
         }
-        if (arg2->unk_14 & 0x6000) {
+        if (arg2->unk_14.at00_u16.v & 0x6000) {
             arg0->unk_96.s = 0;
         }
 
-        if (((S_80172F14_0 *)arg3)->unk_28 != 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
             {
                 s32 coord = arg2->unk_24 << 6;
-                s32 current = arg1->unk_02 - 0x20;
+                s32 current = arg1->unk_00.at02_s16.v - 0x20;
 
-                arg1->unk_0C = (coord - current) << 15;
+                arg1->unk_0C.as_s32 = (coord - current) << 15;
             }
             {
                 s32 coord = arg2->unk_25 << 6;
-                s32 current = arg1->unk_06 - 0x20;
+                s32 current = arg1->unk_04.at02_s16.v - 0x20;
 
-                arg1->unk_10 = (coord - current) << 15;
+                arg1->unk_10.at00_s32.v = (coord - current) << 15;
             }
         } else {
-            arg1->unk_0C = 0;
-            arg1->unk_10 = 0;
+            arg1->unk_0C.as_s32 = 0;
+            arg1->unk_10.at00_s32.v = 0;
         }
 
 check_timer:
         if (arg0->unk_96.s != 0) {
             return;
         }
-        if (((S_80172F14_0 *)arg3)->unk_28 == 0) {
-            arg1->unk_14 = 0;
+        if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
+            arg1->unk_14.as_s32 = 0;
             func_800AAA54(arg0, arg1, arg2, &D_80173CC4);
             return;
         }
@@ -170,15 +147,15 @@ check_timer:
         if (arg0->unk_96.s != 0) {
             {
                 s32 coord = arg2->unk_24 << 6;
-                s32 current = arg1->unk_02 - 0x20;
+                s32 current = arg1->unk_00.at02_s16.v - 0x20;
 
-                arg1->unk_0C = (coord - current) << 16;
+                arg1->unk_0C.as_s32 = (coord - current) << 16;
             }
             {
                 s32 coord = arg2->unk_25 << 6;
-                s32 current = arg1->unk_06 - 0x20;
+                s32 current = arg1->unk_04.at02_s16.v - 0x20;
 
-                arg1->unk_10 = (coord - current) << 16;
+                arg1->unk_10.at00_s32.v = (coord - current) << 16;
             }
         }
 
@@ -188,9 +165,9 @@ check_timer:
             return;
         }
 
-        arg1->unk_14 = 0;
-        arg1->unk_10 = 0;
-        arg1->unk_0C = 0;
+        arg1->unk_14.as_s32 = 0;
+        arg1->unk_10.at00_s32.v = 0;
+        arg1->unk_0C.as_s32 = 0;
         func_800A2B04(arg1, arg2->unk_24,
                       arg2->unk_25);
 

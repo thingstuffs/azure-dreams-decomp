@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 
 /* Input-only liveness extension (no "+r" rewrite): keeps `var` live to this
@@ -30,31 +32,8 @@ typedef struct S_80173730_0 {
     u8 unk_9B;
 } S_80173730_0;   /* arg0 in func_80173730 */
 
-typedef struct S_80173730_1 {
-    u8 pad_00[0x28];
-    u8 unk_28;
-    u8 pad_29[0x41];
-    u16 unk_6A;
-} S_80173730_1;   /* arg3 in func_80173730 */
 
-typedef struct S_80173730_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80173730_2;   /* arg2 in func_80173730 */
 
-typedef struct S_80173730_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80173730_3;   /* arg1 in func_80173730 */
 
 void func_80173730(void *arg0, void *arg1, void *arg2, void *arg3)
 {
@@ -81,10 +60,10 @@ void func_80173730(void *arg0, void *arg1, void *arg2, void *arg3)
         func_800AD4D0(arg3);
         ((S_80173730_0 *)arg0)->unk_96.u = 4;
         ((S_80173730_0 *)arg0)->unk_9B++;
-        if (((S_80173730_1 *)arg3)->unk_28 == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
             goto reset_motion;
         }
-        if (!(((S_80173730_2 *)arg2)->unk_14 & 0x8000)) {
+        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
             return;
         }
         ((S_80173730_0 *)arg0)->unk_96.u = 0;
@@ -95,35 +74,35 @@ void func_80173730(void *arg0, void *arg1, void *arg2, void *arg3)
         timer = ((S_80173730_0 *)arg0)->unk_96.u - 1;
         ((S_80173730_0 *)arg0)->unk_96.u = timer;
         if (timer > 0) {
-            ((S_80173730_3 *)arg1)->unk_0C =
+            ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 =
                 *(s16 *)(&D_8006CCD8 +
-                    ((((S_80173730_1 *)arg3)->unk_6A >> 8) & 0xE)) << 19;
-            ((S_80173730_3 *)arg1)->unk_10 =
+                    ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
+            ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
                 *(s16 *)(&D_8006CCE8 +
-                    ((((S_80173730_1 *)arg3)->unk_6A >> 8) & 0xE)) << 19;
+                    ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
             return;
         }
         if (timer != 0) {
             return;
         }
-        ((S_80173730_3 *)arg1)->unk_0C =
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 =
             *(s16 *)(&D_8006CCD8 +
-                ((((S_80173730_1 *)arg3)->unk_6A >> 8) & 0xE)) << 18;
-        ((S_80173730_3 *)arg1)->unk_10 =
+                ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
             *(s16 *)(&D_8006CCE8 +
-                ((((S_80173730_1 *)arg3)->unk_6A >> 8) & 0xE)) << 18;
+                ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
         ((S_80173730_0 *)arg0)->unk_96.u = 12;
         ((S_80173730_0 *)arg0)->unk_9B++;
         return;
 
     case 2:
-        if (((S_80173730_1 *)arg3)->unk_28 != 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
             goto update_motion;
         }
 reset_motion:
-        ((S_80173730_3 *)arg1)->unk_14 = 0;
-        ((S_80173730_3 *)arg1)->unk_10 = 0;
-        ((S_80173730_3 *)arg1)->unk_0C = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
         func_800AAA54(arg0, arg1, arg2, &D_801760D4);
         return;
 
@@ -133,17 +112,17 @@ update_motion:
 
             if (motion_timer != 0) {
                 {
-                    s32 coord = ((S_80173730_2 *)arg2)->unk_24 << 6;
-                    s32 current = ((S_80173730_3 *)arg1)->unk_02 - 0x20;
+                    s32 coord = ((Rec_D_80082E80 *)arg2)->unk_24 << 6;
+                    s32 current = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v - 0x20;
 
-                    ((S_80173730_3 *)arg1)->unk_0C =
+                    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 =
                         ((coord - current) << 16) / motion_timer;
                 }
                 {
-                    s32 coord = ((S_80173730_2 *)arg2)->unk_25 << 6;
-                    s32 current = ((S_80173730_3 *)arg1)->unk_06 - 0x20;
+                    s32 coord = ((Rec_D_80082E80 *)arg2)->unk_25 << 6;
+                    s32 current = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v - 0x20;
 
-                    ((S_80173730_3 *)arg1)->unk_10 = ((coord - current) << 16)
+                    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = ((coord - current) << 16)
                         / ((S_80173730_0 *)arg0)->unk_96.s;
                 }
             }
@@ -156,9 +135,9 @@ update_motion:
                 return;
             }
         }
-        ((S_80173730_3 *)arg1)->unk_14 = 0;
-        ((S_80173730_3 *)arg1)->unk_10 = 0;
-        ((S_80173730_3 *)arg1)->unk_0C = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
         ((S_80173730_0 *)arg0)->unk_9B++;
         return;
 
@@ -167,11 +146,11 @@ update_motion:
             s32 *global;
             s32 value;
 
-            ((S_80173730_3 *)arg1)->unk_14 = 0;
-            ((S_80173730_3 *)arg1)->unk_10 = 0;
-            ((S_80173730_3 *)arg1)->unk_0C = 0;
-            func_800A2B04(arg1, ((S_80173730_2 *)arg2)->unk_24,
-                ((S_80173730_2 *)arg2)->unk_25);
+            ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+            ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+            ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+            func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24,
+                ((Rec_D_80082E80 *)arg2)->unk_25);
             global = &D_80083460;
             value = *(s32 *)((u8 *)global + 0x10);
             if (value == (s32)((u8 *)arg3 - 0x20)) {

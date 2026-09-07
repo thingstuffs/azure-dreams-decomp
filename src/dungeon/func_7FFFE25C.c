@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082D58.h"
 
 
 typedef struct {
@@ -9,21 +11,12 @@ typedef struct {
 
 typedef void (*DispatchFn)(void *, void *, void *, s32);
 
-typedef struct S_7FFFE25C_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_7FFFE25C_0;   /* arg2 in func_7FFFE25C */
 
 typedef struct S_7FFFE25C_1 {
     u8 pad_00[0xC];
     void * unk_0C;
 } S_7FFFE25C_1;   /* arg1 in func_7FFFE25C */
 
-typedef struct S_7FFFE25C_2 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_7FFFE25C_2;   /* arg0 in func_7FFFE25C */
 
 typedef struct S_7FFFE25C_3 {
     u8 pad_00[0x14];
@@ -36,7 +29,7 @@ typedef struct S_7FFFE25C_4 {
     void * unk_0C;
     void * unk_10;
     void * unk_14;
-} S_7FFFE25C_4;   /* ((S_7FFFE25C_2 *)arg0)->unk_58 in func_7FFFE25C */
+} S_7FFFE25C_4;   /* ((Rec_D_80082D58 *)arg0)->unk_58 in func_7FFFE25C */
 
 
 extern TownState D_800834B8;
@@ -67,7 +60,7 @@ extern s32 func_8009B120(void *);
 extern void func_8009C340(void *, void *, void *, s32);
 extern void func_800C172C(void);
 
-void func_7FFFE25C(void *arg0, S_7FFFE25C_1 *arg1, S_7FFFE25C_0 *arg2, s32 arg3)
+void func_7FFFE25C(void *arg0, S_7FFFE25C_1 *arg1, Rec_D_800E3D7C *arg2, s32 arg3)
 {
     TownState *state = &D_800834B8;
     s32 *position = D_80083780;
@@ -77,17 +70,17 @@ void func_7FFFE25C(void *arg0, S_7FFFE25C_1 *arg1, S_7FFFE25C_0 *arg2, s32 arg3)
     s32 target;
     s32 flag;
 
-    arg2->unk_00 = D_80083780[0];
-    arg2->unk_04 = position[1];
-    arg2->unk_08 = position[2] + offset[2];
+    arg2->unk_00.at00_s32.v = D_80083780[0];
+    arg2->unk_04.at00_s32.v = position[1];
+    arg2->unk_08.at00_s32.v = position[2] + offset[2];
 
     func_8008F170(arg2, D_800FE488);
     func_8008F294(arg1, arg2);
     func_8008F664(arg1, arg2);
 
     target = position[2] + offset[2];
-    if (target - arg2->unk_08 >= 0x10) {
-        arg2->unk_08 =
+    if (target - arg2->unk_08.at00_s32.v >= 0x10) {
+        arg2->unk_08.at00_s32.v =
             target + ((S_7FFFE25C_3 *)(arg1->unk_0C))->unk_14;
     }
 
@@ -103,7 +96,7 @@ void func_7FFFE25C(void *arg0, S_7FFFE25C_1 *arg1, S_7FFFE25C_0 *arg2, s32 arg3)
         if (current == (s32)&D_800930E4 || current == (s32)&D_80093250) {
             a0r = arg0;
             a1r = arg1;
-            handler = ((S_7FFFE25C_4 *)(((S_7FFFE25C_2 *)arg0)->unk_58))->unk_08;
+            handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_08;
             a2r = arg2;
             goto dispatch;
         }
@@ -111,7 +104,7 @@ void func_7FFFE25C(void *arg0, S_7FFFE25C_1 *arg1, S_7FFFE25C_0 *arg2, s32 arg3)
         if (current == (s32)&D_800AA5F8) {
             a0r = arg0;
             a1r = arg1;
-            handler = ((S_7FFFE25C_4 *)(((S_7FFFE25C_2 *)arg0)->unk_58))->unk_14;
+            handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_14;
             a2r = arg2;
             goto dispatch;
         }
@@ -120,7 +113,7 @@ void func_7FFFE25C(void *arg0, S_7FFFE25C_1 *arg1, S_7FFFE25C_0 *arg2, s32 arg3)
             ASM_USE2(arg3, arg3);   /* MATCH pin: retail immediate-load split depends on it */
             a0r = arg0;
             a1r = arg1;
-            handler = ((S_7FFFE25C_4 *)(((S_7FFFE25C_2 *)arg0)->unk_58))->unk_0C;
+            handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_0C;
             a2r = arg2;
             goto dispatch;
         }
@@ -142,7 +135,7 @@ void func_7FFFE25C(void *arg0, S_7FFFE25C_1 *arg1, S_7FFFE25C_0 *arg2, s32 arg3)
 
         a0r = arg0;
         a1r = arg1;
-        handler = ((S_7FFFE25C_4 *)(((S_7FFFE25C_2 *)arg0)->unk_58))->unk_10;
+        handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)arg0)->unk_58))->unk_10;
         a2r = arg2;
 dispatch:
         ((DispatchFn)handler)(a0r, a1r, a2r, arg3);

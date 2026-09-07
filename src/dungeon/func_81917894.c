@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 M2C_UNK func_80024E80();              /* extern */
 void func_80025150(void) __attribute__((noreturn)); /* extern */
@@ -29,16 +30,6 @@ typedef struct S_80025094_1 {
     u16 unk_14;
 } S_80025094_1;   /* temp_v1 in func_80025094 */
 
-typedef struct S_80025094_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xB];
-    u16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80025094_2;   /* arg2 in func_80025094 */
 
 typedef struct S_80025094_3 {
     u8 pad_00[0x2];
@@ -63,7 +54,7 @@ void func_80025094(void *arg0, void *arg1, void *arg2) {
     ((S_80025094_1 *)temp_v1)->unk_14 = (u16) (((S_80025094_1 *)temp_v1)->unk_14 + 1);
     func_800478B8(arg2);
     ((S_80025094_0 *)arg0)->unk_06.u = (u16) (((S_80025094_0 *)arg0)->unk_06.u + 1);
-    ((S_80025094_2 *)arg2)->unk_1A = (u16) (((S_80025094_2 *)arg2)->unk_1A + 0x200);
+    ((Rec_D_80082E80 *)arg2)->unk_1A.as_u16 = (u16) (((Rec_D_80082E80 *)arg2)->unk_1A.as_u16 + 0x200);
     temp_v1_2 = ((S_80025094_0 *)arg0)->unk_04.s;
 
     if (temp_v1_2 == 1) {
@@ -90,13 +81,13 @@ state_0:
     }
     ((S_80025094_0 *)arg0)->unk_0A =
         (u16) (((S_80025094_0 *)arg0)->unk_0A + 1);
-    temp_v0 = ((S_80025094_2 *)arg2)->unk_0E + 3;
-    ((S_80025094_2 *)arg2)->unk_0E = temp_v0;
-    ((S_80025094_2 *)arg2)->unk_0D = temp_v0;
-    ((S_80025094_2 *)arg2)->unk_0C = temp_v0;
+    temp_v0 = ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v + 3;
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v = temp_v0;
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v = temp_v0;
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v = temp_v0;
     temp_v0_2 = ((S_80025094_0 *)arg0)->unk_06.s << 5;
-    ((S_80025094_2 *)arg2)->unk_1E = temp_v0_2;
-    ((S_80025094_2 *)arg2)->unk_1C = temp_v0_2;
+    ((Rec_D_80082E80 *)arg2)->unk_1C.at02_s16.v = temp_v0_2;
+    ((Rec_D_80082E80 *)arg2)->unk_1C.at00_s16.v = temp_v0_2;
     ((S_80025094_3 *)arg1)->unk_0A =
         (u16) (((S_80025094_3 *)arg1)->unk_0A - 2);
 

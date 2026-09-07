@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 typedef void (*Callback)(void *, s32, void *);
@@ -35,14 +36,8 @@ typedef struct S_800AB1E0_1 {
     s32 unk_08;
 } S_800AB1E0_1;   /* base in func_800AB1E0 */
 
-typedef struct S_800AB1E0_2 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-} S_800AB1E0_2;   /* arg2 in func_800AB1E0 */
 
-void func_800AB1E0(void *arg0, s32 arg1, S_800AB1E0_2 *arg2) {
+void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
     u8 *base = D_80083160;
     s16 buf[12];
     u8 *ref;
@@ -80,7 +75,7 @@ void func_800AB1E0(void *arg0, s32 arg1, S_800AB1E0_2 *arg2) {
     idx = func_800C2E1C((*(s16 *)((u8 *)arg0 + (0x72))), (*(s16 *)((u8 *)arg0 + (0x64))));
     if ((*(s16 *)((u8 *)arg0 + (0x74))) != idx) {
         func_800C2CB0(arg0, arg2, ((void **)(*(void * *)((u8 *)arg0 + (0x78))))[idx],
-                      arg2->unk_04);
+                      arg2->unk_04.as_s8);
         (*(s16 *)((u8 *)arg0 + (0x74))) = idx;
     }
 
@@ -88,7 +83,7 @@ void func_800AB1E0(void *arg0, s32 arg1, S_800AB1E0_2 *arg2) {
         if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + (0x72))),
                                (*(s16 *)((u8 *)arg0 + (0x64)))) == 0) {
             u16 cleared;
-            cleared = arg2->unk_14 & 0xFFFE;
+            cleared = arg2->unk_14.at00_u16.v & 0xFFFE;
             ASM_TAILSLOT_PIN(cleared);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
             func_800AB3D0();
             return;
@@ -97,14 +92,14 @@ void func_800AB1E0(void *arg0, s32 arg1, S_800AB1E0_2 *arg2) {
         if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + (0x72))),
                                (*(s16 *)((u8 *)arg0 + (0x64)))) != 0) {
             u16 cleared;
-            cleared = arg2->unk_14 & 0xFFFE;
+            cleared = arg2->unk_14.at00_u16.v & 0xFFFE;
             ASM_TAILSLOT_PIN(cleared);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
             func_800AB3D0();
             return;
         }
     }
 
-    arg2->unk_14 |= 1;
+    arg2->unk_14.at00_u16.v |= 1;
     ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
     func_800C2C80(arg0, arg2, 0, 0);
 }

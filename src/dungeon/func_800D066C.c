@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 #ifndef NULL
 #define NULL 0
@@ -13,10 +14,6 @@ typedef struct S_800D5DCC_0 {
     s32 unk_20;
 } S_800D5DCC_0;   /* temp_v0 in func_800D5DCC */
 
-typedef struct S_800D5DCC_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800D5DCC_1;   /* arg0 in func_800D5DCC */
 
 typedef struct S_800D5DCC_2 {
     u8 pad_00[0x2];
@@ -72,7 +69,7 @@ typedef struct S_800D5DCC_9 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_800D5DCC_9;   /* ((S_800D5DCC_1 *)arg0)->unk_08 in func_800D5DCC */
+} S_800D5DCC_9;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_800D5DCC */
 
 typedef struct S_800D5DCC_10 {
     u8 pad_00[0x6];
@@ -89,7 +86,7 @@ extern u8 D_800D5AC0[];
 extern u8 D_800D5CA0[];
 extern s16 D_800E2468[];
 
-void func_800D5DCC(S_800D5DCC_1 *arg0, s16 arg1, s32 arg2)
+void func_800D5DCC(Rec_D_800E3D7C *arg0, s16 arg1, s32 arg2)
 {
     S_800D5DCC_2 *temp_a0;
     S_800D5DCC_4 *temp_a0_2;
@@ -103,11 +100,11 @@ void func_800D5DCC(S_800D5DCC_1 *arg0, s16 arg1, s32 arg2)
     if (temp_v0 != NULL) {
         ((S_800D5DCC_0 *)temp_v0)->unk_10 = D_800D5CA0;
         ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)temp_v0)->unk_08))->unk_02 =
-            ((S_800D5DCC_9 *)(arg0->unk_08))->unk_02;
+            ((S_800D5DCC_9 *)(arg0->unk_08.at00_pv.v))->unk_02;
         ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)temp_v0)->unk_08))->unk_06 =
-            ((S_800D5DCC_9 *)(arg0->unk_08))->unk_06;
+            ((S_800D5DCC_9 *)(arg0->unk_08.at00_pv.v))->unk_06;
         ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)temp_v0)->unk_08))->unk_0A =
-            ((S_800D5DCC_9 *)(arg0->unk_08))->unk_0A - 0x14;
+            ((S_800D5DCC_9 *)(arg0->unk_08.at00_pv.v))->unk_0A - 0x14;
         temp_s0 = ((arg1 >> 7) & 0x1C) + (u8 *)D_800E2468;
         temp_a0 = ((S_800D5DCC_0 *)temp_v0)->unk_08;
         temp_a0->unk_02 += temp_s0->unk_00 * 0x10;

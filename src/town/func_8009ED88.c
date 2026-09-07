@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 extern s32 func_80033D08();
@@ -22,13 +23,6 @@ typedef struct S_8009C4E8_0 {
     u16 unk_6C;
 } S_8009C4E8_0;   /* arg0 in func_8009C4E8 */
 
-typedef struct S_8009C4E8_1 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8009C4E8_1;   /* arg1 in func_8009C4E8 */
 
 typedef struct S_8009C4E8_2 {
     u8 pad_00[0xC];
@@ -41,7 +35,7 @@ typedef struct S_8009C4E8_2 {
     u16 unk_14;
 } S_8009C4E8_2;   /* arg2 in func_8009C4E8 */
 
-void func_8009C4E8(void *arg0, S_8009C4E8_1 *arg1, S_8009C4E8_2 *arg2) {
+void func_8009C4E8(void *arg0, Rec_D_800E3D7C *arg1, S_8009C4E8_2 *arg2) {
     s16 value;
     u16 timer;
 
@@ -58,11 +52,11 @@ void func_8009C4E8(void *arg0, S_8009C4E8_1 *arg1, S_8009C4E8_2 *arg2) {
     func_80095388(arg1);
     func_8009539C(arg1);
     value = func_800C2AE8(arg1);
-    if (arg1->unk_0A > value) {
-        arg1->unk_0A = value;
-        arg1->unk_0C = 0;
-        arg1->unk_10 = 0;
-        arg1->unk_14 = 0;
+    if (arg1->unk_08.at02_s16.v > value) {
+        arg1->unk_08.at02_s16.v = value;
+        arg1->unk_0C.as_s32 = 0;
+        arg1->unk_10.at00_s32.v = 0;
+        arg1->unk_14.as_s32 = 0;
         arg2->unk_0E = 0x40;
         arg2->unk_0D = 0x40;
         arg2->unk_0C = 0x40;

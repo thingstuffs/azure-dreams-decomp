@@ -1,15 +1,7 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
-typedef struct S_8008B9FC_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-    u8 pad_2C[0x30];
-    s32 unk_5C;
-    u8 pad_60[0x28];
-    s16 unk_88;
-} S_8008B9FC_0;   /* arg3 in func_8008B9FC */
 
 typedef struct S_8008B9FC_1 {
     u8 pad_00[0x8C];
@@ -23,15 +15,6 @@ typedef struct S_8008B9FC_1 {
     u16 unk_A2;
 } S_8008B9FC_1;   /* arg0 in func_8008B9FC */
 
-typedef struct S_8008B9FC_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_8008B9FC_2;   /* arg2 in func_8008B9FC */
 
 typedef struct S_8008B9FC_3 {
     u8 pad_00[0x8];
@@ -97,7 +80,7 @@ extern void func_8009F644();
 extern s32 func_800A5C70();
 extern void func_800A67F4();
 
-void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, S_8008B9FC_2 *arg2, S_8008B9FC_0 *arg3) {
+void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
     static void *const keepalive[] = { &&block_80086620, &&block_80086704 };
     u8 *state = D_80083160;
     u8 *alt_callback;
@@ -109,12 +92,12 @@ void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, S_8008B9FC_2 *arg2, S_8008B9FC_
     s32 flag_word;
     u16 temp_v0_2;
 
-    temp_v0 = func_8009ABA0(arg3->unk_2A, arg1, arg2,
-                            arg3->unk_88, 0x20);
+    temp_v0 = func_8009ABA0(arg3->unk_2A.as_s16, arg1, arg2,
+                            arg3->unk_88.as_s16, 0x20);
     if (temp_v0 > 0) {
         arg0->unk_9B = 0;
         func_8009A3D0(arg2->unk_24, arg2->unk_25, 0x300);
-        index = ((u16)arg3->unk_2A >> 8) & 0xE;
+        index = ((u16)arg3->unk_2A.as_s16 >> 8) & 0xE;
         {
             u8 x = arg2->unk_24;
             u8 *movement_x = D_8006CCD8;
@@ -134,12 +117,12 @@ void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, S_8008B9FC_2 *arg2, S_8008B9FC_
                  ((arg0->unk_A2 & 0x100) == 0) &&
                  func_800A5C70())) {
                 flags[1] |= 0x80;
-                if (arg2->unk_2C != D_800DCFC0) {
-                    arg2->unk_2C = D_800DCFC0;
+                if (arg2->unk_2C.as_pu8 != D_800DCFC0) {
+                    arg2->unk_2C.as_pu8 = D_800DCFC0;
                     func_80048A44(
                         arg2,
                         D_800DCFC0[((s32)(((S_8008B9FC_3 *)state)->unk_C8 +
-                                         arg3->unk_2A + 0x100) >> 9) & 7],
+                                         arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0, 1);
                 }
             }
@@ -151,15 +134,15 @@ void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, S_8008B9FC_2 *arg2, S_8008B9FC_
             func_80099F04(arg3->unk_5C);
             if (!(check_flags[1] & 0x80) &&
                 ((D_800E3544[0] == 8) || (D_800E3544[0] == 0))) {
-                if (arg2->unk_2C != D_800DCFB8) {
+                if (arg2->unk_2C.as_pu8 != D_800DCFB8) {
                     void *callback_call;
                     callback_call = arg2;
                     ASM_KEEP(callback_call);   /* MATCH pin: retail register colouring depends on it */
-                    arg2->unk_2C = D_800DCFB8;
+                    arg2->unk_2C.as_pu8 = D_800DCFB8;
                     func_80048A44(
                         callback_call,
                         D_800DCFB8[((s32)(D_80083228[0] +
-                                         arg3->unk_2A + 0x100) >> 9) & 7],
+                                         arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0, 1);
                 }
             }
@@ -180,16 +163,16 @@ void func_8008B9FC(S_8008B9FC_1 *arg0, s32 arg1, S_8008B9FC_2 *arg2, S_8008B9FC_
         }
         func_80094ED4(arg0, arg1, arg2, arg3);
         D_80083464[0] = 8;
-        if (arg2->unk_2C == D_800DCFB8) {
-            arg2->unk_14 |= 0x6000;
+        if (arg2->unk_2C.as_pu8 == D_800DCFB8) {
+            arg2->unk_14.at00_u16.v |= 0x6000;
             func_8008E264(arg0, arg1, arg2, arg3);
             func_8008BD50(arg3);
             return;
         }
-        arg2->unk_2C = D_800DD030;
+        arg2->unk_2C.as_pu8 = D_800DD030;
         func_80048A44(
             arg2,
-            D_800DD030[((s32)(D_80083228[0] + arg3->unk_2A +
+            D_800DD030[((s32)(D_80083228[0] + arg3->unk_2A.as_s16 +
                               0x100) >> 9) & 7],
             0, 1);
         arg0->unk_9A = 0x10;
@@ -217,7 +200,7 @@ block_80086620:
              (s16)temp_v0_2 >= 0x15)) {
             func_8008CD4C(arg0, arg1, arg2, arg3, (s32)temp_v0);
             if (arg0->unk_9B >= 0x10) {
-                arg3->unk_1C |= 0x40000000;
+                arg3->unk_1C.as_s32 |= 0x40000000;
                 func_8008C10C();
                 return;
             }
@@ -232,7 +215,7 @@ block_80086620:
         func_80048A44(
             callback_obj,
             D_800DCFB0[((s32)(((S_8008B9FC_3 *)state)->unk_C8 +
-                              arg3->unk_2A + 0x100) >> 9) & 7],
+                              arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0, 1);
     }
     arg0->unk_8C.u = D_8008ACDC;
@@ -240,8 +223,8 @@ block_80086620:
     return;
 
 block_80086704:
-    flag_word = arg3->unk_1C | mask;
-    arg3->unk_1C = flag_word;
+    flag_word = arg3->unk_1C.as_s32 | mask;
+    arg3->unk_1C.as_s32 = flag_word;
     ASM_KEEP(flag_word);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     flags = D_80083460;
     flags[1] |= 0x812;
@@ -252,7 +235,7 @@ block_80086704:
     }
 
     if (D_800E3544[0] == 0xF0) {
-        if (arg2->unk_2C == D_800DCFC0) {
+        if (arg2->unk_2C.as_pu8 == D_800DCFC0) {
             goto halve_flags;
         }
         {
@@ -263,7 +246,7 @@ block_80086704:
                 callback_obj_f0,
                 *(volatile u8 *)(D_800DCFC0 +
                     (((s32)(((S_8008B9FC_7_pre *)D_80083464)[-1].unk_00 +
-                              arg3->unk_2A + 0x100) >> 9) & 7)),
+                              arg3->unk_2A.as_s16 + 0x100) >> 9) & 7)),
                 0, 1);
         }
         func_8008C048();
@@ -274,13 +257,13 @@ block_80086704:
         alt_callback = D_800DCFB8 + 8;
         arg0->unk_A2 |= 0x100;
         flags[5]++;
-        if (arg2->unk_2C == alt_callback) {
+        if (arg2->unk_2C.as_pu8 == alt_callback) {
             goto halve_flags;
         }
-        arg2->unk_2C = alt_callback;
+        arg2->unk_2C.as_pu8 = alt_callback;
         func_80048A44(
             arg2,
-            alt_callback[((s32)(D_80083228[0] + arg3->unk_2A +
+            alt_callback[((s32)(D_80083228[0] + arg3->unk_2A.as_s16 +
                                  0x100) >> 9) & 7],
             0, 1);
         func_8008C048();
@@ -288,14 +271,14 @@ block_80086704:
     }
 
     if (D_800E3544[0] == 0xE8) {
-        arg2->unk_2C = D_800DCFE8;
+        arg2->unk_2C.as_pu8 = D_800DCFE8;
         func_80048A44(
             arg2,
-            D_800DCFE8[((s32)(D_80083228[0] + arg3->unk_2A +
+            D_800DCFE8[((s32)(D_80083228[0] + arg3->unk_2A.as_s16 +
                                0x100) >> 9) & 7],
             1, 1);
         func_8009A3D0(arg2->unk_24, arg2->unk_25, 0x300);
-        index = ((u16)arg3->unk_2A >> 8) & 0xE;
+        index = ((u16)arg3->unk_2A.as_s16 >> 8) & 0xE;
         arg2->unk_24 -= ((s16 *)(void *)D_8006CCD8)[index / 2] * 2;
         arg2->unk_25 -= ((s16 *)(void *)D_8006CCE8)[index / 2] * 2;
         func_8009A21C(arg2->unk_24, arg2->unk_25, 0x300);
@@ -306,14 +289,14 @@ halve_flags:
     }
 
     if (D_800E3544[0] == 0xE0) {
-        arg2->unk_2C = D_800DD0D0;
+        arg2->unk_2C.as_pu8 = D_800DD0D0;
         func_80048A44(
             arg2,
-            D_800DD0D0[((s32)(D_80083228[0] + arg3->unk_2A +
+            D_800DD0D0[((s32)(D_80083228[0] + arg3->unk_2A.as_s16 +
                                0x100) >> 9) & 7],
             1, 1);
         func_8009A3D0(arg2->unk_24, arg2->unk_25, 0x300);
-        index = ((u16)arg3->unk_2A >> 8) & 0xE;
+        index = ((u16)arg3->unk_2A.as_s16 >> 8) & 0xE;
         {
             u8 x = arg2->unk_24;
             u8 *movement_x = D_8006CCD8;

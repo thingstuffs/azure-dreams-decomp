@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_800A9E70_arg0.h"
+#include "records/Rec_D_800814A8.h"
 
 
 typedef struct {
@@ -46,16 +48,6 @@ extern u8 D_80173FF8[];
 extern u8 D_80174000[];
 
 
-typedef struct S_80170F68_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x8];
-    u16 unk_98;
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0x12];
-    s16 unk_AE;
-} S_80170F68_0;   /* arg0 in func_80170F68 */
 
 typedef struct S_80170F68_1 {
     u8 pad_00[0x1C];
@@ -82,10 +74,6 @@ typedef struct S_80170F68_2 {
     void * unk_2C;
 } S_80170F68_2;   /* arg2 in func_80170F68 */
 
-typedef struct S_80170F68_3 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80170F68_3;   /* D_800814A8 in func_80170F68 */
 
 typedef struct S_80170F68_4 {
     u8 pad_00[0x24];
@@ -119,7 +107,7 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
 #define arg3 p3
 
     if (initial_flags & 0x1000) {
-        ((S_80170F68_0 *)arg0)->unk_9A = 0xE;
+        ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xE;
         func_80171510();
         func_801714EC();
         return;
@@ -140,7 +128,7 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
                 zero_table[((D_80083228 + ((S_80170F68_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
-        ((S_80170F68_0 *)arg0)->unk_AE = 0;
+        ((Rec_func_800A9E70_arg0 *)arg0)->unk_AE = 0;
         func_80042B68(arg3, 0x1A);
         func_801714EC();
         return;
@@ -148,9 +136,9 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
 
     if (((S_80170F68_1 *)arg3)->unk_1C & 0x200) {
         if (((S_80170F68_2 *)arg2)->unk_2C == D_80174000) {
-            ((S_80170F68_0 *)arg0)->unk_9A = 0xD;
-            ((S_80170F68_0 *)arg0)->unk_9B = 1;
-            ((S_80170F68_0 *)arg0)->unk_8C = 0;
+            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xD;
+            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9B.as_u8 = 1;
+            ((Rec_func_800A9E70_arg0 *)arg0)->unk_8C = 0;
             ((S_80170F68_1 *)arg3)->unk_1C &= ~0x40000;
             func_801714EC();
             return;
@@ -168,7 +156,7 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
         }
 
         ASM_KEEP(arg0);   /* MATCH pin: keeps a statement from moving across a call/branch */
-        if (((S_80170F68_0 *)arg0)->unk_9A != 0xE) {
+        if (((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 != 0xE) {
             u8 state = 0xE;
 
             table = D_80173FB8;
@@ -178,10 +166,10 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
                     table[((D_80083228 + ((S_80170F68_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
                     0);
             }
-            ((S_80170F68_0 *)arg0)->unk_9A = state;
+            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = state;
         }
 
-        ((S_80170F68_0 *)arg0)->unk_98 &= 0xFFF3;
+        ((Rec_func_800A9E70_arg0 *)arg0)->unk_98 &= 0xFFF3;
         if (((S_80170F68_1 *)arg3)->unk_64 != 0) {
             if (func_800AA6B4(arg0, arg1, arg2, D_80173FC0)) {
                 return;
@@ -213,7 +201,7 @@ void func_80170F68(void *arg0, void *arg1, void *arg2, void *arg3)
         if (!(((S_80170F68_1 *)arg3)->unk_46 & 0x8000)) {
             if (D_80083462 & 0x2000) {
                 if ((s16)func_8009A180(arg3,
-                        (u8 *)((S_80170F68_3 *)D_800814A8)->unk_58 + 0x20) != 0) {
+                        (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
                 }
             }

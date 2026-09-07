@@ -1,4 +1,7 @@
 #include "common.h"
+#include "records/Rec_func_800A9E70_arg0.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 
 typedef struct LocalResult {
@@ -13,15 +16,6 @@ extern s8 D_8006CCD8;
 extern s8 D_8006CCE8;
 
 
-typedef struct S_800AACA4_0 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    s8 unk_9A;
-    s8 unk_9B;
-} S_800AACA4_0;   /* arg0 in func_800AACA4 */
 
 typedef struct S_800AACA4_1 {
     u8 pad_00[0x1C];
@@ -58,18 +52,7 @@ typedef struct S_800AACA4_5 {
     void * unk_04;
 } S_800AACA4_5;   /* entry in func_800AACA4 */
 
-typedef struct S_800AACA4_6 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800AACA4_6;   /* arg1 in func_800AACA4 */
 
-typedef struct S_800AACA4_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800AACA4_7;   /* arg2 in func_800AACA4 */
 
 typedef struct S_800AACA4_8 {
     u8 pad_00[0x2A];
@@ -92,7 +75,7 @@ typedef struct S_800AACA4_11 {
     u16 unk_0A;
 } S_800AACA4_11;   /* ((S_800AACA4_2_pre *)root)[-1].unk_00 in func_800AACA4 */
 
-void func_800AACA4(S_800AACA4_0 *arg0, S_800AACA4_6 *arg1, S_800AACA4_7 *arg2, S_800AACA4_1 *arg3) {
+void func_800AACA4(Rec_func_800A9E70_arg0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, S_800AACA4_1 *arg3) {
     LocalResult local;
     S_800AACA4_3 *object;
     void *root;
@@ -105,13 +88,13 @@ void func_800AACA4(S_800AACA4_0 *arg0, S_800AACA4_6 *arg1, S_800AACA4_7 *arg2, S
     s16 next_count;
     u16 initial_value;
 
-    arg0->unk_9A = 12;
-    arg0->unk_9B = 0;
+    arg0->unk_9A.as_s8 = 12;
+    arg0->unk_9B.as_s8 = 0;
     arg0->unk_8C = 0;
     initial_value = ((S_800AACA4_8 *)(arg3->unk_60))->unk_2A;
     arg3->unk_1C &= 0xFFF7FFFF;
     arg3->unk_6A = initial_value;
-    arg0->unk_96 = 2;
+    arg0->unk_96.as_s16 = 2;
 
     root = arg3->unk_60;
     object = ((S_800AACA4_2_pre *)root)[-1].unk_04;
@@ -122,7 +105,7 @@ void func_800AACA4(S_800AACA4_0 *arg0, S_800AACA4_6 *arg1, S_800AACA4_7 *arg2, S
     }
 
     root = arg3->unk_60;
-    arg1->unk_0A = ((S_800AACA4_11 *)(((S_800AACA4_2_pre *)root)[-1].unk_00))->unk_0A + local.value;
+    arg1->unk_08.at02_s16.v = ((S_800AACA4_11 *)(((S_800AACA4_2_pre *)root)[-1].unk_00))->unk_0A + local.value;
     arg2->unk_24 = object->unk_24;
     arg2->unk_25 = object->unk_25;
     func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
@@ -135,13 +118,13 @@ void func_800AACA4(S_800AACA4_0 *arg0, S_800AACA4_6 *arg1, S_800AACA4_7 *arg2, S
         result = func_800BCB04(
             ((arg2->unk_24 + (*(s16 *)((u8 *)(&D_8006CCD8) + first_offset)) * count) << 6) + 0x20 & 0xFFE0,
             ((arg2->unk_25 + (*(s16 *)((u8 *)(&D_8006CCE8) + first_offset)) * count) << 6) + 0x20 & 0xFFE0,
-            arg1->unk_0A);
+            arg1->unk_08.at02_s16.v);
         next_count = arg3->unk_8A.u + 2;
         arg3->unk_8A.s = next_count;
         if (result < 0x200) {
-            arg1->unk_14 = -((arg1->unk_0A - result) << 15) / next_count;
+            arg1->unk_14.as_s32 = -((arg1->unk_08.at02_s16.v - result) << 15) / next_count;
         } else {
-            arg1->unk_14 = -((arg1->unk_0A - ((S_800AACA4_8 *)(arg3->unk_60))->unk_88) << 15) / next_count;
+            arg1->unk_14.as_s32 = -((arg1->unk_08.at02_s16.v - ((S_800AACA4_8 *)(arg3->unk_60))->unk_88) << 15) / next_count;
         }
         arg3->unk_8A.s = arg3->unk_8A.u - 2;
     }

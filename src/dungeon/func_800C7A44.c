@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -19,12 +20,6 @@ typedef struct S_800CD1A4_0_pre {
     u8 pad_04[0x10];
 } S_800CD1A4_0_pre;   /* the 0x14 bytes before arg0 in func_800CD1A4, addressed as arg0[-1] */
 
-typedef struct S_800CD1A4_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x74];
-    s16 unk_88;
-} S_800CD1A4_0;   /* arg0 in func_800CD1A4 */
 
 typedef struct S_800CD1A4_1 {
     u8 pad_00[0x14];
@@ -43,7 +38,7 @@ s32 func_800CD1A4(void *arg0) {
         var_a1 = 0x400;
     }
     if (func_800C8ABC(arg0, var_a1, 0x10) == 0) {
-        if (((S_800CD1A4_0 *)arg0)->unk_13 == 0) {
+        if (((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v == 0) {
             func_800A6508();
             func_800CD280();
             return 1;
@@ -51,14 +46,14 @@ s32 func_800CD1A4(void *arg0) {
         return 1;
     }
     func_80099844(arg0, &D_800E1BF3);
-    if (((S_800CD1A4_0 *)arg0)->unk_13 == 0) {
+    if (((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v == 0) {
         func_800DC1B8(D_800DCF0C);
     }
     temp_v1 = ((S_800CD1A4_0_pre *)arg0)[-1].unk_00;
     if (!(temp_v1->unk_14 & 0x8000)) {
         func_800C5BBC((temp_v1->unk_24 << 6) | 0x20,
                       (temp_v1->unk_25 << 6) | 0x20,
-                      ((S_800CD1A4_0 *)arg0)->unk_88, 0x808080, 0x20, 0);
+                      ((Rec_D_800E3D7C *)arg0)->unk_88.as_s16, 0x808080, 0x20, 0);
         func_800A56E0(0x520);
     }
     return 1;

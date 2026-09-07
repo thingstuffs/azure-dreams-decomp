@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 extern s32 func_8003DE58();
@@ -71,15 +72,6 @@ typedef struct S_800927E4_5 {
     u8 * unk_2C;
 } S_800927E4_5;   /* (void *)coordUnsigned in func_800927E4 */
 
-typedef struct S_800927E4_6 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_800927E4_6;   /* arg2 in func_800927E4 */
 
 typedef struct S_800927E4_7 {
     u8 pad_00[0x8];
@@ -121,7 +113,7 @@ typedef struct S_800927E4_11 {
     u16 unk_02;
 } S_800927E4_11;   /* flagsBase in func_800927E4 */
 
-void func_800927E4(void *arg0, s32 arg1, S_800927E4_6 *arg2, S_800927E4_3 *arg3) {
+void func_800927E4(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, S_800927E4_3 *arg3) {
     u16 pos[3];
     register void *obj ASM_REG("$3");   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     S_800927E4_8 *prim;
@@ -213,7 +205,7 @@ state_zero:
 
 state_one:
         if (func_8003DE58(arg2->unk_08, arg2, pos, 0) == 0 &&
-            !(arg2->unk_14 & 0x8000)) {
+            !(arg2->unk_14.at00_u16.v & 0x8000)) {
             return;
         }
 
@@ -234,7 +226,7 @@ state_one:
                 prim->unk_02 = (arg2->unk_24 << 6) + 0x20;
                 prim->unk_06 = (arg2->unk_25 << 6) + 0x20;
 
-                if (arg2->unk_14 & 0x8000) {
+                if (arg2->unk_14.at00_u16.v & 0x8000) {
                     effect = (u8 *)obj + 0x20;
                     tailValue = arg3->unk_88 - 0x50;
                     ASM_TAILSLOT_PIN_TIED(tailValue);   /* MATCH pin: retail delay-slot fill depends on it */
@@ -280,7 +272,7 @@ state_one:
         return;
 
 state_two:
-        if ((arg2->unk_14 & 0x8000) ||
+        if ((arg2->unk_14.at00_u16.v & 0x8000) ||
             (timer = ((S_800927E4_0 *)arg0)->unk_96 - 1,
              ((S_800927E4_0 *)arg0)->unk_96 = timer,
              (s32)(timer << 16) <= 0)) {

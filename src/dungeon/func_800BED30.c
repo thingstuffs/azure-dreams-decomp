@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 extern s32 func_8003AD08();
@@ -30,18 +31,6 @@ typedef struct S_800C4490_0_pre {
     u8 pad_04[0x14];
 } S_800C4490_0_pre;   /* the 0x18 bytes before arg0 in func_800C4490, addressed as arg0[-1] */
 
-typedef struct S_800C4490_0 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
-    u8 pad_18[0x10];
-    u8 unk_28;
-    u8 unk_29;
-    u8 pad_2A[0x3A];
-    s16 unk_64;
-    u8 pad_66[0xAA];
-    s32 unk_110;
-} S_800C4490_0;   /* arg0 in func_800C4490 */
 
 s32 func_800C4490(void *arg0, s32 arg1, s16 arg2) {
     s16 difference;
@@ -51,7 +40,7 @@ s32 func_800C4490(void *arg0, s32 arg1, s16 arg2) {
     s32 temporary;
 
     if (arg0 == D_800E3D7C) {
-        ((S_800C4490_0 *)arg0)->unk_110 = arg1;
+        ((Rec_D_800E3D7C *)arg0)->unk_110 = arg1;
         func_8008D330(arg0, &D_80083780, &D_80082E80, arg0);
         func_800C4624();
         return 0;
@@ -61,7 +50,7 @@ s32 func_800C4490(void *arg0, s32 arg1, s16 arg2) {
         func_800A63B8(arg0, arg1, arg2);
         if (func_800AD6FC(arg0,
                          (*(u16 *)(D_800DDE84 +
-                                   ((S_800C4490_0 *)arg0)->unk_13 * 2) >> 6) & 3,
+                                   ((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v * 2) >> 6) & 3,
                          arg1) == 0) {
             func_800A5F38(arg0, arg1);
             func_800C4624();
@@ -74,13 +63,13 @@ s32 func_800C4490(void *arg0, s32 arg1, s16 arg2) {
         amount = 0xFF;
     }
 
-    difference = ((S_800C4490_0 *)arg0)->unk_29 - ((S_800C4490_0 *)arg0)->unk_28;
+    difference = ((Rec_D_800E3D7C *)arg0)->unk_29 - ((Rec_D_800E3D7C *)arg0)->unk_28;
     if (difference < amount) {
         amount = difference;
     }
-    ((S_800C4490_0 *)arg0)->unk_64 = amount;
+    ((Rec_D_800E3D7C *)arg0)->unk_64.as_s16 = amount;
 
-    if (((S_800C4490_0 *)arg0)->unk_14 & 0x4000) {
+    if (((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) {
         temporary = func_800990FC();
         {
             register void *call_arg0 ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
@@ -93,7 +82,7 @@ s32 func_800C4490(void *arg0, s32 arg1, s16 arg2) {
         }
         func_80099290(func_80099194(
             &D_800893E0,
-            func_8003AD08(((S_800C4490_0 *)arg0)->unk_64,
+            func_8003AD08(((Rec_D_800E3D7C *)arg0)->unk_64.as_s16,
                           func_80099194(&D_800E18A4, effect))));
         func_800A5720(saved);
     }

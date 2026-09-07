@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_80171138_0 {
     u8 pad_00[0x8C];
@@ -34,10 +35,6 @@ typedef struct S_80171138_2 {
     void * unk_2C;
 } S_80171138_2;   /* arg2 in func_80171138 */
 
-typedef struct S_80171138_3 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80171138_3;   /* D_800814A8 in func_80171138 */
 
 typedef struct S_80171138_4 {
     u8 pad_00[0x24];
@@ -211,7 +208,7 @@ void func_80171138(void *arg0_, void *arg1_, void *arg2_, void *arg3_)
         if (!(state & 0x8000)) {
             if (D_80083462 & 0x2000) {
                 if ((func_8009A180(arg3,
-                        (u8 *)((S_80171138_3 *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                     return;
                 }
             }

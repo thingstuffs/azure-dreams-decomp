@@ -1,6 +1,7 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef s32 M2C_UNK;
 typedef struct ObjA0 ObjA0;
 typedef struct Motion Motion;
 typedef struct TilePos TilePos;
@@ -13,11 +14,6 @@ typedef struct S_800AB1C0_0 {
     s16 unk_96;
 } S_800AB1C0_0;   /* arg0 in func_800AB1C0 */
 
-typedef struct S_800AB1C0_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_800AB1C0_1;   /* arg2 in func_800AB1C0 */
 
 typedef struct S_800AB1C0_2 {
     u8 pad_00[0x2];
@@ -30,14 +26,6 @@ typedef struct S_800AB1C0_2 {
     s32 unk_14;
 } S_800AB1C0_2;   /* arg1 in func_800AB1C0 */
 
-typedef struct S_800AB1C0_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x26];
-    u16 unk_46;
-    u8 pad_48[0x40];
-    u16 unk_88;
-} S_800AB1C0_3;   /* arg3 in func_800AB1C0 */
 
 typedef struct {
     u16 pad00;
@@ -67,7 +55,7 @@ s32 func_800AB1C0(ObjA0 *arg0, Motion *arg1, TilePos *arg2, ObjA3 *arg3) {
     }
     temp_a1 = ((S_800AB1C0_0 *)arg0)->unk_96;
     if (temp_a1 != 0) {
-        tile_x = ((S_800AB1C0_1 *)arg2)->unk_24;
+        tile_x = ((Rec_D_80082E80 *)arg2)->unk_24;
         ASM_KEEP(tile_x);   /* MATCH pin: retail schedule: same instructions, different order without it */
         adjusted_x = ((S_800AB1C0_2 *)arg1)->unk_02;
         adjusted_x -= 0x20;
@@ -78,7 +66,7 @@ s32 func_800AB1C0(ObjA0 *arg0, Motion *arg1, TilePos *arg2, ObjA3 *arg3) {
         adjusted_y = ((S_800AB1C0_2 *)arg1)->unk_06;
         adjusted_y -= 0x20;
         ((S_800AB1C0_2 *)arg1)->unk_10 =
-            (s32)(((s32)(((((S_800AB1C0_1 *)arg2)->unk_25 << 6) - adjusted_y)
+            (s32)(((s32)(((((Rec_D_80082E80 *)arg2)->unk_25 << 6) - adjusted_y)
                           << 0x10)) /
                   (s16)((S_800AB1C0_0 *)arg0)->unk_96);
     }
@@ -88,27 +76,27 @@ s32 func_800AB1C0(ObjA0 *arg0, Motion *arg1, TilePos *arg2, ObjA3 *arg3) {
         ((S_800AB1C0_2 *)arg1)->unk_14 = 0;
         ((S_800AB1C0_2 *)arg1)->unk_10 = 0;
         ((S_800AB1C0_2 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_800AB1C0_1 *)arg2)->unk_24,
-                      ((S_800AB1C0_1 *)arg2)->unk_25);
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24,
+                      ((Rec_D_80082E80 *)arg2)->unk_25);
         if (D_80083460.count != 0) {
             D_80083460.count = (s16)((u16)D_80083460.count - 1);
         }
-        if (((S_800AB1C0_3 *)arg3)->unk_1C & 0x2000) {
-            ((S_800AB1C0_3 *)arg3)->unk_46 =
-                (u16)(((S_800AB1C0_3 *)arg3)->unk_46 & 0x7FFF);
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x2000) {
+            ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v =
+                (u16)(((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x7FFF);
         }
         if (D_80083460.flags & 0x80) {
-            ((S_800AB1C0_3 *)arg3)->unk_1C =
-                (s32)(((S_800AB1C0_3 *)arg3)->unk_1C & 0xBFFFFFFF);
+            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 =
+                (s32)(((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0xBFFFFFFF);
             temp_v0_2 = func_800BCB04(
-                (((S_800AB1C0_1 *)arg2)->unk_24 << 6) | 0x20,
-                (((S_800AB1C0_1 *)arg2)->unk_25 << 6) | 0x20,
-                (s16)(((S_800AB1C0_3 *)arg3)->unk_88 - 0x20));
+                (((Rec_D_80082E80 *)arg2)->unk_24 << 6) | 0x20,
+                (((Rec_D_80082E80 *)arg2)->unk_25 << 6) | 0x20,
+                (s16)(((Rec_D_800E3D7C *)arg3)->unk_88.as_u16 - 0x20));
             ((S_800AB1C0_0 *)arg0)->unk_90.at02.v =
                 (u16)(((S_800AB1C0_0 *)arg0)->unk_90.at02.v +
-                      (((S_800AB1C0_3 *)arg3)->unk_88 - temp_v0_2));
-            ((S_800AB1C0_3 *)arg3)->unk_88 = temp_v0_2;
-            if (!(((S_800AB1C0_3 *)arg3)->unk_1C & 0x40000)) {
+                      (((Rec_D_800E3D7C *)arg3)->unk_88.as_u16 - temp_v0_2));
+            ((Rec_D_800E3D7C *)arg3)->unk_88.as_u16 = temp_v0_2;
+            if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x40000)) {
                 ((S_800AB1C0_0 *)arg0)->unk_90.at00.v = 0;
             }
         }

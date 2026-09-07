@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 extern s32 D_8006CD58[];
@@ -87,12 +88,6 @@ typedef struct S_80173560_4 {
     void * unk_2C;
 } S_80173560_4;   /* arg2 in func_80173560 */
 
-typedef struct S_80173560_5 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80173560_5;   /* arg1 in func_80173560 */
 
 void func_80173560(void *arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
     static void *const state_labels[] = {
@@ -290,9 +285,9 @@ check_high_flags:
     if (!(((S_80173560_4 *)arg2)->unk_14 & 0xE000)) {
         return;
     }
-    ((S_80173560_5 *)arg1)->unk_14 = 0;
-    ((S_80173560_5 *)arg1)->unk_10 = 0;
-    ((S_80173560_5 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_80173560_4 *)arg2)->unk_24, ((S_80173560_4 *)arg2)->unk_25);
     ptr = D_80175E40;
     if (((S_80173560_4 *)arg2)->unk_2C != ptr) {

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_800B63A8_0 {
     s32 unk_00;
@@ -29,12 +30,6 @@ typedef struct S_800B63A8_1 {
     u8 unk_18;
 } S_800B63A8_1;   /* arg0 in func_800B63A8 */
 
-typedef struct S_800B63A8_2 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-} S_800B63A8_2;   /* arg2 in func_800B63A8 */
 
 
 M2C_UNK func_800478B8();            /* extern */
@@ -63,28 +58,28 @@ void func_800B63A8(void *arg0, void *arg1, void *arg2) {
     ((S_800B63A8_0 *)arg1)->unk_04 = (s32) (((S_800B63A8_0 *)arg1)->unk_04 + temp_a0);
     ((S_800B63A8_0 *)arg1)->unk_08 = (s32) (((S_800B63A8_0 *)arg1)->unk_08 + temp_a2);
     func_800478B8(arg2, arg1, temp_a2);
-    temp_v1 = ((S_800B63A8_2 *)arg2)->unk_0C;
+    temp_v1 = ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v;
     if (temp_v1 != 0) {
         temp_v0 = temp_v1 - ((S_800B63A8_1 *)arg0)->unk_14;
-        ((S_800B63A8_2 *)arg2)->unk_0C = temp_v0;
+        ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v = temp_v0;
         if ((u32) (temp_v0 & 0xFF) >= 0x81U) {
-            ((S_800B63A8_2 *)arg2)->unk_0C = 0x80U;
+            ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v = 0x80U;
         }
     }
-    temp_v1_2 = ((S_800B63A8_2 *)arg2)->unk_0D;
+    temp_v1_2 = ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v;
     if (temp_v1_2 != 0) {
         temp_v0_2 = temp_v1_2 - ((S_800B63A8_1 *)arg0)->unk_16;
-        ((S_800B63A8_2 *)arg2)->unk_0D = temp_v0_2;
+        ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v = temp_v0_2;
         if ((u32) (temp_v0_2 & 0xFF) >= 0x81U) {
-            ((S_800B63A8_2 *)arg2)->unk_0D = 0x80U;
+            ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v = 0x80U;
         }
     }
-    temp_v1_3 = ((S_800B63A8_2 *)arg2)->unk_0E;
+    temp_v1_3 = ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v;
     if (temp_v1_3 != 0) {
         temp_v0_3 = temp_v1_3 - ((S_800B63A8_1 *)arg0)->unk_18;
-        ((S_800B63A8_2 *)arg2)->unk_0E = temp_v0_3;
+        ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v = temp_v0_3;
         if ((u32) (temp_v0_3 & 0xFF) >= 0x81U) {
-            ((S_800B63A8_2 *)arg2)->unk_0E = 0x80U;
+            ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v = 0x80U;
         }
     }
     temp_v0_4 = ((S_800B63A8_1 *)arg0)->unk_0E - 1;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_80024078_0 {
     u8 pad_00[0x96];
@@ -9,12 +10,6 @@ typedef struct S_80024078_0 {
     void * unk_F4;
 } S_80024078_0;   /* object in func_80024078 */
 
-typedef struct S_80024078_1 {
-    u8 pad_00[0xA6];
-    u16 unk_A6;
-    u8 pad_A8[0x5A];
-    u8 unk_102;
-} S_80024078_1;   /* D_800814A8 in func_80024078 */
 
 typedef struct S_80024078_2_pre {
     void * unk_00;
@@ -107,7 +102,7 @@ void func_80024078(State *arg0)
         ((S_80024078_0 *)object)->unk_F4 = D_800281FC;
         ((S_80024078_0 *)object)->unk_96 = 0x14;
         ((S_80024078_0 *)object)->unk_A8 = arg0->field_8;
-        ((S_80024078_1 *)D_800814A8)->unk_102 = 1;
+        ((Rec_D_800814A8 *)D_800814A8)->unk_102 = 1;
 
         arg0->state++;
         ASM_MEM_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
@@ -148,7 +143,7 @@ void func_80024078(State *arg0)
         if (arg0->timer_1C >= 0xB) {
             break;
         }
-        ((S_80024078_1 *)D_800814A8)->unk_A6--;
+        ((Rec_D_800814A8 *)D_800814A8)->unk_A6--;
         if (func_80053EF0(4) != 2) {
             func_800A56E0(0x300);
         } else {

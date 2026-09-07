@@ -1,19 +1,8 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
 
-typedef struct S_80174A9C_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x34];
-    s32 unk_60;
-    u8 pad_64[0x9];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-    u8 pad_72[0x16];
-    s16 unk_88;
-} S_80174A9C_0;   /* arg3 in func_80174A9C */
 
 typedef struct S_80174A9C_1 {
     u8 pad_00[0x9A];
@@ -44,7 +33,7 @@ extern u8 D_80175414;
 void func_80174A9C(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     s32 temp_v1;
 
-    ((S_80174A9C_0 *)arg3)->unk_71 = (u8)(((S_80174A9C_0 *)arg3)->unk_71 & 0x7F);
+    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = (u8)(((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
     if (!(D_80083462 & 0x2000) && ((func_800A2B5C(arg3) << 0x10) == 0)) {
         func_800C7930(arg3 - 0x20, arg1, 8, 0x300);
         if ((func_800A2B5C(arg3) << 0x10) == 0) {
@@ -53,16 +42,16 @@ void func_80174A9C(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
             ((S_80174A9C_1 *)arg0)->unk_9B = 0;
             (*(u8 **)((u8 *)arg2 + 0x2C)) = &D_80175414;
             func_80047784(arg2,
-                          *(&D_80175414 + (((s32)(D_80083228 + ((S_80174A9C_0 *)arg3)->unk_2A + 0x100) >> 9) & 7)),
+                          *(&D_80175414 + (((s32)(D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7)),
                           0);
             func_800A4ACC(arg3);
-            ((S_80174A9C_0 *)arg3)->unk_6D = (u8)(((S_80174A9C_0 *)arg3)->unk_6D - 1);
-            temp_v1 = ((u16)((S_80174A9C_0 *)arg3)->unk_2A >> 9) & 7;
-            ((S_80174A9C_0 *)arg3)->unk_60 =
+            ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 = (u8)(((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 - 1);
+            temp_v1 = ((u16)((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 >> 9) & 7;
+            ((Rec_D_800E3D7C *)arg3)->unk_60.as_s32 =
                 func_8009B25C(arg3,
                               (((S_80174A9C_2 *)arg2)->unk_24 + D_8006CCD8[temp_v1]) & 0xFFFF,
                               (((S_80174A9C_2 *)arg2)->unk_25 + D_8006CCE8[temp_v1]) & 0xFFFF,
-                              ((S_80174A9C_0 *)arg3)->unk_88);
+                              ((Rec_D_800E3D7C *)arg3)->unk_88.as_s16);
         }
     }
 }

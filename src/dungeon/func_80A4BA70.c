@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 
 extern void *D_80170858[];
@@ -91,19 +93,7 @@ typedef struct S_80175270_3 {
     u8 unk_02;
 } S_80175270_3;   /* vec in func_80175270 */
 
-typedef struct S_80175270_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80175270_4;   /* arg1 in func_80175270 */
 
-typedef struct S_80175270_5 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80175270_5;   /* arg2 in func_80175270 */
 
 typedef struct S_80175270_6_pre {
     void * unk_00;
@@ -138,7 +128,7 @@ typedef struct S_80175270_10 {
     u8 unk_00;
 } S_80175270_10;   /* ((S_80175270_7 *)obj)->unk_2C + index in func_80175270 */
 
-void func_80175270(void *arg0, S_80175270_4 *arg1, S_80175270_5 *arg2, void *arg3)
+void func_80175270(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
 {
     static void *const keepalive[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4,
@@ -232,13 +222,13 @@ case_3:
     work->unk_10.p = D_80175114;
     func_8004491C(work, D_80173E08);
     color = 0x00808080;
-    work->unk_08[0] = arg1->unk_00;
+    work->unk_08[0] = arg1->unk_00.at00_s32.v;
     dst1 = work->unk_08;
-    value1 = arg1->unk_04;
+    value1 = arg1->unk_04.at00_s32.v;
     D_80175924[0] = work;
     dst1[1] = value1;
     dst2 = work->unk_08;
-    value2 = arg1->unk_08;
+    value2 = arg1->unk_08.at00_s32.v;
     D_8017591C[0] = -12;
     dst2[2] = value2;
     work = work->unk_0C.p;
@@ -250,7 +240,7 @@ case_3:
         index = func_80069EF8() % 3;
     }
     func_8003DB94(work, D_8014A000 + D_80175904[index], 0);
-    arg2->unk_14 |= 0x80;
+    arg2->unk_14.at00_u16.v |= 0x80;
     ((S_80175270_0 *)arg0)->unk_96.s = 0;
     ((S_80175270_0 *)arg0)->unk_9B++;
     func_80174E78(arg0, arg1, arg2);

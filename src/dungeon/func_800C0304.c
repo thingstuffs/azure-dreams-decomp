@@ -1,11 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
-typedef struct S_800C5A64_0 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-} S_800C5A64_0;   /* arg2 in func_800C5A64 */
 
 typedef struct S_800C5A64_1 {
     u8 pad_00[0xC];
@@ -40,9 +35,9 @@ void func_800C5A64(void *arg0, s32 *arg1, void *arg2)
 
     func_800478B8(arg2);
 
-    ((S_800C5A64_0 *)arg2)->unk_0C -= ((S_800C5A64_0 *)arg2)->unk_0C / ((S_800C5A64_1 *)arg0)->unk_10.s;
-    ((S_800C5A64_0 *)arg2)->unk_0D -= ((S_800C5A64_0 *)arg2)->unk_0D / ((S_800C5A64_1 *)arg0)->unk_10.s;
-    ((S_800C5A64_0 *)arg2)->unk_0E -= ((S_800C5A64_0 *)arg2)->unk_0E / ((S_800C5A64_1 *)arg0)->unk_10.s;
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v -= ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v / ((S_800C5A64_1 *)arg0)->unk_10.s;
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v -= ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v / ((S_800C5A64_1 *)arg0)->unk_10.s;
+    ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v -= ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v / ((S_800C5A64_1 *)arg0)->unk_10.s;
 
     remaining = ((S_800C5A64_1 *)arg0)->unk_10.u - 1;
     ((S_800C5A64_1 *)arg0)->unk_10.s = remaining;

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 
 typedef struct {
@@ -52,29 +54,7 @@ typedef struct S_801737C8_2 {
     u8 unk_25;
 } S_801737C8_2;   /* linked in func_801737C8 */
 
-typedef struct S_801737C8_3 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_801737C8_3;   /* arg2 in func_801737C8 */
 
-typedef struct S_801737C8_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801737C8_4;   /* arg1 in func_801737C8 */
 
 typedef struct S_801737C8_5 {
     u8 pad_00[0x8];
@@ -228,7 +208,7 @@ copy_active_coords:
             s32 dy;
 
             active = func_800A05A4(
-                arg3, ((S_801737C8_3 *)arg2)->unk_24, ((S_801737C8_3 *)arg2)->unk_25,
+                arg3, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
                 (*(s16 *)((u8 *)arg3 + 0x2A)), 0x10);
             (*(void * volatile *)((u8 *)arg3 + 0x60)) = active;
             ASM_KEEP(active);   /* MATCH pin: keeps a statement from moving across a call/branch */
@@ -253,10 +233,10 @@ invoke_item:
     goto end;
 
 empty_selection:
-    ((S_801737C8_4 *)arg1)->unk_14 = 0;
-    ((S_801737C8_4 *)arg1)->unk_10 = 0;
-    ((S_801737C8_4 *)arg1)->unk_0C = 0;
-    func_800A2B04(arg1, ((S_801737C8_3 *)arg2)->unk_24, ((S_801737C8_3 *)arg2)->unk_25);
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     D_8008346C = 0;
     (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
     func_800A4ACC(arg3);
@@ -269,10 +249,10 @@ empty_selection:
 
 state_1:
     if (func_8003F270()) {
-        ((S_801737C8_3 *)arg2)->unk_14 |= 0x800;
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x800;
         goto end;
     }
-    ((S_801737C8_3 *)arg2)->unk_14 &= 0xF7FF;
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
     ((S_801737C8_0 *)arg0)->unk_9B++;
     func_800A56E0(0x703);
 
@@ -304,9 +284,9 @@ state_2:
                 ((S_801737C8_5 *)child)->unk_10 = small;
                 ((S_801737C8_5 *)child)->unk_14 |= 0x0C;
                 coords = (*(void * *)((u8 *)arg3 + 8));
-                ((S_801737C8_6 *)coords)->unk_02 = ((S_801737C8_4 *)arg1)->unk_02;
-                ((S_801737C8_6 *)coords)->unk_06 = ((S_801737C8_4 *)arg1)->unk_06;
-                ((S_801737C8_6 *)coords)->unk_0A = ((S_801737C8_4 *)arg1)->unk_0A;
+                ((S_801737C8_6 *)coords)->unk_02 = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v;
+                ((S_801737C8_6 *)coords)->unk_06 = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v;
+                ((S_801737C8_6 *)coords)->unk_0A = ((Rec_D_800E3D7C *)arg1)->unk_08.at02_u16.v;
 
                 dx = (rand() & 0x3F) - 0x20;
                 dy = (rand() & 0x3F) - 0x20;
@@ -345,15 +325,15 @@ state_2:
         } while (count < 1);
     }
 
-    if ((((S_801737C8_3 *)arg2)->unk_04 == 6 &&
-         (((S_801737C8_3 *)arg2)->unk_14 & 0x1000)) ||
-        (((S_801737C8_3 *)arg2)->unk_14 & 0xE000)) {
+    if ((((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 6 &&
+         (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000)) ||
+        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         ((S_801737C8_0 *)arg0)->unk_98 |= 0x80;
     }
-    if ((((S_801737C8_3 *)arg2)->unk_04 == 9 &&
-         (((S_801737C8_3 *)arg2)->unk_14 & 0x1000)) ||
-        (((S_801737C8_3 *)arg2)->unk_14 & 0xE000)) {
-        ((S_801737C8_3 *)arg2)->unk_14 |= 0x800;
+    if ((((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 9 &&
+         (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000)) ||
+        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
+        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x800;
         ((S_801737C8_0 *)arg0)->unk_96 = 0x14;
         ((S_801737C8_0 *)arg0)->unk_9B = ((S_801737C8_0 *)arg0)->unk_9B + 1;
         goto end;
@@ -373,16 +353,16 @@ state_3:
         ((S_801737C8_0 *)arg0)->unk_96 = timer;
         if (timer <= 0) {
             ((S_801737C8_0 *)arg0)->unk_96 = 0;
-            ((S_801737C8_3 *)arg2)->unk_14 &= 0xF7FF;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
         }
-        if (!(((S_801737C8_3 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
             goto end;
         }
-        ((S_801737C8_4 *)arg1)->unk_14 = 0;
-        ((S_801737C8_4 *)arg1)->unk_10 = 0;
-        ((S_801737C8_4 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1, ((S_801737C8_3 *)arg2)->unk_24, ((S_801737C8_3 *)arg2)->unk_25);
-        if (((S_801737C8_3 *)arg2)->unk_2C != D_801753BC) {
+        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
+        if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 != D_801753BC) {
             u8 *table;
             s32 index;
 
@@ -390,7 +370,7 @@ state_3:
             (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
             index = ((D_80083228 + (*(s16 *)((u8 *)arg3 + 0x2A)) + 0x100) >> 9) & 7;
             func_80047784(arg2, table[index], 0);
-            ((S_801737C8_3 *)arg2)->unk_14 &= 0xF7FF;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
         }
         if (((S_801737C8_7 *)global)->unk_0C != 0) {
             goto end;

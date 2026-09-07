@@ -1,16 +1,11 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_800C1F28_0 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x68];
-    u16 unk_88;
-} S_800C1F28_0;   /* arg0 in func_800C1F28 */
 
 typedef struct S_800C1F28_1 {
     u8 pad_00[0x1C];
@@ -77,7 +72,7 @@ void *func_800C1F28(void *arg0, s16 arg1) {
         temp_s1 = (u8 *)temp_v0 + 0x20;
         coord0 = temp_s0[0x24];
         coord1 = temp_s0[0x25];
-        if (((S_800C1F28_0 *)arg0)->unk_1C & 0x2000) {
+        if (((Rec_D_80082E80 *)arg0)->unk_1C.at00_u32.v & 0x2000) {
             var_a2 = 0x300;
         }
         func_8009A3D0(coord0, coord1, var_a2);
@@ -91,7 +86,7 @@ void *func_800C1F28(void *arg0, s16 arg1) {
         } else {
             temp_v0_2 = func_800BCB04(((sp18 << 6) + 0x20) & 0xFFE0,
                                        ((sp1A << 6) + 0x20) & 0xFFE0,
-                                       (s16)(((S_800C1F28_0 *)arg0)->unk_88 - 0x20));
+                                       (s16)(((Rec_D_80082E80 *)arg0)->unk_88.as_u16 - 0x20));
             *(u16 *)(temp_s1 + 8) = temp_v0_2;
             if ((s16)temp_v0_2 >= 0x201) {
                 *(u16 *)(temp_s1 + 8) = func_800BCB04(((sp18 << 6) + 0x20) & 0xFFE0,
@@ -101,7 +96,7 @@ void *func_800C1F28(void *arg0, s16 arg1) {
         }
         temp_s0[0x24] = (u8)sp18;
         temp_s0[0x25] = (u8)sp1A;
-        ((S_800C1F28_0 *)arg0)->unk_88 = *(u16 *)(temp_s1 + 8);
+        ((Rec_D_80082E80 *)arg0)->unk_88.as_u16 = *(u16 *)(temp_s1 + 8);
         *(void **)((u8 *)temp_v0 + 0x10) = &D_800C1EC4;
         *(void **)(temp_s1 + 0xC) = arg0;
         *(s16 *)(temp_s1 + 2) = 0x20;

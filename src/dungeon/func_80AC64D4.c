@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 extern s32 func_80047784();
@@ -44,15 +45,6 @@ typedef struct S_80171CD4_2 {
     s32 unk_14;
 } S_80171CD4_2;   /* arg1 in func_80171CD4 */
 
-typedef struct S_80171CD4_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80171CD4_3;   /* arg2 in func_80171CD4 */
 
 typedef struct S_80171CD4_4 {
     u8 pad_00[0x74];
@@ -83,7 +75,7 @@ void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
         return;
     }
 
-    if (((S_80171CD4_3 *)arg2)->unk_2C != D_80174DE4) {
+    if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 != D_80174DE4) {
         (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80174DE4;
         func_80047784(
             arg2,
@@ -91,8 +83,8 @@ void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
             0);
     }
 
-    x = ((S_80171CD4_3 *)arg2)->unk_24;
-    y = ((S_80171CD4_3 *)arg2)->unk_25;
+    x = ((Rec_D_80082E80 *)arg2)->unk_24;
+    y = ((Rec_D_80082E80 *)arg2)->unk_25;
     move_flags = 0x3000;
     if (((S_80171CD4_0 *)state)->unk_1C & 0x2000) {
         move_flags = 0x300;
@@ -107,16 +99,16 @@ void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
         (u8 *)arg0 + 0x98);
     result = func_8009A66C(action, arg2, state, 0x20);
 
-    ((S_80171CD4_3 *)arg2)->unk_24 =
+    ((Rec_D_80082E80 *)arg2)->unk_24 =
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_74;
     move_flags = 0x3000;
-    ((S_80171CD4_3 *)arg2)->unk_25 =
+    ((Rec_D_80082E80 *)arg2)->unk_25 =
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_7C;
     ((S_80171CD4_0 *)state)->unk_8A.u++;
 
     {
-        s32 next_x = ((S_80171CD4_3 *)arg2)->unk_24;
-        s32 next_y = ((S_80171CD4_3 *)arg2)->unk_25;
+        s32 next_x = ((Rec_D_80082E80 *)arg2)->unk_24;
+        s32 next_y = ((Rec_D_80082E80 *)arg2)->unk_25;
 
         if (((S_80171CD4_0 *)state)->unk_1C & 0x2000) {
             move_flags = 0x300;
@@ -126,7 +118,7 @@ void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
 
     ((S_80171CD4_0 *)state)->unk_2A = action;
     if (result == 3) {
-        if (!(D_80083462 & 0x80) && !(((S_80171CD4_3 *)arg2)->unk_14 & 0x8000)) {
+        if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
             func_80172688(arg0, arg1, arg2, state);
             ((S_80171CD4_1 *)arg0)->unk_8C = 0;
             func_80171EC0();

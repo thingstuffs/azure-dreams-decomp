@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_800B2FAC_0 {
     u8 pad_00[0x14];
@@ -13,10 +14,6 @@ typedef struct S_800B2FAC_1_pre {
     u16 unk_00;
 } S_800B2FAC_1_pre;   /* the 0x2 bytes before arg3 in func_800B2FAC, addressed as arg3[-1] */
 
-typedef struct S_800B2FAC_1 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-} S_800B2FAC_1;   /* arg3 in func_800B2FAC */
 
 
 M2C_UNK func_8009A028();                      /* extern */
@@ -40,7 +37,7 @@ void func_800B2FAC(void *arg0, void *arg1, void *arg2, void *arg3) {
         }
         func_800A2DB8(arg3);
         func_800A32A4(arg3);
-        flags = ((S_800B2FAC_1 *)arg3)->unk_1C;
+        flags = ((Rec_D_80082E80 *)arg3)->unk_1C.at00_s32.v;
         var_a0 = ((S_800B2FAC_0 *)arg2)->unk_24;
         var_a1 = ((S_800B2FAC_0 *)arg2)->unk_25;
         var_a2 = 0x3000;

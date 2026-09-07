@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80016000.h"
 
 typedef struct S_80174668_0 {
     u8 pad_00[0x8C];
@@ -91,10 +92,6 @@ typedef struct S_80174668_8 {
     u16 unk_06;
 } S_80174668_8;   /* inner in func_80174668 */
 
-typedef struct S_80174668_9 {
-    u8 pad_00[0x4];
-    u32 unk_04;
-} S_80174668_9;   /* D_800DEC50 in func_80174668 */
 
 typedef struct S_80174668_10 {
     s32 unk_00;
@@ -300,7 +297,7 @@ state_1:
             ((S_80174668_4 *)tile)->unk_00 = D_800DEC50;
             ((S_80174668_4 *)tile)->unk_14 |= 0x0C;
             {
-                u32 tile_word = ((S_80174668_9 *)D_800DEC50)->unk_04;
+                u32 tile_word = ((Rec_D_80016000 *)D_800DEC50)->unk_04.at00_u32.v;
                 ((S_80174668_4 *)tile)->unk_04 = 0;
                 ((S_80174668_4 *)tile)->unk_05 = 0;
                 ((S_80174668_4 *)tile)->unk_0C = 0x00208020;

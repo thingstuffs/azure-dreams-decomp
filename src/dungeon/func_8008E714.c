@@ -1,18 +1,13 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80093E74_7 {
     u8 pad_00[0xD0];
     union { void * s; s32 u; } unk_D0;   /* accessed as both */
-} S_80093E74_7;   /* ((arg3->unk_8A * 4) + arg0) in func_80093E74 */
+} S_80093E74_7;   /* ((arg3->unk_8A.as_s16 * 4) + arg0) in func_80093E74 */
 
 
-typedef struct S_80093E74_0 {
-    u8 pad_00[0x60];
-    void * unk_60;
-    u8 pad_64[0x26];
-    s16 unk_8A;
-} S_80093E74_0;   /* arg3 in func_80093E74 */
 
 typedef struct S_80093E74_1 {
     u8 pad_00[0x3];
@@ -70,7 +65,7 @@ M2C_UNK func_800A56E0();                     /* extern */
 extern void *D_800E3DF0[];
 extern u8 D_800E3E48[];
 
-void func_80093E74(s32 arg0, void *arg1, void *arg2, S_80093E74_0 *arg3) {
+void func_80093E74(s32 arg0, void *arg1, void *arg2, Rec_D_800E3D7C *arg3) {
     M2C_UNK var_a2_2;
     u8 var_a0_4;
     u8 var_a1_4;
@@ -96,7 +91,7 @@ void func_80093E74(s32 arg0, void *arg1, void *arg2, S_80093E74_0 *arg3) {
         void **temp_base;
         u8 temp_s3_byte;
 
-        temp_a0 = ((S_80093E74_7 *)(((arg3->unk_8A * 4) + arg0)))->unk_D0.s;
+        temp_a0 = ((S_80093E74_7 *)(((arg3->unk_8A.as_s16 * 4) + arg0)))->unk_D0.s;
         temp_v0 = temp_a0->unk_03;
         temp_v1_byte = temp_v0 & 0xDF;
         temp_v0 &= 0x1F;
@@ -122,10 +117,10 @@ void func_80093E74(s32 arg0, void *arg1, void *arg2, S_80093E74_0 *arg3) {
     temp_v0_3 += (s32)temp_base2;
     temp_a0_2 = *(void **)temp_v0_3;
     temp_a0_2->unk_14 = (s32) (temp_a0_2->unk_14 & ~0x4000);
-    ((S_80093E74_7 *)(((arg3->unk_8A * 4) + arg0)))->unk_D0.u = 0;
-    temp_a0_3 = arg3->unk_60;
+    ((S_80093E74_7 *)(((arg3->unk_8A.as_s16 * 4) + arg0)))->unk_D0.u = 0;
+    temp_a0_3 = arg3->unk_60.as_pv;
     temp_a0_3->unk_1C = (s32) (temp_a0_3->unk_1C | 0x400000);
-    temp_v1 = arg3->unk_60;
+    temp_v1 = arg3->unk_60.as_pv;
     temp_v1_2 = ((S_80093E74_5 *)((u8 *)temp_v1 - 0x14))->unk_00;
     var_a0_4 = temp_v1_2->unk_24;
     var_a1_4 = temp_v1_2->unk_25;

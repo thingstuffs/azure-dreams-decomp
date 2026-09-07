@@ -1,15 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800B62A4_0 {
     u8 pad_00[0x8];
     u8 unk_08;
 } S_800B62A4_0;   /* var_s2 in func_800B62A4 */
 
-typedef struct S_800B62A4_1 {
-    u8 pad_00[0x49];
-    u8 unk_49;
-} S_800B62A4_1;   /* arg0 in func_800B62A4 */
 
 
 M2C_UNK bzero();            /* extern */
@@ -60,7 +57,7 @@ void func_800B62A4(void *arg0, s32 arg1) {
         var_v0 = var_s1 < 3;
     }
     var_s0 = var_s1;
-    if ((var_v0 != 0) && (((S_800B62A4_1 *)arg0)->unk_49 != 0)) {
+    if ((var_v0 != 0) && (((Rec_D_800E3D7C *)arg0)->unk_48.at01_u8.v != 0)) {
         func_800B61C0(arg0 + 0x48, arg1, var_s1);
         var_s1 += 1;
         ASM_KEEP(var_s1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */

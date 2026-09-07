@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_818C3448_0_pre {
     u16 unk_00;
@@ -19,18 +20,6 @@ typedef struct S_818C3448_1 {
     u16 unk_0C;
 } S_818C3448_1;   /* temp_v1 in func_818C3448 */
 
-typedef struct S_818C3448_2 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x4];
-    u16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818C3448_2;   /* arg2 in func_818C3448 */
 
 
 extern s32 D_800814A0[3];
@@ -49,7 +38,7 @@ typedef struct {
     s32 f14;
 } Func818C3448State;
 
-void func_818C3448(void *arg0, void *arg1, S_818C3448_2 *arg2) {
+void func_818C3448(void *arg0, void *arg1, Rec_D_80082E80 *arg2) {
     s16 temp_lo;
     s32 temp_a1_s16;
     register s32 temp_s0 ASM_REG("$16");   /* MATCH pin: load-bearing for the whole function shape */
@@ -84,14 +73,14 @@ void func_818C3448(void *arg0, void *arg1, S_818C3448_2 *arg2) {
     func_800478B8(arg2);
     temp_a1_s16 = (s16) temp_s0;
     var_v1 = temp_a1_s16;
-    arg2->unk_1A = (u16) (arg2->unk_1A + 0x300);
+    arg2->unk_1A.as_u16 = (u16) (arg2->unk_1A.as_u16 + 0x300);
     if (temp_a1_s16 < 0) {
         var_v1 = temp_a1_s16 + 3;
     }
     temp_a0 = temp_a1_s16 / 2;
-    arg2->unk_0C = (s8) ((var_v1 >> 2) << 7);
-    arg2->unk_0D = (s8) ((s32) (((s16) temp_a0 - (((s32) ((s16) temp_a0 + ((u32) (temp_a0 << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
-    arg2->unk_0E = (s8) ((s32) ((temp_a1_s16 - (temp_a0 * 2)) << 0x10) >> 9);
+    arg2->unk_0C.at00_s8.v = (s8) ((var_v1 >> 2) << 7);
+    arg2->unk_0C.at01_s8.v = (s8) ((s32) (((s16) temp_a0 - (((s32) ((s16) temp_a0 + ((u32) (temp_a0 << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
+    arg2->unk_0C.at02_s8.v = (s8) ((s32) ((temp_a1_s16 - (temp_a0 * 2)) << 0x10) >> 9);
     temp_v1_4 = ((S_818C3448_0 *)arg0)->unk_0E.s;
     temp_a0_2 = (u16) ((S_818C3448_0 *)arg0)->unk_0E.s;
     if (temp_v1_4 == 1) {
@@ -115,8 +104,8 @@ void func_818C3448(void *arg0, void *arg1, S_818C3448_2 *arg2) {
 
 case_0:
         temp_lo = (case0_scale / (s16) ((S_818C3448_0 *)arg0)->unk_14) * (s16) ((S_818C3448_0 *)arg0)->unk_10.s;
-        arg2->unk_1E = temp_lo;
-        arg2->unk_1C = temp_lo;
+        arg2->unk_1C.at02_s16.v = temp_lo;
+        arg2->unk_1C.at00_s16.v = temp_lo;
         temp_v0_3 = ((Func818C3448State *)arg1)->f0;
         temp_v1_6 = ((Func818C3448State *)arg1)->fC;
         temp_a0_3 = ((Func818C3448State *)arg1)->f10;
@@ -162,7 +151,7 @@ case_2:
         func_80024EEC();
         return;
 case_3:
-        if (arg2->unk_14 & 0x6000) {
+        if (arg2->unk_14.at00_u16.v & 0x6000) {
             ((S_818C3448_0_pre *)arg0)[-1].unk_00 = (u16) (((S_818C3448_0_pre *)arg0)[-1].unk_00 | 0x8000);
             D_800814A0[0] |= 0x8000;
         }

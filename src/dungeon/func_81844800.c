@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80016000.h"
 
 typedef struct S_81844800_0_pre {
     u16 unk_00;
@@ -114,10 +115,6 @@ typedef struct S_81844800_12 {
     u16 unk_2C;
 } S_81844800_12;   /* initial_part in BODY_NAME */
 
-typedef struct S_81844800_13 {
-    u8 pad_00[0x4];
-    u32 unk_04;
-} S_81844800_13;   /* D_800DECF8 in BODY_NAME */
 
 typedef struct S_81844800_14 {
     union { s32 * s; s32 u; } unk_00;   /* accessed as both */
@@ -520,7 +517,7 @@ case3:
                 ((S_81844800_4 *)render)->unk_00 = D_800DECF8;
                 ((S_81844800_4 *)render)->unk_14 = flags | 0xC;
                 {
-                    u32 page_value = ((S_81844800_13 *)D_800DECF8)->unk_04;
+                    u32 page_value = ((Rec_D_80016000 *)D_800DECF8)->unk_04.at00_u32.v;
                     ((S_81844800_4 *)render)->unk_04 = 0;
                     ((S_81844800_4 *)render)->unk_05 = 0;
                     ((S_81844800_4 *)render)->unk_0C = 0x00404040;

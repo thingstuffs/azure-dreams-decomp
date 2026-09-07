@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
 
@@ -20,12 +21,6 @@ typedef struct S_8008C7B4_2 {
     u16 unk_02;
 } S_8008C7B4_2;   /* control in func_8008C7B4 */
 
-typedef struct S_8008C7B4_3 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    s16 unk_2A;
-} S_8008C7B4_3;   /* arg3 in func_8008C7B4 */
 
 
 
@@ -86,7 +81,7 @@ after_control:
         u8 *lookup;
 #endif
 
-        if (((S_8008C7B4_3 *)arg3)->unk_1C & 0x100000) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x100000) {
 #ifndef NON_MATCHING
             u8 *tail_page;
 
@@ -113,11 +108,11 @@ after_control:
         {
             u8 *element;
 
-            element = lookup + (((s32)(D_80083228 + ((S_8008C7B4_3 *)arg3)->unk_2A + 0x100) >> 9) & 7);
+            element = lookup + (((s32)(D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7);
             func_80048A44(arg2, *element, 0, 1);
         }
 #else
-        func_80048A44(arg2, lookup[((s32)(D_80083228 + ((S_8008C7B4_3 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+        func_80048A44(arg2, lookup[((s32)(D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);
 #endif
     }
 }

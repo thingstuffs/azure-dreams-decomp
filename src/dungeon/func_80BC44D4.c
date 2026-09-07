@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_80173CD4_0 {
     u8 pad_00[0x8C];
@@ -46,10 +47,6 @@ typedef struct S_80173CD4_4 {
     u16 unk_02;
 } S_80173CD4_4;   /* global in func_80173CD4 */
 
-typedef struct S_80173CD4_5 {
-    u8 pad_00[0x58];
-    void * unk_58;
-} S_80173CD4_5;   /* D_800814A8 in func_80173CD4 */
 
 typedef struct S_80173CD4_6 {
     u8 pad_00[0x26];
@@ -190,7 +187,7 @@ state_one:
         }
         if ((func_800A2C34(arg3) << 16) != 0) {
             if ((func_8009A180(arg3,
-                    (u8 *)((S_80173CD4_5 *)D_800814A8)->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                 goto done;
             }
         }

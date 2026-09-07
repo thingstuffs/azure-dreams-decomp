@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800814A8.h"
 
 typedef struct S_801732A4_0 {
     u8 pad_00[0x8];
@@ -23,18 +25,6 @@ typedef struct S_801732A4_0 {
     s8 unk_BB;
 } S_801732A4_0;   /* arg0 in func_801732A4 */
 
-typedef struct S_801732A4_1 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-    u8 pad_27[0x1];
-    s32 unk_28;
-    u8 * unk_2C;
-} S_801732A4_1;   /* arg2 in func_801732A4 */
 
 typedef struct S_801732A4_2 {
     u8 pad_00[0x14];
@@ -60,10 +50,6 @@ typedef struct S_801732A4_3 {
     u16 unk_0A;
 } S_801732A4_3;   /* var_v0 in func_801732A4 */
 
-typedef struct S_801732A4_4 {
-    u8 pad_00[0x58];
-    s32 unk_58;
-} S_801732A4_4;   /* D_800814A8 in func_801732A4 */
 
 typedef struct S_801732A4_5 {
     u8 pad_00[0x26];
@@ -154,16 +140,16 @@ void func_801732A4(void *arg0, void *arg1, void *arg2, void *arg3) {
     if (temp_v1 >= 6U) goto block_58;
     (void)jt_keep; goto *D_80170858[(u32)(temp_v1)];
 jt_c0:
-    if (!(((S_801732A4_1 *)arg2)->unk_14 & 0xE000)) goto block_58;
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) goto block_58;
     (*(u8 **)((u8 *)arg2 + 0x2C)) = D_801741DC;
     func_80047784(arg2, D_801741DC[((D_80083228 + ((S_801732A4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
     D_80083460[5] = (u16)(D_80083460[5] - 1);
     goto block_55;
 jt_c1:
-    temp_v1_2 = ((S_801732A4_1 *)arg2)->unk_14;
+    temp_v1_2 = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
     if (temp_v1_2 & 0x8000) goto block_9;
     if (!(temp_v1_2 & 0x6000)) goto block_8;
-    ((S_801732A4_1 *)arg2)->unk_14 = (u16)(temp_v1_2 & 0x9FFF);
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = (u16)(temp_v1_2 & 0x9FFF);
     temp_v0 = ((S_801732A4_0 *)arg0)->unk_96 + 1;
     ((S_801732A4_0 *)arg0)->unk_96 = temp_v0;
     if (!(temp_v0 & 1)) goto block_9;
@@ -175,7 +161,7 @@ block_9:
     if ((func_80042900(arg3, 1) << 0x10) != 0) goto block_16;
     (*(u8 **)((u8 *)arg2 + 0x2C)) = D_801741E4;
     func_80047784(arg2, D_801741E4[((D_80083228 + ((S_801732A4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
-    if (((S_801732A4_1 *)arg2)->unk_14 & 0x8000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
         if (!(((S_801732A4_0 *)arg0)->unk_98 & 0x8000)) goto block_14;
         ((S_801732A4_3 *)var_v0)->unk_0A = (u16)(((S_801732A4_3 *)var_v0)->unk_0A + 1);
         func_80173954();
@@ -216,13 +202,13 @@ block_27:
 block_29:
     if (((S_801732A4_2 *)arg3)->unk_6D == 0) goto block_58;
     if ((func_800A2C34(arg3) << 0x10) == 0) goto block_32;
-    if ((func_8009A180(arg3, ((S_801732A4_4 *)D_800814A8)->unk_58 + 0x20) << 0x10) != 0) goto block_58;
+    if ((func_8009A180(arg3, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) != 0) goto block_58;
 block_32:
     func_800A9A0C(arg3);
     func_800A9A04(arg3);
     if ((func_80042900(arg3, 1) << 0x10) == 0) goto block_40;
     temp_base_2 = &D_80082E80;
-    temp_v1_5 = ((S_801732A4_1 *)arg2)->unk_26;
+    temp_v1_5 = ((Rec_D_80082E80 *)arg2)->unk_26.as_s8;
     if (temp_v1_5 != ((S_801732A4_5 *)temp_base_2)->unk_26) goto block_35;
     if (temp_v1_5 >= 0) goto block_36;
 block_35:
@@ -237,7 +223,7 @@ block_40:
     if ((func_80042900(arg3, 1) << 0x10) != 0) goto block_58;
     (*(u8 **)((u8 *)arg2 + 0x2C)) = D_801741E4;
     func_80047784(arg2, D_801741E4[((D_80083228 + ((S_801732A4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
-    if (!(((S_801732A4_1 *)arg2)->unk_14 & 0x8000)) goto block_44;
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) goto block_44;
     if (!(((S_801732A4_0 *)arg0)->unk_98 & 0x8000)) goto block_14;
     {
         register u16 effect_count ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
@@ -253,14 +239,14 @@ block_44:
     }
     func_80173954();
 jt_c2:
-    if (!(((S_801732A4_1 *)arg2)->unk_14 & 0xE000)) goto block_58;
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) goto block_58;
     (*(u8 **)((u8 *)arg2 + 0x2C)) = D_801741EC;
     func_80047784(arg2, D_801741EC[((D_80083228 + ((S_801732A4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
     goto block_55;
 jt_c3:
-    if (!(((S_801732A4_1 *)arg2)->unk_14 & 0xE000)) goto block_58;
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) goto block_58;
     temp_base = &D_80083160;
-    ((S_801732A4_1 *)arg2)->unk_2C = D_801741F4;
+    ((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 = D_801741F4;
     func_80047784(arg2, D_801741F4[((((S_801732A4_6 *)temp_base)->unk_C8 + ((S_801732A4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
     ((S_801732A4_0 *)arg0)->unk_9B = (u8)(((S_801732A4_0 *)arg0)->unk_9B + 1);
     temp_v0_2 = func_8003FD64(0x112, &D_80083498);
@@ -274,18 +260,18 @@ jt_c3:
     ((S_801732A4_0 *)arg0)->unk_BB = 0;
     temp_a0 = ((S_801732A4_0 *)arg0)->unk_0C;
     ((S_801732A4_0 *)arg0)->unk_4A = (u16)((S_801732A4_2 *)arg3)->unk_2A;
-    temp_arg2_28 = ((S_801732A4_1 *)arg2)->unk_28;
+    temp_arg2_28 = ((Rec_D_80082E80 *)arg2)->unk_28.at00_s32.v;
     ((S_801732A4_7 *)temp_a0)->unk_1E = 0x1000;
     ((S_801732A4_7 *)temp_a0)->unk_1C = 0x1000;
     ((S_801732A4_7 *)temp_a0)->unk_28 = temp_arg2_28;
-    ((S_801732A4_7 *)temp_a0)->unk_14 = (u16)((S_801732A4_1 *)arg2)->unk_14;
-    ((S_801732A4_7 *)temp_a0)->unk_12 = (u16)((S_801732A4_1 *)arg2)->unk_12;
-    ((S_801732A4_7 *)temp_a0)->unk_0C = (s32)((S_801732A4_1 *)arg2)->unk_0C;
+    ((S_801732A4_7 *)temp_a0)->unk_14 = (u16)((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
+    ((S_801732A4_7 *)temp_a0)->unk_12 = (u16)((Rec_D_80082E80 *)arg2)->unk_12.at00_u16.v;
+    ((S_801732A4_7 *)temp_a0)->unk_0C = (s32)((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v;
     ((S_801732A4_7 *)temp_a0)->unk_2C = D_801741FC;
     func_80047784(temp_a0, D_801741FC[((((S_801732A4_6 *)temp_base)->unk_C8 + ((S_801732A4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
     return;
 jt_c4:
-    if (!(((S_801732A4_1 *)arg2)->unk_14 & 0xE000)) goto block_58;
+    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) goto block_58;
     temp_v1_7 = ((S_801732A4_0 *)arg0)->unk_A0;
     if (temp_v1_7 == NULL) goto block_53;
     ((S_801732A4_8 *)temp_v1_7)->unk_BB = 0xFF;

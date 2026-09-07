@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 typedef struct {
@@ -36,10 +37,6 @@ typedef struct S_80174C64_0 {
     u8 unk_B4;
 } S_80174C64_0;   /* arg0 in func_80174C64 */
 
-typedef struct S_80174C64_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80174C64_1;   /* arg2 in func_80174C64 */
 
 typedef struct S_80174C64_2 {
     u8 pad_00[0x62];
@@ -53,7 +50,7 @@ typedef struct S_80174C64_3 {
     u16 unk_64;
 } S_80174C64_3;   /* (u8 *)((unsigned long)base + ((i - 1) << 2)) in func_80174C64 */
 
-void func_80174C64(S_80174C64_0 *arg0, void *arg1, S_80174C64_1 *arg2, void *arg3)
+void func_80174C64(S_80174C64_0 *arg0, void *arg1, Rec_D_80082E80 *arg2, void *arg3)
 {
     static void *const state3_keep[] = {
         &&state3_0, &&state3_1, &&state3_2, &&state3_3, &&state3_4
@@ -81,7 +78,7 @@ void func_80174C64(S_80174C64_0 *arg0, void *arg1, S_80174C64_1 *arg2, void *arg
     case 0:
         switch (arg0->unk_B2) {
         case 0:
-            if (arg2->unk_14 & 0x8000) {
+            if (arg2->unk_14.at00_u16.v & 0x8000) {
                 goto set_state2_from_zero;
             }
             if (arg0->unk_B4 >= 7U) {
@@ -148,7 +145,7 @@ void func_80174C64(S_80174C64_0 *arg0, void *arg1, S_80174C64_1 *arg2, void *arg
     case 1:
         switch (arg0->unk_B2) {
         case 0:
-            if (arg2->unk_14 & 0x8000) {
+            if (arg2->unk_14.at00_u16.v & 0x8000) {
 set_state2_from_zero:
                 arg0->unk_B3 = 2;
                 goto state0_done;
@@ -191,7 +188,7 @@ state1_test:
     if (state != 1) {
         goto state2_test;
     }
-    if (arg2->unk_14 & 0x8000) {
+    if (arg2->unk_14.at00_u16.v & 0x8000) {
         arg0->unk_B3 = 2;
         goto state1_done;
     }
@@ -402,7 +399,7 @@ state2_test:
     }
     (*(u16 *)((u8 *)arg3 + 0x2A)) &= 0xFC00;
     arg0->unk_9B++;
-    arg2->unk_14 |= 0x80;
+    arg2->unk_14.at00_u16.v |= 0x80;
     arg0->unk_92 = 0;
     arg0->unk_B1 = 0;
     arg0->unk_96 = 0;
@@ -443,7 +440,7 @@ state3_1:
     goto done;
 
 state3_2:
-    arg2->unk_14 |= 0x80;
+    arg2->unk_14.at00_u16.v |= 0x80;
     goto state3_set_timer;
 
 state3_3:
@@ -472,7 +469,7 @@ state3_4:
     }
     (*(u16 *)((u8 *)arg3 + 0x2A)) &= 0xFC00;
     arg0->unk_9B++;
-    arg2->unk_14 |= 0x80;
+    arg2->unk_14.at00_u16.v |= 0x80;
     arg0->unk_92 = 0;
     arg0->unk_B1 = 0;
     arg0->unk_96 = 0;

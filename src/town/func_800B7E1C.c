@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct {
     s8 x;
@@ -18,16 +19,8 @@ extern M2C_UNK D_800892F8;
 extern M2C_UNK D_800892FC;
 extern M2C_UNK D_80089304;
 
-typedef struct S_800B557C_0 {
-    u8 pad_00[0x26];
-    u8 unk_26;
-    u8 unk_27;
-    u8 pad_28[0x40];
-    u8 unk_68;
-    u8 unk_69;
-} S_800B557C_0;   /* arg1 in func_800B557C */
 
-void *func_800B557C(void *arg0, S_800B557C_0 *arg1) {
+void *func_800B557C(void *arg0, Rec_D_800E3D7C *arg1) {
     M2C_UNK sp10[3];
     s32 temp_v0;
     s32 temp_v0_2;

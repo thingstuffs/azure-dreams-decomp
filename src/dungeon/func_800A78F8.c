@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
 
@@ -68,12 +69,6 @@ typedef struct S_800AD058_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
 } S_800AD058_3;   /* arg1 in func_800AD058 */
 
-typedef struct S_800AD058_4 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800AD058_4;   /* D_80083780 in func_800AD058 */
 
 typedef struct S_800AD058_5 {
     u8 pad_00[0xA];
@@ -206,15 +201,15 @@ block_15:
 phase_3:
     ASM_KEEP(dispatch_zero);   /* MATCH pin: retail basic-block layout depends on it */
     temp_value = (((S_800AD058_0 *)arg0)->unk_96 * func_80064584(((S_800AD058_1 *)arg2)->unk_27 << 7)) << 5;
-    ((S_800AD058_3 *)arg1)->unk_00.at00.v += (s32) ((((S_800AD058_4 *)D_80083780)->unk_00 + temp_value - ((S_800AD058_3 *)arg1)->unk_00.at00.v) >> 2);
+    ((S_800AD058_3 *)arg1)->unk_00.at00.v += (s32) ((((Rec_D_800E3D7C *)D_80083780)->unk_00.at00_s32.v + temp_value - ((S_800AD058_3 *)arg1)->unk_00.at00.v) >> 2);
     temp_value = (((S_800AD058_0 *)arg0)->unk_96 * func_800644B8(((S_800AD058_1 *)arg2)->unk_27 << 7)) << 5;
-    ((S_800AD058_3 *)arg1)->unk_04.at00.v += (s32) ((((S_800AD058_4 *)D_80083780)->unk_04 + temp_value - ((S_800AD058_3 *)arg1)->unk_04.at00.v) >> 2);
+    ((S_800AD058_3 *)arg1)->unk_04.at00.v += (s32) ((((Rec_D_800E3D7C *)D_80083780)->unk_04.at00_s32.v + temp_value - ((S_800AD058_3 *)arg1)->unk_04.at00.v) >> 2);
     {
         s32 vertical_step;
 
         vertical_step = func_800644B8(((S_800AD058_0 *)arg0)->unk_96 * 8) >> 6;
         ((S_800AD058_2 *)arg3_local)->unk_88 = (s16) ((u16) ((S_800AD058_2 *)arg3_local)->unk_88 +
-            ((((S_800AD058_4 *)D_80083780)->unk_0A - vertical_step - ((S_800AD058_2 *)arg3_local)->unk_88) >> 4));
+            ((((Rec_D_800E3D7C *)D_80083780)->unk_08.at02_s16.v - vertical_step - ((S_800AD058_2 *)arg3_local)->unk_88) >> 4));
     }
     temp_v1_4 = ((S_800AD058_1 *)arg2)->unk_1C;
     temp_a0 = ((S_800AD058_1 *)arg2)->unk_1E;

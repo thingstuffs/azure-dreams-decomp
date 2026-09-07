@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_818CEDC8_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -26,13 +27,6 @@ typedef struct S_818CEDC8_1 {
     s32 unk_60;
 } S_818CEDC8_1;   /* arg0 in func_818CEDC8 */
 
-typedef struct S_818CEDC8_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_818CEDC8_2;   /* arg2 in func_818CEDC8 */
 
 
 extern s16 D_80025924[5];
@@ -41,7 +35,7 @@ s32 rand();
 s32 func_800A45D8();
 s16 func_800BCB04();
 
-void func_818CEDC8(void *arg0, S_818CEDC8_0 *arg1, S_818CEDC8_2 *arg2) {
+void func_818CEDC8(void *arg0, S_818CEDC8_0 *arg1, Rec_D_80082E80 *arg2) {
     s32 temp_s0;
     u16 temp_v0;
     u16 temp_v0_2;
@@ -87,15 +81,15 @@ void func_818CEDC8(void *arg0, S_818CEDC8_0 *arg1, S_818CEDC8_2 *arg2) {
     if (!(temp_v0 & 3)) {
         func_800478B8(arg2);
     }
-    temp_v0_2 = arg2->unk_1C + 0x64;
-    arg2->unk_1C = temp_v0_2;
+    temp_v0_2 = arg2->unk_1C.at00_u16.v + 0x64;
+    arg2->unk_1C.at00_u16.v = temp_v0_2;
     if ((u32) (temp_v0_2 & 0xFFFF) >= 0x1001U) {
-        arg2->unk_1C = 0x1000U;
+        arg2->unk_1C.at00_u16.v = 0x1000U;
     }
-    temp_v0_3 = arg2->unk_1E + 0x64;
-    arg2->unk_1E = temp_v0_3;
+    temp_v0_3 = arg2->unk_1C.at02_u16.v + 0x64;
+    arg2->unk_1C.at02_u16.v = temp_v0_3;
     if ((u32) (temp_v0_3 & 0xFFFF) >= 0x1001U) {
-        arg2->unk_1E = 0x1000U;
+        arg2->unk_1C.at02_u16.v = 0x1000U;
     }
     temp_v0_4 = ((S_818CEDC8_1 *)arg0)->unk_02 - 1;
     ((S_818CEDC8_1 *)arg0)->unk_02 = temp_v0_4;
@@ -103,7 +97,7 @@ void func_818CEDC8(void *arg0, S_818CEDC8_0 *arg1, S_818CEDC8_2 *arg2) {
         ((S_818CEDC8_1_pre *)arg0)[-1].unk_00 = (u16) (((S_818CEDC8_1_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
     }
-    if (arg2->unk_14 & 0x8000) {
+    if (arg2->unk_14.at00_u16.v & 0x8000) {
         ((S_818CEDC8_1_pre *)arg0)[-1].unk_00 = (u16) (((S_818CEDC8_1_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
     }

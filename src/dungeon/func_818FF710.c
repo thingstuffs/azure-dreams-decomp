@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800814A0.h"
 
 typedef struct { u8 bytes[8]; } Packed8 __attribute__((packed));
 typedef struct { u8 bytes[12]; } Packed12 __attribute__((packed));
@@ -303,9 +304,6 @@ typedef struct S_818FF710_28 {
     s32 unk_14;
 } S_818FF710_28;   /* temp_a0_3 in func_818FF710 */
 
-typedef struct S_818FF710_29 {
-    s32 unk_00;
-} S_818FF710_29;   /* &D_800814A0 in func_818FF710 */
 
 typedef struct S_818FF710_30 {
     u8 pad_00[0x14];
@@ -909,7 +907,7 @@ jt_c8:
     }
     D_8008346C = 0;
     (*(u16 *)((u8 *)arg0 + -2)) = (u16) ((*(u16 *)((u8 *)arg0 + -2)) | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((S_818FF710_29 *)(&D_800814A0))->unk_00 | 0x8000);
+    (*(s32 *)&D_800814A0) = (s32) (((Rec_D_800814A0 *)(&D_800814A0))->unk_00 | 0x8000);
     func_80025DF4();
     return;
 block_65:

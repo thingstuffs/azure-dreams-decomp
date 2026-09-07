@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80173280_0 {
     u8 pad_00[0x8C];
@@ -42,12 +43,6 @@ typedef struct S_80173280_3 {
     u8 * unk_2C;
 } S_80173280_3;   /* tile in func_80173280 */
 
-typedef struct S_80173280_4 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80173280_4;   /* arg1 in func_80173280 */
 
 typedef struct S_80173280_5 {
     u8 pad_00[0xC];
@@ -248,9 +243,9 @@ invoke_move:
         goto done;
     }
 
-    ((S_80173280_4 *)arg1)->unk_14 = 0;
-    ((S_80173280_4 *)arg1)->unk_10 = 0;
-    ((S_80173280_4 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_80173280_3 *)tile)->unk_24, ((S_80173280_3 *)tile)->unk_25);
     {
         u8 *global = D_800814A8;
@@ -317,9 +312,9 @@ state_3:
     if (!(((S_80173280_3 *)tile)->unk_14 & 0xE000)) {
         goto done;
     }
-    ((S_80173280_4 *)arg1)->unk_14 = 0;
-    ((S_80173280_4 *)arg1)->unk_10 = 0;
-    ((S_80173280_4 *)arg1)->unk_0C = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
     func_800A2B04(arg1, ((S_80173280_3 *)tile)->unk_24, ((S_80173280_3 *)tile)->unk_25);
     if (((S_80173280_3 *)tile)->unk_2C != D_80175988) {
         u8 *table = D_80175988;

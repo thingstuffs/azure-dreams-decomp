@@ -1,25 +1,14 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_800930F0_11 {
-    u8 pad_00[0xC8];
-    void * unk_C8;
-} S_800930F0_11;   /* arg0 in func_800930F0 */
 
 typedef struct S_800930F0_12 {
     u8 pad_00[0x1E];
     u16 unk_1E;
-} S_800930F0_12;   /* ((S_800930F0_11 *)arg0)->unk_C8 in func_800930F0 */
+} S_800930F0_12;   /* ((Rec_D_800E3D7C *)arg0)->unk_C8 in func_800930F0 */
 
 
-typedef struct S_800930F0_0 {
-    u8 pad_00[0x96];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0x2C];
-    void * unk_C8;
-} S_800930F0_0;   /* arg0 in func_800930F0 */
 
 typedef struct S_800930F0_1 {
     u8 pad_00[0x24];
@@ -129,14 +118,14 @@ void func_800930F0(void *arg0, s32 arg1, S_800930F0_1 *arg2, S_800930F0_2 *arg3)
     void *temp_v0_3;
     s16 *var_s4;
 
-    temp_v1 = ((S_800930F0_0 *)arg0)->unk_9B;
+    temp_v1 = ((Rec_D_800E3D7C *)arg0)->unk_9B;
     if (temp_v1 >= 0x12U) {
         goto block_25;
     }
     (void)jt_keep; goto *D_80088A10[(u32)(temp_v1)];
 jt_c0:
     var_s1 = 1;
-    ((S_800930F0_0 *)arg0)->unk_96 = 0U;
+    ((Rec_D_800E3D7C *)arg0)->unk_96 = 0U;
     func_800B2074((arg2->unk_24 << 6) | 0x20, (arg2->unk_25 << 6) | 0x20);
     var_s4 = &D_800DCED4;
     var_s2 = (s32 *)arg0 + 1;
@@ -149,10 +138,10 @@ jt_c0:
         var_s1 -= 1;
         var_s2 -= 1;
     } while (var_s1 >= 0);
-    ((S_800930F0_0 *)arg0)->unk_9B = (u8) (((S_800930F0_0 *)arg0)->unk_9B + 1);
+    ((Rec_D_800E3D7C *)arg0)->unk_9B = (u8) (((Rec_D_800E3D7C *)arg0)->unk_9B + 1);
 jt_c1:
-    temp_v0 = ((S_800930F0_0 *)arg0)->unk_96 + 1;
-    ((S_800930F0_0 *)arg0)->unk_96 = temp_v0;
+    temp_v0 = ((Rec_D_800E3D7C *)arg0)->unk_96 + 1;
+    ((Rec_D_800E3D7C *)arg0)->unk_96 = temp_v0;
     if ((s16) temp_v0 < 0x3D) {
         goto block_26;
     }
@@ -212,13 +201,13 @@ jt_c2:
     goto block_24;
 jt_c3:
     temp_v0_3 = ((S_800930F0_5 *)(&D_800E4938))->unk_00.u(((S_800930F0_5 *)(&D_800E4938))->unk_04, ((S_800930F0_5 *)(&D_800E4938))->unk_08);
-    ((S_800930F0_0 *)arg0)->unk_C8 = temp_v0_3;
+    ((Rec_D_800E3D7C *)arg0)->unk_C8 = temp_v0_3;
     if (temp_v0_3 == NULL) {
         goto block_27;
     }
-    ((S_800930F0_0 *)arg0)->unk_9B = (u8) (((S_800930F0_0 *)arg0)->unk_9B + 1);
+    ((Rec_D_800E3D7C *)arg0)->unk_9B = (u8) (((Rec_D_800E3D7C *)arg0)->unk_9B + 1);
 jt_c4:
-    if (!(((S_800930F0_12 *)(((S_800930F0_11 *)arg0)->unk_C8))->unk_1E & 0x8000)) {
+    if (!(((S_800930F0_12 *)(((Rec_D_800E3D7C *)arg0)->unk_C8))->unk_1E & 0x8000)) {
         goto block_25;
     }
     func_80040AA0(D_80082E6B);
@@ -260,7 +249,7 @@ block_23:
         func_80041094(call_a0, call_a1, call_a2, call_a3, 0x8000);
     }
 block_24:
-    ((S_800930F0_0 *)arg0)->unk_9B = (u8) (((S_800930F0_0 *)arg0)->unk_9B + 1);
+    ((Rec_D_800E3D7C *)arg0)->unk_9B = (u8) (((Rec_D_800E3D7C *)arg0)->unk_9B + 1);
 jt_c5:
 jt_c6:
 jt_c7:

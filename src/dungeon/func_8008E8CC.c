@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_8009402C_0 {
     u8 pad_00[0x1C];
@@ -10,11 +11,6 @@ typedef struct S_8009402C_0 {
     void * unk_124;
 } S_8009402C_0;   /* arg0 in func_8009402C */
 
-typedef struct S_8009402C_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_8009402C_1;   /* arg2 in func_8009402C */
 
 typedef struct S_8009402C_2 {
     u8 pad_00[0x13];
@@ -71,8 +67,8 @@ s32 func_8009402C(void *arg0, void *arg1, void *arg2, s16 *arg3, s16 *arg4, void
         ASM_CLOBBER("$7");   /* MATCH pin: retail basic-block layout depends on it */
         if (!(D_800E3DF0[(*(u8 *)((u8 *)arg5 + 3)) & 0x1F]->flags & 0x04000000)) {
             temp_v1 = ((u16) ((S_8009402C_0 *)arg0)->unk_2A >> 8) & 0xE;
-            temp_v0 = ((S_8009402C_1 *)arg2)->unk_24 + *(u16 *)(&D_8006CCD8 + temp_v1);
-            temp_a2 = ((S_8009402C_1 *)arg2)->unk_25 + *(u16 *)(&D_8006CCE8 + temp_v1);
+            temp_v0 = ((Rec_D_80082E80 *)arg2)->unk_24 + *(u16 *)(&D_8006CCD8 + temp_v1);
+            temp_a2 = ((Rec_D_80082E80 *)arg2)->unk_25 + *(u16 *)(&D_8006CCE8 + temp_v1);
             if (((func_8009B88C(0, temp_v0, temp_a2, coord_arg, arg4) << 0x10) == 0) || ((((S_8009402C_0 *)arg0)->unk_1C & 0x100000) && (temp_v0_2 = ((S_8009402C_0 *)arg0)->unk_124, (temp_v0_2 != NULL)) && (((S_8009402C_2 *)temp_v0_2)->unk_13 > 0) && (temp_s0 = *coord_arg, temp_s1 = *arg4, func_8009A21C(temp_s0, temp_s1, 0x8000), temp_s0_2 = func_8009B88C(0, temp_v0, temp_a2, coord_arg, arg4), func_8009A3D0(temp_s0, temp_s1, 0x8000), (shifted_result = temp_s0_2 << 0x10, shifted_result == 0)))) {
                 func_800941D8();
                 return 1;

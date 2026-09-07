@@ -1,17 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_801720D8_0 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-    u8 pad_18[0x4];
-    s32 unk_1C;
-    u8 pad_20[0xA];
-    u16 unk_2A;
-    u8 pad_2C[0x41];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-} S_801720D8_0;   /* arg3 in func_801720D8 */
 
 typedef struct S_801720D8_1 {
     u8 pad_00[0x8C];
@@ -41,22 +30,22 @@ extern u8 D_80174AE4[];
 void func_801720D8(void *arg0, void *arg1, void *arg2, void *arg3) {
     register s32 value ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
 
-    ((S_801720D8_0 *)arg3)->unk_71 = (u8)(((S_801720D8_0 *)arg3)->unk_71 & 0x7F);
+    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = (u8)(((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
     if (!(D_80083462 & 0x2000) && ((func_800A2BDC(arg3) << 16) == 0)) {
         ((S_801720D8_1 *)arg0)->unk_8C = 0;
         ((S_801720D8_1 *)arg0)->unk_9A = 0x17;
         ((S_801720D8_1 *)arg0)->unk_9B = 0;
-        if (((S_801720D8_0 *)arg3)->unk_1C & 0x400) {
-            value = ((S_801720D8_0 *)arg3)->unk_14;
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x400) {
+            value = ((Rec_D_800E3D7C *)arg3)->unk_14.as_s32;
             if (value >= 0) {
-                ((S_801720D8_0 *)arg3)->unk_14 = (s32)(value | 0x80000000);
-                ((S_801720D8_0 *)arg3)->unk_2A = (u16)(((S_801720D8_0 *)arg3)->unk_2A + ((func_800A6D30() & 7) << 9));
+                ((Rec_D_800E3D7C *)arg3)->unk_14.as_s32 = (s32)(value | 0x80000000);
+                ((Rec_D_800E3D7C *)arg3)->unk_2A.as_u16 = (u16)(((Rec_D_800E3D7C *)arg3)->unk_2A.as_u16 + ((func_800A6D30() & 7) << 9));
             }
         }
         ((S_801720D8_1 *)arg0)->unk_96 = 0;
         D_80083460.counter = (u16)(D_80083460.counter + 1);
-        ((S_801720D8_0 *)arg3)->unk_6D = (u8)(((S_801720D8_0 *)arg3)->unk_6D - 1);
+        ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 = (u8)(((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 - 1);
         (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174AE4;
-        func_80047784(arg2, D_80174AE4[((D_80083228 + (s16)((S_801720D8_0 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
+        func_80047784(arg2, D_80174AE4[((D_80083228 + (s16)((Rec_D_800E3D7C *)arg3)->unk_2A.as_u16 + 0x100) >> 9) & 7], 0);
     }
 }

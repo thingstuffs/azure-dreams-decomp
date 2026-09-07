@@ -1,20 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800CFCB4.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_8008F27C_0 {
-    u8 pad_00[0x35];
-    s8 unk_35;
-} S_8008F27C_0;   /* arg0 in func_8008F27C */
 
-typedef struct S_8008F27C_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_8008F27C_1;   /* arg1 in func_8008F27C */
 
-void func_8008F27C(S_8008F27C_0 *arg0, S_8008F27C_1 *arg1, s32 arg2) {
+void func_8008F27C(Rec_D_800CFCB4 *arg0, Rec_D_800E3D7C *arg1, s32 arg2) {
     arg0->unk_35 = 1;
-    arg1->unk_08 = (s32) (arg2 << 0x10);
-    arg1->unk_14 = 0;
+    arg1->unk_08.at00_s32.v = (s32) (arg2 << 0x10);
+    arg1->unk_14.as_s32 = 0;
 }

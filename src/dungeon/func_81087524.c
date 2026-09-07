@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct {
     s32 words[6];
@@ -34,10 +35,6 @@ typedef struct S_80174D24_2 {
     s32 unk_08;
 } S_80174D24_2;   /* object in func_80174D24 */
 
-typedef struct S_80174D24_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_80174D24_3;   /* arg2 in func_80174D24 */
 
 typedef struct S_80174D24_4 {
     u8 pad_00[0x2C];
@@ -111,11 +108,11 @@ void func_80174D24(void *arg0, void *arg1, void *arg2)
 
 mode_zero:
     func_800478B8(arg2);
-    flags = ((S_80174D24_3 *)arg2)->unk_14;
+    flags = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
     if ((flags & 0x6000) == 0) {
         goto out;
     }
-    ((S_80174D24_3 *)arg2)->unk_14 = flags | 0x80;
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = flags | 0x80;
     ((S_80174D24_0 *)arg0)->unk_02 = 0;
     ((S_80174D24_0 *)arg0)->unk_00.u++;
     goto out;
@@ -125,7 +122,7 @@ mode_one:
     if (signed_count < 0x40) {
         goto out;
     }
-    ((S_80174D24_3 *)arg2)->unk_14 &= 0xFF7F;
+    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xFF7F;
     func_80047784(arg2, 0x38, 0);
     ((S_80174D24_0 *)arg0)->unk_02 = 0;
     ((S_80174D24_0 *)arg0)->unk_00.s = 0;

@@ -1,6 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_80094268_arg0.h"
 
-typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_800352FC(void);
@@ -12,18 +12,13 @@ extern M2C_UNK D_800CFCB4[5];
 extern volatile M2C_UNK D_800D5084[20];
 
 
-typedef struct S_800C3988_0 {
-    u8 pad_00[0x5C];
-    s32 unk_5C;
-    s32 unk_60;
-} S_800C3988_0;   /* arg0 in func_800C3988 */
 
 typedef struct S_800C3988_1_pre {
     M2C_UNK (*unk_00)(void *, M2C_UNK, M2C_UNK);
     u8 pad_04[0x54];
-} S_800C3988_1_pre;   /* the 0x58 bytes before (((s8) temp_v1 * 4) + ((S_800C3988_0 *)arg0)->unk_5C) in func_800C3988, addressed as (((s8) temp_v1 * 4) + ((S_800C3988_0 *)arg0)->unk_5C)[-1] */
+} S_800C3988_1_pre;   /* the 0x58 bytes before (((s8) temp_v1 * 4) + ((Rec_func_80094268_arg0 *)arg0)->unk_5C) in func_800C3988, addressed as (((s8) temp_v1 * 4) + ((Rec_func_80094268_arg0 *)arg0)->unk_5C)[-1] */
 
-void func_800C3988(S_800C3988_0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
+void func_800C3988(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
     s32 temp_v0;
     u8 temp_v1;
     u8 *entry;

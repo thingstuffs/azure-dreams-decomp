@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_818C3898_0_pre {
     u16 unk_00;
@@ -18,16 +19,6 @@ typedef struct S_818C3898_1 {
     u16 unk_0C;
 } S_818C3898_1;   /* temp_v1 in func_818C3898 */
 
-typedef struct S_818C3898_2 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0xB];
-    u16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_818C3898_2;   /* arg2 in func_818C3898 */
 
 typedef struct S_818C3898_3 {
     s32 unk_00;
@@ -46,7 +37,7 @@ typedef struct S_818C3898_4 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_800814A0[3];
 extern void func_800478B8(void *arg0);
-void func_818C3898(void *arg0, void *arg1, S_818C3898_2 *arg2) {
+void func_818C3898(void *arg0, void *arg1, Rec_D_80082E80 *arg2) {
     s16 temp_lo;
     s32 temp_s0;
     s32 var_v1;
@@ -68,18 +59,18 @@ void func_818C3898(void *arg0, void *arg1, S_818C3898_2 *arg2) {
     temp_s0 += 1;
     func_800478B8(arg2);
     var_v1 = (s16) temp_s0;
-    arg2->unk_1A = (u16) (arg2->unk_1A + 0x300);
+    arg2->unk_1A.as_u16 = (u16) (arg2->unk_1A.as_u16 + 0x300);
     var_v1_adj = var_v1;
     if (var_v1 < 0) {
         var_v1_adj = var_v1 + 3;
     }
     temp_a0 = (s32) (var_v1 + ((u32) (temp_s0 << 0x10) >> 0x1F)) >> 1;
-    arg2->unk_0C = (s8) ((var_v1_adj >> 2) << 7);
-    arg2->unk_0D = (s8) ((s32) (((s16) temp_a0 - (((s32) ((s16) temp_a0 + ((u32) (temp_a0 << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
-    arg2->unk_0E = (s8) ((s32) ((var_v1 - (temp_a0 * 2)) << 0x10) >> 9);
+    arg2->unk_0C.at00_s8.v = (s8) ((var_v1_adj >> 2) << 7);
+    arg2->unk_0C.at01_s8.v = (s8) ((s32) (((s16) temp_a0 - (((s32) ((s16) temp_a0 + ((u32) (temp_a0 << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
+    arg2->unk_0C.at02_s8.v = (s8) ((s32) ((var_v1 - (temp_a0 * 2)) << 0x10) >> 9);
     temp_lo = (0x1400 / (s16) ((S_818C3898_0 *)arg0)->unk_14) * (s16) ((S_818C3898_0 *)arg0)->unk_10;
-    arg2->unk_1E = temp_lo;
-    arg2->unk_1C = temp_lo;
+    arg2->unk_1C.at02_s16.v = temp_lo;
+    arg2->unk_1C.at00_s16.v = temp_lo;
     temp_arg1->unk_00 = (s32) (temp_arg1->unk_00 + temp_arg1->unk_0C);
     temp_arg1->unk_04 = (s32) (temp_arg1->unk_04 + temp_arg1->unk_10);
     temp_arg1->unk_08 = (s32) (temp_arg1->unk_08 + temp_arg1->unk_14);

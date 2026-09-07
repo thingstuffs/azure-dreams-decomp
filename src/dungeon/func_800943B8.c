@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 extern void func_800478B8(void *arg0);
@@ -11,14 +12,6 @@ typedef struct {
 extern GlobalFlags D_800814A0;
 
 
-typedef struct S_80099B18_0 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-} S_80099B18_0;   /* arg2 in func_80099B18 */
 
 typedef struct S_80099B18_1_pre {
     u16 unk_00;
@@ -39,14 +32,14 @@ typedef struct S_80099B18_2 {
     s32 unk_14;
 } S_80099B18_2;   /* arg1 in func_80099B18 */
 
-void func_80099B18(void *arg0, S_80099B18_2 *arg1, S_80099B18_0 *arg2)
+void func_80099B18(void *arg0, S_80099B18_2 *arg1, Rec_D_80082E80 *arg2)
 {
     u16 temp_v0;
     u8 temp_v0_3;
     u8 temp_v0_4;
     u8 temp_v1_2;
 
-    if (arg2->unk_14 & 0xE000) {
+    if (arg2->unk_14.at00_u16.v & 0xE000) {
         ((S_80099B18_1_pre *)arg0)[-1].unk_00 =
             (s16)(((S_80099B18_1_pre *)arg0)[-1].unk_00 | 0x8000);
         D_800814A0.value |= 0x8000;
@@ -56,8 +49,8 @@ void func_80099B18(void *arg0, S_80099B18_2 *arg1, S_80099B18_0 *arg2)
     temp_v0 = ((S_80099B18_1 *)arg0)->unk_10 + 1;
     ((S_80099B18_1 *)arg0)->unk_10 = temp_v0;
     if ((temp_v0 << 0x10) > 0) {
-        arg2->unk_14 =
-            (u16)(arg2->unk_14 & 0xFF7F);
+        arg2->unk_14.at00_u16.v =
+            (u16)(arg2->unk_14.at00_u16.v & 0xFF7F);
         func_800478B8(arg2);
     }
     if (((S_80099B18_1 *)arg0)->unk_0E != 0) {
@@ -73,14 +66,14 @@ void func_80099B18(void *arg0, S_80099B18_2 *arg1, S_80099B18_0 *arg2)
             (s32)(arg1->unk_10 - (arg1->unk_10 >> 2));
         arg1->unk_14 =
             (s32)(arg1->unk_14 - (arg1->unk_14 >> 2));
-        temp_v0_3 = arg2->unk_0C;
-        temp_v1_2 = arg2->unk_0D;
-        arg2->unk_0C =
+        temp_v0_3 = arg2->unk_0C.at00_u8.v;
+        temp_v1_2 = arg2->unk_0C.at01_u8.v;
+        arg2->unk_0C.at00_u8.v =
             (u8)(temp_v0_3 - (temp_v0_3 >> 1));
-        temp_v0_4 = arg2->unk_0E;
-        arg2->unk_0D =
+        temp_v0_4 = arg2->unk_0C.at02_u8.v;
+        arg2->unk_0C.at01_u8.v =
             (u8)(temp_v1_2 - (temp_v1_2 >> 1));
-        arg2->unk_0E =
+        arg2->unk_0C.at02_u8.v =
             (u8)(temp_v0_4 - (temp_v0_4 >> 1));
     }
 }

@@ -1,12 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_800A05A4_0 {
-    u8 pad_00[0x72];
-    s8 unk_72;
-    s8 unk_73;
-    u8 pad_74[0x14];
-    s16 unk_88;
-} S_800A05A4_0;   /* arg0 in func_800A05A4 */
 
 typedef struct S_800A05A4_1 {
     u8 pad_00[0x88];
@@ -79,7 +73,7 @@ void *func_800A05A4(void *arg0, s32 arg1, s32 arg2, u32 arg3, volatile s32 arg4)
         if (0) {   }
         out0 = *(u8 *)xstep;
         out0 -= x;
-        ((S_800A05A4_0 *)arg0)->unk_72 = out0;
+        ((Rec_D_800E3D7C *)arg0)->unk_72.as_s8 = out0;
         out1 = *(u8 *)(u32)slot7;
         ASM_CLOBBER("$20");   /* MATCH pin: retail register colouring depends on it */
         out0 = 0;
@@ -96,13 +90,13 @@ collision_exit:
         if (0) {   }
         out0 = *(u8 *)(u32)slot5;
         out0 -= x;
-        ((S_800A05A4_0 *)arg0)->unk_72 = out0;
+        ((Rec_D_800E3D7C *)arg0)->unk_72.as_s8 = out0;
         out1 = *(u8 *)(u32)slot2;
         ASM_KEEP_NV(out1);   /* MATCH pin: keeps a statement from moving across a call/branch */
         out0 = 0;
         ASM_KEEP(out0);   /* MATCH pin: load-bearing for the whole function shape */
         out1 -= y;
-        ((S_800A05A4_0 *)arg0)->unk_73 = out1;
+        ((Rec_D_800E3D7C *)arg0)->unk_73.as_s8 = out1;
         func_800A079C();
     }
 
@@ -115,9 +109,9 @@ blocked_exit:
         out0 = 0;
         ASM_KEEP(out0);   /* MATCH pin: load-bearing for the whole function shape */
         out1 = -x;
-        ((S_800A05A4_0 *)arg0)->unk_72 = out1;
+        ((Rec_D_800E3D7C *)arg0)->unk_72.as_s8 = out1;
         out1 = -y;
-        ((S_800A05A4_0 *)arg0)->unk_73 = out1;
+        ((Rec_D_800E3D7C *)arg0)->unk_73.as_s8 = out1;
         func_800A079C();
     }
 
@@ -136,7 +130,7 @@ start:
             if (found != 0) {
                 s32 delta;
 
-                delta = ((S_800A05A4_1 *)found)->unk_88 - ((S_800A05A4_0 *)arg0)->unk_88;
+                delta = ((S_800A05A4_1 *)found)->unk_88 - ((Rec_D_800E3D7C *)arg0)->unk_88.as_s16;
                 if (delta < 0) {
                     delta = -delta;
                 }
@@ -198,7 +192,7 @@ start:
         } while (slot7 < signed_loop_limit);
     }
 
-    ((S_800A05A4_0 *)arg0)->unk_72 = x;
-    ((S_800A05A4_0 *)arg0)->unk_73 = y;
+    ((Rec_D_800E3D7C *)arg0)->unk_72.as_s8 = x;
+    ((Rec_D_800E3D7C *)arg0)->unk_73.as_s8 = y;
     return found;
 }

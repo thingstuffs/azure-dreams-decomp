@@ -1,5 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_8008ACDC_arg0.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 void func_80048A44(void *, u8, s32, s32);
 s32 func_8004CAE8(s32, s32);
@@ -22,45 +25,18 @@ extern u8 D_800DD100[];
 extern u8 D_800E06E3[];
 extern u8 D_800E06EB[];
 
-typedef struct S_8009255C_0 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x6C];
-    s32 unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-    u8 pad_9C[0x74];
-    s32 unk_110;
-    u8 pad_114[0x10];
-    s32 unk_124;
-} S_8009255C_0;   /* arg0 in func_8009255C */
 
 typedef struct S_8009255C_1 {
     u8 pad_00[0xC8];
     s16 unk_C8;
 } S_8009255C_1;   /* base in func_8009255C */
 
-typedef struct S_8009255C_2 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x5C];
-    u16 unk_88;
-} S_8009255C_2;   /* arg3 in func_8009255C */
 
 typedef struct S_8009255C_3 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
 } S_8009255C_3;   /* call_arg in func_8009255C */
 
-typedef struct S_8009255C_4 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_8009255C_4;   /* arg2 in func_8009255C */
 
 typedef struct S_8009255C_5 {
     u8 pad_00[0x8];
@@ -89,7 +65,7 @@ typedef struct S_8009255C_7 {
     s16 unk_AA;
 } S_8009255C_7;   /* temp_v1_3 in func_8009255C */
 
-void func_8009255C(void *arg0, s32 arg1, S_8009255C_4 *arg2, S_8009255C_2 *arg3) {
+void func_8009255C(void *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
     s32 temp_s0;
     s32 temp_v0_2;
     s32 temp_v1;
@@ -102,7 +78,7 @@ void func_8009255C(void *arg0, s32 arg1, S_8009255C_4 *arg2, S_8009255C_2 *arg3)
     u8 *entry;
     u8 *table;
 
-    temp_v1 = ((S_8009255C_0 *)arg0)->unk_9B;
+    temp_v1 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9B.as_u8;
     if (temp_v1 == 1) {
         goto state_1;
     }
@@ -122,13 +98,13 @@ state_0:
     ASM_KEEP(page);   /* MATCH pin: load-bearing for the whole function shape */
     base = (volatile s16 *)(page + 0x3160);
     if ((((((S_8009255C_1 *)base)->unk_C8 +
-             arg3->unk_2A + 0x100) >> 9) & 7) == 2) {
+             arg3->unk_2A.as_s16 + 0x100) >> 9) & 7) == 2) {
         call_arg = arg2;
         ASM_KEEP(call_arg);   /* MATCH pin: retail register colouring depends on it */
         table = D_800DD100;
         call_arg->unk_2C = table;
         entry = (u8 *)((s32)(((((S_8009255C_1 *)base)->unk_C8 +
-                                arg3->unk_2A + 0x100) >> 9) &
+                                arg3->unk_2A.as_s16 + 0x100) >> 9) &
                               7) +
                        (s32)table);
         func_80048A44(
@@ -138,20 +114,20 @@ state_0:
             1);
         goto increment;
     }
-    arg3->unk_2A =
-        (u16)arg3->unk_2A + 0x200;
+    arg3->unk_2A.as_s16 =
+        (u16)arg3->unk_2A.as_s16 + 0x200;
     goto end;
 
 state_1:
     if (func_8004CAE8(arg2->unk_08, 0) == 0) {
         goto end;
     }
-    if (((S_8009255C_0 *)arg0)->unk_110 == (s32)&D_80081484) {
-        ((S_8009255C_0 *)arg0)->unk_124 = 0;
-        ((S_8009255C_0 *)arg0)->unk_1C &= 0xFFEFFFFF;
+    if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_110 == (s32)&D_80081484) {
+        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_124 = 0;
+        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_1C &= 0xFFEFFFFF;
     }
     temp_v0 = func_800A8608(
-        arg0 - 0x20, ((S_8009255C_0 *)arg0)->unk_110, 0, 0, 0);
+        arg0 - 0x20, ((Rec_func_8008ACDC_arg0 *)arg0)->unk_110, 0, 0, 0);
     if (temp_v0 != NULL) {
         ((S_8009255C_5 *)temp_v0)->unk_10 = (s32)&D_8008D470;
         temp_v1_2 = ((S_8009255C_5 *)temp_v0)->unk_08;
@@ -160,7 +136,7 @@ state_1:
         temp_v1_2->unk_06 =
             (arg2->unk_25 << 6) + 0x20;
         temp_v1_2->unk_0A =
-            arg3->unk_88 - 0x30;
+            arg3->unk_88.as_u16 - 0x30;
         temp_v1_3 = temp_v0 + 0x20;
         temp_v1_3->unk_A8 = 0x1E;
         temp_v1_3->unk_AA = 2;
@@ -173,28 +149,28 @@ state_1:
         temp_v0_2 = func_80099734(arg3, temp_v0_2);
         temp_v0_2 = func_80099194(D_800E06E3, temp_v0_2);
         temp_v0_2 = func_80099368(
-            ((S_8009255C_0 *)arg0)->unk_110, temp_v0_2);
+            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_110, temp_v0_2);
         temp_v0_2 = func_80099194(D_800E06EB, temp_v0_2);
         temp_v0_2 = func_8009965C(
-            ((S_8009255C_0 *)arg0)->unk_110, temp_v0_2);
+            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_110, temp_v0_2);
         func_80099290(temp_v0_2);
         func_800A5720(temp_s0);
         func_800A56E0(0x509);
     }
 
 increment:
-    ((S_8009255C_0 *)arg0)->unk_9B++;
+    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9B.as_u8++;
     goto end;
 
 state_2:
-    if ((arg2->unk_14 & 0xE000) == 0) {
+    if ((arg2->unk_14.at00_u16.v & 0xE000) == 0) {
         goto end;
     }
-    if (((S_8009255C_0 *)arg0)->unk_110 != 0) {
+    if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_110 != 0) {
         func_80091934(arg0, arg1, arg2, arg3);
         goto end;
     }
-    ((S_8009255C_0 *)arg0)->unk_8C = (s32)&D_8008ACDC;
+    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8C.as_s32 = (s32)&D_8008ACDC;
 
 end:
     return;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 M2C_UNK func_8009451C();        /* extern */
 M2C_UNK func_80094714();        /* extern */
@@ -21,14 +22,8 @@ typedef struct S_80092DA8_0 {
     s32 unk_10;
 } S_80092DA8_0;   /* town_state in func_80092DA8 */
 
-typedef struct S_80092DA8_1 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_80092DA8_1;   /* arg1 in func_80092DA8 */
 
-void func_80092DA8(s32 arg0, S_80092DA8_1 *arg1, M2C_UNK arg2) {
+void func_80092DA8(s32 arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
     s16 temp_v0;
     u8 *town_state;
 
@@ -40,7 +35,7 @@ void func_80092DA8(s32 arg0, S_80092DA8_1 *arg1, M2C_UNK arg2) {
         func_80094714(arg0, arg1, arg2);
     }
     temp_v0 = func_80095978(arg1, &D_800FE488);
-    if (arg1->unk_0A >= temp_v0) {
+    if (arg1->unk_08.at02_s16.v >= temp_v0) {
         func_80094910();
         func_80095A94(arg1, temp_v0, &D_800FE488);
         func_800ABD74(arg1);
@@ -51,7 +46,7 @@ void func_80092DA8(s32 arg0, S_80092DA8_1 *arg1, M2C_UNK arg2) {
         goto no_update;
     }
     func_80094910();
-    arg1->unk_14 = 0;
+    arg1->unk_14.as_s32 = 0;
     func_800954F4(arg1);
 
 shared_update:

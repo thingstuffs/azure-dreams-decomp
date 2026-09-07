@@ -1,22 +1,12 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_80094268_arg0.h"
 
 typedef struct S_8009E85C_0_pre {
     M2C_UNK (*unk_00)(void *, void *, void *);
     u8 pad_04[0xC];
 } S_8009E85C_0_pre;   /* the 0x10 bytes before arg0 in func_8009E85C, addressed as arg0[-1] */
 
-typedef struct S_8009E85C_0 {
-    u8 pad_00[0x4C];
-    u8 unk_4C;
-    u8 unk_4D;
-    u8 pad_4E[0x1E];
-    s16 unk_6C;
-    u8 pad_6E[0x27];
-    u8 unk_95;
-    u8 pad_96[0xA];
-    s32 unk_A0;
-} S_8009E85C_0;   /* arg0 in func_8009E85C */
 
 typedef struct S_8009E85C_1 {
     u8 pad_00[0x8];
@@ -72,17 +62,17 @@ void func_8009E85C(void *arg0, S_8009E85C_1 *arg1, S_8009E85C_2 *arg2) {
     u8 temp_v1;
 
     ((S_8009E85C_0_pre *)arg0)[-1].unk_00 = D_8009E714;
-    ((S_8009E85C_0 *)arg0)->unk_A0 = 0xFFE00000;
+    ((Rec_func_80094268_arg0 *)arg0)->unk_A0 = 0xFFE00000;
     arg1->unk_08 = 0xFFE00000;
-    ((S_8009E85C_0 *)arg0)->unk_4C = page[(((S_8009E85C_0 *)arg0)->unk_95 * 4) + 0x980];
-    temp_v1 = page[(((S_8009E85C_0 *)arg0)->unk_95 * 4) + 0x981];
-    ((S_8009E85C_0 *)arg0)->unk_4D = temp_v1;
+    ((Rec_func_80094268_arg0 *)arg0)->unk_4C = page[(((Rec_func_80094268_arg0 *)arg0)->unk_95 * 4) + 0x980];
+    temp_v1 = page[(((Rec_func_80094268_arg0 *)arg0)->unk_95 * 4) + 0x981];
+    ((Rec_func_80094268_arg0 *)arg0)->unk_4D = temp_v1;
     if (temp_v1 == 0x12) {
         arg2->unk_08 = &D_8006E240;
         func_8009E918();
         return;
     }
-    func_8009DC8C(arg0, arg2, ((S_8009E85C_0 *)arg0)->unk_4C, M2C_FIELD(page, s32 *, ((page[(((S_8009E85C_0 *)arg0)->unk_95 * 4) + 0x983] & 0x3F) * 0x54) + 0xA94));
+    func_8009DC8C(arg0, arg2, ((Rec_func_80094268_arg0 *)arg0)->unk_4C, M2C_FIELD(page, s32 *, ((page[(((Rec_func_80094268_arg0 *)arg0)->unk_95 * 4) + 0x983] & 0x3F) * 0x54) + 0xA94));
     func_80033CD8(arg0, &D_80045340);
     init_flags = 0x20;
     active_base = (s32 *)0x800D0000;
@@ -91,7 +81,7 @@ void func_8009E85C(void *arg0, S_8009E85C_1 *arg1, S_8009E85C_2 *arg2) {
     active = ((S_8009E85C_3 *)active_base)->unk_9C8;
     arg2->unk_14.u = (u16)(flags | 0x1C);
     if (active == 0) {
-        ((S_8009E85C_0 *)arg0)->unk_6C = func_800374F4(0x1000);
+        ((Rec_func_80094268_arg0 *)arg0)->unk_6C.as_s16 = func_800374F4(0x1000);
         func_8009E95C();
         return;
     }

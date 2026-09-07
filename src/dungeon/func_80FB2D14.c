@@ -1,18 +1,8 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef s32 M2C_UNK;
 
-typedef struct S_80172514_0 {
-    u8 pad_00[0x2A];
-    s16 unk_2A;
-    u8 pad_2C[0x41];
-    u8 unk_6D;
-    u8 pad_6E[0x3];
-    u8 unk_71;
-    u8 pad_72[0x12];
-    u8 unk_84;
-    u8 unk_85;
-} S_80172514_0;   /* arg3 in func_80172514 */
 
 typedef struct S_80172514_1 {
     u8 pad_00[0x8C];
@@ -34,7 +24,7 @@ extern u16 D_80083462;
 extern u8 D_80175258[];
 
 void func_80172514(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
-    ((S_80172514_0 *)arg3)->unk_71 &= 0x7F;
+    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 &= 0x7F;
 
     if (!(D_80083462 & 0x2000) &&
         ((func_800A2B5C(arg3) << 16) == 0) &&
@@ -45,20 +35,20 @@ void func_80172514(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
 
         if (((S_80172514_1 *)arg0)->unk_98 & 0x8000) {
             ((S_80172514_1 *)arg0)->unk_9A = 0x17;
-            ((S_80172514_0 *)arg3)->unk_84 = 0x28;
-            ((S_80172514_0 *)arg3)->unk_85 = 0x10;
+            ((Rec_D_800E3D7C *)arg3)->unk_84.as_u8 = 0x28;
+            ((Rec_D_800E3D7C *)arg3)->unk_85.as_u8 = 0x10;
         } else {
             ((S_80172514_1 *)arg0)->unk_9A = 0x11;
-            ((S_80172514_0 *)arg3)->unk_84 = 0x7C;
-            ((S_80172514_0 *)arg3)->unk_85 = 0;
+            ((Rec_D_800E3D7C *)arg3)->unk_84.as_u8 = 0x7C;
+            ((Rec_D_800E3D7C *)arg3)->unk_85.as_u8 = 0;
         }
 
         (*(void * *)((u8 *)arg2 + 0x2C)) = D_80175258;
         func_80047784(
             arg2,
-            D_80175258[((s32)(D_80083228 + ((S_80172514_0 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            D_80175258[((s32)(D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        ((S_80172514_0 *)arg3)->unk_6D--;
-        func_8009C93C(arg3, arg2, ((S_80172514_0 *)arg3)->unk_2A, 1, 0);
+        ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8--;
+        func_8009C93C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1, 0);
     }
 }

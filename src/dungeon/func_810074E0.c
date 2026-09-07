@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80172CE0_0 {
     u8 pad_00[0x8C];
@@ -9,33 +11,8 @@ typedef struct S_80172CE0_0 {
     u8 unk_9B;
 } S_80172CE0_0;   /* arg0 in func_80172CE0 */
 
-typedef struct S_80172CE0_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80172CE0_1;   /* arg1 in func_80172CE0 */
 
-typedef struct S_80172CE0_2 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x8];
-    u8 unk_28;
-    u8 pad_29[0x41];
-    s16 unk_6A;
-} S_80172CE0_2;   /* arg3 in func_80172CE0 */
 
-typedef struct S_80172CE0_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172CE0_3;   /* arg2 in func_80172CE0 */
 
 
 
@@ -49,7 +26,7 @@ extern s32 D_80083460;
 extern s32 D_80171058;
 extern s32 D_801748C0;
 
-void func_80172CE0(S_80172CE0_0 *arg0, S_80172CE0_1 *arg1, S_80172CE0_3 *arg2, void *arg3)
+void func_80172CE0(S_80172CE0_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
 {
     s16 timer;
     s32 value;
@@ -58,59 +35,59 @@ void func_80172CE0(S_80172CE0_0 *arg0, S_80172CE0_1 *arg1, S_80172CE0_3 *arg2, v
     switch (arg0->unk_9B) {
     case 0:
         func_800AD4D0(arg3);
-        arg1->unk_0C =
+        arg1->unk_0C.as_s32 =
             -*(s16 *)(&D_8006CCD8 +
-                (((u16)((S_80172CE0_2 *)arg3)->unk_6A >> 8) & 0xE)) << 15;
-        arg1->unk_10 =
+                (((u16)((Rec_D_800E3D7C *)arg3)->unk_6A.as_s16 >> 8) & 0xE)) << 15;
+        arg1->unk_10.at00_s32.v =
             -*(s16 *)(&D_8006CCE8 +
-                (((u16)((S_80172CE0_2 *)arg3)->unk_6A >> 8) & 0xE)) << 15;
+                (((u16)((Rec_D_800E3D7C *)arg3)->unk_6A.as_s16 >> 8) & 0xE)) << 15;
         arg0->unk_9B++;
 
-        if (((S_80172CE0_2 *)arg3)->unk_28 == 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
             goto start_action;
         }
-        if (arg2->unk_14 & 0x8000) {
+        if (arg2->unk_14.at00_u16.v & 0x8000) {
             arg0->unk_96.s = 0;
             arg0->unk_9B = 2;
             return;
         }
-        if (((S_80172CE0_2 *)arg3)->unk_1C & 0x228) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228) {
             timer = 8;
         } else {
             timer = -1;
         }
         arg0->unk_96.s = timer;
-        arg1->unk_0C -= arg1->unk_0C / 4;
-        arg1->unk_10 -= arg1->unk_10 / 4;
+        arg1->unk_0C.as_s32 -= arg1->unk_0C.as_s32 / 4;
+        arg1->unk_10.at00_s32.v -= arg1->unk_10.at00_s32.v / 4;
 
     case 1:
-        arg1->unk_0C +=
+        arg1->unk_0C.as_s32 +=
             *(s16 *)(&D_8006CCD8 +
-                (((u16)((S_80172CE0_2 *)arg3)->unk_6A >> 8) & 0xE)) << 10;
+                (((u16)((Rec_D_800E3D7C *)arg3)->unk_6A.as_s16 >> 8) & 0xE)) << 10;
         {
             register s32 offset ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
 
-            offset = ((u16)((S_80172CE0_2 *)arg3)->unk_6A >> 8) & 0xE;
-            arg1->unk_10 +=
+            offset = ((u16)((Rec_D_800E3D7C *)arg3)->unk_6A.as_s16 >> 8) & 0xE;
+            arg1->unk_10.at00_s32.v +=
                 *(s16 *)(&D_8006CCE8 + offset) << 10;
         }
         if (arg0->unk_96.s > 0) {
             arg0->unk_96.s = arg0->unk_96.u - 1;
-        } else if (arg2->unk_14 & 0x6000) {
+        } else if (arg2->unk_14.at00_u16.v & 0x6000) {
             arg0->unk_96.s = 0;
         }
         if (arg0->unk_96.s != 0) {
             return;
         }
-        if (((S_80172CE0_2 *)arg3)->unk_28 != 0) {
+        if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
             goto increment_state;
         }
         goto start_action;
 
 start_action:
-        arg1->unk_14 = 0;
-        arg1->unk_10 = 0;
-        arg1->unk_0C = 0;
+        arg1->unk_14.as_s32 = 0;
+        arg1->unk_10.at00_s32.v = 0;
+        arg1->unk_0C.as_s32 = 0;
         func_800AAA54(arg0, arg1, arg2, &D_801748C0);
         return;
 
@@ -124,16 +101,16 @@ increment_state:
         if (timer != 0) {
             {
                 s32 coord = arg2->unk_24 << 6;
-                s32 current = arg1->unk_02 - 0x20;
+                s32 current = arg1->unk_00.at02_s16.v - 0x20;
 
-                arg1->unk_0C =
+                arg1->unk_0C.as_s32 =
                     ((coord - current) << 15) / timer;
             }
             {
                 s32 coord = arg2->unk_25 << 6;
-                s32 current = arg1->unk_06 - 0x20;
+                s32 current = arg1->unk_04.at02_s16.v - 0x20;
 
-                arg1->unk_10 =
+                arg1->unk_10.at00_s32.v =
                     ((coord - current) << 15) /
                     arg0->unk_96.s;
             }
@@ -143,9 +120,9 @@ increment_state:
         if ((s32)(timer << 16) > 0) {
             return;
         }
-        arg1->unk_14 = 0;
-        arg1->unk_10 = 0;
-        arg1->unk_0C = 0;
+        arg1->unk_14.as_s32 = 0;
+        arg1->unk_10.at00_s32.v = 0;
+        arg1->unk_0C.as_s32 = 0;
         func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
 
         state = &D_80083460;

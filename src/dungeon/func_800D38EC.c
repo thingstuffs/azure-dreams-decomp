@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 
 extern void func_8003DB94(void *, void *, s32);
@@ -27,15 +28,6 @@ typedef struct S_800D904C_0 {
     s16 unk_8A;
 } S_800D904C_0;   /* state in func_800D904C */
 
-typedef struct S_800D904C_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_800D904C_1;   /* arg2 in func_800D904C */
 
 typedef struct S_800D904C_2 {
     u8 pad_00[0x74];
@@ -74,7 +66,7 @@ void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
 
     if ((((S_800D904C_0 *)state)->unk_71.s > 0) &&
         ((s32)((S_800D904C_0 *)state)->unk_71.u > ((S_800D904C_0 *)state)->unk_8A)) {
-        current = ((S_800D904C_1 *)arg2)->unk_2C;
+        current = ((Rec_D_80082E80 *)arg2)->unk_2C.as_pv;
         if (current != D_800E260C) {
             void *dispatch;
 
@@ -86,7 +78,7 @@ void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
             return;
         }
 
-        if (((S_800D904C_1 *)arg2)->unk_14 & 0x6000) {
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
             func_8003DB94(
                 arg2,
                 *(void **)(D_800E260C +
@@ -94,8 +86,8 @@ void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
                 0);
         }
 
-        old_x = ((S_800D904C_1 *)arg2)->unk_24;
-        old_y = ((S_800D904C_1 *)arg2)->unk_25;
+        old_x = ((Rec_D_80082E80 *)arg2)->unk_24;
+        old_y = ((Rec_D_80082E80 *)arg2)->unk_25;
         mode = 0x3000;
         if (((S_800D904C_0 *)state)->unk_1C & 0x2000) {
             mode = 0x300;
@@ -109,16 +101,16 @@ void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
                                     (u8 *)arg0 + 0x98);
         second_result = func_8009A66C(first_result, arg2, state, 0x20);
 
-        ((S_800D904C_1 *)arg2)->unk_24 =
+        ((Rec_D_80082E80 *)arg2)->unk_24 =
             ((S_800D904C_4 *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->unk_74;
         mode = 0x3000;
-        ((S_800D904C_1 *)arg2)->unk_25 =
+        ((Rec_D_80082E80 *)arg2)->unk_25 =
             ((S_800D904C_4 *)((u8 *)state + ((S_800D904C_0 *)state)->unk_8A))->unk_7C;
         ((S_800D904C_0 *)state)->unk_8A = (u16)((S_800D904C_0 *)state)->unk_8A + 1;
 
         {
-            s32 nx = ((S_800D904C_1 *)arg2)->unk_24;
-            s32 ny = ((S_800D904C_1 *)arg2)->unk_25;
+            s32 nx = ((Rec_D_80082E80 *)arg2)->unk_24;
+            s32 ny = ((Rec_D_80082E80 *)arg2)->unk_25;
             if (((S_800D904C_0 *)state)->unk_1C & 0x2000) {
                 mode = 0x300;
             }
@@ -127,7 +119,7 @@ void func_800D904C(void *arg0, s32 arg1, void *arg2, void *arg3)
 
         ((S_800D904C_0 *)state)->unk_2A = first_result;
         if ((second_result == 3) &&
-            ((D_80083462 & 0x80) || (((S_800D904C_1 *)arg2)->unk_14 & 0x8000))) {
+            ((D_80083462 & 0x80) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000))) {
             ((S_800D904C_3 *)arg0)->unk_9A = 0xF;
             func_800D9240();
             return;

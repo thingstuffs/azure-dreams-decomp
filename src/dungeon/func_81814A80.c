@@ -1,12 +1,10 @@
 #include "common.h"
+#include "records/Rec_D_800814A0.h"
 
 typedef struct S_81814A80_0 {
     u16 unk_00;
 } S_81814A80_0;   /* state in func_81814A80; pointer addresses record offset 0x2 */
 
-typedef struct S_81814A80_1 {
-    s32 unk_00;
-} S_81814A80_1;   /* &D_800814A0 in func_81814A80 */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -96,10 +94,10 @@ done:
 
     if ((s16) state->unk02 <= 0) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        ((S_81814A80_1 *)(&D_800814A0))->unk_00 = ((S_81814A80_1 *)(&D_800814A0))->unk_00 | 0x8000;
+        ((Rec_D_800814A0 *)(&D_800814A0))->unk_00 = ((Rec_D_800814A0 *)(&D_800814A0))->unk_00 | 0x8000;
     }
     if (flags->unk14 & 0x8000) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        ((S_81814A80_1 *)(&D_800814A0))->unk_00 = ((S_81814A80_1 *)(&D_800814A0))->unk_00 | 0x8000;
+        ((Rec_D_800814A0 *)(&D_800814A0))->unk_00 = ((Rec_D_800814A0 *)(&D_800814A0))->unk_00 | 0x8000;
     }
 }

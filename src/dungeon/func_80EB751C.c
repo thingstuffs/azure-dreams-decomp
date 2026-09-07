@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80172D1C_0 {
     u8 pad_00[0x8C];
@@ -33,16 +35,6 @@ typedef struct S_80172D1C_3 {
     s16 unk_48;
 } S_80172D1C_3;   /* (u8 *)calc_other in func_80172D1C */
 
-typedef struct S_80172D1C_4 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x2];
-    s32 unk_28;
-} S_80172D1C_4;   /* arg2 in func_80172D1C */
 
 typedef struct S_80172D1C_5 {
     u8 pad_00[0xC];
@@ -57,16 +49,6 @@ typedef struct S_80172D1C_5 {
     s32 unk_28;
 } S_80172D1C_5;   /* part in func_80172D1C */
 
-typedef struct S_80172D1C_6 {
-    u8 pad_00[0x1C];
-    s32 unk_1C;
-    u8 pad_20[0x8];
-    u8 unk_28;
-    u8 pad_29[0x1];
-    s16 unk_2A;
-    u8 pad_2C[0x3E];
-    u16 unk_6A;
-} S_80172D1C_6;   /* arg3 in func_80172D1C */
 
 typedef struct S_80172D1C_7 {
     u8 pad_00[0x10];
@@ -162,7 +144,7 @@ void func_80172D1C(void *arg0, void *arg1, void *arg2, void *arg3) {
                 calc_other = (s32)obj + 0x20;
                 ASM_KEEP(calc_other);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
                 ((S_80172D1C_3 *)((u8 *)calc_other))->unk_48 = 10;
-                flags = ((S_80172D1C_4 *)arg2)->unk_28;
+                flags = ((Rec_D_80082E80 *)arg2)->unk_28.at00_s32.v;
                 ASM_KEEP(flags);   /* MATCH pin: retail schedule: same instructions, different order without it */
                 calc_other = ((S_80172D1C_5 *)part)->unk_14;
                 ((S_80172D1C_5 *)part)->unk_1E = 0x1800;
@@ -171,7 +153,7 @@ void func_80172D1C(void *arg0, void *arg1, void *arg2, void *arg3) {
                 ASM_KEEP(calc_other);   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
                 ((S_80172D1C_5 *)part)->unk_28 = flags;
                 ((S_80172D1C_5 *)part)->unk_14 = calc_other;
-                calc_other = ((S_80172D1C_4 *)arg2)->unk_12;
+                calc_other = ((Rec_D_80082E80 *)arg2)->unk_12.at00_u16.v;
                 ((S_80172D1C_5 *)part)->unk_10 = 0x20;
                 ((S_80172D1C_5 *)part)->unk_12 = calc_other - 0x80;
                 func_80047784((void *)calc_half, call_a1, call_a2, flags);
@@ -181,7 +163,7 @@ void func_80172D1C(void *arg0, void *arg1, void *arg2, void *arg3) {
         } while (i >= 0);
     }
 
-    i = (((S_80172D1C_6 *)arg3)->unk_6A >> 9) & 7;
+    i = (((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 9) & 7;
     state = ((S_80172D1C_0 *)arg0)->unk_9B;
     if (state == 1) {
         goto state_1;
@@ -202,14 +184,14 @@ check_state_2:
 
 state_0:
     func_800AD4D0(arg3);
-    if (((S_80172D1C_6 *)arg3)->unk_28 == 0) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
         ((S_80172D1C_2 *)arg1)->unk_14 = 0;
         ((S_80172D1C_2 *)arg1)->unk_10.s = 0;
         ((S_80172D1C_2 *)arg1)->unk_0C.s = 0;
         func_800AAA54(arg0, arg1, arg2, D_80174194);
         goto end;
     }
-    if (((S_80172D1C_4 *)arg2)->unk_14 & 0x8000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172D1C_0 *)arg0)->unk_96.s = 0;
         ((S_80172D1C_0 *)arg0)->unk_9B = 2;
         goto end;
@@ -219,7 +201,7 @@ state_0:
     ((S_80172D1C_2 *)arg1)->unk_10.s = D_8006CCE8[i] << 18;
     ((S_80172D1C_0 *)arg0)->unk_9B++;
     state_timer = -1;
-    if (((S_80172D1C_6 *)arg3)->unk_1C & 0x228) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228) {
         state_timer = 8;
     }
     ((S_80172D1C_0 *)arg0)->unk_96.s = state_timer;
@@ -237,7 +219,7 @@ state_1:
         ((S_80172D1C_0 *)arg0)->unk_96.s = ((S_80172D1C_0 *)arg0)->unk_96.u - 1;
         goto timer_join;
     }
-    if (((S_80172D1C_4 *)arg2)->unk_14 & 0x6000) {
+    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
         ((S_80172D1C_0 *)arg0)->unk_96.s = 0;
     }
 
@@ -245,7 +227,7 @@ timer_join:
     if (((S_80172D1C_0 *)arg0)->unk_96.s != 0) {
         goto end;
     }
-    if (((S_80172D1C_6 *)arg3)->unk_28 == 0) {
+    if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
         ((S_80172D1C_0 *)arg0)->unk_9B = 0;
         ((S_80172D1C_2 *)arg1)->unk_14 = 0;
         ((S_80172D1C_2 *)arg1)->unk_10.s = 0;
@@ -259,7 +241,7 @@ timer_join:
 
 state_2:
     if (((S_80172D1C_0 *)arg0)->unk_96.s != 0) {
-        calc = ((S_80172D1C_4 *)arg2)->unk_24;
+        calc = ((Rec_D_80082E80 *)arg2)->unk_24;
         calc_other = ((S_80172D1C_2 *)arg1)->unk_02.u;
         calc <<= 6;
         calc_other -= 0x20;
@@ -268,7 +250,7 @@ state_2:
         calc >>= 1;
         ((S_80172D1C_2 *)arg1)->unk_0C.u = calc;
 
-        calc = ((S_80172D1C_4 *)arg2)->unk_25;
+        calc = ((Rec_D_80082E80 *)arg2)->unk_25;
         calc_other = ((S_80172D1C_2 *)arg1)->unk_06.u;
         calc <<= 6;
         calc_other -= 0x20;
@@ -292,10 +274,10 @@ state_2:
     ((S_80172D1C_2 *)arg1)->unk_14 = 0;
     ((S_80172D1C_2 *)arg1)->unk_10.s = 0;
     ((S_80172D1C_2 *)arg1)->unk_0C.s = 0;
-    func_800A2B04(arg1, ((S_80172D1C_4 *)arg2)->unk_24, ((S_80172D1C_4 *)arg2)->unk_25);
+    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
     (*(void * *)((u8 *)arg2 + 0x2C)) = D_8017418C;
     func_80047784(arg2,
-                  D_8017418C[((D_80083228 + ((S_80172D1C_6 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+                  D_8017418C[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                   0);
     global_base = D_80083460;
     if (((S_80172D1C_7 *)global_base)->unk_10 == (s32)((u8 *)arg3 - 0x20)) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_800242E0_0 {
     void * unk_00;
@@ -23,10 +24,6 @@ typedef struct S_800242E0_2 {
     s16 unk_0A;
 } S_800242E0_2;   /* arg1 in func_800242E0 */
 
-typedef struct S_800242E0_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_800242E0_3;   /* arg2 in func_800242E0 */
 
 
 
@@ -37,7 +34,7 @@ extern s32 func_80064584(s32);
 extern s32 rand(void);
 extern u8 D_800DEC70[];
 
-void func_800242E0(S_800242E0_0 *arg0, S_800242E0_2 *arg1, S_800242E0_3 *arg2) {
+void func_800242E0(S_800242E0_0 *arg0, S_800242E0_2 *arg1, Rec_D_80082E80 *arg2) {
     s32 temp_s0;
     u16 temp_v0;
     S_800242E0_1 *temp_v1;
@@ -55,7 +52,7 @@ void func_800242E0(S_800242E0_0 *arg0, S_800242E0_2 *arg1, S_800242E0_3 *arg2) {
     }
     arg1->unk_0A = (s16)(arg0->unk_0C + arg0->unk_04);
     func_800478B8(arg2);
-    if (arg2->unk_14 & 0x6000) {
+    if (arg2->unk_14.at00_u16.v & 0x6000) {
         func_8003DB94(arg2, D_800DEC70, 0);
     }
 }

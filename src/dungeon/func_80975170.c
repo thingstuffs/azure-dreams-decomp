@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082E80.h"
 
 typedef struct S_80975170_0_pre {
     u16 unk_00;
@@ -31,22 +32,13 @@ typedef struct S_80975170_2 {
     u16 unk_0A;
 } S_80975170_2;   /* src in func_80975170 */
 
-typedef struct S_80975170_3 {
-    u8 pad_00[0xC];
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0xD];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80975170_3;   /* arg2 in func_80975170 */
 
 
 extern void func_800478B8(void *arg0);
 extern s32 D_800814A0[3];
 
 
-void func_80975170(void *arg0, S_80975170_1 *arg1, S_80975170_3 *arg2)
+void func_80975170(void *arg0, S_80975170_1 *arg1, Rec_D_80082E80 *arg2)
 {
     s16 count;
     s32 shade;
@@ -58,16 +50,16 @@ void func_80975170(void *arg0, S_80975170_1 *arg1, S_80975170_3 *arg2)
     arg1->unk_06 = src->unk_06;
     arg1->unk_0A = src->unk_0A;
 
-    pos = arg2->unk_1E + 0x320;
-    arg2->unk_1E = pos;
-    arg2->unk_1C = pos;
+    pos = arg2->unk_1C.at02_u16.v + 0x320;
+    arg2->unk_1C.at02_u16.v = pos;
+    arg2->unk_1C.at00_u16.v = pos;
 
     count = ((S_80975170_0 *)arg0)->unk_96.s - 1;
     shade = (s32)(count * 0x50) / (s16)((S_80975170_0 *)arg0)->unk_AA;
     ((S_80975170_0 *)arg0)->unk_96.s = (u16)count;
-    arg2->unk_0E = (s8)shade;
-    arg2->unk_0D = (s8)shade;
-    arg2->unk_0C = (s8)shade;
+    arg2->unk_0C.at02_s8.v = (s8)shade;
+    arg2->unk_0C.at01_s8.v = (s8)shade;
+    arg2->unk_0C.at00_s8.v = (s8)shade;
     func_800478B8(arg2);
 
     if (((S_80975170_0 *)arg0)->unk_96.u <= 0) {

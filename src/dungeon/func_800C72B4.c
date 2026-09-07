@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_800CCA14_0 {
     u8 pad_00[0x10];
@@ -28,10 +29,6 @@ typedef struct S_800CCA14_2 {
     s8 unk_27;
 } S_800CCA14_2;   /* temp_v0_2 in func_800CCA14 */
 
-typedef struct S_800CCA14_3 {
-    u8 pad_00[0x11];
-    u8 unk_11;
-} S_800CCA14_3;   /* D_800E3D7C in func_800CCA14 */
 
 
 void *func_8003FE78();      /* extern */
@@ -42,7 +39,7 @@ M2C_UNK func_800CC88C();     /* extern */
 extern M2C_UNK D_80083460;
 extern M2C_UNK D_800CC370;
 extern M2C_UNK D_800CC9BC;
-extern S_800CCA14_3 *D_800E3D7C;
+extern Rec_D_800E3D7C *D_800E3D7C;
 extern u8 D_800E5908;
 extern M2C_UNK D_8014A000;
 
@@ -100,7 +97,7 @@ void func_800CCA14(u16 arg0, u16 arg1, u16 arg2) {
     } while (var_s4 >= 0);
     temp_v0_3 = func_8009B390(temp_v0->unk_20, temp_v0->unk_22, (s16) temp_v0->unk_24);
     if (temp_v0_3 != 0) {
-        func_8009CE1C(temp_v0_3, 0xC, D_800E3D7C->unk_11, 9, 0x400, 0, 3);
+        func_8009CE1C(temp_v0_3, 0xC, D_800E3D7C->unk_10.at01_u8.v, 9, 0x400, 0, 3);
     }
 }
 /* MECHANISM: Byte-scaled table arithmetic and a held D_80083460 base fixed addressing/prologue.

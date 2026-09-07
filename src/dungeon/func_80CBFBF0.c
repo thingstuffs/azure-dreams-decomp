@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_800AA258_arg2.h"
+#include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_801733F0_0 {
     u8 pad_00[0x8C];
@@ -9,30 +11,12 @@ typedef struct S_801733F0_0 {
     u8 unk_A7;
 } S_801733F0_0;   /* arg0 in func_801733F0 */
 
-typedef struct S_801733F0_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    void * unk_2C;
-} S_801733F0_1;   /* arg2 in func_801733F0 */
 
 typedef struct S_801733F0_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_801733F0_2;   /* global in func_801733F0 */
 
-typedef struct S_801733F0_3 {
-    u8 pad_00[0x1C];
-    u32 unk_1C;
-    u8 pad_20[0x5];
-    u8 unk_25;
-    u8 pad_26[0x4];
-    s16 unk_2A;
-    u8 pad_2C[0x38];
-    s16 unk_64;
-    u8 pad_66[0x7];
-    s8 unk_6D;
-} S_801733F0_3;   /* arg3 in func_801733F0 */
 
 typedef struct S_801733F0_4 {
     u8 pad_00[0x58];
@@ -62,7 +46,7 @@ extern u8 D_80176308[];
 extern u8 D_80176360[];
 extern u8 D_80176368[];
 
-void func_801733F0(S_801733F0_0 *arg0, void *arg1, S_801733F0_1 *arg2, S_801733F0_3 *arg3)
+void func_801733F0(S_801733F0_0 *arg0, void *arg1, Rec_func_800AA258_arg2 *arg2, Rec_D_800E3D7C *arg3)
 {
     u8 state;
 
@@ -79,31 +63,31 @@ void func_801733F0(S_801733F0_0 *arg0, void *arg1, S_801733F0_1 *arg2, S_801733F
         global = (u8 *)&D_80083460;
         ((S_801733F0_2 *)global)->unk_0A--;
         if (arg0->unk_A7 != 0) {
-            arg2->unk_2C = D_80176360;
+            arg2->unk_2C.as_pv = D_80176360;
         } else {
-            arg2->unk_2C = D_80176300;
+            arg2->unk_2C.as_pv = D_80176300;
         }
         func_80047784(
             arg2,
-            ((u8 *)arg2->unk_2C)[
-                ((D_80083228 + arg3->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)arg2->unk_2C.as_pv)[
+                ((D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         goto increment_state;
     }
 
     case 1:
-        if (arg3->unk_25 != 0) {
+        if (arg3->unk_24.at01_u8.v != 0) {
             if (arg0->unk_A7 != 0) {
-                arg2->unk_2C = D_80176368;
+                arg2->unk_2C.as_pv = D_80176368;
             } else {
-                arg2->unk_2C = D_80176308;
+                arg2->unk_2C.as_pv = D_80176308;
             }
         } else {
             if (D_80083462 & 0x1000) {
                 return;
             }
 
-            if ((arg3->unk_64 != 0) &&
+            if ((arg3->unk_64.as_s16 != 0) &&
                 func_800AA6B4(arg0, arg1, arg2, 0)) {
                 return;
             }
@@ -112,18 +96,18 @@ void func_801733F0(S_801733F0_0 *arg0, void *arg1, S_801733F0_1 *arg2, S_801733F
                 return;
             }
 
-            if (arg3->unk_1C & 0x100) {
+            if (arg3->unk_1C.as_u32 & 0x100) {
                 func_800AA258(arg0, arg1, arg2, arg3);
                 return;
             }
 
-            if (arg3->unk_1C & 0x80000) {
+            if (arg3->unk_1C.as_u32 & 0x80000) {
                 func_800AA888(arg0, arg1, arg2, arg3);
                 func_80173720(arg0, arg1, arg2, arg3);
                 return;
             }
 
-            if (arg3->unk_6D == 0) {
+            if (arg3->unk_6D.as_s8 == 0) {
                 return;
             }
 
@@ -139,20 +123,20 @@ void func_801733F0(S_801733F0_0 *arg0, void *arg1, S_801733F0_1 *arg2, S_801733F
 
             func_800A9A0C(arg3);
             func_800A9A04(arg3);
-            if (arg3->unk_25 == 0) {
+            if (arg3->unk_24.at01_u8.v == 0) {
                 return;
             }
 
             if (arg0->unk_A7 != 0) {
-                arg2->unk_2C = D_80176368;
+                arg2->unk_2C.as_pv = D_80176368;
             } else {
-                arg2->unk_2C = D_80176308;
+                arg2->unk_2C.as_pv = D_80176308;
             }
         }
         func_80047784(
             arg2,
-            ((u8 *)arg2->unk_2C)[
-                ((D_80083228 + arg3->unk_2A + 0x100) >> 9) & 7],
+            ((u8 *)arg2->unk_2C.as_pv)[
+                ((D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         {
             u8 *global;
@@ -175,7 +159,7 @@ increment_state:
 
         global = (u8 *)&D_80083460;
         ((S_801733F0_2 *)global)->unk_0A--;
-        arg3->unk_1C &= ~0x200;
+        arg3->unk_1C.as_u32 &= ~0x200;
         if (arg0->unk_A7 != 0) {
             arg0->unk_8C = D_80173B98;
         } else {
