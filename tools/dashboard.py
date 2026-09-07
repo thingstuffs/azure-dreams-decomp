@@ -81,13 +81,20 @@ def main():
     drift = [b for b in read_jsonl(LEDGER / "reverify.jsonl") if not (b["exact"] or (b["status"] == "ok" and b["exact"] is None))]
     # ---- html
     now = time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime())
-    H = [f"""<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="60"><title>azure-clean</title>
-<style>body{{font:14px/1.45 system-ui,sans-serif;margin:24px;color:#222;background:#fafafa}} h1{{margin:0 0 4px}} h2{{margin:28px 0 8px;font-size:17px;border-bottom:1px solid #ddd}}
-table{{border-collapse:collapse;margin:6px 0}} td,th{{padding:3px 10px;border-bottom:1px solid #eee;text-align:right}} th{{background:#f0f0f0}} td:first-child,th:first-child{{text-align:left}}
-.grid{{display:flex;gap:40px;flex-wrap:wrap}} .kpi{{display:inline-block;margin:6px 18px 6px 0}} .kpi b{{font-size:26px}} .kpi span{{display:block;color:#666;font-size:12px}}
-.bar{{height:10px;background:#e5e5e5;border-radius:5px;overflow:hidden;width:520px}} .bar i{{display:block;height:100%;background:#3b7}} .ok{{color:#2a7}} .bad{{color:#c33}} .muted{{color:#888}} code{{background:#eee;padding:1px 4px}}</style></head><body>
+    H = [f"""<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="60"><meta name="viewport" content="width=device-width, initial-scale=1"><title>azure-clean</title>
+<style>
+:root{{color-scheme:dark}} body{{font:15px/1.5 system-ui,-apple-system,sans-serif;margin:0;padding:16px;color:#d6d6d6;background:#121417;max-width:1100px}}
+h1{{margin:0 0 4px;font-size:22px;color:#fff}} h2{{margin:26px 0 8px;font-size:16px;color:#fff;border-bottom:1px solid #2c3136;padding-bottom:4px}}
+.tw{{overflow-x:auto;-webkit-overflow-scrolling:touch}} table{{border-collapse:collapse;margin:6px 0;min-width:100%}} td,th{{padding:5px 9px;border-bottom:1px solid #23272c;text-align:right;white-space:nowrap}}
+th{{background:#1b1f24;color:#aab}} td:first-child,th:first-child{{text-align:left}} tr:nth-child(even) td{{background:#161a1e}}
+.kpis{{display:flex;flex-wrap:wrap;gap:8px 22px;margin:10px 0 4px}} .kpi b{{font-size:24px;color:#fff;font-weight:600}} .kpi span{{display:block;color:#8a929c;font-size:12px}}
+.bar{{height:9px;background:#2a2f35;border-radius:5px;overflow:hidden;width:min(420px,45vw)}} .bar i{{display:block;height:100%;background:#3ba776}}
+.ok{{color:#4cc38a}} .bad{{color:#e5484d}} .muted{{color:#8a929c}} code{{background:#1f2429;color:#c9d1d9;padding:1px 5px;border-radius:3px;font-size:13px}}
+pre{{background:#1b1f24;color:#c9d1d9;padding:10px;border-radius:6px;overflow-x:auto;font-size:12.5px}} ul{{padding-left:20px}} li{{margin:4px 0}} a{{color:#6cb6ff}}
+@media (max-width:640px){{body{{padding:10px;font-size:14px}} .kpi b{{font-size:20px}} td,th{{padding:4px 6px}} .bar{{width:38vw}}}}
+</style></head><body>
 <h1>azure-clean</h1><div class="muted">pin <code>{PIN}</code> · generated {now} · refreshes every 60 s · ovmovie parked (listed, not counted)</div>"""]
-    H.append('<div>' + "".join(f'<div class="kpi"><b>{v}</b><span>{k}</span></div>' for k, v in (
+    H.append('<div class="kpis">' + "".join(f'<div class="kpi"><b>{v}</b><span>{k}</span></div>' for k, v in (
         ("functions (rows)", fmt(tot_n)), ("bytes", fmt(tot_b)), ("at ≥ L2", pct(cum[2][1], tot_b)), ("at ≥ L3", pct(cum[3][1], tot_b)),
         ("windows byte-identical", f"{sum(v for (c, r), v in gc.items() if r == 'MATCH')} / {len(gate)}"), ("agent rows accepted", fmt(ag["accepted"])))) + '</div>')
     H.append("<h2>Cleanliness levels (bytes at or above)</h2><table><tr><th>level</th><th>rows</th><th>bytes</th><th>% bytes</th><th></th></tr>")
@@ -128,7 +135,8 @@ table{{border-collapse:collapse;margin:6px 0}} td,th{{padding:3px 10px;border-bo
     # commits
     H.append("<h2>Recent commits</h2><pre>" + html.escape(sh("git -C " + str(ROOT) + " log --format='%h %ad %s' --date=format:%H:%M -10")) + "</pre>")
     H.append("</body></html>")
-    (OUT / "index.html").write_text("\n".join(H))
+    page = "\n".join(H).replace("<table>", '<div class="tw"><table>').replace("</table>", "</table></div>")
+    (OUT / "index.html").write_text(page)
     print(f"dashboard written: {OUT/'index.html'} ({tot_n} rows, ≥L2 {pct(cum[2][1], tot_b)}, gate MATCH {sum(v for (c, r), v in gc.items() if r == 'MATCH')}/{len(gate)}, running {len(run)})")
 
 if __name__ == "__main__":
