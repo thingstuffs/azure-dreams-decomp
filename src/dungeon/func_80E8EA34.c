@@ -16,7 +16,6 @@ s32 func_800A2BDC();                          /* extern */
 M2C_UNK func_800A5720();                         /* extern */
 s32 func_800A6D30();                                /* extern */
 void *func_80170908();                /* extern */
-M2C_UNK func_8017437C();                   /* extern */
 extern s16 D_80083228;
 extern M2C_UNK D_80083460;
 extern u16 D_80083462;

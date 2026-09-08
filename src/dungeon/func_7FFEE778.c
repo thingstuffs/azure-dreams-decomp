@@ -5,7 +5,6 @@
 extern M2C_UNK D_8008BA00;
 extern M2C_UNK D_8008BC58;
 extern u8 D_800FC418;
-extern void func_8008BF00(void) __attribute__((noreturn));
 
 typedef struct S_8008BED8_0 {
     u8 pad_00[0x68];
@@ -19,11 +18,10 @@ void func_8008BED8(S_8008BED8_0 *arg0) {
 
     if (temp_v1 == 0xFF) {
         var_v0 = &D_8008BA00;
-        ASM_TAILSLOT_PIN(var_v0);   /* MATCH pin: retail delay-slot contents depend on it */
-        func_8008BF00();
-    }
-    if (temp_v1 == 0) {
+    } else if (temp_v1 == 0) {
         var_v0 = &D_8008BC58;
-        arg0->unk_68 = var_v0;
+    } else {
+        return;
     }
+    arg0->unk_68 = var_v0;
 }

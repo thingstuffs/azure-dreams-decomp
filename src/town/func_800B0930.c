@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern void func_800ADB30(void *arg0);
-extern void func_800AE0DC(void) __attribute__((noreturn));
 extern s32 D_800ADD80[4];
 
 #ifndef NON_MATCHING
@@ -22,20 +21,18 @@ void func_800AE090(void *arg0) {
         value_v0 = *(s32 *)(p + 0x1C);
         if (value_v0 != 0) {
             dispatch_result = (u8 *)0x800B0000;
-            __asm__ __volatile__("" : "=r"(dispatch_result) : "0"(dispatch_result));
             dispatch_result -= 0x24A4;
-            func_800AE0DC();
+        } else {
+            dispatch_result = (u8 *)0x800B0000;
+            func_800ADB30(p);
+            dispatch_result = (u8 *)D_800ADD80;
         }
-        dispatch_result = (u8 *)0x800B0000;
-        __asm__ __volatile__("" : "=r"(dispatch_result) : "0"(dispatch_result));
-        func_800ADB30(p);
-        dispatch_result = (u8 *)D_800ADD80;
         *(u8 **)(p - 0x10) = dispatch_result;
     }
 #else
     if (--*(s32 *)(p + 0x14) == 0) {
         if (*(s32 *)(p + 0x1C) != 0) {
-            func_800AE0DC();
+            /* tail falls through */
         }
         func_800ADB30(p);
         *(void **)(p - 0x10) = D_800ADD80;

@@ -1,10 +1,6 @@
 #include "common.h"
 
 
-extern void func_800232F4(s32 current, s32 value, void *cursor4,
-                          void *cursor1);
-
-
 typedef struct S_80023258_0 {
     u8 pad_00[0x80];
     s32 unk_80;
@@ -99,10 +95,10 @@ s32 func_80023258(S_80023258_0 *arg0)
     s32 difference;
     s32 scaled;
     s32 quotient;
-    s32 current;
+    register s32 current ASM_REG("$4");
     s32 final_current;
     s32 index;
-    s32 result;
+    register s32 result ASM_REG("$2");
     register u8 *slot ASM_REG("$8");
     s32 value;
     register u8 value2 ASM_REG("$2");
@@ -127,6 +123,7 @@ s32 func_80023258(S_80023258_0 *arg0)
 
 loop:
     value = ((S_80023258_3 *)cursor1)->unk_7C;
+    slot = cursor1 + 0x7C;
     if (index == arg0->unk_88) {
         s32 tail_numerator;
         register s32 tail_value ASM_REG("$5");
@@ -140,18 +137,14 @@ loop:
         result -= current;
         result++;
         tail_quotient = tail_numerator / result;
-        ASM_KEEP(tail_quotient);
-        func_800232F4(current, tail_value, cursor4, cursor1);
-        result = tail_value + tail_quotient;
-        return result;
-    }
-
-    slot = cursor1 + 0x7C;
-    ASM_KEEP_NV(slot);
-    value2 = value;
-    if (value2 != 0) {
-        ASM_KEEP_NV(value2);
-        value2--;
+        value2 = tail_value + tail_quotient;
+    } else {
+        ASM_KEEP_NV(slot);
+        value2 = value;
+        if (value2 != 0) {
+            ASM_KEEP_NV(value2);
+            value2--;
+        }
     }
     *slot = value2;
     stored_value = ((S_80023258_3 *)cursor1)->unk_7C;

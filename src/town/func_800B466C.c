@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern void func_80044AAC();
-extern s32 func_800B1EF8();
 extern u8 D_800D162C[];
 extern u8 D_800D1630[];
 
@@ -64,8 +63,8 @@ void func_800B1DCC(void **arg0)
     i++;
   } while (i < 2);
   if (values[0] > values[old_coord]) {
-    func_800B1EF8(arg0[old_coord], arg0[0]);
-    return;
+    func_80044AAC(arg0[old_coord], arg0[0]);
+  } else {
+    func_80044AAC(arg0[0], arg0[old_coord]);
   }
-  func_80044AAC(arg0[0], arg0[old_coord]);
 }

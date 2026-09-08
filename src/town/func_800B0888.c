@@ -13,7 +13,6 @@ typedef struct {
 } TownRecord;
 
 extern s32 func_800ADFBC(s32);
-extern void func_800AE058(void);
 
 void func_800ADFE8(TownRecord *record) {
     if (record != 0) {
@@ -21,8 +20,6 @@ void func_800ADFE8(TownRecord *record) {
             record->field_10 = (record->field_08 - 1) / 5;
             if (record->field_04 >= record->field_08) {
                 record->field_04 = record->field_08 - 1;
-                func_800AE058();
-                return;
             }
         } else {
             record->field_04 = 0;
@@ -31,7 +28,3 @@ void func_800ADFE8(TownRecord *record) {
         record->field_0C = record->field_04 / 5;
     }
 }
-
-/* MECHANISM: A typed record holds the argument naturally in s0 with a 0x18 frame.
-   The call result stays in v0 via assignment-in-condition, then field_08 is reloaded.
-   The zero-argument tail call exposes field_04 = field_08 - 1 for its jump delay slot. */
