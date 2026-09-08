@@ -35,13 +35,13 @@ Dashboard: http://<lan-host>:8002/ (`tools/dashboard_serve.sh`; restart it if th
   --min-size A --max-size B --workers 3 --limit 900 --commit --tag campaign` (log
   `work/astra_campaignN.log`, journal `ledger/agents/gpt-6-astra-high-campaign.jsonl`, resumable;
   the prompt now attempts scaffolding removal and journals `pins_in/out`, `sites_in/out`).
-  All-time (2026-09-08 04:00 UTC): 3,552 accepted, 15 rejected. Tiers completed and committed:
-  1000–2000 B (`e83a229b`), 2000–4000 B (79/79, `83cfa91d`), 4000+ B (13/13, `8e9b81e7`).
-  **Running now: the 100–1000 B band (305 rows: 288 in 100–600 and 17 in 600–1000 became eligible
-  when the burn-down cleared their blocking sites; log `work/astra_campaign11.log`).** Then the
-  0–100 B tail (2,004 tiny rows; cheap, mostly pin-removal attempts). Since 03:00 UTC the prompt
-  carries the row's evidence block (`docs/EVIDENCE.md`; journal field `evidence`); the evidence rows
-  accepted before that are to be re-served once with `--rows $(python3 -c "import json;print(','.join(json.loads(l)['id'] for l in open('ledger/evidence/rows.jsonl')))")`
+  All-time (2026-09-08 05:30 UTC): 3,857 accepted, 15 rejected. Tiers completed and committed:
+  1000–2000 B (`e83a229b`), 2000–4000 B (79/79, `83cfa91d`), 4000+ B (13/13, `8e9b81e7`),
+  100–1000 B (305/305, `3be8e7cc`). **Running now: the 0–100 B tail (2,004 tiny rows, served 900
+  per launch because of `--limit 900`; relaunch the same command until it prints `0 rows`; logs
+  `work/astra_campaign12.log` onward).** Since 03:00 UTC the prompt carries the row's evidence block
+  (`docs/EVIDENCE.md`; journal field `evidence`); the evidence rows accepted before that are to be
+  re-served once with `--rows $(python3 -c "import json;print(','.join(json.loads(l)['id'] for l in open('ledger/evidence/rows.jsonl')))")`
   after the size tiers (one process at a time). When a tier prints `0 rows`, launch the next; when the log shows
   `quota` outcomes the harness stops cleanly after three in a row — relaunch after the reset.
   Commit campaign output separately: `git add ledger/agents refine && git commit -m "campaign: …"`
