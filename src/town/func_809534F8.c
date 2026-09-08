@@ -62,7 +62,7 @@ extern void *func_8003FD64();
 extern void func_800537D0();
 extern s32 strlen();
 
-/* Draw a labeled grid with triangular entries of row and column products. */
+/* baken_uriba: Draw a labeled grid with triangular entries of row and column products. */
 void func_800204F8(void)
 {
     Screen screen;

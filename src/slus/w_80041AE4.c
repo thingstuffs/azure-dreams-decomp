@@ -40,7 +40,7 @@ extern s16 func_8003F794(s16, s16);
 extern void func_80040A88(s32);
 extern void func_80041B98(void);
 
-/* Updates the current state and selects the next handler based on its status. */
+/* Refreshes controller input and runs the current entry's handlers, starting a state transition if none signals completion. */
 void func_80041AE4(void)
 {
     unsigned int copied_value;

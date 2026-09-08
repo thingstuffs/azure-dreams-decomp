@@ -41,7 +41,7 @@ typedef struct S_800BD980_2 {
     s16 unk_1E;
 } S_800BD980_2;   /* temp_a0 in func_800BD980 */
 
-/* Creates a parent object and two linked render objects offset from the supplied position. */
+/* event_tori_in: Creates a parent object and two linked render objects offset from the supplied position. */
 s32 func_800BD980(void *source) {
     void *source_data;
     s32 child_index;

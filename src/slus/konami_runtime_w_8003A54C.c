@@ -12,7 +12,7 @@ typedef struct Func8003A54CState {
     struct Func8003A54CState *table;
 } Func8003A54CState;
 
-// Jump to the encoded address if the indexed table value is zero; otherwise skip it.
+/* Jump to the encoded script address if the indexed table value is zero; otherwise skip it. */
 void func_8003A54C(Func8003A54CState *state) {
     u8 *stream_cursor = state->read_ptr;
     u8 table_index = *stream_cursor;

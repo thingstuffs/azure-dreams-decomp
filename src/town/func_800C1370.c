@@ -34,7 +34,7 @@ extern M2C_UNK D_8007789C;
 extern s32 D_80083780;
 extern M2C_UNK D_800BEBA4;
 
-/* Creates an object and initializes its motion, callback, and display properties. */
+/* event_pool_clean_in: creates the pool cleaning object and initializes its motion and display. */
 s32 func_800BEAD0(void)
 {
     s32 *origin;

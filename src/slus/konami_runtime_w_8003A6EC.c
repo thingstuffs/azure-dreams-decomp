@@ -14,7 +14,7 @@ typedef struct Func8003A6ECState {
     struct Func8003A6ECState *table;
 } Func8003A6ECState;
 
-// Jumps to the encoded address if the indexed table value is nonnegative, otherwise skips it.
+/* Jumps to the encoded address if the indexed table value is nonnegative, otherwise skips it. */
 void func_8003A6EC(Func8003A6ECState *state) {
     u8 *stream_ptr = state->read_ptr;
     u8 table_index = *stream_ptr;

@@ -19,17 +19,17 @@ extern void func_8004E5A0(s32, s32, u8 *);
 extern u8 *func_8004E69C(u8 *);
 extern s32 func_8004E298(void *, u8 *, s32);
 
-/* Formats and outputs an item's value and flag marker for supported categories. */
+/* Format and output an item's value and flag marker for supported item categories. */
 s32 func_800B0E18(void *output, Item *item) {
     u8 text[0x20];
     u8 category;
-    s32 kind;
+    s32 category_kind;
 
     memset(text, 0x20, 0x20);
     text[0x1F] = 0;
     category = item->category;
-    kind = D_80073414[category].kind;
-    if (kind == 1) {
+    category_kind = D_80073414[category].kind;
+    if (category_kind == 1) {
         s8 value = item->value;
 
         if (value != 0) {

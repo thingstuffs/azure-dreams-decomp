@@ -15,10 +15,10 @@ extern void func_80055C50(s16 a0);
 extern void func_8005A428(void);
 extern void func_8005A4B8(void);
 
-/* Conditionally raises event 0x71, then runs shared handlers and four indexed calls. */
+/* Stops active playback, releases all four channels, and runs audio cleanup. */
 void func_80054228(void)
 {
-    s16 index;
+    s16 channel;
 
     if (D_800847D0.flags1 & 0x100) {
         func_800553D4(0x71);
@@ -26,8 +26,8 @@ void func_80054228(void)
 
     func_8005B418(0);
 
-    for (index = 0; index < 4; index++) {
-        func_80055C50(index);
+    for (channel = 0; channel < 4; channel++) {
+        func_80055C50(channel);
     }
 
     func_8005A428();

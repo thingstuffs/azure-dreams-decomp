@@ -12,7 +12,7 @@ typedef struct Func8003A5B4State {
     struct Func8003A5B4State *table;
 } Func8003A5B4State;
 
-// Jump to the encoded address if the selected table value is nonzero; otherwise skip it.
+/* Jump to the encoded address if the selected table value is nonzero; otherwise skip it. */
 void func_8003A5B4(Func8003A5B4State *state) {
     u8 *command_ptr = state->read_ptr;
     u8 table_index = *command_ptr;

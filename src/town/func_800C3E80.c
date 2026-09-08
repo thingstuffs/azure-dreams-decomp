@@ -17,45 +17,46 @@ extern void func_8004437C(s32 arg0, s32 arg1);
 extern void func_80053DA8(s32 arg0);
 extern s32 func_800C16E0(u16 arg0);
 
-s32 func_800C15E0(s32 arg0) {
-    s32 temp_a1;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u16 temp_v0_3;
-    u16 temp_v0_4;
-    u8 *temp_s0;
-    u8 *temp_base;
-    u16 *temp_u16_base;
-    u16 *temp_u16_entry;
-    s32 temp_row;
+/* town_sd_sq_callagain_sub: replay and record the town or fallback sequence with the supplied flags. */
+s32 func_800C15E0(s32 sequence_flags) {
+    s32 entry_index;
+    u16 town_effect;
+    u16 town_sequence;
+    u16 fallback_effect;
+    u16 fallback_sequence;
+    u8 *town_entry;
+    u8 *town_entries;
+    u16 *fallback_entries;
+    u16 *fallback_entry;
+    s32 fallback_index;
 
-    temp_a1 = func_800C0F60(D_8006ADBC.index);
+    entry_index = func_800C0F60(D_8006ADBC.index);
     if (D_8006ADBC.state == 12) {
-        u16 *output;
+        u16 *current_sound;
 
-        output = D_800D4268;
-        temp_base = D_800D4094;
-        temp_s0 = temp_base + (temp_a1 * 10);
-        temp_v0 = *(volatile u16 *)(temp_s0 + 6);
-        output[2] = temp_v0;
-        if ((s16)temp_v0 != -1) {
-            func_8004437C(*(s16 *)(temp_s0 + 6), 0);
+        current_sound = D_800D4268;
+        town_entries = D_800D4094;
+        town_entry = town_entries + (entry_index * 10);
+        town_effect = *(volatile u16 *)(town_entry + 6);
+        current_sound[2] = town_effect;
+        if ((s16)town_effect != -1) {
+            func_8004437C(*(s16 *)(town_entry + 6), 0);
         }
-        temp_v0_2 = *(u16 *)(temp_s0 + 8);
-        output[3] = temp_v0_2;
-        if ((s16)temp_v0_2 != -1) {
-            return func_800C16E0(*(u16 *)(temp_s0 + 8) | arg0);
+        town_sequence = *(u16 *)(town_entry + 8);
+        current_sound[3] = town_sequence;
+        if ((s16)town_sequence != -1) {
+            return func_800C16E0(*(u16 *)(town_entry + 8) | sequence_flags);
         }
         return 1;
     }
-    temp_row = func_800B28A0();
-    temp_u16_base = D_800D4244;
-    temp_u16_entry = temp_u16_base + (temp_row * 2);
-    temp_v0_3 = temp_u16_entry[0];
-    D_800D4268[2] = temp_v0_3;
-    func_8004437C((s16)temp_v0_3, 0);
-    temp_v0_4 = temp_u16_entry[1];
-    ((volatile u16 *)D_800D4268)[3] = temp_v0_4;
-    func_80053DA8((temp_v0_4 | arg0) & 0xFFFF);
+    fallback_index = func_800B28A0();
+    fallback_entries = D_800D4244;
+    fallback_entry = fallback_entries + (fallback_index * 2);
+    fallback_effect = fallback_entry[0];
+    D_800D4268[2] = fallback_effect;
+    func_8004437C((s16)fallback_effect, 0);
+    fallback_sequence = fallback_entry[1];
+    ((volatile u16 *)D_800D4268)[3] = fallback_sequence;
+    func_80053DA8((fallback_sequence | sequence_flags) & 0xFFFF);
     return 1;
 }

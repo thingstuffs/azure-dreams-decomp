@@ -6,7 +6,7 @@ extern void func_80098868(void *arg0, s32 arg1, s32 arg2);
 extern s32 D_800834B8;
 extern s32 D_8009C340;
 
-/* Updates the linked object and detaches it when its type or state matches. */
+/* plt_carry_item_del_ext: Updates the carried object and detaches it when its type or state matches. */
 void func_80093744(void) {
     u8 *base;
     void *input_values;

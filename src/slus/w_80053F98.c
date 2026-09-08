@@ -20,7 +20,7 @@ extern void func_8005A37C(void);
 
 extern u8 D_80084548[];
 
-/* Initializes subsystems with fixed default settings. */
+/* Initializes audio subsystems, buffers, and playback defaults. */
 void func_80053F98(void) {
     func_8005A2FC();
     func_8005A39C(1);

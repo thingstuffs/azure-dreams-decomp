@@ -14,9 +14,9 @@ extern s32 D_8008099C;
 #define PPTR(v)     ((void *)(u32)(v))
 #define PVAL(p)     ((u32)(p))
 
-/* Stores the value in D_8008099C and returns it. */
-s32 func_80033D44(s32 value)
+/* obj_disp23_cancel_sw_set: sets the display cancellation switch and returns it. */
+s32 func_80033D44(s32 cancel_switch)
 {
-    D_8008099C = value;
-    return value;
+    D_8008099C = cancel_switch;
+    return cancel_switch;
 }

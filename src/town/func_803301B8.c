@@ -10,40 +10,40 @@ extern char D_8001610C[8];
 extern char D_80016118[8];
 extern char D_80016120[8];
 extern char D_80016128[8];
-/* Blends two loaded vectors, reports their x values, and stores the result coordinates. */
+/* Blends s0 and s1 into s, reports their x values, and stores the result coordinates. */
 void func_8001A9B8(s32 first_input, s32 second_input, s32 blend_weight, s32 remaining_weight)
 {
-    Vec3s first;
-    Vec3s second;
-    Vec3s result;
+    Vec3s s0;
+    Vec3s s1;
+    Vec3s s;
     TownRoot *root;
     const char *first_format;
     const char *second_format;
     const char *result_format;
-    func_8001A854(&first, first_input);
+    func_8001A854(&s0, first_input);
     {
         ReportValue report;
         report = D_80016000[0]->dispatch->report_value;
         first_format = D_8001610C;
-        report(first_format, D_80016118, first.x);
+        report(first_format, D_80016118, s0.x);
     }
     first_format = 0;
-    func_8001A854(&second, second_input);
+    func_8001A854(&s1, second_input);
     {
         ReportValue report;
         report = D_80016000[0]->dispatch->report_value;
         second_format = D_8001610C;
-        report(second_format, D_80016120, second.x);
+        report(second_format, D_80016120, s1.x);
     }
     second_format = 0;
-    func_8001A8DC(&first, &second, blend_weight, remaining_weight, &result);
+    func_8001A8DC(&s0, &s1, blend_weight, remaining_weight, &s);
     {
         ReportValue report;
         report = D_80016000[0]->dispatch->report_value;
         result_format = D_8001610C;
-        report(result_format, D_80016128, result.x);
+        report(result_format, D_80016128, s.x);
     }
     root = D_80016000[0];
-    root->result_values[1] = result.x;
-    root->result_values[2] = result.y;
+    root->result_values[1] = s.x;
+    root->result_values[2] = s.y;
 }

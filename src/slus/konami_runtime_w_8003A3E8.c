@@ -9,7 +9,7 @@ typedef struct {
     u8 *table;
 } Func8003A3E8State;
 
-/* Stores a table value at the destination address fetched from an indexed byte. */
+/* Store a VM table word at the address held in a byte selected by a table index value. */
 void func_8003A3E8(Func8003A3E8State *state) {
     u8 *read_ptr;
     u8 *addr_bytes;

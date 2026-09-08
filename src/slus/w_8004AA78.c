@@ -71,11 +71,11 @@ void func_8004AA78(s32 category) {
     index = 0;
     if (record_count != 0) {
         /* Indexed form keeps base+0xC (avoids IV strength-reduce to &field). */
-        S_8004AA78_Buf *buf = &shuffle;
+        S_8004AA78_Buf *shuffle_buf = &shuffle;
         do {
             item_ptr = records[index].ptr;
             if (item_ptr != 0) {
-                item_ptr = buf->ptrs[buf->indices[ptr_count]];
+                item_ptr = shuffle_buf->ptrs[shuffle_buf->indices[ptr_count]];
                 ptr_count += 1;
                 records[index].ptr = item_ptr;
             }

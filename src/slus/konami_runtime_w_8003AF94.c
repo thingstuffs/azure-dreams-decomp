@@ -8,7 +8,7 @@ extern s32 D_801B8EB8[];
 extern void func_801768AC(void);
 extern void func_800411FC(u16);
 
-/* Stores the supplied value and selected table entry, then invokes the runtime handlers. */
+/* Run town_movie_exe with the supplied value and selected table entry, then process record zero. */
 void func_8003AF94(s32 table_index, s32 value) {
     volatile s32 *table = D_8006CD50;
     s32 table_value = table[table_index];

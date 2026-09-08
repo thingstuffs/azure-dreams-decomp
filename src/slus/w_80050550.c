@@ -19,26 +19,26 @@ typedef struct S_80050550_Outer {
     /* 0x08 */ S_80050550_B *fieldB;
 } S_80050550_Outer;
 
-/* Writes scaled ratio values with fixed offsets into the two output structs. */
+/* Sets equal RGB components and two scaled fields from the supplied ratio. */
 void func_80050550(S_80050550_Outer *outputs, s32 numerator, s32 denominator) {
-    register s32 outputValue ASM_REG("v0") = (numerator * 80) / denominator;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    s32 negativeRatio128 = (-(numerator * 128)) / denominator;
-    s32 ratio1024 = (numerator * 1024) / denominator;
+    register s32 output_value ASM_REG("v0") = (numerator * 80) / denominator;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 negative_ratio_128 = (-(numerator * 128)) / denominator;
+    s32 ratio_1024 = (numerator * 1024) / denominator;
 
-    register S_80050550_A *primaryOutput ASM_REG("v1");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register S_80050550_A *primary_output ASM_REG("v1");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
-    outputValue = outputValue + 0x30;
-    primaryOutput = outputs->fieldA;
-    primaryOutput->unk2 = (u8)outputValue;
-    primaryOutput->unk1 = (u8)outputValue;
-    primaryOutput->unk0 = (u8)outputValue;
+    output_value = output_value + 0x30;
+    primary_output = outputs->fieldA;
+    primary_output->unk2 = (u8)output_value;
+    primary_output->unk1 = (u8)output_value;
+    primary_output->unk0 = (u8)output_value;
 
-    outputValue = 0x180;
-    primaryOutput = outputs->fieldA;
-    outputValue = outputValue - negativeRatio128;
-    primaryOutput->unkC = outputValue;
+    output_value = 0x180;
+    primary_output = outputs->fieldA;
+    output_value = output_value - negative_ratio_128;
+    primary_output->unkC = output_value;
 
-    outputValue = 0x400;
-    outputValue = outputValue - ratio1024;
-    outputs->fieldB->unk2 = outputValue;
+    output_value = 0x400;
+    output_value = output_value - ratio_1024;
+    outputs->fieldB->unk2 = output_value;
 }

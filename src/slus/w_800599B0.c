@@ -34,7 +34,7 @@ extern void func_800597A8(Entity *);
 extern s32 func_80058A04(Entity *);
 extern void func_80059814(Entity *);
 
-/* Initialize entity offsets and state according to the input format. */
+/* Initialize playback slot offsets, timing, and state for the input format. */
 s32 func_800599B0(void)
 {
     u32 entity_index;

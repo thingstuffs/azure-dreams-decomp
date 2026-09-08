@@ -17,7 +17,7 @@ extern s16 func_8003F794(s32 a0, s32 a1);
 extern void func_80040A88(int a0);
 extern void func_80041C64(void);
 
-/* If enabled, allocates a state slot as needed and registers the next callback; otherwise calls func_8003D92C. */
+/* Runs the state update, then allocates a slot and advances the callback if enabled, or invokes the fallback. */
 void func_80041BE4(void)
 {
     func_80041CBC();

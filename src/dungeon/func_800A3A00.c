@@ -32,10 +32,10 @@ typedef struct {
 
 extern DungeonGroup D_80073414[];
 
-/* Packs each dungeon group's cell flag 0x400 into its RAM bitset. */
+/* Packs item flag 0x400 into a RAM bitset for each item category. */
 void func_800A9160(void)
 {
-    DungeonGroup *group;
+    DungeonGroup *item_category;
     register DungeonGroup *cell_group ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 group_bits_offset;
     s32 set_index;
@@ -50,12 +50,12 @@ void func_800A9160(void)
 
     group_index = 0;
     ram = (RamPage *)0x80010000;
-    group = D_80073414;
+    item_category = D_80073414;
     do {
         cell_index = 0;
-        if (group->count != 0) {
+        if (item_category->count != 0) {
             group_bits_offset = group_index * 8;
-            cell_group = group;
+            cell_group = item_category;
             ASM_KEEP(group_bits_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ASM_KEEP(cell_group);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             cell_offset = 0;
@@ -85,7 +85,7 @@ void func_800A9160(void)
             } while (++cell_index < (s32)cell_group->count);
         }
         group_index += 1;
-        group += 1;
+        item_category += 1;
     } while (group_index < 0x13);
 }
 

@@ -35,7 +35,7 @@ typedef struct {
 
 extern S_800847D0 D_800847D0;
 
-/* Resets timer state, initializes D_80084858, and clears selected fields of D_800847D0. */
+/* Resets the audio command state and task object, then clears playback status fields. */
 void func_800540A8(void) {
     func_8005A4E8(0, 0, 0);
     func_80055990(&D_80084858);

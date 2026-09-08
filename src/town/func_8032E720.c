@@ -35,7 +35,7 @@ extern s8 D_80016000[];
 extern u8 D_80016034[16];
 extern u8 D_8001605C[];
 
-/* Returns the first unused slot address, reporting duplicate entries or a full slot table. */
+/* Returns the first unused shop slot address, asserting on duplicate entries or a full slot table. */
 s32 func_80018F20(s32 *slot_list)
 {
     u8 used_slots[0x100];

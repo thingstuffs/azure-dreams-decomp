@@ -20,7 +20,7 @@ extern S_80079990 D_80079990;
 extern s32 func_8005D460(s32 a0, s32 a1);
 
 /* Applies and returns the rate capped at 0x7EFF0, clearing the flag when the queue is inactive. */
-s32 func_8005EC40(s32 target, u32 rate)
+s32 func_8005EC40(s32 voice, u32 rate)
 {
     u32 clamped_rate = rate;
 
@@ -28,7 +28,7 @@ s32 func_8005EC40(s32 target, u32 rate)
         clamped_rate = 0x7EFF0;
     }
 
-    func_8005D460(target, clamped_rate);
+    func_8005D460(voice, clamped_rate);
 
     if (D_80079990.value == 0) {
         D_8007998C.value = 0;

@@ -17,29 +17,29 @@ extern volatile s32 D_80012090[];
 extern s16 D_8001F6F8[];
 extern DungeonGroup D_80073414[];
 
-/* Build cumulative item weights for each dungeon group. */
+/* Build cumulative weights for eligible items in each item category. */
 void func_8001E994(void)
 {
     s32 total_weight;
-    s32 group_index;
+    s32 category_index;
     s32 two;
     s32 item_weight;
     s32 item_offset;
     s32 item_index;
     s32 weight_bits;
     u16 item_flags;
-    s16 *group_total;
+    s16 *category_total;
     u8 *group;
     u8 *group_copy;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *table_base;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     total_weight = 0;
-    group_index = 1;
+    category_index = 1;
     two = 2;
     ASM_KEEP(total_weight);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     table_base = (u8 *)D_8001F6F8;
     ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    group_total = (s16 *)(table_base + 2);
+    category_total = (s16 *)(table_base + 2);
     table_base = (u8 *)D_80073414;
     ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     group = table_base + 0x14;
@@ -100,19 +100,19 @@ next_item:
             } while (++item_index < (s32)*(u8 *)(group + 2));
             ASM_KEEP(item_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         }
-        *group_total = total_weight;
-        group_total++;
-        group_index++;
+        *category_total = total_weight;
+        category_total++;
+        category_index++;
         group += 0x14;
-    } while (group_index < 0x13);
+    } while (category_index < 0x13);
     {
         s16 *totals;
-        s32 tail_offset;
+        s32 sentinel_offset;
 
         totals = D_8001F6F8;
         ASM_KEEP(totals);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        tail_offset = group_index << 1;
-        *(s16 *)(tail_offset + (s32)totals) = total_weight;
+        sentinel_offset = category_index << 1;
+        *(s16 *)(sentinel_offset + (s32)totals) = total_weight;
     }
 }
 

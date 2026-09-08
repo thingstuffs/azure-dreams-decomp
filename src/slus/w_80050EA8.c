@@ -16,17 +16,17 @@ typedef struct {
 extern void func_80044A50(S_80050EA8 *a0);
 extern void func_8004FE78(void *a0);
 
-/* Transfer a pending value to its slot, run both update helpers, and clear the second helper's input. */
-void func_80050EA8(S_80050EA8 *state)
+/* Saves the pending value, unlinks the object, and releases and clears its attachment. */
+void func_80050EA8(S_80050EA8 *object)
 {
-    s32 pending_value = state->unk10;
-    S_80050EA8_sub *slot = &state->unk20;
+    s32 pending_value = object->unk10;
+    S_80050EA8_sub *object_state = &object->unk20;
 
     if (pending_value != 0) {
-        slot->unk24 = pending_value;
-        state->unk10 = 0;
+        object_state->unk24 = pending_value;
+        object->unk10 = 0;
     }
-    func_80044A50(state);
-    func_8004FE78((void *)slot->unk28);
-    slot->unk28 = 0;
+    func_80044A50(object);
+    func_8004FE78((void *)object_state->unk28);
+    object_state->unk28 = 0;
 }

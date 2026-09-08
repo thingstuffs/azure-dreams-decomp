@@ -20,7 +20,7 @@ typedef struct S_80036900 {
 extern void func_80036980(void);
 extern void func_80044A50(void *arg0);
 
-/* Advance the sub-value and switch handlers and mark the indexed flag past the threshold. */
+/* Advances the sub-value, then unlinks the task, switches handlers, and sets its indexed flag past the threshold. */
 void func_80036900(S_80036900 *state)
 {
     state->sub->value += 0x100;

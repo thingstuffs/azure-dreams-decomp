@@ -3,7 +3,7 @@
 extern s32 func_8004B404(s32 a0);
 extern void func_8004B248(s32 *a0);
 
-/* Allocates buffers into an array, cleaning up and returning NULL on failure. */
+/* Fills the array with allocated buffers, flagging prior allocations and returning NULL on failure. */
 s32 *allocBufferArray(s32 *buffer_array, s32 buffer_count)
 {
     s32 *buffers = buffer_array;

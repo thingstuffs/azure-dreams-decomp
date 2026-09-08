@@ -13,7 +13,7 @@ extern S_80083110 *D_80083110[4];
 
 extern void func_800488F0(s32 a0, s32 a1, s32 a2);
 
-/* Notify func_800488F0 with reason 1 for each occupied slot, then clear it. */
+/* Dispatches each occupied slot in mode 1 and clears it. */
 void func_80048B28(void)
 {
     S_80083110 **slot = D_80083110;

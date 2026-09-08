@@ -10,7 +10,7 @@ typedef struct {
 
 extern u8 D_80010A80[];
 
-/* Store slot flags and copy the record with its extra byte for type 0x13. */
+/* itm_mon_koyaw_set: Store slot flags and copy the monster record for type 0x13. */
 void func_800A0150(s32 slot, u8 *entry_flags, TownRecord *record, s8 record_byte)
 {
     u8 *flags;

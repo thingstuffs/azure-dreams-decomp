@@ -20,16 +20,16 @@ typedef struct S_8004B364_Node {
 extern void *func_8003FC64(s32 a0);
 extern void func_8004B324(void *a0, void *a1);
 
-/* Allocates a pool node, optionally sets its record and callback, and returns its payload or NULL. */
+/* Allocates a pool node, installs its record and callback when both values exist, and returns its payload or NULL. */
 void *func_8004B364(void *second_value, void *first_value)
 {
     S_8004B364_Node *node = (S_8004B364_Node *)func_8003FC64(0);
 
     if (node != 0) {
         if (second_value != 0 && first_value != 0) {
-            S_8004B364_Sub *sub = node->field_0x08;
-            sub->field_0x00 = first_value;
-            sub->field_0x04 = second_value;
+            S_8004B364_Sub *callback_record = node->field_0x08;
+            callback_record->field_0x00 = first_value;
+            callback_record->field_0x04 = second_value;
             node->field_0x10 = func_8004B324;
         }
         node = (S_8004B364_Node *)((u8 *)node + 0x20);

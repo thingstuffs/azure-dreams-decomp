@@ -19,16 +19,16 @@ extern int func_8004CAA0(void *a0, int a1, void *a2);
 extern void func_8004491C(void *a0, void *a1);
 
 /* Lazily initializes and returns the result object, applying any pending value and registering a callback when ready. */
-void *func_80050EF8(S_80050EF8 *obj)
+void *func_80050EF8(S_80050EF8 *object)
 {
-    S_80050EF8_sub *sub = &obj->sub;
+    S_80050EF8_sub *object_state = &object->sub;
 
-    if (sub->field28 != 0 || (sub->field28 = func_8004FDE0(sub->field20)) != 0) {
-        if (sub->field24 != 0) {
-            obj->field10 = sub->field24;
-            sub->field24 = 0;
+    if (object_state->field28 != 0 || (object_state->field28 = func_8004FDE0(object_state->field20)) != 0) {
+        if (object_state->field24 != 0) {
+            object->field10 = object_state->field24;
+            object_state->field24 = 0;
         }
-        func_8004491C(obj, (void *)func_8004CAA0);
+        func_8004491C(object, (void *)func_8004CAA0);
     }
-    return sub->field28;
+    return object_state->field28;
 }

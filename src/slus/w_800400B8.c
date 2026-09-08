@@ -38,7 +38,7 @@ extern void func_800AC4C4(void);
 extern void func_800402F4(void);
 extern void func_80044B48(void);
 
-/* Runs state updates and clears the pending update flags. */
+/* Runs node callbacks, removes flagged nodes, and updates movement and drawing state. */
 void func_800400B8(void)
 {
   S_800400B8_D80083160 *state = &D_80083160;

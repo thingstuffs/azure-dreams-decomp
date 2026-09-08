@@ -8,7 +8,7 @@ extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];
 extern u8 D_800D2644_case1[] __asm__("D_800D2644");
 
-/* Collects matching slot indices for an entry and returns their count. */
+/* CheckBuildBuildingLandNo collects eligible land slots for a building and returns their count. */
 s32 func_800B85E8(s32 entry_id, s8 *slots_out) {
     static void *const case_labels[] = {
         &&case_1, &&case_default, &&case_default, &&case_4_8,

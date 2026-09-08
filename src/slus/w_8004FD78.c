@@ -8,18 +8,18 @@ typedef struct S_8004FD78 {
 
 extern s32 func_8002137C(void *a0);
 
-/* Finds the object's ID in the list, returning its index or the nonnegative count if absent. */
-s32 func_8004FD78(void *idListData, void *object)
+/* Finds the resolved target ID's index, returning the count if absent or zero if empty. */
+s32 func_8004FD78(void *id_list_data, void *object)
 {
-    S_8004FD78 *idList = (S_8004FD78 *)idListData;
-    s32 targetId = func_8002137C(object);
-    s32 idCount = idList->unk24;
-    s32 idIndex;
+    S_8004FD78 *id_list = (S_8004FD78 *)id_list_data;
+    s32 target_id = func_8002137C(object);
+    s32 id_count = id_list->unk24;
+    s32 id_index;
 
-    for (idIndex = 0; idIndex < idCount; idIndex++) {
-        if (idList->unk10[idIndex] == targetId) {
-            return idIndex;
+    for (id_index = 0; id_index < id_count; id_index++) {
+        if (id_list->unk10[id_index] == target_id) {
+            return id_index;
         }
     }
-    return idIndex;
+    return id_index;
 }

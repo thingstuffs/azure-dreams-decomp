@@ -29,7 +29,7 @@ extern void func_800589B8(S_80058B70 *);
 s32 func_80058B70(void)
 {
     S_80058B70 *slot = &D_80085FA8[0];
-    s32 playback_value = 0;
+    s32 stream_offset = 0;
     s32 entry_index;
     u32 timing_divisor;
     u32 playback_rate;
@@ -39,9 +39,9 @@ s32 func_80058B70(void)
     switch (D_800737C8[0]) {
     case 1:
         {
-            s32 slot_id = func_80058850(0);
-            slot->f00 = slot_id;
-            if (slot_id == -1) {
+            s32 header_offset = func_80058850(0);
+            slot->f00 = header_offset;
+            if (header_offset == -1) {
                 return 0;
             }
         }
@@ -50,22 +50,22 @@ s32 func_80058B70(void)
         D_800869B4[0] = func_80058B2C(slot) & 0xFFFF;
         D_800869A8[0] = func_80058B2C(slot) & 0xFFFF;
         if (D_800869B8[0] == 0) {
-            s32 initial_value;
+            s32 first_entry_offset;
             D_800869B0[0] = 0x10000;
-            initial_value = func_80058940(0);
-            D_800869B0[0] = initial_value;
-            slot->f1c = initial_value;
+            first_entry_offset = func_80058940(0);
+            D_800869B0[0] = first_entry_offset;
+            slot->f1c = first_entry_offset;
         } else {
             entry_index = 0;
             D_800869B0[0] = 0x10000;
-            if ((u32)playback_value < (u32)D_800869B4[0]) {
+            if ((u32)stream_offset < (u32)D_800869B4[0]) {
                 do {
-                    playback_value = func_80058940(playback_value);
+                    stream_offset = func_80058940(stream_offset);
                     entry_index++;
-                    slot->f1c = playback_value;
+                    slot->f1c = stream_offset;
                 } while ((u32)entry_index < (u32)D_800869B4[0]);
             }
-            D_800869B0[0] = playback_value;
+            D_800869B0[0] = stream_offset;
         }
         break;
     case 0:

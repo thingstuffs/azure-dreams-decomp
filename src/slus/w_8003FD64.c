@@ -27,7 +27,7 @@ void *func_8003FD64(s32 flags, S_80081490 **list_head)
 {
     S_80081490 *node;
     S_80081490 *free_node;
-    u8 *buffer;
+    u8 *payload_cursor;
 
     if ((D_80013714.flags & 0x2) && (flags & 0x200)) {
         return 0;
@@ -54,24 +54,24 @@ void *func_8003FD64(s32 flags, S_80081490 **list_head)
 
         node->field_0x1E = (u16)(flags | 0x4000);
 
-        buffer = (u8 *)node + 0x124;
+        payload_cursor = (u8 *)node + 0x124;
         if (flags & 0x100) {
-            buffer = (u8 *)node + 0xF4;
+            payload_cursor = (u8 *)node + 0xF4;
             goto store_buffer;
         }
         if (flags & 0x6) {
-            buffer = (u8 *)node + 0x100;
+            payload_cursor = (u8 *)node + 0x100;
             goto store_buffer;
         }
         if (flags & 0x41) {
-            buffer = (u8 *)node + 0x10C;
+            payload_cursor = (u8 *)node + 0x10C;
         store_buffer:
-            node->field_0xC = buffer;
+            node->field_0xC = payload_cursor;
         }
 
         if (flags & 0x157) {
-            buffer = buffer - 0x18;
-            node->field_0x8 = buffer;
+            payload_cursor = payload_cursor - 0x18;
+            node->field_0x8 = payload_cursor;
         }
 
         return node;

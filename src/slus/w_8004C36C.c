@@ -20,7 +20,7 @@ extern void *func_8004C080(void *t0, void *t1, void *packet, void *record,
                            void *cmd, s32 *count);
 extern void *D_80083160[3];
 
-/* Emit sprite packets from the node lists and link them into the ordering table. */
+/* Transform and tint sprites from node lists, then link their packets into the ordering table. */
 void func_8004C36C(u8 *parent, u8 *node)
 {
     u8 work_buf[0x110];

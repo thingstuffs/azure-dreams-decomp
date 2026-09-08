@@ -9,6 +9,7 @@ extern void func_8007CA48(void);
 extern s32 D_80400004[];
 extern s32 D_8040002C[];
 
+/* Checks eight c_server entries and asserts on failed checks. */
 void func_80019EF8(void) {
     func_8007CA38();
     if (func_8007C9A8(*(s32 *)0x80409270) == 0) {

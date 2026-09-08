@@ -18,13 +18,13 @@ typedef struct S_8005C710_Req {
 extern s32 func_8005FA34(S_8005C710_Req *arg);
 
 /* Processes the indexed table entry and copies the two request results to the output pointers. */
-s32 func_8005C710(s16 entry_index, s16 *out_field8, s16 *out_field_a) {
+s32 func_8005C710(s16 entry_index, s16 *out_first_value, s16 *out_second_value) {
     S_8005C710_Req request;
 
     request.field4 = 0;
     request.field0 = D_80073740[entry_index];
     func_8005FA34(&request);
-    *out_field8 = request.field8;
-    *out_field_a = request.fieldA;
+    *out_first_value = request.field8;
+    *out_second_value = request.fieldA;
     return 0;
 }

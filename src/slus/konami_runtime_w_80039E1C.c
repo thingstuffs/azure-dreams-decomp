@@ -21,7 +21,7 @@ typedef struct Func80039E1CReader {
     Func80039E1CTable *table;
 } Func80039E1CReader;
 
-/* Read a handler index and table reference, call the handler, and store its result. */
+/* Call the event script's indexed handler through a table reference and store its result. */
 void func_80039E1C(Func80039E1CReader *reader) {
     u8 *read_ptr = reader->read_ptr;
     Func80039E1CTable *table = reader->table;

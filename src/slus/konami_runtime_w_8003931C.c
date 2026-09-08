@@ -48,7 +48,7 @@ extern void func_80038408(void);
 __asm__(".set D_800C3174, 0x800C3174");
 __asm__(".set D_800C321C, 0x800C321C");
 
-/* Initializes the selected entry or defers processing when it is active or unavailable. */
+/* Initializes an event-script entry or defers the command while the entry is active or unavailable. */
 void func_8003931C(State *state)
 {
     u8 *cursor = state->read_ptr;

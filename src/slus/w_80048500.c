@@ -30,14 +30,14 @@ extern void func_8003F320(void);
 extern void DrawSync(s32 a0);
 extern s32 func_8004846C(s32 a0);
 
-/* Processes the selected element and passes the target value to func_8004846C after drawing completes. */
+/* Processes the selected element, waits for drawing, and redraws the target VRAM tile. */
 s32 func_80048500(s32 elem_index, s32 array_index)
 {
-    s32 target_value;
+    s32 tile_index;
 
     func_80041284(&D_800710E4[array_index][elem_index]);
     func_8003F320();
-    target_value = D_80081480.field_0->unk18;
+    tile_index = D_80081480.field_0->unk18;
     DrawSync(0);
-    return func_8004846C(target_value);
+    return func_8004846C(tile_index);
 }

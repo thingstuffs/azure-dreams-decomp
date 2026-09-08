@@ -31,7 +31,7 @@ extern u16 D_8008151A;
 extern u16 D_8008151C;
 extern u16 D_8008151E;
 
-/* Packs a texture into the atlas and passes its data and rectangle to func_80047270. */
+/* Packs a texture into the atlas, decodes its data, and uploads it to VRAM. */
 void func_80047338(S_80047338_hdr *texture, S_80047338_rec *record, s32 data_offset)
 {
     S_80047270_hdr rect;

@@ -20,7 +20,7 @@ extern s16 func_80053DA8(s32 arg0);
 extern s32 D_800721C0[32];
 extern s32 D_8006CD50[];
 
-/* Decodes and dispatches an eight-byte command, or rewinds it when gated by state. */
+/* Dispatch an eight-byte script command, or rewind the opcode when runtime state blocks it. */
 void func_800398BC(Func800398BCOwner *owner)
 {
     s32 runtime_state;

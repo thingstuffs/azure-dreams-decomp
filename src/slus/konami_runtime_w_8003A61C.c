@@ -12,7 +12,7 @@ typedef struct Func8003A61CState {
     struct Func8003A61CState *table;
 } Func8003A61CState;
 
-// Jump to the encoded address if the selected table value is nonpositive; otherwise skip it.
+/* Jump to the encoded address if the selected table value is nonpositive; otherwise skip it. */
 void func_8003A61C(Func8003A61CState *state) {
     u8 *operand_ptr = state->read_ptr;
     u8 table_index = *operand_ptr;

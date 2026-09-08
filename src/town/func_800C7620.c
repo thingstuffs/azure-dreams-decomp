@@ -38,13 +38,13 @@ extern u16 D_800D5070[];
 
 extern void func_800C2E84(void *, s32, s32);
 
-/* Apply a table value to the matching town object and refresh its child state. */
-void func_800C4D80(s8 object_slot, s8 value_index)
+/* trget_psn_ang_set: set the matching person's angle from the table and refresh its child state. */
+void func_800C4D80(s8 object_slot, s8 angle_index)
 {
     TownEntry *table;
     s32 object_index;
     void *object_kind;
-    u16 lookup_value;
+    u16 angle;
     void *object;
     S_800C4D80_1 *entry;
     S_800C4D80_2 *child;
@@ -54,20 +54,20 @@ void func_800C4D80(s8 object_slot, s8 value_index)
     object_index = object_slot;
     object = table[object_index].object;
     if (object != 0) {
-        lookup_value = D_800D5070[value_index];
+        angle = D_800D5070[angle_index];
         entry = object;
         object_data = (u8 *)object + 0x20;
         if (object_index == object_data->unk_60) {
             if (object_index == 1) {
                 object_kind = entry->unk_10;
                 if (object_kind != D_800C3174 && object_kind != D_800C321C) {
-                    object_data->unk_10 = lookup_value;
+                    object_data->unk_10 = angle;
                     return;
                 }
             }
             child = object_data->unk_80;
-            object_data->unk_6E = lookup_value;
-            object_data->unk_72 = lookup_value;
+            object_data->unk_6E = angle;
+            object_data->unk_72 = angle;
             func_800C2E84(object_data, entry->unk_0C,
                           child->unk_04);
         }

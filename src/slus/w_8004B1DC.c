@@ -2,7 +2,7 @@
 
 extern void func_8004B1A4(u16 *a0);
 
-/* Call func_8004B1A4 on each non-null entry, then clear its pointer. */
+/* Flags each non-null entry in the counted array and clears its pointer. */
 void func_8004B1DC(u16 **entries, s32 count)
 {
     s32 index;

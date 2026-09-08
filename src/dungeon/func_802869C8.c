@@ -8,7 +8,7 @@ extern s32 func_80033BC0(s32);
 extern s32 func_800A6928(s32, s32);
 extern void func_8009A21C(s32, s32, s32);
 
-/* Initialize the selected entry and trigger its action when all checks pass. */
+/* Check second tower availability and initialize the selected entry when available. */
 s32 func_800199C8(s32 entry_index) {
     u8 *entry;
     u8 *entries;

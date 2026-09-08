@@ -15,7 +15,7 @@ extern void func_80043EB8(void);
 extern void func_80043E04(void);
 extern void func_80040A88(int a0);
 
-/* Updates the current slot and installs func_80043E04 as its handler if inactive. */
+/* Runs the per-tick update and installs func_80043E04 when the current slot is free. */
 void func_80043DB8(void) {
     func_80043EB8();
     if (D_80083120[D_80081500].field_0 == 0) {

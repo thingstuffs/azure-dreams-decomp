@@ -18,16 +18,17 @@ extern DungeonState D_80083460;
     __asm__ __volatile__("" : "=r"(value) : "0"(value))
 #endif
 
+/* Counts down turns until a monster spawn, then resets the spawn timer. */
 void func_800A0DD8(void) {
     DungeonState *state;
-    s16 counter;
+    s16 spawn_turns;
 
     if (D_8008146E != 0) {
         state = &D_80083460;
         COMPILER_KEEP(state);
-        counter = state->field_0x6 - 1;
-        state->field_0x6 = counter;
-        if (counter < 0) {
+        spawn_turns = state->field_0x6 - 1;
+        state->field_0x6 = spawn_turns;
+        if (spawn_turns < 0) {
             state->field_0x6 = (func_800A6D30() & 0x1F) | 0x20;
             func_800A08A0(0);
         }

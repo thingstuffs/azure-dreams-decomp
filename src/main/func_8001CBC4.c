@@ -28,24 +28,25 @@ typedef struct S_8001CBC4_0 {
     s32 unk_1B4;
 } S_8001CBC4_0;   /* subobject in func_8001CBC4 */
 
-s32 func_8001CBC4(s32 arg0) {
-    s32 result;
-    s32 status;
+/* Initializes or retrieves the memory card options object. */
+s32 func_8001CBC4(s32 option_param) {
+    s32 resource_id;
+    s32 object_status;
     u8 *object = D_80409C90;
     u8 *subobject;
-    register u8 *callarg ASM_REG("$4");
+    register u8 *object_arg ASM_REG("$4");
 
     ASM_KEEP_NV(object);
-    callarg = object;
+    object_arg = object;
     subobject = object + 0x20;
-    status = func_80047FD8(callarg);
-    if (status == 0) {
-        result = func_8003C714(0, object, 0x118);
-        if (result == 0) {
+    object_status = func_80047FD8(object_arg);
+    if (object_status == 0) {
+        resource_id = func_8003C714(0, object, 0x118);
+        if (resource_id == 0) {
             func_8007C040(D_804005A0, D_804005C8, 0x151);
             func_8007BEF0(1);
         }
-        func_80040560(result, D_8040861C);
+        func_80040560(resource_id, D_8040861C);
         return func_80403C78(subobject);
     }
     func_80403D24(object);
@@ -55,7 +56,7 @@ s32 func_8001CBC4(s32 arg0) {
     ASM_KEEP_NV(subobject);
     (*(void * *)((u8 *)object + (0xC))) = subobject + 0x1A8;
     ((S_8001CBC4_0 *)subobject)->unk_1B4 = func_80403AA0(subobject + 0x1B8);
-    func_80403B84(subobject, arg0);
+    func_80403B84(subobject, option_param);
     (*(Callback *)((u8 *)object + (0x10))) = func_804034D8;
     func_804034D8(subobject);
     return (s32)object;

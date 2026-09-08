@@ -106,8 +106,8 @@ void func_80174D98(void *owner, SourcePosition *source_pos, void *unused,
     EntityWork *work;
     EntityRender *render;
     EntityPosition *position;
-    DungeonGroup *groups;
-    DungeonGroup *group;
+    DungeonGroup *item_category_table;
+    DungeonGroup *item_category;
     s32 *results;
     s32 entry_index;
     PackedWord *copy_src;
@@ -156,16 +156,16 @@ void func_80174D98(void *owner, SourcePosition *source_pos, void *unused,
     work->y_cell = (s16)source_pos->y / 0x40;
 
     results = D_8007361C;
-    groups = D_80073414;
+    item_category_table = D_80073414;
     render->blue = 0x80;
     render->green = 0x80;
     render->red = 0x80;
 
-    group = &groups[work->group];
-    if (group->active == 0) {
+    item_category = &item_category_table[work->group];
+    if (item_category->active == 0) {
         entry_index = work->entry * 5;
     } else {
         entry_index = work->entry * 3;
     }
-    render->result = results[group->entries[entry_index].height];
+    render->result = results[item_category->entries[entry_index].height];
 }

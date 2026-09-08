@@ -158,7 +158,7 @@ static void (*const dispatch_table[])(void)
 #endif
 
 static void func_804FE87C(void) ROW_ATTR;
-/* Initializes lighting, projection, and viewport state. */
+/* Initializes lighting, projection, and viewport state and selects the floor monster table. */
 static void func_804FE87C(void)
 {
     u8 *render_data = D_80083160;

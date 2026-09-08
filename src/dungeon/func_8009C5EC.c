@@ -27,15 +27,15 @@ extern M2C_UNK D_800E095F;
 extern M2C_UNK D_800E0970;
 extern M2C_UNK D_800E0979;
 
-/* Raise the entity one level, update its stats and abilities, and optionally display a message. */
+/* Raise the entity one level, update its stats, XP reward and abilities, and optionally display a message. */
 s32 func_800A1D4C(void *entity_data, s32 show_message) {
     u8 ability_gained[3];
     u8 *entity;
-    u8 *growth;
-    u8 *base_stats;
+    u8 *stat_growth;
+    u8 *initial_stats;
     register s32 level ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 prev_level;
-    s32 species;
+    s32 species_id;
     s32 slot;
     s32 message;
     s32 text_end;
@@ -46,11 +46,11 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
     entity = (u8 *)entity_data;
     if (entity[0x11] < 99U) {
         level = entity[0x11];
-        species = entity[0x13];
+        species_id = entity[0x13];
         entity[0x11] = level + 1;
-        growth = D_800DDCBC + (species * 8);
+        stat_growth = D_800DDCBC + (species_id * 8);
         prev_level = level - 1;
-        base_stats = D_8006D168 + (species * 0x18);
+        initial_stats = D_8006D168 + (species_id * 0x18);
 
         {
             register s32 old_base ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -66,27 +66,27 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             s32 stat;
             s32 old_value;
             register s32 stat_gain ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            curve_value = func_800647A0((prev_level * growth[5]) << 0xB, species);
-            old_base = *(volatile u8 *)(base_stats + 5);
-            old_linear = growth[5] * prev_level;
+            curve_value = func_800647A0((prev_level * stat_growth[5]) << 0xB, species_id);
+            old_base = *(volatile u8 *)(initial_stats + 5);
+            old_linear = stat_growth[5] * prev_level;
             if (old_linear < 0) {
                 old_linear += 0xF;
             }
-            old_curve = growth[5] * curve_value;
+            old_curve = stat_growth[5] * curve_value;
             old_sum = old_base + (old_linear >> 4);
             if (old_curve < 0) {
                 old_curve += 0x7FFF;
             }
             old_stat = old_sum + (old_curve >> 0xF);
 
-            level_product = level * growth[5];
+            level_product = level * stat_growth[5];
             curve_value = func_800647A0(level_product << 0xB, old_curve, old_base);
-            new_base = *(volatile u8 *)(base_stats + 5);
-            new_linear = growth[5] * level;
+            new_base = *(volatile u8 *)(initial_stats + 5);
+            new_linear = stat_growth[5] * level;
             if (new_linear < 0) {
                 new_linear += 0xF;
             }
-            new_curve = growth[5] * curve_value;
+            new_curve = stat_growth[5] * curve_value;
             new_sum = new_base + (new_linear >> 4);
             if (new_curve < 0) {
                 new_curve += 0x7FFF;
@@ -116,8 +116,8 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             {
                 register s32 growth_rate ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s32 base_stat;
-                growth_rate = growth[4];
-                base_stat = base_stats[4];
+                growth_rate = stat_growth[4];
+                base_stat = initial_stats[4];
                 growth_product = growth_rate * base_stat;
                 old_scaled = growth_product * prev_level;
             }
@@ -125,12 +125,12 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
                 old_scaled += 0x3FF;
             }
             new_scaled = growth_product * level;
-            old_stat = base_stats[4] + (old_scaled >> 0xA);
+            old_stat = initial_stats[4] + (old_scaled >> 0xA);
             if (new_scaled < 0) {
                 new_scaled += 0x3FF;
             }
             ASM_KEEP_NV(old_stat);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            new_stat = base_stats[4] + (new_scaled >> 0xA);
+            new_stat = initial_stats[4] + (new_scaled >> 0xA);
             stat = entity[4];
             old_value = stat;
             stat += new_stat - old_stat;
@@ -152,8 +152,8 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             s32 stat;
             s32 old_value;
             register s32 stat_gain ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            growth_rate = growth[0];
-            base_stat = base_stats[0];
+            growth_rate = stat_growth[0];
+            base_stat = initial_stats[0];
             growth_product = growth_rate * base_stat;
             old_scaled = growth_product * prev_level;
             stat = entity[0];
@@ -162,11 +162,11 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
                 old_scaled += 0x3F;
             }
             new_scaled = growth_product * level;
-            old_stat = base_stats[0] + (old_scaled >> 6);
+            old_stat = initial_stats[0] + (old_scaled >> 6);
             if (new_scaled < 0) {
                 new_scaled += 0x3F;
             }
-            new_stat = base_stats[0] + (new_scaled >> 6);
+            new_stat = initial_stats[0] + (new_scaled >> 6);
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
@@ -189,8 +189,8 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             register s32 stat_gain ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             prev_step = level - 1;
 
-            growth_rate = growth[1];
-            base_stat = base_stats[1];
+            growth_rate = stat_growth[1];
+            base_stat = initial_stats[1];
             growth_product = growth_rate * base_stat;
             old_scaled = growth_product * prev_step;
             stat = entity[1];
@@ -212,8 +212,8 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             entity[1] = stat;
             entity[0x27] += stat_gain;
 
-            growth_rate = growth[2];
-            base_stat = base_stats[2];
+            growth_rate = stat_growth[2];
+            base_stat = initial_stats[2];
             growth_product = growth_rate * base_stat;
             old_scaled = growth_product * prev_step;
             stat = entity[2];
@@ -233,8 +233,8 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             }
             entity[2] = stat;
 
-            growth_rate = growth[3];
-            base_stat = base_stats[3];
+            growth_rate = stat_growth[3];
+            base_stat = initial_stats[3];
             growth_product = growth_rate * base_stat;
             old_scaled = growth_product * prev_step;
             stat = entity[3];
@@ -256,29 +256,29 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
         }
 
         {
-            s16 base_word;
+            s16 base_xp;
             register s32 linear_word ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             s32 word_growth;
-            s32 word_sum;
+            s32 xp_sum;
             s32 growth_product;
-            u32 word_stat;
+            u32 xp_given;
 
-            base_word = *(s16 *)(base_stats + 6);
-            linear_word = level * base_word;
-            word_growth = growth[6] * level;
+            base_xp = *(s16 *)(initial_stats + 6);
+            linear_word = level * base_xp;
+            word_growth = stat_growth[6] * level;
             ASM_KEEP(word_growth);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             level_product = level * level;
-            word_sum = base_word + word_growth;
-            growth_product = level_product * word_sum;
-            word_stat = base_word + linear_word;
+            xp_sum = base_xp + word_growth;
+            growth_product = level_product * xp_sum;
+            xp_given = base_xp + linear_word;
             if (growth_product < 0) {
                 growth_product += 0x1FF;
             }
-            word_stat += growth_product >> 9;
-            if (word_stat > 0xFFFFU) {
-                word_stat = 0xFFFF;
+            xp_given += growth_product >> 9;
+            if (xp_given > 0xFFFFU) {
+                xp_given = 0xFFFF;
             }
-            *(u16 *)(entity + 6) = word_stat;
+            *(u16 *)(entity + 6) = xp_given;
         }
 
         if (entity[0x13] != 0) {

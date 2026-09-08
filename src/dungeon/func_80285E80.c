@@ -61,19 +61,20 @@ extern void func_800542BC(void);
 extern s32 func_800A6D30(void);
 extern s32 func_800A6DA4(s32 arg0, s32 arg1);
 
+/* Sets up dungeon floor encounters and monster records, including tutorial and special-floor events. */
 s32 func_80018E80(void)
 {
-    s32 result;
-    s32 forced_exit;
+    s32 floor_event;
+    s32 skip_floor_setup;
     s32 state;
-    s32 quotient;
-    s32 encounter;
-    s16 *floor_base;
+    s32 floor_group;
+    s32 encounter_status;
+    s16 *floor_data;
     DungeonPage80285E80 *final_page;
     s32 final_floor;
 
-    result = 0;
-    forced_exit = 0;
+    floor_event = 0;
+    skip_floor_setup = 0;
     state = DUNGEON_GLOBALS->state_022c;
     if (state == 1) {
         if (D_8008146C[0] < 2) {
@@ -90,38 +91,38 @@ after_initial:
     state = D_80082E6B[0];
     if (state < 0x16) {
         if (state >= 0x12) {
-            result = 0;
+            floor_event = 0;
             goto load_final_page;
         }
     }
 
     state = DUNGEON_GLOBALS->state_2090;
     if (state == 0) {
-        quotient = (s16)(D_8008146C[0] / 5);
+        floor_group = (s16)(D_8008146C[0] / 5);
         if (D_8008146C[0] >= 0x28) {
-            forced_exit = 1;
+            skip_floor_setup = 1;
             D_800E296C[0] |= 0x10000000;
         }
 
         if (D_8008146C[0] == 0x28) {
-            result = 1;
+            floor_event = 1;
             if (func_80033BC0(0xA2) != 0) {
-                quotient = 7;
+                floor_group = 7;
             } else {
-                quotient = -1;
+                floor_group = -1;
                 func_80019A74();
             }
-            forced_exit = 1;
+            skip_floor_setup = 1;
             goto process_quotient;
         }
 
         if (D_8008146C[0] < 2) {
-            result = (func_800A6D30() & 3) + 3;
+            floor_event = (func_800A6D30() & 3) + 3;
             goto process_quotient;
         }
 
         if (D_8008146C[0] == 2 && DUNGEON_GLOBALS->state_022c != 1) {
-            result = 2;
+            floor_event = 2;
             D_800E296C[0] |= 0x10000000;
             goto process_quotient;
         }
@@ -137,9 +138,9 @@ after_initial:
         }
 
 process_quotient:
-        if (quotient >= 0) {
-            encounter = func_80019684((s16)(quotient + 1), 1, 1);
-            if (encounter == 0) {
+        if (floor_group >= 0) {
+            encounter_status = func_80019684((s16)(floor_group + 1), 1, 1);
+            if (encounter_status == 0) {
                 D_80080A88[0] = 0;
             }
             if (D_80080A88[0] == 0) {
@@ -148,7 +149,7 @@ process_quotient:
                 func_80053DA8(0x200);
                 func_800542BC();
             }
-            if (encounter == 0) {
+            if (encounter_status == 0) {
                 func_80019684(0, 1, 0);
                 goto finish_state_zero;
             }
@@ -161,7 +162,7 @@ process_quotient:
         }
 
 finish_state_zero:
-        if (forced_exit == 0) {
+        if (skip_floor_setup == 0) {
             final_page = (DungeonPage80285E80 *)0x80080000;
             ASM_KEEP_NV(final_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             func_800194C4(final_page->floor_146C);
@@ -169,9 +170,9 @@ finish_state_zero:
             goto final;
         }
     } else {
-        forced_exit = 1;
+        skip_floor_setup = 1;
         if (state == 1) {
-            result = 9;
+            floor_event = 9;
             D_800E296C[0] |= 0x10000000;
             func_80019684(1, 1, 1);
             func_80053DA8(0x200);
@@ -181,28 +182,28 @@ finish_state_zero:
             goto final;
 
         } else if (state == 2) {
-            quotient = func_800A6D30() & 7;
-            encounter = func_80019684(quotient + 1, 1, 1);
-            if (encounter == 0) {
+            floor_group = func_800A6D30() & 7;
+            encounter_status = func_80019684(floor_group + 1, 1, 1);
+            if (encounter_status == 0) {
                 func_80044698();
                 func_80053DA8(0x200);
                 func_800542BC();
                 func_80019684(0, 1, 0);
             }
 
-            floor_base = (s16 *)D_80081468;
-            if (floor_base[2] == 1) {
+            floor_data = (s16 *)D_80081468;
+            if (floor_data[2] == 1) {
             {
-                s32 value;
+                s32 monster_id;
                 s32 level;
                 register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                u8 *left;
-                u8 *right;
+                u8 *even_ids;
+                u8 *odd_ids;
                 u8 *base;
                 DungeonState80285E80 *dungeon;
 
-                value = func_800A6DA4(3, 0x2D) & 0xFFFF;
-                level = floor_base[2] + (func_800A6D30() & 1);
+                monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
+                level = floor_data[2] + (func_800A6D30() & 1);
                 if (level >= 100) {
                     level = 99;
                 }
@@ -210,29 +211,29 @@ finish_state_zero:
                 dungeon = &D_80083460;
                 base = D_800DDC9C[0];
                 ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                left = base;
-                right = left + 1;
+                even_ids = base;
+                odd_ids = even_ids + 1;
                 do {
-                    dungeon->records[i].value = value;
+                    dungeon->records[i].value = monster_id;
                     dungeon->records[i].level = level;
                     i++;
-                    *right = value;
-                    *left = value;
-                    left += 2;
-                    right += 2;
+                    *odd_ids = monster_id;
+                    *even_ids = monster_id;
+                    even_ids += 2;
+                    odd_ids += 2;
                 } while (i < 4);
             }
 
             {
-                s32 value;
+                s32 monster_id;
                 s32 level;
                 register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                u8 *left;
-                u8 *right;
+                u8 *even_ids;
+                u8 *odd_ids;
                 u8 *base;
                 DungeonState80285E80 *dungeon;
 
-                value = func_800A6DA4(3, 0x2D) & 0xFFFF;
+                monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
                 level = D_8008146C[0] + (func_800A6D30() & 1);
                 if (level >= 100) {
                     level = 99;
@@ -241,16 +242,16 @@ finish_state_zero:
                 dungeon = &D_80083460;
                 base = D_800DDC9C[1];
                 ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                left = base;
-                right = left + 1;
+                even_ids = base;
+                odd_ids = even_ids + 1;
                 do {
-                    dungeon->records[i + 4].value = value;
+                    dungeon->records[i + 4].value = monster_id;
                     dungeon->records[i + 4].level = level;
                     i++;
-                    *right = value;
-                    *left = value;
-                    left += 2;
-                    right += 2;
+                    *odd_ids = monster_id;
+                    *even_ids = monster_id;
+                    even_ids += 2;
+                    odd_ids += 2;
                 } while (i < 4);
             }
             goto third_pair;
@@ -263,70 +264,70 @@ finish_state_zero:
 
 third_pair:
             {
-            s32 value;
+            s32 monster_id;
             s32 level;
-            s32 randbit;
+            s32 level_bonus;
             register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            u8 *left;
-            u8 *right;
+            u8 *even_ids;
+            u8 *odd_ids;
             s32 scratch;
             DungeonState80285E80 *dungeon;
 
-            value = func_800A6DA4(3, 0x2D) & 0xFFFF;
-            randbit = func_800A6D30() & 1;
+            monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
+            level_bonus = func_800A6D30() & 1;
             i = 0;
             scratch = 0x80080000;
             ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             dungeon = (DungeonState80285E80 *)(scratch + 0x3460);
             scratch = (s32)D_800DDC9C[2];
             ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            left = (u8 *)scratch;
-            right = left + 1;
+            even_ids = (u8 *)scratch;
+            odd_ids = even_ids + 1;
             scratch = D_8008146C[0];
-            level = scratch + randbit;
+            level = scratch + level_bonus;
             ASM_KEEP_NV(level);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             do {
-                dungeon->records[i + 8].value = value;
+                dungeon->records[i + 8].value = monster_id;
                 dungeon->records[i + 8].level = level;
                 i++;
-                *right = value;
-                *left = value;
-                left += 2;
-                right += 2;
+                *odd_ids = monster_id;
+                *even_ids = monster_id;
+                even_ids += 2;
+                odd_ids += 2;
             } while (i < 4);
         }
 
             {
-            s32 value;
+            s32 monster_id;
             s32 level;
-            s32 randbit;
+            s32 level_bonus;
             register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            u8 *left;
-            u8 *right;
+            u8 *even_ids;
+            u8 *odd_ids;
             s32 scratch;
             DungeonState80285E80 *dungeon;
 
-            value = func_800A6DA4(3, 0x2D) & 0xFFFF;
-            randbit = func_800A6D30() & 1;
+            monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
+            level_bonus = func_800A6D30() & 1;
             i = 0;
             scratch = 0x80080000;
             ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             dungeon = (DungeonState80285E80 *)(scratch + 0x3460);
             scratch = (s32)D_800DDC9C[3];
             ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            left = (u8 *)scratch;
-            right = left + 1;
+            even_ids = (u8 *)scratch;
+            odd_ids = even_ids + 1;
             scratch = D_8008146C[0];
-            level = scratch + randbit;
+            level = scratch + level_bonus;
             ASM_KEEP_NV(level);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             do {
-                dungeon->records[i + 12].value = value;
+                dungeon->records[i + 12].value = monster_id;
                 dungeon->records[i + 12].level = level;
                 i++;
-                *right = value;
-                *left = value;
-                left += 2;
-                right += 2;
+                *odd_ids = monster_id;
+                *even_ids = monster_id;
+                even_ids += 2;
+                odd_ids += 2;
             } while (i < 4);
             }
         }
@@ -337,5 +338,5 @@ load_final_page:
 final:
     final_floor = final_page->floor_146C;
     DUNGEON_GLOBALS->floor_0234 = final_floor;
-    return result;
+    return floor_event;
 }

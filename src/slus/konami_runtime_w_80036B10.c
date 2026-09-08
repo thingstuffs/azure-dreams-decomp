@@ -67,14 +67,14 @@ extern M2C_UNK D_80082BC0;
 extern void func_80033D54(void);
 extern void func_80036C44(void);
 
-/* Creates a task and initializes its source record, state, and rendering data. */
-void func_80036B10(s32 task_arg, Rec_D_80081FDC *record, s32 *source, s16 state_value, s32 setup_arg) {
+/* Initializes and links a task, then sets up its source record, state, and rendering data. */
+void func_80036B10(s32 task_buffer, Rec_D_80081FDC *record, s32 *source, s16 state_value, s32 setup_arg) {
     S_80036B10_1 *state;
     S_80036B10_3 *render_data;
     void *task;
     s16 *variant_table;
 
-    task = func_8003FF2C(0x11, task_arg, 0x49, &D_80082BC0);
+    task = func_8003FF2C(0x11, task_buffer, 0x49, &D_80082BC0);
     ((S_80036B10_0 *)task)->unk_10 = func_80036C44;
     func_8004491C(task, &func_80033D54);
     state = task + 0x20;

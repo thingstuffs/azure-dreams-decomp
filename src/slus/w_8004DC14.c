@@ -16,23 +16,23 @@ extern s32 func_8004DA74(void *a0, char *a1, s32 a2);
 
 extern int puts(const char *s);
 
-/* Allocates and formats a 0x100-byte object, freeing it on failure and echoing the format if the length reaches 0x16. */
-void *allocObject100(char *format, s32 format_arg, s32 alloc_arg2, s32 alloc_arg3)
+/* Allocates a 0x100-byte note buffer, decodes text, and frees the buffer if decoding produces no entries. */
+void *allocObject100(char *text, s32 initial_octave, s32 alloc_arg2, s32 alloc_arg3)
 {
-    void *obj;
+    void *entries;
 
-    obj = func_8004B404(0x100, format_arg, alloc_arg2, alloc_arg3);
-    if (obj != 0) {
-        if (func_8004DA74(obj, format, format_arg) != 0) {
-            if (func_8004B4DC(obj) < 0x16) {
-                return obj;
+    entries = func_8004B404(0x100, initial_octave, alloc_arg2, alloc_arg3);
+    if (entries != 0) {
+        if (func_8004DA74(entries, text, initial_octave) != 0) {
+            if (func_8004B4DC(entries) < 0x16) {
+                return entries;
             }
-            puts(format);
-            return obj;
+            puts(text);
+            return entries;
         }
-        func_8004B1A4(obj);
-        obj = 0;
+        func_8004B1A4(entries);
+        entries = 0;
     }
 
-    return obj;
+    return entries;
 }

@@ -24,20 +24,20 @@ extern struct S_80081498 {
 void func_80040190(void)
 {
     S_80081498_Node *node;
-    S_80081498_Node *nextNode;
-    s32 callbackAddress;
+    S_80081498_Node *next_node;
+    s32 callback_address;
 
     node = D_80081498.head;
     if (node != 0) {
         do {
-            callbackAddress = node->field_10;
-            nextNode = node->next;
-            if (callbackAddress >= 0 || (node->field_1E & 0x400)) {
+            callback_address = node->field_10;
+            next_node = node->next;
+            if (callback_address >= 0 || (node->field_1E & 0x400)) {
                 ;
             } else {
-                ((void (*)(void *, void *, void *))callbackAddress)((u8 *)node + 0x20, node->field_08, node->field_0C);
+                ((void (*)(void *, void *, void *))callback_address)((u8 *)node + 0x20, node->field_08, node->field_0C);
             }
-            node = nextNode;
+            node = next_node;
         } while (node != 0);
     }
 }

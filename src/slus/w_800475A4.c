@@ -7,17 +7,17 @@ struct S_800475A4_Entry {
 
 extern void func_80047338(struct S_800475A4_Entry *a0, s32 a1, u16 a2);
 
-/* Processes entries without flags 0x60 using preceding u16 values, through the entry marked 0x80. */
-void func_800475A4(struct S_800475A4_Entry *entries, s32 *value_ptr)
+/* Packs and uploads entries with flags 0x60 clear using data offsets stored before the array. */
+void func_800475A4(struct S_800475A4_Entry *entries, s32 *source_record_ptr)
 {
     struct S_800475A4_Entry *entry = entries;
-    s32 *value = value_ptr;
-    u16 *cursor = (u16 *)entries;
+    s32 *source_record = source_record_ptr;
+    u16 *data_offsets = (u16 *)entries;
 
     do {
         if (!(entry->flags & 0x60)) {
-            cursor--;
-            func_80047338(entry, *value, *cursor);
+            data_offsets--;
+            func_80047338(entry, *source_record, *data_offsets);
         }
     } while (!((entry++)->flags & 0x80));
 }

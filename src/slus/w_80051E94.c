@@ -54,30 +54,30 @@ extern void func_8004491C(S_80051E94 *a0, void (*a1)(void));
 /* Initialize an object's update callback, sub-object, lookup defaults, and fixed-point vector. */
 void func_80051E94(S_80051E94 *object, s32 sub_value)
 {
-    S_80051E94_Sub *sub;
-    S_80051E94_Ptr *ptr;
-    S_80051E94_Vec *vec;
+    S_80051E94_Sub *sub_state;
+    S_80051E94_Ptr *render_state;
+    S_80051E94_Vec *render_vector;
     s32 kind_value;
 
     object->update_func = func_80051CC4;
-    sub = &object->sub;
-    sub->field_0x00 = sub_value;
-    sub->field_0x04 = 0;
-    sub->field_0x06 = 0;
-    sub->field_0x0A = 0;
-    sub->field_0x0C = 0;
+    sub_state = &object->sub;
+    sub_state->field_0x00 = sub_value;
+    sub_state->field_0x04 = 0;
+    sub_state->field_0x06 = 0;
+    sub_state->field_0x0A = 0;
+    sub_state->field_0x0C = 0;
 
-    ptr = object->ptr;
-    ptr->field_0x0C = 0;
-    kind_value = D_80071A68[sub->field_0x0A].field_0x00;
-    ptr->field_0x1E = 0x1000;
-    ptr->field_0x1C = 0x1000;
-    ptr->field_0x08 = kind_value;
+    render_state = object->ptr;
+    render_state->field_0x0C = 0;
+    kind_value = D_80071A68[sub_state->field_0x0A].field_0x00;
+    render_state->field_0x1E = 0x1000;
+    render_state->field_0x1C = 0x1000;
+    render_state->field_0x08 = kind_value;
 
     func_8004491C(object, func_80044BB0);
 
-    vec = object->vecPtr;
-    vec->field_0x00 = 0x380000;
-    vec->field_0x04 = 0x280000;
-    vec->field_0x08 = 0x900000;
+    render_vector = object->vecPtr;
+    render_vector->field_0x00 = 0x380000;
+    render_vector->field_0x04 = 0x280000;
+    render_vector->field_0x08 = 0x900000;
 }

@@ -15,7 +15,7 @@ extern s32 D_800737A4[4];
 extern void func_80056C30(void);
 extern void func_800599B0(void);
 
-/* Sets initial global state, initializes two subsystems, and marks them active. */
+/* Sets the byte table base and bound, initializes two subsystems, and marks them active. */
 void func_800587B4(void)
 {
     D_80085FA4[0] = 0x80080000;

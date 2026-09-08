@@ -10,7 +10,7 @@ typedef struct {
 
 extern State D_80100DE0;
 
-/* Initialize the state data pointers for town script command 214. */
+/* tcame_chase2_set: Set the alternate camera chase handler and target pointers. */
 void func_800A50B8(void) {
     u8 *state = (u8 *)&D_80100DE0;
 

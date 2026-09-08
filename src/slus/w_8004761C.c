@@ -9,17 +9,17 @@ struct S_8004761C_Entry {
 
 extern void func_80047468(struct S_8004761C_Entry *a0, s32 a1, s32 a2);
 
-/* Dispatches entries with flags 0x60 clear using preceding u16 values until flag 0x80 marks the end. */
-void func_8004761C(struct S_8004761C_Entry *entries, s32 *shared_value)
+/* Packs and uploads entries with flags 0x60 clear using data offsets stored before the array. */
+void func_8004761C(struct S_8004761C_Entry *entries, s32 *source_record_ptr)
 {
     struct S_8004761C_Entry *entry = entries;
-    s32 *value_ptr = shared_value;
-    u16 *cursor = (u16 *)entries;
+    s32 *source_record = source_record_ptr;
+    u16 *data_offsets = (u16 *)entries;
 
     do {
         if (!(entry->flags & 0x60)) {
-            cursor--;
-            func_80047468(entry, *value_ptr, *cursor);
+            data_offsets--;
+            func_80047468(entry, *source_record, *data_offsets);
         }
     } while (!((entry++)->flags & 0x80));
 }

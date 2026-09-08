@@ -18,17 +18,17 @@ s32 func_80050AF0(S_80050AF0 *state, s32 allocation_arg)
 {
     s32 *sub_buffers = state->unk6C;
     s32 success = 0;
-    s32 step_result;
+    s32 buffer_address;
 
-    step_result = func_80049004(sub_buffers, allocation_arg, 0xC);
-    state->unk68 = step_result;
-    if (step_result != 0) {
-        step_result = (s32)func_80049150(sub_buffers, 9, 0xC);
-        if (step_result != 0) {
-            func_80050A58((s32 *)state->unk68, step_result);
-            step_result = func_80048FBC(sub_buffers, 0xC);
-            success = (step_result != 0);
-            state->unk2C = step_result;
+    buffer_address = func_80049004(sub_buffers, allocation_arg, 0xC);
+    state->unk68 = buffer_address;
+    if (buffer_address != 0) {
+        buffer_address = (s32)func_80049150(sub_buffers, 9, 0xC);
+        if (buffer_address != 0) {
+            func_80050A58((s32 *)state->unk68, buffer_address);
+            buffer_address = func_80048FBC(sub_buffers, 0xC);
+            success = (buffer_address != 0);
+            state->unk2C = buffer_address;
         }
     }
     return success;

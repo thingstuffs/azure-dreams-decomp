@@ -7,23 +7,24 @@ s32 func_8008B2E4(void *);
 s32 func_8008B3AC(s32);
 void func_8008B49C(s32);
 
-void func_8008B408(s32 arg0) {
+/* reserve_twch_load: reserve a town character load in an available character_slot and process it. */
+void func_8008B408(s32 character_id) {
     register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    void **slot;
-    u8 *table;
-    u8 *entry;
+    void **character_slot;
+    u8 *character_table;
+    u8 *reservation_slot;
 
     i = 0;
-    table = D_800CF838;
-    slot = (void **)(table + (arg0 * 4));
-    if (func_8008B2E4(*slot) == 0) {
+    character_table = D_800CF838;
+    character_slot = (void **)(character_table + (character_id * 4));
+    if (func_8008B2E4(*character_slot) == 0) {
         i = 0;
     } else {
         i = func_8008B3AC(i);
         if (i >= 0) {
-            entry = D_800CF828;
-            entry = (u8 *)(i + (s32)entry);
-            *entry = arg0;
+            reservation_slot = D_800CF828;
+            reservation_slot = (u8 *)(i + (s32)reservation_slot);
+            *reservation_slot = character_id;
             func_8008B49C(i);
             return;
         }
@@ -31,20 +32,20 @@ void func_8008B408(s32 arg0) {
     }
 
     {
-        u8 *scan;
-        u8 *scan_base;
+        u8 *free_slot;
+        u8 *reservations;
 
-        scan_base = D_800CF828;
-        scan = (u8 *)(i + (s32)scan_base);
+        reservations = D_800CF828;
+        free_slot = (u8 *)(i + (s32)reservations);
         do {
-            if (*scan == 0) {
-                *scan = arg0;
-                ((u8 *)((s32)scan_base + i))[1] = 0;
+            if (*free_slot == 0) {
+                *free_slot = character_id;
+                ((u8 *)((s32)reservations + i))[1] = 0;
                 func_8008B49C(i);
                 return;
             }
             i++;
-            scan = (u8 *)(i + (s32)scan_base);
+            free_slot = (u8 *)(i + (s32)reservations);
         } while (i < 15);
     }
 }

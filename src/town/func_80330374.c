@@ -8,7 +8,7 @@ extern s8 D_80016000[];
 extern s8 D_80016130[];
 extern s8 D_80016158[];
 
-/* Return the entry with the lowest value, invoking fallback callbacks if none is selected. */
+/* Returns the lowest-valued entry and reports a player.c assertion if none is selected. */
 s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
     s32 entry;
     s32 context;
@@ -19,7 +19,7 @@ s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
     s32 value;
     void *object;
     void *dispatch;
-    TownCopyFn copy_fn;
+    TownCopyFn report_assert;
     TownSetFn set_fn;
 
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -45,9 +45,9 @@ s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
     if (best_entry == 0) {
         object = *(void **)D_80016000;
         dispatch = *(void **)((s8 *)object + 0x20);
-        copy_fn = *(TownCopyFn *)((s8 *)dispatch + 0x168);
+        report_assert = *(TownCopyFn *)((s8 *)dispatch + 0x168);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        copy_fn(D_80016130, D_80016158, 0x40);
+        report_assert(D_80016130, D_80016158, 0x40);
 
         object = *(void **)D_80016000;
         dispatch = *(void **)((s8 *)object + 0x20);

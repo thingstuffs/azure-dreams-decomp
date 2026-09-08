@@ -31,44 +31,45 @@ extern void func_800B627C(s32, void *, s16, s32);
 extern void func_800B7B60(void *, void *, s16);
 extern void func_800BCFBC(s32, u32, s32);
 
-s32 func_80098920(void *arg0, void *arg1, s16 arg2, s32 arg3) {
-    s32 temp_a2;
-    s32 idx;
-    u32 temp_v0_3;
-    u32 hi;
-    s16 r;
-    void *o;
-    void (*fp)(void *, void *, s16, s32);
+/* Dispatches an action handler after processing special cases and updating dungeon state. */
+s32 func_80098920(void *actor, void *action, s16 dispatch_mode, s32 handler_param) {
+    s32 action_index;
+    s32 type_index;
+    u32 handler_entry;
+    u32 handler_tag;
+    s16 result;
+    void *linked_entity;
+    void (*handler)(void *, void *, s16, s32);
 
-    if (*((u8 *)arg1 + 1) == 0x12) {
-        if ((s16)arg2 != 0x15) {
-            func_800B7B60(arg0, arg1, arg2);
+    if (*((u8 *)action + 1) == 0x12) {
+        if ((s16)dispatch_mode != 0x15) {
+            func_800B7B60(actor, action, dispatch_mode);
             return;
         }
     }
-    idx = *((u8 *)arg1 + 1) - 1;
-    temp_a2 = *((u8 *)arg1 + 0) - 1;
-    if (*((u8 *)arg1 + 1) == 0x15) {
-        o = *(void **)((u8 *)arg0 - 0x14);
-        r = func_800B500C(*((u8 *)o + 0x24), *((u8 *)o + 0x25), *((s16 *)((u8 *)arg0 + 0x88)));
-        if (r < 0) {
+    type_index = *((u8 *)action + 1) - 1;
+    action_index = *((u8 *)action + 0) - 1;
+    if (*((u8 *)action + 1) == 0x15) {
+        linked_entity = *(void **)((u8 *)actor - 0x14);
+        result = func_800B500C(*((u8 *)linked_entity + 0x24), *((u8 *)linked_entity + 0x25), *((s16 *)((u8 *)actor + 0x88)));
+        if (result < 0) {
             return -1;
         }
-        func_800B627C(D_800E3648[r * 4], arg0, r, 1);
+        func_800B627C(D_800E3648[result * 4], actor, result, 1);
         return;
     }
     D_80083460.fieldA += 1;
-    temp_v0_3 = D_800DD6B8[idx][temp_a2];
-    hi = temp_v0_3 >> 0x18;
-    fp = (void (*)(void *, void *, s16, s32))((temp_v0_3 & 0xFFFFFF) | 0x80000000);
-    if (hi != 0) {
-        func_800BCFBC(hi - 1, hi, temp_a2);
+    handler_entry = D_800DD6B8[type_index][action_index];
+    handler_tag = handler_entry >> 0x18;
+    handler = (void (*)(void *, void *, s16, s32))((handler_entry & 0xFFFFFF) | 0x80000000);
+    if (handler_tag != 0) {
+        func_800BCFBC(handler_tag - 1, handler_tag, action_index);
     }
-    if ((s16)arg2 != 0x15) {
+    if ((s16)dispatch_mode != 0x15) {
         if (D_80082EB4[0] == 0) {
-            r = func_80098C80(arg1);
-            if (r != 0x15) {
-                if (r == 0x16) {
+            result = func_80098C80(action);
+            if (result != 0x15) {
+                if (result == 0x16) {
                     *(*(s32 **)((u8 *)D_800E3D7C[0] + 0xF0)) = 0;
                     func_80098AA0();
                     return;
@@ -76,7 +77,7 @@ s32 func_80098920(void *arg0, void *arg1, s16 arg2, s32 arg3) {
                 func_80094E34();
             }
         }
-        if ((s16)arg2 != 0x15) {
+        if ((s16)dispatch_mode != 0x15) {
             goto tail;
         }
     }
@@ -84,5 +85,5 @@ s32 func_80098920(void *arg0, void *arg1, s16 arg2, s32 arg3) {
     func_80099F04(*(s32 *)((u8 *)D_800E3D7C[0] + 0x5C));
     D_80083460.field2 |= 0x812;
 tail:
-    fp(arg0, arg1, arg2, arg3);
+    handler(actor, action, dispatch_mode, handler_param);
 }

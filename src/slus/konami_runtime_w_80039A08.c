@@ -16,7 +16,7 @@ M2C_UNK func_80053DA8();                     /* extern */
 s32 func_80053EF0();                         /* extern */
 extern M2C_UNK func_800389B4;
 
-/* Updates the state's callback and counter according to the current status. */
+/* Rewind a gated script or select its next handler according to runtime status. */
 void func_80039A08(S_80039A08_0 *state) {
     s32 status;
 

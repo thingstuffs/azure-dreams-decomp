@@ -12,7 +12,7 @@ typedef struct {
 
 extern void func_8003875C(void);
 
-/* Read two bytes into the state and set its handler to func_8003875C. */
+/* Read two script bytes into the state and select func_8003875C as the next handler. */
 void func_80039C0C(FuncState *state) {
     u8 *cursor = state->cursor;
     u8 value = *cursor++;

@@ -15,7 +15,7 @@ typedef struct {
 
 extern DungeonGroup D_80073414[];
 
-/* Marks eligible items in selected groups and records them in the item bitset. */
+/* Sets flag 0x400 and bitmap bits for items without flag 0x200 in selected item categories. */
 void func_800A9024(s32 group_bit) {
     DungeonGroup *group;
     s32 item_index;

@@ -61,7 +61,7 @@ typedef struct S_800CAFDC_3 {
     s16 unk_B0;
 } S_800CAFDC_3;   /* temp_s0 in func_800CAFDC */
 
-/* Spawns two particles near the source with randomized positions and velocities. */
+/* Spawns two salam particles near the source with randomized positions and velocities. */
 void func_800CAFDC(Rec_D_800E3D7C *source, s16 effect_param, s32 render_param) {
     s16 angle;
     s32 remaining;

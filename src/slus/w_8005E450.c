@@ -14,7 +14,7 @@ extern S_800794FC D_800794FC;
 
 extern s32 func_8005D9DC(void *arg);
 
-/* If enabled, checks the stored pointer and records and returns whether the check succeeded. */
+/* Records and returns whether enabled and the stored pointer has no matching entry. */
 s32 func_8005E450(s32 enabled) {
     s32 check_result;
 

@@ -1,29 +1,29 @@
 #include "common.h"
 
 /* Sets or clears status bit 0x2 in each variable-size record through the end marker. */
-void func_8004CE68(u8 *record, s32 setStatusBit) {
-    u8 *nextRecord = record;
-    u8 recordFlags;
+void func_8004CE68(u8 *record, s32 set_status_bit) {
+    u8 *next_record = record;
+    u8 record_flags;
 
     if (record == 0) {
         return;
     }
     do {
-        record = nextRecord;
-        if (setStatusBit != 0) {
-            recordFlags = record[1];
-            recordFlags |= 2;
+        record = next_record;
+        if (set_status_bit != 0) {
+            record_flags = record[1];
+            record_flags |= 2;
         } else {
-            recordFlags = record[1];
-            recordFlags &= 0xFD;
+            record_flags = record[1];
+            record_flags &= 0xFD;
         }
-        record[1] = recordFlags;
-        recordFlags = *(volatile u8 *)(record + 1);
-        recordFlags &= 0xFC;
-        if (recordFlags == 0x38) {
-            nextRecord = record + 0x18;
+        record[1] = record_flags;
+        record_flags = *(volatile u8 *)(record + 1);
+        record_flags &= 0xFC;
+        if (record_flags == 0x38) {
+            next_record = record + 0x18;
         } else {
-            nextRecord = record + 0xC;
+            next_record = record + 0xC;
         }
     } while ((record[0] & 0x80) == 0);
 }

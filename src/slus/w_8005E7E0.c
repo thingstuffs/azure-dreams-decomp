@@ -44,22 +44,22 @@ extern s32 WaitEvent(s32 a0);
 /* Streams sample data to a voice in SPU chunks, preserving busy and pending queue state. */
 s32 func_8005E7E0(s32 voice)
 {
-    s32 voice_or_size = voice;
+    s32 voice_or_chunk_size = voice;
     s32 remaining, spu_addr, more_chunks, saved_busy, restore_busy = 0;
     volatile s32 pending_swap = 0;
 
-    if ((u32)voice_or_size >= 10)
+    if ((u32)voice_or_chunk_size >= 10)
         return -1;
 
-    if (func_8005D9DC(D_800799C0.value[voice_or_size]) != 0)
+    if (func_8005D9DC(D_800799C0.value[voice_or_chunk_size]) != 0)
         return -1;
 
-    if (voice_or_size == 0) {
+    if (voice_or_chunk_size == 0) {
         remaining = 0x10 << D_80079980[0];
         spu_addr = 0xFFF0 << D_80079980[0];
     } else {
-        remaining = (0x10000 - D_800799C0.value[voice_or_size]) << D_80079980[0];
-        spu_addr = D_800799C0.value[voice_or_size] << D_80079980[0];
+        remaining = (0x10000 - D_800799C0.value[voice_or_chunk_size]) << D_80079980[0];
+        spu_addr = D_800799C0.value[voice_or_chunk_size] << D_80079980[0];
     }
 
     saved_busy = D_80079974[0];
@@ -76,15 +76,15 @@ s32 func_8005E7E0(s32 voice)
 
     do {
         if ((u32)remaining >= 0x401) {
-            voice_or_size = 0x400;
+            voice_or_chunk_size = 0x400;
         } else {
-            voice_or_size = remaining;
+            voice_or_chunk_size = remaining;
             more_chunks = 0;
         }
 
         func_8005D1D0(2, spu_addr);
         func_8005D1D0(1);
-        func_8005D1D0(3, D_80079550, voice_or_size);
+        func_8005D1D0(3, D_80079550, voice_or_chunk_size);
         WaitEvent(D_800794EC[0]);
         remaining -= 0x400;
         spu_addr += 0x400;

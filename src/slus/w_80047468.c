@@ -29,7 +29,7 @@ typedef struct {
     u8 *unk0C;
 } S_80047468_arg1;
 
-/* Packs an image into a texture page and uploads its pixel data. */
+/* Packs an image into the texture page region at (32, 128), decodes it, and uploads it. */
 void func_80047468(S_80047468_arg0 *image, S_80047468_arg1 *source, s32 data_offset)
 {
     int vram_x;

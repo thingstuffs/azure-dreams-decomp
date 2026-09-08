@@ -9,7 +9,7 @@ typedef struct {
     u8 *values;
 } Func8003A904State;
 
-/* Load a little-endian word from an indexed table address into the destination value slot. */
+/* Handle an event-script table read by loading a little-endian word into the destination value slot. */
 void func_8003A904(Func8003A904State *state) {
     u8 *operands;
     u8 *address_bytes;

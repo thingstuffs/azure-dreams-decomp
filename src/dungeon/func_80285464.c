@@ -102,7 +102,7 @@ extern Ent8 D_800E3CD8[];
 extern s32 D_800E3D6C;
 extern u8 D_800EA000[];
 
-/* Loads dungeon layout data into rooms, map cells, and placed records. */
+/* Loads a predefined dungeon layout with rooms, elevators, map cells, and placed records. */
 void func_80018464(s16 layout_number)
 {
     DungeonCfg *cfg;

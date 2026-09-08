@@ -17,36 +17,36 @@ extern void bzero(void *p, s32 n);
 extern s32 func_8004AE68(void *a0, void *a1);
 extern s32 func_8004AE98(void *a0, void *a1);
 
-/* Sorts entries, then orders each group using a table built from the original list. */
+/* Sorts entries by category, then orders each group using discovery ranks from the original list. */
 void func_8004B08C(S_8004AFE8 **entries) {
-    S_8004AFE8 *saved_entries[0x40];
-    u8 scratch[0x80];
+    S_8004AFE8 *original_entries[0x40];
+    u8 discovery_ranks[0x80];
     s32 count;
-    s32 next_key;
-    s32 group_key;
+    s32 entry_category;
+    s32 group_category;
     S_8004AFE8 **group;
     register u8 *work_buf ASM_REG("$17"); /* s1: copy then loop work */
-    u8 *scratch_base;
+    u8 *rank_table;
 
-    scratch_base = scratch;
-    D_80081540 = scratch_base;
+    rank_table = discovery_ranks;
+    D_80081540 = rank_table;
     group = entries;
     count = func_8004AE3C((void **)entries);
-    work_buf = (u8 *)saved_entries;
+    work_buf = (u8 *)original_entries;
     memcpy(work_buf, group, count * 4);
     ((S_8004AFE8 **)work_buf)[count] = 0;
     func_8004AFC8(group, count, 4, func_8004AE68);
-    group_key = 0;
+    group_category = 0;
     if (*group != 0) {
-        work_buf = scratch_base;
+        work_buf = rank_table;
     next_group:
         if (group != 0) {
-            next_key = (*group)->unk1;
-            if (next_key != group_key) {
-                group_key = next_key;
+            entry_category = (*group)->unk1;
+            if (entry_category != group_category) {
+                group_category = entry_category;
                 bzero(work_buf, 0x80);
                 count = func_8004AFE8(group);
-                func_8004B028(work_buf, saved_entries, group_key);
+                func_8004B028(work_buf, original_entries, group_category);
                 func_8004AFC8(group, count, 4, func_8004AE98);
                 group = group + count;
             }

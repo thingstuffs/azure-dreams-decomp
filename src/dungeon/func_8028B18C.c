@@ -49,95 +49,96 @@ extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 extern s32 D_800E3D6C[];
 
+/* Populates dungeon items with special item rolls or restores their occupied tiles on reload. */
 void func_8001E18C(void)
 {
-    u8 x;
-    u8 y;
-    u8 kind;
-    u8 subtype;
+    u8 tile_x;
+    u8 tile_y;
+    u8 item_category;
+    u8 item_subtype;
     register s32 count ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 special_x;
-    s32 special_y;
-    s32 limit;
-    s32 index;
+    s32 crystal_pending;
+    s32 category18_pending;
+    s32 slot_limit;
+    s32 spawn_index;
     s32 special_flag;
-    s32 setup_result;
+    s32 spawn_check;
     register u8 *page ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    DungeonGroup *groups;
-    DungeonRecord *record;
-    DungeonState *state;
-    DungeonRecord *reload_record;
-    DungeonRecord *spawn_record;
-    u8 *setup_page;
+    DungeonGroup *item_category_table;
+    DungeonRecord *item_record;
+    DungeonState *item_state;
+    DungeonRecord *saved_record;
+    DungeonRecord *spawn_records;
+    u8 *setup_globals;
     if (D_800E3D6C[0] & 2) {
         count = 0;
-        reload_record = (DungeonRecord *)D_800E36C8;
-        state = (DungeonState *)D_800E3548;
+        saved_record = (DungeonRecord *)D_800E36C8;
+        item_state = (DungeonState *)D_800E3548;
         do {
-            if (state->kind != 0) {
-                func_8009A21C(reload_record->x, reload_record->y, 0x800);
+            if (item_state->kind != 0) {
+                func_8009A21C(saved_record->x, saved_record->y, 0x800);
             }
-            reload_record++;
+            saved_record++;
             count++;
-            state++;
+            item_state++;
         } while (count < 0x40);
         goto function_end;
     }
 
-    setup_page = (u8 *)0x80010000;
-    *(u16 *)(setup_page + 0x3626) = *(u16 *)(setup_page + 0x3624);
-    *(u16 *)(setup_page + 0x209E) = *(u16 *)(setup_page + 0x209C);
+    setup_globals = (u8 *)0x80010000;
+    *(u16 *)(setup_globals + 0x3626) = *(u16 *)(setup_globals + 0x3624);
+    *(u16 *)(setup_globals + 0x209E) = *(u16 *)(setup_globals + 0x209C);
     D_8001F6F0[0] = 0;
-    *(u16 *)(setup_page + 0x3626) += (func_800A6D30() & 3) + 0x33;
-    *(u16 *)(setup_page + 0x209E) += (func_800A6D30() & 3) + 0x33;
+    *(u16 *)(setup_globals + 0x3626) += (func_800A6D30() & 3) + 0x33;
+    *(u16 *)(setup_globals + 0x209E) += (func_800A6D30() & 3) + 0x33;
 
     if (D_80081468[3] == 1) {
-        s32 limit_random;
+        s32 limit_roll;
 
-        special_x = 0;
-        limit_random = func_800A6D30() & 7;
-        limit = limit_random + 8;
+        crystal_pending = 0;
+        limit_roll = func_800A6D30() & 7;
+        slot_limit = limit_roll + 8;
     } else {
-        s32 limit_random;
-        s32 half_limit;
+        s32 limit_roll;
+        s32 base_limit;
 
-        special_x = 0;
-        limit_random = func_800A6D30() & 3;
-        half_limit = (s16)D_80081468[3] / 2;
-        limit = half_limit + limit_random;
+        crystal_pending = 0;
+        limit_roll = func_800A6D30() & 3;
+        base_limit = (s16)D_80081468[3] / 2;
+        slot_limit = base_limit + limit_roll;
     }
 
     if ((func_800A6D30() & 3) == 0) {
-        special_x = *(s16 *)0x8001209E >= 0x101;
+        crystal_pending = *(s16 *)0x8001209E >= 0x101;
     }
-    special_y = 0;
+    category18_pending = 0;
     if ((func_800A6D30() & 3) == 0) {
-        special_y = *(s16 *)0x80013626 >= 0x101;
+        category18_pending = *(s16 *)0x80013626 >= 0x101;
     }
 
     count = 0;
     if (*(s32 *)0x80012090 == 0) {
-        setup_result = func_800A6928(6, 3);
+        spawn_check = func_800A6928(6, 3);
         ASM_UNDEF(count);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         count = 0;
-        if ((s16)setup_result < 2) {
+        if ((s16)spawn_check < 2) {
             if ((func_800A6D30() & 3) == 0) {
-                index = (s16)func_800A71F4();
-                if (index >= 0) {
+                spawn_index = (s16)func_800A71F4();
+                if (spawn_index >= 0) {
                     do {
                         do {
-                        } while ((s16)func_800A4E2C(&x, &y) < 0);
-                    } while (func_8001E110(index, x, y) != 0);
+                        } while ((s16)func_800A4E2C(&tile_x, &tile_y) < 0);
+                    } while (func_8001E110(spawn_index, tile_x, tile_y) != 0);
 
                     {
                         s32 *spawn_table = (s32 *)D_800E3548;
-                        spawn_table[index] = 0x603;
+                        spawn_table[spawn_index] = 0x603;
                     }
-                    spawn_record = (DungeonRecord *)D_800E36C8;
-                    spawn_record[index].x = x;
-                    spawn_record[index].y = y;
-                    func_8009A21C(spawn_record[index].x,
-                                  spawn_record[index].y, 0x800);
+                    spawn_records = (DungeonRecord *)D_800E36C8;
+                    spawn_records[spawn_index].x = tile_x;
+                    spawn_records[spawn_index].y = tile_y;
+                    func_8009A21C(spawn_records[spawn_index].x,
+                                  spawn_records[spawn_index].y, 0x800);
                     count = 0;
                 }
             }
@@ -145,84 +146,84 @@ void func_8001E18C(void)
     }
 
     page = (u8 *)0x80010000;
-    groups = D_80073414;
-    state = (DungeonState *)D_800E3548;
-    record = (DungeonRecord *)D_800E36C8;
+    item_category_table = D_80073414;
+    item_state = (DungeonState *)D_800E3548;
+    item_record = (DungeonRecord *)D_800E36C8;
 main_loop:
-    if (state->active == 0) {
-            if (count >= limit) {
+    if (item_state->active == 0) {
+            if (count >= slot_limit) {
                 goto cleanup;
             }
 
-            if ((s16)func_8001E660(&kind, &subtype, 0, 0) == 0) {
-                if (kind == 0) {
+            if ((s16)func_8001E660(&item_category, &item_subtype, 0, 0) == 0) {
+                if (item_category == 0) {
                     goto next_entry;
                 }
 
-                special_flag = special_x;
+                special_flag = crystal_pending;
                 if (special_flag != 0) {
                     register u16 page_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-                    subtype = ((func_800A6D30() & 0xF) == 0) ? 2 : 1;
-                    special_x = 0;
+                    item_subtype = ((func_800A6D30() & 0xF) == 0) ? 2 : 1;
+                    crystal_pending = 0;
                     page_value = *(u16 *)(page + 0x209E);
-                    kind = 2;
+                    item_category = 2;
                     page_value &= 0xF;
                     *(u16 *)(page + 0x209E) = page_value;
                     goto commit_state;
                 }
 
-                special_flag = special_y;
+                special_flag = category18_pending;
                 ASM_KEEP_NV(special_flag);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 if (special_flag != 0) {
-                    u32 item;
+                    u32 item_flags;
 
-                    kind = 0x12;
-                    subtype = D_800DDC9C[func_800A6D30() & 0x1F];
-                    item = groups[18].entries[subtype].flags;
-                    if ((item & 0x10) != 0 &&
-                        (groups[19].entries[subtype].flags & 0x80) != 0 &&
-                        subtype >= 2) {
-                        subtype++;
+                    item_category = 0x12;
+                    item_subtype = D_800DDC9C[func_800A6D30() & 0x1F];
+                    item_flags = item_category_table[18].entries[item_subtype].flags;
+                    if ((item_flags & 0x10) != 0 &&
+                        (item_category_table[19].entries[item_subtype].flags & 0x80) != 0 &&
+                        item_subtype >= 2) {
+                        item_subtype++;
                     }
-                    special_y = 0;
+                    category18_pending = 0;
                     *(u16 *)(page + 0x3626) &= 0x3F;
                 }
             }
 
 commit_state:
-            state->active = kind;
-            state->kind = subtype;
-            func_8001E824(state);
+            item_state->active = item_category;
+            item_state->kind = item_subtype;
+            func_8001E824(item_state);
 
             do {
-            } while ((s16)func_800A4E2C(&x, &y) < 0);
+            } while ((s16)func_800A4E2C(&tile_x, &tile_y) < 0);
 
-            if (func_8001E110(count, x, y) != 0) {
-                state->active = 0;
+            if (func_8001E110(count, tile_x, tile_y) != 0) {
+                item_state->active = 0;
                 goto next_entry;
             }
 
-            record->x = x;
-            record->y = y;
+            item_record->x = tile_x;
+            item_record->y = tile_y;
             goto place_record;
         }
 
-        x = record->x;
-        y = record->y;
-        func_8001E824(state);
+        tile_x = item_record->x;
+        tile_y = item_record->y;
+        func_8001E824(item_state);
 
 place_record:
-        record->field4 = func_800BCA68((x << 6) | 0x20,
-                                       (y << 6) | 0x20);
-        record->field7 = 0;
-        func_8009A21C(x, y, 0x800);
-        record->field8 = func_800A7A38(state);
+        item_record->field4 = func_800BCA68((tile_x << 6) | 0x20,
+                                       (tile_y << 6) | 0x20);
+        item_record->field7 = 0;
+        func_8009A21C(tile_x, tile_y, 0x800);
+        item_record->field8 = func_800A7A38(item_state);
 
 next_entry:
-    state++;
+    item_state++;
     count++;
-    record++;
+    item_record++;
     if (count < 0x40) {
         goto main_loop;
     }

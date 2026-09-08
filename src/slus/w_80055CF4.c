@@ -28,7 +28,7 @@ typedef struct S_800847D0 {
 extern S_800847D0 D_800847D0;
 extern void func_80055D84(s16 param_0);
 
-/* Releases the first locked channel and clears its lock flag. */
+/* Reactivates the first locked channel and clears its lock flag. */
 void func_80055CF4(void) {
     u32 channel;
     u32 channel_bit;

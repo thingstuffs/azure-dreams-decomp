@@ -9,12 +9,12 @@ typedef struct Func80039694State {
 
 extern s32 func_80033B2C(s32 arg0);
 
-/* Reads a key and either follows the stored target address or skips it based on the key check. */
+/* Branches to the script target when the key check succeeds, otherwise skipping the target. */
 u32 func_80039694(Func80039694State *state) {
     u32 key_addr = (u32)state->read_ptr;
-    u32 key_lo = *(u8 *)key_addr;
-    u32 key_hi = *(u8 *)(key_addr + 1);
-    s16 key = (s16)(key_lo + (key_hi << 8));
+    u32 key_low_byte = *(u8 *)key_addr;
+    u32 key_high_byte = *(u8 *)(key_addr + 1);
+    s16 key = (s16)(key_low_byte + (key_high_byte << 8));
     u32 target_addr;
 
     state->read_ptr = (u8 *)(key_addr + 2);

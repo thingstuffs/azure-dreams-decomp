@@ -26,7 +26,7 @@ extern u8 D_800E36C8[];
 extern u8 D_800E39C8[];
 extern u8 D_800E3CD8[];
 
-/* Creates up to four spawn entries at unoccupied positions and updates their map cells. */
+/* Spawns up to four elevators at unoccupied positions and updates their map cells. */
 void func_8001784C(void) {
     s32 state;
     u8 x;

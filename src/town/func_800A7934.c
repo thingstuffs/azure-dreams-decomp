@@ -10,7 +10,7 @@ extern void func_800A4B94(void *);
 extern u8 D_80100D98[];
 extern State D_80100DE0;
 
-/* Sets the town script callback and its data pointer. */
+/* tcame_chase_set: Set the camera chase callback and target. */
 void func_800A5094(void) {
     u8 *state_bytes = (u8 *)&D_80100DE0;
 

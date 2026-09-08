@@ -51,28 +51,29 @@ extern s32 func_800A6DA4(s32, s32);
 extern void func_800CED28(void);
 extern void func_800CEDD8(void);
 
-void func_800CEA44(void *arg0) {
+/* Spawns and levels monster den monsters, then advances the event delays and cleanup. */
+void func_800CEA44(void *den_event) {
     register u8 *ctx ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    LocalScratch local;
+    LocalScratch scratch;
     s16 state;
     register s32 y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 x;
-    s32 entry_x;
+    s32 spawn_x;
+    s32 area_x;
     register s32 entry_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 count ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s16 attempt;
-    s32 variant;
-    s32 type;
-    s32 availability;
-    u8 *entry;
-    u8 *selection;
-    void *object;
-    u32 *loop_limits;
-    u32 limit_value;
-    u16 timer;
-    s32 random;
+    s16 retries_left;
+    s32 monster_level;
+    s32 monster_type;
+    s32 spawn_availability;
+    u8 *area;
+    u8 *monster_entry;
+    void *monster;
+    u32 *level_thresholds;
+    u32 experience;
+    u16 delay_timer;
+    s32 random_value;
 
-    ctx = arg0;
+    ctx = den_event;
     state = *(s16 *)(ctx + 6);
     if (state == 0) {
         {
@@ -81,7 +82,7 @@ void func_800CEA44(void *arg0) {
 
             area_byte = D_80082EA6;
             area_raw = (s8)area_byte;
-            local.area_index = area_raw;
+            scratch.area_index = area_raw;
             if ((s32)(area_byte << 24) < 0) {
                 goto initial_done;
             }
@@ -97,83 +98,83 @@ spawn_loop:
             goto spawn_failed;
         }
 
-        random = func_800A6D30();
+        random_value = func_800A6D30();
         {
             register u8 *global_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             global_base = (u8 *)&D_80083460;
             ASM_KEEP(global_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            selection = *(u8 **)(global_base + 0x18) + (random & 0x1E);
-            type = selection[0];
-            variant = selection[1];
+            monster_entry = *(u8 **)(global_base + 0x18) + (random_value & 0x1E);
+            monster_type = monster_entry[0];
+            monster_level = monster_entry[1];
         }
-        availability = func_800A1618(type, 1);
-        if (availability != 0) {
-            attempt = 0xF;
+        spawn_availability = func_800A1618(monster_type, 1);
+        if (spawn_availability != 0) {
+            retries_left = 0xF;
             {
                 register unsigned long area_raw ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 register s32 area_calc ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 area_offset;
 
-                area_raw = local.area_index;
+                area_raw = scratch.area_index;
                 ASM_KEEP(area_raw);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 area_calc = (s16)area_raw;
                 ASM_KEEP(area_calc);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 area_offset = area_calc * sizeof(AreaRecord);
                 ASM_KEEP(area_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 area_raw = (unsigned long)D_800E2970;
-                entry = (u8 *)(area_offset + area_raw);
+                area = (u8 *)(area_offset + area_raw);
             }
 retry_position:
-            x = func_800A6DA4(0, (u16)(((AreaRecord *)entry)->width - 1));
-            y = func_800A6DA4(0, (u16)(((AreaRecord *)entry)->height - 1));
-            entry_x = entry[0];
-            entry_y = entry[2];
-            x += entry_x;
+            spawn_x = func_800A6DA4(0, (u16)(((AreaRecord *)area)->width - 1));
+            y = func_800A6DA4(0, (u16)(((AreaRecord *)area)->height - 1));
+            area_x = area[0];
+            entry_y = area[2];
+            spawn_x += area_x;
             y = entry_y + y;
-            if (((s16)func_8009A350((u8)x - 1, (u8)y, 0,
-                                    &local.flags) == 0) ||
-                ((local.flags & 0xB700) != 0)) {
-                attempt--;
-                if (attempt >= 0) {
+            if (((s16)func_8009A350((u8)spawn_x - 1, (u8)y, 0,
+                                    &scratch.flags) == 0) ||
+                ((scratch.flags & 0xB700) != 0)) {
+                retries_left--;
+                if (retries_left >= 0) {
                     goto retry_position;
                 }
             }
 
-            if (attempt >= 0) {
+            if (retries_left >= 0) {
                 s32 spawn_type;
 
                 D_800E2968 = 1;
-                spawn_type = type;
+                spawn_type = monster_type;
                 ASM_KEEP_NV(spawn_type);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                object = func_800A0B94(spawn_type, availability, 1)
-                    (0, (u8)x, (u8)y, -0x400);
-                if (object != 0) {
+                monster = func_800A0B94(spawn_type, spawn_availability, 1)
+                    (0, (u8)spawn_x, (u8)y, -0x400);
+                if (monster != 0) {
                     func_800A152C(spawn_type, 1);
-                    func_80042640(object, spawn_type);
-                    ((u8 *)object)[0x43] = func_800A6D30();
-                    ((u8 *)object)[0x12] = 0;
+                    func_80042640(monster, spawn_type);
+                    ((u8 *)monster)[0x43] = func_800A6D30();
+                    ((u8 *)monster)[0x12] = 0;
 
                     {
                         register u32 *limits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                         limits = D_800835E4;
-                        limit_value = limits[variant];
+                        experience = limits[monster_level];
                         limits++;
-                        *(u32 *)((u8 *)object + 0x18) = limit_value;
-                        if (*(u32 *)((u8 *)object + 0x18) >=
-                            limits[((u8 *)object)[0x11]]) {
-                            loop_limits = limits;
+                        *(u32 *)((u8 *)monster + 0x18) = experience;
+                        if (*(u32 *)((u8 *)monster + 0x18) >=
+                            limits[((u8 *)monster)[0x11]]) {
+                            level_thresholds = limits;
                             do {
-                                func_800A1D4C(object, 0);
-                            } while (loop_limits[((u8 *)object)[0x11]] <=
-                                     *(u32 *)((u8 *)object + 0x18));
+                                func_800A1D4C(monster, 0);
+                            } while (level_thresholds[((u8 *)monster)[0x11]] <=
+                                     *(u32 *)((u8 *)monster + 0x18));
                         }
                     }
-                    ((u8 *)object)[0x9A] = 0x16;
-                    *(s32 *)((u8 *)object + 0x8C) = 0;
-                    *(s32 *)((u8 *)object + 0x1C) &= 0xF7FBFFFF;
-                    *(u16 *)((u8 *)object + 0x92) -= 0x200;
+                    ((u8 *)monster)[0x9A] = 0x16;
+                    *(s32 *)((u8 *)monster + 0x8C) = 0;
+                    *(s32 *)((u8 *)monster + 0x1C) &= 0xF7FBFFFF;
+                    *(u16 *)((u8 *)monster + 0x92) -= 0x200;
                 }
             }
         }
@@ -196,9 +197,9 @@ initial_done:
     }
 
     if (state == 1) {
-        timer = *(u16 *)(ctx + 4) - 1;
-        *(u16 *)(ctx + 4) = timer;
-        if ((s16)timer >= 0) {
+        delay_timer = *(u16 *)(ctx + 4) - 1;
+        *(u16 *)(ctx + 4) = delay_timer;
+        if ((s16)delay_timer >= 0) {
             return;
         }
         func_800997FC(&D_800E1C3A);
@@ -218,9 +219,9 @@ spawn_failed:
     return;
 
 other_state:
-    timer = *(u16 *)(ctx + 4) - 1;
-    *(u16 *)(ctx + 4) = timer;
-    if ((s16)timer < 0) {
+    delay_timer = *(u16 *)(ctx + 4) - 1;
+    *(u16 *)(ctx + 4) = delay_timer;
+    if ((s16)delay_timer < 0) {
         func_8004437C(0, 1);
         func_80053DA8(0x200);
         *(s32 *)(D_800E3648 + *(s16 *)(ctx + 0xC) * 4) = 0;

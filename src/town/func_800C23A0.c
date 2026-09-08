@@ -27,7 +27,7 @@ extern u8 D_80083498[12];
 extern u16 D_80083780[6];
 extern void func_800BFB8C(void);
 
-/* Allocates an object and initializes its callback, preset values, and position. */
+/* town_rain_in: creates a rain object with its callback, preset values, and position. */
 void func_800BFB00(s16 x, s16 y) {
     u16 preset_value;
     S_800BFB00_1 *state;

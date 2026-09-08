@@ -20,8 +20,8 @@ typedef struct S_80084858 {
 extern void *jtbl_80032E14[0x24];
 
 /* Activates the task, snapshots its timer on entry, and assigns the pad event priority. */
-void func_80054F9C(s32 padEvent, S_80084858 *task) {
-    u32 eventIndex;
+void func_80054F9C(s32 pad_event, S_80084858 *task) {
+    u32 event_index;
     s32 priority;
     static void *const keepalive[3] = { &&L_B1, &&L_C1, &&L_D1 };
 
@@ -30,11 +30,11 @@ void func_80054F9C(s32 padEvent, S_80084858 *task) {
         task->field4 = 2;
     }
 
-    eventIndex = (padEvent & 0xFF) - 0xB1;
-    if (eventIndex >= 0x24) {
+    event_index = (pad_event & 0xFF) - 0xB1;
+    if (event_index >= 0x24) {
         goto L_default;
     }
-    goto *jtbl_80032E14[eventIndex];
+    goto *jtbl_80032E14[event_index];
 
 L_B1:
     priority = 0xF;

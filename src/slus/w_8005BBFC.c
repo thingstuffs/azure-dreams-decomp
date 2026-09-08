@@ -102,7 +102,7 @@ s32 fine_note_arg;
 enum E_u16 left_gain_arg;
 enum E_u16 right_gain_arg;
 {
-  S_8005BBFC_req req;
+  S_8005BBFC_req voice_request;
   u16 program;
   u16 left_gain;
   u16 right_gain;
@@ -182,27 +182,27 @@ enum E_u16 right_gain_arg;
         }
         while (sample < sample_index);
       }
-      req.f04 = 0x701EF;
-      req.f0c = 0;
-      req.f0e = 0;
-      req.f00 = D_80073740[channel];
+      voice_request.f04 = 0x701EF;
+      voice_request.f0c = 0;
+      voice_request.f0e = 0;
+      voice_request.f00 = D_80073740[channel];
       sample_offset <<= 3;
-      req.f1c = D_80086A40[(s16) bank].f10 + sample_offset;
+      voice_request.f1c = D_80086A40[(s16) bank].f10 + sample_offset;
       adsr1 = tone_data->f10;
-      req.f3a = adsr1;
+      voice_request.f3a = adsr1;
       D_80085458[channel].f60 = adsr1;
       adsr2 = tone_data->f12;
-      req.f3c = adsr2;
+      voice_request.f3c = adsr2;
       D_80085458[channel].f64 = adsr2;
       if (tone_data->f10 & 0x80)
       {
-        req.f24 = 5;
+        voice_request.f24 = 5;
       }
       else
       {
-        req.f24 = 1;
+        voice_request.f24 = 1;
       }
-      req.f20 = req.f1c;
+      voice_request.f20 = voice_request.f1c;
       D_80085458[channel].f22 = tone_data->f04;
       D_80085458[channel].f23 = tone_data->f05;
       D_80085458[channel].f21 = tone_data->f0c;
@@ -250,20 +250,20 @@ enum E_u16 right_gain_arg;
       right_scaled = right_volume * ((s16) right_gain);
       D_80085458[channel].f10 = (s16) (left_scaled >> 7);
       D_80085458[channel].f12 = (u16) (right_scaled >> 7);
-      req.f08 = (s16) D_80085458[channel].f10;
-      req.f0a = D_80085458[channel].f12;
-      req.f16 = note_pitch;
+      voice_request.f08 = (s16) D_80085458[channel].f10;
+      voice_request.f0a = D_80085458[channel].f12;
+      voice_request.f16 = note_pitch;
       ASM_USE_NV(note_pitch);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
 
       if (tone_data->f05 != 0)
       {
-        req.f18 = (((u8 *) tone_data)[-0x1C] << 8) | (0x7F - tone_data->f05);
+        voice_request.f18 = (((u8 *) tone_data)[-0x1C] << 8) | (0x7F - tone_data->f05);
       }
       else
       {
-        req.f18 = tone_data->f05 | (tone_data->f04 << 8);
+        voice_request.f18 = tone_data->f05 | (tone_data->f04 << 8);
       }
-      func_8005EC0C(&req);
+      func_8005EC0C(&voice_request);
       if (tone_data->f01 & 4)
       {
         func_8005E4A0(1, D_80073740[channel]);

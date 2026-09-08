@@ -25,23 +25,24 @@ extern s32 func_800A6D30(void);
 extern s32 func_800A9230(void *);
 extern s32 func_800BCB04(s32, s32, s32);
 
-void func_800A08A0(s32 arg0) {
-    void *object;
-    s32 type;
-    s32 kind;
-    s32 variant;
+/* Places a monster from the spawn table and raises it to the selected level. */
+void func_800A08A0(s32 spawn_mode) {
+    void *monster;
+    s32 monster_type;
+    s32 mode;
+    s32 spawn_level;
     register u8 raw_variant ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 attempt;
     register s32 distance ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *map;
-    s32 table_index;
-    s32 value;
+    u8 *reference_object;
+    s32 fixed_entry_offset;
+    s32 spawn_height;
     register s32 dx ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 dy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 x;
-    u8 y;
+    u8 tile_x;
+    u8 tile_y;
     register u32 *limits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    SpawnFunc spawn;
+    SpawnFunc spawn_monster;
 
     distance = 0x100;
     if (D_800E296C & 0x10000000) {
@@ -52,30 +53,30 @@ void func_800A08A0(s32 arg0) {
     }
 
     attempt = 0;
-    map = D_80082E80;
-    kind = (s16)arg0;
-    table_index = (kind - 2) * 2;
+    reference_object = D_80082E80;
+    mode = (s16)spawn_mode;
+    fixed_entry_offset = (mode - 2) * 2;
 
     do {
-        func_800A4E2C(&x, &y);
-        if ((s16)func_8009FB34(x, y) < 0) {
+        func_800A4E2C(&tile_x, &tile_y);
+        if ((s16)func_8009FB34(tile_x, tile_y) < 0) {
             continue;
         }
 
-        if (kind == 0) {
-            s32 y_value;
+        if (mode == 0) {
+            s32 tile_y_value;
             {
                 register s32 x_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                dx = map[0x24];
-                x_value = x;
-                y_value = y;
+                dx = reference_object[0x24];
+                x_value = tile_x;
+                tile_y_value = tile_y;
                 dx -= x_value;
             }
-            dy = map[0x25];
+            dy = reference_object[0x25];
             if (dx < 0) {
                 dx = -dx;
             }
-            dy -= y_value;
+            dy -= tile_y_value;
             if (dy < 0) {
                 dy = -dy;
             }
@@ -87,69 +88,69 @@ void func_800A08A0(s32 arg0) {
         }
 
         {
-            s16 selected_index;
-            u8 *entry;
+            s16 entry_offset;
+            u8 *spawn_entry;
 
-            selected_index = (kind < 2) ?
-                             ((func_800A6D30() & 0xF) * 2) : table_index;
+            entry_offset = (mode < 2) ?
+                             ((func_800A6D30() & 0xF) * 2) : fixed_entry_offset;
             {
-                u8 **base_addr = (u8 **)&D_80083478;
-                s32 signed_index = selected_index;
-                u8 *base = *base_addr;
-                entry = (u8 *)(signed_index + (s32)base);
+                u8 **spawn_table_addr = (u8 **)&D_80083478;
+                s32 signed_entry_offset = entry_offset;
+                u8 *spawn_table = *spawn_table_addr;
+                spawn_entry = (u8 *)(signed_entry_offset + (s32)spawn_table);
             }
-            raw_variant = entry[1];
+            raw_variant = spawn_entry[1];
             D_800E2968 = raw_variant;
-            type = entry[0];
+            monster_type = spawn_entry[0];
         }
 
-        if (type == 0) {
+        if (monster_type == 0) {
             return;
         }
-        variant = raw_variant;
-        object = func_800A1618(type, 1);
-        if (object == 0) {
+        spawn_level = raw_variant;
+        monster = func_800A1618(monster_type, 1);
+        if (monster == 0) {
             continue;
         }
 
         ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        value = func_800BCB04((x << 6) | 0x20, (y << 6) | 0x20, -0x400);
-        spawn = func_800A0B94(type, object, 1);
-        object = spawn(0, x, y, (s16)value);
-        if (object == 0) {
+        spawn_height = func_800BCB04((tile_x << 6) | 0x20, (tile_y << 6) | 0x20, -0x400);
+        spawn_monster = func_800A0B94(monster_type, monster, 1);
+        monster = spawn_monster(0, tile_x, tile_y, (s16)spawn_height);
+        if (monster == 0) {
             return;
         }
 
-        func_800A152C(type, 1);
-        func_80042640(object, type);
-        ((u8 *)object)[0x43] = func_800A6D30();
-        ((u8 *)object)[0x12] = 0;
+        func_800A152C(monster_type, 1);
+        func_80042640(monster, monster_type);
+        ((u8 *)monster)[0x43] = func_800A6D30();
+        ((u8 *)monster)[0x12] = 0;
 
-        if (kind >= 2) {
-            u8 *owner = *(u8 **)((u8 *)object - 0x14);
+        if (mode >= 2) {
+            u8 *owner = *(u8 **)((u8 *)monster - 0x14);
             func_8009A3D0(owner[0x24], owner[0x25], 0x3000);
-            func_800A32A4(object);
-            func_8009A028(object);
-            *(u16 *)((u8 *)object - 2) |= 0x8000;
+            func_800A32A4(monster);
+            func_8009A028(monster);
+            *(u16 *)((u8 *)monster - 2) |= 0x8000;
             D_800814A0 |= 0x8000;
             func_800A0B64();
         }
 
         limits = D_800835E4;
-        ((u32 *)((u8 *)object + 0x18))[0] = limits[variant];
+        ((u32 *)((u8 *)monster + 0x18))[0] = limits[spawn_level];
         limits++;
-        if (*(u32 *)((u8 *)object + 0x18) >= limits[((u8 *)object)[0x11]]) {
-            u32 *loop_limits = limits;
-            u32 limit_value;
+        if (*(u32 *)((u8 *)monster + 0x18) >= limits[((u8 *)monster)[0x11]]) {
+            u32 *level_thresholds = limits;
+            u32 next_level_exp;
             do {
-                func_800A1D4C(object, 0);
-                limit_value = loop_limits[((u8 *)object)[0x11]];
-            } while (*(u32 *)((u8 *)object + 0x18) >= limit_value);
+                func_800A1D4C(monster, 0);
+                next_level_exp = level_thresholds[((u8 *)monster)[0x11]];
+            } while (*(u32 *)((u8 *)monster + 0x18) >= next_level_exp);
         }
-        if (((u8 *)object)[0x49] != 0) {
+        if (((u8 *)monster)[0x49] != 0) {
             return;
         }
-        *(s32 *)((u8 *)object + 0x48) = func_800A9230(object);
+        *(s32 *)((u8 *)monster + 0x48) = func_800A9230(monster);
         func_800A0B64();
     } while (++attempt < 0x10);
 }

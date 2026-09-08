@@ -7,7 +7,7 @@ typedef struct RuntimeState {
     u8 *table;
 } RuntimeState;
 
-/* Load a table slot through an indexed pointer in the encoded address table. */
+/* Load a VM table word through a pointer selected by a table index value. */
 void func_8003A1A4(RuntimeState *state) {
     u8 *cursor;
     u8 *addr_bytes;

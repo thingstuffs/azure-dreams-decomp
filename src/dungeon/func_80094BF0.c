@@ -29,15 +29,15 @@ s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags)
 {
     s32 grid_x;
     s32 grid_y;
-    s32 index;
+    s32 entry_index;
     SharedState *state;
     Entry *entry;
 
     grid_x = x + D_8006CCD8[offset_index];
     state = &D_80083160;
     grid_y = y + D_8006CCE8[offset_index];
-    index = grid_x + (grid_y << state->grid.shift);
-    entry = (Entry *)((index * sizeof(Entry)) +
+    entry_index = grid_x + (grid_y << state->grid.shift);
+    entry = (Entry *)((entry_index * sizeof(Entry)) +
                       (unsigned long)state->grid.entries);
     *flags = entry->flags;
     return entry->value;

@@ -37,7 +37,8 @@ typedef struct S_8001BF84_1 {
     s32 unk_688;
 } S_8001BF84_1;   /* store_base in func_8001BF84 */
 
-u8 *func_8001BF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Initializes or retrieves the memory card message object. */
+u8 *func_8001BF84(s32 message_param_1, s32 message_param_2, s32 message_param_3, s32 message_param_4)
 {
     s32 result;
     u8 *store_base;
@@ -64,7 +65,7 @@ u8 *func_8001BF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     store_base = child;
     ASM_KEEP_NV(store_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     ((S_8001BF84_1 *)store_base)->unk_688 = result;
-    func_80402EBC(store_base, arg0, arg1, arg2, arg3);
+    func_80402EBC(store_base, message_param_1, message_param_2, message_param_3, message_param_4);
     ((S_8001BF84_0 *)root)->unk_10 = (s32)D_80402F04;
     return root;
 }

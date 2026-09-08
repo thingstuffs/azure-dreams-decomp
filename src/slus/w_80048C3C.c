@@ -27,7 +27,7 @@ M2C_UNK func_80048B8C();                      /* extern */
 extern u8 D_80071210[];
 extern s8 D_80080A89[9];
 
-/* Load and initialize a resource, upload its payload, and return its table slot. */
+/* Loads and initializes a resource, registers its payload in two VRAM cache slots, and returns its table slot. */
 void *func_80048C3C(s32 resource_id) {
     void *payload;
     register void *entry ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */

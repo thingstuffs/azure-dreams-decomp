@@ -20,7 +20,7 @@ extern struct { S_80081490 *head; s32 pad[2]; } D_80081498;   /* active list hea
 extern void func_8003DB4C(void *p, s32 n);
 extern void *func_8003FB98(s32 a0, void *a1);
 
-/* Allocates and initializes an active node, falling back to active-list reuse when allowed. */
+/* Allocates and initializes an active node, reclaiming an eligible active node if needed and allowed. */
 void *func_8003FC64(s32 flags)
 {
     S_80081490 *node;

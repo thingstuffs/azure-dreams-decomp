@@ -42,7 +42,7 @@ extern s32 D_800814A0_abs __attribute__((section(".data")));
 __asm__(".set D_800814A0_abs, 0x800814A0");
 
 /* Creates an owner and its companion object, flagging failed setup for cleanup. */
-void *func_80050BA4(s32 init_data)
+void *func_80050BA4(s32 context)
 {
   void *owner;
   S_80050BA4_s1 *object;
@@ -63,7 +63,7 @@ void *func_80050BA4(s32 init_data)
     {
       object->field_0xC = &object->field_0x78;
       state->field_0x64 = func_80050B7C(state->field_0x68);
-      func_80050A00(state, (void *) init_data);
+      func_80050A00(state, (void *) context);
       object->field_0x10 = (void *) func_80050694;
       resource = func_8004FDE0((void *) 2);
       state->field_0x28 = resource;

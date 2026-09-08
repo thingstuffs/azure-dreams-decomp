@@ -7,7 +7,7 @@ typedef struct RuntimeState {
     u8 *base;
 } RuntimeState;
 
-/* Stores an indexed runtime word in little-endian order at the destination read from the stream. */
+/* Store a VM table word as little-endian bytes at an encoded address plus a word offset. */
 void func_8003A2E0(RuntimeState *state) {
     u8 *dst;
     u8 *src;

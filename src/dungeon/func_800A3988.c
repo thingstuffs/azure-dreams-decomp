@@ -19,7 +19,7 @@ typedef struct {
 extern void func_8004A8D8(u8, u8);
 extern DungeonGroup D_80073414[];
 
-/* Update the selected dungeon entry and clear its 0x0400 flag. */
+/* Updates the selected item through func_8004A8D8 and clears its flag 0x400 in the item category table. */
 void func_800A90E8(DungeonArg *selection)
 {
     func_8004A8D8(selection->group, selection->index);

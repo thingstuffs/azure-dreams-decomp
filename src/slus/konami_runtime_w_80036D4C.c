@@ -65,25 +65,25 @@ extern M2C_UNK D_80082BC0;
 extern M2C_UNK func_80033D54;
 extern M2C_UNK func_80036F24;
 
-/* Creates a runtime object and initializes its record, state, and display data. */
-void func_80036D4C(s32 create_id, Rec_D_80081FDC *record, s32 *config, s16 initial_mode, s32 initial_value, s32 setup_id) {
+/* Initializes and links a runtime node, then sets its record, state, and display data. */
+void func_80036D4C(s32 node_addr, Rec_D_80081FDC *record, s32 *config, s16 initial_mode, s32 initial_value, s32 setup_id) {
     S_80036D4C_1 *state;
     S_80036D4C_3 *display;
-    void *object;
+    void *node;
 
-    object = func_8003FF2C(0x11, create_id, 0x49, &D_80082BC0);
-    ((S_80036D4C_0 *)object)->unk_10 = &func_80036F24;
-    func_8004491C(object, &func_80033D54);
-    state = object + 0x20;
-    display = ((S_80036D4C_0 *)object)->unk_0C;
+    node = func_8003FF2C(0x11, node_addr, 0x49, &D_80082BC0);
+    ((S_80036D4C_0 *)node)->unk_10 = &func_80036F24;
+    func_8004491C(node, &func_80033D54);
+    state = node + 0x20;
+    display = ((S_80036D4C_0 *)node)->unk_0C;
     state->unk_44 = config;
     state->unk_48 = 1;
     state->unk_4A = initial_mode;
     func_80033C1C(record, *config);
-    ((S_80036D4C_0 *)object)->unk_20 = record;
+    ((S_80036D4C_0 *)node)->unk_20 = record;
     record->unk_60 = 6;
-    ((S_80036D4C_5 *)(((S_80036D4C_4 *)object)->unk_20))->unk_10 = 0x47;
-    ((S_80036D4C_5 *)(((S_80036D4C_4 *)object)->unk_20))->unk_14 = 2;
+    ((S_80036D4C_5 *)(((S_80036D4C_4 *)node)->unk_20))->unk_10 = 0x47;
+    ((S_80036D4C_5 *)(((S_80036D4C_4 *)node)->unk_20))->unk_14 = 2;
     state->unk_04 = 0;
     state->unk_08 = 0;
     func_800350B0(setup_id, state);

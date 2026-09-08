@@ -4,7 +4,7 @@
 
 extern s8 D_80082B4B;
 
-/* Sets the byte stored in D_80082B4B. */
-void func_80038000(s8 value) {
-    D_80082B4B = value;
+/* mes_skip_disable_set: Sets the message skip disable flag. */
+void func_80038000(s8 skip_disabled) {
+    D_80082B4B = skip_disabled;
 }

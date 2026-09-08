@@ -50,16 +50,16 @@ extern u8 D_80016F88[];
 extern s32 D_80016FC8;
 extern s32 D_80016FCC;
 
-/* Build town records and bucket link lists, then report their counts and the slot count. */
-void func_800168B4(s32 *entries, s32 records_start, s32 *links_start)
+/* Build object-set records and object-select lists, then report their counts and the CD-header count. */
+void func_800168B4(s32 *entries, s32 ost_w, s32 *osel_w)
 {
-    s32 records_end;
+    s32 p;
     s32 entry_index;
     s32 bucket_bits;
     s32 bank_bits;
 
     entry_index = 0;
-    records_end = records_start;
+    p = ost_w;
     if (*entries != 0) {
         TownEntry *entry = (TownEntry *)entries;
 
@@ -80,20 +80,20 @@ void func_800168B4(s32 *entries, s32 records_start, s32 *links_start)
 
                     entry->flags = choice_flags;
                     next_record = func_8001643C(
-                        records_end,
+                        p,
                         ((s32 *)entry->choices)[(choice_index << 2) + 2],
                         choice_flags, entry_index);
-                    if ((next_record - 0x14) == records_end) {
+                    if ((next_record - 0x14) == p) {
                         goto next_entry;
                     }
                     func_800163B8(&D_80016FC8, entry);
-                    entry->link = records_end;
-                    records_end = next_record;
+                    entry->link = p;
+                    p = next_record;
                     goto next_entry;
                 } else {
-                    entry->link = records_end;
-                    records_end = func_8001643C(
-                        records_end, (s32)entry->choices, 0, entry_index);
+                    entry->link = p;
+                    p = func_8001643C(
+                        p, (s32)entry->choices, 0, entry_index);
                 }
             }
 next_entry:
@@ -103,11 +103,11 @@ next_entry:
     }
 
     (*(ReportFunc *)((u8 *)(((Rec_D_80016000 *)D_80016000)->unk_20) + 0x168))(
-        D_80016178, D_80016184, ((u32)records_end - (u32)records_start) / 20U);
+        D_80016178, D_80016184, ((u32)p - (u32)ost_w) / 20U);
 
     {
         s32 bucket_id = 0;
-        s32 *link_out = links_start - 1;
+        s32 *pp = osel_w - 1;
 
         if (*entries != 0) {
             TownEntry *entry = (TownEntry *)entries;
@@ -122,19 +122,19 @@ next_entry:
                     s32 **bucket_banks;
                     s32 *bucket_base;
 
-                    link_out++;
+                    pp++;
                     bucket_id = bucket_bits;
                     bucket_banks = (s32 **)D_80016000->unk_30.as_s32;
                     bucket_base = bucket_banks[(bank_bits & 4) >> 2];
-                    ((TownBucket *)bucket_base)[bucket_id].out = link_out;
-                    *link_out = 0;
+                    ((TownBucket *)bucket_base)[bucket_id].out = pp;
+                    *pp = 0;
                 }
                 flags_or_link = entry->link;
                 if ((flags_or_link != 0) &&
                     (((entry->flags >> 15) & 1) == 0)) {
-                    *link_out = flags_or_link;
-                    link_out++;
-                    *link_out = 0;
+                    *pp = flags_or_link;
+                    pp++;
+                    *pp = 0;
                 }
                 entry++;
             } while (entry->flags != 0);
@@ -142,29 +142,29 @@ next_entry:
 
         (*(ReportFunc *)((u8 *)(((Rec_D_80016000 *)D_80016000)->unk_20) + 0x168))(
             D_80016178, D_800161B0,
-            ((u32)link_out - (u32)links_start) >> 2);
+            ((u32)pp - (u32)osel_w) >> 2);
     }
 
     {
-        s32 has_slots = D_80016FCC;
-        u8 *slot;
-        s32 slot_count;
+        s32 has_cd_headers = D_80016FCC;
+        u8 *cd_header;
+        s32 cdhd_cnt;
 
-        if (has_slots != 0) {
-            slot = D_80016F88 + 0x40;
-            slot_count = 1;
+        if (has_cd_headers != 0) {
+            cd_header = D_80016F88 + 0x40;
+            cdhd_cnt = 1;
         } else {
-            slot = &D_80016F88[0x40];
-            slot_count = 1;
+            cd_header = &D_80016F88[0x40];
+            cdhd_cnt = 1;
         }
-        if (has_slots != 0) {
+        if (has_cd_headers != 0) {
             do {
-                slot += 8;
-                slot_count++;
-            } while (((S_800168B4_3 *)slot)->unk_04 != 0);
+                cd_header += 8;
+                cdhd_cnt++;
+            } while (((S_800168B4_3 *)cd_header)->unk_04 != 0);
         }
 
         (*(ReportFunc *)((u8 *)(((Rec_D_80016000 *)D_80016000)->unk_20) + 0x168))(
-            D_80016178, D_800161E0, slot_count);
+            D_80016178, D_800161E0, cdhd_cnt);
     }
 }

@@ -25,7 +25,7 @@ extern void func_80041E28(void *arg0, void *arg1);
 extern s8 func_800422A8(void *arg0, void *arg1, s32 arg2, s32 arg3);
 extern u8 D_800E3DF0[];
 extern u8 D_800E3E48[];
-/* Initializes default state, builds the entry table, and snapshots entry data. */
+/* Initializes Koh's default properties, builds the entry table, and snapshots entry data. */
 void func_80017068(void)
 {
   s32 slot_index;

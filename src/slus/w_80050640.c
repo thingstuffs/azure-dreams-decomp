@@ -12,7 +12,7 @@ extern void func_80050550(void *a0, s32 a1, s32 a2);
 extern void func_800505BC(void *a0, s32 a1, s32 a2, s32 a3);
 extern void func_80050308(void *a0);
 
-/* Advances the object's counter, updates its buffer, installs its callback, and dispatches it. */
+/* Starts the ratio ramp using the current counter, advances it, and updates the object. */
 void func_80050640(S_80050640 *obj)
 {
     func_80050550(&obj->buf58, obj->counter++, 3);

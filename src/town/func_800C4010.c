@@ -14,13 +14,13 @@ typedef struct S_800C1770_1 {
     s16 unk_06;
 } S_800C1770_1;   /* temp_v0 in func_800C1770 */
 
-/* Store four signed 16-bit values in D_800D4258. */
-void func_800C1770(s16 value_0, s16 value_1, s16 value_2, s16 value_3) {
-    u8 *values;
+/* town_sdall_reserve: reserve the four town sound effect and sequence values. */
+void func_800C1770(s16 effect_id, s16 sound_id, s16 sequence_effect, s16 sequence_id) {
+    u8 *reserved_sound;
 
-    ((S_800C1770_0 *)D_800D4258)->unk_00 = value_0;
-    values = D_800D4258;
-    ((S_800C1770_1 *)values)->unk_02 = value_1;
-    ((S_800C1770_1 *)values)->unk_04 = value_2;
-    ((S_800C1770_1 *)values)->unk_06 = value_3;
+    ((S_800C1770_0 *)D_800D4258)->unk_00 = effect_id;
+    reserved_sound = D_800D4258;
+    ((S_800C1770_1 *)reserved_sound)->unk_02 = sound_id;
+    ((S_800C1770_1 *)reserved_sound)->unk_04 = sequence_effect;
+    ((S_800C1770_1 *)reserved_sound)->unk_06 = sequence_id;
 }

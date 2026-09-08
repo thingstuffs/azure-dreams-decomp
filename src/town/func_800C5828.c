@@ -20,7 +20,7 @@ extern u8 D_800C321C[];
 
 extern s32 func_80033D38(void *);
 
-/* Find the first eligible node of either supported kind with the requested ID. */
+/* psn_lookable_get: find the first eligible person node with the requested ID. */
 Node *func_800C2F88(s16 target_id)
 {
     Node *node;

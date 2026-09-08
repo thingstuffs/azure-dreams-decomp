@@ -2,10 +2,10 @@
 
 extern s16 func_8005ECF8(s32 a0);
 
-/* Forward whether flag is nonzero to func_8005ECF8 and return its result. */
-s16 func_8005AC30(s16 flag)
+/* Checks SPU transfer completion, waiting when requested. */
+s16 func_8005AC30(s16 wait_for_completion)
 {
-    if (!flag)
+    if (!wait_for_completion)
         return func_8005ECF8(0);
     return func_8005ECF8(1);
 }

@@ -11,7 +11,7 @@ typedef struct S_8004E21C {
 
 extern void *func_8004E188(void *a0, u8 a1);
 
-/* Decode an item code, copy the resulting word to the destination, and return it. */
+/* Decodes an item code, copies the packed fields, and returns the destination. */
 void *decodeItemCode(void *dest, u8 item_code)
 {
     S_8004E21C decoded;

@@ -5,6 +5,7 @@
 M2C_UNK func_80020298();                            /* extern */
 M2C_UNK func_800C2444();                            /* extern */
 
+/* Run the two handlers for town script call 99. */
 void func_800C2478(void) {
     func_800C2444();
     func_80020298();

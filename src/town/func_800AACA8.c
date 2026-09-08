@@ -7,10 +7,10 @@ typedef struct {
 
 extern D800D0E44 D_800D0E44;
 
-/* Stores and returns the supplied value. */
-s32 func_800A8408(s32 new_value) {
-    s32 value = new_value;
+/* washed_dish_suu_set: Set and return the washed dish count. */
+s32 func_800A8408(s32 new_count) {
+    s32 dish_count = new_count;
 
-    D_800D0E44.value = value;
-    return value;
+    D_800D0E44.value = dish_count;
+    return dish_count;
 }

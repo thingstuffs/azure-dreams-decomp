@@ -26,11 +26,11 @@ extern s32 D_80083780[];
 extern u16 D_800DDE84[];
 extern s32 D_800E3D7C[];
 
-/* Dispatch an item action using its flags and the target selector, then update the counter. */
+/* Dispatch an item action using its category flags and target selector, then decrement the counter. */
 s32 func_800BE360(void *target, void *item, s16 action_type, s32 action_value) {
     s32 item_index;
-    s32 group_index;
-    DungeonItem *entries;
+    s32 category_index;
+    DungeonItem *item_entries;
     u16 *selector_table;
     u8 *counter_base;
     u8 *fallback_page;
@@ -50,10 +50,10 @@ s32 func_800BE360(void *target, void *item, s16 action_type, s32 action_value) {
     }
     if ((u32)target <= 0x9FFFFFFFU) {
         func_800A6480(target, item, action_type);
-        group_index = *((u8 *)item + 1);
+        category_index = *((u8 *)item + 1);
         item_index = *((u8 *)item + 0);
-        entries = D_80073414[group_index].entries;
-        item_flags = entries[item_index].flags;
+        item_entries = D_80073414[category_index].entries;
+        item_flags = item_entries[item_index].flags;
         if (!(item_flags & 0x8000)) {
             selector_page = (u8 *)0x800E0000;
             ASM_KEEP(selector_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */

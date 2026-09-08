@@ -8,7 +8,7 @@ extern s32 func_80021EE0(void *arg0);
 
 extern s32 D_80083E98[][32];
 
-/* Clears the data state or refreshes the indexed entry while preserving that state. */
+/* Marks quest data as loaded, optionally refreshing its indexed entry while preserving its state. */
 void func_80021FF0(s32 entry_index, void *data, s32 update_entry) {
     s32 context[8];
     s32 *entry_table;

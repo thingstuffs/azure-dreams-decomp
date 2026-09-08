@@ -30,31 +30,31 @@ typedef struct S_8004EF90 {
     S_8004EF90_sub sub;
 } S_8004EF90;
 
-/* Initializes the object header and sub-structure, returning a pointer just past the sub-structure. */
+/* Initialize the object header and embedded record, then return the following anchor. */
 void *func_8004EF90(void *cursor)
 {
     S_8004EF90 *object = (S_8004EF90 *)cursor;
-    S_8004EF90_sub *subHeader;
-    s32 subInitValue;
-    s32 initialHeaderWord4;
-    s32 initialHeaderWordC;
+    S_8004EF90_sub *sub_header;
+    s32 sub_init_value;
+    s32 initial_word_4;
+    s32 initial_word_c;
 
     object->unk1 = 0xB0;
     object->unk8 = D_80071660[0];
-    subInitValue = 0x81;
-    initialHeaderWord4 = D_80071668[0];
-    initialHeaderWordC = D_80071664[0];
+    sub_init_value = 0x81;
+    initial_word_4 = D_80071668[0];
+    initial_word_c = D_80071664[0];
     object->unk1 = 2 | object->unk1;
-    object->unk4 = initialHeaderWord4;
-    object->unkC = initialHeaderWordC;
+    object->unk4 = initial_word_4;
+    object->unkC = initial_word_c;
 
     cursor = (u8 *)cursor + 0x18;
-    subHeader = (S_8004EF90_sub *)cursor;
-    subHeader->unk1 = subInitValue;
-    subHeader->unk4 = 0x20;
-    subInitValue = 0;
-    subHeader->unk6 = subInitValue;
-    subHeader->unk0 = subHeader->unk0 | 0x80;
+    sub_header = (S_8004EF90_sub *)cursor;
+    sub_header->unk1 = sub_init_value;
+    sub_header->unk4 = 0x20;
+    sub_init_value = 0;
+    sub_header->unk6 = sub_init_value;
+    sub_header->unk0 = sub_header->unk0 | 0x80;
 
     return (u8 *)cursor + 0xC;
 }

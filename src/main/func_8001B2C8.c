@@ -17,10 +17,10 @@ extern s32 D_8009EB58[];
 s32 func_804022C8(s32 slot_index)
 {
     u8 state[32];
-    s32 poll_count;
+    s32 cnt;
     s32 result;
 
-    poll_count = 0;
+    cnt = 0;
     func_80401BF4(state, slot_index);
     func_80408654(0);
     func_80408654(1);
@@ -29,11 +29,11 @@ s32 func_804022C8(s32 slot_index)
     do {
         result = func_8040153C();
         if (result == 0) {
-            poll_count++;
+            cnt++;
             func_800702F0(0);
         }
     } while (result == 0);
-    func_8007C040(D_80400038, D_804000F8, poll_count);
+    func_8007C040(D_80400038, D_804000F8, cnt);
 
     if (slot_index < 5) {
         s32 *counters;

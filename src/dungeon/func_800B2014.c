@@ -102,31 +102,32 @@ typedef struct S_800B7774_6_pre {
     u16 unk_00;
 } S_800B7774_6_pre;   /* the 0x2 bytes before temp_v0_6 in func_800B7774, addressed as temp_v0_6[-1] */
 
-void func_800B7774(void *arg0, Coord *arg1, void *arg2) {
-    s16 sp18;
-    s16 sp1A;
+/* Spawns and levels the egg bomb monster, then advances its activation and cleanup. */
+void func_800B7774(void *egg_bomb, Coord *position, void *effect) {
+    s16 spawn_x;
+    s16 spawn_y;
     s32 held_x;
     s32 held_y;
-    u16 sp1C;
-    s16 temp_v1;
-    s32 *temp_v0;
-    s32 *temp_v0_6;
-    s32 temp_a1;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    s32 temp_v1_2;
-    s32 var_v1;
-    u16 temp_v0_5;
+    u16 action_parameter;
+    s16 phase;
+    s32 *monster;
+    s32 *tracked_monster;
+    s32 action_data;
+    s32 message_id;
+    s32 action_id;
+    s32 target_experience;
+    s32 egg_bomb_level;
+    u16 remaining_frames;
     S_8003E2D8 *state_base;
-    Coord *coord_arg = arg1;
+    Coord *coord_arg = position;
 
     state_base = &D_80083160;
-    temp_v1 = ((S_800B7774_0 *)arg0)->unk_0A.s;
-    if (temp_v1 == 1) {
+    phase = ((S_800B7774_0 *)egg_bomb)->unk_0A.s;
+    if (phase == 1) {
         goto state_1;
     }
-    if (temp_v1 < 2) {
-        if (temp_v1 != 0) {
+    if (phase < 2) {
+        if (phase != 0) {
             void *null_arg;
             null_arg = NULL;
             func_800B7B18();
@@ -134,55 +135,55 @@ void func_800B7774(void *arg0, Coord *arg1, void *arg2) {
         }
         goto state_0;
     }
-    if (temp_v1 == 2) {
+    if (phase == 2) {
         goto state_2;
     }
     func_800B7B18(state_base);
     return;
 
 state_0:
-    if ((func_8009B88C(0, (u16) coord_arg->x >> 6, (u16) coord_arg->y >> 6, &sp18, &sp1A) << 0x10) == 0) {
+    if ((func_8009B88C(0, (u16) coord_arg->x >> 6, (u16) coord_arg->y >> 6, &spawn_x, &spawn_y) << 0x10) == 0) {
         {
         u8 *controls_base = (u8 *)&D_80083460;
         ((S_800B7774_1 *)controls_base)->unk_0A = (u16) (((S_800B7774_1 *)controls_base)->unk_0A - 1);
         }
         func_800997FC(&D_800E0A42);
-        (*(u16 *)((u8 *)arg0 + (-2))) = (u16) (((S_800B7774_0_pre *)arg0)[-1].unk_00 | 0x8000);
+        (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
         D_800814A0 = D_800814A0 | 0x8000;
         return;
     }
-    held_x = sp18;
-    held_y = sp1A;
-    temp_v0 = func_800A0B94(((S_800B7774_0 *)arg0)->unk_00, func_800A1618(((S_800B7774_0 *)arg0)->unk_00, 2), 1)(2, held_x, held_y, (s16) (coord_arg->z - 0x20));
-    ((S_800B7774_0 *)arg0)->unk_04 = temp_v0;
-    if (temp_v0 != NULL) {
-        func_8003E188(((S_800B7774_2 *)temp_v0)->unk_13, 0);
-        func_800A90E8(arg0);
-        func_80042640(temp_v0, ((S_800B7774_2 *)temp_v0)->unk_13);
-        func_800424E0(temp_v0, ((S_800B7774_2 *)temp_v0)->unk_13, 0);
-        ((S_800B7774_2 *)temp_v0)->unk_43 = 0xFE;
-        func_800A48F0(temp_v0, 0x1B, 0);
+    held_x = spawn_x;
+    held_y = spawn_y;
+    monster = func_800A0B94(((S_800B7774_0 *)egg_bomb)->unk_00, func_800A1618(((S_800B7774_0 *)egg_bomb)->unk_00, 2), 1)(2, held_x, held_y, (s16) (coord_arg->z - 0x20));
+    ((S_800B7774_0 *)egg_bomb)->unk_04 = monster;
+    if (monster != NULL) {
+        func_8003E188(((S_800B7774_2 *)monster)->unk_13, 0);
+        func_800A90E8(egg_bomb);
+        func_80042640(monster, ((S_800B7774_2 *)monster)->unk_13);
+        func_800424E0(monster, ((S_800B7774_2 *)monster)->unk_13, 0);
+        ((S_800B7774_2 *)monster)->unk_43 = 0xFE;
+        func_800A48F0(monster, 0x1B, 0);
         {
         register s32 clamp_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 first_call_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 first_call_mode;
         s32 raw_first_result;
         clamp_value = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_10.at01_u8.v + 0x32;
-        var_v1 = clamp_value;
+        egg_bomb_level = clamp_value;
         ASM_KEEP(clamp_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if (clamp_value >= 0x64) {
-            var_v1 = 0x63;
+            egg_bomb_level = 0x63;
         }
         {
         s32 *scan_arg = D_800835E8;
-        temp_v1_2 = D_800835E8[var_v1];
-        ((S_800B7774_2 *)temp_v0)->unk_18 = temp_v1_2;
-        if ((u32) temp_v1_2 >= (u32) D_800835E8[((S_800B7774_2 *)temp_v0)->unk_11]) {
+        target_experience = D_800835E8[egg_bomb_level];
+        ((S_800B7774_2 *)monster)->unk_18 = target_experience;
+        if ((u32) target_experience >= (u32) D_800835E8[((S_800B7774_2 *)monster)->unk_11]) {
             s32 *loop_base = D_800835E8;
             do {
-                func_800A1D4C(temp_v0, 0);
-            } while ((u32) loop_base[((S_800B7774_2 *)temp_v0)->unk_11] <= (u32) ((S_800B7774_2 *)temp_v0)->unk_18);
-            scan_arg = temp_v0;
+                func_800A1D4C(monster, 0);
+            } while ((u32) loop_base[((S_800B7774_2 *)monster)->unk_11] <= (u32) ((S_800B7774_2 *)monster)->unk_18);
+            scan_arg = monster;
         }
         raw_first_result = func_800990FC(scan_arg);
         }
@@ -190,16 +191,16 @@ state_0:
         ASM_KEEP(first_call_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         first_call_arg = raw_first_result;
         ASM_KEEP(first_call_arg);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        temp_v0_3 = first_call_arg;
-        func_80099290(func_80099194(&D_800E0A6A, func_8009929C(0xA, func_80099734(temp_v0, func_80099194(&D_800E0A56, func_8009929C(first_call_mode, first_call_arg))))));
+        message_id = first_call_arg;
+        func_80099290(func_80099194(&D_800E0A6A, func_8009929C(0xA, func_80099734(monster, func_80099194(&D_800E0A56, func_8009929C(first_call_mode, first_call_arg))))));
         }
-        func_800A5720(temp_v0_3);
+        func_800A5720(message_id);
         {
         s32 *call_obj;
         u8 *call_state;
-        call_obj = temp_v0;
+        call_obj = monster;
         call_state = D_800E3D7C;
-        ((S_800B7774_0 *)arg0)->unk_0C = 0x10U;
+        ((S_800B7774_0 *)egg_bomb)->unk_0C = 0x10U;
         func_8009A180(call_obj, call_state);
         }
         func_800B7A30();
@@ -208,44 +209,44 @@ state_0:
     goto block_30;
 
 state_1:
-    temp_v0_5 = ((S_800B7774_0 *)arg0)->unk_0C - 1;
-    ((S_800B7774_0 *)arg0)->unk_0C = temp_v0_5;
-    if (((temp_v0_5 << 0x10) > 0) && !(((S_800B7774_4 *)arg2)->unk_14 & 0x8000) && (((S_800B7774_5 *)state_base)->unk_10 == 0)) {
+    remaining_frames = ((S_800B7774_0 *)egg_bomb)->unk_0C - 1;
+    ((S_800B7774_0 *)egg_bomb)->unk_0C = remaining_frames;
+    if (((remaining_frames << 0x10) > 0) && !(((S_800B7774_4 *)effect)->unk_14 & 0x8000) && (((S_800B7774_5 *)state_base)->unk_10 == 0)) {
         goto block_30;
     }
-    ((S_800B7774_0 *)arg0)->unk_0A.u = (u16) (((S_800B7774_0 *)arg0)->unk_0A.u + 1);
+    ((S_800B7774_0 *)egg_bomb)->unk_0A.u = (u16) (((S_800B7774_0 *)egg_bomb)->unk_0A.u + 1);
     func_800B7B18(state_base);
     return;
 
 state_2:
-    temp_v0 = ((S_800B7774_0 *)arg0)->unk_04;
-    if (((S_800B7774_0 *)arg0)->unk_0E == 0) {
-        ((S_800B7774_2 *)temp_v0)->unk_60 = func_800A3D18(((S_800B7774_2_pre *)temp_v0)[-1].unk_00, temp_v0, 2);
+    monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
+    if (((S_800B7774_0 *)egg_bomb)->unk_0E == 0) {
+        ((S_800B7774_2 *)monster)->unk_60 = func_800A3D18(((S_800B7774_2_pre *)monster)[-1].unk_00, monster, 2);
         {
         u8 *controls_base = (u8 *)&D_80083460;
         ((S_800B7774_1 *)controls_base)->unk_02 = (u16) (((S_800B7774_1 *)controls_base)->unk_02 | 2);
         }
-        temp_a1 = ((S_800B7774_2 *)temp_v0)->unk_60;
-        ((S_800B7774_2 *)temp_v0)->unk_46.u = 0x800C;
-        if (temp_a1 != 0) {
-            temp_v0_4 = func_800A384C(temp_v0, temp_a1, &sp1C, 1);
-            ((S_800B7774_2 *)temp_v0)->unk_2A = sp1C;
-            if ((s16) temp_v0_4 >= 0) {
-                ((S_800B7774_2 *)temp_v0)->unk_46.s = (s16) (temp_v0_4 | 0x8000);
+        action_data = ((S_800B7774_2 *)monster)->unk_60;
+        ((S_800B7774_2 *)monster)->unk_46.u = 0x800C;
+        if (action_data != 0) {
+            action_id = func_800A384C(monster, action_data, &action_parameter, 1);
+            ((S_800B7774_2 *)monster)->unk_2A = action_parameter;
+            if ((s16) action_id >= 0) {
+                ((S_800B7774_2 *)monster)->unk_46.s = (s16) (action_id | 0x8000);
             }
         }
     }
     ((Rec_D_800E3D7C *)D_800E3D7C)->unk_110 = 0;
-    (*(s32 *)((u8 *)temp_v0 + (0x1C))) = (s32) (((S_800B7774_2 *)temp_v0)->unk_1C | 0x400000);
+    (*(s32 *)((u8 *)monster + (0x1C))) = (s32) (((S_800B7774_2 *)monster)->unk_1C | 0x400000);
     {
     u8 *controls_base = (u8 *)&D_80083460;
     ((S_800B7774_1 *)controls_base)->unk_0A = (u16) (((S_800B7774_1 *)controls_base)->unk_0A - 1);
     }
-    (*(u16 *)((u8 *)arg0 + (-2))) = (u16) (((S_800B7774_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
     D_800814A0 = D_800814A0 | 0x8000;
 block_30:
-    temp_v0_6 = ((S_800B7774_0 *)arg0)->unk_04;
-    if ((temp_v0_6 != NULL) && (((S_800B7774_6_pre *)temp_v0_6)[-1].unk_00 & 0x8000)) {
-        ((S_800B7774_0 *)arg0)->unk_0E = 1;
+    tracked_monster = ((S_800B7774_0 *)egg_bomb)->unk_04;
+    if ((tracked_monster != NULL) && (((S_800B7774_6_pre *)tracked_monster)[-1].unk_00 & 0x8000)) {
+        ((S_800B7774_0 *)egg_bomb)->unk_0E = 1;
     }
 }

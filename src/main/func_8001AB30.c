@@ -11,8 +11,9 @@ extern s32 D_80408AA0[];
 extern u8 D_80400038[];
 extern u8 D_804000F8[];
 
-s32 func_8001AB30(s32 arg0) {
-    s32 *entry;
+/* Starts the selected card operation and maps its completion status. */
+s32 func_8001AB30(s32 card_index) {
+    s32 *card_entry;
     s32 count;
     s32 result;
 
@@ -21,11 +22,11 @@ s32 func_8001AB30(s32 arg0) {
     func_80408654(0);
     func_80408654(1);
     func_80401578();
-    entry = D_80408AA0;
-    if (arg0 != 0) {
-        entry++;
+    card_entry = D_80408AA0;
+    if (card_index != 0) {
+        card_entry++;
     }
-    func_8007CAA8(*entry);
+    func_8007CAA8(*card_entry);
     result = func_8040153C();
     if (result == 0) {
         count++;

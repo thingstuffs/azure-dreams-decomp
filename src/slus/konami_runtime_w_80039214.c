@@ -9,7 +9,7 @@ typedef struct {
 
 extern s32 func_80033AA8(s32 value);
 
-/* Read a signed little-endian 16-bit value, advance the data pointer, and pass it to func_80033AA8. */
+/* Consumes a signed little-endian 16-bit script operand and passes it to func_80033AA8. */
 s32 func_80039214(Func39214State *state) {
     u8 *data;
     s32 low;

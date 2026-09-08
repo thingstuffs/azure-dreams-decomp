@@ -26,7 +26,7 @@ extern s8 D_80016000[];
 extern u8 D_80016034[16];
 extern u8 D_8001605C[];
 
-/* Clear an object and its linked state, invoking callbacks if the reference mismatches. */
+/* Clear a shop object and its linked state after asserting that the reference matches. */
 void func_80018D14(u8 *object_ref)
 {
     void **global_page;

@@ -38,7 +38,8 @@ typedef struct {
 
 extern Root D_8040B1D0;
 
-s32 func_8001DC84(s32 arg0, s32 arg1) {
+/* Create or reset the card background object and initialize its callback. */
+s32 func_8001DC84(s32 init_value, s32 config_value) {
     Root *base;
     Obj *obj;
     register Obj *tail_obj ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -70,7 +71,7 @@ s32 func_8001DC84(s32 arg0, s32 arg1) {
     ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     base->field_0C = (u8 *)tail_obj + 0x210;
     tail_obj->field_21C = func_80404B5C(tail_obj->field_220);
-    func_80404C44(tail_obj, (tail_obj->field_04 = arg1, arg0));
+    func_80404C44(tail_obj, (tail_obj->field_04 = config_value, init_value));
     func_804046C8((base->field_10 = func_804046C8, tail_obj));
     return (s32)base;
 }

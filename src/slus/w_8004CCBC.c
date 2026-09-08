@@ -16,11 +16,11 @@ typedef struct {
 } func_8004CCBC_Obj;
 
 /* Copy the global vector D_8002E5E8 into each object's vector. */
-void func_8004CCBC(func_8004CCBC_Obj **objects, s32 objectCount)
+void func_8004CCBC(func_8004CCBC_Obj **objects, s32 object_count)
 {
-    s32 objectIndex;
+    s32 object_index;
 
-    for (objectIndex = 0; objectIndex < objectCount; objectIndex++, objects++) {
+    for (object_index = 0; object_index < object_count; object_index++, objects++) {
         (*objects)->vec->x = D_8002E5E8.x;
         (*objects)->vec->y = D_8002E5E8.y;
         (*objects)->vec->z = D_8002E5E8.z;

@@ -20,9 +20,9 @@ extern u8 D_8008152C[0x10];
 
 extern void func_800479D4(void *a0, void *a1, u16 a2);
 
-/* Calls func_800479D4 with fixed buffers and a 16-bit value, then returns D_8008152C. */
-void *func_80047DB8(s32 value)
+/* Registers callbacks for the fixed buffers using the id and returns D_8008152C. */
+void *func_80047DB8(s32 id)
 {
-    func_800479D4(&D_80016000, &D_80023000, (u16)value);
+    func_800479D4(&D_80016000, &D_80023000, (u16)id);
     return &D_8008152C;
 }

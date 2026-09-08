@@ -16,8 +16,8 @@ extern s32 func_8004C010(void *a, void *b);
 extern s32 rsin(s32 a);
 extern s32 rcos(s32 a);
 
-/* Builds a triangle fan for an ellipse or quarter ellipse. */
-void *func_8004B954(void *color_a, void *color_b, void *primitives,
+/* Builds a tinted flat or shaded triangle fan for an ellipse or quarter ellipse. */
+void *func_8004B954(void *tint_a, void *tint_b, void *primitives,
                     void *color_data, void *style, s32 *out_count, s32 shaded)
 {
     DVEC edge_pos;
@@ -96,15 +96,15 @@ void *func_8004B954(void *color_a, void *color_b, void *primitives,
         }
         field_ptr = shaded_tri + 4;
         U32_AT(primitives, 0x04) = U32_AT(style, 0x04);
-        func_8004C010(field_ptr, color_a);
-        func_8004C010(field_ptr, color_b);
+        func_8004C010(field_ptr, tint_a);
+        func_8004C010(field_ptr, tint_b);
         U8_AT(shaded_tri, 0x07) = U8_AT(style, 0x01) & 0x7F;
         field_ptr = shaded_tri + 0xC;
         if (shaded != 0) {
             color_data = (void *)((u8 *)color_data + 0xC);
             U32_AT(shaded_tri, 0x0C) = U32_AT(color_data, 0);
-            func_8004C010(field_ptr, color_a);
-            func_8004C010(field_ptr, color_b);
+            func_8004C010(field_ptr, tint_a);
+            func_8004C010(field_ptr, tint_b);
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             U32_AT(shaded_tri, 0x14) = U32_AT(shaded_tri, 0x0C);
             field_ptr = shaded_tri + 0x18;

@@ -9,11 +9,11 @@ typedef struct S_800C17A0_0 {
     s16 unk_06;
 } S_800C17A0_0;   /* base in func_800C17A0 */
 
-/* Stores the two field values in D_800D4258. */
-void func_800C17A0(s16 value_04, s16 value_06) {
-    u8 *base;
+/* town_seq_reserve: reserve the town sequence pair. */
+void func_800C17A0(s16 sequence_effect, s16 sequence_id) {
+    u8 *reserved_sound;
 
-    base = D_800D4258;
-    ((S_800C17A0_0 *)base)->unk_04 = value_04;
-    ((S_800C17A0_0 *)base)->unk_06 = value_06;
+    reserved_sound = D_800D4258;
+    ((S_800C17A0_0 *)reserved_sound)->unk_04 = sequence_effect;
+    ((S_800C17A0_0 *)reserved_sound)->unk_06 = sequence_id;
 }

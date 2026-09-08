@@ -29,29 +29,29 @@ typedef struct S_800AE1AC_1 {
     M2C_UNK * unk_10;
 } S_800AE1AC_1;   /* var_s1 in func_800AE1AC */
 
-/* Allocate and initialize an object with two resources, cleaning up if either fails. */
+/* open_shop: Allocate and initialize the shop and its resources, cleaning up if either resource fails. */
 void *func_800AE1AC(M2C_UNK unused, s32 primary_param, s32 secondary_param, s32 shared_param) {
     s32 second_resource;
-    S_800AE1AC_0 *state;
-    void *object;
+    S_800AE1AC_0 *shop_state;
+    void *shop;
 
-    object = func_8003FC64(0);
-    if (object != NULL) {
-        state = object + 0x20;
-        state->unk_20 = shared_param;
-        state->unk_18 = primary_param;
-        state->unk_1C = secondary_param;
-        state->unk_14 = 6;
-        func_800ADFE8(state);
-        ((S_800AE1AC_1 *)object)->unk_10 = &D_800AE090;
-        state->unk_28 = func_800B14B0(object, state->unk_04, state->unk_08, state->unk_0C, state->unk_10, state->unk_20, primary_param);
-        second_resource = func_800B1BEC(object, 0x48, -0xC);
-        state->unk_2C = second_resource;
-        if ((state->unk_28 == 0) || (second_resource == 0)) {
-            func_800AE2A4(state);
-            object = NULL;
+    shop = func_8003FC64(0);
+    if (shop != NULL) {
+        shop_state = shop + 0x20;
+        shop_state->unk_20 = shared_param;
+        shop_state->unk_18 = primary_param;
+        shop_state->unk_1C = secondary_param;
+        shop_state->unk_14 = 6;
+        func_800ADFE8(shop_state);
+        ((S_800AE1AC_1 *)shop)->unk_10 = &D_800AE090;
+        shop_state->unk_28 = func_800B14B0(shop, shop_state->unk_04, shop_state->unk_08, shop_state->unk_0C, shop_state->unk_10, shop_state->unk_20, primary_param);
+        second_resource = func_800B1BEC(shop, 0x48, -0xC);
+        shop_state->unk_2C = second_resource;
+        if ((shop_state->unk_28 == 0) || (second_resource == 0)) {
+            func_800AE2A4(shop_state);
+            shop = NULL;
         }
-        func_800AE0F4(state);
+        func_800AE0F4(shop_state);
     }
-    return object;
+    return shop;
 }

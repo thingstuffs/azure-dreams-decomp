@@ -30,7 +30,7 @@ typedef struct S_800A6A9C_0 {
     DungeonItem * unk_0C;
 } S_800A6A9C_0;   /* var_a2 in func_800A6A9C */
 
-/* Updates dungeon item flag 0x400 from the RAM bitmap, then calls func_800A6A6C. */
+/* Restores item flag 0x400 across the item category table from the RAM bitmap, then calls func_800A6A6C. */
 void func_800A6A9C(void)
 {
     u8 *group;

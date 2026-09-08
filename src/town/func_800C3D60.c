@@ -22,7 +22,7 @@ extern void func_800540A8(void);
 extern void func_8004425C(s32 arg0);
 extern s16 func_80053DA8(s32 arg0);
 
-/* Triggers the selected town entry's effect and sound when the town state is 12. */
+/* town_sd_se_callagain: replay the selected town entry's effect and sound when the town state is 12. */
 s32 func_800C14C0(void) {
     TownState *town_state;
     s32 entry_index;

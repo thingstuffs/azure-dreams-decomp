@@ -3,7 +3,7 @@
 extern void func_800A08A0(s32 arg0);
 extern s32 func_800A6DA4(s32 arg0, s32 arg1);
 
-/* Calls func_800A08A0 for values 2 through 17, then repeats value 1 a selected number of times. */
+/* Initializes monster spawn rates with values 2 through 17 and a random number of value 1 entries. */
 void func_800A69E4(void) {
     s32 repeat_count;
     s32 call_index;

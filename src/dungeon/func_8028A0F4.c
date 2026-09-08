@@ -36,72 +36,73 @@ extern DungeonGroup D_80073414[];
 extern DungeonSlot D_800E3648[];
 extern DungeonSpot D_800E39C8[];
 
-void func_8001D0F4(DungeonRect *arg0)
+/* Populate dungeon slots at random eligible positions within the rectangle. */
+void func_8001D0F4(DungeonRect *rect)
 {
-    u16 tile;
-    s32 count_calc;
-    register s32 count_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 stored_value;
-    s32 first_random;
-    s32 count;
-    u32 random_value;
-    u16 table_flags;
-    DungeonGroup *groups;
-    u8 *base;
-    s32 off;
-    register DungeonSpot *entry ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u32 xoff;
-    u32 yoff;
+    u16 tile_flags;
+    s32 slot_limit_calc;
+    register s32 slot_limit ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 item_kind ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 stored_kind;
+    s32 special_roll;
+    s32 slot_index;
+    u32 kind_roll;
+    u16 item_flags;
+    DungeonGroup *item_category_table;
+    u8 *spots_base;
+    s32 spot_offset;
+    register DungeonSpot *spot ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 x_offset;
+    u32 y_offset;
 
-    first_random = func_800A6D30() & 0xFF;
-    count_calc = ((arg0->height * arg0->width) >> 3) +
+    special_roll = func_800A6D30() & 0xFF;
+    slot_limit_calc = ((rect->height * rect->width) >> 3) +
                  (func_800A6D30() & 7);
-    count_value = count_calc;
-    ASM_KEEP(count_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    if ((s16)count_calc >= 29) {
-        count_value = 28;
+    slot_limit = slot_limit_calc;
+    ASM_KEEP(slot_limit);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    if ((s16)slot_limit_calc >= 29) {
+        slot_limit = 28;
     }
-    count = (s16)count_value;
+    slot_index = (s16)slot_limit;
 
-    if (count >= 0) {
-        groups = D_80073414;
-        ASM_USE2(groups, first_random);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        base = (u8 *)D_800E39C8;
-        off = count * 24;
-        entry = (DungeonSpot *)(base + off);
-        ASM_USE2(off, base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    if (slot_index >= 0) {
+        item_category_table = D_80073414;
+        ASM_USE2(item_category_table, special_roll);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        spots_base = (u8 *)D_800E39C8;
+        spot_offset = slot_index * 24;
+        spot = (DungeonSpot *)(spots_base + spot_offset);
+        ASM_USE2(spot_offset, spots_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         do {
-            xoff = func_800A6DA4(0, (arg0->width - 1) & 0xFFFF) & 0xFFFF;
-            yoff = func_800A6DA4(0, (arg0->height - 1) & 0xFFFF) & 0xFFFF;
-            func_8009A350((s16)(arg0->x + xoff - 1),
-                          (s16)(arg0->y + yoff), 0, &tile);
-            if (!(tile & 0x8820)) {
-                entry->px = (u8)arg0->x + xoff;
-                entry->py = (u8)arg0->y + yoff;
-                if (first_random == 0) {
-                    D_800E3648[count].kind = 7;
+            x_offset = func_800A6DA4(0, (rect->width - 1) & 0xFFFF) & 0xFFFF;
+            y_offset = func_800A6DA4(0, (rect->height - 1) & 0xFFFF) & 0xFFFF;
+            func_8009A350((s16)(rect->x + x_offset - 1),
+                          (s16)(rect->y + y_offset), 0, &tile_flags);
+            if (!(tile_flags & 0x8820)) {
+                spot->px = (u8)rect->x + x_offset;
+                spot->py = (u8)rect->y + y_offset;
+                if (special_roll == 0) {
+                    D_800E3648[slot_index].kind = 7;
                     func_8001D2C4();
                 }
 
-                random_value = func_800A6D30() & 0xFFFF;
-                value = (random_value % 19) + 1;
-                ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                table_flags = *(u16 *)(groups[21].entries +
-                                       ((s16)value * 12));
-                stored_value = value;
-                if ((table_flags & 0x3000) != 0x3000) {
-                    D_800E3648[count].kind = stored_value;
-                    ASM_KEEP(stored_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    D_800E3648[count].f1 = 0x15;
-                    D_800E3648[count].f3 = 0x80;
-                    D_800E3648[count].f2 = 0;
-                    func_8009A21C(entry->px, entry->py, 0x20);
+                kind_roll = func_800A6D30() & 0xFFFF;
+                item_kind = (kind_roll % 19) + 1;
+                ASM_KEEP(item_kind);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                item_flags = *(u16 *)(item_category_table[21].entries +
+                                       ((s16)item_kind * 12));
+                stored_kind = item_kind;
+                if ((item_flags & 0x3000) != 0x3000) {
+                    D_800E3648[slot_index].kind = stored_kind;
+                    ASM_KEEP(stored_kind);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    D_800E3648[slot_index].f1 = 0x15;
+                    D_800E3648[slot_index].f3 = 0x80;
+                    D_800E3648[slot_index].f2 = 0;
+                    func_8009A21C(spot->px, spot->py, 0x20);
                 }
             }
-            entry--;
-            count--;
-        } while (count >= 0);
+            spot--;
+            slot_index--;
+        } while (slot_index >= 0);
     }
 }
 

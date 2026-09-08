@@ -15,7 +15,7 @@ extern s32 D_8013BB6C;
 extern s32 D_80400038;
 extern s32 D_80400044;
 
-/* Performs first-time initialization and resets overlay state. */
+/* Initializes memory card support when card_first_flg is clear and resets card server state. */
 void func_80019E34(void) {
     func_8007C040(&D_80400038, &D_80400044, D_8013BB6C);
     if (D_8013BB6C == 0) {

@@ -17,108 +17,109 @@ extern s32 D_80012090[];
 extern s16 D_8001F6F8[];
 extern u8 D_80073414[];
 
-s32 func_8001EAA4(s8 *arg0, s8 *arg1) {
-    s32 var_a2;
-    s32 temp_v1_2;
-    s32 var_a1;
-    u8 *var_a3;
-    s32 var_t0;
-    s32 var_v0;
-    register u16 *var_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u16 temp_v1;
-    register s32 var_t1 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+/* Selects a random item by category thresholds and eligible item weights. */
+s32 func_8001EAA4(s8 *category_out, s8 *item_out) {
+    s32 category_index;
+    s32 rarity;
+    s32 category_scale_or_weight;
+    u8 *table_cursor_or_item_offset;
+    s32 item_index;
+    s32 scan_value;
+    register u16 *category_threshold ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 item_flags;
+    register s32 cumulative_weight ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 result_index;
     u32 rng_result;
-    register u32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    unsigned long var_t2;
-    register u8 *group_saved ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *temp_a3 ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 random_weight ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    unsigned long table_base_or_mode;
+    register u8 *item_category_table ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *category_entry ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     rng_result = func_800A6D30();
-    var_v1 = (u16 *)D_8001F6F8;
-    temp_a0 = var_v1[19];
-    temp_a0 = (rng_result & 0xFFFF) % temp_a0;
-    var_a2 = 1;
-    var_a3 = (u8 *)var_v1;
-    var_v1 = (u16 *)(var_a3 + 2);
-    var_a1 = temp_a0 & 0xFFFF;
+    category_threshold = (u16 *)D_8001F6F8;
+    random_weight = category_threshold[19];
+    random_weight = (rng_result & 0xFFFF) % random_weight;
+    category_index = 1;
+    table_cursor_or_item_offset = (u8 *)category_threshold;
+    category_threshold = (u16 *)(table_cursor_or_item_offset + 2);
+    category_scale_or_weight = random_weight & 0xFFFF;
 loop_1:
-    var_t0 = 1;
-    if (*var_v1 < (u32)var_a1) {
-        var_a2 += 1;
-        var_v1 += 1;
-        if (var_a2 >= 0x13) {
-            ASM_UNDEF(var_t0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            var_t0 = 1;
+    item_index = 1;
+    if (*category_threshold < (u32)category_scale_or_weight) {
+        category_index += 1;
+        category_threshold += 1;
+        if (category_index >= 0x13) {
+            ASM_UNDEF(item_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            item_index = 1;
         } else {
             goto loop_1;
         }
     }
-    var_a1 = var_a2 * 4;
-    var_v1 = &((u16 *)var_a3)[var_a2];
-    var_t2 = (unsigned long)D_80073414;
-    var_v0 = var_a1 + var_a2;
-    var_v0 *= 4;
-    var_a3 = (u8 *)(var_v0 + var_t2);
-    var_t1 = var_v1[-1];
-    var_v0 = var_a3[2];
-    if (var_t0 < var_v0) {
-        var_v0 = var_a2 << 16;
-        group_saved = (u8 *)var_t2;
-        var_t2 = 2;
-        temp_a3 = var_a3;
-        ASM_KEEP_NV(temp_a3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        result_index = var_v0 >> 16;
-        var_a3 = (u8 *)0x14;
+    category_scale_or_weight = category_index * 4;
+    category_threshold = &((u16 *)table_cursor_or_item_offset)[category_index];
+    table_base_or_mode = (unsigned long)D_80073414;
+    scan_value = category_scale_or_weight + category_index;
+    scan_value *= 4;
+    table_cursor_or_item_offset = (u8 *)(scan_value + table_base_or_mode);
+    cumulative_weight = category_threshold[-1];
+    scan_value = table_cursor_or_item_offset[2];
+    if (item_index < scan_value) {
+        scan_value = category_index << 16;
+        item_category_table = (u8 *)table_base_or_mode;
+        table_base_or_mode = 2;
+        category_entry = table_cursor_or_item_offset;
+        ASM_KEEP_NV(category_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        result_index = scan_value >> 16;
+        table_cursor_or_item_offset = (u8 *)0x14;
 loop_6:
-        temp_v1 = *(u16 *)(var_a3 + ((S_8001EAA4_0 *)(group_saved + ((var_a1 + var_a2) * 4)))->unk_0C);
-        if (!(temp_v1 & 0x10)) {
-            if (temp_v1 & 0x40) {
+        item_flags = *(u16 *)(table_cursor_or_item_offset + ((S_8001EAA4_0 *)(item_category_table + ((category_scale_or_weight + category_index) * 4)))->unk_0C);
+        if (!(item_flags & 0x10)) {
+            if (item_flags & 0x40) {
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                var_a1 = var_a2 * 4;
-                if (D_80012090[0] != (s32)var_t2) {
+                category_scale_or_weight = category_index * 4;
+                if (D_80012090[0] != (s32)table_base_or_mode) {
                     goto block_19;
                 }
             }
             {
-                var_v0 = *(u16 *)(var_a3 + ((S_8001EAA4_1 *)temp_a3)->unk_0C) & 0x3000;
-                if (var_v0 < 0) {
-                    var_v0 += 0xFFF;
+                scan_value = *(u16 *)(table_cursor_or_item_offset + ((S_8001EAA4_1 *)category_entry)->unk_0C) & 0x3000;
+                if (scan_value < 0) {
+                    scan_value += 0xFFF;
                 }
-                temp_v1_2 = (var_v0 >> 0xC) & 3;
-                var_a1 = 0x80;
-                if (temp_v1_2 != 0) {
-                    var_a1 = 0x55;
-                    if (temp_v1_2 != 1) {
-                        var_a1 = 1;
-                        if (temp_v1_2 == (s32)var_t2) {
-                            var_a1 = 0x20;
+                rarity = (scan_value >> 0xC) & 3;
+                category_scale_or_weight = 0x80;
+                if (rarity != 0) {
+                    category_scale_or_weight = 0x55;
+                    if (rarity != 1) {
+                        category_scale_or_weight = 1;
+                        if (rarity == (s32)table_base_or_mode) {
+                            category_scale_or_weight = 0x20;
                         }
                     }
                 }
-                var_t1 += var_a1;
-                if (temp_a0 < (u32)(var_t1 & 0xFFFF)) {
-                    *arg0 = (s8)var_a2;
-                    *arg1 = (s8)var_t0;
+                cumulative_weight += category_scale_or_weight;
+                if (random_weight < (u32)(cumulative_weight & 0xFFFF)) {
+                    *category_out = (s8)category_index;
+                    *item_out = (s8)item_index;
                     return result_index;
                 }
                 goto block_18;
             }
         }
 block_18:
-        var_a1 = var_a2 * 4;
+        category_scale_or_weight = category_index * 4;
 block_19:
-        var_v0 = group_saved[((var_a1 + var_a2) * 4) + 2];
-        var_t0 += 1;
-        var_a3 += 0x14;
-        if (var_t0 >= var_v0) {
-            *arg0 = 0;
-            *arg1 = 0;
+        scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
+        item_index += 1;
+        table_cursor_or_item_offset += 0x14;
+        if (item_index >= scan_value) {
+            *category_out = 0;
+            *item_out = 0;
             return 0;
         }
         goto loop_6;
     }
-    *arg0 = 0;
-    *arg1 = 0;
+    *category_out = 0;
+    *item_out = 0;
     return 0;
 }

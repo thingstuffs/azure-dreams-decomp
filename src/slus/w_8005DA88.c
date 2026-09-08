@@ -62,6 +62,7 @@ extern s32 func_8005D9DC(s32 handle);
 extern void func_8005DF80(void *buf);
 extern void func_8005E7E0(s32 idx);
 extern void func_8005D550(s32 a0, s32 handle, s32 a2);
+/* Return the reverb parameter buffer as bytes for copying. */
 inline u8 *inline_fn_8005DA88(S_8005DA88_buf *params)
 {
   return (u8 *) params;

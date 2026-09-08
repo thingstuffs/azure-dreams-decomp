@@ -31,7 +31,7 @@ extern void func_8004B248(s32 *a0);
 extern s32 D_80080B98;
 extern S_800814A0 D_800814A0;
 
-/* Resets object state and sets the object, target, and global 0x8000 flags. */
+/* Releases the attachment and effect parts, restores the saved value, and sets completion flags. */
 void func_80050E20(S_80050E20 *object)
 {
     S_80050E20_sub *object_state = &object->unk20;

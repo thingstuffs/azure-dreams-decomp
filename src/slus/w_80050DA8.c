@@ -10,7 +10,7 @@ extern s32 D_800814A0_abs __attribute__((section(".data")));
 __asm__(".set D_800814A0_abs, 0x800814A0");
 extern void func_80050CDC(void);
 extern void func_8004FE78(void *arg0);
-/* Sets object state 2, processes and clears its attachment, and sets global and child flags. */
+/* Starts the fade callback, releases the attachment, and sets global and child flags. */
 void func_80050DA8(u8 *object)
 {
   u8 *object_data = object + 0x20;

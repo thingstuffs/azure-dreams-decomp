@@ -4,7 +4,7 @@ extern void func_800540A8(void);
 extern void func_800541E8(void);
 extern void func_80055B44(s32 a0);
 
-/* Dispatches by the low byte, passing the original low 16 bits for cases 1 and 2. */
+/* Dispatches an audio action by its low byte, preserving the low 16 bits for volume updates. */
 void func_80054A7C(s32 action) {
     register s32 action_value ASM_REG("$3") = action;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     action = action & 0xFF;

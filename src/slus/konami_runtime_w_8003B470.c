@@ -50,7 +50,7 @@ extern u8 D_8006AEC4[12];
 extern u32 D_80080EA0;
 extern RuntimeFlags D_80082E60;
 
-/* Initializes runtime state for the selected flags, then clears the handled flags. */
+/* Handles change_map / chg_map_second_house_sel setup and clears the handled runtime flags. */
 void func_8003B470(void)
 {
     u16 runtime_flags;

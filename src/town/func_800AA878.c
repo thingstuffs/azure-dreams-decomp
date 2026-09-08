@@ -24,7 +24,7 @@ typedef struct S_800A7FD8_2 {
     s32 unk_08;
 } S_800A7FD8_2;   /* temp_s1 in func_800A7FD8 */
 
-/* Creates an object and initializes its state and callback data. */
+/* present_flower_set: create a flower gift object and initialize its state and callback data. */
 void func_800A7FD8(s32 initial_value) {
     s32 callback_arg;
     S_800A7FD8_1 *state;

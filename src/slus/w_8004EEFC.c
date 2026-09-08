@@ -43,7 +43,7 @@ typedef struct {
     S_8004EEFC_a2 *unk8;
 } S_8004EEFC_a0;
 
-/* Initialize and link the entity data from two templates, then apply default field values. */
+/* Copy two templates into entity buffers, link them to the header, and apply defaults. */
 void func_8004EEFC(S_8004EEFC_a0 *entity, S_8002E5D8 *main_data, S_8004EEFC_a2 *aux_data) {
     S_8002E5D8 *main_template = &D_8002E5D8;
     S_8002E5E8 *aux_template = &D_8002E5E8;

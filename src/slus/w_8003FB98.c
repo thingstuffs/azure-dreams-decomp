@@ -17,8 +17,8 @@ extern void func_80040044(void *a0);
 extern void *func_8003FD64(void *a0, void *a1);
 extern void *func_8003FC64(void *a0);
 
-/* Refreshes the first eligible node other than excluded_node and returns the dispatched result. */
-void *func_8003FB98(void *context, void *excluded_node)
+/* Removes the first eligible active node other than excluded_node, then retries allocation. */
+void *func_8003FB98(void *flags, void *excluded_node)
 {
     Node *node;
 
@@ -32,9 +32,9 @@ void *func_8003FB98(void *context, void *excluded_node)
                     func_80040044(node);
                 }
                 if (excluded_node != 0) {
-                    node = func_8003FD64(context, excluded_node);
+                    node = func_8003FD64(flags, excluded_node);
                 } else {
-                    node = func_8003FC64(context);
+                    node = func_8003FC64(flags);
                 }
                 return node;
             }

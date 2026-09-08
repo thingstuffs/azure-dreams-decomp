@@ -14,7 +14,7 @@ typedef struct S_800545F4 {
     /*0x18*/ u16 field18;
 } S_800545F4;
 
-/* Advances or drains the gauge, returning -1 when depleted and calling its callback otherwise. */
+/* Raises or lowers the active gauge, calling its callback after an update or returning -1 on depletion. */
 s32 func_800545F4(S_800545F4 *gauge)
 {
     u16 next_value;

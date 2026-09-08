@@ -32,11 +32,11 @@ extern int func_8005B3D8(s16, s16);
 extern void func_800552C8(void);
 extern void func_8005AE90(s16, u8, s16);
 
-/* Process the pending selection and initialize its entry and mode. */
+/* Starts playback of the pending selection when available and initializes its mode. */
 void func_800550E8(void)
 {
     u8 entry_data[32];
-    s16 value_offset;
+    s16 note_offset;
     u16 selection;
     s16 entry_index;
     s16 entry_value;
@@ -52,9 +52,9 @@ void func_800550E8(void)
         D_800847D0.unk4 |= 2;
         return;
     }
-    value_offset = -((((u8)D_800847D0.unk26) >> 4) << 1);
+    note_offset = -((((u8)D_800847D0.unk26) >> 4) << 1);
     if (func_8005B470(0, entry_data) == 0) {
-        func_8005537C(entry_data[0x18] + value_offset);
+        func_8005537C(entry_data[0x18] + note_offset);
     } else {
         func_8005537C(0x64);
     }

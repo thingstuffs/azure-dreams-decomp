@@ -15,14 +15,14 @@ extern s32 D_80073740[];
 extern s32 func_8005F134(S_80084918 *arg);
 
 /* Fills D_80084918 with an indexed table value and two parameters, then dispatches it. */
-s32 func_800563B0(s32 table_index, s16 param_8, s16 param_a) {
+s32 func_800563B0(s32 table_index, s16 field_8_value, s16 field_a_value) {
     S_80084918 *record = &D_80084918;
     s32 table_value;
 
     record->field4 = 15;
     table_value = D_80073740[table_index];
-    record->field8 = param_8;
-    record->fieldA = param_a;
+    record->field8 = field_8_value;
+    record->fieldA = field_a_value;
     record->fieldC = 0;
     record->fieldE = 0;
     record->field0 = table_value;

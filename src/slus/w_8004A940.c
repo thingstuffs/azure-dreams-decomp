@@ -32,17 +32,17 @@ extern S_8004A940_CategoryEntry itemCategoryTable[];
 /* Assign consecutive 19-byte data blocks to the items selected by the category/index table. */
 void func_8004A940(void)
 {
-    S_8004A940_Pair *itemPair = (S_8004A940_Pair *)0x80013564;
-    void *itemData = (void *)0x800133E8;
-    S_8004A940_CategoryEntry *categoryTable;
-    s32 pairIndex = 0;
+    S_8004A940_Pair *item_pair = (S_8004A940_Pair *)0x80013564;
+    void *item_data = (void *)0x800133E8;
+    S_8004A940_CategoryEntry *category_table;
+    s32 pair_index = 0;
 
-    categoryTable = itemCategoryTable;
-    for (; pairIndex < 20; pairIndex++) {
-        if (itemPair->a != 0) {
-            categoryTable[itemPair->a].records[itemPair->b].ptr = itemData;
+    category_table = itemCategoryTable;
+    for (; pair_index < 20; pair_index++) {
+        if (item_pair->a != 0) {
+            category_table[item_pair->a].records[item_pair->b].ptr = item_data;
         }
-        itemPair++;
-        itemData = (u8 *)itemData + 0x13;
+        item_pair++;
+        item_data = (u8 *)item_data + 0x13;
     }
 }

@@ -15,7 +15,7 @@ extern s32 func_8005ECA0(s32 arg0);
 extern s32 func_8005EC40(s32 arg0, s32 arg1);
 extern S_80086A40 D_80086A40[];
 
-/* Assigns an owner and updates the entry value if its marker and owner check pass. */
+/* Assigns an owner and updates the entry value when its marker matches and its transfer size is accepted. */
 s16 func_8005AAA8(s32 owner, s16 entry_id)
 {
     s32 updated_value;

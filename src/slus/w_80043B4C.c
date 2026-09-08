@@ -17,7 +17,7 @@ typedef struct S_8008333C {
 
 extern S_8008333C D_8008333C;
 
-/* Sets flag 0x8000 on four table entries for each party slot from 10 through 11. */
+/* Sets flag 0x8000 in four sub-tables at scaled indices 10 and 11. */
 void func_80043B4C(void)
 {
     S_8008333C *table = &D_8008333C;

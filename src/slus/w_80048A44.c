@@ -47,12 +47,12 @@ extern void func_80048998(S_80083110 *a0, s32 a1);
 extern u8 D_80080A84[16];
 
 /* Selects and dispatches a frame, stores its scaled leading value, and clears flags 0x6000. */
-void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 dispatch_arg) {
+void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index) {
     u16 frame_value;
     u8 divisor;
 
     func_800489F4((S_800489F4_Obj *)obj, frame_group, frame_index);
-    func_80048998((S_80083110 *)obj, dispatch_arg);
+    func_80048998((S_80083110 *)obj, slot_index);
 
     frame_value = obj->unk0->unk0;
     divisor = D_80080A84[0];

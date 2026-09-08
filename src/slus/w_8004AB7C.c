@@ -30,7 +30,7 @@ extern void func_800A6D98(s32 a0);
 extern void func_8004AA78(s32 a0);
 extern void func_8004A940(void);
 
-/* Process item categories enabled by the current category flag bit. */
+/* Shuffles item pointers in enabled categories and restores item-effect links. */
 void func_8004AB7C(void)
 {
     s32 category_id;

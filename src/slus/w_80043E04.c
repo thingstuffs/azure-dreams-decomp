@@ -14,7 +14,7 @@ extern void func_80040A88(int a0);
 extern void func_80043E60(void);
 extern void func_8003D92C(void);
 
-/* Updates the frame, then initializes D_80081500 and advances the handler or runs the fallback. */
+/* Updates the frame, then allocates a slot and installs func_80043E60 if signaled, otherwise calls func_8003D92C. */
 void func_80043E04(void) {
     func_80043EB8();
     if (D_80082E6E.field_0 != 0) {

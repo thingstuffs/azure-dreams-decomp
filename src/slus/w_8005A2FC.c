@@ -14,7 +14,7 @@ typedef struct {
 
 extern S_80086CC0 D_80086CC0;
 
-/* Runs initialization and update routines, then reinitializes D_80086CC0. */
+/* Resets sound state and slot tables, then initializes the record list at D_80086CC0. */
 void func_8005A2FC(void)
 {
     func_8005CA70();

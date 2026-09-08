@@ -8,9 +8,9 @@ typedef struct S_800AE30C_0 {
     M2C_UNK * unk_10;
 } S_800AE30C_0;   /* arg0 in func_800AE30C */
 
-/* Set the object's data pointer if the object is non-null. */
-void func_800AE30C(S_800AE30C_0 *object) {
-    if (object != NULL) {
-        object->unk_10 = &D_800AE2A4;
+/* close_twin_shop: Schedule the shop cleanup callback if the shop exists. */
+void func_800AE30C(S_800AE30C_0 *shop) {
+    if (shop != NULL) {
+        shop->unk_10 = &D_800AE2A4;
     }
 }

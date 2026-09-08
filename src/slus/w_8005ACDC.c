@@ -26,9 +26,9 @@ extern void func_8005E97C(s32 a0, s32 a1);
 void func_8005ACDC(void)
 {
     s32 entry_index;
-    s32 pending_flags;
+    s32 flags;
 
-    pending_flags = 0;
+    flags = 0;
     if (D_80073828[0] == 0) {
         for (entry_index = 0; entry_index < D_80073734[0]; entry_index++) {
             if (D_80085458[entry_index].f1a != 0) {
@@ -38,7 +38,7 @@ void func_8005ACDC(void)
 
                     counter = D_80085458[entry_index].f1a;
                     if (counter >= 2) {
-                        pending_flags |= D_80073740[entry_index];
+                        flags |= D_80073740[entry_index];
                         do {
                             func_8005E97C(0, D_80073740[entry_index]);
                             dispatch_state = func_8005EB78(D_80073740[entry_index]);
@@ -52,7 +52,7 @@ void func_8005ACDC(void)
         }
     }
 
-    if (pending_flags != 0) {
-        func_8005E97C(0, pending_flags);
+    if (flags != 0) {
+        func_8005E97C(0, flags);
     }
 }

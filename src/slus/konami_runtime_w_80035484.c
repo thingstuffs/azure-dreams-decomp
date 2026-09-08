@@ -22,13 +22,13 @@ extern void *D_80081440;
 extern void *D_80082BC0[3];
 
 /* Creates a runtime object and initializes its model, transform, and appearance. */
-void func_80035484(s32 object_id, void *model, void *config) {
+void func_80035484(s32 object_addr, void *model, void *config) {
     void *state;
     void *transform;
     void *appearance;
     void *object;
 
-    object = func_8003FF2C(0x11, object_id, 0x49, &D_80082BC0[0]);
+    object = func_8003FF2C(0x11, object_addr, 0x49, &D_80082BC0[0]);
     D_80081440 = object;
     FIELD(object, Callback, 0x10) = func_800355EC;
     func_8004491C(object, &func_80033D54);

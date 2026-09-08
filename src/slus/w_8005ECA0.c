@@ -12,7 +12,7 @@ extern s32 D_80079980[3];
 
 extern s32 func_8005D598(s32 a0, s32 a1);
 
-/* Latch and shift the value for an in-range address, or return zero. */
+/* Latches and shifts the value for an in-range address, or returns zero. */
 s32 func_8005ECA0(s32 address)
 {
     u16 shift_input;

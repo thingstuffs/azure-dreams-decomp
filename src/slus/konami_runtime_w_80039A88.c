@@ -13,7 +13,7 @@ typedef struct S_80039A88_0 {
 
 s32 func_80053EF0();                         /* extern */
 
-/* Clear the state value and decrement the counter when func_80053EF0(4) succeeds. */
+/* Clear the script state and rewind one byte while the runtime status is nonzero. */
 void func_80039A88(S_80039A88_0 *state) {
     if (func_80053EF0(4) != 0) {
         state->unk_10 = 0;

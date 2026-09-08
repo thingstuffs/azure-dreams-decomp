@@ -22,19 +22,18 @@ int g_t0;
 void *g_a1;
 #endif
 
-/* Coroutine/stack-switch trampoline: stash $sp at the top of PSX scratchpad RAM (0x1F8003FC),
-   swap to a temporary mini-stack there, call func_8004C36C(a0, a2), then restore $sp. */
 extern void func_8004C36C(void *a0, void *a1);
 
-int func_8004CAA0(void *a0, int a1, void *a2)
+/* Calls func_8004C36C on a temporary scratchpad stack, restores the original stack, and returns zero. */
+int func_8004CAA0(void *forwarded_ptr, int unused_arg, void *second_ptr)
 {
-    g_a1 = a2;
+    g_a1 = second_ptr;
     g_v1 = 0x1F8003FC;
     g_t0 = g_v1;
     *(int *)g_t0 = (int)g_sp;
     g_t0 = g_t0 - 4;
     g_sp = (int *)g_t0;
-    func_8004C36C(a0, g_a1);
+    func_8004C36C(forwarded_ptr, g_a1);
     g_sp = (int *)((char *)g_sp + 4);
     g_sp = *(int **)g_sp;
     return 0;

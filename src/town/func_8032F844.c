@@ -89,11 +89,11 @@ extern u8 D_800160CC[];
 extern u8 D_800160FC[];
 extern u8 D_8001DC10[];
 
-/* Builds record data and grouped pointer lists, then reports their counts. */
-void func_8001A044(s32 *records, void *data_buffer, void *list_buffer)
+/* Builds the object-set table and grouped object-select lists, then reports their counts and the CD-header count. */
+void func_8001A044(s32 *records, void *ost_w, void *osel_w)
 {
-    register u8 *pending_entry;
-    s32 *list_cursor;
+    register u8 *cd_header_entry;
+    s32 *pp;
     s32 bank_bits;
     s32 group_bits;
     register s32 group_id;
@@ -103,7 +103,7 @@ void func_8001A044(s32 *records, void *data_buffer, void *list_buffer)
     register s32 record_flags;
     s32 entry_address;
     register s32 previous_group;
-    s32 pending_count;
+    s32 cdhd_cnt;
     register s32 record_index;
     s32 scaled_index;
     S_8001A044_3 *record;
@@ -118,11 +118,11 @@ void func_8001A044(s32 *records, void *data_buffer, void *list_buffer)
     void *group_entry;
 
     {
-        u8 *next_data;
-        u8 *data_cursor;
+        u8 *next_object_set;
+        u8 *p;
 
         record_index = 0;
-        data_cursor = data_buffer;
+        p = ost_w;
         if (*records != 0) {
             data_page = (u8 *)0x80010000;
             goto first_record;
@@ -158,20 +158,20 @@ void func_8001A044(s32 *records, void *data_buffer, void *list_buffer)
                     updated_flags = (record->unk_00 & ~0xFF) |
                                (variant_index & 0xFF);
                     record->unk_00 = updated_flags;
-                    next_data = func_8001976C(data_cursor,
+                    next_object_set = func_8001976C(p,
                           (void *)((S_8001A044_11 *)((variant_index * 0x10) +
                                         (u8 *)record->unk_10))->unk_08,
                           updated_flags, record_index);
-                    if ((next_data - 0x14) != data_cursor) {
+                    if ((next_object_set - 0x14) != p) {
                         func_800196E4(D_8001DC10, record);
-                        record->unk_04 = data_cursor;
-                        data_cursor = next_data;
+                        record->unk_04 = p;
+                        p = next_object_set;
                     }
                 } else {
                     direct_record = (void *)((u32)(record_index * 0x1C) +
                                              (u32)records);
-                    direct_record->unk_04 = data_cursor;
-                    data_cursor = func_8001976C(data_cursor,
+                    direct_record->unk_04 = p;
+                    p = func_8001976C(p,
                         (void *)direct_record->unk_10, 0, record_index);
                 }
     advance_record:
@@ -185,11 +185,11 @@ void func_8001A044(s32 *records, void *data_buffer, void *list_buffer)
         callbacks = ((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20;
         (*(TownCallback *)((u8 *)callbacks + 0x168))
             (D_80016094, D_800160A0,
-             (u32)(data_cursor - (u8 *)data_buffer) / 20);
+             (u32)(p - (u8 *)ost_w) / 20);
     }
 
     previous_group = 0;
-    list_cursor = (s32 *)((u8 *)list_buffer - 4);
+    pp = (s32 *)((u8 *)osel_w - 4);
     record_index = previous_group;
     if (*records != 0) {
         list_page = (u8 *)0x80010000;
@@ -205,18 +205,18 @@ build_group_list:
             entry_address = group_id << 5;
             lookup_entry = ((S_8001A044_7 *)lookup_entry)->unk_00.p;
             group_data = (void *)((u32)entry_address + (u32)lookup_entry);
-            list_cursor += 1;
-            ((S_8001A044_8 *)group_data)->unk_18 = list_cursor;
-            *list_cursor = 0;
+            pp += 1;
+            ((S_8001A044_8 *)group_data)->unk_18 = pp;
+            *pp = 0;
             previous_group = group_id;
         }
         lookup_entry = (void *)((u32)(record_index * 0x1C) + (u32)records);
         entry_address = ((S_8001A044_7 *)lookup_entry)->unk_04;
         if ((entry_address != 0) &&
             !((((S_8001A044_7 *)lookup_entry)->unk_00.i >> 0xF) & 1)) {
-            *list_cursor = entry_address;
-            list_cursor += 1;
-            *list_cursor = 0;
+            *pp = entry_address;
+            pp += 1;
+            *pp = 0;
         }
         record_index += 1;
         if (*(s32 *)((record_index * 0x1C) + (u8 *)records) != 0) {
@@ -225,16 +225,16 @@ build_group_list:
     }
 
     (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x168))
-        (D_80016094, D_800160CC, ((u32)list_cursor - (u32)list_buffer) >> 2);
+        (D_80016094, D_800160CC, ((u32)pp - (u32)osel_w) >> 2);
 
-    pending_entry = D_8001DC10;
-    pending_count = 1;
-    if (((S_8001A044_9 *)pending_entry)->unk_04 != 0) {
+    cd_header_entry = D_8001DC10;
+    cdhd_cnt = 1;
+    if (((S_8001A044_9 *)cd_header_entry)->unk_04 != 0) {
         do {
-            pending_entry += 8;
-            pending_count += 1;
-        } while (((S_8001A044_9 *)pending_entry)->unk_04 != 0);
+            cd_header_entry += 8;
+            cdhd_cnt += 1;
+        } while (((S_8001A044_9 *)cd_header_entry)->unk_04 != 0);
     }
     report_count = (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x168));
-    report_count(D_80016094, D_800160FC, pending_count);
+    report_count(D_80016094, D_800160FC, cdhd_cnt);
 }

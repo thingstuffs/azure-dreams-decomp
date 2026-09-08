@@ -43,7 +43,7 @@ extern void func_800553D4(s32 a0);
 extern void func_800550E8(void);
 extern void func_80054F9C(s32 a0, S_800848F8 *a1);
 
-/* Dispatches a packed code by its high nibble or stores it for a state update. */
+/* Dispatches a status transition or queues a packed selection for playback. */
 void func_8005500C(s32 code)
 {
     s32 packed_code = code;

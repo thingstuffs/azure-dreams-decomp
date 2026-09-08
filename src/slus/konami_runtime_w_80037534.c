@@ -16,7 +16,7 @@ extern void func_80035090(void *arg0);
 extern void func_80044A50(void *arg0);
 extern void func_8003FFF0(void *arg0);
 
-/* Mark an enabled cursor with status 0xFF and run its cleanup callbacks. */
+/* Cleans up and unlinks the node when its enabled cursor has status 0xFF. */
 s32 func_80037534(Func37534State *state) {
     u8 *cursor_base;
     s16 cursor_offset;

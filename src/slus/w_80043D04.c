@@ -40,7 +40,7 @@ extern s16 func_8003F794(s16, s16);
 extern void func_80040A88(s32);
 extern void func_80043DB8(void);
 
-/* Updates state and schedules func_80043DB8 if the state check fails. */
+/* Updates controller and dispatch state, then allocates a slot and schedules func_80043DB8 if callbacks do not signal completion. */
 void func_80043D04(void)
 {
     unsigned int source_value;

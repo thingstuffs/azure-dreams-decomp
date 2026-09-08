@@ -10,7 +10,7 @@ extern int CdControlB(u8 com, u8 *param, u8 *result);
 extern void func_8003E70C(void);
 extern void func_8003F5EC(void);
 
-/* Tries to set CD mode 0x84 up to 16 times, reinitializes on failure, then waits. */
+/* Tries CD mode 0x84 up to 16 times, increments retry counters on failure, then waits. */
 void func_8003F624(void) {
     int attempts_left;
 

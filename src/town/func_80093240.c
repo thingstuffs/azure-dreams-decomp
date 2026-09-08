@@ -3,27 +3,28 @@
 extern u8 D_80083160[];
 extern s32 func_800909F8(void *);
 
+/* to_camera_zero_00: Moves the camera offset toward zero in steps of 16. */
 s32 func_800909A0(void) {
-    s16 *base = (s16 *)D_80083160;
-    s16 signedValue = base[0x64];
-    u16 value = ((u16 *)base)[0x64];
+    s16 *camera_state = (s16 *)D_80083160;
+    s16 camera_offset = camera_state[0x64];
+    u16 next_offset = ((u16 *)camera_state)[0x64];
 
-    if (signedValue != 0) {
-        if (signedValue > 0) {
-            value -= 0x10;
-            base[0x64] = value;
-            if ((s16)value < 0) {
-                base[0x64] = 0;
-                return func_800909F8(base);
+    if (camera_offset != 0) {
+        if (camera_offset > 0) {
+            next_offset -= 0x10;
+            camera_state[0x64] = next_offset;
+            if ((s16)next_offset < 0) {
+                camera_state[0x64] = 0;
+                return func_800909F8(camera_state);
             }
-        } else if (signedValue < 0) {
-            value += 0x10;
-            base[0x64] = value;
-            if ((s16)value > 0) {
-                base[0x64] = 0;
+        } else if (camera_offset < 0) {
+            next_offset += 0x10;
+            camera_state[0x64] = next_offset;
+            if ((s16)next_offset > 0) {
+                camera_state[0x64] = 0;
             }
         }
     }
 
-    return base[0x64];
+    return camera_state[0x64];
 }

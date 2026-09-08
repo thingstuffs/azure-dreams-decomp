@@ -13,7 +13,7 @@ typedef struct S_8008333C {
 
 extern S_8008333C D_8008333C;
 
-/* Clears flag 0x8000 in four sub-table entries for each scaled index 10 and 11. */
+/* Clears flag 0x8000 in four sub-tables at scaled indices 10 and 11. */
 void func_80043A68(void)
 {
     S_8008333C *table = &D_8008333C;

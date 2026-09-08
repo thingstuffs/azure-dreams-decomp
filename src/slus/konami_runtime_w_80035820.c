@@ -18,7 +18,7 @@ M2C_UNK func_80035090();                      /* extern */
 M2C_UNK func_8003FFF0();                      /* extern */
 M2C_UNK func_80044A50();                      /* extern */
 
-/* Run handlers for a type-0x101 record and its enclosing object. */
+/* Cleans up a type-0x101 record and unlinks its enclosing object. */
 void func_80035820(void *record) {
     void *object_base;
 

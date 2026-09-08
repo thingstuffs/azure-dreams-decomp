@@ -3,14 +3,14 @@
 extern void func_8004E264(void *a0, s32 a1);
 
 /* Process 12-byte entries through the entry whose first byte has bit 0x80 set. */
-void func_8004E884(u8 *entries, s32 processArg)
+void func_8004E884(u8 *entries, s32 process_arg)
 {
     u8 *entry = entries;
-    s32 entryProcessArg = processArg;
+    s32 entry_process_arg = process_arg;
 
     if (entry != 0) {
         do {
-            func_8004E264(entry, entryProcessArg);
+            func_8004E264(entry, entry_process_arg);
             if (*entry & 0x80) {
                 break;
             }

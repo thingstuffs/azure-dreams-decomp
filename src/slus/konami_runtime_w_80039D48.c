@@ -21,7 +21,7 @@ typedef struct Func80039D48Reader {
     Func80039D48Table *table;
 } Func80039D48Reader;
 
-/* Read a little-endian handler address, call it with table arguments, and store the result. */
+/* Call the event script's encoded handler with table arguments and store its result. */
 void func_80039D48(Func80039D48Reader *reader) {
     register u8 *read_ptr = reader->read_ptr;
     u32 addr_byte_0 = read_ptr[0];

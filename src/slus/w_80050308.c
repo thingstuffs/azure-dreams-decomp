@@ -61,10 +61,10 @@ void func_80050308(void *object)
             func_80053DA8(0x514);
             obj->unk20 = func_800502E0(obj->unk28);
             if (func_8004FF20(obj) == 0) {
-                s32 prev_state = *(s32 *)((char *)obj - 0x10);
+                s32 prev_callback = *(s32 *)((char *)obj - 0x10);
 
                 *(StateFn_80050308 *)((char *)obj - 0x10) = func_8004FFA8;
-                obj->unk04 = prev_state;
+                obj->unk04 = prev_callback;
             } else {
                 func_80050EA8((char *)obj - 0x20);
             }

@@ -38,40 +38,41 @@ typedef struct S_800206C8_2 {
     s32 unk_10;
 } S_800206C8_2;   /* final_base in func_800206C8 */
 
-void func_800206C8(s32 arg0)
+/* Initializes the memory card slot object and its working state. */
+void func_800206C8(s32 init_option)
 {
     void *base;
-    S_800206C8_0 *base_use;
-    void *sub;
-    void *work;
+    S_800206C8_0 *slot_obj;
+    void *slot_state;
+    void *allocated_obj;
 
     base = D_8040C318;
-    sub = D_8040C318 + 0x20;
+    slot_state = D_8040C318 + 0x20;
     if (func_80047FD8(base) == 0) {
-        work = (void *)(unsigned long)func_8003C714(0, base, 0x42);
-        if (work == 0) {
+        allocated_obj = (void *)(unsigned long)func_8003C714(0, base, 0x42);
+        if (allocated_obj == 0) {
             func_8007C040(D_804007A4, D_804007CC, 0x136);
             func_8007BEF0(1);
         }
-        func_80040560((s32)(unsigned long)work, D_8040861C);
-        func_8040777C(sub);
+        func_80040560((s32)(unsigned long)allocated_obj, D_8040861C);
+        func_8040777C(slot_state);
         return;
     }
     func_804077D4(base);
     D_8040C336 &= 0x7FFF;
-    func_8007BFE0(sub, 0xE4);
-    if (func_804075D0(sub, 4)) {
-        base_use = base;
+    func_8007BFE0(slot_state, 0xE4);
+    if (func_804075D0(slot_state, 4)) {
+        slot_obj = base;
     } else {
-        base_use = (u8 *)sub - 0x20;
+        slot_obj = (u8 *)slot_state - 0x20;
     }
-    base_use->unk_0C = (s32)(unsigned long)((u8 *)sub + 0x50);
-    ((S_800206C8_1 *)sub)->unk_5C = func_804075A8(((S_800206C8_1 *)sub)->unk_60);
-    func_80407688(sub, arg0);
+    slot_obj->unk_0C = (s32)(unsigned long)((u8 *)slot_state + 0x50);
+    ((S_800206C8_1 *)slot_state)->unk_5C = func_804075A8(((S_800206C8_1 *)slot_state)->unk_60);
+    func_80407688(slot_state, init_option);
     {
         register void *final_base ASM_REG("$2");
 
-        final_base = base_use;
+        final_base = slot_obj;
         ASM_KEEP(final_base);
         ((S_800206C8_2 *)final_base)->unk_10 =
             (s32)(unsigned long)D_80407298;

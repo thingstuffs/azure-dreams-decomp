@@ -11,7 +11,7 @@ typedef struct {
 
 extern void func_80038690(void);
 
-/* Reads the next byte into the state value and sets the next handler. */
+/* Read a script byte into the state value and select func_80038690 as the next handler. */
 void func_80039BBC(FuncState *state) {
     u8 *cursor = state->cursor;
     u8 value = *cursor;

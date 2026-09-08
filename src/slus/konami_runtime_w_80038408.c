@@ -14,7 +14,7 @@ typedef struct {
 extern int func_800392A4(u8 arg0);
 extern void func_80038A10(void);
 
-/* Advance the state handler when the state check succeeds or the countdown expires. */
+/* ms_mot_accpt_ow: advance the state handler when the state check succeeds or the countdown expires. */
 void func_80038408(FuncState *state) {
     if (func_800392A4(state->state_2f) == 0) {
         state->state_89 -= 1;

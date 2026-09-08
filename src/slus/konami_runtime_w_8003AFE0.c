@@ -9,7 +9,7 @@ extern s32 D_801B8EB8[];
 extern void func_801768AC(void);
 extern void func_800411FC(u16 arg0);
 
-/* Stores the selected table value and flags, then invokes the runtime handlers. */
+/* Store the selected table value and flags with bit 30 set, then invoke the runtime handlers. */
 void func_8003AFE0(s32 table_index, s32 flags)
 {
     s32 table_value = D_8006CD50[table_index];

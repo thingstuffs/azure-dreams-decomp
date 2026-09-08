@@ -39,29 +39,29 @@ extern u8 D_800E3E41;
 extern void func_800A56E0(s32);
 extern void func_800A5A18(void *, Object *, void *);
 
-/* Applies a mode-adjusted quarter-value change when the source and target cell permit it. */
+/* Apply a mode-adjusted quarter-value change when the source and target item flags permit it. */
 s32 func_800C7DEC(Object *object, Other *source) {
-    u8 *target_pos;
+    u8 *target_item;
     s16 total_value;
     u8 mode;
     s16 adjustment;
 
     if (source->flags54 & 0x8000) {
-        target_pos = object->target4C;
-        if (target_pos != 0) {
-            u8 row;
-            DungeonGroup *groups;
-            DungeonGroup *group;
-            DungeonCell *cells;
-            u8 column;
+        target_item = object->target4C;
+        if (target_item != 0) {
+            u8 category_index;
+            DungeonGroup *item_category_table;
+            DungeonGroup *item_category;
+            DungeonCell *item_entries;
+            u8 item_index;
 
-            row = target_pos[1];
-            groups = D_80073414;
-            group = &groups[row];
-            column = target_pos[0];
+            category_index = target_item[1];
+            item_category_table = D_80073414;
+            item_category = &item_category_table[category_index];
+            item_index = target_item[0];
 
-            cells = group->cells;
-            if (!(cells[column].flags & 0x8000)) {
+            item_entries = item_category->cells;
+            if (!(item_entries[item_index].flags & 0x8000)) {
                 return 0;
             }
         }
@@ -87,7 +87,7 @@ s32 func_800C7DEC(Object *object, Other *source) {
         *(volatile u16 *)&object->value64 = adjustment;
         D_80083470 = (u8 *)object - 0x20;
         object->value60 = 0;
-        func_800A5A18(*(void **)((u8 *)object - 0x18), object, target_pos);
+        func_800A5A18(*(void **)((u8 *)object - 0x18), object, target_item);
         func_800A56E0(0x60F);
         object->flags1C |= 0x20000000;
         if (object->value13 == 0) {

@@ -18,11 +18,11 @@ extern S_80084478 D_80084478[16];
 /* Initializes 16 records with template values and sets each f9 byte to its index times 16. */
 void func_80052A20(void)
 {
-    s32 recordIndex;
+    s32 record_index;
     S_80084478 *record;
 
     record = D_80084478;
-    recordIndex = 0;
+    record_index = 0;
     do {
         record->f0 = 0xC0;
         record->f1 = 0x2C;
@@ -31,10 +31,10 @@ void func_80052A20(void)
         record->f4 = 0xE;
         record->f6 = 0x7080;
         record->f8 = 0;
-        record->f9 = recordIndex << 4;
+        record->f9 = record_index << 4;
         record->f10 = 0xFC;
         record->f11 = 0x10;
-        recordIndex++;
+        record_index++;
         record++;
-    } while (recordIndex < 16);
+    } while (record_index < 16);
 }

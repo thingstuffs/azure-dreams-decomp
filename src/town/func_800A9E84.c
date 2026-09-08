@@ -52,7 +52,7 @@ extern u8 D_800A76F0;
 extern s32 D_800D0E24[];
 extern s32 D_800D0E3C[];
 
-/* Creates an object and initializes its part and body from indexed data. */
+/* fukidasi_set: create a speech bubble object and initialize its part and body from indexed data. */
 void func_800A75E4(s32 entry_index, s32 part_index, s32 body_index, s32 body_value) {
     s32 saved_part_index;
     s32 saved_body_index;
@@ -105,4 +105,3 @@ void func_800A75E4(s32 entry_index, s32 part_index, s32 body_index, s32 body_val
     ASM_KEEP(saved_body_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 }
-

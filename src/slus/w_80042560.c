@@ -27,11 +27,12 @@ extern u16 D_80013714_flags __asm__("D_80013714");
 extern s32 func_80042518(CallbackObject *object, s32 type);
 extern void func_800A48F0(CallbackObject *object, s32 type, s32 value);
 
+/* Remove type 0x1B and replay the remaining slots with global flag bit 1 set. */
 void func_80042560(CallbackObject *object)
 {
-    CallbackSlot slots[4];
+    CallbackSlot saved_slots[4];
     s32 initial_type = 0x1B;
-    s32 i = 0;
+    s32 slot_index = 0;
     CallbackGlobals *globals = &D_80013714;
     u16 saved_flags;
 
@@ -40,16 +41,16 @@ void func_80042560(CallbackObject *object)
     globals->flags = saved_flags | 2;
     func_80042518(object, initial_type);
 
-    for (; i < 4; i++) {
-        slots[i] = object->slots[i];
-        if (slots[i].type != 0) {
-            func_80042518(object, slots[i].type);
+    for (; slot_index < 4; slot_index++) {
+        saved_slots[slot_index] = object->slots[slot_index];
+        if (saved_slots[slot_index].type != 0) {
+            func_80042518(object, saved_slots[slot_index].type);
         }
     }
 
-    for (i = 0; i < 4; i++) {
-        if (slots[i].type != 0) {
-            func_800A48F0(object, slots[i].type, slots[i].value);
+    for (slot_index = 0; slot_index < 4; slot_index++) {
+        if (saved_slots[slot_index].type != 0) {
+            func_800A48F0(object, saved_slots[slot_index].type, saved_slots[slot_index].value);
         }
     }
 

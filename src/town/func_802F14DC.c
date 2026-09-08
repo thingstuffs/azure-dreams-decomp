@@ -10,7 +10,7 @@ extern u8 D_80400894[];
 extern s32 D_8008DAB4[3];
 extern s32 D_8008DAB0[4];
 
-/* Process the object's two handles and set its and the global high-bit flags. */
+/* Processes the object's two handles and sets the object and global high-bit flags. */
 void func_802F14DC(void *object) {
     u16 object_flags;
     s32 global_flags;

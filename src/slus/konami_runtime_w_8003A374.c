@@ -9,7 +9,7 @@ typedef struct {
     u8 *table;
 } Func8003A374State;
 
-/* Copies a table word to the destination address selected by the command bytes. */
+/* Store a VM table word at the address held in a byte selected by an immediate word offset. */
 void func_8003A374(Func8003A374State *state) {
     u8 *cursor;
     u32 source_entry;

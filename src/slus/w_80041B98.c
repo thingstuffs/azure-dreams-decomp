@@ -14,7 +14,7 @@ extern void func_80041CBC(void);
 extern void func_80040A88(int a0);
 extern void func_80041BE4(void);
 
-/* Calls func_80041CBC(), then registers the next state callback if the current slot's flag is clear. */
+/* Runs the state update and registers the next callback when the current slot becomes inactive. */
 void func_80041B98(void)
 {
     func_80041CBC();

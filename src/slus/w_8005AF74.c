@@ -18,7 +18,7 @@ extern s32 D_80085F98[4]; /* forced hi/lo access via size > 8 */
 extern void func_80059D1C(void);
 extern void func_80056A08(void);
 
-/* Runs setup with mode flags set, resets the selected slot, and clears the active flag. */
+/* Resets sound driver state and restores the selected sequence slot to idle defaults. */
 void func_8005AF74(s16 slot_index)
 {
     S_80086C00 *slots;
