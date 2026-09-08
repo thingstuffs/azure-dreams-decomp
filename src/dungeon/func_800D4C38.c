@@ -49,7 +49,7 @@ void func_800DA398(void *arg0, s32 arg1, void *arg2, void *arg3) {
     return;
 
 state_high:
-    ASM_KEEP(state);   /* MATCH pin: retail delay-slot fill depends on it */
+       /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_two;
     }

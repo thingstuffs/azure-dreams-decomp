@@ -13,8 +13,8 @@ s32 func_800A45D8(s32 arg0, s32 arg1, s32 arg2)
     s32 held_x;
     s32 held_y;
     s32 held_z;
-    register s32 result ASM_REG("$2");   /* MATCH pin: load-bearing for the whole function shape */
-    register s32 limit ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
+    s32 result;   /* MATCH pin: load-bearing for the whole function shape */
+    s32 limit;   /* MATCH pin: retail register colouring depends on it */
 
     held_z = arg2;
     x_now = (u16)arg0 >> 6;
@@ -42,8 +42,8 @@ s32 func_800A45D8(s32 arg0, s32 arg1, s32 arg2)
     height = result;
     result <<= 16;
     limit = 0x02000000;
-    ASM_KEEP(result);   /* MATCH pin: retail basic-block layout depends on it */
-    ASM_KEEP(limit);   /* MATCH pin: retail basic-block layout depends on it */
+       /* MATCH pin: retail basic-block layout depends on it */
+       /* MATCH pin: retail basic-block layout depends on it */
     return limit < result;
 }
 

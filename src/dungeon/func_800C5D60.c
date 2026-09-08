@@ -104,7 +104,7 @@ void *func_800CB4C0(void *arg0, s16 arg1) {
             temp_s0->unk_10 = 0x60;
             temp_s0->unk_0C = temp_s32;
         }
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
+           /* MATCH pin: retail schedule: same instructions, different order without it */
         temp_s0->unk_06 = -1;
         ASM_SCHED_BARRIER();   /* MATCH pin: retail schedule: same instructions, different order without it */
         temp_v0_2 = temp_v0 + 0x20;

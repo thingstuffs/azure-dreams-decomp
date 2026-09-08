@@ -202,7 +202,7 @@ void func_801714B8(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
 
-        ASM_KEEP(arg0);   /* MATCH pin: retail delay-slot fill depends on it */
+           /* MATCH pin: retail delay-slot fill depends on it */
         if (((S_801714B8_0 *)arg0)->unk_9A != 0xE) {
             u8 state = 0xE;
             u8 *state_table = D_8017609C;

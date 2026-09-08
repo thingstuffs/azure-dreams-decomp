@@ -17,7 +17,7 @@ s32 func_80019B54(Rec_func_800165F4_arg0 *arg0, s32 arg1) {
     if (func_800199DC(arg0) != 0) {
         func_8001ACE8(((S_80019B54_1 *)((arg1 * 0x10) + arg0->unk_10))->unk_0C);
         func_8001AD60(arg0->unk_18);
-        ASM_USE(arg1);   /* MATCH pin: retail register colouring depends on it */
+           /* MATCH pin: retail register colouring depends on it */
         return 1;
     }
     return 0;

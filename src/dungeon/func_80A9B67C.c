@@ -177,7 +177,7 @@ void func_80170E7C(void *arg0, void *arg1, void *arg2, void *arg3)
             u32 current_state = ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8;
             u32 actor_state;
 
-            ASM_KEEP(current_state);   /* MATCH pin: retail delay-slot fill depends on it */
+               /* MATCH pin: retail delay-slot fill depends on it */
             actor_state = 0xE;
 #ifndef __mips__
 #endif

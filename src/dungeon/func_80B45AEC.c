@@ -71,7 +71,7 @@ void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *ob
         }
         return;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: keeps a statement from moving across a call/branch */
+       /* MATCH pin: keeps a statement from moving across a call/branch */
     if (state == 2) {
         goto state_2;
     }

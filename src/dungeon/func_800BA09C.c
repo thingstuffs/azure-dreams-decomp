@@ -70,7 +70,7 @@ s32 func_800BF7FC(void *arg0, u8 *arg1, s16 arg2, s32 arg3)
         ((Rec_D_800E3D7C *)arg0)->unk_110 = (s32)arg1;
         func_8008D344(arg0, D_80083780, D_80082E80, arg0);
         return 0;
-        ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot contents depend on it */
+           /* MATCH pin: retail delay-slot contents depend on it */
         return 0;
     }
 

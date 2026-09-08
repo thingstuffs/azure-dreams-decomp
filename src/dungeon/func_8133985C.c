@@ -58,7 +58,7 @@ void func_8017085C(void *arg0, void *arg1, void *arg2) {
         }
         return;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+       /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     if (temp_v1 == 2) {
         goto state2;
     }

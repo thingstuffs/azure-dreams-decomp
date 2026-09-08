@@ -139,7 +139,7 @@ void func_80171FA4(void *arg0, void *arg1, void *arg2, void *arg3)
             return;
         }
 
-        ASM_KEEP(arg0);   /* MATCH pin: retail delay-slot fill depends on it */
+           /* MATCH pin: retail delay-slot fill depends on it */
         {
             u8 current_state = ((S_80171FA4_0 *)arg0)->unk_9A;
             u32 actor_state = 0xE;

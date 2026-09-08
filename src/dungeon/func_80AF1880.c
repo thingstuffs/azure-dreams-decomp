@@ -44,7 +44,7 @@ void func_80173080(void *arg0, void *arg1, void *arg2, void *arg3)
     if (state != 1) {
         under_two = (s32)state < 2;
         if (under_two) {
-            ASM_KEEP(under_two);   /* MATCH pin: retail delay-slot fill depends on it */
+               /* MATCH pin: retail delay-slot fill depends on it */
             if (state == 0) {
                 goto state_0;
             }

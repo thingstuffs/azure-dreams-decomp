@@ -21,7 +21,7 @@ M2C_UNK func_80099754();
 extern M2C_UNK D_800984AC;
 
 void func_80098544(S_80098544_0 *arg0, void *arg1) {
-    register S_80098544_1 *out ASM_REG("$5");   /* MATCH pin: load-bearing for the whole function shape */
+    S_80098544_1 *out;   /* MATCH pin: load-bearing for the whole function shape */
     s16 remaining;
     register s32 temp_v1 ASM_REG("$3");   /* MATCH pin: keeps a statement from moving across a call/branch */
     u16 temp_v0;

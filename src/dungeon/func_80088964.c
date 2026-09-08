@@ -62,7 +62,7 @@ void func_8008E0C4(S_8008E0C4_0 *arg0, void *unused, S_8008E0C4_1 *arg2, Rec_D_8
         }
         return;
     }
-    ASM_KEEP(temp_v1);   /* MATCH pin: retail delay-slot fill depends on it */
+       /* MATCH pin: retail delay-slot fill depends on it */
     if (temp_v1 == 2) {
         return;
     }

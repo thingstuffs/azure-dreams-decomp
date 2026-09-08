@@ -336,7 +336,7 @@ void func_800A871C(void *arg0, void *arg1, void *arg2) {
                 func_800B66C8(r_arg1);
                 func_8009A028(temp_s0);
                 return;
-                ASM_KEEP(temp_s0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
+                   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
                 return;
             }
 block_A8B54:

@@ -54,7 +54,7 @@ void func_8016A9FC(void *arg0) {
     return;
 
 state_ge_2:
-    ASM_KEEP(state);   /* MATCH pin: retail delay-slot fill depends on it */
+       /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_2;
     }
@@ -106,7 +106,7 @@ state_2:
         base[0xAA] += 4;
         return;
     }
-    ASM_KEEP_NV(value);   /* MATCH pin: retail schedule: same instructions, different order without it */
+       /* MATCH pin: retail schedule: same instructions, different order without it */
     base[0xAA] = 0x80;
     base[0xA9] = 0x80;
     base[0xA8] = 0x80;

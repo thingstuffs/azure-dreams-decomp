@@ -42,7 +42,7 @@ void func_80021E88(S_80021E88_0 *arg0, Rec_func_80021E88_arg1 *arg1, S_80021E88_
     s16 state;
     s32 value;
     s32 transition_value;
-    register s32 one ASM_REG("$4");   /* MATCH pin: keeps a constant in a register as retail does */
+    s32 one;   /* MATCH pin: keeps a constant in a register as retail does */
     register s32 transition ASM_REG("$19");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
     u16 flags;
     S_80021E88_1 *object;
@@ -72,7 +72,7 @@ void func_80021E88(S_80021E88_0 *arg0, Rec_func_80021E88_arg1 *arg1, S_80021E88_
         }
         return;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
+       /* MATCH pin: retail delay-slot fill depends on it */
     if (state == 2) {
         goto state_2;
     }

@@ -112,6 +112,18 @@ Astra's lanes now attempt removal on every refined row and journal the counts (f
   reduced), 11 pins removed. The tractable seam is small; the bulk of the 13,600 load-bearing
   pins needs a reader per row (the lanes now attempt it).
 
+## Markers after the tail calls are gone (2026-09-08)
+
+With the tail-call spelling removed from 453 rows, the dead-pin erasure (`t2_pins`) was re-run
+on every row the burn-down changed (592 rows): 57 rows lost 72 gcc-facing pins (KEEP 26,
+SCHED_BARRIER 24, REG 17, ...), all re-gated byte-identical, but **no marker pin became dead**:
+on the 73 changed rows that still carry `ASM_TAILSLOT_PIN` / `_TIED` / `ASM_PAGEBASE_PIN`, every
+marker erasure broke the delay slot (census class `delay-slot`). Read with the Psy-Q result
+(genuine ASPSX fills no slot; gcc's own delay-branch pass does), the markers now stand purely for
+the source shape that made gcc park that value in the slot of its own `j` — the same kind of
+debt as `ASM_KEEP`, and reader work per row (the L3 lanes attempt it; a shape menu for it needs
+a pilot of its own).
+
 ## Next
 
 - B1 (mid-row) rows: 362 rows carry only mid-row sites (186 with a single site), 207 mix kinds.

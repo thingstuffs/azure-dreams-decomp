@@ -67,7 +67,7 @@ void func_80173408(void *arg0, void *arg1, void *arg2, void *arg3)
 
 L0:
     {
-        register void *call_a0 ASM_REG("$4") = arg3;   /* MATCH pin: retail basic-block layout depends on it */
+        void *call_a0 = arg3;   /* MATCH pin: retail basic-block layout depends on it */
 
         if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
             ((S_80173408_0 *)arg0)->unk_9B.n = 4;

@@ -280,7 +280,7 @@ sw_1:
         ((S_80022768_0 *)state)->unk_5C.s = 3;
         return;
     }
-    ASM_SCHED_BARRIER();   /* MATCH pin: retail basic-block layout depends on it */
+       /* MATCH pin: retail basic-block layout depends on it */
     if ((((S_80022768_2 *)global)->unk_10 & 0x40) == 0 ||
         ((S_80022768_0 *)state)->unk_64 == 0) {
         return;

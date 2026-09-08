@@ -86,7 +86,7 @@ s32 func_800A794C(s32 arg0, s32 arg1, s32 arg2, s32 *arg3, s32 arg4,
         return;
     }
     result = 0;
-    ASM_KEEP(result);   /* MATCH pin: load-bearing for the whole function shape */
+       /* MATCH pin: load-bearing for the whole function shape */
     return result;
 }
 
