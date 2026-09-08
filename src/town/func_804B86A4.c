@@ -13,6 +13,7 @@ typedef struct {
 
 extern StructA *D_80016000;
 
+/* Set the referenced object's unk4 and unk8 fields to 800 and 736. */
 void func_80016EA4(void) {
     D_80016000->unk1C->unk4 = 800;
     D_80016000->unk1C->unk8 = 736;

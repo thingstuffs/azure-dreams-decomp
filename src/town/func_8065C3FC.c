@@ -15,6 +15,7 @@ extern Rec_D_80016000 *D_80016000;
 extern u32 D_80018340;
 
 
+/* Checks whether the stored value has reached the threshold in D_80018340. */
 s32 func_8065C3FC(void) {
     return (u32) ((S_8065C3FC_1 *)(D_80016000->unk_38.as_pv))->unk_2D5C >= (u32) D_80018340;
 }

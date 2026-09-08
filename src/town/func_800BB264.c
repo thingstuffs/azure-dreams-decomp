@@ -2,7 +2,7 @@
 
 extern s8 D_800133E7[9];
 
-/* func_koya_tamago_pal_ld: store the selected palette and preserve the previous common palette. */
+/* BuildLandBuilding: store the selected palette and preserve the previous common palette. */
 void func_800B89C4(s32 slot, s32 palette)
 {
     s32 raw_palette = palette;

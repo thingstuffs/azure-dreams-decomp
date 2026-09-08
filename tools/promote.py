@@ -31,6 +31,13 @@ def gate(yaml_name, locked=False):
     if locked: return run_window_gate(yaml_name)
     with window_lock(yaml_name): return run_window_gate(yaml_name)
 
+def needs_gate(row):
+    """The per-row scorer links every row at its true base; the window gate links a row WITHOUT a recorded true name at its
+    synthetic address (the legacy population). Only that class can be scorer-exact and wrong in the window (all 13 mismatches
+    of 2026-09-08 were such rows), so only that class pays for a window gate at landing; a whole-overlay window such as
+    town_scene recompiles every row it holds and takes minutes."""
+    return row["kind"] == "overlay" and not row.get("true_name")
+
 def windows_of(row):
     """Every window whose range holds the row (the gate compiles all rows in a range, named or not)."""
     names = {Path(row["gate_config"]).name} if row.get("gate_config") and row["kind"] == "overlay" else set()
@@ -89,7 +96,8 @@ def promote_text(row, text, source, dry_run=False):
         return dict(rec, outcome="mismatch" if v.get("status") == "ok" else "build-failed")
     if dry_run:
         return dict(rec, outcome="would-land", out_sha=sha_text(text))
-    wins = windows_of(row) if row["kind"] == "overlay" else []
+    wins = windows_of(row) if needs_gate(row) else []
+    if row["kind"] == "overlay" and not wins: rec["gate"] = "not needed: row linked at its true name (scorer and gate agree)"
     # hold every window the row sits in for write + gate + (revert): a concurrent landing in the same
     # window must not be visible to this row's gate, or a bad neighbour would fail this row (and vice versa)
     locks = [window_lock(w) for w in wins]

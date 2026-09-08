@@ -1,0 +1,1085 @@
+{
+ "note": "54 TOWN.BIN event-script modules located directly by the 0x20-byte header magic (word0=0, word1=word4=0x4C070707, word3=1, word6=0x00010F48). ALL load at 0x80016000. `proven_extent_bytes` is a LOWER bound: the module's span up to the last row whose recorded true_name confirms the 0x80016000 mapping (0x800-rounded), capped by the first row that contradicts it. Rows beyond it are resolved from bank anchors instead.",
+ "modules": [
+  {
+   "module_id": 0,
+   "file_off": "0x2AB800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x8001A484",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x8001A484",
+    "0x00000001",
+    "0x4C070707",
+    "0x8001A3FC",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 145,
+   "proven_extent_bytes": 20972,
+   "next_header_file_off": "0x3E5000"
+  },
+  {
+   "module_id": 1,
+   "file_off": "0x3E5000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x8001E3F0",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x8001E3F0",
+    "0x00000001",
+    "0x4C070707",
+    "0x8001E368",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 90,
+   "proven_extent_bytes": 29776,
+   "next_header_file_off": "0x3EF000"
+  },
+  {
+   "module_id": 2,
+   "file_off": "0x3EF000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x8001A144",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x8001A144",
+    "0x00000001",
+    "0x4C070707",
+    "0x8001A0BC",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 45,
+   "proven_extent_bytes": 9292,
+   "next_header_file_off": "0x3F5000"
+  },
+  {
+   "module_id": 3,
+   "file_off": "0x3F5000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80019650",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80019650",
+    "0x00000001",
+    "0x4C070707",
+    "0x800195C8",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 25,
+   "proven_extent_bytes": 8028,
+   "next_header_file_off": "0x3F9800"
+  },
+  {
+   "module_id": 4,
+   "file_off": "0x3F9800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80019650",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80019650",
+    "0x00000001",
+    "0x4C070707",
+    "0x800195C8",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x3FE000"
+  },
+  {
+   "module_id": 5,
+   "file_off": "0x3FE000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x800173E0",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x800173E0",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017358",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x400000"
+  },
+  {
+   "module_id": 6,
+   "file_off": "0x400000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80018268",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80018268",
+    "0x00000001",
+    "0x4C070707",
+    "0x800181E0",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x437800"
+  },
+  {
+   "module_id": 7,
+   "file_off": "0x437800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x800186CC",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x800186CC",
+    "0x00000001",
+    "0x4C070707",
+    "0x80018644",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 30,
+   "proven_extent_bytes": 5660,
+   "next_header_file_off": "0x450800"
+  },
+  {
+   "module_id": 8,
+   "file_off": "0x450800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017174",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017174",
+    "0x00000001",
+    "0x4C070707",
+    "0x800170EC",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 336,
+   "next_header_file_off": "0x458000"
+  },
+  {
+   "module_id": 9,
+   "file_off": "0x458000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017248",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017248",
+    "0x00000001",
+    "0x4C070707",
+    "0x800171C0",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 3,
+   "proven_extent_bytes": 624,
+   "next_header_file_off": "0x470000"
+  },
+  {
+   "module_id": 10,
+   "file_off": "0x470000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x8001726C",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x8001726C",
+    "0x00000001",
+    "0x4C070707",
+    "0x800171E4",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 628,
+   "next_header_file_off": "0x480000"
+  },
+  {
+   "module_id": 11,
+   "file_off": "0x480000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017150",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017150",
+    "0x00000001",
+    "0x4C070707",
+    "0x800170C8",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 248,
+   "next_header_file_off": "0x48E000"
+  },
+  {
+   "module_id": 12,
+   "file_off": "0x48E000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x800171F8",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x800171F8",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017170",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 248,
+   "next_header_file_off": "0x49E800"
+  },
+  {
+   "module_id": 13,
+   "file_off": "0x49E800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x800186B0",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x800186B0",
+    "0x00000001",
+    "0x4C070707",
+    "0x80018628",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 33,
+   "proven_extent_bytes": 5408,
+   "next_header_file_off": "0x4CF800"
+  },
+  {
+   "module_id": 14,
+   "file_off": "0x4CF800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017398",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017398",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017310",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 460,
+   "next_header_file_off": "0x4D9000"
+  },
+  {
+   "module_id": 15,
+   "file_off": "0x4D9000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x800170E4",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x800170E4",
+    "0x00000001",
+    "0x4C070707",
+    "0x8001705C",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x4F9000"
+  },
+  {
+   "module_id": 16,
+   "file_off": "0x4F9000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017198",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017198",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017110",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 248,
+   "next_header_file_off": "0x51E000"
+  },
+  {
+   "module_id": 17,
+   "file_off": "0x51E000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80018564",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80018564",
+    "0x00000001",
+    "0x4C070707",
+    "0x800184DC",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 16,
+   "proven_extent_bytes": 2756,
+   "next_header_file_off": "0x552000"
+  },
+  {
+   "module_id": 18,
+   "file_off": "0x552000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80018E34",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80018E34",
+    "0x00000001",
+    "0x4C070707",
+    "0x80018DAC",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 18,
+   "proven_extent_bytes": 4284,
+   "next_header_file_off": "0x581000"
+  },
+  {
+   "module_id": 19,
+   "file_off": "0x581000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017C80",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017C80",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017BF8",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 444,
+   "next_header_file_off": "0x594800"
+  },
+  {
+   "module_id": 20,
+   "file_off": "0x594800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80018850",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80018850",
+    "0x00000001",
+    "0x4C070707",
+    "0x800187C8",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 25,
+   "proven_extent_bytes": 3660,
+   "next_header_file_off": "0x5B2000"
+  },
+  {
+   "module_id": 21,
+   "file_off": "0x5B2000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017258",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017258",
+    "0x00000001",
+    "0x4C070707",
+    "0x800171D0",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 256,
+   "next_header_file_off": "0x5C7000"
+  },
+  {
+   "module_id": 22,
+   "file_off": "0x5C7000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x800172EC",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x800172EC",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017264",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 284,
+   "next_header_file_off": "0x5DB800"
+  },
+  {
+   "module_id": 23,
+   "file_off": "0x5DB800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017CFC",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017CFC",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017C74",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 7,
+   "proven_extent_bytes": 2036,
+   "next_header_file_off": "0x5FF000"
+  },
+  {
+   "module_id": 24,
+   "file_off": "0x5FF000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80018194",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80018194",
+    "0x00000001",
+    "0x4C070707",
+    "0x8001810C",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x617000"
+  },
+  {
+   "module_id": 25,
+   "file_off": "0x617000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80018264",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80018264",
+    "0x00000001",
+    "0x4C070707",
+    "0x800181DC",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 388,
+   "next_header_file_off": "0x629000"
+  },
+  {
+   "module_id": 26,
+   "file_off": "0x629000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017108",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017108",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017080",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 248,
+   "next_header_file_off": "0x645000"
+  },
+  {
+   "module_id": 27,
+   "file_off": "0x645000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x8001896C",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x8001896C",
+    "0x00000001",
+    "0x4C070707",
+    "0x800188E4",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 19,
+   "proven_extent_bytes": 4172,
+   "next_header_file_off": "0x649000"
+  },
+  {
+   "module_id": 28,
+   "file_off": "0x649000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x8001733C",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x8001733C",
+    "0x00000001",
+    "0x4C070707",
+    "0x800172B4",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x64B000"
+  },
+  {
+   "module_id": 29,
+   "file_off": "0x64B000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017338",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017338",
+    "0x00000001",
+    "0x4C070707",
+    "0x800172B0",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x64D000"
+  },
+  {
+   "module_id": 30,
+   "file_off": "0x64D000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x800172E0",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x800172E0",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017258",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x64F000"
+  },
+  {
+   "module_id": 31,
+   "file_off": "0x64F000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017144",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017144",
+    "0x00000001",
+    "0x4C070707",
+    "0x800170BC",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x651000"
+  },
+  {
+   "module_id": 32,
+   "file_off": "0x651000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x800170B4",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x800170B4",
+    "0x00000001",
+    "0x4C070707",
+    "0x8001702C",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x652800"
+  },
+  {
+   "module_id": 33,
+   "file_off": "0x652800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80016C34",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80016C34",
+    "0x00000001",
+    "0x4C070707",
+    "0x80016BD4",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x60",
+   "aligned_0x800": true,
+   "rows_owned": 23,
+   "proven_extent_bytes": 6592,
+   "next_header_file_off": "0x654000"
+  },
+  {
+   "module_id": 34,
+   "file_off": "0x654000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017FE8",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017FE8",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017F60",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 18,
+   "proven_extent_bytes": 3896,
+   "next_header_file_off": "0x657800"
+  },
+  {
+   "module_id": 35,
+   "file_off": "0x657800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80018194",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80018194",
+    "0x00000001",
+    "0x4C070707",
+    "0x8001810C",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 10,
+   "proven_extent_bytes": 3884,
+   "next_header_file_off": "0x65B000"
+  },
+  {
+   "module_id": 36,
+   "file_off": "0x65B000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x8001715C",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x8001715C",
+    "0x00000001",
+    "0x4C070707",
+    "0x800170D4",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x671800"
+  },
+  {
+   "module_id": 37,
+   "file_off": "0x671800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017390",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017390",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017308",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 248,
+   "next_header_file_off": "0x68D000"
+  },
+  {
+   "module_id": 38,
+   "file_off": "0x68D000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x8001A24C",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x8001A24C",
+    "0x00000001",
+    "0x4C070707",
+    "0x8001A1C4",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 36,
+   "proven_extent_bytes": 10212,
+   "next_header_file_off": "0x6AA000"
+  },
+  {
+   "module_id": 39,
+   "file_off": "0x6AA000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x800174FC",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x800174FC",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017474",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 5,
+   "proven_extent_bytes": 1100,
+   "next_header_file_off": "0x6CC800"
+  },
+  {
+   "module_id": 40,
+   "file_off": "0x6CC800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017140",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017140",
+    "0x00000001",
+    "0x4C070707",
+    "0x800170B8",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x6E1800"
+  },
+  {
+   "module_id": 41,
+   "file_off": "0x6E1800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x8001759C",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x8001759C",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017514",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 364,
+   "next_header_file_off": "0x6EF800"
+  },
+  {
+   "module_id": 42,
+   "file_off": "0x6EF800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x8001798C",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x8001798C",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017904",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 2,
+   "proven_extent_bytes": 2484,
+   "next_header_file_off": "0x6F4800"
+  },
+  {
+   "module_id": 43,
+   "file_off": "0x6F4800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x800170F4",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x800170F4",
+    "0x00000001",
+    "0x4C070707",
+    "0x8001706C",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 200,
+   "next_header_file_off": "0x6F7000"
+  },
+  {
+   "module_id": 44,
+   "file_off": "0x6F7000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x800170F4",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x800170F4",
+    "0x00000001",
+    "0x4C070707",
+    "0x8001706C",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x6FD800"
+  },
+  {
+   "module_id": 45,
+   "file_off": "0x6FD800",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017470",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017470",
+    "0x00000001",
+    "0x4C070707",
+    "0x800173E8",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 1028,
+   "next_header_file_off": "0x705000"
+  },
+  {
+   "module_id": 46,
+   "file_off": "0x705000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x800171F0",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x800171F0",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017168",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 484,
+   "next_header_file_off": "0x71A000"
+  },
+  {
+   "module_id": 47,
+   "file_off": "0x71A000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80017218",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80017218",
+    "0x00000001",
+    "0x4C070707",
+    "0x80017190",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x88",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 484,
+   "next_header_file_off": "0x8CD000"
+  },
+  {
+   "module_id": 48,
+   "file_off": "0x8CD000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80016AF4",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80016AF4",
+    "0x00000001",
+    "0x4C070707",
+    "0x80016A94",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x60",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 52,
+   "next_header_file_off": "0x8CE000"
+  },
+  {
+   "module_id": 49,
+   "file_off": "0x8CE000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80016AF4",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80016AF4",
+    "0x00000001",
+    "0x4C070707",
+    "0x80016A94",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x60",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 52,
+   "next_header_file_off": "0x8CF000"
+  },
+  {
+   "module_id": 50,
+   "file_off": "0x8CF000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80016AF0",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80016AF0",
+    "0x00000001",
+    "0x4C070707",
+    "0x80016A90",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x60",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x8D0000"
+  },
+  {
+   "module_id": 51,
+   "file_off": "0x8D0000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80016AF0",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80016AF0",
+    "0x00000001",
+    "0x4C070707",
+    "0x80016A90",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x60",
+   "aligned_0x800": true,
+   "rows_owned": 1,
+   "proven_extent_bytes": 52,
+   "next_header_file_off": "0x8D1000"
+  },
+  {
+   "module_id": 52,
+   "file_off": "0x8D1000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80016AF0",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80016AF0",
+    "0x00000001",
+    "0x4C070707",
+    "0x80016A90",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x60",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x8D2000"
+  },
+  {
+   "module_id": 53,
+   "file_off": "0x8D2000",
+   "load_base_vram": "0x80016000",
+   "entry_vram": "0x80016BB4",
+   "header_words": [
+    "0x00000000",
+    "0x4C070707",
+    "0x80016BB4",
+    "0x00000001",
+    "0x4C070707",
+    "0x80016B54",
+    "0x00010F48"
+   ],
+   "entry_minus_word5": "0x60",
+   "aligned_0x800": true,
+   "rows_owned": 0,
+   "proven_extent_bytes": 0,
+   "next_header_file_off": "0x101B800"
+  }
+ ]
+}

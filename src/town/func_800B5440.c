@@ -32,7 +32,7 @@ typedef struct S_800B2BA0_1 {
     s32 unk_20;
 } S_800B2BA0_1;   /* temp_v0 in func_800B2BA0 */
 
-/* Initializes the task and resources for koya_mon_status_close. */
+/* Initializes the task and resources for open_twin_souko. */
 s32 func_800B2BA0(s32 option) {
     s32 resource_08;
     s32 resource_00;

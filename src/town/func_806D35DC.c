@@ -1,10 +1,11 @@
 #include "common.h"
 
-void func_806D35DC(int *a0, int *a1, int a2) {
-    while (a2 != 0) {
-        *a0 = *a1;
-        a1++;
-        a2--;
-        a0++;
+/* Copies count integers from src to dst in forward order. */
+void func_806D35DC(int *dst, int *src, int count) {
+    while (count != 0) {
+        *dst = *src;
+        src++;
+        count--;
+        dst++;
     }
 }
