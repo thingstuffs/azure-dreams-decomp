@@ -36,93 +36,94 @@ extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 extern void *D_800E3D7C;
 
-s32 func_800C4030(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
+/* Handles a target or active-slot update and decrements the shared count on completion. */
+s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 action_param)
 {
-    s32 value;
-    s32 i;
-    u8 *entry;
-    u8 *slot;
-    u8 *state;
-    s32 call_x;
-    register s32 call_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 saved;
+    s32 result;
+    s32 slot_index;
+    u8 *slot_data;
+    u8 *slot_state;
+    u8 *table_base;
+    s32 first_arg;
+    register s32 second_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 scratch_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 saved_context;
 
-    if (arg2 == 0xD) {
-        return func_80098864(arg1, arg3);
+    if (action_type == 0xD) {
+        return func_80098864(action, action_param);
     }
 
-    if (arg0 == D_800E3D7C) {
-        arg0->unk_110 = arg1;
-        func_8008D344(arg0, &D_80083780, &D_80082E80, arg0);
+    if (target == D_800E3D7C) {
+        target->unk_110 = action;
+        func_8008D344(target, &D_80083780, &D_80082E80, target);
         return 0;
     }
 
-    if ((u32)arg0 <= 0x9FFFFFFF) {
-        value = func_800990FC();
-        call_x = arg1;
-        call_y = value;
-        ASM_KEEP(call_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        saved = call_y;
-        value = func_80099368(call_x, call_y);
-        value = func_80099194(D_800E187C, value);
-        value = func_80099734(arg0, value);
-        value = func_80099194(D_800893DC, value);
-        value = func_800999B0(value);
-        func_80099290(value);
-        func_800A5720(saved);
+    if ((u32)target <= 0x9FFFFFFF) {
+        result = func_800990FC();
+        first_arg = action;
+        second_arg = result;
+        ASM_KEEP(second_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        saved_context = second_arg;
+        result = func_80099368(first_arg, second_arg);
+        result = func_80099194(D_800E187C, result);
+        result = func_80099734(target, result);
+        result = func_80099194(D_800893DC, result);
+        result = func_800999B0(result);
+        func_80099290(result);
+        func_800A5720(saved_context);
 
-        call_x = (s32)arg0;
-        ASM_KEEP(call_x);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        state = (u8 *)0x800E0000;
-        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        copy = arg0->unk_10.at03_u8.v;
-        state -= 0x217C;
-        call_y = ((u16 *)state)[copy];
-        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        if (func_800AD6FC((void *)call_x, call_y & 3, arg1) == 0) {
-            func_800A5F38(arg0, arg1);
+        first_arg = (s32)target;
+        ASM_KEEP(first_arg);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        table_base = (u8 *)0x800E0000;
+        ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        scratch_value = target->unk_10.at03_u8.v;
+        table_base -= 0x217C;
+        second_arg = ((u16 *)table_base)[scratch_value];
+        ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        if (func_800AD6FC((void *)first_arg, second_arg & 3, action) == 0) {
+            func_800A5F38(target, action);
             return 1;
         }
     } else {
         func_8009BF7C(1, 8);
         func_800A56E0(0x80F);
-        i = 0;
-        copy = 0x800E0000;
-        ASM_KEEP(copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        entry = (u8 *)(copy + 0x36C8);
-        copy = 0x800E0000;
-        ASM_KEEP(copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        slot = (u8 *)(copy + 0x3548);
+        slot_index = 0;
+        scratch_value = 0x800E0000;
+        ASM_KEEP(scratch_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        slot_data = (u8 *)(scratch_value + 0x36C8);
+        scratch_value = 0x800E0000;
+        ASM_KEEP(scratch_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        slot_state = (u8 *)(scratch_value + 0x3548);
         do {
-            if (slot[1] != 0) {
-                call_x = 0xE;
-                call_y = 3;
-                ASM_KEEP(call_x);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(call_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                copy = call_x;
-                slot[1] = copy;
-                copy = call_y;
-                slot[0] = copy;
-                *(s32 *)(entry + 8) = func_8004A658(call_x, call_y);
-                slot[2] = func_800A6DA4(0x10, 0x18);
-                copy = 1;
-                slot[3] = copy;
+            if (slot_state[1] != 0) {
+                first_arg = 0xE;
+                second_arg = 3;
+                ASM_KEEP(first_arg);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(second_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                scratch_value = first_arg;
+                slot_state[1] = scratch_value;
+                scratch_value = second_arg;
+                slot_state[0] = scratch_value;
+                *(s32 *)(slot_data + 8) = func_8004A658(first_arg, second_arg);
+                slot_state[2] = func_800A6DA4(0x10, 0x18);
+                scratch_value = 1;
+                slot_state[3] = scratch_value;
             }
-            entry += 0xC;
-            i++;
-            slot += 4;
-        } while (i < 0x40);
+            slot_data += 0xC;
+            slot_index++;
+            slot_state += 4;
+        } while (slot_index < 0x40);
     }
 
-    state = (u8 *)0x80080000;
-    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    state += 0x3460;
-    value = ((S_800C4030_1 *)state)->unk_0A;
-    call_x = arg1;
-    value--;
-    ((S_800C4030_1 *)state)->unk_0A = value;
-    func_80098B38(call_x);
+    table_base = (u8 *)0x80080000;
+    ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    table_base += 0x3460;
+    result = ((S_800C4030_1 *)table_base)->unk_0A;
+    first_arg = action;
+    result--;
+    ((S_800C4030_1 *)table_base)->unk_0A = result;
+    func_80098B38(first_arg);
     return 1;
 }
 

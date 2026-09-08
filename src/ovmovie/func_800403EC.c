@@ -25,44 +25,45 @@ extern unsigned long long func_80176C7C(s32, void *, s32);
 extern s32 D_801781E0[3];
 extern void *D_80189390[3];
 
-s32 func_800403EC(Struct800403EC *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    Struct800403EC *ptr = arg0;
-    s32 temp_arg1 = arg1;
-    s32 temp_arg2 = arg2;
-    register s32 off0 ASM_REG("$4") = 0x15A40;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 off1 = 0x22AB0;
-    register s32 off2 ASM_REG("$6") = 0x10040;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register u8 *base ASM_REG("$3") = D_80189390[0];   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 flags = D_801781E0[0];
-    void *temp_a1;
+/* Initializes movie buffer pointers and frame rectangles for the current mode. */
+s32 func_800403EC(Struct800403EC *movie, s32 frame_x, s32 frame_y, s32 next_frame_x, s32 next_frame_y) {
+    Struct800403EC *state = movie;
+    s32 x = frame_x;
+    s32 y = frame_y;
+    register s32 buffer_offset ASM_REG("$4") = 0x15A40;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 next_buffer_offset = 0x22AB0;
+    register s32 work_offset ASM_REG("$6") = 0x10040;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register u8 *buffer_base ASM_REG("$3") = D_80189390[0];   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 movie_flags = D_801781E0[0];
+    void *next_buffer;
 
-    ptr->unk08 = 0;
-    ptr->unk20 = 0;
-    ptr->unk2C = 0;
-    ptr->unk00 = base + off0;
-    temp_a1 = base + off1;
-    ptr->unk04 = temp_a1;
-    ptr->unk0C = base + off2;
-    if (flags & 1) {
-        register s32 temp_wide ASM_REG("$2") = 0x1E0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        s32 dead_h = 0xF0;
+    state->unk08 = 0;
+    state->unk20 = 0;
+    state->unk2C = 0;
+    state->unk00 = buffer_base + buffer_offset;
+    next_buffer = buffer_base + next_buffer_offset;
+    state->unk04 = next_buffer;
+    state->unk0C = buffer_base + work_offset;
+    if (movie_flags & 1) {
+        register s32 wide_width ASM_REG("$2") = 0x1E0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        s32 frame_height = 0xF0;
 
-        ptr->unk14 = temp_wide;
-        ptr->unk1C = temp_wide;
-        ASM_KEEP(dead_h);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        func_80176C7C(arg4, temp_a1, off2);
+        state->unk14 = wide_width;
+        state->unk1C = wide_width;
+        ASM_KEEP(frame_height);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        func_80176C7C(next_frame_y, next_buffer, work_offset);
         return 0x18;
     }
-    ptr->unk14 = 0x140;
-    ptr->unk1C = 0x140;
-    ptr->unk10 = temp_arg1;
-    ptr->unk12 = temp_arg2;
-    ptr->unk16 = 0xF0;
-    ptr->unk18 = arg3;
-    ptr->unk1A = (s16) arg4;
-    ptr->unk1E = 0xF0;
-    ptr->unk24 = temp_arg1;
-    ptr->unk26 = temp_arg2;
-    ptr->unk28 = 0x10;
-    ptr->unk2A = 0xF0;
+    state->unk14 = 0x140;
+    state->unk1C = 0x140;
+    state->unk10 = x;
+    state->unk12 = y;
+    state->unk16 = 0xF0;
+    state->unk18 = next_frame_x;
+    state->unk1A = (s16) next_frame_y;
+    state->unk1E = 0xF0;
+    state->unk24 = x;
+    state->unk26 = y;
+    state->unk28 = 0x10;
+    state->unk2A = 0xF0;
 }

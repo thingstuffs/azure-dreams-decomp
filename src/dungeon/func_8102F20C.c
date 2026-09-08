@@ -50,33 +50,34 @@ extern s32 D_800814A0[3];
 extern s32 func_80065420(void *, void *, void *, void *);
 extern void func_800478B8(void *, s32);
 
-void func_8102F20C(void *arg0, S_8102F20C_0 *arg1, void *arg2) {
-    Stack3 sp10;
-    M2C_UNK sp24;
-    M2C_UNK sp20;
-    M2C_UNK sp18[2];
-    s16 temp_s0;
-    s32 temp_a1;
-    S_8102F20C_2 *temp_v1;
-    S_8102F20C_3 *out;
+/* Apply a relative projected depth with a direction bias and propagate output status flags. */
+void func_8102F20C(void *entity, S_8102F20C_0 *position, void *output) {
+    Stack3 coords;
+    M2C_UNK projection_flags;
+    M2C_UNK depth_cue;
+    M2C_UNK screen_xy[2];
+    s16 depth_delta;
+    s32 depth_bias;
+    S_8102F20C_2 *base_position;
+    S_8102F20C_3 *result;
 
-    out = arg2;
-    sp10.x0 = arg1->unk_02;
-    sp10.x1 = arg1->unk_06;
-    sp10.x2 = arg1->unk_0A;
-    temp_s0 = func_80065420(&sp10.x0, &sp18, &sp20, &sp24);
-    temp_v1 = ((S_8102F20C_1 *)arg0)->unk_28;
-    sp10.x0 = temp_v1->unk_02;
-    sp10.x1 = temp_v1->unk_06;
-    sp10.x2 = temp_v1->unk_0A;
-    temp_s0 = temp_s0 - func_80065420(&sp10.x0, &sp18, &sp20, &sp24);
-    temp_a1 = D_800DCECC[((s32) (*D_80083228 + ((S_8102F20C_1 *)arg0)->unk_1C + 0x100) >> 9) & 7] * 2;
-    temp_s0 = temp_s0 + temp_a1;
-    out->unk_14 = (u16) (out->unk_14 & 0xFF7F);
-    out->unk_06 = temp_s0;
-    func_800478B8(out, temp_a1);
-    if (out->unk_14 & 0x6000) {
-        ((S_8102F20C_1_pre *)arg0)[-1].unk_00 = (u16) (((S_8102F20C_1_pre *)arg0)[-1].unk_00 | 0x8000);
+    result = output;
+    coords.x0 = position->unk_02;
+    coords.x1 = position->unk_06;
+    coords.x2 = position->unk_0A;
+    depth_delta = func_80065420(&coords.x0, &screen_xy, &depth_cue, &projection_flags);
+    base_position = ((S_8102F20C_1 *)entity)->unk_28;
+    coords.x0 = base_position->unk_02;
+    coords.x1 = base_position->unk_06;
+    coords.x2 = base_position->unk_0A;
+    depth_delta = depth_delta - func_80065420(&coords.x0, &screen_xy, &depth_cue, &projection_flags);
+    depth_bias = D_800DCECC[((s32) (*D_80083228 + ((S_8102F20C_1 *)entity)->unk_1C + 0x100) >> 9) & 7] * 2;
+    depth_delta = depth_delta + depth_bias;
+    result->unk_14 = (u16) (result->unk_14 & 0xFF7F);
+    result->unk_06 = depth_delta;
+    func_800478B8(result, depth_bias);
+    if (result->unk_14 & 0x6000) {
+        ((S_8102F20C_1_pre *)entity)[-1].unk_00 = (u16) (((S_8102F20C_1_pre *)entity)[-1].unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 }

@@ -18,31 +18,32 @@ extern void func_8009A350(s16, s16, s32, u16 *);
 extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 
-s32 func_800A70E4(s32 arg0, s32 arg1, s32 arg2) {
+/* Finds an active entry at the given tile within 64 height units if the left tile has flag 0x800. */
+s32 func_800A70E4(s32 input_x, s32 input_y, s32 input_z) {
     s32 held_x;
     s32 held_z;
     s32 held_y;
     s32 result;
-    register s32 var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 entry_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 y;
-    u16 sp10;
-    ActiveEntry *var_a2;
-    PositionEntry *var_v1;
-    s32 var_v0;
+    u16 tile_flags;
+    ActiveEntry *active_entry;
+    PositionEntry *position;
+    s32 height_delta;
     s32 x;
     s32 z;
 
-    held_x = arg0;
-    held_z = arg2;
-    func_8009A350((s16)(held_x - 1), (held_y = (s16)arg1), 0, &sp10);
-    var_a0 = 0;
-    if (sp10 & 0x800) {
+    held_x = input_x;
+    held_z = input_z;
+    func_8009A350((s16)(held_x - 1), (held_y = (s16)input_y), 0, &tile_flags);
+    entry_index = 0;
+    if (tile_flags & 0x800) {
         goto scan;
     }
     result = -1;
     goto done;
 success:
-    result = (s16)var_a0;
+    result = (s16)entry_index;
     goto done;
 scan:
     x = (s16)held_x;
@@ -50,32 +51,32 @@ scan:
     z = (s16)held_z;
     result = 0x800E0000;
     ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    var_v1 = (PositionEntry *)(result + 0x36C8);
+    position = (PositionEntry *)(result + 0x36C8);
     result = 0x800E0000;
     ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    var_a2 = (ActiveEntry *)(result + 0x3548);
-loop_6:
-    if ((var_a2->active != 0) && (var_v1->x == x) && (var_v1->y == y)) {
-        var_v0 = z - var_v1->value;
-        if (var_v0 < 0) {
-            var_v0 = 0 - var_v0;
+    active_entry = (ActiveEntry *)(result + 0x3548);
+check_entry:
+    if ((active_entry->active != 0) && (position->x == x) && (position->y == y)) {
+        height_delta = z - position->value;
+        if (height_delta < 0) {
+            height_delta = 0 - height_delta;
         }
-        if (var_v0 >= 0x40) {
-            goto block_12;
+        if (height_delta >= 0x40) {
+            goto next_entry;
         }
         goto success;
     }
-block_12:
-    var_v1++;
-    var_a0 += 1;
-    var_a2++;
-    if (var_a0 >= 0x40) {
+next_entry:
+    position++;
+    entry_index += 1;
+    active_entry++;
+    if (entry_index >= 0x40) {
         result = -1;
         goto done;
     }
-    goto loop_6;
+    goto check_entry;
 done:
-    ASM_KEEP(var_a0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     return result;
 }
 

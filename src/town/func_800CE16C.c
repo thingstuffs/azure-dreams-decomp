@@ -32,27 +32,28 @@ typedef struct S_800CB8CC_2 {
     s16 unk_1E;
 } S_800CB8CC_2;   /* temp_s0 in func_800CB8CC */
 
-s32 func_800CB8CC(s32 arg0, s32 arg1) {
-    s32 temp_s2;
-    S_800CB8CC_2 *temp_s0;
-    S_800CB8CC_1 *temp_s1;
-    void *temp_v0;
+/* Creates an object, initializes its render data, and invokes its callback. */
+s32 func_800CB8CC(s32 initial_value, s32 resource_index) {
+    s32 callback_arg;
+    S_800CB8CC_2 *render_data;
+    S_800CB8CC_1 *state;
+    void *object;
 
-    temp_v0 = func_8003FD64(0x136, &D_80083498);
-    if (temp_v0 == NULL) {
+    object = func_8003FD64(0x136, &D_80083498);
+    if (object == NULL) {
         return 0;
     }
-    temp_s1 = temp_v0 + 0x20;
-    temp_s2 = ((S_800CB8CC_0 *)temp_v0)->unk_08;
-    temp_s0 = ((S_800CB8CC_0 *)temp_v0)->unk_0C;
-    temp_s1->unk_9C = arg0;
-    ((S_800CB8CC_0 *)temp_v0)->unk_10 = D_800CB9B8;
-    temp_s0->unk_1E = 0x1000;
-    temp_s0->unk_1C = 0x1000;
-    temp_s0->unk_0C = 0x808080;
-    temp_s1->unk_60 = arg1;
-    temp_s0->unk_08 = D_800D68B0[arg1];
-    func_8004491C(temp_v0, &D_80045340);
-    ((S_800CB8CC_0 *)temp_v0)->unk_10(temp_s1, temp_s2, temp_s0);
-    return (s32)temp_v0;
+    state = object + 0x20;
+    callback_arg = ((S_800CB8CC_0 *)object)->unk_08;
+    render_data = ((S_800CB8CC_0 *)object)->unk_0C;
+    state->unk_9C = initial_value;
+    ((S_800CB8CC_0 *)object)->unk_10 = D_800CB9B8;
+    render_data->unk_1E = 0x1000;
+    render_data->unk_1C = 0x1000;
+    render_data->unk_0C = 0x808080;
+    state->unk_60 = resource_index;
+    render_data->unk_08 = D_800D68B0[resource_index];
+    func_8004491C(object, &D_80045340);
+    ((S_800CB8CC_0 *)object)->unk_10(state, callback_arg, render_data);
+    return (s32)object;
 }

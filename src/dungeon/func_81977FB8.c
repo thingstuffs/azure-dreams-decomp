@@ -46,70 +46,71 @@ typedef struct TargetObj {
   u8 pad14[0xC];
   TargetSub sub;
 } TargetObj;
+/* Creates an object at a random angle and height offset around the reference position. */
 void func_81977FB8(void)
 {
-  s32 temp_lo;
-  s32 temp_v0_2;
-  s32 temp_v0_3;
-  s32 temp_v0_4;
-  s32 temp_remainder;
-  s32 var_v0;
-  s32 var_v0_2;
-  TargetSub *temp_s2;
-  TargetObj *temp_v0;
-  temp_v0 = func_8003FD64(0x212, D_80083498);
-  if (temp_v0 != 0)
+  s32 axis_offset;
+  s32 angle_random;
+  s32 height_random;
+  s32 axis_factor;
+  s32 height_or_shade;
+  s32 angle_quotient;
+  s32 height_quotient;
+  TargetSub *motion;
+  TargetObj *obj;
+  obj = func_8003FD64(0x212, D_80083498);
+  if (obj != 0)
   {
-    temp_s2 = &temp_v0->sub;
-    temp_v0->field10 = &D_8002560C;
-    temp_s2->field4 = 0;
-    temp_s2->field6 = 0x20;
-    temp_v0_2 = rand();
-    var_v0 = temp_v0_2;
-    if (temp_v0_2 < 0)
+    motion = &obj->sub;
+    obj->field10 = &D_8002560C;
+    motion->field4 = 0;
+    motion->field6 = 0x20;
+    angle_random = rand();
+    angle_quotient = angle_random;
+    if (angle_random < 0)
     {
-      var_v0 += 0xFFF;
+      angle_quotient += 0xFFF;
     }
-    var_v0 >>= 0xC;
-    temp_s2->field8 = (s16) (temp_v0_2 - (var_v0 << 0xC));
-    temp_v0_3 = rand();
-    var_v0_2 = temp_v0_3;
-    if (temp_v0_3 < 0)
+    angle_quotient >>= 0xC;
+    motion->field8 = (s16) (angle_random - (angle_quotient << 0xC));
+    height_random = rand();
+    height_quotient = height_random;
+    if (height_random < 0)
     {
-      var_v0_2 += 0x1F;
+      height_quotient += 0x1F;
     }
-    var_v0_2 >>= 5;
-    temp_remainder = (var_v0_2 << 5) - temp_v0_3;
+    height_quotient >>= 5;
+    height_or_shade = (height_quotient << 5) - height_random;
     {
-      TargetData *temp_s0;
-      void *temp_arg1;
-      temp_arg1 = &D_80026180;
-      ASM_KEEP(temp_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-      temp_s2->fieldA = (u16) temp_remainder;
-      temp_s0 = temp_v0->fieldC;
-      temp_s0->byteE = (temp_remainder = 0x80);
-      temp_s0->byteD = temp_remainder;
-      temp_s0->byteC = temp_remainder;
-      func_8003DB94(temp_s0, temp_arg1, 0);
-      temp_s0->field1E = 0x200;
-      temp_s0->field1C = 0x200;
-      temp_s0->field14 = (u16) (temp_s0->field14 | 0xC);
-      temp_s0->field10 = (u16) (temp_s0->field10 | 0x20);
+      TargetData *render_data;
+      void *render_config;
+      render_config = &D_80026180;
+      ASM_KEEP(render_config);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+      motion->fieldA = (u16) height_or_shade;
+      render_data = obj->fieldC;
+      render_data->byteE = (height_or_shade = 0x80);
+      render_data->byteD = height_or_shade;
+      render_data->byteC = height_or_shade;
+      func_8003DB94(render_data, render_config, 0);
+      render_data->field1E = 0x200;
+      render_data->field1C = 0x200;
+      render_data->field14 = (u16) (render_data->field14 | 0xC);
+      render_data->field10 = (u16) (render_data->field10 | 0x20);
     }
     {
-      TargetVec *temp_s0_2;
-      TargetVec *temp_a2;
-      s32 temp_base;
-      temp_s0_2 = temp_v0->field8;
-      temp_lo = (func_800644B8(temp_s2->field8) >> 4) * temp_s2->field6;
-      temp_s0_2->field0 = D_80026208[0]->field0 + (temp_lo << 8);
-      temp_v0_4 = func_80064584(temp_s2->field8);
-      temp_lo = (temp_v0_4 >> 4) * temp_s2->field6;
-      temp_a2 = D_80026208[0];
-      temp_base = temp_a2->field4;
-      temp_s0_2->field4 = temp_base + (temp_lo << 8);
-      temp_s0_2->fieldA = (s16) (temp_a2->fieldA + temp_s2->fieldA);
-      func_8004491C(temp_v0, D_80045340, temp_a2, temp_lo);
+      TargetVec *position;
+      TargetVec *origin;
+      s32 origin_y;
+      position = obj->field8;
+      axis_offset = (func_800644B8(motion->field8) >> 4) * motion->field6;
+      position->field0 = D_80026208[0]->field0 + (axis_offset << 8);
+      axis_factor = func_80064584(motion->field8);
+      axis_offset = (axis_factor >> 4) * motion->field6;
+      origin = D_80026208[0];
+      origin_y = origin->field4;
+      position->field4 = origin_y + (axis_offset << 8);
+      position->fieldA = (s16) (origin->fieldA + motion->fieldA);
+      func_8004491C(obj, D_80045340, origin, axis_offset);
     }
   }
 }

@@ -42,15 +42,16 @@ __asm__(".globl func_81934800\n"
 #define FUNC_81934800_BODY func_81934800
 #endif
 
+/* Decrement eligible entry amounts on flagged cells and return the number changed. */
 s32 FUNC_81934800_BODY(DungeonObject *object) {
-    s32 count;
+    s32 changed_count;
     DungeonObjectEntry *entry;
     u8 group;
     u8 column;
 
-    count = 0;
+    changed_count = 0;
     if (func_800C80F0() != 0) {
-        return count;
+        return changed_count;
     }
     entry = object->entry4C;
     if (entry != 0) {
@@ -59,7 +60,7 @@ s32 FUNC_81934800_BODY(DungeonObject *object) {
         if ((D_80073414[group].cells[column].flags & 0x8000) != 0 &&
             entry->amount >= -0x62) {
             entry->amount = (u8)entry->amount - 1;
-            count = 1;
+            changed_count = 1;
         }
     }
     entry = object->entry50;
@@ -69,9 +70,9 @@ s32 FUNC_81934800_BODY(DungeonObject *object) {
         if ((D_80073414[group].cells[column].flags & 0x8000) != 0) {
             if (entry->amount >= -0x62) {
                 entry->amount = (u8)entry->amount - 1;
-                count += 1;
+                changed_count += 1;
             }
         }
     }
-    return count;
+    return changed_count;
 }

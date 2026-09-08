@@ -8,7 +8,7 @@ M2C_UNK func_80033D08();
 M2C_UNK func_8008F134();
 s32 func_80096FF4();
 M2C_UNK func_800970AC();
-s32 func_8009CFE0();
+s32 func_8009CFE0(void *, M2C_UNK);
 extern s32 D_800814A0[];
 
 
@@ -23,7 +23,7 @@ void func_8009B148(void *arg0, M2C_UNK arg1, M2C_UNK arg2)
     register M2C_UNK held_arg2 ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s8 *temp_v0;
 
-    if (func_8009CFE0() != 0) {
+    if (func_8009CFE0(arg0, arg1) != 0) {
         func_8008F134(arg0);
         temp_v0 = ((Rec_D_80082D58 *)arg0)->unk_98.as_ps8;
         if (temp_v0 != 0) {

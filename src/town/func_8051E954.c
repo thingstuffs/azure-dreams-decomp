@@ -33,20 +33,21 @@ typedef struct S_8051E954_0 {
 } S_8051E954_0;   /* temp_s0 in func_8051E954 */
 
 
-void func_8051E954(s32 arg0) {
-    register s32 *temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    void *temp_v1;
-    s32 temp_a0;
-    s32 temp_a0_2;
+/* Builds and submits a three-word command sequence from the low 16 bits of the input. */
+void func_8051E954(s32 command_value) {
+    register s32 *command_words ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    void *context;
+    s32 first_command;
+    s32 second_command;
 
-    temp_a0 = (arg0 & 0xFFFF) | 0x06800000;
-    D_80019158 = temp_a0;
-    temp_a0_2 = (temp_a0 & 0xFFFF) | 0x05000000;
-    temp_s0 = &D_80019158;
-    ((S_8051E954_0 *)temp_s0)->unk_04 = temp_a0_2;
-    arg0 = (temp_a0_2 & 0xFFFF) | 0xFF000000;
-    temp_v1 = ((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v;
-    ((S_8051E954_0 *)temp_s0)->unk_08 = arg0;
-    ((S_8051E954_3 *)((*(void **)((u8 *)temp_v1 + 0x20))))->unk_208(0);
-    ((S_8051E954_5 *)(((S_8051E954_4 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20))->unk_224(temp_s0);
+    first_command = (command_value & 0xFFFF) | 0x06800000;
+    D_80019158 = first_command;
+    second_command = (first_command & 0xFFFF) | 0x05000000;
+    command_words = &D_80019158;
+    ((S_8051E954_0 *)command_words)->unk_04 = second_command;
+    command_value = (second_command & 0xFFFF) | 0xFF000000;
+    context = ((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v;
+    ((S_8051E954_0 *)command_words)->unk_08 = command_value;
+    ((S_8051E954_3 *)((*(void **)((u8 *)context + 0x20))))->unk_208(0);
+    ((S_8051E954_5 *)(((S_8051E954_4 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20))->unk_224(command_words);
 }

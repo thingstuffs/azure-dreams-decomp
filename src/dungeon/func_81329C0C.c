@@ -19,18 +19,15 @@ extern s32 D_800832B4[3];
 extern void func_8004D7A8(s32);
 extern void func_8004D294();
 
+/* Initializes the destination state from the source and submits it for processing. */
 void func_8017140C(void)
 {
-    S_80174CF0 *p = &D_80174CF0;
+    S_80174CF0 *destinationState = &D_80174CF0;
 
-    p->unk4 = 0;
+    destinationState->unk4 = 0;
     D_800832B4[0] = 0;
     D_80174CF0.unk0 = D_800DCE60.unk0;
-    p->unk2 = D_800DCE60.unk2;
+    destinationState->unk2 = D_800DCE60.unk2;
     func_8004D7A8(1);
-    func_8004D294(0, p, 10);
+    func_8004D294(0, destinationState, 10);
 }
-
-/* MECHANISM: func_8004D7A8 has one s32 argument; retail a1 is a copy temporary,
-   not a call argument. A held D_80174CF0 pointer gives the sole s0 save and lets
-   direct u16 copies naturally color the page/copy roles as a2, a1, and v1. */

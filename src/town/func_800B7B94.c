@@ -26,35 +26,36 @@ typedef struct S_800B52F4_1 {
     s32 unk_0C;
 } S_800B52F4_1;   /* arg1 in func_800B52F4 */
 
-void func_800B52F4(s32 arg0, S_800B52F4_1 *arg1) {
-    StackData sp18;
-    StackData *data;
-    M2C_UNK *source;
-    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 byte ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 fifth ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    StackData *call_data;
+/* Builds a string from fixed fragments and selected text, then passes it to func_800B5264. */
+void func_800B52F4(s32 text_id, S_800B52F4_1 *context) {
+    StackData text_buffer;
+    StackData *text;
+    M2C_UNK *prefix;
+    register u32 prefix_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 prefix_word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 prefix_tail ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 display_param ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    StackData *call_text;
 
-    page = 0x80090000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    source = (M2C_UNK *)(page - 0x6D40);
-    ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    word = ((S_800B52F4_0 *)source)->unk_00;
-    byte = ((S_800B52F4_0 *)source)->unk_04;
-    sp18.unk0 = word;
-    sp18.unk4 = byte;
+    prefix_page = 0x80090000;
+    ASM_KEEP(prefix_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    prefix = (M2C_UNK *)(prefix_page - 0x6D40);
+    ASM_KEEP(prefix);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    prefix_word = ((S_800B52F4_0 *)prefix)->unk_00;
+    prefix_tail = ((S_800B52F4_0 *)prefix)->unk_04;
+    text_buffer.unk0 = prefix_word;
+    text_buffer.unk4 = prefix_tail;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    data = &sp18;
-    strcat(data, D_800814A8 + 0x34, source);
-    strcat(data, &D_800892C8);
-    strcat(data, &D_800892CC);
-    strcat(data, &D_800892D8);
-    strcat(data, func_800A652C(arg0));
-    call_data = data;
-    ASM_KEEP(call_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    fifth = 0x88;
-    func_800B5264(arg1->unk_0C, call_data, 0, 0x47, fifth);
+    text = &text_buffer;
+    strcat(text, D_800814A8 + 0x34, prefix);
+    strcat(text, &D_800892C8);
+    strcat(text, &D_800892CC);
+    strcat(text, &D_800892D8);
+    strcat(text, func_800A652C(text_id));
+    call_text = text;
+    ASM_KEEP(call_text);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    display_param = 0x88;
+    func_800B5264(context->unk_0C, call_text, 0, 0x47, display_param);
 }
 
 /* MECHANISM: A 64-byte stack object forces the 0x68 frame; s1/s2 hold args and s0 holds its address.

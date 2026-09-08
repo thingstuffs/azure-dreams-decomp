@@ -9,11 +9,12 @@ M2C_UNK func_800AD568();                      /* extern */
 M2C_UNK func_800B4C7C(); /* extern */
 
 
-void func_818BC824(Rec_D_800E3D7C *arg0) {
-    if (func_8009D218((s32)arg0, 2) == 0) {
-        arg0->unk_64.as_u16 = (u16) (arg0->unk_64.as_u16 + 0x200);
-        func_800AD568(arg0);
-        func_800B4C7C(0x8004, arg0, (s16) arg0->unk_64.as_u16, 1);
-        func_800AD4D0(arg0);
+/* Adds 0x200 to the object's unk_64 and runs callbacks when its mode-2 check returns zero. */
+void func_818BC824(Rec_D_800E3D7C *object) {
+    if (func_8009D218((s32)object, 2) == 0) {
+        object->unk_64.as_u16 = (u16) (object->unk_64.as_u16 + 0x200);
+        func_800AD568(object);
+        func_800B4C7C(0x8004, object, (s16) object->unk_64.as_u16, 1);
+        func_800AD4D0(object);
     }
 }

@@ -8,10 +8,11 @@ M2C_UNK func_8001D4AC();                 /* extern */
 M2C_UNK func_8001D5D8();                 /* extern */
 
 
-void func_8001CE44(Rec_func_8001CE44_arg0 *arg0, s16 arg1) {
+/* Update the region until its completion check succeeds, then finalize it. */
+void func_8001CE44(Rec_func_8001CE44_arg0 *region, s16 update_id) {
     do {
-        func_8001D5D8(arg0, arg1);
-        func_8001D4AC(arg0, arg1);
-    } while ((func_80017BEC(arg1) << 0x10) == 0);
-    func_80017480(arg0->unk_00, arg0->unk_02, arg0->unk_04, arg0->unk_06, 0xF);
+        func_8001D5D8(region, update_id);
+        func_8001D4AC(region, update_id);
+    } while ((func_80017BEC(update_id) << 0x10) == 0);
+    func_80017480(region->unk_00, region->unk_02, region->unk_04, region->unk_06, 0xF);
 }

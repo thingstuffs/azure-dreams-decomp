@@ -33,63 +33,64 @@ extern u16 D_800D2FC0[];
 extern void func_800C41D4(void *, s32);
 
 
-void func_800C4AEC(void *arg0, s32 arg1)
+/* Update the sprite position using frame offsets, save the object position, and apply the update. */
+void func_800C4AEC(void *object_arg, s32 update_arg)
 {
-    register void *temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *temp_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 temp_t1 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u32 temp_a0;
-    u32 bit;
-    u32 index;
-    u16 *temp_v0;
-    u32 temp_v1;
-    u32 temp_v0_word;
-    s32 offset_a1;
-    register s32 offset_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    u32 store_value;
-    S_800C4AEC_2 *store_ptr;
+    register void *object ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *sprite ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 saved_update_arg ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u32 sprite_flags;
+    u32 table_select;
+    u32 frame_index;
+    u16 *frame_offsets;
+    u32 extra_x;
+    u32 extra_y;
+    s32 x_offset;
+    register s32 y_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    u32 coord;
+    S_800C4AEC_2 *sprite_pos;
 
-    temp_a3 = arg0;
-    *(&D_80082660 + ((S_800C4AEC_0 *)temp_a3)->unk_60 * 8) = 0;
-    temp_t0 = ((S_800C4AEC_0 *)temp_a3)->unk_98;
-    temp_t1 = arg1;
-    if (temp_t0 != NULL) {
-        temp_a0 = ((S_800C4AEC_1 *)temp_t0)->unk_08;
-        if ((temp_a0 & 0xC0000000) == 0xC0000000) {
-            bit = (temp_a0 >> 23) & 1;
-            index = (temp_a0 >> 24) & 0x3F;
-            if (bit == 0) {
-                temp_v0 = &D_800D2650[index * 16];
+    object = object_arg;
+    *(&D_80082660 + ((S_800C4AEC_0 *)object)->unk_60 * 8) = 0;
+    sprite = ((S_800C4AEC_0 *)object)->unk_98;
+    saved_update_arg = update_arg;
+    if (sprite != NULL) {
+        sprite_flags = ((S_800C4AEC_1 *)sprite)->unk_08;
+        if ((sprite_flags & 0xC0000000) == 0xC0000000) {
+            table_select = (sprite_flags >> 23) & 1;
+            frame_index = (sprite_flags >> 24) & 0x3F;
+            if (table_select == 0) {
+                frame_offsets = &D_800D2650[frame_index * 16];
             } else {
-                temp_v0 = &D_800D2FC0[index * 16];
+                frame_offsets = &D_800D2FC0[frame_index * 16];
             }
-            offset_a1 = temp_v0[0];
-            temp_v1 = temp_v0[2];
-            ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            offset_a0 = temp_v0[1];
-            temp_v0_word = temp_v0[3];
-            ASM_KEEP(temp_v0_word);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            offset_a1 += temp_v1;
-            offset_a0 += temp_v0_word;
+            x_offset = frame_offsets[0];
+            extra_x = frame_offsets[2];
+            ASM_KEEP(extra_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            y_offset = frame_offsets[1];
+            extra_y = frame_offsets[3];
+            ASM_KEEP(extra_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            x_offset += extra_x;
+            y_offset += extra_y;
             goto apply_offsets;
         }
     }
-    offset_a1 = 0;
-    ASM_KEEP(offset_a1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    offset_a0 = offset_a1;
+    x_offset = 0;
+    ASM_KEEP(x_offset);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    y_offset = x_offset;
 
 apply_offsets:
-    if (temp_t0 != NULL) {
-        store_value = ((S_800C4AEC_0 *)temp_a3)->unk_88;
-        store_ptr = ((S_800C4AEC_0 *)temp_a3)->unk_98;
-        store_value -= offset_a1;
-        store_ptr->unk_10 = (s16)store_value;
-        store_value = ((S_800C4AEC_0 *)temp_a3)->unk_8A;
-        store_ptr = ((S_800C4AEC_0 *)temp_a3)->unk_98;
-        store_value -= offset_a0;
-        store_ptr->unk_12 = (s16)store_value;
+    if (sprite != NULL) {
+        coord = ((S_800C4AEC_0 *)object)->unk_88;
+        sprite_pos = ((S_800C4AEC_0 *)object)->unk_98;
+        coord -= x_offset;
+        sprite_pos->unk_10 = (s16)coord;
+        coord = ((S_800C4AEC_0 *)object)->unk_8A;
+        sprite_pos = ((S_800C4AEC_0 *)object)->unk_98;
+        coord -= y_offset;
+        sprite_pos->unk_12 = (s16)coord;
     }
-    ((S_800C4AEC_0 *)temp_a3)->unk_84 = ((S_800C4AEC_0 *)temp_a3)->unk_88;
-    ((S_800C4AEC_0 *)temp_a3)->unk_86 = ((S_800C4AEC_0 *)temp_a3)->unk_8A;
-    func_800C41D4(temp_a3, temp_t1);
+    ((S_800C4AEC_0 *)object)->unk_84 = ((S_800C4AEC_0 *)object)->unk_88;
+    ((S_800C4AEC_0 *)object)->unk_86 = ((S_800C4AEC_0 *)object)->unk_8A;
+    func_800C41D4(object, saved_update_arg);
 }

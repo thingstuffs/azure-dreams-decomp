@@ -15,45 +15,42 @@ typedef struct S_800BC764_0 {
 } S_800BC764_0;   /* arg0 in func_800BC764 */
 
 
-void func_800BC764(S_800BC764_0 *arg0, void *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_v1;
-    u16 temp_v0;
+/* Waits 60 updates, then processes the record until a reset flag is set. */
+void func_800BC764(S_800BC764_0 *context, void *unused, Rec_D_80082E80 *record) {
+    s16 state;
+    u16 ticks_left;
 
-    temp_v1 = arg0->unk_68;
-    if (temp_v1 == 1) {
-        goto state_1;
+    state = context->unk_68;
+    if (state == 1) {
+        goto tick_delay;
     }
-    if (temp_v1 < 2) {
-        if (temp_v1 == 0) {
-            goto state_0;
+    if (state < 2) {
+        if (state == 0) {
+            goto start_delay;
         }
         return;
     }
-    if (temp_v1 == 2) {
-        goto state_2;
+    if (state == 2) {
+        goto process_record;
     }
     return;
 
-state_0:
-    arg0->unk_6C = 0x3CU;
-    arg0->unk_68 = (s16) ((u16) arg0->unk_68 + 1);
-state_1:
-    temp_v0 = arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        arg0->unk_68 = (s16) ((u16) arg0->unk_68 + 1);
+start_delay:
+    context->unk_6C = 0x3CU;
+    context->unk_68 = (s16) ((u16) context->unk_68 + 1);
+tick_delay:
+    ticks_left = context->unk_6C - 1;
+    context->unk_6C = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        context->unk_68 = (s16) ((u16) context->unk_68 + 1);
         return;
     }
     return;
 
-state_2:
-    func_800478B8(arg2);
-    if (arg2->unk_14.at00_u16.v & 0x6000) {
-        func_8003DB94(arg2, &D_800F15E4, 0);
-        arg0->unk_68 = 0;
+process_record:
+    func_800478B8(record);
+    if (record->unk_14.at00_u16.v & 0x6000) {
+        func_8003DB94(record, &D_800F15E4, 0);
+        context->unk_68 = 0;
     }
 }
-
-/* MECHANISM: A three-argument ABI holds arg0 in s0 and arg2/a2 in s1, producing
-   the retail 0x20 frame and save order. Explicit duplicated noreturn default
-   edges preserve case layout and place all three tail calls and delay slots. */

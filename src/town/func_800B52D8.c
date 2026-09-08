@@ -12,55 +12,56 @@ typedef struct {
 
 extern void func_8004B1A4(void *items);
 
-void func_800B2A38(S_800B52D8 *arg0, void *arg1) {
-    register S_800B52D8 *obj ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u32 scratch[64];
+/* Copy leading item values to the fixed output buffer and zero the remaining slots. */
+void func_800B2A38(S_800B52D8 *source, void *unused) {
+    register S_800B52D8 *table ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 values[64];
     UA32 *item;
-    UA32 *scratch_ptr;
-    UA32 *scratch_ptr_2;
-    u8 *out_ptr;
-    s32 *zero_ptr;
-    s32 i;
-    register s32 i2 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    UA32 *value_write;
+    UA32 *value_read;
+    u8 *dest_base;
+    s32 *zero_write;
+    s32 read_index;
+    register s32 write_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    obj = arg0;
-    if (obj->items != 0) {
-        i = 0;
-        if (obj->count > 0) {
-            scratch_ptr = scratch;
-        loop_3:
-            item = obj->items[i];
-            i += 1;
+    table = source;
+    if (table->items != 0) {
+        read_index = 0;
+        if (table->count > 0) {
+            value_write = values;
+        copy_items:
+            item = table->items[read_index];
+            read_index += 1;
             if (item != 0) {
-                *scratch_ptr = *item;
-                scratch_ptr += 1;
-                if (i < obj->count) {
-                    goto loop_3;
+                *value_write = *item;
+                value_write += 1;
+                if (read_index < table->count) {
+                    goto copy_items;
                 }
             }
         }
-        i2 = 0;
-        if (obj->count > 0) {
-            scratch_ptr_2 = scratch;
-            out_ptr = (u8 *)0x80010000;
-        loop_8:
-            if (obj->items[i2] != 0) {
-                *(UA32 *)(out_ptr + 0x1F80) = *scratch_ptr_2;
-                scratch_ptr_2 += 1;
-                out_ptr += 4;
-                if (++i2 < obj->count) {
-                    goto loop_8;
+        write_index = 0;
+        if (table->count > 0) {
+            value_read = values;
+            dest_base = (u8 *)0x80010000;
+        write_values:
+            if (table->items[write_index] != 0) {
+                *(UA32 *)(dest_base + 0x1F80) = *value_read;
+                value_read += 1;
+                dest_base += 4;
+                if (++write_index < table->count) {
+                    goto write_values;
                 }
             }
-            if (i2 < obj->count) {
-                zero_ptr = (s32 *)0x80011F80 + i2;
-                while (i2 < obj->count) {
-                    *zero_ptr = 0;
-                    zero_ptr += 1;
-                    i2 += 1;
+            if (write_index < table->count) {
+                zero_write = (s32 *)0x80011F80 + write_index;
+                while (write_index < table->count) {
+                    *zero_write = 0;
+                    zero_write += 1;
+                    write_index += 1;
                 }
             }
         }
-        func_8004B1A4(obj->items);
+        func_8004B1A4(table->items);
     }
 }

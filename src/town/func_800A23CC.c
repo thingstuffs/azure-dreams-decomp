@@ -44,55 +44,56 @@ typedef struct S_8009FB2C_2 {
     s32 unk_2A0;
 } S_8009FB2C_2;   /* temp_v1 in func_8009FB2C */
 
-void func_8009FB2C(s32 arg0, S_8009FB2C_1 *arg1) {
-    u8 *var_a2;
-    u8 *var_s1;
-    s32 temp_a1;
-    s32 temp_v0_2;
-    u8 *temp_a3;
-    void *temp_s0;
-    S_8009FB2C_0 *temp_v0;
-    void *temp_v0_3;
-    S_8009FB2C_2 *temp_v1;
-    void *temp_a0;
-    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+/* Copies an entry into a slot, creating an associated record for type 0x13. */
+void func_8009FB2C(s32 slot_index, S_8009FB2C_1 *source_entry) {
+    u8 *copy_dst;
+    u8 *copy_src;
+    s32 unused_value;
+    s32 record_index;
+    u8 *copy_end;
+    void *detail_dst;
+    S_8009FB2C_0 *entry;
+    void *detail_src;
+    S_8009FB2C_2 *slot;
+    void *slot_base;
+    register void *stored_entry ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-    temp_v0 = func_800B2344();
-    temp_v0->unk_00 = (u8) arg1->unk_00;
-    temp_v0->unk_01 = (u8) arg1->unk_01;
-    temp_v0->unk_02 = (u8) arg1->unk_02;
-    temp_v0->unk_03 = (u8) arg1->unk_03;
-    if (temp_v0->unk_01 == 0x13) {
+    entry = func_800B2344();
+    entry->unk_00 = (u8) source_entry->unk_00;
+    entry->unk_01 = (u8) source_entry->unk_01;
+    entry->unk_02 = (u8) source_entry->unk_02;
+    entry->unk_03 = (u8) source_entry->unk_03;
+    if (entry->unk_01 == 0x13) {
         memset(&D_80100A10, 0, 0x54);
-        func_80042640(&D_80100A10, temp_v0->unk_00);
-        func_800423C0(&D_80100A10, temp_v0->unk_00, 0);
+        func_80042640(&D_80100A10, entry->unk_00);
+        func_800423C0(&D_80100A10, entry->unk_00, 0);
         {
-            register u8 *addr ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            addr = (u8 *)&D_80100AF8;
-            var_s1 = addr;
-            func_800422DC(addr, &D_80100A10);
+            register u8 *record_buffer ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            record_buffer = (u8 *)&D_80100AF8;
+            copy_src = record_buffer;
+            func_800422DC(record_buffer, &D_80100A10);
         }
-        temp_v0_2 = func_8009F970((void *)0x800102F0, 0x14);
-        var_a2 = (temp_v0_2 * 0x54) + (u8 *)0x800102F0;
-        temp_a3 = var_s1 + 0x50;
+        record_index = func_8009F970((void *)0x800102F0, 0x14);
+        copy_dst = (record_index * 0x54) + (u8 *)0x800102F0;
+        copy_end = copy_src + 0x50;
         do {
-            *(Copy16 *)var_a2 = *(Copy16 *)var_s1;
-            var_s1 += 0x10;
-            var_a2 += 0x10;
-        } while (var_s1 != temp_a3);
-        *(s32 *)var_a2 = *(s32 *)var_s1;
+            *(Copy16 *)copy_dst = *(Copy16 *)copy_src;
+            copy_src += 0x10;
+            copy_dst += 0x10;
+        } while (copy_src != copy_end);
+        *(s32 *)copy_dst = *(s32 *)copy_src;
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        temp_s0 = (temp_v0_2 * 0x54) + (u8 *)0x80010324;
-        temp_v0_3 = func_8003C06C(temp_v0->unk_00);
-        *(Copy10 *)temp_s0 = *(Copy10 *)temp_v0_3;
-        temp_v0->unk_03 = (u8) ((temp_v0->unk_03 & 0xC0) | temp_v0_2);
-        ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        result = temp_v0;
+        detail_dst = (record_index * 0x54) + (u8 *)0x80010324;
+        detail_src = func_8003C06C(entry->unk_00);
+        *(Copy10 *)detail_dst = *(Copy10 *)detail_src;
+        entry->unk_03 = (u8) ((entry->unk_03 & 0xC0) | record_index);
+        ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        stored_entry = entry;
     } else {
-        result = temp_v0;
+        stored_entry = entry;
     }
-    temp_a0 = (void *)0x80010000;
-    temp_v1 = (arg0 * 4) + temp_a0;
-    temp_v1->unk_29C = result;
-    temp_v1->unk_2A0 = 0;
+    slot_base = (void *)0x80010000;
+    slot = (slot_index * 4) + slot_base;
+    slot->unk_29C = stored_entry;
+    slot->unk_2A0 = 0;
 }

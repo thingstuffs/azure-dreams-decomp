@@ -33,58 +33,59 @@ typedef struct S_800477F4_Actor {
 
 extern u8 D_80080A84[16];
 
-void func_800477F4(S_800477F4_Actor *a0)
+/* Advances the actor's timed step sequence and updates its state flags. */
+void func_800477F4(S_800477F4_Actor *actor)
 {
-    u16 v0;
-    s32 a1;
-    register S_800477F4_Node *v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register S_800477F4_Sub *a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    u16 old_flags;
+    s32 flags;
+    register S_800477F4_Node *node ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register S_800477F4_Sub *step ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
-    v0 = a0->flags;
-    a1 = v0 & 0xCFFF;
-    if (v0 & 0x800) {
-        goto END;
+    old_flags = actor->flags;
+    flags = old_flags & 0xCFFF;
+    if (old_flags & 0x800) {
+        goto store_flags;
     }
 
     {
-        u8 b = a0->f5 - 1;
-        a0->f5 = b;
-        if ((s8)b > 0) {
-            goto END;
+        u8 ticks_left = actor->f5 - 1;
+        actor->f5 = ticks_left;
+        if ((s8)ticks_left > 0) {
+            goto store_flags;
         }
     }
 
-    v1 = (S_800477F4_Node *)a0->cur;
-    a2 = &v1->step;
-    if (v1->typeA == 0) {
-        goto END;
+    node = (S_800477F4_Node *)actor->cur;
+    step = &node->step;
+    if (node->typeA == 0) {
+        goto store_flags;
     }
-    LEGACY_KEEP(a2);
+    LEGACY_KEEP(step);
 
     {
-        s16 typeB = *(s16 *)((char *)a2 + 2);
-        if (typeB == 0) {
-            a1 |= 0x5000;
-            goto STORE;
+        s16 step_type = *(s16 *)((char *)step + 2);
+        if (step_type == 0) {
+            flags |= 0x5000;
+            goto store_step;
         }
-        if (typeB == 1) {
-            a2 = a2->next;
-            a1 |= 0x2000;
-            a0->f4 = 0;
-            goto SHARED;
+        if (step_type == 1) {
+            step = step->next;
+            flags |= 0x2000;
+            actor->f4 = 0;
+            goto update_step;
         }
     }
 
-    a0->f4 = a0->f4 + 1;
+    actor->f4 = actor->f4 + 1;
 
-SHARED:
-    a0->f5 = a2->f0 / D_80080A84[0];
-    a1 |= 0x1000;
-    a0->f8 = (s32)a2->next;
+update_step:
+    actor->f5 = step->f0 / D_80080A84[0];
+    flags |= 0x1000;
+    actor->f8 = (s32)step->next;
 
-STORE:
-    a0->cur = a2;
+store_step:
+    actor->cur = step;
 
-END:
-    a0->flags = a1;
+store_flags:
+    actor->flags = flags;
 }

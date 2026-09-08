@@ -76,31 +76,32 @@ extern void func_8003F75C(s32);
 extern void func_80050BD8(s32);
 extern void func_80050BFC(s32);
 
+/* Updates timed object spawning, result displays, and the stored best value. */
 void func_8052B5A4(TownState *self) {
-    void *held_data;
-    s16 raw;
-    s16 period;
+    void *result_data;
+    s16 level_period;
+    s16 spawn_period;
     s32 state;
-    s32 *minimum;
-    s32 threshold;
+    s32 *capped_values;
+    s32 value_limit;
     Object *obj;
     Part *part;
 
-    raw = 42 - self->level / 6;
-    period = raw;
-    held_data = D_80526694;
-    if (raw < 16) {
-        period = 16;
+    level_period = 42 - self->level / 6;
+    spawn_period = level_period;
+    result_data = D_80526694;
+    if (level_period < 16) {
+        spawn_period = 16;
     }
-    threshold = 0x03200000;
-    minimum = D_80132AEC;
-    if (minimum[0] > threshold) {
-        minimum[0] = threshold;
+    value_limit = 0x03200000;
+    capped_values = D_80132AEC;
+    if (capped_values[0] > value_limit) {
+        capped_values[0] = value_limit;
     }
     state = self->state;
     switch (state) {
     case 0:
-        if (self->timer % period == 0) {
+        if (self->timer % spawn_period == 0) {
             if (self->count > 0 ||
                 (self->state == 1 && (self->flags & 4))) {
                 self->phase = (self->phase + 1) & 3;
@@ -148,7 +149,7 @@ void func_8052B5A4(TownState *self) {
             obj->flags_36 = 0x78;
             obj->z_3a = 0x7C80;
             obj->field_30.color = 0x00808080;
-            obj->data = held_data;
+            obj->data = result_data;
             obj->lifetime = 0x96;
         }
         obj = func_800374FC(1, D_801328C8);

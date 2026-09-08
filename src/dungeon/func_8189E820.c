@@ -34,38 +34,39 @@ typedef struct S_8189E820_3 {
 s32 func_800644B8();
 extern s32 D_800814A0[3];
 
-void func_8189E820(void *arg0, S_8189E820_2 *arg1, S_8189E820_3 *arg2)
+/* Advances arcing motion and rotation, then flags completion when the duration expires. */
+void func_8189E820(void *state, S_8189E820_2 *motion, S_8189E820_3 *rotation)
 {
-    s16 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_a0_2;
-    s32 temp_v1_2;
-    s32 temp_a1;
-    S_8189E820_1 *temp_v1;
+    s16 next_frame;
+    s32 x_pos;
+    s32 x_step;
+    s32 y_pos;
+    s32 y_step;
+    S_8189E820_1 *frame_state;
 
-    temp_v1 = ((S_8189E820_0 *)arg0)->unk_08;
-    temp_v1->unk_14 =
-        (u16)(temp_v1->unk_14 + 1);
-    temp_v0_2 = arg1->unk_00;
-    temp_a0_2 = arg1->unk_0C;
-    temp_v1_2 = arg1->unk_04;
-    temp_a1 = arg1->unk_10;
-    arg1->unk_00 = temp_v0_2 + temp_a0_2;
-    arg1->unk_04 = temp_v1_2 + temp_a1;
-    ((S_8189E820_0 *)arg0)->unk_04 =
-        ((S_8189E820_0 *)arg0)->unk_04 + arg1->unk_14;
-    arg1->unk_08 =
-        ((S_8189E820_0 *)arg0)->unk_04 -
-        ((func_800644B8((0x800 / (s16)((S_8189E820_0 *)arg0)->unk_02) *
-                        ((S_8189E820_0 *)arg0)->unk_00,
-                        temp_a1) >> 4) * 0xC000);
-    arg2->unk_1A =
-        (u16)(arg2->unk_1A + 0x300);
-    temp_v0 = (u16)((S_8189E820_0 *)arg0)->unk_00 + 1;
-    ((S_8189E820_0 *)arg0)->unk_00 = temp_v0;
-    if (((S_8189E820_0 *)arg0)->unk_02 < temp_v0) {
-        ((S_8189E820_0_pre *)arg0)[-1].unk_00 =
-            (u16)(((S_8189E820_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    frame_state = ((S_8189E820_0 *)state)->unk_08;
+    frame_state->unk_14 =
+        (u16)(frame_state->unk_14 + 1);
+    x_pos = motion->unk_00;
+    x_step = motion->unk_0C;
+    y_pos = motion->unk_04;
+    y_step = motion->unk_10;
+    motion->unk_00 = x_pos + x_step;
+    motion->unk_04 = y_pos + y_step;
+    ((S_8189E820_0 *)state)->unk_04 =
+        ((S_8189E820_0 *)state)->unk_04 + motion->unk_14;
+    motion->unk_08 =
+        ((S_8189E820_0 *)state)->unk_04 -
+        ((func_800644B8((0x800 / (s16)((S_8189E820_0 *)state)->unk_02) *
+                        ((S_8189E820_0 *)state)->unk_00,
+                        y_step) >> 4) * 0xC000);
+    rotation->unk_1A =
+        (u16)(rotation->unk_1A + 0x300);
+    next_frame = (u16)((S_8189E820_0 *)state)->unk_00 + 1;
+    ((S_8189E820_0 *)state)->unk_00 = next_frame;
+    if (((S_8189E820_0 *)state)->unk_02 < next_frame) {
+        ((S_8189E820_0_pre *)state)[-1].unk_00 =
+            (u16)(((S_8189E820_0_pre *)state)[-1].unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
     }
 }

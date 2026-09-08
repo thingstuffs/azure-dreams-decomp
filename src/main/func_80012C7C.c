@@ -29,20 +29,21 @@ typedef struct S_80025C7C_1 {
     s32 unk_20;
 } S_80025C7C_1;   /* temp_v0 in func_80025C7C */
 
-void *func_80025C7C(s32 arg0) {
-    S_80025C7C_0 *temp_s1;
-    void *temp_v0;
+/* Creates an object and initializes its state. */
+void *func_80025C7C(s32 init_value) {
+    S_80025C7C_0 *state;
+    void *object;
 
-    temp_v0 = func_8003FE78(0, &D_8002B7E0, 0x1C);
-    temp_s1 = temp_v0 + 0x20;
-    func_80025B40(temp_s1, arg0);
+    object = func_8003FE78(0, &D_8002B7E0, 0x1C);
+    state = object + 0x20;
+    func_80025B40(state, init_value);
     func_8002223C();
     func_800220DC();
-    temp_s1->unk_48 = 1;
-    ((S_80025C7C_1 *)temp_v0)->unk_20 = func_8004F418(temp_v0, temp_v0 + 0x68);
-    temp_s1->unk_18 = func_800238D4(temp_v0);
-    temp_s1->unk_1C = func_80024D58(temp_v0, temp_s1->unk_28, 0);
-    temp_s1->unk_24 = 0;
-    ((S_80025C7C_1 *)temp_v0)->unk_10 = &D_80025BD4;
-    return temp_v0;
+    state->unk_48 = 1;
+    ((S_80025C7C_1 *)object)->unk_20 = func_8004F418(object, object + 0x68);
+    state->unk_18 = func_800238D4(object);
+    state->unk_1C = func_80024D58(object, state->unk_28, 0);
+    state->unk_24 = 0;
+    ((S_80025C7C_1 *)object)->unk_10 = &D_80025BD4;
+    return object;
 }

@@ -174,7 +174,8 @@ extern void func_8004491C(Spawned *, void (*)(void));
 extern void func_80045340(void);
 extern void func_800248E8(void);
 
-void func_80025374(State *arg0, Vec12 *arg1, Graphic *arg2)
+/* Spawns and follows an entity effect, then completes its delayed cleanup. */
+void func_80025374(State *state_arg, Vec12 *position_arg, Graphic *graphic_arg)
 {
     ShortVec delta;
     PackedOffsetLocal offsets;
@@ -182,36 +183,36 @@ void func_80025374(State *arg0, Vec12 *arg1, Graphic *arg2)
     Vec12 *position;
     register Graphic *graphic ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register Entity *entity ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *base ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *object ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *copyReserve;
-    register PackedOffsetChunks *offsetSource ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *data_base ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *source_or_spawn ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *offset_page;
+    register PackedOffsetChunks *offset_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 dispatch;
-    s32 advanceValue;
-    s32 stateNumber;
-    static void *const keepalive[] = {
-        &&case0, &&case1, &&case2, &&case3, &&case4
+    s32 advance;
+    s32 state_index;
+    static void *const state_labels[] = {
+        &&initialize, &&create_spawn, &&follow_spawn, &&wait_finish, &&inactive
     };
 
-    state = arg0;
-    position = arg1;
-    graphic = arg2;
-    copyReserve = (u8 *)0x80020000;
-    ASM_KEEP_NV(copyReserve);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    state = state_arg;
+    position = position_arg;
+    graphic = graphic_arg;
+    offset_page = (u8 *)0x80020000;
+    ASM_KEEP_NV(offset_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     entity = state->entity0;
     ASM_KEEP4(state, position, graphic, entity);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    offsetSource = (PackedOffsetChunks *)(copyReserve + 0x4004);
-    ASM_KEEP_DEP_NV(offsetSource, copyReserve);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    offsets.chunks.first = offsetSource->first;
-    offsets.chunks.second = offsetSource->second;
-    offsets.chunks.third = offsetSource->third;
-    ASM_KEEP(copyReserve);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    stateNumber = state->stateA;
-    ASM_KEEP(stateNumber);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    base = (u8 *)entity - 0x20;
-    ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    dispatch = (u32)stateNumber < 5;
-    object = ((EntityHeader *)base)->source8;
+    offset_source = (PackedOffsetChunks *)(offset_page + 0x4004);
+    ASM_KEEP_DEP_NV(offset_source, offset_page);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    offsets.chunks.first = offset_source->first;
+    offsets.chunks.second = offset_source->second;
+    offsets.chunks.third = offset_source->third;
+    ASM_KEEP(offset_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    state_index = state->stateA;
+    ASM_KEEP(state_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    data_base = (u8 *)entity - 0x20;
+    ASM_KEEP_NV(data_base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    dispatch = (u32)state_index < 5;
+    source_or_spawn = ((EntityHeader *)data_base)->source8;
     if (!dispatch) {
         goto done;
     }
@@ -219,235 +220,235 @@ void func_80025374(State *arg0, Vec12 *arg1, Graphic *arg2)
     ASM_KEEP_NV(dispatch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     dispatch += 0x4028;
     ASM_KEEP_NV(dispatch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    goto *((void **)dispatch)[stateNumber];
+    goto *((void **)dispatch)[state_index];
 
-case0:
+initialize:
     {
-    D_80020000Page *page;
-    register s32 temp ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u32 work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u16 sourceZ;
+        D_80020000Page *page;
+        register s32 next_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register u32 flags_or_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        u16 source_z;
 
-    graphic->flagsC = 0x00808080;
-    graphic->scale1E = 0x1000;
-    graphic->scale1C = 0x1000;
-    func_8003DB94(graphic, D_800DEC00, 0);
-    page = (D_80020000Page *)0x80020000;
-    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    work = entity->flags2A;
-    temp = 1;
-    page->flag5924 = temp;
-    temp = *(u16 *)&state->stateA;
-    work = (work >> 9) & 7;
-    temp++;
-    state->variant7E = work;
-    state->stateA = temp;
+        graphic->flagsC = 0x00808080;
+        graphic->scale1E = 0x1000;
+        graphic->scale1C = 0x1000;
+        func_8003DB94(graphic, D_800DEC00, 0);
+        page = (D_80020000Page *)0x80020000;
+        ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        flags_or_result = entity->flags2A;
+        next_state = 1;
+        page->flag5924 = next_state;
+        next_state = *(u16 *)&state->stateA;
+        flags_or_result = (flags_or_result >> 9) & 7;
+        next_state++;
+        state->variant7E = flags_or_result;
+        state->stateA = next_state;
 
-    work = func_8003DF74(((EntityHeader *)base)->componentC->unk8,
-                        ((EntityHeader *)base)->componentC, &delta, 0);
-    if (work != 0) {
-        goto case0_found;
+        flags_or_result = func_8003DF74(((EntityHeader *)data_base)->componentC->unk8,
+            ((EntityHeader *)data_base)->componentC, &delta, 0);
+        if (flags_or_result != 0) {
+            goto position_ready;
+        }
+        if (!(((EntityHeader *)data_base)->componentC->flags14 & 0x8000)) {
+            goto done;
+        }
+
+position_ready:
+        position->x = ((Vec12 *)source_or_spawn)->x;
+        position->y = ((Vec12 *)source_or_spawn)->y;
+        source_z = ((Vec12 *)source_or_spawn)->z;
+        position->z = source_z;
+
+        if (!(((EntityHeader *)data_base)->componentC->flags14 & 0x8000)) {
+            position->x += delta.x;
+            position->y += delta.y;
+            position->z += delta.z;
+        } else {
+            position->z = source_z - 64;
+        }
+
+        advance = *state->flags4 & 0x80;
+        goto advance_check;
     }
-    if (!(((EntityHeader *)base)->componentC->flags14 & 0x8000)) {
+
+create_spawn:
+    {
+        RoomData *room;
+        ByteEntry *table;
+        register Graphic *spawn_graphic ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        register Vec12 *spawn_position ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register PackedOffsets *offset_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 *template_page;
+        register PackedTemplate *template_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 path_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        register s32 coord_or_variant ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 offset_x;
+        s32 offset_y;
+        s16 steps;
+
+        source_or_spawn = func_8003FC64(0x12);
+        offset_base = &offsets.values;
+        if (source_or_spawn != 0) {
+            offset_x = offset_base->entry[(s16)state->variant7E].x;
+            ASM_KEEP(offset_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            data_base = (u8 *)&((Spawned *)source_or_spawn)->data20;
+            ASM_KEEP(data_base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            ((SpawnData *)data_base)->x4C = offset_x << 16;
+            offset_y = offset_base->entry[(s16)state->variant7E].y;
+            ((SpawnData *)data_base)->owner2C = entity;
+            ((SpawnData *)data_base)->y50 = offset_y << 16;
+            ((SpawnData *)data_base)->path30 = entity->path60;
+            ((SpawnData *)data_base)->state34 = state;
+            ((SpawnData *)data_base)->ownerIndex15 = state->index9;
+            ((SpawnData *)data_base)->variant16 = state->variant7E;
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+
+            room = (RoomData *)((EntityHeader *)((u8 *)entity - 0x20))->componentC;
+            table = D_8006CCD8;
+            ASM_KEEP_NV(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            state->valueA0 = room->x24 + table[(s16)state->variant7E].value;
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            table = (ByteEntry *)0x80070000;
+            ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            coord_or_variant = (s16)state->variant7E;
+            ASM_KEEP(coord_or_variant);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            table = (ByteEntry *)((u8 *)table - 0x3318);
+            ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            state->valueA1 = room->y25 + table[coord_or_variant].value;
+
+            if (entity->path60 != 0) {
+                ((SpawnData *)data_base)->startX38 = (s8)entity->startX72;
+                ((SpawnData *)data_base)->startY3A = (s8)entity->startY73;
+                ((SpawnData *)data_base)->targetX3C = room->x24;
+                ((SpawnData *)data_base)->targetY3E = room->y25;
+                ((SpawnData *)data_base)->active8 = 1;
+
+                path_value = (s8)entity->startX72;
+                coord_or_variant = room->x24;
+                if (path_value != coord_or_variant) {
+                    path_value -= coord_or_variant;
+                } else {
+                    path_value = (s8)entity->startY73;
+                    coord_or_variant = room->y25;
+                    path_value -= coord_or_variant;
+                }
+                if (path_value < 0) {
+                    path_value = -path_value;
+                }
+                ((SpawnData *)data_base)->step2 = path_value * 2;
+                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+
+                path_value = *(s32 *)((u8 *)entity->path60 - 0x18);
+                steps = ((SpawnData *)data_base)->step2;
+                if (steps != 0) {
+                    path_value = *(volatile s32 *)((u8 *)path_value + 8);
+                    ((SpawnData *)data_base)->dx54 =
+                        (path_value - ((s32 *)position)[2] + (s32)0xFF800000) /
+                        (steps - 1);
+                }
+            } else {
+                ((SpawnData *)data_base)->step2 = 0x20;
+                ((SpawnData *)data_base)->step4 = 0x20;
+                ((SpawnData *)data_base)->active8 = 0;
+            }
+
+            state->advance86 = 0;
+            ((Spawned *)source_or_spawn)->update10 = func_800248E8;
+            func_8004491C(source_or_spawn, func_80045340);
+            spawn_graphic = ((Spawned *)source_or_spawn)->graphicC;
+            spawn_graphic->field10 = 0;
+            spawn_graphic->flags14 |= 0xC;
+            spawn_position = ((Spawned *)source_or_spawn)->position8;
+            ((s32 *)spawn_position)[0] = ((s32 *)position)[0];
+            ((s32 *)spawn_position)[1] = ((s32 *)position)[1];
+            ((s32 *)spawn_position)[2] = ((s32 *)position)[2];
+            spawn_graphic = ((Spawned *)source_or_spawn)->graphicC;
+            ((u8 *)spawn_graphic)[0xE] = 0x80;
+            ((u8 *)spawn_graphic)[0xD] = 0x80;
+            ((u8 *)spawn_graphic)[0xC] = 0x80;
+            spawn_graphic->scale1E = 0x1000;
+            spawn_graphic->scale1C = 0x1000;
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            template_page = (u8 *)0x80020000;
+            ASM_KEEP_NV(template_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            template_source = (PackedTemplate *)(template_page + 0x5900);
+            ASM_KEEP_DEP_NV(template_source, template_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            ((SpawnData *)data_base)->template20 = *template_source;
+            ASM_KEEP(template_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            spawn_graphic->unk8 =
+                (u8 *)&((Spawned *)source_or_spawn)->data20.template20 +
+                ((u8 *)data_base - (u8 *)&((Spawned *)source_or_spawn)->data20);
+            ASM_KEEP(data_base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            state->spawnA8 = source_or_spawn;
+            state->savedPositionAC = spawn_position;
+            state->sentinel88 = 99;
+        }
+        state->stateA++;
         goto done;
     }
 
-case0_found:
-    position->x = ((Vec12 *)object)->x;
-    position->y = ((Vec12 *)object)->y;
-    sourceZ = ((Vec12 *)object)->z;
-    position->z = sourceZ;
-
-    if (!(((EntityHeader *)base)->componentC->flags14 & 0x8000)) {
-        position->x += delta.x;
-        position->y += delta.y;
-        position->z += delta.z;
-    } else {
-        position->z = sourceZ - 64;
-    }
-
-    advanceValue = *state->flags4 & 0x80;
-    goto advance_check;
-    }
-
-case1:
+follow_spawn:
     {
-    RoomData *room;
-    ByteEntry *table;
-    register Graphic *spawnGraphic ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register Vec12 *savedPosition ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register PackedOffsets *offsetBase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *copyPage;
-    register PackedTemplate *templateSource ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 roomCoord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 firstOffset;
-    s32 secondOffset;
-    s16 steps;
+        register Vec12 *spawn_position ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    object = func_8003FC64(0x12);
-    offsetBase = &offsets.values;
-    if (object != 0) {
-        firstOffset = offsetBase->entry[(s16)state->variant7E].x;
-        ASM_KEEP(firstOffset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        base = (u8 *)&((Spawned *)object)->data20;
-        ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ((SpawnData *)base)->x4C = firstOffset << 16;
-        secondOffset = offsetBase->entry[(s16)state->variant7E].y;
-        ((SpawnData *)base)->owner2C = entity;
-        ((SpawnData *)base)->y50 = secondOffset << 16;
-        ((SpawnData *)base)->path30 = entity->path60;
-        ((SpawnData *)base)->state34 = state;
-        ((SpawnData *)base)->ownerIndex15 = state->index9;
-        ((SpawnData *)base)->variant16 = state->variant7E;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-
-        room = (RoomData *)((EntityHeader *)((u8 *)entity - 0x20))->componentC;
-        table = D_8006CCD8;
-        ASM_KEEP_NV(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        state->valueA0 = room->x24 + table[(s16)state->variant7E].value;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        table = (ByteEntry *)0x80070000;
-        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        roomCoord = (s16)state->variant7E;
-        ASM_KEEP(roomCoord);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        table = (ByteEntry *)((u8 *)table - 0x3318);
-        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        state->valueA1 = room->y25 + table[roomCoord].value;
-
-        if (entity->path60 != 0) {
-            ((SpawnData *)base)->startX38 = (s8)entity->startX72;
-            ((SpawnData *)base)->startY3A = (s8)entity->startY73;
-            ((SpawnData *)base)->targetX3C = room->x24;
-            ((SpawnData *)base)->targetY3E = room->y25;
-            ((SpawnData *)base)->active8 = 1;
-
-            value = (s8)entity->startX72;
-            roomCoord = room->x24;
-            if (value != roomCoord) {
-                value -= roomCoord;
+        if (state->sentinel88 == 99) {
+            source_or_spawn = state->spawnA8;
+            spawn_position = state->savedPositionAC;
+            if (((Spawned *)source_or_spawn)->flags1E & 0x8000) {
+                state->sentinel88 = 0;
             } else {
-                value = (s8)entity->startY73;
-                roomCoord = room->y25;
-                value -= roomCoord;
+                ((s32 *)position)[0] = ((s32 *)spawn_position)[0];
+                ((s32 *)position)[1] = ((s32 *)spawn_position)[1];
+                ((s32 *)position)[2] = ((s32 *)spawn_position)[2];
             }
-            if (value < 0) {
-                value = -value;
-            }
-            ((SpawnData *)base)->step2 = value * 2;
-            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-
-            value = *(s32 *)((u8 *)entity->path60 - 0x18);
-            steps = ((SpawnData *)base)->step2;
-            if (steps != 0) {
-                value = *(volatile s32 *)((u8 *)value + 8);
-                ((SpawnData *)base)->dx54 =
-                    (value - ((s32 *)position)[2] + (s32)0xFF800000) /
-                    (steps - 1);
-            }
-        } else {
-            ((SpawnData *)base)->step2 = 0x20;
-            ((SpawnData *)base)->step4 = 0x20;
-            ((SpawnData *)base)->active8 = 0;
         }
-
-        state->advance86 = 0;
-        ((Spawned *)object)->update10 = func_800248E8;
-        func_8004491C(object, func_80045340);
-        spawnGraphic = ((Spawned *)object)->graphicC;
-        spawnGraphic->field10 = 0;
-        spawnGraphic->flags14 |= 0xC;
-        savedPosition = ((Spawned *)object)->position8;
-        ((s32 *)savedPosition)[0] = ((s32 *)position)[0];
-        ((s32 *)savedPosition)[1] = ((s32 *)position)[1];
-        ((s32 *)savedPosition)[2] = ((s32 *)position)[2];
-        spawnGraphic = ((Spawned *)object)->graphicC;
-        ((u8 *)spawnGraphic)[0xE] = 0x80;
-        ((u8 *)spawnGraphic)[0xD] = 0x80;
-        ((u8 *)spawnGraphic)[0xC] = 0x80;
-        spawnGraphic->scale1E = 0x1000;
-        spawnGraphic->scale1C = 0x1000;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        copyPage = (u8 *)0x80020000;
-        ASM_KEEP_NV(copyPage);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        templateSource = (PackedTemplate *)(copyPage + 0x5900);
-        ASM_KEEP_DEP_NV(templateSource, copyPage);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        ((SpawnData *)base)->template20 = *templateSource;
-        ASM_KEEP(copyPage);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        spawnGraphic->unk8 =
-            (u8 *)&((Spawned *)object)->data20.template20 +
-            ((u8 *)base - (u8 *)&((Spawned *)object)->data20);
-        ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        state->spawnA8 = object;
-        state->savedPositionAC = savedPosition;
-        state->sentinel88 = 99;
-    }
-    state->stateA++;
-    goto done;
-    }
-
-case2:
-    {
-    register Vec12 *savedPosition ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-    if (state->sentinel88 == 99) {
-        object = state->spawnA8;
-        savedPosition = state->savedPositionAC;
-        if (((Spawned *)object)->flags1E & 0x8000) {
-            state->sentinel88 = 0;
-        } else {
-            ((s32 *)position)[0] = ((s32 *)savedPosition)[0];
-            ((s32 *)position)[1] = ((s32 *)savedPosition)[1];
-            ((s32 *)position)[2] = ((s32 *)savedPosition)[2];
-        }
-    }
-    advanceValue = state->advance86;
+        advance = state->advance86;
     }
 
 advance_check:
-    if (advanceValue != 0) {
+    if (advance != 0) {
         state->counter84 = 0;
         state->stateA++;
     }
     goto done;
 
-case3:
+wait_finish:
     {
-    D_80020000Page *page;
-    u8 *page8a;
-    u8 *page8b;
-    u16 objectFlags;
-    s32 pageFlag;
-    s32 value;
+        D_80020000Page *page;
+        u8 *reset_page;
+        u8 *flags_page;
+        u16 object_flags;
+        s32 pending;
+        s32 ticks;
 
-    value = *(u16 *)&state->counter84;
-    state->counter84 = value + 1;
-    if ((s16)(value + 1) >= 11) {
-        page = (D_80020000Page *)0x80020000;
-        ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        pageFlag = page->flag5924;
-        state->counter84 = value;
-        if (pageFlag == 0) {
-            page8a = (u8 *)0x80080000;
-            ASM_KEEP_NV(page8a);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            *(s32 *)(page8a + 0x346C) = 0;
-            objectFlags = ((u16 *)state)[-1];
-            ASM_KEEP(objectFlags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            page8b = (u8 *)0x80080000;
-            ASM_KEEP(page8b);
-            objectFlags |= 0x8000;
-            ((u16 *)state)[-1] = objectFlags;
-            *(s32 *)(page8b + 0x14A0) |= 0x8000;
-        } else {
-            page->flag5924 = 0;
+        ticks = *(u16 *)&state->counter84;
+        state->counter84 = ticks + 1;
+        if ((s16)(ticks + 1) >= 11) {
+            page = (D_80020000Page *)0x80020000;
+            ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            pending = page->flag5924;
+            state->counter84 = ticks;
+            if (pending == 0) {
+                reset_page = (u8 *)0x80080000;
+                ASM_KEEP_NV(reset_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                *(s32 *)(reset_page + 0x346C) = 0;
+                object_flags = ((u16 *)state)[-1];
+                ASM_KEEP(object_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                flags_page = (u8 *)0x80080000;
+                ASM_KEEP(flags_page);
+                object_flags |= 0x8000;
+                ((u16 *)state)[-1] = object_flags;
+                *(s32 *)(flags_page + 0x14A0) |= 0x8000;
+            } else {
+                page->flag5924 = 0;
+            }
         }
-    }
-    goto done;
+        goto done;
     }
 
-case4:
+inactive:
     goto done;
 
 done:
-    (void)keepalive;
+    (void)state_labels;
 }

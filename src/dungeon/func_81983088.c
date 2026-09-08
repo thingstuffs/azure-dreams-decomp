@@ -30,31 +30,32 @@ extern u16 D_800269F8[];
 extern s32 D_800814A0[];
 
 
-void func_80024888(void *arg0, S_80024888_0 *arg1, S_80024888_1 *arg2) {
-    s32 temp_a0;
-    s32 temp_a3;
-    u16 temp_v0_global;
-    u8 temp_v0;
-    u8 temp_v0_2;
-    u16 temp_v0_3;
+/* Advance effect motion, fade its color, and flag it when its lifetime expires. */
+void func_80024888(void *effect, S_80024888_0 *motion, S_80024888_1 *color) {
+    s32 velocity_x;
+    s32 velocity_y;
+    u16 update_count;
+    u8 brightness;
+    u8 faded_brightness;
+    u16 life_left;
 
-    temp_v0_global = D_800269F8[0];
-    temp_a0 = arg1->unk_0C;
-    temp_a3 = arg1->unk_10;
-    D_800269F8[0] = temp_v0_global + 1;
-    arg1->unk_00 = arg1->unk_00 + temp_a0;
-    arg1->unk_04 = arg1->unk_04 + temp_a3;
-    arg1->unk_08 = arg1->unk_08 + arg1->unk_14;
-    arg1->unk_14 = arg1->unk_14 + 0x2000;
-    temp_v0 = arg2->unk_0C;
-    temp_v0_2 = temp_v0 - (temp_v0 >> 4);
-    arg2->unk_0C = temp_v0_2;
-    arg2->unk_0D = temp_v0_2;
-    arg2->unk_0E = temp_v0_2;
-    temp_v0_3 = ((S_80024888_2 *)arg0)->unk_30 - 1;
-    ((S_80024888_2 *)arg0)->unk_30 = temp_v0_3;
-    if ((temp_v0_3 << 0x10) <= 0) {
-        ((S_80024888_2_pre *)arg0)[-1].unk_00 = ((S_80024888_2_pre *)arg0)[-1].unk_00 | 0x8000;
+    update_count = D_800269F8[0];
+    velocity_x = motion->unk_0C;
+    velocity_y = motion->unk_10;
+    D_800269F8[0] = update_count + 1;
+    motion->unk_00 = motion->unk_00 + velocity_x;
+    motion->unk_04 = motion->unk_04 + velocity_y;
+    motion->unk_08 = motion->unk_08 + motion->unk_14;
+    motion->unk_14 = motion->unk_14 + 0x2000;
+    brightness = color->unk_0C;
+    faded_brightness = brightness - (brightness >> 4);
+    color->unk_0C = faded_brightness;
+    color->unk_0D = faded_brightness;
+    color->unk_0E = faded_brightness;
+    life_left = ((S_80024888_2 *)effect)->unk_30 - 1;
+    ((S_80024888_2 *)effect)->unk_30 = life_left;
+    if ((life_left << 0x10) <= 0) {
+        ((S_80024888_2_pre *)effect)[-1].unk_00 = ((S_80024888_2_pre *)effect)[-1].unk_00 | 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

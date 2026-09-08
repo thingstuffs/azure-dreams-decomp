@@ -3,29 +3,30 @@
 extern s16 D_800269B4;
 extern s32 D_800814A0;
 
-void func_8196B25C(void *arg0, s32 arg1, u8 *arg2) {
-    u16 value = *(u16 *)((u8 *)arg0 + 0x2C);
+/* Dim the effect's color and flag completion when its countdown expires. */
+void func_8196B25C(void *effect, s32 unused, u8 *primitive) {
+    u16 ticks_left = *(u16 *)((u8 *)effect + 0x2C);
 
     D_800269B4 = 1;
-    value -= 1;
-    *(u16 *)((u8 *)arg0 + 0x2C) = value;
+    ticks_left -= 1;
+    *(u16 *)((u8 *)effect + 0x2C) = ticks_left;
 
-    if (arg2[12] >= 65) {
-        arg2[14] = 64;
-        arg2[13] = 64;
-        arg2[12] = 64;
+    if (primitive[12] >= 65) {
+        primitive[14] = 64;
+        primitive[13] = 64;
+        primitive[12] = 64;
     }
 
-    if (arg2[12] != 0) {
-        s32 temp = arg2[14] - 5;
+    if (primitive[12] != 0) {
+        s32 shade = primitive[14] - 5;
 
-        arg2[14] = temp;
-        arg2[13] = temp;
-        arg2[12] = temp;
+        primitive[14] = shade;
+        primitive[13] = shade;
+        primitive[12] = shade;
     }
 
-    if (*(s16 *)((u8 *)arg0 + 0x2C) <= 0) {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    if (*(s16 *)((u8 *)effect + 0x2C) <= 0) {
+        *(u16 *)((u8 *)effect - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

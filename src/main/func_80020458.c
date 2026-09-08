@@ -53,16 +53,17 @@ typedef struct S_80020458_1 {
     M2C_UNK * unk_00;
 } S_80020458_1;   /* temp_a2_2 in func_80020458 */
 
-void func_80020458(S_80020458_2 *arg0) {
-    register S_80020458_0 *temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register S_80020458_1 *temp_a2_2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+/* Initializes two child objects and assigns their callbacks. */
+void func_80020458(S_80020458_2 *owner) {
+    register S_80020458_0 *firstChild ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register S_80020458_1 *secondChild ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    temp_a2 = ((S_80020458_5 *)(arg0->unk_60))->unk_00;
-    ((S_80020458_6 *)(((S_80020458_3 *)temp_a2)->unk_04))->unk_08 = 0x40;
-    ((S_80020458_6 *)(((S_80020458_3 *)temp_a2)->unk_04))->unk_0A = 0x20;
-    temp_a2->unk_00 = &D_80409110;
-    temp_a2_2 = ((S_80020458_5 *)(arg0->unk_60))->unk_04;
-    ((S_80020458_7 *)(((S_80020458_4 *)temp_a2_2)->unk_04))->unk_08 = 0xC0;
-    ((S_80020458_7 *)(((S_80020458_4 *)temp_a2_2)->unk_04))->unk_0A = 0x20;
-    temp_a2_2->unk_00 = &D_80409128;
+    firstChild = ((S_80020458_5 *)(owner->unk_60))->unk_00;
+    ((S_80020458_6 *)(((S_80020458_3 *)firstChild)->unk_04))->unk_08 = 0x40;
+    ((S_80020458_6 *)(((S_80020458_3 *)firstChild)->unk_04))->unk_0A = 0x20;
+    firstChild->unk_00 = &D_80409110;
+    secondChild = ((S_80020458_5 *)(owner->unk_60))->unk_04;
+    ((S_80020458_7 *)(((S_80020458_4 *)secondChild)->unk_04))->unk_08 = 0xC0;
+    ((S_80020458_7 *)(((S_80020458_4 *)secondChild)->unk_04))->unk_0A = 0x20;
+    secondChild->unk_00 = &D_80409128;
 }

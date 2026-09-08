@@ -50,158 +50,159 @@ typedef struct S_80170A84_3 {
 extern void *D_80170808[];
 extern s32 D_800814A0[3];
 
-void func_80170A84(void *arg0, void *arg1, S_80170A84_2 *arg2)
+/* Updates effect rotation and fading, then copies three source words to the output. */
+void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
 {
-    u8 *base;
-    u32 *source;
-    void *volatile *table;
-    u16 copied;
+    u8 *owner_data;
+    u32 *source_words;
+    void *volatile *phase_table;
+    u16 header_value;
     u16 angle;
-    u16 state;
-    u16 twenty;
-    s32 dispatch;
-    static void *const keepalive[] = {
+    u16 next_phase;
+    u16 reset_ticks;
+    s32 phase_index;
+    static void *const phase_labels[] = {
         &&case_0, &&case_1, &&case_2,
         &&case_3, &&case_4, &&case_5,
         &&done
     };
 
-    base = ((S_80170A84_0 *)arg0)->unk_40;
-    source = ((S_80170A84_0 *)arg0)->unk_44;
-    copied = ((S_80170A84_3 *)(((S_80170A84_1_pre *)base)[-1].unk_00))->unk_06;
+    owner_data = ((S_80170A84_0 *)effect)->unk_40;
+    source_words = ((S_80170A84_0 *)effect)->unk_44;
+    header_value = ((S_80170A84_3 *)(((S_80170A84_1_pre *)owner_data)[-1].unk_00))->unk_06;
 
-    angle = arg2->unk_1A + 400;
-    arg2->unk_1A = angle;
-    arg2->unk_06 = copied;
+    angle = render_data->unk_1A + 400;
+    render_data->unk_1A = angle;
+    render_data->unk_06 = header_value;
     if (angle >= 4097) {
-        arg2->unk_1A = angle - 4096;
+        render_data->unk_1A = angle - 4096;
     }
 
-    dispatch = ((S_80170A84_0 *)arg0)->unk_2C.s;
-    if ((u32)dispatch >= 6) {
+    phase_index = ((S_80170A84_0 *)effect)->unk_2C.s;
+    if ((u32)phase_index >= 6) {
         goto done;
     }
-    table = D_80170808;
-    (void)keepalive;
-    goto *table[dispatch];
+    phase_table = D_80170808;
+    (void)phase_labels;
+    goto *phase_table[phase_index];
 
 case_0:
     {
-        u16 count = ((S_80170A84_0 *)arg0)->unk_36.s;
-        s16 limit = ((S_80170A84_0 *)arg0)->unk_38;
-        s32 value;
+        u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
+        s16 duration = ((S_80170A84_0 *)effect)->unk_38;
+        s32 intensity;
 
-        count++;
-        value = ((count << 16) >> 9) / limit;
-        ((S_80170A84_0 *)arg0)->unk_36.s = count;
-        arg2->unk_0C = value;
-        arg2->unk_0D = value;
-        arg2->unk_0E = value;
+        ticks++;
+        intensity = ((ticks << 16) >> 9) / duration;
+        ((S_80170A84_0 *)effect)->unk_36.s = ticks;
+        render_data->unk_0C = intensity;
+        render_data->unk_0D = intensity;
+        render_data->unk_0E = intensity;
     }
-    if (((S_80170A84_0 *)arg0)->unk_36.u < 5) {
+    if (((S_80170A84_0 *)effect)->unk_36.u < 5) {
         goto done;
     }
-    state = ((S_80170A84_0 *)arg0)->unk_2C.u;
-    state++;
+    next_phase = ((S_80170A84_0 *)effect)->unk_2C.u;
+    next_phase++;
     goto skip_counter;
 
 case_5:
-    if (((S_80170A84_1 *)base)->unk_9B >= 4) {
-        ((S_80170A84_0 *)arg0)->unk_36.s = 0;
-        ((S_80170A84_0 *)arg0)->unk_38 = 20;
-        ((S_80170A84_0 *)arg0)->unk_2C.u++;
+    if (((S_80170A84_1 *)owner_data)->unk_9B >= 4) {
+        ((S_80170A84_0 *)effect)->unk_36.s = 0;
+        ((S_80170A84_0 *)effect)->unk_38 = 20;
+        ((S_80170A84_0 *)effect)->unk_2C.u++;
     }
-    if (((S_80170A84_1 *)base)->unk_B3 != 3 || ((S_80170A84_1 *)base)->unk_B1 != 2) {
+    if (((S_80170A84_1 *)owner_data)->unk_B3 != 3 || ((S_80170A84_1 *)owner_data)->unk_B1 != 2) {
         goto done;
     }
-    ((S_80170A84_0 *)arg0)->unk_2C.u = 4;
-    ((S_80170A84_0 *)arg0)->unk_38 = 20;
-    ((S_80170A84_0 *)arg0)->unk_36.s = 20;
+    ((S_80170A84_0 *)effect)->unk_2C.u = 4;
+    ((S_80170A84_0 *)effect)->unk_38 = 20;
+    ((S_80170A84_0 *)effect)->unk_36.s = 20;
     goto done;
 
 case_1:
     {
-        u16 count = ((S_80170A84_0 *)arg0)->unk_36.s;
-        s16 limit = ((S_80170A84_0 *)arg0)->unk_38;
-        s32 value;
+        u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
+        s16 duration = ((S_80170A84_0 *)effect)->unk_38;
+        s32 intensity;
 
-        count++;
-        value = ((count << 16) >> 9) / limit;
-        ((S_80170A84_0 *)arg0)->unk_36.s = count;
-        arg2->unk_0C = value;
-        arg2->unk_0D = value;
-        arg2->unk_0E = value;
+        ticks++;
+        intensity = ((ticks << 16) >> 9) / duration;
+        ((S_80170A84_0 *)effect)->unk_36.s = ticks;
+        render_data->unk_0C = intensity;
+        render_data->unk_0D = intensity;
+        render_data->unk_0E = intensity;
     }
-    if (((S_80170A84_0 *)arg0)->unk_36.u < ((S_80170A84_0 *)arg0)->unk_38) {
+    if (((S_80170A84_0 *)effect)->unk_36.u < ((S_80170A84_0 *)effect)->unk_38) {
         goto done;
     }
-    state = ((S_80170A84_0 *)arg0)->unk_2C.u;
-    twenty = 20;
-    ((S_80170A84_0 *)arg0)->unk_38 = twenty;
+    next_phase = ((S_80170A84_0 *)effect)->unk_2C.u;
+    reset_ticks = 20;
+    ((S_80170A84_0 *)effect)->unk_38 = reset_ticks;
     goto common_counter;
 
 case_2:
     {
-        u16 count = ((S_80170A84_0 *)arg0)->unk_36.s;
-        s16 limit = ((S_80170A84_0 *)arg0)->unk_38;
-        s32 value;
+        u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
+        s16 duration = ((S_80170A84_0 *)effect)->unk_38;
+        s32 intensity;
 
-        count--;
-        value = ((count << 16) >> 9) / limit;
-        ((S_80170A84_0 *)arg0)->unk_36.s = count;
-        arg2->unk_0C = value;
-        arg2->unk_0D = value;
-        arg2->unk_0E = value;
+        ticks--;
+        intensity = ((ticks << 16) >> 9) / duration;
+        ((S_80170A84_0 *)effect)->unk_36.s = ticks;
+        render_data->unk_0C = intensity;
+        render_data->unk_0D = intensity;
+        render_data->unk_0E = intensity;
     }
-    if (((S_80170A84_0 *)arg0)->unk_36.u > 0) {
+    if (((S_80170A84_0 *)effect)->unk_36.u > 0) {
         goto done;
     }
-    ((S_80170A84_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    ((S_80170A84_0_pre *)effect)[-1].unk_00 |= 0x8000;
     D_800814A0[0] |= 0x8000;
     goto done;
 
 case_3:
     {
-        u16 count = ((S_80170A84_0 *)arg0)->unk_36.s;
-        s16 limit = ((S_80170A84_0 *)arg0)->unk_38;
-        s32 value;
+        u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
+        s16 duration = ((S_80170A84_0 *)effect)->unk_38;
+        s32 intensity;
 
-        count--;
-        value = ((count << 16) >> 9) / limit;
-        ((S_80170A84_0 *)arg0)->unk_36.s = count;
-        arg2->unk_0C = value;
-        arg2->unk_0D = value;
-        arg2->unk_0E = value;
+        ticks--;
+        intensity = ((ticks << 16) >> 9) / duration;
+        ((S_80170A84_0 *)effect)->unk_36.s = ticks;
+        render_data->unk_0C = intensity;
+        render_data->unk_0D = intensity;
+        render_data->unk_0E = intensity;
     }
-    if (((S_80170A84_0 *)arg0)->unk_36.u > 0) {
+    if (((S_80170A84_0 *)effect)->unk_36.u > 0) {
         goto done;
     }
-    state = ((S_80170A84_0 *)arg0)->unk_2C.u;
-    twenty = 20;
+    next_phase = ((S_80170A84_0 *)effect)->unk_2C.u;
+    reset_ticks = 20;
 
 common_counter:
-    ((S_80170A84_0 *)arg0)->unk_36.s = twenty;
-    state++;
+    ((S_80170A84_0 *)effect)->unk_36.s = reset_ticks;
+    next_phase++;
 
 skip_counter:
-    ((S_80170A84_0 *)arg0)->unk_2C.u = state;
+    ((S_80170A84_0 *)effect)->unk_2C.u = next_phase;
     goto done;
 
 case_4:
     {
-        u16 count = ((S_80170A84_0 *)arg0)->unk_36.s;
+        u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
 
-        ((S_80170A84_0 *)arg0)->unk_36.s = count - 1;
-        if ((count << 16) > 0) {
+        ((S_80170A84_0 *)effect)->unk_36.s = ticks - 1;
+        if ((ticks << 16) > 0) {
             goto done;
         }
     }
-    ((S_80170A84_0 *)arg0)->unk_2C.u = 2;
-    ((S_80170A84_0 *)arg0)->unk_36.s = 0;
-    ((S_80170A84_0 *)arg0)->unk_38 = 20;
+    ((S_80170A84_0 *)effect)->unk_2C.u = 2;
+    ((S_80170A84_0 *)effect)->unk_36.s = 0;
+    ((S_80170A84_0 *)effect)->unk_38 = 20;
 
 done:
-    ((u32 *)arg1)[0] = source[0];
-    ((u32 *)arg1)[1] = source[1];
-    ((u32 *)arg1)[2] = source[2];
+    ((u32 *)output)[0] = source_words[0];
+    ((u32 *)output)[1] = source_words[1];
+    ((u32 *)output)[2] = source_words[2];
 }

@@ -48,119 +48,120 @@ extern s16 D_800249A4;
 extern u16 D_800249A6;
 extern s32 D_800814A0;
 
-void func_81952B4C(void *arg0, void *arg1, void *arg2)
+/* Updates a spiraling effect's growth, motion, and fade-out. */
+void func_81952B4C(void *effect, void *position, void *sprite)
 {
     s16 state;
-    s16 angle;
-    s16 life;
-    s32 x;
-    s32 y;
-    s32 flags;
+    s16 radius;
+    s16 frames_left;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 global_flags;
     u16 scale;
-    u8 color;
+    u8 brightness;
 
     D_800249A6++;
 
-    if (D_800249A4 != 0 && ((S_81952B4C_0 *)arg0)->unk_24.s < 2) {
-        ((S_81952B4C_0 *)arg0)->unk_00 =
-            func_80064584(((S_81952B4C_0 *)arg0)->unk_28.s) *
-            ((S_81952B4C_0 *)arg0)->unk_34 * 8;
-        ((S_81952B4C_0 *)arg0)->unk_04 =
-            func_800644B8(((S_81952B4C_0 *)arg0)->unk_28.s) *
-            ((S_81952B4C_0 *)arg0)->unk_34 * 8;
-        ((S_81952B4C_0 *)arg0)->unk_24.s = 2;
+    if (D_800249A4 != 0 && ((S_81952B4C_0 *)effect)->unk_24.s < 2) {
+        ((S_81952B4C_0 *)effect)->unk_00 =
+            func_80064584(((S_81952B4C_0 *)effect)->unk_28.s) *
+            ((S_81952B4C_0 *)effect)->unk_34 * 8;
+        ((S_81952B4C_0 *)effect)->unk_04 =
+            func_800644B8(((S_81952B4C_0 *)effect)->unk_28.s) *
+            ((S_81952B4C_0 *)effect)->unk_34 * 8;
+        ((S_81952B4C_0 *)effect)->unk_24.s = 2;
     }
 
-    ((S_81952B4C_1 *)arg1)->unk_0E = ((S_81952B4C_1 *)arg1)->unk_00.at02.v;
-    ((S_81952B4C_1 *)arg1)->unk_12 = ((S_81952B4C_1 *)arg1)->unk_04.at02.v;
-    ((S_81952B4C_1 *)arg1)->unk_16 = ((S_81952B4C_1 *)arg1)->unk_08.at02.v;
+    ((S_81952B4C_1 *)position)->unk_0E = ((S_81952B4C_1 *)position)->unk_00.at02.v;
+    ((S_81952B4C_1 *)position)->unk_12 = ((S_81952B4C_1 *)position)->unk_04.at02.v;
+    ((S_81952B4C_1 *)position)->unk_16 = ((S_81952B4C_1 *)position)->unk_08.at02.v;
 
-    state = ((S_81952B4C_0 *)arg0)->unk_24.s;
+    state = ((S_81952B4C_0 *)effect)->unk_24.s;
     if (state == 1) {
-        goto update;
+        goto move;
     }
     if (state < 2) {
         if (state == 0) {
-            goto state_zero;
+            goto grow;
         }
         func_800245F0();
         return;
     }
     if (state == 2) {
-        goto state_two;
+        goto fade_out;
     }
     func_800245F0();
     return;
 
-state_zero:
-    scale = ((S_81952B4C_2 *)arg2)->unk_1E;
-            scale += (0x1000 - scale) / ((S_81952B4C_0 *)arg0)->unk_2C;
-            ((S_81952B4C_2 *)arg2)->unk_1E = scale;
-            ((S_81952B4C_2 *)arg2)->unk_1C = scale;
-            if (scale >= 0x801) {
-                ((S_81952B4C_2 *)arg2)->unk_1E = 0x800;
-                ((S_81952B4C_2 *)arg2)->unk_1C = 0x800;
-            }
+grow:
+    scale = ((S_81952B4C_2 *)sprite)->unk_1E;
+    scale += (0x1000 - scale) / ((S_81952B4C_0 *)effect)->unk_2C;
+    ((S_81952B4C_2 *)sprite)->unk_1E = scale;
+    ((S_81952B4C_2 *)sprite)->unk_1C = scale;
+    if (scale >= 0x801) {
+        ((S_81952B4C_2 *)sprite)->unk_1E = 0x800;
+        ((S_81952B4C_2 *)sprite)->unk_1C = 0x800;
+    }
 
-            color = ((S_81952B4C_2 *)arg2)->unk_0C.at02.v + 2;
-            ((S_81952B4C_2 *)arg2)->unk_0C.at02.v = color;
-            ((S_81952B4C_2 *)arg2)->unk_0C.at01.v = color;
-            ((S_81952B4C_2 *)arg2)->unk_0C.at00.v = color;
-            if (color >= 0x81) {
-                ((S_81952B4C_2 *)arg2)->unk_0C.at00u.v = 0x00808080;
-            }
+    brightness = ((S_81952B4C_2 *)sprite)->unk_0C.at02.v + 2;
+    ((S_81952B4C_2 *)sprite)->unk_0C.at02.v = brightness;
+    ((S_81952B4C_2 *)sprite)->unk_0C.at01.v = brightness;
+    ((S_81952B4C_2 *)sprite)->unk_0C.at00.v = brightness;
+    if (brightness >= 0x81) {
+        ((S_81952B4C_2 *)sprite)->unk_0C.at00u.v = 0x00808080;
+    }
 
-            ((S_81952B4C_1 *)arg1)->unk_00.at00.v =
-                (((S_81952B4C_0 *)arg0)->unk_10 << 16) +
-                func_80064584(((S_81952B4C_0 *)arg0)->unk_28.s) *
-                ((S_81952B4C_0 *)arg0)->unk_34 * 8;
-            ((S_81952B4C_1 *)arg1)->unk_04.at00.v =
-                (((S_81952B4C_0 *)arg0)->unk_12 << 16) +
-                func_800644B8(((S_81952B4C_0 *)arg0)->unk_28.s) *
-                ((S_81952B4C_0 *)arg0)->unk_34 * 8;
+    ((S_81952B4C_1 *)position)->unk_00.at00.v =
+        (((S_81952B4C_0 *)effect)->unk_10 << 16) +
+        func_80064584(((S_81952B4C_0 *)effect)->unk_28.s) *
+        ((S_81952B4C_0 *)effect)->unk_34 * 8;
+    ((S_81952B4C_1 *)position)->unk_04.at00.v =
+        (((S_81952B4C_0 *)effect)->unk_12 << 16) +
+        func_800644B8(((S_81952B4C_0 *)effect)->unk_28.s) *
+        ((S_81952B4C_0 *)effect)->unk_34 * 8;
 
-            ((S_81952B4C_0 *)arg0)->unk_08 -= 0x5000;
-            angle = (u16)((S_81952B4C_0 *)arg0)->unk_34 + 4;
-            ((S_81952B4C_0 *)arg0)->unk_34 = angle;
-            if (angle >= 0x41) {
-                ((S_81952B4C_0 *)arg0)->unk_34 = 0x40;
-            }
+    ((S_81952B4C_0 *)effect)->unk_08 -= 0x5000;
+    radius = (u16)((S_81952B4C_0 *)effect)->unk_34 + 4;
+    ((S_81952B4C_0 *)effect)->unk_34 = radius;
+    if (radius >= 0x41) {
+        ((S_81952B4C_0 *)effect)->unk_34 = 0x40;
+    }
 
-            ((S_81952B4C_0 *)arg0)->unk_28.u += 0x180;
-            life = (u16)((S_81952B4C_0 *)arg0)->unk_2C - 1;
-            ((S_81952B4C_0 *)arg0)->unk_2C = life;
-            if ((life << 16) <= 0) {
-                ((S_81952B4C_0 *)arg0)->unk_24.u++;
-                func_800245F0();
-                return;
-            }
-    goto update;
-
-state_two:
-        x = ((S_81952B4C_0 *)arg0)->unk_00;
-        y = ((S_81952B4C_0 *)arg0)->unk_04;
-        ((S_81952B4C_0 *)arg0)->unk_00 = x + (x >> 1);
-        ((S_81952B4C_0 *)arg0)->unk_04 = y + (y >> 1);
-        ((S_81952B4C_0 *)arg0)->unk_08 += 0x10000;
-
-        color = ((S_81952B4C_2 *)arg2)->unk_0C.at02.v - 4;
-        ((S_81952B4C_2 *)arg2)->unk_0C.at02.v = color;
-        ((S_81952B4C_2 *)arg2)->unk_0C.at01.v = color;
-        ((S_81952B4C_2 *)arg2)->unk_0C.at00.v = color;
-        if ((s8)color > 0) {
-            goto update;
-        }
-
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
-        flags = D_800814A0 | 0x8000;
-        ((S_81952B4C_0 *)arg0)->unk_24.u++;
-        D_800814A0 = flags;
-        func_80024638();
+    ((S_81952B4C_0 *)effect)->unk_28.u += 0x180;
+    frames_left = (u16)((S_81952B4C_0 *)effect)->unk_2C - 1;
+    ((S_81952B4C_0 *)effect)->unk_2C = frames_left;
+    if ((frames_left << 16) <= 0) {
+        ((S_81952B4C_0 *)effect)->unk_24.u++;
+        func_800245F0();
         return;
+    }
+    goto move;
 
-update:
-    ((S_81952B4C_0 *)arg0)->unk_2A++;
-    ((S_81952B4C_1 *)arg1)->unk_00.at00.v += ((S_81952B4C_0 *)arg0)->unk_00;
-    ((S_81952B4C_1 *)arg1)->unk_04.at00.v += ((S_81952B4C_0 *)arg0)->unk_04;
-    ((S_81952B4C_1 *)arg1)->unk_08.at00.v += ((S_81952B4C_0 *)arg0)->unk_08;
+fade_out:
+    velocity_x = ((S_81952B4C_0 *)effect)->unk_00;
+    velocity_y = ((S_81952B4C_0 *)effect)->unk_04;
+    ((S_81952B4C_0 *)effect)->unk_00 = velocity_x + (velocity_x >> 1);
+    ((S_81952B4C_0 *)effect)->unk_04 = velocity_y + (velocity_y >> 1);
+    ((S_81952B4C_0 *)effect)->unk_08 += 0x10000;
+
+    brightness = ((S_81952B4C_2 *)sprite)->unk_0C.at02.v - 4;
+    ((S_81952B4C_2 *)sprite)->unk_0C.at02.v = brightness;
+    ((S_81952B4C_2 *)sprite)->unk_0C.at01.v = brightness;
+    ((S_81952B4C_2 *)sprite)->unk_0C.at00.v = brightness;
+    if ((s8)brightness > 0) {
+        goto move;
+    }
+
+    (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+    global_flags = D_800814A0 | 0x8000;
+    ((S_81952B4C_0 *)effect)->unk_24.u++;
+    D_800814A0 = global_flags;
+    func_80024638();
+    return;
+
+move:
+    ((S_81952B4C_0 *)effect)->unk_2A++;
+    ((S_81952B4C_1 *)position)->unk_00.at00.v += ((S_81952B4C_0 *)effect)->unk_00;
+    ((S_81952B4C_1 *)position)->unk_04.at00.v += ((S_81952B4C_0 *)effect)->unk_04;
+    ((S_81952B4C_1 *)position)->unk_08.at00.v += ((S_81952B4C_0 *)effect)->unk_08;
 }

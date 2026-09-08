@@ -26,131 +26,132 @@ extern s32 D_80083460;
 extern u8 D_80171094;
 extern u8 D_801764B0;
 
-void func_80173770(S_80173770_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
+/* Slows directional motion, then aligns the entity to its tile and finishes the motion state. */
+void func_80173770(S_80173770_0 *motion_state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile, void *entity)
 {
-    s16 timer;
-    s32 value;
-    s32 value2;
-    s32 adjusted;
+    s16 frames_left;
+    s32 velocity_or_entity;
+    s32 y_velocity;
+    s32 division_bias;
     s32 state;
-    s32 countdown;
+    s32 next_timer;
 
-    state = arg0->unk_9B;
+    state = motion_state->unk_9B;
     if (state == 1) {
-        goto state_1;
+        goto slow_motion;
     }
     if ((s32)state < 2) {
         if (state == 0) {
-            goto state_0;
+            goto start_motion;
         }
         return;
     }
     if (state == 2) {
-        goto state_2;
+        goto align_to_tile;
     }
     return;
 
-state_0:
-    func_800AD4D0(arg3);
-    arg1->unk_0C.as_s32 =
+start_motion:
+    func_800AD4D0(entity);
+    motion->unk_0C.as_s32 =
         *(s16 *)((u8 *)&D_8006CCD8 +
-            ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
-    arg1->unk_10.at00_s32.v =
+            ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
+    motion->unk_10.at00_s32.v =
         *(s16 *)((u8 *)&D_8006CCE8 +
-            ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
-    arg0->unk_9B++;
+            ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
+    motion_state->unk_9B++;
 
-    if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
+    if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
         goto reset_motion;
     }
-    if (arg2->unk_14.at00_u16.v & 0x8000) {
-        arg0->unk_96.s = 0;
-        arg0->unk_9B = 2;
+    if (tile->unk_14.at00_u16.v & 0x8000) {
+        motion_state->unk_96.s = 0;
+        motion_state->unk_9B = 2;
         return;
     }
-    timer = -1;
-    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228) {
-        timer = 8;
+    frames_left = -1;
+    if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228) {
+        frames_left = 8;
     }
-    arg0->unk_96.s = timer;
+    motion_state->unk_96.s = frames_left;
 
-state_1:
-    value = arg1->unk_0C.as_s32;
-    adjusted = value;
-    if (value < 0) {
-        adjusted = value + 3;
+slow_motion:
+    velocity_or_entity = motion->unk_0C.as_s32;
+    division_bias = velocity_or_entity;
+    if (velocity_or_entity < 0) {
+        division_bias = velocity_or_entity + 3;
     }
-    value2 = arg1->unk_10.at00_s32.v;
-    arg1->unk_0C.as_s32 = value - (adjusted >> 2);
+    y_velocity = motion->unk_10.at00_s32.v;
+    motion->unk_0C.as_s32 = velocity_or_entity - (division_bias >> 2);
 
-    adjusted = value2;
-    if (value2 < 0) {
-        adjusted = value2 + 3;
+    division_bias = y_velocity;
+    if (y_velocity < 0) {
+        division_bias = y_velocity + 3;
     }
-    arg1->unk_10.at00_s32.v = value2 - (adjusted >> 2);
+    motion->unk_10.at00_s32.v = y_velocity - (division_bias >> 2);
 
-    if (arg0->unk_96.s > 0) {
-        arg0->unk_96.u = arg0->unk_96.u - 1;
-    } else if (arg2->unk_14.at00_u16.v & 0x6000) {
-        arg0->unk_96.s = 0;
+    if (motion_state->unk_96.s > 0) {
+        motion_state->unk_96.u = motion_state->unk_96.u - 1;
+    } else if (tile->unk_14.at00_u16.v & 0x6000) {
+        motion_state->unk_96.s = 0;
     }
 
-    if (arg0->unk_96.s != 0) {
+    if (motion_state->unk_96.s != 0) {
         return;
     }
-    if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
-        goto increment_state;
+    if (((Rec_D_800E3D7C *)entity)->unk_28 != 0) {
+        goto start_alignment;
     }
 
 reset_motion:
-    arg1->unk_14.as_s32 = 0;
-    arg1->unk_10.at00_s32.v = 0;
-    arg1->unk_0C.as_s32 = 0;
-    func_800AAA54(arg0, arg1, arg2, &D_801764B0);
+    motion->unk_14.as_s32 = 0;
+    motion->unk_10.at00_s32.v = 0;
+    motion->unk_0C.as_s32 = 0;
+    func_800AAA54(motion_state, motion, tile, &D_801764B0);
     return;
 
-increment_state:
-    arg0->unk_96.s = 8;
-    arg0->unk_9B++;
+start_alignment:
+    motion_state->unk_96.s = 8;
+    motion_state->unk_9B++;
     return;
 
-state_2:
-    timer = arg0->unk_96.s;
-    if (timer > 0) {
-        s32 coord;
-        s32 current;
+align_to_tile:
+    frames_left = motion_state->unk_96.s;
+    if (frames_left > 0) {
+        s32 tile_coord;
+        s32 coord_offset;
 
-        coord = arg2->unk_24 << 6;
-        current = arg1->unk_00.at02_s16.v;
-        current -= 0x20;
-        arg1->unk_0C.as_s32 = ((coord - current) << 16) / timer;
+        tile_coord = tile->unk_24 << 6;
+        coord_offset = motion->unk_00.at02_s16.v;
+        coord_offset -= 0x20;
+        motion->unk_0C.as_s32 = ((tile_coord - coord_offset) << 16) / frames_left;
 
-        current = arg1->unk_04.at02_s16.v;
-        current -= 0x20;
-        coord = arg2->unk_25 << 6;
-        arg1->unk_10.at00_s32.v =
-            ((coord - current) << 16) / arg0->unk_96.s;
+        coord_offset = motion->unk_04.at02_s16.v;
+        coord_offset -= 0x20;
+        tile_coord = tile->unk_25 << 6;
+        motion->unk_10.at00_s32.v =
+            ((tile_coord - coord_offset) << 16) / motion_state->unk_96.s;
     }
 
-    countdown = arg0->unk_96.u - 1;
-    arg0->unk_96.p = countdown;
-    if ((countdown << 16) > 0) {
+    next_timer = motion_state->unk_96.u - 1;
+    motion_state->unk_96.p = next_timer;
+    if ((next_timer << 16) > 0) {
         return;
     }
 
-    arg1->unk_14.as_s32 = 0;
-    arg1->unk_10.at00_s32.v = 0;
-    arg1->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, arg2->unk_24,
-        arg2->unk_25);
+    motion->unk_14.as_s32 = 0;
+    motion->unk_10.at00_s32.v = 0;
+    motion->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, tile->unk_24,
+        tile->unk_25);
     {
-        s32 *global;
+        s32 *entity_globals;
 
-        global = &D_80083460;
-        value = global[4];
-        if (value == (s32)((u8 *)arg3 - 0x20)) {
-            global[4] = value & 0x7FFFFFFF;
+        entity_globals = &D_80083460;
+        velocity_or_entity = entity_globals[4];
+        if (velocity_or_entity == (s32)((u8 *)entity - 0x20)) {
+            entity_globals[4] = velocity_or_entity & 0x7FFFFFFF;
         }
     }
-    arg0->unk_8C = &D_80171094;
+    motion_state->unk_8C = &D_80171094;
 }

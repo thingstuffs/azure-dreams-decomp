@@ -32,72 +32,74 @@ M2C_UNK func_80053DA8();
 extern void *D_800814A8[];
 extern M2C_UNK D_80083160[8];
 
-void func_8004FAA4(S_8004FAA4_1 *arg0) {
-    M2C_UNK var_a1;
+/* Update menu selection from directional and side-switch input, with key repeat and sound. */
+void func_8004FAA4(S_8004FAA4_1 *menu) {
+    M2C_UNK target_side;
     M2C_UNK *input;
-    void *call_arg0;
-    s32 temp_v0;
-    s32 temp_v1;
-    s32 var_s0;
+    void *target_menu;
+    s32 next_index;
+    s32 repeat_ticks;
+    s32 held_buttons;
+    s32 index_delta;
 
     input = D_80083160;
-    var_s0 = 0;
-    if ((((S_8004FAA4_0 *)input)->unk_08.s != 0) && (arg0->unk_24 >= 2)) {
+    index_delta = 0;
+    if ((((S_8004FAA4_0 *)input)->unk_08.s != 0) && (menu->unk_24 >= 2)) {
         if (((S_8004FAA4_0 *)input)->unk_08.s & 0xA000) {
             if (((S_8004FAA4_0 *)input)->unk_10 & 0x2000) {
-                var_s0 = 1;
-                goto block_7;
+                index_delta = 1;
+                goto start_repeat;
             }
             if (((S_8004FAA4_0 *)input)->unk_10 & 0x8000) {
-                var_s0 = -1;
-block_7:
-                arg0->unk_38 = 0;
-                arg0->unk_28 = 4;
+                index_delta = -1;
+start_repeat:
+                menu->unk_38 = 0;
+                menu->unk_28 = 4;
             } else {
-                temp_v1 = arg0->unk_38;
-                if (temp_v1 >= 9) {
-                    arg0->unk_38 = (s32) (temp_v1 - 2);
-                    temp_v1 = ((S_8004FAA4_0 *)input)->unk_08.u;
-                    if (temp_v1 & 0x2000) {
-                        var_s0 = 1;
-                        goto block_13;
+                repeat_ticks = menu->unk_38;
+                if (repeat_ticks >= 9) {
+                    menu->unk_38 = (s32) (repeat_ticks - 2);
+                    held_buttons = ((S_8004FAA4_0 *)input)->unk_08.u;
+                    if (held_buttons & 0x2000) {
+                        index_delta = 1;
+                        goto repeat_move;
                     }
-                    if (temp_v1 & 0x8000) {
-                        var_s0 = -1;
-block_13:
-                        arg0->unk_28 = 3;
+                    if (held_buttons & 0x8000) {
+                        index_delta = -1;
+repeat_move:
+                        menu->unk_28 = 3;
                     }
                 } else {
-                    arg0->unk_38 = (s32) (temp_v1 + 1);
+                    menu->unk_38 = (s32) (repeat_ticks + 1);
                 }
             }
         }
-        if (var_s0 == 0) {
+        if (index_delta == 0) {
             if (((S_8004FAA4_0 *)input)->unk_10 & 1) {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
                 if (((S_8004FAA4_2 *)(D_800814A8[0]))->unk_B0 != 0) {
-                    call_arg0 = arg0;
-                    var_a1 = 1;
-                    goto block_22;
+                    target_menu = menu;
+                    target_side = 1;
+                    goto select_target;
                 }
             } else if (((S_8004FAA4_0 *)input)->unk_10 & 2) {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
                 if (((S_8004FAA4_2 *)(D_800814A8[0]))->unk_AC != 0) {
-                    call_arg0 = arg0;
-                    var_a1 = 0;
-block_22:
-                    temp_v0 = func_8004FD78(call_arg0, var_a1);
-                    arg0->unk_28 = 4;
-                    var_s0 = temp_v0 - arg0->unk_30;
+                    target_menu = menu;
+                    target_side = 0;
+select_target:
+                    next_index = func_8004FD78(target_menu, target_side);
+                    menu->unk_28 = 4;
+                    index_delta = next_index - menu->unk_30;
                 }
             }
-            if (var_s0 != 0) {
-                goto block_24;
+            if (index_delta != 0) {
+                goto apply_move;
             }
         } else {
-block_24:
+apply_move:
             func_80053DA8(0x504);
-            func_8004FA2C(arg0, var_s0);
+            func_8004FA2C(menu, index_delta);
         }
     }
 }

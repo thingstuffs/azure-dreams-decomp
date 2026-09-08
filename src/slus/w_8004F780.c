@@ -1,9 +1,5 @@
 #include "common.h"
 
-/* Interpolates a byte value from a lookup table (D_80071790, keyed via two
- * column indices into a 3-byte-stride row array D_80071784) and writes the
- * LERP result into a 3-byte target buffer (RGB-style triple, all channels
- * set to the same interpolated value), once per entry in a0->entries[0..count). */
 typedef struct S_8004F780_Obj {
     /* 0x00 */ u8 pad0[4];
     /* 0x04 */ u8 *buf;
@@ -27,25 +23,26 @@ typedef struct S_8004F780 {
 extern u8 D_80071784[];
 extern u8 D_80071790[];
 
-void func_8004F780(S_8004F780 *a0)
+/* Interpolates table values and fills each entry's three-byte buffer with the result. */
+void func_8004F780(S_8004F780 *state)
 {
-    s32 i;
+    s32 entry_index;
     u8 *row;
-    s32 valA;
-    s32 valB;
-    s32 quot;
+    s32 start_value;
+    s32 end_value;
+    s32 value_delta;
     S_8004F780_Entry *entry;
     S_8004F780_Obj *obj;
 
-    for (i = 0; i < a0->count; i++) {
-        entry = a0->entries[i];
-        row = D_80071784 + i * 3;
-        valA = D_80071790[row[a0->idxA] * 4];
-        valB = D_80071790[row[a0->idxB] * 4];
-        quot = (valB - valA) * a0->multiplier / a0->divisor;
+    for (entry_index = 0; entry_index < state->count; entry_index++) {
+        entry = state->entries[entry_index];
+        row = D_80071784 + entry_index * 3;
+        start_value = D_80071790[row[state->idxA] * 4];
+        end_value = D_80071790[row[state->idxB] * 4];
+        value_delta = (end_value - start_value) * state->multiplier / state->divisor;
 
         obj = entry->obj;
-        obj->buf[0] = valA + quot;
+        obj->buf[0] = start_value + value_delta;
         obj->buf[1] = obj->buf[0];
         obj->buf[2] = obj->buf[0];
     }

@@ -4,7 +4,7 @@ typedef s32 M2C_UNK;
 
 extern M2C_UNK func_80033CD8();
 extern M2C_UNK func_80033D08();
-extern s32 func_8009D20C();
+extern s32 func_8009D20C(void *, s32);
 extern M2C_UNK func_800A8BBC();
 extern s32 D_800814A0;
 extern M2C_UNK D_800A9528;
@@ -15,7 +15,7 @@ void func_800A9624(void *arg0, s32 arg1, M2C_UNK arg2) {
     s32 state;
     M2C_UNK (*callback)(void *, s32, M2C_UNK);
 
-    state = func_8009D20C();
+    state = func_8009D20C(arg0, arg1);
     if (state == 1) {
         func_800A8BBC(0x1B, 0x1C, 0x1D, 0x1E, arg1);
         if (FIELD(arg0, s8 **, 0x98) != 0) {

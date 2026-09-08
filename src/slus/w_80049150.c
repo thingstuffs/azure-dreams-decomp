@@ -3,19 +3,16 @@
 extern s32 func_80048F8C(s32 *a0, s32 a1);
 extern s32 allocBufferArray(s32 *a0, s32 a1);
 
-/* Advance past the first `a2` (or fewer, if a zero-entry is hit sooner) live
- * entries of the array at a0, then attempt to reserve/allocate a1/21 + 1
- * slots starting there via allocBufferArray. Returns the advanced pointer on
- * success, or NULL on failure. */
-s32 *func_80049150(s32 *a0, u32 a1, s32 a2)
+/* Skip live entries and allocate size / 21 + 1 slots, returning their pointer or NULL on failure. */
+s32 *func_80049150(s32 *entries, u32 size, s32 skip_limit)
 {
-    s32 count;
-    s32 *p;
+    s32 skip_count;
+    s32 *slots;
 
-    count = func_80048F8C(a0, a2);
-    p = a0 + count;
-    if (!allocBufferArray(p, a1 / 21 + 1)) {
-        p = 0;
+    skip_count = func_80048F8C(entries, skip_limit);
+    slots = entries + skip_count;
+    if (!allocBufferArray(slots, size / 21 + 1)) {
+        slots = 0;
     }
-    return p;
+    return slots;
 }

@@ -1,11 +1,5 @@
 #include "common.h"
 
-/* Allocates a new entity node via func_8003FC64(0). On success, links the new
- * node's sub-object slot (offset 0x20) to point back at a0, clears bit 0x2000
- * in both the new node's and a0's flags word, sets the new node's self-pointer
- * (offset 0x24) and clears its byte flag (offset 0x2C), and installs
- * func_80051164 as the new node's callback (offset 0x10). Returns the new
- * node, or NULL if allocation failed. */
 typedef struct S_800511B4_sub {
     void *unk0;                /* 0x00 (== entity offset 0x20): related entity */
     struct S_800511B4_entity *self; /* 0x04 (== entity offset 0x24) */
@@ -25,19 +19,20 @@ typedef struct S_800511B4_entity {
 extern void *func_8003FC64(s32 a0);
 extern void func_80051164(void *a0);
 
-void *func_800511B4(S_800511B4_entity *a0)
+/* Allocates and initializes a new entity linked to the related entity, or returns NULL. */
+void *func_800511B4(S_800511B4_entity *related_entity)
 {
-    S_800511B4_entity *v1 = func_8003FC64(0);
+    S_800511B4_entity *new_entity = func_8003FC64(0);
     S_800511B4_sub *sub;
 
-    if (v1 != 0) {
-        v1->sub.unk0 = a0;
-        v1->flags &= 0xDFFF;
-        a0->flags &= 0xDFFF;
-        sub = &v1->sub;
-        sub->self = v1;
+    if (new_entity != 0) {
+        new_entity->sub.unk0 = related_entity;
+        new_entity->flags &= 0xDFFF;
+        related_entity->flags &= 0xDFFF;
+        sub = &new_entity->sub;
+        sub->self = new_entity;
         sub->flag = 0;
-        v1->field_0x10 = func_80051164;
+        new_entity->field_0x10 = func_80051164;
     }
-    return v1;
+    return new_entity;
 }

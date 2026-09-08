@@ -40,11 +40,12 @@ extern void func_8003F540(s32, s32, s32, s32);
 extern void func_80053DA8(s32);
 extern void func_80093CEC(void *);
 
+/* Update object motion, scoring, and timed state transitions. */
 void func_80023B14(TownObject *obj_arg, TownMotion *motion)
 {
     TownObject *obj = obj_arg;
     TownChild *child;
-    s16 timer;
+    s16 ticks_left;
     register u16 state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     ASM_KEEP_NV(obj);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -55,15 +56,15 @@ void func_80023B14(TownObject *obj_arg, TownMotion *motion)
     motion->y += motion->dy;
     motion->dy += motion->dz;
 
-    timer = obj->timer - 1;
-    obj->timer = timer;
+    ticks_left = obj->timer - 1;
+    obj->timer = ticks_left;
 
     switch (obj->state) {
     case 0:
     case 0x40: {
         s32 y;
-        u16 count;
-        s16 signed_count;
+        u16 score;
+        s16 signed_score;
         s32 next_timer;
 
         if (motion->dy < 0) {
@@ -93,17 +94,17 @@ void func_80023B14(TownObject *obj_arg, TownMotion *motion)
         }
 
         func_80053DA8(0x512);
-        signed_count = child->count;
-        count = *(volatile u16 *)&child->count;
-        if (signed_count < 9999) {
+        signed_score = child->count;
+        score = *(volatile u16 *)&child->count;
+        if (signed_score < 9999) {
             if (obj->state != 0) {
                 next_timer = 8;
                 goto store_timer;
             }
-            count++;
-            child->count = count;
-            if ((D_800135C2[0] << 16) < (count << 16)) {
-                D_800135C2[0] = count;
+            score++;
+            child->count = score;
+            if ((D_800135C2[0] << 16) < (score << 16)) {
+                D_800135C2[0] = score;
             }
         }
         next_timer = obj->state;
@@ -124,7 +125,7 @@ store_timer:
     }
 
     case 1:
-        if ((timer << 16) > 0) {
+        if ((ticks_left << 16) > 0) {
             break;
         }
         obj->timer = 8;
@@ -134,7 +135,7 @@ store_timer:
         goto advance_state;
 
     case 2:
-        if ((timer << 16) >= 0) {
+        if ((ticks_left << 16) >= 0) {
             break;
         }
         func_80053DA8(0x525);
@@ -143,7 +144,7 @@ store_timer:
         goto set_state_ff;
 
     case 0x20:
-        if ((timer << 16) > 0) {
+        if ((ticks_left << 16) > 0) {
             break;
         }
         obj->timer = 10;
@@ -155,9 +156,9 @@ store_timer:
         s32 target_z = target->z;
         s32 z = motion->z;
         s32 y = motion->y;
-        s32 y_offset = y + 0x600000;
+        s32 offset_y = y + 0x600000;
         motion->z = z + ((target_z - z) >> 1);
-        motion->y = y + ((target->y - y_offset) >> 1);
+        motion->y = y + ((target->y - offset_y) >> 1);
         if ((s16)obj->timer <= 0) {
             obj->state = 1;
         }
@@ -165,15 +166,15 @@ store_timer:
     }
 
     case 0x41: {
-        s16 *score_ptr;
+        s16 *best_score;
 
-        if ((timer << 16) > 0) {
+        if ((ticks_left << 16) > 0) {
             break;
         }
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        score_ptr = (s16 *)D_800135C2;
+        best_score = (s16 *)D_800135C2;
         ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        if (*score_ptr == child->count) {
+        if (*best_score == child->count) {
             func_8003F540(0, 0x2C3D, 0x01000001, 0x01000271);
         } else {
             func_8003F540(0, 0x2C3D, 0, 0x01000290);
@@ -191,11 +192,11 @@ advance_state:
     case 0x42: {
         child->flags |= 2;
         {
-            s32 x2 = motion->x;
+            s32 x = motion->x;
             s32 z = motion->z;
             s32 y = motion->y;
 
-            motion->x = x2 + (((s32)0x03800000 - x2) >> 1);
+            motion->x = x + (((s32)0x03800000 - x) >> 1);
             motion->z = z + (((s32)0x03C00000 - z) >> 1);
             motion->y = y + ((-y) >> 1);
             if ((s16)obj->timer > 0) {
@@ -211,16 +212,16 @@ set_state_ff:
         goto epilogue;
 
     case 0xFF: {
-        u16 *flags = (u16 *)obj - 1;
-        s32 *global = D_800814A0;
-        s32 global_flags;
+        u16 *object_flags = (u16 *)obj - 1;
+        s32 *global_flags_ptr = D_800814A0;
+        s32 updated_flags;
 
-        *flags |= 0x8000;
-        global_flags = global[0] | 0x8000;
-        global[0] = global_flags;
+        *object_flags |= 0x8000;
+        updated_flags = global_flags_ptr[0] | 0x8000;
+        global_flags_ptr[0] = updated_flags;
         if ((s16)obj->timer <= 0) {
-            *flags |= 0x8000;
-            global[0] = global_flags;
+            *object_flags |= 0x8000;
+            global_flags_ptr[0] = updated_flags;
         }
         break;
     }

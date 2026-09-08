@@ -14,8 +14,9 @@ typedef struct S_8003832C_0 {
 M2C_UNK func_80039AF0();                            /* extern */
 extern M2C_UNK func_80038368;
 
-void func_8003832C(S_8003832C_0 *arg0) {
+/* Initialize the context and set its next handler and state. */
+void func_8003832C(S_8003832C_0 *context) {
     func_80039AF0();
-    arg0->unk_18 = 5;
-    arg0->unk_10 = &func_80038368;
+    context->unk_18 = 5;
+    context->unk_10 = &func_80038368;
 }

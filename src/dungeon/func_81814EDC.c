@@ -140,144 +140,145 @@ M2C_UNK func_8009CE1C();
 s32 func_800A4778();
 extern M2C_UNK D_80024280;
 
-void func_81814EDC(void *arg0, void *arg1) {
-    s16 temp_a0_2;
-    s16 temp_s0_9;
-    s32 temp_s0;
-    s32 temp_s0_4;
-    s32 temp_s1;
-    s32 temp_s1_3;
-    s32 var_s4;
-    s32 temp_s6;
-    s32 temp_s7;
-    s32 temp_s8;
-    u16 temp_v0_2;
-    u16 temp_v0_5;
-    void *temp_a0;
-    S_81814EDC_11 *temp_a0_3;
-    S_81814EDC_9 *temp_a1;
-    S_81814EDC_2 *temp_s0_2;
-    S_81814EDC_4 *temp_s1_2;
-    S_81814EDC_5 *temp_s1_4;
-    S_81814EDC_6 *temp_s3;
-    void *temp_v0;
+/* Spawns particles, moves the effect, and restores its owner after the fade. */
+void func_81814EDC(void *effect, void *position) {
+    s16 state;
+    s16 effect_type;
+    s32 spark_speed;
+    s32 burst_speed;
+    s32 spark_kind;
+    s32 burst_kind;
+    s32 effect_index;
+    s32 neutral_color;
+    s32 double_scale;
+    s32 unit_scale;
+    u16 ticks_left;
+    u16 fade_ticks;
+    void *owner;
+    S_81814EDC_11 *owner_flags;
+    S_81814EDC_9 *owner_sprite;
+    S_81814EDC_2 *sprite;
+    S_81814EDC_4 *spawn_position;
+    S_81814EDC_5 *debris;
+    S_81814EDC_6 *owner_position;
+    void *particle;
 
-    if (((S_81814EDC_0 *)arg0)->unk_00 == 0) {
-        if (!(((S_81814EDC_0 *)arg0)->unk_0A & 1)) {
-            temp_s1 = func_80069EF8() & 7;
-            temp_s0 = (func_80069EF8() & 0xFF) | 0x80;
-            func_800245BC(arg0 - 0x20, temp_s1, 0xF0, temp_s0, 0, 0, (s32) (s16) (-0x20 - (func_80069EF8() & 0x1F)));
+    if (((S_81814EDC_0 *)effect)->unk_00 == 0) {
+        if (!(((S_81814EDC_0 *)effect)->unk_0A & 1)) {
+            spark_kind = func_80069EF8() & 7;
+            spark_speed = (func_80069EF8() & 0xFF) | 0x80;
+            func_800245BC(effect - 0x20, spark_kind, 0xF0, spark_speed, 0, 0, (s32) (s16) (-0x20 - (func_80069EF8() & 0x1F)));
         }
-        temp_v0 = func_8003FC64(0x212);
-        if (temp_v0 != NULL) {
-            void **arg1_addr = &arg1;
+        particle = func_8003FC64(0x212);
+        if (particle != NULL) {
+            void **position_ref = &position;
 
-            ((S_81814EDC_1 *)temp_v0)->unk_22 = 9;
-            ((S_81814EDC_1 *)temp_v0)->unk_10 = &D_80024280;
-            func_8004491C(temp_v0, D_80045340);
-            temp_s0_2 = ((S_81814EDC_1 *)temp_v0)->unk_0C;
-            temp_s0_2->unk_14 = (u16) (temp_s0_2->unk_14 | 0xC);
-            temp_s1_2 = ((S_81814EDC_1 *)temp_v0)->unk_08;
+            ((S_81814EDC_1 *)particle)->unk_22 = 9;
+            ((S_81814EDC_1 *)particle)->unk_10 = &D_80024280;
+            func_8004491C(particle, D_80045340);
+            sprite = ((S_81814EDC_1 *)particle)->unk_0C;
+            sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+            spawn_position = ((S_81814EDC_1 *)particle)->unk_08;
             {
                 s32 random_offset = func_80069EF8() & 0x1F;
-                register void *source ASM_REG("$8") = *arg1_addr;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register void *source ASM_REG("$8") = *position_ref;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 coordinate = ((S_81814EDC_3 *)source)->unk_02;
 
                 coordinate -= 0x10;
                 coordinate += random_offset;
-                temp_s1_2->unk_02 = (s16) coordinate;
+                spawn_position->unk_02 = (s16) coordinate;
             }
             {
                 s32 random_offset = func_80069EF8() & 0x1F;
-                register void *source ASM_REG("$8") = *arg1_addr;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register void *source ASM_REG("$8") = *position_ref;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 coordinate = ((S_81814EDC_3 *)source)->unk_06;
 
                 coordinate -= 0x10;
                 coordinate += random_offset;
-                temp_s1_2->unk_06 = (s16) coordinate;
+                spawn_position->unk_06 = (s16) coordinate;
             }
             {
                 s32 random_offset = func_80069EF8() & 7;
-                register void *source ASM_REG("$8") = *arg1_addr;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register void *source ASM_REG("$8") = *position_ref;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 coordinate = ((S_81814EDC_3 *)source)->unk_0A;
 
                 coordinate -= 4;
                 coordinate += random_offset;
-                temp_s1_2->unk_0A.s = (s16) coordinate;
+                spawn_position->unk_0A.s = (s16) coordinate;
             }
-            temp_s0_2 = ((S_81814EDC_1 *)temp_v0)->unk_0C;
-            temp_s0_2->unk_1C = 0x2000;
-            temp_s0_2->unk_1E = 0x1000;
-            temp_s0_2->unk_0E.s = 0x80;
-            temp_s0_2->unk_0D.s = 0x80;
-            temp_s0_2->unk_0C.s = 0x80;
-            func_8003DB94(temp_s0_2, D_800DE938, 0);
-            func_800478B8(temp_s0_2);
-            func_800478B8(temp_s0_2);
+            sprite = ((S_81814EDC_1 *)particle)->unk_0C;
+            sprite->unk_1C = 0x2000;
+            sprite->unk_1E = 0x1000;
+            sprite->unk_0E.s = 0x80;
+            sprite->unk_0D.s = 0x80;
+            sprite->unk_0C.s = 0x80;
+            func_8003DB94(sprite, D_800DE938, 0);
+            func_800478B8(sprite);
+            func_800478B8(sprite);
         }
-        temp_v0_2 = ((S_81814EDC_0 *)arg0)->unk_02.s - 1;
-        ((S_81814EDC_0 *)arg0)->unk_02.s = temp_v0_2;
-        if ((temp_v0_2 << 0x10) <= 0) {
-            var_s4 = 0;
-            if (((S_81814EDC_0 *)arg0)->unk_08 != 0) {
+        ticks_left = ((S_81814EDC_0 *)effect)->unk_02.s - 1;
+        ((S_81814EDC_0 *)effect)->unk_02.s = ticks_left;
+        if ((ticks_left << 0x10) <= 0) {
+            effect_index = 0;
+            if (((S_81814EDC_0 *)effect)->unk_08 != 0) {
 loop_effects:
-                var_s4 += 1;
-                temp_s1_3 = func_80069EF8() & 7;
-                temp_s0_4 = (func_80069EF8() & 0xFF) | 0x80;
-                func_800245BC(arg0 - 0x20, temp_s1_3, 0xF0, temp_s0_4, 0, 0, (s32) (s16) (-0x20 - (func_80069EF8() & 0x1F)));
-                if (var_s4 < 4) {
+                effect_index += 1;
+                burst_kind = func_80069EF8() & 7;
+                burst_speed = (func_80069EF8() & 0xFF) | 0x80;
+                func_800245BC(effect - 0x20, burst_kind, 0xF0, burst_speed, 0, 0, (s32) (s16) (-0x20 - (func_80069EF8() & 0x1F)));
+                if (effect_index < 4) {
                     goto loop_effects;
                 }
-                var_s4 = 0;
+                effect_index = 0;
                 do {
-                    temp_v0 = func_8003FC64(0x212);
-                    temp_s1_4 = temp_v0 + 0x20;
-                    if (temp_v0 != NULL) {
+                    particle = func_8003FC64(0x212);
+                    debris = particle + 0x20;
+                    if (particle != NULL) {
                         s32 random_offset;
                         s32 coordinate;
 
-                        temp_s1_4->unk_02 = 0xD;
-                        temp_s3 = ((S_81814EDC_12_pre *)(((S_81814EDC_0 *)arg0)->unk_30))[-1].unk_00;
-                        ((S_81814EDC_1 *)temp_v0)->unk_10 = &D_80024280;
-                        func_8004491C(temp_v0, D_80045340);
-                        temp_s0_2 = ((S_81814EDC_1 *)temp_v0)->unk_0C;
-                        temp_s0_2->unk_14 = (u16) (temp_s0_2->unk_14 | 0xC);
-                        temp_s1_4->unk_58 = (s32) (((func_80069EF8() & 0x7FFF) << 5) + 0xFFF80000);
-                        temp_s1_4->unk_5C = (s32) (((func_80069EF8() & 0x7FFF) << 5) + 0xFFF80000);
-                        temp_s1_4->unk_60 = (s32) (((func_80069EF8() & 0x3FFF) << 5) + 0xFFF80000);
-                        temp_s1_4 = ((S_81814EDC_1 *)temp_v0)->unk_08;
+                        debris->unk_02 = 0xD;
+                        owner_position = ((S_81814EDC_12_pre *)(((S_81814EDC_0 *)effect)->unk_30))[-1].unk_00;
+                        ((S_81814EDC_1 *)particle)->unk_10 = &D_80024280;
+                        func_8004491C(particle, D_80045340);
+                        sprite = ((S_81814EDC_1 *)particle)->unk_0C;
+                        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+                        debris->unk_58 = (s32) (((func_80069EF8() & 0x7FFF) << 5) + 0xFFF80000);
+                        debris->unk_5C = (s32) (((func_80069EF8() & 0x7FFF) << 5) + 0xFFF80000);
+                        debris->unk_60 = (s32) (((func_80069EF8() & 0x3FFF) << 5) + 0xFFF80000);
+                        debris = ((S_81814EDC_1 *)particle)->unk_08;
                         random_offset = func_80069EF8() & 0xF;
-                        coordinate = temp_s3->unk_02;
+                        coordinate = owner_position->unk_02;
                         coordinate -= 8;
                         coordinate += random_offset;
-                        temp_s1_4->unk_02 = (s16) coordinate;
+                        debris->unk_02 = (s16) coordinate;
                         random_offset = func_80069EF8() & 1;
-                        coordinate = temp_s3->unk_06;
+                        coordinate = owner_position->unk_06;
                         coordinate -= 1;
                         coordinate += random_offset;
-                        temp_s1_4->unk_06 = (s16) coordinate;
-                        temp_s1_4->unk_0A = (s16) (temp_s3->unk_0A - 0x20);
-                        temp_s0_2 = ((S_81814EDC_1 *)temp_v0)->unk_0C;
-                        temp_s0_2->unk_1E = 0x1000;
-                        temp_s0_2->unk_1C = 0x1000;
-                        temp_s0_2->unk_0E.s = 0x80;
-                        temp_s0_2->unk_0D.s = 0x80;
-                        temp_s0_2->unk_0C.s = 0x80;
-                        func_8003DB94(temp_s0_2, D_800DE870, 0);
+                        debris->unk_06 = (s16) coordinate;
+                        debris->unk_0A = (s16) (owner_position->unk_0A - 0x20);
+                        sprite = ((S_81814EDC_1 *)particle)->unk_0C;
+                        sprite->unk_1E = 0x1000;
+                        sprite->unk_1C = 0x1000;
+                        sprite->unk_0E.s = 0x80;
+                        sprite->unk_0D.s = 0x80;
+                        sprite->unk_0C.s = 0x80;
+                        func_8003DB94(sprite, D_800DE870, 0);
                     }
-                    var_s4 += 1;
-                } while (var_s4 < 2);
-                temp_s8 = 0x1000;
-                var_s4 = 0;
-                temp_s6 = 0x80;
-                temp_s7 = 0x2000;
-loop_13:
-                temp_v0 = func_8003FC64(0x212);
-                if (temp_v0 != NULL) {
+                    effect_index += 1;
+                } while (effect_index < 2);
+                unit_scale = 0x1000;
+                effect_index = 0;
+                neutral_color = 0x80;
+                double_scale = 0x2000;
+spawn_flashes:
+                particle = func_8003FC64(0x212);
+                if (particle != NULL) {
                     s32 random_offset;
                     s32 coordinate;
                     s32 callback_type = 0xB;
-                    register void *task ASM_REG("$4") = temp_v0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    register void *task ASM_REG("$4") = particle;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
                     ASM_KEEP(callback_type);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     {
@@ -285,108 +286,108 @@ loop_13:
                         register u8 *handler ASM_REG("$5") = (u8 *) 0x80040000;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
                         ASM_KEEP(handler);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        ((S_81814EDC_1 *)temp_v0)->unk_22 = callback_type;
-                        source_owner = ((S_81814EDC_0 *)arg0)->unk_30;
+                        ((S_81814EDC_1 *)particle)->unk_22 = callback_type;
+                        source_owner = ((S_81814EDC_0 *)effect)->unk_30;
                         handler += 0x5340;
-                        temp_s3 = ((S_81814EDC_7_pre *)source_owner)[-1].unk_00;
+                        owner_position = ((S_81814EDC_7_pre *)source_owner)[-1].unk_00;
                         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         {
                             register M2C_UNK *callback ASM_REG("$8") = &D_80024280;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                            ((S_81814EDC_1 *)temp_v0)->unk_10 = callback;
+                            ((S_81814EDC_1 *)particle)->unk_10 = callback;
                         }
                         func_8004491C(task, handler);
                     }
-                    temp_s0_2 = ((S_81814EDC_1 *)temp_v0)->unk_0C;
-                    temp_s0_2->unk_14 = (u16) (temp_s0_2->unk_14 | 0xC);
-                    temp_s1_2 = ((S_81814EDC_1 *)temp_v0)->unk_08;
+                    sprite = ((S_81814EDC_1 *)particle)->unk_0C;
+                    sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+                    spawn_position = ((S_81814EDC_1 *)particle)->unk_08;
                     random_offset = func_80069EF8() & 0xF;
-                    coordinate = temp_s3->unk_02;
+                    coordinate = owner_position->unk_02;
                     coordinate -= 8;
                     coordinate += random_offset;
-                    temp_s1_2->unk_02 = (s16) coordinate;
+                    spawn_position->unk_02 = (s16) coordinate;
                     random_offset = func_80069EF8() & 1;
-                    coordinate = temp_s3->unk_06;
+                    coordinate = owner_position->unk_06;
                     coordinate -= 1;
                     coordinate += random_offset;
-                    temp_s1_2->unk_06 = (s16) coordinate;
-                    temp_s1_2->unk_0A.u = (u16) temp_s3->unk_0A;
-                    temp_s0_2 = ((S_81814EDC_1 *)temp_v0)->unk_0C;
-                    temp_s0_2->unk_0E.u = temp_s6;
-                    temp_s0_2->unk_0D.u = temp_s6;
-                    temp_s0_2->unk_0C.u = temp_s6;
-                    temp_s0_2->unk_06 = 7;
-                    if (var_s4 == 0) {
-                        temp_s0_2->unk_1C = temp_s8;
-                        temp_s0_2->unk_1E = temp_s7;
-                        temp_s1_2->unk_0A.u -= 0x14;
+                    spawn_position->unk_06 = (s16) coordinate;
+                    spawn_position->unk_0A.u = (u16) owner_position->unk_0A;
+                    sprite = ((S_81814EDC_1 *)particle)->unk_0C;
+                    sprite->unk_0E.u = neutral_color;
+                    sprite->unk_0D.u = neutral_color;
+                    sprite->unk_0C.u = neutral_color;
+                    sprite->unk_06 = 7;
+                    if (effect_index == 0) {
+                        sprite->unk_1C = unit_scale;
+                        sprite->unk_1E = double_scale;
+                        spawn_position->unk_0A.u -= 0x14;
                         func_80024B08();
                         return;
                     }
-                    temp_s0_2->unk_1C = temp_s7;
-                    temp_s0_2->unk_1E = temp_s8;
+                    sprite->unk_1C = double_scale;
+                    sprite->unk_1E = unit_scale;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    func_8003DB94(temp_s0_2, D_800DE938, 0);
-                    goto block_18;
+                    func_8003DB94(sprite, D_800DE938, 0);
+                    goto next_flash;
                 }
-block_18:
-                var_s4 += 1;
-                if (var_s4 >= 2) {
-                    temp_s0_9 = (s16) ((S_81814EDC_0 *)arg0)->unk_0A;
-                    if (temp_s0_9 == 4) {
-                        func_8009CE1C(((S_81814EDC_0 *)arg0)->unk_30, 0x10, ((S_81814EDC_0 *)arg0)->unk_15, 1, (s32) (s16) (((S_81814EDC_0 *)arg0)->unk_16 << 9), ((S_81814EDC_0 *)arg0)->unk_2C, 2);
-                        if ((s16) ((S_81814EDC_0 *)arg0)->unk_0A == temp_s0_9) {
-                            temp_a0 = ((S_81814EDC_0 *)arg0)->unk_30;
-                            ((S_81814EDC_0 *)arg0)->unk_00 = 1;
-                            temp_a1 = ((S_81814EDC_8_pre *)temp_a0)[-1].unk_00;
-                            ((S_81814EDC_8 *)temp_a0)->unk_1C = (s32) (((S_81814EDC_8 *)temp_a0)->unk_1C | 0x10000000);
-                            temp_a1->unk_0E.s = 0x30;
-                            temp_a1->unk_0D.s = 0x30;
-                            temp_a1->unk_0C.s = 0x30;
-                            ((S_81814EDC_0 *)arg0)->unk_02.u = 0;
-                            func_80024BB8(temp_a0, temp_a1);
+next_flash:
+                effect_index += 1;
+                if (effect_index >= 2) {
+                    effect_type = (s16) ((S_81814EDC_0 *)effect)->unk_0A;
+                    if (effect_type == 4) {
+                        func_8009CE1C(((S_81814EDC_0 *)effect)->unk_30, 0x10, ((S_81814EDC_0 *)effect)->unk_15, 1, (s32) (s16) (((S_81814EDC_0 *)effect)->unk_16 << 9), ((S_81814EDC_0 *)effect)->unk_2C, 2);
+                        if ((s16) ((S_81814EDC_0 *)effect)->unk_0A == effect_type) {
+                            owner = ((S_81814EDC_0 *)effect)->unk_30;
+                            ((S_81814EDC_0 *)effect)->unk_00 = 1;
+                            owner_sprite = ((S_81814EDC_8_pre *)owner)[-1].unk_00;
+                            ((S_81814EDC_8 *)owner)->unk_1C = (s32) (((S_81814EDC_8 *)owner)->unk_1C | 0x10000000);
+                            owner_sprite->unk_0E.s = 0x30;
+                            owner_sprite->unk_0D.s = 0x30;
+                            owner_sprite->unk_0C.s = 0x30;
+                            ((S_81814EDC_0 *)effect)->unk_02.u = 0;
+                            func_80024BB8(owner, owner_sprite);
                             return;
                         }
                     }
-                    goto block_31;
+                    goto finish_effect;
                 }
-                goto loop_13;
+                goto spawn_flashes;
             }
-            ((S_81814EDC_0 *)arg0)->unk_00 = 1;
-            goto block_24;
+            ((S_81814EDC_0 *)effect)->unk_00 = 1;
+            goto move_effect;
         }
-block_24:
+move_effect:
         {
-            void **arg1_addr = &arg1;
-            register S_81814EDC_10 *arg1_value ASM_REG("$8") = *arg1_addr;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            void **position_ref = &position;
+            register S_81814EDC_10 *position_vec ASM_REG("$8") = *position_ref;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            if ((func_800A4778(arg1_value->unk_00.at02.v, arg1_value->unk_04.at02.v, (s16) arg1_value->unk_08.at02.v, ((S_81814EDC_0 *)arg0)->unk_30) << 0x10) == 0) {
-                arg1_value = *arg1_addr;
+            if ((func_800A4778(position_vec->unk_00.at02.v, position_vec->unk_04.at02.v, (s16) position_vec->unk_08.at02.v, ((S_81814EDC_0 *)effect)->unk_30) << 0x10) == 0) {
+                position_vec = *position_ref;
 
-                arg1_value->unk_00.at00.v = (s32) (arg1_value->unk_00.at00.v + ((S_81814EDC_0 *)arg0)->unk_58);
-                arg1_value->unk_04.at00.v = (s32) (arg1_value->unk_04.at00.v + ((S_81814EDC_0 *)arg0)->unk_5C);
-                arg1_value->unk_08.at00.v = (s32) (arg1_value->unk_08.at00.v + ((S_81814EDC_0 *)arg0)->unk_60);
-                goto block_26;
+                position_vec->unk_00.at00.v = (s32) (position_vec->unk_00.at00.v + ((S_81814EDC_0 *)effect)->unk_58);
+                position_vec->unk_04.at00.v = (s32) (position_vec->unk_04.at00.v + ((S_81814EDC_0 *)effect)->unk_5C);
+                position_vec->unk_08.at00.v = (s32) (position_vec->unk_08.at00.v + ((S_81814EDC_0 *)effect)->unk_60);
+                goto update_fade;
             }
-            goto block_31;
+            goto finish_effect;
         }
     }
-block_26:
-    temp_a0_2 = ((S_81814EDC_0 *)arg0)->unk_00;
-    if (temp_a0_2 == 1) {
-        temp_v0_5 = ((S_81814EDC_0 *)arg0)->unk_02.s + 1;
-        ((S_81814EDC_0 *)arg0)->unk_02.s = temp_v0_5;
-        if ((s16) temp_v0_5 >= 0x15) {
-            if (((s16) ((S_81814EDC_0 *)arg0)->unk_0A == 4) && (((S_81814EDC_0 *)arg0)->unk_08 == temp_a0_2)) {
-                temp_a0_3 = ((S_81814EDC_0 *)arg0)->unk_30;
-                temp_a0_3->unk_1C = (s32) (temp_a0_3->unk_1C & 0xEFFFFFFF);
-                temp_a1 = ((S_81814EDC_12_pre *)(((S_81814EDC_0 *)arg0)->unk_30))[-1].unk_04;
-                temp_a1->unk_0E.u = 0x80;
-                temp_a1->unk_0D.u = 0x80;
-                temp_a1->unk_0C.u = 0x80;
+update_fade:
+    state = ((S_81814EDC_0 *)effect)->unk_00;
+    if (state == 1) {
+        fade_ticks = ((S_81814EDC_0 *)effect)->unk_02.s + 1;
+        ((S_81814EDC_0 *)effect)->unk_02.s = fade_ticks;
+        if ((s16) fade_ticks >= 0x15) {
+            if (((s16) ((S_81814EDC_0 *)effect)->unk_0A == 4) && (((S_81814EDC_0 *)effect)->unk_08 == state)) {
+                owner_flags = ((S_81814EDC_0 *)effect)->unk_30;
+                owner_flags->unk_1C = (s32) (owner_flags->unk_1C & 0xEFFFFFFF);
+                owner_sprite = ((S_81814EDC_12_pre *)(((S_81814EDC_0 *)effect)->unk_30))[-1].unk_04;
+                owner_sprite->unk_0E.u = 0x80;
+                owner_sprite->unk_0D.u = 0x80;
+                owner_sprite->unk_0C.u = 0x80;
             }
-block_31:
-            ((S_81814EDC_0_pre *)arg0)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)arg0)[-1].unk_00 | 0x8000);
+finish_effect:
+            ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
             D_800814A0[0] |= 0x8000;
         }
     }

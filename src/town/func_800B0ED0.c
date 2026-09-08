@@ -42,48 +42,49 @@ typedef struct S_800AE630_1 {
 
 extern M2C_UNK D_800AE600;
 
-void func_800AE630(void *arg0) {
-    register M2C_UNK (*temp_v0_2)(void) ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_v0;
-    s32 var_v1;
-    s32 var_v1_2;
-    s32 var_v1_3;
-    S_800AE630_1 *temp_a1;
+/* Advance the object position and transition step, then invoke its callback. */
+void func_800AE630(void *object) {
+    register M2C_UNK (*callback)(void) ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 next_step;
+    s32 scaled_x;
+    s32 scaled_y;
+    s32 scaled_z;
+    S_800AE630_1 *position;
     void *obj;
 
-    obj = arg0;
+    obj = object;
     ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    temp_a1 = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_DC;
-    var_v1 = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_24 * ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_34;
-    if (var_v1 < 0) {
-        var_v1 += 3;
+    position = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_DC;
+    scaled_x = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_24 * ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_34;
+    if (scaled_x < 0) {
+        scaled_x += 3;
     }
-    temp_a1->unk_08 = (s16) (((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_1C + (var_v1 >> 2));
-    temp_a1 = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_DC;
-    var_v1_2 = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_26 * ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_34;
-    if (var_v1_2 < 0) {
-        var_v1_2 += 3;
+    position->unk_08 = (s16) (((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_1C + (scaled_x >> 2));
+    position = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_DC;
+    scaled_y = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_26 * ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_34;
+    if (scaled_y < 0) {
+        scaled_y += 3;
     }
-    temp_a1->unk_0A = (s16) (((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_1E + (var_v1_2 >> 2));
-    temp_a1 = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_DC;
-    var_v1_3 = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_28 * ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_34;
-    if (var_v1_3 < 0) {
-        var_v1_3 += 3;
+    position->unk_0A = (s16) (((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_1E + (scaled_y >> 2));
+    position = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_DC;
+    scaled_z = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_28 * ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_34;
+    if (scaled_z < 0) {
+        scaled_z += 3;
     }
-    temp_a1->unk_0C = (s16) (((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_20 + (var_v1_3 >> 2));
+    position->unk_0C = (s16) (((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_20 + (scaled_z >> 2));
     ((S_800AE630_3 *)(((S_800AE630_2 *)obj)->unk_D0))->unk_02 = (s16) ((((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_34 << 8) - 0x400);
-    temp_v0 = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_34 + 1;
-    ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_34 = temp_v0;
-    if (temp_v0 >= 5) {
+    next_step = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_34 + 1;
+    ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_34 = next_step;
+    if (next_step >= 5) {
         register u8 *page;
 
         page = (u8 *)0x800B0000;
         ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_00 = (M2C_UNK *)(page - 0x1A00);
     }
-    temp_v0_2 = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_10;
-    if (temp_v0_2 != NULL) {
-        temp_v0_2();
+    callback = ((S_800AE630_0 *)((u8 *)obj - 0x10))->unk_10;
+    if (callback != NULL) {
+        callback();
     }
 }
 

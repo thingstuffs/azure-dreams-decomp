@@ -130,276 +130,277 @@ extern u8 D_80171E20[];
 extern u8 D_801753BC[];
 extern u8 D_8017541C[];
 
-void func_80174BEC(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Spawns directional particles, advances the actor animation, and resets its state after a delay. */
+void func_80174BEC(void *state, void *source_pos, void *source_render, void *actor)
 {
-    Vec3u delta;
-    PackedTable table;
-    s16 count;
+    Vec3u map_offset;
+    PackedTable velocity_table;
+    s16 frame;
 
-    table = *(PackedTable *)D_80170854;
+    velocity_table = *(PackedTable *)D_80170854;
 
-    switch (((S_80174BEC_0 *)arg0)->unk_9B) {
+    switch (((S_80174BEC_0 *)state)->unk_9B) {
     case 0:
-        goto state_0;
+        goto initialize;
     case 1:
-        goto state_1;
+        goto spawn_particles;
     case 2:
-        goto state_2;
+        goto wait_for_animation;
     case 3:
-        goto state_3;
+        goto finish_delay;
     default:
         goto done;
     }
 
-state_0:
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    ((S_80174BEC_0 *)arg0)->unk_96.s = 0;
-    ((S_80174BEC_0 *)arg0)->unk_9B++;
-    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0x9FFF;
+initialize:
+    ((Rec_D_800E3D7C *)source_pos)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)source_pos)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)source_pos)->unk_0C.as_s32 = 0;
+    ((S_80174BEC_0 *)state)->unk_96.s = 0;
+    ((S_80174BEC_0 *)state)->unk_9B++;
+    ((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v &= 0x9FFF;
 
-state_1:
-    count = ((S_80174BEC_0 *)arg0)->unk_96.u;
-    if (count == 0 || count == 7) {
-        s16 i;
+spawn_particles:
+    frame = ((S_80174BEC_0 *)state)->unk_96.u;
+    if (frame == 0 || frame == 7) {
+        s16 particle_index;
 
-        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
+        if (!(((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0x8000)) {
             func_800A56E0(0x80D);
         }
 
-        i = 0;
+        particle_index = 0;
         {
-            TableEntry *entries;
+            TableEntry *directions;
 
-            entries = (TableEntry *)&table;
+            directions = (TableEntry *)&velocity_table;
             do {
-            void *object;
+                void *particle;
 
-            object = func_8003FD64(0x112, D_80083498);
-            if (object == 0) goto particle1_increment;
-            ASM_KEEP_NV(object);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            {
-                s32 ry;
-                s32 shifted_ry;
-                register s32 rx ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                s32 shifted_rx;
-                s32 rz;
-                s32 position_z;
-                s32 new_y;
-                s32 position_x;
-                u8 *position;
-                u8 *render;
-                u8 *motion;
-                u8 *src;
-                u8 *dst;
-                u8 *end;
-                u8 animation;
-                void *map;
-                u32 table_off;
+                particle = func_8003FD64(0x112, D_80083498);
+                if (particle == 0) goto next_particle_1;
+                ASM_KEEP_NV(particle);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                {
+                    s32 offset_y;
+                    s32 velocity_y;
+                    register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                    s32 velocity_x;
+                    s32 offset_z;
+                    s32 position_z;
+                    s32 position_y;
+                    s32 position_x;
+                    u8 *position;
+                    u8 *render;
+                    u8 *motion;
+                    u8 *copy_src;
+                    u8 *copy_dst;
+                    u8 *copy_end;
+                    u8 animation;
+                    void *map;
+                    u32 direction_offset;
 
-                motion = (u8 *)object + 0x20;
-                ((S_80174BEC_3 *)motion)->unk_96 = 0x28 - ((S_80174BEC_0 *)arg0)->unk_96.s;
-                ((S_80174BEC_3 *)motion)->unk_9B = 0;
-                render = ((S_80174BEC_4 *)object)->unk_0C;
-                ((S_80174BEC_4 *)object)->unk_10 = D_80171040;
+                    motion = (u8 *)particle + 0x20;
+                    ((S_80174BEC_3 *)motion)->unk_96 = 0x28 - ((S_80174BEC_0 *)state)->unk_96.s;
+                    ((S_80174BEC_3 *)motion)->unk_9B = 0;
+                    render = ((S_80174BEC_4 *)particle)->unk_0C;
+                    ((S_80174BEC_4 *)particle)->unk_10 = D_80171040;
 
-                src = arg2;
-                dst = render;
-                end = (u8 *)arg2 + 0x30;
-                do {
-                    *(Copy16 *)dst = *(Copy16 *)src;
-                    src += 0x10;
-                    dst += 0x10;
-                } while (src != end);
+                    copy_src = source_render;
+                    copy_dst = render;
+                    copy_end = (u8 *)source_render + 0x30;
+                    do {
+                        *(Copy16 *)copy_dst = *(Copy16 *)copy_src;
+                        copy_src += 0x10;
+                        copy_dst += 0x10;
+                    } while (copy_src != copy_end);
 
-                ((S_80174BEC_5 *)render)->unk_14 &= 0xFFFC;
-                func_8004491C(object, &D_80045340);
-                animation = D_8017541C[0];
-                ((S_80174BEC_5 *)render)->unk_2C = D_8017541C;
-                func_80047784(render, animation, 0);
+                    ((S_80174BEC_5 *)render)->unk_14 &= 0xFFFC;
+                    func_8004491C(particle, &D_80045340);
+                    animation = D_8017541C[0];
+                    ((S_80174BEC_5 *)render)->unk_2C = D_8017541C;
+                    func_80047784(render, animation, 0);
 
-                position = ((S_80174BEC_4 *)object)->unk_08;
-                ((S_80174BEC_6 *)position)->unk_02 = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v;
-                ((S_80174BEC_6 *)position)->unk_06 = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v;
-                ((S_80174BEC_6 *)position)->unk_0A = ((Rec_D_800E3D7C *)arg1)->unk_08.at02_u16.v;
+                    position = ((S_80174BEC_4 *)particle)->unk_08;
+                    ((S_80174BEC_6 *)position)->unk_02 = ((Rec_D_800E3D7C *)source_pos)->unk_00.at02_u16.v;
+                    ((S_80174BEC_6 *)position)->unk_06 = ((Rec_D_800E3D7C *)source_pos)->unk_04.at02_u16.v;
+                    ((S_80174BEC_6 *)position)->unk_0A = ((Rec_D_800E3D7C *)source_pos)->unk_08.at02_u16.v;
 
-                map = ((S_80174BEC_0_pre *)arg0)[-1].unk_00;
-                if (func_8003DF74(((S_80174BEC_7 *)map)->unk_08, map, &delta, 1)) {
-                    ((S_80174BEC_6 *)position)->unk_02 += delta.x;
-                    ((S_80174BEC_6 *)position)->unk_06 += delta.y;
-                    ((S_80174BEC_6 *)position)->unk_0A += delta.z;
+                    map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
+                    if (func_8003DF74(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
+                        ((S_80174BEC_6 *)position)->unk_02 += map_offset.x;
+                        ((S_80174BEC_6 *)position)->unk_06 += map_offset.y;
+                        ((S_80174BEC_6 *)position)->unk_0A += map_offset.z;
+                    }
+
+                    offset_x = func_80069EF8() & 0x1F;
+                    offset_x -= 0x10;
+                    offset_y = func_80069EF8() & 0x1F;
+                    offset_y -= 0x10;
+                    position_x = ((S_80174BEC_6 *)position)->unk_02;
+                    position_x += offset_x;
+                    position_y = ((S_80174BEC_6 *)position)->unk_06 + offset_y;
+                    ((S_80174BEC_6 *)position)->unk_02 = position_x;
+                    ASM_KEEP(position_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    ((S_80174BEC_6 *)position)->unk_06 = position_y;
+                    offset_z = func_80069EF8() & 0x1F;
+                    velocity_x = (s32)(offset_x << 16) >> 4;
+                    velocity_y = (s32)(offset_y << 16) >> 4;
+                    position_z = ((S_80174BEC_6 *)position)->unk_0A;
+                    position_z -= 0x14;
+                    position_z += offset_z;
+                    ((S_80174BEC_6 *)position)->unk_0A = position_z;
+                    ((S_80174BEC_3 *)motion)->unk_A4 = velocity_x;
+                    ((S_80174BEC_3 *)motion)->unk_A8 = velocity_y;
+
+                    direction_offset = (((S_80174BEC_8 *)actor)->unk_2A.s >> 7) & 0x1C;
+                    ((S_80174BEC_3 *)motion)->unk_A4 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x << 19;
+                    direction_offset = (((S_80174BEC_8 *)actor)->unk_2A.s >> 7) & 0x1C;
+                    ((S_80174BEC_3 *)motion)->unk_A8 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y << 19;
+                    ((S_80174BEC_3 *)motion)->unk_AC = -((func_80069EF8() & 0x7FFF) * 2);
+                    ((S_80174BEC_3 *)motion)->unk_B0 = 0x1000;
+                    ((S_80174BEC_5 *)render)->unk_1E = 0x1000;
+                    ((S_80174BEC_5 *)render)->unk_1C = 0x1000;
+                    ((S_80174BEC_5 *)render)->unk_0E = 0x80;
+                    ((S_80174BEC_5 *)render)->unk_0D = 0x80;
+                    ((S_80174BEC_5 *)render)->unk_0C = 0x80;
                 }
-
-                rx = func_80069EF8() & 0x1F;
-                rx -= 0x10;
-                ry = func_80069EF8() & 0x1F;
-                ry -= 0x10;
-                position_x = ((S_80174BEC_6 *)position)->unk_02;
-                position_x += rx;
-                new_y = ((S_80174BEC_6 *)position)->unk_06 + ry;
-                ((S_80174BEC_6 *)position)->unk_02 = position_x;
-                ASM_KEEP(new_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                ((S_80174BEC_6 *)position)->unk_06 = new_y;
-                rz = func_80069EF8() & 0x1F;
-                shifted_rx = (s32)(rx << 16) >> 4;
-                shifted_ry = (s32)(ry << 16) >> 4;
-                position_z = ((S_80174BEC_6 *)position)->unk_0A;
-                position_z -= 0x14;
-                position_z += rz;
-                ((S_80174BEC_6 *)position)->unk_0A = position_z;
-                ((S_80174BEC_3 *)motion)->unk_A4 = shifted_rx;
-                ((S_80174BEC_3 *)motion)->unk_A8 = shifted_ry;
-
-                table_off = (((S_80174BEC_8 *)arg3)->unk_2A.s >> 7) & 0x1C;
-                ((S_80174BEC_3 *)motion)->unk_A4 += (s32)((TableEntry *)((u8 *)entries + table_off))->x << 19;
-                table_off = (((S_80174BEC_8 *)arg3)->unk_2A.s >> 7) & 0x1C;
-                ((S_80174BEC_3 *)motion)->unk_A8 += (u32)((TableEntry *)((u8 *)entries + table_off))->y << 19;
-                ((S_80174BEC_3 *)motion)->unk_AC = -((func_80069EF8() & 0x7FFF) * 2);
-                ((S_80174BEC_3 *)motion)->unk_B0 = 0x1000;
-                ((S_80174BEC_5 *)render)->unk_1E = 0x1000;
-                ((S_80174BEC_5 *)render)->unk_1C = 0x1000;
-                ((S_80174BEC_5 *)render)->unk_0E = 0x80;
-                ((S_80174BEC_5 *)render)->unk_0D = 0x80;
-                ((S_80174BEC_5 *)render)->unk_0C = 0x80;
-            }
-particle1_increment:
-            i++;
-            } while (i < 5);
+next_particle_1:
+                particle_index++;
+            } while (particle_index < 5);
         }
 
-        i = 0;
+        particle_index = 0;
         {
-            TableEntry *entries;
+            TableEntry *directions;
 
-            entries = (TableEntry *)&table;
+            directions = (TableEntry *)&velocity_table;
             do {
-            void *object;
+                void *particle;
 
-            object = func_8003FC64(0x212);
-            if (object == 0) goto particle2_increment;
-            ASM_KEEP_NV(object);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            {
-                s32 ry;
-                s32 shifted_ry;
-                register s32 rx ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                s32 shifted_rx;
-                s32 rz;
-                s32 position_z;
-                s32 new_y;
-                s32 position_x;
-                u8 *position;
-                u8 *motion;
-                u8 *render;
-                void *map;
-                u32 table_off;
+                particle = func_8003FC64(0x212);
+                if (particle == 0) goto next_particle_2;
+                ASM_KEEP_NV(particle);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                {
+                    s32 offset_y;
+                    s32 velocity_y;
+                    register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                    s32 velocity_x;
+                    s32 offset_z;
+                    s32 position_z;
+                    s32 position_y;
+                    s32 position_x;
+                    u8 *position;
+                    u8 *motion;
+                    u8 *render;
+                    void *map;
+                    u32 direction_offset;
 
-                motion = (u8 *)object + 0x20;
-                ((S_80174BEC_3 *)motion)->unk_24 = 0x19 - ((S_80174BEC_0 *)arg0)->unk_96.s;
-                ((S_80174BEC_4 *)object)->unk_20 = 0;
-                ((S_80174BEC_4 *)object)->unk_10 = D_8017142C;
-                func_8004491C(object, &D_80045340);
+                    motion = (u8 *)particle + 0x20;
+                    ((S_80174BEC_3 *)motion)->unk_24 = 0x19 - ((S_80174BEC_0 *)state)->unk_96.s;
+                    ((S_80174BEC_4 *)particle)->unk_20 = 0;
+                    ((S_80174BEC_4 *)particle)->unk_10 = D_8017142C;
+                    func_8004491C(particle, &D_80045340);
 
-                render = ((S_80174BEC_4 *)object)->unk_0C;
-                ((S_80174BEC_5 *)render)->unk_14 |= 0x0C;
-                ((S_80174BEC_5 *)render)->unk_10 = 0x60;
-                ((S_80174BEC_5 *)render)->unk_14 |= 2;
+                    render = ((S_80174BEC_4 *)particle)->unk_0C;
+                    ((S_80174BEC_5 *)render)->unk_14 |= 0x0C;
+                    ((S_80174BEC_5 *)render)->unk_10 = 0x60;
+                    ((S_80174BEC_5 *)render)->unk_14 |= 2;
 
-                position = ((S_80174BEC_4 *)object)->unk_08;
-                ((S_80174BEC_6 *)position)->unk_02 = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v;
-                ((S_80174BEC_6 *)position)->unk_06 = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v;
-                ((S_80174BEC_6 *)position)->unk_0A = ((Rec_D_800E3D7C *)arg1)->unk_08.at02_u16.v;
+                    position = ((S_80174BEC_4 *)particle)->unk_08;
+                    ((S_80174BEC_6 *)position)->unk_02 = ((Rec_D_800E3D7C *)source_pos)->unk_00.at02_u16.v;
+                    ((S_80174BEC_6 *)position)->unk_06 = ((Rec_D_800E3D7C *)source_pos)->unk_04.at02_u16.v;
+                    ((S_80174BEC_6 *)position)->unk_0A = ((Rec_D_800E3D7C *)source_pos)->unk_08.at02_u16.v;
 
-                map = ((S_80174BEC_0_pre *)arg0)[-1].unk_00;
-                if (func_8003DE58(((S_80174BEC_7 *)map)->unk_08, map, &delta, 1)) {
-                    ((S_80174BEC_6 *)position)->unk_02 += delta.x;
-                    ((S_80174BEC_6 *)position)->unk_06 += delta.y;
-                    ((S_80174BEC_6 *)position)->unk_0A += delta.z;
+                    map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
+                    if (func_8003DE58(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
+                        ((S_80174BEC_6 *)position)->unk_02 += map_offset.x;
+                        ((S_80174BEC_6 *)position)->unk_06 += map_offset.y;
+                        ((S_80174BEC_6 *)position)->unk_0A += map_offset.z;
+                    }
+
+                    offset_x = func_80069EF8() & 0x1F;
+                    offset_x -= 0x10;
+                    offset_y = func_80069EF8() & 0x1F;
+                    offset_y -= 0x10;
+                    position_x = ((S_80174BEC_6 *)position)->unk_02;
+                    position_x += offset_x;
+                    position_y = ((S_80174BEC_6 *)position)->unk_06 + offset_y;
+                    ((S_80174BEC_6 *)position)->unk_02 = position_x;
+                    ASM_KEEP(position_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    ((S_80174BEC_6 *)position)->unk_06 = position_y;
+                    offset_z = func_80069EF8() & 0x1F;
+                    velocity_x = (s32)(offset_x << 16) >> 4;
+                    velocity_y = (s32)(offset_y << 16) >> 4;
+                    position_z = ((S_80174BEC_6 *)position)->unk_0A;
+                    position_z -= 0x14;
+                    position_z += offset_z;
+                    ((S_80174BEC_6 *)position)->unk_0A = position_z;
+                    ((S_80174BEC_3 *)motion)->unk_60 = velocity_x;
+                    ((S_80174BEC_3 *)motion)->unk_64 = velocity_y;
+
+                    direction_offset = (((S_80174BEC_8 *)actor)->unk_2A.s >> 7) & 0x1C;
+                    ((S_80174BEC_3 *)motion)->unk_60 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x << 19;
+                    direction_offset = (((S_80174BEC_8 *)actor)->unk_2A.s >> 7) & 0x1C;
+                    ((S_80174BEC_3 *)motion)->unk_64 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y << 19;
+                    ((S_80174BEC_3 *)motion)->unk_68 = -((func_80069EF8() & 0x7FFF) * 2);
+                    ((S_80174BEC_3 *)motion)->unk_74 = 0x400;
+                    ((S_80174BEC_5 *)render)->unk_1C = 0x800;
+                    ((S_80174BEC_5 *)render)->unk_1E = 0x800;
+                    ((S_80174BEC_5 *)render)->unk_0D = 0x80;
+                    ((S_80174BEC_5 *)render)->unk_0C = 0x80;
+                    ((S_80174BEC_5 *)render)->unk_0E = 0;
+                    ((S_80174BEC_5 *)render)->unk_12 = 0x7DCF;
+                    ((S_80174BEC_5 *)render)->unk_14 |= 0x100;
+                    func_8003DB94(render, &D_800DE870, 0);
                 }
-
-                rx = func_80069EF8() & 0x1F;
-                rx -= 0x10;
-                ry = func_80069EF8() & 0x1F;
-                ry -= 0x10;
-                position_x = ((S_80174BEC_6 *)position)->unk_02;
-                position_x += rx;
-                new_y = ((S_80174BEC_6 *)position)->unk_06 + ry;
-                ((S_80174BEC_6 *)position)->unk_02 = position_x;
-                ASM_KEEP(new_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                ((S_80174BEC_6 *)position)->unk_06 = new_y;
-                rz = func_80069EF8() & 0x1F;
-                shifted_rx = (s32)(rx << 16) >> 4;
-                shifted_ry = (s32)(ry << 16) >> 4;
-                position_z = ((S_80174BEC_6 *)position)->unk_0A;
-                position_z -= 0x14;
-                position_z += rz;
-                ((S_80174BEC_6 *)position)->unk_0A = position_z;
-                ((S_80174BEC_3 *)motion)->unk_60 = shifted_rx;
-                ((S_80174BEC_3 *)motion)->unk_64 = shifted_ry;
-
-                table_off = (((S_80174BEC_8 *)arg3)->unk_2A.s >> 7) & 0x1C;
-                ((S_80174BEC_3 *)motion)->unk_60 += (s32)((TableEntry *)((u8 *)entries + table_off))->x << 19;
-                table_off = (((S_80174BEC_8 *)arg3)->unk_2A.s >> 7) & 0x1C;
-                ((S_80174BEC_3 *)motion)->unk_64 += (u32)((TableEntry *)((u8 *)entries + table_off))->y << 19;
-                ((S_80174BEC_3 *)motion)->unk_68 = -((func_80069EF8() & 0x7FFF) * 2);
-                ((S_80174BEC_3 *)motion)->unk_74 = 0x400;
-                ((S_80174BEC_5 *)render)->unk_1C = 0x800;
-                ((S_80174BEC_5 *)render)->unk_1E = 0x800;
-                ((S_80174BEC_5 *)render)->unk_0D = 0x80;
-                ((S_80174BEC_5 *)render)->unk_0C = 0x80;
-                ((S_80174BEC_5 *)render)->unk_0E = 0;
-                ((S_80174BEC_5 *)render)->unk_12 = 0x7DCF;
-                ((S_80174BEC_5 *)render)->unk_14 |= 0x100;
-                func_8003DB94(render, &D_800DE870, 0);
-            }
-particle2_increment:
-            i++;
-            } while (i < 4);
+next_particle_2:
+                particle_index++;
+            } while (particle_index < 4);
         }
     }
 
-    ((S_80174BEC_0 *)arg0)->unk_96.s++;
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
-        void *active;
+    ((S_80174BEC_0 *)state)->unk_96.s++;
+    if (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000) {
+        void *active_object;
 
-        ((S_80174BEC_0 *)arg0)->unk_9B++;
-        active = ((S_80174BEC_8 *)arg3)->unk_60;
-        if (active != 0) {
-            func_800C857C(arg3, active);
+        ((S_80174BEC_0 *)state)->unk_9B++;
+        active_object = ((S_80174BEC_8 *)actor)->unk_60;
+        if (active_object != 0) {
+            func_800C857C(actor, active_object);
         }
     }
     goto done;
 
-state_2:
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
-        s32 index;
+wait_for_animation:
+    if (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000) {
+        s32 direction_index;
 
-        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
-        if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 != D_801753BC) {
-            ((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 = D_801753BC;
-            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
-            index = (D_80083228 + ((S_80174BEC_8 *)arg3)->unk_2A.u + 0x100) >> 9;
-            func_80047784(arg2, ((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8[index & 7], 0);
-            ((S_80174BEC_0 *)arg0)->unk_96.s = 0x14;
-            ((S_80174BEC_0 *)arg0)->unk_9B++;
+        ((Rec_D_800E3D7C *)source_pos)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)source_pos)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)source_pos)->unk_0C.as_s32 = 0;
+        func_800A2B04(source_pos, ((Rec_D_80082E80 *)source_render)->unk_24, ((Rec_D_80082E80 *)source_render)->unk_25);
+        if (((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 != D_801753BC) {
+            ((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 = D_801753BC;
+            ((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v &= 0xF7FF;
+            direction_index = (D_80083228 + ((S_80174BEC_8 *)actor)->unk_2A.u + 0x100) >> 9;
+            func_80047784(source_render, ((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8[direction_index & 7], 0);
+            ((S_80174BEC_0 *)state)->unk_96.s = 0x14;
+            ((S_80174BEC_0 *)state)->unk_9B++;
         }
     }
     goto done;
 
-state_3:
+finish_delay:
     {
-        u16 old_count;
+        u16 timer;
 
-        old_count = ((S_80174BEC_0 *)arg0)->unk_96.s;
-        ((S_80174BEC_0 *)arg0)->unk_96.s = old_count - 1;
-        if ((s16)old_count <= 0 || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
-            func_800AD594(arg3, 0x1000);
-            ((S_80174BEC_0 *)arg0)->unk_8C = D_80171E20;
+        timer = ((S_80174BEC_0 *)state)->unk_96.s;
+        ((S_80174BEC_0 *)state)->unk_96.s = timer - 1;
+        if ((s16)timer <= 0 || (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000)) {
+            func_800AD594(actor, 0x1000);
+            ((S_80174BEC_0 *)state)->unk_8C = D_80171E20;
             D_8008346C = 0;
-            (*(u16 *)((u8 *)arg3 + 0x46)) &= 0x7FFF;
+            (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
         }
     }
 

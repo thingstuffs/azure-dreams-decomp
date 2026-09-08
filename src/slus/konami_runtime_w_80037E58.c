@@ -48,14 +48,15 @@ extern void func_80037F70(RuntimeLinks *arg0);
 extern void func_80037D9C(RuntimeState *arg0, u8 arg1);
 extern void *memset(void *arg0, s32 arg1, u32 arg2);
 
+/* Create the runtime task and initialize its shared state and blocks. */
 void func_80037E58(void)
 {
     RuntimeTask *task;
     RuntimeLinks *links;
     RuntimeState *state;
-    RuntimeState *input;
-    void *address;
-    s32 i;
+    RuntimeState *linked_state;
+    void *state_data;
+    s32 index;
 
     task = func_8003FE78(0, D_80082BC0, 0x49);
     links = &task->field20;
@@ -63,24 +64,24 @@ void func_80037E58(void)
     links->field04 = &D_80082A38;
     links->field00 = &D_80082A38.field8C;
 
-    for (i = 0; i < 107; i++) {
-        memset(&D_80082660[i], 0, sizeof(RuntimeBlock));
+    for (index = 0; index < 107; index++) {
+        memset(&D_80082660[index], 0, sizeof(RuntimeBlock));
     }
 
-    for (i = 15; i >= 0; i--) {
-        D_80082A38.field48[i] = 0;
+    for (index = 15; index >= 0; index--) {
+        D_80082A38.field48[index] = 0;
     }
 
     do {
         state = &D_80082A38;
     } while (0);
-    address = D_800809C0;
-    state->field88 = address;
+    state_data = D_800809C0;
+    state->field88 = state_data;
     state->field38 = 0;
     do {
-        input = links->field04;
+        linked_state = links->field04;
     } while (0);
-    input->field03 = D_80012D6E[0];
+    linked_state->field03 = D_80012D6E[0];
     func_80037D9C(links->field04, 3);
     links->field00->field87 = 0;
     links->field00->field85 = 0;

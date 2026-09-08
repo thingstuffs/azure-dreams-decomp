@@ -9,15 +9,16 @@ typedef struct TownEntry {
 
 extern TownEntry D_800CF720[];
 
-s32 func_8008AD1C(s32 arg0, s32 arg1, s32 arg2) {
-    s32 i;
+// Finds a town entry by its three key fields, returning the end index with its high bit set if absent.
+s32 func_8008AD1C(s32 targetField0, s32 targetField1, s32 targetField2) {
+    s32 entryIndex;
 
-    for (i = 0; D_800CF720[i].field1 != -1; i++) {
-        if (arg0 == D_800CF720[i].field0 &&
-            arg1 == D_800CF720[i].field1 &&
-            arg2 == D_800CF720[i].field2) {
-            return i;
+    for (entryIndex = 0; D_800CF720[entryIndex].field1 != -1; entryIndex++) {
+        if (targetField0 == D_800CF720[entryIndex].field0 &&
+            targetField1 == D_800CF720[entryIndex].field1 &&
+            targetField2 == D_800CF720[entryIndex].field2) {
+            return entryIndex;
         }
     }
-    return i - 0x80000000;
+    return entryIndex - 0x80000000;
 }

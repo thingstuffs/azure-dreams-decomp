@@ -75,71 +75,72 @@ extern M2C_UNK D_80158A3C;
 extern M2C_UNK D_80158E68;
 extern M2C_UNK D_8015B86C;
 
-void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3) BODY_ATTR;
-void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3) {
-    s32 unksp24;
-    s32 sp24;
-    s32 temp_v1;
-    S_80DA7000_3 *temp_s2;
-    S_80DA7000_2 *temp_s4;
-    void *temp_v0;
-    S_80DA7000_4 *temp_s5;
-    S_80DA7000_1 *var_s0 = NULL;
-    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s16 saved_arg3;
-    void *call_a0;
-    void *call_a1;
+void *BODY_NAME(s16 init_flags, s8 value_24, s8 value_25, s16 value_0a) BODY_ATTR;
+/* Allocates an object and initializes its state and attached data from the supplied flags and values. */
+void *BODY_NAME(s16 init_flags, s8 value_24, s8 value_25, s16 value_0a) {
+    s32 global_byte;
+    s32 unused_stack;
+    s32 init_mode;
+    S_80DA7000_3 *data_0c;
+    S_80DA7000_2 *data_08;
+    void *object;
+    S_80DA7000_4 *extended_state;
+    S_80DA7000_1 *state = NULL;
+    register s8 saved_value_24 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s8 saved_value_25 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_value_0a;
+    void *object_arg;
+    void *data_arg;
 
     M2C_ERROR(/* Read from unset register $t0 */) | 0x4481;
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
-    unksp24 = (s32) *(s8 *)-0x56D4;
-    temp_v0 = func_8003FD64(0x112, &D_80083498);
-    if (temp_v0 != NULL) {
-        var_s0 = temp_v0 + 0x20;
-        ((S_80DA7000_0 *)temp_v0)->unk_10 = &D_80158A3C;
-        var_s0->unk_13 = 0x1A;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s4 = ((S_80DA7000_0 *)temp_v0)->unk_08;
-        temp_s4->unk_0A = saved_arg3;
-        temp_s2 = ((S_80DA7000_0 *)temp_v0)->unk_0C;
-        temp_v1 = arg0 & 3;
-        temp_s2->unk_25 = saved_arg2;
-        temp_s5 = var_s0;
-        temp_s2->unk_2C = &D_8015B86C;
-        temp_s2->unk_24 = saved_arg1;
-        if (temp_v1 == 1) {
-            s32 flags0;
-            s32 flags1;
+    saved_value_24 = value_24;
+    saved_value_0a = value_0a;
+    saved_value_25 = value_25;
+    global_byte = (s32) *(s8 *)-0x56D4;
+    object = func_8003FD64(0x112, &D_80083498);
+    if (object != NULL) {
+        state = object + 0x20;
+        ((S_80DA7000_0 *)object)->unk_10 = &D_80158A3C;
+        state->unk_13 = 0x1A;
+        func_8004491C(object, &D_80045340);
+        data_08 = ((S_80DA7000_0 *)object)->unk_08;
+        data_08->unk_0A = saved_value_0a;
+        data_0c = ((S_80DA7000_0 *)object)->unk_0C;
+        init_mode = init_flags & 3;
+        data_0c->unk_25 = saved_value_25;
+        extended_state = state;
+        data_0c->unk_2C = &D_8015B86C;
+        data_0c->unk_24 = saved_value_24;
+        if (init_mode == 1) {
+            s32 state_flags;
+            s32 secondary_flags;
 
-            flags0 = var_s0->unk_14 | 0x6000;
-            flags1 = var_s0->unk_1C | 0x6000;
-            ASM_KEEP(flags0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(flags1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            state_flags = state->unk_14 | 0x6000;
+            secondary_flags = state->unk_1C | 0x6000;
+            ASM_KEEP(state_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(secondary_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             return func_80158954();
         }
-        if (temp_v1 >= 2) {
-            var_s0->unk_14 = (s32) (var_s0->unk_14 | 0x2000);
-            var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x2000);
+        if (init_mode >= 2) {
+            state->unk_14 = (s32) (state->unk_14 | 0x2000);
+            state->unk_1C = (s32) (state->unk_1C | 0x2000);
             func_801589C0();
         }
-        call_a0 = temp_v0;
-        if (((arg0 & ~3) << 0x10) == 0) {
-            if (!(var_s0->unk_14 & 0x200)) {
-                call_a1 = temp_s4;
+        object_arg = object;
+        if (((init_flags & ~3) << 0x10) == 0) {
+            if (!(state->unk_14 & 0x200)) {
+                data_arg = data_08;
                 if (func_800A6D30() & 1) {
-                    var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x200);
-                    func_800A48F0(var_s0, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    state->unk_1C = (s32) (state->unk_1C | 0x200);
+                    func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
                 }
             }
         }
-        func_800A9C18(temp_v0, temp_s4, temp_s2, arg0);
-        temp_s5->unk_9A = 0xFF;
-        temp_s5->unk_9C = -1;
-        temp_s5->unk_8C = &D_80158E68;
-        func_800AA36C(temp_s5, temp_s4, temp_s2, var_s0);
+        func_800A9C18(object, data_08, data_0c, init_flags);
+        extended_state->unk_9A = 0xFF;
+        extended_state->unk_9C = -1;
+        extended_state->unk_8C = &D_80158E68;
+        func_800AA36C(extended_state, data_08, data_0c, state);
     }
-    return var_s0;
+    return state;
 }

@@ -31,55 +31,50 @@ typedef struct S_800BD5C4_0_pre {
 } S_800BD5C4_0_pre;   /* the 0x18 bytes before arg0 in func_800BD5C4, addressed as arg0[-1] */
 
 
-s32 func_800BD5C4(void *arg0, s32 arg1, s16 arg2) {
-    u16 *table;
+/* Applies an entity update and handles its follow-up effects and state count. */
+s32 func_800BD5C4(void *entity, s32 update_value, s16 mode) {
+    u16 *type_flags;
     register void *call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 pass_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 saved_value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 context_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 saved_context ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     D_80083460_t *state;
-    s32 table_index;
-    s32 temp_v0;
-    s32 result;
+    s32 type_index;
+    s32 effect_context;
+    s32 effect_result;
 
-    if (arg0 == D_800E3D7C[0]) {
-        ((Rec_D_800E3D7C *)arg0)->unk_110 = arg1;
-        func_8008D330(arg0, &D_80083780, &D_80082E80, arg0);
+    if (entity == D_800E3D7C[0]) {
+        ((Rec_D_800E3D7C *)entity)->unk_110 = update_value;
+        func_8008D330(entity, &D_80083780, &D_80082E80, entity);
         return 0;
     }
-    if ((u32) arg0 <= 0x9FFFFFFFU) {
-        func_800A63B8(arg0, arg1, arg2);
-        call_arg = arg0;
-        table = (u16 *)0x800E0000;
-        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        table_index = ((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v;
-        ASM_KEEP(table_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        table = (u16 *)((u8 *)table - 0x217C);
-        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        if (func_800AD6FC(call_arg, (table[table_index] >> 6) & 3, 0) == 0) {
-            func_800A5F38(arg0, arg1);
+    if ((u32) entity <= 0x9FFFFFFFU) {
+        func_800A63B8(entity, update_value, mode);
+        call_arg = entity;
+        type_flags = (u16 *)0x800E0000;
+        ASM_KEEP(type_flags);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        type_index = ((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v;
+        ASM_KEEP(type_index);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        type_flags = (u16 *)((u8 *)type_flags - 0x217C);
+        ASM_KEEP(type_flags);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        if (func_800AD6FC(call_arg, (type_flags[type_index] >> 6) & 3, 0) == 0) {
+            func_800A5F38(entity, update_value);
             return 1;
         }
-        goto block_8;
     }
-block_8:
-    func_800C4AFC(((S_800BD5C4_0_pre *)arg0)[-1].unk_00, 0xC02020, arg0);
-    if ((((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) && !(((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 & 0x400)) {
-        temp_v0 = func_800990FC();
+    func_800C4AFC(((S_800BD5C4_0_pre *)entity)[-1].unk_00, 0xC02020, entity);
+    if ((((Rec_D_800E3D7C *)entity)->unk_14.as_s32 & 0x4000) && !(((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x400)) {
+        effect_context = func_800990FC();
         call_arg = &D_800E0E82;
         ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        pass_value = temp_v0;
-        saved_value = pass_value;
-        result = func_80099194(call_arg, pass_value);
-        func_80099290(result);
-        func_800A5720(saved_value);
+        context_arg = effect_context;
+        saved_context = context_arg;
+        effect_result = func_80099194(call_arg, context_arg);
+        func_80099290(effect_result);
+        func_800A5720(saved_context);
     }
-    func_80042B68(arg0, 2);
-    func_80098B38(arg1);
+    func_80042B68(entity, 2);
+    func_80098B38(update_value);
     state = &D_80083460;
     state->fieldA = (u16) (state->fieldA - 1);
     return 1;
 }
-
-/* MECHANISM: The measured pins retain the exact 0x20 frame, s1/s2 argument holds, and s0 call result.
-   A short-lived state=&D_80083460 makes cdk-G0 hold the symbol base and use lhu/sh 10(a0).
-   Plain 2.7.2 folds to D_80083460+10 with offset 0; rerouting to 2.7.2-cdk-G0 closes all 3 tail subs. */

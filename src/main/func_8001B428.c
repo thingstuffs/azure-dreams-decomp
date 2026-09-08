@@ -21,15 +21,16 @@ extern StructA_8001B428 *func_8003C480(s32 arg0);
 extern void (*D_80408AD0[1])(StructA_8001B428 *arg0);
 extern void func_804023E4(void);
 
-StructA_8001B428 *func_8001B428(s32 unused, s32 arg0, s32 arg1) {
-    StructA_8001B428 *temp_v0;
+/* Creates an object with initialization data, runs its selected initializer, and sets its callback. */
+StructA_8001B428 *func_8001B428(s32 unused, s32 init_data, s32 init_index) {
+    StructA_8001B428 *object;
 
-    temp_v0 = func_8003C480(0);
-    if (temp_v0 != NULL) {
-        temp_v0->unk20 = arg0;
-        temp_v0->unk24 = arg1;
-        D_80408AD0[arg1](temp_v0);
-        temp_v0->unk10 = func_804023E4;
+    object = func_8003C480(0);
+    if (object != NULL) {
+        object->unk20 = init_data;
+        object->unk24 = init_index;
+        D_80408AD0[init_index](object);
+        object->unk10 = func_804023E4;
     }
-    return temp_v0;
+    return object;
 }

@@ -71,65 +71,66 @@ typedef struct S_80171790_5 {
     s16 unk_AE;
 } S_80171790_5;   /* saved_arg0 in func_80171790 */
 
-void func_80171790(void *arg0, void *arg1) {
-    S_80171790_5 *saved_arg0;
-    S_80171790_4 *saved_arg1;
-    s32 saved_obj_angle;
-    s32 saved_data_scale;
-    S_80171790_0 *saved_tail;
+/* Creates an effect at an offset position with randomized attributes and motion. */
+void func_80171790(void *source, void *position) {
+    S_80171790_5 *source_obj;
+    S_80171790_4 *source_pos;
+    s32 obj_or_angle;
+    s32 data_or_speed;
+    S_80171790_0 *effect_state;
     register void *init_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    S_80171790_3 *copy_dst;
-    u8 byte1;
-    u8 byte2;
+    S_80171790_3 *effect_pos;
+    u8 random_byte_1;
+    u8 random_byte_2;
 
-    saved_arg0 = arg0;
-    saved_arg1 = arg1;
-    saved_obj_angle = (s32) func_8003FC64(0x212);
-    if (saved_obj_angle != 0) {
-        init_obj = (void *) saved_obj_angle;
-        saved_tail = (void *) saved_obj_angle + 0x20;
-        ASM_KEEP(saved_tail);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        saved_tail->unk_18 = 6;
-        saved_tail->unk_1A = 6;
-        ((S_80171790_1 *)((void *) saved_obj_angle))->unk_10 = &D_80170E2C;
+    source_obj = source;
+    source_pos = position;
+    obj_or_angle = (s32) func_8003FC64(0x212);
+    if (obj_or_angle != 0) {
+        init_obj = (void *) obj_or_angle;
+        effect_state = (void *) obj_or_angle + 0x20;
+        ASM_KEEP(effect_state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        effect_state->unk_18 = 6;
+        effect_state->unk_1A = 6;
+        ((S_80171790_1 *)((void *) obj_or_angle))->unk_10 = &D_80170E2C;
         func_8004491C(init_obj, &D_80170CEC);
-        saved_data_scale = (s32) ((S_80171790_1 *)((void *) saved_obj_angle))->unk_0C;
-        ((S_80171790_2 *)((void *) saved_data_scale))->unk_10 = 0x60;
-        ((S_80171790_2 *)((void *) saved_data_scale))->unk_14 =
-            (u16) (((S_80171790_2 *)((void *) saved_data_scale))->unk_14 | 0xC);
-        copy_dst = ((S_80171790_1 *)((void *) saved_obj_angle))->unk_08;
-        copy_dst->unk_02 = saved_arg1->unk_02;
-        copy_dst->unk_06 = saved_arg1->unk_06;
-        copy_dst->unk_0A =
-            (s16) (saved_arg1->unk_0A - 0x50);
-        saved_data_scale = (s32) ((S_80171790_1 *)((void *) saved_obj_angle))->unk_0C;
-        ((S_80171790_2 *)((void *) saved_data_scale))->unk_1E = 0x1000;
-        ((S_80171790_2 *)((void *) saved_data_scale))->unk_1C = 0x1000;
-        ((S_80171790_2 *)((void *) saved_data_scale))->unk_0C = rand();
-        ((S_80171790_2 *)((void *) saved_data_scale))->unk_0D = rand();
-        ((S_80171790_2 *)((void *) saved_data_scale))->unk_0E = rand();
-        ((S_80171790_1 *)((void *) saved_obj_angle))->unk_20 =
-            ((S_80171790_2 *)((void *) saved_data_scale))->unk_0C;
-        byte1 = ((S_80171790_2 *)((void *) saved_data_scale))->unk_0D;
-        saved_tail->unk_01 = byte1;
-        byte2 = ((S_80171790_2 *)((void *) saved_data_scale))->unk_0E;
-        saved_tail->unk_60 = 0;
-        saved_tail->unk_5C = 0;
-        saved_tail->unk_58 = 0;
-        saved_tail->unk_02 = byte2;
-        saved_obj_angle = rand() & 0xFFF;
-        saved_data_scale =
-            (saved_arg0->unk_AE * func_80064584(saved_obj_angle)) >> 0xC;
-        saved_tail->unk_62 =
-            (saved_arg0->unk_AE * func_800644B8(saved_obj_angle)) >> 0xC;
-        saved_obj_angle = rand() & 0xFFF;
-        saved_tail->unk_5A =
-            (saved_data_scale * func_80064584(saved_obj_angle)) >> 0xC;
-        saved_tail->unk_5E =
-            (saved_data_scale * func_800644B8(saved_obj_angle)) >> 0xC;
+        data_or_speed = (s32) ((S_80171790_1 *)((void *) obj_or_angle))->unk_0C;
+        ((S_80171790_2 *)((void *) data_or_speed))->unk_10 = 0x60;
+        ((S_80171790_2 *)((void *) data_or_speed))->unk_14 =
+            (u16) (((S_80171790_2 *)((void *) data_or_speed))->unk_14 | 0xC);
+        effect_pos = ((S_80171790_1 *)((void *) obj_or_angle))->unk_08;
+        effect_pos->unk_02 = source_pos->unk_02;
+        effect_pos->unk_06 = source_pos->unk_06;
+        effect_pos->unk_0A =
+            (s16) (source_pos->unk_0A - 0x50);
+        data_or_speed = (s32) ((S_80171790_1 *)((void *) obj_or_angle))->unk_0C;
+        ((S_80171790_2 *)((void *) data_or_speed))->unk_1E = 0x1000;
+        ((S_80171790_2 *)((void *) data_or_speed))->unk_1C = 0x1000;
+        ((S_80171790_2 *)((void *) data_or_speed))->unk_0C = rand();
+        ((S_80171790_2 *)((void *) data_or_speed))->unk_0D = rand();
+        ((S_80171790_2 *)((void *) data_or_speed))->unk_0E = rand();
+        ((S_80171790_1 *)((void *) obj_or_angle))->unk_20 =
+            ((S_80171790_2 *)((void *) data_or_speed))->unk_0C;
+        random_byte_1 = ((S_80171790_2 *)((void *) data_or_speed))->unk_0D;
+        effect_state->unk_01 = random_byte_1;
+        random_byte_2 = ((S_80171790_2 *)((void *) data_or_speed))->unk_0E;
+        effect_state->unk_60 = 0;
+        effect_state->unk_5C = 0;
+        effect_state->unk_58 = 0;
+        effect_state->unk_02 = random_byte_2;
+        obj_or_angle = rand() & 0xFFF;
+        data_or_speed =
+            (source_obj->unk_AE * func_80064584(obj_or_angle)) >> 0xC;
+        effect_state->unk_62 =
+            (source_obj->unk_AE * func_800644B8(obj_or_angle)) >> 0xC;
+        obj_or_angle = rand() & 0xFFF;
+        effect_state->unk_5A =
+            (data_or_speed * func_80064584(obj_or_angle)) >> 0xC;
+        effect_state->unk_5E =
+            (data_or_speed * func_800644B8(obj_or_angle)) >> 0xC;
     }
 }
 
 /* MECHANISM: The fixed s0/s1/s2 object roles leave natural argument holds to allocate as s4/s3,
    reproducing the 0x28 frame and prologue schedule; s0 holds object+0x20 across the body.
-   Two scheduler seams retain the byte1 load-delay nop, while a split byte2 live range hoists its lbu. */
+   Two scheduler seams retain the random_byte_1 load-delay nop, while a split random_byte_2 live range hoists its lbu. */

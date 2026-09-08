@@ -13,13 +13,14 @@ typedef struct S_800C86EC_0 {
 
 /* extern */
 
-void func_800C86EC(s32 arg0, S_800C86EC_0 *arg1, M2C_UNK arg2) {
-    arg1->unk_08.at00.v = (s32) (arg1->unk_08.at00.v + arg1->unk_14);
-    if (func_800C2AE8(arg1) < arg1->unk_08.at02.v) {
-        arg1->unk_08.at02.v = func_800C2AE8(arg1);
-        arg1->unk_14 = 0;
-        func_800C4174(arg0, arg1, arg2);
+/* Advance the object's position and stop its movement when it exceeds the limit. */
+void func_800C86EC(s32 context, S_800C86EC_0 *object, M2C_UNK finish_arg) {
+    object->unk_08.at00.v = (s32) (object->unk_08.at00.v + object->unk_14);
+    if (func_800C2AE8(object) < object->unk_08.at02.v) {
+        object->unk_08.at02.v = func_800C2AE8(object);
+        object->unk_14 = 0;
+        func_800C4174(context, object, finish_arg);
         return;
     }
-    func_80095388(arg1);
+    func_80095388(object);
 }

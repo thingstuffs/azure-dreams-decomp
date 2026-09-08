@@ -48,47 +48,48 @@ typedef struct S_801722E4_3 {
     s8 unk_9B;
 } S_801722E4_3;   /* arg0 in func_801722E4 */
 
-void func_801722E4(S_801722E4_3 *arg0, M2C_UNK arg1, S_801722E4_1 *arg2, void *arg3) {
-    M2C_UNK sp18;
-    void *temp_s3;
-    S_801722E4_2 *temp_v0;
-    u8 *temp_tbl;
-    s8 *page_8008;
+/* Face the target and initialize the actor action when status checks allow it. */
+void func_801722E4(S_801722E4_3 *action_state, M2C_UNK event_context, S_801722E4_1 *sprite, void *actor) {
+    M2C_UNK distance;
+    void *actor_base;
+    S_801722E4_2 *target;
+    u8 *direction_frames;
+    s8 *angle_page;
 
-    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 =
-        (u8)(((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
+    ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 =
+        (u8)(((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
     if (!(D_80083462 & 0x2008)) {
-        temp_s3 = (s8 *)arg3 - 0x20;
-        if ((func_800A2B5C(arg3) << 0x10) == 0) {
-            func_800C7930(temp_s3, arg1, 8, 0x300);
-            if ((func_800A2B5C(arg3) << 0x10) == 0) {
-                temp_v0 = ((S_801722E4_5_pre *)(((Rec_D_800E3D7C *)arg3)->unk_60.as_pv))[-1].unk_00;
-                ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(
-                    arg2->unk_24,
-                    arg2->unk_25,
-                    temp_v0->unk_24,
-                    temp_v0->unk_25,
-                    &sp18);
-                temp_tbl = D_801764A0;
-                arg0->unk_9A = 0x17;
+        actor_base = (s8 *)actor - 0x20;
+        if ((func_800A2B5C(actor) << 0x10) == 0) {
+            func_800C7930(actor_base, event_context, 8, 0x300);
+            if ((func_800A2B5C(actor) << 0x10) == 0) {
+                target = ((S_801722E4_5_pre *)(((Rec_D_800E3D7C *)actor)->unk_60.as_pv))[-1].unk_00;
+                ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 = func_800A0818(
+                    sprite->unk_24,
+                    sprite->unk_25,
+                    target->unk_24,
+                    target->unk_25,
+                    &distance);
+                direction_frames = D_801764A0;
+                action_state->unk_9A = 0x17;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                page_8008 = (s8 *)0x80080000;
-                ASM_KEEP(page_8008);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                arg0->unk_9B = 0;
-                arg0->unk_8C = 0;
-                arg2->unk_2C = temp_tbl;
+                angle_page = (s8 *)0x80080000;
+                ASM_KEEP(angle_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                action_state->unk_9B = 0;
+                action_state->unk_8C = 0;
+                sprite->unk_2C = direction_frames;
                 func_80047784(
-                    arg2,
-                    temp_tbl[((s32)(*(s16 *)(page_8008 + 0x3228) +
-                                    ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) &
+                    sprite,
+                    direction_frames[((s32)(*(s16 *)(angle_page + 0x3228) +
+                                    ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) &
                              7],
                     0);
-                func_800A4ACC(arg3);
-                ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 =
-                    (u8)(((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 - 1);
-                arg0->unk_98 =
-                    (u16)(arg0->unk_98 | 8);
-                func_800C77D0(temp_s3, arg1, 8, 0x300);
+                func_800A4ACC(actor);
+                ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 =
+                    (u8)(((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
+                action_state->unk_98 =
+                    (u16)(action_state->unk_98 | 8);
+                func_800C77D0(actor_base, event_context, 8, 0x300);
             }
         }
     }

@@ -29,20 +29,20 @@ typedef struct S_8004A940_CategoryEntry {
 
 extern S_8004A940_CategoryEntry itemCategoryTable[];
 
-/* summary */
+/* Assign consecutive 19-byte data blocks to the items selected by the category/index table. */
 void func_8004A940(void)
 {
-    S_8004A940_Pair *p = (S_8004A940_Pair *)0x80013564;
-    void *ptr = (void *)0x800133E8;
-    S_8004A940_CategoryEntry *tbl;
-    s32 i = 0;
+    S_8004A940_Pair *itemPair = (S_8004A940_Pair *)0x80013564;
+    void *itemData = (void *)0x800133E8;
+    S_8004A940_CategoryEntry *categoryTable;
+    s32 pairIndex = 0;
 
-    tbl = itemCategoryTable;
-    for (; i < 20; i++) {
-        if (p->a != 0) {
-            tbl[p->a].records[p->b].ptr = ptr;
+    categoryTable = itemCategoryTable;
+    for (; pairIndex < 20; pairIndex++) {
+        if (itemPair->a != 0) {
+            categoryTable[itemPair->a].records[itemPair->b].ptr = itemData;
         }
-        p++;
-        ptr = (u8 *)ptr + 0x13;
+        itemPair++;
+        itemData = (u8 *)itemData + 0x13;
     }
 }

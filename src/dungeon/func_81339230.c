@@ -10,19 +10,20 @@ typedef struct {
 extern DungeonState D_80083160;
 extern s32 D_800814A0[];
 
-s32 func_80170230(u16 *arg0)
+/* Increment three dungeon state bytes by two, or set flags when the first reaches 0x80. */
+s32 func_80170230(u16 *dataCursor)
 {
-    u32 value = D_80083160.unkA8;
+    u32 firstStateByte = D_80083160.unkA8;
 
-    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(firstStateByte);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    if ((value & 0xFF) < 0x80U) {
-        D_80083160.unkA8 = value + 2;
+    if ((firstStateByte & 0xFF) < 0x80U) {
+        D_80083160.unkA8 = firstStateByte + 2;
         D_80083160.unkA9 += 2;
         D_80083160.unkAA += 2;
         return;
     }
 
-    arg0[-1] |= 0x8000;
+    dataCursor[-1] |= 0x8000;
     return D_800814A0[0] |= 0x8000;
 }

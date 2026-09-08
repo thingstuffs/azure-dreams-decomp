@@ -36,57 +36,58 @@ extern void func_80058E6C(S_80085FA8 *a0, s32 a1);
 extern void func_800590E0(S_80085FA8 *a0);
 extern s32 func_8005914C(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
 
-s32 func_8005947C(S_80085FA8 *arg0)
+/* Read and dispatch the next event, reusing the previous status when needed. */
+s32 func_8005947C(S_80085FA8 *stream)
 {
-    s32 s1;
-    register s32 s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s32 s4;
-    register s32 s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register s32 ev ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 kind ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    u32 idx;
-    s32 v0;
+    s32 status;
+    register s32 first_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    s32 second_data;
+    register s32 data_count ASM_REG("$19");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 input_byte ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 event_byte ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    u32 status_group;
+    s32 subcommand;
 
-    s4 = 0;
-    ev = func_800589B8(arg0);
-    kind = ev;
-    if (!(ev & 0x80)) {
-        s1 = arg0->f4a;
-        arg0->f49 = 1;
+    second_data = 0;
+    input_byte = func_800589B8(stream);
+    event_byte = input_byte;
+    if (!(input_byte & 0x80)) {
+        status = stream->f4a;
+        stream->f49 = 1;
     } else {
-        s1 = ev;
-        if ((kind & 0xFF) != 0xFF) {
-            arg0->f4a = ev;
+        status = input_byte;
+        if ((event_byte & 0xFF) != 0xFF) {
+            stream->f4a = input_byte;
         }
-        arg0->f49 = 0;
+        stream->f49 = 0;
     }
-    idx = (u32)s1 >> 4;
-    s3 = D_800737DC[idx & 0xF];
-    if (s3 != 0) {
-        if (arg0->f49 != 0) {
-            s2 = kind;
+    status_group = (u32)status >> 4;
+    data_count = D_800737DC[status_group & 0xF];
+    if (data_count != 0) {
+        if (stream->f49 != 0) {
+            first_data = event_byte;
         } else {
-            s2 = func_800589B8(arg0);
+            first_data = func_800589B8(stream);
         }
-        if (s3 == 2) {
-            s4 = func_800589B8(arg0);
+        if (data_count == 2) {
+            second_data = func_800589B8(stream);
         }
-        func_8005914C(arg0, s1 & 0xFF, s2 & 0xFF, s4 & 0xFF);
+        func_8005914C(stream, status & 0xFF, first_data & 0xFF, second_data & 0xFF);
         return 0;
     }
-    if ((kind & 0xFF) == 0xF0) {
+    if ((event_byte & 0xFF) == 0xF0) {
         goto case_f0;
     }
-    if ((kind & 0xFF) != 0xFF) {
+    if ((event_byte & 0xFF) != 0xFF) {
         goto otherwise;
     }
     {
-        v0 = func_800589B8(arg0);
-        func_80058E6C(arg0, v0 & 0xFF);
+        subcommand = func_800589B8(stream);
+        func_80058E6C(stream, subcommand & 0xFF);
         return 0;
     }
 case_f0:
-    func_800590E0(arg0);
+    func_800590E0(stream);
     return 0;
 otherwise:
     func_80058E64();

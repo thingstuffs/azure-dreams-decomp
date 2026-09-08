@@ -12,23 +12,24 @@ typedef struct Func8094D708Object {
 
 extern void func_800166A0(s32, s16);
 
-s32 func_808B1704(Func8094D708Object *arg0)
+/* Invokes the object's callbacks in order and returns the index of the first to return zero. */
+s32 func_808B1704(Func8094D708Object *object)
 {
-    s32 i = 0;
-    u8 *address;
+    s32 callbackIndex = 0;
+    u8 *callbackAddress;
     Func8094D708Callback callback;
 
-    func_800166A0(arg0->field14, arg0->field1A);
+    func_800166A0(object->field14, object->field1A);
 
 L_CALLBACK:
 {
-    register void *call_arg ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    address = (u8 *)(i << 4);
-    address = (u8 *)((s32)address + (s32)arg0->callbacks);
-    callback = *(Func8094D708Callback *)address;
-    if (callback(call_arg, i) == 0)
-        return i;
-    i++;
+    register void *callbackObject ASM_REG("$4") = object;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    callbackAddress = (u8 *)(callbackIndex << 4);
+    callbackAddress = (u8 *)((s32)callbackAddress + (s32)object->callbacks);
+    callback = *(Func8094D708Callback *)callbackAddress;
+    if (callback(callbackObject, callbackIndex) == 0)
+        return callbackIndex;
+    callbackIndex++;
     goto L_CALLBACK;
 }
 }

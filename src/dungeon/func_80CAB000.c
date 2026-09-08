@@ -76,24 +76,25 @@ static void (*const bank_table[])(void)
 #define BODY_NAME func_80CAB000
 #endif
 
-void BODY_NAME(Object *arg0, s32 arg1, CopyFields *arg2)
+/* Initialize the object's part defaults and copy the supplied coordinates. */
+void BODY_NAME(Object *object, s32 field60_value, CopyFields *source_coords)
 {
     Part *part;
     CopyFields *copy;
 
-    arg0->field60 = arg1;
-    func_8004491C(arg0, D_80045340);
+    object->field60 = field60_value;
+    func_8004491C(object, D_80045340);
 
-    part = arg0->part;
+    part = object->part;
     part->field10 = 0x20;
     part->field14 |= 0xC;
 
-    copy = arg0->copy;
-    copy->x = arg2->x;
-    copy->y = arg2->y;
-    copy->z = arg2->z;
+    copy = object->copy;
+    copy->x = source_coords->x;
+    copy->y = source_coords->y;
+    copy->z = source_coords->z;
 
-    part = arg0->part;
+    part = object->part;
     part->field1E = 0x1000;
     part->field1C = 0x1000;
     part->b = 0x80;

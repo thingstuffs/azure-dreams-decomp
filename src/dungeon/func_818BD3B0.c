@@ -39,35 +39,36 @@ s32 func_80064584();
 extern s32 D_800814A0[3];
 extern M2C_UNK D_800DEC70[3];
 
-void func_818BD3B0(void *arg0, S_818BD3B0_2 *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_v0_2;
-    s32 temp_lo;
-    s32 temp_v1_2;
-    u16 temp_v0;
-    S_818BD3B0_1 *temp_v1;
+/* Advance orbital motion, expire it at its duration, and update the object. */
+void func_818BD3B0(void *motion, S_818BD3B0_2 *position, Rec_D_80082E80 *object) {
+    s16 angle;
+    s32 radius_product;
+    s32 height_offset;
+    u16 tick;
+    S_818BD3B0_1 *owner;
 
-    temp_v1 = ((S_818BD3B0_0 *)arg0)->unk_00;
-    temp_v1->unk_14 = (u16) (temp_v1->unk_14 + 1);
-    temp_v0 = ((S_818BD3B0_0 *)arg0)->unk_04 + 1;
-    ((S_818BD3B0_0 *)arg0)->unk_04 = temp_v0;
-    if (((S_818BD3B0_0 *)arg0)->unk_06 < (s16) temp_v0) {
-        ((S_818BD3B0_0_pre *)arg0)[-1].unk_00 = (u16) (((S_818BD3B0_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    owner = ((S_818BD3B0_0 *)motion)->unk_00;
+    owner->unk_14 = (u16) (owner->unk_14 + 1);
+    tick = ((S_818BD3B0_0 *)motion)->unk_04 + 1;
+    ((S_818BD3B0_0 *)motion)->unk_04 = tick;
+    if (((S_818BD3B0_0 *)motion)->unk_06 < (s16) tick) {
+        ((S_818BD3B0_0_pre *)motion)[-1].unk_00 = (u16) (((S_818BD3B0_0_pre *)motion)[-1].unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
         func_80024D10();
         return;
     }
-    temp_v1_2 = (s32) ((func_80064584((s16) temp_v0 << 7) >> 4) * ((S_818BD3B0_0 *)arg0)->unk_0A) >> 8;
-    ((S_818BD3B0_0 *)arg0)->unk_08 = (s16) temp_v1_2;
-    arg1->unk_08 = (s32) (arg1->unk_14 - (temp_v1_2 << 0x10));
-    temp_lo = (func_800644B8((s16) ((S_818BD3B0_0 *)arg0)->unk_04 << 7) >> 4) * ((S_818BD3B0_0 *)arg0)->unk_0A;
-    temp_v0_2 = ((S_818BD3B0_0 *)arg0)->unk_0C + 0x80;
-    ((S_818BD3B0_0 *)arg0)->unk_0C = (u16) temp_v0_2;
-    ((S_818BD3B0_0 *)arg0)->unk_08 = (s16) (temp_lo >> 8);
-    arg1->unk_00 = (s32) (arg1->unk_0C + (((func_80064584(temp_v0_2) >> 4) * ((S_818BD3B0_0 *)arg0)->unk_08) << 8));
-    arg1->unk_04 = (s32) (arg1->unk_10 + (((func_800644B8((s16) ((S_818BD3B0_0 *)arg0)->unk_0C) >> 4) * ((S_818BD3B0_0 *)arg0)->unk_08) << 8));
-    func_800478B8(arg2);
-    if (arg2->unk_14.at00_u16.v & 0x6000) {
-        func_8003DB94(arg2, &D_800DEC70, 0);
+    height_offset = (s32) ((func_80064584((s16) tick << 7) >> 4) * ((S_818BD3B0_0 *)motion)->unk_0A) >> 8;
+    ((S_818BD3B0_0 *)motion)->unk_08 = (s16) height_offset;
+    position->unk_08 = (s32) (position->unk_14 - (height_offset << 0x10));
+    radius_product = (func_800644B8((s16) ((S_818BD3B0_0 *)motion)->unk_04 << 7) >> 4) * ((S_818BD3B0_0 *)motion)->unk_0A;
+    angle = ((S_818BD3B0_0 *)motion)->unk_0C + 0x80;
+    ((S_818BD3B0_0 *)motion)->unk_0C = (u16) angle;
+    ((S_818BD3B0_0 *)motion)->unk_08 = (s16) (radius_product >> 8);
+    position->unk_00 = (s32) (position->unk_0C + (((func_80064584(angle) >> 4) * ((S_818BD3B0_0 *)motion)->unk_08) << 8));
+    position->unk_04 = (s32) (position->unk_10 + (((func_800644B8((s16) ((S_818BD3B0_0 *)motion)->unk_0C) >> 4) * ((S_818BD3B0_0 *)motion)->unk_08) << 8));
+    func_800478B8(object);
+    if (object->unk_14.at00_u16.v & 0x6000) {
+        func_8003DB94(object, &D_800DEC70, 0);
     }
 }
 

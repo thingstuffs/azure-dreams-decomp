@@ -41,11 +41,12 @@ extern void func_8004491C(Object *object, u8 *data);
 extern u8 D_80170EF4[];
 extern Blob12 D_80175EDC;
 
-void func_80171928(void *arg0, s32 *arg1) {
+/* Creates and initializes an object at an offset from the supplied position. */
+void func_80171928(void *unused, s32 *position) {
     Object *object;
     Header *header;
     Child *child;
-    u32 *data;
+    u32 *object_pos;
 
     object = func_8003FC64(0x212);
     if (object != NULL) {
@@ -57,10 +58,10 @@ void func_80171928(void *arg0, s32 *arg1) {
         child = object->child;
         child->value10 = 0x60;
         child->flags14 |= 0xC;
-        data = object->data;
-        data[0] = arg1[0];
-        data[1] = arg1[1];
-        data[2] = arg1[2] + (s32)0xFFB00000;
+        object_pos = object->data;
+        object_pos[0] = position[0];
+        object_pos[1] = position[1];
+        object_pos[2] = position[2] + (s32)0xFFB00000;
         child = object->child;
         child->value1e = 0x190;
         child->value1c = 0x190;

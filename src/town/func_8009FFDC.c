@@ -8,23 +8,24 @@ typedef struct S_8009D73C_0 {
     s32 * unk_0C;
 } S_8009D73C_0;   /* *var_s1 in func_8009D73C */
 
-void func_8009D73C(void **arg0) {
-    s32 *var_s0;
-    s32 temp_a0;
-    void **var_s1;
+/* Process each zero-terminated value list in the null-terminated entry array. */
+void func_8009D73C(void **entries) {
+    s32 *value_ptr;
+    s32 value;
+    void **entry_ptr;
 
-    var_s1 = arg0;
-    if (*var_s1 != NULL) {
+    entry_ptr = entries;
+    if (*entry_ptr != NULL) {
         do {
-            var_s0 = ((S_8009D73C_0 *)(*var_s1))->unk_0C;
-            if ((var_s0 != NULL) && (*var_s0 != 0)) {
+            value_ptr = ((S_8009D73C_0 *)(*entry_ptr))->unk_0C;
+            if ((value_ptr != NULL) && (*value_ptr != 0)) {
                 do {
-                    temp_a0 = *var_s0;
-        var_s0 += 1;
-                    func_8009D7D0(temp_a0);
-                } while (*var_s0 != 0);
+                    value = *value_ptr;
+                    value_ptr += 1;
+                    func_8009D7D0(value);
+                } while (*value_ptr != 0);
             }
-            var_s1 = (void **)((s8 *)((void **)((s8 *)var_s1 + 4)));
-        } while (*var_s1 != NULL);
+            entry_ptr = (void **)((s8 *)((void **)((s8 *)entry_ptr + 4)));
+        } while (*entry_ptr != NULL);
     }
 }

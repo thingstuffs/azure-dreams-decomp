@@ -34,17 +34,18 @@ extern s32 D_800814A0_load[3];
 __asm__(".set D_800814A0_load, 0x800814A0");
 #endif
 
-S_8004A330_Entity *func_8004A330(s32 p0, s32 p1, s32 p2, s32 p3,
-                                  s32 p4, s32 p5, s32 p6, s32 p7) {
+/* Allocate and initialize an entity with a resource buffer and position targets. */
+S_8004A330_Entity *func_8004A330(s32 style_flags, s32 start_x, s32 start_y, s32 target_x,
+                                  s32 target_y, s32 width, s32 flags, s32 content_id) {
     S_8004A330_Entity *entity;
-    register S_8004A330_Sub20 *sub20 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 resptr;
-    s32 saved_p0 = p0;
-    register s32 saved_p1 ASM_REG("$22") = p1;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register s32 saved_p2 ASM_REG("$20") = p2;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register s32 saved_p3 ASM_REG("$18") = p3;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register s32 saved_p4 ASM_REG("$19") = p4;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register s32 saved_p5 ASM_REG("$21") = p5;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register S_8004A330_Sub20 *state ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 buffer_addr;
+    s32 saved_style_flags = style_flags;
+    register s32 saved_start_x ASM_REG("$22") = start_x;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register s32 saved_start_y ASM_REG("$20") = start_y;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register s32 saved_target_x ASM_REG("$18") = target_x;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register s32 saved_target_y ASM_REG("$19") = target_y;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register s32 saved_width ASM_REG("$21") = width;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     u16 entity_flags;
     s32 global_flags;
 #ifndef NON_MATCHING
@@ -53,21 +54,21 @@ S_8004A330_Entity *func_8004A330(s32 p0, s32 p1, s32 p2, s32 p3,
 
     entity = func_8003FC64(0);
     if (entity != 0) {
-        resptr = func_8004B404(0);
-        sub20 = &entity->sub20;
-        sub20->field8 = (void *)resptr;
-        if (resptr != 0) {
-            sub20->field0 = (u16)p6;
-            sub20->x = (s16)(saved_p3 - 0xA0);
-            sub20->y = (s16)(saved_p4 - 0x80);
-            func_8004A24C(sub20, saved_p0, p7, (s16)saved_p1,
-                          (s16)saved_p2,
-                          (s16)saved_p5);
-            ASM_KEEP(saved_p1);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(saved_p2);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(saved_p3);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(saved_p4);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(saved_p5);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        buffer_addr = func_8004B404(0);
+        state = &entity->sub20;
+        state->field8 = (void *)buffer_addr;
+        if (buffer_addr != 0) {
+            state->field0 = (u16)flags;
+            state->x = (s16)(saved_target_x - 0xA0);
+            state->y = (s16)(saved_target_y - 0x80);
+            func_8004A24C(state, saved_style_flags, content_id, (s16)saved_start_x,
+                          (s16)saved_start_y,
+                          (s16)saved_width);
+            ASM_KEEP(saved_start_x);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(saved_start_y);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(saved_target_x);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(saved_target_y);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(saved_width);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
             entity->field_c = &entity->sub50;
             func_8004491C(entity, func_8004CAA0);
             entity->update_fn = func_80049F2C;

@@ -12,38 +12,35 @@ extern s32 D_800D04B8[];
 extern void func_80096918(Unk99108 *, s32, s32, s32 *);
 extern void func_80096924(Unk99108 *, s32, s32, s32 *);
 
-void func_80096868(Unk99108 *arg0, s32 arg1, s32 arg2, s32 *arg3)
+/* Dispatch to the matching or fallback handler using sentinel-terminated key lists. */
+void func_80096868(Unk99108 *entry, s32 forwarded_a, s32 forwarded_b, s32 *match_cursor)
 {
-    s32 *outer;
-    s32 value;
+    s32 *key_cursor;
+    s32 entry_key;
 
-    outer = D_800D04A4;
-    if (*outer != 0) {
+    key_cursor = D_800D04A4;
+    if (*key_cursor != 0) {
         do {
-            value = arg0->unk0;
-            if (value == *outer) {
-                if (value == (s32)D_80097D2C) {
-                    arg3 = D_800D04B8;
-                    if (*arg3 != 0) {
+            entry_key = entry->unk0;
+            if (entry_key == *key_cursor) {
+                if (entry_key == (s32)D_80097D2C) {
+                    match_cursor = D_800D04B8;
+                    if (*match_cursor != 0) {
                         do {
-                            if (arg0->unk4 != *arg3++) {
+                            if (entry->unk4 != *match_cursor++) {
                                 continue;
                             }
 found:
-                            func_80096924(arg0, arg1, arg2, arg3);
+                            func_80096924(entry, forwarded_a, forwarded_b, match_cursor);
                             return;
-                        } while (*arg3 != 0);
+                        } while (*match_cursor != 0);
                     }
                 } else {
                     goto found;
                 }
             }
-            outer++;
-        } while (*outer != 0);
+            key_cursor++;
+        } while (*key_cursor != 0);
     }
-    func_80096918(arg0, arg1, arg2, arg3);
+    func_80096918(entry, forwarded_a, forwarded_b, match_cursor);
 }
-
-/* MECHANISM: 0x18 frame saves only ra; the outer sentinel base stays in t0 after a direct first load.
-   D_800D04B8 holds its page in t1 and completes arg3 in the guard delay slot.
-   The shared found label merges the outer non-special edge with the inner equality fallthrough. */

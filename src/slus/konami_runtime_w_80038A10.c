@@ -25,11 +25,12 @@ extern Func80038A10State *D_80081448;
 extern s32 func_80038AB8(Func80038A10State *, void *);
 extern void func_80038A10(Func80038A10State *);
 
-void func_80038A10(Func80038A10State *arg0) {
-    Func80038A10State *state = arg0;
+/* Processes the current state until processing stops or its handler changes. */
+void func_80038A10(Func80038A10State *input_state) {
+    Func80038A10State *state = input_state;
     Func80038A10Global *global = &D_80083160;
-    void *arg1 = arg0->field80;
-    void (*self)(Func80038A10State *);
+    void *context = input_state->field80;
+    void (*handler)(Func80038A10State *);
 
     D_80081448 = state;
 
@@ -41,11 +42,11 @@ void func_80038A10(Func80038A10State *arg0) {
         }
     }
 
-    self = func_80038A10;
+    handler = func_80038A10;
 
     do {
-        if (func_80038AB8(state, arg1) == 0) {
+        if (func_80038AB8(state, context) == 0) {
             break;
         }
-    } while (state->func10 == self);
+    } while (state->func10 == handler);
 }

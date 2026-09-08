@@ -15,15 +15,16 @@ extern S_800814A0 D_800814A0;
 
 extern void *D_800CFCA8[];
 
-void func_8008C304(s32 *arg0)
+/* Processes the current index, advances it, and marks completion at 128. */
+void func_8008C304(s32 *currentIndex)
 {
-    s32 temp;
+    s32 nextIndex;
 
-    func_8008C28C(*arg0);
-    temp = *arg0 + 1;
-    *arg0 = temp;
-    if (temp >= 0x80) {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    func_8008C28C(*currentIndex);
+    nextIndex = *currentIndex + 1;
+    *currentIndex = nextIndex;
+    if (nextIndex >= 0x80) {
+        *(u16 *)((u8 *)currentIndex - 2) |= 0x8000;
         D_800CFCA8[0] = 0;
         D_800814A0.val |= 0x8000;
     }

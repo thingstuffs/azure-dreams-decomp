@@ -64,31 +64,32 @@ extern s32 func_800644B8(s32);
 extern u8 D_80045340;
 extern void D_8017414C(void);
 
-void func_801745E0(Source *src, Vec3i *vec)
+/* Creates a 16-segment cylindrical effect at the supplied position. */
+void func_801745E0(Source *source, Vec3i *origin)
 {
-    s16 i;
+    s16 segment;
     void (*callback)(void);
-    s32 thirty_two;
+    s32 base_color;
 
-    i = 0;
+    segment = 0;
     callback = D_8017414C;
-    thirty_two = 32;
-    for (; i < 16; i++) {
+    base_color = 32;
+    for (; segment < 16; segment++) {
         Entity *entity;
         Sub *sub;
-        Vec3i *dst;
+        Vec3i *position;
         Prim *prim;
         s32 angle;
-        s32 next;
-        s32 value;
+        s32 next_angle;
+        s32 radial_offset;
         u16 flags;
-        volatile u16 *flag_ptr;
-        Entity *call_arg;
-        s32 fifty;
-        s32 full;
-        u8 held;
-        s32 trig_arg;
-        register s32 raw_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        volatile u16 *prim_flags;
+        Entity *init_entity;
+        s32 lifetime;
+        s32 unit_scale;
+        u8 color_copy;
+        s32 trig_angle;
+        register s32 trig_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
         entity = func_8003FC64(18);
         if (entity == 0) {
@@ -96,72 +97,72 @@ void func_801745E0(Source *src, Vec3i *vec)
         }
 
         sub = &entity->sub;
-        fifty = 50;
-        call_arg = entity;
-        sub->field_1A = fifty;
-        sub->field_1C = src->field_96;
+        lifetime = 50;
+        init_entity = entity;
+        sub->field_1A = lifetime;
+        sub->field_1C = source->field_96;
         entity->callback = callback;
-        func_8004491C(call_arg, &D_80045340);
+        func_8004491C(init_entity, &D_80045340);
 
-        angle = i;
+        angle = segment;
         prim = entity->prim;
-        flag_ptr = &prim->field_14;
-        flags = *(u16 *)flag_ptr;
+        prim_flags = &prim->field_14;
+        flags = *(u16 *)prim_flags;
         flags |= 0xC;
-        prim->field_10 = thirty_two;
-        *flag_ptr = flags;
+        prim->field_10 = base_color;
+        *prim_flags = flags;
         flags |= 0x80;
-        *flag_ptr = flags;
+        *prim_flags = flags;
 
-        dst = entity->vec;
-        dst->x = vec->x;
-        next = (angle + 1) << 8;
-        dst->y = vec->y;
-        dst->z = vec->z;
+        position = entity->vec;
+        position->x = origin->x;
+        next_angle = (angle + 1) << 8;
+        position->y = origin->y;
+        position->z = origin->z;
 
         sub->field_6E = -64;
         sub->field_68 = -64;
         sub->field_7A = 0;
         sub->field_74 = 0;
 
-        raw_value = func_80064584(next);
+        trig_value = func_80064584(next_angle);
         do {
             angle <<= 8;
         } while (0);
-        trig_arg = angle;
-        ASM_KEEP(trig_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(raw_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        value = (raw_value * 24) >> 12;
-        sub->field_70 = value;
-        sub->field_64 = value;
+        trig_angle = angle;
+        ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(trig_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        radial_offset = (trig_value * 24) >> 12;
+        sub->field_70 = radial_offset;
+        sub->field_64 = radial_offset;
 
-        raw_value = func_80064584(trig_arg);
-        trig_arg = next;
-        ASM_KEEP(trig_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        value = (raw_value * 24) >> 12;
-        sub->field_76 = value;
-        sub->field_6A = value;
+        trig_value = func_80064584(trig_angle);
+        trig_angle = next_angle;
+        ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        radial_offset = (trig_value * 24) >> 12;
+        sub->field_76 = radial_offset;
+        sub->field_6A = radial_offset;
 
-        raw_value = func_800644B8(trig_arg);
-        trig_arg = angle;
-        ASM_KEEP(trig_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        value = (raw_value * 24) >> 12;
-        sub->field_72 = value;
-        sub->field_66 = value;
+        trig_value = func_800644B8(trig_angle);
+        trig_angle = angle;
+        ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        radial_offset = (trig_value * 24) >> 12;
+        sub->field_72 = radial_offset;
+        sub->field_66 = radial_offset;
 
-        raw_value = func_800644B8(trig_arg);
-        value = (raw_value * 24) >> 12;
-        sub->field_78 = value;
-        sub->field_6C = value;
+        trig_value = func_800644B8(trig_angle);
+        radial_offset = (trig_value * 24) >> 12;
+        sub->field_78 = radial_offset;
+        sub->field_6C = radial_offset;
 
         prim = entity->prim;
-        prim->field_0C = thirty_two;
-        held = thirty_two;
-        full = 4096;
-        prim->field_1E = full;
-        prim->field_1C = full;
+        prim->field_0C = base_color;
+        color_copy = base_color;
+        unit_scale = 4096;
+        prim->field_1E = unit_scale;
+        prim->field_1C = unit_scale;
         prim->field_0D = 128;
-        prim->field_0E = thirty_two;
+        prim->field_0E = base_color;
         sub->field_04 = prim->field_0C;
         sub->field_05 = prim->field_0D;
         sub->field_06 = prim->field_0E;

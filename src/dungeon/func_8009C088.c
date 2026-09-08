@@ -4,39 +4,40 @@ extern u8 D_800E3DB0[];
 extern u8 D_800E3DD0[];
 extern u8 D_800E3DE0[];
 
-u8 *func_800A17E8(s16 arg0, s16 arg1) {
-    register s16 var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *var_v1;
-    s16 next;
+/* Returns an entry selected by type and ID, or null if no match is found. */
+u8 *func_800A17E8(s16 entry_id, s16 entry_type) {
+    register s16 entry_index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *entry;
+    s16 next_index;
 
-    if (arg1 == 3) {
-        var_v1 = D_800E3DD0;
-        var_a2 = 4;
-    } else if (arg1 == 2) {
+    if (entry_type == 3) {
+        entry = D_800E3DD0;
+        entry_index = 4;
+    } else if (entry_type == 2) {
         return D_800E3DE0;
     } else if (D_800E3DB0[0x11] == 0x38) {
-        var_v1 = D_800E3DB0 + 0x18;
-        var_a2 = 3;
+        entry = D_800E3DB0 + 0x18;
+        entry_index = 3;
     } else if (D_800E3DB0[9] == 0x31) {
-        var_v1 = D_800E3DB0 + 0x10;
-        var_a2 = 2;
+        entry = D_800E3DB0 + 0x10;
+        entry_index = 2;
     } else {
-        var_v1 = D_800E3DB0;
-        var_a2 = 0;
+        entry = D_800E3DB0;
+        entry_index = 0;
     }
 
-    if (var_a2 < 6) {
+    if (entry_index < 6) {
         do {
-            if ((arg1 == 1 || arg1 == 3) && var_v1[0] != arg1) {
+            if ((entry_type == 1 || entry_type == 3) && entry[0] != entry_type) {
                 return 0;
             }
-            if (var_v1[1] == arg0) {
-                return var_v1;
+            if (entry[1] == entry_id) {
+                return entry;
             }
-            next = var_a2 + 1;
-            var_a2 = next;
-            var_v1 += 8;
-        } while (next < 6);
+            next_index = entry_index + 1;
+            entry_index = next_index;
+            entry += 8;
+        } while (next_index < 6);
     }
     return 0;
 }

@@ -19,40 +19,37 @@ extern s32 func_80018964(s32);
 extern void *D_80016000;
 extern TownEntry D_80019088[7];
 
+/* Advance through town events and dispatch the next eligible entry. */
 void func_80016948(void)
 {
-    TownEntry *entry;
-    u8 *state;
-    s32 i;
+    TownEntry *event_entry;
+    u8 *event_state;
+    s32 checked_count;
 
-    state = ((TownRoot *)D_80016000)->state + 0x68;
-    state[6] += 1;
-    state[6] %= 7;
+    event_state = ((TownRoot *)D_80016000)->state + 0x68;
+    event_state[6] += 1;
+    event_state[6] %= 7;
     func_800168E0();
 
     if (func_800168A0() != 0) {
-        i = 0;
+        checked_count = 0;
         do {
-            if ((func_80018964(D_80019088[state[6]].check) == 0) !=
-                (D_80019088[state[6]].enabled != 0)) {
-                entry = &D_80019088[state[6]];
-                func_8001886C(entry->event);
+            if ((func_80018964(D_80019088[event_state[6]].check) == 0) !=
+                (D_80019088[event_state[6]].enabled != 0)) {
+                event_entry = &D_80019088[event_state[6]];
+                func_8001886C(event_entry->event);
                 goto finish;
             }
 
-            state[6] += 1;
-            state[6] %= 7;
-            i += 1;
-        } while (i < 7);
+            event_state[6] += 1;
+            event_state[6] %= 7;
+            checked_count += 1;
+        } while (checked_count < 7);
 
 finish:
-        if (state[6] != 5) {
+        if (event_state[6] != 5) {
             func_8001886C(0x60E);
         }
         func_8001886C(0x606);
     }
 }
-
-/* MECHANISM: The 0x20 frame follows from three live ranges: state in s0,
-   loop count in s1, and the eight-byte entry-table base in s2.
-   The in-row 0x80016A64 target is a local finish join, not a callee. */

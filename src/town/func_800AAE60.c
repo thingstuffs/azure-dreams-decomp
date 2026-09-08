@@ -15,38 +15,39 @@ extern s32 func_800374F4(u16);
 extern void rand(void);
 extern void func_800A84D0(LocalRecord *, s32);
 
-void func_800A85C0(void *arg0, void *arg1, s32 count) {
-    LocalRecord local;
-    void *data = arg1;
-    register s32 i ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 value;
+/* Builds and submits records at randomized offsets from the origin. */
+void func_800A85C0(void *origin, void *spread, s32 count) {
+    LocalRecord record;
+    void *ranges = spread;
+    register s32 index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 z;
 
     if (count != 0) {
-        i = 0;
+        index = 0;
         rand();
-        local.z = *(u16 *)((u8 *)arg0 + 0xA);
-        local.unk16 = -4;
+        record.z = *(u16 *)((u8 *)origin + 0xA);
+        record.unk16 = -4;
         if (count > 0) {
             do {
-                i++;
-                local.x = (*(u16 *)((u8 *)arg0 + 2) +
-                           func_800374F4(*(u16 *)data)) -
-                          (*(s32 *)data / 2);
-                local.y = (*(u16 *)((u8 *)arg0 + 6) +
-                           func_800374F4(*(u16 *)((u8 *)data + 4))) -
-                          (*(s32 *)((u8 *)data + 4) / 2);
-                value = (*(u16 *)((u8 *)arg0 + 0xA) -
-                         func_800374F4(*(u16 *)((u8 *)data + 8))) -
-                        (*(s32 *)((u8 *)data + 8) / 2);
-                local.z = value;
-                func_800A84D0(&local, value);
-            } while (i < count);
-            ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                index++;
+                record.x = (*(u16 *)((u8 *)origin + 2) +
+                           func_800374F4(*(u16 *)ranges)) -
+                          (*(s32 *)ranges / 2);
+                record.y = (*(u16 *)((u8 *)origin + 6) +
+                           func_800374F4(*(u16 *)((u8 *)ranges + 4))) -
+                          (*(s32 *)((u8 *)ranges + 4) / 2);
+                z = (*(u16 *)((u8 *)origin + 0xA) -
+                         func_800374F4(*(u16 *)((u8 *)ranges + 8))) -
+                        (*(s32 *)((u8 *)ranges + 8) / 2);
+                record.z = z;
+                func_800A84D0(&record, z);
+            } while (index < count);
+            ASM_KEEP(ranges);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         }
     }
 }
 
 /* MECHANISM: One escaping 24-byte record preserves the fields at
    sp+0x12/+0x16/+0x1A/+0x26 and forces the retail 0x40 frame. Guarded pins hold
-   data in s1 and the counter in s0; last-use ASM_KEEP leaves the prologue slot free.
-   Loading local.z before storing -4 produces retail's lhu-v1 then li-v0 order. */
+   ranges in s1 and the counter in s0; last-use ASM_KEEP leaves the prologue slot free.
+   Loading record.z before storing -4 produces retail's lhu-v1 then li-v0 order. */

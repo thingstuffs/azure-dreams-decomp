@@ -23,11 +23,12 @@ extern u8 D_80082E6A[];
 extern Func D_800294A8[];
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
-void func_80025480(Entity *arg0) {
-    if (arg0) {
-        func_800253C0(arg0);
-        if (D_80082E6A[0] == 1 || D_800294A8[arg0->field_18](arg0->field_0, arg0->field_10)) {
-            ((S_80025480_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+/* Process an entity and set entity and global flags when the mode or callback permits. */
+void func_80025480(Entity *entity) {
+    if (entity) {
+        func_800253C0(entity);
+        if (D_80082E6A[0] == 1 || D_800294A8[entity->field_18](entity->field_0, entity->field_10)) {
+            ((S_80025480_0_pre *)entity)[-1].unk_00 |= 0x8000;
             D_800814A0.v |= 0x8000;
         }
     }

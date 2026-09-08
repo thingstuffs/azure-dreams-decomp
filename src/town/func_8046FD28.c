@@ -11,31 +11,28 @@ extern M2C_UNK D_8001B1FC;
 extern M2C_UNK D_8001B63C;
 extern M2C_UNK D_8001CDF2;
 
-s32 func_80016D28(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    s32 var_s1;
+/* Select dialogue from the table, state override, or fallback. */
+s32 func_80016D28(s32 speaker, M2C_UNK interaction, M2C_UNK dialogue_id) {
+    s32 dialogue;
 
-    if (func_80017E98(arg0, arg1) != 0) {
-        s32 page;
+    if (func_80017E98(speaker, interaction) != 0) {
+        s32 text_page;
 
-        page = (s32) 0x80020000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        return page - 0x49C4;
+        text_page = (s32) 0x80020000;
+        ASM_KEEP(text_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        return text_page - 0x49C4;
     }
-    var_s1 = func_80019ABC(&D_8001A97C, &D_8001B1FC, arg0, arg2);
-    if (func_80019A04(&D_8001A97C, arg0, arg2) != 0) {
+    dialogue = func_80019ABC(&D_8001A97C, &D_8001B1FC, speaker, dialogue_id);
+    if (func_80019A04(&D_8001A97C, speaker, dialogue_id) != 0) {
         if (func_8001A510(0x799) != 0) {
-            s32 page;
+            s32 text_page;
 
-            page = (s32) 0x80020000;
-            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            var_s1 = page - 0x320E;
+            text_page = (s32) 0x80020000;
+            ASM_KEEP(text_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            dialogue = text_page - 0x320E;
         } else {
-            var_s1 = func_8001628C(arg0, arg1, arg2);
+            dialogue = func_8001628C(speaker, interaction, dialogue_id);
         }
     }
-    return var_s1;
+    return dialogue;
 }
-
-/* MECHANISM: The true-space name makes the in-row targets local CFG joins instead of phantom calls.
-   Short-lived guarded v0 page carriers produce the split 0x80020000/addiu constants in delay slots.
-   One s1 result live range across both arms preserves the 0x28 frame and fallback copy/join. */

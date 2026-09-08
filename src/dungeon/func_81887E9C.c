@@ -72,61 +72,58 @@ typedef struct S_8002569C_5 {
     u16 unk_04;
 } S_8002569C_5;   /* temp_v0_3 in func_8002569C */
 
-void *func_8002569C(S_8002569C_2 *arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4) {
-    s16 temp_v0_2;
-    u16 temp_a3;
-    u16 temp_a1;
-    u16 temp_a1_2;
-    u16 temp_v1_2;
-    S_8002569C_4 *temp_a0;
-    u8 *temp_base;
-    S_8002569C_1 *temp_s2;
-    void *temp_v0;
-    S_8002569C_5 *temp_v0_3;
-    S_8002569C_3 *temp_v1;
+/* Create an object offset from an origin and record its starting position. */
+void *func_8002569C(S_8002569C_2 *origin, s16 angle, s16 radius, s16 height_offset, s32 alloc_arg) {
+    s16 height;
+    u16 slot_index;
+    u16 origin_x;
+    u16 origin_z;
+    u16 origin_y;
+    S_8002569C_4 *position_slot;
+    u8 *position_table;
+    S_8002569C_1 *positions;
+    void *object;
+    S_8002569C_5 *paired_slot;
+    S_8002569C_3 *object_data;
 
-    temp_v0 = func_8003FD64(0x202, arg4);
-    if (temp_v0 != NULL) {
-        ((S_8002569C_0 *)temp_v0)->unk_10 = &D_80025160;
-        func_8004491C(temp_v0, &D_80025340);
-        temp_s2 = ((S_8002569C_0 *)temp_v0)->unk_08;
-        temp_s2->unk_02 = (s16) (arg0->unk_02 + ((s32) (func_80064584(arg1) * arg2) >> 0xF));
-        temp_s2->unk_06 = (s16) (arg0->unk_06 + ((s32) (func_800644B8(arg1) * arg2) >> 0xF));
-        temp_v0_2 = arg0->unk_0A + ((s32) (arg3 << 0x10) >> 0x13);
-        temp_s2->unk_0A = temp_v0_2;
-        if (D_80026878 < temp_v0_2) {
-            temp_s2->unk_0A = D_80026878;
+    object = func_8003FD64(0x202, alloc_arg);
+    if (object != NULL) {
+        ((S_8002569C_0 *)object)->unk_10 = &D_80025160;
+        func_8004491C(object, &D_80025340);
+        positions = ((S_8002569C_0 *)object)->unk_08;
+        positions->unk_02 = (s16) (origin->unk_02 + ((s32) (func_80064584(angle) * radius) >> 0xF));
+        positions->unk_06 = (s16) (origin->unk_06 + ((s32) (func_800644B8(angle) * radius) >> 0xF));
+        height = origin->unk_0A + ((s32) (height_offset << 0x10) >> 0x13);
+        positions->unk_0A = height;
+        if (D_80026878 < height) {
+            positions->unk_0A = D_80026878;
         }
-        temp_s2->unk_0E = (u16) arg0->unk_02;
-        temp_s2->unk_12 = (u16) arg0->unk_06;
-        temp_s2->unk_16 = (u16) arg0->unk_0A;
-        temp_v1 = (void *) 0xE04020;
-        (*(s32 *)((u8 *)(((S_8002569C_6 *)temp_v0)->unk_0C) + 0xC)) = (s32) temp_v1;
-        temp_a3 = D_8002632A;
-        temp_v1 = temp_v0 + 0x20;
-        temp_v1->unk_16 = arg1;
-        temp_v1->unk_1C = arg3;
-        temp_v1->unk_18 = arg2;
-        temp_v1->unk_22 = temp_a3;
-        if ((s16) temp_a3 < 0x71) {
-            temp_base = D_80026478;
-            temp_a0 = &temp_base[(s16) temp_a3 * 8];
-            temp_a1 = temp_s2->unk_0E;
-            temp_v0_3 = &temp_base[((s16) temp_a3 + 0x10) * 8];
-            temp_a0->unk_00 = temp_a1;
-            temp_v0_3->unk_00 = temp_a1;
-            temp_v1_2 = temp_s2->unk_12;
-            temp_a0->unk_02 = temp_v1_2;
-            temp_v0_3->unk_02 = temp_v1_2;
-            temp_a1_2 = temp_s2->unk_16;
-            D_8002632A = temp_a3 + 1;
-            temp_a0->unk_04 = temp_a1_2;
-            temp_v0_3->unk_04 = temp_a1_2;
+        positions->unk_0E = (u16) origin->unk_02;
+        positions->unk_12 = (u16) origin->unk_06;
+        positions->unk_16 = (u16) origin->unk_0A;
+        object_data = (void *) 0xE04020;
+        (*(s32 *)((u8 *)(((S_8002569C_6 *)object)->unk_0C) + 0xC)) = (s32) object_data;
+        slot_index = D_8002632A;
+        object_data = object + 0x20;
+        object_data->unk_16 = angle;
+        object_data->unk_1C = height_offset;
+        object_data->unk_18 = radius;
+        object_data->unk_22 = slot_index;
+        if ((s16) slot_index < 0x71) {
+            position_table = D_80026478;
+            position_slot = &position_table[(s16) slot_index * 8];
+            origin_x = positions->unk_0E;
+            paired_slot = &position_table[((s16) slot_index + 0x10) * 8];
+            position_slot->unk_00 = origin_x;
+            paired_slot->unk_00 = origin_x;
+            origin_y = positions->unk_12;
+            position_slot->unk_02 = origin_y;
+            paired_slot->unk_02 = origin_y;
+            origin_z = positions->unk_16;
+            D_8002632A = slot_index + 1;
+            position_slot->unk_04 = origin_z;
+            paired_slot->unk_04 = origin_z;
         }
     }
-    return temp_v0;
+    return object;
 }
-/* MECHANISM: Natural long-lived arguments/results reproduce the 0x38 frame and nine-register save set.
-   Direct scalar globals plus one cached counter remove remats; byte indexing with a held table base fixes scaling.
-   One guarded v1 lifetime carries 0xE04020, then object+0x20, keeping the count store branch-slot eligible.
-   Relocating ASM_KEEP_NV after the three field stores selects retail's final lhu/addiu ready-list order. */

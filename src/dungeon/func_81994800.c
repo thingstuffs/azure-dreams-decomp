@@ -40,17 +40,24 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2)
     __attribute__((section(".text.func_81994800")))
 #endif
 ;
-void BODY_NAME(void *arg0, void *arg1, void *arg2) {
-    s32 temp_lo; u16 temp_a0;
-    temp_a0 = ((Rec_D_800E3D7C *)arg0)->unk_2A.as_u16 - 1;
-    temp_lo = (s32)((s32)(temp_a0 << 0x10) >> 9) / (s16)((Rec_D_800E3D7C *)arg0)->unk_2C;
-    D_80025384 = 1; ((Rec_D_800E3D7C *)arg0)->unk_2A.as_u16 = temp_a0;
-    ((S_81994800_1 *)arg2)->unk_0D = (u8)(((S_81994800_1 *)arg2)->unk_0D - 4);
-    ((S_81994800_1 *)arg2)->unk_0E = (s8)temp_lo; ((S_81994800_1 *)arg2)->unk_0C = (s8)temp_lo;
-    if (((S_81994800_1 *)arg2)->unk_06 >= -6) ((S_81994800_1 *)arg2)->unk_06 = (s16)((u16)((S_81994800_1 *)arg2)->unk_06 - 2);
-    if ((s16)((Rec_D_800E3D7C *)arg0)->unk_2A.as_u16 <= 0) {
-        ((S_81994800_2 *)(((((Rec_D_800E3D7C *)arg0)->unk_32 * 2) + ((Rec_D_800E3D7C *)arg0)->unk_60.as_s32)))->unk_46 = 0;
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16)(((S_81994800_0_pre *)arg0)[-1].unk_00 | 0x8000);
+/* Advance the effect countdown, update its parameters, and flag completion. */
+void BODY_NAME(void *effect, void *unused_context, void *effect_params) {
+    s32 scale;
+    u16 ticks_left;
+
+    ticks_left = ((Rec_D_800E3D7C *)effect)->unk_2A.as_u16 - 1;
+    scale = (s32)((s32)(ticks_left << 0x10) >> 9) / (s16)((Rec_D_800E3D7C *)effect)->unk_2C;
+    D_80025384 = 1;
+    ((Rec_D_800E3D7C *)effect)->unk_2A.as_u16 = ticks_left;
+    ((S_81994800_1 *)effect_params)->unk_0D = (u8)(((S_81994800_1 *)effect_params)->unk_0D - 4);
+    ((S_81994800_1 *)effect_params)->unk_0E = (s8)scale;
+    ((S_81994800_1 *)effect_params)->unk_0C = (s8)scale;
+    if (((S_81994800_1 *)effect_params)->unk_06 >= -6) {
+        ((S_81994800_1 *)effect_params)->unk_06 = (s16)((u16)((S_81994800_1 *)effect_params)->unk_06 - 2);
+    }
+    if ((s16)((Rec_D_800E3D7C *)effect)->unk_2A.as_u16 <= 0) {
+        ((S_81994800_2 *)(((((Rec_D_800E3D7C *)effect)->unk_32 * 2) + ((Rec_D_800E3D7C *)effect)->unk_60.as_s32)))->unk_46 = 0;
+        (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81994800_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0 = D_800814A0 | 0x8000;
     }
 }

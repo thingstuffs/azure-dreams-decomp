@@ -16,19 +16,18 @@ typedef struct S_8004FF20 {
     s32 unk20;
 } S_8004FF20;
 
-/* summary: dispatches to D_8007179C[obj->unk1C](parent, arg) where arg is
-   derived from D_800717B4[obj->unk1C] and obj->unk20 / func_800213AC() */
-void func_8004FF20(S_8004FF20 *a0) {
-    s32 a1 = 0;
+/* Calls the object's state callback with its parent and a flag-dependent argument. */
+void func_8004FF20(S_8004FF20 *obj) {
+    s32 callback_arg = 0;
 
-    if (D_800717B4[a0->unk1C] != 0) {
-        a1 = a0->unk20;
-        if (a1 == 2) {
-            s32 v0 = func_800213AC();
-            v0 = v0 ^ 2;
-            a1 = (u32)v0 < 1;
+    if (D_800717B4[obj->unk1C] != 0) {
+        callback_arg = obj->unk20;
+        if (callback_arg == 2) {
+            s32 query_result = func_800213AC();
+            query_result = query_result ^ 2;
+            callback_arg = (u32)query_result < 1;
         }
     }
 
-    D_8007179C[a0->unk1C]((u8 *)a0 - 0x20, a1);
+    D_8007179C[obj->unk1C]((u8 *)obj - 0x20, callback_arg);
 }

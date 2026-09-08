@@ -1,14 +1,3 @@
-/* v06: v04 + case-16's two `return 0` exits are merged into ONE join point
-   (`if (page_b1[0x33E6] == value_b) { ... } return 0;`).  The join CODE_LABEL
-   then carries TWO incoming edges, so jump.c's "x = a; if (...) goto l; x = b;"
-   hoist (jump.c:926-1017) decrements LABEL_NUSES 2 -> 1 instead of 0 and the
-   label survives (jump.c:1014).  next_nonnote_insn(condjump) is therefore a
-   CODE_LABEL, not an INSN, so the emit_store_flag fold (jump.c:1181) never
-   applies -- while the hoist itself still supplies retail's `li v0,1` ahead of
-   an inverted `bne` to the epilogue.  BYTE-EXACT. */
-/* v04: v03 + case-1 `first`/`second` are u32 locals declared ahead of `i` -- the loop-resident li 48 lengthens `first`'s live range, tying its allocno priority with `i`'s, and allocno_compare breaks that tie by pseudo number. */
-/* v03: v02 + dial (c) two-set `k` keeps the 0x30 constant inside the case-1 loop (loop.c move_movables needs n_times_set==1) + dial (b) case-16 tail falls through to the switch's shared `return 0`. */
-/* v02: dial (a) -- case 4/8 and case 16 each get their OWN single-set block-scoped D_800D2644 base pointer AND masked-index local (was one function-scope `records`/`arg` pair set in every arm). */
 #include "common.h"
 
 typedef struct S_800B83DC_0 {
@@ -40,89 +29,90 @@ extern s32 func_80033B2C(s32);
 extern Record D_800D2644[];
 extern u8 D_800D2EA4[];
 
-s32 func_800B83DC(s32 arg0) {
-    s32 input;
+/* Checks a record against pair assignments and matching entry attributes. */
+s32 func_800B83DC(s32 record_key) {
+    s32 key;
     Record *record;
-    s32 result;
-    u32 first;
-    u32 second;
-    s32 i;
-    s32 arg;
-    u8 value_a;
-    s32 index_c;
-    u8 *pair_a;
-    u8 *pair_c;
+    s32 has_match;
+    u32 first_id;
+    u32 second_id;
+    s32 slot;
+    s32 record_id;
+    u8 pair_id;
+    s32 slot_index;
+    u8 *pair;
+    u8 *slot_pair;
     u8 *entry;
-    Record *case_record;
-    Record *case_base;
-    u8 *page_a;
-    u8 value_b;
+    Record *match_record;
+    Record *match_records;
+    u8 *pairs_page;
+    u8 single_id;
 
-    input = arg0;
+    key = record_key;
     {
-        Record *base = D_800D2644;
-        record = base + (input & 0xFF);
+        Record *records = D_800D2644;
+        record = records + (key & 0xFF);
     }
-    result = 0;
+    has_match = 0;
     if (func_80033B2C(record->field8) == 0) return 0;
     switch (record->kind) {
     case 4:
     case 8: {
-        Record *base_a = D_800D2644;
-        s32 arg_a = input & 0xFF;
-        value_a = base_a[arg_a].byte6;
-        if (value_a == 0) return 0;
-        i = 0;
-        page_a = (u8 *)0x80010000;
+        Record *records = D_800D2644;
+        s32 record_id = key & 0xFF;
+        pair_id = records[record_id].byte6;
+        if (pair_id == 0) return 0;
+        slot = 0;
+        pairs_page = (u8 *)0x80010000;
         do {
-            pair_a = (u8 *)((u8)i * 2 + (u32)page_a);
-            if (((S_800B83DC_0 *)pair_a)->unk_33A4 == value_a &&
-                ((S_800B83DC_0 *)pair_a)->unk_33A5 != arg_a) return 1;
-            i++;
-        } while ((u8)i < 0x21);
+            pair = (u8 *)((u8)slot * 2 + (u32)pairs_page);
+            if (((S_800B83DC_0 *)pair)->unk_33A4 == pair_id &&
+                ((S_800B83DC_0 *)pair)->unk_33A5 != record_id) return 1;
+            slot++;
+        } while ((u8)slot < 0x21);
         return 0;
     }
     case 16: {
-        u8 *page_b1;
-        u8 *page_b2;
-        Record *base_b = D_800D2644;
-        s32 arg_b = input & 0xFF;
-        value_b = base_b[arg_b].byte6;
-        if (value_b == 0) return 0;
-        page_b1 = (u8 *)0x80010000;
-        if (page_b1[0x33E6] == value_b) {
-            page_b2 = page_b1;
-            if (page_b2[0x33E7] != arg_b) return 1;
+        u8 *pair_page;
+        u8 *owner_page;
+        Record *records = D_800D2644;
+        s32 record_id = key & 0xFF;
+        single_id = records[record_id].byte6;
+        if (single_id == 0) return 0;
+        pair_page = (u8 *)0x80010000;
+        if (pair_page[0x33E6] == single_id) {
+            owner_page = pair_page;
+            if (owner_page[0x33E7] != record_id) return 1;
         }
         return 0;
     }
     case 1: {
         u8 *entries;
-        u8 *page_c;
-        s32 k = 0;
-        i = 0;
-        page_c = (u8 *)0x80010000;
+        u8 *slots_page;
+        s32 excluded_id = 0;
+        slot = 0;
+        slots_page = (u8 *)0x80010000;
         entries = &D_800D2EA4[0];
-        arg = input & 0xFF;
-        case_base = D_800D2644;
-        case_record = case_base + arg;
+        record_id = key & 0xFF;
+        match_records = D_800D2644;
+        match_record = match_records + record_id;
         do {
-            index_c = i & 0xFF;
-            pair_c = (u8 *)(index_c * 2 + (u32)page_c);
-            first = ((S_800B83DC_1 *)pair_c)->unk_33A4;
-            if (first == arg) return 0;
-            second = ((S_800B83DC_1 *)pair_c)->unk_33A5;
-            if (second == arg) return 0;
-            entry = (u8 *)(index_c * 8 + (u32)entries);
-            if (entry[2] == case_record->byte4 &&
-                entry[3] == case_record->byte5 &&
-                first >= 0x2D) {
-                k = 0x30;
-                if (first != k && second == 0) result = 1;
+            slot_index = slot & 0xFF;
+            slot_pair = (u8 *)(slot_index * 2 + (u32)slots_page);
+            first_id = ((S_800B83DC_1 *)slot_pair)->unk_33A4;
+            if (first_id == record_id) return 0;
+            second_id = ((S_800B83DC_1 *)slot_pair)->unk_33A5;
+            if (second_id == record_id) return 0;
+            entry = (u8 *)(slot_index * 8 + (u32)entries);
+            if (entry[2] == match_record->byte4 &&
+                entry[3] == match_record->byte5 &&
+                first_id >= 0x2D) {
+                excluded_id = 0x30;
+                if (first_id != excluded_id && second_id == 0) has_match = 1;
             }
-            i++;
-        } while ((u8)i < 0x21);
-        return result;
+            slot++;
+        } while ((u8)slot < 0x21);
+        return has_match;
     }
     case 2:
     case 3:

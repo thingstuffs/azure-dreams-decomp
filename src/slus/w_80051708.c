@@ -1,10 +1,5 @@
 #include "common.h"
 
-/* Initializes an object: sets its update-function pointer, stores the
- * passed-in sub-object pointer and clears two following fields, primes a
- * linked sub-record (offset 0xC) via func_8003DB94, sets two flag fields on
- * that sub-record, invokes func_8004491C with a callback, and finally fills
- * a 3-word vector (offset 0x8) with fixed constants. */
 /* struct Elem / struct Dst as established in src/code.c for func_8003DB94 */
 struct Elem {
     unsigned char b0;
@@ -45,27 +40,28 @@ typedef struct {
     short f26;           /* 0x26 */
 } S_80051708;
 
-void func_80051708(S_80051708 *a0, void *a1)
+/* Initializes the object callbacks, sub-object state, linked record, and fixed vector. */
+void func_80051708(S_80051708 *object, void *sub_object)
 {
-    struct Dst *s0;
-    int *v1;
-    char *p = (char *)&a0->f20;
+    struct Dst *record;
+    int *vector;
+    char *sub_fields = (char *)&object->f20;
 
-    a0->func = func_80051548;
-    a0->f20 = a1;
-    ((short *)p)[2] = 0;
-    ((short *)p)[3] = 0;
+    object->func = func_80051548;
+    object->f20 = sub_object;
+    ((short *)sub_fields)[2] = 0;
+    ((short *)sub_fields)[3] = 0;
 
-    s0 = a0->fc;
-    s0->fc = 0x808080;
-    func_8003DB94(s0, D_80072044, 0);
+    record = object->fc;
+    record->fc = 0x808080;
+    func_8003DB94(record, D_80072044, 0);
 
-    *(short *)((char *)s0 + 0x1E) = 0x1000;
-    *(short *)((char *)s0 + 0x1C) = 0x1000;
-    func_8004491C(a0, func_80044BB0);
+    *(short *)((char *)record + 0x1E) = 0x1000;
+    *(short *)((char *)record + 0x1C) = 0x1000;
+    func_8004491C(object, func_80044BB0);
 
-    v1 = a0->f8;
-    v1[0] = 0x1C00000;
-    v1[1] = 0xC00000;
-    v1[2] = 0x800000;
+    vector = object->f8;
+    vector[0] = 0x1C00000;
+    vector[1] = 0xC00000;
+    vector[2] = 0x800000;
 }

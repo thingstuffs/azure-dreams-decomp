@@ -21,16 +21,17 @@ typedef struct S_80037030_1 {
 extern void func_80036D4C(s32, void *, s32 *, s16, s32, s32);
 extern void func_80037090(void *, void *, void *);
 
-void func_80037030(void *arg0, void *arg1, s32 *arg2, s16 arg3, s16 arg4, s32 arg5) {
-    void *call_arg0;
-    void *call_arg1;
-    S_80037030_1 *call_arg2;
+/* Initialize the object, install its color update callback, and run it once. */
+void func_80037030(void *object, void *model, s32 *data, s16 index, s16 table_index, s32 list) {
+    void *state;
+    void *context;
+    S_80037030_1 *output;
 
-    func_80036D4C((s32)arg0, arg1, arg2, arg3, arg4, arg5);
-    call_arg0 = (s8_local *)arg0 + 0x20;
-    call_arg1 = ((S_80037030_0 *)arg0)->unk_08;
-    call_arg2 = ((S_80037030_0 *)arg0)->unk_0C;
-    ((S_80037030_0 *)arg0)->unk_10 = (void *)&func_80037090;
-    call_arg2->unk_0C = 0;
-    func_80037090(call_arg0, call_arg1, call_arg2);
+    func_80036D4C((s32)object, model, data, index, table_index, list);
+    state = (s8_local *)object + 0x20;
+    context = ((S_80037030_0 *)object)->unk_08;
+    output = ((S_80037030_0 *)object)->unk_0C;
+    ((S_80037030_0 *)object)->unk_10 = (void *)&func_80037090;
+    output->unk_0C = 0;
+    func_80037090(state, context, output);
 }

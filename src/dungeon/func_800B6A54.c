@@ -8,35 +8,36 @@
 
 extern void func_800673A0();
 
-void func_800BC1B4(void *arg0) {
-    s16 sp10[4];
+// Updates the wrapped scroll offset and copies its source rectangle to two destinations.
+void func_800BC1B4(void *scrollState) {
+    s16 sourceRect[4];
 
     {
-        register void *pa0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        s32 pa1;
-        s32 pa2;
-        register s32 v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        s32 v1;
+        register void *sourceRectPtr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        s32 destinationX;
+        s32 destinationY;
+        register s32 offsetOrRectValue ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 scrollStepOrSourceY;
 
-        pa0 = sp10;
-        pa1 = 0x270;
+        sourceRectPtr = sourceRect;
+        destinationX = 0x270;
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        v0 = *(u16 *)((unsigned char *)arg0 + 2);
-        v1 = *(u16 *)((unsigned char *)arg0 + 0xC);
+        offsetOrRectValue = *(u16 *)((unsigned char *)scrollState + 2);
+        scrollStepOrSourceY = *(u16 *)((unsigned char *)scrollState + 0xC);
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        pa2 = 0x100;
-        v0 = (v0 - v1) & 0x1F;
-        *(u16 *)((unsigned char *)arg0 + 2) = (u16)v0;
-        v0 = pa1;
-        sp10[0] = v0;
-        v1 = *(u16 *)((unsigned char *)arg0 + 2);
-        v0 = 0x10;
-        sp10[2] = v0;
-        v0 = 0x20;
-        sp10[3] = v0;
-        v1 = v1 + 0x140;
-        sp10[1] = v1;
-        func_800673A0(pa0, pa1, pa2, arg0);
+        destinationY = 0x100;
+        offsetOrRectValue = (offsetOrRectValue - scrollStepOrSourceY) & 0x1F;
+        *(u16 *)((unsigned char *)scrollState + 2) = (u16)offsetOrRectValue;
+        offsetOrRectValue = destinationX;
+        sourceRect[0] = offsetOrRectValue;
+        scrollStepOrSourceY = *(u16 *)((unsigned char *)scrollState + 2);
+        offsetOrRectValue = 0x10;
+        sourceRect[2] = offsetOrRectValue;
+        offsetOrRectValue = 0x20;
+        sourceRect[3] = offsetOrRectValue;
+        scrollStepOrSourceY = scrollStepOrSourceY + 0x140;
+        sourceRect[1] = scrollStepOrSourceY;
+        func_800673A0(sourceRectPtr, destinationX, destinationY, scrollState);
     }
-    func_800673A0(sp10, 0x270, 0x120);
+    func_800673A0(sourceRect, 0x270, 0x120);
 }

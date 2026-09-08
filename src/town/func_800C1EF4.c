@@ -39,7 +39,8 @@ extern u8 D_800D2348[];
 extern s32 D_800D2360;
 extern s32 D_800814A0;
 
-void func_800BF654(void *arg0)
+/* Initialize an object and its packet, then set the caller and global flags. */
+void func_800BF654(void *caller_data)
 {
     void *obj;
     void *part;
@@ -65,7 +66,7 @@ void func_800BF654(void *arg0)
         ((S_800BF654_2 *)setup)->unk_48 = D_800D2360;
         func_8008F074(setup, packet, D_800D2348);
     }
-    (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    (*(u16 *)((u8 *)caller_data + -2)) |= 0x8000;
     D_800814A0 |= 0x8000;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

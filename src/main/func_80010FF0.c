@@ -13,12 +13,13 @@ extern void func_80023EF4(void *arg0, s32 arg1);
 extern s32 func_80023ECC(void *arg0);
 extern void func_80023FA0(void *arg0, s32 arg1, s32 arg2);
 
-void *func_80023FF0(s32 arg0, s32 arg1)
+/* Initialize the indexed object and its runtime state, then return the object. */
+void *func_80023FF0(s32 parent_object, s32 object_index)
 {
     u8 *object;
     u8 *runtime;
 
-    object = D_80029618 + arg1 * 0x3E4;
+    object = D_80029618 + object_index * 0x3E4;
     runtime = object + 0x20;
     if (func_8004B4A8(object) != 0)
         goto normal;
@@ -33,7 +34,7 @@ shared:
     func_80023EF4(runtime, 0xA);
     *(void **)(object + 0xC) = runtime + 0x24C;
     *(s32 *)(runtime + 0x258) = func_80023ECC(runtime + 0x25C);
-    func_80023FA0(runtime, arg0, arg1);
+    func_80023FA0(runtime, parent_object, object_index);
     *(void **)(object + 0x10) = D_80023EC4;
     return object;
 }

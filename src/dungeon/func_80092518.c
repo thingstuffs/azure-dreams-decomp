@@ -2,7 +2,7 @@
 
 extern void func_8008CBA0(void *, s32, void *, void *);
 extern void func_8008CF6C(void *, s32, void *, void *);
-extern void func_80097898(void);
+extern void func_80097898(void *);
 extern void func_80097C50(void *, s32, void *, void *);
 
 extern u16 D_80013714;
@@ -21,7 +21,7 @@ void func_80097C78(void *arg0, s32 arg1, void *arg2, void *arg3)
 
     if (direction < 0) {
         *(u16 *)((u8 *)early_p2 + 0x14) &= 0xF7FF;
-        func_80097898();
+        func_80097898(arg0);
         return;
     }
 

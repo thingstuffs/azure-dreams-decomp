@@ -10,6 +10,7 @@ extern u8 D_804000B0[];
 extern u8 D_804000BC[];
 extern u8 D_804000D0[];
 
+/* Passes four stored values and two queried values to func_8003FA78. */
 void func_8001A8FC(void) {
     func_8003FA78(&D_80400090[0], *(s32 *)0x804094EC);
     func_8003FA78(&D_8040009C[0], *(s32 *)0x804094E8);

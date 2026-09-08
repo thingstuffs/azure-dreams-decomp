@@ -56,16 +56,17 @@ extern u8 D_80175554[];
 extern u8 D_80175564[];
 extern u8 D_8017558C[];
 
-void func_801738B8(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Updates timed movement, returns the actor to its tile, and resets its action state. */
+void func_801738B8(void *object_arg, void *motion_arg, void *actor_arg, void *room_arg)
 {
-    register void *object ASM_REG("$16") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register void *motion ASM_REG("$17") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register void *room ASM_REG("$19") = arg3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *object ASM_REG("$16") = object_arg;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *motion ASM_REG("$17") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *actor ASM_REG("$18") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *room ASM_REG("$19") = room_arg;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 timer;
     u16 old_timer;
-    s32 value;
-    s32 *state;
+    s32 room_ref;
+    s32 *global_state;
 
     switch (((S_801738B8_0 *)object)->unk_9B) {
     case 0:
@@ -120,18 +121,18 @@ start_action:
         timer = ((S_801738B8_0 *)object)->unk_96.s;
         if (timer != 0) {
             {
-                s32 coord = ((S_801738B8_2 *)actor)->unk_24 << 6;
-                s32 current = ((S_801738B8_3 *)motion)->unk_02 - 0x20;
+                s32 target_coord = ((S_801738B8_2 *)actor)->unk_24 << 6;
+                s32 current_coord = ((S_801738B8_3 *)motion)->unk_02 - 0x20;
 
                 ((S_801738B8_3 *)motion)->unk_0C =
-                    ((coord - current) << 16) / timer;
+                    ((target_coord - current_coord) << 16) / timer;
             }
             {
-                s32 coord = ((S_801738B8_2 *)actor)->unk_25 << 6;
-                s32 current = ((S_801738B8_3 *)motion)->unk_06 - 0x20;
+                s32 target_coord = ((S_801738B8_2 *)actor)->unk_25 << 6;
+                s32 current_coord = ((S_801738B8_3 *)motion)->unk_06 - 0x20;
 
                 ((S_801738B8_3 *)motion)->unk_10 =
-                    ((coord - current) << 16) /
+                    ((target_coord - current_coord) << 16) /
                     ((S_801738B8_0 *)object)->unk_96.s;
             }
         }
@@ -157,10 +158,10 @@ start_action:
                 D_80175554[((D_80083228 + ((S_801738B8_1 *)room)->unk_2A + 0x100)
                     >> 9) & 7], 0);
         }
-        state = &D_80083460;
-        value = state[4];
-        if (value == (s32)((u8 *)room - 0x20)) {
-            state[4] = value & 0x7FFFFFFF;
+        global_state = &D_80083460;
+        room_ref = global_state[4];
+        if (room_ref == (s32)((u8 *)room - 0x20)) {
+            global_state[4] = room_ref & 0x7FFFFFFF;
         }
         ((S_801738B8_0 *)object)->unk_8C = D_801716F4;
         ((S_801738B8_0 *)object)->unk_9A = 0xE;

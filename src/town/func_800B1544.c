@@ -110,67 +110,68 @@ typedef struct S_800AECA4_1 {
     s32 * unk_50;
 } S_800AECA4_1;   /* base in func_800AECA4 */
 
-void func_800AECA4(void *arg0) {
-    s16 var_s2;
-    s16 var_s4;
-    s32 temp_s0;
-    s32 var_s3;
+/* Initializes the list display entries and activates the list. */
+void func_800AECA4(void *list) {
+    s16 row_y;
+    s16 entry_y;
+    s32 row_slot;
+    s32 row_index;
 
-    *((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_04 = &D_80077E84;
-    var_s3 = 0;
-    *((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_00 = func_80049E6C(((S_800AECA4_0 *)arg0)->unk_28);
-    ((S_800AECA4_15 *)(((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_00))->unk_04))->unk_0A = (s16) ((((S_800AECA4_0 *)arg0)->unk_28 * 8) + 2);
-    if (((S_800AECA4_0 *)arg0)->unk_28 > 0) {
-        u8 *var_s6 = D_80077EF0;
-        u8 *var_s5 = D_80077EFC;
-        var_s4 = 0x82;
-        var_s2 = 0xA;
+    *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_04 = &D_80077E84;
+    row_index = 0;
+    *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00 = func_80049E6C(((S_800AECA4_0 *)list)->unk_28);
+    ((S_800AECA4_15 *)(((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00))->unk_04))->unk_0A = (s16) ((((S_800AECA4_0 *)list)->unk_28 * 8) + 2);
+    if (((S_800AECA4_0 *)list)->unk_28 > 0) {
+        u8 *row_data_a = D_80077EF0;
+        u8 *row_data_b = D_80077EFC;
+        entry_y = 0x82;
+        row_y = 0xA;
         do {
-            temp_s0 = var_s3 * 4;
+            row_slot = row_index * 4;
             {
-                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                base = (u8 *)(temp_s0 + (s32)base);
-                ((S_800AECA4_11 *)(((S_800AECA4_6 *)(((S_800AECA4_3 *)base)->unk_38))->unk_04))->unk_0A = var_s2;
+                register u8 *row_slots ASM_REG("$2") = ((S_800AECA4_0 *)list)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                row_slots = (u8 *)(row_slot + (s32)row_slots);
+                ((S_800AECA4_11 *)(((S_800AECA4_6 *)(((S_800AECA4_3 *)row_slots)->unk_38))->unk_04))->unk_0A = row_y;
             }
             {
-                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                base = (u8 *)(temp_s0 + (s32)base);
-                *((S_800AECA4_1 *)base)->unk_38 = arg0 + 0x40;
+                register u8 *row_slots ASM_REG("$2") = ((S_800AECA4_0 *)list)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                row_slots = (u8 *)(row_slot + (s32)row_slots);
+                *((S_800AECA4_1 *)row_slots)->unk_38 = list + 0x40;
             }
             {
-                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                base = (u8 *)(temp_s0 + (s32)base);
-                ((S_800AECA4_12 *)(((S_800AECA4_7 *)(((S_800AECA4_3 *)base)->unk_08))->unk_04))->unk_0A = var_s2;
+                register u8 *row_slots ASM_REG("$2") = ((S_800AECA4_0 *)list)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                row_slots = (u8 *)(row_slot + (s32)row_slots);
+                ((S_800AECA4_12 *)(((S_800AECA4_7 *)(((S_800AECA4_3 *)row_slots)->unk_08))->unk_04))->unk_0A = row_y;
             }
             {
-                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                base = (u8 *)(temp_s0 + (s32)base);
-                *((S_800AECA4_1 *)base)->unk_08 = var_s6;
+                register u8 *row_slots ASM_REG("$2") = ((S_800AECA4_0 *)list)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                row_slots = (u8 *)(row_slot + (s32)row_slots);
+                *((S_800AECA4_1 *)row_slots)->unk_08 = row_data_a;
             }
             {
-                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                base = (u8 *)(temp_s0 + (s32)base);
-                ((S_800AECA4_13 *)(((S_800AECA4_8 *)(((S_800AECA4_3 *)base)->unk_20))->unk_04))->unk_0A = var_s2;
+                register u8 *row_slots ASM_REG("$2") = ((S_800AECA4_0 *)list)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                row_slots = (u8 *)(row_slot + (s32)row_slots);
+                ((S_800AECA4_13 *)(((S_800AECA4_8 *)(((S_800AECA4_3 *)row_slots)->unk_20))->unk_04))->unk_0A = row_y;
             }
             {
-                register u8 *base ASM_REG("$2") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                base = (u8 *)(temp_s0 + (s32)base);
-                *((S_800AECA4_1 *)base)->unk_20 = var_s5;
+                register u8 *row_slots ASM_REG("$2") = ((S_800AECA4_0 *)list)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                row_slots = (u8 *)(row_slot + (s32)row_slots);
+                *((S_800AECA4_1 *)row_slots)->unk_20 = row_data_b;
             }
-            var_s2 += 0x10;
+            row_y += 0x10;
             {
-                s32 result = func_8004DC14(func_800AE4E4(*(((S_800AECA4_0 *)arg0)->unk_38 + var_s3)), 1);
-                register u8 *base ASM_REG("$3") = ((S_800AECA4_0 *)arg0)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                base = (u8 *)(temp_s0 + (s32)base);
-                *((S_800AECA4_1 *)base)->unk_50 = result;
+                s32 entry_handle = func_8004DC14(func_800AE4E4(*(((S_800AECA4_0 *)list)->unk_38 + row_index)), 1);
+                register u8 *row_slots ASM_REG("$3") = ((S_800AECA4_0 *)list)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                row_slots = (u8 *)(row_slot + (s32)row_slots);
+                *((S_800AECA4_1 *)row_slots)->unk_50 = entry_handle;
             }
-            var_s3 += 1;
-            temp_s0 = temp_s0 + ((S_800AECA4_0 *)arg0)->unk_D8;
-            ((S_800AECA4_14 *)(((S_800AECA4_9 *)(((S_800AECA4_4 *)temp_s0)->unk_50))->unk_04))->unk_0A = var_s4;
-            var_s4 += 0x10;
-        } while (var_s3 < ((S_800AECA4_0 *)arg0)->unk_28);
+            row_index += 1;
+            row_slot = row_slot + ((S_800AECA4_0 *)list)->unk_D8;
+            ((S_800AECA4_14 *)(((S_800AECA4_9 *)(((S_800AECA4_4 *)row_slot)->unk_50))->unk_04))->unk_0A = entry_y;
+            entry_y += 0x10;
+        } while (row_index < ((S_800AECA4_0 *)list)->unk_28);
     }
-    ((S_800AECA4_0 *)arg0)->unk_04 = 1;
-    ((S_800AECA4_0 *)arg0)->unk_08 = 1;
-    func_800AE854(arg0);
+    ((S_800AECA4_0 *)list)->unk_04 = 1;
+    ((S_800AECA4_0 *)list)->unk_08 = 1;
+    func_800AE854(list);
 }

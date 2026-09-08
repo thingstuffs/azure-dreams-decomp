@@ -20,40 +20,41 @@ extern M2C_UNK D_800892FC;
 extern M2C_UNK D_80089304;
 
 
-void *func_800B557C(void *arg0, Rec_D_800E3D7C *arg1) {
-    M2C_UNK sp10[3];
-    s32 temp_v0;
-    s32 temp_v0_2;
-    Vec3s *src;
+/* Formats two pairs of stat values with comparison indicators. */
+void *func_800B557C(void *text, Rec_D_800E3D7C *stats) {
+    M2C_UNK format_buf[3];
+    s32 first_indicator;
+    s32 second_indicator;
+    Vec3s *prefix;
 
-    src = &D_800892F0;
-    *(Vec3s *)arg0 = *src;
-    temp_v0 = func_800B555C(arg1->unk_68, arg1->unk_26);
-    if (temp_v0 != 0) {
-        strcat(arg0, &D_800892F4);
-        strcat(arg0, func_8004E634(temp_v0, &sp10));
+    prefix = &D_800892F0;
+    *(Vec3s *)text = *prefix;
+    first_indicator = func_800B555C(stats->unk_68, stats->unk_26);
+    if (first_indicator != 0) {
+        strcat(text, &D_800892F4);
+        strcat(text, func_8004E634(first_indicator, &format_buf));
     }
-    strcat(arg0, &D_800892F8);
-    func_8004E5A0(arg1->unk_26, 3, &sp10);
-    strcat(arg0, &sp10);
-    strcat(arg0, &D_800892F4);
-    strcat(arg0, func_8004E634(0, &sp10));
-    strcat(arg0, &D_800892FC);
-    temp_v0_2 = func_800B555C(arg1->unk_69, arg1->unk_27);
-    if (temp_v0_2 != 0) {
-        strcat(arg0, &D_800892F4);
-        strcat(arg0, func_8004E634(temp_v0_2, &sp10));
+    strcat(text, &D_800892F8);
+    func_8004E5A0(stats->unk_26, 3, &format_buf);
+    strcat(text, &format_buf);
+    strcat(text, &D_800892F4);
+    strcat(text, func_8004E634(0, &format_buf));
+    strcat(text, &D_800892FC);
+    second_indicator = func_800B555C(stats->unk_69, stats->unk_27);
+    if (second_indicator != 0) {
+        strcat(text, &D_800892F4);
+        strcat(text, func_8004E634(second_indicator, &format_buf));
     }
-    func_8004E5A0(arg1->unk_27, 3, &sp10);
-    strcat(arg0, &sp10);
-    strcat(arg0, &D_800892F4);
-    strcat(arg0, func_8004E634(0, &sp10));
-    strcat(arg0, &D_800892D8);
-    strcat(arg0, &D_80089304);
-    func_8004E5A0(arg1->unk_68, 3, &sp10);
-    strcat(arg0, &sp10);
-    strcat(arg0, &D_800892FC);
-    func_8004E5A0(arg1->unk_69, 3, &sp10);
-    strcat(arg0, &sp10);
-    return arg0;
+    func_8004E5A0(stats->unk_27, 3, &format_buf);
+    strcat(text, &format_buf);
+    strcat(text, &D_800892F4);
+    strcat(text, func_8004E634(0, &format_buf));
+    strcat(text, &D_800892D8);
+    strcat(text, &D_80089304);
+    func_8004E5A0(stats->unk_68, 3, &format_buf);
+    strcat(text, &format_buf);
+    strcat(text, &D_800892FC);
+    func_8004E5A0(stats->unk_69, 3, &format_buf);
+    strcat(text, &format_buf);
+    return text;
 }

@@ -49,34 +49,35 @@ typedef struct S_80956DA0_2 {
     s16 unk_1E;
 } S_80956DA0_2;   /* temp_v1 in func_80956DA0 */
 
-void func_80956DA0(s32 arg0) {
-    void *temp_v0;
-    S_80956DA0_2 *temp_v1;
-    S_80956DA0_1 *temp_v2;
-    s32 temp_v3;
+/* Creates an object with user data and initializes its position and rendering state. */
+void func_80956DA0(s32 user_data) {
+    void *object;
+    S_80956DA0_2 *render_state;
+    S_80956DA0_1 *instance_data;
+    s32 color;
 
-    temp_v0 = func_8003FC64(0x15);
-    if (temp_v0 != NULL) {
-        ((S_80956DA0_0 *)temp_v0)->unk_10 = &D_80023E64;
-        func_8004491C(temp_v0, &D_80044BB0);
-        temp_v3 = 0x800000;
-        ASM_KEEP(temp_v3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_v1 = ((S_80956DA0_0 *)temp_v0)->unk_0C;
-        ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_v2 = (u8 *)temp_v0 + 0x20;
-        ASM_KEEP(temp_v2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        temp_v2->unk_04 = arg0;
-        ((S_80956DA0_4 *)(((S_80956DA0_3 *)temp_v0)->unk_08))->unk_02 = 0xF0;
-        ((S_80956DA0_4 *)(((S_80956DA0_3 *)temp_v0)->unk_08))->unk_06 = 0xAC;
-        ((S_80956DA0_4 *)(((S_80956DA0_3 *)temp_v0)->unk_08))->unk_0A = 0;
-        temp_v1->unk_1E = 0x1000;
-        temp_v1->unk_1C = 0x1000;
-        temp_v1->unk_06 = 0x10;
-        temp_v1->unk_08 = &D_80079438;
-        temp_v1->unk_04 = 0;
-        temp_v1->unk_05 = 0;
-        temp_v3 |= 0x8080;
-        temp_v1->unk_0C = temp_v3;
-        temp_v1->unk_14 = (u16) (temp_v1->unk_14 | 0xC);
+    object = func_8003FC64(0x15);
+    if (object != NULL) {
+        ((S_80956DA0_0 *)object)->unk_10 = &D_80023E64;
+        func_8004491C(object, &D_80044BB0);
+        color = 0x800000;
+        ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        render_state = ((S_80956DA0_0 *)object)->unk_0C;
+        ASM_KEEP(render_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        instance_data = (u8 *)object + 0x20;
+        ASM_KEEP(instance_data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        instance_data->unk_04 = user_data;
+        ((S_80956DA0_4 *)(((S_80956DA0_3 *)object)->unk_08))->unk_02 = 0xF0;
+        ((S_80956DA0_4 *)(((S_80956DA0_3 *)object)->unk_08))->unk_06 = 0xAC;
+        ((S_80956DA0_4 *)(((S_80956DA0_3 *)object)->unk_08))->unk_0A = 0;
+        render_state->unk_1E = 0x1000;
+        render_state->unk_1C = 0x1000;
+        render_state->unk_06 = 0x10;
+        render_state->unk_08 = &D_80079438;
+        render_state->unk_04 = 0;
+        render_state->unk_05 = 0;
+        color |= 0x8080;
+        render_state->unk_0C = color;
+        render_state->unk_14 = (u16) (render_state->unk_14 | 0xC);
     }
 }

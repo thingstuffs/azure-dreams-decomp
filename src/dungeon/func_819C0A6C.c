@@ -59,57 +59,58 @@ typedef struct S_8002626C_2 {
     s16 unk_1E;
 } S_8002626C_2;   /* temp_s1 in func_8002626C */
 
+/* Creates a colored effect at an offset position with velocity toward its base. */
 void func_8002626C(
-    s32 unused0, s32 unused1, s32 unused2, s32 unused3,
-    s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
-    s16 temp_v1;
-    S_8002626C_0 *temp_s0;
-    S_8002626C_2 *temp_s1;
-    void *temp_v0;
-    register s32 held_arg4 ASM_REG("$22") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 held_arg5 ASM_REG("$23") = arg5;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 unused_0, s32 unused_1, s32 unused_2, s32 unused_3,
+    s32 offset_x, s32 offset_y, s32 offset_z, s32 base_x, s32 base_y, s32 base_z) {
+    s16 color_channel;
+    S_8002626C_0 *effect_state;
+    S_8002626C_2 *sprite;
+    void *effect;
+    register s32 held_offset_x ASM_REG("$22") = offset_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 held_offset_y ASM_REG("$23") = offset_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_s0 = temp_v0 + 0x20;
-        temp_s0->unk_28 = 0x14;
-        ((S_8002626C_1 *)temp_v0)->unk_10 = &D_8002615C;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s1 = ((S_8002626C_1 *)temp_v0)->unk_0C;
-        temp_s1->unk_10 = 0x40;
-        temp_s1->unk_14 = (u16) (temp_s1->unk_14 | 0xC);
-        ((S_8002626C_4 *)(((S_8002626C_3 *)temp_v0)->unk_08))->unk_02 =
-            (s16) (s32) &((s8 *) arg7)[held_arg4];
-        ((S_8002626C_4 *)(((S_8002626C_3 *)temp_v0)->unk_08))->unk_06 =
-            (s16) (s32) &((s8 *) arg8)[held_arg5];
-        ((S_8002626C_4 *)(((S_8002626C_3 *)temp_v0)->unk_08))->unk_0A = (s16) (arg9 + arg6);
-        temp_s0->unk_88 = (s32) (0 - ((s32) (held_arg4 << 0x10) >> 7));
-        temp_s0->unk_8C = (s32) (0 - ((s32) (held_arg5 << 0x10) >> 7));
-        temp_s0->unk_2C = (s16) arg7;
-        temp_s0->unk_2E = (s16) arg8;
-        temp_s0->unk_30 = (s16) arg9;
-        temp_s0->unk_90 = (s32) (0 - ((s32) (arg6 << 0x10) >> 7));
-        temp_s1 = ((S_8002626C_1 *)temp_v0)->unk_0C;
-        temp_s1->unk_1E = 0x3000;
-        temp_s1->unk_1C = 0x3000;
-        temp_v1 = func_8002458C(3);
-        temp_s1->unk_0E = 0;
-        temp_s1->unk_0D = 0;
-        temp_s1->unk_0C = 0;
-        if (temp_v1 == 0) {
-            temp_s1->unk_0C = 0x10;
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        effect_state = effect + 0x20;
+        effect_state->unk_28 = 0x14;
+        ((S_8002626C_1 *)effect)->unk_10 = &D_8002615C;
+        func_8004491C(effect, &D_80045340);
+        sprite = ((S_8002626C_1 *)effect)->unk_0C;
+        sprite->unk_10 = 0x40;
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        ((S_8002626C_4 *)(((S_8002626C_3 *)effect)->unk_08))->unk_02 =
+            (s16) (s32) &((s8 *) base_x)[held_offset_x];
+        ((S_8002626C_4 *)(((S_8002626C_3 *)effect)->unk_08))->unk_06 =
+            (s16) (s32) &((s8 *) base_y)[held_offset_y];
+        ((S_8002626C_4 *)(((S_8002626C_3 *)effect)->unk_08))->unk_0A = (s16) (base_z + offset_z);
+        effect_state->unk_88 = (s32) (0 - ((s32) (held_offset_x << 0x10) >> 7));
+        effect_state->unk_8C = (s32) (0 - ((s32) (held_offset_y << 0x10) >> 7));
+        effect_state->unk_2C = (s16) base_x;
+        effect_state->unk_2E = (s16) base_y;
+        effect_state->unk_30 = (s16) base_z;
+        effect_state->unk_90 = (s32) (0 - ((s32) (offset_z << 0x10) >> 7));
+        sprite = ((S_8002626C_1 *)effect)->unk_0C;
+        sprite->unk_1E = 0x3000;
+        sprite->unk_1C = 0x3000;
+        color_channel = func_8002458C(3);
+        sprite->unk_0E = 0;
+        sprite->unk_0D = 0;
+        sprite->unk_0C = 0;
+        if (color_channel == 0) {
+            sprite->unk_0C = 0x10;
         }
-        if (temp_v1 == 1) {
-            temp_s1->unk_0D = 0x10;
+        if (color_channel == 1) {
+            sprite->unk_0D = 0x10;
         }
-        if (temp_v1 == 2) {
-            temp_s1->unk_0E = 0x10;
+        if (color_channel == 2) {
+            sprite->unk_0E = 0x10;
         }
-        temp_s1->unk_12 = 0x7DCF;
-        temp_s1->unk_14 = (u16) (temp_s1->unk_14 | 0x100);
-        func_8003DB94(temp_s1, &D_800DE870, 0);
-        ASM_KEEP(held_arg4);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg5);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        sprite->unk_12 = 0x7DCF;
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
+        func_8003DB94(sprite, &D_800DE870, 0);
+        ASM_KEEP(held_offset_x);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_offset_y);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
 }
 /* MECHANISM: The ten-argument ABI and reused pointer local produce the retail

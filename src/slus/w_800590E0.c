@@ -9,20 +9,18 @@ typedef struct S_800590E0 S_800590E0;
 extern s32 func_80058A04(S_800590E0 *a0);
 extern s32 func_800589B8(S_800590E0 *a0);
 
-/* Reads a VLQ count via func_80058A04(a0), then pulls that many bytes from
- * the stream via func_800589B8(a0) one at a time, stopping early if a byte
- * equal to 0xF7 is encountered. Return value (if any) is unused by callers. */
-void func_800590E0(S_800590E0 *a0)
+/* Consumes at least one stream byte, stopping at the VLQ byte count or 0xF7. */
+void func_800590E0(S_800590E0 *stream)
 {
-    u32 i = 0;
-    u32 count;
-    s32 last;
+    u32 bytes_read = 0;
+    u32 byte_count;
+    s32 vlq_count;
 
-    last = func_80058A04(a0);
-    count = (u32)last;
+    vlq_count = func_80058A04(stream);
+    byte_count = (u32)vlq_count;
     while (1) {
-        i++;
-        if ((func_800589B8(a0) & 0xFF) == 0xF7) break;
-        if (!(i < count)) break;
+        bytes_read++;
+        if ((func_800589B8(stream) & 0xFF) == 0xF7) break;
+        if (!(bytes_read < byte_count)) break;
     }
 }

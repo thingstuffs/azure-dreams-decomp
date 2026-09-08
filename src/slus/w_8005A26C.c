@@ -42,50 +42,49 @@ extern S_800869C0 D_800869C0[16];
 extern S_80086C00 D_80086C00[16];
 extern s32 D_80086D4C[3]; /* forced hi/lo via size > 8 */
 
-/* Re-initializes the D_80086A40/D_800869C0/D_80086C00 slot tables to their
- * default/free state, then resets a counter global. */
+/* Resets the sound slot tables to their free defaults and restores the global counter. */
 void func_8005A26C(void)
 {
-    s32 i;
-    S_80086A40 *p;
-    S_800869C0 *q;
-    S_80086C00 *r;
-    s16 c_marker;
-    u8 c_vol;
-    u8 c_pan;
-    s16 c_free;
-    u16 c_val;
+    s32 slot_index;
+    S_80086A40 *slot;
+    S_800869C0 *slot_state;
+    S_80086C00 *sound_slot;
+    s16 unused_marker;
+    u8 default_volume;
+    u8 center_pan;
+    s16 free_id;
+    u16 default_level;
 
-    i = 0;
-    c_marker = -1;
-    c_vol = 0x7F;
-    c_pan = 0x40;
-    p = D_80086A40;
+    slot_index = 0;
+    unused_marker = -1;
+    default_volume = 0x7F;
+    center_pan = 0x40;
+    slot = D_80086A40;
     do {
-        p->marker = c_marker;
-        p->unk19 = c_vol;
-        p->unk1A = c_vol;
-        p->unk1B = c_pan;
-        i++;
-        p++;
-    } while (i < 16);
+        slot->marker = unused_marker;
+        slot->unk19 = default_volume;
+        slot->unk1A = default_volume;
+        slot->unk1B = center_pan;
+        slot_index++;
+        slot++;
+    } while (slot_index < 16);
 
-    i = 0;
-    c_free = -1;
-    c_val = 0x7F;
-    q = D_800869C0;
-    r = D_80086C00;
+    slot_index = 0;
+    free_id = -1;
+    default_level = 0x7F;
+    slot_state = D_800869C0;
+    sound_slot = D_80086C00;
     do {
-        r->field_0 = c_free;
-        r->field_2 = 0;
-        r->field_A = c_val;
-        r->field_8 = c_val;
-        q->unk04 = 0;
-        q->unk00 = 0;
-        q++;
-        i++;
-        r++;
-    } while (i < 16);
+        sound_slot->field_0 = free_id;
+        sound_slot->field_2 = 0;
+        sound_slot->field_A = default_level;
+        sound_slot->field_8 = default_level;
+        slot_state->unk04 = 0;
+        slot_state->unk00 = 0;
+        slot_state++;
+        slot_index++;
+        sound_slot++;
+    } while (slot_index < 16);
 
     D_80086D4C[0] = 0x1000;
 }

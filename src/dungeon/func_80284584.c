@@ -9,48 +9,49 @@ typedef struct {
 extern s16 D_8008333C[12];
 extern DungeonCell D_800EA000[];
 
-s32 func_80017584(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
+/* Returns the first nonzero field_4 in a rectangle, zero if none, or -1 for invalid bounds. */
+s32 func_80017584(s16 start_x, s16 start_y, s16 width, s16 height) {
     s16 *config;
-    s32 raw0;
-    s32 raw2;
+    s32 shifted_x;
+    s32 shifted_width;
     s32 row;
-    s32 height;
+    s32 rows_left;
 
-    row = arg1;
+    row = start_y;
     if (row <= 0) {
         return -1;
     }
-    raw0 = arg0 << 16;
-    if ((raw0 >> 16) <= 0) {
+    shifted_x = start_x << 16;
+    if ((shifted_x >> 16) <= 0) {
         goto ret_err;
     }
     config = D_8008333C;
-    if (row + arg3 >= (1 << config[11])) {
+    if (row + height >= (1 << config[11])) {
         return -1;
     }
-    raw2 = arg2 << 16;
-    if ((raw0 >> 16) + (raw2 >> 16) >= (1 << config[10])) {
+    shifted_width = width << 16;
+    if ((shifted_x >> 16) + (shifted_width >> 16) >= (1 << config[10])) {
     ret_err:
         return -1;
     }
-    height = arg3;
-    while (height > 0) {
-        s32 remaining;
+    rows_left = height;
+    while (rows_left > 0) {
+        s32 cols_left;
         s32 x;
 
-        remaining = raw2 >> 16;
-        x = raw0 >> 16;
-        while (remaining > 0) {
+        cols_left = shifted_width >> 16;
+        x = shifted_x >> 16;
+        while (cols_left > 0) {
             DungeonCell *cell;
 
             cell = &D_800EA000[(row << config[10]) + x];
             if (cell->field_4 != 0) {
                 return (s16)cell->field_4;
             }
-            remaining -= 1;
+            cols_left -= 1;
             x += 1;
         }
-        height -= 1;
+        rows_left -= 1;
         row += 1;
     }
     return 0;

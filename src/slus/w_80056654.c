@@ -1,19 +1,3 @@
-/* func_80056654 -- BYTE-EXACT, gcc 2.7.2-cdk -O2, aspsx 2.56.
- *
- * The table address is deliberately built in TWO statements.  Spelled as one
- * (`table = &D_80073740[idx];`) the index load and the symbol address are a
- * single statement, so every source permutation moves them together; both are
- * priority-1 fillers in the post-call block, and the LUID tie-break then puts
- * the index load in front of the `D_80084918.field4 = 0x60` store.  Its live
- * range then overlaps the constant's, local-alloc must give them different
- * registers, and the index/base pair comes out as $a0/$v1 instead of retail's
- * $v1/$a0.  Assigning the base first and adding the index AFTER the store gives
- * the two insns separate LUIDs on either side of it: the `lui` schedules early,
- * the index `lhu` schedules after the `sw`, the 0x60 dies there and the index
- * reuses $v1.  ASM_KEEP_NV stays on `table` (not on `tbase`) -- it is what stops
- * cdk folding the pointer back into a %hi + per-access %lo pair; keeping `tbase`
- * as well re-ties the address and costs 9.
- */
 #include "common.h"
 
 typedef struct S_80056654_0 {
@@ -66,43 +50,44 @@ extern s32 D_80073740[];
 extern S_80084918 D_80084918;
 extern u8 D_80084960[];
 
-void func_80056654(S_80056654_0 *arg0, s32 arg1) {
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 temp_v0;
-    S_80056654_1 *temp_a2;
-    s32 temp_a1;
-    s32 hi;
-    s32 *table;
-    s32 *tbase;
-    temp_a2 = D_80084960 + (arg0->unk_06 * 0x9C);
-    if ((arg0->unk_4C != 0) || (arg0->unk_30 != 0) ||
-        (temp_a2->unk_08 != 0) || (temp_a2->unk_50 != 0) ||
-        (temp_a2->unk_1C != arg0->unk_70) || (arg1 != 0)) {
-        arg0->unk_70 = (s32) temp_a2->unk_1C;
-        temp_s0 = arg0->unk_3C.u16 + (temp_a2->unk_3A + temp_a2->unk_52);
-        temp_v0 = func_800565D8(arg0, temp_a2->unk_1C, temp_a2);
-        tbase = D_80073740;
-        temp_a1 = (arg0->unk_0C << 7) + temp_v0;
+/* Updates voice pitch parameters and clears a completed pitch adjustment. */
+void func_80056654(S_80056654_0 *state, s32 force_update) {
+    s32 pitch_offset;
+    s32 packed_pitch;
+    s32 pitch_adjustment;
+    S_80056654_1 *channel;
+    s32 base_pitch;
+    s32 coarse_pitch;
+    s32 *voice_entry;
+    s32 *voice_table;
+    channel = D_80084960 + (state->unk_06 * 0x9C);
+    if ((state->unk_4C != 0) || (state->unk_30 != 0) ||
+        (channel->unk_08 != 0) || (channel->unk_50 != 0) ||
+        (channel->unk_1C != state->unk_70) || (force_update != 0)) {
+        state->unk_70 = (s32) channel->unk_1C;
+        pitch_offset = state->unk_3C.u16 + (channel->unk_3A + channel->unk_52);
+        pitch_adjustment = func_800565D8(state, channel->unk_1C, channel);
+        voice_table = D_80073740;
+        base_pitch = (state->unk_0C << 7) + pitch_adjustment;
         D_80084918.field4 = 0x60;
-        table = tbase + arg0->unk_00;
-        ASM_KEEP_NV(table);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        temp_s0_2 = temp_s0 + temp_a1;
-        hi = (s32) (temp_s0_2 << 0x10) >> 0x17;
-        temp_s0_2 &= 0x7F;
-        D_80084918.field0 = *table;
-        hi <<= 8;
-        temp_s0_2 |= hi;
-        if (arg0->unk_23 != 0) {
-            D_80084918.field18 = (s16) (((arg0->unk_22 - 1) << 8) | (0x7F - arg0->unk_23));
+        voice_entry = voice_table + state->unk_00;
+        ASM_KEEP_NV(voice_entry);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        packed_pitch = pitch_offset + base_pitch;
+        coarse_pitch = (s32) (packed_pitch << 0x10) >> 0x17;
+        packed_pitch &= 0x7F;
+        D_80084918.field0 = *voice_entry;
+        coarse_pitch <<= 8;
+        packed_pitch |= coarse_pitch;
+        if (state->unk_23 != 0) {
+            D_80084918.field18 = (s16) (((state->unk_22 - 1) << 8) | (0x7F - state->unk_23));
         } else {
-            D_80084918.field18 = (s16) (arg0->unk_23 | (arg0->unk_22 << 8));
+            D_80084918.field18 = (s16) (state->unk_23 | (state->unk_22 << 8));
         }
-        D_80084918.field16 = (s16) temp_s0_2;
+        D_80084918.field16 = (s16) packed_pitch;
         func_8005F134(&D_80084918);
     }
-    if ((arg0->unk_30 != 0) && (func_8005EB78(D_80073740[arg0->unk_00]) == 0)) {
-        arg0->unk_30 = 0;
-        arg0->unk_3C.s32 = 0;
+    if ((state->unk_30 != 0) && (func_8005EB78(D_80073740[state->unk_00]) == 0)) {
+        state->unk_30 = 0;
+        state->unk_3C.s32 = 0;
     }
 }

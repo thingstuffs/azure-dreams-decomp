@@ -69,63 +69,61 @@ typedef struct S_8008F878_8 {
     s8 unk_6D;
 } S_8008F878_8;   /* ((S_8008F878_2 *)(&D_800DD25C))->unk_00.p in func_8008F878 */
 
-void func_8008F878(S_8008F878_0 *arg0, void *arg1, S_8008F878_1 *arg2, S_8008F878_5 *arg3) {
-    u16 sp10;
-    M2C_UNK var_a0;
-    s32 temp_v1;
-    s32 temp_saved;
-    S_8008F878_3 *temp_v0;
-    S_8008F878_4 *temp_v1_2;
-    S_8008F878_7 *temp_s0;
+/* Initializes an actor action and completes it when the action flags are set. */
+void func_8008F878(S_8008F878_0 *action, void *unused, S_8008F878_1 *action_data, S_8008F878_5 *actor) {
+    u16 query_flags;
+    M2C_UNK event_id;
+    s32 state;
+    s32 saved_value;
+    S_8008F878_3 *target;
+    S_8008F878_4 *target_flags;
+    S_8008F878_7 *shared_state;
 
-    temp_v1 = arg0->unk_9B;
-    if (temp_v1 == 1) {
+    state = action->unk_9B;
+    if (state == 1) {
         goto state_1;
     }
-    if (temp_v1 >= 2) {
+    if (state >= 2) {
         goto done;
     }
-    if (temp_v1 != 0) {
+    if (state != 0) {
         goto done;
     }
-    if (func_8004CAE8(arg2->unk_08, 0) == 0) {
-        temp_v0 = arg0->unk_124;
-        ((S_8008F878_2 *)(&D_800DD25C))->unk_00.p = temp_v0;
-        if (temp_v0->unk_13 <= 0) {
+    if (func_8004CAE8(action_data->unk_08, 0) == 0) {
+        target = action->unk_124;
+        ((S_8008F878_2 *)(&D_800DD25C))->unk_00.p = target;
+        if (target->unk_13 <= 0) {
             ((S_8008F878_2 *)(&D_800DD25C))->unk_00.i = 0;
         }
-        temp_v1_2 = arg0->unk_124;
-        temp_v1_2->unk_1C = (s32) (temp_v1_2->unk_1C & 0xFFF7FFFF);
-        arg3->unk_1C = (s32) (arg3->unk_1C & 0xFFEFFFFF);
-        func_8009A350(arg2->unk_24, arg2->unk_25, ((u16) arg3->unk_2A >> 9) & 7, &sp10);
-        var_a0 = 0x50C;
-        if (sp10 & 0x400) {
-            var_a0 = 0x517;
+        target_flags = action->unk_124;
+        target_flags->unk_1C = (s32) (target_flags->unk_1C & 0xFFF7FFFF);
+        actor->unk_1C = (s32) (actor->unk_1C & 0xFFEFFFFF);
+        func_8009A350(action_data->unk_24, action_data->unk_25, ((u16) actor->unk_2A >> 9) & 7, &query_flags);
+        event_id = 0x50C;
+        if (query_flags & 0x400) {
+            event_id = 0x517;
         }
-        func_800A56E0(var_a0);
-        temp_saved = ((Rec_D_80016000 *)(&D_80081484))->unk_00.at00_s32.v;
+        func_800A56E0(event_id);
+        saved_value = ((Rec_D_80016000 *)(&D_80081484))->unk_00.at00_s32.v;
         ((Rec_D_80016000 *)(&D_80081484))->unk_00.at00_s32.v = 0;
-        D_800E3540 = temp_saved;
-        arg0->unk_9B++;
+        D_800E3540 = saved_value;
+        action->unk_9B++;
         return;
     }
     return;
 state_1:
-    if (arg2->unk_14 & 0x6000) {
-        arg0->unk_9B = 2U;
-        temp_s0 = &D_80083460;
-        temp_s0->unk_02 = (u16) (temp_s0->unk_02 | 0x412);
-        func_80099F70(arg3->unk_5C);
-        func_80099F04(arg3->unk_5C);
+    if (action_data->unk_14 & 0x6000) {
+        action->unk_9B = 2U;
+        shared_state = &D_80083460;
+        shared_state->unk_02 = (u16) (shared_state->unk_02 | 0x412);
+        func_80099F70(actor->unk_5C);
+        func_80099F04(actor->unk_5C);
         if (((S_8008F878_2 *)(&D_800DD25C))->unk_00.p != NULL) {
             ((S_8008F878_8 *)(((S_8008F878_2 *)(&D_800DD25C))->unk_00.p))->unk_6D = 0;
         }
-        arg0->unk_8C = &D_8008ACDC;
-        temp_s0->unk_0A = (u16) (temp_s0->unk_0A - 1);
+        action->unk_8C = &D_8008ACDC;
+        shared_state->unk_0A = (u16) (shared_state->unk_0A - 1);
     }
 done:
     return;
 }
-/* MECHANISM: A dead arg1 restores the live arg0/arg2/arg3 ABI roles in s1/s0/s2.
-   Signed explicit state dispatch reproduces the CFG and exact save-store ordering.
-   Separate old-value transfer plus a held D_80083460 base closes the +1-word cascade. */

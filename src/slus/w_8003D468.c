@@ -26,6 +26,7 @@ extern u8 D_8002D5B4[10];
 #define LEGACY_ASM_KEEP(value) ASM_KEEP(value)
 #endif
 
+/* Clear the memory region and copy defaults while preserving six saved fields. */
 void func_8003D468(void)
 {
     u8 *page = (u8 *)0x80010000;

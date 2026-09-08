@@ -136,48 +136,46 @@ extern void func_80026040(void) __attribute__((noreturn));
 extern void func_80026150(void) __attribute__((noreturn));
 extern void func_80026154(void) __attribute__((noreturn));
 
-void func_81978428(State81978428 *arg0, s32 *arg1)
+/* Advances the object effect through placement, animation, and cleanup states. */
+void func_81978428(State81978428 *state, s32 *position_out)
 {
-    static void *const keepalive[] = {
+    static void *const state_labels[] = {
         &&case0, &&case1, &&case2, &&case3, &&case4, &&case5,
     };
-    State81978428 *self = arg0;
-    s32 *out = arg1;
-    void *work;
-    s32 i;
-    register u8 *map_y ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *page_8008 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s16 *x_table;
-    u8 *tail_page;
-    Scratch81978428 scratch;
-    u8 *global;
-    u8 *object;
-    u8 *aux;
-    register void *created ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    State81978428 *self = state;
+    s32 *position = position_out;
+    void *target_pos;
+    s32 step_count;
+    register u8 *map_or_y_steps ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *player_page ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 *x_steps;
+    u8 *data_page;
+    Scratch81978428 fallback_pos;
+    register void *spawned_object ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 timer;
-    s32 dispatch;
-    s32 offset;
-    register s32 delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 state_index;
+    s32 direction_offset;
+    register s32 tile_step ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     timer = self->counter;
-    dispatch = self->state;
+    state_index = self->state;
     timer++;
     self->counter = timer;
-    if ((u32)dispatch >= 6) {
+    if ((u32)state_index >= 6) {
         goto done;
     }
     {
-        void *volatile *table = D_80024038;
-        goto *table[dispatch];
+        void *volatile *state_table = D_80024038;
+        goto *state_table[state_index];
     }
 
 case0:
     {
         u8 *init_page = (u8 *)0x80080000;
-        u8 *case0_page;
-        u8 *case0_global;
-        u8 *angle_global;
+        u8 *player_page;
+        u8 *player_state;
+        u8 *facing_player;
         u16 next_state;
 
         ASM_KEEP(init_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -191,15 +189,15 @@ case0:
         if ((((S_81978428_1 *)(self->part4))->unk_00 & 0x80) == 0) {
             goto done;
         }
-        case0_page = (u8 *)0x80080000;
-        ASM_KEEP(case0_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        case0_global = *(u8 **)(case0_page + 0x14A8);
+        player_page = (u8 *)0x80080000;
+        ASM_KEEP(player_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        player_state = *(u8 **)(player_page + 0x14A8);
         self->timer = 10;
-        ((S_81978428_2 *)case0_global)->unk_96 = 8;
-        ((S_81978428_2 *)case0_global)->unk_A6--;
-        ((S_81978428_2 *)case0_global)->unk_A8 = self->kind;
-        angle_global = *(u8 **)(case0_page + 0x14A8);
-        self->angle = ((S_81978428_3 *)angle_global)->unk_2A;
+        ((S_81978428_2 *)player_state)->unk_96 = 8;
+        ((S_81978428_2 *)player_state)->unk_A6--;
+        ((S_81978428_2 *)player_state)->unk_A8 = self->kind;
+        facing_player = *(u8 **)(player_page + 0x14A8);
+        self->angle = ((S_81978428_3 *)facing_player)->unk_2A;
         self->state++;
         if (func_80053EF0(4) != 2) {
             func_800A56E0(0x300);
@@ -222,129 +220,129 @@ case1:
     {
         u8 *copy_page = (u8 *)0x80080000;
         u8 *player;
-        s32 call_angle;
-        s32 copy_x;
-        register s32 fifth_arg ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        s32 spawn_angle;
+        s32 player_x;
+        register s32 spawn_mode ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #ifndef NON_MATCHING
-        register s32 *call_sp ASM_REG("$29");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        register s32 *stack_args ASM_REG("$29");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #endif
 
-        page_8008 = (u8 *)0x80080000;
+        player_page = (u8 *)0x80080000;
         ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(page_8008);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        copy_x = ((S_81978428_4 *)copy_page)->unk_3780;
-        player = *(u8 **)(page_8008 + 0x14A8);
+        ASM_KEEP(player_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        player_x = ((S_81978428_4 *)copy_page)->unk_3780;
+        player = *(u8 **)(player_page + 0x14A8);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         copy_page += 0x3780;
         ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        out[0] = copy_x;
-        out[1] = ((S_81978428_4 *)copy_page)->unk_04;
-        out[2] = (s32)((S_81978428_5 *)player)->unk_88.s << 16;
-        call_angle = ((S_81978428_5 *)player)->unk_2A.s;
-        ASM_KEEP(call_angle);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        fifth_arg = 8;
+        position[0] = player_x;
+        position[1] = ((S_81978428_4 *)copy_page)->unk_04;
+        position[2] = (s32)((S_81978428_5 *)player)->unk_88.s << 16;
+        spawn_angle = ((S_81978428_5 *)player)->unk_2A.s;
+        ASM_KEEP(spawn_angle);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        spawn_mode = 8;
 #ifndef NON_MATCHING
-        call_sp[4] = fifth_arg;
+        stack_args[4] = spawn_mode;
 #endif
-        created = (void *)0x80080000;
-        ASM_KEEP_NV(created);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        map_y = (u8 *)created + 0x2E80;
-        ASM_KEEP_NV(map_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        spawned_object = (void *)0x80080000;
+        ASM_KEEP_NV(spawned_object);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        map_or_y_steps = (u8 *)spawned_object + 0x2E80;
+        ASM_KEEP_NV(map_or_y_steps);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 #ifndef NON_MATCHING
-        created = func_800A05A4(player, map_y[0x24], map_y[0x25], call_angle);
+        spawned_object = func_800A05A4(player, map_or_y_steps[0x24], map_or_y_steps[0x25], spawn_angle);
 #else
-        created = func_800A05A4(player, map_y[0x24], map_y[0x25],
-                                call_angle, fifth_arg);
+        spawned_object = func_800A05A4(player, map_or_y_steps[0x24], map_or_y_steps[0x25],
+                                spawn_angle, spawn_mode);
 #endif
     }
-    self->object = created;
-    if (created != 0) {
-        work = *(void **)((u8 *)created - 0x18);
-        ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    self->object = spawned_object;
+    if (spawned_object != 0) {
+        target_pos = *(void **)((u8 *)spawned_object - 0x18);
+        ASM_KEEP(target_pos);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         {
-            register State81978428 *tail_arg ASM_REG("$4") = self;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN_TIED(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            register State81978428 *state_arg ASM_REG("$4") = self;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN_TIED(state_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80025F5C();
         }
     }
 
-    work = &scratch;
-    ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    i = hard_zero;
+    target_pos = &fallback_pos;
+    ASM_KEEP(target_pos);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    step_count = zero;
     {
-        u8 map_x_value;
-        u8 map_y_value;
+        u8 tile_x;
+        u8 tile_y;
 
-        tail_page = (u8 *)0x80070000;
-        ASM_KEEP(tail_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        x_table = (s16 *)(tail_page - 0x3328);
-        map_x_value = map_y[0x24];
+        data_page = (u8 *)0x80070000;
+        ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        x_steps = (s16 *)(data_page - 0x3328);
+        tile_x = map_or_y_steps[0x24];
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        tail_page = (u8 *)0x80070000;
-        ASM_KEEP(tail_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((S_81978428_6 *)work)->unk_02.s = (map_x_value << 6) + 0x20;
-        map_y_value = map_y[0x25];
-        map_y = tail_page - 0x3318;
-        ((S_81978428_6 *)work)->unk_06.s = (map_y_value << 6) + 0x20;
+        data_page = (u8 *)0x80070000;
+        ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ((S_81978428_6 *)target_pos)->unk_02.s = (tile_x << 6) + 0x20;
+        tile_y = map_or_y_steps[0x25];
+        map_or_y_steps = data_page - 0x3318;
+        ((S_81978428_6 *)target_pos)->unk_06.s = (tile_y << 6) + 0x20;
     }
 
 loop:
     {
         u8 *player;
 
-        player = *(u8 **)(page_8008 + 0x14A8);
-        offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
-        delta = *(s16 *)((u32)offset + (u32)x_table);
-        ((S_81978428_6 *)work)->unk_02.u += delta << 6;
-        offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
-        delta = *(s16 *)((u32)offset + (u32)map_y);
-        ((S_81978428_6 *)work)->unk_06.u += delta << 6;
-        ((S_81978428_6 *)work)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
+        player = *(u8 **)(player_page + 0x14A8);
+        direction_offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
+        tile_step = *(s16 *)((u32)direction_offset + (u32)x_steps);
+        ((S_81978428_6 *)target_pos)->unk_02.u += tile_step << 6;
+        direction_offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
+        tile_step = *(s16 *)((u32)direction_offset + (u32)map_or_y_steps);
+        ((S_81978428_6 *)target_pos)->unk_06.u += tile_step << 6;
+        ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
     }
-    ((S_81978428_6 *)work)->unk_0A.s = func_800BCAD0(work);
-    if (((S_81978428_6 *)work)->unk_0A.u >= 0x201) {
+    ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
+    if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
         u8 *player;
-        player = *(u8 **)(page_8008 + 0x14A8);
-        ((S_81978428_6 *)work)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
+        player = *(u8 **)(player_page + 0x14A8);
+        ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
     }
 
-    if ((func_800A45D8(((S_81978428_6 *)work)->unk_02.s, ((S_81978428_6 *)work)->unk_06.s,
-                        ((S_81978428_6 *)work)->unk_0A.u) << 16) != 0) {
+    if ((func_800A45D8(((S_81978428_6 *)target_pos)->unk_02.s, ((S_81978428_6 *)target_pos)->unk_06.s,
+                        ((S_81978428_6 *)target_pos)->unk_0A.u) << 16) != 0) {
         u8 *player;
 
-        player = *(u8 **)(page_8008 + 0x14A8);
-        offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
-        delta = *(s16 *)((u32)offset + (u32)x_table);
-        ((S_81978428_6 *)work)->unk_02.u -= delta << 6;
-        offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
-        delta = *(s16 *)((u32)offset + (u32)map_y);
-        ((S_81978428_6 *)work)->unk_06.u -= delta << 6;
-        ASM_KEEP(map_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((S_81978428_6 *)work)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
-        ((S_81978428_6 *)work)->unk_0A.s = func_800BCAD0(work);
-        if (((S_81978428_6 *)work)->unk_0A.u < 0x201) {
+        player = *(u8 **)(player_page + 0x14A8);
+        direction_offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
+        tile_step = *(s16 *)((u32)direction_offset + (u32)x_steps);
+        ((S_81978428_6 *)target_pos)->unk_02.u -= tile_step << 6;
+        direction_offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
+        tile_step = *(s16 *)((u32)direction_offset + (u32)map_or_y_steps);
+        ((S_81978428_6 *)target_pos)->unk_06.u -= tile_step << 6;
+        ASM_KEEP(map_or_y_steps);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
+        ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
+        if (((S_81978428_6 *)target_pos)->unk_0A.u < 0x201) {
             goto position_ready;
         }
         {
-            u8 *fallback;
-            fallback = *(u8 **)(page_8008 + 0x14A8);
-            ((S_81978428_6 *)work)->unk_0A.s = ((S_81978428_7 *)fallback)->unk_88;
+            u8 *height_player;
+            height_player = *(u8 **)(player_page + 0x14A8);
+            ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_7 *)height_player)->unk_88;
             func_80025F5C();
         }
     }
-    i++;
-    if (i < 8) {
+    step_count++;
+    if (step_count < 8) {
         goto loop;
     }
 
 position_ready:
-    func_80025A9C(self, out, work);
+    func_80025A9C(self, position, target_pos);
     {
-        u16 state_value = self->state;
-        register u16 timer_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(state_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        timer_value = 0x10;
-        self->timer = timer_value;
+        u16 next_state = self->state;
+        register u16 wait_frames ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        wait_frames = 0x10;
+        self->timer = wait_frames;
         func_800260F8();
     }
 
@@ -356,16 +354,16 @@ case2:
         goto done;
     }
     {
-        u16 state_value = 0x18;
-        void *case2_object;
+        u16 next_state = 0x18;
+        void *spawned_object;
 
-        self->timer = state_value;
-        state_value = self->state;
-        case2_object = self->object;
-        state_value++;
-        self->state = state_value;
-        if (case2_object != 0) {
-            func_80025508(self, *(void **)((u8 *)case2_object - 0x18));
+        self->timer = next_state;
+        next_state = self->state;
+        spawned_object = self->object;
+        next_state++;
+        self->state = next_state;
+        if (spawned_object != 0) {
+            func_80025508(self, *(void **)((u8 *)spawned_object - 0x18));
             self->flag = 0;
             func_80026154();
         }
@@ -374,38 +372,38 @@ case2:
 
 case3:
     {
-        u8 *case3_object = self->object;
+        u8 *tinted_object = self->object;
 
-        if (case3_object != 0) {
-            u8 *case3_reload;
-            register u8 *case3_aux ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            s16 case3_timer;
+        if (tinted_object != 0) {
+            u8 *reloaded_object;
+            register u8 *tint_data ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s16 tint_timer;
 
-            ((S_81978428_8 *)case3_object)->unk_1C |= 0x10000000;
-            case3_timer = self->timer;
-            case3_reload = *(u8 *volatile *)((u8 *)self + 0x14);
-            case3_aux = *(u8 **)(case3_reload - 0x14);
-            if (case3_timer >= 0xC) {
-                u8 value = case3_aux[0xE] + 8;
-                case3_aux[0xE] = value;
-                if (case3_aux[0xC] >= 0xE1) {
-                    case3_aux[0xC] = 0xE0;
+            ((S_81978428_8 *)tinted_object)->unk_1C |= 0x10000000;
+            tint_timer = self->timer;
+            reloaded_object = *(u8 *volatile *)((u8 *)self + 0x14);
+            tint_data = *(u8 **)(reloaded_object - 0x14);
+            if (tint_timer >= 0xC) {
+                u8 blue = tint_data[0xE] + 8;
+                tint_data[0xE] = blue;
+                if (tint_data[0xC] >= 0xE1) {
+                    tint_data[0xC] = 0xE0;
                     func_80026040();
                 }
             } else {
-                u8 value = case3_aux[0xE] - 8;
-                case3_aux[0xE] = value;
-                if (value < 0x80) {
-                    case3_aux[0xE] = 0x80;
+                u8 blue = tint_data[0xE] - 8;
+                tint_data[0xE] = blue;
+                if (blue < 0x80) {
+                    tint_data[0xE] = 0x80;
                 }
             }
         }
     }
 
     {
-        u32 flag_value = 0x80080000;
-        flag_value = *(u16 *)(flag_value + 0x2E94);
-        if ((flag_value & 0x8000) == 0) {
+        u32 map_flags = 0x80080000;
+        map_flags = *(u16 *)(map_flags + 0x2E94);
+        if ((map_flags & 0x8000) == 0) {
             timer = self->timer;
             timer--;
             self->timer = timer;
@@ -416,29 +414,29 @@ case3:
     }
 
     {
-        u8 *check_object = self->object;
+        u8 *effect_object = self->object;
 
-        if (check_object != 0) {
-            s32 ten = 10;
-            s32 ten_again;
-            ASM_KEEP(ten);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ten_again = ten;
-            func_8009CE1C(self->object, ten, self->effect, ten_again,
+        if (effect_object != 0) {
+            s32 effect_size = 10;
+            s32 effect_scale;
+            ASM_KEEP(effect_size);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            effect_scale = effect_size;
+            func_8009CE1C(self->object, effect_size, self->effect, effect_scale,
                           (s16)((self->angle << 9) + 0x800), self->part0, 1);
             {
-                u32 mask = 0xEFFFFFFF;
-                u32 color = 0x00808080;
-                u8 *after_object = self->object;
-                register u8 *after_aux ASM_REG("$6") =
-                    *(u8 **)(after_object - 0x14);
+                u32 clear_tint_mask = 0xEFFFFFFF;
+                u32 neutral_color = 0x00808080;
+                u8 *reset_object = self->object;
+                register u8 *color_data ASM_REG("$6") =
+                    *(u8 **)(reset_object - 0x14);
 
-                ((S_81978428_9 *)after_object)->unk_1C &= mask;
-                ((S_81978428_10 *)after_aux)->unk_0C = color;
+                ((S_81978428_9 *)reset_object)->unk_1C &= clear_tint_mask;
+                ((S_81978428_10 *)color_data)->unk_0C = neutral_color;
             }
         }
     }
 case4:
-    tail_page = (u8 *)0x80080000;
+    data_page = (u8 *)0x80080000;
     if (self->flag != 0) {
         self->state++;
         func_80026150();
@@ -446,22 +444,22 @@ case4:
     goto cleanup;
 
 case5:
-    tail_page = (u8 *)0x80080000;
+    data_page = (u8 *)0x80080000;
     if (self->flag != 0) {
         goto done;
     }
 
 cleanup:
-    tail_page += 0x3460;
-    ((S_81978428_11 *)tail_page)->unk_0C = 0;
-    ((S_81978428_11 *)tail_page)->unk_0A--;
+    data_page += 0x3460;
+    ((S_81978428_11 *)data_page)->unk_0C = 0;
+    ((S_81978428_11 *)data_page)->unk_0A--;
     ((S_81978428_12_pre *)self)[-1].unk_00 |= 0x8000;
-    tail_page = (u8 *)0x80080000;
-    ASM_KEEP(tail_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ((S_81978428_11 *)tail_page)->unk_14A0 |= 0x8000;
+    data_page = (u8 *)0x80080000;
+    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ((S_81978428_11 *)data_page)->unk_14A0 |= 0x8000;
     func_80026154();
 
 done:
     self->flag = 0;
-    (void)keepalive;
+    (void)state_labels;
 }

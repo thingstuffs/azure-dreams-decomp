@@ -12,20 +12,21 @@ typedef struct Func8003A754State {
     struct Func8003A754State *table;
 } Func8003A754State;
 
-void func_8003A754(Func8003A754State *arg0) {
-    u8 *ptr = arg0->read_ptr;
-    u8 opcode = *ptr;
+// Jump to the encoded address if the indexed table value is positive; otherwise skip it.
+void func_8003A754(Func8003A754State *state) {
+    u8 *cursor = state->read_ptr;
+    u8 table_index = *cursor;
 
-    ptr++;
-    arg0->read_ptr = ptr;
+    cursor++;
+    state->read_ptr = cursor;
 
-    if (((Func8003A754Entry *)((u8 *)arg0->table + opcode * 4))->value > 0) {
-        u32 value = (u32)ptr[0]
-                  + ((u32)ptr[1] << 8)
-                  + ((u32)ptr[2] << 16)
-                  + ((u32)ptr[3] << 24);
-        arg0->read_ptr = (u8 *)value;
+    if (((Func8003A754Entry *)((u8 *)state->table + table_index * 4))->value > 0) {
+        u32 jump_address = (u32)cursor[0]
+                         + ((u32)cursor[1] << 8)
+                         + ((u32)cursor[2] << 16)
+                         + ((u32)cursor[3] << 24);
+        state->read_ptr = (u8 *)jump_address;
     } else {
-        arg0->read_ptr = ptr + 4;
+        state->read_ptr = cursor + 4;
     }
 }

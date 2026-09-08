@@ -10,44 +10,41 @@ typedef struct {
 
 extern DungeonPoint D_80083780;
 
-s32 func_8016F4FC(DungeonPoint *arg0)
+/* Return the direction from the global point to the target, or 9 if coincident. */
+s32 func_8016F4FC(DungeonPoint *target)
 {
-    DungeonPoint *point;
+    DungeonPoint *origin;
 
-    if (D_80083780.x == arg0->x && D_80083780.y == arg0->y) {
+    if (D_80083780.x == target->x && D_80083780.y == target->y) {
         return 9;
     }
 
-    point = &D_80083780;
-    if (point->x < arg0->x) {
-        if (point->y < arg0->y) {
+    origin = &D_80083780;
+    if (origin->x < target->x) {
+        if (origin->y < target->y) {
             return 1;
         }
-        if (arg0->y < point->y) {
+        if (target->y < origin->y) {
             return 7;
         }
         return 0;
     }
 
-    if (arg0->x < point->x) {
-        if (point->y < arg0->y) {
+    if (target->x < origin->x) {
+        if (origin->y < target->y) {
             return 3;
         }
-        if (arg0->y < point->y) {
+        if (target->y < origin->y) {
             return 5;
         }
         return 4;
     }
 
-    if (point->y < arg0->y) {
+    if (origin->y < target->y) {
         return 2;
     }
-    if (arg0->y < point->y) {
+    if (target->y < origin->y) {
         return 6;
     }
     return 0;
 }
-
-/* MECHANISM: Recover the true-space local return joins as ordinary returns in a
-   frameless leaf; keep a named global-point base for the post-equality regions.
-   The initial equality remains a direct global comparison. */

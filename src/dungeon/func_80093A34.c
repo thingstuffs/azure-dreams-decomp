@@ -2,46 +2,47 @@
 
 extern u8 *D_800DCF60;
 
+/* Copies encoded text, expanding table indices into two-byte characters. */
 u8 *func_80099194(u8 *src, u8 *dst)
 {
-    u8 *page;
-    u8 raw;
-    u32 mode;
-    u32 marker;
-    u32 c;
+    u8 *table_page;
+    u8 raw_byte;
+    u32 table_mode;
+    u32 table_marker;
+    u32 byte_test;
 
-    mode = 0;
-    marker = 0x51;
-    page = (u8 *)0x800E0000;
+    table_mode = 0;
+    table_marker = 0x51;
+    table_page = (u8 *)0x800E0000;
     for (;;) {
-        if ((mode == 0) && (*src == marker)) {
-            mode = 1;
+        if ((table_mode == 0) && (*src == table_marker)) {
+            table_mode = 1;
             src++;
             continue;
         }
 
-        raw = *src;
-        c = raw;
-        if (c != 0) {
+        raw_byte = *src;
+        byte_test = raw_byte;
+        if (byte_test != 0) {
             goto nonzero;
         }
-        if (mode == 0) {
+        if (table_mode == 0) {
             goto done;
         }
-        mode = 0;
+        table_mode = 0;
         src++;
         continue;
 
 nonzero:
-        c = c < 0x80;
-        if (mode != 0) {
-            raw = *(volatile u8 *)src;
-            *dst++ = (*(u8 **)(page - 0x30A0))[((u32)raw * 2) - 2];
+        byte_test = byte_test < 0x80;
+        if (table_mode != 0) {
+            raw_byte = *(volatile u8 *)src;
+            *dst++ = (*(u8 **)(table_page - 0x30A0))[((u32)raw_byte * 2) - 2];
             src++;
-            *dst++ = (*(u8 **)(page - 0x30A0))[((u32)raw * 2) - 1];
+            *dst++ = (*(u8 **)(table_page - 0x30A0))[((u32)raw_byte * 2) - 1];
         } else {
-            if (!c) {
-                *dst = raw;
+            if (!byte_test) {
+                *dst = raw_byte;
                 src++;
                 dst++;
             }
@@ -52,8 +53,3 @@ nonzero:
 done:
     return dst;
 }
-
-/* MECHANISM: True-space targets are local loop/join edges, yielding a frameless leaf
-   with mode in a2 and a held 0x800e page in a3.  Separate raw/promoted byte lifetimes
-   plus one volatile table-path reload reproduce v1/v0; explicit src-then-dst increments
-   close the final two-word reorder. */

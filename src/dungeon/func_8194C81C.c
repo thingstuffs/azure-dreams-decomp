@@ -10,26 +10,27 @@ struct Delta {
     s32 z;
 };
 
-void func_8194C81C(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4,
-                   s16 arg5, s16 *out)
+/* Computes orientation angles from the displacement between two points. */
+void func_8194C81C(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
+                   s16 end_z, s16 *angles)
 {
     struct Delta delta;
     s32 divisor;
 
-    delta.x = arg3 - arg0;
-    delta.y = arg4 - arg1;
-    delta.z = arg5 - arg2;
+    delta.x = end_x - start_x;
+    delta.y = end_y - start_y;
+    delta.z = end_z - start_z;
 
     divisor = delta.z;
     if (divisor == 0) {
         divisor = 1;
     }
-    out[0] = -func_80065F90(delta.y, divisor);
+    angles[0] = -func_80065F90(delta.y, divisor);
 
     divisor = func_80064710(delta.y * delta.y + delta.z * delta.z);
     if (divisor == 0) {
         divisor = 1;
     }
-    out[1] = func_80065F90(delta.x, divisor);
-    out[2] = 0;
+    angles[1] = func_80065F90(delta.x, divisor);
+    angles[2] = 0;
 }

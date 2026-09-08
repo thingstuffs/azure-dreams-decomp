@@ -21,27 +21,24 @@ extern M2C_UNK func_8009A3D0();
 
 
 
-void func_800AA888(Rec_func_800A9E70_arg0 *arg0, void *arg1, Rec_func_800AA258_arg2 *arg2, Rec_D_800E3D7C *arg3) {
-    u8 call_arg0;
-    u8 call_arg1;
-    M2C_UNK var_v1;
+/* Reset action state, update the tile, and refresh entity flags and data. */
+void func_800AA888(Rec_func_800A9E70_arg0 *state, void *unused, Rec_func_800AA258_arg2 *position, Rec_D_800E3D7C *entity) {
+    u8 tile_x;
+    u8 tile_y;
+    M2C_UNK update_mask;
 
-    arg0->unk_9A.as_s8 = 0xB;
-    arg0->unk_9B.as_s8 = 0;
-    arg0->unk_8C = 0;
-    call_arg0 = arg2->unk_24;
-    call_arg1 = arg2->unk_25;
-    var_v1 = 0x3000;
-    if (arg3->unk_1C.as_s32 & 0x2000) {
-        var_v1 = 0x300;
+    state->unk_9A.as_s8 = 0xB;
+    state->unk_9B.as_s8 = 0;
+    state->unk_8C = 0;
+    tile_x = position->unk_24;
+    tile_y = position->unk_25;
+    update_mask = 0x3000;
+    if (entity->unk_1C.as_s32 & 0x2000) {
+        update_mask = 0x300;
     }
-    func_8009A3D0(call_arg0, call_arg1, var_v1);
-    arg0->unk_98 = (u16)(arg0->unk_98 | 8);
-    arg3->unk_1C.as_s32 = (s32)(arg3->unk_1C.as_s32 & 0xFFFBFFFF);
-    arg0->unk_96.as_s16 = 0;
-    arg3->unk_6A.as_u16 = (u16)((S_800AA888_4 *)(((Rec_D_800E3D7C *)arg3)->unk_60.as_pv))->unk_2A;
+    func_8009A3D0(tile_x, tile_y, update_mask);
+    state->unk_98 = (u16)(state->unk_98 | 8);
+    entity->unk_1C.as_s32 = (s32)(entity->unk_1C.as_s32 & 0xFFFBFFFF);
+    state->unk_96.as_s16 = 0;
+    entity->unk_6A.as_u16 = (u16)((S_800AA888_4 *)(((Rec_D_800E3D7C *)entity)->unk_60.as_pv))->unk_2A;
 }
-
-/* MECHANISM: Named u8 call-argument locals force both byte loads before the flag branch,
-   freeing v1 to carry the selected third argument into the jal delay slot.
-   Natural arg0/arg3 lifetimes yield the exact 0x20 frame and s0/s1 save order. */

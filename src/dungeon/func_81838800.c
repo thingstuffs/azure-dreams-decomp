@@ -54,284 +54,284 @@ __asm__(".globl func_80024000\n.size func_80024000, 2296");
 #define FUNC_80024000_BODY func_80024000
 #endif
 
-void FUNC_80024000_BODY(void *arg0, void *arg1, void *arg2)
+void FUNC_80024000_BODY(void *effect, void *motion, void *effect_sprite)
     __attribute__((section(".text.func_80024000")));
-void FUNC_80024000_BODY(void *arg0, void *arg1, void *arg2)
+/* Updates a projectile effect, spawning particles and moving toward its target before impact and cleanup. */
+void FUNC_80024000_BODY(void *effect, void *motion, void *effect_sprite)
 {
-    void *inner;
-    s32 obj;
-    s32 ptr;
-    void *sub;
-    s32 i;
-    s32 ax;
-    s32 ay;
-    FixedCoords coords;
-    s16 temp_pos[3];
-    void *base;
-    void *other;
-    void *hit;
+    void *caster;
+    s32 particle_or_y;
+    s32 sprite_or_x;
+    void *particle_data;
+    s32 index_or_x;
+    s32 tile_dx;
+    s32 tile_dy;
+    FixedCoords target_pos;
+    s16 launch_offset[3];
+    void *caster_obj;
+    void *caster_sprite;
+    void *target;
     s32 step_x;
     s32 step_y;
-    s32 idx;
-    s32 t;
-    s32 t73;
-    s32 tabs;
-    s32 tc2;
-    s32 v;
-    s32 vq;
-    s32 dy;
-    s32 n;
-    s32 count;
-    s32 state_code;
-    static void *const keepalive[] __attribute__((used)) = {
-        &&L0, &&L1, &&L2, &&L3, &&L4, &&L5
+    s32 world_x;
+    s32 range;
+    s32 target_tile;
+    s32 abs_dy;
+    s32 world_y;
+    s32 flags;
+    s32 ground_z;
+    s32 offset_y;
+    s32 distance;
+    s32 travel_frames;
+    s32 state;
+    static void *const state_labels[] __attribute__((used)) = {
+        &&launch, &&wait_launch, &&travel, &&impact, &&stop_motion, &&cleanup
     };
 
-    register u8 *ccd8 ASM_REG("$4") = D_8006CCD8;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register s32 idx_reg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register u32 temp ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    inner = FIELD(arg0, void *, 0);
-    temp = FIELD(inner, u16, 0x2A);
-    base = (u8 *)inner - 0x20;
-    other = FIELD(inner, void *, -0x14);
-    idx_reg = temp >> 8;
-    idx_reg &= 0xE;
-    step_x = *(s16 *)(ccd8 + idx_reg);
-    step_y = *(s16 *)(D_8006CCE8 + idx_reg);
+    register u8 *direction_x ASM_REG("$4") = D_8006CCD8;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 direction_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register u32 direction ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    caster = FIELD(effect, void *, 0);
+    direction = FIELD(caster, u16, 0x2A);
+    caster_obj = (u8 *)caster - 0x20;
+    caster_sprite = FIELD(caster, void *, -0x14);
+    direction_offset = direction >> 8;
+    direction_offset &= 0xE;
+    step_x = *(s16 *)(direction_x + direction_offset);
+    step_y = *(s16 *)(D_8006CCE8 + direction_offset);
 
-    if ((u32)(FIELD(arg0, u16, 0x0A) - 1) < 3) {
-        i = 9;
+    if ((u32)(FIELD(effect, u16, 0x0A) - 1) < 3) {
+        index_or_x = 9;
         do {
-            obj = (s32)func_8003FD64(0x312, &D_80083498);
-            if (obj != 0) {
-                ptr = (s32)FIELD((void *)obj, void *, 0x0C);
-                FIELD((void *)obj, void *, 0x10) = D_80024B58;
-                FIELD(FIELD((void *)obj, void *, 8), s32, 0) =
-                    FIELD(arg1, s32, 0) + (((func_80069EF8() & 0x3FF) - 511) << 9);
-                FIELD(FIELD((void *)obj, void *, 8), s32, 4) =
-                    FIELD(arg1, s32, 4) + (((func_80069EF8() & 0x3FF) - 511) << 9);
-                FIELD(FIELD((void *)obj, void *, 8), s32, 8) =
-                    FIELD(arg1, s32, 8) + (((func_80069EF8() & 0x3FF) - 511) << 9);
-                if (FIELD(arg0, s16, 0x0A) == 2) {
-                    FIELD(FIELD((void *)obj, void *, 8), s32, 0x0C) =
-                        FIELD(arg1, s32, 0x0C) >> 2;
-                    FIELD(FIELD((void *)obj, void *, 8), s32, 0x10) =
-                        FIELD(arg1, s32, 0x10) >> 2;
-                    FIELD(FIELD((void *)obj, void *, 8), s32, 0) +=
+            particle_or_y = (s32)func_8003FD64(0x312, &D_80083498);
+            if (particle_or_y != 0) {
+                sprite_or_x = (s32)FIELD((void *)particle_or_y, void *, 0x0C);
+                FIELD((void *)particle_or_y, void *, 0x10) = D_80024B58;
+                FIELD(FIELD((void *)particle_or_y, void *, 8), s32, 0) =
+                    FIELD(motion, s32, 0) + (((func_80069EF8() & 0x3FF) - 511) << 9);
+                FIELD(FIELD((void *)particle_or_y, void *, 8), s32, 4) =
+                    FIELD(motion, s32, 4) + (((func_80069EF8() & 0x3FF) - 511) << 9);
+                FIELD(FIELD((void *)particle_or_y, void *, 8), s32, 8) =
+                    FIELD(motion, s32, 8) + (((func_80069EF8() & 0x3FF) - 511) << 9);
+                if (FIELD(effect, s16, 0x0A) == 2) {
+                    FIELD(FIELD((void *)particle_or_y, void *, 8), s32, 0x0C) =
+                        FIELD(motion, s32, 0x0C) >> 2;
+                    FIELD(FIELD((void *)particle_or_y, void *, 8), s32, 0x10) =
+                        FIELD(motion, s32, 0x10) >> 2;
+                    FIELD(FIELD((void *)particle_or_y, void *, 8), s32, 0) +=
                         (step_x << 21) -
-                        (((step_x * FIELD(arg0, s32, 0x0C)) << 20) / 12);
-                    FIELD(FIELD((void *)obj, void *, 8), s32, 4) +=
+                        (((step_x * FIELD(effect, s32, 0x0C)) << 20) / 12);
+                    FIELD(FIELD((void *)particle_or_y, void *, 8), s32, 4) +=
                         (step_y << 21) -
-                        (((step_y * FIELD(arg0, s32, 0x0C)) << 20) / 12);
-                    sub = (u8 *)obj + 0x20;
+                        (((step_y * FIELD(effect, s32, 0x0C)) << 20) / 12);
+                    particle_data = (u8 *)particle_or_y + 0x20;
                 } else {
-                    sub = (u8 *)obj + 0x20;
+                    particle_data = (u8 *)particle_or_y + 0x20;
                 }
-                FIELD(FIELD((void *)obj, void *, 8), s32, 0x14) = -func_80069EF8() << 1;
-                FIELD((void *)ptr, u16, 0x1E) = 0x1000;
-                FIELD((void *)ptr, u16, 0x1C) = 0x1000;
-                FIELD((void *)ptr, u16, 0x14) |= 0xC;
+                FIELD(FIELD((void *)particle_or_y, void *, 8), s32, 0x14) = -func_80069EF8() << 1;
+                FIELD((void *)sprite_or_x, u16, 0x1E) = 0x1000;
+                FIELD((void *)sprite_or_x, u16, 0x1C) = 0x1000;
+                FIELD((void *)sprite_or_x, u16, 0x14) |= 0xC;
                 if (func_80069EF8() & 1) {
-                    FIELD((void *)ptr, u16, 0x14) |= 1;
+                    FIELD((void *)sprite_or_x, u16, 0x14) |= 1;
                 }
-                FIELD((void *)ptr, s16, 0x10) = 96;
-                FIELD((void *)ptr, void *, 0) = D_800DEA68;
-                FIELD((void *)ptr, void *, 8) = *(void **)(D_800DEA68 + 4);
-                FIELD((void *)ptr, u8, 4) = 0;
-                FIELD((void *)ptr, u8, 5) = 0;
-                FIELD((void *)ptr, s32, 0x0C) = 0x3030C0;
-                FIELD(sub, void *, 0) = arg0;
-                FIELD(sub, u16, 0x4C) = 0;
-                FIELD(sub, u16, 0x48) = func_80069EF8() & 3;
-                FIELD(sub, u16, 0x4A) = i + 40;
-                FIELD(sub, s16, 4) = (s8)FIELD(inner, u8, 0x72);
-                FIELD(sub, s16, 6) = (s8)FIELD(inner, u8, 0x73);
+                FIELD((void *)sprite_or_x, s16, 0x10) = 96;
+                FIELD((void *)sprite_or_x, void *, 0) = D_800DEA68;
+                FIELD((void *)sprite_or_x, void *, 8) = *(void **)(D_800DEA68 + 4);
+                FIELD((void *)sprite_or_x, u8, 4) = 0;
+                FIELD((void *)sprite_or_x, u8, 5) = 0;
+                FIELD((void *)sprite_or_x, s32, 0x0C) = 0x3030C0;
+                FIELD(particle_data, void *, 0) = effect;
+                FIELD(particle_data, u16, 0x4C) = 0;
+                FIELD(particle_data, u16, 0x48) = func_80069EF8() & 3;
+                FIELD(particle_data, u16, 0x4A) = index_or_x + 40;
+                FIELD(particle_data, s16, 4) = (s8)FIELD(caster, u8, 0x72);
+                FIELD(particle_data, s16, 6) = (s8)FIELD(caster, u8, 0x73);
             }
-            i--;
-        } while (i >= 0);
+            index_or_x--;
+        } while (index_or_x >= 0);
     }
 
-    FIELD(arg0, u16, 0x50) = FIELD(arg0, u16, 0x50) - 1;
-    state_code = FIELD(arg0, s16, 0x0A);
-    if ((u32)state_code >= 6) {
-        goto Lend;
+    FIELD(effect, u16, 0x50) = FIELD(effect, u16, 0x50) - 1;
+    state = FIELD(effect, s16, 0x0A);
+    if ((u32)state >= 6) {
+        goto done;
     }
-    goto *(void (**)(void))((void **)D_80024008)[state_code];
+    goto *(void (**)(void))((void **)D_80024008)[state];
 
-L0:
-    if ((FIELD(FIELD(arg0, void *, 4), u16, 0) & 0x80) == 0) {
-        goto Lend;
+launch:
+    if ((FIELD(FIELD(effect, void *, 4), u16, 0) & 0x80) == 0) {
+        goto done;
     }
-    if (func_8003DE58(FIELD(FIELD(base, void *, 0x0C), void *, 8),
-                      FIELD(base, void *, 0x0C), temp_pos, 0) == 0) {
-        temp_pos[1] = 0;
-        temp_pos[0] = 0;
-        temp_pos[2] = (FIELD(other, u16, 0x14) & 0x8000) ? -48 : 0;
+    if (func_8003DE58(FIELD(FIELD(caster_obj, void *, 0x0C), void *, 8),
+                      FIELD(caster_obj, void *, 0x0C), launch_offset, 0) == 0) {
+        launch_offset[1] = 0;
+        launch_offset[0] = 0;
+        launch_offset[2] = (FIELD(caster_sprite, u16, 0x14) & 0x8000) ? -48 : 0;
     }
-    FIELD(arg1, s32, 0) = FIELD(FIELD(base, void *, 8), s32, 0) +
-                          ((s32)temp_pos[0] << 16);
-    FIELD(arg1, s32, 4) = FIELD(FIELD(base, void *, 8), s32, 4) +
-                          ((s32)temp_pos[1] << 16);
-    FIELD(arg1, s32, 8) = FIELD(FIELD(base, void *, 8), s32, 8) +
-                          ((s32)temp_pos[2] << 16);
-    func_8004491C((u8 *)arg0 - 0x20, D_800248F8);
-    t = (s16)func_800A3820(7);
-    hit = (void *)func_800A05A4(inner, FIELD(other, u8, 0x24),
-                                FIELD(other, u8, 0x25),
-                                FIELD(inner, s16, 0x2A), t);
-    FIELD(inner, void *, 0x60) = hit;
-    if (hit != 0) {
-        goto Lhit;
+    FIELD(motion, s32, 0) = FIELD(FIELD(caster_obj, void *, 8), s32, 0) +
+                          ((s32)launch_offset[0] << 16);
+    FIELD(motion, s32, 4) = FIELD(FIELD(caster_obj, void *, 8), s32, 4) +
+                          ((s32)launch_offset[1] << 16);
+    FIELD(motion, s32, 8) = FIELD(FIELD(caster_obj, void *, 8), s32, 8) +
+                          ((s32)launch_offset[2] << 16);
+    func_8004491C((u8 *)effect - 0x20, D_800248F8);
+    range = (s16)func_800A3820(7);
+    target = (void *)func_800A05A4(caster, FIELD(caster_sprite, u8, 0x24),
+                                FIELD(caster_sprite, u8, 0x25),
+                                FIELD(caster, s16, 0x2A), range);
+    FIELD(caster, void *, 0x60) = target;
+    if (target != 0) {
+        goto target_found;
     }
     {
-    n = 0;
-    ay = n;
-    ax = n;
-    while (n < func_800A3820(7)) {
-
-        i = (FIELD(other, u8, 0x24) + ax) * 64 + 32;
-        dy = (FIELD(other, u8, 0x25) + ay) * 64 + 32;
-        ptr = i & 0xFFFF;
-        {
-            register s32 a0_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            a0_arg = ptr;
-            obj = dy & 0xFFFF;
-            vq = func_800BCB04(a0_arg, obj,
-                               (s16)(FIELD(FIELD(base, void *, 8), u16, 0x0A) - 128));
+        distance = 0;
+        tile_dy = distance;
+        tile_dx = distance;
+        while (distance < func_800A3820(7)) {
+            index_or_x = (FIELD(caster_sprite, u8, 0x24) + tile_dx) * 64 + 32;
+            offset_y = (FIELD(caster_sprite, u8, 0x25) + tile_dy) * 64 + 32;
+            sprite_or_x = index_or_x & 0xFFFF;
+            {
+                register s32 ground_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                ground_x = sprite_or_x;
+                particle_or_y = offset_y & 0xFFFF;
+                ground_z = func_800BCB04(ground_x, particle_or_y,
+                                   (s16)(FIELD(FIELD(caster_obj, void *, 8), u16, 0x0A) - 128));
+            }
+            if (func_800A4688(sprite_or_x, particle_or_y, ground_z, FIELD(caster, s16, 0x2A),
+                              FIELD(caster, s32, 0x60)) != 0) {
+                goto probe_done;
+            }
+            tile_dy += step_y;
+            distance++;
+            tile_dx += step_x;
         }
-        if (func_800A4688(ptr, obj, vq, FIELD(inner, s16, 0x2A),
-                          FIELD(inner, s32, 0x60)) != 0) {
-            goto Ldone;
-        }
-        ay += step_y;
-        n++;
-        ax += step_x;
+probe_done:
+        FIELD(caster, u8, 0x72) = FIELD(caster_sprite, u8, 0x24) + step_x * distance;
+        target_tile = FIELD(caster_sprite, u8, 0x25) + step_y * distance;
     }
-Ldone:
-    FIELD(inner, u8, 0x72) = FIELD(other, u8, 0x24) + step_x * n;
-    t73 = FIELD(other, u8, 0x25) + step_y * n;
-    }
-    goto Lset73;
+    goto set_destination;
 
-Lhit:
-    ptr = (s32)FIELD(hit, void *, -0x14);
-    if ((FIELD((void *)ptr, u16, 0x14) & 0x8000) && (FIELD(arg2, u16, 0x14) & 0x8000)) {
-        FIELD(arg0, s16, 0x0A) = 3;
-        goto Lend;
+target_found:
+    sprite_or_x = (s32)FIELD(target, void *, -0x14);
+    if ((FIELD((void *)sprite_or_x, u16, 0x14) & 0x8000) && (FIELD(effect_sprite, u16, 0x14) & 0x8000)) {
+        FIELD(effect, s16, 0x0A) = 3;
+        goto done;
     }
-    FIELD(inner, u8, 0x72) = FIELD((void *)ptr, u8, 0x24);
-    t73 = FIELD((void *)ptr, u8, 0x25);
-Lset73:
-    FIELD(inner, u8, 0x73) = t73;
-    t73 = FIELD(inner, s8, 0x72);
-    HI16(coords.x) = (t73 << 6) + 32;
-    t73 = FIELD(inner, s8, 0x73);
-    HI16(coords.y) = (t73 << 6) + 32;
-    HI16(coords.z) = func_800BCB04(HI16U(coords.x), HI16U(coords.y),
-                                   (s16)(FIELD(FIELD(base, void *, 8), u16, 0x0A) - 48));
-    if (HI16(coords.z) >= 512) {
-        HI16(coords.z) = FIELD(FIELD(base, void *, 8), u16, 0x0A);
+    FIELD(caster, u8, 0x72) = FIELD((void *)sprite_or_x, u8, 0x24);
+    target_tile = FIELD((void *)sprite_or_x, u8, 0x25);
+set_destination:
+    FIELD(caster, u8, 0x73) = target_tile;
+    target_tile = FIELD(caster, s8, 0x72);
+    HI16(target_pos.x) = (target_tile << 6) + 32;
+    target_tile = FIELD(caster, s8, 0x73);
+    HI16(target_pos.y) = (target_tile << 6) + 32;
+    HI16(target_pos.z) = func_800BCB04(HI16U(target_pos.x), HI16U(target_pos.y),
+                                   (s16)(FIELD(FIELD(caster_obj, void *, 8), u16, 0x0A) - 48));
+    if (HI16(target_pos.z) >= 512) {
+        HI16(target_pos.z) = FIELD(FIELD(caster_obj, void *, 8), u16, 0x0A);
     }
-    HI16(coords.z) -= 48;
-    i = HI16(coords.x) - FIELD(arg1, s16, 2);
-    dy = HI16(coords.y) - FIELD(arg1, s16, 6);
-    n = i;
-    if (i < 0) {
-        ASM_KEEP_NV(n);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        n = -n;
+    HI16(target_pos.z) -= 48;
+    index_or_x = HI16(target_pos.x) - FIELD(motion, s16, 2);
+    offset_y = HI16(target_pos.y) - FIELD(motion, s16, 6);
+    distance = index_or_x;
+    if (index_or_x < 0) {
+        ASM_KEEP_NV(distance);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        distance = -distance;
     }
-    tabs = dy;
-    if (dy < 0) {
-        ASM_KEEP_NV(tabs);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        tabs = -tabs;
+    abs_dy = offset_y;
+    if (offset_y < 0) {
+        ASM_KEEP_NV(abs_dy);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        abs_dy = -abs_dy;
     }
-    if (n < tabs) {
-        n = tabs;
+    if (distance < abs_dy) {
+        distance = abs_dy;
     }
-    count = n / 8;
-    count++;
-    FIELD(arg0, s16, 0x50) = count;
-    FIELD(arg1, s32, 0x0C) = (i << 16) / FIELD(arg0, s16, 0x50);
-    FIELD(arg1, s32, 0x10) = (dy << 16) / FIELD(arg0, s16, 0x50);
-    FIELD(arg1, s32, 0x14) = (coords.z - FIELD(arg1, s32, 8)) /
-                             FIELD(arg0, s16, 0x50);
-    FIELD(arg0, s32, 0x0C) = 8;
-    FIELD(arg0, u16, 0x50) = FIELD(arg0, u16, 0x50) + FIELD(arg0, u16, 0x0C);
+    travel_frames = distance / 8;
+    travel_frames++;
+    FIELD(effect, s16, 0x50) = travel_frames;
+    FIELD(motion, s32, 0x0C) = (index_or_x << 16) / FIELD(effect, s16, 0x50);
+    FIELD(motion, s32, 0x10) = (offset_y << 16) / FIELD(effect, s16, 0x50);
+    FIELD(motion, s32, 0x14) = (target_pos.z - FIELD(motion, s32, 8)) /
+                             FIELD(effect, s16, 0x50);
+    FIELD(effect, s32, 0x0C) = 8;
+    FIELD(effect, u16, 0x50) = FIELD(effect, u16, 0x50) + FIELD(effect, u16, 0x0C);
     func_800A56E0(0x300);
-    FIELD(arg0, u16, 0x0A) = FIELD(arg0, u16, 0x0A) + 1;
-    goto Lend;
+    FIELD(effect, u16, 0x0A) = FIELD(effect, u16, 0x0A) + 1;
+    goto done;
 
-L1:
-    FIELD(arg0, s32, 0x0C) = FIELD(arg0, s32, 0x0C) - 1;
-    if (FIELD(arg0, s32, 0x0C) > 0) {
-        goto Lend;
+wait_launch:
+    FIELD(effect, s32, 0x0C) = FIELD(effect, s32, 0x0C) - 1;
+    if (FIELD(effect, s32, 0x0C) > 0) {
+        goto done;
     }
-    FIELD(arg0, s32, 0x0C) = 12;
-    FIELD(arg0, u16, 0x0A) = FIELD(arg0, u16, 0x0A) + 1;
-    goto Lend;
+    FIELD(effect, s32, 0x0C) = 12;
+    FIELD(effect, u16, 0x0A) = FIELD(effect, u16, 0x0A) + 1;
+    goto done;
 
-L2:
-    FIELD(arg0, s32, 0x0C) = FIELD(arg0, s32, 0x0C) - 1;
-    if (FIELD(arg0, s32, 0x0C) > 0) {
-        FIELD(arg1, s32, 0x0C) += step_x << 16;
-        FIELD(arg1, s32, 0x10) += step_y << 16;
+travel:
+    FIELD(effect, s32, 0x0C) = FIELD(effect, s32, 0x0C) - 1;
+    if (FIELD(effect, s32, 0x0C) > 0) {
+        FIELD(motion, s32, 0x0C) += step_x << 16;
+        FIELD(motion, s32, 0x10) += step_y << 16;
     }
-    FIELD(arg1, s32, 0) += FIELD(arg1, s32, 0x0C);
-    FIELD(arg1, s32, 4) += FIELD(arg1, s32, 0x10);
-    FIELD(arg1, s32, 8) += FIELD(arg1, s32, 0x14);
-    idx = FIELD(arg1, s16, 2);
-    if (idx < 0) {
-        idx += 63;
+    FIELD(motion, s32, 0) += FIELD(motion, s32, 0x0C);
+    FIELD(motion, s32, 4) += FIELD(motion, s32, 0x10);
+    FIELD(motion, s32, 8) += FIELD(motion, s32, 0x14);
+    world_x = FIELD(motion, s16, 2);
+    if (world_x < 0) {
+        world_x += 63;
     }
-    if ((idx >> 6) == (s8)FIELD(inner, u8, 0x72)) {
-        tc2 = FIELD(arg1, s16, 6);
-        if (tc2 < 0) {
-            tc2 += 63;
+    if ((world_x >> 6) == (s8)FIELD(caster, u8, 0x72)) {
+        world_y = FIELD(motion, s16, 6);
+        if (world_y < 0) {
+            world_y += 63;
         }
-        if ((tc2 >> 6) == (s8)FIELD(inner, u8, 0x73)) {
-            FIELD(arg0, u16, 0x50) = 0;
+        if ((world_y >> 6) == (s8)FIELD(caster, u8, 0x73)) {
+            FIELD(effect, u16, 0x50) = 0;
         }
     }
-    if (FIELD(arg0, s16, 0x50) > 0) {
-        goto Lend;
+    if (FIELD(effect, s16, 0x50) > 0) {
+        goto done;
     }
-    FIELD(arg0, u16, 0x0A) = FIELD(arg0, u16, 0x0A) + 1;
-    FIELD(arg1, s32, 0x0C) = step_x << 16;
-    FIELD(arg1, s32, 0x10) = step_y << 16;
-    goto Lend;
+    FIELD(effect, u16, 0x0A) = FIELD(effect, u16, 0x0A) + 1;
+    FIELD(motion, s32, 0x0C) = step_x << 16;
+    FIELD(motion, s32, 0x10) = step_y << 16;
+    goto done;
 
-L3:
-    FIELD(arg1, s32, 0) += FIELD(arg1, s32, 0x0C);
-    FIELD(arg1, s32, 4) += FIELD(arg1, s32, 0x10);
-    FIELD(arg1, s32, 8) += FIELD(arg1, s32, 0x14);
-    if (FIELD(inner, s32, 0x60) != 0) {
-        func_8009CE1C(FIELD(inner, void *, 0x60), 10, FIELD(arg0, u8, 9), 1,
-                      FIELD(inner, s16, 0x2A), inner, 2);
+impact:
+    FIELD(motion, s32, 0) += FIELD(motion, s32, 0x0C);
+    FIELD(motion, s32, 4) += FIELD(motion, s32, 0x10);
+    FIELD(motion, s32, 8) += FIELD(motion, s32, 0x14);
+    if (FIELD(caster, s32, 0x60) != 0) {
+        func_8009CE1C(FIELD(caster, void *, 0x60), 10, FIELD(effect, u8, 9), 1,
+                      FIELD(caster, s16, 0x2A), caster, 2);
     }
-    FIELD(arg0, s16, 0x50) = 16;
-    FIELD(arg0, u16, 0x0A) = FIELD(arg0, u16, 0x0A) + 1;
-    goto Lend;
+    FIELD(effect, s16, 0x50) = 16;
+    FIELD(effect, u16, 0x0A) = FIELD(effect, u16, 0x0A) + 1;
+    goto done;
 
-L4:
-    func_80044A50((u8 *)arg0 - 0x20);
-    FIELD(arg1, s32, 0x14) = 0;
-    FIELD(arg1, s32, 0x10) = 0;
-    FIELD(arg1, s32, 0x0C) = 0;
-    FIELD(arg0, u16, 0x0A) = FIELD(arg0, u16, 0x0A) + 1;
-    goto Lend;
+stop_motion:
+    func_80044A50((u8 *)effect - 0x20);
+    FIELD(motion, s32, 0x14) = 0;
+    FIELD(motion, s32, 0x10) = 0;
+    FIELD(motion, s32, 0x0C) = 0;
+    FIELD(effect, u16, 0x0A) = FIELD(effect, u16, 0x0A) + 1;
+    goto done;
 
-L5:
-    v = FIELD(arg0, s32, 0x10);
-    if (v & 0x8000) {
-        FIELD(arg0, s32, 0x10) = v & ~0x8000;
-        goto Lend;
+cleanup:
+    flags = FIELD(effect, s32, 0x10);
+    if (flags & 0x8000) {
+        FIELD(effect, s32, 0x10) = flags & ~0x8000;
+        goto done;
     }
-    if (FIELD(arg0, s16, 0x50) > 0) {
-        goto Lend;
+    if (FIELD(effect, s16, 0x50) > 0) {
+        goto done;
     }
     D_8008346C[0] = 0;
-    FIELD(arg0, u16, -2) |= 0x8000;
+    FIELD(effect, u16, -2) |= 0x8000;
     D_800814A0[0] |= 0x8000;
-Lend:
+done:
     return;
 }

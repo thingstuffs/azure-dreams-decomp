@@ -9,10 +9,11 @@ extern M2C_UNK D_8009AA2C;
 extern M2C_UNK D_800D00A8;
 
 
-void func_80098F48(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1) {
-    func_80094984(&D_800D00A8, arg0);
-    *((arg0->unk_40 * 8) + &D_80082660) = 0;
-    arg0->unk_0A.as_s16 = 0xA;
-    func_80099754(arg1);
-    arg0->unk_04.as_pm = &D_8009AA2C;
+/* Clears the object's indexed flag and updates its state and handler. */
+void func_80098F48(Rec_func_80094268_arg0 *object, M2C_UNK context) {
+    func_80094984(&D_800D00A8, object);
+    *((object->unk_40 * 8) + &D_80082660) = 0;
+    object->unk_0A.as_s16 = 0xA;
+    func_80099754(context);
+    object->unk_04.as_pm = &D_8009AA2C;
 }

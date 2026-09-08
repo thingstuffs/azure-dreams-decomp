@@ -53,96 +53,92 @@ typedef struct S_80099C58_3 {
     void * unk_04;
 } S_80099C58_3;   /* v1 in func_80099C58 */
 
-void func_80099C58(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+/* Spawns a central particle and sixteen particles moving radially from the given position. */
+void func_80099C58(s16 x, s16 y, s16 z, s16 flags)
 {
-    void *obj;
-    S_80099C58_1 *s1;
-    S_80099C58_2 *s2;
-    void *a3;
-    S_80099C58_3 *v1;
-    void *tex;
-    s32 i;
-    s32 a0v;
+    void *particle;
+    S_80099C58_1 *motion;
+    S_80099C58_2 *effect_state;
+    void *sprite;
+    S_80099C58_3 *texture_data;
+    void *texture;
+    s32 spokes_left;
+    s32 angle;
     s32 color;
 
-    obj = func_8003FC64(0x212);
-    if (obj != NULL) {
-        s2 = (s8 *)obj + 0x20;
-        s1 = ((S_80099C58_0 *)obj)->unk_08;
-        ((S_80099C58_0 *)obj)->unk_10 = D_80099B18;
-        s1->unk_02 = arg0;
-        s2->unk_12 = arg0;
-        s1->unk_06 = arg1;
-        s2->unk_14 = arg1;
-        s1->unk_0A = arg2;
-        s2->unk_16 = arg2;
-        s2->unk_10 = 0;
-        a3 = ((S_80099C58_0 *)obj)->unk_0C;
-        if (arg3 & 2) {
-            tex = D_800DEDB0;
-        } else if (arg3 & 4) {
-            tex = &D_800DEE38;
+    particle = func_8003FC64(0x212);
+    if (particle != NULL) {
+        effect_state = (s8 *)particle + 0x20;
+        motion = ((S_80099C58_0 *)particle)->unk_08;
+        ((S_80099C58_0 *)particle)->unk_10 = D_80099B18;
+        motion->unk_02 = x;
+        effect_state->unk_12 = x;
+        motion->unk_06 = y;
+        effect_state->unk_14 = y;
+        motion->unk_0A = z;
+        effect_state->unk_16 = z;
+        effect_state->unk_10 = 0;
+        sprite = ((S_80099C58_0 *)particle)->unk_0C;
+        if (flags & 2) {
+            texture = D_800DEDB0;
+        } else if (flags & 4) {
+            texture = &D_800DEE38;
         } else {
-            tex = D_800DE870;
+            texture = D_800DE870;
         }
-        (*(void **)((u8 *)a3 + 0)) = tex;
+        (*(void **)((u8 *)sprite + 0)) = texture;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         color = 0x808080;
         ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        v1 = (*(void * volatile *)((u8 *)a3 + 0));
-        v1 = v1->unk_04;
-        (*(u16 *)((u8 *)a3 + 0x14)) |= 0x8C;
-        (*(s16 *)((u8 *)a3 + 0x10)) = 0x20;
-        (*(s32 *)((u8 *)a3 + 0xC)) = color;
-        (*(s16 *)((u8 *)a3 + 0x1E)) = 0x1000;
-        (*(s16 *)((u8 *)a3 + 0x1C)) = 0x1000;
-        (*(void **)((u8 *)a3 + 8)) = v1;
-        func_8004491C(obj, &D_80045340, color, a3);
+        texture_data = (*(void * volatile *)((u8 *)sprite + 0));
+        texture_data = texture_data->unk_04;
+        (*(u16 *)((u8 *)sprite + 0x14)) |= 0x8C;
+        (*(s16 *)((u8 *)sprite + 0x10)) = 0x20;
+        (*(s32 *)((u8 *)sprite + 0xC)) = color;
+        (*(s16 *)((u8 *)sprite + 0x1E)) = 0x1000;
+        (*(s16 *)((u8 *)sprite + 0x1C)) = 0x1000;
+        (*(void **)((u8 *)sprite + 8)) = texture_data;
+        func_8004491C(particle, &D_80045340, color, sprite);
     }
 
-    for (i = 0x10; i > 0; i--) {
-        obj = func_8003FC64(0x212);
-        if (obj != NULL) {
-            s2 = (s8 *)obj + 0x20;
-            a0v = i << 8;
-            s1 = ((S_80099C58_0 *)obj)->unk_08;
-            ((S_80099C58_0 *)obj)->unk_10 = D_80099B18;
-            s2->unk_0E = 1;
-            s1->unk_02 = arg0;
-            s2->unk_12 = arg0;
-            s1->unk_06 = arg1;
-            s2->unk_14 = arg1;
-            s1->unk_0A = arg2;
-            s2->unk_16 = arg2;
-            s1->unk_14 = func_80064584(a0v) << 7;
-            s1->unk_0C = func_800644B8(a0v) << 7;
-            s2->unk_10 = 0;
-            a3 = ((S_80099C58_0 *)obj)->unk_0C;
-            if (arg3 & 2) {
-                tex = D_800DEDB0;
-            } else if (arg3 & 4) {
-                tex = &D_800DEE38;
+    for (spokes_left = 0x10; spokes_left > 0; spokes_left--) {
+        particle = func_8003FC64(0x212);
+        if (particle != NULL) {
+            effect_state = (s8 *)particle + 0x20;
+            angle = spokes_left << 8;
+            motion = ((S_80099C58_0 *)particle)->unk_08;
+            ((S_80099C58_0 *)particle)->unk_10 = D_80099B18;
+            effect_state->unk_0E = 1;
+            motion->unk_02 = x;
+            effect_state->unk_12 = x;
+            motion->unk_06 = y;
+            effect_state->unk_14 = y;
+            motion->unk_0A = z;
+            effect_state->unk_16 = z;
+            motion->unk_14 = func_80064584(angle) << 7;
+            motion->unk_0C = func_800644B8(angle) << 7;
+            effect_state->unk_10 = 0;
+            sprite = ((S_80099C58_0 *)particle)->unk_0C;
+            if (flags & 2) {
+                texture = D_800DEDB0;
+            } else if (flags & 4) {
+                texture = &D_800DEE38;
             } else {
-                tex = D_800DE870;
+                texture = D_800DE870;
             }
-            (*(void **)((u8 *)a3 + 0)) = tex;
+            (*(void **)((u8 *)sprite + 0)) = texture;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             color = 0x808080;
             ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            v1 = (*(void * volatile *)((u8 *)a3 + 0));
-            v1 = v1->unk_04;
-            (*(u16 *)((u8 *)a3 + 0x14)) |= 0x8C;
-            (*(s16 *)((u8 *)a3 + 0x10)) = 0x20;
-            (*(s32 *)((u8 *)a3 + 0xC)) = color;
-            (*(s16 *)((u8 *)a3 + 0x1E)) = 0x1000;
-            (*(s16 *)((u8 *)a3 + 0x1C)) = 0x1000;
-            (*(void **)((u8 *)a3 + 8)) = v1;
-            func_8004491C(obj, &D_80045340, color, a3);
+            texture_data = (*(void * volatile *)((u8 *)sprite + 0));
+            texture_data = texture_data->unk_04;
+            (*(u16 *)((u8 *)sprite + 0x14)) |= 0x8C;
+            (*(s16 *)((u8 *)sprite + 0x10)) = 0x20;
+            (*(s32 *)((u8 *)sprite + 0xC)) = color;
+            (*(s16 *)((u8 *)sprite + 0x1E)) = 0x1000;
+            (*(s16 *)((u8 *)sprite + 0x1C)) = 0x1000;
+            (*(void **)((u8 *)sprite + 8)) = texture_data;
+            func_8004491C(particle, &D_80045340, color, sprite);
         }
     }
 }
-
-/* MECHANISM: The 0x48 frame and two s16 stack locals preserve all ten retail saves.
-   Rowbase-local pointer joins plus the four-argument callee ABI recover the CFG and $a3 lifetime.
-   Split selection/reload names, volatile rereads, and an $a2 color pin reproduce register roles.
-   Store/color scheduling barriers close the final two symmetric reorder-only seams. */

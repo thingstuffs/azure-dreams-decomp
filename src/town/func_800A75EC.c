@@ -17,25 +17,22 @@ typedef struct Func800A75ECState {
 
 extern void func_800A4E1C(void *arg0);
 
-void func_800A4D4C(Func800A75ECState *arg0) {
+/* Restart tracking when the current point changes; otherwise update the midpoint. */
+void func_800A4D4C(Func800A75ECState *state) {
     s32 *current;
 
-    current = arg0->current;
-    if (current != arg0->previous) {
-        arg0->unk20 = 9;
-        arg0->callback = func_800A4E1C;
-        arg0->unk14 = 0;
-        arg0->unk18 = 0;
-        arg0->unk1c = 0;
-        arg0->previous = arg0->current;
-        func_800A4E1C(arg0);
+    current = state->current;
+    if (current != state->previous) {
+        state->unk20 = 9;
+        state->callback = func_800A4E1C;
+        state->unk14 = 0;
+        state->unk18 = 0;
+        state->unk1c = 0;
+        state->previous = state->current;
+        func_800A4E1C(state);
         return;
     }
-    arg0->center_x = (current[0] + arg0->other[0]) / 2;
-    arg0->center_y = (arg0->current[1] + arg0->other[1]) / 2;
-    arg0->center_z = (arg0->current[2] + arg0->other[2]) / 2;
+    state->center_x = (current[0] + state->other[0]) / 2;
+    state->center_y = (state->current[1] + state->other[1]) / 2;
+    state->center_z = (state->current[2] + state->other[2]) / 2;
 }
-
-/* MECHANISM: Preserve the seed's 0x18 frame, sole $ra save, and existing live-range splits.
-   The cdk-G0 lineage schedules previous=current into the jal slot and LEAD 22 forms the tail j.
-   Config orientation removes plain 2.7.2-G0's two-word move/lw code-motion residue. */

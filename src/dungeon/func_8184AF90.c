@@ -59,78 +59,75 @@ typedef struct S_80024790_4 {
     u16 unk_0A;
 } S_80024790_4;   /* temp_s0_2 in func_80024790 */
 
-s32 func_80024790(S_80024790_1 *arg0, s32 arg1) {
-    s32 held_arg1 = arg1;
-    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 sign_temp;
-    register s32 return_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    s16 temp_v0_3;
-    s32 var_a2;
-    register s32 temp_s5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    s32 temp_v1;
-    s32 var_a0;
-    s32 final_value;
-    s8 temp_v0_2;
-    u8 *global_page;
-    u8 *global_addr;
-    S_80024790_3 *temp_s0;
-    S_80024790_4 *temp_s0_2;
-    S_80024790_2 *temp_s3;
-    void *temp_v0;
+/* Creates an effect at the origin with index-dependent color, scale, and position. */
+s32 func_80024790(S_80024790_1 *origin, s32 index) {
+    s32 saved_index = index;
+    register s32 signed_index ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 index_high;
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s16 scale;
+    s32 frame_dividend;
+    register s32 color_index ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s32 angle;
+    s32 angle_dividend;
+    s32 height;
+    s8 shade;
+    u8 *sprite_page;
+    u8 *sprite_data;
+    S_80024790_3 *sprite;
+    S_80024790_4 *position;
+    S_80024790_2 *state;
+    void *effect;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_s5 = held_arg1;
-        ASM_KEEP(temp_s5);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ((S_80024790_0 *)temp_v0)->unk_10 = &D_800246AC;
-        ((S_80024790_0 *)temp_v0)->unk_20 = (u16) arg0->unk_02;
-        temp_s3 = temp_v0 + 0x20;
-        temp_s3->unk_02 = (u16) arg0->unk_06;
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        color_index = saved_index;
+        ASM_KEEP(color_index);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(saved_index);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ((S_80024790_0 *)effect)->unk_10 = &D_800246AC;
+        ((S_80024790_0 *)effect)->unk_20 = (u16) origin->unk_02;
+        state = effect + 0x20;
+        state->unk_02 = (u16) origin->unk_06;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        sign_temp = held_arg1 << 16;
-        temp_s2 = sign_temp >> 16;
-        ASM_KEEP(sign_temp);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_v1 = temp_s2 << 8;
-        var_a0 = temp_v1;
-        temp_s3->unk_04 = (u16) arg0->unk_0A;
-        if (temp_v1 < 0) {
-            var_a0 = temp_v1 + 0xFFF;
+        index_high = saved_index << 16;
+        signed_index = index_high >> 16;
+        ASM_KEEP(index_high);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        angle = signed_index << 8;
+        angle_dividend = angle;
+        state->unk_04 = (u16) origin->unk_0A;
+        if (angle < 0) {
+            angle_dividend = angle + 0xFFF;
         }
-        var_a2 = temp_s2;
-        temp_s3->unk_08 = (s16) (temp_v1 - ((var_a0 >> 0xC) << 0xC));
-        temp_s0 = ((S_80024790_0 *)temp_v0)->unk_0C;
-        temp_v0_2 = ~(temp_s5 * 8);
-        temp_s0->unk_0E = temp_v0_2;
-        temp_s0->unk_0D = temp_v0_2;
-        temp_s0->unk_0C = temp_v0_2;
-        ASM_KEEP(temp_s5);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        global_page = (u8 *) 0x800E0000;
-        ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        global_addr = global_page - 0x14D8;
-        if (temp_s2 < 0) {
-            var_a2 = temp_s2 + 7;
+        frame_dividend = signed_index;
+        state->unk_08 = (s16) (angle - ((angle_dividend >> 0xC) << 0xC));
+        sprite = ((S_80024790_0 *)effect)->unk_0C;
+        shade = ~(color_index * 8);
+        sprite->unk_0E = shade;
+        sprite->unk_0D = shade;
+        sprite->unk_0C = shade;
+        ASM_KEEP(color_index);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        sprite_page = (u8 *) 0x800E0000;
+        ASM_KEEP(sprite_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        sprite_data = sprite_page - 0x14D8;
+        if (signed_index < 0) {
+            frame_dividend = signed_index + 7;
         }
-        func_8003DB94(temp_s0, global_addr, (s16) (7 - (temp_s2 - ((var_a2 >> 3) * 8))));
-        temp_v0_3 = (temp_s2 << 6) + 0x1000;
-        temp_s0->unk_1E = temp_v0_3;
-        temp_s0->unk_1C = temp_v0_3;
-        temp_s0->unk_10 = (u16) (temp_s0->unk_10 | 0x20);
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-        func_8004491C(temp_v0, &D_80045340);
-        ASM_KEEP(temp_s2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        temp_s0_2 = ((S_80024790_0 *)temp_v0)->unk_08;
-        temp_s0_2->unk_02 = (s16) (((S_80024790_0 *)temp_v0)->unk_20 + ((s32) (func_800644B8(temp_s3->unk_08) * 2) >> 8));
-        temp_s0_2->unk_06 = (s16) (temp_s3->unk_02 + ((s32) (func_80064584(temp_s3->unk_08) * 2) >> 8));
-        return_value = (s32) temp_v0;
-        final_value = temp_s3->unk_04 - (held_arg1 * 8);
-        ASM_KEEP(return_value);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        temp_s0_2->unk_0A = (u16) final_value;
+        func_8003DB94(sprite, sprite_data, (s16) (7 - (signed_index - ((frame_dividend >> 3) * 8))));
+        scale = (signed_index << 6) + 0x1000;
+        sprite->unk_1E = scale;
+        sprite->unk_1C = scale;
+        sprite->unk_10 = (u16) (sprite->unk_10 | 0x20);
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        func_8004491C(effect, &D_80045340);
+        ASM_KEEP(signed_index);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        position = ((S_80024790_0 *)effect)->unk_08;
+        position->unk_02 = (s16) (((S_80024790_0 *)effect)->unk_20 + ((s32) (func_800644B8(state->unk_08) * 2) >> 8));
+        position->unk_06 = (s16) (state->unk_02 + ((s32) (func_80064584(state->unk_08) * 2) >> 8));
+        result = (s32) effect;
+        height = state->unk_04 - (saved_index * 8);
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        position->unk_0A = (u16) height;
         return;
     }
     return 0;
 }
-
-/* MECHANISM: Distinct s4/s5/s2 runtime roles force the retail 0x30 frame; a split sign extension
-   and held 0x800e page reproduce the v0 temporaries and branch-delay address formation.
-   The noreturn tail contract plus a v0 return hold across named final_value forces v1 and the +0xA delay-slot store. */

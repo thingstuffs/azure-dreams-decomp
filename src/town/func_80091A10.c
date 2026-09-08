@@ -16,31 +16,28 @@ typedef struct {
 } Unk80091A10;
 
 
-s32 func_8008F170(Rec_D_800E3D7C *arg0, s32 *arg1) {
-    Unk80091A10 sp18;
-    s32 sp30;
-    s16 temp_v0;
-    s16 var_s2;
+/* Returns the smaller query result capped at 0x80 and writes its associated output. */
+s32 func_8008F170(Rec_D_800E3D7C *source, s32 *out_detail) {
+    Unk80091A10 query;
+    s32 detail;
+    s16 candidate;
+    s16 minimum;
 
-    sp18.unk0 = arg0->unk_00.at00_s32.v;
-    sp18.unk4 = arg0->unk_04.at00_s32.v;
-    sp18.unk8 = arg0->unk_08.at00_s32.v - arg0->unk_14.as_s32;
-    var_s2 = func_8008CF48(&sp18, &sp30);
-    *arg1 = sp30;
-    sp18.unk0 = arg0->unk_00.at00_s32.v;
-    sp18.unk4 = arg0->unk_04.at00_s32.v;
-    sp18.unk8 = arg0->unk_08.at00_s32.v - arg0->unk_14.as_s32;
-    temp_v0 = func_8008C758(&sp18, &D_800CFD18, 4, &sp30, (s32) var_s2, *arg1);
-    if (temp_v0 < var_s2) {
-        var_s2 = temp_v0;
-        *arg1 = sp30;
+    query.unk0 = source->unk_00.at00_s32.v;
+    query.unk4 = source->unk_04.at00_s32.v;
+    query.unk8 = source->unk_08.at00_s32.v - source->unk_14.as_s32;
+    minimum = func_8008CF48(&query, &detail);
+    *out_detail = detail;
+    query.unk0 = source->unk_00.at00_s32.v;
+    query.unk4 = source->unk_04.at00_s32.v;
+    query.unk8 = source->unk_08.at00_s32.v - source->unk_14.as_s32;
+    candidate = func_8008C758(&query, &D_800CFD18, 4, &detail, (s32) minimum, *out_detail);
+    if (candidate < minimum) {
+        minimum = candidate;
+        *out_detail = detail;
     }
-    if (var_s2 >= 0x80) {
-        var_s2 = 0x80;
+    if (minimum >= 0x80) {
+        minimum = 0x80;
     }
-    return var_s2;
+    return minimum;
 }
-
-/* MECHANISM: A 24-byte escaped record plus the separate sp30 output force the retail
-   0x50 frame, stack offsets, and complete six-store copy sequence. Direct s16 CFG
-   expressions remove shifted-temporary residue; 2.7.2-cdk-G0 supplies the exact schedule. */

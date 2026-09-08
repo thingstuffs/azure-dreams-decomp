@@ -36,31 +36,32 @@ extern s8 D_80010000[];
 extern M2C_UNK D_80016064;
 extern M2C_UNK D_8001608C;
 
-s32 func_800194E4(void *arg0, s32 arg1) {
-    s32 var_s1;
-    Callback3 callback;
+/* Finds an entry by ID and invokes error callbacks if it is missing. */
+s32 func_800194E4(void *entries, s32 entry_id) {
+    s32 entry_index;
+    Callback3 report_error;
     void *root;
     void *callbacks;
 
-    var_s1 = 0;
-    if (((S_800194E4_0 *)arg0)->unk_04 != 0) {
-loop_2:
-        if (((S_800194E4_1 *)((s8 *)arg0 + var_s1 * 8))->unk_00 != arg1) {
-            var_s1 += 1;
-            if (((S_800194E4_1 *)((s8 *)arg0 + var_s1 * 8))->unk_04 != 0) {
-                goto loop_2;
+    entry_index = 0;
+    if (((S_800194E4_0 *)entries)->unk_04 != 0) {
+check_entry:
+        if (((S_800194E4_1 *)((s8 *)entries + entry_index * 8))->unk_00 != entry_id) {
+            entry_index += 1;
+            if (((S_800194E4_1 *)((s8 *)entries + entry_index * 8))->unk_04 != 0) {
+                goto check_entry;
             }
         }
-        if (((S_800194E4_1 *)((s8 *)arg0 + var_s1 * 8))->unk_04 == 0) {
-            goto block_5;
+        if (((S_800194E4_1 *)((s8 *)entries + entry_index * 8))->unk_04 == 0) {
+            goto missing_entry;
         }
     } else {
-block_5:
+missing_entry:
         do { root = (*(void **)((u8 *)D_80010000 + 0x6000)); } while (0);
         do { callbacks = ((S_800194E4_2 *)root)->unk_20; } while (0);
-        callback = (*(Callback3 *)((u8 *)callbacks + 0x168));
-        callback(&D_80016064, &D_8001608C, 0x28);
+        report_error = (*(Callback3 *)((u8 *)callbacks + 0x168));
+        report_error(&D_80016064, &D_8001608C, 0x28);
         ((S_800194E4_4 *)(((S_800194E4_3 *)((*(void **)((u8 *)D_80010000 + 0x6000))))->unk_20))->unk_174(1);
     }
-    return var_s1;
+    return entry_index;
 }

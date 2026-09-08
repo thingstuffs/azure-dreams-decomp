@@ -1,15 +1,13 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082EB0.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
-typedef struct S_80095538_3 {
-    void * unk_00;
-} S_80095538_3;   /* &D_80082EB0 in func_80095538 */
 
 typedef struct S_80095538_4 {
     u8 pad_00[0x1];
     u8 unk_01;
-} S_80095538_4;   /* ((S_80095538_3 *)(&D_80082EB0))->unk_00 in func_80095538 */
+} S_80095538_4;   /* ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv in func_80095538 */
 
 
 typedef struct S_80095538_0 {
@@ -34,45 +32,46 @@ s32 func_80098920(); /* extern */
 s32 func_8009FADC();                             /* extern */
 extern M2C_UNK D_80082EB0;
 
-s32 func_80095538(Rec_func_8008ACDC_arg0 *arg0, s16 arg1, s16 arg2) {
-    s32 temp_s3;
-    s32 temp_s4;
-    register s32 var_s5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 var_v0;
-    u8 temp_v0;
-    void *var_s1;
-    void *var_a1;
-    void *var_a1_2;
+/* Dispatches an item effect or equipment update according to the item type. */
+s32 func_80095538(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id) {
+    s32 saved_x;
+    s32 saved_y;
+    register s32 result ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 shifted_result;
+    u8 item_type;
+    void *actor_base;
+    void *equipment_item;
+    void *accessory_item;
 
-    var_s1 = arg0;
-    temp_s3 = ((S_80095538_0 *)((u8 *)var_s1 - 0x18))->unk_00;
-    temp_s4 = ((S_80095538_0 *)((u8 *)var_s1 - 0x18))->unk_04;
-    var_s5 = 1;
-    ((S_80095538_1 *)(&D_80082EB0))->unk_00.s = func_8009FADC(arg1);
-    if (arg2 != 0) {
-        ((S_80095538_1 *)(&D_80082EB0))->unk_04 = func_8009FADC(arg2);
+    actor_base = actor;
+    saved_x = ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_00;
+    saved_y = ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_04;
+    result = 1;
+    ((S_80095538_1 *)(&D_80082EB0))->unk_00.s = func_8009FADC(item_id);
+    if (other_item_id != 0) {
+        ((S_80095538_1 *)(&D_80082EB0))->unk_04 = func_8009FADC(other_item_id);
     } else {
         ((S_80095538_1 *)(&D_80082EB0))->unk_04 = 0;
     }
-    temp_v0 = ((S_80095538_4 *)(((S_80095538_3 *)(&D_80082EB0))->unk_00))->unk_01;
-    switch (temp_v0) {
+    item_type = ((S_80095538_4 *)(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv))->unk_01;
+    switch (item_type) {
     case 15:
     case 16:
-        var_a1 = NULL;
-        if (((S_80095538_1 *)(&D_80082EB0))->unk_00.u != ((S_80095538_0 *)((u8 *)var_s1 - 0x18))->unk_64) {
-            var_a1 = ((S_80095538_1 *)(&D_80082EB0))->unk_00.u;
+        equipment_item = NULL;
+        if (((S_80095538_1 *)(&D_80082EB0))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_64) {
+            equipment_item = ((S_80095538_1 *)(&D_80082EB0))->unk_00.u;
         }
-        func_800982A8(var_s1, var_a1);
-        var_v0 = var_s5 << 0x10;
-        goto return_lbl;
+        func_800982A8(actor_base, equipment_item);
+        shifted_result = result << 0x10;
+        goto return_result;
     case 17:
-        var_a1_2 = NULL;
-        if (((S_80095538_1 *)(&D_80082EB0))->unk_00.u != ((S_80095538_0 *)((u8 *)var_s1 - 0x18))->unk_68) {
-            var_a1_2 = ((S_80095538_1 *)(&D_80082EB0))->unk_00.u;
+        accessory_item = NULL;
+        if (((S_80095538_1 *)(&D_80082EB0))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_68) {
+            accessory_item = ((S_80095538_1 *)(&D_80082EB0))->unk_00.u;
         }
-        func_80098614(var_s1, var_a1_2);
-        var_v0 = var_s5 << 0x10;
-        goto return_lbl;
+        func_80098614(actor_base, accessory_item);
+        shifted_result = result << 0x10;
+        goto return_result;
     case 1:
     case 2:
     case 3:
@@ -87,24 +86,20 @@ s32 func_80095538(Rec_func_8008ACDC_arg0 *arg0, s16 arg1, s16 arg2) {
     case 12:
     case 13:
     case 14:
-        var_s5 = func_80098920(var_s1, ((S_80095538_1 *)(&D_80082EB0))->unk_00.u, 3, 0);
-        goto block_13;
+        result = func_80098920(actor_base, ((S_80095538_1 *)(&D_80082EB0))->unk_00.u, 3, 0);
+        goto shift_result;
     case 18:
-        arg0->unk_BC = (void *) ((S_80095538_1 *)(&D_80082EB0))->unk_00.u;
-        func_8008D388(arg0, temp_s3, temp_s4, var_s1);
-        goto block_13;
+        actor->unk_BC = (void *) ((S_80095538_1 *)(&D_80082EB0))->unk_00.u;
+        func_8008D388(actor, saved_x, saved_y, actor_base);
+        goto shift_result;
     case 19:
     case 20:
     case 21:
     default:
-        goto block_13;
+        goto shift_result;
     }
-block_13:
-    var_v0 = var_s5 << 0x10;
-return_lbl:
-    return var_v0 >> 0x10;
+shift_result:
+    shifted_result = result << 0x10;
+return_result:
+    return shifted_result >> 0x10;
 }
-
-/* MECHANISM: Separate arg0 lifetimes hold the original in s6 and the working base in s1.
-   A guarded s5 pin with ASM_KEEP_NV restores the retail save/color order without a sched barrier.
-   The direct D_80082EB0 base and one shared post-switch shift remove the +1-word CFG cascade. */

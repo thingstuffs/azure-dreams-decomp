@@ -32,42 +32,43 @@ extern u8 D_801C9E40[16];
 extern void func_80066890(u8 *dst, S_Stack *rect, s32 x, s32 y);
 extern void func_8006658C(void *addr, u8 *cursor);
 
-void func_800C96E8(S_Rect *arg0, S_Arg1 *arg1) {
-    S_Stack stack;
-    s16 temp_a0, temp_a2, temp_t1, temp_v1_2;
-    s32 temp_a1, temp_t2, temp_v1, var_a3;
-    u8 *temp_a1_2;
-    u8 *var_s0;
-    Ctx **temp_s3;
+/* Queue a rectangle copy when both source and destination fit on screen. */
+void func_800C96E8(S_Rect *copy_rect, S_Arg1 *source) {
+    S_Stack source_rect;
+    s16 source_y, width, source_x, height;
+    s32 dest_y, second_buffer, dest_x, buffer_y;
+    u8 *packet;
+    u8 *cursor;
+    Ctx **active_ctx;
 
-    temp_s3 = (Ctx **)((u8 *)&D_80080000 + 0x3160);
-    var_s0 = (*(Ctx **)((u8 *)&D_80080000 + 0x3160))->field_8D0;
-    temp_t2 = *(Ctx **)((u8 *)&D_80080000 + 0x3160) != (Ctx *)D_801C9E40;
-    if (arg1->index < 480) {
-        temp_t1 = arg1->x;
-        temp_a0 = arg1->y;
-        temp_v1 = temp_t1 + arg0->w;
-        temp_a1 = temp_a0 + arg0->h;
-        if (temp_v1 >= 0) {
-            temp_a2 = arg0->x;
-            if (((temp_v1 + temp_a2) < 320) && (temp_a1 >= 0)) {
-                temp_v1_2 = arg0->y;
-                if (((temp_a1 + temp_v1_2) < 224) && (temp_t1 >= 0) && ((temp_t1 + temp_a2) < 320) && (temp_a0 >= 0) && ((temp_a0 + temp_v1_2) < 224)) {
-                    stack.x = arg1->x;
-                    var_a3 = arg1->y;
-                    if ((s16)temp_t2) {
-                        var_a3 += 224;
+    active_ctx = (Ctx **)((u8 *)&D_80080000 + 0x3160);
+    cursor = (*(Ctx **)((u8 *)&D_80080000 + 0x3160))->field_8D0;
+    second_buffer = *(Ctx **)((u8 *)&D_80080000 + 0x3160) != (Ctx *)D_801C9E40;
+    if (source->index < 480) {
+        source_x = source->x;
+        source_y = source->y;
+        dest_x = source_x + copy_rect->w;
+        dest_y = source_y + copy_rect->h;
+        if (dest_x >= 0) {
+            width = copy_rect->x;
+            if (((dest_x + width) < 320) && (dest_y >= 0)) {
+                height = copy_rect->y;
+                if (((dest_y + height) < 224) && (source_x >= 0) && ((source_x + width) < 320) && (source_y >= 0) && ((source_y + height) < 224)) {
+                    source_rect.x = source->x;
+                    buffer_y = source->y;
+                    if ((s16)second_buffer) {
+                        buffer_y += 224;
                     }
-                    stack.y = var_a3;
-                    stack.w = arg0->x;
-                    stack.h = arg0->y;
-                    func_80066890(var_s0, &stack, temp_t1 + arg0->w, (s16)var_a3 + arg0->h);
-                    temp_a1_2 = var_s0;
-                    var_s0 += 24;
-                    func_8006658C((u8 *)(*(Ctx **)((u8 *)&D_80080000 + 0x3160)) + ((arg1->index * 4) + 0xB0), temp_a1_2);
+                    source_rect.y = buffer_y;
+                    source_rect.w = copy_rect->x;
+                    source_rect.h = copy_rect->y;
+                    func_80066890(cursor, &source_rect, source_x + copy_rect->w, (s16)buffer_y + copy_rect->h);
+                    packet = cursor;
+                    cursor += 24;
+                    func_8006658C((u8 *)(*(Ctx **)((u8 *)&D_80080000 + 0x3160)) + ((source->index * 4) + 0xB0), packet);
                 }
             }
         }
     }
-    (*temp_s3)->field_8D0 = var_s0;
+    (*active_ctx)->field_8D0 = cursor;
 }

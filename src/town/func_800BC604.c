@@ -5,7 +5,7 @@
 extern void func_80033D08(void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void func_8008F134(void);
+extern void func_8008F134(void *);
 
 extern s32 D_800814A0;
 
@@ -29,7 +29,7 @@ void func_800B9D64(void *arg0, void *arg1)
     s32 value;
 
     if (*((Rec_D_80082D58 *)arg0)->unk_98.as_pu8 == 0) {
-        func_8008F134();
+        func_8008F134(arg0);
         func_80033D08(arg0);
         (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
         D_800814A0 |= 0x8000;

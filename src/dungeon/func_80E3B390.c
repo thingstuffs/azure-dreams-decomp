@@ -87,32 +87,33 @@ typedef struct S_80174B90_3 {
     s32 unk_28;
 } S_80174B90_3;   /* temp_a0 in func_80174B90 */
 
-void func_80174B90(S_80174B90_2 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    S_80174B90_3 *temp_a0;
-    S_80174B90_1 *temp_s0;
-    void *temp_v0;
+/* Create an effect using the source object's rendering and transform data. */
+void func_80174B90(S_80174B90_2 *source, s32 state_00, s32 state_04, s32 state_08) {
+    S_80174B90_3 *render_data;
+    S_80174B90_1 *effect_state;
+    void *effect;
 
-    temp_v0 = func_8003FD64(0x100, arg0);
-    if (temp_v0 != NULL) {
-        temp_a0 = ((S_80174B90_0 *)temp_v0)->unk_0C;
-        temp_s0 = temp_v0 + 0x20;
-        ((S_80174B90_0 *)temp_v0)->unk_10 = &D_8017474C;
-        temp_s0->unk_14 = (void *) arg0->unk_0C;
-        temp_s0->unk_18 = (void *) arg0->unk_08;
-        temp_a0->unk_1E = 0x1000;
-        temp_a0->unk_1C = 0x1000;
-        temp_a0->unk_0C = 0x808080;
-        temp_a0->unk_28 = (s32) ((S_80174B90_7 *)(((S_80174B90_4 *)temp_s0)->unk_14))->unk_28;
-        temp_a0->unk_12 = (u16) ((S_80174B90_7 *)(((S_80174B90_4 *)temp_s0)->unk_14))->unk_12;
-        ((S_80174B90_8 *)(((S_80174B90_5 *)temp_v0)->unk_08))->unk_02 = (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)arg0)->unk_08))->unk_02;
-        ((S_80174B90_8 *)(((S_80174B90_5 *)temp_v0)->unk_08))->unk_06 = (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)arg0)->unk_08))->unk_06;
-        ((S_80174B90_8 *)(((S_80174B90_5 *)temp_v0)->unk_08))->unk_0A = (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)arg0)->unk_08))->unk_0A;
-        func_80047784(temp_a0, 0x46, 0);
-        func_8004491C(temp_v0, &D_80175540);
-        ((S_80174B90_0 *)temp_v0)->unk_20 = arg1;
-        temp_s0->unk_04 = arg2;
-        temp_s0->unk_08 = arg3;
-        temp_s0->unk_0C = arg0;
-        temp_s0->unk_1C = 0x1000;
+    effect = func_8003FD64(0x100, source);
+    if (effect != NULL) {
+        render_data = ((S_80174B90_0 *)effect)->unk_0C;
+        effect_state = effect + 0x20;
+        ((S_80174B90_0 *)effect)->unk_10 = &D_8017474C;
+        effect_state->unk_14 = (void *) source->unk_0C;
+        effect_state->unk_18 = (void *) source->unk_08;
+        render_data->unk_1E = 0x1000;
+        render_data->unk_1C = 0x1000;
+        render_data->unk_0C = 0x808080;
+        render_data->unk_28 = (s32) ((S_80174B90_7 *)(((S_80174B90_4 *)effect_state)->unk_14))->unk_28;
+        render_data->unk_12 = (u16) ((S_80174B90_7 *)(((S_80174B90_4 *)effect_state)->unk_14))->unk_12;
+        ((S_80174B90_8 *)(((S_80174B90_5 *)effect)->unk_08))->unk_02 = (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)source)->unk_08))->unk_02;
+        ((S_80174B90_8 *)(((S_80174B90_5 *)effect)->unk_08))->unk_06 = (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)source)->unk_08))->unk_06;
+        ((S_80174B90_8 *)(((S_80174B90_5 *)effect)->unk_08))->unk_0A = (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)source)->unk_08))->unk_0A;
+        func_80047784(render_data, 0x46, 0);
+        func_8004491C(effect, &D_80175540);
+        ((S_80174B90_0 *)effect)->unk_20 = state_00;
+        effect_state->unk_04 = state_04;
+        effect_state->unk_08 = state_08;
+        effect_state->unk_0C = source;
+        effect_state->unk_1C = 0x1000;
     }
 }

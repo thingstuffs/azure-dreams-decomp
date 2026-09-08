@@ -27,25 +27,26 @@ extern u8 D_80083160[];
 extern void func_800364BC(Object *arg0);
 extern void func_8003661C(Object *arg0);
 
-void func_80036574(Object *arg0) {
-    u16 value;
+/* Decrement the countdown, restoring the callback on expiry or updating the selection from state flags. */
+void func_80036574(Object *object) {
+    u16 ticks_left;
     u8 *state;
 
     state = D_80083160;
-    value = arg0->unk64 - 1;
-    arg0->unk64 = value;
-    if ((s16)value <= 0) {
-        arg0->unk4d = 0xff;
-        arg0->unk51 = 0;
-        arg0->child->unk27 = arg0->child->unk26;
-        arg0->unk68 = func_800364BC;
+    ticks_left = object->unk64 - 1;
+    object->unk64 = ticks_left;
+    if ((s16)ticks_left <= 0) {
+        object->unk4d = 0xff;
+        object->unk51 = 0;
+        object->child->unk27 = object->child->unk26;
+        object->unk68 = func_800364BC;
     } else {
         if ((*(u32 *)(state + 0x10)) & 0x20) {
-            arg0->unk4d = arg0->child->unk26 - 1;
-            func_8003661C(arg0);
+            object->unk4d = object->child->unk26 - 1;
+            func_8003661C(object);
         } else if ((*(u32 *)(state + 0x10)) & 0x40) {
-            arg0->unk4d = 0;
-            func_8003661C(arg0);
+            object->unk4d = 0;
+            func_8003661C(object);
         }
     }
 }

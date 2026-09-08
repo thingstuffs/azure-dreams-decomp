@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "records/Rec_func_80024E80_arg1.h"
 
 M2C_UNK func_80024E80();              /* extern */
 void func_80025150(void) __attribute__((noreturn)); /* extern */
@@ -30,18 +31,6 @@ typedef struct S_80025094_1 {
 } S_80025094_1;   /* temp_v1 in func_80025094 */
 
 
-typedef struct S_80025094_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u8 pad_10[0x2];
-    u16 unk_12;
-} S_80025094_3;   /* arg1 in func_80025094 */
 
 void func_80025094(void *arg0, void *arg1, void *arg2) {
     s32 temp_v0_2;
@@ -87,8 +76,8 @@ state_0:
     temp_v0_2 = ((S_80025094_0 *)arg0)->unk_06.s << 5;
     ((Rec_D_80082E80 *)arg2)->unk_1C.at02_s16.v = temp_v0_2;
     ((Rec_D_80082E80 *)arg2)->unk_1C.at00_s16.v = temp_v0_2;
-    ((S_80025094_3 *)arg1)->unk_0A =
-        (u16) (((S_80025094_3 *)arg1)->unk_0A - 2);
+    ((Rec_func_80024E80_arg1 *)arg1)->unk_08.at02_u16.v =
+        (u16) (((Rec_func_80024E80_arg1 *)arg1)->unk_08.at02_u16.v - 2);
 
 state_1:
     if ((s16) ((S_80025094_0 *)arg0)->unk_06.u >= 0x20) {
@@ -110,8 +99,8 @@ state_2:
     }
 
 common:
-    ((S_80025094_3 *)arg1)->unk_02 = (s16) (((S_80025094_3 *)arg1)->unk_0E + ((s32) ((func_80064584(((S_80025094_0 *)arg0)->unk_0C) >> 4) * (s16) ((S_80025094_0 *)arg0)->unk_0A) >> 8));
-    ((S_80025094_3 *)arg1)->unk_06 = (s16) (((S_80025094_3 *)arg1)->unk_12 + ((s32) ((func_800644B8(((S_80025094_0 *)arg0)->unk_0C) >> 4) * (s16) ((S_80025094_0 *)arg0)->unk_0A) >> 8));
+    ((Rec_func_80024E80_arg1 *)arg1)->unk_00.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)arg1)->unk_0E + ((s32) ((func_80064584(((S_80025094_0 *)arg0)->unk_0C) >> 4) * (s16) ((S_80025094_0 *)arg0)->unk_0A) >> 8));
+    ((Rec_func_80024E80_arg1 *)arg1)->unk_04.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)arg1)->unk_12 + ((s32) ((func_800644B8(((S_80025094_0 *)arg0)->unk_0C) >> 4) * (s16) ((S_80025094_0 *)arg0)->unk_0A) >> 8));
 }
 
 /* MECHANISM: Explicit invalid-state predecessors plus a one-sided scheduling barrier

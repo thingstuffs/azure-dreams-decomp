@@ -20,73 +20,64 @@ extern struct { S_80081490 *head; s32 pad[2]; } D_80081498;   /* active list hea
 extern void func_8003DB4C(void *p, s32 n);
 extern void *func_8003FB98(s32 a0, void *a1);
 
-/* Allocates a node: if global flag bit 0x2 is set and a0 has bit 0x200 set,
- * bail out early (returns NULL). Otherwise pops the head of the freelist
- * D_80081490; if the freelist is empty, falls back to scanning the active
- * list via func_8003FB98(a0, NULL) (unless a0 has bit 0x200 set, in which
- * case it returns NULL). On a successful pop, the node is zeroed, pushed
- * onto the front of the active list D_80081498, its flags field is set to
- * a0|0x4000, and one of 4 sub-buffer pointers (offset 0xF4/0x100/0x10C/0x124
- * depending on a0's low bits) is selected and stored at field_0xC (skipped
- * for the default 0x124 case); if any of bits 0x157 are set, field_0x8 is
- * set to that pointer minus 0x18. Returns the allocated node. */
-void *func_8003FC64(s32 a0)
+/* Allocates and initializes an active node, falling back to active-list reuse when allowed. */
+void *func_8003FC64(s32 flags)
 {
-    S_80081490 *s0;
-    S_80081490 *v0;
-    S_80081490 *old_head;
-    u8 *v1;
+    S_80081490 *node;
+    S_80081490 *free_head;
+    S_80081490 *active_head;
+    u8 *buffer;
     __typeof__(&D_80081490) freelist_ptr;
     __typeof__(&D_80081498) active_ptr;
     __typeof__(&D_80081498) active_ptr_early;
 
     freelist_ptr = &D_80081490;
     active_ptr_early = &D_80081498;
-    if ((D_80013714.flags & 0x2) && (a0 & 0x200)) {
+    if ((D_80013714.flags & 0x2) && (flags & 0x200)) {
         return 0;
     }
 
-    v0 = freelist_ptr->head;
-    if (v0 != 0) {
-        s0 = v0;
-        D_80081490.head = s0->next;
-        func_8003DB4C(s0, 0x49);
+    free_head = freelist_ptr->head;
+    if (free_head != 0) {
+        node = free_head;
+        D_80081490.head = node->next;
+        func_8003DB4C(node, 0x49);
 
         active_ptr = active_ptr_early;
-        old_head = active_ptr->head;
-        D_80081498.head = s0;
-        s0->next = old_head;
-        if (old_head != 0) {
-            old_head->prev = s0;
+        active_head = active_ptr->head;
+        D_80081498.head = node;
+        node->next = active_head;
+        if (active_head != 0) {
+            active_head->prev = node;
         }
 
-        s0->field_0x1E = a0 | 0x4000;
+        node->field_0x1E = flags | 0x4000;
 
-        v1 = (u8 *)s0 + 0x124;
-        if (a0 & 0x100) {
-            v1 = (u8 *)s0 + 0xF4;
-            goto write_0xc;
+        buffer = (u8 *)node + 0x124;
+        if (flags & 0x100) {
+            buffer = (u8 *)node + 0xF4;
+            goto store_buffer;
         }
-        if (a0 & 0x6) {
-            v1 = (u8 *)s0 + 0x100;
-            goto write_0xc;
+        if (flags & 0x6) {
+            buffer = (u8 *)node + 0x100;
+            goto store_buffer;
         }
-        if (a0 & 0x41) {
-            v1 = (u8 *)s0 + 0x10C;
-        write_0xc:
-            s0->field_0xC = v1;
-        }
-
-        if (a0 & 0x157) {
-            v1 = v1 - 0x18;
-            s0->field_0x8 = v1;
+        if (flags & 0x41) {
+            buffer = (u8 *)node + 0x10C;
+        store_buffer:
+            node->field_0xC = buffer;
         }
 
-        return s0;
+        if (flags & 0x157) {
+            buffer = buffer - 0x18;
+            node->field_0x8 = buffer;
+        }
+
+        return node;
     }
 
-    if (a0 & 0x200) {
+    if (flags & 0x200) {
         return 0;
     }
-    return func_8003FB98(a0, 0);
+    return func_8003FB98(flags, 0);
 }

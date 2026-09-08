@@ -69,54 +69,55 @@ typedef struct S_80DE6AAC_5 {
     s32 unk_08;
 } S_80DE6AAC_5;   /* temp_s0_2 in func_80DE6AAC */
 
-s32 func_80DE6AAC(S_80DE6AAC_2 *arg0, void *arg1, S_80DE6AAC_4 *arg2) {
-    S_80DE6AAC_3 *temp_s0;
-    S_80DE6AAC_5 *temp_s0_2;
-    S_80DE6AAC_1 *temp_s1;
-    void *temp_v0;
+/* Creates an effect at a directional tile offset and clamps its height. */
+s32 func_80DE6AAC(S_80DE6AAC_2 *source, void *initial_position, S_80DE6AAC_4 *tile_origin) {
+    S_80DE6AAC_3 *sprite;
+    S_80DE6AAC_5 *position;
+    S_80DE6AAC_1 *effect_state;
+    void *effect;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_s1 = temp_v0 + 0x20;
-        ((S_80DE6AAC_0 *)temp_v0)->unk_10 = &D_80174254;
-        ((S_80DE6AAC_0 *)temp_v0)->unk_20 = 0;
-        temp_s1->unk_02 = (s16)(((u16)arg0->unk_2A >> 9) & 7);
-        temp_s0 = ((S_80DE6AAC_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        temp_s0->unk_12 = 0x7E40;
-        temp_s0->unk_14 = (u16)(temp_s0->unk_14 | 0x100);
-        func_8003DB94(temp_s0, &D_800DEEC0, 0);
-        func_800478B8(temp_s0);
-        temp_s0->unk_1E = 0x800;
-        temp_s0->unk_1C = 0x800;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s0_2 = ((S_80DE6AAC_0 *)temp_v0)->unk_08;
-        *(Copy24 *)temp_s0_2 = *(Copy24 *)arg1;
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        effect_state = effect + 0x20;
+        ((S_80DE6AAC_0 *)effect)->unk_10 = &D_80174254;
+        ((S_80DE6AAC_0 *)effect)->unk_20 = 0;
+        effect_state->unk_02 = (s16)(((u16)source->unk_2A >> 9) & 7);
+        sprite = ((S_80DE6AAC_0 *)effect)->unk_0C;
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
+        sprite->unk_12 = 0x7E40;
+        sprite->unk_14 = (u16)(sprite->unk_14 | 0x100);
+        func_8003DB94(sprite, &D_800DEEC0, 0);
+        func_800478B8(sprite);
+        sprite->unk_1E = 0x800;
+        sprite->unk_1C = 0x800;
+        func_8004491C(effect, &D_80045340);
+        position = ((S_80DE6AAC_0 *)effect)->unk_08;
+        *(Copy24 *)position = *(Copy24 *)initial_position;
         {
-            s32 temp_a1;
-            s32 temp_a2;
-            s32 temp_v0_2;
-            s32 temp_v1;
+            s32 world_y;
+            s32 direction_offset;
+            s32 height_limit;
+            s32 world_x;
 
-            temp_a2 = temp_s1->unk_02 * 2;
-            temp_v1 = (s32)((arg2->unk_24 + *(u16 *)((u8 *)D_8006CCD8 + temp_a2)) << 0x10) >> 0xA;
-            temp_a1 = (s32)((arg2->unk_25 + *(u16 *)((u8 *)D_8006CCE8 + temp_a2)) << 0x10) >> 0xA;
-            temp_s0_2->unk_02 = (s16)(temp_v1 + 0x20);
-            temp_s0_2->unk_06 = (s16)(temp_a1 + 0x20);
-            temp_v0_2 = func_800BCB04(temp_v1 & 0xFFC0, temp_a1 & 0xFFC0, (s16)(arg0->unk_88 - 0x20)) << 0x10;
-            if (temp_v0_2 < temp_s0_2->unk_08) {
-                temp_s0_2->unk_08 = temp_v0_2;
+            direction_offset = effect_state->unk_02 * 2;
+            world_x = (s32)((tile_origin->unk_24 + *(u16 *)((u8 *)D_8006CCD8 + direction_offset)) << 0x10) >> 0xA;
+            world_y = (s32)((tile_origin->unk_25 + *(u16 *)((u8 *)D_8006CCE8 + direction_offset)) << 0x10) >> 0xA;
+            position->unk_02 = (s16)(world_x + 0x20);
+            position->unk_06 = (s16)(world_y + 0x20);
+            height_limit = func_800BCB04(world_x & 0xFFC0, world_y & 0xFFC0, (s16)(source->unk_88 - 0x20)) << 0x10;
+            if (height_limit < position->unk_08) {
+                position->unk_08 = height_limit;
             }
         }
         {
-            register s32 dispatch_result ASM_REG("$2") = (s32)temp_v0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            register s32 dispatch_result ASM_REG("$2") = (s32)effect;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
             ASM_TAILSLOT_PIN(dispatch_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80174438();
         }
-        return (s32)temp_v0;
+        return (s32)effect;
     }
     return 0;
 }

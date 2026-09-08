@@ -20,19 +20,20 @@ typedef struct S_80036900 {
 extern void func_80036980(void);
 extern void func_80044A50(void *arg0);
 
-void func_80036900(S_80036900 *arg0)
+/* Advance the sub-value and switch handlers and mark the indexed flag past the threshold. */
+void func_80036900(S_80036900 *state)
 {
-    arg0->sub->value += 0x100;
-    if ((s16)arg0->sub->value >= 0x401) {
-        func_80044A50((u8 *)arg0 - 0x20);
-        arg0->handler = func_80036980;
+    state->sub->value += 0x100;
+    if ((s16)state->sub->value >= 0x401) {
+        func_80044A50((u8 *)state - 0x20);
+        state->handler = func_80036980;
         {
             u8 *base;
-            u8 *dest;
+            u8 *flag;
 
-            base = arg0->base;
-            dest = base + arg0->index + 0x50;
-            *dest = 1;
+            base = state->base;
+            flag = base + state->index + 0x50;
+            *flag = 1;
         }
     }
 }

@@ -23,16 +23,17 @@ extern void func_80026370(s32, s32);
 extern s32 func_80026388(s32, s32, s32);
 extern s16 func_80053DA8(s32);
 
-void func_8002640C(MenuState *arg0) {
+/* Updates the menu selection from directional input with key repeat and a sound. */
+void func_8002640C(MenuState *menu) {
     s32 direction = 0;
     s32 buttons;
-    s32 cursor;
-    s32 value;
+    s32 repeat_ticks;
+    s32 selection;
     PadState *pad = &D_80083160;
 
     if (pad->field8 != 0) {
         if (pad->field10 & 0xC) {
-            arg0->field4 = 0;
+            menu->field4 = 0;
             buttons = pad->field10;
             if (buttons & 4) {
                 direction = -1;
@@ -40,9 +41,9 @@ void func_8002640C(MenuState *arg0) {
                 direction = 1;
             }
         } else if (pad->field8 & 0xC) {
-            cursor = arg0->field4;
-            if (cursor >= 9) {
-                arg0->field4 = cursor - 1;
+            repeat_ticks = menu->field4;
+            if (repeat_ticks >= 9) {
+                menu->field4 = repeat_ticks - 1;
                 buttons = pad->field8;
                 if (buttons & 4) {
                     direction = -1;
@@ -50,15 +51,15 @@ void func_8002640C(MenuState *arg0) {
                     direction = 1;
                 }
             } else {
-                arg0->field4 = cursor + 1;
+                menu->field4 = repeat_ticks + 1;
             }
         }
 
         if (direction != 0) {
             func_80053DA8(0x502);
-            value = func_80026388(direction, arg0->field8, arg0->field10);
-            arg0->field8 = value;
-            func_80026370(arg0->field70, value);
+            selection = func_80026388(direction, menu->field8, menu->field10);
+            menu->field8 = selection;
+            func_80026370(menu->field70, selection);
         }
     }
 }

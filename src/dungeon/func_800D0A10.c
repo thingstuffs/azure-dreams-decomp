@@ -93,33 +93,34 @@ typedef struct S_800D6170_4 {
     u16 unk_16;
 } S_800D6170_4;   /* packet in func_800D6170 */
 
-void func_800D6170(void *arg0, S_800D6170_1 *arg1, S_800D6170_2 *arg2, s16 arg3)
+/* Project depth-sliced quads and link visible packets into the ordering table. */
+void func_800D6170(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
-    u8 **global = (u8 **)D_80083160;
+    u8 **render_context = (u8 **)D_80083160;
     u8 *packet;
-    s32 index;
-    register s32 delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 i;
-    u32 lowMask;
-    u32 highMask;
-    u16 xy[4];
+    s32 ot_index;
+    register s32 depth_span ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 coord_index;
+    u32 address_mask;
+    u32 length_mask;
+    u16 depth_edges[4];
     MATRIX matrix;
 
-    ((S_800D6170_0 *)scratch)->unk_24.p = *global + 0xB0;
-    ((S_800D6170_0 *)scratch)->unk_88 = arg1->unk_02;
-    ((S_800D6170_0 *)scratch)->unk_8C = arg1->unk_06;
-    ((S_800D6170_0 *)scratch)->unk_90 = arg1->unk_0A;
-    arg2->unk_14 |= 0x8000;
+    ((S_800D6170_0 *)scratch)->unk_24.p = *render_context + 0xB0;
+    ((S_800D6170_0 *)scratch)->unk_88 = position->unk_02;
+    ((S_800D6170_0 *)scratch)->unk_8C = position->unk_06;
+    ((S_800D6170_0 *)scratch)->unk_90 = position->unk_0A;
+    render_state->unk_14 |= 0x8000;
 
     func_800649A0();
 
     ((S_800D6170_0 *)scratch)->unk_3C = 0x2000;
     ((S_800D6170_0 *)scratch)->unk_38 = 0x2000;
     ((S_800D6170_0 *)scratch)->unk_34 = 0x2000;
-    ((S_800D6170_0 *)scratch)->unk_A4 = arg2->unk_16;
-    ((S_800D6170_0 *)scratch)->unk_A8 = arg2->unk_1A;
-    ((S_800D6170_0 *)scratch)->unk_A6 = arg2->unk_18;
+    ((S_800D6170_0 *)scratch)->unk_A4 = render_state->unk_16;
+    ((S_800D6170_0 *)scratch)->unk_A8 = render_state->unk_1A;
+    ((S_800D6170_0 *)scratch)->unk_A6 = render_state->unk_18;
     func_80065820(scratch + 0xA4, scratch + 0x74);
     func_80064AE0(&matrix);
     func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
@@ -127,96 +128,96 @@ void func_800D6170(void *arg0, S_800D6170_1 *arg1, S_800D6170_2 *arg2, s16 arg3)
     func_80064D80(scratch + 0x54);
     func_80064CF0(scratch + 0x54);
 
-    ((S_800D6170_0 *)scratch)->unk_28 = arg2->unk_14;
-    for (i = 0; i < 4; i++) {
-        xy[i] = (*(u16 *)((u8 *)arg0 + 0x54 + i * 2));
+    ((S_800D6170_0 *)scratch)->unk_28 = render_state->unk_14;
+    for (coord_index = 0; coord_index < 4; coord_index++) {
+        depth_edges[coord_index] = (*(u16 *)((u8 *)geometry + 0x54 + coord_index * 2));
     }
 
-    delta = (s16)xy[0];
-    delta -= (s16)xy[2];
-    if (delta < 0) {
-        delta = -delta;
+    depth_span = (s16)depth_edges[0];
+    depth_span -= (s16)depth_edges[2];
+    if (depth_span < 0) {
+        depth_span = -depth_span;
     }
-    if (delta >= 0x11) {
-        lowMask = 0x00FFFFFF;
-        highMask = 0xFF000000;
+    if (depth_span >= 0x11) {
+        address_mask = 0x00FFFFFF;
+        length_mask = 0xFF000000;
         do {
-        ((S_800D6170_0 *)scratch)->unk_B0 = (*(u16 *)((u8 *)arg0 + 0x44));
-        ((S_800D6170_0 *)scratch)->unk_B8 = (*(u16 *)((u8 *)arg0 + 0x46));
-        ((S_800D6170_0 *)scratch)->unk_C0 = (*(u16 *)((u8 *)arg0 + 0x48));
-        ((S_800D6170_0 *)scratch)->unk_C8 = (*(u16 *)((u8 *)arg0 + 0x4A));
-        ((S_800D6170_0 *)scratch)->unk_B2 = (*(u16 *)((u8 *)arg0 + 0x4C));
-        ((S_800D6170_0 *)scratch)->unk_BA = (*(u16 *)((u8 *)arg0 + 0x4E));
-        ((S_800D6170_0 *)scratch)->unk_C2 = (*(u16 *)((u8 *)arg0 + 0x50));
-        ((S_800D6170_0 *)scratch)->unk_CA = (*(u16 *)((u8 *)arg0 + 0x52));
-        ((S_800D6170_0 *)scratch)->unk_B4 = xy[2] - 0x10;
-        ((S_800D6170_0 *)scratch)->unk_BC = xy[3] - 0x10;
-        ((S_800D6170_0 *)scratch)->unk_C4 = xy[2];
-        ((S_800D6170_0 *)scratch)->unk_CC = xy[3];
-        xy[2] -= 0x10;
-        xy[3] -= 0x10;
+            ((S_800D6170_0 *)scratch)->unk_B0 = (*(u16 *)((u8 *)geometry + 0x44));
+            ((S_800D6170_0 *)scratch)->unk_B8 = (*(u16 *)((u8 *)geometry + 0x46));
+            ((S_800D6170_0 *)scratch)->unk_C0 = (*(u16 *)((u8 *)geometry + 0x48));
+            ((S_800D6170_0 *)scratch)->unk_C8 = (*(u16 *)((u8 *)geometry + 0x4A));
+            ((S_800D6170_0 *)scratch)->unk_B2 = (*(u16 *)((u8 *)geometry + 0x4C));
+            ((S_800D6170_0 *)scratch)->unk_BA = (*(u16 *)((u8 *)geometry + 0x4E));
+            ((S_800D6170_0 *)scratch)->unk_C2 = (*(u16 *)((u8 *)geometry + 0x50));
+            ((S_800D6170_0 *)scratch)->unk_CA = (*(u16 *)((u8 *)geometry + 0x52));
+            ((S_800D6170_0 *)scratch)->unk_B4 = depth_edges[2] - 0x10;
+            ((S_800D6170_0 *)scratch)->unk_BC = depth_edges[3] - 0x10;
+            ((S_800D6170_0 *)scratch)->unk_C4 = depth_edges[2];
+            ((S_800D6170_0 *)scratch)->unk_CC = depth_edges[3];
+            depth_edges[2] -= 0x10;
+            depth_edges[3] -= 0x10;
 
-        packet = ((S_800D6170_3 *)(*global))->unk_8D0;
-        ((S_800D6170_3 *)(*global))->unk_8D0 = packet + 0x18;
-        index = func_80065590(scratch + 0xB0, scratch + 0xB8,
-                              scratch + 0xC0, scratch + 0xC8,
-                              packet + 8, packet + 0xC,
-                              packet + 0x10, packet + 0x14,
-                              scratch + 0xD0, scratch + 0xD4) - arg3 - 6;
-        ((S_800D6170_0 *)scratch)->unk_100 = index;
+            packet = ((S_800D6170_3 *)(*render_context))->unk_8D0;
+            ((S_800D6170_3 *)(*render_context))->unk_8D0 = packet + 0x18;
+            ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+                                  scratch + 0xC0, scratch + 0xC8,
+                                  packet + 8, packet + 0xC,
+                                  packet + 0x10, packet + 0x14,
+                                  scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
+            ((S_800D6170_0 *)scratch)->unk_100 = ot_index;
 
-        if ((u32)index < 0x1E0) {
-            if ((((u16)(((S_800D6170_4 *)packet)->unk_08 + 0x20) < 0x181) &&
-                 ((u16)(((S_800D6170_4 *)packet)->unk_0A + 0x20) < 0x121)) |
-                (((u16)(((S_800D6170_4 *)packet)->unk_0C + 0x20) < 0x181) &&
-                 ((u16)(((S_800D6170_4 *)packet)->unk_0E + 0x20) < 0x121)) |
-                (((u16)(((S_800D6170_4 *)packet)->unk_10 + 0x20) < 0x181) &&
-                 ((u16)(((S_800D6170_4 *)packet)->unk_12 + 0x20) < 0x121)) |
-                (((u16)(((S_800D6170_4 *)packet)->unk_14 + 0x20) < 0x181) &&
-                 ((u16)(((S_800D6170_4 *)packet)->unk_16 + 0x20) < 0x121))) {
-                arg2->unk_14 &= 0x7FFF;
-                ((S_800D6170_4 *)packet)->unk_04 = arg2->unk_0C;
-                func_800666E0(packet);
+            if ((u32)ot_index < 0x1E0) {
+                if ((((u16)(((S_800D6170_4 *)packet)->unk_08 + 0x20) < 0x181) &&
+                     ((u16)(((S_800D6170_4 *)packet)->unk_0A + 0x20) < 0x121)) |
+                    (((u16)(((S_800D6170_4 *)packet)->unk_0C + 0x20) < 0x181) &&
+                     ((u16)(((S_800D6170_4 *)packet)->unk_0E + 0x20) < 0x121)) |
+                    (((u16)(((S_800D6170_4 *)packet)->unk_10 + 0x20) < 0x181) &&
+                     ((u16)(((S_800D6170_4 *)packet)->unk_12 + 0x20) < 0x121)) |
+                    (((u16)(((S_800D6170_4 *)packet)->unk_14 + 0x20) < 0x181) &&
+                     ((u16)(((S_800D6170_4 *)packet)->unk_16 + 0x20) < 0x121))) {
+                    render_state->unk_14 &= 0x7FFF;
+                    ((S_800D6170_4 *)packet)->unk_04 = render_state->unk_0C;
+                    func_800666E0(packet);
 
-                ((S_800D6170_4 *)packet)->unk_00 = (((S_800D6170_4 *)packet)->unk_00 & highMask) |
-                    ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & lowMask);
-                (*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) =
-                    ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & highMask) |
-                    ((u32)packet & lowMask);
+                    ((S_800D6170_4 *)packet)->unk_00 = (((S_800D6170_4 *)packet)->unk_00 & length_mask) |
+                        ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & address_mask);
+                    (*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) =
+                        ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & length_mask) |
+                        ((u32)packet & address_mask);
+                }
             }
-        }
-            delta = (s16)xy[0];
-            delta -= (s16)xy[2];
-            if (delta < 0) {
-                delta = -delta;
+            depth_span = (s16)depth_edges[0];
+            depth_span -= (s16)depth_edges[2];
+            if (depth_span < 0) {
+                depth_span = -depth_span;
             }
-        } while (delta >= 0x11);
+        } while (depth_span >= 0x11);
     }
 
-    if ((s16)xy[0] != (s16)xy[2]) {
-        ((S_800D6170_0 *)scratch)->unk_B0 = (*(u16 *)((u8 *)arg0 + 0x44));
-        ((S_800D6170_0 *)scratch)->unk_B8 = (*(u16 *)((u8 *)arg0 + 0x46));
-        ((S_800D6170_0 *)scratch)->unk_C0 = (*(u16 *)((u8 *)arg0 + 0x48));
-        ((S_800D6170_0 *)scratch)->unk_C8 = (*(u16 *)((u8 *)arg0 + 0x4A));
-        ((S_800D6170_0 *)scratch)->unk_B2 = (*(u16 *)((u8 *)arg0 + 0x4C));
-        ((S_800D6170_0 *)scratch)->unk_BA = (*(u16 *)((u8 *)arg0 + 0x4E));
-        ((S_800D6170_0 *)scratch)->unk_C2 = (*(u16 *)((u8 *)arg0 + 0x50));
-        ((S_800D6170_0 *)scratch)->unk_CA = (*(u16 *)((u8 *)arg0 + 0x52));
-        ((S_800D6170_0 *)scratch)->unk_B4 = xy[0];
-        ((S_800D6170_0 *)scratch)->unk_BC = xy[1];
-        ((S_800D6170_0 *)scratch)->unk_C4 = xy[2];
-        ((S_800D6170_0 *)scratch)->unk_CC = xy[3];
+    if ((s16)depth_edges[0] != (s16)depth_edges[2]) {
+        ((S_800D6170_0 *)scratch)->unk_B0 = (*(u16 *)((u8 *)geometry + 0x44));
+        ((S_800D6170_0 *)scratch)->unk_B8 = (*(u16 *)((u8 *)geometry + 0x46));
+        ((S_800D6170_0 *)scratch)->unk_C0 = (*(u16 *)((u8 *)geometry + 0x48));
+        ((S_800D6170_0 *)scratch)->unk_C8 = (*(u16 *)((u8 *)geometry + 0x4A));
+        ((S_800D6170_0 *)scratch)->unk_B2 = (*(u16 *)((u8 *)geometry + 0x4C));
+        ((S_800D6170_0 *)scratch)->unk_BA = (*(u16 *)((u8 *)geometry + 0x4E));
+        ((S_800D6170_0 *)scratch)->unk_C2 = (*(u16 *)((u8 *)geometry + 0x50));
+        ((S_800D6170_0 *)scratch)->unk_CA = (*(u16 *)((u8 *)geometry + 0x52));
+        ((S_800D6170_0 *)scratch)->unk_B4 = depth_edges[0];
+        ((S_800D6170_0 *)scratch)->unk_BC = depth_edges[1];
+        ((S_800D6170_0 *)scratch)->unk_C4 = depth_edges[2];
+        ((S_800D6170_0 *)scratch)->unk_CC = depth_edges[3];
 
-        packet = ((S_800D6170_3 *)(*global))->unk_8D0;
-        ((S_800D6170_3 *)(*global))->unk_8D0 = packet + 0x18;
-        index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+        packet = ((S_800D6170_3 *)(*render_context))->unk_8D0;
+        ((S_800D6170_3 *)(*render_context))->unk_8D0 = packet + 0x18;
+        ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
                               scratch + 0xC0, scratch + 0xC8,
                               packet + 8, packet + 0xC,
                               packet + 0x10, packet + 0x14,
-                              scratch + 0xD0, scratch + 0xD4) - arg3 - 6;
-        ((S_800D6170_0 *)scratch)->unk_100 = index;
+                              scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
+        ((S_800D6170_0 *)scratch)->unk_100 = ot_index;
 
-        if ((u32)index < 0x1E0) {
+        if ((u32)ot_index < 0x1E0) {
             if ((((u16)(((S_800D6170_4 *)packet)->unk_08 + 0x20) < 0x181) &&
                  ((u16)(((S_800D6170_4 *)packet)->unk_0A + 0x20) < 0x121)) |
                 (((u16)(((S_800D6170_4 *)packet)->unk_0C + 0x20) < 0x181) &&
@@ -225,8 +226,8 @@ void func_800D6170(void *arg0, S_800D6170_1 *arg1, S_800D6170_2 *arg2, s16 arg3)
                  ((u16)(((S_800D6170_4 *)packet)->unk_12 + 0x20) < 0x121)) |
                 (((u16)(((S_800D6170_4 *)packet)->unk_14 + 0x20) < 0x181) &&
                  ((u16)(((S_800D6170_4 *)packet)->unk_16 + 0x20) < 0x121))) {
-                arg2->unk_14 &= 0x7FFF;
-                ((S_800D6170_4 *)packet)->unk_04 = arg2->unk_0C;
+                render_state->unk_14 &= 0x7FFF;
+                ((S_800D6170_4 *)packet)->unk_04 = render_state->unk_0C;
                 func_800666E0(packet);
 
                 ((S_800D6170_4 *)packet)->unk_00 = (((S_800D6170_4 *)packet)->unk_00 & 0xFF000000) |

@@ -26,9 +26,10 @@ typedef struct S_800B0654_2 {
     s8 unk_04;
 } S_800B0654_2;   /* arg1 in func_800B0654 */
 
-void func_800B0654(S_800B0654_1 *arg0, S_800B0654_2 *arg1, void *arg2) {
-    ((S_800B0654_0 *)arg2)->unk_28 = (u16) arg0->unk_02;
-    ((S_800B0654_0 *)arg2)->unk_2A = (u16) arg0->unk_06;
-    ((S_800B0654_0 *)arg2)->unk_2C = (u16) arg0->unk_0A;
-    ((S_800B0654_0 *)arg2)->unk_C0 = (s32) (func_80065420(arg2 + 0x28, arg2 + 0xB8, arg2 + 0x90, arg2 + 0x94) + arg1->unk_04);
+/* Copy three source values into the destination state and store the adjusted calculation result. */
+void func_800B0654(S_800B0654_1 *sourceValues, S_800B0654_2 *resultAdjustment, void *destinationState) {
+    ((S_800B0654_0 *)destinationState)->unk_28 = (u16) sourceValues->unk_02;
+    ((S_800B0654_0 *)destinationState)->unk_2A = (u16) sourceValues->unk_06;
+    ((S_800B0654_0 *)destinationState)->unk_2C = (u16) sourceValues->unk_0A;
+    ((S_800B0654_0 *)destinationState)->unk_C0 = (s32) (func_80065420(destinationState + 0x28, destinationState + 0xB8, destinationState + 0x90, destinationState + 0x94) + resultAdjustment->unk_04);
 }

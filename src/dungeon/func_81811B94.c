@@ -16,15 +16,16 @@ extern int D_800814A0;
 extern void func_80026B44(void *arg0);
 extern void func_8004B1A4(void *arg0);
 
-void func_80026B94(CleanupObject *arg0)
+/* Cleans up an object's resources and sets its object and global cleanup flags. */
+void func_80026B94(CleanupObject *object)
 {
     CleanupData *cleanup;
 
-    if (arg0 != 0) {
-        cleanup = &arg0->cleanup;
+    if (object != 0) {
+        cleanup = &object->cleanup;
         func_80026B44(cleanup->field_70);
         func_8004B1A4(cleanup->field_74);
-        arg0->flags |= 0x8000;
+        object->flags |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

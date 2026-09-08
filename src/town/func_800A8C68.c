@@ -9,20 +9,21 @@ typedef struct {
     u32 data;
 } TownRecord;
 
-void func_800A63C8(TownRecord *arg0, s32 arg1)
+// Sets the value at offset 8 in entries flagged 0x20 across active town records.
+void func_800A63C8(TownRecord *record, s32 entryValue)
 {
-    s32 offset;
-    s32 end;
+    s32 entryOffset;
+    s32 lastEntryFlag;
 
-    while (arg0->active != 0) {
-        offset = 0;
+    while (record->active != 0) {
+        entryOffset = 0;
         do {
-            if (*(u32 *)(offset + arg0->data) & 0x20) {
-                *(s32 *)(offset + arg0->data + 8) = arg1;
+            if (*(u32 *)(entryOffset + record->data) & 0x20) {
+                *(s32 *)(entryOffset + record->data + 8) = entryValue;
             }
-            end = *(u8 *)(offset + arg0->data) & 0x80;
-            offset += 12;
-        } while (!end);
-        arg0++;
+            lastEntryFlag = *(u8 *)(entryOffset + record->data) & 0x80;
+            entryOffset += 12;
+        } while (!lastEntryFlag);
+        record++;
     }
 }

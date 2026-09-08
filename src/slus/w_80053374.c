@@ -29,45 +29,34 @@ extern void *func_8003FD64(s32 a0, void *a1);
 extern void func_80052FE8(void *a0, s16 a1);
 extern void func_80052A20(void);
 
-/* Installs state-fn func_8005313C, inits the embedded sub-object (owner=a1,
- * four zeroed shorts, tbl=&D_80071A84), then tries 16 times to attach a slot
- * via func_8003FD64(0x212, entity); on success configures it with
- * func_80052FE8(slot, i) and stashes it in the sub-object's slot array
- * (starting at +0x10, walked by a running s32* incremented per lap).
- * Finishes with func_80052A20 (global table init).
- *
- * Match requires 2.7.2-cdk: plain 2.7.2 folds the sub-base materialization
- * into direct a0+const stores and collapses addiu-into-s1 (1 word short of
- * retail's addiu-v0 + move-s1 preheader). Sibling func_800520B4 uses the
- * same a0->sub.owner + (s16*)((u8*)a0+0x20) split and also matches only at
- * cdk. */
-void func_80053374(S_80053374_obj *a0, void *a1)
+/* Initializes the entity state and sub-object, creates up to 16 slots, and initializes the global table. */
+void func_80053374(S_80053374_obj *entity, void *owner)
 {
     s16 *sub;
-    s32 i;
-    s32 *p;
-    void *v0;
+    s32 slot_index;
+    s32 *slot_cursor;
+    void *slot;
 
-    i = 0;
-    sub = (s16 *)((u8 *)a0 + 0x20);
-    a0->unk10 = func_8005313C;
-    a0->sub.owner = a1;
+    slot_index = 0;
+    sub = (s16 *)((u8 *)entity + 0x20);
+    entity->unk10 = func_8005313C;
+    entity->sub.owner = owner;
     sub[2] = 0;
     sub[3] = 0;
     sub[4] = 0;
     sub[5] = 0;
     *(void **)(sub + 6) = &D_80071A84;
-    p = (s32 *)sub;
+    slot_cursor = (s32 *)sub;
 
     do {
-        v0 = func_8003FD64(0x212, a0);
-        if (v0 != 0) {
-            func_80052FE8(v0, (s16)i);
-            p[4] = (s32)v0;
+        slot = func_8003FD64(0x212, entity);
+        if (slot != 0) {
+            func_80052FE8(slot, (s16)slot_index);
+            slot_cursor[4] = (s32)slot;
         }
-        i++;
-        p++;
-    } while (i < 0x10);
+        slot_index++;
+        slot_cursor++;
+    } while (slot_index < 0x10);
 
     func_80052A20();
 }

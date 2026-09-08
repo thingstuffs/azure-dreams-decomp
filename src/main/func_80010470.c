@@ -55,21 +55,22 @@ typedef struct S_80023470_8 {
     s16 unk_08;
 } S_80023470_8;   /* ((S_80023470_4 *)(((S_80023470_0 *)var_a0)->unk_1D8))->unk_04 in func_80023470 */
 
-void func_80023470(void *arg0) {
-    s32 var_v1;
-    void *var_a0;
+/* Initialize three entries in each of the four object groups. */
+void func_80023470(void *object) {
+    s32 entry_index;
+    void *entry_base;
 
-    var_a0 = arg0;
-    var_v1 = 0;
+    entry_base = object;
+    entry_index = 0;
     do {
-        ((S_80023470_5 *)(((S_80023470_1 *)(((S_80023470_0 *)var_a0)->unk_1C8))->unk_04))->unk_08 = 0x24;
-        *((S_80023470_1 *)(((S_80023470_0 *)var_a0)->unk_1C8))->unk_04 = 0x68;
-        ((S_80023470_5 *)(((S_80023470_1 *)(((S_80023470_0 *)var_a0)->unk_1C8))->unk_04))->unk_01 = 0x68;
-        ((S_80023470_5 *)(((S_80023470_1 *)(((S_80023470_0 *)var_a0)->unk_1C8))->unk_04))->unk_02 = 0x60;
-        ((S_80023470_6 *)(((S_80023470_2 *)(((S_80023470_0 *)var_a0)->unk_1A8))->unk_04))->unk_08 = 9;
-        ((S_80023470_7 *)(((S_80023470_3 *)(((S_80023470_0 *)var_a0)->unk_1B8))->unk_04))->unk_08 = 0x42;
-        var_v1 += 1;
-        ((S_80023470_8 *)(((S_80023470_4 *)(((S_80023470_0 *)var_a0)->unk_1D8))->unk_04))->unk_08 = 0x8F;
-        var_a0 += 4;
-    } while (var_v1 < 3);
+        ((S_80023470_5 *)(((S_80023470_1 *)(((S_80023470_0 *)entry_base)->unk_1C8))->unk_04))->unk_08 = 0x24;
+        *((S_80023470_1 *)(((S_80023470_0 *)entry_base)->unk_1C8))->unk_04 = 0x68;
+        ((S_80023470_5 *)(((S_80023470_1 *)(((S_80023470_0 *)entry_base)->unk_1C8))->unk_04))->unk_01 = 0x68;
+        ((S_80023470_5 *)(((S_80023470_1 *)(((S_80023470_0 *)entry_base)->unk_1C8))->unk_04))->unk_02 = 0x60;
+        ((S_80023470_6 *)(((S_80023470_2 *)(((S_80023470_0 *)entry_base)->unk_1A8))->unk_04))->unk_08 = 9;
+        ((S_80023470_7 *)(((S_80023470_3 *)(((S_80023470_0 *)entry_base)->unk_1B8))->unk_04))->unk_08 = 0x42;
+        entry_index += 1;
+        ((S_80023470_8 *)(((S_80023470_4 *)(((S_80023470_0 *)entry_base)->unk_1D8))->unk_04))->unk_08 = 0x8F;
+        entry_base += 4;
+    } while (entry_index < 3);
 }

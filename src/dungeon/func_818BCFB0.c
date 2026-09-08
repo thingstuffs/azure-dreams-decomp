@@ -42,12 +42,13 @@ extern s32 func_8004491C();
 extern u8 D_80024088[];
 extern u8 D_800241CC[];
 
-s32 func_818BCFB0(s32 *arg0, void *arg1, s16 arg2)
+/* Create an object, initialize its state, and copy data with a scaled component offset. */
+s32 func_818BCFB0(s32 *initial_word, void *source_data, s16 offset)
 {
-    s32 var_a2;
-    S_818BCFB0_3 *temp_a3;
+    s32 offset_numerator;
+    S_818BCFB0_3 *object_data;
     void *obj;
-    void *state;
+    void *scale_state;
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {
@@ -59,38 +60,38 @@ s32 func_818BCFB0(s32 *arg0, void *arg1, s16 arg2)
             s32 init_value;
 
             init_value = 0x7DCF;
-            ((S_818BCFB0_0 *)obj)->unk_20 = *arg0;
+            ((S_818BCFB0_0 *)obj)->unk_20 = *initial_word;
             init_state = (u8 *)obj + 0x20;
             init_state->unk_04 = 0;
             init_state->unk_06 = 0;
             init_state->unk_08 = 0;
-            init_state->unk_0A = arg2;
+            init_state->unk_0A = offset;
             init_state->unk_0C = init_value;
             init_state->unk_0E = 0;
         }
 
-        state = ((S_818BCFB0_0 *)obj)->unk_0C;
-        ((S_818BCFB0_2 *)state)->unk_1E = 0x1000;
-        ((S_818BCFB0_2 *)state)->unk_1C = 0x1000;
+        scale_state = ((S_818BCFB0_0 *)obj)->unk_0C;
+        ((S_818BCFB0_2 *)scale_state)->unk_1E = 0x1000;
+        ((S_818BCFB0_2 *)scale_state)->unk_1C = 0x1000;
 
-        temp_a3 = ((S_818BCFB0_0 *)obj)->unk_08;
-        var_a2 = arg2 * 3;
-        *(Copy24 *)temp_a3 = *(Copy24 *)arg1;
+        object_data = ((S_818BCFB0_0 *)obj)->unk_08;
+        offset_numerator = offset * 3;
+        *(Copy24 *)object_data = *(Copy24 *)source_data;
 
-        if (var_a2 < 0) {
-            var_a2 += 3;
+        if (offset_numerator < 0) {
+            offset_numerator += 3;
         }
         {
-            register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            register s32 field ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register s32 scaled ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 object_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            register s32 component ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 component_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            result = (s32)obj;
-            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            field = temp_a3->unk_0A;
-            scaled = var_a2 >> 2;
-            field += scaled;
-            temp_a3->unk_0A = field;
+            object_addr = (s32)obj;
+            ASM_KEEP(object_addr);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            component = object_data->unk_0A;
+            component_offset = offset_numerator >> 2;
+            component += component_offset;
+            object_data->unk_0A = component;
             func_800248A0();
         }
     }

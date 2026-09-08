@@ -17,16 +17,17 @@ typedef struct S_81832FE8_1 {
     s32 unk_1C;
 } S_81832FE8_1;   /* temp_v1 in func_81832FE8 */
 
-void func_81832FE8(S_81832FE8_0 *arg0) {
-    s32 temp_a0;
-    S_81832FE8_1 *temp_v1;
+/* Set flag 0x20 and apply a randomized effect to an eligible attached object. */
+void func_81832FE8(S_81832FE8_0 *owner) {
+    s32 flags;
+    S_81832FE8_1 *object;
 
-    temp_v1 = arg0->unk_60;
-    if (temp_v1 != NULL) {
-        temp_a0 = temp_v1->unk_14;
-        if (!(temp_a0 & 0x20) && (temp_a0 & 1)) {
-            temp_v1->unk_1C = (s32) (temp_v1->unk_1C | 0x20);
-            func_800A48F0(arg0->unk_60, 4, (rand(temp_a0) & 0x3F) | 0x20);
+    object = owner->unk_60;
+    if (object != NULL) {
+        flags = object->unk_14;
+        if (!(flags & 0x20) && (flags & 1)) {
+            object->unk_1C = (s32) (object->unk_1C | 0x20);
+            func_800A48F0(owner->unk_60, 4, (rand(flags) & 0x3F) | 0x20);
         }
     }
 }

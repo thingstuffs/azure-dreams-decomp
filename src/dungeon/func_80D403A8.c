@@ -107,126 +107,127 @@ extern u8 D_800E2488[];
 extern u8 D_80170CEC[];
 extern u8 D_80171A80[];
 
-void func_80175BA8(void *arg0, void *arg1, void *arg2, void *arg3) {
-    s16 temp_a1;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u16 temp_v0_5;
-    u16 temp_v0_6;
-    s32 temp_v1;
-    void *temp_a0;
-    void *temp_v0_3;
-    void *temp_v0_4;
-    void *temp_v1_2;
+/* Updates the actor's height offset, spawns an effect, and advances its animation phases. */
+void func_80175BA8(void *actor_state, void *position, void *sprite, void *actor_info) {
+    s16 target_offset;
+    u16 next_offset;
+    u16 phase_ticks;
+    u16 first_delay;
+    u16 second_delay;
+    s32 phase;
+    void *effect_sprite;
+    void *effect;
+    void *effect_state;
+    void *effect_position;
 
-    temp_v1 = ((S_80175BA8_0 *)arg0)->unk_9B;
-    switch (temp_v1) {
+    phase = ((S_80175BA8_0 *)actor_state)->unk_9B;
+    switch (phase) {
     case 0:
-        goto block_0;
+        goto update_height;
     case 1:
-        goto block_21;
+        goto wait_first_animation;
     case 2:
-        goto block_25;
+        goto wait_second_animation;
     default:
-        goto block_done;
+        goto done;
     }
 
-block_0:
-    ((S_80175BA8_1 *)arg1)->unk_14 = 0;
-    ((S_80175BA8_1 *)arg1)->unk_10 = 0;
-    ((S_80175BA8_1 *)arg1)->unk_0C = 0;
-    temp_a1 = func_800BCB04(((S_80175BA8_1 *)arg1)->unk_02, ((S_80175BA8_1 *)arg1)->unk_06,
-                            (s16)(((S_80175BA8_2 *)arg3)->unk_88 - 0x20))
-              - ((S_80175BA8_2 *)arg3)->unk_88;
-    if (((S_80175BA8_0 *)arg0)->unk_92.s < temp_a1) {
-        temp_v0 = ((S_80175BA8_0 *)arg0)->unk_92.u + 0xC;
-        ((S_80175BA8_0 *)arg0)->unk_92.u = temp_v0;
-        if (temp_a1 >= (s16)temp_v0) {
-            goto block_after_92;
+update_height:
+    ((S_80175BA8_1 *)position)->unk_14 = 0;
+    ((S_80175BA8_1 *)position)->unk_10 = 0;
+    ((S_80175BA8_1 *)position)->unk_0C = 0;
+    target_offset = func_800BCB04(((S_80175BA8_1 *)position)->unk_02, ((S_80175BA8_1 *)position)->unk_06,
+                            (s16)(((S_80175BA8_2 *)actor_info)->unk_88 - 0x20))
+              - ((S_80175BA8_2 *)actor_info)->unk_88;
+    if (((S_80175BA8_0 *)actor_state)->unk_92.s < target_offset) {
+        next_offset = ((S_80175BA8_0 *)actor_state)->unk_92.u + 0xC;
+        ((S_80175BA8_0 *)actor_state)->unk_92.u = next_offset;
+        if (target_offset >= (s16)next_offset) {
+            goto height_ready;
         }
     }
-    ((S_80175BA8_0 *)arg0)->unk_92.s = temp_a1;
-block_after_92:
-    if (((S_80175BA8_3 *)arg2)->unk_14 & 0x8000) {
-        ((S_80175BA8_0 *)arg0)->unk_92.u = 0;
+    ((S_80175BA8_0 *)actor_state)->unk_92.s = target_offset;
+height_ready:
+    if (((S_80175BA8_3 *)sprite)->unk_14 & 0x8000) {
+        ((S_80175BA8_0 *)actor_state)->unk_92.u = 0;
     }
-    temp_v0_2 = ((S_80175BA8_0 *)arg0)->unk_96 + 1;
-    ((S_80175BA8_0 *)arg0)->unk_96 = temp_v0_2;
-    if (((s16)temp_v0_2 == 1) || (((S_80175BA8_3 *)arg2)->unk_14 & 0x8000)) {
-        ((S_80175BA8_0 *)arg0)->unk_B5 = 1;
-        temp_v0_3 = func_8003FD64(0x12, (u8 *)arg0 - 0x20);
-        if (temp_v0_3 != NULL) {
-            ((S_80175BA8_0 *)arg0)->unk_AC = temp_v0_3;
-            ((S_80175BA8_4 *)temp_v0_3)->unk_10 = D_80170CEC;
-            func_8004491C(temp_v0_3, D_80045C34);
-            temp_v0_4 = (u8 *)temp_v0_3 + 0x20;
-            ((S_80175BA8_5 *)temp_v0_4)->unk_38 = 5;
-            ((S_80175BA8_5 *)temp_v0_4)->unk_40 = arg0;
-            ((S_80175BA8_5 *)temp_v0_4)->unk_44 = arg1;
-            temp_a0 = ((S_80175BA8_4 *)temp_v0_3)->unk_0C;
-            ((S_80175BA8_6 *)temp_a0)->unk_10 = 0x40;
-            ((S_80175BA8_6 *)temp_a0)->unk_14 |= 0xC;
-            temp_v1_2 = ((S_80175BA8_4 *)temp_v0_3)->unk_08;
-            ((S_80175BA8_7 *)temp_v1_2)->unk_02 = ((S_80175BA8_1 *)arg1)->unk_02;
-            ((S_80175BA8_7 *)temp_v1_2)->unk_06 = ((S_80175BA8_1 *)arg1)->unk_06;
-            ((S_80175BA8_7 *)temp_v1_2)->unk_0A = ((S_80175BA8_2 *)arg3)->unk_88;
-            temp_a0 = ((S_80175BA8_4 *)temp_v0_3)->unk_0C;
-            ((S_80175BA8_6 *)temp_a0)->unk_1E = 0xA00;
-            ((S_80175BA8_6 *)temp_a0)->unk_1C = 0xA00;
-            ((S_80175BA8_6 *)temp_a0)->unk_0E = 0;
-            ((S_80175BA8_6 *)temp_a0)->unk_0D = 0;
-            ((S_80175BA8_6 *)temp_a0)->unk_0C = 0;
-            ((S_80175BA8_6 *)temp_a0)->unk_08 = D_800E2488;
+    phase_ticks = ((S_80175BA8_0 *)actor_state)->unk_96 + 1;
+    ((S_80175BA8_0 *)actor_state)->unk_96 = phase_ticks;
+    if (((s16)phase_ticks == 1) || (((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
+        ((S_80175BA8_0 *)actor_state)->unk_B5 = 1;
+        effect = func_8003FD64(0x12, (u8 *)actor_state - 0x20);
+        if (effect != NULL) {
+            ((S_80175BA8_0 *)actor_state)->unk_AC = effect;
+            ((S_80175BA8_4 *)effect)->unk_10 = D_80170CEC;
+            func_8004491C(effect, D_80045C34);
+            effect_state = (u8 *)effect + 0x20;
+            ((S_80175BA8_5 *)effect_state)->unk_38 = 5;
+            ((S_80175BA8_5 *)effect_state)->unk_40 = actor_state;
+            ((S_80175BA8_5 *)effect_state)->unk_44 = position;
+            effect_sprite = ((S_80175BA8_4 *)effect)->unk_0C;
+            ((S_80175BA8_6 *)effect_sprite)->unk_10 = 0x40;
+            ((S_80175BA8_6 *)effect_sprite)->unk_14 |= 0xC;
+            effect_position = ((S_80175BA8_4 *)effect)->unk_08;
+            ((S_80175BA8_7 *)effect_position)->unk_02 = ((S_80175BA8_1 *)position)->unk_02;
+            ((S_80175BA8_7 *)effect_position)->unk_06 = ((S_80175BA8_1 *)position)->unk_06;
+            ((S_80175BA8_7 *)effect_position)->unk_0A = ((S_80175BA8_2 *)actor_info)->unk_88;
+            effect_sprite = ((S_80175BA8_4 *)effect)->unk_0C;
+            ((S_80175BA8_6 *)effect_sprite)->unk_1E = 0xA00;
+            ((S_80175BA8_6 *)effect_sprite)->unk_1C = 0xA00;
+            ((S_80175BA8_6 *)effect_sprite)->unk_0E = 0;
+            ((S_80175BA8_6 *)effect_sprite)->unk_0D = 0;
+            ((S_80175BA8_6 *)effect_sprite)->unk_0C = 0;
+            ((S_80175BA8_6 *)effect_sprite)->unk_08 = D_800E2488;
         }
     }
-    if (((S_80175BA8_0 *)arg0)->unk_92.s == 0) {
-        (*(void * *)((u8 *)arg2 + 0x2C)) = D_800E2438;
-        func_80047784(arg2,
-                      D_800E2438[((D_80083228 + ((S_80175BA8_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+    if (((S_80175BA8_0 *)actor_state)->unk_92.s == 0) {
+        (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2438;
+        func_80047784(sprite,
+                      D_800E2438[((D_80083228 + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100) >> 9) & 7],
                       0);
-        ((S_80175BA8_0 *)arg0)->unk_96 = 2;
-        ((S_80175BA8_0 *)arg0)->unk_9B++;
-        if (!(((S_80175BA8_3 *)arg2)->unk_14 & 0x8000)) {
+        ((S_80175BA8_0 *)actor_state)->unk_96 = 2;
+        ((S_80175BA8_0 *)actor_state)->unk_9B++;
+        if (!(((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
             func_800A56E0(0x800);
-            goto block_20;
+            goto check_advance;
         }
-        goto block_21;
+        goto wait_first_animation;
     }
-block_20:
-    if (!(((S_80175BA8_3 *)arg2)->unk_14 & 0x8000)) {
-        goto block_done;
+check_advance:
+    if (!(((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
+        goto done;
     }
 
-block_21:
-    temp_v0_5 = ((S_80175BA8_0 *)arg0)->unk_96 - 1;
-    ((S_80175BA8_0 *)arg0)->unk_96 = temp_v0_5;
-    if (((temp_v0_5 << 0x10) <= 0) || (((S_80175BA8_3 *)arg2)->unk_14 & 0xE000)) {
-        (*(void * *)((u8 *)arg2 + 0x2C)) = D_800E2440;
-        func_80047784(arg2,
-                      D_800E2440[((D_80083228 + ((S_80175BA8_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+wait_first_animation:
+    first_delay = ((S_80175BA8_0 *)actor_state)->unk_96 - 1;
+    ((S_80175BA8_0 *)actor_state)->unk_96 = first_delay;
+    if (((first_delay << 0x10) <= 0) || (((S_80175BA8_3 *)sprite)->unk_14 & 0xE000)) {
+        (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2440;
+        func_80047784(sprite,
+                      D_800E2440[((D_80083228 + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100) >> 9) & 7],
                       0);
-        ((S_80175BA8_0 *)arg0)->unk_96 = 3;
-        ((S_80175BA8_0 *)arg0)->unk_9B++;
+        ((S_80175BA8_0 *)actor_state)->unk_96 = 3;
+        ((S_80175BA8_0 *)actor_state)->unk_9B++;
     }
-    if (((S_80175BA8_3 *)arg2)->unk_14 & 0x8000) {
-block_25:
-        temp_v0_6 = ((S_80175BA8_0 *)arg0)->unk_96 - 1;
-        ((S_80175BA8_0 *)arg0)->unk_96 = temp_v0_6;
-        if (((temp_v0_6 << 0x10) <= 0) || (((S_80175BA8_3 *)arg2)->unk_14 & 0x8000)) {
-            ((S_80175BA8_0 *)arg0)->unk_96 = 0x1E;
-            ((S_80175BA8_0 *)arg0)->unk_A8 = 0;
-            ((S_80175BA8_0 *)arg0)->unk_B1 = 0;
-            ((S_80175BA8_0 *)arg0)->unk_B2 = 0;
-            ((S_80175BA8_0 *)arg0)->unk_B4 = 0;
-            ((S_80175BA8_0 *)arg0)->unk_B3 = 0;
-            ((S_80175BA8_0 *)arg0)->unk_9B++;
-            ((S_80175BA8_0 *)arg0)->unk_98 &= 0xFFF7;
-            ((S_80175BA8_3 *)arg2)->unk_06 = 0;
-            ((S_80175BA8_0 *)arg0)->unk_8C = D_80171A80;
+    if (((S_80175BA8_3 *)sprite)->unk_14 & 0x8000) {
+wait_second_animation:
+        second_delay = ((S_80175BA8_0 *)actor_state)->unk_96 - 1;
+        ((S_80175BA8_0 *)actor_state)->unk_96 = second_delay;
+        if (((second_delay << 0x10) <= 0) || (((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
+            ((S_80175BA8_0 *)actor_state)->unk_96 = 0x1E;
+            ((S_80175BA8_0 *)actor_state)->unk_A8 = 0;
+            ((S_80175BA8_0 *)actor_state)->unk_B1 = 0;
+            ((S_80175BA8_0 *)actor_state)->unk_B2 = 0;
+            ((S_80175BA8_0 *)actor_state)->unk_B4 = 0;
+            ((S_80175BA8_0 *)actor_state)->unk_B3 = 0;
+            ((S_80175BA8_0 *)actor_state)->unk_9B++;
+            ((S_80175BA8_0 *)actor_state)->unk_98 &= 0xFFF7;
+            ((S_80175BA8_3 *)sprite)->unk_06 = 0;
+            ((S_80175BA8_0 *)actor_state)->unk_8C = D_80171A80;
             D_8008346C = 0;
-            (*(u16 *)((u8 *)arg3 + 0x46)) &= 0x7FFF;
+            (*(u16 *)((u8 *)actor_info + 0x46)) &= 0x7FFF;
         }
     }
-block_done:
+done:
     return;
 }

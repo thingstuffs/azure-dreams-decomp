@@ -17,19 +17,20 @@ typedef struct S_8015E8E8_0 {
 
 extern s32 D_800814A0[3];
 
-void func_8015E8E8(void *arg0, void *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_v0;
-    s32 temp_lo;
+/* Applies a countdown-based fade to three output channels and flags completion. */
+void func_8015E8E8(void *record_data, void *unused, Rec_D_80082E80 *output) {
+    s16 ticks_left;
+    s32 fade_level;
 
-    temp_lo = (s32) (((S_8015E8E8_0 *)((u8 *)arg0 - 0x2))->unk_98 << 7) / (s16) ((S_8015E8E8_0 *)((u8 *)arg0 - 0x2))->unk_AC;
-    arg2->unk_0C.at02_s8.v = (s8) temp_lo;
-    arg2->unk_0C.at01_s8.v = (s8) temp_lo;
-    arg2->unk_0C.at00_s8.v = (s8) temp_lo;
-    func_800478B8(arg2);
-    temp_v0 = (u16) ((S_8015E8E8_0 *)((u8 *)arg0 - 0x2))->unk_98 - 1;
-    ((S_8015E8E8_0 *)((u8 *)arg0 - 0x2))->unk_98 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        ((S_8015E8E8_0 *)((u8 *)arg0 - 0x2))->unk_00 = (u16) (((S_8015E8E8_0 *)((u8 *)arg0 - 0x2))->unk_00 | 0x8000);
+    fade_level = (s32) (((S_8015E8E8_0 *)((u8 *)record_data - 0x2))->unk_98 << 7) / (s16) ((S_8015E8E8_0 *)((u8 *)record_data - 0x2))->unk_AC;
+    output->unk_0C.at02_s8.v = (s8) fade_level;
+    output->unk_0C.at01_s8.v = (s8) fade_level;
+    output->unk_0C.at00_s8.v = (s8) fade_level;
+    func_800478B8(output);
+    ticks_left = (u16) ((S_8015E8E8_0 *)((u8 *)record_data - 0x2))->unk_98 - 1;
+    ((S_8015E8E8_0 *)((u8 *)record_data - 0x2))->unk_98 = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        ((S_8015E8E8_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_8015E8E8_0 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 }

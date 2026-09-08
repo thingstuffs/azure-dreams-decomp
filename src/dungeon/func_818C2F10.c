@@ -26,16 +26,17 @@ typedef struct S_818C2F10_2 {
 M2C_UNK func_800478B8();                      /* extern */
 extern s32 D_800814A0[3];
 
-void func_818C2F10(void *arg0, S_818C2F10_2 *arg1, Rec_D_80082E80 *arg2) {
-    S_818C2F10_1 *temp_v1;
+/* Increment linked counters, reduce the stored value, and propagate status flags. */
+void func_818C2F10(void *entry, S_818C2F10_2 *value_state, Rec_D_80082E80 *status) {
+    S_818C2F10_1 *linked_counts;
 
-    temp_v1 = ((S_818C2F10_0 *)arg0)->unk_00;
-    temp_v1->unk_0C = (u16) (temp_v1->unk_0C + 1);
-    ((S_818C2F10_0 *)arg0)->unk_04 = (u16) (((S_818C2F10_0 *)arg0)->unk_04 + 1);
-    arg1->unk_08 = (s32) (arg1->unk_08 + 0xFFF60000);
-    func_800478B8(arg2);
-    if (arg2->unk_14.at00_u16.v & 0x6000) {
-        ((S_818C2F10_0_pre *)arg0)[-1].unk_00 = (u16) (((S_818C2F10_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    linked_counts = ((S_818C2F10_0 *)entry)->unk_00;
+    linked_counts->unk_0C = (u16) (linked_counts->unk_0C + 1);
+    ((S_818C2F10_0 *)entry)->unk_04 = (u16) (((S_818C2F10_0 *)entry)->unk_04 + 1);
+    value_state->unk_08 = (s32) (value_state->unk_08 + 0xFFF60000);
+    func_800478B8(status);
+    if (status->unk_14.at00_u16.v & 0x6000) {
+        ((S_818C2F10_0_pre *)entry)[-1].unk_00 = (u16) (((S_818C2F10_0_pre *)entry)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

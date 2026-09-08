@@ -37,14 +37,13 @@ extern struct S_80083160 D_80083160;
 
 extern void func_80040CBC(s16 a0);
 
-/* Reads D_80082E60.field_8, forwards it to func_80040CBC and stores it into
- * field_B, then clears field_E, field_8, and four fields of D_80083160. */
+/* Saves and processes the state byte, then clears pending state and four shared table fields. */
 void func_80040BB4(void)
 {
-    u8 v = D_80082E60.field_8.b;
+    u8 state_byte = D_80082E60.field_8.b;
 
-    D_80082E60.field_B = v;
-    func_80040CBC(v);
+    D_80082E60.field_B = state_byte;
+    func_80040CBC(state_byte);
 
     D_80082E60.field_E = 0;
     D_80082E60.field_8.h = 0;

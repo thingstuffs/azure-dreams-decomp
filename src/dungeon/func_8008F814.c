@@ -76,136 +76,137 @@ s32 func_800438E4(void);
 void func_800B4C7C(s32, Unit *, s32, s32);
 void func_8009A3D0(s32, s32, s32);
 
-s32 func_80094F74(Ctx *arg0, char *arg1, Item *arg2, Unit *arg3) {
+/* Picks up an item, applying special effects or moving it into inventory. */
+s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
     Sys *sys;
-    s32 ret;
-    s16 id;
-    char *str;
-    s32 handle;
-    s32 b;
-    s32 a;
-    s16 x;
-    s16 y;
-    s32 v;
-    Slot *e;
-    Slot *t;
-    Slot *t2;
-    Slot *t3;
-    Slot *t4;
-    u16 *pp;
-    s32 three;
-    void **p;
-    u8 *q;
-    s32 i;
-    s16 j;
-    u32 *slot;
-    Slot *base0;
-    Slot *base1;
-    Slot *base2;
-    u8 *pagebase;
-    u8 *entpage;
-    Ent *entbase;
-    s32 tb1;
+    s32 item_lookup;
+    s16 item_id;
+    char *message;
+    s32 message_handle;
+    s32 free_entry;
+    s32 free_slot;
+    s16 slot_index;
+    s16 entry_index;
+    s32 pickup_value;
+    Slot *ground_item;
+    Slot *named_item;
+    Slot *special_item;
+    Slot *stored_item;
+    Slot *consumed_item;
+    u16 *state_page;
+    s32 unused_three;
+    void **inventory_slot;
+    u8 *active_effect;
+    s32 consumed_id;
+    s16 stored_id;
+    u32 *pickup_slot;
+    Slot *ground_items;
+    Slot *special_items;
+    Slot *consumed_items;
+    u8 *inventory_page;
+    u8 *entity_page;
+    Ent *entities;
+    s32 item_kind;
 
     sys = &D_80083160;
-    ret = func_800A70E4(arg2->kind, arg2->sub, arg3->id);
-    id = ret;
-    if (id < 0) {
-        if (arg0->mode < 0) {
+    item_lookup = func_800A70E4(item->kind, item->sub, unit->id);
+    item_id = item_lookup;
+    if (item_id < 0) {
+        if (ctx->mode < 0) {
             return 1;
         }
-        func_80095DD0(arg0, arg1, arg2, arg3);
+        func_80095DD0(ctx, text, item, unit);
         return 0;
     }
-    handle = func_800990FC();
-    str = func_8009929C(8, handle);
+    message_handle = func_800990FC();
+    message = func_8009929C(8, message_handle);
     if (D_80081485[0] != 0) {
-        func_80099290(func_80099194(D_80088A80, func_80099368(&D_800E3548[id], func_80099194(D_800E0A76, str))));
-        func_800A5720(handle);
+        func_80099290(func_80099194(D_80088A80, func_80099368(&D_800E3548[item_id], func_80099194(D_800E0A76, message))));
+        func_800A5720(message_handle);
         return 1;
     }
-    a = func_80098FB0();
-    b = func_80098FF8();
+    free_slot = func_80098FB0();
+    free_entry = func_80098FF8();
     if ((D_80013714[0] & 1) == 0) {
         if ((sys->f8 & 0x20) != 0) {
-            func_8009F644(arg3, 64, 0, 0);
-            func_80099290(func_80099194(D_80088A80, func_80099368(&D_800E3548[id], func_80099194(D_800E0A83, str))));
-            func_800A5720(handle);
+            func_8009F644(unit, 64, 0, 0);
+            func_80099290(func_80099194(D_80088A80, func_80099368(&D_800E3548[item_id], func_80099194(D_800E0A83, message))));
+            func_800A5720(message_handle);
             return 1;
         }
     } else {
-        q = func_8009F868();
-        if (q != 0) {
-            if ((q[1] & 0xF8) == 0x40) {
+        active_effect = func_8009F868();
+        if (active_effect != 0) {
+            if ((active_effect[1] & 0xF8) == 0x40) {
                 return 1;
             }
             func_8009F988();
         }
     }
-    base0 = D_800E3548;
-    e = &base0[(s16) ret];
-    if ((e->b1 == 14) || ((e->b1 == 12) && (e->b0 == 4)) || ((e->b1 == 18) && (e->b0 == 1))) {
-        t = &D_800E3548[(s16) ret];
-        str = func_80099368(t, str);
-        if (t->b1 == 14) {
-            str = func_80099194(D_80088A84, str);
+    ground_items = D_800E3548;
+    ground_item = &ground_items[(s16) item_lookup];
+    if ((ground_item->b1 == 14) || ((ground_item->b1 == 12) && (ground_item->b0 == 4)) || ((ground_item->b1 == 18) && (ground_item->b0 == 1))) {
+        named_item = &D_800E3548[(s16) item_lookup];
+        message = func_80099368(named_item, message);
+        if (named_item->b1 == 14) {
+            message = func_80099194(D_80088A84, message);
         } else {
-            str = func_80099194(D_800E0A90, str);
+            message = func_80099194(D_800E0A90, message);
         }
-        base1 = D_800E3548;
-        arg0->flags |= 0x80;
-        t2 = &base1[(s16) ret];
-        tb1 = t2->b1;
-        if (tb1 == 12) {
-            ASM_USE2(t2, tb1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            str = func_80099194(D_800E0ABC, func_8009929C(10, func_80099194(D_800E0AA1, func_8009929C(10, str))));
-            arg0->done = 1;
-            pp = (u16 *) 0x80010000;
+        special_items = D_800E3548;
+        ctx->flags |= 0x80;
+        special_item = &special_items[(s16) item_lookup];
+        item_kind = special_item->b1;
+        if (item_kind == 12) {
+            ASM_USE2(special_item, item_kind);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            message = func_80099194(D_800E0ABC, func_8009929C(10, func_80099194(D_800E0AA1, func_8009929C(10, message))));
+            ctx->done = 1;
+            state_page = (u16 *) 0x80010000;
             if (D_80012094 != 3) {
-                pp[0x104B] = 3;
+                state_page[0x104B] = 3;
             } else {
-                pp[0x104B] = 5;
+                state_page[0x104B] = 5;
             }
-            ASM_KEEP(pp);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             *(u16 *) 0x8001209A = 0;
-        } else if (tb1 == 14) {
-            v = func_800438E4();
-            arg0->total += v;
-            func_800B4C7C(151, arg3, (s16) v, 1);
+        } else if (item_kind == 14) {
+            pickup_value = func_800438E4();
+            ctx->total += pickup_value;
+            func_800B4C7C(151, unit, (s16) pickup_value, 1);
         }
-        i = (s16) ret;
-        slot = (u32 *) 0x80010298;
-        base2 = D_800E3548;
-        t4 = &base2[i];
-        *slot = *(u32 *) t4;
-        t4->b0 = 0;
-        t4->b1 = 0;
-        func_8009A3D0(D_800E36C8[i].a, D_800E36C8[i].b, 0x800);
-        arg0->link = slot;
+        consumed_id = (s16) item_lookup;
+        pickup_slot = (u32 *) 0x80010298;
+        consumed_items = D_800E3548;
+        consumed_item = &consumed_items[consumed_id];
+        *pickup_slot = *(u32 *) consumed_item;
+        consumed_item->b0 = 0;
+        consumed_item->b1 = 0;
+        func_8009A3D0(D_800E36C8[consumed_id].a, D_800E36C8[consumed_id].b, 0x800);
+        ctx->link = pickup_slot;
     } else {
-        x = a;
-        y = b;
-        if ((x < 0) || (y < 0)) {
-            str = func_80099194(D_80088A80, func_80099368(&D_800E3548[(s16) ret], func_80099194(D_800E0AFA, func_8009929C(10, func_80099194(D_800E0AD8, str)))));
+        slot_index = free_slot;
+        entry_index = free_entry;
+        if ((slot_index < 0) || (entry_index < 0)) {
+            message = func_80099194(D_80088A80, func_80099368(&D_800E3548[(s16) item_lookup], func_80099194(D_800E0AFA, func_8009929C(10, func_80099194(D_800E0AD8, message)))));
         } else {
-            j = ret;
-            t3 = &D_800E3548[j];
-            str = func_80099194(D_800E0B07, func_80099368(t3, str));
-            p = (void **) 0x80010248 + x;
-            *p = *(void **) t3;
-            pagebase = (u8 *) 0x80010000;
-            *(void ***) (pagebase + (y * 4) + 0x29C) = p;
-            arg0->flags |= 0x80;
-            t3->b0 = 0;
-            t3->b1 = 0;
-            entpage = (u8 *) 0x800E0000;
-            ASM_KEEP_NV(entpage);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            entbase = (Ent *) (entpage + 0x36C8);
-            func_8009A3D0(entbase[j].a, entbase[j].b, 0x800);
-            arg0->link = p;
+            stored_id = item_lookup;
+            stored_item = &D_800E3548[stored_id];
+            message = func_80099194(D_800E0B07, func_80099368(stored_item, message));
+            inventory_slot = (void **) 0x80010248 + slot_index;
+            *inventory_slot = *(void **) stored_item;
+            inventory_page = (u8 *) 0x80010000;
+            *(void ***) (inventory_page + (entry_index * 4) + 0x29C) = inventory_slot;
+            ctx->flags |= 0x80;
+            stored_item->b0 = 0;
+            stored_item->b1 = 0;
+            entity_page = (u8 *) 0x800E0000;
+            ASM_KEEP_NV(entity_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            entities = (Ent *) (entity_page + 0x36C8);
+            func_8009A3D0(entities[stored_id].a, entities[stored_id].b, 0x800);
+            ctx->link = inventory_slot;
         }
     }
-    func_80099290(str);
-    func_800A5720(handle);
+    func_80099290(message);
+    func_800A5720(message_handle);
     return 1;
 }

@@ -52,18 +52,19 @@ extern s16 D_80083228;
 extern u16 D_80083462;
 extern u8 D_801752AC[];
 
-void func_80171590(void *p0, s32 p1, void *p2, void *p3) {
-    void *arg0 = p0;
-    s32 arg1 = p1;
-    void *arg2 = p2;
-    void *state = p3;
-    s32 mode;
-    s32 x;
-    s32 y;
-    s32 nx;
-    s32 ny;
-    register s16 pos ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s16 result ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+/* Advances the entity along its stored path and updates movement state. */
+void func_80171590(void *motion_arg, s32 update_arg, void *entity_arg, void *state_arg) {
+    void *motion = motion_arg;
+    s32 update_param = update_arg;
+    void *entity = entity_arg;
+    void *state = state_arg;
+    s32 tile_mask;
+    s32 old_x;
+    s32 old_y;
+    s32 new_x;
+    s32 new_y;
+    register s16 heading ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s16 move_result ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if (((S_80171590_0 *)state)->unk_71.s <= 0) {
         return;
@@ -72,83 +73,83 @@ void func_80171590(void *p0, s32 p1, void *p2, void *p3) {
         return;
     }
 
-    if (((S_80171590_1 *)arg2)->unk_2C != D_801752AC) {
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_801752AC;
+    if (((S_80171590_1 *)entity)->unk_2C != D_801752AC) {
+        (*(u8 * *)((u8 *)entity + 0x2C)) = D_801752AC;
         func_80047784(
-            arg2,
+            entity,
             D_801752AC[((D_80083228 + ((S_80171590_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
-    x = ((S_80171590_1 *)arg2)->unk_24;
-    y = ((S_80171590_1 *)arg2)->unk_25;
-    mode = 0x3000;
+    old_x = ((S_80171590_1 *)entity)->unk_24;
+    old_y = ((S_80171590_1 *)entity)->unk_25;
+    tile_mask = 0x3000;
     if (((S_80171590_0 *)state)->unk_1C & 0x2000) {
-        mode = 0x300;
+        tile_mask = 0x300;
     }
-    func_8009A3D0(x, y, mode);
+    func_8009A3D0(old_x, old_y, tile_mask);
 
-    pos = func_800A0818(
-        x,
-        y,
+    heading = func_800A0818(
+        old_x,
+        old_y,
         ((S_80171590_3 *)((u8 *)state + ((S_80171590_0 *)state)->unk_8A.s))->unk_74,
         ((S_80171590_3 *)((u8 *)state + ((S_80171590_0 *)state)->unk_8A.s))->unk_7C,
-        (u8 *)arg0 + 0x98);
-    result = func_8009A66C(pos, arg2, state, 0x20);
+        (u8 *)motion + 0x98);
+    move_result = func_8009A66C(heading, entity, state, 0x20);
 
-    ((S_80171590_1 *)arg2)->unk_24 =
+    ((S_80171590_1 *)entity)->unk_24 =
         ((S_80171590_3 *)((u8 *)state + ((S_80171590_0 *)state)->unk_8A.s))->unk_74;
-    ((S_80171590_1 *)arg2)->unk_25 =
+    ((S_80171590_1 *)entity)->unk_25 =
         ((S_80171590_3 *)((u8 *)state + ((S_80171590_0 *)state)->unk_8A.s))->unk_7C;
     ((S_80171590_0 *)state)->unk_8A.u++;
 
-    nx = ((S_80171590_1 *)arg2)->unk_24;
-    ny = ((S_80171590_1 *)arg2)->unk_25;
-    mode = 0x3000;
+    new_x = ((S_80171590_1 *)entity)->unk_24;
+    new_y = ((S_80171590_1 *)entity)->unk_25;
+    tile_mask = 0x3000;
     if (((S_80171590_0 *)state)->unk_1C & 0x2000) {
-        mode = 0x300;
+        tile_mask = 0x300;
     }
-    func_8009A21C(nx, ny, mode);
-    ((S_80171590_0 *)state)->unk_2A = pos;
+    func_8009A21C(new_x, new_y, tile_mask);
+    ((S_80171590_0 *)state)->unk_2A = heading;
 
-    if (result == 2) {
+    if (move_result == 2) {
         if (D_80083462 & 0x80) {
             goto failure;
         }
-        if (((S_80171590_1 *)arg2)->unk_14 & 0x8000) {
-            ((S_80171590_2 *)arg0)->unk_9A = 15;
-            goto failure_common;
+        if (((S_80171590_1 *)entity)->unk_14 & 0x8000) {
+            ((S_80171590_2 *)motion)->unk_9A = 15;
+            goto finish_step;
         }
     } else {
-        if (result != 3) {
+        if (move_result != 3) {
             goto failure;
         }
         if (D_80083462 & 0x80) {
             goto failure;
         }
-        if (((S_80171590_1 *)arg2)->unk_14 & 0x8000) {
+        if (((S_80171590_1 *)entity)->unk_14 & 0x8000) {
             goto failure;
         }
     }
 
-    func_80171F58(arg0, arg1, arg2, state);
-    ((S_80171590_2 *)arg0)->unk_A4 = result;
-    goto failure_common;
+    func_80171F58(motion, update_param, entity, state);
+    ((S_80171590_2 *)motion)->unk_A4 = move_result;
+    goto finish_step;
 
 failure:
-    ((S_80171590_2 *)arg0)->unk_9A = 15;
-failure_common:
-    ((S_80171590_2 *)arg0)->unk_8C = 0;
+    ((S_80171590_2 *)motion)->unk_9A = 15;
+finish_step:
+    ((S_80171590_2 *)motion)->unk_8C = 0;
     (*(u32 *)((u8 *)state + 0x1C)) |= 0x40000000;
     if (D_80083462 & 0x80) {
-        ((S_80171590_2 *)arg0)->unk_96 = 0;
+        ((S_80171590_2 *)motion)->unk_96 = 0;
         return;
     }
-    ((S_80171590_2 *)arg0)->unk_96 = 8;
+    ((S_80171590_2 *)motion)->unk_96 = 8;
     {
-        s32 count = ((S_80171590_0 *)state)->unk_71.u;
-        if (count > 0) {
-            ((S_80171590_2 *)arg0)->unk_96 = 8 / count;
+        s32 step_count = ((S_80171590_0 *)state)->unk_71.u;
+        if (step_count > 0) {
+            ((S_80171590_2 *)motion)->unk_96 = 8 / step_count;
         }
     }
     return;

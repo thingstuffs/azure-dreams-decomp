@@ -8,12 +8,6 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-#ifdef NON_MATCHING
-#define KEEP_INPUT(value) ((void)0)
-#else
-#define KEEP_INPUT(value) __asm__ __volatile__("" : : "r"(value))
-#endif
-
 s32 func_80033B2C();
 s32 func_8008CC90();
 extern s16 D_8006ADD4;
@@ -40,72 +34,71 @@ typedef struct S_8009CFE0_2 {
     u16 unk_06;
 } S_8009CFE0_2;   /* arg1 in func_8009CFE0 */
 
-s32 func_8009CFE0(S_8009CFE0_0 *arg0, void *arg1_)
+/* Classify an object using its state and two positions relative to the geometry bounds. */
+s32 func_8009CFE0(S_8009CFE0_0 *object, void *position_data)
 {
-    S_8009CFE0_2 *arg1 = arg1_;
-    register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    S_8009CFE0_2 *position = position_data;
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 one;
-    s32 geom_result;
-    s32 temp_v0;
-    S_8009CFE0_1 *temp_s0;
+    s32 geometry_result;
+    s32 state_result;
+    S_8009CFE0_1 *state;
 
-    temp_s0 = arg0->unk_98;
-    if (temp_s0 != NULL) {
-        if (!(temp_s0->unk_01 & 1)) {
-            if (func_80033B2C(temp_s0->unk_02) == 0) {
-                register s32 delay_v0 ASM_REG("$2") = 1;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                KEEP_INPUT(delay_v0);
+    state = object->unk_98;
+    if (state != NULL) {
+        if (!(state->unk_01 & 1)) {
+            if (func_80033B2C(state->unk_02) == 0) {
                 return 1;
             }
-            goto block_6;
+            goto check_flags;
         }
-        temp_v0 = func_80033B2C(temp_s0->unk_02);
+        state_result = func_80033B2C(state->unk_02);
         one = 1;
-        ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        if (temp_v0 == one) {
-            var_v0 = 1;
+           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        if (state_result == one) {
+            result = 1;
             goto return_value;
         }
-block_6:
-        if (temp_s0->unk_01 & 0x10) {
-            var_v0 = 0;
+check_flags:
+        if (state->unk_01 & 0x10) {
+            result = 0;
             goto return_value;
         }
     } else {
         goto geometry;
     }
-block_7:
+check_mode:
     if (D_8006ADD4 == 0xC) {
-        var_v0 = 0;
+        result = 0;
         goto return_value;
     }
 geometry:
     if (func_8008CC90(
-            (s16)(D_80082D08[0] - arg1->unk_02),
-            (s16)(D_80082D08[1] - arg1->unk_06),
-            (s16)(D_80082D08[4] - arg1->unk_02),
-            (s16)(D_80082D08[5] - arg1->unk_06),
-            (s32)(s16)(D_80082D08[8] - arg1->unk_02),
-            (s32)(s16)(D_80082D08[9] - arg1->unk_06),
-            (s32)(s16)(D_80082D08[0xC] - arg1->unk_02),
-            (s32)(s16)(D_80082D08[0xD] - arg1->unk_06)) != 0) {
-        goto geom_zero;
+            (s16)(D_80082D08[0] - position->unk_02),
+            (s16)(D_80082D08[1] - position->unk_06),
+            (s16)(D_80082D08[4] - position->unk_02),
+            (s16)(D_80082D08[5] - position->unk_06),
+            (s32)(s16)(D_80082D08[8] - position->unk_02),
+            (s32)(s16)(D_80082D08[9] - position->unk_06),
+            (s32)(s16)(D_80082D08[0xC] - position->unk_02),
+            (s32)(s16)(D_80082D08[0xD] - position->unk_06)) != 0) {
+        goto return_zero;
     }
-    geom_result = func_8008CC90(
-        (s16)(D_80082D08[0] - arg0->unk_84),
-        (s16)(D_80082D08[1] - arg0->unk_86),
-        (s16)(D_80082D08[4] - arg0->unk_84),
-        (s16)(D_80082D08[5] - arg0->unk_86),
-        (s32)(s16)(D_80082D08[8] - arg0->unk_84),
-        (s32)(s16)(D_80082D08[9] - arg0->unk_86),
-        (s32)(s16)(D_80082D08[0xC] - arg0->unk_84),
-        (s32)(s16)(D_80082D08[0xD] - arg0->unk_86));
-    var_v0 = 2;
-    if (geom_result == 0) {
+    geometry_result = func_8008CC90(
+        (s16)(D_80082D08[0] - object->unk_84),
+        (s16)(D_80082D08[1] - object->unk_86),
+        (s16)(D_80082D08[4] - object->unk_84),
+        (s16)(D_80082D08[5] - object->unk_86),
+        (s32)(s16)(D_80082D08[8] - object->unk_84),
+        (s32)(s16)(D_80082D08[9] - object->unk_86),
+        (s32)(s16)(D_80082D08[0xC] - object->unk_84),
+        (s32)(s16)(D_80082D08[0xD] - object->unk_86));
+    result = 2;
+    if (geometry_result == 0) {
         goto return_value;
     }
-geom_zero:
-    var_v0 = 0;
+return_zero:
+    result = 0;
 return_value:
-    return var_v0;
+    return result;
 }

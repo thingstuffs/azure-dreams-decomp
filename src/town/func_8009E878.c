@@ -5,7 +5,7 @@
 
 
 extern s32 func_8008C180();
-extern void func_8009BFC0();
+extern void func_8009BFC0(Rec_func_80094268_arg0 *, void *);
 extern s32 func_800C1D44();
 extern s16 D_800D45AA[];
 
@@ -24,7 +24,7 @@ void func_8009BFD8(Rec_func_80094268_arg0 *arg0, void *arg1, Rec_D_800E3D7C *arg
     s32 index;
     s16 delta;
 
-    func_8009BFC0();
+    func_8009BFC0(arg0, arg1);
     if (arg0->unk_7C.as_pv == 0) {
         return;
     }

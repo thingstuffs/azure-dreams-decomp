@@ -21,26 +21,27 @@ extern void func_80095388(TownObject *arg);
 extern u8 D_800CFCEF;
 extern s32 D_800FE488[];
 
-void func_8009221C(void *arg0, TownObject *arg1, s32 arg2)
+/* Updates a town object based on its table value, limit, and a global flag. */
+void func_8009221C(void *context, TownObject *object, s32 update_arg)
 {
-    s16 value;
+    s16 table_value;
 
-    func_80095C80(arg1);
-    func_80094C1C(arg0);
-    func_80094C74(arg1);
-    value = func_80095978(arg1, D_800FE488);
+    func_80095C80(object);
+    func_80094C1C(context);
+    func_80094C74(object);
+    table_value = func_80095978(object, D_800FE488);
 
-    if (arg1->limit >= value) {
+    if (object->limit >= table_value) {
         func_80094910();
-        func_80095A94(arg1, value, D_800FE488);
-        func_800ABD74(arg1);
-        func_80093D48(arg0, arg1, arg2);
+        func_80095A94(object, table_value, D_800FE488);
+        func_800ABD74(object);
+        func_80093D48(context, object, update_arg);
     } else if (D_800CFCEF != 0) {
         func_80094910();
-        arg1->state = 0;
-        func_800954F4(arg1);
-        func_80093D48(arg0, arg1, arg2);
+        object->state = 0;
+        func_800954F4(object);
+        func_80093D48(context, object, update_arg);
     } else {
-        func_80095388(arg1);
+        func_80095388(object);
     }
 }

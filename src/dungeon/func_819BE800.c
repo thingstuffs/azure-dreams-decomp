@@ -92,132 +92,133 @@ __asm__(".size func_80024000, 920");
 #define FUNC_80024000_BODY func_80024000
 #endif
 
-void *FUNC_80024000_BODY(s32 arg0, s32 arg1, s16 arg2) {
+/* Finds a map polygon at the query position using containment and plane height. */
+void *FUNC_80024000_BODY(s32 world_x, s32 world_y, s16 min_height) {
     u8 *scratch;
-    u8 *current;
+    u8 *polygon;
     u8 *vertices;
     u8 *planes;
-    u8 *best;
+    u8 *best_polygon;
     u8 *map_entry;
-    u8 *copy_vertex;
-    u8 *dot_vertex;
-    u8 *pshift;
-    u8 *plane_ptr;
-    s16 cell;
-    s32 value;
-    u16 x;
-    u16 y;
+    u8 *vertex;
+    u8 *plane_vertex;
+    u8 *map_data;
+    u8 *plane;
+    s16 cell_index;
+    s32 height;
+    u16 cell_x;
+    u16 cell_y;
 
     scratch = (u8 *)0x1F800000;
     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_148 = 0x400;
-    ((S_FUNC_80024000_BODY_0 *)scratch)->unk_140.s = arg0 & 0x3F;
-    ((S_FUNC_80024000_BODY_0 *)scratch)->unk_142.s = arg1 & 0x3F;
-    ((S_FUNC_80024000_BODY_0 *)scratch)->unk_14C = arg2;
+    ((S_FUNC_80024000_BODY_0 *)scratch)->unk_140.s = world_x & 0x3F;
+    ((S_FUNC_80024000_BODY_0 *)scratch)->unk_142.s = world_y & 0x3F;
+    ((S_FUNC_80024000_BODY_0 *)scratch)->unk_14C = min_height;
 
-    cell = (u16)arg0 >> 6;
-    ((S_FUNC_80024000_BODY_0 *)scratch)->unk_150 = cell;
-    pshift = D_8008333C;
-    cell += ((u16)arg1 >> 6) << ((S_FUNC_80024000_BODY_1 *)pshift)->unk_14;
-    (*(s16 *)((u8 *)scratch + 0x150)) = cell;
-    map_entry = (u8 *)((long)cell * 6 +
+    cell_index = (u16)world_x >> 6;
+    ((S_FUNC_80024000_BODY_0 *)scratch)->unk_150 = cell_index;
+    map_data = D_8008333C;
+    cell_index += ((u16)world_y >> 6) << ((S_FUNC_80024000_BODY_1 *)map_data)->unk_14;
+    (*(s16 *)((u8 *)scratch + 0x150)) = cell_index;
+    map_entry = (u8 *)((long)cell_index * 6 +
                        (unsigned long)*(u8 **)D_8008333C);
-    vertices = ((S_FUNC_80024000_BODY_1 *)pshift)->unk_08;
-    planes = ((S_FUNC_80024000_BODY_1 *)pshift)->unk_0C;
-    best = 0;
+    vertices = ((S_FUNC_80024000_BODY_1 *)map_data)->unk_08;
+    planes = ((S_FUNC_80024000_BODY_1 *)map_data)->unk_0C;
+    best_polygon = 0;
     if (((S_FUNC_80024000_BODY_2 *)map_entry)->unk_00 != 0) {
         ((S_FUNC_80024000_BODY_0 *)scratch)->unk_152.s = -((S_FUNC_80024000_BODY_2 *)map_entry)->unk_02;
-        best = (*(u8 * *)((u8 *)(((S_FUNC_80024000_BODY_1 *)pshift)->unk_04) + ((S_FUNC_80024000_BODY_2 *)map_entry)->unk_00 * 4));
-        current = best;
-        if (((S_FUNC_80024000_BODY_8 *)(planes + ((S_FUNC_80024000_BODY_3 *)best)->unk_10 * 8))->unk_04 < -0x7FF) {
+        best_polygon = (*(u8 * *)((u8 *)(((S_FUNC_80024000_BODY_1 *)map_data)->unk_04) + ((S_FUNC_80024000_BODY_2 *)map_entry)->unk_00 * 4));
+        polygon = best_polygon;
+        if (((S_FUNC_80024000_BODY_8 *)(planes + ((S_FUNC_80024000_BODY_3 *)best_polygon)->unk_10 * 8))->unk_04 < -0x7FF) {
             do {
-                if ((((S_FUNC_80024000_BODY_4 *)current)->unk_17.u & 1) == 0) {
-                    x = ((S_FUNC_80024000_BODY_0 *)scratch)->unk_140.u;
-                    y = ((S_FUNC_80024000_BODY_0 *)scratch)->unk_142.u;
+                if ((((S_FUNC_80024000_BODY_4 *)polygon)->unk_17.u & 1) == 0) {
+                    cell_x = ((S_FUNC_80024000_BODY_0 *)scratch)->unk_140.u;
+                    cell_y = ((S_FUNC_80024000_BODY_0 *)scratch)->unk_142.u;
 
-                    copy_vertex =
-                        (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)current)->unk_00 * 8 +
+                    vertex =
+                        (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)polygon)->unk_00 * 8 +
                                (unsigned long)vertices);
                     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_154.at00.v =
-                        ((S_FUNC_80024000_BODY_5 *)copy_vertex)->unk_00;
+                        ((S_FUNC_80024000_BODY_5 *)vertex)->unk_00;
                     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_154.at00u.v =
-                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_154.at00p.v - x;
+                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_154.at00p.v - cell_x;
                     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_154.at02.v =
-                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_154.at02u.v - y;
+                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_154.at02u.v - cell_y;
 
-                    copy_vertex =
-                        (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)current)->unk_02 * 8 +
+                    vertex =
+                        (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)polygon)->unk_02 * 8 +
                                (unsigned long)vertices);
                     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_158.at00.v =
-                        ((S_FUNC_80024000_BODY_5 *)copy_vertex)->unk_00;
+                        ((S_FUNC_80024000_BODY_5 *)vertex)->unk_00;
                     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_158.at00u.v =
-                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_158.at00p.v - x;
+                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_158.at00p.v - cell_x;
                     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_158.at02.v =
-                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_158.at02u.v - y;
+                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_158.at02u.v - cell_y;
 
-                    copy_vertex =
-                        (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)current)->unk_06 * 8 +
+                    vertex =
+                        (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)polygon)->unk_06 * 8 +
                                (unsigned long)vertices);
                     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_15C.at00.v =
-                        ((S_FUNC_80024000_BODY_5 *)copy_vertex)->unk_00;
+                        ((S_FUNC_80024000_BODY_5 *)vertex)->unk_00;
                     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_15C.at00u.v =
-                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_15C.at00p.v - x;
+                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_15C.at00p.v - cell_x;
                     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_15C.at02.v =
-                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_15C.at02u.v - y;
+                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_15C.at02u.v - cell_y;
 
-                    copy_vertex =
-                        (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)current)->unk_04 * 8 +
+                    vertex =
+                        (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)polygon)->unk_04 * 8 +
                                (unsigned long)vertices);
                     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_160.at00.v =
-                        ((S_FUNC_80024000_BODY_5 *)copy_vertex)->unk_00;
+                        ((S_FUNC_80024000_BODY_5 *)vertex)->unk_00;
                     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_160.at00u.v =
-                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_160.at00p.v - x;
+                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_160.at00p.v - cell_x;
                     ((S_FUNC_80024000_BODY_0 *)scratch)->unk_160.at02.v =
-                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_160.at02u.v - y;
+                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_160.at02u.v - cell_y;
 
                     if (func_800BCE7C(scratch) != 0) {
-                        plane_ptr =
-                            (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)current)->unk_10 *
+                        plane =
+                            (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)polygon)->unk_10 *
                                        8 +
                                    (unsigned long)planes);
-                        dot_vertex =
-                            (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)current)->unk_00 * 8 +
+                        plane_vertex =
+                            (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)polygon)->unk_00 * 8 +
                                    (unsigned long)vertices);
-                        value =
-                            (((S_FUNC_80024000_BODY_6 *)plane_ptr)->unk_00 *
-                                 (((S_FUNC_80024000_BODY_7 *)dot_vertex)->unk_00 -
+                        height =
+                            (((S_FUNC_80024000_BODY_6 *)plane)->unk_00 *
+                                 (((S_FUNC_80024000_BODY_7 *)plane_vertex)->unk_00 -
                                   (s16)((S_FUNC_80024000_BODY_0 *)scratch)->unk_140.u) +
-                             ((S_FUNC_80024000_BODY_6 *)plane_ptr)->unk_02 *
-                                 (((S_FUNC_80024000_BODY_7 *)dot_vertex)->unk_02 -
+                             ((S_FUNC_80024000_BODY_6 *)plane)->unk_02 *
+                                 (((S_FUNC_80024000_BODY_7 *)plane_vertex)->unk_02 -
                                   (s16)((S_FUNC_80024000_BODY_0 *)scratch)->unk_142.u) +
-                             ((S_FUNC_80024000_BODY_6 *)plane_ptr)->unk_04 *
-                                 ((S_FUNC_80024000_BODY_7 *)dot_vertex)->unk_04) /
-                            ((S_FUNC_80024000_BODY_6 *)plane_ptr)->unk_04;
-                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_144 = value;
-                        value += (s16)((S_FUNC_80024000_BODY_0 *)scratch)->unk_152.u;
-                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_144 = value;
-                        if (value >= ((S_FUNC_80024000_BODY_0 *)scratch)->unk_14C &&
-                            value < ((S_FUNC_80024000_BODY_0 *)scratch)->unk_148) {
-                            best = current;
-                            ((S_FUNC_80024000_BODY_0 *)scratch)->unk_148 = value;
+                             ((S_FUNC_80024000_BODY_6 *)plane)->unk_04 *
+                                 ((S_FUNC_80024000_BODY_7 *)plane_vertex)->unk_04) /
+                            ((S_FUNC_80024000_BODY_6 *)plane)->unk_04;
+                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_144 = height;
+                        height += (s16)((S_FUNC_80024000_BODY_0 *)scratch)->unk_152.u;
+                        ((S_FUNC_80024000_BODY_0 *)scratch)->unk_144 = height;
+                        if (height >= ((S_FUNC_80024000_BODY_0 *)scratch)->unk_14C &&
+                            height < ((S_FUNC_80024000_BODY_0 *)scratch)->unk_148) {
+                            best_polygon = polygon;
+                            ((S_FUNC_80024000_BODY_0 *)scratch)->unk_148 = height;
                         }
                     }
                 }
 
-                if ((((S_FUNC_80024000_BODY_4 *)current)->unk_16 & 0xF) == 1) {
-                    if (((S_FUNC_80024000_BODY_4 *)current)->unk_17.s < 0) {
+                if ((((S_FUNC_80024000_BODY_4 *)polygon)->unk_16 & 0xF) == 1) {
+                    if (((S_FUNC_80024000_BODY_4 *)polygon)->unk_17.s < 0) {
                         break;
                     }
-                    if ((((S_FUNC_80024000_BODY_4 *)current)->unk_16 & 0xF0) != 0) {
-                        current +=
-                            ((((S_FUNC_80024000_BODY_4 *)current)->unk_16 >> 4) * 3) * 8 + 0x18;
+                    if ((((S_FUNC_80024000_BODY_4 *)polygon)->unk_16 & 0xF0) != 0) {
+                        polygon +=
+                            ((((S_FUNC_80024000_BODY_4 *)polygon)->unk_16 >> 4) * 3) * 8 + 0x18;
                         continue;
                     }
                 }
-                current += 0x18;
-            } while (((S_FUNC_80024000_BODY_9 *)(planes + ((S_FUNC_80024000_BODY_4 *)current)->unk_10 * 8))->unk_04 <
+                polygon += 0x18;
+            } while (((S_FUNC_80024000_BODY_9 *)(planes + ((S_FUNC_80024000_BODY_4 *)polygon)->unk_10 * 8))->unk_04 <
                      -0x7FF);
         }
     }
 
-    return best;
+    return best_polygon;
 }

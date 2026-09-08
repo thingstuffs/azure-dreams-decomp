@@ -31,64 +31,52 @@ extern s32 D_8008346C;
 extern u8 D_80170F20;
 extern u8 D_801762E8[];
 
-void func_801725B8(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advances the actor's directional animation and resets its action state on completion. */
+void func_801725B8(void *action, void *motion, void *anim, void *actor)
 {
-    switch (((S_801725B8_0 *)arg0)->unk_9B) {
+    switch (((S_801725B8_0 *)action)->unk_9B) {
     case 0:
-        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
-            ((S_801725B8_0 *)arg0)->unk_9B = 2;
-            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
-            func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
+        if (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0x8000) {
+            ((S_801725B8_0 *)action)->unk_9B = 2;
+            ((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v |= 0x6000;
+            func_8009C12C(actor, anim, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
             return;
         }
         {
-            u8 *tbl;
+            u8 *direction_table;
 
-            ((S_801725B8_3 *)arg1)->unk_14 = 0;
-            ((S_801725B8_3 *)arg1)->unk_10 = 0;
-            ((S_801725B8_3 *)arg1)->unk_0C = 0;
-            tbl = D_801762E8;
-            (*(u8 * *)((u8 *)arg2 + 0x2C)) = tbl;
-            func_80047784(arg2,
-                tbl[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            ((S_801725B8_3 *)motion)->unk_14 = 0;
+            ((S_801725B8_3 *)motion)->unk_10 = 0;
+            ((S_801725B8_3 *)motion)->unk_0C = 0;
+            direction_table = D_801762E8;
+            (*(u8 * *)((u8 *)anim + 0x2C)) = direction_table;
+            func_80047784(anim,
+                direction_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
-            ((S_801725B8_0 *)arg0)->unk_9B++;
+            ((S_801725B8_0 *)action)->unk_9B++;
         }
         return;
 
     case 1:
-        if (((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 3 && (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000)) {
+        if (((Rec_D_80082E80 *)anim)->unk_04.as_s8 == 3 && (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0x1000)) {
             func_800A56E0(0x808);
         }
-        if (!((((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 6 && (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000)) ||
-              (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000))) {
+        if (!((((Rec_D_80082E80 *)anim)->unk_04.as_s8 == 6 && (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0x1000)) ||
+              (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0xE000))) {
             return;
         }
-        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
-        ((S_801725B8_0 *)arg0)->unk_9B++;
+        func_8009C12C(actor, anim, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        ((S_801725B8_0 *)action)->unk_9B++;
         /* fallthrough */
     case 2:
-        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
+        if (!(((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        func_800AD594(arg3, 0x100);
-        ((S_801725B8_0 *)arg0)->unk_8C = &D_80170F20;
+        func_800AD594(actor, 0x100);
+        ((S_801725B8_0 *)action)->unk_8C = &D_80170F20;
         D_8008346C = 0;
-        (*(u16 *)((u8 *)arg3 + 0x46)) &= 0x7FFF;
-        func_800A4ACC(arg3);
+        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+        func_800A4ACC(actor);
         return;
     }
 }
-
-/* MECHANISM: byte-exact @ 2.8.1-G0. (1) ROWBASE: the six `j 0x8017277C` words
-   are this function's OWN epilogue join (0x8017277C is INSIDE the 480-byte
-   body at true base 0x801725B8), not calls to an extern func_8017277C as the
-   m2c census draft assumed -> plain `return`; that alone took aligned 37 -> 17.
-   (2) 3-arm compare-tree switch on ((S_801725B8_0 *)arg0)->unk_9B, case 1 FALLING THROUGH
-   into case 2 (retail re-tests 0x14 & 0xE000 after the increment).
-   (3) HELD BASE: the table address must live in a `u8 *tbl` local so gcc emits
-   `addu`+`lbu 0(reg)`; writing D_801762E8[idx] directly emits a second
-   symbol-relative lbu that gas expands via $at (3 words) = the +1 word drift.
-   (4) CONFIG: routed 2.7.2-G0 was wrong — the same-idiom sibling func_809A10A8
-   is 2.8.1-G0 and so is this row (2.8.0-G0 / 2.7.2-cdk-G0 also match).
-   Sibling template: overlays/dungeon/first_pass_matched/func_809A10A8.c. */

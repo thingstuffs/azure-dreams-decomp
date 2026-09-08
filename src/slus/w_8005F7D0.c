@@ -2,64 +2,64 @@
 
 extern int abs(int);
 
-/* PsyQ 4.0 LIBSPU: _spu_note2pitch (tail is _spu_2pitch inlined). */
-u32 func_8005F7D0(u16 centerNote, u16 centerFine, u16 note, u16 fine)
+/* Convert a note and fine tuning relative to the center note into a clamped SPU pitch. */
+u32 func_8005F7D0(u16 center_note, u16 center_fine, u16 note, u16 fine)
 {
-    s32 centre;
+    s32 center_tuning;
     /* 8 bytes of frame below reload's spill slot: retail's product carrier
      * spills to 8($sp) in a 16-byte frame (see MATCH receipt). */
-    s32 pad[2];
-    s32 delta;
-    s32 mag;
-    s32 oct;
-    s32 rem;
-    s32 raw;
-    s32 n;
-    s32 count;
-    s32 previous;
-    s32 cur;
-    u32 steps;
-    u32 frac;
-    u32 scale;
-    u32 result;
+    s32 frame_pad[2];
+    s32 pitch_value;
+    s32 note_distance;
+    s32 octaves;
+    s32 octave_offset;
+    s32 base_pitch;
+    s32 fine_offset;
+    s32 step_index;
+    s32 lower_pitch;
+    s32 upper_pitch;
+    u32 pitch_steps;
+    u32 step_fraction;
+    u32 pitch_scale;
+    u32 pitch;
 
-    centre = ((s32)centerNote << 7) + centerFine;
-    delta = (((s32)note << 7) + fine) - centre;
-    mag = delta;
-    if (delta < 0) {
-        mag = -delta;
+    center_tuning = ((s32)center_note << 7) + center_fine;
+    pitch_value = (((s32)note << 7) + fine) - center_tuning;
+    note_distance = pitch_value;
+    if (pitch_value < 0) {
+        note_distance = -pitch_value;
     }
-    oct = mag / 1536;
-    rem = mag % 1536;
-    if (delta >= 0) {
-        raw = 0x1000 << oct;
+    octaves = note_distance / 1536;
+    octave_offset = note_distance % 1536;
+    if (pitch_value >= 0) {
+        base_pitch = 0x1000 << octaves;
     } else {
-        if (rem != 0) {
-            oct++;
-            rem = 1536 - rem;
+        if (octave_offset != 0) {
+            octaves++;
+            octave_offset = 1536 - octave_offset;
         }
-        raw = 0x1000 >> oct;
+        base_pitch = 0x1000 >> octaves;
     }
-    delta = (s32)((u32)raw & 0xFFFF);
-    scale = 0x103B;
-    previous = (s32)((u32)delta << 12);
-    n = abs(rem);
-    steps = (u32)n >> 5;
-    frac = (u32)n & 0x1F;
-    cur = delta * scale;
-    count = 0;
-    if (steps != 0) {
+    pitch_value = (s32)((u32)base_pitch & 0xFFFF);
+    pitch_scale = 0x103B;
+    lower_pitch = (s32)((u32)pitch_value << 12);
+    fine_offset = abs(octave_offset);
+    pitch_steps = (u32)fine_offset >> 5;
+    step_fraction = (u32)fine_offset & 0x1F;
+    upper_pitch = pitch_value * pitch_scale;
+    step_index = 0;
+    if (pitch_steps != 0) {
         do {
-            previous = delta * scale;
-            scale *= 0x103B;
-            scale >>= 12;
-            count++;
-            cur = delta * scale;
-        } while (count < (s32)steps);
+            lower_pitch = pitch_value * pitch_scale;
+            pitch_scale *= 0x103B;
+            pitch_scale >>= 12;
+            step_index++;
+            upper_pitch = pitch_value * pitch_scale;
+        } while (step_index < (s32)pitch_steps);
     }
-    result = (u32)(previous + (((u32)(cur - previous) >> 5) * frac)) >> 12;
-    if (result >= 0x4000) {
-        result = 0x3FFF;
+    pitch = (u32)(lower_pitch + (((u32)(upper_pitch - lower_pitch) >> 5) * step_fraction)) >> 12;
+    if (pitch >= 0x4000) {
+        pitch = 0x3FFF;
     }
-    return result & 0xFFFF;
+    return pitch & 0xFFFF;
 }

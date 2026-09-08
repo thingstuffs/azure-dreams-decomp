@@ -40,71 +40,72 @@ extern u16 D_80083462;
 extern u8 D_80174494[];
 extern u8 D_8017449C[];
 
-void func_801718D0(void *arg0, s32 arg1, void *arg2, void *arg3)
+/* Advances the entity along its path and updates occupancy, facing, and movement timing. */
+void func_801718D0(void *motion, s32 unused, void *entity, void *path_state)
 {
-    u8 *table;
+    u8 *direction_table;
     s32 old_x;
     s32 old_y;
     s32 new_x;
     s32 new_y;
-    s32 mode;
+    s32 occupancy_mask;
 
-    if (((S_801718D0_0 *)arg3)->unk_71.s <= 0) {
+    if (((S_801718D0_0 *)path_state)->unk_71.s <= 0) {
         return;
     }
-    if (((S_801718D0_0 *)arg3)->unk_71.u <= ((S_801718D0_0 *)arg3)->unk_8A.s) {
+    if (((S_801718D0_0 *)path_state)->unk_71.u <= ((S_801718D0_0 *)path_state)->unk_8A.s) {
         return;
     }
 
-    table = ((S_801718D0_1 *)arg2)->unk_2C;
-    if (table != D_80174494 && table != D_8017449C) {
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_8017449C;
+    direction_table = ((S_801718D0_1 *)entity)->unk_2C;
+    if (direction_table != D_80174494 && direction_table != D_8017449C) {
+        (*(u8 * *)((u8 *)entity + 0x2C)) = D_8017449C;
         func_80047784(
-            arg2,
-            D_8017449C[((D_80083228 + ((S_801718D0_0 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            entity,
+            D_8017449C[((D_80083228 + ((S_801718D0_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
             0);
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_A8 = 0;
+        ((Rec_func_800A9E70_arg0 *)motion)->unk_A8 = 0;
     }
 
-    old_x = ((S_801718D0_1 *)arg2)->unk_24;
-    old_y = ((S_801718D0_1 *)arg2)->unk_25;
-    mode = 0x3000;
-    if (((S_801718D0_0 *)arg3)->unk_1C.s & 0x2000) {
-        mode = 0x300;
+    old_x = ((S_801718D0_1 *)entity)->unk_24;
+    old_y = ((S_801718D0_1 *)entity)->unk_25;
+    occupancy_mask = 0x3000;
+    if (((S_801718D0_0 *)path_state)->unk_1C.s & 0x2000) {
+        occupancy_mask = 0x300;
     }
-    func_8009A3D0(old_x, old_y, mode);
+    func_8009A3D0(old_x, old_y, occupancy_mask);
 
-    ((S_801718D0_1 *)arg2)->unk_24 =
-        ((S_801718D0_3 *)((u8 *)arg3 + ((S_801718D0_0 *)arg3)->unk_8A.s))->unk_74;
-    ((S_801718D0_1 *)arg2)->unk_25 =
-        ((S_801718D0_3 *)((u8 *)arg3 + ((S_801718D0_0 *)arg3)->unk_8A.s))->unk_7C;
-    ((S_801718D0_0 *)arg3)->unk_8A.u++;
+    ((S_801718D0_1 *)entity)->unk_24 =
+        ((S_801718D0_3 *)((u8 *)path_state + ((S_801718D0_0 *)path_state)->unk_8A.s))->unk_74;
+    ((S_801718D0_1 *)entity)->unk_25 =
+        ((S_801718D0_3 *)((u8 *)path_state + ((S_801718D0_0 *)path_state)->unk_8A.s))->unk_7C;
+    ((S_801718D0_0 *)path_state)->unk_8A.u++;
 
-    new_x = ((S_801718D0_1 *)arg2)->unk_24;
-    new_y = ((S_801718D0_1 *)arg2)->unk_25;
-    mode = 0x3000;
-    if (((S_801718D0_0 *)arg3)->unk_1C.s & 0x2000) {
-        mode = 0x300;
+    new_x = ((S_801718D0_1 *)entity)->unk_24;
+    new_y = ((S_801718D0_1 *)entity)->unk_25;
+    occupancy_mask = 0x3000;
+    if (((S_801718D0_0 *)path_state)->unk_1C.s & 0x2000) {
+        occupancy_mask = 0x300;
     }
-    func_8009A21C(new_x, new_y, mode);
+    func_8009A21C(new_x, new_y, occupancy_mask);
 
-    ((S_801718D0_0 *)arg3)->unk_2A = func_800A0818(
-        old_x, old_y, ((S_801718D0_1 *)arg2)->unk_24, ((S_801718D0_1 *)arg2)->unk_25,
-        (u8 *)arg0 + 0x98);
-    ((S_801718D0_0 *)arg3)->unk_1C.u |= 0x40000000;
-    ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xF;
-    (*(s32 *)((u8 *)arg0 + 0x8C)) = 0;
+    ((S_801718D0_0 *)path_state)->unk_2A = func_800A0818(
+        old_x, old_y, ((S_801718D0_1 *)entity)->unk_24, ((S_801718D0_1 *)entity)->unk_25,
+        (u8 *)motion + 0x98);
+    ((S_801718D0_0 *)path_state)->unk_1C.u |= 0x40000000;
+    ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = 0xF;
+    (*(s32 *)((u8 *)motion + 0x8C)) = 0;
 
     if (D_80083462 & 0x80) {
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_96.as_u16 = 0;
+        ((Rec_func_800A9E70_arg0 *)motion)->unk_96.as_u16 = 0;
         return;
     }
 
-    ((Rec_func_800A9E70_arg0 *)arg0)->unk_96.as_u16 = 8;
+    ((Rec_func_800A9E70_arg0 *)motion)->unk_96.as_u16 = 8;
     {
-        s32 hp = ((S_801718D0_0 *)arg3)->unk_71.u;
-        if (hp > 0) {
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_96.as_u16 = 8 / hp;
+        s32 step_count = ((S_801718D0_0 *)path_state)->unk_71.u;
+        if (step_count > 0) {
+            ((Rec_func_800A9E70_arg0 *)motion)->unk_96.as_u16 = 8 / step_count;
         }
     }
 }

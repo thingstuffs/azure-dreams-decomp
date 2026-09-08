@@ -28,30 +28,31 @@ extern Ent D_800E3648[];
 extern s32 func_800B500C(s32 a, s32 b, s32 c);
 extern s32 func_800B627C(s32 a, Ctx *b, s32 c, s32 d);
 
-s32 func_800ADAE4(Actor *arg0, Ctx *arg1)
+/* Process the actor's matching entry if enabled, clearing its enable bit unless retained. */
+s32 func_800ADAE4(Actor *actor, Ctx *ctx)
 {
-    s16 idx;
-    Ent *base;
-    Ent *e;
-    u8 flags;
-    s32 ret;
+    s16 entry_index;
+    Ent *entries;
+    Ent *entry;
+    u8 entry_flags;
+    s32 result;
 
-    idx = (s16)func_800B500C(arg0->unk24, arg0->unk25, arg1->unk88);
-    if (idx < 0) {
+    entry_index = (s16)func_800B500C(actor->unk24, actor->unk25, ctx->unk88);
+    if (entry_index < 0) {
         return 1;
     }
-    base = D_800E3648;
-    e = base + idx;
-    flags = e->unk3;
-    if ((flags & 0x80) == 0) {
+    entries = D_800E3648;
+    entry = entries + entry_index;
+    entry_flags = entry->unk3;
+    if ((entry_flags & 0x80) == 0) {
         return 1;
     }
-    if ((flags & 0x40) == 0) {
-        e->unk3 = flags & 0x7F;
+    if ((entry_flags & 0x40) == 0) {
+        entry->unk3 = entry_flags & 0x7F;
     }
-    ret = func_800B627C(e->unk0, arg1, idx, 0);
-    if (ret == 0) {
+    result = func_800B627C(entry->unk0, ctx, entry_index, 0);
+    if (result == 0) {
         return 0;
     }
-    return (s16)ret;
+    return (s16)result;
 }

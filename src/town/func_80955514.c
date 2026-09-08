@@ -11,78 +11,79 @@ typedef struct S_80022514_0 {
 
 extern s32 D_800814A0;
 
-void func_80022514(void *arg0) {
-    s16 mode;
-    s32 delta;
-    s32 next;
-    register s32 value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+/* Advances a timed color fade and sets completion flags at the final threshold. */
+void func_80022514(void *effect) {
+    s16 phase;
+    s32 color_step;
+    s32 frames_left;
+    register s32 phase_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    mode = ((S_80022514_0 *)arg0)->unk_00.s;
-    value = ((S_80022514_0 *)arg0)->unk_00.u;
-    next = ((S_80022514_0 *)arg0)->unk_02.s - 1;
-    ((S_80022514_0 *)arg0)->unk_02.s = next;
-    if (mode == 1) {
+    phase = ((S_80022514_0 *)effect)->unk_00.s;
+    phase_value = ((S_80022514_0 *)effect)->unk_00.u;
+    frames_left = ((S_80022514_0 *)effect)->unk_02.s - 1;
+    ((S_80022514_0 *)effect)->unk_02.s = frames_left;
+    if (phase == 1) {
         goto mode_one;
     }
-    if (mode < 2) {
-        delta = 0x40000;
-        if (mode == 0) {
+    if (phase < 2) {
+        color_step = 0x40000;
+        if (phase == 0) {
             goto mode_zero;
         }
         goto done;
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if (mode == 2) {
+    if (phase == 2) {
         goto mode_two;
     }
     goto done;
 
 mode_zero:
 {
-    s32 count;
-    s32 increment;
-    s32 sum;
+    s32 countdown;
+    s32 next_phase;
+    s32 color;
 
-    delta |= 0x404;
+    color_step |= 0x404;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    sum = ((S_80022514_0 *)arg0)->unk_08;
-    count = ((S_80022514_0 *)arg0)->unk_02.u;
-    sum += delta;
-    ((S_80022514_0 *)arg0)->unk_08 = sum;
-    if (count >= 0) {
+    color = ((S_80022514_0 *)effect)->unk_08;
+    countdown = ((S_80022514_0 *)effect)->unk_02.u;
+    color += color_step;
+    ((S_80022514_0 *)effect)->unk_08 = color;
+    if (countdown >= 0) {
         goto done;
     }
-    increment = ((S_80022514_0 *)arg0)->unk_00.u;
-    ((S_80022514_0 *)arg0)->unk_02.s = 0x10E;
-    increment++;
-    ((S_80022514_0 *)arg0)->unk_00.u = increment;
+    next_phase = ((S_80022514_0 *)effect)->unk_00.u;
+    ((S_80022514_0 *)effect)->unk_02.s = 0x10E;
+    next_phase++;
+    ((S_80022514_0 *)effect)->unk_00.u = next_phase;
     goto done;
 }
 
 mode_one:
 {
-    if ((s16)next >= 0) {
+    if ((s16)frames_left >= 0) {
         goto done;
     }
     {
-        register s32 increment ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 next_phase ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        increment = value + 1;
-        ((S_80022514_0 *)arg0)->unk_00.u = increment;
+        next_phase = phase_value + 1;
+        ((S_80022514_0 *)effect)->unk_00.u = next_phase;
     }
     goto done;
 }
 
 mode_two:
 {
-    s32 offset;
-    s32 sum;
+    s32 fade_step;
+    s32 color;
 
-    offset = 0xFFF7F7F8;
-    sum = ((S_80022514_0 *)arg0)->unk_08 + offset;
-    ((S_80022514_0 *)arg0)->unk_08 = sum;
-    if (sum <= 0x80808) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    fade_step = 0xFFF7F7F8;
+    color = ((S_80022514_0 *)effect)->unk_08 + fade_step;
+    ((S_80022514_0 *)effect)->unk_08 = color;
+    if (color <= 0x80808) {
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

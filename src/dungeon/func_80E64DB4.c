@@ -23,70 +23,71 @@ typedef struct {
 extern s32 func_800A6DA4(s32, s32);
 extern DungeonGroup D_80073414[];
 
-s32 func_801745B4(DungeonArg *arg0, u8 *arg1)
+/* Select a random eligible dungeon item and initialize its parameters. */
+s32 func_801745B4(DungeonArg *selection, u8 *context)
 {
     DungeonGroup *groups;
-    DungeonGroup *group_ptr;
-    s32 tries;
+    DungeonGroup *candidate_group;
+    s32 retries_left;
     s32 accepted;
     s32 group;
-    s32 item;
+    s32 item_index;
     s32 original_class;
-    s32 candidate_class;
+    s32 class_check;
     s32 param;
 
     accepted = 0;
-    tries = 15;
-    original_class = D_80073414[arg0->group].entries[arg0->index].flags & 0x3000;
+    retries_left = 15;
+    original_class = D_80073414[selection->group].entries[selection->index].flags & 0x3000;
     groups = D_80073414;
 
     do {
         group = func_800A6DA4(1, 19);
-        group_ptr = (DungeonGroup *)((u32)((u8)group * sizeof(DungeonGroup)) + (u32)groups);
+        candidate_group = (DungeonGroup *)((u32)((u8)group * sizeof(DungeonGroup)) + (u32)groups);
 
-        if (group_ptr->count == 1 || (u8)group == 18 || (u8)group == 14) {
+        if (candidate_group->count == 1 || (u8)group == 18 || (u8)group == 14) {
             goto next_try;
         }
 
-        item = func_800A6DA4(1, (u16)(group_ptr->count - 1));
-        if (group_ptr->entries[(u8)item].flags & 0x10) {
+        item_index = func_800A6DA4(1, (u16)(candidate_group->count - 1));
+        if (candidate_group->entries[(u8)item_index].flags & 0x10) {
             goto next_try;
         }
 
-        if (tries >= 12) {
-            candidate_class = groups[arg0->group].entries[arg0->index].flags & 0x3000;
-            if (original_class == candidate_class) {
+        if (retries_left >= 12) {
+            class_check = groups[selection->group].entries[selection->index].flags & 0x3000;
+            if (original_class == class_check) {
                 accepted = 1;
             }
-            candidate_class = accepted;
+            class_check = accepted;
         } else {
-            candidate_class = groups[arg0->group].entries[arg0->index].flags & 0x3000;
-            if (original_class >= candidate_class) {
+            class_check = groups[selection->group].entries[selection->index].flags & 0x3000;
+            if (original_class >= class_check) {
                 accepted = 1;
             }
-            candidate_class = accepted;
+            class_check = accepted;
         }
 
-        if (candidate_class != 0) {
-            arg0->group = group;
-            arg0->index = item;
-            arg0->param = 0;
-            arg0->flags = 0;
+        if (class_check != 0) {
+            selection->group = group;
+            selection->index = item_index;
+            selection->param = 0;
+            selection->flags = 0;
             if ((u8)group == 4) {
-                arg0->flags = 0x80;
-                if ((u8)item == 17) {
+                selection->flags = 0x80;
+                if ((u8)item_index == 17) {
                     param = 1;
                 } else {
-                    param = (arg1[0x25] + 15) / 16;
+                    param = (context[0x25] + 15) / 16;
                 }
-                arg0->param = param;
+                selection->param = param;
             }
             return 1;
         }
 
 next_try:
-        tries--;
-    } while (tries >= 0);
+        retries_left--;
+    } while (retries_left >= 0);
 
     return 0;
 }

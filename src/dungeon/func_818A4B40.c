@@ -33,32 +33,33 @@ typedef struct S_818A4B40_2 {
 } S_818A4B40_2;   /* arg1 in func_818A4B40 */
 
 
-void func_818A4B40(S_818A4B40_0 *arg0, S_818A4B40_2 *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_s0;
-    s32 temp_v0_2;
-    s32 var_s0;
-    u16 temp_v0;
-    S_818A4B40_1 *temp_v1;
+/* Advance the height offset, randomize position on wrap, and update the object. */
+void func_818A4B40(S_818A4B40_0 *motion, S_818A4B40_2 *position, Rec_D_80082E80 *object) {
+    s16 angle;
+    s32 random_value;
+    s32 biased_random;
+    u16 height_offset;
+    S_818A4B40_1 *counter;
 
-    temp_v1 = arg0->unk_00;
-    temp_v1->unk_14 = (u16) (temp_v1->unk_14 + 1);
-    temp_v0 = arg0->unk_04 + arg0->unk_06;
-    arg0->unk_04 = temp_v0;
-    if ((s16) temp_v0 < -0x80) {
-        temp_v0_2 = rand();
-        var_s0 = temp_v0_2;
-        if (temp_v0_2 < 0) {
-            var_s0 = temp_v0_2 + 0xFFF;
+    counter = motion->unk_00;
+    counter->unk_14 = (u16) (counter->unk_14 + 1);
+    height_offset = motion->unk_04 + motion->unk_06;
+    motion->unk_04 = height_offset;
+    if ((s16) height_offset < -0x80) {
+        random_value = rand();
+        biased_random = random_value;
+        if (random_value < 0) {
+            biased_random = random_value + 0xFFF;
         }
-        temp_s0 = temp_v0_2 - ((var_s0 >> 0xC) << 0xC);
-        arg1->unk_02 = (s16) (arg0->unk_08 + ((s32) (func_800644B8(temp_s0) * 2) >> 8));
-        arg1->unk_06 = (s16) (arg0->unk_0A + ((s32) (func_80064584(temp_s0) * 2) >> 8));
-        arg0->unk_04 = (u16) (arg0->unk_04 + 0x80);
-        arg0->unk_06 = (u16) (-6 - (rand() % 5));
+        angle = random_value - ((biased_random >> 0xC) << 0xC);
+        position->unk_02 = (s16) (motion->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
+        position->unk_06 = (s16) (motion->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
+        motion->unk_04 = (u16) (motion->unk_04 + 0x80);
+        motion->unk_06 = (u16) (-6 - (rand() % 5));
     }
-    arg1->unk_0A = (s16) (arg0->unk_0C + arg0->unk_04);
-    func_800478B8(arg2);
-    if (arg2->unk_14.at00_u16.v & 0x6000) {
-        func_8003DB94(arg2, &D_800DECF8, 0);
+    position->unk_0A = (s16) (motion->unk_0C + motion->unk_04);
+    func_800478B8(object);
+    if (object->unk_14.at00_u16.v & 0x6000) {
+        func_8003DB94(object, &D_800DECF8, 0);
     }
 }

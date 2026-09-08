@@ -48,28 +48,29 @@ extern M2C_UNK D_800F6F30;
 
 #define VFIELD(expr, type, offset) (*(volatile type *)((s8 *)(expr) + (offset)))
 
+/* Conditionally creates and initializes a type 0x12 object. */
 void func_800F63D0(void) {
-    S_800F63D0_1 *temp_s0;
-    S_800F63D0_0 *temp_v0;
-    S_800F63D0_2 *temp_v1;
+    S_800F63D0_1 *graphics;
+    S_800F63D0_0 *object;
+    S_800F63D0_2 *animation;
 
     if (func_80033BC0(0xA2) == 0) {
         func_80041284(&D_800F6F28);
-        temp_v0 = func_8003FC64(0x12);
-        if (temp_v0 != NULL) {
-            temp_v0->unk_10 = &D_800F62BC;
-            func_8004491C(temp_v0, &D_80045C34);
-            temp_s0 = temp_v0->unk_08;
-            temp_s0->unk_02 = 0x820;
-            temp_s0->unk_06 = 0x820;
-            temp_s0->unk_0A = func_800BCA68(VFIELD(temp_s0, u16, 2), 0x820);
-            temp_v1 = temp_v0->unk_0C;
-            temp_v1->unk_1E = 0x1000;
-            temp_v1->unk_1C = 0x1000;
-            temp_v1->unk_08 = &D_800F6F30;
-            temp_v1->unk_10 = 0x20;
-            temp_v1->unk_14 = 0xC;
-            temp_v1->unk_06 = 6;
+        object = func_8003FC64(0x12);
+        if (object != NULL) {
+            object->unk_10 = &D_800F62BC;
+            func_8004491C(object, &D_80045C34);
+            graphics = object->unk_08;
+            graphics->unk_02 = 0x820;
+            graphics->unk_06 = 0x820;
+            graphics->unk_0A = func_800BCA68(VFIELD(graphics, u16, 2), 0x820);
+            animation = object->unk_0C;
+            animation->unk_1E = 0x1000;
+            animation->unk_1C = 0x1000;
+            animation->unk_08 = &D_800F6F30;
+            animation->unk_10 = 0x20;
+            animation->unk_14 = 0xC;
+            animation->unk_06 = 6;
         }
     }
 }

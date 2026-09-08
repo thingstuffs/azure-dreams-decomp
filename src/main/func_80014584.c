@@ -25,37 +25,38 @@ extern u8 D_800274A8[];
 extern u8 D_800274D8[];
 extern u8 D_8002789C[];
 
-void func_80027584(void *arg0) {
-    s32 state_five;
-    s32 result;
-    s32 count;
+/* Polls status with bounded retries and dispatches the corresponding context update. */
+void func_80027584(void *state) {
+    s32 retry_status;
+    s32 status;
+    s32 retry_count;
     void *context;
 
-    count = 0;
-    state_five = 5;
+    retry_count = 0;
+    retry_status = 5;
     do {
-        result = func_80021A84(((S_80027584_0 *)arg0)->unk_0C);
-        if (result != state_five) {
+        status = func_80021A84(((S_80027584_0 *)state)->unk_0C);
+        if (status != retry_status) {
             break;
         }
-    } while (count++ < 6);
+    } while (retry_count++ < 6);
 
-    ((S_80027584_0 *)arg0)->unk_38 = 0;
+    ((S_80027584_0 *)state)->unk_38 = 0;
     func_80020984();
-    if (result == 1) {
-        context = (u8 *)arg0 - 0x20;
-        ((S_80027584_0 *)arg0)->unk_2C = D_8002789C;
+    if (status == 1) {
+        context = (u8 *)state - 0x20;
+        ((S_80027584_0 *)state)->unk_2C = D_8002789C;
         func_80023054(context);
-        ((S_80027584_0_pre *)arg0)[-1].unk_00 = D_800274D8;
-    } else if (result == 4) {
-        context = (u8 *)arg0 - 0x20;
-        ((S_80027584_0 *)arg0)->unk_2C = D_8002789C;
+        ((S_80027584_0_pre *)state)[-1].unk_00 = D_800274D8;
+    } else if (status == 4) {
+        context = (u8 *)state - 0x20;
+        ((S_80027584_0 *)state)->unk_2C = D_8002789C;
         func_80022E9C(context);
-        ((S_80027584_0_pre *)arg0)[-1].unk_00 = D_800274A8;
+        ((S_80027584_0_pre *)state)[-1].unk_00 = D_800274A8;
     } else {
-        context = (u8 *)arg0 - 0x20;
-        ((S_80027584_0 *)arg0)->unk_2C = D_8002789C;
+        context = (u8 *)state - 0x20;
+        ((S_80027584_0 *)state)->unk_2C = D_8002789C;
         func_8002302C(context);
-        ((S_80027584_0_pre *)arg0)[-1].unk_00 = D_800274D8;
+        ((S_80027584_0_pre *)state)[-1].unk_00 = D_800274D8;
     }
 }

@@ -74,78 +74,77 @@ typedef union {
     } half;
 } PackedDelta;
 
-s32 func_800248C8(void *arg0)
+/* Interpolate and shade a line, project its endpoints, and add it to the ordering table. */
+s32 func_800248C8(void *line_data)
 {
 #ifdef __mips__
-    u8 *arg;
+    u8 *line;
 #else
-    u8 *arg;
+    u8 *line;
 #endif
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
-    void *work84;
-    void *work88;
+    void *projection_work_a;
+    void *projection_work_b;
 #ifdef __mips__
-    PackedDelta delta;
+    PackedDelta coord_delta;
 #else
-    PackedDelta delta;
+    PackedDelta coord_delta;
 #endif
 #ifdef __mips__
-    register s32 high_mask ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 bit_mask ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #else
-    s32 high_mask;
+    s32 bit_mask;
 #endif
     s32 index;
 #ifdef __mips__
-    register s32 x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 coord_xz ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 multiplier;
-    u8 *input = arg0;
+    u8 *line_bytes = line_data;
 #else
-    s32 x;
+    s32 coord_xz;
     s32 multiplier;
-    u8 *input = arg0;
+    u8 *line_bytes = line_data;
 #endif
 #ifdef __mips__
-    register s32 y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 increment ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 end;
+    register s32 coord_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 coord_step ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 end_coord;
 #else
-    s32 y;
-    s32 increment;
-    s32 end;
+    s32 coord_y;
+    s32 coord_step;
+    s32 end_coord;
 #endif
     s32 first_z;
     s32 second_z;
 #ifdef __mips__
-    s32 average;
-    s32 sum;
+    s32 depth;
+    s32 depth_sum;
     s32 result;
 #else
-    s32 average;
-    s32 sum;
+    s32 depth;
+    s32 depth_sum;
     s32 result;
 #endif
     u32 *ordering_table;
-    u8 *ctx = *(u8 **)D_80083160;
+    u8 *render_ctx = *(u8 **)D_80083160;
 
-    ((S_800248C8_0 *)scratch)->unk_18 = (u32 *)(ctx + 0xB0);
-    packet = ((S_800248C8_1 *)ctx)->unk_8D0;
-#ifdef __mips__
-#endif
-    arg = input;
-    ((S_800248C8_1 *)ctx)->unk_8D0 = packet + 0x14;
+    ((S_800248C8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
+    packet = ((S_800248C8_1 *)render_ctx)->unk_8D0;
+    line = line_bytes;
+    ((S_800248C8_1 *)render_ctx)->unk_8D0 = packet + 0x14;
 
     ((S_800248C8_2 *)packet)->unk_00.at03.v = 4;
     ((S_800248C8_2 *)packet)->unk_07 = 0x50;
 
-    ((S_800248C8_0 *)scratch)->unk_64 = ((S_800248C8_3 *)arg)->unk_1A;
-    ((S_800248C8_0 *)scratch)->unk_66 = ((S_800248C8_3 *)arg)->unk_1E;
-    ((S_800248C8_0 *)scratch)->unk_68 = ((S_800248C8_3 *)arg)->unk_22;
-    ((S_800248C8_0 *)scratch)->unk_6C = ((S_800248C8_3 *)arg)->unk_32;
-    ((S_800248C8_0 *)scratch)->unk_6E = ((S_800248C8_3 *)arg)->unk_36;
-    ((S_800248C8_0 *)scratch)->unk_70 = ((S_800248C8_3 *)arg)->unk_3A;
+    ((S_800248C8_0 *)scratch)->unk_64 = ((S_800248C8_3 *)line)->unk_1A;
+    ((S_800248C8_0 *)scratch)->unk_66 = ((S_800248C8_3 *)line)->unk_1E;
+    ((S_800248C8_0 *)scratch)->unk_68 = ((S_800248C8_3 *)line)->unk_22;
+    ((S_800248C8_0 *)scratch)->unk_6C = ((S_800248C8_3 *)line)->unk_32;
+    ((S_800248C8_0 *)scratch)->unk_6E = ((S_800248C8_3 *)line)->unk_36;
+    ((S_800248C8_0 *)scratch)->unk_70 = ((S_800248C8_3 *)line)->unk_3A;
 
-    index = ((S_800248C8_3 *)arg)->unk_10 - 1;
+    index = ((S_800248C8_3 *)line)->unk_10 - 1;
     switch (index) {
     case 0:
     case 1:
@@ -170,61 +169,51 @@ s32 func_800248C8(void *arg0)
     }
 
 case_early:
-    end = ((S_800248C8_0 *)scratch)->unk_6C;
+    end_coord = ((S_800248C8_0 *)scratch)->unk_6C;
 #ifdef __mips__
-    ASM_KEEP(end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(end_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
-    x = ((S_800248C8_0 *)scratch)->unk_64;
-    end -= x;
-    delta.word = end << 16;
-    delta.word >>= 3;
-    delta.word *= ((S_800248C8_3 *)arg)->unk_10 + 1;
+    coord_xz = ((S_800248C8_0 *)scratch)->unk_64;
+    end_coord -= coord_xz;
+    coord_delta.word = end_coord << 16;
+    coord_delta.word >>= 3;
+    coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 + 1;
 
-    y = ((S_800248C8_0 *)scratch)->unk_66;
-    high_mask = 0xFFFF0000;
-    increment = delta.half.high;
-    delta.half.high = ((S_800248C8_0 *)scratch)->unk_6E - y;
-    delta.word &= high_mask;
-    ((S_800248C8_0 *)scratch)->unk_6C = x + increment;
-    delta.word >>= 3;
-    delta.word *= ((S_800248C8_3 *)arg)->unk_10 + 1;
+    coord_y = ((S_800248C8_0 *)scratch)->unk_66;
+    bit_mask = 0xFFFF0000;
+    coord_step = coord_delta.half.high;
+    coord_delta.half.high = ((S_800248C8_0 *)scratch)->unk_6E - coord_y;
+    coord_delta.word &= bit_mask;
+    ((S_800248C8_0 *)scratch)->unk_6C = coord_xz + coord_step;
+    coord_delta.word >>= 3;
+    coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 + 1;
 
-    end = ((S_800248C8_0 *)scratch)->unk_70;
-    x = ((S_800248C8_0 *)scratch)->unk_68;
-    increment = delta.half.high;
-    delta.half.high = end - x;
-    delta.word &= high_mask;
-#ifdef __mips__
-#endif
-    ((S_800248C8_0 *)scratch)->unk_6E = y + increment;
-#ifdef __mips__
-#endif
-    delta.word >>= 3;
-    delta.word *= ((S_800248C8_3 *)arg)->unk_10 + 1;
-    x += delta.half.high;
-    ((S_800248C8_0 *)scratch)->unk_70 = x;
-#ifdef __mips__
-#endif
+    end_coord = ((S_800248C8_0 *)scratch)->unk_70;
+    coord_xz = ((S_800248C8_0 *)scratch)->unk_68;
+    coord_step = coord_delta.half.high;
+    coord_delta.half.high = end_coord - coord_xz;
+    coord_delta.word &= bit_mask;
+    ((S_800248C8_0 *)scratch)->unk_6E = coord_y + coord_step;
+    coord_delta.word >>= 3;
+    coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 + 1;
+    coord_xz += coord_delta.half.high;
+    ((S_800248C8_0 *)scratch)->unk_70 = coord_xz;
 
-    high_mask = ((S_800248C8_3 *)arg)->unk_10;
+    bit_mask = ((S_800248C8_3 *)line)->unk_10;
     multiplier = 15;
-    x = high_mask + 1;
-#ifdef __mips__
-#endif
-    arg = (u8 *)(x * multiplier);
+    coord_xz = bit_mask + 1;
+    line = (u8 *)(coord_xz * multiplier);
     multiplier = 23;
-#ifdef __mips__
-#endif
-    y = x * multiplier;
-    x = 0x40;
-    ((S_800248C8_2 *)packet)->unk_04 = x;
-    ((S_800248C8_2 *)packet)->unk_05 = x;
-    ((S_800248C8_2 *)packet)->unk_06 = x;
-    x -= (7 - high_mask) * 8;
-    multiplier = (s32)arg + 0x40;
-    ((S_800248C8_2 *)packet)->unk_0D = x;
+    coord_y = coord_xz * multiplier;
+    coord_xz = 0x40;
+    ((S_800248C8_2 *)packet)->unk_04 = coord_xz;
+    ((S_800248C8_2 *)packet)->unk_05 = coord_xz;
+    ((S_800248C8_2 *)packet)->unk_06 = coord_xz;
+    coord_xz -= (7 - bit_mask) * 8;
+    multiplier = (s32)line + 0x40;
+    ((S_800248C8_2 *)packet)->unk_0D = coord_xz;
     ((S_800248C8_2 *)packet)->unk_0C = multiplier;
-    multiplier = y + 0x40;
+    multiplier = coord_y + 0x40;
     ((S_800248C8_2 *)packet)->unk_0E = multiplier;
     goto shared;
 
@@ -238,58 +227,50 @@ case_middle:
     goto shared;
 
 case_late:
-    end = ((S_800248C8_0 *)scratch)->unk_6C;
+    end_coord = ((S_800248C8_0 *)scratch)->unk_6C;
 #ifdef __mips__
-    ASM_KEEP(end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(end_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
-    x = ((S_800248C8_0 *)scratch)->unk_64;
-    end -= x;
-    delta.word = end << 16;
-    delta.word >>= 3;
-    delta.word *= ((S_800248C8_3 *)arg)->unk_10 - 7;
+    coord_xz = ((S_800248C8_0 *)scratch)->unk_64;
+    end_coord -= coord_xz;
+    coord_delta.word = end_coord << 16;
+    coord_delta.word >>= 3;
+    coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 - 7;
 
-    y = ((S_800248C8_0 *)scratch)->unk_66;
-    high_mask = 0xFFFF0000;
-    increment = delta.half.high;
-    delta.half.high = ((S_800248C8_0 *)scratch)->unk_6E - y;
-    delta.word &= high_mask;
-    ((S_800248C8_0 *)scratch)->unk_64 = x + increment;
-    delta.word >>= 3;
-    delta.word *= ((S_800248C8_3 *)arg)->unk_10 - 7;
+    coord_y = ((S_800248C8_0 *)scratch)->unk_66;
+    bit_mask = 0xFFFF0000;
+    coord_step = coord_delta.half.high;
+    coord_delta.half.high = ((S_800248C8_0 *)scratch)->unk_6E - coord_y;
+    coord_delta.word &= bit_mask;
+    ((S_800248C8_0 *)scratch)->unk_64 = coord_xz + coord_step;
+    coord_delta.word >>= 3;
+    coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 - 7;
 
-    end = ((S_800248C8_0 *)scratch)->unk_70;
-    x = ((S_800248C8_0 *)scratch)->unk_68;
-    increment = delta.half.high;
-    delta.half.high = end - x;
-    delta.word &= high_mask;
-#ifdef __mips__
-#endif
-    ((S_800248C8_0 *)scratch)->unk_66 = y + increment;
-#ifdef __mips__
-#endif
-    delta.word >>= 3;
-    delta.word *= ((S_800248C8_3 *)arg)->unk_10 - 7;
-    x += delta.half.high;
-    ((S_800248C8_0 *)scratch)->unk_68 = x;
-#ifdef __mips__
-#endif
+    end_coord = ((S_800248C8_0 *)scratch)->unk_70;
+    coord_xz = ((S_800248C8_0 *)scratch)->unk_68;
+    coord_step = coord_delta.half.high;
+    coord_delta.half.high = end_coord - coord_xz;
+    coord_delta.word &= bit_mask;
+    ((S_800248C8_0 *)scratch)->unk_66 = coord_y + coord_step;
+    coord_delta.word >>= 3;
+    coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 - 7;
+    coord_xz += coord_delta.half.high;
+    ((S_800248C8_0 *)scratch)->unk_68 = coord_xz;
 
-    y = ((S_800248C8_3 *)arg)->unk_10;
-    x = 15;
-    high_mask = y - 7;
-#ifdef __mips__
-#endif
-    arg = (u8 *)(high_mask * x);
+    coord_y = ((S_800248C8_3 *)line)->unk_10;
+    coord_xz = 15;
+    bit_mask = coord_y - 7;
+    line = (u8 *)(bit_mask * coord_xz);
     multiplier = 23;
 #ifdef __mips__
     ASM_KEEP(multiplier);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #endif
-    high_mask *= multiplier;
+    bit_mask *= multiplier;
     ((S_800248C8_2 *)packet)->unk_0D = 0;
 #ifdef __mips__
     ASM_KEEP_NV(packet);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
-    ((S_800248C8_2 *)packet)->unk_05 = (x - y) * 8;
+    ((S_800248C8_2 *)packet)->unk_05 = (coord_xz - coord_y) * 8;
 #ifdef __mips__
     ASM_KEEP_NV(packet);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
@@ -297,19 +278,19 @@ case_late:
     ((S_800248C8_2 *)packet)->unk_0C = multiplier;
     multiplier = 0xFF;
     ((S_800248C8_2 *)packet)->unk_0E = multiplier;
-    multiplier = (s32)arg + 0x40;
+    multiplier = (s32)line + 0x40;
     ((S_800248C8_2 *)packet)->unk_04 = multiplier;
-    multiplier = high_mask + 0x40;
+    multiplier = bit_mask + 0x40;
     ((S_800248C8_2 *)packet)->unk_06 = multiplier;
 
 shared:
-    work84 = scratch + 0x84;
-    work88 = scratch + 0x88;
+    projection_work_a = scratch + 0x84;
+    projection_work_b = scratch + 0x88;
     first_z = func_80065420((void *)((u32)scratch | 0x64),
-                            (void *)((u32)scratch | 0xD8), work84, work88);
+                            (void *)((u32)scratch | 0xD8), projection_work_a, projection_work_b);
     ((S_800248C8_0 *)scratch)->unk_F4 = first_z;
     second_z = func_80065420((void *)((u32)scratch | 0x6C),
-                             (void *)((u32)scratch | 0xDC), work84, work88);
+                             (void *)((u32)scratch | 0xDC), projection_work_a, projection_work_b);
     ((S_800248C8_0 *)scratch)->unk_F8 = second_z;
 
     ((S_800248C8_2 *)packet)->unk_08 = ((S_800248C8_0 *)scratch)->unk_D8;
@@ -317,52 +298,40 @@ shared:
     ((S_800248C8_2 *)packet)->unk_10 = ((S_800248C8_0 *)scratch)->unk_DC;
     ((S_800248C8_2 *)packet)->unk_12 = ((S_800248C8_0 *)scratch)->unk_DE;
 
-    sum = ((S_800248C8_0 *)scratch)->unk_F4;
-    sum += ((S_800248C8_0 *)scratch)->unk_F8;
-    average = (s32)(sum + ((u32)sum >> 31)) >> 1;
+    depth_sum = ((S_800248C8_0 *)scratch)->unk_F4;
+    depth_sum += ((S_800248C8_0 *)scratch)->unk_F8;
+    depth = (s32)(depth_sum + ((u32)depth_sum >> 31)) >> 1;
+    ((S_800248C8_0 *)scratch)->unk_B4 = depth;
+    if ((u32)depth < 0x1E0U) {
 #ifdef __mips__
-#endif
-    ((S_800248C8_0 *)scratch)->unk_B4 = average;
-    if ((u32)average < 0x1E0U) {
-#ifdef __mips__
-        u32 entry_word;
+        u32 entry_addr;
 #else
-        u32 entry_word;
+        u32 entry_addr;
 #endif
-        u32 *table_base;
-        high_mask = 0x00FFFFFF;
+        u32 *ot_base;
+        bit_mask = 0x00FFFFFF;
+        entry_addr = depth << 2;
 #ifdef __mips__
+   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #endif
-        entry_word = average << 2;
-#ifdef __mips__
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#endif
-        table_base = ((S_800248C8_0 *)scratch)->unk_18;
-#ifdef __mips__
-#endif
-        average = 0xFF000000;
-#ifdef __mips__
-#endif
-        entry_word += (u32)table_base;
-#ifdef __mips__
-#endif
+        ot_base = ((S_800248C8_0 *)scratch)->unk_18;
+        depth = 0xFF000000;
+        entry_addr += (u32)ot_base;
         ((S_800248C8_2 *)packet)->unk_00.at00.v =
-            (((S_800248C8_2 *)packet)->unk_00.at00.v & average) |
-            (*(u32 *)entry_word & high_mask);
+            (((S_800248C8_2 *)packet)->unk_00.at00.v & depth) |
+            (*(u32 *)entry_addr & bit_mask);
 
         index = ((S_800248C8_0 *)scratch)->unk_B4;
         ordering_table = ((S_800248C8_0 *)scratch)->unk_18;
         ordering_table[index] =
-            (ordering_table[index] & average) |
-            ((u32)packet & high_mask);
+            (ordering_table[index] & depth) |
+            ((u32)packet & bit_mask);
     }
 
     result = 0;
-#ifdef __mips__
-#endif
     return result;
 }
 
 /* MECHANISM: The 0x28 frame holds s3=scratchpad, s2=packet, and s1/s0 call bases.
-   Guarded temporary pins reproduce the packed-delta, color, and return lifetimes.
+   Guarded temporary pins reproduce the packed-coord_delta, color, and return lifetimes.
    Residue is the pooled D_80024008 switch base plus late mflo/OT coloring. */

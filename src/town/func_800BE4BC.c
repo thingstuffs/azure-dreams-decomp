@@ -57,27 +57,28 @@ extern void func_80033B78(s32 arg0);
 extern void *func_8003FD64(s32 arg0, void *arg1);
 extern u8 D_80083498[16];
 extern u8 D_800BBCA0[16];
-s32 func_800BBC1C(s32 *arg0)
+/* Creates an object and initializes its data pointer and three input values. */
+s32 func_800BBC1C(s32 *values)
 {
-  S_800BE4BC *obj;
-  u8 (*new_var4)[16];
-  S_800BE4BC *new_var3;
-  s32 *new_var2;
-  u8 (*new_var)[16];
+  S_800BE4BC *object;
+  u8 (*object_data)[16];
+  S_800BE4BC *created_object;
+  s32 *values_src;
+  u8 (*init_data)[16];
   func_80033B78(0x97);
-  new_var = &D_80083498;
-  obj = func_8003FD64(0x312, new_var);
-  new_var3 = obj;
-  if (new_var3 != 0)
+  init_data = &D_80083498;
+  object = func_8003FD64(0x312, init_data);
+  created_object = object;
+  if (created_object != 0)
   {
-    new_var4 = &D_800BBCA0;
-    obj->field_0x10 = new_var4;
-    obj->field_0x8[0] = arg0[0];
-    new_var2 = arg0;
-    obj->field_0x8[1] = new_var2[1];
-    obj->field_0x8[2] = new_var2[2];
+    object_data = &D_800BBCA0;
+    object->field_0x10 = object_data;
+    object->field_0x8[0] = values[0];
+    values_src = values;
+    object->field_0x8[1] = values_src[1];
+    object->field_0x8[2] = values_src[2];
   }
-  if (obj)
+  if (object)
   {
     return 0;
   }

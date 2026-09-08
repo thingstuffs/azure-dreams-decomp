@@ -85,71 +85,72 @@ extern u8 D_800D5594[];
 extern s8 D_800DCECC[];
 extern u8 D_800E23F0[];
 
-void func_80D3B0B8(u8 *arg0, u8 *arg1, u8 *arg2) {
-    u8 *saved_arg0 = arg0;
-    u8 *saved_arg1 = arg1;
-    u8 *saved_arg2 = arg2;
-    u8 *temp_v0;
-    register u8 *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *temp_s1;
-    u8 *base_80083160;
-    u8 *temp_v1;
-    Copy16 *var_a2;
-    Copy16 *var_a3;
-    Copy16 *var_t0;
-    u8 *table_800E23F0;
+/* Creates an owner-linked object with copied position and direction-adjusted sprite data. */
+void func_80D3B0B8(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
+    u8 *owner = owner_data;
+    u8 *position_src = source_position;
+    u8 *sprite_src = source_sprite;
+    u8 *object;
+    register u8 *object_data ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *sprite;
+    u8 *view_state;
+    u8 *position;
+    Copy16 *copy_dst;
+    Copy16 *copy_src;
+    Copy16 *copy_end;
+    u8 *direction_table;
 
-    temp_v0 = func_8003FD64(0x112, D_80083498);
-    temp_s3 = temp_v0 + 0x20;
-    if (temp_v0 != 0) {
-        ((S_80D3B0B8_0 *)temp_s3)->unk_96 = 0x78;
-        ((S_80D3B0B8_1 *)temp_v0)->unk_10 = D_800D5594;
-        ((S_80D3B0B8_0 *)temp_s3)->unk_AC = saved_arg0 - 0x20;
-        ((S_80D3B0B8_0 *)temp_s3)->unk_94 = ((S_80D3B0B8_2 *)saved_arg0)->unk_2A.s;
-        var_a3 = (Copy16 *)saved_arg2;
-        ((S_80D3B0B8_0 *)temp_s3)->unk_2A = ((S_80D3B0B8_2 *)saved_arg0)->unk_2A.s;
-        temp_s1 = ((S_80D3B0B8_1 *)temp_v0)->unk_0C;
+    object = func_8003FD64(0x112, D_80083498);
+    object_data = object + 0x20;
+    if (object != 0) {
+        ((S_80D3B0B8_0 *)object_data)->unk_96 = 0x78;
+        ((S_80D3B0B8_1 *)object)->unk_10 = D_800D5594;
+        ((S_80D3B0B8_0 *)object_data)->unk_AC = owner - 0x20;
+        ((S_80D3B0B8_0 *)object_data)->unk_94 = ((S_80D3B0B8_2 *)owner)->unk_2A.s;
+        copy_src = (Copy16 *)sprite_src;
+        ((S_80D3B0B8_0 *)object_data)->unk_2A = ((S_80D3B0B8_2 *)owner)->unk_2A.s;
+        sprite = ((S_80D3B0B8_1 *)object)->unk_0C;
 
-        var_t0 = (Copy16 *)(saved_arg2 + 0x30);
-        var_a2 = (Copy16 *)temp_s1;
+        copy_end = (Copy16 *)(sprite_src + 0x30);
+        copy_dst = (Copy16 *)sprite;
         do {
-            *var_a2 = *var_a3;
-            var_a3++;
-            var_a2++;
-        } while (var_a3 != var_t0);
-        ASM_KEEP(var_a2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            *copy_dst = *copy_src;
+            copy_src++;
+            copy_dst++;
+        } while (copy_src != copy_end);
+        ASM_KEEP(copy_dst);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        func_8004491C(temp_v0, &D_80045340);
-        table_800E23F0 = D_800E23F0;
-        ((S_80D3B0B8_3 *)temp_s1)->unk_2C = table_800E23F0;
-        base_80083160 = D_80083160;
-        func_80047784(temp_s1,
-            table_800E23F0[((((S_80D3B0B8_4 *)base_80083160)->unk_C8 +
-                ((S_80D3B0B8_2 *)saved_arg0)->unk_2A.u + 0x100) >> 9) & 7], 0);
+        func_8004491C(object, &D_80045340);
+        direction_table = D_800E23F0;
+        ((S_80D3B0B8_3 *)sprite)->unk_2C = direction_table;
+        view_state = D_80083160;
+        func_80047784(sprite,
+            direction_table[((((S_80D3B0B8_4 *)view_state)->unk_C8 +
+                ((S_80D3B0B8_2 *)owner)->unk_2A.u + 0x100) >> 9) & 7], 0);
 
-        temp_v1 = ((S_80D3B0B8_1 *)temp_v0)->unk_08;
-        ((S_80D3B0B8_5 *)temp_v1)->unk_02 = ((S_80D3B0B8_6 *)saved_arg1)->unk_02;
-        ((S_80D3B0B8_5 *)temp_v1)->unk_06 = ((S_80D3B0B8_6 *)saved_arg1)->unk_06;
-        ((S_80D3B0B8_5 *)temp_v1)->unk_0A = ((S_80D3B0B8_6 *)saved_arg1)->unk_0A;
+        position = ((S_80D3B0B8_1 *)object)->unk_08;
+        ((S_80D3B0B8_5 *)position)->unk_02 = ((S_80D3B0B8_6 *)position_src)->unk_02;
+        ((S_80D3B0B8_5 *)position)->unk_06 = ((S_80D3B0B8_6 *)position_src)->unk_06;
+        ((S_80D3B0B8_5 *)position)->unk_0A = ((S_80D3B0B8_6 *)position_src)->unk_0A;
         {
-            u16 field_1c;
-            u16 field_1e;
+            u16 sprite_field_1c;
+            u16 sprite_field_1e;
 
-            field_1c = ((S_80D3B0B8_7 *)saved_arg2)->unk_1C;
-            ((S_80D3B0B8_3 *)temp_s1)->unk_1C = field_1c;
-            field_1e = ((S_80D3B0B8_7 *)saved_arg2)->unk_1E;
-            ((S_80D3B0B8_3 *)temp_s1)->unk_0E = 0x80;
-            ((S_80D3B0B8_3 *)temp_s1)->unk_0D = 0x80;
-            ((S_80D3B0B8_3 *)temp_s1)->unk_0C = 0x80;
-            ((S_80D3B0B8_3 *)temp_s1)->unk_1E = field_1e;
+            sprite_field_1c = ((S_80D3B0B8_7 *)sprite_src)->unk_1C;
+            ((S_80D3B0B8_3 *)sprite)->unk_1C = sprite_field_1c;
+            sprite_field_1e = ((S_80D3B0B8_7 *)sprite_src)->unk_1E;
+            ((S_80D3B0B8_3 *)sprite)->unk_0E = 0x80;
+            ((S_80D3B0B8_3 *)sprite)->unk_0D = 0x80;
+            ((S_80D3B0B8_3 *)sprite)->unk_0C = 0x80;
+            ((S_80D3B0B8_3 *)sprite)->unk_1E = sprite_field_1e;
         }
-        ((S_80D3B0B8_3 *)temp_s1)->unk_06 =
-            D_800DCECC[((((S_80D3B0B8_4 *)base_80083160)->unk_C8 +
-                ((S_80D3B0B8_2 *)saved_arg0)->unk_2A.u + 0x100) >> 9) & 7] * 4;
-        ((S_80D3B0B8_2 *)saved_arg0)->unk_B0++;
-        func_800BC26C(temp_v0, 0, temp_s1 + 0x2C, temp_s3 + 0x2A);
-        ASM_KEEP(saved_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(saved_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(saved_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ((S_80D3B0B8_3 *)sprite)->unk_06 =
+            D_800DCECC[((((S_80D3B0B8_4 *)view_state)->unk_C8 +
+                ((S_80D3B0B8_2 *)owner)->unk_2A.u + 0x100) >> 9) & 7] * 4;
+        ((S_80D3B0B8_2 *)owner)->unk_B0++;
+        func_800BC26C(object, 0, sprite + 0x2C, object_data + 0x2A);
+        ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(position_src);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(sprite_src);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }

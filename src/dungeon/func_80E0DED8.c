@@ -47,57 +47,58 @@ extern s16 D_80083228;
 extern u16 D_80083462;
 extern u8 D_80176460[8];
 
-void func_801716D8(void *arg0, void *arg1, void *arg2, void *arg3) {
-    M2C_UNK var_a2;
-    M2C_UNK var_a2_2;
-    s16 temp_v0_2;
-    register s32 temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temp_s1;
-    s32 temp_s2;
+/* Advance the entity along its stored path and update its heading and movement timing. */
+void func_801716D8(void *motion, void *unused, void *entity, void *path_state) {
+    M2C_UNK old_cell_mask;
+    M2C_UNK new_cell_mask;
+    s16 heading;
+    register s32 step_count ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 old_x;
+    s32 old_y;
     s32 next_x;
     s32 next_y;
-    s32 next_flag;
-    void *temp_v0;
-    void *state = arg3;
+    s32 move_flag;
+    void *path_step;
+    void *state = path_state;
 
     if ((((S_801716D8_0 *)state)->unk_71 > 0) && ((s32) (u8) ((S_801716D8_0 *)state)->unk_71 > ((S_801716D8_0 *)state)->unk_8A)) {
-        if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pv != D_80176460) {
-            (*(void **)((u8 *)arg2 + 0x2C)) = D_80176460;
-            func_80047784(arg2, D_80176460[((D_80083228 + ((S_801716D8_0 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
+        if (((Rec_D_80082E80 *)entity)->unk_2C.as_pv != D_80176460) {
+            (*(void **)((u8 *)entity + 0x2C)) = D_80176460;
+            func_80047784(entity, D_80176460[((D_80083228 + ((S_801716D8_0 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
         }
-        temp_s1 = ((Rec_D_80082E80 *)arg2)->unk_24;
-        temp_s2 = ((Rec_D_80082E80 *)arg2)->unk_25;
-        var_a2 = 0x3000;
+        old_x = ((Rec_D_80082E80 *)entity)->unk_24;
+        old_y = ((Rec_D_80082E80 *)entity)->unk_25;
+        old_cell_mask = 0x3000;
         if (((S_801716D8_0 *)state)->unk_1C & 0x2000) {
-            var_a2 = 0x300;
+            old_cell_mask = 0x300;
         }
-        func_8009A3D0(temp_s1, temp_s2, var_a2);
-        temp_v0 = state + ((S_801716D8_0 *)state)->unk_8A;
-        temp_v0_2 = func_800A0818(temp_s1, temp_s2, ((S_801716D8_2 *)temp_v0)->unk_74, ((S_801716D8_2 *)temp_v0)->unk_7C, arg0 + 0x98);
-        func_8009A66C(temp_v0_2, arg2, state, 0x20);
-        ((Rec_D_80082E80 *)arg2)->unk_24 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_74;
-        ((Rec_D_80082E80 *)arg2)->unk_25 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_7C;
+        func_8009A3D0(old_x, old_y, old_cell_mask);
+        path_step = state + ((S_801716D8_0 *)state)->unk_8A;
+        heading = func_800A0818(old_x, old_y, ((S_801716D8_2 *)path_step)->unk_74, ((S_801716D8_2 *)path_step)->unk_7C, motion + 0x98);
+        func_8009A66C(heading, entity, state, 0x20);
+        ((Rec_D_80082E80 *)entity)->unk_24 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_74;
+        ((Rec_D_80082E80 *)entity)->unk_25 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_7C;
         ((S_801716D8_0 *)state)->unk_8A = (s16) ((u16) ((S_801716D8_0 *)state)->unk_8A + 1);
-        next_flag = ((S_801716D8_0 *)state)->unk_1C & 0x2000;
-        next_x = ((Rec_D_80082E80 *)arg2)->unk_24;
-        next_y = ((Rec_D_80082E80 *)arg2)->unk_25;
-        var_a2_2 = 0x3000;
-        if (next_flag) {
-            var_a2_2 = 0x300;
+        move_flag = ((S_801716D8_0 *)state)->unk_1C & 0x2000;
+        next_x = ((Rec_D_80082E80 *)entity)->unk_24;
+        next_y = ((Rec_D_80082E80 *)entity)->unk_25;
+        new_cell_mask = 0x3000;
+        if (move_flag) {
+            new_cell_mask = 0x300;
         }
-        func_8009A21C(next_x, next_y, var_a2_2);
-        ((S_801716D8_0 *)state)->unk_2A = temp_v0_2;
-        ((S_801716D8_3 *)arg0)->unk_9A = 0xF;
-        ((S_801716D8_3 *)arg0)->unk_8C = 0;
+        func_8009A21C(next_x, next_y, new_cell_mask);
+        ((S_801716D8_0 *)state)->unk_2A = heading;
+        ((S_801716D8_3 *)motion)->unk_9A = 0xF;
+        ((S_801716D8_3 *)motion)->unk_8C = 0;
         (*(s32 *)((u8 *)state + 0x1C)) = (s32) (((S_801716D8_0 *)state)->unk_1C | 0x40000000);
         if (D_80083462 & 0x80) {
-            ((S_801716D8_3 *)arg0)->unk_96 = 0;
+            ((S_801716D8_3 *)motion)->unk_96 = 0;
             return;
         }
-        ((S_801716D8_3 *)arg0)->unk_96 = 8;
-        temp_a2 = (u8) ((S_801716D8_0 *)state)->unk_71;
-        if ((s32) temp_a2 > 0) {
-            ((S_801716D8_3 *)arg0)->unk_96 = (s16) (8 / (s32) temp_a2);
+        ((S_801716D8_3 *)motion)->unk_96 = 8;
+        step_count = (u8) ((S_801716D8_0 *)state)->unk_71;
+        if ((s32) step_count > 0) {
+            ((S_801716D8_3 *)motion)->unk_96 = (s16) (8 / (s32) step_count);
         }
     }
     ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */

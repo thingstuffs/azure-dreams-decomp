@@ -43,30 +43,30 @@ typedef struct S_800C22EC_3 {
     u8 unk_29;
 } S_800C22EC_3;   /* temp_s0 in func_800C22EC */
 
-s32 func_800C22EC(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, M2C_UNK arg3) {
-    s32 temp_v1;
-    s32 mask;
-    s32 var_s2;
-    S_800C22EC_2 *temp_a0;
-    S_800C22EC_3 *temp_s0;
+/* Processes an entity action and updates the selected target or reports failure. */
+s32 func_800C22EC(Rec_D_800E3D7C *entity, s32 action, s16 action_type, M2C_UNK context) {
+    s32 target_index;
+    s32 flags_mask;
+    s32 target_updated;
+    S_800C22EC_2 *selection;
+    S_800C22EC_3 *target;
 
-    var_s2 = 0;
-    if (arg2 == 0xD) {
-        return func_80098864(arg1, arg3);
+    target_updated = 0;
+    if (action_type == 0xD) {
+        return func_80098864(action, context);
     }
-    if (arg0 == D_800E3D7C) {
-        arg0->unk_110 = arg1;
-        func_8008D344(arg0, &D_80083780, &D_80082E80, arg0);
+    if (entity == D_800E3D7C) {
+        entity->unk_110 = action;
+        func_8008D344(entity, &D_80083780, &D_80082E80, entity);
         return 0;
     }
-    if ((u32) arg0 <= 0x9FFFFFFFU) {
-        func_800A63B8(arg0, arg1, arg2);
-        if (func_800AD6FC(arg0, ((u16 *)D_800DDE84)[arg0->unk_10.at03_u8.v] & 3, 0) == 0) {
-            func_800A5F38(arg0, arg1);
+    if ((u32) entity <= 0x9FFFFFFFU) {
+        func_800A63B8(entity, action, action_type);
+        if (func_800AD6FC(entity, ((u16 *)D_800DDE84)[entity->unk_10.at03_u8.v] & 3, 0) == 0) {
+            func_800A5F38(entity, action);
             return 1;
         }
-        /* Duplicate return node #16. Try simplifying control flow for better match */
-        func_80098B38(arg1);
+        func_80098B38(action);
         {
             void *counter;
 
@@ -75,28 +75,28 @@ s32 func_800C22EC(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, M2C_UNK arg3) {
         }
         return 1;
     }
-    temp_a0 = *(void **)((u8 *)&D_80082E80 + 0x34);
-    if (temp_a0->unk_01 == 0x13) {
-        temp_v1 = temp_a0->unk_03 & 0x1F;
-        if (temp_v1 < 0x14) {
-            temp_s0 = D_800E3DF0[temp_v1];
-            if ((func_80042900(temp_s0, 0xE, arg2) << 0x10) != 0) {
-                register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    selection = *(void **)((u8 *)&D_80082E80 + 0x34);
+    if (selection->unk_01 == 0x13) {
+        target_index = selection->unk_03 & 0x1F;
+        if (target_index < 0x14) {
+            target = D_800E3DF0[target_index];
+            if ((func_80042900(target, 0xE, action_type) << 0x10) != 0) {
+                register void *update_target ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-                mask = 0xFBFFFFFF;
-                call_a0 = temp_s0;
-                temp_s0->unk_28 = (s8) (((u8) temp_s0->unk_29 >> 1) + 1);
-                temp_s0->unk_1C = (s32) (temp_s0->unk_1C & mask);
-                var_s2 = 1;
-                func_80041E70(call_a0);
-                func_80099844(temp_s0, &D_800E1580);
+                flags_mask = 0xFBFFFFFF;
+                update_target = target;
+                target->unk_28 = (s8) (((u8) target->unk_29 >> 1) + 1);
+                target->unk_1C = (s32) (target->unk_1C & flags_mask);
+                target_updated = 1;
+                func_80041E70(update_target);
+                func_80099844(target, &D_800E1580);
             }
         }
     }
-    if (var_s2 == 0) {
+    if (target_updated == 0) {
         func_800997FC(&D_800E15A2);
     }
-    func_80098B38(arg1);
+    func_80098B38(action);
     {
         void *counter;
 
@@ -105,7 +105,3 @@ s32 func_800C22EC(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, M2C_UNK arg3) {
     }
     return 1;
 }
-
-/* MECHANISM: The natural arg0/arg1/status lifetimes produce retail's 0x20 frame and s0-s2 saves.
-   Exact callee arity plus typed u16/pointer tables recover the call schedule and table strides.
-   Scoped a0 pins hold the fixup call argument and D_80083460 tail base without backend fences. */

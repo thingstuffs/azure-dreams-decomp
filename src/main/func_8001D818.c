@@ -1,25 +1,26 @@
 #include "common.h"
 
-void *func_8001D818(u8 *a0) {
-    s32 t0;
-    s32 t1;
-    s32 t2;
-    void *ret;
+// Initializes two adjacent records with global values and fixed fields, returning the end pointer.
+void *func_8001D818(u8 *record) {
+    s32 recordWord8;
+    s32 recordWord4;
+    s32 recordWordC;
+    void *end;
 
-    *(a0 + 1) = 0xB0;
-    t0 = *(s32 *)0x80408CD0;
-    *(s32 *)(a0 + 8) = t0;
-    t1 = *(s32 *)0x80408CD8;
-    t2 = *(s32 *)0x80408CD4;
-    *(a0 + 1) = *(a0 + 1) | 2;
-    *a0 = *a0 | 0x40;
-    *(s32 *)(a0 + 4) = t1;
-    *(s32 *)(a0 + 0xC) = t2;
-    a0 = a0 + 24;
-    *(a0 + 1) = 0x81;
-    *(s16 *)(a0 + 4) = 0x20;
-    ret = a0 + 0xC;
-    *(s16 *)(a0 + 6) = 0;
-    *a0 = *a0 | 0x80;
-    return ret;
+    *(record + 1) = 0xB0;
+    recordWord8 = *(s32 *)0x80408CD0;
+    *(s32 *)(record + 8) = recordWord8;
+    recordWord4 = *(s32 *)0x80408CD8;
+    recordWordC = *(s32 *)0x80408CD4;
+    *(record + 1) = *(record + 1) | 2;
+    *record = *record | 0x40;
+    *(s32 *)(record + 4) = recordWord4;
+    *(s32 *)(record + 0xC) = recordWordC;
+    record = record + 24;
+    *(record + 1) = 0x81;
+    *(s16 *)(record + 4) = 0x20;
+    end = record + 0xC;
+    *(s16 *)(record + 6) = 0;
+    *record = *record | 0x80;
+    return end;
 }

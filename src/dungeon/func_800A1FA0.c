@@ -24,19 +24,20 @@ extern u8 D_80083498[];
 extern M2C_UNK D_800A7548;
 extern DungeonDescriptor *func_800A8608(u8 *, s32 *, s32, s32, s32);
 
-DungeonDescriptor *func_800A7700(s32 arg0, s32 arg1, s32 arg2, s32 *arg3) {
+/* Create a dungeon descriptor centered on the given tile at the specified z coordinate. */
+DungeonDescriptor *func_800A7700(s32 tile_x, s32 tile_y, s32 z, s32 *init_data) {
     DungeonDescriptor *descriptor;
     DungeonInner *inner;
 
-    descriptor = func_800A8608(D_80083498, arg3, 0, 0, 0);
+    descriptor = func_800A8608(D_80083498, init_data, 0, 0, 0);
     if (descriptor == 0) {
         return 0;
     }
     descriptor->field10 = &D_800A7548;
     inner = descriptor->inner;
-    inner->x = (s16)((arg0 << 6) + 0x20);
-    inner->y = (s16)((arg1 << 6) + 0x20);
-    inner->z = (s16)arg2;
-    descriptor->fieldB8 = *arg3;
+    inner->x = (s16)((tile_x << 6) + 0x20);
+    inner->y = (s16)((tile_y << 6) + 0x20);
+    inner->z = (s16)z;
+    descriptor->fieldB8 = *init_data;
     return descriptor;
 }

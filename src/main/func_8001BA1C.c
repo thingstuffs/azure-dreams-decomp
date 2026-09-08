@@ -13,84 +13,85 @@ typedef struct S_80402A1C_0 {
     u32 unk_1C;
 } S_80402A1C_0;   /* arg1 in func_80402A1C */
 
-void *func_80402A1C(void *arg0, S_80402A1C_0 *arg1) {
-    M2C_UNK sp0;
-    M2C_UNK sp4;
-    s32 temp_v0;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s32 second_p10;
-    u32 temp_a0;
-    u32 temp_a2;
-    u32 temp_t3;
-    u32 temp_t4;
-    s32 first_shifted;
-    u32 constant48;
-    u32 constant101010;
-    u8 *var_t1;
-    u8 temp_v0_2;
-    u8 *var_a3;
-    u8 *var_t0;
+/* Builds four groups of drawing commands sized from the selected layout. */
+void *func_80402A1C(void *buffer, S_80402A1C_0 *layout) {
+    M2C_UNK command_ids;
+    M2C_UNK ids_limit;
+    s32 width_extent;
+    s32 layout_offset;
+    s32 height_extent;
+    s32 outer_height;
+    u32 height;
+    u32 width;
+    u32 half_height;
+    u32 half_width;
+    s32 outer_half_width;
+    u32 opcode;
+    u32 shade;
+    u8 *id_ptr;
+    u8 command_id;
+    u8 *size_ptr;
+    u8 *write_ptr;
     u8 *stack_end;
 
-    var_t0 = (u8 *)arg0;
-    memcpy(&sp0, D_80400000 + 0x544, 4);
+    write_ptr = (u8 *)buffer;
+    memcpy(&command_ids, D_80400000 + 0x544, 4);
     do {
-        constant48 = 0x48;
+        opcode = 0x48;
     } while (0);
-    constant101010 = 0x101010;
-    var_t1 = (u8 *)&sp0;
-    stack_end = (u8 *)&sp4;
-    temp_v1 = arg1->unk_08 * 4;
-    var_a3 = var_t0 + 0xB;
-    temp_v0 = D_80408ADC[temp_v1] * 0xC;
-    temp_a2 = temp_v0 + 8;
-    temp_v1_2 = D_80408ADC[temp_v1 + 1] * 0x11;
-    temp_t4 = temp_a2 >> 1;
-    arg1->unk_18 = temp_a2;
-    temp_a0 = temp_v1_2 + 8;
-    temp_t3 = temp_a0 >> 1;
-    temp_v0 += 0xA;
-    first_shifted = (s32)temp_v0 >> 1;
+    shade = 0x101010;
+    id_ptr = (u8 *)&command_ids;
+    stack_end = (u8 *)&ids_limit;
+    layout_offset = layout->unk_08 * 4;
+    size_ptr = write_ptr + 0xB;
+    width_extent = D_80408ADC[layout_offset] * 0xC;
+    width = width_extent + 8;
+    height_extent = D_80408ADC[layout_offset + 1] * 0x11;
+    half_width = width >> 1;
+    layout->unk_18 = width;
+    height = height_extent + 8;
+    half_height = height >> 1;
+    width_extent += 0xA;
+    outer_half_width = (s32)width_extent >> 1;
     do {
         do {
-            second_p10 = temp_v1_2 + 0xA;
+            outer_height = height_extent + 0xA;
         } while (0);
     } while (0);
-    arg1->unk_1C = temp_a0;
+    layout->unk_1C = height;
 loop:
         do {
-            var_a3[-1] = (u8)temp_t4;
-            var_a3[0] = (u8)temp_t3;
-            var_a3[-0xA] = (u8)constant48;
-            *(u32 *)(var_a3 - 7) = constant101010;
-            var_a3 += 0xC;
-            var_t0[0] = *var_t1;
-            var_t0 += 0xC;
-            var_a3[-1] = (u8)first_shifted;
-            var_a3[0] = (u8)((u32)second_p10 >> 1);
-            var_a3[-0xA] = (u8)constant48;
-            *(u32 *)(var_a3 - 7) = constant101010;
-            temp_v0_2 = *var_t1;
-            var_a3 += 0xC;
-            var_t0[0] = temp_v0_2;
-            var_t0 += 0xC;
-            memcpy(var_t0, D_80410000 - 0x7394, 0x18);
-            *(u32 *)(var_a3 - 7) = 0x30BFC0;
-            *(u32 *)(var_a3 + 1) = 0x30BFC0;
-            *(u32 *)(var_a3 + 5) = 0x30BFC0;
-            *(u32 *)(var_a3 + 9) = 0x30BFC0;
-            var_a3[-1] = (u8)temp_t4;
-            var_a3[0] = (u8)temp_t3;
-            var_a3 += 0x18;
-            temp_v0_2 = *var_t1;
-            var_t1 += 1;
-            var_t0[0] = temp_v0_2;
-            var_t0 += 0x18;
+            size_ptr[-1] = (u8)half_width;
+            size_ptr[0] = (u8)half_height;
+            size_ptr[-0xA] = (u8)opcode;
+            *(u32 *)(size_ptr - 7) = shade;
+            size_ptr += 0xC;
+            write_ptr[0] = *id_ptr;
+            write_ptr += 0xC;
+            size_ptr[-1] = (u8)outer_half_width;
+            size_ptr[0] = (u8)((u32)outer_height >> 1);
+            size_ptr[-0xA] = (u8)opcode;
+            *(u32 *)(size_ptr - 7) = shade;
+            command_id = *id_ptr;
+            size_ptr += 0xC;
+            write_ptr[0] = command_id;
+            write_ptr += 0xC;
+            memcpy(write_ptr, D_80410000 - 0x7394, 0x18);
+            *(u32 *)(size_ptr - 7) = 0x30BFC0;
+            *(u32 *)(size_ptr + 1) = 0x30BFC0;
+            *(u32 *)(size_ptr + 5) = 0x30BFC0;
+            *(u32 *)(size_ptr + 9) = 0x30BFC0;
+            size_ptr[-1] = (u8)half_width;
+            size_ptr[0] = (u8)half_height;
+            size_ptr += 0x18;
+            command_id = *id_ptr;
+            id_ptr += 1;
+            write_ptr[0] = command_id;
+            write_ptr += 0x18;
         } while (0);
-    if ((s32)var_t1 < (s32)stack_end)
+    if ((s32)id_ptr < (s32)stack_end)
         goto loop;
     ASM_SET(stack_end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    var_t0[-0x18] |= 0x80;
-    return var_t0;
+    write_ptr[-0x18] |= 0x80;
+    return write_ptr;
 }

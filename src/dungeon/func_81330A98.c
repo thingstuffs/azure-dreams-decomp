@@ -50,40 +50,38 @@ typedef struct S_80167A98_2 {
 
 
 
-void func_80167A98(Rec_func_80167A98_arg0 *arg0, Rec_func_80167A98_arg1 *arg1) {
-    S_80167A98_2 *temp_a1;
-    S_80167A98_1 *temp_s0;
-    S_80167A98_0 *temp_v0;
+/* Creates a visual object with a source-indexed position offset and appearance. */
+void func_80167A98(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin) {
+    S_80167A98_2 *position;
+    S_80167A98_1 *render_state;
+    S_80167A98_0 *object;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_80167A2C;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s0 = temp_v0->unk_0C;
-        temp_s0->unk_10 = 0x20;
-        temp_s0->unk_06 = 0;
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-        temp_a1 = temp_v0->unk_08;
-        temp_a1->unk_00 = arg1->unk_00 + (D_80175DD8[arg0->unk_1C].x << 0x11);
-        temp_a1->unk_04 = arg1->unk_04 + (D_80175DD8[arg0->unk_1C].y << 0x11);
-        temp_a1->unk_08 = arg1->unk_08 + (D_80175DD8[arg0->unk_1C].z << 0x11);
-        temp_s0 = temp_v0->unk_0C;
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        if (arg0->unk_1C == 0) {
-            func_8003DB94(temp_s0, &D_800DE870, 0);
+    object = func_8003FC64(0x212);
+    if (object != NULL) {
+        object->unk_10 = &D_80167A2C;
+        func_8004491C(object, &D_80045340);
+        render_state = object->unk_0C;
+        render_state->unk_10 = 0x20;
+        render_state->unk_06 = 0;
+        render_state->unk_14 = (u16) (render_state->unk_14 | 0xC);
+        position = object->unk_08;
+        position->unk_00 = origin->unk_00 + (D_80175DD8[source->unk_1C].x << 0x11);
+        position->unk_04 = origin->unk_04 + (D_80175DD8[source->unk_1C].y << 0x11);
+        position->unk_08 = origin->unk_08 + (D_80175DD8[source->unk_1C].z << 0x11);
+        render_state = object->unk_0C;
+        render_state->unk_1E = 0x1000;
+        render_state->unk_1C = 0x1000;
+        render_state->unk_0E = 0x80;
+        render_state->unk_0D = 0x80;
+        render_state->unk_0C = 0x80;
+        if (source->unk_1C == 0) {
+            func_8003DB94(render_state, &D_800DE870, 0);
         }
-        if (arg0->unk_1C == 1) {
-            func_8003DB94(temp_s0, &D_800DEE38, 0);
+        if (source->unk_1C == 1) {
+            func_8003DB94(render_state, &D_800DEE38, 0);
         }
-        if (arg0->unk_1C == 2) {
-            func_8003DB94(temp_s0, &D_800DEDB0, 0);
+        if (source->unk_1C == 2) {
+            func_8003DB94(render_state, &D_800DEDB0, 0);
         }
     }
 }
-/* MECHANISM: One reassigned temp_s0 spans both object-load regions, naturally forcing
-   retail's 0x28 frame and s0-s3 hold set. A 0x60 signed-halfword table restores the
-   index/load sequence, and u8 fields preserve the 0x80 materialization. */

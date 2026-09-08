@@ -15,28 +15,29 @@ typedef struct S_8008C420_1 {
     s32 unk_08;
 } S_8008C420_1;   /* temp_s0 in func_8008C420 */
 
-s16 func_8008C420(S_8008C420_0 *arg0, s32 arg1, s32 arg2) {
-    s32 sp[5];
-    s32 temp_v0;
-    s32 temp_a2;
-    s32 temp_v1;
-    s32 var_v0_2;
-    S_8008C420_1 *temp_s0;
+/* Queries the combined position and subtracts the offset's integer Z component. */
+s16 func_8008C420(S_8008C420_0 *origin, s32 offset_table, s32 offset_index) {
+    s32 position[5];
+    s32 query_result;
+    s32 offset_bytes;
+    s32 offset_z;
+    s32 offset_z_int;
+    S_8008C420_1 *offset;
 
-    temp_a2 = arg2 * 0x10;
-    temp_s0 = temp_a2 + arg1;
-    sp[0] = arg0->unk_00 + temp_s0->unk_00;
-    sp[1] = arg0->unk_04 + temp_s0->unk_04;
-    sp[2] = arg0->unk_08 + temp_s0->unk_08;
-    temp_v0 = func_8008CF80(sp);
-    if ((s16) temp_v0 == -0x7FFF) {
+    offset_bytes = offset_index * 0x10;
+    offset = offset_bytes + offset_table;
+    position[0] = origin->unk_00 + offset->unk_00;
+    position[1] = origin->unk_04 + offset->unk_04;
+    position[2] = origin->unk_08 + offset->unk_08;
+    query_result = func_8008CF80(position);
+    if ((s16) query_result == -0x7FFF) {
         return -0x7FFF;
     }
-    temp_v1 = temp_s0->unk_08;
-    var_v0_2 = temp_v1 >> 0x10;
-    if (temp_v1 < 0) {
-        temp_v1 += 0xFFFF;
-        var_v0_2 = temp_v1 >> 0x10;
+    offset_z = offset->unk_08;
+    offset_z_int = offset_z >> 0x10;
+    if (offset_z < 0) {
+        offset_z += 0xFFFF;
+        offset_z_int = offset_z >> 0x10;
     }
-    return temp_v0 - var_v0_2;
+    return query_result - offset_z_int;
 }

@@ -17,26 +17,27 @@ typedef struct S_80F8ADE0_0 {
 
 extern s32 D_800814A0[3];
 
-void func_80F8ADE0(void *arg0) {
-    u16 temp_v0;
-    u16 var_a1;
+/* Advances a timed state sequence and sets flags when it reaches stage 15. */
+void func_80F8ADE0(void *state) {
+    u16 ticks_left;
+    u16 next_delay;
 
-    if (((S_80F8ADE0_0 *)arg0)->unk_4C == 8) {
-        ((S_80F8ADE0_0 *)arg0)->unk_58 = (s32) (((S_80F8ADE0_0 *)arg0)->unk_58 + 8);
+    if (((S_80F8ADE0_0 *)state)->unk_4C == 8) {
+        ((S_80F8ADE0_0 *)state)->unk_58 = (s32) (((S_80F8ADE0_0 *)state)->unk_58 + 8);
     }
-    temp_v0 = ((S_80F8ADE0_0 *)arg0)->unk_48 - 1;
-    ((S_80F8ADE0_0 *)arg0)->unk_48 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        var_a1 = 1;
-        if (((S_80F8ADE0_0 *)arg0)->unk_4C == 7) {
-            var_a1 = 0xA;
+    ticks_left = ((S_80F8ADE0_0 *)state)->unk_48 - 1;
+    ((S_80F8ADE0_0 *)state)->unk_48 = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        next_delay = 1;
+        if (((S_80F8ADE0_0 *)state)->unk_4C == 7) {
+            next_delay = 0xA;
         }
-        ((S_80F8ADE0_0 *)arg0)->unk_48 = var_a1;
-        ((S_80F8ADE0_0 *)arg0)->unk_58 = (s32) ((((S_80F8ADE0_0 *)arg0)->unk_58 == 0) << 7);
-        ((S_80F8ADE0_0 *)arg0)->unk_4C = (s16) ((u16) ((S_80F8ADE0_0 *)arg0)->unk_4C + 1);
+        ((S_80F8ADE0_0 *)state)->unk_48 = next_delay;
+        ((S_80F8ADE0_0 *)state)->unk_58 = (s32) ((((S_80F8ADE0_0 *)state)->unk_58 == 0) << 7);
+        ((S_80F8ADE0_0 *)state)->unk_4C = (s16) ((u16) ((S_80F8ADE0_0 *)state)->unk_4C + 1);
     }
-    if (((S_80F8ADE0_0 *)arg0)->unk_4C == 0xF) {
-        ((S_80F8ADE0_0_pre *)arg0)[-1].unk_00 = (u16) (((S_80F8ADE0_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    if (((S_80F8ADE0_0 *)state)->unk_4C == 0xF) {
+        ((S_80F8ADE0_0_pre *)state)[-1].unk_00 = (u16) (((S_80F8ADE0_0_pre *)state)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

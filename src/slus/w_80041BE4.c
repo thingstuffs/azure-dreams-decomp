@@ -1,8 +1,5 @@
 #include "common.h"
 
-/* If D_80082E6E is set, ensures the current state-table slot has a value
-   (allocating one via func_8003F794(6, 8) if not), then registers
-   func_80041C64 as the next state callback. Otherwise calls func_8003D92C. */
 typedef struct S_80083120 {
     s16 field0;
     s16 field2;
@@ -20,6 +17,7 @@ extern s16 func_8003F794(s32 a0, s32 a1);
 extern void func_80040A88(int a0);
 extern void func_80041C64(void);
 
+/* If enabled, allocates a state slot as needed and registers the next callback; otherwise calls func_8003D92C. */
 void func_80041BE4(void)
 {
     func_80041CBC();

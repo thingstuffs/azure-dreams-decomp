@@ -1,10 +1,5 @@
 #include "common.h"
 
-/* Initialise the double-buffered draw/display environments for the 320x224
- * (0x140 x 0xE0) NTSC screen, then patch each DISPENV's screen RECT (y, h) to
- * the standard 12/224 offsets and force isbg=1 on both DRAWENVs. */
-#include "common.h"
-
 /* GsWORK-like graphics-environment block: DRAWENV-shaped header (0x00-0x5B,
  * padded to 0x5C in this build) + DISPENV-shaped header (0x5C-0x6F), followed
  * by a huge OT/primitive packet buffer (not modelled -- accessed only via raw
@@ -33,23 +28,24 @@ extern s32 D_801DA72C[3];          /* buffer-1-adjacent flag; >8B decl forces hi
 extern void *SetDefDrawEnv(void *env, s32 x, s32 y, s32 w, s32 h);
 extern void *SetDefDispEnv(void *env, s32 x, s32 y, s32 w, s32 h);
 
+/* Initialise double-buffered draw/display environments for a 320x224 screen with background clearing. */
 void func_8003D7DC(void)
 {
-    u8 *base = (u8 *)&D_801C9E40;
-    s32 x = 0;
-    s32 h1 = 0xE0;
-    s32 h2 = 0xF0;
+    u8 *env_base = (u8 *)&D_801C9E40;
+    s32 origin = 0;
+    s32 draw_height = 0xE0;
+    s32 disp_height = 0xF0;
 
-    SetDefDrawEnv(base, x, x, 0x140, h1);
-    SetDefDrawEnv(&D_801DA714, x, h1, 0x140, h1);
-    SetDefDispEnv(base + 0x5C, x, h1, 0x140, h2);
-    SetDefDispEnv((u8 *)&D_801DA714 + 0x5C, x, x, 0x140, h2);
+    SetDefDrawEnv(env_base, origin, origin, 0x140, draw_height);
+    SetDefDrawEnv(&D_801DA714, origin, draw_height, 0x140, draw_height);
+    SetDefDispEnv(env_base + 0x5C, origin, draw_height, 0x140, disp_height);
+    SetDefDispEnv((u8 *)&D_801DA714 + 0x5C, origin, origin, 0x140, disp_height);
 
-    *(s16 *)(base + 0x1093A) = 0xC;
-    *(s16 *)(base + 0x66) = 0xC;
-    *(s16 *)(base + 0x1093E) = h1;
-    *(s16 *)(base + 0x6A) = h1;
+    *(s16 *)(env_base + 0x1093A) = 0xC;
+    *(s16 *)(env_base + 0x66) = 0xC;
+    *(s16 *)(env_base + 0x1093E) = draw_height;
+    *(s16 *)(env_base + 0x6A) = draw_height;
 
     D_801DA72C[0] = 1;
-    *(s32 *)(base + 0x18) = 1;
+    *(s32 *)(env_base + 0x18) = 1;
 }

@@ -77,59 +77,60 @@ extern void *func_800D1C70(u8, s16, s16, s16);
 extern void func_80042640(void *, s32);
 extern s32 func_800A6D30(void);
 
-void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
+/* Updates the effect's launch, travel, impact, and cleanup states. */
+void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *color_part)
 {
     EffectState *state;
     Motion *motion;
     ColorPart *part;
     void *owner;
-    void *meta;
-    void *node;
-    void *source;
+    void *owner_data;
+    void *owner_node;
+    void *owner_motion;
     Scratch scratch;
     register u8 *origin;
-    register s32 work_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 in_range ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 target_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 height_valid ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 state_id;
     s32 source_z;
     s32 adjusted_z;
-    s16 *work;
-    void *effect;
+    s16 *target_pos;
+    void *spawned_effect;
 
-    state = arg0;
-    motion = arg1;
+    state = effect_state;
+    motion = effect_motion;
     state->timer++;
     state_id = state->state;
     owner = state->owner;
-    part = arg2;
+    part = color_part;
     switch (state_id) {
     case 0:
         origin = D_80082E80_early;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         {
-            register u32 work_v0 ASM_REG("$2") =
+            register u32 lookup_addr ASM_REG("$2") =
                 (u32)PTR_AT((u8 *)owner - 0x20, 0xC);
-            register s32 start_x ASM_REG("$4") = U8_AT(work_v0, 0x24);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            register s32 start_y ASM_REG("$5") = U8_AT(work_v0, 0x25);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            register s32 start_x ASM_REG("$4") = U8_AT(lookup_addr, 0x24);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            register s32 start_y ASM_REG("$5") = U8_AT(lookup_addr, 0x25);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             u32 origin_x;
-            register u32 base_x ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            u32 chain_x;
-            u32 chain_y;
+            register u32 x_offsets ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            u32 step_x;
+            u32 step_y;
 
-            base_x = (u32)D_8006CCD8_early;
-            work_v0 = (u32)D_800814A8_early[0];
-            chain_y = U16_AT(work_v0, 0x2A);
+            x_offsets = (u32)D_8006CCD8_early;
+            lookup_addr = (u32)D_800814A8_early[0];
+            step_y = U16_AT(lookup_addr, 0x2A);
             origin_x = origin[0x24];
-            chain_y = (chain_y >> 8) & 0xE;
-            chain_x = chain_y + base_x;
-            work_v0 = (u32)D_8006CCE8_early;
-            chain_y += work_v0;
-            chain_x = U16_AT(chain_x, 0);
-            chain_y = U16_AT(chain_y, 0);
+            step_y = (step_y >> 8) & 0xE;
+            step_x = step_y + x_offsets;
+            lookup_addr = (u32)D_8006CCE8_early;
+            step_y += lookup_addr;
+            step_x = U16_AT(step_x, 0);
+            step_y = U16_AT(step_y, 0);
 
             U16_AT(owner, 0x2A) = func_800A0818(
-                start_x, start_y, origin_x + chain_x,
-                origin[0x25] + chain_y, &result);
+                start_x, start_y, origin_x + step_x,
+                origin[0x25] + step_y, &result);
         }
         state->timer = 0;
         state->state++;
@@ -138,19 +139,19 @@ void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
         part->color = 0x00808080;
 
     case 1:
-        meta = (u8 *)owner - 0x20;
-        node = PTR_AT(meta, 0xC);
-        if (func_8003DE58(PTR_AT(node, 8), node, probe, 0) == 0) {
-            if (!(U16_AT(PTR_AT(meta, 0xC), 0x14) & 0x8000)) {
+        owner_data = (u8 *)owner - 0x20;
+        owner_node = PTR_AT(owner_data, 0xC);
+        if (func_8003DE58(PTR_AT(owner_node, 8), owner_node, probe, 0) == 0) {
+            if (!(U16_AT(PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
                 goto done;
             }
         }
-        source = PTR_AT(meta, 8);
-        U16_AT(motion, 2) = U16_AT(source, 2);
-        U16_AT(motion, 6) = U16_AT(source, 6);
-        source_z = U16_AT(source, 0xA);
+        owner_motion = PTR_AT(owner_data, 8);
+        U16_AT(motion, 2) = U16_AT(owner_motion, 2);
+        U16_AT(motion, 6) = U16_AT(owner_motion, 6);
+        source_z = U16_AT(owner_motion, 0xA);
         U16_AT(motion, 0xA) = source_z;
-        if (!(U16_AT(PTR_AT(meta, 0xC), 0x14) & 0x8000)) {
+        if (!(U16_AT(PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
             U16_AT(motion, 2) += probe[0];
             U16_AT(motion, 6) += probe[1];
             ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -164,9 +165,9 @@ void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
         if (!(U16_AT(state->image, 0) & 0x80)) {
             goto done;
         }
-        work = scratch.work;
+        target_pos = scratch.work;
         /* This expression is intentionally kept in its retail form. */
-        if ((U16_AT(meta, 0x1E) | 0x2000) != 0) {
+        if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
             u8 *position_base = D_80082E80;
             void *direction_node = D_800814A8[0];
             register u32 direction_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -184,25 +185,25 @@ void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
         }
         {
             void *height_node;
-            s32 work_coord;
+            s32 tile_coord;
 
-            work_coord = state->x;
-            S16_AT(work, 2) = work_coord * 64 + 0x20;
-            work_coord = state->y;
+            tile_coord = state->x;
+            S16_AT(target_pos, 2) = tile_coord * 64 + 0x20;
+            tile_coord = state->y;
             height_node = D_800814A8[0];
-            S16_AT(work, 6) = work_coord * 64 + 0x20;
-            S16_AT(work, 0xA) = ((s16 *)height_node)[0x44] - 0x20;
+            S16_AT(target_pos, 6) = tile_coord * 64 + 0x20;
+            S16_AT(target_pos, 0xA) = ((s16 *)height_node)[0x44] - 0x20;
         }
-        S16_AT(work, 0xA) = func_800BCAD0(work);
-        state->z = S16_AT(work, 0xA);
+        S16_AT(target_pos, 0xA) = func_800BCAD0(target_pos);
+        state->z = S16_AT(target_pos, 0xA);
         func_8009A350(state->x - 1, state->y, 0, &map_flags);
         if ((map_flags & 0x3300) != 0 ||
-            (work_z = S16_AT(work, 0xA), in_range = work_z < 0x201, !in_range) ||
-            (func_800A45D8(U16_AT(work, 2), U16_AT(work, 6)) << 16) != 0 ||
+            (target_z = S16_AT(target_pos, 0xA), height_valid = target_z < 0x201, !height_valid) ||
+            (func_800A45D8(U16_AT(target_pos, 2), U16_AT(target_pos, 6)) << 16) != 0 ||
             (func_800A5690() << 16) == 0) {
             state->state = 7;
         } else {
-            if ((U16_AT(meta, 0x1E) | 0x2000) == 0) {
+            if ((U16_AT(owner_data, 0x1E) | 0x2000) == 0) {
                 state->status = 2;
             } else {
                 state->status = 1;
@@ -214,22 +215,22 @@ void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
             s32 delta_y;
             s32 delta_z;
 
-            delta_x = S16_AT(work, 2) - S16_AT(motion, 2);
+            delta_x = S16_AT(target_pos, 2) - S16_AT(motion, 2);
             if (delta_x < 0) {
                 delta_x = -delta_x;
             }
             probe[0] = delta_x;
-            delta_y = S16_AT(work, 6) - S16_AT(motion, 6);
+            delta_y = S16_AT(target_pos, 6) - S16_AT(motion, 6);
             if (delta_y < 0) {
                 delta_y = -delta_y;
             }
             probe[1] = delta_y;
             {
-                register s32 zbase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                register s32 motion_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
-                delta_z = S16_AT(work, 0xA);
-                zbase = S16_AT(motion, 0xA);
-                delta_z -= zbase;
+                delta_z = S16_AT(target_pos, 0xA);
+                motion_z = S16_AT(motion, 0xA);
+                delta_z -= motion_z;
             }
             if (delta_z < 0) {
                 delta_z = -delta_z;
@@ -237,9 +238,9 @@ void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
             probe[2] = delta_z;
         }
         state->duration = 12;
-        S32_AT(motion, 0xC) = (S32_AT(work, 0) - S32_AT(motion, 0)) / state->duration;
-        S32_AT(motion, 0x10) = (S32_AT(work, 4) - S32_AT(motion, 4)) / state->duration;
-        S32_AT(motion, 0x14) = (S32_AT(work, 8) - S32_AT(motion, 8)) / state->duration;
+        S32_AT(motion, 0xC) = (S32_AT(target_pos, 0) - S32_AT(motion, 0)) / state->duration;
+        S32_AT(motion, 0x10) = (S32_AT(target_pos, 4) - S32_AT(motion, 4)) / state->duration;
+        S32_AT(motion, 0x14) = (S32_AT(target_pos, 8) - S32_AT(motion, 8)) / state->duration;
         func_800240F8(state, motion, state->duration);
         func_800240F8(state, motion, state->duration);
         func_800240F8(state, motion, state->duration);
@@ -276,26 +277,26 @@ void func_80024C74(EffectState *arg0, Motion *arg1, ColorPart *arg2)
             goto done;
         }
         if (state->status != 0) {
-            s32 next;
-            register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            u32 id;
-            s32 color;
+            s32 strength;
+            register s32 clamped_strength ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            u32 effect_id;
+            s32 variation;
 
-            effect = func_800D1C70(state->status, state->x, state->y, state->z);
-            func_80042640(effect, 51);
-            color = func_800A6D30();
-            id = U8_AT(state, 9);
-            next = id >> 1;
-            next += id << 1;
-            next += color & 3;
-            next += 16;
-            value = next;
-            ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            if (next >= 256) {
-                value = 255;
+            spawned_effect = func_800D1C70(state->status, state->x, state->y, state->z);
+            func_80042640(spawned_effect, 51);
+            variation = func_800A6D30();
+            effect_id = U8_AT(state, 9);
+            strength = effect_id >> 1;
+            strength += effect_id << 1;
+            strength += variation & 3;
+            strength += 16;
+            clamped_strength = strength;
+            ASM_KEEP(strength);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            if (strength >= 256) {
+                clamped_strength = 255;
             }
-            U8_AT(effect, 0x28) = value;
-            U8_AT(effect, 0x29) = value;
+            U8_AT(spawned_effect, 0x28) = clamped_strength;
+            U8_AT(spawned_effect, 0x29) = clamped_strength;
         }
     advance:
         state->timer = 0;

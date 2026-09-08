@@ -2,14 +2,15 @@
 
 extern u8 D_80028570[];
 
+/* Return whether any record matches text through its terminator or the first 21 bytes. */
 s32 func_80021A04(s32 count, u8 *text)
 {
     s32 record_index;
-    s32 result;
+    s32 found;
     u8 *records;
 
     record_index = 0;
-    result = record_index;
+    found = record_index;
     records = D_80028570;
     if (count > 0) {
         u8 *record;
@@ -17,30 +18,30 @@ s32 func_80021A04(s32 count, u8 *text)
         record = records;
         do {
             s32 mismatch;
-            s32 index;
+            s32 char_index;
 
             mismatch = 0;
-            index = mismatch;
+            char_index = mismatch;
             do {
-                u8 value;
+                u8 character;
 
-                value = text[index];
-                if (value == 0) {
+                character = text[char_index];
+                if (character == 0) {
                     break;
                 }
-                if (value != record[index]) {
+                if (character != record[char_index]) {
                     mismatch++;
                     break;
                 }
-                index++;
-            } while (index < 0x15);
+                char_index++;
+            } while (char_index < 0x15);
             if (mismatch == 0) {
-                result = 1;
+                found = 1;
                 break;
             }
             record_index++;
             record += 0x28;
         } while (record_index < count);
     }
-    return result;
+    return found;
 }

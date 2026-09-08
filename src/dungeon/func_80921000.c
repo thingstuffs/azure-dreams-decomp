@@ -40,54 +40,55 @@ __asm__(".globl func_80921000\n"
 #define BODY_NAME func_80921000
 #endif
 
-void BODY_NAME(Rec_D_800E3D7C *arg0) {
-    ByteBuf sp18;
-    CoordBuf sp20;
-    s16 temp_s0;
-    s16 temp_v0_3;
-    s32 temp_v0_4;
-    u16 temp_v0;
-    u16 temp_v0_2;
+/* Advance the animation and handle delayed object spawning. */
+void BODY_NAME(Rec_D_800E3D7C *state) {
+    ByteBuf spawn_data;
+    CoordBuf spawn_tile;
+    s16 spawn_height;
+    s16 spawn_delay;
+    s32 height_result;
+    u16 anim_ticks;
+    u16 anim_offset;
 
     M2C_ERROR(/* Read from unset register $at */) << 0;
-    temp_v0 = arg0->unk_00.at02_u16.v - 1;
-    arg0->unk_00.at02_u16.v = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        arg0->unk_00.at02_u16.v = 1U;
-        temp_v0_2 = arg0->unk_04.at02_u16.v + 8;
-        arg0->unk_04.at02_u16.v = temp_v0_2;
-        if ((s16) temp_v0_2 >= 0x70) {
-            arg0->unk_04.at02_u16.v = 0U;
+    anim_ticks = state->unk_00.at02_u16.v - 1;
+    state->unk_00.at02_u16.v = anim_ticks;
+    if ((anim_ticks << 0x10) <= 0) {
+        state->unk_00.at02_u16.v = 1U;
+        anim_offset = state->unk_04.at02_u16.v + 8;
+        state->unk_04.at02_u16.v = anim_offset;
+        if ((s16) anim_offset >= 0x70) {
+            state->unk_04.at02_u16.v = 0U;
         }
-        func_8003F80C(D_800F6D48 + ((s16) arg0->unk_04.at02_u16.v * 4), 0x7380, 1, 2);
+        func_8003F80C(D_800F6D48 + ((s16) state->unk_04.at02_u16.v * 4), 0x7380, 1, 2);
     }
     if ((func_80033BC0(0xA2) != 0) && ((func_800F61BC(6, 3) << 0x10) == 0) && ((func_800F6208(6, 3) << 0x10) == 0)) {
         u8 *mode;
         mode = D_80081484;
         if ((mode[0] != 3) || (mode[1] != 6)) {
-            if (arg0->unk_08.at00_s16.v == 0) {
-                arg0->unk_08.at00_s16.v = 0x40;
-                goto block_11;
+            if (state->unk_08.at00_s16.v == 0) {
+                state->unk_08.at00_s16.v = 0x40;
+                goto check_spawn_delay;
             }
-            goto block_12;
+            goto decrement_spawn_delay;
         }
     }
-block_11:
-    if (arg0->unk_08.at00_s16.v != 0) {
-block_12:
-        temp_v0_3 = (u16) arg0->unk_08.at00_s16.v - 1;
-        arg0->unk_08.at00_s16.v = temp_v0_3;
-        if ((temp_v0_3 << 0x10) == 0) {
-            sp18.a = 3;
-            sp18.b = 6;
-            sp18.c = 0;
-            sp18.d = 0;
+check_spawn_delay:
+    if (state->unk_08.at00_s16.v != 0) {
+decrement_spawn_delay:
+        spawn_delay = (u16) state->unk_08.at00_s16.v - 1;
+        state->unk_08.at00_s16.v = spawn_delay;
+        if ((spawn_delay << 0x10) == 0) {
+            spawn_data.a = 3;
+            spawn_data.b = 6;
+            spawn_data.c = 0;
+            spawn_data.d = 0;
             do {
 
-            } while ((func_800A4E2C(&sp20.x, &sp20.y) << 0x10) < 0);
-            temp_v0_4 = func_800BCB04((sp20.x << 6) | 0x20, (sp20.y << 6) | 0x20, -0x400);
-            temp_s0 = temp_v0_4;
-            func_800A7A7C(sp20.x, sp20.y, temp_s0, func_800A7A38(&sp18), &sp18);
+            } while ((func_800A4E2C(&spawn_tile.x, &spawn_tile.y) << 0x10) < 0);
+            height_result = func_800BCB04((spawn_tile.x << 6) | 0x20, (spawn_tile.y << 6) | 0x20, -0x400);
+            spawn_height = height_result;
+            func_800A7A7C(spawn_tile.x, spawn_tile.y, spawn_height, func_800A7A38(&spawn_data), &spawn_data);
         }
     }
 }

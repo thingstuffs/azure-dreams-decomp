@@ -31,19 +31,20 @@ typedef struct S_800A5C70_2 {
     u8 unk_25;
 } S_800A5C70_2;   /* other in func_800A5C70 */
 
+/* Checks buttons and state, rejecting eligible entries within four tiles on both axes. */
 s32 func_800A5C70(void) {
     u16 buttons;
-    u8 *coords;
-    void **cursor_addr;
-    void *cursor;
-    void *start;
-    S_800A5C70_2 *other;
+    u8 *origin_coords;
+    void **entry_addr;
+    void *entry;
+    void *first_entry;
+    S_800A5C70_2 *entry_coords;
 
-    cursor_addr = &D_800E3D7C;
+    entry_addr = &D_800E3D7C;
     do {
         buttons = D_80013714;
     } while (0);
-    cursor = *cursor_addr;
+    entry = *entry_addr;
     if (buttons & 2) {
         return 1;
     }
@@ -54,31 +55,31 @@ s32 func_800A5C70(void) {
         return 0;
     }
 
-    coords = D_80082E80;
-    start = cursor;
+    origin_coords = D_80082E80;
+    first_entry = entry;
     do {
-        if (!(((S_800A5C70_0 *)cursor)->unk_1C & 0x2208)) {
-            register s32 delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        if (!(((S_800A5C70_0 *)entry)->unk_1C & 0x2208)) {
+            register s32 axis_distance ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            other = ((S_800A5C70_0_pre *)cursor)[-1].unk_00;
-            delta = ((S_800A5C70_1 *)coords)->unk_24;
-            delta -= other->unk_24;
-            if (delta < 0) {
-                delta = -delta;
+            entry_coords = ((S_800A5C70_0_pre *)entry)[-1].unk_00;
+            axis_distance = ((S_800A5C70_1 *)origin_coords)->unk_24;
+            axis_distance -= entry_coords->unk_24;
+            if (axis_distance < 0) {
+                axis_distance = -axis_distance;
             }
-            if (delta < 5) {
-                delta = ((S_800A5C70_1 *)coords)->unk_25;
-                delta -= other->unk_25;
-                if (delta < 0) {
-                    delta = -delta;
+            if (axis_distance < 5) {
+                axis_distance = ((S_800A5C70_1 *)origin_coords)->unk_25;
+                axis_distance -= entry_coords->unk_25;
+                if (axis_distance < 0) {
+                    axis_distance = -axis_distance;
                 }
-                if (delta < 5) {
+                if (axis_distance < 5) {
                     return 0;
                 }
             }
         }
-        cursor = (u8 *)((S_800A5C70_0 *)cursor)->unk_5C + 0x20;
-    } while (cursor != start);
+        entry = (u8 *)((S_800A5C70_0 *)entry)->unk_5C + 0x20;
+    } while (entry != first_entry);
 
     return 1;
 }

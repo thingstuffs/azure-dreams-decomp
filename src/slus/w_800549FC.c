@@ -18,16 +18,13 @@ extern s32 D_801C4640[4];
 extern void func_800553D4(s32 a0);
 extern void func_80055ADC(void *a0, s32 a1);
 
-/* Fires event 0x71, then dispatches on the low byte of a0: for 0x21, clears
- * D_800847F0.field0 and registers marker table D_801BEE40 (slot 0); for
- * 0x22, sets D_800847F0.field0 to 1 and registers marker table D_801C4640
- * (slot 1). Any other value does nothing further. */
-void func_800549FC(s32 a0) {
-    u8 type = a0 & 0xFF;
+/* Fires event 0x71 and selects the marker table and flag for types 0x21 and 0x22. */
+void func_800549FC(s32 marker_code) {
+    u8 marker_type = marker_code & 0xFF;
 
     func_800553D4(0x71);
 
-    switch (type) {
+    switch (marker_type) {
     case 0x21:
         D_800847F0.field0 = 0;
         func_80055ADC(D_801BEE40, 0);

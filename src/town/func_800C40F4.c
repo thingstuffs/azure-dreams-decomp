@@ -56,12 +56,17 @@ extern u8 D_80080E28;
 extern u8 D_800D1D54;
 extern u8 D_80080F48;
 extern u8 D_80080F98;
+/* Initialize town resources and configure the scene. */
 void func_800C1854(void)
 {
-  u8 *new_var;
- do { func_8003AFE0(1, 0x73); func_80066F78(1); func_80041284(&D_80080E28); } while (0);
-  new_var = &D_800D1D54;
-  func_80041284(new_var);
+  u8 *resource_data;
+  do {
+    func_8003AFE0(1, 0x73);
+    func_80066F78(1);
+    func_80041284(&D_80080E28);
+  } while (0);
+  resource_data = &D_800D1D54;
+  func_80041284(resource_data);
   func_8003C758(&D_80080F48);
   func_8003C758(&D_80080F98);
   func_8008B408(6);

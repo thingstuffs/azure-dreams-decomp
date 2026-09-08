@@ -100,144 +100,145 @@ s16 func_800BCB04();                   /* extern */
 extern M2C_UNK D_80024BB8;
 extern M2C_UNK D_800DE990;
 
-void func_8197D468(void *arg0, void *arg1, void *arg2) {
-    s16 temp_v1;
-    s16 temp_v0_5;
-    s32 var_s3;
-    s32 temp_v0_7;
-    s32 random_value_0;
-    s32 velocity_0;
-    s32 random_value_2;
-    s32 velocity_2;
-    u16 temp_v0_3;
-    u16 temp_v1_2;
-    s32 temp_a0_5;
-    void *temp_a0_4;
-    void *temp_v0_4;
-    void *temp_s0;
-    void *temp_v0;
-    void *temp_v0_2;
+/* Update a rising, expanding, and falling effect, spawning particles on landing. */
+void func_8197D468(void *effect, void *motion, void *sprite) {
+    s16 state;
+    s16 ground_height;
+    s32 particle_index;
+    s32 particle_frames;
+    s32 rise_random;
+    s32 rise_velocity;
+    s32 fall_random;
+    s32 fall_velocity;
+    u16 frames_left;
+    u16 sprite_flags;
+    s32 particle_color;
+    void *sprite_frames;
+    void *effect_data;
+    void *particle_sprite;
+    void *owner;
+    void *particle;
 
-    temp_v0 = ((S_8197D468_0 *)arg0)->unk_00;
-    ((S_8197D468_1 *)temp_v0)->unk_52 = (u16) (((S_8197D468_1 *)temp_v0)->unk_52 | 0x8000);
-    if (((S_8197D468_2 *)arg2)->unk_14 & 0x6000) {
-        ((S_8197D468_2 *)arg2)->unk_04 = 0;
-        ((S_8197D468_2 *)arg2)->unk_05 = 0;
-        ((S_8197D468_2 *)arg2)->unk_14 = (u16) (((S_8197D468_2 *)arg2)->unk_14 & 0x9FFF);
+    owner = ((S_8197D468_0 *)effect)->unk_00;
+    ((S_8197D468_1 *)owner)->unk_52 = (u16) (((S_8197D468_1 *)owner)->unk_52 | 0x8000);
+    if (((S_8197D468_2 *)sprite)->unk_14 & 0x6000) {
+        ((S_8197D468_2 *)sprite)->unk_04 = 0;
+        ((S_8197D468_2 *)sprite)->unk_05 = 0;
+        ((S_8197D468_2 *)sprite)->unk_14 = (u16) (((S_8197D468_2 *)sprite)->unk_14 & 0x9FFF);
     }
-    func_800478B8(arg2);
-    temp_v1 = ((S_8197D468_0 *)arg0)->unk_4C.s;
-    if (temp_v1 == 1) {
+    func_800478B8(sprite);
+    state = ((S_8197D468_0 *)effect)->unk_4C.s;
+    if (state == 1) {
         goto state_1;
     }
-    if (temp_v1 < 2) {
-        if (temp_v1 == 0) {
+    if (state < 2) {
+        if (state == 0) {
             goto state_0;
         }
         func_80025050();
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    if (temp_v1 == 2) {
+    if (state == 2) {
         goto state_2;
     }
     func_80025050();
 
 state_0:
-        ((S_8197D468_3 *)arg1)->unk_08.at00.v = (s32) (((S_8197D468_3 *)arg1)->unk_08.at00.v + ((S_8197D468_3 *)arg1)->unk_14);
-        random_value_0 = func_80069EF8();
-        velocity_0 = ((S_8197D468_3 *)arg1)->unk_14 + 0x1A000;
-        velocity_0 += random_value_0 >> 1;
-        ((S_8197D468_3 *)arg1)->unk_14 = velocity_0;
-        if ((u8) ((S_8197D468_2 *)arg2)->unk_0C.u8 < 0x40) {
-            ((S_8197D468_2 *)arg2)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)arg2)->unk_0C.s32 + 0x40404);
-        }
-        if (((S_8197D468_3 *)arg1)->unk_14 > 0) {
-            ((S_8197D468_2 *)arg2)->unk_00 = &D_800DE990;
-            temp_a0_4 = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
-            ASM_KEEP(temp_a0_4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            temp_v1_2 = ((S_8197D468_2 *)arg2)->unk_14;
-            ASM_KEEP(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            ((S_8197D468_2 *)arg2)->unk_04 = 0;
-            ((S_8197D468_2 *)arg2)->unk_05 = 0;
-            ((S_8197D468_2 *)arg2)->unk_1E = 0x400U;
-            ((S_8197D468_2 *)arg2)->unk_1C = 0x400U;
-            ((S_8197D468_2 *)arg2)->unk_10 = 0;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            ((S_8197D468_2 *)arg2)->unk_08 = temp_a0_4;
-            ((S_8197D468_2 *)arg2)->unk_14 = (u16) (temp_v1_2 | 2);
-            ((S_8197D468_0 *)arg0)->unk_48 = (u16) ((func_80069EF8(temp_a0_4) & 3) + 4);
-            ((S_8197D468_0 *)arg0)->unk_4C.u = (u16) (((S_8197D468_0 *)arg0)->unk_4C.u + 1);
-            func_80025050();
-        }
-        goto done;
+    ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v + ((S_8197D468_3 *)motion)->unk_14);
+    rise_random = func_80069EF8();
+    rise_velocity = ((S_8197D468_3 *)motion)->unk_14 + 0x1A000;
+    rise_velocity += rise_random >> 1;
+    ((S_8197D468_3 *)motion)->unk_14 = rise_velocity;
+    if ((u8) ((S_8197D468_2 *)sprite)->unk_0C.u8 < 0x40) {
+        ((S_8197D468_2 *)sprite)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)sprite)->unk_0C.s32 + 0x40404);
+    }
+    if (((S_8197D468_3 *)motion)->unk_14 > 0) {
+        ((S_8197D468_2 *)sprite)->unk_00 = &D_800DE990;
+        sprite_frames = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
+        ASM_KEEP(sprite_frames);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        sprite_flags = ((S_8197D468_2 *)sprite)->unk_14;
+        ASM_KEEP(sprite_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ((S_8197D468_2 *)sprite)->unk_04 = 0;
+        ((S_8197D468_2 *)sprite)->unk_05 = 0;
+        ((S_8197D468_2 *)sprite)->unk_1E = 0x400U;
+        ((S_8197D468_2 *)sprite)->unk_1C = 0x400U;
+        ((S_8197D468_2 *)sprite)->unk_10 = 0;
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        ((S_8197D468_2 *)sprite)->unk_08 = sprite_frames;
+        ((S_8197D468_2 *)sprite)->unk_14 = (u16) (sprite_flags | 2);
+        ((S_8197D468_0 *)effect)->unk_48 = (u16) ((func_80069EF8(sprite_frames) & 3) + 4);
+        ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
+        func_80025050();
+    }
+    goto done;
 
 state_1:
-        ((S_8197D468_2 *)arg2)->unk_0C.s32 = 0x606060;
-        ((S_8197D468_2 *)arg2)->unk_1C = (u16) (((S_8197D468_2 *)arg2)->unk_1C + 0xC8);
-        ((S_8197D468_2 *)arg2)->unk_1E = (u16) (((S_8197D468_2 *)arg2)->unk_1E + 0xC8);
-        temp_v0_3 = ((S_8197D468_0 *)arg0)->unk_48 - 1;
-        ((S_8197D468_0 *)arg0)->unk_48 = temp_v0_3;
-        if ((temp_v0_3 << 0x10) <= 0) {
-            ((S_8197D468_0 *)arg0)->unk_4C.u = (u16) (((S_8197D468_0 *)arg0)->unk_4C.u + 1);
-            func_80025050();
-        }
-        goto done;
+    ((S_8197D468_2 *)sprite)->unk_0C.s32 = 0x606060;
+    ((S_8197D468_2 *)sprite)->unk_1C = (u16) (((S_8197D468_2 *)sprite)->unk_1C + 0xC8);
+    ((S_8197D468_2 *)sprite)->unk_1E = (u16) (((S_8197D468_2 *)sprite)->unk_1E + 0xC8);
+    frames_left = ((S_8197D468_0 *)effect)->unk_48 - 1;
+    ((S_8197D468_0 *)effect)->unk_48 = frames_left;
+    if ((frames_left << 0x10) <= 0) {
+        ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
+        func_80025050();
+    }
+    goto done;
 
 state_2:
-        if (((S_8197D468_2 *)arg2)->unk_14 & 0x6000) {
-            ((S_8197D468_2 *)arg2)->unk_00 = &D_800DE990;
-            temp_v0_4 = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
-            ((S_8197D468_2 *)arg2)->unk_04 = 0;
-            ((S_8197D468_2 *)arg2)->unk_05 = 0;
-            ((S_8197D468_2 *)arg2)->unk_08 = temp_v0_4;
-        }
-        ((S_8197D468_3 *)arg1)->unk_08.at00.v = (s32) (((S_8197D468_3 *)arg1)->unk_08.at00.v + ((S_8197D468_3 *)arg1)->unk_14);
-        random_value_2 = func_80069EF8();
-        velocity_2 = ((S_8197D468_3 *)arg1)->unk_14 + 0x1C000;
-        velocity_2 += random_value_2 >> 1;
-        ((S_8197D468_3 *)arg1)->unk_14 = velocity_2;
-        if ((u8) ((S_8197D468_2 *)arg2)->unk_0C.u8 < 0x80) {
-            ((S_8197D468_2 *)arg2)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)arg2)->unk_0C.s32 + 0x40404);
-        }
-        temp_v0_5 = func_800BCB04(((S_8197D468_3 *)arg1)->unk_00.at02.v, ((S_8197D468_3 *)arg1)->unk_04.at02.v, (s16) (D_8008378A - 0x80));
-        if (((S_8197D468_3 *)arg1)->unk_08.at02.v >= (temp_v0_5 - 0x20)) {
-            var_s3 = 4;
-            do {
-                temp_v0_2 = func_8003FD64(0x312, D_80083498);
-                if (temp_v0_2 != NULL) {
-                    ((S_8197D468_5 *)temp_v0_2)->unk_10 = &D_80024BB8;
-                    func_8004491C(temp_v0_2, D_80045340);
-                    temp_s0 = ((S_8197D468_5 *)temp_v0_2)->unk_0C;
-                    ((S_8197D468_9 *)(((S_8197D468_5 *)temp_v0_2)->unk_08))->unk_00 = (s32) (((S_8197D468_3 *)arg1)->unk_00.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
-                    ((S_8197D468_9 *)(((S_8197D468_5 *)temp_v0_2)->unk_08))->unk_04 = (s32) (((S_8197D468_3 *)arg1)->unk_04.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
-                    ((S_8197D468_9 *)(((S_8197D468_5 *)temp_v0_2)->unk_08))->unk_08 = (s32) (((S_8197D468_3 *)arg1)->unk_08.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
-                    ((S_8197D468_9 *)(((S_8197D468_5 *)temp_v0_2)->unk_08))->unk_0C = (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
-                    ((S_8197D468_9 *)(((S_8197D468_5 *)temp_v0_2)->unk_08))->unk_10 = (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
-                    ((S_8197D468_9 *)(((S_8197D468_5 *)temp_v0_2)->unk_08))->unk_14 = (s32) (0 - ((func_80069EF8() & 0x3FF) << 8));
-                    temp_a0_5 = 0xC00000;
-                       /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                    ((S_8197D468_6 *)temp_s0)->unk_1E = 0xC00;
-                    ((S_8197D468_6 *)temp_s0)->unk_1C = 0xC00;
-                    ((S_8197D468_6 *)temp_s0)->unk_10 = 0x20;
-                    ((S_8197D468_6 *)temp_s0)->unk_00 = D_800DED70;
-                    ((S_8197D468_6 *)temp_s0)->unk_14 = (u16) (((S_8197D468_6 *)temp_s0)->unk_14 | 0xC);
-                    temp_v0_7 = ((Rec_D_80016000 *)D_800DED70)->unk_04.at00_s32.v;
-                    temp_a0_5 |= 0x6060;
-                    ((S_8197D468_6 *)temp_s0)->unk_04 = 0;
-                    ((S_8197D468_6 *)temp_s0)->unk_05 = 0;
-                    ((S_8197D468_6 *)temp_s0)->unk_0C = temp_a0_5;
-                    ((S_8197D468_6 *)temp_s0)->unk_08 = temp_v0_7;
-                    temp_v0_4 = ((S_8197D468_0 *)arg0)->unk_00;
-                    ((S_8197D468_5 *)temp_v0_2)->unk_20 = temp_v0_4;
-                    temp_v0_4 = temp_v0_2 + 0x20;
-                    ASM_KEEP(temp_v0_4);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    ((S_8197D468_8 *)temp_v0_4)->unk_4C = 0;
-                }
-                var_s3 -= 1;
-            } while (var_s3 >= 0);
-            (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_8197D468_0_pre *)arg0)[-1].unk_00 | 0x8000);
-            D_800814A0 |= 0x8000;
-        }
+    if (((S_8197D468_2 *)sprite)->unk_14 & 0x6000) {
+        ((S_8197D468_2 *)sprite)->unk_00 = &D_800DE990;
+        effect_data = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
+        ((S_8197D468_2 *)sprite)->unk_04 = 0;
+        ((S_8197D468_2 *)sprite)->unk_05 = 0;
+        ((S_8197D468_2 *)sprite)->unk_08 = effect_data;
+    }
+    ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v + ((S_8197D468_3 *)motion)->unk_14);
+    fall_random = func_80069EF8();
+    fall_velocity = ((S_8197D468_3 *)motion)->unk_14 + 0x1C000;
+    fall_velocity += fall_random >> 1;
+    ((S_8197D468_3 *)motion)->unk_14 = fall_velocity;
+    if ((u8) ((S_8197D468_2 *)sprite)->unk_0C.u8 < 0x80) {
+        ((S_8197D468_2 *)sprite)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)sprite)->unk_0C.s32 + 0x40404);
+    }
+    ground_height = func_800BCB04(((S_8197D468_3 *)motion)->unk_00.at02.v, ((S_8197D468_3 *)motion)->unk_04.at02.v, (s16) (D_8008378A - 0x80));
+    if (((S_8197D468_3 *)motion)->unk_08.at02.v >= (ground_height - 0x20)) {
+        particle_index = 4;
+        do {
+            particle = func_8003FD64(0x312, D_80083498);
+            if (particle != NULL) {
+                ((S_8197D468_5 *)particle)->unk_10 = &D_80024BB8;
+                func_8004491C(particle, D_80045340);
+                particle_sprite = ((S_8197D468_5 *)particle)->unk_0C;
+                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_00 = (s32) (((S_8197D468_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_04 = (s32) (((S_8197D468_3 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_08 = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_0C = (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
+                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_10 = (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
+                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_14 = (s32) (0 - ((func_80069EF8() & 0x3FF) << 8));
+                particle_color = 0xC00000;
+   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                ((S_8197D468_6 *)particle_sprite)->unk_1E = 0xC00;
+                ((S_8197D468_6 *)particle_sprite)->unk_1C = 0xC00;
+                ((S_8197D468_6 *)particle_sprite)->unk_10 = 0x20;
+                ((S_8197D468_6 *)particle_sprite)->unk_00 = D_800DED70;
+                ((S_8197D468_6 *)particle_sprite)->unk_14 = (u16) (((S_8197D468_6 *)particle_sprite)->unk_14 | 0xC);
+                particle_frames = ((Rec_D_80016000 *)D_800DED70)->unk_04.at00_s32.v;
+                particle_color |= 0x6060;
+                ((S_8197D468_6 *)particle_sprite)->unk_04 = 0;
+                ((S_8197D468_6 *)particle_sprite)->unk_05 = 0;
+                ((S_8197D468_6 *)particle_sprite)->unk_0C = particle_color;
+                ((S_8197D468_6 *)particle_sprite)->unk_08 = particle_frames;
+                effect_data = ((S_8197D468_0 *)effect)->unk_00;
+                ((S_8197D468_5 *)particle)->unk_20 = effect_data;
+                effect_data = particle + 0x20;
+                ASM_KEEP(effect_data);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                ((S_8197D468_8 *)effect_data)->unk_4C = 0;
+            }
+            particle_index -= 1;
+        } while (particle_index >= 0);
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8197D468_0_pre *)effect)[-1].unk_00 | 0x8000);
+        D_800814A0 |= 0x8000;
+    }
 done:
     return;
 }

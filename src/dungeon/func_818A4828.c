@@ -29,20 +29,21 @@ static void (*const callbacks[])(void) = {
     func_80025118,
 };
 
-void func_818A4828(void *arg0, s32 arg1) {
-    register s32 amount ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 adjusted;
+/* Applies a flag-adjusted stat increase to an eligible target and updates its state. */
+void func_818A4828(void *target, s32 effect_param) {
+    register s32 base_gain ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 stat_gain;
 
-    if (func_8009D218(arg0, 1) == 0) {
-        amount = func_800A6870(arg1 & 0xFF) + 4;
-        adjusted = amount;
-        if (*(u8 *)((u8 *)arg0 + 0x28) & 1) {
-            adjusted = amount + ((s32)(amount << 16) >> 17);
+    if (func_8009D218(target, 1) == 0) {
+        base_gain = func_800A6870(effect_param & 0xFF) + 4;
+        stat_gain = base_gain;
+        if (*(u8 *)((u8 *)target + 0x28) & 1) {
+            stat_gain = base_gain + ((s32)(base_gain << 16) >> 17);
         }
-        *(u16 *)((u8 *)arg0 + 0x64) += adjusted;
-        func_800AD568(arg0, adjusted);
-        func_800B4C7C(0x8004, arg0, (s16)*(u16 *)((u8 *)arg0 + 0x64), 1);
-        func_800AD4D0(arg0);
+        *(u16 *)((u8 *)target + 0x64) += stat_gain;
+        func_800AD568(target, stat_gain);
+        func_800B4C7C(0x8004, target, (s16)*(u16 *)((u8 *)target + 0x64), 1);
+        func_800AD4D0(target);
     }
 }
 

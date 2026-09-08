@@ -12,37 +12,38 @@ typedef struct S_800BDDD0_0 {
     s16 unk_1A;
 } S_800BDDD0_0;   /* temp_t3 in func_800BDDD0 */
 
-void func_800BDDD0(s32 arg0, s16 arg1) {
-    s16 temp_a0;
-    s32 var_a3;
-    s32 var_t0;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s32 raw_arg0;
-    s32 outer_limit;
-    u8 *base;
-    u8 *temp_t3;
-    s32 temp_t4;
+/* Writes values 1 through 16 in row order into a wrapped 4x4 grid region. */
+void func_800BDDD0(s32 start_x, s16 start_y) {
+    s16 cell_value;
+    s32 y;
+    s32 x;
+    s32 end_x;
+    s32 wrapped_y;
+    s32 origin_x;
+    s32 x_limit;
+    u8 *state;
+    u8 *grid;
+    s32 cells_addr;
 
-    var_t0 = (s16)arg0;
-    base = D_80083160;
-    temp_t3 = base + 0x1DC;
-    temp_t4 = *(s32 *)(base + 0x1DC);
-    raw_arg0 = arg0;
-    temp_v1 = var_t0 + 4;
-    if (var_t0 < temp_v1) {
+    x = (s16)start_x;
+    state = D_80083160;
+    grid = state + 0x1DC;
+    cells_addr = *(s32 *)(state + 0x1DC);
+    origin_x = start_x;
+    end_x = x + 4;
+    if (x < end_x) {
         do {
-            var_a3 = arg1;
-            outer_limit = temp_v1;
-            while (var_a3 < (arg1 + 4)) {
-                temp_a0 = (var_t0 - raw_arg0) + 1;
-                temp_a0 += (var_a3 - arg1) * 4;
-                ASM_KEEP(temp_a0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                temp_v1_2 = var_a3 & ((S_800BDDD0_0 *)temp_t3)->unk_1A;
-                var_a3 += 1;
-                *((s16 *) (((s32) (((((S_800BDDD0_0 *)temp_t3)->unk_18 & var_t0) + (temp_v1_2 << ((S_800BDDD0_0 *)temp_t3)->unk_14)) << 0x10) >> 0xF) + temp_t4)) = temp_a0;
+            y = start_y;
+            x_limit = end_x;
+            while (y < (start_y + 4)) {
+                cell_value = (x - origin_x) + 1;
+                cell_value += (y - start_y) * 4;
+                ASM_KEEP(cell_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                wrapped_y = y & ((S_800BDDD0_0 *)grid)->unk_1A;
+                y += 1;
+                *((s16 *) (((s32) (((((S_800BDDD0_0 *)grid)->unk_18 & x) + (wrapped_y << ((S_800BDDD0_0 *)grid)->unk_14)) << 0x10) >> 0xF) + cells_addr)) = cell_value;
             }
-            var_t0 += 1;
-        } while (var_t0 < outer_limit);
+            x += 1;
+        } while (x < x_limit);
     }
 }

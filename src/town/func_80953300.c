@@ -5,30 +5,27 @@ extern s16 D_80024308[];
 extern s16 D_80113158;
 extern s32 D_8011315C;
 
+/* Randomize four entries, set two distinct entries to 1 and 2, and reset state. */
 s32 func_80953300(void) {
-    s32 counter;
-    s32 value;
-    s32 second;
+    s32 entry_index;
+    s32 random_value;
+    s32 second_index;
 
-    counter = 3;
+    entry_index = 3;
     do {
-        value = rand();
-        D_80024308[counter] = (value % 5) + 3;
-        counter--;
-    } while (counter >= 0);
+        random_value = rand();
+        D_80024308[entry_index] = (random_value % 5) + 3;
+        entry_index--;
+    } while (entry_index >= 0);
 
-    counter = rand() & 3;
+    entry_index = rand() & 3;
     do {
-        second = rand() & 3;
-    } while (counter == second);
+        second_index = rand() & 3;
+    } while (entry_index == second_index);
 
-    D_80024308[counter] = 1;
-    D_80024308[second] = 2;
+    D_80024308[entry_index] = 1;
+    D_80024308[second_index] = 2;
     D_80113158 = 0;
     D_8011315C = 0;
     return 0;
 }
-
-/* MECHANISM: 0x20-byte frame with counter/value/second source locals.
-   Hold the D_80024308 base through the first loop and use a short loop-carried
-   pointer implied by the descending indexed stores; keep the final stores direct. */

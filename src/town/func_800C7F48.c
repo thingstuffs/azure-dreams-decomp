@@ -12,16 +12,17 @@ typedef struct S_800C56A8_0 {
 } S_800C56A8_0;   /* arg1 in func_800C56A8 */
 
 
-void func_800C56A8(Rec_func_80094268_arg0 *arg0, S_800C56A8_0 *arg1) {
-    u16 temp_v0;
+/* Adjust the two state values and run completion actions when the countdown expires. */
+void func_800C56A8(Rec_func_80094268_arg0 *object, S_800C56A8_0 *state) {
+    u16 ticks_left;
 
-    arg1->unk_00 = (s32) (arg1->unk_00 + 0xFFFEAAAB);
-    arg1->unk_04 = (s32) (arg1->unk_04 + 0x40000);
-    temp_v0 = arg0->unk_6C.as_u16 - 1;
-    arg0->unk_6C.as_u16 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
+    state->unk_00 = (s32) (state->unk_00 + 0xFFFEAAAB);
+    state->unk_04 = (s32) (state->unk_04 + 0x40000);
+    ticks_left = object->unk_6C.as_u16 - 1;
+    object->unk_6C.as_u16 = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
         func_80033AA8(0x54);
-        func_8008F134(arg0);
-        func_800C30A4(arg0);
+        func_8008F134(object);
+        func_800C30A4(object);
     }
 }

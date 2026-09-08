@@ -54,130 +54,131 @@ extern void func_8009A028(Entity *, Global83460 *);
 extern void func_800A2B04(Motion *, u8, u8);
 extern void func_800AD4D0(Entity *);
 
-void func_800B2CA0(StateObj *arg0, Motion *arg1, Params *arg2, Entity *arg3) {
+/* Initializes and slows entity motion, then stops it or moves it to the target tile. */
+void func_800B2CA0(StateObj *motion_state, Motion *motion, Params *params, Entity *entity) {
     s32 state;
-    s16 new_delay;
-    s32 temp_dx;
-    s32 temp_dy;
-    s32 rounded_dx;
-    s32 rounded_dy;
+    s16 initial_delay;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 biased_dx;
+    s32 biased_dy;
 
-    state = arg0->state;
+    state = motion_state->state;
     if (state == 1) {
-        goto state_one;
+        goto decelerate;
     }
     if (state < 2) {
         if (state == 0) {
-            goto state_zero;
+            goto init_motion;
         }
         goto done;
     }
     if (state == 2) {
-        goto state_two;
+        goto approach_target;
     }
     goto done;
 
-state_zero:
-    func_800AD4D0(arg3);
-    arg1->dx = (-*(s16 *)(D_8006CCD8 + ((arg3->key6a >> 8) & 0xe))) << 0xf;
-    arg1->dy = (-*(s16 *)(D_8006CCE8 + ((arg3->key6a >> 8) & 0xe))) << 0xf;
-    arg0->state++;
-    if (arg2->flags & 0x8000) {
-        if (arg3->byte28 == 0) {
-            goto reset_one;
+init_motion:
+    func_800AD4D0(entity);
+    motion->dx = (-*(s16 *)(D_8006CCD8 + ((entity->key6a >> 8) & 0xe))) << 0xf;
+    motion->dy = (-*(s16 *)(D_8006CCE8 + ((entity->key6a >> 8) & 0xe))) << 0xf;
+    motion_state->state++;
+    if (params->flags & 0x8000) {
+        if (entity->byte28 == 0) {
+            goto stop_motion;
         }
-        arg0->state = 2;
+        motion_state->state = 2;
         goto done;
     }
-    new_delay = -1;
-    if (arg3->flags & 0x228) {
-        new_delay = 8;
+    initial_delay = -1;
+    if (entity->flags & 0x228) {
+        initial_delay = 8;
     }
-    arg0->delay = new_delay;
-    goto state_one;
+    motion_state->delay = initial_delay;
+    goto decelerate;
 
-state_one:
-    temp_dx = arg1->dx;
-    rounded_dx = temp_dx;
-    if (temp_dx < 0) {
-        rounded_dx = temp_dx + 3;
+decelerate:
+    velocity_x = motion->dx;
+    biased_dx = velocity_x;
+    if (velocity_x < 0) {
+        biased_dx = velocity_x + 3;
     }
-    temp_dy = arg1->dy;
-    arg1->dx = temp_dx - (rounded_dx >> 2);
-    rounded_dy = temp_dy;
-    if (temp_dy < 0) {
-        rounded_dy = temp_dy + 3;
+    velocity_y = motion->dy;
+    motion->dx = velocity_x - (biased_dx >> 2);
+    biased_dy = velocity_y;
+    if (velocity_y < 0) {
+        biased_dy = velocity_y + 3;
     }
-    arg1->dy = temp_dy - (rounded_dy >> 2);
-    if (arg0->delay > 0) {
-        u16 delay = arg0->delay;
-        arg0->delay = delay - 1;
+    motion->dy = velocity_y - (biased_dy >> 2);
+    if (motion_state->delay > 0) {
+        u16 delay = motion_state->delay;
+        motion_state->delay = delay - 1;
         goto after_delay;
     }
-    if (arg2->flags & 0x6000) {
-        arg0->delay = 0;
+    if (params->flags & 0x6000) {
+        motion_state->delay = 0;
     }
 after_delay:
-    if (arg0->delay != 0) {
+    if (motion_state->delay != 0) {
         goto done;
     }
-    if (arg3->byte28 != 0) {
-        goto set_delay;
+    if (entity->byte28 != 0) {
+        goto begin_approach;
     }
 
-reset_one:
+stop_motion:
     {
-        Global83460 *global = &D_80083460;
-        arg1->unk14 = 0;
-        arg1->dy = 0;
-        arg1->dx = 0;
-        if (global->value == (s32)((u8 *)arg3 - 0x20)) {
-            global->value &= 0x7fffffff;
+        Global83460 *shared_state = &D_80083460;
+        motion->unk14 = 0;
+        motion->dy = 0;
+        motion->dx = 0;
+        if (shared_state->value == (s32)((u8 *)entity - 0x20)) {
+            shared_state->value &= 0x7fffffff;
         }
-        global->count++;
-        func_8009A028(arg3, global);
-        ((u16 *)arg0)[-1] |= 0x8000;
+        shared_state->count++;
+        func_8009A028(entity, shared_state);
+        ((u16 *)motion_state)[-1] |= 0x8000;
         D_800814A0[0] |= 0x8000;
         goto done;
     }
 
-set_delay:
-    arg0->delay = 8;
-    arg0->state++;
+begin_approach:
+    motion_state->delay = 8;
+    motion_state->state++;
     goto done;
 
-state_two:
+approach_target:
     {
-        s16 divisor = arg0->delay;
-        if (divisor != 0) {
-            s32 target_x = (s32)arg2->x << 6;
-            s32 pos_x = arg1->x - 0x20;
-            arg1->dx = ((target_x - pos_x) << 0xf) / divisor;
+        s16 frames_left = motion_state->delay;
+        if (frames_left != 0) {
+            s32 target_x = (s32)params->x << 6;
+            s32 pos_x = motion->x - 0x20;
+            motion->dx = ((target_x - pos_x) << 0xf) / frames_left;
             {
-                s32 pos_y = arg1->y - 0x20;
-                s32 target_y = (s32)arg2->y << 6;
-                arg1->dy = ((target_y - pos_y) << 0xf) / arg0->delay;
+                s32 pos_y = motion->y - 0x20;
+                s32 target_y = (s32)params->y << 6;
+                motion->dy = ((target_y - pos_y) << 0xf) / motion_state->delay;
             }
         }
         {
-            u16 delay = arg0->delay;
+            u16 delay = motion_state->delay;
             delay -= 1;
-            arg0->delay = delay;
+            motion_state->delay = delay;
             if ((delay << 0x10) > 0) {
                 goto done;
             }
         }
     }
 
-    arg1->unk14 = 0;
-    arg1->dy = 0;
-    arg1->dx = 0;
-    func_800A2B04(arg1, arg2->x, arg2->y);
+    motion->unk14 = 0;
+    motion->dy = 0;
+    motion->dx = 0;
+    func_800A2B04(motion, params->x, params->y);
     {
-        if (D_80083460.value == (s32)((u8 *)arg3 - 0x20)) {
+        if (D_80083460.value == (s32)((u8 *)entity - 0x20)) {
             D_80083460.value &= 0x7fffffff;
         }
-        arg0->next = D_800B2A60;
+        motion_state->next = D_800B2A60;
     }
 
 done:

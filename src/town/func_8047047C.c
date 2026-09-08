@@ -16,30 +16,27 @@ typedef struct S_8001747C_0 {
     s16 unk_18;
 } S_8001747C_0;   /* arg0 in func_8001747C */
 
-s32 func_8001747C(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    u8 *page_v0;
-    s32 temp_s1;
-    s32 var_v0;
+/* Returns a handler result or a fixed fallback address based on the object checks. */
+s32 func_8001747C(s32 object, M2C_UNK request, M2C_UNK context) {
+    u8 *page_base;
+    s32 default_result;
+    s32 result;
 
-    if (func_80017E98(arg0, arg1) != 0) {
-        page_v0 = (u8 *)0x80020000;
-        ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        return (s32)(page_v0 - 0x49C4);
+    if (func_80017E98(object, request) != 0) {
+        page_base = (u8 *)0x80020000;
+        ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        return (s32)(page_base - 0x49C4);
     }
-    temp_s1 = func_80019ABC(&D_8001A9AC, &D_8001B1F8, arg0, arg2);
-    var_v0 = temp_s1;
-    if (func_80019A04(&D_8001A9AC, arg0, arg2) != 0) {
-        if (func_8001A510(((S_8001747C_0 *)arg0)->unk_18) != 0) {
-            var_v0 = func_8001628C(arg0, arg1, arg2);
+    default_result = func_80019ABC(&D_8001A9AC, &D_8001B1F8, object, context);
+    result = default_result;
+    if (func_80019A04(&D_8001A9AC, object, context) != 0) {
+        if (func_8001A510(((S_8001747C_0 *)object)->unk_18) != 0) {
+            result = func_8001628C(object, request, context);
         } else {
-            page_v0 = (u8 *)0x80020000;
-            ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            var_v0 = (s32)(page_v0 - 0x304C);
+            page_base = (u8 *)0x80020000;
+            ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            result = (s32)(page_base - 0x304C);
         }
     }
-    return var_v0;
+    return result;
 }
-
-/* MECHANISM: True-space local joins remove the phantom jal/nop cascades.
-   A guarded $v0 0x80020000 page carrier splits both return constants exactly;
-   ASM_USE(arg0) holds the later call setup below the early-return branch. */

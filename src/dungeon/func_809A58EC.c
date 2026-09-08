@@ -88,175 +88,174 @@ extern u8 D_8016FEA0[];
 extern u8 D_8016FEB0[];
 extern u8 D_8016FEB8[];
 
-void func_8016B0EC(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Updates creature behavior, animation, and facing according to its current state. */
+void func_8016B0EC(void *actor, void *context, void *sprite, void *creature)
 {
-    s32 scratch;
-    s8 result;
-    u16 state;
+    s32 distance;
+    s8 room_id;
+    u16 action_flags;
 
     if (D_80083462 & 0x1000) {
-        ((S_8016B0EC_0 *)arg0)->unk_9A = 0xE;
-        func_8016B69C(arg0, arg1, arg2, arg3);
+        ((S_8016B0EC_0 *)actor)->unk_9A = 0xE;
+        func_8016B69C(actor, context, sprite, creature);
         return;
     }
 
-    if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
-        u8 *table;
+    if (((Rec_D_800E3D7C *)creature)->unk_24.at01_u8.v == 0) {
+        u8 *anim_table;
 
-        func_800AA79C(arg0, arg1, arg2, arg3);
-        if (((S_8016B0EC_2 *)arg2)->unk_2C == D_8016FEA0) {
+        func_800AA79C(actor, context, sprite, creature);
+        if (((S_8016B0EC_2 *)sprite)->unk_2C == D_8016FEA0) {
             return;
         }
-        table = D_8016FEB0;
-        (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-        func_80047784(arg2,
-            table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        anim_table = D_8016FEB0;
+        (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+        func_80047784(sprite,
+            anim_table[((D_80083228 + ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         return;
     }
 
-    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x200) {
-        if (((S_8016B0EC_2 *)arg2)->unk_2C == D_8016FEA0) {
-            ((S_8016B0EC_0 *)arg0)->unk_9A = 0xD;
-            ((S_8016B0EC_0 *)arg0)->unk_9B = 1;
-            ((S_8016B0EC_0 *)arg0)->unk_8C = 0;
-            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x40000;
+    if (((Rec_D_800E3D7C *)creature)->unk_1C.as_u32 & 0x200) {
+        if (((S_8016B0EC_2 *)sprite)->unk_2C == D_8016FEA0) {
+            ((S_8016B0EC_0 *)actor)->unk_9A = 0xD;
+            ((S_8016B0EC_0 *)actor)->unk_9B = 1;
+            ((S_8016B0EC_0 *)actor)->unk_8C = 0;
+            ((Rec_D_800E3D7C *)creature)->unk_1C.as_u32 &= ~0x40000;
             return;
         }
-        if (func_800AA924(arg0, arg1, arg2, D_8016FEB0) != 0) {
+        if (func_800AA924(actor, context, sprite, D_8016FEB0) != 0) {
             return;
         }
     }
 
     if (!(D_80083462 & 0x2000)) {
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        if (((Rec_D_800E3D7C *)creature)->unk_1C.as_u32 & 0x100) {
+            func_800AA258(actor, context, sprite, creature);
             return;
         }
 
         {
-            void *current;
-            u8 *table;
+            void *current_anims;
+            u8 *anim_table;
 
-            if (((S_8016B0EC_0 *)arg0)->unk_9A != 0xE) {
-                ((S_8016B0EC_0 *)arg0)->unk_9A = 0xE;
-                ((S_8016B0EC_0 *)arg0)->unk_B2 = 0;
+            if (((S_8016B0EC_0 *)actor)->unk_9A != 0xE) {
+                ((S_8016B0EC_0 *)actor)->unk_9A = 0xE;
+                ((S_8016B0EC_0 *)actor)->unk_B2 = 0;
             }
 
-            current = ((S_8016B0EC_2 *)arg2)->unk_2C;
-            if (current == D_8016FEB8) {
-                if (((S_8016B0EC_2 *)arg2)->unk_14 & 0xE000) {
-                    u8 *tableA = D_8016FE40;
+            current_anims = ((S_8016B0EC_2 *)sprite)->unk_2C;
+            if (current_anims == D_8016FEB8) {
+                if (((S_8016B0EC_2 *)sprite)->unk_14 & 0xE000) {
+                    u8 *reset_anims = D_8016FE40;
 
-                    (*(void * *)((u8 *)arg2 + 0x2C)) = tableA;
-                    func_80047784(arg2,
-                        tableA[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                    (*(void * *)((u8 *)sprite + 0x2C)) = reset_anims;
+                    func_80047784(sprite,
+                        reset_anims[((D_80083228 + ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0);
-                    ((S_8016B0EC_2 *)arg2)->unk_05 = 1;
-                    ((S_8016B0EC_0 *)arg0)->unk_A2.s = 0;
-                    ((S_8016B0EC_0 *)arg0)->unk_9E = 0;
+                    ((S_8016B0EC_2 *)sprite)->unk_05 = 1;
+                    ((S_8016B0EC_0 *)actor)->unk_A2.s = 0;
+                    ((S_8016B0EC_0 *)actor)->unk_9E = 0;
                 }
             } else {
-                table = D_8016FE40;
-                if (current != table) {
-                    (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-                    func_80047784(arg2,
-                        table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                anim_table = D_8016FE40;
+                if (current_anims != anim_table) {
+                    (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+                    func_80047784(sprite,
+                        anim_table[((D_80083228 + ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                         0);
-                    ((S_8016B0EC_2 *)arg2)->unk_05 = 1;
-                    ((S_8016B0EC_0 *)arg0)->unk_A2.s = 0;
-                    ((S_8016B0EC_0 *)arg0)->unk_9E = 0;
+                    ((S_8016B0EC_2 *)sprite)->unk_05 = 1;
+                    ((S_8016B0EC_0 *)actor)->unk_A2.s = 0;
+                    ((S_8016B0EC_0 *)actor)->unk_9E = 0;
                 }
             }
         }
 
-        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x40000;
-        ((S_8016B0EC_0 *)arg0)->unk_98 &= 0xFFF7;
+        ((Rec_D_800E3D7C *)creature)->unk_1C.as_u32 |= 0x40000;
+        ((S_8016B0EC_0 *)actor)->unk_98 &= 0xFFF7;
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, D_8016FE48) != 0) {
+        if (((Rec_D_800E3D7C *)creature)->unk_64.as_s16 != 0) {
+            if (func_800AA6B4(actor, context, sprite, D_8016FE48) != 0) {
                 return;
             }
         }
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x80000) {
-            s16 delta;
+        if (((Rec_D_800E3D7C *)creature)->unk_1C.as_u32 & 0x80000) {
+            s16 base_offset;
 
-            func_800AA888(arg0, arg1, arg2, arg3);
-            delta = ((S_8016B0EC_0 *)arg0)->unk_92.u - ((S_8016B0EC_0 *)arg0)->unk_A2.u;
-            ((S_8016B0EC_0 *)arg0)->unk_A2.s = 0;
-            ((S_8016B0EC_0 *)arg0)->unk_9E = 0;
-            ((S_8016B0EC_0 *)arg0)->unk_92.s = delta;
-            func_8016E574(arg0, arg1, arg2, arg3);
+            func_800AA888(actor, context, sprite, creature);
+            base_offset = ((S_8016B0EC_0 *)actor)->unk_92.u - ((S_8016B0EC_0 *)actor)->unk_A2.u;
+            ((S_8016B0EC_0 *)actor)->unk_A2.s = 0;
+            ((S_8016B0EC_0 *)actor)->unk_9E = 0;
+            ((S_8016B0EC_0 *)actor)->unk_92.s = base_offset;
+            func_8016E574(actor, context, sprite, creature);
             return;
         }
 
-        if ((func_800A1C58(arg3) << 16) != 0) {
-            func_800AAB10(arg0, arg1, arg2, arg3);
+        if ((func_800A1C58(creature) << 16) != 0) {
+            func_800AAB10(actor, context, sprite, creature);
         }
     }
 
-    result = func_8009FB34(((S_8016B0EC_2 *)arg2)->unk_24.at00.v, ((S_8016B0EC_2 *)arg2)->unk_24.at01.v);
-    ((S_8016B0EC_2 *)arg2)->unk_26 = result;
+    room_id = func_8009FB34(((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v);
+    ((S_8016B0EC_2 *)sprite)->unk_26 = room_id;
 
-    if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 > 0) {
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x20) {
+    if (((Rec_D_800E3D7C *)creature)->unk_6D.as_s8 > 0) {
+        if (((Rec_D_800E3D7C *)creature)->unk_1C.as_u32 & 0x20) {
             goto case_12;
         }
-        if (((S_8016B0EC_2 *)arg2)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_8016B0EC_2 *)sprite)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
             goto generic;
         }
-        if (!(((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000)) {
+        if (!(((Rec_D_800E3D7C *)creature)->unk_44.at02_u16.v & 0x8000)) {
             if (D_80083462 & 0x2000) {
-                if ((func_8009A180(arg3,
+                if ((func_8009A180(creature,
                         (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                     return;
                 }
             }
-            if ((func_8016C66C(arg0, arg1, arg2, 0) << 16) == 0) {
+            if ((func_8016C66C(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
-            state = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v | 0x4000;
-            ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v = state;
-            if (!(state & 0x8000)) {
+            action_flags = ((Rec_D_800E3D7C *)creature)->unk_44.at02_u16.v | 0x4000;
+            ((Rec_D_800E3D7C *)creature)->unk_44.at02_u16.v = action_flags;
+            if (!(action_flags & 0x8000)) {
                 goto generic;
             }
         }
 
         {
-            static void *const sw_keep[] = {
+            static void *const action_labels[] = {
                 &&case_123, &&generic, &&sw_case89, &&sw_case567, &&case_12
             };
             extern void *const D_8016A808[];
-            u32 swi = (u32)((((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x3FFF) - 1);
+            u32 action_index = (u32)((((Rec_D_800E3D7C *)creature)->unk_44.at02_u16.v & 0x3FFF) - 1);
 
-            if (swi >= 12) {
+            if (action_index >= 12) {
                 goto generic;
             }
-            (void)sw_keep;
-            goto *D_8016A808[swi];
+            (void)action_labels;
+            goto *D_8016A808[action_index];
         }
 sw_case89:
-            if ((func_8016BF9C(arg0, arg1, arg2, arg3) << 16) != 0) {
+            if ((func_8016BF9C(actor, context, sprite, creature) << 16) != 0) {
                 return;
             }
-            func_8016C234(arg0, arg1, arg2, arg3);
+            func_8016C234(actor, context, sprite, creature);
             return;
 
 sw_case567:
         {
-            u8 *origin = D_80082E80;
+            u8 *player_pos = D_80082E80;
             void *player;
-            s16 coordinate;
+            s16 facing_angle;
 
-            coordinate = func_800A0818(
-                ((S_8016B0EC_2 *)arg2)->unk_24.at00.v, ((S_8016B0EC_2 *)arg2)->unk_24.at01.v,
-                ((S_8016B0EC_4 *)origin)->unk_24, ((S_8016B0EC_4 *)origin)->unk_25,
-                &scratch);
+            facing_angle = func_800A0818(
+                ((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v,
+                ((S_8016B0EC_4 *)player_pos)->unk_24, ((S_8016B0EC_4 *)player_pos)->unk_25,
+                &distance);
             player = D_800814A8;
-#ifndef __mips__
-#endif
-            ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = coordinate;
+            ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 = facing_angle;
             if (((S_8016B0EC_5 *)player)->unk_9A == 0x11) {
                 goto case_123;
             }
@@ -264,40 +263,40 @@ sw_case567:
             /* fallthrough */
 
 case_12:
-            func_800A9A0C(arg3);
+            func_800A9A0C(creature);
             return;
 
 case_123:
-            func_800AAF00(arg0, arg1, arg2, D_8016FE98, func_8016B0EC);
+            func_800AAF00(actor, context, sprite, D_8016FE98, func_8016B0EC);
             return;
 
 generic:
-            func_8016B854(arg0, arg1, arg2, arg3);
+            func_8016B854(actor, context, sprite, creature);
             return;
     }
 
-    if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x2000)) {
-        s32 index = result;
+    if (!(((Rec_D_800E3D7C *)creature)->unk_1C.as_u32 & 0x2000)) {
+        s32 room_index = room_id;
 
-        if ((index < 0) ||
-            !(((DungeonRecord *)D_800E2970)[index].flags & 2)) {
-            if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x430)) {
-                u8 *origin = D_80082E80;
+        if ((room_index < 0) ||
+            !(((DungeonRecord *)D_800E2970)[room_index].flags & 2)) {
+            if (!(((Rec_D_800E3D7C *)creature)->unk_1C.as_u32 & 0x430)) {
+                u8 *player_pos = D_80082E80;
 
                 if ((func_8009FD7C(
-                        ((S_8016B0EC_2 *)arg2)->unk_24.at00.v, ((S_8016B0EC_2 *)arg2)->unk_24.at01.v,
-                        ((S_8016B0EC_4 *)origin)->unk_24, ((S_8016B0EC_4 *)origin)->unk_25) << 16) != 0) {
-                    ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(
-                        ((S_8016B0EC_2 *)arg2)->unk_24.at00.v, ((S_8016B0EC_2 *)arg2)->unk_24.at01.v,
-                        ((S_8016B0EC_4 *)origin)->unk_24, ((S_8016B0EC_4 *)origin)->unk_25,
-                        &scratch);
+                        ((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v,
+                        ((S_8016B0EC_4 *)player_pos)->unk_24, ((S_8016B0EC_4 *)player_pos)->unk_25) << 16) != 0) {
+                    ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 = func_800A0818(
+                        ((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v,
+                        ((S_8016B0EC_4 *)player_pos)->unk_24, ((S_8016B0EC_4 *)player_pos)->unk_25,
+                        &distance);
                     return;
                 }
             }
         }
-    } else if ((func_80042900(arg3, 4) << 16) == 0) {
+    } else if ((func_80042900(creature, 4) << 16) == 0) {
         if (((Rec_D_800814A8 *)D_800814A8)->unk_9A == 0x17) {
-            func_8016C358(arg0, arg1, arg2, arg3);
+            func_8016C358(actor, context, sprite, creature);
         }
     }
 }

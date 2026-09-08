@@ -19,29 +19,30 @@ extern void DrawSync(s32 mode);
 extern void *func_8004068C(void *src, void *dst);
 extern s32 LoadImage(void *rect, void *data);
 
-void func_8003F8F8(S_8003F8F8 *arg0)
+/* Uploads a null-terminated image list to VRAM through a staging buffer. */
+void func_8003F8F8(S_8003F8F8 *images)
 {
     S_8003F8F8 *entry;
     s32 width;
-    s32 half;
-    s32 size;
+    s32 column_bytes;
+    s32 image_bytes;
 
-    entry = arg0;
+    entry = images;
     while (entry->data != 0) {
         width = entry->width;
-        half = entry->height * 2;
-        size = width * half;
+        column_bytes = entry->height * 2;
+        image_bytes = width * column_bytes;
         if ((u32)(D_8008148C + D_80080A7C) >=
-            (u32)(D_80081480 + size)) {
+            (u32)(D_80081480 + image_bytes)) {
             D_80081480 = D_8008148C;
             DrawSync(0);
         }
         func_8004068C(entry->data, (void *)D_80081480);
         LoadImage(&entry->rect_x, (void *)D_80081480);
         width = entry->width;
-        half = entry->height * 2;
-        size = width * half;
+        column_bytes = entry->height * 2;
+        image_bytes = width * column_bytes;
         entry++;
-        D_80081480 += size;
+        D_80081480 += image_bytes;
     }
 }

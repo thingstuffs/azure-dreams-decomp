@@ -101,35 +101,36 @@ extern u8 D_800D71A8[];
 extern u8 D_8017586C[];
 extern u8 D_80175894[];
 
-void *func_8017087C(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
+/* Create an object with kind-dependent flags and initialize its three child objects. */
+void *func_8017087C(s16 kind_flags, s8 tile_x, s8 tile_y, s16 part_id)
 {
     s32 kind;
     void *obj;
     S_8017087C_2 *part_a;
     S_8017087C_5 *slot_base;
-    S_8017087C_8 *work_copy;
-    s32 base;
+    S_8017087C_8 *child_slot;
+    s32 entry_id_fixed;
     void *part_b;
     register void *work ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s8 saved_arg1 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 left;
-    register s32 right;
-    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    s32 i;
+    register s8 saved_x ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_part_id;
+    register s8 saved_y ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 setup_value;
+    register s32 work_flags;
+    register void *alloc_or_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 entry_id ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 entry_mode ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s32 child_index;
     u8 *slot;
-    s32 j;
+    s32 entry_index;
 
     work = 0;
-    call_a0 = (void *)274;
-    ASM_USE_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
-    obj = func_8003FD64((s32)call_a0, D_80083498);
+    alloc_or_entry = (void *)274;
+    ASM_USE_NV(alloc_or_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    saved_x = tile_x;
+    saved_part_id = part_id;
+    saved_y = tile_y;
+    obj = func_8003FD64((s32)alloc_or_entry, D_80083498);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8017087C_0 *)obj)->unk_10 = func_80170BB8;
@@ -137,37 +138,37 @@ void *func_8017087C(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
         func_8004491C(obj, &D_80045340);
 
         part_a = ((S_8017087C_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_arg3;
+        part_a->unk_0A = saved_part_id;
         part_b = ((S_8017087C_0 *)obj)->unk_0C;
         slot_base = work;
-        kind = arg0 & 3;
+        kind = kind_flags & 3;
         ((S_8017087C_3 *)part_b)->unk_2C = D_8017586C;
-        ((S_8017087C_3 *)part_b)->unk_24 = saved_arg1;
-        ((S_8017087C_3 *)part_b)->unk_25 = saved_arg2;
+        ((S_8017087C_3 *)part_b)->unk_24 = saved_x;
+        ((S_8017087C_3 *)part_b)->unk_25 = saved_y;
 
         if (kind == 1) {
-            left = ((S_8017087C_1 *)work)->unk_14 | 0x6000;
-            right = ((S_8017087C_1 *)work)->unk_1C | 0x6000;
+            setup_value = ((S_8017087C_1 *)work)->unk_14 | 0x6000;
+            work_flags = ((S_8017087C_1 *)work)->unk_1C | 0x6000;
             goto set_flags;
         }
         if (kind < 2) {
             goto normal_kind;
         }
 
-        left = ((S_8017087C_1 *)work)->unk_14 | 0x2000;
-        right = ((S_8017087C_1 *)work)->unk_1C | 0x2000;
+        setup_value = ((S_8017087C_1 *)work)->unk_14 | 0x2000;
+        work_flags = ((S_8017087C_1 *)work)->unk_1C | 0x2000;
 
 set_flags:
-        ((S_8017087C_1 *)work)->unk_14 = left;
-        ((S_8017087C_1 *)work)->unk_1C = right;
+        ((S_8017087C_1 *)work)->unk_14 = setup_value;
+        ((S_8017087C_1 *)work)->unk_1C = work_flags;
         goto post_kind;
 
 normal_kind:
-        if (((arg0 & ~3) << 16) == 0) {
+        if (((kind_flags & ~3) << 16) == 0) {
             if (!(((S_8017087C_1 *)work)->unk_14 & 0x200)) {
-                left = func_800A6D30();
-                if (!(left & 1)) {
-                    goto call_a1_setup;
+                setup_value = func_800A6D30();
+                if (!(setup_value & 1)) {
+                    goto init_parts;
                 }
                 ((S_8017087C_1 *)work)->unk_1C |= 0x200;
                 func_800A48F0(work, 1,
@@ -176,14 +177,14 @@ normal_kind:
                 goto post_kind;
             }
         }
-        goto call_a1_setup;
+        goto init_parts;
 
 post_kind:
-call_a1_setup:
-        func_800A9C18(obj, part_a, part_b, arg0);
+init_parts:
+        func_800A9C18(obj, part_a, part_b, kind_flags);
 
-        i = 0;
-        base = 0x00190000;
+        child_index = 0;
+        entry_id_fixed = 0x00190000;
         slot = (u8 *)slot_base;
         ((S_8017087C_4 *)slot)->unk_9A = 0xFF;
         slot_base->unk_9C = -1;
@@ -192,58 +193,58 @@ call_a1_setup:
         slot_base->unk_92 = -24;
         slot_base->unk_9E = 3;
         do {
-            void *new_obj;
+            void *child_obj;
 
-            new_obj = func_8003FD64(274, D_80083498);
-            ((S_8017087C_4 *)slot)->unk_A4 = new_obj;
-            if (new_obj != 0) {
-                register void *new_work ASM_REG("$17") = (u8 *)new_obj + 0x20;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            child_obj = func_8003FD64(274, D_80083498);
+            ((S_8017087C_4 *)slot)->unk_A4 = child_obj;
+            if (child_obj != 0) {
+                register void *child_work ASM_REG("$17") = (u8 *)child_obj + 0x20;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-                if (i != 0) {
-                    ((S_8017087C_6 *)new_work)->unk_02 = 1;
+                if (child_index != 0) {
+                    ((S_8017087C_6 *)child_work)->unk_02 = 1;
                 } else {
-                    ((S_8017087C_6 *)new_work)->unk_02 = 2;
+                    ((S_8017087C_6 *)child_work)->unk_02 = 2;
                 }
-                j = 0;
-                if (((S_8017087C_6 *)new_work)->unk_02 > 0) {
-                    register s32 stride ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    s32 cur_base;
+                entry_index = 0;
+                if (((S_8017087C_6 *)child_work)->unk_02 > 0) {
+                    register s32 entry_offset ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    s32 child_id_fixed;
 
-                    work_copy = slot;
-                    cur_base = base;
-                    stride = 8;
+                    child_slot = slot;
+                    child_id_fixed = entry_id_fixed;
+                    entry_offset = 8;
                     do {
-                        u8 *entry = (u8 *)new_work + stride;
+                        u8 *entry = (u8 *)child_work + entry_offset;
                         S_8017087C_9 *callback_obj;
                         register u32 color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
                         color = 0x00C0C0C0;
-                        call_a0 = entry;
-                        left = ((S_8017087C_3 *)part_b)->unk_28;
-                        call_a1 = cur_base >> 16;
+                        alloc_or_entry = entry;
+                        setup_value = ((S_8017087C_3 *)part_b)->unk_28;
+                        entry_id = child_id_fixed >> 16;
                         ((S_8017087C_7 *)entry)->unk_0C = color;
-                        ((S_8017087C_7 *)entry)->unk_28 = left;
-                        call_a2 = 0;
-                        callback_obj = work_copy->unk_A4;
-                        ASM_USE(call_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        stride += 48;
+                        ((S_8017087C_7 *)entry)->unk_28 = setup_value;
+                        entry_mode = 0;
+                        callback_obj = child_slot->unk_A4;
+                        ASM_USE(entry_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                        entry_offset += 48;
                         callback_obj->unk_10 = func_800D78C0;
-                        left = ((S_8017087C_7 *)entry)->unk_14;
-                        j++;
-                        left |= 0xC;
-                        ((S_8017087C_7 *)entry)->unk_14 = left;
-                        func_80047784(call_a0, call_a1, call_a2);
+                        setup_value = ((S_8017087C_7 *)entry)->unk_14;
+                        entry_index++;
+                        setup_value |= 0xC;
+                        ((S_8017087C_7 *)entry)->unk_14 = setup_value;
+                        func_80047784(alloc_or_entry, entry_id, entry_mode);
                         ((S_8017087C_7 *)entry)->unk_10 = 96;
                         ((S_8017087C_7 *)entry)->unk_12 = ((S_8017087C_3 *)part_b)->unk_12 - 128;
-                        ((S_8017087C_6 *)new_work)->unk_06 = i + 1;
-                        func_800478E8(part_b, D_800D71A8, ((S_8017087C_6 *)new_work)->unk_06);
-                        ((S_8017087C_6 *)new_work)->unk_98 = (u8 *)obj + 30;
-                    } while (j < ((S_8017087C_6 *)new_work)->unk_02);
+                        ((S_8017087C_6 *)child_work)->unk_06 = child_index + 1;
+                        func_800478E8(part_b, D_800D71A8, ((S_8017087C_6 *)child_work)->unk_06);
+                        ((S_8017087C_6 *)child_work)->unk_98 = (u8 *)obj + 30;
+                    } while (entry_index < ((S_8017087C_6 *)child_work)->unk_02);
                 }
             }
-            base += 0x10000;
+            entry_id_fixed += 0x10000;
             slot += 4;
-        } while (++i < slot_base->unk_9E);
+        } while (++child_index < slot_base->unk_9E);
         slot_base->unk_98 = slot_base->unk_98 | 0x2000;
         func_800AA36C(slot_base, part_a, part_b, work);
     }

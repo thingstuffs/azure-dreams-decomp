@@ -45,17 +45,18 @@ extern void func_8006658C(u32 *, Entry *);
 extern u32 func_80066460(u32, u32, u32, u32);
 extern void func_80067F20(Entry *, u32, u32, u32, u32);
 
+/* Builds shaded quads from adjacent vertex rows and adds them to the ordering table. */
 s32 func_80024EF4(void)
 {
-    s32 index = 0;
+    s32 quad_index = 0;
     Scratch *scratch = (Scratch *)0x1F800000;
     u8 *state = D_80083160;
-    u8 *initial_current = *(u8 **)(state + 0x8D0);
-    u32 *table_base;
-    u8 *record;
+    u8 *primitive_start = *(u8 **)(state + 0x8D0);
+    u32 *vertices;
+    u8 *vertex_record;
 
     scratch->table = (u32 *)(state + 0xB0);
-    scratch->current = initial_current;
+    scratch->current = primitive_start;
 
     /* This address is needed only by the loop's terminal writeback. */
     {
@@ -64,93 +65,93 @@ s32 func_80024EF4(void)
         if (D_8002632A <= 0)
             goto done;
 
-        table_base = D_80026478;
-        record = (u8 *)table_base;
+        vertices = D_80026478;
+        vertex_record = (u8 *)vertices;
 
 loop:
         {
-        Entry *entry;
-        u32 *call0;
-        u32 *call1;
-        register u32 *call2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register u32 *call3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        u32 *upper_table;
-        u32 value88;
-        s32 masked_index;
-        s32 neighbor_index;
-        u16 record_half;
-        u16 neighbor_half;
-        EmptyCallArg late_stores;
+            Entry *quad;
+            u32 *near_vertex;
+            u32 *near_next_vertex;
+            register u32 *far_vertex ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register u32 *far_next_vertex ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            u32 *next_row;
+            u32 far_next_xy;
+            s32 row_start;
+            s32 far_index;
+            u16 near_z;
+            u16 far_z;
+            EmptyCallArg late_stores;
 
-        ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        call0 = &scratch->value70;
-        masked_index = index & ~0xF;
-        entry = (Entry *)scratch->current;
-        ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        call1 = &scratch->value78;
-        ASM_KEEP(call1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        call2 = &scratch->value80;
-        scratch->current = (u8 *)entry + 0x24;
-        scratch->value70 = *(u32 *)record;
-        upper_table = table_base + 0x20;
-        scratch->value78 = table_base[
-            ((u32)masked_index + (u32)((index + 1) & 0xF)) * 2];
-        scratch->value80 = upper_table[index * 2];
-        value88 = upper_table[
-            ((u32)masked_index + (u32)((index + 1) & 0xF)) * 2];
-        call3 = &scratch->value88;
-        record_half = *(u16 *)(record + 4);
-        scratch->half74 = record_half;
-        scratch->half7c = record_half;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        neighbor_index = index + 16;
-        neighbor_half = ((u16 *)table_base)[(neighbor_index * 4) + 2];
+            ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            near_vertex = &scratch->value70;
+            row_start = quad_index & ~0xF;
+            quad = (Entry *)scratch->current;
+            ASM_KEEP(quad);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            near_next_vertex = &scratch->value78;
+            ASM_KEEP(near_next_vertex);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            far_vertex = &scratch->value80;
+            scratch->current = (u8 *)quad + 0x24;
+            scratch->value70 = *(u32 *)vertex_record;
+            next_row = vertices + 0x20;
+            scratch->value78 = vertices[
+                ((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 2];
+            scratch->value80 = next_row[quad_index * 2];
+            far_next_xy = next_row[
+                ((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 2];
+            far_next_vertex = &scratch->value88;
+            near_z = *(u16 *)(vertex_record + 4);
+            scratch->half74 = near_z;
+            scratch->half7c = near_z;
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            far_index = quad_index + 16;
+            far_z = ((u16 *)vertices)[(far_index * 4) + 2];
 
-        scratch->index = func_800654B0(
-            call0, call1, call2, call3,
-            (u32 *)((u8 *)entry + 8), (u32 *)((u8 *)entry + 16),
-            (u32 *)((u8 *)entry + 24), (u32 *)((u8 *)entry + 32),
-            &scratch->out90, &scratch->out94,
-            (scratch->value88 = value88,
-             scratch->half84 = neighbor_half,
-             scratch->half8c = neighbor_half,
-             late_stores));
-        scratch->index -= 8;
+            scratch->index = func_800654B0(
+                near_vertex, near_next_vertex, far_vertex, far_next_vertex,
+                (u32 *)((u8 *)quad + 8), (u32 *)((u8 *)quad + 16),
+                (u32 *)((u8 *)quad + 24), (u32 *)((u8 *)quad + 32),
+                &scratch->out90, &scratch->out94,
+                (scratch->value88 = far_next_xy,
+                 scratch->half84 = far_z,
+                 scratch->half8c = far_z,
+                 late_stores));
+            scratch->index -= 8;
 
-        if (scratch->index < 0x1E0U) {
-            if ((index % 32) < 16) {
-                *(u32 *)((u8 *)entry + 12) = D_80026470;
-                *(u32 *)((u8 *)entry + 4) = D_80026470;
-                *(u32 *)((u8 *)entry + 28) = D_80026474;
-                *(u32 *)((u8 *)entry + 20) = D_80026474;
-            } else {
-                *(u32 *)((u8 *)entry + 28) = D_80026470;
-                *(u32 *)((u8 *)entry + 20) = D_80026470;
-                *(u32 *)((u8 *)entry + 12) = D_80026474;
-                *(u32 *)((u8 *)entry + 4) = D_80026474;
+            if (scratch->index < 0x1E0U) {
+                if ((quad_index % 32) < 16) {
+                    *(u32 *)((u8 *)quad + 12) = D_80026470;
+                    *(u32 *)((u8 *)quad + 4) = D_80026470;
+                    *(u32 *)((u8 *)quad + 28) = D_80026474;
+                    *(u32 *)((u8 *)quad + 20) = D_80026474;
+                } else {
+                    *(u32 *)((u8 *)quad + 28) = D_80026470;
+                    *(u32 *)((u8 *)quad + 20) = D_80026470;
+                    *(u32 *)((u8 *)quad + 12) = D_80026474;
+                    *(u32 *)((u8 *)quad + 4) = D_80026474;
+                }
+
+                func_80066708(quad);
+                quad->bytes[7] |= 2;
+                func_8006658C(scratch->table + scratch->index, quad);
+
+                {
+                    u8 *draw_mode = scratch->current;
+                    scratch->current = draw_mode + 0x0C;
+                    func_80067F20(draw_mode, 0, 0,
+                                  (u16)func_80066460(0, 1, 0, 0), 0);
+                    func_8006658C(scratch->table + scratch->index,
+                                  (Entry *)draw_mode);
+                }
             }
 
-            func_80066708(entry);
-            entry->bytes[7] |= 2;
-            func_8006658C(scratch->table + scratch->index, entry);
-
-            {
-                u8 *next_entry = scratch->current;
-                scratch->current = next_entry + 0x0C;
-                func_80067F20(next_entry, 0, 0,
-                              (u16)func_80066460(0, 1, 0, 0), 0);
-                func_8006658C(scratch->table + scratch->index,
-                              (Entry *)next_entry);
-            }
-        }
-
-            record += 8;
+            vertex_record += 8;
         }
 
         {
-            s32 count = D_8002632A;
-            index++;
-            if (index < count)
+            s32 quad_count = D_8002632A;
+            quad_index++;
+            if (quad_index < quad_count)
                 goto loop;
         }
 

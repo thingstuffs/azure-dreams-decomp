@@ -36,63 +36,57 @@ typedef struct S_800930E4_3 {
     s32 unk_10;
 } S_800930E4_3;   /* state in func_800930E4 */
 
-void func_800930E4(void *arg0, void *arg1, M2C_UNK arg2) {
+/* Updates the target and dispatches actions based on its value, a countdown, and state flags. */
+void func_800930E4(void *self_arg, void *target_arg, M2C_UNK context_arg) {
     void *self;
     register void *target ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    M2C_UNK third;
-    s16 temp_v0;
-    u16 temp_v0_2;
-    u16 temp_v0_3;
+    M2C_UNK context;
+    s16 target_value;
+    u16 countdown;
+    u16 busy_countdown;
     u8 *state;
 
-    self = arg0;
-    target = arg1;
-    third = arg2;
+    self = self_arg;
+    target = target_arg;
+    context = context_arg;
     state = D_80083160;
 
     func_80095C80(target);
     ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(third);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     func_80095094(target);
     if (func_8009FF50() == 0) {
-        temp_v0 = func_80095978(target, D_800FE488);
-        if ((temp_v0 - ((S_800930E4_0 *)target)->unk_0A) >= 4) {
+        target_value = func_80095978(target, D_800FE488);
+        if ((target_value - ((S_800930E4_0 *)target)->unk_0A) >= 4) {
             if (((S_800930E4_1 *)(&D_800CFCEF))->unk_00 == 0) {
-                func_80094378(self, target, third);
+                func_80094378(self, target, context);
                 return;
             }
-            goto block_7;
+        } else if (((S_800930E4_1 *)(&D_800CFCEF))->unk_00 == 0) {
+            func_80095A94(target, target_value, D_800FE488);
         }
-        if (((S_800930E4_1 *)(&D_800CFCEF))->unk_00 == 0) {
-            func_80095A94(target, temp_v0, D_800FE488);
-        }
-block_7:
-        temp_v0_2 = ((S_800930E4_2 *)self)->unk_0A - 1;
-        ((S_800930E4_2 *)self)->unk_0A = temp_v0_2;
-        if ((s16) temp_v0_2 >= 0) {
+        countdown = ((S_800930E4_2 *)self)->unk_0A - 1;
+        ((S_800930E4_2 *)self)->unk_0A = countdown;
+        if ((s16) countdown >= 0) {
             if (((S_800930E4_3 *)state)->unk_08 & 0xF000) {
-                func_80093ED8(self, target, third);
+                func_80093ED8(self, target, context);
                 return;
             }
             if (((S_800930E4_3 *)state)->unk_10 & 0x10) {
-                func_800942B0(self, target, third);
+                func_800942B0(self, target, context);
                 return;
             }
         } else {
-            goto block_15;
+            goto countdown_expired;
         }
     } else {
-        temp_v0_3 = ((S_800930E4_2 *)self)->unk_0A - 1;
-        ((S_800930E4_2 *)self)->unk_0A = temp_v0_3;
-        if ((s16) temp_v0_3 < 0) {
-block_15:
-            func_80093D48(self, target, third);
+        busy_countdown = ((S_800930E4_2 *)self)->unk_0A - 1;
+        ((S_800930E4_2 *)self)->unk_0A = busy_countdown;
+        if ((s16) busy_countdown < 0) {
+countdown_expired:
+            func_80093D48(self, target, context);
         }
     }
 }
-/* MECHANISM: A 0x28 frame comes from pinned s0/s1/s2 argument holds plus
-   D_80083160 held in s4; cdk materializes its address through v0.
-   Signed halfword tests and one shared D_800CFCEF address fix the body.
-   Moving ASM_KEEP after the first call lets sw s3 fill its jal delay slot. */

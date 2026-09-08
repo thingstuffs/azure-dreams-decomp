@@ -22,16 +22,17 @@ typedef struct S_80024710_2 {
     s32 unk_08;
 } S_80024710_2;   /* arg1 in func_80024710 */
 
-void func_80024710(S_80024710_0 *arg0, S_80024710_2 *arg1) {
-    s32 temp_s0;
-    s32 temp_s0_2;
-    S_80024710_1 *temp_v1;
+/* Advance the object counter and offset the position using its two angles. */
+void func_80024710(S_80024710_0 *object, S_80024710_2 *position) {
+    s32 angle_scale_x;
+    s32 angle_scale_y;
+    S_80024710_1 *state;
 
-    temp_v1 = arg0->unk_00;
-    temp_v1->unk_14 = (u16) (temp_v1->unk_14 + 1);
-    temp_s0 = func_800644B8(arg0->unk_0E);
-    arg1->unk_00 = (s32) (arg1->unk_00 + ((temp_s0 >> 4) * (func_800644B8(arg0->unk_10) >> 4) * 0x1C));
-    temp_s0_2 = func_800644B8(arg0->unk_0E);
-    arg1->unk_04 = (s32) (arg1->unk_04 + ((temp_s0_2 >> 4) * (func_80064584(arg0->unk_10) >> 4) * 0x1C));
-    arg1->unk_08 = (s32) (arg1->unk_08 + ((func_80064584(arg0->unk_0E) >> 4) * 0x1C00));
+    state = object->unk_00;
+    state->unk_14 = (u16) (state->unk_14 + 1);
+    angle_scale_x = func_800644B8(object->unk_0E);
+    position->unk_00 = (s32) (position->unk_00 + ((angle_scale_x >> 4) * (func_800644B8(object->unk_10) >> 4) * 0x1C));
+    angle_scale_y = func_800644B8(object->unk_0E);
+    position->unk_04 = (s32) (position->unk_04 + ((angle_scale_y >> 4) * (func_80064584(object->unk_10) >> 4) * 0x1C));
+    position->unk_08 = (s32) (position->unk_08 + ((func_80064584(object->unk_0E) >> 4) * 0x1C00));
 }

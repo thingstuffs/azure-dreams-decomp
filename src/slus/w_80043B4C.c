@@ -17,16 +17,17 @@ typedef struct S_8008333C {
 
 extern S_8008333C D_8008333C;
 
+/* Sets flag 0x8000 on four table entries for each party slot from 10 through 11. */
 void func_80043B4C(void)
 {
-    S_8008333C *p = &D_8008333C;
-    u8 *base = p->field0;
-    s32 i;
+    S_8008333C *table = &D_8008333C;
+    u8 *entries = table->field0;
+    s32 slot;
 
-    for (i = 10; i < 12; i++) {
-        ((S_80043B4C_entry *)(base + (i << p->field14) * 6 + 0x78))->flags |= 0x8000;
-        ((S_80043B4C_entry *)(base + (i << p->field14) * 6 + 0x7E))->flags |= 0x8000;
-        ((S_80043B4C_entry *)(base + (i << p->field14) * 6 + 0xFC))->flags |= 0x8000;
-        ((S_80043B4C_entry *)(base + (i << p->field14) * 6 + 0x102))->flags |= 0x8000;
+    for (slot = 10; slot < 12; slot++) {
+        ((S_80043B4C_entry *)(entries + (slot << table->field14) * 6 + 0x78))->flags |= 0x8000;
+        ((S_80043B4C_entry *)(entries + (slot << table->field14) * 6 + 0x7E))->flags |= 0x8000;
+        ((S_80043B4C_entry *)(entries + (slot << table->field14) * 6 + 0xFC))->flags |= 0x8000;
+        ((S_80043B4C_entry *)(entries + (slot << table->field14) * 6 + 0x102))->flags |= 0x8000;
     }
 }

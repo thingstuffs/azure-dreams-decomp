@@ -68,7 +68,8 @@ extern void func_8016A908(void *);
 extern void func_8016AD00(void);
 extern void func_8016D11C(void) __attribute__((noreturn));
 
-void func_8016CF30(DungeonState *state, Arg1 *arg1, Arg2 *arg2, Arg3 *arg3) {
+/* Advances the dungeon transition animation and resets entry resources when it completes. */
+void func_8016CF30(DungeonState *state, Arg1 *motion, Arg2 *animation, Arg3 *actor) {
     s32 stage;
 
     stage = state->unk9b;
@@ -81,7 +82,6 @@ void func_8016CF30(DungeonState *state, Arg1 *arg1, Arg2 *arg2, Arg3 *arg3) {
         }
         return;
     }
-       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (stage == 2) {
         goto phase2;
     }
@@ -91,25 +91,25 @@ void func_8016CF30(DungeonState *state, Arg1 *arg1, Arg2 *arg2, Arg3 *arg3) {
     return;
 
 phase0:
-    arg1->unk14 = 0;
-    arg1->unk10 = 0;
-    arg1->unkC = 0;
+    motion->unk14 = 0;
+    motion->unk10 = 0;
+    motion->unkC = 0;
     state->unk96 = 0;
     state->unk9b = state->unk9b + 1;
-    if (!(arg2->flags & 0x8000)) {
+    if (!(animation->flags & 0x8000)) {
         goto done;
     }
 
 phase1:
     state->unk96 = 0;
     state->unk9b = state->unk9b + 1;
-    arg2->unk2c = D_801746B4;
-    func_80047784(arg2, D_801746B4[(((s32)D_80083228[0] + arg3->unk2a + 0x100) >> 9) & 7], 0);
+    animation->unk2c = D_801746B4;
+    func_80047784(animation, D_801746B4[(((s32)D_80083228[0] + actor->unk2a + 0x100) >> 9) & 7], 0);
 
 phase2:
     state->unk96 = state->unk96 + 1;
-    if ((s16)state->unk96 == 10 || (arg2->flags & 0x8000)) {
-        func_8009C12C(arg3, arg2, arg3->unk2a, 1);
+    if ((s16)state->unk96 == 10 || (animation->flags & 0x8000)) {
+        func_8009C12C(actor, animation, actor->unk2a, 1);
         state->unk96 = 0;
         state->unk9b = state->unk9b + 1;
     }
@@ -120,50 +120,50 @@ phase2:
     goto done;
 
 phase3:
-    if (arg2->flags & 0xE000) {
+    if (animation->flags & 0xE000) {
         if (D_800E3D7C.entries->unk28 < 2) {
-            s32 i;
-            s32 mask;
+            s32 entry_index;
+            s32 resource_flag;
             void *effect;
 
             func_8016AD00();
             effect = D_800F93AA;
             ASM_USE_NV(effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            i = 0;
+            entry_index = 0;
             state->unk8c = D_8016B778;
             D_80083460.zero = 0;
             D_80083460.count = D_80083460.count + 1;
-            ((volatile Arg3 *)arg3)->flags46 = ((volatile Arg3 *)arg3)->flags46 & 0x7FFF;
+            ((volatile Arg3 *)actor)->flags46 = ((volatile Arg3 *)actor)->flags46 & 0x7FFF;
             *(u16 *)&D_80013714 = D_80013714 | 8;
-            mask = 0x80000000;
+            resource_flag = 0x80000000;
             func_800353F4(effect);
-            arg3->unk6d = 0;
+            actor->unk6d = 0;
             state->unk9b = 0;
             for (;;) {
                 DungeonEntry *entry;
-                register u32 entryAddress ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register u32 entry_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                entryAddress = (u32)(i * 4) + (u32)D_800E3D7C.entries;
-                entry = (DungeonEntry *)entryAddress;
+                entry_addr = (u32)(entry_index * 4) + (u32)D_800E3D7C.entries;
+                entry = (DungeonEntry *)entry_addr;
                 if (entry->unkac != 0) {
-                    u32 *p;
+                    u32 *resource_header;
 
                     func_8016A908(entry->unkac);
-                    entryAddress = (u32)(i * 4) + (u32)D_800E3D7C.entries;
-                    entry = (DungeonEntry *)entryAddress;
-                    p = (u32 *)(entry->unkac - 0x20);
-                    p[4] = p[4] | mask;
+                    entry_addr = (u32)(entry_index * 4) + (u32)D_800E3D7C.entries;
+                    entry = (DungeonEntry *)entry_addr;
+                    resource_header = (u32 *)(entry->unkac - 0x20);
+                    resource_header[4] = resource_header[4] | resource_flag;
                 }
-                i++;
-                if (i >= 2) {
+                entry_index++;
+                if (entry_index >= 2) {
                     goto done;
                 }
             }
         } else {
             state->unk8c = D_8016B778;
             D_8008346C[0] = 0;
-            func_800A4ACC(arg3);
-            arg3->flags46 = arg3->flags46 & 0x7FFF;
+            func_800A4ACC(actor);
+            actor->flags46 = actor->flags46 & 0x7FFF;
         }
     }
 

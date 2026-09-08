@@ -36,38 +36,39 @@ extern u8 D_800D00C0[];
 extern u8 D_800D0128[];
 
 
-void func_80023994(void *arg0, Rec_D_800E3D7C *arg1)
+/* Updates the three-choice selection and the object's vertical motion. */
+void func_80023994(void *unused, Rec_D_800E3D7C *object)
 {
     u8 *button_base;
-    s32 result;
+    s32 height_limit;
 
     button_base = D_80083160;
-    result = (s16)func_800C2AE8(arg1);
+    height_limit = (s16)func_800C2AE8(object);
     if (D_800272CA > 0) {
         D_800272CA--;
         D_80083780.field_C -= D_80083780.field_C >> 1;
-        goto tail;
+        goto update_height;
     }
 
     {
-        s16 index;
-        u16 selected;
+        s16 choice_index;
+        u16 choice_id;
         s32 buttons;
         u8 *record_base;
 
         record_base = (u8 *)&D_80083780;
-        index = D_800272C8;
-        selected = D_80026F24[index];
+        choice_index = D_800272C8;
+        choice_id = D_80026F24[choice_index];
         buttons = ((S_80023994_0 *)button_base)->unk_10;
 
         ((S_80023994_1 *)record_base)->unk_0C = 0;
-        ((S_80023994_1 *)record_base)->unk_02 = selected;
-        if ((buttons & 0x8000) && index != 0) {
+        ((S_80023994_1 *)record_base)->unk_02 = choice_id;
+        if ((buttons & 0x8000) && choice_index != 0) {
             D_800272C8--;
             ((S_80023994_1 *)record_base)->unk_0C = (s32)0xFFD00000;
             D_800272CA = 3;
             func_80093CEC(D_800D00C0);
-            goto tail;
+            goto update_height;
         }
     }
     if ((((S_80023994_0 *)button_base)->unk_10 & 0x2000) && D_800272C8 < 2) {
@@ -75,16 +76,16 @@ void func_80023994(void *arg0, Rec_D_800E3D7C *arg1)
         D_8008378C = 0x300000;
         D_800272CA = 3;
         func_80093CEC(D_800D00C0);
-        goto tail;
+        goto update_height;
     }
     if (D_80082E94 & 0x6000) {
         func_80093CEC(D_800D0128);
     }
 
-tail:
-    arg1->unk_14.as_s32 += 0x1D000;
-    if (result < arg1->unk_08.at02_s16.v) {
-        arg1->unk_08.at02_s16.v = result;
-        arg1->unk_14.as_s32 = 0;
+update_height:
+    object->unk_14.as_s32 += 0x1D000;
+    if (height_limit < object->unk_08.at02_s16.v) {
+        object->unk_08.at02_s16.v = height_limit;
+        object->unk_14.as_s32 = 0;
     }
 }

@@ -8,35 +8,32 @@ typedef struct S_8004C010 {
     u8 cd;
 } S_8004C010;
 
-/* Modulate a 3-byte color (a0) in place by a tint (a1), each channel
- * scaled as (a0[i] * a1[i]) >> 7 and clamped to 0xFF. If the tint is the
- * special "no shading" sentinel (r=g=b=0x80), skip the multiply and
- * return a0 unchanged. Returns a0. */
-s32 func_8004C010(u8 *a0, S_8004C010 *a1)
+/* Apply an RGB tint in place with 7-bit scaling and saturation, skipping neutral tint, and return the color pointer. */
+s32 func_8004C010(u8 *color, S_8004C010 *tint)
 {
-    s32 i;
-    u8 *p0;
-    u8 *p1;
-    u32 w;
+    s32 channelIndex;
+    u8 *colorChannel;
+    u8 *tintChannel;
+    u32 packedTint;
 
-    w = *(u32 *)a1;
-    if ((w << 8) == 0x80808000) {
-        return (s32)a0;
+    packedTint = *(u32 *)tint;
+    if ((packedTint << 8) == 0x80808000) {
+        return (s32)color;
     }
 
-    p0 = a0;
-    p1 = (u8 *)a1;
-    for (i = 0; i < 3;) {
-        s32 v = (*p0 * *p1) >> 7;
-        if (v < 0x100) {
-            *p0 = (u8)v;
+    colorChannel = color;
+    tintChannel = (u8 *)tint;
+    for (channelIndex = 0; channelIndex < 3;) {
+        s32 tintedChannel = (*colorChannel * *tintChannel) >> 7;
+        if (tintedChannel < 0x100) {
+            *colorChannel = (u8)tintedChannel;
         } else {
-            *p0 = 0xFF;
+            *colorChannel = 0xFF;
         }
-        i++;
-        p0++;
-        p1++;
+        channelIndex++;
+        colorChannel++;
+        tintChannel++;
     }
 
-    return (s32)a0;
+    return (s32)color;
 }

@@ -18,29 +18,24 @@ extern void func_80055C50(s32 a0);
 extern void func_8003F52C(s32 a0);
 extern void func_8005AC30(s32 a0);
 
-/* Attempts to add an entry (D_80084538[idx]/D_800847C0[idx]) to a subsystem via
-   func_8005A778; if that fails, retries via func_8005AAA8 with D_80084758[idx]
-   and cancels the pending entry (func_80055C50) on further failure; reports the
-   outcome (0x01/0x02 in the high byte of the composed word, idx in bits 8-15)
-   to func_8003F52C. On success of the retry path, marks entry idx as available
-   in D_800847D0.avail and reactivates the subsystem via func_8005AC30(1). */
-void func_80055D84(s16 param_0) {
-    register s32 idx ASM_REG("$16") = param_0;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s32 flag;
-    flag = idx;
-    if ((s16)func_8005A778(D_80084538[flag], flag, D_800847C0[flag]) == -1) {
-        flag = 0x01010000;
-        goto tail;
+/* Initializes an entry, marking it available on success or reporting an error on failure. */
+void func_80055D84(s16 entry_id) {
+    register s32 entry_index ASM_REG("$16") = entry_id;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 index_or_error;
+    index_or_error = entry_index;
+    if ((s16)func_8005A778(D_80084538[index_or_error], index_or_error, D_800847C0[index_or_error]) == -1) {
+        index_or_error = 0x01010000;
+        goto report_error;
     }
-    if ((s16)func_8005AAA8(D_80084758[flag], idx) != -1) {
-        goto success;
+    if ((s16)func_8005AAA8(D_80084758[index_or_error], entry_index) != -1) {
+        goto activate_entry;
     }
-    func_80055C50(flag);
-    flag = 0x01020000;
-tail:
-    func_8003F52C(((idx << 8) & 0xFF00) | flag);
+    func_80055C50(index_or_error);
+    index_or_error = 0x01020000;
+report_error:
+    func_8003F52C(((entry_index << 8) & 0xFF00) | index_or_error);
     return;
-success:
+activate_entry:
     func_8005AC30(1);
-    D_800847D0.avail |= (0x10000 << idx);
+    D_800847D0.avail |= (0x10000 << entry_index);
 }

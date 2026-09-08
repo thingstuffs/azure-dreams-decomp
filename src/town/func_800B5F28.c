@@ -40,29 +40,30 @@ typedef struct {
 extern Template16 D_8002E5D8;
 extern Template12 D_8002E5E8;
 
-void func_800B3688(Owner *a0, Template16 *a1, Instance12 *a2) {
-    Template16 *src0 = &D_8002E5D8;
-    Template12 *src1 = &D_8002E5E8;
-    s32 *tmp;
+/* Initialize and attach two instances from templates, then apply their default values. */
+void func_800B3688(Owner *owner, Template16 *instance16, Instance12 *instance12) {
+    Template16 *template16 = &D_8002E5D8;
+    Template12 *template12 = &D_8002E5E8;
+    s32 *header_word;
 
-    a1->unk0 = src0->unk0;
-    tmp = &src1->unk0;
-    a1->unk4 = src0->unk4;
-    a1->unk8 = src0->unk8;
-    a1->unkC = src0->unkC;
+    instance16->unk0 = template16->unk0;
+    header_word = &template12->unk0;
+    instance16->unk4 = template16->unk4;
+    instance16->unk8 = template16->unk8;
+    instance16->unkC = template16->unkC;
 
-    ((Template12 *)a2)->unk0 = *tmp;
-    ((Template12 *)a2)->unk4 = src1->unk4;
-    ((Template12 *)a2)->unk8 = src1->unk8;
+    ((Template12 *)instance12)->unk0 = *header_word;
+    ((Template12 *)instance12)->unk4 = template12->unk4;
+    ((Template12 *)instance12)->unk8 = template12->unk8;
 
-    a0->unk4 = (Instance16 *)a1;
-    a0->unk8 = a2;
-    a0->unk0 = 0;
+    owner->unk4 = (Instance16 *)instance16;
+    owner->unk8 = instance12;
+    owner->unk0 = 0;
 
-    a0->unk4->unk8 = -60;
-    a0->unk4->unkA = -92;
-    a0->unk4->unkC = 0x200;
-    a0->unk4->unk6 = 0;
-    a0->unk8->unk8 = 0x30;
-    a0->unk4->unkF = 4;
+    owner->unk4->unk8 = -60;
+    owner->unk4->unkA = -92;
+    owner->unk4->unkC = 0x200;
+    owner->unk4->unk6 = 0;
+    owner->unk8->unk8 = 0x30;
+    owner->unk4->unkF = 4;
 }

@@ -118,28 +118,29 @@ extern void AddPrim(void *, void *);
     (((u16)((v).xy.half.x + 0x20) < 0x181U) && \
      ((u16)((v).xy.half.y + 0x20) < 0x121U))
 
+/* Project and enqueue visible textured and translucent blue gradient rectangles. */
 void func_80037714(DRAW_DESC *desc) {
     VERTEX vertices[4];
     VERTEX projected[4];
     s32 depth;
-    s32 flag;
+    s32 transform_flags;
     TEX_RECT *textured;
     RECTANGLE *solid;
     void *owner;
-    POLY_FT4 *ft4;
-    POLY_G4 *g4;
-    DR_MODE *mode;
+    POLY_FT4 *tex_quad;
+    POLY_G4 *gradient_quad;
+    DR_MODE *draw_mode;
     u8 *display;
-    u8 **global;
-    s32 u;
-    s32 v;
+    u8 **displays;
+    s32 page_u;
+    s32 tex_u;
     s32 page_y;
-    s32 v_rem;
+    s32 tex_v;
 
     owner = desc->owner;
     textured = &desc->textured;
     solid = &desc->solid;
-    global = D_80083160;
+    displays = D_80083160;
 
     vertices[0].xy.half.x = vertices[2].xy.half.x = textured->x;
     vertices[1].xy.half.x = vertices[3].xy.half.x = textured->x + textured->width;
@@ -149,36 +150,36 @@ void func_80037714(DRAW_DESC *desc) {
 
     RotTransPers4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
                   &projected[0], &projected[1], &projected[2], &projected[3],
-                  &depth, &flag);
+                  &depth, &transform_flags);
 
     if (ON_SCREEN(projected[0]) | ON_SCREEN(projected[1]) |
         ON_SCREEN(projected[2]) | ON_SCREEN(projected[3])) {
         display = D_80083160[0];
-        ft4 = *(POLY_FT4 **)(display + 0x8D0);
-        *(u8 **)(display + 0x8D0) = (u8 *)ft4 + sizeof(POLY_FT4);
-        SetPolyFT4(ft4);
+        tex_quad = *(POLY_FT4 **)(display + 0x8D0);
+        *(u8 **)(display + 0x8D0) = (u8 *)tex_quad + sizeof(POLY_FT4);
+        SetPolyFT4(tex_quad);
 
-        ft4->clut = GetClut(textured->clut_x, textured->clut_y);
-        ft4->tpage = GetTPage(0, 0, textured->page_x, textured->page_y);
-        ft4->r0 = ft4->g0 = ft4->b0 = textured->color;
+        tex_quad->clut = GetClut(textured->clut_x, textured->clut_y);
+        tex_quad->tpage = GetTPage(0, 0, textured->page_x, textured->page_y);
+        tex_quad->r0 = tex_quad->g0 = tex_quad->b0 = textured->color;
 
-        u = (textured->page_x % 64) * 4;
-        v = textured->tex_x + u;
-        ft4->u0 = ft4->u2 = v;
-        v += textured->tex_width;
-        ft4->u1 = ft4->u3 = v;
+        page_u = (textured->page_x % 64) * 4;
+        tex_u = textured->tex_x + page_u;
+        tex_quad->u0 = tex_quad->u2 = tex_u;
+        tex_u += textured->tex_width;
+        tex_quad->u1 = tex_quad->u3 = tex_u;
 
         page_y = textured->page_y;
-        v_rem = (page_y %= 256) + textured->tex_y;
-        ft4->v0 = ft4->v1 = v_rem;
-        v_rem += textured->tex_height;
-        ft4->v2 = ft4->v3 = v_rem;
+        tex_v = (page_y %= 256) + textured->tex_y;
+        tex_quad->v0 = tex_quad->v1 = tex_v;
+        tex_v += textured->tex_height;
+        tex_quad->v2 = tex_quad->v3 = tex_v;
 
-        ft4->xy0 = projected[0].xy.word;
-        ft4->xy1 = projected[1].xy.word;
-        ft4->xy2 = projected[2].xy.word;
-        ft4->xy3 = projected[3].xy.word;
-        AddPrim(D_80083160[0] + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), ft4);
+        tex_quad->xy0 = projected[0].xy.word;
+        tex_quad->xy1 = projected[1].xy.word;
+        tex_quad->xy2 = projected[2].xy.word;
+        tex_quad->xy3 = projected[3].xy.word;
+        AddPrim(D_80083160[0] + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), tex_quad);
     }
 
     vertices[0].xy.half.x = vertices[2].xy.half.x = solid->x;
@@ -189,30 +190,30 @@ void func_80037714(DRAW_DESC *desc) {
 
     RotTransPers4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
                   &projected[0], &projected[1], &projected[2], &projected[3],
-                  &depth, &flag);
+                  &depth, &transform_flags);
 
     if (ON_SCREEN(projected[0]) | ON_SCREEN(projected[1]) |
         ON_SCREEN(projected[2]) | ON_SCREEN(projected[3])) {
-        display = global[0];
-        g4 = *(POLY_G4 **)(display + 0x8D0);
-        *(u8 **)(display + 0x8D0) = (u8 *)g4 + sizeof(POLY_G4);
-        SetPolyG4(g4);
-        SetSemiTrans(g4, 1);
+        display = displays[0];
+        gradient_quad = *(POLY_G4 **)(display + 0x8D0);
+        *(u8 **)(display + 0x8D0) = (u8 *)gradient_quad + sizeof(POLY_G4);
+        SetPolyG4(gradient_quad);
+        SetSemiTrans(gradient_quad, 1);
 
-        g4->r0 = g4->g0 = g4->b0 = g4->r1 = g4->g1 =
-        g4->r2 = g4->g2 = g4->b2 = g4->r3 = g4->g3 = 0;
-        g4->b1 = g4->b3 = 0x40;
+        gradient_quad->r0 = gradient_quad->g0 = gradient_quad->b0 = gradient_quad->r1 = gradient_quad->g1 =
+        gradient_quad->r2 = gradient_quad->g2 = gradient_quad->b2 = gradient_quad->r3 = gradient_quad->g3 = 0;
+        gradient_quad->b1 = gradient_quad->b3 = 0x40;
 
-        g4->xy0 = projected[0].xy.word;
-        g4->xy1 = projected[1].xy.word;
-        g4->xy2 = projected[2].xy.word;
-        g4->xy3 = projected[3].xy.word;
-        AddPrim(global[0] + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), g4);
+        gradient_quad->xy0 = projected[0].xy.word;
+        gradient_quad->xy1 = projected[1].xy.word;
+        gradient_quad->xy2 = projected[2].xy.word;
+        gradient_quad->xy3 = projected[3].xy.word;
+        AddPrim(displays[0] + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), gradient_quad);
 
-        display = global[0];
-        mode = *(DR_MODE **)(display + 0x8D0);
-        *(u8 **)(display + 0x8D0) = (u8 *)mode + sizeof(DR_MODE);
-        SetDrawMode(mode, 0, 0, GetTPage(0, 0, 0x140, 0), 0);
-        AddPrim(global[0] + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), mode);
+        display = displays[0];
+        draw_mode = *(DR_MODE **)(display + 0x8D0);
+        *(u8 **)(display + 0x8D0) = (u8 *)draw_mode + sizeof(DR_MODE);
+        SetDrawMode(draw_mode, 0, 0, GetTPage(0, 0, 0x140, 0), 0);
+        AddPrim(displays[0] + 0x70 + (*(s32 *)((u8 *)owner + 0x60) * 4), draw_mode);
     }
 }

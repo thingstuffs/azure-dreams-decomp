@@ -9,6 +9,7 @@ extern u8 D_8001DCD4[];
 extern u8 D_8001DDA4[];
 extern u8 D_8001E1AB[];
 
+/* Selects a byte array based on the current state and condition checks. */
 u8 *func_800164C0(void) {
     if (func_8001ADE0(0xD8A) != 0) {
         return D_8001E1AB;

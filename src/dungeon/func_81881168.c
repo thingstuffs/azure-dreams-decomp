@@ -32,19 +32,20 @@ typedef struct S_80024968_2 {
     u16 unk_0A;
 } S_80024968_2;   /* arg1 in func_80024968 */
 
-void *func_80024968(s32 arg0, S_80024968_2 *arg1, s16 arg2, s32 arg3) {
-    S_80024968_1 *temp_a0;
-    S_80024968_0 *temp_v0;
+/* Creates an object, copies three values into its data, and initializes it. */
+void *func_80024968(s32 resource_id, S_80024968_2 *source_values, s16 setup_value, s32 object_value) {
+    S_80024968_1 *target_values;
+    S_80024968_0 *object;
 
-    temp_v0 = func_8003FD64(2, arg0 - 0x20);
-    if (temp_v0 != NULL) {
-        temp_a0 = temp_v0->unk_08;
-        temp_v0->unk_10 = &D_80024728;
-        temp_a0->unk_02 = (u16) arg1->unk_02;
-        temp_a0->unk_06 = (u16) arg1->unk_06;
-        temp_a0->unk_0A = (u16) arg1->unk_0A;
-        temp_v0->unk_20 = arg3;
-        func_80024D90(temp_a0, arg2);
+    object = func_8003FD64(2, resource_id - 0x20);
+    if (object != NULL) {
+        target_values = object->unk_08;
+        object->unk_10 = &D_80024728;
+        target_values->unk_02 = (u16) source_values->unk_02;
+        target_values->unk_06 = (u16) source_values->unk_06;
+        target_values->unk_0A = (u16) source_values->unk_0A;
+        object->unk_20 = object_value;
+        func_80024D90(target_values, setup_value);
     }
-    return temp_v0;
+    return object;
 }

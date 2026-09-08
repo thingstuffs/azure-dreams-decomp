@@ -51,17 +51,18 @@ extern void func_80174D0C(s32);
 extern void func_80175D04(Obj0 *, void *, Obj2 *);
 extern void func_801762A4(s32, Obj3 *);
 
-void func_80174AF4(Obj0 *arg0, void *arg1, Obj2 *arg2, Obj3 *arg3) {
+/* Advance the timed object state sequence and update its direction from flags. */
+void func_80174AF4(Obj0 *controller, void *context, Obj2 *object, Obj3 *actor) {
     s32 state;
-    s32 temp_state;
-    u16 count;
-    u16 temp_count;
-    u16 temp_flags;
-    s32 var_a0;
+    s32 old_state;
+    u16 ticks_left;
+    u16 delay;
+    u16 object_flags;
+    s32 actor_selector;
 
-    state = arg0->state9b;
-    var_a0 = 1;
-    if (state != var_a0) {
+    state = controller->state9b;
+    actor_selector = 1;
+    if (state != actor_selector) {
         if ((s32) state < 2) {
             if (state == 0) {
                 goto state0;
@@ -77,66 +78,66 @@ void func_80174AF4(Obj0 *arg0, void *arg1, Obj2 *arg2, Obj3 *arg3) {
     goto state2;
 
 state0:
-    temp_flags = arg2->field14;
-    if (temp_flags & 0x8000) {
-        arg2->field14 = (u16) (temp_flags | 0x6000);
-        arg0->state9b = 2;
+    object_flags = object->field14;
+    if (object_flags & 0x8000) {
+        object->field14 = (u16) (object_flags | 0x6000);
+        controller->state9b = 2;
         goto epilogue;
     }
-    if (arg2->field04 != var_a0) {
-        if ((temp_flags & 0x6000) == 0) {
+    if (object->field04 != actor_selector) {
+        if ((object_flags & 0x6000) == 0) {
             goto common;
         }
-    } else if ((temp_flags & 0x1000) == 0) {
-        if ((temp_flags & 0x6000) == 0) {
+    } else if ((object_flags & 0x1000) == 0) {
+        if ((object_flags & 0x6000) == 0) {
             goto common;
         }
     }
 state0_call:
-    func_80175D04(arg0, arg1, arg2);
-    var_a0 = 1;
-    if ((arg3->field14 & 0x4000) || (var_a0 = 0, (arg3->field60->field14 & 0x4000) != 0)) {
-        func_801762A4(var_a0, arg3);
+    func_80175D04(controller, context, object);
+    actor_selector = 1;
+    if ((actor->field14 & 0x4000) || (actor_selector = 0, (actor->field60->field14 & 0x4000) != 0)) {
+        func_801762A4(actor_selector, actor);
     }
     func_800A56E0(0x80D);
-    temp_state = arg0->state9b;
-    temp_count = 0x20;
-    arg0->field96 = temp_count;
-    arg0->state9b = temp_state + 1;
+    old_state = controller->state9b;
+    delay = 0x20;
+    controller->field96 = delay;
+    controller->state9b = old_state + 1;
     goto common;
 
 state1:
-    count = arg0->field96 - 1;
-    arg0->field96 = count;
-    if ((count << 0x10) != 0) {
-        if ((arg2->field14 | 0x8000) == 0) {
+    ticks_left = controller->field96 - 1;
+    controller->field96 = ticks_left;
+    if ((ticks_left << 0x10) != 0) {
+        if ((object->field14 | 0x8000) == 0) {
             goto common;
         }
     }
-    temp_state = arg0->state9b;
-    temp_count = 4;
-    arg0->field96 = temp_count;
-    arg0->state9b = temp_state + 1;
+    old_state = controller->state9b;
+    delay = 4;
+    controller->field96 = delay;
+    controller->state9b = old_state + 1;
     goto common;
 
 state2:
-    count = arg0->field96 - 1;
-    arg0->field96 = count;
-    if ((count << 0x10) != 0 && (arg2->field14 & 0xE000) == 0) {
+    ticks_left = controller->field96 - 1;
+    controller->field96 = ticks_left;
+    if ((ticks_left << 0x10) != 0 && (object->field14 & 0xE000) == 0) {
         goto epilogue;
     }
-    func_800AD594(arg3, 0x400);
-    func_800A2B04(arg1, arg2->field24, arg2->field25);
-    arg0->field8c = D_80171094;
+    func_800AD594(actor, 0x400);
+    func_800A2B04(context, object->field24, object->field25);
+    controller->field8c = D_80171094;
     *D_8008346C = 0;
-    arg3->field46 &= 0x7FFF;
+    actor->field46 &= 0x7FFF;
     goto common;
 
 common:
-    if (arg2->field14 & 0xE000) {
-        arg2->field2c = D_80176460;
-        func_80047784(arg2, D_80176460[((D_80083228[0] + arg3->field2a + 0x100) >> 9) & 7], 0);
-        arg0->field98 &= 0xFFF7;
+    if (object->field14 & 0xE000) {
+        object->field2c = D_80176460;
+        func_80047784(object, D_80176460[((D_80083228[0] + actor->field2a + 0x100) >> 9) & 7], 0);
+        controller->field98 &= 0xFFF7;
     }
 
 epilogue:

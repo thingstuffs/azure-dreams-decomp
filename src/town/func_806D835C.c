@@ -15,22 +15,23 @@ extern void *D_8001601C[];
 extern void func_800185C0(s32);
 extern void func_80018548(s32);
 
+/* Selects IDs 0x9AF-0x9B6 from two entry codes and returns the match count. */
 s32 func_80016B5C(void)
 {
-    s32 result;
-    s32 index;
-    s32 value;
-    s32 selector;
-    s32 call_arg;
-    u8 *entry;
-    void **dispatch;
-    static void *const keepalive[] = {
+    s32 match_count;
+    s32 entry_index;
+    s32 entry_code;
+    s32 case_index;
+    s32 selected_id;
+    u8 *entry_data;
+    void **dispatch_table;
+    static void *const case_labels[] = {
         &&case_0, &&case_1, &&case_2, &&case_3,
         &&case_4, &&case_5, &&case_6, &&default_case
     };
 
-    (void)keepalive;
-    result = 2;
+    (void)case_labels;
+    match_count = 2;
     func_800185C0(0x9AF);
     func_800185C0(0x9B0);
     func_800185C0(0x9B1);
@@ -40,55 +41,55 @@ s32 func_80016B5C(void)
     func_800185C0(0x9B5);
     func_800185C0(0x9B6);
 
-    index = 1;
-    dispatch = D_8001601C;
+    entry_index = 1;
+    dispatch_table = D_8001601C;
 loop:
-        entry = D_80010000.root->entries;
-        entry += index;
-        value = entry[0x3608];
-        selector = value - 5;
-        if ((u32)selector >= 8) {
+        entry_data = D_80010000.root->entries;
+        entry_data += entry_index;
+        entry_code = entry_data[0x3608];
+        case_index = entry_code - 5;
+        if ((u32)case_index >= 8) {
             goto default_case;
         }
-        goto *dispatch[selector];
+        goto *dispatch_table[case_index];
 
 case_0:
-        call_arg = 0x9AF;
+        selected_id = 0x9AF;
         goto selected_call;
 case_1:
-        call_arg = 0x9B0;
+        selected_id = 0x9B0;
         goto selected_call;
 case_2:
-        call_arg = 0x9B1;
+        selected_id = 0x9B1;
         goto selected_call;
 case_3:
-        call_arg = 0x9B2;
+        selected_id = 0x9B2;
         goto selected_call;
 case_4:
-        call_arg = 0x9B3;
+        selected_id = 0x9B3;
         goto selected_call;
 case_5:
-        call_arg = 0x9B4;
+        selected_id = 0x9B4;
         goto selected_call;
 case_6:
-        call_arg = 0x9B5;
+        selected_id = 0x9B5;
         goto selected_call;
 
 default_case:
-        result -= 1;
-        call_arg = 0x9B6;
-        if (result != 0) {
+        match_count -= 1;
+        selected_id = 0x9B6;
+        if (match_count != 0) {
             goto after_call;
         }
 
 selected_call:
-        func_80018548(call_arg);
+        func_80018548(selected_id);
 
 after_call:
-        index -= 1;
-        if (index >= 0) {
+        entry_index -= 1;
+        if (entry_index >= 0) {
             goto loop;
         }
 
-    return result;
+    return match_count;
 }

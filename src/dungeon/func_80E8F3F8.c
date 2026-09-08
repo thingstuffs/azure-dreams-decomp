@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_800AD058_arg2.h"
 
 
 #ifdef NON_MATCHING
@@ -31,26 +32,21 @@ typedef struct S_80174BF8_0 {
 } S_80174BF8_0;   /* arg0 in func_80174BF8 */
 
 
-typedef struct S_80174BF8_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    u8 * unk_2C;
-} S_80174BF8_2;   /* arg2 in func_80174BF8 */
 
 typedef struct S_80174BF8_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_80174BF8_3;   /* counter in func_80174BF8 */
 
-void func_80174BF8(S_80174BF8_0 *arg0, void *arg1, S_80174BF8_2 *arg2, Rec_D_800E3D7C *arg3)
+/* Initialize a timed action, then restore animation and clear the entity flags. */
+void func_80174BF8(S_80174BF8_0 *action, void *context, Rec_func_800AD058_arg2 *animation, Rec_D_800E3D7C *entity)
 {
-    void *call_arg;
-    u8 *counter;
-    u16 timer;
+    void *entity_arg;
+    u8 *active_count;
+    u16 ticks_left;
     u8 state;
 
-    state = arg0->unk_9B;
+    state = action->unk_9B;
     if (state != 0) {
         if (state != 1) {
             return;
@@ -59,33 +55,33 @@ void func_80174BF8(S_80174BF8_0 *arg0, void *arg1, S_80174BF8_2 *arg2, Rec_D_800
     }
 
     func_800A56E0(0x50C);
-    arg0->unk_96 = 10;
-    func_80174D48(arg1, arg2, arg3);
-    arg3->unk_48.at00_s8.v = 0;
-    arg3->unk_48.at01_s8.v = 0;
-    arg0->unk_9B++;
+    action->unk_96 = 10;
+    func_80174D48(context, animation, entity);
+    entity->unk_48.at00_s8.v = 0;
+    entity->unk_48.at01_s8.v = 0;
+    action->unk_9B++;
 
 active:
-    if (!(arg2->unk_14 & 0x8000)) {
-        timer = arg0->unk_96;
-        arg0->unk_96 = timer - 1;
-        if ((s16)timer > 0) {
+    if (!(animation->unk_14 & 0x8000)) {
+        ticks_left = action->unk_96;
+        action->unk_96 = ticks_left - 1;
+        if ((s16)ticks_left > 0) {
             return;
         }
     }
 
-    call_arg = arg3;
-    LEGACY_ASM_KEEP(call_arg);
-    counter = D_80083460;
-    LEGACY_ASM_KEEP(counter);
-    ((S_80174BF8_3 *)counter)->unk_0A--;
-    arg2->unk_2C = D_80174F00;
-    func_800AD594(call_arg, 0x200);
-    func_80047784(arg2,
-        arg2->unk_2C[((D_80083228[0] + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7],
+    entity_arg = entity;
+    LEGACY_ASM_KEEP(entity_arg);
+    active_count = D_80083460;
+    LEGACY_ASM_KEEP(active_count);
+    ((S_80174BF8_3 *)active_count)->unk_0A--;
+    animation->unk_2C = D_80174F00;
+    func_800AD594(entity_arg, 0x200);
+    func_80047784(animation,
+        animation->unk_2C[((D_80083228[0] + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
-    arg0->unk_8C = D_801710F4;
-    func_800A4ACC(arg3);
-    arg3->unk_6D.as_s8 = 0;
-    arg3->unk_44.at02_u16.v &= 0x7FFF;
+    action->unk_8C = D_801710F4;
+    func_800A4ACC(entity);
+    entity->unk_6D.as_s8 = 0;
+    entity->unk_44.at02_u16.v &= 0x7FFF;
 }

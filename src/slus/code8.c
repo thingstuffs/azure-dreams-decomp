@@ -5,14 +5,13 @@
 
 extern unsigned short D_80084778[5];
 
-/* Appends a0 to the D_80084778[0]-counted array (cap 0x20); returns 0, or -1 if full.
-   The volatile read forces a reload of the count for the index (defeats CSE). */
-short func_80055778(int a0)
+/* Append a value to the counted array; return -1 if its 32 slots are full, otherwise 0. */
+short func_80055778(int value)
 {
     unsigned short count = D_80084778[0];
     if (count >= 0x20) return -1;
     D_80084778[0] = count + 1;
-    D_80084778[*(volatile unsigned short *)D_80084778] = a0;
+    D_80084778[*(volatile unsigned short *)D_80084778] = value;
     return 0;
 }
 
@@ -25,14 +24,14 @@ typedef struct {
 extern Entry80084960 D_80084960[];
 
 /* Clamp a 16-bit signed value to the range [0, 0x7F]. */
-s32 func_80055750(s16 arg0) {
-    if (arg0 < 0) {
+s32 func_80055750(s16 value) {
+    if (value < 0) {
         return 0;
     }
-    if (arg0 >= 0x80) {
+    if (value >= 0x80) {
         return 0x7F;
     }
-    return arg0;
+    return value;
 }
 
 typedef struct {
@@ -42,28 +41,25 @@ typedef struct {
 
 extern s32 D_800835E8[];
 
-/* Look up a signed table value indexed by (unsigned byte field + signed 16-bit arg), scaled by 4 */
-s32 func_8004383C(Struct1 *arg0, s16 arg1) {
-    return D_800835E8[arg0->unk11 + arg1];
+/* Look up a signed table value using the entry byte field plus an index offset. */
+s32 func_8004383C(Struct1 *entry, s16 index_offset) {
+    return D_800835E8[entry->unk11 + index_offset];
 }
 
-/* Chained byte->word table lookup: return D_8007361C[ D_800712AC[a0] ];
- * a0 is used directly as a byte offset into D_800712AC (no additional scaling). */
 extern u8 D_800712AC[16];
 extern s32 D_8007361C[256];
 
-s32 func_800498EC(s32 a0) {
-    return D_8007361C[D_800712AC[a0]];
+/* Look up a word through the byte index table D_800712AC. */
+s32 func_800498EC(s32 index) {
+    return D_8007361C[D_800712AC[index]];
 }
 
 extern u8 D_800712B0[256];
 extern s32 D_8007361C[256];
 
-/* Two-level table lookup: use arg0 as a byte index into D_800712B0 to obtain
- * a secondary index, then use that to index the 4-byte-wide table
- * D_8007361C and return the resulting word. */
-s32 func_80049918(s32 arg0) {
-    return D_8007361C[D_800712B0[arg0]];
+/* Look up a word through the byte index table D_800712B0. */
+s32 func_80049918(s32 index) {
+    return D_8007361C[D_800712B0[index]];
 }
 
 /* extern decls */
@@ -71,8 +67,7 @@ extern void *D_8006ADC0[4];
 extern int D_800812D0[4];
 extern void func_80053C6C(void);
 
-/* Stores the address of D_800812D0 into the list-tail slot D_8006ADC0[0],
- * then invokes the list-processing routine func_80053C6C (no args). */
+/* Set the list tail to D_800812D0 and process the list. */
 void func_80053CD0(void)
 {
     D_8006ADC0[0] = (void *)D_800812D0;
@@ -84,47 +79,39 @@ extern u32 D_80081478[3];
 extern void *D_80083160[3];
 extern u8 D_801C9E40[16];
 
-/* Pick one of two pointer-table entries depending on whether the current-state
- * pointer D_80083160 still points at the default sentinel D_801C9E40, then
- * return whether that value is < a0 (unsigned compare). */
-s32 func_80045310(u32 a0)
+/* Return whether the state-selected table value is below the unsigned limit. */
+s32 func_80045310(u32 limit)
 {
-    u32 *v0 = &D_80081478[0];
-    u32 *v1 = v0;
+    u32 *values = &D_80081478[0];
+    u32 *selected_value = values;
 
     if (D_80083160[0] != (void *)D_801C9E40) {
-        v1 = v0 + 1;
+        selected_value = values + 1;
     }
-    return *v1 < a0;
+    return *selected_value < limit;
 }
 
-/* Stores a value into the 32-bit field at offset 0 of the a0-th element
- * of the D_80084960 struct array (element size 0x9C = 156 bytes). */
 typedef struct {
     /* 0x00 */ int unk00;
     unsigned char pad[0x98];
 } Struct_80084960; /* size 0x9C (156) */
 
-void func_8005845C(unsigned char a0, unsigned char a1) {
-    D_80084960[a0].unk00 = a1;
+/* Store a byte value in the selected entry's first word. */
+void func_8005845C(unsigned char entry_index, unsigned char value) {
+    D_80084960[entry_index].unk00 = value;
 }
-
-/* Wrapper: reorders (count, array) into the (array, count, elemsize, comparator)
- * calling convention expected by func_8004AFC8 (a qsort-style sort routine),
- * passing func_8004AA34 (an int-difference comparator) as the callback. */
 
 extern int func_8004AA34(int *a0, int *a1);
 extern void func_8004AFC8(void *base, int count, int size, int (*compar)(int *, int *));
 
+/* Sort the array of four-byte elements using func_8004AA34. */
 void func_8004AA44(int count, void *base)
 {
     func_8004AFC8(base, count, 4, func_8004AA34);
 }
 
-/* Element of the D_80084960 stat/entity table (stride 0x9C bytes). This
- * accessor returns the field at offset 0xC for entry a1 (a0/a2 unused,
- * matching the sibling getter/setter family at 0x8005C858-0x8005C94C). */
-int func_8005C858(int a0, short a1, int a2)
+/* Return the word at offset 0xC in the selected table entry. */
+int func_8005C858(int unused_0, short entry_index, int unused_2)
 {
-    return D_80084960[a1].unk0C;
+    return D_80084960[entry_index].unk0C;
 }

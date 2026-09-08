@@ -3,29 +3,26 @@
 extern void func_801741D0(void *, s32, s32, s8, s32);
 extern s32 D_800814A0;
 
-void func_80174318(void *arg0, s32 arg1, s32 arg2)
+/* Update a timed effect and flag completion when its countdown expires. */
+void func_80174318(void *effect, s32 x, s32 y)
 {
-    s32 value = *(s16 *)((u8 *)arg0 + 0x1A);
+    s32 ticks_left = *(s16 *)((u8 *)effect + 0x1A);
 
-    if (value >= 16) {
-        func_801741D0(arg0, arg1, arg2, 0x70, 16);
+    if (ticks_left >= 16) {
+        func_801741D0(effect, x, y, 0x70, 16);
     } else {
-        func_801741D0(arg0, arg1, arg2, 0x70,
-                      ((15 - value) * 6 + 16) & 0xFF);
+        func_801741D0(effect, x, y, 0x70,
+                      ((15 - ticks_left) * 6 + 16) & 0xFF);
     }
 
     {
-        s32 new_value;
+        s32 next_ticks;
 
-        new_value = (u16)*(s16 *)((u8 *)arg0 + 0x1A) - 1;
-        *(volatile s16 *)((u8 *)arg0 + 0x1A) = new_value;
-        if ((new_value << 16) <= 0) {
-            *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+        next_ticks = (u16)*(s16 *)((u8 *)effect + 0x1A) - 1;
+        *(volatile s16 *)((u8 *)effect + 0x1A) = next_ticks;
+        if ((next_ticks << 16) <= 0) {
+            *(u16 *)((u8 *)effect - 2) |= 0x8000;
             D_800814A0 |= 0x8000;
         }
     }
 }
-
-/* MECHANISM: Duplicated semantic call arms preserve retail's constant-first CFG;
-   CDK tail-merges them and anchors the fifth-arg stack store before the a0 move.
-   Scalar D_800814A0 under -G0 supplies the held page base in the branch slot. */

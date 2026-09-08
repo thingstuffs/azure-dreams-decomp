@@ -3,23 +3,24 @@
 extern void func_800672D8();
 extern void func_80067014();
 
+/* Write two single-pixel values to VRAM and wait for completion. */
 void func_800240EC(void) {
-    s16 first[4];
-    u16 second;
+    s16 rect[4];
+    u16 pixel;
 
-    second = 0;
-    first[0] = 0x340;
-    first[1] = 0x100;
-    first[2] = 1;
-    first[3] = 1;
-    func_800672D8(first, &second);
+    pixel = 0;
+    rect[0] = 0x340;
+    rect[1] = 0x100;
+    rect[2] = 1;
+    rect[3] = 1;
+    func_800672D8(rect, &pixel);
 
-    second = 0xFC00;
-    first[0] = 0x340;
-    first[1] = 0x180;
-    first[2] = 1;
-    first[3] = 1;
-    func_800672D8(first, &second);
+    pixel = 0xFC00;
+    rect[0] = 0x340;
+    rect[1] = 0x180;
+    rect[2] = 1;
+    rect[3] = 1;
+    func_800672D8(rect, &pixel);
 
     func_80067014(0);
 }

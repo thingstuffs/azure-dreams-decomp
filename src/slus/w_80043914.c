@@ -15,22 +15,23 @@ typedef struct {
 extern S_800E3E48 D_800E3E48[];
 extern u8 D_800E2968[16];
 
-void func_80043914(S_80043914_Arg *a0)
+/* Maps the selected entry's code from 0xD/0xF to 0xF/0xA for type 0x16. */
+void func_80043914(S_80043914_Arg *input)
 {
-    register S_80043914_Arg *a1 ASM_REG("$5") = a0;
+    S_80043914_Arg *entrySelector = input;
 
-    if (a1->field_0x00 == 0x16) {
-        S_800E3E48 *base = D_800E3E48;
-        u8 v = base[a1->field_0x03 & 0x1F].field_0x48;
-        register u8 out ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    if (entrySelector->field_0x00 == 0x16) {
+        S_800E3E48 *entries = D_800E3E48;
+        u8 entryCode = entries[entrySelector->field_0x03 & 0x1F].field_0x48;
+        u8 mappedCode;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
-        if (v == 0xD) {
-            out = 0xF;
-        } else if (v == 0xF) {
-            out = 0xA;
+        if (entryCode == 0xD) {
+            mappedCode = 0xF;
+        } else if (entryCode == 0xF) {
+            mappedCode = 0xA;
         } else {
             return;
         }
-        D_800E2968[0] = out;
+        D_800E2968[0] = mappedCode;
     }
 }

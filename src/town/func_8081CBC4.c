@@ -23,14 +23,15 @@ M2C_UNK func_800537D0();               /* extern */
 s32 strlen();                             /* extern */
 extern s32 D_800814A0[3];
 
-void func_80026BC4(void *arg0) {
-    S_80026BC4_1 *temp_s1;
+/* Submits text for a zero-state entry and sets flags when requested by its configuration. */
+void func_80026BC4(void *text_entry) {
+    S_80026BC4_1 *text_config;
 
-    temp_s1 = ((S_80026BC4_0 *)arg0)->unk_0C;
-    if (((S_80026BC4_0 *)arg0)->unk_00 == 0) {
-        func_800537D0(*((S_80026BC4_0 *)arg0)->unk_08, strlen(((S_80026BC4_0 *)arg0)->unk_04), ((S_80026BC4_0 *)arg0)->unk_04);
-        if (temp_s1->unk_1A & 8) {
-            ((S_80026BC4_0_pre *)arg0)[-1].unk_00 = (u16) (((S_80026BC4_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    text_config = ((S_80026BC4_0 *)text_entry)->unk_0C;
+    if (((S_80026BC4_0 *)text_entry)->unk_00 == 0) {
+        func_800537D0(*((S_80026BC4_0 *)text_entry)->unk_08, strlen(((S_80026BC4_0 *)text_entry)->unk_04), ((S_80026BC4_0 *)text_entry)->unk_04);
+        if (text_config->unk_1A & 8) {
+            ((S_80026BC4_0_pre *)text_entry)[-1].unk_00 = (u16) (((S_80026BC4_0_pre *)text_entry)[-1].unk_00 | 0x8000);
             D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
         }
     }

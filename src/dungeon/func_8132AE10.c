@@ -91,7 +91,8 @@ extern s16 D_80083228;
 extern s8 D_800DCECC[];
 extern u8 D_80174C6C[];
 
-void func_80172610(void *arg0, void *arg1, void *arg2)
+/* Update actor direction, copy linked output state, and propagate status flags. */
+void func_80172610(void *actor_data, void *output_data, void *context_data)
 {
     u8 *actor;
     u8 *output;
@@ -102,19 +103,19 @@ void func_80172610(void *arg0, void *arg1, void *arg2)
     u8 *linked;
     u8 *source;
     u8 *state;
-    s32 first_index;
-    s32 work;
+    s32 facing_index;
+    s32 direction_index;
     s32 effect_index;
     s32 global_flags;
-    s16 compare_index;
+    s16 direction_short;
     s32 effect;
-    s16 old_position;
-    s16 new_position;
-    u16 new_position_bits;
+    s16 old_angle;
+    s16 new_angle;
+    u16 new_angle_bits;
 
-    actor = arg0;
-    output = arg1;
-    context = arg2;
+    actor = actor_data;
+    output = output_data;
+    context = context_data;
     owner = ((S_80172610_0 *)actor)->unk_AC;
     linked = ((S_80172610_1 *)owner)->unk_0C;
     source = ((S_80172610_1 *)owner)->unk_08;
@@ -135,21 +136,21 @@ void func_80172610(void *arg0, void *arg1, void *arg2)
         func_800478B8(context);
     }
 
-    old_position = ((S_80172610_0 *)actor)->unk_2A;
-    new_position = ((S_80172610_2 *)base)->unk_2A.s;
-    new_position_bits = ((S_80172610_2 *)base)->unk_2A.u;
-    if (old_position != new_position) {
-        (*(u16 *)((u8 *)actor + 0x2A)) = new_position_bits;
-        first_index = ((D_80083228 + new_position + 0x100) >> 9) & 7;
-        func_80047784(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + first_index)), 0);
+    old_angle = ((S_80172610_0 *)actor)->unk_2A;
+    new_angle = ((S_80172610_2 *)base)->unk_2A.s;
+    new_angle_bits = ((S_80172610_2 *)base)->unk_2A.u;
+    if (old_angle != new_angle) {
+        (*(u16 *)((u8 *)actor + 0x2A)) = new_angle_bits;
+        facing_index = ((D_80083228 + new_angle + 0x100) >> 9) & 7;
+        func_80047784(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + facing_index)), 0);
     }
 
     state = D_80083160;
-    work = ((((S_80172610_5 *)state)->unk_C8 + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
-    compare_index = work;
-    if (((S_80172610_0 *)actor)->unk_94.s != compare_index) {
-        func_80047784(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + compare_index)), 0);
-        ((S_80172610_0 *)actor)->unk_94.u = work;
+    direction_index = ((((S_80172610_5 *)state)->unk_C8 + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
+    direction_short = direction_index;
+    if (((S_80172610_0 *)actor)->unk_94.s != direction_short) {
+        func_80047784(context, (*(u8 *)((u8 *)(((S_80172610_4 *)context)->unk_2C) + direction_short)), 0);
+        ((S_80172610_0 *)actor)->unk_94.u = direction_index;
     }
 
     ((S_80172610_4 *)context)->unk_14 = ((S_80172610_3 *)linked)->unk_14;

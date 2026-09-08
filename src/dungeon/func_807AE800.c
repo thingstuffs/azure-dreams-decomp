@@ -13,9 +13,12 @@ __asm__(".globl func_807AE800\n.type func_807AE800,@function\n.size func_807AE80
 #define BODY_NAME func_807AE800
 #endif
 extern void func_800478B8(M2C_UNK);
-void BODY_NAME(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2)
+void BODY_NAME(M2C_UNK unused_first, M2C_UNK unused_second, M2C_UNK value)
 #ifdef __mips__
     __attribute__((section(".text.func_807AE800")))
 #endif
 ;
-void BODY_NAME(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2) { func_800478B8(arg2); }
+/* Forwards the third argument to func_800478B8. */
+void BODY_NAME(M2C_UNK unused_first, M2C_UNK unused_second, M2C_UNK value) {
+    func_800478B8(value);
+}

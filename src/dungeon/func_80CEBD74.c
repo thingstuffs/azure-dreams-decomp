@@ -71,31 +71,28 @@ extern u8 D_80175E6C[];
 extern u8 D_80175E74[];
 extern u8 D_80175E7C[];
 
-void func_80175574(Obj0 *arg0, void *arg1, Obj2 *arg2, Obj3 *arg3)
+/* Updates the actor's directional animation and advances its action state. */
+void func_80175574(Obj0 *controller_arg, void *context_arg, Obj2 *animation_arg, Obj3 *actor_arg)
 {
-    register Obj0 *p0 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *p1;
-    Obj2 *p2;
-    register Obj3 *p3 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 kind;
-    unsigned long table_index;
+    register Obj0 *controller ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *context;
+    Obj2 *animation;
+    register Obj3 *actor ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 actor_kind;
+    unsigned long table_entry;
     register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    p0 = arg0;
-    p1 = arg1;
-    p2 = arg2;
-    ASM_KEEP_NV(p2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    p3 = arg3;
+    controller = controller_arg;
+    context = context_arg;
+    animation = animation_arg;
+    ASM_KEEP_NV(animation);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    actor = actor_arg;
 #ifndef __mips__
 #endif
-#define arg0 p0
-#define arg1 p1
-#define arg2 p2
-#define arg3 p3
 
-    switch (((S_80175574_0 *)arg0)->unk_9B) {
+    switch (((S_80175574_0 *)controller)->unk_9B) {
     case 0:
-        if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000)) {
             return;
         }
         {
@@ -104,73 +101,73 @@ void func_80175574(Obj0 *arg0, void *arg1, Obj2 *arg2, Obj3 *arg3)
             ((S_80175574_2 *)counter_base)->unk_0A--;
         }
         {
-            register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register u8 *dir_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            switch (((Rec_D_800E3D7C *)arg3)->unk_48.at00_u8.v) {
+            switch (((Rec_D_800E3D7C *)actor)->unk_48.at00_u8.v) {
             default:
                 goto increment_state;
             case 13:
-                table = D_80175E54;
+                dir_table = D_80175E54;
                 break;
             case 14:
-                table = D_80175E5C;
+                dir_table = D_80175E5C;
                 break;
             case 15:
-                table = D_80175E64;
+                dir_table = D_80175E64;
                 break;
             }
-            (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-            table_index = ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
-            table_index += (unsigned long)table;
-            func_80047784(arg2,
-                *(u8 *)table_index,
+            (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
+            table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            table_entry += (unsigned long)dir_table;
+            func_80047784(animation,
+                *(u8 *)table_entry,
                 0);
         }
         goto increment_state;
 
     case 1:
         {
-            u8 *table;
-            void *current;
+            u8 *dir_table;
+            void *current_table;
 
-            switch (((Rec_D_800E3D7C *)arg3)->unk_48.at00_u8.v) {
+            switch (((Rec_D_800E3D7C *)actor)->unk_48.at00_u8.v) {
             default:
                 break;
             case 13:
-                current = ((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv;
-                table = D_80175E54;
+                current_table = ((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv;
+                dir_table = D_80175E54;
                 goto check_first_table;
             case 14:
-                current = ((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv;
-                table = D_80175E5C;
+                current_table = ((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv;
+                dir_table = D_80175E5C;
                 goto check_first_table;
             case 15:
-                current = ((Rec_func_800AA258_arg2 *)arg2)->unk_2C.as_pv;
-                table = D_80175E64;
+                current_table = ((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv;
+                dir_table = D_80175E64;
                 goto check_first_table;
 check_first_table:
-                if (current != table) {
-                    (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-                    table_index = ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
-                    table_index += (unsigned long)table;
-                    func_80047784(arg2,
-                        *(u8 *)table_index,
+                if (current_table != dir_table) {
+                    (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
+                    table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                    table_entry += (unsigned long)dir_table;
+                    func_80047784(animation,
+                        *(u8 *)table_entry,
                         0);
                 }
                 break;
             }
         }
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v != 0) {
+        if (((Rec_D_800E3D7C *)actor)->unk_24.at01_u8.v != 0) {
             {
-                register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                register u8 *dir_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-                kind = ((Rec_D_800E3D7C *)arg3)->unk_48.at00_u8.v;
-                if (kind == 14) {
+                actor_kind = ((Rec_D_800E3D7C *)actor)->unk_48.at00_u8.v;
+                if (actor_kind == 14) {
                     goto early_second_table_14;
                 }
-                if (kind < 15) {
-                    if (kind != 13) {
+                if (actor_kind < 15) {
+                    if (actor_kind != 13) {
                         goto increment_counter;
                     }
                     goto early_second_table_13;
@@ -178,16 +175,16 @@ check_first_table:
                     goto check_second_kind_15;
                 }
 early_second_table_13:
-                table = D_80175E64 + 8;
+                dir_table = D_80175E64 + 8;
                 goto second_table_call;
 early_second_table_14:
-                table = D_80175E6C + 8;
+                dir_table = D_80175E6C + 8;
 second_table_call:
-                (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-                table_index = ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
-                table_index += (unsigned long)table;
-                func_80047784(arg2,
-                    *(u8 *)table_index,
+                (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
+                table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                table_entry += (unsigned long)dir_table;
+                func_80047784(animation,
+                    *(u8 *)table_entry,
                     0);
             }
             goto increment_counter;
@@ -195,75 +192,75 @@ second_table_call:
         if (D_80083462 & 0x1000) {
             return;
         }
-        if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
+        if (((Rec_D_800E3D7C *)actor)->unk_64.as_s16 != 0) {
+            if (func_800AA6B4(controller, context, animation, 0) != 0) {
                 return;
             }
         }
-        if ((func_800A2C34(arg3) << 16) != 0) {
+        if ((func_800A2C34(actor) << 16) != 0) {
             return;
         }
         {
-            s32 flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32;
+            s32 actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32;
 
-            if (flags & 0x100) {
-                func_800AA258(arg0, arg1, arg2, arg3);
+            if (actor_flags & 0x100) {
+                func_800AA258(controller, context, animation, actor);
                 return;
             }
-            if (flags & 0x80000) {
-                func_800AA888(arg0, arg1, arg2, arg3);
-                func_801759A0(arg0, arg1, arg2, arg3);
+            if (actor_flags & 0x80000) {
+                func_800AA888(controller, context, animation, actor);
+                func_801759A0(controller, context, animation, actor);
                 return;
             }
         }
-        if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
+        if (((Rec_D_800E3D7C *)actor)->unk_6D.as_s8 == 0) {
             return;
         }
-        if ((func_800A2C34(arg3) << 16) != 0) {
-            if ((func_8009A180(arg3,
+        if ((func_800A2C34(actor) << 16) != 0) {
+            if ((func_8009A180(actor,
                     (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                 return;
             }
         }
-        func_800A9A0C(arg3);
-        func_800A9A04(arg3);
-        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
+        func_800A9A0C(actor);
+        func_800A9A04(actor);
+        if (((Rec_D_800E3D7C *)actor)->unk_24.at01_u8.v == 0) {
             return;
         }
 
 select_second_table:
-        kind = ((Rec_D_800E3D7C *)arg3)->unk_48.at00_u8.v;
+        actor_kind = ((Rec_D_800E3D7C *)actor)->unk_48.at00_u8.v;
         {
-            register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register u8 *dir_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            if (kind == 14) {
+            if (actor_kind == 14) {
                 goto second_table_14;
             }
-            if (kind < 15) {
-                if (kind == 13) {
+            if (actor_kind < 15) {
+                if (actor_kind == 13) {
                     goto second_table_13;
                 }
                 goto increment_counter;
             }
 check_second_kind_15:
-            if (kind == 15) {
+            if (actor_kind == 15) {
                 goto second_table_15;
             }
             goto increment_counter;
 second_table_13:
-            table = D_80175E6C;
+            dir_table = D_80175E6C;
             goto selected_second_table;
 second_table_14:
-            table = D_80175E74;
+            dir_table = D_80175E74;
             goto selected_second_table;
 second_table_15:
-            table = D_80175E7C;
+            dir_table = D_80175E7C;
 selected_second_table:
-            (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-            table_index = ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
-            table_index += (unsigned long)table;
-            func_80047784(arg2,
-                *(u8 *)table_index,
+            (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
+            table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            table_entry += (unsigned long)dir_table;
+            func_80047784(animation,
+                *(u8 *)table_entry,
                 0);
         }
 
@@ -274,11 +271,11 @@ increment_counter:
             ((S_80175574_2 *)counter_base)->unk_0A++;
         }
 increment_state:
-        ((S_80175574_0 *)arg0)->unk_9B++;
+        ((S_80175574_0 *)controller)->unk_9B++;
         return;
 
     case 2:
-        if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000)) {
             return;
         }
         {
@@ -286,7 +283,7 @@ increment_state:
 
             ((S_80175574_2 *)counter_base)->unk_0A--;
         }
-        ((S_80175574_0 *)arg0)->unk_8C = D_801724BC;
+        ((S_80175574_0 *)controller)->unk_8C = D_801724BC;
         return;
 
     default:

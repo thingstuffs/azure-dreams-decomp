@@ -31,13 +31,10 @@ typedef struct S_800B0D0C_5 {
     s16 unk_0A;
 } S_800B0D0C_5;   /* ((S_800B0D0C_3 *)(((S_800B0D0C_1 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_78))->unk_04 in func_800B0D0C */
 
-
-
-
-
-void func_800B0D0C(Rec_func_800B0C68_arg0 *arg0) {
-    ((S_800B0D0C_4 *)(((S_800B0D0C_2 *)(((S_800B0D0C_1 *)(arg0->unk_CC.as_pv))->unk_74))->unk_04))->unk_08 = -0x5F;
-    ((S_800B0D0C_4 *)(((S_800B0D0C_2 *)(((S_800B0D0C_1 *)(arg0->unk_CC.as_pv))->unk_74))->unk_04))->unk_0A = 0x30;
-    ((S_800B0D0C_5 *)(((S_800B0D0C_3 *)(((S_800B0D0C_1 *)(arg0->unk_CC.as_pv))->unk_78))->unk_04))->unk_08 = 0x61;
-    ((S_800B0D0C_5 *)(((S_800B0D0C_3 *)(((S_800B0D0C_1 *)(arg0->unk_CC.as_pv))->unk_78))->unk_04))->unk_0A = 0x30;
+/* Positions the two child elements at (-95, 48) and (97, 48). */
+void func_800B0D0C(Rec_func_800B0C68_arg0 *parentObject) {
+    ((S_800B0D0C_4 *)(((S_800B0D0C_2 *)(((S_800B0D0C_1 *)(parentObject->unk_CC.as_pv))->unk_74))->unk_04))->unk_08 = -0x5F;
+    ((S_800B0D0C_4 *)(((S_800B0D0C_2 *)(((S_800B0D0C_1 *)(parentObject->unk_CC.as_pv))->unk_74))->unk_04))->unk_0A = 0x30;
+    ((S_800B0D0C_5 *)(((S_800B0D0C_3 *)(((S_800B0D0C_1 *)(parentObject->unk_CC.as_pv))->unk_78))->unk_04))->unk_08 = 0x61;
+    ((S_800B0D0C_5 *)(((S_800B0D0C_3 *)(((S_800B0D0C_1 *)(parentObject->unk_CC.as_pv))->unk_78))->unk_04))->unk_0A = 0x30;
 }

@@ -32,27 +32,28 @@ typedef struct S_81893024_0 {
     u16 unk_0A;
 } S_81893024_0;   /* temp_v1 in func_81893024 */
 
-void *func_81893024(s32 arg0, void *arg1, s16 arg2, s16 arg3) {
+/* Creates an object with copied data, an adjusted field, and initialized arguments. */
+void *func_81893024(s32 object_arg, void *source_data, s16 initial_value, s16 field_delta) {
     M2C_BLOCK *src;
-    M2C_OBJECT *temp_v0;
-    s32 *temp_v0_2;
-    M2C_BLOCK *temp_v1;
-    void *var_v0;
+    M2C_OBJECT *object;
+    s32 *object_args;
+    M2C_BLOCK *data;
+    void *result;
 
-    temp_v0 = func_8003FC64(0x212);
-    do { var_v0 = NULL; } while (0);
-    if (temp_v0 != NULL) {
-        src = (M2C_BLOCK *)arg1;
-        temp_v0->callback = &D_800243F8;
-        temp_v0_2 = &temp_v0->arg0;
-        temp_v0->arg0 = arg0;
-        ((s16 *)temp_v0_2)[2] = 0;
-        ((s16 *)temp_v0_2)[3] = arg2;
-        temp_v1 = temp_v0->data;
-        *temp_v1 = *src;
-        ((S_81893024_0 *)temp_v1)->unk_0A = (s16) (((S_81893024_0 *)temp_v1)->unk_0A + arg3);
-        func_8004491C(temp_v0, D_8002445C);
-        var_v0 = temp_v0;
+    object = func_8003FC64(0x212);
+    do { result = NULL; } while (0);
+    if (object != NULL) {
+        src = (M2C_BLOCK *)source_data;
+        object->callback = &D_800243F8;
+        object_args = &object->arg0;
+        object->arg0 = object_arg;
+        ((s16 *)object_args)[2] = 0;
+        ((s16 *)object_args)[3] = initial_value;
+        data = object->data;
+        *data = *src;
+        ((S_81893024_0 *)data)->unk_0A = (s16) (((S_81893024_0 *)data)->unk_0A + field_delta);
+        func_8004491C(object, D_8002445C);
+        result = object;
     }
-    return var_v0;
+    return result;
 }

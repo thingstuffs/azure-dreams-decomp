@@ -74,77 +74,78 @@ extern M2C_UNK D_8015F014;
 extern M2C_UNK D_8016220C;
 extern M2C_UNK D_8016225C;
 
+/* Create a dungeon actor and initialize its placement, flags, and behavior. */
 __attribute__((section(".text.func_8015E800")))
-void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3) {
-    s32 unksp24;
-    s32 unksp28;
-    s32 temp_v1;
-    S_80BFD000_1 *var_s0 = NULL;
-    void *temp_v0;
-    S_80BFD000_3 *temp_s2;
-    S_80BFD000_2 *temp_s4;
+void *BODY_NAME(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 spawn_value) {
+    s32 unused_byte_neg_ba0;
+    s32 unused_byte_21d8;
+    s32 kind_or_bits;
+    S_80BFD000_1 *actor_state = NULL;
+    void *object;
+    S_80BFD000_3 *placement;
+    S_80BFD000_2 *attributes;
     S_80BFD000_4 *actor;
-    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 left;
-    s32 right;
-    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    void *call_a1;
+    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_value;
+    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 flags_14;
+    s32 flags_1c;
+    register void *query_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    void *query_attributes;
 
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
-    unksp28 = (s32) *(s8 *)0x21D8;
-    unksp24 = (s32) *(s8 *)-0xBA0;
-    temp_v0 = func_8003FD64(0x112, D_80083498);
-    if (temp_v0 != NULL) {
-        var_s0 = temp_v0 + 0x20;
-        actor = var_s0;
-        ((S_80BFD000_0 *)temp_v0)->unk_10 = D_8015EA58;
-        var_s0->unk_13 = 0x10;
-        func_8004491C(temp_v0, D_80045340);
-        temp_s4 = ((S_80BFD000_0 *)temp_v0)->unk_08;
-        temp_s4->unk_0A = saved_arg3;
-        temp_s2 = ((S_80BFD000_0 *)temp_v0)->unk_0C;
-        temp_v1 = arg0 & 3;
-        temp_s2->unk_25 = saved_arg2;
-        temp_s2->unk_2C = &D_8016220C;
-        temp_s2->unk_24 = saved_arg1;
-        if (temp_v1 == 1) {
-            left = var_s0->unk_14 | 0x6000;
-            right = var_s0->unk_1C | 0x6000;
+    saved_x = tile_x;
+    saved_value = spawn_value;
+    saved_y = tile_y;
+    unused_byte_21d8 = (s32) *(s8 *)0x21D8;
+    unused_byte_neg_ba0 = (s32) *(s8 *)-0xBA0;
+    object = func_8003FD64(0x112, D_80083498);
+    if (object != NULL) {
+        actor_state = object + 0x20;
+        actor = actor_state;
+        ((S_80BFD000_0 *)object)->unk_10 = D_8015EA58;
+        actor_state->unk_13 = 0x10;
+        func_8004491C(object, D_80045340);
+        attributes = ((S_80BFD000_0 *)object)->unk_08;
+        attributes->unk_0A = saved_value;
+        placement = ((S_80BFD000_0 *)object)->unk_0C;
+        kind_or_bits = spawn_flags & 3;
+        placement->unk_25 = saved_y;
+        placement->unk_2C = &D_8016220C;
+        placement->unk_24 = saved_x;
+        if (kind_or_bits == 1) {
+            flags_14 = actor_state->unk_14 | 0x6000;
+            flags_1c = actor_state->unk_1C | 0x6000;
             goto write_kind;
         }
-        if (temp_v1 < 2) {
+        if (kind_or_bits < 2) {
             goto normal_path;
         }
-        left = var_s0->unk_14 | 0x2000;
-        right = var_s0->unk_1C | 0x2000;
+        flags_14 = actor_state->unk_14 | 0x2000;
+        flags_1c = actor_state->unk_1C | 0x2000;
 write_kind:
-        var_s0->unk_14 = left;
-        var_s0->unk_1C = right;
+        actor_state->unk_14 = flags_14;
+        actor_state->unk_1C = flags_1c;
         goto common_path;
 normal_path:
-        if (((arg0 & ~3) << 0x10) == 0) {
-            call_a0 = temp_v0;
-            if (!(var_s0->unk_14 & 0x200)) {
-                call_a1 = temp_s4;
-                temp_v1 = func_800A6D30(call_a0);
-                if (temp_v1 & 1) {
-                    func_800A48F0(var_s0, 1, (func_800A6D30(call_a0) & 0x3F) | 0x20);
-                    temp_s2->unk_2C = &D_8016225C;
+        if (((spawn_flags & ~3) << 0x10) == 0) {
+            query_object = object;
+            if (!(actor_state->unk_14 & 0x200)) {
+                query_attributes = attributes;
+                kind_or_bits = func_800A6D30(query_object);
+                if (kind_or_bits & 1) {
+                    func_800A48F0(actor_state, 1, (func_800A6D30(query_object) & 0x3F) | 0x20);
+                    placement->unk_2C = &D_8016225C;
                 }
             }
         }
 common_path:
-        func_800A9C18(temp_v0, temp_s4, temp_s2, arg0);
+        func_800A9C18(object, attributes, placement, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8015F014;
-        var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x40000);
+        actor_state->unk_1C = (s32) (actor_state->unk_1C | 0x40000);
         actor->unk_92 = -0x20;
-        func_800AA36C(actor, temp_s4, temp_s2, var_s0);
+        func_800AA36C(actor, attributes, placement, actor_state);
     }
-    return var_s0;
+    return actor_state;
 }

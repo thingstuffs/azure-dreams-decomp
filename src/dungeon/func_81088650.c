@@ -2,22 +2,19 @@
 
 extern s32 rand(void);
 
-s32 func_81088650(s32 arg0)
+/* Returns twice the signed 16-bit base plus 0-8, randomly negated and truncated to 16 bits. */
+s32 func_81088650(s32 base)
 {
-    s32 random;
-    register s32 work ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s32 value;
+    s32 random_roll;
+    register s32 result ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 offset;
 
-    work = arg0;
-    random = rand();
-    value = (random % 9) + ((work << 16) >> 15);
-    work = value;
+    result = base;
+    random_roll = rand();
+    offset = (random_roll % 9) + ((result << 16) >> 15);
+    result = offset;
     if (rand() & 1) {
-        work = -value;
+        result = -offset;
     }
-    return (work << 16) >> 16;
+    return (result << 16) >> 16;
 }
-
-/* MECHANISM: A pinned s0 work web carries arg0 through the first call, then the result.
-   Pinned s1 preserves the unnegated value across the second call; branch-local
-   ASM_USE2 prevents coalescing and yields the exact sll/negu/sll merge. */

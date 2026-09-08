@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-/* first_pass warm draft: compiles, best score 46 @ 2.7.2 */
 #include "common.h"
 
 typedef struct S_8004A24C_0 {
@@ -22,22 +21,23 @@ s32 func_8004A10C();                             /* extern */
 M2C_UNK func_8004A170();       /* extern */
 s32 func_8004DC14();                /* extern */
 
-void func_8004A24C(S_8004A24C_0 *arg0, M2C_UNK arg1, M2C_UNK arg2, s16 arg3, s32 arg4, s32 arg5) {
-    s32 temp_v0;
-    u16 var_s1;
-    s32 arg5_s0;
+/* Initializes resource state, resolves its size, and sets its position. */
+void func_8004A24C(S_8004A24C_0 *state, M2C_UNK config_id, M2C_UNK resource_id, s16 x, s32 y, s32 size) {
+    s32 resource_handle;
+    u16 resolved_size;
+    s32 requested_size;
 
-    func_80049F68(arg0);
-    arg0->unk_1C = func_8004A0C0(arg1);
-    temp_v0 = func_8004DC14(arg2, 1);
-    arg5_s0 = arg5;
-    var_s1 = arg5_s0;
-    arg0->unk_18 = temp_v0;
-    arg5_s0 = (s16)arg5_s0;
-    if (arg5_s0 == -1) {
-        var_s1 = func_8004A10C(temp_v0) + 0x20;
+    func_80049F68(state);
+    state->unk_1C = func_8004A0C0(config_id);
+    resource_handle = func_8004DC14(resource_id, 1);
+    requested_size = size;
+    resolved_size = requested_size;
+    state->unk_18 = resource_handle;
+    requested_size = (s16)requested_size;
+    if (requested_size == -1) {
+        resolved_size = func_8004A10C(resource_handle) + 0x20;
     }
-    func_8004A170(arg0, arg0->unk_08, var_s1 & 0xFFFF, arg0->unk_00 & 1);
-    arg0->unk_14 = (s32) arg0->unk_08;
-    func_8004A030(arg0, arg3, (s16) arg4, (s16) var_s1);
+    func_8004A170(state, state->unk_08, resolved_size & 0xFFFF, state->unk_00 & 1);
+    state->unk_14 = (s32) state->unk_08;
+    func_8004A030(state, x, (s16) y, (s16) resolved_size);
 }

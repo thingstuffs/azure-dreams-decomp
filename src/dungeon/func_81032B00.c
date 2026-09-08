@@ -25,40 +25,41 @@ extern s32 func_800A45D8();
 extern s16 func_800BCB04();
 extern s32 D_800814A0;
 
-void func_80174300(void *arg0, void *arg1, s32 arg2) {
-    s32 temp_s0;
+/* Advance motion, resolve collisions, and flag expired movement. */
+void func_80174300(void *motion, void *position, s32 update_arg) {
+    s32 height;
 
-    ((S_80174300_0 *)arg0)->unk_1E = ((S_80174300_0 *)arg0)->unk_1E - 1;
-    func_800478B8(arg2);
-    ((S_80174300_1 *)arg1)->unk_00.at00.v += ((S_80174300_0 *)arg0)->unk_50;
-    ((S_80174300_0 *)arg0)->unk_50 += ((S_80174300_0 *)arg0)->unk_5C;
-    if ((func_800A45D8(((S_80174300_1 *)arg1)->unk_00.at02.v, ((S_80174300_1 *)arg1)->unk_04.at02.v, ((S_80174300_1 *)arg1)->unk_08.at02.v) << 16) != 0) {
-        ((S_80174300_1 *)arg1)->unk_00.at00.v -= ((S_80174300_0 *)arg0)->unk_50;
-        ((S_80174300_0 *)arg0)->unk_50 = 0;
-        ((S_80174300_0 *)arg0)->unk_5C = 0;
+    ((S_80174300_0 *)motion)->unk_1E = ((S_80174300_0 *)motion)->unk_1E - 1;
+    func_800478B8(update_arg);
+    ((S_80174300_1 *)position)->unk_00.at00.v += ((S_80174300_0 *)motion)->unk_50;
+    ((S_80174300_0 *)motion)->unk_50 += ((S_80174300_0 *)motion)->unk_5C;
+    if ((func_800A45D8(((S_80174300_1 *)position)->unk_00.at02.v, ((S_80174300_1 *)position)->unk_04.at02.v, ((S_80174300_1 *)position)->unk_08.at02.v) << 16) != 0) {
+        ((S_80174300_1 *)position)->unk_00.at00.v -= ((S_80174300_0 *)motion)->unk_50;
+        ((S_80174300_0 *)motion)->unk_50 = 0;
+        ((S_80174300_0 *)motion)->unk_5C = 0;
     }
-    ((S_80174300_1 *)arg1)->unk_04.at00.v += ((S_80174300_0 *)arg0)->unk_54;
-    ((S_80174300_0 *)arg0)->unk_54 += ((S_80174300_0 *)arg0)->unk_60;
-    if ((func_800A45D8(((S_80174300_1 *)arg1)->unk_00.at02.v, ((S_80174300_1 *)arg1)->unk_04.at02.v, ((S_80174300_1 *)arg1)->unk_08.at02.v) << 16) != 0) {
-        ((S_80174300_1 *)arg1)->unk_04.at00.v -= ((S_80174300_0 *)arg0)->unk_54;
-        ((S_80174300_0 *)arg0)->unk_54 = 0;
-        ((S_80174300_0 *)arg0)->unk_60 = 0;
+    ((S_80174300_1 *)position)->unk_04.at00.v += ((S_80174300_0 *)motion)->unk_54;
+    ((S_80174300_0 *)motion)->unk_54 += ((S_80174300_0 *)motion)->unk_60;
+    if ((func_800A45D8(((S_80174300_1 *)position)->unk_00.at02.v, ((S_80174300_1 *)position)->unk_04.at02.v, ((S_80174300_1 *)position)->unk_08.at02.v) << 16) != 0) {
+        ((S_80174300_1 *)position)->unk_04.at00.v -= ((S_80174300_0 *)motion)->unk_54;
+        ((S_80174300_0 *)motion)->unk_54 = 0;
+        ((S_80174300_0 *)motion)->unk_60 = 0;
     }
-    ((S_80174300_1 *)arg1)->unk_08.at00.v += ((S_80174300_0 *)arg0)->unk_58;
-    ((S_80174300_0 *)arg0)->unk_58 += ((S_80174300_0 *)arg0)->unk_64;
-    temp_s0 = ((S_80174300_1 *)arg1)->unk_08.at02.v;
-    if ((func_800BCB04(((S_80174300_1 *)arg1)->unk_00.at02.v, ((S_80174300_1 *)arg1)->unk_04.at02.v,
-                       (s16)((u16)((S_80174300_1 *)arg1)->unk_08.at02u.v - 4)) - 0x10) < temp_s0) {
-        ((S_80174300_0 *)arg0)->unk_58 = 0;
-        ((S_80174300_0 *)arg0)->unk_54 = 0;
-        ((S_80174300_0 *)arg0)->unk_50 = 0;
-        ((S_80174300_1 *)arg1)->unk_08.at02.v = func_800BCB04(((S_80174300_1 *)arg1)->unk_00.at02.v, ((S_80174300_1 *)arg1)->unk_04.at02.v,
-                                               (s16)((u16)((S_80174300_1 *)arg1)->unk_08.at02.v - 4)) - 0x11;
-        ((S_80174300_1 *)arg1)->unk_08.at00u.v = 0;
-        ((S_80174300_0 *)arg0)->unk_1E = 0;
+    ((S_80174300_1 *)position)->unk_08.at00.v += ((S_80174300_0 *)motion)->unk_58;
+    ((S_80174300_0 *)motion)->unk_58 += ((S_80174300_0 *)motion)->unk_64;
+    height = ((S_80174300_1 *)position)->unk_08.at02.v;
+    if ((func_800BCB04(((S_80174300_1 *)position)->unk_00.at02.v, ((S_80174300_1 *)position)->unk_04.at02.v,
+                       (s16)((u16)((S_80174300_1 *)position)->unk_08.at02u.v - 4)) - 0x10) < height) {
+        ((S_80174300_0 *)motion)->unk_58 = 0;
+        ((S_80174300_0 *)motion)->unk_54 = 0;
+        ((S_80174300_0 *)motion)->unk_50 = 0;
+        ((S_80174300_1 *)position)->unk_08.at02.v = func_800BCB04(((S_80174300_1 *)position)->unk_00.at02.v, ((S_80174300_1 *)position)->unk_04.at02.v,
+                                               (s16)((u16)((S_80174300_1 *)position)->unk_08.at02.v - 4)) - 0x11;
+        ((S_80174300_1 *)position)->unk_08.at00u.v = 0;
+        ((S_80174300_0 *)motion)->unk_1E = 0;
     }
-    if ((s16)((S_80174300_0 *)arg0)->unk_1E <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    if ((s16)((S_80174300_0 *)motion)->unk_1E <= 0) {
+        (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

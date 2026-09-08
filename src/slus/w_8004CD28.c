@@ -13,51 +13,49 @@ extern S_80080B54 D_80080B54;
 extern void *func_8004C080(void *a0, void *a1, void *a2, void *a3, void *a4, s32 *a5);
 extern void *memcpy(void *dst, const void *src, u32 n);
 
-/* OT-link a chain of variable-length GPU packets: copy 12B descriptor from
- * *anchor, call func_8004C080 to emit, then addPrim(ot, entry) for each packet
- * (size in byte[3]), finally clear *anchor or advance by 0xC based on flag. */
-void *func_8004CD28(u32 *ot, u8 *a1, u8 **anchor, u8 *entry) {
-    u8 buf[12];
-    s32 count;
-    u8 *v1;
-    s32 lim;
-    s32 end;
-    u32 mask_lo;
-    u32 mask_hi;
+/* Emit GPU packets, link them into the ordering table, and optionally clear the anchor. */
+void *func_8004CD28(u32 *ot, u8 *source, u8 **anchor, u8 *entry) {
+    u8 descriptor[12];
+    s32 packets_left;
+    u8 *anchor_value;
+    s32 empty_count;
+    s32 stop_count;
+    u32 address_mask;
+    u32 length_mask;
 
-    count = 1;
-    memcpy(buf, *anchor, 12);
-    *anchor = func_8004C080(a1 + 0xC, &D_80080B54, entry, *anchor, buf, &count);
+    packets_left = 1;
+    memcpy(descriptor, *anchor, 12);
+    *anchor = func_8004C080(source + 0xC, &D_80080B54, entry, *anchor, descriptor, &packets_left);
 
-    lim = -1;
-    count = count - 1;
-    if (count != lim) {
-        mask_lo = 0x00FFFFFF;
-        mask_hi = 0xFF000000;
-        /* Keep lim live so end = lim is move a2,v1 (not rematerialized li a2,-1). */
-        __asm__ __volatile__("" : "=r"(lim) : "0"(lim));
-        end = lim;
+    empty_count = -1;
+    packets_left = packets_left - 1;
+    if (packets_left != empty_count) {
+        address_mask = 0x00FFFFFF;
+        length_mask = 0xFF000000;
+        /* Keep empty_count live so stop_count = empty_count is move a2,v1 (not rematerialized li a2,-1). */
+        __asm__ __volatile__("" : "=r"(empty_count) : "0"(empty_count));
+        stop_count = empty_count;
         do {
-            *(u32 *)entry = (*(u32 *)entry & mask_hi) | (*ot & mask_lo);
-            *ot = (*ot & mask_hi) | ((u32)entry & mask_lo);
+            *(u32 *)entry = (*(u32 *)entry & length_mask) | (*ot & address_mask);
+            *ot = (*ot & length_mask) | ((u32)entry & address_mask);
             {
-                s32 c;
-                u8 len;
-                c = count;
-                len = entry[3];
-                c = c - 1;
-                entry = entry + (len << 2) + 4;
-                count = c;
+                s32 next_count;
+                u8 payload_words;
+                next_count = packets_left;
+                payload_words = entry[3];
+                next_count = next_count - 1;
+                entry = entry + (payload_words << 2) + 4;
+                packets_left = next_count;
             }
-        } while (count != end);
+        } while (packets_left != stop_count);
     }
 
-    if (buf[0] & 0x80) {
-        v1 = 0;
+    if (descriptor[0] & 0x80) {
+        anchor_value = 0;
     } else {
-        v1 = *anchor;
-        *anchor = v1 + 0xC;
+        anchor_value = *anchor;
+        *anchor = anchor_value + 0xC;
     }
-    *anchor = v1;
+    *anchor = anchor_value;
     return entry;
 }

@@ -20,54 +20,55 @@ extern s16 func_80053DA8(s32 arg0);
 extern s32 D_800721C0[32];
 extern s32 D_8006CD50[];
 
-void func_800398BC(Func800398BCOwner *arg0)
+/* Decodes and dispatches an eight-byte command, or rewinds it when gated by state. */
+void func_800398BC(Func800398BCOwner *owner)
 {
-    s32 state;
-    s32 gate;
-    u8 *cursor;
-    u8 *cursor4;
-    u32 word0;
-    u32 word1;
-    u32 index;
+    s32 runtime_state;
+    s32 owner_gate;
+    u8 *command_ptr;
+    u8 *second_word_ptr;
+    u32 command_word;
+    u32 payload_word;
+    u32 table_index;
 
-    state = func_80053EF0(4);
-    gate = func_80039884(arg0);
-    if (gate != 0) {
-        if (state == 0) {
+    runtime_state = func_80053EF0(4);
+    owner_gate = func_80039884(owner);
+    if (owner_gate != 0) {
+        if (runtime_state == 0) {
             goto decode;
         }
         goto rewind;
     }
-    if (state == 0x100) {
+    if (runtime_state == 0x100) {
         goto rewind;
     }
-    if (state != 3) {
+    if (runtime_state != 3) {
         goto decode;
     }
 
 rewind:
-    arg0->field_10 = 0;
-    arg0->read_ptr--;
+    owner->field_10 = 0;
+    owner->read_ptr--;
     goto done;
 
 decode:
-    cursor = arg0->read_ptr;
-    word0 = cursor[0] + (cursor[1] << 8) +
-            (cursor[2] << 16) + (cursor[3] << 24);
-    cursor4 = cursor + 4;
-    arg0->read_ptr = cursor4;
-    word1 = cursor[4] + (cursor4[1] << 8) +
-            (cursor4[2] << 16) + (cursor4[3] << 24);
-    arg0->read_ptr = cursor + 8;
-    index = (word0 >> 19) & 0x1F;
-    word0 &= 0xFF07FFFF;
+    command_ptr = owner->read_ptr;
+    command_word = command_ptr[0] + (command_ptr[1] << 8) +
+            (command_ptr[2] << 16) + (command_ptr[3] << 24);
+    second_word_ptr = command_ptr + 4;
+    owner->read_ptr = second_word_ptr;
+    payload_word = command_ptr[4] + (second_word_ptr[1] << 8) +
+            (second_word_ptr[2] << 16) + (second_word_ptr[3] << 24);
+    owner->read_ptr = command_ptr + 8;
+    table_index = (command_word >> 19) & 0x1F;
+    command_word &= 0xFF07FFFF;
 
-    func_8003F540(arg0->object_80[0x3C],
-                  D_8006CD50[D_800721C0[index]],
-                  word0,
-                  word1);
+    func_8003F540(owner->object_80[0x3C],
+                  D_8006CD50[D_800721C0[table_index]],
+                  command_word,
+                  payload_word);
     func_80053DA8(0x300);
-    arg0->field_10 = 0;
+    owner->field_10 = 0;
 done:
     return;
 }

@@ -30,31 +30,32 @@ typedef struct S_80172DFC_1 {
 extern void func_800478B8(void *);
 extern s32 D_800814A0[3];
 
-void func_80172DFC(void *arg0, S_80172DFC_1 *arg1, Rec_D_80082E80 *arg2) {
-    u16 temp_v0;
-    u16 temp_v0_2;
+/* Advance effect motion and animation, and flag completion when its lifetime ends. */
+void func_80172DFC(void *effect, S_80172DFC_1 *position, Rec_D_80082E80 *animation) {
+    u16 frame_count;
+    u16 remaining_ticks;
 
-    ((S_80172DFC_0 *)arg0)->unk_58 = ((S_80172DFC_0 *)arg0)->unk_58 + ((S_80172DFC_0 *)arg0)->unk_64;
-    ((S_80172DFC_0 *)arg0)->unk_5C = ((S_80172DFC_0 *)arg0)->unk_5C + ((S_80172DFC_0 *)arg0)->unk_68;
-    ((S_80172DFC_0 *)arg0)->unk_60 = ((S_80172DFC_0 *)arg0)->unk_60 + ((S_80172DFC_0 *)arg0)->unk_6C;
-    arg1->unk_00 = arg1->unk_00 + ((S_80172DFC_0 *)arg0)->unk_58;
-    arg1->unk_04 = arg1->unk_04 + ((S_80172DFC_0 *)arg0)->unk_5C;
-    arg1->unk_08 = arg1->unk_08 + ((S_80172DFC_0 *)arg0)->unk_60;
-    temp_v0 = ((S_80172DFC_0 *)arg0)->unk_18 + 1;
-    ((S_80172DFC_0 *)arg0)->unk_18 = temp_v0;
-    if (!(temp_v0 & 1)) {
-        func_800478B8(arg2);
+    ((S_80172DFC_0 *)effect)->unk_58 = ((S_80172DFC_0 *)effect)->unk_58 + ((S_80172DFC_0 *)effect)->unk_64;
+    ((S_80172DFC_0 *)effect)->unk_5C = ((S_80172DFC_0 *)effect)->unk_5C + ((S_80172DFC_0 *)effect)->unk_68;
+    ((S_80172DFC_0 *)effect)->unk_60 = ((S_80172DFC_0 *)effect)->unk_60 + ((S_80172DFC_0 *)effect)->unk_6C;
+    position->unk_00 = position->unk_00 + ((S_80172DFC_0 *)effect)->unk_58;
+    position->unk_04 = position->unk_04 + ((S_80172DFC_0 *)effect)->unk_5C;
+    position->unk_08 = position->unk_08 + ((S_80172DFC_0 *)effect)->unk_60;
+    frame_count = ((S_80172DFC_0 *)effect)->unk_18 + 1;
+    ((S_80172DFC_0 *)effect)->unk_18 = frame_count;
+    if (!(frame_count & 1)) {
+        func_800478B8(animation);
     }
-    arg2->unk_1C.at00_u16.v = arg2->unk_1C.at00_u16.v + 0x28;
-    arg2->unk_1C.at02_u16.v = arg2->unk_1C.at02_u16.v + 0x28;
-    temp_v0_2 = ((S_80172DFC_0 *)arg0)->unk_16 - 1;
-    ((S_80172DFC_0 *)arg0)->unk_16 = temp_v0_2;
-    if ((temp_v0_2 << 0x10) <= 0) {
-        ((S_80172DFC_0_pre *)arg0)[-1].unk_00 = ((S_80172DFC_0_pre *)arg0)[-1].unk_00 | 0x8000;
+    animation->unk_1C.at00_u16.v = animation->unk_1C.at00_u16.v + 0x28;
+    animation->unk_1C.at02_u16.v = animation->unk_1C.at02_u16.v + 0x28;
+    remaining_ticks = ((S_80172DFC_0 *)effect)->unk_16 - 1;
+    ((S_80172DFC_0 *)effect)->unk_16 = remaining_ticks;
+    if ((remaining_ticks << 0x10) <= 0) {
+        ((S_80172DFC_0_pre *)effect)[-1].unk_00 = ((S_80172DFC_0_pre *)effect)[-1].unk_00 | 0x8000;
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
-    if (arg2->unk_14.at00_u16.v & 0x8000) {
-        ((S_80172DFC_0_pre *)arg0)[-1].unk_00 = ((S_80172DFC_0_pre *)arg0)[-1].unk_00 | 0x8000;
+    if (animation->unk_14.at00_u16.v & 0x8000) {
+        ((S_80172DFC_0_pre *)effect)[-1].unk_00 = ((S_80172DFC_0_pre *)effect)[-1].unk_00 | 0x8000;
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 }

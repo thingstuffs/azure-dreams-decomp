@@ -40,26 +40,27 @@ typedef struct {
     RuntimeObject object;
 } RuntimeInput;
 
-void func_80037D9C(RuntimeInput *arg0, u8 arg1) {
-    RuntimeObject *obj = &arg0->object;
-    u8 value;
+/* Initializes the embedded runtime object and applies the requested mode. */
+void func_80037D9C(RuntimeInput *input, u8 mode) {
+    RuntimeObject *object = &input->object;
+    u8 initial_value;
 
-    obj->field80 = (u8 *)arg0;
-    func_8003AB14(obj, D_8006A86C);
-    obj->field2A = 1;
-    obj->field24 = 0x20;
-    obj->field0C = (s16)0xFC;
-    obj->field08 = 0;
-    obj->field0A = 0;
-    obj->field1C = D_800809C0;
-    obj->field22 = 0;
-    obj->field20 = 0;
-    ((u8 *)obj)[0x2E] = 0;
-    value = arg0->field03;
-    arg0->field04 = value;
-    obj->field28 = value;
-    obj->field7C = (u8 *)arg0 + 0xC8;
-    obj->field10 = func_80038A10;
-    arg0->field02 = arg1;
-    func_80037D50((u8 *)arg0, arg1);
+    object->field80 = (u8 *)input;
+    func_8003AB14(object, D_8006A86C);
+    object->field2A = 1;
+    object->field24 = 0x20;
+    object->field0C = (s16)0xFC;
+    object->field08 = 0;
+    object->field0A = 0;
+    object->field1C = D_800809C0;
+    object->field22 = 0;
+    object->field20 = 0;
+    ((u8 *)object)[0x2E] = 0;
+    initial_value = input->field03;
+    input->field04 = initial_value;
+    object->field28 = initial_value;
+    object->field7C = (u8 *)input + 0xC8;
+    object->field10 = func_80038A10;
+    input->field02 = mode;
+    func_80037D50((u8 *)input, mode);
 }

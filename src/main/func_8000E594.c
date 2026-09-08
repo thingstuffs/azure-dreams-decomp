@@ -18,27 +18,28 @@ extern CallbackSet D_80020034;
 extern CallbackSet D_80020048;
 extern s32 D_800287E0[];
 
+/* Dispatches a nonzero handler result through the current mode's callback table. */
 s32 func_80021594(void)
 {
-    CallbackWork work;
-    MainCallback *callbacks;
+    CallbackWork callback_sets;
+    MainCallback *first_callbacks;
     s32 mode;
     s32 result;
 
-    work.first = D_80020034;
-    work.second = D_80020048;
+    callback_sets.first = D_80020034;
+    callback_sets.second = D_80020048;
     result = 0;
     mode = D_800287E0[0];
-    callbacks = work.first.value;
+    first_callbacks = callback_sets.first.value;
     if (mode == 0) {
         result = func_80021410();
         if (result != 0) {
-            result = callbacks[result]();
+            result = first_callbacks[result]();
         }
     } else if (mode == 1) {
         result = func_800214FC();
         if (result != 0) {
-            result = (*(MainCallback *)((u8 *)callbacks + (result * 4) + 0x18))();
+            result = (*(MainCallback *)((u8 *)first_callbacks + (result * 4) + 0x18))();
         }
     }
     return result;

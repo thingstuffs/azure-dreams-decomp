@@ -64,21 +64,22 @@ static void (*const func_81892800_table[])(void)
     };
 #endif
 
-void func_81892800(Entity *arg0, Motion *arg1, Aux *arg2) {
+/* Advance motion and rotation, then set completion flags when the timer exceeds its limit. */
+void func_81892800(Entity *entity, Motion *motion, Aux *aux) {
     s16 timer;
 
-    arg0->link->counter++;
-    arg1->x += arg1->dx;
-    arg1->y += arg1->dy;
-    if (arg0->timer < 8) {
-        arg1->dz *= 2;
+    entity->link->counter++;
+    motion->x += motion->dx;
+    motion->y += motion->dy;
+    if (entity->timer < 8) {
+        motion->dz *= 2;
     }
-    arg1->z += arg1->dz;
-    arg2->angle += 0x300;
-    timer = (u16)arg0->timer + 1;
-    arg0->timer = timer;
-    if (arg0->limit < timer) {
-        arg0[-1].limit |= 0x8000;
+    motion->z += motion->dz;
+    aux->angle += 0x300;
+    timer = (u16)entity->timer + 1;
+    entity->timer = timer;
+    if (entity->limit < timer) {
+        entity[-1].limit |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

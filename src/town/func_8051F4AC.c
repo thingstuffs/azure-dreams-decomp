@@ -12,7 +12,7 @@ extern u8 D_8001D244[];
  * page base (lui v0,0x8002) fills the preceding bnez delay slot and whose low
  * half (addiu v0,-14487) fills the converted j delay slot, while the taken arm
  * returns &D_8001D244 as its own self-contained lui/addiu. */
-register u8 *dispatch_result ASM_REG("$2");
+register u8 *dispatch_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #else
 #endif
 

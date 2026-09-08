@@ -62,37 +62,38 @@ extern s32 func_80099FDC(void *);
 extern s32 func_800A7A38(void *);
 extern void func_800BC26C(void *, s32, s32, s32);
 
-void *func_800A8E74(s32 arg0, DungeonCoords *arg1, s32 arg2,
-                    DungeonData *arg3, s32 *arg4, volatile s32 arg5) {
+/* Creates a dungeon object at a tile or the supplied coordinates. */
+void *func_800A8E74(s32 object_key, DungeonCoords *source_coords, s32 unused,
+                    DungeonData *source_data, s32 *init_data, volatile s32 tile_id) {
     DungeonObject *object;
     DungeonData *data;
     DungeonCoords *coords;
     DungeonState *state;
     DungeonTile *tiles;
-    s16 index;
-    s32 arg4_value;
+    s16 tile_index;
+    s32 init_value;
 
-    index = arg5;
-    object = func_8003FD64(0x110, arg0 - 0x20);
+    tile_index = tile_id;
+    object = func_8003FD64(0x110, object_key - 0x20);
     if (object != NULL) {
         data = (DungeonData *)((u8 *)object + 0x20);
         object->field10 = D_800A871C;
         coords = object->field8;
         state = object->fieldC;
-        data->field60 = arg3;
-        if (index >= 0) {
+        data->field60 = source_data;
+        if (tile_index >= 0) {
             DungeonTile *tile;
             tiles = D_800E36C8;
-            tile = &tiles[index];
+            tile = &tiles[tile_index];
             coords->field2 = (tile->field0 << 6) + 0x20;
             coords->field6 = (tile->field1 << 6) + 0x20;
             coords->fieldA = tile->field2;
             data->field88 = tile->field4;
         } else {
-            coords->field2 = arg1->field2;
-            coords->field6 = arg1->field6;
-            coords->fieldA = arg1->fieldA;
-            data->field88 = arg3->field88;
+            coords->field2 = source_coords->field2;
+            coords->field6 = source_coords->field6;
+            coords->fieldA = source_coords->fieldA;
+            data->field88 = source_data->field88;
         }
         func_8004491C(object, D_80045340);
         state->fieldE = 0x80;
@@ -101,13 +102,13 @@ void *func_800A8E74(s32 arg0, DungeonCoords *arg1, s32 arg2,
         state->field1E = 0x1000;
         state->field1C = 0x1000;
         state->field6 = 2;
-        state->field8 = func_800A7A38(arg4);
-        data->field8C = *(s32 *)((u8 *)arg3 - 0x18);
-        data->field90 = *(s32 *)((u8 *)arg3 - 0x14);
-        arg4_value = *arg4;
+        state->field8 = func_800A7A38(init_data);
+        data->field8C = *(s32 *)((u8 *)source_data - 0x18);
+        data->field90 = *(s32 *)((u8 *)source_data - 0x14);
+        init_value = *init_data;
         data->field9C = &data->field98;
         *(u8 *)((u8 *)data + 0x13) = 0xFF;
-        data->field98 = arg4_value;
+        data->field98 = init_value;
         func_80099FDC(object);
         func_800BC26C(object, 0, 0, 0);
     }

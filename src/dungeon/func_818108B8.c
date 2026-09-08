@@ -51,11 +51,12 @@ typedef struct S_800258B8_1 {
     s32 unk_1C;
 } S_800258B8_1;   /* subobject in func_800258B8 */
 
-void func_800258B8(void *arg0)
+/* Updates an item category record's value or copies the object's fallback string. */
+void func_800258B8(void *item_object)
 {
     s32 category;
     s32 subobject_base;
-    void *object = arg0;
+    void *object = item_object;
     S_800258B8_1 *subobject;
 
     subobject_base = ((S_800258B8_0 *)object)->unk_14;
@@ -72,7 +73,3 @@ void func_800258B8(void *arg0)
     }
     strcpy(((S_800258B8_0 *)object)->unk_88, (u8 *)object + 0x78);
 }
-
-/* MECHANISM: Pin object/subobject to s0/s1 for the retail frame saves and held-base roles.
-   Keep the raw +0x14 base live through pointer formation to force lw v0; addiu s1.
-   Scheduling fences preserve the retail nop slots at both guards and the first call. */

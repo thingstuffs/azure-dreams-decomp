@@ -24,15 +24,16 @@ void *func_8003FD64();                  /* extern */
 s32 func_800A56E0();                     /* extern */
 extern M2C_UNK D_801756D4;
 
-void func_80175814(void *arg0) {
-    S_80175814_0 *temp_v0;
+/* Creates an object linked to the source record and copies its initialization fields. */
+void func_80175814(void *sourceRecordData) {
+    S_80175814_0 *createdObject;
 
-    temp_v0 = func_8003FD64(0x202, arg0 - 0x20);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_801756D4;
-        temp_v0->unk_20 = arg0;
-        temp_v0->unk_08 = (s32) ((S_80175814_1 *)((u8 *)arg0 - 0x18))->unk_00;
-        temp_v0->unk_2A = (u16) ((S_80175814_1 *)((u8 *)arg0 - 0x18))->unk_42;
+    createdObject = func_8003FD64(0x202, sourceRecordData - 0x20);
+    if (createdObject != NULL) {
+        createdObject->unk_10 = &D_801756D4;
+        createdObject->unk_20 = sourceRecordData;
+        createdObject->unk_08 = (s32) ((S_80175814_1 *)((u8 *)sourceRecordData - 0x18))->unk_00;
+        createdObject->unk_2A = (u16) ((S_80175814_1 *)((u8 *)sourceRecordData - 0x18))->unk_42;
         func_800A56E0(0x703);
     }
 }

@@ -27,7 +27,8 @@ typedef struct CallbackOwner {
     CallbackState state;
 } CallbackOwner;
 
-void func_8052DC78(CallbackState *arg0)
+/* Animate image strips and signal completion when the timer expires. */
+void func_8052DC78(CallbackState *callback)
 {
     s16 rect[4];
     s16 phase;
@@ -37,10 +38,10 @@ void func_8052DC78(CallbackState *arg0)
     rect[2] = 0x10;
     rect[3] = 1;
 
-    switch (((S_8052DC78_0 *)arg0)->unk_5C.s) {
+    switch (((S_8052DC78_0 *)callback)->unk_5C.s) {
     case 0:
-        ((S_8052DC78_0 *)arg0)->unk_5E = 0x78;
-        ((S_8052DC78_0 *)arg0)->unk_5C.u++;
+        ((S_8052DC78_0 *)callback)->unk_5E = 0x78;
+        ((S_8052DC78_0 *)callback)->unk_5C.u++;
         break;
     case 1:
         break;
@@ -49,7 +50,7 @@ void func_8052DC78(CallbackState *arg0)
     }
 
     rect[1] = 0x1D0;
-    if ((((S_8052DC78_0 *)arg0)->unk_5E >> 1) & 1) {
+    if ((((S_8052DC78_0 *)callback)->unk_5E >> 1) & 1) {
         image = D_805305D8;
         rect[0] = 0x40;
         func_8006E854(rect, image);
@@ -64,7 +65,7 @@ void func_8052DC78(CallbackState *arg0)
     }
 
     rect[1] = 0x1F8;
-    phase = (s16)((S_8052DC78_0 *)arg0)->unk_5E % 3;
+    phase = (s16)((S_8052DC78_0 *)callback)->unk_5E % 3;
     switch (phase) {
     case 0:
         image = D_80530638;
@@ -91,10 +92,10 @@ void func_8052DC78(CallbackState *arg0)
         break;
     }
 
-    timer = ((S_8052DC78_0 *)arg0)->unk_5E - 1;
-    ((S_8052DC78_0 *)arg0)->unk_5E = timer;
+    timer = ((S_8052DC78_0 *)callback)->unk_5E - 1;
+    ((S_8052DC78_0 *)callback)->unk_5E = timer;
     if ((s16)timer <= 0) {
-        CallbackOwner *owner = (CallbackOwner *)((u8 *)arg0 - 2);
+        CallbackOwner *owner = (CallbackOwner *)((u8 *)callback - 2);
 
         *(u16 *)owner |= 0x8000;
         D_80084D5C |= 0x8000;

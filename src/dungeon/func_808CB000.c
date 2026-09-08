@@ -36,6 +36,7 @@ extern s32 D_80126A60;
 extern s32 *D_8012974C;
 
 BODY_STORAGE void BODY_NAME(void) BODY_ATTR;
+/* Store D_80126A60 at the destination pointed to by D_8012974C. */
 BODY_STORAGE void BODY_NAME(void) {
     *D_8012974C = D_80126A60;
 }

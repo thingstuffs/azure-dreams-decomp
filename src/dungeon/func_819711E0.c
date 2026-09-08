@@ -45,29 +45,30 @@ extern s16 D_80025FF4;
 extern s32 D_800814A0[3];
 
 
-void func_819711E0(void *arg0, S_819711E0_2 *arg1, S_819711E0_1 *arg2) {
-    s32 value;
-    u16 count;
-    S_819711E0_3 *src;
+/* Decrement the timer, update scale and position, and flag completion at zero. */
+void func_819711E0(void *state, S_819711E0_2 *position, S_819711E0_1 *scale) {
+    s32 scale_factor;
+    u16 ticks_left;
+    S_819711E0_3 *base_position;
 
-    count = ((S_819711E0_0 *)arg0)->unk_38.s - 1;
-    value = (s32) ((s32) (count << 16) >> 9) / (s16) ((S_819711E0_0 *)arg0)->unk_3A;
+    ticks_left = ((S_819711E0_0 *)state)->unk_38.s - 1;
+    scale_factor = (s32) ((s32) (ticks_left << 16) >> 9) / (s16) ((S_819711E0_0 *)state)->unk_3A;
     D_80025FF4 = 1;
-    ((S_819711E0_0 *)arg0)->unk_38.s = count;
-    arg2->unk_0E = (s8) value;
-    arg2->unk_0D = (s8) value;
-    arg2->unk_0C = (s8) value;
+    ((S_819711E0_0 *)state)->unk_38.s = ticks_left;
+    scale->unk_0E = (s8) scale_factor;
+    scale->unk_0D = (s8) scale_factor;
+    scale->unk_0C = (s8) scale_factor;
 
-    src = ((S_819711E0_0 *)arg0)->unk_40;
-    arg1->unk_02 = ((S_819711E0_0 *)arg0)->unk_44;
-    arg1->unk_06 = ((S_819711E0_0 *)arg0)->unk_46;
-    arg1->unk_0A = ((S_819711E0_0 *)arg0)->unk_48;
-    arg1->unk_02 = (u16) (arg1->unk_02 + src->unk_02);
-    arg1->unk_06 = (u16) (arg1->unk_06 + src->unk_06);
-    arg1->unk_0A = (u16) (arg1->unk_0A + src->unk_0A);
+    base_position = ((S_819711E0_0 *)state)->unk_40;
+    position->unk_02 = ((S_819711E0_0 *)state)->unk_44;
+    position->unk_06 = ((S_819711E0_0 *)state)->unk_46;
+    position->unk_0A = ((S_819711E0_0 *)state)->unk_48;
+    position->unk_02 = (u16) (position->unk_02 + base_position->unk_02);
+    position->unk_06 = (u16) (position->unk_06 + base_position->unk_06);
+    position->unk_0A = (u16) (position->unk_0A + base_position->unk_0A);
 
-    if (((S_819711E0_0 *)arg0)->unk_38.u <= 0) {
-        ((S_819711E0_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    if (((S_819711E0_0 *)state)->unk_38.u <= 0) {
+        ((S_819711E0_0_pre *)state)[-1].unk_00 |= 0x8000;
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 }

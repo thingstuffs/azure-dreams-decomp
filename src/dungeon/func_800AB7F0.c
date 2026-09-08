@@ -27,146 +27,147 @@ extern M2C_UNK D_80077FEC;
 extern M2C_UNK D_800B0D34;
 extern s32 D_800DEFF8[];
 extern M2C_UNK D_800B06F0;
-void *func_800B0F50(void *arg0)
+/* Creates an entity panel with numeric labels, centered text, and a shaded background. */
+void *func_800B0F50(void *owner)
 {
-  s8 stack[16];
-  s32 i;
-  s32 temp_a0;
-  s32 temp_a1_value;
-  register s32 temp_a2_value ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-  register s32 temp_a3_value ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-  s32 temp_s4_value;
-  register s32 temp_v0_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-  s32 temp_v0_3;
-  register s32 shared_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-  register s32 temp_v1_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-  u16 temp_v1_2;
-  void *temp_a2;
-  void *temp_a3;
-  void *temp_s0;
-  void *temp_s1;
-  void *temp_s3;
-  s32 *temp_s4;
-  void *temp_s5;
-  void *temp_v0;
-  void *temp_v1;
-  temp_s5 = arg0;
-  temp_v0 = func_8003FD64(0x12, D_80083498);
-  if (temp_v0 != 0)
+  s8 text_buf[16];
+  s32 prim_index;
+  s32 prim_flags;
+  s32 count_or_color;
+  register s32 green_color ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  register s32 blue_color ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  s32 color_or_addr;
+  register s32 vertex_color ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  s32 text_width;
+  register s32 text_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  register s32 red_color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+  u16 text_id;
+  void *owner_pos;
+  void *panel_pos;
+  void *digits;
+  void *prim;
+  void *panel_data;
+  s32 *color_ptr;
+  void *entity;
+  void *panel;
+  void *transform;
+  entity = owner;
+  panel = func_8003FD64(0x12, D_80083498);
+  if (panel != 0)
   {
-    temp_s4_value = 0x808080;
-    temp_v1 = *((void **) (((s8 *) temp_v0) + 0xC));
-    temp_a3 = *((void **) (((s8 *) temp_v0) + 8));
-    *((s16 *) (((s8 *) temp_v1) + 0x1C)) = 0x1000;
-    *((s16 *) (((s8 *) temp_v1) + 0x1E)) = 0x1000;
-    *((s32 *) (((s8 *) temp_v1) + 0xC)) = temp_s4_value;
-    *((u16 *) (((s8 *) temp_v1) + 0x18)) = 0xFC00;
-    temp_a2 = *((void **) (((s8 *) temp_s5) + (-0x18)));
-    *((u16 *) (((s8 *) temp_a3) + 2)) = (u16) (*((u16 *) (((s8 *) temp_a2) + 2)));
-    *((u16 *) (((s8 *) temp_a3) + 6)) = (u16) (*((u16 *) (((s8 *) temp_a2) + 6)));
-    *((s16 *) (((s8 *) temp_a3) + 0xA)) = (s16) ((*((u16 *) (((s8 *) temp_a2) + 0xA))) - (D_800DDC40[*((u8 *) (((s8 *) temp_s5) + 0x13))] + 0x50));
-    *((M2C_UNK **) (((s8 *) temp_v0) + 0x10)) = &D_800B0D34;
-    func_8004491C(temp_v0, &D_800B06F0, temp_a2, temp_a3);
-    temp_s3 = temp_v0 + 0x20;
-    *((void **) (((s8 *) temp_s3) + 0x14)) = temp_s5;
-    *((void **) (((s8 *) temp_v0) + 0x20)) = (void *) (temp_v0 + 0x70);
-    *((void **) (((s8 *) temp_s3) + 4)) = (void *) (temp_v0 + 0x58);
-    *((M2C_UNK **) (((s8 *) temp_v0) + 0x70)) = &D_80077FEC;
-    *((s32 *) (((s8 *) temp_v0) + 0x58)) = temp_s4_value;
-    temp_s1 = func_800B12F4();
-    *((void **) (((s8 *) temp_s3) + 0x28)) = temp_s1;
-    if (temp_s1 != 0)
+    color_or_addr = 0x808080;
+    transform = *((void **) (((s8 *) panel) + 0xC));
+    panel_pos = *((void **) (((s8 *) panel) + 8));
+    *((s16 *) (((s8 *) transform) + 0x1C)) = 0x1000;
+    *((s16 *) (((s8 *) transform) + 0x1E)) = 0x1000;
+    *((s32 *) (((s8 *) transform) + 0xC)) = color_or_addr;
+    *((u16 *) (((s8 *) transform) + 0x18)) = 0xFC00;
+    owner_pos = *((void **) (((s8 *) entity) + (-0x18)));
+    *((u16 *) (((s8 *) panel_pos) + 2)) = (u16) (*((u16 *) (((s8 *) owner_pos) + 2)));
+    *((u16 *) (((s8 *) panel_pos) + 6)) = (u16) (*((u16 *) (((s8 *) owner_pos) + 6)));
+    *((s16 *) (((s8 *) panel_pos) + 0xA)) = (s16) ((*((u16 *) (((s8 *) owner_pos) + 0xA))) - (D_800DDC40[*((u8 *) (((s8 *) entity) + 0x13))] + 0x50));
+    *((M2C_UNK **) (((s8 *) panel) + 0x10)) = &D_800B0D34;
+    func_8004491C(panel, &D_800B06F0, owner_pos, panel_pos);
+    panel_data = panel + 0x20;
+    *((void **) (((s8 *) panel_data) + 0x14)) = entity;
+    *((void **) (((s8 *) panel) + 0x20)) = (void *) (panel + 0x70);
+    *((void **) (((s8 *) panel_data) + 4)) = (void *) (panel + 0x58);
+    *((M2C_UNK **) (((s8 *) panel) + 0x70)) = &D_80077FEC;
+    *((s32 *) (((s8 *) panel) + 0x58)) = color_or_addr;
+    prim = func_800B12F4();
+    *((void **) (((s8 *) panel_data) + 0x28)) = prim;
+    if (prim != 0)
     {
-      temp_a1_value = 3;
-      ASM_KEEP_NV(temp_a1_value);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+      count_or_color = 3;
+      ASM_KEEP_NV(count_or_color);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
       {
-        s32 stack_value;
-        stack_value = 9;
-        stack[2] = stack_value;
-        stack[0] = stack_value;
-        stack_value = 0x38;
-        temp_s0 = &stack[4];
-        stack[3] = stack_value;
-        stack[1] = stack_value;
+        s32 text_style;
+        text_style = 9;
+        text_buf[2] = text_style;
+        text_buf[0] = text_style;
+        text_style = 0x38;
+        digits = &text_buf[4];
+        text_buf[3] = text_style;
+        text_buf[1] = text_style;
       }
-      func_8004E5A0(*((u8 *) (((s8 *) temp_s5) + 0x28)), temp_a1_value, temp_s0);
-      *((s32 *) (((s8 *) temp_v0) + 0x74)) = func_8004E298(temp_s1, stack, 0);
-      func_800B1320(temp_s1, 8, ((s32) (0 - (((s32) ((*((u8 *) (((s8 *) temp_s1) + 3))) << 0x18)) >> 8))) >> 0x10);
-      func_800B135C(temp_s1, 8);
-      temp_s1 += 0x24;
-      *((s32 *) (((s8 *) temp_v0) + 0x5C)) = temp_s4_value;
-      func_8004E5A0(*((u8 *) (((s8 *) temp_s5) + 0x25)), 3, temp_s0);
-      *((s32 *) (((s8 *) temp_v0) + 0x78)) = func_8004E298(temp_s1, stack, 0);
-      func_800B1320(temp_s1, 8, (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) temp_s1) + 3))))) + 8)));
-      func_800B135C(temp_s1, 8);
-      temp_s1 += 0x24;
-      *((s32 *) (((s8 *) temp_v0) + 0x60)) = temp_s4_value;
-      temp_v1_2 = *((u16 *) (((s8 *) temp_s5) + 0x46));
-      temp_s4_value = (s32) (temp_v0 + 0x64);
-      if (temp_v1_2 & 0x8000)
+      func_8004E5A0(*((u8 *) (((s8 *) entity) + 0x28)), count_or_color, digits);
+      *((s32 *) (((s8 *) panel) + 0x74)) = func_8004E298(prim, text_buf, 0);
+      func_800B1320(prim, 8, ((s32) (0 - (((s32) ((*((u8 *) (((s8 *) prim) + 3))) << 0x18)) >> 8))) >> 0x10);
+      func_800B135C(prim, 8);
+      prim += 0x24;
+      *((s32 *) (((s8 *) panel) + 0x5C)) = color_or_addr;
+      func_8004E5A0(*((u8 *) (((s8 *) entity) + 0x25)), 3, digits);
+      *((s32 *) (((s8 *) panel) + 0x78)) = func_8004E298(prim, text_buf, 0);
+      func_800B1320(prim, 8, (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) prim) + 3))))) + 8)));
+      func_800B135C(prim, 8);
+      prim += 0x24;
+      *((s32 *) (((s8 *) panel) + 0x60)) = color_or_addr;
+      text_id = *((u16 *) (((s8 *) entity) + 0x46));
+      color_or_addr = (s32) (panel + 0x64);
+      if (text_id & 0x8000)
       {
-        *((s32 *) (((s8 *) temp_v0) + 0x7C)) = func_8004DA74(temp_s1, D_800DEFF8[temp_v1_2 & 0x3FFF] + 1, 0);
-        shared_a0 = D_800DEFF8[(*((u16 *) (((s8 *) temp_s5) + 0x46))) & 0x3FFF];
- do { i = 4; } while (0);
-        goto join_69e98;
+        *((s32 *) (((s8 *) panel) + 0x7C)) = func_8004DA74(prim, D_800DEFF8[text_id & 0x3FFF] + 1, 0);
+        text_addr = D_800DEFF8[(*((u16 *) (((s8 *) entity) + 0x46))) & 0x3FFF];
+        do { prim_index = 4; } while (0);
+        goto position_text;
       }
       else
       {
-        s32 *base = D_800DEFF8;
-        *((s32 *) (((s8 *) temp_v0) + 0x7C)) = func_8004DA74(temp_s1, base[4] + 1, 0);
-        shared_a0 = base[4];
+        s32 *text_table = D_800DEFF8;
+        *((s32 *) (((s8 *) panel) + 0x7C)) = func_8004DA74(prim, text_table[4] + 1, 0);
+        text_addr = text_table[4];
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        i = 4;
-        join_69e98:
-        temp_v0_3 = func_80069E98(shared_a0 + 1);
+        prim_index = 4;
+        position_text:
+        text_width = func_80069E98(text_addr + 1);
 
-        temp_v0_3 *= 4;
+        text_width *= 4;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        func_800B1320(temp_s1, (s16) ((((s32) (0x20 - temp_v0_3)) >> 1) + 0x80), (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) temp_s1) + 3))))) + 0x11)));
-        func_800B135C(temp_s1, 8);
-        temp_s1 += 0x30;
+        func_800B1320(prim, (s16) ((((s32) (0x20 - text_width)) >> 1) + 0x80), (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) prim) + 3))))) + 0x11)));
+        func_800B135C(prim, 8);
+        prim += 0x30;
       }
-      ASM_KEEP(temp_s4_value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-      *((s32 *) temp_s4_value) = 0x808080;
-      *((void **) (((s8 *) ((i * 4) + temp_s3)) + 0x50)) = temp_s1;
-      *((u8 *) (((s8 *) temp_s1) + 1)) = 0x38U;
-      *((s8 *) (((s8 *) temp_s1) + 2)) = -2;
-      *((s8 *) (((s8 *) temp_s1) + 3)) = -2;
-      *((s8 *) (((s8 *) temp_s1) + 9)) = 0;
-      *((s8 *) (((s8 *) temp_s1) + 8)) = 0;
-      *((s8 *) (((s8 *) temp_s1) + 0xB)) = 0x24;
-      *((s8 *) (((s8 *) temp_s1) + 0xA)) = 0x24;
-      temp_a0 = 0xC0;
-      *((u8 *) (((s8 *) temp_s1) + 0)) = temp_a0;
-      temp_a1_value = 0x202020;
-      temp_a3_value = 0x402020;
-      temp_a2_value = 0x204020;
-      temp_v1_value = 0x200000;
-      *((s32 *) (((s8 *) temp_s3) + 0x18)) = temp_a1_value;
-      ASM_KEEP_NV(temp_a1_value);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-      temp_v0_value = temp_a1_value;
-      ASM_KEEP_NV(temp_v0_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-      ASM_KEEP_NV(temp_v1_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-      temp_v1_value |= 0x2040;
-      *((s32 *) (((s8 *) temp_s3) + 0x1C)) = temp_a3_value;
-      *((s32 *) (((s8 *) temp_s3) + 0x20)) = temp_a2_value;
-      *((s32 *) (((s8 *) temp_s3) + 0x24)) = temp_v1_value;
-      *((s32 *) (((s8 *) temp_s1) + 4)) = temp_v0_value;
-      temp_v0_value = *((s32 *) (((s8 *) temp_s3) + 0x1C));
-      *((s32 *) (((s8 *) temp_s1) + 0xC)) = temp_v0_value;
-      temp_v0_value = *((s32 *) (((s8 *) temp_s3) + 0x20));
-      i++;
-      *((s32 *) (((s8 *) temp_s1) + 0x10)) = temp_v0_value;
-      temp_v1_value = *((s32 *) (((s8 *) temp_s3) + 0x24));
-      *((u8 *) (((s8 *) temp_s1) + 1)) = (u8) ((*((u8 *) (((s8 *) temp_s1) + 1))) | 2);
-      *((s32 *) (((s8 *) temp_s1) + 0x14)) = temp_v1_value;
-      temp_s1 += 0x18;
-      *((void **) (((s8 *) ((i * 4) + temp_s3)) + 0x50)) = temp_s1;
-      *((u8 *) (((s8 *) temp_s1) + 1)) = 0x81;
-      *((s16 *) (((s8 *) temp_s1) + 4)) = 0x40;
-      *((s16 *) (((s8 *) temp_s1) + 6)) = 0;
-      *((u8 *) (((s8 *) temp_s1) + 0)) = temp_a0;
+      ASM_KEEP(color_or_addr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+      *((s32 *) color_or_addr) = 0x808080;
+      *((void **) (((s8 *) ((prim_index * 4) + panel_data)) + 0x50)) = prim;
+      *((u8 *) (((s8 *) prim) + 1)) = 0x38U;
+      *((s8 *) (((s8 *) prim) + 2)) = -2;
+      *((s8 *) (((s8 *) prim) + 3)) = -2;
+      *((s8 *) (((s8 *) prim) + 9)) = 0;
+      *((s8 *) (((s8 *) prim) + 8)) = 0;
+      *((s8 *) (((s8 *) prim) + 0xB)) = 0x24;
+      *((s8 *) (((s8 *) prim) + 0xA)) = 0x24;
+      prim_flags = 0xC0;
+      *((u8 *) (((s8 *) prim) + 0)) = prim_flags;
+      count_or_color = 0x202020;
+      blue_color = 0x402020;
+      green_color = 0x204020;
+      red_color = 0x200000;
+      *((s32 *) (((s8 *) panel_data) + 0x18)) = count_or_color;
+      ASM_KEEP_NV(count_or_color);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+      vertex_color = count_or_color;
+      ASM_KEEP_NV(vertex_color);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+      ASM_KEEP_NV(red_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+      red_color |= 0x2040;
+      *((s32 *) (((s8 *) panel_data) + 0x1C)) = blue_color;
+      *((s32 *) (((s8 *) panel_data) + 0x20)) = green_color;
+      *((s32 *) (((s8 *) panel_data) + 0x24)) = red_color;
+      *((s32 *) (((s8 *) prim) + 4)) = vertex_color;
+      vertex_color = *((s32 *) (((s8 *) panel_data) + 0x1C));
+      *((s32 *) (((s8 *) prim) + 0xC)) = vertex_color;
+      vertex_color = *((s32 *) (((s8 *) panel_data) + 0x20));
+      prim_index++;
+      *((s32 *) (((s8 *) prim) + 0x10)) = vertex_color;
+      red_color = *((s32 *) (((s8 *) panel_data) + 0x24));
+      *((u8 *) (((s8 *) prim) + 1)) = (u8) ((*((u8 *) (((s8 *) prim) + 1))) | 2);
+      *((s32 *) (((s8 *) prim) + 0x14)) = red_color;
+      prim += 0x18;
+      *((void **) (((s8 *) ((prim_index * 4) + panel_data)) + 0x50)) = prim;
+      *((u8 *) (((s8 *) prim) + 1)) = 0x81;
+      *((s16 *) (((s8 *) prim) + 4)) = 0x40;
+      *((s16 *) (((s8 *) prim) + 6)) = 0;
+      *((u8 *) (((s8 *) prim) + 0)) = prim_flags;
     }
   }
-  return temp_v0;
+  return panel;
 }

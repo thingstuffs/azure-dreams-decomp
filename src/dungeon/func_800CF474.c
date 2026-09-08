@@ -51,34 +51,35 @@ extern void func_8003DB94(void *, void *, s32);
 extern s32 D_80045340;
 extern s32 D_800DECF8;
 
-void func_800D4BD4(void *arg0, Rec_func_800D4BD4_arg1 *arg1, Rec_func_800D4BD4_arg2 *arg2)
+/* Initialize object state and rendering data from the source and position. */
+void func_800D4BD4(void *object, Rec_func_800D4BD4_arg1 *source, Rec_func_800D4BD4_arg2 *position)
 {
-    S_800D4BD4_2 *temp_a0;
-    S_800D4BD4_5 *temp_a0_2;
-    S_800D4BD4_3 *temp_v1;
+    S_800D4BD4_2 *render_config;
+    S_800D4BD4_5 *render_data;
+    S_800D4BD4_3 *object_position;
     S_800D4BD4_0 *state;
-    s32 copied_value;
+    s32 source_value;
     u16 flags;
 
-    state = (u8 *)arg0 + 0x20;
-    state->unk_24 = arg1;
-    func_8004491C(arg0, &D_80045340);
-    temp_a0 = ((S_800D4BD4_1 *)arg0)->unk_0C;
-    temp_a0->unk_10 = 0x20;
-    temp_a0->unk_14 = temp_a0->unk_14 | 0xC;
-    temp_v1 = ((S_800D4BD4_1 *)arg0)->unk_08;
-    temp_v1->unk_02 = arg2->unk_02.as_u16;
-    temp_v1->unk_06 = arg2->unk_06.as_u16;
-    temp_v1->unk_0A = arg2->unk_0A.as_u16;
-    temp_a0_2 = ((S_800D4BD4_1 *)arg0)->unk_0C;
-    temp_a0_2->unk_1E = 0x800;
-    temp_a0_2->unk_1C = 0x800;
-    state->unk_0C = arg1->unk_0C;
-    copied_value = arg1->unk_0C;
-    flags = temp_a0_2->unk_14;
-    temp_a0_2->unk_12 = 0x7DCF;
+    state = (u8 *)object + 0x20;
+    state->unk_24 = source;
+    func_8004491C(object, &D_80045340);
+    render_config = ((S_800D4BD4_1 *)object)->unk_0C;
+    render_config->unk_10 = 0x20;
+    render_config->unk_14 = render_config->unk_14 | 0xC;
+    object_position = ((S_800D4BD4_1 *)object)->unk_08;
+    object_position->unk_02 = position->unk_02.as_u16;
+    object_position->unk_06 = position->unk_06.as_u16;
+    object_position->unk_0A = position->unk_0A.as_u16;
+    render_data = ((S_800D4BD4_1 *)object)->unk_0C;
+    render_data->unk_1E = 0x800;
+    render_data->unk_1C = 0x800;
+    state->unk_0C = source->unk_0C;
+    source_value = source->unk_0C;
+    flags = render_data->unk_14;
+    render_data->unk_12 = 0x7DCF;
     flags |= 0x100;
-    temp_a0_2->unk_0C = copied_value;
-    temp_a0_2->unk_14 = flags;
-    func_8003DB94(temp_a0_2, &D_800DECF8, 0);
+    render_data->unk_0C = source_value;
+    render_data->unk_14 = flags;
+    func_8003DB94(render_data, &D_800DECF8, 0);
 }

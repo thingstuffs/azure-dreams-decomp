@@ -65,110 +65,111 @@ extern u8 D_80028268[];
 extern s32 D_800814A0;
 extern s32 D_80083498;
 
-void *func_8195AB84(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+/* Create 18 linked objects at the given position and angle, marking them for cleanup on failure. */
+void *func_8195AB84(s16 x, s16 y, s16 z, s16 angle)
 {
     void *objects[18];
-    s32 i;
+    s32 object_index;
     register void **objects_base ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void **slot;
-    S_8195AB84_2 *header;
-    S_8195AB84_3 *node;
-    S_8195AB84_4 *tail;
-    u8 *table_base;
-    u8 *global_page;
-    register s32 constant ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s16 held_arg0;
-    register s16 held_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s16 held_arg2 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s16 held_arg3;
-    register void *global_addr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u16 flags;
-    void **cleanup;
-    u16 cleanup_flags;
-    void *call_arg;
-    s32 global_value;
-    static void *const keepalive[] = { &&loop_continue };
+    S_8195AB84_2 *position;
+    S_8195AB84_3 *transform;
+    S_8195AB84_4 *object_state;
+    u8 *entry_table;
+    u8 *state_page;
+    register s32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 saved_x;
+    register s16 saved_y ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s16 saved_z ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 saved_angle;
+    register void *callback_addr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 transform_flags;
+    void **cleanup_slot;
+    u16 object_flags;
+    void *call_context;
+    s32 state_flags;
+    static void *const loop_label_ref[] = { &&loop_continue };
 
-    held_arg0 = arg0;
-    held_arg1 = arg1;
-    held_arg2 = arg2;
-    held_arg3 = arg3;
-    constant = func_8003FA44(18);
-    i = 0;
-    if (constant != 0) {
-        constant = (s32)0x80030000;
-        ASM_KEEP(constant);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        table_base = (u8 *)constant - 0x7D98;
-        global_page = (u8 *)0x80080000;
+    saved_x = x;
+    saved_y = y;
+    saved_z = z;
+    saved_angle = angle;
+    scratch = func_8003FA44(18);
+    object_index = 0;
+    if (scratch != 0) {
+        scratch = (s32)0x80030000;
+        ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        entry_table = (u8 *)scratch - 0x7D98;
+        state_page = (u8 *)0x80080000;
         objects_base = objects;
         slot = objects_base;
         do {
-            constant = (s32)0x80080000;
-            if (i != 0) {
-                call_arg = objects[0];
-                ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            scratch = (s32)0x80080000;
+            if (object_index != 0) {
+                call_context = objects[0];
+                ASM_KEEP(call_context);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_800263FC();
             }
-            call_arg = (void *)(constant + 0x3498);
-            ASM_KEEP_NV(call_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            constant = (s32)func_8003FD64(18, call_arg);
-            *slot = (void *)constant;
-            if (constant != 0) {
-                global_addr = &D_80025C80;
-                ((S_8195AB84_0 *)((void *)constant))->unk_10 = global_addr;
-                header = ((S_8195AB84_1 *)(*slot))->unk_08;
-                header->unk_02 = held_arg0;
-                header->unk_06 = held_arg1;
-                header->unk_0A = held_arg2;
-                node = ((S_8195AB84_1 *)(*slot))->unk_0C;
-                node->unk_16 = 0x400;
-                node->unk_1A = held_arg3 + 0x400;
-                constant = 0x1000;
-                node->unk_20 = constant;
-                node->unk_1E = constant;
-                node->unk_1C = constant;
-                flags = node->unk_14;
-                node->unk_08 = (void *)((u32)(i * 0x10) + (u32)table_base);
-                node->unk_10 = 0x20;
-                node->unk_14 = flags | 0xC;
-                constant = (s32)*slot;
-                tail = (u8 *)constant + 0x20;
-                if (i != 0) {
-                    ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                    tail->unk_20 = objects[0];
+            call_context = (void *)(scratch + 0x3498);
+            ASM_KEEP_NV(call_context);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            scratch = (s32)func_8003FD64(18, call_context);
+            *slot = (void *)scratch;
+            if (scratch != 0) {
+                callback_addr = &D_80025C80;
+                ((S_8195AB84_0 *)((void *)scratch))->unk_10 = callback_addr;
+                position = ((S_8195AB84_1 *)(*slot))->unk_08;
+                position->unk_02 = saved_x;
+                position->unk_06 = saved_y;
+                position->unk_0A = saved_z;
+                transform = ((S_8195AB84_1 *)(*slot))->unk_0C;
+                transform->unk_16 = 0x400;
+                transform->unk_1A = saved_angle + 0x400;
+                scratch = 0x1000;
+                transform->unk_20 = scratch;
+                transform->unk_1E = scratch;
+                transform->unk_1C = scratch;
+                transform_flags = transform->unk_14;
+                transform->unk_08 = (void *)((u32)(object_index * 0x10) + (u32)entry_table);
+                transform->unk_10 = 0x20;
+                transform->unk_14 = transform_flags | 0xC;
+                scratch = (s32)*slot;
+                object_state = (u8 *)scratch + 0x20;
+                if (object_index != 0) {
+                    ASM_KEEP(object_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                    object_state->unk_20 = objects[0];
                 }
-                tail->unk_30 = 0x10;
-                tail->unk_34 = held_arg3;
-                tail->unk_36 = 7;
-                func_800264F0(node);
+                object_state->unk_30 = 0x10;
+                object_state->unk_34 = saved_angle;
+                object_state->unk_36 = 7;
+                func_800264F0(transform);
             } else {
-                i--;
-                if (i >= 0) {
-                    constant = i * 4;
-                    cleanup = (void **)((u32)constant + (u32)objects_base);
+                object_index--;
+                if (object_index >= 0) {
+                    scratch = object_index * 4;
+                    cleanup_slot = (void **)((u32)scratch + (u32)objects_base);
                     do {
-                        constant = (s32)*cleanup;
-                        cleanup--;
-                        i--;
-                        global_value = *(s32 *)(global_page + 0x14A0);
-                        cleanup_flags = ((S_8195AB84_0 *)((void *)constant))->unk_1E;
-                        global_value |= 0x8000;
-                        *(s32 *)(global_page + 0x14A0) = global_value;
-                        cleanup_flags |= 0x8000;
-                        ((S_8195AB84_0 *)((void *)constant))->unk_1E = cleanup_flags;
-                    } while (i >= 0);
+                        scratch = (s32)*cleanup_slot;
+                        cleanup_slot--;
+                        object_index--;
+                        state_flags = *(s32 *)(state_page + 0x14A0);
+                        object_flags = ((S_8195AB84_0 *)((void *)scratch))->unk_1E;
+                        state_flags |= 0x8000;
+                        *(s32 *)(state_page + 0x14A0) = state_flags;
+                        object_flags |= 0x8000;
+                        ((S_8195AB84_0 *)((void *)scratch))->unk_1E = object_flags;
+                    } while (object_index >= 0);
                 }
 call_26514:
-                constant = 0;
-                ASM_TAILSLOT_PIN_TIED(constant);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+                scratch = 0;
+                ASM_TAILSLOT_PIN_TIED(scratch);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 func_80026514();
                 goto loop_continue;
             }
 loop_continue:
-            i++;
+            object_index++;
             slot++;
-        } while (i < 18);
-        func_80025B5C(objects[0], held_arg3);
+        } while (object_index < 18);
+        func_80025B5C(objects[0], saved_angle);
         return objects[0];
     } else {
         goto call_26514;

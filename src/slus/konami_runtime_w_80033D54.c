@@ -30,48 +30,53 @@ extern u8 *D_80083160_tail[3] asm("D_80083160");
 #define SCR_U16(o) (*(u16 *)(scratch + (o)))
 #define SCR_S32(o) (*(s32 *)(scratch + (o)))
 
-s32 func_80033D54(u8 *arg0, u8 *arg1, u8 *arg2) {
+/* Transform and submit textured sprite quads for each node, then invoke its callback. */
+s32 func_80033D54(u8 *first_node, u8 *first_transform, u8 *first_context) {
     u8 *scratch;
     u8 *transform;
     u8 *context;
     u8 *object;
-    u8 *source;
-    u8 *vertex;
+    u8 *sprite_data;
+    u8 *sprite;
     u8 *primitive;
-    u8 *global_init;
-    u8 **state_p;
-    u8 *next;
+    u8 *render_state;
+    u8 **state_ptr;
+    u8 *next_node;
     void *matrix;
     void *translation;
     void *work_matrix;
     u8 *node;
     void (*callback)(void *);
-    s32 first_u;
-    s32 first_v;
-    s32 coord_value;
+    s32 left_u;
+    s32 top_v;
+    s32 coord;
+    s32 third_visible;
+    s32 corner_visible;
+    s32 context_flags;
+    s32 prim_cursor;
     s32 sum_u;
     s32 sum_v;
-    s32 shifted_v;
-    s32 uv_value;
-    s32 visible2;
+    s32 bottom_v_bits;
+    s32 uv_word;
+    s32 visible;
     s32 clut_base;
-    s32 clut_joined;
+    s32 visible_corners;
     u16 clut_value;
     s32 tpage_base;
     u16 tpage_value;
     u16 draw_flags;
-    s32 guard;
+    s32 render_disabled;
 
-    node = arg0;
-    transform = arg1;
-    context = arg2;
+    node = first_node;
+    transform = first_transform;
+    context = first_context;
 
-    guard = D_8008099C;
-    ASM_KEEP_NV(guard);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    state_p = D_80083160_init;
+    render_disabled = D_8008099C;
+    ASM_KEEP_NV(render_disabled);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    state_ptr = D_80083160_init;
     scratch = (u8 *)0x1F800000;
     ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if (guard != 0) {
+    if (render_disabled != 0) {
         return 0;
     }
 
@@ -79,25 +84,25 @@ s32 func_80033D54(u8 *arg0, u8 *arg1, u8 *arg2) {
     translation = (void *)0x1F800044;
     work_matrix = (void *)0x1F8000C8;
 
-    global_init = D_80083160_init[0];
-    sum_u = S32_AT(global_init, 0x8D0);
-    SCR_S32(0x24) = (u32)(global_init + 0x70);
+    render_state = D_80083160_init[0];
+    prim_cursor = S32_AT(render_state, 0x8D0);
+    SCR_S32(0x24) = (u32)(render_state + 0x70);
     SCR_S32(0x3C) = 0x1000;
     SCR_S32(0x4C) = 0;
     SCR_S16(0x90) = 0;
     SCR_S16(0x88) = 0;
     SCR_S16(0x80) = 0;
     SCR_S16(0x78) = 0;
-    SCR_S32(0x1C) = sum_u;
+    SCR_S32(0x1C) = prim_cursor;
     PushMatrix();
 
-outer_loop:
+node_loop:
     object = PTR_AT(node, 0x0);
     callback = *(void (**)(void *))(node + 0x8);
     SCR_S32(0xC4) = S32_AT(object, 0x60);
-    coord_value = U16_AT(context, 0x14);
-    source = PTR_AT(context, 0x8);
-    SCR_U16(0x28) = coord_value;
+    context_flags = U16_AT(context, 0x14);
+    sprite_data = PTR_AT(context, 0x8);
+    SCR_U16(0x28) = context_flags;
     SCR_S32(0x34) = S32_AT(object, 0x20);
     SCR_S32(0x38) = S32_AT(object, 0x24);
     SCR_S32(0x3C) = S32_AT(object, 0x28);
@@ -149,56 +154,56 @@ outer_loop:
     ASM_USE_NV(work_matrix);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     SetTransMatrix(matrix);
 
-    if (source != 0) {
-        vertex = source + 1;
-inner_loop:
+    if (sprite_data != 0) {
+        sprite = sprite_data + 1;
+sprite_loop:
         primitive = (u8 *)SCR_S32(0x1C);
         SCR_S32(0x1C) = (s32)(primitive + 0x28);
 
-        coord_value = *(volatile u8 *)(vertex + 0x7);
-        first_u = U8_AT(vertex, 0x7);
-        first_v = U8_AT(vertex, 0x8);
-        SCR_S32(0x0C) = coord_value;
-        coord_value = U8_AT(vertex, 0x8);
-        SCR_S32(0x10) = coord_value;
-        SCR_S32(0x14) = U8_AT(vertex, 0x9);
-        SCR_S32(0x18) = U8_AT(vertex, 0xA);
-        if ((first_u + U8_AT(vertex, 0x9)) >= 0x100) {
+        coord = *(volatile u8 *)(sprite + 0x7);
+        left_u = U8_AT(sprite, 0x7);
+        top_v = U8_AT(sprite, 0x8);
+        SCR_S32(0x0C) = coord;
+        coord = U8_AT(sprite, 0x8);
+        SCR_S32(0x10) = coord;
+        SCR_S32(0x14) = U8_AT(sprite, 0x9);
+        SCR_S32(0x18) = U8_AT(sprite, 0xA);
+        if ((left_u + U8_AT(sprite, 0x9)) >= 0x100) {
             SCR_S32(0x14) -= 1;
         }
-        if ((first_v + U8_AT(vertex, 0xA)) >= 0x100) {
+        if ((top_v + U8_AT(sprite, 0xA)) >= 0x100) {
             SCR_S32(0x18) -= 1;
         }
 
-        if ((U8_AT(source, 0) ^ SCR_U16(0x28)) & 1) {
-            coord_value = -((s32)(U8_AT(vertex, 1) << 24) >> 23);
-            SCR_S16(0x84) = coord_value;
-            SCR_S16(0x74) = coord_value;
-            coord_value -= SCR_U16(0x14);
+        if ((U8_AT(sprite_data, 0) ^ SCR_U16(0x28)) & 1) {
+            coord = -((s32)(U8_AT(sprite, 1) << 24) >> 23);
+            SCR_S16(0x84) = coord;
+            SCR_S16(0x74) = coord;
+            coord -= SCR_U16(0x14);
         } else {
-            coord_value = (s32)(U8_AT(vertex, 1) << 24) >> 23;
-            SCR_S16(0x84) = coord_value;
-            SCR_S16(0x74) = coord_value;
-            coord_value += SCR_U16(0x14);
+            coord = (s32)(U8_AT(sprite, 1) << 24) >> 23;
+            SCR_S16(0x84) = coord;
+            SCR_S16(0x74) = coord;
+            coord += SCR_U16(0x14);
         }
-        SCR_S16(0x8C) = coord_value;
-        SCR_S16(0x7C) = coord_value;
+        SCR_S16(0x8C) = coord;
+        SCR_S16(0x7C) = coord;
 
-        if ((U8_AT(source, 0) ^ SCR_U16(0x28)) & 2) {
-            coord_value = -((s32)(U8_AT(vertex, 2) << 24) >> 23);
-            SCR_S16(0x7E) = coord_value;
-            SCR_S16(0x76) = coord_value;
-            coord_value -= SCR_U16(0x18);
+        if ((U8_AT(sprite_data, 0) ^ SCR_U16(0x28)) & 2) {
+            coord = -((s32)(U8_AT(sprite, 2) << 24) >> 23);
+            SCR_S16(0x7E) = coord;
+            SCR_S16(0x76) = coord;
+            coord -= SCR_U16(0x18);
         } else {
-            coord_value = (s32)(U8_AT(vertex, 2) << 24) >> 23;
-            SCR_S16(0x7E) = coord_value;
-            SCR_S16(0x76) = coord_value;
-            coord_value += SCR_U16(0x18);
+            coord = (s32)(U8_AT(sprite, 2) << 24) >> 23;
+            SCR_S16(0x7E) = coord;
+            SCR_S16(0x76) = coord;
+            coord += SCR_U16(0x18);
         }
         do {
-            SCR_S16(0x8E) = coord_value;
+            SCR_S16(0x8E) = coord;
         } while (0);
-        SCR_S16(0x86) = coord_value;
+        SCR_S16(0x86) = coord;
 
         RotTransPers4(scratch + 0x74, scratch + 0x7C,
                       scratch + 0x84, scratch + 0x8C,
@@ -206,26 +211,26 @@ inner_loop:
                       scratch + 0xAC, scratch + 0xB4,
                       scratch + 0x94, scratch + 0x98);
 
-        visible2 = 0;
+        visible = 0;
         if ((u16)(SCR_U16(0x9C) + 0x20) < 0x181U) {
-            visible2 = (u16)(SCR_U16(0x9E) + 0x20) < 0x121U;
+            visible = (u16)(SCR_U16(0x9E) + 0x20) < 0x121U;
         }
-        tpage_base = 0;
+        corner_visible = 0;
         if ((u16)(SCR_U16(0xA4) + 0x20) < 0x181U) {
-            tpage_base = (u16)(SCR_U16(0xA6) + 0x20) < 0x121U;
+            corner_visible = (u16)(SCR_U16(0xA6) + 0x20) < 0x121U;
         }
-        clut_base = 0;
-        visible2 |= tpage_base;
+        third_visible = 0;
+        visible |= corner_visible;
         if ((u16)(SCR_U16(0xAC) + 0x20) < 0x181U) {
-            clut_base = (u16)(SCR_U16(0xAE) + 0x20) < 0x121U;
+            third_visible = (u16)(SCR_U16(0xAE) + 0x20) < 0x121U;
         }
-        tpage_base = 0;
-        clut_joined = visible2 | clut_base;
+        corner_visible = 0;
+        visible_corners = visible | third_visible;
         if ((u16)(SCR_U16(0xB4) + 0x20) < 0x181U) {
-            tpage_base = (u16)(SCR_U16(0xB6) + 0x20) < 0x121U;
+            corner_visible = (u16)(SCR_U16(0xB6) + 0x20) < 0x121U;
         }
 
-        if ((clut_joined | tpage_base) != 0) {
+        if ((visible_corners | corner_visible) != 0) {
             S32_AT(primitive, 0x8) = SCR_S32(0x9C);
             S32_AT(primitive, 0x10) = SCR_S32(0xA4);
             S32_AT(primitive, 0x18) = SCR_S32(0xAC);
@@ -244,38 +249,38 @@ inner_loop:
                 SCR_S32(0x18) = sum_v - 1;
             }
 
-            shifted_v = SCR_S32(0x18);
-            uv_value = SCR_S32(0x10);
-            shifted_v <<= 8;
-            SCR_S32(0x18) = shifted_v;
-            uv_value <<= 8;
-            SCR_S32(0x10) = uv_value;
+            bottom_v_bits = SCR_S32(0x18);
+            uv_word = SCR_S32(0x10);
+            bottom_v_bits <<= 8;
+            SCR_S32(0x18) = bottom_v_bits;
+            uv_word <<= 8;
+            SCR_S32(0x10) = uv_word;
             clut_base = U16_AT(context, 0x12);
-            uv_value += SCR_S32(0x0C);
+            uv_word += SCR_S32(0x0C);
             clut_value = clut_base;
             if (clut_base == 0) {
-                clut_value = U16_AT(vertex, 0x5);
+                clut_value = U16_AT(sprite, 0x5);
             }
-            uv_value += (s32)clut_value << 16;
-            S32_AT(primitive, 0xC) = uv_value;
+            uv_word += (s32)clut_value << 16;
+            S32_AT(primitive, 0xC) = uv_word;
 
             U16_AT(primitive, 0x14) = SCR_U16(0x10) + SCR_U16(0x14);
             tpage_base = U16_AT(context, 0x10);
             if (tpage_base != 0) {
-                tpage_value = tpage_base + (U16_AT(vertex, 0x3) & 0xFF9F);
+                tpage_value = tpage_base + (U16_AT(sprite, 0x3) & 0xFF9F);
             } else {
-                tpage_value = U16_AT(vertex, 0x3);
+                tpage_value = U16_AT(sprite, 0x3);
             }
             U16_AT(primitive, 0x16) = tpage_value;
-            visible2 = S16_AT(primitive, 0x8);
+            visible = S16_AT(primitive, 0x8);
             U16_AT(primitive, 0x1C) = SCR_U16(0x18) + SCR_U16(0x0C);
             sum_u = SCR_U16(0x18);
             clut_base = SCR_U16(0x14);
-            coord_value = S16_AT(primitive, 0x20);
+            coord = S16_AT(primitive, 0x20);
             sum_u += clut_base;
             U16_AT(primitive, 0x24) = sum_u;
 
-            if (coord_value < visible2) {
+            if (coord < visible) {
                 U8_AT(primitive, 0x14) -= 1;
                 U8_AT(primitive, 0x24) -= 1;
             }
@@ -292,7 +297,7 @@ inner_loop:
                 U8_AT(primitive, 0x25) -= 1;
             }
 
-            clut_base = U8_AT(vertex, 0x0);
+            clut_base = U8_AT(sprite, 0x0);
             U8_AT(context, 0xF) = clut_base;
             draw_flags = SCR_U16(0x28);
             if (draw_flags & 8) {
@@ -314,31 +319,31 @@ inner_loop:
             U16_AT(context, 0x14) |= 0x8000;
         }
 
-        if (S8_AT(source, 0) >= 0) {
-            source += 0xC;
-            vertex += 0xC;
-            if (source != 0) {
-                goto inner_loop;
+        if (S8_AT(sprite_data, 0) >= 0) {
+            sprite_data += 0xC;
+            sprite += 0xC;
+            if (sprite_data != 0) {
+                goto sprite_loop;
             }
         }
     }
 
-    S32_AT(state_p[0], 0x8D0) = SCR_S32(0x1C);
+    S32_AT(state_ptr[0], 0x8D0) = SCR_S32(0x1C);
     if (callback != 0) {
         callback(node);
     }
     ASM_USE_NV(callback);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    SCR_S32(0x1C) = S32_AT(state_p[0], 0x8D0);
+    SCR_S32(0x1C) = S32_AT(state_ptr[0], 0x8D0);
 
-    next = PTR_AT(node, -8);
-    node = next + 0x20;
-    if (next != 0) {
-        transform = PTR_AT(next, 0x8);
-        context = PTR_AT(next, 0xC);
-        goto outer_loop;
+    next_node = PTR_AT(node, -8);
+    node = next_node + 0x20;
+    if (next_node != 0) {
+        transform = PTR_AT(next_node, 0x8);
+        context = PTR_AT(next_node, 0xC);
+        goto node_loop;
     }
 
     PopMatrix();
-    S32_AT(state_p[0], 0x8D0) = SCR_S32(0x1C);
+    S32_AT(state_ptr[0], 0x8D0) = SCR_S32(0x1C);
     return 0;
 }

@@ -23,6 +23,7 @@ extern s32 D_8001C7C4;
 extern s32 func_80018B5C(s32);
 extern void func_80018ADC(s32);
 
+/* Initializes the data pointer, conditionally selects a data source, and dispatches an action. */
 void func_80016D1C(void) {
     D_8001917C = &D_80018FE0;
     if (func_80018B5C(0x5C2) != 0) {

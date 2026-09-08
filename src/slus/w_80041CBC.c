@@ -28,16 +28,17 @@ extern s32 D_8008148C;
 extern void *D_80083160;
 extern u8 D_801C9E40;
 
+/* Present the frame, switch draw buffers, and synchronize frame timing. */
 void func_80041CBC(void)
 {
-    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 copied;
-    void *current;
-    u8 *page;
-    register u8 *mode_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u8 *next;
-    void *ot;
-    s32 timer;
+    s32 zero = 0;
+    s32 copied_value;
+    void *current_buffer;
+    u8 *buffer_page;
+    register u8 *vsync_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 *next_buffer;
+    void *ordering_table;
+    s32 frame_ticks;
     u16 sync_flags;
 
     PutDispEnv((u8 *)D_80083160 + 0x5C);
@@ -47,36 +48,36 @@ void func_80041CBC(void)
     }
     func_8003E758();
     func_800542BC();
-    copied = D_8008148C;
+    copied_value = D_8008148C;
 #ifdef NON_MATCHING
-    D_80081480 = copied;
+    D_80081480 = copied_value;
 #else
     {
-        register s32 *copy_out ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        copy_out = (s32 *)0x80080000;
-        copy_out[0x520] = copied;
+        register s32 *state_page ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        state_page = (s32 *)0x80080000;
+        state_page[0x520] = copied_value;
     }
 #endif
     func_800411AC();
     func_8003E2D8();
 
 #ifdef NON_MATCHING
-    next = &D_801C9E40;
-    current = D_80083160;
+    next_buffer = &D_801C9E40;
+    current_buffer = D_80083160;
 #else
-    page = (u8 *)0x801D0000;
-    current = D_80083160;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    next = page - 0x61C0;
-    ASM_KEEP(next);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    buffer_page = (u8 *)0x801D0000;
+    current_buffer = D_80083160;
+    ASM_KEEP(buffer_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    next_buffer = buffer_page - 0x61C0;
+    ASM_KEEP(next_buffer);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 #endif
-    ot = next + 0x70;
-    if (current == next) {
-        next += 0x108D4;
-        ot = next + 0x70;
+    ordering_table = next_buffer + 0x70;
+    if (current_buffer == next_buffer) {
+        next_buffer += 0x108D4;
+        ordering_table = next_buffer + 0x70;
     }
-    do { D_80083160 = next; } while (0);
-    ClearOTagR(ot, 0x218);
+    D_80083160 = next_buffer;
+    ClearOTagR(ordering_table, 0x218);
     *(void **)((u8 *)D_80083160 + 0x8D0) =
         (u8 *)D_80083160 + 0x8D4;
     func_8003F6F4();
@@ -86,16 +87,16 @@ void func_80041CBC(void)
     }
     func_80048B28();
     DrawSync(0);
-    timer = GetRCnt(1) + 0xFF;
+    frame_ticks = GetRCnt(1) + 0xFF;
     sync_flags = *(volatile u16 *)&D_80013714;
-    timer >>= 8;
+    frame_ticks >>= 8;
 #ifdef NON_MATCHING
-    *(volatile s8 *)&D_80080A87 = (s8)timer;
+    *(volatile s8 *)&D_80080A87 = (s8)frame_ticks;
 #else
     {
-        s8 *timer_out;
-        timer_out = (s8 *)0x80080000;
-        timer_out[0xA87] = (s8)timer;
+        s8 *timer_page;
+        timer_page = (s8 *)0x80080000;
+        timer_page[0xA87] = (s8)frame_ticks;
     }
 #endif
     if (!(sync_flags & 2)) {
@@ -104,8 +105,8 @@ void func_80041CBC(void)
 #ifdef NON_MATCHING
             VSync((D_80080A84 != 1) * 2);
 #else
-            mode_addr = (u8 *)0x80080000;
-            VSync((mode_addr[0xA84] != 1) * 2);
+            vsync_page = (u8 *)0x80080000;
+            VSync((vsync_page[0xA84] != 1) * 2);
 #endif
         }
     }

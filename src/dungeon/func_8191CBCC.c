@@ -56,66 +56,67 @@ extern M2C_UNK D_80024288;
 extern M2C_UNK D_80024F74;
 extern M2C_UNK D_80045C34;
 
-s32 func_8191CBCC(void *arg0, void *arg1) {
-    register S_8191CBCC_2 *held_arg0 ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *held_arg1 = arg1;
-    register void *tail_obj ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s16 temp_a0;
-    s32 temp_v0_3;
-    s32 temp_ret;
-    s32 temp_v0_2;
-    s32 tail_value;
-    s32 var_v0;
-    S_8191CBCC_3 *temp_s0;
-    S_8191CBCC_1 *temp_s2;
-    void *temp_v0;
+/* Creates an effect with randomized appearance and a depth-adjusted copy of the source transform. */
+s32 func_8191CBCC(void *params_input, void *transform_input) {
+    register S_8191CBCC_2 *params ASM_REG("$19") = params_input;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *source_transform = transform_input;
+    register void *result_obj ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 depth_scale;
+    s32 size_fixed;
+    s32 variant_random;
+    s32 angle_random;
+    s32 adjusted_depth;
+    s32 angle;
+    S_8191CBCC_3 *render;
+    S_8191CBCC_1 *state;
+    void *object;
 
-    temp_v0 = func_8003FC64(0x212);
-    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (temp_v0 != NULL) {
-        temp_s2 = temp_v0 + 0x20;
-        ((S_8191CBCC_0 *)temp_v0)->unk_10 = &D_80024288;
-        ((S_8191CBCC_0 *)temp_v0)->unk_20 = held_arg0;
-        temp_s2->unk_0E = 0;
-        temp_s2->unk_10 = 0;
-        temp_ret = rand();
-        temp_s2->unk_12 = (s16)(temp_ret % 7);
-        temp_s2->unk_14.s = (u16) held_arg0->unk_12;
-        temp_s2->unk_16 = (s16) (0x1C - held_arg0->unk_10.s);
-        temp_s0 = ((S_8191CBCC_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        temp_s0->unk_08 = &D_80024F74;
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-        temp_s0->unk_10 = (u16) (temp_s0->unk_10 | 0x60);
-        var_v0 = rand(temp_ret / 7);
-        temp_v0_2 = var_v0;
-        var_v0 >>= 0xC;
-        if (temp_v0_2 < 0) {
-            var_v0 = (s32) (temp_v0_2 + 0xFFF) >> 0xC;
+    object = func_8003FC64(0x212);
+    ASM_KEEP(params);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(source_transform);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    if (object != NULL) {
+        state = object + 0x20;
+        ((S_8191CBCC_0 *)object)->unk_10 = &D_80024288;
+        ((S_8191CBCC_0 *)object)->unk_20 = params;
+        state->unk_0E = 0;
+        state->unk_10 = 0;
+        variant_random = rand();
+        state->unk_12 = (s16)(variant_random % 7);
+        state->unk_14.s = (u16) params->unk_12;
+        state->unk_16 = (s16) (0x1C - params->unk_10.s);
+        render = ((S_8191CBCC_0 *)object)->unk_0C;
+        render->unk_0E = 0x80;
+        render->unk_0D = 0x80;
+        render->unk_0C = 0x80;
+        render->unk_08 = &D_80024F74;
+        render->unk_14 = (u16) (render->unk_14 | 0xC);
+        render->unk_10 = (u16) (render->unk_10 | 0x60);
+        angle = rand(variant_random / 7);
+        angle_random = angle;
+        angle >>= 0xC;
+        if (angle_random < 0) {
+            angle = (s32) (angle_random + 0xFFF) >> 0xC;
         }
-        var_v0 = temp_v0_2 - (var_v0 << 0xC);
-        temp_s0->unk_1A = (s16)var_v0;
-        temp_v0_3 = held_arg0->unk_10.u << 8;
-        temp_s0->unk_1E = temp_v0_3;
-        temp_s0->unk_1C = temp_v0_3;
-        func_8004491C(temp_v0, &D_80045C34);
+        angle = angle_random - (angle << 0xC);
+        render->unk_1A = (s16)angle;
+        size_fixed = params->unk_10.u << 8;
+        render->unk_1E = size_fixed;
+        render->unk_1C = size_fixed;
+        func_8004491C(object, &D_80045C34);
         {
-            S_8191CBCC_4 *copy_dst;
+            S_8191CBCC_4 *transform;
 
-            copy_dst = ((S_8191CBCC_0 *)temp_v0)->unk_08;
-            *(Blk24 *) copy_dst = *(Blk24 *) held_arg1;
-            temp_a0 = temp_s2->unk_14.u;
-            tail_value = ((copy_dst->unk_14 * temp_a0) -
-                          (held_arg0->unk_10.u << 0x13)) / temp_a0;
-            tail_obj = temp_v0;
-            ASM_KEEP(tail_obj);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            copy_dst->unk_14 = tail_value;
+            transform = ((S_8191CBCC_0 *)object)->unk_08;
+            *(Blk24 *) transform = *(Blk24 *) source_transform;
+            depth_scale = state->unk_14.u;
+            adjusted_depth = ((transform->unk_14 * depth_scale) -
+                          (params->unk_10.u << 0x13)) / depth_scale;
+            result_obj = object;
+            ASM_KEEP(result_obj);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+            transform->unk_14 = adjusted_depth;
             func_80024554();
         }
     }
-    tail_obj = NULL;
-    return (s32)tail_obj;
+    result_obj = NULL;
+    return (s32)result_obj;
 }

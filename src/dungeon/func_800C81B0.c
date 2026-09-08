@@ -22,19 +22,16 @@ extern S_80083460_t D_80083460;
 extern int D_800814A0;
 extern void func_800CD994(s32 arg0, s32 arg1);
 
-/* Decrements the countdown field at a0+6; once it reaches <= 0, releases
- * the handle at a0+0 (func_800CD994(handle, 0x10)), decrements the shared
- * counter at D_80083460+0xA, and sets the 0x8000 "used"/flags bit both on
- * the 16-bit field before a0 and on the global flags word D_800814A0. */
-void func_800CD910(S_800C81B0_a0 *a0)
+/* Ticks the object's countdown, releasing its handle and updating the shared counter and flags on expiry. */
+void func_800CD910(S_800C81B0_a0 *object)
 {
-    s16 count;
+    s16 countdown;
 
-    count = --a0->field_6;
-    if (count <= 0) {
-        func_800CD994(a0->field_0, 0x10);
+    countdown = --object->field_6;
+    if (countdown <= 0) {
+        func_800CD994(object->field_0, 0x10);
         D_80083460.field_A--;
-        ((u16 *)a0)[-1] |= 0x8000;
+        ((u16 *)object)[-1] |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

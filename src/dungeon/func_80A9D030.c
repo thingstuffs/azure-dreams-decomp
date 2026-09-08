@@ -42,14 +42,15 @@ extern u8 D_80174C34[];
 extern u8 D_80174C64[];
 extern u8 D_80174C6C[];
 
-void func_80172830(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Updates an actor's staged movement, animation, and return to its tile. */
+void func_80172830(void *action, void *motion, void *sprite, void *actor)
 {
     s32 state;
-    s32 offset;
-    s32 value;
-    u16 timer;
+    s32 direction_offset;
+    s32 vertical_speed;
+    u16 ticks_left;
 
-    state = ((S_80172830_0 *)arg0)->unk_9B;
+    state = ((S_80172830_0 *)action)->unk_9B;
     if (state == 1) {
         goto state_1;
     }
@@ -68,144 +69,144 @@ void func_80172830(void *arg0, void *arg1, void *arg2, void *arg3)
     goto end;
 
 state_0:
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
-        ((S_80172830_0 *)arg0)->unk_9B = 3;
-        ((S_80172830_0 *)arg0)->unk_96 = 0;
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
+    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        ((S_80172830_0 *)action)->unk_9B = 3;
+        ((S_80172830_0 *)action)->unk_96 = 0;
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
         goto end;
     }
 
-    offset = (((((S_80172830_2 *)arg3)->unk_2A.s >> 9) & 7) + 4) % 8;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 =
-        D_8006CCD8[offset] * 3 << 16;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
-        D_8006CCE8[offset] * 3 << 16;
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80174C34;
-    func_80047784(arg2,
-        D_80174C34[((D_80083228 + ((S_80172830_2 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
+    direction_offset = (((((S_80172830_2 *)actor)->unk_2A.s >> 9) & 7) + 4) % 8;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
+        D_8006CCD8[direction_offset] * 3 << 16;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+        D_8006CCE8[direction_offset] * 3 << 16;
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174C34;
+    func_80047784(sprite,
+        D_80174C34[((D_80083228 + ((S_80172830_2 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     {
-        s32 post_state;
+        s32 next_state;
 
-        post_state = ((S_80172830_0 *)arg0)->unk_9B;
-        ((S_80172830_0 *)arg0)->unk_96 = 0;
-        post_state++;
-        ((S_80172830_0 *)arg0)->unk_9B = post_state;
+        next_state = ((S_80172830_0 *)action)->unk_9B;
+        ((S_80172830_0 *)action)->unk_96 = 0;
+        next_state++;
+        ((S_80172830_0 *)action)->unk_9B = next_state;
         goto end;
     }
 
 state_1:
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 -= ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 >> 2;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v -= ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v >> 2;
-    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 -= ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 >> 2;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -= ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v >> 2;
+    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         goto end;
     }
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80174C64;
-    func_80047784(arg2,
-        D_80174C64[((D_80083228 + ((S_80172830_2 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174C64;
+    func_80047784(sprite,
+        D_80174C64[((D_80083228 + ((S_80172830_2 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     {
-        s32 post_state;
+        s32 next_state;
 
-        post_state = ((S_80172830_0 *)arg0)->unk_9B;
-        ((S_80172830_0 *)arg0)->unk_96 = 4;
-        post_state++;
-        ((S_80172830_0 *)arg0)->unk_9B = post_state;
+        next_state = ((S_80172830_0 *)action)->unk_9B;
+        ((S_80172830_0 *)action)->unk_96 = 4;
+        next_state++;
+        ((S_80172830_0 *)action)->unk_9B = next_state;
         goto end;
     }
 
 state_2:
-    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         goto end;
     }
     func_800A56E0(0x808);
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80174C6C;
-    func_80047784(arg2,
-        D_80174C6C[((D_80083228 + ((S_80172830_2 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174C6C;
+    func_80047784(sprite,
+        D_80174C6C[((D_80083228 + ((S_80172830_2 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
-    ((S_80172830_0 *)arg0)->unk_96 = 0x14;
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
+    ((S_80172830_0 *)action)->unk_96 = 0x14;
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     {
-        s32 post_state;
+        s32 next_state;
 
-        post_state = ((S_80172830_0 *)arg0)->unk_9B;
-        post_state++;
-        ((S_80172830_0 *)arg0)->unk_9B = post_state;
+        next_state = ((S_80172830_0 *)action)->unk_9B;
+        next_state++;
+        ((S_80172830_0 *)action)->unk_9B = next_state;
         goto end;
     }
 
 state_3:
-    timer = ((S_80172830_0 *)arg0)->unk_96;
-    value = ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32;
-    timer--;
-    ((S_80172830_0 *)arg0)->unk_96 = timer;
-    if ((s16)timer < 12) {
-        value += 0x1400;
+    ticks_left = ((S_80172830_0 *)action)->unk_96;
+    vertical_speed = ((Rec_D_800E3D7C *)motion)->unk_14.as_s32;
+    ticks_left--;
+    ((S_80172830_0 *)action)->unk_96 = ticks_left;
+    if ((s16)ticks_left < 12) {
+        vertical_speed += 0x1400;
     } else {
-        value += 0x20000;
+        vertical_speed += 0x20000;
     }
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = value;
-    ((S_80172830_0 *)arg0)->unk_90 += value;
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = vertical_speed;
+    ((S_80172830_0 *)action)->unk_90 += vertical_speed;
 
-    if ((s16)((S_80172830_0 *)arg0)->unk_96 == 0x11) {
-        s32 sample;
-        s16 *first_base;
-        s16 *first_entry;
-        s16 *entry;
+    if ((s16)((S_80172830_0 *)action)->unk_96 == 0x11) {
+        s32 direction_step;
+        s16 *x_steps;
+        s16 *x_step;
+        s16 *y_step;
 
-        offset = ((S_80172830_2 *)arg3)->unk_2A.s >> 8;
-        first_base = D_8006CCD8;
-        first_entry = (s16 *)((u8 *)first_base + (offset & 0xE));
-        sample = *first_entry;
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 =
-            (sample * 3 << 16) + ((sample * 3 << 16) >> 2);
-        entry = (s16 *)((u8 *)&D_8006CCE8 + (offset & 0xE));
-        sample = *entry;
-        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0xFFF70000;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
-            (sample * 3 << 16) + ((sample * 3 << 16) >> 2);
-        ((S_80172830_0 *)arg0)->unk_90 = 0;
-        ((S_80172830_0 *)arg0)->unk_98 |= 8;
-    }
-
-    if (((((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 3) &&
-         (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000)) ||
-        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(arg3, arg2, ((S_80172830_2 *)arg3)->unk_2A.u, 1);
+        direction_offset = ((S_80172830_2 *)actor)->unk_2A.s >> 8;
+        x_steps = D_8006CCD8;
+        x_step = (s16 *)((u8 *)x_steps + (direction_offset & 0xE));
+        direction_step = *x_step;
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
+            (direction_step * 3 << 16) + ((direction_step * 3 << 16) >> 2);
+        y_step = (s16 *)((u8 *)&D_8006CCE8 + (direction_offset & 0xE));
+        direction_step = *y_step;
+        ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0xFFF70000;
+        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+            (direction_step * 3 << 16) + ((direction_step * 3 << 16) >> 2);
+        ((S_80172830_0 *)action)->unk_90 = 0;
+        ((S_80172830_0 *)action)->unk_98 |= 8;
     }
 
-    if (((((Rec_D_80082E80 *)arg2)->unk_04.as_s8 == 5) &&
-         (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x1000)) ||
-        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 =
-            ((((((Rec_D_80082E80 *)arg2)->unk_24 << 6) + 0x20) << 16) -
-             ((Rec_D_800E3D7C *)arg1)->unk_00.at00_s32.v) / (s16)((S_80172830_0 *)arg0)->unk_96;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
-            ((((((Rec_D_80082E80 *)arg2)->unk_25 << 6) + 0x20) << 16) -
-             ((Rec_D_800E3D7C *)arg1)->unk_04.at00_s32.v) / (s16)((S_80172830_0 *)arg0)->unk_96;
+    if (((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3) &&
+         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
+        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        func_8009C12C(actor, sprite, ((S_80172830_2 *)actor)->unk_2A.u, 1);
     }
 
-    if (((s16)((S_80172830_0 *)arg0)->unk_96 > 0) &&
-        !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
+    if (((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 5) &&
+         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
+        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
+            ((((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16) -
+             ((Rec_D_800E3D7C *)motion)->unk_00.at00_s32.v) / (s16)((S_80172830_0 *)action)->unk_96;
+        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+            ((((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16) -
+             ((Rec_D_800E3D7C *)motion)->unk_04.at00_s32.v) / (s16)((S_80172830_0 *)action)->unk_96;
+    }
+
+    if (((s16)((S_80172830_0 *)action)->unk_96 > 0) &&
+        !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
         goto end;
     }
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
-    func_800AD594(arg3, 0x100);
-    (*(u8 * *)((u8 *)arg0 + 0x8C)) = &D_80170E7C;
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    func_800AD594(actor, 0x100);
+    (*(u8 * *)((u8 *)action + 0x8C)) = &D_80170E7C;
     D_8008346C = 0;
-    (*(u16 *)((u8 *)arg0 + 0x98)) &= 0xFFF7;
-    func_800A4ACC(arg3);
-    if (((S_80172830_2 *)arg3)->unk_6D == 0) {
-        ((S_80172830_2 *)arg3)->unk_46 &= 0x7FFF;
+    (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
+    func_800A4ACC(actor);
+    if (((S_80172830_2 *)actor)->unk_6D == 0) {
+        ((S_80172830_2 *)actor)->unk_46 &= 0x7FFF;
         goto end;
     }
-    D_800E3DE8[0] = (u8 *)arg3 - 0x20;
+    D_800E3DE8[0] = (u8 *)actor - 0x20;
 
 end:
     return;

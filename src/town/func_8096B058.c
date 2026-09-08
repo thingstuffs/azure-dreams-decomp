@@ -71,62 +71,63 @@ typedef struct SourceEntry {
     u16 second;
 } SourceEntry;
 
+/* Initialize 14 objects from table data and override the final two field pairs. */
 void func_801234F0(void) {
     {
-        volatile SourceEntry *src;
-        register u8 *page;
-        void **dst;
-        s32 i = 0;
-        s16 small = 0x10;
-        s16 large = 0xE0;
+        volatile SourceEntry *src_entry;
+        register u8 *address_base;
+        void **object_slot;
+        s32 entry_index = 0;
+        s16 first_default = 0x10;
+        s16 second_default = 0xE0;
 
-        TIE_LOCAL(small);
-        TIE_LOCAL(large);
+        TIE_LOCAL(first_default);
+        TIE_LOCAL(second_default);
 #ifdef NON_MATCHING
-        dst = (void **)D_80129728;
-        src = (volatile SourceEntry *)D_80126A18;
+        object_slot = (void **)D_80129728;
+        src_entry = (volatile SourceEntry *)D_80126A18;
 #else
-        page = (u8 *)0x80130000;
-        TIE_LOCAL(page);
-        dst = (void **)(page - 0x68D8);
-        page = (u8 *)0x80120000;
-        TIE_LOCAL(page);
-        src = (volatile SourceEntry *)(page + 0x6A18);
+        address_base = (u8 *)0x80130000;
+        TIE_LOCAL(address_base);
+        object_slot = (void **)(address_base - 0x68D8);
+        address_base = (u8 *)0x80120000;
+        TIE_LOCAL(address_base);
+        src_entry = (volatile SourceEntry *)(address_base + 0x6A18);
 #endif
         do {
-            ((S_801234F0_0 *)(*dst))->unk_00 = src->word;
-            ((S_801234F0_3 *)(((S_801234F0_0 *)(*dst))->unk_04))->unk_08 = src->first;
-            ((S_801234F0_3 *)(((S_801234F0_0 *)(*dst))->unk_04))->unk_0A = src->second;
-            i++;
-            ((S_801234F0_4 *)(((S_801234F0_0 *)(*dst))->unk_08))->unk_06 = small;
-            src++;
-            ((S_801234F0_4 *)(((S_801234F0_0 *)(*dst))->unk_08))->unk_08 = large;
-            dst++;
-        } while (i < 0xE);
+            ((S_801234F0_0 *)(*object_slot))->unk_00 = src_entry->word;
+            ((S_801234F0_3 *)(((S_801234F0_0 *)(*object_slot))->unk_04))->unk_08 = src_entry->first;
+            ((S_801234F0_3 *)(((S_801234F0_0 *)(*object_slot))->unk_04))->unk_0A = src_entry->second;
+            entry_index++;
+            ((S_801234F0_4 *)(((S_801234F0_0 *)(*object_slot))->unk_08))->unk_06 = first_default;
+            src_entry++;
+            ((S_801234F0_4 *)(((S_801234F0_0 *)(*object_slot))->unk_08))->unk_08 = second_default;
+            object_slot++;
+        } while (entry_index < 0xE);
     }
 
     {
-        register u8 *tail_src ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register u8 *tail_dst ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register u8 *source_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register u8 *object_table ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
 #ifdef NON_MATCHING
-        tail_dst = (void **)D_80129728;
-        tail_src = D_80126A18;
+        object_table = (void **)D_80129728;
+        source_table = D_80126A18;
 #else
-        tail_dst = (u8 *)0x80130000;
-        TIE_LOCAL(tail_dst);
-        tail_dst -= 0x68D8;
-        tail_src = (u8 *)0x80120000;
-        TIE_LOCAL(tail_src);
-        tail_src += 0x6A18;
+        object_table = (u8 *)0x80130000;
+        TIE_LOCAL(object_table);
+        object_table -= 0x68D8;
+        source_table = (u8 *)0x80120000;
+        TIE_LOCAL(source_table);
+        source_table += 0x6A18;
 #endif
-        ((S_801234F0_7 *)(((S_801234F0_5 *)(((S_801234F0_1 *)tail_dst)->unk_30))->unk_08))->unk_06 =
-            ((S_801234F0_2 *)tail_src)->unk_64;
-        ((S_801234F0_7 *)(((S_801234F0_5 *)(((S_801234F0_1 *)tail_dst)->unk_30))->unk_08))->unk_08 =
-            ((S_801234F0_2 *)tail_src)->unk_66;
-        ((S_801234F0_8 *)(((S_801234F0_6 *)(((S_801234F0_1 *)tail_dst)->unk_34))->unk_08))->unk_06 =
-            ((S_801234F0_2 *)tail_src)->unk_6C;
-        ((S_801234F0_8 *)(((S_801234F0_6 *)(((S_801234F0_1 *)tail_dst)->unk_34))->unk_08))->unk_08 =
-            ((S_801234F0_2 *)tail_src)->unk_6E;
+        ((S_801234F0_7 *)(((S_801234F0_5 *)(((S_801234F0_1 *)object_table)->unk_30))->unk_08))->unk_06 =
+            ((S_801234F0_2 *)source_table)->unk_64;
+        ((S_801234F0_7 *)(((S_801234F0_5 *)(((S_801234F0_1 *)object_table)->unk_30))->unk_08))->unk_08 =
+            ((S_801234F0_2 *)source_table)->unk_66;
+        ((S_801234F0_8 *)(((S_801234F0_6 *)(((S_801234F0_1 *)object_table)->unk_34))->unk_08))->unk_06 =
+            ((S_801234F0_2 *)source_table)->unk_6C;
+        ((S_801234F0_8 *)(((S_801234F0_6 *)(((S_801234F0_1 *)object_table)->unk_34))->unk_08))->unk_08 =
+            ((S_801234F0_2 *)source_table)->unk_6E;
     }
 }

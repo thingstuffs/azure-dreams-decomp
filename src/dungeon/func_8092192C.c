@@ -47,50 +47,51 @@ s32 func_8004491C();
 void func_8003DB94();
 extern M2C_UNK D_800F68AC;
 
-void func_8092192C(S_8092192C_2 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    u16 temp_v0_2;
-    S_8092192C_1 *temp_a0;
-    S_8092192C_4 *temp_a0_2;
-    S_8092192C_0 *temp_v0;
-    register S_8092192C_3 *temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u32 temp_page;
-    s32 temp_input0;
-    s32 temp_input4;
-    s32 temp_input8;
+/* Creates and initializes an object at the supplied position plus coordinate offsets. */
+void func_8092192C(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offset_z) {
+    u16 flags;
+    S_8092192C_1 *render_state;
+    S_8092192C_4 *sprite;
+    S_8092192C_0 *object;
+    register S_8092192C_3 *position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 sprite_data_addr;
+    s32 base_x;
+    s32 base_y;
+    s32 base_z;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_800F68AC;
-        func_8004491C(temp_v0, D_80045340);
-        temp_a0 = temp_v0->unk_0C;
-        temp_a0->unk_10 = 0x20;
-        temp_a0->unk_06 = 6;
-        temp_v0_2 = temp_a0->unk_14.s;
-        temp_v0_2 = temp_v0_2 | 0xC;
-        temp_a0->unk_14.u = temp_v0_2;
-        ASM_KEEP(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_v0_2 = temp_v0_2 | 2;
-        temp_a0->unk_14.u = temp_v0_2;
-        temp_v1 = temp_v0->unk_08;
-        temp_input0 = (s32) arg0->unk_00;
-        temp_page = 0x800E0000;
-        temp_v1->unk_00.at00.v = temp_input0;
-        temp_input4 = (s32) arg0->unk_04;
-        ASM_KEEP_DEP_NV(temp_page, temp_input4);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_page -= 5008;
-        ASM_KEEP(temp_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_v1->unk_04.at00.v = temp_input4;
-        temp_input8 = (s32) arg0->unk_08;
-        temp_v1->unk_00.at02.v = (u16) (temp_v1->unk_00.at02.v + arg1);
-        temp_v1->unk_08.at00.v = temp_input8;
-        temp_v1->unk_04.at02.v = (u16) (temp_v1->unk_04.at02.v + arg2);
-        temp_v1->unk_08.at02.v = (u16) (temp_v1->unk_08.at02.v + arg3);
-        temp_a0_2 = temp_v0->unk_0C;
-        temp_a0_2->unk_1E = 0x800;
-        temp_a0_2->unk_1C = 0x800;
-        temp_a0_2->unk_0E = 0x80;
-        temp_a0_2->unk_0D = 0x80;
-        temp_a0_2->unk_0C = 0x80;
-        func_8003DB94(temp_a0_2, (void *) temp_page, 0);
+    object = func_8003FC64(0x212);
+    if (object != NULL) {
+        object->unk_10 = &D_800F68AC;
+        func_8004491C(object, D_80045340);
+        render_state = object->unk_0C;
+        render_state->unk_10 = 0x20;
+        render_state->unk_06 = 6;
+        flags = render_state->unk_14.s;
+        flags = flags | 0xC;
+        render_state->unk_14.u = flags;
+        ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        flags = flags | 2;
+        render_state->unk_14.u = flags;
+        position = object->unk_08;
+        base_x = (s32) base_pos->unk_00;
+        sprite_data_addr = 0x800E0000;
+        position->unk_00.at00.v = base_x;
+        base_y = (s32) base_pos->unk_04;
+        ASM_KEEP_DEP_NV(sprite_data_addr, base_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        sprite_data_addr -= 5008;
+        ASM_KEEP(sprite_data_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        position->unk_04.at00.v = base_y;
+        base_z = (s32) base_pos->unk_08;
+        position->unk_00.at02.v = (u16) (position->unk_00.at02.v + offset_x);
+        position->unk_08.at00.v = base_z;
+        position->unk_04.at02.v = (u16) (position->unk_04.at02.v + offset_y);
+        position->unk_08.at02.v = (u16) (position->unk_08.at02.v + offset_z);
+        sprite = object->unk_0C;
+        sprite->unk_1E = 0x800;
+        sprite->unk_1C = 0x800;
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
+        func_8003DB94(sprite, (void *) sprite_data_addr, 0);
     }
 }

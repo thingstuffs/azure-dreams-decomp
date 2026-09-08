@@ -31,69 +31,70 @@ extern void func_80025964(DungeonArg *arg0);
 extern s32 func_800259CC(DungeonArg *arg0);
 extern s32 func_80049DE8(s32 arg0, s32 arg1, s32 arg2);
 
-void func_80025A0C(DungeonArg *arg0) {
-    DungeonState *state = D_80083160;
-    s32 delta;
+/* Handles menu actions and selection movement with held-button repeat. */
+void func_80025A0C(DungeonArg *menu) {
+    DungeonState *input = D_80083160;
+    s32 selection_step;
 
-    if (state->unk8 == 0 || arg0->unk10 == 0) {
+    if (input->unk8 == 0 || menu->unk10 == 0) {
         goto done;
     }
 
-    if (state->unk10 & 0x20) {
+    if (input->unk10 & 0x20) {
         func_80053DA8(0x515);
-        func_80025514(arg0->unk14);
-        func_800258B8(arg0);
+        func_80025514(menu->unk14);
+        func_800258B8(menu);
         goto done;
     }
 
-    if (state->unk10 & 0x40) {
-        if (func_800258B0(arg0) != 0 || func_800259CC(arg0) != 0) {
+    if (input->unk10 & 0x40) {
+        if (func_800258B0(menu) != 0 || func_800259CC(menu) != 0) {
             func_80053DA8(0x506);
             goto done;
         }
-        if (arg0->unk8 == 4) {
+        if (menu->unk8 == 4) {
             func_80053DA8(0x503);
         } else {
             func_80053DA8(0x514);
         }
-        func_80025850(arg0, arg0->unk8);
+        func_80025850(menu, menu->unk8);
         goto done;
     }
 
-    if (state->unk10 & 0x10) {
-        arg0->unk8 = 4;
-        func_80025888(arg0->unk54, arg0->unk8);
+    if (input->unk10 & 0x10) {
+        menu->unk8 = 4;
+        func_80025888(menu->unk54, menu->unk8);
         goto done;
     }
 
-    if (state->unk8 & 0x5000) {
-        delta = 0;
-        if (state->unk10 & 0x5000) {
-            arg0->unk4 = 0;
-            if (state->unk10 & 0x1000) {
-                delta = -1;
-            } else if (state->unk10 & 0x4000) {
-                delta = 1;
+    if (input->unk8 & 0x5000) {
+        selection_step = 0;
+        if (input->unk10 & 0x5000) {
+            menu->unk4 = 0;
+            if (input->unk10 & 0x1000) {
+                selection_step = -1;
+            } else if (input->unk10 & 0x4000) {
+                selection_step = 1;
             }
         } else {
-            if (arg0->unk4 >= 9) {
-                arg0->unk4 = arg0->unk4 - 1;
-                if (state->unk8 & 0x1000) {
-                    delta = -1;
-                } else if (state->unk8 & 0x4000) {
-                    delta = 1;
+            if (menu->unk4 >= 9) {
+                menu->unk4 = menu->unk4 - 1;
+                if (input->unk8 & 0x1000) {
+                    selection_step = -1;
+                } else if (input->unk8 & 0x4000) {
+                    selection_step = 1;
                 }
             } else {
-                arg0->unk4 = arg0->unk4 + 1;
+                menu->unk4 = menu->unk4 + 1;
             }
         }
-        if (delta != 0) {
+        if (selection_step != 0) {
             func_80053DA8(0x502);
-            arg0->unk8 = func_80049DE8(delta, arg0->unk8, 5);
-            func_80025888(arg0->unk54, arg0->unk8);
+            menu->unk8 = func_80049DE8(selection_step, menu->unk8, 5);
+            func_80025888(menu->unk54, menu->unk8);
         }
     }
 
 done:
-    func_80025964(arg0);
+    func_80025964(menu);
 }

@@ -1,5 +1,6 @@
 #include "common.h"
 
+/* Update the four saved vectors and return 1 if any coordinate changed, otherwise return 0. */
 s32 func_80044724(void)
 {
     struct S_80083178 *source;

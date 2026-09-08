@@ -26,41 +26,42 @@ typedef struct S_800A526C_1 {
 extern u8 D_80083160[0xB2];
 extern u8 D_800A51CC[16];
 
-void func_800A526C(S_800A526C_1 *arg0)
+/* Interpolate three state components toward their targets and advance the transition when complete. */
+void func_800A526C(S_800A526C_1 *transition)
 {
-    u8 *base;
-    s32 timer;
-    u16 component;
+    u8 *state_base;
+    s32 ticks_left;
+    u16 target_component;
 
-    base = D_80083160;
-    ((S_800A526C_0 *)base)->unk_AC.s =
-        ((S_800A526C_0 *)base)->unk_AC.u +
-        ((arg0->unk_00.s - ((S_800A526C_0 *)base)->unk_AC.s) /
-         arg0->unk_18);
-    ((S_800A526C_0 *)base)->unk_AE.s =
-        ((S_800A526C_0 *)base)->unk_AE.u +
-        ((arg0->unk_02.s - ((S_800A526C_0 *)base)->unk_AE.s) /
-         arg0->unk_18);
-    ((S_800A526C_0 *)base)->unk_B0.s =
-        ((S_800A526C_0 *)base)->unk_B0.u +
-        ((arg0->unk_04.s - ((S_800A526C_0 *)base)->unk_B0.s) /
-         arg0->unk_18);
+    state_base = D_80083160;
+    ((S_800A526C_0 *)state_base)->unk_AC.s =
+        ((S_800A526C_0 *)state_base)->unk_AC.u +
+        ((transition->unk_00.s - ((S_800A526C_0 *)state_base)->unk_AC.s) /
+         transition->unk_18);
+    ((S_800A526C_0 *)state_base)->unk_AE.s =
+        ((S_800A526C_0 *)state_base)->unk_AE.u +
+        ((transition->unk_02.s - ((S_800A526C_0 *)state_base)->unk_AE.s) /
+         transition->unk_18);
+    ((S_800A526C_0 *)state_base)->unk_B0.s =
+        ((S_800A526C_0 *)state_base)->unk_B0.u +
+        ((transition->unk_04.s - ((S_800A526C_0 *)state_base)->unk_B0.s) /
+         transition->unk_18);
 
-    timer = arg0->unk_18 - 1;
-    arg0->unk_18 = timer;
-    if (timer <= 0) {
-        component = arg0->unk_00.u;
-        arg0->unk_10 = component;
-        ((S_800A526C_0 *)base)->unk_AC.u = component;
+    ticks_left = transition->unk_18 - 1;
+    transition->unk_18 = ticks_left;
+    if (ticks_left <= 0) {
+        target_component = transition->unk_00.u;
+        transition->unk_10 = target_component;
+        ((S_800A526C_0 *)state_base)->unk_AC.u = target_component;
 
-        component = arg0->unk_02.u;
-        arg0->unk_12 = component;
-        ((S_800A526C_0 *)base)->unk_AE.u = component;
+        target_component = transition->unk_02.u;
+        transition->unk_12 = target_component;
+        ((S_800A526C_0 *)state_base)->unk_AE.u = target_component;
 
-        component = arg0->unk_04.u;
-        arg0->unk_14 = component;
-        ((S_800A526C_0 *)base)->unk_B0.u = component;
+        target_component = transition->unk_04.u;
+        transition->unk_14 = target_component;
+        ((S_800A526C_0 *)state_base)->unk_B0.u = target_component;
 
-        arg0->unk_20 = D_800A51CC;
+        transition->unk_20 = D_800A51CC;
     }
 }

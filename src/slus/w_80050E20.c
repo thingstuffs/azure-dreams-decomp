@@ -31,19 +31,20 @@ extern void func_8004B248(s32 *a0);
 extern s32 D_80080B98;
 extern S_800814A0 D_800814A0;
 
-void func_80050E20(S_80050E20 *a0)
+/* Resets object state and sets the object, target, and global 0x8000 flags. */
+void func_80050E20(S_80050E20 *object)
 {
-    S_80050E20_sub *s0 = &a0->unk20;
+    S_80050E20_sub *object_state = &object->unk20;
     s32 global_flags;
     u16 object_flags;
 
-    func_8004FE78(s0->unk28);
-    s0->unk28 = 0;
-    D_80080B98 = s0->unk1C;
-    func_8004B248((s32 *)(((u8 *)a0) + 0x8C));
-    s0->unkA0->unk1E |= 0x8000;
+    func_8004FE78(object_state->unk28);
+    object_state->unk28 = 0;
+    D_80080B98 = object_state->unk1C;
+    func_8004B248((s32 *)(((u8 *)object) + 0x8C));
+    object_state->unkA0->unk1E |= 0x8000;
     global_flags = D_800814A0.val;
-    object_flags = a0->unk1E;
+    object_flags = object->unk1E;
     *(s32 *)0x800814A0 = global_flags | 0x8000;
-    a0->unk1E = object_flags | 0x8000;
+    object->unk1E = object_flags | 0x8000;
 }

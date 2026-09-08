@@ -48,40 +48,41 @@ extern s32 D_80045340;
 extern s32 D_80083498;
 extern s32 D_800DF358;
 
-void *func_80026ED0(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
-    void *temp_v0;
-    S_80026ED0_1 *temp_v0_2;
-    S_80026ED0_2 *temp_v1;
-    S_80026ED0_3 *temp_v1_2;
-    register s16 p1 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 p2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 p3 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+/* Creates a visual object with the given position and size. */
+void *func_80026ED0(s16 x, s16 y, s16 z, s16 size) {
+    void *object;
+    S_80026ED0_1 *position;
+    S_80026ED0_2 *render_data;
+    S_80026ED0_3 *effect_data;
+    register s16 saved_y ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 saved_z ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 saved_size ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    p1 = arg1;
-    p2 = arg2;
-    p3 = arg3;
+    saved_y = y;
+    saved_z = z;
+    saved_size = size;
 
-    temp_v0 = func_8003FD64(0x12, &D_80083498);
-    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (temp_v0 != NULL) {
-        ((S_80026ED0_0 *)temp_v0)->unk_10 = &D_80026E3C;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v0_2 = ((S_80026ED0_0 *)temp_v0)->unk_08;
-        temp_v0_2->unk_02 = arg0;
-        temp_v0_2->unk_06 = p1;
-        temp_v0_2->unk_0A = p2;
-        temp_v1 = ((S_80026ED0_0 *)temp_v0)->unk_0C;
-        temp_v1->unk_08 = &D_800DF358;
-        temp_v1->unk_0C = 0x808080;
-        temp_v1->unk_1E = p3;
-        temp_v1->unk_1C = p3;
-        temp_v1->unk_10 = 0x20;
-        temp_v1->unk_14 |= 0xC;
-        temp_v1_2 = (u8 *)temp_v0 + 0x20;
-        temp_v1_2->unk_66 = 0x20;
-        temp_v1_2->unk_6A = 0x80;
+    object = func_8003FD64(0x12, &D_80083498);
+    ASM_KEEP(saved_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_size);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    if (object != NULL) {
+        ((S_80026ED0_0 *)object)->unk_10 = &D_80026E3C;
+        func_8004491C(object, &D_80045340);
+        position = ((S_80026ED0_0 *)object)->unk_08;
+        position->unk_02 = x;
+        position->unk_06 = saved_y;
+        position->unk_0A = saved_z;
+        render_data = ((S_80026ED0_0 *)object)->unk_0C;
+        render_data->unk_08 = &D_800DF358;
+        render_data->unk_0C = 0x808080;
+        render_data->unk_1E = saved_size;
+        render_data->unk_1C = saved_size;
+        render_data->unk_10 = 0x20;
+        render_data->unk_14 |= 0xC;
+        effect_data = (u8 *)object + 0x20;
+        effect_data->unk_66 = 0x20;
+        effect_data->unk_6A = 0x80;
     }
-    return temp_v0;
+    return object;
 }

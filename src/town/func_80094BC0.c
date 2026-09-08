@@ -34,58 +34,55 @@ typedef struct S_80092320_2 {
 } S_80092320_2;   /* state in func_80092320 */
 
 
-void func_80092320(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
+/* Update the actor and select an action from the reference value, state flags, and timer. */
+void func_80092320(Rec_func_80094268_arg0 *action, Rec_D_800E3D7C *actor, M2C_UNK context) {
     u8 *state = D_80083160;
-    s16 temp_v0;
-    s32 temp_v0_3;
-    u16 temp_v0_2;
+    s16 reference_value;
+    s32 action_result;
+    u16 ticks_left;
 
-    func_80095C80(arg1);
-    func_80094C1C(arg0);
-    func_80095094(arg1);
-    temp_v0 = func_80095978(arg1, &D_800FE488);
-    if ((temp_v0 - arg1->unk_08.at02_s16.v) >= 4) {
+    func_80095C80(actor);
+    func_80094C1C(action);
+    func_80095094(actor);
+    reference_value = func_80095978(actor, &D_800FE488);
+    if ((reference_value - actor->unk_08.at02_s16.v) >= 4) {
         if (((S_80092320_1 *)(&D_800CFCEF))->unk_00 == 0) {
-            func_80094378(arg0, arg1, arg2);
-            goto block_end;
+            func_80094378(action, actor, context);
+            goto done;
         }
-        goto block_6;
+        goto check_state;
     }
     if (((S_80092320_1 *)(&D_800CFCEF))->unk_00 == 0) {
-        func_80095A94(arg1, temp_v0, &D_800FE488);
+        func_80095A94(actor, reference_value, &D_800FE488);
     }
-block_6:
+check_state:
     if (((S_80092320_2 *)state)->unk_10 & 0x10) {
-        func_800942B0(arg0, arg1, arg2);
-        goto block_end;
+        func_800942B0(action, actor, context);
+        goto done;
     }
-    temp_v0_2 = arg0->unk_0A.as_u16 - 1;
-    arg0->unk_0A.as_u16 = temp_v0_2;
-    if ((s16) temp_v0_2 < 0) {
-        func_80094414(arg0, arg1, arg2);
-        goto block_end;
+    ticks_left = action->unk_0A.as_u16 - 1;
+    action->unk_0A.as_u16 = ticks_left;
+    if ((s16) ticks_left < 0) {
+        func_80094414(action, actor, context);
+        goto done;
     }
     if (((S_80092320_2 *)state)->unk_10 & 0x40) {
-        temp_v0_3 = func_80095840(arg0, &D_800CFCB4);
-        if (temp_v0_3 != 0) {
-            if (temp_v0_3 == 2) {
-                func_8009451C(arg0, arg1, arg2);
-                goto block_end;
+        action_result = func_80095840(action, &D_800CFCB4);
+        if (action_result != 0) {
+            if (action_result == 2) {
+                func_8009451C(action, actor, context);
+                goto done;
             }
-            func_800944BC(arg0, arg1, arg2);
-            goto block_end;
+            func_800944BC(action, actor, context);
+            goto done;
         }
         if (func_80033B2C(0xA4) != 0) {
-            func_80094088(arg0, arg1, arg2);
-            goto block_end;
+            func_80094088(action, actor, context);
+            goto done;
         }
     } else if (func_8009567C(&D_800CFCB4) <= 0) {
-        func_80094474(arg0, arg1, arg2);
+        func_80094474(action, actor, context);
     }
-block_end:
+done:
     return;
 }
-
-/* MECHANISM: A held D_80083160 base supplies s4 and the exact 0x28 frame/save contract.
-   Shared D_800CFCEF addressing and a signed s16 timer test reproduce the body operations.
-   Correct one-argument func_8009567C ABI removes the dead a1 word and its displacement cascade. */

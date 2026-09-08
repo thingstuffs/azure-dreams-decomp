@@ -11,17 +11,13 @@ typedef struct S_80086C00 {
 
 extern S_80086C00 D_80086C00[8];
 
-/* Registers a MIDI/SEQ header (a0) that matches one of three known magic
-   signatures ("pQES"/SEQ, "MThd"/MIDI, "KDT ") into the first free slot of
-   D_80086C00[] (field_0 == -1), storing a1 into field_0 and marking
-   field_2 = 2. Returns the slot index, or -1 if the header wasn't
-   recognised or no free slot was found. */
-s16 func_8005AE08(void *a0, s32 a1)
+/* Registers a recognized sequence header in the first free slot, returning its index or -1 on failure. */
+s16 func_8005AE08(void *header, s32 sequence_id)
 {
-    u32 magic = *(u32 *)a0;
-    S_80086C00 *p;
-    s32 i;
-    s32 free_val;
+    u32 magic = *(u32 *)header;
+    S_80086C00 *slot;
+    s32 slot_index;
+    s32 free_id;
 
     if (magic == 0x53455170 || magic == 0x6468544D || magic == 0x2054444B) {
         goto search;
@@ -29,22 +25,22 @@ s16 func_8005AE08(void *a0, s32 a1)
     return -1;
 
 found:
-    p->field_4 = (s32)a0;
-    p->field_0 = a1;
-    p->field_2 = 2;
-    return i;
+    slot->field_4 = (s32)header;
+    slot->field_0 = sequence_id;
+    slot->field_2 = 2;
+    return slot_index;
 
 search:
-    i = 0;
-    free_val = -1;
-    p = D_80086C00;
+    slot_index = 0;
+    free_id = -1;
+    slot = D_80086C00;
 loop:
-    if (p->field_0 == free_val) {
+    if (slot->field_0 == free_id) {
         goto found;
     }
-    i++;
-    p++;
-    if (i < 8) {
+    slot_index++;
+    slot++;
+    if (slot_index < 8) {
         goto loop;
     }
     return -1;

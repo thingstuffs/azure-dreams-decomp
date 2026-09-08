@@ -8,16 +8,17 @@ extern s32 D_800CF874[203];
 extern void func_80067014(s32 arg0);
 extern s32 func_80047E78(s32 arg0);
 
+/* Processes the selected catalog entry, stores its result, and updates the selection. */
 void func_8008B55C(void)
 {
-    s32 value;
-    s32 *items;
+    s32 entry_result;
+    s32 *catalog_entries;
 
     if (D_800CF874[0] != 0) {
         func_80067014(0);
-        items = &D_800CF838[15];
-        value = func_80047E78(items[D_800CF874[0]]);
-        D_80081458[0] = value;
+        catalog_entries = &D_800CF838[15];
+        entry_result = func_80047E78(catalog_entries[D_800CF874[0]]);
+        D_80081458[0] = entry_result;
         if (D_800CF874[0] == 1) {
             D_800CF874[0] = 0;
             return;

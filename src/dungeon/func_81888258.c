@@ -14,63 +14,64 @@ extern void func_80065820(void *, void *);
 extern u16 D_80026326[5];
 extern s32 D_800814A0;
 
-void func_80025A58(void *arg0, void *arg1, void *arg2)
+/* Rotate and move an effect quad, fade its colors, and flag it when its lifetime ends. */
+void func_80025A58(void *effect, void *motion_data, void *rotation_data)
 {
-    u16 input[3];
-    s32 output[8];
+    u16 angles[3];
+    s32 matrix[8];
     u16 *scratch = (u16 *)0x1F800000;
-    void *state = arg1;
-    u16 *page;
-    s32 delta10;
-    u16 coord;
-    u16 page_value;
-    u16 scratch_value;
-    s32 b0;
-    s32 b1;
-    s32 b2;
-    s32 b3;
-    register s32 b4 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 b5 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 q0;
-    s32 q1;
-    s32 q2;
-    s32 q3;
-    register s32 q4 ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 q5 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s16 remaining;
-    s32 remaining_test;
+    void *motion = motion_data;
+    u16 *globals_page;
+    s32 origin_z;
+    u16 vertex_z;
+    u16 update_count;
+    u16 relative_z;
+    s32 red_a;
+    s32 green_a;
+    s32 blue_a;
+    s32 red_b;
+    register s32 green_b ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 blue_b ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 red_a_step;
+    s32 green_a_step;
+    s32 blue_a_step;
+    s32 red_b_step;
+    register s32 green_b_step ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 blue_b_step ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 ticks_left;
+    s32 ticks_test;
 
-    scratch[0x70 / 2] = U16_AT(arg0, 0x30) - U16_AT(state, 2);
-    scratch[0x78 / 2] = U16_AT(arg0, 0x38) - U16_AT(state, 2);
-    scratch[0x80 / 2] = U16_AT(arg0, 0x40) - U16_AT(state, 2);
-    scratch[0x88 / 2] = U16_AT(arg0, 0x48) - U16_AT(state, 2);
-    scratch[0x72 / 2] = U16_AT(arg0, 0x32) - U16_AT(state, 6);
-    scratch[0x7A / 2] = U16_AT(arg0, 0x3A) - U16_AT(state, 6);
-    scratch[0x82 / 2] = U16_AT(arg0, 0x42) - U16_AT(state, 6);
-    scratch[0x8A / 2] = U16_AT(arg0, 0x4A) - U16_AT(state, 6);
-    scratch[0x74 / 2] = U16_AT(arg0, 0x34) - U16_AT(state, 0xA);
-    scratch[0x7C / 2] = U16_AT(arg0, 0x3C) - U16_AT(state, 0xA);
-    page = (u16 *)0x80020000;
+    scratch[0x70 / 2] = U16_AT(effect, 0x30) - U16_AT(motion, 2);
+    scratch[0x78 / 2] = U16_AT(effect, 0x38) - U16_AT(motion, 2);
+    scratch[0x80 / 2] = U16_AT(effect, 0x40) - U16_AT(motion, 2);
+    scratch[0x88 / 2] = U16_AT(effect, 0x48) - U16_AT(motion, 2);
+    scratch[0x72 / 2] = U16_AT(effect, 0x32) - U16_AT(motion, 6);
+    scratch[0x7A / 2] = U16_AT(effect, 0x3A) - U16_AT(motion, 6);
+    scratch[0x82 / 2] = U16_AT(effect, 0x42) - U16_AT(motion, 6);
+    scratch[0x8A / 2] = U16_AT(effect, 0x4A) - U16_AT(motion, 6);
+    scratch[0x74 / 2] = U16_AT(effect, 0x34) - U16_AT(motion, 0xA);
+    scratch[0x7C / 2] = U16_AT(effect, 0x3C) - U16_AT(motion, 0xA);
+    globals_page = (u16 *)0x80020000;
 
-    page_value = page[0x6326 / 2];
-    coord = U16_AT(arg0, 0x44);
-    delta10 = U16_AT(state, 0xA);
-    page_value++;
-    scratch_value = coord - delta10;
-    page[0x6326 / 2] = page_value;
-    scratch[0x84 / 2] = scratch_value;
-    scratch[0x8C / 2] = U16_AT(arg0, 0x4C) - U16_AT(state, 0xA);
-    func_800649A0(delta10);
+    update_count = globals_page[0x6326 / 2];
+    vertex_z = U16_AT(effect, 0x44);
+    origin_z = U16_AT(motion, 0xA);
+    update_count++;
+    relative_z = vertex_z - origin_z;
+    globals_page[0x6326 / 2] = update_count;
+    scratch[0x84 / 2] = relative_z;
+    scratch[0x8C / 2] = U16_AT(effect, 0x4C) - U16_AT(motion, 0xA);
+    func_800649A0(origin_z);
 
-    input[0] = U16_AT(arg2, 0x16);
-    input[1] = U16_AT(arg2, 0x18);
-    input[2] = 0;
-    output[7] = 0;
-    output[6] = 0;
-    output[5] = 0;
-    func_80065820(input, output);
-    func_80064D80(output);
-    func_80064CF0(output);
+    angles[0] = U16_AT(rotation_data, 0x16);
+    angles[1] = U16_AT(rotation_data, 0x18);
+    angles[2] = 0;
+    matrix[7] = 0;
+    matrix[6] = 0;
+    matrix[5] = 0;
+    func_80065820(angles, matrix);
+    func_80064D80(matrix);
+    func_80064CF0(matrix);
 
     func_80065320(scratch + 0x70 / 2, scratch + 0x98 / 2,
                   scratch + 0x94 / 2);
@@ -82,65 +83,65 @@ void func_80025A58(void *arg0, void *arg1, void *arg2)
                   scratch + 0x94 / 2);
     func_80064A40();
 
-    S32_AT(state, 0) = S32_AT(state, 0) + S32_AT(state, 0xC);
-    S32_AT(state, 4) = S32_AT(state, 4) + S32_AT(state, 0x10);
-    S32_AT(state, 8) = S32_AT(state, 8) + S32_AT(state, 0x14);
+    S32_AT(motion, 0) = S32_AT(motion, 0) + S32_AT(motion, 0xC);
+    S32_AT(motion, 4) = S32_AT(motion, 4) + S32_AT(motion, 0x10);
+    S32_AT(motion, 8) = S32_AT(motion, 8) + S32_AT(motion, 0x14);
 
-    U16_AT(arg0, 0x30) = scratch[0x98 / 2] + U16_AT(state, 2);
-    U16_AT(arg0, 0x38) = scratch[0xA0 / 2] + U16_AT(state, 2);
-    U16_AT(arg0, 0x40) = scratch[0xA8 / 2] + U16_AT(state, 2);
-    U16_AT(arg0, 0x48) = scratch[0xB0 / 2] + U16_AT(state, 2);
-    U16_AT(arg0, 0x32) = scratch[0x9A / 2] + U16_AT(state, 6);
-    U16_AT(arg0, 0x3A) = scratch[0xA2 / 2] + U16_AT(state, 6);
-    U16_AT(arg0, 0x42) = scratch[0xAA / 2] + U16_AT(state, 6);
-    U16_AT(arg0, 0x4A) = scratch[0xB2 / 2] + U16_AT(state, 6);
-    U16_AT(arg0, 0x34) = scratch[0x9C / 2] + U16_AT(state, 0xA);
+    U16_AT(effect, 0x30) = scratch[0x98 / 2] + U16_AT(motion, 2);
+    U16_AT(effect, 0x38) = scratch[0xA0 / 2] + U16_AT(motion, 2);
+    U16_AT(effect, 0x40) = scratch[0xA8 / 2] + U16_AT(motion, 2);
+    U16_AT(effect, 0x48) = scratch[0xB0 / 2] + U16_AT(motion, 2);
+    U16_AT(effect, 0x32) = scratch[0x9A / 2] + U16_AT(motion, 6);
+    U16_AT(effect, 0x3A) = scratch[0xA2 / 2] + U16_AT(motion, 6);
+    U16_AT(effect, 0x42) = scratch[0xAA / 2] + U16_AT(motion, 6);
+    U16_AT(effect, 0x4A) = scratch[0xB2 / 2] + U16_AT(motion, 6);
+    U16_AT(effect, 0x34) = scratch[0x9C / 2] + U16_AT(motion, 0xA);
 
-    b0 = U8_AT(arg0, 0x50);
-    ASM_KEEP_NV(b0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    q0 = b0 / S16_AT(arg0, 0x1A);
+    red_a = U8_AT(effect, 0x50);
+    ASM_KEEP_NV(red_a);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    red_a_step = red_a / S16_AT(effect, 0x1A);
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    b1 = U8_AT(arg0, 0x51);
-    ASM_KEEP_NV(b1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    q1 = b1 / S16_AT(arg0, 0x1A);
+    green_a = U8_AT(effect, 0x51);
+    ASM_KEEP_NV(green_a);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    green_a_step = green_a / S16_AT(effect, 0x1A);
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    b2 = U8_AT(arg0, 0x52);
-    ASM_KEEP_NV(b2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    q2 = b2 / S16_AT(arg0, 0x1A);
+    blue_a = U8_AT(effect, 0x52);
+    ASM_KEEP_NV(blue_a);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    blue_a_step = blue_a / S16_AT(effect, 0x1A);
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    b3 = U8_AT(arg0, 0x54);
-    ASM_KEEP_NV(b3);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    q3 = b3 / S16_AT(arg0, 0x1A);
+    red_b = U8_AT(effect, 0x54);
+    ASM_KEEP_NV(red_b);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    red_b_step = red_b / S16_AT(effect, 0x1A);
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    b4 = U8_AT(arg0, 0x55);
-    q4 = b4 / S16_AT(arg0, 0x1A);
+    green_b = U8_AT(effect, 0x55);
+    green_b_step = green_b / S16_AT(effect, 0x1A);
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    b5 = U8_AT(arg0, 0x56);
-    q5 = b5 / S16_AT(arg0, 0x1A);
+    blue_b = U8_AT(effect, 0x56);
+    blue_b_step = blue_b / S16_AT(effect, 0x1A);
 
-    U16_AT(arg0, 0x3C) = scratch[0xA4 / 2] + U16_AT(state, 0xA);
-    U16_AT(arg0, 0x44) = scratch[0xAC / 2] + U16_AT(state, 0xA);
-    U16_AT(arg0, 0x4C) = scratch[0xB4 / 2] + U16_AT(state, 0xA);
-    remaining = (u16)S16_AT(arg0, 0x1A) - 1;
-    S16_AT(arg0, 0x1A) = remaining;
-    remaining_test = remaining << 16;
+    U16_AT(effect, 0x3C) = scratch[0xA4 / 2] + U16_AT(motion, 0xA);
+    U16_AT(effect, 0x44) = scratch[0xAC / 2] + U16_AT(motion, 0xA);
+    U16_AT(effect, 0x4C) = scratch[0xB4 / 2] + U16_AT(motion, 0xA);
+    ticks_left = (u16)S16_AT(effect, 0x1A) - 1;
+    S16_AT(effect, 0x1A) = ticks_left;
+    ticks_test = ticks_left << 16;
 
-    b0 -= q0;
-    b1 -= q1;
-    b2 -= q2;
-    b3 -= q3;
-    b4 -= q4;
-    b5 -= q5;
+    red_a -= red_a_step;
+    green_a -= green_a_step;
+    blue_a -= blue_a_step;
+    red_b -= red_b_step;
+    green_b -= green_b_step;
+    blue_b -= blue_b_step;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    U8_AT(arg0, 0x50) = b0;
-    U8_AT(arg0, 0x51) = b1;
-    U8_AT(arg0, 0x52) = b2;
-    U8_AT(arg0, 0x54) = b3;
-    U8_AT(arg0, 0x55) = b4;
-    U8_AT(arg0, 0x56) = b5;
+    U8_AT(effect, 0x50) = red_a;
+    U8_AT(effect, 0x51) = green_a;
+    U8_AT(effect, 0x52) = blue_a;
+    U8_AT(effect, 0x54) = red_b;
+    U8_AT(effect, 0x55) = green_b;
+    U8_AT(effect, 0x56) = blue_b;
 
-    if (remaining_test <= 0) {
-        U16_AT(arg0, -2) |= 0x8000;
+    if (ticks_test <= 0) {
+        U16_AT(effect, -2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

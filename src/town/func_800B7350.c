@@ -30,24 +30,25 @@ typedef struct S_800B4AB0_3 {
 extern u8 D_800786DC[];
 extern u8 D_800786E8[];
 
-void func_800B4AB0(S_800B4AB0_0 *arg0)
+/* Update control indicators and flags based on the current value and its limits. */
+void func_800B4AB0(S_800B4AB0_0 *control)
 {
-    S_800B4AB0_1 *state;
+    S_800B4AB0_1 *range_state;
 
-    if (((S_800B4AB0_2 *)(arg0->unk_00))->unk_2C > 0) {
-        *((S_800B4AB0_3 *)(arg0->unk_5C))->unk_98 = D_800786DC;
-        arg0->unk_0C = arg0->unk_0C & -3;
+    if (((S_800B4AB0_2 *)(control->unk_00))->unk_2C > 0) {
+        *((S_800B4AB0_3 *)(control->unk_5C))->unk_98 = D_800786DC;
+        control->unk_0C = control->unk_0C & -3;
     } else {
-        *((S_800B4AB0_3 *)(arg0->unk_5C))->unk_98 = 0;
-        arg0->unk_0C = arg0->unk_0C | 2;
+        *((S_800B4AB0_3 *)(control->unk_5C))->unk_98 = 0;
+        control->unk_0C = control->unk_0C | 2;
     }
 
-    state = arg0->unk_00;
-    if (state->unk_2C < state->unk_30) {
-        arg0->unk_0C = arg0->unk_0C & -2;
-        *((S_800B4AB0_3 *)(arg0->unk_5C))->unk_9C = D_800786E8;
+    range_state = control->unk_00;
+    if (range_state->unk_2C < range_state->unk_30) {
+        control->unk_0C = control->unk_0C & -2;
+        *((S_800B4AB0_3 *)(control->unk_5C))->unk_9C = D_800786E8;
     } else {
-        arg0->unk_0C = arg0->unk_0C | 1;
-        *((S_800B4AB0_3 *)(arg0->unk_5C))->unk_9C = 0;
+        control->unk_0C = control->unk_0C | 1;
+        *((S_800B4AB0_3 *)(control->unk_5C))->unk_9C = 0;
     }
 }

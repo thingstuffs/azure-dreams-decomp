@@ -16,22 +16,23 @@ typedef struct S_800CE800_0 {
 } S_800CE800_0;   /* arg1 in func_800CE800 */
 
 
-void func_800CE800(Rec_func_80094268_arg0 *arg0, S_800CE800_0 *arg1, M2C_UNK arg2) {
-    u16 temp_v0;
+/* Advance vertical motion, clamp at the landing height, and bounce or finish. */
+void func_800CE800(Rec_func_80094268_arg0 *actor, S_800CE800_0 *motion, M2C_UNK context) {
+    u16 bounces_left;
 
-    arg1->unk_08.at00.v = (s32) (arg1->unk_08.at00.v + arg1->unk_14);
-    if (func_800C2AE8(arg1) < arg1->unk_08.at02.v) {
-        arg1->unk_08.at02.v = func_800C2AE8(arg1);
-        temp_v0 = arg0->unk_90.as_u16 - 1;
-        arg0->unk_90.as_u16 = temp_v0;
-        if ((temp_v0 << 0x10) <= 0) {
-            arg1->unk_14 = 0;
-            func_800C4174(arg0, arg1, arg2);
+    motion->unk_08.at00.v = (s32) (motion->unk_08.at00.v + motion->unk_14);
+    if (func_800C2AE8(motion) < motion->unk_08.at02.v) {
+        motion->unk_08.at02.v = func_800C2AE8(motion);
+        bounces_left = actor->unk_90.as_u16 - 1;
+        actor->unk_90.as_u16 = bounces_left;
+        if ((bounces_left << 0x10) <= 0) {
+            motion->unk_14 = 0;
+            func_800C4174(actor, motion, context);
             return;
         }
-        arg1->unk_14 = 0xFFF60000;
-        arg0->unk_54 = &D_800CE8CC;
+        motion->unk_14 = 0xFFF60000;
+        actor->unk_54 = &D_800CE8CC;
         return;
     }
-    func_80095388(arg1);
+    func_80095388(motion);
 }

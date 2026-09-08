@@ -32,115 +32,116 @@ extern s32 func_800A45D8();
 extern s16 func_800BCB04();
 extern s32 D_800814A0;
 
-void func_8017142C(void *arg0, void *arg1, void *arg2) {
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 temp_s4;
-    s32 temp_lo;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    u16 temp_v0_3;
-    u16 temp_v0_4;
-    u16 temp_v0_5;
-    u16 temp_v0_6;
-    u16 temp_v0_7;
-    u16 temp_v0_8;
-    u16 temp_v0_9;
+/* Update effect motion, collisions, sprite growth, and timed fading. */
+void func_8017142C(void *effect, void *position, void *sprite) {
+    s32 move_height;
+    s32 fade_height;
+    s32 phase;
+    s32 fade_level;
+    s32 velocity_x;
+    s32 velocity_y;
+    u16 anim_tick;
+    u16 move_scale_x;
+    u16 move_scale_y;
+    u16 move_ticks_left;
+    u16 fade_scale_x;
+    u16 fade_scale_y;
+    u16 fade_ticks_left;
 
-    if (((S_8017142C_0 *)arg0)->unk_00 == 0) {
-        ((S_8017142C_1 *)arg1)->unk_00.at00.v += ((S_8017142C_0 *)arg0)->unk_60;
-        temp_v0 = ((S_8017142C_0 *)arg0)->unk_60;
-        ((S_8017142C_0 *)arg0)->unk_60 = (temp_v0 * 2) / 3;
-        if ((func_800A45D8(((S_8017142C_1 *)arg1)->unk_00.at02.v, ((S_8017142C_1 *)arg1)->unk_04.at02.v, ((S_8017142C_1 *)arg1)->unk_08.at02.v) << 0x10) != 0) {
-            ((S_8017142C_1 *)arg1)->unk_00.at00.v -= ((S_8017142C_0 *)arg0)->unk_60;
-            ((S_8017142C_0 *)arg0)->unk_60 = 0;
-            ((S_8017142C_0 *)arg0)->unk_6C = 0;
+    if (((S_8017142C_0 *)effect)->unk_00 == 0) {
+        ((S_8017142C_1 *)position)->unk_00.at00.v += ((S_8017142C_0 *)effect)->unk_60;
+        velocity_x = ((S_8017142C_0 *)effect)->unk_60;
+        ((S_8017142C_0 *)effect)->unk_60 = (velocity_x * 2) / 3;
+        if ((func_800A45D8(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v, ((S_8017142C_1 *)position)->unk_08.at02.v) << 0x10) != 0) {
+            ((S_8017142C_1 *)position)->unk_00.at00.v -= ((S_8017142C_0 *)effect)->unk_60;
+            ((S_8017142C_0 *)effect)->unk_60 = 0;
+            ((S_8017142C_0 *)effect)->unk_6C = 0;
         }
-        ((S_8017142C_1 *)arg1)->unk_04.at00.v += ((S_8017142C_0 *)arg0)->unk_64;
-        temp_v0_2 = ((S_8017142C_0 *)arg0)->unk_64;
-        ((S_8017142C_0 *)arg0)->unk_64 = (temp_v0_2 * 2) / 3;
-        if ((func_800A45D8(((S_8017142C_1 *)arg1)->unk_00.at02.v, ((S_8017142C_1 *)arg1)->unk_04.at02.v, ((S_8017142C_1 *)arg1)->unk_08.at02.v) << 0x10) != 0) {
-            ((S_8017142C_1 *)arg1)->unk_04.at00.v -= ((S_8017142C_0 *)arg0)->unk_64;
-            ((S_8017142C_0 *)arg0)->unk_64 = 0;
-            ((S_8017142C_0 *)arg0)->unk_70 = 0;
+        ((S_8017142C_1 *)position)->unk_04.at00.v += ((S_8017142C_0 *)effect)->unk_64;
+        velocity_y = ((S_8017142C_0 *)effect)->unk_64;
+        ((S_8017142C_0 *)effect)->unk_64 = (velocity_y * 2) / 3;
+        if ((func_800A45D8(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v, ((S_8017142C_1 *)position)->unk_08.at02.v) << 0x10) != 0) {
+            ((S_8017142C_1 *)position)->unk_04.at00.v -= ((S_8017142C_0 *)effect)->unk_64;
+            ((S_8017142C_0 *)effect)->unk_64 = 0;
+            ((S_8017142C_0 *)effect)->unk_70 = 0;
         }
-        ((S_8017142C_1 *)arg1)->unk_08.at00.v += ((S_8017142C_0 *)arg0)->unk_68;
-        ((S_8017142C_0 *)arg0)->unk_68 += ((S_8017142C_0 *)arg0)->unk_74;
-        temp_s0 = ((S_8017142C_1 *)arg1)->unk_08.at02.v;
-        if ((func_800BCB04(((S_8017142C_1 *)arg1)->unk_00.at02.v, ((S_8017142C_1 *)arg1)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)arg1)->unk_08.at02.v - 4)) - 0x10) < temp_s0) {
-            ((S_8017142C_0 *)arg0)->unk_68 = 0;
-            ((S_8017142C_1 *)arg1)->unk_08.at02.v = func_800BCB04(((S_8017142C_1 *)arg1)->unk_00.at02.v, ((S_8017142C_1 *)arg1)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)arg1)->unk_08.at02.v - 4)) - 0x11;
-            ((S_8017142C_1 *)arg1)->unk_08.at00u.v = 0;
-            if (((S_8017142C_0 *)arg0)->unk_1A == 0) {
-                ((S_8017142C_0 *)arg0)->unk_1A = 1;
-                ((S_8017142C_0 *)arg0)->unk_24 = 0;
+        ((S_8017142C_1 *)position)->unk_08.at00.v += ((S_8017142C_0 *)effect)->unk_68;
+        ((S_8017142C_0 *)effect)->unk_68 += ((S_8017142C_0 *)effect)->unk_74;
+        move_height = ((S_8017142C_1 *)position)->unk_08.at02.v;
+        if ((func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x10) < move_height) {
+            ((S_8017142C_0 *)effect)->unk_68 = 0;
+            ((S_8017142C_1 *)position)->unk_08.at02.v = func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x11;
+            ((S_8017142C_1 *)position)->unk_08.at00u.v = 0;
+            if (((S_8017142C_0 *)effect)->unk_1A == 0) {
+                ((S_8017142C_0 *)effect)->unk_1A = 1;
+                ((S_8017142C_0 *)effect)->unk_24 = 0;
             }
         }
-        temp_v0_3 = ((S_8017142C_0 *)arg0)->unk_26 + 1;
-        ((S_8017142C_0 *)arg0)->unk_26 = temp_v0_3;
-        if (!(temp_v0_3 & 3)) {
-            func_800478B8(arg2);
+        anim_tick = ((S_8017142C_0 *)effect)->unk_26 + 1;
+        ((S_8017142C_0 *)effect)->unk_26 = anim_tick;
+        if (!(anim_tick & 3)) {
+            func_800478B8(sprite);
         }
-        temp_v0_4 = ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v + 0x64;
-        ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = temp_v0_4;
-        if ((u32)(temp_v0_4 & 0xFFFF) >= 0x2001U) {
-            ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = 0x2000;
+        move_scale_x = ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v + 0x64;
+        ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = move_scale_x;
+        if ((u32)(move_scale_x & 0xFFFF) >= 0x2001U) {
+            ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = 0x2000;
         }
-        temp_v0_5 = ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v + 0x64;
-        ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = temp_v0_5;
-        if ((u32)(temp_v0_5 & 0xFFFF) >= 0x2001U) {
-            ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = 0x2000;
+        move_scale_y = ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v + 0x64;
+        ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = move_scale_y;
+        if ((u32)(move_scale_y & 0xFFFF) >= 0x2001U) {
+            ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = 0x2000;
         }
-        temp_v0_6 = ((S_8017142C_0 *)arg0)->unk_24 - 1;
-        ((S_8017142C_0 *)arg0)->unk_24 = temp_v0_6;
-        if ((temp_v0_6 << 0x10) <= 0) {
-            ((S_8017142C_0 *)arg0)->unk_1A = 0;
-            ((S_8017142C_0 *)arg0)->unk_00 = (u16)((S_8017142C_0 *)arg0)->unk_00 + 1;
+        move_ticks_left = ((S_8017142C_0 *)effect)->unk_24 - 1;
+        ((S_8017142C_0 *)effect)->unk_24 = move_ticks_left;
+        if ((move_ticks_left << 0x10) <= 0) {
+            ((S_8017142C_0 *)effect)->unk_1A = 0;
+            ((S_8017142C_0 *)effect)->unk_00 = (u16)((S_8017142C_0 *)effect)->unk_00 + 1;
         }
-        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
-            (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
             D_800814A0 |= 0x8000;
         }
     }
-    temp_s4 = ((S_8017142C_0 *)arg0)->unk_00;
-    if (temp_s4 == 1) {
-        if (((S_8017142C_0 *)arg0)->unk_1A == 0) {
-            ((S_8017142C_0 *)arg0)->unk_1A = temp_s4;
-            ((S_8017142C_0 *)arg0)->unk_24 = 0x14;
-            ((S_8017142C_0 *)arg0)->unk_26 = 0x14;
-            ((S_8017142C_0 *)arg0)->unk_64 = 0;
-            ((S_8017142C_0 *)arg0)->unk_60 = 0;
+    phase = ((S_8017142C_0 *)effect)->unk_00;
+    if (phase == 1) {
+        if (((S_8017142C_0 *)effect)->unk_1A == 0) {
+            ((S_8017142C_0 *)effect)->unk_1A = phase;
+            ((S_8017142C_0 *)effect)->unk_24 = 0x14;
+            ((S_8017142C_0 *)effect)->unk_26 = 0x14;
+            ((S_8017142C_0 *)effect)->unk_64 = 0;
+            ((S_8017142C_0 *)effect)->unk_60 = 0;
         }
-        temp_v0_7 = ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v + 0xC8;
-        ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = temp_v0_7;
-        if ((u32)(temp_v0_7 & 0xFFFF) >= 0x2001U) {
-            ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = 0x2000;
+        fade_scale_x = ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v + 0xC8;
+        ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = fade_scale_x;
+        if ((u32)(fade_scale_x & 0xFFFF) >= 0x2001U) {
+            ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = 0x2000;
         }
-        temp_v0_8 = ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v + 0xC8;
-        ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = temp_v0_8;
-        if ((u32)(temp_v0_8 & 0xFFFF) >= 0x2001U) {
-            ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = 0x2000;
+        fade_scale_y = ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v + 0xC8;
+        ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = fade_scale_y;
+        if ((u32)(fade_scale_y & 0xFFFF) >= 0x2001U) {
+            ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = 0x2000;
         }
-        ((S_8017142C_1 *)arg1)->unk_08.at00.v += ((S_8017142C_0 *)arg0)->unk_68;
-        ((S_8017142C_0 *)arg0)->unk_68 += ((S_8017142C_0 *)arg0)->unk_74;
-        temp_s0_2 = ((S_8017142C_1 *)arg1)->unk_08.at02.v;
-        if ((func_800BCB04(((S_8017142C_1 *)arg1)->unk_00.at02.v, ((S_8017142C_1 *)arg1)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)arg1)->unk_08.at02.v - 4)) - 0x10) < temp_s0_2) {
-            ((S_8017142C_0 *)arg0)->unk_68 = 0;
-            ((S_8017142C_1 *)arg1)->unk_08.at02.v = func_800BCB04(((S_8017142C_1 *)arg1)->unk_00.at02.v, ((S_8017142C_1 *)arg1)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)arg1)->unk_08.at02.v - 4)) - 0x11;
-            ((S_8017142C_1 *)arg1)->unk_08.at00u.v = 0;
-            if (((S_8017142C_0 *)arg0)->unk_1A == 0) {
-                ((S_8017142C_0 *)arg0)->unk_1A = temp_s4;
-                ((S_8017142C_0 *)arg0)->unk_24 = 0;
+        ((S_8017142C_1 *)position)->unk_08.at00.v += ((S_8017142C_0 *)effect)->unk_68;
+        ((S_8017142C_0 *)effect)->unk_68 += ((S_8017142C_0 *)effect)->unk_74;
+        fade_height = ((S_8017142C_1 *)position)->unk_08.at02.v;
+        if ((func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x10) < fade_height) {
+            ((S_8017142C_0 *)effect)->unk_68 = 0;
+            ((S_8017142C_1 *)position)->unk_08.at02.v = func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x11;
+            ((S_8017142C_1 *)position)->unk_08.at00u.v = 0;
+            if (((S_8017142C_0 *)effect)->unk_1A == 0) {
+                ((S_8017142C_0 *)effect)->unk_1A = phase;
+                ((S_8017142C_0 *)effect)->unk_24 = 0;
             }
         }
-        temp_lo = ((s16)((S_8017142C_0 *)arg0)->unk_24 << 7) / (s16)((S_8017142C_0 *)arg0)->unk_26;
-        ((Rec_D_80082E80 *)arg2)->unk_0C.at02_s8.v = 0;
-        ((Rec_D_80082E80 *)arg2)->unk_0C.at01_s8.v = temp_lo;
-        ((Rec_D_80082E80 *)arg2)->unk_0C.at00_s8.v = temp_lo;
-        temp_v0_9 = ((S_8017142C_0 *)arg0)->unk_24 - 1;
-        ((S_8017142C_0 *)arg0)->unk_24 = temp_v0_9;
-        if ((temp_v0_9 << 0x10) <= 0) {
-            (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        fade_level = ((s16)((S_8017142C_0 *)effect)->unk_24 << 7) / (s16)((S_8017142C_0 *)effect)->unk_26;
+        ((Rec_D_80082E80 *)sprite)->unk_0C.at02_s8.v = 0;
+        ((Rec_D_80082E80 *)sprite)->unk_0C.at01_s8.v = fade_level;
+        ((Rec_D_80082E80 *)sprite)->unk_0C.at00_s8.v = fade_level;
+        fade_ticks_left = ((S_8017142C_0 *)effect)->unk_24 - 1;
+        ((S_8017142C_0 *)effect)->unk_24 = fade_ticks_left;
+        if ((fade_ticks_left << 0x10) <= 0) {
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
             D_800814A0 |= 0x8000;
         }
     }

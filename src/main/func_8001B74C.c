@@ -12,15 +12,16 @@ extern s32 D_80408B2C[][4];
 extern void func_80402508(s32 arg0, s32 arg1, s32 *arg2, s32 *arg3, s32 *arg4);
 extern void func_80402670(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
-void func_8001B74C(Struct8001B74C_arg0 *arg0) {
-    s32 sp18;
-    s32 sp1C;
-    s32 sp20;
-    s32 idx = arg0->index;
-    s32 count = D_80408ADD[idx][0] - 1;
+/* Resolve and apply the last table entry when the object's table is enabled. */
+void func_8001B74C(Struct8001B74C_arg0 *object) {
+    s32 resolved_a;
+    s32 resolved_b;
+    s32 resolved_c;
+    s32 table_index = object->index;
+    s32 last_index = D_80408ADD[table_index][0] - 1;
 
-    if (D_80408ADD[idx][1] != 0) {
-        func_80402508(D_80408B2C[idx][count], arg0->unk0, &sp18, &sp1C, &sp20);
-        func_80402670(arg0, sp18, sp1C, count, sp20);
+    if (D_80408ADD[table_index][1] != 0) {
+        func_80402508(D_80408B2C[table_index][last_index], object->unk0, &resolved_a, &resolved_b, &resolved_c);
+        func_80402670(object, resolved_a, resolved_b, last_index, resolved_c);
     }
 }

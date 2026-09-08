@@ -16,17 +16,18 @@ typedef struct S_800267F0_0 {
     s16 unk_46;
 } S_800267F0_0;   /* temp_v0 in func_800267F0 */
 
-void *func_800267F0(s16 arg0) {
-    S_800267F0_0 *temp_v0;
+/* Initializes an available object with the supplied value and sets up shared state. */
+void *func_800267F0(s16 initialValue) {
+    S_800267F0_0 *object;
 
     D_8002715A = 0;
-    temp_v0 = func_8003FC64(0);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_80026190;
-        temp_v0->unk_46 = arg0;
+    object = func_8003FC64(0);
+    if (object != NULL) {
+        object->unk_10 = &D_80026190;
+        object->unk_46 = initialValue;
         func_8004DCE0(2);
         func_8004DCEC();
         func_8004DD2C(&D_80027160);
     }
-    return temp_v0;
+    return object;
 }

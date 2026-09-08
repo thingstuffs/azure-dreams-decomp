@@ -18,7 +18,8 @@ typedef struct ItemCategory {
 extern ItemCategory itemCategoryTable[];
 extern s32 D_800713CC[];
 
-s32 func_8004A574(u8 *item, s32 flag) {
+/* Returns the selected item value scaled by its category multiplier and adjusted by its callback. */
+s32 func_8004A574(u8 *item, s32 use_value1) {
     ItemCategory *category;
     ItemRecord *record;
 
@@ -33,7 +34,7 @@ s32 func_8004A574(u8 *item, s32 flag) {
 
         multiplier = D_800713CC[category->multiplierIndex];
 
-        if (flag == 0) {
+        if (use_value1 == 0) {
             value = record->value0 * multiplier;
         } else {
             value = record->value1 * multiplier;

@@ -21,12 +21,13 @@ struct Func80035C80Object {
 extern void func_8003C24C(void);
 extern void func_80035ABC(void);
 
-void func_80035C80(Func80035C80Object *arg0) {
-    if (arg0->field78 != arg0->field74[1]) {
-        u8 *base = arg0->field44;
-        s16 offset = arg0->field4A;
-        (base + offset)[0x50] = 1;
+/* Flag the referenced record and switch callbacks when the state byte changes. */
+void func_80035C80(Func80035C80Object *object) {
+    if (object->field78 != object->field74[1]) {
+        u8 *record_base = object->field44;
+        s16 record_offset = object->field4A;
+        (record_base + record_offset)[0x50] = 1;
         func_8003C24C();
-        arg0->field68 = func_80035ABC;
+        object->field68 = func_80035ABC;
     }
 }

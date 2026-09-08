@@ -63,12 +63,13 @@ typedef struct S_8195EF44_5 {
     s16 unk_62;
 } S_8195EF44_5;   /* coord in func_8195EF44 */
 
-void *func_8195EF44(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+/* Allocate and initialize an object using the map cell at the supplied position. */
+void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
 {
-    s16 hold0 = arg0;
-    s16 hold1 = arg1;
-    s16 hold2 = arg2;
-    s16 hold3 = arg3;
+    s16 saved_x = world_x;
+    s16 saved_y = world_y;
+    s16 saved_z = world_z;
+    s16 saved_coord_60 = coord_60;
     void *obj;
     S_8195EF44_2 *work;
     register u8 *map ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -81,13 +82,13 @@ void *func_8195EF44(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     s32 color;
     u16 *cells;
     u16 cell;
-    s32 flags;
+    s32 obj_flags;
     s32 global_flags;
     register void *zero_return ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     register u8 *global_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 x;
-    register s32 y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 sign ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    s32 cell_x;
+    register s32 cell_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 shifted_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FC64(2);
     page = (u8 *)0x80080000;
@@ -99,22 +100,22 @@ void *func_8195EF44(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 
     ASM_KEEP(map);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     work = (*(void * *)((u8 *)obj + 0xC));
-    sign = (s32)((u32)(u16)hold0 << 16);
-    x = sign >> 16;
-    if (x < 0) {
-        x += 0x3F;
+    shifted_coord = (s32)((u32)(u16)saved_x << 16);
+    cell_x = shifted_coord >> 16;
+    if (cell_x < 0) {
+        cell_x += 0x3F;
     }
-    sign = (s32)((u32)(u16)hold1 << 16);
-    y = sign >> 16;
-    x >>= 6;
-    if (y < 0) {
-        y += 0x3F;
+    shifted_coord = (s32)((u32)(u16)saved_y << 16);
+    cell_index = shifted_coord >> 16;
+    cell_x >>= 6;
+    if (cell_index < 0) {
+        cell_index += 0x3F;
     }
-    y >>= 6;
-    y <<= ((S_8195EF44_0 *)map)->unk_14;
-    y = x + y;
+    cell_index >>= 6;
+    cell_index <<= ((S_8195EF44_0 *)map)->unk_14;
+    cell_index = cell_x + cell_index;
     cells = ((S_8195EF44_1 *)page)->unk_333C;
-    cell = cells[y * 3];
+    cell = cells[cell_index * 3];
     work->unk_08 = cell;
 
     if (cell != 0) {
@@ -125,13 +126,13 @@ void *func_8195EF44(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     ASM_KEEP(zero_return);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     global_page = (u8 *)0x80080000;
     ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    flags = (*(u16 *)((u8 *)obj + 0x1E));
+    obj_flags = (*(u16 *)((u8 *)obj + 0x1E));
     global_flags = ((S_8195EF44_3 *)global_page)->unk_14A0;
-    flags |= 0x8000;
+    obj_flags |= 0x8000;
     global_flags |= 0x8000;
-    (*(u16 *)((u8 *)obj + 0x1E)) = flags;
+    (*(u16 *)((u8 *)obj + 0x1E)) = obj_flags;
     ((S_8195EF44_3 *)global_page)->unk_14A0 = global_flags;
-    func_8002488C(flags, global_flags);
+    func_8002488C(obj_flags, global_flags);
 
 nonzero:
     call_obj = obj;
@@ -147,12 +148,12 @@ nonzero:
     ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     coord = (u8 *)obj + 0x20;
     ASM_KEEP_NV(coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ((S_8195EF44_4 *)render)->unk_02 = hold0;
-    ((S_8195EF44_5 *)coord)->unk_38 = hold0;
-    ((S_8195EF44_4 *)render)->unk_06 = hold1;
-    ((S_8195EF44_5 *)coord)->unk_3A = hold1;
-    ((S_8195EF44_4 *)render)->unk_0A = hold2;
-    ((S_8195EF44_5 *)coord)->unk_3C = hold2;
+    ((S_8195EF44_4 *)render)->unk_02 = saved_x;
+    ((S_8195EF44_5 *)coord)->unk_38 = saved_x;
+    ((S_8195EF44_4 *)render)->unk_06 = saved_y;
+    ((S_8195EF44_5 *)coord)->unk_3A = saved_y;
+    ((S_8195EF44_4 *)render)->unk_0A = saved_z;
+    ((S_8195EF44_5 *)coord)->unk_3C = saved_z;
     work->unk_20 = 0x1000;
     work->unk_1E = 0x1000;
     work->unk_1C = 0x1000;
@@ -160,8 +161,8 @@ nonzero:
     work->unk_0C = color;
     work->unk_14 = 0xC;
     ((S_8195EF44_5 *)coord)->unk_4C = 0xC;
-    ((S_8195EF44_5 *)coord)->unk_60 = hold3;
-    ((S_8195EF44_5 *)coord)->unk_62 = hold2;
+    ((S_8195EF44_5 *)coord)->unk_60 = saved_coord_60;
+    ((S_8195EF44_5 *)coord)->unk_62 = saved_z;
 done:
     return obj;
 }

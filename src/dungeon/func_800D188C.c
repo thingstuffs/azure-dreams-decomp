@@ -34,19 +34,20 @@ typedef struct S_800D6FEC_2 {
 M2C_UNK func_800478B8();                     /* extern */
 extern s32 D_800814A0[3];
 
-void func_800D6FEC(void *arg0, S_800D6FEC_1 *arg1, M2C_UNK arg2) {
-    u16 temp_v0;
-    S_800D6FEC_2 *temp_v1;
+/* Copy stored values, run the update, and flag completion when the count reaches zero. */
+void func_800D6FEC(void *object, S_800D6FEC_1 *output, M2C_UNK update_arg) {
+    u16 remaining;
+    S_800D6FEC_2 *source;
 
-    temp_v1 = ((S_800D6FEC_0 *)arg0)->unk_B0;
-    arg1->unk_02 = (u16) temp_v1->unk_02;
-    arg1->unk_06 = (u16) temp_v1->unk_06;
-    arg1->unk_0A = (u16) temp_v1->unk_0A;
-    func_800478B8(arg2);
-    temp_v0 = ((S_800D6FEC_0 *)arg0)->unk_96 - 1;
-    ((S_800D6FEC_0 *)arg0)->unk_96 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        ((S_800D6FEC_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800D6FEC_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    source = ((S_800D6FEC_0 *)object)->unk_B0;
+    output->unk_02 = (u16) source->unk_02;
+    output->unk_06 = (u16) source->unk_06;
+    output->unk_0A = (u16) source->unk_0A;
+    func_800478B8(update_arg);
+    remaining = ((S_800D6FEC_0 *)object)->unk_96 - 1;
+    ((S_800D6FEC_0 *)object)->unk_96 = remaining;
+    if ((remaining << 0x10) <= 0) {
+        ((S_800D6FEC_0_pre *)object)[-1].unk_00 = (u16) (((S_800D6FEC_0_pre *)object)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

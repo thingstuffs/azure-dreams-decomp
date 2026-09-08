@@ -22,17 +22,18 @@ extern s32 func_80064584(s32);
 extern s16 func_80065F90(s32, s32);
 extern void func_800A25CC(State *);
 
-void func_800A24FC(State *arg0) {
+/* Updates state from global values and triggers a refresh every 15 calls. */
+void func_800A24FC(State *state) {
     GlobalState *global = &D_80083160;
 
-    arg0->field_8 = (func_80064584(global->field_C8) + 0x1000) / 2;
-    arg0->field_0 = -func_80064584(global->field_C8) / 24;
-    arg0->field_2 = func_80065F90(arg0->field_0, 160);
-    arg0->field_4 = global->field_BC;
-    arg0->field_6 = global->field_BE;
+    state->field_8 = (func_80064584(global->field_C8) + 0x1000) / 2;
+    state->field_0 = -func_80064584(global->field_C8) / 24;
+    state->field_2 = func_80065F90(state->field_0, 160);
+    state->field_4 = global->field_BC;
+    state->field_6 = global->field_BE;
 
-    if (--arg0->field_C <= 0) {
-        arg0->field_C = 15;
-        func_800A25CC(arg0);
+    if (--state->field_C <= 0) {
+        state->field_C = 15;
+        func_800A25CC(state);
     }
 }

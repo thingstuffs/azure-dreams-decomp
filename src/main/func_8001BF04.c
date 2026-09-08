@@ -14,18 +14,19 @@ typedef struct {
     /* 0x0C */ s32 unk0C;
 } Struct8001BF04;
 
-void func_8001BF04(Struct8001BF04 *arg0) {
-    s32 var_a0;
-    s32 idx;
+/* Initialize the object from its table entry and select its callback. */
+void func_8001BF04(Struct8001BF04 *object) {
+    s32 callback;
+    s32 table_offset;
 
-    func_80402A1C((void *)((s32) arg0 + 0x24), arg0);
-    func_80402BE0(arg0);
-    idx = arg0->unk08 * 4;
-    arg0->unk00 = D_80408ADF[idx];
-    func_8040274C(arg0);
-    var_a0 = (s32) func_804027F8;
-    if (arg0->unk0C == 2) {
-        var_a0 = (s32) func_8040293C;
+    func_80402A1C((void *)((s32) object + 0x24), object);
+    func_80402BE0(object);
+    table_offset = object->unk08 * 4;
+    object->unk00 = D_80408ADF[table_offset];
+    func_8040274C(object);
+    callback = (s32) func_804027F8;
+    if (object->unk0C == 2) {
+        callback = (s32) func_8040293C;
     }
-    *(s32 *)((s32) arg0 - 0x10) = var_a0;
+    *(s32 *)((s32) object - 0x10) = callback;
 }

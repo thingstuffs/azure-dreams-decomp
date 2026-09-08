@@ -12,20 +12,21 @@ typedef struct S_8001EC4C_0 {
     s32 unk_44;
 } S_8001EC4C_0;   /* arg0 in func_8001EC4C */
 
-void func_8001EC4C(S_8001EC4C_0 *arg0) {
-    M2C_UNK var_a0;
-    s16 var_v1;
+/* Set the state from the object and select an action from the global flag. */
+void func_8001EC4C(S_8001EC4C_0 *object) {
+    M2C_UNK actionId;
+    s16 state;
 
     D_8008CA34 = 2;
     func_80400EF8();
-    var_v1 = 1;
-    if (arg0->unk_44 == 0) {
-        var_v1 = 3;
+    state = 1;
+    if (object->unk_44 == 0) {
+        state = 3;
     }
-    D_80011F48 = var_v1;
-    var_a0 = 4;
+    D_80011F48 = state;
+    actionId = 4;
     if (D_80010208 != 0) {
-        var_a0 = 5;
+        actionId = 5;
     }
-    func_8003D548(var_a0);
+    func_8003D548(actionId);
 }

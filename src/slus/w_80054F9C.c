@@ -19,36 +19,34 @@ typedef struct S_80084858 {
  * placed at this fixed address) used by the dispatch below. */
 extern void *jtbl_80032E14[0x24];
 
-/* Event handler: on first entry into "active" state (field4 != 2), snapshots
- * field8 into fieldA and marks field4 as active (2). Then classifies the pad
- * event byte a0 into a priority code stored into field18. */
-void func_80054F9C(s32 a0, S_80084858 *a1) {
-    u32 idx;
-    s32 result;
+/* Activates the task, snapshots its timer on entry, and assigns the pad event priority. */
+void func_80054F9C(s32 padEvent, S_80084858 *task) {
+    u32 eventIndex;
+    s32 priority;
     static void *const keepalive[3] = { &&L_B1, &&L_C1, &&L_D1 };
 
-    if (a1->field4 != 2) {
-        a1->fieldA = a1->field8;
-        a1->field4 = 2;
+    if (task->field4 != 2) {
+        task->fieldA = task->field8;
+        task->field4 = 2;
     }
 
-    idx = (a0 & 0xFF) - 0xB1;
-    if (idx >= 0x24) {
+    eventIndex = (padEvent & 0xFF) - 0xB1;
+    if (eventIndex >= 0x24) {
         goto L_default;
     }
-    goto *jtbl_80032E14[idx];
+    goto *jtbl_80032E14[eventIndex];
 
 L_B1:
-    result = 0xF;
+    priority = 0xF;
     goto L_end;
 L_C1:
-    result = 4;
+    priority = 4;
     goto L_end;
 L_D1:
-    result = 2;
+    priority = 2;
     goto L_end;
 L_default:
-    result = 0xA;
+    priority = 0xA;
 L_end:
-    a1->field18 = result;
+    task->field18 = priority;
 }

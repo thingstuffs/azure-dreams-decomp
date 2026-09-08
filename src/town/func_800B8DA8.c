@@ -16,11 +16,12 @@ typedef struct S_800B6508_0 {
 
 /* extern */
 
-void func_800B6508(void *arg0) {
-    func_800B648C(arg0 + 0x88, ((S_800B6508_0 *)arg0)->unk_98);
-    if (((S_800B6508_0 *)arg0)->unk_08 != 0) {
-        func_800B640C(((S_800B6508_0 *)arg0)->unk_04, ((S_800B6508_0 *)arg0)->unk_98, ((S_800B6508_0 *)arg0)->unk_14);
+/* Processes the object's embedded data, then selects a handler by its mode flag. */
+void func_800B6508(void *object) {
+    func_800B648C(object + 0x88, ((S_800B6508_0 *)object)->unk_98);
+    if (((S_800B6508_0 *)object)->unk_08 != 0) {
+        func_800B640C(((S_800B6508_0 *)object)->unk_04, ((S_800B6508_0 *)object)->unk_98, ((S_800B6508_0 *)object)->unk_14);
         return;
     }
-    func_800B5AC8(((S_800B6508_0 *)arg0)->unk_04, ((S_800B6508_0 *)arg0)->unk_98, ((S_800B6508_0 *)arg0)->unk_14);
+    func_800B5AC8(((S_800B6508_0 *)object)->unk_04, ((S_800B6508_0 *)object)->unk_98, ((S_800B6508_0 *)object)->unk_14);
 }

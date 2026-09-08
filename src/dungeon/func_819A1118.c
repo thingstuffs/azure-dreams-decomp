@@ -46,37 +46,38 @@ typedef struct S_819A1118_1 {
 extern s16 D_800261B0[];
 extern s32 D_800814A0;
 
-void func_819A1118(void *arg0) {
-    s32 temp_a0;
-    s32 temp_v1;
-    s32 var_a1;
-    u16 temp_v0;
-    void *var_a0;
+/* Advance effect interpolation, fade its four colors, and flag expiration. */
+void func_819A1118(void *effect) {
+    s32 blend_ticks;
+    s32 elapsed_ticks;
+    s32 color_index;
+    u16 ticks_left;
+    void *color_ptr;
 
-    temp_v0 = ((S_819A1118_0 *)arg0)->unk_3A - 1;
+    ticks_left = ((S_819A1118_0 *)effect)->unk_3A - 1;
     D_800261B0[0] = 1;
-    temp_a0 = ((S_819A1118_0 *)arg0)->unk_3E;
-    ((S_819A1118_0 *)arg0)->unk_3A = temp_v0;
-    temp_v1 = ((S_819A1118_0 *)arg0)->unk_3C - (s16) temp_v0;
-    if (temp_a0 >= temp_v1) {
-        ((S_819A1118_0 *)arg0)->unk_54 = (s16) (((S_819A1118_0 *)arg0)->unk_60 + ((s32) (((S_819A1118_0 *)arg0)->unk_6C * temp_v1) / temp_a0));
-        ((S_819A1118_0 *)arg0)->unk_56 = (s16) (((S_819A1118_0 *)arg0)->unk_62 + ((s32) (((S_819A1118_0 *)arg0)->unk_6E * (((S_819A1118_0 *)arg0)->unk_3C - (s16) ((S_819A1118_0 *)arg0)->unk_3A)) / (s16) ((S_819A1118_0 *)arg0)->unk_3E));
-        ((S_819A1118_0 *)arg0)->unk_58 = (s16) (((S_819A1118_0 *)arg0)->unk_64 + ((s32) (((S_819A1118_0 *)arg0)->unk_70 * (((S_819A1118_0 *)arg0)->unk_3C - (s16) ((S_819A1118_0 *)arg0)->unk_3A)) / (s16) ((S_819A1118_0 *)arg0)->unk_3E));
-        ((S_819A1118_0 *)arg0)->unk_5A = (s16) (((S_819A1118_0 *)arg0)->unk_66 + ((s32) (((S_819A1118_0 *)arg0)->unk_72 * (((S_819A1118_0 *)arg0)->unk_3C - (s16) ((S_819A1118_0 *)arg0)->unk_3A)) / (s16) ((S_819A1118_0 *)arg0)->unk_3E));
-        ((S_819A1118_0 *)arg0)->unk_5C = (s16) (((S_819A1118_0 *)arg0)->unk_68 + ((s32) (((S_819A1118_0 *)arg0)->unk_74 * (((S_819A1118_0 *)arg0)->unk_3C - (s16) ((S_819A1118_0 *)arg0)->unk_3A)) / (s16) ((S_819A1118_0 *)arg0)->unk_3E));
-        ((S_819A1118_0 *)arg0)->unk_5E = (s16) (((S_819A1118_0 *)arg0)->unk_6A + ((s32) (((S_819A1118_0 *)arg0)->unk_76 * (((S_819A1118_0 *)arg0)->unk_3C - (s16) ((S_819A1118_0 *)arg0)->unk_3A)) / (s16) ((S_819A1118_0 *)arg0)->unk_3E));
+    blend_ticks = ((S_819A1118_0 *)effect)->unk_3E;
+    ((S_819A1118_0 *)effect)->unk_3A = ticks_left;
+    elapsed_ticks = ((S_819A1118_0 *)effect)->unk_3C - (s16) ticks_left;
+    if (blend_ticks >= elapsed_ticks) {
+        ((S_819A1118_0 *)effect)->unk_54 = (s16) (((S_819A1118_0 *)effect)->unk_60 + ((s32) (((S_819A1118_0 *)effect)->unk_6C * elapsed_ticks) / blend_ticks));
+        ((S_819A1118_0 *)effect)->unk_56 = (s16) (((S_819A1118_0 *)effect)->unk_62 + ((s32) (((S_819A1118_0 *)effect)->unk_6E * (((S_819A1118_0 *)effect)->unk_3C - (s16) ((S_819A1118_0 *)effect)->unk_3A)) / (s16) ((S_819A1118_0 *)effect)->unk_3E));
+        ((S_819A1118_0 *)effect)->unk_58 = (s16) (((S_819A1118_0 *)effect)->unk_64 + ((s32) (((S_819A1118_0 *)effect)->unk_70 * (((S_819A1118_0 *)effect)->unk_3C - (s16) ((S_819A1118_0 *)effect)->unk_3A)) / (s16) ((S_819A1118_0 *)effect)->unk_3E));
+        ((S_819A1118_0 *)effect)->unk_5A = (s16) (((S_819A1118_0 *)effect)->unk_66 + ((s32) (((S_819A1118_0 *)effect)->unk_72 * (((S_819A1118_0 *)effect)->unk_3C - (s16) ((S_819A1118_0 *)effect)->unk_3A)) / (s16) ((S_819A1118_0 *)effect)->unk_3E));
+        ((S_819A1118_0 *)effect)->unk_5C = (s16) (((S_819A1118_0 *)effect)->unk_68 + ((s32) (((S_819A1118_0 *)effect)->unk_74 * (((S_819A1118_0 *)effect)->unk_3C - (s16) ((S_819A1118_0 *)effect)->unk_3A)) / (s16) ((S_819A1118_0 *)effect)->unk_3E));
+        ((S_819A1118_0 *)effect)->unk_5E = (s16) (((S_819A1118_0 *)effect)->unk_6A + ((s32) (((S_819A1118_0 *)effect)->unk_76 * (((S_819A1118_0 *)effect)->unk_3C - (s16) ((S_819A1118_0 *)effect)->unk_3A)) / (s16) ((S_819A1118_0 *)effect)->unk_3E));
     }
-    var_a1 = 0;
-    var_a0 = arg0;
+    color_index = 0;
+    color_ptr = effect;
     do {
-        ((S_819A1118_1 *)var_a0)->unk_0C = (s8) ((s32) (((S_819A1118_1 *)var_a0)->unk_1C * (s16) ((S_819A1118_0 *)arg0)->unk_3A) / (s16) ((S_819A1118_0 *)arg0)->unk_3C);
-        ((S_819A1118_1 *)var_a0)->unk_0D = (s8) ((s32) (((S_819A1118_1 *)var_a0)->unk_1D * (s16) ((S_819A1118_0 *)arg0)->unk_3A) / (s16) ((S_819A1118_0 *)arg0)->unk_3C);
-        var_a1 += 1;
-        ((S_819A1118_1 *)var_a0)->unk_0E = (s8) ((s32) (((S_819A1118_1 *)var_a0)->unk_1E * (s16) ((S_819A1118_0 *)arg0)->unk_3A) / (s16) ((S_819A1118_0 *)arg0)->unk_3C);
-        var_a0 += 4;
-    } while (var_a1 < 4);
-    if ((s16) ((S_819A1118_0 *)arg0)->unk_3A <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_819A1118_0_pre *)arg0)[-1].unk_00 | 0x8000);
+        ((S_819A1118_1 *)color_ptr)->unk_0C = (s8) ((s32) (((S_819A1118_1 *)color_ptr)->unk_1C * (s16) ((S_819A1118_0 *)effect)->unk_3A) / (s16) ((S_819A1118_0 *)effect)->unk_3C);
+        ((S_819A1118_1 *)color_ptr)->unk_0D = (s8) ((s32) (((S_819A1118_1 *)color_ptr)->unk_1D * (s16) ((S_819A1118_0 *)effect)->unk_3A) / (s16) ((S_819A1118_0 *)effect)->unk_3C);
+        color_index += 1;
+        ((S_819A1118_1 *)color_ptr)->unk_0E = (s8) ((s32) (((S_819A1118_1 *)color_ptr)->unk_1E * (s16) ((S_819A1118_0 *)effect)->unk_3A) / (s16) ((S_819A1118_0 *)effect)->unk_3C);
+        color_ptr += 4;
+    } while (color_index < 4);
+    if ((s16) ((S_819A1118_0 *)effect)->unk_3A <= 0) {
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_819A1118_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
     }
 }

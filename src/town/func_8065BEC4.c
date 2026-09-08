@@ -9,15 +9,16 @@ extern void *func_80017674(void *, void *, void *, s32);
 extern s32 func_800175BC(void *, void *, s32);
 extern s32 func_80017F7C(s16);
 
-void *func_800166C4(void *arg0, s32 arg1, s32 arg2)
+/* Selects a result for the object, using its status to choose an override. */
+void *func_800166C4(void *object, s32 unused, s32 mode)
 {
     void *base;
     void *result;
 
     base = D_800181C8;
-    result = func_80017674(base, D_8001832C, arg0, arg2);
-    if (func_800175BC(base, arg0, arg2) != 0) {
-        if (func_80017F7C(*(s16 *)((u8 *)arg0 + 0x18)) != 0) {
+    result = func_80017674(base, D_8001832C, object, mode);
+    if (func_800175BC(base, object, mode) != 0) {
+        if (func_80017F7C(*(s16 *)((u8 *)object + 0x18)) != 0) {
             result = D_80019915;
         } else {
             result = D_80019425;

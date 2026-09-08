@@ -47,301 +47,301 @@ extern void func_800666F4(void *);
 extern void func_80066640(void *, s32);
 extern s32 func_80066460(s32, s32, s32, s32);
 
-s32 func_80174B98(void *arg0, void *arg1, void *arg2)
+/* Draw layered, wavy textured strips over the projected bounds of linked objects. */
+s32 func_80174B98(void *object_data, void *unused, void *appearance)
 {
   s16 bounds[4];
   PackedPair material;
   Vertex vertices[4];
-  Projection proj;
-  Scratch sc;
-  void *obj;
-  Projection *pp;
-  s32 end;
-  s32 start;
+  Projection projection;
+  Scratch scratch;
+  void *object;
+  Projection *projection_ptr;
+  s32 bottom_y;
+  s32 first_y;
   s32 depth;
-  Vertex *vbase;
-  s32 tile_count;
-  s32 bucket_off;
-  u8 *p16;
-  s32 i;
-  s32 xb;
-  s32 yb;
-  register s32 r20 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-  s32 limit;
-  register s32 tile_w;
+  Vertex *vertex_base;
+  s32 row_count;
+  s32 depth_offset;
+  u8 *vertex_bytes;
+  u8 *poly;
+  s32 index_or_row;
+  s32 min_xy;
+  s32 max_xy;
+  register s32 depth_out_or_phase ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  s32 last_y;
+  register s32 row_span;
   register s32 tag_mask ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-  register s32 sub_off;
-  u8 *gp;
-  (void) arg1;
-  gp = D_80083160;
+  register s32 crop_y;
+  u8 *render_state;
+  (void) unused;
+  render_state = D_80083160;
   material = *((PackedPair *) D_8017089C);
   depth = 0;
-  vbase = vertices;
+  vertex_base = vertices;
   for (;;)
   {
-    s32 xv;
-    s32 xn;
-    s32 zn;
-    s32 zp;
-    register Vertex *vp ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 zval;
-    s16 miny;
-    s16 maxy;
+    s32 right_x;
+    s32 left_x;
+    s32 far_z;
+    s32 near_z;
+    register Vertex *vertex ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 camera_z;
+    s16 min_y;
+    s16 max_y;
     s16 base_y;
     s16 height;
-    s16 row0;
-    s32 r0s;
-    s32 h16;
-    s32 h16b;
-    s32 bound_base;
-    s32 bound_limit;
-    s32 b16;
-    s32 prod;
-    s32 q2;
-    void *next;
-    sc.outer = 48;
-    xv = (u16) sc.outer;
-    i = 3;
-    zn = -160;
-    obj = arg0;
-    ASM_USE_NV(obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    zp = 16;
-    xn = -xv;
-    vp = vbase + 3;
-    ASM_KEEP4(vp, xv, xn, i);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(zn);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(zp);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s16 top_page;
+    s32 top_page_index;
+    s32 left_bound;
+    s32 height_pixels;
+    s32 top_bound;
+    s32 bottom_bound;
+    s32 top_copy;
+    s32 crop_product;
+    s32 bottom_page;
+    void *next_object;
+    scratch.outer = 48;
+    right_x = (u16) scratch.outer;
+    index_or_row = 3;
+    far_z = -160;
+    object = object_data;
+    ASM_USE_NV(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    near_z = 16;
+    left_x = -right_x;
+    vertex = vertex_base + 3;
+    ASM_KEEP4(vertex, right_x, left_x, index_or_row);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(far_z);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(near_z);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     do
     {
-      vp->x = xv;
-      if (i < 2)
+      vertex->x = right_x;
+      if (index_or_row < 2)
       {
-        vp->x = xn;
+        vertex->x = left_x;
       }
-      vp->y = 0;
-      if (i & 1)
+      vertex->y = 0;
+      if (index_or_row & 1)
       {
-        vp->z = zn;
+        vertex->z = far_z;
       }
       else
       {
-        vp->z = zp;
+        vertex->z = near_z;
       }
-      i--;
-      vp--;
+      index_or_row--;
+      vertex--;
     }
-    while (i >= 0);
-    pp = &proj;
-    ASM_KEEP4_NV(pp, pp, pp, pp);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    xb &= 0xFFFF;
-    yb &= 0xFFFF;
-    i = 3;
-    zval = *((u16 *) (((u8 *) gp) + 0xC8));
-    proj.pad0A = 0;
-    proj.pad08 = 0;
-    r20 = (s32) (&sc.outer);
-    p16 = ((u8 *) vbase) + 24;
-    proj.vertices = vbase;
-    proj.output = vbase;
-    ASM_KEEP_MEM_NV(zval, proj);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    proj.z = -zval;
-    proj.v10 = *((PackedPair *) (((u8 *) obj) + 0xA2));
-    proj.count = 4;
-    proj.pad1A = 0;
-    func_800DBA90(pp);
-    xb |= 0x75300000;
-    xb &= 0xFFFF0000;
-    xb |= 0x7530;
-    yb |= 0x8AD00000;
-    yb &= 0xFFFF0000;
-    yb |= 0x8AD0;
+    while (index_or_row >= 0);
+    projection_ptr = &projection;
+    ASM_KEEP4_NV(projection_ptr, projection_ptr, projection_ptr, projection_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    min_xy &= 0xFFFF;
+    max_xy &= 0xFFFF;
+    index_or_row = 3;
+    camera_z = *((u16 *) (((u8 *) render_state) + 0xC8));
+    projection.pad0A = 0;
+    projection.pad08 = 0;
+    depth_out_or_phase = (s32) (&scratch.outer);
+    vertex_bytes = ((u8 *) vertex_base) + 24;
+    projection.vertices = vertex_base;
+    projection.output = vertex_base;
+    ASM_KEEP_MEM_NV(camera_z, projection);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    projection.z = -camera_z;
+    projection.v10 = *((PackedPair *) (((u8 *) object) + 0xA2));
+    projection.count = 4;
+    projection.pad1A = 0;
+    func_800DBA90(projection_ptr);
+    min_xy |= 0x75300000;
+    min_xy &= 0xFFFF0000;
+    min_xy |= 0x7530;
+    max_xy |= 0x8AD00000;
+    max_xy &= 0xFFFF0000;
+    max_xy |= 0x8AD0;
     do
     {
-      s32 projected;
-      s32 sx;
-      u16 usx;
-      s32 sy;
-      u16 usy;
-      projected = func_80065420(p16, sc.screen, (void *) r20, (void *) r20);
-      depth += projected - 8;
-      usx = (u16) sc.screen[0];
-      sx = sc.screen[0];
-      if (((s16) yb) < sx)
+      s32 vertex_depth;
+      s32 screen_x;
+      u16 x_bits;
+      s32 screen_y;
+      u16 y_bits;
+      vertex_depth = func_80065420(vertex_bytes, scratch.screen, (void *) depth_out_or_phase, (void *) depth_out_or_phase);
+      depth += vertex_depth - 8;
+      x_bits = (u16) scratch.screen[0];
+      screen_x = scratch.screen[0];
+      if (((s16) max_xy) < screen_x)
       {
-        yb &= 0xFFFF0000;
-        yb = usx | yb;
+        max_xy &= 0xFFFF0000;
+        max_xy = x_bits | max_xy;
       }
-      else
-        if (sx < ((s16) xb))
+      else if (screen_x < ((s16) min_xy))
       {
-        xb &= 0xFFFF0000;
-        xb = usx | xb;
+        min_xy &= 0xFFFF0000;
+        min_xy = x_bits | min_xy;
       }
-      sy = sc.screen[1];
-      usy = (u16) sc.screen[1];
-      if (((s16) (yb >> 16)) < sy)
+      screen_y = scratch.screen[1];
+      y_bits = (u16) scratch.screen[1];
+      if (((s16) (max_xy >> 16)) < screen_y)
       {
-        yb &= 0xFFFF;
-        yb |= usy << 16;
+        max_xy &= 0xFFFF;
+        max_xy |= y_bits << 16;
       }
-      else
-        if (sy < ((s16) (xb >> 16)))
+      else if (screen_y < ((s16) (min_xy >> 16)))
       {
-        xb &= 0xFFFF;
-        xb |= usy << 16;
+        min_xy &= 0xFFFF;
+        min_xy |= y_bits << 16;
       }
-      i--;
-      p16 -= 8;
+      index_or_row--;
+      vertex_bytes -= 8;
     }
-    while (i >= 0);
-    h16 = (s16) xb;
-    base_y = (s16) (xb >> 16);
-    miny = base_y;
-    bounds[2] = (s16) (yb - xb);
-    bounds[0] = h16;
+    while (index_or_row >= 0);
+    left_bound = (s16) min_xy;
+    base_y = (s16) (min_xy >> 16);
+    min_y = base_y;
+    bounds[2] = (s16) (max_xy - min_xy);
+    bounds[0] = left_bound;
     depth = depth >> 2;
-    if ((*((u8 **) gp)) != D_801C9E40)
+    if ((*((u8 **) render_state)) != D_801C9E40)
     {
       ASM_KEEP_NV(base_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
       base_y += 0xE0;
     }
-    maxy = (s16) (yb >> 16);
-    height = maxy - miny;
+    max_y = (s16) (max_xy >> 16);
+    height = max_y - min_y;
     bounds[1] = base_y;
     bounds[3] = height;
     if (((u32) depth) < 0x1E0U)
     {
-      sub_off = (*((s16 *) (((u8 *) obj) + 0x96))) - 0x34;
-      if (sub_off < 0)
+      crop_y = (*((s16 *) (((u8 *) object) + 0x96))) - 0x34;
+      if (crop_y < 0)
       {
-        sub_off = 0;
+        crop_y = 0;
       }
-      h16b = (s16) height;
-      prod = h16b * sub_off;
-      sub_off = prod / 8;
-      bound_base = (s16) base_y;
-      bound_limit = bound_base + h16b;
-      b16 = bound_base;
-      limit = bound_limit;
-      row0 = bound_base / 0xE0;
-      r0s = row0;
-      if ((r0s != row0) && (limit != bound_limit))
+      height_pixels = (s16) height;
+      crop_product = height_pixels * crop_y;
+      crop_y = crop_product / 8;
+      top_bound = (s16) base_y;
+      bottom_bound = top_bound + height_pixels;
+      top_copy = top_bound;
+      last_y = bottom_bound;
+      top_page = top_bound / 0xE0;
+      top_page_index = top_page;
+      if ((top_page_index != top_page) && (last_y != bottom_bound))
       {
-        q2 = 0;
+        bottom_page = 0;
       }
-      q2 = bound_limit / 0xE0;
-      end = limit;
-      if (r0s != q2)
+      bottom_page = bottom_bound / 0xE0;
+      bottom_y = last_y;
+      if (top_page_index != bottom_page)
       {
-        limit = q2 * 0xE0;
+        last_y = bottom_page * 0xE0;
       }
-      sc.outer = 4;
+      scratch.outer = 4;
       tag_mask = 0x00FFFFFF;
-      bucket_off = depth << 2;
+      depth_offset = depth << 2;
       do
       {
-        s32 ov;
-        s32 tmp;
-        ov = sc.outer;
-        tmp = (*((s16 *) (((u8 *) obj) + 0x96))) + ov;
-        r20 = tmp << 7;
-        if (!(ov & 1))
+        s32 layer;
+        s32 phase_or_y;
+        layer = scratch.outer;
+        phase_or_y = (*((s16 *) (((u8 *) object) + 0x96))) + layer;
+        depth_out_or_phase = phase_or_y << 7;
+        if (!(layer & 1))
         {
-          r20 += 0x800;
+          depth_out_or_phase += 0x800;
         }
-        tmp = bounds[1];
-                i = tmp + sub_off;
-        start = i;
-        if (limit >= i)
+        phase_or_y = bounds[1];
+        index_or_row = phase_or_y + crop_y;
+        first_y = index_or_row;
+        if (last_y >= index_or_row)
         {
-          tile_w = end - i;
-          tile_count = tile_w + 1;
+          row_span = bottom_y - index_or_row;
+          row_count = row_span + 1;
           do
           {
-            u8 *base;
-            u8 *bucket;
-            s32 itmp;
-            s32 sh4;
-            s32 mb;
-            s32 w;
-            s32 step;
-            s32 u;
-            s32 v;
-            s32 sine;
-            s32 old_tag;
-            s32 old_tag2;
-            sh4 = sc.outer << 2;
-            itmp = r20 + 80;
-            ASM_USE2_NV(r20, itmp);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP4_NV(sh4, sh4, sh4, sh4);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            r20 = itmp + sh4;
-            base = *((u8 **) gp);
-            p16 = *((u8 **) (base + 0x8D0));
-            *((u8 **) (base + 0x8D0)) = p16 + 40;
-            *((s32 *) (((u8 *) p16) + 4)) = *((s32 *) (((u8 *) arg2) + 0xC));
-            func_800666F4(p16);
-            func_80066640(p16, 1);
-            *((s16 *) (((u8 *) p16) + 0x16)) = (s16) func_80066460(2, ((u8 *) arg2)[0xC] != 0x80, 0x340, 0x100);
-            *((u8 *) (((u8 *) p16) + 0x14)) = 0;
-            *((u8 *) (((u8 *) p16) + 0x0C)) = 0;
-            mb = ((u8 *) (&material))[4];
-            *((s16 *) (((u8 *) p16) + 8)) = (s16) tile_w;
-            *((u8 *) (((u8 *) p16) + 0x24)) = mb;
-            *((u8 *) (((u8 *) p16) + 0x1C)) = mb;
-            if (((s16) tile_w) == 0)
+            u8 *frame;
+            u8 *depth_bucket;
+            s32 next_phase;
+            s32 layer_phase;
+            s32 texture_width;
+            s32 strip_y;
+            s32 texture_step;
+            s32 texture_top;
+            s32 texture_bottom;
+            s32 wave_x;
+            s32 poly_link;
+            s32 bucket_link;
+            layer_phase = scratch.outer << 2;
+            next_phase = depth_out_or_phase + 80;
+            ASM_USE2_NV(depth_out_or_phase, next_phase);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP4_NV(layer_phase, layer_phase, layer_phase, layer_phase);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            depth_out_or_phase = next_phase + layer_phase;
+            frame = *((u8 **) render_state);
+            poly = *((u8 **) (frame + 0x8D0));
+            *((u8 **) (frame + 0x8D0)) = poly + 40;
+            *((s32 *) (((u8 *) poly) + 4)) = *((s32 *) (((u8 *) appearance) + 0xC));
+            func_800666F4(poly);
+            func_80066640(poly, 1);
+            *((s16 *) (((u8 *) poly) + 0x16)) = (s16) func_80066460(2, ((u8 *) appearance)[0xC] != 0x80, 0x340, 0x100);
+            *((u8 *) (((u8 *) poly) + 0x14)) = 0;
+            *((u8 *) (((u8 *) poly) + 0x0C)) = 0;
+            texture_width = ((u8 *) (&material))[4];
+            *((s16 *) (((u8 *) poly) + 8)) = (s16) row_span;
+            *((u8 *) (((u8 *) poly) + 0x24)) = texture_width;
+            *((u8 *) (((u8 *) poly) + 0x1C)) = texture_width;
+            if (((s16) row_span) == 0)
             {
-              *((u16 *) (((u8 *) p16) + 8)) = (u16) tile_count;
+              *((u16 *) (((u8 *) poly) + 8)) = (u16) row_count;
             }
-            step = ((s16 *) (&material))[3] * (i - start);
-            step = step / (*((s16 *) (((u8 *) p16) + 8)));
-            *((u8 *) (((u8 *) p16) + 0x1D)) = (u8) step;
-            *((u8 *) (((u8 *) p16) + 0x0D)) = (u8) step;
-            step = ((s16 *) (&material))[3] / (*((s16 *) (((u8 *) p16) + 8)));
-            u = *((u8 *) (((u8 *) p16) + 0x0D));
-            *((u8 *) (((u8 *) p16) + 0x25)) = (u8) step;
-            if (((u8) step) >= 2)
+            texture_step = ((s16 *) (&material))[3] * (index_or_row - first_y);
+            texture_step = texture_step / (*((s16 *) (((u8 *) poly) + 8)));
+            *((u8 *) (((u8 *) poly) + 0x1D)) = (u8) texture_step;
+            *((u8 *) (((u8 *) poly) + 0x0D)) = (u8) texture_step;
+            texture_step = ((s16 *) (&material))[3] / (*((s16 *) (((u8 *) poly) + 8)));
+            texture_top = *((u8 *) (((u8 *) poly) + 0x0D));
+            *((u8 *) (((u8 *) poly) + 0x25)) = (u8) texture_step;
+            if (((u8) texture_step) >= 2)
             {
-              v = u + (*((u8 *) (((u8 *) p16) + 0x25)));
+              texture_bottom = texture_top + (*((u8 *) (((u8 *) poly) + 0x25)));
             }
             else
             {
-              v = u + 2;
+              texture_bottom = texture_top + 2;
             }
-            *((u8 *) (((u8 *) p16) + 0x25)) = (u8) v;
-            *((u8 *) (((u8 *) p16) + 0x15)) = (u8) v;
-            sine = func_800644B8(r20);
-            sine = ((u16) bounds[0]) + (sine >> 9);
-            *((s16 *) (((u8 *) p16) + 0x10)) = (s16) sine;
-            *((s16 *) (((u8 *) p16) + 8)) = (s16) sine;
-            sine = sine + ((u16) bounds[2]);
-            *((s16 *) (((u8 *) p16) + 0x20)) = (s16) sine;
-            *((s16 *) (((u8 *) p16) + 0x18)) = (s16) sine;
-            w = i - ((i / 0xE0) * 0xE0);
-            i++;
-            w = w - ((u16) sc.outer);
-            *((s16 *) (((u8 *) p16) + 0x1A)) = (s16) w;
-            *((s16 *) (((u8 *) p16) + 0x0A)) = (s16) w;
-            w += 2;
-            *((s16 *) (((u8 *) p16) + 0x22)) = (s16) w;
-            *((s16 *) (((u8 *) p16) + 0x12)) = (s16) w;
-            old_tag = *((s32 *) ((u8 *) (bucket_off + ((s32) (*((u8 **) gp)))) + 0xB0));
-            *((s32 *) (((u8 *) p16) + 0)) = ((*((s32 *) (((u8 *) p16) + 0))) & 0xFF000000) | (old_tag & tag_mask);
-            bucket = (u8 *) (bucket_off + ((s32) (*((u8 **) gp))));
-            old_tag2 = *((s32 *) (((u8 *) bucket) + 0xB0));
-            *((s32 *) (((u8 *) bucket) + 0xB0)) = (old_tag2 & 0xFF000000) | (((s32) p16) & tag_mask);
+            *((u8 *) (((u8 *) poly) + 0x25)) = (u8) texture_bottom;
+            *((u8 *) (((u8 *) poly) + 0x15)) = (u8) texture_bottom;
+            wave_x = func_800644B8(depth_out_or_phase);
+            wave_x = ((u16) bounds[0]) + (wave_x >> 9);
+            *((s16 *) (((u8 *) poly) + 0x10)) = (s16) wave_x;
+            *((s16 *) (((u8 *) poly) + 8)) = (s16) wave_x;
+            wave_x = wave_x + ((u16) bounds[2]);
+            *((s16 *) (((u8 *) poly) + 0x20)) = (s16) wave_x;
+            *((s16 *) (((u8 *) poly) + 0x18)) = (s16) wave_x;
+            strip_y = index_or_row - ((index_or_row / 0xE0) * 0xE0);
+            index_or_row++;
+            strip_y = strip_y - ((u16) scratch.outer);
+            *((s16 *) (((u8 *) poly) + 0x1A)) = (s16) strip_y;
+            *((s16 *) (((u8 *) poly) + 0x0A)) = (s16) strip_y;
+            strip_y += 2;
+            *((s16 *) (((u8 *) poly) + 0x22)) = (s16) strip_y;
+            *((s16 *) (((u8 *) poly) + 0x12)) = (s16) strip_y;
+            poly_link = *((s32 *) ((u8 *) (depth_offset + ((s32) (*((u8 **) render_state)))) + 0xB0));
+            *((s32 *) (((u8 *) poly) + 0)) = ((*((s32 *) (((u8 *) poly) + 0))) & 0xFF000000) | (poly_link & tag_mask);
+            depth_bucket = (u8 *) (depth_offset + ((s32) (*((u8 **) render_state))));
+            bucket_link = *((s32 *) (((u8 *) depth_bucket) + 0xB0));
+            *((s32 *) (((u8 *) depth_bucket) + 0xB0)) = (bucket_link & 0xFF000000) | (((s32) poly) & tag_mask);
           }
-          while (limit >= i);
+          while (last_y >= index_or_row);
         }
       }
-      while ((--sc.outer) > 0);
+      while ((--scratch.outer) > 0);
     }
-    next = *((void **) (((u8 *) arg0) - 8));
-    if (next == 0)
+    next_object = *((void **) (((u8 *) object_data) - 8));
+    if (next_object == 0)
     {
       break;
     }
-    arg0 = ((u8 *) next) + 0x20;
-    arg2 = *((void **) (((u8 *) next) + 0xC));
+    object_data = ((u8 *) next_object) + 0x20;
+    appearance = *((void **) (((u8 *) next_object) + 0xC));
   }
 
   return 0;

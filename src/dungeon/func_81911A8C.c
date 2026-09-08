@@ -49,31 +49,32 @@ M2C_UNK func_800667A8();
 extern M2C_UNK D_800814A0;
 extern M2C_UNK D_80083160;
 
-void func_81911A8C(void *arg0, void *arg1, void *arg2) {
-    s8 temp_v0;
-    s8 temp_v0_2;
-    void *temp_s0;
-    void *temp_v1;
+/* Draw a full-screen color overlay and mark the effect complete when its countdown ends. */
+void func_81911A8C(void *effect, void *unused, void *fade_state) {
+    s8 green_blue;
+    s8 frames_left;
+    void *overlay;
+    void *effect_state;
 
-    temp_v1 = ((S_81911A8C_0 *)arg0)->unk_00;
-    ((S_81911A8C_1 *)temp_v1)->unk_14 = (u16) (((S_81911A8C_1 *)temp_v1)->unk_14 + 1);
-    temp_s0 = ((S_81911A8C_5 *)(((S_81911A8C_2 *)(&D_80083160))->unk_00.s))->unk_8D0;
-    ((S_81911A8C_5 *)(((S_81911A8C_2 *)(&D_80083160))->unk_00.s))->unk_8D0 = (void *) (temp_s0 + 0x10);
-    ((S_81911A8C_3 *)temp_s0)->unk_0C = 0x140;
-    ((S_81911A8C_3 *)temp_s0)->unk_0E = 0xE0;
-    ((S_81911A8C_3 *)temp_s0)->unk_08 = 0;
-    ((S_81911A8C_3 *)temp_s0)->unk_0A = 0;
-    ((S_81911A8C_3 *)temp_s0)->unk_04 = 0xC0;
-    temp_v0 = -0x40 - (((S_81911A8C_4 *)arg2)->unk_05 * 0xC);
-    ((S_81911A8C_3 *)temp_s0)->unk_06 = temp_v0;
-    ((S_81911A8C_3 *)temp_s0)->unk_05 = temp_v0;
-    func_800667A8(temp_s0);
-    ((S_81911A8C_3 *)temp_s0)->unk_07 = (u8) (((S_81911A8C_3 *)temp_s0)->unk_07 | 2);
-    func_8006658C(((S_81911A8C_2 *)(&D_80083160))->unk_00.u + 0xB0, temp_s0);
-    temp_v0_2 = (u8) ((S_81911A8C_4 *)arg2)->unk_05 - 1;
-    ((S_81911A8C_4 *)arg2)->unk_05 = temp_v0_2;
-    if ((temp_v0_2 << 0x18) == 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_81911A8C_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    effect_state = ((S_81911A8C_0 *)effect)->unk_00;
+    ((S_81911A8C_1 *)effect_state)->unk_14 = (u16) (((S_81911A8C_1 *)effect_state)->unk_14 + 1);
+    overlay = ((S_81911A8C_5 *)(((S_81911A8C_2 *)(&D_80083160))->unk_00.s))->unk_8D0;
+    ((S_81911A8C_5 *)(((S_81911A8C_2 *)(&D_80083160))->unk_00.s))->unk_8D0 = (void *) (overlay + 0x10);
+    ((S_81911A8C_3 *)overlay)->unk_0C = 0x140;
+    ((S_81911A8C_3 *)overlay)->unk_0E = 0xE0;
+    ((S_81911A8C_3 *)overlay)->unk_08 = 0;
+    ((S_81911A8C_3 *)overlay)->unk_0A = 0;
+    ((S_81911A8C_3 *)overlay)->unk_04 = 0xC0;
+    green_blue = -0x40 - (((S_81911A8C_4 *)fade_state)->unk_05 * 0xC);
+    ((S_81911A8C_3 *)overlay)->unk_06 = green_blue;
+    ((S_81911A8C_3 *)overlay)->unk_05 = green_blue;
+    func_800667A8(overlay);
+    ((S_81911A8C_3 *)overlay)->unk_07 = (u8) (((S_81911A8C_3 *)overlay)->unk_07 | 2);
+    func_8006658C(((S_81911A8C_2 *)(&D_80083160))->unk_00.u + 0xB0, overlay);
+    frames_left = (u8) ((S_81911A8C_4 *)fade_state)->unk_05 - 1;
+    ((S_81911A8C_4 *)fade_state)->unk_05 = frames_left;
+    if ((frames_left << 0x18) == 0) {
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_81911A8C_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
     }
 }

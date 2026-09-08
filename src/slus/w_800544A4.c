@@ -45,6 +45,7 @@ extern void func_800546B0(void);
 extern void func_80054704(void);
 extern void func_80054E00(s32 arg0);
 
+/* Dispatch flag-selected updates and handle task state 3. */
 void func_800544A4(void) {
     if (D_800847D0.flags2 & 0x200) {
         func_80054704();

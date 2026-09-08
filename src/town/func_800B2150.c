@@ -17,15 +17,16 @@ typedef struct S_800AF8B0_2 {
 M2C_UNK func_800B05DC(); /* extern */
 
 
-void func_800AF8B0(Rec_func_800AF254_arg1 *arg0) {
-    M2C_UNK var_a2;
-    s32 var_a3;
+/* Positions an indexed entry in a two-column, five-row layout. */
+void func_800AF8B0(Rec_func_800AF254_arg1 *entry) {
+    M2C_UNK x_pos;
+    s32 page_slot;
 
-    var_a3 = ((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_00))->unk_18 % 10;
-    var_a2 = -0xB4;
-    if ((var_a3 / 5) != 0) {
-        var_a2 = 0x28;
+    page_slot = ((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_18 % 10;
+    x_pos = -0xB4;
+    if ((page_slot / 5) != 0) {
+        x_pos = 0x28;
     }
-    arg0->unk_10 = 0;
-    func_800B05DC(arg0->unk_18, ((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_00))->unk_18, var_a2, ((var_a3 % 5) * 0x18) - 0x80, ((s32 *)((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_00))->unk_20)[((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_00))->unk_18]);
+    entry->unk_10 = 0;
+    func_800B05DC(entry->unk_18, ((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_18, x_pos, ((page_slot % 5) * 0x18) - 0x80, ((s32 *)((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_20)[((S_800AF8B0_2 *)(((Rec_func_800AF254_arg1 *)entry)->unk_00))->unk_18]);
 }

@@ -44,81 +44,73 @@ extern void func_8004FFA8(void *a0);
 extern s32 func_80049DE8(s32 a0, s32 a1, s32 a2);
 extern void func_800500B4(s32 a0, void *a1);
 
-/* summary: State-machine driver for an object embedded 0x20 bytes into a
- * larger allocation. Reacts to global flag bits in D_80083160 (offsets
- * 0x8/0x10): bit 0x20 -> tear down and reset to the outer base object; bit
- * 0x40 -> fully reset via func_800502E0/func_8004FF20, either swapping in
- * the func_8004FFA8 state callback or handing off to func_80050EA8; bit
- * 0x5000 (of the flag-8 field) -> adjust a ramp counter/mode toward a
- * target direction implied by flag-0x10's 0x4000/0x1000 bits, and once a
- * nonzero direction is established, re-wrap the index field via
- * func_80049DE8. Always finishes by forwarding to func_800500B4. */
-void func_80050308(void *a0)
+/* Handles object state changes and directional index updates from global input flags. */
+void func_80050308(void *object)
 {
-    S_80050308 *s0 = (S_80050308 *)a0;
-    S_80050308_D80083160 *g = &D_80083160;
-    s32 v1;
-    s32 s1;
+    S_80050308 *obj = (S_80050308 *)object;
+    S_80050308_D80083160 *input_state = &D_80083160;
+    s32 action_flags;
+    s32 direction;
 
-    if (g->unk08 != 0) {
-        v1 = g->unk10;
-        if (v1 & 0x20) {
+    if (input_state->unk08 != 0) {
+        action_flags = input_state->unk10;
+        if (action_flags & 0x20) {
             func_80053DA8(0x515);
-            func_80050DA8((char *)s0 - 0x20);
-        } else if (v1 & 0x40) {
+            func_80050DA8((char *)obj - 0x20);
+        } else if (action_flags & 0x40) {
             func_80053DA8(0x514);
-            s0->unk20 = func_800502E0(s0->unk28);
-            if (func_8004FF20(s0) == 0) {
-                s32 old = *(s32 *)((char *)s0 - 0x10);
+            obj->unk20 = func_800502E0(obj->unk28);
+            if (func_8004FF20(obj) == 0) {
+                s32 prev_state = *(s32 *)((char *)obj - 0x10);
 
-                *(StateFn_80050308 *)((char *)s0 - 0x10) = func_8004FFA8;
-                s0->unk04 = old;
+                *(StateFn_80050308 *)((char *)obj - 0x10) = func_8004FFA8;
+                obj->unk04 = prev_state;
             } else {
-                func_80050EA8((char *)s0 - 0x20);
+                func_80050EA8((char *)obj - 0x20);
             }
-        } else if (g->unk08 & 0x5000) {
-            s1 = 0;
-            if (v1 & 0x4000) {
-                s1 = 1;
+        } else if (input_state->unk08 & 0x5000) {
+            direction = 0;
+            if (action_flags & 0x4000) {
+                direction = 1;
                 goto set_mode3;
             }
-            if (v1 & 0x1000) {
-                s1 = -1;
+            if (action_flags & 0x1000) {
+                direction = -1;
                 goto set_mode3;
             }
             goto check_counter;
 
         set_mode3:
-            s0->unk0C = 0;
-            s0->unk10 = 3;
-            goto merge;
+            obj->unk0C = 0;
+            obj->unk10 = 3;
+            goto apply_direction;
 
         check_counter:
-            if (s0->unk0C >= 3) {
-                s32 v1b;
+            if (obj->unk0C >= 3) {
+                s32 repeat_flags;
 
-                s0->unk0C = s0->unk0C - 1;
-                v1b = g->unk08;
-                if (v1b & 0x4000) {
-                    s1 = 1;
-                } else if (v1b & 0x1000) {
-                    s1 = -1;
+                obj->unk0C = obj->unk0C - 1;
+                repeat_flags = input_state->unk08;
+                if (repeat_flags & 0x4000) {
+                    direction = 1;
+                } else if (repeat_flags & 0x1000) {
+                    direction = -1;
                 } else {
-                    goto merge;
+                    goto apply_direction;
                 }
-                s0->unk10 = 2;
+                obj->unk10 = 2;
             } else {
-                s0->unk0C = s0->unk0C + 1;
+                obj->unk0C = obj->unk0C + 1;
             }
 
-        merge:
-            if (s1 != 0) {
+        apply_direction:
+            if (direction != 0) {
                 func_80053DA8(0x502);
-                s0->unk18 = s0->unk1C;
-                s0->unk14 = 0;
-                s0->unk1C = func_80049DE8(s0->unk1C, s1, 6);
+                obj->unk18 = obj->unk1C;
+                obj->unk14 = 0;
+                obj->unk1C = func_80049DE8(obj->unk1C, direction, 6);
             }
         }
     }
-    func_800500B4(s0->unk68, s0);
+    func_800500B4(obj->unk68, obj);
 }

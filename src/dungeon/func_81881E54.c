@@ -65,28 +65,29 @@ typedef struct S_80025654_4 {
     u16 unk_1E;
 } S_80025654_4;   /* arg1 in func_80025654 */
 
-void *func_80025654(S_80025654_2 *arg0, S_80025654_4 *arg1) {
-    S_80025654_1 *temp_a0;
-    S_80025654_0 *temp_v0;
-    S_80025654_3 *temp_v1;
+/* Creates an object with initial values, endpoint differences, and copied settings. */
+void *func_80025654(S_80025654_2 *endpoints, S_80025654_4 *settings) {
+    S_80025654_1 *transition;
+    S_80025654_0 *object;
+    S_80025654_3 *object_settings;
 
-    temp_v0 = func_8003FC64(0x202);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_800255DC;
-        func_8004491C(temp_v0, &D_800CEEFC);
-        temp_a0 = temp_v0->unk_08;
-        temp_a0->unk_02 = (u16) arg0->unk_02;
-        temp_a0->unk_06 = (u16) arg0->unk_06;
-        temp_a0->unk_0A = (u16) arg0->unk_0A;
-        temp_a0->unk_0E = (s16) (arg0->unk_02 - arg0->unk_0E);
-        temp_a0->unk_12 = (s16) (arg0->unk_06 - arg0->unk_12);
-        temp_a0->unk_16 = (s16) (arg0->unk_0A - arg0->unk_16);
-        temp_v1 = temp_v0->unk_0C;
-        temp_v1->unk_1C = (u16) arg1->unk_1C;
-        temp_v1->unk_1E = (u16) arg1->unk_1E;
-        temp_v1->unk_0C = (s32) arg1->unk_0C;
-        temp_v1->unk_08 = (s32) arg1->unk_08;
-        temp_v1->unk_14 = (u16) arg1->unk_14;
+    object = func_8003FC64(0x202);
+    if (object != NULL) {
+        object->unk_10 = &D_800255DC;
+        func_8004491C(object, &D_800CEEFC);
+        transition = object->unk_08;
+        transition->unk_02 = (u16) endpoints->unk_02;
+        transition->unk_06 = (u16) endpoints->unk_06;
+        transition->unk_0A = (u16) endpoints->unk_0A;
+        transition->unk_0E = (s16) (endpoints->unk_02 - endpoints->unk_0E);
+        transition->unk_12 = (s16) (endpoints->unk_06 - endpoints->unk_12);
+        transition->unk_16 = (s16) (endpoints->unk_0A - endpoints->unk_16);
+        object_settings = object->unk_0C;
+        object_settings->unk_1C = (u16) settings->unk_1C;
+        object_settings->unk_1E = (u16) settings->unk_1E;
+        object_settings->unk_0C = (s32) settings->unk_0C;
+        object_settings->unk_08 = (s32) settings->unk_08;
+        object_settings->unk_14 = (u16) settings->unk_14;
     }
-    return temp_v0;
+    return object;
 }

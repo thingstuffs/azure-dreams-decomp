@@ -45,33 +45,34 @@ typedef struct S_80175D7C_3 {
     u16 unk_2A;
 } S_80175D7C_3;   /* arg0 in func_80175D7C */
 
-void func_80175D7C(void *arg0) {
+/* Creates and initializes a child object linked to its parent state. */
+void func_80175D7C(void *parent_state) {
     Pair pair;
     s32 pair_first;
     s32 pair_second;
-    Pair *pair_arg;
-    void *temp_v0;
-    S_80175D7C_1 *temp_v1;
-    S_80175D7C_2 *temp_v1_2;
+    Pair *pair_ptr;
+    void *child;
+    S_80175D7C_1 *visual;
+    S_80175D7C_2 *child_state;
 
-    temp_v0 = func_8003FD64(514, (u8 *)arg0 - 0x20);
-    if (temp_v0 != 0) {
-        ((S_80175D7C_0 *)temp_v0)->unk_10 = D_80175B1C;
-        func_8004491C(temp_v0, D_80045340);
+    child = func_8003FD64(514, (u8 *)parent_state - 0x20);
+    if (child != 0) {
+        ((S_80175D7C_0 *)child)->unk_10 = D_80175B1C;
+        func_8004491C(child, D_80045340);
         pair_first = 0x01000340;
         pair_second = 0x200020;
-        pair_arg = &pair;
-        temp_v1 = ((S_80175D7C_0 *)temp_v0)->unk_0C;
-        temp_v1->unk_08 = D_80175FA8;
-        temp_v1->unk_1C = 0x1000;
-        temp_v1->unk_1E = 0x800;
-        temp_v1_2 = (u8 *)temp_v0 + 0x20;
-        ((S_80175D7C_0 *)temp_v0)->unk_20 = arg0;
-        temp_v1_2->unk_0A = ((S_80175D7C_3 *)arg0)->unk_2A;
-        temp_v1_2->unk_0C = 0x30;
+        pair_ptr = &pair;
+        visual = ((S_80175D7C_0 *)child)->unk_0C;
+        visual->unk_08 = D_80175FA8;
+        visual->unk_1C = 0x1000;
+        visual->unk_1E = 0x800;
+        child_state = (u8 *)child + 0x20;
+        ((S_80175D7C_0 *)child)->unk_20 = parent_state;
+        child_state->unk_0A = ((S_80175D7C_3 *)parent_state)->unk_2A;
+        child_state->unk_0C = 0x30;
         pair.second = pair_second;
         pair.first = pair_first;
-        func_800B835C(D_80175FB4, pair_arg, 1, 0);
+        func_800B835C(D_80175FB4, pair_ptr, 1, 0);
     }
 }
 

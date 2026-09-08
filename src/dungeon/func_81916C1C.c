@@ -32,40 +32,37 @@ extern s32 D_800814A0;
 extern void func_800667A8(Prim81916C1C *, s32);
 extern void func_8006658C(void *, Prim81916C1C *);
 
-void func_8002441C(void *arg0, s32 arg1, Arg81916C1C *arg2)
+/* Queue a full-screen primitive and mark completion when the countdown expires. */
+void func_8002441C(void *context, s32 unused, Arg81916C1C *countdown)
 {
-    Inner81916C1C *inner;
-    State81916C1C *state;
+    Inner81916C1C *tick_state;
+    State81916C1C *render_state;
     Prim81916C1C *prim;
-    s32 index;
-    s8 value;
-    s8 count;
+    s32 step;
+    s8 x_value;
+    s8 remaining;
 
-    inner = *(Inner81916C1C **)arg0;
-    inner->counter++;
-    state = D_80083160[0];
-    prim = state->next;
-    state->next = prim + 1;
+    tick_state = *(Inner81916C1C **)context;
+    tick_state->counter++;
+    render_state = D_80083160[0];
+    prim = render_state->next;
+    render_state->next = prim + 1;
     prim->x3 = 0x140;
     prim->x2 = 0;
     prim->y2 = 0;
     prim->y3 = 0xE0;
-    index = arg2->count;
+    step = countdown->count;
     prim->y0 = 0xC0;
-    value = -0x40 - index * 0x30;
-    prim->x1 = value;
-    prim->x0 = value;
-    func_800667A8(prim, index);
+    x_value = -0x40 - step * 0x30;
+    prim->x1 = x_value;
+    prim->x0 = x_value;
+    func_800667A8(prim, step);
     prim->flags |= 2;
     func_8006658C((u8 *)D_80083160[0] + 0xB0, prim);
-    count = (u8)arg2->count - 1;
-    arg2->count = count;
-    if ((count << 24) == 0) {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    remaining = (u8)countdown->count - 1;
+    countdown->count = remaining;
+    if ((remaining << 24) == 0) {
+        *(u16 *)((u8 *)context - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }
-
-/* MECHANISM: Preserve the seed's exact 0x28 frame and s3/s2/s1/s0 held roles.
-   A signed s32 index makes the s8 field emit one lb directly, removing the
-   lbu plus sll/sra sign-extension residue and matching all 68 retail words. */

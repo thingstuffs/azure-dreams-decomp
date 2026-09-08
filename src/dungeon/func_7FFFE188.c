@@ -17,19 +17,20 @@ typedef struct S_7FFFE188_1 {
     u16 unk_6C;
 } S_7FFFE188_1;   /* arg0 in func_7FFFE188 */
 
-void func_7FFFE188(S_7FFFE188_1 *arg0, M2C_UNK arg1, Rec_D_800E3D7C *arg2, M2C_UNK arg3) {
-    s32 *base;
-    u16 temp_v0;
+/* Updates motion toward the target and handles countdown expiration. */
+void func_7FFFE188(S_7FFFE188_1 *entity, M2C_UNK context, Rec_D_800E3D7C *motion, M2C_UNK completion_data) {
+    s32 *target_pos;
+    u16 remaining_ticks;
 
-    base = D_80080000 + 0xDE0;
-    arg2->unk_0C.as_s32 = (s32) ((s32) (base[0] - arg2->unk_00.at00_s32.v) / 2);
-    arg2->unk_10.at00_s32.v = (s32) ((s32) (base[1] - arg2->unk_04.at00_s32.v) / 2);
-    func_8009539C(arg2);
-    func_8008F294(arg1, arg2);
-    func_8008F664(arg1, arg2);
-    temp_v0 = arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_8009C1B4(arg0, arg1, arg2, arg3);
+    target_pos = D_80080000 + 0xDE0;
+    motion->unk_0C.as_s32 = (s32) ((s32) (target_pos[0] - motion->unk_00.at00_s32.v) / 2);
+    motion->unk_10.at00_s32.v = (s32) ((s32) (target_pos[1] - motion->unk_04.at00_s32.v) / 2);
+    func_8009539C(motion);
+    func_8008F294(context, motion);
+    func_8008F664(context, motion);
+    remaining_ticks = entity->unk_6C - 1;
+    entity->unk_6C = remaining_ticks;
+    if ((remaining_ticks << 0x10) <= 0) {
+        func_8009C1B4(entity, context, motion, completion_data);
     }
 }

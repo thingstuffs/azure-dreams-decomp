@@ -24,15 +24,16 @@ typedef struct Root {
 extern Root *D_80175D50;
 extern u8 D_8016FC4C[];
 
+/* Update the entity at its position and reset its state fields. */
 void func_80170148(void)
 {
-    Root *base = D_80175D50;
+    Root *root = D_80175D50;
     Entity *entity;
     u8 *position;
 
-    entity = &base->entity;
-    
-    position = base->position;
+    entity = &root->entity;
+
+    position = root->position;
 
     func_8009A3D0(position[0x24], position[0x25],
                   (entity->flags & 0x2000) ? 0x300 : 0x3000);

@@ -59,94 +59,95 @@ extern void func_8004491C();
 extern u8 D_80170884[];
 extern u8 D_80170A64[];
 
+/* Creates an offset effect and initializes its motion back toward the parent. */
 void func_80BC1528(
-    void *arg0, s16 arg1, s32 arg2, s32 arg3,
-    s32 arg4, s32 arg5, s32 arg6)
+    void *parent_obj, s16 effect_param, s32 initial_value, s32 duration,
+    s32 offset_x, s32 offset_y, s32 offset_z)
 {
-    S_80BC1528_1 *saved_arg0 = arg0;
-    register s16 saved_arg1 ASM_REG("$23") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 saved_arg2 = arg2;
-    register s32 saved_arg3 ASM_REG("$22") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 saved_arg4 = arg4;
-    s32 saved_arg5 = arg5;
-    s32 saved_arg6 = arg6;
-    register void *obj ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    S_80BC1528_2 *tail;
-    register s32 narrowed_arg3;
-    register s32 divisor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    s32 numerator_x;
-    register s32 numerator_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 quotient_x;
-    register s32 quotient_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 quotient_z;
-    s32 rounded_x;
-    register s32 rounded_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 rounded_z;
+    S_80BC1528_1 *parent = parent_obj;
+    register s16 saved_param ASM_REG("$23") = effect_param;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 saved_value = initial_value;
+    register s32 saved_duration ASM_REG("$22") = duration;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 saved_offset_x = offset_x;
+    s32 saved_offset_y = offset_y;
+    s32 saved_offset_z = offset_z;
+    register void *effect ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_80BC1528_2 *effect_data;
+    register s32 duration_s16;
+    register s32 duration_eighth ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s32 return_delta_x;
+    register s32 return_delta_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 step_x;
+    register s32 step_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 step_z;
+    s32 rounded_step_x;
+    register s32 rounded_step_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 rounded_step_z;
 
-    obj = func_8003FD64(0x211, saved_arg0);
-    if (obj != 0) {
-        ((S_80BC1528_0 *)obj)->unk_10 = D_80170A64;
+    effect = func_8003FD64(0x211, parent);
+    if (effect != 0) {
+        ((S_80BC1528_0 *)effect)->unk_10 = D_80170A64;
 
-        ((S_80BC1528_3 *)(((S_80BC1528_0 *)obj)->unk_08))->unk_02 =
-            ((S_80BC1528_4 *)(saved_arg0->unk_08))->unk_02 + saved_arg4;
-        ((S_80BC1528_3 *)(((S_80BC1528_0 *)obj)->unk_08))->unk_06 =
-            ((S_80BC1528_4 *)(saved_arg0->unk_08))->unk_06 + saved_arg5;
-        ((S_80BC1528_3 *)(((S_80BC1528_0 *)obj)->unk_08))->unk_0A =
-            ((S_80BC1528_4 *)(saved_arg0->unk_08))->unk_0A + saved_arg6 - 100;
+        ((S_80BC1528_3 *)(((S_80BC1528_0 *)effect)->unk_08))->unk_02 =
+            ((S_80BC1528_4 *)(parent->unk_08))->unk_02 + saved_offset_x;
+        ((S_80BC1528_3 *)(((S_80BC1528_0 *)effect)->unk_08))->unk_06 =
+            ((S_80BC1528_4 *)(parent->unk_08))->unk_06 + saved_offset_y;
+        ((S_80BC1528_3 *)(((S_80BC1528_0 *)effect)->unk_08))->unk_0A =
+            ((S_80BC1528_4 *)(parent->unk_08))->unk_0A + saved_offset_z - 100;
 
-        tail = (u8 *)obj + 0x20;
-        tail->unk_36 = ((S_80BC1528_4 *)(saved_arg0->unk_08))->unk_02;
-        tail->unk_38 = ((S_80BC1528_4 *)(saved_arg0->unk_08))->unk_06;
-        tail->unk_3A = ((S_80BC1528_4 *)(saved_arg0->unk_08))->unk_0A;
+        effect_data = (u8 *)effect + 0x20;
+        effect_data->unk_36 = ((S_80BC1528_4 *)(parent->unk_08))->unk_02;
+        effect_data->unk_38 = ((S_80BC1528_4 *)(parent->unk_08))->unk_06;
+        effect_data->unk_3A = ((S_80BC1528_4 *)(parent->unk_08))->unk_0A;
 
-        narrowed_arg3 = (s16)saved_arg3;
-        divisor = narrowed_arg3;
-        numerator_x = -(saved_arg4 << 16);
-        if (narrowed_arg3 < 0) {
-            divisor = narrowed_arg3 + 7;
+        duration_s16 = (s16)saved_duration;
+        duration_eighth = duration_s16;
+        return_delta_x = -(saved_offset_x << 16);
+        if (duration_s16 < 0) {
+            duration_eighth = duration_s16 + 7;
         }
-        divisor >>= 3;
+        duration_eighth >>= 3;
 
-        quotient_x = numerator_x / divisor;
-        tail->unk_40 = quotient_x / 2;
-        ASM_KEEP(quotient_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        numerator_y = -(saved_arg5 << 16);
-        quotient_y = numerator_y / divisor;
-        tail->unk_44 = quotient_y / 2;
-        ASM_KEEP(quotient_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        quotient_z = -(saved_arg6 << 16) / divisor;
-        tail->unk_48 = quotient_z / 2;
+        step_x = return_delta_x / duration_eighth;
+        effect_data->unk_40 = step_x / 2;
+        ASM_KEEP(step_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        return_delta_y = -(saved_offset_y << 16);
+        step_y = return_delta_y / duration_eighth;
+        effect_data->unk_44 = step_y / 2;
+        ASM_KEEP(step_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        step_z = -(saved_offset_z << 16) / duration_eighth;
+        effect_data->unk_48 = step_z / 2;
 
-        rounded_x = quotient_x;
-        ASM_KEEP(rounded_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        if (rounded_x < 0) {
-            rounded_x += 3;
+        rounded_step_x = step_x;
+        ASM_KEEP(rounded_step_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        if (rounded_step_x < 0) {
+            rounded_step_x += 3;
         }
-        tail->unk_4C = rounded_x >> 2;
+        effect_data->unk_4C = rounded_step_x >> 2;
 
-        rounded_y = quotient_y;
-        if (rounded_y < 0) {
-            rounded_y += 3;
+        rounded_step_y = step_y;
+        if (rounded_step_y < 0) {
+            rounded_step_y += 3;
         }
-        tail->unk_50 = rounded_y >> 2;
+        effect_data->unk_50 = rounded_step_y >> 2;
 
-        rounded_z = quotient_z;
-        if (rounded_z < 0) {
-            rounded_z += 3;
+        rounded_step_z = step_z;
+        if (rounded_step_z < 0) {
+            rounded_step_z += 3;
         }
-        tail->unk_54 = rounded_z >> 2;
+        effect_data->unk_54 = rounded_step_z >> 2;
 
-        tail->unk_14 = saved_arg1;
-        tail->unk_32 = saved_arg3;
-        func_8004491C(obj, D_80170884, quotient_x);
-        ((S_80BC1528_0 *)obj)->unk_20 = saved_arg2;
-        tail->unk_08 = saved_arg2;
+        effect_data->unk_14 = saved_param;
+        effect_data->unk_32 = saved_duration;
+        func_8004491C(effect, D_80170884, step_x);
+        ((S_80BC1528_0 *)effect)->unk_20 = saved_value;
+        effect_data->unk_08 = saved_value;
     }
 
-    ASM_KEEP(saved_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_arg4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_arg5);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_arg6);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_param);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_duration);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_offset_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_offset_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_offset_z);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 }

@@ -27,28 +27,24 @@ extern s32 func_8004FC98(void *a0);
 extern void func_8004FE78(void *a0);
 extern void func_8004F9AC(void *a0);
 
-/* Allocates an object via func_8003FC64, initializes its embedded sub-object
- * (func_8004FC68), computes and stores an index/value via func_8004FD78,
- * then validates the result via func_8004FC98. On success, installs the
- * object's vtable/callback function pointers; on failure, tears the object
- * down via func_8004FE78 and returns NULL. */
-void *func_8004FDE0(void *a0)
+/* Allocates and initializes an object, installs its callbacks, or returns NULL on failure. */
+void *func_8004FDE0(void *init_data)
 {
-    S_8004FDE0_obj *s1;
-    S_8004FDE0_sub *s0;
+    S_8004FDE0_obj *obj;
+    S_8004FDE0_sub *sub;
 
-    s1 = func_8003FC64(0);
-    if (s1 != 0) {
-        s0 = &s1->sub;
-        func_8004FC68(s0);
-        s0->unk30 = func_8004FD78(s0, a0);
-        if (func_8004FC98(s0) == 0) {
-            func_8004FE78(s1);
-            s1 = 0;
+    obj = func_8003FC64(0);
+    if (obj != 0) {
+        sub = &obj->sub;
+        func_8004FC68(sub);
+        sub->unk30 = func_8004FD78(sub, init_data);
+        if (func_8004FC98(sub) == 0) {
+            func_8004FE78(obj);
+            obj = 0;
         } else {
-            s1->vtable = func_8004FC2C;
-            s0->cb = func_8004F9AC;
+            obj->vtable = func_8004FC2C;
+            sub->cb = func_8004F9AC;
         }
     }
-    return s1;
+    return obj;
 }

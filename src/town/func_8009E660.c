@@ -71,56 +71,57 @@ extern MotionDelta D_800CFDF0[];
 extern MotionDelta D_800CFE08[];
 extern u8 D_800FE488[];
 
+/* Update town movement and height, then copy the actor value into the context. */
 void func_8009BDC0(Actor *actor, Subject *subject, Motion *motion,
                    Context *context)
 {
     TownControl *control = &D_800CFCB4;
     TownState *town_state;
-    TownCallback *current;
-    MotionDelta *table_a;
-    MotionDelta *table_b;
-    TownCallback state;
-    s16 result;
-    s32 index;
-    s32 *value;
+    TownCallback *town_callback;
+    MotionDelta *x_deltas;
+    MotionDelta *y_deltas;
+    TownCallback actor_callback;
+    s16 surface_height;
+    s32 control_index;
+    s32 *actor_value;
 
     if ((control->subject != subject) ||
-        ((index = control->index),
-         ((u8 *)control)[index + 0x3A] != 1) ||
-        ((current = &D_80083498.current),
-         (*current != D_800924EC))) {
+        ((control_index = control->index),
+         ((u8 *)control)[control_index + 0x3A] != 1) ||
+        ((town_callback = &D_80083498.current),
+         (*town_callback != D_800924EC))) {
         func_8009BFD8(actor, subject, motion, context);
         goto motion_common;
     }
 
     town_state = &D_80083498;
-    table_a = D_800CFDF0;
-    motion->x += table_a[index].x;
-    table_b = D_800CFE08;
-    motion->y += table_b[control->index].x;
-    town_state->target->x += table_a[control->index].x;
-    town_state->target->y += table_b[control->index].x;
+    x_deltas = D_800CFDF0;
+    motion->x += x_deltas[control_index].x;
+    y_deltas = D_800CFE08;
+    motion->y += y_deltas[control->index].x;
+    town_state->target->x += x_deltas[control->index].x;
+    town_state->target->y += y_deltas[control->index].x;
 
 motion_common:
-    result = func_8008F170(motion, D_800FE488);
+    surface_height = func_8008F170(motion, D_800FE488);
     func_8008F294(subject, motion);
     func_8008F664(subject, motion);
     if (subject->state == 0) {
-        if (result - motion->height >= 4) {
+        if (surface_height - motion->height >= 4) {
             func_8009C0C0(actor, subject, motion, context);
             goto tail;
         }
-        func_8008F27C(subject, motion, result);
+        func_8008F27C(subject, motion, surface_height);
     }
 
 tail:
-    state = actor->state;
-    if ((state != D_8009B454) &&
-        (state != D_8009B594) &&
-        (state != func_8009BDC0)) {
-        value = actor->value;
-        if (value != 0) {
-            context->value = *value;
+    actor_callback = actor->state;
+    if ((actor_callback != D_8009B454) &&
+        (actor_callback != D_8009B594) &&
+        (actor_callback != func_8009BDC0)) {
+        actor_value = actor->value;
+        if (actor_value != 0) {
+            context->value = *actor_value;
         }
     }
 }

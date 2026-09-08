@@ -64,252 +64,251 @@ __asm__(".globl func_80024000\n"
 #define BODY_ATTR
 #endif
 
-BODY_STORAGE void BODY_NAME(void *arg0, void *arg1, void *arg2) BODY_ATTR;
-BODY_STORAGE void BODY_NAME(void *arg0, void *arg1, void *arg2) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5 };
+BODY_STORAGE void BODY_NAME(void *state, void *motion, void *source_data) BODY_ATTR;
+/* Moves an attack toward its target, spawns trailing effects, and applies the hit. */
+BODY_STORAGE void BODY_NAME(void *state, void *motion, void *source_data) {
+    static void *const state_labels[] = { &&state_aim, &&state_move, &&state_trail, &&state_hit, &&state_wait, &&state_finish };
     void *state_obj;
     void *owner;
-    register void *input2 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *temp_s5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *temp_v0_2;
-    void *temp_v1_2;
-    void *temp_s0_2;
-    void *temp_v0_3;
-    void *sp20;
-    s32 sp24;
-    s32 sp28;
-    register s32 var_s6 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 var_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    M2C_UNK var_s3;
-    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 temp_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s8 *base_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register s32 var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    s32 var_s2;
-    s32 temp_v0_4;
-    s32 temp_v1_3;
-    s16 temp_v0;
-    s32 temp_v1;
-    s16 var_s4;
-    register M2C_UNK temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register void *source ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *actor ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *target;
+    void *target_data;
+    void *effect_data;
+    void *effect;
+    void *actor_data;
+    s32 step_x;
+    s32 step_y;
+    register s32 offset_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 offset_y ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    M2C_UNK distance_or_script;
+    register s32 delta_x ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 delta_y ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s8 *x_steps ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 abs_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 effects_left;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 phase;
+    s16 target_flag;
+    register M2C_UNK direction_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u16 header_raw;
     u16 duration;
-    u16 temp_s0;
-    u16 temp_s1;
     s32 coord_x;
     s32 coord_y;
-    state_obj = arg0;
-    input2 = arg2;
-    base_y = (s8 *) &D_8006CCD8;
-    temp_s5 = M2C_FIELD(state_obj, void **, 0);
-    owner = (void *) ((u8 *) temp_s5 - 0x20);
-    header_raw = M2C_FIELD(temp_s5, u16 *, 0x2A);
-    temp_s2 = header_raw >> 8;
-    temp_a0 = temp_s2 & 0xE;
-    ASM_KEEP_DEP_NV(temp_a0, header_raw);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    sp20 = M2C_FIELD(temp_s5, void **, -0x14);
-    sp24 = *(s16 *)(temp_a0 + base_y);
-    sp28 = *(s16 *)(temp_a0 + (s8 *)&D_8006CCE8);
-    ASM_KEEP_NV(input2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    state_obj = state;
+    source = source_data;
+    x_steps = (s8 *) &D_8006CCD8;
+    actor = M2C_FIELD(state_obj, void **, 0);
+    owner = (void *) ((u8 *) actor - 0x20);
+    header_raw = M2C_FIELD(actor, u16 *, 0x2A);
+    delta_x = header_raw >> 8;
+    direction_offset = delta_x & 0xE;
+    ASM_KEEP_DEP_NV(direction_offset, header_raw);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    actor_data = M2C_FIELD(actor, void **, -0x14);
+    step_x = *(s16 *)(direction_offset + x_steps);
+    step_y = *(s16 *)(direction_offset + (s8 *)&D_8006CCE8);
+    ASM_KEEP_NV(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(state_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (M2C_FIELD(state_obj, s16 *, 0xA) != 1) {
-        goto block_3;
+        goto dispatch;
     }
-    M2C_FIELD(arg1, s32 *, 0) = (s32) (M2C_FIELD(arg1, s32 *, 0) + M2C_FIELD(arg1, s32 *, 0xC));
-    M2C_FIELD(arg1, s32 *, 4) = (s32) (M2C_FIELD(arg1, s32 *, 4) + M2C_FIELD(arg1, s32 *, 0x10));
-    temp_s2 = func_800BCB04(M2C_FIELD(arg1, u16 *, 2), M2C_FIELD(arg1, u16 *, 6), (s16) (M2C_FIELD(M2C_FIELD(owner, void **, 8), u16 *, 0xA) - 0x30));
-    if (temp_s2 >= 0x200) {
-        goto block_3;
+    M2C_FIELD(motion, s32 *, 0) = (s32) (M2C_FIELD(motion, s32 *, 0) + M2C_FIELD(motion, s32 *, 0xC));
+    M2C_FIELD(motion, s32 *, 4) = (s32) (M2C_FIELD(motion, s32 *, 4) + M2C_FIELD(motion, s32 *, 0x10));
+    delta_x = func_800BCB04(M2C_FIELD(motion, u16 *, 2), M2C_FIELD(motion, u16 *, 6), (s16) (M2C_FIELD(M2C_FIELD(owner, void **, 8), u16 *, 0xA) - 0x30));
+    if (delta_x >= 0x200) {
+        goto dispatch;
     }
-    M2C_FIELD(arg1, s16 *, 0xA) = temp_s2;
-block_3:
-    temp_v1 = M2C_FIELD(state_obj, s16 *, 0xA);
+    M2C_FIELD(motion, s16 *, 0xA) = delta_x;
+dispatch:
+    phase = M2C_FIELD(state_obj, s16 *, 0xA);
     M2C_FIELD(state_obj, u16 *, 0x50) = (u16) (M2C_FIELD(state_obj, u16 *, 0x50) - 1);
-    if ((u32) temp_v1 >= 6U) {
-        goto block_38;
+    if ((u32) phase >= 6U) {
+        goto done;
     }
-    (void)jt_keep; goto *jtbl_80024008[(u32)(temp_v1)];
-jt_c0:
+    (void)state_labels;
+    goto *jtbl_80024008[(u32) phase];
+state_aim:
     if (!(*M2C_FIELD(state_obj, u16 **, 4) & 0x80)) {
-        goto block_38;
+        goto done;
     }
     {
-        void *work;
-        s32 prior = func_800A3820(3) << 0x10;
-        work = sp20;
-        temp_v0_2 = func_800A05A4(temp_s5, M2C_FIELD(work, u8 *, 0x24), M2C_FIELD(work, u8 *, 0x25), (s16) M2C_FIELD(temp_s5, u16 *, 0x2A), prior >> 0x10);
+        void *tile_data;
+        s32 search_mode = func_800A3820(3) << 0x10;
+        tile_data = actor_data;
+        target = func_800A05A4(actor, M2C_FIELD(tile_data, u8 *, 0x24), M2C_FIELD(tile_data, u8 *, 0x25), (s16) M2C_FIELD(actor, u16 *, 0x2A), search_mode >> 0x10);
     }
-    M2C_FIELD(temp_s5, void **, 0x60) = temp_v0_2;
-    if (temp_v0_2 != NULL) {
-        goto block_11;
+    M2C_FIELD(actor, void **, 0x60) = target;
+    if (target != NULL) {
+        goto use_target;
     }
-    var_s3 = 0;
-    var_s7 = 0;
-    var_s6 = 0;
-loop_8:
+    distance_or_script = 0;
+    offset_y = 0;
+    offset_x = 0;
+scan_tiles:
     {
-        void *work = sp20;
-        register s32 cx ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        s32 cy;
-        cx = (M2C_FIELD(work, u8 *, 0x24) + var_s6) << 6;
-        coord_x = cx + 0x20;
-        cy = (M2C_FIELD(work, u8 *, 0x25) + var_s7) << 6;
-        coord_y = cy + 0x20;
+        void *tile_data = actor_data;
+        register s32 tile_left ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        s32 tile_top;
+        tile_left = (M2C_FIELD(tile_data, u8 *, 0x24) + offset_x) << 6;
+        coord_x = tile_left + 0x20;
+        tile_top = (M2C_FIELD(tile_data, u8 *, 0x25) + offset_y) << 6;
+        coord_y = tile_top + 0x20;
         ASM_KEEP_NV(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ASM_KEEP_NV(coord_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
-    if ((func_800A4688((u16) coord_x, (u16) coord_y, func_800BCB04((u16) coord_x, (u16) coord_y, -0x400), (s16) M2C_FIELD(temp_s5, u16 *, 0x2A), M2C_FIELD(temp_s5, void **, 0x60)) << 0x10) != 0) {
-        goto block_10;
+    if ((func_800A4688((u16) coord_x, (u16) coord_y, func_800BCB04((u16) coord_x, (u16) coord_y, -0x400), (s16) M2C_FIELD(actor, u16 *, 0x2A), M2C_FIELD(actor, void **, 0x60)) << 0x10) != 0) {
+        goto set_endpoint;
     }
-    var_s3 += 1;
-    var_s7 += sp28;
-    var_s6 += sp24;
-    if (var_s3 < 2) {
-        goto loop_8;
+    distance_or_script += 1;
+    offset_y += step_y;
+    offset_x += step_x;
+    if (distance_or_script < 2) {
+        goto scan_tiles;
     }
-block_10:
+set_endpoint:
     ASM_USE(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     ASM_USE2(coord_x, coord_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
-        void *work = sp20;
-        M2C_FIELD(temp_s5, u8 *, 0x72) = (u8) (M2C_FIELD(work, u8 *, 0x24) + (sp24 * var_s3));
-        M2C_FIELD(temp_s5, u8 *, 0x73) = (u8) (M2C_FIELD(work, u8 *, 0x25) + (sp28 * var_s3));
+        void *tile_data = actor_data;
+        M2C_FIELD(actor, u8 *, 0x72) = (u8) (M2C_FIELD(tile_data, u8 *, 0x24) + (step_x * distance_or_script));
+        M2C_FIELD(actor, u8 *, 0x73) = (u8) (M2C_FIELD(tile_data, u8 *, 0x25) + (step_y * distance_or_script));
     }
-    goto block_13;
-block_11:
-    temp_v1_2 = M2C_FIELD(temp_v0_2, void **, -0x14);
-    M2C_FIELD(temp_s5, u8 *, 0x72) = (u8) M2C_FIELD(temp_v1_2, u8 *, 0x24);
-    M2C_FIELD(temp_s5, u8 *, 0x73) = (u8) M2C_FIELD(temp_v1_2, u8 *, 0x25);
-    if (!(M2C_FIELD(temp_v1_2, u16 *, 0x14) & 0x8000)) {
-        goto block_13;
+    goto start_motion;
+use_target:
+    target_data = M2C_FIELD(target, void **, -0x14);
+    M2C_FIELD(actor, u8 *, 0x72) = (u8) M2C_FIELD(target_data, u8 *, 0x24);
+    M2C_FIELD(actor, u8 *, 0x73) = (u8) M2C_FIELD(target_data, u8 *, 0x25);
+    if (!(M2C_FIELD(target_data, u16 *, 0x14) & 0x8000)) {
+        goto start_motion;
     }
-    if (M2C_FIELD(input2, u16 *, 0x14) & 0x8000) {
-        goto block_28;
+    if (M2C_FIELD(source, u16 *, 0x14) & 0x8000) {
+        goto start_hit;
     }
-block_13:
+start_motion:
     {
-        void *work;
-        s32 actor_x;
-        s32 actor_y;
-        s32 work_x;
-        s32 work_y;
-        work = sp20;
-        actor_x = (s8)M2C_FIELD(temp_s5, u8 *, 0x72);
-        actor_y = (s8)M2C_FIELD(temp_s5, u8 *, 0x73);
-        work_x = M2C_FIELD(work, u8 *, 0x24);
-        work_y = M2C_FIELD(work, u8 *, 0x25);
-        temp_s2 = actor_x - work_x;
-        temp_s4 = actor_y - work_y;
-        ASM_KEEP(work_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(work_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(actor_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(actor_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        void *tile_data;
+        s32 end_x;
+        s32 end_y;
+        s32 start_x;
+        s32 start_y;
+        tile_data = actor_data;
+        end_x = (s8)M2C_FIELD(actor, u8 *, 0x72);
+        end_y = (s8)M2C_FIELD(actor, u8 *, 0x73);
+        start_x = M2C_FIELD(tile_data, u8 *, 0x24);
+        start_y = M2C_FIELD(tile_data, u8 *, 0x25);
+        delta_x = end_x - start_x;
+        delta_y = end_y - start_y;
+        ASM_KEEP(start_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(start_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(end_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(end_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
-    var_s3 = temp_s2;
-    if (temp_s2 >= 0) {
-        goto block_15;
+    distance_or_script = delta_x;
+    if (delta_x >= 0) {
+        goto abs_delta_y;
     }
-    var_s3 = 0 - var_s3;
-block_15:
-    var_a0 = temp_s4;
-    if (temp_s4 >= 0) {
-        goto block_17;
+    distance_or_script = 0 - distance_or_script;
+abs_delta_y:
+    abs_y = delta_y;
+    if (delta_y >= 0) {
+        goto max_distance;
     }
-    var_a0 = 0 - var_a0;
-block_17:
-    if (var_s3 >= var_a0) {
-        goto block_19;
+    abs_y = 0 - abs_y;
+max_distance:
+    if (distance_or_script >= abs_y) {
+        goto set_motion;
     }
-    var_s3 = var_a0;
-block_19:
-    M2C_FIELD(state_obj, u16 *, 0x50) = (u16) (var_s3 * 0xC);
-    M2C_FIELD(arg1, s32 *, 0) = (s32) (((M2C_FIELD(sp20, u8 *, 0x24) << 6) + 0x20) << 0x10);
-    M2C_FIELD(arg1, s32 *, 4) = (s32) (((M2C_FIELD(sp20, u8 *, 0x25) << 6) + 0x20) << 0x10);
-    M2C_FIELD(arg1, s32 *, 0xC) = (s32) ((sp24 << 0x16) / 12);
-    M2C_FIELD(arg1, s32 *, 0x10) = (s32) ((sp28 << 0x16) / 12);
+    distance_or_script = abs_y;
+set_motion:
+    M2C_FIELD(state_obj, u16 *, 0x50) = (u16) (distance_or_script * 0xC);
+    M2C_FIELD(motion, s32 *, 0) = (s32) (((M2C_FIELD(actor_data, u8 *, 0x24) << 6) + 0x20) << 0x10);
+    M2C_FIELD(motion, s32 *, 4) = (s32) (((M2C_FIELD(actor_data, u8 *, 0x25) << 6) + 0x20) << 0x10);
+    M2C_FIELD(motion, s32 *, 0xC) = (s32) ((step_x << 0x16) / 12);
+    M2C_FIELD(motion, s32 *, 0x10) = (s32) ((step_y << 0x16) / 12);
     func_800A56E0(0x300);
     M2C_FIELD(state_obj, s16 *, 0xA) = (s16) ((u16) M2C_FIELD(state_obj, s16 *, 0xA) + 1);
     return;
 
-jt_c1:
-jt_c2:
-    M2C_FIELD(arg1, s32 *, 0x14) = (s32) (M2C_FIELD(arg1, s32 *, 0x14) + 0x100);
-    var_s4 = 0;
-    if (M2C_FIELD(temp_s5, void **, 0x60) != NULL) {
-        goto block_22;
+state_move:
+state_trail:
+    M2C_FIELD(motion, s32 *, 0x14) = (s32) (M2C_FIELD(motion, s32 *, 0x14) + 0x100);
+    target_flag = 0;
+    if (M2C_FIELD(actor, void **, 0x60) != NULL) {
+        goto spawn_effects;
     }
-    var_s4 = -1;
-block_22:
-    var_s2 = 2;
-    var_s3 = (s32)&D_800245B4;
-loop_23:
-    temp_v0_3 = func_8003FD64(0x201, &D_80083498);
-    if (temp_v0_3 == NULL) {
-        goto block_25;
+    target_flag = -1;
+spawn_effects:
+    effects_left = 2;
+    distance_or_script = (s32)&D_800245B4;
+next_effect:
+    effect = func_8003FD64(0x201, &D_80083498);
+    if (effect == NULL) {
+        goto effect_spawned;
     }
-    M2C_FIELD(temp_v0_3, s32 *, 0x10) = var_s3;
-    func_8004491C(temp_v0_3, &D_80024A1C);
+    M2C_FIELD(effect, s32 *, 0x10) = distance_or_script;
+    func_8004491C(effect, &D_80024A1C);
     duration = M2C_FIELD(state_obj, u16 *, 0x50);
-    temp_s0_2 = temp_v0_3 + 0x20;
-    M2C_FIELD(temp_s0_2, s16 *, 0x54) = var_s4;
-    M2C_FIELD(temp_s0_2, u16 *, 0x52) = duration;
-    M2C_FIELD(temp_s0_2, s16 *, 0x4C) = (s16) (func_80069EF8() & 0xFFF);
-    M2C_FIELD(temp_s0_2, u16 *, 0x4E) = (u16) M2C_FIELD(arg1, s32 *, 0x14);
-    M2C_FIELD(temp_s0_2, s32 *, 4) = (s32) M2C_FIELD(arg1, s32 *, 0);
-    M2C_FIELD(temp_s0_2, s32 *, 8) = (s32) M2C_FIELD(arg1, s32 *, 4);
-    M2C_FIELD(temp_s0_2, s32 *, 0xC) = 0;
-    temp_v0_4 = M2C_FIELD(arg1, s32 *, 0xC);
-    M2C_FIELD(temp_s0_2, s32 *, 0x1C) = temp_v0_4;
-    M2C_FIELD(temp_s0_2, s32 *, 0x10) = temp_v0_4;
-    temp_v1_3 = M2C_FIELD(arg1, s32 *, 0x10);
-    M2C_FIELD(temp_s0_2, s32 *, 0x24) = 0xFFFD0000;
-    M2C_FIELD(temp_s0_2, s32 *, 0x18) = 0xFFFD0000;
-    M2C_FIELD(temp_s0_2, s32 *, 0x20) = temp_v1_3;
-    M2C_FIELD(temp_s0_2, s32 *, 0x14) = temp_v1_3;
-    M2C_FIELD(temp_s0_2, u16 *, 0x50) = (u16) M2C_FIELD(arg1, s16 *, 0xA);
-    M2C_FIELD(temp_v0_3, void **, 0x20) = state_obj;
-    M2C_FIELD(temp_s0_2, s16 *, 0x56) = (s16) ((u16) M2C_FIELD(state_obj, s16 *, 0xA) - 1);
-block_25:
-    var_s2 -= 1;
-    if (var_s2 >= 0) {
-        goto loop_23;
+    effect_data = effect + 0x20;
+    M2C_FIELD(effect_data, s16 *, 0x54) = target_flag;
+    M2C_FIELD(effect_data, u16 *, 0x52) = duration;
+    M2C_FIELD(effect_data, s16 *, 0x4C) = (s16) (func_80069EF8() & 0xFFF);
+    M2C_FIELD(effect_data, u16 *, 0x4E) = (u16) M2C_FIELD(motion, s32 *, 0x14);
+    M2C_FIELD(effect_data, s32 *, 4) = (s32) M2C_FIELD(motion, s32 *, 0);
+    M2C_FIELD(effect_data, s32 *, 8) = (s32) M2C_FIELD(motion, s32 *, 4);
+    M2C_FIELD(effect_data, s32 *, 0xC) = 0;
+    velocity_x = M2C_FIELD(motion, s32 *, 0xC);
+    M2C_FIELD(effect_data, s32 *, 0x1C) = velocity_x;
+    M2C_FIELD(effect_data, s32 *, 0x10) = velocity_x;
+    velocity_y = M2C_FIELD(motion, s32 *, 0x10);
+    M2C_FIELD(effect_data, s32 *, 0x24) = 0xFFFD0000;
+    M2C_FIELD(effect_data, s32 *, 0x18) = 0xFFFD0000;
+    M2C_FIELD(effect_data, s32 *, 0x20) = velocity_y;
+    M2C_FIELD(effect_data, s32 *, 0x14) = velocity_y;
+    M2C_FIELD(effect_data, u16 *, 0x50) = (u16) M2C_FIELD(motion, s16 *, 0xA);
+    M2C_FIELD(effect, void **, 0x20) = state_obj;
+    M2C_FIELD(effect_data, s16 *, 0x56) = (s16) ((u16) M2C_FIELD(state_obj, s16 *, 0xA) - 1);
+effect_spawned:
+    effects_left -= 1;
+    if (effects_left >= 0) {
+        goto next_effect;
     }
     if ((s16) M2C_FIELD(state_obj, u16 *, 0x50) > 0) {
-        goto block_38;
+        goto done;
     }
     M2C_FIELD(state_obj, u16 *, 0x50) = 5U;
     M2C_FIELD(state_obj, s16 *, 0xA) = (s16) ((u16) M2C_FIELD(state_obj, s16 *, 0xA) + 1);
-    if (M2C_FIELD(temp_s5, void **, 0x60) != NULL) {
-        goto block_38;
+    if (M2C_FIELD(actor, void **, 0x60) != NULL) {
+        goto done;
     }
-block_28:
+start_hit:
     M2C_FIELD(state_obj, s16 *, 0xA) = 3;
     return;
-jt_c3:
-    if (M2C_FIELD(temp_s5, void **, 0x60) == NULL) {
-        goto block_31;
+state_hit:
+    if (M2C_FIELD(actor, void **, 0x60) == NULL) {
+        goto wait_hit;
     }
-    func_8009CE1C(M2C_FIELD(temp_s5, void **, 0x60), 0x10, M2C_FIELD(state_obj, u8 *, 9), 4, (s32) (s16) M2C_FIELD(temp_s5, u16 *, 0x2A), temp_s5, 2);
-block_31:
+    func_8009CE1C(M2C_FIELD(actor, void **, 0x60), 0x10, M2C_FIELD(state_obj, u8 *, 9), 4, (s32) (s16) M2C_FIELD(actor, u16 *, 0x2A), actor, 2);
+wait_hit:
     M2C_FIELD(state_obj, u16 *, 0x50) = 0x10U;
     M2C_FIELD(state_obj, s16 *, 0xA) = (s16) ((u16) M2C_FIELD(state_obj, s16 *, 0xA) + 1);
     return;
-jt_c4:
+state_wait:
     if ((s16) M2C_FIELD(state_obj, u16 *, 0x50) > 0) {
-        goto block_38;
+        goto done;
     }
     M2C_FIELD(state_obj, s16 *, 0xA) = (s16) ((u16) M2C_FIELD(state_obj, s16 *, 0xA) + 1);
     return;
-jt_c5:
+state_finish:
     if (!(M2C_FIELD(state_obj, s16 *, 0x52) & 0x8000)) {
-        goto block_37;
+        goto finish;
     }
     M2C_FIELD(state_obj, s16 *, 0x52) = (s16) ((u16) M2C_FIELD(state_obj, s16 *, 0x52) & 0x7FFF);
     return;
-block_37:
+finish:
     D_8008346C = 0;
     M2C_FIELD(state_obj, u16 *, -2) = (u16) (M2C_FIELD(state_obj, u16 *, -2) | 0x8000);
     (*(s32 *)&D_800814A0) = (s32) (M2C_FIELD(&D_800814A0, s32 *, 0) | 0x8000);
-block_38:
+done:
     return;
 }

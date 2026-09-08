@@ -50,42 +50,43 @@ extern s32 func_8003DE58(s32, void *, u16 *, s32);
 extern u8 D_80045340[9];
 extern u8 D_80174A00[9];
 
-s32 func_80174BC8(void *arg0, void *arg1, Rec_D_80082E80 *arg2)
+/* Creates and initializes an object, copies its data, and applies queried offsets. */
+s32 func_80174BC8(void *unused, void *source_data, Rec_D_80082E80 *source_state)
 {
-    u16 query_result[3];
-    S_80174BC8_0 *obj;
-    S_80174BC8_3 *dst;
-    S_80174BC8_1 *prim;
+    u16 offsets[3];
+    S_80174BC8_0 *object;
+    S_80174BC8_3 *object_data;
+    S_80174BC8_1 *primitive;
 
-    obj = func_8003FC64(0x312);
-    if (obj != 0) {
-        obj->unk_10 = D_80174A00;
-        func_8004491C(obj, D_80045340);
+    object = func_8003FC64(0x312);
+    if (object != 0) {
+        object->unk_10 = D_80174A00;
+        func_8004491C(object, D_80045340);
 
-        prim = obj->unk_0C;
-        prim->unk_28 = arg2->unk_28.at00_s32.v;
-        prim->unk_0E = 0x80;
-        prim->unk_0D = 0x80;
-        prim->unk_0C = 0x80;
-        prim->unk_1E = 0x1000;
-        prim->unk_1C = 0x1000;
-        prim->unk_06 = 1;
-        prim->unk_14 |= 0xC;
-        prim->unk_10 |= 0x20;
-        func_80047784(prim, 0x37, 0);
+        primitive = object->unk_0C;
+        primitive->unk_28 = source_state->unk_28.at00_s32.v;
+        primitive->unk_0E = 0x80;
+        primitive->unk_0D = 0x80;
+        primitive->unk_0C = 0x80;
+        primitive->unk_1E = 0x1000;
+        primitive->unk_1C = 0x1000;
+        primitive->unk_06 = 1;
+        primitive->unk_14 |= 0xC;
+        primitive->unk_10 |= 0x20;
+        func_80047784(primitive, 0x37, 0);
 
-        dst = obj->unk_08;
-        *(Block24 *)dst = *(Block24 *)arg1;
+        object_data = object->unk_08;
+        *(Block24 *)object_data = *(Block24 *)source_data;
 
-        query_result[2] = 0;
-        query_result[1] = 0;
-        query_result[0] = 0;
-        if (func_8003DE58(arg2->unk_08, arg2, query_result, 0) != 0) {
-            dst->unk_02 += query_result[0];
-            dst->unk_06 += query_result[1];
-            dst->unk_0A += query_result[2];
+        offsets[2] = 0;
+        offsets[1] = 0;
+        offsets[0] = 0;
+        if (func_8003DE58(source_state->unk_08, source_state, offsets, 0) != 0) {
+            object_data->unk_02 += offsets[0];
+            object_data->unk_06 += offsets[1];
+            object_data->unk_0A += offsets[2];
         }
-        return (s32)obj;
+        return (s32)object;
     }
     return 0;
 }

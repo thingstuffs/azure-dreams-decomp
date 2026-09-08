@@ -20,56 +20,57 @@ typedef struct DataRecord {
     u32 unk10;
 } DataRecord;
 
-void *func_8001976C(void *arg0, void *arg1, s32 arg2, s32 arg3)
+/* Populate records from entries, pack their flags and tag, and invoke entry callbacks. */
+void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
 {
-    register DataRecord *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register u8 *var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 var_s2;
-    u32 var_s3;
-    u32 var_s4;
-    u32 var_s5;
-    register u32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 var_v1;
-    u32 var_a0;
+    register DataRecord *record ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register u8 *entry ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 record_flags;
+    u32 tag_bits;
+    u32 flag_bits;
+    u32 header_word;
+    register u32 packed_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 half_bits;
+    u32 header_or_addr;
 
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    var_s0 = arg0;
-    var_s1 = arg1;
-    var_s2 = arg2;
-    var_v1 = var_s2 >> 8;
-    var_v0 = var_s2 & 0x3FFF0000;
-    var_a0 = 0xC0000010;
-    var_s5 = var_v0 | var_a0;
-    var_v1 &= 0x3F;
-    var_s4 = var_v1 << 24;
-    var_s3 = (arg3 & 0xFF) << 16;
-    var_a0 = (u32)var_s0;
+    record = records;
+    entry = entries;
+    record_flags = flags;
+    half_bits = record_flags >> 8;
+    packed_word = record_flags & 0x3FFF0000;
+    header_or_addr = 0xC0000010;
+    header_word = packed_word | header_or_addr;
+    half_bits &= 0x3F;
+    flag_bits = half_bits << 24;
+    tag_bits = (tag & 0xFF) << 16;
+    header_or_addr = (u32)record;
     do {
-        func_8001941C((void *)var_a0, var_s1, 5);
-        var_v0 = 0xC0000000;
-        if (var_s2 != 0) {
-            var_s0->unk8 = var_s5;
+        func_8001941C((void *)header_or_addr, entry, 5);
+        packed_word = 0xC0000000;
+        if (record_flags != 0) {
+            record->unk8 = header_word;
         }
-        var_v0 = var_s3 | var_v0;
-        var_v0 = var_s4 | var_v0;
+        packed_word = tag_bits | packed_word;
+        packed_word = flag_bits | packed_word;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        var_v1 = var_s0->unkC.half.lo;
-        var_v0 = var_v0 | var_v1;
-        var_s0->unkC.word = var_v0;
-        if (*var_s1 != 0) {
-            (*(EntryCallback *)(var_s1 + 8))(var_s0);
-            var_s1 += 0x14;
+        half_bits = record->unkC.half.lo;
+        packed_word = packed_word | half_bits;
+        record->unkC.word = packed_word;
+        if (*entry != 0) {
+            (*(EntryCallback *)(entry + 8))(record);
+            entry += 0x14;
         } else {
-            var_s0++;
-            var_s1 += 0x14;
+            record++;
+            entry += 0x14;
         }
-        var_a0 = (u32)var_s0;
-    } while (*(var_s1 - 0x13) != 0x80);
-    ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(var_s3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(var_s4);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(var_s5);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    return var_s0;
+        header_or_addr = (u32)record;
+    } while (*(entry - 0x13) != 0x80);
+    ASM_KEEP(record_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(tag_bits);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(flag_bits);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(header_word);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    return record;
 }
 
 /* MECHANISM: Guarded pins encode s0-s5 and v0/v1/a0; a seam fence preserves

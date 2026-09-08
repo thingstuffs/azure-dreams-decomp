@@ -63,322 +63,317 @@ extern s32 D_800FE5C0[];
 #define D_80100000 ((s32 *)0x80100000)
 #endif
 
-void func_80095C80(S_80095C80_1 *arg0) {
+/* Resolves movement collisions along one axis using boundary probes and tile offsets. */
+void func_80095C80(S_80095C80_1 *position) {
     struct {
         s32 x;
         s32 y;
         s32 z;
         s32 pad3;
         s32 pad4;
-    } sp10;
-    M2C_UNK *base;
-    M2C_UNK *var_a0;
-    M2C_UNK *var_a0_2;
-    M2C_UNK *var_a0_3;
-    M2C_UNK *var_a0_4;
-    s16 var_v0;
-    s16 var_v0_2;
-    s16 var_v0_3;
-    s16 var_v1;
-    s32 temp_a2;
-    s32 temp_a2_2;
-    s32 temp_a1;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    s32 temp_v0_5;
-    s32 temp_v0_6;
-    s32 temp_v0_7;
-    s32 temp_v0_8;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    register s32 temp_v1_3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    M2C_UNK *neg_page;
+    } probe;
+    M2C_UNK *motion;
+    M2C_UNK *pos_xy_motion;
+    M2C_UNK *pos_x_neg_y_motion;
+    M2C_UNK *neg_x_pos_y_motion;
+    M2C_UNK *neg_xy_motion;
+    s32 neg_x_pos_y_x;
+    s32 neg_xy_x;
+    s32 y_step_or_side;
+    s32 pos_x_hit;
+    s32 pos_xy_y;
+    s32 pos_x_neg_y_y;
+    s32 neg_x_pos_y_y;
+    s32 neg_y_hit;
+    s32 neg_x_boundary;
+    s32 neg_xy_y;
+    s32 neg_xy_boundary;
+    s32 pos_xy_test;
+    s32 pos_x_neg_y_test;
+    register s32 axis_test ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    M2C_UNK *motion_page;
 
-    neg_page = (M2C_UNK *)D_80100000;
-    ASM_KEEP_NV(neg_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    base = (M2C_UNK *)((s8 *)neg_page - 0x1A40);
+    motion_page = (M2C_UNK *)D_80100000;
+    ASM_KEEP_NV(motion_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    motion = (M2C_UNK *)((s8 *)motion_page - 0x1A40);
     {
-        if (((S_80095C80_0 *)base)->unk_0C <= 0) {
-            goto block_24_low;
+        if (((S_80095C80_0 *)motion)->unk_0C <= 0) {
+            goto check_neg_x;
         }
-        if (((S_80095C80_0 *)base)->unk_10 > 0) {
-            register s32 collision_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            s32 return_x;
-            register s32 coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            void *next_a0;
-            sp10.x = arg0->unk_00.at00.v - ((S_80095C80_0 *)base)->unk_0C;
-            sp10.y = arg0->unk_04.at00.v;
-            sp10.z = arg0->unk_08;
-            return_x = func_80095BC0(&sp10, 0);
-            next_a0 = &sp10;
-            ASM_KEEP_NV(next_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            collision_x = arg0->unk_00.at00.v;
-            sp10.x = collision_x;
-            collision_x = collision_x < (return_x << 0x10);
-            coord = arg0->unk_04.at00.v;
+        if (((S_80095C80_0 *)motion)->unk_10 > 0) {
+            register s32 x_hit ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            s32 boundary_test;
+            register s32 probe_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            void *probe_ptr;
+            probe.x = position->unk_00.at00.v - ((S_80095C80_0 *)motion)->unk_0C;
+            probe.y = position->unk_04.at00.v;
+            probe.z = position->unk_08;
+            boundary_test = func_80095BC0(&probe, 0);
+            probe_ptr = &probe;
+            ASM_KEEP_NV(probe_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            x_hit = position->unk_00.at00.v;
+            probe.x = x_hit;
+            x_hit = x_hit < (boundary_test << 0x10);
+            probe_coord = position->unk_04.at00.v;
             ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            temp_a1 = ((S_80095C80_0 *)base)->unk_10;
-            collision_x ^= 1;
-            sp10.y = coord - temp_a1;
-            coord = arg0->unk_08;
-            sp10.z = coord;
-            return_x = func_80095C20(next_a0, 0);
-            coord = arg0->unk_04.at00.v;
-            return_x <<= 0x10;
-            coord = coord < return_x;
-            return_x = coord ^ 1;
-            if (collision_x == 0) {
-                var_a0 = (M2C_UNK *)D_80100000;
-                if (return_x == 0) {
-                    s32 angle_x;
-                    s32 angle_y;
-                    angle_x = arg0->unk_00.at02.v;
-                    angle_y = arg0->unk_04.at02.v;
-                    angle_x &= 0x3F;
-                    angle_y &= 0x3F;
-                    angle_x = angle_x < angle_y;
-                    if (angle_x == 0) {
-                        goto block_57;
+            y_step_or_side = ((S_80095C80_0 *)motion)->unk_10;
+            x_hit ^= 1;
+            probe.y = probe_coord - y_step_or_side;
+            probe_coord = position->unk_08;
+            probe.z = probe_coord;
+            boundary_test = func_80095C20(probe_ptr, 0);
+            probe_coord = position->unk_04.at00.v;
+            boundary_test <<= 0x10;
+            probe_coord = probe_coord < boundary_test;
+            boundary_test = probe_coord ^ 1;
+            if (x_hit == 0) {
+                pos_xy_motion = (M2C_UNK *)D_80100000;
+                if (boundary_test == 0) {
+                    s32 x_offset;
+                    s32 y_offset;
+                    x_offset = position->unk_00.at02.v;
+                    y_offset = position->unk_04.at02.v;
+                    x_offset &= 0x3F;
+                    y_offset &= 0x3F;
+                    x_offset = x_offset < y_offset;
+                    if (x_offset == 0) {
+                        goto resolve_y;
                     }
-                    goto call_a8;
+                    goto resolve_x;
                 }
-                goto block_8;
+                goto check_pos_xy_corner;
             }
-            var_a0 = (M2C_UNK *)D_80100000;
-block_8:
-            var_a0 = (M2C_UNK *)((s8 *)var_a0 - 0x1A40);
-            sp10.x = arg0->unk_00.at00.v - ((S_80095C80_2 *)var_a0)->unk_0C;
-            temp_v0 = arg0->unk_04.at00.v;
-            ASM_KEEP_NV(temp_v0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            temp_v1 = ((S_80095C80_2 *)var_a0)->unk_10;
+            pos_xy_motion = (M2C_UNK *)D_80100000;
+check_pos_xy_corner:
+            pos_xy_motion = (M2C_UNK *)((s8 *)pos_xy_motion - 0x1A40);
+            probe.x = position->unk_00.at00.v - ((S_80095C80_2 *)pos_xy_motion)->unk_0C;
+            pos_xy_y = position->unk_04.at00.v;
+            ASM_KEEP_NV(pos_xy_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            pos_xy_test = ((S_80095C80_2 *)pos_xy_motion)->unk_10;
             ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            temp_a1 = 0;
-            ASM_KEEP_NV(temp_a1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            sp10.y = temp_v0 - temp_v1;
-            sp10.z = arg0->unk_08 - temp_v1;
-            temp_v1 = arg0->unk_00.at00.v < (func_80095BC0(&sp10, temp_a1) << 0x10);
-            temp_v1 ^= 1;
-            if (temp_v1 != 0) {
-                goto call_a8;
+            y_step_or_side = 0;
+            ASM_KEEP_NV(y_step_or_side);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            probe.y = pos_xy_y - pos_xy_test;
+            probe.z = position->unk_08 - pos_xy_test;
+            pos_xy_test = position->unk_00.at00.v < (func_80095BC0(&probe, y_step_or_side) << 0x10);
+            pos_xy_test ^= 1;
+            if (pos_xy_test != 0) {
+                goto resolve_x;
             }
-            goto block_57;
+            goto resolve_y;
         }
-        if (((S_80095C80_0 *)base)->unk_10 < 0) {
-            sp10.x = arg0->unk_00.at00.v - ((S_80095C80_0 *)base)->unk_0C;
-            sp10.y = arg0->unk_04.at00.v;
-            sp10.z = arg0->unk_08;
-            temp_s0_2 = arg0->unk_00.at00.v < (func_80095BC0(&sp10, 1) << 0x10);
-            temp_s0_2 ^= 1;
-            sp10.x = arg0->unk_00.at00.v;
-            sp10.y = arg0->unk_04.at00.v - ((S_80095C80_0 *)base)->unk_10;
-            sp10.z = arg0->unk_08;
-            temp_v0_4 = (func_80095C50(&sp10, 0) << 0x10) >= arg0->unk_04.at00.v;
-            if (temp_s0_2 == 0) {
-                var_a0_2 = (M2C_UNK *)D_80100000;
-                if (temp_v0_4 == 0) {
-                    s32 angle_x2;
-                    angle_x2 = arg0->unk_00.at02.v;
-                    temp_v1_3 = (s16) arg0->unk_04.at02.v;
-                    angle_x2 &= 0x3F;
-                    ASM_KEEP_NV(angle_x2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    if (temp_v1_3 < 0) {
-                        temp_v1_3 = 0 - temp_v1_3;
+        if (((S_80095C80_0 *)motion)->unk_10 < 0) {
+            probe.x = position->unk_00.at00.v - ((S_80095C80_0 *)motion)->unk_0C;
+            probe.y = position->unk_04.at00.v;
+            probe.z = position->unk_08;
+            pos_x_hit = position->unk_00.at00.v < (func_80095BC0(&probe, 1) << 0x10);
+            pos_x_hit ^= 1;
+            probe.x = position->unk_00.at00.v;
+            probe.y = position->unk_04.at00.v - ((S_80095C80_0 *)motion)->unk_10;
+            probe.z = position->unk_08;
+            neg_y_hit = (func_80095C50(&probe, 0) << 0x10) >= position->unk_04.at00.v;
+            if (pos_x_hit == 0) {
+                pos_x_neg_y_motion = (M2C_UNK *)D_80100000;
+                if (neg_y_hit == 0) {
+                    s32 x_offset;
+                    x_offset = position->unk_00.at02.v;
+                    axis_test = (s16) position->unk_04.at02.v;
+                    x_offset &= 0x3F;
+                    ASM_KEEP_NV(x_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    if (axis_test < 0) {
+                        axis_test = 0 - axis_test;
                     }
-                    temp_v1_3 &= 0x3F;
-                    angle_x2 = angle_x2 < temp_v1_3;
-                    if (angle_x2 != 0) {
-                        goto call_a8;
+                    axis_test &= 0x3F;
+                    x_offset = x_offset < axis_test;
+                    if (x_offset != 0) {
+                        goto resolve_x;
                     }
-                    goto block_57;
+                    goto resolve_y;
                 }
-                goto block_20;
+                goto check_pos_x_neg_y_corner;
             }
-            var_a0_2 = (M2C_UNK *)D_80100000;
-block_20:
-            var_a0_2 = (M2C_UNK *)((s8 *)var_a0_2 - 0x1A40);
-            sp10.x = arg0->unk_00.at00.v - ((S_80095C80_3 *)var_a0_2)->unk_0C;
-            temp_v0_2 = arg0->unk_04.at00.v;
-            ASM_KEEP_NV(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            temp_v1_2 = ((S_80095C80_3 *)var_a0_2)->unk_10;
+            pos_x_neg_y_motion = (M2C_UNK *)D_80100000;
+check_pos_x_neg_y_corner:
+            pos_x_neg_y_motion = (M2C_UNK *)((s8 *)pos_x_neg_y_motion - 0x1A40);
+            probe.x = position->unk_00.at00.v - ((S_80095C80_3 *)pos_x_neg_y_motion)->unk_0C;
+            pos_x_neg_y_y = position->unk_04.at00.v;
+            ASM_KEEP_NV(pos_x_neg_y_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            pos_x_neg_y_test = ((S_80095C80_3 *)pos_x_neg_y_motion)->unk_10;
             ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            temp_a1 = 1;
-            ASM_KEEP_NV(temp_a1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            sp10.y = temp_v0_2 - temp_v1_2;
-            sp10.z = arg0->unk_08 - temp_v1_2;
-            temp_v1_2 = arg0->unk_00.at00.v >= (func_80095BC0(&sp10, temp_a1) << 0x10);
-            ASM_KEEP_NV(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            if (temp_v1_2 != 0) {
-                goto call_a8;
+            y_step_or_side = 1;
+            ASM_KEEP_NV(y_step_or_side);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            probe.y = pos_x_neg_y_y - pos_x_neg_y_test;
+            probe.z = position->unk_08 - pos_x_neg_y_test;
+            pos_x_neg_y_test = position->unk_00.at00.v >= (func_80095BC0(&probe, y_step_or_side) << 0x10);
+            ASM_KEEP_NV(pos_x_neg_y_test);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            if (pos_x_neg_y_test != 0) {
+                goto resolve_x;
             }
-            goto block_57;
+            goto resolve_y;
         }
-        goto block_24;
+        goto load_neg_x_motion;
     }
-block_24:
+load_neg_x_motion:
     {
-    unsigned long neg_work;
-    neg_page = (M2C_UNK *)D_80100000;
-block_24_low:
-    neg_work = (unsigned long)((s8 *)neg_page - 0x1A40);
-    {
-        if (((S_80095C80_4 *)((M2C_UNK *)neg_work))->unk_0C >= 0) {
-            goto block_52_low;
-        }
-        if (((S_80095C80_4 *)((M2C_UNK *)neg_work))->unk_10 > 0) {
-            register s32 neg_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            register s32 neg_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 neg_return;
-            sp10.x = arg0->unk_00.at00.v - ((S_80095C80_4 *)((M2C_UNK *)neg_work))->unk_0C;
-            sp10.y = arg0->unk_04.at00.v;
-            sp10.z = arg0->unk_08;
-            temp_v0_5 = func_80095BF0(&sp10, 0);
-            temp_a2 = arg0->unk_00.at00.v;
-            sp10.x = temp_a2;
-            neg_coord = arg0->unk_04.at00.v;
-            neg_a1 = ((S_80095C80_4 *)((M2C_UNK *)neg_work))->unk_10;
-            neg_work = temp_v0_5 << 0x10;
-            neg_work = (s32)neg_work < temp_a2;
-            neg_work ^= 1;
-            sp10.y = neg_coord - neg_a1;
-            neg_coord = arg0->unk_08;
-            sp10.z = neg_coord;
-            neg_return = func_80095C20(&sp10, 1, temp_a2);
-            neg_coord = arg0->unk_04.at00.v;
-            neg_return <<= 0x10;
-            neg_coord = neg_coord < neg_return;
-            neg_return = neg_coord ^ 1;
-            if (neg_work == 0) {
-                var_a0_3 = (M2C_UNK *)D_80100000;
-                if (neg_return == 0) {
-                    s32 angle_y3;
-                    temp_v1_3 = (s16) arg0->unk_00.at02.v;
-                    angle_y3 = arg0->unk_04.at02.v;
-                    if (temp_v1_3 < 0) {
-                        temp_v1_3 = 0 - temp_v1_3;
+        unsigned long motion_or_hit;
+        motion_page = (M2C_UNK *)D_80100000;
+check_neg_x:
+        motion_or_hit = (unsigned long)((s8 *)motion_page - 0x1A40);
+        {
+            if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C >= 0) {
+                goto check_single_axis;
+            }
+            if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_10 > 0) {
+                register s32 y_step_or_side ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                register s32 probe_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s32 y_test;
+                probe.x = position->unk_00.at00.v - ((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C;
+                probe.y = position->unk_04.at00.v;
+                probe.z = position->unk_08;
+                neg_x_boundary = func_80095BF0(&probe, 0);
+                neg_x_pos_y_x = position->unk_00.at00.v;
+                probe.x = neg_x_pos_y_x;
+                probe_coord = position->unk_04.at00.v;
+                y_step_or_side = ((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_10;
+                motion_or_hit = neg_x_boundary << 0x10;
+                motion_or_hit = (s32)motion_or_hit < neg_x_pos_y_x;
+                motion_or_hit ^= 1;
+                probe.y = probe_coord - y_step_or_side;
+                probe_coord = position->unk_08;
+                probe.z = probe_coord;
+                y_test = func_80095C20(&probe, 1, neg_x_pos_y_x);
+                probe_coord = position->unk_04.at00.v;
+                y_test <<= 0x10;
+                probe_coord = probe_coord < y_test;
+                y_test = probe_coord ^ 1;
+                if (motion_or_hit == 0) {
+                    neg_x_pos_y_motion = (M2C_UNK *)D_80100000;
+                    if (y_test == 0) {
+                        s32 y_offset;
+                        axis_test = (s16) position->unk_00.at02.v;
+                        y_offset = position->unk_04.at02.v;
+                        if (axis_test < 0) {
+                            axis_test = 0 - axis_test;
+                        }
+                        axis_test &= 0x3F;
+                        y_offset &= 0x3F;
+                        if (axis_test < y_offset) {
+                            goto resolve_x;
+                        }
+                        goto resolve_y;
                     }
-                    temp_v1_3 &= 0x3F;
-                    angle_y3 &= 0x3F;
-                    if (temp_v1_3 < angle_y3) {
-                        goto call_a8;
-                    }
-                    goto block_57;
+                    goto check_neg_x_pos_y_corner;
                 }
-                goto block_34;
-            }
-            var_a0_3 = (M2C_UNK *)D_80100000;
-block_34:
-            var_a0_3 = (M2C_UNK *)((s8 *)var_a0_3 - 0x1A40);
-            sp10.x = arg0->unk_00.at00.v - ((S_80095C80_5 *)var_a0_3)->unk_0C;
-            temp_v0_3 = arg0->unk_04.at00.v;
-            ASM_KEEP_NV(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            neg_coord = ((S_80095C80_5 *)var_a0_3)->unk_10;
-            ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            neg_a1 = 0;
-            ASM_KEEP_NV(neg_a1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            sp10.y = temp_v0_3 - neg_coord;
-            sp10.z = arg0->unk_08 - neg_coord;
-            temp_v1_3 = (func_80095BF0(&sp10, neg_a1) << 0x10) < arg0->unk_00.at00.v;
-            temp_v1_3 ^= 1;
-            if (temp_v1_3 != 0) {
-                goto call_a8;
-            }
-            goto block_57;
-        }
-        if (((S_80095C80_4 *)((M2C_UNK *)neg_work))->unk_10 < 0) {
-            register s32 neg2_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            register s32 neg2_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            sp10.x = arg0->unk_00.at00.v - ((S_80095C80_4 *)((M2C_UNK *)neg_work))->unk_0C;
-            sp10.y = arg0->unk_04.at00.v;
-            sp10.z = arg0->unk_08;
-            temp_v0_7 = func_80095BF0(&sp10, 1);
-            temp_a2_2 = arg0->unk_00.at00.v;
-            sp10.x = temp_a2_2;
-            neg2_coord = arg0->unk_04.at00.v;
-            neg2_a1 = ((S_80095C80_4 *)((M2C_UNK *)neg_work))->unk_10;
-            neg_work = temp_v0_7 << 0x10;
-            neg_work = (s32)neg_work < temp_a2_2;
-            neg_work ^= 1;
-            sp10.y = neg2_coord - neg2_a1;
-            neg2_coord = arg0->unk_08;
-            sp10.z = neg2_coord;
-            temp_v1_3 = func_80095C50(&sp10, 1, temp_a2_2);
-            neg2_coord = arg0->unk_04.at00.v;
-            temp_v1_3 <<= 0x10;
-            temp_v1_3 = temp_v1_3 < neg2_coord;
-            temp_v1_3 ^= 1;
-            if (neg_work == 0) {
-                var_a0_4 = (M2C_UNK *)D_80100000;
-                if (temp_v1_3 == 0) {
-                    s32 angle_y4;
-                    temp_v1_3 = (s16) arg0->unk_00.at02.v;
-                    angle_y4 = (s16) arg0->unk_04.at02.v;
-                    if (temp_v1_3 < 0) {
-                        temp_v1_3 = 0 - temp_v1_3;
-                    }
-                    temp_v1_3 &= 0x3F;
-                    ASM_KEEP_NV(temp_v1_3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    if (angle_y4 < 0) {
-                        angle_y4 = -angle_y4;
-                    }
-                    angle_y4 &= 0x3F;
-                    if (temp_v1_3 < angle_y4) {
-                        goto call_d8;
-                    }
-                    goto call_a8;
+                neg_x_pos_y_motion = (M2C_UNK *)D_80100000;
+check_neg_x_pos_y_corner:
+                neg_x_pos_y_motion = (M2C_UNK *)((s8 *)neg_x_pos_y_motion - 0x1A40);
+                probe.x = position->unk_00.at00.v - ((S_80095C80_5 *)neg_x_pos_y_motion)->unk_0C;
+                neg_x_pos_y_y = position->unk_04.at00.v;
+                ASM_KEEP_NV(neg_x_pos_y_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                probe_coord = ((S_80095C80_5 *)neg_x_pos_y_motion)->unk_10;
+                ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                y_step_or_side = 0;
+                ASM_KEEP_NV(y_step_or_side);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                probe.y = neg_x_pos_y_y - probe_coord;
+                probe.z = position->unk_08 - probe_coord;
+                axis_test = (func_80095BF0(&probe, y_step_or_side) << 0x10) < position->unk_00.at00.v;
+                axis_test ^= 1;
+                if (axis_test != 0) {
+                    goto resolve_x;
                 }
-                goto block_48;
+                goto resolve_y;
             }
-            var_a0_4 = (M2C_UNK *)D_80100000;
-block_48:
-            var_a0_4 = (M2C_UNK *)((s8 *)var_a0_4 - 0x1A40);
-            sp10.x = arg0->unk_00.at00.v - ((S_80095C80_6 *)var_a0_4)->unk_0C;
-            temp_v0_6 = arg0->unk_04.at00.v;
-            ASM_KEEP_NV(temp_v0_6);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            neg2_coord = ((S_80095C80_6 *)var_a0_4)->unk_10;
-            ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            neg2_a1 = 1;
-            ASM_KEEP_NV(neg2_a1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            sp10.y = temp_v0_6 - neg2_coord;
-            sp10.z = arg0->unk_08 - neg2_coord;
-            temp_v1_3 = (func_80095BF0(&sp10, neg2_a1) << 0x10) >= arg0->unk_00.at00.v;
-            ASM_KEEP_NV(temp_v1_3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            if (temp_v1_3 != 0) {
-                goto call_a8;
+            if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_10 < 0) {
+                register s32 y_step_or_side ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                register s32 probe_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                probe.x = position->unk_00.at00.v - ((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C;
+                probe.y = position->unk_04.at00.v;
+                probe.z = position->unk_08;
+                neg_xy_boundary = func_80095BF0(&probe, 1);
+                neg_xy_x = position->unk_00.at00.v;
+                probe.x = neg_xy_x;
+                probe_coord = position->unk_04.at00.v;
+                y_step_or_side = ((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_10;
+                motion_or_hit = neg_xy_boundary << 0x10;
+                motion_or_hit = (s32)motion_or_hit < neg_xy_x;
+                motion_or_hit ^= 1;
+                probe.y = probe_coord - y_step_or_side;
+                probe_coord = position->unk_08;
+                probe.z = probe_coord;
+                axis_test = func_80095C50(&probe, 1, neg_xy_x);
+                probe_coord = position->unk_04.at00.v;
+                axis_test <<= 0x10;
+                axis_test = axis_test < probe_coord;
+                axis_test ^= 1;
+                if (motion_or_hit == 0) {
+                    neg_xy_motion = (M2C_UNK *)D_80100000;
+                    if (axis_test == 0) {
+                        s32 y_offset;
+                        axis_test = (s16) position->unk_00.at02.v;
+                        y_offset = (s16) position->unk_04.at02.v;
+                        if (axis_test < 0) {
+                            axis_test = 0 - axis_test;
+                        }
+                        axis_test &= 0x3F;
+                        ASM_KEEP_NV(axis_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        if (y_offset < 0) {
+                            y_offset = -y_offset;
+                        }
+                        y_offset &= 0x3F;
+                        if (axis_test < y_offset) {
+                            goto apply_y;
+                        }
+                        goto resolve_x;
+                    }
+                    goto check_neg_xy_corner;
+                }
+                neg_xy_motion = (M2C_UNK *)D_80100000;
+check_neg_xy_corner:
+                neg_xy_motion = (M2C_UNK *)((s8 *)neg_xy_motion - 0x1A40);
+                probe.x = position->unk_00.at00.v - ((S_80095C80_6 *)neg_xy_motion)->unk_0C;
+                neg_xy_y = position->unk_04.at00.v;
+                ASM_KEEP_NV(neg_xy_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                probe_coord = ((S_80095C80_6 *)neg_xy_motion)->unk_10;
+                ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                y_step_or_side = 1;
+                ASM_KEEP_NV(y_step_or_side);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                probe.y = neg_xy_y - probe_coord;
+                probe.z = position->unk_08 - probe_coord;
+                axis_test = (func_80095BF0(&probe, y_step_or_side) << 0x10) >= position->unk_00.at00.v;
+                ASM_KEEP_NV(axis_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                if (axis_test != 0) {
+                    goto resolve_x;
+                }
+                goto resolve_y;
             }
-            goto block_57;
+            goto load_axis_motion;
         }
-        goto block_52;
     }
-    }
-block_52:
+load_axis_motion:
     {
-    M2C_UNK *final_base;
-    neg_page = (M2C_UNK *)D_80100000;
-block_52_low:
-    final_base = (M2C_UNK *)((s8 *)neg_page - 0x1A40);
-    if (((S_80095C80_7 *)final_base)->unk_0C == 0) {
-        goto check_final_y;
-    }
-    if (((S_80095C80_7 *)final_base)->unk_10 != 0) {
+        M2C_UNK *axis_motion;
+        motion_page = (M2C_UNK *)D_80100000;
+check_single_axis:
+        axis_motion = (M2C_UNK *)((s8 *)motion_page - 0x1A40);
+        if (((S_80095C80_7 *)axis_motion)->unk_0C == 0) {
+            goto check_final_y;
+        }
+        if (((S_80095C80_7 *)axis_motion)->unk_10 != 0) {
+            goto done;
+        }
+
+resolve_x:
+        func_800961A8(position);
         goto done;
-    }
-
-call_a8:
-    func_800961A8(arg0);
-    goto done;
 
 check_final_y:
-    if (((S_80095C80_7 *)final_base)->unk_10 == 0) {
-        goto done;
-    }
+        if (((S_80095C80_7 *)axis_motion)->unk_10 == 0) {
+            goto done;
+        }
 
-block_57:
-call_d8:
-    func_800961D8(arg0);
+resolve_y:
+apply_y:
+        func_800961D8(position);
     }
 
 done:

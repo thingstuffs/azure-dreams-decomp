@@ -27,58 +27,59 @@ typedef struct S_8004AA78_Buf {
 extern S_8004AA78_CategoryEntry itemCategoryTable[];
 extern void func_8004A9B0(u8 *arg0, s32 arg1);
 
-void func_8004AA78(s32 arg0) {
-    S_8004AA78_Buf sp10;
-    s32 var_a1;
-    s32 var_a2;
-    s32 temp_s0;
-    S_8004AA78_Rec *temp_s1;
-    S_8004AA78_Rec *var_a0;
-    u8 *var_v1;
-    s32 temp_v0;
+/* Shuffles nonzero item pointers among occupied records in a category. */
+void func_8004AA78(s32 category) {
+    S_8004AA78_Buf shuffle;
+    s32 ptr_count;
+    s32 index;
+    s32 record_count;
+    S_8004AA78_Rec *records;
+    S_8004AA78_Rec *record;
+    u8 *packed_cursor;
+    s32 item_ptr;
 
-    var_a1 = 0;
-    temp_s0 = itemCategoryTable[arg0].count;
-    temp_s1 = itemCategoryTable[arg0].records;
-    var_a2 = 0;
-    if (temp_s0 != 0) {
-        var_a0 = temp_s1;
-        var_v1 = sp10.indices;
+    ptr_count = 0;
+    record_count = itemCategoryTable[category].count;
+    records = itemCategoryTable[category].records;
+    index = 0;
+    if (record_count != 0) {
+        record = records;
+        packed_cursor = shuffle.indices;
         do {
-            temp_v0 = var_a0->ptr;
-            if (temp_v0 != 0) {
-                *(s32 *)(var_v1 + 0x40) = temp_v0;
-                var_v1 += 4;
-                var_a1 += 1;
+            item_ptr = record->ptr;
+            if (item_ptr != 0) {
+                *(s32 *)(packed_cursor + 0x40) = item_ptr;
+                packed_cursor += 4;
+                ptr_count += 1;
             }
-            var_a2 += 1;
-            var_a0 += 1;
-        } while (var_a2 < temp_s0);
+            index += 1;
+            record += 1;
+        } while (index < record_count);
     }
 
-    var_a2 = 0;
-    if (var_a1 > 0) {
+    index = 0;
+    if (ptr_count > 0) {
         do {
-            sp10.indices[var_a2] = (u8)var_a2;
-            var_a2 += 1;
-        } while (var_a2 < var_a1);
+            shuffle.indices[index] = (u8)index;
+            index += 1;
+        } while (index < ptr_count);
     }
 
-    func_8004A9B0(sp10.indices, var_a1);
+    func_8004A9B0(shuffle.indices, ptr_count);
 
-    var_a1 = 0;
-    var_a2 = 0;
-    if (temp_s0 != 0) {
+    ptr_count = 0;
+    index = 0;
+    if (record_count != 0) {
         /* Indexed form keeps base+0xC (avoids IV strength-reduce to &field). */
-        S_8004AA78_Buf *buf = &sp10;
+        S_8004AA78_Buf *buf = &shuffle;
         do {
-            temp_v0 = temp_s1[var_a2].ptr;
-            if (temp_v0 != 0) {
-                temp_v0 = buf->ptrs[buf->indices[var_a1]];
-                var_a1 += 1;
-                temp_s1[var_a2].ptr = temp_v0;
+            item_ptr = records[index].ptr;
+            if (item_ptr != 0) {
+                item_ptr = buf->ptrs[buf->indices[ptr_count]];
+                ptr_count += 1;
+                records[index].ptr = item_ptr;
             }
-            var_a2 += 1;
-        } while (var_a2 < temp_s0);
+            index += 1;
+        } while (index < record_count);
     }
 }

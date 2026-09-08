@@ -17,6 +17,7 @@ extern void *D_8002856C;
 extern u8 D_80020000[];
 extern u8 D_80020028[];
 
+/* Closes eight event handles, reporting an error and exiting if any close fails. */
 void func_80020F18(void)
 {
     func_8006A084();

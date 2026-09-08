@@ -14,64 +14,65 @@ M2C_UNK func_800B58B8();             /* extern */
 M2C_UNK func_800B6094();            /* extern */
 M2C_UNK func_800B61C0();            /* extern */
 
-void func_800B62A4(void *arg0, s32 arg1) {
-    void *sp10[3];
-    s32 var_s0;
-    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 var_s3;
-    s32 var_v0;
-    void *temp_a0;
-    s32 *temp_v0;
-    void *var_a1;
-    void *var_s2;
+/* Fill up to three output slots from source entries and clear unused slots. */
+void func_800B62A4(void *source, s32 output) {
+    void *entries[3];
+    s32 index;
+    register s32 slot_count ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 scan_base;
+    s32 has_room;
+    void *entry;
+    s32 *slot_value;
+    void *slot_cursor;
+    void *source_cursor;
 
-    var_s1 = 0;
-    var_s0 = var_s1;
-    var_s3 = 8;
-    var_s2 = arg0;
+    slot_count = 0;
+    index = slot_count;
+    scan_base = 8;
+    source_cursor = source;
     do {
-        if (((S_800B62A4_0 *)var_s2)->unk_08 != 0) {
-            func_800B6094(arg0 + var_s3, arg1, var_s1);
-            var_s1 += 1;
+        if (((S_800B62A4_0 *)source_cursor)->unk_08 != 0) {
+            func_800B6094(source + scan_base, output, slot_count);
+            slot_count += 1;
         }
-        var_s3 += 3;
-        var_s0 += 1;
-        var_s2 += 3;
-    } while (var_s0 < 3);
-    bzero(sp10, 0xC);
-    func_800B58B8(sp10, arg0);
-    var_s0 = 0;
-    var_v0 = var_s1 < 3;
-    var_s3 = var_s1;
-    if (var_v0 != 0) {
-        var_s2 = sp10;
+        scan_base += 3;
+        index += 1;
+        source_cursor += 3;
+    } while (index < 3);
+    bzero(entries, 0xC);
+    func_800B58B8(entries, source);
+    index = 0;
+    has_room = slot_count < 3;
+    scan_base = slot_count;
+    if (has_room != 0) {
+        source_cursor = entries;
         do {
-            temp_a0 = *(void **)var_s2;
-            if (temp_a0 != NULL) {
-                func_800B61C0(temp_a0, arg1, var_s1);
-                var_s1 += 1;
+            entry = *(void **)source_cursor;
+            if (entry != NULL) {
+                func_800B61C0(entry, output, slot_count);
+                slot_count += 1;
             }
-            var_s0 += 1;
-            var_s2 = (void *)((s8 *)var_s2 + 4);
-        } while ((var_s0 + var_s3) < 3);
-        var_v0 = var_s1 < 3;
+            index += 1;
+            source_cursor = (void *)((s8 *)source_cursor + 4);
+        } while ((index + scan_base) < 3);
+        has_room = slot_count < 3;
     }
-    var_s0 = var_s1;
-    if ((var_v0 != 0) && (((Rec_D_800E3D7C *)arg0)->unk_48.at01_u8.v != 0)) {
-        func_800B61C0(arg0 + 0x48, arg1, var_s1);
-        var_s1 += 1;
-        ASM_KEEP(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        var_s0 = var_s1;
+    index = slot_count;
+    if ((has_room != 0) && (((Rec_D_800E3D7C *)source)->unk_48.at01_u8.v != 0)) {
+        func_800B61C0(source + 0x48, output, slot_count);
+        slot_count += 1;
+        ASM_KEEP(slot_count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        index = slot_count;
     }
-    if (var_s0 < 3) {
-        var_a1 = (var_s0 * 4) + arg1;
+    if (index < 3) {
+        slot_cursor = (index * 4) + output;
         do {
-            temp_v0 = (*(s32 * volatile *)((u8 *)var_a1 + 0x38));
-            var_s0 += 1;
-            *temp_v0 = 0;
-            ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            var_a1 += 4;
-        } while (var_s0 < 3);
+            slot_value = (*(s32 * volatile *)((u8 *)slot_cursor + 0x38));
+            index += 1;
+            *slot_value = 0;
+            ASM_KEEP(slot_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            slot_cursor += 4;
+        } while (index < 3);
     }
 }
 /* MECHANISM: A 3-pointer stack array forces the retail 0x40 frame; unified loop-role

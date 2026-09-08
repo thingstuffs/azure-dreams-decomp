@@ -29,12 +29,13 @@ extern s32 D_801B8EB8;
 extern s32 D_801B8EBC;
 extern u8 D_801C9E40[];
 
+/* Plays the selected movie and resets both frame buffers afterward. */
 void func_800400AC(void) {
-    u8 *base;
+    u8 *frame_buffers;
     s32 movie_flag;
-    s32 e4_value;
-    u8 *resident_hi = (u8 *) 0x80080000;
-    register u8 *e4_hi ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 saved_movie_flag;
+    u8 *resident_globals_hi = (u8 *) 0x80080000;
+    register u8 *movie_globals_hi ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     D_80082E60 &= ~1;
     if (D_80080A88 == 0) {
@@ -47,29 +48,29 @@ void func_800400AC(void) {
     func_8005A56C(0, (s16) D_801B8EBC, (s16) D_801B8EBC);
 
     movie_flag = (u32) D_80189394 >> 31;
-    e4_hi = (u8 *) 0x80180000;
-    *(s32 *) (e4_hi - 0x7E1C) = movie_flag;
+    movie_globals_hi = (u8 *) 0x80180000;
+    *(s32 *) (movie_globals_hi - 0x7E1C) = movie_flag;
     func_80176AD8(movie_flag);
     func_80066F78(0);
 
-    base = D_801C9E40;
-    e4_value = *(s32 *) (e4_hi - 0x7E1C);
-    base[0x6D] = 1;
-    base[0x10941] = 1;
-    func_80176AD8(e4_value);
+    frame_buffers = D_801C9E40;
+    saved_movie_flag = *(s32 *) (movie_globals_hi - 0x7E1C);
+    frame_buffers[0x6D] = 1;
+    frame_buffers[0x10941] = 1;
+    func_80176AD8(saved_movie_flag);
 
     D_801781E0 = 1;
     func_80176B3C(0, ((D_80189394 & 0x40000000) == 0) * 0x10);
-    func_8017719C(0, D_80189394 & 0x3FFFFFFF, D_801B8EB8, *(s32 *) (e4_hi - 0x7E1C));
+    func_8017719C(0, D_80189394 & 0x3FFFFFFF, D_801B8EB8, *(s32 *) (movie_globals_hi - 0x7E1C));
     func_80066F78(0);
 
     {
-        u8 *slot;
+        u8 *active_buffer;
 
-        slot = *(u8 **) (resident_hi + 0x3160);
-        base[0x6D] = 0;
-        base[0x10941] = 0;
-        func_800678E0(slot + 0x5C);
+        active_buffer = *(u8 **) (resident_globals_hi + 0x3160);
+        frame_buffers[0x6D] = 0;
+        frame_buffers[0x10941] = 0;
+        func_800678E0(active_buffer + 0x5C);
     }
     func_80067014(0);
     func_8005FE18(2);
@@ -79,35 +80,35 @@ void func_800400AC(void) {
     func_8017797C(0);
     func_80061208(0);
     func_80067014(0);
-    func_80176AD8(*(s32 *) (e4_hi - 0x7E1C));
+    func_80176AD8(*(s32 *) (movie_globals_hi - 0x7E1C));
 
     {
-        u8 *slot;
-        u8 *next;
+        u8 *active_buffer;
+        u8 *next_buffer;
 
-        slot = *(u8 **) (resident_hi + 0x3160);
-        next = base;
-        base[0x6D] = 0;
-        base[0x10941] = 0;
-        if (slot == base) {
-            next = base + 0x108D4;
+        active_buffer = *(u8 **) (resident_globals_hi + 0x3160);
+        next_buffer = frame_buffers;
+        frame_buffers[0x6D] = 0;
+        frame_buffers[0x10941] = 0;
+        if (active_buffer == frame_buffers) {
+            next_buffer = frame_buffers + 0x108D4;
         }
-        *(u8 **) (resident_hi + 0x3160) = next;
-        func_8006751C(next + 0x70, 0x218);
-        func_80067688(*(void **) (resident_hi + 0x3160));
+        *(u8 **) (resident_globals_hi + 0x3160) = next_buffer;
+        func_8006751C(next_buffer + 0x70, 0x218);
+        func_80067688(*(void **) (resident_globals_hi + 0x3160));
     }
     func_8005FE18(0);
     {
-        u8 *next;
+        u8 *next_buffer;
 
-        next = base;
-        if (*(u8 **) (resident_hi + 0x3160) == base) {
-            next = base + 0x108D4;
+        next_buffer = frame_buffers;
+        if (*(u8 **) (resident_globals_hi + 0x3160) == frame_buffers) {
+            next_buffer = frame_buffers + 0x108D4;
         }
-        *(u8 **) (resident_hi + 0x3160) = next;
-        func_8006751C(next + 0x70, 0x218);
-        func_80067688(*(void **) (resident_hi + 0x3160));
+        *(u8 **) (resident_globals_hi + 0x3160) = next_buffer;
+        func_8006751C(next_buffer + 0x70, 0x218);
+        func_80067688(*(void **) (resident_globals_hi + 0x3160));
     }
     func_8005FE18(0);
-    func_80176AD8(*(s32 *) (e4_hi - 0x7E1C));
+    func_80176AD8(*(s32 *) (movie_globals_hi - 0x7E1C));
 }

@@ -53,11 +53,12 @@ extern s32 D_801719DC;
 extern u8 D_80174684[];
 extern u8 D_8017468C[];
 
-void func_8017409C(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advance actor states and directional animations while handling entity flags. */
+void func_8017409C(void *actor, void *context, void *animation, void *entity)
 {
     s32 state;
 
-    state = ((S_8017409C_0 *)arg0)->unk_9B;
+    state = ((S_8017409C_0 *)actor)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -77,116 +78,116 @@ at_least_two:
 
 state_zero:
     {
-        s32 *base;
-        u8 *table;
+        s32 *dungeon_state;
+        u8 *direction_frames;
 
-        if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000)) {
             goto done;
         }
 
-        base = &D_80083460;
-        ((S_8017409C_2 *)base)->unk_0A--;
-        table = D_80174684;
-        (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-        func_80047784(arg2,
-            table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        dungeon_state = &D_80083460;
+        ((S_8017409C_2 *)dungeon_state)->unk_0A--;
+        direction_frames = D_80174684;
+        (*(void * *)((u8 *)animation + 0x2C)) = direction_frames;
+        func_80047784(animation,
+            direction_frames[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         goto increment_state;
     }
 
 state_one:
     {
-        u8 *global;
-        u32 flags;
+        u8 *dungeon_state;
+        u32 entity_flags;
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v != 0) {
-            s32 *base;
+        if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v != 0) {
+            s32 *dungeon_state;
 
-            (*(void * *)((u8 *)arg2 + 0x2C)) = D_8017468C;
-            func_80047784(arg2,
-                D_8017468C[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            (*(void * *)((u8 *)animation + 0x2C)) = D_8017468C;
+            func_80047784(animation,
+                D_8017468C[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
-            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x40000;
-            base = &D_80083460;
-            ((S_8017409C_2 *)base)->unk_0A++;
+            ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 |= 0x40000;
+            dungeon_state = &D_80083460;
+            ((S_8017409C_2 *)dungeon_state)->unk_0A++;
             goto increment_state;
         }
 
-        global = (u8 *)&D_80083460;
-        if (((S_8017409C_4 *)global)->unk_02 & 0x1000) {
+        dungeon_state = (u8 *)&D_80083460;
+        if (((S_8017409C_4 *)dungeon_state)->unk_02 & 0x1000) {
             goto done;
         }
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
+        if (((Rec_D_800E3D7C *)entity)->unk_64.as_s16 != 0) {
+            if (func_800AA6B4(actor, context, animation, 0) != 0) {
                 goto done;
             }
         }
 
-        if ((func_800A2C34(arg3) << 16) != 0) {
+        if ((func_800A2C34(entity) << 16) != 0) {
             goto done;
         }
 
-        flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32;
-        if (flags & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        entity_flags = ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32;
+        if (entity_flags & 0x100) {
+            func_800AA258(actor, context, animation, entity);
             goto done;
         }
 
-        if (flags & 0x80000) {
-            u16 old_value;
-            u16 amount;
-            u32 saved;
+        if (entity_flags & 0x80000) {
+            u16 actor_value;
+            u16 value_delta;
+            u32 packed_delta;
 
-            func_800AA888(arg0, arg1, arg2, arg3);
-            old_value = ((S_8017409C_0 *)arg0)->unk_92;
-            amount = ((S_8017409C_0 *)arg0)->unk_A4.at02.v;
-            saved = ((S_8017409C_0 *)arg0)->unk_A4.at00.v;
-            ((S_8017409C_0 *)arg0)->unk_A4.at02.v = 0;
-            ((S_8017409C_0 *)arg0)->unk_B8 = 0;
-            ((S_8017409C_0 *)arg0)->unk_AC = 0;
-            ((S_8017409C_0 *)arg0)->unk_B0 = 0;
-            ((S_8017409C_0 *)arg0)->unk_92 = old_value - amount;
-            ((S_8017409C_0 *)arg0)->unk_A8 = saved;
-            func_801743F0(arg0, arg1, arg2, arg3);
+            func_800AA888(actor, context, animation, entity);
+            actor_value = ((S_8017409C_0 *)actor)->unk_92;
+            value_delta = ((S_8017409C_0 *)actor)->unk_A4.at02.v;
+            packed_delta = ((S_8017409C_0 *)actor)->unk_A4.at00.v;
+            ((S_8017409C_0 *)actor)->unk_A4.at02.v = 0;
+            ((S_8017409C_0 *)actor)->unk_B8 = 0;
+            ((S_8017409C_0 *)actor)->unk_AC = 0;
+            ((S_8017409C_0 *)actor)->unk_B0 = 0;
+            ((S_8017409C_0 *)actor)->unk_92 = actor_value - value_delta;
+            ((S_8017409C_0 *)actor)->unk_A8 = packed_delta;
+            func_801743F0(actor, context, animation, entity);
             goto done;
         }
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
+        if (((Rec_D_800E3D7C *)entity)->unk_6D.as_s8 == 0) {
             goto done;
         }
-        if ((func_800A2C34(arg3) << 16) != 0) {
-            if ((func_8009A180(arg3,
+        if ((func_800A2C34(entity) << 16) != 0) {
+            if ((func_8009A180(entity,
                     (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                 goto done;
             }
         }
 
-        func_800A9A0C(arg3);
-        func_800A9A04(arg3);
-        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
+        func_800A9A0C(entity);
+        func_800A9A04(entity);
+        if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v == 0) {
             goto done;
         }
 
-        (*(void * *)((u8 *)arg2 + 0x2C)) = D_8017468C;
-        func_80047784(arg2,
-            D_8017468C[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        (*(void * *)((u8 *)animation + 0x2C)) = D_8017468C;
+        func_80047784(animation,
+            D_8017468C[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        (*(u32 *)((u8 *)arg3 + 0x1C)) |= 0x40000;
-        ((S_8017409C_4 *)global)->unk_0A++;
+        (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
+        ((S_8017409C_4 *)dungeon_state)->unk_0A++;
     }
 
 increment_state:
-    ((S_8017409C_0 *)arg0)->unk_9B++;
+    ((S_8017409C_0 *)actor)->unk_9B++;
     goto done;
 
 state_two:
-    if (((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000) {
-        s32 *base;
+    if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
+        s32 *dungeon_state;
 
-        base = &D_80083460;
-        ((S_8017409C_2 *)base)->unk_0A--;
-        ((S_8017409C_0 *)arg0)->unk_8C = &D_801719DC;
+        dungeon_state = &D_80083460;
+        ((S_8017409C_2 *)dungeon_state)->unk_0A--;
+        ((S_8017409C_0 *)actor)->unk_8C = &D_801719DC;
     }
 
 done:

@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
+#include "records/Rec_func_80174800_arg0.h"
 
 typedef struct S_80174B20_13 {
     u8 pad_00[0x8];
@@ -28,15 +29,6 @@ typedef struct S_80174B20_0_pre {
     u16 unk_00;
 } S_80174B20_0_pre;   /* the 0x2 bytes before arg0 in func_80174B20, addressed as arg0[-1] */
 
-typedef struct S_80174B20_0 {
-    u8 pad_00[0x96];
-    u16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-    u8 pad_9C[0x10];
-    void * unk_AC;
-    s16 unk_B0;
-} S_80174B20_0;   /* arg0 in func_80174B20 */
 
 typedef struct S_80174B20_1 {
     u8 pad_00[0x13];
@@ -159,200 +151,201 @@ extern M2C_UNK D_8017521C;
 extern M2C_UNK D_8017521D;
 extern s32 D_80175220;
 
-void func_80174B20(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
-    register s32 temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    S_80174B20_7 *temp_a1_base;
-    S_80174B20_12 *temp_a0_2;
-    s32 temp_v0_flags;
-    u16 temp_v1_count;
-    s16 temp_v0_4;
-    s16 var_s0;
-    s32 temp_a0;
-    s32 temp_flag;
-    s32 temp_index;
-    s32 temp_random;
-    s32 temp_v0_3;
-    register s32 var_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    s32 temp_v1_copy;
-    register void *temp_a0_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    u16 temp_v0;
-    u16 temp_v0_6;
-    u16 temp_v1_2;
-    u8 temp_v1;
-    S_80174B20_4 *temp_a1;
-    S_80174B20_8 *temp_a2;
-    S_80174B20_3 *temp_s0_base;
-    S_80174B20_9 *temp_s0;
-    S_80174B20_5 *temp_v0_2;
-    void *temp_v0_5;
-    void *temp_v1_3;
+/* Advances the actor replacement sequence, including its visual effects and cleanup. */
+void func_80174B20(void *state, Rec_D_800E3D7C *position, Rec_D_80082E80 *entity, void *actor) {
+    static void *const phase_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
+    register s32 tint ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    S_80174B20_7 *globals_base;
+    S_80174B20_12 *effect_pool;
+    s32 global_flags;
+    u16 active_count;
+    s16 next_ray;
+    s16 ray_index;
+    s32 direction;
+    s32 effect_ready;
+    s32 color_index;
+    s32 random_value;
+    s32 style_index;
+    register s32 style ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s32 position_z;
+    register void *call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u16 fade_ticks;
+    u16 finish_ticks;
+    u16 previous_ticks;
+    u8 phase;
+    S_80174B20_4 *target_color;
+    S_80174B20_8 *effect_position;
+    S_80174B20_3 *scene_color;
+    S_80174B20_9 *sprite;
+    S_80174B20_5 *effect;
+    void *new_actor;
+    void *replacement;
 
-    temp_s0_base = &D_80083160;
-    temp_v1 = ((S_80174B20_0 *)arg0)->unk_9B;
-    if (temp_v1 >= 9U) {
-        goto block_28;
+    scene_color = &D_80083160;
+    phase = ((Rec_func_80174800_arg0 *)state)->unk_9B;
+    if (phase >= 9U) {
+        goto done;
     }
-    (void)jt_keep; goto *D_801708B8[(u32)(temp_v1)];
+    (void)phase_labels; goto *D_801708B8[(u32)(phase)];
 jt_c0:
-    ((S_80174B20_0 *)arg0)->unk_9B = (u8) (((S_80174B20_0 *)arg0)->unk_9B + 1);
+    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
     return;
 jt_c1:
     func_80041588(&D_801751F8, &D_8017521C, 0);
-    ((S_80174B20_0 *)arg0)->unk_B0 = 0;
-    ((S_80174B20_0 *)arg0)->unk_9B = (u8) (((S_80174B20_0 *)arg0)->unk_9B + 1);
-    ((S_80174B20_1 *)arg3)->unk_8A = (u16) ((S_80174B20_1 *)arg3)->unk_2A;
-    ((S_80174B20_1 *)arg3)->unk_1C = (s32) (((S_80174B20_1 *)arg3)->unk_1C & 0xFFFBFFFF);
+    ((Rec_func_80174800_arg0 *)state)->unk_B0 = 0;
+    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
+    ((S_80174B20_1 *)actor)->unk_8A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
+    ((S_80174B20_1 *)actor)->unk_1C = (s32) (((S_80174B20_1 *)actor)->unk_1C & 0xFFFBFFFF);
 jt_c2:
-    temp_a0 = ((s32) (D_80083228 + (s16) ((S_80174B20_1 *)arg3)->unk_2A + 0x100) >> 9) & 7;
+    direction = ((s32) (D_80083228 + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
     if ((*(u8 *)&D_8017521C) == 0) {
-        goto block_6;
+        goto turn_actor;
     }
-    if (temp_a0 == 2) {
-        goto block_8;
+    if (direction == 2) {
+        goto start_effect;
     }
-block_6:
-    if (temp_a0 == 2) {
-        goto block_28;
+turn_actor:
+    if (direction == 2) {
+        goto done;
     }
-    ((S_80174B20_1 *)arg3)->unk_2A = (u16) (((S_80174B20_1 *)arg3)->unk_2A + 0x200);
+    ((S_80174B20_1 *)actor)->unk_2A = (u16) (((S_80174B20_1 *)actor)->unk_2A + 0x200);
     return;
-block_8:
+start_effect:
     func_80041588(&D_801751F8, &D_8017521C, 1);
     func_8003F540(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
     func_8003E4FC(0x15, func_800445E0(), NULL);
     (*(s8 *)&D_8017521D) = 0;
     func_8003E4FC(0xFF, &D_8003E140, &D_8017521D);
-    func_800C77D0(arg3 - 0x20, arg1, 8, 0x300);
-    ((S_80174B20_0 *)arg0)->unk_96 = 0x10U;
-    ((S_80174B20_0 *)arg0)->unk_9B = (u8) (((S_80174B20_0 *)arg0)->unk_9B + 1);
+    func_800C77D0(actor - 0x20, position, 8, 0x300);
+    ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
+    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
 jt_c3:
-    temp_v1_2 = ((S_80174B20_0 *)arg0)->unk_96;
-    temp_v0 = temp_v1_2 - 1;
-    ((S_80174B20_0 *)arg0)->unk_96 = temp_v0;
-    if ((temp_v0 << 0x10) > 0) {
-        goto block_12;
+    previous_ticks = ((Rec_func_80174800_arg0 *)state)->unk_96;
+    fade_ticks = previous_ticks - 1;
+    ((Rec_func_80174800_arg0 *)state)->unk_96 = fade_ticks;
+    if ((fade_ticks << 0x10) > 0) {
+        goto fade_color;
     }
-    temp_flag = ((S_80174B20_2 *)(&D_8017521D))->unk_00;
-    ((S_80174B20_0 *)arg0)->unk_96 = temp_v1_2;
-    if (temp_flag == 0) {
-        goto block_28;
+    effect_ready = ((S_80174B20_2 *)(&D_8017521D))->unk_00;
+    ((Rec_func_80174800_arg0 *)state)->unk_96 = previous_ticks;
+    if (effect_ready == 0) {
+        goto done;
     }
-    ((S_80174B20_0 *)arg0)->unk_9B = (u8) (((S_80174B20_0 *)arg0)->unk_9B + 1);
+    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
     func_800A56E0(0x300);
     return;
-block_12:
-    temp_index = func_800498A0(arg3);
-    temp_a1 = D_800DCEEC[temp_index];
-    temp_s0_base->unk_A8 = (u8) (temp_s0_base->unk_A8 + ((s32) (temp_a1->unk_00 - temp_s0_base->unk_A8) / (s16) ((S_80174B20_0 *)arg0)->unk_96));
-    temp_s0_base->unk_A9 = (u8) (temp_s0_base->unk_A9 + ((s32) (temp_a1->unk_01 - temp_s0_base->unk_A9) / (s16) ((S_80174B20_0 *)arg0)->unk_96));
-    temp_s0_base->unk_AA = (u8) (temp_s0_base->unk_AA + ((s32) (temp_a1->unk_02 - temp_s0_base->unk_AA) / (s16) ((S_80174B20_0 *)arg0)->unk_96));
+fade_color:
+    color_index = func_800498A0(actor);
+    target_color = D_800DCEEC[color_index];
+    scene_color->unk_A8 = (u8) (scene_color->unk_A8 + ((s32) (target_color->unk_00 - scene_color->unk_A8) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
+    scene_color->unk_A9 = (u8) (scene_color->unk_A9 + ((s32) (target_color->unk_01 - scene_color->unk_A9) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
+    scene_color->unk_AA = (u8) (scene_color->unk_AA + ((s32) (target_color->unk_02 - scene_color->unk_AA) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
     return;
 jt_c4:
-    temp_v0_2 = func_8003FC64(0x12);
-    if (temp_v0_2 == NULL) {
-        goto block_28;
+    effect = func_8003FC64(0x12);
+    if (effect == NULL) {
+        goto done;
     }
-    temp_v0_2->unk_10 = &D_801749F4;
-    func_8004491C(temp_v0_2, &D_80174574);
-    temp_a3 = 0x808080;
-    temp_a0_arg = arg3;
-    ((S_80174B20_0 *)arg0)->unk_AC = temp_v0_2;
-    ((S_80174B20_15 *)(((S_80174B20_13 *)temp_v0_2)->unk_08))->unk_00 = (s32) arg1->unk_00.at00_s32.v;
-    ((S_80174B20_15 *)(((S_80174B20_13 *)temp_v0_2)->unk_08))->unk_04 = (s32) arg1->unk_04.at00_s32.v;
-    temp_a2 = temp_v0_2->unk_08;
-    temp_a1_base = (void *)0x80170000;
-    ASM_KEEP(temp_a3);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    temp_v1_copy = arg1->unk_08.at00_s32.v;
-    temp_a1_base->unk_5218 = -4;
-    temp_a2->unk_08 = temp_v1_copy;
-    temp_s0 = temp_v0_2->unk_0C;
-    temp_s0->unk_1E = 0x1000;
-    temp_s0->unk_1C = 0x1000;
-    ASM_KEEP(temp_a3);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    temp_s0->unk_0C.s = temp_a3;
-    temp_v0_3 = func_800498A0(temp_a0_arg, temp_a1_base, temp_a2, temp_a3) - 1;
-    var_v1 = temp_v0_3;
-    ASM_KEEP_NV(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    temp_a0_arg = temp_s0;
-    if ((temp_v0_3 << 0x10) >= 0) {
-        goto block_16;
+    effect->unk_10 = &D_801749F4;
+    func_8004491C(effect, &D_80174574);
+    tint = 0x808080;
+    call_arg = actor;
+    ((Rec_func_80174800_arg0 *)state)->unk_AC = effect;
+    ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_00 = (s32) position->unk_00.at00_s32.v;
+    ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_04 = (s32) position->unk_04.at00_s32.v;
+    effect_position = effect->unk_08;
+    globals_base = (void *)0x80170000;
+    ASM_KEEP(tint);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    position_z = position->unk_08.at00_s32.v;
+    globals_base->unk_5218 = -4;
+    effect_position->unk_08 = position_z;
+    sprite = effect->unk_0C;
+    sprite->unk_1E = 0x1000;
+    sprite->unk_1C = 0x1000;
+    ASM_KEEP(tint);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    sprite->unk_0C.s = tint;
+    style_index = func_800498A0(call_arg, globals_base, effect_position, tint) - 1;
+    style = style_index;
+    ASM_KEEP_NV(style_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    call_arg = sprite;
+    if ((style_index << 0x10) >= 0) {
+        goto set_animation;
     }
-    temp_random = func_80069EF8(temp_a0_arg);
-    var_v1 = temp_random % 3;
+    random_value = func_80069EF8(call_arg);
+    style = random_value % 3;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    temp_a0_arg = temp_s0;
-block_16:
-    func_8003DB94(temp_a0_arg, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) var_v1 * 4))], 0);
-    arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v | 0x80);
-    var_s0 = 1;
-    ((S_80174B20_0 *)arg0)->unk_96 = 0U;
-    ((S_80174B20_0 *)arg0)->unk_9B = (u8) (((S_80174B20_0 *)arg0)->unk_9B + 1);
-loop_17:
-    func_80174800(arg0, arg1, arg2, (s16) (var_s0 << 0xA));
-    temp_v0_4 = var_s0 + 1;
-    var_s0 = temp_v0_4;
-    if (temp_v0_4 < 8) {
-        goto loop_17;
+    call_arg = sprite;
+set_animation:
+    func_8003DB94(call_arg, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
+    entity->unk_14.at00_u16.v = (u16) (entity->unk_14.at00_u16.v | 0x80);
+    ray_index = 1;
+    ((Rec_func_80174800_arg0 *)state)->unk_96 = 0U;
+    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
+spawn_rays:
+    func_80174800(state, position, entity, (s16) (ray_index << 0xA));
+    next_ray = ray_index + 1;
+    ray_index = next_ray;
+    if (next_ray < 8) {
+        goto spawn_rays;
     }
     return;
 jt_c5:
-    temp_s0 = ((S_80174B20_0 *)arg0)->unk_AC;
-    temp_s0 = temp_s0->unk_0C.u;
-    if (!(temp_s0->unk_14 & 0xE000)) {
-        goto block_21;
+    sprite = ((Rec_func_80174800_arg0 *)state)->unk_AC;
+    sprite = sprite->unk_0C.u;
+    if (!(sprite->unk_14 & 0xE000)) {
+        goto check_motion;
     }
-    ((S_80174B20_0 *)arg0)->unk_96 = 0x10U;
-    ((S_80174B20_0 *)arg0)->unk_9B = (u8) (((S_80174B20_0 *)arg0)->unk_9B + 1);
-    func_800A18E8(((S_80174B20_1 *)arg3)->unk_13, 3);
-    func_8009A3D0(arg2->unk_24, arg2->unk_25, 0x300);
-    func_8009A028(arg3);
-    temp_s0 = arg3 - 0x20;
-    temp_s0->unk_10 = (s32) (temp_s0->unk_10 | 0x80000000);
+    ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
+    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
+    func_800A18E8(((S_80174B20_1 *)actor)->unk_13, 3);
+    func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
+    func_8009A028(actor);
+    sprite = actor - 0x20;
+    sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
 jt_c6:
-block_21:
-    if (((S_80174B20_0 *)arg0)->unk_9B != 6) {
-        goto block_28;
+check_motion:
+    if (((Rec_func_80174800_arg0 *)state)->unk_9B != 6) {
+        goto done;
     }
-    if (func_800ADC4C(arg1, D_80175220, D_80175218, &D_800DCF5C) == 0) {
-        goto block_28;
+    if (func_800ADC4C(position, D_80175220, D_80175218, &D_800DCF5C) == 0) {
+        goto done;
     }
-    ((S_80174B20_0 *)arg0)->unk_96 = 0x10U;
-    ((S_80174B20_0 *)arg0)->unk_9B = (u8) (((S_80174B20_0 *)arg0)->unk_9B + 1);
-    func_800A18E8(((S_80174B20_1 *)arg3)->unk_13, 3);
-    func_8009A3D0(arg2->unk_24, arg2->unk_25, 0x300);
-    func_8009A028(arg3);
-    temp_s0 = arg3 - 0x20;
-    temp_s0->unk_10 = (s32) (temp_s0->unk_10 | 0x80000000);
+    ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
+    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
+    func_800A18E8(((S_80174B20_1 *)actor)->unk_13, 3);
+    func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
+    func_8009A028(actor);
+    sprite = actor - 0x20;
+    sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
     return;
 jt_c7:
-    temp_v0_5 = func_800A504C(arg2, arg3);
-    ((S_80174B20_1 *)arg3)->unk_60 = temp_v0_5;
-    if (temp_v0_5 == NULL) {
-        goto block_28;
+    new_actor = func_800A504C(entity, actor);
+    ((S_80174B20_1 *)actor)->unk_60 = new_actor;
+    if (new_actor == NULL) {
+        goto done;
     }
-    ((S_80174B20_0 *)arg0)->unk_96 = 0x10U;
-    ((S_80174B20_0 *)arg0)->unk_9B = (u8) (((S_80174B20_0 *)arg0)->unk_9B + 1);
-    ((S_80174B20_16 *)(((S_80174B20_14 *)arg3)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)arg3)->unk_2A;
-    temp_v1_3 = ((S_80174B20_1 *)arg3)->unk_60;
-    temp_s0 = ((S_80174B20_11_pre *)temp_v1_3)[-1].unk_00;
-    func_80047738(temp_s0, temp_s0->unk_2C[((s32) (D_80083228 + (s16) ((S_80174B20_11 *)temp_v1_3)->unk_2A + 0x100) >> 9) & 7], temp_s0->unk_04);
-    temp_s0->unk_14 = (u16) (temp_s0->unk_14 & 0xFFFE);
+    ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
+    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
+    ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
+    replacement = ((S_80174B20_1 *)actor)->unk_60;
+    sprite = ((S_80174B20_11_pre *)replacement)[-1].unk_00;
+    func_80047738(sprite, sprite->unk_2C[((s32) (D_80083228 + (s16) ((S_80174B20_11 *)replacement)->unk_2A + 0x100) >> 9) & 7], sprite->unk_04);
+    sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
 jt_c8:
-    temp_v0_6 = ((S_80174B20_0 *)arg0)->unk_96 - 1;
-    ((S_80174B20_0 *)arg0)->unk_96 = temp_v0_6;
-    if ((temp_v0_6 << 0x10) > 0) {
-        goto block_28;
+    finish_ticks = ((Rec_func_80174800_arg0 *)state)->unk_96 - 1;
+    ((Rec_func_80174800_arg0 *)state)->unk_96 = finish_ticks;
+    if ((finish_ticks << 0x10) > 0) {
+        goto done;
     }
-    temp_a1_base = (void *)0x80080000;
-    temp_a0_2 = &D_80083460;
-    ((S_80174B20_16 *)(((S_80174B20_14 *)arg3)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)arg3)->unk_8A;
-    ((S_80174B20_0_pre *)arg0)[-1].unk_00 = (u16) (((S_80174B20_0_pre *)arg0)[-1].unk_00 | 0x8000);
-    temp_v0_flags = temp_a1_base->unk_14A0;
-    temp_v1_count = temp_a0_2->unk_0A;
-    temp_a1_base->unk_14A0 = temp_v0_flags | 0x8000;
-    temp_a0_2->unk_0A = temp_v1_count - 1;
-    ((S_80174B20_1 *)arg3)->unk_6D = 0;
-block_28:
+    globals_base = (void *)0x80080000;
+    effect_pool = &D_80083460;
+    ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_8A;
+    ((S_80174B20_0_pre *)state)[-1].unk_00 = (u16) (((S_80174B20_0_pre *)state)[-1].unk_00 | 0x8000);
+    global_flags = globals_base->unk_14A0;
+    active_count = effect_pool->unk_0A;
+    globals_base->unk_14A0 = global_flags | 0x8000;
+    effect_pool->unk_0A = active_count - 1;
+    ((S_80174B20_1 *)actor)->unk_6D = 0;
+done:
     return;
 }

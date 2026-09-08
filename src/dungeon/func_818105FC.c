@@ -10,50 +10,51 @@ extern char *func_80027110(s32 arg0, s32 arg1);
 extern s32 strncmp(const char *lhs, const char *rhs, s32 count);
 extern char *strncpy(char *dst, const char *src, s32 count);
 
+/* Stores a text record in the circular table unless it matches an existing entry. */
 void func_800255FC(char *text, s32 type, s32 value) {
     Record818105FC *record;
-    u8 *record_type;
-    u8 *dest;
-    u8 *page;
-    s32 i;
-    s32 index;
+    u8 *type_base;
+    u8 *records_base;
+    u8 *data_base;
+    s32 cursor;
+    s32 write_slot;
 
     if (type == 19) {
-        for (i = 0; i < 5; i++) {
-            if (strncmp(text, func_80027110(value, i), 18) == 0) {
+        for (cursor = 0; cursor < 5; cursor++) {
+            if (strncmp(text, func_80027110(value, cursor), 18) == 0) {
                 return;
             }
         }
     }
 
-    i = 0;
+    cursor = 0;
     record = (Record818105FC *)0x800157C0;
-    record_type = (u8 *)0x80010000;
+    type_base = (u8 *)0x80010000;
 loop_records:
-    if ((record_type[0x57D2] == type) &&
+    if ((type_base[0x57D2] == type) &&
         (strncmp(text, (char *)record, 18) == 0)) {
         return;
     }
     record++;
-    i++;
-    record_type += 19;
-    if (i < 64) {
+    cursor++;
+    type_base += 19;
+    if (cursor < 64) {
         goto loop_records;
     }
 
-    index = *(s32 *)0x80015C80;
-    *(s32 *)0x80015C80 = index + 1;
-    page = (u8 *)0x80010000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    if (*(s32 *)(page + 0x5C80) == 64) {
-        *(s32 *)(page + 0x5C80) = 0;
+    write_slot = *(s32 *)0x80015C80;
+    *(s32 *)0x80015C80 = write_slot + 1;
+    data_base = (u8 *)0x80010000;
+    ASM_KEEP(data_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    if (*(s32 *)(data_base + 0x5C80) == 64) {
+        *(s32 *)(data_base + 0x5C80) = 0;
     }
 
-    dest = (u8 *)0x800157C0;
-    i = index * 19;
-    strncpy((char *)(dest + i), text, 18);
+    records_base = (u8 *)0x800157C0;
+    cursor = write_slot * 19;
+    strncpy((char *)(records_base + cursor), text, 18);
     if (type == 19) {
-        page[i + 0x57D1] = value;
+        data_base[cursor + 0x57D1] = value;
     }
-    page[i + 0x57D2] = type;
+    data_base[cursor + 0x57D2] = type;
 }

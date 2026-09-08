@@ -16,38 +16,34 @@ extern M2C_UNK D_80083160[];
 extern u16 D_80083462[];
 extern s32 D_800E4940[];
 
+/* Reset movement and dispatch actor actions based on state and input flags. */
+void func_8008B870(Rec_func_8008ACDC_arg0 *controller, Rec_D_800E3D7C *move_state, Rec_D_80082E80 *entity, Rec_D_800E3D7C *actor) {
+    s16 action_state;
+    M2C_UNK *input_state = D_80083160;
 
-
-
-
-
-void func_8008B870(Rec_func_8008ACDC_arg0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
-    s16 temp_v1;
-    M2C_UNK *temp_s4 = D_80083160;
-
-    arg1->unk_10.at00_s32.v = 0;
-    arg1->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-    temp_v1 = arg3->unk_64.as_s16;
-    if ((temp_v1 < 0) || (arg0->unk_10C & 1)) {
-        arg2->unk_14.at00_u16.v = (u16)(arg2->unk_14.at00_u16.v & 0xF7FF);
-        func_8008CAA0(arg0, arg1, arg2, arg3);
+    move_state->unk_10.at00_s32.v = 0;
+    move_state->unk_0C.as_s32 = 0;
+    func_800A2B04(move_state, entity->unk_24, entity->unk_25);
+    action_state = actor->unk_64.as_s16;
+    if ((action_state < 0) || (controller->unk_10C & 1)) {
+        entity->unk_14.at00_u16.v = (u16)(entity->unk_14.at00_u16.v & 0xF7FF);
+        func_8008CAA0(controller, move_state, entity, actor);
         return;
     }
-    if (temp_v1 > 0) {
-        func_8008CBA0(arg0, arg1, arg2, arg3);
+    if (action_state > 0) {
+        func_8008CBA0(controller, move_state, entity, actor);
     }
-    if (!(D_80013714[0] & 1) && !(D_80083462[0] & 4) && (temp_s4[2] & 0x80)) {
-        arg3->unk_8A.as_s16 = 2;
+    if (!(D_80013714[0] & 1) && !(D_80083462[0] & 4) && (input_state[2] & 0x80)) {
+        actor->unk_8A.as_s16 = 2;
         D_800E4940[0] = 2;
-        func_8008CF6C(arg0, arg1, arg2, &D_8004F5F4);
+        func_8008CF6C(controller, move_state, entity, &D_8004F5F4);
         D_80082EB0[0] = 0;
-        arg0->unk_C8 = 0;
-        arg0->unk_104 = 0;
+        controller->unk_C8 = 0;
+        controller->unk_104 = 0;
         return;
     }
-    if ((arg0->unk_9A.as_u8 != 0xD) && (arg3->unk_1C.as_s32 & 0x200)) {
-        arg2->unk_14.at00_u16.v = (u16)(arg2->unk_14.at00_u16.v & 0xF7FF);
-        func_80090200(arg0, arg1, arg2, arg3);
+    if ((controller->unk_9A.as_u8 != 0xD) && (actor->unk_1C.as_s32 & 0x200)) {
+        entity->unk_14.at00_u16.v = (u16)(entity->unk_14.at00_u16.v & 0xF7FF);
+        func_80090200(controller, move_state, entity, actor);
     }
 }

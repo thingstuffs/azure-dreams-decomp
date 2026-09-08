@@ -90,82 +90,83 @@ __asm__(".globl func_81071000\n"
 #define FUNC_81071000_ATTR
 #endif
 
-FUNC_81071000_ATTR void *FUNC_81071000_BODY(s16 arg0, s8 arg1, s8 arg2, s16 arg3) {
-    S_FUNC_81071000_BODY_1 *var_s0;
-    s32 temp_v1;
-    u16 flags98;
-    S_FUNC_81071000_BODY_3 *temp_s2;
-    S_FUNC_81071000_BODY_2 *temp_s4;
-    S_FUNC_81071000_BODY_4 *temp_s5;
-    void *temp_v0;
-    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *call_a0;
-    void *call_a1;
+/* Allocate a dungeon object and initialize its placement, flags, and behavior. */
+FUNC_81071000_ATTR void *FUNC_81071000_BODY(s16 spawn_flags, s8 x, s8 y, s16 config_value) {
+    S_FUNC_81071000_BODY_1 *object_state;
+    s32 mode_or_roll;
+    u16 state_flags;
+    S_FUNC_81071000_BODY_3 *placement;
+    S_FUNC_81071000_BODY_2 *config;
+    S_FUNC_81071000_BODY_4 *behavior;
+    void *object;
+    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_config_value;
+    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *init_object;
+    void *init_config;
 
-    var_s0 = NULL;
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
-    temp_v0 = func_8003FD64(0x112, &D_80083498);
-    if (temp_v0 == NULL) {
+    object_state = NULL;
+    saved_x = x;
+    saved_config_value = config_value;
+    saved_y = y;
+    object = func_8003FD64(0x112, &D_80083498);
+    if (object == NULL) {
         goto done;
     }
     {
-        var_s0 = temp_v0 + 0x20;
-        ((S_FUNC_81071000_BODY_0 *)temp_v0)->unk_10 = &D_80158AA4;
-        var_s0->unk_13 = 0x2B;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s4 = ((S_FUNC_81071000_BODY_0 *)temp_v0)->unk_08;
-        temp_s4->unk_0A = saved_arg3;
-        temp_s2 = ((S_FUNC_81071000_BODY_0 *)temp_v0)->unk_0C;
-        temp_v1 = arg0 & 3;
-        temp_s2->unk_25 = saved_arg2;
-        temp_s5 = var_s0;
-        temp_s2->unk_2C = &D_8015BFB8;
-        temp_s2->unk_24 = saved_arg1;
-        if (temp_v1 == 1) {
-            flags98 = var_s0->unk_98;
-            var_s0->unk_14 = (s32) (var_s0->unk_14 | 0x6000);
-            var_s0->unk_98 = (u16) (flags98 | 0x4000);
-            var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x6000);
+        object_state = object + 0x20;
+        ((S_FUNC_81071000_BODY_0 *)object)->unk_10 = &D_80158AA4;
+        object_state->unk_13 = 0x2B;
+        func_8004491C(object, &D_80045340);
+        config = ((S_FUNC_81071000_BODY_0 *)object)->unk_08;
+        config->unk_0A = saved_config_value;
+        placement = ((S_FUNC_81071000_BODY_0 *)object)->unk_0C;
+        mode_or_roll = spawn_flags & 3;
+        placement->unk_25 = saved_y;
+        behavior = object_state;
+        placement->unk_2C = &D_8015BFB8;
+        placement->unk_24 = saved_x;
+        if (mode_or_roll == 1) {
+            state_flags = object_state->unk_98;
+            object_state->unk_14 = (s32) (object_state->unk_14 | 0x6000);
+            object_state->unk_98 = (u16) (state_flags | 0x4000);
+            object_state->unk_1C = (s32) (object_state->unk_1C | 0x6000);
             func_80158A10();
         }
-        if (temp_v1 >= 2) {
-            flags98 = var_s0->unk_98;
-            var_s0->unk_14 = (s32) (var_s0->unk_14 | 0x2000);
-            var_s0->unk_98 = (u16) (flags98 | 0x4000);
-            var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x2000);
+        if (mode_or_roll >= 2) {
+            state_flags = object_state->unk_98;
+            object_state->unk_14 = (s32) (object_state->unk_14 | 0x2000);
+            object_state->unk_98 = (u16) (state_flags | 0x4000);
+            object_state->unk_1C = (s32) (object_state->unk_1C | 0x2000);
             func_80158A10();
         }
-        call_a0 = temp_v0;
-        if (((arg0 & ~3) << 0x10) == 0) {
-            if (!(var_s0->unk_14 & 0x200)) {
-                call_a1 = temp_s4;
-                temp_v1 = func_800A6D30();
-                call_a0 = temp_v0;
-                if (!(temp_v1 & 1)) {
-                    goto call_a1_setup;
+        init_object = object;
+        if (((spawn_flags & ~3) << 0x10) == 0) {
+            if (!(object_state->unk_14 & 0x200)) {
+                init_config = config;
+                mode_or_roll = func_800A6D30();
+                init_object = object;
+                if (!(mode_or_roll & 1)) {
+                    goto init_state;
                 }
-                var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x200);
-                func_800A48F0(var_s0, 1, (func_800A6D30() & 0x3F) | 0x20);
-                temp_s2->unk_2C = &D_8015C000;
-                goto post_a6d30;
+                object_state->unk_1C = (s32) (object_state->unk_1C | 0x200);
+                func_800A48F0(object_state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                placement->unk_2C = &D_8015C000;
+                goto select_init_object;
             }
         }
-        goto call_a1_setup;
-post_a6d30:
-        call_a0 = temp_v0;
-call_a1_setup:
-        func_800A9C18(call_a0, temp_s4, temp_s2, arg0);
-        temp_s5->unk_9A = 0xFF;
-        temp_s5->unk_9C = -1;
-        temp_s5->unk_8C = &D_80158F68;
-        temp_s2->unk_14 = (u16) (temp_s2->unk_14 | 0xC);
-        temp_s5->unk_AA = (s16) ((u16) var_s0->unk_14 & 7);
-        func_800AA36C(temp_s5, temp_s4, temp_s2, var_s0);
+        goto init_state;
+select_init_object:
+        init_object = object;
+init_state:
+        func_800A9C18(init_object, config, placement, spawn_flags);
+        behavior->unk_9A = 0xFF;
+        behavior->unk_9C = -1;
+        behavior->unk_8C = &D_80158F68;
+        placement->unk_14 = (u16) (placement->unk_14 | 0xC);
+        behavior->unk_AA = (s16) ((u16) object_state->unk_14 & 7);
+        func_800AA36C(behavior, config, placement, object_state);
     }
 done:
-    return var_s0;
+    return object_state;
 }

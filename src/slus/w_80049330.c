@@ -11,12 +11,11 @@ typedef struct {
     unsigned char unk3;
 } S_80049330;
 
-/* If arg0->unk0 is nonzero, extract a 5-bit field from byte offset 3 and
- * forward it to func_800492B0. Otherwise return the global D_800814A8. */
-int func_80049330(S_80049330 *arg0)
+/* Resolve the record's low 5-bit field when unk0 is set, otherwise return D_800814A8[0]. */
+int func_80049330(S_80049330 *record)
 {
-    if (arg0->unk0 != 0) {
-        return func_800492B0(arg0->unk3 & 0x1F);
+    if (record->unk0 != 0) {
+        return func_800492B0(record->unk3 & 0x1F);
     }
     return D_800814A8[0];
 }

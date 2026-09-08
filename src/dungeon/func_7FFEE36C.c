@@ -18,12 +18,13 @@ typedef struct {
     void *unk6C;
 } MainStruct;
 
-void func_8008BACC(MainStruct *arg0) {
-    arg0->sub->unkA -= 0x200;
-    if ((s16)arg0->sub->unkA < 0) {
-        arg0->sub->unkA = 0;
-        arg0->unk68 = D_8008BC58;
-        arg0->unk64 = (s8)D_800CFC70[arg0->unk66];
-        arg0->unk6C = D_800CFC7C[arg0->unk66];
+/* Decrement the substate value and reset state data when it becomes negative. */
+void func_8008BACC(MainStruct *state) {
+    state->sub->unkA -= 0x200;
+    if ((s16)state->sub->unkA < 0) {
+        state->sub->unkA = 0;
+        state->unk68 = D_8008BC58;
+        state->unk64 = (s8)D_800CFC70[state->unk66];
+        state->unk6C = D_800CFC7C[state->unk66];
     }
 }

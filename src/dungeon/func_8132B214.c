@@ -64,35 +64,36 @@ extern u8 D_80045C34[];
 extern u8 D_80172874[];
 extern u8 D_80174ABC[];
 
-void func_80172A14(void *arg0, S_80172A14_5 *arg1) {
-    S_80172A14_3 *temp_a0;
-    register void *temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *temp_v0;
-    S_80172A14_2 *temp_v0_2;
-    S_80172A14_4 *temp_v1;
+/* Create an effect linked to its owner and initialize its position and rendering. */
+void func_80172A14(void *owner, S_80172A14_5 *source_pos) {
+    S_80172A14_3 *render_flags;
+    register void *render_params ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *effect;
+    S_80172A14_2 *effect_state;
+    S_80172A14_4 *effect_pos;
 
-    temp_v0 = func_8003FD64(0x12, (u8 *)arg0 - 0x20);
-    if (temp_v0 != 0) {
-        ((S_80172A14_0 *)arg0)->unk_AC = temp_v0;
-        ((S_80172A14_1 *)temp_v0)->unk_10 = D_80172874;
-        func_8004491C(temp_v0, D_80045C34);
-        temp_v0_2 = (u8 *)temp_v0 + 0x20;
-        temp_v0_2->unk_18 = 5;
-        temp_v0_2->unk_20 = arg0;
-        temp_v0_2->unk_24 = arg1;
-        temp_a0 = ((S_80172A14_1 *)temp_v0)->unk_0C;
-        temp_a0->unk_10 = 0x40;
-        temp_a0->unk_14 |= 0xC;
-        temp_v1 = ((S_80172A14_1 *)temp_v0)->unk_08;
-        temp_v1->unk_02 = arg1->unk_02;
-        temp_v1->unk_06 = arg1->unk_06;
-        temp_v1->unk_0A = arg1->unk_0A;
-        temp_a0_2 = ((S_80172A14_1 *)temp_v0)->unk_0C;
-        ((S_80172A14_6 *)temp_a0_2)->unk_1E = 0xA00;
-        ((S_80172A14_6 *)temp_a0_2)->unk_1C = 0xA00;
-        ((S_80172A14_6 *)temp_a0_2)->unk_0E = 0;
-        ((S_80172A14_6 *)temp_a0_2)->unk_0D = 0;
-        ((S_80172A14_6 *)temp_a0_2)->unk_0C = 0;
-        ((S_80172A14_6 *)temp_a0_2)->unk_08 = D_80174ABC;
+    effect = func_8003FD64(0x12, (u8 *)owner - 0x20);
+    if (effect != 0) {
+        ((S_80172A14_0 *)owner)->unk_AC = effect;
+        ((S_80172A14_1 *)effect)->unk_10 = D_80172874;
+        func_8004491C(effect, D_80045C34);
+        effect_state = (u8 *)effect + 0x20;
+        effect_state->unk_18 = 5;
+        effect_state->unk_20 = owner;
+        effect_state->unk_24 = source_pos;
+        render_flags = ((S_80172A14_1 *)effect)->unk_0C;
+        render_flags->unk_10 = 0x40;
+        render_flags->unk_14 |= 0xC;
+        effect_pos = ((S_80172A14_1 *)effect)->unk_08;
+        effect_pos->unk_02 = source_pos->unk_02;
+        effect_pos->unk_06 = source_pos->unk_06;
+        effect_pos->unk_0A = source_pos->unk_0A;
+        render_params = ((S_80172A14_1 *)effect)->unk_0C;
+        ((S_80172A14_6 *)render_params)->unk_1E = 0xA00;
+        ((S_80172A14_6 *)render_params)->unk_1C = 0xA00;
+        ((S_80172A14_6 *)render_params)->unk_0E = 0;
+        ((S_80172A14_6 *)render_params)->unk_0D = 0;
+        ((S_80172A14_6 *)render_params)->unk_0C = 0;
+        ((S_80172A14_6 *)render_params)->unk_08 = D_80174ABC;
     }
 }

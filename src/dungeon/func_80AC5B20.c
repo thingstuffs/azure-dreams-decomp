@@ -46,28 +46,29 @@ typedef struct S_80171320_2 {
     s32 unk_14;
 } S_80171320_2;   /* motion in func_80171320 */
 
-void func_80171320(void *a0, void *a1, void *a2)
+/* Runs entity callbacks, updates monster facing, and applies motion and floor collision. */
+void func_80171320(void *entity_arg, void *motion_arg, void *monster_arg)
 {
-    void *entity = a0;
-    S_80171320_2 *motion = a1;
-    void *monster = a2;
+    void *entity = entity_arg;
+    S_80171320_2 *motion = motion_arg;
+    void *monster = monster_arg;
     register void *actor ASM_REG("$18") = entity;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register s32 direction ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 direction_copy ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 direction_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     Callback callback;
-    u16 flags;
-    s16 floor;
+    u16 monster_flags;
+    s16 floor_height;
     s16 actor_height;
     s32 direction_index;
 
     if (D_80083462 & 0x2000) {
-        Callback first_callback;
+        Callback early_callback;
 
         ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        first_callback = (*(Callback *)((u8 *)entity + 0x8C));
-        if (first_callback == (Callback)&D_80171728) {
-            first_callback(a0, a1, a2, a0);
+        early_callback = (*(Callback *)((u8 *)entity + 0x8C));
+        if (early_callback == (Callback)&D_80171728) {
+            early_callback(entity_arg, motion_arg, monster_arg, entity_arg);
         } else {
             (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
         }
@@ -93,8 +94,8 @@ void func_80171320(void *a0, void *a1, void *a2)
         func_800AA36C(entity, motion, monster, entity);
     }
 
-    flags = ((S_80171320_0 *)monster)->unk_14;
-    if (!(flags & 0x8000)) {
+    monster_flags = ((S_80171320_0 *)monster)->unk_14;
+    if (!(monster_flags & 0x8000)) {
         direction_value = D_80083228 + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (direction_value >> 9) & 7;
         ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -125,10 +126,10 @@ void func_80171320(void *a0, void *a1, void *a2)
 
         func_800A020C(((S_80171320_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
     } else {
-        if (flags & 0x0800) {
-            ((S_80171320_0 *)monster)->unk_14 = flags & 0x8FFF;
+        if (monster_flags & 0x0800) {
+            ((S_80171320_0 *)monster)->unk_14 = monster_flags & 0x8FFF;
         } else {
-            ((S_80171320_0 *)monster)->unk_14 = flags | 0x7000;
+            ((S_80171320_0 *)monster)->unk_14 = monster_flags | 0x7000;
         }
     }
 
@@ -145,20 +146,20 @@ void func_80171320(void *a0, void *a1, void *a2)
     (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
 
     if (!((*(u16 *)((u8 *)entity + 0x98)) & 4)) {
-        floor = func_800BCB04(motion->unk_00.at02.v,
+        floor_height = func_800BCB04(motion->unk_00.at02.v,
                               motion->unk_04.at02.v,
                               (s16)(((S_80171320_1 *)actor)->unk_88.u - 0x20));
-        if (floor < 0x200) {
+        if (floor_height < 0x200) {
             actor_height = ((S_80171320_1 *)actor)->unk_88.s;
-            if ((*(s16 *)((u8 *)entity + 0x92)) + actor_height < floor) {
+            if ((*(s16 *)((u8 *)entity + 0x92)) + actor_height < floor_height) {
                 ((S_80171320_1 *)actor)->unk_1C &= 0xF7FFFFFF;
                 goto check_adjustment;
             }
 
-            if (floor >= actor_height) {
+            if (floor_height >= actor_height) {
                 (*(s32 *)((u8 *)entity + 0x90)) = 0;
             } else {
-                (*(s16 *)((u8 *)entity + 0x92)) = floor - ((S_80171320_1 *)actor)->unk_88.u;
+                (*(s16 *)((u8 *)entity + 0x92)) = floor_height - ((S_80171320_1 *)actor)->unk_88.u;
             }
 
             motion->unk_14 = 0;
@@ -168,11 +169,11 @@ void func_80171320(void *a0, void *a1, void *a2)
 check_adjustment:
             if (((S_80171320_1 *)actor)->unk_1C & 0x40000000) {
                 ((S_80171320_1 *)actor)->unk_1C &= 0xBFFFFFFF;
-                floor = func_800BCB04((((S_80171320_0 *)monster)->unk_24 << 6) | 0x20,
+                floor_height = func_800BCB04((((S_80171320_0 *)monster)->unk_24 << 6) | 0x20,
                                       (((S_80171320_0 *)monster)->unk_25 << 6) | 0x20,
                                       (s16)(((S_80171320_1 *)actor)->unk_88.u - 0x20));
-                (*(s16 *)((u8 *)entity + 0x92)) += ((S_80171320_1 *)actor)->unk_88.u - floor;
-                ((S_80171320_1 *)actor)->unk_88.u = floor;
+                (*(s16 *)((u8 *)entity + 0x92)) += ((S_80171320_1 *)actor)->unk_88.u - floor_height;
+                ((S_80171320_1 *)actor)->unk_88.u = floor_height;
                 goto finish;
             }
             goto finish;
@@ -193,6 +194,3 @@ finish:
     ASM_KEEP(direction_copy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 }
 
-/* MECHANISM: Preserve original a0-a2 and the entity base across the early callback ABI.
-   Scope the s16 cast to the old-direction compare and reuse the pinned v0 scratch for lbu/sll/sra.
-   Restore the dropped actor-flag clear CFG edge; its three words collapse the displacement cascade. */

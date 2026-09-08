@@ -27,40 +27,35 @@ extern s32 StoreImage(RECT_8004B568 *rect, void *p);
 /* RLE-style byte decoder; returns the advanced dst pointer ($a1 at exit). */
 extern void *func_8004068C(void *a0, void *a1);
 
-/* Copies D_8008148C's leading word into D_80081480, then twice: builds a
- * 0x140x0x80x0x40x0x80 (RECT) rectangle stepping down VRAM by 0x80 lines,
- * stores it into the framebuffer at D_8008148C's pointer via StoreImage,
- * syncs the GPU, and decodes the object's data (func_8004068C) from
- * D_80081480's pointer into a growing destination buffer (starting at
- * 0x80016000). */
+/* Reads two adjacent VRAM blocks and decodes their data into a buffer at 0x80016000. */
 void func_8004B568(void)
 {
     RECT_8004B568 rect;
-    void *dst;
-    s16 rectX;
-    s16 rectW;
-    s16 rectH;
-    s16 y;
-    s32 i;
+    void *decode_dst;
+    s16 rect_x;
+    s16 rect_w;
+    s16 rect_h;
+    s16 rect_y;
+    s32 block_index;
 
-    dst = (void *)0x80016000;
+    decode_dst = (void *)0x80016000;
     DrawSync(0);
 
-    i = 0;
-    rectX = 0x140;
-    rectW = 0x40;
-    rectH = 0x80;
+    block_index = 0;
+    rect_x = 0x140;
+    rect_w = 0x40;
+    rect_h = 0x80;
     D_80081480.field_0 = D_8008148C.field_0;
-    y = 0x100;
+    rect_y = 0x100;
 
-    for (; i < 2; i++) {
-        rect.y = y;
-        rect.x = rectX;
-        rect.w = rectW;
-        rect.h = rectH;
+    for (; block_index < 2; block_index++) {
+        rect.y = rect_y;
+        rect.x = rect_x;
+        rect.w = rect_w;
+        rect.h = rect_h;
         StoreImage(&rect, (void *)D_8008148C.field_0);
-        y += 0x80;
+        rect_y += 0x80;
         DrawSync(0);
-        dst = func_8004068C((void *)D_80081480.field_0, dst);
+        decode_dst = func_8004068C((void *)D_80081480.field_0, decode_dst);
     }
 }

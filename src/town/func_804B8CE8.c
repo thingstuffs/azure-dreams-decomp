@@ -24,18 +24,19 @@ typedef struct TownRoot {
 
 extern s8 D_80016000[];
 
+/* Invoke town callbacks and initialize state values with mode-dependent adjustments. */
 void func_800174E8(void) {
-    TownRoot **context_ptr;
-    u8 *tail_page;
+    TownRoot **root_ptr;
+    u8 *root_page;
     TownRoot *root;
     TownState *state;
 
-    context_ptr = (TownRoot **) D_80016000;
-    (*context_ptr)->callbacks->callback258(10);
-    (*context_ptr)->callbacks->callback248(1);
-    (*context_ptr)->callbacks->callback244(1);
+    root_ptr = (TownRoot **) D_80016000;
+    (*root_ptr)->callbacks->callback258(10);
+    (*root_ptr)->callbacks->callback248(1);
+    (*root_ptr)->callbacks->callback244(1);
 
-    root = *context_ptr;
+    root = *root_ptr;
     root->state->value4 = 11;
     root->state->value8 = 10;
     state = root->state;
@@ -49,19 +50,15 @@ void func_800174E8(void) {
         state->value4--;
         return;
     case 1:
-        goto set_tail_page;
+        goto set_root_page;
     default:
-        tail_page = (u8 *) 0x80010000;
-        goto load_tail_root;
+        root_page = (u8 *) 0x80010000;
+        goto reload_state;
     }
 
-set_tail_page:
-    tail_page = (u8 *) 0x80010000;
-load_tail_root:
-    state = (*(TownRoot * volatile *) (tail_page + 0x6000))->state;
+set_root_page:
+    root_page = (u8 *) 0x80010000;
+reload_state:
+    state = (*(TownRoot * volatile *) (root_page + 0x6000))->state;
     state->value8--;
 }
-
-/* MECHANISM: A D_80016000 pointer-to-root local keeps only the symbol high page live in s0.
-   Typed root/state/callback records preserve the destructive v0 call chains and v1 state lifetime.
-   A page-valued two-entry tail puts case/default luis in delay slots before one shared 0x6000 load. */

@@ -27,20 +27,18 @@ extern s32 func_80093744();
 extern s32 func_800C172C();
 extern s8 D_800834B8[0x30];
 
+/* Invokes func_800C172C for an eligible linked object with code 0xD04, then calls func_80093744. */
 void func_800A9D00(void) {
-    s8 *base;
-    S_800A9D00_0 *temp_v0;
+    s8 *stateBase;
+    S_800A9D00_0 *precedingState;
 
-    base = D_800834B8;
-    temp_v0 = base - 0x20;
-    if ((func_8009368C(base, temp_v0->unk_08,
-                      temp_v0->unk_0C) != 0) &&
-        (((S_800A9D00_1 *)base)->unk_2C != NULL) &&
-        (((S_800A9D00_2 *)(((S_800A9D00_1 *)base)->unk_2C))->unk_4C == 0xD04)) {
+    stateBase = D_800834B8;
+    precedingState = stateBase - 0x20;
+    if ((func_8009368C(stateBase, precedingState->unk_08,
+                      precedingState->unk_0C) != 0) &&
+        (((S_800A9D00_1 *)stateBase)->unk_2C != NULL) &&
+        (((S_800A9D00_2 *)(((S_800A9D00_1 *)stateBase)->unk_2C))->unk_4C == 0xD04)) {
         func_800C172C();
     }
     func_80093744();
 }
-
-/* MECHANISM: Hold &D_800834B8 across the first call so it occupies s0,
-   while deriving the two pre-base call arguments through a short-lived pointer. */

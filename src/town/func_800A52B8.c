@@ -24,27 +24,28 @@ typedef struct S_800A2A18_2 {
 
 extern S_800A2A18_2 *D_80100D20;
 
-s32 func_800A2A18(S_800A2A18_1 *arg0, Rec_func_80021E88_arg1 *arg1) {
-    s32 temp_a0;
-    s32 temp_a1;
-    s32 temp_a3;
-    s32 temp_a3_2;
-    s32 temp_v1;
-    s32 temp_v1_2;
+/* Tests whether the offset box overlaps the active collision box on all three axes. */
+s32 func_800A2A18(S_800A2A18_1 *box, Rec_func_80021E88_arg1 *offset) {
+    s32 other_z;
+    s32 box_z;
+    s32 other_x;
+    s32 other_y;
+    s32 box_x;
+    s32 box_y;
 
     if (D_80100D20 != NULL) {
-        temp_v1 = arg1->unk_00 + arg0->unk_00;
-        temp_a3 = D_80100D20->unk_00;
-        if ((temp_v1 + arg0->unk_0C) >= temp_a3) {
-            if ((temp_a3 + D_80100D20->unk_0C) >= temp_v1) {
-                temp_v1_2 = arg1->unk_04 + arg0->unk_04;
-                temp_a3_2 = D_80100D20->unk_04;
-                if ((temp_v1_2 + arg0->unk_10) >= temp_a3_2) {
-                    if ((temp_a3_2 + D_80100D20->unk_10) >= temp_v1_2) {
-                        temp_a1 = arg1->unk_08 + arg0->unk_08;
-                        temp_a0 = D_80100D20->unk_08;
-                        if ((temp_a1 + arg0->unk_14) >= temp_a0) {
-                            if ((temp_a0 + D_80100D20->unk_14) >= temp_a1) {
+        box_x = offset->unk_00 + box->unk_00;
+        other_x = D_80100D20->unk_00;
+        if ((box_x + box->unk_0C) >= other_x) {
+            if ((other_x + D_80100D20->unk_0C) >= box_x) {
+                box_y = offset->unk_04 + box->unk_04;
+                other_y = D_80100D20->unk_04;
+                if ((box_y + box->unk_10) >= other_y) {
+                    if ((other_y + D_80100D20->unk_10) >= box_y) {
+                        box_z = offset->unk_08 + box->unk_08;
+                        other_z = D_80100D20->unk_08;
+                        if ((box_z + box->unk_14) >= other_z) {
+                            if ((other_z + D_80100D20->unk_14) >= box_z) {
                                 return 1;
                             }
                         }
@@ -55,6 +56,3 @@ s32 func_800A2A18(S_800A2A18_1 *arg0, Rec_func_80021E88_arg1 *arg1) {
     }
     return 0;
 }
-
-/* MECHANISM: Frameless leaf with one loaded collision-box pointer and block-local
-   axis sums/bounds. Nested positive tests share one terminal zero-return edge. */

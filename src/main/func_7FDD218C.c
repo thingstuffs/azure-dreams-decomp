@@ -45,19 +45,20 @@ extern void func_8003d468();
 extern void func_80040aa0();
 extern void func_80089c24();
 
-void func_800890EC(Obj *obj, s32 *arg1) {
-    int dec;
-    int i;
-    u16 st;
-    void *r;
-    S_80083160 *p160 = &D_80083160;
+/* Updates menu animation, selection, and idle demo transitions. */
+void func_800890EC(Obj *obj, s32 *position) {
+    int frames_left;
+    int slot;
+    u16 next_state;
+    void *child;
+    S_80083160 *input = &D_80083160;
 
-    dec = obj->counter - 1;
-    obj->counter = dec;
+    frames_left = obj->counter - 1;
+    obj->counter = frames_left;
 
     switch (obj->state) {
     case 0:
-        if (p160->b != 0) {
+        if (input->b != 0) {
             obj->state = 16;
             return;
         }
@@ -68,39 +69,39 @@ void func_800890EC(Obj *obj, s32 *arg1) {
         return;
 
     case 1:
-        if (p160->a != 0) {
+        if (input->a != 0) {
             obj->state = 16;
             return;
         }
-        arg1[1] += 0xFFFEC000;
-        if (*(s16 *) ((u8 *) arg1 + 6) >= 0) {
+        position[1] += 0xFFFEC000;
+        if (*(s16 *) ((u8 *) position + 6) >= 0) {
             return;
         }
-        arg1[1] = 0;
+        position[1] = 0;
         obj->counter = 105;
         obj->state = 2;
         return;
 
     case 2:
-        if (p160->a != 0) {
+        if (input->a != 0) {
             obj->state = 19;
             return;
         }
-        if ((s16) dec > 0) {
+        if ((s16) frames_left > 0) {
             return;
         }
-        for (i = 2; i >= 0; i--) {
-            obj->slotsA[i]->f28 = 1;
+        for (slot = 2; slot >= 0; slot--) {
+            obj->slotsA[slot]->f28 = 1;
         }
-        for (i = 1; i >= 0; i--) {
-            obj->slotsB[i]->f28 = 1;
+        for (slot = 1; slot >= 0; slot--) {
+            obj->slotsB[slot]->f28 = 1;
         }
         obj->counter = 95;
         obj->state = 3;
         return;
 
     case 3:
-        if (p160->a != 0) {
+        if (input->a != 0) {
             obj->state = 19;
         }
         if ((s16) obj->counter > 0) {
@@ -111,15 +112,15 @@ void func_800890EC(Obj *obj, s32 *arg1) {
         return;
 
     case 4:
-        if (p160->a != 0) {
+        if (input->a != 0) {
             obj->counter = 1800;
         }
-        if (p160->b & 0x1000) {
+        if (input->b & 0x1000) {
             obj->f24 = (s16) ((obj->f24 + 2) % 3);
-        } else if (p160->b & 0x4000) {
+        } else if (input->b & 0x4000) {
             obj->f24 = (s16) ((obj->f24 + 1) % 3);
         }
-        if (p160->b & 0x840) {
+        if (input->b & 0x840) {
             func_80053da8(obj->f24 == 2 ? 1314 : 1306);
             obj->counter = 96;
             obj->state = 32;
@@ -138,7 +139,7 @@ void func_800890EC(Obj *obj, s32 *arg1) {
         /* fallthrough */
     case 17:
         if ((s16) func_80053604((u8 *) obj + 24)) {
-            arg1[1] = 0;
+            position[1] = 0;
             obj->f1a = 0;
             obj->state = 18;
         }
@@ -152,18 +153,18 @@ void func_800890EC(Obj *obj, s32 *arg1) {
         return;
 
     case 19:
-        for (i = 2; i >= 0; i--) {
-            obj->slotsA[i]->f28 = 16;
+        for (slot = 2; slot >= 0; slot--) {
+            obj->slotsA[slot]->f28 = 16;
         }
-        for (i = 1; i >= 0; i--) {
-            obj->slotsB[i]->f28 = 2;
+        for (slot = 1; slot >= 0; slot--) {
+            obj->slotsB[slot]->f28 = 2;
         }
         obj->counter = 1800;
         obj->state = 4;
         return;
 
     case 32:
-        if ((s16) dec > 0) {
+        if ((s16) frames_left > 0) {
             return;
         }
         {
@@ -173,29 +174,29 @@ void func_800890EC(Obj *obj, s32 *arg1) {
         }
         switch (obj->f24) {
         case 0:
-            r = func_8003fc64(256);
-            if (r == NULL) {
-                st = 255;
-                obj->state = st;
+            child = func_8003fc64(256);
+            if (child == NULL) {
+                next_state = 255;
+                obj->state = next_state;
                 break;
             }
-            *(void **) ((u8 *) r + 16) = (void *) D_80088930;
+            *(void **) ((u8 *) child + 16) = (void *) D_80088930;
             obj->state = 253;
             break;
         case 1: {
-            u8 *page01;
-            u16 a;
-            u16 b;
-            page01 = (u8 *) 0x80010000;
-            a = 5;
-            b = 2;
+            u8 *globals_base;
+            u16 mode_value;
+            u16 phase_value;
+            globals_base = (u8 *) 0x80010000;
+            mode_value = 5;
+            phase_value = 2;
             func_8003d468();
-            *(s16 *) (page01 + 0x2094) = a;
-            *(u8 *) (page01 + 0x2D6E) = 0;
-            *(s16 *) (page01 + 0x2098) = b;
+            *(s16 *) (globals_base + 0x2094) = mode_value;
+            *(u8 *) (globals_base + 0x2D6E) = 0;
+            *(s16 *) (globals_base + 0x2098) = phase_value;
             func_80040aa0(6);
-            st = 255;
-            obj->state = st;
+            next_state = 255;
+            obj->state = next_state;
             break;
         }
         case 2:
@@ -203,8 +204,8 @@ void func_800890EC(Obj *obj, s32 *arg1) {
             func_80089c24();
             break;
         default:
-            st = 255;
-            obj->state = st;
+            next_state = 255;
+            obj->state = next_state;
             break;
         }
         return;
@@ -216,11 +217,10 @@ void func_800890EC(Obj *obj, s32 *arg1) {
         return;
 
     case 254: {
-        u8 sel;
+        u8 demo_index;
         D_80080A84[0] = 2;
-        sel = D_80080A78[0];
-        do {
-        switch (sel & 7) {
+        demo_index = D_80080A78[0];
+        switch (demo_index & 7) {
         case 0:
         case 4:
             func_80040aa0(30);
@@ -242,14 +242,13 @@ void func_800890EC(Obj *obj, s32 *arg1) {
             func_80040aa0(21);
             break;
         }
-        } while (0);
         {
-            u8 next = D_80080A78[0];
+            u8 next_demo = D_80080A78[0];
             u16 flags = obj->f26;
             obj->state = 255;
-            next = (next + 1) & 7;
+            next_demo = (next_demo + 1) & 7;
             flags |= 1;
-            D_80080A78[0] = next;
+            D_80080A78[0] = next_demo;
             obj->f26 = flags;
         }
         return;

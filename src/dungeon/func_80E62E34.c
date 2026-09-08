@@ -24,14 +24,15 @@ extern s16 D_80083228[];
 extern u8 D_8017556C[];
 extern void func_80047784(Obj *, u8, s32);
 
-void func_80172634(First *arg0, s32 arg1, Obj *arg2, Other *arg3)
+/* Initialize state and configure the object using the direction lookup table. */
+void func_80172634(First *state, s32 unused, Obj *object, Other *angle_source)
 {
-    arg0->field9A = 0x10;
-    arg0->field9B = 0;
-    arg0->field9E = 2;
-    arg2->field2C = D_8017556C;
-    func_80047784(arg2,
-                  D_8017556C[((D_80083228[0] + arg3->field2A + 0x100) >> 9) & 7],
+    state->field9A = 0x10;
+    state->field9B = 0;
+    state->field9E = 2;
+    object->field2C = D_8017556C;
+    func_80047784(object,
+                  D_8017556C[((D_80083228[0] + angle_source->field2A + 0x100) >> 9) & 7],
                   0);
-    arg2->field1E = 0xC00;
+    object->field1E = 0xC00;
 }

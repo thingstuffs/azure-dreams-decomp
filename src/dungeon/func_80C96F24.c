@@ -93,227 +93,228 @@ extern s32 func_80064584(s32);
 extern s32 func_80069EF8(void);
 extern void *memcpy(void *, const void *, u32);
 
-void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
-    volatile u16 outer;
-    register s32 row_offset;
+/* Create three bands of eight effect segments around the supplied position. */
+void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
+    volatile u16 band;
+    register s32 shade_offset;
 
-    arg0->unk_A4 = 0;
-    outer = 0;
+    owner->unk_A4 = 0;
+    band = 0;
 
     do {
-        s32 outer_index;
-        register s32 inner ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        s32 band_index;
+        register s32 segment ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         {
-            register s32 outer_raw ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 outer_extended ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 band_raw ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 band_shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            outer_raw = outer;
-            ASM_KEEP_NV(outer_raw);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            inner = 0;
-            outer_extended = outer_raw << 16;
-            outer_index = outer_extended >> 16;
+            band_raw = band;
+            ASM_KEEP_NV(band_raw);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            segment = 0;
+            band_shifted = band_raw << 16;
+            band_index = band_shifted >> 16;
         }
-        row_offset = outer_index * 0x10;
+        shade_offset = band_index * 0x10;
 
         do {
-            s32 var_s7 = 0;
-            s32 var_s3 = 0;
-            register s32 outer_one ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 outer_two;
-            void *obj;
+            s32 end_radius = 0;
+            s32 start_radius = 0;
+            register s32 middle_band ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 last_band;
+            void *effect;
 
-            if (outer_index == 0) {
-                var_s3 = 0x18;
+            if (band_index == 0) {
+                start_radius = 0x18;
             }
-            outer_one = 1;
-            outer_two = 2;
-            if (outer_index == outer_one) {
-                var_s3 = 0x18;
-                var_s7 = 0x18;
+            middle_band = 1;
+            last_band = 2;
+            if (band_index == middle_band) {
+                start_radius = 0x18;
+                end_radius = 0x18;
             }
-            if (outer_index == outer_two) {
-                var_s3 = 0;
-                var_s7 = 0x18;
+            if (band_index == last_band) {
+                start_radius = 0;
+                end_radius = 0x18;
             }
 
-            obj = func_8003FC64(0x12);
-            if (obj != 0) {
-                register void *obj_call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                void *state;
-                register void *work ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                void *arg0_reload;
+            effect = func_8003FC64(0x12);
+            if (effect != 0) {
+                register void *effect_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                void *render_state;
+                register void *effect_data ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                void *owner_ref;
                 S_80C96F24_5 *position;
-                register s32 work_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                s16 value;
-                s32 angle0;
-                s32 angle1;
+                register s32 init_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s16 angle_index;
+                s32 start_angle;
+                s32 end_angle;
 
-                obj_call_arg = obj;
-                work = (u8 *)obj + 0x20;
+                effect_arg = effect;
+                effect_data = (u8 *)effect + 0x20;
 
-                work_value = 0x42;
-                ((S_80C96F24_1 *)work)->unk_24 = work_value;
-                work_value = 0x17;
-                ((S_80C96F24_1 *)work)->unk_26 = 0;
-                ((S_80C96F24_1 *)work)->unk_2A = inner;
-                ASM_SET(arg0_reload);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                arg0_reload = arg0;
-                ASM_KEEP_NV(arg0_reload);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                ((S_80C96F24_1 *)work)->unk_2C =
-                    work_value - ((S_80C96F24_2 *)arg0_reload)->unk_A4;
-                ((S_80C96F24_3 *)obj)->unk_10 = D_80174374;
-                func_8004491C(obj_call_arg, D_80174320, arg0_reload);
+                init_value = 0x42;
+                ((S_80C96F24_1 *)effect_data)->unk_24 = init_value;
+                init_value = 0x17;
+                ((S_80C96F24_1 *)effect_data)->unk_26 = 0;
+                ((S_80C96F24_1 *)effect_data)->unk_2A = segment;
+                ASM_SET(owner_ref);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                owner_ref = owner;
+                ASM_KEEP_NV(owner_ref);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                ((S_80C96F24_1 *)effect_data)->unk_2C =
+                    init_value - ((S_80C96F24_2 *)owner_ref)->unk_A4;
+                ((S_80C96F24_3 *)effect)->unk_10 = D_80174374;
+                func_8004491C(effect_arg, D_80174320, owner_ref);
 
-                state = ((S_80C96F24_3 *)obj)->unk_0C;
-                ((S_80C96F24_4 *)state)->unk_10 = 0x20;
-                ((S_80C96F24_4 *)state)->unk_14 |= 0x0C;
+                render_state = ((S_80C96F24_3 *)effect)->unk_0C;
+                ((S_80C96F24_4 *)render_state)->unk_10 = 0x20;
+                ((S_80C96F24_4 *)render_state)->unk_14 |= 0x0C;
 
                 {
-                    register void *arg1_reload ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    register void *origin_ref ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                    ASM_SET(arg1_reload);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    arg1_reload = arg1;
-                    ASM_KEEP_NV(arg1_reload);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    position = ((S_80C96F24_3 *)obj)->unk_08;
+                    ASM_SET(origin_ref);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    origin_ref = origin;
+                    ASM_KEEP_NV(origin_ref);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    position = ((S_80C96F24_3 *)effect)->unk_08;
                     position->unk_00 =
-                        ((S_80C96F24_6 *)arg1_reload)->unk_00;
+                        ((S_80C96F24_6 *)origin_ref)->unk_00;
                     position->unk_04 =
-                        ((S_80C96F24_6 *)arg1_reload)->unk_04;
+                        ((S_80C96F24_6 *)origin_ref)->unk_04;
                     position->unk_08 =
-                        ((S_80C96F24_6 *)arg1_reload)->unk_08 + 0x200000;
+                        ((S_80C96F24_6 *)origin_ref)->unk_08 + 0x200000;
                 }
 
-                state = ((S_80C96F24_3 *)obj)->unk_0C;
-                ((S_80C96F24_4 *)state)->unk_1E = 0x1000;
-                ((S_80C96F24_4 *)state)->unk_1C = 0x1000;
-                ((S_80C96F24_4 *)state)->unk_0E = 0x80;
-                ((S_80C96F24_4 *)state)->unk_0D = 0x80;
-                ((S_80C96F24_4 *)state)->unk_0C = 0x80;
+                render_state = ((S_80C96F24_3 *)effect)->unk_0C;
+                ((S_80C96F24_4 *)render_state)->unk_1E = 0x1000;
+                ((S_80C96F24_4 *)render_state)->unk_1C = 0x1000;
+                ((S_80C96F24_4 *)render_state)->unk_0E = 0x80;
+                ((S_80C96F24_4 *)render_state)->unk_0D = 0x80;
+                ((S_80C96F24_4 *)render_state)->unk_0C = 0x80;
 
-                ((S_80C96F24_3 *)obj)->unk_20 =
-                    (func_80069EF8() & 0x1F) + 0x10 + row_offset;
-                ((S_80C96F24_1 *)work)->unk_01 =
-                    (func_80069EF8() & 0x1F) + 0x10 + row_offset;
-                ((S_80C96F24_1 *)work)->unk_02 =
-                    (func_80069EF8() & 0x1F) + 0x10 + row_offset;
+                ((S_80C96F24_3 *)effect)->unk_20 =
+                    (func_80069EF8() & 0x1F) + 0x10 + shade_offset;
+                ((S_80C96F24_1 *)effect_data)->unk_01 =
+                    (func_80069EF8() & 0x1F) + 0x10 + shade_offset;
+                ((S_80C96F24_1 *)effect_data)->unk_02 =
+                    (func_80069EF8() & 0x1F) + 0x10 + shade_offset;
 
                 {
-                    register s32 inner_one ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    s32 inner_value = (s16)inner;
+                    register s32 second_segment ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    s32 segment_index = (s16)segment;
 
-                    ASM_SET(inner_one);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    inner_one = 1;
-                    if ((inner_value == inner_one) || (inner_value == 6)) {
-                        ((S_80C96F24_3 *)obj)->unk_20 += 0x0A;
-                        ((S_80C96F24_1 *)work)->unk_01 += 0x0A;
-                        ((S_80C96F24_1 *)work)->unk_02 += 0x0A;
+                    ASM_SET(second_segment);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    second_segment = 1;
+                    if ((segment_index == second_segment) || (segment_index == 6)) {
+                        ((S_80C96F24_3 *)effect)->unk_20 += 0x0A;
+                        ((S_80C96F24_1 *)effect_data)->unk_01 += 0x0A;
+                        ((S_80C96F24_1 *)effect_data)->unk_02 += 0x0A;
                     }
                 }
-                if (((s16)inner == 2) || ((s16)inner == 5)) {
-                    ((S_80C96F24_1 *)work)->unk_00 += 0x14;
-                    ((S_80C96F24_1 *)work)->unk_01 += 0x14;
-                    ((S_80C96F24_1 *)work)->unk_02 += 0x14;
+                if (((s16)segment == 2) || ((s16)segment == 5)) {
+                    ((S_80C96F24_1 *)effect_data)->unk_00 += 0x14;
+                    ((S_80C96F24_1 *)effect_data)->unk_01 += 0x14;
+                    ((S_80C96F24_1 *)effect_data)->unk_02 += 0x14;
                 }
-                if ((u16)(inner - 3) < 2U) {
-                    ((S_80C96F24_1 *)work)->unk_00 += 0x1E;
-                    ((S_80C96F24_1 *)work)->unk_01 += 0x1E;
-                    ((S_80C96F24_1 *)work)->unk_02 += 0x1E;
-                }
-
-                {
-                    u8 *copy_source;
-                    copy_source = D_80175330;
-                    *(Copy12 *)((u8 *)work + 0x7A) = *(Copy12 *)copy_source;
+                if ((u16)(segment - 3) < 2U) {
+                    ((S_80C96F24_1 *)effect_data)->unk_00 += 0x1E;
+                    ((S_80C96F24_1 *)effect_data)->unk_01 += 0x1E;
+                    ((S_80C96F24_1 *)effect_data)->unk_02 += 0x1E;
                 }
 
                 {
-                    register s32 product ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    s32 factor_s2;
-                    void *copy_dest;
-                    s32 call_angle;
-                    s32 shifted;
-                    s32 trig;
-
-                    value = (s16)inner;
-                    angle1 = (value + 1) << 9;
-                    call_angle = angle1;
-                    ASM_KEEP_DEP_NV(work, call_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    copy_dest = work + 0x7A;
-                    ((S_80C96F24_4 *)state)->unk_08 = copy_dest;
-
-                    product = var_s3 * func_80064584(call_angle);
-                    angle0 = value << 9;
-                    shifted = product >> 12;
-                    ((S_80C96F24_1 *)work)->unk_44 = shifted;
-                    product = var_s3 * func_80064584(angle0);
-                    shifted = product >> 12;
-                    ((S_80C96F24_1 *)work)->unk_4A = shifted;
-                    trig = func_80064584(angle1);
-                    factor_s2 = var_s7;
-                    ASM_KEEP_NV(factor_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    product = factor_s2 * trig;
-                    shifted = product >> 12;
-                    ((S_80C96F24_1 *)work)->unk_50 = shifted;
-                    product = factor_s2 * func_80064584(angle0);
-                    shifted = product >> 12;
-                    ((S_80C96F24_1 *)work)->unk_56 = shifted;
-                    product = var_s3 * func_800644B8(angle1);
-                    shifted = product >> 12;
-                    ((S_80C96F24_1 *)work)->unk_46 = shifted;
-                    product = var_s3 * func_800644B8(angle0);
-                    shifted = product >> 12;
-                    ((S_80C96F24_1 *)work)->unk_4C = shifted;
-                    product = factor_s2 * func_800644B8(angle1);
-                    shifted = product >> 12;
-                    ((S_80C96F24_1 *)work)->unk_52 = shifted;
-                    product = factor_s2 * func_800644B8(angle0);
-                    shifted = product >> 12;
-                    ASM_USE2_NV(product, shifted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    ((S_80C96F24_1 *)work)->unk_58 = shifted;
+                    u8 *template_data;
+                    template_data = D_80175330;
+                    *(Copy12 *)((u8 *)effect_data + 0x7A) = *(Copy12 *)template_data;
                 }
 
                 {
-                    register s32 outer_one_end ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    s32 outer_two_end;
-                    s16 right = 0;
-                    s16 left = right;
+                    register s32 scaled_trig ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    s32 end_radius_copy;
+                    void *render_data;
+                    s32 trig_angle;
+                    s32 vertex_coord;
+                    s32 trig_value;
 
-                    if (outer_index == 0) {
-                        left = -0x14;
+                    angle_index = (s16)segment;
+                    end_angle = (angle_index + 1) << 9;
+                    trig_angle = end_angle;
+                    ASM_KEEP_DEP_NV(effect_data, trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    render_data = effect_data + 0x7A;
+                    ((S_80C96F24_4 *)render_state)->unk_08 = render_data;
+
+                    scaled_trig = start_radius * func_80064584(trig_angle);
+                    start_angle = angle_index << 9;
+                    vertex_coord = scaled_trig >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_44 = vertex_coord;
+                    scaled_trig = start_radius * func_80064584(start_angle);
+                    vertex_coord = scaled_trig >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_4A = vertex_coord;
+                    trig_value = func_80064584(end_angle);
+                    end_radius_copy = end_radius;
+                    ASM_KEEP_NV(end_radius_copy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    scaled_trig = end_radius_copy * trig_value;
+                    vertex_coord = scaled_trig >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_50 = vertex_coord;
+                    scaled_trig = end_radius_copy * func_80064584(start_angle);
+                    vertex_coord = scaled_trig >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_56 = vertex_coord;
+                    scaled_trig = start_radius * func_800644B8(end_angle);
+                    vertex_coord = scaled_trig >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_46 = vertex_coord;
+                    scaled_trig = start_radius * func_800644B8(start_angle);
+                    vertex_coord = scaled_trig >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_4C = vertex_coord;
+                    scaled_trig = end_radius_copy * func_800644B8(end_angle);
+                    vertex_coord = scaled_trig >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_52 = vertex_coord;
+                    scaled_trig = end_radius_copy * func_800644B8(start_angle);
+                    vertex_coord = scaled_trig >> 12;
+                    ASM_USE2_NV(scaled_trig, vertex_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    ((S_80C96F24_1 *)effect_data)->unk_58 = vertex_coord;
+                }
+
+                {
+                    register s32 middle_band_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    s32 last_band_z;
+                    s16 end_z = 0;
+                    s16 start_z = end_z;
+
+                    if (band_index == 0) {
+                        start_z = -0x14;
                     }
-                    outer_one_end = 1;
-                    outer_two_end = 2;
-                    if (outer_index == outer_one_end) {
-                        left = -0x2E;
-                        right = -0x14;
+                    middle_band_z = 1;
+                    last_band_z = 2;
+                    if (band_index == middle_band_z) {
+                        start_z = -0x2E;
+                        end_z = -0x14;
                     }
-                    if (outer_index == outer_two_end) {
-                        left = -0x42;
-                        right = -0x2E;
+                    if (band_index == last_band_z) {
+                        start_z = -0x42;
+                        end_z = -0x2E;
                     }
-                    ((S_80C96F24_1 *)work)->unk_4E = left;
-                    ((S_80C96F24_1 *)work)->unk_48 = left;
-                    ((S_80C96F24_1 *)work)->unk_5A = right;
-                    ((S_80C96F24_1 *)work)->unk_54 = right;
+                    ((S_80C96F24_1 *)effect_data)->unk_4E = start_z;
+                    ((S_80C96F24_1 *)effect_data)->unk_48 = start_z;
+                    ((S_80C96F24_1 *)effect_data)->unk_5A = end_z;
+                    ((S_80C96F24_1 *)effect_data)->unk_54 = end_z;
                 }
             }
 
             {
-                s32 loop_value;
-                register void *arg0_counter ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                u16 counter_value;
+                s32 segment_step;
+                register void *counter_owner ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                u16 effect_count;
 
-                loop_value = inner + 1;
-                inner = loop_value;
-                loop_value <<= 16;
-                arg0_counter = arg0;
-                loop_value >>= 16;
-                counter_value = ((S_80C96F24_7 *)arg0_counter)->unk_A4;
-                loop_value = loop_value < 8;
-                counter_value++;
-                ((S_80C96F24_7 *)arg0_counter)->unk_A4 = counter_value;
-                if (loop_value) {
+                segment_step = segment + 1;
+                segment = segment_step;
+                segment_step <<= 16;
+                counter_owner = owner;
+                segment_step >>= 16;
+                effect_count = ((S_80C96F24_7 *)counter_owner)->unk_A4;
+                segment_step = segment_step < 8;
+                effect_count++;
+                ((S_80C96F24_7 *)counter_owner)->unk_A4 = effect_count;
+                if (segment_step) {
                     continue;
                 }
                 break;
@@ -321,14 +322,14 @@ void func_80C96F24(S_80C96F24_0 *arg0, void *arg1) {
         } while (1);
 
         {
-            register s32 outer_next_raw ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s16 next_outer;
+            register s32 prev_band ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s16 next_band;
 
-            outer_next_raw = outer;
-            next_outer = (s16)(outer_next_raw + 1);
-            ASM_USE2_NV(outer_next_raw, next_outer);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            outer = (u16)next_outer;
-            if (next_outer >= 3) {
+            prev_band = band;
+            next_band = (s16)(prev_band + 1);
+            ASM_USE2_NV(prev_band, next_band);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            band = (u16)next_band;
+            if (next_band >= 3) {
                 break;
             }
         }

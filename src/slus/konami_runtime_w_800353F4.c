@@ -17,17 +17,18 @@ extern s32 func_800352FC(void);
 extern void func_80035378(void *arg0);
 extern void func_80035208(void *arg0);
 
-s32 func_800353F4(void *arg0) {
-    s32 i;
+/* Processes input data, clearing the last five entries when D_8006B230 needs initialization. */
+s32 func_800353F4(void *input_data) {
+    s32 entry_index;
 
     if (func_800352FC() == 0 || D_80082A70[0] != D_8006B230) {
-        for (i = 10; i < 15; i++) {
-            D_80082A38.entries[i] = 0;
+        for (entry_index = 10; entry_index < 15; entry_index++) {
+            D_80082A38.entries[entry_index] = 0;
         }
-        func_80035378(arg0);
+        func_80035378(input_data);
         func_80035208(D_8006B230);
     } else {
-        func_80035378(arg0);
+        func_80035378(input_data);
     }
     return 1;
 }

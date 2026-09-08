@@ -33,11 +33,7 @@ extern void func_80054D64(void);
 extern void func_80054E00(s32 arg0);
 extern void func_8005A4E8(u8 a0, u8 a1, u8 a2);
 
-/* If subsystem status bit 4 (from func_8003F5AC) is set, clears status flag
- * 0x200, then either commits pending countdown 0x74 (if field10 is armed) or,
- * if not already flagged (0x4000), sets flag 0x400 and dispatches an SPU
- * pitch-bend refresh (func_80054D64) plus a countdown-arm message
- * (func_8005A4E8). */
+/* When subsystem bit 4 is set, clears flag 0x200 and commits or arms the countdown. */
 void func_80054704(void) {
     if (func_8003F5AC() & 4) {
         D_800847D0.flags2 &= ~0x200;

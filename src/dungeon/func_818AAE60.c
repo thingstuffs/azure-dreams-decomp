@@ -102,338 +102,340 @@ typedef struct {
     u16 saved_y;
 } Func818AAE60Scratch;
 
-void func_80024660(void *arg0, void *arg1, void *arg2) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6 };
+/* Update an effect that travels toward a target or along a clear path and spawns child effects. */
+void func_80024660(void *effect, void *motion, void *appearance) {
+    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6 };
     Func818AAE60Scratch scratch;
-    s16 *var_a1;
-    s16 *var_a2;
-    M2C_UNK *var_s3;
-    s16 temp_v0_4;
-    s32 temp_v1;
-    s16 temp_v1_4;
-    s16 temp_v1_7;
-    s32 var_a0;
-    s32 var_a0_2;
-    s32 var_a1_2;
-    register s32 var_v0_5 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v0_7;
-    s32 temp_v1_6;
-    s32 var_s1;
-    s32 var_v0_2;
-    s32 var_v0_3;
-    s32 signed_x;
-    s32 signed_y;
-    u16 temp_v1_3;
-    u16 var_v0;
-    void *temp_a1;
-    void *temp_s0;
-    void *temp_s7;
-    void *temp_v0;
-    void *temp_v1_2;
-    void *temp_v1_5;
-    register void *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u16 cnt;
+    s16 *target_dist_cursor;
+    s16 *path_dist_cursor;
+    M2C_UNK *destination;
+    s16 floor_z;
+    s32 state;
+    s16 target_frames;
+    s16 path_frames;
+    s32 target_x_dist;
+    s32 path_y_dist;
+    s32 path_x_dist;
+    register s32 path_z_dist ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 target_dist_fixed;
+    s32 direction;
+    s32 path_dist_fixed;
+    s32 origin_x;
+    s32 index;
+    s32 axis_dist;
+    s32 origin_coord;
+    s32 tile_x;
+    s32 tile_y;
+    u16 source_z;
+    u16 z_or_state;
+    void *source_info;
+    void *source_record;
+    void *source;
+    void *target;
+    void *source_pos;
+    void *tile_info;
+    register void *child_slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u16 elapsed;
 
-    cnt = ((Rec_func_800243B8_arg0 *)arg0)->unk_10;
-    temp_v1 = ((Rec_func_800243B8_arg0 *)arg0)->unk_0A;
-    temp_s7 = ((Rec_func_800243B8_arg0 *)arg0)->unk_00;
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_10 = cnt + 1;
-    if ((u32) temp_v1 >= 7U) {
-        goto block_52;
+    elapsed = ((Rec_func_800243B8_arg0 *)effect)->unk_10;
+    state = ((Rec_func_800243B8_arg0 *)effect)->unk_0A;
+    source = ((Rec_func_800243B8_arg0 *)effect)->unk_00;
+    ((Rec_func_800243B8_arg0 *)effect)->unk_10 = elapsed + 1;
+    if ((u32) state >= 7U) {
+        goto finish;
     }
-    (void)jt_keep; goto *D_80024020[(u32)(temp_v1)];
+    (void)state_labels;
+    goto *D_80024020[(u32)(state)];
 jt_c0:
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_10 = 0U;
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_0A = (s16) ((u16) ((Rec_func_800243B8_arg0 *)arg0)->unk_0A + 1);
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_0E = (u16) (((u16) ((S_80024660_1 *)temp_s7)->unk_2A >> 9) & 7);
-    ((S_80024660_2 *)arg2)->unk_0C = 0x808080;
+    ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
+    ((Rec_func_800243B8_arg0 *)effect)->unk_0A = (s16) ((u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1);
+    ((Rec_func_800243B8_arg0 *)effect)->unk_0E = (u16) (((u16) ((S_80024660_1 *)source)->unk_2A >> 9) & 7);
+    ((S_80024660_2 *)appearance)->unk_0C = 0x808080;
 jt_c1:
-    temp_s0 = temp_s7 - 0x20;
-    temp_a1 = ((S_80024660_3 *)temp_s0)->unk_0C;
-    if (func_8003DE58(((S_80024660_4 *)temp_a1)->unk_08, temp_a1, &scratch.dist[0], 0) != 0) {
-        goto block_5;
+    source_record = source - 0x20;
+    source_info = ((S_80024660_3 *)source_record)->unk_0C;
+    if (func_8003DE58(((S_80024660_4 *)source_info)->unk_08, source_info, &scratch.dist[0], 0) != 0) {
+        goto copy_source_pos;
     }
-    if (!(((S_80024660_12 *)(((S_80024660_3 *)temp_s0)->unk_0C))->unk_14 & 0x8000)) {
-        goto block_52;
+    if (!(((S_80024660_12 *)(((S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000)) {
+        goto finish;
     }
-block_5:
-    temp_v1_2 = ((S_80024660_3 *)temp_s0)->unk_08;
-    ((S_80024660_5 *)arg1)->unk_00.at02.v = (u16) ((S_80024660_6 *)temp_v1_2)->unk_02;
-    ((S_80024660_5 *)arg1)->unk_04.at02.v = (u16) ((S_80024660_6 *)temp_v1_2)->unk_06;
-    temp_v1_3 = ((S_80024660_6 *)temp_v1_2)->unk_0A;
-    ((S_80024660_5 *)arg1)->unk_08.at02.v = temp_v1_3;
-    if (((S_80024660_12 *)(((S_80024660_3 *)temp_s0)->unk_0C))->unk_14 & 0x8000) {
-        goto block_7;
+copy_source_pos:
+    source_pos = ((S_80024660_3 *)source_record)->unk_08;
+    ((S_80024660_5 *)motion)->unk_00.at02.v = (u16) ((S_80024660_6 *)source_pos)->unk_02;
+    ((S_80024660_5 *)motion)->unk_04.at02.v = (u16) ((S_80024660_6 *)source_pos)->unk_06;
+    source_z = ((S_80024660_6 *)source_pos)->unk_0A;
+    ((S_80024660_5 *)motion)->unk_08.at02.v = source_z;
+    if (((S_80024660_12 *)(((S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000) {
+        goto lower_source_z;
     }
-    ((S_80024660_5 *)arg1)->unk_00.at02.v = (u16) (((S_80024660_5 *)arg1)->unk_00.at02.v + scratch.dist[0]);
-    ((S_80024660_5 *)arg1)->unk_04.at02.v = (u16) (((S_80024660_5 *)arg1)->unk_04.at02.v + scratch.dist[1]);
-    var_v0 = ((S_80024660_5 *)arg1)->unk_08.at02.v;
-    ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ((S_80024660_5 *)motion)->unk_00.at02.v = (u16) (((S_80024660_5 *)motion)->unk_00.at02.v + scratch.dist[0]);
+    ((S_80024660_5 *)motion)->unk_04.at02.v = (u16) (((S_80024660_5 *)motion)->unk_04.at02.v + scratch.dist[1]);
+    z_or_state = ((S_80024660_5 *)motion)->unk_08.at02.v;
+    ASM_KEEP(z_or_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
-        register u16 temp_d2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_d2 = scratch.dist[2];
-        var_v0 = var_v0 + temp_d2;
+        register u16 z_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        z_offset = scratch.dist[2];
+        z_or_state = z_or_state + z_offset;
     }
-    goto block_8;
-block_7:
-    var_v0 = temp_v1_3 - 0x40;
-block_8:
-    ((S_80024660_5 *)arg1)->unk_08.at02.v = var_v0;
-    if (!(*((Rec_func_800243B8_arg0 *)arg0)->unk_04 & 0x80)) {
-        goto block_52;
+    goto set_start_z;
+lower_source_z:
+    z_or_state = source_z - 0x40;
+set_start_z:
+    ((S_80024660_5 *)motion)->unk_08.at02.v = z_or_state;
+    if (!(*((Rec_func_800243B8_arg0 *)effect)->unk_04 & 0x80)) {
+        goto finish;
     }
-    temp_v0 = ((S_80024660_1 *)temp_s7)->unk_60;
-    var_s1 = 1;
-    if (temp_v0 != NULL) {
-    var_s3 = ((S_80024660_7_pre *)temp_v0)[-1].unk_00;
-    var_a0 = ((S_80024660_8 *)var_s3)->unk_00.at02.v;
-    var_a0 -= ((S_80024660_5 *)arg1)->unk_00.at02u.v;
-    if (var_a0 >= 0) {
-        goto block_12;
-    }
-    var_a0 = 0 - var_a0;
-block_12:
-    scratch.dist[0] = (u16) var_a0;
-    var_v0_2 = ((S_80024660_8 *)var_s3)->unk_04.at02.v;
-    var_v0_3 = ((S_80024660_5 *)arg1)->unk_04.at02u.v;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    var_a1 = (s16 *)((u8 *)&scratch + 2);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    var_v0_2 -= var_v0_3;
-    if (var_v0_2 >= 0) {
-        goto block_14;
-    }
-    var_v0_2 = 0 - var_v0_2;
-block_14:
-    scratch.dist[1] = (u16) var_v0_2;
-    var_v0_3 = ((S_80024660_5 *)arg1)->unk_08.at02u.v;
-    var_v0_3 += 0x20;
-    var_v0_2 = ((S_80024660_8 *)var_s3)->unk_08.at02.v - var_v0_3;
-    if (var_v0_2 >= 0) {
-        goto block_16;
-    }
-    var_v0_2 = 0 - var_v0_2;
-block_16:
-    scratch.dist[2] = (u16) var_v0_2;
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16 = var_a0;
-loop_17:
-    if (var_a1[12] <= ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16) {
-        goto block_19;
-    }
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16 = (s16) (u16) var_a1[12];
-block_19:
-    var_s1 += 1;
-    var_a1 += 1;
-    if (var_s1 < 3) {
-        goto loop_17;
-    }
-    temp_v0_2 = (u16) ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16 << 0x10;
-    temp_v1_4 = (temp_v0_2 >> 0x14) + (temp_v0_2 >> 0x15);
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16 = temp_v1_4;
-    if (temp_v1_4 != 0) {
-        goto block_22;
-    }
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16 = 1;
-block_22:
-    ((S_80024660_5 *)arg1)->unk_0C = (s32) ((s32) (((S_80024660_8 *)var_s3)->unk_00.at00.v - ((S_80024660_5 *)arg1)->unk_00.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16);
-    ((S_80024660_5 *)arg1)->unk_10 = (s32) ((s32) (((S_80024660_8 *)var_s3)->unk_04.at00.v - ((S_80024660_5 *)arg1)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16);
-    ((S_80024660_5 *)arg1)->unk_14 = (s32) ((s32) (((S_80024660_8 *)var_s3)->unk_08.at00.v - ((S_80024660_5 *)arg1)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16);
-    func_800A56E0(0x300, var_a1);
-    var_v0 = (u16) ((Rec_func_800243B8_arg0 *)arg0)->unk_0A + 1;
-    goto block_41;
+    target = ((S_80024660_1 *)source)->unk_60;
+    index = 1;
+    if (target != NULL) {
+        destination = ((S_80024660_7_pre *)target)[-1].unk_00;
+        target_x_dist = ((S_80024660_8 *)destination)->unk_00.at02.v;
+        target_x_dist -= ((S_80024660_5 *)motion)->unk_00.at02u.v;
+        if (target_x_dist >= 0) {
+            goto target_x_ready;
+        }
+        target_x_dist = 0 - target_x_dist;
+target_x_ready:
+        scratch.dist[0] = (u16) target_x_dist;
+        axis_dist = ((S_80024660_8 *)destination)->unk_04.at02.v;
+        origin_coord = ((S_80024660_5 *)motion)->unk_04.at02u.v;
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        target_dist_cursor = (s16 *)((u8 *)&scratch + 2);
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        axis_dist -= origin_coord;
+        if (axis_dist >= 0) {
+            goto target_y_ready;
+        }
+        axis_dist = 0 - axis_dist;
+target_y_ready:
+        scratch.dist[1] = (u16) axis_dist;
+        origin_coord = ((S_80024660_5 *)motion)->unk_08.at02u.v;
+        origin_coord += 0x20;
+        axis_dist = ((S_80024660_8 *)destination)->unk_08.at02.v - origin_coord;
+        if (axis_dist >= 0) {
+            goto target_z_ready;
+        }
+        axis_dist = 0 - axis_dist;
+target_z_ready:
+        scratch.dist[2] = (u16) axis_dist;
+        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = target_x_dist;
+scan_target_dist:
+        if (target_dist_cursor[12] <= ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
+            goto next_target_axis;
+        }
+        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = (s16) (u16) target_dist_cursor[12];
+next_target_axis:
+        index += 1;
+        target_dist_cursor += 1;
+        if (index < 3) {
+            goto scan_target_dist;
+        }
+        target_dist_fixed = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 << 0x10;
+        target_frames = (target_dist_fixed >> 0x14) + (target_dist_fixed >> 0x15);
+        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = target_frames;
+        if (target_frames != 0) {
+            goto set_target_velocity;
+        }
+        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = 1;
+set_target_velocity:
+        ((S_80024660_5 *)motion)->unk_0C = (s32) ((s32) (((S_80024660_8 *)destination)->unk_00.at00.v - ((S_80024660_5 *)motion)->unk_00.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
+        ((S_80024660_5 *)motion)->unk_10 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_04.at00.v - ((S_80024660_5 *)motion)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
+        ((S_80024660_5 *)motion)->unk_14 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_08.at00.v - ((S_80024660_5 *)motion)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
+        func_800A56E0(0x300, target_dist_cursor);
+        z_or_state = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1;
+        goto spawn_children;
     } else {
-    register s32 temp_a1_3 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 saved_y_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 *tptr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 *first_ptr;
-    register s32 search_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 dead_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 var_fp;
-    register s32 var_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 var_s6 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    var_s1 = 0;
-    temp_v1_5 = ((S_80024660_3 *)temp_s0)->unk_0C;
-    ASM_KEEP(temp_v1_5);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    dead_page = 0x80070000;
-    ASM_USE(dead_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    var_s4 = ((S_80024660_9 *)temp_v1_5)->unk_24;
-    var_s6 = ((S_80024660_9 *)temp_v1_5)->unk_25;
-    var_fp = var_s4;
-    scratch.saved_y = (u16) var_s6;
-    do {
-    signed_x = (s16)var_s4;
-    signed_y = (s16)var_s6;
-    if ((func_800A44E0((signed_x << 6) & 0xFFC0, (signed_y << 6) & 0xFFC0, ((S_80024660_1 *)temp_s7)->unk_88, (s16) (((Rec_func_800243B8_arg0 *)arg0)->unk_0E << 9)) << 0x10) != 0) {
-        break;
-    }
-    temp_v0_3 = (s16) ((Rec_func_800243B8_arg0 *)arg0)->unk_0E;
-    tptr = D_8006CCD8;
-    first_ptr = &tptr[temp_v0_3];
-    search_z = (u16) ((S_80024660_1 *)temp_s7)->unk_88;
-    ASM_KEEP_DEP_NV(search_z, first_ptr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    search_z = (s16) (search_z - 32);
-    ASM_KEEP(search_z);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    tptr = D_8006CCE8;
-    temp_a0 = *first_ptr;
-    temp_a1_3 = tptr[temp_v0_3];
-    temp_a0 = (((signed_x + (s16)temp_a0) << 6) + 32) & 0xFFE0;
-    temp_a1_3 = (((signed_y + (s16)temp_a1_3) << 6) + 32) & 0xFFE0;
-    temp_v0_4 = func_800BCB04(temp_a0, temp_a1_3, search_z);
-    if (temp_v0_4 >= 513) {
-        break;
-    }
-    if ((s16) (temp_v0_4 - (u16) ((S_80024660_1 *)temp_s7)->unk_88) < -63) {
-        break;
-    }
-    {
-        register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 update_idx ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        u16 *update_xp;
-        u16 *update_yp;
-        tptr = D_8006CCD8_2;
-        update_idx = (s16) ((Rec_func_800243B8_arg0 *)arg0)->unk_0E;
-        var_s1 += 1;
-        update_xp = (u16 *) (((unsigned long) update_idx << 1) + (unsigned long) tptr);
-        tptr = D_8006CCE8_2;
-        update_yp = update_idx + tptr;
-        next_x = *update_xp;
-        next_y = *update_yp;
-        next_x = var_s4 + next_x;
-        var_s4 = next_x;
-        ASM_KEEP(var_s4);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        next_y = var_s6 + next_y;
-        var_s6 = next_y;
-        scratch.saved_y = (u16) next_y;
-        var_fp = next_x;
-    }
-    } while (var_s1 < 8);
-block_28:
-    var_s3 = (M2C_UNK *)&scratch;
-    var_s1 = 1;
-    ASM_KEEP(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    {
-        s16 *tptr3;
-        temp_a1_3 = var_fp << 16;
-        tptr3 = D_8006CCD8_3;
-        ASM_KEEP(tptr3);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        temp_a1_3 >>= 10;
-        var_a2 = (s16 *)((u8 *)&scratch + 2);
-        temp_a1_3 += ((tptr3[(s16) ((Rec_func_800243B8_arg0 *)arg0)->unk_0E] + 1) << 5);
-        tptr3 = D_8006CCE8_3;
-        ((S_80024660_8 *)var_s3)->unk_00.at02.v = temp_a1_3;
-        temp_a1_3 = (s16) temp_a1_3;
-        saved_y_t0 = scratch.saved_y;
-        ASM_KEEP(saved_y_t0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_a0 = ((s32) (saved_y_t0 << 0x10));
-        temp_a0 = (temp_a0 >> 0xA) + ((tptr3[(s16) ((Rec_func_800243B8_arg0 *)arg0)->unk_0E] + 1) << 5);
-        ((S_80024660_8 *)var_s3)->unk_04.at02.v = temp_a0;
-        var_v0 = ((S_80024660_5 *)arg1)->unk_08.at02.v + 32;
-        temp_a0 <<= 16;
-        ((S_80024660_8 *)var_s3)->unk_08.at02.v = var_v0;
-        temp_v1_6 = ((S_80024660_5 *)arg1)->unk_00.at02u.v;
-        temp_a0 >>= 16;
-        var_a1_2 = temp_a1_3 - temp_v1_6;
+        register s32 probe_y_dest_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 probe_x_dest_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u16 saved_tile_y ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u16 *step_table ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u16 *x_step_ptr;
+        register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u32 table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 last_tile_x;
+        register s32 path_tile_x ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 path_tile_y ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        index = 0;
+        tile_info = ((S_80024660_3 *)source_record)->unk_0C;
+        ASM_KEEP(tile_info);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        table_page = 0x80070000;
+        ASM_USE(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        path_tile_x = ((S_80024660_9 *)tile_info)->unk_24;
+        path_tile_y = ((S_80024660_9 *)tile_info)->unk_25;
+        last_tile_x = path_tile_x;
+        scratch.saved_y = (u16) path_tile_y;
+        do {
+            tile_x = (s16)path_tile_x;
+            tile_y = (s16)path_tile_y;
+            if ((func_800A44E0((tile_x << 6) & 0xFFC0, (tile_y << 6) & 0xFFC0, ((S_80024660_1 *)source)->unk_88, (s16) (((Rec_func_800243B8_arg0 *)effect)->unk_0E << 9)) << 0x10) != 0) {
+                break;
+            }
+            direction = (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E;
+            step_table = D_8006CCD8;
+            x_step_ptr = &step_table[direction];
+            probe_z = (u16) ((S_80024660_1 *)source)->unk_88;
+            ASM_KEEP_DEP_NV(probe_z, x_step_ptr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            probe_z = (s16) (probe_z - 32);
+            ASM_KEEP(probe_z);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            step_table = D_8006CCE8;
+            probe_x_dest_y = *x_step_ptr;
+            probe_y_dest_x = step_table[direction];
+            probe_x_dest_y = (((tile_x + (s16)probe_x_dest_y) << 6) + 32) & 0xFFE0;
+            probe_y_dest_x = (((tile_y + (s16)probe_y_dest_x) << 6) + 32) & 0xFFE0;
+            floor_z = func_800BCB04(probe_x_dest_y, probe_y_dest_x, probe_z);
+            if (floor_z >= 513) {
+                break;
+            }
+            if ((s16) (floor_z - (u16) ((S_80024660_1 *)source)->unk_88) < -63) {
+                break;
+            }
+            {
+                register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register s32 step_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                u16 *x_step;
+                u16 *y_step;
+                step_table = D_8006CCD8_2;
+                step_index = (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E;
+                index += 1;
+                x_step = (u16 *) (((unsigned long) step_index << 1) + (unsigned long) step_table);
+                step_table = D_8006CCE8_2;
+                y_step = step_index + step_table;
+                next_x = *x_step;
+                next_y = *y_step;
+                next_x = path_tile_x + next_x;
+                path_tile_x = next_x;
+                ASM_KEEP(path_tile_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                next_y = path_tile_y + next_y;
+                path_tile_y = next_y;
+                scratch.saved_y = (u16) next_y;
+                last_tile_x = next_x;
+            }
+        } while (index < 8);
+set_path_destination:
+        destination = (M2C_UNK *)&scratch;
+        index = 1;
+        ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        {
+            s16 *edge_steps;
+            probe_y_dest_x = last_tile_x << 16;
+            edge_steps = D_8006CCD8_3;
+            ASM_KEEP(edge_steps);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            probe_y_dest_x >>= 10;
+            path_dist_cursor = (s16 *)((u8 *)&scratch + 2);
+            probe_y_dest_x += ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
+            edge_steps = D_8006CCE8_3;
+            ((S_80024660_8 *)destination)->unk_00.at02.v = probe_y_dest_x;
+            probe_y_dest_x = (s16) probe_y_dest_x;
+            saved_tile_y = scratch.saved_y;
+            ASM_KEEP(saved_tile_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            probe_x_dest_y = ((s32) (saved_tile_y << 0x10));
+            probe_x_dest_y = (probe_x_dest_y >> 0xA) + ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
+            ((S_80024660_8 *)destination)->unk_04.at02.v = probe_x_dest_y;
+            z_or_state = ((S_80024660_5 *)motion)->unk_08.at02.v + 32;
+            probe_x_dest_y <<= 16;
+            ((S_80024660_8 *)destination)->unk_08.at02.v = z_or_state;
+            origin_x = ((S_80024660_5 *)motion)->unk_00.at02u.v;
+            probe_x_dest_y >>= 16;
+            path_x_dist = probe_y_dest_x - origin_x;
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            if (path_x_dist >= 0) {
+                goto path_x_ready;
+            }
+            path_x_dist = 0 - path_x_dist;
+path_x_ready:
+            scratch.dist[0] = path_x_dist;
+            path_z_dist = z_or_state << 16;
+            path_y_dist = probe_x_dest_y - ((S_80024660_5 *)motion)->unk_04.at02u.v;
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            if (path_y_dist >= 0) {
+                goto path_y_ready;
+            }
+            path_y_dist = 0 - path_y_dist;
+path_y_ready:
+            scratch.dist[1] = path_y_dist;
+            path_z_dist >>= 16;
+            path_z_dist -= ((S_80024660_5 *)motion)->unk_08.at02u.v;
+            if (path_z_dist >= 0) {
+                goto path_z_ready;
+            }
+            path_z_dist = 0 - path_z_dist;
+path_z_ready:
+            scratch.dist[2] = path_z_dist;
+            ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = path_x_dist;
+        }
+scan_path_dist:
+        if (path_dist_cursor[12] <= ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
+            goto next_path_axis;
+        }
+        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = (s16) (u16) path_dist_cursor[12];
+next_path_axis:
+        index += 1;
+        path_dist_cursor += 1;
+        if (index < 3) {
+            goto scan_path_dist;
+        }
+        path_dist_fixed = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 << 0x10;
+        path_frames = (path_dist_fixed >> 0x14) + (path_dist_fixed >> 0x15);
+        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = path_frames;
+        if (path_frames != 0) {
+            goto set_path_velocity;
+        }
+        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = 1;
+set_path_velocity:
+        ((S_80024660_5 *)motion)->unk_0C = (s32) ((s32) (((S_80024660_8 *)destination)->unk_00.at00.v - ((S_80024660_5 *)motion)->unk_00.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
+        ((S_80024660_5 *)motion)->unk_10 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_04.at00.v - ((S_80024660_5 *)motion)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
+        ((S_80024660_5 *)motion)->unk_14 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_08.at00.v - ((S_80024660_5 *)motion)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        if (var_a1_2 >= 0) {
-            goto block_30;
-        }
-        var_a1_2 = 0 - var_a1_2;
-    block_30:
-        scratch.dist[0] = var_a1_2;
-        var_v0_5 = var_v0 << 16;
-        var_a0_2 = temp_a0 - ((S_80024660_5 *)arg1)->unk_04.at02u.v;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        if (var_a0_2 >= 0) {
-            goto block_32;
-        }
-        var_a0_2 = 0 - var_a0_2;
-    block_32:
-        scratch.dist[1] = var_a0_2;
-        var_v0_5 >>= 16;
-        var_v0_5 -= ((S_80024660_5 *)arg1)->unk_08.at02u.v;
-        if (var_v0_5 >= 0) {
-            goto block_34;
-        }
-        var_v0_5 = 0 - var_v0_5;
-    block_34:
-        scratch.dist[2] = var_v0_5;
-        ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16 = var_a1_2;
+        z_or_state = 5;
     }
-loop_35:
-    if (var_a2[12] <= ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16) {
-        goto block_37;
+spawn_children:
+    ((Rec_func_800243B8_arg0 *)effect)->unk_0A = z_or_state;
+    index = 0x1F;
+    child_slot = effect + 0x7C;
+spawn_next_child:
+    ((S_80024660_10 *)child_slot)->unk_18 = func_800243B8(effect, motion, destination, (s16)index);
+    index -= 1;
+    child_slot -= 4;
+    if (index >= 0) {
+        goto spawn_next_child;
     }
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16 = (s16) (u16) var_a2[12];
-block_37:
-    var_s1 += 1;
-    var_a2 += 1;
-    if (var_s1 < 3) {
-        goto loop_35;
-    }
-    temp_v0_7 = (u16) ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16 << 0x10;
-    temp_v1_7 = (temp_v0_7 >> 0x14) + (temp_v0_7 >> 0x15);
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16 = temp_v1_7;
-    if (temp_v1_7 != 0) {
-        goto block_40;
-    }
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16 = 1;
-block_40:
-    ((S_80024660_5 *)arg1)->unk_0C = (s32) ((s32) (((S_80024660_8 *)var_s3)->unk_00.at00.v - ((S_80024660_5 *)arg1)->unk_00.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16);
-    ((S_80024660_5 *)arg1)->unk_10 = (s32) ((s32) (((S_80024660_8 *)var_s3)->unk_04.at00.v - ((S_80024660_5 *)arg1)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16);
-    ((S_80024660_5 *)arg1)->unk_14 = (s32) ((s32) (((S_80024660_8 *)var_s3)->unk_08.at00.v - ((S_80024660_5 *)arg1)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    var_v0 = 5;
-    }
-block_41:
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_0A = var_v0;
-    var_s1 = 0x1F;
-    var_s0 = arg0 + 0x7C;
-loop_42:
-    ((S_80024660_10 *)var_s0)->unk_18 = func_800243B8(arg0, arg1, var_s3, (s16)var_s1);
-    var_s1 -= 1;
-    var_s0 -= 4;
-    if (var_s1 >= 0) {
-        goto loop_42;
-    }
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_10 = 0U;
-    goto block_52;
+    ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
+    goto finish;
 jt_c3:
-    if ((s16) ((Rec_func_800243B8_arg0 *)arg0)->unk_10 < 0x28) {
-        goto block_52;
+    if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < 0x28) {
+        goto finish;
     }
-    func_8002403C(((S_80024660_1 *)temp_s7)->unk_60, ((Rec_func_800243B8_arg0 *)arg0)->unk_09, temp_s7);
-    goto block_49;
+    func_8002403C(((S_80024660_1 *)source)->unk_60, ((Rec_func_800243B8_arg0 *)effect)->unk_09, source);
+    goto advance_state;
 jt_c4:
-    if (((Rec_func_800243B8_arg0 *)arg0)->unk_14 != 0) {
-        goto block_52;
+    if (((Rec_func_800243B8_arg0 *)effect)->unk_14 != 0) {
+        goto finish;
     }
     D_8008346C = 0;
-    (*(u16 *)((u8 *)arg0 + -2)) = (u16) ((*(u16 *)((u8 *)arg0 + -2)) | 0x8000);
+    (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
     (*(s32 *)&D_800814A0) = (s32) (((S_80024660_11 *)(&D_800814A0))->unk_00 | 0x8000);
-    goto block_52;
+    goto finish;
 jt_c2:
 jt_c5:
-    ((S_80024660_5 *)arg1)->unk_00.at00.v = (s32) (((S_80024660_5 *)arg1)->unk_00.at00.v + ((S_80024660_5 *)arg1)->unk_0C);
-    ((S_80024660_5 *)arg1)->unk_04.at00.v = (s32) (((S_80024660_5 *)arg1)->unk_04.at00.v + ((S_80024660_5 *)arg1)->unk_10);
-    ((S_80024660_5 *)arg1)->unk_08.at00.v = (s32) (((S_80024660_5 *)arg1)->unk_08.at00.v + ((S_80024660_5 *)arg1)->unk_14);
-    if ((s16) ((Rec_func_800243B8_arg0 *)arg0)->unk_10 < ((Rec_func_800243B8_arg0 *)arg0)->unk_12.as_s16) {
-        goto block_52;
+    ((S_80024660_5 *)motion)->unk_00.at00.v = (s32) (((S_80024660_5 *)motion)->unk_00.at00.v + ((S_80024660_5 *)motion)->unk_0C);
+    ((S_80024660_5 *)motion)->unk_04.at00.v = (s32) (((S_80024660_5 *)motion)->unk_04.at00.v + ((S_80024660_5 *)motion)->unk_10);
+    ((S_80024660_5 *)motion)->unk_08.at00.v = (s32) (((S_80024660_5 *)motion)->unk_08.at00.v + ((S_80024660_5 *)motion)->unk_14);
+    if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
+        goto finish;
     }
-block_49:
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_10 = 0U;
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_0A = (s16) ((u16) ((Rec_func_800243B8_arg0 *)arg0)->unk_0A + 1);
-    goto block_52;
+advance_state:
+    ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
+    ((Rec_func_800243B8_arg0 *)effect)->unk_0A = (s16) ((u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1);
+    goto finish;
 jt_c6:
-    if ((s16) ((Rec_func_800243B8_arg0 *)arg0)->unk_10 < 0x28) {
-        goto block_52;
+    if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < 0x28) {
+        goto finish;
     }
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_0A = 4;
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_10 = 0U;
-block_52:
-    ((Rec_func_800243B8_arg0 *)arg0)->unk_14 = 0;
+    ((Rec_func_800243B8_arg0 *)effect)->unk_0A = 4;
+    ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
+finish:
+    ((Rec_func_800243B8_arg0 *)effect)->unk_14 = 0;
     return;
 }

@@ -15,33 +15,34 @@ extern s32 D_800B7B8C;
 extern s32 D_800B7E78;
 extern s32 D_800B7F8C;
 
+/* Initialize the object's selection and assign a handler based on the selected entry's kind. */
 void func_800B81AC(void) {
     Obj *obj;
-    u8 *table;
-    u8 *selector;
+    u8 *entry_table;
+    u8 *entry_indices;
     u8 *entry;
-    u8 index;
-    s32 kind;
+    u8 entry_index;
+    s32 entry_kind;
 
     obj = func_8003FC64(0);
     if (obj != 0) {
-        table = D_800D2FB4;
-        selector = D_800D381A;
+        entry_table = D_800D2FB4;
+        entry_indices = D_800D381A;
         obj->field20 = 0;
-        index = selector[obj->field20];
-        entry = table + (index << 5);
-        kind = (obj->field22 = entry[0]);
+        entry_index = entry_indices[obj->field20];
+        entry = entry_table + (entry_index << 5);
+        entry_kind = (obj->field22 = entry[0]);
 
-        if (kind == 0x21) {
+        if (entry_kind == 0x21) {
             goto handler_21;
         }
-        if (kind < 0x21) {
+        if (entry_kind < 0x21) {
             goto default_handler;
         }
-        if (kind >= 0x29) {
+        if (entry_kind >= 0x29) {
             goto default_handler;
         }
-        if (kind < 0x26) {
+        if (entry_kind < 0x26) {
             goto default_handler;
         }
         obj->handler = &D_800B7B8C;

@@ -51,16 +51,17 @@ extern void func_800A2B04(FuncArg1 *, u8, u8);
 extern s16 func_800BCB04(u16, u16, s32);
 extern void func_80096088(FuncArg0 *, FuncArg3 *);
 
-void func_80090548(FuncArg0 *arg0, FuncArg1 *arg1, FuncArg2 *arg2, FuncArg3 *arg3) {
-    FuncArg3 *p3;
-    register s32 mask;
+/* Updates a spinning movement sequence and restores the actor's original rotation. */
+void func_80090548(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *tile, FuncArg3 *actor_arg) {
+    FuncArg3 *actor;
+    register s32 flags_mask;
     s32 state;
-    s32 amount;
-    s32 flags;
-    u16 next;
+    s32 height_offset;
+    s32 actor_flags;
+    u16 ticks_left;
 
-    p3 = arg3;
-    state = arg0->state;
+    actor = actor_arg;
+    state = motion->state;
     if (state == 1) {
         goto state1;
     }
@@ -79,50 +80,50 @@ void func_80090548(FuncArg0 *arg0, FuncArg1 *arg1, FuncArg2 *arg2, FuncArg3 *arg
     goto done;
 
 state0:
-    p3->field6A = p3->field2A & 0xFFF;
-    p3->field1C &= 0xFFFEFFFF;
-    arg0->state++;
+    actor->field6A = actor->field2A & 0xFFF;
+    actor->field1C &= 0xFFFEFFFF;
+    motion->state++;
 
 state1:
-    p3->field2A += 0x200;
-    arg1->field14 += 0xFFFF0000;
-    next = arg0->field96 - 1;
-    arg0->field96 = next;
-    if ((next << 16) > 0) {
+    actor->field2A += 0x200;
+    position->field14 += 0xFFFF0000;
+    ticks_left = motion->field96 - 1;
+    motion->field96 = ticks_left;
+    if ((ticks_left << 16) > 0) {
         goto done;
     }
-    arg1->field14 = 0;
-    func_800A2B04(arg1, arg2->field24, arg2->field25);
-    amount = -0x400;
-    p3->field88 = func_800BCB04(arg1->field2, arg1->field6,
-                                (D_800DCF58[0] = 1, amount));
-    arg0->field92 = -0x200;
-    arg0->field96 = 0x10;
-    arg0->field98 &= 0xFFF7;
-    arg0->state++;
+    position->field14 = 0;
+    func_800A2B04(position, tile->field24, tile->field25);
+    height_offset = -0x400;
+    actor->field88 = func_800BCB04(position->field2, position->field6,
+                                (D_800DCF58[0] = 1, height_offset));
+    motion->field92 = -0x200;
+    motion->field96 = 0x10;
+    motion->field98 &= 0xFFF7;
+    motion->state++;
     goto done;
 
 state2:
-    p3->field2A += 0x200;
-    if (arg0->flagsA2 & 0x10) {
-        arg0->field96 = 0x20;
-        arg0->state++;
+    actor->field2A += 0x200;
+    if (motion->flagsA2 & 0x10) {
+        motion->field96 = 0x20;
+        motion->state++;
     }
     goto done;
 
 state3:
-    p3->field2A += 0x200;
-    if ((p3->field2A & 0xFFF) != (p3->field6A & 0xFFF)) {
+    actor->field2A += 0x200;
+    if ((actor->field2A & 0xFFF) != (actor->field6A & 0xFFF)) {
         goto done;
     }
-    func_8009A21C(arg2->field24, arg2->field25,
-                  (p3->field1C & 0x2000) ? 0x300 : 0x3000);
-    mask = 0xFFFEFFFF;
+    func_8009A21C(tile->field24, tile->field25,
+                  (actor->field1C & 0x2000) ? 0x300 : 0x3000);
+    flags_mask = 0xFFFEFFFF;
     D_80083460.fieldA--;
-    flags = p3->field1C & mask;
-    p3->field2A = p3->field6A;
-    p3->field1C = flags;
-    func_80096088(arg0, p3);
+    actor_flags = actor->field1C & flags_mask;
+    actor->field2A = actor->field6A;
+    actor->field1C = actor_flags;
+    func_80096088(motion, actor);
 
 done:
     return;

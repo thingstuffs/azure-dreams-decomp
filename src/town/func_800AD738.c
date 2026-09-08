@@ -5,23 +5,21 @@
 s32 func_8008C180();                        /* extern */
 
 
-s32 func_800AAE98(Rec_func_800AAE98_arg0 *arg0) {
-    s32 temp_v1;
+/* Returns 0x18 for lookup codes in three special ranges, or 0x60 otherwise. */
+s32 func_800AAE98(Rec_func_800AAE98_arg0 *coordinates) {
+    s32 lookupCode;
 
-    temp_v1 = func_8008C180(arg0->unk_02, arg0->unk_06) & 0xFFFF;
-    if ((u32) (temp_v1 - 0xC0) < 3U) {
+    lookupCode = func_8008C180(coordinates->unk_02, coordinates->unk_06) & 0xFFFF;
+    if ((u32) (lookupCode - 0xC0) < 3U) {
         return 0x18;
     }
-    if ((u32) (temp_v1 - 0xC7) < 3U) {
+    if ((u32) (lookupCode - 0xC7) < 3U) {
         return 0x18;
     }
-    if ((u32) (temp_v1 - 0xCE) < 3U) {
+    if ((u32) (lookupCode - 0xCE) < 3U) {
         return 0x18;
     }
-    ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(lookupCode);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     return 0x60;
 }
 
-/* MECHANISM: Three explicit range-check returns materialize 0x18 in each taken-branch delay slot.
-   ASM_KEEP extends temp_v1 through the final fallthrough, preserving $v1 so the last test uses $v0.
-   The natural 0x18-byte frame saves only $ra; 2.7.2-cdk-G0 then emits all 25 retail words. */

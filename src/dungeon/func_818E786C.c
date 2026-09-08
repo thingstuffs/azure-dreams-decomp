@@ -19,19 +19,20 @@ typedef struct S_8002506C_2 {
 
 extern u8 D_80024004[24];
 
-void func_8002506C(void *arg0, s32 arg1) {
-    u16 sp[12];
-    s32 var_v0;
-    S_8002506C_1 *temp_a0;
-    S_8002506C_2 *temp_v1;
+/* Copy the selected pair of table values into the linked record. */
+void func_8002506C(void *record_field, s32 pair_index) {
+    u16 value_pairs[12];
+    s32 shifted_index;
+    S_8002506C_1 *linked_record;
+    S_8002506C_2 *pair;
 
-    __builtin_memcpy(sp, D_80024004, 24);
-    if ((u32)(arg1 & 0xFFFF) >= 6U) {
-        arg1 = 0;
+    __builtin_memcpy(value_pairs, D_80024004, 24);
+    if ((u32)(pair_index & 0xFFFF) >= 6U) {
+        pair_index = 0;
     }
-    var_v0 = arg1 << 0x10;
-    temp_v1 = (u8 *)sp + (var_v0 >> 0xE);
-    temp_a0 = ((S_8002506C_0 *)((u8 *)arg0 - 0x14))->unk_00;
-    temp_a0->unk_1C = (u16)temp_v1->unk_00;
-    temp_a0->unk_1E = (u16)temp_v1->unk_02;
+    shifted_index = pair_index << 0x10;
+    pair = (u8 *)value_pairs + (shifted_index >> 0xE);
+    linked_record = ((S_8002506C_0 *)((u8 *)record_field - 0x14))->unk_00;
+    linked_record->unk_1C = (u16)pair->unk_00;
+    linked_record->unk_1E = (u16)pair->unk_02;
 }

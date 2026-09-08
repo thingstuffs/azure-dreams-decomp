@@ -1,32 +1,29 @@
 #include "common.h"
 
-/* Walks a chain of fixed-size sub-records starting at a0: sets/clears status bit
- * 0x2 in byte[1] of each record depending on a1, then advances by +0x18 or +0xC
- * depending on the record's type field (byte[1] & 0xFC == 0x38), stopping when
- * byte[0] & 0x80 is set (or immediately if a0 is NULL). */
-void func_8004CE68(u8 *a0, s32 a1) {
-    u8 *v1 = a0;
-    u8 v0;
+/* Sets or clears status bit 0x2 in each variable-size record through the end marker. */
+void func_8004CE68(u8 *record, s32 setStatusBit) {
+    u8 *nextRecord = record;
+    u8 recordFlags;
 
-    if (a0 == 0) {
+    if (record == 0) {
         return;
     }
     do {
-        a0 = v1;
-        if (a1 != 0) {
-            v0 = a0[1];
-            v0 |= 2;
+        record = nextRecord;
+        if (setStatusBit != 0) {
+            recordFlags = record[1];
+            recordFlags |= 2;
         } else {
-            v0 = a0[1];
-            v0 &= 0xFD;
+            recordFlags = record[1];
+            recordFlags &= 0xFD;
         }
-        a0[1] = v0;
-        v0 = *(volatile u8 *)(a0 + 1);
-        v0 &= 0xFC;
-        if (v0 == 0x38) {
-            v1 = a0 + 0x18;
+        record[1] = recordFlags;
+        recordFlags = *(volatile u8 *)(record + 1);
+        recordFlags &= 0xFC;
+        if (recordFlags == 0x38) {
+            nextRecord = record + 0x18;
         } else {
-            v1 = a0 + 0xC;
+            nextRecord = record + 0xC;
         }
-    } while ((a0[0] & 0x80) == 0);
+    } while ((record[0] & 0x80) == 0);
 }

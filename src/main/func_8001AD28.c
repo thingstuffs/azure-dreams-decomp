@@ -5,29 +5,30 @@ s32 func_8007CA68();
 s32 func_8007CA88();
 void func_8007CA98();
 
-s32 func_8001AD28(s32 arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4) {
-    s32 result;
+/* Writes 128-byte blocks to a file, optionally creating it first. */
+s32 func_8001AD28(s32 filename, void *buffer, s32 block_count, s32 block_offset, s32 skip_create) {
+    s32 success;
     s32 fd;
-    s32 size;
+    s32 byte_count;
 
-    result = 0;
-    if (arg4 == 0) {
-        fd = func_8007CA58(arg0, 0x30200);
+    success = 0;
+    if (skip_create == 0) {
+        fd = func_8007CA58(filename, 0x30200);
         if (fd == -1) {
             goto done;
         }
         func_8007CA98(fd);
     }
-    fd = func_8007CA58(arg0, 2);
+    fd = func_8007CA58(filename, 2);
     if (fd != -1) {
-        if ((arg3 == 0) || (func_8007CA68(fd, arg3 << 7, 0) != -1)) {
-            size = arg2 << 7;
-            if (func_8007CA88(fd, arg1, size) == size) {
-                result = 1;
+        if ((block_offset == 0) || (func_8007CA68(fd, block_offset << 7, 0) != -1)) {
+            byte_count = block_count << 7;
+            if (func_8007CA88(fd, buffer, byte_count) == byte_count) {
+                success = 1;
             }
         }
         func_8007CA98(fd);
     }
 done:
-    return result;
+    return success;
 }

@@ -39,108 +39,89 @@ typedef struct S_801740F8_2 {
 } S_801740F8_2;   /* arg3 in func_801740F8 */
 
 
-void func_801740F8(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Updates a timed animation offset and restores the actor's directional animation. */
+void func_801740F8(void *actor, void *transform, void *animation, void *motion)
 {
     s32 timer;
     s16 next_timer;
     s32 state;
-    register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u8 *tbl;
+    register u8 *anim_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *anim_table;
 
-    state = ((S_801740F8_0 *)arg0)->unk_9B;
+    state = ((S_801740F8_0 *)actor)->unk_9B;
     if (state == 1) {
-        goto update;
+        goto update_offset;
     }
     if (state < 2) {
-        page = (u8 *)0x80170000;
+        anim_page = (u8 *)0x80170000;
         if (state == 0) {
-            goto state_0;
+            goto init_animation;
         }
         return;
     } else {
         if (state == 2) {
-            goto test_done;
+            goto check_done;
         }
         if (state == 3) {
-            goto state_3;
+            goto restore_animation;
         }
         return;
     }
 
-state_0:
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    tbl = page + 0x4A7C;
-    if (((S_801740F8_1 *)arg2)->unk_2C != tbl) {
-        (*(u8 * *)((u8 *)arg2 + (0x2C))) = tbl;
+init_animation:
+    ASM_KEEP(anim_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    anim_table = anim_page + 0x4A7C;
+    if (((S_801740F8_1 *)animation)->unk_2C != anim_table) {
+        (*(u8 * *)((u8 *)animation + (0x2C))) = anim_table;
         func_80047784(
-            arg2,
-            *(u8 *)(((((D_80083228 + ((S_801740F8_2 *)arg3)->unk_2A + 0x100) >> 9) & 7)) + (u32)tbl),
+            animation,
+            *(u8 *)(((((D_80083228 + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7)) + (u32)anim_table),
             0);
     }
-    ((S_801740F8_0 *)arg0)->unk_98 |= 8;
-    ((S_801740F8_2 *)arg3)->unk_1C &= 0xF7FFFFFF;
-    ((S_801740F8_0 *)arg0)->unk_9E = 5;
-    ((S_801740F8_0 *)arg0)->unk_A4 = 0;
-    ((S_801740F8_0 *)arg0)->unk_9B++;
+    ((S_801740F8_0 *)actor)->unk_98 |= 8;
+    ((S_801740F8_2 *)motion)->unk_1C &= 0xF7FFFFFF;
+    ((S_801740F8_0 *)actor)->unk_9E = 5;
+    ((S_801740F8_0 *)actor)->unk_A4 = 0;
+    ((S_801740F8_0 *)actor)->unk_9B++;
 
-update:
-    timer = ((S_801740F8_0 *)arg0)->unk_9E;
-    ((S_801740F8_0 *)arg0)->unk_90 -= ((S_801740F8_0 *)arg0)->unk_A4;
+update_offset:
+    timer = ((S_801740F8_0 *)actor)->unk_9E;
+    ((S_801740F8_0 *)actor)->unk_90 -= ((S_801740F8_0 *)actor)->unk_A4;
     if (timer != 0) {
-        ((S_801740F8_0 *)arg0)->unk_A4 = -func_800644B8(timer * 0x199) << 10;
+        ((S_801740F8_0 *)actor)->unk_A4 = -func_800644B8(timer * 0x199) << 10;
     }
 
-    ((S_801740F8_0 *)arg0)->unk_90 += ((S_801740F8_0 *)arg0)->unk_A4;
-    next_timer = (u16)((S_801740F8_0 *)arg0)->unk_9E - 1;
-    ((S_801740F8_0 *)arg0)->unk_9E = next_timer;
+    ((S_801740F8_0 *)actor)->unk_90 += ((S_801740F8_0 *)actor)->unk_A4;
+    next_timer = (u16)((S_801740F8_0 *)actor)->unk_9E - 1;
+    ((S_801740F8_0 *)actor)->unk_9E = next_timer;
     if (next_timer < 0) {
-        ((S_801740F8_0 *)arg0)->unk_90 = 0;
-        ((S_801740F8_0 *)arg0)->unk_98 &= 0xFFF7;
-        ((S_801740F8_2 *)arg3)->unk_1C |= 0x08000000;
-        ((S_801740F8_0 *)arg0)->unk_9B++;
+        ((S_801740F8_0 *)actor)->unk_90 = 0;
+        ((S_801740F8_0 *)actor)->unk_98 &= 0xFFF7;
+        ((S_801740F8_2 *)motion)->unk_1C |= 0x08000000;
+        ((S_801740F8_0 *)actor)->unk_9B++;
     }
 
-test_done:
-    if (!(((S_801740F8_2 *)arg3)->unk_1C & 0x08000000)) {
+check_done:
+    if (!(((S_801740F8_2 *)motion)->unk_1C & 0x08000000)) {
         goto end;
     }
-    ((S_801740F8_0 *)arg0)->unk_98 &= 0xFFF7;
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((S_801740F8_1 *)arg2)->unk_24, ((S_801740F8_1 *)arg2)->unk_25);
-    ((S_801740F8_0 *)arg0)->unk_9B++;
+    ((S_801740F8_0 *)actor)->unk_98 &= 0xFFF7;
+    ((Rec_D_800E3D7C *)transform)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)transform)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)transform)->unk_0C.as_s32 = 0;
+    func_800A2B04(transform, ((S_801740F8_1 *)animation)->unk_24, ((S_801740F8_1 *)animation)->unk_25);
+    ((S_801740F8_0 *)actor)->unk_9B++;
     return;
 
-state_3:
-    if (((S_801740F8_1 *)arg2)->unk_2C != D_80174A7C - 0x50) {
-        (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80174A7C - 0x50;
+restore_animation:
+    if (((S_801740F8_1 *)animation)->unk_2C != D_80174A7C - 0x50) {
+        (*(u8 * *)((u8 *)animation + (0x2C))) = D_80174A7C - 0x50;
         func_80047784(
-            arg2,
-            (D_80174A7C - 0x50)[((D_80083228 + ((S_801740F8_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            animation,
+            (D_80174A7C - 0x50)[((D_80083228 + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
 end:
     return;
 }
-
-/* MECHANISM: four natural pointer args keep retail's 0x28 frame and s0/s3/s2/s1
-   save order. The dispatcher must be an EXPLICIT if/else tree (==1, <2, ==0 |
-   ==2, ==3), never a `switch`: a switch has ONE `default:` label, so both
-   non-matching paths `j` a single shared tail and word 18 comes out as
-   `j $Ldefault` instead of retail's `j func_80174300`; two separate noreturn
-   calls duplicate the maspsx LEAD-18 tail jump at both exits.
-   Because the case-0 arm's fall-through is then a CALL, reorg refuses to steal
-   the `lui %hi(D_80174A7C)` out of the case-0 block into the beq delay slot
-   (word 17), so the case-0 table base is built from a HELD PAGE LITERAL
-   (0x80170000) assigned in the `state < 2` block: that single `lui` sits before
-   the branch and reorg sinks it into the delay slot. `ASM_REG("$2") + ASM_KEEP`
-   is load-bearing twice - it pins the page to retail's $v0 and makes the page
-   opaque to CSE, so `page + 0x4A7C` stays an `addiu $a1,$v0,0x4a7c` instead of
-   collapsing into `ori`. The final index add is written in INTEGER form
-   (`idx + (u32)tbl`) because C pointer arithmetic canonicalises to ptr-first and
-   would emit `addu $v0,$a1,$v0`; retail's `addu $v0,$v0,$a1` needs index-first.
-   The case-3 arm stays SYMBOLIC (`D_80174A7C - 0x50`): its base is a constant
-   expression, so fold already puts it last and its %hi is stolen into the
-   delay slot unaided. */

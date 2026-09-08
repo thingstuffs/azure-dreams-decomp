@@ -15,11 +15,12 @@ extern u8 D_80016000[];
 extern u8 D_80017420[];
 extern void *D_800174D4[];
 
+/* Sets D_800174D4[0] to D_80017420 and invokes both object callbacks with 1. */
 void func_806A9100(void) {
-    Callback callback;
+    Callback firstCallback;
 
-    callback = (*(Callback *)((u8 *)(((S_806A9100_1 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x28C));
+    firstCallback = (*(Callback *)((u8 *)(((S_806A9100_1 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x28C));
     D_800174D4[0] = D_80017420;
-    callback(1);
+    firstCallback(1);
     (*(Callback *)((u8 *)(((S_806A9100_1 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x290))(1);
 }

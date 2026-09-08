@@ -29,30 +29,31 @@ extern void func_80024298(s32 arg0);
 extern u8 D_80024F7C[];
 extern u8 D_8002593C[];
 
-void func_80025788(void *arg0) {
-    u8 *cursor;
-    s32 count;
+/* Updates object pointers and processes five entries when its status check succeeds. */
+void func_80025788(void *object) {
+    u8 *entry_cursor;
+    s32 entry_index;
 
-    if (((S_80025788_0 *)arg0)->unk_38 != 0) {
-        ((S_80025788_0_pre *)arg0)[-1].unk_00 = D_8002593C;
+    if (((S_80025788_0 *)object)->unk_38 != 0) {
+        ((S_80025788_0_pre *)object)[-1].unk_00 = D_8002593C;
         return;
     }
 
-    if (func_8002219C(((S_80025788_0 *)arg0)->unk_28) != 0) {
-        ((S_80025788_0_pre *)arg0)[-1].unk_00 = D_8002593C;
-        count = 0;
-        cursor = arg0;
+    if (func_8002219C(((S_80025788_0 *)object)->unk_28) != 0) {
+        ((S_80025788_0_pre *)object)[-1].unk_00 = D_8002593C;
+        entry_index = 0;
+        entry_cursor = object;
         do {
-            func_80024298(((S_80025788_1 *)cursor)->unk_04);
-            cursor += 4;
-            count++;
-        } while (count < 5);
+            func_80024298(((S_80025788_1 *)entry_cursor)->unk_04);
+            entry_cursor += 4;
+            entry_index++;
+        } while (entry_index < 5);
     } else {
-        ((S_80025788_0 *)arg0)->unk_34 = D_8002593C;
-        func_8002316C((u8 *)arg0 - 0x20);
-        ((S_80025788_0_pre *)arg0)[-1].unk_00 = D_80024F7C;
+        ((S_80025788_0 *)object)->unk_34 = D_8002593C;
+        func_8002316C((u8 *)object - 0x20);
+        ((S_80025788_0_pre *)object)[-1].unk_00 = D_80024F7C;
     }
 
     func_80020984();
-    ((S_80025788_0 *)arg0)->unk_40 = 0;
+    ((S_80025788_0 *)object)->unk_40 = 0;
 }

@@ -30,6 +30,7 @@ typedef struct {
 extern void func_800478B8(void *);
 extern s32 D_800814A0[];
 
+/* Advance counters, rotation, and position, and set flags when the counter exceeds its limit. */
 void func_818B7D3C(OwnerState *owner, VecState *vec, EntityState *entity)
 {
     owner->child->counter++;

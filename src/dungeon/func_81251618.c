@@ -74,49 +74,49 @@ typedef struct S_80170E18_5 {
     u16 unk_0A;
 } S_80170E18_5;   /* arg1 in func_80170E18 */
 
-void func_80170E18(void *unused, S_80170E18_5 *arg1, void *arg2, S_80170E18_3 *arg3) {
-    s32 temp_t0;
-    S_80170E18_2 *temp_s0;
-    void *temp_v0;
-    S_80170E18_0 *temp_v1;
-    S_80170E18_4 *temp_v1_2;
-    void *var_a2;
+/* Creates an effect using the supplied sprite data, transform, and facing. */
+void func_80170E18(void *unused, S_80170E18_5 *source_transform, void *sprite_template, S_80170E18_3 *facing_source) {
+    S_80170E18_2 *sprite;
+    void *effect;
+    S_80170E18_0 *effect_state;
+    S_80170E18_4 *transform;
+    void *sprite_data;
     Block16 *src;
     Block16 *dst;
     Block16 *end;
 
-    temp_v0 = func_8003FD64(0x112, D_80083498);
-    var_a2 = arg2;
-    if (temp_v0 != NULL) {
-        temp_v1 = temp_v0 + 0x20;
-        temp_v1->unk_96 = 7;
-        temp_v1->unk_A8 = 7;
-        ((S_80170E18_1 *)temp_v0)->unk_10 = &D_80170D44;
-        temp_v1->unk_AC = arg1;
-        temp_s0 = ((S_80170E18_1 *)temp_v0)->unk_0C;
-        src = (Block16 *)var_a2;
-        dst = (Block16 *)temp_s0;
+    effect = func_8003FD64(0x112, D_80083498);
+    sprite_data = sprite_template;
+    if (effect != NULL) {
+        effect_state = effect + 0x20;
+        effect_state->unk_96 = 7;
+        effect_state->unk_A8 = 7;
+        ((S_80170E18_1 *)effect)->unk_10 = &D_80170D44;
+        effect_state->unk_AC = source_transform;
+        sprite = ((S_80170E18_1 *)effect)->unk_0C;
+        src = (Block16 *)sprite_data;
+        dst = (Block16 *)sprite;
         end = src + 3;
         do {
             *dst = *src;
             src++;
             dst++;
         } while (src != end);
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        temp_s0->unk_0E = 0x50;
-        temp_s0->unk_0D = 0x50;
-        temp_s0->unk_0C = 0x50;
-        temp_s0->unk_10 = 0x20;
-        temp_s0->unk_12 = 0xFF80;
-        temp_s0->unk_22 = 0xFFF1;
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-        func_8004491C(temp_v0, D_80045340, src, dst);
-        temp_s0->unk_2C = &D_80173EB4;
-        func_80047784(temp_s0, *((((s32) (*D_80083228 + arg3->unk_2A + 0x100) >> 9) & 7) + D_80173EB4), 0);
-        temp_v1_2 = ((S_80170E18_1 *)temp_v0)->unk_08;
-        temp_v1_2->unk_02 = (u16) arg1->unk_02;
-        temp_v1_2->unk_06 = (u16) arg1->unk_06;
-        temp_v1_2->unk_0A = (u16) arg1->unk_0A;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_0E = 0x50;
+        sprite->unk_0D = 0x50;
+        sprite->unk_0C = 0x50;
+        sprite->unk_10 = 0x20;
+        sprite->unk_12 = 0xFF80;
+        sprite->unk_22 = 0xFFF1;
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        func_8004491C(effect, D_80045340, src, dst);
+        sprite->unk_2C = &D_80173EB4;
+        func_80047784(sprite, *((((s32) (*D_80083228 + facing_source->unk_2A + 0x100) >> 9) & 7) + D_80173EB4), 0);
+        transform = ((S_80170E18_1 *)effect)->unk_08;
+        transform->unk_02 = (u16) source_transform->unk_02;
+        transform->unk_06 = (u16) source_transform->unk_06;
+        transform->unk_0A = (u16) source_transform->unk_0A;
     }
 }

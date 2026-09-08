@@ -75,103 +75,104 @@ typedef struct S_80AD7000_6 {
     void * unk_8D0;
 } S_80AD7000_6;   /* *global_slot in BODY_NAME */
 
-s32 BODY_NAME(void *arg0, void *arg1) {
-    void *object = arg0;
-    S_80AD7000_1 *input = arg1;
-    void **global_slot = (void **)D_80083160;
-    void *ctx = *global_slot;
-    u32 low_mask = 0xFF0000;
-    u32 high_mask;
+/* Queue a projected point and its drawing state, then process the linked object. */
+s32 BODY_NAME(void *object_ptr, void *position_ptr) {
+    void *object = object_ptr;
+    S_80AD7000_1 *position = position_ptr;
+    void **context_slot = (void **)D_80083160;
+    void *render_ctx = *context_slot;
+    u32 address_mask = 0xFF0000;
+    u32 length_mask;
     u8 *scratch;
-    void *prim;
-    u32 index;
-    void *prim2;
-    void *node;
+    void *point_prim;
+    u32 ot_index;
+    void *state_prim;
+    void *linked_node;
 
     ASM_KEEP_NV(object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(global_slot);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_DEP_NV(low_mask, ctx);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    low_mask |= 0xFFFF;
-    high_mask = 0xFF000000;
-    ASM_KEEP_NV(high_mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(context_slot);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_DEP_NV(address_mask, render_ctx);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    address_mask |= 0xFFFF;
+    length_mask = 0xFF000000;
+    ASM_KEEP_NV(length_mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     scratch = (u8 *)0x1F800000;
     ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    (*(void * *)((u8 *)scratch + 0x1C)) = ((S_80AD7000_0 *)ctx)->unk_8D0;
-    (*(void * *)((u8 *)scratch + 0x24)) = (u8 *)ctx + 0xB0;
+    (*(void * *)((u8 *)scratch + 0x1C)) = ((S_80AD7000_0 *)render_ctx)->unk_8D0;
+    (*(void * *)((u8 *)scratch + 0x24)) = (u8 *)render_ctx + 0xB0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    (*(u16 *)((u8 *)scratch + 4)) = input->unk_02;
-    prim = (*(void * volatile *)((u8 *)scratch + 0x1C));
-    (*(u16 *)((u8 *)scratch + 6)) = input->unk_06;
-    (*(u16 *)((u8 *)scratch + 8)) = input->unk_0A;
-    (*(void * *)((u8 *)scratch + 0x1C)) = (u8 *)prim + 0xC;
-    index = func_80065420(scratch + 4, (u8 *)prim + 8,
+    (*(u16 *)((u8 *)scratch + 4)) = position->unk_02;
+    point_prim = (*(void * volatile *)((u8 *)scratch + 0x1C));
+    (*(u16 *)((u8 *)scratch + 6)) = position->unk_06;
+    (*(u16 *)((u8 *)scratch + 8)) = position->unk_0A;
+    (*(void * *)((u8 *)scratch + 0x1C)) = (u8 *)point_prim + 0xC;
+    ot_index = func_80065420(scratch + 4, (u8 *)point_prim + 8,
                           scratch + 0xD0, scratch + 0xD4);
-    (*(u32 *)((u8 *)scratch + 0x100)) = index;
-    if (index < 0x1E0U) {
-        ((S_80AD7000_2 *)prim)->unk_04.at00.v = ((S_80AD7000_3 *)object)->unk_08;
-        ((S_80AD7000_2 *)prim)->unk_00.at03.v = 2;
+    (*(u32 *)((u8 *)scratch + 0x100)) = ot_index;
+    if (ot_index < 0x1E0U) {
+        ((S_80AD7000_2 *)point_prim)->unk_04.at00.v = ((S_80AD7000_3 *)object)->unk_08;
+        ((S_80AD7000_2 *)point_prim)->unk_00.at03.v = 2;
         {
-            register u8 dead_read0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            register u8 dead_read1 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            register u8 dead_read2 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            dead_read0 = ((S_80AD7000_2 *)prim)->unk_04.at00u.v;
-            dead_read1 = ((S_80AD7000_2 *)prim)->unk_04.at01.v;
-            dead_read2 = ((S_80AD7000_2 *)prim)->unk_04.at02.v;
+            register u8 red ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            register u8 green ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            register u8 blue ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            red = ((S_80AD7000_2 *)point_prim)->unk_04.at00u.v;
+            green = ((S_80AD7000_2 *)point_prim)->unk_04.at01.v;
+            blue = ((S_80AD7000_2 *)point_prim)->unk_04.at02.v;
         }
-        ((S_80AD7000_2 *)prim)->unk_04.at03.v = 0x6A;
-        ((S_80AD7000_2 *)prim)->unk_00.at00.v =
-            (((S_80AD7000_2 *)prim)->unk_00.at00.v & high_mask) |
-            ((*(u32 *)((u8 *)((*(u32 * *)((u8 *)scratch + 0x24))) + (*(u32 *)((u8 *)scratch + 0x100)) * 4)) & low_mask);
+        ((S_80AD7000_2 *)point_prim)->unk_04.at03.v = 0x6A;
+        ((S_80AD7000_2 *)point_prim)->unk_00.at00.v =
+            (((S_80AD7000_2 *)point_prim)->unk_00.at00.v & length_mask) |
+            ((*(u32 *)((u8 *)((*(u32 * *)((u8 *)scratch + 0x24))) + (*(u32 *)((u8 *)scratch + 0x100)) * 4)) & address_mask);
         {
-            register u32 *rmw_ptr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            rmw_ptr = (u32 *)(((*(u32 *)((u8 *)scratch + 0x100)) << 2) +
+            register u32 *ot_entry ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            ot_entry = (u32 *)(((*(u32 *)((u8 *)scratch + 0x100)) << 2) +
                               (u32)(*(u32 * *)((u8 *)scratch + 0x24)));
-            ASM_KEEP_NV(rmw_ptr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(ot_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             {
-                register u32 rmw_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                u32 prim_low;
-                rmw_value = *rmw_ptr;
-                prim_low = (u32)prim & low_mask;
-                rmw_value &= high_mask;
-                rmw_value |= prim_low;
-                *rmw_ptr = rmw_value;
+                register u32 ot_tag ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                u32 prim_address;
+                ot_tag = *ot_entry;
+                prim_address = (u32)point_prim & address_mask;
+                ot_tag &= length_mask;
+                ot_tag |= prim_address;
+                *ot_entry = ot_tag;
             }
         }
-        prim2 = (*(void * *)((u8 *)scratch + 0x1C));
-        (*(void * *)((u8 *)scratch + 0x1C)) = (u8 *)prim2 + 0xC;
-        func_80067F20(prim2, 0, 0,
+        state_prim = (*(void * *)((u8 *)scratch + 0x1C));
+        (*(void * *)((u8 *)scratch + 0x1C)) = (u8 *)state_prim + 0xC;
+        func_80067F20(state_prim, 0, 0,
                       func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
-        ((S_80AD7000_4 *)prim2)->unk_00 =
-            (((S_80AD7000_4 *)prim2)->unk_00 & high_mask) |
-            ((*(u32 *)((u8 *)((*(u32 * *)((u8 *)scratch + 0x24))) + (*(u32 *)((u8 *)scratch + 0x100)) * 4)) & low_mask);
+        ((S_80AD7000_4 *)state_prim)->unk_00 =
+            (((S_80AD7000_4 *)state_prim)->unk_00 & length_mask) |
+            ((*(u32 *)((u8 *)((*(u32 * *)((u8 *)scratch + 0x24))) + (*(u32 *)((u8 *)scratch + 0x100)) * 4)) & address_mask);
         (*(u32 *)((u8 *)((*(u32 * *)((u8 *)scratch + 0x24))) + (*(u32 *)((u8 *)scratch + 0x100)) * 4)) =
-            ((*(u32 *)((u8 *)((*(u32 * *)((u8 *)scratch + 0x24))) + (*(u32 *)((u8 *)scratch + 0x100)) * 4)) & high_mask) |
-            ((u32)prim2 & low_mask);
+            ((*(u32 *)((u8 *)((*(u32 * *)((u8 *)scratch + 0x24))) + (*(u32 *)((u8 *)scratch + 0x100)) * 4)) & length_mask) |
+            ((u32)state_prim & address_mask);
     }
-    node = ((S_80AD7000_3_pre *)object)[-1].unk_00;
-    if (node != NULL) {
-        register void *tail_arg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    linked_node = ((S_80AD7000_3_pre *)object)[-1].unk_00;
+    if (linked_node != NULL) {
+        register void *scratch_position ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-        object = (u8 *)node + 0x20;
-        input = ((S_80AD7000_5 *)node)->unk_08;
+        object = (u8 *)linked_node + 0x20;
+        position = ((S_80AD7000_5 *)linked_node)->unk_08;
         ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        tail_arg0 = scratch + 4;
-        ASM_TAILSLOT_PIN(tail_arg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        scratch_position = scratch + 4;
+        ASM_TAILSLOT_PIN(scratch_position);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8015E8FC();
     }
     {
-        register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
 #ifdef NON_MATCHING
-        hard_zero = 0;
+        zero = 0;
 #else
-        ASM_SET(hard_zero);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_SET(zero);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #endif
-        ((S_80AD7000_6 *)(*global_slot))->unk_8D0 = (*(void * *)((u8 *)scratch + 0x1C));
-        result = hard_zero;
+        ((S_80AD7000_6 *)(*context_slot))->unk_8D0 = (*(void * *)((u8 *)scratch + 0x1C));
+        result = zero;
         return result;
     }
 }

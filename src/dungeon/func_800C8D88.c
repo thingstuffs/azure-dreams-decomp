@@ -38,74 +38,75 @@ extern u8 D_800CE028[];
 extern s32 D_80083460;
 extern s32 D_800E296C;
 
-s32 func_800CE4E8(s32 arg0, s32 arg1, s16 arg2, void *arg3, s32 arg4)
+/* Creates a dungeon object with two 5x5 value grids and sets its effect flags. */
+s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_data, s32 reverse_offset)
 {
-    u16 subroutine_arg4;
-    s32 signed_arg4;
-    s32 var_s2;
-    s32 var_s4;
-    s32 result;
-    s32 rand_a0;
-    s32 rand_a1;
-    s32 coord_x;
-    s32 coord_y;
-    u16 *temp_s1;
-    u16 *var_s0;
-    s32 temp_v0_2;
-    register u8 *temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u8 *temp_s3;
-    DungeonObject *temp_v0;
-    u8 *var_s5;
+    u16 offset_mode;
+    s32 reverse_flag;
+    s32 col;
+    s32 row;
+    s32 tile_value;
+    s32 rand_min;
+    s32 rand_max;
+    s32 origin_x;
+    s32 origin_y;
+    u16 *base_cell;
+    u16 *offset_cell;
+    s32 random_offset;
+    register u8 *base_row ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 *grid_data;
+    DungeonObject *object;
+    u8 *row_data;
     u8 *global_base;
-    u8 *temp_s6;
+    u8 *row_base;
 
-    temp_v0 = func_8003FC64(2);
-    subroutine_arg4 = arg4;
-    if (temp_v0 != NULL) {
-        var_s4 = 0;
-        signed_arg4 = (s16)arg4;
-        temp_s3 = (u8 *)&temp_v0->field_20;
-        var_s5 = temp_s3;
-        temp_v0->field_10 = D_800CE028;
-        temp_v0->field_20 = arg0 - 2;
-        ((S_800CE4E8_0 *)temp_s3)->unk_02 = arg1 - 2;
+    object = func_8003FC64(2);
+    offset_mode = reverse_offset;
+    if (object != NULL) {
+        row = 0;
+        reverse_flag = (s16)reverse_offset;
+        grid_data = (u8 *)&object->field_20;
+        row_data = grid_data;
+        object->field_10 = D_800CE028;
+        object->field_20 = center_x - 2;
+        ((S_800CE4E8_0 *)grid_data)->unk_02 = center_y - 2;
         do {
-            var_s2 = 0;
-            temp_s6 = var_s5;
-            var_s0 = (u16 *)(var_s5 + 0x36);
+            col = 0;
+            row_base = row_data;
+            offset_cell = (u16 *)(row_data + 0x36);
             do {
-                coord_x = ((S_800CE4E8_0 *)temp_s3)->unk_00;
-                coord_y = ((S_800CE4E8_0 *)temp_s3)->unk_02;
-                result = func_800BCA68(
-                    ((var_s2 + coord_x) << 6) & 0xFFC0,
-                    ((var_s4 + coord_y) << 6) & 0xFFC0);
-                rand_a0 = 1;
-                rand_a1 = 3;
-                ASM_KEEP(rand_a0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                temp_a2 = temp_s6 + 4;
-                temp_s1 = (u16 *)((unsigned long)(var_s2 * 2) +
-                    (unsigned long)temp_a2);
-                *temp_s1 = -result;
-                temp_v0_2 = func_800A6DA4(rand_a0, rand_a1);
-                temp_v0_2 = (temp_v0_2 & 0xFFFF) << 5;
-                *var_s0 = temp_v0_2;
-                if (signed_arg4 != 0) {
-                    *var_s0 = -temp_v0_2;
+                origin_x = ((S_800CE4E8_0 *)grid_data)->unk_00;
+                origin_y = ((S_800CE4E8_0 *)grid_data)->unk_02;
+                tile_value = func_800BCA68(
+                    ((col + origin_x) << 6) & 0xFFC0,
+                    ((row + origin_y) << 6) & 0xFFC0);
+                rand_min = 1;
+                rand_max = 3;
+                ASM_KEEP(rand_min);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                base_row = row_base + 4;
+                base_cell = (u16 *)((unsigned long)(col * 2) +
+                    (unsigned long)base_row);
+                *base_cell = -tile_value;
+                random_offset = func_800A6DA4(rand_min, rand_max);
+                random_offset = (random_offset & 0xFFFF) << 5;
+                *offset_cell = random_offset;
+                if (reverse_flag != 0) {
+                    *offset_cell = -random_offset;
                 }
-                var_s2++;
-                *var_s0 += *temp_s1;
-                var_s0++;
-            } while (var_s2 < 5);
-            var_s4++;
-            var_s5 += 0xA;
-        } while (var_s4 < 5);
+                col++;
+                *offset_cell += *base_cell;
+                offset_cell++;
+            } while (col < 5);
+            row++;
+            row_data += 0xA;
+        } while (row < 5);
 
-        ((S_800CE4E8_0 *)temp_s3)->unk_6C = 0x10;
-        ((S_800CE4E8_0 *)temp_s3)->unk_68 = 0x20;
-        ((S_800CE4E8_0 *)temp_s3)->unk_6E.s = subroutine_arg4;
+        ((S_800CE4E8_0 *)grid_data)->unk_6C = 0x10;
+        ((S_800CE4E8_0 *)grid_data)->unk_68 = 0x20;
+        ((S_800CE4E8_0 *)grid_data)->unk_6E.s = offset_mode;
         func_800419EC(0x20, 8);
 
-        if (((S_800CE4E8_0 *)temp_s3)->unk_6E.u == 0) {
+        if (((S_800CE4E8_0 *)grid_data)->unk_6E.u == 0) {
             D_800E296C |= 0x80080000;
         } else {
             D_800E296C |= 0x40080000;
@@ -113,5 +114,5 @@ s32 func_800CE4E8(s32 arg0, s32 arg1, s16 arg2, void *arg3, s32 arg4)
         global_base = (u8 *)&D_80083460;
         ((S_800CE4E8_1 *)global_base)->unk_0A++;
     }
-    return (s32)temp_v0;
+    return (s32)object;
 }

@@ -50,7 +50,8 @@ typedef struct S_80174800_2 {
 } S_80174800_2;   /* pos in func_80174800 */
 
 
-void func_80174800(void *arg0, Rec_D_800E3D7C *arg1, s32 arg2, s16 arg3)
+/* Creates an effect at an offset from the source position with a random rotation. */
+void func_80174800(void *unused_ptr, Rec_D_800E3D7C *source_pos, s32 unused_value, s16 scale)
 {
     void *node;
     S_80174800_0 *part;
@@ -67,13 +68,13 @@ void func_80174800(void *arg0, Rec_D_800E3D7C *arg1, s32 arg2, s16 arg3)
         data->unk_10 = 0x60;
         data->unk_14 |= 0xC;
         pos = (*(void * *)((u8 *)node + 8));
-        pos->unk_02 = arg1->unk_00.at02_u16.v;
-        pos->unk_06 = arg1->unk_04.at02_u16.v;
-        pos->unk_0A = arg1->unk_08.at02_u16.v - 0x28;
+        pos->unk_02 = source_pos->unk_00.at02_u16.v;
+        pos->unk_06 = source_pos->unk_04.at02_u16.v;
+        pos->unk_0A = source_pos->unk_08.at02_u16.v - 0x28;
         data = (*(void * *)((u8 *)node + 0xC));
         data->unk_06 = 6;
-        data->unk_1E = arg3;
-        data->unk_1C = arg3;
+        data->unk_1E = scale;
+        data->unk_1C = scale;
         (*(s8 *)((u8 *)node + 0x20)) = 0x70;
         part->unk_01 = 0x10;
         part->unk_02 = 0x10;

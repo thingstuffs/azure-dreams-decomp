@@ -28,68 +28,70 @@ extern void func_80027AFC(s32 arg0, s32 arg1);
 extern s32 func_80049DE8(s32 arg0, s32 arg1, s32 arg2);
 extern void func_80053DA8(s32 arg0);
 
-void func_80025584(u8 *arg0)
+/* Handle menu input, selection repeat, and transition completion. */
+void func_80025584(u8 *menu)
 {
-    s32 status;
-    s32 value;
-    s32 flags;
+    s32 selection_delta;
+    s32 transition_status;
+    s32 repeat_timer;
+    s32 buttons;
     s32 *controller;
 
     controller = D_80083160;
-    status = 0;
+    selection_delta = 0;
     if (controller[2] != 0) {
         if (controller[4] & 0x20) {
             func_80053DA8(0x515);
-            ((S_80025584_0_pre *)arg0)[-1].unk_00 = &D_80024FFC;
+            ((S_80025584_0_pre *)menu)[-1].unk_00 = &D_80024FFC;
         }
-        flags = controller[4];
-        if (flags & 0x40) {
+        buttons = controller[4];
+        if (buttons & 0x40) {
             func_80053DA8(0x503);
-            func_800254E4(arg0);
+            func_800254E4(menu);
             goto finish_input;
         }
         if (controller[2] & 0x5000) {
-            if (flags & 0x5000) {
-                ((S_80025584_0 *)arg0)->unk_30 = 0;
-                flags = controller[4];
-                if (flags & 0x1000) {
-                    status = -1;
-                } else if (flags & 0x4000) {
-                    status = 1;
+            if (buttons & 0x5000) {
+                ((S_80025584_0 *)menu)->unk_30 = 0;
+                buttons = controller[4];
+                if (buttons & 0x1000) {
+                    selection_delta = -1;
+                } else if (buttons & 0x4000) {
+                    selection_delta = 1;
                 }
             } else {
-                value = ((S_80025584_0 *)arg0)->unk_30;
-                if (value >= 13) {
-                    ((S_80025584_0 *)arg0)->unk_30 = value - 2;
-                    flags = controller[2];
-                    if (flags & 0x1000) {
-                        status = -1;
-                    } else if (flags & 0x4000) {
-                        status = 1;
+                repeat_timer = ((S_80025584_0 *)menu)->unk_30;
+                if (repeat_timer >= 13) {
+                    ((S_80025584_0 *)menu)->unk_30 = repeat_timer - 2;
+                    buttons = controller[2];
+                    if (buttons & 0x1000) {
+                        selection_delta = -1;
+                    } else if (buttons & 0x4000) {
+                        selection_delta = 1;
                     }
                 } else {
-                    ((S_80025584_0 *)arg0)->unk_30 = value + 1;
+                    ((S_80025584_0 *)menu)->unk_30 = repeat_timer + 1;
                 }
             }
         }
 
 finish_input:
-        if (status != 0) {
+        if (selection_delta != 0) {
             func_80053DA8(0x502);
-            ((S_80025584_0 *)arg0)->unk_28 =
-                func_80049DE8(((S_80025584_0 *)arg0)->unk_28, status, 5);
-            func_800250E8(arg0);
+            ((S_80025584_0 *)menu)->unk_28 =
+                func_80049DE8(((S_80025584_0 *)menu)->unk_28, selection_delta, 5);
+            func_800250E8(menu);
         }
     }
 
-    status = func_8002168C();
+    transition_status = func_8002168C();
     func_80021904();
-    if (status == 0) {
+    if (transition_status == 0) {
         return;
     }
-    if (status == 1) {
+    if (transition_status == 1) {
         return;
     }
-    func_80025D34(arg0 - 0x20);
-    func_80027AFC(((S_80025584_0 *)arg0)->unk_20, 0);
+    func_80025D34(menu - 0x20);
+    func_80027AFC(((S_80025584_0 *)menu)->unk_20, 0);
 }

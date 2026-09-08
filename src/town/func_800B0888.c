@@ -14,6 +14,7 @@ typedef struct {
 
 extern s32 func_800ADFBC(s32);
 
+/* Refresh the entry count, clamp the selection, and update five-entry page indices. */
 void func_800ADFE8(TownRecord *record) {
     if (record != 0) {
         if ((record->field_08 = func_800ADFBC(record->field_20)) != 0) {

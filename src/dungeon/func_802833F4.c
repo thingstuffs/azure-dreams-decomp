@@ -39,12 +39,13 @@ extern u8 D_800E3CD0;
 extern s32 D_800E3D1C;
 extern u8 D_800E3E48[];
 
+/* Initialize dungeon state, random seeds, and floor-specific data. */
 void func_800163F4(void) {
-    s32 local;
-    s32 floor;
-    u32 value;
-    u8 *state;
-    u8 *page;
+    s32 floor_data;
+    s32 floor_index;
+    u32 saved_init_value;
+    u8 *dungeon_state;
+    u8 *globals_base;
 
     func_80016EC0();
     func_80017018();
@@ -59,35 +60,35 @@ void func_800163F4(void) {
         func_8004A918();
         goto check_init;
     }
-    value = 0x80010000;
-    
-    value = *(u16 *)(value + 0x234);
-    
-    D_8008146C = (u16)value;
+    saved_init_value = 0x80010000;
+
+    saved_init_value = *(u16 *)(saved_init_value + 0x234);
+
+    D_8008146C = (u16)saved_init_value;
 
 check_init:
-    page = (u8 *)0x80010000;
+    globals_base = (u8 *)0x80010000;
     if (D_800DCF4E == 0) {
         D_80080A80 = func_80048D00();
         D_800DCF4E = 1;
     }
-    if ((*(u16 *)(page + 0x3714) & 3) == 0) {
-        *(s32 *)(page + 0x3628) = rand();
-        *(s16 *)(page + 0x3624) = rand() & 0xFF;
-        *(s16 *)(page + 0x209C) = rand() & 0xFF;
-        func_800A9024(*(s32 *)(page + 0x2090));
+    if ((*(u16 *)(globals_base + 0x3714) & 3) == 0) {
+        *(s32 *)(globals_base + 0x3628) = rand();
+        *(s16 *)(globals_base + 0x3624) = rand() & 0xFF;
+        *(s16 *)(globals_base + 0x209C) = rand() & 0xFF;
+        func_800A9024(*(s32 *)(globals_base + 0x2090));
     }
     func_8004AB7C();
-    state = (u8 *)&D_80082E60;
-    if (state[0xB] >= 0x12) {
-        floor = state[0xB] - 0x12;
+    dungeon_state = (u8 *)&D_80082E60;
+    if (dungeon_state[0xB] >= 0x12) {
+        floor_index = dungeon_state[0xB] - 0x12;
         func_80040AA0(0x11);
-        func_8003F6D4(0xC, (void *)0x80010000, &local,
-                     (floor * 0xC) + 0x399D);
-        func_8003E4FC(6, &local, 0);
+        func_8003F6D4(0xC, (void *)0x80010000, &floor_data,
+                     (floor_index * 0xC) + 0x399D);
+        func_8003E4FC(6, &floor_data, 0);
         func_8003F320();
         D_800E3D1C = 0x384;
-        *(u16 *)(page + 0x3714) |= 5;
+        *(u16 *)(globals_base + 0x3714) |= 5;
         goto finish;
     }
     func_80040AA0(0x11);

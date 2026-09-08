@@ -64,29 +64,30 @@ extern s32 func_800644B8(s32);
 extern u8 D_80045340;
 extern void func_80174934(void);
 
-void func_80174E78(Source *src, Vec3i *vec)
+/* Creates a 16-segment ring effect at the supplied position. */
+void func_80174E78(Source *source, Vec3i *center)
 {
-    s16 i;
-    void (*callback)(void);
-    s32 thirty_two;
+    s16 segment_index;
+    void (*update_callback)(void);
+    s32 base_level;
 
-    i = 0;
-    callback = func_80174934;
-    thirty_two = 32;
-    for (; i < 16; i++) {
+    segment_index = 0;
+    update_callback = func_80174934;
+    base_level = 32;
+    for (; segment_index < 16; segment_index++) {
         Entity *entity;
         Sub *sub;
         Prim *prim;
-        Vec3i *dst;
+        Vec3i *position;
         s32 angle;
-        s32 next;
-        s32 value;
-        u16 flags;
-        volatile u16 *flag_ptr;
-        Entity *call_arg;
-        s32 fifty;
-        s32 trig_arg;
-        register s32 raw_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 next_angle;
+        s32 radial_offset;
+        u16 prim_flags;
+        volatile u16 *prim_flags_ptr;
+        Entity *setup_entity;
+        s32 initial_count;
+        s32 trig_angle;
+        register s32 trig_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         register u8 intensity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         u8 held_intensity;
 
@@ -96,61 +97,61 @@ void func_80174E78(Source *src, Vec3i *vec)
         }
 
         sub = &entity->sub;
-        fifty = 50;
-        call_arg = entity;
-        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        sub->field_1A = fifty;
-        sub->field_1C = src->field_96;
-        entity->callback = callback;
-        func_8004491C(call_arg, &D_80045340);
+        initial_count = 50;
+        setup_entity = entity;
+        ASM_KEEP(setup_entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        sub->field_1A = initial_count;
+        sub->field_1C = source->field_96;
+        entity->callback = update_callback;
+        func_8004491C(setup_entity, &D_80045340);
 
-        angle = i;
+        angle = segment_index;
         prim = entity->prim;
-        flag_ptr = &prim->field_14;
-        flags = *(u16 *)flag_ptr;
-        flags |= 0xC;
-        prim->field_10 = thirty_two;
-        *flag_ptr = flags;
-        flags |= 0x80;
-        *flag_ptr = flags;
+        prim_flags_ptr = &prim->field_14;
+        prim_flags = *(u16 *)prim_flags_ptr;
+        prim_flags |= 0xC;
+        prim->field_10 = base_level;
+        *prim_flags_ptr = prim_flags;
+        prim_flags |= 0x80;
+        *prim_flags_ptr = prim_flags;
 
-        dst = entity->vec;
-        dst->x = vec->x;
-        next = (angle + 1) << 8;
-        dst->y = vec->y;
-        dst->z = vec->z;
+        position = entity->vec;
+        position->x = center->x;
+        next_angle = (angle + 1) << 8;
+        position->y = center->y;
+        position->z = center->z;
 
         sub->field_6E = -64;
         sub->field_68 = -64;
         sub->field_7A = 0;
         sub->field_74 = 0;
 
-        raw_value = func_80064584(next);
+        trig_value = func_80064584(next_angle);
         angle <<= 8;
-        trig_arg = angle;
-        ASM_KEEP(trig_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        value = (raw_value * 24) >> 12;
-        sub->field_70 = value;
-        sub->field_64 = value;
+        trig_angle = angle;
+        ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        radial_offset = (trig_value * 24) >> 12;
+        sub->field_70 = radial_offset;
+        sub->field_64 = radial_offset;
 
-        raw_value = func_80064584(trig_arg);
-        trig_arg = next;
-        ASM_KEEP(trig_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        value = (raw_value * 24) >> 12;
-        sub->field_76 = value;
-        sub->field_6A = value;
+        trig_value = func_80064584(trig_angle);
+        trig_angle = next_angle;
+        ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        radial_offset = (trig_value * 24) >> 12;
+        sub->field_76 = radial_offset;
+        sub->field_6A = radial_offset;
 
-        raw_value = func_800644B8(trig_arg);
-        trig_arg = angle;
-        ASM_KEEP(trig_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        value = (raw_value * 24) >> 12;
-        sub->field_72 = value;
-        sub->field_66 = value;
+        trig_value = func_800644B8(trig_angle);
+        trig_angle = angle;
+        ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        radial_offset = (trig_value * 24) >> 12;
+        sub->field_72 = radial_offset;
+        sub->field_66 = radial_offset;
 
-        raw_value = func_800644B8(trig_arg);
-        value = (raw_value * 24) >> 12;
-        sub->field_78 = value;
-        sub->field_6C = value;
+        trig_value = func_800644B8(trig_angle);
+        radial_offset = (trig_value * 24) >> 12;
+        sub->field_78 = radial_offset;
+        sub->field_6C = radial_offset;
 
         prim = entity->prim;
         intensity = 128;
@@ -160,8 +161,8 @@ void func_80174E78(Source *src, Vec3i *vec)
         ASM_KEEP(held_intensity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         prim->field_1E = 4096;
         prim->field_1C = 4096;
-        prim->field_0D = thirty_two;
-        prim->field_0E = thirty_two;
+        prim->field_0D = base_level;
+        prim->field_0E = base_level;
         sub->field_04 = held_intensity;
         sub->field_05 = prim->field_0D;
         sub->field_06 = prim->field_0E;

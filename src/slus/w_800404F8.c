@@ -11,12 +11,11 @@ extern s32 func_80040574(s32 size);
 extern void func_8003DB4C(s32 *p, s32 n);
 extern s32 LoadImage(void *rect, s32 *p);
 
-/* Allocates a load-buffer sized from the struct's fields, zeroes it, then
- * kicks off a LoadImage using the struct itself as the destination rect. */
-void func_800404F8(S_800404F8 *s) {
-    s32 *p;
+/* Allocates and zeroes an image buffer, then loads it into the destination rectangle. */
+void func_800404F8(S_800404F8 *rect) {
+    s32 *image_buffer;
 
-    p = (s32 *)func_80040574((((s16)s->unk4) >> 1) * s->unk6);
-    func_8003DB4C(p, (((s16)s->unk4) >> 1) * s->unk6);
-    LoadImage(s, p);
+    image_buffer = (s32 *)func_80040574((((s16)rect->unk4) >> 1) * rect->unk6);
+    func_8003DB4C(image_buffer, (((s16)rect->unk4) >> 1) * rect->unk6);
+    LoadImage(rect, image_buffer);
 }

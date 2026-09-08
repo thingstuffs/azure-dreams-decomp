@@ -18,11 +18,12 @@ extern s32 D_800814A0;
 extern u8 D_800DC8F8[];
 extern void *D_800E5910[];
 
+/* Allocate and initialize an object, marking allocation failure in the status flags. */
 void *func_800DCD38(void) {
     s32 allocation;
     register ObjectHeader *header ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 *statusPage;
-    s32 *source;
+    s32 *status_page;
+    s32 *source_table;
     u8 *data;
     u8 *object;
 
@@ -35,23 +36,19 @@ void *func_800DCD38(void) {
             ASM_KEEP(header);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             data = object + 0x5C;
             func_800DCCF4(data, allocation);
-            source = (s32 *)0x800133A0;
-            header->field_38 = source;
-            *(s32 *)(object + 0xC) = func_800DCBE4(data, source[0]);
+            source_table = (s32 *)0x800133A0;
+            header->field_38 = source_table;
+            *(s32 *)(object + 0xC) = func_800DCBE4(data, source_table[0]);
             func_800DC988(object);
             *(u8 **)(object + 0x10) = D_800DC8F8;
             func_8004491C(object, D_8004CAA0);
             return object;
         }
         *(u16 *)(object + 0x1E) |= 0x8000;
-        statusPage = (s32 *)0x80080000;
+        status_page = (s32 *)0x80080000;
         object = 0;
-        statusPage[0x528] |= 0x8000;
+        status_page[0x528] |= 0x8000;
     }
     return object;
 }
 
-/* MECHANISM: The guarded object+0x20 header occupies s2 while object+0x5c
-   occupies s0; the 0x80080000 page local retains v1 for the status RMW.
-   A literal 0x800133A0 pointer yields retail's v0 lui/ori and delay-slot store.
-   The void dispatcher call returns the held object through the tail-j delay. */

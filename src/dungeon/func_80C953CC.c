@@ -32,16 +32,17 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, void *, s32, void *);
 extern void func_8017087C(void *, void *, void *);
 
+/* Advance the actor's item action, spawn its effect, and restore its position when finished. */
 void func_80172BCC(u8 *work, u8 *position, u8 *entity, u8 *actor)
 {
     u8 *part;
     s32 alternate = 0;
-    static void *const jt_keep[] = {
+    static void *const part_labels[] = {
         &&alternate_e, &&alternate_b, &&alternate_8,
         &&no_part, &&part_8, &&part_b, &&part_e
     };
 
-    (void)jt_keep;
+    (void)part_labels;
 
     switch (FIELD(work, u8, 0x9B)) {
     case 0:
@@ -88,24 +89,24 @@ no_part:
         part = 0;
 part_ready:
         if (*part != 0) {
-            void *ptr;
-            u8 *linked;
+            void *target_actor;
+            u8 *target_entity;
 
             (*(volatile u16 *)((u8 *)work + 0x98)) &= 0xFF7F;
             if ((s8)alternate) {
-                FIELD(actor, void *, 0x60) = ptr = D_800814A8;
-                linked = *(u8 **)((u8 *)ptr - 0x14);
-                FIELD(actor, u8, 0x72) = FIELD(linked, u8, 0x24);
-                FIELD(actor, u8, 0x73) = FIELD(linked, u8, 0x25);
+                FIELD(actor, void *, 0x60) = target_actor = D_800814A8;
+                target_entity = *(u8 **)((u8 *)target_actor - 0x14);
+                FIELD(actor, u8, 0x72) = FIELD(target_entity, u8, 0x24);
+                FIELD(actor, u8, 0x73) = FIELD(target_entity, u8, 0x25);
             } else if (D_8006DE24[*part].kind == 2) {
-                if ((ptr = FIELD(actor, void *, 0x60)) != 0) {
-                    linked = *(u8 **)((u8 *)ptr - 0x14);
-                    FIELD(actor, u8, 0x72) = FIELD(linked, u8, 0x24);
-                    FIELD(actor, u8, 0x73) = FIELD(linked, u8, 0x25);
+                if ((target_actor = FIELD(actor, void *, 0x60)) != 0) {
+                    target_entity = *(u8 **)((u8 *)target_actor - 0x14);
+                    FIELD(actor, u8, 0x72) = FIELD(target_entity, u8, 0x24);
+                    FIELD(actor, u8, 0x73) = FIELD(target_entity, u8, 0x25);
                 }
             } else {
-                s32 x;
-                s32 y;
+                s32 target_x;
+                s32 target_y;
 
                 do {
                     FIELD(actor, void *, 0x60) =
@@ -113,32 +114,32 @@ part_ready:
                                       FIELD(entity, u8, 0x25),
                                       FIELD(actor, s16, 0x2A), 0x10);
                 } while (0);
-                x = FIELD(actor, s8, 0x72);
-                y = FIELD(actor, s8, 0x73);
-                if (x < 0) {
-                    x = -x;
+                target_x = FIELD(actor, s8, 0x72);
+                target_y = FIELD(actor, s8, 0x73);
+                if (target_x < 0) {
+                    target_x = -target_x;
                 }
-                if (y < 0) {
-                    y = -y;
+                if (target_y < 0) {
+                    target_y = -target_y;
                 }
-                FIELD(actor, u8, 0x72) = x;
-                FIELD(actor, u8, 0x73) = y;
+                FIELD(actor, u8, 0x72) = target_x;
+                FIELD(actor, u8, 0x73) = target_y;
             }
 
             if (func_800A94A0(actor, part, alternate, work + 0x98) != 0) {
                 FIELD(work, u8, 0x9B)++;
             }
         } else {
-            void *linked;
+            void *active_actor;
 
             FIELD(position, s32, 0x14) = 0;
             FIELD(position, s32, 0x10) = 0;
             FIELD(position, s32, 0x0C) = 0;
             func_800A2B04(position, FIELD(entity, u8, 0x24),
                           FIELD(entity, u8, 0x25));
-            linked = D_800814A8;
+            active_actor = D_800814A8;
             D_8008346C = 0;
-            FIELD(linked, u16, 0xA6)--;
+            FIELD(active_actor, u16, 0xA6)--;
             func_800A4ACC(actor);
             FIELD(actor, u8, 0x6D)--;
             FIELD(work, void *, 0x8C) = D_8017102C;
@@ -208,11 +209,11 @@ part_ready:
         func_800A2B04(position, FIELD(entity, u8, 0x24),
                       FIELD(entity, u8, 0x25));
         if (FIELD(entity, void *, 0x2C) != D_801752B4) {
-            s32 index;
+            s32 direction;
 
             FIELD(entity, void *, 0x2C) = D_801752B4;
-            index = (D_80083228 + FIELD(actor, s16, 0x2A) + 0x100) >> 9;
-            func_80047784(entity, D_801752B4[index & 7], 0);
+            direction = (D_80083228 + FIELD(actor, s16, 0x2A) + 0x100) >> 9;
+            func_80047784(entity, D_801752B4[direction & 7], 0);
         }
         if (FIELD(part, s32, 0x0C) != 0) {
             break;

@@ -52,36 +52,37 @@ typedef struct S_800243E4_3 {
     s32 unk_08;
 } S_800243E4_3;   /* temp_v1_2 in func_800243E4 */
 
-void func_800243E4(void *arg0) {
-    S_800243E4_2 *temp_a0;
-    Part *temp_a3;
-    void *temp_v0;
-    S_800243E4_0 *temp_v1;
-    S_800243E4_3 *temp_v1_2;
+/* Create an object linked to its parent and initialize its position and part data. */
+void func_800243E4(void *parent) {
+    S_800243E4_2 *position;
+    Part *part;
+    void *object;
+    S_800243E4_0 *state;
+    S_800243E4_3 *parent_position;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_v1 = temp_v0 + 0x20;
-        temp_v1->unk_2A = 0x9;
-        temp_v1->unk_60 = arg0;
-        (*(M2C_UNK **)((u8 *)temp_v0 + 0x10)) = &D_80024104;
-        func_8004491C(temp_v0, D_80045340);
-        temp_a3 = (*(Part **)((u8 *)temp_v0 + 0xC));
-        temp_a3->field10 = 0x20;
-        temp_a3->field6 = 0;
-        temp_a3->flags14 = (u16) (temp_a3->flags14 | 0xC);
-        temp_v1_2 = ((S_800243E4_1_pre *)arg0)[-1].unk_00;
-        temp_a0 = (*(void **)((u8 *)temp_v0 + 8));
-        temp_a0->unk_00 = (s32) temp_v1_2->unk_00;
-        temp_a0->unk_04 = (s32) temp_v1_2->unk_04;
-        temp_a0->unk_08 = (s32) temp_v1_2->unk_08;
-        temp_a3 = (*(Part **)((u8 *)temp_v0 + 0xC));
-        temp_a3->field1E = 0;
-        temp_a3->field1C = 0;
-        temp_a3->byteE = 0;
-        temp_a3->byteD = 0;
-        temp_a3->byteC = 0;
-        (*(Copy12 *)((u8 *)temp_v0 + 0x92)) = *(Copy12 *)D_8002533C;
-        temp_a3->ptr8 = (void *) (temp_v0 + 0x92);
+    object = func_8003FC64(0x212);
+    if (object != NULL) {
+        state = object + 0x20;
+        state->unk_2A = 0x9;
+        state->unk_60 = parent;
+        (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_80024104;
+        func_8004491C(object, D_80045340);
+        part = (*(Part **)((u8 *)object + 0xC));
+        part->field10 = 0x20;
+        part->field6 = 0;
+        part->flags14 = (u16) (part->flags14 | 0xC);
+        parent_position = ((S_800243E4_1_pre *)parent)[-1].unk_00;
+        position = (*(void **)((u8 *)object + 8));
+        position->unk_00 = (s32) parent_position->unk_00;
+        position->unk_04 = (s32) parent_position->unk_04;
+        position->unk_08 = (s32) parent_position->unk_08;
+        part = (*(Part **)((u8 *)object + 0xC));
+        part->field1E = 0;
+        part->field1C = 0;
+        part->byteE = 0;
+        part->byteD = 0;
+        part->byteC = 0;
+        (*(Copy12 *)((u8 *)object + 0x92)) = *(Copy12 *)D_8002533C;
+        part->ptr8 = (void *) (object + 0x92);
     }
 }

@@ -27,9 +27,10 @@ typedef struct S_8001AC10_2 {
     s32 unk_08;
 } S_8001AC10_2;   /* ((arg1 * 0x10) + ((S_8001AC10_1 *)arg0)->unk_10) in func_8001AC10 */
 
-s32 func_8001AC10(S_8001AC10_1 *arg0, s32 arg1) {
+/* Store the queried value in the selected entry when the current state is 9. */
+s32 func_8001AC10(S_8001AC10_1 *entry_table, s32 entry_index) {
     if (((Rec_D_8001E950 *)D_8001E950)->unk_05 == 9) {
-        ((S_8001AC10_2 *)(((arg1 * 0x10) + arg0->unk_10)))->unk_08 = func_8001A7E8();
+        ((S_8001AC10_2 *)(((entry_index * 0x10) + entry_table->unk_10)))->unk_08 = func_8001A7E8();
         return 0;
     }
     return 1;

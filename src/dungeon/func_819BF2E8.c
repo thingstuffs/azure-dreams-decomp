@@ -38,25 +38,26 @@ typedef struct S_80024AE8_4 {
     u16 unk_14;
 } S_80024AE8_4;   /* temp_v1_2 in func_80024AE8 */
 
-void func_80024AE8(s32 arg0, S_80024AE8_3 *arg1) {
-    void *temp_v0;
-    S_80024AE8_0 *temp_v0_2;
-    S_80024AE8_2 *temp_v1;
-    S_80024AE8_4 *temp_v1_2;
+/* Create and initialize an effect at the supplied position. */
+void func_80024AE8(s32 effect_value, S_80024AE8_3 *position) {
+    void *effect;
+    S_80024AE8_0 *effect_state;
+    S_80024AE8_2 *effect_position;
+    S_80024AE8_4 *render_state;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_v0_2 = temp_v0 + 0x20;
-        temp_v0_2->unk_28 = 0x1E;
-        temp_v0_2->unk_2A = 0x1E;
-        temp_v0_2->unk_20 = arg0;
-        ((S_80024AE8_1 *)temp_v0)->unk_10 = &D_800247C0;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v1 = ((S_80024AE8_1 *)temp_v0)->unk_08;
-        temp_v1->unk_00 = (s32) arg1->unk_00;
-        temp_v1->unk_04 = (s32) arg1->unk_04;
-        temp_v1->unk_08 = (s32) arg1->unk_08;
-        temp_v1_2 = ((S_80024AE8_1 *)temp_v0)->unk_0C;
-        temp_v1_2->unk_14 = (u16) (temp_v1_2->unk_14 | 0x80);
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        effect_state = effect + 0x20;
+        effect_state->unk_28 = 0x1E;
+        effect_state->unk_2A = 0x1E;
+        effect_state->unk_20 = effect_value;
+        ((S_80024AE8_1 *)effect)->unk_10 = &D_800247C0;
+        func_8004491C(effect, &D_80045340);
+        effect_position = ((S_80024AE8_1 *)effect)->unk_08;
+        effect_position->unk_00 = (s32) position->unk_00;
+        effect_position->unk_04 = (s32) position->unk_04;
+        effect_position->unk_08 = (s32) position->unk_08;
+        render_state = ((S_80024AE8_1 *)effect)->unk_0C;
+        render_state->unk_14 = (u16) (render_state->unk_14 | 0x80);
     }
 }

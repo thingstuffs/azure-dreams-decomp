@@ -22,45 +22,46 @@ typedef struct S_8002017C_1 {
 
 extern s32 D_800814A0;
 
-void func_8002017C(void *arg0) {
-    s16 temp_v1;
-    s32 temp_v0_2;
-    u16 temp_v0;
-    void *sub;
-    u16 state_u;
-    s16 v1;
+/* Advance a delayed fade after the linked object signals, then flag completion. */
+void func_8002017C(void *effect) {
+    s16 state;
+    s32 fade_rgb;
+    u16 delay;
+    void *linked_object;
+    u16 state_snapshot;
+    s16 next_state;
     u16 flags;
 
-    sub = ((S_8002017C_0 *)arg0)->unk_04;
-    temp_v1 = ((S_8002017C_0 *)arg0)->unk_00.s;
-    state_u = ((S_8002017C_0 *)arg0)->unk_00.u;
-    switch (temp_v1) {                              /* irregular */
+    linked_object = ((S_8002017C_0 *)effect)->unk_04;
+    state = ((S_8002017C_0 *)effect)->unk_00.s;
+    state_snapshot = ((S_8002017C_0 *)effect)->unk_00.u;
+    switch (state) {
     case 0:
-        temp_v0 = ((S_8002017C_0 *)arg0)->unk_02 - 1;
-        ((S_8002017C_0 *)arg0)->unk_02 = temp_v0;
-        if ((temp_v0 << 0x10) <= 0) {
-            flags = ((S_8002017C_0 *)arg0)->unk_16;
-            v1 = ((S_8002017C_0 *)arg0)->unk_00.s;
+        delay = ((S_8002017C_0 *)effect)->unk_02 - 1;
+        ((S_8002017C_0 *)effect)->unk_02 = delay;
+        if ((delay << 0x10) <= 0) {
+            flags = ((S_8002017C_0 *)effect)->unk_16;
+            next_state = ((S_8002017C_0 *)effect)->unk_00.s;
             flags &= 0xFFFD;
-            v1 = (s16) (v1 + 1);
-            ((S_8002017C_0 *)arg0)->unk_16 = flags;
-            ((S_8002017C_0 *)arg0)->unk_00.s = v1;
+            next_state = (s16) (next_state + 1);
+            ((S_8002017C_0 *)effect)->unk_16 = flags;
+            ((S_8002017C_0 *)effect)->unk_00.s = next_state;
             return;
         }
         return;
     case 1:
-        if (((S_8002017C_1 *)sub)->unk_2A & 1) {
+        if (((S_8002017C_1 *)linked_object)->unk_2A & 1) {
             do {
-                ((S_8002017C_0 *)arg0)->unk_00.s = (s16) (state_u + 1);
+                ((S_8002017C_0 *)effect)->unk_00.s = (s16) (state_snapshot + 1);
             } while (0);
             return;
         }
         break;
     case 2:
-        temp_v0_2 = ((S_8002017C_0 *)arg0)->unk_08 + 0xFFF7F7F8;
-        ((S_8002017C_0 *)arg0)->unk_08 = temp_v0_2;
-        if (temp_v0_2 <= 0x80808) {
-            (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_8002017C_0_pre *)arg0)[-1].unk_00 | 0x8000);
+        fade_rgb = ((S_8002017C_0 *)effect)->unk_08 + 0xFFF7F7F8;
+        ((S_8002017C_0 *)effect)->unk_08 = fade_rgb;
+        if (fade_rgb <= 0x80808) {
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8002017C_0_pre *)effect)[-1].unk_00 | 0x8000);
             D_800814A0 |= 0x8000;
         }
         break;

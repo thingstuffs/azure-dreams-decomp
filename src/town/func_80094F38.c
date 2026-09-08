@@ -28,52 +28,47 @@ extern void *D_800CFCC4[3];
 extern u8 D_800CFCEF[9];
 extern u8 D_800FE488[9];
 
-
-
-
 typedef struct S_80092698_2 {
     u8 pad_00[0x14];
     u8 unk_14;
 } S_80092698_2;   /* D_800CFCC4[0] in func_80092698 */
 
-void func_80092698(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
-    s16 temp_v0;
-    u16 temp_v0_2;
+/* Update the entity and dispatch its next action from the sampled value, countdown, and global state. */
+void func_80092698(Rec_func_80094268_arg0 *controller, Rec_D_800E3D7C *entity, M2C_UNK context) {
+    s16 sampled_value;
+    u16 countdown;
     State80083160 *state = &D_80083160;
-    u8 *data;
-    register M2C_UNK saved_arg2 ASM_REG("$19") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *samples;
+    register M2C_UNK saved_context ASM_REG("$19") = context;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    func_80095C80(arg1);
-    ASM_KEEP(saved_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    func_80095094(arg1);
-    data = D_800FE488;
-    temp_v0 = func_80095978(arg1, data);
-    if ((temp_v0 - arg1->unk_08.at02_s16.v) >= 4) {
+    func_80095C80(entity);
+    ASM_KEEP(saved_context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    func_80095094(entity);
+    samples = D_800FE488;
+    sampled_value = func_80095978(entity, samples);
+    if ((sampled_value - entity->unk_08.at02_s16.v) >= 4) {
         if (D_800CFCEF[0] == 0) {
-            func_80094378(arg0, arg1, saved_arg2);
+            func_80094378(controller, entity, saved_context);
             return;
         }
-        goto block_6;
+    } else if (D_800CFCEF[0] == 0) {
+        func_80095A94(entity, sampled_value, samples);
     }
-    if (D_800CFCEF[0] == 0) {
-        func_80095A94(arg1, temp_v0, data);
-    }
-block_6:
-    temp_v0_2 = arg0->unk_0A.as_u16 - 1;
-    arg0->unk_0A.as_u16 = temp_v0_2;
-    if ((s16)temp_v0_2 < 0) {
+    countdown = controller->unk_0A.as_u16 - 1;
+    controller->unk_0A.as_u16 = countdown;
+    if ((s16)countdown < 0) {
         if (D_800CFCC4[0] != NULL) {
             if (((S_80092698_2 *)(D_800CFCC4[0]))->unk_14 == 2) {
-                func_80093D48(arg0, arg1, saved_arg2);
+                func_80093D48(controller, entity, saved_context);
                 return;
             }
-            func_8009451C(arg0, arg1, saved_arg2);
+            func_8009451C(controller, entity, saved_context);
             return;
         }
-        func_8009451C(arg0, arg1, saved_arg2);
+        func_8009451C(controller, entity, saved_context);
         return;
     }
     if (state->field_10 & 0x10) {
-        func_800942B0(arg0, arg1, saved_arg2);
+        func_800942B0(controller, entity, saved_context);
     }
 }

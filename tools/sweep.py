@@ -90,6 +90,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("transform"); ap.add_argument("--container"); ap.add_argument("--sample", type=int); ap.add_argument("--limit", type=int)
     ap.add_argument("--workers", type=int, default=6); ap.add_argument("--seed", type=int, default=1); ap.add_argument("--only")
+    ap.add_argument("--force", action="store_true", help="re-run even when the row's current text is already journalled (a row whose src was reverted to a pre-transform text)")
     a = ap.parse_args()
     T = xform.load(a.transform)
     cen = {c["id"]: c for c in read_jsonl(LEDGER / "census.jsonl")}
@@ -107,7 +108,7 @@ def main():
     jobs = []
     for r in rs:
         text, _ = current_text(r)
-        if (r["id"], sha_text(text)) not in done: jobs.append((T, r, cen.get(r["id"], {})))
+        if a.force or (r["id"], sha_text(text)) not in done: jobs.append((T, r, cen.get(r["id"], {})))
     print(f"{T.name}: {len(jobs)} rows to process ({len(rs) - len(jobs)} already journalled)", flush=True)
     t0 = time.time(); n = 0; tally = {}
     with ThreadPoolExecutor(max_workers=a.workers) as ex:

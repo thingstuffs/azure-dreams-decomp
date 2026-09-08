@@ -18,41 +18,42 @@ typedef struct S_800211C4_2 {
     s16 unk_20;
 } S_800211C4_2;   /* arg1_hold in func_800211C4 */
 
-void func_800211C4(S_800211C4_0 *arg0, void *arg1, Rec_D_80082E80 *arg2) {
-    u8 *var_v0;
-    s32 base_v0;
-    s32 temp_s0;
-    u8 *temp_v0;
-    s32 temp_v2;
-    u16 temp_v1;
-    u16 finalVal;
-    S_800211C4_2 *arg1_hold = arg1;
+/* Update the record for its current direction and set its direction flag. */
+void func_800211C4(S_800211C4_0 *orientation, void *state_ptr, Rec_D_80082E80 *record) {
+    u8 *flags_page;
+    s32 flags_base;
+    s32 direction;
+    u8 *direction_data;
+    s32 angle_sector;
+    u16 angle;
+    u16 flags;
+    S_800211C4_2 *state = state_ptr;
 
-    temp_v1 = (arg0->unk_2A + 0x2000) & 0xFFF;
-    arg0->unk_2A = temp_v1;
-    temp_v2 = (s32)(D_80083228[0] + temp_v1 + 0x100) >> 9;
-    temp_s0 = temp_v2 & 7;
-    if (arg2->unk_14.at00_u16.v & 0x6000) {
-        func_80047784(arg2, *((u8 *)arg2->unk_2C.as_s32 + temp_s0), 0);
+    angle = (orientation->unk_2A + 0x2000) & 0xFFF;
+    orientation->unk_2A = angle;
+    angle_sector = (s32)(D_80083228[0] + angle + 0x100) >> 9;
+    direction = angle_sector & 7;
+    if (record->unk_14.at00_u16.v & 0x6000) {
+        func_80047784(record, *((u8 *)record->unk_2C.as_s32 + direction), 0);
     }
-    if (arg1_hold->unk_20 == temp_s0) {
-        var_v0 = (u8 *)0x80070000;
-        goto page_check;
+    if (state->unk_20 == direction) {
+        flags_page = (u8 *)0x80070000;
+        goto update_flags;
     }
-    temp_v0 = (u8 *)arg2->unk_2C.as_s32;
-    if (temp_v0 != 0) {
-        func_80047738(arg2, temp_v0[temp_s0], arg2->unk_04.as_s8);
+    direction_data = (u8 *)record->unk_2C.as_s32;
+    if (direction_data != 0) {
+        func_80047738(record, direction_data[direction], record->unk_04.as_s8);
     }
-    arg1_hold->unk_20 = temp_s0;
-    var_v0 = (u8 *)0x80070000;
-page_check:
-    base_v0 = (s32)var_v0 - 0x3308;
-    ASM_KEEP(base_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    temp_v0 = (u8 *)(temp_s0 + base_v0);
-    if (temp_v0[0] != 0) {
-        finalVal = arg2->unk_14.at00_u16.v | 1;
+    state->unk_20 = direction;
+    flags_page = (u8 *)0x80070000;
+update_flags:
+    flags_base = (s32)flags_page - 0x3308;
+    ASM_KEEP(flags_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    direction_data = (u8 *)(direction + flags_base);
+    if (direction_data[0] != 0) {
+        flags = record->unk_14.at00_u16.v | 1;
     } else {
-        finalVal = arg2->unk_14.at00_u16.v & 0xFFFE;
+        flags = record->unk_14.at00_u16.v & 0xFFFE;
     }
-    arg2->unk_14.at00_u16.v = finalVal;
+    record->unk_14.at00_u16.v = flags;
 }

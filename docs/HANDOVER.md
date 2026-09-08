@@ -30,6 +30,18 @@ Dashboard: served on the LAN by `tools/dashboard_serve.sh` (port 8002; restart i
   `tools/apply_candidates.py`, journal `t11_midrow`). Continue the mid-row lane over the remaining
   single-site rows (`work/lac_lane/batchN/rows.tsv` + the pilot brief), then multi-site rows; the
   census is live so STATUS shows the burn-down.
+- **One gated tree (2026-09-08):** `refine/` is gone. Every accepted Layer-2 body is landed in `src/`
+  by `tools/promote.py`: scorer-exact → written → **the row's window gate must MATCH** (under the
+  cross-process window lock `verify.window_lock`) → `ledger/promotions.jsonl` `landed`; otherwise the
+  text is reverted and the record says `gate-mismatch`. The campaign's `--commit` lands through the
+  same call, and the prompt makes the model run `verify.py … --gate` once before DONE. L3 means
+  "landed". The 4,369 bodies the campaign had written to `refine/` were promoted in one pass (4,346
+  landed; 10 build-failed against today's headers; 13 gate-mismatch: lane rewrites that respelled
+  an internal jump in a row the gate links at its synthetic address), the standing sweeps re-run
+  over them (`sweep.py --force` for rows whose text was reverted to a pre-transform state — the
+  journals key on the input sha and would otherwise skip them), and every gate re-run: 2,172/2,172
+  windows MATCH, SLUS MATCH, reverify 6,072/6,072. The 23 unlanded rows are served again by the
+  campaign (`done` = landed).
 - **Layer 2 agent campaign (Astra, gpt-6-astra high) — orchestration state (2026-09-08 03:30 UTC):**
   one process at a time, always `tools/agent_task.py --model gpt-6-astra --effort high --all
   --min-size A --max-size B --workers 3 --limit 900 --commit --tag campaign` (log
@@ -44,7 +56,7 @@ Dashboard: served on the LAN by `tools/dashboard_serve.sh` (port 8002; restart i
   re-served once with `--rows $(python3 -c "import json;print(','.join(json.loads(l)['id'] for l in open('ledger/evidence/rows.jsonl')))")`
   after the size tiers (one process at a time). When a tier prints `0 rows`, launch the next; when the log shows
   `quota` outcomes the harness stops cleanly after three in a row — relaunch after the reset.
-  Commit campaign output separately: `git add ledger/agents refine && git commit -m "campaign: …"`
+  Commit campaign output separately: `git add ledger/agents ledger/promotions.jsonl src && git commit -m "campaign: …"`
   (the scrub hook runs; push after). Kill only by PID (`pgrep -f '[a]gent_task.py --model'`).
 - **T7 shared headers: done for every class with ≥ 10 rows** (`docs/STRUCT_CENSUS.md`, "T7
   result"). `tools/gen_records.py` writes `include/records/Rec_*.h` (12 records) and
@@ -96,6 +108,13 @@ python3 tools/registry.py && python3 tools/levels.py && python3 tools/status.py
 
 - **The window gate's compile command is the only compile command.** The per-row scorer is a
   dev tool; anything it cannot prove is gated through the row's window (`verify.py::gate_fallback`).
+  **And scorer-exact is not proof either** (2026-09-08): the scorer links every row at its true
+  base, the gate links a row with no recorded true name at its synthetic address (the legacy
+  population), so a body whose internal jumps changed spelling (a `goto` where the pinned text
+  spelled the jump as a pseudo-call to an absolute symbol) is scorer-exact and wrong in the window.
+  Ten dungeon windows failed after the first promotion; `tools/promote.py` now runs the row's
+  window gate before a body counts as landed, and the campaign lands through it. `verify.py::
+  gate_window` caches per process: never test two texts of one window in one process.
 - **A row is gated by range, not by name.** The gate compiles every matched row inside a
   window's file range; `gate_config` is derived when the split table did not name one, and
   `gate_all.py` hashes inputs by range. "Windowless" rows do not exist (`row_db.py check`).

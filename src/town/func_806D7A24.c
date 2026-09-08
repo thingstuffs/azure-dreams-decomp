@@ -8,16 +8,17 @@ extern u8 D_800197D0[];
 extern void *func_80017B0C(void *, void *, s32, s32);
 extern s32 func_80017A54(void *, s32, s32);
 
-void *func_80016224(s32 arg0, s32 arg1, s32 arg2)
+/* Looks up an entry and applies conditional overrides for IDs 0x2D and 0x2F. */
+void *func_80016224(s32 lookup_key, s32 unused, s32 entry_id)
 {
-    void *result;
+    void *entry;
 
-    result = func_80017B0C(D_80018980, D_80019104, arg0, arg2);
-    if (arg2 == 0x2D && func_80017A54(D_80018980, arg0, 0x2D) != 0) {
+    entry = func_80017B0C(D_80018980, D_80019104, lookup_key, entry_id);
+    if (entry_id == 0x2D && func_80017A54(D_80018980, lookup_key, 0x2D) != 0) {
         return D_800197D0;
     }
-    if (arg2 == 0x2F && func_80017A54(D_80018980, arg0, 0x2F) != 0) {
+    if (entry_id == 0x2F && func_80017A54(D_80018980, lookup_key, 0x2F) != 0) {
         return D_80019397;
     }
-    return result;
+    return entry;
 }

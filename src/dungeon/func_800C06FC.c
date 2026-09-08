@@ -50,69 +50,66 @@ typedef struct S_800C5E5C_3 {
     s16 unk_10;
 } S_800C5E5C_3;   /* temp_v0_3 in func_800C5E5C */
 
-void func_800C5E5C(s16 arg0, s16 arg1, s16 arg2, s32 arg3, s16 arg4) {
-    M2C_UNK var_a0;
-    s32 var_s2;
-    s32 var_s3;
-    s32 var_s5;
-    S_800C5E5C_2 *temp_s0;
-    CounterBlock *temp_s4;
-    void *temp_v0;
-    S_800C5E5C_1 *temp_v0_2;
-    S_800C5E5C_3 *temp_v0_3;
-    u16 temp_flags;
+/* Spawn twelve effects at the given position, optionally playing a sound. */
+void func_800C5E5C(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound) {
+    M2C_UNK object_type;
+    s32 effect_index;
+    s32 effect_offset;
+    s32 size;
+    S_800C5E5C_2 *sprite;
+    CounterBlock *counter;
+    void *effect;
+    S_800C5E5C_1 *transform;
+    S_800C5E5C_3 *effect_state;
+    u16 sprite_flags;
 
-    if (arg4 != 0) {
+    if (play_sound != 0) {
         func_800A56E0(0x816);
     }
-    var_s2 = 0xB;
-    var_s5 = 0x20;
-    temp_s4 = &D_80083460;
-    var_s3 = 0xFFFA0000;
+    effect_index = 0xB;
+    size = 0x20;
+    counter = &D_80083460;
+    effect_offset = 0xFFFA0000;
     do {
-        var_a0 = 0x12;
-        if (var_s2 != 0) {
-            var_a0 = 0x212;
+        object_type = 0x12;
+        if (effect_index != 0) {
+            object_type = 0x212;
         }
-        temp_v0 = func_8003FC64(var_a0);
-        if (temp_v0 != NULL) {
-            ((S_800C5E5C_0 *)temp_v0)->unk_10 = &D_800C5D80;
-            func_8004491C(temp_v0, &D_80045C34);
-            temp_v0_2 = ((S_800C5E5C_0 *)temp_v0)->unk_08;
-            temp_v0_2->unk_02 = arg0;
-            temp_v0_2->unk_06 = arg1;
-            temp_v0_2->unk_0A = arg2;
-            temp_v0_2->unk_14 = var_s3;
-            temp_s0 = ((S_800C5E5C_0 *)temp_v0)->unk_0C;
-            func_8003DB94(temp_s0, arg3, 0);
-            temp_flags = temp_s0->unk_14;
+        effect = func_8003FC64(object_type);
+        if (effect != NULL) {
+            ((S_800C5E5C_0 *)effect)->unk_10 = &D_800C5D80;
+            func_8004491C(effect, &D_80045C34);
+            transform = ((S_800C5E5C_0 *)effect)->unk_08;
+            transform->unk_02 = x;
+            transform->unk_06 = y;
+            transform->unk_0A = z;
+            transform->unk_14 = effect_offset;
+            sprite = ((S_800C5E5C_0 *)effect)->unk_0C;
+            func_8003DB94(sprite, sprite_id, 0);
+            sprite_flags = sprite->unk_14;
             {
-                s32 temp_color;
-                temp_color = 0x808080;
-                temp_s0->unk_0C = temp_color;
-                ASM_KEEP(temp_color);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                s32 color;
+                color = 0x808080;
+                sprite->unk_0C = color;
+                ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             }
             {
-                s32 temp_1000;
-                temp_1000 = 0x1000;
-                temp_s0->unk_1E = temp_1000;
-                temp_s0->unk_1C = temp_1000;
+                s32 scale;
+                scale = 0x1000;
+                sprite->unk_1E = scale;
+                sprite->unk_1C = scale;
             }
-            temp_v0_3 = temp_v0 + 0x20;
-            temp_s0->unk_10 = var_s5;
-            temp_flags |= 0xC;
-            temp_s0->unk_14 = temp_flags;
-            temp_v0_3->unk_10 = var_s5;
-            temp_v0_3->unk_0C = var_s2;
-            if (var_s2 == 0) {
-                temp_s4->count = (u16) (temp_s4->count + 1);
+            effect_state = effect + 0x20;
+            sprite->unk_10 = size;
+            sprite_flags |= 0xC;
+            sprite->unk_14 = sprite_flags;
+            effect_state->unk_10 = size;
+            effect_state->unk_0C = effect_index;
+            if (effect_index == 0) {
+                counter->count = (u16) (counter->count + 1);
             }
         }
-        var_s3 += 0x8000;
-        var_s2 -= 1;
-    } while (var_s2 >= 0);
+        effect_offset += 0x8000;
+        effect_index -= 1;
+    } while (effect_index >= 0);
 }
-
-/* MECHANISM: An s32 loop counter removes the duplicate sign-extension live range and yields the retail 0x38 frame.
-   A held CounterBlock base plus scoped v0/v1 locals reproduces the full-address and post-call register roles.
-   Updating var_s3 before var_s2 places the 0x8000 materialization before the loop decrement. */

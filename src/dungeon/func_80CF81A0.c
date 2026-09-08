@@ -37,65 +37,65 @@ extern void func_80047784(Obj2 *, u8, s32);
 extern s32 func_800AC82C(Obj0 *, void *, Obj2 *, Obj3 *);
 extern s32 func_800AD9B4(Obj2 *, Obj3 *);
 
-void func_801699A0(Obj0 *arg0, void *arg1, Obj2 *arg2, Obj3 *arg3)
+/* Updates the direction table and selected entry for entity kinds 13 through 15. */
+void func_801699A0(Obj0 *owner, void *context, Obj2 *sprite_arg, Obj3 *entity_arg)
 {
-    Obj2 *obj2 = arg2;
-    Obj3 *obj3 = arg3;
-    u32 table;
-    register u32 new_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u32 current;
+    Obj2 *sprite = sprite_arg;
+    Obj3 *entity = entity_arg;
+    u32 selected_table;
+    register u32 fallback_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 current_table;
     u8 kind;
-    s32 index;
+    s32 direction_index;
 
-
-    kind = obj3->kind48;
+    kind = entity->kind48;
     switch (kind) {
     case 13:
-        if ((obj3->flags1c & 0x200) != 0) {
+        if ((entity->flags1c & 0x200) != 0) {
             goto kind13_default;
         }
-        if (obj3->flag25 != 0) {
+        if (entity->flag25 != 0) {
             goto kind13_alternate;
         }
 kind13_default:
-        current = (u32)obj2->table2c;
-        table = (u32)D_80169E54;
+        current_table = (u32)sprite->table2c;
+        selected_table = (u32)D_80169E54;
         goto first_join;
 kind13_alternate:
-        current = (u32)obj2->table2c;
-        table = (u32)D_80169E24;
+        current_table = (u32)sprite->table2c;
+        selected_table = (u32)D_80169E24;
         goto first_join;
 
     case 14:
-        if ((obj3->flags1c & 0x200) != 0) {
+        if ((entity->flags1c & 0x200) != 0) {
             goto kind14_default;
         }
-        if (obj3->flag25 != 0) {
+        if (entity->flag25 != 0) {
             goto kind14_alternate;
         }
 kind14_default:
-        current = (u32)obj2->table2c;
-        table = (u32)D_80169E5C;
+        current_table = (u32)sprite->table2c;
+        selected_table = (u32)D_80169E5C;
         goto first_join;
 kind14_alternate:
-        current = (u32)obj2->table2c;
-        table = (u32)D_80169E2C;
+        current_table = (u32)sprite->table2c;
+        selected_table = (u32)D_80169E2C;
         goto first_join;
 
     case 15:
-        if ((obj3->flags1c & 0x200) != 0) {
+        if ((entity->flags1c & 0x200) != 0) {
             goto kind15_default;
         }
-        if (obj3->flag25 != 0) {
+        if (entity->flag25 != 0) {
             goto kind15_alternate;
         }
 kind15_default:
-        current = (u32)obj2->table2c;
-        table = (u32)D_80169E64;
+        current_table = (u32)sprite->table2c;
+        selected_table = (u32)D_80169E64;
         goto first_join;
 kind15_alternate:
-        current = (u32)obj2->table2c;
-        table = (u32)D_80169E34;
+        current_table = (u32)sprite->table2c;
+        selected_table = (u32)D_80169E34;
         goto first_join;
 
     default:
@@ -103,53 +103,52 @@ kind15_alternate:
     }
 
 first_join:
-    if (current != table) {
-        *(u32 * volatile)((u8 *)obj2 + 0x2c) = table;
-        index = (D_80083228 + obj3->value2a + 0x100) >> 9;
-        func_80047784(obj2, *(u8 *)((index & 7) + table), 0);
+    if (current_table != selected_table) {
+        *(u32 * volatile)((u8 *)sprite + 0x2c) = selected_table;
+        direction_index = (D_80083228 + entity->value2a + 0x100) >> 9;
+        func_80047784(sprite, *(u8 *)((direction_index & 7) + selected_table), 0);
     }
 
 after_first_update:
-    if (func_800AC82C(arg0, arg1, obj2, obj3) != 0) {
-        if ((func_800AD9B4(obj2, obj3) << 16) > 0) {
-            arg0->field8c = D_801664BC;
+    if (func_800AC82C(owner, context, sprite, entity) != 0) {
+        if ((func_800AD9B4(sprite, entity) << 16) > 0) {
+            owner->field8c = D_801664BC;
         }
         return;
     }
 
-    switch (obj3->kind48) {
+    switch (entity->kind48) {
     case 13:
-        if (obj2->table2c != D_80169E54 ||
-            (obj3->flags1c & 0x208) != 0) {
+        if (sprite->table2c != D_80169E54 ||
+            (entity->flags1c & 0x208) != 0) {
             return;
         }
-        new_table = (u32)&D_80169DC4;
-        *(u32 * volatile)((u8 *)obj2 + 0x2c) = new_table;
-        index = (D_80083228 + obj3->value2a + 0x100) >> 9;
-        func_80047784(obj2, *(u8 *)((index & 7) + new_table), 0);
+        fallback_table = (u32)&D_80169DC4;
+        *(u32 * volatile)((u8 *)sprite + 0x2c) = fallback_table;
+        direction_index = (D_80083228 + entity->value2a + 0x100) >> 9;
+        func_80047784(sprite, *(u8 *)((direction_index & 7) + fallback_table), 0);
         return;
     case 14:
-        if (obj2->table2c != D_80169E5C ||
-            (obj3->flags1c & 0x208) != 0) {
+        if (sprite->table2c != D_80169E5C ||
+            (entity->flags1c & 0x208) != 0) {
             return;
         }
-        new_table = (u32)&D_80169DCC;
-        *(u32 * volatile)((u8 *)obj2 + 0x2c) = new_table;
-        index = (D_80083228 + obj3->value2a + 0x100) >> 9;
-        func_80047784(obj2, *(u8 *)((index & 7) + new_table), 0);
+        fallback_table = (u32)&D_80169DCC;
+        *(u32 * volatile)((u8 *)sprite + 0x2c) = fallback_table;
+        direction_index = (D_80083228 + entity->value2a + 0x100) >> 9;
+        func_80047784(sprite, *(u8 *)((direction_index & 7) + fallback_table), 0);
         return;
     case 15:
-        if (obj2->table2c != D_80169E64 ||
-            (obj3->flags1c & 0x208) != 0) {
+        if (sprite->table2c != D_80169E64 ||
+            (entity->flags1c & 0x208) != 0) {
             return;
         }
-        new_table = (u32)&D_80169DD4;
-        *(u32 * volatile)((u8 *)obj2 + 0x2c) = new_table;
-        index = (D_80083228 + obj3->value2a + 0x100) >> 9;
-        func_80047784(obj2, *(u8 *)((index & 7) + new_table), 0);
+        fallback_table = (u32)&D_80169DD4;
+        *(u32 * volatile)((u8 *)sprite + 0x2c) = fallback_table;
+        direction_index = (D_80083228 + entity->value2a + 0x100) >> 9;
+        func_80047784(sprite, *(u8 *)((direction_index & 7) + fallback_table), 0);
         return;
     default:
         return;
     }
-
 }

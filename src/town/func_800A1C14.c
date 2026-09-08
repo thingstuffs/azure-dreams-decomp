@@ -15,27 +15,28 @@ typedef struct S_8009F374_2 {
     s16 unk_1E;
 } S_8009F374_2;   /* arg3 in func_8009F374 */
 
-void func_8009F374(Rec_D_800CFCB4 *arg0, M2C_UNK arg1, Rec_D_800E3D7C *arg2, S_8009F374_2 *arg3) {
-    s16 temp_v0;
-    s32 var_v0;
-    s32 var_v0_2;
+/* Jitter the position and pulse the scale until the countdown expires. */
+void func_8009F374(Rec_D_800CFCB4 *state, M2C_UNK context, Rec_D_800E3D7C *position, S_8009F374_2 *scale) {
+    s16 ticks_left;
+    s32 scale_x_wave;
+    s32 scale_y_wave;
 
-    arg2->unk_08.at00_s32.v = (s32) (arg0->unk_A0 + (((func_800374F4(0x10) & 0xFFFF) - 8) << 0x10));
-    var_v0 = func_800644B8(arg0->unk_6C.as_s16 * 0x199);
-    if (var_v0 < 0) {
-        var_v0 += 3;
+    position->unk_08.at00_s32.v = (s32) (state->unk_A0 + (((func_800374F4(0x10) & 0xFFFF) - 8) << 0x10));
+    scale_x_wave = func_800644B8(state->unk_6C.as_s16 * 0x199);
+    if (scale_x_wave < 0) {
+        scale_x_wave += 3;
     }
-    arg3->unk_1C = (s16) ((var_v0 >> 2) + 0x1000);
-    var_v0_2 = func_800644B8(arg0->unk_6C.as_s16 * 0x199);
-    if (var_v0_2 < 0) {
-        var_v0_2 += 3;
+    scale->unk_1C = (s16) ((scale_x_wave >> 2) + 0x1000);
+    scale_y_wave = func_800644B8(state->unk_6C.as_s16 * 0x199);
+    if (scale_y_wave < 0) {
+        scale_y_wave += 3;
     }
-    arg3->unk_1E = (s16) (0x1000 - (var_v0_2 >> 2));
-    temp_v0 = (u16) arg0->unk_6C.as_s16 - 1;
-    arg0->unk_6C.as_s16 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        arg3->unk_1E = 0x1000;
-        arg3->unk_1C = 0x1000;
-        func_8009F148(arg0, arg1, arg2, arg3);
+    scale->unk_1E = (s16) (0x1000 - (scale_y_wave >> 2));
+    ticks_left = (u16) state->unk_6C.as_s16 - 1;
+    state->unk_6C.as_s16 = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        scale->unk_1E = 0x1000;
+        scale->unk_1C = 0x1000;
+        func_8009F148(state, context, position, scale);
     }
 }

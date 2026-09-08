@@ -35,70 +35,71 @@ s32 rand();
 s32 func_800A45D8();
 s16 func_800BCB04();
 
-void func_818CEDC8(void *arg0, S_818CEDC8_0 *arg1, Rec_D_80082E80 *arg2) {
-    s32 temp_s0;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u16 temp_v0_3;
-    u16 temp_v0_4;
-    s32 call_a2;
+/* Updates effect motion, collisions, animation, scale, and expiration. */
+void func_818CEDC8(void *state, S_818CEDC8_0 *position, Rec_D_80082E80 *sprite) {
+    s32 current_z;
+    u16 frame_count;
+    u16 scale_x;
+    u16 scale_y;
+    u16 life_left;
+    s32 collision_z;
 
-    arg1->unk_00.at00.v = (s32) (arg1->unk_00.at00.v + ((S_818CEDC8_1 *)arg0)->unk_4C);
-    ((S_818CEDC8_1 *)arg0)->unk_4C = (s32) (((S_818CEDC8_1 *)arg0)->unk_4C + ((S_818CEDC8_1 *)arg0)->unk_58);
-    if ((func_800A45D8(arg1->unk_00.at02.v, arg1->unk_04.at02.v,
-                       (call_a2 = arg1->unk_08.at02.v, *D_80025924 = 1, call_a2)) << 0x10) != 0) {
-        arg1->unk_00.at00.v = (s32) (arg1->unk_00.at00.v - ((S_818CEDC8_1 *)arg0)->unk_4C);
-        ((S_818CEDC8_1 *)arg0)->unk_4C = 0;
-        ((S_818CEDC8_1 *)arg0)->unk_58 = 0;
+    position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((S_818CEDC8_1 *)state)->unk_4C);
+    ((S_818CEDC8_1 *)state)->unk_4C = (s32) (((S_818CEDC8_1 *)state)->unk_4C + ((S_818CEDC8_1 *)state)->unk_58);
+    if ((func_800A45D8(position->unk_00.at02.v, position->unk_04.at02.v,
+                       (collision_z = position->unk_08.at02.v, *D_80025924 = 1, collision_z)) << 0x10) != 0) {
+        position->unk_00.at00.v = (s32) (position->unk_00.at00.v - ((S_818CEDC8_1 *)state)->unk_4C);
+        ((S_818CEDC8_1 *)state)->unk_4C = 0;
+        ((S_818CEDC8_1 *)state)->unk_58 = 0;
     }
-    arg1->unk_04.at00.v = (s32) (arg1->unk_04.at00.v + ((S_818CEDC8_1 *)arg0)->unk_50);
-    ((S_818CEDC8_1 *)arg0)->unk_50 = (s32) (((S_818CEDC8_1 *)arg0)->unk_50 + ((S_818CEDC8_1 *)arg0)->unk_5C);
-    if ((func_800A45D8(arg1->unk_00.at02.v, arg1->unk_04.at02.v, arg1->unk_08.at02.v) << 0x10) != 0) {
-        arg1->unk_04.at00.v = (s32) (arg1->unk_04.at00.v - ((S_818CEDC8_1 *)arg0)->unk_50);
-        ((S_818CEDC8_1 *)arg0)->unk_50 = 0;
-        ((S_818CEDC8_1 *)arg0)->unk_5C = 0;
+    position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((S_818CEDC8_1 *)state)->unk_50);
+    ((S_818CEDC8_1 *)state)->unk_50 = (s32) (((S_818CEDC8_1 *)state)->unk_50 + ((S_818CEDC8_1 *)state)->unk_5C);
+    if ((func_800A45D8(position->unk_00.at02.v, position->unk_04.at02.v, position->unk_08.at02.v) << 0x10) != 0) {
+        position->unk_04.at00.v = (s32) (position->unk_04.at00.v - ((S_818CEDC8_1 *)state)->unk_50);
+        ((S_818CEDC8_1 *)state)->unk_50 = 0;
+        ((S_818CEDC8_1 *)state)->unk_5C = 0;
     }
-    arg1->unk_08.at00.v = (s32) (arg1->unk_08.at00.v + ((S_818CEDC8_1 *)arg0)->unk_54);
+    position->unk_08.at00.v = (s32) (position->unk_08.at00.v + ((S_818CEDC8_1 *)state)->unk_54);
     {
-        s32 temp_az = ((S_818CEDC8_1 *)arg0)->unk_60;
-        ((S_818CEDC8_1 *)arg0)->unk_54 += temp_az;
+        s32 accel_z = ((S_818CEDC8_1 *)state)->unk_60;
+        ((S_818CEDC8_1 *)state)->unk_54 += accel_z;
     }
-    ((S_818CEDC8_1 *)arg0)->unk_4C = (s32) ((((S_818CEDC8_1 *)arg0)->unk_4C * 0x60) / 100);
-    ((S_818CEDC8_1 *)arg0)->unk_50 = (s32) ((((S_818CEDC8_1 *)arg0)->unk_50 * 0x60) / 100);
-    temp_s0 = arg1->unk_08.at02.v;
-    if ((func_800BCB04(arg1->unk_00.at02.v, arg1->unk_04.at02.v, (s16) ((u16) arg1->unk_08.at02u.v - 4)) - 0x10) < temp_s0) {
-        ((S_818CEDC8_1 *)arg0)->unk_54 = 0;
-        arg1->unk_08.at02.v = (s16) (func_800BCB04(arg1->unk_00.at02.v, arg1->unk_04.at02.v, (s16) ((u16) arg1->unk_08.at02.v - 4)) - 0x11);
-        arg1->unk_08.at00u.v = 0;
-        if (((S_818CEDC8_1 *)arg0)->unk_08 == 0) {
-            ((S_818CEDC8_1 *)arg0)->unk_08 = 1;
-            ((S_818CEDC8_1 *)arg0)->unk_4C = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 3);
-            ((S_818CEDC8_1 *)arg0)->unk_50 = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 3);
+    ((S_818CEDC8_1 *)state)->unk_4C = (s32) ((((S_818CEDC8_1 *)state)->unk_4C * 0x60) / 100);
+    ((S_818CEDC8_1 *)state)->unk_50 = (s32) ((((S_818CEDC8_1 *)state)->unk_50 * 0x60) / 100);
+    current_z = position->unk_08.at02.v;
+    if ((func_800BCB04(position->unk_00.at02.v, position->unk_04.at02.v, (s16) ((u16) position->unk_08.at02u.v - 4)) - 0x10) < current_z) {
+        ((S_818CEDC8_1 *)state)->unk_54 = 0;
+        position->unk_08.at02.v = (s16) (func_800BCB04(position->unk_00.at02.v, position->unk_04.at02.v, (s16) ((u16) position->unk_08.at02.v - 4)) - 0x11);
+        position->unk_08.at00u.v = 0;
+        if (((S_818CEDC8_1 *)state)->unk_08 == 0) {
+            ((S_818CEDC8_1 *)state)->unk_08 = 1;
+            ((S_818CEDC8_1 *)state)->unk_4C = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 3);
+            ((S_818CEDC8_1 *)state)->unk_50 = (s32) ((((rand() & 0x7F) << 0xB) + 0xFFFE0000) * 3);
         }
     }
-    temp_v0 = ((S_818CEDC8_1 *)arg0)->unk_04 + 1;
-    ((S_818CEDC8_1 *)arg0)->unk_04 = temp_v0;
-    if (!(temp_v0 & 3)) {
-        func_800478B8(arg2);
+    frame_count = ((S_818CEDC8_1 *)state)->unk_04 + 1;
+    ((S_818CEDC8_1 *)state)->unk_04 = frame_count;
+    if (!(frame_count & 3)) {
+        func_800478B8(sprite);
     }
-    temp_v0_2 = arg2->unk_1C.at00_u16.v + 0x64;
-    arg2->unk_1C.at00_u16.v = temp_v0_2;
-    if ((u32) (temp_v0_2 & 0xFFFF) >= 0x1001U) {
-        arg2->unk_1C.at00_u16.v = 0x1000U;
+    scale_x = sprite->unk_1C.at00_u16.v + 0x64;
+    sprite->unk_1C.at00_u16.v = scale_x;
+    if ((u32) (scale_x & 0xFFFF) >= 0x1001U) {
+        sprite->unk_1C.at00_u16.v = 0x1000U;
     }
-    temp_v0_3 = arg2->unk_1C.at02_u16.v + 0x64;
-    arg2->unk_1C.at02_u16.v = temp_v0_3;
-    if ((u32) (temp_v0_3 & 0xFFFF) >= 0x1001U) {
-        arg2->unk_1C.at02_u16.v = 0x1000U;
+    scale_y = sprite->unk_1C.at02_u16.v + 0x64;
+    sprite->unk_1C.at02_u16.v = scale_y;
+    if ((u32) (scale_y & 0xFFFF) >= 0x1001U) {
+        sprite->unk_1C.at02_u16.v = 0x1000U;
     }
-    temp_v0_4 = ((S_818CEDC8_1 *)arg0)->unk_02 - 1;
-    ((S_818CEDC8_1 *)arg0)->unk_02 = temp_v0_4;
-    if ((temp_v0_4 << 0x10) <= 0) {
-        ((S_818CEDC8_1_pre *)arg0)[-1].unk_00 = (u16) (((S_818CEDC8_1_pre *)arg0)[-1].unk_00 | 0x8000);
+    life_left = ((S_818CEDC8_1 *)state)->unk_02 - 1;
+    ((S_818CEDC8_1 *)state)->unk_02 = life_left;
+    if ((life_left << 0x10) <= 0) {
+        ((S_818CEDC8_1_pre *)state)[-1].unk_00 = (u16) (((S_818CEDC8_1_pre *)state)[-1].unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
     }
-    if (arg2->unk_14.at00_u16.v & 0x8000) {
-        ((S_818CEDC8_1_pre *)arg0)[-1].unk_00 = (u16) (((S_818CEDC8_1_pre *)arg0)[-1].unk_00 | 0x8000);
+    if (sprite->unk_14.at00_u16.v & 0x8000) {
+        ((S_818CEDC8_1_pre *)state)[-1].unk_00 = (u16) (((S_818CEDC8_1_pre *)state)[-1].unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
     }
 }

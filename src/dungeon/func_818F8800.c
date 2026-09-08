@@ -74,370 +74,368 @@ __asm__(".globl func_80024000\n.size func_80024000,3284");
 #define BODY_ATTR
 #endif
 
-void BODY_NAME(void *arg0, u8 *arg1, void *arg2, s32 *arg3, s32 arg4) BODY_ATTR;
+void BODY_NAME(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control) BODY_ATTR;
 
-void func_8002405C(void *arg0, u8 *arg1, void *arg2, s32 *arg3, s32 arg4)
+/* Draw sprite parts as textured strips displaced by a wave along either axis. */
+void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control)
 {
-  Quad40 sp28;
-  Quad40 sp50;
-  u16 sp78;
-  s32 sp80;
-  void *sp84;
-  M2C_UNK var_a1;
-  s16 temp_v0_4;
-  s16 temp_v0_5;
-  s16 temp_v0_6;
-  s16 temp_v0_7;
-  s16 temp_v0_8;
-  s16 temp_v0_9;
-  s32 var_s1;
-  s32 var_s1_2;
-  s32 var_s1_3;
-  s32 *(*temp_v0_10)(void *, s32, void *, void *, s32 *);
-  s32 *temp_a0_3;
-  s32 *temp_a0_5;
-  s32 *temp_v1;
-  s32 *temp_v1_9;
-  s32 *var_a0_2;
-  s32 *var_s0;
-  s32 *var_s0_2;
-  s32 *var_s3;
-  s32 temp_v1_2;
-  s32 temp_v1_3;
-  s32 var_s5;
-  u16 temp_a0;
-  u16 temp_a0b;
-  s32 temp_v0_2;
-  s32 temp_v0_3;
-  u16 temp_v1_7;
-  u16 temp_v1_6;
-  u16 temp_v1_a;
-  u16 temp_v1_b;
-  u16 temp_v1_8;
-  u8 temp_a0_2;
-  u8 temp_v1_4;
-  u8 temp_v1_5;
-  u8 var_v0;
-  void *temp_s2;
-  void *temp_s2_2;
-  void *temp_s7;
-  u8 *gbase;
-  u8 *cdbase;
-  void *var_a0;
-  s32 var_s5_reg;
-  Scratchpad *scratch;
-  var_a0 = arg0;
-  gbase = (u8 *) (&D_80083160);
-  temp_s7 = *((void **) (((s8 *) arg2) + (-0x14)));
-  sp84 = *((void **) (((s8 *) temp_s7) + 8));
-  sp80 = *((s32 *) (((s8 *) arg2) + (-0x18)));
-  scratch = (Scratchpad *) 0x1F800000;
-  *((s32 *) (((u8 *) scratch) + 0xEC)) = 0;
-  *((u16 *) (((u8 *) scratch) + 0x8C)) = 0;
-  *((u16 *) (((u8 *) scratch) + 0x84)) = 0;
-  *((u16 *) (((u8 *) scratch) + 0x7C)) = 0;
-  *((u16 *) (((u8 *) scratch) + 0x74)) = 0;
-  var_s3 = *((s32 **) (((s8 *) D_80083160) + 0x8D0));
-  *((s32 *) (((u8 *) scratch) + 0x20)) = (s32) arg3;
-  *((s32 *) (((u8 *) scratch) + 0xC0)) = 0;
-  *((u16 *) (((u8 *) scratch) + 0xB8)) = (u16) ((*((u16 *) (((s8 *) var_a0) + 0))) - 0xA0);
-  *((u16 *) (((u8 *) scratch) + 0xBA)) = (u16) ((*((u16 *) (((s8 *) var_a0) + 2))) - 0x78);
-  sp78 = (u16) arg4;
-  var_a1 = 0;
-  if ((arg4 << 0x10) != 0)
-  {
-    func_80067EF4(var_s3, 0, 0);
-    var_a1 = 0xFF000000;
-    *var_s3 = ((*var_s3) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
-    temp_v1 = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
-    var_a0 = (void *) (((s32) var_s3) & 0xFFFFFF);
-    var_s3 += 3;
-    *temp_v1 = ((*temp_v1) & 0xFF000000) | ((s32) var_a0);
-  }
-  cdbase = (u8 *) (&D_8006CD10);
-  *((s32 *) (cdbase + 0x1C)) = (s32) (*((s32 *) (gbase + 0xA0)));
-  func_800649A0();
-  *((s32 *) (((u8 *) scratch) + 0x30)) = *((s16 *) (gbase + 0xC4));
-  *((s32 *) (((u8 *) scratch) + 0x34)) = *((s16 *) (gbase + 0xC6));
-  *((s32 *) (((u8 *) scratch) + 0x38)) = *((s16 *) (gbase + 0xC8));
-  *((u16 *) (((u8 *) scratch) + 0x100)) = (u16) (*((u16 *) (((s8 *) temp_s7) + 0x16)));
-  *((u16 *) (((u8 *) scratch) + 0x104)) = (s16) ((*((u16 *) (((s8 *) temp_s7) + 0x1A))) - (*((u16 *) (((u8 *) scratch) + 0x34))));
-  *((u16 *) (((u8 *) scratch) + 0x102)) = (s16) (((((*((u16 *) (((u8 *) scratch) + 0x38))) + 0x100) & 0x1FF) - 0x100) + (*((u16 *) (((s8 *) temp_s7) + 0x18))));
-  temp_v0_2 = *((u16 *) (((s8 *) temp_s7) + 0x20));
-  *((s32 *) (((u8 *) scratch) + 0xE4)) = temp_v0_2;
-  *((u16 *) (((u8 *) scratch) + 0x108)) = temp_v0_2;
-  temp_v0_3 = *((u16 *) (((s8 *) temp_s7) + 0x22));
-  *((s32 *) (((u8 *) scratch) + 0xE8)) = temp_v0_3;
-  *((u16 *) (((u8 *) scratch) + 0x10A)) = temp_v0_3;
-  func_80065820((void *) 0x1F800100, (void *) 0x1F8000D0);
-  *((s32 *) (((u8 *) scratch) + 0x30)) = *((u16 *) (((s8 *) temp_s7) + 0x1C));
-  *((s32 *) (((u8 *) scratch) + 0x34)) = *((u16 *) (((s8 *) temp_s7) + 0x1E));
-  *((s32 *) (((u8 *) scratch) + 0x38)) = 0x1000;
-  func_80064BC0((void *) 0x1F8000D0, (void *) 0x1F800030);
-  func_80064840(cdbase, (void *) 0x1F8000D0, (void *) 0x1F800050);
-  func_80064D80((void *) 0x1F800050);
-  func_80064CF0((void *) 0x1F800050);
-  *((u16 *) (((u8 *) scratch) + 0x24)) = (u16) (*((u16 *) (((s8 *) temp_s7) + 0x14)));
-  for (;;)
-  {
-  if (!((*((u8 *) (((s8 *) sp84) + 0))) & 0x20))
-  {
-    *((s32 *) (((u8 *) scratch) + 0x08)) = *((u8 *) (((s8 *) sp84) + 8));
-    *((s32 *) (((u8 *) scratch) + 0x0C)) = (s32) (*((u8 *) (((s8 *) sp84) + 9)));
-    *((s32 *) (((u8 *) scratch) + 0x10)) = (s32) (*((u8 *) (((s8 *) sp84) + 10)));
-    *((s32 *) (((u8 *) scratch) + 0x14)) = (s32) (*((u8 *) (((s8 *) sp84) + 11)));
-    if (((*((u8 *) (((s8 *) sp84) + 0))) ^ (*((u16 *) (((u8 *) scratch) + 0x24)))) & 1)
+    Quad40 base_quad;
+    Quad40 strip_quad;
+    u16 saved_draw_control;
+    s32 callback_arg;
+    void *part;
+    M2C_UNK tag_mask;
+    s16 flipped_x;
+    s16 start_x;
+    s16 end_x;
+    s16 flipped_y;
+    s16 start_y;
+    s16 end_y;
+    s32 phase;
+    s32 row_phase;
+    s32 column_phase;
+    s32 *(*draw_part)(void *, s32, void *, void *, s32 *);
+    s32 *row_link;
+    s32 *column_link;
+    s32 *start_link;
+    s32 *end_link;
+    s32 *end_packet;
+    s32 *packet;
+    s32 texture_right;
+    s32 texture_bottom;
+    u16 projected_y;
+    u16 screen_y;
+    s32 origin_x;
+    s32 origin_y;
+    u16 next_y;
+    u16 sprite_flags;
+    u16 clut_base;
+    u16 texture_page;
+    u16 next_x;
+    u8 part_command;
+    u8 right_u;
+    u8 bottom_v;
+    u8 draw_command;
+    void *row_wave;
+    void *column_wave;
+    void *sprite;
+    u8 *globals;
+    u8 *view_matrix;
+    void *screen_link;
+    s32 wave_index;
+    Scratchpad *scratch;
+    screen_link = screen_pos;
+    globals = (u8 *) (&D_80083160);
+    sprite = *((void **) (((s8 *) context) + (-0x14)));
+    part = *((void **) (((s8 *) sprite) + 8));
+    callback_arg = *((s32 *) (((s8 *) context) + (-0x18)));
+    scratch = (Scratchpad *) 0x1F800000;
+    *((s32 *) (((u8 *) scratch) + 0xEC)) = 0;
+    *((u16 *) (((u8 *) scratch) + 0x8C)) = 0;
+    *((u16 *) (((u8 *) scratch) + 0x84)) = 0;
+    *((u16 *) (((u8 *) scratch) + 0x7C)) = 0;
+    *((u16 *) (((u8 *) scratch) + 0x74)) = 0;
+    packet = *((s32 **) (((s8 *) D_80083160) + 0x8D0));
+    *((s32 *) (((u8 *) scratch) + 0x20)) = (s32) ordering_table;
+    *((s32 *) (((u8 *) scratch) + 0xC0)) = 0;
+    *((u16 *) (((u8 *) scratch) + 0xB8)) = (u16) ((*((u16 *) (((s8 *) screen_link) + 0))) - 0xA0);
+    *((u16 *) (((u8 *) scratch) + 0xBA)) = (u16) ((*((u16 *) (((s8 *) screen_link) + 2))) - 0x78);
+    saved_draw_control = (u16) draw_control;
+    tag_mask = 0;
+    if ((draw_control << 0x10) != 0)
     {
-      temp_v0_4 = (0 - ((s8) (*((u8 *) (((s8 *) sp84) + 2))))) - (*((u16 *) (((u8 *) scratch) + 0x108)));
-      *((u16 *) (((u8 *) scratch) + 0x80)) = temp_v0_4;
-      *((u16 *) (((u8 *) scratch) + 0x70)) = temp_v0_4;
-      temp_v0_6 = temp_v0_4 - ((u16) (*((s32 *) (((u8 *) scratch) + 0x10))));
-      *((u16 *) (((u8 *) scratch) + 0x88)) = temp_v0_6;
-      *((u16 *) (((u8 *) scratch) + 0x78)) = temp_v0_6;
+        func_80067EF4(packet, 0, 0);
+        tag_mask = 0xFF000000;
+        *packet = ((*packet) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
+        start_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
+        screen_link = (void *) (((s32) packet) & 0xFFFFFF);
+        packet += 3;
+        *start_link = ((*start_link) & 0xFF000000) | ((s32) screen_link);
     }
-    else
+    view_matrix = (u8 *) (&D_8006CD10);
+    *((s32 *) (view_matrix + 0x1C)) = (s32) (*((s32 *) (globals + 0xA0)));
+    func_800649A0();
+    *((s32 *) (((u8 *) scratch) + 0x30)) = *((s16 *) (globals + 0xC4));
+    *((s32 *) (((u8 *) scratch) + 0x34)) = *((s16 *) (globals + 0xC6));
+    *((s32 *) (((u8 *) scratch) + 0x38)) = *((s16 *) (globals + 0xC8));
+    *((u16 *) (((u8 *) scratch) + 0x100)) = (u16) (*((u16 *) (((s8 *) sprite) + 0x16)));
+    *((u16 *) (((u8 *) scratch) + 0x104)) = (s16) ((*((u16 *) (((s8 *) sprite) + 0x1A))) - (*((u16 *) (((u8 *) scratch) + 0x34))));
+    *((u16 *) (((u8 *) scratch) + 0x102)) = (s16) (((((*((u16 *) (((u8 *) scratch) + 0x38))) + 0x100) & 0x1FF) - 0x100) + (*((u16 *) (((s8 *) sprite) + 0x18))));
+    origin_x = *((u16 *) (((s8 *) sprite) + 0x20));
+    *((s32 *) (((u8 *) scratch) + 0xE4)) = origin_x;
+    *((u16 *) (((u8 *) scratch) + 0x108)) = origin_x;
+    origin_y = *((u16 *) (((s8 *) sprite) + 0x22));
+    *((s32 *) (((u8 *) scratch) + 0xE8)) = origin_y;
+    *((u16 *) (((u8 *) scratch) + 0x10A)) = origin_y;
+    func_80065820((void *) 0x1F800100, (void *) 0x1F8000D0);
+    *((s32 *) (((u8 *) scratch) + 0x30)) = *((u16 *) (((s8 *) sprite) + 0x1C));
+    *((s32 *) (((u8 *) scratch) + 0x34)) = *((u16 *) (((s8 *) sprite) + 0x1E));
+    *((s32 *) (((u8 *) scratch) + 0x38)) = 0x1000;
+    func_80064BC0((void *) 0x1F8000D0, (void *) 0x1F800030);
+    func_80064840(view_matrix, (void *) 0x1F8000D0, (void *) 0x1F800050);
+    func_80064D80((void *) 0x1F800050);
+    func_80064CF0((void *) 0x1F800050);
+    *((u16 *) (((u8 *) scratch) + 0x24)) = (u16) (*((u16 *) (((s8 *) sprite) + 0x14)));
+    for (;;)
     {
-    temp_v0_5 = ((s8) (*((u8 *) (((s8 *) sp84) + 2)))) - (*((u16 *) (((u8 *) scratch) + 0x108)));
-    *((u16 *) (((u8 *) scratch) + 0x80)) = temp_v0_5;
-    *((u16 *) (((u8 *) scratch) + 0x70)) = temp_v0_5;
-    temp_v0_6 = temp_v0_5 + ((u16) (*((s32 *) (((u8 *) scratch) + 0x10))));
-    *((u16 *) (((u8 *) scratch) + 0x88)) = temp_v0_6;
-    *((u16 *) (((u8 *) scratch) + 0x78)) = temp_v0_6;
-    }
-    if (((*((u8 *) (((s8 *) sp84) + 0))) ^ (*((u16 *) (((u8 *) scratch) + 0x24)))) & 2)
-    {
-      temp_v0_7 = (0 - ((s8) (*((u8 *) (((s8 *) sp84) + 3))))) - (*((u16 *) (((u8 *) scratch) + 0x10A)));
-      *((u16 *) (((u8 *) scratch) + 0x7A)) = temp_v0_7;
-      *((u16 *) (((u8 *) scratch) + 0x72)) = temp_v0_7;
-      temp_v0_9 = temp_v0_7 - ((u16) (*((s32 *) (((u8 *) scratch) + 0x14))));
-      *((u16 *) (((u8 *) scratch) + 0x8A)) = temp_v0_9;
-      *((u16 *) (((u8 *) scratch) + 0x82)) = temp_v0_9;
-    }
-    else
-    {
-    temp_v0_8 = ((s8) (*((u8 *) (((s8 *) sp84) + 3)))) - (*((u16 *) (((u8 *) scratch) + 0x10A)));
-    *((u16 *) (((u8 *) scratch) + 0x7A)) = temp_v0_8;
-    *((u16 *) (((u8 *) scratch) + 0x72)) = temp_v0_8;
-    temp_v0_9 = temp_v0_8 + ((u16) (*((s32 *) (((u8 *) scratch) + 0x14))));
-    *((u16 *) (((u8 *) scratch) + 0x8A)) = temp_v0_9;
-    *((u16 *) (((u8 *) scratch) + 0x82)) = temp_v0_9;
-    }
-    func_800654B0((void *) (((u8 *) scratch) + 0x70), (void *) (((u8 *) scratch) + 0x78), (void *) (((u8 *) scratch) + 0x80), (void *) (((u8 *) scratch) + 0x88), (void *) (((u8 *) scratch) + 0xF0), (void *) (((u8 *) scratch) + 0xF4), (void *) (((u8 *) scratch) + 0xF8), (void *) (((u8 *) scratch) + 0xFC), (void *) (((u8 *) scratch) + 0x90), (void *) (((u8 *) scratch) + 0x94));
-    *((s16 *) (((s8 *) var_s3) + 8)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF0))) + (*((u16 *) (((u8 *) scratch) + 0xB8))));
-    *((s16 *) (((s8 *) var_s3) + 0xA)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF2))) + (*((u16 *) (((u8 *) scratch) + 0xBA))));
-    *((s16 *) (((s8 *) var_s3) + 0x10)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF4))) + (*((u16 *) (((u8 *) scratch) + 0xB8))));
-    *((s16 *) (((s8 *) var_s3) + 0x12)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF6))) + (*((u16 *) (((u8 *) scratch) + 0xBA))));
-    *((s16 *) (((s8 *) var_s3) + 0x18)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF8))) + (*((u16 *) (((u8 *) scratch) + 0xB8))));
-    *((s16 *) (((s8 *) var_s3) + 0x1A)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xFA))) + (*((u16 *) (((u8 *) scratch) + 0xBA))));
-    *((s16 *) (((s8 *) var_s3) + 0x20)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xFC))) + (*((u16 *) (((u8 *) scratch) + 0xB8))));
-    temp_a0 = *((u16 *) (((u8 *) scratch) + 0xFE));
-    temp_a0b = *((u16 *) (((u8 *) scratch) + 0xBA));
-    *((s8 *) (((s8 *) var_s3) + 3)) = 9;
-    *((s16 *) (((s8 *) var_s3) + 0x22)) = (s16) (temp_a0 + temp_a0b);
-    temp_v1_2 = (*((s32 *) (((u8 *) scratch) + 0x10))) + ((*((s32 *) (((u8 *) scratch) + 0x08))) - 1);
-    *((s32 *) (((u8 *) scratch) + 0x10)) = temp_v1_2;
-    if (temp_v1_2 & 0x100)
-    {
-      *((s32 *) (((u8 *) scratch) + 0x10)) = temp_v1_2 - 1;
-    }
-    temp_v1_3 = (*((s32 *) (((u8 *) scratch) + 0x14))) + ((*((s32 *) (((u8 *) scratch) + 0x0C))) - 1);
-    *((s32 *) (((u8 *) scratch) + 0x14)) = temp_v1_3;
-    if (temp_v1_3 & 0x100)
-    {
-      *((s32 *) (((u8 *) scratch) + 0x14)) = temp_v1_3 - 1;
-    }
-    *((s32 *) (((u8 *) scratch) + 0x14)) <<= 8;
-    *((s32 *) (((u8 *) scratch) + 0x0C)) <<= 8;
-    temp_v1_a = *((u16 *) (((s8 *) temp_s7) + 0x12));
-    if (temp_v1_a != 0)
-    {
-      if ((*((u16 *) (((u8 *) scratch) + 0x24))) & 0x100)
-      {
-        *((u16 *) (((s8 *) var_s3) + 0xE)) = temp_v1_a;
-      }
-      else
-      {
-        *((u16 *) (((s8 *) var_s3) + 0xE)) = (u16) (temp_v1_a + (*((u16 *) (((s8 *) sp84) + 6))));
-      }
-    }
-    else
-    {
-      *((u16 *) (((s8 *) var_s3) + 0xE)) = (u16) (*((u16 *) (((s8 *) sp84) + 6)));
-    }
-    *((s16 *) (((s8 *) var_s3) + 0xC)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x0C)))) + ((u16) (*((s32 *) (((u8 *) scratch) + 0x08)))));
-    *((s16 *) (((s8 *) var_s3) + 0x14)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x0C)))) + ((u16) (*((s32 *) (((u8 *) scratch) + 0x10)))));
-    temp_v1_b = *((u16 *) (((s8 *) temp_s7) + 0x10));
-    if (temp_v1_b != 0)
-    {
-      *((u16 *) (((s8 *) var_s3) + 0x16)) = (u16) (temp_v1_b + ((*((u16 *) (((s8 *) sp84) + 4))) & 0xFF9F));
-    }
-    else
-    {
-      *((u16 *) (((s8 *) var_s3) + 0x16)) = (u16) (*((u16 *) (((s8 *) sp84) + 4)));
-    }
-    *((s16 *) (((s8 *) var_s3) + 0x1C)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x14)))) | ((u16) (*((s32 *) (((u8 *) scratch) + 0x08)))));
-    *((s16 *) (((s8 *) var_s3) + 0x24)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x14)))) | ((u16) (*((s32 *) (((u8 *) scratch) + 0x10)))));
-    if ((*((s16 *) (((s8 *) var_s3) + 8))) > (*((s16 *) (((s8 *) var_s3) + 0x20))))
-    {
-      temp_v1_4 = *((u8 *) (((s8 *) var_s3) + 0x24));
-      *((u8 *) (((s8 *) var_s3) + 0x24)) = (u8) (temp_v1_4 + 0xFF);
-      *((u8 *) (((s8 *) var_s3) + 0x14)) = temp_v1_4;
-    }
-    if ((*((s16 *) (((s8 *) var_s3) + 0xA))) > (*((s16 *) (((s8 *) var_s3) + 0x22))))
-    {
-      temp_v1_5 = *((u8 *) (((s8 *) var_s3) + 0x25));
-      *((u8 *) (((s8 *) var_s3) + 0x25)) = (u8) (temp_v1_5 + 0xFF);
-      *((u8 *) (((s8 *) var_s3) + 0x1D)) = temp_v1_5;
-    }
-    temp_a0_2 = *((u8 *) (((s8 *) sp84) + 1));
-    *((u8 *) (((s8 *) temp_s7) + 0xF)) = temp_a0_2;
-    temp_v1_6 = *((u16 *) (((u8 *) scratch) + 0x24));
-    if (temp_v1_6 & 8)
-    {
-      if (temp_v1_6 & 4)
-      {
-        var_v0 = temp_a0_2 | 2;
-      }
-      else
-      {
-        var_v0 = temp_a0_2 & 0xFD;
-      }
-      *((u8 *) (((s8 *) temp_s7) + 0xF)) = var_v0;
-    }
-    ;
-    *((s32 *) (((s8 *) var_s3) + 4)) = (s32) (*((s32 *) (((s8 *) temp_s7) + 0xC)));
-    sp28 = *((Quad40 *) var_s3);
-    sp50 = sp28;
-    var_s1 = *((s16 *) (((s8 *) arg1) + 0x98));
-    var_s5_reg = 0;
-    if ((*((s16 *) (((s8 *) arg1) + 0x9C))) == 0)
-    {
-      do
-      {
-        *((s8 *) (((s8 *) var_s3) + 0x3)) = 9;
-        *((Quad40 *) var_s3) = sp28;
-        *((u16 *) (((s8 *) var_s3) + 0x8)) = (u16) ((*((u16 *) (((s8 *) var_s3) + 0x8))) + (((s32) (func_800644B8(var_s1) * (*((u8 *) (((s8 *) (temp_s2 = arg1 + var_s5_reg)) + 0x38))))) >> 0x10));
-        ASM_USE_G_NV(temp_s7);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        *((u16 *) (((s8 *) var_s3) + 0x10)) = (u16) ((*((u16 *) (((s8 *) var_s3) + 0x10))) + (((s32) (func_800644B8(var_s1) * (*((u8 *) (((s8 *) temp_s2) + 0x38))))) >> 0x10));
-        var_s1_2 = var_s1 + (*((s16 *) (((s8 *) arg1) + 0x9A)));
-        if (var_s1_2 >= 0x1001)
+        if (!((*((u8 *) (((s8 *) part) + 0))) & 0x20))
         {
-          var_s1_2 -= 0x1000;
+            *((s32 *) (((u8 *) scratch) + 0x08)) = *((u8 *) (((s8 *) part) + 8));
+            *((s32 *) (((u8 *) scratch) + 0x0C)) = (s32) (*((u8 *) (((s8 *) part) + 9)));
+            *((s32 *) (((u8 *) scratch) + 0x10)) = (s32) (*((u8 *) (((s8 *) part) + 10)));
+            *((s32 *) (((u8 *) scratch) + 0x14)) = (s32) (*((u8 *) (((s8 *) part) + 11)));
+            if (((*((u8 *) (((s8 *) part) + 0))) ^ (*((u16 *) (((u8 *) scratch) + 0x24)))) & 1)
+            {
+                flipped_x = (0 - ((s8) (*((u8 *) (((s8 *) part) + 2))))) - (*((u16 *) (((u8 *) scratch) + 0x108)));
+                *((u16 *) (((u8 *) scratch) + 0x80)) = flipped_x;
+                *((u16 *) (((u8 *) scratch) + 0x70)) = flipped_x;
+                end_x = flipped_x - ((u16) (*((s32 *) (((u8 *) scratch) + 0x10))));
+                *((u16 *) (((u8 *) scratch) + 0x88)) = end_x;
+                *((u16 *) (((u8 *) scratch) + 0x78)) = end_x;
+            }
+            else
+            {
+                start_x = ((s8) (*((u8 *) (((s8 *) part) + 2)))) - (*((u16 *) (((u8 *) scratch) + 0x108)));
+                *((u16 *) (((u8 *) scratch) + 0x80)) = start_x;
+                *((u16 *) (((u8 *) scratch) + 0x70)) = start_x;
+                end_x = start_x + ((u16) (*((s32 *) (((u8 *) scratch) + 0x10))));
+                *((u16 *) (((u8 *) scratch) + 0x88)) = end_x;
+                *((u16 *) (((u8 *) scratch) + 0x78)) = end_x;
+            }
+            if (((*((u8 *) (((s8 *) part) + 0))) ^ (*((u16 *) (((u8 *) scratch) + 0x24)))) & 2)
+            {
+                flipped_y = (0 - ((s8) (*((u8 *) (((s8 *) part) + 3))))) - (*((u16 *) (((u8 *) scratch) + 0x10A)));
+                *((u16 *) (((u8 *) scratch) + 0x7A)) = flipped_y;
+                *((u16 *) (((u8 *) scratch) + 0x72)) = flipped_y;
+                end_y = flipped_y - ((u16) (*((s32 *) (((u8 *) scratch) + 0x14))));
+                *((u16 *) (((u8 *) scratch) + 0x8A)) = end_y;
+                *((u16 *) (((u8 *) scratch) + 0x82)) = end_y;
+            }
+            else
+            {
+                start_y = ((s8) (*((u8 *) (((s8 *) part) + 3)))) - (*((u16 *) (((u8 *) scratch) + 0x10A)));
+                *((u16 *) (((u8 *) scratch) + 0x7A)) = start_y;
+                *((u16 *) (((u8 *) scratch) + 0x72)) = start_y;
+                end_y = start_y + ((u16) (*((s32 *) (((u8 *) scratch) + 0x14))));
+                *((u16 *) (((u8 *) scratch) + 0x8A)) = end_y;
+                *((u16 *) (((u8 *) scratch) + 0x82)) = end_y;
+            }
+            func_800654B0((void *) (((u8 *) scratch) + 0x70), (void *) (((u8 *) scratch) + 0x78), (void *) (((u8 *) scratch) + 0x80), (void *) (((u8 *) scratch) + 0x88), (void *) (((u8 *) scratch) + 0xF0), (void *) (((u8 *) scratch) + 0xF4), (void *) (((u8 *) scratch) + 0xF8), (void *) (((u8 *) scratch) + 0xFC), (void *) (((u8 *) scratch) + 0x90), (void *) (((u8 *) scratch) + 0x94));
+            *((s16 *) (((s8 *) packet) + 8)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF0))) + (*((u16 *) (((u8 *) scratch) + 0xB8))));
+            *((s16 *) (((s8 *) packet) + 0xA)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF2))) + (*((u16 *) (((u8 *) scratch) + 0xBA))));
+            *((s16 *) (((s8 *) packet) + 0x10)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF4))) + (*((u16 *) (((u8 *) scratch) + 0xB8))));
+            *((s16 *) (((s8 *) packet) + 0x12)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF6))) + (*((u16 *) (((u8 *) scratch) + 0xBA))));
+            *((s16 *) (((s8 *) packet) + 0x18)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF8))) + (*((u16 *) (((u8 *) scratch) + 0xB8))));
+            *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xFA))) + (*((u16 *) (((u8 *) scratch) + 0xBA))));
+            *((s16 *) (((s8 *) packet) + 0x20)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xFC))) + (*((u16 *) (((u8 *) scratch) + 0xB8))));
+            projected_y = *((u16 *) (((u8 *) scratch) + 0xFE));
+            screen_y = *((u16 *) (((u8 *) scratch) + 0xBA));
+            *((s8 *) (((s8 *) packet) + 3)) = 9;
+            *((s16 *) (((s8 *) packet) + 0x22)) = (s16) (projected_y + screen_y);
+            texture_right = (*((s32 *) (((u8 *) scratch) + 0x10))) + ((*((s32 *) (((u8 *) scratch) + 0x08))) - 1);
+            *((s32 *) (((u8 *) scratch) + 0x10)) = texture_right;
+            if (texture_right & 0x100)
+            {
+                *((s32 *) (((u8 *) scratch) + 0x10)) = texture_right - 1;
+            }
+            texture_bottom = (*((s32 *) (((u8 *) scratch) + 0x14))) + ((*((s32 *) (((u8 *) scratch) + 0x0C))) - 1);
+            *((s32 *) (((u8 *) scratch) + 0x14)) = texture_bottom;
+            if (texture_bottom & 0x100)
+            {
+                *((s32 *) (((u8 *) scratch) + 0x14)) = texture_bottom - 1;
+            }
+            *((s32 *) (((u8 *) scratch) + 0x14)) <<= 8;
+            *((s32 *) (((u8 *) scratch) + 0x0C)) <<= 8;
+            clut_base = *((u16 *) (((s8 *) sprite) + 0x12));
+            if (clut_base != 0)
+            {
+                if ((*((u16 *) (((u8 *) scratch) + 0x24))) & 0x100)
+                {
+                    *((u16 *) (((s8 *) packet) + 0xE)) = clut_base;
+                }
+                else
+                {
+                    *((u16 *) (((s8 *) packet) + 0xE)) = (u16) (clut_base + (*((u16 *) (((s8 *) part) + 6))));
+                }
+            }
+            else
+            {
+                *((u16 *) (((s8 *) packet) + 0xE)) = (u16) (*((u16 *) (((s8 *) part) + 6)));
+            }
+            *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x0C)))) + ((u16) (*((s32 *) (((u8 *) scratch) + 0x08)))));
+            *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x0C)))) + ((u16) (*((s32 *) (((u8 *) scratch) + 0x10)))));
+            texture_page = *((u16 *) (((s8 *) sprite) + 0x10));
+            if (texture_page != 0)
+            {
+                *((u16 *) (((s8 *) packet) + 0x16)) = (u16) (texture_page + ((*((u16 *) (((s8 *) part) + 4))) & 0xFF9F));
+            }
+            else
+            {
+                *((u16 *) (((s8 *) packet) + 0x16)) = (u16) (*((u16 *) (((s8 *) part) + 4)));
+            }
+            *((s16 *) (((s8 *) packet) + 0x1C)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x14)))) | ((u16) (*((s32 *) (((u8 *) scratch) + 0x08)))));
+            *((s16 *) (((s8 *) packet) + 0x24)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x14)))) | ((u16) (*((s32 *) (((u8 *) scratch) + 0x10)))));
+            if ((*((s16 *) (((s8 *) packet) + 8))) > (*((s16 *) (((s8 *) packet) + 0x20))))
+            {
+                right_u = *((u8 *) (((s8 *) packet) + 0x24));
+                *((u8 *) (((s8 *) packet) + 0x24)) = (u8) (right_u + 0xFF);
+                *((u8 *) (((s8 *) packet) + 0x14)) = right_u;
+            }
+            if ((*((s16 *) (((s8 *) packet) + 0xA))) > (*((s16 *) (((s8 *) packet) + 0x22))))
+            {
+                bottom_v = *((u8 *) (((s8 *) packet) + 0x25));
+                *((u8 *) (((s8 *) packet) + 0x25)) = (u8) (bottom_v + 0xFF);
+                *((u8 *) (((s8 *) packet) + 0x1D)) = bottom_v;
+            }
+            part_command = *((u8 *) (((s8 *) part) + 1));
+            *((u8 *) (((s8 *) sprite) + 0xF)) = part_command;
+            sprite_flags = *((u16 *) (((u8 *) scratch) + 0x24));
+            if (sprite_flags & 8)
+            {
+                if (sprite_flags & 4)
+                {
+                    draw_command = part_command | 2;
+                }
+                else
+                {
+                    draw_command = part_command & 0xFD;
+                }
+                *((u8 *) (((s8 *) sprite) + 0xF)) = draw_command;
+            }
+            ;
+            *((s32 *) (((s8 *) packet) + 4)) = (s32) (*((s32 *) (((s8 *) sprite) + 0xC)));
+            base_quad = *((Quad40 *) packet);
+            strip_quad = base_quad;
+            phase = *((s16 *) (((s8 *) wave) + 0x98));
+            wave_index = 0;
+            if ((*((s16 *) (((s8 *) wave) + 0x9C))) == 0)
+            {
+                do
+                {
+                    *((s8 *) (((s8 *) packet) + 0x3)) = 9;
+                    *((Quad40 *) packet) = base_quad;
+                    *((u16 *) (((s8 *) packet) + 0x8)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x8))) + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) (row_wave = wave + wave_index)) + 0x38))))) >> 0x10));
+                    ASM_USE_G_NV(sprite);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    *((u16 *) (((s8 *) packet) + 0x10)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x10))) + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
+                    row_phase = phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
+                    if (row_phase >= 0x1001)
+                    {
+                        row_phase -= 0x1000;
+                    }
+                    *((u16 *) (((s8 *) packet) + 0x18)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x18))) + (((s32) (func_800644B8(row_phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
+                    wave_index += 1;
+                    *((u16 *) (((s8 *) packet) + 0x20)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x20))) + (((s32) (func_800644B8(row_phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
+                    if (wave_index >= 0x60)
+                    {
+                        wave_index = 0;
+                    }
+                    do {
+                        do {
+                            do {
+                                *((u16 *) (((s8 *) packet) + 0xA)) = strip_quad.h10;
+                                *((u16 *) (((s8 *) packet) + 0x12)) = strip_quad.h10;
+                                *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((strip_quad.h10) + 1);
+                                *((s16 *) (((s8 *) packet) + 0x22)) = (s16) ((strip_quad.h10) + 1);
+                                *((u8 *) (((s8 *) packet) + 0xD)) = strip_quad.b13;
+                                *((u8 *) (((s8 *) packet) + 0x15)) = strip_quad.b13;
+                                *((s8 *) (((s8 *) packet) + 0x1D)) = (s8) ((strip_quad.b13) + 1);
+                                *((s8 *) (((s8 *) packet) + 0x25)) = (s8) ((strip_quad.b13) + 1);
+                                *packet = ((*packet) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
+                                row_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
+                                *row_link = ((*row_link) & 0xFF000000) | (((s32) packet) & 0xFFFFFF);
+                                strip_quad = *((Quad40 *) packet);
+                                next_y = (strip_quad.h10) + 1;
+                                strip_quad.h10 = next_y;
+                                strip_quad.b13 += 1;
+                                phase = row_phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
+                                packet += 10;
+                            } while (0);
+                        } while (0);
+                    } while (0);
+                    if (phase >= 0x1001)
+                    {
+                        phase -= 0x1000;
+                    }
+                }
+                while (((s16) next_y) < (base_quad.h26));
+            }
+            else
+            {
+                do
+                {
+                    *((s8 *) (((s8 *) packet) + 0x3)) = 9;
+                    *((Quad40 *) packet) = base_quad;
+                    *((u16 *) (((s8 *) packet) + 0xA)) = (u16) ((*((u16 *) (((s8 *) packet) + 0xA))) + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) (column_wave = wave + wave_index)) + 0x38))))) >> 0x10));
+                    ASM_KEEP_NV(column_wave);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    ASM_USE_G_NV(sprite);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    *((u16 *) (((s8 *) packet) + 0x1A)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x1A))) + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
+                    column_phase = phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
+                    if (column_phase >= 0x1001)
+                    {
+                        column_phase -= 0x1000;
+                    }
+                    *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12))) + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
+                    wave_index += 1;
+                    *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22))) + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
+                    if (wave_index >= 0x60)
+                    {
+                        wave_index = 0;
+                    }
+                    do {
+                        do {
+                            do {
+                                *((u16 *) (((s8 *) packet) + 0x8)) = strip_quad.h8;
+                                *((u16 *) (((s8 *) packet) + 0x18)) = strip_quad.h8;
+                                *((s16 *) (((s8 *) packet) + 0x10)) = (s16) ((strip_quad.h8) + 1);
+                                *((s16 *) (((s8 *) packet) + 0x20)) = (s16) ((strip_quad.h8) + 1);
+                                *((u8 *) (((s8 *) packet) + 0xC)) = strip_quad.b12;
+                                *((u8 *) (((s8 *) packet) + 0x1C)) = strip_quad.b12;
+                                *((s8 *) (((s8 *) packet) + 0x14)) = (s8) ((strip_quad.b12) + 1);
+                                *((s8 *) (((s8 *) packet) + 0x24)) = (s8) ((strip_quad.b12) + 1);
+                                *packet = ((*packet) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
+                                column_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
+                                *column_link = ((*column_link) & 0xFF000000) | (((s32) packet) & 0xFFFFFF);
+                                strip_quad = *((Quad40 *) packet);
+                                next_x = (strip_quad.h8) + 1;
+                                strip_quad.h8 = next_x;
+                                strip_quad.b12 += 1;
+                                phase = column_phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
+                                packet += 10;
+                            } while (0);
+                        } while (0);
+                    } while (0);
+                    if (phase >= 0x1001)
+                    {
+                        phase -= 0x1000;
+                    }
+                }
+                while (((s16) next_x) < (base_quad.h16));
+            }
         }
-        *((u16 *) (((s8 *) var_s3) + 0x18)) = (u16) ((*((u16 *) (((s8 *) var_s3) + 0x18))) + (((s32) (func_800644B8(var_s1_2) * (*((u8 *) (((s8 *) temp_s2) + 0x38))))) >> 0x10));
-        var_s5_reg += 1;
-        *((u16 *) (((s8 *) var_s3) + 0x20)) = (u16) ((*((u16 *) (((s8 *) var_s3) + 0x20))) + (((s32) (func_800644B8(var_s1_2) * (*((u8 *) (((s8 *) temp_s2) + 0x38))))) >> 0x10));
-        if (var_s5_reg >= 0x60)
+        else
         {
-          var_s5_reg = 0;
+            draw_part = (s32 *(*)(void *, s32, void *, void *, s32 *)) (*((s32 *) (((s8 *) part) + 8)));
+            if (draw_part != 0)
+            {
+                packet = draw_part(context, callback_arg, sprite, part, packet);
+            }
         }
-        do {
-        do {
-        do {
-        *((u16 *) (((s8 *) var_s3) + 0xA)) = sp50.h10;
-        *((u16 *) (((s8 *) var_s3) + 0x12)) = sp50.h10;
-        *((s16 *) (((s8 *) var_s3) + 0x1A)) = (s16) ((sp50.h10) + 1);
-        *((s16 *) (((s8 *) var_s3) + 0x22)) = (s16) ((sp50.h10) + 1);
-        *((u8 *) (((s8 *) var_s3) + 0xD)) = sp50.b13;
-        *((u8 *) (((s8 *) var_s3) + 0x15)) = sp50.b13;
-        *((s8 *) (((s8 *) var_s3) + 0x1D)) = (s8) ((sp50.b13) + 1);
-        *((s8 *) (((s8 *) var_s3) + 0x25)) = (s8) ((sp50.b13) + 1);
-        *var_s3 = ((*var_s3) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
-        temp_a0_3 = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
-        *temp_a0_3 = ((*temp_a0_3) & 0xFF000000) | (((s32) var_s3) & 0xFFFFFF);
-        sp50 = *((Quad40 *) var_s3);
-        temp_v1_7 = (sp50.h10) + 1;
-        sp50.h10 = temp_v1_7;
-        sp50.b13 += 1;
-        var_s1 = var_s1_2 + (*((s16 *) (((s8 *) arg1) + 0x9A)));
-        var_s3 += 10;
-        } while (0);
-        } while (0);
-        } while (0);
-        if (var_s1 >= 0x1001)
+        if (((s8) (*((u8 *) (((s8 *) part) + 0)))) < 0)
         {
-          var_s1 -= 0x1000;
+            break;
         }
-      }
-      while (((s16) temp_v1_7) < (sp28.h26));
+        part = (void *) (((u8 *) part) + 0xC);
     }
-    else
+    end_packet = packet;
+    if ((saved_draw_control << 0x10) != 0)
     {
-    do
-    {
-      *((s8 *) (((s8 *) var_s3) + 0x3)) = 9;
-      *((Quad40 *) var_s3) = sp28;
-      *((u16 *) (((s8 *) var_s3) + 0xA)) = (u16) ((*((u16 *) (((s8 *) var_s3) + 0xA))) + (((s32) (func_800644B8(var_s1) * (*((u8 *) (((s8 *) (temp_s2_2 = arg1 + var_s5_reg)) + 0x38))))) >> 0x10));
-      ASM_KEEP_NV(temp_s2_2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-      ASM_USE_G_NV(temp_s7);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-      *((u16 *) (((s8 *) var_s3) + 0x1A)) = (u16) ((*((u16 *) (((s8 *) var_s3) + 0x1A))) + (((s32) (func_800644B8(var_s1) * (*((u8 *) (((s8 *) temp_s2_2) + 0x38))))) >> 0x10));
-      var_s1_3 = var_s1 + (*((s16 *) (((s8 *) arg1) + 0x9A)));
-      if (var_s1_3 >= 0x1001)
-      {
-        var_s1_3 -= 0x1000;
-      }
-      *((u16 *) (((s8 *) var_s3) + 0x12)) = (u16) ((*((u16 *) (((s8 *) var_s3) + 0x12))) + (((s32) (func_800644B8(var_s1_3) * (*((u8 *) (((s8 *) temp_s2_2) + 0x38))))) >> 0x10));
-      var_s5_reg += 1;
-      *((u16 *) (((s8 *) var_s3) + 0x22)) = (u16) ((*((u16 *) (((s8 *) var_s3) + 0x22))) + (((s32) (func_800644B8(var_s1_3) * (*((u8 *) (((s8 *) temp_s2_2) + 0x38))))) >> 0x10));
-      if (var_s5_reg >= 0x60)
-      {
-        var_s5_reg = 0;
-      }
-      do {
-      do {
-      do {
-      *((u16 *) (((s8 *) var_s3) + 0x8)) = sp50.h8;
-      *((u16 *) (((s8 *) var_s3) + 0x18)) = sp50.h8;
-      *((s16 *) (((s8 *) var_s3) + 0x10)) = (s16) ((sp50.h8) + 1);
-      *((s16 *) (((s8 *) var_s3) + 0x20)) = (s16) ((sp50.h8) + 1);
-      *((u8 *) (((s8 *) var_s3) + 0xC)) = sp50.b12;
-      *((u8 *) (((s8 *) var_s3) + 0x1C)) = sp50.b12;
-      *((s8 *) (((s8 *) var_s3) + 0x14)) = (s8) ((sp50.b12) + 1);
-      *((s8 *) (((s8 *) var_s3) + 0x24)) = (s8) ((sp50.b12) + 1);
-      *var_s3 = ((*var_s3) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
-      temp_a0_5 = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
-      *temp_a0_5 = ((*temp_a0_5) & 0xFF000000) | (((s32) var_s3) & 0xFFFFFF);
-      sp50 = *((Quad40 *) var_s3);
-      temp_v1_8 = (sp50.h8) + 1;
-      sp50.h8 = temp_v1_8;
-      sp50.b12 += 1;
-      var_s1 = var_s1_3 + (*((s16 *) (((s8 *) arg1) + 0x9A)));
-      var_s3 += 10;
-      } while (0);
-      } while (0);
-      } while (0);
-      if (var_s1 >= 0x1001)
-      {
-        var_s1 -= 0x1000;
-      }
+        func_80067EF4(end_packet, 0, 1);
+        *packet = ((*packet) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
+        end_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
+        end_packet = (s32 *) (((s32) packet) & 0xFFFFFF);
+        packet += 3;
+        *end_link = ((*end_link) & 0xFF000000) | ((s32) end_packet);
     }
-    while (((s16) temp_v1_8) < (sp28.h16));
-    }
-  }
-  else
-  {
-  temp_v0_10 = (s32 *(*)(void *, s32, void *, void *, s32 *)) (*((s32 *) (((s8 *) sp84) + 8)));
-  if (temp_v0_10 != 0)
-  {
-    var_s3 = temp_v0_10(arg2, sp80, temp_s7, sp84, var_s3);
-  }
-  }
-  if (((s8) (*((u8 *) (((s8 *) sp84) + 0)))) < 0)
-  {
-    break;
-  }
-  sp84 = (void *) (((u8 *) sp84) + 0xC);
-  }
-  var_a0_2 = var_s3;
-  if ((sp78 << 0x10) != 0)
-  {
-    func_80067EF4(var_a0_2, 0, 1);
-    *var_s3 = ((*var_s3) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
-    temp_v1_9 = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
-    var_a0_2 = (s32 *) (((s32) var_s3) & 0xFFFFFF);
-    var_s3 += 3;
-    *temp_v1_9 = ((*temp_v1_9) & 0xFF000000) | ((s32) var_a0_2);
-  }
-  func_80064A40();
-  *((s32 **) (((s8 *) (*((void **) gbase))) + 0x8D0)) = var_s3;
+    func_80064A40();
+    *((s32 **) (((s8 *) (*((void **) globals))) + 0x8D0)) = packet;
 }

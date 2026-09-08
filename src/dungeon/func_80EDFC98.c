@@ -71,76 +71,77 @@ s32 func_801710B8();
 extern u8 D_80170ED8[];
 extern u8 D_801712C4[];
 
+/* Creates an offset effect, advances it ten steps, and assigns a random color. */
 void func_80171498(
-    void *arg0, s16 arg1, s32 arg2, s16 arg3,
-    s32 arg4, s32 arg5, s32 arg6)
+    void *parent, s16 initial_14, s32 unused, s16 initial_32,
+    s32 offset_x, s32 offset_y, s32 offset_z)
 {
-    s32 held_arg4 = arg4;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 held_arg5 = arg5;
-    s32 held_arg6 = arg6;
-    volatile u16 sp10;
-    volatile u16 sp12;
-    volatile u16 sp14;
-    s16 counter;
-    s32 color0;
-    s32 color1;
-    void *source;
+    s32 held_offset_x = offset_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 held_offset_y = offset_y;
+    s32 held_offset_z = offset_z;
+    volatile u16 source_offset_x;
+    volatile u16 source_offset_y;
+    volatile u16 source_offset_z;
+    s16 step;
+    s32 color_high;
+    s32 color_mid;
+    void *source_data;
     void *effect;
-    void *base;
+    void *effect_data;
 
-    effect = func_8003FD64(0x211, arg0);
+    effect = func_8003FD64(0x211, parent);
     if (effect != NULL) {
         ((S_80171498_0 *)effect)->unk_10 = D_801712C4;
 
         ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_02 =
-            ((S_80171498_5 *)(((S_80171498_1 *)arg0)->unk_08))->unk_02 + held_arg4;
+            ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_02 + held_offset_x;
         ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_06 =
-            ((S_80171498_5 *)(((S_80171498_1 *)arg0)->unk_08))->unk_06 + held_arg5;
+            ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_06 + held_offset_y;
         ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_0A =
-            ((S_80171498_5 *)(((S_80171498_1 *)arg0)->unk_08))->unk_0A + held_arg6;
-        ASM_KEEP(held_arg4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg5);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg6);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_0A + held_offset_z;
+        ASM_KEEP(held_offset_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_offset_y);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_offset_z);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
-        source = ((S_80171498_1 *)arg0)->unk_0C;
-        if (func_8003DE58(((S_80171498_2 *)source)->unk_08, source, &sp10, 0) != 0) {
-            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_02 += sp10;
-            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_06 += sp12;
-            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_0A += sp14;
+        source_data = ((S_80171498_1 *)parent)->unk_0C;
+        if (func_8003DE58(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset_x, 0) != 0) {
+            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_02 += source_offset_x;
+            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_06 += source_offset_y;
+            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_0A += source_offset_z;
         }
 
-        base = (u8 *)effect + 0x20;
-        ((S_80171498_3 *)base)->unk_5A = ((S_80171498_5 *)(((S_80171498_1 *)arg0)->unk_08))->unk_02;
-        ((S_80171498_3 *)base)->unk_5E = ((S_80171498_5 *)(((S_80171498_1 *)arg0)->unk_08))->unk_06;
-        ((S_80171498_3 *)base)->unk_62 = ((S_80171498_5 *)(((S_80171498_1 *)arg0)->unk_08))->unk_0A;
+        effect_data = (u8 *)effect + 0x20;
+        ((S_80171498_3 *)effect_data)->unk_5A = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_02;
+        ((S_80171498_3 *)effect_data)->unk_5E = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_06;
+        ((S_80171498_3 *)effect_data)->unk_62 = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_0A;
 
-        source = ((S_80171498_1 *)arg0)->unk_0C;
-        if (func_8003DE58(((S_80171498_2 *)source)->unk_08, source, &sp10, 0) != 0) {
-            (*(s16 *)((u8 *)base + 0x5A)) += sp10;
-            (*(s16 *)((u8 *)base + 0x5E)) += sp12;
-            ((S_80171498_3 *)base)->unk_62 += sp14;
+        source_data = ((S_80171498_1 *)parent)->unk_0C;
+        if (func_8003DE58(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset_x, 0) != 0) {
+            (*(s16 *)((u8 *)effect_data + 0x5A)) += source_offset_x;
+            (*(s16 *)((u8 *)effect_data + 0x5E)) += source_offset_y;
+            ((S_80171498_3 *)effect_data)->unk_62 += source_offset_z;
         }
 
-        ((S_80171498_3 *)base)->unk_36 = ((S_80171498_5 *)(((S_80171498_1 *)arg0)->unk_08))->unk_02;
-        ((S_80171498_3 *)base)->unk_38 = ((S_80171498_5 *)(((S_80171498_1 *)arg0)->unk_08))->unk_06;
-        ((S_80171498_3 *)base)->unk_3A = ((S_80171498_5 *)(((S_80171498_1 *)arg0)->unk_08))->unk_0A;
+        ((S_80171498_3 *)effect_data)->unk_36 = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_02;
+        ((S_80171498_3 *)effect_data)->unk_38 = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_06;
+        ((S_80171498_3 *)effect_data)->unk_3A = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_0A;
 
-        counter = 0;
+        step = 0;
         do {
-            func_801710B8(base, ((S_80171498_0 *)effect)->unk_08, ((S_80171498_0 *)effect)->unk_0C);
-            counter++;
-        } while (counter < 10);
+            func_801710B8(effect_data, ((S_80171498_0 *)effect)->unk_08, ((S_80171498_0 *)effect)->unk_0C);
+            step++;
+        } while (step < 10);
 
-        ((S_80171498_3 *)base)->unk_14 = arg1;
-        ((S_80171498_3 *)base)->unk_32 = arg3;
+        ((S_80171498_3 *)effect_data)->unk_14 = initial_14;
+        ((S_80171498_3 *)effect_data)->unk_32 = initial_32;
         func_8004491C(effect, D_80170ED8);
 
-        color0 = rand();
-        color1 = rand();
-        ((S_80171498_3 *)base)->unk_00 =
-            ((color0 & 0xFF) << 16) |
-            ((color1 & 0xFF) << 8) |
+        color_high = rand();
+        color_mid = rand();
+        ((S_80171498_3 *)effect_data)->unk_00 =
+            ((color_high & 0xFF) << 16) |
+            ((color_mid & 0xFF) << 8) |
             (rand() & 0xFF);
-        ((S_80171498_3 *)base)->unk_08 = ((S_80171498_3 *)base)->unk_00;
+        ((S_80171498_3 *)effect_data)->unk_08 = ((S_80171498_3 *)effect_data)->unk_00;
     }
 }

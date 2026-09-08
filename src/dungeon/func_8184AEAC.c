@@ -23,22 +23,23 @@ typedef struct S_800246AC_2 {
     s16 unk_06;
 } S_800246AC_2;   /* arg1 in func_800246AC */
 
-void func_800246AC(S_800246AC_0 *arg0, S_800246AC_2 *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_a0;
-    s32 temp_v1;
-    s32 var_v0;
+/* Advance the orbit angle and update the position when the object flags allow it. */
+void func_800246AC(S_800246AC_0 *orbit, S_800246AC_2 *position, Rec_D_80082E80 *object) {
+    s16 angle;
+    s32 next_angle;
+    s32 wrap_angle;
 
-    temp_a0 = arg0->unk_08;
-    temp_v1 = temp_a0 + 0x40;
-    var_v0 = temp_v1;
-    if (temp_v1 < 0) {
-        var_v0 = temp_a0 + 0x103F;
+    angle = orbit->unk_08;
+    next_angle = angle + 0x40;
+    wrap_angle = next_angle;
+    if (next_angle < 0) {
+        wrap_angle = angle + 0x103F;
     }
-    arg0->unk_08 = (s16) (temp_v1 - ((var_v0 >> 0xC) << 0xC));
-    func_800478B8(arg2);
-    if (arg2->unk_14.at00_u16.v & 0x6000) {
-        func_8003DB94(arg2, &D_800DEB28, 0);
-        arg1->unk_02 = (s16) (arg0->unk_00 + ((s32) ((func_800644B8(arg0->unk_08) >> 4) * 0x1C) >> 8));
-        arg1->unk_06 = (s16) (arg0->unk_02 + ((s32) ((func_80064584(arg0->unk_08) >> 4) * 0x1C) >> 8));
+    orbit->unk_08 = (s16) (next_angle - ((wrap_angle >> 0xC) << 0xC));
+    func_800478B8(object);
+    if (object->unk_14.at00_u16.v & 0x6000) {
+        func_8003DB94(object, &D_800DEB28, 0);
+        position->unk_02 = (s16) (orbit->unk_00 + ((s32) ((func_800644B8(orbit->unk_08) >> 4) * 0x1C) >> 8));
+        position->unk_06 = (s16) (orbit->unk_02 + ((s32) ((func_80064584(orbit->unk_08) >> 4) * 0x1C) >> 8));
     }
 }

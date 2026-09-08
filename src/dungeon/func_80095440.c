@@ -33,49 +33,50 @@ extern s32 func_8009A350(u8, u8, u32, u16 *);
 extern s32 func_800BCB04(s32, s32, s32);
 extern Func95440Object *func_8009B25C(s32, s32, s32, s32);
 
-s32 func_8009ABA0(u32 arg0, Func95440Input *arg1, Func95440Actor *arg2, u32 arg3, s32 arg4) {
-    u16 sp10;
-    s32 delta;
-    s16 initial_delta;
-    s32 temp_s5;
-    u32 index;
+/* Checks the adjacent tile and classifies its height relative to the source height. */
+s32 func_8009ABA0(u32 direction_bits, Func95440Input *position, Func95440Actor *actor, u32 source_height, s32 height_offset) {
+    u16 tile_flags;
+    s32 target_height;
+    s16 initial_height;
+    s32 saved_height;
+    u32 direction;
     s32 y;
     s32 x;
-    u16 xarg;
-    u16 yarg;
-    s32 value;
-    s32 result;
+    u16 wrapped_x;
+    u16 wrapped_y;
+    s32 signed_height;
+    s32 level_result;
     Func95440Object *object;
 
-    index = (arg0 >> 9) & 7;
-    x = arg1->x;
-    y = arg1->y;
-    initial_delta = (s16)(arg3 - arg4);
-    temp_s5 = arg3;
-    if ((func_8009A540(index, x >> 6, y >> 6, initial_delta) << 16) == 0) {
+    direction = (direction_bits >> 9) & 7;
+    x = position->x;
+    y = position->y;
+    initial_height = (s16)(source_height - height_offset);
+    saved_height = source_height;
+    if ((func_8009A540(direction, x >> 6, y >> 6, initial_height) << 16) == 0) {
         goto return_minus2;
     }
-    delta = initial_delta;
+    target_height = initial_height;
 
-    x += D_8006CCD8[index] << 6;
-    y += D_8006CCE8[index] << 6;
-    if ((func_8009A350(arg2->x, arg2->y, index, &sp10) << 16) == 0) {
+    x += D_8006CCD8[direction] << 6;
+    y += D_8006CCE8[direction] << 6;
+    if ((func_8009A350(actor->x, actor->y, direction, &tile_flags) << 16) == 0) {
         return 0;
     }
-    if (sp10 & 0x8000) {
+    if (tile_flags & 0x8000) {
         goto return_minus2;
     }
-    if (sp10 & 0x400) {
+    if (tile_flags & 0x400) {
         return 0;
     }
 
-    if (sp10 & 0x3300) {
-        xarg = x;
-        yarg = y;
-        delta = func_800BCB04(xarg, yarg, delta);
-        x = xarg;
-        y = yarg;
-        object = func_8009B25C(*D_800814A8, x >> 6, y >> 6, (s16)delta);
+    if (tile_flags & 0x3300) {
+        wrapped_x = x;
+        wrapped_y = y;
+        target_height = func_800BCB04(wrapped_x, wrapped_y, target_height);
+        x = wrapped_x;
+        y = wrapped_y;
+        object = func_8009B25C(*D_800814A8, x >> 6, y >> 6, (s16)target_height);
         if (object != 0) {
             if (!(object->flags1c & 0x2000)) {
                 goto object_failure;
@@ -95,20 +96,20 @@ s32 func_8009ABA0(u32 arg0, Func95440Input *arg1, Func95440Actor *arg2, u32 arg3
 object_failure:
         return -1;
     } else {
-        delta = func_800BCB04(x & 0xffff, y & 0xffff, delta);
+        target_height = func_800BCB04(x & 0xffff, y & 0xffff, target_height);
     }
 
 compare:
-    value = (delta << 16) >> 16;
-    if (value >= 0x200) {
+    signed_height = (target_height << 16) >> 16;
+    if (signed_height >= 0x200) {
         goto return_minus2;
     }
-    result = 1;
-    if (value == (s16)temp_s5) {
-        return result;
+    level_result = 1;
+    if (signed_height == (s16)saved_height) {
+        return level_result;
     }
-    if ((s16)temp_s5 < value) {
-        if ((value - (s16)temp_s5) >= 0x41) {
+    if ((s16)saved_height < signed_height) {
+        if ((signed_height - (s16)saved_height) >= 0x41) {
             return 4;
         }
         return 2;

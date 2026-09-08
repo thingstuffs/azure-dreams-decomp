@@ -14,30 +14,31 @@ typedef struct Node {
 extern s32 func_8008FD9C();
 extern s32 func_8008FE78();
 
-Node *func_8008FE90(Node *arg0) {
-    register s32 temp_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 temp_s3;
-    s32 temp_s4;
-    s32 temp_s5;
-    Node *var_s0;
+/* Finds the first eligible active node in the circular list. */
+Node *func_8008FE90(Node *origin) {
+    register s32 node_field_c ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 node_field_8;
+    s32 origin_field_8;
+    s32 origin_field_c;
+    Node *node;
 
-    var_s0 = arg0->next;
-    temp_s5 = arg0->fieldC;
-    temp_s4 = arg0->field8;
-    if (var_s0 != arg0) {
+    node = origin->next;
+    origin_field_c = origin->fieldC;
+    origin_field_8 = origin->field8;
+    if (node != origin) {
 loop:
-        temp_s3 = var_s0->field8;
-        temp_s1 = var_s0->fieldC;
-        if (var_s0->active != 0) {
-            if (((u32)(var_s0->type - 2) >= 2U) ||
-                (func_8008FE78(var_s0->angle, arg0->angle) != 0)) {
-                if (func_8008FD9C(temp_s5, temp_s4, temp_s1, temp_s3) != 0) {
-                    return var_s0;
+        node_field_8 = node->field8;
+        node_field_c = node->fieldC;
+        if (node->active != 0) {
+            if (((u32)(node->type - 2) >= 2U) ||
+                (func_8008FE78(node->angle, origin->angle) != 0)) {
+                if (func_8008FD9C(origin_field_c, origin_field_8, node_field_c, node_field_8) != 0) {
+                    return node;
                 }
             }
         }
-        var_s0 = var_s0->next;
-        if (var_s0 != arg0) {
+        node = node->next;
+        if (node != origin) {
             goto loop;
         }
     }

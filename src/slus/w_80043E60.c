@@ -1,8 +1,5 @@
 #include "common.h"
 
-/* Runs a per-frame update via func_80043EB8, then, if the current
-   D_80081500-indexed slot of D_80083120 has not been flagged yet,
-   sets bit 0 of D_80082E60.field_0 and invokes func_80040B88. */
 /* element type for the D_80083120 dispatch/state table, indexed by *8 (element size 8) */
 typedef struct S_80083120 {
     s16 field_0;
@@ -24,6 +21,7 @@ extern struct {
 extern void func_80043EB8(void);
 extern void func_80040B88(void);
 
+/* Updates the frame, then sets bit 0 and calls func_80040B88 if the current slot is unflagged. */
 void func_80043E60(void) {
     func_80043EB8();
     if (D_80083120[D_80081500].field_0 == 0) {

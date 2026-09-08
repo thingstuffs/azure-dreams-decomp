@@ -14,17 +14,18 @@ typedef struct S_800DC888_0 {
     s32 * unk_38;
 } S_800DC888_0;   /* temp_a0 in func_800DC888 */
 
+// Advances the stored cycle index modulo three and applies the new index.
 void func_800DC888(void) {
-    s32 *temp_a2;
-    s32 *temp_v1;
-    s32 x;
-    S_800DC888_0 *temp_a0;
+    s32 *cycleIndexToWrap;
+    s32 *cycleIndexToIncrement;
+    s32 incrementedIndex;
+    S_800DC888_0 *cycleState;
 
-    temp_a0 = D_800E5910 + 0x20;
-    temp_v1 = temp_a0->unk_38;
-    *temp_v1 += 1;
-    temp_a2 = temp_a0->unk_38;
-    x = *temp_a2;
-    *temp_a2 = x % 3;
-    func_800DC82C(temp_a0, x % 3, temp_a2);
+    cycleState = D_800E5910 + 0x20;
+    cycleIndexToIncrement = cycleState->unk_38;
+    *cycleIndexToIncrement += 1;
+    cycleIndexToWrap = cycleState->unk_38;
+    incrementedIndex = *cycleIndexToWrap;
+    *cycleIndexToWrap = incrementedIndex % 3;
+    func_800DC82C(cycleState, incrementedIndex % 3, cycleIndexToWrap);
 }

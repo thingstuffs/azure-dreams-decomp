@@ -35,20 +35,21 @@ extern s32 D_800814A0[3];
 extern void func_8004491C(void *, u8 *);
 extern void func_800A56E0(s32);
 
+/* Interpolate target values after a delay, then reduce its counter to zero and update flags. */
 void func_8009F21C(InterpState *state, void *unused, InterpTarget *target) {
-    u16 next;
+    u16 ticks_left;
     u16 target_counter;
-    E296C *e296c;
-    s32 *e814a0;
-    s32 first;
-    s32 flags;
-    s32 combined;
-    s32 masked;
+    E296C *global_state;
+    s32 *status_flags;
+    s32 prior_flags;
+    s32 state_flags;
+    s32 merged_flags;
+    s32 cleared_flags;
 
     if (state->state == 0) {
-        next = state->counter - 1;
-        state->counter = next;
-        if ((s16)next <= 0) {
+        ticks_left = state->counter - 1;
+        state->counter = ticks_left;
+        if ((s16)ticks_left <= 0) {
             func_8004491C((u8 *)state - 0x20, D_80044BB0);
             state->counter = 8;
             state->state++;
@@ -58,9 +59,9 @@ void func_8009F21C(InterpState *state, void *unused, InterpTarget *target) {
         target->value0 += (state->value0 - target->value0) / (s16)state->counter;
         target->value1 += (state->value1 - target->value1) / (s16)state->counter;
         target->value2 += (state->value2 - target->value2) / (s16)state->counter;
-        next = state->counter - 1;
-        state->counter = next;
-        if ((s16)next <= 0) {
+        ticks_left = state->counter - 1;
+        state->counter = ticks_left;
+        if ((s16)ticks_left <= 0) {
             *(u32 *)((u8 *)target + 0x0c) = *(u32 *)state;
             state->counter = 0x10;
             state->state++;
@@ -71,20 +72,20 @@ void func_8009F21C(InterpState *state, void *unused, InterpTarget *target) {
         target_counter -= target_counter / (s16)state->counter;
         target->counter = target_counter;
         target->counter_copy = target_counter;
-        next = state->counter - 1;
-        state->counter = next;
-        if ((s16)next <= 0) {
-            e296c = &D_800E296C;
-            first = e296c->first;
-            flags = state->flags;
-            combined = first | flags;
-            e296c->first = combined;
+        ticks_left = state->counter - 1;
+        state->counter = ticks_left;
+        if ((s16)ticks_left <= 0) {
+            global_state = &D_800E296C;
+            prior_flags = global_state->first;
+            state_flags = state->flags;
+            merged_flags = prior_flags | state_flags;
+            global_state->first = merged_flags;
             *(u16 *)((u8 *)state - 2) |= 0x8000;
-            e814a0 = D_800814A0;
-            e814a0[0] |= 0x8000;
+            status_flags = D_800814A0;
+            status_flags[0] |= 0x8000;
             if (state->mode == 0) {
-                masked = combined & 0xFFFBFFFF;
-                e296c->first = masked;
+                cleared_flags = merged_flags & 0xFFFBFFFF;
+                global_state->first = cleared_flags;
             }
         }
     }

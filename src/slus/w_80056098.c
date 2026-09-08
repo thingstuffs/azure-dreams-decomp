@@ -20,76 +20,77 @@ typedef struct {
     /* 0x3C */ s32 f3c;
 } S_80085458;
 
-void func_80056098(S_80085458 *arg0) {
-    s32 temp_a1;
-    register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 var_v0_2;
-    s32 temp_v0;
-    register s32 a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s32 v1;
-    u8 temp_v1;
-    u8 temp_v1_2;
-    u8 *pu;
-    s8 *ps;
+/* Advance the envelope delay, level ramp, and triangular modulation output. */
+void func_80056098(S_80085458 *envelope) {
+    s32 target_level;
+    register s32 level ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 scaled_wave;
+    s32 phase;
+    register s32 doubled_phase ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 wave;
+    u8 delay_ticks;
+    u8 ramp_ticks;
+    u8 *phase_unsigned;
+    s8 *phase_signed;
 
-    temp_a1 = arg0->f30;
-    if (temp_a1 != 0) {
-        temp_v1 = arg0->f26;
-        if (temp_v1 != arg0->f34) {
-            arg0->f26 = temp_v1 + 1;
+    target_level = envelope->f30;
+    if (target_level != 0) {
+        delay_ticks = envelope->f26;
+        if (delay_ticks != envelope->f34) {
+            envelope->f26 = delay_ticks + 1;
             return;
         }
-        temp_v1_2 = arg0->f28;
-        if (temp_v1_2 >= arg0->f35) {
-            arg0->f2c = temp_a1;
+        ramp_ticks = envelope->f28;
+        if (ramp_ticks >= envelope->f35) {
+            envelope->f2c = target_level;
         } else {
-            if (temp_v1_2 != 0) {
+            if (ramp_ticks != 0) {
                 /* split so f2c loads into $v0 first, then f38 into $v1 */
-                var_v0 = arg0->f2c;
-                var_v0 = var_v0 + arg0->f38;
+                level = envelope->f2c;
+                level = level + envelope->f38;
             } else {
-                var_v0 = arg0->f38;
+                level = envelope->f38;
             }
-            arg0->f2c = var_v0;
-            arg0->f28 = arg0->f28 + 1;
+            envelope->f2c = level;
+            envelope->f28 = envelope->f28 + 1;
         }
         /* Dual-typed pointers defeat store-load CSE → sb then lb.
            f25=0 early is scheduled into bgez delay under -fno-schedule-insns
            with schedule-insns2 still active. */
-        pu = (u8 *)&arg0->f27;
-        ps = &arg0->f27;
-        *pu = *pu + arg0->f36;
-        arg0->f25 = 0;
-        temp_v0 = *ps;
-        if (temp_v0 < 0) {
-            temp_v0 = -temp_v0;
-            a1 = temp_v0 << 1;
-            v1 = a1;
-            if ((temp_v0 << 25) < 0) {
-                v1 = -a1;
+        phase_unsigned = (u8 *)&envelope->f27;
+        phase_signed = &envelope->f27;
+        *phase_unsigned = *phase_unsigned + envelope->f36;
+        envelope->f25 = 0;
+        phase = *phase_signed;
+        if (phase < 0) {
+            phase = -phase;
+            doubled_phase = phase << 1;
+            wave = doubled_phase;
+            if ((phase << 25) < 0) {
+                wave = -doubled_phase;
             }
-            var_v0_2 = arg0->f2c * (s8)v1;
-            if (var_v0_2 > 0) {
-                var_v0_2 = -var_v0_2;
+            scaled_wave = envelope->f2c * (s8)wave;
+            if (scaled_wave > 0) {
+                scaled_wave = -scaled_wave;
             }
         } else {
-            a1 = temp_v0 << 1;
-            v1 = a1;
-            if ((temp_v0 << 25) < 0) {
-                v1 = -a1;
+            doubled_phase = phase << 1;
+            wave = doubled_phase;
+            if ((phase << 25) < 0) {
+                wave = -doubled_phase;
             }
-            var_v0_2 = arg0->f2c * (s8)v1;
-            if (var_v0_2 < 0) {
-                var_v0_2 = -var_v0_2;
+            scaled_wave = envelope->f2c * (s8)wave;
+            if (scaled_wave < 0) {
+                scaled_wave = -scaled_wave;
             }
         }
-        if (var_v0_2 != 0) {
-            if (var_v0_2 < 0) {
-                var_v0_2 += 0x3FF;
+        if (scaled_wave != 0) {
+            if (scaled_wave < 0) {
+                scaled_wave += 0x3FF;
             }
-            arg0->f3c = var_v0_2 >> 10;
+            envelope->f3c = scaled_wave >> 10;
             return;
         }
-        arg0->f3c = 0;
+        envelope->f3c = 0;
     }
 }

@@ -40,20 +40,21 @@ extern s16 func_8003F794(s16, s16);
 extern void func_80040A88(s32);
 extern void func_80041B98(void);
 
+/* Updates the current state and selects the next handler based on its status. */
 void func_80041AE4(void)
 {
-    register unsigned int value ASM_REG("$2");
-    struct S_80082E60 *p;
+    unsigned int copied_value;
+    struct S_80082E60 *state;
 
-    value = D_8008148C.field0;
-    do { D_80081480.field0 = value; } while (0);
+    copied_value = D_8008148C.field0;
+    do { D_80081480.field0 = copied_value; } while (0);
     func_8003E2D8();
 
-    p = &D_80082E60;
-    func_80040FDC(p->field_B);
-    func_80041038(p->field_B);
-    func_800411FC(p->field_B);
-    if (func_80040F2C(p->field_B)) {
+    state = &D_80082E60;
+    func_80040FDC(state->field_B);
+    func_80041038(state->field_B);
+    func_800411FC(state->field_B);
+    if (func_80040F2C(state->field_B)) {
         func_80040B88();
     } else {
         D_80082E60.field_0 &= ~1;

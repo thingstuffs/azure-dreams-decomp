@@ -15,6 +15,7 @@ extern char D_80701FE8[];
 extern s32 D_80701DC4;
 extern s32 D_80701DC8;
 
+/* Prints the kind and two global values with their labels. */
 void func_80701FEC(s32 kind)
 {
     D_807030B8->print_value(D_80701FCC, D_80701FD8, kind);

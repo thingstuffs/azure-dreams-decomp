@@ -17,25 +17,22 @@ typedef struct {
 
 extern s32 D_800814A0[3];
 
-void func_800B8E18(Object *arg0, s32 unused, Effect *arg2) {
-    u16 value;
-    u8 timer;
-    s32 *global = D_800814A0;
+/* Attenuates an effect and sets object and global flags when its byte level reaches zero. */
+void func_800B8E18(Object *object, s32 unused, Effect *effect) {
+    u16 magnitude;
+    u8 level;
+    s32 *state_flags = D_800814A0;
 
-    value = arg2->field1E;
-    value = value - ((value * arg0->field2) / 24);
-    arg2->field1E = value;
-    arg2->field1C = value;
-    timer = arg2->fieldE - (arg0->field2 * 8);
-    arg2->fieldE = timer;
-    arg2->fieldD = timer;
-    arg2->fieldC = timer;
-    if (!(timer & 0xFF)) {
-        *(u16 *)((u8 *)arg0 - 2) = (u16)(*(u16 *)((u8 *)arg0 - 2) | 0x8000);
-        global[0] = global[0] | 0x8000;
+    magnitude = effect->field1E;
+    magnitude = magnitude - ((magnitude * object->field2) / 24);
+    effect->field1E = magnitude;
+    effect->field1C = magnitude;
+    level = effect->fieldE - (object->field2 * 8);
+    effect->fieldE = level;
+    effect->fieldD = level;
+    effect->fieldC = level;
+    if (!(level & 0xFF)) {
+        *(u16 *)((u8 *)object - 2) = (u16)(*(u16 *)((u8 *)object - 2) | 0x8000);
+        state_flags[0] = state_flags[0] | 0x8000;
     }
 }
-
-/* MECHANISM: Frameless leaf; the three-argument ABI naturally keeps arg0 in a1 and arg2 in a2.
-   A short-lived D_800814A0 base moves its page load into the conditional branch delay slot.
-   gcc 2.7.2-cdk-G0 folds the low offset into lw, eliminating the extra address word. */

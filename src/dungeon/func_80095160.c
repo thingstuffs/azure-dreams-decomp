@@ -117,7 +117,7 @@ s32 func_8009A8C0(u32 arg0, FuncArg1 *arg1, FuncArg2 * volatile arg2, u16 arg3) 
                         var_v1 = (s32)((u8 *)D_800DCEAC + temp_s3);
                         ASM_KEEP_NV(var_v1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         temp_v0_load = (s32)((u8 *)D_800DCEBC + temp_s3);
-                        ASM_KEEP_NV(temp_v0_load);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         call_a0 = arg1->x;
                            /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                         call_a1 = arg1->y;

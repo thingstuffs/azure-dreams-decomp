@@ -53,10 +53,11 @@ s32 func_800F6D28();                          /* extern */
 extern volatile void *D_800FBE1C[];
 extern u8 D_80170A4C[];
 
-void *func_812A50AC(s16 arg0, s16 arg1, u16 arg2, u16 arg3) {
+/* Creates and initializes an entity at the center of the specified tile. */
+void *func_812A50AC(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
     Func812A5000Parent *parent;
-    Func812A5000Child *child0;
-    Func812A5000Child *child1;
+    Func812A5000Child *tile_state;
+    Func812A5000Child *position;
     Func812A5000Entity *entity;
 
     entity = NULL;
@@ -69,26 +70,26 @@ void *func_812A50AC(s16 arg0, s16 arg1, u16 arg2, u16 arg3) {
         parent->field10 = D_80170A4C;
         entity->field13 = 0x39;
         func_8004491C(parent, D_80045340);
-        child0 = parent->child0;
-        child1 = parent->child1;
-        child0->field24 = arg1;
-        child0->field25 = arg2;
-        child0->field2C = D_80175C30;
-        child1->field2 = (s16)((child0->field24 << 6) + 0x20);
-        child1->field6 = (s16)((child0->field25 << 6) + 0x20);
-        child1->fieldA = arg3;
-        entity->field2A = (s16)(func_800F6D28(child1) << 9);
+        tile_state = parent->child0;
+        position = parent->child1;
+        tile_state->field24 = tile_x;
+        tile_state->field25 = tile_y;
+        tile_state->field2C = D_80175C30;
+        position->field2 = (s16)((tile_state->field24 << 6) + 0x20);
+        position->field6 = (s16)((tile_state->field25 << 6) + 0x20);
+        position->fieldA = height;
+        entity->field2A = (s16)(func_800F6D28(position) << 9);
         entity->field13 = 2;
         entity->field14 |= 0x6000;
         entity->field1C |= 0x6000;
-        func_800A9C18(parent, child1, child0, arg0);
+        func_800A9C18(parent, position, tile_state, entity_id);
         entity->field9A = 0xFF;
         entity->field9C = -1;
         entity->field8C = D_80171FA4;
         entity->field92 = -0x20;
         entity->field13 = 0x39;
         entity->field1C |= 0x40000;
-        func_800AA36C(entity, child1, child0, entity);
+        func_800AA36C(entity, position, tile_state, entity);
     }
     return entity;
 }

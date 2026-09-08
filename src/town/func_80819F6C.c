@@ -15,28 +15,29 @@ typedef struct S_80023F6C_1 {
 
 extern s32 D_800814A0;
 
-void func_80023F6C(void *arg0) {
+/* Wait for the linked object to clear, then reduce the level and set completion flags. */
+void func_80023F6C(void *entry) {
     void *object;
     s16 state;
-    u16 old_state;
-    s32 value;
+    u16 prev_state;
+    s32 level;
 
-    object = ((S_80023F6C_0 *)arg0)->unk_04;
-    state = ((S_80023F6C_0 *)arg0)->unk_00.s;
-    old_state = ((S_80023F6C_0 *)arg0)->unk_00.u;
+    object = ((S_80023F6C_0 *)entry)->unk_04;
+    state = ((S_80023F6C_0 *)entry)->unk_00.s;
+    prev_state = ((S_80023F6C_0 *)entry)->unk_00.u;
 
     switch (state) {
     case 0:
         if (((S_80023F6C_1 *)object)->unk_00 == 0) {
-            ((S_80023F6C_0 *)arg0)->unk_00.u = old_state + 1;
+            ((S_80023F6C_0 *)entry)->unk_00.u = prev_state + 1;
         }
         break;
 
     case 1:
-        value = ((S_80023F6C_0 *)arg0)->unk_08 + 0xFFF7F7F8U;
-        ((S_80023F6C_0 *)arg0)->unk_08 = value;
-        if (value <= 0x80808) {
-            (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        level = ((S_80023F6C_0 *)entry)->unk_08 + 0xFFF7F7F8U;
+        ((S_80023F6C_0 *)entry)->unk_08 = level;
+        if (level <= 0x80808) {
+            (*(u16 *)((u8 *)entry + -2)) |= 0x8000;
             D_800814A0 |= 0x8000;
         }
         break;
@@ -45,9 +46,5 @@ void func_80023F6C(void *arg0) {
         break;
     }
 
-    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(entry); /* Retains the register allocation required for a byte-exact match. */
 }
-
-/* MECHANISM: This is a frameless leaf: both apparent func_80023FF0 jumps are
-   rowbase-local edges to the shared jr-ra epilogue. A natural two-case switch
-   preserves the pointer/state loads, jump-delay store, and direct global RMW. */

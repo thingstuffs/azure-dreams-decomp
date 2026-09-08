@@ -46,30 +46,26 @@ extern void *D_80080A90[4];
 
 extern void DrawSync(s32 a0);
 
-/* Checks whether the streaming decode buffer's write pointer (D_80081480)
- * plus a0 has reached the buffer's base+size (D_8008148C + D_80080A7C); if
- * so, resets the write pointer to the buffer base and waits for the GPU
- * (DrawSync). Then returns (base+size-a0) while also shrinking the
- * remaining-size counter D_80080A7C by a0. */
-s32 func_800405E8(s32 a0)
+/* Reserves bytes from the buffer's end, resetting its write pointer and waiting for the GPU on overlap. */
+s32 func_800405E8(s32 byte_count)
 {
-    s32 result;
-    s32 t;
-    s32 base;
-    s32 sum;
+    s32 reserved_start;
+    s32 remaining_size;
+    s32 buffer_base;
+    s32 buffer_end;
 
-    base = D_8008148C.field_0;
-    sum = base + D_80080A7C.field_0;
-    if ((u32)(D_80081480.field_0 + a0) >= (u32)sum) {
-        ((s32 *)&D_8008148C)[-3] = base;
+    buffer_base = D_8008148C.field_0;
+    buffer_end = buffer_base + D_80080A7C.field_0;
+    if ((u32)(D_80081480.field_0 + byte_count) >= (u32)buffer_end) {
+        ((s32 *)&D_8008148C)[-3] = buffer_base;
         DrawSync(0);
     }
     {
-        register s32 b ASM_REG("$2") = ((s32 *)&D_80081480)[3];   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        t = *(s32 *)(D_80080A84 - 8);
-        result = b + t;
+        register s32 current_base ASM_REG("$2") = ((s32 *)&D_80081480)[3];   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        remaining_size = *(s32 *)(D_80080A84 - 8);
+        reserved_start = current_base + remaining_size;
     }
-    result = result - a0;
-    *(s32 *)((u8 *)D_80080A90 - 20) = t - a0;
-    return result;
+    reserved_start = reserved_start - byte_count;
+    *(s32 *)((u8 *)D_80080A90 - 20) = remaining_size - byte_count;
+    return reserved_start;
 }

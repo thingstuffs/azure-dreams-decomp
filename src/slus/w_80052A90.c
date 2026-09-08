@@ -14,115 +14,110 @@ extern void StoreImage(RECT *rect, void *p);
 extern void LoadImage(RECT *rect, void *p);
 extern void DrawSync(s32 mode);
 
-/* Draws a two-byte-code string as font-tile blits: decodes each 2-byte
- * (Shift-JIS-ish) code into a tile index (special-casing full-width space,
- * a couple of contiguous kana ranges, and two extra punctuation codes),
- * StoreImage's the source tile out of the font sheet into a scratch VRAM
- * buffer, then LoadImage's it back in at the advancing (x, dest_y) pen
- * position and syncs the GPU. An unrecognized code just advances the pen
- * without drawing. */
-void func_80052A90(u8 *arg0, s16 arg1, s16 arg2)
+/* Draws a two-byte character string by copying font tiles to successive screen positions. */
+void func_80052A90(u8 *text, s16 start_x, s16 start_y)
 {
   RECT rect;
-  u32 buf[0x20];
-  register s32 var_s3 ASM_REG("$19"); /* draw-this-glyph flag */
-  s32 temp_v1;
-  register s32 var_a2 ASM_REG("$6");  /* tile index */
-  s32 x;
-  u8 *var_s0;
-  s16 var_s1;
+  u32 tile_buf[0x20];
+  register s32 draw_enabled ASM_REG("$19"); /* draw-this-glyph draw_tile */
+  s32 glyph_code;
+  s32 tile_col;
+  register s32 tile_index ASM_REG("$6");  /* tile index */
+  s32 tile_x;
+  u8 *cursor;
+  s16 pen_x;
   s16 dest_y;
   s32 glyph_w;
   s32 glyph_h;
-  s32 temp_a0;
-  s32 hi;
-  s32 flag;
+  s32 code_u16;
+  s32 lead_byte;
+  s32 draw_tile;
 
-  var_s0 = arg0;
-  var_s1 = arg1;
-  var_s3 = 1;
-  __asm__ __volatile__("" : : "r"(var_s3));
-  if ((*var_s0) != 0)
+  cursor = text;
+  pen_x = start_x;
+  draw_enabled = 1;
+  __asm__ __volatile__("" : : "r"(draw_enabled));
+  if ((*cursor) != 0)
   {
-    dest_y = arg2;
+    dest_y = start_y;
     glyph_w = 3;
     glyph_h = 0x10;
     do
     {
       __asm__ __volatile__("" : : : "memory");
-      hi = var_s0[0];
-      __asm__ __volatile__("" : : "r"(hi));
-      temp_v1 = var_s0[1];
-      temp_v1 |= hi << 8;
-      var_a2 = temp_v1;
-      temp_a0 = var_a2 & 0xFFFF;
-      var_s0 += 2;
-      if (temp_a0 == 0x8140)
+      lead_byte = cursor[0];
+      __asm__ __volatile__("" : : "r"(lead_byte));
+      glyph_code = cursor[1];
+      glyph_code |= lead_byte << 8;
+      tile_index = glyph_code;
+      code_u16 = tile_index & 0xFFFF;
+      cursor += 2;
+      if (code_u16 == 0x8140)
       {
-        var_a2 = 0;
+        tile_index = 0;
         goto do_blit;
       }
-      if (((u32) ((temp_v1 + 0x7DA0) & 0xFFFF)) < 0x1AU)
+      if (((u32) ((glyph_code + 0x7DA0) & 0xFFFF)) < 0x1AU)
       {
         goto shared_map;
       }
-      if (((u32) ((temp_v1 + 0x7D7F) & 0xFFFF)) < 0x1AU)
+      if (((u32) ((glyph_code + 0x7D7F) & 0xFFFF)) < 0x1AU)
       {
-        var_a2 = temp_v1 + 0x7DC0;
+        tile_index = glyph_code + 0x7DC0;
         goto do_blit;
       }
-      if (((u32) ((temp_v1 + 0x7DB1) & 0xFFFF)) >= 0xAU)
+      if (((u32) ((glyph_code + 0x7DB1) & 0xFFFF)) >= 0xAU)
       {
-        goto checks_8144;
+        goto check_punctuation;
       }
       shared_map:
-      var_a2 = temp_v1 + 0x7DC1;
+      tile_index = glyph_code + 0x7DC1;
       goto do_blit;
-      checks_8144:
-      if (temp_a0 == 0x8144)
+      check_punctuation:
+      if (code_u16 == 0x8144)
       {
-        goto set_E;
+        goto set_period;
       }
-      if (temp_a0 == 0x817C)
+      if (code_u16 == 0x817C)
       {
-        goto set_D;
+        goto set_minus;
       }
-      var_s3 = 0;
+      draw_enabled = 0;
       goto do_blit;
-      set_E:
-      var_a2 = 0xE;
+      set_period:
+      tile_index = 0xE;
       goto do_blit;
-      set_D:
-      var_a2 = 0xD;
+      set_minus:
+      tile_index = 0xD;
       do_blit:
-      flag = var_s3;
-      __asm__ __volatile__("" : : "r"(flag));
-      if (flag != 0)
+      draw_tile = draw_enabled;
+      __asm__ __volatile__("" : : "r"(draw_tile));
+      if (draw_tile != 0)
       {
-        register void *pbuf ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        register RECT *prect ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        pbuf = buf;
-        __asm__ __volatile__("" : : "r"(pbuf));
-        prect = &rect;
-        __asm__ __volatile__("" : : "r"(prect));
-        var_a2 = var_a2 & 0xFFFF;
-        temp_v1 = var_a2 & 7;
-        x = temp_v1 << 1;
-        x = x + temp_v1;
-        rect.x = x + 0x340;
-        rect.y = (s16) ((((u32) var_a2) >> 3) << 4);
+        register void *tile_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register RECT *tile_rect ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        tile_data = tile_buf;
+        __asm__ __volatile__("" : : "r"(tile_data));
+        tile_rect = &rect;
+        __asm__ __volatile__("" : : "r"(tile_rect));
+        tile_index = tile_index & 0xFFFF;
+        tile_col = tile_index & 7;
+        tile_x = tile_col << 1;
+        tile_x = tile_x + tile_col;
+        rect.x = tile_x + 0x340;
+        rect.y = (s16) ((((u32) tile_index) >> 3) << 4);
         rect.w = glyph_w;
         rect.h = glyph_h;
-        StoreImage(prect, pbuf);
-        rect.x = var_s1;
+        StoreImage(tile_rect, tile_data);
+        rect.x = pen_x;
         rect.y = dest_y;
         rect.w = glyph_w;
         rect.h = glyph_h;
-        LoadImage(&rect, buf);
+        LoadImage(&rect, tile_buf);
         DrawSync(0);
       }
-      var_s1 += 3;
+      pen_x += 3;
     }
-    while ((*var_s0) != 0);
+    while ((*cursor) != 0);
   }
 }

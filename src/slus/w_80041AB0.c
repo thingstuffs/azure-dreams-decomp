@@ -19,7 +19,7 @@ extern S_8008148C D_8008148C;
 extern void func_80040A88(int a0);
 extern void func_80041AE4(void);
 
-/* copies D_8008148C's value into D_80081480, then registers func_80041AE4's address via func_80040A88 */
+/* Copy the value from D_8008148C to D_80081480 and register func_80041AE4. */
 void func_80041AB0(void) {
     D_80081480.field0 = D_8008148C.field0;
     func_80040A88((int)func_80041AE4);

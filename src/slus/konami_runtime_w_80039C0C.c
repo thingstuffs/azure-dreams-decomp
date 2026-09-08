@@ -12,14 +12,15 @@ typedef struct {
 
 extern void func_8003875C(void);
 
-void func_80039C0C(FuncState *arg0) {
-    u8 *cursor = arg0->cursor;
+/* Read two bytes into the state and set its handler to func_8003875C. */
+void func_80039C0C(FuncState *state) {
+    u8 *cursor = state->cursor;
     u8 value = *cursor++;
 
-    arg0->cursor = cursor;
-    arg0->first = value;
+    state->cursor = cursor;
+    state->first = value;
     value = *cursor++;
-    arg0->cursor = cursor;
-    arg0->handler = func_8003875C;
-    arg0->second = value;
+    state->cursor = cursor;
+    state->handler = func_8003875C;
+    state->second = value;
 }

@@ -41,41 +41,42 @@ extern void func_800A6480(void *, s32);
 extern void func_800A90E8(void *);
 extern s32 func_800AD6FC(void *, s32, s32);
 
-s32 func_800BF074(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3) {
-    s32 *base;
-    s32 temp_v0;
-    s32 var_s1;
+/* Dispatches an entity action and updates state after handling it. */
+s32 func_800BF074(Rec_D_800E3D7C *entity, s32 action_id, s16 action_type, s32 action_arg) {
+    s32 *entity_state;
+    s32 message_pos;
+    s32 saved_message_pos;
 
-    if (arg2 == 0xD) {
-        return func_80098864(arg1, arg3);
+    if (action_type == 0xD) {
+        return func_80098864(action_id, action_arg);
     }
 
-    if (arg0 == D_800E3D7C[0]) {
-        arg0->unk_110 = arg1;
-        func_8008D344(arg0, D_80083780, D_80082E80, arg0);
+    if (entity == D_800E3D7C[0]) {
+        entity->unk_110 = action_id;
+        func_8008D344(entity, D_80083780, D_80082E80, entity);
         return 0;
     }
 
-    if ((u32)arg0 <= 0x9FFFFFFF) {
-        func_800A6480(arg0, arg1);
-        if (func_800AD6FC(arg0, D_800DDE84[arg0->unk_10.at03_u8.v] & 3, arg1) == 0) {
-            func_800A5F38(arg0, arg1);
+    if ((u32)entity <= 0x9FFFFFFF) {
+        func_800A6480(entity, action_id);
+        if (func_800AD6FC(entity, D_800DDE84[entity->unk_10.at03_u8.v] & 3, action_id) == 0) {
+            func_800A5F38(entity, action_id);
             return 1;
         }
     } else {
         do {
-            temp_v0 = func_800990FC();
+            message_pos = func_800990FC();
         } while (0);
-        base = D_80082EB0;
-        var_s1 = temp_v0;
-        temp_v0 = func_80099194(D_800E11F5, func_80099368(((S_800BF074_1 *)base)->unk_04, temp_v0));
-        ((S_800BF074_2 *)(((S_800BF074_1 *)base)->unk_04))->unk_03 &= 0x7F;
-        func_800A90E8(((S_800BF074_1 *)base)->unk_04);
-        func_80099290(func_80099194(D_80089374, func_80099368(((S_800BF074_1 *)base)->unk_04, temp_v0)));
-        func_800A5720(var_s1);
+        entity_state = D_80082EB0;
+        saved_message_pos = message_pos;
+        message_pos = func_80099194(D_800E11F5, func_80099368(((S_800BF074_1 *)entity_state)->unk_04, message_pos));
+        ((S_800BF074_2 *)(((S_800BF074_1 *)entity_state)->unk_04))->unk_03 &= 0x7F;
+        func_800A90E8(((S_800BF074_1 *)entity_state)->unk_04);
+        func_80099290(func_80099194(D_80089374, func_80099368(((S_800BF074_1 *)entity_state)->unk_04, message_pos)));
+        func_800A5720(saved_message_pos);
     }
 
     D_80083460.field_A--;
-    func_80098B38(arg1);
+    func_80098B38(action_id);
     return 1;
 }

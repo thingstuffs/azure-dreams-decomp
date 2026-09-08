@@ -8,14 +8,15 @@ extern M2C_UNK D_80018770;
 extern M2C_UNK D_800188BC;
 extern M2C_UNK D_8001A714;
 
-M2C_UNK *func_8067F230(s32 arg0, s32 arg1, s32 arg2) {
-    M2C_UNK *var_s2;
+/* Looks up an entry, with a conditional override for entry 0x26. */
+M2C_UNK *func_8067F230(s32 lookup_key, s32 unused, s32 entry_id) {
+    M2C_UNK *entry;
 
-    var_s2 = func_80017B0C(&D_80018770, &D_800188BC, arg0, arg2);
-    if (func_80017A54(&D_80018770, arg0, arg2) != 0) {
-        if (arg2 == 0x26) {
-            var_s2 = &D_8001A714;
+    entry = func_80017B0C(&D_80018770, &D_800188BC, lookup_key, entry_id);
+    if (func_80017A54(&D_80018770, lookup_key, entry_id) != 0) {
+        if (entry_id == 0x26) {
+            entry = &D_8001A714;
         }
     }
-    return var_s2;
+    return entry;
 }

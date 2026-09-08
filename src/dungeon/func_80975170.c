@@ -38,32 +38,33 @@ extern void func_800478B8(void *arg0);
 extern s32 D_800814A0[3];
 
 
-void func_80975170(void *arg0, S_80975170_1 *arg1, Rec_D_80082E80 *arg2)
+/* Copy the source transform, advance and fade the effect, and flag completion when its timer expires. */
+void func_80975170(void *effect, S_80975170_1 *transform, Rec_D_80082E80 *render_state)
 {
-    s16 count;
-    s32 shade;
-    u16 pos;
-    S_80975170_2 *src;
+    s16 ticks_left;
+    s32 brightness;
+    u16 render_offset;
+    S_80975170_2 *source_transform;
 
-    src = ((S_80975170_0 *)arg0)->unk_B0;
-    arg1->unk_02 = src->unk_02;
-    arg1->unk_06 = src->unk_06;
-    arg1->unk_0A = src->unk_0A;
+    source_transform = ((S_80975170_0 *)effect)->unk_B0;
+    transform->unk_02 = source_transform->unk_02;
+    transform->unk_06 = source_transform->unk_06;
+    transform->unk_0A = source_transform->unk_0A;
 
-    pos = arg2->unk_1C.at02_u16.v + 0x320;
-    arg2->unk_1C.at02_u16.v = pos;
-    arg2->unk_1C.at00_u16.v = pos;
+    render_offset = render_state->unk_1C.at02_u16.v + 0x320;
+    render_state->unk_1C.at02_u16.v = render_offset;
+    render_state->unk_1C.at00_u16.v = render_offset;
 
-    count = ((S_80975170_0 *)arg0)->unk_96.s - 1;
-    shade = (s32)(count * 0x50) / (s16)((S_80975170_0 *)arg0)->unk_AA;
-    ((S_80975170_0 *)arg0)->unk_96.s = (u16)count;
-    arg2->unk_0C.at02_s8.v = (s8)shade;
-    arg2->unk_0C.at01_s8.v = (s8)shade;
-    arg2->unk_0C.at00_s8.v = (s8)shade;
-    func_800478B8(arg2);
+    ticks_left = ((S_80975170_0 *)effect)->unk_96.s - 1;
+    brightness = (s32)(ticks_left * 0x50) / (s16)((S_80975170_0 *)effect)->unk_AA;
+    ((S_80975170_0 *)effect)->unk_96.s = (u16)ticks_left;
+    render_state->unk_0C.at02_s8.v = (s8)brightness;
+    render_state->unk_0C.at01_s8.v = (s8)brightness;
+    render_state->unk_0C.at00_s8.v = (s8)brightness;
+    func_800478B8(render_state);
 
-    if (((S_80975170_0 *)arg0)->unk_96.u <= 0) {
-        ((S_80975170_0_pre *)arg0)[-1].unk_00 = (u16)(((S_80975170_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    if (((S_80975170_0 *)effect)->unk_96.u <= 0) {
+        ((S_80975170_0_pre *)effect)[-1].unk_00 = (u16)(((S_80975170_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
     }
 }

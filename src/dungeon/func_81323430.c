@@ -38,6 +38,7 @@ typedef struct S_8016AC30_1 {
     s16 unk_1E;
 } S_8016AC30_1;   /* primitive in func_8016AC30 */
 
+/* Allocate and initialize a dungeon object, then increment the object count. */
 void func_8016AC30(void) {
     void *object;
     S_8016AC30_0 *position;

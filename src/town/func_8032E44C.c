@@ -4,14 +4,15 @@ typedef s32 (*Callback)(void *);
 
 extern s8 D_80016000[];
 
-s32 func_80018C4C(void *arg0, s32 arg1) {
+/* Sum callback results for flagged entries in a terminated four-byte entry list. */
+s32 func_80018C4C(void *entry, s32 callback_mode) {
     register s32 total ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Callback callback;
 
     total = 0;
-    while (((u8 *)arg0)[1] != 0) {
-        if (((u8 *)arg0)[3] & 0x20) {
-            if (arg1 == 0) {
+    while (((u8 *)entry)[1] != 0) {
+        if (((u8 *)entry)[3] & 0x20) {
+            if (callback_mode == 0) {
                 void *object;
 
                 object = *(void **)D_80016000;
@@ -24,9 +25,9 @@ s32 func_80018C4C(void *arg0, s32 arg1) {
                 object = *(void **)((u8 *)object + 0x20);
                 callback = *(Callback *)((u8 *)object + 0x6C);
             }
-            total += callback(arg0);
+            total += callback(entry);
         }
-        arg0 += 4;
+        entry += 4;
     }
     return total;
 }

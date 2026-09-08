@@ -89,73 +89,74 @@ typedef struct S_801708B4_4 {
     s8 unk_9C;
 } S_801708B4_4;   /* result in func_801708B4 */
 
-void *func_801708B4(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
+/* Create an entity at the given grid position and initialize its behavior and spawn flags. */
+void *func_801708B4(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 height)
 {
     void *entity;
-    S_801708B4_2 *part_a;
-    S_801708B4_3 *part_b;
-    S_801708B4_4 *result;
-    s32 mode;
-    s16 direction;
-    u8 *inner;
-    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    S_801708B4_2 *position;
+    S_801708B4_3 *placement;
+    S_801708B4_4 *actor;
+    s32 spawn_mode;
+    s16 saved_flags;
+    u8 *entity_data;
+    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s16 saved_height;
+    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    direction = arg0;
-    inner = 0;
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
+    saved_flags = spawn_flags;
+    entity_data = 0;
+    saved_x = grid_x;
+    saved_height = height;
+    saved_y = grid_y;
     entity = func_8003FD64(0x112, D_80083498);
     if (entity != 0) {
-        inner = (u8 *)entity + 0x20;
+        entity_data = (u8 *)entity + 0x20;
         ((S_801708B4_0 *)entity)->unk_10 = func_80170A94;
-        ((S_801708B4_1 *)inner)->unk_13 = 2;
+        ((S_801708B4_1 *)entity_data)->unk_13 = 2;
         func_8004491C(entity, &D_80045340);
 
-        part_a = ((S_801708B4_0 *)entity)->unk_08;
-        part_a->unk_0A = saved_arg3;
-        part_b = ((S_801708B4_0 *)entity)->unk_0C;
-        mode = arg0 & 3;
-        part_b->unk_25 = saved_arg2;
-        result = inner;
-        part_b->unk_2C = D_80175E40;
-        part_b->unk_24 = saved_arg1;
+        position = ((S_801708B4_0 *)entity)->unk_08;
+        position->unk_0A = saved_height;
+        placement = ((S_801708B4_0 *)entity)->unk_0C;
+        spawn_mode = spawn_flags & 3;
+        placement->unk_25 = saved_y;
+        actor = entity_data;
+        placement->unk_2C = D_80175E40;
+        placement->unk_24 = saved_x;
 
-        if (mode == 1) {
-            ((S_801708B4_1 *)inner)->unk_14 |= 0x6000;
-            ((S_801708B4_1 *)inner)->unk_1C |= 0x6000;
-        } else if (mode >= 2) {
-            ((S_801708B4_1 *)inner)->unk_14 |= 0x2000;
-            ((S_801708B4_1 *)inner)->unk_1C |= 0x2000;
-        } else if (((arg0 & -4) << 16) == 0) {
-            if (!(((S_801708B4_1 *)inner)->unk_14 & 0x200)) {
+        if (spawn_mode == 1) {
+            ((S_801708B4_1 *)entity_data)->unk_14 |= 0x6000;
+            ((S_801708B4_1 *)entity_data)->unk_1C |= 0x6000;
+        } else if (spawn_mode >= 2) {
+            ((S_801708B4_1 *)entity_data)->unk_14 |= 0x2000;
+            ((S_801708B4_1 *)entity_data)->unk_1C |= 0x2000;
+        } else if (((spawn_flags & -4) << 16) == 0) {
+            if (!(((S_801708B4_1 *)entity_data)->unk_14 & 0x200)) {
                 void *call_entity = entity;
-                void *call_part_a = part_a;
+                void *call_position = position;
 
                 ASM_SET(call_entity);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                ASM_SET(call_part_a);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                if (func_800A6D30(call_entity, call_part_a) & 1) {
-                    s32 value;
+                ASM_SET(call_position);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+                if (func_800A6D30(call_entity, call_position) & 1) {
+                    s32 random_value;
                     void *second_entity = entity;
 
                     ASM_SET(second_entity);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    value = func_800A6D30(second_entity);
+                    random_value = func_800A6D30(second_entity);
 
-                    func_800A48F0(inner, 1, (value & 0x3F) | 0x20);
-                    part_b->unk_2C = D_80175EA0;
+                    func_800A48F0(entity_data, 1, (random_value & 0x3F) | 0x20);
+                    placement->unk_2C = D_80175EA0;
                 }
             }
         }
 
-        func_800A9C18(entity, part_a, part_b, direction);
-        result->unk_9A = 0xFF;
-        result->unk_9C = -1;
-        result->unk_8C = func_801710EC;
-        ((S_801708B4_1 *)inner)->unk_1C |= 0x40000;
-        result->unk_92 = -0x20;
-        func_800AA36C(result, part_a, part_b, inner);
+        func_800A9C18(entity, position, placement, saved_flags);
+        actor->unk_9A = 0xFF;
+        actor->unk_9C = -1;
+        actor->unk_8C = func_801710EC;
+        ((S_801708B4_1 *)entity_data)->unk_1C |= 0x40000;
+        actor->unk_92 = -0x20;
+        func_800AA36C(actor, position, placement, entity_data);
     }
-    return inner;
+    return entity_data;
 }

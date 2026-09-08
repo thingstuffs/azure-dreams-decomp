@@ -52,264 +52,260 @@ extern void func_80045CC4();
 extern void func_80026F1C();
 extern void func_80064A40();
 
-s32 func_80026864(void *arg0, void *arg1, void *arg2)
+/* Render a 3x3 grid of terrain faces and its associated objects. */
+s32 func_80026864(void *objects, void *view_position, void *render_params)
 {
-    s16 sp30[4];
-    s16 sp38[4];
-    u8 *base12;
-    s32 j;
-    s32 i;
-    s32 k;
-    u8 *gd;
-    Vert *base;
-    u8 *g160;
-    u8 *g120;
+    s16 saved_rotation[4];
+    s16 saved_position[4];
+    u8 *materials;
+    s32 col;
+    s32 row;
+    s32 cell_index;
+    u8 *geometry;
+    Vert *vertices;
+    u8 *render_state;
+    u8 *cells;
     u8 *scratch;
-    u8 *arena;
-    u8 *arena2;
+    u8 *draw_buffer;
+    u8 *active_buffer;
     u8 *prim;
-    Face *rec;
-    u8 *tmp;
-    u8 *obj;
-    u8 *cur;
-    u8 *ent;
-    u8 *ent2;
-    u8 *obj2;
-    u8 *img;
-    u32 p0;
-    u32 p1;
-    u32 p2;
-    u32 p3;
-    u32 q0;
-    u32 q1;
-    u32 q2;
-    u32 q3;
-    s32 w0;
-    s32 w1;
-    s32 w2;
-    s32 w3;
-    s32 x;
-    s32 y;
-    s32 n;
-    s32 idx2;
-    s32 v;
-    u32 sel;
-    u32 nB;
-    u32 nC;
-    u32 nD;
-    u32 aA;
-    u32 aB;
-    u32 aC;
-    u32 aD;
-    s32 yA;
-    s32 yB;
-    s32 yD;
-    u32 zA;
-    u32 zB;
-    u32 zD;
-    u32 e0;
-    u32 e1;
-    u32 e2;
-    u32 e3;
-    u32 zC;
-    u32 b0;
-    s32 d0;
+    Face *face;
+    u8 *sprite_data;
+    u8 *main_object;
+    u8 *object_slot;
+    u8 *main_entry;
+    u8 *extra_entry;
+    u8 *extra_object;
+    u8 *sprite;
+    u32 xy0;
+    u32 xy1;
+    u32 xy2;
+    u32 xy3;
+    u32 vert0_ref;
+    u32 index1;
+    u32 index2;
+    u32 index3;
+    s32 height0;
+    s32 height1;
+    s32 height2;
+    s32 height3;
+    s32 cell_x;
+    s32 cell_y;
+    s32 facing;
+    s32 object_index;
+    s32 depth;
+    u32 mesh_index;
+    u32 index1_xy;
+    u32 vert2_ref;
+    u32 vert3_ref_y;
+    u32 vert0_addr;
+    u32 vert1_ref_y;
+    u32 vert2_y;
+    s32 vert0_y;
+    u32 y0_high;
+    u32 y1_high;
+    u32 y3_high;
+    u32 vert1_addr;
+    u32 vert2_addr;
+    u32 vert3_addr;
+    u32 y2_high;
+    u32 height_bias;
 
-    gd = (u8 *)&D_8008333C[0];
-    base = (Vert *)PTR(gd, 8);
-    base12 = PTR(gd, 12);
+    geometry = (u8 *)&D_8008333C[0];
+    vertices = (Vert *)PTR(geometry, 8);
+    materials = PTR(geometry, 12);
     func_800649A0();
-    y = -0x60;
+    cell_y = -0x60;
     scratch = (u8 *)0x1F800000;
-    S32(scratch, 0x30) = U16(arg2, 0x1C);
-    S32(scratch, 0x34) = U16(arg2, 0x1E);
-    S32(scratch, 0x38) = (s32) (U16(arg2, 0x1C) + U16(arg2, 0x1E)) >> 1;
-    g160 = (u8 *)&D_80083160[0];
-    g120 = (u8 *)&D_80027120[0];
-    S32(scratch, 0x40) = S16(arg1, 2);
-    S32(scratch, 0x44) = S16(arg1, 6);
-    S32(scratch, 0x48) = S16(arg1, 0xA);
+    S32(scratch, 0x30) = U16(render_params, 0x1C);
+    S32(scratch, 0x34) = U16(render_params, 0x1E);
+    S32(scratch, 0x38) = (s32) (U16(render_params, 0x1C) + U16(render_params, 0x1E)) >> 1;
+    render_state = (u8 *)&D_80083160[0];
+    cells = (u8 *)&D_80027120[0];
+    S32(scratch, 0x40) = S16(view_position, 2);
+    S32(scratch, 0x44) = S16(view_position, 6);
+    S32(scratch, 0x48) = S16(view_position, 0xA);
     func_80064B90(scratch + 0x50, scratch + 0x40);
-    func_80065820((u8 *)arg2 + 0x16, scratch + 0x50);
+    func_80065820((u8 *)render_params + 0x16, scratch + 0x50);
     func_80064BC0(scratch + 0x50, scratch + 0x30);
     func_80064CF0(scratch + 0x50);
     func_80064D80(scratch + 0x50);
-    arena = *(u8 **)g160;
-    S32(scratch, 0x20) = (s32) (arena + 0xB0);
-    prim = PTR(arena, 0x8D0);
+    draw_buffer = *(u8 **)render_state;
+    S32(scratch, 0x20) = (s32) (draw_buffer + 0xB0);
+    prim = PTR(draw_buffer, 0x8D0);
     S32(scratch, 0x70) = 0;
     S16(scratch, 0x74) = 0;
     S32(scratch, 0xC4) = func_80065420(scratch + 0x70, scratch + 0xF0, scratch + 0x90, scratch + 0x94) - 0x27;
-    i = 0;
-    k = 0;
+    row = 0;
+    cell_index = 0;
     do {
-        x = -0x60;
-        j = 0;
+        cell_x = -0x60;
+        col = 0;
         do {
-            sel = ((Cell *)((u8 *)&D_80027120[0] + k * 6))->idx;
-            if (sel != 0) {
-                rec = ((Face **) PTR(gd, 4))[sel];
+            mesh_index = ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->idx;
+            if (mesh_index != 0) {
+                face = ((Face **) PTR(geometry, 4))[mesh_index];
                 for (;;) {
-                    ASM_SET(aC);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                    aA = rec->i0 * 8 + (u32)base;
-                    p0 = ((Vert *)aA)->x;
-                    p0 = p0 + x;
-                    p0 = p0 & 0xFFFF;
-                    yA = ((Vert *)aA)->y;
-                    zA = (y + yA) << 0x10;
-                    p0 = p0 | zA;
-                    S32(scratch, 0x70) = p0;
-                    nC = U16((u8 *)rec, 4);
-                    nD = U16((u8 *)rec, 6);
-                    q0 = U16((u8 *)rec, 0);
-                    nB = rec->i1;
-                    aB = nB * 8 + (u32)base;
-                    p1 = U16((u8 *)aB, 0);
-                    aB = S16((u8 *)aB, 2);
-                    nC = nC << 3;
-                    nC = nC + (u32)base;
-                    nD = nD << 3;
-                    nD = nD + (u32)base;
-                    ASM_USE2_NV(nD, nD);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    ASM_USE_NV(nD);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    q0 = q0 << 3;
-                    q0 = q0 + (u32)base;
-                    p1 = p1 + x;
-                    p1 = p1 & 0xFFFF;
-                    ASM_USE2_NV(p1, p1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    ASM_USE2_NV(p1, p1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    zB = (y + aB) << 0x10;
-                    p1 = p1 | zB;
-                    p2 = U16((u8 *)nC, 0);
-                    aC = S16((u8 *)nC, 2);
-                    p3 = U16((u8 *)nD, 0);
-                    ASM_KEEP_NV(q0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                    w0 = U16((u8 *)q0, 4);
-                    b0 = ((Cell *)((u8 *)&D_80027120[0] + k * 6))->bias;
-                    w0 = w0 - b0;
-                    ASM_USE2_NV(w0, w0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    ASM_USE2_NV(w0, w0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    nD = S16((u8 *)nD, 2);
-                    p2 = p2 + x;
-                    p2 = p2 & 0xFFFF;
-                    zC = y + aC;
-                    zC = zC << 0x10;
-                    p2 = p2 | zC;
-                    p3 = p3 + x;
-                    p3 = p3 & 0xFFFF;
-                    ASM_USE_NV(zC);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    S16(scratch, 0x74) = w0;
-                    q1 = U16((u8 *)rec, 2);
-                    e1 = q1 * 8 + (u32)base;
-                    ASM_KEEP_DEP_NV(e1, zB);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                    zD = (y + nD) << 0x10;
-                    w1 = U16((u8 *)e1, 4);
-                    S32(scratch, 0x78) = p1;
-                    w1 = w1 - ((Cell *)((u8 *)&D_80027120[0] + k * 6))->bias;
-                    S16(scratch, 0x7C) = w1;
-                    q2 = U16((u8 *)rec, 4);
-                    e2 = q2 * 8 + (u32)base;
-                    w2 = U16((u8 *)e2, 4);
-                    S32(scratch, 0x80) = p2;
-                    w2 = w2 - ((Cell *)((u8 *)&D_80027120[0] + k * 6))->bias;
-                    S16(scratch, 0x84) = w2;
-                    q3 = U16((u8 *)rec, 6);
-                    e3 = q3 * 8 + (u32)base;
-                    p3 = p3 | zD;
-                    S32(scratch, 0x88) = p3;
-                    w3 = U16((u8 *)e3, 4);
-                    w3 = w3 - ((Cell *)((u8 *)&D_80027120[0] + k * 6))->bias;
-                    S16(scratch, 0x8C) = w3;
-                    n = func_800656C0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88,
+                    ASM_SET(vert2_y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                    vert0_addr = face->i0 * 8 + (u32)vertices;
+                    xy0 = ((Vert *)vert0_addr)->x;
+                    xy0 = xy0 + cell_x;
+                    xy0 = xy0 & 0xFFFF;
+                    vert0_y = ((Vert *)vert0_addr)->y;
+                    y0_high = (cell_y + vert0_y) << 0x10;
+                    xy0 = xy0 | y0_high;
+                    S32(scratch, 0x70) = xy0;
+                    vert2_ref = U16((u8 *)face, 4);
+                    vert3_ref_y = U16((u8 *)face, 6);
+                    vert0_ref = U16((u8 *)face, 0);
+                    index1_xy = face->i1;
+                    vert1_ref_y = index1_xy * 8 + (u32)vertices;
+                    xy1 = U16((u8 *)vert1_ref_y, 0);
+                    vert1_ref_y = S16((u8 *)vert1_ref_y, 2);
+                    vert2_ref = vert2_ref << 3;
+                    vert2_ref = vert2_ref + (u32)vertices;
+                    vert3_ref_y = vert3_ref_y << 3;
+                    vert3_ref_y = vert3_ref_y + (u32)vertices;
+                    ASM_USE2_NV(vert3_ref_y, vert3_ref_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    ASM_USE_NV(vert3_ref_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    vert0_ref = vert0_ref << 3;
+                    vert0_ref = vert0_ref + (u32)vertices;
+                    xy1 = xy1 + cell_x;
+                    xy1 = xy1 & 0xFFFF;
+                    ASM_USE2_NV(xy1, xy1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    ASM_USE2_NV(xy1, xy1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    y1_high = (cell_y + vert1_ref_y) << 0x10;
+                    xy1 = xy1 | y1_high;
+                    xy2 = U16((u8 *)vert2_ref, 0);
+                    vert2_y = S16((u8 *)vert2_ref, 2);
+                    xy3 = U16((u8 *)vert3_ref_y, 0);
+                    ASM_KEEP_NV(vert0_ref);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                    height0 = U16((u8 *)vert0_ref, 4);
+                    height_bias = ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
+                    height0 = height0 - height_bias;
+                    ASM_USE2_NV(height0, height0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    ASM_USE2_NV(height0, height0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    vert3_ref_y = S16((u8 *)vert3_ref_y, 2);
+                    xy2 = xy2 + cell_x;
+                    xy2 = xy2 & 0xFFFF;
+                    y2_high = cell_y + vert2_y;
+                    y2_high = y2_high << 0x10;
+                    xy2 = xy2 | y2_high;
+                    xy3 = xy3 + cell_x;
+                    xy3 = xy3 & 0xFFFF;
+                    ASM_USE_NV(y2_high);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    S16(scratch, 0x74) = height0;
+                    index1 = U16((u8 *)face, 2);
+                    vert1_addr = index1 * 8 + (u32)vertices;
+                    ASM_KEEP_DEP_NV(vert1_addr, y1_high);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                    y3_high = (cell_y + vert3_ref_y) << 0x10;
+                    height1 = U16((u8 *)vert1_addr, 4);
+                    S32(scratch, 0x78) = xy1;
+                    height1 = height1 - ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
+                    S16(scratch, 0x7C) = height1;
+                    index2 = U16((u8 *)face, 4);
+                    vert2_addr = index2 * 8 + (u32)vertices;
+                    height2 = U16((u8 *)vert2_addr, 4);
+                    S32(scratch, 0x80) = xy2;
+                    height2 = height2 - ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
+                    S16(scratch, 0x84) = height2;
+                    index3 = U16((u8 *)face, 6);
+                    vert3_addr = index3 * 8 + (u32)vertices;
+                    xy3 = xy3 | y3_high;
+                    S32(scratch, 0x88) = xy3;
+                    height3 = U16((u8 *)vert3_addr, 4);
+                    height3 = height3 - ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
+                    S16(scratch, 0x8C) = height3;
+                    facing = func_800656C0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88,
                                       prim + 8, prim + 0x10, prim + 0x18, prim + 0x20,
                                       scratch + 0x90, scratch + 0xC0, scratch + 0x94);
-                    S32(scratch, 0x114) = n;
-                    if (n > 0) {
-                        v = S32(scratch, 0xC0) - S32(scratch, 0xC4);
-                        S32(scratch, 0xC0) = v;
-                        if ((u32) (v - 1) < 0x1DF) {
-                            func_80065034(base12 + rec->tex * 8, g160 + 0xA8, prim + 4);
-                            S32(prim, 0xC) = rec->a;
-                            S32(prim, 0x14) = rec->b;
-                            U16(prim, 0x1C) = rec->u2;
-                            U16(prim, 0x24) = rec->u3;
-                            if (U8(arg2, 0xC) != 0x80) {
-                                U8(prim, 4) = (U8(prim, 4) * U8(arg2, 0xC)) >> 7;
-                                U8(prim, 5) = (U8(prim, 5) * U8(arg2, 0xD)) >> 7;
-                                U8(prim, 6) = (U8(prim, 6) * U8(arg2, 0xE)) >> 7;
+                    S32(scratch, 0x114) = facing;
+                    if (facing > 0) {
+                        depth = S32(scratch, 0xC0) - S32(scratch, 0xC4);
+                        S32(scratch, 0xC0) = depth;
+                        if ((u32) (depth - 1) < 0x1DF) {
+                            func_80065034(materials + face->tex * 8, render_state + 0xA8, prim + 4);
+                            S32(prim, 0xC) = face->a;
+                            S32(prim, 0x14) = face->b;
+                            U16(prim, 0x1C) = face->u2;
+                            U16(prim, 0x24) = face->u3;
+                            if (U8(render_params, 0xC) != 0x80) {
+                                U8(prim, 4) = (U8(prim, 4) * U8(render_params, 0xC)) >> 7;
+                                U8(prim, 5) = (U8(prim, 5) * U8(render_params, 0xD)) >> 7;
+                                U8(prim, 6) = (U8(prim, 6) * U8(render_params, 0xE)) >> 7;
                             }
                             U8(prim, 3) = 9;
                             func_8006658C(S32(scratch, 0x20) + S32(scratch, 0xC0) * 4, prim);
                             prim += 0x28;
                         }
                     }
-                    if ((rec->flags & 0x80FF) == 0x8001) {
+                    if ((face->flags & 0x80FF) == 0x8001) {
                         break;
                     }
-                    rec += 1;
+                    face += 1;
                 }
             }
-            ((Cell *)((u8 *)g120 + k * 6))->bias = 0;
-            x += 0x40;
-            j += 1;
-            k += 1;
-        } while (j < 3);
-        y += 0x40;
-        i += 1;
-    } while (i < 3);
+            ((Cell *)((u8 *)cells + cell_index * 6))->bias = 0;
+            cell_x += 0x40;
+            col += 1;
+            cell_index += 1;
+        } while (col < 3);
+        cell_y += 0x40;
+        row += 1;
+    } while (row < 3);
 
-    arena2 = *(u8 **)g160;
-    PTR(arena2, 0x8D0) = prim;
-    sp30[0] = U16(g160, 0xC4);
-    sp30[1] = U16(g160, 0xC6);
-    sp30[2] = U16(g160, 0xC8);
-    sp38[0] = U16(g160, 0xB4);
-    sp38[1] = U16(g160, 0xB6);
-    sp38[2] = U16(g160, 0xB8);
-    U16(g160, 0xB4) = 0;
-    U16(g160, 0xB6) = 0;
-    U16(g160, 0xB8) = 0;
-    U16(g160, 0xC4) = U16(arg2, 0x16);
-    U16(g160, 0xC6) = U16(arg2, 0x18);
-    U16(g160, 0xC8) = U16(arg2, 0x1A);
+    active_buffer = *(u8 **)render_state;
+    PTR(active_buffer, 0x8D0) = prim;
+    saved_rotation[0] = U16(render_state, 0xC4);
+    saved_rotation[1] = U16(render_state, 0xC6);
+    saved_rotation[2] = U16(render_state, 0xC8);
+    saved_position[0] = U16(render_state, 0xB4);
+    saved_position[1] = U16(render_state, 0xB6);
+    saved_position[2] = U16(render_state, 0xB8);
+    U16(render_state, 0xB4) = 0;
+    U16(render_state, 0xB6) = 0;
+    U16(render_state, 0xB8) = 0;
+    U16(render_state, 0xC4) = U16(render_params, 0x16);
+    U16(render_state, 0xC6) = U16(render_params, 0x18);
+    U16(render_state, 0xC8) = U16(render_params, 0x1A);
 
-    if (PTR(arg0, 8) != 0) {
+    if (PTR(objects, 8) != 0) {
         S32(scratch, 0x13C) = 0;
-        obj = PTR(arg0, 8);
-        func_800453E0(obj + 0x20, S32(obj, 8), S32(obj, 0xC), (s16) U16(scratch, 0xC4));
-        ent = PTR(arg0, 8);
+        main_object = PTR(objects, 8);
+        func_800453E0(main_object + 0x20, S32(main_object, 8), S32(main_object, 0xC), (s16) U16(scratch, 0xC4));
+        main_entry = PTR(objects, 8);
         D_8002713A[0] = -2;
-        func_80026F1C(S32(ent, 8), S32(ent, 0xC), -2, S32(scratch, 0xC4));
+        func_80026F1C(S32(main_entry, 8), S32(main_entry, 0xC), -2, S32(scratch, 0xC4));
     }
-    idx2 = 0;
-    cur = arg0;
-    ASM_USE_NV(base);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    object_index = 0;
+    object_slot = objects;
+    ASM_USE_NV(vertices);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     do {
-        ASM_KEEP_NV(cur);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        if (PTR(cur, 0xC) != 0) {
+        ASM_KEEP_NV(object_slot);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        if (PTR(object_slot, 0xC) != 0) {
             S32(scratch, 0x13C) = 0;
-            obj2 = PTR(cur, 0xC);
-            func_800453E0(obj2 + 0x20, S32(obj2, 8), S32(obj2, 0xC), (s16) U16(scratch, 0xC4));
-            ent2 = PTR(cur, 0xC);
-            func_80026F1C(S32(ent2, 8), S32(ent2, 0xC), 0, S32(scratch, 0xC4));
+            extra_object = PTR(object_slot, 0xC);
+            func_800453E0(extra_object + 0x20, S32(extra_object, 8), S32(extra_object, 0xC), (s16) U16(scratch, 0xC4));
+            extra_entry = PTR(object_slot, 0xC);
+            func_80026F1C(S32(extra_entry, 8), S32(extra_entry, 0xC), 0, S32(scratch, 0xC4));
         }
-        idx2 += 1;
-        cur += 4;
-    } while (idx2 < 2);
+        object_index += 1;
+        object_slot += 4;
+    } while (object_index < 2);
 
-    img = PTR(arg0, 0x14);
-    if (img != 0) {
-        tmp = PTR(img, 0xC);
-        if (!(U16(tmp, 0x14) & 0x80)) {
-            func_80045CC4(img + 0x20, S32(img, 8), tmp, (s16) U16(scratch, 0xC4));
+    sprite = PTR(objects, 0x14);
+    if (sprite != 0) {
+        sprite_data = PTR(sprite, 0xC);
+        if (!(U16(sprite_data, 0x14) & 0x80)) {
+            func_80045CC4(sprite + 0x20, S32(sprite, 8), sprite_data, (s16) U16(scratch, 0xC4));
         }
     }
-    U16(g160, 0xB4) = sp38[0];
-    U16(g160, 0xB6) = sp38[1];
-    U16(g160, 0xB8) = sp38[2];
-    U16(g160, 0xC4) = sp30[0];
-    U16(g160, 0xC6) = sp30[1];
-    U16(g160, 0xC8) = sp30[2];
+    U16(render_state, 0xB4) = saved_position[0];
+    U16(render_state, 0xB6) = saved_position[1];
+    U16(render_state, 0xB8) = saved_position[2];
+    U16(render_state, 0xC4) = saved_rotation[0];
+    U16(render_state, 0xC6) = saved_rotation[1];
+    U16(render_state, 0xC8) = saved_rotation[2];
     func_80064A40();
     return 0;
 }

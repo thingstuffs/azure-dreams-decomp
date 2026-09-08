@@ -193,210 +193,211 @@ extern void func_8005E4A0(s32 a0, s32 a1);
 extern s32 func_8005E78C(void);
 extern void func_8005EC0C(Req *a0);
 
-void func_80056E10(u8 arg0, s32 arg1, u8 arg2)
+/* Allocates or reuses voices for matching tones and applies channel note settings. */
+void func_80056E10(u8 channel_id, s32 note, u8 velocity)
 {
-    u8 t17;
-    u8 t24;
-    s32 pad_[6];
-    s32 a1c;
-    u16 idx;
-    s32 cnt;
-    s32 lim;
-    u16 nsub;
-    u8 *buf;
+    u8 tone_pan;
+    u8 channel_param_5d;
+    s32 stack_pad[6];
+    s32 note_value;
+    u16 tone_idx;
+    s32 program_count;
+    s32 program_limit;
+    u16 program_id;
+    u8 *song_data;
     Song *song;
-    Hdr *hdr;
-    s32 held;
-    u32 vel;
-    u16 key;
-    Chan *ch;
-    Ev *ev;
-    Voice *vp;
-    u8 *p;
-    u16 *hp;
-    s32 fp;
-    s16 j;
-    s32 i;
-    s32 acc;
-    s16 n;
-    s32 r;
-    u32 prev;
-    s32 fpt;
-    s32 av;
-    u32 keyx;
-    u16 t10;
-    u16 t12;
+    Hdr *program;
+    s32 voice_held;
+    u32 note_key;
+    u16 channel_key;
+    Chan *channel;
+    Ev *tone;
+    Voice *voice;
+    u8 *program_data;
+    u16 *sample_sizes;
+    s32 start_note;
+    s16 voice_idx;
+    s32 entry_idx;
+    s32 sample_offset;
+    s16 sample_id;
+    s32 voice_status;
+    u32 prev_note;
+    s32 glide_note;
+    s32 match_note;
+    u32 match_channel;
+    u16 adsr1;
+    u16 adsr2;
 
-    a1c = arg1;
-    cnt = 0;
-    i = 0;
-    ch = &D_80084960[arg0];
+    note_value = note;
+    program_count = 0;
+    entry_idx = 0;
+    channel = &D_80084960[channel_id];
     song = (Song *)D_80086A40[D_80086D50[0]].f04;
-    nsub = ch->f00;
-    buf = (u8 *)song;
-    if ((s32)nsub != 0) {
-        lim = nsub;
-        p = buf;
+    program_id = channel->f00;
+    song_data = (u8 *)song;
+    if ((s32)program_id != 0) {
+        program_limit = program_id;
+        program_data = song_data;
         do {
-            if (p[0x20] != 0) {
-                cnt++;
+            if (program_data[0x20] != 0) {
+                program_count++;
             }
-            p += 0x10;
-            i++;
-        } while (i < lim);
+            program_data += 0x10;
+            entry_idx++;
+        } while (entry_idx < program_limit);
     }
-    hdr = (Hdr *)(buf + (nsub * 0x10 + 0x20));
-    fp = (u8) a1c;
-    idx = 0;
-    if (hdr->f00 == 0) {
+    program = (Hdr *)(song_data + (program_id * 0x10 + 0x20));
+    start_note = (u8) note_value;
+    tone_idx = 0;
+    if (program->f00 == 0) {
         return;
     }
-    vel = a1c & 0xFF;
-    key = arg0;
+    note_key = note_value & 0xFF;
+    channel_key = channel_id;
     do {
-        ev = (Ev *)(buf + (((cnt * 0x10 + idx) << 5) + 0x820));
-        held = 0;
-        if ((vel >= ev->f06) && (ev->f07 >= vel)) {
-            j = -1;
-            if (ch->f98 != 0) {
-                j = 0;
+        tone = (Ev *)(song_data + (((program_count * 0x10 + tone_idx) << 5) + 0x820));
+        voice_held = 0;
+        if ((note_key >= tone->f06) && (tone->f07 >= note_key)) {
+            voice_idx = -1;
+            if (channel->f98 != 0) {
+                voice_idx = 0;
                 while (1) {
-                    if (key == D_80085458[j].f06) {
+                    if (channel_key == D_80085458[voice_idx].f06) {
                         break;
                     }
-                    if (++j >= D_80073734_1[0]) {
-                        j = -1;
+                    if (++voice_idx >= D_80073734_1[0]) {
+                        voice_idx = -1;
                         break;
                     }
                 }
-                if (j != -1) {
-                    if (D_80085458[j].f1A == 0) {
-                        func_80056DB4(j);
-                        func_8005E97C(0, D_80073740[j]);
+                if (voice_idx != -1) {
+                    if (D_80085458[voice_idx].f1A == 0) {
+                        func_80056DB4(voice_idx);
+                        func_8005E97C(0, D_80073740[voice_idx]);
                     } else {
-                        held = 1;
+                        voice_held = 1;
                     }
                 } else {
-                    j = 0;
+                    voice_idx = 0;
                     while (1) {
-                        if (func_8005EB78(D_80073740[j]) == 0) {
+                        if (func_8005EB78(D_80073740[voice_idx]) == 0) {
                             break;
                         }
-                        if (++j >= D_80073734_2[0]) {
-                            j = -1;
+                        if (++voice_idx >= D_80073734_2[0]) {
+                            voice_idx = -1;
                             break;
                         }
                     }
-                    if (j == -1) {
-                        j = 0;
+                    if (voice_idx == -1) {
+                        voice_idx = 0;
                         while (1) {
-                            r = func_8005EB78(D_80073740[j]);
-                            if (r == 2) {
+                            voice_status = func_8005EB78(D_80073740[voice_idx]);
+                            if (voice_status == 2) {
                                 break;
                             }
-                            if (r == 0) {
+                            if (voice_status == 0) {
                                 break;
                             }
-                            if (++j >= D_80073734_3[0]) {
-                                j = -1;
+                            if (++voice_idx >= D_80073734_3[0]) {
+                                voice_idx = -1;
                                 break;
                             }
                         }
                     }
                 }
-                if (ch->f50 != 0) {
-                    fpt = ch->f5C & 0x7F;
-                    ASM_KEEP_NV(fpt);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    fp = (u8) fpt;
-                    ASM_KEEP_NV(ch);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                    prev = ch->f5C;
-                    ch->f52 = 0;
-                    if (prev < vel) {
-                        ch->f56 = ((a1c & 0xFF) - ch->f5C) << 7;
-                        ch->f58 = 1;
-                        ch->f54 = (ch->f56 * 4) / ch->f50;
-                    } else if (prev == vel) {
-                        ch->f54 = 0;
-                        fp = (u8) a1c;
+                if (channel->f50 != 0) {
+                    glide_note = channel->f5C & 0x7F;
+                    ASM_KEEP_NV(glide_note);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    start_note = (u8) glide_note;
+                    ASM_KEEP_NV(channel);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                    prev_note = channel->f5C;
+                    channel->f52 = 0;
+                    if (prev_note < note_key) {
+                        channel->f56 = ((note_value & 0xFF) - channel->f5C) << 7;
+                        channel->f58 = 1;
+                        channel->f54 = (channel->f56 * 4) / channel->f50;
+                    } else if (prev_note == note_key) {
+                        channel->f54 = 0;
+                        start_note = (u8) note_value;
                     } else {
-                        ch->f56 = (ch->f5C - (a1c & 0xFF)) << 7;
-                        ch->f58 = 0;
-                        ch->f54 = (ch->f56 * 4) / ch->f50;
+                        channel->f56 = (channel->f5C - (note_value & 0xFF)) << 7;
+                        channel->f58 = 0;
+                        channel->f54 = (channel->f56 * 4) / channel->f50;
                     }
                 } else {
-                    ch->f52 = 0;
+                    channel->f52 = 0;
                 }
             } else {
-                if (ch->f50 != 0) {
-                    fpt = ch->f5C & 0x7F;
-                    ASM_KEEP_NV(fpt);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    fp = (u8) fpt;
-                    ASM_KEEP_NV(ch);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                    prev = ch->f5C;
-                    ch->f52 = 0;
-                    if (prev < vel) {
-                        ch->f56 = ((a1c & 0xFF) - ch->f5C) << 7;
-                        ch->f58 = 1;
-                        ch->f54 = (ch->f56 * 4) / ch->f50;
-                    } else if (prev == vel) {
-                        ch->f54 = 0;
-                        fp = (u8) a1c;
+                if (channel->f50 != 0) {
+                    glide_note = channel->f5C & 0x7F;
+                    ASM_KEEP_NV(glide_note);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    start_note = (u8) glide_note;
+                    ASM_KEEP_NV(channel);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                    prev_note = channel->f5C;
+                    channel->f52 = 0;
+                    if (prev_note < note_key) {
+                        channel->f56 = ((note_value & 0xFF) - channel->f5C) << 7;
+                        channel->f58 = 1;
+                        channel->f54 = (channel->f56 * 4) / channel->f50;
+                    } else if (prev_note == note_key) {
+                        channel->f54 = 0;
+                        start_note = (u8) note_value;
                     } else {
-                        ch->f56 = (ch->f5C - (a1c & 0xFF)) << 7;
-                        ch->f58 = 0;
-                        ch->f54 = (ch->f56 * 4) / ch->f50;
+                        channel->f56 = (channel->f5C - (note_value & 0xFF)) << 7;
+                        channel->f58 = 0;
+                        channel->f54 = (channel->f56 * 4) / channel->f50;
                     }
                 } else {
-                    ch->f52 = 0;
+                    channel->f52 = 0;
                 }
             }
-            if (j == -1) {
-                j = 0;
+            if (voice_idx == -1) {
+                voice_idx = 0;
                 while (1) {
-                    if (func_8005EB78(D_80073740[j]) == 0) {
+                    if (func_8005EB78(D_80073740[voice_idx]) == 0) {
                         break;
                     }
-                    if (++j >= D_80073734_4[0]) {
-                        j = -1;
+                    if (++voice_idx >= D_80073734_4[0]) {
+                        voice_idx = -1;
                         break;
                     }
                 }
-                if (j == -1) {
-                    j = 0;
+                if (voice_idx == -1) {
+                    voice_idx = 0;
                     while (1) {
-                        r = func_8005EB78(D_80073740[j]);
-                        if (r == 2) {
+                        voice_status = func_8005EB78(D_80073740[voice_idx]);
+                        if (voice_status == 2) {
                             break;
                         }
-                        if (r == 0) {
+                        if (voice_status == 0) {
                             break;
                         }
-                        if (++j >= D_80073734_5[0]) {
-                            j = -1;
+                        if (++voice_idx >= D_80073734_5[0]) {
+                            voice_idx = -1;
                             break;
                         }
                     }
-                    if (j == -1) {
-                        j = 0;
-                        keyx = key;
-                        av = a1c & 0xFF;
+                    if (voice_idx == -1) {
+                        voice_idx = 0;
+                        match_channel = channel_key;
+                        match_note = note_value & 0xFF;
                         while (1) {
-                            if ((keyx == D_80085458[j].f06) && (D_80085458[j].f0A == av)) {
+                            if ((match_channel == D_80085458[voice_idx].f06) && (D_80085458[voice_idx].f0A == match_note)) {
                                 break;
                             }
-                            if (++j >= D_80073734_6[0]) {
-                                j = -1;
+                            if (++voice_idx >= D_80073734_6[0]) {
+                                voice_idx = -1;
                                 break;
                             }
                         }
-                        if (j == -1) {
-                            j = 0;
+                        if (voice_idx == -1) {
+                            voice_idx = 0;
                             while (1) {
-                                if (D_80085458[j].f1A == 0) {
+                                if (D_80085458[voice_idx].f1A == 0) {
                                     break;
                                 }
-                                if (++j >= D_80073734_7[0]) {
-                                    j = -1;
+                                if (++voice_idx >= D_80073734_7[0]) {
+                                    voice_idx = -1;
                                     break;
                                 }
                             }
@@ -404,126 +405,130 @@ void func_80056E10(u8 arg0, s32 arg1, u8 arg2)
                     }
                 }
             }
-            if (j != -1) {
-                vp = &D_80085458[j];
-                if (ch->f98 == 0) {
-                    func_80056DB4(j);
-                    func_8005E97C(0, D_80073740[j]);
-                    func_80055E74(j, a1c & 0xFF, arg0, D_80084918.f08, D_80084918.f0A);
+            if (voice_idx != -1) {
+                voice = &D_80085458[voice_idx];
+                if (channel->f98 == 0) {
+                    func_80056DB4(voice_idx);
+                    func_8005E97C(0, D_80073740[voice_idx]);
+                    func_80055E74(voice_idx, note_value & 0xFF, channel_id, D_80084918.f08, D_80084918.f0A);
                 }
-                i = 0;
-                acc = 0;
-                hp = (u16 *)((D_80086A40[D_80086D50[0]].f04 + (song->f12 << 9)) + 0x820);
-                n = ev->f16;
-                for (; i < n; i++) {
-                    acc += *hp;
-                    hp++;
+                entry_idx = 0;
+                sample_offset = 0;
+                sample_sizes = (u16 *)((D_80086A40[D_80086D50[0]].f04 + (song->f12 << 9)) + 0x820);
+                sample_id = tone->f16;
+                for (; entry_idx < sample_id; entry_idx++) {
+                    sample_offset += *sample_sizes;
+                    sample_sizes++;
                 }
                 D_80084918.f04 = 0x601EF;
                 D_80084918.f0C = 0;
                 D_80084918.f0E = 0;
-                D_80084918.f00 = D_80073740[j];
-                acc <<= 3;
-                D_80084918.f1C = D_80086A40[D_80086D50[0]].f10 + acc;
-                t10 = ev->f10;
-                D_80084918.f3A = t10;
-                vp->f60 = t10;
-                t12 = ev->f12;
-                D_80084918.f3C = t12;
-                vp->f64 = t12;
-                if (ev->f10 & 0x80) { D_80084918.f24 = 5; } else { D_80084918.f24 = 1; }
-                vp->f68 = D_80084918.f24;
-                ch->f5C = a1c;
-                ch->f10 = arg2;
-                vp->f22 = ev->f04;
-                vp->f23 = ev->f05;
-                vp->f21 = ev->f0C;
-                vp->f20 = ev->f0D;
-                vp->f00 = j;
-                vp->f04 = nsub;
-                vp->f08 = idx;
-                vp->f0A = fp & 0x7F;
-                vp->f0C = fp & 0x7F;
-                vp->f06 = key;
-                vp->f1A = 1;
-                ch->f3A = 0;
-                vp->f14 = hdr->f01;
-                vp->f16 = hdr->f04;
-                vp->f15 = ev->f02;
-                t17 = ev->f03;
-                vp->f1C = arg2;
-                vp->f27 = 0;
-                vp->f26 = 0;
-                vp->f28 = 0;
-                vp->f17 = t17;
-                vp->f34 = ch->f6C;
-                vp->f36 = ch->f6E;
-                vp->f38 = ch->f70;
-                vp->f30 = ch->f68;
-                vp->f35 = ch->f6D;
-                t24 = ch->f5D;
-                vp->f2C = 0;
-                *((s32 *) &vp->f3C) = 0;
-                vp->f43 = 0;
-                vp->f42 = 0;
-                vp->f44 = 0;
-                vp->f24 = t24;
-                vp->f50 = ch->f88;
-                vp->f52 = ch->f8A;
-                vp->f54 = ch->f8C;
-                vp->f4C = ch->f84;
-                vp->f51 = ch->f89;
-                vp->f40 = ch->f78;
-                vp->f48 = 0;
-                vp->f58 = 0;
-                func_800561D8(&D_80085458[j], &D_80084960[arg0]);
-                D_80084918.f08 = vp->f10;
-                D_80084918.f0A = vp->f12;
-                vp->f1D = ch->f18;
-                vp->f0A = a1c & 0x7F;
-                vp->f74 = ch->f1C;
-                vp->f70 = -1;
-                if (ch->f28 < 0x40) {
-                    s32 u;
-                    s16 t = vp->f3C + (ch->f3A + ch->f52);
-                    t = t + ((vp->f0C << 7) + func_800565D8(vp, ch->f1C));
-                    u = ((s32)(t << 16)) >> 23;
-                    t = (t & 0x7F) + (u << 8);
-                    D_80084918.f16 = t;
+                D_80084918.f00 = D_80073740[voice_idx];
+                sample_offset <<= 3;
+                D_80084918.f1C = D_80086A40[D_80086D50[0]].f10 + sample_offset;
+                adsr1 = tone->f10;
+                D_80084918.f3A = adsr1;
+                voice->f60 = adsr1;
+                adsr2 = tone->f12;
+                D_80084918.f3C = adsr2;
+                voice->f64 = adsr2;
+                if (tone->f10 & 0x80) {
+                    D_80084918.f24 = 5;
                 } else {
-                    ch->f1C = 0x40;
-                    D_80084918.f16 = fp << 8;
+                    D_80084918.f24 = 1;
                 }
-                if (ev->f05 != 0) {
-                    D_80084930 = ((ev->f04 - 1) << 8) | (0x7F - ev->f05);
+                voice->f68 = D_80084918.f24;
+                channel->f5C = note_value;
+                channel->f10 = velocity;
+                voice->f22 = tone->f04;
+                voice->f23 = tone->f05;
+                voice->f21 = tone->f0C;
+                voice->f20 = tone->f0D;
+                voice->f00 = voice_idx;
+                voice->f04 = program_id;
+                voice->f08 = tone_idx;
+                voice->f0A = start_note & 0x7F;
+                voice->f0C = start_note & 0x7F;
+                voice->f06 = channel_key;
+                voice->f1A = 1;
+                channel->f3A = 0;
+                voice->f14 = program->f01;
+                voice->f16 = program->f04;
+                voice->f15 = tone->f02;
+                tone_pan = tone->f03;
+                voice->f1C = velocity;
+                voice->f27 = 0;
+                voice->f26 = 0;
+                voice->f28 = 0;
+                voice->f17 = tone_pan;
+                voice->f34 = channel->f6C;
+                voice->f36 = channel->f6E;
+                voice->f38 = channel->f70;
+                voice->f30 = channel->f68;
+                voice->f35 = channel->f6D;
+                channel_param_5d = channel->f5D;
+                voice->f2C = 0;
+                *((s32 *) &voice->f3C) = 0;
+                voice->f43 = 0;
+                voice->f42 = 0;
+                voice->f44 = 0;
+                voice->f24 = channel_param_5d;
+                voice->f50 = channel->f88;
+                voice->f52 = channel->f8A;
+                voice->f54 = channel->f8C;
+                voice->f4C = channel->f84;
+                voice->f51 = channel->f89;
+                voice->f40 = channel->f78;
+                voice->f48 = 0;
+                voice->f58 = 0;
+                func_800561D8(&D_80085458[voice_idx], &D_80084960[channel_id]);
+                D_80084918.f08 = voice->f10;
+                D_80084918.f0A = voice->f12;
+                voice->f1D = channel->f18;
+                voice->f0A = note_value & 0x7F;
+                voice->f74 = channel->f1C;
+                voice->f70 = -1;
+                if (channel->f28 < 0x40) {
+                    s32 semitone;
+                    s16 pitch = voice->f3C + (channel->f3A + channel->f52);
+                    pitch = pitch + ((voice->f0C << 7) + func_800565D8(voice, channel->f1C));
+                    semitone = ((s32)(pitch << 16)) >> 23;
+                    pitch = (pitch & 0x7F) + (semitone << 8);
+                    D_80084918.f16 = pitch;
                 } else {
-                    D_80084930 = ev->f05 | (ev->f04 << 8);
+                    channel->f1C = 0x40;
+                    D_80084918.f16 = start_note << 8;
                 }
-                if (held == 0) {
+                if (tone->f05 != 0) {
+                    D_80084930 = ((tone->f04 - 1) << 8) | (0x7F - tone->f05);
+                } else {
+                    D_80084930 = tone->f05 | (tone->f04 << 8);
+                }
+                if (voice_held == 0) {
                     func_8005EC0C(&D_80084918);
                 }
-                if (ch->f30 == 0) {
-                    if (ev->f01 & 4) {
+                if (channel->f30 == 0) {
+                    if (tone->f01 & 4) {
                         do {
-                            func_8005E4A0(1, D_80073740[j]);
-                        } while (!(func_8005E78C() & D_80073740[j]));
+                            func_8005E4A0(1, D_80073740[voice_idx]);
+                        } while (!(func_8005E78C() & D_80073740[voice_idx]));
                     } else {
                         do {
-                            func_8005E4A0(0, D_80073740[j]);
-                        } while (func_8005E78C() & D_80073740[j]);
+                            func_8005E4A0(0, D_80073740[voice_idx]);
+                        } while (func_8005E78C() & D_80073740[voice_idx]);
                     }
-                } else if (ch->f30 != 1) {
+                } else if (channel->f30 != 1) {
                     do {
-                        func_8005E4A0(1, D_80073740[j]);
-                    } while (!(func_8005E78C() & D_80073740[j]));
+                        func_8005E4A0(1, D_80073740[voice_idx]);
+                    } while (!(func_8005E78C() & D_80073740[voice_idx]));
                 } else {
                     do {
-                        func_8005E4A0(0, D_80073740[j]);
-                    } while (func_8005E78C() & D_80073740[j]);
+                        func_8005E4A0(0, D_80073740[voice_idx]);
+                    } while (func_8005E78C() & D_80073740[voice_idx]);
                 }
             }
         }
-        idx++;
-    } while (idx < hdr->f00);
-    ASM_SET(a1c);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        tone_idx++;
+    } while (tone_idx < program->f00);
+    ASM_SET(note_value);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 }

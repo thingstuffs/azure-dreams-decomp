@@ -1,60 +1,61 @@
 #include "common.h"
 
+/* Finds a word's byte offset and character count, and counts preceding characters. */
 void func_8002225C(
-    u8 *text, s32 limit, s32 *position_out, s32 *length_out, s32 *total_out
+    u8 *text, s32 word_index, s32 *offset_out, s32 *length_out, s32 *prior_chars_out
 )
 {
-    s32 position;
-    s32 length;
-    s32 row;
-    s32 outer_space;
-    u8 value;
+    s32 byte_offset;
+    s32 word_length;
+    s32 word_count;
+    s32 space;
+    u8 lead_byte;
 
-    position = 0;
-    length = position;
-    row = length;
-    *total_out = 0;
-    if (limit >= 0) {
-        outer_space = 0x20;
+    byte_offset = 0;
+    word_length = byte_offset;
+    word_count = word_length;
+    *prior_chars_out = 0;
+    if (word_index >= 0) {
+        space = 0x20;
         do {
-            *total_out += length;
-            if (*text == outer_space) {
+            *prior_chars_out += word_length;
+            if (*text == space) {
                 s32 skip_space;
-                if (position != 0) {
+                if (byte_offset != 0) {
                     skip_space = 0x20;
                 } else {
                     skip_space = 0x20;
                 }
                 do {
                     text++;
-                    position++;
+                    byte_offset++;
                 } while (*text == skip_space);
             }
-            *position_out = position;
-            value = *text;
-            length = 0;
-            if (value != outer_space) {
+            *offset_out = byte_offset;
+            lead_byte = *text;
+            word_length = 0;
+            if (lead_byte != space) {
                 s32 scan_space;
-                if (value != 0) {
+                if (lead_byte != 0) {
                     scan_space = 0x20;
                 } else {
                     scan_space = 0x20;
                 }
 scan:
-                if (value != 0) {
+                if (lead_byte != 0) {
                     text += 2;
-                    value = *text;
-                    length++;
-                    if (value == scan_space) {
+                    lead_byte = *text;
+                    word_length++;
+                    if (lead_byte == scan_space) {
                         goto post_scan;
                     }
                     goto scan;
                 }
             }
 post_scan:
-            position += length * 2;
-            row++;
-            *length_out = length;
-        } while (row <= limit);
+            byte_offset += word_length * 2;
+            word_count++;
+            *length_out = word_length;
+        } while (word_count <= word_index);
     }
 }

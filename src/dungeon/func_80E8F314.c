@@ -28,7 +28,8 @@ extern s16 D_80083228[];
 extern u16 D_80083460[];
 extern u8 D_80174F08[];
 
-void func_80174B14(Entity *entity, s32 arg1, Object *object, State *state) {
+/* Clears the state flag and, when allowed, resets the entity and selects a directional object value. */
+void func_80174B14(Entity *entity, s32 unused, Object *object, State *state) {
     u16 *flags = D_80083460;
 
     state->unk71 &= 0x7F;

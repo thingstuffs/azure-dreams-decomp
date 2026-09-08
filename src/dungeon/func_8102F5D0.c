@@ -34,24 +34,25 @@ typedef struct {
 extern void D_80045340(void);
 extern void func_8004491C(void *, void (*)(void));
 
-void func_8102F5D0(Obj *arg0, s32 arg1, Sub2 *arg2)
+/* Initialize object rendering and copy the three supplied parameter fields. */
+void func_8102F5D0(Obj *object, s32 state_value, Sub2 *source_params)
 {
-    Sub1 *sub1;
-    Sub2 *sub2;
+    Sub1 *render_state;
+    Sub2 *dest_params;
 
-    arg0->field48 = arg1;
-    func_8004491C(arg0, D_80045340);
-    sub1 = arg0->sub1;
-    sub1->field10 = 0x20;
-    sub1->field14 |= 0xC;
-    sub2 = arg0->sub2;
-    sub2->field2 = arg2->field2;
-    sub2->field6 = arg2->field6;
-    sub2->fieldA = arg2->fieldA;
-    sub1 = arg0->sub1;
-    sub1->field1E = 0x1000;
-    sub1->field1C = 0x1000;
-    sub1->b = 0x80;
-    sub1->g = 0x80;
-    sub1->r = 0x80;
+    object->field48 = state_value;
+    func_8004491C(object, D_80045340);
+    render_state = object->sub1;
+    render_state->field10 = 0x20;
+    render_state->field14 |= 0xC;
+    dest_params = object->sub2;
+    dest_params->field2 = source_params->field2;
+    dest_params->field6 = source_params->field6;
+    dest_params->fieldA = source_params->fieldA;
+    render_state = object->sub1;
+    render_state->field1E = 0x1000;
+    render_state->field1C = 0x1000;
+    render_state->b = 0x80;
+    render_state->g = 0x80;
+    render_state->r = 0x80;
 }

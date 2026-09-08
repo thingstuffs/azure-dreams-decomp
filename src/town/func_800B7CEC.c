@@ -14,53 +14,51 @@ extern u8 D_800892E4[];
 extern u8 D_800892E8[];
 extern u8 D_800892EC[];
 
-void *func_800B544C(void *arg0, void *arg1)
+/* Builds a formatted marker string for the object's value, including an odd remainder. */
+void *func_800B544C(void *output, void *object)
 {
-    register u32 source_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register Text5 *source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 prefix_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register Text5 *prefix ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 copy_word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 copy_tail ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 raw_value;
-    s32 half_test;
-    register s32 value ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u32 loop_page;
-    register s32 odd ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 digits[64];
-    s32 half;
-    s32 i;
+    s32 raw_count;
+    s32 pair_test;
+    register s32 count ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 marker_page;
+    register s32 has_remainder ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 format_buf[64];
+    s32 pair_count;
+    s32 pair_index;
 
-    source_page = 0x80090000;
-    ASM_KEEP_NV(source_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    source = (Text5 *)(source_page - 0x6D24);
-    copy_word = source->word;
+    prefix_page = 0x80090000;
+    ASM_KEEP_NV(prefix_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    prefix = (Text5 *)(prefix_page - 0x6D24);
+    copy_word = prefix->word;
     ASM_KEEP_NV(copy_word);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    copy_tail = source->tail;
+    copy_tail = prefix->tail;
     ASM_KEEP_NV(copy_tail);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((Text5 *)arg0)->word = copy_word;
-    ((Text5 *)arg0)->tail = copy_tail;
-    strcat(arg0, func_8004E634(1, digits));
-    raw_value = func_80043868(arg1);
-    value = raw_value;
-    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    half_test = (s16)raw_value / 2;
-    if (half_test > 0) {
-        i = 0;
-        loop_page = 0x80090000;
-        half = half_test;
+    ((Text5 *)output)->word = copy_word;
+    ((Text5 *)output)->tail = copy_tail;
+    strcat(output, func_8004E634(1, format_buf));
+    raw_count = func_80043868(object);
+    count = raw_count;
+    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    pair_test = (s16)raw_count / 2;
+    if (pair_test > 0) {
+        pair_index = 0;
+        marker_page = 0x80090000;
+        pair_count = pair_test;
         do {
-            strcat(arg0, (void *)(loop_page - 0x6D1C));
-            i++;
-        } while (i < half);
+            strcat(output, (void *)(marker_page - 0x6D1C));
+            pair_index++;
+        } while (pair_index < pair_count);
     }
-    odd = value & 1;
-    if (odd) {
-        strcat(arg0, D_800892E8);
+    has_remainder = count & 1;
+    if (has_remainder) {
+        strcat(output, D_800892E8);
     }
-    strcat(arg0, D_800892EC);
-    strcat(arg0, func_8004E634(0, digits));
-    return arg0;
+    strcat(output, D_800892EC);
+    strcat(output, func_8004E634(0, format_buf));
+    return output;
 }
 
-/* MECHANISM: A 64-byte escaping digit buffer establishes retail's 0x68 frame.
-   Split page/source and packed word/tail roles preserve v0/a2/v1/a0 copy code.
-   Short-lived v0/v1 temps and an s3 page hold reproduce the loop and odd test. */

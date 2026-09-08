@@ -82,147 +82,148 @@ extern u8 D_805300C4[];
 extern u8 D_805300DC[];
 extern u8 D_80530668[];
 
+/* Creates and initializes a group of town objects and loads their graphics. */
 void func_8080E59C(void)
 {
-    StackData stack;
-    void **root;
-    void *obj;
-    S_8080E59C_1 *part;
-    S_8080E59C_2 *data;
-    u8 *slot;
-    u8 *persistent;
-    s32 i;
-    s32 scale;
+    StackData upload_rect;
+    void **child_slots;
+    void *object;
+    S_8080E59C_1 *render_part;
+    S_8080E59C_2 *object_state;
+    u8 *child_slot;
+    u8 *shared_state;
+    s32 child_index;
+    s32 unit_scale;
 
-    root = 0;
+    child_slots = 0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    stack.copy = D_80526440[0];
-    obj = func_800373DC(2, D_80526440);
-    persistent = D_8052643C;
-    if (obj != 0) {
-        root = (void **)((u8 *)obj + 0x20);
-        ((S_8080E59C_0 *)obj)->unk_10 = D_8052A0A4;
+    upload_rect.copy = D_80526440[0];
+    object = func_800373DC(2, D_80526440);
+    shared_state = D_8052643C;
+    if (object != 0) {
+        child_slots = (void **)((u8 *)object + 0x20);
+        ((S_8080E59C_0 *)object)->unk_10 = D_8052A0A4;
     }
 
-    obj = func_800373DC(0x136);
-    *root = obj;
-    if (obj != 0) {
-        void *call_a0;
-        void *call_a1;
-        void *call_a2;
+    object = func_800373DC(0x136);
+    *child_slots = object;
+    if (object != 0) {
+        void *setup_target;
+        void *saved_state;
+        void *setup_table;
         s32 color;
 
-        func_8003BC18(obj, D_8003D588);
+        func_8003BC18(object, D_8003D588);
         color = 0x808080;
-        call_a0 = (u8 *)obj + 0x2C;
-        call_a1 = (u8 *)obj + 0x78;
-        call_a2 = D_805300DC;
-        ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        data = ((S_8080E59C_0 *)obj)->unk_08;
-        part = ((S_8080E59C_0 *)obj)->unk_0C;
-        ((S_8080E59C_0 *)obj)->unk_10 = D_80529AC4;
-        ((S_8080E59C_0 *)obj)->unk_20 = root;
-        part->unk_1C = 0x1000;
-        part->unk_1E = 0x1000;
-        part->unk_20 = 0x1000;
-        part->unk_06 = 3;
-        part->unk_08 = 0x2D;
-        part->unk_12 = 0;
-        part->unk_14 = 0;
-        part->unk_10 = 0;
-        part->unk_16 = 0;
-        part->unk_18 = 0;
-        part->unk_1A = 0;
-        part->unk_00 = 0;
-        part->unk_04 = 0;
-        part->unk_05 = 0;
-        part->unk_0C = color;
-        data->unk_00 = 0x03600000;
-        data->unk_04 = 0x03600000;
-        data->unk_08.n = 0;
-        ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        setup_target = (u8 *)object + 0x2C;
+        saved_state = (u8 *)object + 0x78;
+        setup_table = D_805300DC;
+        ASM_KEEP(setup_target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        object_state = ((S_8080E59C_0 *)object)->unk_08;
+        render_part = ((S_8080E59C_0 *)object)->unk_0C;
+        ((S_8080E59C_0 *)object)->unk_10 = D_80529AC4;
+        ((S_8080E59C_0 *)object)->unk_20 = child_slots;
+        render_part->unk_1C = 0x1000;
+        render_part->unk_1E = 0x1000;
+        render_part->unk_20 = 0x1000;
+        render_part->unk_06 = 3;
+        render_part->unk_08 = 0x2D;
+        render_part->unk_12 = 0;
+        render_part->unk_14 = 0;
+        render_part->unk_10 = 0;
+        render_part->unk_16 = 0;
+        render_part->unk_18 = 0;
+        render_part->unk_1A = 0;
+        render_part->unk_00 = 0;
+        render_part->unk_04 = 0;
+        render_part->unk_05 = 0;
+        render_part->unk_0C = color;
+        object_state->unk_00 = 0x03600000;
+        object_state->unk_04 = 0x03600000;
+        object_state->unk_08.n = 0;
+        ASM_KEEP(object_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         {
-            s32 copy0;
-            s32 copy1;
-            s32 copy2;
-            register s32 copy3 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 first_word;
+            s32 second_word;
+            s32 third_word;
+            register s32 fourth_word ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            copy0 = data->unk_00;
-            copy1 = data->unk_04;
-            copy2 = data->unk_08.v;
-            copy3 = data->unk_0C;
-               /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ((S_8080E59C_0 *)obj)->unk_78 = copy0;
-            ((S_8080E59C_0 *)obj)->unk_7C = copy1;
-            ((S_8080E59C_0 *)obj)->unk_80 = copy2;
-            ((S_8080E59C_0 *)obj)->unk_84 = copy3;
-            copy0 = data->unk_10;
-            copy1 = data->unk_14;
-            ((S_8080E59C_0 *)obj)->unk_88 = copy0;
-            ((S_8080E59C_0 *)obj)->unk_8C = copy1;
-            ASM_KEEP(copy0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ((S_8080E59C_0 *)obj)->unk_74.p32 = persistent;
-            func_8023FA58(call_a0, call_a1, call_a2, (void *)copy2);
+            first_word = object_state->unk_00;
+            second_word = object_state->unk_04;
+            third_word = object_state->unk_08.v;
+            fourth_word = object_state->unk_0C;
+   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ((S_8080E59C_0 *)object)->unk_78 = first_word;
+            ((S_8080E59C_0 *)object)->unk_7C = second_word;
+            ((S_8080E59C_0 *)object)->unk_80 = third_word;
+            ((S_8080E59C_0 *)object)->unk_84 = fourth_word;
+            first_word = object_state->unk_10;
+            second_word = object_state->unk_14;
+            ((S_8080E59C_0 *)object)->unk_88 = first_word;
+            ((S_8080E59C_0 *)object)->unk_8C = second_word;
+            ASM_KEEP(first_word);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ((S_8080E59C_0 *)object)->unk_74.p32 = shared_state;
+            func_8023FA58(setup_target, saved_state, setup_table, (void *)third_word);
         }
     }
 
-    i = 2;
-    scale = 0x1000;
-    slot = (u8 *)root + 8;
+    child_index = 2;
+    unit_scale = 0x1000;
+    child_slot = (u8 *)child_slots + 8;
     do {
-        obj = func_800373DC(0x136);
-        ((S_8080E59C_3 *)slot)->unk_04 = obj;
-        if (obj != 0) {
-            s32 loop_color;
-            void *loop_a0;
+        object = func_800373DC(0x136);
+        ((S_8080E59C_3 *)child_slot)->unk_04 = object;
+        if (object != 0) {
+            s32 color;
+            void *setup_target;
             void *handler;
-            void *loop_a2;
+            void *setup_table;
 
-            func_8003BC18(obj, D_8003D588);
-            loop_color = 0x808080;
-            ASM_KEEP(loop_color);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            loop_a0 = (u8 *)obj + 0x28;
-            ASM_KEEP(loop_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            func_8003BC18(object, D_8003D588);
+            color = 0x808080;
+            ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            setup_target = (u8 *)object + 0x28;
+            ASM_KEEP(setup_target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             handler = D_8052AE20;
             ASM_KEEP(handler);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            data = ((S_8080E59C_0 *)obj)->unk_08;
-            part = ((S_8080E59C_0 *)obj)->unk_0C;
-            ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            loop_a2 = D_805300C4;
-            ASM_KEEP(loop_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ((S_8080E59C_0 *)obj)->unk_10 = handler;
-            ((S_8080E59C_0 *)obj)->unk_24 = root;
-            ((S_8080E59C_0 *)obj)->unk_74.s16 = i;
-            part->unk_12 = 0;
-            part->unk_14 = 0;
-            part->unk_10 = 0;
-            part->unk_16 = 0;
-            part->unk_18 = 0;
-            part->unk_1A = 0;
-            part->unk_00 = 0;
-            part->unk_04 = 0;
-            part->unk_05 = 0;
-            part->unk_1C = scale;
-            part->unk_1E = scale;
-            part->unk_20 = scale;
-            part->unk_0C = loop_color;
-            part->unk_08 = *(s32 *)((u8 *)D_805300C4 + 0x54 +
-                (((S_8080E59C_0 *)obj)->unk_74.s16 << 2));
-            data->unk_00 = (i << 23) + 0x04600000;
-            data->unk_04 = 0x03600000;
-            data->unk_08.n = 0;
-            ((S_8080E59C_0 *)obj)->unk_70 = persistent;
-            func_8023FA58(loop_a0, data, loop_a2, part);
+            object_state = ((S_8080E59C_0 *)object)->unk_08;
+            render_part = ((S_8080E59C_0 *)object)->unk_0C;
+            ASM_KEEP(render_part);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            setup_table = D_805300C4;
+            ASM_KEEP(setup_table);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ((S_8080E59C_0 *)object)->unk_10 = handler;
+            ((S_8080E59C_0 *)object)->unk_24 = child_slots;
+            ((S_8080E59C_0 *)object)->unk_74.s16 = child_index;
+            render_part->unk_12 = 0;
+            render_part->unk_14 = 0;
+            render_part->unk_10 = 0;
+            render_part->unk_16 = 0;
+            render_part->unk_18 = 0;
+            render_part->unk_1A = 0;
+            render_part->unk_00 = 0;
+            render_part->unk_04 = 0;
+            render_part->unk_05 = 0;
+            render_part->unk_1C = unit_scale;
+            render_part->unk_1E = unit_scale;
+            render_part->unk_20 = unit_scale;
+            render_part->unk_0C = color;
+            render_part->unk_08 = *(s32 *)((u8 *)D_805300C4 + 0x54 +
+                (((S_8080E59C_0 *)object)->unk_74.s16 << 2));
+            object_state->unk_00 = (child_index << 23) + 0x04600000;
+            object_state->unk_04 = 0x03600000;
+            object_state->unk_08.n = 0;
+            ((S_8080E59C_0 *)object)->unk_70 = shared_state;
+            func_8023FA58(setup_target, object_state, setup_table, render_part);
         }
-        i--;
-        slot -= 4;
-    } while (i >= 0);
+        child_index--;
+        child_slot -= 4;
+    } while (child_index >= 0);
 
-    stack.half[0] = 0x70;
-    stack.half[1] = 0x1C1;
-    stack.half[2] = 0x30;
-    stack.half[3] = 1;
-    func_8006E8B8(stack.half, D_80530668);
+    upload_rect.half[0] = 0x70;
+    upload_rect.half[1] = 0x1C1;
+    upload_rect.half[2] = 0x30;
+    upload_rect.half[3] = 1;
+    func_8006E8B8(upload_rect.half, D_80530668);
     func_8006E590(0);
 }

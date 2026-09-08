@@ -63,32 +63,26 @@ extern void func_8005CC04(s32 a0);
 extern void func_8005CB88(void);
 extern void func_8005D550(s32 a0, s32 a1, s32 a2);
 
-/* Resets SPU/voice playback state. Calls ResetCallback/func_8005CC04 on the
- * requested channel a0; if a0 is the master channel (0), fills a 24-entry
- * s16 sentinel table with 0xC000. Then calls func_8005CB88, clears a block
- * of playback-state globals, re-primes D_80079500.ptr with the current
- * D_800799C0[0] value and forwards it to func_8005D550(0xD1, value, 0),
- * then clears a second block of state globals (including the
- * D_800799B4/B8/BC record and the D_80079974 busy flag). */
-void func_8005CA90(s32 a0)
+/* Resets SPU playback state and initializes voice sentinels for the master channel. */
+void func_8005CA90(s32 channel)
 {
-    s32 s0 = a0;
-    s32 v1;
-    s32 i;
+    s32 saved_channel = channel;
+    s32 channel_value;
+    s32 voice_index;
 
-    ResetCallback(a0);
-    func_8005CC04(s0);
+    ResetCallback(channel);
+    func_8005CC04(saved_channel);
 
-    if (s0 == 0) {
-        u16 val = 0xC000;
-        for (i = 23; i >= 0; i--) {
-            D_80079520[i] = val;
+    if (saved_channel == 0) {
+        u16 sentinel = 0xC000;
+        for (voice_index = 23; voice_index >= 0; voice_index--) {
+            D_80079520[voice_index] = sentinel;
         }
     }
 
     func_8005CB88();
 
-    v1 = D_800799C0.value[0];
+    channel_value = D_800799C0.value[0];
 
     D_800794F8[0] = 0;
     D_800794FC.v = 0;
@@ -97,9 +91,9 @@ void func_8005CA90(s32 a0)
     D_8007950E[0] = 0;
     D_80079510[0] = 0;
     D_80079514[0] = 0;
-    D_80079500.ptr = (void *)v1;
+    D_80079500.ptr = (void *)channel_value;
 
-    func_8005D550(0xD1, v1, 0);
+    func_8005D550(0xD1, channel_value, 0);
 
     D_800799B4.value = 0;
     D_800799B4.flag = 0;

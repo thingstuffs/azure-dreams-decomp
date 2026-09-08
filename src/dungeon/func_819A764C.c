@@ -55,37 +55,38 @@ extern void func_8004491C();
 extern s16 func_8006649C();
 extern s32 func_80069EF8(void);
 
-void func_819A764C(void *arg0)
+/* Update randomized intermediate points and advance the effect state. */
+void func_819A764C(void *effect_data)
 {
-    s16 delta[3];
+    s16 point_step[3];
     s32 state;
-    s32 i;
-    register void *dst ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *tail_arg;
-    S_819A764C_1 *inner;
+    s32 point_index;
+    register void *point_slot ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *object_base;
+    S_819A764C_1 *linked_object;
     register u32 page_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *message;
-    register void *self ASM_REG("$18") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *self ASM_REG("$18") = effect_data;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    inner = ((S_819A764C_0 *)self)->unk_00;
-    inner->unk_52 |= 0x8000;
+    linked_object = ((S_819A764C_0 *)self)->unk_00;
+    linked_object->unk_52 |= 0x8000;
 
-    delta[0] = (((S_819A764C_0 *)self)->unk_24 - ((S_819A764C_0 *)self)->unk_04.s) >> 2;
-    delta[1] = (((S_819A764C_0 *)self)->unk_26 - ((S_819A764C_0 *)self)->unk_06.s) >> 2;
-    delta[2] = (((S_819A764C_0 *)self)->unk_28 - ((S_819A764C_0 *)self)->unk_08.s) >> 2;
-    i = 1;
-    dst = self + 8;
+    point_step[0] = (((S_819A764C_0 *)self)->unk_24 - ((S_819A764C_0 *)self)->unk_04.s) >> 2;
+    point_step[1] = (((S_819A764C_0 *)self)->unk_26 - ((S_819A764C_0 *)self)->unk_06.s) >> 2;
+    point_step[2] = (((S_819A764C_0 *)self)->unk_28 - ((S_819A764C_0 *)self)->unk_08.s) >> 2;
+    point_index = 1;
+    point_slot = self + 8;
 
     do {
-        ((S_819A764C_2 *)dst)->unk_04 = ((S_819A764C_0 *)self)->unk_04.u + delta[0] * i
+        ((S_819A764C_2 *)point_slot)->unk_04 = ((S_819A764C_0 *)self)->unk_04.u + point_step[0] * point_index
                             + (func_80069EF8() & 0x3F) - 0x20;
-        ((S_819A764C_2 *)dst)->unk_06 = ((S_819A764C_0 *)self)->unk_06.u + delta[1] * i
+        ((S_819A764C_2 *)point_slot)->unk_06 = ((S_819A764C_0 *)self)->unk_06.u + point_step[1] * point_index
                             + (func_80069EF8() & 0x3F) - 0x20;
-        ((S_819A764C_2 *)dst)->unk_08 = ((S_819A764C_0 *)self)->unk_08.u + delta[2] * i++
+        ((S_819A764C_2 *)point_slot)->unk_08 = ((S_819A764C_0 *)self)->unk_08.u + point_step[2] * point_index++
                             - (func_80069EF8() & 0x3F);
-        dst += 8;
-    } while (i < 4);
+        point_slot += 8;
+    } while (point_index < 4);
 
     ((S_819A764C_0 *)self)->unk_2C = ((((S_819A764C_0 *)self)->unk_3E & 3) << 5) + 0x80;
     state = ((S_819A764C_0 *)self)->unk_3C.s;
@@ -97,7 +98,7 @@ void func_819A764C(void *arg0)
     if (state >= 2) {
         goto high_states;
     }
-    tail_arg = self - 0x20;
+    object_base = self - 0x20;
     if (state == 0) {
         goto state_zero;
     }
@@ -113,7 +114,7 @@ state_zero:
     message = D_80020000;
     ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     message += 0x4B20;
-    func_8004491C(tail_arg, message);
+    func_8004491C(object_base, message);
 
 state_one:
     ((S_819A764C_0 *)self)->unk_3E = (func_80069EF8() & 3) + 2;

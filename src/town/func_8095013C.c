@@ -23,23 +23,24 @@ extern RuntimeRoot *D_80016000;
 extern char D_80016080[];
 extern char D_800160A8[];
 
-s32 func_8095013C(Entry *arg0, s32 arg1)
+/* Return the index of the matching key, or assert and terminate if absent. */
+s32 func_8095013C(Entry *entries, s32 key)
 {
     Entry *entry;
     s32 index;
 
     index = 0;
-    if (arg0[0].value != 0) {
-        entry = arg0;
+    if (entries[0].value != 0) {
+        entry = entries;
         while (entry->value != 0) {
-            if (entry->key == arg1) {
+            if (entry->key == key) {
                 break;
             }
             entry++;
             index++;
         }
 
-        if (arg0[index].value != 0) {
+        if (entries[index].value != 0) {
             return index;
         }
     }

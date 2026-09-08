@@ -158,175 +158,176 @@ typedef struct {
 } Scratch;
 
 
-s32 func_80121C90(s32 arg0, s32 arg1) {
+/* Builds a filtered 4-bit glyph bitmap for the requested character. */
+s32 func_80121C90(s32 char_code, s32 dst_addr) {
     volatile u8 frame_pad[32];
     s16 row;
     s16 col;
-    s16 i;
-    Scratch *SP;
-    s32 id;
-    s32 res;
-    u8 t0;
-    u8 t1;
-    u8 t2;
-    u8 t3;
-    u8 t4;
-    u8 t5;
-    u8 t6;
-    u8 t7;
-    u16 span;
+    s16 neighbor_bit;
+    Scratch *scratch;
+    s32 glyph_code;
+    s32 glyph_addr;
+    u8 pixel_pair_0;
+    u8 pixel_pair_1;
+    u8 pixel_pair_2;
+    u8 pixel_pair_3;
+    u8 pixel_pair_4;
+    u8 pixel_pair_5;
+    u8 pixel_pair_6;
+    u8 pixel_pair_7;
+    u16 gap_offset;
 
-    SP = (Scratch *)0x1F800000;
-    id = arg0 & 0xFFFF;
-    res = Krom2RawAdd(id);
-    SP->src = (u16 *)res;
-    if (res == -1) {
+    scratch = (Scratch *)0x1F800000;
+    glyph_code = char_code & 0xFFFF;
+    glyph_addr = Krom2RawAdd(glyph_code);
+    scratch->src = (u16 *)glyph_addr;
+    if (glyph_addr == -1) {
         return 0;
     }
-    if (id == 0x81F1) {
-        SP->src = D_8012695C;
+    if (glyph_code == 0x81F1) {
+        scratch->src = D_8012695C;
     }
 
-    SP->p0 = (u8 *)0x1F800034;
+    scratch->p0 = (u8 *)0x1F800034;
     for (row = 0; row < 180; row++) {
-        *SP->p0++ = 0;
+        *scratch->p0++ = 0;
     }
 
-    SP->p0 = &SP->grid[10];
+    scratch->p0 = &scratch->grid[10];
     for (row = 0; row < 15; row++) {
-        SP->word = *SP->src++;
+        scratch->word = *scratch->src++;
         for (col = 0; col < 8; col++) {
-            SP->n[col] = 0;
+            scratch->n[col] = 0;
         }
         for (col = 1; col >= 0; col--) {
-            t0 = SP->n[0];
-            if ((SP->word >> (col + 6)) & 1) t0 |= 1 << (col * 4);
-            SP->n[0] = t0;
-            t1 = SP->n[1];
-            if ((SP->word >> (col + 4)) & 1) t1 |= 1 << (col * 4);
-            SP->n[1] = t1;
-            t2 = SP->n[2];
-            if ((SP->word >> (col + 2)) & 1) t2 |= 1 << (col * 4);
-            SP->n[2] = t2;
-            t3 = SP->n[3];
-            if ((SP->word >> col) & 1) t3 |= 1 << (col * 4);
-            SP->n[3] = t3;
-            t4 = SP->n[4];
-            if ((SP->word >> (col + 14)) & 1) t4 |= 1 << (col * 4);
-            SP->n[4] = t4;
-            t5 = SP->n[5];
-            if ((SP->word >> (col + 12)) & 1) t5 |= 1 << (col * 4);
-            SP->n[5] = t5;
-            t6 = SP->n[6];
-            if ((SP->word >> (col + 10)) & 1) t6 |= 1 << (col * 4);
-            SP->n[6] = t6;
-            t7 = SP->n[7];
-            if ((SP->word >> (col + 8)) & 1) t7 |= 1 << (col * 4);
-            SP->n[7] = t7;
+            pixel_pair_0 = scratch->n[0];
+            if ((scratch->word >> (col + 6)) & 1) pixel_pair_0 |= 1 << (col * 4);
+            scratch->n[0] = pixel_pair_0;
+            pixel_pair_1 = scratch->n[1];
+            if ((scratch->word >> (col + 4)) & 1) pixel_pair_1 |= 1 << (col * 4);
+            scratch->n[1] = pixel_pair_1;
+            pixel_pair_2 = scratch->n[2];
+            if ((scratch->word >> (col + 2)) & 1) pixel_pair_2 |= 1 << (col * 4);
+            scratch->n[2] = pixel_pair_2;
+            pixel_pair_3 = scratch->n[3];
+            if ((scratch->word >> col) & 1) pixel_pair_3 |= 1 << (col * 4);
+            scratch->n[3] = pixel_pair_3;
+            pixel_pair_4 = scratch->n[4];
+            if ((scratch->word >> (col + 14)) & 1) pixel_pair_4 |= 1 << (col * 4);
+            scratch->n[4] = pixel_pair_4;
+            pixel_pair_5 = scratch->n[5];
+            if ((scratch->word >> (col + 12)) & 1) pixel_pair_5 |= 1 << (col * 4);
+            scratch->n[5] = pixel_pair_5;
+            pixel_pair_6 = scratch->n[6];
+            if ((scratch->word >> (col + 10)) & 1) pixel_pair_6 |= 1 << (col * 4);
+            scratch->n[6] = pixel_pair_6;
+            pixel_pair_7 = scratch->n[7];
+            if ((scratch->word >> (col + 8)) & 1) pixel_pair_7 |= 1 << (col * 4);
+            scratch->n[7] = pixel_pair_7;
         }
-        *SP->p0++ = 0;
+        *scratch->p0++ = 0;
         for (col = 0; col < 8; col++) {
-            *SP->p0++ = SP->n[col];
+            *scratch->p0++ = scratch->n[col];
         }
-        *SP->p0++ = 0;
+        *scratch->p0++ = 0;
     }
 
-    SP->p1 = SP->cell;
+    scratch->p1 = scratch->cell;
     for (row = 1; row < 17; row++) {
         for (col = 1; col < 9; col++) {
-            *SP->p1++ = SP->grid[row * 10 + col];
+            *scratch->p1++ = scratch->grid[row * 10 + col];
         }
     }
 
-    SP->p1 = SP->cell;
+    scratch->p1 = scratch->cell;
     for (row = 1; row < 17; row++) {
         for (col = 1; col < 9; col++) {
-            SP->p0 = &SP->grid[row * 10 + col];
+            scratch->p0 = &scratch->grid[row * 10 + col];
 
-            if (SP->p0[0] & 0xF0) {
-                SP->mask = 0;
-                SP->cnt = 0;
-                if (SP->p0[-11] & 0x0F) { SP->mask |= 0x80; SP->cnt++; }
-                if (SP->p0[-10] & 0xF0) { SP->mask |= 0x40; SP->cnt++; }
-                if (SP->p0[-10] & 0x0F) { SP->mask |= 0x20; SP->cnt++; }
-                if (SP->p0[-1] & 0x0F) { SP->mask |= 0x01; SP->cnt++; }
-                if (SP->p0[0] & 0x0F) { SP->mask |= 0x10; SP->cnt++; }
-                if (SP->p0[9] & 0x0F) { SP->mask |= 0x02; SP->cnt++; }
-                if (SP->p0[10] & 0xF0) { SP->mask |= 0x04; SP->cnt++; }
-                if (SP->p0[10] & 0x0F) { SP->mask |= 0x08; SP->cnt++; }
+            if (scratch->p0[0] & 0xF0) {
+                scratch->mask = 0;
+                scratch->cnt = 0;
+                if (scratch->p0[-11] & 0x0F) { scratch->mask |= 0x80; scratch->cnt++; }
+                if (scratch->p0[-10] & 0xF0) { scratch->mask |= 0x40; scratch->cnt++; }
+                if (scratch->p0[-10] & 0x0F) { scratch->mask |= 0x20; scratch->cnt++; }
+                if (scratch->p0[-1] & 0x0F) { scratch->mask |= 0x01; scratch->cnt++; }
+                if (scratch->p0[0] & 0x0F) { scratch->mask |= 0x10; scratch->cnt++; }
+                if (scratch->p0[9] & 0x0F) { scratch->mask |= 0x02; scratch->cnt++; }
+                if (scratch->p0[10] & 0xF0) { scratch->mask |= 0x04; scratch->cnt++; }
+                if (scratch->p0[10] & 0x0F) { scratch->mask |= 0x08; scratch->cnt++; }
 
-                switch (SP->cnt) {
+                switch (scratch->cnt) {
                 case 0:
-                    SP->p1[0] = (SP->p1[0] & 0x0F) | 0x20;
+                    scratch->p1[0] = (scratch->p1[0] & 0x0F) | 0x20;
                     break;
                 case 1:
-                    SP->p1[0] = (SP->p1[0] & 0x0F) | 0x20;
-                    switch (SP->mask) {
+                    scratch->p1[0] = (scratch->p1[0] & 0x0F) | 0x20;
+                    switch (scratch->mask) {
                     case 0x80:
-                        SP->p1[-9] = (SP->p1[-9] & 0xF0) | 2;
+                        scratch->p1[-9] = (scratch->p1[-9] & 0xF0) | 2;
                         break;
                     case 0x40:
-                        SP->p1[-8] = (SP->p1[-8] & 0x0F) | 0x20;
+                        scratch->p1[-8] = (scratch->p1[-8] & 0x0F) | 0x20;
                         break;
                     case 0x20:
-                        SP->p1[-8] = (SP->p1[-8] & 0xF0) | 2;
+                        scratch->p1[-8] = (scratch->p1[-8] & 0xF0) | 2;
                         break;
                     case 0x01:
-                        SP->p1[-1] = (SP->p1[-1] & 0xF0) | 2;
+                        scratch->p1[-1] = (scratch->p1[-1] & 0xF0) | 2;
                         break;
                     case 0x10:
-                        SP->p1[0] = (SP->p1[0] & 0xF0) | 2;
+                        scratch->p1[0] = (scratch->p1[0] & 0xF0) | 2;
                         break;
                     case 0x02:
-                        SP->p1[7] = (SP->p1[7] & 0xF0) | 2;
+                        scratch->p1[7] = (scratch->p1[7] & 0xF0) | 2;
                         break;
                     case 0x04:
-                        SP->p1[8] = (SP->p1[8] & 0x0F) | 0x20;
+                        scratch->p1[8] = (scratch->p1[8] & 0x0F) | 0x20;
                         break;
                     case 0x08:
-                        SP->p1[8] = (SP->p1[8] & 0xF0) | 2;
+                        scratch->p1[8] = (scratch->p1[8] & 0xF0) | 2;
                         break;
                     }
                     break;
                 case 2:
-                    for (i = 0; i < 7; i++) {
-                        if ((SP->mask >> i) & 1) break;
+                    for (neighbor_bit = 0; neighbor_bit < 7; neighbor_bit++) {
+                        if ((scratch->mask >> neighbor_bit) & 1) break;
                     }
-                    SP->first = i++;
-                    for (; i < 8; i++) {
-                        if ((SP->mask >> i) & 1) break;
+                    scratch->first = neighbor_bit++;
+                    for (; neighbor_bit < 8; neighbor_bit++) {
+                        if ((scratch->mask >> neighbor_bit) & 1) break;
                     }
-                    SP->second = i;
-                    span = i - SP->first - 3;
-                    if (span < 3) break;
+                    scratch->second = neighbor_bit;
+                    gap_offset = neighbor_bit - scratch->first - 3;
+                    if (gap_offset < 3) break;
 
-                    SP->p1[0] = (SP->p1[0] & 0x0F) | 0x20;
-                    for (i = 0; i < 8; i++) {
-                        if ((SP->mask >> i) & 1) {
-                            switch (i) {
+                    scratch->p1[0] = (scratch->p1[0] & 0x0F) | 0x20;
+                    for (neighbor_bit = 0; neighbor_bit < 8; neighbor_bit++) {
+                        if ((scratch->mask >> neighbor_bit) & 1) {
+                            switch (neighbor_bit) {
                             case 0:
-                                SP->p1[-9] = (SP->p1[-9] & 0xF0) | 2;
+                                scratch->p1[-9] = (scratch->p1[-9] & 0xF0) | 2;
                                 break;
                             case 1:
-                                SP->p1[-8] = (SP->p1[-8] & 0x0F) | 0x20;
+                                scratch->p1[-8] = (scratch->p1[-8] & 0x0F) | 0x20;
                                 break;
                             case 2:
-                                SP->p1[-8] = (SP->p1[-8] & 0xF0) | 2;
+                                scratch->p1[-8] = (scratch->p1[-8] & 0xF0) | 2;
                                 break;
                             case 3:
-                                SP->p1[-1] = (SP->p1[-1] & 0xF0) | 2;
+                                scratch->p1[-1] = (scratch->p1[-1] & 0xF0) | 2;
                                 break;
                             case 4:
-                                SP->p1[0] = (SP->p1[0] & 0xF0) | 2;
+                                scratch->p1[0] = (scratch->p1[0] & 0xF0) | 2;
                                 break;
                             case 5:
-                                SP->p1[7] = (SP->p1[7] & 0xF0) | 2;
+                                scratch->p1[7] = (scratch->p1[7] & 0xF0) | 2;
                                 break;
                             case 6:
-                                SP->p1[8] = (SP->p1[8] & 0x0F) | 0x20;
+                                scratch->p1[8] = (scratch->p1[8] & 0x0F) | 0x20;
                                 break;
                             case 7:
-                                SP->p1[8] = (SP->p1[8] & 0xF0) | 2;
+                                scratch->p1[8] = (scratch->p1[8] & 0xF0) | 2;
                                 break;
                             }
                         }
@@ -337,90 +338,90 @@ s32 func_80121C90(s32 arg0, s32 arg1) {
                 }
             }
 
-            if (SP->p0[0] & 0x0F) {
-                SP->mask = 0;
-                SP->cnt = 0;
-                if (SP->p0[-10] & 0xF0) { SP->mask |= 0x80; SP->cnt++; }
-                if (SP->p0[-10] & 0x0F) { SP->mask |= 0x40; SP->cnt++; }
-                if (SP->p0[-9] & 0xF0) { SP->mask |= 0x20; SP->cnt++; }
-                if (SP->p0[0] & 0xF0) { SP->mask |= 0x01; SP->cnt++; }
-                if (SP->p0[1] & 0xF0) { SP->mask |= 0x10; SP->cnt++; }
-                if (SP->p0[10] & 0xF0) { SP->mask |= 0x02; SP->cnt++; }
-                if (SP->p0[10] & 0x0F) { SP->mask |= 0x04; SP->cnt++; }
-                if (SP->p0[11] & 0xF0) { SP->mask |= 0x08; SP->cnt++; }
+            if (scratch->p0[0] & 0x0F) {
+                scratch->mask = 0;
+                scratch->cnt = 0;
+                if (scratch->p0[-10] & 0xF0) { scratch->mask |= 0x80; scratch->cnt++; }
+                if (scratch->p0[-10] & 0x0F) { scratch->mask |= 0x40; scratch->cnt++; }
+                if (scratch->p0[-9] & 0xF0) { scratch->mask |= 0x20; scratch->cnt++; }
+                if (scratch->p0[0] & 0xF0) { scratch->mask |= 0x01; scratch->cnt++; }
+                if (scratch->p0[1] & 0xF0) { scratch->mask |= 0x10; scratch->cnt++; }
+                if (scratch->p0[10] & 0xF0) { scratch->mask |= 0x02; scratch->cnt++; }
+                if (scratch->p0[10] & 0x0F) { scratch->mask |= 0x04; scratch->cnt++; }
+                if (scratch->p0[11] & 0xF0) { scratch->mask |= 0x08; scratch->cnt++; }
 
-                switch (SP->cnt) {
+                switch (scratch->cnt) {
                 case 0:
-                    SP->p1[0] = (SP->p1[0] & 0xF0) | 2;
+                    scratch->p1[0] = (scratch->p1[0] & 0xF0) | 2;
                     break;
                 case 1:
-                    SP->p1[0] = (SP->p1[0] & 0xF0) | 2;
-                    switch (SP->mask) {
+                    scratch->p1[0] = (scratch->p1[0] & 0xF0) | 2;
+                    switch (scratch->mask) {
                     case 0x80:
-                        SP->p1[-8] = (SP->p1[-8] & 0x0F) | 0x20;
+                        scratch->p1[-8] = (scratch->p1[-8] & 0x0F) | 0x20;
                         break;
                     case 0x40:
-                        SP->p1[-8] = (SP->p1[-8] & 0xF0) | 2;
+                        scratch->p1[-8] = (scratch->p1[-8] & 0xF0) | 2;
                         break;
                     case 0x20:
-                        SP->p1[-7] = (SP->p1[-7] & 0x0F) | 0x20;
+                        scratch->p1[-7] = (scratch->p1[-7] & 0x0F) | 0x20;
                         break;
                     case 0x01:
-                        SP->p1[0] = (SP->p1[0] & 0x0F) | 0x20;
+                        scratch->p1[0] = (scratch->p1[0] & 0x0F) | 0x20;
                         break;
                     case 0x10:
-                        SP->p1[1] = (SP->p1[1] & 0x0F) | 0x20;
+                        scratch->p1[1] = (scratch->p1[1] & 0x0F) | 0x20;
                         break;
                     case 0x02:
-                        SP->p1[8] = (SP->p1[8] & 0x0F) | 0x20;
+                        scratch->p1[8] = (scratch->p1[8] & 0x0F) | 0x20;
                         break;
                     case 0x04:
-                        SP->p1[8] = (SP->p1[8] & 0xF0) | 2;
+                        scratch->p1[8] = (scratch->p1[8] & 0xF0) | 2;
                         break;
                     case 0x08:
-                        SP->p1[9] = (SP->p1[9] & 0x0F) | 0x20;
+                        scratch->p1[9] = (scratch->p1[9] & 0x0F) | 0x20;
                         break;
                     }
                     break;
                 case 2:
-                    for (i = 0; i < 7; i++) {
-                        if ((SP->mask >> i) & 1) break;
+                    for (neighbor_bit = 0; neighbor_bit < 7; neighbor_bit++) {
+                        if ((scratch->mask >> neighbor_bit) & 1) break;
                     }
-                    SP->first = i++;
-                    for (; i < 8; i++) {
-                        if ((SP->mask >> i) & 1) break;
+                    scratch->first = neighbor_bit++;
+                    for (; neighbor_bit < 8; neighbor_bit++) {
+                        if ((scratch->mask >> neighbor_bit) & 1) break;
                     }
-                    SP->second = i;
-                    span = i - SP->first - 3;
-                    if (span < 3) break;
+                    scratch->second = neighbor_bit;
+                    gap_offset = neighbor_bit - scratch->first - 3;
+                    if (gap_offset < 3) break;
 
-                    SP->p1[0] = (SP->p1[0] & 0xF0) | 2;
-                    for (i = 0; i < 8; i++) {
-                        if ((SP->mask >> i) & 1) {
-                            switch (i) {
+                    scratch->p1[0] = (scratch->p1[0] & 0xF0) | 2;
+                    for (neighbor_bit = 0; neighbor_bit < 8; neighbor_bit++) {
+                        if ((scratch->mask >> neighbor_bit) & 1) {
+                            switch (neighbor_bit) {
                             case 0:
-                                SP->p1[-8] = (SP->p1[-8] & 0x0F) | 0x20;
+                                scratch->p1[-8] = (scratch->p1[-8] & 0x0F) | 0x20;
                                 break;
                             case 1:
-                                SP->p1[-8] = (SP->p1[-8] & 0xF0) | 2;
+                                scratch->p1[-8] = (scratch->p1[-8] & 0xF0) | 2;
                                 break;
                             case 2:
-                                SP->p1[-7] = (SP->p1[-7] & 0x0F) | 0x20;
+                                scratch->p1[-7] = (scratch->p1[-7] & 0x0F) | 0x20;
                                 break;
                             case 3:
-                                SP->p1[0] = (SP->p1[0] & 0x0F) | 0x20;
+                                scratch->p1[0] = (scratch->p1[0] & 0x0F) | 0x20;
                                 break;
                             case 4:
-                                SP->p1[1] = (SP->p1[1] & 0x0F) | 0x20;
+                                scratch->p1[1] = (scratch->p1[1] & 0x0F) | 0x20;
                                 break;
                             case 5:
-                                SP->p1[8] = (SP->p1[8] & 0x0F) | 0x20;
+                                scratch->p1[8] = (scratch->p1[8] & 0x0F) | 0x20;
                                 break;
                             case 6:
-                                SP->p1[8] = (SP->p1[8] & 0xF0) | 2;
+                                scratch->p1[8] = (scratch->p1[8] & 0xF0) | 2;
                                 break;
                             case 7:
-                                SP->p1[9] = (SP->p1[9] & 0x0F) | 0x20;
+                                scratch->p1[9] = (scratch->p1[9] & 0x0F) | 0x20;
                                 break;
                             }
                         }
@@ -431,62 +432,62 @@ s32 func_80121C90(s32 arg0, s32 arg1) {
                 }
             }
 
-            SP->p1++;
+            scratch->p1++;
         }
     }
 
-    SP->p2 = (u16 *)SP->cell;
-    SP->out = (u16 *)arg1;
+    scratch->p2 = (u16 *)scratch->cell;
+    scratch->out = (u16 *)dst_addr;
     for (row = 0; row < 16; row++) {
         for (col = 0; col < 3; col++) {
-            SP->o[col] = 0;
+            scratch->o[col] = 0;
         }
 
-        SP->word = *SP->p2++;
-        SP->n[0] = (SP->word >> 4) & 0xF;
-        SP->n[1] = SP->word & 0xF;
-        SP->o[0] |= D_8012697C[SP->n[0] * 3 + SP->n[1]];
-        SP->n[2] = SP->word >> 12;
-        SP->o[0] |= D_8012697C[(SP->n[1] + SP->n[2]) * 2] << 4;
-        SP->n[3] = (SP->word >> 8) & 0xF;
-        SP->o[0] |= D_8012697C[SP->n[3] * 3 + SP->n[2]] << 8;
+        scratch->word = *scratch->p2++;
+        scratch->n[0] = (scratch->word >> 4) & 0xF;
+        scratch->n[1] = scratch->word & 0xF;
+        scratch->o[0] |= D_8012697C[scratch->n[0] * 3 + scratch->n[1]];
+        scratch->n[2] = scratch->word >> 12;
+        scratch->o[0] |= D_8012697C[(scratch->n[1] + scratch->n[2]) * 2] << 4;
+        scratch->n[3] = (scratch->word >> 8) & 0xF;
+        scratch->o[0] |= D_8012697C[scratch->n[3] * 3 + scratch->n[2]] << 8;
 
-        SP->word = *SP->p2++;
-        SP->n[0] = (SP->word >> 4) & 0xF;
-        SP->n[1] = SP->word & 0xF;
-        SP->o[0] |= D_8012697C[SP->n[0] * 3 + SP->n[1]] << 12;
-        SP->n[2] = SP->word >> 12;
-        SP->o[1] |= D_8012697C[(SP->n[1] + SP->n[2]) * 2];
-        SP->n[3] = (SP->word >> 8) & 0xF;
-        SP->o[1] |= D_8012697C[SP->n[3] * 3 + SP->n[2]] << 4;
+        scratch->word = *scratch->p2++;
+        scratch->n[0] = (scratch->word >> 4) & 0xF;
+        scratch->n[1] = scratch->word & 0xF;
+        scratch->o[0] |= D_8012697C[scratch->n[0] * 3 + scratch->n[1]] << 12;
+        scratch->n[2] = scratch->word >> 12;
+        scratch->o[1] |= D_8012697C[(scratch->n[1] + scratch->n[2]) * 2];
+        scratch->n[3] = (scratch->word >> 8) & 0xF;
+        scratch->o[1] |= D_8012697C[scratch->n[3] * 3 + scratch->n[2]] << 4;
 
-        SP->word = *SP->p2++;
-        SP->n[0] = (SP->word >> 4) & 0xF;
-        SP->n[1] = SP->word & 0xF;
-        SP->o[1] |= D_8012697C[SP->n[0] * 3 + SP->n[1]] << 8;
-        SP->n[2] = SP->word >> 12;
-        SP->o[1] |= D_8012697C[(SP->n[1] + SP->n[2]) * 2] << 12;
-        SP->n[3] = (SP->word >> 8) & 0xF;
-        SP->o[2] |= D_8012697C[SP->n[3] * 3 + SP->n[2]];
+        scratch->word = *scratch->p2++;
+        scratch->n[0] = (scratch->word >> 4) & 0xF;
+        scratch->n[1] = scratch->word & 0xF;
+        scratch->o[1] |= D_8012697C[scratch->n[0] * 3 + scratch->n[1]] << 8;
+        scratch->n[2] = scratch->word >> 12;
+        scratch->o[1] |= D_8012697C[(scratch->n[1] + scratch->n[2]) * 2] << 12;
+        scratch->n[3] = (scratch->word >> 8) & 0xF;
+        scratch->o[2] |= D_8012697C[scratch->n[3] * 3 + scratch->n[2]];
 
-        SP->word = *SP->p2++;
-        SP->n[0] = (SP->word >> 4) & 0xF;
-        SP->n[1] = SP->word & 0xF;
-        SP->o[2] |= D_8012697C[SP->n[0] * 3 + SP->n[1]] << 4;
-        SP->n[2] = SP->word >> 12;
-        SP->o[2] |= D_8012697C[(SP->n[1] + SP->n[2]) * 2] << 8;
-        SP->n[3] = (SP->word >> 8) & 0xF;
-        SP->o[2] &= 0xFFF;
+        scratch->word = *scratch->p2++;
+        scratch->n[0] = (scratch->word >> 4) & 0xF;
+        scratch->n[1] = scratch->word & 0xF;
+        scratch->o[2] |= D_8012697C[scratch->n[0] * 3 + scratch->n[1]] << 4;
+        scratch->n[2] = scratch->word >> 12;
+        scratch->o[2] |= D_8012697C[(scratch->n[1] + scratch->n[2]) * 2] << 8;
+        scratch->n[3] = (scratch->word >> 8) & 0xF;
+        scratch->o[2] &= 0xFFF;
 
         for (col = 0; col < 3; col++) {
-            *SP->out++ = SP->o[col];
+            *scratch->out++ = scratch->o[col];
         }
     }
 
-    SP->out -= 3;
+    scratch->out -= 3;
     for (row = 0; row < 3; row++) {
-        *SP->out++ = 0;
+        *scratch->out++ = 0;
     }
-    SP->out = (u16 *)arg1;
-    return arg1;
+    scratch->out = (u16 *)dst_addr;
+    return dst_addr;
 }

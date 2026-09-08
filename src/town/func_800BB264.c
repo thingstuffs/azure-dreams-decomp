@@ -2,59 +2,57 @@
 
 extern s8 D_800133E7[9];
 
-void func_800B89C4(s32 arg0, s32 arg1)
+/* func_koya_tamago_pal_ld: store the selected palette and preserve the previous common palette. */
+void func_800B89C4(s32 slot, s32 palette)
 {
-    s32 raw = arg1;
-    register s32 value ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 common_index;
-    s32 small_index;
+    s32 raw_palette = palette;
+    register s32 signed_palette ASM_REG("$5") = palette;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 palette_offset;
+    s32 small_offset;
 
-    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    value = (s16)value;
-    common_index = arg0;
-    if (value <= 0) {
+    ASM_KEEP(signed_palette);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    signed_palette = (s16)signed_palette;
+    palette_offset = slot;
+    if (signed_palette <= 0) {
         goto common;
     }
-    if (value < 4) {
+    if (signed_palette < 4) {
         goto small;
     }
-    if (value >= 42) {
+    if (signed_palette >= 42) {
         goto common;
     }
-    if (value >= 37) {
+    if (signed_palette >= 37) {
         goto special;
     }
 
 common:
     {
-        register u8 *base ASM_REG("$2") = (u8 *)0x80010000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        u8 previous;
+        register u8 *state ASM_REG("$2") = (u8 *)0x80010000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        u8 previous_palette;
 
-        ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        common_index = (s16)common_index * 2;
-        base[0x33A5 + common_index] = (u8)raw;
-        previous = base[0x360A];
-        base[0x360A] = (u8)raw;
-        base[0x360B] = previous;
+        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        palette_offset = (s16)palette_offset * 2;
+        state[0x33A5 + palette_offset] = (u8)raw_palette;
+        previous_palette = state[0x360A];
+        state[0x360A] = (u8)raw_palette;
+        state[0x360B] = previous_palette;
         return;
     }
 
 small:
     {
-        u8 *base = (u8 *)0x80010000;
+        u8 *state = (u8 *)0x80010000;
 
-        small_index = arg0 << 16;
-        ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        small_index >>= 15;
-        base[0x33A5 + small_index] = (u8)raw;
+        small_offset = slot << 16;
+        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        small_offset >>= 15;
+        state[0x33A5 + small_offset] = (u8)raw_palette;
         return;
     }
 
 special:
-    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    D_800133E7[0] = (u8)raw;
+    ASM_KEEP(signed_palette);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    D_800133E7[0] = (u8)raw_palette;
 }
 
-/* MECHANISM: Frameless CFG pins raw arg1/signed arg1/common index to
-   a2/a1/v1 while leaving the small-path v0 shift naturally delay-filled.
-   Path-local v0/v1 page bases shape the full and small sibcall stores. */

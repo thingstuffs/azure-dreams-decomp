@@ -20,17 +20,18 @@ typedef struct S_800AF1B4_1 {
     M2C_UNK * unk_20;
 } S_800AF1B4_1;   /* arg0 in func_800AF1B4 */
 
-void func_800AF1B4(void *arg0, M2C_UNK arg1, s32 arg2) {
-    s32 temp_v0;
-    S_800AF1B4_0 *temp_s0;
+/* Updates the object value and resets associated state when it changes. */
+void func_800AF1B4(void *object, M2C_UNK value_arg, s32 reset_value) {
+    s32 new_value;
+    S_800AF1B4_0 *state;
 
-    temp_s0 = arg0 + 0x20;
-    temp_v0 = func_80049DE8(temp_s0->unk_1C, arg1, temp_s0->unk_28);
-    if (temp_v0 != temp_s0->unk_1C) {
-        temp_s0->unk_1C = temp_v0;
-        temp_s0->unk_04 = arg2;
-        temp_s0->unk_08 = 0;
-        ((S_800AF1B4_1 *)arg0)->unk_20 = &D_800AE5B8;
-        temp_s0->unk_20 = (s32) temp_s0->unk_1C;
+    state = object + 0x20;
+    new_value = func_80049DE8(state->unk_1C, value_arg, state->unk_28);
+    if (new_value != state->unk_1C) {
+        state->unk_1C = new_value;
+        state->unk_04 = reset_value;
+        state->unk_08 = 0;
+        ((S_800AF1B4_1 *)object)->unk_20 = &D_800AE5B8;
+        state->unk_20 = (s32) state->unk_1C;
     }
 }

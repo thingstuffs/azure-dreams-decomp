@@ -1,7 +1,5 @@
 #include "common.h"
 
-
-#include "common.h"
 typedef struct 
 {
   s32 unk00;
@@ -45,180 +43,178 @@ extern void func_80057D20(s32 a0, s32 a1, s32 a2);
 extern void func_8005845C(s32 a0, s32 a1);
 extern void func_8005848C(s32 a0, s32 a1);
 extern void func_80058494(s32 a0, s32 a1, s32 a2);
-void func_8005914C(S_80085FA8 *arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Dispatch a MIDI channel event and handle track state save, restore, and repeat controls. */
+void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second_data)
 {
-  s32 chan;
-  u32 i;
-  s32 count;
-  S_80085FA8 *s;
-  register S_80085FA8 *p ASM_REG("$13");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  register s32 a2copy ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-  p = arg0;
-  chan = arg1 & 0xF;
-  a2copy = arg2;
-  switch (arg1 & 0xF0)
+  s32 channel;
+  u32 track_index;
+  s32 track_count;
+  S_80085FA8 *track_iter;
+  register S_80085FA8 *track ASM_REG("$13");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+  register s32 event_data ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  track = track_arg;
+  channel = status & 0xF;
+  event_data = first_data;
+  switch (status & 0xF0)
   {
     case 0x80:
-      func_80057948(chan, a2copy & 0xFF, arg3 & 0xFF);
+      func_80057948(channel, event_data & 0xFF, second_data & 0xFF);
       return;
 
     case 0x90:
-      if ((arg3 & 0xFF) != 0)
-    {
-      func_80056E10(chan, a2copy & 0xFF, arg3 & 0xFF);
-    }
-    else
-    {
-      func_80057948(chan, a2copy & 0xFF, 0);
-    }
- do { return; } while (0);
+      if ((second_data & 0xFF) != 0)
+      {
+        func_80056E10(channel, event_data & 0xFF, second_data & 0xFF);
+      }
+      else
+      {
+        func_80057948(channel, event_data & 0xFF, 0);
+      }
+      return;
 
     case 0xA0:
-      func_80057A48(chan, a2copy & 0xFF, arg3 & 0xFF);
+      func_80057A48(channel, event_data & 0xFF, second_data & 0xFF);
       return;
 
     case 0xB0:
-      ASM_KEEP(p);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-      if ((a2copy & 0xFF) == 0x63)
-    {
-      if ((arg3 & 0xFF) == 0x14)
+      ASM_KEEP(track);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+      if ((event_data & 0xFF) == 0x63)
       {
-        if (D_800869B8[0] != 0)
+        if ((second_data & 0xFF) == 0x14)
         {
-          s32 *countPage;
-          countPage = D_800869B4_PAGE;
-          if (countPage[D_800869B4_PAGE_INDEX] != 0)
-          {
-            s32 x0;
-            s32 x1;
-            s32 x2;
-            s32 x3;
-            s32 loopCount;
-            register u8 x4 ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            s32 twenty;
-            i = 0;
-            twenty = 0x14;
-            s = D_80085FA8;
-            do
-            {
-              x0 = *(volatile s32 *)&s->unk00;
-              x1 = *(volatile s32 *)&s->unk10;
-              x2 = *(volatile s32 *)&s->unk40;
-              x3 = *(volatile s32 *)&s->unk2C;
-              x4 = *(volatile u8 *)&s->unk4A;
-              s->unk04 = x0;
-              s->unk4B = x4;
-              loopCount = countPage[D_800869B4_PAGE_INDEX];
-              i++;
-              s->unk08 = twenty;
-              s->unk14 = x1;
-              s->unk44 = x2;
-              s->unk30 = x3;
-              s++;
-            }
-            while (i < ((u32) loopCount));
-          }
-        }
-        else
-        {
-          p->unk08 = 0x7F;
-          p->unk04 = p->unk00;
-        }
-      }
-      else
-        if ((arg3 & 0xFF) == 0x1E)
-      {
-        if (p->unk08 != 0)
-        {
-          if (p->unk08 < 0x7FU)
-          {
-            p->unk08 = p->unk08 - 1;
-          }
           if (D_800869B8[0] != 0)
           {
-            s32 *countPage;
-            countPage = D_800869B4_PAGE;
-            if (countPage[D_800869B4_PAGE_INDEX] != 0)
+            s32 *count_page;
+            count_page = D_800869B4_PAGE;
+            if (count_page[D_800869B4_PAGE_INDEX] != 0)
             {
-              s32 x0;
-              s32 x1;
-              s32 x2;
-              s32 x3;
-              s32 loopCount;
-              register u8 x4 ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-              i = 0;
-              s = D_80085FA8;
+              s32 value_00;
+              s32 value_10;
+              s32 value_40;
+              s32 value_2c;
+              s32 track_count;
+              register u8 value_4a ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+              s32 repeat_count;
+              track_index = 0;
+              repeat_count = 0x14;
+              track_iter = D_80085FA8;
               do
               {
-                x0 = *(volatile s32 *)&s->unk04;
-                x1 = *(volatile s32 *)&s->unk14;
-                x2 = *(volatile s32 *)&s->unk44;
-                x3 = *(volatile s32 *)&s->unk30;
-                x4 = *(volatile u8 *)&s->unk4B;
-                s->unk00 = x0;
-                s->unk4A = x4;
-                loopCount = countPage[D_800869B4_PAGE_INDEX];
-                i++;
-                s->unk10 = x1;
-                s->unk40 = x2;
-                s->unk2C = x3;
-                s++;
+                value_00 = *(volatile s32 *)&track_iter->unk00;
+                value_10 = *(volatile s32 *)&track_iter->unk10;
+                value_40 = *(volatile s32 *)&track_iter->unk40;
+                value_2c = *(volatile s32 *)&track_iter->unk2C;
+                value_4a = *(volatile u8 *)&track_iter->unk4A;
+                track_iter->unk04 = value_00;
+                track_iter->unk4B = value_4a;
+                track_count = count_page[D_800869B4_PAGE_INDEX];
+                track_index++;
+                track_iter->unk08 = repeat_count;
+                track_iter->unk14 = value_10;
+                track_iter->unk44 = value_40;
+                track_iter->unk30 = value_2c;
+                track_iter++;
               }
-              while (i < ((u32) loopCount));
+              while (track_index < ((u32) track_count));
             }
           }
           else
           {
-            p->unk00 = p->unk04;
+            track->unk08 = 0x7F;
+            track->unk04 = track->unk00;
           }
         }
-      }
-    }
-      if ((a2copy & 0xFF) == 6)
-    {
-      if (D_80084960[chan & 0xFF].unk4D == 0x14)
-      {
-        if (D_800869B8[0] != 0)
+        else if ((second_data & 0xFF) == 0x1E)
         {
-          if (D_800869B4[0] != 0)
+          if (track->unk08 != 0)
           {
-            s32 value;
-            register S_80085FA8 *broadcast;
-            i = 0;
-            value = arg3 & 0xFF;
-            count = D_800869B4[0];
-            broadcast = D_80085FA8;
-            do
+            if (track->unk08 < 0x7FU)
             {
-              broadcast->unk08 = value;
-              broadcast++;
-              i++;
+              track->unk08 = track->unk08 - 1;
             }
-            while (i < ((u32) count));
+            if (D_800869B8[0] != 0)
+            {
+              s32 *count_page;
+              count_page = D_800869B4_PAGE;
+              if (count_page[D_800869B4_PAGE_INDEX] != 0)
+              {
+                s32 saved_00;
+                s32 saved_10;
+                s32 saved_40;
+                s32 saved_2c;
+                s32 track_count;
+                register u8 saved_4a ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                track_index = 0;
+                track_iter = D_80085FA8;
+                do
+                {
+                  saved_00 = *(volatile s32 *)&track_iter->unk04;
+                  saved_10 = *(volatile s32 *)&track_iter->unk14;
+                  saved_40 = *(volatile s32 *)&track_iter->unk44;
+                  saved_2c = *(volatile s32 *)&track_iter->unk30;
+                  saved_4a = *(volatile u8 *)&track_iter->unk4B;
+                  track_iter->unk00 = saved_00;
+                  track_iter->unk4A = saved_4a;
+                  track_count = count_page[D_800869B4_PAGE_INDEX];
+                  track_index++;
+                  track_iter->unk10 = saved_10;
+                  track_iter->unk40 = saved_40;
+                  track_iter->unk2C = saved_2c;
+                  track_iter++;
+                }
+                while (track_index < ((u32) track_count));
+              }
+            }
+            else
+            {
+              track->unk00 = track->unk04;
+            }
           }
         }
-        else
+      }
+      if ((event_data & 0xFF) == 6)
+      {
+        if (D_80084960[channel & 0xFF].unk4D == 0x14)
         {
-          p->unk08 = arg3 & 0xFF;
-          return;
+          if (D_800869B8[0] != 0)
+          {
+            if (D_800869B4[0] != 0)
+            {
+              s32 repeat_count;
+              register S_80085FA8 *broadcast_track;
+              track_index = 0;
+              repeat_count = second_data & 0xFF;
+              track_count = D_800869B4[0];
+              broadcast_track = D_80085FA8;
+              do
+              {
+                broadcast_track->unk08 = repeat_count;
+                broadcast_track++;
+                track_index++;
+              }
+              while (track_index < ((u32) track_count));
+            }
+          }
+          else
+          {
+            track->unk08 = second_data & 0xFF;
+            return;
+          }
         }
       }
-    }
-      func_80057D20(chan, a2copy & 0xFF, arg3 & 0xFF);
+      func_80057D20(channel, event_data & 0xFF, second_data & 0xFF);
       return;
 
     case 0xE0:
-      func_80058494(chan, a2copy & 0xFF, arg3 & 0xFF);
+      func_80058494(channel, event_data & 0xFF, second_data & 0xFF);
       return;
 
     case 0xC0:
-      func_8005845C(chan, a2copy & 0xFF);
+      func_8005845C(channel, event_data & 0xFF);
       return;
 
     case 0xD0:
-      func_8005848C(chan, a2copy & 0xFF);
+      func_8005848C(channel, event_data & 0xFF);
       return;
-
   }
-
 }

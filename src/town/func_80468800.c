@@ -8,6 +8,7 @@ extern void *func_80019AFC();
 extern void *D_80016000[];
 extern void *D_8001E950[];
 
+/* Checks the active event and dispatches the 0x27/0x200 handler when matched. */
 s32 func_80019800(void) {
     void *event;
 

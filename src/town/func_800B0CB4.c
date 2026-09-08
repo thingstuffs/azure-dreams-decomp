@@ -13,13 +13,14 @@ extern void func_8004E130(void);
 extern void func_80093894(void);
 extern s32 D_800814A0[];
 
-void func_800AE414(FuncArg *arg0) {
-    s32 t0 = arg0->field0;
-    ((u16 *)arg0)[-1] |= 0x8000;
+// Set the high-bit flags and pass the three parameters to their handlers.
+void func_800AE414(FuncArg *parameters) {
+    s32 firstParameter = parameters->field0;
+    ((u16 *)parameters)[-1] |= 0x8000;
     D_800814A0[0] |= 0x8000;
-    func_800B03B4(t0);
-    func_800B0700(arg0->field4);
-    func_800B1DBC(arg0->field8);
+    func_800B03B4(firstParameter);
+    func_800B0700(parameters->field4);
+    func_800B1DBC(parameters->field8);
     func_8004E130();
     func_80093894();
 }

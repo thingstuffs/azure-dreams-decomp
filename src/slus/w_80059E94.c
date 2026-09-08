@@ -10,62 +10,63 @@ extern u8 D_8007382B[9];
 extern s32 D_80073830[9];
 extern void func_80059DAC(void);
 
-s32 func_80059E94(s32 arg0)
+/* Reserves space in the entry table and returns its offset, or -1 if it exceeds the limit. */
+s32 func_80059E94(s32 size)
 {
-    s32 saved;
-    s32 result;
-    S_800869C0 *entry0;
-    s32 candidate;
-    s32 *new_var2;
-    s32 boundary;
-    s32 v1;
-    S_800869C0 *p;
-    s32 new_var;
-    s32 i;
-    u8 idx;
+    s32 alloc_size;
+    s32 offset;
+    S_800869C0 *first_entry;
+    s32 initial_end;
+    s32 *reserve_sizes;
+    s32 alloc_limit;
+    s32 end_offset;
+    S_800869C0 *entry;
+    s32 reserved_size;
+    s32 entry_index;
+    u8 reserve_index;
 
-    saved = arg0;
-    result = 0x1010;
-    entry0 = &D_800869C0[0];
-    if (entry0->unk00 != 0) {
+    alloc_size = size;
+    offset = 0x1010;
+    first_entry = &D_800869C0[0];
+    if (first_entry->unk00 != 0) {
         goto loop_start;
     }
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    candidate = saved + 0x1010;
+    ASM_KEEP(offset);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    initial_end = alloc_size + 0x1010;
     {
-        u8 fast_idx = D_8007382B[0];
-        s32 *fast_table = D_80073830;
+        u8 initial_reserve_index = D_8007382B[0];
+        s32 *initial_reserve_sizes = D_80073830;
 
-        boundary = 0x80000 - fast_table[fast_idx];
+        alloc_limit = 0x80000 - initial_reserve_sizes[initial_reserve_index];
     }
-    if ((u32)candidate >= (u32)boundary) {
+    if ((u32)initial_end >= (u32)alloc_limit) {
         return -1;
     }
-    entry0->unk00 = result;
-    entry0->unk04 = saved;
+    first_entry->unk00 = offset;
+    first_entry->unk04 = alloc_size;
     goto tail;
 
 found:
-    p->unk00 = v1;
-    p->unk04 = saved;
+    entry->unk00 = end_offset;
+    entry->unk04 = alloc_size;
     goto tail;
 
 loop_start:
     {
-        s32 loop_boundary;
+        s32 memory_end;
 
-        i = 0;
-        loop_boundary = 0x80000;
-        p = entry0;
-        idx = D_8007382B[0];
-        for (; 16 > i; i++, p++) {
-            if (p->unk04 != 0) {
+        entry_index = 0;
+        memory_end = 0x80000;
+        entry = first_entry;
+        reserve_index = D_8007382B[0];
+        for (; 16 > entry_index; entry_index++, entry++) {
+            if (entry->unk04 != 0) {
                 continue;
             }
-            new_var = (new_var2 = D_80073830)[idx];
-            result = p->unk00;
-            v1 = result + saved;
-            if ((u32)v1 >= (u32)(loop_boundary - new_var)) {
+            reserved_size = (reserve_sizes = D_80073830)[reserve_index];
+            offset = entry->unk00;
+            end_offset = offset + alloc_size;
+            if ((u32)end_offset >= (u32)(memory_end - reserved_size)) {
                 return -1;
             }
             goto found;
@@ -74,5 +75,5 @@ loop_start:
 
 tail:
     func_80059DAC();
-    return result;
+    return offset;
 }

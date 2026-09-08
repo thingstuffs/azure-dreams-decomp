@@ -21,20 +21,21 @@ extern u8 D_80022524[];
 extern u8 D_800226A8[];
 extern u8 D_800280B4[];
 
-void func_80022CD8(void *arg0)
+/* Initialize the object from its table entry and select its callback. */
+void func_80022CD8(void *object)
 {
     void *callback;
-    s32 index;
+    s32 entry_index;
 
-    func_80022774((u8 *)arg0 + 0x24, arg0);
-    func_80022934(arg0);
-    index = ((S_80022CD8_0 *)arg0)->unk_08;
-    ((S_80022CD8_0 *)arg0)->unk_00 = D_800280B4[index * 0x18 + 0x15];
-    func_80022488(arg0);
-    if (((S_80022CD8_0 *)arg0)->unk_0C == 2) {
+    func_80022774((u8 *)object + 0x24, object);
+    func_80022934(object);
+    entry_index = ((S_80022CD8_0 *)object)->unk_08;
+    ((S_80022CD8_0 *)object)->unk_00 = D_800280B4[entry_index * 0x18 + 0x15];
+    func_80022488(object);
+    if (((S_80022CD8_0 *)object)->unk_0C == 2) {
         callback = D_800226A8;
     } else {
         callback = D_80022524;
     }
-    ((S_80022CD8_0_pre *)arg0)[-1].unk_00 = callback;
+    ((S_80022CD8_0_pre *)object)[-1].unk_00 = callback;
 }

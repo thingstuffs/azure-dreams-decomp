@@ -8,16 +8,17 @@ typedef s32 M2C_UNK;
 extern M2C_UNK func_8003F6D4();
 extern M2C_UNK D_800814F8;
 
-M2C_UNK *func_800437A4(s16 arg0, M2C_UNK arg1) {
-    s32 var_a3;
+/* Selects an entry offset and requests data in the shared buffer. */
+M2C_UNK *func_800437A4(s16 entry_id, M2C_UNK request_arg) {
+    s32 entry_offset;
 
-    if (arg0 == 0x38) {
-        var_a3 = 0x426D;
-    } else if (arg0 >= 0x3A) {
-        var_a3 = ((arg0 - 0x3A) * 0x2B) + 0x1BA7;
+    if (entry_id == 0x38) {
+        entry_offset = 0x426D;
+    } else if (entry_id >= 0x3A) {
+        entry_offset = ((entry_id - 0x3A) * 0x2B) + 0x1BA7;
     } else {
-        var_a3 = ((arg0 - 1) * 0x2B) + 0x56F0;
+        entry_offset = ((entry_id - 1) * 0x2B) + 0x56F0;
     }
-    func_8003F6D4(0x11, arg1, &D_800814F8, var_a3);
+    func_8003F6D4(0x11, request_arg, &D_800814F8, entry_offset);
     return &D_800814F8;
 }

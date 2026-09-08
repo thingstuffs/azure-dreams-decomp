@@ -90,57 +90,58 @@ extern void *func_8003FD64();
 extern M2C_UNK func_8004491C();
 extern M2C_UNK func_80047784();
 
-void func_80170B50(void *arg0, S_80170B50_5 *arg1, void *arg2, s16 arg3) {
-    u32 temp_v0_2;
-    u16 temp_v1_2;
-    s16 temp_s6;
-    S_80170B50_6 *temp_a1;
-    S_80170B50_4 *temp_s0;
-    void *temp_s1;
-    void *temp_s2;
-    void *temp_v0;
-    void *var_a2;
-    void *var_a3;
+/* Creates an attached sprite object with copied appearance and an optional position offset. */
+void func_80170B50(void *owner_data, S_80170B50_5 *base_position, void *sprite_template, s16 offset_id) {
+    u32 sprite_flags;
+    u16 sprite_height;
+    s16 saved_offset_id;
+    S_80170B50_6 *owner_model;
+    S_80170B50_4 *position;
+    void *sprite;
+    void *object_data;
+    void *object;
+    void *copy_dst;
+    void *copy_src;
 
-    temp_s6 = arg3;
-    temp_v0 = func_8003FD64(0x112, D_80083498);
-    if (temp_v0 != NULL) {
-        temp_s2 = temp_v0 + 0x20;
-        ((S_80170B50_0 *)temp_v0)->unk_10 = D_80170898;
-        ((S_80170B50_1 *)temp_s2)->unk_B6 = arg3;
-        ((S_80170B50_1 *)temp_s2)->unk_AC = (s32) (arg0 - 0x20);
-        ((S_80170B50_1 *)temp_s2)->unk_94 = (u16) ((S_80170B50_2 *)((u8 *)arg0 - 0x14))->unk_3E;
-        var_a3 = arg2;
-        ((S_80170B50_1 *)temp_s2)->unk_2A = (u16) ((S_80170B50_2 *)((u8 *)arg0 - 0x14))->unk_3E;
-        temp_s1 = ((S_80170B50_0 *)temp_v0)->unk_0C;
-        var_a2 = temp_s1;
+    saved_offset_id = offset_id;
+    object = func_8003FD64(0x112, D_80083498);
+    if (object != NULL) {
+        object_data = object + 0x20;
+        ((S_80170B50_0 *)object)->unk_10 = D_80170898;
+        ((S_80170B50_1 *)object_data)->unk_B6 = offset_id;
+        ((S_80170B50_1 *)object_data)->unk_AC = (s32) (owner_data - 0x20);
+        ((S_80170B50_1 *)object_data)->unk_94 = (u16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E;
+        copy_src = sprite_template;
+        ((S_80170B50_1 *)object_data)->unk_2A = (u16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E;
+        sprite = ((S_80170B50_0 *)object)->unk_0C;
+        copy_dst = sprite;
         do {
-            *(Copy4 *)var_a2 = *(Copy4 *)var_a3;
-            var_a3 += 0x10;
-            var_a2 += 0x10;
-        } while (var_a3 != (arg2 + 0x30));
-        func_8004491C(temp_v0, D_80045340, var_a2, var_a3);
-        ((S_80170B50_3 *)temp_s1)->unk_2C = &D_80173EB4;
-        func_80047784(temp_s1, *((u8 *)&D_80173EB4 + ((((s32) (*D_80083228 + (s16) ((S_80170B50_2 *)((u8 *)arg0 - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
-        ((S_80170B50_3 *)temp_s1)->unk_10 = 0x20;
-        temp_v0_2 = ((S_80170B50_3 *)temp_s1)->unk_14 | 0xC;
-        ((S_80170B50_3 *)temp_s1)->unk_14 = temp_v0_2;
-        *(volatile u16 *)((s8 *)temp_s1 + 0x14) = temp_v0_2 | 0x80;
-        temp_s0 = ((S_80170B50_0 *)temp_v0)->unk_08;
-        temp_s0->unk_02 = (u16) arg1->unk_02;
-        temp_s0->unk_06 = (u16) arg1->unk_06;
-        temp_s0->unk_0A = (u16) arg1->unk_0A;
-        temp_a1 = ((S_80170B50_2 *)((u8 *)arg0 - 0x14))->unk_00;
-        if (func_8003DE58(temp_a1->unk_08, temp_a1, temp_s2 + 0xB0, temp_s6) != 0) {
-            temp_s0->unk_02 = (u16) (temp_s0->unk_02 + ((S_80170B50_1 *)temp_s2)->unk_B0);
-            temp_s0->unk_06 = (u16) (temp_s0->unk_06 + ((S_80170B50_1 *)temp_s2)->unk_B2);
-            temp_s0->unk_0A = (u16) (temp_s0->unk_0A + ((S_80170B50_1 *)temp_s2)->unk_B4);
+            *(Copy4 *)copy_dst = *(Copy4 *)copy_src;
+            copy_src += 0x10;
+            copy_dst += 0x10;
+        } while (copy_src != (sprite_template + 0x30));
+        func_8004491C(object, D_80045340, copy_dst, copy_src);
+        ((S_80170B50_3 *)sprite)->unk_2C = &D_80173EB4;
+        func_80047784(sprite, *((u8 *)&D_80173EB4 + ((((s32) (*D_80083228 + (s16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
+        ((S_80170B50_3 *)sprite)->unk_10 = 0x20;
+        sprite_flags = ((S_80170B50_3 *)sprite)->unk_14 | 0xC;
+        ((S_80170B50_3 *)sprite)->unk_14 = sprite_flags;
+        *(volatile u16 *)((s8 *)sprite + 0x14) = sprite_flags | 0x80;
+        position = ((S_80170B50_0 *)object)->unk_08;
+        position->unk_02 = (u16) base_position->unk_02;
+        position->unk_06 = (u16) base_position->unk_06;
+        position->unk_0A = (u16) base_position->unk_0A;
+        owner_model = ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_00;
+        if (func_8003DE58(owner_model->unk_08, owner_model, object_data + 0xB0, saved_offset_id) != 0) {
+            position->unk_02 = (u16) (position->unk_02 + ((S_80170B50_1 *)object_data)->unk_B0);
+            position->unk_06 = (u16) (position->unk_06 + ((S_80170B50_1 *)object_data)->unk_B2);
+            position->unk_0A = (u16) (position->unk_0A + ((S_80170B50_1 *)object_data)->unk_B4);
         }
-        ((S_80170B50_3 *)temp_s1)->unk_1C = (u16) ((S_80170B50_7 *)arg2)->unk_1C;
-        temp_v1_2 = (u16) ((S_80170B50_7 *)arg2)->unk_1E;
-        ((S_80170B50_3 *)temp_s1)->unk_0E = 0x80;
-        ((S_80170B50_3 *)temp_s1)->unk_0D = 0x80;
-        ((S_80170B50_3 *)temp_s1)->unk_0C = 0x80;
-        ((S_80170B50_3 *)temp_s1)->unk_1E = temp_v1_2;
+        ((S_80170B50_3 *)sprite)->unk_1C = (u16) ((S_80170B50_7 *)sprite_template)->unk_1C;
+        sprite_height = (u16) ((S_80170B50_7 *)sprite_template)->unk_1E;
+        ((S_80170B50_3 *)sprite)->unk_0E = 0x80;
+        ((S_80170B50_3 *)sprite)->unk_0D = 0x80;
+        ((S_80170B50_3 *)sprite)->unk_0C = 0x80;
+        ((S_80170B50_3 *)sprite)->unk_1E = sprite_height;
     }
 }

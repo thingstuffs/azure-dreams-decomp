@@ -62,37 +62,38 @@ typedef struct S_800D4AB0_5_pre {
     u8 pad_04[0x14];
 } S_800D4AB0_5_pre;   /* the 0x18 bytes before ((Rec_func_800247B8_arg0 *)arg0)->unk_88 in func_800D4AB0, addressed as ((Rec_func_800247B8_arg0 *)arg0)->unk_88[-1] */
 
-void func_800D4AB0(Rec_func_800247B8_arg0 *arg0) {
-    S_800D4AB0_3 *temp_a0;
-    S_800D4AB0_2 *temp_a3;
-    void *temp_v0;
-    S_800D4AB0_0 *temp_v1;
-    S_800D4AB0_4 *temp_v1_2;
+/* Creates an effect linked to the owner with an offset position and initialized render data. */
+void func_800D4AB0(Rec_func_800247B8_arg0 *owner) {
+    S_800D4AB0_3 *position;
+    S_800D4AB0_2 *render_data;
+    void *effect;
+    S_800D4AB0_0 *effect_state;
+    S_800D4AB0_4 *source_position;
 
-    temp_v0 = func_8003FC64(0x12);
-    temp_v1 = temp_v0 + 0x20;
-    if (temp_v0 != 0) {
-        temp_v1->unk_5A = 0x78;
-        temp_v1->unk_5C = 0x78;
-        temp_v1->unk_88 = arg0->unk_88;
-        (*(s32 * *)((u8 *)temp_v0 + 0x10)) = &D_800D4954;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_a3 = (*(void * *)((u8 *)temp_v0 + 0xC));
-        temp_a3->unk_10 = 0x60;
-        temp_a3->unk_06 = 0;
-        temp_a3->unk_14 = temp_a3->unk_14 | 0xC;
-        temp_v1_2 = ((S_800D4AB0_5_pre *)(arg0->unk_88))[-1].unk_00;
-        temp_a0 = (*(void * *)((u8 *)temp_v0 + 0x8));
-        temp_a0->unk_02 = temp_v1_2->unk_02;
-        temp_a0->unk_06 = temp_v1_2->unk_06;
-        temp_a0->unk_0A = temp_v1_2->unk_0A - 0x32;
-        temp_a3 = (*(void * *)((u8 *)temp_v0 + 0xC));
-        temp_a3->unk_0E = 0x80;
-        temp_a3->unk_0D = 0x80;
-        temp_a3->unk_0C = 0x80;
-        temp_a3->unk_1E = 0;
-        temp_a3->unk_1C = 0;
-        (*(Block12 *)((u8 *)temp_v0 + 0x96)) = D_800E233C;
-        temp_a3->unk_08 = temp_v0 + 0x96;
+    effect = func_8003FC64(0x12);
+    effect_state = effect + 0x20;
+    if (effect != 0) {
+        effect_state->unk_5A = 0x78;
+        effect_state->unk_5C = 0x78;
+        effect_state->unk_88 = owner->unk_88;
+        (*(s32 * *)((u8 *)effect + 0x10)) = &D_800D4954;
+        func_8004491C(effect, &D_80045340);
+        render_data = (*(void * *)((u8 *)effect + 0xC));
+        render_data->unk_10 = 0x60;
+        render_data->unk_06 = 0;
+        render_data->unk_14 = render_data->unk_14 | 0xC;
+        source_position = ((S_800D4AB0_5_pre *)(owner->unk_88))[-1].unk_00;
+        position = (*(void * *)((u8 *)effect + 0x8));
+        position->unk_02 = source_position->unk_02;
+        position->unk_06 = source_position->unk_06;
+        position->unk_0A = source_position->unk_0A - 0x32;
+        render_data = (*(void * *)((u8 *)effect + 0xC));
+        render_data->unk_0E = 0x80;
+        render_data->unk_0D = 0x80;
+        render_data->unk_0C = 0x80;
+        render_data->unk_1E = 0;
+        render_data->unk_1C = 0;
+        (*(Block12 *)((u8 *)effect + 0x96)) = D_800E233C;
+        render_data->unk_08 = effect + 0x96;
     }
 }

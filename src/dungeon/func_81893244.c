@@ -73,57 +73,58 @@ s32 rand(void);
 extern M2C_UNK D_800248F8;
 extern M2C_UNK D_800249B8;
 extern s32 D_800253BC;
-void func_81893244(s32 arg0, Func81893244Data *arg1, s16 arg2) {
-    Func81893244Sub *sub;
+/* Spawns a primary effect and eight randomly offset particles from the supplied data. */
+void func_81893244(s32 source, Func81893244Data *initial_data, s16 status_param) {
+    Func81893244Sub *sprite;
     Func81893244Data *payload;
-    Func81893244Object *obj;
+    Func81893244Object *effect;
     Func81893244Status *status;
-    s32 var_s3;
-    s32 var_s2;
-    obj = func_8003FC64(0x212);
-    if (obj != NULL) {
-        status = &obj->status;
-        obj->field10 = &D_800248F8;
-        status->field20 = arg0;
+    s32 brightness;
+    s32 particle_index;
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        status = &effect->status;
+        effect->field10 = &D_800248F8;
+        status->field20 = source;
         status->field24 = 0;
-        status->field26 = arg2;
-        sub = obj->fieldC;
-        sub->uC.bytesC.fieldE = 0x80;
-        sub->uC.bytesC.fieldD = 0x80;
-        sub->uC.bytesC.fieldC = 0x80;
-        func_8003DB94(sub, &D_800E2178, 0);
-        sub->field1E = 0x1800;
-        sub->field1C = 0x1800;
-        func_8004491C(obj, D_80045340);
-        payload = obj->field8;
-        *payload = *arg1;
-        func_80024824(arg0, payload, 8, -0x40);
+        status->field26 = status_param;
+        sprite = effect->fieldC;
+        sprite->uC.bytesC.fieldE = 0x80;
+        sprite->uC.bytesC.fieldD = 0x80;
+        sprite->uC.bytesC.fieldC = 0x80;
+        func_8003DB94(sprite, &D_800E2178, 0);
+        sprite->field1E = 0x1800;
+        sprite->field1C = 0x1800;
+        func_8004491C(effect, D_80045340);
+        payload = effect->field8;
+        *payload = *initial_data;
+        func_80024824(source, payload, 8, -0x40);
     }
-    var_s2 = 0;
+    particle_index = 0;
     do {
-        obj = func_8003FC64(0x212);
-        status = &obj->status;
-        if (obj != NULL) {
-            obj->field10 = &D_800249B8;
-            var_s3 = 0x80;
-            status->field20 = arg0;
+        effect = func_8003FC64(0x212);
+        status = &effect->status;
+        if (effect != NULL) {
+            effect->field10 = &D_800249B8;
+            brightness = 0x80;
+            status->field20 = source;
             status->field24 = 0;
-            status->field26 = arg2;
-            sub = obj->fieldC;
-            sub->uC.bytesC.fieldE = var_s3;
-            sub->uC.bytesC.fieldD = var_s3;
-            sub->uC.bytesC.fieldC = var_s3;
-            func_8003DB94(sub, &D_800253BC, 0);
-            sub->field1E = 0x800;
-            sub->field1C = 0x800;
-            sub->field14 = (u16) (sub->field14 | 0xC);
-            sub->field10 = (u16) (sub->field10 | 0x60);
-            func_8004491C(obj, D_80045340);
-            payload = obj->field8;
-            *payload = *arg1;
+            status->field26 = status_param;
+            sprite = effect->fieldC;
+            sprite->uC.bytesC.fieldE = brightness;
+            sprite->uC.bytesC.fieldD = brightness;
+            sprite->uC.bytesC.fieldC = brightness;
+            func_8003DB94(sprite, &D_800253BC, 0);
+            sprite->field1E = 0x800;
+            sprite->field1C = 0x800;
+            sprite->field14 = (u16) (sprite->field14 | 0xC);
+            sprite->field10 = (u16) (sprite->field10 | 0x60);
+            func_8004491C(effect, D_80045340);
+            payload = effect->field8;
+            *payload = *initial_data;
             payload->u0.halves0.field2 = (u16) (payload->u0.halves0.field2 + ((s32) (func_800644B8(rand()) * 2) >> 8));
             payload->u4.halves4.field6 = (u16) (payload->u4.halves4.field6 + ((s32) (func_80064584(rand()) * 2) >> 8));
         }
-        var_s2 += 1;
-    } while (var_s2 < 8);
+        particle_index += 1;
+    } while (particle_index < 8);
 }

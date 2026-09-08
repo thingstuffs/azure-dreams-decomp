@@ -54,134 +54,135 @@ extern u16 D_800DF378;
 extern u16 D_800DF37A;
 extern u8 D_800DF380[];
 
-void func_800BA810(S_800B50B0_Entity *arg0, s16 arg1) {
-    s32 temp_s0;
-    s16 var_a2;
-    s16 var_a2_2;
-    s16 var_a2_3;
-    register s32 *var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 temp_a2;
-    register s32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 temp_entry ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 temp_mode ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 var_s1;
-    s32 var_s1_2;
-    register s32 var_s1_3 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u32 var_s2;
-    u32 var_s3;
-    u8 temp_a0;
-    u8 temp_v1_2;
-    u16 temp_angle;
-    void *temp_a0_2;
-    S_800BA810_3 *temp_v0_4;
-    S_800BA810_1 *temp_v1;
+/* Updates marked dungeon tiles for the selected entity, mode, and facing. */
+void func_800BA810(S_800B50B0_Entity *entity, s16 selection) {
+    s32 height;
+    s16 forward_height;
+    s16 adjacent_height;
+    s16 range_height;
+    register s32 *tile_list ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 direction;
+    register s32 mode ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 entry_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 mode_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 forward_steps;
+    s32 adjacent_steps;
+    register s32 range_steps ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u32 tile_z;
+    u32 tile_x;
+    u8 entry_id;
+    u8 entry_type;
+    u16 angle;
+    void *child;
+    S_800BA810_3 *child_position;
+    S_800BA810_1 *position;
 
-    if (arg0 == NULL) {
+    if (entity == NULL) {
         D_800DF374 = NULL;
         func_800403BC(&D_800BA6B8);
         return;
     }
-    if (D_800DF374 == arg0) {
-        ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        if (D_800DF37A == (s16) arg0->angle2a) {
-            var_a0 = &D_800BA6B8;
-            if (D_800DF378 != (arg1 & 0xFFFF)) {
-                goto block_6;
+    if (D_800DF374 == entity) {
+        ASM_KEEP_NV(selection);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        if (D_800DF37A == (s16) entity->angle2a) {
+            tile_list = &D_800BA6B8;
+            if (D_800DF378 != (selection & 0xFFFF)) {
+                goto prepare_update;
             }
         } else {
-            var_a0 = &D_800BA6B8;
-            goto block_7;
+            tile_list = &D_800BA6B8;
+            goto update_tiles;
         }
     } else {
-block_6:
-        var_a0 = &D_800BA6B8;
-block_7:
-        temp_angle = arg0->angle2a;
-        do { D_800DF374 = arg0; } while (0);
-        ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        D_800DF378 = arg1;
-        ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        D_800DF37A = temp_angle;
-        func_800403BC(var_a0);
-        do { temp_a1 = arg1 & 0x3FFF; } while (0);
-        temp_v1 = ((S_800BA810_0 *)((u8 *)arg0 - 0x18))->unk_00;
-        temp_s0 = arg0->height88;
-        temp_entry = (u16) temp_v1->unk_02;
-        var_s3 = (u32) temp_entry >> 6;
-        var_s2 = (u16) temp_v1->unk_06 >> 6;
-        temp_mode = temp_a1;
-        temp_a2 = (arg0->angle2a >> 9) & 7;
-        if (temp_mode == 8) {
-            var_s1 = 1;
-            if ((arg0->kind13 == 0x16) && (arg0->kind48 == 0xF)) {
-                var_s1 = 0xA;
+prepare_update:
+        tile_list = &D_800BA6B8;
+update_tiles:
+        angle = entity->angle2a;
+        do { D_800DF374 = entity; } while (0);
+        ASM_KEEP_NV(selection);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        D_800DF378 = selection;
+        ASM_KEEP_NV(selection);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        D_800DF37A = angle;
+        func_800403BC(tile_list);
+        do { mode = selection & 0x3FFF; } while (0);
+        position = ((S_800BA810_0 *)((u8 *)entity - 0x18))->unk_00;
+        height = entity->height88;
+        entry_value = (u16) position->unk_02;
+        tile_x = (u32) entry_value >> 6;
+        tile_z = (u16) position->unk_06 >> 6;
+        mode_index = mode;
+        direction = (entity->angle2a >> 9) & 7;
+        if (mode_index == 8) {
+            forward_steps = 1;
+            if ((entity->kind13 == 0x16) && (entity->kind48 == 0xF)) {
+                forward_steps = 0xA;
             }
-            if (var_s1 > 0) {
+            if (forward_steps > 0) {
                 do {
-                    var_a2 = temp_s0 - 0x20;
-                    var_s3 += (s16) D_8006CCD8[temp_a2];
-                    var_s2 += (s16) D_8006CCE8[temp_a2];
-                    temp_s0 = func_800BCB04(((var_s3 << 6) + 0x20) & 0xFFE0, ((var_s2 << 6) + 0x20) & 0xFFE0, var_a2);
-                    if (temp_s0 >= 0x201) {
+                    forward_height = height - 0x20;
+                    tile_x += (s16) D_8006CCD8[direction];
+                    tile_z += (s16) D_8006CCE8[direction];
+                    height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0, forward_height);
+                    if (height >= 0x201) {
                         break;
                     }
-                    func_800BA764(var_s3 & 0xFFFF, var_s2 & 0xFFFF, temp_s0, 0xFF);
-                    var_s1 -= 1;
-                } while (var_s1 > 0);
+                    func_800BA764(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFF);
+                    forward_steps -= 1;
+                } while (forward_steps > 0);
             } else {
                 return;
             }
             return;
         }
-        if (temp_mode == 11) {
-            var_s1_2 = 1;
+        if (mode_index == 11) {
+            adjacent_steps = 1;
             do {
-                var_a2_2 = temp_s0 - 0x20;
-                var_s3 += (s16) D_8006CCD8[temp_a2];
-                var_s2 += (s16) D_8006CCE8[temp_a2];
-                temp_s0 = func_800BCB04(((var_s3 << 6) + 0x20) & 0xFFE0, ((var_s2 << 6) + 0x20) & 0xFFE0, var_a2_2);
-                if (temp_s0 >= 0x201) {
+                adjacent_height = height - 0x20;
+                tile_x += (s16) D_8006CCD8[direction];
+                tile_z += (s16) D_8006CCE8[direction];
+                height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0, adjacent_height);
+                if (height >= 0x201) {
                     break;
                 }
-                func_800BA764(var_s3 & 0xFFFF, var_s2 & 0xFFFF, temp_s0, 0xFF00);
-                var_s1_2 -= 1;
-            } while (var_s1_2 > 0);
+                func_800BA764(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFF00);
+                adjacent_steps -= 1;
+            } while (adjacent_steps > 0);
             return;
         }
-        if (temp_mode == 12) {
-            func_800BA764(var_s3 & 0xFFFF, var_s2 & 0xFFFF, temp_s0, 0xFFFF);
+        if (mode_index == 12) {
+            func_800BA764(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFFFF);
             return;
         }
-        temp_entry = temp_a1;
-        temp_entry -= 1;
-        if ((u32) temp_entry >= 3U) {
+        entry_value = mode;
+        entry_value -= 1;
+        if ((u32) entry_value >= 3U) {
             return;
         }
-        temp_mode -= 1;
-        temp_entry = temp_mode * 3;
-        temp_a0 = *((u8 *) arg0 + temp_entry + 8);
-        temp_v1_2 = D_8006DE24[temp_a0].type;
-        if (temp_v1_2 == 1) {
-            temp_entry = D_800DF380[temp_a0];
-            var_s1_3 = temp_entry & 0x1F;
-            if (var_s1_3 > 0) {
+        mode_index -= 1;
+        entry_value = mode_index * 3;
+        entry_id = *((u8 *) entity + entry_value + 8);
+        entry_type = D_8006DE24[entry_id].type;
+        if (entry_type == 1) {
+            entry_value = D_800DF380[entry_id];
+            range_steps = entry_value & 0x1F;
+            if (range_steps > 0) {
                 do {
-                    var_a2_3 = temp_s0 - 0x20;
-                    var_s3 += (s16) D_8006CCD8[temp_a2];
-                    var_s2 += (s16) D_8006CCE8[temp_a2];
-                    temp_s0 = func_800BCB04(((var_s3 << 6) + 0x20) & 0xFFE0, ((var_s2 << 6) + 0x20) & 0xFFE0, var_a2_3);
-                    if (temp_s0 >= 0x201) {
+                    range_height = height - 0x20;
+                    tile_x += (s16) D_8006CCD8[direction];
+                    tile_z += (s16) D_8006CCE8[direction];
+                    height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_z << 6) + 0x20) & 0xFFE0, range_height);
+                    if (height >= 0x201) {
                         break;
                     }
-                    func_800BA764(var_s3 & 0xFFFF, var_s2 & 0xFFFF, temp_s0, 0xFF);
-                    var_s1_3 -= 1;
-                } while (var_s1_3 > 0);
+                    func_800BA764(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFF);
+                    range_steps -= 1;
+                } while (range_steps > 0);
             }
-        } else if (temp_v1_2 == 2) {
-            temp_a0_2 = arg0->child60;
-            if (temp_a0_2 != NULL) {
-                temp_v0_4 = ((S_800BA810_2 *)((u8 *)temp_a0_2 - 0x18))->unk_00;
-                func_800BA764((u16) temp_v0_4->unk_02 >> 6, (u16) temp_v0_4->unk_06 >> 6, ((S_800B50B0_Entity *)temp_a0_2)->height88, 0xFF);
+        } else if (entry_type == 2) {
+            child = entity->child60;
+            if (child != NULL) {
+                child_position = ((S_800BA810_2 *)((u8 *)child - 0x18))->unk_00;
+                func_800BA764((u16) child_position->unk_02 >> 6, (u16) child_position->unk_06 >> 6, ((S_800B50B0_Entity *)child)->height88, 0xFF);
             }
         }
     }

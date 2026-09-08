@@ -90,77 +90,78 @@ extern void func_80025714() __attribute__((noreturn));
 extern void func_80025758() __attribute__((noreturn));
 extern void func_80025908() __attribute__((noreturn));
 
-void func_818F9E48(void *arg0, void *arg1, void *arg2) {
-    void *out = arg1;
-    void *effect = arg2;
-    s32 tail_value;
-    PackedVector source;
-    Pair16 derived;
-    s32 i;
-    u8 value;
-    s16 timer;
-    u16 flags;
+/* Update a timed visual effect using its owner's appearance and position. */
+void func_818F9E48(void *state, void *position_out, void *effect_arg) {
+    void *position = position_out;
+    void *effect = effect_arg;
+    s32 fade_or_phase;
+    PackedVector origin;
+    Pair16 anchor;
+    s32 level_index;
+    u8 intensity;
+    s16 frame_or_phase;
+    u16 effect_flags;
     void *owner;
     void *motion;
-    void *copy;
-    u16 old_x;
-    u16 old_y;
+    void *owner_position;
+    u16 saved_scale_x;
+    u16 saved_scale_y;
     s32 one;
 
-    source = D_8002400C;
-    ASM_KEEP(out);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    origin = D_8002400C;
+    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     D_800266BC = 1;
-    ((S_818F9E48_0 *)arg0)->unk_98 += 0xC8;
+    ((S_818F9E48_0 *)state)->unk_98 += 0xC8;
 
-    if (((S_818F9E48_0 *)arg0)->unk_02.s < 0x32) {
-        i = 0;
+    if (((S_818F9E48_0 *)state)->unk_02.s < 0x32) {
+        level_index = 0;
         do {
-            ((EffectState *)arg0)->levels[i]++;
-            i++;
-        } while (i < 0x60);
+            ((EffectState *)state)->levels[level_index]++;
+            level_index++;
+        } while (level_index < 0x60);
         func_80025714();
         return;
     }
 
-    i = 0;
+    level_index = 0;
     do {
-        value = ((EffectState *)arg0)->levels[i];
-        if (value != 0) {
-            ((EffectState *)arg0)->levels[i] = value - 1;
+        intensity = ((EffectState *)state)->levels[level_index];
+        if (intensity != 0) {
+            ((EffectState *)state)->levels[level_index] = intensity - 1;
         }
-        i++;
-    } while (i < 0x60);
+        level_index++;
+    } while (level_index < 0x60);
 
-    timer = ((S_818F9E48_0 *)arg0)->unk_02.s;
-    if (timer < 0x15) {
-        tail_value = (timer * 6) - 0x79;
-        ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    frame_or_phase = ((S_818F9E48_0 *)state)->unk_02.s;
+    if (frame_or_phase < 0x15) {
+        fade_or_phase = (frame_or_phase * 6) - 0x79;
+        ASM_TAILSLOT_PIN(fade_or_phase);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_80025758();
         return;
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if (timer >= 0x50) {
-        value = ((0x64 - timer) * 6) - 0x80;
-        ((S_818F9E48_1 *)effect)->unk_0E = value;
-        ((S_818F9E48_1 *)effect)->unk_0D = value;
-        ((S_818F9E48_1 *)effect)->unk_0C = value;
+    if (frame_or_phase >= 0x50) {
+        intensity = ((0x64 - frame_or_phase) * 6) - 0x80;
+        ((S_818F9E48_1 *)effect)->unk_0E = intensity;
+        ((S_818F9E48_1 *)effect)->unk_0D = intensity;
+        ((S_818F9E48_1 *)effect)->unk_0C = intensity;
     }
 
-    ((S_818F9E48_0 *)arg0)->unk_9A += 4;
-    owner = ((S_818F9E48_0 *)arg0)->unk_2C;
-    copy = ((S_818F9E48_2_pre *)owner)[-1].unk_00;
+    ((S_818F9E48_0 *)state)->unk_9A += 4;
+    owner = ((S_818F9E48_0 *)state)->unk_2C;
+    owner_position = ((S_818F9E48_2_pre *)owner)[-1].unk_00;
     motion = ((S_818F9E48_2_pre *)owner)[-1].unk_04;
-    ((S_818F9E48_3 *)out)->unk_00 = ((S_818F9E48_4 *)copy)->unk_00;
-    ((S_818F9E48_3 *)out)->unk_04 = ((S_818F9E48_4 *)copy)->unk_04;
-    ((S_818F9E48_3 *)out)->unk_08 = ((S_818F9E48_4 *)copy)->unk_08;
+    ((S_818F9E48_3 *)position)->unk_00 = ((S_818F9E48_4 *)owner_position)->unk_00;
+    ((S_818F9E48_3 *)position)->unk_04 = ((S_818F9E48_4 *)owner_position)->unk_04;
+    ((S_818F9E48_3 *)position)->unk_08 = ((S_818F9E48_4 *)owner_position)->unk_08;
 
-    timer = ((S_818F9E48_0 *)arg0)->unk_00.s;
-    if (timer == 0) {
+    frame_or_phase = ((S_818F9E48_0 *)state)->unk_00.s;
+    if (frame_or_phase == 0) {
         goto state_zero;
     }
-    tail_value = 1;
-    if (timer == tail_value) {
+    fade_or_phase = 1;
+    if (frame_or_phase == fade_or_phase) {
         one = 1;
         goto state_done;
     }
@@ -168,10 +169,10 @@ void func_818F9E48(void *arg0, void *arg1, void *arg2) {
     return;
 
 state_zero:
-    ((S_818F9E48_0 *)arg0)->unk_00.u++;
-    flags = ((S_818F9E48_1 *)effect)->unk_14 & 0xFF7F;
-    ((S_818F9E48_1 *)effect)->unk_14 = flags;
-    ((S_818F9E48_1 *)effect)->unk_14 = flags | (((S_818F9E48_5 *)motion)->unk_14 & 0xC);
+    ((S_818F9E48_0 *)state)->unk_00.u++;
+    effect_flags = ((S_818F9E48_1 *)effect)->unk_14 & 0xFF7F;
+    ((S_818F9E48_1 *)effect)->unk_14 = effect_flags;
+    ((S_818F9E48_1 *)effect)->unk_14 = effect_flags | (((S_818F9E48_5 *)motion)->unk_14 & 0xC);
     ((S_818F9E48_1 *)effect)->unk_10 = ((S_818F9E48_5 *)motion)->unk_10;
     ((S_818F9E48_1 *)effect)->unk_0C = ((S_818F9E48_5 *)motion)->unk_0C;
     ((S_818F9E48_1 *)effect)->unk_0D = ((S_818F9E48_5 *)motion)->unk_0D;
@@ -181,26 +182,26 @@ state_zero:
     one = 1;
 
 state_done:
-    derived.x = source.x + ((s16)source.z >> 1);
-    derived.y = source.y + 0x48;
-    old_x = ((S_818F9E48_5 *)motion)->unk_1C;
-    old_y = ((S_818F9E48_5 *)motion)->unk_1E;
-    ((S_818F9E48_1 *)effect)->unk_1C = old_x;
+    anchor.x = origin.x + ((s16)origin.z >> 1);
+    anchor.y = origin.y + 0x48;
+    saved_scale_x = ((S_818F9E48_5 *)motion)->unk_1C;
+    saved_scale_y = ((S_818F9E48_5 *)motion)->unk_1E;
+    ((S_818F9E48_1 *)effect)->unk_1C = saved_scale_x;
     ((S_818F9E48_1 *)effect)->unk_1E = ((S_818F9E48_5 *)motion)->unk_1E;
     ((S_818F9E48_5 *)motion)->unk_1E = 0x1000;
     ((S_818F9E48_5 *)motion)->unk_1C = 0x1000;
-    func_80024CD4(arg0, ((S_818F9E48_0 *)arg0)->unk_2C, &source, &derived, one, one);
-    ((S_818F9E48_5 *)motion)->unk_1C = old_x;
-    ((S_818F9E48_5 *)motion)->unk_1E = old_y;
+    func_80024CD4(state, ((S_818F9E48_0 *)state)->unk_2C, &origin, &anchor, one, one);
+    ((S_818F9E48_5 *)motion)->unk_1C = saved_scale_x;
+    ((S_818F9E48_5 *)motion)->unk_1E = saved_scale_y;
 
-    timer = ((S_818F9E48_0 *)arg0)->unk_02.u + 1;
-    ((S_818F9E48_0 *)arg0)->unk_02.u = timer;
-    if (timer >= 0x65) {
-        ((S_818F9E48_0 *)arg0)->unk_02.u = 0;
-        ((S_818F9E48_0 *)arg0)->unk_00.u++;
+    frame_or_phase = ((S_818F9E48_0 *)state)->unk_02.u + 1;
+    ((S_818F9E48_0 *)state)->unk_02.u = frame_or_phase;
+    if (frame_or_phase >= 0x65) {
+        ((S_818F9E48_0 *)state)->unk_02.u = 0;
+        ((S_818F9E48_0 *)state)->unk_00.u++;
         ((S_818F9E48_5 *)motion)->unk_14 &= 0xFF7F;
-        ((S_818F9E48_6 *)(((S_818F9E48_0 *)arg0)->unk_30))->unk_9C = one;
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        ((S_818F9E48_6 *)(((S_818F9E48_0 *)state)->unk_30))->unk_9C = one;
+        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

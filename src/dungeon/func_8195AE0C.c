@@ -17,41 +17,42 @@ typedef struct {
 extern void func_80026660(void) __attribute__((noreturn));
 extern void func_800266C8(void) __attribute__((noreturn));
 
+/* Refresh the entry value and handle index stepping and bounds. */
 void func_8195AE0C(Entry *entry, s16 *step, s32 lower, s32 upper)
 {
-    Entry *p = entry;
-    s32 dead;
-    s32 scaled;
+    Entry *active_entry = entry;
+    s32 pending_update;
+    s32 index_high_byte;
     Owner *owner;
-    u8 current;
+    u8 index;
 
-    owner = p->owner;
-    p->value = owner->base + p->index * 0x18;
+    owner = active_entry->owner;
+    active_entry->value = owner->base + active_entry->index * 0x18;
     if (*step > 0) {
-        dead = (u8)p->index + 1;
-        ASM_TAILSLOT_PIN_TIED(dead);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        pending_update = (u8)active_entry->index + 1;
+        ASM_TAILSLOT_PIN_TIED(pending_update);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_80026660();
         return;
     }
     if (*step < 0) {
-        p->index = (u8)p->index - 1;
+        active_entry->index = (u8)active_entry->index - 1;
     }
 
-    current = (u8)p->index;
-    scaled = current << 24;
-    if ((s8)current < (s16)lower) {
-        dead = p->flags | 0x4000;
-        p->index = lower;
-        ASM_TAILSLOT_PIN_TIED(dead);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    index = (u8)active_entry->index;
+    index_high_byte = index << 24;
+    if ((s8)index < (s16)lower) {
+        pending_update = active_entry->flags | 0x4000;
+        active_entry->index = lower;
+        ASM_TAILSLOT_PIN_TIED(pending_update);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800266C8();
         return;
     }
-    if ((s8)current > (s16)upper) {
-        dead = p->flags | 0x4000;
-        p->index = upper;
-        ASM_TAILSLOT_PIN_TIED(dead);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    if ((s8)index > (s16)upper) {
+        pending_update = active_entry->flags | 0x4000;
+        active_entry->index = upper;
+        ASM_TAILSLOT_PIN_TIED(pending_update);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800266C8();
         return;
     }
-    p->flags &= 0xBFFF;
+    active_entry->flags &= 0xBFFF;
 }

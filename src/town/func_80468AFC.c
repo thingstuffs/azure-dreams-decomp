@@ -5,27 +5,24 @@ extern u8 D_800178FC[8];
 extern u8 D_80017918[8];
 extern u8 *D_8001E950;
 
-u8 *func_80019AFC(s32 arg0, s32 arg1)
+/* Selects a byte table, using the current state to offset selector 2's table. */
+u8 *func_80019AFC(s32 unused, s32 selector)
 {
-    u8 *result;
+    u8 *table;
 
-    if (arg1 == 9) {
+    if (selector == 9) {
         return D_800178FC;
     }
-    if (arg1 == 10) {
+    if (selector == 10) {
         return D_800178FC;
     }
-    if ((u32)(arg1 - 3) < 6U) {
+    if ((u32)(selector - 3) < 6U) {
         return D_80017918;
     }
-    if (arg1 != 2) {
-        result = D_800178F8;
+    if (selector != 2) {
+        table = D_800178F8;
     } else {
-        result = D_800178F8 + (D_8001E950[4] * 4);
+        table = D_800178F8 + (D_8001E950[4] * 4);
     }
-    return result;
+    return table;
 }
-
-/* MECHANISM: Frameless leaf with the true ROWBASE name and a two-argument ABI
-   keeps the selector in a1; shared pointer-return arms reproduce the CFG.
-   Byte-scaled final indexing preserves the retail lbu/sll/addu sequence. */

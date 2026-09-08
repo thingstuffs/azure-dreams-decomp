@@ -12,12 +12,13 @@ typedef struct S_80090DF0_0 {
 
 
 M2C_UNK func_80090A74(s32 *, S_80090DF0_0 *, M2C_UNK);
-void func_80090DF0(s32 *arg0, S_80090DF0_0 *arg1, M2C_UNK arg2) {
-    s32 temp_s0;
+/* Runs the fallback if the value is unchanged and both state fields are zero. */
+void func_80090DF0(s32 *value, S_80090DF0_0 *state, M2C_UNK context) {
+    s32 old_value;
 
-    temp_s0 = *arg0;
-    func_80090A74(arg0, arg1, arg2);
-    if ((temp_s0 == *arg0) && (arg1->unk_0C == 0) && (arg1->unk_10 == 0)) {
-        func_80093D48(arg0, arg1, arg2);
+    old_value = *value;
+    func_80090A74(value, state, context);
+    if ((old_value == *value) && (state->unk_0C == 0) && (state->unk_10 == 0)) {
+        func_80093D48(value, state, context);
     }
 }

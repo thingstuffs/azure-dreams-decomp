@@ -1,41 +1,3 @@
-/* v30 (round 4): PRODUCTION SOURCE -- byte-exact `func_8009D424` (row
-   func_8009FCC4) at stock 2.7.2-cdk-G0.  Self-contained flattening of v29; no
-   include, no dial macros.  Ordinary defined C on the unmodified stock
-   compiler: no register pins, no ASM_KEEP, no inline asm, no volatile, no fake
-   callees or labels, no compiler patches.
-
-   Three spellings carry the whole result (each measured, see REPORT_ROUND4.md):
-
-   1. `arg3` is stored to write_base+0x95 DIRECTLY -- it is the tenth value live
-      across both calls while all nine callee-saved registers are taken, so
-      global alloc leaves it unallocated (global.c:924 forbids caller-saved for
-      a call-crossing allocno; CALLER_SAVE_PROFITABLE at regs.h:171 is false at
-      2 refs / 2 calls) and reload spills it.  Being a narrowing (u8) parm it
-      carries no REG_EQUIV, so alter_reg/assign_stack_local puts it at the first
-      frame local 0x10($sp) and order_regs_for_reload (reload1.c:3810) hands it
-      potential_reload_regs[0] = $t0, because $t0..$t9 are the only registers
-      the RTL never names.  Retail's `sb $a3,0x10($sp)` in the jal delay slot IS
-      that spill's store; `lbu $t0,0x10($sp)` / `nop` / `sb $t0,0x95($a0)` are
-      its reload.
-
-   2. `arg4` is consumed DIRECTLY (no held copy).  A `held_arg4 = arg4` body copy
-      absorbs assign_parms' own narrowing insn and carries a body LUID above the
-      arg5/arg7/arg8 conversions, so sched2's LUID tie-break emits arg4's stack
-      load LAST of the four; using arg4 directly keeps the assign_parms insn,
-      whose LUID is the lowest of the four, and restores retail's
-      ascending-offset order 0x50, 0x54, 0x5C, 0x60.  The same change lengthens
-      arg4's live range from 66 to 69 insns, which is what makes
-      allocno_compare (global.c:587) colour held_arg1 (2 refs / 68) before it,
-      giving retail's arg1 -> $s6, arg4 -> $s7, arg2 -> $fp, byte -> spilled.
-
-   3. `func_8003FD64` takes TWO parameters, as declared in src/w_80053374.c:28,
-      src/w_800525D4.c:32 and src/w_8003FB98.c:23.  A third argument would give
-      held_arg2 a third reference and re-price it above arg4.
-
-   The held_arg1 / held_arg2 copies exist to keep assign_parms' REG_EQUIV home
-   slot off those two values: update_equiv_regs doubles reg_live_length for any
-   pseudo carrying a REG_EQUIV note, which would drop them below the arg3 byte
-   in allocno_compare and make one of THEM the spill victim instead. */
 #include "common.h"
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
@@ -109,88 +71,131 @@ typedef struct S_if_b2_0 {
     void * unk_0C;
 } S_if_b2_0;   /* obj in if */
 
-/* rowbase owner: func_8009D424( */
-s32 func_8009D424(s32 arg0, s32 arg1, s32 arg2, u8 arg3, u8 arg4,
-                  u8 arg5, s32 arg6, u16 arg7, u16 arg8, s32 arg9)
+/* Create an object, initialize its position and render state, and invoke its callback. */
+s32 func_8009D424(s32 callback_id, s32 angle_index, s32 state_94,
+                  u8 state_95, u8 state_96, u8 height_mode, s32 state_48,
+                  u16 coord_x, u16 coord_z, s32 state_98)
 {
-    s32 held_arg1;
-    void *obj;
-    void *part0;
-    void *part3;
-    void *part2;
-    u16 value;
-    void *write_base;
+    s32 saved_angle_index;
+    void *object;
+    void *position;
+    void *object_state;
+    void *render_data;
+    u16 angle;
+    void *state;
     u32 color;
-    void *call_part2;
-    s32 held6;
-    s32 held9;
-    s32 held_arg2;
+    void *callback_render;
+    s32 saved_state_48;
+    s32 saved_state_98;
+    s32 saved_state_94;
 
-    held_arg1 = arg1;
-    held_arg2 = arg2;
-    obj = func_8003FD64(0x136, D_80083498);
-    if (obj == 0) {
+    saved_angle_index = angle_index;
+    saved_state_94 = state_94;
+    object = func_8003FD64(0x136, D_80083498);
+    if (object == 0) {
         return 0;
     }
-    if ((arg0 & 0xC0000000) == 0xC0000000) {
-        ((S_8009D424_0 *)obj)->unk_10 = D_800D3950[(u16)arg0];
+    if ((callback_id & 0xC0000000) == 0xC0000000) {
+        ((S_8009D424_0 *)object)->unk_10 = D_800D3950[(u16)callback_id];
     }
-    if ((arg0 & 0xC0000000) != 0xC0000000) {
-        ((S_8009D424_0 *)obj)->unk_10 = arg0;
+    if ((callback_id & 0xC0000000) != 0xC0000000) {
+        ((S_8009D424_0 *)object)->unk_10 = callback_id;
     }
 
-    if (arg0 & 1) { part0 = ((S_8009D424_0 *)obj)->unk_08; part2 = ((S_8009D424_0 *)obj)->unk_0C; }
-    else if (arg0 & 2) { part0 = ((S_if_b1_0 *)obj)->unk_08; part2 = ((S_if_b1_0 *)obj)->unk_0C; }
-    else if (arg0 & 4) { part0 = ((S_if_b2_0 *)obj)->unk_08; part2 = ((S_if_b2_0 *)obj)->unk_0C; }
-    else { part0 = ((S_8009D424_0 *)obj)->unk_08; part2 = ((S_8009D424_0 *)obj)->unk_0C; }
+    if (callback_id & 1) {
+        position = ((S_8009D424_0 *)object)->unk_08;
+        render_data = ((S_8009D424_0 *)object)->unk_0C;
+    }
+    else if (callback_id & 2) {
+        position = ((S_if_b1_0 *)object)->unk_08;
+        render_data = ((S_if_b1_0 *)object)->unk_0C;
+    }
+    else if (callback_id & 4) {
+        position = ((S_if_b2_0 *)object)->unk_08;
+        render_data = ((S_if_b2_0 *)object)->unk_0C;
+    }
+    else {
+        position = ((S_8009D424_0 *)object)->unk_08;
+        render_data = ((S_8009D424_0 *)object)->unk_0C;
+    }
 
-    ((S_8009D424_1 *)part0)->unk_02 = arg7;
-    part3 = (u8 *)obj + 0x20;
-    ((S_8009D424_1 *)part0)->unk_06 = arg8;
+    ((S_8009D424_1 *)position)->unk_02 = coord_x;
+    object_state = (u8 *)object + 0x20;
+    ((S_8009D424_1 *)position)->unk_06 = coord_z;
 
-    if (arg5 == 0) {
-        ((S_8009D424_1 *)part0)->unk_0A = -0x40;
+    if (height_mode == 0) {
+        ((S_8009D424_1 *)position)->unk_0A = -0x40;
     } else {
-        ((S_8009D424_1 *)part0)->unk_0A = -0xC0;
+        ((S_8009D424_1 *)position)->unk_0A = -0xC0;
     }
-    ((S_8009D424_1 *)part0)->unk_0A = func_800C2AE8(part0);
-    if (part0 != 0) { color = 0x808080; }
-    else { color = 0x808080; }
-    ((S_8009D424_2 *)part3)->unk_84 = ((S_8009D424_1 *)part0)->unk_02;
-    if (part0 != 0) {
-        if (part2 != 0) { write_base = part3; }
-        else { write_base = part3; }
+    ((S_8009D424_1 *)position)->unk_0A = func_800C2AE8(position);
+    if (position != 0) {
+        color = 0x808080;
+    }
+    else {
+        color = 0x808080;
+    }
+    ((S_8009D424_2 *)object_state)->unk_84 = ((S_8009D424_1 *)position)->unk_02;
+    if (position != 0) {
+        if (render_data != 0) {
+            state = object_state;
+        }
+        else {
+            state = object_state;
+        }
     } else {
-        if (part2 != 0) { write_base = part3; }
-        else { write_base = part3; }
+        if (render_data != 0) {
+            state = object_state;
+        }
+        else {
+            state = object_state;
+        }
     }
-    ((S_8009D424_3 *)write_base)->unk_86 = ((S_8009D424_1 *)part0)->unk_06;
-    ((S_8009D424_4 *)part2)->unk_1E = 0x1000;
-    ((S_8009D424_4 *)part2)->unk_1C = 0x1000;
-    ((S_8009D424_4 *)part2)->unk_0C = color;
-    value = D_800D5070[held_arg1 & 3];
-    ((S_8009D424_3 *)write_base)->unk_94 = held_arg2;
-    ((S_8009D424_3 *)write_base)->unk_95 = arg3;
-    ((S_8009D424_3 *)write_base)->unk_96 = arg4;
-    if (part0 != 0) {
-        if (part2 != 0) { held6 = arg6; }
-        else { held6 = arg6; }
-    } else { held6 = arg6; }
-    ((S_8009D424_3 *)write_base)->unk_48 = held6;
-    if (part0 != 0) {
-        if (part2 != 0) { held9 = arg9; }
-        else { held9 = arg9; }
-    } else { held9 = arg9; }
-    ((S_8009D424_3 *)write_base)->unk_93 = 0;
-    ((S_8009D424_3 *)write_base)->unk_70 = 0;
-    ((S_8009D424_3 *)write_base)->unk_71 = 0;
-    ((S_8009D424_3 *)write_base)->unk_72 = value;
-    ((S_8009D424_3 *)write_base)->unk_6E = value;
-    ((S_8009D424_3 *)write_base)->unk_98 = held9;
-    if (part0 != 0) {
-        if (part2 != 0) { call_part2 = part2; }
-        else { call_part2 = part2; }
-    } else { call_part2 = part2; }
-    ((Callback)((S_8009D424_0 *)obj)->unk_10)(write_base, part0, call_part2);
+    ((S_8009D424_3 *)state)->unk_86 = ((S_8009D424_1 *)position)->unk_06;
+    ((S_8009D424_4 *)render_data)->unk_1E = 0x1000;
+    ((S_8009D424_4 *)render_data)->unk_1C = 0x1000;
+    ((S_8009D424_4 *)render_data)->unk_0C = color;
+    angle = D_800D5070[saved_angle_index & 3];
+    ((S_8009D424_3 *)state)->unk_94 = saved_state_94;
+    ((S_8009D424_3 *)state)->unk_95 = state_95;
+    ((S_8009D424_3 *)state)->unk_96 = state_96;
+    if (position != 0) {
+        if (render_data != 0) {
+            saved_state_48 = state_48;
+        }
+        else {
+            saved_state_48 = state_48;
+        }
+    } else {
+        saved_state_48 = state_48;
+    }
+    ((S_8009D424_3 *)state)->unk_48 = saved_state_48;
+    if (position != 0) {
+        if (render_data != 0) {
+            saved_state_98 = state_98;
+        }
+        else {
+            saved_state_98 = state_98;
+        }
+    } else {
+        saved_state_98 = state_98;
+    }
+    ((S_8009D424_3 *)state)->unk_93 = 0;
+    ((S_8009D424_3 *)state)->unk_70 = 0;
+    ((S_8009D424_3 *)state)->unk_71 = 0;
+    ((S_8009D424_3 *)state)->unk_72 = angle;
+    ((S_8009D424_3 *)state)->unk_6E = angle;
+    ((S_8009D424_3 *)state)->unk_98 = saved_state_98;
+    if (position != 0) {
+        if (render_data != 0) {
+            callback_render = render_data;
+        }
+        else {
+            callback_render = render_data;
+        }
+    } else {
+        callback_render = render_data;
+    }
+    ((Callback)((S_8009D424_0 *)object)->unk_10)(state, position, callback_render);
     return 1;
 }

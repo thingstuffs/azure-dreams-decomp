@@ -18,18 +18,19 @@ typedef struct {
     s8 blue;
 } FadeOutput;
 
-void func_80170E2C(FadeState *arg0, s32 arg1, FadeOutput *arg2)
+/* Advance the RGB fade toward black and set completion flags when it ends. */
+void func_80170E2C(FadeState *fade, s32 unused, FadeOutput *output)
 {
     s16 remaining;
 
-    remaining = arg0->remaining - 1;
-    arg0->remaining = remaining;
-    arg2->red = (arg0->red * remaining) / arg0->divisor;
-    arg2->green = (arg0->green * (s16)arg0->remaining) / arg0->divisor;
-    arg2->blue = (arg0->blue * (s16)arg0->remaining) / arg0->divisor;
+    remaining = fade->remaining - 1;
+    fade->remaining = remaining;
+    output->red = (fade->red * remaining) / fade->divisor;
+    output->green = (fade->green * (s16)fade->remaining) / fade->divisor;
+    output->blue = (fade->blue * (s16)fade->remaining) / fade->divisor;
 
-    if ((s16)arg0->remaining <= 0) {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    if ((s16)fade->remaining <= 0) {
+        *(u16 *)((u8 *)fade - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

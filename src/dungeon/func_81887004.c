@@ -47,20 +47,21 @@ extern void func_8002596C(s32, s32, s32);
 extern void func_80026010(void);
 extern s32 func_80069EF8(void);
 
+/* Advances the effect through color buildup, flicker, and fade, then restores the object color. */
 void func_81887004(EffectState *effect, Vec3s *pos)
 {
     Object *object;
     ColorObject *color;
-    s32 i;
+    s32 burst_index;
     s32 state;
-    s32 value;
-    static void *const jt_keep[] = {
+    s32 channel_value;
+    static void *const state_labels[] = {
         &&jt_0, &&jt_1, &&jt_2, &&jt_3, &&jt_4,
     };
 
 
     D_80026326++;
-    (void)jt_keep;
+    (void)state_labels;
     state = effect->state;
     if ((u32)state >= 5) {
         goto end;
@@ -74,46 +75,46 @@ jt_0:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     color = *(ColorObject **)((u8 *)effect->object - 0x14);
-    value = color->r - 1;
-    color->r = value;
-    if ((u8)value < 0x40) {
+    channel_value = color->r - 1;
+    color->r = channel_value;
+    if ((u8)channel_value < 0x40) {
         color->r = 0x40;
     }
-    value = color->g - 1;
-    color->g = value;
-    if ((u8)value < 0x40) {
+    channel_value = color->g - 1;
+    color->g = channel_value;
+    if ((u8)channel_value < 0x40) {
         color->g = 0x40;
     }
-    value = color->b + 1;
-    color->b = value;
-    if ((u8)value >= 0xC1) {
+    channel_value = color->b + 1;
+    color->b = channel_value;
+    if ((u8)channel_value >= 0xC1) {
         color->b = 0xC0;
     }
     if (D_80026328[0] != 0) {
-        s32 dead_tick;
+        s32 next_state;
 
-        dead_tick = ((volatile u16 *)effect)[5] + 1;
-        ASM_TAILSLOT_PIN(dead_tick);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        next_state = ((volatile u16 *)effect)[5] + 1;
+        ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024AA0();
     }
     goto end;
 
 jt_1: {
     register s32 next_timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    u8 *rgb0;
-    u8 *rgb1;
+    u8 *primary_rgb;
+    u8 *secondary_rgb;
 
     effect->timer++;
     D_80026470[0] = effect->timer * 2;
-    rgb0 = D_80026470;
-    rgb0[1] = effect->timer * 4;
-    rgb0[2] = effect->timer * 14;
+    primary_rgb = D_80026470;
+    primary_rgb[1] = effect->timer * 4;
+    primary_rgb[2] = effect->timer * 14;
     D_80026474[0] = effect->timer * 10;
-    rgb1 = D_80026474;
-    rgb1[1] = effect->timer * 11;
-    rgb1[2] = effect->timer * 14;
+    secondary_rgb = D_80026474;
+    secondary_rgb[1] = effect->timer * 11;
+    secondary_rgb[2] = effect->timer * 14;
 
-    for (i = 0; i < 4; i++) {
+    for (burst_index = 0; burst_index < 4; burst_index++) {
         func_8002596C(pos->x, pos->y, pos->z);
     }
     next_timer = 0xA0;
@@ -142,50 +143,50 @@ jt_2: {
 }
 
 jt_3: {
-    u8 *rgb0;
-    u8 *rgb1;
+    u8 *primary_rgb;
+    u8 *secondary_rgb;
 
     D_80026470[0] += -(s32)D_80026470[0] / effect->timer;
-    rgb0 = D_80026470;
-    rgb0[1] += -(s32)rgb0[1] / effect->timer;
-    rgb0[2] += -(s32)rgb0[2] / effect->timer;
+    primary_rgb = D_80026470;
+    primary_rgb[1] += -(s32)primary_rgb[1] / effect->timer;
+    primary_rgb[2] += -(s32)primary_rgb[2] / effect->timer;
     D_80026474[0] += -(s32)D_80026474[0] / effect->timer;
-    rgb1 = D_80026474;
-    rgb1[1] += -(s32)rgb1[1] / effect->timer;
-    rgb1[2] += -(s32)rgb1[2] / effect->timer;
+    secondary_rgb = D_80026474;
+    secondary_rgb[1] += -(s32)secondary_rgb[1] / effect->timer;
+    secondary_rgb[2] += -(s32)secondary_rgb[2] / effect->timer;
 }
 
 jt_4: {
-    s32 limit;
-    s32 page_value;
+    s32 neutral_level;
+    s32 effect_count;
     u32 flags;
-    u32 mask;
-    register u8 *page2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u8 *page8 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u32 clear_effect_mask;
+    register u8 *counter_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u8 *status_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     Object *fade_object;
 
     color = *(ColorObject **)((u8 *)effect->object - 0x14);
-    limit = 0x80;
-    color->r += (limit - color->r) / effect->timer;
-    color->g += (limit - color->g) / effect->timer;
-    color->b += (limit - color->b) / effect->timer;
+    neutral_level = 0x80;
+    color->r += (neutral_level - color->r) / effect->timer;
+    color->g += (neutral_level - color->g) / effect->timer;
+    color->b += (neutral_level - color->b) / effect->timer;
     effect->timer--;
     if (effect->timer <= 0) {
-        mask = 0xEFFFFFFF;
-        color->r = limit;
-        color->g = limit;
-        color->b = limit;
+        clear_effect_mask = 0xEFFFFFFF;
+        color->r = neutral_level;
+        color->g = neutral_level;
+        color->b = neutral_level;
         fade_object = effect->object;
-        page2 = (u8 *)0x80020000;
-        page_value = *(u16 *)(page2 + 0x6324);
+        counter_base = (u8 *)0x80020000;
+        effect_count = *(u16 *)(counter_base + 0x6324);
         flags = fade_object->flags;
-        page_value--;
-        *(u16 *)(page2 + 0x6324) = page_value;
-        flags &= mask;
+        effect_count--;
+        *(u16 *)(counter_base + 0x6324) = effect_count;
+        flags &= clear_effect_mask;
         fade_object->flags = flags;
         ((u16 *)effect)[-1] |= 0x8000;
-        page8 = (u8 *)0x80080000;
-        *(volatile s32 *)(page8 + 0x14A0) |= 0x8000;
+        status_base = (u8 *)0x80080000;
+        *(volatile s32 *)(status_base + 0x14A0) |= 0x8000;
     }
     goto end;
 }

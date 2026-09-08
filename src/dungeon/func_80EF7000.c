@@ -51,27 +51,23 @@ __asm__(".globl func_80158800\n"
 #define BODY_NAME func_80158800
 #endif
 
-void BODY_NAME(void *arg0, void *arg1, void *arg2)
+void BODY_NAME(void *motion, void *position, void *animation)
 #ifdef __mips__
     __attribute__((section(".text.func_80158800")))
 #endif
 ;
 
-void BODY_NAME(void *arg0, void *arg1, void *arg2)
+/* Advance motion through travel, landing interpolation, and falling. */
+void BODY_NAME(void *motion, void *position, void *animation)
 {
     s8 command[4];
-    GridPoint grid[8];
-    GridPoint *grid_base;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 var_a0;
-    s32 var_a0_2;
-    s32 var_v0;
-    s32 var_v1;
-    s32 temp_a0;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u32 temp_v1;
+    GridPoint directions[8];
+    GridPoint *direction_base;
+    s32 fall_height;
+    s32 height;
+    u16 duration;
+    u16 scale;
+    u32 distance;
 
 #ifdef __mips__
     static void *const switch_keepalive[] __attribute__((used)) = {
@@ -79,174 +75,174 @@ void BODY_NAME(void *arg0, void *arg1, void *arg2)
     };
 #endif
 
-    __builtin_memcpy(grid, D_80158808, 32);
+    __builtin_memcpy(directions, D_80158808, 32);
 
-loop_1:
-    if (FIELD(arg0, s16, 0x2C) != 1)
-        goto block_25;
-    if (FIELD(arg0, s16, 0x2E) != 0)
-        goto block_18;
-    FIELD(arg0, s16, 0x2E) = (s16)((u16)FIELD(arg0, s16, 0x2E) + 1);
+interpolate:
+    if (FIELD(motion, s16, 0x2C) != 1)
+        goto fall;
+    if (FIELD(motion, s16, 0x2E) != 0)
+        goto interpolate_step;
+    FIELD(motion, s16, 0x2E) = (s16)((u16)FIELD(motion, s16, 0x2E) + 1);
     {
         s32 abs_x;
         s32 abs_y;
         s32 map_y;
 
-        abs_x = FIELD(arg1, s16, 0x0E);
-        abs_y = FIELD(arg0, s8, 0x5C);
-        map_y = FIELD(arg0, s8, 0x5D);
+        abs_x = FIELD(position, s16, 0x0E);
+        abs_y = FIELD(motion, s8, 0x5C);
+        map_y = FIELD(motion, s8, 0x5D);
         abs_x -= abs_y;
-        abs_y = FIELD(arg1, s16, 0x12);
+        abs_y = FIELD(position, s16, 0x12);
         if (abs_x < 0)
             abs_x = -abs_x;
         abs_y -= map_y;
         if (abs_y < 0)
             abs_y = -abs_y;
-        temp_v1 = abs_x + abs_y;
+        distance = abs_x + abs_y;
     }
-    if (temp_v1 >= 5U)
-        goto block_17;
-    goto *(void *)D_80158828[temp_v1];
+    if (distance >= 5U)
+        goto max_duration;
+    goto *(void *)D_80158828[distance];
 case_0:
-    temp_v0 = 4;
-    goto block_16;
+    duration = 4;
+    goto set_duration;
 case_1:
-    temp_v0 = 8;
-    goto block_16;
+    duration = 8;
+    goto set_duration;
 case_2:
-    temp_v0 = 12;
-    goto block_16;
+    duration = 12;
+    goto set_duration;
 case_3:
-    temp_v0 = 14;
-    goto block_16;
+    duration = 14;
+    goto set_duration;
 case_4:
-block_17:
-    temp_v0 = 16;
-block_16:
-    FIELD(arg0, s16, 0x36) = temp_v0;
-block_18:
+max_duration:
+    duration = 16;
+set_duration:
+    FIELD(motion, s16, 0x36) = duration;
+interpolate_step:
     {
         u32 countdown_raw;
         s32 countdown;
         s32 shifted_countdown;
 
-        countdown_raw = (u16)FIELD(arg0, s16, 0x36) - 1;
-        FIELD(arg0, s16, 0x36) = countdown_raw;
+        countdown_raw = (u16)FIELD(motion, s16, 0x36) - 1;
+        FIELD(motion, s16, 0x36) = countdown_raw;
         ASM_KEEP(countdown_raw);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         shifted_countdown = (s32)(countdown_raw << 16);
         countdown = shifted_countdown >> 16;
         if (countdown == 0)
-            goto block_20;
+            goto check_arrival;
         {
             register s32 interp_goal ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             s32 interp_current;
 
-            interp_goal = FIELD(arg1, s16, 0x0E);
+            interp_goal = FIELD(position, s16, 0x0E);
             ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            interp_current = FIELD(arg1, s16, 2) - 32;
+            interp_current = FIELD(position, s16, 2) - 32;
             interp_goal =
                 (interp_goal * 64 - interp_current) / countdown;
-            FIELD(arg1, s16, 2) += interp_goal;
+            FIELD(position, s16, 2) += interp_goal;
 
-            interp_goal = FIELD(arg1, s16, 0x12);
+            interp_goal = FIELD(position, s16, 0x12);
             ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            interp_current = FIELD(arg1, s16, 6);
-            countdown = FIELD(arg0, s16, 0x36);
+            interp_current = FIELD(position, s16, 6);
+            countdown = FIELD(motion, s16, 0x36);
             ASM_KEEP(countdown);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             interp_goal = interp_goal * 64;
             interp_current -= 32;
             interp_goal -= interp_current;
             interp_goal /= countdown;
 
-            interp_current = FIELD(arg1, u16, 6);
-            countdown = FIELD(arg1, s16, 0x0A);
+            interp_current = FIELD(position, u16, 6);
+            countdown = FIELD(position, s16, 0x0A);
             interp_current += interp_goal;
 
-            interp_goal = FIELD(arg1, s16, 0x16);
-            FIELD(arg1, s16, 6) = interp_current;
+            interp_goal = FIELD(position, s16, 0x16);
+            FIELD(position, s16, 6) = interp_current;
             interp_goal = (interp_goal - countdown) /
-                (s16)FIELD(arg0, s16, 0x36);
-            FIELD(arg1, s16, 0x0A) += interp_goal;
+                (s16)FIELD(motion, s16, 0x36);
+            FIELD(position, s16, 0x0A) += interp_goal;
         }
     }
-block_20:
-    if ((s16)FIELD(arg0, s16, 0x36) > 0)
-        goto block_23;
+check_arrival:
+    if ((s16)FIELD(motion, s16, 0x36) > 0)
+        goto repeat_interpolation;
     command[0] = 6;
     command[1] = 12;
     command[2] = 0;
     command[3] = 0;
-    func_800A7A7C(FIELD(arg1, s16, 0x0E), FIELD(arg1, s16, 0x12),
-                  FIELD(arg1, s16, 0x16), FIELD(arg2, s32 *, 8), command);
-    goto after_a7;
-block_23:
-    if (FIELD(arg2, u16, 0x14) & 0x8000)
-        goto loop_1;
+    func_800A7A7C(FIELD(position, s16, 0x0E), FIELD(position, s16, 0x12),
+                  FIELD(position, s16, 0x16), FIELD(animation, s32 *, 8), command);
+    goto finish_motion;
+repeat_interpolation:
+    if (FIELD(animation, u16, 0x14) & 0x8000)
+        goto interpolate;
 
-block_25:
-    if (FIELD(arg0, s16, 0x2C) != 2)
-        goto loop_30;
-    FIELD(arg1, s32, 8) += FIELD(arg0, s32, 0x74);
-    FIELD(arg0, s32, 0x74) += FIELD(arg0, s32, 0x80);
-    temp_v0_2 = FIELD(arg2, u16, 0x1E) - 0xC8;
-    FIELD(arg2, u16, 0x1E) = temp_v0_2;
-    FIELD(arg2, u16, 0x1C) = temp_v0_2;
-    temp_s0 = FIELD(arg1, s16, 0x0A);
-    if (func_800BCB04((FIELD(arg0, s8, 0x5C) << 6) & 0xFFC0,
-                      (FIELD(arg0, s8, 0x5D) << 6) & 0xFFC0,
-                      (s16)((u16)FIELD(arg1, s16, 0x0A) - 0x20)) - 7 >=
-        temp_s0)
-        goto block_29;
-    FIELD(arg1, s16, 0x0A) = func_800BCB04(
-        (FIELD(arg0, s8, 0x5C) << 6) & 0xFFC0,
-        (FIELD(arg0, s8, 0x5D) << 6) & 0xFFC0,
-        (s16)((u16)FIELD(arg1, s16, 0x0A) - 0x20));
-    FIELD(arg1, s16, 8) = 0;
-after_a7:
-    FIELD(FIELD(arg0, void **, 0x40), s16, 0xA4) = 0;
-    FIELD(arg0, u16, -2) |= 0x8000;
+fall:
+    if (FIELD(motion, s16, 0x2C) != 2)
+        goto move;
+    FIELD(position, s32, 8) += FIELD(motion, s32, 0x74);
+    FIELD(motion, s32, 0x74) += FIELD(motion, s32, 0x80);
+    scale = FIELD(animation, u16, 0x1E) - 0xC8;
+    FIELD(animation, u16, 0x1E) = scale;
+    FIELD(animation, u16, 0x1C) = scale;
+    fall_height = FIELD(position, s16, 0x0A);
+    if (func_800BCB04((FIELD(motion, s8, 0x5C) << 6) & 0xFFC0,
+                      (FIELD(motion, s8, 0x5D) << 6) & 0xFFC0,
+                      (s16)((u16)FIELD(position, s16, 0x0A) - 0x20)) - 7 >=
+        fall_height)
+        goto repeat_fall;
+    FIELD(position, s16, 0x0A) = func_800BCB04(
+        (FIELD(motion, s8, 0x5C) << 6) & 0xFFC0,
+        (FIELD(motion, s8, 0x5D) << 6) & 0xFFC0,
+        (s16)((u16)FIELD(position, s16, 0x0A) - 0x20));
+    FIELD(position, s16, 8) = 0;
+finish_motion:
+    FIELD(FIELD(motion, void **, 0x40), s16, 0xA4) = 0;
+    FIELD(motion, u16, -2) |= 0x8000;
     D_800814A0.value |= 0x8000;
     goto epilogue;
-block_29:
-    if (FIELD(arg2, u16, 0x14) & 0x8000)
-        goto block_25;
+repeat_fall:
+    if (FIELD(animation, u16, 0x14) & 0x8000)
+        goto fall;
 
-loop_30:
-    grid_base = grid;
-    if (FIELD(arg0, s16, 0x2C) != 0)
+move:
+    direction_base = directions;
+    if (FIELD(motion, s16, 0x2C) != 0)
         goto epilogue;
-    FIELD(arg1, s32, 0) += FIELD(arg0, s32, 0x6C);
-    FIELD(arg0, s32, 0x6C) += FIELD(arg0, s32, 0x78);
-    FIELD(arg1, s32, 4) += FIELD(arg0, s32, 0x70);
+    FIELD(position, s32, 0) += FIELD(motion, s32, 0x6C);
+    FIELD(motion, s32, 0x6C) += FIELD(motion, s32, 0x78);
+    FIELD(position, s32, 4) += FIELD(motion, s32, 0x70);
     {
         s32 coord;
         register s32 map_sum ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 rounded;
-        GridPoint *point;
+        GridPoint *step;
 
-        coord = FIELD(arg0, s32, 0x70);
-        map_sum = FIELD(arg0, s16, 0x34);
+        coord = FIELD(motion, s32, 0x70);
+        map_sum = FIELD(motion, s16, 0x34);
         ASM_KEEP(map_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        rounded = FIELD(arg0, s32, 0x7C);
+        rounded = FIELD(motion, s32, 0x7C);
         ASM_KEEP(rounded);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        point = &grid_base[map_sum];
-        ASM_KEEP(point);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        map_sum = FIELD(arg0, s8, 0x5C);
+        step = &direction_base[map_sum];
+        ASM_KEEP(step);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        map_sum = FIELD(motion, s8, 0x5C);
         coord += rounded;
-        FIELD(arg0, s32, 0x70) = coord;
+        FIELD(motion, s32, 0x70) = coord;
 
-        coord = point->x;
-        rounded = FIELD(arg1, s16, 2);
+        coord = step->x;
+        rounded = FIELD(position, s16, 2);
         map_sum += coord;
         if (rounded < 0)
             rounded += 0x3F;
         coord = rounded >> 6;
         if (map_sum != coord)
-            goto block_42;
+            goto update_height;
 
-        coord = FIELD(point, u16, 2);
-        rounded = FIELD(arg1, s16, 6);
-        map_sum = FIELD(arg0, s8, 0x5D);
+        coord = FIELD(step, u16, 2);
+        rounded = FIELD(position, s16, 6);
+        map_sum = FIELD(motion, s8, 0x5D);
         ASM_KEEP(map_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         coord = (s16)coord;
         map_sum += coord;
@@ -254,59 +250,59 @@ loop_30:
             rounded += 0x3F;
         coord = rounded >> 6;
         if (map_sum != coord)
-            goto block_42;
+            goto update_height;
     }
-    if ((func_800A45D8(FIELD(arg1, u16, 2), FIELD(arg1, u16, 6),
-                       FIELD(arg1, s16, 0x0A)) << 16) != 0)
-        goto block_39;
-    if (func_800BCB04(FIELD(arg1, u16, 2), FIELD(arg1, u16, 6),
-                      FIELD(arg1, s16, 0x0A)) < 0x200)
-        goto block_41;
-block_39:
-    FIELD(arg1, s32, 0) -= FIELD(arg0, s32, 0x6C);
-    FIELD(arg0, s32, 0x6C) = 0;
-    FIELD(arg0, s32, 0x78) = 0;
-    FIELD(arg1, s32, 4) -= FIELD(arg0, s32, 0x70);
-    FIELD(arg0, s32, 0x70) = 0;
-    FIELD(arg0, s32, 0x7C) = 0;
-    goto block_41_cleanup;
-block_41:
-    FIELD(arg0, s8, 0x5C) +=
-        FIELD((u8 *)grid_base + (FIELD(arg0, s16, 0x34) << 2), u8, 0);
-    FIELD(arg0, s8, 0x5D) +=
-        FIELD((u8 *)grid_base + (FIELD(arg0, s16, 0x34) << 2), u8, 2);
-block_41_cleanup:
-    FIELD(arg2, s16, 6) = 0;
-block_42:
-    FIELD(arg1, s32, 8) += FIELD(arg0, s32, 0x74);
-    FIELD(arg0, s32, 0x74) += FIELD(arg0, s32, 0x80);
-    temp_s0_2 = FIELD(arg1, s16, 0x0A);
-    if (func_800BCB04((FIELD(arg0, s8, 0x5C) << 6) & 0xFFC0,
-                      (FIELD(arg0, s8, 0x5D) << 6) & 0xFFC0,
-                      (s16)((u16)FIELD(arg1, s16, 0x0A) - 0x20)) - 0x10 >=
-        temp_s0_2)
-        goto block_46;
-    FIELD(arg1, s16, 0x0A) = func_800BCB04(
-        (FIELD(arg0, s8, 0x5C) << 6) & 0xFFC0,
-        (FIELD(arg0, s8, 0x5D) << 6) & 0xFFC0,
-        (s16)((u16)FIELD(arg1, s16, 0x0A) - 0x20));
-    FIELD(arg1, s16, 8) = 0;
-    FIELD(arg0, s32, 0x7C) = 0;
-    FIELD(arg0, s32, 0x70) = 0;
-    FIELD(arg0, s32, 0x78) = 0;
-    FIELD(arg0, s32, 0x6C) = 0;
-    FIELD(arg0, s16, 0x2C) = (s16)((u16)FIELD(arg0, s16, 0x2C) + 1);
-    if ((func_800A7234(FIELD(arg0, s8, 0x5C), FIELD(arg0, s8, 0x5D),
-                       (s16)((u16)FIELD(arg1, s16, 0x0A) - 0x20),
-                       &FIELD(arg1, s16, 0x0E), &FIELD(arg1, s16, 0x12),
-                       &FIELD(arg1, s16, 0x16)) << 16) != 0)
+    if ((func_800A45D8(FIELD(position, u16, 2), FIELD(position, u16, 6),
+                       FIELD(position, s16, 0x0A)) << 16) != 0)
+        goto stop_horizontal;
+    if (func_800BCB04(FIELD(position, u16, 2), FIELD(position, u16, 6),
+                      FIELD(position, s16, 0x0A)) < 0x200)
+        goto advance_tile;
+stop_horizontal:
+    FIELD(position, s32, 0) -= FIELD(motion, s32, 0x6C);
+    FIELD(motion, s32, 0x6C) = 0;
+    FIELD(motion, s32, 0x78) = 0;
+    FIELD(position, s32, 4) -= FIELD(motion, s32, 0x70);
+    FIELD(motion, s32, 0x70) = 0;
+    FIELD(motion, s32, 0x7C) = 0;
+    goto clear_animation;
+advance_tile:
+    FIELD(motion, s8, 0x5C) +=
+        FIELD((u8 *)direction_base + (FIELD(motion, s16, 0x34) << 2), u8, 0);
+    FIELD(motion, s8, 0x5D) +=
+        FIELD((u8 *)direction_base + (FIELD(motion, s16, 0x34) << 2), u8, 2);
+clear_animation:
+    FIELD(animation, s16, 6) = 0;
+update_height:
+    FIELD(position, s32, 8) += FIELD(motion, s32, 0x74);
+    FIELD(motion, s32, 0x74) += FIELD(motion, s32, 0x80);
+    height = FIELD(position, s16, 0x0A);
+    if (func_800BCB04((FIELD(motion, s8, 0x5C) << 6) & 0xFFC0,
+                      (FIELD(motion, s8, 0x5D) << 6) & 0xFFC0,
+                      (s16)((u16)FIELD(position, s16, 0x0A) - 0x20)) - 0x10 >=
+        height)
+        goto repeat_move;
+    FIELD(position, s16, 0x0A) = func_800BCB04(
+        (FIELD(motion, s8, 0x5C) << 6) & 0xFFC0,
+        (FIELD(motion, s8, 0x5D) << 6) & 0xFFC0,
+        (s16)((u16)FIELD(position, s16, 0x0A) - 0x20));
+    FIELD(position, s16, 8) = 0;
+    FIELD(motion, s32, 0x7C) = 0;
+    FIELD(motion, s32, 0x70) = 0;
+    FIELD(motion, s32, 0x78) = 0;
+    FIELD(motion, s32, 0x6C) = 0;
+    FIELD(motion, s16, 0x2C) = (s16)((u16)FIELD(motion, s16, 0x2C) + 1);
+    if ((func_800A7234(FIELD(motion, s8, 0x5C), FIELD(motion, s8, 0x5D),
+                       (s16)((u16)FIELD(position, s16, 0x0A) - 0x20),
+                       &FIELD(position, s16, 0x0E), &FIELD(position, s16, 0x12),
+                       &FIELD(position, s16, 0x16)) << 16) != 0)
         goto epilogue;
-    FIELD(arg0, s16, 0x2C) = 2;
-    FIELD(arg0, s32, 0x74) = (s32)0xFFF80000;
+    FIELD(motion, s16, 0x2C) = 2;
+    FIELD(motion, s32, 0x74) = (s32)0xFFF80000;
     goto epilogue;
-block_46:
-    if (FIELD(arg2, u16, 0x14) & 0x8000)
-        goto loop_30;
+repeat_move:
+    if (FIELD(animation, u16, 0x14) & 0x8000)
+        goto move;
 epilogue:
     return;
 }

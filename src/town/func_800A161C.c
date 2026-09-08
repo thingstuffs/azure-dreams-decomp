@@ -31,32 +31,29 @@ extern Record84 D_80100AF8;
 extern s32 D_80100B50[];
 extern s32 D_80100B68[];
 
-void func_8009ED7C(void *arg0, M2C_UNK arg1, void *arg2) {
-    s32 *temp_a0;
-    s32 *temp_v1;
-    u16 temp_v0;
+/* Move toward the target and finalize the object when its countdown expires. */
+void func_8009ED7C(void *object, M2C_UNK context, void *motion) {
+    s32 *target_pos;
+    s32 *global_flags;
+    u16 ticks_or_flags;
 
-    temp_a0 = D_80100B50;
-    ((Rec_D_800E3D7C *)arg2)->unk_0C.as_s32 = (s32) ((s32) (((S_8009ED7C_1 *)temp_a0)->unk_00 - ((Rec_D_800E3D7C *)arg2)->unk_00.at00_s32.v) / 2);
-    ((Rec_D_800E3D7C *)arg2)->unk_10.at00_s32.v = (s32) ((s32) (((S_8009ED7C_1 *)temp_a0)->unk_04 - ((Rec_D_800E3D7C *)arg2)->unk_04.at00_s32.v) / 2);
-    ((Rec_D_800E3D7C *)arg2)->unk_14.as_s32 = (s32) ((s32) (((S_8009ED7C_1 *)temp_a0)->unk_08 - ((Rec_D_800E3D7C *)arg2)->unk_08.at00_s32.v) / 2);
-    func_8009539C(arg2);
-    func_8008F294(arg1, arg2);
-    func_8008F664(arg1, arg2);
-    temp_v0 = ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 - 1;
-    ((Rec_D_80082D58 *)arg0)->unk_6C.as_u16 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_800A0150(D_80100B68[0], arg0 + 0x4C, &D_80100AF8, 0);
-        func_8008F134(arg0);
-        func_80033D08(arg0);
-        temp_v0 = ((S_8009ED7C_2_pre *)arg0)[-1].unk_00;
-        temp_v1 = D_800814A0;
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (temp_v0 | 0x8000);
-        *temp_v1 = *temp_v1 | 0x8000;
+    target_pos = D_80100B50;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_00 - ((Rec_D_800E3D7C *)motion)->unk_00.at00_s32.v) / 2);
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_04 - ((Rec_D_800E3D7C *)motion)->unk_04.at00_s32.v) / 2);
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = (s32) ((s32) (((S_8009ED7C_1 *)target_pos)->unk_08 - ((Rec_D_800E3D7C *)motion)->unk_08.at00_s32.v) / 2);
+    func_8009539C(motion);
+    func_8008F294(context, motion);
+    func_8008F664(context, motion);
+    ticks_or_flags = ((Rec_D_80082D58 *)object)->unk_6C.as_u16 - 1;
+    ((Rec_D_80082D58 *)object)->unk_6C.as_u16 = ticks_or_flags;
+    if ((ticks_or_flags << 0x10) <= 0) {
+        func_800A0150(D_80100B68[0], object + 0x4C, &D_80100AF8, 0);
+        func_8008F134(object);
+        func_80033D08(object);
+        ticks_or_flags = ((S_8009ED7C_2_pre *)object)[-1].unk_00;
+        global_flags = D_800814A0;
+        (*(u16 *)((u8 *)object + -2)) = (u16) (ticks_or_flags | 0x8000);
+        *global_flags = *global_flags | 0x8000;
         func_800C0C88();
     }
 }
-
-/* MECHANISM: A named D_80100B50 base carries the three source words in one page register.
-   The three arguments remain live in s2/s1/s0 across calls; exact-width halfword updates
-   preserve the countdown CFG, while a shared D_800814A0 pointer expresses the tail RMW. */

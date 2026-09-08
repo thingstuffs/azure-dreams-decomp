@@ -12,18 +12,17 @@ typedef struct {
 extern S_80086C00 D_80086C00[8];
 extern s32 func_80059D60(void);
 
-/* Checks D_80086C00[a0].field_2; if it equals 1, calls func_80059D60(); if
-   the result is 3, stores it back into field_2. Returns D_80086C00[a0].field_2. */
-s16 func_8005C5D0(s16 a0)
+/* Advances an entry's state from 1 to 3 when func_80059D60 returns 3, then returns the state. */
+s16 func_8005C5D0(s16 entry_index)
 {
-    S_80086C00 *base = D_80086C00;
-    S_80086C00 *p = &base[a0];
+    S_80086C00 *entries = D_80086C00;
+    S_80086C00 *entry = &entries[entry_index];
 
-    if (p->field_2 == 1) {
-        s32 v1 = func_80059D60();
-        if (v1 == 3) {
-            p->field_2 = (s16)v1;
+    if (entry->field_2 == 1) {
+        s32 next_state = func_80059D60();
+        if (next_state == 3) {
+            entry->field_2 = (s16)next_state;
         }
     }
-    return D_80086C00[a0].field_2;
+    return D_80086C00[entry_index].field_2;
 }

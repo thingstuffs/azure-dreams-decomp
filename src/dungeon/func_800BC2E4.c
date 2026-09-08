@@ -38,27 +38,28 @@ typedef struct S_800C1A44_3 {
     s16 unk_4C;
 } S_800C1A44_3;   /* temp_v1_3 in func_800C1A44 */
 
-void *func_800C1A44(s32 arg0, s32 arg1, s32 arg2) {
-    void *temp_v0;
-    S_800C1A44_1 *temp_v1;
-    S_800C1A44_2 *temp_v1_2;
-    S_800C1A44_3 *temp_v1_3;
+/* Create an object at the tile center and initialize its rendering and state. */
+void *func_800C1A44(s32 tile_x, s32 tile_y, s32 z) {
+    void *object;
+    S_800C1A44_1 *position;
+    S_800C1A44_2 *render_state;
+    S_800C1A44_3 *object_state;
 
-    temp_v0 = func_8003FD64(0x12, &D_80083498[0]);
-    if (temp_v0 != NULL) {
-        ((S_800C1A44_0 *)temp_v0)->unk_10 = &D_800C1718[0];
-        func_8004491C(temp_v0, &D_80045C34[0]);
-        temp_v1 = ((S_800C1A44_0 *)temp_v0)->unk_08;
-        temp_v1->unk_02 = (s16) (((s32) (arg0 << 0x10) >> 0xA) + 0x20);
-        temp_v1->unk_06 = (s16) (((s32) (arg1 << 0x10) >> 0xA) + 0x20);
-        temp_v1->unk_0A = arg2;
-        temp_v1_2 = ((S_800C1A44_0 *)temp_v0)->unk_0C;
-        temp_v1_2->unk_08 = &D_800DF3C0[0];
-        temp_v1_2->unk_0C = 0x808080;
-        temp_v1_2->unk_06 = 8;
-        temp_v1_3 = temp_v0 + 0x20;
-        temp_v1_3->unk_4C = 8;
-        temp_v1_3->unk_48 = 7;
+    object = func_8003FD64(0x12, &D_80083498[0]);
+    if (object != NULL) {
+        ((S_800C1A44_0 *)object)->unk_10 = &D_800C1718[0];
+        func_8004491C(object, &D_80045C34[0]);
+        position = ((S_800C1A44_0 *)object)->unk_08;
+        position->unk_02 = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
+        position->unk_06 = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
+        position->unk_0A = z;
+        render_state = ((S_800C1A44_0 *)object)->unk_0C;
+        render_state->unk_08 = &D_800DF3C0[0];
+        render_state->unk_0C = 0x808080;
+        render_state->unk_06 = 8;
+        object_state = object + 0x20;
+        object_state->unk_4C = 8;
+        object_state->unk_48 = 7;
     }
-    return temp_v0;
+    return object;
 }

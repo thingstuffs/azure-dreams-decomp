@@ -26,28 +26,29 @@ extern u8 D_800E36C8[];
 extern u8 D_800E39C8[];
 extern u8 D_800E3CD8[];
 
+/* Creates up to four spawn entries at unoccupied positions and updates their map cells. */
 void func_8001784C(void) {
     s32 state;
     u8 x;
     u8 y;
     register u8 *config ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     MapCell *map;
-    s32 count;
-    s32 i;
-    u8 *first_meta;
+    s32 spawn_count;
+    s32 slot_index;
+    u8 *meta_base;
     SpawnEntry *entries;
 
     {
-        u8 *pg0;
-        pg0 = (u8 *)0x80010000;
-        state = *(s32 *)(pg0 + 0x2090);
+        u8 *state_page;
+        state_page = (u8 *)0x80010000;
+        state = *(s32 *)(state_page + 0x2090);
     }
     config = D_8008333C;
     map = *(MapCell **)D_8008333C;
 
     if ((state == 2) || (D_8008146C != 0x28)) {
-        count = 0;
-        first_meta = D_800E3548;
+        spawn_count = 0;
+        meta_base = D_800E3548;
 
 retry:
         do {
@@ -57,9 +58,9 @@ retry:
             u8 *meta;
             u8 *position;
 
-            i = 0;
+            slot_index = 0;
             position = D_800E36C8;
-            meta = first_meta;
+            meta = meta_base;
 
             do {
                 if ((meta[1] != 0) && (position[0] == x) &&
@@ -67,24 +68,24 @@ retry:
                     goto retry;
                 }
                 position += 12;
-                i++;
+                slot_index++;
                 meta += 4;
-            } while (i < 0x40);
+            } while (slot_index < 0x40);
         }
 
         {
-            register u8 *page1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            u8 *page2;
+            register u8 *position_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            u8 *meta_page;
             u8 *meta;
             register u8 *position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-            i = 0;
-            page1 = (u8 *)0x800e0000;
-            ASM_KEEP(page1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            position = page1 + 0x39c8;
-            page2 = (u8 *)0x800e0000;
-            ASM_KEEP(page2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            meta = page2 + 0x3648;
+            slot_index = 0;
+            position_page = (u8 *)0x800e0000;
+            ASM_KEEP(position_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            position = position_page + 0x39c8;
+            meta_page = (u8 *)0x800e0000;
+            ASM_KEEP(meta_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            meta = meta_page + 0x3648;
 
             do {
                 if ((meta[1] != 0) && (position[6] == x) &&
@@ -92,66 +93,66 @@ retry:
                     goto retry;
                 }
                 position += 24;
-                i++;
+                slot_index++;
                 meta += 4;
-            } while (i < 0x20);
+            } while (slot_index < 0x20);
         }
 
         entries = (SpawnEntry *)D_800E3CD8;
         {
-            SpawnEntry *entry = &entries[count];
-            s32 store_x;
-            s32 store_y;
-            s32 calc_x;
-            s32 calc_y;
-            register s32 shift ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            register s32 shift2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            s32 shift3;
-            s32 one;
-            s32 index;
-            MapCell *final_cell;
-            s32 call_size;
+            SpawnEntry *entry = &entries[spawn_count];
+            s32 spawn_x;
+            s32 spawn_y;
+            s32 cell_offset;
+            s32 row_offset;
+            register s32 update_row_shift ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            register s32 copy_row_shift ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            s32 flags_row_shift;
+            s32 cell_flags;
+            s32 cell_index;
+            MapCell *spawn_cell;
+            s32 update_size;
 
-            store_x = x;
-            store_y = y;
+            spawn_x = x;
+            spawn_y = y;
             entry->kind = 2;
-            entry->x = store_x;
-            entry->y = store_y;
+            entry->x = spawn_x;
+            entry->y = spawn_y;
             ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
-            calc_y = y;
-            shift = *(s16 *)(config + 0x14);
-            calc_x = x;
-            index = calc_x + (calc_y << shift);
-            map[index].value -= 0x20;
+            row_offset = y;
+            update_row_shift = *(s16 *)(config + 0x14);
+            cell_offset = x;
+            cell_index = cell_offset + (row_offset << update_row_shift);
+            map[cell_index].value -= 0x20;
 
-            shift2 = *(s16 *)(config + 0x14);
-            index = calc_x + (calc_y << shift2);
-            entry->value = map[index].value;
+            copy_row_shift = *(s16 *)(config + 0x14);
+            cell_index = cell_offset + (row_offset << copy_row_shift);
+            entry->value = map[cell_index].value;
 
-            shift3 = *(s16 *)(config + 0x14);
-            ASM_KEEP(shift3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            one = 1;
-            ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            calc_y <<= shift3;
-            calc_x += calc_y;
-            final_cell = (MapCell *)(calc_x * 6 + (s32)map);
-            call_size = 0x20;
-            final_cell->flags = one;
-            func_8009A21C(store_x, store_y, call_size);
+            flags_row_shift = *(s16 *)(config + 0x14);
+            ASM_KEEP(flags_row_shift);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            cell_flags = 1;
+            ASM_KEEP(cell_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            row_offset <<= flags_row_shift;
+            cell_offset += row_offset;
+            spawn_cell = (MapCell *)(cell_offset * 6 + (s32)map);
+            update_size = 0x20;
+            spawn_cell->flags = cell_flags;
+            func_8009A21C(spawn_x, spawn_y, update_size);
         }
 
         if ((func_800A6D30() & 0x3F) == 0) {
-            count++;
-            if (count < 4) {
+            spawn_count++;
+            if (spawn_count < 4) {
                 goto retry;
             }
         }
 
-        count++;
-        while (count < 4) {
-            entries[count].kind = 0;
-            count++;
+        spawn_count++;
+        while (spawn_count < 4) {
+            entries[spawn_count].kind = 0;
+            spawn_count++;
         }
     }
 }

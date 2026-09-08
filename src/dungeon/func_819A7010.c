@@ -52,60 +52,61 @@ extern s32 D_800814A0[3];
 s32 func_8003DE58();       /* extern */
 s32 rand();                                /* extern */
 
-void func_80024810(void *arg0) {
-    u16 sp10[3];
-    s32 temp_v1_2;
-    s32 var_s0;
+/* Update the effect's jittered points between endpoints and advance its animation. */
+void func_80024810(void *effect) {
+    u16 coord_delta[3];
+    s32 phase;
+    s32 point_index;
 
-    S_80024810_1 *temp_a0;
-    S_80024810_2 *temp_v1;
+    S_80024810_1 *owner;
+    S_80024810_2 *target;
 
-    temp_a0 = ((S_80024810_0 *)arg0)->unk_00;
-    temp_v1 = (void *) (((S_80024810_0 *)arg0)->unk_34 - 0x20);
-    temp_a0->unk_52 = (u16) (temp_a0->unk_52 | 0x8000);
-    ((S_80024810_0 *)arg0)->unk_24 = (u16) ((S_80024810_3 *)(temp_v1->unk_08))->unk_02;
-    ((S_80024810_0 *)arg0)->unk_26 = (u16) ((S_80024810_3 *)(temp_v1->unk_08))->unk_06;
-    ((S_80024810_0 *)arg0)->unk_28 = (s16) (((S_80024810_3 *)(temp_v1->unk_08))->unk_0A - 0x20);
-    ((S_80024810_0 *)arg0)->unk_04 = (u16) D_80083780[1];
-    ((S_80024810_0 *)arg0)->unk_06 = (u16) D_80083780[3];
-    ((S_80024810_0 *)arg0)->unk_08 = (u16) D_80083780[5];
-    if (func_8003DE58(D_80082E80[2], D_80082E80, sp10, 0) != 0) {
-        ((S_80024810_0 *)arg0)->unk_04 = (u16) (((S_80024810_0 *)arg0)->unk_04 + sp10[0]);
-        ((S_80024810_0 *)arg0)->unk_06 = (u16) (((S_80024810_0 *)arg0)->unk_06 + sp10[1]);
-        ((S_80024810_0 *)arg0)->unk_08 = (u16) (((S_80024810_0 *)arg0)->unk_08 + sp10[2]);
+    owner = ((S_80024810_0 *)effect)->unk_00;
+    target = (void *) (((S_80024810_0 *)effect)->unk_34 - 0x20);
+    owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
+    ((S_80024810_0 *)effect)->unk_24 = (u16) ((S_80024810_3 *)(target->unk_08))->unk_02;
+    ((S_80024810_0 *)effect)->unk_26 = (u16) ((S_80024810_3 *)(target->unk_08))->unk_06;
+    ((S_80024810_0 *)effect)->unk_28 = (s16) (((S_80024810_3 *)(target->unk_08))->unk_0A - 0x20);
+    ((S_80024810_0 *)effect)->unk_04 = (u16) D_80083780[1];
+    ((S_80024810_0 *)effect)->unk_06 = (u16) D_80083780[3];
+    ((S_80024810_0 *)effect)->unk_08 = (u16) D_80083780[5];
+    if (func_8003DE58(D_80082E80[2], D_80082E80, coord_delta, 0) != 0) {
+        ((S_80024810_0 *)effect)->unk_04 = (u16) (((S_80024810_0 *)effect)->unk_04 + coord_delta[0]);
+        ((S_80024810_0 *)effect)->unk_06 = (u16) (((S_80024810_0 *)effect)->unk_06 + coord_delta[1]);
+        ((S_80024810_0 *)effect)->unk_08 = (u16) (((S_80024810_0 *)effect)->unk_08 + coord_delta[2]);
     }
-    sp10[0] = (u16) ((s32) ((s16) ((S_80024810_0 *)arg0)->unk_24 - (s16) ((S_80024810_0 *)arg0)->unk_04) >> 2);
-    var_s0 = 1;
-    sp10[1] = (u16) ((s32) ((s16) ((S_80024810_0 *)arg0)->unk_26 - (s16) ((S_80024810_0 *)arg0)->unk_06) >> 2);
-    sp10[2] = (u16) ((s32) (((S_80024810_0 *)arg0)->unk_28 - (s16) ((S_80024810_0 *)arg0)->unk_08) >> 2);
+    coord_delta[0] = (u16) ((s32) ((s16) ((S_80024810_0 *)effect)->unk_24 - (s16) ((S_80024810_0 *)effect)->unk_04) >> 2);
+    point_index = 1;
+    coord_delta[1] = (u16) ((s32) ((s16) ((S_80024810_0 *)effect)->unk_26 - (s16) ((S_80024810_0 *)effect)->unk_06) >> 2);
+    coord_delta[2] = (u16) ((s32) (((S_80024810_0 *)effect)->unk_28 - (s16) ((S_80024810_0 *)effect)->unk_08) >> 2);
     do {
-        (*(s16 *)((u8 *)arg0 + (var_s0 * 8) + 4)) = (s16) ((((S_80024810_0 *)arg0)->unk_04 + ((s16) sp10[0] * var_s0) + (rand() & 0x3F)) - 0x20);
-        (*(s16 *)((u8 *)arg0 + (var_s0 * 8) + 6)) = (s16) ((((S_80024810_0 *)arg0)->unk_06 + ((s16) sp10[1] * var_s0) + (rand() & 0x3F)) - 0x20);
-        (*(s16 *)((u8 *)arg0 + (var_s0 * 8) + 8)) = (s16) ((((S_80024810_0 *)arg0)->unk_08 + ((s16) sp10[2] * var_s0)) - (rand() & 0x3F));
-        var_s0 += 1;
-    } while (var_s0 < 4);
-    ((S_80024810_0 *)arg0)->unk_2C = (s16) (((((S_80024810_0 *)arg0)->unk_3E & 3) << 5) + 0x80);
-    ((S_80024810_0 *)arg0)->unk_2E = (s16) (((s32) (((S_80024810_0 *)arg0)->unk_3E << 0x10) >> 0x12) << 5);
-    temp_v1_2 = ((S_80024810_0 *)arg0)->unk_3C;
-    switch (temp_v1_2) {
+        (*(s16 *)((u8 *)effect + (point_index * 8) + 4)) = (s16) ((((S_80024810_0 *)effect)->unk_04 + ((s16) coord_delta[0] * point_index) + (rand() & 0x3F)) - 0x20);
+        (*(s16 *)((u8 *)effect + (point_index * 8) + 6)) = (s16) ((((S_80024810_0 *)effect)->unk_06 + ((s16) coord_delta[1] * point_index) + (rand() & 0x3F)) - 0x20);
+        (*(s16 *)((u8 *)effect + (point_index * 8) + 8)) = (s16) ((((S_80024810_0 *)effect)->unk_08 + ((s16) coord_delta[2] * point_index)) - (rand() & 0x3F));
+        point_index += 1;
+    } while (point_index < 4);
+    ((S_80024810_0 *)effect)->unk_2C = (s16) (((((S_80024810_0 *)effect)->unk_3E & 3) << 5) + 0x80);
+    ((S_80024810_0 *)effect)->unk_2E = (s16) (((s32) (((S_80024810_0 *)effect)->unk_3E << 0x10) >> 0x12) << 5);
+    phase = ((S_80024810_0 *)effect)->unk_3C;
+    switch (phase) {
     case 0:
-        ((S_80024810_0 *)arg0)->unk_24 = (u16) (((S_80024810_0 *)arg0)->unk_04 + ((s32) ((s16) ((S_80024810_0 *)arg0)->unk_24 - (s16) ((S_80024810_0 *)arg0)->unk_04) >> 1));
-        ((S_80024810_0 *)arg0)->unk_26 = (u16) (((S_80024810_0 *)arg0)->unk_06 + ((s32) ((s16) ((S_80024810_0 *)arg0)->unk_26 - (s16) ((S_80024810_0 *)arg0)->unk_06) >> 1));
-        ((S_80024810_0 *)arg0)->unk_28 = (s16) (((S_80024810_0 *)arg0)->unk_08 + ((s32) (((S_80024810_0 *)arg0)->unk_28 - (s16) ((S_80024810_0 *)arg0)->unk_08) >> 1));
-        ((S_80024810_0 *)arg0)->unk_3C = (s16) ((u16) ((S_80024810_0 *)arg0)->unk_3C + 1);
+        ((S_80024810_0 *)effect)->unk_24 = (u16) (((S_80024810_0 *)effect)->unk_04 + ((s32) ((s16) ((S_80024810_0 *)effect)->unk_24 - (s16) ((S_80024810_0 *)effect)->unk_04) >> 1));
+        ((S_80024810_0 *)effect)->unk_26 = (u16) (((S_80024810_0 *)effect)->unk_06 + ((s32) ((s16) ((S_80024810_0 *)effect)->unk_26 - (s16) ((S_80024810_0 *)effect)->unk_06) >> 1));
+        ((S_80024810_0 *)effect)->unk_28 = (s16) (((S_80024810_0 *)effect)->unk_08 + ((s32) (((S_80024810_0 *)effect)->unk_28 - (s16) ((S_80024810_0 *)effect)->unk_08) >> 1));
+        ((S_80024810_0 *)effect)->unk_3C = (s16) ((u16) ((S_80024810_0 *)effect)->unk_3C + 1);
         /* fallthrough */
     case 1:
-        if ((s16) ((S_80024810_0 *)arg0)->unk_3E >= 6) {
-            ((S_80024810_0 *)arg0)->unk_3E = 2U;
-            ((S_80024810_0 *)arg0)->unk_3C = (s16) ((u16) ((S_80024810_0 *)arg0)->unk_3C + 1);
+        if ((s16) ((S_80024810_0 *)effect)->unk_3E >= 6) {
+            ((S_80024810_0 *)effect)->unk_3E = 2U;
+            ((S_80024810_0 *)effect)->unk_3C = (s16) ((u16) ((S_80024810_0 *)effect)->unk_3C + 1);
         }
         break;
     case 2:
-        if ((s16) ((S_80024810_0 *)arg0)->unk_3E >= 8) {
-            ((S_80024810_0_pre *)arg0)[-1].unk_00 = (u16) (((S_80024810_0_pre *)arg0)[-1].unk_00 | 0x8000);
+        if ((s16) ((S_80024810_0 *)effect)->unk_3E >= 8) {
+            ((S_80024810_0_pre *)effect)[-1].unk_00 = (u16) (((S_80024810_0_pre *)effect)[-1].unk_00 | 0x8000);
             D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
         }
         break;
     }
-    ((S_80024810_0 *)arg0)->unk_3E = (u16) (((S_80024810_0 *)arg0)->unk_3E + 1);
+    ((S_80024810_0 *)effect)->unk_3E = (u16) (((S_80024810_0 *)effect)->unk_3E + 1);
 }

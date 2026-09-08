@@ -34,29 +34,30 @@ extern void func_80025A4C(void) __attribute__((noreturn));
 extern void func_80025A54(void) __attribute__((noreturn));
 extern void func_80025A88(void) __attribute__((noreturn));
 
-void func_81978140(S_81978140 *arg0)
+/* Advance the entity timers and dispatch its movement and state updates. */
+void func_81978140(S_81978140 *entity)
 {
     S_81978140_inner *inner;
     u16 timer;
     s32 state;
-    s32 dead;
-    static void *const keepalive[] = {
+    s32 timer_under_four;
+    static void *const retained_labels[] = {
         &&L0, &&L1, &&L2, &&L3, &&L4,
         &&L5, &&L6, &&L7, &&L8,
     };
 
-    inner = arg0->inner;
+    inner = entity->inner;
     inner->value++;
-    timer = (u16)arg0->timer;
-    state = (s16)arg0->state;
+    timer = (u16)entity->timer;
+    state = (s16)entity->state;
     timer++;
-    arg0->timer = timer;
+    entity->timer = timer;
     if ((u32)state >= 5) {
         goto epilogue;
     }
     {
-        void * volatile *table = jtbl_80024020;
-        goto *table[state];
+        void * volatile *state_table = jtbl_80024020;
+        goto *state_table[state];
     }
 
 L0:
@@ -71,10 +72,10 @@ L3:
     func_800257B8();
     func_800257B8();
 L4:
-    arg0->x += arg0->dx;
-    arg0->y += arg0->dy;
-    arg0->z += arg0->dz;
-    if ((s16)arg0->timer < 12) {
+    entity->x += entity->dx;
+    entity->y += entity->dy;
+    entity->z += entity->dz;
+    if ((s16)entity->timer < 12) {
         goto epilogue;
     }
     func_80025A54();
@@ -83,26 +84,26 @@ L5:
     func_800257B8();
     func_800257B8();
 L6:
-    dead = (s16)arg0->timer < 4;
-    ASM_TAILSLOT_PIN_TIED(dead);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    timer_under_four = (s16)entity->timer < 4;
+    ASM_TAILSLOT_PIN_TIED(timer_under_four);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     func_80025A4C();
 
 L7:
-    if (arg0->timer < 8) {
+    if (entity->timer < 8) {
         goto epilogue;
     }
     {
-        u16 next_state = arg0->state;
-    arg0->timer = 0;
+        u16 next_state = entity->state;
+        entity->timer = 0;
         next_state++;
-        arg0->state = next_state;
+        entity->state = next_state;
     }
     func_80025A88();
 
 L8:
-    arg0[-1].timer |= 0x8000;
+    entity[-1].timer |= 0x8000;
     D_800814A0[0] |= 0x8000;
 
 epilogue:
-    (void)keepalive;
+    (void)retained_labels;
 }

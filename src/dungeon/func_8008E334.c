@@ -7,17 +7,18 @@ extern s32 D_800814A0[3];
 extern M2C_UNK D_800DD140;
 extern void func_80048AC8(void *, s32);
 
-void func_80093A94(void *arg0, void *arg1, void *arg2) {
-    u8 *obj = (u8 *)arg0;
-    u8 *state = (u8 *)arg2;
-    s16 temp_v1;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u16 temp_v1_2;
-    u16 temp_v1_3;
+/* Updates an object's scale and brightness through its transition modes. */
+void func_80093A94(void *object_data, void *unused, void *state_data) {
+    u8 *obj = (u8 *)object_data;
+    u8 *state = (u8 *)state_data;
+    s16 mode;
+    u16 grow_ticks;
+    u16 shrink_ticks;
+    u16 grow_scale;
+    u16 scale_or_ticks;
     u16 mode_next;
-    u8 temp_v0_3;
-    u8 temp_v1_4;
+    u8 dimmed_brightness;
+    u8 brightness;
 
     func_80048AC8(state, *(s16 *)(obj + 8) + 2);
     if (D_80082E94 & 1) {
@@ -25,30 +26,30 @@ void func_80093A94(void *arg0, void *arg1, void *arg2) {
     } else {
         *(u16 *)(state + 0x14) &= 0xFFFE;
     }
-    temp_v1 = *(s16 *)(obj + 4);
-    if (temp_v1 == 1) {
+    mode = *(s16 *)(obj + 4);
+    if (mode == 1) {
         goto mode_one;
     }
-    if (temp_v1 < 2) {
-        if (temp_v1 == 0) {
+    if (mode < 2) {
+        if (mode == 0) {
             goto mode_zero;
         }
         goto epilogue;
     }
-    if (temp_v1 == 2) {
+    if (mode == 2) {
         goto mode_two;
     }
-    if (temp_v1 == 3) {
+    if (mode == 3) {
         goto set_high;
     }
     goto epilogue;
 
 mode_zero:
-    temp_v1_2 = *(u16 *)(state + 0x1C);
-    *(u16 *)(state + 0x1C) = (u16)(temp_v1_2 + ((s32)(0x1000 - temp_v1_2) / 4));
-    temp_v0 = *(u16 *)(obj + 6) - 1;
-    *(u16 *)(obj + 6) = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
+    grow_scale = *(u16 *)(state + 0x1C);
+    *(u16 *)(state + 0x1C) = (u16)(grow_scale + ((s32)(0x1000 - grow_scale) / 4));
+    grow_ticks = *(u16 *)(obj + 6) - 1;
+    *(u16 *)(obj + 6) = grow_ticks;
+    if ((grow_ticks << 0x10) <= 0) {
         *(u16 *)(state + 0x1C) = 0x1000;
         goto increment_mode;
     }
@@ -56,31 +57,31 @@ mode_zero:
 
 mode_one:
     if (*(s16 *)(obj + 8) == 0) {
-        temp_v1_4 = *(u8 *)(state + 0xC);
-        if (temp_v1_4 >= 0x81U) {
-            temp_v0_3 = temp_v1_4 - 8;
-            *(u8 *)(state + 0xC) = temp_v0_3;
-            *(u8 *)(state + 0xE) = temp_v0_3;
-            *(u8 *)(state + 0xD) = temp_v0_3;
+        brightness = *(u8 *)(state + 0xC);
+        if (brightness >= 0x81U) {
+            dimmed_brightness = brightness - 8;
+            *(u8 *)(state + 0xC) = dimmed_brightness;
+            *(u8 *)(state + 0xE) = dimmed_brightness;
+            *(u8 *)(state + 0xD) = dimmed_brightness;
         }
     }
     if (*(s32 *)(*(u8 **)obj + 0x2C) != (s32)&D_800DD140) {
         goto epilogue;
     }
     if (*(s16 *)(obj + 8) == 0) {
-        temp_v1_3 = 8;
+        scale_or_ticks = 8;
         mode_next = *(u16 *)(obj + 4);
-        *(u16 *)(obj + 6) = temp_v1_3;
+        *(u16 *)(obj + 6) = scale_or_ticks;
         goto increment_tail;
     }
     goto set_high;
 
 mode_two:
-    temp_v1_3 = *(u16 *)(state + 0x1C);
-    *(u16 *)(state + 0x1C) = (u16)(temp_v1_3 + ((s32)(0 - temp_v1_3) / 4));
-    temp_v0_2 = *(u16 *)(obj + 6) - 1;
-    *(u16 *)(obj + 6) = temp_v0_2;
-    if ((temp_v0_2 << 0x10) <= 0) {
+    scale_or_ticks = *(u16 *)(state + 0x1C);
+    *(u16 *)(state + 0x1C) = (u16)(scale_or_ticks + ((s32)(0 - scale_or_ticks) / 4));
+    shrink_ticks = *(u16 *)(obj + 6) - 1;
+    *(u16 *)(obj + 6) = shrink_ticks;
+    if ((shrink_ticks << 0x10) <= 0) {
         *(u16 *)(state + 0x1C) = 0;
         goto increment_mode;
     }

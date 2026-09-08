@@ -17,43 +17,44 @@ extern s32 D_800814A0[3];
 s32 rand();                   /* extern */
 s16 func_80167088();                         /* extern */
 
-void func_80167540(void *arg0, void *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_v0;
-    s32 var_a1;
-    s32 var_a2;
-    s32 var_v1;
+/* Scale effect channels by remaining lifetime, randomize flags, and mark expiration. */
+void func_80167540(void *effect_data, void *unused, Rec_D_80082E80 *effect) {
+    s16 selected_channel;
+    s32 channel_1_scale;
+    s32 channel_2_scale;
+    s32 channel_0_scale;
 
-    temp_v0 = func_80167088(3);
-    var_a2 = 0x20;
-    var_a1 = 0x20;
-    ((S_80167540_0 *)((u8 *)arg0 - 0x2))->unk_1E = temp_v0;
-    var_v1 = 0x20;
-    if (temp_v0 == 0) {
-        var_v1 = 0x50;
+    selected_channel = func_80167088(3);
+    channel_2_scale = 0x20;
+    channel_1_scale = 0x20;
+    ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1E = selected_channel;
+    channel_0_scale = 0x20;
+    if (selected_channel == 0) {
+        channel_0_scale = 0x50;
     }
-    if (temp_v0 == 1) {
-        var_a1 = 0x50;
+    if (selected_channel == 1) {
+        channel_1_scale = 0x50;
     }
-    if (temp_v0 == 2) {
-        var_a2 = 0x50;
+    if (selected_channel == 2) {
+        channel_2_scale = 0x50;
     }
-    arg2->unk_0C.at00_s8.v = (s8) ((s32) (var_v1 * ((S_80167540_0 *)((u8 *)arg0 - 0x2))->unk_1A) / (s16) ((S_80167540_0 *)((u8 *)arg0 - 0x2))->unk_1C);
-    arg2->unk_0C.at01_s8.v = (s8) ((s32) (var_a1 * ((S_80167540_0 *)((u8 *)arg0 - 0x2))->unk_1A) / (s16) ((S_80167540_0 *)((u8 *)arg0 - 0x2))->unk_1C);
-    arg2->unk_0C.at02_s8.v = (s8) ((s32) (var_a2 * ((S_80167540_0 *)((u8 *)arg0 - 0x2))->unk_1A) / (s16) ((S_80167540_0 *)((u8 *)arg0 - 0x2))->unk_1C);
-    ((S_80167540_0 *)((u8 *)arg0 - 0x2))->unk_1A = (s16) ((u16) ((S_80167540_0 *)((u8 *)arg0 - 0x2))->unk_1A - 1);
-    if (rand(temp_v0, var_a1, var_a2) & 1) {
-        arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v | 1);
+    effect->unk_0C.at00_s8.v = (s8) ((s32) (channel_0_scale * ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1A) / (s16) ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1C);
+    effect->unk_0C.at01_s8.v = (s8) ((s32) (channel_1_scale * ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1A) / (s16) ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1C);
+    effect->unk_0C.at02_s8.v = (s8) ((s32) (channel_2_scale * ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1A) / (s16) ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1C);
+    ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1A = (s16) ((u16) ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1A - 1);
+    if (rand(selected_channel, channel_1_scale, channel_2_scale) & 1) {
+        effect->unk_14.at00_u16.v = (u16) (effect->unk_14.at00_u16.v | 1);
     } else {
-        arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v & 0xFFFE);
+        effect->unk_14.at00_u16.v = (u16) (effect->unk_14.at00_u16.v & 0xFFFE);
     }
     if (rand() & 1) {
-        arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v | 2);
+        effect->unk_14.at00_u16.v = (u16) (effect->unk_14.at00_u16.v | 2);
     } else {
-        arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v & 0xFFFD);
+        effect->unk_14.at00_u16.v = (u16) (effect->unk_14.at00_u16.v & 0xFFFD);
     }
-    func_800478B8(arg2);
-    if (((S_80167540_0 *)((u8 *)arg0 - 0x2))->unk_1A <= 0) {
-        ((S_80167540_0 *)((u8 *)arg0 - 0x2))->unk_00 = (u16) (((S_80167540_0 *)((u8 *)arg0 - 0x2))->unk_00 | 0x8000);
+    func_800478B8(effect);
+    if (((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1A <= 0) {
+        ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 }

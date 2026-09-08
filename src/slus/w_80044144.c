@@ -23,7 +23,8 @@ extern void func_80040454(void);
 extern void func_80043FD0(void);
 extern u8 D_80080A84[16];
 
-Task *func_80044144(s16 arg0, s16 arg1, s32 arg2, s32 arg3)
+/* Creates a task with a mode-dependent lookup result and the supplied payload values. */
+Task *func_80044144(s16 mode, s16 lookup_id, s32 payload_word_0, s32 payload_word_4)
 {
     TaskPayload *payload;
     Task *task;
@@ -32,17 +33,17 @@ Task *func_80044144(s16 arg0, s16 arg1, s32 arg2, s32 arg3)
     if (task != 0) {
         task->callback = func_80043FD0;
         payload = &task->payload;
-        if (arg0 == 1) {
-            payload->field_8 = func_8003F794(6, arg1);
-        } else if (arg0 == 0) {
-            payload->field_8 = func_8003F794(5, arg1);
+        if (mode == 1) {
+            payload->field_8 = func_8003F794(6, lookup_id);
+        } else if (mode == 0) {
+            payload->field_8 = func_8003F794(5, lookup_id);
             func_80040454();
             D_80080A84[2] = 0;
         }
-        payload->field_4 = arg3;
-        payload->field_A = arg0;
-        payload->field_C = arg1;
-        payload->field_0 = arg2;
+        payload->field_4 = payload_word_4;
+        payload->field_A = mode;
+        payload->field_C = lookup_id;
+        payload->field_0 = payload_word_0;
     }
     return task;
 }

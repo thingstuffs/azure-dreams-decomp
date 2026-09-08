@@ -37,23 +37,24 @@ s32 func_80064584();
 s32 func_800A45D8();
 extern s32 D_800814A0[];
 
-void func_81868B84(void *arg0, void *arg1) {
-    s32 temp_lo;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 var_s3;
-    s32 var_s3_2;
-    s32 var_s4;
-    register s32 var_s4_2 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 state3_compare;
-    u16 temp_v0_2;
-    void *temp_v0;
+/* Animate three expanding, rotating points through growth, fade, and completion. */
+void func_81868B84(void *effect, void *position) {
+    s32 radial_product;
+    s32 fade_angle;
+    s32 grow_angle;
+    s32 fade_point;
+    s32 grow_point;
+    s32 fade_angle_fixed;
+    register s32 grow_angle_fixed ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 finish_state;
+    u16 angular_speed;
+    void *effect_data;
     s16 state;
 
-    temp_v0 = ((S_81868B84_0 *)arg0)->unk_0C;
-    ((S_81868B84_1 *)temp_v0)->unk_14 = (u16) (((S_81868B84_1 *)temp_v0)->unk_14 + 1);
-    ((S_81868B84_0 *)arg0)->unk_02.s = (u16) (((S_81868B84_0 *)arg0)->unk_02.s + 1);
-    state = *(s16 *)arg0;
+    effect_data = ((S_81868B84_0 *)effect)->unk_0C;
+    ((S_81868B84_1 *)effect_data)->unk_14 = (u16) (((S_81868B84_1 *)effect_data)->unk_14 + 1);
+    ((S_81868B84_0 *)effect)->unk_02.s = (u16) (((S_81868B84_0 *)effect)->unk_02.s + 1);
+    state = *(s16 *)effect;
     if (state == 1) {
         goto state1;
     }
@@ -61,103 +62,103 @@ void func_81868B84(void *arg0, void *arg1) {
         if (state == 0) {
             goto state0;
         }
-        ((S_81868B84_0 *)arg0)->unk_00 = 3;
+        ((S_81868B84_0 *)effect)->unk_00 = 3;
         func_80024660();
         return;
     }
     if (state == 2) {
         goto state2;
     }
-    state3_compare = 3;
-    ASM_KEEP(state3_compare);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    if (state == state3_compare) {
+    finish_state = 3;
+    ASM_KEEP(finish_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    if (state == finish_state) {
         goto state3;
     }
-    ((S_81868B84_0 *)arg0)->unk_00 = 3;
+    ((S_81868B84_0 *)effect)->unk_00 = 3;
     func_80024660();
     return;
 
 state0:
-        ((Rec_func_80024264_arg1 *)arg1)->unk_08.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)arg1)->unk_08.at02_u16.v - 4);
-        func_80024264(((S_81868B84_0 *)arg0)->unk_0C, arg1, ((S_81868B84_0 *)arg0)->unk_10);
-        if (((S_81868B84_0 *)arg0)->unk_02.u < 8) {
+        ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v - 4);
+        func_80024264(((S_81868B84_0 *)effect)->unk_0C, position, ((S_81868B84_0 *)effect)->unk_10);
+        if (((S_81868B84_0 *)effect)->unk_02.u < 8) {
             return;
         }
         {
-            s32 tail_value;
-            tail_value = ((S_81868B84_0 *)arg0)->unk_00 + 1;
-            ((S_81868B84_0 *)arg0)->unk_02.s = 0U;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            s32 next_state;
+            next_state = ((S_81868B84_0 *)effect)->unk_00 + 1;
+            ((S_81868B84_0 *)effect)->unk_02.s = 0U;
+            ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_8002465C();
         }
         return;
 state1:
-        var_s3_2 = 0;
-        var_s4_2 = var_s3_2;
-        ((S_81868B84_0 *)arg0)->unk_06 = (u16) (((S_81868B84_0 *)arg0)->unk_06 + 6);
-        temp_v0_2 = ((S_81868B84_0 *)arg0)->unk_0A + 0x10;
-        ((S_81868B84_0 *)arg0)->unk_0A = temp_v0_2;
-        ((S_81868B84_0 *)arg0)->unk_08 = (u16) (((S_81868B84_0 *)arg0)->unk_08 + temp_v0_2);
+        grow_point = 0;
+        grow_angle_fixed = grow_point;
+        ((S_81868B84_0 *)effect)->unk_06 = (u16) (((S_81868B84_0 *)effect)->unk_06 + 6);
+        angular_speed = ((S_81868B84_0 *)effect)->unk_0A + 0x10;
+        ((S_81868B84_0 *)effect)->unk_0A = angular_speed;
+        ((S_81868B84_0 *)effect)->unk_08 = (u16) (((S_81868B84_0 *)effect)->unk_08 + angular_speed);
         do {
-            temp_s0_2 = var_s4_2 >> 0x10;
-            temp_lo = (func_800644B8((s16) ((S_81868B84_0 *)arg0)->unk_08 + temp_s0_2) >> 4) * (s16) ((S_81868B84_0 *)arg0)->unk_06;
-            ((Rec_func_80024264_arg1 *)arg1)->unk_00.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)arg1)->unk_0C.at02_u16.v + (temp_lo >> 8));
-            temp_lo = (func_80064584((s16) ((S_81868B84_0 *)arg0)->unk_08 + temp_s0_2) >> 4) * (s16) ((S_81868B84_0 *)arg0)->unk_06;
-            ((Rec_func_80024264_arg1 *)arg1)->unk_04.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)arg1)->unk_10.at02_u16.v + (temp_lo >> 8));
-            if ((func_800A45D8(((Rec_func_80024264_arg1 *)arg1)->unk_00.at02_u16.v, ((Rec_func_80024264_arg1 *)arg1)->unk_04.at02_u16.v, (s16) ((Rec_func_80024264_arg1 *)arg1)->unk_08.at02_u16.v, temp_lo) << 0x10) == 0) {
-                func_80024264(((S_81868B84_0 *)arg0)->unk_0C, arg1, ((S_81868B84_0 *)arg0)->unk_10);
+            grow_angle = grow_angle_fixed >> 0x10;
+            radial_product = (func_800644B8((s16) ((S_81868B84_0 *)effect)->unk_08 + grow_angle) >> 4) * (s16) ((S_81868B84_0 *)effect)->unk_06;
+            ((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)position)->unk_0C.at02_u16.v + (radial_product >> 8));
+            radial_product = (func_80064584((s16) ((S_81868B84_0 *)effect)->unk_08 + grow_angle) >> 4) * (s16) ((S_81868B84_0 *)effect)->unk_06;
+            ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
+            if ((func_800A45D8(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v, ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v, (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v, radial_product) << 0x10) == 0) {
+                func_80024264(((S_81868B84_0 *)effect)->unk_0C, position, ((S_81868B84_0 *)effect)->unk_10);
             }
-            var_s4_2 += 0x05550000;
-            var_s3_2 += 1;
-        } while (var_s3_2 < 3);
-        if (((S_81868B84_0 *)arg0)->unk_02.u < 0x20) {
+            grow_angle_fixed += 0x05550000;
+            grow_point += 1;
+        } while (grow_point < 3);
+        if (((S_81868B84_0 *)effect)->unk_02.u < 0x20) {
             return;
         }
         {
-            s32 tail_value;
-            tail_value = ((S_81868B84_0 *)arg0)->unk_00 + 1;
-            ((S_81868B84_0 *)arg0)->unk_02.s = 0U;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            s32 next_state;
+            next_state = ((S_81868B84_0 *)effect)->unk_00 + 1;
+            ((S_81868B84_0 *)effect)->unk_02.s = 0U;
+            ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_8002465C();
         }
         return;
 state2:
-        var_s3 = 0;
-        var_s4 = var_s3;
-        ((S_81868B84_0 *)arg0)->unk_06 = (u16) (((S_81868B84_0 *)arg0)->unk_06 + 6);
-        ((S_81868B84_0 *)arg0)->unk_08 = (u16) (((S_81868B84_0 *)arg0)->unk_08 + ((S_81868B84_0 *)arg0)->unk_0A);
+        fade_point = 0;
+        fade_angle_fixed = fade_point;
+        ((S_81868B84_0 *)effect)->unk_06 = (u16) (((S_81868B84_0 *)effect)->unk_06 + 6);
+        ((S_81868B84_0 *)effect)->unk_08 = (u16) (((S_81868B84_0 *)effect)->unk_08 + ((S_81868B84_0 *)effect)->unk_0A);
         do {
-            temp_s0 = var_s4 >> 0x10;
-            temp_lo = (func_800644B8((s16) ((S_81868B84_0 *)arg0)->unk_08 + temp_s0) >> 4) * (s16) ((S_81868B84_0 *)arg0)->unk_06;
-            ((Rec_func_80024264_arg1 *)arg1)->unk_00.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)arg1)->unk_0C.at02_u16.v + (temp_lo >> 8));
-            temp_lo = (func_80064584((s16) ((S_81868B84_0 *)arg0)->unk_08 + temp_s0) >> 4) * (s16) ((S_81868B84_0 *)arg0)->unk_06;
-            ((Rec_func_80024264_arg1 *)arg1)->unk_04.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)arg1)->unk_10.at02_u16.v + (temp_lo >> 8));
-            if ((func_800A45D8(((Rec_func_80024264_arg1 *)arg1)->unk_00.at02_u16.v, ((Rec_func_80024264_arg1 *)arg1)->unk_04.at02_u16.v, (s16) ((Rec_func_80024264_arg1 *)arg1)->unk_08.at02_u16.v, temp_lo) << 0x10) == 0) {
-                func_80024264(((S_81868B84_0 *)arg0)->unk_0C, arg1, ((S_81868B84_0 *)arg0)->unk_10);
+            fade_angle = fade_angle_fixed >> 0x10;
+            radial_product = (func_800644B8((s16) ((S_81868B84_0 *)effect)->unk_08 + fade_angle) >> 4) * (s16) ((S_81868B84_0 *)effect)->unk_06;
+            ((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)position)->unk_0C.at02_u16.v + (radial_product >> 8));
+            radial_product = (func_80064584((s16) ((S_81868B84_0 *)effect)->unk_08 + fade_angle) >> 4) * (s16) ((S_81868B84_0 *)effect)->unk_06;
+            ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
+            if ((func_800A45D8(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v, ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v, (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v, radial_product) << 0x10) == 0) {
+                func_80024264(((S_81868B84_0 *)effect)->unk_0C, position, ((S_81868B84_0 *)effect)->unk_10);
             }
-            var_s4 += 0x05550000;
-            var_s3 += 1;
-        } while (var_s3 < 3);
-        ((S_81868B84_0 *)arg0)->unk_10 = (u8) (((S_81868B84_0 *)arg0)->unk_10 - 8);
-        if (((S_81868B84_0 *)arg0)->unk_02.u < 8) {
+            fade_angle_fixed += 0x05550000;
+            fade_point += 1;
+        } while (fade_point < 3);
+        ((S_81868B84_0 *)effect)->unk_10 = (u8) (((S_81868B84_0 *)effect)->unk_10 - 8);
+        if (((S_81868B84_0 *)effect)->unk_02.u < 8) {
             return;
         }
         {
-            s32 tail_value;
-            tail_value = ((S_81868B84_0 *)arg0)->unk_00 + 1;
-            ((S_81868B84_0 *)arg0)->unk_02.s = 0U;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            s32 next_state;
+            next_state = ((S_81868B84_0 *)effect)->unk_00 + 1;
+            ((S_81868B84_0 *)effect)->unk_02.s = 0U;
+            ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_8002465C();
         }
         return;
 state3:
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((S_81868B84_3 *)(((S_81868B84_0 *)arg0)->unk_0C))->unk_16 = 1;
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_81868B84_0_pre *)arg0)[-1].unk_00 | 0x8000);
+        ((S_81868B84_3 *)(((S_81868B84_0 *)effect)->unk_0C))->unk_16 = 1;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_81868B84_0_pre *)effect)[-1].unk_00 | 0x8000);
         {
-            s32 *state3_global;
-            state3_global = D_800814A0;
-            state3_global[0] |= 0x8000;
+            s32 *global_flags;
+            global_flags = D_800814A0;
+            global_flags[0] |= 0x8000;
         }
-        ((S_81868B84_0 *)arg0)->unk_00 = (u16) ((s32 (*)(void)) func_80024660)();
+        ((S_81868B84_0 *)effect)->unk_00 = (u16) ((s32 (*)(void)) func_80024660)();
 }

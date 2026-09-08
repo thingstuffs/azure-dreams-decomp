@@ -22,13 +22,14 @@ typedef struct S_800B1F34_2 {
 
 extern void *D_800814A8;
 
-void func_800B1F34(S_800B1F34_0 *arg0, S_800B1F34_1 *arg1)
+/* Advances timed motion phases, updates the output offset, and sets the global update flag. */
+void func_800B1F34(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
 {
     s16 state;
     u16 countdown;
-    S_800B1F34_2 *global;
+    S_800B1F34_2 *update_state;
 
-    state = arg0->unk_04.s;
+    state = animation->unk_04.s;
     if (state == 1) {
         goto state_1;
     }
@@ -47,45 +48,41 @@ void func_800B1F34(S_800B1F34_0 *arg0, S_800B1F34_1 *arg1)
     goto common;
 
 state_0:
-    arg0->unk_06 = 0x10;
-    arg0->unk_04.u++;
+    animation->unk_06 = 0x10;
+    animation->unk_04.u++;
 
 state_1:
-    arg1->unk_14 -= 0x4000;
-    countdown = arg0->unk_06 - 1;
-    arg0->unk_06 = countdown;
+    motion->unk_14 -= 0x4000;
+    countdown = animation->unk_06 - 1;
+    animation->unk_06 = countdown;
     if ((s16)countdown >= 0) {
         goto common;
     }
-    arg0->unk_06 = 0x40;
-    arg0->unk_04.u++;
+    animation->unk_06 = 0x40;
+    animation->unk_04.u++;
     goto common;
 
 state_2:
-    arg1->unk_14 += 0x6000;
-    countdown = arg0->unk_06 - 1;
-    arg0->unk_06 = countdown;
+    motion->unk_14 += 0x6000;
+    countdown = animation->unk_06 - 1;
+    animation->unk_06 = countdown;
     if ((s16)countdown < 0) {
-        arg0->unk_06 = 0x3C;
-        arg0->unk_04.u++;
+        animation->unk_06 = 0x3C;
+        animation->unk_04.u++;
     }
 
 state_3:
-    countdown = arg0->unk_06 - 1;
-    arg0->unk_06 = countdown;
+    countdown = animation->unk_06 - 1;
+    animation->unk_06 = countdown;
     if ((s16)countdown < 0) {
-        arg1->unk_14 = 0;
-        arg0->unk_06 = 0x3C;
-        arg0->unk_04.u++;
+        motion->unk_14 = 0;
+        animation->unk_06 = 0x3C;
+        animation->unk_04.u++;
     }
 
 common:
-    global = D_800814A8;
-    arg1->unk_08.at00.v -= arg1->unk_14;
-    global->unk_1C |= 0x40000000;
-    *arg0->unk_00 = 0x20 - arg1->unk_08.at02.v;
+    update_state = D_800814A8;
+    motion->unk_08.at00.v -= motion->unk_14;
+    update_state->unk_1C |= 0x40000000;
+    *animation->unk_00 = 0x20 - motion->unk_08.at02.v;
 }
-
-/* MECHANISM: The retail row is frameless: its apparent 0x800B2028/0x800B2038
-   callees are true-space local joins. Signed countdown casts select sll/bgez,
-   and one shared global tail keeps the D_800814A8 page live across all joins. */

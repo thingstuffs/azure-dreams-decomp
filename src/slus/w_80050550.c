@@ -19,28 +19,26 @@ typedef struct S_80050550_Outer {
     /* 0x08 */ S_80050550_B *fieldB;
 } S_80050550_Outer;
 
-/* Computes lighting/palette-ratio values: scales a1 by fixed constants (80/128/1024),
- * divides each by a2, and writes the results into two output structs via pointers
- * held at offset 4 and offset 8 of the input struct. */
-void func_80050550(S_80050550_Outer *a0, s32 a1, s32 a2) {
-    register s32 v0 ASM_REG("v0") = (a1 * 80) / a2;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s32 a3 = (-(a1 * 128)) / a2;
-    s32 a1v = (a1 * 1024) / a2;
+/* Writes scaled ratio values with fixed offsets into the two output structs. */
+void func_80050550(S_80050550_Outer *outputs, s32 numerator, s32 denominator) {
+    register s32 outputValue ASM_REG("v0") = (numerator * 80) / denominator;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 negativeRatio128 = (-(numerator * 128)) / denominator;
+    s32 ratio1024 = (numerator * 1024) / denominator;
 
-    register S_80050550_A *p ASM_REG("v1");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register S_80050550_A *primaryOutput ASM_REG("v1");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
-    v0 = v0 + 0x30;
-    p = a0->fieldA;
-    p->unk2 = (u8)v0;
-    p->unk1 = (u8)v0;
-    p->unk0 = (u8)v0;
+    outputValue = outputValue + 0x30;
+    primaryOutput = outputs->fieldA;
+    primaryOutput->unk2 = (u8)outputValue;
+    primaryOutput->unk1 = (u8)outputValue;
+    primaryOutput->unk0 = (u8)outputValue;
 
-    v0 = 0x180;
-    p = a0->fieldA;
-    v0 = v0 - a3;
-    p->unkC = v0;
+    outputValue = 0x180;
+    primaryOutput = outputs->fieldA;
+    outputValue = outputValue - negativeRatio128;
+    primaryOutput->unkC = outputValue;
 
-    v0 = 0x400;
-    v0 = v0 - a1v;
-    a0->fieldB->unk2 = v0;
+    outputValue = 0x400;
+    outputValue = outputValue - ratio1024;
+    outputs->fieldB->unk2 = outputValue;
 }

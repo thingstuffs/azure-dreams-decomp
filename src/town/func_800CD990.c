@@ -7,14 +7,15 @@ M2C_UNK func_800CB708(Rec_func_80094268_arg0 *);                            /* e
 M2C_UNK func_800CB8CC();                  /* extern */
 
 
-void func_800CB0F0(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    u16 temp_v0;
+/* Decrement the entity countdown and run its completion handlers when it expires. */
+void func_800CB0F0(Rec_func_80094268_arg0 *entity, M2C_UNK completion_arg1, M2C_UNK completion_arg2) {
+    u16 countdown;
 
-    temp_v0 = arg0->unk_6C.as_u16 - 1;
-    arg0->unk_6C.as_u16 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_800CB708(arg0);
-        func_800CB8CC(arg0, arg0->unk_96.as_u8);
-        func_800C4174(arg0, arg1, arg2);
+    countdown = entity->unk_6C.as_u16 - 1;
+    entity->unk_6C.as_u16 = countdown;
+    if ((countdown << 0x10) <= 0) {
+        func_800CB708(entity);
+        func_800CB8CC(entity, entity->unk_96.as_u8);
+        func_800C4174(entity, completion_arg1, completion_arg2);
     }
 }

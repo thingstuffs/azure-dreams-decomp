@@ -3,23 +3,20 @@
 s32 func_80033B2C();                         /* extern */
 extern s16 D_800D1054[];
 
-s32 func_800A9970(s32 arg0) {
-    s16 *indices;
-    u8 *page;
-    s32 index;
+/* Checks whether a slot's indexed value is at least three or slot three passes the helper check. */
+s32 func_800A9970(s32 slot) {
+    s16 *entry_indices;
+    u8 *data_page;
+    s32 entry_index;
 
-    indices = D_800D1054;
-    index = indices[arg0];
-    page = (u8 *) 0x80010000;
-    if (page[(index * 4) + 0x35C4] >= 3U) {
+    entry_indices = D_800D1054;
+    entry_index = entry_indices[slot];
+    data_page = (u8 *) 0x80010000;
+    if (data_page[(entry_index * 4) + 0x35C4] >= 3U) {
         return 1;
     }
-    if (arg0 == 3) {
+    if (slot == 3) {
         return func_80033B2C(0x4FB) == 0;
     }
     return 0;
 }
-
-/* MECHANISM: Separate short-table and fixed-page pointer locals encode the
-   retail $v1 base reuse around a signed-halfword index; the frame is ra-only.
-   Path-local returns keep the zero/helper result in $v0; literal one is SHAPE-C. */

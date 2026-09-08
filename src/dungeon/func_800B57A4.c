@@ -27,46 +27,47 @@ typedef struct S_800BAF04_1 {
     s8 unk_12;
 } S_800BAF04_1;   /* (arg0 + var_s0) in func_800BAF04 */
 
-void func_800BAF04(void *arg0) {
-    s16 temp_v0;
-    s16 temp_v1;
-    s16 var_s0;
-    u16 temp_v0_2;
-    u8 temp_v0_3;
+/* Initializes random values, advances counters, and flags the object when inactive. */
+void func_800BAF04(void *object) {
+    s16 next_index;
+    s16 state;
+    s16 sample_index;
+    u16 cycle_tick;
+    u8 ramp_step;
 
-    temp_v1 = ((S_800BAF04_0 *)arg0)->unk_0A;
-    if (temp_v1 != 0) {
-        if (temp_v1 != 1) {
+    state = ((S_800BAF04_0 *)object)->unk_0A;
+    if (state != 0) {
+        if (state != 1) {
             return;
         }
-        goto block_7;
+        goto update_counters;
     }
-    var_s0 = 0;
+    sample_index = 0;
     do {
-        ((S_800BAF04_1 *)((arg0 + var_s0)))->unk_12 = (s8) (rand() & 0x1F);
-        temp_v0 = var_s0 + 1;
-        var_s0 = temp_v0;
-    } while (temp_v0 < 0x40);
-    ((S_800BAF04_0 *)arg0)->unk_0E = 0U;
-    ((S_800BAF04_0 *)arg0)->unk_10 = 0;
-    ((S_800BAF04_0 *)arg0)->unk_32 = 0U;
-    ((S_800BAF04_0 *)arg0)->unk_11 = 1U;
-    func_8004491C(arg0 - 0x20, func_800BABA8);
-    ((S_800BAF04_0 *)arg0)->unk_0A = (s16) ((u16) ((S_800BAF04_0 *)arg0)->unk_0A + 1);
-block_7:
-    temp_v0_2 = ((S_800BAF04_0 *)arg0)->unk_0E + 1;
-    ((S_800BAF04_0 *)arg0)->unk_0E = temp_v0_2;
-    if ((s16) temp_v0_2 >= 0x11) {
-        ((S_800BAF04_0 *)arg0)->unk_0E = 0U;
+        ((S_800BAF04_1 *)((object + sample_index)))->unk_12 = (s8) (rand() & 0x1F);
+        next_index = sample_index + 1;
+        sample_index = next_index;
+    } while (next_index < 0x40);
+    ((S_800BAF04_0 *)object)->unk_0E = 0U;
+    ((S_800BAF04_0 *)object)->unk_10 = 0;
+    ((S_800BAF04_0 *)object)->unk_32 = 0U;
+    ((S_800BAF04_0 *)object)->unk_11 = 1U;
+    func_8004491C(object - 0x20, func_800BABA8);
+    ((S_800BAF04_0 *)object)->unk_0A = (s16) ((u16) ((S_800BAF04_0 *)object)->unk_0A + 1);
+update_counters:
+    cycle_tick = ((S_800BAF04_0 *)object)->unk_0E + 1;
+    ((S_800BAF04_0 *)object)->unk_0E = cycle_tick;
+    if ((s16) cycle_tick >= 0x11) {
+        ((S_800BAF04_0 *)object)->unk_0E = 0U;
     }
-    temp_v0_3 = ((S_800BAF04_0 *)arg0)->unk_32 + 1;
-    ((S_800BAF04_0 *)arg0)->unk_32 = temp_v0_3;
-    if ((s8) temp_v0_3 >= 0x21) {
-        ((S_800BAF04_0 *)arg0)->unk_32 = 0x20U;
-        ((S_800BAF04_0 *)arg0)->unk_10 = 1;
+    ramp_step = ((S_800BAF04_0 *)object)->unk_32 + 1;
+    ((S_800BAF04_0 *)object)->unk_32 = ramp_step;
+    if ((s8) ramp_step >= 0x21) {
+        ((S_800BAF04_0 *)object)->unk_32 = 0x20U;
+        ((S_800BAF04_0 *)object)->unk_10 = 1;
     }
-    if (((S_800BAF04_0 *)arg0)->unk_11 == 0) {
-        ((S_800BAF04_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800BAF04_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    if (((S_800BAF04_0 *)object)->unk_11 == 0) {
+        ((S_800BAF04_0_pre *)object)[-1].unk_00 = (u16) (((S_800BAF04_0_pre *)object)[-1].unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
     }
 }

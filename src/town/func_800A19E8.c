@@ -2,27 +2,28 @@
 
 extern s16 func_800374F4(s32 arg0);
 extern u8 D_8009EE9C[];
-void func_8009F148(void *arg0, void *arg1, void *arg2)
+/* Initialize entity flags, transform, and type-dependent variant. */
+void func_8009F148(void *entity, void *state, void *transform)
 {
-  register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-  u8 *s0 = arg0;
-  *(((s8 *) arg1) + 0x14) = 1;
-  *(((s8 *) arg1) + 0x15) = 1;
-  *((s32 *) (((u8 *) arg2) + 0xC)) = 0;
-  *((s32 *) (((u8 *) arg2) + 0x10)) = 0;
-  *((s32 *) (((u8 *) arg2) + 0x14)) = 0;
-  *((s32 *) (s0 + 0xA0)) = 0xFFE00000;
-  *((s32 *) (((u8 *) arg2) + 8)) = 0xFFE00000;
-  *((u8 **) (s0 + 0x50)) = D_8009EE9C;
-  *((s16 *) (s0 + 0x6C)) = func_800374F4(0x1000);
-  var_v0 = 0x12;
-  if ((*((u8 *) (s0 + 0x4D))) != var_v0)
+  register s32 variant_id ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+  u8 *entity_bytes = entity;
+  *(((s8 *) state) + 0x14) = 1;
+  *(((s8 *) state) + 0x15) = 1;
+  *((s32 *) (((u8 *) transform) + 0xC)) = 0;
+  *((s32 *) (((u8 *) transform) + 0x10)) = 0;
+  *((s32 *) (((u8 *) transform) + 0x14)) = 0;
+  *((s32 *) (entity_bytes + 0xA0)) = 0xFFE00000;
+  *((s32 *) (((u8 *) transform) + 8)) = 0xFFE00000;
+  *((u8 **) (entity_bytes + 0x50)) = D_8009EE9C;
+  *((s16 *) (entity_bytes + 0x6C)) = func_800374F4(0x1000);
+  variant_id = 0x12;
+  if ((*((u8 *) (entity_bytes + 0x4D))) != variant_id)
   {
-    var_v0 = 0x59;
+    variant_id = 0x59;
   }
   else
   {
-    var_v0 = 0x58;
+    variant_id = 0x58;
   }
-  *((s32 *) (arg0 + 0x60)) = var_v0;
+  *((s32 *) (entity + 0x60)) = variant_id;
 }

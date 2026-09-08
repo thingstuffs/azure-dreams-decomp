@@ -44,45 +44,46 @@ extern M2C_UNK func_80066640();
 extern M2C_UNK func_800666E0();
 extern M2C_UNK func_80067F20();
 
-s32 func_800A5FC0(S_800A5FC0_2 *arg0) {
-    u16 temp_v0;
-    u16 temp_v0_2;
-    void *temp_s0;
-    void *temp_s2;
-    S_800A5FC0_0 *temp_v1;
-    void **temp_s3;
+/* Advance a rectangle's right edge toward 320 and queue it for rendering. */
+s32 func_800A5FC0(S_800A5FC0_2 *state) {
+    u16 frames_left;
+    u16 right_x;
+    void *quad;
+    void *draw_mode;
+    S_800A5FC0_0 *render_ctx;
+    void **render_ctx_ref;
 
-    temp_v1 = D_80083160[0];
-    temp_s2 = temp_v1->unk_8D0;
-    temp_v1->unk_8D0 = (void *) (temp_s2 + 0xC);
-    temp_s0 = ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0;
-    ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0 = (void *) (temp_s0 + 0x18);
-    temp_s3 = (void **)&D_80083160;
-    func_80067F20(temp_s2, 0, 0, arg0->unk_04, 0);
-    ((S_800A5FC0_3 *)temp_s0)->unk_04 = (s32) arg0->unk_00;
-    func_800666E0(temp_s0);
-    func_80066640(temp_s0, 1);
-    ((S_800A5FC0_3 *)temp_s0)->unk_10 = 0xE00000;
-    ((S_800A5FC0_3 *)temp_s0)->unk_08 = 0;
-    ((S_800A5FC0_3 *)temp_s0)->unk_0E = 0;
-    ((S_800A5FC0_3 *)temp_s0)->unk_16 = 0xE0;
-    temp_v0 = arg0->unk_08 - 1;
-    arg0->unk_08 = temp_v0;
-    if ((s16) temp_v0 <= 0)
+    render_ctx = D_80083160[0];
+    draw_mode = render_ctx->unk_8D0;
+    render_ctx->unk_8D0 = (void *) (draw_mode + 0xC);
+    quad = ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0;
+    ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0 = (void *) (quad + 0x18);
+    render_ctx_ref = (void **)&D_80083160;
+    func_80067F20(draw_mode, 0, 0, state->unk_04, 0);
+    ((S_800A5FC0_3 *)quad)->unk_04 = (s32) state->unk_00;
+    func_800666E0(quad);
+    func_80066640(quad, 1);
+    ((S_800A5FC0_3 *)quad)->unk_10 = 0xE00000;
+    ((S_800A5FC0_3 *)quad)->unk_08 = 0;
+    ((S_800A5FC0_3 *)quad)->unk_0E = 0;
+    ((S_800A5FC0_3 *)quad)->unk_16 = 0xE0;
+    frames_left = state->unk_08 - 1;
+    state->unk_08 = frames_left;
+    if ((s16) frames_left <= 0)
         goto zero_case;
     {
-        s32 delta = 0x140 - arg0->unk_0A.s;
-        arg0->unk_0A.s = arg0->unk_0A.u + delta / (s16) temp_v0;
+        s32 x_delta = 0x140 - state->unk_0A.s;
+        state->unk_0A.s = state->unk_0A.u + x_delta / (s16) frames_left;
     }
     goto common_case;
 zero_case:
-    arg0->unk_08 = 0U;
-    arg0->unk_0A.s = 0x140;
+    state->unk_08 = 0U;
+    state->unk_0A.s = 0x140;
 common_case:
-    temp_v0_2 = (u16) arg0->unk_0A.s;
-    ((S_800A5FC0_3 *)temp_s0)->unk_14 = temp_v0_2;
-    ((S_800A5FC0_3 *)temp_s0)->unk_0C = temp_v0_2;
-    func_8006658C((u8 *)((S_800A5FC0_4 *)temp_s3)->unk_00 + ((arg0->unk_0C * 4) + 0x70), temp_s0);
-    func_8006658C((u8 *)((S_800A5FC0_4 *)temp_s3)->unk_00 + ((arg0->unk_0C * 4) + 0x70), temp_s2);
+    right_x = (u16) state->unk_0A.s;
+    ((S_800A5FC0_3 *)quad)->unk_14 = right_x;
+    ((S_800A5FC0_3 *)quad)->unk_0C = right_x;
+    func_8006658C((u8 *)((S_800A5FC0_4 *)render_ctx_ref)->unk_00 + ((state->unk_0C * 4) + 0x70), quad);
+    func_8006658C((u8 *)((S_800A5FC0_4 *)render_ctx_ref)->unk_00 + ((state->unk_0C * 4) + 0x70), draw_mode);
     return 0;
 }

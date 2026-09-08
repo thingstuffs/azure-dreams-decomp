@@ -31,20 +31,21 @@ typedef struct S_80026748_3 {
 
 extern s32 D_800814A0[3];
 
-void func_80026748(void *arg0, S_80026748_1 *arg1, S_80026748_3 *arg2) {
-    u16 temp_v0;
-    S_80026748_2 *temp_t0;
+/* Advance effect motion and shrink its scale, marking completion at the threshold. */
+void func_80026748(void *effect, S_80026748_1 *motion, S_80026748_3 *transform) {
+    u16 scale;
+    S_80026748_2 *render_state;
 
-    temp_t0 = ((S_80026748_0 *)arg0)->unk_00;
-    arg1->unk_00 = (s32) (arg1->unk_00 + ((S_80026748_0 *)arg0)->unk_04);
-    arg1->unk_04 = (s32) (arg1->unk_04 + arg1->unk_10);
-    temp_t0->unk_58 = (u16) (temp_t0->unk_58 | 1);
-    temp_v0 = arg2->unk_1E - 0x100;
-    arg2->unk_1E = temp_v0;
-    arg2->unk_1C = temp_v0;
-    if ((u32) (temp_v0 & 0xFFFF) < 0x201U) {
-        temp_t0->unk_58 = (u16) (temp_t0->unk_58 & 0xFFFE);
-        ((S_80026748_0_pre *)arg0)[-1].unk_00 = (u16) (((S_80026748_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    render_state = ((S_80026748_0 *)effect)->unk_00;
+    motion->unk_00 = (s32) (motion->unk_00 + ((S_80026748_0 *)effect)->unk_04);
+    motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10);
+    render_state->unk_58 = (u16) (render_state->unk_58 | 1);
+    scale = transform->unk_1E - 0x100;
+    transform->unk_1E = scale;
+    transform->unk_1C = scale;
+    if ((u32) (scale & 0xFFFF) < 0x201U) {
+        render_state->unk_58 = (u16) (render_state->unk_58 & 0xFFFE);
+        ((S_80026748_0_pre *)effect)[-1].unk_00 = (u16) (((S_80026748_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

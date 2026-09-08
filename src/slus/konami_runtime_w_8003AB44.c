@@ -8,26 +8,27 @@ extern s32 func_8004D880(s32 arg0);
 extern void func_8004D91C(s32 arg0, s16 *arg1);
 extern void MoveImage(void *rect, s32 x, s32 y);
 
-void func_8003AB44(u8 *arg0, s16 arg1, s16 arg2, s32 arg3, s16 arg4, s32 arg5)
+/* Copies an image to a table-spaced VRAM position when its destination X is in range. */
+void func_8003AB44(u8 *image_code, s16 grid_x, s16 grid_y, s32 spacing, s16 base_x, s32 base_y)
 {
     s16 rect[4];
-    s32 temp_a3;
-    s32 temp_a1;
-    s32 temp_a2;
-    s32 temp_s0;
-    s32 temp_s2;
+    s32 spacing_index;
+    s32 column;
+    s32 row;
+    s32 dest_x;
+    s32 table_offset;
     volatile u8 *x_table;
     volatile u8 *y_table;
 
-    temp_a1 = arg1;
-    temp_a3 = arg3 & 0xFF;
+    column = grid_x;
+    spacing_index = spacing & 0xFF;
     x_table = (volatile u8 *)D_8006A8C8;
-    temp_s2 = temp_a3 * 4;
-    temp_s0 = arg4 + temp_a1 * *(volatile s32 *)(x_table + temp_s2);
-    if ((u32)(temp_s0 - 0x140) < 0x2C0) {
-        func_8004D91C(func_8004D880(arg0[1] | (arg0[0] << 8)) & 0xFF, rect);
-        temp_a2 = arg2;
+    table_offset = spacing_index * 4;
+    dest_x = base_x + column * *(volatile s32 *)(x_table + table_offset);
+    if ((u32)(dest_x - 0x140) < 0x2C0) {
+        func_8004D91C(func_8004D880(image_code[1] | (image_code[0] << 8)) & 0xFF, rect);
+        row = grid_y;
         y_table = (volatile u8 *)D_8006A8DC;
-        MoveImage(rect, temp_s0, (s16)arg5 + temp_a2 * *(volatile s32 *)(y_table + temp_s2));
+        MoveImage(rect, dest_x, (s16)base_y + row * *(volatile s32 *)(y_table + table_offset));
     }
 }

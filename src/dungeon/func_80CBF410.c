@@ -32,131 +32,132 @@ extern u8 D_80173B98[];
 extern u8 D_80176318[];
 extern u8 D_80176378[];
 
-void func_80172C10(S_80172C10_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
+/* Slows directional motion, returns the entity to its tile, and switches behavior. */
+void func_80172C10(S_80172C10_0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile, void *entity)
 {
-    s32 one;
-    s32 value;
+    s32 mark_value;
+    s32 tracked_entity;
     s32 *global_state;
 
-    one = 1;
-    switch (arg0->unk_9B) {
+    mark_value = 1;
+    switch (state->unk_9B) {
     case 0:
-        func_800AD4D0(arg3);
-        arg1->unk_0C.as_s32 =
+        func_800AD4D0(entity);
+        motion->unk_0C.as_s32 =
             *(s16 *)((u8 *)&D_8006CCD8 +
-                     ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
-        arg1->unk_10.at00_s32.v =
+                     ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
+        motion->unk_10.at00_s32.v =
             *(s16 *)((u8 *)&D_8006CCE8 +
-                     ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
-        arg0->unk_9B++;
+                     ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
+        state->unk_9B++;
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
-            arg1->unk_14.as_s32 = 0;
-            arg1->unk_10.at00_s32.v = 0;
-            arg1->unk_0C.as_s32 = 0;
-            if (arg0->unk_A7 != 0) {
-                func_800AAA54(arg0, arg1, arg2, D_80176378);
-                if (arg0->unk_A8 != 0) {
-                    u8 *mark;
+        if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
+            motion->unk_14.as_s32 = 0;
+            motion->unk_10.at00_s32.v = 0;
+            motion->unk_0C.as_s32 = 0;
+            if (state->unk_A7 != 0) {
+                func_800AAA54(state, motion, tile, D_80176378);
+                if (state->unk_A8 != 0) {
+                    u8 *mark_base;
 
-                    mark = D_800E3D7C;
-                    mark += arg0->unk_A8;
-                    mark[0xF9] = one;
+                    mark_base = D_800E3D7C;
+                    mark_base += state->unk_A8;
+                    mark_base[0xF9] = mark_value;
                 }
                 return;
             }
-            func_800AAA54(arg0, arg1, arg2, D_80176318);
+            func_800AAA54(state, motion, tile, D_80176318);
             return;
         }
 
-        if (arg2->unk_14.at00_u16.v & 0x8000) {
-            arg0->unk_96.s = 0;
-            arg0->unk_9B = 2;
+        if (tile->unk_14.at00_u16.v & 0x8000) {
+            state->unk_96.s = 0;
+            state->unk_9B = 2;
             return;
         }
-        arg0->unk_96.s =
-            (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228) ? 8 : -1;
+        state->unk_96.s =
+            (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228) ? 8 : -1;
         /* fall through */
 
     case 1:
-        arg1->unk_0C.as_s32 -= arg1->unk_0C.as_s32 / 4;
-        arg1->unk_10.at00_s32.v -= arg1->unk_10.at00_s32.v / 4;
+        motion->unk_0C.as_s32 -= motion->unk_0C.as_s32 / 4;
+        motion->unk_10.at00_s32.v -= motion->unk_10.at00_s32.v / 4;
 
-        if (arg0->unk_96.s > 0) {
-            arg0->unk_96.s = arg0->unk_96.u - 1;
-        } else if (arg2->unk_14.at00_u16.v & 0x6000) {
-            arg0->unk_96.s = 0;
+        if (state->unk_96.s > 0) {
+            state->unk_96.s = state->unk_96.u - 1;
+        } else if (tile->unk_14.at00_u16.v & 0x6000) {
+            state->unk_96.s = 0;
         }
 
-        if (arg0->unk_96.s != 0) {
+        if (state->unk_96.s != 0) {
             return;
         }
-        if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
+        if (((Rec_D_800E3D7C *)entity)->unk_28 != 0) {
             goto increment_state;
         }
 
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        if (arg0->unk_A7 != 0) {
-            func_800AAA54(arg0, arg1, arg2, D_80176378);
-            if (arg0->unk_A8 != 0) {
-                u8 *mark;
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        if (state->unk_A7 != 0) {
+            func_800AAA54(state, motion, tile, D_80176378);
+            if (state->unk_A8 != 0) {
+                u8 *mark_base;
 
-                mark = D_800E3D7C;
-                mark += arg0->unk_A8;
-                mark[0xF9] = 1;
+                mark_base = D_800E3D7C;
+                mark_base += state->unk_A8;
+                mark_base[0xF9] = 1;
             }
             return;
         }
-        func_800AAA54(arg0, arg1, arg2, D_80176318);
+        func_800AAA54(state, motion, tile, D_80176318);
         return;
 
 increment_state:
-        arg0->unk_96.s = 8;
-        arg0->unk_9B++;
+        state->unk_96.s = 8;
+        state->unk_9B++;
         return;
 
     case 2: {
-        s32 case_x;
-        s32 case_y;
-        s32 case_delta;
-        s16 case_timer;
-        u16 case_utimer;
+        s32 x_step;
+        s32 y_distance;
+        s32 position_offset;
+        s16 frames_left;
+        u16 next_timer;
 
-        case_timer = arg0->unk_96.s;
-        if (case_timer > 0) {
-            case_x = arg2->unk_24 << 6;
-            case_delta = arg1->unk_00.at02_s16.v - 0x20;
-            case_x = (case_x - case_delta) << 16;
-            case_x = case_x / case_timer;
-            case_delta = arg1->unk_04.at02_s16.v - 0x20;
-            arg1->unk_0C.as_s32 = case_x;
-            case_y = (arg2->unk_25 << 6) - case_delta;
-            arg1->unk_10.at00_s32.v =
-                (case_y << 16) / arg0->unk_96.s;
+        frames_left = state->unk_96.s;
+        if (frames_left > 0) {
+            x_step = tile->unk_24 << 6;
+            position_offset = motion->unk_00.at02_s16.v - 0x20;
+            x_step = (x_step - position_offset) << 16;
+            x_step = x_step / frames_left;
+            position_offset = motion->unk_04.at02_s16.v - 0x20;
+            motion->unk_0C.as_s32 = x_step;
+            y_distance = (tile->unk_25 << 6) - position_offset;
+            motion->unk_10.at00_s32.v =
+                (y_distance << 16) / state->unk_96.s;
         }
 
-        case_utimer = arg0->unk_96.u - 1;
-        arg0->unk_96.s = case_utimer;
-        if ((s32)(case_utimer << 16) > 0) {
+        next_timer = state->unk_96.u - 1;
+        state->unk_96.s = next_timer;
+        if ((s32)(next_timer << 16) > 0) {
             return;
         }
 
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800A2B04(motion, tile->unk_24, tile->unk_25);
 
         global_state = &D_80083460;
-        value = global_state[4];
-        if (value == (s32)((u8 *)arg3 - 0x20)) {
-            global_state[4] = value & 0x7FFFFFFF;
+        tracked_entity = global_state[4];
+        if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
+            global_state[4] = tracked_entity & 0x7FFFFFFF;
         }
-        if (arg0->unk_A7 != 0) {
-            arg0->unk_8C = D_80173B98;
+        if (state->unk_A7 != 0) {
+            state->unk_8C = D_80173B98;
         } else {
-            arg0->unk_8C = D_80170F20;
+            state->unk_8C = D_80170F20;
         }
         return;
     }
@@ -165,7 +166,3 @@ increment_state:
         return;
     }
 }
-
-/* MECHANISM: Split the fall-through timer web so direct fields emit the fresh lh/lhu pair.
-   Case-2 sibling locals preload the second coordinate into the first mflo hazard slot.
-   Compound /4 damping and pointer-update indexing recover retail coloring and order. */

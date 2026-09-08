@@ -26,23 +26,24 @@ typedef struct S_800CAAC8_1 {
     s16 unk_8A;
 } S_800CAAC8_1;   /* actor in func_800CAAC8 */
 
-void func_800CAAC8(void *arg0, s32 arg1, s32 arg2, void *arg3)
+/* Updates the actor and entity counter, then advances the entity or sets its callback. */
+void func_800CAAC8(void *entity_ptr, s32 input_arg_1, s32 input_arg_2, void *actor_ptr)
 {
-    void *entity = arg0;
-    register s32 value1 ASM_REG("$18") = arg1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 value2 ASM_REG("$19") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$16") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 count;
+    void *entity = entity_ptr;
+    register s32 update_arg_1 ASM_REG("$18") = input_arg_1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 update_arg_2 ASM_REG("$19") = input_arg_2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *actor ASM_REG("$16") = actor_ptr;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 remaining_count;
 
     if (func_800AB1C0() == 0) {
         goto check_flag;
     }
 
     func_800A4ACC(actor);
-    count = ((S_800CAAC8_0 *)entity)->unk_B6 - 1;
-    ((S_800CAAC8_0 *)entity)->unk_B6 = count;
+    remaining_count = ((S_800CAAC8_0 *)entity)->unk_B6 - 1;
+    ((S_800CAAC8_0 *)entity)->unk_B6 = remaining_count;
 
-    if ((count << 16) > 0) {
+    if ((remaining_count << 16) > 0) {
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (!(D_80013714 & 8)) {
             goto set_callback;
@@ -53,7 +54,7 @@ void func_800CAAC8(void *arg0, s32 arg1, s32 arg2, void *arg3)
         goto set_callback;
     }
 
-    func_800CAA94(entity, value1, value2);
+    func_800CAA94(entity, update_arg_1, update_arg_2);
     return;
 
 set_callback:
@@ -65,6 +66,3 @@ check_flag:
     }
 }
 
-/* MECHANISM: Pinned arguments preserve the retail 0x28 frame and s1/s2/s3/s0 roles.
-   ASM_SCHED_BARRIER keeps the blez delay slot empty instead of stealing the flag-page lui.
-   Both 0x71 and 0x8A comparison fields use the actor base held in s0. */

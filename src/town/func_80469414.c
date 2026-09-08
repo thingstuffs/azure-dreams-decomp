@@ -16,30 +16,31 @@ extern Entry D_8001791C[];
 extern u8 D_80017BB0[];
 extern State *D_8001E950;
 
+/* Select the next entry whose value passes func_8001E670, wrapping at the terminator. */
 u8 func_8001A414(void) {
-    s32 original;
-    s32 index;
-    u8 *cursor;
+    s32 start_index;
+    s32 next_index;
+    u8 *entry_id;
 
-    original = D_8001E950->index;
-    index = original + 1;
-    if (index != original) {
+    start_index = D_8001E950->index;
+    next_index = start_index + 1;
+    if (next_index != start_index) {
         Entry *entries = D_8001791C;
-        u8 *values = D_80017BB0;
+        u8 *entry_ids = D_80017BB0;
 
-        cursor = &values[index];
+        entry_id = &entry_ids[next_index];
         do {
-            if (*cursor == 0) {
-                cursor = values;
-                index = 0;
+            if (*entry_id == 0) {
+                entry_id = entry_ids;
+                next_index = 0;
             }
-            if (func_8001E670(entries[*cursor].value) != 0) {
+            if (func_8001E670(entries[*entry_id].value) != 0) {
                 break;
             }
-            index++;
-            cursor++;
-        } while (index != original);
+            next_index++;
+            entry_id++;
+        } while (next_index != start_index);
     }
-    D_8001E950->index = index;
-    return D_80017BB0[index];
+    D_8001E950->index = next_index;
+    return D_80017BB0[next_index];
 }

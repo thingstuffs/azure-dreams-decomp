@@ -14,15 +14,16 @@ typedef struct {
 extern s32 D_800814A0[3];
 extern void func_80033D08(void *arg0);
 
-void func_800B9EDC(Obj *arg0, void *arg1, State *arg2)
+/* Mark inactive objects or advance their wrapped 12-bit state value. */
+void func_800B9EDC(Obj *obj, void *unused, State *state)
 {
-    if (*arg0->field_98 == 0) {
-        func_80033D08(arg0);
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    if (*obj->field_98 == 0) {
+        func_80033D08(obj);
+        *(u16 *)((u8 *)obj - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
         return;
     }
 
-    arg2->field_1A += *(s8 *)(arg0->field_9C + 0x97);
-    arg2->field_1A &= 0xFFF;
+    state->field_1A += *(s8 *)(obj->field_9C + 0x97);
+    state->field_1A &= 0xFFF;
 }

@@ -20,21 +20,22 @@ typedef struct S_806D2BB8_1 {
 void *func_8001637C();                           /* extern */
 extern M2C_UNK D_80017008;
 
-void *func_806D2BB8(void *arg0, S_806D2BB8_0 *arg1) {
-    s32 temp_s1;
-    s32 temp_v1;
-    void *temp_a1;
-    S_806D2BB8_1 *temp_v0;
+/* Gets an entry by its masked key and initializes its offset slot if empty. */
+void *func_806D2BB8(void *context, S_806D2BB8_0 *descriptor) {
+    s32 entry_key;
+    s32 slot_addr;
+    void *result;
+    S_806D2BB8_1 *entry;
 
-    temp_s1 = arg1->unk_00 & 0x3FFF0000;
-    temp_v0 = func_8001637C(arg0, temp_s1);
-    temp_a1 = temp_v0;
-    if (temp_v0->unk_04.s == NULL) {
-        *arg1->unk_08.s = ((s8 *) arg1->unk_0C - (s8 *) &D_80017008) + 4;
-        temp_v1 = arg1->unk_08.u;
-        temp_v0->unk_00 = temp_s1;
-        temp_v0->unk_0C = 0;
-        temp_v0->unk_04.u = temp_v1;
+    entry_key = descriptor->unk_00 & 0x3FFF0000;
+    entry = func_8001637C(context, entry_key);
+    result = entry;
+    if (entry->unk_04.s == NULL) {
+        *descriptor->unk_08.s = ((s8 *) descriptor->unk_0C - (s8 *) &D_80017008) + 4;
+        slot_addr = descriptor->unk_08.u;
+        entry->unk_00 = entry_key;
+        entry->unk_0C = 0;
+        entry->unk_04.u = slot_addr;
     }
-    return temp_a1;
+    return result;
 }

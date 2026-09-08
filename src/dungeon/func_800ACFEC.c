@@ -17,15 +17,16 @@ extern s16 func_800BCB04(u16, u16, s16);
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-void func_800B274C(void *arg0, void *arg1, void *arg2) {
+/* Runs actor callbacks, advances motion, and updates ground contact and rendering. */
+void func_800B274C(void *actor_data, void *motion_data, void *render_data) {
     u16 global_flags = D_80083462;
-    u8 *actor = arg0;
-    u8 *motion = arg1;
-    u8 *render = arg2;
+    u8 *actor = actor_data;
+    u8 *motion = motion_data;
+    u8 *render = render_data;
     u8 *actor_alias = actor;
     s16 old_state;
     ActorCallback callback;
-    s16 result;
+    s16 ground_height;
     u16 old_height;
 
     if (global_flags & 0x2000) {
@@ -77,27 +78,27 @@ update_height:
         goto clear_active;
     }
 
-    result = func_800BCB04(
+    ground_height = func_800BCB04(
         U16_AT(motion, 2),
         U16_AT(motion, 6),
         (s16)(U16_AT(actor_alias, 0x88) - 0x20));
 
-    if ((s16)result >= 0x200) {
+    if ((s16)ground_height >= 0x200) {
         goto clear_active;
     }
 
     old_height = U16_AT(actor_alias, 0x88);
-    if ((S16_AT(actor, 0x92) + S16_AT(actor_alias, 0x88)) < (s16)result) {
+    if ((S16_AT(actor, 0x92) + S16_AT(actor_alias, 0x88)) < (s16)ground_height) {
         U32_AT(actor_alias, 0x1C) &= 0xF7FFFFFF;
         goto active_flags_set;
     }
 
-    if ((s16)result >= S16_AT(actor_alias, 0x88)) {
+    if ((s16)ground_height >= S16_AT(actor_alias, 0x88)) {
         S32_AT(actor, 0x90) = 0;
         goto reset_active;
     }
 
-    S16_AT(actor, 0x92) = (s16)result - old_height;
+    S16_AT(actor, 0x92) = (s16)ground_height - old_height;
 
 reset_active:
     ASM_USE_NV(actor_alias);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -108,12 +109,12 @@ reset_active:
 active_flags_set:
     if (U32_AT(actor_alias, 0x1C) & 0x40000000) {
         U32_AT(actor_alias, 0x1C) &= 0xBFFFFFFF;
-        result = func_800BCB04(
+        ground_height = func_800BCB04(
             (U8_AT(render, 0x24) << 6) | 0x20,
             (U8_AT(render, 0x25) << 6) | 0x20,
             (s16)(U16_AT(actor_alias, 0x88) - 0x20));
-        S16_AT(actor, 0x92) += U16_AT(actor_alias, 0x88) - (s16)result;
-        U16_AT(actor_alias, 0x88) = result;
+        S16_AT(actor, 0x92) += U16_AT(actor_alias, 0x88) - (s16)ground_height;
+        U16_AT(actor_alias, 0x88) = ground_height;
         goto clear_active_tail;
     }
 

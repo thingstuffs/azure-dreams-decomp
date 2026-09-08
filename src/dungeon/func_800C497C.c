@@ -32,42 +32,43 @@ typedef struct S_800CA0DC_3 {
     u8 unk_7C;
 } S_800CA0DC_3;   /* (u8 *)arg3 + ((S_800CA0DC_0 *)arg3)->unk_8A.s in func_800CA0DC */
 
-void func_800CA0DC(void *arg0, s32 arg1, void *arg2, void *arg3)
+/* Advances to the next path coordinate and updates movement state and timing. */
+void func_800CA0DC(void *motion, s32 unused, void *position, void *path)
 {
-    s32 count;
+    s32 step_count;
     s32 old_x;
     s32 old_y;
 
-    if (((S_800CA0DC_0 *)arg3)->unk_71.s <= 0) {
+    if (((S_800CA0DC_0 *)path)->unk_71.s <= 0) {
         return;
     }
-    if (((S_800CA0DC_0 *)arg3)->unk_71.u <= ((S_800CA0DC_0 *)arg3)->unk_8A.s) {
+    if (((S_800CA0DC_0 *)path)->unk_71.u <= ((S_800CA0DC_0 *)path)->unk_8A.s) {
         return;
     }
 
-    old_x = ((S_800CA0DC_1 *)arg2)->unk_24;
-    old_y = ((S_800CA0DC_1 *)arg2)->unk_25;
-    ((S_800CA0DC_1 *)arg2)->unk_24 =
-        ((S_800CA0DC_3 *)((u8 *)arg3 + ((S_800CA0DC_0 *)arg3)->unk_8A.s))->unk_74;
-    ((S_800CA0DC_1 *)arg2)->unk_25 =
-        ((S_800CA0DC_3 *)((u8 *)arg3 + ((S_800CA0DC_0 *)arg3)->unk_8A.s))->unk_7C;
-    ((S_800CA0DC_0 *)arg3)->unk_8A.u++;
+    old_x = ((S_800CA0DC_1 *)position)->unk_24;
+    old_y = ((S_800CA0DC_1 *)position)->unk_25;
+    ((S_800CA0DC_1 *)position)->unk_24 =
+        ((S_800CA0DC_3 *)((u8 *)path + ((S_800CA0DC_0 *)path)->unk_8A.s))->unk_74;
+    ((S_800CA0DC_1 *)position)->unk_25 =
+        ((S_800CA0DC_3 *)((u8 *)path + ((S_800CA0DC_0 *)path)->unk_8A.s))->unk_7C;
+    ((S_800CA0DC_0 *)path)->unk_8A.u++;
 
-    ((S_800CA0DC_0 *)arg3)->unk_2A =
-        func_800A0818(old_x, old_y, ((S_800CA0DC_1 *)arg2)->unk_24,
-                      ((S_800CA0DC_1 *)arg2)->unk_25, (u8 *)arg0 + 0x98);
-    ((S_800CA0DC_0 *)arg3)->unk_1C |= 0x40000000;
-    ((Rec_func_800C9F34_arg0 *)arg0)->unk_9A.as_u8 = 0xF;
-    (*(s32 *)((u8 *)arg0 + (0x8C))) = 0;
+    ((S_800CA0DC_0 *)path)->unk_2A =
+        func_800A0818(old_x, old_y, ((S_800CA0DC_1 *)position)->unk_24,
+                      ((S_800CA0DC_1 *)position)->unk_25, (u8 *)motion + 0x98);
+    ((S_800CA0DC_0 *)path)->unk_1C |= 0x40000000;
+    ((Rec_func_800C9F34_arg0 *)motion)->unk_9A.as_u8 = 0xF;
+    (*(s32 *)((u8 *)motion + (0x8C))) = 0;
 
     if (D_80083462 & 0x80) {
-        ((Rec_func_800C9F34_arg0 *)arg0)->unk_96 = 0;
+        ((Rec_func_800C9F34_arg0 *)motion)->unk_96 = 0;
         return;
     }
 
-    ((Rec_func_800C9F34_arg0 *)arg0)->unk_96 = 8;
-    count = ((S_800CA0DC_0 *)arg3)->unk_71.u;
-    if (count > 0) {
-        ((Rec_func_800C9F34_arg0 *)arg0)->unk_96 = 8 / count;
+    ((Rec_func_800C9F34_arg0 *)motion)->unk_96 = 8;
+    step_count = ((S_800CA0DC_0 *)path)->unk_71.u;
+    if (step_count > 0) {
+        ((Rec_func_800C9F34_arg0 *)motion)->unk_96 = 8 / step_count;
     }
 }

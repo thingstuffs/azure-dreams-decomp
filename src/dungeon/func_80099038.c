@@ -149,20 +149,21 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 extern u8 D_80083160[];
 extern u8 D_801C9E40[16];
 
-s32 func_8009E798(void *arg0, void *arg1, void *arg2)
+/* Build and enqueue transformed sprite quads and restore the drawing area. */
+s32 func_8009E798(void *draw_area, void *placement, void *sprite)
 {
-    register u8 *var_s4 ASM_REG("$20") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *var_s2 ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u8 **global = (u8 **)D_80083160;
-    u8 *state = *global;
+    register u8 *area_source ASM_REG("$20") = draw_area;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *sprite_or_copy ASM_REG("$18") = sprite;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 **state_ptr = (u8 **)D_80083160;
+    u8 *state = *state_ptr;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet = ((S_8009E798_0 *)state)->unk_8D0;
-    register u8 *var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *temp ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u8 *ret_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 shifted = state != D_801C9E40;
-    s16 value;
-    s16 value2;
+    register u8 *frame_or_packet ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *queued_packet ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u8 *active_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 lower_buffer = state != D_801C9E40;
+    s16 vertex_y;
+    s16 vertex_x;
     u16 rect[4];
 
     ((S_8009E798_1 *)scratch)->unk_20 = state + 0xB0;
@@ -170,15 +171,15 @@ s32 func_8009E798(void *arg0, void *arg1, void *arg2)
     ((S_8009E798_1 *)scratch)->unk_48 = 0;
 
     func_80067E2C(packet, state);
-    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)arg1)->unk_0A * 4,
+    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
                   packet);
 
-    ((S_8009E798_1 *)scratch)->unk_30 = ((S_8009E798_3 *)var_s2)->unk_1C.at00.v;
-    ((S_8009E798_1 *)scratch)->unk_34 = ((S_8009E798_3 *)var_s2)->unk_1E;
-    ((S_8009E798_1 *)scratch)->unk_00.u = ((S_8009E798_2 *)arg1)->unk_02;
-    ((S_8009E798_1 *)scratch)->unk_02 = ((S_8009E798_2 *)arg1)->unk_06;
-    var_s1 = ((S_8009E798_3 *)var_s2)->unk_08;
-    ((S_8009E798_1 *)scratch)->unk_24 = ((S_8009E798_3 *)var_s2)->unk_14.at00.v;
+    ((S_8009E798_1 *)scratch)->unk_30 = ((S_8009E798_3 *)sprite_or_copy)->unk_1C.at00.v;
+    ((S_8009E798_1 *)scratch)->unk_34 = ((S_8009E798_3 *)sprite_or_copy)->unk_1E;
+    ((S_8009E798_1 *)scratch)->unk_00.u = ((S_8009E798_2 *)placement)->unk_02;
+    ((S_8009E798_1 *)scratch)->unk_02 = ((S_8009E798_2 *)placement)->unk_06;
+    frame_or_packet = ((S_8009E798_3 *)sprite_or_copy)->unk_08;
+    ((S_8009E798_1 *)scratch)->unk_24 = ((S_8009E798_3 *)sprite_or_copy)->unk_14.at00.v;
     func_800649A0();
 
     ((S_8009E798_1 *)scratch)->unk_98 = 0;
@@ -193,8 +194,8 @@ s32 func_8009E798(void *arg0, void *arg1, void *arg2)
     func_80064CF0(scratch + 0xD0);
     func_80064D80(scratch + 0xD0);
 
-    ((S_8009E798_1 *)scratch)->unk_28 = 0x20 - ((S_8009E798_3 *)var_s2)->unk_20;
-    ((S_8009E798_1 *)scratch)->unk_2A = 0x20 - ((S_8009E798_3 *)var_s2)->unk_22;
+    ((S_8009E798_1 *)scratch)->unk_28 = 0x20 - ((S_8009E798_3 *)sprite_or_copy)->unk_20;
+    ((S_8009E798_1 *)scratch)->unk_2A = 0x20 - ((S_8009E798_3 *)sprite_or_copy)->unk_22;
     ((S_8009E798_1 *)scratch)->unk_2C = 0;
     func_80065320(scratch + 0x28, scratch + 0x100, scratch + 0x94);
 
@@ -202,28 +203,28 @@ s32 func_8009E798(void *arg0, void *arg1, void *arg2)
     ((S_8009E798_1 *)scratch)->unk_100 -= ((S_8009E798_1 *)scratch)->unk_00.u;
     ((S_8009E798_1 *)scratch)->unk_102 -= ((S_8009E798_1 *)scratch)->unk_02;
 
-    ((S_8009E798_1 *)scratch)->unk_08 = ((S_8009E798_5 *)var_s1)->unk_08.at00.v;
-    ((S_8009E798_1 *)scratch)->unk_0C = ((S_8009E798_5 *)var_s1)->unk_08.at01.v;
-    ((S_8009E798_1 *)scratch)->unk_10 = ((S_8009E798_5 *)var_s1)->unk_08.at02.v;
-    ((S_8009E798_1 *)scratch)->unk_14 = ((S_8009E798_5 *)var_s1)->unk_08.at03.v;
+    ((S_8009E798_1 *)scratch)->unk_08 = ((S_8009E798_5 *)frame_or_packet)->unk_08.at00.v;
+    ((S_8009E798_1 *)scratch)->unk_0C = ((S_8009E798_5 *)frame_or_packet)->unk_08.at01.v;
+    ((S_8009E798_1 *)scratch)->unk_10 = ((S_8009E798_5 *)frame_or_packet)->unk_08.at02.v;
+    ((S_8009E798_1 *)scratch)->unk_14 = ((S_8009E798_5 *)frame_or_packet)->unk_08.at03.v;
 
-    value2 = (s8)((S_8009E798_5 *)var_s1)->unk_02;
-    ((S_8009E798_1 *)scratch)->unk_80 = value2;
-    ((S_8009E798_1 *)scratch)->unk_70 = value2;
-    value2 += VFIELD(scratch, u16, 0x10);
-    ((S_8009E798_1 *)scratch)->unk_88 = value2;
-    ((S_8009E798_1 *)scratch)->unk_78 = value2;
+    vertex_x = (s8)((S_8009E798_5 *)frame_or_packet)->unk_02;
+    ((S_8009E798_1 *)scratch)->unk_80 = vertex_x;
+    ((S_8009E798_1 *)scratch)->unk_70 = vertex_x;
+    vertex_x += VFIELD(scratch, u16, 0x10);
+    ((S_8009E798_1 *)scratch)->unk_88 = vertex_x;
+    ((S_8009E798_1 *)scratch)->unk_78 = vertex_x;
 
-    value = (s8)((S_8009E798_5 *)var_s1)->unk_03;
+    vertex_y = (s8)((S_8009E798_5 *)frame_or_packet)->unk_03;
     ((S_8009E798_1 *)scratch)->unk_8C = 0;
     ((S_8009E798_1 *)scratch)->unk_84 = 0;
     ((S_8009E798_1 *)scratch)->unk_7C = 0;
     ((S_8009E798_1 *)scratch)->unk_74 = 0;
-    ((S_8009E798_1 *)scratch)->unk_7A = value;
-    ((S_8009E798_1 *)scratch)->unk_72 = value;
-    value += VFIELD(scratch, u16, 0x14);
-    ((S_8009E798_1 *)scratch)->unk_8A = value;
-    ((S_8009E798_1 *)scratch)->unk_82 = value;
+    ((S_8009E798_1 *)scratch)->unk_7A = vertex_y;
+    ((S_8009E798_1 *)scratch)->unk_72 = vertex_y;
+    vertex_y += VFIELD(scratch, u16, 0x14);
+    ((S_8009E798_1 *)scratch)->unk_8A = vertex_y;
+    ((S_8009E798_1 *)scratch)->unk_82 = vertex_y;
 
     func_80065320(scratch + 0x70, packet + 8, scratch + 0x94);
     func_80065320(scratch + 0x78, packet + 0x10, scratch + 0x94);
@@ -244,66 +245,66 @@ s32 func_8009E798(void *arg0, void *arg1, void *arg2)
         (((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_0C) << 8;
     ((S_8009E798_1 *)scratch)->unk_0C <<= 8;
 
-    ((S_8009E798_6 *)packet)->unk_0E = ((S_8009E798_3 *)var_s2)->unk_12 + ((S_8009E798_5 *)var_s1)->unk_04.at02.v;
+    ((S_8009E798_6 *)packet)->unk_0E = ((S_8009E798_3 *)sprite_or_copy)->unk_12 + ((S_8009E798_5 *)frame_or_packet)->unk_04.at02.v;
     ((S_8009E798_6 *)packet)->unk_0C = VFIELD(scratch, u16, 0xC) + VFIELD(scratch, u16, 8);
     (*(s32 *)((u8 *)packet + 0x14)) = VFIELD(scratch, s32, 0xC) +
         VFIELD(scratch, s32, 0x10) +
-        ((((S_8009E798_3 *)var_s2)->unk_10 | ((S_8009E798_5 *)var_s1)->unk_04.at00.v) << 16);
+        ((((S_8009E798_3 *)sprite_or_copy)->unk_10 | ((S_8009E798_5 *)frame_or_packet)->unk_04.at00.v) << 16);
     (*(u16 *)((u8 *)packet + 0x1C)) = VFIELD(scratch, u16, 0x14) + VFIELD(scratch, u16, 8);
     ((S_8009E798_6 *)packet)->unk_24 = VFIELD(scratch, u16, 0x14) + VFIELD(scratch, u16, 0x10);
-    ((S_8009E798_6 *)packet)->unk_04.at00.v = ((S_8009E798_3 *)var_s2)->unk_0C.at00.v;
+    ((S_8009E798_6 *)packet)->unk_04.at00.v = ((S_8009E798_3 *)sprite_or_copy)->unk_0C.at00.v;
     func_800666F4(packet);
 
-    var_s2 = packet;
-    var_s2 += 0x28;
-    func_8003DB6C(var_s2, packet, 0xA);
-    var_s1 = var_s2 + 0x28;
+    sprite_or_copy = packet;
+    sprite_or_copy += 0x28;
+    func_8003DB6C(sprite_or_copy, packet, 0xA);
+    frame_or_packet = sprite_or_copy + 0x28;
     ((S_8009E798_6 *)packet)->unk_04.at03.v |= 2;
-    ((S_8009E798_3 *)var_s2)->unk_0C.at01.v = (((S_8009E798_3 *)var_s2)->unk_14.at01.v += 0x40);
-    ((S_8009E798_3 *)var_s2)->unk_1C.at01.v = (((S_8009E798_3 *)var_s2)->unk_25 += 0x40);
-    ((S_8009E798_3 *)var_s2)->unk_16 |= 0x100;
+    ((S_8009E798_3 *)sprite_or_copy)->unk_0C.at01.v = (((S_8009E798_3 *)sprite_or_copy)->unk_14.at01.v += 0x40);
+    ((S_8009E798_3 *)sprite_or_copy)->unk_1C.at01.v = (((S_8009E798_3 *)sprite_or_copy)->unk_25 += 0x40);
+    ((S_8009E798_3 *)sprite_or_copy)->unk_16 |= 0x100;
 
-    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)arg1)->unk_0A * 4,
-                  var_s2);
-    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)arg1)->unk_0A * 4,
-                  var_s2 - 0x28);
+    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+                  sprite_or_copy);
+    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+                  sprite_or_copy - 0x28);
 
-    ((S_8009E798_5 *)var_s1)->unk_04.at00u.v = 0x00606060;
-    ((S_8009E798_5 *)var_s1)->unk_08.at00u.v = ((S_8009E798_5_pre *)var_s1)[-1].unk_00;
-    ((S_8009E798_5 *)var_s1)->unk_0C = ((S_8009E798_5_pre *)var_s1)[-1].unk_08;
-    ((S_8009E798_5 *)var_s1)->unk_10 = ((S_8009E798_5_pre *)var_s1)[-1].unk_10;
-    ((S_8009E798_5 *)var_s1)->unk_14 = ((S_8009E798_5_pre *)var_s1)[-1].unk_18;
-    ((S_8009E798_5 *)var_s1)->unk_04.at00p.v >>= 1;
-    ((S_8009E798_5 *)var_s1)->unk_04.at01.v >>= 1;
-    ((S_8009E798_5 *)var_s1)->unk_04.at02u.v >>= 1;
-    func_800666E0(var_s1);
-    ((S_8009E798_5 *)var_s1)->unk_04.at03.v |= 2;
+    ((S_8009E798_5 *)frame_or_packet)->unk_04.at00u.v = 0x00606060;
+    ((S_8009E798_5 *)frame_or_packet)->unk_08.at00u.v = ((S_8009E798_5_pre *)frame_or_packet)[-1].unk_00;
+    ((S_8009E798_5 *)frame_or_packet)->unk_0C = ((S_8009E798_5_pre *)frame_or_packet)[-1].unk_08;
+    ((S_8009E798_5 *)frame_or_packet)->unk_10 = ((S_8009E798_5_pre *)frame_or_packet)[-1].unk_10;
+    ((S_8009E798_5 *)frame_or_packet)->unk_14 = ((S_8009E798_5_pre *)frame_or_packet)[-1].unk_18;
+    ((S_8009E798_5 *)frame_or_packet)->unk_04.at00p.v >>= 1;
+    ((S_8009E798_5 *)frame_or_packet)->unk_04.at01.v >>= 1;
+    ((S_8009E798_5 *)frame_or_packet)->unk_04.at02u.v >>= 1;
+    func_800666E0(frame_or_packet);
+    ((S_8009E798_5 *)frame_or_packet)->unk_04.at03.v |= 2;
 
-    temp = var_s1;
-    var_s1 = var_s2 + 0x40;
-    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)arg1)->unk_0A * 4,
-                  temp);
-    func_80067F20(var_s1, 0, 0, 0x40, 0);
-    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)arg1)->unk_0A * 4,
-                  var_s1);
+    queued_packet = frame_or_packet;
+    frame_or_packet = sprite_or_copy + 0x40;
+    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+                  queued_packet);
+    func_80067F20(frame_or_packet, 0, 0, 0x40, 0);
+    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+                  frame_or_packet);
 
-    rect[0] = ((S_8009E798_7 *)var_s4)->unk_04;
-    rect[1] = ((S_8009E798_7 *)var_s4)->unk_06;
-    rect[2] = ((S_8009E798_7 *)var_s4)->unk_08;
-    rect[3] = ((S_8009E798_7 *)var_s4)->unk_0A;
-    var_s1 = var_s2 + 0x4C;
-    if (shifted) {
+    rect[0] = ((S_8009E798_7 *)area_source)->unk_04;
+    rect[1] = ((S_8009E798_7 *)area_source)->unk_06;
+    rect[2] = ((S_8009E798_7 *)area_source)->unk_08;
+    rect[3] = ((S_8009E798_7 *)area_source)->unk_0A;
+    frame_or_packet = sprite_or_copy + 0x4C;
+    if (lower_buffer) {
         rect[1] += 0xE0;
     }
 
-    func_80067E2C(var_s1, rect);
-    temp = var_s1;
-    var_s1 = var_s2 + 0x58;
-    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)arg1)->unk_0A * 4,
-                  temp);
-    ASM_KEEP(var_s4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    func_80067E2C(frame_or_packet, rect);
+    queued_packet = frame_or_packet;
+    frame_or_packet = sprite_or_copy + 0x58;
+    func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
+                  queued_packet);
+    ASM_KEEP(area_source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_80064A40();
-    ret_state = *global;
-    ((S_8009E798_8 *)ret_state)->unk_8D0 = var_s1;
+    active_state = *state_ptr;
+    ((S_8009E798_8 *)active_state)->unk_8D0 = frame_or_packet;
     return 0;
 }

@@ -9,45 +9,46 @@ typedef struct {
     u8 bytes[0x13];
 } Entry19;
 
-s32 func_80027008(s32 arg0, s32 arg1, s32 arg2) {
-    register s32 held_arg0 ASM_REG("$22") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 temp_a1;
-    s32 temp_v0;
-    s32 var_s0;
-    s32 var_s1;
-    register s32 var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 var_s3;
-    Entry19 *base;
+/* Copy up to eight selected entries into a packed buffer of 18-byte records. */
+s32 func_80027008(s32 entry_set, s32 position, s32 entry_count) {
+    register s32 held_entry_set ASM_REG("$22") = entry_set;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 start_entry;
+    s32 buffer;
+    s32 entry_index;
+    s32 copied_count;
+    register s32 write_ptr ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 copy_count;
+    Entry19 *entries;
 
-    var_s0 = arg1;
-    var_s0 /= 72;
-    var_s3 = arg2;
-    temp_v0 = func_8004B404(0x91);
-    if (temp_v0 == 0) {
+    entry_index = position;
+    entry_index /= 72;
+    copy_count = entry_count;
+    buffer = func_8004B404(0x91);
+    if (buffer == 0) {
         goto end;
     }
-    temp_a1 = var_s0 * 8;
-    ASM_KEEP(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    var_s3 -= temp_a1;
-    if (var_s3 >= 9) {
-        var_s3 = 8;
+    start_entry = entry_index * 8;
+    ASM_KEEP(start_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    copy_count -= start_entry;
+    if (copy_count >= 9) {
+        copy_count = 8;
     }
-    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    var_s0 = func_80026EC0(held_arg0, temp_a1);
-    var_s1 = 0;
-    if (var_s3 > 0) {
-        base = (Entry19 *)0x800157C0;
-        var_s2 = temp_v0;
+    ASM_KEEP(held_entry_set);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    entry_index = func_80026EC0(held_entry_set, start_entry);
+    copied_count = 0;
+    if (copy_count > 0) {
+        entries = (Entry19 *)0x800157C0;
+        write_ptr = buffer;
         do {
-            strncpy(var_s2,
-                          (u8 *)((u32)(var_s0 * 0x13) + (u32)base), 0x12);
-            var_s0 = func_80026F04(held_arg0, var_s0 + 1);
-            var_s1 += 1;
-            var_s2 += 0x12;
-        } while (var_s1 < var_s3);
+            strncpy(write_ptr,
+                    (u8 *)((u32)(entry_index * 0x13) + (u32)entries), 0x12);
+            entry_index = func_80026F04(held_entry_set, entry_index + 1);
+            copied_count += 1;
+            write_ptr += 0x12;
+        } while (copied_count < copy_count);
     }
 end:
-    return temp_v0;
+    return buffer;
 }
 
 /* MECHANISM: The in-place /72 quotient forces the retail 0x30 frame and s0/s3/s6 argument holds.

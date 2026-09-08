@@ -1,9 +1,5 @@
 #include "common.h"
 
-/* Advances/refreshes the current dispatch-table entry: looks up D_8006CE80[D_80082E60.field_B],
-   calls func_801768AC(), copies the entry's unk2 halfword into D_80082E60.field_8, calls
-   func_80040B88(). Re-reads the (possibly changed) indexed entry and, unless its unk0 field
-   equals 4, resets via func_800411FC(0) and func_800499BC(). */
 struct S_80082E60 {
     char pad0[8];
     union {
@@ -35,16 +31,17 @@ extern void func_80040B88(void);
 extern void func_800411FC(u16 a0);
 extern void func_800499BC(void);
 
+/* Refreshes dispatch state and resets it unless the resulting entry has type 4. */
 void func_80041818(void) {
-    S_8006CE80 *ent;
+    S_8006CE80 *entry;
 
-    ent = &D_8006CE80[D_80082E60.field_B];
+    entry = &D_8006CE80[D_80082E60.field_B];
     func_801768AC();
-    D_80082E60.field_8.h = ent->unk2;
+    D_80082E60.field_8.h = entry->unk2;
     func_80040B88();
 
-    ent = &D_8006CE80[D_80082E60.field_B];
-    if (ent->unk0 != 4) {
+    entry = &D_8006CE80[D_80082E60.field_B];
+    if (entry->unk0 != 4) {
         func_800411FC(0);
         func_800499BC();
     }

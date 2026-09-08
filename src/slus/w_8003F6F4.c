@@ -17,52 +17,53 @@ typedef struct S_80083120
 extern S_80083120 D_80083120[8];
 extern s16 func_80053428(S_80083120 *a0);
 extern s16 func_80053604(S_80083120 *a0);
+/* Processes type 5 and 6 entries in reverse order, clearing their type when handled. */
 void func_8003F6F4(void)
 {
-  s32 i;
-  u32 start;
-  S_80083120 *base;
-  S_80083120 *p;
-  s16 raw;
-  s32 v;
+  s32 entry_index;
+  u32 last_index;
+  S_80083120 *entries;
+  S_80083120 *entry;
+  s16 signed_type;
+  s32 type;
 
-  i = 7;
-  start = 7;
-  base = D_80083120;
-  SPLIT_BASE(base);
-  p = &base[start];
+  entry_index = 7;
+  last_index = 7;
+  entries = D_80083120;
+  SPLIT_BASE(entries);
+  entry = &entries[last_index];
 loop:
-  raw = p->field_0;
-  v = (raw < 0) ? -raw : raw;
-  if (v == 5)
+  signed_type = entry->field_0;
+  type = (signed_type < 0) ? -signed_type : signed_type;
+  if (type == 5)
   {
     goto case5;
   }
-  if (v == 6)
+  if (type == 6)
   {
     goto case6;
   }
-  p--;
+  entry--;
   goto next;
 case5:
-  if (func_80053428(p) != 0)
+  if (func_80053428(entry) != 0)
   {
-    p->field_0 = 0;
+    entry->field_0 = 0;
   }
   goto handled;
 case6:
-  if (func_80053604(p) != 0)
+  if (func_80053604(entry) != 0)
   {
-    p->field_0 = 0;
+    entry->field_0 = 0;
   }
 handled:
-  SCHED_KEEP(p);
-  p--;
+  SCHED_KEEP(entry);
+  entry--;
 next:
-  SCHED_KEEP(p);
-  SCHED_KEEP(i);
-  i--;
-  if (i >= 0)
+  SCHED_KEEP(entry);
+  SCHED_KEEP(entry_index);
+  entry_index--;
+  if (entry_index >= 0)
   {
     goto loop;
   }

@@ -15,61 +15,57 @@ extern void func_800478B8(void *);
 extern s16 D_80083228;
 extern u8 D_80176460[8];
 
-void func_8017573C(S_8017573C_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
-    s32 index;
-    s16 state;
-    u16 state_u;
-    u16 value;
+/* Updates object direction and grows it to full scale after an eight-tick delay. */
+void func_8017573C(S_8017573C_0 *animation, s32 unused, Rec_D_80082E80 *object) {
+    s32 direction_index;
+    s16 phase;
+    u16 phase_u;
+    u16 scale;
 
-    arg0->unk_02.s = arg0->unk_02.s + 1;
-    func_800478B8(arg2);
-    if (arg2->unk_14.at00_u16.v & 0x6000) {
-        index = D_80083228;
-        index += arg0->unk_04;
-        index += 0x100;
-        index >>= 9;
-        index &= 7;
-        func_80047784(arg2, D_80176460[index], 0);
+    animation->unk_02.s = animation->unk_02.s + 1;
+    func_800478B8(object);
+    if (object->unk_14.at00_u16.v & 0x6000) {
+        direction_index = D_80083228;
+        direction_index += animation->unk_04;
+        direction_index += 0x100;
+        direction_index >>= 9;
+        direction_index &= 7;
+        func_80047784(object, D_80176460[direction_index], 0);
     }
 
-    state = arg0->unk_00.s;
-    state_u = arg0->unk_00.u;
-    if (state == 1) {
-        goto state_one;
+    phase = animation->unk_00.s;
+    phase_u = animation->unk_00.u;
+    if (phase == 1) {
+        goto grow;
     }
-    if (state >= 2) {
+    if (phase >= 2) {
         goto done;
     }
-    if (state != 0) {
+    if (phase != 0) {
         goto done;
     }
-    if (arg0->unk_02.u < 8) {
+    if (animation->unk_02.u < 8) {
         goto done;
     }
-    arg0->unk_00.u = state_u + 1;
+    animation->unk_00.u = phase_u + 1;
     goto done;
 
-state_one:
-    value = arg2->unk_1C.at02_u16.v + 0x100;
-    arg2->unk_1C.at02_u16.v = value;
-    arg2->unk_1C.at00_u16.v = value;
-    if ((u16)value >= 0x1000U) {
+grow:
+    scale = object->unk_1C.at02_u16.v + 0x100;
+    object->unk_1C.at02_u16.v = scale;
+    object->unk_1C.at00_u16.v = scale;
+    if ((u16)scale >= 0x1000U) {
         goto clamp;
     }
-    if (arg2->unk_1C.at02_u16.v < 0x1000U) {
+    if (object->unk_1C.at02_u16.v < 0x1000U) {
         goto done;
     }
 
 clamp:
-    arg2->unk_1C.at02_u16.v = 0x1000;
-    arg2->unk_1C.at00_u16.v = 0x1000;
-    arg0->unk_00.u = arg0->unk_00.u + 1;
+    object->unk_1C.at02_u16.v = 0x1000;
+    object->unk_1C.at00_u16.v = 0x1000;
+    animation->unk_00.u = animation->unk_00.u + 1;
 
 done:
     return;
 }
-
-/* MECHANISM: The true-space three-argument ABI holds arg0 in s1 and arg2 in s0,
-   while the rowbase-local tail is represented by the shared C epilogue.
-   A named s32 index with statement-wise RMW updates preserves retail's v1 live
-   range; the established s16 scalar and u8[8] table reproduce the load widths. */

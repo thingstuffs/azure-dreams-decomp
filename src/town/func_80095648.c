@@ -23,22 +23,23 @@ typedef struct S_80092DA8_0 {
 } S_80092DA8_0;   /* town_state in func_80092DA8 */
 
 
-void func_80092DA8(s32 arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
-    s16 temp_v0;
+/* Updates a town object based on its threshold and the global update flag. */
+void func_80092DA8(s32 object_id, Rec_D_800E3D7C *object, M2C_UNK update_context) {
+    s16 update_threshold;
     u8 *town_state;
 
     town_state = D_80083160;
-    func_80095C80(arg1);
-    func_80094C1C(arg0);
-    func_80094C74(arg1);
+    func_80095C80(object);
+    func_80094C1C(object_id);
+    func_80094C74(object);
     if (((S_80092DA8_0 *)town_state)->unk_10 & 0x40) {
-        func_80094714(arg0, arg1, arg2);
+        func_80094714(object_id, object, update_context);
     }
-    temp_v0 = func_80095978(arg1, &D_800FE488);
-    if (arg1->unk_08.at02_s16.v >= temp_v0) {
+    update_threshold = func_80095978(object, &D_800FE488);
+    if (object->unk_08.at02_s16.v >= update_threshold) {
         func_80094910();
-        func_80095A94(arg1, temp_v0, &D_800FE488);
-        func_800ABD74(arg1);
+        func_80095A94(object, update_threshold, &D_800FE488);
+        func_800ABD74(object);
         goto shared_update;
     }
 
@@ -46,13 +47,13 @@ void func_80092DA8(s32 arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
         goto no_update;
     }
     func_80094910();
-    arg1->unk_14.as_s32 = 0;
-    func_800954F4(arg1);
+    object->unk_14.as_s32 = 0;
+    func_800954F4(object);
 
 shared_update:
-    func_8009451C(arg0, arg1, arg2);
+    func_8009451C(object_id, object, update_context);
     return;
 
 no_update:
-    func_80095388(arg1);
+    func_80095388(object);
 }

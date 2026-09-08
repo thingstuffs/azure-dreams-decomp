@@ -66,86 +66,87 @@ typedef struct S_818C3A3C_5 {
     s32 unk_14;
 } S_818C3A3C_5;   /* temp_v1_ptr in func_818C3A3C */
 
-s32 func_818C3A3C(S_818C3A3C_2 *arg0, S_818C3A3C_4 *arg1) {
-    s32 temp_a0;
-    s32 temp_a1;
-    s32 temp_a2;
-    s32 temp_a3;
-    s32 color;
+/* Creates an effect with randomized rotation, owner-dependent scale, and copied instance data. */
+s32 func_818C3A3C(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_data) {
+    s32 copy_word_0;
+    s32 copy_word_1;
+    s32 copy_word_2;
+    s32 copy_word_3;
+    s32 palette_flags;
     s32 call_zero;
-    s32 alpha;
+    s32 setup_value;
     void *handler;
-    s32 temp_lo;
-    s32 temp_v1;
-    s32 var_v0;
+    s32 scale;
+    s32 random_value;
+    s32 biased_random;
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    S_818C3A3C_3 *temp_s0;
-    void *temp_s2;
-    void *temp_v0;
-    S_818C3A3C_5 *temp_v1_ptr;
+    S_818C3A3C_3 *sprite;
+    void *effect_state;
+    void *effect;
+    S_818C3A3C_5 *effect_data;
     void *effect_name;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != 0) {
-        temp_s2 = (u8 *)temp_v0 + 0x20;
+    effect = func_8003FC64(0x212);
+    if (effect != 0) {
+        effect_state = (u8 *)effect + 0x20;
         effect_name = D_80025AF0;
         handler = D_80025098;
         ASM_KEEP_NV(handler);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        color = 0x7DCF;
-        ((S_818C3A3C_0 *)temp_v0)->unk_10 = handler;
-        ((S_818C3A3C_0 *)temp_v0)->unk_20 = arg0;
-        ((S_818C3A3C_1 *)temp_s2)->unk_10 = 0;
-        alpha = arg0->unk_14;
+        palette_flags = 0x7DCF;
+        ((S_818C3A3C_0 *)effect)->unk_10 = handler;
+        ((S_818C3A3C_0 *)effect)->unk_20 = owner;
+        ((S_818C3A3C_1 *)effect_state)->unk_10 = 0;
+        setup_value = owner->unk_14;
         call_zero = 0;
-        *(volatile u16 *)((u8 *)temp_s2 + 0x14) = alpha;
+        *(volatile u16 *)((u8 *)effect_state + 0x14) = setup_value;
 
-        temp_s0 = ((S_818C3A3C_0 *)temp_v0)->unk_0C;
-        alpha = 0x80;
-        temp_s0->unk_0E = alpha;
-        temp_s0->unk_0D = alpha;
-        temp_s0->unk_0C = alpha;
-        alpha = temp_s0->unk_14;
-        temp_s0->unk_12 = color;
-        alpha |= 0xC;
-        temp_s0->unk_14 = alpha;
-        alpha = temp_s0->unk_10;
-        color = temp_s0->unk_14;
-        alpha |= 0x20;
-        color |= 0x100;
-        temp_s0->unk_10 = alpha;
-        temp_s0->unk_14 = color;
-        func_8003DB94(temp_s0, effect_name, call_zero);
+        sprite = ((S_818C3A3C_0 *)effect)->unk_0C;
+        setup_value = 0x80;
+        sprite->unk_0E = setup_value;
+        sprite->unk_0D = setup_value;
+        sprite->unk_0C = setup_value;
+        setup_value = sprite->unk_14;
+        sprite->unk_12 = palette_flags;
+        setup_value |= 0xC;
+        sprite->unk_14 = setup_value;
+        setup_value = sprite->unk_10;
+        palette_flags = sprite->unk_14;
+        setup_value |= 0x20;
+        palette_flags |= 0x100;
+        sprite->unk_10 = setup_value;
+        sprite->unk_14 = palette_flags;
+        func_8003DB94(sprite, effect_name, call_zero);
 
-        var_v0 = func_80069EF8();
-        temp_v1 = var_v0;
-        if (temp_v1 < 0) {
-            var_v0 = temp_v1 + 0xFFF;
+        biased_random = func_80069EF8();
+        random_value = biased_random;
+        if (random_value < 0) {
+            biased_random = random_value + 0xFFF;
         }
-        temp_s0->unk_1A = temp_v1 - ((var_v0 >> 12) << 12);
+        sprite->unk_1A = random_value - ((biased_random >> 12) << 12);
 
-        temp_lo = 0x1400 / ((S_818C3A3C_1 *)temp_s2)->unk_14;
-        temp_s0->unk_1E = temp_lo;
-        temp_s0->unk_1C = temp_lo;
-        func_8004491C(temp_v0, D_80045C34);
+        scale = 0x1400 / ((S_818C3A3C_1 *)effect_state)->unk_14;
+        sprite->unk_1E = scale;
+        sprite->unk_1C = scale;
+        func_8004491C(effect, D_80045C34);
 
-        temp_v1_ptr = ((S_818C3A3C_0 *)temp_v0)->unk_08;
-        ASM_KEEP(temp_v1_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        result = (u32)temp_v0;
+        effect_data = ((S_818C3A3C_0 *)effect)->unk_08;
+        ASM_KEEP(effect_data);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        result = (u32)effect;
         ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        temp_a0 = arg1->unk_00;
-        temp_a1 = arg1->unk_04;
-        temp_a2 = arg1->unk_08;
-        temp_a3 = arg1->unk_0C;
-        temp_v1_ptr->unk_00 = temp_a0;
-        temp_v1_ptr->unk_04 = temp_a1;
-        temp_v1_ptr->unk_08 = temp_a2;
-        temp_v1_ptr->unk_0C = temp_a3;
-        temp_a0 = arg1->unk_10;
-        temp_a1 = arg1->unk_14;
-        temp_v1_ptr->unk_10 = temp_a0;
-        temp_v1_ptr->unk_14 = temp_a1;
-        func_80025370(temp_a0, temp_a1, temp_a2, temp_a3);
+        copy_word_0 = initial_data->unk_00;
+        copy_word_1 = initial_data->unk_04;
+        copy_word_2 = initial_data->unk_08;
+        copy_word_3 = initial_data->unk_0C;
+        effect_data->unk_00 = copy_word_0;
+        effect_data->unk_04 = copy_word_1;
+        effect_data->unk_08 = copy_word_2;
+        effect_data->unk_0C = copy_word_3;
+        copy_word_0 = initial_data->unk_10;
+        copy_word_1 = initial_data->unk_14;
+        effect_data->unk_10 = copy_word_0;
+        effect_data->unk_14 = copy_word_1;
+        func_80025370(copy_word_0, copy_word_1, copy_word_2, copy_word_3);
     }
     return 0;
 }

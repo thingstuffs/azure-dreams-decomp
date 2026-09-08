@@ -26,31 +26,32 @@ extern s32 D_800814A0[3];
 s32 func_800644B8(s32 arg0);
 s32 func_80064584(s32 arg0);
 
-void func_80024EE0(void *arg0, void *arg1, void *arg2) {
-    Func818816E0Arg0 *p0;
-    Func818816E0Arg1 *p1;
-    register Func818816E0Arg2 *p2;
-    u16 temp_v0_2;
-    u8 temp_v0;
-    s32 call_arg;
+/* Moves and fades an effect, marking it inactive when its brightness falls below the cutoff. */
+void func_80024EE0(void *effect_data, void *position_data, void *visual_data) {
+    Func818816E0Arg0 *effect;
+    Func818816E0Arg1 *position;
+    register Func818816E0Arg2 *visual;
+    u16 decay_value;
+    u8 brightness;
+    s32 angle;
 
-    p2 = (Func818816E0Arg2 *)arg2;
-    p0 = (Func818816E0Arg0 *)arg0;
-    p1 = (Func818816E0Arg1 *)arg1;
-    call_arg = p0->field24 << 8;
+    visual = (Func818816E0Arg2 *)visual_data;
+    effect = (Func818816E0Arg0 *)effect_data;
+    position = (Func818816E0Arg1 *)position_data;
+    angle = effect->field24 << 8;
     D_800257CE[0] = D_800257CE[0] + 1;
-    p1->field0 = p1->field0 + (func_80064584(call_arg) * 8);
-    p1->field4 = p1->field4 + (func_800644B8(p0->field24 << 8) * 8);
-    temp_v0 = p2->field0E - 2;
-    p2->field0E = temp_v0;
-    p2->field0D = temp_v0;
-    p2->field0C = temp_v0;
-    if ((u32)(temp_v0 & 0xFF) < 0x20U) {
+    position->field0 = position->field0 + (func_80064584(angle) * 8);
+    position->field4 = position->field4 + (func_800644B8(effect->field24 << 8) * 8);
+    brightness = visual->field0E - 2;
+    visual->field0E = brightness;
+    visual->field0D = brightness;
+    visual->field0C = brightness;
+    if ((u32)(brightness & 0xFF) < 0x20U) {
         D_800257CC[0] = (s16)((u16)D_800257CC[0] - 1);
-        ((u16 *)arg0)[-1] = (u16)(((u16 *)arg0)[-1] | 0x8000);
+        ((u16 *)effect_data)[-1] = (u16)(((u16 *)effect_data)[-1] | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
-    temp_v0_2 = p2->field1E;
-    p2->field1E = (u16)(temp_v0_2 - (temp_v0_2 >> 7));
-    p2->field1C = (u16)(p2->field1C + 8);
+    decay_value = visual->field1E;
+    visual->field1E = (u16)(decay_value - (decay_value >> 7));
+    visual->field1C = (u16)(visual->field1C + 8);
 }

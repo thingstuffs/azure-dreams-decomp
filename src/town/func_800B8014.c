@@ -13,28 +13,29 @@ extern u8 D_80089318[];
 extern u8 D_8008931C[];
 extern u8 D_80089324[];
 
-void func_800B5774(void *arg0, void *arg1) {
+/* Format and display numeric stats and descriptive text. */
+void func_800B5774(void *stats, void *panels) {
     u8 digits[64];
     u8 text[64];
 
     memcpy(text, D_80089308, 5);
 
-    func_8004E5A0(((u8 *)arg0)[0x11], 2, digits);
+    func_8004E5A0(((u8 *)stats)[0x11], 2, digits);
     func_8004E69C(digits);
     strcat(text, digits);
     strcat(text, D_80089310);
     strcat(text, D_80089318);
 
-    func_8004E5A0(((u8 *)arg0)[0x28], 3, digits);
+    func_8004E5A0(((u8 *)stats)[0x28], 3, digits);
     strcat(text, digits);
     strcat(text, D_8008931C);
 
-    func_8004E5A0(((u8 *)arg0)[0x29], 3, digits);
+    func_8004E5A0(((u8 *)stats)[0x29], 3, digits);
     strcat(text, digits);
 
-    func_800B53BC(*(s32 *)((u8 *)arg1 + 0x10), text, 0, 0x6C, 0x98);
-    func_800B53BC(*(s32 *)((u8 *)arg1 + 0x4C), D_80089324, 0, 0x48,
+    func_800B53BC(*(s32 *)((u8 *)panels + 0x10), text, 0, 0x6C, 0x98);
+    func_800B53BC(*(s32 *)((u8 *)panels + 0x4C), D_80089324, 0, 0x48,
                     0xB8);
-    func_800B53BC(*(s32 *)((u8 *)arg1 + 0x14),
-                    func_800B544C(text, arg0), 0, 0x48, 0xC0);
+    func_800B53BC(*(s32 *)((u8 *)panels + 0x14),
+                    func_800B544C(text, stats), 0, 0x48, 0xC0);
 }

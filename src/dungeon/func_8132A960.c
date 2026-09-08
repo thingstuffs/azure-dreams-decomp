@@ -62,54 +62,51 @@ extern M2C_UNK D_800DE870;
 extern M2C_UNK D_801720D0;
 extern Rec_D_80174CD8 *D_80174CD8;
 
+/* Spawn and initialize an effect at a random offset from the source position. */
 void func_80172160(void)
 {
-    S_80172160_3 *temp_a0;
-    S_80172160_6 *temp_a0_2;
-    S_80172160_4 *temp_s0;
-    S_80172160_5 *temp_s2;
-    void *temp_v0;
-    S_80172160_1 *temp_v1;
-    s32 random;
+    S_80172160_3 *sprite_header;
+    S_80172160_6 *sprite;
+    S_80172160_4 *effect_pos;
+    S_80172160_5 *source_pos;
+    void *effect;
+    S_80172160_1 *effect_state;
+    s32 random_offset;
     s32 coord;
 
-    temp_s2 = D_80174CD8->unk_08;
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_v1 = temp_v0 + 0x20;
-        temp_v1->unk_16 = 0x1E;
-        temp_v1->unk_18 = 0x1E;
-        ((S_80172160_2 *)temp_v0)->unk_10 = &D_801720D0;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_a0 = ((S_80172160_2 *)temp_v0)->unk_0C;
-        temp_a0->unk_06 = 0;
-        temp_s0 = ((S_80172160_2 *)temp_v0)->unk_08;
-        temp_s0->unk_00.at00.v = temp_s2->unk_00;
-        temp_s0->unk_04.at00.v = temp_s2->unk_04;
-        temp_s0->unk_08 = temp_s2->unk_08;
-        random = rand(temp_a0);
-        coord = temp_s0->unk_00.at02.v;
-        random &= 0x3F;
+    source_pos = D_80174CD8->unk_08;
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        effect_state = effect + 0x20;
+        effect_state->unk_16 = 0x1E;
+        effect_state->unk_18 = 0x1E;
+        ((S_80172160_2 *)effect)->unk_10 = &D_801720D0;
+        func_8004491C(effect, &D_80045340);
+        sprite_header = ((S_80172160_2 *)effect)->unk_0C;
+        sprite_header->unk_06 = 0;
+        effect_pos = ((S_80172160_2 *)effect)->unk_08;
+        effect_pos->unk_00.at00.v = source_pos->unk_00;
+        effect_pos->unk_04.at00.v = source_pos->unk_04;
+        effect_pos->unk_08 = source_pos->unk_08;
+        random_offset = rand(sprite_header);
+        coord = effect_pos->unk_00.at02.v;
+        random_offset &= 0x3F;
         coord -= 0x20;
-        coord += random;
-        temp_s0->unk_00.at02.v = coord;
-        random = rand();
-        coord = temp_s0->unk_04.at02.v;
-        random &= 0x3F;
+        coord += random_offset;
+        effect_pos->unk_00.at02.v = coord;
+        random_offset = rand();
+        coord = effect_pos->unk_04.at02.v;
+        random_offset &= 0x3F;
         coord -= 0x20;
-        coord += random;
-        temp_s0->unk_04.at02.v = coord;
-        temp_a0_2 = ((S_80172160_2 *)temp_v0)->unk_0C;
-        temp_a0_2->unk_1E = 0x1000;
-        temp_a0_2->unk_1C = 0x1000;
-        temp_a0_2->unk_0E = 0x80;
-        temp_a0_2->unk_0D = 0x80;
-        temp_a0_2->unk_0C = 0x80;
-        temp_a0_2->unk_14 |= 0x80;
-        func_8003DB94(temp_a0_2, &D_800DE870, 0);
+        coord += random_offset;
+        effect_pos->unk_04.at02.v = coord;
+        sprite = ((S_80172160_2 *)effect)->unk_0C;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
+        sprite->unk_14 |= 0x80;
+        func_8003DB94(sprite, &D_800DE870, 0);
     }
 }
-
-/* MECHANISM: The 32-byte frame holds the source, allocated object, and copied object
-   across calls in s2, s1, and s0. Split random-coordinate RMWs keep -0x20 as
-   per-use addiu operations instead of a shared saved-register constant. */

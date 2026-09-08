@@ -13,12 +13,13 @@ extern PaddedS32 D_800737A8;
 extern PaddedS32 D_80073824;
 extern PaddedS32 D_80085F98;
 
+/* Runs an enabled update with a reentry guard and periodic maintenance. */
 long long func_80058510(void)
 {
-    s32 active;
+    s32 update_enabled;
 
-    active = D_80073824.v;
-    if ((active != 0) && (D_80085F98.v == 0)) {
+    update_enabled = D_80073824.v;
+    if ((update_enabled != 0) && (D_80085F98.v == 0)) {
         D_80085F98.v = 1;
         func_800584E4();
         if (D_800737A8.v >= 11) {

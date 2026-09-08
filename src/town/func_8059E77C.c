@@ -16,10 +16,11 @@ extern void func_8001886C(s32);
 extern s8 D_80016000[];
 extern s32 D_800190D4;
 
+/* Dispatches state-dependent actions for two IDs, then invokes the town callback. */
 void func_8001677C(void)
 {
     void *callback_arg;
-    TownRoot *root;
+    TownRoot *town_root;
 
     if (func_80018964(0x601) != 0) {
         func_800188E4(0x601);
@@ -34,11 +35,6 @@ void func_8001677C(void)
     }
 
     callback_arg = &D_800190D4;
-    root = *(TownRoot **)D_80016000;
-    root->callback->callback(callback_arg);
+    town_root = *(TownRoot **)D_80016000;
+    town_root->callback->callback(callback_arg);
 }
-
-/* MECHANISM: The retail CFG is two ordinary if/else joins, not calls to
-   the in-row join addresses.  A sized hi/lo global feeds a typed three-load
-   callback chain.  The named callback argument gives its address a lifetime
-   independent of the callee load chain; the frame still saves only $ra. */

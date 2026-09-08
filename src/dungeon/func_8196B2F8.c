@@ -63,91 +63,92 @@ extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083780;
 extern M2C_UNK D_800DE870;
 
-void func_8196B2F8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
-    s32 temp_rand;
-    register s32 temp_v0_coords ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temp_v1;
-    s32 temp_v1_coords;
-    s16 temp_v0_2;
-    u16 temp_flags;
-    register u16 temp_v0_3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *temp_a0;
-    S_8196B2F8_4 *temp_a0_2;
-    S_8196B2F8_3 *temp_s0;
-    S_8196B2F8_0 *temp_s1;
-    void *temp_v0;
+/* Creates an effect with randomized position offsets and initializes its rendering state. */
+void func_8196B2F8(s32 unused_0, s32 unused_1, s32 unused_2, s32 offset_x, s32 offset_y, s32 offset_z) {
+    s32 jitter;
+    register s32 world_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 jittered_coord;
+    s32 origin_coord;
+    s16 random_size;
+    u16 render_flags;
+    register u16 render_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *render_or_origin;
+    S_8196B2F8_4 *render_state;
+    S_8196B2F8_3 *position;
+    S_8196B2F8_0 *effect_state;
+    void *effect;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_s1 = temp_v0 + 0x20;
-        temp_v0_2 = (rand() & 7) + 0x20;
-        temp_s1->unk_2C = temp_v0_2;
-        temp_s1->unk_2E = temp_v0_2;
-        ((S_8196B2F8_1 *)temp_v0)->unk_10 = &D_800244E4;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_a0 = ((S_8196B2F8_1 *)temp_v0)->unk_0C;
-        temp_v0_3 = ((S_8196B2F8_2 *)temp_a0)->unk_14;
-        ((S_8196B2F8_2 *)temp_a0)->unk_06.s = 0;
-        temp_v0_3 |= 0xC;
-        ((S_8196B2F8_2 *)temp_a0)->unk_14 = temp_v0_3;
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        effect_state = effect + 0x20;
+        random_size = (rand() & 7) + 0x20;
+        effect_state->unk_2C = random_size;
+        effect_state->unk_2E = random_size;
+        ((S_8196B2F8_1 *)effect)->unk_10 = &D_800244E4;
+        func_8004491C(effect, &D_80045340);
+        render_or_origin = ((S_8196B2F8_1 *)effect)->unk_0C;
+        render_value = ((S_8196B2F8_2 *)render_or_origin)->unk_14;
+        ((S_8196B2F8_2 *)render_or_origin)->unk_06.s = 0;
+        render_value |= 0xC;
+        ((S_8196B2F8_2 *)render_or_origin)->unk_14 = render_value;
         ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_flags = temp_v0_3;
-        ASM_KEEP(temp_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        temp_v0_3 = 0x60;
-        temp_flags |= 2;
-        ((S_8196B2F8_2 *)temp_a0)->unk_10 = temp_v0_3;
-        ((S_8196B2F8_2 *)temp_a0)->unk_14 = temp_flags;
-        temp_a0 = (void *) 0x80080000;
-        ASM_KEEP(temp_a0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_s0 = ((S_8196B2F8_1 *)temp_v0)->unk_08;
-        temp_a0 = (void *) ((u8 *) temp_a0 + 0x3780);
-        temp_s0->unk_02 = arg3;
-        temp_s0->unk_06 = (u16) arg4;
-        temp_s0->unk_0A = (u16) arg5;
-        temp_v1_coords = ((S_8196B2F8_2 *)temp_a0)->unk_02;
-        ASM_KEEP(temp_v1_coords);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_v0_coords = arg3;
-        ASM_KEEP(temp_v0_coords);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_v0_coords += temp_v1_coords;
-        temp_s0->unk_02 = (u16) temp_v0_coords;
-        temp_v1_coords = ((S_8196B2F8_2 *)temp_a0)->unk_06.u;
-        ASM_KEEP(temp_v1_coords);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_v0_coords = arg4;
-        ASM_KEEP(temp_v0_coords);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_v0_coords += temp_v1_coords;
-        temp_s0->unk_06 = (u16) temp_v0_coords;
-        temp_v1_coords = ((S_8196B2F8_2 *)temp_a0)->unk_0A;
-        ASM_KEEP(temp_v1_coords);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_v0_coords = arg5;
-        ASM_KEEP(temp_v0_coords);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_v0_coords += temp_v1_coords;
-        temp_s0->unk_0A = (u16) temp_v0_coords;
-        temp_rand = rand() & 0x1F;
-        temp_v1 = temp_s0->unk_02;
-        temp_v1 -= 0x10;
-        temp_v1 += temp_rand;
-        temp_s0->unk_02 = (u16) temp_v1;
-        temp_rand = rand() & 0x1F;
-        temp_v1 = temp_s0->unk_06;
-        temp_v1 -= 0x10;
-        temp_v1 += temp_rand;
-        temp_s0->unk_06 = (u16) temp_v1;
-        temp_rand = rand() & 0x1F;
-        temp_v1 = temp_s0->unk_0A;
-        temp_v1 -= 0x10;
-        temp_v1 += temp_rand;
-        temp_s0->unk_0A = (u16) temp_v1;
-        temp_s1->unk_94 = rand();
-        temp_s1->unk_A0 = 0x1000;
-        temp_a0_2 = ((S_8196B2F8_1 *)temp_v0)->unk_0C;
-        temp_a0_2->unk_1C = 0xC00;
-        temp_a0_2->unk_1E = 0xC00;
-        temp_a0_2->unk_0E = 0x80;
-        temp_a0_2->unk_0D = 0x80;
-        temp_a0_2->unk_0C = 0x80;
-        temp_a0_2->unk_12 = 0x7DCF;
-        temp_a0_2->unk_14 = (u16) (temp_a0_2->unk_14 | 0x100);
-        func_8003DB94(temp_a0_2, &D_800DE870, 0);
+        render_flags = render_value;
+        ASM_KEEP(render_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        render_value = 0x60;
+        render_flags |= 2;
+        ((S_8196B2F8_2 *)render_or_origin)->unk_10 = render_value;
+        ((S_8196B2F8_2 *)render_or_origin)->unk_14 = render_flags;
+        render_or_origin = (void *) 0x80080000;
+        ASM_KEEP(render_or_origin);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        position = ((S_8196B2F8_1 *)effect)->unk_08;
+        render_or_origin = (void *) ((u8 *) render_or_origin + 0x3780);
+        position->unk_02 = offset_x;
+        position->unk_06 = (u16) offset_y;
+        position->unk_0A = (u16) offset_z;
+        origin_coord = ((S_8196B2F8_2 *)render_or_origin)->unk_02;
+        ASM_KEEP(origin_coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        world_coord = offset_x;
+        ASM_KEEP(world_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        world_coord += origin_coord;
+        position->unk_02 = (u16) world_coord;
+        origin_coord = ((S_8196B2F8_2 *)render_or_origin)->unk_06.u;
+        ASM_KEEP(origin_coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        world_coord = offset_y;
+        ASM_KEEP(world_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        world_coord += origin_coord;
+        position->unk_06 = (u16) world_coord;
+        origin_coord = ((S_8196B2F8_2 *)render_or_origin)->unk_0A;
+        ASM_KEEP(origin_coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        world_coord = offset_z;
+        ASM_KEEP(world_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        world_coord += origin_coord;
+        position->unk_0A = (u16) world_coord;
+        jitter = rand() & 0x1F;
+        jittered_coord = position->unk_02;
+        jittered_coord -= 0x10;
+        jittered_coord += jitter;
+        position->unk_02 = (u16) jittered_coord;
+        jitter = rand() & 0x1F;
+        jittered_coord = position->unk_06;
+        jittered_coord -= 0x10;
+        jittered_coord += jitter;
+        position->unk_06 = (u16) jittered_coord;
+        jitter = rand() & 0x1F;
+        jittered_coord = position->unk_0A;
+        jittered_coord -= 0x10;
+        jittered_coord += jitter;
+        position->unk_0A = (u16) jittered_coord;
+        effect_state->unk_94 = rand();
+        effect_state->unk_A0 = 0x1000;
+        render_state = ((S_8196B2F8_1 *)effect)->unk_0C;
+        render_state->unk_1C = 0xC00;
+        render_state->unk_1E = 0xC00;
+        render_state->unk_0E = 0x80;
+        render_state->unk_0D = 0x80;
+        render_state->unk_0C = 0x80;
+        render_state->unk_12 = 0x7DCF;
+        render_state->unk_14 = (u16) (render_state->unk_14 | 0x100);
+        func_8003DB94(render_state, &D_800DE870, 0);
     }
 }
 

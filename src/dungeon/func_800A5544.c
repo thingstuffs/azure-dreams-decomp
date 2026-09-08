@@ -75,70 +75,67 @@ typedef struct S_800AACA4_11 {
     u16 unk_0A;
 } S_800AACA4_11;   /* ((S_800AACA4_2_pre *)root)[-1].unk_00 in func_800AACA4 */
 
-void func_800AACA4(Rec_func_800A9E70_arg0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, S_800AACA4_1 *arg3) {
-    LocalResult local;
-    S_800AACA4_3 *object;
-    void *root;
-    S_800AACA4_4 *table;
-    S_800AACA4_5 *entry;
-    register u32 offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u32 first_offset;
-    s16 count;
-    s32 result;
-    s16 next_count;
-    u16 initial_value;
+/* Initialize movement from the source object, set vertical speed, and advance the tile. */
+void func_800AACA4(Rec_func_800A9E70_arg0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile, S_800AACA4_1 *entity) {
+    LocalResult height_adjustment;
+    S_800AACA4_3 *source_object;
+    void *entity_data;
+    S_800AACA4_4 *resource_table;
+    S_800AACA4_5 *resource_entry;
+    register u32 step_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u32 target_offset;
+    s16 travel_steps;
+    s32 target_height;
+    s16 travel_duration;
+    u16 initial_direction;
 
-    arg0->unk_9A.as_s8 = 12;
-    arg0->unk_9B.as_s8 = 0;
-    arg0->unk_8C = 0;
-    initial_value = ((S_800AACA4_8 *)(arg3->unk_60))->unk_2A;
-    arg3->unk_1C &= 0xFFF7FFFF;
-    arg3->unk_6A = initial_value;
-    arg0->unk_96.as_s16 = 2;
+    state->unk_9A.as_s8 = 12;
+    state->unk_9B.as_s8 = 0;
+    state->unk_8C = 0;
+    initial_direction = ((S_800AACA4_8 *)(entity->unk_60))->unk_2A;
+    entity->unk_1C &= 0xFFF7FFFF;
+    entity->unk_6A = initial_direction;
+    state->unk_96.as_s16 = 2;
 
-    root = arg3->unk_60;
-    object = ((S_800AACA4_2_pre *)root)[-1].unk_04;
-    table = ((S_800AACA4_9 *)(object->unk_28))->unk_00;
-    entry = (*(void * *)((u8 *)(table->unk_00) + ((S_800AACA4_10 *)(object->unk_2C))->unk_02 * 4));
-    if (func_8003DE58(entry->unk_04, object, &local, 0) == 0) {
-        local.value = -0x60;
+    entity_data = entity->unk_60;
+    source_object = ((S_800AACA4_2_pre *)entity_data)[-1].unk_04;
+    resource_table = ((S_800AACA4_9 *)(source_object->unk_28))->unk_00;
+    resource_entry = (*(void * *)((u8 *)(resource_table->unk_00) + ((S_800AACA4_10 *)(source_object->unk_2C))->unk_02 * 4));
+    if (func_8003DE58(resource_entry->unk_04, source_object, &height_adjustment, 0) == 0) {
+        height_adjustment.value = -0x60;
     }
 
-    root = arg3->unk_60;
-    arg1->unk_08.at02_s16.v = ((S_800AACA4_11 *)(((S_800AACA4_2_pre *)root)[-1].unk_00))->unk_0A + local.value;
-    arg2->unk_24 = object->unk_24;
-    arg2->unk_25 = object->unk_25;
-    func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
+    entity_data = entity->unk_60;
+    motion->unk_08.at02_s16.v = ((S_800AACA4_11 *)(((S_800AACA4_2_pre *)entity_data)[-1].unk_00))->unk_0A + height_adjustment.value;
+    tile->unk_24 = source_object->unk_24;
+    tile->unk_25 = source_object->unk_25;
+    func_800A2B04(motion, tile->unk_24, tile->unk_25);
 
-    count = arg3->unk_8A.s;
-    if (count != 0) {
-        first_offset = arg3->unk_6A;
-        first_offset >>= 8;
-        first_offset &= 0xE;
-        result = func_800BCB04(
-            ((arg2->unk_24 + (*(s16 *)((u8 *)(&D_8006CCD8) + first_offset)) * count) << 6) + 0x20 & 0xFFE0,
-            ((arg2->unk_25 + (*(s16 *)((u8 *)(&D_8006CCE8) + first_offset)) * count) << 6) + 0x20 & 0xFFE0,
-            arg1->unk_08.at02_s16.v);
-        next_count = arg3->unk_8A.u + 2;
-        arg3->unk_8A.s = next_count;
-        if (result < 0x200) {
-            arg1->unk_14.as_s32 = -((arg1->unk_08.at02_s16.v - result) << 15) / next_count;
+    travel_steps = entity->unk_8A.s;
+    if (travel_steps != 0) {
+        target_offset = entity->unk_6A;
+        target_offset >>= 8;
+        target_offset &= 0xE;
+        target_height = func_800BCB04(
+            ((tile->unk_24 + (*(s16 *)((u8 *)(&D_8006CCD8) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
+            ((tile->unk_25 + (*(s16 *)((u8 *)(&D_8006CCE8) + target_offset)) * travel_steps) << 6) + 0x20 & 0xFFE0,
+            motion->unk_08.at02_s16.v);
+        travel_duration = entity->unk_8A.u + 2;
+        entity->unk_8A.s = travel_duration;
+        if (target_height < 0x200) {
+            motion->unk_14.as_s32 = -((motion->unk_08.at02_s16.v - target_height) << 15) / travel_duration;
         } else {
-            arg1->unk_14.as_s32 = -((arg1->unk_08.at02_s16.v - ((S_800AACA4_8 *)(arg3->unk_60))->unk_88) << 15) / next_count;
+            motion->unk_14.as_s32 = -((motion->unk_08.at02_s16.v - ((S_800AACA4_8 *)(entity->unk_60))->unk_88) << 15) / travel_duration;
         }
-        arg3->unk_8A.s = arg3->unk_8A.u - 2;
+        entity->unk_8A.s = entity->unk_8A.u - 2;
     }
 
-    offset = arg3->unk_6A;
-    offset >>= 8;
-    offset &= 0xE;
-    arg2->unk_24 += (*(u8 *)((u8 *)(&D_8006CCD8) + offset));
-    offset = arg3->unk_6A;
-    offset >>= 8;
-    offset &= 0xE;
-    arg2->unk_25 += (*(u8 *)((u8 *)(&D_8006CCE8) + offset));
+    step_offset = entity->unk_6A;
+    step_offset >>= 8;
+    step_offset &= 0xE;
+    tile->unk_24 += (*(u8 *)((u8 *)(&D_8006CCD8) + step_offset));
+    step_offset = entity->unk_6A;
+    step_offset >>= 8;
+    step_offset &= 0xE;
+    tile->unk_25 += (*(u8 *)((u8 *)(&D_8006CCE8) + step_offset));
 }
-
-/* MECHANISM: A signed stack halfword plus a one-read initial u16 reproduce the 0x30 frame and prefix schedule.
-   The true-space CFG duplicates quotient arms so gcc tail-merges only the shared divide/store.
-   Split unsigned index live ranges, a guarded $v0 tail role, and a zero-operand fence close base scheduling. */

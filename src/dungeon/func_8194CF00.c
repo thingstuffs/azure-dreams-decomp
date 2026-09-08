@@ -51,32 +51,33 @@ typedef struct S_80024700_1 {
     s16 unk_1E;
 } S_80024700_1;   /* primitive in func_80024700 */
 
-void func_80024700(void *arg0)
+/* Creates a textured object from the source and applies a transformed positional offset. */
+void func_80024700(void *source_object)
 {
-    s16 rotation[3];
-    u16 delta[3];
-    s16 temp_s16;
+    s16 local_offset[3];
+    u16 world_offset[3];
+    s16 scale_component;
     s32 value;
-    u16 firstAngle;
-    u16 secondAngle;
-    u16 flags14;
-    u16 flags10;
+    u16 offset_length;
+    u16 offset_angle;
+    u16 flags_14;
+    u16 flags_10;
     M2C_UNK *link;
-    void *source = arg0;
+    void *source = source_object;
     void *object;
     S_80024700_0 *data;
     register void *primitive ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 allocType ASM_REG("$4") = 0x212;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u8 *texture ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 zero;
-    u32 linkPage;
+    register s32 object_arg ASM_REG("$4") = 0x212;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u8 *resource ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 angle_or_zero;
+    u32 link_page;
 
-    object = func_8003FC64(allocType);
+    object = func_8003FC64(object_arg);
     if (object != NULL) {
-        linkPage = 0x80020000;
-        ASM_KEEP(linkPage);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        link = (M2C_UNK *)(linkPage + 0x455C);
-        texture = D_800DE938;
+        link_page = 0x80020000;
+        ASM_KEEP(link_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        link = (M2C_UNK *)(link_page + 0x455C);
+        resource = D_800DE938;
         (*(M2C_UNK * *)((u8 *)object + 0x10)) = link;
         value = (*(s32 *)((u8 *)source + 0));
         ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -86,39 +87,39 @@ void func_80024700(void *arg0)
         (*(WordQuad *)((u8 *)object + 0x24)) = (*(WordQuad *)((u8 *)source + 0x4C));
         (*(WordQuad *)((u8 *)object + 0x34)) = (*(WordQuad *)((u8 *)source + 0x5C));
 
-        firstAngle = (*(u16 *)((u8 *)source + 0x78));
-        ASM_KEEP(firstAngle);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        zero = 0;
-        ASM_KEEP(zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        data->unk_2C.u = firstAngle;
-        secondAngle = (*(u16 *)((u8 *)source + 0x76));
+        offset_length = (*(u16 *)((u8 *)source + 0x78));
+        ASM_KEEP(offset_length);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        angle_or_zero = 0;
+        ASM_KEEP(angle_or_zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        data->unk_2C.u = offset_length;
+        offset_angle = (*(u16 *)((u8 *)source + 0x76));
         data->unk_30 = 1;
-        data->unk_2E.u = secondAngle;
+        data->unk_2E.u = offset_angle;
 
         primitive = (*(void * *)((u8 *)object + 0xC));
         ((S_80024700_1 *)primitive)->unk_0C.at02.v = 0x40;
         ((S_80024700_1 *)primitive)->unk_0C.at01.v = 0x40;
         ((S_80024700_1 *)primitive)->unk_0C.at00.v = 0x40;
-        func_8003DB94(primitive, texture, zero);
+        func_8003DB94(primitive, resource, angle_or_zero);
 
         value = 0x2000;
-        allocType = (s32)object;
-        texture = (u8 *)0x80040000;
-        ASM_KEEP(texture);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        object_arg = (s32)object;
+        resource = (u8 *)0x80040000;
+        ASM_KEEP(resource);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_80024700_1 *)primitive)->unk_1E = value;
         ((S_80024700_1 *)primitive)->unk_1C = value;
-        temp_s16 = data->unk_24;
-        texture += 0x5340;
-        ((S_80024700_1 *)primitive)->unk_14.at02.v = temp_s16 >> 12;
-        temp_s16 = data->unk_26;
-        flags14 = ((S_80024700_1 *)primitive)->unk_14.at00.v;
-        ((S_80024700_1 *)primitive)->unk_18 = temp_s16 >> 12;
-        zero = data->unk_2E.u;
-        flags10 = ((S_80024700_1 *)primitive)->unk_10.u16;
-        ((S_80024700_1 *)primitive)->unk_14.at00.v = flags14 | 0xC;
-        ((S_80024700_1 *)primitive)->unk_10.u16 = flags10 | 0x20;
-        ((S_80024700_1 *)primitive)->unk_1A = zero;
-        func_8004491C((void *)allocType, texture);
+        scale_component = data->unk_24;
+        resource += 0x5340;
+        ((S_80024700_1 *)primitive)->unk_14.at02.v = scale_component >> 12;
+        scale_component = data->unk_26;
+        flags_14 = ((S_80024700_1 *)primitive)->unk_14.at00.v;
+        ((S_80024700_1 *)primitive)->unk_18 = scale_component >> 12;
+        angle_or_zero = data->unk_2E.u;
+        flags_10 = ((S_80024700_1 *)primitive)->unk_10.u16;
+        ((S_80024700_1 *)primitive)->unk_14.at00.v = flags_14 | 0xC;
+        ((S_80024700_1 *)primitive)->unk_10.u16 = flags_10 | 0x20;
+        ((S_80024700_1 *)primitive)->unk_1A = angle_or_zero;
+        func_8004491C((void *)object_arg, resource);
 
         primitive = (*(void * *)((u8 *)object + 8));
         value = (*(s32 *)((u8 *)source + 0x34));
@@ -131,22 +132,22 @@ void func_80024700(void *arg0)
         ((S_80024700_1 *)primitive)->unk_14.at00u.v = value;
         ((S_80024700_1 *)primitive)->unk_08.at00.v = value;
 
-        rotation[0] = ((func_800644B8(data->unk_2E.s) >> 4) *
+        local_offset[0] = ((func_800644B8(data->unk_2E.s) >> 4) *
             data->unk_2C.s) >> 8;
-        rotation[1] = ((func_80064584(data->unk_2E.s) >> 4) *
+        local_offset[1] = ((func_80064584(data->unk_2E.s) >> 4) *
             data->unk_2C.s) >> 8;
-        rotation[2] = 0;
+        local_offset[2] = 0;
         func_800649A0();
         ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        func_80064B30((u8 *)object + 0x24, rotation, delta);
+        func_80064B30((u8 *)object + 0x24, local_offset, world_offset);
         func_80064A40();
 
-        ((S_80024700_1 *)primitive)->unk_00.at02.v += delta[0];
-        ((S_80024700_1 *)primitive)->unk_04.at02.v += delta[1];
-        ((S_80024700_1 *)primitive)->unk_08.at02.v += delta[2];
+        ((S_80024700_1 *)primitive)->unk_00.at02.v += world_offset[0];
+        ((S_80024700_1 *)primitive)->unk_04.at02.v += world_offset[1];
+        ((S_80024700_1 *)primitive)->unk_08.at02.v += world_offset[2];
     }
 }
 
 /* MECHANISM: The 0x38 frame holds source/object/data/primitive in s3/s2/s1/s0 and uses sibling
-   rotation/delta stack arrays; caller-register locals plus page/fence seams reproduce split loads.
+   local_offset/world_offset stack arrays; caller-register locals plus page/fence seams reproduce split loads.
    A post-func_800649A0 object fence rematerializes object+0x24 without a fifth saved register. */

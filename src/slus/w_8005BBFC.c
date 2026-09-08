@@ -1,25 +1,5 @@
 #include "common.h"
 
-/* func_8005BBFC — SPU voice dispatch: validates the channel slot, walks the
- * sample table, fills a request record (req) and the voice record
- * (D_80085458[idx]), computes L/R volumes from the pan curve, and hands the
- * request to func_8005EC0C.  Byte-exact under gcc 2.7.2-cdk -O2 aspsx=2.56.
- *
- * Match notes (receipts: work/mainexe_audit_20260818/solve_T_bbfc/):
- *  - v40/v48/v50 are genuine u16 LOCALS (not struct fields): each is a
- *    cross-block call-crossing 2-ref u16 pseudo with no REG_EQUIV, so reload
- *    spills all three to fresh 8-byte-aligned frame slots 0x50/0x58/0x60
- *    (reg_max_ref_width=4 via the (s16) casts forces align=-1), reloaded
- *    through $t2 = potential_reload_regs[0].
- *  - The ASM_USE_NV(a3c) third reference lifts a3c's allocno priority above
- *    v40 so the register-less trio is exactly v40/v48/v50.
- *  - Scheduling is pinned by sched1's birthing boost (LAUNCH_PRIORITY,
- *    sched.c): a boosted insn needs reg_n_sets==1, so no ASM_SET/ASM_KEEP_NV
- *    may touch a1c or fd — either would un-boost their defining insns and
- *    misplace the $s5 pair (block 0) / the f20 store (block 14).  The
- *    a1c-before-a3c preamble order and f20-before-f14 store order break the
- *    remaining backward-scheduler LUID ties.
- */
 typedef struct 
 {
   s16 f00;
@@ -111,109 +91,110 @@ extern s32 func_8005EB78(s32 a0);
 extern void func_8005EC0C(void *a0);
 extern s32 func_8005E4A0(s32 a0, s32 a1);
 enum E_u16 { E_u16_zero = 0, E_u16_max = 0xFFFF } __attribute__((packed));
-s32 func_8005BBFC(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
-s32 arg0;
-s32 arg1;
-s32 arg2;
-s32 arg3;
-volatile s32 arg4;
-s32 arg5;
-enum E_u16 arg6;
-enum E_u16 arg7;
+/* Starts a channel voice with sample, pitch, envelope, and panned volume settings. */
+s32 func_8005BBFC(channel_arg, bank_arg, program_arg, tone_arg, note_arg, fine_note_arg, left_gain_arg, right_gain_arg)
+s32 channel_arg;
+s32 bank_arg;
+s32 program_arg;
+s32 tone_arg;
+volatile s32 note_arg;
+s32 fine_note_arg;
+enum E_u16 left_gain_arg;
+enum E_u16 right_gain_arg;
 {
   S_8005BBFC_req req;
-  u16 v40;
-  u16 v48;
-  u16 v50;
-  s32 idx;
-  s16 a1c;
-  s16 a3c;
-  u8 *buf;
-  u8 *s6;
-  S_8005BBFC_rec *rec;
-  u16 t10;
-  u16 t12;
-  s32 col;
-  s32 s7v;
-  s32 *q;
-  s32 v0;
-  s32 acc;
-  s16 lim;
-  register s32 i ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  u16 *ptr;
-  register s32 sum ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  register s32 tot ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  s32 a0v;
-  s32 a1v;
-  s32 a2v;
-  u8 fv;
-  s32 t;
-  s32 t2;
-  u8 fd;
-  s32 a4;
-  register s32 a5 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-  idx = (s16) arg0;
-  a4 = arg4;
-  a1c = arg1;
-  a5 = arg5;
-  v40 = arg2;
-  v48 = arg6;
-  a3c = arg3;
-  v50 = arg7;
+  u16 program;
+  u16 left_gain;
+  u16 right_gain;
+  s32 channel;
+  s16 bank;
+  s16 tone;
+  u8 *bank_data;
+  u8 *program_data;
+  S_8005BBFC_rec *tone_data;
+  u16 adsr1;
+  u16 adsr2;
+  s32 program_offset;
+  s32 note_pitch;
+  s32 *voice_id;
+  s32 voice_state;
+  s32 sample_offset;
+  s16 sample_index;
+  register s32 sample ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+  u16 *sample_sizes;
+  register s32 pan ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+  register s32 pan_total ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+  s32 volume;
+  s32 left_volume;
+  s32 right_volume;
+  u8 bank_volume;
+  s32 left_scaled;
+  s32 right_scaled;
+  u8 tone_param;
+  s32 note;
+  register s32 fine_note ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  channel = (s16) channel_arg;
+  note = note_arg;
+  bank = bank_arg;
+  fine_note = fine_note_arg;
+  program = program_arg;
+  left_gain = left_gain_arg;
+  tone = tone_arg;
+  right_gain = right_gain_arg;
   D_80085F98[0] = 1;
-  if ((D_80073734[0] - 1) < idx)
+  if ((D_80073734[0] - 1) < channel)
   {
-    idx = -1;
+    channel = -1;
   }
-  if (idx != (-1))
+  if (channel != (-1))
   {
-    buf = D_80086A40[(s16) arg1].f04;
-    col = ((s32) (arg2 << 0x10)) >> 0xC;
-    s6 = buf + (col + 0x20);
-    s7v = (((s16) a4) << 8) + ((s16) a5);
-    rec = (S_8005BBFC_rec *) (buf + (((col + ((s16) arg3)) << 5) + 0x820));
-    if ((((s16) a4) >= ((s32) rec->f06)) && (((s32) rec->f07) >= ((s16) a4)))
+    bank_data = D_80086A40[(s16) bank_arg].f04;
+    program_offset = ((s32) (program_arg << 0x10)) >> 0xC;
+    program_data = bank_data + (program_offset + 0x20);
+    note_pitch = (((s16) note) << 8) + ((s16) fine_note);
+    tone_data = (S_8005BBFC_rec *) (bank_data + (((program_offset + ((s16) tone_arg)) << 5) + 0x820));
+    if ((((s16) note) >= ((s32) tone_data->f06)) && (((s32) tone_data->f07) >= ((s16) note)))
     {
-      ASM_USE_NV(a5);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-      func_80056DB4(idx);
-      { s32 *qb = D_80073740; q = qb + idx; }
+      ASM_USE_NV(fine_note);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+      func_80056DB4(channel);
+      { s32 *voice_ids = D_80073740; voice_id = voice_ids + channel; }
       do
       {
-        func_8005E97C(0, *q);
-        v0 = func_8005EB78(*q);
-        if (v0 == 2)
+        func_8005E97C(0, *voice_id);
+        voice_state = func_8005EB78(*voice_id);
+        if (voice_state == 2)
         {
           break;
         }
       }
-      while (v0 != 0);
-      i = 0;
-      acc = i;
-      lim = rec->f16;
-      ptr = (u16 *) ((D_80086A40[(s16) a1c].f04 + ((*((u16 *) (buf + 0x12))) << 9)) + 0x820);
-      if (lim > 0)
+      while (voice_state != 0);
+      sample = 0;
+      sample_offset = sample;
+      sample_index = tone_data->f16;
+      sample_sizes = (u16 *) ((D_80086A40[(s16) bank].f04 + ((*((u16 *) (bank_data + 0x12))) << 9)) + 0x820);
+      if (sample_index > 0)
       {
         do
         {
-          acc += *ptr;
-          ptr += 1;
-          i += 1;
+          sample_offset += *sample_sizes;
+          sample_sizes += 1;
+          sample += 1;
         }
-        while (i < lim);
+        while (sample < sample_index);
       }
       req.f04 = 0x701EF;
       req.f0c = 0;
       req.f0e = 0;
-      req.f00 = D_80073740[idx];
-      acc <<= 3;
-      req.f1c = D_80086A40[(s16) a1c].f10 + acc;
-      t10 = rec->f10;
-      req.f3a = t10;
-      D_80085458[idx].f60 = t10;
-      t12 = rec->f12;
-      req.f3c = t12;
-      D_80085458[idx].f64 = t12;
-      if (rec->f10 & 0x80)
+      req.f00 = D_80073740[channel];
+      sample_offset <<= 3;
+      req.f1c = D_80086A40[(s16) bank].f10 + sample_offset;
+      adsr1 = tone_data->f10;
+      req.f3a = adsr1;
+      D_80085458[channel].f60 = adsr1;
+      adsr2 = tone_data->f12;
+      req.f3c = adsr2;
+      D_80085458[channel].f64 = adsr2;
+      if (tone_data->f10 & 0x80)
       {
         req.f24 = 5;
       }
@@ -222,81 +203,81 @@ enum E_u16 arg7;
         req.f24 = 1;
       }
       req.f20 = req.f1c;
-      D_80085458[idx].f22 = rec->f04;
-      D_80085458[idx].f23 = rec->f05;
-      D_80085458[idx].f21 = rec->f0c;
-      fd = rec->f0d;
-      D_80085458[idx].f00 = idx;
-      D_80085458[idx].f04 = v40;
-      D_80085458[idx].f0a = (s16) (s7v >> 8);
-      D_80085458[idx].f06 = 0x11;
-      D_80085458[idx].f08 = a3c;
-      ASM_USE_NV(a3c);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-      D_80085458[idx].f1a = 1;
-      D_80085458[idx].f20 = fd;
-      D_80085458[idx].f14 = s6[1];
-      D_80085458[idx].f16 = s6[4];
-      ASM_USE_NV(s6);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-      D_80085458[idx].f15 = rec->f02;
-      D_80085458[idx].f17 = rec->f03;
-      D_80085458[idx].f5c = a1c;
-      tot = (D_80086A40[(s16) a1c].f1b + D_80085458[idx].f16) + D_80085458[idx].f17;
-      sum = tot - 0x80;
-      if (sum < 0)
+      D_80085458[channel].f22 = tone_data->f04;
+      D_80085458[channel].f23 = tone_data->f05;
+      D_80085458[channel].f21 = tone_data->f0c;
+      tone_param = tone_data->f0d;
+      D_80085458[channel].f00 = channel;
+      D_80085458[channel].f04 = program;
+      D_80085458[channel].f0a = (s16) (note_pitch >> 8);
+      D_80085458[channel].f06 = 0x11;
+      D_80085458[channel].f08 = tone;
+      ASM_USE_NV(tone);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+      D_80085458[channel].f1a = 1;
+      D_80085458[channel].f20 = tone_param;
+      D_80085458[channel].f14 = program_data[1];
+      D_80085458[channel].f16 = program_data[4];
+      ASM_USE_NV(program_data);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+      D_80085458[channel].f15 = tone_data->f02;
+      D_80085458[channel].f17 = tone_data->f03;
+      D_80085458[channel].f5c = bank;
+      pan_total = (D_80086A40[(s16) bank].f1b + D_80085458[channel].f16) + D_80085458[channel].f17;
+      pan = pan_total - 0x80;
+      if (pan < 0)
       {
-        sum = 0;
+        pan = 0;
       }
-      if (!(sum < 0x80))
+      if (!(pan < 0x80))
       {
-        sum = 0x7F;
+        pan = 0x7F;
       }
-      D_80085458[idx].f18 = sum;
-      a0v = ((s32) ((D_80086A40[(s16) a1c].f18 * D_80085458[idx].f14) * D_80085458[idx].f15)) >> 7;
-      if (sum >= 0x40)
+      D_80085458[channel].f18 = pan;
+      volume = ((s32) ((D_80086A40[(s16) bank].f18 * D_80085458[channel].f14) * D_80085458[channel].f15)) >> 7;
+      if (pan >= 0x40)
       {
-        a2v = a0v;
-        a1v = ((s32) ((0x40 - (sum & 0x3F)) * (a2v << 1))) >> 7;
+        right_volume = volume;
+        left_volume = ((s32) ((0x40 - (pan & 0x3F)) * (right_volume << 1))) >> 7;
       }
       else
       {
-        a1v = a0v;
-        a2v = ((s32) (sum * (a1v << 1))) >> 7;
+        left_volume = volume;
+        right_volume = ((s32) (pan * (left_volume << 1))) >> 7;
       }
-      fv = D_80086A40[(s16) a1c].f18;
-      a1v = ((s32) (a1v * fv)) >> 7;
-      a2v = ((s32) (a2v * fv)) >> 7;
-      t = a1v * ((s16) v48);
-      t2 = a2v * ((s16) v50);
-      D_80085458[idx].f10 = (s16) (t >> 7);
-      D_80085458[idx].f12 = (u16) (t2 >> 7);
-      req.f08 = (s16) D_80085458[idx].f10;
-      req.f0a = D_80085458[idx].f12;
-      req.f16 = s7v;
-      ASM_USE_NV(s7v);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+      bank_volume = D_80086A40[(s16) bank].f18;
+      left_volume = ((s32) (left_volume * bank_volume)) >> 7;
+      right_volume = ((s32) (right_volume * bank_volume)) >> 7;
+      left_scaled = left_volume * ((s16) left_gain);
+      right_scaled = right_volume * ((s16) right_gain);
+      D_80085458[channel].f10 = (s16) (left_scaled >> 7);
+      D_80085458[channel].f12 = (u16) (right_scaled >> 7);
+      req.f08 = (s16) D_80085458[channel].f10;
+      req.f0a = D_80085458[channel].f12;
+      req.f16 = note_pitch;
+      ASM_USE_NV(note_pitch);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
 
-      if (rec->f05 != 0)
+      if (tone_data->f05 != 0)
       {
-        req.f18 = (((u8 *) rec)[-0x1C] << 8) | (0x7F - rec->f05);
+        req.f18 = (((u8 *) tone_data)[-0x1C] << 8) | (0x7F - tone_data->f05);
       }
       else
       {
-        req.f18 = rec->f05 | (rec->f04 << 8);
+        req.f18 = tone_data->f05 | (tone_data->f04 << 8);
       }
       func_8005EC0C(&req);
-      if (rec->f01 & 4)
+      if (tone_data->f01 & 4)
       {
-        func_8005E4A0(1, D_80073740[idx]);
+        func_8005E4A0(1, D_80073740[channel]);
       }
       else
       {
-        func_8005E4A0(0, D_80073740[idx]);
+        func_8005E4A0(0, D_80073740[channel]);
       }
     }
     else
     {
-      idx = -1;
+      channel = -1;
     }
   }
   D_80085F98[0] = 0;
-  return idx;
+  return channel;
 }

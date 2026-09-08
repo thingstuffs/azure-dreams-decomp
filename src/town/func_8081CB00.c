@@ -19,16 +19,17 @@ typedef struct S_80026B00_1 {
 
 extern s32 D_800814A0[3];
 
-void func_80026B00(void *arg0, S_80026B00_0 *arg1) {
-    u16 temp_v0;
+/* Advance the position and flag the record and global state when its timer expires. */
+void func_80026B00(void *record_data, S_80026B00_0 *motion) {
+    u16 ticks_left;
 
-    arg1->unk_00 = (s32) (arg1->unk_00 + arg1->unk_0C);
-    arg1->unk_04 = (s32) (arg1->unk_04 + arg1->unk_10);
-    arg1->unk_08 = (s32) (arg1->unk_08 + arg1->unk_14);
-    temp_v0 = ((S_80026B00_1 *)((u8 *)arg0 - 0x2))->unk_10 - 1;
-    ((S_80026B00_1 *)((u8 *)arg0 - 0x2))->unk_10 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        ((S_80026B00_1 *)((u8 *)arg0 - 0x2))->unk_00 = (u16) (((S_80026B00_1 *)((u8 *)arg0 - 0x2))->unk_00 | 0x8000);
+    motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C);
+    motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10);
+    motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14);
+    ticks_left = ((S_80026B00_1 *)((u8 *)record_data - 0x2))->unk_10 - 1;
+    ((S_80026B00_1 *)((u8 *)record_data - 0x2))->unk_10 = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        ((S_80026B00_1 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80026B00_1 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

@@ -11,15 +11,14 @@ typedef struct {
 
 extern int func_8004A6C0(int a0, int a1);
 
-/* Returns &((S_800133E8*)0x800133E8)[func_8004A6C0(a0, a1)] if that index
-   is valid (< 20), otherwise NULL. */
-S_800133E8 *func_8004A784(int a0, int a1)
+/* Returns the record for the given category and item, or NULL if absent. */
+S_800133E8 *func_8004A784(int category, int item)
 {
-    S_800133E8 *result = 0;
-    int i = func_8004A6C0(a0, a1);
+    S_800133E8 *record = 0;
+    int index = func_8004A6C0(category, item);
 
-    if (i < 0x14) {
-        result = (S_800133E8 *)0x800133E8 + i;
+    if (index < 0x14) {
+        record = (S_800133E8 *)0x800133E8 + index;
     }
-    return result;
+    return record;
 }

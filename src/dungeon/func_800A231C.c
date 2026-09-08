@@ -28,48 +28,49 @@ extern s32 func_800A794C(s32, s32, s32, s32 *, s32, s32, s32);
 extern s32 func_800A7A38(s32 *);
 extern void func_8009A21C(s16, s16, s32);
 
-s32 func_800A7A7C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4) {
-    s16 sp20;
-    s16 sp22;
-    s16 sp24;
-    s32 temp_v0;
-    s32 value;
-    s16 arg0_s16;
-    s16 arg1_s16;
-    s16 arg2_s16;
+/* Registers an object at a resolved dungeon position or processes its fallback placement. */
+s32 func_800A7A7C(s32 x, s32 y, s32 z, s32 unused, s32 *object_data) {
+    s16 tile_x;
+    s16 tile_y;
+    s16 tile_value;
+    s32 output_start;
+    s32 output_cursor;
+    s16 x_short;
+    s16 y_short;
+    s16 z_short;
 
-    arg0_s16 = (s16)arg0;
-    arg1_s16 = (s16)arg1;
-    arg2_s16 = (s16)arg2;
-    if ((func_800A7234(arg0_s16, arg1_s16, arg2_s16,
-                       &sp20, &sp22, &sp24) << 16) != 0) {
-        s16 value;
+    x_short = (s16)x;
+    y_short = (s16)y;
+    z_short = (s16)z;
+    if ((func_800A7234(x_short, y_short, z_short,
+                       &tile_x, &tile_y, &tile_value) << 16) != 0) {
+        s16 record_index;
         DungeonRecord *record;
 
-        value = func_800A71F4();
-        if (value >= 0) {
-            if (func_800A794C(arg0_s16, arg1_s16, arg2_s16, arg4,
-                              sp20, sp22, sp24) == 0) {
-                D_800E3548[value] = *arg4;
-                record = &D_800E36C8[value];
-                record->b0 = (u8)sp20;
-                record->b1 = (u8)sp22;
-                record->w4 = (u16)sp24;
-                record->w2 = (u16)sp24;
-                record->value = func_800A7A38(arg4);
-                func_8009A21C(sp20, sp22, 0x800);
+        record_index = func_800A71F4();
+        if (record_index >= 0) {
+            if (func_800A794C(x_short, y_short, z_short, object_data,
+                              tile_x, tile_y, tile_value) == 0) {
+                D_800E3548[record_index] = *object_data;
+                record = &D_800E36C8[record_index];
+                record->b0 = (u8)tile_x;
+                record->b1 = (u8)tile_y;
+                record->w4 = (u16)tile_value;
+                record->w2 = (u16)tile_value;
+                record->value = func_800A7A38(object_data);
+                func_8009A21C(tile_x, tile_y, 0x800);
                 func_800A4300(D_80082E80, *D_800E3D7C);
             }
             return 1;
         }
     }
 
-    func_800A7700(arg0_s16, arg1_s16, arg2_s16, arg4);
-    value = func_800990FC();
-    temp_v0 = value;
-    value = func_80099368(arg4, value);
-    value = func_80099194(&D_800E0B54, value);
-    func_80099290(value);
-    func_800A5720(temp_v0);
+    func_800A7700(x_short, y_short, z_short, object_data);
+    output_cursor = func_800990FC();
+    output_start = output_cursor;
+    output_cursor = func_80099368(object_data, output_cursor);
+    output_cursor = func_80099194(&D_800E0B54, output_cursor);
+    func_80099290(output_cursor);
+    func_800A5720(output_start);
     return 0;
 }

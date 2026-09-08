@@ -19,16 +19,17 @@ typedef struct S_81892BF8_1 {
 
 extern s32 D_800814A0[3];
 
-void func_81892BF8(void *arg0) {
-    u16 temp_v0;
-    S_81892BF8_1 *temp_v1;
+/* Increment both counters and set completion flags when the count reaches its limit. */
+void func_81892BF8(void *counterState) {
+    u16 incrementedCount;
+    S_81892BF8_1 *linkedCounter;
 
-    temp_v1 = ((S_81892BF8_0 *)arg0)->unk_00;
-    temp_v1->unk_14 = (u16) (temp_v1->unk_14 + 1);
-    temp_v0 = ((S_81892BF8_0 *)arg0)->unk_04 + 1;
-    ((S_81892BF8_0 *)arg0)->unk_04 = temp_v0;
-    if ((s16) temp_v0 >= ((S_81892BF8_0 *)arg0)->unk_06) {
-        ((S_81892BF8_0_pre *)arg0)[-1].unk_00 = (u16) (((S_81892BF8_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    linkedCounter = ((S_81892BF8_0 *)counterState)->unk_00;
+    linkedCounter->unk_14 = (u16) (linkedCounter->unk_14 + 1);
+    incrementedCount = ((S_81892BF8_0 *)counterState)->unk_04 + 1;
+    ((S_81892BF8_0 *)counterState)->unk_04 = incrementedCount;
+    if ((s16) incrementedCount >= ((S_81892BF8_0 *)counterState)->unk_06) {
+        ((S_81892BF8_0_pre *)counterState)[-1].unk_00 = (u16) (((S_81892BF8_0_pre *)counterState)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

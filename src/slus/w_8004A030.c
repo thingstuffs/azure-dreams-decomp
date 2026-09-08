@@ -26,38 +26,33 @@ typedef struct {
     /* 0x90 */ s32 unk90;
 } S_8004A030;
 
-/* Initializes four 0x20-byte sub-blocks embedded in the object at arg0
- * (an effect/actor's animation-slot table). Block 0 gets a position offset
- * (arg1,arg2) plus a fixed mode (0x200/4) and its own counter zeroed;
- * blocks 1-3 each copy one of the object's own header words into a shared
- * field and set a fixed +0x8/+0xA pair, except block 2 whose +0x8 value is
- * derived from arg3/2 (signed, rounded toward zero). */
-void func_8004A030(S_8004A030 *arg0, s32 arg1, s32 arg2, s16 arg3)
+/* Initializes four object sub-blocks with position offsets and fixed or header-derived values. */
+void func_8004A030(S_8004A030 *object, s32 x, s32 y, s16 extent)
 {
-    S_8004A030_Sub *v1;
-    s16 t1, t2;
+    S_8004A030_Sub *block;
+    s16 x_offset, y_offset;
 
-    v1 = (S_8004A030_Sub *)((u8 *)arg0 + 0x20);
-    t1 = (s16)(arg1 - 0xA0);
-    t2 = (s16)(arg2 - 0x80);
-    arg0->unk30 = 0;
-    v1->unkC = 0x200;
-    v1->unk8 = t1;
-    v1->unkA = t2;
-    v1->unkF = 4;
+    block = (S_8004A030_Sub *)((u8 *)object + 0x20);
+    x_offset = (s16)(x - 0xA0);
+    y_offset = (s16)(y - 0x80);
+    object->unk30 = 0;
+    block->unkC = 0x200;
+    block->unk8 = x_offset;
+    block->unkA = y_offset;
+    block->unkF = 4;
 
-    v1 = (S_8004A030_Sub *)((u8 *)arg0 + 0x40);
-    arg0->unk50 = arg0->unk1C;
-    v1->unk8 = 0xC;
-    v1->unkA = 0xE;
+    block = (S_8004A030_Sub *)((u8 *)object + 0x40);
+    object->unk50 = object->unk1C;
+    block->unk8 = 0xC;
+    block->unkA = 0xE;
 
-    v1 = (S_8004A030_Sub *)((u8 *)arg0 + 0x60);
-    arg0->unk70 = arg0->unk14;
-    v1->unk8 = arg3 / 2;
-    v1->unkA = 8;
+    block = (S_8004A030_Sub *)((u8 *)object + 0x60);
+    object->unk70 = object->unk14;
+    block->unk8 = extent / 2;
+    block->unkA = 8;
 
-    v1 = (S_8004A030_Sub *)((u8 *)arg0 + 0x80);
-    arg0->unk90 = arg0->unk18;
-    v1->unk8 = 0x94;
-    v1->unkA = 0x81;
+    block = (S_8004A030_Sub *)((u8 *)object + 0x80);
+    object->unk90 = object->unk18;
+    block->unk8 = 0x94;
+    block->unkA = 0x81;
 }

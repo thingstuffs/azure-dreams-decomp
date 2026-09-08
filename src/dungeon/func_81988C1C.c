@@ -91,111 +91,112 @@ extern s32 func_80065420();
 extern void func_80066640();
 extern void func_800666F4();
 
-s32 func_81988C1C(void *arg0) {
-    u16 input[4];
-    u8 output[8];
-    s32 work;
-    void *node = arg0;
-    S_800A1600_D80083160 *base = &D_80083160;
-    void *output_base = output;
-    register void *next ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+/* Projects linked items into textured quads and adds them to the ordering table. */
+s32 func_81988C1C(void *first_item) {
+    u16 world_pos[4];
+    u8 screen_points[8];
+    s32 projection_scratch;
+    void *node = first_item;
+    S_800A1600_D80083160 *render_state = &D_80083160;
+    void *screen_base = screen_points;
+    register void *next_node ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     do {
         void *item = node;
-        void *outp;
-        s32 i;
-        u32 result;
+        void *screen_point;
+        s32 point_index;
+        u32 depth_index;
         s32 half_width;
-        u16 initial_value;
+        u16 center_z;
 
-        input[0] = ((S_81988C1C_0 *)item)->unk_1E;
-        input[1] = ((S_81988C1C_0 *)item)->unk_22;
-        initial_value = ((S_81988C1C_0 *)item)->unk_26;
-        input[2] = initial_value;
-        input[2] = initial_value - ((s32)(((S_81988C1C_0 *)item)->unk_4E << 16) >> 17);
+        world_pos[0] = ((S_81988C1C_0 *)item)->unk_1E;
+        world_pos[1] = ((S_81988C1C_0 *)item)->unk_22;
+        center_z = ((S_81988C1C_0 *)item)->unk_26;
+        world_pos[2] = center_z;
+        world_pos[2] = center_z - ((s32)(((S_81988C1C_0 *)item)->unk_4E << 16) >> 17);
 
-        i = 0;
-        outp = output_base;
+        point_index = 0;
+        screen_point = screen_base;
         do {
-            result = func_80065420(input, outp, &work, &work) - 8;
-            outp = (u8 *)outp + 4;
-            i++;
-            input[2] += ((S_81988C1C_0 *)item)->unk_4E;
-        } while (i < 2);
+            depth_index = func_80065420(world_pos, screen_point, &projection_scratch, &projection_scratch) - 8;
+            screen_point = (u8 *)screen_point + 4;
+            point_index++;
+            world_pos[2] += ((S_81988C1C_0 *)item)->unk_4E;
+        } while (point_index < 2);
 
-        half_width = (((S_81988C1C_1 *)output)->unk_02.s - ((S_81988C1C_1 *)output)->unk_06.s) >> 1;
-        if (result < 0x1E0U) {
-            void *pool;
+        half_width = (((S_81988C1C_1 *)screen_points)->unk_02.s - ((S_81988C1C_1 *)screen_points)->unk_06.s) >> 1;
+        if (depth_index < 0x1E0U) {
+            void *packet_pool;
             void *packet;
-            register u8 c1;
-            u8 c0;
-            register u8 delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            u16 packet_value;
-            register u32 index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            u32 mask_lo;
-            register u32 mask_hi ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register u8 tex_v;
+            u8 tex_u;
+            register u8 tex_width ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u16 screen_coord;
+            register u32 ot_slot ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u32 addr_mask;
+            register u32 color_or_tag_mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            mask_hi = 0xA00000;
-            pool = ((S_81988C1C_2 *)base)->unk_00.s;
-            packet = ((S_81988C1C_3 *)pool)->unk_8D0;
-            mask_hi |= 0xA0A0;
-            ((S_81988C1C_3 *)pool)->unk_8D0 = (u8 *)packet + 0x34;
-            ((S_81988C1C_4 *)packet)->unk_04 = mask_hi;
-            func_800666F4(packet, mask_hi);
+            color_or_tag_mask = 0xA00000;
+            packet_pool = ((S_81988C1C_2 *)render_state)->unk_00.s;
+            packet = ((S_81988C1C_3 *)packet_pool)->unk_8D0;
+            color_or_tag_mask |= 0xA0A0;
+            ((S_81988C1C_3 *)packet_pool)->unk_8D0 = (u8 *)packet + 0x34;
+            ((S_81988C1C_4 *)packet)->unk_04 = color_or_tag_mask;
+            func_800666F4(packet, color_or_tag_mask);
             func_80066640(packet, 1);
 
             ((S_81988C1C_4 *)packet)->unk_16 = ((S_81988C1C_0 *)item)->unk_50;
             (*(u16 *)((u8 *)packet + 0x0E)) = ((S_81988C1C_0 *)item)->unk_52;
-            packet_value = ((S_81988C1C_1 *)output)->unk_00 + half_width;
-            (*(u16 *)((u8 *)packet + 0x10)) = packet_value;
-            (*(u16 *)((u8 *)packet + 0x08)) = packet_value;
-            packet_value = *(volatile u16 *)&output[0] - half_width;
-            (*(u16 *)((u8 *)packet + 0x20)) = packet_value;
-            (*(u16 *)((u8 *)packet + 0x18)) = packet_value;
-            packet_value = ((S_81988C1C_1 *)output)->unk_02.u;
-            ((S_81988C1C_4 *)packet)->unk_1A = packet_value;
-            ((S_81988C1C_4 *)packet)->unk_0A = packet_value;
-            packet_value = ((S_81988C1C_1 *)output)->unk_06.u;
-            ((S_81988C1C_4 *)packet)->unk_22 = packet_value;
-            ((S_81988C1C_4 *)packet)->unk_12 = packet_value;
+            screen_coord = ((S_81988C1C_1 *)screen_points)->unk_00 + half_width;
+            (*(u16 *)((u8 *)packet + 0x10)) = screen_coord;
+            (*(u16 *)((u8 *)packet + 0x08)) = screen_coord;
+            screen_coord = *(volatile u16 *)&screen_points[0] - half_width;
+            (*(u16 *)((u8 *)packet + 0x20)) = screen_coord;
+            (*(u16 *)((u8 *)packet + 0x18)) = screen_coord;
+            screen_coord = ((S_81988C1C_1 *)screen_points)->unk_02.u;
+            ((S_81988C1C_4 *)packet)->unk_1A = screen_coord;
+            ((S_81988C1C_4 *)packet)->unk_0A = screen_coord;
+            screen_coord = ((S_81988C1C_1 *)screen_points)->unk_06.u;
+            ((S_81988C1C_4 *)packet)->unk_22 = screen_coord;
+            ((S_81988C1C_4 *)packet)->unk_12 = screen_coord;
 
-            c0 = ((S_81988C1C_0 *)item)->unk_40;
-            mask_lo = 0xFFFFFF;
-            ((S_81988C1C_4 *)packet)->unk_14 = c0;
-            ((S_81988C1C_4 *)packet)->unk_0C = c0;
-            delta = ((S_81988C1C_0 *)item)->unk_44;
-            c0 += delta;
-            ((S_81988C1C_4 *)packet)->unk_24 = c0;
-            ((S_81988C1C_4 *)packet)->unk_1C = c0;
-            c1 = ((S_81988C1C_0 *)item)->unk_42;
-            index = result * 4;
-            ((S_81988C1C_4 *)packet)->unk_1D = c1;
-            ((S_81988C1C_4 *)packet)->unk_0D = c1;
-            c1 += ((S_81988C1C_0 *)item)->unk_46;
-            mask_hi = 0xFF000000;
-            ((S_81988C1C_4 *)packet)->unk_25 = c1;
-            ((S_81988C1C_4 *)packet)->unk_15 = c1;
+            tex_u = ((S_81988C1C_0 *)item)->unk_40;
+            addr_mask = 0xFFFFFF;
+            ((S_81988C1C_4 *)packet)->unk_14 = tex_u;
+            ((S_81988C1C_4 *)packet)->unk_0C = tex_u;
+            tex_width = ((S_81988C1C_0 *)item)->unk_44;
+            tex_u += tex_width;
+            ((S_81988C1C_4 *)packet)->unk_24 = tex_u;
+            ((S_81988C1C_4 *)packet)->unk_1C = tex_u;
+            tex_v = ((S_81988C1C_0 *)item)->unk_42;
+            ot_slot = depth_index * 4;
+            ((S_81988C1C_4 *)packet)->unk_1D = tex_v;
+            ((S_81988C1C_4 *)packet)->unk_0D = tex_v;
+            tex_v += ((S_81988C1C_0 *)item)->unk_46;
+            color_or_tag_mask = 0xFF000000;
+            ((S_81988C1C_4 *)packet)->unk_25 = tex_v;
+            ((S_81988C1C_4 *)packet)->unk_15 = tex_v;
 
             ((S_81988C1C_4 *)packet)->unk_00 =
-                (((S_81988C1C_4 *)packet)->unk_00 & mask_hi) |
-                (((S_81988C1C_7 *)((u8 *)(index + ((S_81988C1C_2 *)base)->unk_00.u)))->unk_B0 & mask_lo);
-            index += (u32)((S_81988C1C_2 *)base)->unk_00.s;
-            ((S_81988C1C_5 *)((u8 *)index))->unk_B0 =
-                (((S_81988C1C_5 *)((u8 *)index))->unk_B0 & mask_hi) |
-                ((u32)packet & mask_lo);
-            ASM_KEEP(mask_lo);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                (((S_81988C1C_4 *)packet)->unk_00 & color_or_tag_mask) |
+                (((S_81988C1C_7 *)((u8 *)(ot_slot + ((S_81988C1C_2 *)render_state)->unk_00.u)))->unk_B0 & addr_mask);
+            ot_slot += (u32)((S_81988C1C_2 *)render_state)->unk_00.s;
+            ((S_81988C1C_5 *)((u8 *)ot_slot))->unk_B0 =
+                (((S_81988C1C_5 *)((u8 *)ot_slot))->unk_B0 & color_or_tag_mask) |
+                ((u32)packet & addr_mask);
+            ASM_KEEP(addr_mask);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         }
 
-        next = ((S_81988C1C_6_pre *)node)[-1].unk_00;
-        node = (u8 *)next + 0x20;
-    } while (next != 0);
+        next_node = ((S_81988C1C_6_pre *)node)[-1].unk_00;
+        node = (u8 *)next_node + 0x20;
+    } while (next_node != 0);
 
     {
         register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        register s32 ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 return_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         READ_ZERO(zero);
-        ret = zero;
-        ASM_KEEP(ret);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        return ret;
+        return_value = zero;
+        ASM_KEEP(return_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        return return_value;
     }
 }

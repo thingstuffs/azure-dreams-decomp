@@ -96,143 +96,144 @@ extern u8 D_801748E0[];
 extern DungeonRecord D_800E2970[];
 extern void *D_80170808[];
 void func_80171058(void *, void *, void *, void *);
-void func_80171058(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Update creature animation and dispatch its dungeon action. */
+void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
 {
-  s32 scratch;
-  s8 result;
-  u16 state;
-  void *new_var;
-  u32 initial_flags = D_80083462;
-  if (initial_flags & 0x1000)
+  s32 direction_aux;
+  s8 room_id;
+  u16 action;
+  void *sprite;
+  u32 dungeon_flags = D_80083462;
+  if (dungeon_flags & 0x1000)
   {
-    *((u8 *) (((u8 *) arg0) + 0x9A)) = 0xE;
-    func_801715F0(arg0, arg1, arg2, arg3);
-    goto row_epilogue;
+    *((u8 *) (((u8 *) actor) + 0x9A)) = 0xE;
+    func_801715F0(actor, context, sprite_arg, creature);
+    goto done;
   }
-  if ((*((u8 *) (((u8 *) arg3) + 0x25))) == 0)
+  if ((*((u8 *) (((u8 *) creature) + 0x25))) == 0)
   {
-    void *table;
-    func_800AA79C(arg0, arg1, arg2, arg3);
-    if ((*((void **) (((u8 *) arg2) + 0x2C))) == D_801748E0)
+    void *anim_table;
+    func_800AA79C(actor, context, sprite_arg, creature);
+    if ((*((void **) (((u8 *) sprite_arg) + 0x2C))) == D_801748E0)
     {
       return;
     }
-    table = D_801748D8;
-    *((void **) (((u8 *) arg2) + 0x2C)) = table;
-    func_80047784(arg2, ((u8 *) table)[(((D_80083228 + (*((s16 *) (((u8 *) arg3) + 0x2A)))) + 0x100) >> 9) & 7], 0);
-    goto row_epilogue;
+    anim_table = D_801748D8;
+    *((void **) (((u8 *) sprite_arg) + 0x2C)) = anim_table;
+    func_80047784(sprite_arg, ((u8 *) anim_table)[(((D_80083228 + (*((s16 *) (((u8 *) creature) + 0x2A)))) + 0x100) >> 9) & 7], 0);
+    goto done;
   }
-  new_var = arg2;
-  if ((*((u32 *) (((u8 *) arg3) + 0x1C))) & 0x200)
+  sprite = sprite_arg;
+  if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x200)
   {
-    if ((*((void **) (((u8 *) new_var) + 0x2C))) == D_801748E0)
+    if ((*((void **) (((u8 *) sprite) + 0x2C))) == D_801748E0)
     {
-      *((u8 *) (((u8 *) arg0) + 0x9A)) = 0xD;
-      *((u8 *) (((u8 *) arg0) + 0x9B)) = 1;
-      *((s32 *) (((u8 *) arg0) + 0x8C)) = 0;
-      *((u32 *) (((u8 *) arg3) + 0x1C)) &= 0xFFFBFFFF;
-      goto row_epilogue;
+      *((u8 *) (((u8 *) actor) + 0x9A)) = 0xD;
+      *((u8 *) (((u8 *) actor) + 0x9B)) = 1;
+      *((s32 *) (((u8 *) actor) + 0x8C)) = 0;
+      *((u32 *) (((u8 *) creature) + 0x1C)) &= 0xFFFBFFFF;
+      goto done;
     }
-    if (func_800AA924(arg0, arg1, new_var, D_801748D8) != 0)
+    if (func_800AA924(actor, context, sprite, D_801748D8) != 0)
     {
       return;
     }
   }
   if (!(D_80083462 & 0x2000))
   {
-    if ((*((u32 *) (((u8 *) arg3) + 0x1C))) & 0x100)
+    if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x100)
     {
-      func_800AA258(arg0, arg1, new_var, arg3);
-      goto row_epilogue;
+      func_800AA258(actor, context, sprite, creature);
+      goto done;
     }
     {
-      register void *current;
-      void *table;
-      switch (*((u8 *) (((u8 *) arg0) + 0x9A)))
+      register void *current_anim;
+      void *anim_table;
+      switch (*((u8 *) (((u8 *) actor) + 0x9A)))
       {
         case 0xE:
           break;
 
         default:
-          *((u8 *) (((u8 *) arg0) + 0x9A)) = 0xE;
+          *((u8 *) (((u8 *) actor) + 0x9A)) = 0xE;
           break;
 
       }
 
-      current = *((void **) (((u8 *) new_var) + 0x2C));
-      table = D_80174880;
-      if (current != table)
+      current_anim = *((void **) (((u8 *) sprite) + 0x2C));
+      anim_table = D_80174880;
+      if (current_anim != anim_table)
       {
-        *((void **) (((u8 *) new_var) + 0x2C)) = table;
-        func_80047784(new_var, ((u8 *) table)[(((D_80083228 + (*((s16 *) (((u8 *) arg3) + 0x2A)))) + 0x100) >> 9) & 7], 0);
-        *((u8 *) (((u8 *) new_var) + 5)) = 1;
-        *((s16 *) (((u8 *) arg0) + 0xA6)) = 0;
-        *((s16 *) (((u8 *) arg0) + 0xB2)) = 0;
+        *((void **) (((u8 *) sprite) + 0x2C)) = anim_table;
+        func_80047784(sprite, ((u8 *) anim_table)[(((D_80083228 + (*((s16 *) (((u8 *) creature) + 0x2A)))) + 0x100) >> 9) & 7], 0);
+        *((u8 *) (((u8 *) sprite) + 5)) = 1;
+        *((s16 *) (((u8 *) actor) + 0xA6)) = 0;
+        *((s16 *) (((u8 *) actor) + 0xB2)) = 0;
       }
     }
-    *((u32 *) (((u8 *) arg3) + 0x1C)) |= 0x40000;
-    *((u16 *) (((u8 *) arg0) + 0x98)) &= 0xFFF7;
-    if ((*((s16 *) (((u8 *) arg3) + 0x64))) != 0)
+    *((u32 *) (((u8 *) creature) + 0x1C)) |= 0x40000;
+    *((u16 *) (((u8 *) actor) + 0x98)) &= 0xFFF7;
+    if ((*((s16 *) (((u8 *) creature) + 0x64))) != 0)
     {
-      if (func_800AA6B4(arg0, arg1, new_var, D_80174890) != 0)
+      if (func_800AA6B4(actor, context, sprite, D_80174890) != 0)
       {
         return;
       }
     }
-    if ((*((u32 *) (((u8 *) arg3) + 0x1C))) & 0x80000)
+    if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x80000)
     {
-      s16 delta;
-      func_800AA888(arg0, arg1, new_var, arg3);
-      delta = (*((u16 *) (((u8 *) arg0) + 0x92))) - (*((u16 *) (((u8 *) arg0) + 0xA6)));
-      *((s16 *) (((u8 *) arg0) + 0xA6)) = 0;
-      *((s16 *) (((u8 *) arg0) + 0xB2)) = 0;
-      *((s16 *) (((u8 *) arg0) + 0x92)) = delta;
-      func_80173834(arg0, arg1, new_var, arg3);
-      goto row_epilogue;
+      s16 adjusted_offset;
+      func_800AA888(actor, context, sprite, creature);
+      adjusted_offset = (*((u16 *) (((u8 *) actor) + 0x92))) - (*((u16 *) (((u8 *) actor) + 0xA6)));
+      *((s16 *) (((u8 *) actor) + 0xA6)) = 0;
+      *((s16 *) (((u8 *) actor) + 0xB2)) = 0;
+      *((s16 *) (((u8 *) actor) + 0x92)) = adjusted_offset;
+      func_80173834(actor, context, sprite, creature);
+      goto done;
     }
-    if ((func_800A1C58(arg3) << 16) != 0)
+    if ((func_800A1C58(creature) << 16) != 0)
     {
-      func_800AAB10(arg0, arg1, new_var, arg3);
+      func_800AAB10(actor, context, sprite, creature);
     }
   }
-  result = func_8009FB34(*((u8 *) (((u8 *) new_var) + 0x24)), *((u8 *) (((u8 *) new_var) + 0x25)));
-  *((u8 *) (((u8 *) new_var) + 0x26)) = result;
-  if ((*((s8 *) (((u8 *) arg3) + 0x6D))) > 0)
+  room_id = func_8009FB34(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)));
+  *((u8 *) (((u8 *) sprite) + 0x26)) = room_id;
+  if ((*((s8 *) (((u8 *) creature) + 0x6D))) > 0)
   {
-    if ((*((u32 *) (((u8 *) arg3) + 0x1C))) & 0x20)
+    if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x20)
     {
       goto special_cleanup;
     }
-    if ((*((u16 *) (((u8 *) new_var) + 0x24))) == (*((u16 *) (&D_80082EA4))))
+    if ((*((u16 *) (((u8 *) sprite) + 0x24))) == (*((u16 *) (&D_80082EA4))))
     {
       goto ordinary_cleanup;
     }
-    if (!((*((u16 *) (((u8 *) arg3) + 0x46))) & 0x8000))
+    if (!((*((u16 *) (((u8 *) creature) + 0x46))) & 0x8000))
     {
       if (D_80083462 & 0x2000)
       {
-        if ((func_8009A180(arg3, ((u8 *) (*((void **) (((u8 *) D_800814A8) + 0x58)))) + 0x20) << 16) != 0)
+        if ((func_8009A180(creature, ((u8 *) (*((void **) (((u8 *) D_800814A8) + 0x58)))) + 0x20) << 16) != 0)
         {
           return;
         }
       }
-      if ((func_80172414(arg0, arg1, new_var, 0) << 16) == 0)
+      if ((func_80172414(actor, context, sprite, 0) << 16) == 0)
       {
         return;
       }
-      state = (*((u16 *) (((u8 *) arg3) + 0x46))) | 0x4000;
-      *((u16 *) (((u8 *) arg3) + 0x46)) = state;
-      if (!(state & 0x8000))
+      action = (*((u16 *) (((u8 *) creature) + 0x46))) | 0x4000;
+      *((u16 *) (((u8 *) creature) + 0x46)) = action;
+      if (!(action & 0x8000))
       {
         goto ordinary_cleanup;
       }
     }
-    state = (*((u16 *) (((u8 *) arg3) + 0x46))) & 0x3FFF;
-    if (((u32) (state - 1)) >= 12)
+    action = (*((u16 *) (((u8 *) creature) + 0x46))) & 0x3FFF;
+    if (((u32) (action - 1)) >= 12)
     {
       goto ordinary_cleanup;
     }
-    switch (state - 1)
+    switch (action - 1)
     {
       case 0:
 
@@ -249,13 +250,13 @@ void func_80171058(void *arg0, void *arg1, void *arg2, void *arg3)
       case 5:
 
       case 6:
-        goto coords_case;
+        goto face_player;
 
       case 7:
         goto handler_case;
 
       case 8:
-        goto case8_case;
+        goto check_target;
 
       case 9:
 
@@ -270,42 +271,42 @@ void func_80171058(void *arg0, void *arg1, void *arg2, void *arg3)
 
     }
 
-    case8_case:
+    check_target:
     {
-      void *object = func_800A04F0(arg3, *((u8 *) (((u8 *) new_var) + 0x24)), *((u8 *) (((u8 *) new_var) + 0x25)), *((s16 *) (((u8 *) arg3) + 0x2A)));
-      *((void **) (((u8 *) arg0) + 0xA8)) = object;
-      if (object == 0)
+      void *target = func_800A04F0(creature, *((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)), *((s16 *) (((u8 *) creature) + 0x2A)));
+      *((void **) (((u8 *) actor) + 0xA8)) = target;
+      if (target == 0)
       {
         goto ordinary_cleanup;
       }
-      if (func_800C7F68(object) != 0)
+      if (func_800C7F68(target) != 0)
       {
         goto ordinary_cleanup;
       }
-      if ((*((u8 *) (((u8 *) (*((void **) (((u8 *) arg0) + 0xA8)))) + 0x13))) < 0x33)
+      if ((*((u8 *) (((u8 *) (*((void **) (((u8 *) actor) + 0xA8)))) + 0x13))) < 0x33)
       {
-        func_801722E0(arg0, arg1, new_var, arg3);
-        goto row_epilogue;
+        func_801722E0(actor, context, sprite, creature);
+        goto done;
       }
       goto ordinary_cleanup;
     }
 
     handler_case:
-    if ((func_80171FF4(arg0, arg1, new_var, arg3) << 16) != 0)
+    if ((func_80171FF4(actor, context, sprite, creature) << 16) != 0)
     {
       return;
     }
 
-    func_801721B8(arg0, arg1, new_var, arg3);
-    goto row_epilogue;
-    coords_case:
+    func_801721B8(actor, context, sprite, creature);
+    goto done;
+    face_player:
     {
-      u8 *origin = D_80082E80;
+      u8 *player_pos = D_80082E80;
       void *player;
-      s16 coordinate;
-      coordinate = func_800A0818(*((u8 *) (((u8 *) new_var) + 0x24)), *((u8 *) (((u8 *) new_var) + 0x25)), *((u8 *) (((u8 *) origin) + 0x24)), *((u8 *) (((u8 *) origin) + 0x25)), &scratch);
+      s16 facing_angle;
+      facing_angle = func_800A0818(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)), *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25)), &direction_aux);
       player = D_800814A8;
-      *((s16 *) (((u8 *) arg3) + 0x2A)) = coordinate;
+      *((s16 *) (((u8 *) creature) + 0x2A)) = facing_angle;
       if ((*((u8 *) (((u8 *) player) + 0x9A))) == 0x11)
       {
         goto aaf_cleanup;
@@ -313,34 +314,34 @@ void func_80171058(void *arg0, void *arg1, void *arg2, void *arg3)
     }
 
     special_cleanup:
-    func_800A9A0C(arg3);
+    func_800A9A0C(creature);
 
-    goto row_epilogue;
+    goto done;
     aaf_cleanup:
-    func_800AAF00(arg0, arg1, new_var, &D_801748C8, func_80171058);
+    func_800AAF00(actor, context, sprite, &D_801748C8, func_80171058);
 
-    goto row_epilogue;
+    goto done;
     ordinary_cleanup:
-    func_80171848(arg0, arg1, new_var, arg3);
+    func_80171848(actor, context, sprite, creature);
 
-    goto row_epilogue;
+    goto done;
   }
-  if (!((*((u32 *) (((u8 *) arg3) + 0x1C))) & 0x2000))
+  if (!((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x2000))
   {
-    s32 index = result;
-    if ((index < 0) || (!(D_800E2970[index].flags & 2)))
+    s32 room_index = room_id;
+    if ((room_index < 0) || (!(D_800E2970[room_index].flags & 2)))
     {
-      if (!((*((u32 *) (((u8 *) arg3) + 0x1C))) & 0x430))
+      if (!((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x430))
       {
-        u8 *origin = D_80082E80;
-        if ((func_8009FD7C(*((u8 *) (((u8 *) new_var) + 0x24)), *((u8 *) (((u8 *) new_var) + 0x25)), *((u8 *) (((u8 *) origin) + 0x24)), *((u8 *) (((u8 *) origin) + 0x25))) << 16) != 0)
+        u8 *player_pos = D_80082E80;
+        if ((func_8009FD7C(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)), *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25))) << 16) != 0)
         {
-          *((s16 *) (((u8 *) arg3) + 0x2A)) = func_800A0818(*((u8 *) (((u8 *) new_var) + 0x24)), *((u8 *) (((u8 *) new_var) + 0x25)), *((u8 *) (((u8 *) origin) + 0x24)), *((u8 *) (((u8 *) origin) + 0x25)), &scratch);
+          *((s16 *) (((u8 *) creature) + 0x2A)) = func_800A0818(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)), *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25)), &direction_aux);
         }
       }
     }
   }
-  row_epilogue:
+  done:
   return;
 
 }

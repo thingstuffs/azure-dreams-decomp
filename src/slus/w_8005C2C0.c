@@ -60,77 +60,78 @@ extern void func_80056DB4(s32 arg0);
 extern void func_8005E97C(s32 a0, s32 a1);
 extern s32 func_8005EB78(s32 a0);
 extern void func_8005EC0C(void *a0);
-s16 func_8005C2C0(s16 arg0, s32 arg1, s16 arg2, unsigned short arg3, u16 arg4, u16 arg5, u16 arg6)
+/* Initialize a sound voice with the requested volume, pitch, and note. */
+s16 func_8005C2C0(s16 sound_id, s32 voice_id, s16 note, unsigned short note_offset, u16 pitch, u16 left_volume, u16 right_volume)
 {
-  S_8005C2C0_req req;
-  S_8005C2C0_kind *new_var;
-  S_8005C2C0_slot *slot_base;
-  S_8005C2C0_slot *slot;
-  s32 *ptr;
-  s32 *tbl;
-  s32 res;
-  s32 k2;
-  s8 k7f;
+  S_8005C2C0_req voice_attr;
+  S_8005C2C0_kind *sounds;
+  S_8005C2C0_slot *voice_slots;
+  S_8005C2C0_slot *voice;
+  s32 *voice_mask;
+  s32 *voice_masks;
+  s32 key_status;
+  s32 key_off_status;
+  s8 full_volume;
   D_80085F98[0] = 1;
-  if (arg0 != (-1))
+  if (sound_id != (-1))
   {
-    if (arg1 < 0x18)
+    if (voice_id < 0x18)
     {
-      func_80056DB4(arg1);
-      tbl = D_80073740;
-      ptr = &tbl[arg1];
-      k2 = 2;
+      func_80056DB4(voice_id);
+      voice_masks = D_80073740;
+      voice_mask = &voice_masks[voice_id];
+      key_off_status = 2;
       do
       {
-        func_8005E97C(0, *ptr);
-        res = func_8005EB78(*ptr);
+        func_8005E97C(0, *voice_mask);
+        key_status = func_8005EB78(*voice_mask);
       }
-      while ((res != k2) && (res != 0));
-      req.field_04 = 0x1FFEF;
-      req.field_24 = 1;
-      req.field_28 = 1;
-      req.field_2C = 3;
-      req.field_30 = 0;
-      req.field_32 = 0;
-      req.field_34 = 0;
-      req.field_36 = 0;
-      req.field_38 = 0;
-      req.field_0C = 0;
-      req.field_0E = 0;
-      new_var = &D_80086A40;
-      slot_base = &D_80085458;
-      req.field_00 = *ptr;
-      req.field_1C = new_var[arg0].field_10;
-      k7f = 0x7F;
-      ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-      slot = &slot_base[arg1];
-      slot->field_06 = 0x11;
-      slot->field_16 = 0x40;
-      slot->field_17 = 0x40;
-      slot->field_14 = k7f;
-      slot->field_15 = k7f;
-      slot->field_10 = arg5 << 7;
-      slot->field_00 = arg1;
-      slot->field_1A = 1;
-      slot->field_22 = arg2;
-      slot->field_23 = arg3;
-      slot->field_0A = arg4;
-      slot->field_5C = arg0;
-      slot->field_12 = arg6 << 7;
-      req.field_08 = slot->field_10;
-      req.field_0A = slot->field_12;
-      req.field_16 = arg4;
-      if (arg3 & 0xFFFF)
+      while ((key_status != key_off_status) && (key_status != 0));
+      voice_attr.field_04 = 0x1FFEF;
+      voice_attr.field_24 = 1;
+      voice_attr.field_28 = 1;
+      voice_attr.field_2C = 3;
+      voice_attr.field_30 = 0;
+      voice_attr.field_32 = 0;
+      voice_attr.field_34 = 0;
+      voice_attr.field_36 = 0;
+      voice_attr.field_38 = 0;
+      voice_attr.field_0C = 0;
+      voice_attr.field_0E = 0;
+      sounds = &D_80086A40;
+      voice_slots = &D_80085458;
+      voice_attr.field_00 = *voice_mask;
+      voice_attr.field_1C = sounds[sound_id].field_10;
+      full_volume = 0x7F;
+      ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+      voice = &voice_slots[voice_id];
+      voice->field_06 = 0x11;
+      voice->field_16 = 0x40;
+      voice->field_17 = 0x40;
+      voice->field_14 = full_volume;
+      voice->field_15 = full_volume;
+      voice->field_10 = left_volume << 7;
+      voice->field_00 = voice_id;
+      voice->field_1A = 1;
+      voice->field_22 = note;
+      voice->field_23 = note_offset;
+      voice->field_0A = pitch;
+      voice->field_5C = sound_id;
+      voice->field_12 = right_volume << 7;
+      voice_attr.field_08 = voice->field_10;
+      voice_attr.field_0A = voice->field_12;
+      voice_attr.field_16 = pitch;
+      if (note_offset & 0xFFFF)
       {
-        req.field_18 = ((arg2 - 1) << 8) | (0x7F - arg3);
+        voice_attr.field_18 = ((note - 1) << 8) | (0x7F - note_offset);
       }
       else
       {
-        req.field_18 = arg3 | (arg2 << 8);
+        voice_attr.field_18 = note_offset | (note << 8);
       }
-      func_8005EC0C(&req);
+      func_8005EC0C(&voice_attr);
     }
   }
   D_80085F98[0] = 0;
-  return arg1;
+  return voice_id;
 }

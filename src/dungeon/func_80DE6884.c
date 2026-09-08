@@ -69,86 +69,87 @@ extern M2C_UNK D_80045340[3];
 extern M2C_UNK D_800DEA68[3];
 extern M2C_UNK D_80173F8C[3];
 
-void func_80DE6884(void *arg0, void *arg1, void *arg2) {
+/* Spawns four effects with origin offsets, random rotation, and velocity based on the owner heading. */
+void func_80DE6884(void *owner_arg, void *motion_arg, void *origin_arg) {
     u16 offsets[3];
-    s32 copy0;
-    s32 copy1;
-    s32 copy2;
-    s32 copy3;
-    s32 copy4;
-    s32 copy5;
-    s32 temp_v1;
-    s32 var_s2;
-    s32 var_v0;
-    register S_80DE6884_3 *held_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    S_80DE6884_5 *held_arg0;
-    M2C_UNK *temp_s4;
-    u32 temp_v0_addr;
-    register S_80DE6884_0 *setup_arg1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s16 *setup_arg2;
-    void *db_arg1;
-    S_80DE6884_2 *temp_s0;
-    S_80DE6884_4 *temp_s0_2;
-    S_80DE6884_1 *temp_v0;
+    s32 position_x;
+    s32 position_y;
+    s32 position_z;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
+    s32 random_value;
+    s32 effect_index;
+    s32 biased_random;
+    register S_80DE6884_3 *source_motion ASM_REG("$21") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_80DE6884_5 *owner;
+    M2C_UNK *effect_data;
+    u32 effect_data_page;
+    register S_80DE6884_0 *origin ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s16 *offset_ptr;
+    void *render_config;
+    S_80DE6884_2 *render_data;
+    S_80DE6884_4 *motion;
+    S_80DE6884_1 *effect;
 
-    setup_arg1 = arg2;
-    setup_arg2 = (s16 *)offsets;
-    var_s2 = 0;
+    origin = origin_arg;
+    offset_ptr = (s16 *)offsets;
+    effect_index = 0;
     offsets[2] = 0;
     offsets[1] = 0;
     offsets[0] = 0;
-    held_arg0 = arg0;
-    ASM_KEEP(setup_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    func_8003DE58(setup_arg1->unk_08, setup_arg1, setup_arg2, var_s2);
-    temp_v0_addr = 0x80170000;
-    ASM_KEEP(temp_v0_addr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    temp_s4 = (M2C_UNK *)(temp_v0_addr + 0x3F8C);
+    owner = owner_arg;
+    ASM_KEEP(offset_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    func_8003DE58(origin->unk_08, origin, offset_ptr, effect_index);
+    effect_data_page = 0x80170000;
+    ASM_KEEP(effect_data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    effect_data = (M2C_UNK *)(effect_data_page + 0x3F8C);
     do {
-        temp_v0 = func_8003FC64(0x212);
-        if (temp_v0 != NULL) {
-            db_arg1 = &D_800DEA68;
-            temp_s0 = temp_v0->unk_0C;
-            temp_v0->unk_10 = temp_s4;
-            temp_s0->unk_0E = 0x60;
-            temp_s0->unk_0D = 0x60;
-            temp_s0->unk_0C = 0x60;
-            temp_s0->unk_14 = (u16)(temp_s0->unk_14 | 0xC);
-            temp_s0->unk_10 = (u16)(temp_s0->unk_10 | 0x20);
-            func_8003DB94(temp_s0, db_arg1, 0);
-            func_800478B8(temp_s0);
-            var_v0 = rand();
-            temp_v1 = var_v0;
-            if (temp_v1 < 0) {
-                var_v0 = temp_v1 + 0xFFF;
+        effect = func_8003FC64(0x212);
+        if (effect != NULL) {
+            render_config = &D_800DEA68;
+            render_data = effect->unk_0C;
+            effect->unk_10 = effect_data;
+            render_data->unk_0E = 0x60;
+            render_data->unk_0D = 0x60;
+            render_data->unk_0C = 0x60;
+            render_data->unk_14 = (u16)(render_data->unk_14 | 0xC);
+            render_data->unk_10 = (u16)(render_data->unk_10 | 0x20);
+            func_8003DB94(render_data, render_config, 0);
+            func_800478B8(render_data);
+            biased_random = rand();
+            random_value = biased_random;
+            if (random_value < 0) {
+                biased_random = random_value + 0xFFF;
             }
-            temp_s0->unk_1A = (s16)(temp_v1 - ((var_v0 >> 0xC) << 0xC));
-            temp_s0->unk_1E = 0x1000;
-            temp_s0->unk_1C = 0x1000;
-            func_8004491C(temp_v0, &D_80045340);
-            temp_s0_2 = temp_v0->unk_08;
-            copy0 = held_arg1->unk_00;
-            copy1 = held_arg1->unk_04;
-            copy2 = held_arg1->unk_08;
-            copy3 = held_arg1->unk_0C;
-            temp_s0_2->unk_00.at00.v = copy0;
-            temp_s0_2->unk_04.at00.v = copy1;
-            temp_s0_2->unk_08.at00.v = copy2;
-            temp_s0_2->unk_0C = copy3;
-            copy4 = held_arg1->unk_10;
-            copy5 = held_arg1->unk_14;
-            temp_s0_2->unk_10 = copy4;
-            temp_s0_2->unk_14.s = copy5;
-            temp_s0_2->unk_00.at02.v = (u16)(temp_s0_2->unk_00.at02u.v + offsets[0]);
-            temp_s0_2->unk_04.at02.v = (u16)(temp_s0_2->unk_04.at02.v + offsets[1]);
-            temp_s0_2->unk_08.at02.v = (u16)(temp_s0_2->unk_08.at02.v + offsets[2]);
-            temp_s0_2->unk_0C = (s32)((func_80064584(
-                held_arg0->unk_2A,
-                copy3) >> 4) << 0xB);
-            temp_s0_2->unk_10 = (s32)((func_800644B8(held_arg0->unk_2A) >> 4) << 0xB);
-            temp_s0_2->unk_14.u = 0x9C40;
+            render_data->unk_1A = (s16)(random_value - ((biased_random >> 0xC) << 0xC));
+            render_data->unk_1E = 0x1000;
+            render_data->unk_1C = 0x1000;
+            func_8004491C(effect, &D_80045340);
+            motion = effect->unk_08;
+            position_x = source_motion->unk_00;
+            position_y = source_motion->unk_04;
+            position_z = source_motion->unk_08;
+            velocity_x = source_motion->unk_0C;
+            motion->unk_00.at00.v = position_x;
+            motion->unk_04.at00.v = position_y;
+            motion->unk_08.at00.v = position_z;
+            motion->unk_0C = velocity_x;
+            velocity_y = source_motion->unk_10;
+            velocity_z = source_motion->unk_14;
+            motion->unk_10 = velocity_y;
+            motion->unk_14.s = velocity_z;
+            motion->unk_00.at02.v = (u16)(motion->unk_00.at02u.v + offsets[0]);
+            motion->unk_04.at02.v = (u16)(motion->unk_04.at02.v + offsets[1]);
+            motion->unk_08.at02.v = (u16)(motion->unk_08.at02.v + offsets[2]);
+            motion->unk_0C = (s32)((func_80064584(
+                owner->unk_2A,
+                velocity_x) >> 4) << 0xB);
+            motion->unk_10 = (s32)((func_800644B8(owner->unk_2A) >> 4) << 0xB);
+            motion->unk_14.u = 0x9C40;
         }
-        var_s2 += 1;
-    } while (var_s2 < 4);
+        effect_index += 1;
+    } while (effect_index < 4);
 }
 
 /* MECHANISM: One aliased three-halfword stack object and held s2-s5 roles reproduce the 0x38 frame.

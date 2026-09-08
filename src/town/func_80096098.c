@@ -8,23 +8,24 @@ typedef struct {
 
 extern TownState D_8006ADBC;
 
+/* Returns whether the town state matches one of the accepted state pairs. */
 s32 func_800937F8(void) {
-    s32 result;
-    s16 field_18;
-    s16 field_1A;
+    s32 isAcceptedStatePair;
+    s16 primaryState;
+    s16 secondaryState;
 
-    result = 0;
-    field_18 = D_8006ADBC.field_18;
-    if (field_18 == 12) {
-        field_1A = D_8006ADBC.field_1A;
-        if (field_1A == 6 ||
-            field_1A == 8 ||
-            field_1A == 9 ||
-            field_1A == 42 ||
-            field_1A == field_18 ||
-            field_1A == 43) {
-            result = 1;
+    isAcceptedStatePair = 0;
+    primaryState = D_8006ADBC.field_18;
+    if (primaryState == 12) {
+        secondaryState = D_8006ADBC.field_1A;
+        if (secondaryState == 6 ||
+            secondaryState == 8 ||
+            secondaryState == 9 ||
+            secondaryState == 42 ||
+            secondaryState == primaryState ||
+            secondaryState == 43) {
+            isAcceptedStatePair = 1;
         }
     }
-    return result;
+    return isAcceptedStatePair;
 }

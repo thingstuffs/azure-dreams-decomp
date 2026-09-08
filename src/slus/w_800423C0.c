@@ -34,49 +34,50 @@ typedef struct S_800423C0_Obj
 extern S_800E3E48 D_800E3E48[];
 extern void func_80042710(void *dst, void *src);
 extern s16 func_800A1BD0(void *a0, s32 a1);
-void func_800423C0(S_800423C0_Obj *a0, s16 a1, S_800423C0_Src *a2)
+/* Copies source template data, updates object direction fields, and sets a flag. */
+void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
 {
-  int new_var;
-  S_800E3E48 *s0;
-  s32 dir;
-  register s32 mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-  if (a2 != 0)
+  int next_direction;
+  S_800E3E48 *template_entry;
+  s32 direction;
+  register s32 upper_bits_mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  if (source != 0)
   {
-    S_800423C0_Obj *call_arg;
+    S_800423C0_Obj *pinned_obj;
 
-    s0 = &D_800E3E48[a2->unk3 & 0x1F];
-    func_80042710(a0, s0);
-    call_arg = a0;
-    PIN_KEEP(call_arg);
-    mask = -8;
-    a0->unk14 &= mask;
-    a0->unk1C &= mask;
-    a0->unk14 |= s0->unk14 & 7;
-    a0->unk1C |= s0->unk1C & 7;
-    dir = func_800A1BD0(call_arg, mask);
-    if (dir >= 0)
+    template_entry = &D_800E3E48[source->unk3 & 0x1F];
+    func_80042710(obj, template_entry);
+    pinned_obj = obj;
+    PIN_KEEP(pinned_obj);
+    upper_bits_mask = -8;
+    obj->unk14 &= upper_bits_mask;
+    obj->unk1C &= upper_bits_mask;
+    obj->unk14 |= template_entry->unk14 & 7;
+    obj->unk1C |= template_entry->unk1C & 7;
+    direction = func_800A1BD0(pinned_obj, upper_bits_mask);
+    if (direction >= 0)
     {
-      register u8 *page ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-      u16 *other = (u16 *)0x80012094;
-      s32 scaled;
+      register u8 *direction_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+      u16 *other_direction = (u16 *)0x80012094;
+      s32 slot_offset;
 
-      page = (u8 *)0x80010000;
-      scaled = dir * 2;
-      PIN_KEEP(page);
-      page = (u8 *)((unsigned long)scaled + (unsigned long)page);
-      if (dir == 0)
+      direction_page = (u8 *)0x80010000;
+      slot_offset = direction * 2;
+      PIN_KEEP(direction_page);
+      direction_page = (u8 *)((unsigned long)slot_offset + (unsigned long)direction_page);
+      if (direction == 0)
       {
-        other = (u16 *)0x80012096;
+        other_direction = (u16 *)0x80012096;
       }
-      dir = *(u16 *)(page + 0x2094);
-      if (dir == *other)
+      direction = *(u16 *)(direction_page + 0x2094);
+      if (direction == *other_direction)
       {
-        new_var = dir + 1;
-        *(u16 *)(page + 0x2094) = new_var & 7;
+        next_direction = direction + 1;
+        *(u16 *)(direction_page + 0x2094) = next_direction & 7;
       }
-      a0->unk45 = page[0x2094];
-      a0->unk12 = page[0x2098];
+      obj->unk45 = direction_page[0x2094];
+      obj->unk12 = direction_page[0x2098];
     }
   }
-  a0->unk1C |= 0x20000;
+  obj->unk1C |= 0x20000;
 }

@@ -63,22 +63,23 @@ typedef struct S_800AE734_0 {
     s32 unk_D8;
 } S_800AE734_0;   /* arg0 in func_800AE734 */
 
-void func_800AE734(S_800AE734_0 *arg0) {
-    s32 temp_v1;
-    s32 var_a1;
+/* Sets fixed values and color bytes on each item's linked records. */
+void func_800AE734(S_800AE734_0 *collection) {
+    s32 entry_offset;
+    s32 entry_index;
 
-    var_a1 = 0;
-    if (arg0->unk_28 > 0) {
+    entry_index = 0;
+    if (collection->unk_28 > 0) {
         do {
-            temp_v1 = var_a1 * 4;
-            ((S_800AE734_6 *)(((S_800AE734_2 *)(((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_38))->unk_04.s))->unk_08 = 0x20;
-            *((S_800AE734_2 *)(((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_38))->unk_04.u = 0x68;
-            ((S_800AE734_6 *)(((S_800AE734_2 *)(((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_38))->unk_04.s))->unk_01 = 0x68;
-            ((S_800AE734_6 *)(((S_800AE734_2 *)(((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_38))->unk_04.s))->unk_02 = 0x60;
-            ((S_800AE734_7 *)(((S_800AE734_3 *)(((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_08))->unk_04))->unk_08 = 9;
-            ((S_800AE734_8 *)(((S_800AE734_4 *)(((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_20))->unk_04))->unk_08 = 0x39;
-            ((S_800AE734_9 *)(((S_800AE734_5 *)(((S_800AE734_1 *)((temp_v1 + arg0->unk_D8)))->unk_50))->unk_04))->unk_08 = 0x8F;
-            var_a1 += 1;
-        } while (var_a1 < arg0->unk_28);
+            entry_offset = entry_index * 4;
+            ((S_800AE734_6 *)(((S_800AE734_2 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_38))->unk_04.s))->unk_08 = 0x20;
+            *((S_800AE734_2 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_38))->unk_04.u = 0x68;
+            ((S_800AE734_6 *)(((S_800AE734_2 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_38))->unk_04.s))->unk_01 = 0x68;
+            ((S_800AE734_6 *)(((S_800AE734_2 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_38))->unk_04.s))->unk_02 = 0x60;
+            ((S_800AE734_7 *)(((S_800AE734_3 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_08))->unk_04))->unk_08 = 9;
+            ((S_800AE734_8 *)(((S_800AE734_4 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_20))->unk_04))->unk_08 = 0x39;
+            ((S_800AE734_9 *)(((S_800AE734_5 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_50))->unk_04))->unk_08 = 0x8F;
+            entry_index += 1;
+        } while (entry_index < collection->unk_28);
     }
 }

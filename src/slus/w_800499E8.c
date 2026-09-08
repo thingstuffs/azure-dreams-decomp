@@ -4,71 +4,72 @@ extern u8 D_80080B28[16];
 extern u8 D_80080B2C[16];
 extern void bzero(void *, s32);
 
-void *func_800499E8(u8 *p, u8 *src, u8 *col)
+/* Builds a tinted rectangle with gradient top and bottom bands. */
+void *func_800499E8(u8 *cmd, u8 *rect, u8 *tint)
 {
-    u8 c0[4];
-    u8 c1[4];
-    u32 w0;
-    u32 w2;
-    u32 w1;
-    u32 w3;
-    u8 *ret;
+    u8 edge_color[4];
+    u8 center_color[4];
+    u32 top_edge;
+    u32 bottom_edge;
+    u32 top_center;
+    u32 bottom_center;
+    u8 *start;
 
-    memcpy(c0, D_80080B28, 4);
-    memcpy(c1, D_80080B2C, 4);
-    bzero(p, 0x14);
+    memcpy(edge_color, D_80080B28, 4);
+    memcpy(center_color, D_80080B2C, 4);
+    bzero(cmd, 0x14);
 
-    if ((*(s32 *)col & 0xFFFFFF) != 0x808080) {
-        c0[0] = (c0[0] * col[0]) >> 7;
-        c0[1] = (c0[1] * col[1]) >> 7;
-        c0[2] = (c0[2] * col[2]) >> 7;
-        if ((*(s32 *)col & 0xFFFFFF) != 0x808080) {
-            c1[0] = (c1[0] * col[0]) >> 7;
-            c1[1] = (c1[1] * col[1]) >> 7;
-            c1[2] = (c1[2] * col[2]) >> 7;
+    if ((*(s32 *)tint & 0xFFFFFF) != 0x808080) {
+        edge_color[0] = (edge_color[0] * tint[0]) >> 7;
+        edge_color[1] = (edge_color[1] * tint[1]) >> 7;
+        edge_color[2] = (edge_color[2] * tint[2]) >> 7;
+        if ((*(s32 *)tint & 0xFFFFFF) != 0x808080) {
+            center_color[0] = (center_color[0] * tint[0]) >> 7;
+            center_color[1] = (center_color[1] * tint[1]) >> 7;
+            center_color[2] = (center_color[2] * tint[2]) >> 7;
         }
     }
 
-    p[1] = 0x38;
-    w0 = *(u32 *)c0;
-    w1 = *(u32 *)c1;
-    *(u32 *)(p + 4) = w0;
-    *(u32 *)(p + 0xC) = w0;
-    *(u32 *)(p + 0x10) = w1;
-    *(u32 *)(p + 0x14) = w1;
-    p[2] = src[0];
-    p[3] = src[2];
-    p[0xA] = src[4];
-    p[0xB] = *(s16 *)(src + 6) / 4;
+    cmd[1] = 0x38;
+    top_edge = *(u32 *)edge_color;
+    top_center = *(u32 *)center_color;
+    *(u32 *)(cmd + 4) = top_edge;
+    *(u32 *)(cmd + 0xC) = top_edge;
+    *(u32 *)(cmd + 0x10) = top_center;
+    *(u32 *)(cmd + 0x14) = top_center;
+    cmd[2] = rect[0];
+    cmd[3] = rect[2];
+    cmd[0xA] = rect[4];
+    cmd[0xB] = *(s16 *)(rect + 6) / 4;
 
-    p += 0x18;
-    p[1] = 0x28;
-    *(u32 *)(p + 4) = *(u32 *)c1;
-    p[2] = src[0];
-    p[3] = src[2] + *(s16 *)(src + 6) / 4;
-    p[0xA] = src[4];
-    p[0xB] = *(s16 *)(src + 6) / 2;
+    cmd += 0x18;
+    cmd[1] = 0x28;
+    *(u32 *)(cmd + 4) = *(u32 *)center_color;
+    cmd[2] = rect[0];
+    cmd[3] = rect[2] + *(s16 *)(rect + 6) / 4;
+    cmd[0xA] = rect[4];
+    cmd[0xB] = *(s16 *)(rect + 6) / 2;
 
-    p += 0xC;
-    p[1] = 0x38;
-    w3 = *(u32 *)c1;
-    w2 = *(u32 *)c0;
-    *(u32 *)(p + 4) = w3;
-    *(u32 *)(p + 0xC) = w3;
-    *(u32 *)(p + 0x10) = w2;
-    *(u32 *)(p + 0x14) = w2;
-    p[2] = src[0];
-    p[3] = src[2] + *(s16 *)(src + 6) / 4 + *(s16 *)(src + 6) / 2;
-    p[0xA] = src[4];
-    p[0xB] = src[6] - *(s16 *)(src + 6) / 4 - *(s16 *)(src + 6) / 2;
+    cmd += 0xC;
+    cmd[1] = 0x38;
+    bottom_center = *(u32 *)center_color;
+    bottom_edge = *(u32 *)edge_color;
+    *(u32 *)(cmd + 4) = bottom_center;
+    *(u32 *)(cmd + 0xC) = bottom_center;
+    *(u32 *)(cmd + 0x10) = bottom_edge;
+    *(u32 *)(cmd + 0x14) = bottom_edge;
+    cmd[2] = rect[0];
+    cmd[3] = rect[2] + *(s16 *)(rect + 6) / 4 + *(s16 *)(rect + 6) / 2;
+    cmd[0xA] = rect[4];
+    cmd[0xB] = rect[6] - *(s16 *)(rect + 6) / 4 - *(s16 *)(rect + 6) / 2;
 
-    p += 0x18;
-    ret = p - 0x3C;
-    ASM_USE_NV(ret);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    p[1] = 0x81;
-    *(u16 *)(p + 4) = 0x10;
-    *(u16 *)(p + 6) = 1;
-    p[0] |= 0x80;
+    cmd += 0x18;
+    start = cmd - 0x3C;
+    ASM_USE_NV(start);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    cmd[1] = 0x81;
+    *(u16 *)(cmd + 4) = 0x10;
+    *(u16 *)(cmd + 6) = 1;
+    cmd[0] |= 0x80;
 
-    return ret;
+    return start;
 }

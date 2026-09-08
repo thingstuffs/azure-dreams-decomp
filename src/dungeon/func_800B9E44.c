@@ -25,33 +25,33 @@ extern void func_800A5F38(void *, s32);
 extern void func_800A6480(void *, s32);
 extern s32 func_800AD6FC(void *, s32, s32);
 
-s32 func_800BF5A4(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
+/* Apply an item to its target and handle action completion. */
+s32 func_800BF5A4(Rec_D_800E3D7C *target, s32 item, s16 action_type, s32 source)
 {
-    if (arg2 == 13) {
-        /* the epilogue `j` carries $v0 = this call's result */
-        return func_80098864(arg1, arg3);
+    if (action_type == 13) {
+        return func_80098864(item, source);
     }
 
-    if (arg0 == D_800E3D7C) {
-        arg0->unk_110 = arg1;
-        func_8008D344(arg0, D_80083780, D_80082E80, arg0);
+    if (target == D_800E3D7C) {
+        target->unk_110 = item;
+        func_8008D344(target, D_80083780, D_80082E80, target);
         return 0;
     }
 
-    if ((u32)arg0 <= 0x9FFFFFFF) {
-        func_800A6480(arg0, arg1);
-        if (func_800AD6FC(arg0,
-                          D_800DDE84[arg0->unk_10.at03_u8.v] & 3,
-                          arg1) == 0) {
-            func_800A5F38(arg0, arg1);
+    if ((u32)target <= 0x9FFFFFFF) {
+        func_800A6480(target, item);
+        if (func_800AD6FC(target,
+                          D_800DDE84[target->unk_10.at03_u8.v] & 3,
+                          item) == 0) {
+            func_800A5F38(target, item);
             return 1;
         }
     } else {
-        func_800997FC(D_800E1279, arg3, arg2);
+        func_800997FC(D_800E1279, source, action_type);
         D_800E296C |= 0x400;
     }
 
     D_80083460.field_A--;
-    func_80098B38(arg1);
+    func_80098B38(item);
     return 1;
 }

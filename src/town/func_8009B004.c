@@ -23,24 +23,25 @@ typedef struct S_80098764_0 {
 } S_80098764_0;   /* arg0 in func_80098764 */
 
 
-void func_80098764(void *arg0, Rec_D_800E3D7C *arg1) {
-    u16 temp_v0;
-    s32 old4;
+/* Interpolate the position toward an angle-based offset until the countdown expires. */
+void func_80098764(void *motion, Rec_D_800E3D7C *position) {
+    u16 ticks_left;
+    s32 old_y;
 
-    temp_v0 = ((S_80098764_0 *)arg0)->unk_0A - 1;
-    ((S_80098764_0 *)arg0)->unk_0A = temp_v0;
-    if ((temp_v0 << 0x10) > 0) {
-        arg1->unk_00.at00_s32.v =
-            ((func_800644B8(((S_80098764_0 *)arg0)->unk_10) << 9)
-             + (((S_80098764_0 *)arg0)->unk_30 << 0x10)
-             + arg1->unk_00.at00_s32.v) / 2;
-        arg1->unk_04.at00_s32.v =
-            ((func_80064584(((S_80098764_0 *)arg0)->unk_10) << 9)
-             + (((S_80098764_0 *)arg0)->unk_32 << 0x10)
-             + (old4 = arg1->unk_04.at00_s32.v)) / 2;
+    ticks_left = ((S_80098764_0 *)motion)->unk_0A - 1;
+    ((S_80098764_0 *)motion)->unk_0A = ticks_left;
+    if ((ticks_left << 0x10) > 0) {
+        position->unk_00.at00_s32.v =
+            ((func_800644B8(((S_80098764_0 *)motion)->unk_10) << 9)
+             + (((S_80098764_0 *)motion)->unk_30 << 0x10)
+             + position->unk_00.at00_s32.v) / 2;
+        position->unk_04.at00_s32.v =
+            ((func_80064584(((S_80098764_0 *)motion)->unk_10) << 9)
+             + (((S_80098764_0 *)motion)->unk_32 << 0x10)
+             + (old_y = position->unk_04.at00_s32.v)) / 2;
         return;
     }
-    func_80099754(arg1);
-    ((S_80098764_0 *)arg0)->unk_0A = 7;
-    ((S_80098764_0 *)arg0)->unk_04 = &D_80098690;
+    func_80099754(position);
+    ((S_80098764_0 *)motion)->unk_0A = 7;
+    ((S_80098764_0 *)motion)->unk_04 = &D_80098690;
 }

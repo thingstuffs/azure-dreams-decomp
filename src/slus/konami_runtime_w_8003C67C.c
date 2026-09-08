@@ -7,6 +7,7 @@ typedef struct Entry {
 
 extern Entry D_8006B200[];
 
+/* Moves the selected entry to the front, shifting preceding entries back one slot. */
 void func_8003C67C(s32 index)
 {
     Entry selected;
@@ -16,13 +17,13 @@ void func_8003C67C(s32 index)
 
     if (index > 0) {
         do {
-            s32 offset = index * 8;
+            s32 dest_offset = index * 8;
             Entry *source;
             Entry *destination;
 
             index--;
             source = (Entry *)((char *)D_8006B200 + index * 8);
-            destination = (Entry *)((char *)D_8006B200 + offset);
+            destination = (Entry *)((char *)D_8006B200 + dest_offset);
             destination->word0 = source->word0;
             destination->word1 = source->word1;
         } while (index > 0);

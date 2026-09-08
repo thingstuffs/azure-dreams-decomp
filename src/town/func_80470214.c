@@ -13,55 +13,51 @@ extern s8 D_8001EDD0;
 extern s8 D_8001EF6C;
 extern s8 D_8001F543;
 
-s32 func_80017214(void *arg0, s32 arg1, s32 arg2)
+/* Selects a response using object flags and one-time interaction state. */
+s32 func_80017214(void *object, s32 check_value, s32 selection)
 {
-    void *base;
-    s32 result;
-    s32 ret;
+    void *response_table;
+    s32 default_response;
+    s32 response;
 
-    if (func_80017E98(arg0, arg1) != 0) {
-        s32 page;
+    if (func_80017E98(object, check_value) != 0) {
+        s32 fallback_page;
 
-        page = (s32)0x80020000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        return page - 0x4852;
+        fallback_page = (s32)0x80020000;
+        ASM_KEEP(fallback_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        return fallback_page - 0x4852;
     }
 
-    base = &D_8001A99C;
-    result = func_80019ABC(base, &D_8001B1F8, arg0, arg2);
-    ret = result;
-    if (func_80019A04(base, arg0, arg2) != 0) {
-        if (func_8001A510(*(s16 *)((s8 *)arg0 + 0x18)) != 0) {
-            s32 page;
+    response_table = &D_8001A99C;
+    default_response = func_80019ABC(response_table, &D_8001B1F8, object, selection);
+    response = default_response;
+    if (func_80019A04(response_table, object, selection) != 0) {
+        if (func_8001A510(*(s16 *)((s8 *)object + 0x18)) != 0) {
+            s32 flagged_page;
 
-            page = (s32)0x80020000;
-            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ret = page - 0xABD;
+            flagged_page = (s32)0x80020000;
+            ASM_KEEP(flagged_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            response = flagged_page - 0xABD;
         } else {
             u8 *state_page;
 
             state_page = (u8 *)0x80020000;
             ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             if (*(s32 *)(state_page - 0x4DF8) == 0) {
-                s32 zero_page;
+                s32 first_page;
 
                 *(s32 *)(state_page - 0x4DF8) = 1;
-                zero_page = (s32)0x80020000;
-                ASM_KEEP(zero_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                ret = zero_page - 0x1094;
+                first_page = (s32)0x80020000;
+                ASM_KEEP(first_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                response = first_page - 0x1094;
             } else {
-                s32 nonzero_page;
+                s32 repeat_page;
 
-                nonzero_page = (s32)0x80020000;
-                ASM_KEEP(nonzero_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                ret = nonzero_page - 0x1230;
+                repeat_page = (s32)0x80020000;
+                ASM_KEEP(repeat_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                response = repeat_page - 0x1230;
             }
         }
     }
-    return ret;
+    return response;
 }
-
-/* MECHANISM: The true-space three-argument ABI gives the 0x28 frame and s2/s3 argument holds;
-   a held D_8001A99C base uses s0 and the first call result stays in s1.
-   Guarded v0 page carriers split address construction across branch/jump delay slots.
-   Split zero/nonzero v0 names plus a pinned v1 state page preserve the tail load/store CFG. */

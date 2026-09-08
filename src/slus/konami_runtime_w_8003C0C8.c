@@ -13,14 +13,15 @@ extern void func_80033D08(void *);
 extern void func_80044BB0(void *, void *, void *);
 extern void func_800478B8(void *);
 
-void func_8003C0C8(void *arg0, void *arg1) {
+/* Routes state processing according to the global gate and state flag. */
+void func_8003C0C8(void *state, void *context) {
     if (D_8008099C[0] == 0) {
-        if (((State *)arg0)->flag != 0) {
-            func_80033CD8(arg0, func_80044BB0);
-            func_800478B8(arg1);
+        if (((State *)state)->flag != 0) {
+            func_80033CD8(state, func_80044BB0);
+            func_800478B8(context);
             return;
         }
     }
 
-    func_80033D08(arg0);
+    func_80033D08(state);
 }

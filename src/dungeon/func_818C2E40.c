@@ -35,12 +35,13 @@ extern void func_8004491C(void *arg0, void *arg1);
 extern u8 D_800240C0[9];
 extern u8 D_800241D4[9];
 
-void *func_818C2E40(s32 arg0, void *arg1)
+/* Allocate and initialize a node with the supplied value and 24 bytes of data. */
+void *func_818C2E40(s32 node_value, void *initial_data)
 {
     void *node;
     S_818C2E40_1 *fields;
     S_818C2E40_2 *display;
-    void *dst;
+    void *node_data;
 
     node = func_8003FC64(0x212);
     {
@@ -58,7 +59,7 @@ void *func_818C2E40(s32 arg0, void *arg1)
     ((S_818C2E40_0 *)node)->unk_10 = D_800240C0;
     func_8004491C(node, D_800241D4);
     fields = (u8 *)node + 0x20;
-    ((S_818C2E40_0 *)node)->unk_20 = arg0;
+    ((S_818C2E40_0 *)node)->unk_20 = node_value;
     fields->unk_04 = 0;
     fields->unk_06 = 0;
     fields->unk_08 = 0x7DCF;
@@ -68,12 +69,12 @@ void *func_818C2E40(s32 arg0, void *arg1)
     display->unk_1E = 0x1000;
     display->unk_1C = 0x1000;
 
-    dst = ((S_818C2E40_0 *)node)->unk_08;
-    *(Copy24 *)dst = *(Copy24 *)arg1;
+    node_data = ((S_818C2E40_0 *)node)->unk_08;
+    *(Copy24 *)node_data = *(Copy24 *)initial_data;
     return node;
 }
 
-/* MECHANISM: The 0x20 frame follows from node/arg0/arg1 held in s0/s1/s2 and
+/* MECHANISM: The 0x20 frame follows from node/node_value/initial_data held in s0/s1/s2 and
    the 24-byte struct assignment emits retail's grouped six-word copy.
    A guarded a0 lifetime defeats null-edge CSE; ASM_TAILSLOT_PIN sinks v0=0
    into the converted noreturn j delay slot at 2.7.2-cdk-G0. */

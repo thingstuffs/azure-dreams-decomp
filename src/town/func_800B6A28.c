@@ -28,32 +28,33 @@ typedef struct {
 extern u8 D_800D16D8[0xC];
 extern u8 D_800D16FC[0x30];
 
-void func_800B4188(CopyTarget *arg0)
+/* Copies the 48-byte and 12-byte global blocks into the target. */
+void func_800B4188(CopyTarget *target)
 {
-    CopyTarget *base;
+    CopyTarget *target_base;
     register u8 *src;
     register u8 *dst ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *end;
-    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u32 tail0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u32 tail1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u32 tail2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *src_end;
+    register u32 data_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u32 tail_word0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 tail_word1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 tail_word2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    base = arg0;
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    target_base = target;
+    ASM_KEEP(target_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     src = D_800D16FC;
-    dst = (u8 *)base;
-    if (((u32)src | (u32)base) & 3) {
-        end = src + 0x30;
+    dst = (u8 *)target_base;
+    if (((u32)src | (u32)target_base) & 3) {
+        src_end = src + 0x30;
         do {
             *(Packed16 *)dst = *(Packed16 *)src;
             src += 0x10;
             dst += 0x10;
-        } while (src != end);
-        page = 0x800D0000;
+        } while (src != src_end);
+        data_page = 0x800D0000;
         goto tail;
     } else {
-        end = src + 0x30;
+        src_end = src + 0x30;
         do {
             u32 word0;
             u32 word1;
@@ -71,16 +72,16 @@ void func_800B4188(CopyTarget *arg0)
             ASM_KEEP(src);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             dst += 0x10;
             src += 0x10;
-        } while (src != end);
-        page = 0x800D0000;
+        } while (src != src_end);
+        data_page = 0x800D0000;
     }
 
 tail:
-    src = (u8 *)page + 0x16D8;
-    tail0 = (*(PackedWord *)(src + 0x0)).value;
-    tail1 = (*(PackedWord *)(src + 0x4)).value;
-    tail2 = (*(PackedWord *)(src + 0x8)).value;
-    (*(PackedWord *)((u8 *)base + 0x30)).value = tail0;
-    (*(PackedWord *)((u8 *)base + 0x34)).value = tail1;
-    (*(PackedWord *)((u8 *)base + 0x38)).value = tail2;
+    src = (u8 *)data_page + 0x16D8;
+    tail_word0 = (*(PackedWord *)(src + 0x0)).value;
+    tail_word1 = (*(PackedWord *)(src + 0x4)).value;
+    tail_word2 = (*(PackedWord *)(src + 0x8)).value;
+    (*(PackedWord *)((u8 *)target_base + 0x30)).value = tail_word0;
+    (*(PackedWord *)((u8 *)target_base + 0x34)).value = tail_word1;
+    (*(PackedWord *)((u8 *)target_base + 0x38)).value = tail_word2;
 }

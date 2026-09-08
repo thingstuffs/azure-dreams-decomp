@@ -19,97 +19,100 @@ extern void func_80022488(void *arg0);
 extern s32 D_80083160[];
 extern u8 D_800280B4[];
 
-void func_80022524(S_80022524_0 *arg0)
+/* Handles menu exit buttons and repeated left/right selection changes. */
+void func_80022524(S_80022524_0 *menu)
 {
-    s32 action;
-    s32 flags8;
-    s32 flags10;
-    s32 value;
-    s32 side;
+    s32 direction;
+    s32 held_buttons;
+    s32 pressed_buttons;
+    s32 repeat_delay;
+    s32 right_pressed;
+    s32 next_delay;
     volatile s32 *input;
 
     input = D_80083160;
-    action = 0;
-    flags8 = input[2];
-    if (flags8 == 0) {
+    direction = 0;
+    held_buttons = input[2];
+    if (held_buttons == 0) {
         return;
     }
-    flags10 = input[4];
-    if (flags10 & 0x20) {
-        s32 *owner20;
+    pressed_buttons = input[4];
+    if (pressed_buttons & 0x20) {
+        s32 *exit_status;
 
         func_80053DA8(0x515);
         func_800231E4(1);
-        owner20 = arg0->unk_20;
-        if (owner20 != 0) {
-            *owner20 = 1;
+        exit_status = menu->unk_20;
+        if (exit_status != 0) {
+            *exit_status = 1;
         }
         goto common;
     }
-    if (flags10 & 0x40) {
-        s32 *owner40;
-        s32 *owner_after;
+    if (pressed_buttons & 0x40) {
+        s32 *exit_status;
+        s32 *updated_status;
+        s32 exit_result;
 
         func_80053DA8(0x514);
-        owner40 = arg0->unk_20;
-        if (owner40 != 0) {
-            value = func_800231E4(1);
-            owner_after = arg0->unk_20;
-            *owner_after = value;
+        exit_status = menu->unk_20;
+        if (exit_status != 0) {
+            exit_result = func_800231E4(1);
+            updated_status = menu->unk_20;
+            *updated_status = exit_result;
             goto common;
         }
         func_800231E4(1);
         goto common;
     }
-    if ((flags8 & 0xA000) != 0 && (flags10 & 0xA000) != 0) {
-        arg0->unk_10 = 0;
-        flags10 = input[4];
-        if (flags10 & 0x8000) {
+    if ((held_buttons & 0xA000) != 0 && (pressed_buttons & 0xA000) != 0) {
+        menu->unk_10 = 0;
+        pressed_buttons = input[4];
+        if (pressed_buttons & 0x8000) {
             goto negative_tail;
         }
-        side = flags10 & 0x2000;
+        right_pressed = pressed_buttons & 0x2000;
         goto side_check;
     }
-    if (flags8 & 0xA000) {
-        value = arg0->unk_10;
-        if (value < 3) {
-            side = value + 1;
+    if (held_buttons & 0xA000) {
+        repeat_delay = menu->unk_10;
+        if (repeat_delay < 3) {
+            next_delay = repeat_delay + 1;
             goto store_counter;
         }
-        if (flags8 & 0x8000) {
+        if (held_buttons & 0x8000) {
             goto negative_tail;
         }
-        side = flags8 & 0x2000;
+        right_pressed = held_buttons & 0x2000;
         goto side_check;
     }
     goto common;
 
 negative_tail:
-    action = -1;
+    direction = -1;
     goto common;
 
 side_check:
-    if (side == 0) {
+    if (right_pressed == 0) {
         goto common;
     }
-    action = 1;
+    direction = 1;
     goto common;
 
 store_counter:
-    arg0->unk_10 = side;
+    menu->unk_10 = next_delay;
 
 common:
-    if (action != 0) {
-        s32 new_value;
+    if (direction != 0) {
+        s32 new_selection;
 
-        new_value = func_80049E1C(
-            arg0->unk_00,
-            action,
-            D_800280B4[arg0->unk_08 * 0x18 + 0x14]);
-        if (new_value != arg0->unk_00) {
-            arg0->unk_00 = new_value;
+        new_selection = func_80049E1C(
+            menu->unk_00,
+            direction,
+            D_800280B4[menu->unk_08 * 0x18 + 0x14]);
+        if (new_selection != menu->unk_00) {
+            menu->unk_00 = new_selection;
             func_80053DA8(0x502);
         }
-        func_80022488(arg0);
+        func_80022488(menu);
     }
 }

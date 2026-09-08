@@ -2,12 +2,6 @@
 
 #include "common.h"
 
-/* Init table setup: fills a destination-buffer table (D_80084538, 4 pointers
-   into the D_801B9000 staging buffer at fixed offsets) and two parallel
-   size/offset tables (D_800847C0, D_80084768) consumed alongside
-   D_80084538 by the func_80055D84 subsystem-add family (D_80084538[idx]/
-   D_800847C0[idx] are passed to func_8005A778 there). */
-
 typedef struct {
     void *f0;
     void *f1;
@@ -34,9 +28,10 @@ extern S_80084768 D_80084768;
 
 extern u8 D_801B9000[];
 
+/* Initializes staging-buffer destinations and their parallel offset and size tables. */
 void func_80055864(void) {
-    s32 sizeA = 0x3A980, sizeB = 0x3B990, sizeC = 0x1BD50;
-    s32 sizeD = 0x576E0, sizeE = 0x11940, sizeF = 0x69020;
+    s32 first_size = 0x3A980, second_offset = 0x3B990, second_size = 0x1BD50;
+    s32 third_offset = 0x576E0, third_size = 0x11940, fourth_offset = 0x69020;
 
     D_80084538.f0 = D_801B9000;
     D_80084538.f1 = D_801B9000 + 0x3000;
@@ -44,12 +39,12 @@ void func_80055864(void) {
     D_80084538.f3 = D_801B9000 + 0x4E40;
 
     D_800847C0.f0 = 0x1010;
-    D_800847C0.f1 = sizeB;
-    D_800847C0.f2 = sizeD;
-    D_800847C0.f3 = sizeF;
+    D_800847C0.f1 = second_offset;
+    D_800847C0.f2 = third_offset;
+    D_800847C0.f3 = fourth_offset;
 
-    D_80084768.f0 = sizeA;
-    D_80084768.f1 = sizeC;
-    D_80084768.f2 = sizeE;
+    D_80084768.f0 = first_size;
+    D_80084768.f1 = second_size;
+    D_80084768.f2 = third_size;
     D_80084768.f3 = 0xFA00;
 }

@@ -77,115 +77,112 @@ typedef struct S_800BD688_8 {
 
 s32 rand(void);                      /* extern */
 
-void func_800BD688(void *arg0_in) {
-    void *arg0 = arg0_in;
-    s32 temp_v1;
-    s32 temp_v0_2;
-    s32 temp_v1_4;
-    s32 upper;
-    s32 decrement;
-    s32 var_s1;
-    register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 var_v0_2;
-    u16 temp_v0;
-    register s32 *page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void **var_s0;
-    S_800BD688_6 *temp_a0;
-    S_800BD688_8 *temp_a0_2;
-    S_800BD688_7 *temp_a1;
-    S_800BD688_4 *temp_v1_2;
-    S_800BD688_5 *temp_v1_3;
-    S_800BD688_3 *var_a0;
+/* Randomize paired object motion until both pass the stop position, then set completion flags. */
+void func_800BD688(void *pair_in) {
+    void *pair = pair_in;
+    s32 state;
+    s32 random_value;
+    s32 stop_x;
+    s32 speed_limit;
+    s32 speed_bias;
+    s32 member_index;
+    register s32 x_gap ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 x_speed;
+    u16 tick;
+    register s32 *flag_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void **member_slot;
+    S_800BD688_6 *second_depth;
+    S_800BD688_8 *second_motion;
+    S_800BD688_7 *first_motion;
+    S_800BD688_4 *x_motion;
+    S_800BD688_5 *y_motion;
+    S_800BD688_3 *member_motion;
 
-    temp_v1 = ((S_800BD688_0 *)arg0)->unk_20.s;
-    temp_v0 = (((S_800BD688_0 *)arg0)->unk_22 + 1) & 7;
-    ((S_800BD688_0 *)arg0)->unk_22 = temp_v0;
-    if (temp_v1 == 0) {
+    state = ((S_800BD688_0 *)pair)->unk_20.s;
+    tick = (((S_800BD688_0 *)pair)->unk_22 + 1) & 7;
+    ((S_800BD688_0 *)pair)->unk_22 = tick;
+    if (state == 0) {
         goto state_zero;
     }
-    if (temp_v1 == 1) {
+    if (state == 1) {
         goto state_one;
     }
     goto done;
 
 state_zero:
-    var_a0 = (void *)0xFEC00000;
-    if (temp_v0 == 0) {
+    member_motion = (void *)0xFEC00000;
+    if (tick == 0) {
         {
-            S_800BD688_1 *left_ptr;
-            S_800BD688_2 *right_ptr;
+            S_800BD688_1 *first_position;
+            S_800BD688_2 *second_position;
 
-            left_ptr = ((S_800BD688_0 *)arg0)->unk_00;
-            right_ptr = ((S_800BD688_0 *)arg0)->unk_04;
-            var_v0 = left_ptr->unk_00;
-            var_v0 -= right_ptr->unk_00;
+            first_position = ((S_800BD688_0 *)pair)->unk_00;
+            second_position = ((S_800BD688_0 *)pair)->unk_04;
+            x_gap = first_position->unk_00;
+            x_gap -= second_position->unk_00;
         }
-        if (var_v0 < 0) {
-            var_v0 = 0 - var_v0;
+        if (x_gap < 0) {
+            x_gap = 0 - x_gap;
         }
-        ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(x_gap);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         {
-            register u32 range ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register u32 gap_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            range = var_v0 + 0xFFE00000;
-            if (range > 0x200000U) {
-                var_s1 = 1;
-                upper = 0x7FFFF;
-                decrement = 0xFFF80000;
-                var_s0 = arg0 + 4;
+            gap_offset = x_gap + 0xFFE00000;
+            if (gap_offset > 0x200000U) {
+                member_index = 1;
+                speed_limit = 0x7FFFF;
+                speed_bias = 0xFFF80000;
+                member_slot = pair + 4;
                 do {
-                    temp_v0_2 = rand();
-                    var_a0 = *var_s0;
-                    var_v0_2 = (temp_v0_2 & 0x1FF) << 8;
-                    if (var_a0->unk_0C > upper) {
-                        var_v0_2 = 0 - var_v0_2;
+                    random_value = rand();
+                    member_motion = *member_slot;
+                    x_speed = (random_value & 0x1FF) << 8;
+                    if (member_motion->unk_0C > speed_limit) {
+                        x_speed = 0 - x_speed;
                     }
-                    var_a0->unk_0C = var_v0_2;
-                    temp_v1_2 = *var_s0;
-                    var_s0 = (void **)((s8 *)((void **)((s8 *)var_s0 - 4)));
-                    var_s1 -= 1;
-                    temp_v1_2->unk_0C = (s32) (temp_v1_2->unk_0C + decrement);
-                } while (var_s1 >= 0);
+                    member_motion->unk_0C = x_speed;
+                    x_motion = *member_slot;
+                    member_slot = (void **)((s8 *)((void **)((s8 *)member_slot - 4)));
+                    member_index -= 1;
+                    x_motion->unk_0C = (s32) (x_motion->unk_0C + speed_bias);
+                } while (member_index >= 0);
             }
         }
-        var_s1 = 1;
-        var_s0 = arg0 + 4;
+        member_index = 1;
+        member_slot = pair + 4;
         do {
-            temp_v0_2 = rand();
-            var_s1 -= 1;
-            temp_v1_3 = *var_s0;
-            var_s0 = (void **)((s8 *)((void **)((s8 *)var_s0 - 4)));
-            temp_v1_3->unk_10 = (s32) (((temp_v0_2 & 0x1FF) - 0x100) << 9);
-        } while (var_s1 >= 0);
-        ((S_800BD688_10 *)(((S_800BD688_9 *)arg0)->unk_00))->unk_14 = (s32) (((rand() & 0x1FF) - 0x100) << 8);
-        ((S_800BD688_11 *)(((S_800BD688_9 *)arg0)->unk_04))->unk_14 = (s32) ((rand() & 0x1FF) << 7);
-        temp_a0 = ((S_800BD688_0 *)arg0)->unk_04;
-        if (((S_800BD688_10 *)(((S_800BD688_9 *)arg0)->unk_00))->unk_08 < temp_a0->unk_08) {
-            temp_a0->unk_14 = (s32) (0 - temp_a0->unk_14);
+            random_value = rand();
+            member_index -= 1;
+            y_motion = *member_slot;
+            member_slot = (void **)((s8 *)((void **)((s8 *)member_slot - 4)));
+            y_motion->unk_10 = (s32) (((random_value & 0x1FF) - 0x100) << 9);
+        } while (member_index >= 0);
+        ((S_800BD688_10 *)(((S_800BD688_9 *)pair)->unk_00))->unk_14 = (s32) (((rand() & 0x1FF) - 0x100) << 8);
+        ((S_800BD688_11 *)(((S_800BD688_9 *)pair)->unk_04))->unk_14 = (s32) ((rand() & 0x1FF) << 7);
+        second_depth = ((S_800BD688_0 *)pair)->unk_04;
+        if (((S_800BD688_10 *)(((S_800BD688_9 *)pair)->unk_00))->unk_08 < second_depth->unk_08) {
+            second_depth->unk_14 = (s32) (0 - second_depth->unk_14);
         }
     }
-    temp_a1 = ((S_800BD688_0 *)arg0)->unk_00;
-    temp_v1_4 = ((S_800BD688_0 *)arg0)->unk_08 + 0xFEC00000;
-    if (temp_a1->unk_00 < temp_v1_4) {
-        temp_a0_2 = ((S_800BD688_0 *)arg0)->unk_04;
-        if (temp_a0_2->unk_00 < temp_v1_4) {
-            temp_a0_2->unk_0C = 0;
-            temp_a1->unk_0C = 0;
-            ((S_800BD688_0 *)arg0)->unk_20.u += 1;
+    first_motion = ((S_800BD688_0 *)pair)->unk_00;
+    stop_x = ((S_800BD688_0 *)pair)->unk_08 + 0xFEC00000;
+    if (first_motion->unk_00 < stop_x) {
+        second_motion = ((S_800BD688_0 *)pair)->unk_04;
+        if (second_motion->unk_00 < stop_x) {
+            second_motion->unk_0C = 0;
+            first_motion->unk_0C = 0;
+            ((S_800BD688_0 *)pair)->unk_20.u += 1;
         }
     }
     goto done;
 
 state_one:
-    page = (s32 *)0x80080000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ((S_800BD688_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800BD688_0_pre *)arg0)[-1].unk_00 | 0x8000);
-    page[0x14A0 / 4] |= 0x8000;
+    flag_page = (s32 *)0x80080000;
+    ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ((S_800BD688_0_pre *)pair)[-1].unk_00 = (u16) (((S_800BD688_0_pre *)pair)[-1].unk_00 | 0x8000);
+    flag_page[0x14A0 / 4] |= 0x8000;
 
 done:
     return;
 }
-
-/* MECHANISM: True-space CFG labels place the state-one tail after the main path and preserve the 0x28 frame.
-   Reused s1/s0 loop locals plus the zero-argument RNG shape recover the retail call slots and saved-register roles.
-   Guarded v0/v1 runtime values and the held 0x80080000 page base close coloring and +0x14A0 addressing. */

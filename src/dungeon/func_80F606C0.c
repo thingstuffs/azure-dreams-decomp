@@ -27,35 +27,36 @@ typedef struct S_80F606C0_1 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern int   D_800814A0[];
-void func_80F606C0(void *arg0, S_80F606C0_1 *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_v1;
-    s32 var_v0;
-    u16 temp_v0;
-    u16 temp_v0_2;
+/* Moves the effect toward its target, shrinks it, and marks completion after the countdown. */
+void func_80F606C0(void *effect, S_80F606C0_1 *position, Rec_D_80082E80 *transform) {
+    s16 phase;
+    s32 x_delta;
+    u16 scale;
+    u16 frames_left;
 
-    var_v0 = ((S_80F606C0_0 *)arg0)->unk_0C - arg1->unk_00.at02.v;
-    if (var_v0 < 0) {
-        var_v0 += 3;
+    x_delta = ((S_80F606C0_0 *)effect)->unk_0C - position->unk_00.at02.v;
+    if (x_delta < 0) {
+        x_delta += 3;
     }
-    arg1->unk_00.at00.v = (s32) (arg1->unk_00.at00.v + ((var_v0 >> 2) << 0x10));
-    arg1->unk_04.at00.v = (s32) (arg1->unk_04.at00.v + (((s32) (((S_80F606C0_0 *)arg0)->unk_0E - arg1->unk_04.at02.v) / 4) << 0x10));
-    arg1->unk_08.at00.v = (s32) (arg1->unk_08.at00.v + (((s32) (((S_80F606C0_0 *)arg0)->unk_10 - arg1->unk_08.at02.v) / 4) << 0x10));
-    func_800478B8(arg2);
-    temp_v1 = ((S_80F606C0_0 *)arg0)->unk_4C;
-    switch (temp_v1) {                              /* irregular */
+    position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((x_delta >> 2) << 0x10));
+    position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((s32) (((S_80F606C0_0 *)effect)->unk_0E - position->unk_04.at02.v) / 4) << 0x10));
+    position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((s32) (((S_80F606C0_0 *)effect)->unk_10 - position->unk_08.at02.v) / 4) << 0x10));
+    func_800478B8(transform);
+    phase = ((S_80F606C0_0 *)effect)->unk_4C;
+    switch (phase) {                              /* irregular */
     case 0:
-        temp_v0 = arg2->unk_1C.at02_u16.v - 0x80;
-        arg2->unk_1C.at02_u16.v = temp_v0;
-        arg2->unk_1C.at00_u16.v = temp_v0;
-        temp_v0_2 = ((S_80F606C0_0 *)arg0)->unk_48 - 1;
-        ((S_80F606C0_0 *)arg0)->unk_48 = temp_v0_2;
-        if ((temp_v0_2 << 0x10) <= 0) {
-            ((S_80F606C0_0 *)arg0)->unk_4C = (s16) ((u16) ((S_80F606C0_0 *)arg0)->unk_4C + 1);
+        scale = transform->unk_1C.at02_u16.v - 0x80;
+        transform->unk_1C.at02_u16.v = scale;
+        transform->unk_1C.at00_u16.v = scale;
+        frames_left = ((S_80F606C0_0 *)effect)->unk_48 - 1;
+        ((S_80F606C0_0 *)effect)->unk_48 = frames_left;
+        if ((frames_left << 0x10) <= 0) {
+            ((S_80F606C0_0 *)effect)->unk_4C = (s16) ((u16) ((S_80F606C0_0 *)effect)->unk_4C + 1);
             return;
         }
         return;
     case 1:
-        ((S_80F606C0_0_pre *)arg0)[-1].unk_00 = (u16) (((S_80F606C0_0_pre *)arg0)[-1].unk_00 | 0x8000);
+        ((S_80F606C0_0_pre *)effect)[-1].unk_00 = (u16) (((S_80F606C0_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
         break;
     }

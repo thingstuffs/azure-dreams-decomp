@@ -15,14 +15,15 @@ typedef struct {
     /* 0x44 */ s32 unk44;
 } Struct80014C90;
 
-void func_80027C90(Struct80014C90 *arg0) {
-    Struct80014C90 *temp_s0 = (Struct80014C90 *)((s8 *)arg0 + 0x20);
+/* Process the entry's values and set its local and global status flags. */
+void func_80027C90(Struct80014C90 *entry) {
+    Struct80014C90 *entry_data = (Struct80014C90 *)((s8 *)entry + 0x20);
 
-    func_8004F52C(temp_s0->unk20);
-    func_80026FB4(temp_s0->unk24);
-    if (arg0->unk20 == 2) {
+    func_8004F52C(entry_data->unk20);
+    func_80026FB4(entry_data->unk24);
+    if (entry->unk20 == 2) {
         func_800A6104();
     }
-    arg0->unk1E |= 0x8000;
+    entry->unk1E |= 0x8000;
     D_800814A0 |= 0x8000;
 }

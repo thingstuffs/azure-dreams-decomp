@@ -83,213 +83,203 @@ extern void strcpy(void *, s32);
 extern s32 strlen(void *);
 extern void func_8008F074(void *, s32, void *);
 
-void func_800BE4D4(s16 *arg0, s16 arg1, s32 arg2)
+/* Creates a town object by type and initializes its position and display data. */
+void func_800BE4D4(s16 *tile_data, s16 object_type, s32 spawn_value)
 {
-  SpBuf sp10;
-  s16 temp_a1;
-  s16 temp_t0;
-  s32 temp_a3;
-  CoordOrObject var_s3;
-  CoordOrObject var_s4;
-  s32 *var_s0;
-  s32 *case13_row;
-  s32 temp_a1_2;
-  s32 var_s1;
-  s32 var_s2;
-  u16 var_v0;
-  u16 var_v0_2;
-  u8 *var_a0;
-  u8 *temp_s0_2;
-  var_s2 = 0;
-  temp_a3 = arg2;
-  temp_a1 = arg1 - 1;
-  temp_a1_2 = temp_a1 << 16;
-  var_s3.coord = arg0[0] + 8;
-  var_s4.coord = arg0[1] + 8;
-  sp10.w[2] = -0x800000;
-  switch (temp_a1_2 >> 16)
+  SpBuf position;
+  s16 type_index;
+  s16 direction;
+  s32 spawn_param;
+  CoordOrObject x_or_object;
+  CoordOrObject y_or_state;
+  s32 *object_state;
+  s32 *variant_row;
+  s32 shifted_type_index;
+  s32 part_index;
+  s32 entry_index;
+  u16 display_flags;
+  u16 alt_display_flags;
+  u8 *display_data;
+  u8 *name_buffer;
+  entry_index = 0;
+  spawn_param = spawn_value;
+  type_index = object_type - 1;
+  shifted_type_index = type_index << 16;
+  x_or_object.coord = tile_data[0] + 8;
+  y_or_state.coord = tile_data[1] + 8;
+  position.w[2] = -0x800000;
+  switch (shifted_type_index >> 16)
   {
     case 0:
-
     case 1:
-      do
-    {
-      func_800BDC98(var_s3.coord, var_s4.coord, arg1, temp_a3);
-    }
-    while (0);
+      func_800BDC98(x_or_object.coord, y_or_state.coord, object_type, spawn_param);
       return;
 
     case 7:
-      func_800BDDD0(var_s3.coord, var_s4.coord, temp_a3);
+      func_800BDDD0(x_or_object.coord, y_or_state.coord, spawn_param);
       return;
 
     case 15:
-      var_s2++;
+      entry_index++;
 
     case 14:
-      var_s2++;
+      entry_index++;
 
     case 13:
-      temp_t0 = arg0[3];
-      if (temp_t0 < 2)
-    {
-      var_s3.coord++;
-    }
-      if (temp_t0 == 1)
-    {
-      var_s4.coord++;
-    }
-      sp10.w[0] = ((var_s3.coord << 6) - (D_8006CCE8[temp_t0][0] << 3)) << 16;
-      sp10.w[1] = ((var_s4.coord << 6) + (D_8006CCD8[temp_t0][0] << 3)) << 16;
-      sp10.w[2] = 0;
-      case13_row = D_800D2134[var_s2];
-      var_s3.object = func_800BDBD0(sp10.w, D_800BDE7C, temp_t0 << 10, *case13_row);
-      var_s4.object = var_s3.object + 0x20;
-      *((s32 **) (var_s4.object + 0xA0)) = case13_row;
+      direction = tile_data[3];
+      if (direction < 2)
+      {
+        x_or_object.coord++;
+      }
+      if (direction == 1)
+      {
+        y_or_state.coord++;
+      }
+      position.w[0] = ((x_or_object.coord << 6) - (D_8006CCE8[direction][0] << 3)) << 16;
+      position.w[1] = ((y_or_state.coord << 6) + (D_8006CCD8[direction][0] << 3)) << 16;
+      position.w[2] = 0;
+      variant_row = D_800D2134[entry_index];
+      x_or_object.object = func_800BDBD0(position.w, D_800BDE7C, direction << 10, *variant_row);
+      y_or_state.object = x_or_object.object + 0x20;
+      *((s32 **) (y_or_state.object + 0xA0)) = variant_row;
       break;
 
     case 5:
-      var_s2++;
+      entry_index++;
 
     case 6:
-      var_s1 = 1;
-      sp10.w[0] = var_s3.coord << 22;
-      sp10.w[1] = var_s4.coord << 22;
-      sp10.w[2] = -0x80000;
+      part_index = 1;
+      position.w[0] = x_or_object.coord << 22;
+      position.w[1] = y_or_state.coord << 22;
+      position.w[2] = -0x80000;
       do
-    {
-      func_800BDBD0(sp10.w, D_800BDF98, 0, D_800D214C[var_s2][var_s1]);
-      var_s1--;
-    }
-    while (var_s1 >= 0);
+      {
+        func_800BDBD0(position.w, D_800BDF98, 0, D_800D214C[entry_index][part_index]);
+        part_index--;
+      }
+      while (part_index >= 0);
       return;
 
     case 8:
-    {
-      var_s2 = 3;
-      sp10.w[0] = var_s3.coord << 22;
-      sp10.w[1] = var_s4.coord << 22;
-      sp10.w[2] = -0x80000;
-      do
-    {
-      func_800BDBD0(sp10.w, D_800BDF98, 0, D_800D215C[var_s2]);
-      var_s2--;
-    }
-    while (var_s2 >= 0);
-      sp10.w[0] = (var_s3.coord << 22) + 0x01000000;
-      sp10.w[1] = (var_s4.coord << 22) + 0x01600000;
-      sp10.h[5] = 0;
-    {
-      s32 sh8 = arg1 << 16;
-      u8 *tbl8 = (u8 *) D_800D21B4;
-      var_s3.object = func_800BDB20(sp10.w, D_800BDF98, *((s32 *) (tbl8 + (sh8 >> 14))));
-    }
-      var_s4.object = var_s3.object + 0x20;
-      *((s16 *) (((u8 *) (*((void **) (var_s3.object + 0xC)))) + 6)) = 0x18;
-      break;
-    }
+      {
+        entry_index = 3;
+        position.w[0] = x_or_object.coord << 22;
+        position.w[1] = y_or_state.coord << 22;
+        position.w[2] = -0x80000;
+        do
+        {
+          func_800BDBD0(position.w, D_800BDF98, 0, D_800D215C[entry_index]);
+          entry_index--;
+        }
+        while (entry_index >= 0);
+        position.w[0] = (x_or_object.coord << 22) + 0x01000000;
+        position.w[1] = (y_or_state.coord << 22) + 0x01600000;
+        position.h[5] = 0;
+        {
+          s32 shifted_type = object_type << 16;
+          u8 *type_table = (u8 *) D_800D21B4;
+          x_or_object.object = func_800BDB20(position.w, D_800BDF98, *((s32 *) (type_table + (shifted_type >> 14))));
+        }
+        y_or_state.object = x_or_object.object + 0x20;
+        *((s16 *) (((u8 *) (*((void **) (x_or_object.object + 0xC)))) + 6)) = 0x18;
+        break;
+      }
 
     case 3:
-
     case 9:
-
     case 16:
-
     case 29:
-
     case 30:
-      sp10.w[0] = (var_s3.coord << 22) + 0x200000;
-      sp10.w[1] = (var_s4.coord << 22) + 0x200000;
-      sp10.h[5] = func_800C2AE8(sp10.w);
-      if (sp10.w[2] > 0)
-    {
-      sp10.w[2] = 0;
-    }
-      var_s3.object = func_800BDB20(sp10.w, D_800BDF98, D_800D21B4[arg1]);
-      var_s4.object = var_s3.object + 0x20;
-      if (arg1 == 0xA)
-    {
-      var_a0 = *((void **) (var_s3.object + 0xC));
-      *((s16 *) (((u8 *) var_a0) + 6)) = 0x20;
-    }
+      position.w[0] = (x_or_object.coord << 22) + 0x200000;
+      position.w[1] = (y_or_state.coord << 22) + 0x200000;
+      position.h[5] = func_800C2AE8(position.w);
+      if (position.w[2] > 0)
+      {
+        position.w[2] = 0;
+      }
+      x_or_object.object = func_800BDB20(position.w, D_800BDF98, D_800D21B4[object_type]);
+      y_or_state.object = x_or_object.object + 0x20;
+      if (object_type == 0xA)
+      {
+        display_data = *((void **) (x_or_object.object + 0xC));
+        *((s16 *) (((u8 *) display_data) + 6)) = 0x20;
+      }
       break;
 
     case 19:
-      var_s2++;
+      entry_index++;
 
     case 18:
-      var_s2++;
+      entry_index++;
 
     case 21:
-      var_s2++;
+      entry_index++;
 
     case 4:
-      var_s2++;
+      entry_index++;
 
     case 2:
-      sp10.w[0] = (var_s3.coord << 22) + 0x200000;
-      sp10.w[1] = (var_s4.coord << 22) + 0x200000;
-      sp10.h[5] = func_800C2AE8(sp10.w);
-      var_s3.object = func_800BDB20(sp10.w, D_800BDFA0, D_800D21B4[(s16) arg1]);
-      var_s4.object = var_s3.object + 0x20;
-      *((s32 *) (var_s4.object + 0xA0)) = D_800D216C[var_s2][0];
-      *((s32 *) (var_s4.object + 0xA4)) = D_800D216C[var_s2][1];
-      if (arg1 == 0x13)
-    {
-      var_a0 = *((void **) (var_s3.object + 0xC));
-      var_v0 = *((u16 *) (((u8 *) var_a0) + 0x14));
-      *((s16 *) (((u8 *) var_a0) + 0x10)) = 0;
-      *((u16 *) (((u8 *) var_a0) + 0x14)) = var_v0 | 0xC;
-    }
+      position.w[0] = (x_or_object.coord << 22) + 0x200000;
+      position.w[1] = (y_or_state.coord << 22) + 0x200000;
+      position.h[5] = func_800C2AE8(position.w);
+      x_or_object.object = func_800BDB20(position.w, D_800BDFA0, D_800D21B4[(s16) object_type]);
+      y_or_state.object = x_or_object.object + 0x20;
+      *((s32 *) (y_or_state.object + 0xA0)) = D_800D216C[entry_index][0];
+      *((s32 *) (y_or_state.object + 0xA4)) = D_800D216C[entry_index][1];
+      if (object_type == 0x13)
+      {
+        display_data = *((void **) (x_or_object.object + 0xC));
+        display_flags = *((u16 *) (((u8 *) display_data) + 0x14));
+        *((s16 *) (((u8 *) display_data) + 0x10)) = 0;
+        *((u16 *) (((u8 *) display_data) + 0x14)) = display_flags | 0xC;
+      }
       break;
 
     case 20:
-      var_s2++;
+      entry_index++;
 
     case 22:
-      sp10.w[0] = (var_s3.coord << 22) + 0x200000;
-      sp10.w[1] = (var_s4.coord << 22) + 0x200000;
-      sp10.h[5] = func_800C2AE8(sp10.w);
-      var_s3.object = func_800BDB20(sp10.w, D_800BE0D4, D_800D21B4[(s16) arg1]);
-      var_s4.object = var_s3.object + 0x20;
-      *((s32 *) (var_s4.object + 0xA0)) = D_800D219C[var_s2][0];
-      *((s32 *) (var_s4.object + 0xA4)) = D_800D219C[var_s2][1];
-      *((s32 *) (var_s4.object + 0xA8)) = D_800D219C[var_s2][2];
-      if (arg1 == 0x17)
-    {
-      var_a0 = *((void **) (var_s3.object + 0xC));
-      var_v0_2 = *((u16 *) (((u8 *) var_a0) + 0x14));
-      *((s16 *) (((u8 *) var_a0) + 0x10)) = 0x20;
-      *((u16 *) (((u8 *) var_a0) + 0x14)) = var_v0_2 | 0xC;
-    }
+      position.w[0] = (x_or_object.coord << 22) + 0x200000;
+      position.w[1] = (y_or_state.coord << 22) + 0x200000;
+      position.h[5] = func_800C2AE8(position.w);
+      x_or_object.object = func_800BDB20(position.w, D_800BE0D4, D_800D21B4[(s16) object_type]);
+      y_or_state.object = x_or_object.object + 0x20;
+      *((s32 *) (y_or_state.object + 0xA0)) = D_800D219C[entry_index][0];
+      *((s32 *) (y_or_state.object + 0xA4)) = D_800D219C[entry_index][1];
+      *((s32 *) (y_or_state.object + 0xA8)) = D_800D219C[entry_index][2];
+      if (object_type == 0x17)
+      {
+        display_data = *((void **) (x_or_object.object + 0xC));
+        alt_display_flags = *((u16 *) (((u8 *) display_data) + 0x14));
+        *((s16 *) (((u8 *) display_data) + 0x10)) = 0x20;
+        *((u16 *) (((u8 *) display_data) + 0x14)) = alt_display_flags | 0xC;
+      }
       break;
 
     case 17:
-      sp10.w[0] = (var_s3.coord << 22) + 0x200000;
-      sp10.w[1] = (var_s4.coord << 22) + 0x200000;
-      sp10.h[5] = func_800C2AE8(sp10.w);
-    {
-      s32 sh17 = arg1 << 16;
-      u8 *tbl17 = (u8 *) D_800D21B4;
-      var_s3.object = func_800BDB20(sp10.w, D_800BE214, *((s32 *) (tbl17 + (sh17 >> 14))));
-    }
-      var_s4.object = var_s3.object + 0x20;
-      *((s32 *) (var_s4.object + 0xA0)) = sp10.h[5];
+      position.w[0] = (x_or_object.coord << 22) + 0x200000;
+      position.w[1] = (y_or_state.coord << 22) + 0x200000;
+      position.h[5] = func_800C2AE8(position.w);
+      {
+        s32 shifted_type = object_type << 16;
+        u8 *type_table = (u8 *) D_800D21B4;
+        x_or_object.object = func_800BDB20(position.w, D_800BE214, *((s32 *) (type_table + (shifted_type >> 14))));
+      }
+      y_or_state.object = x_or_object.object + 0x20;
+      *((s32 *) (y_or_state.object + 0xA0)) = position.h[5];
       break;
 
     default:
       return;
-
   }
 
-  temp_s0_2 = D_80112070 + (arg1 * 0x82);
-  strcpy(temp_s0_2, *((s32 *) ((D_80073600[0] + (arg1 * 0x14)) + 8)));
-  var_s2 = strlen(temp_s0_2);
-  temp_s0_2[var_s2] = 0x11;
-  var_s2++;
-  temp_s0_2[var_s2] = 1;
-  *((void **) (((u8 *) var_s4.object) + 0x48)) = temp_s0_2;
-  var_s0 = (s32 *) var_s4.object;
-  func_8008F074(var_s0, *((s32 *) (var_s3.object + 8)), D_800D225C + (D_800D2238[arg1] * 0x18));
-
+  name_buffer = D_80112070 + (object_type * 0x82);
+  strcpy(name_buffer, *((s32 *) ((D_80073600[0] + (object_type * 0x14)) + 8)));
+  entry_index = strlen(name_buffer);
+  name_buffer[entry_index] = 0x11;
+  entry_index++;
+  name_buffer[entry_index] = 1;
+  *((void **) (((u8 *) y_or_state.object) + 0x48)) = name_buffer;
+  object_state = (s32 *) y_or_state.object;
+  func_8008F074(object_state, *((s32 *) (x_or_object.object + 8)), D_800D225C + (D_800D2238[object_type] * 0x18));
 }

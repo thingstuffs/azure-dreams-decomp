@@ -10,19 +10,20 @@ extern void func_80096D58(TownObject *);
 extern s32 func_80096E08(TownObject *, void *);
 extern s32 func_80096E9C(TownObject *, void *);
 
-s32 func_80096FF4(TownObject *arg0) {
-    void *arg1;
-    s32 result;
+/* Update the object and clear fields selected by the combined status flags. */
+s32 func_80096FF4(TownObject *object) {
+    void *object_data;
+    s32 status_flags;
 
-    func_80096D58(arg0);
-    arg1 = (u8 *)arg0 + 4;
-    result = func_80096E08(arg0, arg1);
-    result |= func_80096E9C(arg0, arg1);
-    if (result & 0x11) {
-        arg0->unkC = 0;
+    func_80096D58(object);
+    object_data = (u8 *)object + 4;
+    status_flags = func_80096E08(object, object_data);
+    status_flags |= func_80096E9C(object, object_data);
+    if (status_flags & 0x11) {
+        object->unkC = 0;
     }
-    if (result & 0x1100) {
-        arg0->unk10 = 0;
+    if (status_flags & 0x1100) {
+        object->unk10 = 0;
     }
-    return result;
+    return status_flags;
 }

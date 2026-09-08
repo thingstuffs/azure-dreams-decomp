@@ -31,16 +31,14 @@ typedef struct {
     S_8003F2A4_pair *volatile ptr;
 } S_8003F2A4;
 
-/* If a0 is a "type 6" entry that is currently the ring-buffer head slot,
- * copy its pointed-to pair (f0,f4) out into the globals D_800814B0/B4 and
- * repoint a0's pointer at those globals. Otherwise clear a0's type byte. */
-void func_8003F2A4(S_8003F2A4 *a0) {
-    if (a0->type != 6 ||
-        a0 != (S_8003F2A4 *)&D_80083968[D_800814D0]) {
-        a0->type = 0;
+/* Copy a type 6 ring-head entry's pair to globals and repoint it there, or clear the entry's type. */
+void func_8003F2A4(S_8003F2A4 *entry) {
+    if (entry->type != 6 ||
+        entry != (S_8003F2A4 *)&D_80083968[D_800814D0]) {
+        entry->type = 0;
         return;
     }
-    D_800814B0 = a0->ptr->f0;
-    D_800814B4 = a0->ptr->f4;
-    a0->ptr = (S_8003F2A4_pair *)&D_800814AC[4];
+    D_800814B0 = entry->ptr->f0;
+    D_800814B4 = entry->ptr->f4;
+    entry->ptr = (S_8003F2A4_pair *)&D_800814AC[4];
 }

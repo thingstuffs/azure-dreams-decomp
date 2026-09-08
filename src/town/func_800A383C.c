@@ -23,47 +23,45 @@ typedef struct TownObject {
 
 extern void *func_800A1C94(TownObject *, s32, void *);
 
-s32 func_800A0F9C(TownObject *arg0, void *arg1, s32 arg2) {
-    void **item;
+/* Initializes the object's items in reverse order and sets its default fields. */
+s32 func_800A0F9C(TownObject *object, void *item_data, s32 item_count) {
+    void **item_slot;
     void **items;
-    s32 count;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 remaining;
 
-    count = arg2;
-    items = arg0->items;
-    if (count > 0) {
-        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        item = (void **)((unsigned long)(count * sizeof(*items)) +
+    remaining = item_count;
+    items = object->items;
+    if (remaining > 0) {
+        ASM_KEEP(remaining);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        item_slot = (void **)((unsigned long)(remaining * sizeof(*items)) +
                         (unsigned long)items);
-        item--;
+        item_slot--;
         do {
-            count--;
-            *item = func_800A1C94(arg0, count, arg1);
+            remaining--;
+            *item_slot = func_800A1C94(object, remaining, item_data);
             if (items == 0) {
-                return count + 1;
+                return remaining + 1;
             }
-            item--;
-        } while (count > 0);
-        item++;
-        ASM_USE(item);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            item_slot--;
+        } while (remaining > 0);
+        item_slot++;
+        ASM_USE(item_slot);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     }
 
-    arg0->field_00 = 0;
-    arg0->field_02 = 0x800;
-    arg0->field_04 = 0;
-    arg0->field_08 = 0x180;
-    arg0->field_10 = 0;
-    arg0->field_0C = 0;
-    arg0->field_12 = 0xFF;
-    arg0->field_6C = 0x340;
-    arg0->field_6E = 0;
-    arg0->field_70 = 0x80;
-    arg0->field_72 = 0x80;
-    arg0->field_78 = 0x80;
-    arg0->field_7A = 0xA0;
-    arg0->field_0A = 0;
+    object->field_00 = 0;
+    object->field_02 = 0x800;
+    object->field_04 = 0;
+    object->field_08 = 0x180;
+    object->field_10 = 0;
+    object->field_0C = 0;
+    object->field_12 = 0xFF;
+    object->field_6C = 0x340;
+    object->field_6E = 0;
+    object->field_70 = 0x80;
+    object->field_72 = 0x80;
+    object->field_78 = 0x80;
+    object->field_7A = 0xA0;
+    object->field_0A = 0;
     return 0;
 }
 
-/* MECHANISM: The 0x28 frame follows from held arg0/arg1/count/items-base/item roles;
-   a block-local $s0 keep preserves loop coloring, and index-first integer address math fixes addu order.
-   A void zero-arg tail plus return count+1 triggers SHAPE-C; explicit zero-store order closes the tail. */

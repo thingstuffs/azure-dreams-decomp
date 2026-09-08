@@ -14,48 +14,45 @@ typedef struct {
     s32 second;
 } FuncData;
 
-void func_80094F58(s16 arg0, s32 arg1, FuncData *arg2) {
-    s32 first;
-    s32 second;
-    s32 result;
-    s32 condition;
-    s32 rounded_result;
-    register s32 adjusted_result ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+/* Add a directional step to the vector and scale it down if it exceeds the length limit. */
+void func_80094F58(s16 angle, s32 max_length, FuncData *vector) {
+    s32 first_step;
+    s32 second_step;
+    s32 length;
+    s32 over_limit;
+    s32 rounded_length;
+    register s32 adjusted_length ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 divisor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 rounded_arg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 limit_units ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 first_quotient ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 second_quotient ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    first = func_800644B8(arg0) << 6;
-    second = func_80064584(arg0) << 6;
-    arg2->first += first;
-    arg2->second += second;
-    result = func_8003BD84(arg2->first, arg2->second);
-    condition = arg1 < result;
-    rounded_result = result + 0xFFF;
-    if (condition != 0) {
-        adjusted_result = rounded_result;
-        if (rounded_result < 0) {
-            adjusted_result = result + 0x1FFE;
+    first_step = func_800644B8(angle) << 6;
+    second_step = func_80064584(angle) << 6;
+    vector->first += first_step;
+    vector->second += second_step;
+    length = func_8003BD84(vector->first, vector->second);
+    over_limit = max_length < length;
+    rounded_length = length + 0xFFF;
+    if (over_limit != 0) {
+        adjusted_length = rounded_length;
+        if (rounded_length < 0) {
+            adjusted_length = length + 0x1FFE;
         }
-        divisor = adjusted_result >> 12;
+        divisor = adjusted_length >> 12;
         first_quotient =
-            ((Rec_D_800E3D7C *)arg2)->unk_0C.as_vs32 / divisor;
+            ((Rec_D_800E3D7C *)vector)->unk_0C.as_vs32 / divisor;
         ASM_KEEP(first_quotient);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        rounded_arg = arg1;
-        if (arg1 < 0) {
-            rounded_arg = arg1 + 0xFFF;
+        limit_units = max_length;
+        if (max_length < 0) {
+            limit_units = max_length + 0xFFF;
         }
-        rounded_arg >>= 12;
-        ((Rec_D_800E3D7C *)arg2)->unk_0C.as_vs32 =
-            first_quotient * rounded_arg;
+        limit_units >>= 12;
+        ((Rec_D_800E3D7C *)vector)->unk_0C.as_vs32 =
+            first_quotient * limit_units;
         second_quotient =
-            ((Rec_D_800E3D7C *)arg2)->unk_10.at00_vs32.v / divisor;
-        ((Rec_D_800E3D7C *)arg2)->unk_10.at00_vs32.v =
-            second_quotient * rounded_arg;
+            ((Rec_D_800E3D7C *)vector)->unk_10.at00_vs32.v / divisor;
+        ((Rec_D_800E3D7C *)vector)->unk_10.at00_vs32.v =
+            second_quotient * limit_units;
     }
 }
-
-/* MECHANISM: Typed fields recover the initial v1/a1 update roles.
-   A block-local guarded a1 quotient exposes retail's divide/scale live ranges.
-   Long-lived args and first shifted result induce the s2/s1/s0 frame contract. */

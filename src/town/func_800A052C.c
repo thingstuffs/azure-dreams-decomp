@@ -9,30 +9,22 @@ extern s32 D_80081458[];
 extern M2C_UNK D_800D07A4[];
 extern s16 D_800D07AC;
 
-
-
-
-void func_8009DC8C(void *arg0, void *arg1, s32 arg2, s32 arg3) {
-    if (arg2 == 2) {
-        ((Rec_func_80094268_arg0 *)arg0)->unk_93 = 1;
-        (*(s32 *)((u8 *)arg1 + (0x28))) = D_80081458[0];
-        func_80047784(arg1, D_800D07AC, 0);
+/* Sets the object state for the selected mode and flags. */
+void func_8009DC8C(void *owner, void *object, s32 mode, s32 flags) {
+    if (mode == 2) {
+        ((Rec_func_80094268_arg0 *)owner)->unk_93 = 1;
+        (*(s32 *)((u8 *)object + (0x28))) = D_80081458[0];
+        func_80047784(object, D_800D07AC, 0);
         return;
     }
-    func_8003DB94(arg1, D_800D07A4[arg2], 0);
-    if (arg3 & 2) {
-        ((Rec_D_80082E80 *)arg1)->unk_12.at00_s16.v = 0x100;
-        return;
-           /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    func_8003DB94(object, D_800D07A4[mode], 0);
+    if (flags & 2) {
+        ((Rec_D_80082E80 *)object)->unk_12.at00_s16.v = 0x100;
         return;
     }
-    if (arg3 & 4) {
-        ((Rec_D_80082E80 *)arg1)->unk_12.at00_s16.v = 0x200;
+    if (flags & 4) {
+        ((Rec_D_80082E80 *)object)->unk_12.at00_s16.v = 0x200;
         return;
     }
-    ((Rec_D_80082E80 *)arg1)->unk_12.at00_s16.v = 0;
+    ((Rec_D_80082E80 *)object)->unk_12.at00_s16.v = 0;
 }
-
-/* MECHANISM: Void tail-call ABI preserves the three retail jumps and their delay slots.
-   A one-sided ASM_MEM_BARRIER prevents merging the twin flag-store tails.
-   Word-array indexing emits sll(a2,2); natural liveness yields the 0x20 s0/s1 frame. */

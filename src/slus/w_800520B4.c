@@ -40,30 +40,31 @@ extern void func_80051F58(void);
 extern void func_80044BB0(void);
 extern void func_8004491C(S_800520B4 *a0, void (*a1)(void));
 
-void func_800520B4(S_800520B4 *a0, void *a1)
+/* Initialize object state, callbacks, settings, and vector values. */
+void func_800520B4(S_800520B4 *object, void *context)
 {
-    s16 *sub;
-    S_800520B4_Ptr *ptr;
-    S_800520B4_Vec *vec;
+    s16 *state_words;
+    S_800520B4_Ptr *settings;
+    S_800520B4_Vec *vector;
 
-    a0->update_func = func_80051F58;
-    sub = (s16 *)((u8 *)a0 + 0x20);
-    a0->sub.field_0x00 = a1;
-    sub[2] = 0;
-    sub[3] = 0;
-    sub[5] = 0;
-    sub[6] = 0;
+    object->update_func = func_80051F58;
+    state_words = (s16 *)((u8 *)object + 0x20);
+    object->sub.field_0x00 = context;
+    state_words[2] = 0;
+    state_words[3] = 0;
+    state_words[5] = 0;
+    state_words[6] = 0;
 
-    ptr = a0->ptr;
-    ptr->field_0x08 = D_80071FF0;
-    ptr->field_0x0C = 0;
-    ptr->field_0x1E = 0x1000;
-    ptr->field_0x1C = 0x1000;
+    settings = object->ptr;
+    settings->field_0x08 = D_80071FF0;
+    settings->field_0x0C = 0;
+    settings->field_0x1E = 0x1000;
+    settings->field_0x1C = 0x1000;
 
-    func_8004491C(a0, func_80044BB0);
+    func_8004491C(object, func_80044BB0);
 
-    vec = a0->vec;
-    vec->field_0x00 = 0x980000;
-    vec->field_0x04 = 0x800000;
-    vec->field_0x08 = 0xA00000;
+    vector = object->vec;
+    vector->field_0x00 = 0x980000;
+    vector->field_0x04 = 0x800000;
+    vector->field_0x08 = 0xA00000;
 }

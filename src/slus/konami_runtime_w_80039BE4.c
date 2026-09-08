@@ -13,7 +13,8 @@ typedef struct {
 
 extern void func_80038708(void *);
 
-void func_80039BE4(Func80039BE4State *arg0) {
-    arg0->command = *arg0->cursor++;
-    arg0->callback = func_80038708;
+/* Reads the next command byte and sets the callback to func_80038708. */
+void func_80039BE4(Func80039BE4State *state) {
+    state->command = *state->cursor++;
+    state->callback = func_80038708;
 }

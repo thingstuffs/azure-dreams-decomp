@@ -28,30 +28,31 @@ extern s32 D_80083460;
 extern u8 D_80170E68;
 extern u8 D_80173874[];
 
-void func_80172D24(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Updates timed directional movement and settles the entity at its grid position. */
+void func_80172D24(void *action, void *motion, void *sprite, void *entity)
 {
-    s16 *temp_a0_3;
-    s16 *temp_v0_base;
-    s16 temp_a0;
-    s16 temp_v0;
-    s16 var_v1;
-    s32 temp_a0_2;
-    s32 temp_a0_4;
-    s32 temp_s4;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
-    s32 var_v0_2;
-    s32 var_v0_3;
-    s32 ax;
-    s32 dy;
-    s32 ax2;
-    s32 dy2;
-    s32 *global;
-    s32 value;
+    s16 *direction_y;
+    s16 *direction_x_table;
+    s16 frames_left;
+    s16 timer_or_state;
+    s16 duration;
+    s32 decel_offset;
+    s32 velocity_y;
+    s32 direction;
+    s32 launch_offset;
+    s32 velocity_x;
+    s32 rounded_velocity_x;
+    s32 rounded_velocity_y;
+    s32 target_x;
+    s32 position_x;
+    s32 target_y;
+    s32 position_y;
+    s32 *tracking_data;
+    s32 tracked_entity;
     u8 state;
 
-    temp_s4 = (((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 9) & 7;
-    state = ((S_80172D24_1 *)arg0)->unk_9B;
+    direction = (((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 9) & 7;
+    state = ((S_80172D24_1 *)action)->unk_9B;
 
     switch (state) {
     case 0:
@@ -67,122 +68,122 @@ void func_80172D24(void *arg0, void *arg1, void *arg2, void *arg3)
     }
 
 state_0:
-    func_800AD4D0(arg3);
-    if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
+    func_800AD4D0(entity);
+    if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
         goto start_action;
     }
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
-        ((S_80172D24_1 *)arg0)->unk_96.s = 0;
-        ((S_80172D24_1 *)arg0)->unk_9B = 3;
+    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        ((S_80172D24_1 *)action)->unk_96.s = 0;
+        ((S_80172D24_1 *)action)->unk_9B = 3;
         return;
     }
-    ((S_80172D24_1 *)arg0)->unk_96.s = 12;
-    ((S_80172D24_1 *)arg0)->unk_9B++;
+    ((S_80172D24_1 *)action)->unk_96.s = 12;
+    ((S_80172D24_1 *)action)->unk_9B++;
 
 state_1:
-    temp_v0 = ((S_80172D24_1 *)arg0)->unk_96.s - 1;
-    ((S_80172D24_1 *)arg0)->unk_96.s = temp_v0;
-    if ((temp_v0 << 16) != 0) {
+    timer_or_state = ((S_80172D24_1 *)action)->unk_96.s - 1;
+    ((S_80172D24_1 *)action)->unk_96.s = timer_or_state;
+    if ((timer_or_state << 16) != 0) {
         return;
     }
 
-    (*(void * *)((u8 *)arg2 + 0x2C)) = D_80173874;
-    func_80047784(arg2,
-        D_80173874[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+    (*(void * *)((u8 *)sprite + 0x2C)) = D_80173874;
+    func_80047784(sprite,
+        D_80173874[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
 
-    temp_v0_base = (s16 *)&D_8006CCD8;
-    temp_v1_2 = temp_s4 * 2;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 =
-        *(s16 *)((u8 *)temp_v0_base + temp_v1_2) << 19;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
-        *(s16 *)((u8 *)&D_8006CCE8 + temp_v1_2) << 19;
+    direction_x_table = (s16 *)&D_8006CCD8;
+    launch_offset = direction * 2;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
+        *(s16 *)((u8 *)direction_x_table + launch_offset) << 19;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+        *(s16 *)((u8 *)&D_8006CCE8 + launch_offset) << 19;
 
-    var_v1 = -1;
-    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228) {
-        var_v1 = 8;
+    duration = -1;
+    if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228) {
+        duration = 8;
     }
-    ((S_80172D24_1 *)arg0)->unk_96.s = var_v1;
+    ((S_80172D24_1 *)action)->unk_96.s = duration;
 
-    temp_v1_3 = ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32;
-    var_v0_2 = temp_v1_3;
-    if (temp_v1_3 < 0) {
-        var_v0_2 = temp_v1_3 + 3;
+    velocity_x = ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32;
+    rounded_velocity_x = velocity_x;
+    if (velocity_x < 0) {
+        rounded_velocity_x = velocity_x + 3;
     }
-    temp_a0_4 = ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = temp_v1_3 - (var_v0_2 >> 2);
-    var_v0_3 = temp_a0_4;
-    if (temp_a0_4 < 0) {
-        var_v0_3 = temp_a0_4 + 3;
+    velocity_y = ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = velocity_x - (rounded_velocity_x >> 2);
+    rounded_velocity_y = velocity_y;
+    if (velocity_y < 0) {
+        rounded_velocity_y = velocity_y + 3;
     }
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = temp_a0_4 - (var_v0_3 >> 2);
-    temp_v0 = ((S_80172D24_1 *)arg0)->unk_9B + 1;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = velocity_y - (rounded_velocity_y >> 2);
+    timer_or_state = ((S_80172D24_1 *)action)->unk_9B + 1;
     goto store_state;
 
 state_2:
-    temp_v0_base = (s16 *)&D_8006CCD8;
-    temp_a0_2 = temp_s4 * 2;
-    temp_a0_3 = (s16 *)((u8 *)&D_8006CCE8 + temp_a0_2);
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 -=
-        *(s16 *)((u8 *)temp_v0_base + temp_a0_2) << 16;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v -= *temp_a0_3 << 16;
+    direction_x_table = (s16 *)&D_8006CCD8;
+    decel_offset = direction * 2;
+    direction_y = (s16 *)((u8 *)&D_8006CCE8 + decel_offset);
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 -=
+        *(s16 *)((u8 *)direction_x_table + decel_offset) << 16;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v -= *direction_y << 16;
 
-    if (((S_80172D24_1 *)arg0)->unk_96.u > 0) {
-        ((S_80172D24_1 *)arg0)->unk_96.s--;
-    } else if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
-        ((S_80172D24_1 *)arg0)->unk_96.s = 0;
+    if (((S_80172D24_1 *)action)->unk_96.u > 0) {
+        ((S_80172D24_1 *)action)->unk_96.s--;
+    } else if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        ((S_80172D24_1 *)action)->unk_96.s = 0;
     }
-    if (((S_80172D24_1 *)arg0)->unk_96.u != 0) {
+    if (((S_80172D24_1 *)action)->unk_96.u != 0) {
         return;
     }
-    if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
-        var_v1 = 8;
+    if (((Rec_D_800E3D7C *)entity)->unk_28 != 0) {
+        duration = 8;
         goto increment_state;
     }
 
 start_action:
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800AAA54(arg0, arg1, arg2, D_80173874);
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    func_800AAA54(action, motion, sprite, D_80173874);
     return;
 
 increment_state:
-    temp_v0 = ((S_80172D24_1 *)arg0)->unk_9B + 1;
-    ((S_80172D24_1 *)arg0)->unk_96.s = var_v1;
+    timer_or_state = ((S_80172D24_1 *)action)->unk_9B + 1;
+    ((S_80172D24_1 *)action)->unk_96.s = duration;
 
 store_state:
-    ((S_80172D24_1 *)arg0)->unk_9B = temp_v0;
+    ((S_80172D24_1 *)action)->unk_9B = timer_or_state;
     return;
 
 state_3:
-    temp_a0 = ((S_80172D24_1 *)arg0)->unk_96.u;
-    if (temp_a0 != 0) {
-        ax = ((Rec_D_80082E80 *)arg2)->unk_24 << 6;
-        dy = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = ((ax - dy) << 15) / temp_a0;
+    frames_left = ((S_80172D24_1 *)action)->unk_96.u;
+    if (frames_left != 0) {
+        target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+        position_x = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v - 0x20;
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = ((target_x - position_x) << 15) / frames_left;
 
-        ax2 = ((Rec_D_80082E80 *)arg2)->unk_25 << 6;
-        dy2 = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
-            ((ax2 - dy2) << 15) / ((S_80172D24_1 *)arg0)->unk_96.u;
+        target_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+        position_y = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v - 0x20;
+        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+            ((target_y - position_y) << 15) / ((S_80172D24_1 *)action)->unk_96.u;
     }
 
-    temp_v0 = ((S_80172D24_1 *)arg0)->unk_96.s - 1;
-    ((S_80172D24_1 *)arg0)->unk_96.s = temp_v0;
-    if ((temp_v0 << 16) > 0) {
+    timer_or_state = ((S_80172D24_1 *)action)->unk_96.s - 1;
+    ((S_80172D24_1 *)action)->unk_96.s = timer_or_state;
+    if ((timer_or_state << 16) > 0) {
         return;
     }
 
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
-    global = &D_80083460;
-    value = *(s32 *)((u8 *)global + 0x10);
-    if (value == (s32)((u8 *)arg3 - 0x20)) {
-        *(s32 *)((u8 *)global + 0x10) = value & 0x7FFFFFFF;
+    tracking_data = &D_80083460;
+    tracked_entity = *(s32 *)((u8 *)tracking_data + 0x10);
+    if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
+        *(s32 *)((u8 *)tracking_data + 0x10) = tracked_entity & 0x7FFFFFFF;
     }
-    ((S_80172D24_1 *)arg0)->unk_8C = &D_80170E68;
+    ((S_80172D24_1 *)action)->unk_8C = &D_80170E68;
 }

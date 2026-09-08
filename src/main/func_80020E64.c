@@ -25,37 +25,38 @@ extern u8 D_80407D90[];
 extern u8 D_80407DB8[];
 extern u8 D_804081AC[];
 
-void func_80407E64(void *arg0) {
-    s32 state_five;
-    s32 result;
-    s32 count;
+/* Polls the status and selects the corresponding context update and data. */
+void func_80407E64(void *state) {
+    s32 retry_status;
+    s32 status;
+    s32 retries;
     void *context;
 
-    count = 0;
-    state_five = 5;
+    retries = 0;
+    retry_status = 5;
     do {
-        result = func_80401B30(((S_80407E64_0 *)arg0)->unk_0C);
-        if (result != state_five) {
+        status = func_80401B30(((S_80407E64_0 *)state)->unk_0C);
+        if (status != retry_status) {
             break;
         }
-    } while (count++ < 6);
+    } while (retries++ < 6);
 
-    ((S_80407E64_0 *)arg0)->unk_38 = 0;
+    ((S_80407E64_0 *)state)->unk_38 = 0;
     func_80400908();
-    if (result == 1) {
-        context = (u8 *)arg0 - 0x20;
-        ((S_80407E64_0 *)arg0)->unk_2C = D_804081AC;
+    if (status == 1) {
+        context = (u8 *)state - 0x20;
+        ((S_80407E64_0 *)state)->unk_2C = D_804081AC;
         func_804032AC(context);
-        ((S_80407E64_0_pre *)arg0)[-1].unk_00 = D_80407DB8;
-    } else if (result == 4) {
-        context = (u8 *)arg0 - 0x20;
-        ((S_80407E64_0 *)arg0)->unk_2C = D_804081AC;
+        ((S_80407E64_0_pre *)state)[-1].unk_00 = D_80407DB8;
+    } else if (status == 4) {
+        context = (u8 *)state - 0x20;
+        ((S_80407E64_0 *)state)->unk_2C = D_804081AC;
         func_804030F4(context);
-        ((S_80407E64_0_pre *)arg0)[-1].unk_00 = D_80407D90;
+        ((S_80407E64_0_pre *)state)[-1].unk_00 = D_80407D90;
     } else {
-        context = (u8 *)arg0 - 0x20;
-        ((S_80407E64_0 *)arg0)->unk_2C = D_804081AC;
+        context = (u8 *)state - 0x20;
+        ((S_80407E64_0 *)state)->unk_2C = D_804081AC;
         func_80403284(context);
-        ((S_80407E64_0_pre *)arg0)[-1].unk_00 = D_80407DB8;
+        ((S_80407E64_0_pre *)state)[-1].unk_00 = D_80407DB8;
     }
 }

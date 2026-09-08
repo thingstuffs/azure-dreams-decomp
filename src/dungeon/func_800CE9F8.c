@@ -30,95 +30,96 @@ typedef struct S_800D4158_2 {
     u16 unk_9E;
 } S_800D4158_2;   /* arg0 in func_800D4158 */
 
-void func_800D4158(void *arg0, S_800D4158_1 *arg1, Rec_D_80082E80 *arg2) {
-    void *s0 = arg0;
-    u16 flags;
-    u32 flags32;
-    s16 dist16;
-    s32 raw;
-    s16 phase;
-    s32 color;
+/* Updates entity callbacks, motion, ground contact, and sprite brightness. */
+void func_800D4158(void *entity, S_800D4158_1 *motion, Rec_D_80082E80 *sprite) {
+    void *entity_ref = entity;
+    u16 motion_flags;
+    u32 entity_flags;
+    s16 ground_height;
+    s32 ground_height_raw;
+    s16 pulse_phase;
+    s32 brightness;
 
     if (*D_80083462 & 0x2000) {
-        (*(u8 *)((u8 *)s0 + 0x71)) = (*(u8 *)((u8 *)s0 + 0x71)) & 0x7f;
+        (*(u8 *)((u8 *)entity_ref + 0x71)) = (*(u8 *)((u8 *)entity_ref + 0x71)) & 0x7f;
         goto epilogue;
     }
-    if ((*(Func4 *)((u8 *)s0 + 0x8c)) != NULL) {
-        ((Func4)(*(Func4 *)((u8 *)s0 + 0x8c)))(s0, arg1, arg2, s0);
+    if ((*(Func4 *)((u8 *)entity_ref + 0x8c)) != NULL) {
+        ((Func4)(*(Func4 *)((u8 *)entity_ref + 0x8c)))(entity_ref, motion, sprite, entity_ref);
     }
-    D_800E22E0[(*(u8 *)((u8 *)s0 + 0x9a))](s0, arg1, arg2, s0);
-    if (!(arg2->unk_14.at00_u16.v & 0x8000)) {
-        if (!(arg2->unk_14.at00_u16.v & 0x40)) {
-            func_800478B8(arg2);
+    D_800E22E0[(*(u8 *)((u8 *)entity_ref + 0x9a))](entity_ref, motion, sprite, entity_ref);
+    if (!(sprite->unk_14.at00_u16.v & 0x8000)) {
+        if (!(sprite->unk_14.at00_u16.v & 0x40)) {
+            func_800478B8(sprite);
         }
     }
-    arg1->unk_00.at00.v += arg1->unk_0C;
-    arg1->unk_04.at00.v += arg1->unk_10;
-    flags = ((S_800D4158_2 *)arg0)->unk_98;
-    if (flags & 8) {
-        ((S_800D4158_2 *)arg0)->unk_9D.u = 0;
-        goto step_done;
+    motion->unk_00.at00.v += motion->unk_0C;
+    motion->unk_04.at00.v += motion->unk_10;
+    motion_flags = ((S_800D4158_2 *)entity)->unk_98;
+    if (motion_flags & 8) {
+        ((S_800D4158_2 *)entity)->unk_9D.u = 0;
+        goto apply_vertical_motion;
     }
-    arg1->unk_14 += ((S_800D4158_2 *)arg0)->unk_9D.s * 0x14000;
-    ((S_800D4158_2 *)arg0)->unk_9D.s = ((S_800D4158_2 *)arg0)->unk_9D.u + 1;
-step_done:
-    ((S_800D4158_2 *)arg0)->unk_90.at00.v += arg1->unk_14;
-    if (((S_800D4158_2 *)arg0)->unk_98 & 4) {
-        goto clear_flag;
+    motion->unk_14 += ((S_800D4158_2 *)entity)->unk_9D.s * 0x14000;
+    ((S_800D4158_2 *)entity)->unk_9D.s = ((S_800D4158_2 *)entity)->unk_9D.u + 1;
+apply_vertical_motion:
+    ((S_800D4158_2 *)entity)->unk_90.at00.v += motion->unk_14;
+    if (((S_800D4158_2 *)entity)->unk_98 & 4) {
+        goto clear_grounded;
     }
-    raw = func_800BCB04(arg1->unk_00.at02.v, arg1->unk_04.at02.v,
-                        (s16)((*(u16 *)((u8 *)s0 + 0x88)) - 0x20));
-    dist16 = (s16)raw;
-    if (dist16 >= 0x200) {
-        goto clear_flag;
+    ground_height_raw = func_800BCB04(motion->unk_00.at02.v, motion->unk_04.at02.v,
+                        (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20));
+    ground_height = (s16)ground_height_raw;
+    if (ground_height >= 0x200) {
+        goto clear_grounded;
     }
-    if (((S_800D4158_2 *)arg0)->unk_90.at02.v + (*(s16 *)((u8 *)s0 + 0x88)) < dist16) {
-        (void)*(volatile u16 *)((s8 *)arg0 + 0x98);
-        goto flag_check;
+    if (((S_800D4158_2 *)entity)->unk_90.at02.v + (*(s16 *)((u8 *)entity_ref + 0x88)) < ground_height) {
+        (void)*(volatile u16 *)((s8 *)entity + 0x98);
+        goto check_base_height;
     }
-    if (dist16 >= (*(s16 *)((u8 *)s0 + 0x88))) {
-        ((S_800D4158_2 *)arg0)->unk_90.at00.v = 0;
+    if (ground_height >= (*(s16 *)((u8 *)entity_ref + 0x88))) {
+        ((S_800D4158_2 *)entity)->unk_90.at00.v = 0;
     } else {
-        ((S_800D4158_2 *)arg0)->unk_90.at02.v = raw - (*(u16 *)((u8 *)s0 + 0x88));
+        ((S_800D4158_2 *)entity)->unk_90.at02.v = ground_height_raw - (*(u16 *)((u8 *)entity_ref + 0x88));
     }
-    arg1->unk_14 = 0;
-    (*(s32 *)((u8 *)s0 + 0x1c)) |= 0x08000000;
-    ((S_800D4158_2 *)arg0)->unk_9D.s = 0;
-flag_check:
-    flags32 = (*(u32 *)((u8 *)s0 + 0x1c));
-    if (flags32 & 0x40000000) {
-        (*(u32 *)((u8 *)s0 + 0x1c)) = flags32 & 0xbfffffff;
-        raw = func_800BCB04(
-        (arg2->unk_24 << 6) | 0x20,
-        (arg2->unk_25 << 6) | 0x20,
-            (s16)((*(u16 *)((u8 *)s0 + 0x88)) - 0x20));
-        ((S_800D4158_2 *)arg0)->unk_90.at02.v += (*(u16 *)((u8 *)s0 + 0x88)) - raw;
-        (*(s16 *)((u8 *)s0 + 0x88)) = raw;
+    motion->unk_14 = 0;
+    (*(s32 *)((u8 *)entity_ref + 0x1c)) |= 0x08000000;
+    ((S_800D4158_2 *)entity)->unk_9D.s = 0;
+check_base_height:
+    entity_flags = (*(u32 *)((u8 *)entity_ref + 0x1c));
+    if (entity_flags & 0x40000000) {
+        (*(u32 *)((u8 *)entity_ref + 0x1c)) = entity_flags & 0xbfffffff;
+        ground_height_raw = func_800BCB04(
+            (sprite->unk_24 << 6) | 0x20,
+            (sprite->unk_25 << 6) | 0x20,
+            (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20));
+        ((S_800D4158_2 *)entity)->unk_90.at02.v += (*(u16 *)((u8 *)entity_ref + 0x88)) - ground_height_raw;
+        (*(s16 *)((u8 *)entity_ref + 0x88)) = ground_height_raw;
     }
-    goto angle_start;
-clear_flag:
-    (*(u32 *)((u8 *)s0 + 0x1c)) &= 0xf7ffffff;
-angle_start:
-    arg1->unk_0A = (*(u16 *)((u8 *)s0 + 0x88)) +
-                                   ((S_800D4158_2 *)arg0)->unk_90.at02.v;
-angle_done:
-    phase = ((S_800D4158_2 *)arg0)->unk_9E;
-    phase++;
-    phase %= 96;
-    ((S_800D4158_2 *)arg0)->unk_9E = phase;
-    if ((s16)phase < 0x19) {
-        color = (func_800644B8((s16)phase * 0x55) >> 4) * 0x60;
-        color = (color >> 8) + 0x80;
-        arg2->unk_0C.at02_u8.v = color;
-        arg2->unk_0C.at01_u8.v = color;
-        arg2->unk_0C.at00_u8.v = color;
+    goto update_height;
+clear_grounded:
+    (*(u32 *)((u8 *)entity_ref + 0x1c)) &= 0xf7ffffff;
+update_height:
+    motion->unk_0A = (*(u16 *)((u8 *)entity_ref + 0x88)) +
+                                   ((S_800D4158_2 *)entity)->unk_90.at02.v;
+update_brightness:
+    pulse_phase = ((S_800D4158_2 *)entity)->unk_9E;
+    pulse_phase++;
+    pulse_phase %= 96;
+    ((S_800D4158_2 *)entity)->unk_9E = pulse_phase;
+    if ((s16)pulse_phase < 0x19) {
+        brightness = (func_800644B8((s16)pulse_phase * 0x55) >> 4) * 0x60;
+        brightness = (brightness >> 8) + 0x80;
+        sprite->unk_0C.at02_u8.v = brightness;
+        sprite->unk_0C.at01_u8.v = brightness;
+        sprite->unk_0C.at00_u8.v = brightness;
     } else {
-        arg2->unk_0C.at02_u8.v = 0x80;
-        arg2->unk_0C.at01_u8.v = 0x80;
-        arg2->unk_0C.at00_u8.v = 0x80;
+        sprite->unk_0C.at02_u8.v = 0x80;
+        sprite->unk_0C.at01_u8.v = 0x80;
+        sprite->unk_0C.at00_u8.v = 0x80;
     }
-    arg2->unk_14.at00_u16.v |= 0x40;
-    (*(u32 *)((u8 *)s0 + 0x1c)) |= 0x200;
+    sprite->unk_14.at00_u16.v |= 0x40;
+    (*(u32 *)((u8 *)entity_ref + 0x1c)) |= 0x200;
 epilogue:
     return;
 }

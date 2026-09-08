@@ -35,10 +35,11 @@ typedef struct {
 extern void *func_8003FC64();
 extern s32 D_800253F4;
 
-void *func_80025874(s32 arg0, Copy24 *arg1, s16 arg2) {
+/* Allocates and initializes an object, copying 24 bytes of source data into it. */
+void *func_80025874(s32 state_value, Copy24 *source_data, s16 initial_setting) {
     void *obj;
     S_80025874_1 *fields;
-    void *dst;
+    void *object_data;
     register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     do { obj = func_8003FC64(0x212); } while (0);
@@ -46,7 +47,7 @@ void *func_80025874(s32 arg0, Copy24 *arg1, s16 arg2) {
     if (obj != 0) {
         ((S_80025874_0 *)obj)->unk_10 = &D_800253F4;
         fields = obj + 0x20;
-        ((S_80025874_0 *)obj)->unk_20 = arg0;
+        ((S_80025874_0 *)obj)->unk_20 = state_value;
         fields->unk_08 = 8;
         fields->unk_10 = 2;
         fields->unk_0E = 0x48;
@@ -58,10 +59,10 @@ void *func_80025874(s32 arg0, Copy24 *arg1, s16 arg2) {
         fields->unk_40 = 0xC0;
         fields->unk_42 = 0;
         fields->unk_41 = 0;
-        fields->unk_14 = arg2;
-        dst = ((S_80025874_0 *)obj)->unk_08;
+        fields->unk_14 = initial_setting;
+        object_data = ((S_80025874_0 *)obj)->unk_08;
         result = obj;
-        *(Copy24 *)dst = *arg1;
+        *(Copy24 *)object_data = *source_data;
     }
     return result;
 }

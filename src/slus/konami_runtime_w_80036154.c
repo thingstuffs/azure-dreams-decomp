@@ -36,32 +36,33 @@ extern M2C_UNK func_800385E8;
 extern M2C_UNK func_80038648;
 extern M2C_UNK func_80038A00;
 
-void func_80036154(void *arg0) {
-    M2C_UNK *var_v0;
-    s32 temp_v1;
+/* Selects a handler from the linked object, initializes its data, and sets its flag. */
+void func_80036154(void *object) {
+    M2C_UNK *handler;
+    s32 source_handler;
 
-    temp_v1 = ((S_80036154_2 *)(((S_80036154_1 *)arg0)->unk_74))->unk_10;
-    if (temp_v1 == &func_80038478) {
-        var_v0 = &func_80036210;
-        goto block_10;
+    source_handler = ((S_80036154_2 *)(((S_80036154_1 *)object)->unk_74))->unk_10;
+    if (source_handler == &func_80038478) {
+        handler = &func_80036210;
+        goto set_handler;
     }
-    if (temp_v1 == &func_80038588) {
-        var_v0 = &func_800362D0;
-        goto block_10;
+    if (source_handler == &func_80038588) {
+        handler = &func_800362D0;
+        goto set_handler;
     }
-    if (temp_v1 == &func_800385E8) {
-        var_v0 = &func_800364EC;
-        goto block_10;
+    if (source_handler == &func_800385E8) {
+        handler = &func_800364EC;
+        goto set_handler;
     }
-    if (temp_v1 == &func_80038648) {
-        var_v0 = &func_8003666C;
-        goto block_10;
+    if (source_handler == &func_80038648) {
+        handler = &func_8003666C;
+        goto set_handler;
     }
-    if (temp_v1 == &func_80038A00) {
-        var_v0 = &func_800368D0;
-block_10:
-        ((S_80036154_0 *)arg0)->unk_68 = var_v0;
+    if (source_handler == &func_80038A00) {
+        handler = &func_800368D0;
+set_handler:
+        ((S_80036154_0 *)object)->unk_68 = handler;
     }
-    func_80036988(arg0 + 0xC, ((S_80036154_0 *)arg0)->unk_74);
-    ((S_80036154_2 *)(((S_80036154_1 *)arg0)->unk_74))->unk_85 = 1;
+    func_80036988(object + 0xC, ((S_80036154_0 *)object)->unk_74);
+    ((S_80036154_2 *)(((S_80036154_1 *)object)->unk_74))->unk_85 = 1;
 }

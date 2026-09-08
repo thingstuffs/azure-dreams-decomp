@@ -17,21 +17,22 @@ extern State *D_80083160[3];
 extern u8 D_801C9E40[16];
 extern s32 func_8006658C(s32 arg0, void *arg1);
 
-void func_8009DA70(s32 arg0, s32 arg1, s32 *arg2, s32 arg3)
+// Appends a type-2 entry with adjusted coordinates and submits it for processing.
+void func_8009DA70(s32 x, s32 y, s32 *entryValue, s32 submissionTarget)
 {
-    s32 t1 = arg1 & 0xFFFF;
-    s32 t0 = t1 + 0xC0;
-    State *outer = D_80083160[0];
-    Inner *inner = outer->next;
-    s32 a0 = arg0 + 0x300;
+    s32 maskedY = y & 0xFFFF;
+    s32 adjustedY = maskedY + 0xC0;
+    State *state = D_80083160[0];
+    Inner *entry = state->next;
+    s32 adjustedX = x + 0x300;
 
-    outer->next = inner + 1;
-    inner->type = 2;
-    inner->val8 = (s16)a0;
-    if (outer != (State *)D_801C9E40) {
-        t0 = t1 - 0x20;
+    state->next = entry + 1;
+    entry->type = 2;
+    entry->val8 = (s16)adjustedX;
+    if (state != (State *)D_801C9E40) {
+        adjustedY = maskedY - 0x20;
     }
-    inner->valA = (s16)t0;
-    inner->val4 = *arg2;
-    func_8006658C(arg3, inner);
+    entry->valA = (s16)adjustedY;
+    entry->val4 = *entryValue;
+    func_8006658C(submissionTarget, entry);
 }

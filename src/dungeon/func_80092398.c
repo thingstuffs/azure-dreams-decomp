@@ -43,15 +43,16 @@ extern u8 D_80096384[];
 extern void func_80099F04(void *);
 extern void func_80099F70(void *);
 
-void func_80097AF8(S_80097AF8_0 *arg0, S_80097AF8_1 *arg1, S_80097AF8_2 *arg2, S_80097AF8_4 *arg3)
+/* Advance the timed motion sequence and select its continuation when status flags allow. */
+void func_80097AF8(S_80097AF8_0 *actor, S_80097AF8_1 *motion, S_80097AF8_2 *status, S_80097AF8_4 *owner)
 {
     s32 state;
-    s32 flags;
-    u16 counter;
+    s32 owner_flags;
+    u16 state_ticks;
     u8 next_state;
-    u8 *global_base;
+    u8 *shared_state;
 
-    state = arg0->unk_9B;
+    state = actor->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -67,55 +68,50 @@ void func_80097AF8(S_80097AF8_0 *arg0, S_80097AF8_1 *arg1, S_80097AF8_2 *arg2, S
     goto done;
 
 state_zero:
-    counter = arg0->unk_96 - 1;
-    arg0->unk_96 = counter;
-    if ((counter << 16) > 0) {
+    state_ticks = actor->unk_96 - 1;
+    actor->unk_96 = state_ticks;
+    if ((state_ticks << 16) > 0) {
         goto done;
     }
-    arg1->unk_14 = 0xFFEA0000;
-    next_state = arg0->unk_9B;
-    arg0->unk_96 = 0;
+    motion->unk_14 = 0xFFEA0000;
+    next_state = actor->unk_9B;
+    actor->unk_96 = 0;
     goto increment_state;
 
 state_one:
-    counter = arg0->unk_96 + 1;
-    arg0->unk_96 = counter;
-    if ((arg0->unk_A2 & 0x10) == 0) {
+    state_ticks = actor->unk_96 + 1;
+    actor->unk_96 = state_ticks;
+    if ((actor->unk_A2 & 0x10) == 0) {
         goto done;
     }
-    if ((s16)counter < 4) {
+    if ((s16)state_ticks < 4) {
         goto done;
     }
-    arg1->unk_14 = 0;
-    next_state = arg0->unk_9B;
+    motion->unk_14 = 0;
+    next_state = actor->unk_9B;
 
 increment_state:
     next_state++;
-    arg0->unk_9B = next_state;
+    actor->unk_9B = next_state;
     goto done;
 
 state_two:
-    if ((arg2->unk_14 & 0x6000) == 0) {
+    if ((status->unk_14 & 0x6000) == 0) {
         goto done;
     }
-    global_base = (u8 *)&D_80083460;
-    if (((S_80097AF8_3 *)global_base)->unk_0A != 0) {
+    shared_state = (u8 *)&D_80083460;
+    if (((S_80097AF8_3 *)shared_state)->unk_0A != 0) {
         goto done;
     }
-    flags = arg3->unk_1C;
-    if (flags & 0x200000) {
-        arg3->unk_1C = flags & 0xFFDFFFFF;
-        ((S_80097AF8_3 *)global_base)->unk_02 |= 0x412;
-        func_80099F70(arg3->unk_5C);
-        func_80099F04(arg3->unk_5C);
+    owner_flags = owner->unk_1C;
+    if (owner_flags & 0x200000) {
+        owner->unk_1C = owner_flags & 0xFFDFFFFF;
+        ((S_80097AF8_3 *)shared_state)->unk_02 |= 0x412;
+        func_80099F70(owner->unk_5C);
+        func_80099F04(owner->unk_5C);
     }
-    arg0->unk_8C = D_80096384;
+    actor->unk_8C = D_80096384;
 
 done:
     return;
 }
-
-/* MECHANISM: True-space CFG labels preserve the state-0/state-1/state-2 layout and
-   naturally produce the 0x20 frame with arg0/arg3 held in s0/s1. A fresh u8
-   next_state live range selects v0; a held D_80083460 base emits addiu a0 plus
-   the retail +0xA/+2 fields, closing the one-word displacement cascade. */

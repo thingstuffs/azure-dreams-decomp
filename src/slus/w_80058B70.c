@@ -25,85 +25,84 @@ extern u32 func_80058ABC(S_80058B70 *);
 extern s32 func_80058B2C(S_80058B70 *);
 extern void func_800589B8(S_80058B70 *);
 
-/* Configures the D_80085FA8[0] playback slot depending on the current mode
- * D_800737C8 (see doc). */
+/* Configures the first playback slot and playback parameters for the current mode. */
 s32 func_80058B70(void)
 {
-    S_80058B70 *p = &D_80085FA8[0];
-    s32 s1 = 0;
-    s32 i;
-    u32 tv0;
-    u32 lo;
-    u32 q;
+    S_80058B70 *slot = &D_80085FA8[0];
+    s32 playback_value = 0;
+    s32 entry_index;
+    u32 timing_divisor;
+    u32 playback_rate;
+    u32 scaled_rate;
 
     D_800737D4[0] = 0;
     switch (D_800737C8[0]) {
     case 1:
         {
-            s32 r = func_80058850(0);
-            p->f00 = r;
-            if (r == -1) {
+            s32 slot_id = func_80058850(0);
+            slot->f00 = slot_id;
+            if (slot_id == -1) {
                 return 0;
             }
         }
-        D_80085FA0[0] = func_80058ABC(p);
-        D_800869B8[0] = func_80058B2C(p) & 0xFFFF;
-        D_800869B4[0] = func_80058B2C(p) & 0xFFFF;
-        D_800869A8[0] = func_80058B2C(p) & 0xFFFF;
+        D_80085FA0[0] = func_80058ABC(slot);
+        D_800869B8[0] = func_80058B2C(slot) & 0xFFFF;
+        D_800869B4[0] = func_80058B2C(slot) & 0xFFFF;
+        D_800869A8[0] = func_80058B2C(slot) & 0xFFFF;
         if (D_800869B8[0] == 0) {
-            s32 r;
+            s32 initial_value;
             D_800869B0[0] = 0x10000;
-            r = func_80058940(0);
-            D_800869B0[0] = r;
-            p->f1c = r;
+            initial_value = func_80058940(0);
+            D_800869B0[0] = initial_value;
+            slot->f1c = initial_value;
         } else {
-            i = 0;
+            entry_index = 0;
             D_800869B0[0] = 0x10000;
-            if ((u32)s1 < (u32)D_800869B4[0]) {
+            if ((u32)playback_value < (u32)D_800869B4[0]) {
                 do {
-                    s1 = func_80058940(s1);
-                    i++;
-                    p->f1c = s1;
-                } while ((u32)i < (u32)D_800869B4[0]);
+                    playback_value = func_80058940(playback_value);
+                    entry_index++;
+                    slot->f1c = playback_value;
+                } while ((u32)entry_index < (u32)D_800869B4[0]);
             }
-            D_800869B0[0] = s1;
+            D_800869B0[0] = playback_value;
         }
         break;
     case 0:
-        p->f00 = 8;
-        D_800869A8[0] = func_80058B2C(p) & 0xFFFF;
+        slot->f00 = 8;
+        D_800869A8[0] = func_80058B2C(slot) & 0xFFFF;
         D_800869B8[0] = 0;
         D_800869B4[0] = 1;
         D_800869B0[0] = 0x10000;
         D_800869B0[0] = func_80058940(0);
-        tv0 = func_80058ABC(p) >> 8;
-        lo = 0x3938700 / tv0;
-        p->f20 = tv0;
-        p->f24 = lo;
-        p->f20 = lo;
-        q = (lo * 100) / 115;
-        p->f24 = q;
-        if (q >= 0x100) {
-            p->f24 = 0xFF;
+        timing_divisor = func_80058ABC(slot) >> 8;
+        playback_rate = 0x3938700 / timing_divisor;
+        slot->f20 = timing_divisor;
+        slot->f24 = playback_rate;
+        slot->f20 = playback_rate;
+        scaled_rate = (playback_rate * 100) / 115;
+        slot->f24 = scaled_rate;
+        if (scaled_rate >= 0x100) {
+            slot->f24 = 0xFF;
         }
         switch ((u32)D_800869A8[0]) {
         case 0x18:
         case 0x3C:
-            p->f24 = (u32)p->f24 >> 1;
+            slot->f24 = (u32)slot->f24 >> 1;
             break;
         case 0x1E:
-            p->f24 = (u32)p->f24 >> 2;
+            slot->f24 = (u32)slot->f24 >> 2;
             break;
         }
-        func_800589B8(p);
+        func_800589B8(slot);
         break;
     case 2:
         D_800869B8[0] = 1;
         {
-            s8 *base = (s8 *)D_80085FA4[0];
-            D_800869A8[0] = *(s32 *)(base + 8);
-            D_800869B4[0] = *(s32 *)(base + 0xC);
-            D_800869B0[0] = *(s32 *)(base + 4);
+            s8 *mode_data = (s8 *)D_80085FA4[0];
+            D_800869A8[0] = *(s32 *)(mode_data + 8);
+            D_800869B4[0] = *(s32 *)(mode_data + 0xC);
+            D_800869B0[0] = *(s32 *)(mode_data + 4);
         }
         break;
     }

@@ -29,6 +29,7 @@ extern u8 D_80045340[16];
 extern u8 D_800B21B8[16];
 extern u8 D_800DEC70[16];
 
+/* Creates an object from the source block and initializes its render part. */
 void func_800B2230(CopyBlock *source)
 {
     Object *object;

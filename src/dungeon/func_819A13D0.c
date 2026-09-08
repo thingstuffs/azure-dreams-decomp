@@ -18,23 +18,24 @@ typedef struct {
 extern s16 D_800261B0[];
 extern s32 D_800814A0[];
 
-void func_819A13D0(Work *arg0, s32 arg1, Obj *arg2) {
-    s32 quotient;
+/* Decrement the count, update the object angle and components, and flag completion. */
+void func_819A13D0(Work *work, s32 unused, Obj *obj) {
+    s32 scaled_count;
     u16 count;
     u16 angle;
 
-    count = arg0->count - 1;
-    quotient = (s32)((s32)(count << 16) >> 9) / arg0->divisor;
-    arg0->count = count;
-    angle = arg2->angle;
+    count = work->count - 1;
+    scaled_count = (s32)((s32)(count << 16) >> 9) / work->divisor;
+    work->count = count;
+    angle = obj->angle;
     D_800261B0[0] = 1;
-    arg2->angle = angle + 0x190;
-    arg2->c2 = quotient;
-    arg2->c1 = quotient;
-    arg2->c0 = quotient;
-    if ((s16)arg0->count > 0) {
+    obj->angle = angle + 0x190;
+    obj->c2 = scaled_count;
+    obj->c1 = scaled_count;
+    obj->c0 = scaled_count;
+    if ((s16)work->count > 0) {
         return;
     }
-    *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    *(u16 *)((u8 *)work - 2) |= 0x8000;
     D_800814A0[0] |= 0x8000;
 }

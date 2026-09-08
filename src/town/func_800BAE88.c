@@ -8,201 +8,202 @@ extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];
 extern u8 D_800D2644_case1[] __asm__("D_800D2644");
 
-s32 func_800B85E8(s32 arg0, s8 *arg1) {
-    static void *const sw_keep[] = {
+/* Collects matching slot indices for an entry and returns their count. */
+s32 func_800B85E8(s32 entry_id, s8 *slots_out) {
+    static void *const case_labels[] = {
         &&case_1, &&case_default, &&case_default, &&case_4_8,
         &&case_default, &&case_default, &&case_default, &&case_4_8,
         &&case_default, &&case_default, &&case_default, &&case_default,
         &&case_default, &&case_default, &&case_default, &&case_16
     };
-    s8 *out;
-    s32 raw_arg;
-    s8 *out_start;
+    s8 *slot_out;
+    s32 raw_entry_id;
+    s8 *slots_start;
     u8 *entry;
-    u8 *base;
-    s32 count;
+    u8 *entry_table;
+    s32 slot_count;
 
-    out = arg1;
-    raw_arg = arg0;
-    count = 0;
-    base = D_800D2644;
-    entry = base + ((u8)raw_arg << 5);
-    out_start = out;
+    slot_out = slots_out;
+    raw_entry_id = entry_id;
+    slot_count = 0;
+    entry_table = D_800D2644;
+    entry = entry_table + ((u8)raw_entry_id << 5);
+    slots_start = slot_out;
     if (func_80033B2C(*(s16 *)(entry + 8)) == 0) {
         return 0;
     }
 
     {
         register u32 kind ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        unsigned long swi;
+        unsigned long dispatch_addr;
 
         kind = entry[3];
-        swi = kind - 1;
-        ASM_KEEP_NV(swi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        if (swi >= 16) {
+        dispatch_addr = kind - 1;
+        ASM_KEEP_NV(dispatch_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        if (dispatch_addr >= 16) {
             goto case_default;
         }
-        (void)sw_keep;
+        (void)case_labels;
         {
-            unsigned long jump;
+            unsigned long jump_addr;
 
-            jump = (unsigned long)D_80089490;
-            swi *= sizeof(void *);
-            swi += jump;
-            jump = *(unsigned long *)swi;
-            goto *(void *)jump;
+            jump_addr = (unsigned long)D_80089490;
+            dispatch_addr *= sizeof(void *);
+            dispatch_addr += jump_addr;
+            jump_addr = *(unsigned long *)dispatch_addr;
+            goto *(void *)jump_addr;
         }
     }
 
 case_4_8:
     {
-        u8 *case_entry;
-        u8 *loop_entry;
-        u8 *table_base;
-        u8 *table_row;
-        register u32 index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 i;
-        u32 masked;
+        u8 *selected_entry;
+        u8 *filter_entry;
+        u8 *slot_table_base;
+        u8 *slot_row;
+        register u32 selected_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 slot;
+        u32 slot_offset;
 
         {
-            register u8 *case_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register u8 *entry_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            case_base = D_800D2EA4 - 0x860;
-            index = (u8)raw_arg;
-            case_entry = (u8 *)(index << 5);
-            case_entry = (u8 *)((u32)case_entry + (u32)case_base);
+            entry_base = D_800D2EA4 - 0x860;
+            selected_id = (u8)raw_entry_id;
+            selected_entry = (u8 *)(selected_id << 5);
+            selected_entry = (u8 *)((u32)selected_entry + (u32)entry_base);
         }
-        ASM_KEEP_NV(index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP_NV(selected_id);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         {
-            u32 value;
+            u32 link_id;
 
-            value = case_entry[6];
-            ASM_KEEP_NV(value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            if (value == 0) {
+            link_id = selected_entry[6];
+            ASM_KEEP_NV(link_id);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            if (link_id == 0) {
                 goto case_default;
             }
         }
-        table_base = (u8 *)0x80010000;
-        i = 0;
-        loop_entry = case_entry;
-        ASM_KEEP_NV(loop_entry);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        slot_table_base = (u8 *)0x80010000;
+        slot = 0;
+        filter_entry = selected_entry;
+        ASM_KEEP_NV(filter_entry);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         do {
-            masked = i & 0xFF;
-            masked *= 2;
-            table_row = (u8 *)((u32)masked + (u32)table_base);
-            ASM_KEEP_NV(table_row);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            if ((table_row[0x33A4] == loop_entry[6]) &&
-                (table_row[0x33A5] != index)) {
-                *out++ = (u8)i;
-                count++;
+            slot_offset = slot & 0xFF;
+            slot_offset *= 2;
+            slot_row = (u8 *)((u32)slot_offset + (u32)slot_table_base);
+            ASM_KEEP_NV(slot_row);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            if ((slot_row[0x33A4] == filter_entry[6]) &&
+                (slot_row[0x33A5] != selected_id)) {
+                *slot_out++ = (u8)slot;
+                slot_count++;
             }
-            i++;
-        } while ((u8)i < 0x21);
-        *out = 0;
+            slot++;
+        } while ((u8)slot < 0x21);
+        *slot_out = 0;
         goto return_count;
     }
 
 case_16:
     {
-        u8 *case_entry;
-        register u8 *case_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        u32 index;
-        register u32 value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 *selected_entry;
+        register u8 *entry_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        u32 selected_id;
+        register u32 link_id ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-        case_base = D_800D2EA4 - 0x860;
-        index = (u8)raw_arg;
-        case_entry = (u8 *)(index << 5);
-        case_entry = (u8 *)((u32)case_entry + (u32)case_base);
-        value = case_entry[6];
-        if (value == 0) {
+        entry_base = D_800D2EA4 - 0x860;
+        selected_id = (u8)raw_entry_id;
+        selected_entry = (u8 *)(selected_id << 5);
+        selected_entry = (u8 *)((u32)selected_entry + (u32)entry_base);
+        link_id = selected_entry[6];
+        if (link_id == 0) {
             goto case_default;
         }
         {
-            u32 global_value;
+            u32 special_link_id;
 
-            global_value = 0x80010000;
-            global_value = *(u8 *)(global_value + 0x33E6);
-            if (global_value != value) {
+            special_link_id = 0x80010000;
+            special_link_id = *(u8 *)(special_link_id + 0x33E6);
+            if (special_link_id != link_id) {
                 goto case_default;
             }
         }
         {
-            u8 *second_base;
-            u32 second_value;
+            u8 *special_base;
+            u32 special_entry_id;
 
-            second_base = (u8 *)0x80010000;
-            ASM_KEEP_NV(second_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            second_value = second_base[0x33E7];
-            ASM_KEEP_NV(second_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            if (second_value == index) {
+            special_base = (u8 *)0x80010000;
+            ASM_KEEP_NV(special_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            special_entry_id = special_base[0x33E7];
+            ASM_KEEP_NV(special_entry_id);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            if (special_entry_id == selected_id) {
                 goto case_default;
             }
         }
-        *out++ = 0xB;
-        count++;
+        *slot_out++ = 0xB;
+        slot_count++;
         goto case_default;
     }
 
 case_1:
     {
-        u8 *case_entry;
-        u8 *match_base;
-        u8 *base_temp;
-        u8 *match;
-        u8 *table_base;
-        u8 *table_row;
-        register u32 index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 i ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        u32 masked;
+        u8 *selected_entry;
+        u8 *slot_data_base;
+        u8 *data_base;
+        u8 *slot_data;
+        u8 *slot_table_base;
+        u8 *slot_row;
+        register u32 selected_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 slot ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u32 slot_index;
         register u32 entry_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        u32 scaled;
-        u8 first;
-        u32 second;
+        u32 row_offset;
+        u8 primary_id;
+        u32 secondary_id;
 
-        i = 0;
-        table_base = (u8 *)0x80010000;
-        base_temp = (u8 *)0x800D0000;
-        ASM_KEEP_NV(base_temp);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        match_base = base_temp + 0x2EA4;
-        index = (u8)raw_arg;
-        base_temp = D_800D2644_case1;
-        entry_offset = index << 5;
-        case_entry = base_temp + entry_offset;
-        ASM_KEEP_NV(match_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        slot = 0;
+        slot_table_base = (u8 *)0x80010000;
+        data_base = (u8 *)0x800D0000;
+        ASM_KEEP_NV(data_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        slot_data_base = data_base + 0x2EA4;
+        selected_id = (u8)raw_entry_id;
+        data_base = D_800D2644_case1;
+        entry_offset = selected_id << 5;
+        selected_entry = data_base + entry_offset;
+        ASM_KEEP_NV(slot_data_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         do {
-            masked = i & 0xFF;
-            scaled = masked * 2;
-            table_row = (u8 *)((u32)scaled + (u32)table_base);
-            first = table_row[0x33A4];
-            if ((first == index) ||
-                (second = table_row[0x33A5], second == index)) {
-                out = out_start;
-                count = 0;
+            slot_index = slot & 0xFF;
+            row_offset = slot_index * 2;
+            slot_row = (u8 *)((u32)row_offset + (u32)slot_table_base);
+            primary_id = slot_row[0x33A4];
+            if ((primary_id == selected_id) ||
+                (secondary_id = slot_row[0x33A5], secondary_id == selected_id)) {
+                slot_out = slots_start;
+                slot_count = 0;
                 goto case_default;
             }
-            scaled = masked * 8;
-            match = (u8 *)((u32)scaled + (u32)match_base);
-            if (match[2] != case_entry[4])
+            row_offset = slot_index * 8;
+            slot_data = (u8 *)((u32)row_offset + (u32)slot_data_base);
+            if (slot_data[2] != selected_entry[4])
                 goto case_1_next;
-            if (match[3] != case_entry[5])
+            if (slot_data[3] != selected_entry[5])
                 goto case_1_next;
-            if (first < 0x2D)
+            if (primary_id < 0x2D)
                 goto case_1_next;
-            scaled = 0x30;
-            if (first == scaled)
+            row_offset = 0x30;
+            if (primary_id == row_offset)
                 goto case_1_next;
-            if (second != 0)
+            if (secondary_id != 0)
                 goto case_1_next;
-            *out++ = (u8)i;
-            count++;
+            *slot_out++ = (u8)slot;
+            slot_count++;
 case_1_next:
-            i++;
-        } while ((u8)i < 0x21);
+            slot++;
+        } while ((u8)slot < 0x21);
     }
 
 case_default:
-    *out = 0;
+    *slot_out = 0;
 return_count:
-    ASM_KEEP_NV(raw_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    return (u8)count;
+    ASM_KEEP_NV(raw_entry_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    return (u8)slot_count;
 }

@@ -10,37 +10,34 @@ extern s32 D_800E3548[];
 extern Entry D_800E36C8[];
 extern void func_8009A3D0(u8, u8, s32);
 
-void func_800A7030(s16 arg0, s16 arg1) {
-    Entry *var_s0;
-    s32 *var_s1;
-    s32 var_s2;
+/* Clear active entries at the target coordinates and update their map tile. */
+void func_800A7030(s16 target_x, s16 target_y) {
+    Entry *entry;
+    s32 *entry_state;
+    s32 entry_index;
     s32 x;
     s32 y;
-    u8 temp_a0;
-    u8 temp_a1;
+    u8 entry_x;
+    u8 entry_y;
 
-    var_s2 = 0;
-    x = arg0;
-    y = arg1;
-    var_s1 = D_800E3548;
-    var_s0 = D_800E36C8;
+    entry_index = 0;
+    x = target_x;
+    y = target_y;
+    entry_state = D_800E3548;
+    entry = D_800E36C8;
     do {
-        if (((u8 *) var_s1)[1] != 0) {
-            temp_a0 = var_s0->unk0;
-            if (temp_a0 == x) {
-                temp_a1 = var_s0->unk1;
-                if (temp_a1 == y) {
-                    *var_s1 = 0;
-                    func_8009A3D0(temp_a0, temp_a1, 0x800);
+        if (((u8 *) entry_state)[1] != 0) {
+            entry_x = entry->unk0;
+            if (entry_x == x) {
+                entry_y = entry->unk1;
+                if (entry_y == y) {
+                    *entry_state = 0;
+                    func_8009A3D0(entry_x, entry_y, 0x800);
                 }
             }
         }
-        var_s1++;
-        var_s2++;
-        var_s0++;
-    } while (var_s2 < 0x40);
+        entry_state++;
+        entry_index++;
+        entry++;
+    } while (entry_index < 0x40);
 }
-
-/* MECHANISM: Natural pointer-loop reconstruction holds the two array bases
-   across the loop and call; explicit signed arg copies precede both bases.
-   This anchors the prologue's argument-extension/base materialization order. */

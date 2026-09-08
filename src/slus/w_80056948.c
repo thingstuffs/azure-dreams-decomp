@@ -42,22 +42,21 @@ extern void func_80056098(S_80085458 *arg0);
 extern void func_80055E84(S_80085458 *arg0);
 extern void func_80056654(S_80085458 *arg0, s32 arg1);
 
-/* Per-frame update: refreshes all 16 D_80084960 entity slots, then for
-   each active D_80085458 slot (f06 < 0x10) refreshes it too. */
+/* Refresh all 16 entity slots, then update active D_80085458 slots. */
 void func_80056948(void) {
-    S_80084960 *e;
-    s32 i;
+    S_80084960 *entity;
+    s32 slot;
 
-    for (i = 0, e = D_80084960; i < 0x10; i++, e++) {
-        func_80056800(e);
-        func_800568B4(e);
+    for (slot = 0, entity = D_80084960; slot < 0x10; slot++, entity++) {
+        func_80056800(entity);
+        func_800568B4(entity);
     }
 
-    for (i = 0; i < D_80073734[0]; i++) {
-        if ((u16)D_80085458[i].f06 < 0x10) {
-            func_80056098(&D_80085458[i]);
-            func_80055E84(&D_80085458[i]);
-            func_80056654(&D_80085458[i], 0);
+    for (slot = 0; slot < D_80073734[0]; slot++) {
+        if ((u16)D_80085458[slot].f06 < 0x10) {
+            func_80056098(&D_80085458[slot]);
+            func_80055E84(&D_80085458[slot]);
+            func_80056654(&D_80085458[slot], 0);
         }
     }
 }

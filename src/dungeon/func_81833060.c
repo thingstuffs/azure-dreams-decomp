@@ -25,16 +25,17 @@ typedef struct {
 extern D_800814A0_t D_800814A0;
 extern void func_800478B8(void *arg0);
 
-void func_81833060(StructA0 *arg0, void *arg1, StructA2 *arg2) {
-    u16 val;
+/* Decreases paired state values by 0x80, invokes the state handler, and sets flags. */
+void func_81833060(StructA0 *owner, void *unused, StructA2 *state) {
+    u16 adjusted_value;
 
-    val = arg2->unk1E - 0x80;
-    arg2->unk1E = val;
-    arg2->unk1C = val;
-    arg0->inner->unk52 |= 0x8000;
-    func_800478B8(arg2);
-    if (arg2->unk14 & 0x6000) {
-        ((u16 *)arg0)[-1] |= 0x8000;
+    adjusted_value = state->unk1E - 0x80;
+    state->unk1E = adjusted_value;
+    state->unk1C = adjusted_value;
+    owner->inner->unk52 |= 0x8000;
+    func_800478B8(state);
+    if (state->unk14 & 0x6000) {
+        ((u16 *)owner)[-1] |= 0x8000;
         D_800814A0.v |= 0x8000;
     }
 }

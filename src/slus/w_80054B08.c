@@ -47,52 +47,53 @@ extern int func_80054AF0(int arg0);
 extern void func_80054C58(void);
 extern void func_80054CD4(void);
 extern void func_80054E00(s32 arg0);
-void func_80054B08(s32 arg0)
+/* Initializes status from the current record or dispatches a message-specific update. */
+void func_80054B08(s32 message)
 {
-  s32 msg = arg0 & 0xF000;
-  switch (msg)
+  s32 message_type = message & 0xF000;
+  switch (message_type)
   {
     case 0:
     {
-      register S_800847D0 *status ASM_REG("$7");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-      register u32 mask ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-      u16 t1;
-      u32 t2;
-      register u32 t3 ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-      int *p;
-      int a1;
-      u8 high2;
-      u8 high3;
+      register S_800847D0 *status ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+      register u32 offset_mask ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+      u16 record_value;
+      u32 first_offset;
+      register u32 second_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+      int *record;
+      int offset_base;
+      u8 first_tag;
+      u8 second_tag;
       u32 flags;
-      p = func_8003F534();
-      mask = 0xFF0000;
-      ASM_KEEP(mask);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-      t1 = *((u16 *) p);
+      record = func_8003F534();
+      offset_mask = 0xFF0000;
+      ASM_KEEP(offset_mask);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+      record_value = *((u16 *) record);
       status = &D_800847D0;
-      status->field1C = t1;
-      a1 = p[1];
-      ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-      t2 = p[2];
-      mask |= 0xFFFF;
-      status->field10 = t2;
-      t3 = p[3];
-      high2 = (u8) (t2 >> 24);
-      t2 = t2 & mask;
-      status->field10 = t2;
-      t2 = t2 - 0x20;
-      t2 = t2 + a1;
-      status->field31 = high2;
-      status->field10 = t2;
+      status->field1C = record_value;
+      offset_base = record[1];
+      ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+      first_offset = record[2];
+      offset_mask |= 0xFFFF;
+      status->field10 = first_offset;
+      second_offset = record[3];
+      first_tag = (u8) (first_offset >> 24);
+      first_offset = first_offset & offset_mask;
+      status->field10 = first_offset;
+      first_offset = first_offset - 0x20;
+      first_offset = first_offset + offset_base;
+      status->field31 = first_tag;
+      status->field10 = first_offset;
       status->field18 = 0;
-      high3 = (u8) (t3 >> 24);
-      status->field14 = t3;
-      t3 = t3 & mask;
-      status->field14 = t3;
-      t3 = t3 + 0x20;
-      status->field33 = high3;
+      second_tag = (u8) (second_offset >> 24);
+      status->field14 = second_offset;
+      second_offset = second_offset & offset_mask;
+      status->field14 = second_offset;
+      second_offset = second_offset + 0x20;
+      status->field33 = second_tag;
       flags = D_800847D0.flags1;
-      t3 = t3 + a1;
-      *(u32 *) &status->field14 = t3;
+      second_offset = second_offset + offset_base;
+      *(u32 *) &status->field14 = second_offset;
       if (flags & 0x400)
       {
         D_800847D0.flags1 = flags | 0x4000;
@@ -104,13 +105,13 @@ void func_80054B08(s32 arg0)
         break;
       }
       {
-        S_80084858 *ts0 = &D_80084858;
-        s16 x = (s16) t1;
-        int r;
-        ts0->field4 = 0;
-        r = func_80054AF0(x);
-        ts0->field8 = r;
-        ts0->fieldA = r;
+        S_80084858 *update_state = &D_80084858;
+        s16 signed_value = (s16) record_value;
+        int initial_value;
+        update_state->field4 = 0;
+        initial_value = func_80054AF0(signed_value);
+        update_state->field8 = initial_value;
+        update_state->fieldA = initial_value;
       }
       func_80054C58();
       func_80054CD4();

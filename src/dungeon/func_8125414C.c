@@ -19,14 +19,15 @@ extern void func_8009A3D0(s32, s32, s32);
 extern void func_800A2B04(void *, s32, s32);
 extern void func_8009A21C(s32, s32, s32);
 
-void func_8125414C(s32 arg0)
+/* Repositions the current entity relative to the origin and updates its motion. */
+void func_8125414C(s32 offset_index)
 {
-    s16 delta[2] = { 1, -1 };
+    s16 offsets[2] = { 1, -1 };
     u8 *object;
     u8 *state;
     u8 *entity;
     void *motion;
-    u8 *step;
+    u8 *offset_bytes;
     u8 *origin;
 
     object = D_80174710;
@@ -40,9 +41,9 @@ void func_8125414C(s32 arg0)
                   (((S_8125414C_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
     origin = D_80082E80;
-    step = (u8 *)&delta[arg0 * 2];
-    entity[0x24] = origin[0x24] + step[0];
-    entity[0x25] = origin[0x25] + step[2];
+    offset_bytes = (u8 *)&offsets[offset_index * 2];
+    entity[0x24] = origin[0x24] + offset_bytes[0];
+    entity[0x25] = origin[0x25] + offset_bytes[2];
 
     func_800A2B04(motion, entity[0x24], entity[0x25]);
 

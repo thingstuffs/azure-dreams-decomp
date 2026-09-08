@@ -1,7 +1,3 @@
-/* delta: genuine extern symbol for the format page (regime B) + one pointer
-   variable PER SITE that is re-assigned (dead store) after each use, so cse's
-   equivalence class for the symbolic constant holds no valid register at
-   sites 2/3 and each site must re-emit its own (lo_sum (high S) S). */
 #include "common.h"
 typedef struct Vec3s { s16 x; s16 y; s16 z; s16 pad; } Vec3s;
 typedef void (*ReportValue)(const char *, const char *, s32);
@@ -14,37 +10,38 @@ extern char D_8001610C[8];
 extern char D_80016118[8];
 extern char D_80016120[8];
 extern char D_80016128[8];
-void func_8001A9B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Blends two loaded vectors, reports their x values, and stores the result coordinates. */
+void func_8001A9B8(s32 first_input, s32 second_input, s32 blend_weight, s32 remaining_weight)
 {
     Vec3s first;
     Vec3s second;
     Vec3s result;
     TownRoot *root;
-    const char *fmt1;
-    const char *fmt2;
-    const char *fmt3;
-    func_8001A854(&first, arg0);
+    const char *first_format;
+    const char *second_format;
+    const char *result_format;
+    func_8001A854(&first, first_input);
     {
         ReportValue report;
         report = D_80016000[0]->dispatch->report_value;
-        fmt1 = D_8001610C;
-        report(fmt1, D_80016118, first.x);
+        first_format = D_8001610C;
+        report(first_format, D_80016118, first.x);
     }
-    fmt1 = 0;
-    func_8001A854(&second, arg1);
+    first_format = 0;
+    func_8001A854(&second, second_input);
     {
         ReportValue report;
         report = D_80016000[0]->dispatch->report_value;
-        fmt2 = D_8001610C;
-        report(fmt2, D_80016120, second.x);
+        second_format = D_8001610C;
+        report(second_format, D_80016120, second.x);
     }
-    fmt2 = 0;
-    func_8001A8DC(&first, &second, arg2, arg3, &result);
+    second_format = 0;
+    func_8001A8DC(&first, &second, blend_weight, remaining_weight, &result);
     {
         ReportValue report;
         report = D_80016000[0]->dispatch->report_value;
-        fmt3 = D_8001610C;
-        report(fmt3, D_80016128, result.x);
+        result_format = D_8001610C;
+        report(result_format, D_80016128, result.x);
     }
     root = D_80016000[0];
     root->result_values[1] = result.x;

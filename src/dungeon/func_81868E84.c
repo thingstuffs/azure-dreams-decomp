@@ -54,41 +54,42 @@ typedef struct S_81868E84_4 {
 extern void *func_8003FC64(s32);
 extern u8 D_80024384[];
 
-void func_81868E84(void *arg0, S_81868E84_3 *arg1) {
-    u32 temp_a0;
-    u16 temp_v1;
-    u16 temp_v1_2;
-    u16 temp_v1_3;
-    void *temp_v0;
-    S_81868E84_1 *temp_v0_2;
-    S_81868E84_4 *temp_v0_3;
+/* Creates object 0x212 with its owner, initial state, and two copies of the supplied coordinates. */
+void func_81868E84(void *owner, S_81868E84_3 *coords) {
+    u32 owner_value;
+    u16 x;
+    u16 y;
+    u16 z;
+    void *object;
+    S_81868E84_1 *state;
+    S_81868E84_4 *coord_pairs;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != 0) {
-        ((S_81868E84_0 *)temp_v0)->unk_10 = D_80024384;
-        temp_v0_2 = temp_v0 + 0x20;
-        ((S_81868E84_0 *)temp_v0)->unk_20 = 0;
-        temp_v0_2->unk_02 = 0;
-        temp_a0 = ((S_81868E84_2 *)arg0)->unk_09;
-        temp_v0_2->unk_06 = 0;
-        temp_v0_2->unk_08 = 0;
-        temp_v0_2->unk_0A = 0;
-        temp_v0_2->unk_0C = arg0;
-        temp_v0_2->unk_10 = 0x40;
-        temp_v0_2->unk_04 = temp_a0;
-        temp_v0_3 = ((S_81868E84_0 *)temp_v0)->unk_08;
-        temp_v1 = arg1->unk_02;
-        temp_v0_3->unk_0E = temp_v1;
-        temp_v0_3->unk_02 = temp_v1;
-        temp_v1_2 = arg1->unk_06;
-        temp_v0_3->unk_12 = temp_v1_2;
-        temp_v0_3->unk_06 = temp_v1_2;
-        temp_v1_3 = arg1->unk_0A;
-        temp_v0_3->unk_16 = temp_v1_3;
-        temp_v0_3->unk_0A = temp_v1_3;
+    object = func_8003FC64(0x212);
+    if (object != 0) {
+        ((S_81868E84_0 *)object)->unk_10 = D_80024384;
+        state = object + 0x20;
+        ((S_81868E84_0 *)object)->unk_20 = 0;
+        state->unk_02 = 0;
+        owner_value = ((S_81868E84_2 *)owner)->unk_09;
+        state->unk_06 = 0;
+        state->unk_08 = 0;
+        state->unk_0A = 0;
+        state->unk_0C = owner;
+        state->unk_10 = 0x40;
+        state->unk_04 = owner_value;
+        coord_pairs = ((S_81868E84_0 *)object)->unk_08;
+        x = coords->unk_02;
+        coord_pairs->unk_0E = x;
+        coord_pairs->unk_02 = x;
+        y = coords->unk_06;
+        coord_pairs->unk_12 = y;
+        coord_pairs->unk_06 = y;
+        z = coords->unk_0A;
+        coord_pairs->unk_16 = z;
+        coord_pairs->unk_0A = z;
     }
 }
 
-/* MECHANISM: Hold arg0[9] in a u32 local after the first two zero stores.
+/* MECHANISM: Hold owner[9] in a u32 local after the first two zero stores.
    Its live range claims $a0, leaving the allocator result in $a1; u32 avoids
    the redundant andi and collapses the +1-word branch-displacement cascade. */

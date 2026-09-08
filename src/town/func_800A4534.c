@@ -10,7 +10,8 @@ extern void func_800A1D1C(void);
 extern void func_800A1F00(void);
 extern u8 D_80083498[];
 
-void *func_800A1C94(s32 arg0, s32 arg1)
+/* Creates a display object with callbacks and the supplied payload values. */
+void *func_800A1C94(s32 payload_word, s32 payload_halfword)
 {
     void *object;
     void *display;
@@ -26,8 +27,8 @@ void *func_800A1C94(s32 arg0, s32 arg1)
     FIELD(object, Callback, 0x20) = func_800A1F00;
 
     payload = (u8 *)object + 0x20;
-    FIELD(payload, s32, 0x10) = arg0;
-    FIELD(payload, s16, 0x20) = arg1;
+    FIELD(payload, s32, 0x10) = payload_word;
+    FIELD(payload, s16, 0x20) = payload_halfword;
 
     FIELD(display, s16, 0x1E) = 0xAAA;
     FIELD(display, s16, 0x1C) = 0xAAA;

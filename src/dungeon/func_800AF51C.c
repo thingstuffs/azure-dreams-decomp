@@ -70,158 +70,156 @@ typedef struct S_800B4C7C_6 {
     s8 unk_02;
 } S_800B4C7C_6;   /* func_800B1484(temp_s3) in func_800B4C7C */
 
-void *func_800B4C7C(s32 arg0, u8 *arg1, s16 arg2, u16 arg3) {
-    StackLocal local;
+/* Creates and positions a text object showing a formatted value or preset message. */
+void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
+    StackLocal text_stack;
     void *callback;
-    void *call_a0;
-    u8 *call_a1;
-    s32 call_a2;
-    s16 temp_v0_8;
-    register u16 temp_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 temp_cmp ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 temp_v1;
-    register s32 temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    register s32 temp_s6 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 temp_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    void *temp_s7;
-    s16 temp_s8;
-    void *temp_s5;
-    s8 *temp_s0;
-    u16 temp_v0_5;
-    u16 temp_v0_6;
-    u16 temp_v0_7;
-    S_800B4C7C_3 *temp_a0_2;
-    S_800B4C7C_5 *temp_a1;
-    void *temp_s0_2;
-    void *temp_s3;
-    void *temp_s2;
-    void *temp_v0;
-    register void *temp_v0_2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    S_800B4C7C_0 *temp_v0_3;
-    S_800B4C7C_2 *temp_v0_4;
-    register void *temp_v1_ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 glyph_or_index;
+    register u16 callback_bits ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 callback_kind ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 number;
+    register s32 space ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 format ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register s32 number_style ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 text_style ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    void *saved_flags;
+    s16 saved_value;
+    void *object;
+    s8 *text_cursor;
+    u16 anchor_x;
+    u16 anchor_y;
+    u16 anchor_z;
+    S_800B4C7C_3 *position;
+    S_800B4C7C_5 *text_link;
+    void *text_position;
+    void *text;
+    void *state;
+    void *new_object;
+    register void *text_storage ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    S_800B4C7C_0 *source_object;
+    S_800B4C7C_2 *source_position;
+    register void *anchor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    local.arg3 = arg3;
-    temp_v0 = func_8003FD64(0x212, D_80083498);
-    temp_s7 = (void *)(u32) arg0;
-    ASM_KEEP(temp_s7);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    temp_s5 = temp_v0;
-    if (temp_s5 != NULL) {
-        temp_s8 = arg2;
-        ASM_KEEP(temp_s8);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_a0_2 = (*(void **)((u8 *)temp_s5 + 8));
-        temp_a1 = (*(void **)((u8 *)temp_s5 + 0xC));
-        temp_v0_3 = arg1 - 0x20;
-        (*(void **)((u8 *)temp_s5 + 0x20)) = temp_v0_3;
-        temp_v0_4 = temp_v0_3->unk_08;
-        temp_s2 = temp_s5 + 0x20;
-        ((S_800B4C7C_1 *)temp_s2)->unk_14 = temp_v0_4;
-        temp_v0_5 = temp_v0_4->unk_02;
-        temp_a0_2->unk_02 = temp_v0_5;
-        temp_v1_ptr = ((S_800B4C7C_1 *)temp_s2)->unk_14;
-        ((S_800B4C7C_1 *)temp_s2)->unk_18 = temp_v0_5;
-        temp_v0_6 = ((S_800B4C7C_4 *)temp_v1_ptr)->unk_06;
-        temp_a3 = 0x20;
-        temp_a0_2->unk_06 = temp_v0_6;
-        temp_v1_ptr = ((S_800B4C7C_1 *)temp_s2)->unk_14;
-        temp_s4 = arg0 & 0xF;
-        ((S_800B4C7C_1 *)temp_s2)->unk_1A = temp_v0_6;
-        temp_v0_7 = ((S_800B4C7C_4 *)temp_v1_ptr)->unk_0A;
-        temp_s6 = temp_s4;
-        temp_a0_2->unk_0A = temp_v0_7;
-        ((S_800B4C7C_1 *)temp_s2)->unk_1C = temp_v0_7;
+    text_stack.arg3 = callback_mode;
+    new_object = func_8003FD64(0x212, D_80083498);
+    saved_flags = (void *)(u32) flags;
+    ASM_KEEP(saved_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    object = new_object;
+    if (object != NULL) {
+        saved_value = value;
+        ASM_KEEP(saved_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        position = (*(void **)((u8 *)object + 8));
+        text_link = (*(void **)((u8 *)object + 0xC));
+        source_object = source_data - 0x20;
+        (*(void **)((u8 *)object + 0x20)) = source_object;
+        source_position = source_object->unk_08;
+        state = object + 0x20;
+        ((S_800B4C7C_1 *)state)->unk_14 = source_position;
+        anchor_x = source_position->unk_02;
+        position->unk_02 = anchor_x;
+        anchor = ((S_800B4C7C_1 *)state)->unk_14;
+        ((S_800B4C7C_1 *)state)->unk_18 = anchor_x;
+        anchor_y = ((S_800B4C7C_4 *)anchor)->unk_06;
+        space = 0x20;
+        position->unk_06 = anchor_y;
+        anchor = ((S_800B4C7C_1 *)state)->unk_14;
+        text_style = flags & 0xF;
+        ((S_800B4C7C_1 *)state)->unk_1A = anchor_y;
+        anchor_z = ((S_800B4C7C_4 *)anchor)->unk_0A;
+        number_style = text_style;
+        position->unk_0A = anchor_z;
+        ((S_800B4C7C_1 *)state)->unk_1C = anchor_z;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_v0_2 = temp_s5 + 0x40;
-        temp_s3 = temp_v0_2;
-        ASM_KEEP(temp_s3);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        temp_a1->unk_08 = temp_v0_2;
-        temp_a1->unk_06 = temp_a3;
-        if (arg0 & 0x8000) {
-            ((S_800B4C7C_1 *)temp_s2)->unk_0E = 1;
+        text_storage = object + 0x40;
+        text = text_storage;
+        ASM_KEEP(text);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        text_link->unk_08 = text_storage;
+        text_link->unk_06 = space;
+        if (flags & 0x8000) {
+            ((S_800B4C7C_1 *)state)->unk_0E = 1;
         }
-        temp_a0 = arg0 & 0xF0;
-        temp_v1 = (s16) arg2;
-        if (temp_v1 >= 0) {
-            arg0 = 0x50;
-            temp_s0 = (s8 *) local.bytes;
-            switch (temp_a0) {
+        format = flags & 0xF0;
+        number = (s16) value;
+        if (number >= 0) {
+            flags = 0x50;
+            text_cursor = (s8 *) text_stack.bytes;
+            switch (format) {
             case 0x10:
-                temp_v0_8 = 0x7F;
+                glyph_or_index = 0x7F;
                 goto store_and_advance;
             case 0x20:
-                temp_v0_8 = 0x80;
+                glyph_or_index = 0x80;
                 goto store_and_advance;
             case 0x30:
-                local.bytes[0] = 0x2B;
+                text_stack.bytes[0] = 0x2B;
                 goto mode_check;
             case 0x40:
-                temp_v0_8 = 0x2D;
+                glyph_or_index = 0x2D;
                 goto store_and_advance;
             case 0x50:
-                local.bytes[0] = 0x81;
+                text_stack.bytes[0] = 0x81;
                 goto mode_check;
             case 0x60:
-                local.bytes[0] = 0x82;
+                text_stack.bytes[0] = 0x82;
                 goto advance_buffer;
 store_and_advance:
-                local.bytes[0] = temp_v0_8;
+                text_stack.bytes[0] = glyph_or_index;
 advance_buffer:
-                temp_s0 = (s8 *) local.bytes + 1;
+                text_cursor = (s8 *) text_stack.bytes + 1;
                 goto mode_check;
             case 0x80:
-                func_8004E634(temp_v1, temp_s0);
-                temp_s0 = (s8 *) temp_s0 + func_80069E98(temp_s0);
-                *temp_s0++ = 0x45;
-                *temp_s0++ = 0x58;
-                *temp_s0++ = arg0;
-                *temp_s0++ = 0;
-                func_8004E298(temp_s3, local.bytes, temp_s4);
+                func_8004E634(number, text_cursor);
+                text_cursor = (s8 *) text_cursor + func_80069E98(text_cursor);
+                *text_cursor++ = 0x45;
+                *text_cursor++ = 0x58;
+                *text_cursor++ = flags;
+                *text_cursor++ = 0;
+                func_8004E298(text, text_stack.bytes, text_style);
                 goto mode_check;
             case 0xA0:
-                local.bytes[0] = temp_a3;
-                func_8004E5A0(temp_v1, 3, local.bytes + 1);
-                temp_s0 = (s8 *) local.bytes + 6;
-                local.bytes[4] = 0x25;
-                local.bytes[5] = 0;
-                func_8004E298(temp_s3, local.bytes, temp_s4);
+                text_stack.bytes[0] = space;
+                func_8004E5A0(number, 3, text_stack.bytes + 1);
+                text_cursor = (s8 *) text_stack.bytes + 6;
+                text_stack.bytes[4] = 0x25;
+                text_stack.bytes[5] = 0;
+                func_8004E298(text, text_stack.bytes, text_style);
                 goto mode_check;
             case 0x90:
-                func_8004E5A0(temp_v1, 4, temp_s0);
-                temp_s0 = (s8 *) local.bytes + 6;
-                local.bytes[4] = 0x47;
-                local.bytes[5] = 0;
-                func_8004E298(temp_s3, local.bytes, temp_s4);
+                func_8004E5A0(number, 4, text_cursor);
+                text_cursor = (s8 *) text_stack.bytes + 6;
+                text_stack.bytes[4] = 0x47;
+                text_stack.bytes[5] = 0;
+                func_8004E298(text, text_stack.bytes, text_style);
                 goto mode_check;
             default:
                 goto mode_check;
             }
 mode_check:
-            if (((u32) temp_s7 & 0xF0) < 0x80U) {
-                func_8004E5A0(temp_s8, 3, temp_s0);
-                func_8004E298(temp_s3, local.bytes, temp_s6);
+            if (((u32) saved_flags & 0xF0) < 0x80U) {
+                func_8004E5A0(saved_value, 3, text_cursor);
+                func_8004E298(text, text_stack.bytes, number_style);
             }
-            goto block_46;
+            goto finish_text;
         }
-        temp_v0_8 = ~arg2;
-        if (temp_v0_8 > 0) {
-            ((S_800B4C7C_1 *)temp_s2)->unk_10 = 0x18;
+        glyph_or_index = ~value;
+        if (glyph_or_index > 0) {
+            ((S_800B4C7C_1 *)state)->unk_10 = 0x18;
         }
-        func_8004E298(temp_s3, D_800DF24C[temp_v0_8], temp_s4);
-        goto block_46;
-block_46:
-        temp_t0 = *(volatile u16 *) &local.arg3;
-        temp_cmp = (s16) temp_t0;
-        if (temp_cmp == 1) {
+        func_8004E298(text, D_800DF24C[glyph_or_index], text_style);
+        goto finish_text;
+finish_text:
+        callback_bits = *(volatile u16 *) &text_stack.arg3;
+        callback_kind = (s16) callback_bits;
+        if (callback_kind == 1) {
             callback = &D_800B490C;
         } else {
             callback = &D_800B45E0;
         }
-        (*(void * volatile *)((u8 *)temp_s5 + 0x10)) = callback;
+        (*(void * volatile *)((u8 *)object + 0x10)) = callback;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_s0_2 = temp_s2 + 0x20;
-        func_800B1320(temp_s0_2, 0x80 - ((s32) (((S_800B4C7C_6 *)(func_800B1484(temp_s3)))->unk_02 + 0x88) / 2), (s16) ((0 - (s8) ((S_800B4C7C_1 *)temp_s2)->unk_23) - 4));
-        func_800B13CC(temp_s0_2, 0x20);
+        text_position = state + 0x20;
+        func_800B1320(text_position, 0x80 - ((s32) (((S_800B4C7C_6 *)(func_800B1484(text)))->unk_02 + 0x88) / 2), (s16) ((0 - (s8) ((S_800B4C7C_1 *)state)->unk_23) - 4));
+        func_800B13CC(text_position, 0x20);
     }
-    return temp_s5;
+    return object;
 }

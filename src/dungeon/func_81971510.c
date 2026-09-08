@@ -9,68 +9,69 @@ extern s16 D_80025FF4;
 extern s32 D_800814A0;
 extern void func_80024D80(void) __attribute__((noreturn));
 
-void func_81971510(void *arg0, s32 arg1, void *arg2)
+/* Advances a timed visual update and sets completion flags when the countdown expires. */
+void func_81971510(void *effect, s32 unused, void *visual)
 {
-    u8 *arg1_ptr;
-    u16 counter;
-    s32 index;
-    register u8 *page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 *arg2_ptr;
-    u8 *table_page;
+    u8 *effect_bytes;
+    u16 countdown;
+    s32 step_index;
+    register u8 *status_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *visual_bytes;
+    u8 *jump_table;
     u8 *flags_page;
-    u16 value;
-    s32 temp_v0;
-    static void *const jt_keep[] = {
+    u16 field_value;
+    s32 shade;
+    static void *const case_labels[] = {
         &&case_0, &&case_1, &&case_2, &&case_3,
         &&case_4, &&case_default
     };
 
-    arg1_ptr = (u8 *)arg0;
-    arg2_ptr = (u8 *)arg2;
+    effect_bytes = (u8 *)effect;
+    visual_bytes = (u8 *)visual;
 #ifdef NON_MATCHING
-    page = (u8 *)&D_80025FF4 - 0x5FF4;
+    status_page = (u8 *)&D_80025FF4 - 0x5FF4;
 #else
-    page = (u8 *)0x80020000;
+    status_page = (u8 *)0x80020000;
 #endif
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    counter = U16_AT(arg1_ptr, 0x38);
-    *(s16 *)(page + 0x5FF4) = 1;
-    counter--;
-    U16_AT(arg1_ptr, 0x38) = counter;
-    index = (u32)(s16)counter;
-    if ((u32)index >= 20U) {
+    ASM_KEEP(status_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    countdown = U16_AT(effect_bytes, 0x38);
+    *(s16 *)(status_page + 0x5FF4) = 1;
+    countdown--;
+    U16_AT(effect_bytes, 0x38) = countdown;
+    step_index = (u32)(s16)countdown;
+    if ((u32)step_index >= 20U) {
         goto case_default;
     }
-    table_page = (u8 *)D_80024008;
-    (void)jt_keep;
-    goto *((void **)table_page)[(u32)index];
+    jump_table = (u8 *)D_80024008;
+    (void)case_labels;
+    goto *((void **)jump_table)[(u32)step_index];
 
 case_0:
-    temp_v0 = 0x20;
-    ASM_TAILSLOT_PIN_TIED(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    shade = 0x20;
+    ASM_TAILSLOT_PIN_TIED(shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80024D80();
 case_1:
-    temp_v0 = 0x35;
-    ASM_TAILSLOT_PIN_TIED(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    shade = 0x35;
+    ASM_TAILSLOT_PIN_TIED(shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80024D80();
 case_2:
-    temp_v0 = 0x50;
-    ASM_TAILSLOT_PIN_TIED(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    shade = 0x50;
+    ASM_TAILSLOT_PIN_TIED(shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80024D80();
 case_3:
-    temp_v0 = 0x65;
-    ASM_TAILSLOT_PIN_TIED(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    shade = 0x65;
+    ASM_TAILSLOT_PIN_TIED(shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80024D80();
 case_4:
-    value = 0x80;
-    U8_AT(arg2_ptr, 0x0E) = value;
-    U8_AT(arg2_ptr, 0x0D) = value;
-    U8_AT(arg2_ptr, 0x0C) = value;
+    field_value = 0x80;
+    U8_AT(visual_bytes, 0x0E) = field_value;
+    U8_AT(visual_bytes, 0x0D) = field_value;
+    U8_AT(visual_bytes, 0x0C) = field_value;
 
 case_default:
-    value = U16_AT(arg2_ptr, 0x1A) + 400;
-    U16_AT(arg2_ptr, 0x1A) = value;
-    if (S16_AT(arg1_ptr, 0x38) > 0) {
+    field_value = U16_AT(visual_bytes, 0x1A) + 400;
+    U16_AT(visual_bytes, 0x1A) = field_value;
+    if (S16_AT(effect_bytes, 0x38) > 0) {
         return;
     }
 #ifdef NON_MATCHING
@@ -78,7 +79,7 @@ case_default:
 #else
     flags_page = (u8 *)0x80080000;
 #endif
-    value = U16_AT((u8 *)arg1_ptr - 2, 0) | 0x8000;
-    U16_AT((u8 *)arg1_ptr - 2, 0) = value;
+    field_value = U16_AT((u8 *)effect_bytes - 2, 0) | 0x8000;
+    U16_AT((u8 *)effect_bytes - 2, 0) = field_value;
     *(u32 *)(flags_page + 0x14A0) |= 0x8000;
 }

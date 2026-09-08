@@ -80,77 +80,78 @@ extern s32 D_80045340;
 extern u8 D_80083780[];
 extern u8 D_800DEC70[];
 
-void func_8196B4A4(S_8196B4A4_5 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
-                   s32 arg5)
+/* Spawns a sprite effect with randomized position and motion based on the source direction. */
+void func_8196B4A4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s32 offset_x, s32 offset_y,
+                   s32 offset_z)
 {
-    LocalPoints points;
-    void *node;
-    S_8196B4A4_0 *sub;
-    S_8196B4A4_2 *part;
-    S_8196B4A4_3 *coords;
-    u8 *coord_base;
-    LocalPoint *point_base;
-    LocalPoint *point;
-    s32 point_index;
-    register s32 x_arg3 ASM_REG("$21") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 x_arg4 ASM_REG("$19") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 x_arg5 ASM_REG("$20") = arg5;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    LocalPoints direction_points;
+    void *effect;
+    S_8196B4A4_0 *motion;
+    S_8196B4A4_2 *sprite;
+    S_8196B4A4_3 *position;
+    u8 *origin;
+    LocalPoint *directions;
+    LocalPoint *direction;
+    s32 direction_index;
+    register s32 spawn_x ASM_REG("$21") = offset_x;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 spawn_y ASM_REG("$19") = offset_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 spawn_z ASM_REG("$20") = offset_z;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
-    points = D_80024004;
-    point_base = (LocalPoint *)&points;
-    node = func_8003FC64(0x212);
-    if (node != 0) {
-        sub = (u8 *)node + 0x20;
-        sub->unk_2C = 0xF;
-        ((S_8196B4A4_1 *)node)->unk_10 = D_80024874;
-        func_8004491C(node, &D_80045340);
+    direction_points = D_80024004;
+    directions = (LocalPoint *)&direction_points;
+    effect = func_8003FC64(0x212);
+    if (effect != 0) {
+        motion = (u8 *)effect + 0x20;
+        motion->unk_2C = 0xF;
+        ((S_8196B4A4_1 *)effect)->unk_10 = D_80024874;
+        func_8004491C(effect, &D_80045340);
 
-        part = ((S_8196B4A4_1 *)node)->unk_0C;
-        part->unk_10 = 0x20;
-        part->unk_14 |= 0xC;
-        part->unk_1A = (rand() & 7) << 9;
-        part->unk_06 = 0;
+        sprite = ((S_8196B4A4_1 *)effect)->unk_0C;
+        sprite->unk_10 = 0x20;
+        sprite->unk_14 |= 0xC;
+        sprite->unk_1A = (rand() & 7) << 9;
+        sprite->unk_06 = 0;
 
-        coords = ((S_8196B4A4_1 *)node)->unk_08;
-        coord_base = D_80083780;
-        coords->unk_02 = x_arg3;
-        coords->unk_06 = x_arg4;
-        coords->unk_0A = x_arg5;
-        coords->unk_02 += ((S_8196B4A4_4 *)coord_base)->unk_02;
-        coords->unk_06 += ((S_8196B4A4_4 *)coord_base)->unk_06;
-        coords->unk_0A += ((S_8196B4A4_4 *)coord_base)->unk_0A;
+        position = ((S_8196B4A4_1 *)effect)->unk_08;
+        origin = D_80083780;
+        position->unk_02 = spawn_x;
+        position->unk_06 = spawn_y;
+        position->unk_0A = spawn_z;
+        position->unk_02 += ((S_8196B4A4_4 *)origin)->unk_02;
+        position->unk_06 += ((S_8196B4A4_4 *)origin)->unk_06;
+        position->unk_0A += ((S_8196B4A4_4 *)origin)->unk_0A;
 
-        coords->unk_02 += (rand() & 0x3F) - 0x20;
-        coords->unk_06 += (rand() & 0x3F) - 0x20;
-        coords->unk_0A += (rand() & 0x3F) - 0x40;
+        position->unk_02 += (rand() & 0x3F) - 0x20;
+        position->unk_06 += (rand() & 0x3F) - 0x20;
+        position->unk_0A += (rand() & 0x3F) - 0x40;
 
-        sub->unk_94 = -0x60000;
-        sub->unk_A0 = 0x20000;
-        point = point_base;
-        point_index = arg0->unk_26;
-        point += point_index;
-        sub->unk_8C = point->x << 18;
-        point = point_base;
-        point_index = arg0->unk_26;
-        point += point_index;
-        sub->unk_90 = point->y << 18;
+        motion->unk_94 = -0x60000;
+        motion->unk_A0 = 0x20000;
+        direction = directions;
+        direction_index = source->unk_26;
+        direction += direction_index;
+        motion->unk_8C = direction->x << 18;
+        direction = directions;
+        direction_index = source->unk_26;
+        direction += direction_index;
+        motion->unk_90 = direction->y << 18;
 
-        sub->unk_8C +=
+        motion->unk_8C +=
             -0x80000 + ((rand() & 0x3FFF) << 6);
-        sub->unk_90 +=
+        motion->unk_90 +=
             -0x80000 + ((rand() & 0x3FFF) << 6);
-        sub->unk_94 +=
+        motion->unk_94 +=
             -0x80000 + ((rand() & 0x3FFF) << 6);
 
-        part = ((S_8196B4A4_1 *)node)->unk_0C;
-        part->unk_1C = part->unk_1E = 0x800;
-        part->unk_0C = part->unk_0D =
-            part->unk_0E = 0x80;
-        part->unk_12 = 0x7DCE;
-        part->unk_14 |= 0x100;
-        func_8003DB94(part, D_800DEC70, 0);
+        sprite = ((S_8196B4A4_1 *)effect)->unk_0C;
+        sprite->unk_1C = sprite->unk_1E = 0x800;
+        sprite->unk_0C = sprite->unk_0D =
+            sprite->unk_0E = 0x80;
+        sprite->unk_12 = 0x7DCE;
+        sprite->unk_14 |= 0x100;
+        func_8003DB94(sprite, D_800DEC70, 0);
     }
-    ASM_KEEP(x_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(spawn_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: The 0x20 byte-aligned copy object preserves the 0x58 frame and lwl/lwr stack copy;

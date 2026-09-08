@@ -32,20 +32,21 @@ extern int D_800814A0;
 extern s32 D_80083200;
 extern M2C_UNK D_80126704;
 
+/* Initializes the object's state and callbacks, or flags initialization failure. */
 void func_801267B8(void) {
-    s32 work;
+    s32 obj_data;
     s32 global_flags;
     u16 object_flags;
     void *obj;
 
     obj = func_8003FC64(0);
-    work = (u8 *)obj + 0x20;
+    obj_data = (u8 *)obj + 0x20;
     if (obj != NULL) {
-        if (func_801264AC(work) != 0) {
+        if (func_801264AC(obj_data) != 0) {
             D_80080A84 = 1;
             func_80123130();
             ((S_801267B8_0 *)obj)->unk_0C = (u8 *)obj + 0x68;
-            func_80126620(work);
+            func_80126620(obj_data);
             func_8004491C(obj, &D_8004CAA0);
             ((S_801267B8_0 *)obj)->unk_10 = &D_80126704;
             D_80083200 = 0x200;

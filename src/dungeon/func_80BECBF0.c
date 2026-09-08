@@ -32,11 +32,12 @@ extern s32 D_8008346C;
 extern u8 D_80171014[];
 extern u8 D_8017423C[];
 
-void func_801723F0(void *arg0, void *arg1, void *arg2, void *arg3) {
+/* Advance the actor action animation and restore actor state when it finishes. */
+void func_801723F0(void *action, void *motion, void *anim, void *actor) {
     s32 state;
-    u16 counter;
+    u16 ticks;
 
-    state = ((S_801723F0_0 *)arg0)->unk_9B;
+    state = ((S_801723F0_0 *)action)->unk_9B;
     if (state == 1) {
         goto state1;
     }
@@ -58,41 +59,41 @@ state_ge2:
     goto done;
 
 set_state1:
-    ((S_801723F0_0 *)arg0)->unk_9B = 1;
+    ((S_801723F0_0 *)action)->unk_9B = 1;
 
 state1:
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
-        ((S_801723F0_0 *)arg0)->unk_9B = 3;
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
+    if (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0x8000) {
+        ((S_801723F0_0 *)action)->unk_9B = 3;
+        ((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v |= 0x6000;
+        func_8009C12C(actor, anim, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
         goto done;
     }
-    ((S_801723F0_3 *)arg1)->unk_14 = 0;
-    ((S_801723F0_3 *)arg1)->unk_10 = 0;
-    ((S_801723F0_3 *)arg1)->unk_0C = 0;
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_8017423C;
-    func_80047784(arg2,
-        D_8017423C[((s32)(D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+    ((S_801723F0_3 *)motion)->unk_14 = 0;
+    ((S_801723F0_3 *)motion)->unk_10 = 0;
+    ((S_801723F0_3 *)motion)->unk_0C = 0;
+    (*(u8 * *)((u8 *)anim + 0x2C)) = D_8017423C;
+    func_80047784(anim,
+        D_8017423C[((s32)(D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
-    ((S_801723F0_0 *)arg0)->unk_96 = 0;
-    ((S_801723F0_0 *)arg0)->unk_9B++;
+    ((S_801723F0_0 *)action)->unk_96 = 0;
+    ((S_801723F0_0 *)action)->unk_9B++;
     func_800A56E0(0x804);
     goto done;
 
 state2:
-    counter = ((S_801723F0_0 *)arg0)->unk_96 + 1;
-    ((S_801723F0_0 *)arg0)->unk_96 = counter;
-    if (((s16)counter == 8) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
+    ticks = ((S_801723F0_0 *)action)->unk_96 + 1;
+    ((S_801723F0_0 *)action)->unk_96 = ticks;
+    if (((s16)ticks == 8) || (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0x8000)) {
+        func_8009C12C(actor, anim, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
     }
 
 state3:
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
-        func_800AD594(arg3, 0x100);
-        ((S_801723F0_0 *)arg0)->unk_8C = D_80171014;
+    if (((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0xE000) {
+        func_800AD594(actor, 0x100);
+        ((S_801723F0_0 *)action)->unk_8C = D_80171014;
         D_8008346C = 0;
-        (*(u16 *)((u8 *)arg3 + 0x46)) &= 0x7FFF;
-        func_800A4ACC(arg3);
+        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
+        func_800A4ACC(actor);
     }
 
 done:

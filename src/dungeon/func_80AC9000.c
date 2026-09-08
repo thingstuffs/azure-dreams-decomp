@@ -43,32 +43,33 @@ typedef struct S_80174800_4 {
 
 extern s32 func_8009C93C();
 
-void func_80174800(void *arg0, s32 arg1, s32 arg2, s16 arg3)
+/* Update the actor for each eligible list entry at the target tile and height. */
+void func_80174800(void *node, s32 tile_x, s32 tile_y, s16 target_height)
 {
-    register s32 match_x ASM_REG("$22") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 match_y ASM_REG("$21") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    void *head = arg0;
+    register s32 match_x ASM_REG("$22") = tile_x;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 match_y ASM_REG("$21") = tile_y;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    void *head = node;
     S_80174800_4 *actor = head;
     void *owner;
 
-    arg0 = (u8 *)((S_80174800_0 *)head)->unk_5C + 0x20;
+    node = (u8 *)((S_80174800_0 *)head)->unk_5C + 0x20;
     owner = ((S_80174800_0_pre *)head)[-1].unk_00;
-    while (arg0 != head) {
-        S_80174800_2 *tile = ((S_80174800_1_pre *)arg0)[-1].unk_04;
-        S_80174800_3 *data = ((S_80174800_1_pre *)arg0)[-1].unk_00;
+    while (node != head) {
+        S_80174800_2 *tile = ((S_80174800_1_pre *)node)[-1].unk_04;
+        S_80174800_3 *height_data = ((S_80174800_1_pre *)node)[-1].unk_00;
         s16 height;
 
         if ((tile->unk_24 == (match_x & 0xFFFF)) &&
             (tile->unk_25 == (match_y & 0xFFFF)) &&
-            (height = data->unk_0A, height <= arg3 + 0x38) &&
-            (height > arg3 - 0x38) &&
-            ((u32)(((Rec_func_80174800_arg0 *)arg0)->unk_13 - 0x33) >= 4U)) {
+            (height = height_data->unk_0A, height <= target_height + 0x38) &&
+            (height > target_height - 0x38) &&
+            ((u32)(((Rec_func_80174800_arg0 *)node)->unk_13 - 0x33) >= 4U)) {
             actor->unk_84 = 0x7C;
             actor->unk_85 =
                 (s8)((s32)(actor->unk_26 * 3) >> 1);
             func_8009C93C(actor, owner,
                           actor->unk_2A, 1, 0);
-            }
-        arg0 = (u8 *)((Rec_func_80174800_arg0 *)arg0)->unk_5C + 0x20;
+        }
+        node = (u8 *)((Rec_func_80174800_arg0 *)node)->unk_5C + 0x20;
     }
 }

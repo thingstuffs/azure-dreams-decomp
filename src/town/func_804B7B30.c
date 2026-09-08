@@ -12,26 +12,23 @@ extern Context *D_80016000;
 extern s32 D_80018AF8;
 extern s32 D_80019A30;
 
-s32 *func_804B7B30(s32 arg0, s32 unused, s32 arg2) {
-    Context *base;
+/* Updates shared state and increments the current table entry if the selector-10 check returns zero. */
+s32 *func_804B7B30(s32 value, s32 unused, s32 selector) {
+    Context *context;
     u8 *entry;
-    s32 *countp;
-    u8 **tablep;
-    u32 offset;
+    s32 *count_ptr;
+    u8 **table_ptr;
+    u32 entry_offset;
 
-    func_80017B3C(&D_80018AF8, arg0);
-    if (arg2 == 10 && func_80017F8C(&D_80018AF8, arg0, 10) == 0) {
-        base = D_80016000;
-        countp = (s32 *)((u8 *)base + 8);
-        tablep = (u8 **)((u8 *)base + 0x40);
-        offset = *countp * 8;
-        entry = (u8 *)(offset + (u32)*tablep);
-        
+    func_80017B3C(&D_80018AF8, value);
+    if (selector == 10 && func_80017F8C(&D_80018AF8, value, 10) == 0) {
+        context = D_80016000;
+        count_ptr = (s32 *)((u8 *)context + 8);
+        table_ptr = (u8 **)((u8 *)context + 0x40);
+        entry_offset = *count_ptr * 8;
+        entry = (u8 *)(entry_offset + (u32)*table_ptr);
+
         *entry += 1;
     }
     return &D_80019A30;
 }
-
-/* MECHANISM: A real dead middle parameter places the long-lived selector in a2/s0.
-   The shared constant return removes the two-word false 0x80020000 initialization;
-   one local base reproduces the single D_80016000 pointer load and byte update. */

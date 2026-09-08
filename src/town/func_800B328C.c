@@ -30,6 +30,7 @@ typedef struct TownObject {
 extern s32 D_80080B54;
 extern s32 D_800D15EC[];
 
+/* Set a color slot's layer and end colors from the indexed flags and object palette. */
 void func_800B09EC(TownObject *object, s32 index)
 {
     s32 slot = index % 5;

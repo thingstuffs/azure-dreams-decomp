@@ -24,16 +24,17 @@ typedef struct S_800B5264_0 {
     s32 unk_00;
 } S_800B5264_0;   /* arg0 in func_800B5264 */
 
-void func_800B5264(S_800B5264_0 *arg0, M2C_UNK arg1, M2C_UNK arg2, s16 arg3, s32 arg4) {
-    s32 temp_a0;
+/* Replace the entry's text, set its position, and select display mode 2. */
+void func_800B5264(S_800B5264_0 *entry, M2C_UNK text, M2C_UNK text_style, s16 x, s32 y) {
+    s32 old_text;
 
-    temp_a0 = arg0->unk_00;
-    if (temp_a0 != 0) {
-        func_8004E99C(temp_a0);
-        arg0->unk_00 = 0;
+    old_text = entry->unk_00;
+    if (old_text != 0) {
+        func_8004E99C(old_text);
+        entry->unk_00 = 0;
     }
-    ((S_800B5264_2 *)(((S_800B5264_1 *)arg0)->unk_04))->unk_08 = arg3;
-    ((S_800B5264_2 *)(((S_800B5264_1 *)arg0)->unk_04))->unk_0A = (s16) arg4;
-    arg0->unk_00 = func_8004DC14(arg1, arg2);
-    ((S_800B5264_2 *)(((S_800B5264_1 *)arg0)->unk_04))->unk_0E = 2;
+    ((S_800B5264_2 *)(((S_800B5264_1 *)entry)->unk_04))->unk_08 = x;
+    ((S_800B5264_2 *)(((S_800B5264_1 *)entry)->unk_04))->unk_0A = (s16) y;
+    entry->unk_00 = func_8004DC14(text, text_style);
+    ((S_800B5264_2 *)(((S_800B5264_1 *)entry)->unk_04))->unk_0E = 2;
 }

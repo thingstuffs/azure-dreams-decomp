@@ -14,8 +14,6 @@ typedef struct S_800AEFD8_1 {
     void * unk_D8;
 } S_800AEFD8_1;   /* payload in func_800AEFD8 */
 
-
-
 extern void *func_8003FD64(s32 arg0, void *arg1);
 extern s32 func_800AEF5C(void *arg0, s32 arg1);
 extern void *func_800AEB9C(void *arg0);
@@ -28,20 +26,20 @@ extern void func_800AE630(void);
 
 extern s32 D_800814A0[3];
 
-void *func_800AEFD8(void *arg0, s32 arg1, s32 arg2, s32 arg3,
-                    s32 arg4, s32 arg5)
+/* Create and initialize a child object at (x, y), marking allocation failure for cleanup. */
+void *func_800AEFD8(void *parent, s32 x, s32 y, s32 resource_id,
+                    s32 resource_data, s32 context)
 {
     void *object;
     S_800AEFD8_1 *payload;
 
-    object = func_8003FD64(0, arg0);
+    object = func_8003FD64(0, parent);
     if (object != 0) {
         payload = (u8 *)object + 0x20;
         if (func_800AEF5C(payload, 0x1A) != 0) {
             ((S_800AEFD8_0 *)object)->unk_0C = (u8 *)object + 0xE8;
-            payload->unk_D4 =
-                func_800AEB9C(payload->unk_D8);
-            func_800AEEF0(payload, arg0, arg3, arg4, arg1, arg2, arg5);
+            payload->unk_D4 = func_800AEB9C(payload->unk_D8);
+            func_800AEEF0(payload, parent, resource_id, resource_data, x, y, context);
             func_8004491C(object, func_8004CAA0);
             ((S_800AEFD8_0 *)object)->unk_10 = func_800AE630;
         } else {

@@ -23,34 +23,31 @@ M2C_UNK func_800A32A4();                      /* extern */
 extern M2C_UNK D_800814A0;
 extern M2C_UNK D_80083460;
 
-void func_800B2FAC(void *arg0, void *arg1, void *arg2, void *arg3) {
-    M2C_UNK var_a2;
-    s32 flags;
-    u8 var_a0;
-    u8 var_a1;
-    s32 *global;
+/* Update a flagged target and its tile state, then mark it dirty. */
+void func_800B2FAC(void *unused_0, void *unused_1, void *source, void *target) {
+    M2C_UNK update_mask;
+    s32 target_flags;
+    u8 tile_x;
+    u8 tile_y;
+    s32 *global_state;
 
-    if (((S_800B2FAC_0 *)arg2)->unk_14 & 0xE000) {
-        global = &D_80083460;
-        if (global[4] == (arg3 - 0x20)) {
-            global[4] = global[4] & 0x7FFFFFFF;
+    if (((S_800B2FAC_0 *)source)->unk_14 & 0xE000) {
+        global_state = &D_80083460;
+        if (global_state[4] == (target - 0x20)) {
+            global_state[4] = global_state[4] & 0x7FFFFFFF;
         }
-        func_800A2DB8(arg3);
-        func_800A32A4(arg3);
-        flags = ((Rec_D_80082E80 *)arg3)->unk_1C.at00_s32.v;
-        var_a0 = ((S_800B2FAC_0 *)arg2)->unk_24;
-        var_a1 = ((S_800B2FAC_0 *)arg2)->unk_25;
-        var_a2 = 0x3000;
-        if (flags & 0x2000) {
-            var_a2 = 0x300;
+        func_800A2DB8(target);
+        func_800A32A4(target);
+        target_flags = ((Rec_D_80082E80 *)target)->unk_1C.at00_s32.v;
+        tile_x = ((S_800B2FAC_0 *)source)->unk_24;
+        tile_y = ((S_800B2FAC_0 *)source)->unk_25;
+        update_mask = 0x3000;
+        if (target_flags & 0x2000) {
+            update_mask = 0x300;
         }
-        func_8009A3D0(var_a0, var_a1, var_a2);
-        func_8009A028(arg3);
-        (*(u16 *)((u8 *)arg3 + -2)) = (u16) (((S_800B2FAC_1_pre *)arg3)[-1].unk_00 | 0x8000);
+        func_8009A3D0(tile_x, tile_y, update_mask);
+        func_8009A028(target);
+        (*(u16 *)((u8 *)target + -2)) = (u16) (((S_800B2FAC_1_pre *)target)[-1].unk_00 | 0x8000);
         D_800814A0 = D_800814A0 | 0x8000;
     }
 }
-
-/* MECHANISM: Four-argument ABI holds arg2/arg3 in s1/s0 and yields the retail 0x20 frame/save order.
-   A named D_80083460 base forces cdk's split lui/addiu plus the 0x10 field displacement.
-   Cached flag/byte locals expose retail load scheduling; a direct D_800814A0 update removes the extra address word. */

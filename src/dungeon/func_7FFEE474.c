@@ -18,12 +18,13 @@ extern u8 D_8008BC58[];
 extern u8 D_800CFC70[];
 extern s32 D_800CFC7C[];
 
-void func_8008BBD4(MainStruct *arg0) {
-    arg0->sub->unk8 -= 0x200;
-    if ((s16)arg0->sub->unk8 < 0) {
-        arg0->sub->unk8 = 0;
-        arg0->unk68 = D_8008BC58;
-        arg0->unk64 = (s8)D_800CFC70[arg0->unk66];
-        arg0->unk6c = D_800CFC7C[arg0->unk66];
+/* Decrease the substructure value, clamping it to zero and resetting state when negative. */
+void func_8008BBD4(MainStruct *object) {
+    object->sub->unk8 -= 0x200;
+    if ((s16)object->sub->unk8 < 0) {
+        object->sub->unk8 = 0;
+        object->unk68 = D_8008BC58;
+        object->unk64 = (s8)D_800CFC70[object->unk66];
+        object->unk6c = D_800CFC7C[object->unk66];
     }
 }

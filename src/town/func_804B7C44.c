@@ -10,13 +10,14 @@ extern s32 func_80017F8C(void *, s32, s32);
 extern void func_80018854(s32);
 extern s32 func_8001894C(s32);
 
-void *func_80016444(s32 arg0, s32 unused, s32 arg2)
+/* Prepare request state and select a result buffer based on status checks. */
+void *func_80016444(s32 request_id, s32 unused, s32 request_value)
 {
-    void *base = &D_80018B00;
+    void *request_state = &D_80018B00;
 
-    func_80017B3C(base, arg0);
+    func_80017B3C(request_state, request_id);
     if (((func_8001894C(D_80018AEA) == 0) &&
-         (func_80017F8C(base, arg0, arg2) == 0)) ||
+         (func_80017F8C(request_state, request_id, request_value) == 0)) ||
         (func_8001894C(0x50C) == 0)) {
         func_80018854(0x50C);
         return &D_80019ACC;

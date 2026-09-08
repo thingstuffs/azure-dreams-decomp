@@ -5,6 +5,7 @@
 extern s32 D_800869C0[];
 extern void func_80059DAC(void);
 
+/* Removes the first matching entry from D_800869C0, shifts later entries down, and calls func_80059DAC. */
 __asm__(
     ".text\n"
     ".align 2\n"

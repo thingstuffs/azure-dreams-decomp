@@ -7,13 +7,14 @@ M2C_UNK func_800C4174();    /* extern */
 M2C_UNK func_800CB04C(void *, M2C_UNK, M2C_UNK);                            /* extern */
 
 
-void func_800CB2DC(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    u16 temp_v0;
+/* Decrements an object's countdown and invokes both handlers when it expires. */
+void func_800CB2DC(Rec_func_80094268_arg0 *object, M2C_UNK handlerContext, M2C_UNK handlerData) {
+    u16 remainingCount;
 
-    temp_v0 = arg0->unk_6C.as_u16 - 1;
-    arg0->unk_6C.as_u16 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_800CB04C(arg0, arg1, arg2);
-        func_800C4174(arg0, arg1, arg2);
+    remainingCount = object->unk_6C.as_u16 - 1;
+    object->unk_6C.as_u16 = remainingCount;
+    if ((remainingCount << 0x10) <= 0) {
+        func_800CB04C(object, handlerContext, handlerData);
+        func_800C4174(object, handlerContext, handlerData);
     }
 }

@@ -59,55 +59,56 @@ typedef struct S_80170F84_3 {
     M2C_UNK * unk_2C;
 } S_80170F84_3;   /* temp_s0 in func_80170F84 */
 
-void *func_80170F84(s16 arg0, s32 arg1, s16 arg2, u16 arg3) {
-    S_80170F84_1 *var_s4 = NULL;
-    s16 saved_arg1;
-    s16 saved_arg3;
-    s16 saved_arg2;
-    u16 temp_s2;
-    u16 temp_s3;
-    S_80170F84_3 *temp_s0;
-    S_80170F84_2 *temp_s1;
-    void *temp_v0;
+/* Create a dungeon entity and initialize its state and placement. */
+void *func_80170F84(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height) {
+    S_80170F84_1 *entity_state = NULL;
+    s16 saved_tile_x;
+    s16 saved_height;
+    s16 saved_tile_y;
+    u16 saved_tile_1c;
+    u16 saved_tile_1e;
+    S_80170F84_3 *tile_state;
+    S_80170F84_2 *world_state;
+    void *entity;
 
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
-    temp_v0 = func_8003FD64(0x112, &D_80083498);
-    if (temp_v0 != NULL) {
-        var_s4 = temp_v0 + 0x20;
-        D_80174710 = temp_v0;
-        ((S_80170F84_0 *)temp_v0)->unk_10 = &D_8017112C;
-        var_s4->unk_13 = 0x37;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s1 = ((S_80170F84_0 *)temp_v0)->unk_08;
-        temp_s1->unk_0A = saved_arg3;
-        temp_s0 = ((S_80170F84_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_24 = saved_arg1;
-        temp_s0->unk_25 = saved_arg2;
-        temp_s0->unk_2C = &D_80173E8C;
-        var_s4->unk_9E = 0;
-        func_800A9C18(temp_v0, temp_s1, temp_s0, arg0);
-        var_s4->unk_9A = 0xFF;
-        var_s4->unk_9C = -1;
-        var_s4->unk_8C = &D_80171514;
-        var_s4->unk_1C = (s32) (var_s4->unk_1C | 0x40000);
-        temp_s0->unk_10 = 0x20;
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-        func_800AA36C(var_s4, temp_s1, temp_s0, var_s4);
-        temp_s1->unk_0A = (u16) D_8008378A;
-        temp_s1->unk_16 = (s16) (temp_s1->unk_0A - 0x20);
-        temp_s1->unk_0A = (u16) (temp_s1->unk_0A - 0x190);
-        temp_s2 = temp_s0->unk_1C;
-        temp_s3 = temp_s0->unk_1E;
-        temp_s0->unk_1C = 0U;
-        temp_s0->unk_1E = 0U;
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0x80);
-        func_80170B50(var_s4, temp_s1, temp_s0, 1);
-        func_80170B50(var_s4, temp_s1, temp_s0, 2);
-        temp_s0->unk_1C = temp_s2;
-        temp_s0->unk_1E = temp_s3;
+    saved_tile_x = tile_x;
+    saved_height = initial_height;
+    saved_tile_y = tile_y;
+    entity = func_8003FD64(0x112, &D_80083498);
+    if (entity != NULL) {
+        entity_state = entity + 0x20;
+        D_80174710 = entity;
+        ((S_80170F84_0 *)entity)->unk_10 = &D_8017112C;
+        entity_state->unk_13 = 0x37;
+        func_8004491C(entity, &D_80045340);
+        world_state = ((S_80170F84_0 *)entity)->unk_08;
+        world_state->unk_0A = saved_height;
+        tile_state = ((S_80170F84_0 *)entity)->unk_0C;
+        tile_state->unk_24 = saved_tile_x;
+        tile_state->unk_25 = saved_tile_y;
+        tile_state->unk_2C = &D_80173E8C;
+        entity_state->unk_9E = 0;
+        func_800A9C18(entity, world_state, tile_state, entity_id);
+        entity_state->unk_9A = 0xFF;
+        entity_state->unk_9C = -1;
+        entity_state->unk_8C = &D_80171514;
+        entity_state->unk_1C = (s32) (entity_state->unk_1C | 0x40000);
+        tile_state->unk_10 = 0x20;
+        tile_state->unk_14 = (u16) (tile_state->unk_14 | 0xC);
+        func_800AA36C(entity_state, world_state, tile_state, entity_state);
+        world_state->unk_0A = (u16) D_8008378A;
+        world_state->unk_16 = (s16) (world_state->unk_0A - 0x20);
+        world_state->unk_0A = (u16) (world_state->unk_0A - 0x190);
+        saved_tile_1c = tile_state->unk_1C;
+        saved_tile_1e = tile_state->unk_1E;
+        tile_state->unk_1C = 0U;
+        tile_state->unk_1E = 0U;
+        tile_state->unk_14 = (u16) (tile_state->unk_14 | 0x80);
+        func_80170B50(entity_state, world_state, tile_state, 1);
+        func_80170B50(entity_state, world_state, tile_state, 2);
+        tile_state->unk_1C = saved_tile_1c;
+        tile_state->unk_1E = saved_tile_1e;
         func_80173C30();
     }
-    return var_s4;
+    return entity_state;
 }

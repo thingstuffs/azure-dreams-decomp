@@ -54,55 +54,54 @@ __asm__(
 #define BODY_NAME func_80025000
 #endif
 
-void BODY_NAME(void *arg0, void *arg1, void *arg2)
+void BODY_NAME(void *motion_state, void *position, void *draw_state)
     __attribute__((section(".text.func_80025000")));
-void BODY_NAME(void *arg0, void *arg1, void *arg2) {
-    s16 temp_a0;
-    s32 temp_a1;
-    s16 temp_v0;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
-    void *temp_a2;
-    void *temp_a2_base;
-    void *temp_v1;
-    s32 arg1_y;
-    s32 index;
-    s16 *counter;
-    s16 gate;
-    u16 remaining;
+/* Move the position toward the selected target and update the blink flag. */
+void BODY_NAME(void *motion_state, void *position, void *draw_state) {
+    s16 move_ticks;
+    s32 target_y;
+    s16 ticks_left;
+    void *target_pos;
+    void *target_node;
+    void *owner;
+    s32 current_y;
+    s32 node_index;
+    s16 *update_counts;
+    s16 blink_ticks;
+    u16 blink_remaining;
 
-    temp_v1 = (*(void **)((u8 *)arg0 + 0));
-    index = ((S_81809800_0 *)temp_v1)->unk_26;
-    counter = D_8002715C;
-    temp_a2_base = ((S_81809800_1 *)(((index * 4) + temp_v1)))->unk_0C;
-    arg1_y = ((S_81809800_2 *)arg1)->unk_00.at02.v;
-    temp_a2 = ((S_81809800_3 *)temp_a2_base)->unk_08;
-    temp_a1 = ((S_81809800_4 *)temp_a2)->unk_00.at02.v;
-    counter[0] = (s16) ((u16) counter[0] + 1);
-    if ((temp_a1 != arg1_y) || (((S_81809800_4 *)temp_a2)->unk_04.at02.v != ((S_81809800_2 *)arg1)->unk_04.at02.v)) {
-        ((Rec_D_800E3D7C *)arg0)->unk_08.at02_s16.v = 2;
+    owner = (*(void **)((u8 *)motion_state + 0));
+    node_index = ((S_81809800_0 *)owner)->unk_26;
+    update_counts = D_8002715C;
+    target_node = ((S_81809800_1 *)(((node_index * 4) + owner)))->unk_0C;
+    current_y = ((S_81809800_2 *)position)->unk_00.at02.v;
+    target_pos = ((S_81809800_3 *)target_node)->unk_08;
+    target_y = ((S_81809800_4 *)target_pos)->unk_00.at02.v;
+    update_counts[0] = (s16) ((u16) update_counts[0] + 1);
+    if ((target_y != current_y) || (((S_81809800_4 *)target_pos)->unk_04.at02.v != ((S_81809800_2 *)position)->unk_04.at02.v)) {
+        ((Rec_D_800E3D7C *)motion_state)->unk_08.at02_s16.v = 2;
     }
-    temp_a0 = ((Rec_D_800E3D7C *)arg0)->unk_08.at02_s16.v;
-    if (temp_a0 != 0) {
-        ((S_81809800_2 *)arg1)->unk_00.at00.v = (s32) (((S_81809800_2 *)arg1)->unk_00.at00.v + ((s32) (((S_81809800_4 *)temp_a2)->unk_00.at00.v - ((S_81809800_2 *)arg1)->unk_00.at00.v) / temp_a0));
-        ((S_81809800_2 *)arg1)->unk_04.at00.v = (s32) (((S_81809800_2 *)arg1)->unk_04.at00.v + ((s32) (((S_81809800_4 *)temp_a2)->unk_04.at00.v - ((S_81809800_2 *)arg1)->unk_04.at00.v) / (s16) ((Rec_D_800E3D7C *)arg0)->unk_08.at02_s16.v));
-        temp_v0 = (u16) ((Rec_D_800E3D7C *)arg0)->unk_08.at02_s16.v - 1;
-        ((Rec_D_800E3D7C *)arg0)->unk_08.at02_s16.v = temp_v0;
-        if ((temp_v0 << 0x10) <= 0) {
-            ((S_81809800_2 *)arg1)->unk_00.at02.v = (s16) (u16) ((S_81809800_4 *)temp_a2)->unk_00.at02.v;
-            ((S_81809800_2 *)arg1)->unk_04.at02.v = (s16) (u16) ((S_81809800_4 *)temp_a2)->unk_04.at02.v;
-            ((Rec_D_800E3D7C *)arg0)->unk_08.at02_s16.v = 0;
+    move_ticks = ((Rec_D_800E3D7C *)motion_state)->unk_08.at02_s16.v;
+    if (move_ticks != 0) {
+        ((S_81809800_2 *)position)->unk_00.at00.v = (s32) (((S_81809800_2 *)position)->unk_00.at00.v + ((s32) (((S_81809800_4 *)target_pos)->unk_00.at00.v - ((S_81809800_2 *)position)->unk_00.at00.v) / move_ticks));
+        ((S_81809800_2 *)position)->unk_04.at00.v = (s32) (((S_81809800_2 *)position)->unk_04.at00.v + ((s32) (((S_81809800_4 *)target_pos)->unk_04.at00.v - ((S_81809800_2 *)position)->unk_04.at00.v) / (s16) ((Rec_D_800E3D7C *)motion_state)->unk_08.at02_s16.v));
+        ticks_left = (u16) ((Rec_D_800E3D7C *)motion_state)->unk_08.at02_s16.v - 1;
+        ((Rec_D_800E3D7C *)motion_state)->unk_08.at02_s16.v = ticks_left;
+        if ((ticks_left << 0x10) <= 0) {
+            ((S_81809800_2 *)position)->unk_00.at02.v = (s16) (u16) ((S_81809800_4 *)target_pos)->unk_00.at02.v;
+            ((S_81809800_2 *)position)->unk_04.at02.v = (s16) (u16) ((S_81809800_4 *)target_pos)->unk_04.at02.v;
+            ((Rec_D_800E3D7C *)motion_state)->unk_08.at02_s16.v = 0;
         }
     }
-    func_800478B8(arg2, temp_a1, temp_a2, arg1);
-    gate = D_80027156;
-    remaining = *(u16 *)&D_80027156;
-    if (gate != 0) {
-        *(u16 *)&D_80027156 = (u16) (remaining - 1);
+    func_800478B8(draw_state, target_y, target_pos, position);
+    blink_ticks = D_80027156;
+    blink_remaining = *(u16 *)&D_80027156;
+    if (blink_ticks != 0) {
+        *(u16 *)&D_80027156 = (u16) (blink_remaining - 1);
     }
     if ((*(u16 *)&D_80027156) & 1) {
-        ((S_81809800_6 *)arg2)->unk_14 = (u16) (((S_81809800_6 *)arg2)->unk_14 | 0x80);
+        ((S_81809800_6 *)draw_state)->unk_14 = (u16) (((S_81809800_6 *)draw_state)->unk_14 | 0x80);
     } else {
-        ((S_81809800_6 *)arg2)->unk_14 = (u16) (((S_81809800_6 *)arg2)->unk_14 & 0xFF7F);
+        ((S_81809800_6 *)draw_state)->unk_14 = (u16) (((S_81809800_6 *)draw_state)->unk_14 & 0xFF7F);
     }
 }

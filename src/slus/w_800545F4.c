@@ -14,32 +14,25 @@ typedef struct S_800545F4 {
     /*0x18*/ u16 field18;
 } S_800545F4;
 
-/*
- * Updates a gauge value toward/away from a target on each tick, based on
- * state (field4): 1 = increasing (clamps at target, sets state to 3 when
- * reached), 2 = decreasing (clamps at 0, returns -1 when depleted without
- * running the completion callback). Any other state is a no-op. On the
- * increasing path, or the decreasing path while still above zero, the
- * completion callback (field0) is invoked if set.
- */
-s32 func_800545F4(S_800545F4 *a0)
+/* Advances or drains the gauge, returning -1 when depleted and calling its callback otherwise. */
+s32 func_800545F4(S_800545F4 *gauge)
 {
-    u16 v0;
+    u16 next_value;
 
-    switch (a0->field4) {
+    switch (gauge->field4) {
     case 1:
-        v0 = (u16)(a0->field8 + a0->field16);
-        a0->field8 = v0;
-        if (a0->fieldA < (s16)v0) {
-            a0->field8 = (s16)a0->fieldA;
-            a0->field4 = 3;
+        next_value = (u16)(gauge->field8 + gauge->field16);
+        gauge->field8 = next_value;
+        if (gauge->fieldA < (s16)next_value) {
+            gauge->field8 = (s16)gauge->fieldA;
+            gauge->field4 = 3;
         }
         break;
     case 2:
-        v0 = (u16)(a0->field8 - a0->field18);
-        a0->field8 = v0;
-        if ((s16)v0 <= 0) {
-            a0->field8 = 0;
+        next_value = (u16)(gauge->field8 - gauge->field18);
+        gauge->field8 = next_value;
+        if ((s16)next_value <= 0) {
+            gauge->field8 = 0;
             return -1;
         }
         break;
@@ -47,8 +40,8 @@ s32 func_800545F4(S_800545F4 *a0)
         return 0;
     }
 
-    if (a0->field0 != 0) {
-        a0->field0();
+    if (gauge->field0 != 0) {
+        gauge->field0();
     }
     return 0;
 }

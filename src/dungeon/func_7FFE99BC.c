@@ -54,44 +54,45 @@ typedef struct S_7FFE99BC_3 {
     u8 unk_13;
 } S_7FFE99BC_3;   /* ((S_7FFE99BC_0 *)arg0)->unk_00 in func_7FFE99BC */
 
-void func_7FFE99BC(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    s16 temp_v1;
-    u16 temp_v0_2;
-    void *temp_a0;
-    void *temp_v0;
-    void *temp_v1_2;
+/* Spawn effects on early odd ticks and retire the emitter when its timer expires. */
+void func_7FFE99BC(void *emitter, M2C_UNK spawn_param_1, M2C_UNK spawn_param_2) {
+    s16 tick;
+    u16 ticks_left;
+    void *effect_state;
+    void *effect;
+    void *effect_config;
 
-    temp_v1 = ((S_7FFE99BC_0 *)arg0)->unk_16 + 1;
-    ((S_7FFE99BC_0 *)arg0)->unk_16 = (u16)temp_v1;
-    if ((temp_v1 < 0x17) && (temp_v1 & 1)) {
-        temp_v0 = func_7003CF18(0x212);
-        if (temp_v0 != NULL) {
-            func_7010C274(temp_v0, arg0, arg1, arg2);
-            (*(s16 *)((u8 *)temp_v0 + 0x3E)) = 0x1E;
-            (*(s16 *)((u8 *)temp_v0 + 0x40)) = 0x1E;
-            (*(M2C_UNK **)((u8 *)temp_v0 + 0x10)) = &D_8010BF40;
-            temp_a0 = (*(void **)((u8 *)temp_v0 + 8));
-            ((S_7FFE99BC_1 *)temp_a0)->unk_0A =
-                (u16)(((S_7FFE99BC_1 *)temp_a0)->unk_0A -
-                (D_800E0F20[(u8)((S_7FFE99BC_3 *)(((S_7FFE99BC_0 *)arg0)->unk_00))->unk_13] >> 1));
-            temp_v1_2 = (*(void **)((u8 *)temp_v0 + 0xC));
-            (*(Packed12 *)((u8 *)temp_v0 + 0x62)) = D_8010C450;
-            ((S_7FFE99BC_2 *)temp_v1_2)->unk_08 = (void *)(temp_v0 + 0x62);
-            ((S_7FFE99BC_2 *)temp_v1_2)->unk_1E = 0x3E8;
-            ((S_7FFE99BC_2 *)temp_v1_2)->unk_1C = 0x3E8;
-            ((S_7FFE99BC_2 *)temp_v1_2)->unk_06 = 0x64;
+    tick = ((S_7FFE99BC_0 *)emitter)->unk_16 + 1;
+    ((S_7FFE99BC_0 *)emitter)->unk_16 = (u16)tick;
+    if ((tick < 0x17) && (tick & 1)) {
+        effect = func_7003CF18(0x212);
+        if (effect != NULL) {
+            func_7010C274(effect, emitter, spawn_param_1, spawn_param_2);
+            (*(s16 *)((u8 *)effect + 0x3E)) = 0x1E;
+            (*(s16 *)((u8 *)effect + 0x40)) = 0x1E;
+            (*(M2C_UNK **)((u8 *)effect + 0x10)) = &D_8010BF40;
+            effect_state = (*(void **)((u8 *)effect + 8));
+            ((S_7FFE99BC_1 *)effect_state)->unk_0A =
+                (u16)(((S_7FFE99BC_1 *)effect_state)->unk_0A -
+                (D_800E0F20[(u8)((S_7FFE99BC_3 *)(((S_7FFE99BC_0 *)emitter)->unk_00))->unk_13] >> 1));
+            effect_config = (*(void **)((u8 *)effect + 0xC));
+            (*(Packed12 *)((u8 *)effect + 0x62)) = D_8010C450;
+            ((S_7FFE99BC_2 *)effect_config)->unk_08 = (void *)(effect + 0x62);
+            ((S_7FFE99BC_2 *)effect_config)->unk_1E = 0x3E8;
+            ((S_7FFE99BC_2 *)effect_config)->unk_1C = 0x3E8;
+            ((S_7FFE99BC_2 *)effect_config)->unk_06 = 0x64;
         }
     }
-    temp_v0_2 = ((S_7FFE99BC_0 *)arg0)->unk_1E - 1;
-    ((S_7FFE99BC_0 *)arg0)->unk_1E = temp_v0_2;
-    if ((temp_v0_2 << 0x10) <= 0) {
-        u16 *counter = &D_80094422;
-        u16 next_counter;
+    ticks_left = ((S_7FFE99BC_0 *)emitter)->unk_1E - 1;
+    ((S_7FFE99BC_0 *)emitter)->unk_1E = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        u16 *active_count = &D_80094422;
+        u16 next_count;
 
-        (*(u16 *)((u8 *)arg0 + -2)) =
-            (u16)(((S_7FFE99BC_0_pre *)arg0)[-1].unk_00 | 0x8000);
-        next_counter = *counter - 1;
+        (*(u16 *)((u8 *)emitter + -2)) =
+            (u16)(((S_7FFE99BC_0_pre *)emitter)[-1].unk_00 | 0x8000);
+        next_count = *active_count - 1;
         D_80086AD8 |= 0x8000;
-        *counter = next_counter;
+        *active_count = next_count;
     }
 }

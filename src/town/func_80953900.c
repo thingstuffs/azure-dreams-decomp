@@ -81,31 +81,32 @@ extern void func_80053DA8(s32);
 extern s32 func_800B1BEC(s32, s32, s32);
 extern void func_800B1DBC(s32);
 
-void func_80020900(TownEntity *arg0)
+/* Updates the selection menu, quantity, payment, and closing state. */
+void func_80020900(TownEntity *menu)
 {
-    TownEntity *entity = arg0;
-    TownRecord30 rec30;
-    TownRecord28 rec28;
-    WordTable18 words = D_80020088;
-    HalfTable0C halves = D_800200A0;
-    PairTable18 pairs = D_800200AC;
-    s32 i;
-    s32 y;
-    s32 product;
-    s32 partial;
-    s32 factor;
+    TownEntity *entity = menu;
+    TownRecord30 text_record;
+    TownRecord28 panel_record;
+    WordTable18 option_labels = D_80020088;
+    HalfTable0C option_ids = D_800200A0;
+    PairTable18 factor_pairs = D_800200AC;
+    s32 option_index;
+    s32 row_y;
+    s32 total_factor;
+    s32 scaled_quantity;
+    s32 second_factor;
     s32 first_factor;
     s16 *prices;
     register s32 quantity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 state;
     u8 *input;
-    u8 *page;
-    u8 *loop_page;
-    register TownRecord30 *recp ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s16 *walk;
-    register void *call_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register TownRecord30 *call_rec ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 rec_color;
+    u8 *data_page;
+    u8 *label_page;
+    register TownRecord30 *label_record ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 *label_cursor;
+    register void *text_pool ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register TownRecord30 *text_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 text_color;
 
     input = D_80083160;
 
@@ -133,64 +134,64 @@ state_200_check:
 
 state_0:
     if (func_80033BC0(0x592) != 0) goto exit;
-    rec28.x = 0xC8;
-    rec28.y = 0x10;
-    rec28.width = 0x38;
-    rec28.height = 0x58;
-    rec28.mode = 2;
-    rec28.enabled = 1;
-    rec28.color = 0x606060;
-    rec28.active = 0;
-    rec28.owner = entity;
-    func_8002025C(D_800203D8, &rec28);
+    panel_record.x = 0xC8;
+    panel_record.y = 0x10;
+    panel_record.width = 0x38;
+    panel_record.height = 0x58;
+    panel_record.mode = 2;
+    panel_record.enabled = 1;
+    panel_record.color = 0x606060;
+    panel_record.active = 0;
+    panel_record.owner = entity;
+    func_8002025C(D_800203D8, &panel_record);
 
-    rec28.x = 0xCA;
-    rec28.y = 0x1E;
-    rec28.width = 0x34;
-    rec28.height = 0x0C;
-    rec28.mode = 0;
-    rec28.enabled = 1;
-    rec28.color = 0xB0B0B0;
-    rec28.active = 0;
-    rec28.owner = entity;
-    func_8002025C(D_80021028, &rec28);
+    panel_record.x = 0xCA;
+    panel_record.y = 0x1E;
+    panel_record.width = 0x34;
+    panel_record.height = 0x0C;
+    panel_record.mode = 0;
+    panel_record.enabled = 1;
+    panel_record.color = 0xB0B0B0;
+    panel_record.active = 0;
+    panel_record.owner = entity;
+    func_8002025C(D_80021028, &panel_record);
 
-    rec_color = 0x808080;
+    text_color = 0x808080;
 #ifdef NON_MATCHING
-    page = D_80020000;
+    data_page = D_80020000;
 #else
-    page = (u8 *)0x80020000;
+    data_page = (u8 *)0x80020000;
 #endif
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    call_page = page + 0x4AC;
-    call_rec = &rec30;
-    rec30.x = 0xCC;
-    rec30.y = 0x14;
-    rec30.value = 0x7C80;
-    rec30.mode = 3;
-    rec30.enabled = 0;
-    rec30.color = rec_color;
-    rec30.data = D_800200D0;
-    rec30.active = 0;
-    rec30.owner = entity;
-    func_800201C8(call_page, call_rec);
+    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    text_pool = data_page + 0x4AC;
+    text_arg = &text_record;
+    text_record.x = 0xCC;
+    text_record.y = 0x14;
+    text_record.value = 0x7C80;
+    text_record.mode = 3;
+    text_record.enabled = 0;
+    text_record.color = text_color;
+    text_record.data = D_800200D0;
+    text_record.active = 0;
+    text_record.owner = entity;
+    func_800201C8(text_pool, text_arg);
 
-    i = 5;
-    recp = &rec30;
-    loop_page = page;
-    walk = &rec30.x;
-    y = 0x5C;
-    rec30.x = 0xDC;
+    option_index = 5;
+    label_record = &text_record;
+    label_page = data_page;
+    label_cursor = &text_record.x;
+    row_y = 0x5C;
+    text_record.x = 0xDC;
     do {
-        call_page = loop_page + 0x4AC;
-        call_rec = recp;
-        rec30.y = y;
-        rec30.data = (void *)*(s32 *)((u8 *)walk + 0x58);
-        walk -= 2;
-        y -= 0x0C;
-        i--;
-        func_800201C8(call_page, call_rec);
-    } while (i >= 0);
+        text_pool = label_page + 0x4AC;
+        text_arg = label_record;
+        text_record.y = row_y;
+        text_record.data = (void *)*(s32 *)((u8 *)label_cursor + 0x58);
+        label_cursor -= 2;
+        row_y -= 0x0C;
+        option_index--;
+        func_800201C8(text_pool, text_arg);
+    } while (option_index >= 0);
     entity->state = (u16)entity->state + 1;
     entity->timer = 0;
     goto exit;
@@ -220,7 +221,7 @@ state_1:
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         *money -= 100;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        D_80113158 = halves.value[entity->selection];
+        D_80113158 = option_ids.value[entity->selection];
         func_80033B9C(0x592);
         D_80024300[0] = func_800B1BEC(0, -0x48, -0x28);
         entity->timer = -1;
@@ -276,20 +277,20 @@ state_3:
         goto exit;
     }
     if (*(s32 *)(input + 0x10) & 0x40) {
-        register Pair04 *pair ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register Pair04 *selected_pair ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         func_80053DA8(0x503);
-        pair = pairs.pair;
+        selected_pair = factor_pairs.pair;
         prices = D_80024308;
-        pair += entity->selection;
-        first_factor = prices[*(s16 *)(void *)pair];
+        selected_pair += entity->selection;
+        first_factor = prices[*(s16 *)(void *)selected_pair];
         quantity = entity->quantity;
-        partial = quantity * first_factor;
-        factor = prices[(s16)*(u16 *)((u8 *)pair + 2)];
+        scaled_quantity = quantity * first_factor;
+        second_factor = prices[(s16)*(u16 *)((u8 *)selected_pair + 2)];
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        D_80113158 = halves.value[entity->selection];
-        product = partial * factor;
-        D_8011315C = product * 100;
+        D_80113158 = option_ids.value[entity->selection];
+        total_factor = scaled_quantity * second_factor;
+        D_8011315C = total_factor * 100;
         func_80033B9C(0x592);
         func_800B1DBC(D_80024300[0]);
         entity->state = 0x100;

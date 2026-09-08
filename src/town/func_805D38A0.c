@@ -6,21 +6,22 @@ extern s8 D_80016000[];
 extern s32 D_80019B00;
 extern u8 D_80019B8C;
 
+/* Call the handler with the current kind and store its result in the current slot and global. */
 void func_805D38A0(void) {
-    u8 sp10[2];
+    u8 request[2];
     s8 *slot;
-    s32 ret;
+    s32 handler_result;
     u8 kind;
 
     slot = *(s8 **)(*(s8 **)D_80016000 + 0x40) +
            (*(s32 *)(*(s8 **)D_80016000 + 8) * 8);
     kind = D_80019B8C;
-    sp10[1] = 0x19;
-    sp10[0] = kind;
+    request[1] = 0x19;
+    request[0] = kind;
     *(u8 *)(slot + 6) = kind;
-    ret = (*(Callback *)(*(s8 **)(*(s8 **)D_80016000 + 0x20) + 0x50))(sp10);
-    D_80019B00 = ret;
-    *(s32 *)slot = ret;
+    handler_result = (*(Callback *)(*(s8 **)(*(s8 **)D_80016000 + 0x20) + 0x50))(request);
+    D_80019B00 = handler_result;
+    *(s32 *)slot = handler_result;
 }
 
 /* MECHANISM

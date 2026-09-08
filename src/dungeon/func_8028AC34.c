@@ -22,58 +22,53 @@ typedef struct S_8001DC34_1 {
 extern u8 D_8008333C[32];
 extern u8 D_800E9FFA[];
 
-void func_8001DC34(void *arg0)
+/* Clear a padded rectangle of grid entries and reset the region state. */
+void func_8001DC34(void *region_data)
 {
-    S_8001DC34_0 *argp;
-    s16 var_a2;
-    s16 var_a1;
-    s16 *var_v1;
-    u8 *var_a0;
-    s32 var_v0;
-    s16 *var_t2;
-    u32 var_t1;
-    s16 temp_v0;
-    s16 temp_v0_2;
-    s16 temp_v1;
-    s16 temp_v0_4;
-    s32 temp_v0_3;
-
-    argp = arg0;
-    var_t2 = (s16 *)D_8008333C;
-    argp->unk_0A = 0;
-    temp_v0 = argp->unk_02 - 1;
-    var_a2 = temp_v0;
-    ASM_KEEP_NV(var_a2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    temp_v1 = temp_v0 + argp->unk_06 + 2;
-    if ((temp_v0 << 16) < (temp_v1 << 16)) {
-        var_t1 = (u32)D_800E9FFA;
+    S_8001DC34_0 *region;
+    s16 row;
+    s16 cells_left;
+    s16 *cell;
+    u8 *cell_tail;
+    s32 row_shifted;
+    s16 *grid_config;
+    u32 grid_base;
+    s16 first_row;
+    s16 next_row;
+    s16 end_row;
+    s16 remaining;
+    s32 row_width;
+    region = region_data;
+    grid_config = (s16 *)D_8008333C;
+    region->unk_0A = 0;
+    first_row = region->unk_02 - 1;
+    row = first_row;
+    ASM_KEEP_NV(row);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    end_row = first_row + region->unk_06 + 2;
+    if ((first_row << 16) < (end_row << 16)) {
+        grid_base = (u32)D_800E9FFA;
         do {
-            var_v0 = var_a2 << 16;
-            var_v1 = (s16 *)(((((var_v0 >> 16) << var_t2[10]) +
-                  argp->unk_00) * 6) + var_t1);
-            temp_v0_3 = argp->unk_04 + 2;
-            var_a1 = temp_v0_3;
-            if ((temp_v0_3 << 16) > 0) {
-                var_a0 = (u8 *)var_v1 + 4;
+            row_shifted = row << 16;
+            cell = (s16 *)(((((row_shifted >> 16) << grid_config[10]) +
+                  region->unk_00) * 6) + grid_base);
+            row_width = region->unk_04 + 2;
+            cells_left = row_width;
+            if ((row_width << 16) > 0) {
+                cell_tail = (u8 *)cell + 4;
                 do {
-                    temp_v0_4 = var_a1 - 1;
-                    var_a1 = temp_v0_4;
-                    *var_v1 = 0;
-                    ((S_8001DC34_1_pre *)var_a0)[-1].unk_00 = 0;
-                    ((S_8001DC34_1 *)var_a0)->unk_00 = 0;
-                    var_a0 += 6;
-                    var_v1 = (s16 *)((u8 *)var_v1 + 6);
-                } while ((temp_v0_4 << 16) > 0);
-                
-                
+                    remaining = cells_left - 1;
+                    cells_left = remaining;
+                    *cell = 0;
+                    ((S_8001DC34_1_pre *)cell_tail)[-1].unk_00 = 0;
+                    ((S_8001DC34_1 *)cell_tail)->unk_00 = 0;
+                    cell_tail += 6;
+                    cell = (s16 *)((u8 *)cell + 6);
+                } while ((remaining << 16) > 0);
             }
-            
-            temp_v0_2 = var_a2 + 1;
-            var_a2 = temp_v0_2;
-        } while (temp_v0_2 < temp_v1);
+            next_row = row + 1;
+            row = next_row;
+        } while (next_row < end_row);
     }
-    
-    
 }
 
 /* MECHANISM: Frameless true-name leaf; runtime pins preserve a3/a2/a1 and v1/a0 roles.

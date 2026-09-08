@@ -1,9 +1,5 @@
 #include "common.h"
 
-/* Walks the global singly-linked list headed by D_80081498. For every node
-   with the 0x8000 flag bit set in field_1E, detaches it (func_80044A50,
-   func_8003FFF0) and, unless the (now updated) field_1E has bit 0x80 set,
-   frees it onto the freelist via func_80040044. */
 typedef struct Node {
     struct Node *next;      /* 0x00 */
     unsigned char pad[0x1E - 4];
@@ -19,6 +15,7 @@ extern void func_80044A50(Node *a0);
 extern void func_8003FFF0(Node *a0);
 extern void func_80040044(void *a0);
 
+/* Detaches nodes flagged 0x8000 from the global list and frees those without flag 0x80 after detachment. */
 void func_800401FC(void)
 {
     Node *node;

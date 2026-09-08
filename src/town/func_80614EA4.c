@@ -10,21 +10,22 @@ extern s32 D_80018EAC;
 extern s32 D_80018EC4;
 extern s32 D_8001925C;
 
-void func_800166A4(s32 arg0, s32 arg1, s32 arg2)
+/* Update flag 0x681 when triggered and dispatch the corresponding record. */
+void func_800166A4(s32 dispatch_context, s32 unused, s32 dispatch_arg)
 {
-    s8 *base;
+    s8 *callback_table;
 
     if (func_80017E00(1, 8) != 0) {
-        base = *(s8 **)D_80016000;
-        base = *(s8 **)(base + 0x20);
-        (*(void (**)(s32))(base + 0x78))(0);
+        callback_table = *(s8 **)D_80016000;
+        callback_table = *(s8 **)(callback_table + 0x20);
+        (*(void (**)(s32))(callback_table + 0x78))(0);
         func_80018B58(0x681);
     } else {
         if (func_80018C50(0x681) == 0) {
-            func_800181C8(&D_80018EAC, &D_8001925C, arg0, arg2);
+            func_800181C8(&D_80018EAC, &D_8001925C, dispatch_context, dispatch_arg);
             return;
         }
     }
 
-    func_800181C8(&D_80018EC4, &D_8001925C, arg0, arg2);
+    func_800181C8(&D_80018EC4, &D_8001925C, dispatch_context, dispatch_arg);
 }

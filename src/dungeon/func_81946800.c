@@ -43,37 +43,38 @@ extern u8 D_80083498[];
 #define STATE3_FLAG(page) D_80082E94
 #endif
 #ifdef __mips__
-void func_81946800(void *arg0_in, void *arg1) __asm__("func_81946800_body")
+void func_81946800(void *action_in, void *saved_position) __asm__("func_81946800_body")
     __attribute__((section(".text.func_81946800")));
 #endif
 
-void func_81946800(void *arg0_in, void *arg1)
+/* Advance a timed action, spawn its effect, and update completion flags. */
+void func_81946800(void *action_in, void *saved_position)
 {
-  void *arg0;
-  void *base;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  register u8 *context ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-  register void *object ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-  void *part;
-  void *source0;
-  void *source;
+  void *action;
+  void *owner_work;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+  register u8 *owner ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+  register void *effect ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+  void *effect_part;
+  void *offset_part;
+  void *source_part;
   void *position;
-  void *global;
-  u8 *work;
-  u8 *state_global;
+  void *shared_data;
+  u8 *effect_work;
+  u8 *shared_state;
   s16 offsets[3];
   s32 state;
   s32 timer;
-  u16 value;
-  s32 call_arg;
+  u16 action_flags;
+  s32 event_code;
   s32 color_index;
   u8 *colors;
   u32 state3_page;
-  arg0 = arg0_in;
-  timer = (*((u16 *) (((u8 *) arg0) + 0x50))) - 1;
-  base = *((void **) (((u8 *) arg0) + 0));
-  state = *((s16 *) (((u8 *) arg0) + 0xA));
-  context = ((u8 *) base) - 0x20;
-  *((u16 *) (((u8 *) arg0) + 0x50)) = timer;
+  action = action_in;
+  timer = (*((u16 *) (((u8 *) action) + 0x50))) - 1;
+  owner_work = *((void **) (((u8 *) action) + 0));
+  state = *((s16 *) (((u8 *) action) + 0xA));
+  owner = ((u8 *) owner_work) - 0x20;
+  *((u16 *) (((u8 *) action) + 0x50)) = timer;
   if (state == 1)
   {
     goto state_1;
@@ -105,89 +106,89 @@ void func_81946800(void *arg0_in, void *arg1)
   state_0:
   *((s32 *) (((u8 *) D_800814A8) + 0xF4)) = 0;
 
-  *((s32 *) (((u8 *) arg1) + 0)) = *((s32 *) (((u8 *) (*((void **) (((u8 *) context) + 8)))) + 0));
-  *((s32 *) (((u8 *) arg1) + 4)) = *((s32 *) (((u8 *) (*((void **) (((u8 *) context) + 8)))) + 4));
-  *((s32 *) (((u8 *) arg1) + 8)) = *((s32 *) (((u8 *) (*((void **) (((u8 *) context) + 8)))) + 8));
-  (*((u16 *) (((u8 *) arg0) + 0xA)))++;
+  *((s32 *) (((u8 *) saved_position) + 0)) = *((s32 *) (((u8 *) (*((void **) (((u8 *) owner) + 8)))) + 0));
+  *((s32 *) (((u8 *) saved_position) + 4)) = *((s32 *) (((u8 *) (*((void **) (((u8 *) owner) + 8)))) + 4));
+  *((s32 *) (((u8 *) saved_position) + 8)) = *((s32 *) (((u8 *) (*((void **) (((u8 *) owner) + 8)))) + 8));
+  (*((u16 *) (((u8 *) action) + 0xA)))++;
   state_1:
-  if (((*((u16 *) (((u8 *) (*((void **) (((u8 *) arg0) + 4)))) + 0))) & 0x80) == 0)
+  if (((*((u16 *) (((u8 *) (*((void **) (((u8 *) action) + 4)))) + 0))) & 0x80) == 0)
   {
     return;
   }
 
-  global = D_800814A8;
-  *((u16 *) (((u8 *) arg0) + 0x50)) = 10;
-  (*((u16 *) (((u8 *) global) + 0xA6)))--;
-  *((u8 *) (((u8 *) global) + 0xA8)) = *((u8 *) (((u8 *) arg0) + 8));
-  object = func_8003FD64(0x312, D_80083498);
-  if (object != 0)
+  shared_data = D_800814A8;
+  *((u16 *) (((u8 *) action) + 0x50)) = 10;
+  (*((u16 *) (((u8 *) shared_data) + 0xA6)))--;
+  *((u8 *) (((u8 *) shared_data) + 0xA8)) = *((u8 *) (((u8 *) action) + 8));
+  effect = func_8003FD64(0x312, D_80083498);
+  if (effect != 0)
   {
-    source0 = *((void **) (((u8 *) context) + 0xC));
-    if (func_8003DE58(*((s32 *) (((u8 *) source0) + 8)), source0, offsets, 0) == 0)
+    offset_part = *((void **) (((u8 *) owner) + 0xC));
+    if (func_8003DE58(*((s32 *) (((u8 *) offset_part) + 8)), offset_part, offsets, 0) == 0)
     {
       offsets[2] = 0;
       offsets[1] = 0;
       offsets[0] = 0;
     }
-    *((void **) (((u8 *) object) + 0x10)) = &D_80024374;
-    *((void **) (((u8 *) object) + 0x20)) = arg0;
-    func_8004491C(object, &D_80045340);
-    source = *((void **) (((u8 *) base) + (-0x14)));
-    part = *((void **) (((u8 *) object) + 0xC));
-    *((s32 *) (((u8 *) part) + 0x28)) = *((s32 *) (((u8 *) source) + 0x28));
-    *((u16 *) (((u8 *) part) + 0x14)) = (*((u16 *) (((u8 *) source) + 0x14))) & 0x97FF;
-    colors = *((u8 **) (((u8 *) source) + 0x2C));
-    *((u8 **) (((u8 *) part) + 0x2C)) = colors;
-    color_index = ((D_80083228 + (*((s16 *) (((u8 *) base) + 0x2A)))) + 0x100) >> 9;
+    *((void **) (((u8 *) effect) + 0x10)) = &D_80024374;
+    *((void **) (((u8 *) effect) + 0x20)) = action;
+    func_8004491C(effect, &D_80045340);
+    source_part = *((void **) (((u8 *) owner_work) + (-0x14)));
+    effect_part = *((void **) (((u8 *) effect) + 0xC));
+    *((s32 *) (((u8 *) effect_part) + 0x28)) = *((s32 *) (((u8 *) source_part) + 0x28));
+    *((u16 *) (((u8 *) effect_part) + 0x14)) = (*((u16 *) (((u8 *) source_part) + 0x14))) & 0x97FF;
+    colors = *((u8 **) (((u8 *) source_part) + 0x2C));
+    *((u8 **) (((u8 *) effect_part) + 0x2C)) = colors;
+    color_index = ((D_80083228 + (*((s16 *) (((u8 *) owner_work) + 0x2A)))) + 0x100) >> 9;
     colors += color_index & 7;
-    func_80047784(part, *colors, 0);
-    *((s16 *) (((u8 *) part) + 0x1E)) = 0x1000;
-    *((s16 *) (((u8 *) part) + 0x1C)) = 0x1000;
-    *((s32 *) (((u8 *) part) + 0xC)) = 0x80FF;
-    work = ((u8 *) object) + 0x20;
-    *((s16 *) (((u8 *) part) + 0x10)) = 0x20;
-    *((u16 *) (((u8 *) part) + 0x12)) -= 0x80;
-    *((u16 *) (((u8 *) part) + 0x14)) |= 0xC;
-    position = *((void **) (((u8 *) context) + 8));
-    *((s32 *) (((u8 *) work) + 0x1C)) = (*((s32 *) (((u8 *) position) + 0))) + (offsets[0] << 16);
-    position = *((void **) (((u8 *) context) + 8));
-    *((s32 *) (((u8 *) work) + 0x20)) = (*((s32 *) (((u8 *) position) + 4))) + (offsets[1] << 16);
-    position = *((void **) (((u8 *) context) + 8));
-    *((s32 *) (((u8 *) work) + 0x24)) = (*((s32 *) (((u8 *) position) + 8))) + (offsets[2] << 16);
+    func_80047784(effect_part, *colors, 0);
+    *((s16 *) (((u8 *) effect_part) + 0x1E)) = 0x1000;
+    *((s16 *) (((u8 *) effect_part) + 0x1C)) = 0x1000;
+    *((s32 *) (((u8 *) effect_part) + 0xC)) = 0x80FF;
+    effect_work = ((u8 *) effect) + 0x20;
+    *((s16 *) (((u8 *) effect_part) + 0x10)) = 0x20;
+    *((u16 *) (((u8 *) effect_part) + 0x12)) -= 0x80;
+    *((u16 *) (((u8 *) effect_part) + 0x14)) |= 0xC;
+    position = *((void **) (((u8 *) owner) + 8));
+    *((s32 *) (((u8 *) effect_work) + 0x1C)) = (*((s32 *) (((u8 *) position) + 0))) + (offsets[0] << 16);
+    position = *((void **) (((u8 *) owner) + 8));
+    *((s32 *) (((u8 *) effect_work) + 0x20)) = (*((s32 *) (((u8 *) position) + 4))) + (offsets[1] << 16);
+    position = *((void **) (((u8 *) owner) + 8));
+    *((s32 *) (((u8 *) effect_work) + 0x24)) = (*((s32 *) (((u8 *) position) + 8))) + (offsets[2] << 16);
     {
-      void *copy_position;
-      void *object_data;
-      u16 copy_value;
-      copy_position = *((void **) (((u8 *) context) + 8));
-      object_data = *((void **) (((u8 *) object) + 8));
-      copy_value = *((u16 *) (((u8 *) copy_position) + 2));
-      *((u16 *) (((u8 *) work) + 0xC)) = copy_value;
-      *((u16 *) (((u8 *) object_data) + 2)) = copy_value;
-      copy_position = *((void **) (((u8 *) context) + 8));
-      object_data = *((void **) (((u8 *) object) + 8));
-      copy_value = *((u16 *) (((u8 *) copy_position) + 6));
-      *((u16 *) (((u8 *) work) + 0xE)) = copy_value;
-      *((u16 *) (((u8 *) object_data) + 6)) = copy_value;
-      copy_position = *((void **) (((u8 *) context) + 8));
-      object_data = *((void **) (((u8 *) object) + 8));
-      copy_value = *((u16 *) (((u8 *) copy_position) + 0xA));
-      *((u16 *) (((u8 *) work) + 0x10)) = copy_value;
-      *((u16 *) (((u8 *) object_data) + 0xA)) = copy_value;
+      void *owner_position;
+      void *effect_position;
+      u16 coord_integer;
+      owner_position = *((void **) (((u8 *) owner) + 8));
+      effect_position = *((void **) (((u8 *) effect) + 8));
+      coord_integer = *((u16 *) (((u8 *) owner_position) + 2));
+      *((u16 *) (((u8 *) effect_work) + 0xC)) = coord_integer;
+      *((u16 *) (((u8 *) effect_position) + 2)) = coord_integer;
+      owner_position = *((void **) (((u8 *) owner) + 8));
+      effect_position = *((void **) (((u8 *) effect) + 8));
+      coord_integer = *((u16 *) (((u8 *) owner_position) + 6));
+      *((u16 *) (((u8 *) effect_work) + 0xE)) = coord_integer;
+      *((u16 *) (((u8 *) effect_position) + 6)) = coord_integer;
+      owner_position = *((void **) (((u8 *) owner) + 8));
+      effect_position = *((void **) (((u8 *) effect) + 8));
+      coord_integer = *((u16 *) (((u8 *) owner_position) + 0xA));
+      *((u16 *) (((u8 *) effect_work) + 0x10)) = coord_integer;
+      *((u16 *) (((u8 *) effect_position) + 0xA)) = coord_integer;
     }
-    if (func_80053EF0(4, work) != 2)
+    if (func_80053EF0(4, effect_work) != 2)
     {
-      call_arg = 0x300;
+      event_code = 0x300;
     }
     else
     {
-      call_arg = 0x4300;
+      event_code = 0x4300;
     }
-    func_800A56E0(call_arg);
+    func_800A56E0(event_code);
   }
   {
-    s32 tail_value;
-    tail_value = (*((u16 *) (((u8 *) arg0) + 0xA))) + 1;
-    ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 next_state;
+    next_state = (*((u16 *) (((u8 *) action) + 0xA))) + 1;
+    ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     func_800242D8();
   }
   return;
@@ -197,8 +198,8 @@ void func_81946800(void *arg0_in, void *arg1)
     return;
   }
 
-  *((u16 *) (((u8 *) arg0) + 0x50)) = 8;
-  (*((u16 *) (((u8 *) arg0) + 0xA)))++;
+  *((u16 *) (((u8 *) action) + 0x50)) = 8;
+  (*((u16 *) (((u8 *) action) + 0xA)))++;
   func_80024350(timer);
   return;
   state_3:
@@ -207,16 +208,16 @@ void func_81946800(void *arg0_in, void *arg1)
     return;
   }
 
-  value = *((u16 *) (((u8 *) arg0) + 0x52));
-  if ((*((s16 *) (((u8 *) arg0) + 0x52))) & 0x8000)
+  action_flags = *((u16 *) (((u8 *) action) + 0x52));
+  if ((*((s16 *) (((u8 *) action) + 0x52))) & 0x8000)
   {
-    *((u16 *) (((u8 *) arg0) + 0x52)) = value & 0x7FFF;
+    *((u16 *) (((u8 *) action) + 0x52)) = action_flags & 0x7FFF;
     func_80024350(timer);
     return;
   }
-  state_global = (u8 *) (&D_80083460);
-  *((s32 *) (((u8 *) state_global) + 0xC)) = 0;
-  (*((u16 *) (((u8 *) state_global) + 0xA)))--;
-  *((u16 *) (((u8 *) arg0) + (-2))) |= 0x8000;
+  shared_state = (u8 *) (&D_80083460);
+  *((s32 *) (((u8 *) shared_state) + 0xC)) = 0;
+  (*((u16 *) (((u8 *) shared_state) + 0xA)))--;
+  *((u16 *) (((u8 *) action) + (-2))) |= 0x8000;
   D_800814A0 |= 0x8000;
 }

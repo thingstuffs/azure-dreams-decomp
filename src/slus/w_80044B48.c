@@ -14,9 +14,7 @@ extern S_80044B48 *D_80083160[3];
 extern void SetDrawMode(void *prim, s32 a1, s32 a2, s32 a3, s32 a4);
 extern void AddPrim(void *ot, void *prim);
 
-/* Allocates the next primitive from the current display buffer, runs
- * SetDrawMode to initialize it, links it into the OT via AddPrim, then
- * advances the buffer cursor past the 0xC-byte primitive. */
+/* Adds a draw-mode primitive to the current display buffer's ordering table and advances its cursor. */
 void func_80044B48(void) {
     void *prim = D_80083160[0]->cur;
 

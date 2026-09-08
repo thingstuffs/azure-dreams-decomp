@@ -52,43 +52,44 @@ extern M2C_UNK func_8004491C();
 extern u8 D_8002609C[];
 extern u8 D_80045340[];
 extern u8 D_800F15AC[];
-void func_800252B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Creates a sprite at the given position and applies color-specific settings. */
+void func_800252B8(s32 color, s32 x, s32 y, s32 z)
 {
-  s32 new_var2;
-  void *temp_a0;
-  void *new_var;
-  void *temp_v0;
-  temp_v0 = func_8003FC64(0x136);
-  if (temp_v0 != 0)
+  s32 resource_word;
+  void *sprite;
+  void *sprite_alias;
+  void *object;
+  object = func_8003FC64(0x136);
+  if (object != 0)
   {
-    *((M2C_UNK **) (((s8 *) temp_v0) + 0x10)) = &D_8002609C;
-    func_8004491C(temp_v0, &D_80045340);
-    temp_a0 = *((void **) (((s8 *) temp_v0) + 0xC));
-    *((s32 *) (((s8 *) (*((void **) (((s8 *) temp_v0) + 8)))) + 0)) = arg1;
-    *((s32 *) (((s8 *) (*((void **) (((s8 *) temp_v0) + 8)))) + 4)) = arg2;
-    *((s32 *) (((s8 *) (*((void **) (((s8 *) temp_v0) + 8)))) + 8)) = arg3;
-    *((s16 *) (((s8 *) temp_a0) + 0x1E)) = 0x1000;
-    *((s16 *) (((s8 *) temp_a0) + 0x1C)) = 0x1000;
-    *((M2C_UNK **) (((s8 *) temp_a0) + 0)) = &D_800F15AC;
-    new_var2 = *((s32 *) (((s8 *) (&D_800F15AC)) + 4));
-    *((s8 *) (((s8 *) temp_a0) + 4)) = 0;
-    *((s8 *) (((s8 *) temp_a0) + 5)) = 0;
-    *((s32 *) (((s8 *) temp_a0) + 0xC)) = arg0;
-    new_var = temp_a0;
-    *((s32 *) (((s8 *) new_var) + 8)) = (s32) new_var2;
-    if (arg0 != 0x808080)
+    *((M2C_UNK **) (((s8 *) object) + 0x10)) = &D_8002609C;
+    func_8004491C(object, &D_80045340);
+    sprite = *((void **) (((s8 *) object) + 0xC));
+    *((s32 *) (((s8 *) (*((void **) (((s8 *) object) + 8)))) + 0)) = x;
+    *((s32 *) (((s8 *) (*((void **) (((s8 *) object) + 8)))) + 4)) = y;
+    *((s32 *) (((s8 *) (*((void **) (((s8 *) object) + 8)))) + 8)) = z;
+    *((s16 *) (((s8 *) sprite) + 0x1E)) = 0x1000;
+    *((s16 *) (((s8 *) sprite) + 0x1C)) = 0x1000;
+    *((M2C_UNK **) (((s8 *) sprite) + 0)) = &D_800F15AC;
+    resource_word = *((s32 *) (((s8 *) (&D_800F15AC)) + 4));
+    *((s8 *) (((s8 *) sprite) + 4)) = 0;
+    *((s8 *) (((s8 *) sprite) + 5)) = 0;
+    *((s32 *) (((s8 *) sprite) + 0xC)) = color;
+    sprite_alias = sprite;
+    *((s32 *) (((s8 *) sprite_alias) + 8)) = (s32) resource_word;
+    if (color != 0x808080)
     {
-      if (arg0 == 0xF0F0F0)
+      if (color == 0xF0F0F0)
       {
-        *((s16 *) (((s8 *) temp_a0) + 0x10)) = 0x60;
-        *((s32 *) (((s8 *) (*((void **) (((s8 *) temp_v0) + 8)))) + 0x14)) = 0xFFF00000;
-        goto block_4;
+        *((s16 *) (((s8 *) sprite) + 0x10)) = 0x60;
+        *((s32 *) (((s8 *) (*((void **) (((s8 *) object) + 8)))) + 0x14)) = 0xFFF00000;
+        goto enable_flags;
       }
     }
     else
     {
-      block_4:
-      *((u16 *) (((s8 *) temp_a0) + 0x14)) = (u16) ((*((u16 *) (((s8 *) temp_a0) + 0x14))) | 0xC);
+      enable_flags:
+      *((u16 *) (((s8 *) sprite) + 0x14)) = (u16) ((*((u16 *) (((s8 *) sprite) + 0x14))) | 0xC);
 
     }
   }

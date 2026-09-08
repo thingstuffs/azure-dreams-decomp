@@ -74,79 +74,80 @@ typedef union {
     } half;
 } PackedDelta;
 
-s32 func_800246D8(void *arg0)
+/* Interpolates and projects a shaded line, then links it into the depth ordering table. */
+s32 func_800246D8(void *line)
 {
 #ifdef __mips__
-    u8 *arg;
+    u8 *line_or_red;
 #else
-    u8 *arg;
+    u8 *line_or_red;
 #endif
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
-    void *work84;
-    void *work88;
+    void *projection_out_a;
+    void *projection_out_b;
 #ifdef __mips__
     PackedDelta delta;
 #else
     PackedDelta delta;
 #endif
 #ifdef __mips__
-    register s32 high_mask ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 mask_or_phase ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #else
-    s32 high_mask;
+    s32 mask_or_phase;
 #endif
-    s32 index;
+    s32 phase_or_depth;
 #ifdef __mips__
     register s32 x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 multiplier;
-    u8 *input = arg0;
+    u8 *line_bytes = line;
 #else
     s32 x;
     s32 multiplier;
-    u8 *input = arg0;
+    u8 *line_bytes = line;
 #endif
 #ifdef __mips__
     register s32 y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 increment ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 end;
+    s32 end_coord;
 #else
     s32 y;
     s32 increment;
-    s32 end;
+    s32 end_coord;
 #endif
     s32 first_z;
     s32 second_z;
 #ifdef __mips__
-    s32 average;
-    s32 sum;
+    s32 depth_or_tag;
+    s32 depth_sum;
     s32 result;
 #else
-    s32 average;
-    s32 sum;
+    s32 depth_or_tag;
+    s32 depth_sum;
     s32 result;
 #endif
     u32 *ordering_table;
-    u8 *ctx = *(u8 **)D_80083160;
+    u8 *render_ctx = *(u8 **)D_80083160;
 
-    ((S_800246D8_0 *)scratch)->unk_18 = (u32 *)(ctx + 0xB0);
-    packet = ((S_800246D8_1 *)ctx)->unk_8D0;
+    ((S_800246D8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
+    packet = ((S_800246D8_1 *)render_ctx)->unk_8D0;
 #ifdef __mips__
 #endif
-    arg = input;
-    ((S_800246D8_1 *)ctx)->unk_8D0 = packet + 0x14;
+    line_or_red = line_bytes;
+    ((S_800246D8_1 *)render_ctx)->unk_8D0 = packet + 0x14;
 
     ((S_800246D8_2 *)packet)->unk_00.at03.v = 4;
     ((S_800246D8_2 *)packet)->unk_07 = 0x50;
 
-    ((S_800246D8_0 *)scratch)->unk_64 = ((S_800246D8_3 *)arg)->unk_22;
-    ((S_800246D8_0 *)scratch)->unk_66 = ((S_800246D8_3 *)arg)->unk_26;
-    ((S_800246D8_0 *)scratch)->unk_68 = ((S_800246D8_3 *)arg)->unk_2A;
-    ((S_800246D8_0 *)scratch)->unk_6C = ((S_800246D8_3 *)arg)->unk_3A;
-    ((S_800246D8_0 *)scratch)->unk_6E = ((S_800246D8_3 *)arg)->unk_3E;
-    ((S_800246D8_0 *)scratch)->unk_70 = ((S_800246D8_3 *)arg)->unk_42;
+    ((S_800246D8_0 *)scratch)->unk_64 = ((S_800246D8_3 *)line_or_red)->unk_22;
+    ((S_800246D8_0 *)scratch)->unk_66 = ((S_800246D8_3 *)line_or_red)->unk_26;
+    ((S_800246D8_0 *)scratch)->unk_68 = ((S_800246D8_3 *)line_or_red)->unk_2A;
+    ((S_800246D8_0 *)scratch)->unk_6C = ((S_800246D8_3 *)line_or_red)->unk_3A;
+    ((S_800246D8_0 *)scratch)->unk_6E = ((S_800246D8_3 *)line_or_red)->unk_3E;
+    ((S_800246D8_0 *)scratch)->unk_70 = ((S_800246D8_3 *)line_or_red)->unk_42;
 
-    index = ((S_800246D8_3 *)arg)->unk_10 - 1;
-    switch (index) {
+    phase_or_depth = ((S_800246D8_3 *)line_or_red)->unk_10 - 1;
+    switch (phase_or_depth) {
     case 0:
     case 1:
     case 2:
@@ -170,48 +171,48 @@ s32 func_800246D8(void *arg0)
     }
 
 case_early:
-    end = ((S_800246D8_0 *)scratch)->unk_6C;
+    end_coord = ((S_800246D8_0 *)scratch)->unk_6C;
 #ifdef __mips__
-    ASM_KEEP(end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(end_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
     x = ((S_800246D8_0 *)scratch)->unk_64;
-    end -= x;
-    delta.word = end << 16;
+    end_coord -= x;
+    delta.word = end_coord << 16;
     delta.word >>= 3;
-    delta.word *= ((S_800246D8_3 *)arg)->unk_10 + 1;
+    delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
 
     y = ((S_800246D8_0 *)scratch)->unk_66;
-    high_mask = 0xFFFF0000;
+    mask_or_phase = 0xFFFF0000;
     increment = delta.half.high;
     delta.half.high = ((S_800246D8_0 *)scratch)->unk_6E - y;
-    delta.word &= high_mask;
+    delta.word &= mask_or_phase;
     ((S_800246D8_0 *)scratch)->unk_6C = x + increment;
     delta.word >>= 3;
-    delta.word *= ((S_800246D8_3 *)arg)->unk_10 + 1;
+    delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
 
-    end = ((S_800246D8_0 *)scratch)->unk_70;
+    end_coord = ((S_800246D8_0 *)scratch)->unk_70;
     x = ((S_800246D8_0 *)scratch)->unk_68;
     increment = delta.half.high;
-    delta.half.high = end - x;
-    delta.word &= high_mask;
+    delta.half.high = end_coord - x;
+    delta.word &= mask_or_phase;
 #ifdef __mips__
 #endif
     ((S_800246D8_0 *)scratch)->unk_6E = y + increment;
 #ifdef __mips__
 #endif
     delta.word >>= 3;
-    delta.word *= ((S_800246D8_3 *)arg)->unk_10 + 1;
+    delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
     x += delta.half.high;
     ((S_800246D8_0 *)scratch)->unk_70 = x;
 #ifdef __mips__
 #endif
 
-    high_mask = ((S_800246D8_3 *)arg)->unk_10;
+    mask_or_phase = ((S_800246D8_3 *)line_or_red)->unk_10;
     multiplier = 15;
-    x = high_mask + 1;
+    x = mask_or_phase + 1;
 #ifdef __mips__
 #endif
-    arg = (u8 *)(x * multiplier);
+    line_or_red = (u8 *)(x * multiplier);
     multiplier = 23;
 #ifdef __mips__
 #endif
@@ -220,8 +221,8 @@ case_early:
     ((S_800246D8_2 *)packet)->unk_04 = x;
     ((S_800246D8_2 *)packet)->unk_05 = x;
     ((S_800246D8_2 *)packet)->unk_06 = x;
-    x -= (7 - high_mask) * 8;
-    multiplier = (s32)arg + 0x40;
+    x -= (7 - mask_or_phase) * 8;
+    multiplier = (s32)line_or_red + 0x40;
     ((S_800246D8_2 *)packet)->unk_0D = x;
     ((S_800246D8_2 *)packet)->unk_0C = multiplier;
     multiplier = y + 0x40;
@@ -238,53 +239,53 @@ case_middle:
     goto shared;
 
 case_late:
-    end = ((S_800246D8_0 *)scratch)->unk_6C;
+    end_coord = ((S_800246D8_0 *)scratch)->unk_6C;
 #ifdef __mips__
-    ASM_KEEP(end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(end_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
     x = ((S_800246D8_0 *)scratch)->unk_64;
-    end -= x;
-    delta.word = end << 16;
+    end_coord -= x;
+    delta.word = end_coord << 16;
     delta.word >>= 3;
-    delta.word *= ((S_800246D8_3 *)arg)->unk_10 - 7;
+    delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
 
     y = ((S_800246D8_0 *)scratch)->unk_66;
-    high_mask = 0xFFFF0000;
+    mask_or_phase = 0xFFFF0000;
     increment = delta.half.high;
     delta.half.high = ((S_800246D8_0 *)scratch)->unk_6E - y;
-    delta.word &= high_mask;
+    delta.word &= mask_or_phase;
     ((S_800246D8_0 *)scratch)->unk_64 = x + increment;
     delta.word >>= 3;
-    delta.word *= ((S_800246D8_3 *)arg)->unk_10 - 7;
+    delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
 
-    end = ((S_800246D8_0 *)scratch)->unk_70;
+    end_coord = ((S_800246D8_0 *)scratch)->unk_70;
     x = ((S_800246D8_0 *)scratch)->unk_68;
     increment = delta.half.high;
-    delta.half.high = end - x;
-    delta.word &= high_mask;
+    delta.half.high = end_coord - x;
+    delta.word &= mask_or_phase;
 #ifdef __mips__
 #endif
     ((S_800246D8_0 *)scratch)->unk_66 = y + increment;
 #ifdef __mips__
 #endif
     delta.word >>= 3;
-    delta.word *= ((S_800246D8_3 *)arg)->unk_10 - 7;
+    delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
     x += delta.half.high;
     ((S_800246D8_0 *)scratch)->unk_68 = x;
 #ifdef __mips__
 #endif
 
-    y = ((S_800246D8_3 *)arg)->unk_10;
+    y = ((S_800246D8_3 *)line_or_red)->unk_10;
     x = 15;
-    high_mask = y - 7;
+    mask_or_phase = y - 7;
 #ifdef __mips__
 #endif
-    arg = (u8 *)(high_mask * x);
+    line_or_red = (u8 *)(mask_or_phase * x);
     multiplier = 23;
 #ifdef __mips__
     ASM_KEEP(multiplier);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #endif
-    high_mask *= multiplier;
+    mask_or_phase *= multiplier;
     ((S_800246D8_2 *)packet)->unk_0D = 0;
 #ifdef __mips__
     ASM_KEEP_NV(packet);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -297,19 +298,19 @@ case_late:
     ((S_800246D8_2 *)packet)->unk_0C = multiplier;
     multiplier = 0xFF;
     ((S_800246D8_2 *)packet)->unk_0E = multiplier;
-    multiplier = (s32)arg + 0x40;
+    multiplier = (s32)line_or_red + 0x40;
     ((S_800246D8_2 *)packet)->unk_04 = multiplier;
-    multiplier = high_mask + 0x40;
+    multiplier = mask_or_phase + 0x40;
     ((S_800246D8_2 *)packet)->unk_06 = multiplier;
 
 shared:
-    work84 = scratch + 0x84;
-    work88 = scratch + 0x88;
+    projection_out_a = scratch + 0x84;
+    projection_out_b = scratch + 0x88;
     first_z = func_80065420((void *)((u32)scratch | 0x64),
-                            (void *)((u32)scratch | 0xD8), work84, work88);
+                            (void *)((u32)scratch | 0xD8), projection_out_a, projection_out_b);
     ((S_800246D8_0 *)scratch)->unk_F4 = first_z;
     second_z = func_80065420((void *)((u32)scratch | 0x6C),
-                             (void *)((u32)scratch | 0xDC), work84, work88);
+                             (void *)((u32)scratch | 0xDC), projection_out_a, projection_out_b);
     ((S_800246D8_0 *)scratch)->unk_F8 = second_z;
 
     ((S_800246D8_2 *)packet)->unk_08 = ((S_800246D8_0 *)scratch)->unk_D8;
@@ -317,44 +318,44 @@ shared:
     ((S_800246D8_2 *)packet)->unk_10 = ((S_800246D8_0 *)scratch)->unk_DC;
     ((S_800246D8_2 *)packet)->unk_12 = ((S_800246D8_0 *)scratch)->unk_DE;
 
-    sum = ((S_800246D8_0 *)scratch)->unk_F4;
-    sum += ((S_800246D8_0 *)scratch)->unk_F8;
-    average = (s32)(sum + ((u32)sum >> 31)) >> 1;
+    depth_sum = ((S_800246D8_0 *)scratch)->unk_F4;
+    depth_sum += ((S_800246D8_0 *)scratch)->unk_F8;
+    depth_or_tag = (s32)(depth_sum + ((u32)depth_sum >> 31)) >> 1;
 #ifdef __mips__
 #endif
-    ((S_800246D8_0 *)scratch)->unk_B4 = average;
-    if ((u32)average < 0x1E0U) {
+    ((S_800246D8_0 *)scratch)->unk_B4 = depth_or_tag;
+    if ((u32)depth_or_tag < 0x1E0U) {
 #ifdef __mips__
-        u32 entry_word;
+        u32 entry_addr;
 #else
-        u32 entry_word;
+        u32 entry_addr;
 #endif
-        u32 *table_base;
-        high_mask = 0x00FFFFFF;
+        u32 *ot_base;
+        mask_or_phase = 0x00FFFFFF;
 #ifdef __mips__
 #endif
-        entry_word = average << 2;
+        entry_addr = depth_or_tag << 2;
 #ifdef __mips__
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #endif
-        table_base = ((S_800246D8_0 *)scratch)->unk_18;
-#ifdef __mips__
-#endif
-        average = 0xFF000000;
+        ot_base = ((S_800246D8_0 *)scratch)->unk_18;
 #ifdef __mips__
 #endif
-        entry_word += (u32)table_base;
+        depth_or_tag = 0xFF000000;
+#ifdef __mips__
+#endif
+        entry_addr += (u32)ot_base;
 #ifdef __mips__
 #endif
         ((S_800246D8_2 *)packet)->unk_00.at00.v =
-            (((S_800246D8_2 *)packet)->unk_00.at00.v & average) |
-            (*(u32 *)entry_word & high_mask);
+            (((S_800246D8_2 *)packet)->unk_00.at00.v & depth_or_tag) |
+            (*(u32 *)entry_addr & mask_or_phase);
 
-        index = ((S_800246D8_0 *)scratch)->unk_B4;
+        phase_or_depth = ((S_800246D8_0 *)scratch)->unk_B4;
         ordering_table = ((S_800246D8_0 *)scratch)->unk_18;
-        ordering_table[index] =
-            (ordering_table[index] & average) |
-            ((u32)packet & high_mask);
+        ordering_table[phase_or_depth] =
+            (ordering_table[phase_or_depth] & depth_or_tag) |
+            ((u32)packet & mask_or_phase);
     }
 
     result = 0;

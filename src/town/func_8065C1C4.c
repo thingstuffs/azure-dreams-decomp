@@ -17,14 +17,15 @@ extern s32 D_800183D0;
 extern s32 D_800183D4;
 extern u8 D_800183D8[];
 
+/* Stores the selected table value and chains the state's callbacks on the shared buffer. */
 void func_8065C1C4(void) {
-    u8 temp_a0;
-    u8 *table;
-    State **state;
+    u8 selected_value;
+    u8 *value_table;
+    State **state_slot;
 
-    table = D_80018348;
-    temp_a0 = table[D_800183D4 * 4];
-    state = D_80016000;
-    D_800183D0 = (s32)temp_a0;
-    (*state)->data20->callback3C(D_800183D8, (*state)->data20->callback48(temp_a0, D_800183D8));
+    value_table = D_80018348;
+    selected_value = value_table[D_800183D4 * 4];
+    state_slot = D_80016000;
+    D_800183D0 = (s32)selected_value;
+    (*state_slot)->data20->callback3C(D_800183D8, (*state_slot)->data20->callback48(selected_value, D_800183D8));
 }

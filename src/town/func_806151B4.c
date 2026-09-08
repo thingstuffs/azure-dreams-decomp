@@ -18,8 +18,9 @@ typedef struct Outer {
 
 extern Outer *D_80016000;
 
+/* Runs the conditional action or invokes the fallback callback. */
 s32 func_800169B4(void) {
-    Outer *outer;
+    Outer *callback_owner;
 
     func_80018BD0(0xFB7);
     func_80018BD0(0xFB8);
@@ -35,7 +36,7 @@ s32 func_800169B4(void) {
     return 1;
 
 fallback:
-    outer = D_80016000;
-    outer->inner->callback(0x10, 0x200);
+    callback_owner = D_80016000;
+    callback_owner->inner->callback(0x10, 0x200);
     return 0;
 }

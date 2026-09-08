@@ -1,10 +1,5 @@
 #include "common.h"
 
-/* Re-init hook: runs the global-state reset (func_80056A08), then for every
-   active slot (index < D_80073734[0]) resets its D_80085458 entry and
-   re-registers its D_80073740 request via func_80056DB4, OR-accumulating the
-   request flags. Finally re-initialises the D_80085014 request record and
-   flushes the accumulated flags with func_8005E97C. */
 /* D_80085458[64]: same table layout inferred in src/w_80056A08.c (S_80085458). */
 typedef struct {
     s16 f00, f02, f04; u16 f06;
@@ -49,24 +44,25 @@ extern void func_80056A08(void);
 extern s32 func_80056DB4(s32 arg0);
 extern void func_8005E97C(s32 arg0, s32 arg1);
 
+/* Resets global state, re-registers active slots, and initializes the shared request with their combined flags. */
 void func_80056C30(void) {
-    s32 i;
-    s32 s4;
-    s32 tmp;
+    s32 slot;
+    s32 all_flags;
+    s32 slot_flags;
 
     func_80056A08();
 
-    s4 = 0;
-    for (i = 0; i < D_80073734[0]; i++) {
-        D_80085458[i].f00 = i;
-        D_80085458[i].f1a = 0;
-        D_80085458[i].f18 = 0x40;
-        D_80085458[i].f70 = 0x40;
-        D_80085458[i].f74 = 0x40;
-        tmp = D_80073740[i];
-        func_80056DB4(i);
-        s4 |= tmp;
-        func_8005E97C(0, tmp);
+    all_flags = 0;
+    for (slot = 0; slot < D_80073734[0]; slot++) {
+        D_80085458[slot].f00 = slot;
+        D_80085458[slot].f1a = 0;
+        D_80085458[slot].f18 = 0x40;
+        D_80085458[slot].f70 = 0x40;
+        D_80085458[slot].f74 = 0x40;
+        slot_flags = D_80073740[slot];
+        func_80056DB4(slot);
+        all_flags |= slot_flags;
+        func_8005E97C(0, slot_flags);
     }
 
     D_80085014.f0c = 0x7F;
@@ -79,5 +75,5 @@ void func_80056C30(void) {
     D_80085014.f08 = 0;
     D_80085014.f94 = 0;
     D_80085014.f50 = 0;
-    func_8005E97C(0, s4);
+    func_8005E97C(0, all_flags);
 }

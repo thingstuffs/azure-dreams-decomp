@@ -70,43 +70,44 @@ typedef struct S_7FFE9150_5 {
     u16 unk_0A;
 } S_7FFE9150_5;   /* ((S_7FFE9150_2 *)temp_a0)->unk_08 in func_7FFE9150 */
 
-void func_7FFE9150(void *arg0, void *arg1, M2C_UNK arg2) {
-    u16 temp_v0;
-    u16 temp_v0_3;
-    void *temp_a0;
-    void *temp_s0;
-    void *temp_v0_2;
-    void *temp_v1;
+/* Update the emitter position, spawn scattered particles, and retire it when its lifetime expires. */
+void func_7FFE9150(void *emitter, void *position, M2C_UNK spawn_context) {
+    u16 age;
+    u16 life_left;
+    void *parent;
+    void *particle_coords;
+    void *particle;
+    void *particle_render;
 
-    temp_a0 = ((S_7FFE9150_0 *)arg0)->unk_24;
-    ((S_7FFE9150_1 *)arg1)->unk_02 = (s16)(((S_7FFE9150_5 *)(((S_7FFE9150_2 *)temp_a0)->unk_08))->unk_02 + ((S_7FFE9150_0 *)arg0)->unk_3C);
-    ((S_7FFE9150_1 *)arg1)->unk_06 = (s16)(((S_7FFE9150_5 *)(((S_7FFE9150_2 *)temp_a0)->unk_08))->unk_06 + ((S_7FFE9150_0 *)arg0)->unk_3E);
-    ((S_7FFE9150_1 *)arg1)->unk_0A = (s16)(((S_7FFE9150_5 *)(((S_7FFE9150_2 *)temp_a0)->unk_08))->unk_0A + ((S_7FFE9150_0 *)arg0)->unk_40);
-    temp_v0 = ((S_7FFE9150_0 *)arg0)->unk_16 + 1;
-    ((S_7FFE9150_0 *)arg0)->unk_16 = temp_v0;
-    if ((s16)temp_v0 < 0x14) {
-        temp_v0_2 = func_7003CF18(0x212);
-        if (temp_v0_2 != 0) {
-            func_7010BD54(temp_v0_2, arg0, arg1, arg2);
-            temp_s0 = (*(void **)((u8 *)temp_v0_2 + 8));
-            (*(s16 *)((u8 *)temp_v0_2 + 0x3E)) = 0x14;
-            (*(s16 *)((u8 *)temp_v0_2 + 0x40)) = 0x14;
-            (*(M2C_UNK **)((u8 *)temp_v0_2 + 0x10)) = &D_8010BA44;
-            ((S_7FFE9150_3 *)temp_s0)->unk_00 = (s32)((((func_700750E0() & 0x7FFF) - 0x4000) << 7) + ((S_7FFE9150_3 *)temp_s0)->unk_00);
-            ((S_7FFE9150_3 *)temp_s0)->unk_04 = (s32)((((func_700750E0() & 0x7FFF) - 0x4000) << 7) + ((S_7FFE9150_3 *)temp_s0)->unk_04);
-            temp_v1 = (*(void **)((u8 *)temp_v0_2 + 0xC));
-            (*(Copy12 *)((u8 *)temp_v0_2 + 0x62)) = D_8010BF30;
-            ((S_7FFE9150_4 *)temp_v1)->unk_08 = (void *)((u8 *)temp_v0_2 + 0x62);
-            ((S_7FFE9150_4 *)temp_v1)->unk_1C = 0x400;
+    parent = ((S_7FFE9150_0 *)emitter)->unk_24;
+    ((S_7FFE9150_1 *)position)->unk_02 = (s16)(((S_7FFE9150_5 *)(((S_7FFE9150_2 *)parent)->unk_08))->unk_02 + ((S_7FFE9150_0 *)emitter)->unk_3C);
+    ((S_7FFE9150_1 *)position)->unk_06 = (s16)(((S_7FFE9150_5 *)(((S_7FFE9150_2 *)parent)->unk_08))->unk_06 + ((S_7FFE9150_0 *)emitter)->unk_3E);
+    ((S_7FFE9150_1 *)position)->unk_0A = (s16)(((S_7FFE9150_5 *)(((S_7FFE9150_2 *)parent)->unk_08))->unk_0A + ((S_7FFE9150_0 *)emitter)->unk_40);
+    age = ((S_7FFE9150_0 *)emitter)->unk_16 + 1;
+    ((S_7FFE9150_0 *)emitter)->unk_16 = age;
+    if ((s16)age < 0x14) {
+        particle = func_7003CF18(0x212);
+        if (particle != 0) {
+            func_7010BD54(particle, emitter, position, spawn_context);
+            particle_coords = (*(void **)((u8 *)particle + 8));
+            (*(s16 *)((u8 *)particle + 0x3E)) = 0x14;
+            (*(s16 *)((u8 *)particle + 0x40)) = 0x14;
+            (*(M2C_UNK **)((u8 *)particle + 0x10)) = &D_8010BA44;
+            ((S_7FFE9150_3 *)particle_coords)->unk_00 = (s32)((((func_700750E0() & 0x7FFF) - 0x4000) << 7) + ((S_7FFE9150_3 *)particle_coords)->unk_00);
+            ((S_7FFE9150_3 *)particle_coords)->unk_04 = (s32)((((func_700750E0() & 0x7FFF) - 0x4000) << 7) + ((S_7FFE9150_3 *)particle_coords)->unk_04);
+            particle_render = (*(void **)((u8 *)particle + 0xC));
+            (*(Copy12 *)((u8 *)particle + 0x62)) = D_8010BF30;
+            ((S_7FFE9150_4 *)particle_render)->unk_08 = (void *)((u8 *)particle + 0x62);
+            ((S_7FFE9150_4 *)particle_render)->unk_1C = 0x400;
         }
     }
-    temp_v0_3 = ((S_7FFE9150_0 *)arg0)->unk_1E - 1;
-    ((S_7FFE9150_0 *)arg0)->unk_1E = temp_v0_3;
-    if ((temp_v0_3 << 0x10) <= 0) {
+    life_left = ((S_7FFE9150_0 *)emitter)->unk_1E - 1;
+    ((S_7FFE9150_0 *)emitter)->unk_1E = life_left;
+    if ((life_left << 0x10) <= 0) {
         u16 *global_count = &D_80094422;
         u16 next_global_count;
 
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16)(((S_7FFE9150_0_pre *)arg0)[-1].unk_00 | 0x8000);
+        (*(u16 *)((u8 *)emitter + -2)) = (u16)(((S_7FFE9150_0_pre *)emitter)[-1].unk_00 | 0x8000);
         next_global_count = *global_count - 1;
         D_80086AD8 |= 0x8000;
         *global_count = next_global_count;

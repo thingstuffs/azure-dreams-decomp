@@ -34,15 +34,16 @@ extern s32 D_800D4FF8[4];
 extern s32 D_800D5008[4];
 extern s32 D_800D5018[4];
 
-void func_800C7674(S_800C7674_0 *arg0, Rec_D_800E3D7C *arg1, s32 arg2)
+/* Advance motion, clamp it to the directional bound, and update velocity. */
+void func_800C7674(S_800C7674_0 *entity, Rec_D_800E3D7C *motion_state, s32 context)
 {
     s32 quadrant;
     s32 angle;
-    s32 value;
+    s32 speed;
     s32 step_x;
     s32 pos_y;
 
-    pos_y = arg0->unk_72;
+    pos_y = entity->unk_72;
     angle = 0x400 - pos_y;
     if (angle < 0) {
         angle += 0x3ff;
@@ -53,7 +54,7 @@ void func_800C7674(S_800C7674_0 *arg0, Rec_D_800E3D7C *arg1, s32 arg2)
         s32 pos_x;
         s32 step_y;
 
-        motion = (Motion *)arg1;
+        motion = (Motion *)motion_state;
         pos_x = motion->pos_x;
         step_x = motion->step_x;
         pos_y = motion->pos_y;
@@ -66,7 +67,7 @@ void func_800C7674(S_800C7674_0 *arg0, Rec_D_800E3D7C *arg1, s32 arg2)
         motion->height = func_800C2AE8(motion, step_x, step_y, angle);
     }
 
-    if (func_800C30E0(arg0, arg1, arg2) != 0) {
+    if (func_800C30E0(entity, motion_state, context) != 0) {
         return;
     }
 
@@ -79,42 +80,42 @@ void func_800C7674(S_800C7674_0 *arg0, Rec_D_800E3D7C *arg1, s32 arg2)
     goto case_three;
 
 case_zero:
-    if (arg0->unk_84.s + arg0->unk_8C.s < arg1->unk_00.at02_s16.v) {
-        arg1->unk_00.at02_s16.v = arg0->unk_84.u + arg0->unk_8C.u;
+    if (entity->unk_84.s + entity->unk_8C.s < motion_state->unk_00.at02_s16.v) {
+        motion_state->unk_00.at02_s16.v = entity->unk_84.u + entity->unk_8C.u;
         goto position_clamped;
     }
     goto apply_velocity;
 case_one:
-    if (arg0->unk_86.s + arg0->unk_8E.s < arg1->unk_04.at02_s16.v) {
-        arg1->unk_04.at02_s16.v = arg0->unk_86.u + arg0->unk_8E.u;
+    if (entity->unk_86.s + entity->unk_8E.s < motion_state->unk_04.at02_s16.v) {
+        motion_state->unk_04.at02_s16.v = entity->unk_86.u + entity->unk_8E.u;
         goto position_clamped;
     }
     goto apply_velocity;
 case_two:
-    if (arg1->unk_00.at02_s16.v < arg0->unk_84.s - arg0->unk_8C.s) {
-        arg1->unk_00.at02_s16.v = arg0->unk_84.u - arg0->unk_8C.u;
+    if (motion_state->unk_00.at02_s16.v < entity->unk_84.s - entity->unk_8C.s) {
+        motion_state->unk_00.at02_s16.v = entity->unk_84.u - entity->unk_8C.u;
         goto position_clamped;
     }
     goto apply_velocity;
 case_three:
-    if (arg1->unk_04.at02_s16.v < arg0->unk_86.s - arg0->unk_8E.s) {
-        arg1->unk_04.at02_s16.v = arg0->unk_86.u - arg0->unk_8E.u;
+    if (motion_state->unk_04.at02_s16.v < entity->unk_86.s - entity->unk_8E.s) {
+        motion_state->unk_04.at02_s16.v = entity->unk_86.u - entity->unk_8E.u;
         goto position_clamped;
     }
     goto apply_velocity;
 position_clamped:
-    func_800C7A6C(arg0, arg1, arg2);
+    func_800C7A6C(entity, motion_state, context);
     return;
 apply_velocity:
     step_x = 0x20000;
-    value = arg1->unk_0C.as_s32 + D_800D4FE8[quadrant];
-    arg1->unk_0C.as_s32 = value;
-    value = abs(value);
-    value = step_x < value;
-    if (value != 0) arg1->unk_0C.as_s32 = D_800D4FF8[quadrant];
-    value = arg1->unk_10.at00_s32.v + D_800D5008[quadrant];
-    arg1->unk_10.at00_s32.v = value;
-    value = abs(value);
-    value = step_x < value;
-    if (value != 0) arg1->unk_10.at00_s32.v = D_800D5018[quadrant];
+    speed = motion_state->unk_0C.as_s32 + D_800D4FE8[quadrant];
+    motion_state->unk_0C.as_s32 = speed;
+    speed = abs(speed);
+    speed = step_x < speed;
+    if (speed != 0) motion_state->unk_0C.as_s32 = D_800D4FF8[quadrant];
+    speed = motion_state->unk_10.at00_s32.v + D_800D5008[quadrant];
+    motion_state->unk_10.at00_s32.v = speed;
+    speed = abs(speed);
+    speed = step_x < speed;
+    if (speed != 0) motion_state->unk_10.at00_s32.v = D_800D5018[quadrant];
 }

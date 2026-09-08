@@ -12,107 +12,108 @@ extern void func_80173D40(void *, s32, void *, void *);
 extern s32 D_80083460;
 extern u8 *D_800E3D7C;
 
-void func_8017398C(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3)
+/* Copies linked object data and transfers or releases its state. */
+void func_8017398C(u8 *owner, s32 object_id, u8 *dest_object, u8 *dest_state)
 {
-    u8 *object;
-    u8 *state;
-    u8 *source;
-    u8 *entry;
-    u8 *table;
-    u8 *found;
-    u8 *counterGlobal;
-    u8 *activeGlobal;
-    s32 value;
-    u8 valid;
-    u8 test;
-    s32 kind;
-    u8 kindByte;
-    long address;
+    u8 *linked_object;
+    u8 *linked_state;
+    u8 *source_object;
+    u8 *state_slot;
+    u8 *state_table;
+    u8 *kind_entry;
+    u8 *counter_data;
+    u8 *active_data;
+    s32 call_result;
+    u8 kind_unlisted;
+    u8 can_release;
+    s32 state_kind;
+    u8 kind_byte;
+    long slot_address;
 
-    object = *(u8 **)(arg0 + 0xA4);
-    state = object + 0x20;
-    source = *(u8 **)(object + 0xC);
-    arg2[0x24] = source[0x24];
-    arg2[0x25] = source[0x25];
-    *(u16 *)(arg3 + 0x88) = *(u16 *)(state + 0x88);
-    func_800A2B04(arg1, arg2[0x24], arg2[0x25]);
+    linked_object = *(u8 **)(owner + 0xA4);
+    linked_state = linked_object + 0x20;
+    source_object = *(u8 **)(linked_object + 0xC);
+    dest_object[0x24] = source_object[0x24];
+    dest_object[0x25] = source_object[0x25];
+    *(u16 *)(dest_state + 0x88) = *(u16 *)(linked_state + 0x88);
+    func_800A2B04(object_id, dest_object[0x24], dest_object[0x25]);
 
-    object = *(u8 **)(arg0 + 0xA4);
-    if (*(u16 *)(object + 0x1E) & 0x8000) {
-        if ((state[0x13] == 0x1E) && (state[0x28] != 0)) {
-            arg3[0x6D] = 1;
+    linked_object = *(u8 **)(owner + 0xA4);
+    if (*(u16 *)(linked_object + 0x1E) & 0x8000) {
+        if ((linked_state[0x13] == 0x1E) && (linked_state[0x28] != 0)) {
+            dest_state[0x6D] = 1;
         }
 
-        if (*(s32 *)(arg3 + 0x14) & 0x4000) {
-            value = func_800A1BD0(state);
-            table = D_800E3D7C;
-            address = (s32)(s16)value * 4;
-            address += (long)table;
-            entry = (u8 *)address;
-            *(u8 **)(entry + 0xAC) = arg3;
-            *(s32 *)(entry + 0xE4) = 0;
-            if (*(u8 **)(table + 0x60) == state) {
-                *(u8 **)(table + 0x60) = arg3;
+        if (*(s32 *)(dest_state + 0x14) & 0x4000) {
+            call_result = func_800A1BD0(linked_state);
+            state_table = D_800E3D7C;
+            slot_address = (s32)(s16)call_result * 4;
+            slot_address += (long)state_table;
+            state_slot = (u8 *)slot_address;
+            *(u8 **)(state_slot + 0xAC) = dest_state;
+            *(s32 *)(state_slot + 0xE4) = 0;
+            if (*(u8 **)(state_table + 0x60) == linked_state) {
+                *(u8 **)(state_table + 0x60) = dest_state;
             }
         }
 
-        if ((state[0x13] != 0x1E) && (state[0x28] == 0)) {
-            counterGlobal = (u8 *)&D_80083460;
-            (*(u16 *)(counterGlobal + 0xA))++;
+        if ((linked_state[0x13] != 0x1E) && (linked_state[0x28] == 0)) {
+            counter_data = (u8 *)&D_80083460;
+            (*(u16 *)(counter_data + 0xA))++;
         }
 
-        *(s32 *)(arg3 + 0x14) = 0;
-        *(s32 *)(arg3 + 0x1C) = 0;
-        func_80042710(arg3, state);
-        *(u32 *)(arg3 + 0x14) &= 0xDFFFFFFF;
-        value = func_80042900(arg3, 1);
-        if ((value << 16) != 0) {
-            *(u32 *)(arg3 + 0x1C) |= 0x200;
+        *(s32 *)(dest_state + 0x14) = 0;
+        *(s32 *)(dest_state + 0x1C) = 0;
+        func_80042710(dest_state, linked_state);
+        *(u32 *)(dest_state + 0x14) &= 0xDFFFFFFF;
+        call_result = func_80042900(dest_state, 1);
+        if ((call_result << 16) != 0) {
+            *(u32 *)(dest_state + 0x1C) |= 0x200;
         } else {
-            *(u32 *)(arg3 + 0x1C) &= ~0x200;
+            *(u32 *)(dest_state + 0x1C) &= ~0x200;
         }
 
-        arg3[0x13] = 0x1E;
-        func_80099FDC(arg0 - 0x20);
-        *(u32 *)(arg3 + 0x60) = *(u32 *)(state + 0x60);
-        func_80173D40(arg0, arg1, arg2, arg3);
-        *(u32 *)(arg0 + 0xA4) = 0;
+        dest_state[0x13] = 0x1E;
+        func_80099FDC(owner - 0x20);
+        *(u32 *)(dest_state + 0x60) = *(u32 *)(linked_state + 0x60);
+        func_80173D40(owner, object_id, dest_object, dest_state);
+        *(u32 *)(owner + 0xA4) = 0;
         return;
     }
 
-    if ((((s8)state[0x13] - 1) < 0) ||
-        (state[0x13] == 0x1E) ||
-        (arg0[0x9B] != 0)) {
+    if ((((s8)linked_state[0x13] - 1) < 0) ||
+        (linked_state[0x13] == 0x1E) ||
+        (owner[0x9B] != 0)) {
         return;
     }
 
-    kind = object[0x33];
-    kindByte = kind;
-    found = func_800A17E8(kindByte, 1);
-    if (found == 0) {
-        valid = 1;
+    state_kind = linked_object[0x33];
+    kind_byte = state_kind;
+    kind_entry = func_800A17E8(kind_byte, 1);
+    if (kind_entry == 0) {
+        kind_unlisted = 1;
     } else {
-        valid = found[1] != kindByte;
+        kind_unlisted = kind_entry[1] != kind_byte;
     }
-    test = valid;
-    if (test == 0) {
+    can_release = kind_unlisted;
+    if (can_release == 0) {
         return;
     }
 
-    found = func_800A17E8(kind, 3);
-    if ((found != 0) && (found[1] == kind)) {
-        valid = 0;
+    kind_entry = func_800A17E8(state_kind, 3);
+    if ((kind_entry != 0) && (kind_entry[1] == state_kind)) {
+        kind_unlisted = 0;
     }
-    test = valid;
-    if (test == 0) {
+    can_release = kind_unlisted;
+    if (can_release == 0) {
         return;
     }
 
-    activeGlobal = (u8 *)&D_80083460;
-    if (*(u8 **)(activeGlobal + 0xC) == state) {
-        *(u8 **)(activeGlobal + 0xC) = 0;
+    active_data = (u8 *)&D_80083460;
+    if (*(u8 **)(active_data + 0xC) == linked_state) {
+        *(u8 **)(active_data + 0xC) = 0;
     }
-    func_800ACB98(state, *(s32 *)(state - 0x18),
-                  *(s32 *)(state - 0x14), state);
-    arg0[0x9B]++;
+    func_800ACB98(linked_state, *(s32 *)(linked_state - 0x18),
+                  *(s32 *)(linked_state - 0x14), linked_state);
+    owner[0x9B]++;
 }

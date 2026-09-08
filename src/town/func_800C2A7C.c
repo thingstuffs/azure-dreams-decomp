@@ -35,27 +35,28 @@ typedef struct S_800C01DC_1 {
 } S_800C01DC_1;   /* base in func_800C01DC */
 
 
+/* Initializes the town object and sets its position from the current position entry. */
 void func_800C01DC(void) {
-    S_800C01DC_0 *temp_v0;
+    S_800C01DC_0 *object;
 
     D_800D0438 = 0;
-    temp_v0 = func_8003FE78(0, &D_80083498, 0x22);
-    temp_v0->unk_10 = &D_800C02C4;
-    temp_v0->unk_0C = &D_80082E80;
-    temp_v0->unk_08 = &D_80083780;
+    object = func_8003FE78(0, &D_80083498, 0x22);
+    object->unk_10 = &D_800C02C4;
+    object->unk_0C = &D_80082E80;
+    object->unk_08 = &D_80083780;
     func_8008EF58();
     func_8008F01C(&D_800CFCB4, &D_80083780, &D_800D0420);
     func_8008FCE0();
     func_8008FD48(&D_800FE490, &D_80083780, &D_800D0420);
     {
-        register s8 *base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        u16 *ptr10;
+        register s8 *position_data ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u16 *position_entry;
 
-        base = (s8 *) &D_8006ADBC;
-        ptr10 = ((S_800C01DC_1 *)base)->unk_10;
-        ((Rec_D_800E3D7C *)(&D_80083780))->unk_00.at02_s16.v = (s16) (((S_800C01DC_1 *)base)->unk_14 + ptr10[0]);
-        ((Rec_D_800E3D7C *)(&D_80083780))->unk_04.at02_s16.v = (s16) (((S_800C01DC_1 *)base)->unk_16 + ptr10[1]);
-        ((Rec_D_800E3D7C *)(&D_80083780))->unk_08.at02_s16.v = func_800C2AE8(&D_80083780, ptr10);
+        position_data = (s8 *) &D_8006ADBC;
+        position_entry = ((S_800C01DC_1 *)position_data)->unk_10;
+        ((Rec_D_800E3D7C *)(&D_80083780))->unk_00.at02_s16.v = (s16) (((S_800C01DC_1 *)position_data)->unk_14 + position_entry[0]);
+        ((Rec_D_800E3D7C *)(&D_80083780))->unk_04.at02_s16.v = (s16) (((S_800C01DC_1 *)position_data)->unk_16 + position_entry[1]);
+        ((Rec_D_800E3D7C *)(&D_80083780))->unk_08.at02_s16.v = func_800C2AE8(&D_80083780, position_entry);
     }
     func_8009550C(&D_80083780);
 }

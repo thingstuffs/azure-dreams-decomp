@@ -9,6 +9,7 @@ extern s32 func_80018C50(s32);
 
 typedef void (*TownCallback)(s32, s32);
 
+/* Conditionally updates the town state pointer and invokes the town callback. */
 s32 func_80016BE8(void) {
     func_80018BD0(0xFB7);
     func_80018BD0(0xFB8);

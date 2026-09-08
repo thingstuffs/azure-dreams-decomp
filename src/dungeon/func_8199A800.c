@@ -47,28 +47,29 @@ static void (*const func_8199A800_table[])(void)
 #endif
 
 #ifdef __mips__
-void func_8199A800(void *arg0) __asm__("func_8199A800_body")
+void func_8199A800(void *state_data) __asm__("func_8199A800_body")
     __attribute__((section(".text.func_8199A800")));
 #endif
 
-void func_8199A800(void *arg0)
+/* Advances a timed effect sequence, updates the entry tint, and draws the animation. */
+void func_8199A800(void *state_data)
 {
-    u8 *state = (u8 *)arg0;
-    u8 *global_table;
-    void **dispatch;
-    s32 mode;
+    u8 *state = (u8 *)state_data;
+    u8 *effect_flags;
+    void **phase_handlers;
+    s32 phase;
     s32 result;
-    static void *const keepalive[] = {
+    static void *const phase_labels[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&default_case
     };
 
     U16_AT(state, 0x16)++;
-    mode = S16_AT(state, 0x0A);
-    global_table = D_80083160;
-    if ((u32)mode < 5U) {
-        (void)keepalive;
-        dispatch = D_80024008;
-        goto *dispatch[mode];
+    phase = S16_AT(state, 0x0A);
+    effect_flags = D_80083160;
+    if ((u32)phase < 5U) {
+        (void)phase_labels;
+        phase_handlers = D_80024008;
+        goto *phase_handlers[phase];
     }
     goto default_case;
 
@@ -108,8 +109,8 @@ case_1:
     }
     {
         u16 countdown = 0x10;
-        u16 live = U16_AT(state, 0x0A);
-        ASM_KEEP(live);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        u16 saved_phase = U16_AT(state, 0x0A);
+        ASM_KEEP(saved_phase);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         U16_AT(state, 0x18) = countdown;
     }
     func_80024208();
@@ -119,15 +120,15 @@ case_2:
         void *entry = PTR_AT(MANAGER_PTR(), 0x60);
 
         if (entry != 0) {
-            s32 value = (s32)U32_AT(entry, 0x1C) | 0x10000000;
-            register u32 effect ASM_REG("$4") = 0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 entry_flags = (s32)U32_AT(entry, 0x1C) | 0x10000000;
+            register u32 tint ASM_REG("$4") = 0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             register void *child ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            U32_AT(entry, 0x1C) = value;
+            U32_AT(entry, 0x1C) = entry_flags;
             child = PTR_AT(entry, -0x14);
-            if ((U16_AT(global_table, 4) & 1) != 0) {
-                effect = 0x0080FF80;
+            if ((U16_AT(effect_flags, 4) & 1) != 0) {
+                tint = 0x0080FF80;
             }
-            U32_AT(child, 0x0C) = effect;
+            U32_AT(child, 0x0C) = tint;
         }
     }
     if ((U16_AT(D_80082E94, 0) & 0x8000) == 0) {
@@ -140,12 +141,12 @@ case_2:
         register void *entry ASM_REG("$5") = PTR_AT(MANAGER_PTR(), 0x60);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         if (entry != 0) {
-            u32 mask = 0xEFFFFFFF;
-            register u32 effect ASM_REG("$4") = 0x00808080;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u32 clear_effect_mask = 0xEFFFFFFF;
+            register u32 tint ASM_REG("$4") = 0x00808080;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             void *child = PTR_AT(entry, -0x14);
-            s32 value = (s32)U32_AT(entry, 0x1C) & mask;
-            U32_AT(entry, 0x1C) = value;
-            U32_AT(child, 0x0C) = effect;
+            s32 entry_flags = (s32)U32_AT(entry, 0x1C) & clear_effect_mask;
+            U32_AT(entry, 0x1C) = entry_flags;
+            U32_AT(child, 0x0C) = tint;
         }
     }
     U16_AT(state, 0x0A)++;
@@ -156,22 +157,22 @@ case_3:
         goto default_case;
     }
     {
-        u8 *counter = D_80083460;
-        U16_AT(counter, 0x0A)--;
-        U32_AT(counter, 0x0C) = 0;
+        u8 *sequence_state = D_80083460;
+        U16_AT(sequence_state, 0x0A)--;
+        U32_AT(sequence_state, 0x0C) = 0;
     }
     U16_AT(state, -2) |= 0x8000;
     D_800814A0 |= 0x8000;
 
 default_case:
     if (S16_AT(state, 0x0A) >= 2) {
-        u8 *work = (u8 *)&D_80024A70[2];
-        s32 params[2];
+        u8 *draw_data = (u8 *)&D_80024A70[2];
+        s32 draw_params[2];
 
-        params[0] = 0x01000360;
-        params[1] = 0x00200020;
-        func_800B835C(work, params, 1, 0);
-        U8_AT(work, 8) += 0x10;
+        draw_params[0] = 0x01000360;
+        draw_params[1] = 0x00200020;
+        func_800B835C(draw_data, draw_params, 1, 0);
+        U8_AT(draw_data, 8) += 0x10;
     }
     D_80024A70[0] = 0;
 }

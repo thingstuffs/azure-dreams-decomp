@@ -173,14 +173,15 @@ extern u8 D_80083460[];
 extern u8 D_800DCE60[];
 extern s32 D_800E4938[];
 
+/* Initialize the dungeon actor and its state at a position_selected starting position. */
 void func_800165B8(void) {
     u8 pos_x;
     u8 pos_y;
     u16 flags;
-    void *alloc;
-    u8 *actor_tmp;
+    void *allocation;
+    u8 *actor_storage;
     u8 *actor;
-    register u8 *call_actor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    register u8 *call_target ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     u8 *state;
     u8 *obj;
     u8 *entity;
@@ -191,126 +192,126 @@ void func_800165B8(void) {
     register s16 *delta_x ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *delta_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s16 *delta_y;
-    s32 delta;
-    s32 i;
+    s32 height_diff;
+    s32 entry_index;
     s32 offset_index;
-    u32 index4;
-    s32 x_arg;
-    s32 y_arg;
-    s32 state_value;
-    register s32 *descending ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 *cf8;
-    u8 *ddp;
-    register u8 *dd_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u32 entry_offset;
+    s32 sample_x;
+    s32 sample_y;
+    s32 state_config;
+    register s32 *reverse_entries ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 *state_entries;
+    u8 *table_base;
+    register u8 *entry_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 tile;
     u8 actor_x;
     u8 actor_y;
-    u16 value;
-    register u16 arg3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u8 *base_8001;
-    u8 *dce_page;
-    u8 *dce;
-    u8 *base_83460;
-    register u8 *bc_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-    register s32 bc_one ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u8 *bc_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register u8 *bc_obj ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u8 *small_base;
-    register s32 height_const ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    u8 *final_base;
-    s32 final_value;
-    u16 final_flags;
-    register s32 constant_2c ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u16 display_setting;
+    register u16 lift_height ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *settings_page;
+    u8 *display_page;
+    u8 *display_state;
+    u8 *map_state;
+    register u8 *bind_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    register s32 bind_count ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u8 *bind_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register u8 *bind_angle ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *defaults_page;
+    register s32 height_limit ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 init_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u8 *status_page;
+    s32 status_value;
+    u16 init_flags;
+    register s32 neutral_color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 entity_mask;
-    s32 entity_value;
+    s32 entity_flags;
     register u32 copy_addr ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 copy_tail;
-    u8 *loop_a3;
+    u8 *zero_arg;
 
     D_800DCF5A = 1;
-    alloc = func_8003FE78(0, D_80083498, 0x53);
-    ((S_800165B8_0 *)alloc)->unk_10 = D_80089AA0;
-    func_8004491C(alloc, D_80045340);
-    actor_tmp = &D_80083780;
-    ((S_800165B8_0 *)alloc)->unk_08 = actor_tmp;
-    actor = actor_tmp;
+    allocation = func_8003FE78(0, D_80083498, 0x53);
+    ((S_800165B8_0 *)allocation)->unk_10 = D_80089AA0;
+    func_8004491C(allocation, D_80045340);
+    actor_storage = &D_80083780;
+    ((S_800165B8_0 *)allocation)->unk_08 = actor_storage;
+    actor = actor_storage;
     func_8003DB4C(actor, 6);
     state = D_80082E80;
-    ((S_800165B8_0 *)alloc)->unk_0C = state;
+    ((S_800165B8_0 *)allocation)->unk_0C = state;
     func_8003DB4C(state, 0xC);
-    D_800814A8 = obj = (u8 *)alloc + 0x20;
+    D_800814A8 = obj = (u8 *)allocation + 0x20;
     D_800E3D7C = obj;
     ((S_800165B8_1 *)obj)->unk_13 = 0;
     entity = obj;
     room = D_80082E60;
 
     if (!(((S_800165B8_2 *)room)->unk_16 & 1)) {
-outer:
+retry_position:
         do {
         } while (func_800A4E2C(&pos_x, &pos_y) < 0);
         if (D_80012090 != 0) {
-            goto selected;
+            goto position_selected;
         }
         if (func_80033BC0(0x1389) != 0) {
-            goto selected;
+            goto position_selected;
         }
-        call_actor = actor;
+        call_target = actor;
         if (D_8008146C != 0x1F) {
-            i = 7;
-            goto setup;
+            entry_index = 7;
+            goto initialize_position;
         }
-        height_const = -0x400;
-        ASM_KEEP(height_const);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        height_limit = -0x400;
+        ASM_KEEP(height_limit);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         direction = -1;
         first_height = func_800BCB04((pos_x << 6) | 0x20,
-                                     (pos_y << 6) | 0x20, height_const);
+                                     (pos_y << 6) | 0x20, height_limit);
         delta_page = (u8 *)0x80070000;
         ASM_KEEP(delta_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         delta_x = (s16 *)(delta_page - 0x3328);
         delta_y = D_8006CCE8;
-height_loop:
+check_neighbor:
         func_8009A350(pos_x, pos_y, (s16)direction, &flags);
-        height_const = -0x400;
+        height_limit = -0x400;
         if (flags & 0x8000) {
-            goto outer;
+            goto retry_position;
         }
         offset_index = direction & 7;
         {
-            u8 yv;
+            u8 sample_tile_y;
 
-            yv = pos_y;
-            x_arg = (pos_x << 6) + 0x20;
-            x_arg += delta_x[offset_index] << 6;
-            x_arg &= 0xFFE0;
-            ASM_KEEP_NV(x_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            y_arg = ((s32)yv << 6) + 0x20;
-            y_arg += delta_y[offset_index] << 6;
-            y_arg &= 0xFFE0;
+            sample_tile_y = pos_y;
+            sample_x = (pos_x << 6) + 0x20;
+            sample_x += delta_x[offset_index] << 6;
+            sample_x &= 0xFFE0;
+            ASM_KEEP_NV(sample_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            sample_y = ((s32)sample_tile_y << 6) + 0x20;
+            sample_y += delta_y[offset_index] << 6;
+            sample_y &= 0xFFE0;
         }
-        height = func_800BCB04(x_arg, y_arg, height_const);
-        delta = (height & 0xFF) - (first_height & 0xFF);
-        if (delta < 0) {
-            delta = -delta;
+        height = func_800BCB04(sample_x, sample_y, height_limit);
+        height_diff = (height & 0xFF) - (first_height & 0xFF);
+        if (height_diff < 0) {
+            height_diff = -height_diff;
         }
         direction++;
-        if (delta >= 0x21) {
-            goto outer;
+        if (height_diff >= 0x21) {
+            goto retry_position;
         }
         if (direction < 2) {
-            goto height_loop;
+            goto check_neighbor;
         }
-        call_actor = actor;
-        i = 7;
-        goto setup;
+        call_target = actor;
+        entry_index = 7;
+        goto initialize_position;
     }
 
     pos_x = ((S_800165B8_2 *)room)->unk_10;
     pos_y = ((S_800165B8_2 *)room)->unk_12;
-selected:
-    call_actor = actor;
-    i = 7;
-setup:
+position_selected:
+    call_target = actor;
+    entry_index = 7;
+initialize_position:
     {
         u8 setup_x;
         u8 setup_y;
@@ -319,7 +320,7 @@ setup:
         setup_y = pos_y;
         ((S_800165B8_3 *)state)->unk_24 = setup_x;
         ((S_800165B8_3 *)state)->unk_25 = setup_y;
-        func_800A2B04(call_actor, setup_x, setup_y);
+        func_800A2B04(call_target, setup_x, setup_y);
     }
     func_8009A21C(pos_x, pos_y, 0x300);
     height = func_800BCB04(((S_800165B8_4 *)actor)->unk_02, ((S_800165B8_4 *)actor)->unk_06, -0x400);
@@ -328,64 +329,64 @@ setup:
     ((S_800165B8_4 *)actor)->unk_0A = height;
     ((S_800165B8_5 *)entity)->unk_88 = height;
     (*(s16 *)((u8 *)entity + 0x8A)) = height;
-    temp_v0 = ((S_800165B8_1 *)obj)->unk_A2;
+    init_value = ((S_800165B8_1 *)obj)->unk_A2;
     ((S_800165B8_3 *)state)->unk_0C = 0x2C808080;
-    ((S_800165B8_1 *)obj)->unk_A2 = temp_v0 | 0x10;
-    state_value = D_80080A80;
-    ((S_800165B8_5 *)entity)->unk_5C = alloc;
-    ((S_800165B8_5 *)entity)->unk_58 = alloc;
+    ((S_800165B8_1 *)obj)->unk_A2 = init_value | 0x10;
+    state_config = D_80080A80;
+    ((S_800165B8_5 *)entity)->unk_5C = allocation;
+    ((S_800165B8_5 *)entity)->unk_58 = allocation;
     ((S_800165B8_3 *)state)->unk_1E = 0x1000;
     ((S_800165B8_3 *)state)->unk_1C = 0x1000;
-    ((S_800165B8_3 *)state)->unk_28 = state_value;
+    ((S_800165B8_3 *)state)->unk_28 = state_config;
     func_80094988(obj, entity, actor_x, actor_y);
 
     entity_mask = 0xFFEFFFFF;
     {
-        u8 *descending_page;
-        register s32 *descending_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        u8 *entries_page;
+        register s32 *entries_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
-        descending_page = (u8 *)0x800E0000;
-        ASM_KEEP(descending_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        descending_base = (s32 *)(descending_page + 0x3D80);
-        ASM_KEEP(descending_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        entity_value = ((S_800165B8_5 *)entity)->unk_14;
-        descending = descending_base + 7;
-        entity_value &= entity_mask;
-        ((S_800165B8_5 *)entity)->unk_14 = entity_value;
+        entries_page = (u8 *)0x800E0000;
+        ASM_KEEP(entries_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        entries_base = (s32 *)(entries_page + 0x3D80);
+        ASM_KEEP(entries_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        entity_flags = ((S_800165B8_5 *)entity)->unk_14;
+        reverse_entries = entries_base + 7;
+        entity_flags &= entity_mask;
+        ((S_800165B8_5 *)entity)->unk_14 = entity_flags;
     }
-dungeon_loop:
-    call_actor = state;
-    bc_state = (u8 *)0;
-    ASM_KEEP_NV(bc_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ddp = (u8 *)0x800E0000;
-    ASM_KEEP_NV(ddp);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ddp -= 0x2F88;
-    dd_addr = (u8 *)((u32)i + (u32)ddp);
-    ASM_KEEP_DEP_NV(dd_addr, ddp);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_800489F4(call_actor, *dd_addr, (s32)bc_state, (s32)bc_state);
-    call_actor = state;
-    bc_state = (u8 *)0;
-    loop_a3 = bc_state;
-    ASM_KEEP_DEP_NV(loop_a3, bc_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ddp = (u8 *)0x800E0000;
-    ASM_KEEP_NV(ddp);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    temp_v0 = ((S_800165B8_3 *)state)->unk_08;
-    ddp -= 0x2F58;
-    *descending = temp_v0;
-    descending--;
-    dd_addr = (u8 *)((u32)i + (u32)ddp);
-    ASM_KEEP_DEP_NV(dd_addr, ddp);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_800489F4(call_actor, *dd_addr, (s32)bc_state, (s32)loop_a3);
-    index4 = (u32)i << 2;
-    cf8 = D_800E3CF8;
-    *(s32 *)((u8 *)cf8 + index4) = ((S_800165B8_3 *)state)->unk_08;
-    func_800489F4(state, *(&D_800DD090 + i), 0, 0);
-    i--;
-    *(s32 *)((u8 *)D_800E3D48 + index4) = ((S_800165B8_3 *)state)->unk_08;
-    if (i >= 0) {
-        goto dungeon_loop;
+load_entries:
+    call_target = state;
+    bind_state = (u8 *)0;
+    ASM_KEEP_NV(bind_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    table_base = (u8 *)0x800E0000;
+    ASM_KEEP_NV(table_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    table_base -= 0x2F88;
+    entry_addr = (u8 *)((u32)entry_index + (u32)table_base);
+    ASM_KEEP_DEP_NV(entry_addr, table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    func_800489F4(call_target, *entry_addr, (s32)bind_state, (s32)bind_state);
+    call_target = state;
+    bind_state = (u8 *)0;
+    zero_arg = bind_state;
+    ASM_KEEP_DEP_NV(zero_arg, bind_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    table_base = (u8 *)0x800E0000;
+    ASM_KEEP_NV(table_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    init_value = ((S_800165B8_3 *)state)->unk_08;
+    table_base -= 0x2F58;
+    *reverse_entries = init_value;
+    reverse_entries--;
+    entry_addr = (u8 *)((u32)entry_index + (u32)table_base);
+    ASM_KEEP_DEP_NV(entry_addr, table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    func_800489F4(call_target, *entry_addr, (s32)bind_state, (s32)zero_arg);
+    entry_offset = (u32)entry_index << 2;
+    state_entries = D_800E3CF8;
+    *(s32 *)((u8 *)state_entries + entry_offset) = ((S_800165B8_3 *)state)->unk_08;
+    func_800489F4(state, *(&D_800DD090 + entry_index), 0, 0);
+    entry_index--;
+    *(s32 *)((u8 *)D_800E3D48 + entry_offset) = ((S_800165B8_3 *)state)->unk_08;
+    if (entry_index >= 0) {
+        goto load_entries;
     }
-    D_800E3D18 = cf8;
+    D_800E3D18 = state_entries;
 
     if ((func_80042900(entity, 0xA) << 16) != 0) {
         (*(void * *)((u8 *)state + 0x2C)) = D_800DD274;
@@ -393,57 +394,55 @@ dungeon_loop:
             *(void **)((u8 *)D_800DD274 +
                 (((D_80083228 + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
             0);
-        bc_base = D_80083498;
-        goto common_tail;
+        bind_base = D_80083498;
+    } else {
+        func_800489F4(state, 0xB0, 0, 1);
+        ((S_800165B8_3 *)state)->unk_2C = D_800DCFB0;
+        bind_base = D_80083498;
     }
-
-    func_800489F4(state, 0xB0, 0, 1);
-    ((S_800165B8_3 *)state)->unk_2C = D_800DCFB0;
-    bc_base = D_80083498;
-common_tail:
-    bc_one = 1;
-    bc_state = state + 0x2C;
-    bc_obj = obj + 0x2A;
-    ASM_KEEP(bc_one);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp_v0 = -1;
-    (*(s16 *)((u8 *)obj + 0x94)) = temp_v0;
-    i = 0;
+    bind_count = 1;
+    bind_state = state + 0x2C;
+    bind_angle = obj + 0x2A;
+    ASM_KEEP(bind_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    init_value = -1;
+    (*(s16 *)((u8 *)obj + 0x94)) = init_value;
+    entry_index = 0;
     (*(s16 *)((u8 *)obj + 0x118)) = 0;
     ((S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)D_80083228 + 0x100) & 0xE00);
-    func_800BC26C(bc_base, bc_one, bc_state, bc_obj);
+    func_800BC26C(bind_base, bind_count, bind_state, bind_angle);
     {
-        s32 mask_ffef;
+        s32 clear_flag_mask;
 
-        mask_ffef = 0xFFEFFFFF;
-        call_actor = obj;
-        temp_v0 = 0xFF;
-        ((S_800165B8_1 *)obj)->unk_9A = temp_v0;
-        ((S_800165B8_5 *)entity)->unk_1C &= mask_ffef;
+        clear_flag_mask = 0xFFEFFFFF;
+        call_target = obj;
+        init_value = 0xFF;
+        ((S_800165B8_1 *)obj)->unk_9A = init_value;
+        ((S_800165B8_5 *)entity)->unk_1C &= clear_flag_mask;
     }
-    func_80096088(call_actor, entity);
+    func_80096088(call_target, entity);
     ((S_800165B8_3 *)state)->unk_14 |= 0x8000;
-    small_base = (u8 *)0x80010000;
+    defaults_page = (u8 *)0x80010000;
     do {
-        tile = small_base[i + 0x2D6C];
-        ((S_800165B8_6 *)(obj + i))->unk_FA = tile;
+        tile = defaults_page[entry_index + 0x2D6C];
+        ((S_800165B8_6 *)(obj + entry_index))->unk_FA = tile;
         if (tile == 2) {
-            ((S_800165B8_6 *)(obj + i))->unk_FA = 1;
+            ((S_800165B8_6 *)(obj + entry_index))->unk_FA = 1;
         }
-        i++;
-    } while (i < 2);
+        entry_index++;
+    } while (entry_index < 2);
 
-    constant_2c = 0x2C808080;
-    base_8001 = (u8 *)0x80010000;
-    ASM_KEEP_NV(base_8001);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ddp = (u8 *)0x80080000;
-    ASM_KEEP(ddp);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    temp_v0 = ((S_800165B8_1 *)obj)->unk_A2;
-    ddp += 0x3160;
-    temp_v0 |= 0x10;
-    ((S_800165B8_1 *)obj)->unk_A2 = temp_v0;
+    neutral_color = 0x2C808080;
+    settings_page = (u8 *)0x80010000;
+    ASM_KEEP_NV(settings_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    table_base = (u8 *)0x80080000;
+    ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    init_value = ((S_800165B8_1 *)obj)->unk_A2;
+    table_base += 0x3160;
+    init_value |= 0x10;
+    ((S_800165B8_1 *)obj)->unk_A2 = init_value;
     ((S_800165B8_5 *)entity)->unk_14 |= 0x4000;
-    dce_page = (u8 *)0x800E0000;
-    ASM_KEEP(dce_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    display_page = (u8 *)0x800E0000;
+    ASM_KEEP(display_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     copy_addr = 0x8001020C;
     ASM_KEEP_NV(copy_addr);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     *(Copy12 *)(entity + 0x34) = *(Copy12 *)copy_addr;
@@ -452,59 +451,59 @@ common_tail:
     ((S_800165B8_5 *)entity)->unk_40 = copy_tail;
     ((S_800165B8_5 *)entity)->unk_42 = 0;
     ((S_800165B8_5 *)entity)->unk_41 = 0;
-    ((S_800165B8_1 *)obj)->unk_DC = constant_2c;
-    ((S_800165B8_1 *)obj)->unk_E0 = constant_2c;
+    ((S_800165B8_1 *)obj)->unk_DC = neutral_color;
+    ((S_800165B8_1 *)obj)->unk_E0 = neutral_color;
 
     {
-        u32 fb_x;
-        u32 fb_y;
-        u16 idx1;
-        u16 idx2;
-        u16 c6v;
-        register u16 *dd264p ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        u32 tile_x;
+        u32 tile_y;
+        u16 display_index;
+        u16 height_index;
+        u16 display_value;
+        register u16 *display_values ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-        dd264p = D_800DD264;
-        fb_x = ((S_800165B8_3 *)state)->unk_24;
-        ASM_KEEP_NV(fb_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        idx1 = *(u16 *)(base_8001 + 0x20A2);
-        fb_y = ((S_800165B8_3 *)state)->unk_25;
-        ASM_KEEP_DEP_NV(idx1, fb_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        value = dd264p[(s16)idx1];
-        base_83460 = D_80083460;
-        ((S_800165B8_7 *)ddp)->unk_C4 = value;
-        idx2 = *(u16 *)(base_8001 + 0x20A0);
-        *(u16 *)(dce_page - 0x31A0) = value;
-        arg3 = D_800DD26C[(s16)idx2];
-        c6v = ((S_800165B8_7 *)ddp)->unk_C6;
-        dce = dce_page - 0x31A0;
-        ((S_800165B8_8 *)dce)->unk_04 = 0;
-        (*(u16 *)((u8 *)dce + 2)) = c6v;
+        display_values = D_800DD264;
+        tile_x = ((S_800165B8_3 *)state)->unk_24;
+        ASM_KEEP_NV(tile_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        display_index = *(u16 *)(settings_page + 0x20A2);
+        tile_y = ((S_800165B8_3 *)state)->unk_25;
+        ASM_KEEP_DEP_NV(display_index, tile_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        display_setting = display_values[(s16)display_index];
+        map_state = D_80083460;
+        ((S_800165B8_7 *)table_base)->unk_C4 = display_setting;
+        height_index = *(u16 *)(settings_page + 0x20A0);
+        *(u16 *)(display_page - 0x31A0) = display_setting;
+        lift_height = D_800DD26C[(s16)height_index];
+        display_value = ((S_800165B8_7 *)table_base)->unk_C6;
+        display_state = display_page - 0x31A0;
+        ((S_800165B8_8 *)display_state)->unk_04 = 0;
+        (*(u16 *)((u8 *)display_state + 2)) = display_value;
         D_800E4938[0] = 0;
-        *(void **)&D_800E4938[1] = alloc;
+        *(void **)&D_800E4938[1] = allocation;
         D_800E4938[2] = 0;
-        ((S_800165B8_9 *)base_83460)->unk_02 |= 2;
-        ((S_800165B8_8 *)dce)->unk_06.s = arg3;
+        ((S_800165B8_9 *)map_state)->unk_02 |= 2;
+        ((S_800165B8_8 *)display_state)->unk_06.s = lift_height;
         ((S_800165B8_3 *)state)->unk_26 =
-            func_8009FB34(fb_x, fb_y, base_83460, arg3);
+            func_8009FB34(tile_x, tile_y, map_state, lift_height);
     }
     ((S_800165B8_1 *)obj)->unk_9C = -2;
     func_8009D380();
     {
-        s32 lift_a1;
+        s32 actor_lift;
 
-        call_actor = actor;
-        lift_a1 = ((S_800165B8_8 *)dce)->unk_06.u;
+        call_target = actor;
+        actor_lift = ((S_800165B8_8 *)display_state)->unk_06.u;
         D_800E3540 = 0;
         D_80081484 = 0;
         D_80081470 = 0;
-        func_800172A0(call_actor, lift_a1);
+        func_800172A0(call_target, actor_lift);
     }
-    final_base = (u8 *)0x80080000;
-    final_flags = ((S_800165B8_10 *)base_8001)->unk_3714;
-    ASM_KEEP(final_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    final_value = -0x24;
-    ((S_800165B8_11 *)final_base)->unk_2A3B = final_value;
-    if (final_flags & 4) {
-        func_800A6C00(final_base);
+    status_page = (u8 *)0x80080000;
+    init_flags = ((S_800165B8_10 *)settings_page)->unk_3714;
+    ASM_KEEP(init_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    status_value = -0x24;
+    ((S_800165B8_11 *)status_page)->unk_2A3B = status_value;
+    if (init_flags & 4) {
+        func_800A6C00(status_page);
     }
 }

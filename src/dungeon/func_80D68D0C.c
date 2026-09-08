@@ -12,8 +12,6 @@ typedef struct {
     u32 words[8];
 } __attribute__((packed)) LocalTable;
 
-#define monster arg2
-#define motion arg1
 
 extern void func_80047784(void *, u8, s32);
 extern s32 func_800644B8(s32);
@@ -100,40 +98,41 @@ typedef struct S_8017450C_5 {
     u32 unk_10;
 } S_8017450C_5;   /* cleanup_base in func_8017450C */
 
-void func_8017450C(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Update the monster's staged motion, choose a nearby destination, and clean up its actor. */
+void func_8017450C(void *state, void *motion, void *monster, void *actor_ptr)
 {
-    LocalVector vector;
-    LocalTable table;
-    s16 initial_angle;
-    s32 value;
-    s32 product;
-    s32 counter;
+    LocalVector direction;
+    LocalTable direction_table;
+    s16 facing_angle;
+    s32 trig_value;
+    s32 scaled_speed;
+    s32 attempt;
     s32 random_x;
     s32 random_y;
     s32 x_offset;
     s32 y_offset;
     s32 x;
     s32 y;
-    s32 lookup_index;
+    s32 direction_index;
     u32 actor;
-    u8 *globals;
+    u8 *view_state;
     u8 tile_x;
     u8 tile_y;
 
-    table = D_8017088C;
-    actor = (u32)arg3;
+    direction_table = D_8017088C;
+    actor = (u32)actor_ptr;
 
     {
-        static void *const sw_keep[] = {
+        static void *const state_labels[] = {
             &&state_0, &&state_1, &&state_2, &&state_3, &&state_4
         };
-        u32 swi = ((S_8017450C_0 *)arg0)->unk_9B;
+        u32 state_index = ((S_8017450C_0 *)state)->unk_9B;
 
-        if (swi >= 5) {
+        if (state_index >= 5) {
             return;
         }
-        (void)sw_keep;
-        goto *D_801708B0[swi];
+        (void)state_labels;
+        goto *D_801708B0[state_index];
     }
 
 state_0:
@@ -141,51 +140,51 @@ state_0:
         goto cleanup;
     }
 
-    initial_angle = 0;
-    globals = D_80083160;
+    facing_angle = 0;
+    view_state = D_80083160;
     do {
-        if (((((S_8017450C_2 *)globals)->unk_C8 + initial_angle + 0x100) >> 9 & 7) == 2) {
-            ((S_8017450C_3 *)actor)->unk_2A = initial_angle;
+        if (((((S_8017450C_2 *)view_state)->unk_C8 + facing_angle + 0x100) >> 9 & 7) == 2) {
+            ((S_8017450C_3 *)actor)->unk_2A = facing_angle;
         }
-        initial_angle += 0x200;
-    } while (initial_angle < 0x1000);
+        facing_angle += 0x200;
+    } while (facing_angle < 0x1000);
 
     {
-        u8 *table_base = D_800E2368;
-        (*(u8 * *)((u8 *)monster + (0x2C))) = table_base;
-        lookup_index = (D_80083228 + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
-        func_80047784(monster, table_base[lookup_index], 0);
-        ((S_8017450C_0 *)arg0)->unk_98 |= 8;
+        u8 *animation_table = D_800E2368;
+        (*(u8 * *)((u8 *)monster + (0x2C))) = animation_table;
+        direction_index = (D_80083228 + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
+        func_80047784(monster, animation_table[direction_index], 0);
+        ((S_8017450C_0 *)state)->unk_98 |= 8;
         ((S_8017450C_3 *)actor)->unk_1C &= 0xFFFBFFFF;
-        ((S_8017450C_0 *)arg0)->unk_90.at02.v += ((S_8017450C_3 *)actor)->unk_88;
+        ((S_8017450C_0 *)state)->unk_90.at02.v += ((S_8017450C_3 *)actor)->unk_88;
         ((S_8017450C_3 *)actor)->unk_88 = 0;
     }
     {
-        register u16 motion_angle ASM_REG("$2") = ((S_8017450C_0 *)arg0)->unk_9B;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register u16 final_angle ASM_REG("$5") = ((S_8017450C_0 *)arg0)->unk_90.at02.v;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u16 state_or_height ASM_REG("$2") = ((S_8017450C_0 *)state)->unk_9B;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u16 height_offset ASM_REG("$5") = ((S_8017450C_0 *)state)->unk_90.at02.v;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 *sound_flags = &D_800E296C;
-        s32 flags_value;
+        s32 sound_bits;
 
-        ((S_8017450C_0 *)arg0)->unk_A0 = 0;
-        ((S_8017450C_0 *)arg0)->unk_9B = motion_angle + 1;
-        motion_angle = ((S_8017450C_4 *)motion)->unk_0A;
-        flags_value = *sound_flags;
-        motion_angle += final_angle;
-        flags_value |= 0x40;
-        ((S_8017450C_0 *)arg0)->unk_B6 = motion_angle;
-        *sound_flags = flags_value;
+        ((S_8017450C_0 *)state)->unk_A0 = 0;
+        ((S_8017450C_0 *)state)->unk_9B = state_or_height + 1;
+        state_or_height = ((S_8017450C_4 *)motion)->unk_0A;
+        sound_bits = *sound_flags;
+        state_or_height += height_offset;
+        sound_bits |= 0x40;
+        ((S_8017450C_0 *)state)->unk_B6 = state_or_height;
+        *sound_flags = sound_bits;
         func_800A56E0(0x807);
     }
 
 state_1:
-    ((S_8017450C_0 *)arg0)->unk_96.s = 0;
-    ((S_8017450C_0 *)arg0)->unk_9B++;
+    ((S_8017450C_0 *)state)->unk_96.s = 0;
+    ((S_8017450C_0 *)state)->unk_9B++;
     ((S_8017450C_1 *)monster)->unk_22 = 0xFFEC;
     ((S_8017450C_1 *)monster)->unk_1C = 0x800;
 
 state_2:
     {
-        static void *const sw_keep[] = {
+        static void *const angle_labels[] = {
             &&angle_default,
             &&angle_12, &&angle_12,
             &&angle_3_8, &&angle_3_8, &&angle_3_8,
@@ -195,42 +194,42 @@ state_2:
             &&angle_15_17, &&angle_15_17, &&angle_15_17,
             &&angle_18_21, &&angle_18_21, &&angle_18_21, &&angle_18_21
         };
-        u32 swi = (u32)(s16)((S_8017450C_0 *)arg0)->unk_96.s;
+        u32 frame_index = (u32)(s16)((S_8017450C_0 *)state)->unk_96.s;
 
-        if (swi >= 0x16) {
+        if (frame_index >= 0x16) {
             goto angle_default;
         }
-        (void)sw_keep;
-        goto *D_801708C8[swi];
+        (void)angle_labels;
+        goto *D_801708C8[frame_index];
     }
 
 angle_12:
-    ((S_8017450C_0 *)arg0)->unk_AE = 0x30;
+    ((S_8017450C_0 *)state)->unk_AE = 0x30;
     ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
     goto angle_store;
 
 angle_3_8:
-    ((S_8017450C_0 *)arg0)->unk_AE = 0x28;
+    ((S_8017450C_0 *)state)->unk_AE = 0x28;
     ((S_8017450C_1 *)monster)->unk_1A.u += 0x200;
     goto angle_store;
 
 angle_9_10:
-    ((S_8017450C_0 *)arg0)->unk_AE = 0x30;
+    ((S_8017450C_0 *)state)->unk_AE = 0x30;
     ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
     goto angle_store;
 
 angle_11_14:
-    ((S_8017450C_0 *)arg0)->unk_AE = 0x70;
+    ((S_8017450C_0 *)state)->unk_AE = 0x70;
     ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
     goto angle_store;
 
 angle_15_17:
-    ((S_8017450C_0 *)arg0)->unk_AE = 0x60;
+    ((S_8017450C_0 *)state)->unk_AE = 0x60;
     ((S_8017450C_1 *)monster)->unk_1A.u += 0x200;
     goto angle_store;
 
 angle_18_21:
-    ((S_8017450C_0 *)arg0)->unk_AE = 0x50;
+    ((S_8017450C_0 *)state)->unk_AE = 0x50;
     ((S_8017450C_1 *)monster)->unk_1A.u += 0x80;
     goto angle_store;
 
@@ -244,57 +243,57 @@ angle_store:
 
     {
         register s32 angle ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 diff;
+        s32 angle_delta;
 
         angle = ((S_8017450C_1 *)monster)->unk_1A.u;
-        diff = angle - 0x400;
-        angle = diff;
-        if ((s16)diff < 0) {
-            angle = diff + 0x1000;
+        angle_delta = angle - 0x400;
+        angle = angle_delta;
+        if ((s16)angle_delta < 0) {
+            angle = angle_delta + 0x1000;
         }
         angle = (s16)angle;
 
-        value = func_80064584(angle);
-        product = ((S_8017450C_0 *)arg0)->unk_AE * value;
+        trig_value = func_80064584(angle);
+        scaled_speed = ((S_8017450C_0 *)state)->unk_AE * trig_value;
         {
             s32 original_angle = angle;
 
-            angle = product << 4;
-            value = func_800644B8(original_angle);
+            angle = scaled_speed << 4;
+            trig_value = func_800644B8(original_angle);
         }
 
-        product = ((S_8017450C_0 *)arg0)->unk_AE * value;
+        scaled_speed = ((S_8017450C_0 *)state)->unk_AE * trig_value;
         {
-            u8 *table_base = (u8 *)&table;
-            vector.x = (*(u16 *)((u8 *)table_base + (((((S_8017450C_3 *)actor)->unk_2A - 0x400) >> 7) & 0x1C)));
-            table_base +=
+            u8 *direction_entry = (u8 *)&direction_table;
+            direction.x = (*(u16 *)((u8 *)direction_entry + (((((S_8017450C_3 *)actor)->unk_2A - 0x400) >> 7) & 0x1C)));
+            direction_entry +=
                 ((((S_8017450C_3 *)actor)->unk_2A - 0x400) >> 7) & 0x1C;
-            vector.y = (*(u16 *)((u8 *)table_base + (2)));
+            direction.y = (*(u16 *)((u8 *)direction_entry + (2)));
 
-            ((S_8017450C_0 *)arg0)->unk_90.at00.v += product << 4;
-            ((S_8017450C_4 *)motion)->unk_0C = (vector.x * angle) >> 4;
-            ((S_8017450C_4 *)motion)->unk_10 = (vector.y * angle) >> 4;
+            ((S_8017450C_0 *)state)->unk_90.at00.v += scaled_speed << 4;
+            ((S_8017450C_4 *)motion)->unk_0C = (direction.x * angle) >> 4;
+            ((S_8017450C_4 *)motion)->unk_10 = (direction.y * angle) >> 4;
         }
     }
 
-    if ((s16)(((S_8017450C_0 *)arg0)->unk_96.u++) < 0x2D) {
+    if ((s16)(((S_8017450C_0 *)state)->unk_96.u++) < 0x2D) {
         return;
     }
 
-    ((S_8017450C_0 *)arg0)->unk_96.s = 0;
-    ((S_8017450C_0 *)arg0)->unk_9B++;
+    ((S_8017450C_0 *)state)->unk_96.s = 0;
+    ((S_8017450C_0 *)state)->unk_9B++;
     ((S_8017450C_1 *)monster)->unk_1A.s = 0x800;
     ((S_8017450C_4 *)motion)->unk_10 = 0;
     ((S_8017450C_4 *)motion)->unk_0C = 0;
     ((S_8017450C_4 *)motion)->unk_02.s = (((S_8017450C_1 *)monster)->unk_24 << 6) + 0x20;
     ((S_8017450C_4 *)motion)->unk_06.s = (((S_8017450C_1 *)monster)->unk_25 << 6) + 0x20;
-    ((S_8017450C_4 *)motion)->unk_0A = ((S_8017450C_0 *)arg0)->unk_B6;
+    ((S_8017450C_4 *)motion)->unk_0A = ((S_8017450C_0 *)state)->unk_B6;
     ((S_8017450C_4 *)motion)->unk_14 = 0x280000;
-    ((S_8017450C_0 *)arg0)->unk_A0 = 0;
-    ((S_8017450C_0 *)arg0)->unk_90.at02.v = ((S_8017450C_0 *)arg0)->unk_B6 - 0x12C;
+    ((S_8017450C_0 *)state)->unk_A0 = 0;
+    ((S_8017450C_0 *)state)->unk_90.at02.v = ((S_8017450C_0 *)state)->unk_B6 - 0x12C;
     ((S_8017450C_1 *)monster)->unk_1C = 0x600;
 
-    counter = 0;
+    attempt = 0;
     do {
         random_x = func_8017165C(7) - 3;
         random_y = func_8017165C(6) - 2;
@@ -322,38 +321,38 @@ angle_store:
             goto next_try;
         }
         if (func_800BCB04(actor, y, -0x200) < 0x200) {
-            counter++;
+            attempt++;
             continue;
         }
 
         random_x = 0xB;
-        counter = random_x;
+        attempt = random_x;
         ((S_8017450C_4 *)motion)->unk_02.u += x_offset;
         ((S_8017450C_4 *)motion)->unk_06.u += y_offset;
 
 next_try:
-        counter++;
-    } while (counter < 0xA);
+        attempt++;
+    } while (attempt < 0xA);
 
     if (random_x == 0xB) {
         return;
     }
 
-    ((S_8017450C_0 *)arg0)->unk_9B = 4;
+    ((S_8017450C_0 *)state)->unk_9B = 4;
     ((S_8017450C_4 *)motion)->unk_14 = 0;
     ((S_8017450C_1 *)monster)->unk_14 |= 0x80;
     return;
 
 state_3:
-    if ((s16)(((S_8017450C_0 *)arg0)->unk_96.u++) < 0x1E) {
+    if ((s16)(((S_8017450C_0 *)state)->unk_96.u++) < 0x1E) {
         return;
     }
-    ((S_8017450C_0 *)arg0)->unk_96.s = 0;
-    ((S_8017450C_0 *)arg0)->unk_9B++;
+    ((S_8017450C_0 *)state)->unk_96.s = 0;
+    ((S_8017450C_0 *)state)->unk_9B++;
     return;
 
 state_4:
-    if ((s16)(((S_8017450C_0 *)arg0)->unk_96.u++) < 0xA) {
+    if ((s16)(((S_8017450C_0 *)state)->unk_96.u++) < 0xA) {
         return;
     }
     if (((S_8017450C_3 *)actor)->unk_14 & 0x4000) {
@@ -365,22 +364,23 @@ state_4:
 cleanup:
 {
     u8 *cleanup_base = (u8 *)&D_80083460;
-    u32 cleanup_value;
+    u32 tracked_actor;
+    s32 tile_flags;
 
-    cleanup_value = ((S_8017450C_5 *)cleanup_base)->unk_10;
-    if (cleanup_value == actor - 0x20) {
-        ((S_8017450C_5 *)cleanup_base)->unk_10 = cleanup_value & 0x7FFFFFFF;
+    tracked_actor = ((S_8017450C_5 *)cleanup_base)->unk_10;
+    if (tracked_actor == actor - 0x20) {
+        ((S_8017450C_5 *)cleanup_base)->unk_10 = tracked_actor & 0x7FFFFFFF;
     }
     func_800A2FE0((void *)actor);
     func_800A32A4((void *)actor);
     tile_x = ((S_8017450C_1 *)monster)->unk_24;
     tile_y = ((S_8017450C_1 *)monster)->unk_25;
     if (((S_8017450C_3 *)actor)->unk_1C & 0x2000) {
-        value = 0x300;
+        tile_flags = 0x300;
     } else {
-        value = 0x3000;
+        tile_flags = 0x3000;
     }
-    func_8009A3D0(tile_x, tile_y, value);
+    func_8009A3D0(tile_x, tile_y, tile_flags);
     func_8009A028((void *)actor);
     (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
     D_800814A0 |= 0x8000;

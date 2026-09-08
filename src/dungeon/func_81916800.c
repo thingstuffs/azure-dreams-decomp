@@ -22,7 +22,7 @@ __asm__(
 #define BODY_NAME func_81916800
 #endif
 
-void BODY_NAME(void *arg0) __attribute__((section(".text.func_81916800")));
+void BODY_NAME(void *tracker) __attribute__((section(".text.func_81916800")));
 
 typedef struct S_81916800_0 {
     u8 pad_00[0x94];
@@ -55,39 +55,40 @@ typedef struct S_81916800_4 {
     u16 unk_02;
 } S_81916800_4;   /* (*(void **)((u8 *)arg0 + 0xC)) in BODY_NAME */
 
-void BODY_NAME(void *arg0) {
-    s16 temp_a0;
-    s16 temp_v0;
-    S_81916800_2 *temp_v1;
-    u8 *state;
-    u8 *timer;
-    u8 *flag;
+/* Smooth shared state toward tracked target values and advance countdowns. */
+void BODY_NAME(void *tracker) {
+    s16 blend_ticks;
+    s16 next_ticks;
+    S_81916800_2 *target_values;
+    u8 *blend_state;
+    u8 *countdown;
+    u8 *third_pending;
 
-    temp_a0 = (*(s16 *)((u8 *)arg0 + 0x24));
-    state = (u8 *)&D_80083178;
-    if (temp_a0 > 0) {
-        ((S_81916800_0 *)state)->unk_98.u = (u16) ((S_81916800_0 *)state)->unk_98.u + ((s32) ((*(s16 *)((u8 *)arg0 + 0x26)) - ((S_81916800_0 *)state)->unk_98.s) / temp_a0);
+    blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
+    blend_state = (u8 *)&D_80083178;
+    if (blend_ticks > 0) {
+        ((S_81916800_0 *)blend_state)->unk_98.u = (u16) ((S_81916800_0 *)blend_state)->unk_98.u + ((s32) ((*(s16 *)((u8 *)tracker + 0x26)) - ((S_81916800_0 *)blend_state)->unk_98.s) / blend_ticks);
     }
-    temp_v0 = (u16) (*(s16 *)((u8 *)arg0 + 0x24)) - 1;
-    (*(s16 *)((u8 *)arg0 + 0x24)) = temp_v0;
-    if (temp_v0 < -0x80) {
-        (*(s16 *)((u8 *)arg0 + 0x24)) = -0x80;
+    next_ticks = (u16) (*(s16 *)((u8 *)tracker + 0x24)) - 1;
+    (*(s16 *)((u8 *)tracker + 0x24)) = next_ticks;
+    if (next_ticks < -0x80) {
+        (*(s16 *)((u8 *)tracker + 0x24)) = -0x80;
     }
-    timer = D_800E3D20;
-    if (((S_81916800_1 *)timer)->unk_00.u != 0) {
-        ((S_81916800_1 *)timer)->unk_00.s = (s8) (((S_81916800_1 *)timer)->unk_00.u - 1);
+    countdown = D_800E3D20;
+    if (((S_81916800_1 *)countdown)->unk_00.u != 0) {
+        ((S_81916800_1 *)countdown)->unk_00.s = (s8) (((S_81916800_1 *)countdown)->unk_00.u - 1);
     }
-    temp_v1 = (*(void * volatile *)((u8 *)arg0 + 0xC));
-    (*(u16 *)((u8 *)arg0 + 4)) = (u16) ((S_81916800_4 *)((*(void **)((u8 *)arg0 + 0xC))))->unk_02;
-    (*(u16 *)((u8 *)arg0 + 6)) = (u16) temp_v1->unk_06;
-    (*(u16 *)((u8 *)arg0 + 8)) = (u16) temp_v1->unk_0A;
-    ((S_81916800_0 *)state)->unk_A4.u = (u16) ((S_81916800_0 *)state)->unk_A4.u + ((s32) ((s16) (*(u16 *)((u8 *)arg0 + 4)) - ((S_81916800_0 *)state)->unk_A4.s) >> 2);
-    ((S_81916800_0 *)state)->unk_A6.u = (u16) ((S_81916800_0 *)state)->unk_A6.u + ((s32) ((s16) (*(u16 *)((u8 *)arg0 + 6)) - ((S_81916800_0 *)state)->unk_A6.s) >> 2);
-    flag = D_80025B1C;
-    if (((S_81916800_3 *)flag)->unk_00.u != 0) {
-        ((S_81916800_0 *)state)->unk_A8.u = (u16) ((S_81916800_0 *)state)->unk_A8.u + ((s32) ((s16) (*(u16 *)((u8 *)arg0 + 8)) - ((S_81916800_0 *)state)->unk_A8.s) >> 2);
+    target_values = (*(void * volatile *)((u8 *)tracker + 0xC));
+    (*(u16 *)((u8 *)tracker + 4)) = (u16) ((S_81916800_4 *)((*(void **)((u8 *)tracker + 0xC))))->unk_02;
+    (*(u16 *)((u8 *)tracker + 6)) = (u16) target_values->unk_06;
+    (*(u16 *)((u8 *)tracker + 8)) = (u16) target_values->unk_0A;
+    ((S_81916800_0 *)blend_state)->unk_A4.u = (u16) ((S_81916800_0 *)blend_state)->unk_A4.u + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 4)) - ((S_81916800_0 *)blend_state)->unk_A4.s) >> 2);
+    ((S_81916800_0 *)blend_state)->unk_A6.u = (u16) ((S_81916800_0 *)blend_state)->unk_A6.u + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 6)) - ((S_81916800_0 *)blend_state)->unk_A6.s) >> 2);
+    third_pending = D_80025B1C;
+    if (((S_81916800_3 *)third_pending)->unk_00.u != 0) {
+        ((S_81916800_0 *)blend_state)->unk_A8.u = (u16) ((S_81916800_0 *)blend_state)->unk_A8.u + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 8)) - ((S_81916800_0 *)blend_state)->unk_A8.s) >> 2);
     }
-    ((S_81916800_3 *)flag)->unk_00.s = (s8) (((S_81916800_0 *)state)->unk_A8.s != (s16) (*(u16 *)((u8 *)arg0 + 8)));
-    ((S_81916800_0 *)state)->unk_94 = (u16) ((s32) (((S_81916800_0 *)state)->unk_94 << 0x10) >> 0x12);
-    ((S_81916800_0 *)state)->unk_96 = (u16) ((s32) (((S_81916800_0 *)state)->unk_96 << 0x10) >> 0x12);
+    ((S_81916800_3 *)third_pending)->unk_00.s = (s8) (((S_81916800_0 *)blend_state)->unk_A8.s != (s16) (*(u16 *)((u8 *)tracker + 8)));
+    ((S_81916800_0 *)blend_state)->unk_94 = (u16) ((s32) (((S_81916800_0 *)blend_state)->unk_94 << 0x10) >> 0x12);
+    ((S_81916800_0 *)blend_state)->unk_96 = (u16) ((s32) (((S_81916800_0 *)blend_state)->unk_96 << 0x10) >> 0x12);
 }

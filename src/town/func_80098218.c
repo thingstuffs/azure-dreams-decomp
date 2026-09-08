@@ -14,34 +14,35 @@ extern s16 func_8008CF48(LocalRecord *, s32 *);
 extern M2C_UNK *D_800D0408;
 extern s32 D_800FE5C0[];
 
-s32 func_80095978(s32 *arg0, s32 *arg1) {
-    LocalRecord rec;
-    s32 local_out;
+/* Selects the smaller position query result, capped at 64, and writes its associated value. */
+s32 func_80095978(s32 *position, s32 *out_value) {
+    LocalRecord local_pos;
+    s32 query_value;
     s32 *height_base;
-    s32 *local_out_ptr;
+    s32 *query_value_ptr;
     s32 result;
-    s16 first;
-    s16 second;
+    s16 min_result;
+    s16 candidate_result;
 
     height_base = D_800FE5C0;
-    local_out_ptr = &local_out;
-    rec.x = arg0[0];
-    rec.y = arg0[1];
-    rec.z = arg0[2] - height_base[5];
-    first = func_8008CF48(&rec, local_out_ptr);
-    *arg1 = local_out;
-    rec.x = arg0[0];
-    rec.y = arg0[1];
-    rec.z = arg0[2] - height_base[5];
-    second = func_8008C758(&rec, D_800D0408, 4, local_out_ptr, first, *arg1);
-    if (second < first) {
-        first = second;
-        *arg1 = local_out;
+    query_value_ptr = &query_value;
+    local_pos.x = position[0];
+    local_pos.y = position[1];
+    local_pos.z = position[2] - height_base[5];
+    min_result = func_8008CF48(&local_pos, query_value_ptr);
+    *out_value = query_value;
+    local_pos.x = position[0];
+    local_pos.y = position[1];
+    local_pos.z = position[2] - height_base[5];
+    candidate_result = func_8008C758(&local_pos, D_800D0408, 4, query_value_ptr, min_result, *out_value);
+    if (candidate_result < min_result) {
+        min_result = candidate_result;
+        *out_value = query_value;
     }
-    if (first >= 64) {
-        first = 64;
+    if (min_result >= 64) {
+        min_result = 64;
     }
-    result = first;
+    result = min_result;
     ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return result;
 }

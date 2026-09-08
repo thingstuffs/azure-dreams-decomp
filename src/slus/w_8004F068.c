@@ -27,31 +27,29 @@ extern S_8004F068_word D_80071678;
 extern S_8004F068_word D_8007167C;
 extern S_8004F068_word D_80071680;
 
-/* Initializes two adjacent sub-structures inside the object at arg0, setting
- * flag bytes and copying three global words in, then returns a pointer to a
- * third field just past the second sub-structure. */
-void *func_8004F068(void *arg0)
+/* Initializes two adjacent headers with flags and global values, then returns the next field. */
+void *func_8004F068(void *cursor)
 {
-    S_8004F068_a *a = (S_8004F068_a *)arg0;
-    S_8004F068_b *b;
-    s32 t4, t8, tc;
+    S_8004F068_a *first_header = (S_8004F068_a *)cursor;
+    S_8004F068_b *second_header;
+    s32 word_04, word_08, word_0c;
 
-    a->unk01 = 0xB0;
-    t8 = D_80071678.v;
-    a->unk08 = t8;
-    t4 = D_80071680.v;
-    tc = D_8007167C.v;
-    a->unk01 |= 2;
-    a->unk00 |= 0x61;
-    a->unk04 = t4;
-    a->unk0C = tc;
+    first_header->unk01 = 0xB0;
+    word_08 = D_80071678.v;
+    first_header->unk08 = word_08;
+    word_04 = D_80071680.v;
+    word_0c = D_8007167C.v;
+    first_header->unk01 |= 2;
+    first_header->unk00 |= 0x61;
+    first_header->unk04 = word_04;
+    first_header->unk0C = word_0c;
 
-    arg0 = (u8 *)arg0 + 0x18;
-    b = (S_8004F068_b *)arg0;
-    b->unk01 = 0x81;
-    b->unk04 = 0x20;
-    b->unk06 = 1;
-    b->unk00 |= 0x80;
+    cursor = (u8 *)cursor + 0x18;
+    second_header = (S_8004F068_b *)cursor;
+    second_header->unk01 = 0x81;
+    second_header->unk04 = 0x20;
+    second_header->unk06 = 1;
+    second_header->unk00 |= 0x80;
 
-    return (u8 *)b + 0xC;
+    return (u8 *)second_header + 0xC;
 }

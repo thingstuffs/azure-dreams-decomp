@@ -63,55 +63,56 @@ extern void func_80066668(void *arg0, s32 arg1);
 extern void func_80066758(void *arg0);
 extern void func_80067F20(void *arg0, s32 arg1, s32 arg2, u16 arg3, s32 arg4);
 
-s32 func_8008896C(u8 *arg0, u8 *arg1)
+/* Queue a 2x2 grid of textured sprites for each linked entry. */
+s32 func_8008896C(u8 *entry_data, u8 *scroll_data)
 {
-    MainState *global;
-    u8 *line;
-    u8 *primitive;
-    u8 *next;
-    s32 outer;
-    s32 inner;
-    s32 vertical;
-    s32 color;
+    MainState *main_state;
+    u8 *sprite;
+    u8 *draw_mode;
+    u8 *next_entry;
+    s32 row;
+    s32 column;
+    s32 texture_page;
+    s32 texture_x;
     s32 base_y;
 
-    global = &D_80083160;
+    main_state = &D_80083160;
     for (;;) {
-        outer = 0;
+        row = 0;
         do {
-        inner = 1;
-        base_y = outer << 8;
-        color = 0x280;
-        do {
-            line = global->render_state->next_prim;
-            global->render_state->next_prim = line + 0x14;
-            ((S_8008896C_0 *)line)->unk_04 = 0x808080;
-            func_80066758(line);
-            func_80066668(line, 1);
-            ((S_8008896C_0 *)line)->unk_08 = inner << 8;
-            ((S_8008896C_0 *)line)->unk_0A = base_y - ((S_8008896C_1 *)arg1)->unk_06;
-            ((S_8008896C_0 *)line)->unk_10 = 0x100;
-            ((S_8008896C_0 *)line)->unk_12 = 0x100;
-            ((S_8008896C_0 *)line)->unk_0C = 0;
-            ((S_8008896C_0 *)line)->unk_0E = func_8006649C(0, 0x1F0);
-            addPrim(&global->render_state->ordering_table, line);
+            column = 1;
+            base_y = row << 8;
+            texture_x = 0x280;
+            do {
+                sprite = main_state->render_state->next_prim;
+                main_state->render_state->next_prim = sprite + 0x14;
+                ((S_8008896C_0 *)sprite)->unk_04 = 0x808080;
+                func_80066758(sprite);
+                func_80066668(sprite, 1);
+                ((S_8008896C_0 *)sprite)->unk_08 = column << 8;
+                ((S_8008896C_0 *)sprite)->unk_0A = base_y - ((S_8008896C_1 *)scroll_data)->unk_06;
+                ((S_8008896C_0 *)sprite)->unk_10 = 0x100;
+                ((S_8008896C_0 *)sprite)->unk_12 = 0x100;
+                ((S_8008896C_0 *)sprite)->unk_0C = 0;
+                ((S_8008896C_0 *)sprite)->unk_0E = func_8006649C(0, 0x1F0);
+                addPrim(&main_state->render_state->ordering_table, sprite);
 
-            primitive = global->render_state->next_prim;
-            global->render_state->next_prim = primitive + 0xC;
-            vertical = func_80066460(1, 0, color, base_y);
-            func_80067F20(primitive, 0, 0, vertical & 0xFFFF, 0);
-            inner--;
-            addPrim(&global->render_state->ordering_table, primitive);
-            color -= 0x80;
-        } while (inner >= 0);
-        outer++;
-        } while (outer < 2);
+                draw_mode = main_state->render_state->next_prim;
+                main_state->render_state->next_prim = draw_mode + 0xC;
+                texture_page = func_80066460(1, 0, texture_x, base_y);
+                func_80067F20(draw_mode, 0, 0, texture_page & 0xFFFF, 0);
+                column--;
+                addPrim(&main_state->render_state->ordering_table, draw_mode);
+                texture_x -= 0x80;
+            } while (column >= 0);
+            row++;
+        } while (row < 2);
 
-        next = ((S_8008896C_2_pre *)arg0)[-1].unk_00;
-        if (next == 0) {
+        next_entry = ((S_8008896C_2_pre *)entry_data)[-1].unk_00;
+        if (next_entry == 0) {
             return 0;
         }
-        arg0 = next + 0x20;
-        arg1 = ((S_8008896C_3 *)next)->unk_08;
+        entry_data = next_entry + 0x20;
+        scroll_data = ((S_8008896C_3 *)next_entry)->unk_08;
     }
 }

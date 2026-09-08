@@ -25,46 +25,47 @@ extern void *D_800E3D7C[];
 
 
 
-s32 func_800BFC00(void *arg0, s32 arg1, s16 arg2)
+/* Handles an entity action, advancing capped counters and updating dungeon state. */
+s32 func_800BFC00(void *entity, s32 action_id, s16 action_param)
 {
-    u32 temp_v1_2;
-    u8 temp_a0;
-    u8 temp_v1;
+    u32 progress_value;
+    u8 progress;
+    u8 completion_count;
 
-    if (arg0 == D_800E3D7C[0]) {
-        ((Rec_D_800E3D7C *)arg0)->unk_110 = arg1;
-        func_8008D330(arg0, D_80083780, D_80082E80, arg0);
+    if (entity == D_800E3D7C[0]) {
+        ((Rec_D_800E3D7C *)entity)->unk_110 = action_id;
+        func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;
     }
 
-    if ((u32)arg0 <= 0x9FFFFFFF) {
-        func_800A63B8(arg0, arg1, arg2);
+    if ((u32)entity <= 0x9FFFFFFF) {
+        func_800A63B8(entity, action_id, action_param);
         if (func_800AD6FC(
-                arg0, (D_800DDE84[((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v] >> 6) & 3, 0) == 0) {
-            func_800A5F38(arg0, arg1);
+                entity, (D_800DDE84[((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v] >> 6) & 3, 0) == 0) {
+            func_800A5F38(entity, action_id);
             return 1;
         }
     }
 
-    if (((Rec_D_800E3D7C *)arg0)->unk_26 == ((Rec_D_800E3D7C *)arg0)->unk_68) {
-        temp_v1 = ((Rec_D_800E3D7C *)arg0)->unk_00.at00_u8.v;
-        if (temp_v1 < 0xFF) {
-            ((Rec_D_800E3D7C *)arg0)->unk_00.at00_u8.v = temp_v1 + 1;
-            func_80041E70(arg0);
+    if (((Rec_D_800E3D7C *)entity)->unk_26 == ((Rec_D_800E3D7C *)entity)->unk_68) {
+        completion_count = ((Rec_D_800E3D7C *)entity)->unk_00.at00_u8.v;
+        if (completion_count < 0xFF) {
+            ((Rec_D_800E3D7C *)entity)->unk_00.at00_u8.v = completion_count + 1;
+            func_80041E70(entity);
         }
     }
 
-    temp_a0 = ((Rec_D_800E3D7C *)arg0)->unk_26;
-    temp_v1_2 = temp_a0 & 0xFF;
-    if (temp_v1_2 < 0xFF && temp_v1_2 < ((Rec_D_800E3D7C *)arg0)->unk_68) {
-        ((Rec_D_800E3D7C *)arg0)->unk_26 = temp_a0 + 1;
+    progress = ((Rec_D_800E3D7C *)entity)->unk_26;
+    progress_value = progress & 0xFF;
+    if (progress_value < 0xFF && progress_value < ((Rec_D_800E3D7C *)entity)->unk_68) {
+        ((Rec_D_800E3D7C *)entity)->unk_26 = progress + 1;
     }
 
-    if (((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) {
-        func_80099844(arg0, D_800E1350);
+    if (((Rec_D_800E3D7C *)entity)->unk_14.as_s32 & 0x4000) {
+        func_80099844(entity, D_800E1350);
     }
-    func_800D4FC8((u8 *)arg0 - 0x20, 0x2020F0, 0x616);
-    func_80098B38(arg1);
+    func_800D4FC8((u8 *)entity - 0x20, 0x2020F0, 0x616);
+    func_80098B38(action_id);
     D_80083460.counter--;
     return 1;
 }

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_800AD058_arg0.h"
 
 typedef s32 M2C_UNK;
 
@@ -23,12 +24,6 @@ s32 func_800AD4AC();
 M2C_UNK func_800B8228();
 
 
-typedef struct S_800AD058_0 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_800AD058_0;   /* arg0 in func_800AD058 */
 
 typedef struct S_800AD058_1 {
     u8 pad_00[0xC];
@@ -96,7 +91,7 @@ s32 func_800AD058(u8 *arg0, s32 *arg1, u8 *arg2, u8 *arg3) {
     u8 temp_v1_7;
     void *arg3_local = arg3;
 
-    temp_v1 = ((S_800AD058_0 *)arg0)->unk_9B;
+    temp_v1 = ((Rec_func_800AD058_arg0 *)arg0)->unk_9B;
     if (temp_v1 == 1) {
         goto block_11;
     }
@@ -122,7 +117,7 @@ phase_0:
     if (*D_8008346A != 0) {
         return 0;
     }
-    ((S_800AD058_0 *)arg0)->unk_9B = 1U;
+    ((Rec_func_800AD058_arg0 *)arg0)->unk_9B = 1U;
 block_11:
     ((S_800AD058_1 *)arg2)->unk_10 = 0x20;
     ((S_800AD058_1 *)arg2)->unk_12 = (u16) (((S_800AD058_1 *)arg2)->unk_12 - 0x80);
@@ -134,17 +129,17 @@ block_11:
     }
     func_800A56E0(var_a0);
     ((S_800AD058_1 *)arg2)->unk_0C.at00.v = 0x808080;
-    ((S_800AD058_0 *)arg0)->unk_96 = 0x10;
-    ((S_800AD058_0 *)arg0)->unk_9B = (u8) (((S_800AD058_0 *)arg0)->unk_9B + 1);
+    ((Rec_func_800AD058_arg0 *)arg0)->unk_96 = 0x10;
+    ((Rec_func_800AD058_arg0 *)arg0)->unk_9B = (u8) (((Rec_func_800AD058_arg0 *)arg0)->unk_9B + 1);
 block_15:
     temp_v1_6 = (u8) ((S_800AD058_1 *)arg2)->unk_0C.at00.v;
-    ((S_800AD058_1 *)arg2)->unk_0C.at00u.v = (s8) (temp_v1_6 + ((s32) (0x20 - temp_v1_6) / (s16) ((S_800AD058_0 *)arg0)->unk_96));
+    ((S_800AD058_1 *)arg2)->unk_0C.at00u.v = (s8) (temp_v1_6 + ((s32) (0x20 - temp_v1_6) / (s16) ((Rec_func_800AD058_arg0 *)arg0)->unk_96));
     temp_v1_7 = ((S_800AD058_1 *)arg2)->unk_0C.at01.v;
     temp_v0_2 = ((S_800AD058_1 *)arg2)->unk_0C.at02.v;
-    ((S_800AD058_1 *)arg2)->unk_0C.at01.v = (u8) (temp_v1_7 + ((s32) (0x20 - temp_v1_7) / (s16) ((S_800AD058_0 *)arg0)->unk_96));
-    ((S_800AD058_1 *)arg2)->unk_0C.at02.v = (u8) (temp_v0_2 + ((s32) (0x20 - temp_v0_2) / (s16) ((S_800AD058_0 *)arg0)->unk_96));
-    temp_v0_3 = (u16) ((S_800AD058_0 *)arg0)->unk_96 - 1;
-    ((S_800AD058_0 *)arg0)->unk_96 = temp_v0_3;
+    ((S_800AD058_1 *)arg2)->unk_0C.at01.v = (u8) (temp_v1_7 + ((s32) (0x20 - temp_v1_7) / (s16) ((Rec_func_800AD058_arg0 *)arg0)->unk_96));
+    ((S_800AD058_1 *)arg2)->unk_0C.at02.v = (u8) (temp_v0_2 + ((s32) (0x20 - temp_v0_2) / (s16) ((Rec_func_800AD058_arg0 *)arg0)->unk_96));
+    temp_v0_3 = (u16) ((Rec_func_800AD058_arg0 *)arg0)->unk_96 - 1;
+    ((Rec_func_800AD058_arg0 *)arg0)->unk_96 = temp_v0_3;
     if (((temp_v0_3 << 0x10) <= 0) || (var_v0 = 0, ((((S_800AD058_1 *)arg2)->unk_14 & 0x8000) != 0))) {
         if (!(((S_800AD058_2 *)arg3_local)->unk_14 & 0x20000000)) {
             s32 *base = D_80083460;
@@ -200,24 +195,24 @@ block_15:
 
 phase_3:
     ASM_KEEP(dispatch_zero);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    temp_value = (((S_800AD058_0 *)arg0)->unk_96 * func_80064584(((S_800AD058_1 *)arg2)->unk_27 << 7)) << 5;
+    temp_value = (((Rec_func_800AD058_arg0 *)arg0)->unk_96 * func_80064584(((S_800AD058_1 *)arg2)->unk_27 << 7)) << 5;
     ((S_800AD058_3 *)arg1)->unk_00.at00.v += (s32) ((((Rec_D_800E3D7C *)D_80083780)->unk_00.at00_s32.v + temp_value - ((S_800AD058_3 *)arg1)->unk_00.at00.v) >> 2);
-    temp_value = (((S_800AD058_0 *)arg0)->unk_96 * func_800644B8(((S_800AD058_1 *)arg2)->unk_27 << 7)) << 5;
+    temp_value = (((Rec_func_800AD058_arg0 *)arg0)->unk_96 * func_800644B8(((S_800AD058_1 *)arg2)->unk_27 << 7)) << 5;
     ((S_800AD058_3 *)arg1)->unk_04.at00.v += (s32) ((((Rec_D_800E3D7C *)D_80083780)->unk_04.at00_s32.v + temp_value - ((S_800AD058_3 *)arg1)->unk_04.at00.v) >> 2);
     {
         s32 vertical_step;
 
-        vertical_step = func_800644B8(((S_800AD058_0 *)arg0)->unk_96 * 8) >> 6;
+        vertical_step = func_800644B8(((Rec_func_800AD058_arg0 *)arg0)->unk_96 * 8) >> 6;
         ((S_800AD058_2 *)arg3_local)->unk_88 = (s16) ((u16) ((S_800AD058_2 *)arg3_local)->unk_88 +
             ((((Rec_D_800E3D7C *)D_80083780)->unk_08.at02_s16.v - vertical_step - ((S_800AD058_2 *)arg3_local)->unk_88) >> 4));
     }
     temp_v1_4 = ((S_800AD058_1 *)arg2)->unk_1C;
     temp_a0 = ((S_800AD058_1 *)arg2)->unk_1E;
-    ((S_800AD058_1 *)arg2)->unk_1C = (u16) (temp_v1_4 - ((s32) temp_v1_4 / (s16) ((S_800AD058_0 *)arg0)->unk_96));
-    ((S_800AD058_1 *)arg2)->unk_1E = (u16) (temp_a0 - ((s32) temp_a0 / (s16) ((S_800AD058_0 *)arg0)->unk_96));
+    ((S_800AD058_1 *)arg2)->unk_1C = (u16) (temp_v1_4 - ((s32) temp_v1_4 / (s16) ((Rec_func_800AD058_arg0 *)arg0)->unk_96));
+    ((S_800AD058_1 *)arg2)->unk_1E = (u16) (temp_a0 - ((s32) temp_a0 / (s16) ((Rec_func_800AD058_arg0 *)arg0)->unk_96));
     ((S_800AD058_1 *)arg2)->unk_27 = (u8) (((S_800AD058_1 *)arg2)->unk_27 + 1);
-    temp_v0 = (u16) ((S_800AD058_0 *)arg0)->unk_96 - 1;
-    ((S_800AD058_0 *)arg0)->unk_96 = temp_v0;
+    temp_v0 = (u16) ((Rec_func_800AD058_arg0 *)arg0)->unk_96 - 1;
+    ((Rec_func_800AD058_arg0 *)arg0)->unk_96 = temp_v0;
     var_v0 = 0;
     if ((temp_v0 << 0x10) <= 0) {
         register s32 *base ASM_REG("$2") = D_80083460;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

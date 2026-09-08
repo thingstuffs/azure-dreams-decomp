@@ -27,11 +27,14 @@ extern SystemData *D_80016000;
 extern Message *func_80019AFC(s32, u8);
 extern void func_8001E578(s32);
 
+/* Dispatch the enabled town message coordinates and advance the town state. */
 s32 func_8001BED0(void) {
     Message *message;
 
     if (D_8001E950->enabled == 1) {
-        do { message = func_80019AFC(0, D_8001E950->messageId); } while (0);
+        do {
+            message = func_80019AFC(0, D_8001E950->messageId);
+        } while (0);
         D_80016000->callbacks->callback(message->x, message->y);
         D_8001E950->enabled++;
         func_8001E578(0x408);

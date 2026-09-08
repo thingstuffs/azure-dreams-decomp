@@ -8,7 +8,7 @@ extern M2C_UNK func_80033CD8();
 extern M2C_UNK func_80033D08();
 extern M2C_UNK func_800478B8();
 extern s32 func_800644B8();
-extern s32 func_8009D20C();
+extern s32 func_8009D20C(void *, M2C_UNK);
 extern M2C_UNK D_80045340;
 extern s32 D_800814A0[3];
 
@@ -19,7 +19,7 @@ void func_8009E714(void *arg0, M2C_UNK arg1, void *arg2) {
     s32 row;
     s32 value;
 
-    state = func_8009D20C() == 1;
+    state = func_8009D20C(arg0, arg1) == 1;
     if (func_8009D20C(arg0, arg1) == 1) {
         s8 *p = FIELD(arg0, s8 **, 0x98);
         if (p != 0) {

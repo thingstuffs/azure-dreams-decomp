@@ -56,6 +56,7 @@ extern void func_8003DB94(Func8003C160Dst *, Func8003C160Elem *, s16);
 extern void func_8003C0A4(Func8003C160Context *, Func8003C160Dst *);
 extern void func_8003C450(void);
 
+/* Initialize the destination and vector for the current source and set the next callback. */
 void func_8003C160(void) {
     Func8003C160Context *context = &D_80082D58;
     Func8003C160Root *root = (Func8003C160Root *)((u8 *)context - 0x20);

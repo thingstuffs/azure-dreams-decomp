@@ -36,17 +36,18 @@ extern u8 D_80083160[];
 extern u8 D_801269F8[];
 extern ImageList D_801278B0[];
 
+/* Handles selection navigation, scrolling, transitions, and the idle toggle timer. */
 void func_80124F98(TownState *state)
 {
     u8 *input;
     u32 buttons;
-    s32 limit;
-    s32 step;
-    u8 current;
-    u8 previous;
-    u8 value;
-    u8 choice;
-    u16 timer;
+    s32 index_count;
+    s32 max_scroll;
+    u8 current_index;
+    u8 previous_index;
+    u8 next_index;
+    u8 side_choice;
+    u16 toggle_timer;
 
     input = D_80083160;
     if (*(u32 *)(input + 0x10) & 0x20) {
@@ -76,23 +77,23 @@ redraw_transition:
     if (buttons & 0x4000) {
         u8 *selection;
 
-        step = (D_801278B0[state->index].count - 3) << 4;
+        max_scroll = (D_801278B0[state->index].count - 3) << 4;
         selection = D_801269F8;
-        if (((step & 0xF0) - 4) >= selection[9]) {
+        if (((max_scroll & 0xF0) - 4) >= selection[9]) {
             state->state = 0xE;
             selection[9] += 4;
         } else {
-            selection[9] = step;
+            selection[9] = max_scroll;
         }
         goto redraw_transition;
     }
 
     if (buttons & 0x8000) {
-        limit = 0x32;
+        index_count = 0x32;
         state->old_index = state->index;
 decrement_loop:
         if (state->index == 0) {
-            state->index = limit;
+            state->index = index_count;
         }
         state->index--;
         if (!(func_80123200(state->index) & 0xFF) &&
@@ -105,26 +106,26 @@ decrement_loop:
             state->digit2 = 0;
             state->digit0 = state->index >> 4;
         } else {
-            u32 decode;
-            u32 decode_copy;
+            u32 packed_index;
+            u32 index_bits;
 
-            decode = state->index;
-            decode_copy = decode;
-            ASM_KEEP(decode_copy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            state->digit0 = decode >> 4;
-            state->digit1 = (decode_copy >> 3) & 1;
+            packed_index = state->index;
+            index_bits = packed_index;
+            ASM_KEEP(index_bits);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            state->digit0 = packed_index >> 4;
+            state->digit1 = (index_bits >> 3) & 1;
             state->digit2 = state->index & 7;
         }
 
-        current = state->index;
-        previous = state->old_index;
-        if (current < previous) {
+        current_index = state->index;
+        previous_index = state->old_index;
+        if (current_index < previous_index) {
             func_80053DA8(0x702);
             func_801248C0(state);
             state->side ^= 1;
             func_801237A4(state);
-            choice = state->choices[state->side];
-            if (choice != state->index) {
+            side_choice = state->choices[state->side];
+            if (side_choice != state->index) {
                 state->state = 0xC;
                 goto done;
             }
@@ -133,7 +134,7 @@ decrement_loop:
             state->field6 = 0x19;
             goto done;
         }
-        if (previous < current) {
+        if (previous_index < current_index) {
             func_80053DA8(0x702);
             func_801248C0(state);
             state->side ^= 1;
@@ -151,12 +152,12 @@ decrement_loop:
 
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     if (buttons & 0x2000) {
-        limit = 0x32;
+        index_count = 0x32;
         state->old_index = state->index;
 increment_loop:
-        value = state->index + 1;
-        state->index = value;
-        if ((value & 0xFF) == limit) {
+        next_index = state->index + 1;
+        state->index = next_index;
+        if ((next_index & 0xFF) == index_count) {
             state->index = 0;
         }
         if (!(func_80123200(state->index) & 0xFF) &&
@@ -169,20 +170,20 @@ increment_loop:
             state->digit2 = 0;
             state->digit0 = state->index >> 4;
         } else {
-            u32 decode;
-            u32 decode_copy;
+            u32 packed_index;
+            u32 index_bits;
 
-            decode = state->index;
-            decode_copy = decode;
-            ASM_KEEP(decode_copy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            state->digit0 = decode >> 4;
-            state->digit1 = (decode_copy >> 3) & 1;
+            packed_index = state->index;
+            index_bits = packed_index;
+            ASM_KEEP(index_bits);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            state->digit0 = packed_index >> 4;
+            state->digit1 = (index_bits >> 3) & 1;
             state->digit2 = state->index & 7;
         }
 
-        current = state->index;
-        previous = state->old_index;
-        if (current < previous) {
+        current_index = state->index;
+        previous_index = state->old_index;
+        if (current_index < previous_index) {
             func_80053DA8(0x702);
             func_801248C0(state);
             state->side ^= 1;
@@ -196,7 +197,7 @@ increment_loop:
             state->field6 = 0x19;
             goto done;
         }
-        if (previous < current) {
+        if (previous_index < current_index) {
             func_80053DA8(0x702);
             func_801248C0(state);
             state->side ^= 1;
@@ -212,9 +213,9 @@ increment_loop:
         goto done;
     }
 
-    timer = state->field8 + 1;
-    state->field8 = timer;
-    if ((s16)timer >= 8) {
+    toggle_timer = state->field8 + 1;
+    state->field8 = toggle_timer;
+    if ((s16)toggle_timer >= 8) {
         state->field8 = 0;
         state->toggleC ^= 1;
     }

@@ -65,53 +65,54 @@ extern u8 D_800DECF8[];
 extern s32 D_80174300;
 extern Pair16 D_8017610C[];
 
-void func_801746EC(Rec_func_801744DC_arg0 *arg0, Rec_func_801744DC_arg1 *arg1)
+/* Spawn an effect with randomized position and velocity based on the source direction. */
+void func_801746EC(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin)
 {
-    void *node;
-    S_801746EC_0 *work;
-    S_801746EC_2 *part;
-    S_801746EC_3 *coords;
-    s32 bias;
+    void *effect;
+    S_801746EC_0 *motion;
+    S_801746EC_2 *sprite;
+    S_801746EC_3 *position;
+    s32 velocity_bias;
 
-    node = func_8003FC64(0x212);
-    if (node != 0) {
-        work = (u8 *)node + 0x20;
-        work->unk_1E = 0x4;
-        ((S_801746EC_1 *)node)->unk_10 = &D_80174300;
-        func_8004491C(node, &D_80045340);
+    effect = func_8003FC64(0x212);
+    if (effect != 0) {
+        motion = (u8 *)effect + 0x20;
+        motion->unk_1E = 0x4;
+        ((S_801746EC_1 *)effect)->unk_10 = &D_80174300;
+        func_8004491C(effect, &D_80045340);
 
-        part = ((S_801746EC_1 *)node)->unk_0C;
-        part->unk_10 = 0x20;
-        part->unk_14 |= 0xC;
-        part->unk_1A = (rand() & 7) << 9;
-        part->unk_06 = 0;
+        sprite = ((S_801746EC_1 *)effect)->unk_0C;
+        sprite->unk_10 = 0x20;
+        sprite->unk_14 |= 0xC;
+        sprite->unk_1A = (rand() & 7) << 9;
+        sprite->unk_06 = 0;
 
-        coords = ((S_801746EC_1 *)node)->unk_08;
-        coords->unk_02 = arg1->unk_02;
-        coords->unk_06 = arg1->unk_06;
-        coords->unk_0A = arg1->unk_0A;
-        coords->unk_02 = ({ coords->unk_02 - 0x20; }) + (rand() & 0x3F);
-        coords->unk_06 = ({ coords->unk_06 - 0x20; }) + (rand() & 0x3F);
-        coords->unk_0A = ({ coords->unk_0A - 0x40; }) + (rand() & 0x3F);
+        position = ((S_801746EC_1 *)effect)->unk_08;
+        position->unk_02 = origin->unk_02;
+        position->unk_06 = origin->unk_06;
+        position->unk_0A = origin->unk_0A;
+        position->unk_02 = ({ position->unk_02 - 0x20; }) + (rand() & 0x3F);
+        position->unk_06 = ({ position->unk_06 - 0x20; }) + (rand() & 0x3F);
+        position->unk_0A = ({ position->unk_0A - 0x40; }) + (rand() & 0x3F);
 
-        work->unk_58 = 0xFFFA0000;
-        work->unk_64 = 0x20000;
-        work->unk_50 = D_8017610C[arg0->unk_1C].x << 18;
-        work->unk_54 = D_8017610C[arg0->unk_1C].y << 18;
+        motion->unk_58 = 0xFFFA0000;
+        motion->unk_64 = 0x20000;
+        motion->unk_50 = D_8017610C[source->unk_1C].x << 18;
+        motion->unk_54 = D_8017610C[source->unk_1C].y << 18;
 
-        bias = 0xFFF80000;
-        work->unk_50 = (work->unk_50 + bias) + ((rand() & 0x3FFF) << 6);
-        work->unk_54 = (work->unk_54 + bias) + ((rand() & 0x3FFF) << 6);
-        work->unk_58 = (work->unk_58 + bias) + ((rand() & 0x3FFF) << 6);
+        velocity_bias = 0xFFF80000;
+        motion->unk_50 = (motion->unk_50 + velocity_bias) + ((rand() & 0x3FFF) << 6);
+        motion->unk_54 = (motion->unk_54 + velocity_bias) + ((rand() & 0x3FFF) << 6);
+        motion->unk_58 = (motion->unk_58 + velocity_bias) + ((rand() & 0x3FFF) << 6);
 
-        part = ((S_801746EC_1 *)node)->unk_0C;
-        part->unk_1E = 0x1000;
-        part->unk_1C = 0x1000;
-        part->unk_0E = 0x80;
-        part->unk_0D = 0x80;
-        part->unk_0C = 0x80;
-        part->unk_14 |= 0x100;
-        part->unk_12 = 0x7DCE;
-        func_8003DB94(part, D_800DECF8, 0);
+        sprite = ((S_801746EC_1 *)effect)->unk_0C;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
+        sprite->unk_14 |= 0x100;
+        sprite->unk_12 = 0x7DCE;
+        func_8003DB94(sprite, D_800DECF8, 0);
     }
 }

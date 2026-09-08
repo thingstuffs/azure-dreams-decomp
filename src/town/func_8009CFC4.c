@@ -30,19 +30,20 @@ typedef struct S_8009A724_1 {
     s16 unk_06;
 } S_8009A724_1;   /* arg1 in func_8009A724 */
 
-void func_8009A724(S_8009A724_0 *arg0, S_8009A724_1 *arg1) {
-    s16 temp_s0;
-    s16 temp_s0_2;
-    s16 temp_v1;
+/* Move toward an angle-offset target and advance state when the timer expires. */
+void func_8009A724(S_8009A724_0 *state, S_8009A724_1 *position) {
+    s16 target_x;
+    s16 target_z;
+    s16 frames_left;
 
-    temp_s0 = arg0->unk_36 - (func_800644B8(arg0->unk_10 - 0x80) / 48);
-    temp_s0_2 = arg0->unk_38 - (func_80064584(arg0->unk_10 - 0x80) / 48);
-    temp_v1 = arg0->unk_0A - 1;
-    arg0->unk_0A = (u16) temp_v1;
-    arg1->unk_02 = func_8009A8B0(temp_v1, arg1->unk_02, temp_s0);
-    arg1->unk_06 = func_8009A8B0((s16) arg0->unk_0A, arg1->unk_06, temp_s0_2);
-    if ((s16) arg0->unk_0A <= 0) {
-        arg0->unk_0A = 0x10U;
-        arg0->unk_04 = &D_8009A81C;
+    target_x = state->unk_36 - (func_800644B8(state->unk_10 - 0x80) / 48);
+    target_z = state->unk_38 - (func_80064584(state->unk_10 - 0x80) / 48);
+    frames_left = state->unk_0A - 1;
+    state->unk_0A = (u16) frames_left;
+    position->unk_02 = func_8009A8B0(frames_left, position->unk_02, target_x);
+    position->unk_06 = func_8009A8B0((s16) state->unk_0A, position->unk_06, target_z);
+    if ((s16) state->unk_0A <= 0) {
+        state->unk_0A = 0x10U;
+        state->unk_04 = &D_8009A81C;
     }
 }

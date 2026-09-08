@@ -40,30 +40,31 @@ typedef struct {
     Record1 *unk8;
 } Header;
 
-void func_8012656C(Header *arg0, Template0 *arg1, Record1 *arg2) {
-    Template0 *src0 = &D_8002E5D8;
-    Template1 *src1 = &D_8002E5E8;
-    s32 *tmp;
+/* Initialize the header and its two records from default templates. */
+void func_8012656C(Header *header, Template0 *primary_record, Record1 *secondary_record) {
+    Template0 *primary_defaults = &D_8002E5D8;
+    Template1 *secondary_defaults = &D_8002E5E8;
+    s32 *default_word;
 
-    arg1->unk0 = src0->unk0;
-    tmp = &src1->unk0;
-    arg1->unk4 = src0->unk4;
-    arg1->unk8 = src0->unk8;
-    arg1->unkC = src0->unkC;
+    primary_record->unk0 = primary_defaults->unk0;
+    default_word = &secondary_defaults->unk0;
+    primary_record->unk4 = primary_defaults->unk4;
+    primary_record->unk8 = primary_defaults->unk8;
+    primary_record->unkC = primary_defaults->unkC;
 
-    ((Template1 *)arg2)->unk0 = *tmp;
-    ((Template1 *)arg2)->unk4 = src1->unk4;
-    ((Template1 *)arg2)->unk8 = src1->unk8;
+    ((Template1 *)secondary_record)->unk0 = *default_word;
+    ((Template1 *)secondary_record)->unk4 = secondary_defaults->unk4;
+    ((Template1 *)secondary_record)->unk8 = secondary_defaults->unk8;
 
-    arg0->unk4 = (Record0 *)arg1;
-    arg0->unk8 = arg2;
-    arg0->unk0 = 0;
+    header->unk4 = (Record0 *)primary_record;
+    header->unk8 = secondary_record;
+    header->unk0 = 0;
 
-    arg0->unk4->unk8 = -0xA0;
-    arg0->unk4->unkA = -0x78;
-    arg0->unk4->unkC = 0x200;
-    arg0->unk4->unkF = 8;
-    arg0->unk8->unk0 = 0;
-    arg0->unk8->unk2 = 0;
-    arg0->unk8->unk4 = 0;
+    header->unk4->unk8 = -0xA0;
+    header->unk4->unkA = -0x78;
+    header->unk4->unkC = 0x200;
+    header->unk4->unkF = 8;
+    header->unk8->unk0 = 0;
+    header->unk8->unk2 = 0;
+    header->unk8->unk4 = 0;
 }

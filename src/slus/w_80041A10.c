@@ -36,22 +36,23 @@ extern void func_8003F7E4(void);
 extern void func_80040A88(s32);
 extern void func_80041AB0(void);
 
+/* Initializes frame data and ordering tables, then enables display output. */
 void func_80041A10(void)
 {
-    s32 value;
+    s32 saved_state;
 
     D_80082E60.field0 |= 1;
-    value = D_8008148C.field0;
-    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    D_80081480.field0 = value;
-    func_8003FAD4(value);
+    saved_state = D_8008148C.field0;
+    ASM_KEEP(saved_state);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    D_80081480.field0 = saved_state;
+    func_8003FAD4(saved_state);
     func_800410FC();
     D_80083160.field0 = (s32)&D_801C9E40;
     ClearOTagR((OT_TYPE *)(D_801C9E40.raw + 0x70), 0x218);
     ClearOTagR(D_801DA784.ot, 0x218);
     {
-        u8 *p = (u8 *)D_80083160.field0;
-        *(void **)(p + 0x8D0) = p + 0x8D4;
+        u8 *frame_data = (u8 *)D_80083160.field0;
+        *(void **)(frame_data + 0x8D0) = frame_data + 0x8D4;
     }
     SetDispMask(1);
     func_8003F7E4();

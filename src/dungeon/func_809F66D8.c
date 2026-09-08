@@ -50,136 +50,137 @@ typedef struct S_80173ED8_5 {
     void * unk_58;
 } S_80173ED8_5;   /* owner in func_80173ED8 */
 
-void func_80173ED8(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advances entity animation states and handles pending actions. */
+void func_80173ED8(void *action, void *context, void *sprite, void *entity)
 {
-    void *p0;
-    register void *p1 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *p2;
-    register void *global;
-    register void *p3 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *saved_action;
+    register void *saved_context ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *saved_sprite;
+    register void *dungeon_state;
+    register void *saved_entity ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 state;
-    register u8 *effect ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 index;
+    register u8 *direction_frames ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 direction;
 
-    p0 = arg0;
-    p1 = arg1;
-    p2 = arg2;
-#define arg0 p0
-#define arg1 p1
-#define arg2 p2
-    ASM_KEEP_NV(p0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(p1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(p2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    saved_action = action;
+    saved_context = context;
+    saved_sprite = sprite;
+#define action saved_action
+#define context saved_context
+#define sprite saved_sprite
+    ASM_KEEP_NV(saved_action);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(saved_context);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(saved_sprite);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    state = ((S_80173ED8_0 *)arg0)->unk_9B;
-    p3 = arg3;
-#define arg3 p3
+    state = ((S_80173ED8_0 *)action)->unk_9B;
+    saved_entity = entity;
+#define entity saved_entity
     switch (state) {
     case 0:
     {
-        u8 *counter;
+        u8 *counter_state;
 
-        if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) == 0) {
+        if ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
-        counter = (u8 *)&D_80083460;
+        counter_state = (u8 *)&D_80083460;
 #ifndef __mips__
 #endif
-        ((S_80173ED8_2 *)counter)->unk_0A--;
-        effect = D_80175188;
-        (*(void * *)((u8 *)arg2 + 0x2C)) = effect;
-        index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
-        func_80047784(arg2, effect[index & 7], 0);
+        ((S_80173ED8_2 *)counter_state)->unk_0A--;
+        direction_frames = D_80175188;
+        (*(void * *)((u8 *)sprite + 0x2C)) = direction_frames;
+        direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+        func_80047784(sprite, direction_frames[direction & 7], 0);
         goto increment_state;
     }
 
     case 1:
-        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v != 0) {
-            register u8 *counter;
+        if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v != 0) {
+            register u8 *counter_state;
 
-            effect = D_80175180;
-            (*(void * *)((u8 *)arg2 + 0x2C)) = effect;
-            index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
-            func_80047784(arg2, effect[index & 7], 0);
-            (*(u32 *)((u8 *)arg3 + 0x1C)) |= 0x40000;
-            counter = (u8 *)&D_80083460;
+            direction_frames = D_80175180;
+            (*(void * *)((u8 *)sprite + 0x2C)) = direction_frames;
+            direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+            func_80047784(sprite, direction_frames[direction & 7], 0);
+            (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
+            counter_state = (u8 *)&D_80083460;
 #ifndef __mips__
 #endif
-            ((S_80173ED8_2 *)counter)->unk_0A++;
+            ((S_80173ED8_2 *)counter_state)->unk_0A++;
             goto increment_state;
         }
 
-        global = &D_80083460;
-        if (((S_80173ED8_4 *)global)->unk_02 & 0x1000) {
+        dungeon_state = &D_80083460;
+        if (((S_80173ED8_4 *)dungeon_state)->unk_02 & 0x1000) {
             return;
         }
 
-        if ((((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) &&
-            func_800AA6B4(arg0, arg1, arg2, 0)) {
+        if ((((Rec_D_800E3D7C *)entity)->unk_64.as_s16 != 0) &&
+            func_800AA6B4(action, context, sprite, 0)) {
             return;
         }
 
-        if ((func_800A2C34(arg3) << 16) != 0) {
+        if ((func_800A2C34(entity) << 16) != 0) {
             return;
         }
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        if (((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 & 0x100) {
+            func_800AA258(action, context, sprite, entity);
             return;
         }
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x80000) {
-            func_800AA888(arg0, arg1, arg2, arg3);
-            ((S_80173ED8_0 *)arg0)->unk_A8 = 0;
-            func_80174218(arg0, arg1, arg2, arg3);
+        if (((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 & 0x80000) {
+            func_800AA888(action, context, sprite, entity);
+            ((S_80173ED8_0 *)action)->unk_A8 = 0;
+            func_80174218(action, context, sprite, entity);
             return;
         }
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
+        if (((Rec_D_800E3D7C *)entity)->unk_6D.as_s8 == 0) {
             return;
         }
 
-        if ((func_800A2C34(arg3) << 16) != 0) {
+        if ((func_800A2C34(entity) << 16) != 0) {
             void *owner = D_800814A8;
 
-            if ((func_8009A180(arg3,
+            if ((func_8009A180(entity,
                     (u8 *)((S_80173ED8_5 *)owner)->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
         }
 
-        func_800A9A0C(arg3);
-        func_800A9A04(arg3);
-        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
+        func_800A9A0C(entity);
+        func_800A9A04(entity);
+        if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v == 0) {
             return;
         }
 
-        effect = D_80175180;
-        (*(void * *)((u8 *)arg2 + 0x2C)) = effect;
-        index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
-        func_80047784(arg2, effect[index & 7], 0);
-        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x40000;
-        ((S_80173ED8_4 *)global)->unk_0A++;
+        direction_frames = D_80175180;
+        (*(void * *)((u8 *)sprite + 0x2C)) = direction_frames;
+        direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+        func_80047784(sprite, direction_frames[direction & 7], 0);
+        ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 |= 0x40000;
+        ((S_80173ED8_4 *)dungeon_state)->unk_0A++;
 
 increment_state:
-        ((S_80173ED8_0 *)arg0)->unk_9B++;
+        ((S_80173ED8_0 *)action)->unk_9B++;
         return;
 
     case 2:
     {
-        u8 *counter;
+        u8 *counter_state;
 
-        if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) == 0) {
+        if ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
-        counter = (u8 *)&D_80083460;
+        counter_state = (u8 *)&D_80083460;
 #ifndef __mips__
 #endif
-        ((S_80173ED8_2 *)counter)->unk_0A--;
-        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x208;
-        ((S_80173ED8_0 *)arg0)->unk_8C = D_80171400;
+        ((S_80173ED8_2 *)counter_state)->unk_0A--;
+        ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 &= ~0x208;
+        ((S_80173ED8_0 *)action)->unk_8C = D_80171400;
         return;
     }
 

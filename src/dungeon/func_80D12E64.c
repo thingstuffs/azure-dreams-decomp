@@ -22,6 +22,7 @@ extern s16 D_80083228[5];
 extern u8 D_80174EA0[9];
 extern void func_80047784(Context *, s16, s16);
 
+// Initializes the state and applies a table entry selected by the combined source and global index.
 void func_80172664(State *state, s32 unused, Context *context, IndexSource *source)
 {
     state->unk9A = 0x10;

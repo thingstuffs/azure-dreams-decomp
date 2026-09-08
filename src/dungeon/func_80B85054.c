@@ -56,8 +56,8 @@ extern M2C_UNK D_80158E5C;
 extern u8 D_8015BD0C[];
 extern u8 D_8015BD4C[];
 
-/* v1: transcribe the retail actor halfword store at offset 0xa4. */
-void *func_80B85054(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
+/* Allocates a dungeon object and initializes its flags, parts, and actor state. */
+void *func_80B85054(s16 spawn_flags, s8 part_byte_24, s8 part_byte_25, s16 part_value)
 {
     s32 kind;
     S_80B85054_1 *work = 0;
@@ -65,17 +65,17 @@ void *func_80B85054(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     S_80B85054_2 *part_a;
     S_80B85054_3 *part_b;
     S_80B85054_4 *actor;
-    s32 left;
-    s32 right;
-    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *call_a0;
-    void *call_a1;
+    s32 flags_or_roll;
+    s32 secondary_flags;
+    register s8 saved_byte_24 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_part_value;
+    register s8 saved_byte_25 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *object_arg;
+    void *part_arg;
 
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
+    saved_byte_24 = part_byte_24;
+    saved_part_value = part_value;
+    saved_byte_25 = part_byte_25;
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
@@ -84,40 +84,40 @@ void *func_80B85054(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
         func_8004491C(obj, &D_80045340);
 
         part_a = ((S_80B85054_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_arg3;
+        part_a->unk_0A = saved_part_value;
         part_b = ((S_80B85054_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
-        part_b->unk_25 = saved_arg2;
+        kind = spawn_flags & 3;
+        part_b->unk_25 = saved_byte_25;
         actor = work;
         part_b->unk_2C = D_8015BD0C;
-        part_b->unk_24 = saved_arg1;
+        part_b->unk_24 = saved_byte_24;
 
         if (kind == 1) {
-            left = work->unk_14 | 0x6000;
-            right = work->unk_1C | 0x6000;
+            flags_or_roll = work->unk_14 | 0x6000;
+            secondary_flags = work->unk_1C | 0x6000;
             goto write_kind;
         }
         if (kind < 2) {
             goto normal_kind;
         }
 
-        left = work->unk_14 | 0x2000;
-        right = work->unk_1C | 0x2000;
+        flags_or_roll = work->unk_14 | 0x2000;
+        secondary_flags = work->unk_1C | 0x2000;
 write_kind:
-        work->unk_14 = left;
-        work->unk_1C = right;
+        work->unk_14 = flags_or_roll;
+        work->unk_1C = secondary_flags;
         goto post_kind;
 
 normal_kind:
-        call_a0 = obj;
-        if (((arg0 & ~3) << 16) == 0) {
+        object_arg = obj;
+        if (((spawn_flags & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
-                call_a1 = part_a;
-                ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                left = func_800A6D30();
-                call_a0 = obj;
-                if (!(left & 1)) {
-                    goto call_a1_setup;
+                part_arg = part_a;
+                ASM_KEEP(object_arg);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                flags_or_roll = func_800A6D30();
+                object_arg = obj;
+                if (!(flags_or_roll & 1)) {
+                    goto init_actor;
                 }
                 work->unk_1C |= 0x200;
                 func_800A48F0(work, 1,
@@ -126,12 +126,12 @@ normal_kind:
                 goto post_kind;
             }
         }
-        goto call_a1_setup;
+        goto init_actor;
 
 post_kind:
-        call_a0 = obj;
-call_a1_setup:
-        func_800A9C18(call_a0, part_a, part_b, arg0);
+        object_arg = obj;
+init_actor:
+        func_800A9C18(object_arg, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_80158E5C;

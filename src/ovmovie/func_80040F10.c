@@ -29,49 +29,50 @@ typedef struct S_80040F10_5 {
     s32 unk_00;
 } S_80040F10_5;   /* var_a2_3 in func_80040F10 */
 
-s32 *func_80040F10(s8 *arg0) {
-    s8 *var_a1;
-    s8 *var_a1_2;
-    s8 *var_a1_3;
-    s8 *var_a2;
-    s8 *var_a2_2;
-    s8 *var_a2_3;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 var_v1;
-    s32 var_v1_2;
-    s32 var_v1_3;
+/* Copy three global data blocks into a contiguous 256-byte buffer. */
+s32 *func_80040F10(s8 *buffer) {
+    s8 *first_src;
+    s8 *second_src;
+    s8 *third_src;
+    s8 *first_dst;
+    s8 *second_dst;
+    s8 *third_dst;
+    s32 first_word;
+    s32 second_word;
+    s32 third_word;
+    s32 first_countdown;
+    s32 second_countdown;
+    s32 third_countdown;
 
-    var_a2 = arg0;
-    var_a1 = &D_80178240;
-    var_v1 = 0xF;
+    first_dst = buffer;
+    first_src = &D_80178240;
+    first_countdown = 0xF;
     do {
-        temp_v0 = ((S_80040F10_0 *)var_a1)->unk_00;
-        var_a1 += 4;
-        var_v1 -= 1;
-        ((S_80040F10_1 *)var_a2)->unk_00 = temp_v0;
-        var_a2 += 4;
-    } while (var_v1 != -1);
-    var_a2_2 = arg0 + 0x40;
-    var_a1_2 = &D_80178280;
-    var_v1_2 = 0xF;
+        first_word = ((S_80040F10_0 *)first_src)->unk_00;
+        first_src += 4;
+        first_countdown -= 1;
+        ((S_80040F10_1 *)first_dst)->unk_00 = first_word;
+        first_dst += 4;
+    } while (first_countdown != -1);
+    second_dst = buffer + 0x40;
+    second_src = &D_80178280;
+    second_countdown = 0xF;
     do {
-        temp_v0_2 = ((S_80040F10_2 *)var_a1_2)->unk_00;
-        var_a1_2 += 4;
-        var_v1_2 -= 1;
-        ((S_80040F10_3 *)var_a2_2)->unk_00 = temp_v0_2;
-        var_a2_2 += 4;
-    } while (var_v1_2 != -1);
-    var_a2_3 = arg0 + 0x80;
-    var_a1_3 = &D_801782C4;
-    var_v1_3 = 0x1F;
+        second_word = ((S_80040F10_2 *)second_src)->unk_00;
+        second_src += 4;
+        second_countdown -= 1;
+        ((S_80040F10_3 *)second_dst)->unk_00 = second_word;
+        second_dst += 4;
+    } while (second_countdown != -1);
+    third_dst = buffer + 0x80;
+    third_src = &D_801782C4;
+    third_countdown = 0x1F;
     do {
-        temp_v0_3 = ((S_80040F10_4 *)var_a1_3)->unk_00;
-        var_a1_3 += 4;
-        var_v1_3 -= 1;
-        ((S_80040F10_5 *)var_a2_3)->unk_00 = temp_v0_3;
-        var_a2_3 += 4;
-    } while (var_v1_3 != -1);
-    return arg0;
+        third_word = ((S_80040F10_4 *)third_src)->unk_00;
+        third_src += 4;
+        third_countdown -= 1;
+        ((S_80040F10_5 *)third_dst)->unk_00 = third_word;
+        third_dst += 4;
+    } while (third_countdown != -1);
+    return buffer;
 }

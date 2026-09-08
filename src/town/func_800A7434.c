@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern void func_800A4C10(void);
 
 typedef struct {
     s32 *unk00;
@@ -16,6 +15,8 @@ typedef struct {
     void (*unk28)(void);
 } UnkStruct_800A7434;
 
+
+extern void func_800A4C10(UnkStruct_800A7434 *);
 void func_800A4B94(UnkStruct_800A7434 *arg0) {
     s32 *v1;
     s32 *v1_2;
@@ -29,7 +30,7 @@ void func_800A4B94(UnkStruct_800A7434 *arg0) {
         arg0->unk18 = 0;
         arg0->unk1C = 0;
         arg0->unk04 = v1;
-        func_800A4C10();
+        func_800A4C10(arg0);
         return;
     }
     __asm__ __volatile__("" ::: "memory");

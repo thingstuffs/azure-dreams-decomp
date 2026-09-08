@@ -18,19 +18,17 @@ extern u8 D_800737D0[12];
  * else the difference of the first mismatching byte pair (or -1 if a2==0). */
 extern s32 func_80058800(u8 *a0, u8 *a1, s32 a2);
 
-/* Scans forward from a0 through D_80085FA4's buffer (bounded by D_800869B0), looking
- * for a 3-byte match against D_800737D0. Returns the index just past a found match
- * (index + 3), or -1 if no match is found within the bound. */
-s32 func_80058940(s32 a0)
+/* Scans the working buffer for a three-byte match, returning its end offset or -1. */
+s32 func_80058940(s32 offset)
 {
-    s32 v0;
+    s32 comparison;
 
     do {
-        v0 = func_80058800(D_800737D0, (u8 *)D_80085FA4[0] + a0, 3);
-        if (v0 == 0) {
-            return a0 + 3;
+        comparison = func_80058800(D_800737D0, (u8 *)D_80085FA4[0] + offset, 3);
+        if (comparison == 0) {
+            return offset + 3;
         }
-        a0++;
-    } while ((u32)a0 <= (u32)D_800869B0[0]);
+        offset++;
+    } while ((u32)offset <= (u32)D_800869B0[0]);
     return -1;
 }

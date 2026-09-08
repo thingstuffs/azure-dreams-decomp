@@ -19,16 +19,17 @@ extern u8 *D_A0700F40;
 extern CallbackOwner *D_A0700F58;
 extern OverlayWork D_000012F0;
 
+// Set the overlay work kind from the callback result using a copy of the stored word.
 void func_808B34B0(void)
 {
-    UnalignedWord local;
+    UnalignedWord callback_input;
     unsigned long work_offset;
-    u8 *base;
-    OverlayWork *work;
+    u8 *overlay_base;
+    OverlayWork *overlay_work;
 
-    local = D_A0700140;
+    callback_input = D_A0700140;
     work_offset = (unsigned long)&D_000012F0;
-    base = D_A0700F40;
-    work = (OverlayWork *)(base + work_offset);
-    work->kind = D_A0700F58->callback(&local);
+    overlay_base = D_A0700F40;
+    overlay_work = (OverlayWork *)(overlay_base + work_offset);
+    overlay_work->kind = D_A0700F58->callback(&callback_input);
 }

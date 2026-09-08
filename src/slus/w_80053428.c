@@ -47,57 +47,58 @@ extern void SetPolyF4(PolyF4 *p);
 extern void SetSemiTrans(void *p, s32 abe);
 extern void SetDrawMode(void *a0, s32 a1, s32 a2, s32 a3, s32 a4);
 
-s32 func_80053428(Param *a0)
+/* Draw a fading fullscreen overlay and advance its frame counter. */
+s32 func_80053428(Param *fade)
 {
-    D80083160_t *base;
+    D80083160_t *render_state;
     TPagePkt *tpage_pkt;
     PolyF4 *poly;
-    register u32 mask_lo ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    u32 mask_hi;
-    Ctx *ctx2;
+    register u32 addr_mask ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    u32 length_mask;
+    Ctx *draw_ctx;
     u32 poly_addr;
-    s32 abr;
-    u16 tp;
+    s32 blend_mode;
+    u16 tpage;
     s32 color;
 
-    base = &D_80083160;
-    if (a0->field_2 >= a0->field_4) {
+    render_state = &D_80083160;
+    if (fade->field_2 >= fade->field_4) {
         return 1;
     }
     tpage_pkt = (TPagePkt *)D_80083160.ctx->field_8D0;
     D_80083160.ctx->field_8D0 = (u8 *)tpage_pkt + 0xC;
     poly = (PolyF4 *)D_80083160.ctx->field_8D0;
     D_80083160.ctx->field_8D0 = (u8 *)poly + 0x18;
-    abr = (a0->field_6 == 0) ? 2 : 1;
-    tp = GetTPage(0, abr, 0, 0);
-    SetDrawMode(tpage_pkt, 0, 0, tp, 0);
-    if (a0->field_2 == 0) {
+    blend_mode = (fade->field_6 == 0) ? 2 : 1;
+    tpage = GetTPage(0, blend_mode, 0, 0);
+    SetDrawMode(tpage_pkt, 0, 0, tpage, 0);
+    if (fade->field_2 == 0) {
         color = 0xFFFFFF;
     } else {
-        color = 0x100 - ((a0->field_2 << 8) / a0->field_4);
+        color = 0x100 - ((fade->field_2 << 8) / fade->field_4);
         color = color + ((color << 8) + (color << 16));
     }
     poly->rgbc = color;
     SetPolyF4(poly);
     SetSemiTrans(poly, 1);
-    mask_lo = 0xFFFFFF;
+    addr_mask = 0xFFFFFF;
     poly->x3 = 0x140;
     poly->x2 = 0x140;
-    mask_hi = 0xFF000000;
+    length_mask = 0xFF000000;
     poly->x1 = 0;
     poly->x0 = 0;
     poly->y2 = 0;
     poly->y0 = 0;
     poly->y3 = 0xE0;
     poly->y1 = 0xE0;
-    poly->tag = (poly->tag & mask_hi) | (base->ctx->field_70 & mask_lo);
-    ctx2 = base->ctx;
-    poly_addr = (u32)poly & mask_lo;
-    ctx2->field_70 = (ctx2->field_70 & mask_hi) | poly_addr;
+    poly->tag = (poly->tag & length_mask) | (render_state->ctx->field_70 & addr_mask);
+    draw_ctx = render_state->ctx;
+    poly_addr = (u32)poly & addr_mask;
+    draw_ctx->field_70 = (draw_ctx->field_70 & length_mask) | poly_addr;
     tpage_pkt->tag =
-        (tpage_pkt->tag & mask_hi) | (base->ctx->field_70 & mask_lo);
-    base->ctx->field_70 =
-        (base->ctx->field_70 & mask_hi) | ((u32)tpage_pkt & mask_lo);
-    a0->field_2++;
+        (tpage_pkt->tag & length_mask) | (render_state->ctx->field_70 & addr_mask);
+    render_state->ctx->field_70 =
+        (render_state->ctx->field_70 & length_mask) | ((u32)tpage_pkt & addr_mask);
+    fade->field_2++;
     return 0;
 }

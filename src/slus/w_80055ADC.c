@@ -23,44 +23,44 @@ typedef struct S_80055ADC_arg0
   u8 records[1];
 } S_80055ADC_arg0;
 extern u32 D_80084878[];
-void func_80055ADC(S_80055ADC_arg0 *a0, u32 a1)
+// Fills a 16-entry table with record payload pointers, repeating the first pointer for unused slots.
+void func_80055ADC(S_80055ADC_arg0 *recordBlock, u32 tableIndex)
 {
-  int new_var;
-  register u32 idx ASM_REG("$5") = a1;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-  u8 *base;
-  u32 off = 0x14;
-  s32 count;
-  s32 i;
-  u32 *out;
-  u32 *first;
+  int recordHeaderSize;
+  register u32 tableByteOffset ASM_REG("$5") = tableIndex;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  u8 *tableBase;
+  u32 recordOffset = 0x14;
+  s32 recordCount;
+  s32 slotIndex;
+  u32 *outputSlot;
+  u32 *firstSlot;
 
-  LEGACY_ASM_KEEP(off);
-  count = a0->count;
+  LEGACY_ASM_KEEP(recordOffset);
+  recordCount = recordBlock->count;
   LEGACY_MEMORY_BARRIER();
-  i = 0;
-  LEGACY_ASM_KEEP(idx);
-  idx &= 0xFFFF;
-  LEGACY_ASM_KEEP(idx);
-  base = (u8 *)D_80084878;
-  LEGACY_ASM_KEEP(base);
-  idx <<= 6;
-  out = (u32 *)(base + idx);
-  first = out;
-  for (; i < 16; i++)
+  slotIndex = 0;
+  LEGACY_ASM_KEEP(tableByteOffset);
+  tableByteOffset &= 0xFFFF;
+  LEGACY_ASM_KEEP(tableByteOffset);
+  tableBase = (u8 *)D_80084878;
+  LEGACY_ASM_KEEP(tableBase);
+  tableByteOffset <<= 6;
+  outputSlot = (u32 *)(tableBase + tableByteOffset);
+  firstSlot = outputSlot;
+  for (; slotIndex < 16; slotIndex++)
   {
-    new_var = 0x10;
-    if (i >= count)
+    recordHeaderSize = 0x10;
+    if (slotIndex >= recordCount)
     {
- do { } while (0);
-      *out = *first;
+      do { } while (0);
+      *outputSlot = *firstSlot;
     }
     else
     {
-      S_80055ADC_hdr *rec = (S_80055ADC_hdr *) (((u8 *) a0) + off);
-      *out = (u32) (((u8 *) rec) + new_var);
-      off = (off + new_var) + rec->len;
+      S_80055ADC_hdr *recordHeader = (S_80055ADC_hdr *) (((u8 *) recordBlock) + recordOffset);
+      *outputSlot = (u32) (((u8 *) recordHeader) + recordHeaderSize);
+      recordOffset = (recordOffset + recordHeaderSize) + recordHeader->len;
     }
-    out++;
+    outputSlot++;
   }
-
 }

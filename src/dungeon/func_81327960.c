@@ -57,26 +57,27 @@ typedef struct S_8016F160_4 {
     s16 unk_B0;
 } S_8016F160_4;   /* tail_ptr in func_8016F160 */
 
-void *func_8016F160(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
+/* Allocate an actor, initialize its parts and mode flags, and return its work area. */
+void *func_8016F160(s16 mode, s8 config_24, s8 config_25, s16 config_0a)
 {
-    s32 kind;
+    s32 mode_kind;
     void *obj;
     S_8016F160_2 *part_a;
     S_8016F160_3 *part_b;
     void *work;
-    s16 mode_copy;
-    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 saved_mode;
+    register s8 saved_config_24 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_config_0a;
+    register s8 saved_config_25 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *actor;
-    void *tail_ptr;
+    void *actor_state;
 
     work = 0;
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
+    saved_config_24 = config_24;
+    saved_config_0a = config_0a;
+    saved_config_25 = config_25;
     obj = func_8003FD64(0x112, &D_80083498);
-    mode_copy = arg0;
+    saved_mode = mode;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         D_80174CD8 = obj;
@@ -85,32 +86,32 @@ void *func_8016F160(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
         func_8004491C(obj, &D_80045340);
 
         part_a = ((S_8016F160_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_arg3;
+        part_a->unk_0A = saved_config_0a;
         part_b = ((S_8016F160_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
-        part_b->unk_25 = saved_arg2;
+        mode_kind = mode & 3;
+        part_b->unk_25 = saved_config_25;
         actor = work;
         part_b->unk_2C = D_80174A2C;
-        part_b->unk_24 = saved_arg1;
+        part_b->unk_24 = saved_config_24;
 
-        if (kind == 1) {
+        if (mode_kind == 1) {
             ((S_8016F160_1 *)work)->unk_14 |= 0x6000;
             ((S_8016F160_1 *)work)->unk_1C |= 0x6000;
-        } else if (kind >= 2) {
+        } else if (mode_kind >= 2) {
             ((S_8016F160_1 *)work)->unk_14 |= 0x2000;
             ((S_8016F160_1 *)work)->unk_1C |= 0x2000;
         }
 
-        func_800A9C18(obj, part_a, part_b, mode_copy);
+        func_800A9C18(obj, part_a, part_b, saved_mode);
         ASM_USE_NV(actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        tail_ptr = actor;
-        ((S_8016F160_4 *)tail_ptr)->unk_9A = 0xFF;
-        ((S_8016F160_4 *)tail_ptr)->unk_9C = -1;
-        ((S_8016F160_4 *)tail_ptr)->unk_8C = &D_8016F78C;
-        ((S_8016F160_4 *)tail_ptr)->unk_9B = 0;
-        ((S_8016F160_4 *)tail_ptr)->unk_B0 = 0;
+        actor_state = actor;
+        ((S_8016F160_4 *)actor_state)->unk_9A = 0xFF;
+        ((S_8016F160_4 *)actor_state)->unk_9C = -1;
+        ((S_8016F160_4 *)actor_state)->unk_8C = &D_8016F78C;
+        ((S_8016F160_4 *)actor_state)->unk_9B = 0;
+        ((S_8016F160_4 *)actor_state)->unk_B0 = 0;
         part_b->unk_14 |= 0x80;
-        func_800AA36C(tail_ptr, part_a, part_b, work);
+        func_800AA36C(actor_state, part_a, part_b, work);
     }
     return work;
 }

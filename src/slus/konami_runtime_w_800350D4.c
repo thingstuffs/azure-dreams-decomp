@@ -19,20 +19,21 @@ M2C_UNK func_80044A50();                      /* extern */
 #define PVAL(p)     ((u32)(p))
 
 /* port body: port/hal/resident_gap2.c:353 */
-void func_800350D4(void *ctl)
+/* Removes every node from the controller's list and cleans up its owning object. */
+void func_800350D4(void *controller)
 {
-    u8 *head = (u8 *)ctl + 8;
-    u8 *node = (u8 *)PPTR(U32AT(head, 0x08));
+    u8 *list_head = (u8 *)controller + 8;
+    u8 *node = (u8 *)PPTR(U32AT(list_head, 0x08));
 
-    while (node != head) {
+    while (node != list_head) {
         u8 *owner = (u8 *)PPTR(U32AT(node, 0x00));
-        u8 *obj;
+        u8 *object;
 
         if (U32AT(owner, 0x00) != 0) func_80033C84(PPTR(U32AT(owner, 0x00)));
         func_80035090(node);
-        obj = owner - 32;
-        func_80044A50(obj);
-        func_8003FFF0(obj);
-        node = (u8 *)PPTR(U32AT(head, 0x08));
+        object = owner - 32;
+        func_80044A50(object);
+        func_8003FFF0(object);
+        node = (u8 *)PPTR(U32AT(list_head, 0x08));
     }
 }

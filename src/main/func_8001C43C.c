@@ -8,18 +8,19 @@ __asm__(".set D_8008DAB4, 0x8008DAB4");
 __asm__(".set D_8008DAB4_2, 0x8008DAB4");
 extern u8 D_80409508[];
 
-s32 func_8001C43C(s32 arg0) {
-    void *temp_v1;
-    u8 *sub = D_80409508 + 0x20;
+/* Processes the global state, optionally flags its linked object, and returns the state value. */
+s32 func_8001C43C(s32 flag_linked_object) {
+    void *linked_object;
+    u8 *state_data = D_80409508 + 0x20;
 
-    if (func_80047FD8(sub - 0x20) != 0) {
-        if (arg0 != 0) {
-            temp_v1 = *(void **)(sub + 0x14);
-            *(u16 *)((u8 *)temp_v1 + 0x1E) = (u16) (*(u16 *)((u8 *)temp_v1 + 0x1E) | 0x2000);
+    if (func_80047FD8(state_data - 0x20) != 0) {
+        if (flag_linked_object != 0) {
+            linked_object = *(void **)(state_data + 0x14);
+            *(u16 *)((u8 *)linked_object + 0x1E) = (u16) (*(u16 *)((u8 *)linked_object + 0x1E) | 0x2000);
         }
-        func_804033EC(sub);
-        *(u16 *)(sub - 2) = (u16) (*(u16 *)(sub - 2) | 0x8000);
+        func_804033EC(state_data);
+        *(u16 *)(state_data - 2) = (u16) (*(u16 *)(state_data - 2) | 0x8000);
         D_8008DAB4_2[0] = D_8008DAB4[0] | 0x8000;
     }
-    return *(s32 *)sub;
+    return *(s32 *)state_data;
 }

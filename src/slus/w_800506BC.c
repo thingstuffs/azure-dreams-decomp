@@ -40,18 +40,19 @@ typedef struct S_800506BC_Ctx {
     s32 val2C;
 } S_800506BC_Ctx;
 
+/* Initialize entry data, enable context flags, and set subobject offsets. */
 void func_800506BC(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx)
 {
-    s16 offB2;
-    s16 offA;
-    s16 offB;
-    register s32 k ASM_REG("$5");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s32 k2;
-    S_800506BC_Mid **cursor;
-    S_800506BC_Mid **cursor2;
-    S_800506BC_Mid *temp;
-    S_800506BC_Mid *slot18;
-    u8 *choice;
+    s16 fixed_offset;
+    s16 layout_offset;
+    s16 shared_offset;
+    register s32 shared_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 fixed_index;
+    S_800506BC_Mid **shared_entry;
+    S_800506BC_Mid **fixed_entry;
+    S_800506BC_Mid *entry;
+    S_800506BC_Mid *variant_entry;
+    u8 *variant_data;
 
     obj->slot0->val = func_80049E6C(6);
     obj->arr5[0]->val = (s32) D_80077E3C;
@@ -59,13 +60,13 @@ void func_800506BC(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx)
     obj->arr5[2]->val = (s32) D_80077E54;
     obj->arr5[3]->val = (s32) D_80077E60;
     obj->arr5[4]->val = (s32) D_80077E6C;
-    slot18 = obj->slot18;
+    variant_entry = obj->slot18;
     if (D_80081485[0] == 0) {
-        choice = D_80077F80;
+        variant_data = D_80077F80;
     } else {
-        choice = D_80077F8C;
+        variant_data = D_80077F8C;
     }
-    slot18->val = (s32) choice;
+    variant_entry->val = (s32) variant_data;
     obj->slot20->val = (s32) D_80077E78;
     obj->slot24->val = (s32) D_80077E84;
 
@@ -73,32 +74,32 @@ void func_800506BC(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx)
     ctx->flag14 = 1;
     func_8004FFF4(obj);
 
-    k = 0xA;
-    offB = 0;
-    cursor = obj->arr6;
-    offA = -0x28;
+    shared_index = 0xA;
+    shared_offset = 0;
+    shared_entry = obj->arr6;
+    layout_offset = -0x28;
     *(s16 *) ((u8 *) obj->slot0->subA + 0xA) = 0;
     do {
-        (*cursor)->val = ctx->val2C;
-        k++;
-        *(s16 *) ((u8 *) (*cursor)->subA + 0xA) = offA;
-        temp = *cursor;
-        cursor++;
-        offA += 0x10;
-        *(s16 *) ((u8 *) temp->subB + 0x2) = offB;
-        offB += 0xC4;
-    } while (k < 0x10);
+        (*shared_entry)->val = ctx->val2C;
+        shared_index++;
+        *(s16 *) ((u8 *) (*shared_entry)->subA + 0xA) = layout_offset;
+        entry = *shared_entry;
+        shared_entry++;
+        layout_offset += 0x10;
+        *(s16 *) ((u8 *) entry->subB + 0x2) = shared_offset;
+        shared_offset += 0xC4;
+    } while (shared_index < 0x10);
 
-    k2 = 1;
-    offB2 = 0;
-    cursor2 = obj->arr5;
+    fixed_index = 1;
+    fixed_offset = 0;
+    fixed_entry = obj->arr5;
     do {
-        temp = *cursor2;
-        cursor2++;
-        k2++;
-        *(s16 *) ((u8 *) temp->subB + 0x2) = offB2;
-        offB2 += 0xC4;
-    } while (k2 < 6);
+        entry = *fixed_entry;
+        fixed_entry++;
+        fixed_index++;
+        *(s16 *) ((u8 *) entry->subB + 0x2) = fixed_offset;
+        fixed_offset += 0xC4;
+    } while (fixed_index < 6);
 
     *(s16 *) ((u8 *) obj->slot20->subB + 0x6) = -4;
 }

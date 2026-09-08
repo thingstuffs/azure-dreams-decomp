@@ -37,119 +37,118 @@ extern void func_80047784(Obj2 *, u8, s32);
 extern s32 func_800AC82C(Obj0 *, void *, Obj2 *, Obj3 *);
 extern s32 func_800AD9B4(Obj2 *, Obj3 *);
 
-void func_8015D9A0(Obj0 *arg0, void *arg1, Obj2 *arg2, Obj3 *arg3)
+/* Updates the kind-specific display table and selects its direction entry. */
+void func_8015D9A0(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_arg)
 {
-    Obj2 *obj2 = arg2;
-    Obj3 *obj3 = arg3;
-    u32 table;
+    Obj2 *display = display_arg;
+    Obj3 *state = state_arg;
+    u32 selected_table;
     register u32 new_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u32 current;
+    u32 current_table;
     u8 kind;
-    s32 index;
+    s32 direction_index;
 
-
-    kind = obj3->kind48;
+    kind = state->kind48;
     switch (kind) {
     case 13:
-        if ((obj3->flags1c & 0x200) != 0) {
+        if ((state->flags1c & 0x200) != 0) {
             goto kind13_default;
         }
-        if (obj3->flag25 != 0) {
+        if (state->flag25 != 0) {
             goto kind13_alternate;
         }
 kind13_default:
-        current = (u32)obj2->table2c;
-        table = (u32)D_8015DE54;
-        goto first_join;
+        current_table = (u32)display->table2c;
+        selected_table = (u32)D_8015DE54;
+        goto apply_table;
 kind13_alternate:
-        current = (u32)obj2->table2c;
-        table = (u32)D_8015DE24;
-        goto first_join;
+        current_table = (u32)display->table2c;
+        selected_table = (u32)D_8015DE24;
+        goto apply_table;
 
     case 14:
-        if ((obj3->flags1c & 0x200) != 0) {
+        if ((state->flags1c & 0x200) != 0) {
             goto kind14_default;
         }
-        if (obj3->flag25 != 0) {
+        if (state->flag25 != 0) {
             goto kind14_alternate;
         }
 kind14_default:
-        current = (u32)obj2->table2c;
-        table = (u32)D_8015DE5C;
-        goto first_join;
+        current_table = (u32)display->table2c;
+        selected_table = (u32)D_8015DE5C;
+        goto apply_table;
 kind14_alternate:
-        current = (u32)obj2->table2c;
-        table = (u32)D_8015DE2C;
-        goto first_join;
+        current_table = (u32)display->table2c;
+        selected_table = (u32)D_8015DE2C;
+        goto apply_table;
 
     case 15:
-        if ((obj3->flags1c & 0x200) != 0) {
+        if ((state->flags1c & 0x200) != 0) {
             goto kind15_default;
         }
-        if (obj3->flag25 != 0) {
+        if (state->flag25 != 0) {
             goto kind15_alternate;
         }
 kind15_default:
-        current = (u32)obj2->table2c;
-        table = (u32)D_8015DE64;
-        goto first_join;
+        current_table = (u32)display->table2c;
+        selected_table = (u32)D_8015DE64;
+        goto apply_table;
 kind15_alternate:
-        current = (u32)obj2->table2c;
-        table = (u32)D_8015DE34;
-        goto first_join;
+        current_table = (u32)display->table2c;
+        selected_table = (u32)D_8015DE34;
+        goto apply_table;
 
     default:
-        goto after_first_update;
+        goto update_state;
     }
 
-first_join:
-    if (current != table) {
-        *(u32 * volatile)((u8 *)obj2 + 0x2c) = table;
-        index = (D_80083228 + obj3->value2a + 0x100) >> 9;
-        func_80047784(obj2, *(u8 *)((index & 7) + table), 0);
+apply_table:
+    if (current_table != selected_table) {
+        *(u32 * volatile)((u8 *)display + 0x2c) = selected_table;
+        direction_index = (D_80083228 + state->value2a + 0x100) >> 9;
+        func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
     }
 
-after_first_update:
-    if (func_800AC82C(arg0, arg1, obj2, obj3) != 0) {
-        if ((func_800AD9B4(obj2, obj3) << 16) > 0) {
-            arg0->field8c = D_8015A4BC;
+update_state:
+    if (func_800AC82C(owner, context, display, state) != 0) {
+        if ((func_800AD9B4(display, state) << 16) > 0) {
+            owner->field8c = D_8015A4BC;
         }
         return;
     }
 
-    switch (obj3->kind48) {
+    switch (state->kind48) {
     case 13:
-        if (obj2->table2c != D_8015DE54 ||
-            (obj3->flags1c & 0x208) != 0) {
+        if (display->table2c != D_8015DE54 ||
+            (state->flags1c & 0x208) != 0) {
             return;
         }
         new_table = (u32)&D_8015DDC4;
-        *(u32 * volatile)((u8 *)obj2 + 0x2c) = new_table;
-        index = (D_80083228 + obj3->value2a + 0x100) >> 9;
-        func_80047784(obj2, *(u8 *)((index & 7) + new_table), 0);
+        *(u32 * volatile)((u8 *)display + 0x2c) = new_table;
+        direction_index = (D_80083228 + state->value2a + 0x100) >> 9;
+        func_80047784(display, *(u8 *)((direction_index & 7) + new_table), 0);
         return;
     case 14:
-        if (obj2->table2c != D_8015DE5C ||
-            (obj3->flags1c & 0x208) != 0) {
+        if (display->table2c != D_8015DE5C ||
+            (state->flags1c & 0x208) != 0) {
             return;
         }
         new_table = (u32)&D_8015DDCC;
-        *(u32 * volatile)((u8 *)obj2 + 0x2c) = new_table;
-        index = (D_80083228 + obj3->value2a + 0x100) >> 9;
-        func_80047784(obj2, *(u8 *)((index & 7) + new_table), 0);
+        *(u32 * volatile)((u8 *)display + 0x2c) = new_table;
+        direction_index = (D_80083228 + state->value2a + 0x100) >> 9;
+        func_80047784(display, *(u8 *)((direction_index & 7) + new_table), 0);
         return;
     case 15:
-        if (obj2->table2c != D_8015DE64 ||
-            (obj3->flags1c & 0x208) != 0) {
+        if (display->table2c != D_8015DE64 ||
+            (state->flags1c & 0x208) != 0) {
             return;
         }
         new_table = (u32)&D_8015DDD4;
-        *(u32 * volatile)((u8 *)obj2 + 0x2c) = new_table;
-        index = (D_80083228 + obj3->value2a + 0x100) >> 9;
-        func_80047784(obj2, *(u8 *)((index & 7) + new_table), 0);
+        *(u32 * volatile)((u8 *)display + 0x2c) = new_table;
+        direction_index = (D_80083228 + state->value2a + 0x100) >> 9;
+        func_80047784(display, *(u8 *)((direction_index & 7) + new_table), 0);
         return;
     default:
         return;
     }
-
 }

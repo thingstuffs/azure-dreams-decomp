@@ -31,21 +31,22 @@ extern u8 D_80400620[];
 extern u8 D_8040861C[];
 extern u8 D_8040A0F0[];
 
-void func_80404364(s32 arg0, s32 arg1)
+/* Create or reset a slot record, initialize its body, and install its callback. */
+void func_80404364(s32 init_value, s32 slot_index)
 {
     u8 *record;
     u8 *body;
-    s32 offset;
+    s32 record_offset;
 
-    offset = arg1 * 0x360;
-    record = D_8040A0F0 + offset;
+    record_offset = slot_index * 0x360;
+    record = D_8040A0F0 + record_offset;
     body = record + 0x20;
 
-    if (arg1 >= 5) {
+    if (slot_index >= 5) {
         func_8007C040(D_804005F8, D_80400620, 0x12B);
         func_8007BEF0(1);
     }
-    if (arg1 < 0) {
+    if (slot_index < 0) {
         func_8007C040(D_804005F8, D_80400620, 0x12C);
         func_8007BEF0(1);
     }
@@ -68,25 +69,25 @@ initialize_body:
     func_80404254(body, 10);
     ((S_80404364_0 *)record)->unk_0C = body + 0x1C8;
     ((S_80404364_1 *)body)->unk_1D4 = func_8040422C(body + 0x1D8);
-    func_80404314(body, arg0, arg1);
+    func_80404314(body, init_value, slot_index);
     {
         typedef void (*Callback)(void);
-        u8 *owner;
+        u8 *callback_record;
         Callback callback;
-        Callback fallback;
+        Callback default_callback;
 
-        fallback = func_80404224;
+        default_callback = func_80404224;
 
-        if (arg0 != 0) {
-            owner = record + (arg0 - arg0);
+        if (init_value != 0) {
+            callback_record = record + (init_value - init_value);
         } else {
-            owner = record + arg0;
+            callback_record = record + init_value;
         }
-        if (arg0 != 0) {
+        if (init_value != 0) {
             callback = func_80404224;
         } else {
-            callback = fallback;
+            callback = default_callback;
         }
-        (*(Callback *)((u8 *)owner + 0x10)) = callback;
+        (*(Callback *)((u8 *)callback_record + 0x10)) = callback;
     }
 }

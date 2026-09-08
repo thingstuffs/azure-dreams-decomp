@@ -46,27 +46,28 @@ extern u8 D_80083780[];
 extern u8 D_800D2398[];
 extern u8 D_800D23A0[];
 
-void func_80023A00(void *arg0, void *arg1, void *arg2)
+/* Updates entity state and selects direction-dependent table entries. */
+void func_80023A00(void *object, void *output, void *entity_data)
 {
-    u8 *caller_obj = arg0;
-    u8 *dst = arg1;
-    register u8 *entity ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *caller_obj = object;
+    u8 *output_bytes = output;
+    register u8 *entity ASM_REG("$18") = entity_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *state_base = (u8 *)&D_800834B8;
     s32 state;
-    s32 case1_magnitude;
+    s32 initial_magnitude;
     s32 magnitude;
     register s32 limit ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 *table;
+    u8 *direction_table;
     static void *const switch_keep[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4
     };
 
     func_800478B8(entity);
-    *(Copy24 *)dst = *(Copy24 *)D_80083780;
-    ((S_80023A00_0 *)arg0)->unk_2A =
+    *(Copy24 *)output_bytes = *(Copy24 *)D_80083780;
+    ((S_80023A00_0 *)object)->unk_2A =
         (0x1400 - ((S_80023A00_1 *)state_base)->unk_10) & 0xFFF;
 
-    state = ((S_80023A00_0 *)arg0)->unk_18.s;
+    state = ((S_80023A00_0 *)object)->unk_18.s;
     if ((u32)state >= 5) {
         goto common;
     }
@@ -74,18 +75,18 @@ void func_80023A00(void *arg0, void *arg1, void *arg2)
     goto *D_800201A0[state];
 
 case_0:
-    ((S_80023A00_0 *)arg0)->unk_18.u++;
+    ((S_80023A00_0 *)object)->unk_18.u++;
     goto done;
 
 case_1:
-    case1_magnitude = D_80081458[0];
+    initial_magnitude = D_80081458[0];
     ((S_80023A00_2 *)entity)->unk_2C = D_800D23A0;
-    ((S_80023A00_2 *)entity)->unk_28 = case1_magnitude;
+    ((S_80023A00_2 *)entity)->unk_28 = initial_magnitude;
     func_80047784(entity,
         D_800D23A0[((D_80083228 +
             ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
         0);
-    ((S_80023A00_0 *)arg0)->unk_18.u++;
+    ((S_80023A00_0 *)object)->unk_18.u++;
     if (((S_80023A00_1 *)state_base)->unk_08 != 2) {
         goto common;
     }
@@ -94,7 +95,7 @@ case_1:
         D_800D2398[((*(s16 *)(D_80083220 + 8) +
             ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
         0);
-    ((S_80023A00_0 *)arg0)->unk_18.u++;
+    ((S_80023A00_0 *)object)->unk_18.u++;
     goto common;
 
 case_2:
@@ -111,7 +112,7 @@ case_2:
     func_80047784(entity,
         D_800D23A0[((D_80083228 + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
         0);
-    ((S_80023A00_0 *)arg0)->unk_18.u++;
+    ((S_80023A00_0 *)object)->unk_18.u++;
     goto common;
 
 case_3:
@@ -124,18 +125,18 @@ case_3:
     if (limit >= magnitude) {
         goto common;
     }
-    table = D_800D2398;
-    (*(void * *)((u8 *)entity + 0x2C)) = table;
+    direction_table = D_800D2398;
+    (*(void * *)((u8 *)entity + 0x2C)) = direction_table;
     func_80047784(entity,
-        table[((D_80083228 + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+        direction_table[((D_80083228 + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
         0);
-    ((S_80023A00_0 *)arg0)->unk_18.u--;
+    ((S_80023A00_0 *)object)->unk_18.u--;
     goto common;
 
 case_4:
 common:
-    if (((S_80023A00_0 *)arg0)->unk_18.s != 0) {
-        func_800211C4(caller_obj, arg0, entity);
+    if (((S_80023A00_0 *)object)->unk_18.s != 0) {
+        func_800211C4(caller_obj, object, entity);
     }
 
 done:

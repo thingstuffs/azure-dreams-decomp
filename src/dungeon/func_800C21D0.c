@@ -38,22 +38,23 @@ extern u16 D_800DCEBC;
 extern u8 D_800E58F8;
 extern void func_800C77D0(void *arg0, void *arg1, s16 arg2);
 
-s32 func_800C7930(s32 arg0, void *arg1, s32 arg2)
+/* Apply table offsets to a position near the camera and pass it to func_800C77D0. */
+s32 func_800C7930(s32 object_addr, void *source_pos, s32 helper_arg)
 {
     s32 delta;
     s32 source_coord;
-    s32 index1;
-    s32 index2;
-    s32 result;
-    u16 table_value;
+    s32 x_offset_index;
+    s32 y_offset_index;
+    s32 adjusted_x;
+    u16 y_offset;
     register u16 source_x ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_800C7930_2 *work;
     register u8 *camera;
     register u8 *destination ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *table1;
-    register u8 *table2;
-    register s32 object ASM_REG("$10") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    S_800C7930_1 *source = arg1;
+    register u8 *x_offsets;
+    register u8 *y_offsets;
+    register s32 object ASM_REG("$10") = object_addr;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    S_800C7930_1 *source = source_pos;
 
     ASM_KEEP_NV(object);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -77,17 +78,17 @@ s32 func_800C7930(s32 arg0, void *arg1, s32 arg2)
         work = (u8 *)object + 0x20;
         if (delta < 0xC1) {
             destination = &D_800E58F8;
-            table1 = (u8 *)&D_800DCEAC;
-            index1 = (work->unk_2A >> 8) & 0xE;
-            result = (s16)*(u16 *)(table1 + index1) / 2;
-            result = source_x - -result;
-            ((S_800C7930_3 *)destination)->unk_02 = result;
-            table2 = (u8 *)&D_800DCEBC;
-            index2 = (work->unk_2A >> 8) & 0xE;
-            table_value = *(u16 *)(table2 + index2);
-            ((S_800C7930_3 *)destination)->unk_06 = source->unk_06.u + (s16)table_value / 2;
+            x_offsets = (u8 *)&D_800DCEAC;
+            x_offset_index = (work->unk_2A >> 8) & 0xE;
+            adjusted_x = (s16)*(u16 *)(x_offsets + x_offset_index) / 2;
+            adjusted_x = source_x - -adjusted_x;
+            ((S_800C7930_3 *)destination)->unk_02 = adjusted_x;
+            y_offsets = (u8 *)&D_800DCEBC;
+            y_offset_index = (work->unk_2A >> 8) & 0xE;
+            y_offset = *(u16 *)(y_offsets + y_offset_index);
+            ((S_800C7930_3 *)destination)->unk_06 = source->unk_06.u + (s16)y_offset / 2;
             ((S_800C7930_3 *)destination)->unk_0A = source->unk_0A;
-            func_800C77D0((void *)object, destination, (s16)arg2);
+            func_800C77D0((void *)object, destination, (s16)helper_arg);
         }
     }
     return 0;

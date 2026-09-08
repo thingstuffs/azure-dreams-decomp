@@ -30,25 +30,22 @@ typedef struct S_80025FB0_1 {
     s32 unk_1C;
 } S_80025FB0_1;   /* arg0 in func_80025FB0 */
 
-void func_80025FB0(S_80025FB0_1 *arg0, S_80025FB0_0 *arg1) {
-    s32 stack[4];
-    s32 halfword;
+/* Copy a compact record, widen its signed fields, and apply zero values when its flag is clear. */
+void func_80025FB0(S_80025FB0_1 *dst, S_80025FB0_0 *src) {
+    s32 zero_args[4];
+    s32 signed_field;
 
-    *(Copy16 *)arg0 = *(Copy16 *)arg1;
-    halfword = arg1->unk_10;
+    *(Copy16 *)dst = *(Copy16 *)src;
+    signed_field = src->unk_10;
     
-    arg0->unk_10 = halfword;
-    arg0->unk_14 = (s32) arg1->unk_12;
-    arg0->unk_18 = (s32) arg1->unk_13;
-    arg0->unk_1C = (s32) arg1->unk_14;
-    if (arg1->unk_15 == 0) {
-        stack[2] = 0;
-        stack[1] = 0;
-        stack[0] = 0;
-        func_80064BC0(arg0, stack);
+    dst->unk_10 = signed_field;
+    dst->unk_14 = (s32) src->unk_12;
+    dst->unk_18 = (s32) src->unk_13;
+    dst->unk_1C = (s32) src->unk_14;
+    if (src->unk_15 == 0) {
+        zero_args[2] = 0;
+        zero_args[1] = 0;
+        zero_args[0] = 0;
+        func_80064BC0(dst, zero_args);
     }
 }
-
-/* MECHANISM: The packed 16-byte assignment produces the retail lwl/lwr and swl/swr copy.
-   The callee's true two-argument ABI leaves the copy's $a2 dead and restores the load-delay nop.
-   A named signed halfword plus ASM_KEEP preserves full-width liveness and selects lh before sh. */

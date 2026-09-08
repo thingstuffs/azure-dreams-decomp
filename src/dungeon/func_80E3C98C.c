@@ -75,78 +75,79 @@ extern s8 D_800E2968;
 extern u8 D_800E3548[];
 extern u8 *D_800E3D7C;
 
-void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *arg2, Rec_D_80082E80 *arg3) {
-    s32 var_a0;
-    s32 temp_a0;
+/* Create an entity from spawn data and update its tracked reference. */
+void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_80082E80 *spawn_data) {
+    s32 spawn_mode;
+    s32 source_ref;
     u8 *table_base;
-    void *(*temp_s0)(s32, u8, u8, s16);
+    void *(*create_entity)(s32, u8, u8, s16);
     s32 table_offset;
-    S_80E3C98C_5 *temp_v0;
-    void *temp_v1;
-    void *var_s1;
-    void *var_s0;
-    S_80E3C98C_4 *var_s0_2;
-    void *var_v0;
+    S_80E3C98C_5 *table_entry;
+    void *previous_entity;
+    void *source_entity;
+    void *entity;
+    S_80E3C98C_4 *type_data;
+    void *result;
 
-    temp_a0 = arg3->unk_60.as_s32;
-    if (temp_a0 > 0) {
-        var_s0 = func_800B23F8(((u32)arg3->unk_1C.at00_u32.v >> 0xD) & 1,
-                               arg2->unk_24, arg2->unk_25,
-                               arg3->unk_88.as_s16,
-                               func_800A7A38(((s32)(((u16)arg3->unk_60.as_s32 - 1) << 0x10) >> 0xE) + D_800E3548));
-        if (var_s0 != NULL) {
-            ((S_80E3C98C_2 *)var_s0)->unk_14 = 0;
-            ((S_80E3C98C_2 *)var_s0)->unk_1C = 0;
-            func_80042710(var_s0, arg3);
-            ((S_80E3C98C_2 *)var_s0)->unk_14 |= 0x20000000;
-            ((S_80E3C98C_2 *)var_s0)->unk_1C =
-                (((S_80E3C98C_2 *)var_s0)->unk_1C | 0x02000200) & 0xFFFEFFFF;
+    source_ref = spawn_data->unk_60.as_s32;
+    if (source_ref > 0) {
+        entity = func_800B23F8(((u32)spawn_data->unk_1C.at00_u32.v >> 0xD) & 1,
+                               position->unk_24, position->unk_25,
+                               spawn_data->unk_88.as_s16,
+                               func_800A7A38(((s32)(((u16)spawn_data->unk_60.as_s32 - 1) << 0x10) >> 0xE) + D_800E3548));
+        if (entity != NULL) {
+            ((S_80E3C98C_2 *)entity)->unk_14 = 0;
+            ((S_80E3C98C_2 *)entity)->unk_1C = 0;
+            func_80042710(entity, spawn_data);
+            ((S_80E3C98C_2 *)entity)->unk_14 |= 0x20000000;
+            ((S_80E3C98C_2 *)entity)->unk_1C =
+                (((S_80E3C98C_2 *)entity)->unk_1C | 0x02000200) & 0xFFFEFFFF;
             func_80176368();
         }
-        goto block_11;
+        goto update_reference;
     }
     D_800E2968 = 1;
-    var_s1 = (void *)temp_a0;
+    source_entity = (void *)source_ref;
     
-    var_s0_2 = func_800A1618(((S_80E3C98C_3 *)var_s1)->unk_13, 1);
-    if (((var_s0_2 != NULL) && (var_s0_2->unk_01 != 0)) ||
-        (var_s0_2 = func_800A1618(((S_80E3C98C_3 *)var_s1)->unk_13, 3),
-         var_v0 = NULL, var_s0_2 != NULL)) {
-        func_8004397C(var_s1);
-        temp_s0 = func_800A0B94(((S_80E3C98C_3 *)var_s1)->unk_13, var_s0_2, 1);
+    type_data = func_800A1618(((S_80E3C98C_3 *)source_entity)->unk_13, 1);
+    if (((type_data != NULL) && (type_data->unk_01 != 0)) ||
+        (type_data = func_800A1618(((S_80E3C98C_3 *)source_entity)->unk_13, 3),
+         result = NULL, type_data != NULL)) {
+        func_8004397C(source_entity);
+        create_entity = func_800A0B94(((S_80E3C98C_3 *)source_entity)->unk_13, type_data, 1);
         func_8003F320();
-        var_a0 = 4;
-        if (arg3->unk_1C.at00_u32.v & 0x2000) {
-            var_a0 = 7;
+        spawn_mode = 4;
+        if (spawn_data->unk_1C.at00_u32.v & 0x2000) {
+            spawn_mode = 7;
         }
-        var_s0 = temp_s0(var_a0, arg2->unk_24, arg2->unk_25, arg3->unk_88.as_s16);
-        if (var_s0 != NULL) {
-            func_80042640(var_s0, ((S_80E3C98C_2 *)var_s0)->unk_13);
-            ((S_80E3C98C_2 *)var_s0)->unk_14 = 0;
-            ((S_80E3C98C_2 *)var_s0)->unk_1C = 0;
-            func_80042710(var_s0, arg3);
-            ((S_80E3C98C_2 *)var_s0)->unk_28++;
-            ((S_80E3C98C_2 *)var_s0)->unk_13 = ((S_80E3C98C_3 *)var_s1)->unk_13;
-            ((S_80E3C98C_6 *)(((S_80E3C98C_2_pre *)var_s0)[-1].unk_00))->unk_12 =
-                ((S_80E3C98C_7 *)(((S_80E3C98C_3_pre *)var_s1)[-1].unk_00))->unk_12 & 3;
-            ((S_80E3C98C_2 *)var_s0)->unk_14 |= 0x20000000;
-            ((S_80E3C98C_2 *)var_s0)->unk_1C = (((S_80E3C98C_2 *)var_s0)->unk_1C | 0x02000000) & 0xFFFEFFFF;
+        entity = create_entity(spawn_mode, position->unk_24, position->unk_25, spawn_data->unk_88.as_s16);
+        if (entity != NULL) {
+            func_80042640(entity, ((S_80E3C98C_2 *)entity)->unk_13);
+            ((S_80E3C98C_2 *)entity)->unk_14 = 0;
+            ((S_80E3C98C_2 *)entity)->unk_1C = 0;
+            func_80042710(entity, spawn_data);
+            ((S_80E3C98C_2 *)entity)->unk_28++;
+            ((S_80E3C98C_2 *)entity)->unk_13 = ((S_80E3C98C_3 *)source_entity)->unk_13;
+            ((S_80E3C98C_6 *)(((S_80E3C98C_2_pre *)entity)[-1].unk_00))->unk_12 =
+                ((S_80E3C98C_7 *)(((S_80E3C98C_3_pre *)source_entity)[-1].unk_00))->unk_12 & 3;
+            ((S_80E3C98C_2 *)entity)->unk_14 |= 0x20000000;
+            ((S_80E3C98C_2 *)entity)->unk_1C = (((S_80E3C98C_2 *)entity)->unk_1C | 0x02000000) & 0xFFFEFFFF;
         }
-block_11:
-        if (arg3->unk_14.at00_s32.v & 0x4000) {
-            table_offset = func_800A1BD0(arg3);
+update_reference:
+        if (spawn_data->unk_14.at00_s32.v & 0x4000) {
+            table_offset = func_800A1BD0(spawn_data);
             table_base = D_800E3D7C;
-            temp_v0 = (void *)(((s32)(table_offset << 0x10) >> 0xE) +
+            table_entry = (void *)(((s32)(table_offset << 0x10) >> 0xE) +
                                (s32)table_base);
             
-            temp_v1 = temp_v0->unk_AC;
-            temp_v0->unk_AC = var_s0;
-            temp_v0->unk_E4 = temp_v1;
+            previous_entity = table_entry->unk_AC;
+            table_entry->unk_AC = entity;
+            table_entry->unk_E4 = previous_entity;
         }
-        var_v0 = NULL;
-        if (var_s0 != NULL) {
-            var_v0 = (u8 *)var_s0 - 0x20;
+        result = NULL;
+        if (entity != NULL) {
+            result = (u8 *)entity - 0x20;
         }
     }
-    return var_v0;
+    return result;
 }

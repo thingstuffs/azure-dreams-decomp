@@ -29,16 +29,17 @@ typedef struct S_800C5C70_1 {
     M2C_UNK * unk_80;
 } S_800C5C70_1;   /* arg0 in func_800C5C70 */
 
-void func_800C5C70(void *arg0, M2C_UNK arg1, void *arg2) {
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
-        func_800C2E84(arg0, arg2, &D_800D5518);
-        *((((S_800C5C70_1 *)arg0)->unk_60 * 8) + &D_80082660) = 0;
-        ((S_800C5C70_1 *)arg0)->unk_58 = &D_800D5654;
-        ((S_800C5C70_1 *)arg0)->unk_5C = &D_800D5658;
-        ((S_800C5C70_1 *)arg0)->unk_7C = &D_800D5624;
-        ((S_800C5C70_1 *)arg0)->unk_80 = &D_800D562C;
-        ((S_800C5C70_1 *)arg0)->unk_70 = 1;
-        ((S_800C5C70_1 *)arg0)->unk_71 = (u8) (((S_800C5C70_1 *)arg0)->unk_71 | 1);
-        func_800C4174(arg0, arg1, arg2);
+/* Reset the indexed flag, install handlers, and update the object on input flags 0x6000. */
+void func_800C5C70(void *object, M2C_UNK context, void *input) {
+    if (((Rec_D_80082E80 *)input)->unk_14.at00_u16.v & 0x6000) {
+        func_800C2E84(object, input, &D_800D5518);
+        *((((S_800C5C70_1 *)object)->unk_60 * 8) + &D_80082660) = 0;
+        ((S_800C5C70_1 *)object)->unk_58 = &D_800D5654;
+        ((S_800C5C70_1 *)object)->unk_5C = &D_800D5658;
+        ((S_800C5C70_1 *)object)->unk_7C = &D_800D5624;
+        ((S_800C5C70_1 *)object)->unk_80 = &D_800D562C;
+        ((S_800C5C70_1 *)object)->unk_70 = 1;
+        ((S_800C5C70_1 *)object)->unk_71 = (u8) (((S_800C5C70_1 *)object)->unk_71 | 1);
+        func_800C4174(object, context, input);
     }
 }

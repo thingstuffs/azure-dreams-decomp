@@ -1,31 +1,32 @@
 #include "common.h"
 
-void func_800B7A6C(s32 arg0, s32 arg1, u16 *arg2, void *arg3) {
-    register s16 var_a0;
-    register s16 var_t1;
-    u16 temp_t3;
-    u16 temp_t4;
-    u16 temp_v0;
-    u16 temp_v1;
+/* Blit nonzero pixels using source header offsets and a 128-pixel destination stride. */
+void func_800B7A6C(s32 dst_x, s32 dst_y, u16 *src, void *dst) {
+    register s16 col;
+    register s16 row;
+    u16 height;
+    u16 width;
+    u16 y_offset;
+    u16 offset_or_pixel;
 
-    temp_t4 = *arg2++;
-    temp_t3 = *arg2++;
-    temp_v1 = *arg2++;
-    temp_v0 = *arg2++;
-    var_t1 = 0;
-    arg0 -= temp_v1;
-    arg1 -= temp_v0;
-    var_t1 = 0;
-    while ((var_t1 << 0x10) < (temp_t3 << 0x10)) {
-        var_a0 = 0;
-        while (var_a0 < (s16) temp_t4) {
-            temp_v1 = *arg2;
-            if (temp_v1 != 0) {
-                ((u16 *) arg3)[((var_t1 + (s16) arg1) << 7) + var_a0 + (s16) arg0] = temp_v1;
+    width = *src++;
+    height = *src++;
+    offset_or_pixel = *src++;
+    y_offset = *src++;
+    row = 0;
+    dst_x -= offset_or_pixel;
+    dst_y -= y_offset;
+    row = 0;
+    while ((row << 0x10) < (height << 0x10)) {
+        col = 0;
+        while (col < (s16) width) {
+            offset_or_pixel = *src;
+            if (offset_or_pixel != 0) {
+                ((u16 *) dst)[((row + (s16) dst_y) << 7) + col + (s16) dst_x] = offset_or_pixel;
             }
-            arg2++;
-            var_a0++;
+            src++;
+            col++;
         }
-        var_t1++;
+        row++;
     }
 }

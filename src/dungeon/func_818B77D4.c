@@ -38,24 +38,25 @@ extern void func_8004491C(Obj818B77D4 *, void *);
 extern u8 D_800242FC[12];
 extern u8 D_80024A64[12];
 
-void func_818B77D4(Arg0818B77D4 *arg0, Arg1818B77D4 *arg1) {
+/* Creates an object from source data and payload, initializing two fields randomly. */
+void func_818B77D4(Arg0818B77D4 *source, Arg1818B77D4 *payload) {
     Obj818B77D4 *obj;
-    Inner818B77D4 *inner;
-    u16 sourceValue;
+    Inner818B77D4 *state;
+    u16 source_value;
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {
         obj->unk10 = D_800242FC;
-        inner = &obj->unk20;
-        inner->unk0 = arg0->unk0;
-        inner->unk6 = 0;
-        sourceValue = arg0->unk12;
-        inner->unkA = 0x30;
-        inner->unk8 = sourceValue;
-        inner->unkC = rand() % 0x1000;
-        inner->unkE = rand() % 0x1000;
-        inner->unk10 = arg0->unk18;
-        *(Arg1818B77D4 *)obj->unk8 = *arg1;
+        state = &obj->unk20;
+        state->unk0 = source->unk0;
+        state->unk6 = 0;
+        source_value = source->unk12;
+        state->unkA = 0x30;
+        state->unk8 = source_value;
+        state->unkC = rand() % 0x1000;
+        state->unkE = rand() % 0x1000;
+        state->unk10 = source->unk18;
+        *(Arg1818B77D4 *)obj->unk8 = *payload;
         func_8004491C(obj, D_80024A64);
     }
 }

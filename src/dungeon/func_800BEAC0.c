@@ -24,25 +24,26 @@ extern u16 D_800DDE84[];
 extern void *D_800E3D7C[];
 
 
-s32 func_800C4220(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2) {
-    if (arg0 == D_800E3D7C[0]) {
-        arg0->unk_110 = arg1;
-        func_8008D330(arg0, D_80083780, D_80082E80, arg0);
+/* Process an entity's item, deferring the primary entity's handling and cleaning up completed uses. */
+s32 func_800C4220(Rec_D_800E3D7C *entity, s32 item, s16 use_type) {
+    if (entity == D_800E3D7C[0]) {
+        entity->unk_110 = item;
+        func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;
     }
-    if ((s32)arg0 <= 0x9FFFFFFFU) {
-        func_800A63B8(arg0, arg1, arg2);
-        if (func_800AD6FC(arg0,
-                         (D_800DDE84[arg0->unk_10.at03_u8.v] >> 6) & 3,
+    if ((s32)entity <= 0x9FFFFFFFU) {
+        func_800A63B8(entity, item, use_type);
+        if (func_800AD6FC(entity,
+                         (D_800DDE84[entity->unk_10.at03_u8.v] >> 6) & 3,
                          0) == 0) {
-            func_800A5F38(arg0, arg1);
+            func_800A5F38(entity, item);
             return 1;
         }
     }
-    if (func_800C8A3C(arg0, 0x400, 8) != 0) {
+    if (func_800C8A3C(entity, 0x400, 8) != 0) {
         func_800A56E0(0x520);
     }
-    func_80098B38(arg1);
+    func_80098B38(item);
     D_80083460.fieldA--;
     return 1;
 }

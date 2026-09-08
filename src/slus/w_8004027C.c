@@ -1,7 +1,5 @@
 #include "common.h"
 
-/* Walk the linked list at D_80081498.head; for each node with flag 0x8 set,
- * integrate its position vector by its velocity vector. */
 /* Linked-list node with a next pointer at offset 0x0, a pointer to a
  * position/velocity vector block at offset 0x8, and a 16-bit flags/state
  * field at offset 0x1E (shared shape with func_80040418/func_800401FC/
@@ -31,6 +29,7 @@ extern struct {
     int pad[2];
 } D_80081498;
 
+/* Add velocity to position for each node in D_80081498.head with flag 0x8 set. */
 void func_8004027C(void) {
     Node *node = D_80081498.head;
 

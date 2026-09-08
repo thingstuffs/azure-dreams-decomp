@@ -15,15 +15,16 @@ typedef struct {
 extern DungeonPosition D_800E36C8[64];
 extern DungeonStatus D_800E3548[64];
 
-s32 func_8001E110(s32 excluded, s16 x, s16 y)
+/* Returns whether an active slot other than the excluded slot occupies (x, y). */
+s32 func_8001E110(s32 excluded_slot, s16 x, s16 y)
 {
-    s32 i;
+    s32 slot;
 
-    for (i = 0; i < 64; i++) {
-        if ((excluded != i) &&
-            (D_800E3548[i].active != 0) &&
-            (D_800E36C8[i].x == x) &&
-            (D_800E36C8[i].y == y)) {
+    for (slot = 0; slot < 64; slot++) {
+        if ((excluded_slot != slot) &&
+            (D_800E3548[slot].active != 0) &&
+            (D_800E36C8[slot].x == x) &&
+            (D_800E36C8[slot].y == y)) {
             return 1;
         }
     }

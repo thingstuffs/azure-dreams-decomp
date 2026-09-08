@@ -20,15 +20,16 @@ typedef struct S_8002573C_1 {
     s32 unk_28;
 } S_8002573C_1;   /* temp_s2 in func_8002573C */
 
-s32 func_8002573C(void *arg0) {
-    s32 temp_v0;
-    S_8002573C_1 *temp_s2;
+/* Process changed text, then finalize its context. */
+s32 func_8002573C(void *context) {
+    s32 text;
+    S_8002573C_1 *text_state;
 
-    temp_s2 = ((S_8002573C_0 *)arg0)->unk_14 + 0x20;
-    temp_v0 = func_80026CCC(temp_s2->unk_28);
-    if (strcmp(temp_v0, arg0 + 0x78) != 0) {
-        func_800255FC(temp_v0, ((S_8002573C_0 *)arg0)->unk_0C, temp_s2->unk_1C);
+    text_state = ((S_8002573C_0 *)context)->unk_14 + 0x20;
+    text = func_80026CCC(text_state->unk_28);
+    if (strcmp(text, context + 0x78) != 0) {
+        func_800255FC(text, ((S_8002573C_0 *)context)->unk_0C, text_state->unk_1C);
     }
-    func_80025514(((S_8002573C_0 *)arg0)->unk_14);
+    func_80025514(((S_8002573C_0 *)context)->unk_14);
     return 1;
 }

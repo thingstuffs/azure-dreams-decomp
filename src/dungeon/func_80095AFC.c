@@ -17,11 +17,12 @@ struct Node {
 extern s32 func_8009A350(s16, s16, s32, u16 *);
 extern s32 func_800A41F0(Node *);
 
-void *func_8009B25C(Node *head, s16 x, s16 y, s16 value) {
+/* Finds an eligible node at the target coordinates with a value difference below 64. */
+void *func_8009B25C(Node *node, s16 x, s16 y, s16 value) {
     u16 flags;
-    Node *end;
+    Node *sentinel;
     Owner *owner;
-    s32 delta;
+    s32 value_gap;
     u16 target_x;
     s16 target_value;
 
@@ -33,24 +34,21 @@ void *func_8009B25C(Node *head, s16 x, s16 y, s16 value) {
     if (!(flags & 0x3300)) {
         return 0;
     }
-    end = head;
-    head = (Node *)((u8 *)head->next + 0x20);
-    while (head != end) {
-        owner = *(Owner **)((u8 *)head - 0x14);
+    sentinel = node;
+    node = (Node *)((u8 *)node->next + 0x20);
+    while (node != sentinel) {
+        owner = *(Owner **)((u8 *)node - 0x14);
         if (owner->x == target_x && owner->y == (u16)y) {
-            delta = head->value - target_value;
-            if (delta < 0) {
-                delta = -delta;
+            value_gap = node->value - target_value;
+            if (value_gap < 0) {
+                value_gap = -value_gap;
             }
-            if (delta < 0x40 && (func_800A41F0(head) << 16) != 0) {
-                return head;
+            if (value_gap < 0x40 && (func_800A41F0(node) << 16) != 0) {
+                return node;
             }
         }
-        head = (Node *)((u8 *)head->next + 0x20);
+        node = (Node *)((u8 *)node->next + 0x20);
     }
     return 0;
 }
 
-/* MECHANISM: A 0x38 frame falls from the separate flags slot, mutable s0 cursor,
-   and s1 sentinel. Narrow s16 x/y formals order the s2 save/copy before s5.
-   Explicit dispatcher call + null return fills its tail slot; <<16 tests low16. */

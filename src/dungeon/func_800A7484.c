@@ -37,20 +37,21 @@ extern s32 D_800814A0;
 extern s32 D_80083460;
 extern s32 D_800C6AEC;
 
-void func_800ACBE4(void *arg0, s32 arg1, void *arg2, void *arg3)
+/* Fades the actor to black, then triggers an effect and marks it for removal. */
+void func_800ACBE4(void *actor_data, s32 unused, void *visual, void *current_actor)
 {
     s32 actor_status;
     s32 actor_flags;
     s32 effect_size;
-    s32 *global_base;
+    s32 *actor_globals;
     u8 state;
-    u8 level;
+    u8 brightness;
     u8 effect_x;
     u8 effect_y;
     void *actor;
 
-    state = ((S_800ACBE4_0 *)arg0)->unk_9B;
-    actor = arg3;
+    state = ((S_800ACBE4_0 *)actor_data)->unk_9B;
+    actor = current_actor;
     if (state == 0) {
         goto state_zero;
     }
@@ -60,34 +61,34 @@ void func_800ACBE4(void *arg0, s32 arg1, void *arg2, void *arg3)
     goto done;
 
 state_zero:
-    actor = (u8 *)arg0 - 0x20;
+    actor = (u8 *)actor_data - 0x20;
     func_80044A50(actor);
-    ((S_800ACBE4_1 *)arg2)->unk_12 -= 0x80;
-    ((S_800ACBE4_1 *)arg2)->unk_14 |= 0xC;
+    ((S_800ACBE4_1 *)visual)->unk_12 -= 0x80;
+    ((S_800ACBE4_1 *)visual)->unk_14 |= 0xC;
     func_8004491C(actor, &D_800C6AEC);
-    ((S_800ACBE4_1 *)arg2)->unk_0F.s = 0;
-    ((S_800ACBE4_0 *)arg0)->unk_9B++;
+    ((S_800ACBE4_1 *)visual)->unk_0F.s = 0;
+    ((S_800ACBE4_0 *)actor_data)->unk_9B++;
     goto done;
 
 state_one:
-    if (((S_800ACBE4_1 *)arg2)->unk_0F.s < 8) {
-        level = ((S_800ACBE4_1 *)arg2)->unk_0E;
-        ((S_800ACBE4_1 *)arg2)->unk_0F.s++;
-        level += -level / ((S_800ACBE4_1 *)arg2)->unk_0F.u;
-        ((S_800ACBE4_1 *)arg2)->unk_0E = level;
-        ((S_800ACBE4_1 *)arg2)->unk_0D = level;
-        ((S_800ACBE4_1 *)arg2)->unk_0C = level;
+    if (((S_800ACBE4_1 *)visual)->unk_0F.s < 8) {
+        brightness = ((S_800ACBE4_1 *)visual)->unk_0E;
+        ((S_800ACBE4_1 *)visual)->unk_0F.s++;
+        brightness += -brightness / ((S_800ACBE4_1 *)visual)->unk_0F.u;
+        ((S_800ACBE4_1 *)visual)->unk_0E = brightness;
+        ((S_800ACBE4_1 *)visual)->unk_0D = brightness;
+        ((S_800ACBE4_1 *)visual)->unk_0C = brightness;
         goto done;
     }
 
-    global_base = &D_80083460;
-    if (global_base[4] == (s32)((u8 *)actor - 0x20)) {
-        global_base[4] &= 0x7FFFFFFF;
+    actor_globals = &D_80083460;
+    if (actor_globals[4] == (s32)((u8 *)actor - 0x20)) {
+        actor_globals[4] &= 0x7FFFFFFF;
     }
     func_800A32A4(actor);
     actor_status = ((S_800ACBE4_2 *)actor)->unk_1C;
-    effect_x = ((S_800ACBE4_1 *)arg2)->unk_24;
-    effect_y = ((S_800ACBE4_1 *)arg2)->unk_25;
+    effect_x = ((S_800ACBE4_1 *)visual)->unk_24;
+    effect_y = ((S_800ACBE4_1 *)visual)->unk_25;
     effect_size = 0x3000;
     if (actor_status & 0x2000) {
         effect_size = 0x300;
@@ -105,8 +106,3 @@ state_one:
 done:
     return;
 }
-
-/* MECHANISM: The four-slot ABI holds a0/a2/a3 in s2/s1/s0, while true-space
-   epilogue targets remain local CFG edges under the 0x20-byte frame.
-   A volatile post-store byte reload and separate status/effect/flag lifetimes
-   reproduce the retail div roles, load-delay fill, and a0/a1/a2 call setup. */

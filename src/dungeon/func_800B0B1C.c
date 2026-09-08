@@ -36,28 +36,29 @@ typedef struct {
     s32 unk5C;
 } Arg1Struct;
 
-s32 func_800B627C(s32 arg0, void *arg1, s32 arg2, s8 arg3) {
+/* Calls the selected handler and updates object and slot status on success. */
+s32 func_800B627C(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state) {
     u8 *state = D_800E3D40;
-    s32 temp_v0;
-    StatusEntry *temp_s0;
-    Arg1Struct *object = (Arg1Struct *) arg1;
+    s32 result;
+    StatusEntry *status;
+    Arg1Struct *object = (Arg1Struct *) object_ptr;
     u8 *slot_base;
-    s16 index = arg2;
+    s16 slot_index = slot_id;
 
-    state[0] = arg3;
-    temp_v0 = D_800DF2A8[(s16) arg0](object, index, arg2 << 0x10);
-    if (temp_v0 != 0) {
+    state[0] = update_state;
+    result = D_800DF2A8[(s16) handler_id](object, slot_index, slot_id << 0x10);
+    if (result != 0) {
         if (state[0] != 0) {
             func_80099F70(object->unk5C);
             func_80099F04(object->unk5C);
             D_80083460.field2 |= 0x812;
         }
         slot_base = (u8 *) D_800E39C8;
-        temp_s0 = (StatusEntry *) (slot_base + index * 0x18);
-        if (temp_s0->flags & 0x40) {
-            func_8003DB94(temp_s0, D_800DF258[D_800E3648[index * 4]], 0);
-            temp_s0->flags &= 0xF7FF;
+        status = (StatusEntry *) (slot_base + slot_index * 0x18);
+        if (status->flags & 0x40) {
+            func_8003DB94(status, D_800DF258[D_800E3648[slot_index * 4]], 0);
+            status->flags &= 0xF7FF;
         }
     }
-    return temp_v0;
+    return result;
 }

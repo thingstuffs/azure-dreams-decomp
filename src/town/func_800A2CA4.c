@@ -12,39 +12,40 @@ typedef union {
 
 extern TownRecord D_80100AA0[20];
 
-void func_800A0404(TownRecord *arg0) {
+/* Inserts a record into the first free slot, discarding the first record if full. */
+void func_800A0404(TownRecord *record) {
     TownRecord *dst;
     TownRecord *src;
-    s32 i;
+    s32 slot;
 
-    i = 0;
+    slot = 0;
     dst = D_80100AA0;
 loop:
     if (dst->bytes.unk1 != 0) {
-        i++;
+        slot++;
         dst++;
-        if (i < 20) {
+        if (slot < 20) {
             goto loop;
         }
     }
 
-    if (i == 20) {
+    if (slot == 20) {
         register TownRecord *base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-        i = 0;
+        slot = 0;
         base = D_80100AA0;
         dst = base;
         src = base + 1;
         do {
             *dst = *src;
             src++;
-            i++;
+            slot++;
             dst++;
-        } while (i < 19);
+        } while (slot < 19);
     }
 
-    D_80100AA0[i].bytes.unk0 = arg0->bytes.unk0;
-    D_80100AA0[i].bytes.unk1 = arg0->bytes.unk1;
-    D_80100AA0[i].bytes.unk2 = arg0->bytes.unk2;
-    D_80100AA0[i].bytes.unk3 = arg0->bytes.unk3;
+    D_80100AA0[slot].bytes.unk0 = record->bytes.unk0;
+    D_80100AA0[slot].bytes.unk1 = record->bytes.unk1;
+    D_80100AA0[slot].bytes.unk2 = record->bytes.unk2;
+    D_80100AA0[slot].bytes.unk3 = record->bytes.unk3;
 }

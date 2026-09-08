@@ -39,11 +39,12 @@ extern void *D_80100B0C;
 #define WORD_AT(base, offset) (*(s32 *)((u8 *)(base) + (offset)))
 #define POINTER_AT(base, offset) (*(void **)((u8 *)(base) + (offset)))
 
-void *func_8009DFD8(void *arg0, void *arg1, s32 arg2)
+/* Creates an object with the supplied data, position, and callback mode. */
+void *func_8009DFD8(void *object_data, void *source_position, s32 alternate_callback)
 {
     void *created;
-    void *part_b;
-    void *part_a;
+    void *render_state;
+    void *position;
     void *object;
     u8 type;
 
@@ -52,24 +53,24 @@ void *func_8009DFD8(void *arg0, void *arg1, s32 arg2)
         return 0;
     }
 
-    part_a = POINTER_AT(created, 8);
-    part_b = POINTER_AT(created, 0xC);
-    HALF_AT(part_a, 2) = HALF_AT(arg1, 2);
-    HALF_AT(part_a, 6) = HALF_AT(arg1, 6);
-    HALF_AT(part_a, 0xA) = HALF_AT(arg1, 0xA);
+    position = POINTER_AT(created, 8);
+    render_state = POINTER_AT(created, 0xC);
+    HALF_AT(position, 2) = HALF_AT(source_position, 2);
+    HALF_AT(position, 6) = HALF_AT(source_position, 6);
+    HALF_AT(position, 0xA) = HALF_AT(source_position, 0xA);
 
     object = (u8 *)created + 0x20;
-    HALF_AT(part_b, 0x1E) = 0x1000;
-    HALF_AT(part_b, 0x1C) = 0x1000;
-    WORD_AT(part_b, 0xC) = 0x00808080;
+    HALF_AT(render_state, 0x1E) = 0x1000;
+    HALF_AT(render_state, 0x1C) = 0x1000;
+    WORD_AT(render_state, 0xC) = 0x00808080;
     WORD_AT(object, 0x48) = 0;
     WORD_AT(object, 0x98) = 0;
     BYTE_AT(object, 0x93) = 0;
 
-    BYTE_AT(object, 0x4C) = BYTE_AT(arg0, 0);
-    BYTE_AT(object, 0x4D) = BYTE_AT(arg0, 1);
-    BYTE_AT(object, 0x4E) = BYTE_AT(arg0, 2);
-    BYTE_AT(object, 0x4F) = BYTE_AT(arg0, 3);
+    BYTE_AT(object, 0x4C) = BYTE_AT(object_data, 0);
+    BYTE_AT(object, 0x4D) = BYTE_AT(object_data, 1);
+    BYTE_AT(object, 0x4E) = BYTE_AT(object_data, 2);
+    BYTE_AT(object, 0x4F) = BYTE_AT(object_data, 3);
     type = BYTE_AT(object, 0x4D);
 
     if (type == 0x13) {
@@ -81,11 +82,11 @@ void *func_8009DFD8(void *arg0, void *arg1, s32 arg2)
         D_80100AF8 = *copy_src;
     }
 
-    func_8008F0D4(object, part_a, D_800D073C);
-    if (arg2 != 0) {
-        func_8009B218(object, part_a, part_b, D_800D0788);
+    func_8008F0D4(object, position, D_800D073C);
+    if (alternate_callback != 0) {
+        func_8009B218(object, position, render_state, D_800D0788);
     } else {
-        func_8009B218(object, part_a, part_b, D_800D076C);
+        func_8009B218(object, position, render_state, D_800D076C);
     }
 
     if ((u32)(BYTE_AT(object, 0x4D) - 0x12) < 2) {
@@ -94,18 +95,18 @@ void *func_8009DFD8(void *arg0, void *arg1, s32 arg2)
     type = BYTE_AT(object, 0x4D);
 
     if (type == 0x12) {
-        POINTER_AT(part_b, 8) = &D_8006E240;
+        POINTER_AT(render_state, 8) = &D_8006E240;
     } else if (type == 0x13) {
-        func_8009DC8C(object, part_b, BYTE_AT(object, 0x4C), D_80100B0C);
+        func_8009DC8C(object, render_state, BYTE_AT(object, 0x4C), D_80100B0C);
         goto set_callback;
     } else {
-        POINTER_AT(part_b, 8) = (void *)func_8004A658(
+        POINTER_AT(render_state, 8) = (void *)func_8004A658(
             BYTE_AT(object, 0x4D), BYTE_AT(object, 0x4C));
     }
 
 set_callback:
     POINTER_AT(created, 0x10) = D_8009DEBC;
-    func_8009C1B4(object, object, part_a, part_b);
-    func_800B2244(arg0);
+    func_8009C1B4(object, object, position, render_state);
+    func_800B2244(object_data);
     return created;
 }

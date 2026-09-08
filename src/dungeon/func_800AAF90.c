@@ -122,33 +122,34 @@ extern s32 func_800654B0();
 extern s32 func_80065820();
 extern void *func_800B0BE0();
 
-s32 func_800B06F0(u8 *arg0, s32 arg1, u8 *arg2)
+/* Transform and emit linked batches of quad primitives into the rendering buffer. */
+s32 func_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_params)
 {
-    u8 *arg0_r = arg0;
-    s32 dispatch_arg = arg1;
-    u8 *arg2_r = arg2;
+    u8 *batch = initial_batch;
+    s32 dispatch_arg = initial_dispatch_arg;
+    u8 *params = initial_params;
     u8 *transform = (u8 *)0x1F8000D0;
     GlobalSlot *global_addr = D_80083160;
     u8 *scratch;
     u8 *manager;
     u8 *initial_manager;
-    u8 *object;
-    register u8 **list ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *aux;
-    u8 *current;
-    u32 screen_x;
+    u8 *packet;
+    register u8 **primitive_list ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *texture_data;
+    u8 *primitive;
+    u32 depth;
     u32 global_value;
-    register s32 flip ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s16 x;
-    s16 y;
+    register s32 reverse_winding ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 vertex_x;
+    s16 vertex_y;
     s32 signed_flags;
-    register u8 flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *current_check;
-    u8 **current_arg;
-    u8 *next_manager;
+    register u8 primitive_flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *primitive_check;
+    u8 **primitive_ref;
+    u8 *next_batch;
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u32 scaled_x;
-    s32 coord_offset;
+    u32 ot_entry_addr;
+    s32 quad_extent;
 #ifdef NON_MATCHING
     s32 hard_zero = 0;
 #else
@@ -160,31 +161,31 @@ s32 func_800B06F0(u8 *arg0, s32 arg1, u8 *arg2)
     ASM_SET(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     scratch = (u8 *)0x1F800000;
     ((S_800B06F0_0 *)scratch)->unk_EC = global_value;
-    object = ((S_800B06F0_1 *)initial_manager)->unk_8D0;
+    packet = ((S_800B06F0_1 *)initial_manager)->unk_8D0;
     ((S_800B06F0_0 *)scratch)->unk_20 = initial_manager + 0xB0;
 
 dispatch:
-    D_800DEFF0[((S_800B06F0_2 *)arg0_r)->unk_08 & 1](dispatch_arg, arg2_r, scratch);
+    D_800DEFF0[((S_800B06F0_2 *)batch)->unk_08 & 1](dispatch_arg, params, scratch);
 
-    list = ((S_800B06F0_2 *)arg0_r)->unk_00;
-    screen_x = ((S_800B06F0_0 *)scratch)->unk_C0.i;
-    aux = ((S_800B06F0_2 *)arg0_r)->unk_04;
+    primitive_list = ((S_800B06F0_2 *)batch)->unk_00;
+    depth = ((S_800B06F0_0 *)scratch)->unk_C0.i;
+    texture_data = ((S_800B06F0_2 *)batch)->unk_04;
 
-    if (screen_x < 0x1E0U) {
-        scaled_x = screen_x * 4;
-        scaled_x += (u32)((S_800B06F0_0 *)scratch)->unk_20;
-        ((S_800B06F0_0 *)scratch)->unk_C0.p = (u8 *)scaled_x;
+    if (depth < 0x1E0U) {
+        ot_entry_addr = depth * 4;
+        ot_entry_addr += (u32)((S_800B06F0_0 *)scratch)->unk_20;
+        ((S_800B06F0_0 *)scratch)->unk_C0.p = (u8 *)ot_entry_addr;
         ((S_800B06F0_0 *)scratch)->unk_B8 -= 0xA0;
         ((S_800B06F0_0 *)scratch)->unk_BA -= 0x78;
-        func_800649A0(screen_x);
+        func_800649A0(depth);
 
-        ((S_800B06F0_0 *)scratch)->unk_100 = ((S_800B06F0_3 *)arg2_r)->unk_16;
-        ((S_800B06F0_0 *)scratch)->unk_102 = ((S_800B06F0_3 *)arg2_r)->unk_18;
-        ((S_800B06F0_0 *)scratch)->unk_104 = ((S_800B06F0_3 *)arg2_r)->unk_1A;
-        ((S_800B06F0_0 *)scratch)->unk_E4 = ((S_800B06F0_3 *)arg2_r)->unk_20;
-        ((S_800B06F0_0 *)scratch)->unk_E8 = ((S_800B06F0_3 *)arg2_r)->unk_22;
-        ((S_800B06F0_0 *)scratch)->unk_30 = ((S_800B06F0_3 *)arg2_r)->unk_1C;
-        ((S_800B06F0_0 *)scratch)->unk_34 = ((S_800B06F0_3 *)arg2_r)->unk_1E;
+        ((S_800B06F0_0 *)scratch)->unk_100 = ((S_800B06F0_3 *)params)->unk_16;
+        ((S_800B06F0_0 *)scratch)->unk_102 = ((S_800B06F0_3 *)params)->unk_18;
+        ((S_800B06F0_0 *)scratch)->unk_104 = ((S_800B06F0_3 *)params)->unk_1A;
+        ((S_800B06F0_0 *)scratch)->unk_E4 = ((S_800B06F0_3 *)params)->unk_20;
+        ((S_800B06F0_0 *)scratch)->unk_E8 = ((S_800B06F0_3 *)params)->unk_22;
+        ((S_800B06F0_0 *)scratch)->unk_30 = ((S_800B06F0_3 *)params)->unk_1C;
+        ((S_800B06F0_0 *)scratch)->unk_34 = ((S_800B06F0_3 *)params)->unk_1E;
         ((S_800B06F0_0 *)scratch)->unk_38 = 0x1000;
 
         func_80065820(scratch + 0x100, transform);
@@ -192,8 +193,8 @@ dispatch:
         func_80064D80(transform);
         func_80064CF0(transform);
 
-        current = *list;
-        if (current == 0)
+        primitive = *primitive_list;
+        if (primitive == 0)
             goto lists_done;
 loop:
             ((S_800B06F0_0 *)scratch)->unk_8C = 0;
@@ -201,42 +202,42 @@ loop:
             ((S_800B06F0_0 *)scratch)->unk_7C = 0;
             ((S_800B06F0_0 *)scratch)->unk_74 = 0;
 
-            current = (u8 *)((u32)current | 0x80000000U);
+            primitive = (u8 *)((u32)primitive | 0x80000000U);
 
-            if ((current[0] ^ ((S_800B06F0_3 *)arg2_r)->unk_14) & 1) {
-                x = -(s8)current[2] - ((S_800B06F0_3 *)arg2_r)->unk_20;
-                ((S_800B06F0_0 *)scratch)->unk_80 = x;
-                ((S_800B06F0_0 *)scratch)->unk_70 = x;
-                x -= current[0xA];
+            if ((primitive[0] ^ ((S_800B06F0_3 *)params)->unk_14) & 1) {
+                vertex_x = -(s8)primitive[2] - ((S_800B06F0_3 *)params)->unk_20;
+                ((S_800B06F0_0 *)scratch)->unk_80 = vertex_x;
+                ((S_800B06F0_0 *)scratch)->unk_70 = vertex_x;
+                vertex_x -= primitive[0xA];
                 goto store_x;
             }
 
-            x = (s8)current[2] - ((S_800B06F0_3 *)arg2_r)->unk_20;
-            ((S_800B06F0_0 *)scratch)->unk_80 = x;
-            ((S_800B06F0_0 *)scratch)->unk_70 = x;
-            coord_offset = current[0xA];
-            x = x + coord_offset;
+            vertex_x = (s8)primitive[2] - ((S_800B06F0_3 *)params)->unk_20;
+            ((S_800B06F0_0 *)scratch)->unk_80 = vertex_x;
+            ((S_800B06F0_0 *)scratch)->unk_70 = vertex_x;
+            quad_extent = primitive[0xA];
+            vertex_x = vertex_x + quad_extent;
 store_x:
-            (*(s16 *)((u8 *)scratch + 0x88)) = x;
-            (*(s16 *)((u8 *)scratch + 0x78)) = x;
+            (*(s16 *)((u8 *)scratch + 0x88)) = vertex_x;
+            (*(s16 *)((u8 *)scratch + 0x78)) = vertex_x;
 
-            if ((current[0] ^ ((S_800B06F0_3 *)arg2_r)->unk_14) & 2) {
-                y = -(s8)current[3] - ((S_800B06F0_3 *)arg2_r)->unk_22;
-                ((S_800B06F0_0 *)scratch)->unk_7A = y;
-                ((S_800B06F0_0 *)scratch)->unk_72 = y;
-                y -= current[0xB];
+            if ((primitive[0] ^ ((S_800B06F0_3 *)params)->unk_14) & 2) {
+                vertex_y = -(s8)primitive[3] - ((S_800B06F0_3 *)params)->unk_22;
+                ((S_800B06F0_0 *)scratch)->unk_7A = vertex_y;
+                ((S_800B06F0_0 *)scratch)->unk_72 = vertex_y;
+                vertex_y -= primitive[0xB];
                 goto store_y;
             }
 
-            y = (s8)current[3] - ((S_800B06F0_3 *)arg2_r)->unk_22;
-            ((S_800B06F0_0 *)scratch)->unk_7A = y;
-            ((S_800B06F0_0 *)scratch)->unk_72 = y;
-            coord_offset = current[0xB];
-            y = y + coord_offset;
+            vertex_y = (s8)primitive[3] - ((S_800B06F0_3 *)params)->unk_22;
+            ((S_800B06F0_0 *)scratch)->unk_7A = vertex_y;
+            ((S_800B06F0_0 *)scratch)->unk_72 = vertex_y;
+            quad_extent = primitive[0xB];
+            vertex_y = vertex_y + quad_extent;
 store_y:
-            ((S_800B06F0_0 *)scratch)->unk_8A = y;
-            ((S_800B06F0_0 *)scratch)->unk_82 = y;
-            ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ((S_800B06F0_0 *)scratch)->unk_8A = vertex_y;
+            ((S_800B06F0_0 *)scratch)->unk_82 = vertex_y;
+            ASM_KEEP(vertex_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
             func_800654B0(
                 scratch + 0x70, scratch + 0x78,
@@ -245,23 +246,23 @@ store_y:
                 scratch + 0xF8, scratch + 0xFC,
                 scratch + 0x90, scratch + 0x94);
 
-            signed_flags = ((S_800B06F0_4 *)current)->unk_00;
-            flags = current[0];
-            if ((signed_flags >= 0) && (flags & 8)) {
-                flip = flags & 4;
+            signed_flags = ((S_800B06F0_4 *)primitive)->unk_00;
+            primitive_flags = primitive[0];
+            if ((signed_flags >= 0) && (primitive_flags & 8)) {
+                reverse_winding = primitive_flags & 4;
                 if (func_80065480(
                         ((S_800B06F0_0 *)scratch)->unk_F0.at00.v,
                         ((S_800B06F0_0 *)scratch)->unk_F4.at00.v,
-                        ((S_800B06F0_0 *)scratch)->unk_F8.at00.v, flags) <= 0) {
-                    if (flip != 0) {
+                        ((S_800B06F0_0 *)scratch)->unk_F8.at00.v, primitive_flags) <= 0) {
+                    if (reverse_winding != 0) {
                         goto fallback;
                     }
                     goto check_2c;
                 }
-                if (flip != 0) {
+                if (reverse_winding != 0) {
 check_2c:
-                    if (current[1] == 0x2C) {
-                        aux += 4;
+                    if (primitive[1] == 0x2C) {
+                        texture_data += 4;
                         goto next_list;
                     }
                     goto next_list;
@@ -269,66 +270,66 @@ check_2c:
             }
 
 fallback:
-            if (current[0] & 4) {
+            if (primitive[0] & 4) {
                 func_8003E12C(scratch + 0xF0, scratch + 0xF4);
                 func_8003E12C(scratch + 0xF8, scratch + 0xFC);
             }
 
-            ((S_800B06F0_5 *)object)->unk_08 = ((S_800B06F0_0 *)scratch)->unk_F0.at00u.v + ((S_800B06F0_0 *)scratch)->unk_B8;
-            ((S_800B06F0_5 *)object)->unk_0A = ((S_800B06F0_0 *)scratch)->unk_F0.at02.v + ((S_800B06F0_0 *)scratch)->unk_BA;
-            ((S_800B06F0_5 *)object)->unk_10 = ((S_800B06F0_0 *)scratch)->unk_F4.at00u.v + ((S_800B06F0_0 *)scratch)->unk_B8;
-            ((S_800B06F0_5 *)object)->unk_12 = ((S_800B06F0_0 *)scratch)->unk_F4.at02.v + ((S_800B06F0_0 *)scratch)->unk_BA;
-            ((S_800B06F0_5 *)object)->unk_18 = ((S_800B06F0_0 *)scratch)->unk_F8.at00u.v + ((S_800B06F0_0 *)scratch)->unk_B8;
-            ((S_800B06F0_5 *)object)->unk_1A = ((S_800B06F0_0 *)scratch)->unk_F8.at02.v + ((S_800B06F0_0 *)scratch)->unk_BA;
-            ((S_800B06F0_5 *)object)->unk_20 = ((S_800B06F0_0 *)scratch)->unk_FC + ((S_800B06F0_0 *)scratch)->unk_B8;
-            current_check = current;
-            ((S_800B06F0_5 *)object)->unk_22 = ((S_800B06F0_0 *)scratch)->unk_FE + ((S_800B06F0_0 *)scratch)->unk_BA;
-            current_arg = &current;
+            ((S_800B06F0_5 *)packet)->unk_08 = ((S_800B06F0_0 *)scratch)->unk_F0.at00u.v + ((S_800B06F0_0 *)scratch)->unk_B8;
+            ((S_800B06F0_5 *)packet)->unk_0A = ((S_800B06F0_0 *)scratch)->unk_F0.at02.v + ((S_800B06F0_0 *)scratch)->unk_BA;
+            ((S_800B06F0_5 *)packet)->unk_10 = ((S_800B06F0_0 *)scratch)->unk_F4.at00u.v + ((S_800B06F0_0 *)scratch)->unk_B8;
+            ((S_800B06F0_5 *)packet)->unk_12 = ((S_800B06F0_0 *)scratch)->unk_F4.at02.v + ((S_800B06F0_0 *)scratch)->unk_BA;
+            ((S_800B06F0_5 *)packet)->unk_18 = ((S_800B06F0_0 *)scratch)->unk_F8.at00u.v + ((S_800B06F0_0 *)scratch)->unk_B8;
+            ((S_800B06F0_5 *)packet)->unk_1A = ((S_800B06F0_0 *)scratch)->unk_F8.at02.v + ((S_800B06F0_0 *)scratch)->unk_BA;
+            ((S_800B06F0_5 *)packet)->unk_20 = ((S_800B06F0_0 *)scratch)->unk_FC + ((S_800B06F0_0 *)scratch)->unk_B8;
+            primitive_check = primitive;
+            ((S_800B06F0_5 *)packet)->unk_22 = ((S_800B06F0_0 *)scratch)->unk_FE + ((S_800B06F0_0 *)scratch)->unk_BA;
+            primitive_ref = &primitive;
 
-            if ((current_check[1] & 0xFC) == 0x2C) {
-                object = func_800B0BE0(((S_800B06F0_0 *)scratch)->unk_C0.i, arg2_r, current_arg, object);
-                func_8004C010(object - 0x24, aux);
-                if (current != 0) {
+            if ((primitive_check[1] & 0xFC) == 0x2C) {
+                packet = func_800B0BE0(((S_800B06F0_0 *)scratch)->unk_C0.i, params, primitive_ref, packet);
+                func_8004C010(packet - 0x24, texture_data);
+                if (primitive != 0) {
                     goto loop;
                 }
-                aux += 4;
+                texture_data += 4;
                 goto next_list;
             }
 
             {
-                u32 call_x;
+                u32 ot_entry;
 
-                call_x = ((S_800B06F0_0 *)scratch)->unk_C0.i;
-                ASM_KEEP_NV(call_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                object = func_8004CD28(call_x, arg2_r, current_arg, object);
+                ot_entry = ((S_800B06F0_0 *)scratch)->unk_C0.i;
+                ASM_KEEP_NV(ot_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                packet = func_8004CD28(ot_entry, params, primitive_ref, packet);
             }
-            ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            if (current != 0) {
+            ASM_KEEP(packet);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            if (primitive != 0) {
                 goto loop;
             }
 
 next_list:
-            list++;
-            current = *list;
-            if (*(u8 * volatile *)&current != 0) {
+            primitive_list++;
+            primitive = *primitive_list;
+            if (*(u8 * volatile *)&primitive != 0) {
                 goto loop;
             }
 lists_done:
         func_80064A40();
     }
 
-    next_manager = ((S_800B06F0_2_pre *)arg0_r)[-1].unk_00;
-    if (next_manager == 0) {
+    next_batch = ((S_800B06F0_2_pre *)batch)[-1].unk_00;
+    if (next_batch == 0) {
         goto done;
     }
-    arg0_r = next_manager + 0x20;
-    dispatch_arg = ((S_800B06F0_6 *)next_manager)->unk_08;
-    arg2_r = ((S_800B06F0_6 *)next_manager)->unk_0C;
+    batch = next_batch + 0x20;
+    dispatch_arg = ((S_800B06F0_6 *)next_batch)->unk_08;
+    params = ((S_800B06F0_6 *)next_batch)->unk_0C;
     goto dispatch;
 
 done:
     manager = global_addr->manager;
     result = hard_zero;
-    ((S_800B06F0_7 *)manager)->unk_8D0 = object;
+    ((S_800B06F0_7 *)manager)->unk_8D0 = packet;
     return result;
 }

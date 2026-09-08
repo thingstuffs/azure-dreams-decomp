@@ -13,19 +13,17 @@ extern S_80083110 *D_80083110[4];
 
 extern void func_800488F0(s32 a0, s32 a1, s32 a2);
 
-/* Iterate over the 4 slots of D_80083110; for each occupied slot, notify
- * func_800488F0 with the slot's unk08/unk28 fields and reason=1, then clear
- * the slot. */
+/* Notify func_800488F0 with reason 1 for each occupied slot, then clear it. */
 void func_80048B28(void)
 {
-    S_80083110 **p = D_80083110;
-    s32 i;
+    S_80083110 **slot = D_80083110;
+    s32 slots_left;
 
-    for (i = 4; i > 0; i--, p++) {
-        S_80083110 *cur = *p;
-        if (cur != 0) {
-            func_800488F0(cur->unk08, cur->unk28, 1);
-            *p = 0;
+    for (slots_left = 4; slots_left > 0; slots_left--, slot++) {
+        S_80083110 *object = *slot;
+        if (object != 0) {
+            func_800488F0(object->unk08, object->unk28, 1);
+            *slot = 0;
         }
     }
 }

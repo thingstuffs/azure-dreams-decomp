@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_80094268_arg0.h"
+#include "records/Rec_D_800CFCC4.h"
 
 M2C_UNK func_80035208();                         /* extern */
 M2C_UNK func_8008B158();                         /* extern */
@@ -46,10 +47,6 @@ typedef struct S_800927EC_1 {
     s32 unk_10;
 } S_800927EC_1;   /* state in func_800927EC */
 
-typedef struct S_800927EC_2 {
-    u8 pad_00[0x14];
-    u8 unk_14;
-} S_800927EC_2;   /* D_800CFCC4 in func_800927EC */
 
 
 typedef struct S_800927EC_4 {
@@ -89,7 +86,7 @@ block_6:
         return;
     }
     if (((S_800927EC_1 *)state)->unk_10 & 0x80) {
-        if ((D_800CFCC4 != NULL) && (((S_800927EC_2 *)D_800CFCC4)->unk_14 == 4)) {
+        if ((D_800CFCC4 != NULL) && (((Rec_D_800CFCC4 *)D_800CFCC4)->unk_14 == 4)) {
             func_8009550C(arg1);
             func_80094774(arg0, arg1, arg2);
             D_800FE518[0] = 1;

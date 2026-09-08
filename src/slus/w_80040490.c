@@ -11,13 +11,11 @@ extern void *func_80040574(s32 size);
 extern void func_8004068C(u8 *src, void *dst);
 extern s32 LoadImage(S_80040490_RECT *rect, void *p);
 
-/* Decompresses image data pointed to by a0 into a freshly allocated VRAM-image
- * buffer sized from the RECT (a1)'s w/h, then hands the RECT + buffer to
- * LoadImage. Returns LoadImage's result. */
-s32 func_80040490(u8 *a0, S_80040490_RECT *a1) {
-    void *buf;
+/* Decompresses image data into an allocated buffer and uploads it to the VRAM rectangle. */
+s32 func_80040490(u8 *compressed_image, S_80040490_RECT *rect) {
+    void *image_buf;
 
-    buf = func_80040574(a1->w * (a1->h << 1));
-    func_8004068C(a0, buf);
-    return LoadImage(a1, buf);
+    image_buf = func_80040574(rect->w * (rect->h << 1));
+    func_8004068C(compressed_image, image_buf);
+    return LoadImage(rect, image_buf);
 }

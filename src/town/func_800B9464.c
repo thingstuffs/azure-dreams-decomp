@@ -22,16 +22,17 @@ typedef struct S_800B9464_a0 {
     u16 *arr_bc[1];        /* 0xBC, NULL-terminated pointer array */
 } S_800B9464_a0;
 
-void func_800B6BC4(S_800B9464_a0 *arg0)
+/* Process an object's pointer array and embedded state, then set its and the global 0x8000 flags. */
+void func_800B6BC4(S_800B9464_a0 *object)
 {
-    S_800B9464_sub *s0;
+    S_800B9464_sub *objectState;
 
-    if (arg0 != 0) {
-        s0 = &arg0->sub;
-        func_8004B248(arg0->arr_bc);
-        func_800B6B10(s0->unk98);
-        func_800B6F54(s0);
-        arg0->field_1E |= 0x8000;
+    if (object != 0) {
+        objectState = &object->sub;
+        func_8004B248(object->arr_bc);
+        func_800B6B10(objectState->unk98);
+        func_800B6F54(objectState);
+        object->field_1E |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

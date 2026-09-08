@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
+#include "records/Rec_func_80172D08_arg1.h"
 
 typedef struct S_80174A6C_0 {
     u8 pad_00[0x8];
@@ -27,14 +28,6 @@ typedef struct S_80174A6C_1 {
 } S_80174A6C_1;   /* prim in func_80174A6C */
 
 
-typedef struct S_80174A6C_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80174A6C_3;   /* arg1 in func_80174A6C */
 
 typedef struct S_80174A6C_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -60,11 +53,12 @@ extern s32 func_8003DE58(s32, void *, u16 *, s32);
 extern u8 D_80045340[9];
 extern u8 D_80174A00[9];
 
-s32 func_80174A6C(void *arg0, S_80174A6C_3 *arg1, Rec_D_80082E80 *arg2)
+/* Creates an object, initializes its primitive, copies state, and applies queried offsets. */
+s32 func_80174A6C(void *unused, Rec_func_80172D08_arg1 *src_state, Rec_D_80082E80 *source)
 {
-    u16 query_result[3];
+    u16 offsets[3];
     S_80174A6C_0 *obj;
-    S_80174A6C_4 *dst;
+    S_80174A6C_4 *dst_state;
     S_80174A6C_1 *prim;
 
     obj = func_8003FC64(0x312);
@@ -73,7 +67,7 @@ s32 func_80174A6C(void *arg0, S_80174A6C_3 *arg1, Rec_D_80082E80 *arg2)
         func_8004491C(obj, D_80045340);
 
         prim = obj->unk_0C;
-        prim->unk_28 = arg2->unk_28.at00_s32.v;
+        prim->unk_28 = source->unk_28.at00_s32.v;
         prim->unk_0E = 0x80;
         prim->unk_0D = 0x80;
         prim->unk_0C = 0x80;
@@ -85,40 +79,40 @@ s32 func_80174A6C(void *arg0, S_80174A6C_3 *arg1, Rec_D_80082E80 *arg2)
         func_80047784(prim, 0x39, 0);
 
         {
-            S_80174A6C_5 *query_arg = arg2;
+            S_80174A6C_5 *query_arg = source;
             u16 *query_out;
-            register s32 w0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register s32 w1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            s32 w2;
-            s32 w3;
+            register s32 copy_word_0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 copy_word_1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 copy_word_2;
+            s32 copy_word_3;
 
             ASM_KEEP(query_arg);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            dst = obj->unk_08;
-            ASM_KEEP(dst);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            query_out = query_result;
+            dst_state = obj->unk_08;
+            ASM_KEEP(dst_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            query_out = offsets;
             ASM_KEEP(query_out);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            w0 = arg1->unk_00;
-            w1 = arg1->unk_04;
-            w2 = arg1->unk_08;
-            w3 = arg1->unk_0C;
-            dst->unk_00.at00.v = w0;
-            dst->unk_04.at00.v = w1;
-            dst->unk_08.at00.v = w2;
-            dst->unk_0C = w3;
-            w0 = arg1->unk_10;
-            w1 = arg1->unk_14;
-            dst->unk_10 = w0;
-            dst->unk_14 = w1;
+            copy_word_0 = src_state->unk_00;
+            copy_word_1 = src_state->unk_04;
+            copy_word_2 = src_state->unk_08;
+            copy_word_3 = src_state->unk_0C;
+            dst_state->unk_00.at00.v = copy_word_0;
+            dst_state->unk_04.at00.v = copy_word_1;
+            dst_state->unk_08.at00.v = copy_word_2;
+            dst_state->unk_0C = copy_word_3;
+            copy_word_0 = src_state->unk_10;
+            copy_word_1 = src_state->unk_14;
+            dst_state->unk_10 = copy_word_0;
+            dst_state->unk_14 = copy_word_1;
 
-            query_result[2] = 0;
-            query_result[1] = 0;
-            query_result[0] = 0;
+            offsets[2] = 0;
+            offsets[1] = 0;
+            offsets[0] = 0;
             if (func_8003DE58(query_arg->unk_08, query_arg,
                               query_out, 0) != 0) {
-                dst->unk_00.at02.v += query_result[0];
-                dst->unk_04.at02.v += query_result[1];
-                dst->unk_08.at02.v += query_result[2];
+                dst_state->unk_00.at02.v += offsets[0];
+                dst_state->unk_04.at02.v += offsets[1];
+                dst_state->unk_08.at02.v += offsets[2];
             }
         }
         return (s32)obj;

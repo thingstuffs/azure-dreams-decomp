@@ -2,28 +2,29 @@
 
 #include "common.h"
 
-void func_80047200(u16 *arg0, s32 arg1, s32 arg2)
+// Sets bit 15 on 255 consecutive entries or the last 15 entries of each 16-entry group.
+void func_80047200(u16 *entry, s32 groupCount, s32 contiguousMode)
 {
-    register s32 i;
-    register s32 j;
+    register s32 groupIndex;
+    register s32 entryIndex;
 
-    j = 1;
-    if (arg2 == 0) {
-        i = 0;
-        if (arg1 > 0) {
+    entryIndex = 1;
+    if (contiguousMode == 0) {
+        groupIndex = 0;
+        if (groupCount > 0) {
             do {
-                arg0++;
-                for (j = 1; j < 0x10; j++) {
-                    *arg0 |= 0x8000;
-                    arg0++;
+                entry++;
+                for (entryIndex = 1; entryIndex < 0x10; entryIndex++) {
+                    *entry |= 0x8000;
+                    entry++;
                 }
-                i++;
-            } while (i < arg1);
+                groupIndex++;
+            } while (groupIndex < groupCount);
         }
     } else {
-        for (; j < 0x100; j++) {
-            *arg0 |= 0x8000;
-            arg0++;
+        for (; entryIndex < 0x100; entryIndex++) {
+            *entry |= 0x8000;
+            entry++;
         }
     }
 }

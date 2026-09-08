@@ -66,34 +66,35 @@ typedef struct S_80164ED0_1 {
     s16 unk_34;
 } S_80164ED0_1;   /* temp_s0 in func_80164ED0 */
 
-void func_80164ED0(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4, s32 arg5)
+/* Creates an effect relative to its parent with randomized motion and initial state values. */
+void func_80164ED0(Rec_D_800E3D7C *parent, s32 state_value, s16 pair_value, s32 offset_x, s32 offset_y, s32 offset_z)
 {
-    register s32 held_arg4 ASM_REG("$19") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 held_arg5 ASM_REG("$20") = arg5;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    S_80164ED0_1 *temp_s0;
-    void *temp_v0;
+    register s32 saved_offset_y ASM_REG("$19") = offset_y;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 saved_offset_z ASM_REG("$20") = offset_z;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    S_80164ED0_1 *effect_data;
+    void *effect;
 
-    temp_v0 = func_8003FD64(0x211, arg0);
-    if (temp_v0 != NULL) {
-        ((S_80164ED0_0 *)temp_v0)->unk_10 = D_80164DA4;
-        ((S_80164ED0_4 *)(((S_80164ED0_2 *)temp_v0)->unk_08))->unk_02 = (s16)
-            (((S_80164ED0_5 *)(arg0->unk_08.at00_pv.v))->unk_02 + arg3);
-        ((S_80164ED0_4 *)(((S_80164ED0_2 *)temp_v0)->unk_08))->unk_06 = (s16)
-            (((S_80164ED0_5 *)(arg0->unk_08.at00_pv.v))->unk_06 + held_arg4);
-        ((S_80164ED0_4 *)(((S_80164ED0_2 *)temp_v0)->unk_08))->unk_0A = (s16)
-            (((S_80164ED0_5 *)(arg0->unk_08.at00_pv.v))->unk_0A + held_arg5);
-        ((S_80164ED0_6 *)(((S_80164ED0_2 *)temp_v0)->unk_0C))->unk_06 = 6;
-        ((S_80164ED0_4 *)(((S_80164ED0_2 *)temp_v0)->unk_08))->unk_0C = (s32)
+    effect = func_8003FD64(0x211, parent);
+    if (effect != NULL) {
+        ((S_80164ED0_0 *)effect)->unk_10 = D_80164DA4;
+        ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_02 = (s16)
+            (((S_80164ED0_5 *)(parent->unk_08.at00_pv.v))->unk_02 + offset_x);
+        ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_06 = (s16)
+            (((S_80164ED0_5 *)(parent->unk_08.at00_pv.v))->unk_06 + saved_offset_y);
+        ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0A = (s16)
+            (((S_80164ED0_5 *)(parent->unk_08.at00_pv.v))->unk_0A + saved_offset_z);
+        ((S_80164ED0_6 *)(((S_80164ED0_2 *)effect)->unk_0C))->unk_06 = 6;
+        ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0C = (s32)
             (((rand() & 0x7FFF) - 0x4000) << 6);
-        ((S_80164ED0_4 *)(((S_80164ED0_2 *)temp_v0)->unk_08))->unk_10 = (s32)
+        ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_10 = (s32)
             (((rand() & 0x7FFF) - 0x4000) << 6);
-        temp_s0 = temp_v0 + 0x20;
-        ((S_80164ED0_4 *)(((S_80164ED0_2 *)temp_v0)->unk_08))->unk_14 = (s32)
+        effect_data = effect + 0x20;
+        ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_14 = (s32)
             (((rand() & 0x7FFF) - 0x4000) << 6);
-        temp_s0->unk_32 = arg2;
-        temp_s0->unk_34 = arg2;
-        func_8004491C(temp_v0, D_80164BC4);
-        ((S_80164ED0_0 *)temp_v0)->unk_20 = arg1;
-        temp_s0->unk_08 = arg1;
+        effect_data->unk_32 = pair_value;
+        effect_data->unk_34 = pair_value;
+        func_8004491C(effect, D_80164BC4);
+        ((S_80164ED0_0 *)effect)->unk_20 = state_value;
+        effect_data->unk_08 = state_value;
     }
 }

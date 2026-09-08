@@ -27,47 +27,48 @@ extern s32 D_80016608;
 extern s32 D_80019BB0;
 extern s32 D_80019BB4;
 
+/* Marks qualifying entries and their associated state with 0x400 in mode 2. */
 s32 func_80017DBC(void)
 {
-    s32 var_s1;
-    s32 var_s3;
-    void *var_s0;
-    void *var_s2;
-    void *var_s4;
-    s32 offset;
+    s32 entry_index;
+    s32 mark_value;
+    void *source_entry;
+    void *dest_entry;
+    void *dest_state;
+    s32 entry_offset;
 
     if (D_80019BB0 == 2) {
-        do { var_s1 = 1; } while (0);
-        var_s3 = 0x400;
-        var_s4 = &D_80016608;
-        var_s2 = var_s4 + 0x14;
+        do { entry_index = 1; } while (0);
+        mark_value = 0x400;
+        dest_state = &D_80016608;
+        dest_entry = dest_state + 0x14;
         do {
-            offset = 0xC;
-            var_s0 = (u8 *)&D_80016470 + offset;
+            entry_offset = 0xC;
+            source_entry = (u8 *)&D_80016470 + entry_offset;
         } while (0);
-loop_2:
-        if (func_800198D0(((S_80017DBC_0 *)var_s0)->unk_04) != 0) {
-            if (((S_80017DBC_0 *)var_s0)->unk_08 != 0) {
-                ((S_80017DBC_1 *)var_s2)->unk_02 = var_s3;
-                if (var_s1 == 1) {
-                    ((S_80017DBC_2 *)var_s4)->unk_A2 = var_s3;
-                    goto block_11;
+check_entry:
+        if (func_800198D0(((S_80017DBC_0 *)source_entry)->unk_04) != 0) {
+            if (((S_80017DBC_0 *)source_entry)->unk_08 != 0) {
+                ((S_80017DBC_1 *)dest_entry)->unk_02 = mark_value;
+                if (entry_index == 1) {
+                    ((S_80017DBC_2 *)dest_state)->unk_A2 = mark_value;
+                    goto next_entry;
                 }
-                ((S_80017DBC_2 *)var_s4)->unk_B6 = var_s3;
-                goto block_11;
+                ((S_80017DBC_2 *)dest_state)->unk_B6 = mark_value;
+                goto next_entry;
             }
-            if (D_80019BB4 == var_s1) {
-                ((S_80017DBC_1 *)var_s2)->unk_02 = var_s3;
+            if (D_80019BB4 == entry_index) {
+                ((S_80017DBC_1 *)dest_entry)->unk_02 = mark_value;
             }
         }
-block_11:
-        var_s2 += 0x14;
-        var_s1 += 1;
-        var_s0 += 0xC;
-        if (var_s1 >= 8) {
+next_entry:
+        dest_entry += 0x14;
+        entry_index += 1;
+        source_entry += 0xC;
+        if (entry_index >= 8) {
             return 0;
         }
-        goto loop_2;
+        goto check_entry;
     }
     return 1;
 }

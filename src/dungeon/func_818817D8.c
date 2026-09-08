@@ -57,44 +57,45 @@ extern u8 D_80025854[];
 extern u8 D_80045C34[];
 extern u16 D_800257CC;
 
-void *func_80024FD8(S_80024FD8_2 *arg0, s16 arg1, s16 arg2)
+/* Creates a render object at the supplied position and initializes its effect state. */
+void *func_80024FD8(S_80024FD8_2 *source_pos, s16 effect_param, s16 size)
 {
-    s32 temp_a0;
-    s32 value;
-    u16 counter;
-    S_80024FD8_3 *temp_s0;
-    void *temp_v0;
-    S_80024FD8_1 *temp_v1;
-    S_80024FD8_4 *temp_v1_2;
+    s32 signed_size;
+    s32 render_code;
+    u16 object_count;
+    S_80024FD8_3 *render_state;
+    void *object;
+    S_80024FD8_1 *position;
+    S_80024FD8_4 *effect_state;
 
-    temp_v0 = func_8003FC64(0x202);
-    if (temp_v0 != 0) {
-        ((S_80024FD8_0 *)temp_v0)->unk_10 = D_80024EE0;
-        func_8004491C(temp_v0, D_80045C34);
-        temp_v1 = ((S_80024FD8_0 *)temp_v0)->unk_08;
-        temp_v1->unk_02 = arg0->unk_02;
-        temp_v1->unk_06 = arg0->unk_06;
-        temp_v1->unk_0A = arg0->unk_0A;
-        temp_s0 = ((S_80024FD8_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_0C = 0x808080;
-        temp_s0->unk_1C = 0x400;
-        temp_s0->unk_1E = 0x1CCC;
-        func_8003DB94(temp_s0, D_80025854, 0);
-        temp_a0 = (s16)arg2;
-        temp_s0->unk_18 = (temp_a0 << 8) - 0x400;
-        value = 0x60;
+    object = func_8003FC64(0x202);
+    if (object != 0) {
+        ((S_80024FD8_0 *)object)->unk_10 = D_80024EE0;
+        func_8004491C(object, D_80045C34);
+        position = ((S_80024FD8_0 *)object)->unk_08;
+        position->unk_02 = source_pos->unk_02;
+        position->unk_06 = source_pos->unk_06;
+        position->unk_0A = source_pos->unk_0A;
+        render_state = ((S_80024FD8_0 *)object)->unk_0C;
+        render_state->unk_0C = 0x808080;
+        render_state->unk_1C = 0x400;
+        render_state->unk_1E = 0x1CCC;
+        func_8003DB94(render_state, D_80025854, 0);
+        signed_size = (s16)size;
+        render_state->unk_18 = (signed_size << 8) - 0x400;
+        render_code = 0x60;
            /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_v1_2 = (u8 *)temp_v0 + 0x20;
+        effect_state = (u8 *)object + 0x20;
            /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_s0->unk_10 = value;
-        counter = D_800257CC;
-        temp_s0->unk_16 = 0x400;
-        temp_v1_2->unk_24 = arg2;
-        temp_v1_2->unk_14 = arg1;
-        temp_v1_2->unk_1E = temp_a0 * 2;
-        D_800257CC = counter + 1;
+        render_state->unk_10 = render_code;
+        object_count = D_800257CC;
+        render_state->unk_16 = 0x400;
+        effect_state->unk_24 = size;
+        effect_state->unk_14 = effect_param;
+        effect_state->unk_1E = signed_size * 2;
+        D_800257CC = object_count + 1;
     }
-    return temp_v0;
+    return object;
 }
 
 /* MECHANISM: Natural argument liveness preserves the retail 0x28 frame and s0-s4 save contract.

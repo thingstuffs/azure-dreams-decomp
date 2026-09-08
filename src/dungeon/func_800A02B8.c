@@ -33,32 +33,29 @@ typedef struct S_800A5A18_2 {
     s16 unk_66;
 } S_800A5A18_2;   /* temp_v1_2 in func_800A5A18 */
 
-void *func_800A5A18(s32 arg0, s32 arg1) {
-    s32 stack_args[2];
-    void *temp_v0;
-    S_800A5A18_1 *temp_v1;
-    S_800A5A18_2 *temp_v1_2;
+/* Creates an object and initializes its attached data and resources. */
+void *func_800A5A18(s32 object_id, s32 state_value) {
+    s32 resource_params[2];
+    void *object;
+    S_800A5A18_1 *render_data;
+    S_800A5A18_2 *state_data;
 
-    temp_v0 = func_8003FD64(0x212, &D_80083498);
-    if (temp_v0 != NULL) {
-        ((S_800A5A18_0 *)temp_v0)->unk_10 = &D_800A5828;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v1 = ((S_800A5A18_0 *)temp_v0)->unk_0C;
-        ((S_800A5A18_0 *)temp_v0)->unk_08 = arg0;
-        temp_v1->unk_08 = &D_800DD854;
-        temp_v1->unk_1E = 0x1000;
-        temp_v1->unk_1C = 0x1000;
-        temp_v1_2 = temp_v0 + 0x20;
-        temp_v1_2->unk_04 = arg1;
-        temp_v1_2->unk_66 = 4;
-        stack_args[0] = 0x01800340;
-        stack_args[1] = 0x400040;
-        func_800B835C(&D_800DD860, stack_args, 1, 0);
+    object = func_8003FD64(0x212, &D_80083498);
+    if (object != NULL) {
+        ((S_800A5A18_0 *)object)->unk_10 = &D_800A5828;
+        func_8004491C(object, &D_80045340);
+        render_data = ((S_800A5A18_0 *)object)->unk_0C;
+        ((S_800A5A18_0 *)object)->unk_08 = object_id;
+        render_data->unk_08 = &D_800DD854;
+        render_data->unk_1E = 0x1000;
+        render_data->unk_1C = 0x1000;
+        state_data = object + 0x20;
+        state_data->unk_04 = state_value;
+        state_data->unk_66 = 4;
+        resource_params[0] = 0x01800340;
+        resource_params[1] = 0x400040;
+        func_800B835C(&D_800DD860, resource_params, 1, 0);
         func_800A56E0(0x60F);
     }
-    return temp_v0;
+    return object;
 }
-
-/* MECHANISM: Model the callee workspace as one escaping s32[2] stack record,
-   fixing the sp+0x10/sp+0x14 identity, constant stores, and argument pointer.
-   Long-lived args/result naturally produce the 0x28 frame and s1/s2/s0 saves. */

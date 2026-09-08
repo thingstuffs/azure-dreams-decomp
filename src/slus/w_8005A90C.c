@@ -22,57 +22,58 @@ extern s32 func_80059F8C(s32, s32);
 extern s32 func_8005ECA0(s32);
 extern s32 func_8005EC40(s32, u32);
 
-s32 func_8005A90C(s32 arg0, s32 arg1, s32 arg2, s16 arg3)
+/* Reserves a sound slot and transfers sample data to the requested sound RAM address. */
+s32 func_8005A90C(s32 src_addr, s32 sound_addr, s32 size, s16 requested_slot)
 {
-    s16 i;
-    s16 sel;
-    s32 idx;
+    s16 slot_id;
+    s16 selected_slot;
+    s32 slot_index;
     S_80086A40 *slot;
-    s32 ret;
-    s32 a2c;
+    s32 reserved_addr;
+    s32 reserve_size;
 
     D_8007382C[0] = 0;
-    i = 0;
-    sel = arg3;
-    if (sel == -1) {
+    slot_id = 0;
+    selected_slot = requested_slot;
+    if (selected_slot == -1) {
         do {
-            if (D_80086A40[i].marker == -1) {
+            if (D_80086A40[slot_id].marker == -1) {
                 goto found;
             }
-            i++;
-        } while (i < 16);
+            slot_id++;
+        } while (slot_id < 16);
         return -1;
     }
-    i = sel;
-    if (D_80086A40[i].marker != -1) {
-        func_8005A1D0(D_80086A40[i].unk10);
+    slot_id = selected_slot;
+    if (D_80086A40[slot_id].marker != -1) {
+        func_8005A1D0(D_80086A40[slot_id].unk10);
     }
 found:
-    idx = i;
-    slot = &D_80086A40[idx];
+    slot_index = slot_id;
+    slot = &D_80086A40[slot_index];
 
-    slot->unk14 = arg2;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    slot->marker = i;
-    slot->unk04 = arg0;
-    slot->unk08 = arg2;
-    a2c = arg2;
-    ASM_KEEP_NV(a2c);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    ret = arg1;
+    slot->unk14 = size;
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    slot->marker = slot_id;
+    slot->unk04 = src_addr;
+    slot->unk08 = size;
+    reserve_size = size;
+    ASM_KEEP_NV(reserve_size);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    reserved_addr = sound_addr;
     slot->unk18 = 0x7F;
     slot->unk1B = 0x40;
-    slot->unk10 = ret;
-    ret = func_80059F8C(ret, a2c);
-    slot->unk10 = ret;
-    if (ret == -1) {
+    slot->unk10 = reserved_addr;
+    reserved_addr = func_80059F8C(reserved_addr, reserve_size);
+    slot->unk10 = reserved_addr;
+    if (reserved_addr == -1) {
         return -1;
     }
-    arg1 = func_8005ECA0(ret);
-    if (func_8005EC40(arg0, slot->unk14) != slot->unk14) {
+    sound_addr = func_8005ECA0(reserved_addr);
+    if (func_8005EC40(src_addr, slot->unk14) != slot->unk14) {
         return -1;
     }
-    slot->unk0C = arg0;
-    ret = arg1;
-    slot->unk10 = ret;
-    return idx;
+    slot->unk0C = src_addr;
+    reserved_addr = sound_addr;
+    slot->unk10 = reserved_addr;
+    return slot_index;
 }

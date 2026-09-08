@@ -13,63 +13,62 @@ typedef struct
 {
   u8 b[16];
 } S_8003E39C_blk16;
-S_80083968 *func_8003E39C(s16 arg0, s32 arg1, s32 arg2)
+/* Waits for queue space, fills an entry, and advances the write index. */
+S_80083968 *func_8003E39C(s16 entry_type, s32 entry_value, s32 payload)
 {
-  S_80083968 *e;
-  u8 idx;
-  s32 kff;
-  u8 *hdr;
-  u8 *hdr2;
-  register S_80083968 *tbl ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  hdr = (u8 *) (&D_800814D1);
-  if (((D_800814D1 + 1) & 0x1F) == hdr[-1])
+  u8 write_index;
+  s32 sentinel;
+  u8 *queue_index;
+  u8 *wait_index;
+  register S_80083968 *entries ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+  queue_index = (u8 *) (&D_800814D1);
+  if (((D_800814D1 + 1) & 0x1F) == queue_index[-1])
   {
-    hdr2 = hdr;
+    wait_index = queue_index;
     do
     {
       func_8003E758();
     }
-    while (((D_800814D1 + 1) & 0x1F) == hdr2[-1]);
+    while (((D_800814D1 + 1) & 0x1F) == wait_index[-1]);
   }
 
   {
-    register u32 page ASM_REG("$2") = 0x80080000;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    tbl = (S_80083968 *)(page + 0x3968);
+    register u32 table_page ASM_REG("$2") = 0x80080000;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(table_page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    entries = (S_80083968 *)(table_page + 0x3968);
   }
-  kff = 0xFF;
-  idx = D_800814D1;
-  (&tbl[idx])->unk00 = (u8) arg0;
-  (&tbl[idx])->unk04 = arg1;
-  (&tbl[idx])->unk08[15] = 0;
-  if ((arg0 & 0xFF) == kff)
+  sentinel = 0xFF;
+  write_index = D_800814D1;
+  entries[write_index].unk00 = (u8) entry_type;
+  entries[write_index].unk04 = entry_value;
+  entries[write_index].unk08[15] = 0;
+  if ((entry_type & 0xFF) == sentinel)
   {
-    register S_80083968 *e1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(tbl);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    e1 = &tbl[idx];
-    *((s32 *) e1->unk08) = arg2;
+    register S_80083968 *slot ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(entries);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    slot = &entries[write_index];
+    *((s32 *) slot->unk08) = payload;
+  }
+  else if (payload == 1)
+  {
+    entries[write_index].unk08[15] = sentinel;
   }
   else
-    if (arg2 == 1)
   {
-    (&tbl[idx])->unk08[15] = kff;
-  }
-  else
-  {
-    register u8 *e3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(tbl);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    e3 = (u8 *) tbl + 8;
-    if (arg2 != 0)
+    register u8 *slot_data ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(entries);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    slot_data = (u8 *) entries + 8;
+    if (payload != 0)
     {
-      e3 = (u8 *) (idx * 24 + (u32) e3);
-      *((S_8003E39C_blk16 *) e3) = *((S_8003E39C_blk16 *) arg2);
+      slot_data = (u8 *) (write_index * 24 + (u32) slot_data);
+      *((S_8003E39C_blk16 *) slot_data) = *((S_8003E39C_blk16 *) payload);
     }
   }
   {
-    register s32 off ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    off = idx * 24;
+    register s32 slot_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    slot_offset = write_index * 24;
     D_800814D1 = (D_800814D1 + 1) & 0x1F;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    return (S_80083968 *) ((u8 *) D_80083968 + off);
+    return (S_80083968 *) ((u8 *) D_80083968 + slot_offset);
   }
 }

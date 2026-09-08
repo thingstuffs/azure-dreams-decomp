@@ -46,51 +46,52 @@ extern void func_80066640(void *, s32);
 extern void func_800667BC(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
+/* Queue enabled nodes as line primitives with draw modes, sorted by average depth. */
 s32 func_8002415C(u8 *node)
 {
     s32 coords[2];
-    s32 *coord1p;
-    TownState *global;
-    RenderState *root;
-    u8 *record;
-    u8 *new_record;
-    u8 *next;
-    s16 first;
-    s32 average;
-    s32 offset;
+    s32 *second_coord;
+    TownState *town_state;
+    RenderState *render_state;
+    u8 *line_prim;
+    u8 *draw_mode_prim;
+    u8 *next_link;
+    s16 first_depth;
+    s32 avg_depth;
+    s32 ot_offset;
 
-    global = &D_80083160;
-    coord1p = &coords[1];
+    town_state = &D_80083160;
+    second_coord = &coords[1];
     for (;;) {
         if (!(((S_8002415C_0 *)node)->unk_24 & 1)) {
-            root = global->render_state;
-            record = root->next_prim;
-            root->next_prim = record + 0x10;
-            ((S_8002415C_1 *)record)->unk_04 = ((S_8002415C_0 *)node)->unk_14;
-            func_800667BC(record);
-            func_80066640(record, 1);
-            first = func_80065420(node + 4, record + 8,
-                                  &coords[0], coord1p);
-            average = (first + func_80065420(node + 0xC, record + 0xC,
-                                             &coords[0], coord1p)) >> 1;
-            if ((u16)average < 0x1E0U) {
-                offset = (s16)average * 4;
-                addPrim((u8 *)(offset + (s32)global->render_state) + 0xB0,
-                        record);
+            render_state = town_state->render_state;
+            line_prim = render_state->next_prim;
+            render_state->next_prim = line_prim + 0x10;
+            ((S_8002415C_1 *)line_prim)->unk_04 = ((S_8002415C_0 *)node)->unk_14;
+            func_800667BC(line_prim);
+            func_80066640(line_prim, 1);
+            first_depth = func_80065420(node + 4, line_prim + 8,
+                                  &coords[0], second_coord);
+            avg_depth = (first_depth + func_80065420(node + 0xC, line_prim + 0xC,
+                                             &coords[0], second_coord)) >> 1;
+            if ((u16)avg_depth < 0x1E0U) {
+                ot_offset = (s16)avg_depth * 4;
+                addPrim((u8 *)(ot_offset + (s32)town_state->render_state) + 0xB0,
+                        line_prim);
 
-                root = global->render_state;
-                new_record = root->next_prim;
-                root->next_prim = new_record + 0xC;
-                func_80067F20(new_record, 0, 0,
+                render_state = town_state->render_state;
+                draw_mode_prim = render_state->next_prim;
+                render_state->next_prim = draw_mode_prim + 0xC;
+                func_80067F20(draw_mode_prim, 0, 0,
                     func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
-                addPrim((u8 *)(offset + (s32)global->render_state) + 0xB0,
-                        new_record);
+                addPrim((u8 *)(ot_offset + (s32)town_state->render_state) + 0xB0,
+                        draw_mode_prim);
             }
         }
 
-        next = ((S_8002415C_0_pre *)node)[-1].unk_00;
-        if (next != 0) {
-            node = next + 0x20;
+        next_link = ((S_8002415C_0_pre *)node)[-1].unk_00;
+        if (next_link != 0) {
+            node = next_link + 0x20;
             continue;
         }
         break;

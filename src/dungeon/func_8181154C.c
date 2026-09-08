@@ -17,14 +17,15 @@ extern s32 func_800263C0();
 extern s32 func_80026370();
 extern volatile u8 D_800294F8[9];
 
-void func_8002654C(s32 arg0)
+/* Clears the object's buffer and resets its associated state. */
+void func_8002654C(s32 objectAddress)
 {
-    S_8002654C_0 *obj;
+    S_8002654C_0 *objectState;
 
-    obj = (void *)(arg0 + 0x20);
-    memset(obj->unk_14, 0,
-                  (D_800294F8[obj->unk_10] * 2) | 1);
-    func_800263C0(obj->unk_70, obj->unk_14);
-    obj->unk_08 = 0;
-    func_80026370(obj->unk_70, 0);
+    objectState = (void *)(objectAddress + 0x20);
+    memset(objectState->unk_14, 0,
+           (D_800294F8[objectState->unk_10] * 2) | 1);
+    func_800263C0(objectState->unk_70, objectState->unk_14);
+    objectState->unk_08 = 0;
+    func_80026370(objectState->unk_70, 0);
 }

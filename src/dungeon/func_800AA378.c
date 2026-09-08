@@ -10,12 +10,13 @@ typedef struct {
 
 extern s32 func_800644B8(s32);
 
+/* Advance the object counters and wrapped phase according to its state. */
 void func_800AFAD8(Obj *obj)
 {
     s16 state;
-    s16 value;
-    u16 field_6;
-    u16 field_0;
+    s16 phase;
+    u16 offset;
+    u16 tick;
 
     state = obj->state;
     if (state == 1) {
@@ -36,37 +37,33 @@ void func_800AFAD8(Obj *obj)
     goto done;
 
 state_0:
-    field_6 = obj->field_6;
-    field_0 = obj->field_0;
-    field_6 += 2;
+    offset = obj->field_6;
+    tick = obj->field_0;
+    offset += 2;
     goto update_0_1;
 
 state_1:
-    field_6 = obj->field_6;
-    field_0 = obj->field_0;
-    field_6 += 4;
+    offset = obj->field_6;
+    tick = obj->field_0;
+    offset += 4;
 
 update_0_1:
-    field_0++;
-    obj->field_6 = field_6;
-    obj->field_0 = field_0;
+    tick++;
+    obj->field_6 = offset;
+    obj->field_0 = tick;
     goto done;
 
 state_2:
-    value = obj->field_8 + 0x40;
-    obj->field_8 = value % 0x1C00;
+    phase = obj->field_8 + 0x40;
+    obj->field_8 = phase % 0x1C00;
     goto done;
 
 state_3:
     obj->field_6 += 8;
-    value = (func_800644B8(obj->field_0 << 5) >> 1) + 0xC00;
+    phase = (func_800644B8(obj->field_0 << 5) >> 1) + 0xC00;
     obj->field_0++;
-    obj->field_8 = value % 0x1C00;
+    obj->field_8 = phase % 0x1C00;
 
 done:
     return;
 }
-
-/* MECHANISM: The rowbase-local targets are CFG joins inside func_800AFAD8,
-   not external calls. Cases 0/1 share update semantics; cases 2/3 feed one
-   signed 16-bit modulo tail, with only s0 and ra live in the 0x18 frame. */

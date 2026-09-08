@@ -13,25 +13,26 @@ typedef struct S_800D5F80_2 {
     s16 unk_02;
 } S_800D5F80_2;   /* temp_a1 in func_800D5F80 */
 
-s32 func_800D5F80(Rec_D_800E3D7C *arg0, Rec_D_800E3D7C *arg1) {
-    s16 temp_v0_2;
-    s32 temp_s0;
-    s32 temp_s1;
-    s16 temp_height;
-    s32 temp_raw_height;
-    void *temp_table;
-    S_800D5F80_2 *temp_a1;
+/* Checks whether the position ahead passes the collision and height tests. */
+s32 func_800D5F80(Rec_D_800E3D7C *position, Rec_D_800E3D7C *orientation) {
+    s16 surface_height;
+    s32 probe_y;
+    s32 probe_x;
+    s16 probe_height;
+    s32 height;
+    void *offset_table;
+    S_800D5F80_2 *offset;
 
-    temp_raw_height = arg0->unk_08.at02_s16.v;
-    temp_height = temp_raw_height - 0x20;
-    temp_table = D_800E2468;
-    temp_a1 = temp_table + ((arg1->unk_2A.as_u16 >> 7) & 0x1C);
-    temp_s1 = (arg0->unk_00.at02_s16.v + (temp_a1->unk_00 << 6)) & 0xFFFF;
-    temp_s0 = (arg0->unk_04.at02_s16.v + (temp_a1->unk_02 << 6)) & 0xFFFF;
-    if ((func_800A45D8(temp_s1, temp_s0, temp_height) << 0x10) == 0) {
-        temp_v0_2 = func_800BCB04(temp_s1, temp_s0, temp_height);
-        if (temp_v0_2 < 0x200 &&
-            (arg0->unk_08.at02_s16.v - 0x40) < temp_v0_2) {
+    height = position->unk_08.at02_s16.v;
+    probe_height = height - 0x20;
+    offset_table = D_800E2468;
+    offset = offset_table + ((orientation->unk_2A.as_u16 >> 7) & 0x1C);
+    probe_x = (position->unk_00.at02_s16.v + (offset->unk_00 << 6)) & 0xFFFF;
+    probe_y = (position->unk_04.at02_s16.v + (offset->unk_02 << 6)) & 0xFFFF;
+    if ((func_800A45D8(probe_x, probe_y, probe_height) << 0x10) == 0) {
+        surface_height = func_800BCB04(probe_x, probe_y, probe_height);
+        if (surface_height < 0x200 &&
+            (position->unk_08.at02_s16.v - 0x40) < surface_height) {
             goto fail;
         }
     }

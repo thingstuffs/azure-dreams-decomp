@@ -32,9 +32,10 @@ extern s32 func_8009A028(void *arg0);
 extern s32 func_800A2C78(void *arg0);
 extern s32 func_800A32A4(void *arg0);
 
-void func_800CB170(State *state, Position *position, Motion *motion, void *arg3) {
-    u16 value;
-    u8 value_0e;
+/* Animate a staged shrinking and fading effect, then release its object. */
+void func_800CB170(State *state, Position *position, Motion *motion, void *object) {
+    u16 counter;
+    u8 shade;
     s32 one = 1;
 
     {
@@ -55,10 +56,10 @@ void func_800CB170(State *state, Position *position, Motion *motion, void *arg3)
     }
 
 state_zero:
-    if ((func_800A2C78(arg3) << 16) == 0) {
-        u16 *global_83460;
-        global_83460 = &D_80083460[0];
-        global_83460[5] = global_83460[5] + 1;
+    if ((func_800A2C78(object) << 16) == 0) {
+        u16 *active_counts;
+        active_counts = &D_80083460[0];
+        active_counts[5] = active_counts[5] + 1;
         state->value_b2 = 4;
         state->value_96 = 0;
         state->state_9b = state->state_9b + 1;
@@ -68,38 +69,38 @@ state_zero:
 
 state_one:
     {
-        value = state->value_96 + 1;
-        state->value_96 = value;
-        motion->value_1c = motion->value_1c + func_800644B8((value << 16) >> 11);
+        counter = state->value_96 + 1;
+        state->value_96 = counter;
+        motion->value_1c = motion->value_1c + func_800644B8((counter << 16) >> 11);
         motion->value_1e = motion->value_1e - func_800644B8((s16)state->value_96 << 5);
-        value = state->value_b2 - 1;
-        state->value_b2 = value;
-        if ((value << 16) <= 0) {
+        counter = state->value_b2 - 1;
+        state->value_b2 = counter;
+        if ((counter << 16) <= 0) {
             state->state_9b = state->state_9b + 1;
         }
         goto done;
     }
 
 state_two:
-    value = state->value_96 - 1;
-    state->value_96 = value;
-    if ((value << 16) <= 0) {
+    counter = state->value_96 - 1;
+    state->value_96 = counter;
+    if ((counter << 16) <= 0) {
         state->value_96 = one;
     }
     motion->value_1c = motion->value_1c - func_800644B8((s16)state->value_96 << 5) * 2;
     motion->value_1e = motion->value_1e + func_800644B8((s16)state->value_96 << 5) * 4;
     position->value_14 = position->value_14 + (s32)0xfffe0000;
-    value_0e = motion->value_0e - 4;
-    motion->value_0e = value_0e;
-    motion->pad_0d = value_0e;
-    motion->pad_0c = value_0e;
+    shade = motion->value_0e - 4;
+    motion->value_0e = shade;
+    motion->pad_0d = shade;
+    motion->pad_0c = shade;
     if ((s16)motion->value_1c <= 0) {
-        u16 *global_83460;
-        global_83460 = &D_80083460[0];
-        global_83460[5] = global_83460[5] - 1;
-        func_800A32A4(arg3);
-        func_8009A028(arg3);
-        ((u16 *)arg3)[-1] = ((u16 *)arg3)[-1] | 0x8000;
+        u16 *active_counts;
+        active_counts = &D_80083460[0];
+        active_counts[5] = active_counts[5] - 1;
+        func_800A32A4(object);
+        func_8009A028(object);
+        ((u16 *)object)[-1] = ((u16 *)object)[-1] | 0x8000;
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 

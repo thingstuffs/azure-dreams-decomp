@@ -26,111 +26,112 @@ extern u8 D_80170EA8;
 extern s32 D_80174068;
 
 
-void func_80172FE4(S_80172FE4_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
+/* Updates directional movement, then stops or returns the entity to its grid position. */
+void func_80172FE4(S_80172FE4_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 *entity, void *source)
 {
     s16 timer;
     s32 current_x;
     s32 current_y;
     s32 target_x;
-    s32 value;
-    s32 *state;
+    s32 tracked_addr;
+    s32 *tracking_state;
 
-    switch (arg0->unk_9B) {
+    switch (action->unk_9B) {
     case 0:
-        func_800AD4D0(arg3);
-        arg1->unk_0C.as_s32 =
+        func_800AD4D0(source);
+        motion->unk_0C.as_s32 =
             -*(s16 *)((u8 *)&D_8006CCD8 +
-                      ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
-        arg1->unk_10.at00_s32.v =
+                      ((((Rec_D_800E3D7C *)source)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
+        motion->unk_10.at00_s32.v =
             -*(s16 *)((u8 *)&D_8006CCE8 +
-                      ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
-        arg0->unk_9B++;
+                      ((((Rec_D_800E3D7C *)source)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
+        action->unk_9B++;
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
+        if (((Rec_D_800E3D7C *)source)->unk_28 == 0) {
             goto start_action;
         }
-        if (arg2->unk_14.at00_u16.v & 0x8000) {
-            arg0->unk_96.s = 0;
-            arg0->unk_9B = 2;
+        if (entity->unk_14.at00_u16.v & 0x8000) {
+            action->unk_96.s = 0;
+            action->unk_9B = 2;
             return;
         }
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228) {
+        if (((Rec_D_800E3D7C *)source)->unk_1C.as_s32 & 0x228) {
             timer = 8;
         } else {
             timer = -1;
         }
-        arg0->unk_96.s = timer;
-        arg1->unk_0C.as_s32 -= arg1->unk_0C.as_s32 / 4;
-        arg1->unk_10.at00_s32.v -= arg1->unk_10.at00_s32.v / 4;
+        action->unk_96.s = timer;
+        motion->unk_0C.as_s32 -= motion->unk_0C.as_s32 / 4;
+        motion->unk_10.at00_s32.v -= motion->unk_10.at00_s32.v / 4;
         /* fall through */
 
     case 1:
-        arg1->unk_0C.as_s32 +=
+        motion->unk_0C.as_s32 +=
             *(s16 *)((u8 *)&D_8006CCD8 +
-                     ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 14;
+                     ((((Rec_D_800E3D7C *)source)->unk_6A.as_u16 >> 8) & 0xE)) << 14;
         {
             s32 table_offset;
-            u8 *table_base;
+            u8 *y_table;
 
-            table_base = (u8 *)&D_8006CCE8;
-            table_offset = (((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE;
+            y_table = (u8 *)&D_8006CCE8;
+            table_offset = (((Rec_D_800E3D7C *)source)->unk_6A.as_u16 >> 8) & 0xE;
             ASM_KEEP(table_offset);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            arg1->unk_10.at00_s32.v +=
-                *(s16 *)(table_base + table_offset) << 14;
+            motion->unk_10.at00_s32.v +=
+                *(s16 *)(y_table + table_offset) << 14;
         }
-        if (arg0->unk_96.s > 0) {
-            arg0->unk_96.s = arg0->unk_96.u - 1;
-        } else if (arg2->unk_14.at00_u16.v & 0x6000) {
-            arg0->unk_96.s = 0;
+        if (action->unk_96.s > 0) {
+            action->unk_96.s = action->unk_96.u - 1;
+        } else if (entity->unk_14.at00_u16.v & 0x6000) {
+            action->unk_96.s = 0;
         }
-        if (arg0->unk_96.s != 0) {
+        if (action->unk_96.s != 0) {
             return;
         }
-        if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
+        if (((Rec_D_800E3D7C *)source)->unk_28 != 0) {
             goto increment_state;
         }
         goto start_action;
 
 start_action:
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800AAA54(arg0, arg1, arg2, &D_80174068);
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800AAA54(action, motion, entity, &D_80174068);
         return;
 
 increment_state:
-        arg0->unk_96.s = 8;
-        arg0->unk_9B++;
+        action->unk_96.s = 8;
+        action->unk_9B++;
         return;
 
     case 2:
-        if (arg0->unk_96.s != 0) {
-            target_x = arg2->unk_24 << 6;
-            current_x = arg1->unk_00.at02_s16.v - 0x20;
-            current_y = arg1->unk_04.at02_s16.v - 0x20;
-            arg1->unk_0C.as_s32 =
+        if (action->unk_96.s != 0) {
+            target_x = entity->unk_24 << 6;
+            current_x = motion->unk_00.at02_s16.v - 0x20;
+            current_y = motion->unk_04.at02_s16.v - 0x20;
+            motion->unk_0C.as_s32 =
                 ((target_x - current_x) << 15) /
-                arg0->unk_96.s;
-            arg1->unk_10.at00_s32.v =
-                (((arg2->unk_25 << 6) - current_y) << 15) /
-                arg0->unk_96.s;
+                action->unk_96.s;
+            motion->unk_10.at00_s32.v =
+                (((entity->unk_25 << 6) - current_y) << 15) /
+                action->unk_96.s;
         }
-        timer = arg0->unk_96.u - 1;
-        arg0->unk_96.s = timer;
+        timer = action->unk_96.u - 1;
+        action->unk_96.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800A2B04(motion, entity->unk_24, entity->unk_25);
 
-        state = &D_80083460;
-        value = state[4];
-        if (value == (s32)((u8 *)arg3 - 0x20)) {
-            state[4] = value & 0x7FFFFFFF;
+        tracking_state = &D_80083460;
+        tracked_addr = tracking_state[4];
+        if (tracked_addr == (s32)((u8 *)source - 0x20)) {
+            tracking_state[4] = tracked_addr & 0x7FFFFFFF;
         }
-        arg0->unk_8C = &D_80170EA8;
+        action->unk_8C = &D_80170EA8;
         return;
 
     default:

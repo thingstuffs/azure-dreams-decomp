@@ -10,27 +10,28 @@ extern void func_800940D0(void *arg0, void *arg1, s32 arg2);
 extern u8 D_800FE488[];
 extern u8 D_800CFCEF[];
 
-void func_80091A08(void *arg0, void *arg1, s32 arg2) {
-    s16 v0;
-    u16 tmp;
+/* Update the object, check its target value, and advance the countdown. */
+void func_80091A08(void *state, void *object, s32 context) {
+    s16 target_value;
+    u16 countdown;
 
-    func_80095C80(arg1);
-    func_80095094(arg1);
-    v0 = func_80095978(arg1, D_800FE488);
-    if (v0 - *(s16 *)((u8 *)arg1 + 0xA) >= 4) {
+    func_80095C80(object);
+    func_80095094(object);
+    target_value = func_80095978(object, D_800FE488);
+    if (target_value - *(s16 *)((u8 *)object + 0xA) >= 4) {
         if (D_800CFCEF[0] == 0) {
-            func_80094378(arg0, arg1, arg2);
+            func_80094378(state, object, context);
             return;
         }
     } else {
         if (D_800CFCEF[0] == 0) {
-            func_80095A94(arg1, v0, D_800FE488);
+            func_80095A94(object, target_value, D_800FE488);
         }
     }
 
-    tmp = *(u16 *)((u8 *)arg0 + 0xA) - 1;
-    *(u16 *)((u8 *)arg0 + 0xA) = tmp;
-    if ((s16)tmp < 0) {
-        func_800940D0(arg0, arg1, arg2);
+    countdown = *(u16 *)((u8 *)state + 0xA) - 1;
+    *(u16 *)((u8 *)state + 0xA) = countdown;
+    if ((s16)countdown < 0) {
+        func_800940D0(state, object, context);
     }
 }

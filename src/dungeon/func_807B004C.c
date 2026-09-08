@@ -45,36 +45,33 @@ typedef struct S_807B004C_3 {
     u16 unk_2A;
 } S_807B004C_3;   /* arg0 in func_807B004C */
 
-void func_807B004C(void *arg0) {
-    Pair pair;
-    s32 pair_first;
-    s32 pair_second;
-    Pair *pair_arg;
-    void *temp_v0;
-    S_807B004C_1 *temp_v1;
-    S_807B004C_2 *temp_v1_2;
+/* Creates a child object, initializes its state, and loads its graphics. */
+void func_807B004C(void *parent_data) {
+    Pair texture_rect;
+    s32 rect_origin;
+    s32 rect_size;
+    Pair *rect_ptr;
+    void *child;
+    S_807B004C_1 *render_state;
+    S_807B004C_2 *child_data;
 
-    temp_v0 = func_8003FD64(2, (u8 *)arg0 - 0x20);
-    if (temp_v0 != 0) {
-        ((S_807B004C_0 *)temp_v0)->unk_10 = D_800F75EC;
-        func_8004491C(temp_v0, D_80045340);
-        pair_first = 0x01000340;
-        pair_second = 0x200020;
-        pair_arg = &pair;
-        temp_v1 = ((S_807B004C_0 *)temp_v0)->unk_0C;
-        temp_v1->unk_08 = D_800FBE30;
-        temp_v1->unk_1C = 0x1000;
-        temp_v1->unk_1E = 0x800;
-        temp_v1_2 = (u8 *)temp_v0 + 0x20;
-        ((S_807B004C_0 *)temp_v0)->unk_20 = arg0;
-        temp_v1_2->unk_0A = ((S_807B004C_3 *)arg0)->unk_2A;
-        temp_v1_2->unk_0C = 0x30;
-        pair.second = pair_second;
-        pair.first = pair_first;
-        func_800B835C(D_800FBE3C, pair_arg, 1, 0);
+    child = func_8003FD64(2, (u8 *)parent_data - 0x20);
+    if (child != 0) {
+        ((S_807B004C_0 *)child)->unk_10 = D_800F75EC;
+        func_8004491C(child, D_80045340);
+        rect_origin = 0x01000340;
+        rect_size = 0x200020;
+        rect_ptr = &texture_rect;
+        render_state = ((S_807B004C_0 *)child)->unk_0C;
+        render_state->unk_08 = D_800FBE30;
+        render_state->unk_1C = 0x1000;
+        render_state->unk_1E = 0x800;
+        child_data = (u8 *)child + 0x20;
+        ((S_807B004C_0 *)child)->unk_20 = parent_data;
+        child_data->unk_0A = ((S_807B004C_3 *)parent_data)->unk_2A;
+        child_data->unk_0C = 0x30;
+        texture_rect.second = rect_size;
+        texture_rect.first = rect_origin;
+        func_800B835C(D_800FBE3C, rect_ptr, 1, 0);
     }
 }
-
-/* MECHANISM: The Pair stack object plus long-lived arg0/result locals produces the
-   retail 0x28 frame and s1/s0 save contract. Removing inherited ASM_REG/ASM_KEEP
-   pins releases both tail argument schedules and closes the reorder-only residue. */

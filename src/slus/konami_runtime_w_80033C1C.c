@@ -6,28 +6,29 @@
 
 
 
-void func_80033C1C(Rec_D_80081FDC *arg0, s32 arg1) {
-    arg0->unk_00 = 1;
-    arg0->unk_04 = arg1;
-    arg0->unk_08 = 0;
-    arg0->unk_0A = 0;
-    arg0->unk_0C = 0;
-    arg0->unk_10 = 0;
-    arg0->unk_14 = 0;
-    arg0->unk_18 = 0;
-    arg0->unk_20 = 0x1000;
-    arg0->unk_24 = 0x1000;
-    arg0->unk_28 = 0x1000;
-    arg0->unk_30 = 0;
-    arg0->unk_34 = 0;
-    arg0->unk_38 = 0;
-    arg0->unk_40 = 0;
-    arg0->unk_44 = 0;
-    arg0->unk_48 = 0;
-    arg0->unk_4C = 0;
-    arg0->unk_50 = 0;
-    arg0->unk_54 = 0;
-    arg0->unk_58 = 0;
-    arg0->unk_5C = 0;
-    arg0->unk_60 = 0;
+/* Initialize the state with the supplied value, zeroed fields, and unit scale. */
+void func_80033C1C(Rec_D_80081FDC *state, s32 initialValue) {
+    state->unk_00 = 1;
+    state->unk_04 = initialValue;
+    state->unk_08 = 0;
+    state->unk_0A = 0;
+    state->unk_0C = 0;
+    state->unk_10 = 0;
+    state->unk_14 = 0;
+    state->unk_18 = 0;
+    state->unk_20 = 0x1000;
+    state->unk_24 = 0x1000;
+    state->unk_28 = 0x1000;
+    state->unk_30 = 0;
+    state->unk_34 = 0;
+    state->unk_38 = 0;
+    state->unk_40 = 0;
+    state->unk_44 = 0;
+    state->unk_48 = 0;
+    state->unk_4C = 0;
+    state->unk_50 = 0;
+    state->unk_54 = 0;
+    state->unk_58 = 0;
+    state->unk_5C = 0;
+    state->unk_60 = 0;
 }

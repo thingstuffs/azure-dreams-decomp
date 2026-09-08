@@ -40,188 +40,187 @@ typedef struct S_80170A58_2 {
     u16 unk_88;
 } S_80170A58_2;   /* state in func_80170A58 */
 
-void func_80170A58(void *arg0, S_80170A58_0 *arg1, void *arg2)
+/* Update entity callbacks, movement, sprite facing, and ground-relative height. */
+void func_80170A58(void *entity, S_80170A58_0 *motion, void *sprite)
 {
-    S_80170A58_2 *state = arg0;
-    s16 old_state;
-    s32 dir;
-    u8 idx;
-    s16 hs;
-    u16 hu;
-    s32 lo;
-    s16 delta;
-    s32 ground;
+    S_80170A58_2 *state = entity;
+    s16 previous_state;
+    s32 view_dir;
+    u8 dir_index;
+    s16 height_offset;
+    u16 height_bits;
+    s32 hover_limit;
+    s16 ground_delta;
+    s32 ground_height;
     u16 part_flags;
-    s32 flags;
-    Callback cb;
-    Callback cb2;
+    s32 entity_flags;
+    Callback gated_callback;
+    Callback update_callback;
 
     if (D_80083462 & 0x2000) {
-        cb = (*(Callback *)((u8 *)arg0 + 0x8C));
-        if (cb == (Callback)D_80171014) {
-            cb(arg0, arg1, arg2, arg0);
+        gated_callback = (*(Callback *)((u8 *)entity + 0x8C));
+        if (gated_callback == (Callback)D_80171014) {
+            gated_callback(entity, motion, sprite, entity);
         } else {
-            (*(u8 *)((u8 *)arg0 + 0x71)) &= 0x7F;
+            (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
         }
         return;
     }
 
-    old_state = (s8)(*(u8 *)((u8 *)arg0 + 0x6D));
-    if (func_800A9E70(arg0, arg1, arg2, arg0) != 0) {
+    previous_state = (s8)(*(u8 *)((u8 *)entity + 0x6D));
+    if (func_800A9E70(entity, motion, sprite, entity) != 0) {
         return;
     }
 
-    cb2 = (*(Callback *)((u8 *)arg0 + 0x8C));
-    if (cb2 != 0) {
-        cb2(arg0, arg1, arg2, arg0);
+    update_callback = (*(Callback *)((u8 *)entity + 0x8C));
+    if (update_callback != 0) {
+        update_callback(entity, motion, sprite, entity);
     }
-    D_8017426C[(*(u8 *)((u8 *)arg0 + 0x9A))](arg0, arg1, arg2, arg0);
-    if (old_state != (*(s8 *)((u8 *)arg0 + 0x6D))) {
-        func_800AA36C(arg0, arg1, arg2, arg0);
+    D_8017426C[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
+    if (previous_state != (*(s8 *)((u8 *)entity + 0x6D))) {
+        func_800AA36C(entity, motion, sprite, entity);
     }
 
-    arg1->unk_00.at00.v += arg1->unk_0C;
-    arg1->unk_04.at00.v += arg1->unk_10;
+    motion->unk_00.at00.v += motion->unk_0C;
+    motion->unk_04.at00.v += motion->unk_10;
 
-    if (!((*(s32 *)((u8 *)arg0 + 0x1C)) & 0x40000) && !((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
-        arg1->unk_14 += (*(s8 *)((u8 *)arg0 + 0x9D)) * 0x14000;
-        (*(u8 *)((u8 *)arg0 + 0x9D)) = (*(u8 *)((u8 *)arg0 + 0x9D)) + 1;
+    if (!((*(s32 *)((u8 *)entity + 0x1C)) & 0x40000) && !((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+        motion->unk_14 += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
+        (*(u8 *)((u8 *)entity + 0x9D)) = (*(u8 *)((u8 *)entity + 0x9D)) + 1;
     } else {
-        (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
+        (*(u8 *)((u8 *)entity + 0x9D)) = 0;
     }
-    (*(s32 *)((u8 *)arg0 + 0x90)) += arg1->unk_14;
+    (*(s32 *)((u8 *)entity + 0x90)) += motion->unk_14;
 
-    part_flags = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
+    part_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
     if (!(part_flags & 0x8000)) {
-        dir = ((D_80083228 + state->unk_2A + 0x100) >> 9) & 7;
-        idx = dir;
-        if ((*(s16 *)((u8 *)arg0 + 0x94)) != idx) {
-            func_80047738(arg2, ((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8[idx],
-                          ((Rec_D_80082E80 *)arg2)->unk_04.as_s8);
-            (*(s16 *)((u8 *)arg0 + 0x94)) = dir;
+        view_dir = ((D_80083228 + state->unk_2A + 0x100) >> 9) & 7;
+        dir_index = view_dir;
+        if ((*(s16 *)((u8 *)entity + 0x94)) != dir_index) {
+            func_80047738(sprite, ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8[dir_index],
+                          ((Rec_D_80082E80 *)sprite)->unk_04.as_s8);
+            (*(s16 *)((u8 *)entity + 0x94)) = view_dir;
         }
-        if (D_8006CCF8[idx] != 0) {
-            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 1;
+        if (D_8006CCF8[dir_index] != 0) {
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 1;
         } else {
-            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xFFFE;
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;
         }
-        func_800A020C(state->unk_1C, (u8 *)arg2 + 0xC);
+        func_800A020C(state->unk_1C, (u8 *)sprite + 0xC);
         if (!(state->unk_1C & 0x20)) {
-            if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x40)) {
-                func_800478B8(arg2);
+            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
+                func_800478B8(sprite);
             }
         } else {
-            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x7000;
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x7000;
             state->unk_1C &= 0xFFFBFFFF;
         }
 
-        flags = state->unk_1C;
-        flags &= 0xF7FFFFFF;
-        state->unk_1C = flags;
-        flags &= 0x40000;
-        if (flags != 0) {
-            if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x40)) {
-                if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 == D_8017420C) {
-                    u16 count = (*(u16 *)((u8 *)arg0 + 0x9E));
-                    (*(u16 *)((u8 *)arg0 + 0x9E)) = count + 1;
-                    (*(s32 *)((u8 *)arg0 + 0xA0)) += func_800644B8((s16)count * 0xAA) << 5;
+        entity_flags = state->unk_1C;
+        entity_flags &= 0xF7FFFFFF;
+        state->unk_1C = entity_flags;
+        entity_flags &= 0x40000;
+        if (entity_flags != 0) {
+            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
+                if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == D_8017420C) {
+                    u16 bob_tick = (*(u16 *)((u8 *)entity + 0x9E));
+                    (*(u16 *)((u8 *)entity + 0x9E)) = bob_tick + 1;
+                    (*(s32 *)((u8 *)entity + 0xA0)) += func_800644B8((s16)bob_tick * 0xAA) << 5;
                 }
             }
-            if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
-                func_800BCB04(arg1->unk_00.at02.v, arg1->unk_04.at02.v,
+            if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+                func_800BCB04(motion->unk_00.at02.v, motion->unk_04.at02.v,
                               (s16)(state->unk_88 - 0x20));
-                lo = -0x20;
-                hs = (*(s16 *)((u8 *)arg0 + 0x92));
-                hu = (*(u16 *)((u8 *)arg0 + 0x92));
-                if (hs > lo) {
-                    (*(u16 *)((u8 *)arg0 + 0x92)) = hu - 8;
-                } else if (hs < -0x28) {
-                    (*(u16 *)((u8 *)arg0 + 0x92)) = hu + 8;
+                hover_limit = -0x20;
+                height_offset = (*(s16 *)((u8 *)entity + 0x92));
+                height_bits = (*(u16 *)((u8 *)entity + 0x92));
+                if (height_offset > hover_limit) {
+                    (*(u16 *)((u8 *)entity + 0x92)) = height_bits - 8;
+                } else if (height_offset < -0x28) {
+                    (*(u16 *)((u8 *)entity + 0x92)) = height_bits + 8;
                 }
             }
         } else {
-            s32 saved = (*(s32 *)((u8 *)arg0 + 0xA0));
-            (*(u16 *)((u8 *)arg0 + 0x9E)) = 0;
-            (*(s32 *)((u8 *)arg0 + 0xA0)) = 0;
-            (*(s32 *)((u8 *)arg0 + 0x90)) -= saved;
-            if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
-                delta = func_800BCB04(arg1->unk_00.at02.v, arg1->unk_04.at02.v,
+            s32 bob_offset = (*(s32 *)((u8 *)entity + 0xA0));
+            (*(u16 *)((u8 *)entity + 0x9E)) = 0;
+            (*(s32 *)((u8 *)entity + 0xA0)) = 0;
+            (*(s32 *)((u8 *)entity + 0x90)) -= bob_offset;
+            if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+                ground_delta = func_800BCB04(motion->unk_00.at02.v, motion->unk_04.at02.v,
                                       (s16)(state->unk_88 - 0x20)) -
                         state->unk_88;
-                if (delta < (*(s16 *)((u8 *)arg0 + 0x92))) {
-                    (*(s16 *)((u8 *)arg0 + 0x92)) = delta;
-                    (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
-                    arg1->unk_14 = 0;
+                if (ground_delta < (*(s16 *)((u8 *)entity + 0x92))) {
+                    (*(s16 *)((u8 *)entity + 0x92)) = ground_delta;
+                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    motion->unk_14 = 0;
                     state->unk_1C |= 0x8000000;
                 }
             }
         }
     } else {
         if (!(part_flags & 0x800)) {
-            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = part_flags | 0x7000;
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = part_flags | 0x7000;
         } else {
-            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v = part_flags & 0x8FFF;
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = part_flags & 0x8FFF;
         }
 
-        flags = state->unk_1C;
-        flags &= 0xF7FFFFFF;
-        state->unk_1C = flags;
-        flags &= 0x40000;
-        if (flags == 0) {
-            s32 saved = (*(s32 *)((u8 *)arg0 + 0xA0));
-            (*(u16 *)((u8 *)arg0 + 0x9E)) = 0;
-            (*(s32 *)((u8 *)arg0 + 0xA0)) = 0;
-            (*(s32 *)((u8 *)arg0 + 0x90)) -= saved;
-            if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
-                delta = func_800BCB04(arg1->unk_00.at02.v, arg1->unk_04.at02.v,
+        entity_flags = state->unk_1C;
+        entity_flags &= 0xF7FFFFFF;
+        state->unk_1C = entity_flags;
+        entity_flags &= 0x40000;
+        if (entity_flags == 0) {
+            s32 bob_offset = (*(s32 *)((u8 *)entity + 0xA0));
+            (*(u16 *)((u8 *)entity + 0x9E)) = 0;
+            (*(s32 *)((u8 *)entity + 0xA0)) = 0;
+            (*(s32 *)((u8 *)entity + 0x90)) -= bob_offset;
+            if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+                ground_delta = func_800BCB04(motion->unk_00.at02.v, motion->unk_04.at02.v,
                                       (s16)(state->unk_88 - 0x20)) -
                         state->unk_88;
-                if (delta < (*(s16 *)((u8 *)arg0 + 0x92))) {
-                    (*(s16 *)((u8 *)arg0 + 0x92)) = delta;
-                    (*(u8 *)((u8 *)arg0 + 0x9D)) = 0;
-                    arg1->unk_14 = 0;
+                if (ground_delta < (*(s16 *)((u8 *)entity + 0x92))) {
+                    (*(s16 *)((u8 *)entity + 0x92)) = ground_delta;
+                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    motion->unk_14 = 0;
                     state->unk_1C |= 0x8000000;
                 }
             }
         } else {
-            if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x40)) {
-                if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 == D_8017420C) {
-                    u16 count = (*(u16 *)((u8 *)arg0 + 0x9E));
-                    (*(u16 *)((u8 *)arg0 + 0x9E)) = count + 1;
-                    (*(s32 *)((u8 *)arg0 + 0xA0)) += func_800644B8((s16)count * 0xAA) << 5;
+            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
+                if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == D_8017420C) {
+                    u16 bob_tick = (*(u16 *)((u8 *)entity + 0x9E));
+                    (*(u16 *)((u8 *)entity + 0x9E)) = bob_tick + 1;
+                    (*(s32 *)((u8 *)entity + 0xA0)) += func_800644B8((s16)bob_tick * 0xAA) << 5;
                 }
             }
-            if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
-                func_800BCB04(arg1->unk_00.at02.v, arg1->unk_04.at02.v,
+            if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+                func_800BCB04(motion->unk_00.at02.v, motion->unk_04.at02.v,
                               (s16)(state->unk_88 - 0x20));
-                lo = -0x20;
-                hs = (*(s16 *)((u8 *)arg0 + 0x92));
-                hu = (*(u16 *)((u8 *)arg0 + 0x92));
-                if (hs > lo) {
-                    (*(u16 *)((u8 *)arg0 + 0x92)) = hu - 8;
-                } else if (hs < -0x28) {
-                    (*(u16 *)((u8 *)arg0 + 0x92)) = hu + 8;
+                hover_limit = -0x20;
+                height_offset = (*(s16 *)((u8 *)entity + 0x92));
+                height_bits = (*(u16 *)((u8 *)entity + 0x92));
+                if (height_offset > hover_limit) {
+                    (*(u16 *)((u8 *)entity + 0x92)) = height_bits - 8;
+                } else if (height_offset < -0x28) {
+                    (*(u16 *)((u8 *)entity + 0x92)) = height_bits + 8;
                 }
             }
         }
     }
 
-    flags = state->unk_1C;
-    if (flags & 0x40000000) {
-        state->unk_1C = flags & 0xBFFFFFFF;
-        ground = func_800BCB04((((Rec_D_80082E80 *)arg2)->unk_24 << 6) | 0x20,
-                               (((Rec_D_80082E80 *)arg2)->unk_25 << 6) | 0x20,
+    entity_flags = state->unk_1C;
+    if (entity_flags & 0x40000000) {
+        state->unk_1C = entity_flags & 0xBFFFFFFF;
+        ground_height = func_800BCB04((((Rec_D_80082E80 *)sprite)->unk_24 << 6) | 0x20,
+                               (((Rec_D_80082E80 *)sprite)->unk_25 << 6) | 0x20,
                                (s16)(state->unk_88 - 0x20));
-        if ((s16)ground < 0x200) {
-            (*(s16 *)((u8 *)arg0 + 0x92)) =
-                (*(u16 *)((u8 *)arg0 + 0x92)) + (state->unk_88 - ground);
-            state->unk_88 = ground;
+        if ((s16)ground_height < 0x200) {
+            (*(s16 *)((u8 *)entity + 0x92)) =
+                (*(u16 *)((u8 *)entity + 0x92)) + (state->unk_88 - ground_height);
+            state->unk_88 = ground_height;
         }
     }
 
-    arg1->unk_0A = state->unk_88 + (*(u16 *)((u8 *)arg0 + 0x92)) -
-                            (*(u16 *)((u8 *)arg0 + 0xA2));
-    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x40;
+    motion->unk_0A = state->unk_88 + (*(u16 *)((u8 *)entity + 0x92)) -
+                            (*(u16 *)((u8 *)entity + 0xA2));
+    ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x40;
 }
-
-/* MECHANISM: baseline rebuild (eval 1) */

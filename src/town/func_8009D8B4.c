@@ -25,24 +25,25 @@ extern M2C_UNK D_800D0078[3];
 extern s32 D_800D0620;
 extern M2C_UNK D_800D0640[3];
 
-void func_8009B014(void *arg0, void *arg1, M2C_UNK arg2) {
-    u16 temp_v0;
-    s32 temp_index;
-    s32 *temp_base;
-    s32 *temp_a2;
+/* Updates motion toward the target and advances the state when the countdown expires. */
+void func_8009B014(void *state, void *motion, M2C_UNK context) {
+    u16 ticks_left;
+    s32 target_index;
+    s32 *target_bases;
+    s32 *target_base;
 
-    temp_index = D_800D0620;
-    temp_base = D_800D0640;
-    temp_a2 = temp_base + temp_index;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = (s32) ((u32) (((S_8009B014_1 *)arg0)->unk_32 * 0x10000) + (u32) *temp_a2 - (u32) ((Rec_D_800E3D7C *)arg1)->unk_04.at00_s32.v) / ((S_8009B014_1 *)arg0)->unk_0A.s;
-    temp_v0 = (u16) ((S_8009B014_1 *)arg0)->unk_0A.s - 1;
-    ((S_8009B014_1 *)arg0)->unk_0A.u = temp_v0;
-    if (((s16) temp_v0 * 0x10000) <= 0) {
-        ((Rec_D_800E3D7C *)arg1)->unk_04.at00_s32.v = (s32) ((u32) (((S_8009B014_1 *)arg0)->unk_32 * 0x10000) + (u32) *temp_a2);
-        func_80099754(arg1);
-        ((S_8009B014_1 *)arg0)->unk_10 = 0x400;
-        ((S_8009B014_1 *)arg0)->unk_0A.u = 0xA;
-        func_80094984(D_800D0078, arg0, arg2);
-        ((S_8009B014_1 *)arg0)->unk_04 = D_8009AFF4;
+    target_index = D_800D0620;
+    target_bases = D_800D0640;
+    target_base = target_bases + target_index;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base - (u32) ((Rec_D_800E3D7C *)motion)->unk_04.at00_s32.v) / ((S_8009B014_1 *)state)->unk_0A.s;
+    ticks_left = (u16) ((S_8009B014_1 *)state)->unk_0A.s - 1;
+    ((S_8009B014_1 *)state)->unk_0A.u = ticks_left;
+    if (((s16) ticks_left * 0x10000) <= 0) {
+        ((Rec_D_800E3D7C *)motion)->unk_04.at00_s32.v = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base);
+        func_80099754(motion);
+        ((S_8009B014_1 *)state)->unk_10 = 0x400;
+        ((S_8009B014_1 *)state)->unk_0A.u = 0xA;
+        func_80094984(D_800D0078, state, context);
+        ((S_8009B014_1 *)state)->unk_04 = D_8009AFF4;
     }
 }

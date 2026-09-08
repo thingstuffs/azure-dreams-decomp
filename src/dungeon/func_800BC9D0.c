@@ -25,69 +25,66 @@ extern u8 D_800E3648[];
 extern u8 *D_800E3D7C;
 
 
-s32 func_800C2130(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3) {
-    s32 call_arg;
-    volatile u8 *entry;
-    u8 *state;
-    u16 *counter;
-    s32 object;
-    s32 result;
-    s32 i;
-    u8 flags;
+/* Apply an entity event or mark eligible slots, then finish the event. */
+s32 func_800C2130(Rec_D_800E3D7C *entity, s32 event, s16 event_type, s32 event_arg) {
+    s32 message_arg;
+    volatile u8 *slot;
+    u8 *event_state;
+    u16 *pending_count;
+    s32 message_buf;
+    s32 message_end;
+    s32 slot_index;
+    u8 slot_flags;
 
-    if (arg2 == 0xD) {
-        return func_80098864(arg1, arg3);
+    if (event_type == 0xD) {
+        return func_80098864(event, event_arg);
     }
-    if (arg0 == D_800E3D7C) {
-        arg0->unk_110 = arg1;
-        func_8008D344(arg0, &D_80083780, &D_80082E80, arg0);
+    if (entity == D_800E3D7C) {
+        entity->unk_110 = event;
+        func_8008D344(entity, &D_80083780, &D_80082E80, entity);
         return 0;
     }
-    if ((u32)arg0 <= 0x9FFFFFFF) {
-        func_800A6480(arg0, arg1);
+    if ((u32)entity <= 0x9FFFFFFF) {
+        func_800A6480(entity, event);
         if (func_800AD6FC(
-                arg0,
-                ((u16 *)D_800DDE84)[arg0->unk_10.at03_u8.v] & 3,
-                arg1) == 0) {
-            func_800A5F38(arg0, arg1);
+                entity,
+                ((u16 *)D_800DDE84)[entity->unk_10.at03_u8.v] & 3,
+                event) == 0) {
+            func_800A5F38(entity, event);
             return 1;
         }
         goto final;
     }
 
     func_800C4D78(0xC02020, 1);
-    object = func_800990FC();
-    
-    call_arg = object;
+    message_buf = func_800990FC();
+
+    message_arg = message_buf;
     if (D_80082EA6 >= 0) {
-        i = 0;
-        entry = D_800E3648;
+        slot_index = 0;
+        slot = D_800E3648;
         do {
-            if (entry[1] != 0 && entry[0] != 0) {
-                flags = entry[3];
-                if (!(flags & 0x40)) {
-                    entry[3] = flags | 0x80;
+            if (slot[1] != 0 && slot[0] != 0) {
+                slot_flags = slot[3];
+                if (!(slot_flags & 0x40)) {
+                    slot[3] = slot_flags | 0x80;
                 }
             }
-            i++;
-            entry += 4;
-        } while (i < 0x20);
-        
-        func_80099290(call_arg);
+            slot_index++;
+            slot += 4;
+        } while (slot_index < 0x20);
+
+        func_80099290(message_arg);
     } else {
-        result = func_80099194(D_800E1567, object);
-        func_80099290(result);
+        message_end = func_80099194(D_800E1567, message_buf);
+        func_80099290(message_end);
     }
-    func_800A5720(object);
+    func_800A5720(message_buf);
 
 final:
-    state = (u8 *)&D_80083460;
-    counter = (u16 *)(state + 0xA);
-    *counter = *counter - 1;
-    func_80098B38(arg1);
+    event_state = (u8 *)&D_80083460;
+    pending_count = (u16 *)(event_state + 0xA);
+    *pending_count = *pending_count - 1;
+    func_80098B38(event);
     return 1;
 }
-
-/* MECHANISM: TRUE-space CFG uses ordinary return/join edges, exact callee arity, and a u16 table.
-   ASM_KEEP holds the allocation result while the guarded a0 call argument survives the byte loop.
-   A volatile single-base cursor and named D_80083460 base preserve retail addressing and schedule. */

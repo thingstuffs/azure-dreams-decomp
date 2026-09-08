@@ -7,13 +7,13 @@
 typedef struct S_8003719C_4 {
     u8 pad_00[0x20];
     void * unk_20;
-} S_8003719C_4;   /* temp_v0 in func_8003719C */
+} S_8003719C_4;   /* node in func_8003719C */
 
 typedef struct S_8003719C_5 {
     u8 pad_00[0x10];
     s32 unk_10;
     s32 unk_14;
-} S_8003719C_5;   /* ((S_8003719C_4 *)temp_v0)->unk_20 in func_8003719C */
+} S_8003719C_5;   /* ((S_8003719C_4 *)node)->unk_20 in func_8003719C */
 
 
 typedef struct S_8003719C_0 {
@@ -23,7 +23,7 @@ typedef struct S_8003719C_0 {
     M2C_UNK (*unk_10)(void *, s32, void *);
     u8 pad_14[0xC];
     void * unk_20;
-} S_8003719C_0;   /* temp_v0 in func_8003719C */
+} S_8003719C_0;   /* node in func_8003719C */
 
 typedef struct S_8003719C_1 {
     u8 pad_00[0x4];
@@ -36,7 +36,7 @@ typedef struct S_8003719C_1 {
     s16 unk_4A;
     u8 pad_4C[0x1A];
     s16 unk_66;
-} S_8003719C_1;   /* temp_s1 in func_8003719C */
+} S_8003719C_1;   /* state in func_8003719C */
 
 
 typedef struct S_8003719C_3 {
@@ -48,7 +48,7 @@ typedef struct S_8003719C_3 {
     s32 unk_0C;
     u8 pad_10[0x4];
     u16 unk_14;
-} S_8003719C_3;   /* temp_s4 in func_8003719C */
+} S_8003719C_3;   /* sprite in func_8003719C */
 
 
 M2C_UNK func_80033C1C();                 /* extern */
@@ -72,41 +72,42 @@ extern M2C_UNK D_80082BB0;
 extern M2C_UNK D_80082BC0;
 extern M2C_UNK func_80033D54;
 
-void func_8003719C(s32 arg0, Rec_D_80081FDC *arg1, s32 *arg2, s16 arg3, s32 arg4, s32 arg5) {
-    s32 temp_s7;
-    S_8003719C_1 *temp_s1;
-    S_8003719C_3 *temp_s4;
-    void *temp_v0;
+/* Initializes a sprite node, links it to its owner, and applies its initial display state. */
+void func_8003719C(s32 node_addr, Rec_D_80081FDC *transform, s32 *script_data, s16 cursor_offset, s32 sprite_base, s32 owner) {
+    s32 render_data;
+    S_8003719C_1 *state;
+    S_8003719C_3 *sprite;
+    void *node;
 
-    temp_v0 = func_8003FF2C(0x11, arg0, 0x49, &D_80082BC0);
-    ((S_8003719C_0 *)temp_v0)->unk_10 = func_80037394;
-    func_8004491C(temp_v0, &func_80033D54);
-    temp_s1 = temp_v0 + 0x20;
-    temp_s7 = ((S_8003719C_0 *)temp_v0)->unk_08;
-    temp_s4 = ((S_8003719C_0 *)temp_v0)->unk_0C;
-    temp_s1->unk_44 = arg2;
-    temp_s1->unk_48 = 1;
-    temp_s1->unk_4A = arg3;
-    func_80033C1C(arg1, *arg2);
-    ((S_8003719C_0 *)temp_v0)->unk_20 = arg1;
-    arg1->unk_60 = 6;
-    ((S_8003719C_5 *)(((S_8003719C_4 *)temp_v0)->unk_20))->unk_10 = 0x47;
-    ((S_8003719C_5 *)(((S_8003719C_4 *)temp_v0)->unk_20))->unk_14 = 2;
-    temp_s1->unk_04 = 0;
-    temp_s1->unk_08 = 0;
-    func_800350B0(arg5, temp_s1);
-    temp_s4->unk_0C = 0xC0C0C0;
-    func_80036C7C(temp_s1->unk_44 + 3, &D_8006A988, &D_80082B80);
-    func_80036C7C(temp_s1->unk_44 + 3, &D_8006A994, &D_80082B90);
-    func_80036C7C(temp_s1->unk_44 + 3, &D_8006A9A0, &D_80082BA0);
-    func_80036C7C(temp_s1->unk_44 + 3, &D_8006A9AC, &D_80082BB0);
-    func_80036C7C(temp_s1->unk_44 + 3, &D_8006A9B8, &D_80081E90);
-    func_80036C7C(temp_s1->unk_44 + 3, &D_8006A9C4, &D_80081EA0);
-    temp_s4->unk_08 = &D_80082B90;
-    temp_s4->unk_00 = 0;
-    temp_s4->unk_04 = 0;
-    temp_s4->unk_05 = 0;
-    temp_s4->unk_14 = (u16) (temp_s4->unk_14 | 0x1C);
-    temp_s1->unk_66 = (s16) arg4;
-    func_80037394(temp_s1, temp_s7, temp_s4);
+    node = func_8003FF2C(0x11, node_addr, 0x49, &D_80082BC0);
+    ((S_8003719C_0 *)node)->unk_10 = func_80037394;
+    func_8004491C(node, &func_80033D54);
+    state = node + 0x20;
+    render_data = ((S_8003719C_0 *)node)->unk_08;
+    sprite = ((S_8003719C_0 *)node)->unk_0C;
+    state->unk_44 = script_data;
+    state->unk_48 = 1;
+    state->unk_4A = cursor_offset;
+    func_80033C1C(transform, *script_data);
+    ((S_8003719C_0 *)node)->unk_20 = transform;
+    transform->unk_60 = 6;
+    ((S_8003719C_5 *)(((S_8003719C_4 *)node)->unk_20))->unk_10 = 0x47;
+    ((S_8003719C_5 *)(((S_8003719C_4 *)node)->unk_20))->unk_14 = 2;
+    state->unk_04 = 0;
+    state->unk_08 = 0;
+    func_800350B0(owner, state);
+    sprite->unk_0C = 0xC0C0C0;
+    func_80036C7C(state->unk_44 + 3, &D_8006A988, &D_80082B80);
+    func_80036C7C(state->unk_44 + 3, &D_8006A994, &D_80082B90);
+    func_80036C7C(state->unk_44 + 3, &D_8006A9A0, &D_80082BA0);
+    func_80036C7C(state->unk_44 + 3, &D_8006A9AC, &D_80082BB0);
+    func_80036C7C(state->unk_44 + 3, &D_8006A9B8, &D_80081E90);
+    func_80036C7C(state->unk_44 + 3, &D_8006A9C4, &D_80081EA0);
+    sprite->unk_08 = &D_80082B90;
+    sprite->unk_00 = 0;
+    sprite->unk_04 = 0;
+    sprite->unk_05 = 0;
+    sprite->unk_14 = (u16) (sprite->unk_14 | 0x1C);
+    state->unk_66 = (s16) sprite_base;
+    func_80037394(state, render_data, sprite);
 }

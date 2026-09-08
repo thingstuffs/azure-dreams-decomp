@@ -91,171 +91,175 @@ extern s8 D_80083160[];
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 
-void func_80025C94(void *arg0, void *arg1, void *arg2) {
-    s16 temp_a0_2;
-    s32 temp_v0_3;
-    s32 temp_v1_2;
-    s8 temp_a0;
-    s8 temp_v0;
-    s8 temp_v1;
-    u16 temp_s4;
-    u16 temp_counter;
-    u8 temp_v0_2;
-    u8 temp_v1_3;
-    u8 temp_v1_4;
-    u8 temp_v1_5;
-    u8 temp_v1_6;
-    s32 var_a0_2;
-    s32 var_a0_3;
-    s32 var_a0_4;
-    u16 *temp_table;
-    register S_80025C94_1 *temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    S_80025C94_0 *temp_s0;
-    S_80025C94_2 *temp_s1;
-    S_80025C94_3 *temp_s2;
-    S_80025C94_5 *temp_s3;
-    S_80025C94_4 *temp_s5;
-    void *var_a0;
+/* Updates an object's fade and position, draws it, and restores its color. */
+void func_80025C94(void *object_arg, void *position_arg, void *sprite_arg) {
+    s16 move_ticks;
+    s32 start_y;
+    s32 move_ticks_left;
+    s32 draw_scale;
+    s32 direction;
+    s8 fade_out_ticks;
+    s8 fade_out_left;
+    s8 state;
+    u16 saved_render_value;
+    u16 update_count;
+    u8 fade_in_left;
+    u8 fade_out_level;
+    u8 next_fade_out;
+    u8 fade_in_level;
+    u8 next_fade_in;
+    s32 red;
+    s32 green;
+    s32 blue;
+    u16 *direction_table;
+    register S_80025C94_1 *motion ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_80025C94_0 *object;
+    S_80025C94_2 *sprite;
+    S_80025C94_3 *position;
+    S_80025C94_5 *appearance;
+    S_80025C94_4 *render_context;
+    void *object_ptr;
+    void *fade_in_ticks;
 
-    temp_counter = D_8002715C;
-    var_a0 = arg0;
-    temp_a3 = var_a0;
-    temp_s2 = arg1;
-    temp_s1 = arg2;
-    temp_s0 = temp_a3;
-    D_8002715C = temp_counter + 1;
-    temp_s5 = D_80083160;
-    temp_v1 = temp_s0->unk_72.s;
-    if (temp_v1 == 1) {
-        goto block_10;
+    update_count = D_8002715C;
+    object_ptr = object_arg;
+    motion = object_ptr;
+    position = position_arg;
+    sprite = sprite_arg;
+    object = motion;
+    D_8002715C = update_count + 1;
+    render_context = D_80083160;
+    state = object->unk_72.s;
+    if (state == 1) {
+        goto fade_in;
     }
-    if (temp_v1 < 2) {
-        if (temp_v1 == 0) {
-            goto block_state0;
+    if (state < 2) {
+        if (state == 0) {
+            goto initialize;
         }
-        temp_a3->unk_96 = 0;
-        goto block_epilogue;
+        motion->unk_96 = 0;
+        goto done;
     }
-    if (temp_v1 == 2) {
-        goto block_14;
+    if (state == 2) {
+        goto check_fade_out;
     }
-    if (temp_v1 == 3) {
-        goto block_state3;
+    if (state == 3) {
+        goto fade_out;
     }
-    temp_a3->unk_96 = 0;
-    goto block_epilogue;
-block_state0:
-    temp_s1->unk_1E = 0x1000;
-    temp_s1->unk_1C = 0x1000;
-    temp_s1->unk_0E = 0U;
-    temp_s1->unk_0D = 0U;
-    temp_s1->unk_0C = 0U;
-    temp_s0->unk_73.s = 8;
-    temp_s0->unk_2A = 0x400;
-    temp_table = (u16 *)0x80010000;
-    temp_v1_2 = (((S_80025C94_6 *)((s8 *)temp_table + (temp_s0->unk_6A * 2)))->unk_2094 + 2) & 7;
-    temp_s2->unk_00.at02.v = D_800DCEAC[temp_v1_2];
-    temp_v0_3 = D_800DCEBC[temp_v1_2];
-    temp_s2->unk_0A = 0;
-    temp_s2->unk_04.at02.v = temp_v0_3;
-    temp_s1->unk_24 = (u8) (D_8006CCD8[temp_v1_2 * 2] + 1);
-    temp_s1->unk_25 = (u8) (D_8006CCE8[temp_v1_2 * 2] + 1);
-    temp_s0->unk_72.s = (s8) ((u8) temp_s0->unk_72.s + 1);
-block_10:
-    var_a0 = (void *) temp_s0->unk_73.s;
-    if (var_a0 != NULL) {
-        temp_v1_5 = temp_s1->unk_0E;
-        temp_v1_6 = temp_v1_5 + ((s32) (0x80 - temp_v1_5) / (s32) var_a0);
-        temp_s1->unk_0E = temp_v1_6;
-        temp_s1->unk_0D = temp_v1_6;
-        temp_s1->unk_0C = temp_v1_6;
+    motion->unk_96 = 0;
+    goto done;
+initialize:
+    sprite->unk_1E = 0x1000;
+    sprite->unk_1C = 0x1000;
+    sprite->unk_0E = 0U;
+    sprite->unk_0D = 0U;
+    sprite->unk_0C = 0U;
+    object->unk_73.s = 8;
+    object->unk_2A = 0x400;
+    direction_table = (u16 *)0x80010000;
+    direction = (((S_80025C94_6 *)((s8 *)direction_table + (object->unk_6A * 2)))->unk_2094 + 2) & 7;
+    position->unk_00.at02.v = D_800DCEAC[direction];
+    start_y = D_800DCEBC[direction];
+    position->unk_0A = 0;
+    position->unk_04.at02.v = start_y;
+    sprite->unk_24 = (u8) (D_8006CCD8[direction * 2] + 1);
+    sprite->unk_25 = (u8) (D_8006CCE8[direction * 2] + 1);
+    object->unk_72.s = (s8) ((u8) object->unk_72.s + 1);
+fade_in:
+    fade_in_ticks = (void *) object->unk_73.s;
+    if (fade_in_ticks != NULL) {
+        fade_in_level = sprite->unk_0E;
+        next_fade_in = fade_in_level + ((s32) (0x80 - fade_in_level) / (s32) fade_in_ticks);
+        sprite->unk_0E = next_fade_in;
+        sprite->unk_0D = next_fade_in;
+        sprite->unk_0C = next_fade_in;
     }
-    temp_v0_2 = temp_s0->unk_73.u - 1;
-    temp_s0->unk_73.u = temp_v0_2;
-    if ((temp_v0_2 << 0x18) > 0) {
-        goto block_14;
+    fade_in_left = object->unk_73.u - 1;
+    object->unk_73.u = fade_in_left;
+    if ((fade_in_left << 0x18) > 0) {
+        goto check_fade_out;
     }
-    temp_s1->unk_0E = 0x80U;
-    temp_s1->unk_0D = 0x80U;
-    temp_s1->unk_0C = 0x80U;
-    temp_s0->unk_73.u = 0U;
-    temp_s0->unk_72.u = (u8) (temp_s0->unk_72.u + 1);
-block_14:
+    sprite->unk_0E = 0x80U;
+    sprite->unk_0D = 0x80U;
+    sprite->unk_0C = 0x80U;
+    object->unk_73.u = 0U;
+    object->unk_72.u = (u8) (object->unk_72.u + 1);
+check_fade_out:
     if (D_8002715A == 0) {
-        goto block_22;
+        goto update_position;
     }
-    temp_s0->unk_73.u = 8U;
-    temp_s2->unk_16 = 8;
-    goto block_advance_state;
-block_state3:
-    temp_a0 = temp_s0->unk_73.s;
-    if (temp_a0 != 0) {
-        temp_v1_3 = temp_s1->unk_0E;
-        temp_v1_4 = temp_v1_3 + ((s32) (0 - temp_v1_3) / temp_a0);
-        temp_s1->unk_0E = temp_v1_4;
-        temp_s1->unk_0D = temp_v1_4;
-        temp_s1->unk_0C = temp_v1_4;
+    object->unk_73.u = 8U;
+    position->unk_16 = 8;
+    goto advance_state;
+fade_out:
+    fade_out_ticks = object->unk_73.s;
+    if (fade_out_ticks != 0) {
+        fade_out_level = sprite->unk_0E;
+        next_fade_out = fade_out_level + ((s32) (0 - fade_out_level) / fade_out_ticks);
+        sprite->unk_0E = next_fade_out;
+        sprite->unk_0D = next_fade_out;
+        sprite->unk_0C = next_fade_out;
     }
-    temp_v0 = (u8) temp_s0->unk_73.s - 1;
-    temp_s0->unk_73.s = temp_v0;
-    if ((temp_v0 << 0x18) > 0) {
-        goto block_22;
+    fade_out_left = (u8) object->unk_73.s - 1;
+    object->unk_73.s = fade_out_left;
+    if ((fade_out_left << 0x18) > 0) {
+        goto update_position;
     }
-block_advance_state:
-    temp_s0->unk_72.u = (u8) (temp_s0->unk_72.u + 1);
-block_22:
-    temp_a0_2 = temp_a3->unk_96;
-    if (temp_a0_2 != 0) {
-        temp_s2->unk_00.at00.v = (s32) (temp_s2->unk_00.at00.v + ((s32) ((((temp_s1->unk_24 - 1) << 6) - (s16) temp_s2->unk_00.at02.v) << 0x10) / temp_a0_2));
-        temp_s2->unk_04.at00.v = (s32) (temp_s2->unk_04.at00.v + ((s32) ((((temp_s1->unk_25 - 1) << 6) - (s16) temp_s2->unk_04.at02.v) << 0x10) / (s16) temp_a3->unk_96));
-        temp_v0_3 = (u16) temp_a3->unk_96 - 1;
-        temp_a3->unk_96 = temp_v0_3;
-        if ((temp_v0_3 << 0x10) <= 0) {
-            temp_a3->unk_96 = 0;
+advance_state:
+    object->unk_72.u = (u8) (object->unk_72.u + 1);
+update_position:
+    move_ticks = motion->unk_96;
+    if (move_ticks != 0) {
+        position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((s32) ((((sprite->unk_24 - 1) << 6) - (s16) position->unk_00.at02.v) << 0x10) / move_ticks));
+        position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((s32) ((((sprite->unk_25 - 1) << 6) - (s16) position->unk_04.at02.v) << 0x10) / (s16) motion->unk_96));
+        move_ticks_left = (u16) motion->unk_96 - 1;
+        motion->unk_96 = move_ticks_left;
+        if ((move_ticks_left << 0x10) <= 0) {
+            motion->unk_96 = 0;
         }
     }
-    if (temp_s0->unk_14 & 0x40000) {
-        temp_a3->unk_92 = -0x20;
-        goto block_after_92;
+    if (object->unk_14 & 0x40000) {
+        motion->unk_92 = -0x20;
+        goto prepare_draw;
     }
-    temp_a3->unk_92 = 0;
-block_after_92:
-    temp_a3->unk_9D = 0;
-    temp_s3 = ((S_80025C94_7_pre *)(temp_s0->unk_58))[-1].unk_00;
-    temp_s4 = temp_s5->unk_C8;
-    temp_s5->unk_C8 = (u16) temp_s3->unk_1A;
-    temp_s1->unk_14 = (u16) (temp_s1->unk_14 & 0xFFBF);
-    temp_s2->unk_00.at02.v = (u16) (temp_s2->unk_00.at02.v + 0x100);
-    temp_s2->unk_04.at02.v = (u16) (temp_s2->unk_04.at02.v + 0x100);
-    if (D_80027158 == temp_s0->unk_6A) {
-        temp_v0_3 = (D_80027156 << 9) + 0x400;
-        goto block_store_2a;
+    motion->unk_92 = 0;
+prepare_draw:
+    motion->unk_9D = 0;
+    appearance = ((S_80025C94_7_pre *)(object->unk_58))[-1].unk_00;
+    saved_render_value = render_context->unk_C8;
+    render_context->unk_C8 = (u16) appearance->unk_1A;
+    sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFBF);
+    position->unk_00.at02.v = (u16) (position->unk_00.at02.v + 0x100);
+    position->unk_04.at02.v = (u16) (position->unk_04.at02.v + 0x100);
+    if (D_80027158 == object->unk_6A) {
+        draw_scale = (D_80027156 << 9) + 0x400;
+        goto store_draw_scale;
     }
-    temp_v0_3 = 0x400;
-block_store_2a:
-    temp_s0->unk_2A = temp_v0_3;
+    draw_scale = 0x400;
+store_draw_scale:
+    object->unk_2A = draw_scale;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp_s0->unk_5C(temp_a3, temp_s2, temp_s1, temp_a3);
-    temp_s2->unk_00.at02.v = (u16) (temp_s2->unk_00.at02.v - 0x100);
-    temp_s2->unk_04.at02.v = (u16) (temp_s2->unk_04.at02.v - 0x100);
-    temp_s5->unk_C8 = temp_s4;
-    temp_s0->unk_88 = 0;
-    var_a0_2 = temp_s3->unk_0C;
-    if (temp_s0->unk_6A != ((S_80025C94_7 *)(temp_s0->unk_58))->unk_26) {
-        var_a0_2 = var_a0_2 >> 1;
+    object->unk_5C(motion, position, sprite, motion);
+    position->unk_00.at02.v = (u16) (position->unk_00.at02.v - 0x100);
+    position->unk_04.at02.v = (u16) (position->unk_04.at02.v - 0x100);
+    render_context->unk_C8 = saved_render_value;
+    object->unk_88 = 0;
+    red = appearance->unk_0C;
+    if (object->unk_6A != ((S_80025C94_7 *)(object->unk_58))->unk_26) {
+        red = red >> 1;
     }
-    temp_s1->unk_0C = var_a0_2;
-    var_a0_3 = temp_s3->unk_0D;
-    if (temp_s0->unk_6A != ((S_80025C94_7 *)(temp_s0->unk_58))->unk_26) {
-        var_a0_3 = var_a0_3 >> 1;
+    sprite->unk_0C = red;
+    green = appearance->unk_0D;
+    if (object->unk_6A != ((S_80025C94_7 *)(object->unk_58))->unk_26) {
+        green = green >> 1;
     }
-    temp_s1->unk_0D = var_a0_3;
-    var_a0_4 = temp_s3->unk_0E;
-    if (temp_s0->unk_6A != ((S_80025C94_7 *)(temp_s0->unk_58))->unk_26) {
-        var_a0_4 = var_a0_4 >> 1;
+    sprite->unk_0D = green;
+    blue = appearance->unk_0E;
+    if (object->unk_6A != ((S_80025C94_7 *)(object->unk_58))->unk_26) {
+        blue = blue >> 1;
     }
-    temp_s1->unk_0E = var_a0_4;
-    goto block_epilogue;
-block_epilogue:
+    sprite->unk_0E = blue;
+    goto done;
+done:
     return;
 }

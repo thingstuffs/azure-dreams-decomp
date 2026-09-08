@@ -4,125 +4,126 @@
 extern void *D_80088880[];
 extern u16 D_80083168[];
 
-s32 func_8009074C(s16 arg0, u16 *arg1, u16 *arg2) {
+/* Converts directional input to an angle, optionally stepping from the current angle, and updates flags. */
+s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
     static void *const jt_keep[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
-    s32 temp_a0;
-    register s16 var_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 temp_t0;
-    register s32 temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 var_v0_2;
-    s32 var_v0_5;
-    register s32 var_v0_6 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 temp_a2;
-    u16 temp_v1;
-    u16 var_v0;
+    s32 current_angle;
+    register s16 result_angle ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 direction_mask;
+    register s32 direction_or_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 direction_result;
+    s32 angle_distance;
+    register s32 shifted_angle ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 current_bits;
+    u16 angle_bits;
+    u16 updated_flags;
     u16 normalized;
-    u32 global_value;
-    u32 temp_v0;
+    u32 input_state;
+    u32 input_direction;
 
-    global_value = D_80083168[0];
-    var_a3 = -1;
-    temp_t0 = global_value & 0xF000;
-    if (global_value & 0x10) {
+    input_state = D_80083168[0];
+    result_angle = -1;
+    direction_mask = input_state & 0xF000;
+    if (input_state & 0x10) {
         goto block_2;
     }
-    *arg1 &= 0xFFF;
+    *flags &= 0xFFF;
 block_2:
-    temp_v0 = global_value >> 0xC;
-    if ((u32) (temp_v0 - 1) >= 0xCU) {
+    input_direction = input_state >> 0xC;
+    if ((u32) (input_direction - 1) >= 0xCU) {
         goto block_17;
     }
-    (void)jt_keep; goto *D_80088880[(u32)((temp_v0) - 1)];
+    (void)jt_keep; goto *D_80088880[(u32)((input_direction) - 1)];
 jt_c2:
-    if (*arg1 & temp_t0) {
+    if (*flags & direction_mask) {
         goto block_19;
     }
     {
-        register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 tail_a3;
-        tail_v0 = ((s32) (arg0 << 0x10) >> 7);
-        tail_a3 = 0 - tail_v0;
-        var_a3 = tail_a3;
+        register s32 offset_angle ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 relative_angle;
+        offset_angle = ((s32) (direction_offset << 0x10) >> 7);
+        relative_angle = 0 - offset_angle;
+        result_angle = relative_angle;
         goto block_19;
     }
 jt_c6:
     {
-        register s32 tail_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        s32 tail_a3;
-        register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        tail_v0 = (s16)arg0;
-        tail_v1 = 1 - tail_v0;
-        tail_a3 = tail_v1 << 9;
-        tail_v0 = (*arg1 & 0xFFF) | temp_t0;
-        var_a3 = tail_a3;
-        var_v0 = tail_v0;
+        register s32 relative_direction ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 relative_angle;
+        register s32 direction_or_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        direction_or_flags = (s16)direction_offset;
+        relative_direction = 1 - direction_or_flags;
+        relative_angle = relative_direction << 9;
+        direction_or_flags = (*flags & 0xFFF) | direction_mask;
+        result_angle = relative_angle;
+        updated_flags = direction_or_flags;
         goto block_18_c1;
     }
 jt_c4:
-    if (*arg1 & temp_t0) {
+    if (*flags & direction_mask) {
         goto block_19;
     }
     {
-        temp_v1_2 = (s16)arg0;
-        var_v0_2 = 2;
+        direction_or_angle = (s16)direction_offset;
+        direction_result = 2;
         goto entry_v0_minus_v1;
     }
 jt_c12:
     {
-        register s32 tail_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        s32 tail_a3;
-        register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        tail_v0 = (s16)arg0;
-        tail_v1 = 3 - tail_v0;
-        tail_a3 = tail_v1 << 9;
-        tail_v0 = (*arg1 & 0xFFF) | temp_t0;
-        var_a3 = tail_a3;
-        var_v0 = tail_v0;
+        register s32 relative_direction ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 relative_angle;
+        register s32 direction_or_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        direction_or_flags = (s16)direction_offset;
+        relative_direction = 3 - direction_or_flags;
+        relative_angle = relative_direction << 9;
+        direction_or_flags = (*flags & 0xFFF) | direction_mask;
+        result_angle = relative_angle;
+        updated_flags = direction_or_flags;
         goto block_18_c3;
     }
 jt_c8:
-    if (*arg1 & temp_t0) {
+    if (*flags & direction_mask) {
         goto block_19;
     }
     {
-        temp_v1_2 = (s16)arg0;
-        var_v0_2 = 4;
+        direction_or_angle = (s16)direction_offset;
+        direction_result = 4;
         goto entry_v0_minus_v1;
     }
 jt_c9:
     {
-        register s32 tail_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 tail_a3;
-        tail_v0 = (s16)arg0;
-        tail_v1 = 5 - tail_v0;
-        tail_a3 = tail_v1 << 9;
-        tail_v0 = (*arg1 & 0xFFF) | temp_t0;
-        var_a3 = tail_a3;
-        var_v0 = tail_v0;
+        register s32 relative_direction ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register s32 direction_or_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 relative_angle;
+        direction_or_flags = (s16)direction_offset;
+        relative_direction = 5 - direction_or_flags;
+        relative_angle = relative_direction << 9;
+        direction_or_flags = (*flags & 0xFFF) | direction_mask;
+        result_angle = relative_angle;
+        updated_flags = direction_or_flags;
         goto block_18_c5;
     }
 jt_c1:
-    if (*arg1 & temp_t0) {
+    if (*flags & direction_mask) {
         goto block_19;
     }
-    temp_v1_2 = (s16)arg0;
-    var_v0_2 = 6;
+    direction_or_angle = (s16)direction_offset;
+    direction_result = 6;
 entry_v0_minus_v1:
-    var_v0_2 = var_v0_2 - temp_v1_2;
-    var_a3 = var_v0_2 << 9;
+    direction_result = direction_result - direction_or_angle;
+    result_angle = direction_result << 9;
     goto block_19;
 jt_c3:
     {
-        register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 tail_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        s32 tail_a3;
-        tail_v0 = (s16)arg0;
-        tail_v1 = 7 - tail_v0;
-        tail_a3 = tail_v1 << 9;
-        tail_v0 = (*arg1 & 0xFFF) | temp_t0;
-        var_a3 = tail_a3;
-        var_v0 = tail_v0;
+        register s32 direction_or_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 relative_direction ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 relative_angle;
+        direction_or_flags = (s16)direction_offset;
+        relative_direction = 7 - direction_or_flags;
+        relative_angle = relative_direction << 9;
+        direction_or_flags = (*flags & 0xFFF) | direction_mask;
+        result_angle = relative_angle;
+        updated_flags = direction_or_flags;
         goto block_18_c7;
     }
 jt_c5:
@@ -130,7 +131,7 @@ jt_c7:
 jt_c10:
 jt_c11:
 block_17:
-    var_v0 = *arg1 & 0xFFF;
+    updated_flags = *flags & 0xFFF;
 block_18_c1:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 block_18_c3:
@@ -139,76 +140,76 @@ block_18_c5:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 block_18_c7:
 block_18:
-    *arg1 = var_v0;
+    *flags = updated_flags;
 block_19:
-    *arg1 &= 0xFBFF;
-    if (arg2 == NULL) {
+    *flags &= 0xFBFF;
+    if (angle == NULL) {
         goto block_34;
     }
-    if (var_a3 == -1) {
+    if (result_angle == -1) {
         goto block_34;
     }
-    temp_v1 = *arg2;
-    normalized = temp_v1 & 0x800;
+    angle_bits = *angle;
+    normalized = angle_bits & 0x800;
     if (!normalized) {
-        normalized = temp_v1 & 0x7FF;
+        normalized = angle_bits & 0x7FF;
     } else {
-        normalized = temp_v1 | 0xF800;
+        normalized = angle_bits | 0xF800;
     }
 block_23:
-    *arg2 = normalized;
-    normalized = var_a3 & 0x800;
+    *angle = normalized;
+    normalized = result_angle & 0x800;
     if (!normalized) {
-        normalized = (u16) var_a3 & 0x7FF;
+        normalized = (u16) result_angle & 0x7FF;
     } else {
-        normalized = (u16) var_a3 | 0xF800;
+        normalized = (u16) result_angle | 0xF800;
     }
 block_25:
-    var_a3 = normalized;
-    temp_a0 = (s16) *arg2;
-    temp_a2 = *arg2;
-    var_v0_5 = temp_a0 - var_a3;
-    if (var_v0_5 >= 0) {
+    result_angle = normalized;
+    current_angle = (s16) *angle;
+    current_bits = *angle;
+    angle_distance = current_angle - result_angle;
+    if (angle_distance >= 0) {
         goto block_27;
     }
-    var_v0_5 = 0 - var_v0_5;
+    angle_distance = 0 - angle_distance;
 block_27:
-    ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if (var_v0_5 < 0x801) {
+    ASM_KEEP(result_angle);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    if (angle_distance < 0x801) {
         goto block_28;
     }
     {
         u16 wrap_hi;
         register u16 wrap_lo ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        wrap_hi = temp_a2 & 0xF000;
+        wrap_hi = current_bits & 0xF000;
         ASM_KEEP(wrap_hi);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        wrap_lo = var_a3 & 0xFFF;
+        wrap_lo = result_angle & 0xFFF;
         ASM_KEEP(wrap_lo);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        var_a3 = wrap_hi | wrap_lo;
+        result_angle = wrap_hi | wrap_lo;
     }
-    var_v0_6 = var_a3 << 0x10;
+    shifted_angle = result_angle << 0x10;
     goto block_29;
 block_28:
-    var_v0_6 = var_a3 << 0x10;
+    shifted_angle = result_angle << 0x10;
 block_29:
-    temp_v1_2 = var_v0_6 >> 0x10;
-    var_v0_2 = temp_a0 < temp_v1_2;
-    if (!var_v0_2) {
+    direction_or_angle = shifted_angle >> 0x10;
+    direction_result = current_angle < direction_or_angle;
+    if (!direction_result) {
         goto block_31;
     }
-    var_v0 = *arg1;
-    var_a3 = temp_a2 + 0x200;
+    updated_flags = *flags;
+    result_angle = current_bits + 0x200;
     goto block_33;
 block_31:
-    var_v0_2 = temp_v1_2 < temp_a0;
-    if (!var_v0_2) {
+    direction_result = direction_or_angle < current_angle;
+    if (!direction_result) {
         goto block_34;
     }
-    var_v0 = *arg1;
-    var_a3 = temp_a2 - 0x200;
+    updated_flags = *flags;
+    result_angle = current_bits - 0x200;
 block_33:
-    var_v0 |= 0x400;
-    *arg1 = var_v0;
+    updated_flags |= 0x400;
+    *flags = updated_flags;
 block_34:
-    return var_a3 & 0xFFF;
+    return result_angle & 0xFFF;
 }

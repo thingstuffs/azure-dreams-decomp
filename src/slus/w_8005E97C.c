@@ -17,52 +17,52 @@ extern volatile u16 D_80086D58[2];
 extern volatile u16 D_80086D5C;
 extern volatile u16 D_80086D5E;
 
-/* PsyQ 4.0 LIBSPU: SpuSetKey */
-void func_8005E97C(s32 onOff, u32 voices)
+/* Turns selected SPU voices on or off, queuing register writes when enabled. */
+void func_8005E97C(s32 key_on, u32 voices)
 {
-    u16 lo;
-    u16 hi;
+    u16 voices_lo;
+    u16 voices_hi;
 
     voices &= 0xFFFFFF;
-    lo = voices;
-    hi = voices >> 16;
+    voices_lo = voices;
+    voices_hi = voices >> 16;
 
-    switch (onOff) {
+    switch (key_on) {
     case 1:
         if (D_80079950 & 1) {
-            D_80086D58[0] = lo;
-            D_80086D58[1] = hi;
+            D_80086D58[0] = voices_lo;
+            D_80086D58[1] = voices_hi;
             D_8007951C |= 1;
             D_80079518 |= voices;
             if (D_80086D5C & voices) {
                 D_80086D5C &= ~voices;
             }
-            if (D_80086D5E & hi) {
-                D_80086D5E &= ~hi;
+            if (D_80086D5E & voices_hi) {
+                D_80086D5E &= ~voices_hi;
             }
         } else {
-            s32 t = D_800794F0;
-            D_80079958->keyon_lo = lo;
-            D_80079958->keyon_hi = hi;
-            D_800794F0 = t | voices;
+            s32 active_voices = D_800794F0;
+            D_80079958->keyon_lo = voices_lo;
+            D_80079958->keyon_hi = voices_hi;
+            D_800794F0 = active_voices | voices;
         }
         break;
 
     case 0:
         if (D_80079950 & 1) {
-            D_80086D5C = lo;
-            D_80086D5E = hi;
+            D_80086D5C = voices_lo;
+            D_80086D5E = voices_hi;
             D_8007951C |= 1;
             D_80079518 &= ~voices;
             if (D_80086D58[0] & voices) {
                 D_80086D58[0] &= ~voices;
             }
-            if (D_80086D58[1] & hi) {
-                D_80086D58[1] &= ~hi;
+            if (D_80086D58[1] & voices_hi) {
+                D_80086D58[1] &= ~voices_hi;
             }
         } else {
-            D_80079958->keyoff_lo = lo;
-            D_80079958->keyoff_hi = hi;
+            D_80079958->keyoff_lo = voices_lo;
+            D_80079958->keyoff_hi = voices_hi;
             D_800794F0 &= ~voices;
         }
         break;

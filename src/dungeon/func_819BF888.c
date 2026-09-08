@@ -4,49 +4,50 @@ extern void func_800478B8(void *arg0);
 extern s16 D_8002992E[5];
 extern s32 D_800814A0[3];
 
-void func_80025088(void *arg0, void *arg1, void *arg2) {
-    s32 temp_a0;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u16 temp_v1_3;
+/* Updates motion and rotation and marks the object finished when flagged or expired. */
+void func_80025088(void *state, void *position, void *render_state) {
+    s32 x_step;
+    s32 y_step;
+    s32 z_step;
+    u16 end_flag;
+    u16 ticks_left;
+    u16 frame_count;
 
-    temp_v1_3 = *(u16 *)((u8 *)arg0 + 0x2A);
+    frame_count = *(u16 *)((u8 *)state + 0x2A);
     D_8002992E[0] = 1;
-    temp_v1_3 = temp_v1_3 + 1;
-    *(u16 *)((u8 *)arg0 + 0x2A) = temp_v1_3;
-    if (!(temp_v1_3 & 1)) {
-        func_800478B8(arg2);
+    frame_count = frame_count + 1;
+    *(u16 *)((u8 *)state + 0x2A) = frame_count;
+    if (!(frame_count & 1)) {
+        func_800478B8(render_state);
     }
-    if (*(s16 *)((u8 *)arg0 + 0x2C) == 0) {
-        *(u16 *)((u8 *)arg2 + 0x16) = *(u16 *)((u8 *)arg2 + 0x16) + 0x190;
+    if (*(s16 *)((u8 *)state + 0x2C) == 0) {
+        *(u16 *)((u8 *)render_state + 0x16) = *(u16 *)((u8 *)render_state + 0x16) + 0x190;
     }
-    if (*(s16 *)((u8 *)arg0 + 0x2C) == 1) {
-        *(u16 *)((u8 *)arg2 + 0x1A) = *(u16 *)((u8 *)arg2 + 0x1A) + 0x190;
+    if (*(s16 *)((u8 *)state + 0x2C) == 1) {
+        *(u16 *)((u8 *)render_state + 0x1A) = *(u16 *)((u8 *)render_state + 0x1A) + 0x190;
     }
-    temp_a0 = *(s32 *)((u8 *)arg0 + 0x7C);
-    *(s32 *)((u8 *)arg0 + 0x84) += *(s32 *)((u8 *)arg0 + 0x90);
-    if (temp_a0 < 0) {
-        temp_a0 += 0xFFFF;
+    x_step = *(s32 *)((u8 *)state + 0x7C);
+    *(s32 *)((u8 *)state + 0x84) += *(s32 *)((u8 *)state + 0x90);
+    if (x_step < 0) {
+        x_step += 0xFFFF;
     }
-    *(u16 *)((u8 *)arg1 + 2) += temp_a0 >> 16;
-    temp_v1 = *(s32 *)((u8 *)arg0 + 0x80);
-    if (temp_v1 < 0) {
-        temp_v1 += 0xFFFF;
+    *(u16 *)((u8 *)position + 2) += x_step >> 16;
+    y_step = *(s32 *)((u8 *)state + 0x80);
+    if (y_step < 0) {
+        y_step += 0xFFFF;
     }
-    *(u16 *)((u8 *)arg1 + 6) += temp_v1 >> 16;
-    temp_v1_2 = *(s32 *)((u8 *)arg0 + 0x84);
-    if (temp_v1_2 < 0) {
-        temp_v1_2 += 0xFFFF;
+    *(u16 *)((u8 *)position + 6) += y_step >> 16;
+    z_step = *(s32 *)((u8 *)state + 0x84);
+    if (z_step < 0) {
+        z_step += 0xFFFF;
     }
-    *(u16 *)((u8 *)arg1 + 0xA) += temp_v1_2 >> 16;
-    temp_v0 = *(u16 *)((u8 *)arg2 + 0x14) & 0x8000;
-    *(u16 *)((u8 *)arg2 + 0x14) = temp_v0;
-    if ((temp_v0 != 0) || (temp_v0_2 = *(u16 *)((u8 *)arg0 + 0x28) - 1,
-                            *(u16 *)((u8 *)arg0 + 0x28) = temp_v0_2,
-                            ((temp_v0_2 << 16) <= 0))) {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    *(u16 *)((u8 *)position + 0xA) += z_step >> 16;
+    end_flag = *(u16 *)((u8 *)render_state + 0x14) & 0x8000;
+    *(u16 *)((u8 *)render_state + 0x14) = end_flag;
+    if ((end_flag != 0) || (ticks_left = *(u16 *)((u8 *)state + 0x28) - 1,
+                            *(u16 *)((u8 *)state + 0x28) = ticks_left,
+                            ((ticks_left << 16) <= 0))) {
+        *(u16 *)((u8 *)state - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

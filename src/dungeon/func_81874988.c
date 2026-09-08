@@ -129,46 +129,47 @@ extern void func_80064D80(void *);
 extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void func_80065820(void *, void *);
 
-void func_81874988(void *arg0, void *arg1, void *arg2, s16 arg3)
+/* Projects a textured quad and queues it for drawing, or invokes its texture callback. */
+void func_81874988(void *quad, void *position, void *material, s16 depth_bias)
 {
-    u8 *global_value = D_80083160;
-    u32 helper_value;
+    u8 *render_state = D_80083160;
+    u32 tex_attr;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     u8 *texture;
     Callback callback;
-    s32 index;
-    u16 flags;
-    s32 adjust;
+    s32 depth_index;
+    u16 draw_flags;
+    s32 tex_adjust;
     u8 tex_flags;
-    MATRIX matrix;
+    MATRIX view_matrix;
 
-    ((S_81874988_0 *)scratch)->unk_24.p = global_value + 0xB0;
-    ((S_81874988_0 *)scratch)->unk_88 = ((S_81874988_1 *)arg1)->unk_02;
-    ((S_81874988_0 *)scratch)->unk_8C = ((S_81874988_1 *)arg1)->unk_06;
-    ((S_81874988_0 *)scratch)->unk_90 = ((S_81874988_1 *)arg1)->unk_0A;
+    ((S_81874988_0 *)scratch)->unk_24.p = render_state + 0xB0;
+    ((S_81874988_0 *)scratch)->unk_88 = ((S_81874988_1 *)position)->unk_02;
+    ((S_81874988_0 *)scratch)->unk_8C = ((S_81874988_1 *)position)->unk_06;
+    ((S_81874988_0 *)scratch)->unk_90 = ((S_81874988_1 *)position)->unk_0A;
 
-    packet = ((S_81874988_2 *)global_value)->unk_8D0;
-    ((S_81874988_2 *)global_value)->unk_8D0 = packet + 0x28;
+    packet = ((S_81874988_2 *)render_state)->unk_8D0;
+    ((S_81874988_2 *)render_state)->unk_8D0 = packet + 0x28;
 
-    ((S_81874988_3 *)arg2)->unk_14 |= 0x8000;
+    ((S_81874988_3 *)material)->unk_14 |= 0x8000;
     func_800649A0();
 
     ((S_81874988_0 *)scratch)->unk_3C = 0x2000;
     ((S_81874988_0 *)scratch)->unk_38 = 0x2000;
     ((S_81874988_0 *)scratch)->unk_34 = 0x2000;
-    ((S_81874988_0 *)scratch)->unk_A4 = ((S_81874988_3 *)arg2)->unk_16;
-    ((S_81874988_0 *)scratch)->unk_A8 = ((S_81874988_3 *)arg2)->unk_1A;
-    ((S_81874988_0 *)scratch)->unk_A6 = ((S_81874988_3 *)arg2)->unk_18;
+    ((S_81874988_0 *)scratch)->unk_A4 = ((S_81874988_3 *)material)->unk_16;
+    ((S_81874988_0 *)scratch)->unk_A8 = ((S_81874988_3 *)material)->unk_1A;
+    ((S_81874988_0 *)scratch)->unk_A6 = ((S_81874988_3 *)material)->unk_18;
     func_80065820(scratch + 0xA4, scratch + 0x74);
-    func_80064AE0(&matrix);
-    func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
+    func_80064AE0(&view_matrix);
+    func_80064840(&view_matrix, scratch + 0x74, scratch + 0x54);
     func_80064BC0(scratch + 0x54, scratch + 0x34);
     func_80064D80(scratch + 0x54);
     func_80064CF0(scratch + 0x54);
 
-    texture = ((S_81874988_3 *)arg2)->unk_08;
-    ((S_81874988_0 *)scratch)->unk_28 = ((S_81874988_3 *)arg2)->unk_14;
+    texture = ((S_81874988_3 *)material)->unk_08;
+    ((S_81874988_0 *)scratch)->unk_28 = ((S_81874988_3 *)material)->unk_14;
 
     if (texture[0] & 0x20) {
         goto callback_tail;
@@ -179,27 +180,27 @@ void func_81874988(void *arg0, void *arg1, void *arg2, s16 arg3)
     ((S_81874988_0 *)scratch)->unk_14 = texture[0xA];
     ((S_81874988_0 *)scratch)->unk_18 = texture[0xB];
 
-    ((S_81874988_0 *)scratch)->unk_B0 = ((S_81874988_4 *)arg0)->unk_50;
-    ((S_81874988_0 *)scratch)->unk_B8 = ((S_81874988_4 *)arg0)->unk_52;
-    ((S_81874988_0 *)scratch)->unk_C0 = ((S_81874988_4 *)arg0)->unk_54;
-    ((S_81874988_0 *)scratch)->unk_C8 = ((S_81874988_4 *)arg0)->unk_56;
-    ((S_81874988_0 *)scratch)->unk_B2 = ((S_81874988_4 *)arg0)->unk_58;
-    ((S_81874988_0 *)scratch)->unk_BA = ((S_81874988_4 *)arg0)->unk_5A;
-    ((S_81874988_0 *)scratch)->unk_C2 = ((S_81874988_4 *)arg0)->unk_5C;
-    ((S_81874988_0 *)scratch)->unk_CA = ((S_81874988_4 *)arg0)->unk_5E;
-    ((S_81874988_0 *)scratch)->unk_B4 = ((S_81874988_4 *)arg0)->unk_60;
-    ((S_81874988_0 *)scratch)->unk_BC = ((S_81874988_4 *)arg0)->unk_62;
-    ((S_81874988_0 *)scratch)->unk_C4 = ((S_81874988_4 *)arg0)->unk_64;
-    ((S_81874988_0 *)scratch)->unk_CC = ((S_81874988_4 *)arg0)->unk_66;
+    ((S_81874988_0 *)scratch)->unk_B0 = ((S_81874988_4 *)quad)->unk_50;
+    ((S_81874988_0 *)scratch)->unk_B8 = ((S_81874988_4 *)quad)->unk_52;
+    ((S_81874988_0 *)scratch)->unk_C0 = ((S_81874988_4 *)quad)->unk_54;
+    ((S_81874988_0 *)scratch)->unk_C8 = ((S_81874988_4 *)quad)->unk_56;
+    ((S_81874988_0 *)scratch)->unk_B2 = ((S_81874988_4 *)quad)->unk_58;
+    ((S_81874988_0 *)scratch)->unk_BA = ((S_81874988_4 *)quad)->unk_5A;
+    ((S_81874988_0 *)scratch)->unk_C2 = ((S_81874988_4 *)quad)->unk_5C;
+    ((S_81874988_0 *)scratch)->unk_CA = ((S_81874988_4 *)quad)->unk_5E;
+    ((S_81874988_0 *)scratch)->unk_B4 = ((S_81874988_4 *)quad)->unk_60;
+    ((S_81874988_0 *)scratch)->unk_BC = ((S_81874988_4 *)quad)->unk_62;
+    ((S_81874988_0 *)scratch)->unk_C4 = ((S_81874988_4 *)quad)->unk_64;
+    ((S_81874988_0 *)scratch)->unk_CC = ((S_81874988_4 *)quad)->unk_66;
 
-    index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+    depth_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
                           scratch + 0xC0, scratch + 0xC8,
                           packet + 8, packet + 0x10,
                           packet + 0x18, packet + 0x20,
-                          scratch + 0xD0, scratch + 0xD4) - arg3 - 6;
-    ((S_81874988_0 *)scratch)->unk_100 = index;
+                          scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
+    ((S_81874988_0 *)scratch)->unk_100 = depth_index;
 
-    if ((u32)index >= 0x1E0) {
+    if ((u32)depth_index >= 0x1E0) {
         goto done;
     }
     if (
@@ -219,7 +220,7 @@ void func_81874988(void *arg0, void *arg1, void *arg2, s16 arg3)
 visible:
     ((S_81874988_5 *)packet)->unk_00.at03.v = 9;
     ((S_81874988_5 *)packet)->unk_04.at03.v = 0x2C;
-    ((S_81874988_3 *)arg2)->unk_14 &= 0x7FFF;
+    ((S_81874988_3 *)material)->unk_14 &= 0x7FFF;
 
     ((S_81874988_0 *)scratch)->unk_14 += ((S_81874988_0 *)scratch)->unk_0C;
     if (((S_81874988_0 *)scratch)->unk_14 & 0x100) {
@@ -232,14 +233,14 @@ visible:
     ((S_81874988_0 *)scratch)->unk_10 <<= 8;
     ((S_81874988_0 *)scratch)->unk_18 <<= 8;
 
-    adjust = ((S_81874988_3 *)arg2)->unk_12;
-    if (adjust) {
+    tex_adjust = ((S_81874988_3 *)material)->unk_12;
+    if (tex_adjust) {
         if (((S_81874988_0 *)scratch)->unk_28 & 0x100) {
-            ((S_81874988_5 *)packet)->unk_0E = adjust;
+            ((S_81874988_5 *)packet)->unk_0E = tex_adjust;
             func_8002454C();
         }
-        helper_value = adjust + (*(u16 *)((u8 *)texture + 6));
-        ASM_TAILSLOT_PIN(helper_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        tex_attr = tex_adjust + (*(u16 *)((u8 *)texture + 6));
+        ASM_TAILSLOT_PIN(tex_attr);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         func_80024544();
     }
     (*(u16 *)((u8 *)packet + 0xE)) = (*(u16 *)((u8 *)texture + 6));
@@ -249,11 +250,11 @@ visible:
     ((S_81874988_5 *)packet)->unk_14.u16 = VFIELD(scratch, u16, 0x10) +
                                VFIELD(scratch, u16, 0x14);
 
-    adjust = ((S_81874988_3 *)arg2)->unk_10;
-    if (adjust) {
-        helper_value = adjust +
+    tex_adjust = ((S_81874988_3 *)material)->unk_10;
+    if (tex_adjust) {
+        tex_attr = tex_adjust +
                        ((*(u16 *)((u8 *)texture + 4)) & 0xFF9F);
-        ASM_TAILSLOT_PIN(helper_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(tex_attr);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         func_8002459C();
     }
     (*(u16 *)((u8 *)packet + 0x16)) = (*(u16 *)((u8 *)texture + 4));
@@ -273,14 +274,14 @@ visible:
     }
 
     tex_flags = texture[1];
-    ((S_81874988_3 *)arg2)->unk_0C.at03.v = tex_flags;
-    flags = ((S_81874988_0 *)scratch)->unk_28;
-    if (flags & 8) {
-        ((S_81874988_3 *)arg2)->unk_0C.at03.v = (flags & 4) ?
+    ((S_81874988_3 *)material)->unk_0C.at03.v = tex_flags;
+    draw_flags = ((S_81874988_0 *)scratch)->unk_28;
+    if (draw_flags & 8) {
+        ((S_81874988_3 *)material)->unk_0C.at03.v = (draw_flags & 4) ?
             (tex_flags | 2) : (tex_flags & 0xFD);
     }
 
-    ((S_81874988_5 *)packet)->unk_04.at00.v = ((S_81874988_3 *)arg2)->unk_0C.at00.v;
+    ((S_81874988_5 *)packet)->unk_04.at00.v = ((S_81874988_3 *)material)->unk_0C.at00.v;
     ((S_81874988_5 *)packet)->unk_00.at00.v = (((S_81874988_5 *)packet)->unk_00.at00.v & 0xFF000000) |
         ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
     (*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) =
@@ -291,7 +292,7 @@ visible:
 callback_tail:
     callback = (*(Callback *)((u8 *)texture + 8));
     if (callback != 0) {
-        callback(arg0, arg1, arg2, texture);
+        callback(quad, position, material, texture);
     }
 
 done:

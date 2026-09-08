@@ -27,32 +27,33 @@ extern void func_800666E0(void *);
 extern void func_80066640(void *, s32);
 extern void func_8006658C(void *, void *);
 
-s32 func_800A624C(Input *arg0) {
+/* Queue a full-screen grayscale quad with its draw mode at the input ordering index. */
+s32 func_800A624C(Input *input) {
     Arena *arena;
-    u8 *first;
-    Work *second;
+    u8 *draw_mode;
+    Work *quad;
     s16 color;
 
     arena = D_80083160;
-    first = arena->next;
-    arena->next = first + 0xC;
+    draw_mode = arena->next;
+    arena->next = draw_mode + 0xC;
     arena = D_80083160;
-    second = (Work *)arena->next;
-    arena->next = (u8 *)second + 0x18;
+    quad = (Work *)arena->next;
+    arena->next = (u8 *)quad + 0x18;
 
-    func_80067F20(first, 0, 0, 0x40, 0);
+    func_80067F20(draw_mode, 0, 0, 0x40, 0);
 
-    color = arg0->color;
-    second->color = color | (color << 8) | (color << 16);
-    func_800666E0(second);
-    func_80066640(second, 1);
+    color = input->color;
+    quad->color = color | (color << 8) | (color << 16);
+    func_800666E0(quad);
+    func_80066640(quad, 1);
 
-    second->width = 0x140;
-    second->unk8 = 0;
-    second->start = 0xE00000;
-    second->end = 0xE00140;
+    quad->width = 0x140;
+    quad->unk8 = 0;
+    quad->start = 0xE00000;
+    quad->end = 0xE00140;
 
-    func_8006658C((u8 *)D_80083160 + ((arg0->index * 4) + 0xB0), second);
-    func_8006658C((u8 *)D_80083160 + ((arg0->index * 4) + 0xB0), first);
+    func_8006658C((u8 *)D_80083160 + ((input->index * 4) + 0xB0), quad);
+    func_8006658C((u8 *)D_80083160 + ((input->index * 4) + 0xB0), draw_mode);
     return 0;
 }

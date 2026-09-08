@@ -11,14 +11,15 @@ extern u8 D_800E1F7B[];
 extern u8 D_800E1F93[];
 extern u8 D_8017088C[];
 
-void func_80E12B30(s32 arg0, void *arg1) {
+/* Processes the input, then dispatches or finalizes the result according to the mode. */
+void func_80E12B30(s32 dispatch_mode, void *input) {
     s32 result;
 
     result = func_800990FC();
-    if (arg0 << 16) {
+    if (dispatch_mode << 16) {
         register void *dispatch_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-        func_80099734(arg1, result);
+        func_80099734(input, result);
         dispatch_arg = D_800E1F7B;
         ASM_TAILSLOT_PIN(dispatch_arg);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_80176398();
@@ -26,7 +27,7 @@ void func_80E12B30(s32 arg0, void *arg1) {
     }
 
     func_80099290(func_80099194(D_8017088C,
-        func_80099734(arg1, func_80099194(D_800E1F93, result))));
+        func_80099734(input, func_80099194(D_800E1F93, result))));
     func_800A5720(result);
 }
 

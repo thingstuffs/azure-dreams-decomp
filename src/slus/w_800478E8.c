@@ -9,41 +9,38 @@ typedef struct S_Entry {
     u8 pad[0xB];
 } S_Entry;
 
-/* Walk arg0's table (*unk28) from base+(index*4) to end in 8-byte steps.
- * For each outer slot with type==2, walk its 0xC-byte entry list and store
- * arg1 into every active (flags&0x20) entry whose id (halfword at +6) matches
- * arg2. Stops after the entry with flags&0x80. */
-void func_800478E8(void *arg0, s32 arg1, s32 arg2) {
-    u32 var_a0;
-    S_Entry *var_v1;
-    void *temp_v0;
-    void *var_a3;
-    void *var_t0;
-    s32 two;
+/* Set the value of active entries with the matching ID in type-2 table slots. */
+void func_800478E8(void *owner, s32 value, s32 entry_id) {
+    u32 slot_addr;
+    S_Entry *entry;
+    void *table;
+    void *entry_value;
+    void *slot_entries;
+    s32 list_type;
 
-    temp_v0 = *M2C_FIELD(arg0, void ***, 0x28);
-    var_a0 = M2C_FIELD(temp_v0, s32 *, 0) + (M2C_FIELD(temp_v0, s32 *, 4) * 4);
-    if (var_a0 < (u32)M2C_FIELD(temp_v0, u32 *, 8)) {
-        two = 2;
-        var_t0 = (void *)(var_a0 + 4);
-    loop:
-        if (M2C_FIELD(var_t0, s16 *, -2) == two) {
-            var_v1 = M2C_FIELD(var_t0, S_Entry **, 0);
-            var_a3 = (s8 *)var_v1 + 8;
+    table = *M2C_FIELD(owner, void ***, 0x28);
+    slot_addr = M2C_FIELD(table, s32 *, 0) + (M2C_FIELD(table, s32 *, 4) * 4);
+    if (slot_addr < (u32)M2C_FIELD(table, u32 *, 8)) {
+        list_type = 2;
+        slot_entries = (void *)(slot_addr + 4);
+    process_slot:
+        if (M2C_FIELD(slot_entries, s16 *, -2) == list_type) {
+            entry = M2C_FIELD(slot_entries, S_Entry **, 0);
+            entry_value = (s8 *)entry + 8;
             do {
-                if ((var_v1->flags & 0x20) && (M2C_FIELD(var_a3, s16 *, -2) == arg2)) {
-                    M2C_FIELD(var_a3, s32 *, 0) = arg1;
+                if ((entry->flags & 0x20) && (M2C_FIELD(entry_value, s16 *, -2) == entry_id)) {
+                    M2C_FIELD(entry_value, s32 *, 0) = value;
                 }
-                var_a3 = (s8 *)var_a3 + 0xC;
-            } while (!((var_v1++)->flags & 0x80));
+                entry_value = (s8 *)entry_value + 0xC;
+            } while (!((entry++)->flags & 0x80));
         }
         {
-            void *p = *M2C_FIELD(arg0, void ***, 0x28);
-            u32 lim = (u32)M2C_FIELD(p, u32 *, 8);
-            var_t0 = (s8 *)var_t0 + 8;
-            var_a0 += 8;
-            if (var_a0 < lim) {
-                goto loop;
+            void *current_table = *M2C_FIELD(owner, void ***, 0x28);
+            u32 table_end = (u32)M2C_FIELD(current_table, u32 *, 8);
+            slot_entries = (s8 *)slot_entries + 8;
+            slot_addr += 8;
+            if (slot_addr < table_end) {
+                goto process_slot;
             }
         }
     }

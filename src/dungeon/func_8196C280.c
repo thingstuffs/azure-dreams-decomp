@@ -46,88 +46,89 @@ extern s16 D_800269B4;
 extern s32 D_800814A0;
 extern PositionRef D_80083780;
 
-void func_8196C280(void *arg0, void *arg1, void *arg2) {
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u16 temp_v0_3;
-    u16 temp_v0_4;
-    register u16 raw_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 raw_y;
-    u16 var_a0;
-    register u16 var_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+/* Move the effect with collision checks, shrink its sprite, and expire it when finished. */
+void func_8196C280(void *effect, void *position, void *sprite) {
+    u16 age;
+    u16 reduced_scale_x;
+    u16 reduced_scale_y;
+    u16 life_left;
+    register u16 scale_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 scale_y;
+    u16 next_scale_y;
+    register u16 next_scale_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    ((S_8196C280_0 *)arg1)->unk_00.at00.v += ((S_8196C280_1 *)arg0)->unk_8C;
-    ((S_8196C280_1 *)arg0)->unk_8C += ((S_8196C280_1 *)arg0)->unk_98;
+    ((S_8196C280_0 *)position)->unk_00.at00.v += ((S_8196C280_1 *)effect)->unk_8C;
+    ((S_8196C280_1 *)effect)->unk_8C += ((S_8196C280_1 *)effect)->unk_98;
     {
-        u16 call_x;
-        u16 call_y;
-        s32 call_z;
+        u16 check_x;
+        u16 check_y;
+        s32 check_z;
 
-        call_x = ((S_8196C280_0 *)arg1)->unk_00.at02.v;
-        call_y = ((S_8196C280_0 *)arg1)->unk_04.at02.v;
-        call_z = ((S_8196C280_0 *)arg1)->unk_08.at02.v;
+        check_x = ((S_8196C280_0 *)position)->unk_00.at02.v;
+        check_y = ((S_8196C280_0 *)position)->unk_04.at02.v;
+        check_z = ((S_8196C280_0 *)position)->unk_08.at02.v;
         D_800269B4 = 1;
-        if ((func_800A45D8(call_x, call_y, call_z) << 0x10) != 0) {
-            ((S_8196C280_0 *)arg1)->unk_00.at00.v -= ((S_8196C280_1 *)arg0)->unk_8C;
-            ((S_8196C280_1 *)arg0)->unk_8C = 0;
-            ((S_8196C280_1 *)arg0)->unk_98 = 0;
+        if ((func_800A45D8(check_x, check_y, check_z) << 0x10) != 0) {
+            ((S_8196C280_0 *)position)->unk_00.at00.v -= ((S_8196C280_1 *)effect)->unk_8C;
+            ((S_8196C280_1 *)effect)->unk_8C = 0;
+            ((S_8196C280_1 *)effect)->unk_98 = 0;
         }
     }
-    ((S_8196C280_0 *)arg1)->unk_04.at00.v += ((S_8196C280_1 *)arg0)->unk_90;
-    ((S_8196C280_1 *)arg0)->unk_90 += ((S_8196C280_1 *)arg0)->unk_9C;
-    if ((func_800A45D8(((S_8196C280_0 *)arg1)->unk_00.at02.v, ((S_8196C280_0 *)arg1)->unk_04.at02.v, ((S_8196C280_0 *)arg1)->unk_08.at02.v) << 0x10) != 0) {
-        ((S_8196C280_0 *)arg1)->unk_04.at00.v -= ((S_8196C280_1 *)arg0)->unk_90;
-        ((S_8196C280_1 *)arg0)->unk_90 = 0;
-        ((S_8196C280_1 *)arg0)->unk_9C = 0;
+    ((S_8196C280_0 *)position)->unk_04.at00.v += ((S_8196C280_1 *)effect)->unk_90;
+    ((S_8196C280_1 *)effect)->unk_90 += ((S_8196C280_1 *)effect)->unk_9C;
+    if ((func_800A45D8(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v, ((S_8196C280_0 *)position)->unk_08.at02.v) << 0x10) != 0) {
+        ((S_8196C280_0 *)position)->unk_04.at00.v -= ((S_8196C280_1 *)effect)->unk_90;
+        ((S_8196C280_1 *)effect)->unk_90 = 0;
+        ((S_8196C280_1 *)effect)->unk_9C = 0;
     }
-    ((S_8196C280_0 *)arg1)->unk_08.at00.v += ((S_8196C280_1 *)arg0)->unk_94;
-    ((S_8196C280_1 *)arg0)->unk_94 += ((S_8196C280_1 *)arg0)->unk_A0;
+    ((S_8196C280_0 *)position)->unk_08.at00.v += ((S_8196C280_1 *)effect)->unk_94;
+    ((S_8196C280_1 *)effect)->unk_94 += ((S_8196C280_1 *)effect)->unk_A0;
     {
-        s32 temp_s0;
+        s32 height;
 
-        temp_s0 = ((S_8196C280_0 *)arg1)->unk_08.at02.v;
-        if ((func_800BCB04(((S_8196C280_0 *)arg1)->unk_00.at02.v, ((S_8196C280_0 *)arg1)->unk_04.at02.v, (s16)(((S_8196C280_0 *)arg1)->unk_08.at02u.v - 4)) - 0x10) < temp_s0) {
-            ((S_8196C280_1 *)arg0)->unk_94 = 0;
-            ((S_8196C280_1 *)arg0)->unk_90 = 0;
-            ((S_8196C280_1 *)arg0)->unk_8C = 0;
-            ((S_8196C280_0 *)arg1)->unk_08.at02.v = func_800BCB04(((S_8196C280_0 *)arg1)->unk_00.at02.v, ((S_8196C280_0 *)arg1)->unk_04.at02.v, (s16)(((S_8196C280_0 *)arg1)->unk_08.at02u.v - 4)) - 0x11;
-            ((S_8196C280_0 *)arg1)->unk_08.at00u.v = 0;
-            ((S_8196C280_1 *)arg0)->unk_2C = 0;
+        height = ((S_8196C280_0 *)position)->unk_08.at02.v;
+        if ((func_800BCB04(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v, (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4)) - 0x10) < height) {
+            ((S_8196C280_1 *)effect)->unk_94 = 0;
+            ((S_8196C280_1 *)effect)->unk_90 = 0;
+            ((S_8196C280_1 *)effect)->unk_8C = 0;
+            ((S_8196C280_0 *)position)->unk_08.at02.v = func_800BCB04(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v, (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4)) - 0x11;
+            ((S_8196C280_0 *)position)->unk_08.at00u.v = 0;
+            ((S_8196C280_1 *)effect)->unk_2C = 0;
         }
     }
-    temp_v0 = ((S_8196C280_1 *)arg0)->unk_50;
-    ((S_8196C280_1 *)arg0)->unk_50 = temp_v0 + 1;
-    if ((s16)temp_v0 >= 3) {
-        raw_x = ((S_8196C280_2 *)arg2)->unk_1C;
-        raw_y = ((S_8196C280_2 *)arg2)->unk_1E;
-        temp_v0_2 = raw_x - 0x100;
-        var_v1 = temp_v0_2;
-        if ((s16)temp_v0_2 < 0) {
-            var_v1 = 0;
+    age = ((S_8196C280_1 *)effect)->unk_50;
+    ((S_8196C280_1 *)effect)->unk_50 = age + 1;
+    if ((s16)age >= 3) {
+        scale_x = ((S_8196C280_2 *)sprite)->unk_1C;
+        scale_y = ((S_8196C280_2 *)sprite)->unk_1E;
+        reduced_scale_x = scale_x - 0x100;
+        next_scale_x = reduced_scale_x;
+        if ((s16)reduced_scale_x < 0) {
+            next_scale_x = 0;
         }
-        temp_v0_3 = raw_y - 0x100;
-        var_a0 = temp_v0_3;
-        if ((s16)temp_v0_3 < 0) {
-            var_a0 = 0;
+        reduced_scale_y = scale_y - 0x100;
+        next_scale_y = reduced_scale_y;
+        if ((s16)reduced_scale_y < 0) {
+            next_scale_y = 0;
         }
-        if (((var_a0 << 0x10) == 0) || ((var_v1 << 0x10) == 0)) {
-            ((S_8196C280_1 *)arg0)->unk_2C = 0;
+        if (((next_scale_y << 0x10) == 0) || ((next_scale_x << 0x10) == 0)) {
+            ((S_8196C280_1 *)effect)->unk_2C = 0;
         }
-        ((S_8196C280_2 *)arg2)->unk_1C = var_v1;
-        ((S_8196C280_2 *)arg2)->unk_1E = var_a0;
+        ((S_8196C280_2 *)sprite)->unk_1C = next_scale_x;
+        ((S_8196C280_2 *)sprite)->unk_1E = next_scale_y;
     }
-    func_80024AF8(arg0, arg1, arg2,
-        (s16)(((S_8196C280_0 *)arg1)->unk_00.at02.v - D_80083780.x),
-        (s16)(((S_8196C280_0 *)arg1)->unk_04.at02.v - D_80083780.y),
-        (s16)(((S_8196C280_0 *)arg1)->unk_08.at02u.v - D_80083780.z));
-    temp_v0_4 = ((S_8196C280_1 *)arg0)->unk_2C - 1;
-    ((S_8196C280_1 *)arg0)->unk_2C = temp_v0_4;
-    if ((temp_v0_4 << 0x10) <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    func_80024AF8(effect, position, sprite,
+        (s16)(((S_8196C280_0 *)position)->unk_00.at02.v - D_80083780.x),
+        (s16)(((S_8196C280_0 *)position)->unk_04.at02.v - D_80083780.y),
+        (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - D_80083780.z));
+    life_left = ((S_8196C280_1 *)effect)->unk_2C - 1;
+    ((S_8196C280_1 *)effect)->unk_2C = life_left;
+    if ((life_left << 0x10) <= 0) {
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
-    if (((S_8196C280_2 *)arg2)->unk_14 & 0x8000) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    if (((S_8196C280_2 *)sprite)->unk_14 & 0x8000) {
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

@@ -56,549 +56,556 @@ extern void *D_80024098[];
 #define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
-void func_80025C5C(void *in0, void *in1, void *in2) {
+/* Update a projectile effect, its trail, and the target hit animation. */
+void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     static void *const dispatch_keepalive[] = {
-        &&state_0, &&state_1, &&state_2, &&state_3,
-        &&state_4, &&state_5, &&state_6, &&state_7
+        &&initialize, &&await_launch, &&move_projectile, &&spawn_impact,
+        &&fade_projectile, &&brighten_target, &&animate_target, &&finish_effect
     };
-    u16 delta[4];
-    PointTable points;
-    void *arg0 = in0;
-    void *arg1 = in1;
-    void *arg2 = in2;
+    u16 origin_offset[4];
+    PointTable direction_steps;
+    void *effect = effect_data;
+    void *motion = motion_data;
+    void *sprite = sprite_data;
     register void *owner ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *base ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *position ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *a0ptr;
-    void *call_gfx;
-    register void *v1ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register void *a3ptr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *gfx;
-    void *child;
-    register void **jump_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register PointTable *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register void *object ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *object_data ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *busy_base;
+    void *effect_object;
+    void *depth_value;
+    void *owner_sprite;
+    void *direction_offset;
+    void *y_velocity;
+    void *origin_sprite;
+    void *target_data;
+    void *z_step;
+    register void *offset_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register void *spawn_sprite ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *target;
+    register void **table_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register PointTable *template_data ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     register u16 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 render_flags;
-    s32 value;
-    s32 count;
-    s32 color;
-    s32 busy;
-    s32 count4;
-    s32 count6;
-    s32 fade_n1;
-    s32 fade_n2;
-    s32 fade_n3;
-    register s32 fade_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 z;
-    s32 z_result;
-    register s32 z_addend ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 difference;
+    s32 trail_color;
+    s32 state_index;
+    s32 finish_tick;
+    s32 particle_color;
+    s32 effect_busy;
+    s32 fade_out_tick;
+    s32 target_tick;
+    s32 blue_scaled;
+    s32 green_scaled;
+    s32 red_scaled;
+    register s32 channel_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 owner_z;
+    s32 effect_z;
+    register s32 z_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 tile_distance;
 
-    jump_table = (void **)0x80020000;
-    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    owner = PTR(arg0, 0);
+    table_value = (void **)0x80020000;
+    ASM_KEEP(table_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    owner = PTR(effect, 0);
     ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    copy_src = (PointTable *)((u8 *)jump_table + 0x4074);
-    ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    memcpy(&points, copy_src, 12);
-    memcpy((u8 *)&points + 12, (u8 *)copy_src + 12, 12);
-    memcpy((u8 *)&points + 24, (u8 *)copy_src + 24, 8);
-    ASM_USE_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    count = S16(arg0, 0xA);
-    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    base = (u8 *)owner - 0x20;
-    position = PTR(base, 8);
+    template_data = (PointTable *)((u8 *)table_value + 0x4074);
+    ASM_KEEP_NV(template_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    memcpy(&direction_steps, template_data, 12);
+    memcpy((u8 *)&direction_steps + 12, (u8 *)template_data + 12, 12);
+    memcpy((u8 *)&direction_steps + 24, (u8 *)template_data + 24, 8);
+    ASM_USE_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    state_index = S16(effect, 0xA);
+    ASM_KEEP(state_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    object = (u8 *)owner - 0x20;
+    object_data = PTR(object, 8);
 
-    if ((u32)count >= 8) {
+    if ((u32)state_index >= 8) {
         goto end;
     }
-    goto *D_80024098[count];
+    goto *D_80024098[state_index];
 
-state_0:
-    U32(arg2, 0xC) = 0x00808080;
-    U16(arg2, 0x1E) = 0x1000;
-    U16(arg2, 0x1C) = 0x1000;
-    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    jump_table = (void **)0x80020000;
-    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    copy_src = (PointTable *)((u8 *)jump_table + 0x6934);
-    ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    memcpy((u8 *)arg0 + 0x98, copy_src, 12);
-    ASM_USE_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+initialize:
+    U32(sprite, 0xC) = 0x00808080;
+    U16(sprite, 0x1E) = 0x1000;
+    U16(sprite, 0x1C) = 0x1000;
+    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    table_value = (void **)0x80020000;
+    ASM_KEEP(table_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    template_data = (PointTable *)((u8 *)table_value + 0x6934);
+    ASM_KEEP_NV(template_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    memcpy((u8 *)effect + 0x98, template_data, 12);
+    ASM_USE_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     {
-    void *cd = (u8 *)arg0 + 0x98;
-    ASM_KEEP(cd);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    a0ptr = (void *)0x80020000;
-    PTR(arg2, 8) = cd;
+        void *sprite_copy = (u8 *)effect + 0x98;
+        ASM_KEEP(sprite_copy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        busy_base = (void *)0x80020000;
+        PTR(sprite, 8) = sprite_copy;
     }
-    jump_table = (void **)(u32)U16(owner, 0x2A);
-    ASM_KEEP_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    v1ptr = (void *)1;
-    S16(a0ptr, 0x694C) = (u32)v1ptr;
-    ASM_KEEP(a0ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    v1ptr = (void *)(u32)U16(arg0, 0xA);
-    ASM_KEEP_NV(v1ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    jump_table = (void **)(((u32)jump_table >> 9) & 7);
-    v1ptr = (void *)((u32)v1ptr + 1);
-    U16(arg0, 0x7E) = (u32)jump_table;
-    U16(arg0, 0xA) = (u32)v1ptr;
+    table_value = (void **)(u32)U16(owner, 0x2A);
+    ASM_KEEP_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    offset_value = (void *)1;
+    S16(busy_base, 0x694C) = (u32)offset_value;
+    ASM_KEEP(busy_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    offset_value = (void *)(u32)U16(effect, 0xA);
+    ASM_KEEP_NV(offset_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    table_value = (void **)(((u32)table_value >> 9) & 7);
+    offset_value = (void *)((u32)offset_value + 1);
+    U16(effect, 0x7E) = (u32)table_value;
+    U16(effect, 0xA) = (u32)offset_value;
 
-    call_gfx = PTR(base, 0xC);
-    if (func_8003DF74(PTR(call_gfx, 8), call_gfx, delta, 0) == 0) {
-        if (!(U16(PTR(base, 0xC), 0x14) & 0x8000)) {
+    origin_sprite = PTR(object, 0xC);
+    if (func_8003DF74(PTR(origin_sprite, 8), origin_sprite, origin_offset, 0) == 0) {
+        if (!(U16(PTR(object, 0xC), 0x14) & 0x8000)) {
             goto end;
         }
     }
 
-    U16(arg1, 2) = U16(position, 2);
-    U16(arg1, 6) = U16(position, 6);
-    z = U16(position, 0xA);
-    U16(arg1, 0xA) = z;
-    if (!(U16(PTR(base, 0xC), 0x14) & 0x8000)) {
-        U16(arg1, 2) = U16(arg1, 2) + delta[0];
-        U16(arg1, 6) = U16(arg1, 6) + delta[1];
-        ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        z_result = U16(arg1, 0xA);
-        z_addend = delta[2];
-        z_result += z_addend;
+    U16(motion, 2) = U16(object_data, 2);
+    U16(motion, 6) = U16(object_data, 6);
+    owner_z = U16(object_data, 0xA);
+    U16(motion, 0xA) = owner_z;
+    if (!(U16(PTR(object, 0xC), 0x14) & 0x8000)) {
+        U16(motion, 2) = U16(motion, 2) + origin_offset[0];
+        U16(motion, 6) = U16(motion, 6) + origin_offset[1];
+        ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        effect_z = U16(motion, 0xA);
+        z_offset = origin_offset[2];
+        effect_z += z_offset;
         goto store_z;
     }
-    z_result = z - 0x40;
+    effect_z = owner_z - 0x40;
 store_z:
-    U16(arg1, 0xA) = z_result;
+    U16(motion, 0xA) = effect_z;
 
-state_1:
-    if (!(U16(PTR(arg0, 4), 0) & 0x80)) {
+await_launch:
+    if (!(U16(PTR(effect, 4), 0) & 0x80)) {
         goto end;
     }
 
-    if (!(U8(arg0, 0x7A) & 4)) {
-        a0ptr = (u8 *)arg0 - 0x20;
-        func_8004491C(a0ptr, func_80045340);
-        a0ptr = (void *)0x20;
-        v1ptr = (void *)(u32)U16(arg2, 0x14);
-        jump_table = (void **)0x80;
-        U16(arg2, 0x10) = (u32)a0ptr;
-        U8(arg2, 0xD) = (u32)jump_table;
-        U8(arg2, 0xC) = (u32)jump_table;
-        U8(arg2, 0xE) = (u32)a0ptr;
-        v1ptr = (void *)((u32)v1ptr | 0xC);
-        U16(arg2, 0x14) = (u32)v1ptr;
-        U8(arg0, 0x7A) |= 4;
+    if (!(U8(effect, 0x7A) & 4)) {
+        effect_object = (u8 *)effect - 0x20;
+        func_8004491C(effect_object, func_80045340);
+        depth_value = (void *)0x20;
+        offset_value = (void *)(u32)U16(sprite, 0x14);
+        table_value = (void **)0x80;
+        U16(sprite, 0x10) = (u32)depth_value;
+        U8(sprite, 0xD) = (u32)table_value;
+        U8(sprite, 0xC) = (u32)table_value;
+        U8(sprite, 0xE) = (u32)depth_value;
+        offset_value = (void *)((u32)offset_value | 0xC);
+        U16(sprite, 0x14) = (u32)offset_value;
+        U8(effect, 0x7A) |= 4;
     }
 
-    jump_table = PTR(owner, 0x60);
-    v1ptr = (void *)0x10;
-    if (jump_table != 0) {
-        base = PTR(jump_table, -0x18);
-        U16(arg0, 0x74) = U16(base, 2);
-        U16(arg0, 0x76) = U16(base, 6);
-        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        v1ptr = PTR(owner, 0x60);
-        ASM_KEEP_NV(v1ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        jump_table = (void **)0x800E0000;
-        ASM_KEEP_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        v1ptr = (void *)(u32)U8(v1ptr, 0x13);
-        jump_table = (void **)((u8 *)jump_table - 0x23C0);
-        v1ptr = (u8 *)v1ptr + (u32)jump_table;
-        ASM_KEEP_DEP_NV(v1ptr, jump_table);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        jump_table = (void **)(u32)U8(v1ptr, 0);
-        v1ptr = (void *)(u32)U16(base, 0xA);
-        jump_table = (void **)((u32)jump_table + 0x20);
-        v1ptr = (void *)((u32)v1ptr - (u32)jump_table);
-        jump_table = (void **)0x80070000;
-        ASM_KEEP_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        jump_table = (void **)((u8 *)jump_table - 0x3328);
-        U16(arg0, 0x78) = (u32)v1ptr;
-        v1ptr = (void *)(s32)S16(arg0, 0x7E);
-        ASM_KEEP(v1ptr);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        a0ptr = PTR(owner, -0x14);
-        ASM_KEEP(a0ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        v1ptr = (void *)((s32)v1ptr * 2);
-        v1ptr = (u8 *)v1ptr + (u32)jump_table;
-        jump_table = (void **)(u32)U8(a0ptr, 0x24);
-        v1ptr = (void *)(u32)U8(v1ptr, 0);
-        jump_table = (void **)((u32)jump_table + (u32)v1ptr);
-        U8(arg0, 0xA4) = (u32)jump_table;
+    table_value = PTR(owner, 0x60);
+    offset_value = (void *)0x10;
+    if (table_value != 0) {
+        object = PTR(table_value, -0x18);
+        U16(effect, 0x74) = U16(object, 2);
+        U16(effect, 0x76) = U16(object, 6);
+        ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        offset_value = PTR(owner, 0x60);
+        ASM_KEEP_NV(offset_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        table_value = (void **)0x800E0000;
+        ASM_KEEP_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        offset_value = (void *)(u32)U8(offset_value, 0x13);
+        table_value = (void **)((u8 *)table_value - 0x23C0);
+        offset_value = (u8 *)offset_value + (u32)table_value;
+        ASM_KEEP_DEP_NV(offset_value, table_value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        table_value = (void **)(u32)U8(offset_value, 0);
+        offset_value = (void *)(u32)U16(object, 0xA);
+        table_value = (void **)((u32)table_value + 0x20);
+        offset_value = (void *)((u32)offset_value - (u32)table_value);
+        table_value = (void **)0x80070000;
+        ASM_KEEP_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        table_value = (void **)((u8 *)table_value - 0x3328);
+        U16(effect, 0x78) = (u32)offset_value;
+        offset_value = (void *)(s32)S16(effect, 0x7E);
+        ASM_KEEP(offset_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        owner_sprite = PTR(owner, -0x14);
+        ASM_KEEP(owner_sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        offset_value = (void *)((s32)offset_value * 2);
+        offset_value = (u8 *)offset_value + (u32)table_value;
+        table_value = (void **)(u32)U8(owner_sprite, 0x24);
+        offset_value = (void *)(u32)U8(offset_value, 0);
+        table_value = (void **)((u32)table_value + (u32)offset_value);
+        U8(effect, 0xA4) = (u32)table_value;
 
-        jump_table = (void **)0x80070000;
-        ASM_KEEP_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        v1ptr = (void *)(s32)S16(arg0, 0x7E);
-        jump_table = (void **)((u8 *)jump_table - 0x3318);
-        v1ptr = (void *)((s32)v1ptr * 2);
-        v1ptr = (u8 *)v1ptr + (u32)jump_table;
-        jump_table = (void **)(u32)U8(a0ptr, 0x25);
-        v1ptr = (void *)(u32)U8(v1ptr, 0);
-        jump_table = (void **)((u32)jump_table + (u32)v1ptr);
-        U8(arg0, 0xA5) = (u32)jump_table;
+        table_value = (void **)0x80070000;
+        ASM_KEEP_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        offset_value = (void *)(s32)S16(effect, 0x7E);
+        table_value = (void **)((u8 *)table_value - 0x3318);
+        offset_value = (void *)((s32)offset_value * 2);
+        offset_value = (u8 *)offset_value + (u32)table_value;
+        table_value = (void **)(u32)U8(owner_sprite, 0x25);
+        offset_value = (void *)(u32)U8(offset_value, 0);
+        table_value = (void **)((u32)table_value + (u32)offset_value);
+        U8(effect, 0xA5) = (u32)table_value;
 
         {
             s32 owner_axis = S8(owner, 0x72);
-            register u32 sprite_axis ASM_REG("$3") = U8(a0ptr, 0x24);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            register u32 sprite_axis ASM_REG("$3") = U8(owner_sprite, 0x24);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
             if (owner_axis != sprite_axis) {
-                difference = owner_axis - sprite_axis;
+                tile_distance = owner_axis - sprite_axis;
             } else {
                 owner_axis = S8(owner, 0x73);
-                sprite_axis = U8(a0ptr, 0x25);
-                difference = owner_axis - sprite_axis;
+                sprite_axis = U8(owner_sprite, 0x25);
+                tile_distance = owner_axis - sprite_axis;
             }
         }
-        if (difference < 0) {
-            difference = -difference;
+        if (tile_distance < 0) {
+            tile_distance = -tile_distance;
         }
-        U8(arg0, 0x7B) = difference * 2 - 1;
+        U8(effect, 0x7B) = tile_distance * 2 - 1;
     } else {
-        jump_table = (void **)(s32)S16(arg0, 0x7E);
-        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        a0ptr = (void *)(s32)S16(arg0, 0x7E);
-        U8(arg0, 0x7B) = (u32)v1ptr;
-        call_gfx = &points.p[0];
-        ASM_KEEP4_NV(jump_table, v1ptr, a0ptr, call_gfx);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        jump_table = (void **)((s32)jump_table * 4);
-        jump_table = (void **)((u8 *)call_gfx + (u32)jump_table);
-        ASM_KEEP_DEP_NV(jump_table, call_gfx);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        a0ptr = (void *)((s32)a0ptr * 4);
-        call_gfx = (u8 *)call_gfx + (u32)a0ptr;
-        v1ptr = (void *)(u32)U16(jump_table, 0);
-        jump_table = (void **)(u32)U16(arg1, 2);
-        v1ptr = (void *)((u32)v1ptr << 4);
-        jump_table = (void **)((u32)jump_table + (u32)v1ptr);
-        U16(arg0, 0x74) = (u32)jump_table;
-        jump_table = (void **)(u32)U8(arg0, 0x7B);
-        v1ptr = (void *)(u32)U16(call_gfx, 2);
-        ASM_KEEP4_NV(jump_table, v1ptr, call_gfx, arg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        jump_table = (void **)((u32)jump_table << 24);
-        jump_table = (void **)((s32)jump_table >> 24);
-        U16(arg0, 0x76) = U16(arg1, 6) +
-            (u32)v1ptr * (s32)jump_table;
-        U16(arg0, 0x78) = U16(owner, 0x88) - 0x50;
+        table_value = (void **)(s32)S16(effect, 0x7E);
+        ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        direction_offset = (void *)(s32)S16(effect, 0x7E);
+        U8(effect, 0x7B) = (u32)offset_value;
+        target_data = &direction_steps.p[0];
+        ASM_KEEP4_NV(table_value, offset_value, direction_offset, target_data);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        table_value = (void **)((s32)table_value * 4);
+        table_value = (void **)((u8 *)target_data + (u32)table_value);
+        direction_offset = (void *)((s32)direction_offset * 4);
+        target_data = (u8 *)target_data + (u32)direction_offset;
+        offset_value = (void *)(u32)U16(table_value, 0);
+        table_value = (void **)(u32)U16(motion, 2);
+        offset_value = (void *)((u32)offset_value << 4);
+        table_value = (void **)((u32)table_value + (u32)offset_value);
+        U16(effect, 0x74) = (u32)table_value;
+        table_value = (void **)(u32)U8(effect, 0x7B);
+        offset_value = (void *)(u32)U16(target_data, 2);
+        ASM_KEEP4_NV(table_value, offset_value, target_data, effect);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        table_value = (void **)((u32)table_value << 24);
+        table_value = (void **)((s32)table_value >> 24);
+        U16(effect, 0x76) = U16(motion, 6) +
+            (u32)offset_value * (s32)table_value;
+        U16(effect, 0x78) = U16(owner, 0x88) - 0x50;
     }
 
-    S32(arg1, 0xC) = points.p[S16(arg0, 0x7E)].x << 16;
-    S32(arg1, 0x10) = points.p[S16(arg0, 0x7E)].y << 16;
-    S32(arg1, 0x14) = ((S16(arg0, 0x78) << 16) - S32(arg1, 8)) / S8(arg0, 0x7B);
-    next_state = U16(arg0, 0xA);
-    U16(arg0, 0x82) = 0;
+    S32(motion, 0xC) = direction_steps.p[S16(effect, 0x7E)].x << 16;
+    S32(motion, 0x10) = direction_steps.p[S16(effect, 0x7E)].y << 16;
+    S32(motion, 0x14) = ((S16(effect, 0x78) << 16) - S32(motion, 8)) / S8(effect, 0x7B);
+    next_state = U16(effect, 0xA);
+    U16(effect, 0x82) = 0;
     ASM_KEEP_NV(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     goto advance_state;
 
-state_2:
-    value = 0x60;
-state2_loop:
-    base = func_8003FC64(0x12);
-    position = (u8 *)base + 0x20;
-    if (base != 0) {
-        U16(position, 2) = 8;
-        U16(position, 4) = 8;
-        PTR(base, 0x10) = func_8002569C;
-        func_8004491C(base, func_80045340);
+move_projectile:
+    trail_color = 0x60;
+trail_loop:
+    object = func_8003FC64(0x12);
+    object_data = (u8 *)object + 0x20;
+    if (object != 0) {
+        U16(object_data, 2) = 8;
+        U16(object_data, 4) = 8;
+        PTR(object, 0x10) = func_8002569C;
+        func_8004491C(object, func_80045340);
 
-        a3ptr = PTR(base, 0xC);
-           /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        v1ptr = (void *)(u32)U16(a3ptr, 0x14);
-        jump_table = (void **)0x20;
-        U16(a3ptr, 0x10) = (u32)jump_table;
-        v1ptr = (void *)((u32)v1ptr | 0xC);
-        U16(a3ptr, 0x14) = (u32)v1ptr;
-        v1ptr = PTR(base, 8);
-        U16(v1ptr, 2) = U16(arg1, 2);
-        U16(v1ptr, 6) = U16(arg1, 6);
-        jump_table = (void **)(u32)U16(arg1, 0xA);
-        U16(v1ptr, 0xA) = (u32)jump_table;
-        a3ptr = PTR(base, 0xC);
-        jump_table = (void **)0x1000;
-        U16(a3ptr, 0x1E) = (u32)jump_table;
-        U16(a3ptr, 0x1C) = (u32)jump_table;
-        jump_table = (void **)0x10;
-        U8(a3ptr, 0xD) = value;
-        U8(a3ptr, 0xC) = value;
-        U8(a3ptr, 0xE) = (u32)jump_table;
-        U8(position, 0x38) = (u32)jump_table;
-        U8(position, 0x37) = value;
-        U8(position, 0x36) = value;
-        jump_table = (void **)0x80020000;
-        ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        copy_src = (PointTable *)((u8 *)jump_table + 0x6934);
-        ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        memcpy((u8 *)base + 0x64, copy_src, 12);
-        ASM_USE_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        PTR(a3ptr, 8) = (u8 *)base + 0x64;
-        ASM_KEEP(base);
+        spawn_sprite = PTR(object, 0xC);
+
+        offset_value = (void *)(u32)U16(spawn_sprite, 0x14);
+        table_value = (void **)0x20;
+        U16(spawn_sprite, 0x10) = (u32)table_value;
+        offset_value = (void *)((u32)offset_value | 0xC);
+        U16(spawn_sprite, 0x14) = (u32)offset_value;
+        offset_value = PTR(object, 8);
+        U16(offset_value, 2) = U16(motion, 2);
+        U16(offset_value, 6) = U16(motion, 6);
+        table_value = (void **)(u32)U16(motion, 0xA);
+        U16(offset_value, 0xA) = (u32)table_value;
+        spawn_sprite = PTR(object, 0xC);
+        table_value = (void **)0x1000;
+        U16(spawn_sprite, 0x1E) = (u32)table_value;
+        U16(spawn_sprite, 0x1C) = (u32)table_value;
+        table_value = (void **)0x10;
+        U8(spawn_sprite, 0xD) = trail_color;
+        U8(spawn_sprite, 0xC) = trail_color;
+        U8(spawn_sprite, 0xE) = (u32)table_value;
+        U8(object_data, 0x38) = (u32)table_value;
+        U8(object_data, 0x37) = trail_color;
+        U8(object_data, 0x36) = trail_color;
+        table_value = (void **)0x80020000;
+        ASM_KEEP(table_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        template_data = (PointTable *)((u8 *)table_value + 0x6934);
+        ASM_KEEP_NV(template_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        memcpy((u8 *)object + 0x64, template_data, 12);
+        ASM_USE_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        PTR(spawn_sprite, 8) = (u8 *)object + 0x64;
+        ASM_KEEP(object);
     }
 
-    if ((s16)func_800A4778(U16(arg1, 2), U16(arg1, 6), S16(arg1, 0xA),
+    if ((s16)func_800A4778(U16(motion, 2), U16(motion, 6), S16(motion, 0xA),
                            PTR(owner, 0x60)) != 0) {
         goto collision_hit;
     }
 
-    U8(arg0, 0x7B) = U8(arg0, 0x7B) - 1;
-    if (S8(arg0, 0x7B) <= 0) {
+    U8(effect, 0x7B) = U8(effect, 0x7B) - 1;
+    if (S8(effect, 0x7B) <= 0) {
         if (PTR(owner, 0x60) != 0) {
-            goto child_done;
+            goto reach_target;
         }
-        U16(arg0, 0xA) = 7;
-        U16(arg0, 0x82) = 0;
-        render_flags = U16(arg2, 0x14);
-        U8(arg2, 0xE) = 0;
-        U8(arg2, 0xD) = 0;
-        U8(arg2, 0xC) = 0;
+        U16(effect, 0xA) = 7;
+        U16(effect, 0x82) = 0;
+        render_flags = U16(sprite, 0x14);
+        U8(sprite, 0xE) = 0;
+        U8(sprite, 0xD) = 0;
+        U8(sprite, 0xC) = 0;
         goto set_render_flag;
     }
 
-    S32(arg1, 0xC) = ((S16(arg0, 0x74) << 16) - S32(arg1, 0)) / S8(arg0, 0x7B);
-    S32(arg1, 0x10) = ((S16(arg0, 0x76) << 16) - S32(arg1, 4)) / S8(arg0, 0x7B);
-    jump_table = (void **)(s32)S8(arg0, 0x7B);
-    v1ptr = (void *)(u32)S32(arg1, 8);
-    a0ptr = (void *)(u32)(S16(arg0, 0x78) << 16);
-    a0ptr = (void *)((s32)a0ptr - (s32)v1ptr);
-    a0ptr = (void *)((s32)a0ptr / (s32)jump_table);
-    jump_table = (void **)(u32)S32(arg1, 0);
-    v1ptr = (void *)(u32)S32(arg1, 0xC);
-    jump_table = (void **)((s32)jump_table + (s32)v1ptr);
-    S32(arg1, 0) = (s32)jump_table;
-    jump_table = (void **)(u32)S32(arg1, 4);
-    v1ptr = (void *)(u32)S32(arg1, 8);
-    *(volatile s32 *)((u8 *)arg1 + 0x14) = (s32)a0ptr;
-    a0ptr = (void *)(u32)S32(arg1, 0x10);
-    call_gfx = (void *)(u32)S32(arg1, 0x14);
-    jump_table = (void **)((s32)jump_table + (s32)a0ptr);
-    v1ptr = (void *)((s32)v1ptr + (s32)call_gfx);
-    S32(arg1, 4) = (s32)jump_table;
-    S32(arg1, 8) = (s32)v1ptr;
-    goto state2_loop;
+    S32(motion, 0xC) = ((S16(effect, 0x74) << 16) - S32(motion, 0)) / S8(effect, 0x7B);
+    S32(motion, 0x10) = ((S16(effect, 0x76) << 16) - S32(motion, 4)) / S8(effect, 0x7B);
+    table_value = (void **)(s32)S8(effect, 0x7B);
+    offset_value = (void *)(u32)S32(motion, 8);
+    depth_value = (void *)(u32)(S16(effect, 0x78) << 16);
+    depth_value = (void *)((s32)depth_value - (s32)offset_value);
+    depth_value = (void *)((s32)depth_value / (s32)table_value);
+    table_value = (void **)(u32)S32(motion, 0);
+    offset_value = (void *)(u32)S32(motion, 0xC);
+    table_value = (void **)((s32)table_value + (s32)offset_value);
+    S32(motion, 0) = (s32)table_value;
+    table_value = (void **)(u32)S32(motion, 4);
+    offset_value = (void *)(u32)S32(motion, 8);
+    *(volatile s32 *)((u8 *)motion + 0x14) = (s32)depth_value;
+    y_velocity = (void *)(u32)S32(motion, 0x10);
+    z_step = (void *)(u32)S32(motion, 0x14);
+    table_value = (void **)((s32)table_value + (s32)y_velocity);
+    offset_value = (void *)((s32)offset_value + (s32)z_step);
+    S32(motion, 4) = (s32)table_value;
+    S32(motion, 8) = (s32)offset_value;
+    goto trail_loop;
 
-state_3:
-    if (S16(arg0, 0x96) == 0) {
-        U16(arg0, 0x96) = 1;
-        U8(arg0, 0xA0) = U8(arg0, 0xA0) + 0x18;
+spawn_impact:
+    if (S16(effect, 0x96) == 0) {
+        U16(effect, 0x96) = 1;
+        U8(effect, 0xA0) = U8(effect, 0xA0) + 0x18;
     } else {
-        U16(arg0, 0x96) = 0;
-        U8(arg0, 0xA0) = U8(arg0, 0xA0) - 0x18;
+        U16(effect, 0x96) = 0;
+        U8(effect, 0xA0) = U8(effect, 0xA0) - 0x18;
     }
 
-    base = func_8003FC64(0x12);
-    position = (u8 *)base + 0x20;
-    if (base != 0) {
-        U16(position, 2) = 8;
-        U16(position, 4) = 8;
-        U16(position, 0xA) = 0x30;
-        S16(position, 0xC) = -0xDE;
-        PTR(base, 0x10) = func_800257E0;
-        a3ptr = PTR(base, 0xC);
-        U16(a3ptr, 0x10) = 0x20;
-        U16(a3ptr, 0x14) |= 0xC;
-        v1ptr = PTR(base, 8);
-        U16(v1ptr, 2) = U16(arg1, 2);
-        U16(v1ptr, 6) = U16(arg1, 6);
-        U16(v1ptr, 0xA) = U16(arg1, 0xA);
+    object = func_8003FC64(0x12);
+    object_data = (u8 *)object + 0x20;
+    if (object != 0) {
+        U16(object_data, 2) = 8;
+        U16(object_data, 4) = 8;
+        U16(object_data, 0xA) = 0x30;
+        S16(object_data, 0xC) = -0xDE;
+        PTR(object, 0x10) = func_800257E0;
+        spawn_sprite = PTR(object, 0xC);
+        U16(spawn_sprite, 0x10) = 0x20;
+        U16(spawn_sprite, 0x14) |= 0xC;
+        offset_value = PTR(object, 8);
+        U16(offset_value, 2) = U16(motion, 2);
+        U16(offset_value, 6) = U16(motion, 6);
+        U16(offset_value, 0xA) = U16(motion, 0xA);
         ASM_SCHED_BARRIER();
-        jump_table = (void **)0x80020000;
-        ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        copy_src = (PointTable *)((u8 *)jump_table + 0x6940);
-        ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        memcpy((u8 *)base + 0x64, copy_src, 12);
-        ASM_USE_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        PTR(a3ptr, 8) = (u8 *)base + 0x64;
-        ASM_KEEP(base);
+        table_value = (void **)0x80020000;
+        ASM_KEEP(table_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        template_data = (PointTable *)((u8 *)table_value + 0x6940);
+        ASM_KEEP_NV(template_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        memcpy((u8 *)object + 0x64, template_data, 12);
+        ASM_USE_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        PTR(spawn_sprite, 8) = (u8 *)object + 0x64;
+        ASM_KEEP(object);
     }
-    U8(arg0, 0x92) = 0;
-    U8(arg0, 0x91) = 0;
-    U8(arg0, 0x90) = 0;
-    U16(arg0, 0xA) = 4;
-    U16(arg0, 0x82) = 0;
+    U8(effect, 0x92) = 0;
+    U8(effect, 0x91) = 0;
+    U8(effect, 0x90) = 0;
+    U16(effect, 0xA) = 4;
+    U16(effect, 0x82) = 0;
     goto end;
 
-state_4:
+fade_projectile:
     {
-        u16 raw = U16(arg0, 0x82) + 1;
-        count4 = (s16)raw;
-        U16(arg0, 0x82) = raw;
+        u16 next_tick = U16(effect, 0x82) + 1;
+        fade_out_tick = (s16)next_tick;
+        U16(effect, 0x82) = next_tick;
     }
-    if (count4 >= 0x14) {
-        goto state4_advance;
+    if (fade_out_tick >= 0x14) {
+        goto finish_fade;
     }
 
-    U8(arg2, 0xC) = ((0x14 - count4) * 0xE0) / 0x14;
-    U8(arg2, 0xD) = ((0x14 - S16(arg0, 0x82)) * 0xE0) / 0x14;
-    U8(arg2, 0xE) = ((0x14 - S16(arg0, 0x82)) * 0x20) / 0x14;
-    if (S16(arg0, 0x96) == 0) {
-        U16(arg0, 0x96) = 1;
-        U8(arg0, 0xA0) = U8(arg0, 0xA0) + 0x18;
+    U8(sprite, 0xC) = ((0x14 - fade_out_tick) * 0xE0) / 0x14;
+    U8(sprite, 0xD) = ((0x14 - S16(effect, 0x82)) * 0xE0) / 0x14;
+    U8(sprite, 0xE) = ((0x14 - S16(effect, 0x82)) * 0x20) / 0x14;
+    if (S16(effect, 0x96) == 0) {
+        U16(effect, 0x96) = 1;
+        U8(effect, 0xA0) = U8(effect, 0xA0) + 0x18;
     } else {
-        U16(arg0, 0x96) = 0;
-        U8(arg0, 0xA0) = U8(arg0, 0xA0) - 0x18;
+        U16(effect, 0x96) = 0;
+        U8(effect, 0xA0) = U8(effect, 0xA0) - 0x18;
     }
 
-    position = 0;
+    object_data = 0;
     do {
-        position = (u8 *)position + 1;
-        color = func_80069EF8();
+        object_data = (u8 *)object_data + 1;
+        particle_color = func_80069EF8();
         {
-        void *task;
-        s32 kind;
-        s32 particle;
-        task = (u8 *)arg0 - 0x20;
-        ASM_KEEP(task);
-        kind = 0x0020E0E0;
-        ASM_KEEP(kind);
-        color &= 0xFF;
-        particle = color | 0x80;
-        ASM_KEEP(particle);
-        func_800250B0(task, S16(arg0, 0x7E), kind, particle, 0, 0, 0);
+            void *task;
+            s32 base_color;
+            s32 brightness;
+            task = (u8 *)effect - 0x20;
+            ASM_KEEP(task);
+            base_color = 0x0020E0E0;
+            ASM_KEEP(base_color);
+            particle_color &= 0xFF;
+            brightness = particle_color | 0x80;
+            ASM_KEEP(brightness);
+            func_800250B0(task, S16(effect, 0x7E), base_color, brightness, 0, 0, 0);
         }
-    } while ((s32)position < 4);
+    } while ((s32)object_data < 4);
     goto end;
 
-state4_advance:
-    next_state = U16(arg0, 0xA);
-    U16(arg0, 0x82) = 0;
+finish_fade:
+    next_state = U16(effect, 0xA);
+    U16(effect, 0x82) = 0;
     ASM_KEEP_NV(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     goto advance_state;
 
-state_5:
-    U16(arg0, 0x82) = U16(arg0, 0x82) + 1;
-    position = 0;
-    fade_n1 = S16(arg0, 0x82) * 0x20;
-    fade_result = fade_n1 / 0x28;
-    U8(arg0, 0x92) = fade_result;
-    fade_n2 = S16(arg0, 0x82) * 8;
-    fade_n2 = (fade_n2 - S16(arg0, 0x82)) * 32;
-    fade_result = fade_n2 / 0x28;
-    U8(arg0, 0x91) = fade_result;
-    fade_n3 = S16(arg0, 0x82) * 8;
-    fade_n3 = (fade_n3 - S16(arg0, 0x82)) * 32;
-    fade_result = fade_n3 / 0x28;
-    U8(arg0, 0x90) = fade_result;
+brighten_target:
+    U16(effect, 0x82) = U16(effect, 0x82) + 1;
+    object_data = 0;
+    blue_scaled = S16(effect, 0x82) * 0x20;
+    channel_value = blue_scaled / 0x28;
+    U8(effect, 0x92) = channel_value;
+    green_scaled = S16(effect, 0x82) * 8;
+    green_scaled = (green_scaled - S16(effect, 0x82)) * 32;
+    channel_value = green_scaled / 0x28;
+    U8(effect, 0x91) = channel_value;
+    red_scaled = S16(effect, 0x82) * 8;
+    red_scaled = (red_scaled - S16(effect, 0x82)) * 32;
+    channel_value = red_scaled / 0x28;
+    U8(effect, 0x90) = channel_value;
 
-    jump_table = (void **)0x800E0000;
-    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    v1ptr = PTR(owner, 0x60);
-    arg1 = (u8 *)jump_table - 0x23C0;
-    base = PTR(v1ptr, -0x18);
+    table_value = (void **)0x800E0000;
+    ASM_KEEP(table_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    offset_value = PTR(owner, 0x60);
+    motion = (u8 *)table_value - 0x23C0;
+    object = PTR(offset_value, -0x18);
     do {
-        copy_src = (PointTable *)0x80;
-        position = (u8 *)position + 1;
-        ASM_KEEP(position);
-        color = (U8(arg0, 0x92) << 16) + (U8(arg0, 0x91) << 8) + U8(arg0, 0x90);
-        func_800251E8((*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)arg1) >> 1) + 4,
-                      color, (s32)copy_src, S16(base, 2), S16(base, 6),
-                      (s16)(U16(base, 0xA) -
-                            (*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)arg1) >> 1)));
-    } while ((s32)position < 2);
-    if (S16(arg0, 0x82) >= 0x28) {
-        next_state = U16(arg0, 0xA);
-        U16(arg0, 0x82) = 0;
+        template_data = (PointTable *)0x80;
+        object_data = (u8 *)object_data + 1;
+        ASM_KEEP(object_data);
+        particle_color = (U8(effect, 0x92) << 16) + (U8(effect, 0x91) << 8) + U8(effect, 0x90);
+        func_800251E8((*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1) + 4,
+                      particle_color, (s32)template_data, S16(object, 2), S16(object, 6),
+                      (s16)(U16(object, 0xA) -
+                            (*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1)));
+    } while ((s32)object_data < 2);
+    if (S16(effect, 0x82) >= 0x28) {
+        next_state = U16(effect, 0xA);
+        U16(effect, 0x82) = 0;
         goto advance_state;
     }
     goto end;
 
-state_6:
+animate_target:
     {
-        u16 raw = U16(arg0, 0x82) + 1;
-        count6 = (s16)raw;
-        U16(arg0, 0x82) = raw;
+        u16 next_tick = U16(effect, 0x82) + 1;
+        target_tick = (s16)next_tick;
+        U16(effect, 0x82) = next_tick;
     }
-    position = 0;
-    if (count6 >= 0x24) {
-        U8(arg0, 0x92) = ((0x46 - count6) * 0x20) / 0x23;
-        U8(arg0, 0x91) = ((0x46 - S16(arg0, 0x82)) * 0xE0) / 0x23;
-        U8(arg0, 0x90) = ((0x46 - S16(arg0, 0x82)) * 0xE0) / 0x23;
+    object_data = 0;
+    if (target_tick >= 0x24) {
+        U8(effect, 0x92) = ((0x46 - target_tick) * 0x20) / 0x23;
+        U8(effect, 0x91) = ((0x46 - S16(effect, 0x82)) * 0xE0) / 0x23;
+        U8(effect, 0x90) = ((0x46 - S16(effect, 0x82)) * 0xE0) / 0x23;
     }
 
-    jump_table = (void **)0x800E0000;
-    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    v1ptr = PTR(owner, 0x60);
-    arg1 = (u8 *)jump_table - 0x23C0;
-    base = PTR(v1ptr, -0x18);
+    table_value = (void **)0x800E0000;
+    ASM_KEEP(table_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    offset_value = PTR(owner, 0x60);
+    motion = (u8 *)table_value - 0x23C0;
+    object = PTR(offset_value, -0x18);
     do {
-        copy_src = (PointTable *)0x80;
-        position = (u8 *)position + 1;
-        ASM_KEEP(position);
-        color = (U8(arg0, 0x92) << 16) + (U8(arg0, 0x91) << 8) + U8(arg0, 0x90);
-        func_800251E8((*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)arg1) >> 1) + 4,
-                      color, (s32)copy_src, S16(base, 2), S16(base, 6),
-                      (s16)(U16(base, 0xA) -
-                            (*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)arg1) >> 1)));
-    } while ((s32)position < 2);
+        template_data = (PointTable *)0x80;
+        object_data = (u8 *)object_data + 1;
+        ASM_KEEP(object_data);
+        particle_color = (U8(effect, 0x92) << 16) + (U8(effect, 0x91) << 8) + U8(effect, 0x90);
+        func_800251E8((*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1) + 4,
+                      particle_color, (s32)template_data, S16(object, 2), S16(object, 6),
+                      (s16)(U16(object, 0xA) -
+                            (*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1)));
+    } while ((s32)object_data < 2);
 
-    child = PTR(owner, 0x60);
-    jump_table = (void **)(u32)U32(child, 0x1C);
-    v1ptr = (void *)0x10000000;
-    jump_table = (void **)((u32)jump_table | (u32)v1ptr);
-    U32(child, 0x1C) = (u32)jump_table;
-    jump_table = (void **)(s32)S16(arg0, 0x82);
-    call_gfx = PTR(child, -0x14);
-    if ((s32)jump_table >= 0x24) {
-        U8(call_gfx, 0xC) -= 3;
-        U8(call_gfx, 0xD) -= 3;
-        U8(call_gfx, 0xE) += 2;
+    target = PTR(owner, 0x60);
+    table_value = (void **)(u32)U32(target, 0x1C);
+    offset_value = (void *)0x10000000;
+    table_value = (void **)((u32)table_value | (u32)offset_value);
+    U32(target, 0x1C) = (u32)table_value;
+    table_value = (void **)(s32)S16(effect, 0x82);
+    target_data = PTR(target, -0x14);
+    if ((s32)table_value >= 0x24) {
+        U8(target_data, 0xC) -= 3;
+        U8(target_data, 0xD) -= 3;
+        U8(target_data, 0xE) += 2;
     } else {
-        U8(call_gfx, 0xC) += 3;
-        U8(call_gfx, 0xD) += 3;
-        U8(call_gfx, 0xE) -= 2;
+        U8(target_data, 0xC) += 3;
+        U8(target_data, 0xD) += 3;
+        U8(target_data, 0xE) -= 2;
     }
-    if (S16(arg0, 0x82) < 0x46) {
+    if (S16(effect, 0x82) < 0x46) {
         goto end;
     }
 
-    v1ptr = PTR(owner, 0x60);
-    call_gfx = PTR(v1ptr, -0x14);
-    U32(v1ptr, 0x1C) &= 0xEFFFFFFF;
-    U8(call_gfx, 0xE) = 0x80;
-    U8(call_gfx, 0xD) = 0x80;
-    U8(call_gfx, 0xC) = 0x80;
-    func_800240B8(PTR(owner, 0x60), U8(arg0, 9), owner);
-    next_state = U16(arg0, 0xA);
-    U16(arg0, 0x82) = 0x14;
+    offset_value = PTR(owner, 0x60);
+    target_data = PTR(offset_value, -0x14);
+    U32(offset_value, 0x1C) &= 0xEFFFFFFF;
+    U8(target_data, 0xE) = 0x80;
+    U8(target_data, 0xD) = 0x80;
+    U8(target_data, 0xC) = 0x80;
+    func_800240B8(PTR(owner, 0x60), U8(effect, 9), owner);
+    next_state = U16(effect, 0xA);
+    U16(effect, 0x82) = 0x14;
 
 advance_state:
-    U16(arg0, 0xA) = next_state + 1;
+    U16(effect, 0xA) = next_state + 1;
     goto end;
 
-state_7:
-    count = U16(arg0, 0x82);
-    U16(arg0, 0x82) = count + 1;
-    if ((s16)count < 0x15) {
+finish_effect:
+    finish_tick = U16(effect, 0x82);
+    U16(effect, 0x82) = finish_tick + 1;
+    if ((s16)finish_tick < 0x15) {
         goto end;
     }
-    a0ptr = (void *)0x80020000;
-    ASM_KEEP_NV(a0ptr);
-    busy = S16(a0ptr, 0x694C);
-    U16(arg0, 0x82) = count;
-    if (busy == 0) {
-        jump_table = (void **)0x80080000;
-        ASM_KEEP_NV(jump_table);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        S32(jump_table, 0x346C) = 0;
-        U16(arg0, -2) |= 0x8000;
-        v1ptr = (void *)0x80080000;
-        U32(v1ptr, 0x14A0) |= 0x8000;
+    busy_base = (void *)0x80020000;
+    ASM_KEEP_NV(busy_base);
+    effect_busy = S16(busy_base, 0x694C);
+    U16(effect, 0x82) = finish_tick;
+    if (effect_busy == 0) {
+        table_value = (void **)0x80080000;
+        ASM_KEEP_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        S32(table_value, 0x346C) = 0;
+        U16(effect, -2) |= 0x8000;
+        offset_value = (void *)0x80080000;
+        U32(offset_value, 0x14A0) |= 0x8000;
         goto end;
     }
     goto clear_busy;
 collision_hit:
-    U16(arg0, 0xA) = 7;
-    U16(arg0, 0x82) = 0;
-    render_flags = U16(arg2, 0x14);
+    U16(effect, 0xA) = 7;
+    U16(effect, 0x82) = 0;
+    render_flags = U16(sprite, 0x14);
 set_render_flag:
     render_flags |= 0x80;
-    U16(arg2, 0x14) = render_flags;
+    U16(sprite, 0x14) = render_flags;
     goto end;
 
-child_done:
+reach_target:
     ASM_SCHED_BARRIER();
-    U16(arg0, 0xA) = 3;
-    U16(arg0, 0x82) = 0;
-    jump_table = PTR(owner, 0x60);
-    base = PTR(jump_table, -0x18);
-    U16(arg1, 2) = U16(base, 2);
-    U16(arg1, 6) = U16(base, 6);
-    U16(arg1, 0xA) = U16(arg0, 0x78);
+    U16(effect, 0xA) = 3;
+    U16(effect, 0x82) = 0;
+    table_value = PTR(owner, 0x60);
+    object = PTR(table_value, -0x18);
+    U16(motion, 2) = U16(object, 2);
+    U16(motion, 6) = U16(object, 6);
+    U16(motion, 0xA) = U16(effect, 0x78);
     func_800A56E0(0x300);
     goto end;
 
 clear_busy:
-    S16(a0ptr, 0x694C) = 0;
+    S16(busy_base, 0x694C) = 0;
 
 end:
     return;

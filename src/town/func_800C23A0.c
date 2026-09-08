@@ -27,21 +27,22 @@ extern u8 D_80083498[12];
 extern u16 D_80083780[6];
 extern void func_800BFB8C(void);
 
-void func_800BFB00(s16 arg0, s16 arg1) {
-    u16 temp_v1;
-    S_800BFB00_1 *temp_a0;
-    void *temp_v0;
+/* Allocates an object and initializes its callback, preset values, and position. */
+void func_800BFB00(s16 x, s16 y) {
+    u16 preset_value;
+    S_800BFB00_1 *state;
+    void *object;
 
-    temp_v0 = func_8003FD64(2, D_80083498);
-    if (temp_v0 != 0) {
-        ((S_800BFB00_0 *)temp_v0)->unk_10 = func_800BFB8C;
-        ((S_800BFB00_0 *)temp_v0)->unk_20 = D_80083780[1];
-        temp_a0 = (s8 *)temp_v0 + 0x20;
-        temp_a0->unk_02 = D_80083780[3];
-        temp_v1 = D_80083780[5];
-        temp_a0->unk_08 = arg0;
-        temp_a0->unk_0A = arg1;
-        temp_a0->unk_0E = 6;
-        temp_a0->unk_04 = temp_v1;
+    object = func_8003FD64(2, D_80083498);
+    if (object != 0) {
+        ((S_800BFB00_0 *)object)->unk_10 = func_800BFB8C;
+        ((S_800BFB00_0 *)object)->unk_20 = D_80083780[1];
+        state = (s8 *)object + 0x20;
+        state->unk_02 = D_80083780[3];
+        preset_value = D_80083780[5];
+        state->unk_08 = x;
+        state->unk_0A = y;
+        state->unk_0E = 6;
+        state->unk_04 = preset_value;
     }
 }

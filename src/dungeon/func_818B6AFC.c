@@ -82,201 +82,202 @@ register s32 implicit_lo ASM_REG("lo");   /* UNRESOLVED C shape (pin): removing 
     (implicit_lo = (s32) (a) * (s32) (b), implicit_lo)
 #endif
 
-void func_818B6AFC(void *in0, M2C_UNK arg1, void *arg2) {
-    s32 temp_a0_2;
-    s16 temp_a0_3;
-    s32 temp_a0_5;
-    s32 temp_a0_8;
-    s16 temp_a0_9;
-    s16 temp_v1_2;
-    s16 temp_v1_4;
-    register s32 var_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 var_v0;
-    s32 var_v1;
-    register s32 temp_a0_6 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_t1;
-    register s32 temp_t2 ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_v1_3;
-    s32 temp_v1_5;
-    s32 packed_rem1;
-    s32 remainder3;
-    register s32 quotient3 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 packed3;
-    s32 limit48;
-    s32 delta48;
-    s32 magic7;
-    s32 dividend7;
-    u16 raw1;
-    u16 raw2;
-    u16 raw3;
+/* Cycle through seven colors with fade-in and fade-out, then mark the effect finished. */
+void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
+    s32 fade_in_color;
+    s16 fade_in_green;
+    s32 hold_color;
+    s32 fade_out_color;
+    s16 fade_out_green;
+    s16 frame;
+    s16 fade_in_blue;
+    register s32 div_adjust ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 fade_work;
+    s32 rounded_color;
+    register s32 hold_bits ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 channel_bit;
+    register s32 fade_out_red ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 fade_in_half;
+    s32 fade_out_half;
+    s32 packed_channel;
+    s32 fade_out_remainder;
+    register s32 cycle_quotient ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 packed_color;
+    s32 end_frame;
+    s32 frames_left;
+    s32 div_seven_magic;
+    s32 cycle_value;
+    u16 fade_in_tick;
+    u16 hold_tick;
+    u16 fade_out_tick;
     register s32 product_result ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s8 temp_v0;
-    s8 temp_v0_2;
-    s8 temp_v0_3;
-    void *temp_a0;
-    void *temp_a0_10;
-    void *temp_a0_4;
-    void *temp_a0_7;
-    void *temp_t0;
-    void *temp_v1;
-    void *arg0;
+    s8 red;
+    s8 green;
+    s8 blue;
+    void *fade_in_target;
+    void *finished_target;
+    void *hold_target;
+    void *fade_out_target;
+    void *target_color;
+    void *owner;
+    void *effect;
 
-    arg0 = in0;
-    temp_v1 = ((S_818B6AFC_0 *)arg0)->unk_00;
-    ((S_818B6AFC_1 *)temp_v1)->unk_14 = (u16) (((S_818B6AFC_1 *)temp_v1)->unk_14 + 1);
-    ((S_818B6AFC_0 *)arg0)->unk_06 = (u16) (((S_818B6AFC_0 *)arg0)->unk_06 + 1);
-    ((S_818B6AFC_0 *)arg0)->unk_08 = (u16) (((S_818B6AFC_0 *)arg0)->unk_08 + 1);
-    ((S_818B6AFC_0 *)arg0)->unk_0C = (u16) (((S_818B6AFC_0 *)arg0)->unk_0C + 0x80);
-    ((S_818B6AFC_0 *)arg0)->unk_0E = (u16) (((S_818B6AFC_0 *)arg0)->unk_0E + 0x80);
-    temp_v1_2 = (s16) ((S_818B6AFC_0 *)arg0)->unk_06;
-    if (temp_v1_2 < 8) {
-        temp_a0 = ((S_818B6AFC_0 *)arg0)->unk_10;
-        ((S_818B6AFC_2 *)temp_a0)->unk_1C = (s32) (((S_818B6AFC_2 *)temp_a0)->unk_1C | 0x10000000);
-        raw1 = ((S_818B6AFC_0 *)arg0)->unk_08;
-        dividend7 = (s16) raw1;
-        magic7 = (s32) 0x92490000;
-        magic7 = (s32) ((u32) magic7 | 0x2493);
+    effect = effect_data;
+    owner = ((S_818B6AFC_0 *)effect)->unk_00;
+    ((S_818B6AFC_1 *)owner)->unk_14 = (u16) (((S_818B6AFC_1 *)owner)->unk_14 + 1);
+    ((S_818B6AFC_0 *)effect)->unk_06 = (u16) (((S_818B6AFC_0 *)effect)->unk_06 + 1);
+    ((S_818B6AFC_0 *)effect)->unk_08 = (u16) (((S_818B6AFC_0 *)effect)->unk_08 + 1);
+    ((S_818B6AFC_0 *)effect)->unk_0C = (u16) (((S_818B6AFC_0 *)effect)->unk_0C + 0x80);
+    ((S_818B6AFC_0 *)effect)->unk_0E = (u16) (((S_818B6AFC_0 *)effect)->unk_0E + 0x80);
+    frame = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
+    if (frame < 8) {
+        fade_in_target = ((S_818B6AFC_0 *)effect)->unk_10;
+        ((S_818B6AFC_2 *)fade_in_target)->unk_1C = (s32) (((S_818B6AFC_2 *)fade_in_target)->unk_1C | 0x10000000);
+        fade_in_tick = ((S_818B6AFC_0 *)effect)->unk_08;
+        cycle_value = (s16) fade_in_tick;
+        div_seven_magic = (s32) 0x92490000;
+        div_seven_magic = (s32) ((u32) div_seven_magic | 0x2493);
 #ifndef NON_MATCHING
-        implicit_lo = dividend7 * magic7;
+        implicit_lo = cycle_value * div_seven_magic;
 #endif
-        temp_t0 = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)arg0)->unk_10))[-1].unk_00;
-        var_a1 = (s32) (s16) raw1 >> 31;
-        M2C_READ_MUL_HI(product_result, dividend7, magic7);
-        quotient3 = ((product_result + dividend7) >> 2) - var_a1;
-        ASM_KEEP_NV(quotient3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        dividend7 = dividend7 - (quotient3 * 7);
-        dividend7 = dividend7 + 1;
-        packed_rem1 = (s32) ((u32) dividend7 << 16);
-        temp_a0_2 = packed_rem1 >> 16;
-        var_a1 = temp_a0_2;
-        if (temp_a0_2 < 0) {
-            var_a1 = temp_a0_2 + 3;
+        target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
+        div_adjust = (s32) (s16) fade_in_tick >> 31;
+        M2C_READ_MUL_HI(product_result, cycle_value, div_seven_magic);
+        cycle_quotient = ((product_result + cycle_value) >> 2) - div_adjust;
+        ASM_KEEP_NV(cycle_quotient);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        cycle_value = cycle_value - (cycle_quotient * 7);
+        cycle_value = cycle_value + 1;
+        packed_channel = (s32) ((u32) cycle_value << 16);
+        fade_in_color = packed_channel >> 16;
+        div_adjust = fade_in_color;
+        if (fade_in_color < 0) {
+            div_adjust = fade_in_color + 3;
         }
-        temp_t1 = var_a1 >> 2;
-        product_result = M2C_MUL_LO(temp_t1, (s16) ((S_818B6AFC_0 *)arg0)->unk_06 << 3);
-        temp_v1_3 = (temp_a0_2 + (s32) ((u32) packed_rem1 >> 31)) >> 1;
-        ((S_818B6AFC_3 *)temp_t0)->unk_0C = (s8) (product_result - 0x80);
+        channel_bit = div_adjust >> 2;
+        product_result = M2C_MUL_LO(channel_bit, (s16) ((S_818B6AFC_0 *)effect)->unk_06 << 3);
+        fade_in_half = (fade_in_color + (s32) ((u32) packed_channel >> 31)) >> 1;
+        ((S_818B6AFC_3 *)target_color)->unk_0C = (s8) (product_result - 0x80);
         ASM_KEEP(product_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        temp_a0_3 = (s16) temp_v1_3 % 2;
-        packed_rem1 = (s32) ((u32) (temp_a0_2 - (temp_v1_3 * 2)) << 16);
-        product_result = M2C_MUL_LO(temp_a0_3, (s16) ((S_818B6AFC_0 *)arg0)->unk_06 << 3);
-        ((S_818B6AFC_3 *)temp_t0)->unk_0D = (s8) (product_result - 0x80);
+        fade_in_green = (s16) fade_in_half % 2;
+        packed_channel = (s32) ((u32) (fade_in_color - (fade_in_half * 2)) << 16);
+        product_result = M2C_MUL_LO(fade_in_green, (s16) ((S_818B6AFC_0 *)effect)->unk_06 << 3);
+        ((S_818B6AFC_3 *)target_color)->unk_0D = (s8) (product_result - 0x80);
         ASM_KEEP(product_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        temp_v1_4 = packed_rem1 >> 16;
-        product_result = M2C_MUL_LO(temp_v1_4, (s16) ((S_818B6AFC_0 *)arg0)->unk_06 << 3);
-        ((S_818B6AFC_3 *)temp_t0)->unk_0E = (s8) (product_result - 0x80);
+        fade_in_blue = packed_channel >> 16;
+        product_result = M2C_MUL_LO(fade_in_blue, (s16) ((S_818B6AFC_0 *)effect)->unk_06 << 3);
+        ((S_818B6AFC_3 *)target_color)->unk_0E = (s8) (product_result - 0x80);
         ASM_KEEP(product_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        product_result = M2C_MUL_LO(temp_t1, ((s16) ((S_818B6AFC_0 *)arg0)->unk_06 * 3) << 3);
-        ((S_818B6AFC_4 *)arg2)->unk_0C.at00.v = (s8) product_result;
-        product_result = M2C_MUL_LO(temp_a0_3, ((s16) ((S_818B6AFC_0 *)arg0)->unk_06 * 3) << 3);
-        ((S_818B6AFC_4 *)arg2)->unk_0C.at01.v = (s8) product_result;
+        product_result = M2C_MUL_LO(channel_bit, ((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
+        ((S_818B6AFC_4 *)color_out)->unk_0C.at00.v = (s8) product_result;
+        product_result = M2C_MUL_LO(fade_in_green, ((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
+        ((S_818B6AFC_4 *)color_out)->unk_0C.at01.v = (s8) product_result;
 #ifdef NON_MATCHING
-        ((S_818B6AFC_4 *)arg2)->unk_0C.at02.v = (s8) (temp_v1_4 * ((((s16) ((S_818B6AFC_0 *)arg0)->unk_06 * 3)) << 3));
+        ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = (s8) (fade_in_blue * ((((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3)) << 3));
 #else
-        implicit_lo = temp_v1_4 * (((s16) ((S_818B6AFC_0 *)arg0)->unk_06 * 3) << 3);
+        implicit_lo = fade_in_blue * (((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
 #endif
-        func_8002473C(temp_a0_3, temp_v1_4, temp_a0_2, arg0);
+        func_8002473C(fade_in_green, fade_in_blue, fade_in_color, effect);
         return;
     }
-    if (temp_v1_2 < 0x28) {
-        temp_a0_4 = ((S_818B6AFC_0 *)arg0)->unk_10;
-        ((S_818B6AFC_5 *)temp_a0_4)->unk_1C = (s32) (((S_818B6AFC_5 *)temp_a0_4)->unk_1C | 0x10000000);
-        raw2 = ((S_818B6AFC_0 *)arg0)->unk_08;
-        dividend7 = (s16) raw2;
-        magic7 = (s32) 0x92490000;
-        magic7 = (s32) ((u32) magic7 | 0x2493);
+    if (frame < 0x28) {
+        hold_target = ((S_818B6AFC_0 *)effect)->unk_10;
+        ((S_818B6AFC_5 *)hold_target)->unk_1C = (s32) (((S_818B6AFC_5 *)hold_target)->unk_1C | 0x10000000);
+        hold_tick = ((S_818B6AFC_0 *)effect)->unk_08;
+        cycle_value = (s16) hold_tick;
+        div_seven_magic = (s32) 0x92490000;
+        div_seven_magic = (s32) ((u32) div_seven_magic | 0x2493);
 #ifndef NON_MATCHING
-        implicit_lo = dividend7 * magic7;
+        implicit_lo = cycle_value * div_seven_magic;
 #endif
-        temp_t0 = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)arg0)->unk_10))[-1].unk_00;
-        var_a1 = (s32) (s16) raw2 >> 31;
-        M2C_READ_MUL_HI(product_result, dividend7, magic7);
-        quotient3 = ((product_result + dividend7) >> 2) - var_a1;
-        ASM_KEEP_NV(quotient3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        dividend7 = dividend7 - (quotient3 * 7);
-        dividend7 = dividend7 + 1;
-        dividend7 = (s32) ((u32) dividend7 << 16);
-        temp_a0_5 = dividend7 >> 16;
-        var_v1 = temp_a0_5;
-        if (temp_a0_5 < 0) {
-            var_v1 = temp_a0_5 + 3;
+        target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
+        div_adjust = (s32) (s16) hold_tick >> 31;
+        M2C_READ_MUL_HI(product_result, cycle_value, div_seven_magic);
+        cycle_quotient = ((product_result + cycle_value) >> 2) - div_adjust;
+        ASM_KEEP_NV(cycle_quotient);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        cycle_value = cycle_value - (cycle_quotient * 7);
+        cycle_value = cycle_value + 1;
+        cycle_value = (s32) ((u32) cycle_value << 16);
+        hold_color = cycle_value >> 16;
+        rounded_color = hold_color;
+        if (hold_color < 0) {
+            rounded_color = hold_color + 3;
         }
-        temp_v0 = (var_v1 >> 2) * 0xC0;
-        temp_a0_6 = (temp_a0_5 + (s32) ((u32) dividend7 >> 31)) >> 1;
-        ((S_818B6AFC_4 *)arg2)->unk_0C.at00.v = temp_v0;
-        ((S_818B6AFC_3 *)temp_t0)->unk_0C = temp_v0;
-        temp_v0_2 = ((s16) temp_a0_6 % 2) * 0xC0;
-        temp_a0_6 = (s16) (temp_a0_5 - (temp_a0_6 * 2));
-        ((S_818B6AFC_4 *)arg2)->unk_0C.at01.v = temp_v0_2;
-        ((S_818B6AFC_3 *)temp_t0)->unk_0D = temp_v0_2;
+        red = (rounded_color >> 2) * 0xC0;
+        hold_bits = (hold_color + (s32) ((u32) cycle_value >> 31)) >> 1;
+        ((S_818B6AFC_4 *)color_out)->unk_0C.at00.v = red;
+        ((S_818B6AFC_3 *)target_color)->unk_0C = red;
+        green = ((s16) hold_bits % 2) * 0xC0;
+        hold_bits = (s16) (hold_color - (hold_bits * 2));
+        ((S_818B6AFC_4 *)color_out)->unk_0C.at01.v = green;
+        ((S_818B6AFC_3 *)target_color)->unk_0D = green;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        temp_v0_3 = temp_a0_6 * 0xC0;
-        ((S_818B6AFC_4 *)arg2)->unk_0C.at02.v = temp_v0_3;
-        ((S_818B6AFC_3 *)temp_t0)->unk_0E = temp_v0_3;
-        func_80024154(((S_818B6AFC_0 *)arg0)->unk_00, arg1, ((S_818B6AFC_4 *)arg2)->unk_0C.at00u.v, arg0);
+        blue = hold_bits * 0xC0;
+        ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = blue;
+        ((S_818B6AFC_3 *)target_color)->unk_0E = blue;
+        func_80024154(((S_818B6AFC_0 *)effect)->unk_00, render_arg, ((S_818B6AFC_4 *)color_out)->unk_0C.at00u.v, effect);
         func_80024780();
         return;
     }
-    if (temp_v1_2 < 0x30) {
-        temp_a0_7 = ((S_818B6AFC_0 *)arg0)->unk_10;
-        ((S_818B6AFC_6 *)temp_a0_7)->unk_1C = (s32) (((S_818B6AFC_6 *)temp_a0_7)->unk_1C | 0x10000000);
-        raw3 = ((S_818B6AFC_0 *)arg0)->unk_08;
-        remainder3 = (s16) raw3;
-        magic7 = (s32) 0x92490000;
-        magic7 = (s32) ((u32) magic7 | 0x2493);
+    if (frame < 0x30) {
+        fade_out_target = ((S_818B6AFC_0 *)effect)->unk_10;
+        ((S_818B6AFC_6 *)fade_out_target)->unk_1C = (s32) (((S_818B6AFC_6 *)fade_out_target)->unk_1C | 0x10000000);
+        fade_out_tick = ((S_818B6AFC_0 *)effect)->unk_08;
+        fade_out_remainder = (s16) fade_out_tick;
+        div_seven_magic = (s32) 0x92490000;
+        div_seven_magic = (s32) ((u32) div_seven_magic | 0x2493);
 #ifndef NON_MATCHING
-        implicit_lo = remainder3 * magic7;
+        implicit_lo = fade_out_remainder * div_seven_magic;
 #endif
-        temp_t0 = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)arg0)->unk_10))[-1].unk_00;
-        var_a1 = (s32) (s16) raw3 >> 31;
-        M2C_READ_MUL_HI(product_result, remainder3, magic7);
-        quotient3 = ((product_result + remainder3) >> 2) - var_a1;
-        ASM_KEEP_NV(quotient3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        remainder3 = remainder3 - (quotient3 * 7);
-        remainder3 = remainder3 + 1;
-        packed3 = (s32) ((u32) remainder3 << 16);
-        temp_a0_8 = packed3 >> 16;
-        var_v0 = temp_a0_8;
-        if (temp_a0_8 < 0) {
-            var_v0 = temp_a0_8 + 3;
+        target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
+        div_adjust = (s32) (s16) fade_out_tick >> 31;
+        M2C_READ_MUL_HI(product_result, fade_out_remainder, div_seven_magic);
+        cycle_quotient = ((product_result + fade_out_remainder) >> 2) - div_adjust;
+        ASM_KEEP_NV(cycle_quotient);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        fade_out_remainder = fade_out_remainder - (cycle_quotient * 7);
+        fade_out_remainder = fade_out_remainder + 1;
+        packed_color = (s32) ((u32) fade_out_remainder << 16);
+        fade_out_color = packed_color >> 16;
+        fade_work = fade_out_color;
+        if (fade_out_color < 0) {
+            fade_work = fade_out_color + 3;
         }
-        temp_t2 = var_v0 >> 2;
-        temp_v1_5 = (temp_a0_8 + (s32) ((u32) packed3 >> 31)) >> 1;
-        var_v0 = (s16) ((S_818B6AFC_0 *)arg0)->unk_06;
-        ASM_KEEP_NV(var_v0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        limit48 = 0x30;
-        ASM_KEEP_NV(limit48);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        var_v0 = limit48 - var_v0;
-        product_result = M2C_MUL_LO(temp_t2, var_v0 << 3);
-        ((S_818B6AFC_3 *)temp_t0)->unk_0C = (s8) (product_result - 0x80);
+        fade_out_red = fade_work >> 2;
+        fade_out_half = (fade_out_color + (s32) ((u32) packed_color >> 31)) >> 1;
+        fade_work = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
+        ASM_KEEP_NV(fade_work);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        end_frame = 0x30;
+        ASM_KEEP_NV(end_frame);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        fade_work = end_frame - fade_work;
+        product_result = M2C_MUL_LO(fade_out_red, fade_work << 3);
+        ((S_818B6AFC_3 *)target_color)->unk_0C = (s8) (product_result - 0x80);
         ASM_KEEP(product_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        temp_a0_9 = (s16) temp_v1_5 % 2;
-        packed_rem1 = (s32) ((u32) (temp_a0_8 - (temp_v1_5 * 2)) << 16);
-        product_result = M2C_MUL_LO(temp_a0_9, (limit48 - (s16) ((S_818B6AFC_0 *)arg0)->unk_06) << 3);
-        ((S_818B6AFC_3 *)temp_t0)->unk_0D = (s8) (product_result - 0x80);
+        fade_out_green = (s16) fade_out_half % 2;
+        packed_channel = (s32) ((u32) (fade_out_color - (fade_out_half * 2)) << 16);
+        product_result = M2C_MUL_LO(fade_out_green, (end_frame - (s16) ((S_818B6AFC_0 *)effect)->unk_06) << 3);
+        ((S_818B6AFC_3 *)target_color)->unk_0D = (s8) (product_result - 0x80);
         ASM_KEEP(product_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        temp_t1 = packed_rem1 >> 16;
-        product_result = M2C_MUL_LO(temp_t1, (limit48 - (s16) ((S_818B6AFC_0 *)arg0)->unk_06) << 3);
-        ((S_818B6AFC_3 *)temp_t0)->unk_0E = (s8) (product_result - 0x80);
+        channel_bit = packed_channel >> 16;
+        product_result = M2C_MUL_LO(channel_bit, (end_frame - (s16) ((S_818B6AFC_0 *)effect)->unk_06) << 3);
+        ((S_818B6AFC_3 *)target_color)->unk_0E = (s8) (product_result - 0x80);
         ASM_KEEP(product_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        delta48 = (s16) ((S_818B6AFC_0 *)arg0)->unk_06;
-        delta48 = limit48 - delta48;
-        product_result = M2C_MUL_LO(temp_t2, (delta48 * 3) << 3);
-        ((S_818B6AFC_4 *)arg2)->unk_0C.at00.v = (s8) product_result;
-        delta48 = (s16) ((S_818B6AFC_0 *)arg0)->unk_06;
-        delta48 = limit48 - delta48;
-        product_result = M2C_MUL_LO(temp_a0_9, (delta48 * 3) << 3);
-        ((S_818B6AFC_4 *)arg2)->unk_0C.at01.v = (s8) product_result;
-        delta48 = (s16) ((S_818B6AFC_0 *)arg0)->unk_06;
-        delta48 = limit48 - delta48;
-        product_result = M2C_MUL_LO(temp_t1, (delta48 * 3) << 3);
-        ((S_818B6AFC_4 *)arg2)->unk_0C.at02.v = (s8) product_result;
-        func_80024780(temp_a0_9, temp_a0_8, limit48, arg0);
+        frames_left = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
+        frames_left = end_frame - frames_left;
+        product_result = M2C_MUL_LO(fade_out_red, (frames_left * 3) << 3);
+        ((S_818B6AFC_4 *)color_out)->unk_0C.at00.v = (s8) product_result;
+        frames_left = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
+        frames_left = end_frame - frames_left;
+        product_result = M2C_MUL_LO(fade_out_green, (frames_left * 3) << 3);
+        ((S_818B6AFC_4 *)color_out)->unk_0C.at01.v = (s8) product_result;
+        frames_left = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
+        frames_left = end_frame - frames_left;
+        product_result = M2C_MUL_LO(channel_bit, (frames_left * 3) << 3);
+        ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = (s8) product_result;
+        func_80024780(fade_out_green, fade_out_color, end_frame, effect);
         return;
     }
-    temp_a0_10 = ((S_818B6AFC_0 *)arg0)->unk_10;
-    ((S_818B6AFC_7 *)temp_a0_10)->unk_1C = (s32) (((S_818B6AFC_7 *)temp_a0_10)->unk_1C & 0xEFFFFFFF);
-    (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_818B6AFC_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    finished_target = ((S_818B6AFC_0 *)effect)->unk_10;
+    ((S_818B6AFC_7 *)finished_target)->unk_1C = (s32) (((S_818B6AFC_7 *)finished_target)->unk_1C & 0xEFFFFFFF);
+    (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_818B6AFC_0_pre *)effect)[-1].unk_00 | 0x8000);
     D_800814A0 = D_800814A0 | 0x8000;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

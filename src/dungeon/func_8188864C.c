@@ -70,63 +70,64 @@ typedef struct GlobalState {
 
 extern GlobalState *D_80083160[];
 
-s32 func_80025E4C(void *arg0) {
-    GlobalState **global = D_80083160;
+/* Project linked quads and queue their shaded primitives and draw modes by depth. */
+s32 func_80025E4C(void *quad) {
+    GlobalState **render_states = D_80083160;
     u8 *scratch = (u8 *)0x1F800000;
-    void *obj;
-    u32 count;
-    s32 value0;
-    s32 value1;
-    s32 next;
-    void *value2;
-    GlobalState *global_base;
+    void *packet;
+    u32 depth_bucket;
+    s32 first_color;
+    s32 second_color;
+    s32 next_node;
+    void *vertex3_xy;
+    GlobalState *render_state;
 
-    global_base = global[0];
-    (*(void * *)((u8 *)scratch + 0x20)) = (u8 *)global_base + 0xB0;
-    ((S_80025E4C_0 *)scratch)->unk_18 = global_base->next;
+    render_state = render_states[0];
+    (*(void * *)((u8 *)scratch + 0x20)) = (u8 *)render_state + 0xB0;
+    ((S_80025E4C_0 *)scratch)->unk_18 = render_state->next;
     do {
-        obj = ((S_80025E4C_0 *)scratch)->unk_18;
-        ((S_80025E4C_0 *)scratch)->unk_18 = (u8 *)obj + 0x24;
-        ((S_80025E4C_0 *)scratch)->unk_70 = ((S_80025E4C_1 *)arg0)->unk_30;
-        ((S_80025E4C_0 *)scratch)->unk_78 = ((S_80025E4C_1 *)arg0)->unk_38;
-        ((S_80025E4C_0 *)scratch)->unk_80 = ((S_80025E4C_1 *)arg0)->unk_40;
-        value2 = ((S_80025E4C_1 *)arg0)->unk_48;
-        ((S_80025E4C_0 *)scratch)->unk_74 = ((S_80025E4C_1 *)arg0)->unk_34;
-        ((S_80025E4C_0 *)scratch)->unk_7C = ((S_80025E4C_1 *)arg0)->unk_3C;
-        ((S_80025E4C_0 *)scratch)->unk_84 = ((S_80025E4C_1 *)arg0)->unk_44;
-        ((S_80025E4C_0 *)scratch)->unk_88 = value2;
-        ((S_80025E4C_0 *)scratch)->unk_8C = ((S_80025E4C_1 *)arg0)->unk_4C;
-        count = func_800654B0(scratch + 0x70, scratch + 0x78,
+        packet = ((S_80025E4C_0 *)scratch)->unk_18;
+        ((S_80025E4C_0 *)scratch)->unk_18 = (u8 *)packet + 0x24;
+        ((S_80025E4C_0 *)scratch)->unk_70 = ((S_80025E4C_1 *)quad)->unk_30;
+        ((S_80025E4C_0 *)scratch)->unk_78 = ((S_80025E4C_1 *)quad)->unk_38;
+        ((S_80025E4C_0 *)scratch)->unk_80 = ((S_80025E4C_1 *)quad)->unk_40;
+        vertex3_xy = ((S_80025E4C_1 *)quad)->unk_48;
+        ((S_80025E4C_0 *)scratch)->unk_74 = ((S_80025E4C_1 *)quad)->unk_34;
+        ((S_80025E4C_0 *)scratch)->unk_7C = ((S_80025E4C_1 *)quad)->unk_3C;
+        ((S_80025E4C_0 *)scratch)->unk_84 = ((S_80025E4C_1 *)quad)->unk_44;
+        ((S_80025E4C_0 *)scratch)->unk_88 = vertex3_xy;
+        ((S_80025E4C_0 *)scratch)->unk_8C = ((S_80025E4C_1 *)quad)->unk_4C;
+        depth_bucket = func_800654B0(scratch + 0x70, scratch + 0x78,
                               scratch + 0x80, scratch + 0x88,
-                              (u8 *)obj + 8, (u8 *)obj + 0x10,
-                              (u8 *)obj + 0x18, (u8 *)obj + 0x20,
+                              (u8 *)packet + 8, (u8 *)packet + 0x10,
+                              (u8 *)packet + 0x18, (u8 *)packet + 0x20,
                               scratch + 0x90, scratch + 0x94) - 8;
-        ((S_80025E4C_0 *)scratch)->unk_C0 = count;
-        if (count < 0x1E0U) {
-            value0 = ((S_80025E4C_1 *)arg0)->unk_50;
-            ((S_80025E4C_2 *)obj)->unk_0C = value0;
-            ((S_80025E4C_2 *)obj)->unk_04.at00.v = value0;
-            value1 = ((S_80025E4C_1 *)arg0)->unk_54;
-            ((S_80025E4C_2 *)obj)->unk_1C = value1;
-            ((S_80025E4C_2 *)obj)->unk_14 = value1;
-            func_80066708(obj);
-            ((S_80025E4C_2 *)obj)->unk_04.at03.v = (u8)(((S_80025E4C_2 *)obj)->unk_04.at03.v | 2);
+        ((S_80025E4C_0 *)scratch)->unk_C0 = depth_bucket;
+        if (depth_bucket < 0x1E0U) {
+            first_color = ((S_80025E4C_1 *)quad)->unk_50;
+            ((S_80025E4C_2 *)packet)->unk_0C = first_color;
+            ((S_80025E4C_2 *)packet)->unk_04.at00.v = first_color;
+            second_color = ((S_80025E4C_1 *)quad)->unk_54;
+            ((S_80025E4C_2 *)packet)->unk_1C = second_color;
+            ((S_80025E4C_2 *)packet)->unk_14 = second_color;
+            func_80066708(packet);
+            ((S_80025E4C_2 *)packet)->unk_04.at03.v = (u8)(((S_80025E4C_2 *)packet)->unk_04.at03.v | 2);
             func_8006658C((u8 *)((S_80025E4C_0 *)scratch)->unk_20 +
-                              (((S_80025E4C_0 *)scratch)->unk_C0 * 4), obj);
-            obj = ((S_80025E4C_0 *)scratch)->unk_18;
-            ((S_80025E4C_0 *)scratch)->unk_18 = (u8 *)obj + 0xC;
-            func_80067F20(obj, 0, 0,
+                              (((S_80025E4C_0 *)scratch)->unk_C0 * 4), packet);
+            packet = ((S_80025E4C_0 *)scratch)->unk_18;
+            ((S_80025E4C_0 *)scratch)->unk_18 = (u8 *)packet + 0xC;
+            func_80067F20(packet, 0, 0,
                           (u16)func_80066460(0, 1, 0, 0), 0);
             func_8006658C((u8 *)((S_80025E4C_0 *)scratch)->unk_20 +
-                              (((S_80025E4C_0 *)scratch)->unk_C0 * 4), obj);
+                              (((S_80025E4C_0 *)scratch)->unk_C0 * 4), packet);
         }
-        next = ((S_80025E4C_1_pre *)arg0)[-1].unk_00;
-        if (next == 0) {
+        next_node = ((S_80025E4C_1_pre *)quad)[-1].unk_00;
+        if (next_node == 0) {
             break;
         }
-        arg0 = (void *)(next + 0x20);
+        quad = (void *)(next_node + 0x20);
     } while (1);
-    global[0]->next =
+    render_states[0]->next =
         ((S_80025E4C_0 *)scratch)->unk_18;
     return 0;
 }

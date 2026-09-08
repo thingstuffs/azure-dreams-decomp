@@ -22,28 +22,25 @@ extern void func_8001ACA0();
 extern void func_8001AC6C();
 
 
-void func_80018094(s32 arg0, s32 arg1)
+/* Applies a target rectangle positioned at the given grid cell center. */
+void func_80018094(s32 target_x, s32 target_y)
 {
-    Rect rect0;
-    Rect rect1;
-    s32 offset;
+    Rect current_rect;
+    Rect target_rect;
+    s32 coord_offset;
 
-    func_8001ACA0(&rect0);
-    arg0 <<= 6;
-    arg1 <<= 6;
-    rect0.w = 0;
-    offset = ((S_80018094_1 *)((((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v << 5) +
+    func_8001ACA0(&current_rect);
+    target_x <<= 6;
+    target_y <<= 6;
+    current_rect.w = 0;
+    coord_offset = ((S_80018094_1 *)((((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v << 5) +
             *((Rec_D_80016000 *)D_80016000)->unk_30.as_ps32))->unk_0C + 0x20;
-    arg0 += offset;
-    rect1.x = arg0;
-    offset = ((S_80018094_1 *)((((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v << 5) +
+    target_x += coord_offset;
+    target_rect.x = target_x;
+    coord_offset = ((S_80018094_1 *)((((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v << 5) +
             *((Rec_D_80016000 *)D_80016000)->unk_30.as_ps32))->unk_0E + 0x20;
-    rect1.w = 0;
-    arg1 += offset;
-    rect1.y = arg1;
-    func_8001AC6C(&rect0, &rect1, 0x20);
+    target_rect.w = 0;
+    target_y += coord_offset;
+    target_rect.y = target_y;
+    func_8001AC6C(&current_rect, &target_rect, 0x20);
 }
-
-/* MECHANISM: Separate Rect locals produce the retail 0x30 frame and sibling slots.
-   Natural arg liveness selects s0/s1; removing the output pin and ASM_USE barriers
-   lets 2.7.2-cdk-G0 stage both shifts and the three callee arguments exactly. */

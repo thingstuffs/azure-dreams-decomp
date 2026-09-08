@@ -26,27 +26,28 @@ extern s32 func_80024700();
 extern u32 func_800644B8();
 extern s32 D_800814A0;
 
-void func_80024918(void *arg0) {
-    s16 temp_v0;
-    s32 temp_a1;
-    s32 temp_a2;
-    s32 temp_y;
-    void *temp_v1;
+/* Advance object motion and animation, setting completion flags after nine ticks. */
+void func_80024918(void *object) {
+    s16 next_tick;
+    s32 velocity_y;
+    s32 velocity_z;
+    s32 position_y;
+    void *state;
 
-    temp_v1 = ((S_80024918_0 *)arg0)->unk_00;
-    ((S_80024918_1 *)temp_v1)->unk_1A = ((S_80024918_1 *)temp_v1)->unk_1A + 1;
-    ((S_80024918_0 *)arg0)->unk_78 = func_800644B8(((S_80024918_0 *)arg0)->unk_74 << 8) >> 6;
-    temp_a1 = ((S_80024918_0 *)arg0)->unk_44;
-    ((S_80024918_0 *)arg0)->unk_34 += ((S_80024918_0 *)arg0)->unk_40;
-    temp_y = ((S_80024918_0 *)arg0)->unk_38;
-    temp_a2 = ((S_80024918_0 *)arg0)->unk_48;
-    ((S_80024918_0 *)arg0)->unk_38 = temp_y + temp_a1;
-    ((S_80024918_0 *)arg0)->unk_3C += temp_a2;
-    func_80024700(arg0, temp_a1, temp_a2);
-    temp_v0 = (s16)((S_80024918_0 *)arg0)->unk_74 + 1;
-    ((S_80024918_0 *)arg0)->unk_74 = temp_v0;
-    if (temp_v0 >= 9) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    state = ((S_80024918_0 *)object)->unk_00;
+    ((S_80024918_1 *)state)->unk_1A = ((S_80024918_1 *)state)->unk_1A + 1;
+    ((S_80024918_0 *)object)->unk_78 = func_800644B8(((S_80024918_0 *)object)->unk_74 << 8) >> 6;
+    velocity_y = ((S_80024918_0 *)object)->unk_44;
+    ((S_80024918_0 *)object)->unk_34 += ((S_80024918_0 *)object)->unk_40;
+    position_y = ((S_80024918_0 *)object)->unk_38;
+    velocity_z = ((S_80024918_0 *)object)->unk_48;
+    ((S_80024918_0 *)object)->unk_38 = position_y + velocity_y;
+    ((S_80024918_0 *)object)->unk_3C += velocity_z;
+    func_80024700(object, velocity_y, velocity_z);
+    next_tick = (s16)((S_80024918_0 *)object)->unk_74 + 1;
+    ((S_80024918_0 *)object)->unk_74 = next_tick;
+    if (next_tick >= 9) {
+        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

@@ -5,7 +5,8 @@ extern u16 D_8008347E;
 
 s32 func_800A35D8(u8 arg0, u16 arg1);
 
-s16 func_800A40AC(s32 arg0, s32 arg1)
+/* Selects the highest-value nonempty item among three slots, breaking ties by kind score. */
+s16 func_800A40AC(s32 records_addr, s32 item_kind)
 {
     s32 kind;
     s16 result;
@@ -25,8 +26,8 @@ s16 func_800A40AC(s32 arg0, s32 arg1)
     s32 records;
     u8 *record;
 
-    records = arg0;
-    kind = arg1;
+    records = records_addr;
+    kind = item_kind;
     result = -1;
     best_score = -4;
     best_value = 0;
@@ -49,22 +50,22 @@ loop:
     record = (u8 *)records + tripled_index;
     item = record[8];
     if (item != 0) {
-        register s32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register s32 score ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register s32 prior_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        register s32 candidate_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         value = record[9];
         item_offset = item * 20;
-        temp_a1 = func_800A35D8(item_data[item_offset + 16], (u16)kind);
-        temp_a0 = best_value;
-        temp_v1 = value;
-        if (temp_a0 < temp_v1) {
+        score = func_800A35D8(item_data[item_offset + 16], (u16)kind);
+        prior_value = best_value;
+        candidate_value = value;
+        if (prior_value < candidate_value) {
             best_value = value;
             result = index + 5;
-            best_score = temp_a1;
-        } else if (temp_a0 == temp_v1) {
-            if ((best_score << 16) < (temp_a1 << 16)) {
-                best_score = temp_a1;
+            best_score = score;
+        } else if (prior_value == candidate_value) {
+            if ((best_score << 16) < (score << 16)) {
+                best_score = score;
                 result = index + 5;
             }
         }
@@ -77,6 +78,3 @@ loop:
     return result;
 }
 
-/* MECHANISM: The loop keeps both arguments, the table base, index, count, best value,
-   best score, and result live in distinct roles; the local join replaces the seed's
-   false call at the rowbase alias, restoring the retail comparison CFG. */

@@ -32,27 +32,26 @@ typedef struct S_800A794C_3 {
     u16 unk_0A;
 } S_800A794C_3;   /* state in func_800A794C */
 
-
-
 extern void *func_800A8608(void *, void *, s32, s32, s32);
 
 extern s32 D_80083498;
 extern s32 D_800A77AC;
 extern s32 D_80083460;
 
-s32 func_800A794C(s32 arg0, s32 arg1, s32 arg2, s32 *arg3, s32 arg4,
-                  s32 arg5, s32 arg6) {
+/* Create an object at the tile center, initialize its fields, and increment the object count. */
+s32 func_800A794C(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
+                  s32 field_aa, s32 field_ac, s32 field_ae) {
     u8 *object;
     u8 *position;
     u8 *fields;
     u8 *state;
     s32 payload;
-    s32 last;
-    u16 count;
+    s32 stored_ae;
+    u16 object_count;
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *callback ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    object = func_800A8608(&D_80083498, arg3, 0, 0, 0);
+    object = func_800A8608(&D_80083498, payload_ptr, 0, 0, 0);
 #ifdef NON_MATCHING
     callback = (u8 *)&D_800A77AC;
 #else
@@ -60,36 +59,32 @@ s32 func_800A794C(s32 arg0, s32 arg1, s32 arg2, s32 *arg3, s32 arg4,
 #endif
     if (object != 0) {
 #ifndef NON_MATCHING
-        ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         callback += 0x77AC;
 #endif
         ((S_800A794C_0 *)object)->unk_10 = callback;
         position = ((S_800A794C_0 *)object)->unk_08;
-        ((S_800A794C_1 *)position)->unk_02 = (s16)((arg0 << 6) + 0x20);
-        ((S_800A794C_1 *)position)->unk_06 = (s16)((arg1 << 6) + 0x20);
-        ((S_800A794C_1 *)position)->unk_0A = arg2;
+        ((S_800A794C_1 *)position)->unk_02 = (s16)((tile_x << 6) + 0x20);
+        ((S_800A794C_1 *)position)->unk_06 = (s16)((tile_y << 6) + 0x20);
+        ((S_800A794C_1 *)position)->unk_0A = height;
 
         fields = object + 0x20;
-        payload = *arg3;
+        payload = *payload_ptr;
         ((S_800A794C_2 *)fields)->unk_A0 = 4;
-        ((S_800A794C_2 *)fields)->unk_AA = (s16)arg4;
-        ((S_800A794C_2 *)fields)->unk_AC = (s16)arg5;
-        last = arg6;
+        ((S_800A794C_2 *)fields)->unk_AA = (s16)field_aa;
+        ((S_800A794C_2 *)fields)->unk_AC = (s16)field_ac;
+        stored_ae = field_ae;
         ((S_800A794C_2 *)fields)->unk_98 = payload;
         state = (u8 *)&D_80083460;
-        ((S_800A794C_2 *)fields)->unk_AE = (s16)last;
-        count = ((S_800A794C_3 *)state)->unk_0A;
+        ((S_800A794C_2 *)fields)->unk_AE = (s16)stored_ae;
+        object_count = ((S_800A794C_3 *)state)->unk_0A;
         result = (s32)object;
-        count++;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((S_800A794C_3 *)state)->unk_0A = count;
+        object_count++;
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        ((S_800A794C_3 *)state)->unk_0A = object_count;
         return;
     }
     result = 0;
-       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     return result;
 }
 
-/* MECHANISM: s32 arg2 plus the early payload local produce the exact 0x30 frame
-   and s0/s2/s3/s1 argument roles; barriers keep arg6/payload/state lifetimes exact.
-   Guarded v0 page/result carriers split the callback la and expose the noreturn tail j. */

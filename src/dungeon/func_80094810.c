@@ -13,16 +13,17 @@ typedef struct S_80099F70_1 {
     s32 unk_5C;
 } S_80099F70_1;   /* var_s0 in func_80099F70 */
 
-void func_80099F70(s32 arg0) {
-    S_80099F70_1 *var_s0;
+// Process linked entries with flag 0x4000 until reaching the global sentinel.
+void func_80099F70(s32 firstNodeBase) {
+    S_80099F70_1 *currentEntry;
 
-    var_s0 = arg0 + 0x20;
-    if (var_s0 != ((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_s32) {
+    currentEntry = firstNodeBase + 0x20;
+    if (currentEntry != ((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_s32) {
         do {
-            if (var_s0->unk_14 & 0x4000) {
-                func_80099EA4(var_s0);
+            if (currentEntry->unk_14 & 0x4000) {
+                func_80099EA4(currentEntry);
             }
-            var_s0 = var_s0->unk_5C + 0x20;
-        } while (var_s0 != ((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_s32);
+            currentEntry = currentEntry->unk_5C + 0x20;
+        } while (currentEntry != ((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_s32);
     }
 }

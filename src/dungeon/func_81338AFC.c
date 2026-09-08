@@ -57,7 +57,8 @@ typedef struct S_8016FAFC_3 {
     void * unk_5D5C;
 } S_8016FAFC_3;   /* store_page in func_8016FAFC */
 
-void func_8016FAFC(s32 arg0)
+/* Creates a sprite object with the selected vector preset and stores its global pointer. */
+void func_8016FAFC(s32 variant)
 {
     u8 *obj;
     u8 *part;
@@ -66,7 +67,7 @@ void func_8016FAFC(s32 arg0)
     register u8 *copy_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u8 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *store_page;
-    u8 *dest;
+    u8 *sprite_vector;
     u8 *coords;
 
     obj = func_8003FC64(0x12);
@@ -75,7 +76,7 @@ void func_8016FAFC(s32 arg0)
         part = obj + 0x20;
         ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_8016FAFC_0 *)part)->unk_18 = 0;
-        ((S_8016FAFC_0 *)part)->unk_1C = arg0;
+        ((S_8016FAFC_0 *)part)->unk_1C = variant;
         (*(void * *)((u8 *)obj + 0x10)) = D_8016F99C;
         func_8004491C(call_obj, D_80044BB0);
 
@@ -94,7 +95,7 @@ void func_8016FAFC(s32 arg0)
         ((S_8016FAFC_1 *)sprite)->unk_0D = 0x80;
         ((S_8016FAFC_1 *)sprite)->unk_0C = 0x80;
 
-        if (arg0 == 0) {
+        if (variant == 0) {
             copy_page = (u8 *)0x80170000;
             ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             copy_src = copy_page + 0x3B1C;
@@ -117,11 +118,11 @@ void func_8016FAFC(s32 arg0)
             ASM_KEEP(store_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((S_8016FAFC_3 *)store_page)->unk_5D5C = obj;
         }
-        dest = part + 0x28;
-        ((S_8016FAFC_1 *)sprite)->unk_08 = dest;
+        sprite_vector = part + 0x28;
+        ((S_8016FAFC_1 *)sprite)->unk_08 = sprite_vector;
     }
 }
 
 /* MECHANISM: The true-space body uses a local join, not a phantom call at 0x8016FC28.
-   A 0x20 frame holds arg0, obj, and obj+0x20 in s2/s0/s1; packed 12-byte
+   A 0x20 frame holds variant, obj, and obj+0x20 in s2/s0/s1; packed 12-byte
    assignments reproduce the two unaligned vector-copy arms. */

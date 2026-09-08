@@ -3,24 +3,22 @@
 extern s32 D_80083C68[8];
 extern s32 *D_800814E0;
 
-/* Removes the first occurrence of arg0 from the zero-terminated int list
-   D_80083C68, shifting later entries down by one slot, and decrements the
-   D_800814E0 list-append cursor by one int. */
-void func_80041134(s32 arg0) {
-    s32 *sp = D_80083C68;
-    if (*sp != 0) {
+/* Removes the first matching value from the zero-terminated list and backs up its append cursor. */
+void func_80041134(s32 value) {
+    s32 *entry = D_80083C68;
+    if (*entry != 0) {
         do {
-            if (*sp == arg0) {
+            if (*entry == value) {
                 D_800814E0--;
                 for (;;) {
-                    *sp = sp[1];
-                    sp++;
-                    if (*sp == 0) {
+                    *entry = entry[1];
+                    entry++;
+                    if (*entry == 0) {
                         return;
                     }
                 }
             }
-            sp++;
-        } while (*sp != 0);
+            entry++;
+        } while (*entry != 0);
     }
 }

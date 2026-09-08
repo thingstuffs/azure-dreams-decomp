@@ -13,21 +13,22 @@ typedef struct {
 
 extern PackedWord D_80016020;
 
+/* Copies packed text into initialized entries and appends a terminator. */
 TextEntry *func_805D3B74(TextEntry *entries)
 {
-    PackedWord text;
-    s32 i;
+    PackedWord packed_text;
+    s32 char_index;
 
-    text = D_80016020;
-    i = 0;
-    while (((u8 *)&text)[i] != 0) {
-        entries[i].character = ((u8 *)&text)[i];
-        entries[i].field1 = 0x19;
-        entries[i].field3 = 0;
-        entries[i].field2 = 0;
-        i++;
+    packed_text = D_80016020;
+    char_index = 0;
+    while (((u8 *)&packed_text)[char_index] != 0) {
+        entries[char_index].character = ((u8 *)&packed_text)[char_index];
+        entries[char_index].field1 = 0x19;
+        entries[char_index].field3 = 0;
+        entries[char_index].field2 = 0;
+        char_index++;
     }
-    entries[i].field1 = 0;
-    entries[i].character = 0;
+    entries[char_index].field1 = 0;
+    entries[char_index].character = 0;
     return entries;
 }

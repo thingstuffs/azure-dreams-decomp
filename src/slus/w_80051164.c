@@ -18,15 +18,12 @@ extern void *func_80044144(s16 a0, s16 a1, void *callback, void *arg);
 extern void func_800510A0(void *a0);
 extern void func_800510DC(void);
 
-/* summary: registers a new task (id 1, priority 0x1E) running
-   func_800510A0 with a0 as its argument. On success, patches the
-   callback field at offset 0x10 of the struct pointed to by a0->unk4
-   to func_800510DC. */
-void func_80051164(S_80051164 *a0)
+/* Creates a task and, on success, updates the owner's existing task callback. */
+void func_80051164(S_80051164 *owner)
 {
-    void *v0 = func_80044144(1, 0x1E, (void *)func_800510A0, a0);
+    void *new_task = func_80044144(1, 0x1E, (void *)func_800510A0, owner);
 
-    if (v0 != 0) {
-        a0->unk4->unk10 = func_800510DC;
+    if (new_task != 0) {
+        owner->unk4->unk10 = func_800510DC;
     }
 }

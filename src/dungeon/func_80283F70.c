@@ -24,56 +24,57 @@ typedef struct S_80016F70_2 {
 
 extern s8 D_800E3DB0;
 
+/* Initialize seven records with sequential IDs and types 1, 3, and 2. */
 void func_80016F70(void) {
     register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s16 temp_v0;
-    s16 temp_v0_2;
-    register s16 var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s16 var_a2_2;
-    s8 *var_a0;
-    s8 *var_v1;
-    s8 *var_v1_2;
-    s8 var_a1;
-    s8 var_a3;
+    s16 next_type1_count;
+    s16 next_type3_count;
+    register s16 type1_count ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 type3_count;
+    s8 *record;
+    s8 *type1_id_ptr;
+    s8 *type3_id_ptr;
+    s8 record_id;
+    s8 record_type;
 
     page = 0x800E0000;
     ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    var_a0 = (s8 *)(page + 0x3DB0);
+    record = (s8 *)(page + 0x3DB0);
     ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    var_a2 = 0;
-    var_a1 = var_a2;
-    var_a3 = 1;
-    var_v1 = var_a0 + 3;
+    type1_count = 0;
+    record_id = type1_count;
+    record_type = 1;
+    type1_id_ptr = record + 3;
     do {
-        temp_v0 = var_a2 + 1;
-        var_a2 = temp_v0;
-        *var_a0 = var_a3;
-        ((S_80016F70_0 *)((u8 *)var_v1 - 0x2))->unk_02 = var_a1;
-        var_a1 += 1;
-        ((S_80016F70_0 *)((u8 *)var_v1 - 0x2))->unk_00 = 0;
-        ((S_80016F70_0 *)((u8 *)var_v1 - 0x2))->unk_01 = 0;
-        var_v1 += 8;
-        var_a0 += 8;
-    } while (temp_v0 < 4);
-    var_a2_2 = 0;
-    var_a3 = 3;
-    var_v1_2 = var_a0 + 3;
+        next_type1_count = type1_count + 1;
+        type1_count = next_type1_count;
+        *record = record_type;
+        ((S_80016F70_0 *)((u8 *)type1_id_ptr - 0x2))->unk_02 = record_id;
+        record_id += 1;
+        ((S_80016F70_0 *)((u8 *)type1_id_ptr - 0x2))->unk_00 = 0;
+        ((S_80016F70_0 *)((u8 *)type1_id_ptr - 0x2))->unk_01 = 0;
+        type1_id_ptr += 8;
+        record += 8;
+    } while (next_type1_count < 4);
+    type3_count = 0;
+    record_type = 3;
+    type3_id_ptr = record + 3;
     do {
-        temp_v0_2 = var_a2_2 + 1;
-        var_a2_2 = temp_v0_2;
-        *var_a0 = var_a3;
-        ((S_80016F70_1 *)((u8 *)var_v1_2 - 0x2))->unk_02 = var_a1;
-        var_a1 += 1;
-        ((S_80016F70_1 *)((u8 *)var_v1_2 - 0x2))->unk_00 = 0;
-        ((S_80016F70_1 *)((u8 *)var_v1_2 - 0x2))->unk_01 = 0;
-        var_v1_2 += 8;
-        var_a0 += 8;
-    } while (temp_v0_2 < 2);
-    ((S_80016F70_2 *)var_a0)->unk_00 = 2;
-    ((S_80016F70_2 *)var_a0)->unk_01 = 0;
-    ((S_80016F70_2 *)var_a0)->unk_02 = 0;
-    ((S_80016F70_2 *)var_a0)->unk_03 = var_a1;
-    ((S_80016F70_2 *)var_a0)->unk_04 = 0;
+        next_type3_count = type3_count + 1;
+        type3_count = next_type3_count;
+        *record = record_type;
+        ((S_80016F70_1 *)((u8 *)type3_id_ptr - 0x2))->unk_02 = record_id;
+        record_id += 1;
+        ((S_80016F70_1 *)((u8 *)type3_id_ptr - 0x2))->unk_00 = 0;
+        ((S_80016F70_1 *)((u8 *)type3_id_ptr - 0x2))->unk_01 = 0;
+        type3_id_ptr += 8;
+        record += 8;
+    } while (next_type3_count < 2);
+    ((S_80016F70_2 *)record)->unk_00 = 2;
+    ((S_80016F70_2 *)record)->unk_01 = 0;
+    ((S_80016F70_2 *)record)->unk_02 = 0;
+    ((S_80016F70_2 *)record)->unk_03 = record_id;
+    ((S_80016F70_2 *)record)->unk_04 = 0;
 }
 /* MECHANISM: Frameless leaf; a pinned 0x800E0000 page in v0 forms the advancing a0 base.
    Clobbering v0 after base formation prevents the +3 pointer from folding through the page.

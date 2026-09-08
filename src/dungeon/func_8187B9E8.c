@@ -60,67 +60,68 @@ extern s32 func_80069EF8();
 extern u8 D_800249F4[];
 extern u8 D_80024D40[];
 
-void func_8187B9E8(s32 arg0, s32 arg1, s16 arg2, u16 arg3, U16Arg arg4, U16Arg arg5) {
-    register s32 held_arg0 ASM_REG("$23") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u16 saved[3];
-    s32 i;
-    s32 a;
-    s32 b;
-    s32 x;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 scratch ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *p;
-    S_8187B9E8_4 *q;
-    S_8187B9E8_2 *r0;
-    S_8187B9E8_3 *r1;
-    register u8 *v ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+/* Create an effect with 23 random radial vectors and initialize its position and state. */
+void func_8187B9E8(s32 radius, s32 initial_value, s16 extent, u16 position_x, U16Arg position_y, U16Arg position_z) {
+    register s32 held_radius ASM_REG("$23") = radius;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u16 position_xyz[3];
+    s32 point_count;
+    s32 angle_a;
+    s32 angle_b;
+    s32 plane_radius;
+    register s32 component ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 work_value ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *effect;
+    S_8187B9E8_4 *state;
+    S_8187B9E8_2 *position;
+    S_8187B9E8_3 *scale;
+    register u8 *point ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    scratch = arg4.value;
-    saved[1] = scratch;
-    scratch = arg5.value;
-    saved[2] = scratch;
-    saved[0] = arg3;
-    p = func_8003FC64(0x212);
-    if (p != NULL) {
-        i = 0;
-        q = (u8 *)p + 0x20;
-        v = q;
+    work_value = position_y.value;
+    position_xyz[1] = work_value;
+    work_value = position_z.value;
+    position_xyz[2] = work_value;
+    position_xyz[0] = position_x;
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        point_count = 0;
+        state = (u8 *)effect + 0x20;
+        point = state;
         do {
-            i++;
-            a = func_80069EF8() & 0xFFF;
-            b = func_80069EF8() & 0xFFF;
-            scratch = held_arg0 * func_80064584(a);
-            x = scratch >> 12;
-            scratch = x * func_800644B8(b);
-            result = scratch >> 12;
-            ((S_8187B9E8_0 *)v)->unk_16 = result;
-            scratch = x * func_80064584(b);
-            result = scratch >> 12;
-            ((S_8187B9E8_0 *)v)->unk_44 = result;
-            scratch = held_arg0 * func_800644B8(a);
-            result = scratch >> 12;
-            ((S_8187B9E8_0 *)v)->unk_72 = result;
-            v = (u8 *)v + 2;
-        } while (i < 0x17);
-        r0 = ((S_8187B9E8_1 *)p)->unk_08;
-        scratch = saved[0];
-        r0->unk_02 = scratch;
-        scratch = saved[1];
-        r0->unk_06 = scratch;
-        scratch = saved[2];
-        r0->unk_0A = scratch;
-        ASM_KEEP(r0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        r1 = ((S_8187B9E8_1 *)p)->unk_0C;
-        r1->unk_1E = 0x1000;
-        r1->unk_1C = 0x1000;
-        q->unk_14 = 0x17;
-        ((S_8187B9E8_1 *)p)->unk_10 = D_80024D40;
-        q->unk_A0 = (func_80069EF8() & 0x3F) + 0x3C;
-        q->unk_10 = arg2;
-        q->unk_12 = arg2;
-        func_8004491C(p, D_800249F4);
-        scratch = *(volatile s32 *)&arg1;
-        ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        q->unk_00 = scratch;
+            point_count++;
+            angle_a = func_80069EF8() & 0xFFF;
+            angle_b = func_80069EF8() & 0xFFF;
+            work_value = held_radius * func_80064584(angle_a);
+            plane_radius = work_value >> 12;
+            work_value = plane_radius * func_800644B8(angle_b);
+            component = work_value >> 12;
+            ((S_8187B9E8_0 *)point)->unk_16 = component;
+            work_value = plane_radius * func_80064584(angle_b);
+            component = work_value >> 12;
+            ((S_8187B9E8_0 *)point)->unk_44 = component;
+            work_value = held_radius * func_800644B8(angle_a);
+            component = work_value >> 12;
+            ((S_8187B9E8_0 *)point)->unk_72 = component;
+            point = (u8 *)point + 2;
+        } while (point_count < 0x17);
+        position = ((S_8187B9E8_1 *)effect)->unk_08;
+        work_value = position_xyz[0];
+        position->unk_02 = work_value;
+        work_value = position_xyz[1];
+        position->unk_06 = work_value;
+        work_value = position_xyz[2];
+        position->unk_0A = work_value;
+        ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        scale = ((S_8187B9E8_1 *)effect)->unk_0C;
+        scale->unk_1E = 0x1000;
+        scale->unk_1C = 0x1000;
+        state->unk_14 = 0x17;
+        ((S_8187B9E8_1 *)effect)->unk_10 = D_80024D40;
+        state->unk_A0 = (func_80069EF8() & 0x3F) + 0x3C;
+        state->unk_10 = extent;
+        state->unk_12 = extent;
+        func_8004491C(effect, D_800249F4);
+        work_value = *(volatile s32 *)&initial_value;
+        ASM_KEEP(work_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        state->unk_00 = work_value;
     }
 }

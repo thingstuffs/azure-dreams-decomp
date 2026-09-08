@@ -50,54 +50,55 @@ typedef struct S_80025270_3 {
     s32 unk_10;
 } S_80025270_3;   /* temp_v1 in func_80025270 */
 
-s32 func_80025270(void *arg0, Copy24 *arg1, s16 arg2) {
-    s32 temp_a0;
-    s32 temp_a1;
-    s32 temp_v1_2;
-    s32 var_v0;
-    S_80025270_1 *temp_a0_2;
-    Copy24 *temp_v1;
-    void *temp_v0;
-    s16 arg2_hold;
-    temp_v0 = func_8003FD64(0x212, (u8 *)arg0 - 0x20);
-    if (temp_v0 != NULL) {
-        arg2_hold = arg2;
-        temp_a0_2 = temp_v0 + 0x20;
-        ((S_80025270_0 *)temp_v0)->unk_10 = &D_80025094;
-        ((S_80025270_0 *)temp_v0)->unk_20 = (s32)arg0;
-        temp_a0_2->unk_08 = (s16) (arg2_hold * 7);
-        temp_a0_2->unk_04 = 0;
-        temp_a0_2->unk_06 = 0;
-        temp_a0_2->unk_0A = 0;
-        temp_a0_2->unk_0C = (s16) (arg2_hold * 0x600);
-        temp_a0_2->unk_20 = arg1->wordC;
-        temp_a0_2->unk_24 = arg1->word10;
-        temp_a0_2->unk_28 = arg1->word14;
-        arg0 = ((S_80025270_0 *)temp_v0)->unk_0C;
-        ((Rec_D_80082E80 *)arg0)->unk_0C.at02_s8.v = 0x20;
-        ((Rec_D_80082E80 *)arg0)->unk_0C.at01_s8.v = 0x20;
-        ((Rec_D_80082E80 *)arg0)->unk_0C.at00_s8.v = 0x20;
-        ((Rec_D_80082E80 *)arg0)->unk_12.at00_s16.v = 0x7DCF;
-        ((Rec_D_80082E80 *)arg0)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg0)->unk_14.at00_u16.v | 0xC);
-        ((Rec_D_80082E80 *)arg0)->unk_10.as_u16 = (u16) (((Rec_D_80082E80 *)arg0)->unk_10.as_u16 | 0x20);
-        ((Rec_D_80082E80 *)arg0)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg0)->unk_14.at00_u16.v | 0x100);
-        func_8003DB94(arg0, &D_800DEB70, 0);
-        var_v0 = rand();
-        temp_v1_2 = var_v0;
-        if (temp_v1_2 < 0) {
-            var_v0 = temp_v1_2 + 0xFFF;
+/* Creates an attached effect with copied transform data and a randomized angle. */
+s32 func_80025270(void *object, Copy24 *src_transform, s16 effect_index) {
+    s32 first_word;
+    s32 second_word;
+    s32 random_value;
+    s32 adjusted_random;
+    S_80025270_1 *state;
+    Copy24 *transform;
+    void *effect;
+    s16 saved_index;
+    effect = func_8003FD64(0x212, (u8 *)object - 0x20);
+    if (effect != NULL) {
+        saved_index = effect_index;
+        state = effect + 0x20;
+        ((S_80025270_0 *)effect)->unk_10 = &D_80025094;
+        ((S_80025270_0 *)effect)->unk_20 = (s32)object;
+        state->unk_08 = (s16) (saved_index * 7);
+        state->unk_04 = 0;
+        state->unk_06 = 0;
+        state->unk_0A = 0;
+        state->unk_0C = (s16) (saved_index * 0x600);
+        state->unk_20 = src_transform->wordC;
+        state->unk_24 = src_transform->word10;
+        state->unk_28 = src_transform->word14;
+        object = ((S_80025270_0 *)effect)->unk_0C;
+        ((Rec_D_80082E80 *)object)->unk_0C.at02_s8.v = 0x20;
+        ((Rec_D_80082E80 *)object)->unk_0C.at01_s8.v = 0x20;
+        ((Rec_D_80082E80 *)object)->unk_0C.at00_s8.v = 0x20;
+        ((Rec_D_80082E80 *)object)->unk_12.at00_s16.v = 0x7DCF;
+        ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v | 0xC);
+        ((Rec_D_80082E80 *)object)->unk_10.as_u16 = (u16) (((Rec_D_80082E80 *)object)->unk_10.as_u16 | 0x20);
+        ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v | 0x100);
+        func_8003DB94(object, &D_800DEB70, 0);
+        adjusted_random = rand();
+        random_value = adjusted_random;
+        if (random_value < 0) {
+            adjusted_random = random_value + 0xFFF;
         }
-        ((Rec_D_80082E80 *)arg0)->unk_1A.as_s16 = (s16) (temp_v1_2 - ((var_v0 >> 0xC) << 0xC));
-        ((Rec_D_80082E80 *)arg0)->unk_1C.at02_s16.v = 0x400;
-        ((Rec_D_80082E80 *)arg0)->unk_1C.at00_s16.v = 0x400;
-        func_8004491C(temp_v0, D_80045340);
-        temp_v1 = ((S_80025270_0 *)temp_v0)->unk_08;
-        *temp_v1 = *arg1;
-        temp_a0 = ((S_80025270_3 *)temp_v1)->unk_00;
-        temp_a1 = ((S_80025270_3 *)temp_v1)->unk_04;
-        ((S_80025270_3 *)temp_v1)->unk_0C = temp_a0;
-        ((S_80025270_3 *)temp_v1)->unk_10 = temp_a1;
-        return (s32)temp_v0;
+        ((Rec_D_80082E80 *)object)->unk_1A.as_s16 = (s16) (random_value - ((adjusted_random >> 0xC) << 0xC));
+        ((Rec_D_80082E80 *)object)->unk_1C.at02_s16.v = 0x400;
+        ((Rec_D_80082E80 *)object)->unk_1C.at00_s16.v = 0x400;
+        func_8004491C(effect, D_80045340);
+        transform = ((S_80025270_0 *)effect)->unk_08;
+        *transform = *src_transform;
+        first_word = ((S_80025270_3 *)transform)->unk_00;
+        second_word = ((S_80025270_3 *)transform)->unk_04;
+        ((S_80025270_3 *)transform)->unk_0C = first_word;
+        ((S_80025270_3 *)transform)->unk_10 = second_word;
+        return (s32)effect;
     }
     return 0;
 }

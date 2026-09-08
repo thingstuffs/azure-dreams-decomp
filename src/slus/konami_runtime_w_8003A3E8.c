@@ -9,47 +9,48 @@ typedef struct {
     u8 *table;
 } Func8003A3E8State;
 
-void func_8003A3E8(Func8003A3E8State *arg0) {
-    u8 *temp_v1;
-    u8 *temp_a1;
-    u8 *temp_t2;
-    u32 temp_t1;
-    u32 temp_v0;
-    u32 temp_index;
-    u32 temp_t0;
-    u32 temp_a2;
-    u32 temp_a3;
-    u32 temp_a1_value;
+/* Stores a table value at the destination address fetched from an indexed byte. */
+void func_8003A3E8(Func8003A3E8State *state) {
+    u8 *read_ptr;
+    u8 *addr_bytes;
+    u8 *table;
+    u32 source_slot;
+    u32 lookup_addr;
+    u32 index_slot;
+    u32 element_offset;
+    u32 addr_byte_1;
+    u32 addr_byte_2;
+    u32 addr_byte_3;
 
-    temp_v1 = arg0->read_ptr;
-    temp_t1 = temp_v1[0];
-    temp_v1++;
-    arg0->read_ptr = temp_v1;
-    temp_index = temp_v1[0];
-    temp_t2 = arg0->table;
-    temp_index <<= 2;
-    temp_index += (u32)temp_t2;
-    temp_t0 = *(u32 *)(temp_index + 0x48);
-    temp_a1 = temp_v1 + 1;
-    arg0->read_ptr = temp_a1;
-    temp_v0 = temp_v1[1];
-    temp_v1 += 5;
-    temp_t1 <<= 2;
-    temp_a2 = temp_a1[1];
-    temp_a3 = temp_a1[2];
-    temp_a1_value = temp_a1[3];
-    temp_t1 += (u32)temp_t2;
-    arg0->read_ptr = temp_v1;
+    read_ptr = state->read_ptr;
+    source_slot = read_ptr[0];
+    read_ptr++;
+    state->read_ptr = read_ptr;
+    index_slot = read_ptr[0];
+    table = state->table;
+    index_slot <<= 2;
+    index_slot += (u32)table;
+    element_offset = *(u32 *)(index_slot + 0x48);
+    addr_bytes = read_ptr + 1;
+    state->read_ptr = addr_bytes;
+    lookup_addr = read_ptr[1];
+    read_ptr += 5;
+    source_slot <<= 2;
+    addr_byte_1 = addr_bytes[1];
+    addr_byte_2 = addr_bytes[2];
+    addr_byte_3 = addr_bytes[3];
+    source_slot += (u32)table;
+    state->read_ptr = read_ptr;
     do {
-        temp_t0 <<= 2;
+        element_offset <<= 2;
     } while (0);
-    temp_a2 <<= 8;
-    temp_v0 += temp_a2;
-    temp_a3 <<= 16;
-    temp_v0 += temp_a3;
-    temp_a1_value <<= 24;
-    temp_v0 += temp_a1_value;
-    temp_v0 += temp_t0;
-    *(s32 *)(u32)*(u8 *)temp_v0 =
-        *(s32 *)(temp_t1 + 0x48);
+    addr_byte_1 <<= 8;
+    lookup_addr += addr_byte_1;
+    addr_byte_2 <<= 16;
+    lookup_addr += addr_byte_2;
+    addr_byte_3 <<= 24;
+    lookup_addr += addr_byte_3;
+    lookup_addr += element_offset;
+    *(s32 *)(u32)*(u8 *)lookup_addr =
+        *(s32 *)(source_slot + 0x48);
 }

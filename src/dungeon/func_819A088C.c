@@ -130,40 +130,41 @@ extern u16 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 extern u8 D_80083160[];
 
-void func_819A088C(void *arg0, void *arg1, void *arg2, s16 arg3)
+/* Transform and queue a visible Gouraud-shaded quad in the ordering table. */
+void func_819A088C(void *quad, void *position, void *render_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     u8 *texture;
-    s32 index;
-    u16 flags;
-    u8 texFlags;
-    u8 **global = (u8 **)D_80083160;
-    MATRIX matrix;
+    s32 ot_index;
+    u16 render_flags;
+    u8 texture_flags;
+    u8 **render_context_ptr = (u8 **)D_80083160;
+    MATRIX base_matrix;
 
     ((S_819A088C_0 *)scratch)->unk_24.p = *(u8 **)D_80083160 + 0xB0;
-    ((S_819A088C_0 *)scratch)->unk_88 = ((S_819A088C_1 *)arg1)->unk_02;
-    ((S_819A088C_0 *)scratch)->unk_8C = ((S_819A088C_1 *)arg1)->unk_06;
-    ((S_819A088C_0 *)scratch)->unk_90 = ((S_819A088C_1 *)arg1)->unk_0A;
-    ((S_819A088C_2 *)arg2)->unk_14 |= 0x8000;
+    ((S_819A088C_0 *)scratch)->unk_88 = ((S_819A088C_1 *)position)->unk_02;
+    ((S_819A088C_0 *)scratch)->unk_8C = ((S_819A088C_1 *)position)->unk_06;
+    ((S_819A088C_0 *)scratch)->unk_90 = ((S_819A088C_1 *)position)->unk_0A;
+    ((S_819A088C_2 *)render_state)->unk_14 |= 0x8000;
 
     func_800649A0();
 
     ((S_819A088C_0 *)scratch)->unk_3C = 0x2000;
     ((S_819A088C_0 *)scratch)->unk_38 = 0x2000;
     ((S_819A088C_0 *)scratch)->unk_34 = 0x2000;
-    ((S_819A088C_0 *)scratch)->unk_A4 = ((S_819A088C_2 *)arg2)->unk_16;
-    ((S_819A088C_0 *)scratch)->unk_A8 = ((S_819A088C_2 *)arg2)->unk_1A;
-    ((S_819A088C_0 *)scratch)->unk_A6 = ((S_819A088C_2 *)arg2)->unk_18;
+    ((S_819A088C_0 *)scratch)->unk_A4 = ((S_819A088C_2 *)render_state)->unk_16;
+    ((S_819A088C_0 *)scratch)->unk_A8 = ((S_819A088C_2 *)render_state)->unk_1A;
+    ((S_819A088C_0 *)scratch)->unk_A6 = ((S_819A088C_2 *)render_state)->unk_18;
     func_80065820(scratch + 0xA4, scratch + 0x74);
-    func_80064AE0(&matrix);
-    func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
+    func_80064AE0(&base_matrix);
+    func_80064840(&base_matrix, scratch + 0x74, scratch + 0x54);
     func_80064BC0(scratch + 0x54, scratch + 0x34);
     func_80064D80(scratch + 0x54);
     func_80064CF0(scratch + 0x54);
 
-    texture = (*(u8 * *)((u8 *)arg2 + 8));
-    ((S_819A088C_0 *)scratch)->unk_28 = ((S_819A088C_2 *)arg2)->unk_14;
+    texture = (*(u8 * *)((u8 *)render_state + 8));
+    ((S_819A088C_0 *)scratch)->unk_28 = ((S_819A088C_2 *)render_state)->unk_14;
 
     packet = ((S_819A088C_3 *)(*(u8 **)D_80083160))->unk_8D0;
     ((S_819A088C_3 *)(*(u8 **)D_80083160))->unk_8D0 = packet + 0xC;
@@ -175,34 +176,34 @@ void func_819A088C(void *arg0, void *arg1, void *arg2, s16 arg3)
         ((u32)packet & 0x00FFFFFF);
 
     {
-        u8 *context;
+        u8 *render_context;
 
-        context = *(u8 * volatile *)D_80083160;
-        packet = ((S_819A088C_5 *)context)->unk_8D0;
-        ((S_819A088C_5 *)context)->unk_8D0 = packet + 0x24;
+        render_context = *(u8 * volatile *)D_80083160;
+        packet = ((S_819A088C_5 *)render_context)->unk_8D0;
+        ((S_819A088C_5 *)render_context)->unk_8D0 = packet + 0x24;
     }
 
-    ((S_819A088C_0 *)scratch)->unk_B0 = ((S_819A088C_6 *)arg0)->unk_54;
-    ((S_819A088C_0 *)scratch)->unk_B8 = ((S_819A088C_6 *)arg0)->unk_5A;
-    ((S_819A088C_0 *)scratch)->unk_C0 = ((S_819A088C_6 *)arg0)->unk_60;
-    ((S_819A088C_0 *)scratch)->unk_C8 = ((S_819A088C_6 *)arg0)->unk_66;
-    ((S_819A088C_0 *)scratch)->unk_B2 = ((S_819A088C_6 *)arg0)->unk_56;
-    ((S_819A088C_0 *)scratch)->unk_BA = ((S_819A088C_6 *)arg0)->unk_5C;
-    ((S_819A088C_0 *)scratch)->unk_C2 = ((S_819A088C_6 *)arg0)->unk_62;
-    ((S_819A088C_0 *)scratch)->unk_CA = ((S_819A088C_6 *)arg0)->unk_68;
-    ((S_819A088C_0 *)scratch)->unk_B4 = ((S_819A088C_6 *)arg0)->unk_58;
-    ((S_819A088C_0 *)scratch)->unk_BC = ((S_819A088C_6 *)arg0)->unk_5E;
-    ((S_819A088C_0 *)scratch)->unk_C4 = ((S_819A088C_6 *)arg0)->unk_64;
-    ((S_819A088C_0 *)scratch)->unk_CC = ((S_819A088C_6 *)arg0)->unk_6A;
+    ((S_819A088C_0 *)scratch)->unk_B0 = ((S_819A088C_6 *)quad)->unk_54;
+    ((S_819A088C_0 *)scratch)->unk_B8 = ((S_819A088C_6 *)quad)->unk_5A;
+    ((S_819A088C_0 *)scratch)->unk_C0 = ((S_819A088C_6 *)quad)->unk_60;
+    ((S_819A088C_0 *)scratch)->unk_C8 = ((S_819A088C_6 *)quad)->unk_66;
+    ((S_819A088C_0 *)scratch)->unk_B2 = ((S_819A088C_6 *)quad)->unk_56;
+    ((S_819A088C_0 *)scratch)->unk_BA = ((S_819A088C_6 *)quad)->unk_5C;
+    ((S_819A088C_0 *)scratch)->unk_C2 = ((S_819A088C_6 *)quad)->unk_62;
+    ((S_819A088C_0 *)scratch)->unk_CA = ((S_819A088C_6 *)quad)->unk_68;
+    ((S_819A088C_0 *)scratch)->unk_B4 = ((S_819A088C_6 *)quad)->unk_58;
+    ((S_819A088C_0 *)scratch)->unk_BC = ((S_819A088C_6 *)quad)->unk_5E;
+    ((S_819A088C_0 *)scratch)->unk_C4 = ((S_819A088C_6 *)quad)->unk_64;
+    ((S_819A088C_0 *)scratch)->unk_CC = ((S_819A088C_6 *)quad)->unk_6A;
 
-    index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+    ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
                           scratch + 0xC0, scratch + 0xC8,
                           packet + 8, packet + 0x10,
                           packet + 0x18, packet + 0x20,
-                          scratch + 0xD0, scratch + 0xD4) - arg3 - 6;
-    ((S_819A088C_0 *)scratch)->unk_100 = index;
+                          scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
+    ((S_819A088C_0 *)scratch)->unk_100 = ot_index;
 
-    if ((u32)index < 0x1E0) {
+    if ((u32)ot_index < 0x1E0) {
         if ((((u16)(((S_819A088C_4 *)packet)->unk_08 + 0x20) < 0x181) &&
              ((u16)(((S_819A088C_4 *)packet)->unk_0A + 0x20) < 0x121)) |
             (((u16)(((S_819A088C_4 *)packet)->unk_10 + 0x20) < 0x181) &&
@@ -211,19 +212,19 @@ void func_819A088C(void *arg0, void *arg1, void *arg2, s16 arg3)
              ((u16)(((S_819A088C_4 *)packet)->unk_1A + 0x20) < 0x121)) |
             (((u16)(((S_819A088C_4 *)packet)->unk_20 + 0x20) < 0x181) &&
              ((u16)(((S_819A088C_4 *)packet)->unk_22 + 0x20) < 0x121))) {
-            ((S_819A088C_2 *)arg2)->unk_14 &= 0x7FFF;
-            texFlags = texture[1];
-            ((S_819A088C_2 *)arg2)->unk_0F = texFlags;
-            flags = ((S_819A088C_0 *)scratch)->unk_28;
-            if (flags & 8) {
-                ((S_819A088C_2 *)arg2)->unk_0F = (flags & 4) ?
-                    (texFlags | 2) : (texFlags & 0xFD);
+            ((S_819A088C_2 *)render_state)->unk_14 &= 0x7FFF;
+            texture_flags = texture[1];
+            ((S_819A088C_2 *)render_state)->unk_0F = texture_flags;
+            render_flags = ((S_819A088C_0 *)scratch)->unk_28;
+            if (render_flags & 8) {
+                ((S_819A088C_2 *)render_state)->unk_0F = (render_flags & 4) ?
+                    (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
-            ((S_819A088C_4 *)packet)->unk_04.at00.v = ((S_819A088C_6 *)arg0)->unk_0C;
-            ((S_819A088C_4 *)packet)->unk_0C = ((S_819A088C_6 *)arg0)->unk_10;
-            ((S_819A088C_4 *)packet)->unk_14 = ((S_819A088C_6 *)arg0)->unk_14;
-            ((S_819A088C_4 *)packet)->unk_1C = ((S_819A088C_6 *)arg0)->unk_18;
+            ((S_819A088C_4 *)packet)->unk_04.at00.v = ((S_819A088C_6 *)quad)->unk_0C;
+            ((S_819A088C_4 *)packet)->unk_0C = ((S_819A088C_6 *)quad)->unk_10;
+            ((S_819A088C_4 *)packet)->unk_14 = ((S_819A088C_6 *)quad)->unk_14;
+            ((S_819A088C_4 *)packet)->unk_1C = ((S_819A088C_6 *)quad)->unk_18;
             ((S_819A088C_4 *)packet)->unk_00.at03.v = 8;
             ((S_819A088C_4 *)packet)->unk_04.at03.v = 0x3A;
 
@@ -233,8 +234,8 @@ void func_819A088C(void *arg0, void *arg1, void *arg2, s16 arg3)
                 ((*(u32 *)((u8 *)(((S_819A088C_0 *)scratch)->unk_24.p2) + ((S_819A088C_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
 
-            packet = ((S_819A088C_7 *)(*global))->unk_8D0;
-            ((S_819A088C_7 *)(*global))->unk_8D0 = packet + 0xC;
+            packet = ((S_819A088C_7 *)(*render_context_ptr))->unk_8D0;
+            ((S_819A088C_7 *)(*render_context_ptr))->unk_8D0 = packet + 0xC;
             func_80067F20(packet, 0, 1, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
             ((S_819A088C_4 *)packet)->unk_00.at00.v = (((S_819A088C_4 *)packet)->unk_00.at00.v & 0xFF000000) |
                 ((*(u32 *)((u8 *)(((S_819A088C_0 *)scratch)->unk_24.p2) + ((S_819A088C_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);

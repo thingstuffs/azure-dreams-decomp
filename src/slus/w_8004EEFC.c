@@ -1,7 +1,5 @@
 #include "common.h"
 
-/* Entity-init: copy two global templates (D_8002E5D8->*a1, D_8002E5E8->*a2), link them
-   into a0, then patch 4 fields of *a1 with hardcoded defaults. */
 /* Template struct copied wholesale (word-by-word) into a1's target. */
 typedef struct S_8002E5D8 {
     s32 unk0;
@@ -45,27 +43,28 @@ typedef struct {
     S_8004EEFC_a2 *unk8;
 } S_8004EEFC_a0;
 
-void func_8004EEFC(S_8004EEFC_a0 *a0, S_8002E5D8 *a1, S_8004EEFC_a2 *a2) {
-    S_8002E5D8 *src0 = &D_8002E5D8;
-    S_8002E5E8 *src1 = &D_8002E5E8;
-    s32 *tmp;
+/* Initialize and link the entity data from two templates, then apply default field values. */
+void func_8004EEFC(S_8004EEFC_a0 *entity, S_8002E5D8 *main_data, S_8004EEFC_a2 *aux_data) {
+    S_8002E5D8 *main_template = &D_8002E5D8;
+    S_8002E5E8 *aux_template = &D_8002E5E8;
+    s32 *aux_first_word;
 
-    a1->unk0 = src0->unk0;
-    tmp = &src1->unk0;
-    a1->unk4 = src0->unk4;
-    a1->unk8 = src0->unk8;
-    a1->unkC = src0->unkC;
+    main_data->unk0 = main_template->unk0;
+    aux_first_word = &aux_template->unk0;
+    main_data->unk4 = main_template->unk4;
+    main_data->unk8 = main_template->unk8;
+    main_data->unkC = main_template->unkC;
 
-    ((S_8002E5E8 *)a2)->unk0 = *tmp;
-    ((S_8002E5E8 *)a2)->unk4 = src1->unk4;
-    ((S_8002E5E8 *)a2)->unk8 = src1->unk8;
+    ((S_8002E5E8 *)aux_data)->unk0 = *aux_first_word;
+    ((S_8002E5E8 *)aux_data)->unk4 = aux_template->unk4;
+    ((S_8002E5E8 *)aux_data)->unk8 = aux_template->unk8;
 
-    a0->unk4 = (S_8004EEFC_a1 *)a1;
-    a0->unk8 = a2;
-    a0->unk0 = 0;
+    entity->unk4 = (S_8004EEFC_a1 *)main_data;
+    entity->unk8 = aux_data;
+    entity->unk0 = 0;
 
-    a0->unk4->unk8 = -0xA0;
-    a0->unk4->unkA = -0x78;
-    a0->unk4->unkC = 0x200;
-    a0->unk4->unkF = 4;
+    entity->unk4->unk8 = -0xA0;
+    entity->unk4->unkA = -0x78;
+    entity->unk4->unkC = 0x200;
+    entity->unk4->unkF = 4;
 }

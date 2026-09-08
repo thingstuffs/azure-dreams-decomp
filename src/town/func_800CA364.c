@@ -16,86 +16,87 @@ extern void func_800C2E84(void *, s32, void *);
 extern s32 D_800C7674;
 extern s32 D_800D5FE8;
 
-void func_800C7AC4(Rec_func_80094268_arg0 *arg0, void *arg1, s32 arg2)
+/* Try random directions against the bounds, then initialize the entity state. */
+void func_800C7AC4(Rec_func_80094268_arg0 *entity, void *bounds_arg, s32 context_arg)
 {
     register void *bounds ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 context;
-    s32 count;
+    s32 attempts;
     s32 direction;
 
-    bounds = arg1;
-    context = arg2;
-    count = 0;
+    bounds = bounds_arg;
+    context = context_arg;
+    attempts = 0;
 loop:
     direction = func_800374F4(4) & 0xFFFF;
     if (direction == 0) {
-        s32 total;
-        s32 position;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 component;
+        s32 upper_edge;
+        s32 bound_test;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 extent;
 
-        total = arg0->unk_84.as_s16;
-        component = arg0->unk_8C;
-        position = ((S_800C7AC4_1 *)bounds)->unk_02;
-        total += component;
-        position = position < total;
-        if (position != 0) {
-            arg0->unk_72.as_s16 = 0x400;
+        upper_edge = entity->unk_84.as_s16;
+        extent = entity->unk_8C;
+        bound_test = ((S_800C7AC4_1 *)bounds)->unk_02;
+        upper_edge += extent;
+        bound_test = bound_test < upper_edge;
+        if (bound_test != 0) {
+            entity->unk_72.as_s16 = 0x400;
             goto done;
         }
     } else if (direction == 1) {
-        s32 total;
-        s32 position;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 component;
+        s32 upper_edge;
+        s32 bound_test;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 extent;
 
-        total = arg0->unk_86.as_s16;
-        component = arg0->unk_8E;
-        position = ((S_800C7AC4_1 *)bounds)->unk_06;
-        total += component;
-        position = position < total;
-        if (position != 0) {
-            arg0->unk_72.as_s16 = 0;
+        upper_edge = entity->unk_86.as_s16;
+        extent = entity->unk_8E;
+        bound_test = ((S_800C7AC4_1 *)bounds)->unk_06;
+        upper_edge += extent;
+        bound_test = bound_test < upper_edge;
+        if (bound_test != 0) {
+            entity->unk_72.as_s16 = 0;
             goto done;
         }
     } else if (direction == 2) {
-        s32 difference;
-        s32 component;
-        s32 limit;
+        s32 lower_edge;
+        s32 extent;
+        s32 bound_coord;
 
-        difference = arg0->unk_84.as_s16;
-        component = arg0->unk_8C;
-        limit = ((S_800C7AC4_1 *)bounds)->unk_02;
+        lower_edge = entity->unk_84.as_s16;
+        extent = entity->unk_8C;
+        bound_coord = ((S_800C7AC4_1 *)bounds)->unk_02;
            /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        difference -= component;
-        difference = difference < limit;
-        if (difference != 0) {
-            arg0->unk_72.as_s16 = 0xC00;
+        lower_edge -= extent;
+        lower_edge = lower_edge < bound_coord;
+        if (lower_edge != 0) {
+            entity->unk_72.as_s16 = 0xC00;
             goto done;
         }
     } else {
-        s32 difference;
-        s32 component;
-        s32 limit;
+        s32 lower_edge;
+        s32 extent;
+        s32 bound_coord;
 
-        difference = arg0->unk_86.as_s16;
-        component = arg0->unk_8E;
-        limit = ((S_800C7AC4_1 *)bounds)->unk_06;
+        lower_edge = entity->unk_86.as_s16;
+        extent = entity->unk_8E;
+        bound_coord = ((S_800C7AC4_1 *)bounds)->unk_06;
            /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        difference -= component;
-        difference = difference < limit;
-        if (difference != 0) {
-            arg0->unk_72.as_s16 = 0x800;
+        lower_edge -= extent;
+        lower_edge = lower_edge < bound_coord;
+        if (lower_edge != 0) {
+            entity->unk_72.as_s16 = 0x800;
             goto done;
         }
     }
 
-    count++;
-    if (count < 0x10) {
+    attempts++;
+    if (attempts < 0x10) {
         goto loop;
     }
 
 done:
-    func_800C2E84(arg0, context, &D_800D5FE8);
-    arg0->unk_50.as_pv = &D_800C7674;
+    func_800C2E84(entity, context, &D_800D5FE8);
+    entity->unk_50.as_pv = &D_800C7674;
 }
 
 /* MECHANISM: Recovered 0x800C7BB0 as the true-space local join, not a callee.

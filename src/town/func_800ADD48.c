@@ -14,18 +14,19 @@ typedef struct {
 extern u8 D_800AB50C[];
 extern u8 D_800AB708[];
 
-void func_800AB4A8(State *arg0) {
+/* Update the state from its value and countdown, advancing unk72 until timeout. */
+void func_800AB4A8(State *state) {
     u16 timer;
 
-    if (arg0->value < 100) {
-        arg0->state = D_800AB708;
+    if (state->value < 100) {
+        state->state = D_800AB708;
     }
-    timer = arg0->timer - 1;
-    arg0->timer = timer;
+    timer = state->timer - 1;
+    state->timer = timer;
     if ((s16) timer < 0) {
-        arg0->state = D_800AB50C;
-        arg0->timer = 20;
+        state->state = D_800AB50C;
+        state->timer = 20;
         return;
     }
-    arg0->unk72 += 0x200;
+    state->unk72 += 0x200;
 }

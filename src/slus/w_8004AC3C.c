@@ -40,56 +40,57 @@ extern S_80082E6A D_80082E6A;
 extern S_8004AC3C_CategoryEntry itemCategoryTable[];
 extern s32 func_80049330(S_8004AC3C_Item *);
 extern s32 func_80042A80(S_8004AC3C_Item *);
-s32 func_8004AC3C(S_8004AC3C_Item *item, s32 *out)
+/* Select item data by category and state, and report its mode. */
+s32 func_8004AC3C(S_8004AC3C_Item *item, s32 *out_mode)
 {
-  s32 flags;
-  register S_8004AC3C_CategoryEntry *base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-  S_8004AC3C_CategoryEntry *entry;
-  s32 ret;
-  *out = 0;
+  s32 item_flags;
+  register S_8004AC3C_CategoryEntry *categories ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  S_8004AC3C_CategoryEntry *category;
+  s32 data_addr;
+  *out_mode = 0;
   if (D_80082E6A.f0 != 1)
   {
     if (item->unk1 == 0x13)
     {
-      ret = func_80049330(item) + 0x34;
+      data_addr = func_80049330(item) + 0x34;
     }
     else
     {
-      flags = func_80042A80(item);
-      if (flags != 0)
+      item_flags = func_80042A80(item);
+      if (item_flags != 0)
       {
-        if ((((u32) (item->unk1 - 0xF)) < 3U) || ((item->unk1 == 4) && ((flags & 0x400) == 0)))
+        if ((((u32) (item->unk1 - 0xF)) < 3U) || ((item->unk1 == 4) && ((item_flags & 0x400) == 0)))
         {
-          ret = ((S_8004AC3C_Rec20 *) itemCategoryTable[((volatile S_8004AC3C_Item *) item)->unk1].records)[item->unk0].f4;
+          data_addr = ((S_8004AC3C_Rec20 *) itemCategoryTable[((volatile S_8004AC3C_Item *) item)->unk1].records)[item->unk0].f4;
         }
         else
         {
-          ret = ((S_8004AC3C_Rec20 *) itemCategoryTable[((volatile S_8004AC3C_Item *) item)->unk1].records)[item->unk0].fC;
+          data_addr = ((S_8004AC3C_Rec20 *) itemCategoryTable[((volatile S_8004AC3C_Item *) item)->unk1].records)[item->unk0].fC;
         }
-        *out = 4;
+        *out_mode = 4;
       }
       else
       {
-        base = itemCategoryTable;
-        entry = base + item->unk1;
-        ret = (entry->kind == 0) ? (((S_8004AC3C_Rec20 *) entry->records)[item->unk0].f4) : (((S_8004AC3C_Rec12 *) entry->records)[item->unk0].f4);
+        categories = itemCategoryTable;
+        category = categories + item->unk1;
+        data_addr = (category->kind == 0) ? (((S_8004AC3C_Rec20 *) category->records)[item->unk0].f4) : (((S_8004AC3C_Rec12 *) category->records)[item->unk0].f4);
       }
     }
   }
   else
     if (item->unk1 == 0x13)
   {
-    ret = 0x80010324 + ((item->unk3 & 0x1F) * 0x54);
+    data_addr = 0x80010324 + ((item->unk3 & 0x1F) * 0x54);
   }
   else
   {
     if (item->unk1 == 0x16)
     {
-      *out = 7;
+      *out_mode = 7;
     }
-    base = itemCategoryTable;
-    entry = base + item->unk1;
-    ret = (entry->kind == 0) ? (((S_8004AC3C_Rec20 *) entry->records)[item->unk0].f4) : (((S_8004AC3C_Rec12 *) entry->records)[item->unk0].f4);
+    categories = itemCategoryTable;
+    category = categories + item->unk1;
+    data_addr = (category->kind == 0) ? (((S_8004AC3C_Rec20 *) category->records)[item->unk0].f4) : (((S_8004AC3C_Rec12 *) category->records)[item->unk0].f4);
   }
-  return ret;
+  return data_addr;
 }

@@ -12,17 +12,18 @@ extern s32 func_8004AC3C(s32, s32 *);
 extern s32 strlen(s32);
 extern void memcpy(s32, s32, s32);
 
-s32 func_800992E8(s32 arg0, s32 arg1) {
-    s32 sp10;
-    s32 first;
-    s32 second;
+/* Copies the selected text without its terminator and returns the destination end. */
+s32 func_800992E8(s32 text_id, s32 dest) {
+    s32 text_info;
+    s32 text;
+    s32 length;
 
     if (D_800E3D7C[0]->flags & 0x10) {
-        first = (s32)D_800DD724[0];
+        text = (s32)D_800DD724[0];
     } else {
-        first = func_8004AC3C(arg0, &sp10);
+        text = func_8004AC3C(text_id, &text_info);
     }
-    second = strlen(first);
-    memcpy(arg1, first, second);
-    return arg1 + second;
+    length = strlen(text);
+    memcpy(dest, text, length);
+    return dest + length;
 }

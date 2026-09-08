@@ -47,13 +47,7 @@ extern void func_800550E8(void);
 extern void func_8005B070(s16 a0);
 extern void func_8005B16C(s16 a0);
 
-/* Applies a status-flag transition for a status-effect code: 0x71 (full clear: if either the
-   0x100 or 0x1000 activity bit is set, zeroes D_800848F8.field8, runs func_800552C8 and the two
-   field22-keyed cleanup calls; unconditionally zeroes D_800848F8.field4, clears both activity
-   bits and D_800847D0.flags2's bit 0x2, and re-triggers func_800550E8 if field26 is armed),
-   0xE1 (activation edge: bit 0x100 -> 0x1000, calling func_8005B070 first), and 0xF1
-   (deactivation edge: bit 0x1000 -> 0x100, calling func_8005B16C first). Any other code is a
-   no-op. */
+/* Clears, activates, or deactivates a status effect according to the supplied code. */
 void func_800553D4(u8 code) {
     switch (code) {
     case 0x71:

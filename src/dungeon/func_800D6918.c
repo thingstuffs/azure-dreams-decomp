@@ -10,7 +10,7 @@ void func_800DC078(void *arg0, s32 arg1) {
     } else {
         value = 0x40;
     }
-    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     *(s8 *)((u8 *)arg0 + 2) = 0x57 - value;
     *(s8 *)((u8 *)arg0 + 0xA) = value;
 }

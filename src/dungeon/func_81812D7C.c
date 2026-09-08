@@ -6,13 +6,14 @@ extern void func_80026D0C(s32, s32);
 extern void func_80027A20(s32 *);
 extern s32 D_80027A88[];
 
-void func_80027D7C(s32 *arg0) {
-    D_8002951C[arg0[5]]();
-    arg0[0]++;
-    if (arg0[1] < arg0[0]) {
-        func_80026CF0(arg0[34], arg0[19]);
-        func_80026D0C(arg0[34], arg0[2]);
-        arg0[-4] = (u32)D_80027A88;
+/* Runs the selected callback and advances the state when its counter exceeds the limit. */
+void func_80027D7C(s32 *state) {
+    D_8002951C[state[5]]();
+    state[0]++;
+    if (state[1] < state[0]) {
+        func_80026CF0(state[34], state[19]);
+        func_80026D0C(state[34], state[2]);
+        state[-4] = (u32)D_80027A88;
     }
-    func_80027A20(arg0);
+    func_80027A20(state);
 }

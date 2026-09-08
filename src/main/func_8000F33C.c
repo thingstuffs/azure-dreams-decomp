@@ -4,18 +4,19 @@
 M2C_UNK func_8004E264();                /* extern */
 M2C_UNK func_8004E884();                     /* extern */
 
-void func_8002233C(s32 arg0, s32 arg1, s32 arg2) {
-    s32 var_s0;
-    s32 var_s1;
+/* Processes consecutive 12-byte entries starting at the requested index. */
+void func_8002233C(s32 entry_base, s32 start_index, s32 entry_count) {
+    s32 entry_index;
+    s32 entry_addr;
 
-    func_8004E884(arg0, 1);
-    var_s1 = arg0 + (arg1 * 0xC);
-    var_s0 = 0;
-    if (arg2 > 0) {
+    func_8004E884(entry_base, 1);
+    entry_addr = entry_base + (start_index * 0xC);
+    entry_index = 0;
+    if (entry_count > 0) {
         do {
-            func_8004E264(var_s1, 0);
-            var_s0 += 1;
-            var_s1 += 0xC;
-        } while (var_s0 < arg2);
+            func_8004E264(entry_addr, 0);
+            entry_index += 1;
+            entry_addr += 0xC;
+        } while (entry_index < entry_count);
     }
 }

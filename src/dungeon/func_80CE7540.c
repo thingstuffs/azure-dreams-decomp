@@ -23,22 +23,23 @@ typedef struct S_80170D40_1 {
 
 extern s32 D_800814A0[3];
 
-void func_80170D40(void *arg0, void *arg1, S_80170D40_1 *arg2)
+/* Fade the primitive color by one step and flag completion when the counter reaches zero. */
+void func_80170D40(void *fade_state, void *unused, S_80170D40_1 *primitive)
 {
-    u16 temp_v0;
-    u8 temp_v1;
+    u16 steps_left;
+    u8 red;
 
-    ((S_80170D40_0 *)arg0)->unk_02 = (u8)(((S_80170D40_0 *)arg0)->unk_02 - 0x40);
-    temp_v1 = ((S_80170D40_0 *)arg0)->unk_00 - 0x40;
-    ((S_80170D40_0 *)arg0)->unk_00 = temp_v1;
-    ((S_80170D40_0 *)arg0)->unk_01 = (u8)(((S_80170D40_0 *)arg0)->unk_01 - 0x40);
-    arg2->unk_0C = temp_v1;
-    arg2->unk_0D = ((S_80170D40_0 *)arg0)->unk_01;
-    arg2->unk_0E = ((S_80170D40_0 *)arg0)->unk_02;
-    temp_v0 = ((S_80170D40_0 *)arg0)->unk_18 - 1;
-    ((S_80170D40_0 *)arg0)->unk_18 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        ((S_80170D40_0_pre *)arg0)[-1].unk_00 = (u16)(((S_80170D40_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    ((S_80170D40_0 *)fade_state)->unk_02 = (u8)(((S_80170D40_0 *)fade_state)->unk_02 - 0x40);
+    red = ((S_80170D40_0 *)fade_state)->unk_00 - 0x40;
+    ((S_80170D40_0 *)fade_state)->unk_00 = red;
+    ((S_80170D40_0 *)fade_state)->unk_01 = (u8)(((S_80170D40_0 *)fade_state)->unk_01 - 0x40);
+    primitive->unk_0C = red;
+    primitive->unk_0D = ((S_80170D40_0 *)fade_state)->unk_01;
+    primitive->unk_0E = ((S_80170D40_0 *)fade_state)->unk_02;
+    steps_left = ((S_80170D40_0 *)fade_state)->unk_18 - 1;
+    ((S_80170D40_0 *)fade_state)->unk_18 = steps_left;
+    if ((steps_left << 0x10) <= 0) {
+        ((S_80170D40_0_pre *)fade_state)[-1].unk_00 = (u16)(((S_80170D40_0_pre *)fade_state)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32)(D_800814A0[0] | 0x8000);
     }
 }

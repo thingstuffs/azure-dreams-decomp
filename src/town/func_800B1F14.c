@@ -23,28 +23,29 @@ s32 func_8004AC3C();
 s32 func_8004DC14();
 M2C_UNK func_800B0318();
 
-void func_800AF674(S_800AF674_0 *arg0) {
-    s32 sp10;
-    s32 *temp_v1_2;
-    s32 temp_a0;
-    s32 temp_v0;
-    s32 var_s0;
-    s32 var_s1;
+/* Initialize the output and fill up to ten slots with converted entries from the current page. */
+void func_800AF674(S_800AF674_0 *state) {
+    s32 conversion_aux;
+    s32 *output_slot;
+    s32 entry_value;
+    s32 converted_value;
+    s32 entry_index;
+    s32 slot_index;
 
-    var_s1 = 0x10;
-    func_800B0318(arg0->unk_A8.s);
-    var_s0 = ((S_800AF674_2 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_00))->unk_10 * 0xA;
-loop_1:
-    if (var_s0 < ((S_800AF674_2 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_00))->unk_1C) {
-        temp_a0 = ((S_800AF674_2 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_00))->unk_20[var_s0];
-        temp_v0 = func_8004AC3C(temp_a0, &sp10);
-        var_s0 += 1;
-        temp_v0 = func_8004DC14(temp_v0, sp10);
-        temp_v1_2 = arg0->unk_A8.u[var_s1];
-        var_s1 += 1;
-        *temp_v1_2 = temp_v0;
-        if (var_s1 < 0x1A) {
-            goto loop_1;
+    slot_index = 0x10;
+    func_800B0318(state->unk_A8.s);
+    entry_index = ((S_800AF674_2 *)(((Rec_func_800AF254_arg1 *)state)->unk_00))->unk_10 * 0xA;
+next_entry:
+    if (entry_index < ((S_800AF674_2 *)(((Rec_func_800AF254_arg1 *)state)->unk_00))->unk_1C) {
+        entry_value = ((S_800AF674_2 *)(((Rec_func_800AF254_arg1 *)state)->unk_00))->unk_20[entry_index];
+        converted_value = func_8004AC3C(entry_value, &conversion_aux);
+        entry_index += 1;
+        converted_value = func_8004DC14(converted_value, conversion_aux);
+        output_slot = state->unk_A8.u[slot_index];
+        slot_index += 1;
+        *output_slot = converted_value;
+        if (slot_index < 0x1A) {
+            goto next_entry;
         }
     }
 }

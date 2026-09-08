@@ -11,32 +11,33 @@ typedef struct {
 extern s16 D_800266BC[5];
 extern s32 D_800814A0[3];
 
+/* Updates a grayscale fade, advances its progress, and flags completion. */
 void func_8002558C(Func818F9D8CState *state, s32 unused, u8 *out)
 {
     s32 current;
     s32 target;
     s32 limit;
-    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s16 next;
+    register s32 intensity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 next_step;
 
     current = state->current;
     target = state->target;
     D_800266BC[0] = 1;
 
     if (current < target) {
-        value = (current * 0x60) / target;
-        out[0xE] = value;
+        intensity = (current * 0x60) / target;
+        out[0xE] = intensity;
     } else {
         limit = state->limit;
-        value = ((limit - current) * 0x60) / (limit - target);
-        out[0xE] = value;
+        intensity = ((limit - current) * 0x60) / (limit - target);
+        out[0xE] = intensity;
     }
-    out[0xD] = value;
-    out[0xC] = value;
+    out[0xD] = intensity;
+    out[0xC] = intensity;
 
-    next = (u16)state->current + 1;
-    state->current = next;
-    if (next >= state->limit) {
+    next_step = (u16)state->current + 1;
+    state->current = next_step;
+    if (next_step >= state->limit) {
         ((u16 *)state)[-1] |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }

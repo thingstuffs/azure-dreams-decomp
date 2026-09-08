@@ -38,46 +38,47 @@ typedef struct S_80043FD0
   s16 field_A;
   s16 field_C;
 } S_80043FD0;
-void func_80043FD0(S_80043FD0 *a0)
+/* Advances the controller state and updates node and global status flags. */
+void func_80043FD0(S_80043FD0 *controller)
 {
-  s16 state = a0->field_A;
-  S_80043FD0_Node *v0;
+  s16 state = controller->field_A;
+  S_80043FD0_Node *node;
   s32 global_flags;
   if (state == 2)
   {
-    if ((*((u8 *) a0->field_4)) != 0)
+    if ((*((u8 *) controller->field_4)) != 0)
     {
-      s16 a1 = a0->field_C;
-      if (a1 != 0)
+      s16 slot_arg = controller->field_C;
+      if (slot_arg != 0)
       {
-        a0->field_8 = func_8003F794(5, a1);
+        controller->field_8 = func_8003F794(5, slot_arg);
       }
       func_80040454();
       D_80080A86_store = 0;
-      a0->field_A = 0;
+      controller->field_A = 0;
     }
     return;
   }
-  if (D_80083120[a0->field_8].field0 != 0)
+  if (D_80083120[controller->field_8].field0 != 0)
   {
     return;
   }
   if (state != 0)
   {
-    v0 = a0->field_0(a0->field_4);
-    if (v0 == 0)
+    node = controller->field_0(controller->field_4);
+    if (node == 0)
     {
-      D_80083120[a0->field_8].field0 = 6;
-      D_80083120[a0->field_8].field2 = 1;
-      D_80083120[a0->field_8].field4 = 1;
-      D_80083120[a0->field_8].field6 = 0;
+      D_80083120[controller->field_8].field0 = 6;
+      D_80083120[controller->field_8].field2 = 1;
+      D_80083120[controller->field_8].field4 = 1;
+      D_80083120[controller->field_8].field6 = 0;
       return;
     }
     func_80040418();
     D_80080A86_store = (state = 1);
-    v0->field_1E &= 0xF3FF;
+    node->field_1E &= 0xF3FF;
   }
-  *((u16 *) (((char *) a0) - 2)) |= 0x8000;
+  *((u16 *) (((char *) controller) - 2)) |= 0x8000;
   global_flags = D_800814A0_load[0];
   global_flags |= 0x8000;
   

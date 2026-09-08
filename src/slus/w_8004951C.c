@@ -37,22 +37,23 @@ extern void func_8004E5A0(s32, s32, u8 *);
 extern u8 *func_8004E69C(u8 *);
 extern s32 func_8004E298(s32, u8 *, s32);
 
-s32 func_8004951C(s32 arg0, S_8004951C_Item *arg1)
+/* Formats and displays item modifiers and status markers. */
+s32 func_8004951C(s32 text_target, S_8004951C_Item *item)
 {
-  u8 buf[0x20];
-  s32 cat;
+  u8 text[0x20];
+  s32 category;
   s32 kind;
 
-  memset(buf, 0x20, 0x20);
-  buf[0x1F] = 0;
+  memset(text, 0x20, 0x20);
+  text[0x1F] = 0;
 
-  if ((D_80082E6A.unk0 == 2) && (func_80042A80(arg1) != 0))
+  if ((D_80082E6A.unk0 == 2) && (func_80042A80(item) != 0))
   {
     return 0;
   }
 
-  cat = arg1->unk1;
-  kind = itemCategoryTable[cat].kind;
+  category = item->unk1;
+  kind = itemCategoryTable[category].kind;
   if (kind >= 4)
   {
     return 0;
@@ -60,67 +61,67 @@ s32 func_8004951C(s32 arg0, S_8004951C_Item *arg1)
 
   if (kind == 3)
   {
-    s32 mask = arg1->unk3 & 0x1F;
-    if ((mask < 0x14) && (D_80082E6A.unk0 != 1))
+    s32 subtype = item->unk3 & 0x1F;
+    if ((subtype < 0x14) && (D_80082E6A.unk0 != 1))
     {
-      if (func_800492B0(mask)->unk28 == 0)
+      if (func_800492B0(subtype)->unk28 == 0)
       {
-        buf[0] = 0x7A;
+        text[0] = 0x7A;
       }
     }
   }
   else
   {
-    if (arg1->unk1 == 18)
+    if (item->unk1 == 18)
     {
       if (D_80082E6A.unk0 != 1)
       {
-        func_8004E5A0(0x64 - arg1->unk2, 3, &buf[9]);
-        func_8004E69C(&buf[9]);
-        buf[0xC] = 0xA;
-        buf[0xD] = 9;
-        buf[0xE] = 0x39;
-        buf[0x12] = 0x25;
+        func_8004E5A0(0x64 - item->unk2, 3, &text[9]);
+        func_8004E69C(&text[9]);
+        text[0xC] = 0xA;
+        text[0xD] = 9;
+        text[0xE] = 0x39;
+        text[0x12] = 0x25;
       }
     }
-    else if (arg1->unk1 == 4)
+    else if (item->unk1 == 4)
     {
-      func_8004E5A0(arg1->unk2, 2, &buf[0xB]);
-      func_8004E69C(&buf[0xB]);
+      func_8004E5A0(item->unk2, 2, &text[0xB]);
+      func_8004E69C(&text[0xB]);
     }
-    else if (arg1->unk1 == 14)
+    else if (item->unk1 == 14)
     {
-      func_8004E5A0(func_800438E4(arg1), 5, &buf[6]);
-      func_8004E69C(&buf[6]);
-      buf[0xB] = 0xA;
-      buf[0xC] = 9;
-      buf[0xD] = 0x39;
-      buf[0x10] = 0x47;
+      func_8004E5A0(func_800438E4(item), 5, &text[6]);
+      func_8004E69C(&text[6]);
+      text[0xB] = 0xA;
+      text[0xC] = 9;
+      text[0xD] = 0x39;
+      text[0x10] = 0x47;
     }
     else if (kind == 1)
     {
-      s8 v = arg1->unk2;
-      if (v != 0)
+      s8 modifier = item->unk2;
+      if (modifier != 0)
       {
-        buf[0xA] = (v > 0) ? (0x6B) : (0x6C);
-        func_8004E5A0((arg1->unk2 >= 0) ? (arg1->unk2) : (-arg1->unk2), 2, &buf[0xB]);
-        func_8004E69C(&buf[0xB]);
+        text[0xA] = (modifier > 0) ? (0x6B) : (0x6C);
+        func_8004E5A0((item->unk2 >= 0) ? (item->unk2) : (-item->unk2), 2, &text[0xB]);
+        func_8004E69C(&text[0xB]);
       }
     }
 
     if (kind == 1)
     {
-      if (arg1->unk3 & 0x40)
+      if (item->unk3 & 0x40)
       {
-        buf[0xD] = 0xA;
-        buf[0xE] = 0x7A;
+        text[0xD] = 0xA;
+        text[0xE] = 0x7A;
       }
-      if (arg1->unk3 & 0x20)
+      if (item->unk3 & 0x20)
       {
-        buf[0] = 0x79;
+        text[0] = 0x79;
       }
     }
   }
 
-  return func_8004E298(arg0, buf, 0);
+  return func_8004E298(text_target, text, 0);
 }

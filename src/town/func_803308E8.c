@@ -2,19 +2,20 @@
 
 extern s32 func_8001ADE0(s32);
 
-s32 func_8001B0E8(s32 arg0, s32 arg1) {
-    s32 i;
-    s32 result;
+/* Builds a bitmask of nonzero query results for consecutive indices. */
+s32 func_8001B0E8(s32 start_index, s32 count) {
+    s32 offset;
+    s32 mask;
 
-    i = 0;
-    result = 0;
-    if (arg1 > 0) {
+    offset = 0;
+    mask = 0;
+    if (count > 0) {
         do {
-            if (func_8001ADE0(arg0 + i) != 0) {
-                result += 1 << i;
+            if (func_8001ADE0(start_index + offset) != 0) {
+                mask += 1 << offset;
             }
-            i++;
-        } while (i < arg1);
+            offset++;
+        } while (offset < count);
     }
-    return result;
+    return mask;
 }

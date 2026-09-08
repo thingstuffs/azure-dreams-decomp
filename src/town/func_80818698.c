@@ -58,21 +58,22 @@ extern s32 rand(void);
 extern void func_8009539C(MotionRecord *);
 extern s32 func_800C2AE8(MotionRecord *);
 
+/* Updates a sprite's launch, bounce, and fade states. */
 void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprite)
 {
     RootRecord *root;
-    DeepRecord *deep;
-    PtrSet local;
-    void *selected;
-    PtrSet *localp;
+    DeepRecord *motion_source;
+    PtrSet sprite_choices;
+    void *next_sprite;
+    PtrSet *choices_ptr;
 
-    selected = 0;
+    next_sprite = 0;
     root = state->root00;
-    deep = root->mid04->deep08;
-    local = D_80020048;
+    motion_source = root->mid04->deep08;
+    sprite_choices = D_80020048;
     func_800478B8(sprite);
     func_8009539C(motion);
-    localp = &local;
+    choices_ptr = &sprite_choices;
 
     switch (state->mode04) {
     case 0:
@@ -82,43 +83,43 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
         }
         sprite->color0c = 0x808080;
         {
-            u16 flags_zero = sprite->flags14;
+            u16 sprite_flags = sprite->flags14;
 
-            flags_zero &= 0xfff3;
-            
-            sprite->flags14 = flags_zero;
+            sprite_flags &= 0xfff3;
+
+            sprite->flags14 = sprite_flags;
         }
         goto increment_mode;
 
     case 1:
         if (state->flags08 & 1) {
-            selected = localp->ptr[rand() % 3];
+            next_sprite = choices_ptr->ptr[rand() % 3];
             motion->value0c = ((rand() & 0x7f) - 0x40) << 15;
             motion->value14 = (0 - ((rand() & 0xf) + 8)) << 16;
             if (motion->value0c > 0) {
                 sprite->flags14 |= 1;
             }
-            motion->value10 = deep->value10;
+            motion->value10 = motion_source->value10;
             state->mode04 = 0x20;
         }
         if (root->state36 != 10) {
             goto done;
         }
         if (rand() & 1) {
-            selected = D_800F2B04;
+            next_sprite = D_800F2B04;
         } else {
-            selected = D_800F2B2C;
+            next_sprite = D_800F2B2C;
         }
         state->mode04 = 0x100;
         goto done;
 
     case 0x20: {
-        s32 value;
+        s32 floor_y;
 
         motion->value14 += 0x40000;
-        value = (s16)func_800C2AE8(motion);
-        if (value < motion->value08) {
-            motion->value08 = value;
+        floor_y = (s16)func_800C2AE8(motion);
+        if (floor_y < motion->value08) {
+            motion->value08 = floor_y;
             motion->value14 = (-motion->value14) >> 3;
         }
         if (sprite->flags14 & 0x6000) {
@@ -130,9 +131,9 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
                 goto done;
             }
             if (rand() & 1) {
-                selected = D_800F2A34;
+                next_sprite = D_800F2A34;
             } else {
-                selected = D_800F2A5C;
+                next_sprite = D_800F2A5C;
             }
             state->mode04++;
         }
@@ -142,22 +143,22 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
     }
 
     case 0x21: {
-        s32 value;
-        u16 flags_21;
+        s32 floor_y;
+        u16 sprite_flags;
 
         motion->value14 += 0x40000;
-        value = (s16)func_800C2AE8(motion);
-        if (value < motion->value08) {
-            motion->value08 = value;
+        floor_y = (s16)func_800C2AE8(motion);
+        if (floor_y < motion->value08) {
+            motion->value08 = floor_y;
             motion->value14 = (-motion->value14) >> 3;
         }
         motion->value0c -= motion->value0c >> 3;
         motion->value10 -= motion->value10 >> 3;
-        flags_21 = sprite->flags14;
-        if (!(flags_21 & 0x6000)) {
+        sprite_flags = sprite->flags14;
+        if (!(sprite_flags & 0x6000)) {
             goto done;
         }
-        sprite->flags14 = flags_21 | 0xc;
+        sprite->flags14 = sprite_flags | 0xc;
         sprite->color0c = 0xa0a0a0;
 increment_mode:
         state->mode04++;
@@ -205,8 +206,8 @@ increment_mode:
     }
 
 done:
-    if (selected != 0) {
-        func_8003DB94(sprite, selected, 0);
+    if (next_sprite != 0) {
+        func_8003DB94(sprite, next_sprite, 0);
         sprite->flags14 &= 0x9fff;
     }
 }

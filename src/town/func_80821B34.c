@@ -39,30 +39,31 @@ typedef struct S_80024334_3 {
 
 
 
-void func_80024334(S_80024334_0 *arg0, S_80024334_3 *arg1, S_80024334_2 *arg2) {
-    S_80024334_1 *obj;
+/* Apply object flags and tint, and copy the selected value triplet. */
+void func_80024334(S_80024334_0 *state, S_80024334_3 *selected_values, S_80024334_2 *render_state) {
+    S_80024334_1 *source;
 
-    obj = arg0->unk_00;
+    source = state->unk_00;
 
-    if (obj->unk_24 & 1) {
-        arg2->unk_14 |= 0x80;
+    if (source->unk_24 & 1) {
+        render_state->unk_14 |= 0x80;
     } else {
-        arg2->unk_14 &= 0xFF7F;
+        render_state->unk_14 &= 0xFF7F;
     }
 
-    if (obj->unk_14 != 0) {
-        arg2->unk_0C = 0x808080;
+    if (source->unk_14 != 0) {
+        render_state->unk_0C = 0x808080;
     } else {
-        arg2->unk_0C = 0xFFFFFF;
+        render_state->unk_0C = 0xFFFFFF;
     }
 
-    if (arg0->unk_08 != 0) {
-        arg1->unk_02 = obj->unk_04;
-        arg1->unk_06 = obj->unk_06;
-        arg1->unk_0A = obj->unk_08;
+    if (state->unk_08 != 0) {
+        selected_values->unk_02 = source->unk_04;
+        selected_values->unk_06 = source->unk_06;
+        selected_values->unk_0A = source->unk_08;
     } else {
-        arg1->unk_02 = obj->unk_0C;
-        arg1->unk_06 = obj->unk_0E;
-        arg1->unk_0A = obj->unk_10;
+        selected_values->unk_02 = source->unk_0C;
+        selected_values->unk_06 = source->unk_0E;
+        selected_values->unk_0A = source->unk_10;
     }
 }

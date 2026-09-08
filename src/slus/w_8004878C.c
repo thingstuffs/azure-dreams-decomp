@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* Decodes a1's tile-count fields into a pixel/word count, checks whether the streaming decode buffer (D_80081480) has room for it against the buffer's base+size (D_8008148C + D_80080A7C); if not, resets the write pointer to the buffer base and waits for the GPU (DrawSync). It then decodes the object's data (func_8004068C / func_80048734), issues a LoadImage of the header via the (possibly reset) buffer, and finally advances the write pointer past the newly decoded data. */
 /* This whole TU is compiled with -G0 (small-data disabled), so gcc
  * addresses these plain scalars via independent lui/%hi + lw/sw/%lo pairs
  * (no materialised base register reused across accesses), instead of via
@@ -11,7 +10,7 @@ extern s32 D_80080A7C;
 extern s32 D_80081480;
 extern s32 D_8008148C;
 
-/* Object header this function operates on: a1 points at a struct whose
+/* Object header this function operates on: rect points at a struct whose
  * fields at 0x4/0x6 are s16 tile-dimension counters. */
 typedef struct {
     s16 unk00;
@@ -27,22 +26,23 @@ extern void *func_8004068C(void *a0, void *a1);
 extern void func_80048734(void *a0);
 extern int LoadImage(void *rect, void *p);
 
-void func_8004878C(void *a0, S_8004878C_hdr *a1)
+/* Decodes and uploads an image, wrapping the decode buffer when needed. */
+void func_8004878C(void *src, S_8004878C_hdr *rect)
 {
-    s32 product;
-    s32 half;
+    s32 pixel_count;
+    s32 image_bytes;
 
-    product = a1->unk04 * a1->unk06;
-    half = product * 2;
-    if ((u32)(D_8008148C + D_80080A7C) <= (u32)(D_80081480 + product * 4 + 2)) {
+    pixel_count = rect->unk04 * rect->unk06;
+    image_bytes = pixel_count * 2;
+    if ((u32)(D_8008148C + D_80080A7C) <= (u32)(D_80081480 + pixel_count * 4 + 2)) {
         D_80081480 = D_8008148C;
         DrawSync(0);
     }
-    func_8004068C(a0, (void *)(D_80081480 + half));
+    func_8004068C(src, (void *)(D_80081480 + image_bytes));
     {
-        register s32 t ASM_REG("$5") = D_80081480;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        func_80048734((void *)(t + half));
+        register s32 write_ptr ASM_REG("$5") = D_80081480;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        func_80048734((void *)(write_ptr + image_bytes));
     }
-    LoadImage(a1, (void *)D_80081480);
-    D_80081480 = D_80081480 + half;
+    LoadImage(rect, (void *)D_80081480);
+    D_80081480 = D_80081480 + image_bytes;
 }

@@ -9,15 +9,16 @@ typedef struct {
 
 extern void func_8003C488(void);
 
-void func_8003C450(void **arg0, s32 arg1, Func8003C450State *arg2) {
-    u32 value;
+// Increase the state value by 0x400, clamping at 0x1000 and advancing the callback when reached.
+void func_8003C450(void **callbackSlot, s32 unused, Func8003C450State *state) {
+    u32 incrementedValue;
 
-    value = arg2->value;
-    value += 0x400;
-    arg2->value = value;
-    if ((value & 0xffff) < 0x1000) {
+    incrementedValue = state->value;
+    incrementedValue += 0x400;
+    state->value = incrementedValue;
+    if ((incrementedValue & 0xffff) < 0x1000) {
         return;
     }
-    arg2->value = 0x1000;
-    *arg0 = (void *)func_8003C488;
+    state->value = 0x1000;
+    *callbackSlot = (void *)func_8003C488;
 }

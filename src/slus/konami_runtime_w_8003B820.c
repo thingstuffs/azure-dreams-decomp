@@ -6,26 +6,27 @@ extern u8 *D_8001029C[];
 extern s8 D_80010333[];
 extern void func_800B2244(u8 *entry);
 
+/* Process type-0x13 entries whose indexed status is negative. */
 void func_8003B820(void)
 {
     if (D_8001029C[0] != 0) {
-        u32 type = 0x13;
-        u32 page = 0x80010000;
-        u32 *cursor = (u32 *)(page + 0x29C);
+        u32 target_type = 0x13;
+        u32 data_base = 0x80010000;
+        u32 *entry_slot = (u32 *)(data_base + 0x29C);
 
         do {
-            u8 *entry = (u8 *)*cursor;
+            u8 *entry = (u8 *)*entry_slot;
 
-            if (entry[1] == type) {
-                s8 value = *(s8 *)(page + 0x333 +
-                                   (entry[3] & 0x1F) * 84);
+            if (entry[1] == target_type) {
+                s8 status = *(s8 *)(data_base + 0x333 +
+                                    (entry[3] & 0x1F) * 84);
 
-                if (value < 0) {
+                if (status < 0) {
                     func_800B2244(entry);
                     continue;
                 }
             }
-            cursor++;
-        } while (*cursor != 0);
+            entry_slot++;
+        } while (*entry_slot != 0);
     }
 }

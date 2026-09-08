@@ -70,172 +70,175 @@ extern void func_80170BB8(void *, void *, void *, void *, s32);
 extern void func_80171010(void *, void *, void *, s32, s32, s32);
 extern s32 func_8017165C(s32);
 
-void func_80175594(void *arg0, void *arg1, void *entity_in, void *arg3)
+/* Advances the entity animation sequence and relocates it to a distant tile. */
+void func_80175594(void *motion, void *position, void *entity_in, void *object_in)
 {
-    register void *arg2 ASM_REG("$19") = entity_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *entity ASM_REG("$19") = entity_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *object ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 counter;
-    s32 attempts;
-    s32 random_x4;
-    s32 random_x5;
+    s32 particle_index;
+    s32 tries_left;
+    s32 burst_x;
+    s32 scatter_x;
     s16 random_y;
-    s16 result;
+    s16 ground_z;
+    s16 tile_result;
+    s32 height_offset;
     s32 dx;
     s32 dy;
     s32 entity_y;
     u8 old_x;
     u8 old_y;
-    u8 *world;
-    u8 *table;
+    u8 *reference_entity;
+    u8 *animations;
 
-    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     {
-        static void *const sw_keep[] = {
+        static void *const state_labels[] = {
             &&case_0, &&case_1, &&case_2, &&case_3,
             &&case_4, &&case_5, &&case_6, &&case_7
         };
-        u32 swi = ((S_80175594_0 *)arg0)->unk_9B;
+        u32 state = ((S_80175594_0 *)motion)->unk_9B;
 
-        if (swi >= 8) {
+        if (state >= 8) {
             goto done;
         }
-        object = arg3;
+        object = object_in;
         ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        (void)sw_keep;
-        goto *D_80170920[swi];
+        (void)state_labels;
+        goto *D_80170920[state];
     }
 
 case_0:
-    ((S_80175594_1 *)arg1)->unk_14 = 0;
-    ((S_80175594_1 *)arg1)->unk_10 = 0;
-    ((S_80175594_1 *)arg1)->unk_0C = 0;
-    if (((Rec_func_800D6DC0_arg2 *)arg2)->unk_14 & 0x8000) {
-        ((S_80175594_0 *)arg0)->unk_9B = 7;
-        ((Rec_func_800D6DC0_arg2 *)arg2)->unk_14 |= 0x6000;
+    ((S_80175594_1 *)position)->unk_14 = 0;
+    ((S_80175594_1 *)position)->unk_10 = 0;
+    ((S_80175594_1 *)position)->unk_0C = 0;
+    if (((Rec_func_800D6DC0_arg2 *)entity)->unk_14 & 0x8000) {
+        ((S_80175594_0 *)motion)->unk_9B = 7;
+        ((Rec_func_800D6DC0_arg2 *)entity)->unk_14 |= 0x6000;
         goto done;
     }
-    if (((S_80175594_0 *)arg0)->unk_A0.at00.v <= 0x6FFFF) {
+    if (((S_80175594_0 *)motion)->unk_A0.at00.v <= 0x6FFFF) {
         goto done;
     }
-    ((S_80175594_0 *)arg0)->unk_98 |= 8;
+    ((S_80175594_0 *)motion)->unk_98 |= 8;
     ((S_80175594_3 *)object)->unk_1C &= ~0x40000;
-    ((S_80175594_0 *)arg0)->unk_A0.at00.v = 0;
-    ((S_80175594_0 *)arg0)->unk_92.s -= 8;
-    ((S_80175594_0 *)arg0)->unk_9B++;
-    ((S_80175594_0 *)arg0)->unk_B6 =
-        ((S_80175594_1 *)arg1)->unk_0A.s + ((S_80175594_0 *)arg0)->unk_92.s;
+    ((S_80175594_0 *)motion)->unk_A0.at00.v = 0;
+    ((S_80175594_0 *)motion)->unk_92.s -= 8;
+    ((S_80175594_0 *)motion)->unk_9B++;
+    ((S_80175594_0 *)motion)->unk_B6 =
+        ((S_80175594_1 *)position)->unk_0A.s + ((S_80175594_0 *)motion)->unk_92.s;
     goto done;
 
 case_1:
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_800E23B8;
-    func_80047784(arg2,
+    (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23B8;
+    func_80047784(entity,
         D_800E23B8[((D_80083228 + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
         0);
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     goto next_state;
 
 case_2:
-    if (++((S_80175594_0 *)arg0)->unk_96 < 9) {
+    if (++((S_80175594_0 *)motion)->unk_96 < 9) {
         goto done;
     }
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_800E23C0;
-    func_80047784(arg2,
+    (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23C0;
+    func_80047784(entity,
         D_800E23C0[((D_80083228 + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
         0);
     goto next_state;
 
 case_3:
-    if (((S_80175594_0 *)arg0)->unk_96++ < 3) {
+    if (((S_80175594_0 *)motion)->unk_96++ < 3) {
         goto done;
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     goto next_state;
 
 case_4:
-    if (((S_80175594_0 *)arg0)->unk_96++ < 0xB) {
+    if (((S_80175594_0 *)motion)->unk_96++ < 0xB) {
         goto done;
     }
-    counter = 0;
-    ((S_80175594_0 *)arg0)->unk_96 = 0;
-    ((S_80175594_0 *)arg0)->unk_9B++;
-    ((S_80175594_1 *)arg1)->unk_14 = 0;
-    ((S_80175594_0 *)arg0)->unk_AC = 0;
+    particle_index = 0;
+    ((S_80175594_0 *)motion)->unk_96 = 0;
+    ((S_80175594_0 *)motion)->unk_9B++;
+    ((S_80175594_1 *)position)->unk_14 = 0;
+    ((S_80175594_0 *)motion)->unk_AC = 0;
     do {
-        random_x4 = (s16)(func_8017165C(0x2C) - 0x16);
+        burst_x = (s16)(func_8017165C(0x2C) - 0x16);
         random_y = func_8017165C(0x2C) - 0x16;
-        func_80171010(arg0, arg1, arg2, random_x4, random_y, 0x1E);
-        counter++;
-    } while (counter < 6);
-    func_800D6DC0(arg0, arg1, arg2, object);
+        func_80171010(motion, position, entity, burst_x, random_y, 0x1E);
+        particle_index++;
+    } while (particle_index < 6);
+    func_800D6DC0(motion, position, entity, object);
     goto done;
 
 case_5:
-    switch (((S_80175594_0 *)arg0)->unk_96) {
+    switch (((S_80175594_0 *)motion)->unk_96) {
     case 0:
-        ((S_80175594_1 *)arg1)->unk_14 = -0x140000;
-        ((S_80175594_0 *)arg0)->unk_AC = 0x30000;
+        ((S_80175594_1 *)position)->unk_14 = -0x140000;
+        ((S_80175594_0 *)motion)->unk_AC = 0x30000;
         break;
     case 6:
-        ((S_80175594_1 *)arg1)->unk_14 = -0x180000;
-        ((S_80175594_0 *)arg0)->unk_AC = -0x10000;
+        ((S_80175594_1 *)position)->unk_14 = -0x180000;
+        ((S_80175594_0 *)motion)->unk_AC = -0x10000;
         break;
     case 12:
-        ((S_80175594_0 *)arg0)->unk_AC = -0x20000;
+        ((S_80175594_0 *)motion)->unk_AC = -0x20000;
         break;
     }
-    ((S_80175594_1 *)arg1)->unk_14 += ((S_80175594_0 *)arg0)->unk_AC;
+    ((S_80175594_1 *)position)->unk_14 += ((S_80175594_0 *)motion)->unk_AC;
 
-    if (((S_80175594_0 *)arg0)->unk_96 < 2) {
-        counter = 0;
+    if (((S_80175594_0 *)motion)->unk_96 < 2) {
+        particle_index = 0;
         do {
-            random_x5 = (s16)((func_80069EF8() & 0x1F) - 0x10);
+            scatter_x = (s16)((func_80069EF8() & 0x1F) - 0x10);
             random_y = (func_80069EF8() & 0x1F) - 0x10;
-            func_80171010(arg0, arg1, arg2, random_x5, random_y, 0x1E);
-            counter++;
-        } while (counter < 4);
+            func_80171010(motion, position, entity, scatter_x, random_y, 0x1E);
+            particle_index++;
+        } while (particle_index < 4);
     }
-    if (((S_80175594_0 *)arg0)->unk_96 == 1) {
-        func_80170BB8(arg0, arg1, arg2, object, 1);
+    if (((S_80175594_0 *)motion)->unk_96 == 1) {
+        func_80170BB8(motion, position, entity, object, 1);
         func_800A56E0(0x80A);
     }
-    if (((S_80175594_0 *)arg0)->unk_96 == 2) {
-        func_80170A44(arg0, arg1, arg2, object);
+    if (((S_80175594_0 *)motion)->unk_96 == 2) {
+        func_80170A44(motion, position, entity, object);
     }
-    if (((S_80175594_0 *)arg0)->unk_96 == 6) {
-        func_80170BB8(arg0, arg1, arg2, object, 0x1A);
+    if (((S_80175594_0 *)motion)->unk_96 == 6) {
+        func_80170BB8(motion, position, entity, object, 0x1A);
         func_800A56E0(0x705);
     }
-    if (((S_80175594_0 *)arg0)->unk_96++ < 0x2E) {
+    if (((S_80175594_0 *)motion)->unk_96++ < 0x2E) {
         goto done;
     }
     goto next_state;
 
 case_6:
-    ((S_80175594_1 *)arg1)->unk_0A.s = ((S_80175594_0 *)arg0)->unk_B6;
+    ((S_80175594_1 *)position)->unk_0A.s = ((S_80175594_0 *)motion)->unk_B6;
 
 next_state:
-    ((S_80175594_0 *)arg0)->unk_96 = 0;
-    ((S_80175594_0 *)arg0)->unk_9B++;
+    ((S_80175594_0 *)motion)->unk_96 = 0;
+    ((S_80175594_0 *)motion)->unk_9B++;
     goto done;
 
 case_7:
-    func_8009A3D0(((Rec_func_800D6DC0_arg2 *)arg2)->unk_24, ((Rec_func_800D6DC0_arg2 *)arg2)->unk_25,
+    func_8009A3D0(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
         (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-    attempts = 0x20;
-    world = D_80082E80;
-    old_x = ((Rec_func_800D6DC0_arg2 *)arg2)->unk_24;
-    old_y = ((Rec_func_800D6DC0_arg2 *)arg2)->unk_25;
+    tries_left = 0x20;
+    reference_entity = D_80082E80;
+    old_x = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
+    old_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
     do {
         do {
-            result = func_800A4E2C((u8 *)arg2 + 0x24, (u8 *)arg2 + 0x25);
-        } while (result < 0);
+            tile_result = func_800A4E2C((u8 *)entity + 0x24, (u8 *)entity + 0x25);
+        } while (tile_result < 0);
 
-        dx = world[0x24];
-        dy = ((Rec_func_800D6DC0_arg2 *)arg2)->unk_24;
-        entity_y = ((Rec_func_800D6DC0_arg2 *)arg2)->unk_25;
+        dx = reference_entity[0x24];
+        dy = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
+        entity_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
         dx -= dy;
-        dy = world[0x25];
+        dy = reference_entity[0x25];
         if (dx < 0) {
             dx = -dx;
         }
@@ -246,50 +249,49 @@ case_7:
         if (dx + dy >= 0x21) {
             goto coordinates_ready;
         }
-    } while (--attempts >= 0);
-    ((Rec_func_800D6DC0_arg2 *)arg2)->unk_24 = old_x;
-    ((Rec_func_800D6DC0_arg2 *)arg2)->unk_25 = old_y;
+    } while (--tries_left >= 0);
+    ((Rec_func_800D6DC0_arg2 *)entity)->unk_24 = old_x;
+    ((Rec_func_800D6DC0_arg2 *)entity)->unk_25 = old_y;
 
 coordinates_ready:
-    ((S_80175594_1 *)arg1)->unk_02.s = (((Rec_func_800D6DC0_arg2 *)arg2)->unk_24 << 6) + 0x20;
-    ((S_80175594_1 *)arg1)->unk_06.s = (((Rec_func_800D6DC0_arg2 *)arg2)->unk_25 << 6) + 0x20;
-    result = func_800BCB04(((S_80175594_1 *)arg1)->unk_02.u, ((S_80175594_1 *)arg1)->unk_06.u,
+    ((S_80175594_1 *)position)->unk_02.s = (((Rec_func_800D6DC0_arg2 *)entity)->unk_24 << 6) + 0x20;
+    ((S_80175594_1 *)position)->unk_06.s = (((Rec_func_800D6DC0_arg2 *)entity)->unk_25 << 6) + 0x20;
+    ground_z = func_800BCB04(((S_80175594_1 *)position)->unk_02.u, ((S_80175594_1 *)position)->unk_06.u,
         -0x200);
-    result -= 0x11;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    attempts = -0x20;
-    ((S_80175594_1 *)arg1)->unk_0A.u = result;
-    ((S_80175594_0 *)arg0)->unk_92.u = attempts;
-    ((S_80175594_0 *)arg0)->unk_A0.at00.v = 0;
+    ground_z -= 0x11;
+    height_offset = -0x20;
+    ((S_80175594_1 *)position)->unk_0A.u = ground_z;
+    ((S_80175594_0 *)motion)->unk_92.u = height_offset;
+    ((S_80175594_0 *)motion)->unk_A0.at00.v = 0;
     ((S_80175594_3 *)object)->unk_88 = -0x200;
-    result = func_800BCB04(
-        (((Rec_func_800D6DC0_arg2 *)arg2)->unk_24 << 6) | 0x20,
-        (((Rec_func_800D6DC0_arg2 *)arg2)->unk_25 << 6) | 0x20,
+    ground_z = func_800BCB04(
+        (((Rec_func_800D6DC0_arg2 *)entity)->unk_24 << 6) | 0x20,
+        (((Rec_func_800D6DC0_arg2 *)entity)->unk_25 << 6) | 0x20,
         -0x200);
-    ((S_80175594_3 *)object)->unk_88 = result;
+    ((S_80175594_3 *)object)->unk_88 = ground_z;
 
-    func_8009A21C(((Rec_func_800D6DC0_arg2 *)arg2)->unk_24, ((Rec_func_800D6DC0_arg2 *)arg2)->unk_25,
+    func_8009A21C(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
         (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
     func_800AA53C(object);
     func_800AD594(object, 0x1000);
-    ((S_80175594_0 *)arg0)->unk_8C = &D_80171F1C;
+    ((S_80175594_0 *)motion)->unk_8C = &D_80171F1C;
     D_8008346C = 0;
-    ((S_80175594_1 *)arg1)->unk_14 = 0;
-    ((S_80175594_1 *)arg1)->unk_10 = 0;
-    ((S_80175594_1 *)arg1)->unk_0C = 0;
-    ((S_80175594_0 *)arg0)->unk_92.u = attempts;
+    ((S_80175594_1 *)position)->unk_14 = 0;
+    ((S_80175594_1 *)position)->unk_10 = 0;
+    ((S_80175594_1 *)position)->unk_0C = 0;
+    ((S_80175594_0 *)motion)->unk_92.u = height_offset;
     ((S_80175594_3 *)object)->unk_1C |= 0x40000;
-    (*(u16 *)((u8 *)arg0 + 0x98)) |= 8;
+    (*(u16 *)((u8 *)motion + 0x98)) |= 8;
 
-    table = D_800E2348;
-    if (((Rec_func_800D6DC0_arg2 *)arg2)->unk_2C != table) {
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
-        func_80047784(arg2,
-            table[((D_80083228 + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+    animations = D_800E2348;
+    if (((Rec_func_800D6DC0_arg2 *)entity)->unk_2C != animations) {
+        (*(u8 * *)((u8 *)entity + 0x2C)) = animations;
+        func_80047784(entity,
+            animations[((D_80083228 + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
             0);
-        ((Rec_func_800D6DC0_arg2 *)arg2)->unk_05 = 1;
-        ((S_80175594_0 *)arg0)->unk_A0.at02.v = 0;
-        ((S_80175594_0 *)arg0)->unk_9E = 0;
+        ((Rec_func_800D6DC0_arg2 *)entity)->unk_05 = 1;
+        ((S_80175594_0 *)motion)->unk_A0.at02.v = 0;
+        ((S_80175594_0 *)motion)->unk_9E = 0;
     }
     ((S_80175594_3 *)object)->unk_46 &= 0x7FFF;
 

@@ -25,21 +25,22 @@ extern s16 D_80083228;
 extern s32 D_80083460;
 extern u8 D_80173C7C;
 
-s32 func_80171DA0(Rec_func_800A9E70_arg0 *arg0, s32 arg1, void *arg2, void *arg3)
+/* Checks whether the actor can transition and starts its directional effect. */
+s32 func_80171DA0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, void *actor)
 {
-    s32 result;
-    u16 flags;
-    u8 top_flags;
-    s32 held_arg1;
-    register void *held_arg2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 target_angle;
+    u16 status_flags;
+    u8 actor_flags;
+    s32 saved_motion_param;
+    register void *sprite ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register u32 status_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u16 *status ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     volatile s32 frame_pad[2];
 
-    top_flags = ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8;
-    held_arg1 = arg1;
-    top_flags &= 0x7F;
-    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = top_flags;
+    actor_flags = ((Rec_D_800E3D7C *)actor)->unk_71.as_u8;
+    saved_motion_param = motion_param;
+    actor_flags &= 0x7F;
+    ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = actor_flags;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     status_page = 0x80080000U;
     ASM_KEEP(status_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -48,30 +49,30 @@ s32 func_80171DA0(Rec_func_800A9E70_arg0 *arg0, s32 arg1, void *arg2, void *arg3
     if (status[1] & 0x2000) {
         goto abort_transition;
     }
-    held_arg2 = arg2;
+    sprite = sprite_arg;
 
-    result = func_800A04F0(arg3, ((S_80171DA0_1 *)held_arg2)->unk_24,
-                           ((S_80171DA0_1 *)held_arg2)->unk_25, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16);
-    if ((func_800A2CB8(arg3, result) << 16) == 0) {
+    target_angle = func_800A04F0(actor, ((S_80171DA0_1 *)sprite)->unk_24,
+                           ((S_80171DA0_1 *)sprite)->unk_25, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16);
+    if ((func_800A2CB8(actor, target_angle) << 16) == 0) {
         return 0;
     }
 
-    flags = status[1];
-    if (flags & 0x2000) {
+    status_flags = status[1];
+    if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000) && (flags & 8)) {
+    if (!(((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000) && (status_flags & 8)) {
         return -1;
     }
-    if ((u16)(-func_800A0134(result, arg3) + 0x40) >= 0x81U) {
+    if ((u16)(-func_800A0134(target_angle, actor) + 0x40) >= 0x81U) {
         return 0;
     }
-    if ((func_800A2B5C(arg3) << 16) != 0) {
+    if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
 
-    func_800C7930((u8 *)arg3 - 0x20, held_arg1, 8, 0x300);
-    if ((func_800A2B5C(arg3) << 16) == 0) {
+    func_800C7930((u8 *)actor - 0x20, saved_motion_param, 8, 0x300);
+    if ((func_800A2B5C(actor) << 16) == 0) {
         goto transition_ok;
     }
 
@@ -81,33 +82,33 @@ abort_transition:
 
 transition_ok:
     {
-        s32 angle;
-        register u32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        u8 *effect;
+        s32 actor_angle;
+        register u32 effect_lookup ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u8 *effect_table;
 
-        arg0->unk_9A.as_u8 = 0x11;
+        action_state->unk_9A.as_u8 = 0x11;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        scratch = 0x7C;
-        effect = &D_80173C7C;
-        arg0->unk_9B.as_u8 = 0;
-        arg0->unk_8C = 0;
-        ((Rec_D_800E3D7C *)arg3)->unk_84.as_u8 = scratch;
+        effect_lookup = 0x7C;
+        effect_table = &D_80173C7C;
+        action_state->unk_9B.as_u8 = 0;
+        action_state->unk_8C = 0;
+        ((Rec_D_800E3D7C *)actor)->unk_84.as_u8 = effect_lookup;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        scratch = 0x80080000U;
-        ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((Rec_D_800E3D7C *)arg3)->unk_85.as_u8 = 0;
-        ((S_80171DA0_1 *)held_arg2)->unk_2C = effect;
-        scratch = (s32)*(s16 *)(scratch + 0x3228);
-        angle = ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16;
-        scratch += angle;
-        scratch += 0x100;
-        scratch = ((s32)scratch >> 9) & 7;
-        scratch += (u32)effect;
-        func_80047784(held_arg2,
-                      *(u8 *)scratch,
+        effect_lookup = 0x80080000U;
+        ASM_KEEP(effect_lookup);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ((Rec_D_800E3D7C *)actor)->unk_85.as_u8 = 0;
+        ((S_80171DA0_1 *)sprite)->unk_2C = effect_table;
+        effect_lookup = (s32)*(s16 *)(effect_lookup + 0x3228);
+        actor_angle = ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16;
+        effect_lookup += actor_angle;
+        effect_lookup += 0x100;
+        effect_lookup = ((s32)effect_lookup >> 9) & 7;
+        effect_lookup += (u32)effect_table;
+        func_80047784(sprite,
+                      *(u8 *)effect_lookup,
                       0);
-        ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8--;
-        func_8009C93C(arg3, held_arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1, 0);
+        ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8--;
+        func_8009C93C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);
         return 1;
     }
 }

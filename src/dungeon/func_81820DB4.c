@@ -81,24 +81,27 @@ extern s32 func_80069EF8(void);
 extern s32 func_800BCB04(s32, s32, s16);
 extern void func_800DBA90(LocalPacket *, s32);
 
-void func_81820DB4(DungeonObj *arg)
+/* Update a dungeon effect's motion, flickering vertices, and fade state. */
+void func_81820DB4(DungeonObj *effect)
 {
-    register DungeonObj *obj ASM_REG("$18") = arg;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 i;
-    s32 value;
-    s32 base;
-    s32 random_value;
-    s32 bcb_height;
-    s32 packet_angle;
+    register DungeonObj *obj ASM_REG("$18") = effect;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 height_or_index;
+    s32 old_timer;
+    s32 vertex_extent;
+    s32 size_jitter;
+    s32 vertex_size;
+    s32 size_random;
+    s32 query_height;
+    s32 z_offset;
     s32 packet_height;
-    u8 *vertex;
+    u8 *vertex_cursor;
     LocalPacket packet;
 
     ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     obj->parent->timer |= 0x8000;
-    value = obj->timer--;
-    if ((s16)value < 0) {
+    old_timer = obj->timer--;
+    if ((s16)old_timer < 0) {
         obj->state++;
         if (obj->state == 1) {
             goto state_one;
@@ -132,13 +135,13 @@ transition_done:
     }
 
     if (obj->state < 2) {
-        i = (-*(s16 *)((u8 *)obj + 0x0E) >> 2) + 15;
-        if (i < 16) {
-            i = 16;
+        height_or_index = (-*(s16 *)((u8 *)obj + 0x0E) >> 2) + 15;
+        if (height_or_index < 16) {
+            height_or_index = 16;
         }
-        obj->red = (((func_80069EF8() & 15) + 0xBE) << 4) / i;
-        obj->green = (((func_80069EF8() & 15) + 0x91) << 4) / i;
-        obj->blue = (((func_80069EF8() & 15) + 10) << 4) / i;
+        obj->red = (((func_80069EF8() & 15) + 0xBE) << 4) / height_or_index;
+        obj->green = (((func_80069EF8() & 15) + 0x91) << 4) / height_or_index;
+        obj->blue = (((func_80069EF8() & 15) + 10) << 4) / height_or_index;
     }
 
     obj->angle = (obj->angle + ((func_80069EF8() & 0xFF)
@@ -154,37 +157,37 @@ transition_done:
         obj->y += obj->dy;
     }
 
-    bcb_height = obj->height;
+    query_height = obj->height;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    bcb_height = (s16)(bcb_height - 0x30);
-    i = (s16)func_800BCB04(*(u16 *)((u8 *)obj + 6),
-                           *(u16 *)((u8 *)obj + 0x0A), bcb_height);
-    if (i < 0x200) {
-        obj->height = i;
+    query_height = (s16)(query_height - 0x30);
+    height_or_index = (s16)func_800BCB04(*(u16 *)((u8 *)obj + 6),
+                           *(u16 *)((u8 *)obj + 0x0A), query_height);
+    if (height_or_index < 0x200) {
+        obj->height = height_or_index;
     }
 
     if (obj->state < 2) {
         obj->dz += 0x1700;
         obj->z += obj->dz;
 
-        i = -*(s16 *)((u8 *)obj + 0x0E);
-        random_value = func_80069EF8();
-        base = (i >> 1) + ((i >> 3) * (i >> 4));
-        i = 3;
-        random_value &= 7;
-        random_value += 8;
-        value = base + random_value;
-        obj->vy1 = value;
-        obj->vx0 = value;
+        height_or_index = -*(s16 *)((u8 *)obj + 0x0E);
+        size_random = func_80069EF8();
+        vertex_size = (height_or_index >> 1) + ((height_or_index >> 3) * (height_or_index >> 4));
+        height_or_index = 3;
+        size_random &= 7;
+        size_random += 8;
+        vertex_extent = vertex_size + size_random;
+        obj->vy1 = vertex_extent;
+        obj->vx0 = vertex_extent;
 
-        random_value = func_80069EF8();
+        size_random = func_80069EF8();
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        vertex = (u8 *)obj + 0x18;
-        value = (random_value & 7) + 8;
-        base += value;
-        base = -base;
-        obj->vy3 = base;
-        obj->vx2 = base;
+        vertex_cursor = (u8 *)obj + 0x18;
+        size_jitter = (size_random & 7) + 8;
+        vertex_size += size_jitter;
+        vertex_size = -vertex_size;
+        obj->vy3 = vertex_size;
+        obj->vx2 = vertex_size;
         obj->vx3 = 0;
         obj->vy2 = 0;
         obj->vx1 = 0;
@@ -192,9 +195,9 @@ transition_done:
         obj->angle2 += 0x100;
 
         do {
-            *(u16 *)(vertex + 0x2C) = func_80069EF8() & 15;
-            vertex -= 8;
-        } while (--i >= 0);
+            *(u16 *)(vertex_cursor + 0x2C) = func_80069EF8() & 15;
+            vertex_cursor -= 8;
+        } while (--height_or_index >= 0);
 
         packet.p0 = &obj->vx0;
         packet.p4 = &obj->vx0;
@@ -208,16 +211,16 @@ transition_done:
                  + (func_800644B8(*(s16 *)((u8 *)obj + 0x4E)
                     + (*(s16 *)((u8 *)obj + 0x0E) << 4)) >> 8);
         {
-        LocalPacket *packet_ptr = &packet;
-        ASM_KEEP(packet_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        packet_angle = *(u16 *)((u8 *)obj + 0x0E);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        packet_height = obj->height;
-        packet_height += packet_angle << 1;
-        packet.height = packet_height;
-        packet.type = 4;
-        packet.pad1A = 0;
-        func_800DBA90(packet_ptr, packet_height);
+            LocalPacket *packet_ptr = &packet;
+            ASM_KEEP(packet_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            z_offset = *(u16 *)((u8 *)obj + 0x0E);
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            packet_height = obj->height;
+            packet_height += z_offset << 1;
+            packet.height = packet_height;
+            packet.type = 4;
+            packet.pad1A = 0;
+            func_800DBA90(packet_ptr, packet_height);
         }
         func_800249FC();
         return;
@@ -228,12 +231,12 @@ transition_done:
     obj->blue -= obj->blue >> 2;
     if (*(s16 *)((u8 *)obj + 0x52) < 10) {
         {
-        DungeonFinalView *view = (DungeonFinalView *)obj;
-        i = 3;
-        do {
-            view->block.v[i].x += *(u16 *)((u8 *)obj + 0x12);
-            view->block.v[i].y += *(u16 *)((u8 *)obj + 0x16);
-        } while (--i >= 0);
+            DungeonFinalView *vertex_view = (DungeonFinalView *)obj;
+            height_or_index = 3;
+            do {
+                vertex_view->block.v[height_or_index].x += *(u16 *)((u8 *)obj + 0x12);
+                vertex_view->block.v[height_or_index].y += *(u16 *)((u8 *)obj + 0x16);
+            } while (--height_or_index >= 0);
         }
     }
 }

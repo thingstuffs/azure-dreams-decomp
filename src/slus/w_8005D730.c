@@ -1,12 +1,12 @@
 #include "common.h"
 
-/* Dead-store loop: computes x = x*13 repeatedly on a stack local, result unused. */
+/* Multiplies a volatile stack value by 13 sixty times, then discards the result. */
 void func_8005D730(void) {
-    volatile s32 i;
-    volatile s32 x;
+    volatile s32 iteration;
+    volatile s32 product;
 
-    x = 13;
-    for (i = 0; i < 60; i++) {
-        x = x * 13;
+    product = 13;
+    for (iteration = 0; iteration < 60; iteration++) {
+        product = product * 13;
     }
 }

@@ -47,8 +47,9 @@ extern u8 D_800243C4[9];
 extern u8 D_80028208[9];
 extern u8 D_800DF334[9];
 
-void *func_80024578(S_80024578_2 *arg0, s32 arg1) {
-    s32 init[2];
+/* Allocate and initialize an effect object from the supplied part data. */
+void *func_80024578(S_80024578_2 *source_part, s32 offset_base) {
+    s32 init_data[2];
     void *object;
     S_80024578_1 *part;
     S_80024578_3 *effect;
@@ -56,21 +57,21 @@ void *func_80024578(S_80024578_2 *arg0, s32 arg1) {
 
     object = func_8003FC64(0x12);
     if (object != NULL) {
-        init[0] = 0x01000340;
-        init[1] = 0x00200020;
-        func_800B835C(D_800DF334, init, 1, 0);
+        init_data[0] = 0x01000340;
+        init_data[1] = 0x00200020;
+        func_800B835C(D_800DF334, init_data, 1, 0);
 
         part = ((S_80024578_0 *)object)->unk_08;
         ((S_80024578_0 *)object)->unk_10 = D_800243C4;
-        part->unk_02 = arg0->unk_02;
-        part->unk_06 = arg0->unk_06;
-        part->unk_0A = arg0->unk_0A;
+        part->unk_02 = source_part->unk_02;
+        part->unk_06 = source_part->unk_06;
+        part->unk_0A = source_part->unk_0A;
 
         effect = ((S_80024578_0 *)object)->unk_0C;
         effect->unk_08 = D_80028208;
         effect->unk_1E = 0xC00;
         effect->unk_1C = 0xC00;
-        ((S_80024578_0 *)object)->unk_28 = arg1 - 0x20;
+        ((S_80024578_0 *)object)->unk_28 = offset_base - 0x20;
     }
 
     result = NULL;

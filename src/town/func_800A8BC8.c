@@ -2,20 +2,21 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed int s32;
 
-void func_800A6328(u32 *arg0, s32 arg1)
+// Sets the value at offset 8 in records flagged 0x20 in each record list.
+void func_800A6328(u32 *recordLists, s32 value)
 {
-    s32 offset;
-    s32 end;
+    s32 recordOffset;
+    s32 isLastRecord;
 
-    while (*arg0 != 0) {
-        offset = 0;
+    while (*recordLists != 0) {
+        recordOffset = 0;
         do {
-            if (*(u32 *)(offset + *arg0) & 0x20) {
-                *(s32 *)(offset + *arg0 + 8) = arg1;
+            if (*(u32 *)(recordOffset + *recordLists) & 0x20) {
+                *(s32 *)(recordOffset + *recordLists + 8) = value;
             }
-            end = *(u8 *)(offset + *arg0) & 0x80;
-            offset += 12;
-        } while (!end);
-        arg0++;
+            isLastRecord = *(u8 *)(recordOffset + *recordLists) & 0x80;
+            recordOffset += 12;
+        } while (!isLastRecord);
+        recordLists++;
     }
 }

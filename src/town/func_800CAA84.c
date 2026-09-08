@@ -15,10 +15,11 @@ typedef struct S_800C81E4_1 {
 
 
 M2C_UNK func_800C8194(S_800C81E4_0 *, S_800C81E4_1 *);
-void func_800C81E4(S_800C81E4_0 *arg0, S_800C81E4_1 *arg1) {
-    func_800C8194(arg0, arg1);
-    if (arg0->unk_6C > 0) {
-        do { arg1->unk_06 = (u16) (arg1->unk_06 + 8); } while (0);
-        arg0->unk_6C = (s16) ((u16) arg0->unk_6C - 1);
+/* Update the output, adding eight while the state's countdown is positive. */
+void func_800C81E4(S_800C81E4_0 *state, S_800C81E4_1 *output) {
+    func_800C8194(state, output);
+    if (state->unk_6C > 0) {
+        output->unk_06 = (u16) (output->unk_06 + 8);
+        state->unk_6C = (s16) ((u16) state->unk_6C - 1);
     }
 }

@@ -38,212 +38,213 @@ extern s32 rand(void);
 extern void *jtbl_8002E964[8];
 extern s32 D_800814A0[3];
 
+/* Update the effect motion state and detach it from its parent when finished. */
 void func_800517CC(
-    EffectState800517CC *arg0,
-    VecState800517CC *arg1,
-    ColorState800517CC *arg2)
+    EffectState800517CC *effect,
+    VecState800517CC *motion,
+    ColorState800517CC *color)
 {
-    u32 idx;
-    void **table;
+    u32 state_index;
+    void **state_table;
     static void *const keepalive[] = {
         &&state_0, &&state_1, &&state_2, &&state_3,
         &&state_4, &&state_5, &&state_6, &&state_7
     };
 
     (void)keepalive;
-    arg0->timer++;
-    func_800478B8(arg2);
+    effect->timer++;
+    func_800478B8(color);
 
-    idx = arg0->state;
-    if (idx >= 8) {
+    state_index = effect->state;
+    if (state_index >= 8) {
         goto state_default;
     }
-    table = jtbl_8002E964;
-    goto *table[idx];
+    state_table = jtbl_8002E964;
+    goto *state_table[state_index];
 
 state_0:
-    if (arg0->trigger != 0) {
-        arg0->trigger = 0;
-        arg0->timer = 0;
-        arg0->state = (u16)arg0->state + 1;
+    if (effect->trigger != 0) {
+        effect->trigger = 0;
+        effect->timer = 0;
+        effect->state = (u16)effect->state + 1;
     }
     return;
 
 state_1:
-    if ((s16)arg0->timer >= 0x60) {
-        arg0->timer = 0;
-        arg0->state = (u16)arg0->state + 1;
+    if ((s16)effect->timer >= 0x60) {
+        effect->timer = 0;
+        effect->state = (u16)effect->state + 1;
     }
     return;
 
 state_2:
-    arg1->x = 0x01A00000 - ((rsin((s16)arg0->timer << 4) >> 4) << 16);
-    arg1->y = ((rcos((s16)arg0->timer << 4) >> 4) << 14) + 0x00200000;
-    if ((s16)arg0->timer >= 0x40) {
-        arg0->timer = 0;
-        arg0->state = (u16)arg0->state + 1;
+    motion->x = 0x01A00000 - ((rsin((s16)effect->timer << 4) >> 4) << 16);
+    motion->y = ((rcos((s16)effect->timer << 4) >> 4) << 14) + 0x00200000;
+    if ((s16)effect->timer >= 0x40) {
+        effect->timer = 0;
+        effect->state = (u16)effect->state + 1;
     }
     return;
 
 state_3:
-    arg1->x = 0x00C00000 - ((rcos((s16)arg0->timer << 5) >> 4) << 13);
-    arg1->y = ((rsin((s16)arg0->timer << 5) >> 4) << 12) + 0x00200000;
-    if ((s16)arg0->timer >= 0x20) {
-        arg1->z = 0x00800000;
-        arg0->wait = (rand() % 64) + 0x20;
-        arg0->timer = 0;
-        arg0->state = (u16)arg0->state + 1;
+    motion->x = 0x00C00000 - ((rcos((s16)effect->timer << 5) >> 4) << 13);
+    motion->y = ((rsin((s16)effect->timer << 5) >> 4) << 12) + 0x00200000;
+    if ((s16)effect->timer >= 0x20) {
+        motion->z = 0x00800000;
+        effect->wait = (rand() % 64) + 0x20;
+        effect->timer = 0;
+        effect->state = (u16)effect->state + 1;
     }
     return;
 
 state_4:
-    if ((s16)arg0->timer < arg0->wait) {
+    if ((s16)effect->timer < effect->wait) {
         goto check_trigger;
     }
     {
-        s32 v = (u16)arg0->state + 1;
-        arg0->timer = 0;
-        arg0->state = v;
+        s32 next_state = (u16)effect->state + 1;
+        effect->timer = 0;
+        effect->state = next_state;
     }
     goto check_trigger;
 
 state_5:
     {
-        s32 a;
-        s32 t;
-        s32 b;
-        s32 o;
-        s32 sgn;
-        s32 vx;
-        s32 x;
+        s32 cos_value;
+        s32 accel;
+        s32 displacement;
+        s32 center_offset;
+        s32 round_bias;
+        s32 next_vx;
+        s32 next_x;
 
-        a = rcos(((s16)arg0->timer + 0x100) << 3) >> 4;
-        t = (a * 3) << 11;
-        b = arg1->x;
-        o = (s32)0xFF280000;
-        b += o;
-        t -= b;
-        sgn = (s32)((u32)t >> 31);
-        t += sgn;
-        t >>= 1;
-        vx = arg1->vx + t;
-        x = arg1->x + vx;
-        arg1->vx = vx;
-        arg1->x = x;
+        cos_value = rcos(((s16)effect->timer + 0x100) << 3) >> 4;
+        accel = (cos_value * 3) << 11;
+        displacement = motion->x;
+        center_offset = (s32)0xFF280000;
+        displacement += center_offset;
+        accel -= displacement;
+        round_bias = (s32)((u32)accel >> 31);
+        accel += round_bias;
+        accel >>= 1;
+        next_vx = motion->vx + accel;
+        next_x = motion->x + next_vx;
+        motion->vx = next_vx;
+        motion->x = next_x;
     }
 
     {
-        s32 t;
-        s32 b;
-        s32 o;
-        s32 sgn;
-        s32 vy;
-        s32 y;
+        s32 accel;
+        s32 displacement;
+        s32 center_offset;
+        s32 round_bias;
+        s32 next_vy;
+        s32 next_y;
 
-        t = rcos((s16)arg0->timer << 3) >> 4;
-        t <<= 10;
-        b = arg1->y;
-        o = (s32)0xFFD40000;
-        b += o;
-        t -= b;
-        sgn = (s32)((u32)t >> 31);
-        t += sgn;
-        t >>= 1;
-        vy = arg1->vy + t;
-        y = arg1->y + vy;
-        arg1->vy = vy;
-        arg1->y = y;
+        accel = rcos((s16)effect->timer << 3) >> 4;
+        accel <<= 10;
+        displacement = motion->y;
+        center_offset = (s32)0xFFD40000;
+        displacement += center_offset;
+        accel -= displacement;
+        round_bias = (s32)((u32)accel >> 31);
+        accel += round_bias;
+        accel >>= 1;
+        next_vy = motion->vy + accel;
+        next_y = motion->y + next_vy;
+        motion->vy = next_vy;
+        motion->y = next_y;
     }
 
-    if ((s16)arg0->timer < 0x100) {
+    if ((s16)effect->timer < 0x100) {
         goto check_trigger;
     }
     {
-        s32 v = (u16)arg0->state + 1;
-        arg0->timer = 0;
-        arg0->state = v;
+        s32 next_state = (u16)effect->state + 1;
+        effect->timer = 0;
+        effect->state = next_state;
     }
     goto check_trigger;
 
 state_6:
     {
-        s32 a;
-        s32 t;
-        s32 b;
-        s32 o;
-        s32 sgn;
-        s32 vx;
-        s32 x;
+        s32 cos_value;
+        s32 accel;
+        s32 displacement;
+        s32 center_offset;
+        s32 round_bias;
+        s32 next_vx;
+        s32 next_x;
 
-        a = rcos((s16)arg0->timer << 4) >> 4;
-        t = (a * 3) << 11;
-        b = arg1->x;
-        o = (s32)0xFF280000;
-        b += o;
-        t -= b;
-        sgn = (s32)((u32)t >> 31);
-        t += sgn;
-        t >>= 1;
-        vx = arg1->vx + t;
-        x = arg1->x + vx;
-        arg1->vx = vx;
-        arg1->x = x;
+        cos_value = rcos((s16)effect->timer << 4) >> 4;
+        accel = (cos_value * 3) << 11;
+        displacement = motion->x;
+        center_offset = (s32)0xFF280000;
+        displacement += center_offset;
+        accel -= displacement;
+        round_bias = (s32)((u32)accel >> 31);
+        accel += round_bias;
+        accel >>= 1;
+        next_vx = motion->vx + accel;
+        next_x = motion->x + next_vx;
+        motion->vx = next_vx;
+        motion->x = next_x;
     }
 
     {
-        s32 t;
-        s32 b;
-        s32 o;
-        s32 sgn;
-        s32 vy;
-        s32 y;
+        s32 accel;
+        s32 displacement;
+        s32 center_offset;
+        s32 round_bias;
+        s32 next_vy;
+        s32 next_y;
 
-        t = rcos(((s16)arg0->timer + 0x80) << 4) >> 4;
-        t <<= 10;
-        b = arg1->y;
-        o = (s32)0xFFD40000;
-        b += o;
-        t -= b;
-        sgn = (s32)((u32)t >> 31);
-        t += sgn;
-        t >>= 1;
-        vy = arg1->vy + t;
-        y = arg1->y + vy;
-        arg1->vy = vy;
-        arg1->y = y;
+        accel = rcos(((s16)effect->timer + 0x80) << 4) >> 4;
+        accel <<= 10;
+        displacement = motion->y;
+        center_offset = (s32)0xFFD40000;
+        displacement += center_offset;
+        accel -= displacement;
+        round_bias = (s32)((u32)accel >> 31);
+        accel += round_bias;
+        accel >>= 1;
+        next_vy = motion->vy + accel;
+        next_y = motion->y + next_vy;
+        motion->vy = next_vy;
+        motion->y = next_y;
     }
 
-    if ((s16)arg0->timer < 0x80) {
+    if ((s16)effect->timer < 0x80) {
         goto check_trigger;
     }
-    arg0->wait = (rand() % 64) + 0x20;
-    arg0->timer = 0;
-    arg0->state = 4;
+    effect->wait = (rand() % 64) + 0x20;
+    effect->timer = 0;
+    effect->state = 4;
 
 check_trigger:
-    if (arg0->trigger != 0) {
-        arg0->trigger = 0;
-        arg0->timer = 0;
-        arg0->state = 7;
+    if (effect->trigger != 0) {
+        effect->trigger = 0;
+        effect->timer = 0;
+        effect->state = 7;
     }
     return;
 
 state_7:
-    arg1->x += (s32)0xFFF40000;
-    arg1->y += 0x00020000;
-    if ((s16)arg0->timer < 0x40) {
+    motion->x += (s32)0xFFF40000;
+    motion->y += 0x00020000;
+    if ((s16)effect->timer < 0x40) {
         return;
     }
     goto destroy;
 
 state_default:
-    arg2->b = 0;
-    arg2->g = 0;
-    arg2->r = 0;
+    color->b = 0;
+    color->g = 0;
+    color->r = 0;
 
 destroy:
-    ((ParentState800517CC *)arg0->parent)->child10 = 0;
-    ((ParentState800517CC *)arg0->parent)->timer++;
-    *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    ((ParentState800517CC *)effect->parent)->child10 = 0;
+    ((ParentState800517CC *)effect->parent)->timer++;
+    *(u16 *)((u8 *)effect - 2) |= 0x8000;
     D_800814A0[0] |= 0x8000;
 }

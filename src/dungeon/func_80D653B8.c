@@ -82,34 +82,35 @@ extern u8 D_80083498[];
 extern u8 D_800D6FEC[];
 extern u8 D_800E23D0[];
 
-void func_80D653B8(void *arg0, S_80D653B8_5 *arg1, Block16 *arg2,
-                   S_80D653B8_3 *arg3, s32 arg4)
+/* Creates an object from a template, selects its direction, and positions it at the anchor. */
+void func_80D653B8(void *unused, S_80D653B8_5 *anchor, Block16 *object_template,
+                   S_80D653B8_3 *facing_source, s32 initial_value)
 {
-    Block16 *end;
-    void *linked;
+    Block16 *copy_end;
+    void *object;
     S_80D653B8_2 *object_data;
-    Block16 *dst;
-    Block16 *src;
+    Block16 *copy_dst;
+    Block16 *copy_src;
     S_80D653B8_4 *position;
-    S_80D653B8_0 *work;
+    S_80D653B8_0 *object_work;
 
-    (void)arg0;
-    linked = func_8003FD64(0x112, D_80083498);
-    if (linked != NULL) {
-        src = arg2;
-        work = (u8 *)linked + 0x20;
-        work->unk_96 = arg4;
-        work->unk_AA = arg4;
-        ((S_80D653B8_1 *)linked)->unk_10 = D_800D6FEC;
-        work->unk_B0 = arg1;
-        object_data = ((S_80D653B8_1 *)linked)->unk_0C;
-        end = src + 3;
-        dst = (Block16 *)object_data;
+    (void)unused;
+    object = func_8003FD64(0x112, D_80083498);
+    if (object != NULL) {
+        copy_src = object_template;
+        object_work = (u8 *)object + 0x20;
+        object_work->unk_96 = initial_value;
+        object_work->unk_AA = initial_value;
+        ((S_80D653B8_1 *)object)->unk_10 = D_800D6FEC;
+        object_work->unk_B0 = anchor;
+        object_data = ((S_80D653B8_1 *)object)->unk_0C;
+        copy_end = copy_src + 3;
+        copy_dst = (Block16 *)object_data;
         do {
-            *dst = *src;
-            src++;
-            dst++;
-        } while (src != end);
+            *copy_dst = *copy_src;
+            copy_src++;
+            copy_dst++;
+        } while (copy_src != copy_end);
 
         object_data->unk_1E = 0x1000;
         object_data->unk_1C = 0x1000;
@@ -120,21 +121,21 @@ void func_80D653B8(void *arg0, S_80D653B8_5 *arg1, Block16 *arg2,
         object_data->unk_12 = 0xFF80;
         object_data->unk_06 = -6;
         object_data->unk_14 |= 0xC;
-        func_8004491C(linked, func_80045340, src, dst);
+        func_8004491C(object, func_80045340, copy_src, copy_dst);
 
         {
-            u8 *table = D_800E23D0;
+            u8 *direction_table = D_800E23D0;
 
-            object_data->unk_2C = table;
+            object_data->unk_2C = direction_table;
             func_80047784(object_data,
-                table[((D_80083228[0] + arg3->unk_2A + 0x100) >> 9) & 7],
+                direction_table[((D_80083228[0] + facing_source->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 
-        position = ((S_80D653B8_1 *)linked)->unk_08;
-        position->unk_02 = arg1->unk_02;
-        position->unk_06 = arg1->unk_06;
+        position = ((S_80D653B8_1 *)object)->unk_08;
+        position->unk_02 = anchor->unk_02;
+        position->unk_06 = anchor->unk_06;
         position->unk_0A =
-            arg1->unk_0A + arg1->unk_16;
+            anchor->unk_0A + anchor->unk_16;
     }
 }

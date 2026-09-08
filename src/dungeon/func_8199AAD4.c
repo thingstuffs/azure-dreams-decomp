@@ -85,10 +85,8 @@ typedef struct S_8199AAD4_11 {
 } S_8199AAD4_11;   /* ((S_8199AAD4_0 *)self)->unk_0C in func_8199AAD4 */
 
 
-#define self arg0
-#define coords arg1
-#define source work
-#define iteration work
+#define source source_or_step
+#define iteration source_or_step
 
 typedef struct Vec3s {
     s16 x;
@@ -115,7 +113,8 @@ extern s32 func_800644B8(s32);
 extern void func_800B8D64(s16, s16, s16);
 
 
-void func_8199AAD4(void *arg0, void *arg1)
+/* Updates source-relative position, delays movement, and advances an arc toward the target. */
+void func_8199AAD4(void *self, void *coords)
 {
     u16 delta[3];
     s32 target[3];
@@ -123,7 +122,7 @@ void func_8199AAD4(void *arg0, void *arg1)
     s32 start_y;
     s32 start_z;
     s16 state;
-    volatile void *work;
+    volatile void *source_or_step;
     S_8199AAD4_6 *target_node;
     S_8199AAD4_8 *call_node;
     S_8199AAD4_3 *position;
@@ -132,15 +131,15 @@ void func_8199AAD4(void *arg0, void *arg1)
     S_8199AAD4_9 *created;
     register u8 *table_end ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *table_start ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 index;
-    s32 curve;
-    s32 global_value;
+    s32 entry_offset;
+    s32 arc_height;
+    s32 flags_value;
     u16 count;
     u16 position_z;
     register u32 tail_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 *global_flags;
-    void *hit_out;
-    register s32 nine ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *delta_out;
+    register s32 delay_frames ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     D_80024A70++;
 
     state = ((S_8199AAD4_0 *)self)->unk_28.s;
@@ -161,39 +160,39 @@ void func_8199AAD4(void *arg0, void *arg1)
         func_800246C4();
 
 state_zero:
-            source = ((S_8199AAD4_10 *)(((S_8199AAD4_0 *)self)->unk_00))->unk_0C;
-            if ((((S_8199AAD4_1 *)source)->unk_14 & 0x8000) ||
-                func_8003DE58(((S_8199AAD4_1 *)source)->unk_08, source, delta, 0)) {
-                position = ((S_8199AAD4_10 *)(((S_8199AAD4_0 *)self)->unk_00))->unk_08;
-                ((S_8199AAD4_2 *)coords)->unk_00.at02.v = position->unk_02;
-                ((S_8199AAD4_2 *)coords)->unk_04.at02.v = position->unk_06;
-                position_z = position->unk_0A;
-                ((S_8199AAD4_2 *)coords)->unk_08.at02.v = position_z;
+        source = ((S_8199AAD4_10 *)(((S_8199AAD4_0 *)self)->unk_00))->unk_0C;
+        if ((((S_8199AAD4_1 *)source)->unk_14 & 0x8000) ||
+            func_8003DE58(((S_8199AAD4_1 *)source)->unk_08, source, delta, 0)) {
+            position = ((S_8199AAD4_10 *)(((S_8199AAD4_0 *)self)->unk_00))->unk_08;
+            ((S_8199AAD4_2 *)coords)->unk_00.at02.v = position->unk_02;
+            ((S_8199AAD4_2 *)coords)->unk_04.at02.v = position->unk_06;
+            position_z = position->unk_0A;
+            ((S_8199AAD4_2 *)coords)->unk_08.at02.v = position_z;
 
-                if (((S_8199AAD4_1 *)source)->unk_14 & 0x8000) {
-                    goto fixed_position;
-                }
-                ((S_8199AAD4_2 *)coords)->unk_00.at02.v += delta[0];
-                ((S_8199AAD4_2 *)coords)->unk_04.at02.v += delta[1];
-                ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                tail_z = ((S_8199AAD4_2 *)coords)->unk_08.at02.v;
-                tail_z += delta[2];
-                ASM_TAILSLOT_PIN(tail_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_80024410();
+            if (((S_8199AAD4_1 *)source)->unk_14 & 0x8000) {
+                goto fixed_position;
+            }
+            ((S_8199AAD4_2 *)coords)->unk_00.at02.v += delta[0];
+            ((S_8199AAD4_2 *)coords)->unk_04.at02.v += delta[1];
+            ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            tail_z = ((S_8199AAD4_2 *)coords)->unk_08.at02.v;
+            tail_z += delta[2];
+            ASM_TAILSLOT_PIN(tail_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            func_80024410();
 
 fixed_position:
-                ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                ((S_8199AAD4_2 *)coords)->unk_08.at02.v = position_z - 0x20;
-            }
+            ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            ((S_8199AAD4_2 *)coords)->unk_08.at02.v = position_z - 0x20;
+        }
 
-            if (((S_8199AAD4_11 *)(((S_8199AAD4_0 *)self)->unk_0C))->unk_00 & 0x80) {
-                ((S_8199AAD4_0 *)self)->unk_2E.s = 8;
-                tail_z = ((S_8199AAD4_0 *)self)->unk_28.u;
-                nine = 9;
-                ((S_8199AAD4_0 *)self)->unk_30.s = nine;
-                func_80024464();
-            }
-            goto done;
+        if (((S_8199AAD4_11 *)(((S_8199AAD4_0 *)self)->unk_0C))->unk_00 & 0x80) {
+            ((S_8199AAD4_0 *)self)->unk_2E.s = 8;
+            tail_z = ((S_8199AAD4_0 *)self)->unk_28.u;
+            delay_frames = 9;
+            ((S_8199AAD4_0 *)self)->unk_30.s = delay_frames;
+            func_80024464();
+        }
+        goto done;
     }
 
     count = ((S_8199AAD4_0 *)self)->unk_30.u - 1;
@@ -217,12 +216,12 @@ finish:
     ((S_8199AAD4_0_pre *)self)[-1].unk_00 = tail_z | 0x8000;
     count = ((S_8199AAD4_0 *)self)->unk_28.p;
     ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    global_value = ((S_8199AAD4_4 *)global_flags)->unk_14A0;
+    flags_value = ((S_8199AAD4_4 *)global_flags)->unk_14A0;
     count++;
-    global_value |= 0x8000;
-    ASM_KEEP(global_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    flags_value |= 0x8000;
+    ASM_KEEP(flags_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_8199AAD4_0 *)self)->unk_28.p = count;
-    ((S_8199AAD4_4 *)global_flags)->unk_14A0 = global_value;
+    ((S_8199AAD4_4 *)global_flags)->unk_14A0 = flags_value;
     func_800246C4();
 
 state_two:
@@ -242,13 +241,13 @@ state_two:
     target[1] = target_node->unk_04;
     target[2] = (((S_8199AAD4_0 *)self)->unk_38 - 0x50) << 16;
 
-    index = (D_80083228 + ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_s16 + 0x100) >> 7;
-    hit_out = delta;
+    entry_offset = (D_80083228 + ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_s16 + 0x100) >> 7;
+    delta_out = delta;
     entry_base = D_800E3D18;
-    index &= 0x1C;
-    entry = (void *)(index + (s32)entry_base);
+    entry_offset &= 0x1C;
+    entry = (void *)(entry_offset + (s32)entry_base);
     call_node = ((S_8199AAD4_0 *)self)->unk_04;
-    if (func_8003DE58(((S_8199AAD4_5 *)entry)->unk_00, call_node->unk_0C, hit_out, 0)) {
+    if (func_8003DE58(((S_8199AAD4_5 *)entry)->unk_00, call_node->unk_0C, delta_out, 0)) {
         target[0] += (s32)(s16)delta[0] << 16;
         target[1] += (s32)(s16)delta[1] << 16;
         target[2] += (s32)(s16)delta[2] << 16;
@@ -258,10 +257,10 @@ state_two:
         (target[0] - ((S_8199AAD4_2 *)coords)->unk_00.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u;
     ((S_8199AAD4_2 *)coords)->unk_04.at00.v +=
         (target[1] - ((S_8199AAD4_2 *)coords)->unk_04.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u;
-    curve = func_800644B8(((S_8199AAD4_0 *)self)->unk_2E.u * 170);
+    arc_height = func_800644B8(((S_8199AAD4_0 *)self)->unk_2E.u * 170);
     ((S_8199AAD4_2 *)coords)->unk_08.at00.v +=
         (target[2] - ((S_8199AAD4_2 *)coords)->unk_08.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u -
-        (curve << 7);
+        (arc_height << 7);
 
     created = func_80024924(((S_8199AAD4_0 *)self)->unk_08, start_x, start_y, start_z,
                             coords, ((S_8199AAD4_0 *)self)->unk_10.s, 4,

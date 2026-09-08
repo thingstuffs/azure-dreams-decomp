@@ -22,36 +22,25 @@ extern s32 D_80085F98[4];  /* forced hi/lo access via size > 8 */
 extern void func_80056A08(void);
 extern void func_800599B0(void);
 
-/* Activates a table slot (D_80086C00[a0]) for playback/display: skips if
- * a0 is -1 or the slot's field_0 is -1 (empty). Otherwise runs
- * func_80056A08(), records the "current slot" value (D_80086D50), current
- * sub-id (D_80086D48 = a2), a base pointer (D_800869B0 = 0x10000), and the
- * slot's data-buffer pointer (D_80085FA4 = field_4), kicks off
- * func_800599B0(), then records a mode flag (D_800737A4 / D_80085F98) and
- * stores that mode back into the slot entry's field_2, depending on
- * whether arg1's low byte is set. */
-void func_8005AE90(s16 a0, u8 a1, s16 a2)
+/* Activates an occupied slot with the requested sub-id and mode. */
+void func_8005AE90(s16 slot_index, u8 mode, s16 sub_id)
 {
-    s16 new_var;
-    S_80086C00 *entry;
-
-    new_var = a0;
-    if (new_var != -1) {
+    if (slot_index != -1) {
         func_80056A08();
-        if ((&D_80086C00[a0])->field_0 != -1) {
-            D_80086D50[0] = (&D_80086C00[a0])->field_0;
-            D_80086D48[0] = a2;
+        if (D_80086C00[slot_index].field_0 != -1) {
+            D_80086D50[0] = D_80086C00[slot_index].field_0;
+            D_80086D48[0] = sub_id;
             D_800869B0[0] = 0x10000;
-            D_80085FA4[0] = (&D_80086C00[a0])->field_4;
+            D_80085FA4[0] = D_80086C00[slot_index].field_4;
             func_800599B0();
-            if (!(a1 & 0xFF)) {
+            if (!(mode & 0xFF)) {
                 D_800737A4[0] = 0;
                 D_80085F98[0] = 1;
-                (&D_80086C00[a0])->field_2 = 4;
+                D_80086C00[slot_index].field_2 = 4;
             } else {
                 D_800737A4[0] = 1;
                 D_80085F98[0] = 0;
-                (&D_80086C00[a0])->field_2 = 1;
+                D_80086C00[slot_index].field_2 = 1;
             }
         }
     }

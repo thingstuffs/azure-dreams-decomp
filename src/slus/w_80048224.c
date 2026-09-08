@@ -13,15 +13,14 @@ typedef struct {
 extern S_80048224 D_80083D08[6];
 extern s32 func_80047BC0(s32 arg0);
 
-/* Look up the D_80083D08 slot whose id6 matches arg0 (via func_80047BC0); if found,
- * clear bit0 of that slot's flags4 and return 1, else return 0. */
-s32 func_80048224(s16 arg0) {
-    s32 idx = func_80047BC0(arg0);
-    S_80048224 *p;
+/* Clear flag bit 0 in the slot matching slot_id and return 1 if found, else 0. */
+s32 func_80048224(s16 slot_id) {
+    s32 slot_index = func_80047BC0(slot_id);
+    S_80048224 *slot;
 
-    if (idx != -1) {
-        p = &D_80083D08[idx];
-        p->flags4 &= ~1;
+    if (slot_index != -1) {
+        slot = &D_80083D08[slot_index];
+        slot->flags4 &= ~1;
         return 1;
     }
     return 0;

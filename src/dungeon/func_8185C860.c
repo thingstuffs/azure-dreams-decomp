@@ -21,42 +21,43 @@ M2C_UNK func_800C87C4();
 extern u8 D_800E0003[];
 extern u8 D_800E3D68;
 
-void func_8185C860(s16 arg0, s16 arg1, M2C_UNK arg2, s32 arg3) {
-    M2C_UNK var_a1;
-    s16 var_s1;
-    s32 temp_a2;
-    s32 var_v0_2;
-    s32 var_v0_3;
-    u8 *var_s0;
-    S_8185C860_1 *temp_v1;
+/* Apply a randomized effect to eligible targets within two tiles of the center. */
+void func_8185C860(s16 center_x, s16 center_y, M2C_UNK source, s32 power) {
+    M2C_UNK effect_code;
+    s16 base_value;
+    s32 effect_value;
+    s32 distance_x;
+    s32 distance_y;
+    u8 *target;
+    S_8185C860_1 *position;
 
-    var_s0 = *D_800E3D7C;
-    var_s1 = (s16)(((u32)(arg3 & 0xFF) >> 2) + 0x10);
+    target = *D_800E3D7C;
+    base_value = (s16)(((u32)(power & 0xFF) >> 2) + 0x10);
     do {
-        if ((func_800A2CB8(arg2, var_s0) << 0x10) != 0) {
-            temp_v1 = ((S_8185C860_0 *)((u8 *)var_s0 - 0x14))->unk_00;
-            var_v0_2 = temp_v1->unk_24 - arg0;
-            if (var_v0_2 < 0) {
-                var_v0_2 = 0 - var_v0_2;
+        if ((func_800A2CB8(source, target) << 0x10) != 0) {
+            position = ((S_8185C860_0 *)((u8 *)target - 0x14))->unk_00;
+            distance_x = position->unk_24 - center_x;
+            if (distance_x < 0) {
+                distance_x = 0 - distance_x;
             }
-            if (var_v0_2 < 3) {
-                var_v0_3 = temp_v1->unk_25 - arg1;
-                if (var_v0_3 < 0) {
-                    var_v0_3 = 0 - var_v0_3;
+            if (distance_x < 3) {
+                distance_y = position->unk_25 - center_y;
+                if (distance_y < 0) {
+                    distance_y = 0 - distance_y;
                 }
-                if (var_v0_3 < 3) {
-                    if ((func_800A41F0(var_s0) << 0x10) != 0) {
-                        temp_a2 = var_s1 + (func_800A6D30() & 3);
-                        var_a1 = 0x20;
+                if (distance_y < 3) {
+                    if ((func_800A41F0(target) << 0x10) != 0) {
+                        effect_value = base_value + (func_800A6D30() & 3);
+                        effect_code = 0x20;
                         if (D_800E3D68 == 0xFF) {
-                            var_a1 = 0xFF;
+                            effect_code = 0xFF;
                         }
-                        func_800C87C4(var_s0, var_a1, temp_a2);
+                        func_800C87C4(target, effect_code, effect_value);
                     }
                 }
             }
         }
-        var_s0 = ((S_8185C860_0 *)((u8 *)var_s0 - 0x14))->unk_70 + 0x20;
-    } while (var_s0 != *D_800E3D7C);
+        target = ((S_8185C860_0 *)((u8 *)target - 0x14))->unk_70 + 0x20;
+    } while (target != *D_800E3D7C);
 }
 

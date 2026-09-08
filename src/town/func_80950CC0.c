@@ -51,6 +51,7 @@ static const OverlayInitData s_overlay_init __asm__("func_80950CC0")
     };
 #endif
 
+/* Initialize the first data pointer to D_80016034. */
 void func_8095101C(void) {
     D_80016D08[0] = D_80016034;
 }

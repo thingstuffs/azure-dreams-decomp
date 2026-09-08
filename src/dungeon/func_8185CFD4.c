@@ -74,222 +74,223 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80065420(void *, void *, void *, void *);
 
-s32 func_800247D4(void *arg0)
+/* Draw eight shaded lines with animated endpoints and insert them into the ordering table. */
+s32 func_800247D4(void *effect_data)
 {
-    u8 *arg = arg0;
-    u8 *initial_ctx = *(u8 **)D_80083160;
-    u8 *ctx;
-    register u32 t0_value ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *effect = effect_data;
+    u8 *initial_render_ctx = *(u8 **)D_80083160;
+    u8 *render_ctx;
+    register u32 constant_or_count ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 color_base;
-    s32 high_mask;
-    s32 phase;
+    s32 delta_mask;
+    s32 radial_step;
     u8 *scratch;
-    s32 count;
+    s32 lines_left;
     u8 *packet;
-    void *work84;
-    void *work88;
-    s32 delta;
+    void *project_work_a;
+    void *project_work_b;
+    s32 fixed_delta;
     s32 angle;
-    s32 index;
-    register s32 v1_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 target_value;
-    s32 a1_value;
-    s32 y;
-    s32 first_z;
-    s32 second_z;
-    s32 average;
+    s32 stage_index;
+    register s32 start_or_fade ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 end_or_blue;
+    s32 offset_or_depth;
+    s32 y_or_blue;
+    s32 start_depth;
+    s32 end_depth;
+    s32 mean_depth;
 
-    static void *const jt_keep[] = {
+    static void *const stage_labels[] = {
         &&case_early,
         &&case_middle,
         &&case_late,
         &&shared,
     };
 
-    (void)jt_keep;
-    ASM_USE_NV(initial_ctx);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    t0_value = 7;
-    high_mask = 0xFFFF0000;
+    (void)stage_labels;
+    ASM_USE_NV(initial_render_ctx);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    constant_or_count = 7;
+    delta_mask = 0xFFFF0000;
     color_base = 0x40;
-    ASM_USE2_NV(high_mask, color_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    phase = 0x15;
+    ASM_USE2_NV(delta_mask, color_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    radial_step = 0x15;
     scratch = (u8 *)0x1F800000;
-    ASM_KEEP(t0_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    count = (s32)t0_value;
+    ASM_KEEP(constant_or_count);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    lines_left = (s32)constant_or_count;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_800247D4_0 *)scratch)->unk_18 = initial_ctx + 0xB0;
+    ((S_800247D4_0 *)scratch)->unk_18 = initial_render_ctx + 0xB0;
 
     do {
-        t0_value = (u32)D_80083160;
-        ASM_KEEP(t0_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ctx = *(u8 **)t0_value;
-        packet = ((S_800247D4_1 *)ctx)->unk_8D0;
-        ((S_800247D4_1 *)ctx)->unk_8D0 = packet + 0x14;
+        constant_or_count = (u32)D_80083160;
+        ASM_KEEP(constant_or_count);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        render_ctx = *(u8 **)constant_or_count;
+        packet = ((S_800247D4_1 *)render_ctx)->unk_8D0;
+        ((S_800247D4_1 *)render_ctx)->unk_8D0 = packet + 0x14;
 
         ((S_800247D4_2 *)packet)->unk_00.at03.v = 4;
         ((S_800247D4_2 *)packet)->unk_07 = 0x50;
 
-        ((S_800247D4_0 *)scratch)->unk_64 = ((S_800247D4_3 *)arg)->unk_3A;
-        ((S_800247D4_0 *)scratch)->unk_66 = ((S_800247D4_3 *)arg)->unk_3E;
-        ((S_800247D4_0 *)scratch)->unk_68 = ((S_800247D4_3 *)arg)->unk_42;
+        ((S_800247D4_0 *)scratch)->unk_64 = ((S_800247D4_3 *)effect)->unk_3A;
+        ((S_800247D4_0 *)scratch)->unk_66 = ((S_800247D4_3 *)effect)->unk_3E;
+        ((S_800247D4_0 *)scratch)->unk_68 = ((S_800247D4_3 *)effect)->unk_42;
 
-        angle = (phase % 8) << 9;
+        angle = (radial_step % 8) << 9;
         ((S_800247D4_0 *)scratch)->unk_6C =
-            ((S_800247D4_3 *)arg)->unk_52 + ((func_800644B8(angle) * 2) >> 8);
+            ((S_800247D4_3 *)effect)->unk_52 + ((func_800644B8(angle) * 2) >> 8);
         ((S_800247D4_0 *)scratch)->unk_6E =
-            ((S_800247D4_3 *)arg)->unk_56 + ((func_80064584(angle) * 2) >> 8);
-        ((S_800247D4_0 *)scratch)->unk_70 = ((S_800247D4_3 *)arg)->unk_5A;
+            ((S_800247D4_3 *)effect)->unk_56 + ((func_80064584(angle) * 2) >> 8);
+        ((S_800247D4_0 *)scratch)->unk_70 = ((S_800247D4_3 *)effect)->unk_5A;
 
-        index = ((S_800247D4_3 *)arg)->unk_10 - 1;
-        if ((u32)index >= 15U) {
+        stage_index = ((S_800247D4_3 *)effect)->unk_10 - 1;
+        if ((u32)stage_index >= 15U) {
             goto shared;
         }
-        goto *D_80024008[index];
+        goto *D_80024008[stage_index];
 
 case_early:
     {
-        target_value = ((S_800247D4_0 *)scratch)->unk_6C;
-        ASM_KEEP(target_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        v1_value = ((S_800247D4_0 *)scratch)->unk_64;
-        delta &= 0xFFFF;
-        delta |= (target_value - v1_value) << 16;
-        delta &= high_mask;
-        delta >>= 3;
-        delta *= ((S_800247D4_3 *)arg)->unk_10 + 1;
+        end_or_blue = ((S_800247D4_0 *)scratch)->unk_6C;
+        ASM_KEEP(end_or_blue);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        start_or_fade = ((S_800247D4_0 *)scratch)->unk_64;
+        fixed_delta &= 0xFFFF;
+        fixed_delta |= (end_or_blue - start_or_fade) << 16;
+        fixed_delta &= delta_mask;
+        fixed_delta >>= 3;
+        fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
 
-        a1_value = delta >> 16;
-        target_value = ((S_800247D4_0 *)scratch)->unk_6E;
-        y = ((S_800247D4_0 *)scratch)->unk_66;
-        delta &= 0xFFFF;
-        delta |= (target_value - y) << 16;
-        delta &= high_mask;
-        ((S_800247D4_0 *)scratch)->unk_6C = v1_value + a1_value;
-        delta >>= 3;
-        delta *= ((S_800247D4_3 *)arg)->unk_10 + 1;
+        offset_or_depth = fixed_delta >> 16;
+        end_or_blue = ((S_800247D4_0 *)scratch)->unk_6E;
+        y_or_blue = ((S_800247D4_0 *)scratch)->unk_66;
+        fixed_delta &= 0xFFFF;
+        fixed_delta |= (end_or_blue - y_or_blue) << 16;
+        fixed_delta &= delta_mask;
+        ((S_800247D4_0 *)scratch)->unk_6C = start_or_fade + offset_or_depth;
+        fixed_delta >>= 3;
+        fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
 
-        a1_value = delta >> 16;
-        target_value = ((S_800247D4_0 *)scratch)->unk_70;
-        v1_value = ((S_800247D4_0 *)scratch)->unk_68;
-        delta &= 0xFFFF;
-        delta |= (target_value - v1_value) << 16;
-        delta &= high_mask;
-        y += a1_value;
-        ((S_800247D4_0 *)scratch)->unk_6E = y;
-        delta >>= 3;
-        delta *= ((S_800247D4_3 *)arg)->unk_10 + 1;
-        ((S_800247D4_0 *)scratch)->unk_70 = v1_value + (delta >> 16);
+        offset_or_depth = fixed_delta >> 16;
+        end_or_blue = ((S_800247D4_0 *)scratch)->unk_70;
+        start_or_fade = ((S_800247D4_0 *)scratch)->unk_68;
+        fixed_delta &= 0xFFFF;
+        fixed_delta |= (end_or_blue - start_or_fade) << 16;
+        fixed_delta &= delta_mask;
+        y_or_blue += offset_or_depth;
+        ((S_800247D4_0 *)scratch)->unk_6E = y_or_blue;
+        fixed_delta >>= 3;
+        fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
+        ((S_800247D4_0 *)scratch)->unk_70 = start_or_fade + (fixed_delta >> 16);
 
-        v1_value = ((S_800247D4_3 *)arg)->unk_10;
-        t0_value = 15;
+        start_or_fade = ((S_800247D4_3 *)effect)->unk_10;
+        constant_or_count = 15;
         {
-            register s32 color0 ASM_REG("$9") =
-                (v1_value + 1) * (s32)t0_value;
+            register s32 red_offset ASM_REG("$9") =
+                (start_or_fade + 1) * (s32)constant_or_count;
 
-            t0_value = 23;
-            y = (v1_value + 1) * (s32)t0_value;
+            constant_or_count = 23;
+            y_or_blue = (start_or_fade + 1) * (s32)constant_or_count;
             ((S_800247D4_2 *)packet)->unk_04 = color_base;
             ((S_800247D4_2 *)packet)->unk_05 = color_base;
             ((S_800247D4_2 *)packet)->unk_06 = color_base;
-            ((S_800247D4_2 *)packet)->unk_0D = color_base - ((7 - v1_value) * 8);
+            ((S_800247D4_2 *)packet)->unk_0D = color_base - ((7 - start_or_fade) * 8);
             {
-                register s32 color0_out ASM_REG("$2") = 0x40 + color0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                register s32 red ASM_REG("$2") = 0x40 + red_offset;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-                ((S_800247D4_2 *)packet)->unk_0C = color0_out;
+                ((S_800247D4_2 *)packet)->unk_0C = red;
             }
-            ((S_800247D4_2 *)packet)->unk_0E = 0x40 + y;
+            ((S_800247D4_2 *)packet)->unk_0E = 0x40 + y_or_blue;
             goto shared;
         }
     }
 
 case_middle:
-        t0_value = 0x7F;
-        target_value = 0xFF;
+        constant_or_count = 0x7F;
+        end_or_blue = 0xFF;
         ((S_800247D4_2 *)packet)->unk_04 = color_base;
         ((S_800247D4_2 *)packet)->unk_05 = color_base;
         ((S_800247D4_2 *)packet)->unk_06 = color_base;
-        ((S_800247D4_2 *)packet)->unk_0C = (u8)t0_value;
+        ((S_800247D4_2 *)packet)->unk_0C = (u8)constant_or_count;
         ((S_800247D4_2 *)packet)->unk_0D = 0;
-        ((S_800247D4_2 *)packet)->unk_0E = (u8)target_value;
+        ((S_800247D4_2 *)packet)->unk_0E = (u8)end_or_blue;
         goto shared;
 
 case_late:
     {
         s32 color_step;
 
-        target_value = ((S_800247D4_0 *)scratch)->unk_6C;
-        ASM_KEEP(target_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        v1_value = ((S_800247D4_0 *)scratch)->unk_64;
-        delta &= 0xFFFF;
-        delta |= (target_value - v1_value) << 16;
-        delta &= high_mask;
-        delta >>= 3;
-        delta *= ((S_800247D4_3 *)arg)->unk_10 - 7;
+        end_or_blue = ((S_800247D4_0 *)scratch)->unk_6C;
+        ASM_KEEP(end_or_blue);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        start_or_fade = ((S_800247D4_0 *)scratch)->unk_64;
+        fixed_delta &= 0xFFFF;
+        fixed_delta |= (end_or_blue - start_or_fade) << 16;
+        fixed_delta &= delta_mask;
+        fixed_delta >>= 3;
+        fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
 
-        a1_value = delta >> 16;
-        target_value = ((S_800247D4_0 *)scratch)->unk_6E;
-        y = ((S_800247D4_0 *)scratch)->unk_66;
-        delta &= 0xFFFF;
-        delta |= (target_value - y) << 16;
-        delta &= high_mask;
-        ((S_800247D4_0 *)scratch)->unk_64 = v1_value + a1_value;
-        delta >>= 3;
-        delta *= ((S_800247D4_3 *)arg)->unk_10 - 7;
+        offset_or_depth = fixed_delta >> 16;
+        end_or_blue = ((S_800247D4_0 *)scratch)->unk_6E;
+        y_or_blue = ((S_800247D4_0 *)scratch)->unk_66;
+        fixed_delta &= 0xFFFF;
+        fixed_delta |= (end_or_blue - y_or_blue) << 16;
+        fixed_delta &= delta_mask;
+        ((S_800247D4_0 *)scratch)->unk_64 = start_or_fade + offset_or_depth;
+        fixed_delta >>= 3;
+        fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
 
-        a1_value = delta >> 16;
-        target_value = ((S_800247D4_0 *)scratch)->unk_70;
-        v1_value = ((S_800247D4_0 *)scratch)->unk_68;
-        delta &= 0xFFFF;
-        delta |= (target_value - v1_value) << 16;
-        delta &= high_mask;
-        y += a1_value;
-        ((S_800247D4_0 *)scratch)->unk_66 = y;
-        delta >>= 3;
-        delta *= ((S_800247D4_3 *)arg)->unk_10 - 7;
-        ((S_800247D4_0 *)scratch)->unk_68 = v1_value + (delta >> 16);
+        offset_or_depth = fixed_delta >> 16;
+        end_or_blue = ((S_800247D4_0 *)scratch)->unk_70;
+        start_or_fade = ((S_800247D4_0 *)scratch)->unk_68;
+        fixed_delta &= 0xFFFF;
+        fixed_delta |= (end_or_blue - start_or_fade) << 16;
+        fixed_delta &= delta_mask;
+        y_or_blue += offset_or_depth;
+        ((S_800247D4_0 *)scratch)->unk_66 = y_or_blue;
+        fixed_delta >>= 3;
+        fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
+        ((S_800247D4_0 *)scratch)->unk_68 = start_or_fade + (fixed_delta >> 16);
 
-        v1_value = ((S_800247D4_3 *)arg)->unk_10;
-        color_step = v1_value - 7;
-        t0_value = 15;
+        start_or_fade = ((S_800247D4_3 *)effect)->unk_10;
+        color_step = start_or_fade - 7;
+        constant_or_count = 15;
         {
-            register s32 color0 ASM_REG("$9") =
-                color_step * (s32)t0_value;
+            register s32 red_offset ASM_REG("$9") =
+                color_step * (s32)constant_or_count;
 
-            t0_value = 23;
-            y = color_step * (s32)t0_value;
+            constant_or_count = 23;
+            y_or_blue = color_step * (s32)constant_or_count;
             ((S_800247D4_2 *)packet)->unk_0D = 0;
-            t0_value = 0x7F;
+            constant_or_count = 0x7F;
             color_step = 0xFF;
-            ((S_800247D4_2 *)packet)->unk_0C = (u8)t0_value;
-            t0_value = 15;
-            v1_value = (t0_value - v1_value) * 8;
+            ((S_800247D4_2 *)packet)->unk_0C = (u8)constant_or_count;
+            constant_or_count = 15;
+            start_or_fade = (constant_or_count - start_or_fade) * 8;
             ((S_800247D4_2 *)packet)->unk_0E = (u8)color_step;
             {
-                register s32 color0_out ASM_REG("$2") = 0x40 + color0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                register s32 red ASM_REG("$2") = 0x40 + red_offset;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-                ((S_800247D4_2 *)packet)->unk_04 = color0_out;
+                ((S_800247D4_2 *)packet)->unk_04 = red;
             }
-            ((S_800247D4_2 *)packet)->unk_05 = (u8)v1_value;
-            ((S_800247D4_2 *)packet)->unk_06 = 0x40 + y;
+            ((S_800247D4_2 *)packet)->unk_05 = (u8)start_or_fade;
+            ((S_800247D4_2 *)packet)->unk_06 = 0x40 + y_or_blue;
         }
     }
 
 shared:
-        work84 = scratch + 0x84;
-        work88 = scratch + 0x88;
+        project_work_a = scratch + 0x84;
+        project_work_b = scratch + 0x88;
         {
-            u8 *src0 = scratch + 0x64;
-            u8 *dst0 = scratch + 0xD8;
-            ASM_USE2_NV(src0, dst0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            first_z = func_80065420(src0, dst0, work84, work88);
+            u8 *start_pos = scratch + 0x64;
+            u8 *start_screen = scratch + 0xD8;
+            ASM_USE2_NV(start_pos, start_screen);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            start_depth = func_80065420(start_pos, start_screen, project_work_a, project_work_b);
         }
-        ((S_800247D4_0 *)scratch)->unk_F4 = first_z;
+        ((S_800247D4_0 *)scratch)->unk_F4 = start_depth;
         {
-            u8 *src1 = scratch + 0x6C;
-            u8 *dst1 = scratch + 0xDC;
-            ASM_USE2_NV(src1, dst1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            second_z = func_80065420(src1, dst1, work84, work88);
+            u8 *end_pos = scratch + 0x6C;
+            u8 *end_screen = scratch + 0xDC;
+            ASM_USE2_NV(end_pos, end_screen);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            end_depth = func_80065420(end_pos, end_screen, project_work_a, project_work_b);
         }
-        ((S_800247D4_0 *)scratch)->unk_F8 = second_z;
+        ((S_800247D4_0 *)scratch)->unk_F8 = end_depth;
 
         ((S_800247D4_2 *)packet)->unk_08 = ((S_800247D4_0 *)scratch)->unk_D8;
         ((S_800247D4_2 *)packet)->unk_0A = ((S_800247D4_0 *)scratch)->unk_DA;
@@ -297,46 +298,46 @@ shared:
         ((S_800247D4_2 *)packet)->unk_12 = ((S_800247D4_0 *)scratch)->unk_DE;
 
         {
-            s32 sum = ((S_800247D4_0 *)scratch)->unk_F4;
-            s32 sign = ((S_800247D4_0 *)scratch)->unk_F8;
+            s32 depth_sum = ((S_800247D4_0 *)scratch)->unk_F4;
+            s32 depth_or_sign = ((S_800247D4_0 *)scratch)->unk_F8;
 
-            sum += sign;
-            sign = (u32)sum >> 31;
-            sum += sign;
-            a1_value = sum >> 1;
+            depth_sum += depth_or_sign;
+            depth_or_sign = (u32)depth_sum >> 31;
+            depth_sum += depth_or_sign;
+            offset_or_depth = depth_sum >> 1;
         }
-        ((S_800247D4_0 *)scratch)->unk_B4 = a1_value;
-        if ((u32)a1_value < 0x1E0U) {
-            u32 table_low = 0x00FFFFFF;
+        ((S_800247D4_0 *)scratch)->unk_B4 = offset_or_depth;
+        if ((u32)offset_or_depth < 0x1E0U) {
+            u32 address_mask = 0x00FFFFFF;
             u32 *ordering_table;
 
             {
-                u32 scaled_index =
-                    (u32)a1_value << 2;
-                u32 *first_table =
+                u32 bucket_addr =
+                    (u32)offset_or_depth << 2;
+                u32 *table_base =
                     ((S_800247D4_0 *)scratch)->unk_18;
 
                 {
-                    u32 table_high = 0xFF000000;
+                    u32 tag_mask = 0xFF000000;
 
-                    scaled_index += (u32)first_table;
+                    bucket_addr += (u32)table_base;
                     ((S_800247D4_2 *)packet)->unk_00.at00.v =
-                        (((S_800247D4_2 *)packet)->unk_00.at00.v & table_high) |
-                        (((S_800247D4_4 *)((void *)scaled_index))->unk_00 & table_low);
+                        (((S_800247D4_2 *)packet)->unk_00.at00.v & tag_mask) |
+                        (((S_800247D4_4 *)((void *)bucket_addr))->unk_00 & address_mask);
                     ordering_table = ((S_800247D4_0 *)scratch)->unk_18;
                     ordering_table[((S_800247D4_0 *)scratch)->unk_B4] =
-                        (ordering_table[((S_800247D4_0 *)scratch)->unk_B4] & table_high) |
-                        ((u32)packet & table_low);
+                        (ordering_table[((S_800247D4_0 *)scratch)->unk_B4] & tag_mask) |
+                        ((u32)packet & address_mask);
                 }
             }
         }
 
-        t0_value = (u32)count;
-        ASM_KEEP(t0_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        phase -= 3;
-        t0_value -= 1;
-        count = (s32)t0_value;
-    } while ((s32)t0_value >= 0);
+        constant_or_count = (u32)lines_left;
+        ASM_KEEP(constant_or_count);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        radial_step -= 3;
+        constant_or_count -= 1;
+        lines_left = (s32)constant_or_count;
+    } while ((s32)constant_or_count >= 0);
 
     return 0;
 }

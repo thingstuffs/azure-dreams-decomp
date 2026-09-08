@@ -10,37 +10,38 @@ typedef struct {
 extern void func_800673A0(Rect *rect, s32 x, s32 width);
 extern u8 D_800244B8[][12];
 
-void func_80023578(s16 arg0, s16 arg1, s16 arg2)
+/* Draws a scrolling column of tiles, clipping at the top edge. */
+void func_80023578(s16 column, s16 tile_index, s16 scroll_y)
 {
     Rect rect;
-    s32 temp_s3;
-    s16 temp_s4;
-    s16 temp_v0;
-    s32 temp_a0;
-    s32 var_a2;
-    s32 var_s0;
-    s32 temp_v1;
+    s32 dest_x;
+    s16 base_index;
+    s16 src_y;
+    s32 row_y;
+    s32 dest_y;
+    s32 row;
+    s32 tile;
 
-    temp_s4 = arg1 + 0xC;
-    temp_s3 = (arg0 * 0x10) + 0x180;
-    var_s0 = -1;
+    base_index = tile_index + 0xC;
+    dest_x = (column * 0x10) + 0x180;
+    row = -1;
     rect.w = 0x10;
     rect.h = 0x20;
     do {
-        if ((var_s0 >= 0) || (arg2 != 0)) {
-            temp_v1 = D_800244B8[arg0][(temp_s4 + var_s0) % 12];
-            temp_a0 = ((2 - var_s0) << 5) - arg2;
-            var_a2 = temp_a0 + 0x80;
-            rect.x = ((temp_v1 & 3) * 0x10) + 0x180;
-            temp_v0 = ((s32) temp_v1 >> 2) << 5;
-            rect.y = temp_v0;
-            if (temp_a0 < 0) {
-                var_a2 = 0x80;
-                rect.y = temp_v0 - temp_a0;
-                rect.h = temp_a0 + 0x20;
+        if ((row >= 0) || (scroll_y != 0)) {
+            tile = D_800244B8[column][(base_index + row) % 12];
+            row_y = ((2 - row) << 5) - scroll_y;
+            dest_y = row_y + 0x80;
+            rect.x = ((tile & 3) * 0x10) + 0x180;
+            src_y = ((s32) tile >> 2) << 5;
+            rect.y = src_y;
+            if (row_y < 0) {
+                dest_y = 0x80;
+                rect.y = src_y - row_y;
+                rect.h = row_y + 0x20;
             }
-            func_800673A0(&rect, temp_s3, var_a2);
+            func_800673A0(&rect, dest_x, dest_y);
         }
-        var_s0 += 1;
-    } while (var_s0 < 3);
+        row += 1;
+    } while (row < 3);
 }

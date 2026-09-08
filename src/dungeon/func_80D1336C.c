@@ -65,8 +65,9 @@ extern s16 func_800A0818(u8 x0, u8 y0, u8 x1, u8 y1, s16 *scratch);
 extern s32 func_800AD9B4(Sprite *sprite, Actor *actor);
 extern void func_800A9A04(Actor *actor);
 
+/* Updates timed actor movement and sprite scaling, then handles completion. */
 void func_80172B6C(State *state, Motion *motion, Sprite *sprite, Actor *actor) {
-    s16 scratch;
+    s16 direction_scratch;
     s32 current_state;
 
     current_state = state->state_9b;
@@ -105,41 +106,41 @@ L_state_0: {
 
 L_state_1:
     {
-        s16 count;
-        s32 s_val;
-        s32 m_val;
-        s32 delta;
+        s16 frames_left;
+        s32 target_x;
+        s32 current_x;
+        s32 current_y;
 
         state->value_90 -= state->value_a4;
-        count = state->count_9e.s;
-        if (count != 0) {
-            s_val = sprite->value_24 << 6;
-            m_val = motion->value_02 - 0x20;
-            motion->value_0c = ((s_val - m_val) << 16) / count;
-            delta = motion->value_06 - 0x20;
-            motion->value_10 = (((sprite->value_25 << 6) - delta) << 16) /
+        frames_left = state->count_9e.s;
+        if (frames_left != 0) {
+            target_x = sprite->value_24 << 6;
+            current_x = motion->value_02 - 0x20;
+            motion->value_0c = ((target_x - current_x) << 16) / frames_left;
+            current_y = motion->value_06 - 0x20;
+            motion->value_10 = (((sprite->value_25 << 6) - current_y) << 16) /
                                state->count_9e.s;
-            count = state->count_9e.s;
-            state->value_a4 = (-func_800644B8(count * 0x199)) << 9;
+            frames_left = state->count_9e.s;
+            state->value_a4 = (-func_800644B8(frames_left * 0x199)) << 9;
         }
     }
 
 L_after_motion:
     state->value_90 += state->value_a4;
     {
-        s16 current_count;
+        s16 scale_frame;
 
-        current_count = state->count_9e.s;
-        if (current_count == 3)
+        scale_frame = state->count_9e.s;
+        if (scale_frame == 3)
             goto L_count_3;
-        if (current_count < 4) {
-            if (current_count == 2)
+        if (scale_frame < 4) {
+            if (scale_frame == 2)
                 goto L_count_2;
             goto L_decrement_count;
         }
-        if (current_count == 4)
+        if (scale_frame == 4)
             goto L_count_4;
-        if (current_count == 5)
+        if (scale_frame == 5)
             goto L_count_5;
         goto L_decrement_count;
     }
@@ -204,8 +205,8 @@ L_update_96: {
         next_timer = state->value_96 - 1;
         state->value_96 = next_timer;
         if ((next_timer << 16) <= 0) {
-            s16 *counter;
-            s32 flags;
+            s16 *global_counts;
+            s32 actor_flags;
 
             motion->value_14 = 0;
             motion->value_10 = 0;
@@ -215,23 +216,23 @@ L_update_96: {
             sprite->value_1e = 0x1000;
             func_800AD594(actor, 4);
             func_800A4ACC(actor);
-            counter = (s16 *)D_80083460;
-            if (counter[4] != 0)
-                counter[4] = (u16)counter[4] - 1;
-            flags = actor->flags_1c;
-            if (flags & 0x2000) {
+            global_counts = (s16 *)D_80083460;
+            if (global_counts[4] != 0)
+                global_counts[4] = (u16)global_counts[4] - 1;
+            actor_flags = actor->flags_1c;
+            if (actor_flags & 0x2000) {
                 if (actor->flags_46 & 0x8000) {
                     actor->flags_46 &= 0x7fff;
                     goto L_after_flag;
                 }
             } else {
-                if (flags & 0x410)
+                if (actor_flags & 0x410)
                     goto L_after_flag;
-                if (!(flags & 0x20000))
+                if (!(actor_flags & 0x20000))
                     goto L_after_flag;
                 actor->value_2a = func_800A0818(sprite->value_24, sprite->value_25,
                                                  D_80082E80[0x24], D_80082E80[0x25],
-                                                 &scratch);
+                                                 &direction_scratch);
             }
 L_after_flag:
             if ((func_800AD9B4(sprite, actor) << 16) > 0) {

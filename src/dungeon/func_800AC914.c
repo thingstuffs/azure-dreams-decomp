@@ -59,60 +59,56 @@ typedef struct S_800B2074_5 {
     u16 unk_2A;
 } S_800B2074_5;   /* temp_dest in func_800B2074 */
 
-void func_800B2074(s32 arg0, s32 arg1) {
-    s32 temp_s0;
-    void *temp_v0;
-    s32 temp_s2;
-    register s32 temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *temp_call0;
-    void *temp_call1;
-    void *temp_callback;
-    S_800B2074_5 *temp_dest;
-    register u16 temp_tail ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s8 *temp_s4;
-    S_800B2074_3 *temp_a1;
-    S_800B2074_2 *temp_v1;
+/* Creates an object at the given map position and updates its tile record. */
+void func_800B2074(s32 world_x, s32 world_z) {
+    s32 tile_addr;
+    void *object;
+    s32 pos_x;
+    register s32 pos_z ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *init_object;
+    void *init_data;
+    void *callback;
+    S_800B2074_5 *state_fields;
+    register u16 inherited_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s8 *map_state;
+    S_800B2074_3 *transform;
+    S_800B2074_2 *render_state;
 
-    temp_s2 = arg0;
-    temp_s3 = arg1;
-    temp_s4 = D_80083160;
-    temp_s0 = ((S_800B2074_0 *)temp_s4)->unk_1DC;
-    temp_v0 = func_8003FC64(0x12);
-    if (temp_v0 != NULL) {
-        temp_call0 = temp_v0;
-        ASM_KEEP(temp_call0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_callback = D_800B1F34;
-        temp_call1 = &D_80046398;
-        ASM_KEEP(temp_call1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_800B2074_1 *)temp_v0)->unk_10 = temp_callback;
-        func_8004491C(temp_call0, temp_call1);
-        temp_v1 = ((S_800B2074_1 *)temp_v0)->unk_0C;
-        temp_v1->unk_20 = 0x1000;
-        temp_v1->unk_1E = 0x1000;
-        temp_v1->unk_1C = 0x1000;
-        temp_v1->unk_08 = 2;
-        temp_v1->unk_0C = 0x808080;
-        temp_a1 = ((S_800B2074_1 *)temp_v0)->unk_08;
-        temp_a1->unk_16 = 6;
-        temp_a1->unk_02 = temp_s2;
-        temp_a1->unk_06 = temp_s3;
-        temp_s0 += (((s32) (temp_s2 << 0xA) >> 0x10) + (((s32) (temp_s3 << 0xA) >> 0x10) << ((S_800B2074_0 *)temp_s4)->unk_1F0)) * 6;
-        ASM_KEEP(temp_s3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ((S_800B2074_1 *)temp_v0)->unk_20 = (u16 *) (temp_s0 + 2);
-        ((S_800B2074_4 *)temp_s0)->unk_00 = 3;
-        temp_a1->unk_0A = (s16) (0 - *((S_800B2074_1 *)temp_v0)->unk_20);
-        ((S_800B2074_4 *)temp_s0)->unk_02 = (u16) (((S_800B2074_4 *)temp_s0)->unk_02 + 0x20);
-        ((S_800B2074_4 *)temp_s0)->unk_04 = (u16) (((S_800B2074_4 *)temp_s0)->unk_04 | 1);
-        func_800A56E0(0x603, temp_a1);
-        temp_dest = D_800814A8;
-        temp_tail = temp_dest->unk_2A;
-        temp_dest = temp_v0 + 0x20;
-        ASM_KEEP(temp_dest);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_dest->unk_0E = temp_tail;
+    pos_x = world_x;
+    pos_z = world_z;
+    map_state = D_80083160;
+    tile_addr = ((S_800B2074_0 *)map_state)->unk_1DC;
+    object = func_8003FC64(0x12);
+    if (object != NULL) {
+        init_object = object;
+        ASM_KEEP(init_object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        callback = D_800B1F34;
+        init_data = &D_80046398;
+        ASM_KEEP(init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ((S_800B2074_1 *)object)->unk_10 = callback;
+        func_8004491C(init_object, init_data);
+        render_state = ((S_800B2074_1 *)object)->unk_0C;
+        render_state->unk_20 = 0x1000;
+        render_state->unk_1E = 0x1000;
+        render_state->unk_1C = 0x1000;
+        render_state->unk_08 = 2;
+        render_state->unk_0C = 0x808080;
+        transform = ((S_800B2074_1 *)object)->unk_08;
+        transform->unk_16 = 6;
+        transform->unk_02 = pos_x;
+        transform->unk_06 = pos_z;
+        tile_addr += (((s32) (pos_x << 0xA) >> 0x10) + (((s32) (pos_z << 0xA) >> 0x10) << ((S_800B2074_0 *)map_state)->unk_1F0)) * 6;
+        ASM_KEEP(pos_z);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ((S_800B2074_1 *)object)->unk_20 = (u16 *) (tile_addr + 2);
+        ((S_800B2074_4 *)tile_addr)->unk_00 = 3;
+        transform->unk_0A = (s16) (0 - *((S_800B2074_1 *)object)->unk_20);
+        ((S_800B2074_4 *)tile_addr)->unk_02 = (u16) (((S_800B2074_4 *)tile_addr)->unk_02 + 0x20);
+        ((S_800B2074_4 *)tile_addr)->unk_04 = (u16) (((S_800B2074_4 *)tile_addr)->unk_04 | 1);
+        func_800A56E0(0x603, transform);
+        state_fields = D_800814A8;
+        inherited_value = state_fields->unk_2A;
+        state_fields = object + 0x20;
+        ASM_KEEP(state_fields);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        state_fields->unk_0E = inherited_value;
     }
 }
-
-/* MECHANISM: The 0x28 frame comes from a held D_80083160 base; s0 mutates into the selected record.
-   Guarded roles fix s0/s1/s2/s3 and the short v0/v1 tail lifetimes.
-   Ordered a0/v0/a1 keeps force the callback page before the call-argument page.
-   Split tail source/destination reproduces the final lhu/addiu/store schedule. */

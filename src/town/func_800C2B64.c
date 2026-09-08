@@ -30,21 +30,18 @@ extern M2C_UNK D_800A630C;
 extern M2C_UNK D_800C035C;
 extern M2C_UNK D_800D0C58;
 
-void func_800C02C4(void *arg0, void *arg1, S_800C02C4_1 *arg2) {
-    ((S_800C02C4_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_800C035C;
-    ((S_800C02C4_0 *)((u8 *)arg0 - 0x10))->unk_22 = -1;
-    ((S_800C02C4_0 *)((u8 *)arg0 - 0x10))->unk_20 = 0xC00;
-    ((S_800C02C4_0 *)((u8 *)arg0 - 0x10))->unk_28 = 0xC00;
-    arg2->unk_1E = 0x1000;
-    arg2->unk_1C = 0x1000;
-    arg2->unk_0C = 0x808080;
-    arg2->unk_2C = &D_800D0C58;
-    func_80094A38(&D_800D0C58, arg0);
-    func_80033D08(arg0);
+/* Initializes object and rendering data and registers its resources. */
+void func_800C02C4(void *object_data, void *unused, S_800C02C4_1 *render_data) {
+    ((S_800C02C4_0 *)((u8 *)object_data - 0x10))->unk_00 = &D_800C035C;
+    ((S_800C02C4_0 *)((u8 *)object_data - 0x10))->unk_22 = -1;
+    ((S_800C02C4_0 *)((u8 *)object_data - 0x10))->unk_20 = 0xC00;
+    ((S_800C02C4_0 *)((u8 *)object_data - 0x10))->unk_28 = 0xC00;
+    render_data->unk_1E = 0x1000;
+    render_data->unk_1C = 0x1000;
+    render_data->unk_0C = 0x808080;
+    render_data->unk_2C = &D_800D0C58;
+    func_80094A38(&D_800D0C58, object_data);
+    func_80033D08(object_data);
     func_800A647C(0x24, &D_800A62E8);
     func_800A643C(0xE4, &D_800A630C);
 }
-
-/* MECHANISM: The three-argument ABI keeps the data pointer in $a2 and removes
-   the census draft's extra $a1-to-$v1 copy while preserving the 0x18 frame.
-   Direct global-address call arguments under cdk-G0 reproduce retail scheduling. */

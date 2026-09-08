@@ -21,20 +21,21 @@ extern M2C_UNK func_80024824();
 extern M2C_UNK func_800478B8();
 extern s32 D_800814A0[3];
 
-void func_818930F8(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    s16 temp_a3;
-    S_818930F8_1 *temp_v1;
+/* Advance the object counters, apply the initial frame offset, and flag completion. */
+void func_818930F8(void *state, M2C_UNK draw_context, M2C_UNK update_context) {
+    s16 frame;
+    S_818930F8_1 *object;
 
-    temp_v1 = ((S_818930F8_0 *)arg0)->unk_00;
-    temp_v1->unk_14 = (u16) (temp_v1->unk_14 + 1);
-    ((S_818930F8_0 *)arg0)->unk_04 = (u16) (((S_818930F8_0 *)arg0)->unk_04 + 1);
-    func_800478B8(arg2);
-    temp_a3 = (s16) ((S_818930F8_0 *)arg0)->unk_04;
-    if (temp_a3 < 5) {
-        func_80024824(((S_818930F8_0 *)arg0)->unk_00, arg1, 8, (s16) ((temp_a3 * 0x10) - 0x40));
+    object = ((S_818930F8_0 *)state)->unk_00;
+    object->unk_14 = (u16) (object->unk_14 + 1);
+    ((S_818930F8_0 *)state)->unk_04 = (u16) (((S_818930F8_0 *)state)->unk_04 + 1);
+    func_800478B8(update_context);
+    frame = (s16) ((S_818930F8_0 *)state)->unk_04;
+    if (frame < 5) {
+        func_80024824(((S_818930F8_0 *)state)->unk_00, draw_context, 8, (s16) ((frame * 0x10) - 0x40));
     }
-    if ((s16) ((S_818930F8_0 *)arg0)->unk_04 > ((S_818930F8_0 *)arg0)->unk_06) {
-        ((S_818930F8_0_pre *)arg0)[-1].unk_00 = (u16) (((S_818930F8_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    if ((s16) ((S_818930F8_0 *)state)->unk_04 > ((S_818930F8_0 *)state)->unk_06) {
+        ((S_818930F8_0_pre *)state)[-1].unk_00 = (u16) (((S_818930F8_0_pre *)state)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

@@ -11,11 +11,12 @@ typedef s32 (*Callback)(u32);
 extern void *D_80016000[];
 extern ValueTable D_80019158;
 
+// Returns the table value selected by the callback invoked with zero.
 s32 func_80468280(void)
 {
-    ValueTable table = D_80019158;
-    void *callbacks = *(void **)((u8 *)D_80016000[0] + 0x20);
-    Callback callback = *(Callback *)((u8 *)callbacks + 0x2D4);
+    ValueTable valueTable = D_80019158;
+    void *callbackTable = *(void **)((u8 *)D_80016000[0] + 0x20);
+    Callback getValueIndex = *(Callback *)((u8 *)callbackTable + 0x2D4);
 
-    return table.values[callback(0)];
+    return valueTable.values[getValueIndex(0)];
 }

@@ -1,5 +1,7 @@
 #include "common.h"
+#include "records/Rec_func_800AD058_arg0.h"
 #include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_800AD058_arg2.h"
 
 
 
@@ -12,73 +14,61 @@ extern M2C_UNK func_800AD058();
 extern M2C_UNK func_80174D48();
 extern s16 D_8008346A[];
 
-typedef struct S_801736EC_0 {
-    u8 pad_00[0x96];
-    s16 unk_96;
-    u8 pad_98[0x3];
-    u8 unk_9B;
-} S_801736EC_0;   /* arg0 in func_801736EC */
 
 
-typedef struct S_801736EC_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-} S_801736EC_2;   /* arg2 in func_801736EC */
 
-void func_801736EC(S_801736EC_0 *arg0, M2C_UNK arg1, S_801736EC_2 *arg2, Rec_D_800E3D7C *arg3) {
+/* Initializes the visual effect and advances its action state. */
+void func_801736EC(Rec_func_800AD058_arg0 *action, M2C_UNK context, Rec_func_800AD058_arg2 *visual, Rec_D_800E3D7C *entity) {
     M2C_UNK one;
     M2C_UNK color;
-    M2C_UNK temp_v1;
+    M2C_UNK phase;
 
-    temp_v1 = arg0->unk_9B;
+    phase = action->unk_9B;
     one = 1;
-    if (temp_v1 == one) {
-        goto block_10;
+    if (phase == one) {
+        goto initialize;
     }
-    if (temp_v1 >= 2) {
-        goto block_ge_2;
+    if (phase >= 2) {
+        goto check_update;
     }
-    if (temp_v1 == 0) {
-        goto block_8;
+    if (phase == 0) {
+        goto wait_ready;
     }
-    goto block_end;
+    goto done;
 
-block_ge_2:
-    if (temp_v1 == 2) {
-        goto block_20;
+check_update:
+    if (phase == 2) {
+        goto update;
     }
-    goto block_end;
+    goto done;
 
-block_8:
+wait_ready:
     if (D_8008346A[0] != 0) {
-        goto block_end;
+        goto done;
     }
-    arg0->unk_9B = (u8)one;
+    action->unk_9B = (u8)one;
 
-block_10:
-    if (arg3->unk_48.at01_u8.v != 0) {
-        func_80174D48(arg1, arg2, arg3);
-        arg3->unk_48.at00_s8.v = 0;
-        arg3->unk_48.at01_u8.v = 0U;
+initialize:
+    if (entity->unk_48.at01_u8.v != 0) {
+        func_80174D48(context, visual, entity);
+        entity->unk_48.at00_s8.v = 0;
+        entity->unk_48.at01_u8.v = 0U;
     }
     color = 0x808080;
     ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    arg2->unk_10 = 0x20;
-    arg2->unk_12 = (u16)(arg2->unk_12 - 0x80);
-    arg2->unk_14 = (u16)(arg2->unk_14 | 0xC);
-    arg3->unk_1C.as_s32 = arg3->unk_1C.as_s32 | 0x10000000;
-    arg2->unk_0C = color;
-    arg0->unk_96 = 0x10;
-    arg0->unk_9B = (u8)(arg0->unk_9B + 1);
+    visual->unk_10 = 0x20;
+    visual->unk_12 = (u16)(visual->unk_12 - 0x80);
+    visual->unk_14 = (u16)(visual->unk_14 | 0xC);
+    entity->unk_1C.as_s32 = entity->unk_1C.as_s32 | 0x10000000;
+    visual->unk_0C = color;
+    action->unk_96 = 0x10;
+    action->unk_9B = (u8)(action->unk_9B + 1);
     func_800A56E0(0x805, color);
-    goto block_end;
+    goto done;
 
-block_20:
-    func_800AD058(arg0, arg1, arg2, arg3);
+update:
+    func_800AD058(action, context, visual, entity);
 
-block_end:
+done:
     return;
 }

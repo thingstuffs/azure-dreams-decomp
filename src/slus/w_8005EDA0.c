@@ -38,19 +38,20 @@ extern SpuRegs *D_80079958;
 extern void *jtbl_8003323C[];
 extern void *jtbl_8003325C[];
 
+/* Apply masked SPU master volume and CD/external input volume, reverb, and mixing settings. */
 void func_8005EDA0(SpuCommonAttr *attr)
 {
     u32 mask;
-    s32 none;
-    register u16 vl ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register u16 vr ASM_REG("$8");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    u32 mode;
-    u16 rmw;
-    s32 ml;
-    s32 mr;
-    s16 tl;
-    register s32 tr ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s16 trc;
+    s32 set_all;
+    register u16 left_volume ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register u16 right_volume ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    u32 mode_bits;
+    u16 spu_control;
+    s32 left_mode;
+    s32 right_mode;
+    s16 left_level;
+    register s32 right_level ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s16 right_level_s16;
     static void *const keepalive_l[] = {
         &&plain_l, &&l_1, &&l_2, &&l_3, &&l_4, &&l_5, &&l_6, &&l_7
     };
@@ -60,130 +61,130 @@ void func_8005EDA0(SpuCommonAttr *attr)
     (void)keepalive_l;
     (void)keepalive_r;
 
-    vl = 0;
-    vr = 0;
+    left_volume = 0;
+    right_volume = 0;
     mask = attr->mask;
-    none = (mask == 0);
+    set_all = (mask == 0);
 
-    if (none || (mask & 0x1)) {
-        if (none || (mask & 0x4)) {
-            ml = attr->mvolmode.left;
-            if ((u32)ml < 8) {
-                goto *jtbl_8003323C[ml];
+    if (set_all || (mask & 0x1)) {
+        if (set_all || (mask & 0x4)) {
+            left_mode = attr->mvolmode.left;
+            if ((u32)left_mode < 8) {
+                goto *jtbl_8003323C[left_mode];
             }
         }
         goto plain_l;
-    l_1: mode = 0x8000; goto have_l;
-    l_2: mode = 0x9000; goto have_l;
-    l_3: mode = 0xA000; goto have_l;
-    l_4: mode = 0xB000; goto have_l;
-    l_5: mode = 0xC000; goto have_l;
-    l_6: mode = 0xD000; goto have_l;
-    l_7: mode = 0xE000; goto have_l;
+    l_1: mode_bits = 0x8000; goto have_l;
+    l_2: mode_bits = 0x9000; goto have_l;
+    l_3: mode_bits = 0xA000; goto have_l;
+    l_4: mode_bits = 0xB000; goto have_l;
+    l_5: mode_bits = 0xC000; goto have_l;
+    l_6: mode_bits = 0xD000; goto have_l;
+    l_7: mode_bits = 0xE000; goto have_l;
     plain_l:
-        vl = attr->mvol.left;
-        mode = 0;
+        left_volume = attr->mvol.left;
+        mode_bits = 0;
     have_l:
-        if (mode != 0) {
-            tl = attr->mvol.left;
-            if (tl > 0x7F) {
-                vl = 0x7F;
-            } else if (tl < 0) {
-                vl = 0;
+        if (mode_bits != 0) {
+            left_level = attr->mvol.left;
+            if (left_level > 0x7F) {
+                left_volume = 0x7F;
+            } else if (left_level < 0) {
+                left_volume = 0;
             } else {
-                vl = tl;
+                left_volume = left_level;
             }
         }
-        D_80079958->mvoll = (vl & 0x7FFF) | mode;
+        D_80079958->mvoll = (left_volume & 0x7FFF) | mode_bits;
     }
 
-    if (none || (mask & 0x2)) {
-        if (none || (mask & 0x8)) {
-            mr = attr->mvolmode.right;
-            if ((u32)mr < 8) {
-                goto *jtbl_8003325C[mr];
+    if (set_all || (mask & 0x2)) {
+        if (set_all || (mask & 0x8)) {
+            right_mode = attr->mvolmode.right;
+            if ((u32)right_mode < 8) {
+                goto *jtbl_8003325C[right_mode];
             }
         }
         goto plain_r;
-    r_1: mode = 0x8000; goto have_r;
-    r_2: mode = 0x9000; goto have_r;
-    r_3: mode = 0xA000; goto have_r;
-    r_4: mode = 0xB000; goto have_r;
-    r_5: mode = 0xC000; goto have_r;
-    r_6: mode = 0xD000; goto have_r;
-    r_7: mode = 0xE000; goto have_r;
+    r_1: mode_bits = 0x8000; goto have_r;
+    r_2: mode_bits = 0x9000; goto have_r;
+    r_3: mode_bits = 0xA000; goto have_r;
+    r_4: mode_bits = 0xB000; goto have_r;
+    r_5: mode_bits = 0xC000; goto have_r;
+    r_6: mode_bits = 0xD000; goto have_r;
+    r_7: mode_bits = 0xE000; goto have_r;
     plain_r:
-        vr = attr->mvol.right;
-        mode = 0;
+        right_volume = attr->mvol.right;
+        mode_bits = 0;
     have_r:
-        if (mode != 0) {
-            tr = attr->mvol.right;
-            trc = attr->mvol.right;
-            if (tr > 0x7F) {
-                vr = 0x7F;
-            } else if (tr < 0) {
-                vr = 0;
+        if (mode_bits != 0) {
+            right_level = attr->mvol.right;
+            right_level_s16 = attr->mvol.right;
+            if (right_level > 0x7F) {
+                right_volume = 0x7F;
+            } else if (right_level < 0) {
+                right_volume = 0;
             } else {
-                vr = trc;
+                right_volume = right_level_s16;
             }
         }
-        D_80079958->mvolr = (vr & 0x7FFF) | mode;
+        D_80079958->mvolr = (right_volume & 0x7FFF) | mode_bits;
     }
 
-    if (none || (mask & 0x40)) {
+    if (set_all || (mask & 0x40)) {
         D_80079958->cdvoll = attr->cd.volume.left;
     }
-    if (none || (mask & 0x80)) {
+    if (set_all || (mask & 0x80)) {
         D_80079958->cdvolr = attr->cd.volume.right;
     }
-    if (none || (mask & 0x400)) {
+    if (set_all || (mask & 0x400)) {
         D_80079958->extvoll = attr->ext.volume.left;
     }
-    if (none || (mask & 0x800)) {
+    if (set_all || (mask & 0x800)) {
         D_80079958->extvolr = attr->ext.volume.right;
     }
-    if (none || (mask & 0x100)) {
+    if (set_all || (mask & 0x100)) {
         if (attr->cd.reverb == 0) {
-            rmw = D_80079958->spucnt;
-            rmw &= 0xFFFB;
-            D_80079958->spucnt = rmw;
+            spu_control = D_80079958->spucnt;
+            spu_control &= 0xFFFB;
+            D_80079958->spucnt = spu_control;
         } else {
-            rmw = D_80079958->spucnt;
-            rmw |= 0x4;
-            D_80079958->spucnt = rmw;
+            spu_control = D_80079958->spucnt;
+            spu_control |= 0x4;
+            D_80079958->spucnt = spu_control;
         }
     }
-    if (none || (mask & 0x200)) {
+    if (set_all || (mask & 0x200)) {
         if (attr->cd.mix == 0) {
-            rmw = D_80079958->spucnt;
-            rmw &= 0xFFFE;
-            D_80079958->spucnt = rmw;
+            spu_control = D_80079958->spucnt;
+            spu_control &= 0xFFFE;
+            D_80079958->spucnt = spu_control;
         } else {
-            rmw = D_80079958->spucnt;
-            rmw |= 0x1;
-            D_80079958->spucnt = rmw;
+            spu_control = D_80079958->spucnt;
+            spu_control |= 0x1;
+            D_80079958->spucnt = spu_control;
         }
     }
-    if (none || (mask & 0x1000)) {
+    if (set_all || (mask & 0x1000)) {
         if (attr->ext.reverb == 0) {
-            rmw = D_80079958->spucnt;
-            rmw &= 0xFFF7;
-            D_80079958->spucnt = rmw;
+            spu_control = D_80079958->spucnt;
+            spu_control &= 0xFFF7;
+            D_80079958->spucnt = spu_control;
         } else {
-            rmw = D_80079958->spucnt;
-            rmw |= 0x8;
-            D_80079958->spucnt = rmw;
+            spu_control = D_80079958->spucnt;
+            spu_control |= 0x8;
+            D_80079958->spucnt = spu_control;
         }
     }
-    if (none || (mask & 0x2000)) {
+    if (set_all || (mask & 0x2000)) {
         if (attr->ext.mix == 0) {
-            rmw = D_80079958->spucnt;
-            rmw &= 0xFFFD;
-            D_80079958->spucnt = rmw;
+            spu_control = D_80079958->spucnt;
+            spu_control &= 0xFFFD;
+            D_80079958->spucnt = spu_control;
         } else {
-            rmw = D_80079958->spucnt;
-            rmw |= 0x2;
-            D_80079958->spucnt = rmw;
+            spu_control = D_80079958->spucnt;
+            spu_control |= 0x2;
+            D_80079958->spucnt = spu_control;
         }
     }
 }

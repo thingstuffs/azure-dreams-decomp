@@ -1,7 +1,5 @@
 #include "common.h"
 
-#include "common.h"
-
 #ifdef NON_MATCHING
 #define ASM_KEEP_OLD(var) ((void)0)
 #else
@@ -39,80 +37,108 @@ extern u8 D_800D2FB4[32];
 extern u8 D_800D381A[];
 extern u8 D_8012F004[16];
 
+/* Loads shared and variant-specific resources, then processes the selected table entry. */
 void func_80051228(void)
 {
-    u8 sp10;
-    u8 *var_a1;
-    s32 arg0;
-    void *fp = func_8003E140;
+    u8 load_status;
+    u8 *resource;
+    s32 command;
+    void *load_callback = func_8003E140;
 
-    sp10 = 0;
+    load_status = 0;
     func_8003E4FC(6, D_80080BB4, 0);
-    func_8003E4FC(0xFF, fp, &sp10);
+    func_8003E4FC(0xFF, load_callback, &load_status);
     func_8003F320();
     func_80041344((void *)0x80020000, D_80081480_0[0]);
     DrawSync(0);
-    sp10 = 0;
+    load_status = 0;
     func_8003E4FC(6, D_80080BBC, 0);
-    func_8003E4FC(0xFF, fp, &sp10);
+    func_8003E4FC(0xFF, load_callback, &load_status);
     func_8003F320();
     func_80041344((void *)0x80020000, D_80081480_1[0]);
     DrawSync(0);
-    sp10 = 0;
+    load_status = 0;
     func_8003E4FC(6, D_80080BC4, 0);
-    func_8003E4FC(0xFF, fp, &sp10);
+    func_8003E4FC(0xFF, load_callback, &load_status);
     func_8003F320();
     func_80041344((void *)0x80020000, D_80081480_2[0]);
     DrawSync(0);
-    sp10 = 0;
+    load_status = 0;
     func_8003E4FC(6, D_80080BCC, 0);
-    func_8003E4FC(0xFF, fp, &sp10);
+    func_8003E4FC(0xFF, load_callback, &load_status);
     func_8003F320();
     func_80041344((void *)0x80020000, D_80081480_3[0]);
     DrawSync(0);
-    sp10 = 0;
+    load_status = 0;
 
     switch (D_800D381A[0]) {
     case 0:
     case 1:
     default:
         switch (D_800136B8[0]) {
-        default: arg0 = 6; ASM_KEEP_OLD(arg0); var_a1 = D_80080BD4; break;
-        case 11: arg0 = 6; var_a1 = D_80080BDC; break;
-        case 12: arg0 = 6; var_a1 = D_80080BE4; break;
-        case 13: arg0 = 6; var_a1 = D_80080BEC; break;
+        default:
+            command = 6;
+            ASM_KEEP_OLD(command);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            resource = D_80080BD4;
+            break;
+        case 11:
+            command = 6;
+            resource = D_80080BDC;
+            break;
+        case 12:
+            command = 6;
+            resource = D_80080BE4;
+            break;
+        case 13:
+            command = 6;
+            resource = D_80080BEC;
+            break;
         }
         break;
     case 2:
-        arg0 = 6; var_a1 = D_80080BF4;
+        command = 6;
+        resource = D_80080BF4;
         break;
     case 3:
         switch (D_800136B8[0]) {
-        default: arg0 = 6; ASM_KEEP_OLD(arg0); var_a1 = D_80080BFC; break;
-        case 11: arg0 = 6; var_a1 = D_80080C04; break;
-        case 12: arg0 = 6; var_a1 = D_80080C0C; break;
-        case 13: arg0 = 6; var_a1 = D_80080C14; break;
+        default:
+            command = 6;
+            ASM_KEEP_OLD(command);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            resource = D_80080BFC;
+            break;
+        case 11:
+            command = 6;
+            resource = D_80080C04;
+            break;
+        case 12:
+            command = 6;
+            resource = D_80080C0C;
+            break;
+        case 13:
+            command = 6;
+            resource = D_80080C14;
+            break;
         }
         break;
     }
 
-    func_8003E4FC(arg0, var_a1, 0);
-    func_8003E4FC(0xFF, func_8003E140, &sp10);
+    func_8003E4FC(command, resource, 0);
+    func_8003E4FC(0xFF, func_8003E140, &load_status);
     func_8003F320();
     func_80041344((void *)0x80020000, D_80081480_4[0]);
     DrawSync(0);
     {
-        u8 *base = D_800D2FB4;
-        u32 addr;
-        u8 *arg1;
-        u8 value;
+        u8 *entry_table = D_800D2FB4;
+        u32 entry_addr;
+        u8 *dest_base;
+        u8 entry_id;
 
-        addr = D_800D381A[0];
-        ASM_KEEP_OLD(addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        arg1 = (u8 *)0x80130000;
-        ASM_KEEP_OLD(arg1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        addr = (addr << 5) + (u32)base;
-        value = *(u8 *)addr;
-        func_80046E38(value, arg1 - 0xFFC);
+        entry_addr = D_800D381A[0];
+        ASM_KEEP_OLD(entry_addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        dest_base = (u8 *)0x80130000;
+        ASM_KEEP_OLD(dest_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        entry_addr = (entry_addr << 5) + (u32)entry_table;
+        entry_id = *(u8 *)entry_addr;
+        func_80046E38(entry_id, dest_base - 0xFFC);
     }
 }

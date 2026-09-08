@@ -4,67 +4,68 @@ extern void func_80044AAC();
 extern u8 D_800D162C[];
 extern u8 D_800D1630[];
 
-void func_800B1DCC(void **arg0)
+/* Ease two objects toward preset coordinates and shades, then pass them in coordinate order. */
+void func_800B1DCC(void **pair_state)
 {
-  s32 values[2];
-  s32 i;
-  s32 stack_offset;
+  s32 coords[2];
+  s32 item_index;
+  s32 coord_offset;
   s32 delta;
-  u8 table_value;
-  u8 old_value;
-  s32 signed_coord;
-  s16 result_coord;
-  s16 old_coord;
-  u8 *table_a;
-  u8 *table_b;
-  void **entry;
-  void *container;
-  void *object;
-  void *copy;
+  u8 preset_index;
+  u8 old_shade;
+  s32 current_coord;
+  s16 next_coord;
+  s16 second_index;
+  u8 *preset_table;
+  u8 *shade_table;
+  void **item_entry;
+  void *visual_holder;
+  void *visual_data;
+  void *shade_data;
 
-  i = 0;
-  table_a = D_800D162C;
-  table_b = D_800D1630;
-  stack_offset = i;
-  entry = arg0;
+  item_index = 0;
+  preset_table = D_800D162C;
+  shade_table = D_800D1630;
+  coord_offset = item_index;
+  item_entry = pair_state;
   do {
-    container = *((void **) (((u8 *) (*entry)) + 0xC));
-    table_value = (table_a + ((*((s32 *) (((u8 *) arg0) + 0xC))) * 2))[i];
-    object = *((void **) (((u8 *) container) + 4));
+    visual_holder = *((void **) (((u8 *) (*item_entry)) + 0xC));
+    preset_index = (preset_table + ((*((s32 *) (((u8 *) pair_state) + 0xC))) * 2))[item_index];
+    visual_data = *((void **) (((u8 *) visual_holder) + 4));
     {
       s32 loaded_coord;
-      loaded_coord = *((s16 *) (((u8 *) object) + 0xC));
-      signed_coord = loaded_coord;
-      delta = (table_value * 0x28) + 0x200;
+      loaded_coord = *((s16 *) (((u8 *) visual_data) + 0xC));
+      current_coord = loaded_coord;
+      delta = (preset_index * 0x28) + 0x200;
       delta -= loaded_coord;
     }
-    if (table_value == 0) {
+    if (preset_index == 0) {
       goto no_round;
     }
     delta++;
   no_round:
-    result_coord = (s16) (signed_coord + (delta >> 1));
-    *((s16 *) (((u8 *) object) + 0xC)) = result_coord;
-    old_coord = 1;
-    *((s32 *) (((u8 *) values) + stack_offset)) = *((s16 *) (((u8 *) (*((void **) (((u8 *) container) + 4)))) + 0xC));
-    object = *((void **) (((u8 *) container) + 4));
-    table_value = (table_a + ((*((s32 *) (((u8 *) arg0) + 0xC))) * 2))[i];
-    old_value = *((u8 *) (((u8 *) object) + 0));
-    delta = table_b[table_value * 4] - old_value;
-    if (table_value == 0) {
+    next_coord = (s16) (current_coord + (delta >> 1));
+    *((s16 *) (((u8 *) visual_data) + 0xC)) = next_coord;
+    second_index = 1;
+    *((s32 *) (((u8 *) coords) + coord_offset)) = *((s16 *) (((u8 *) (*((void **) (((u8 *) visual_holder) + 4)))) + 0xC));
+    visual_data = *((void **) (((u8 *) visual_holder) + 4));
+    preset_index = (preset_table + ((*((s32 *) (((u8 *) pair_state) + 0xC))) * 2))[item_index];
+    old_shade = *((u8 *) (((u8 *) visual_data) + 0));
+    delta = shade_table[preset_index * 4] - old_shade;
+    if (preset_index == 0) {
       delta++;
     }
-    *((u8 *) (((u8 *) object) + 0)) = old_value + (delta >> 1);
-    stack_offset += 4;
-    *((u8 *) (((u8 *) (*((void **) (((u8 *) container) + 4)))) + old_coord)) = *((u8 *) (((u8 *) (*((void **) (((u8 *) container) + 4)))) + 0));
-    copy = *((void **) (((u8 *) container) + 4));
-    *((u8 *) (((u8 *) copy) + 2)) = *((u8 *) (((u8 *) copy) + 0));
-    entry = (void **) (((u8 *) entry) + 4);
-    i++;
-  } while (i < 2);
-  if (values[0] > values[old_coord]) {
-    func_80044AAC(arg0[old_coord], arg0[0]);
+    *((u8 *) (((u8 *) visual_data) + 0)) = old_shade + (delta >> 1);
+    coord_offset += 4;
+    *((u8 *) (((u8 *) (*((void **) (((u8 *) visual_holder) + 4)))) + second_index)) = *((u8 *) (((u8 *) (*((void **) (((u8 *) visual_holder) + 4)))) + 0));
+    shade_data = *((void **) (((u8 *) visual_holder) + 4));
+    *((u8 *) (((u8 *) shade_data) + 2)) = *((u8 *) (((u8 *) shade_data) + 0));
+    item_entry = (void **) (((u8 *) item_entry) + 4);
+    item_index++;
+  } while (item_index < 2);
+  if (coords[0] > coords[second_index]) {
+    func_80044AAC(pair_state[second_index], pair_state[0]);
   } else {
-    func_80044AAC(arg0[0], arg0[old_coord]);
+    func_80044AAC(pair_state[0], pair_state[second_index]);
   }
 }

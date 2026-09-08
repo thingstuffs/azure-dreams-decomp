@@ -19,17 +19,18 @@ typedef struct S_800AFD5C_0 {
 void func_800AF9C4(void *arg0);
 extern M2C_UNK D_800AFD00[];
 
-void func_800AFD5C(void *arg0) {
-    s32 temp_v0;
-    s32 temp_v0_2;
+/* Update the linked value from the current step and advance the state after six steps. */
+void func_800AFD5C(void *object) {
+    s32 step;
+    s32 nextStep;
 
-    temp_v0 = ((S_800AFD5C_0 *)((u8 *)arg0 - 0x10))->unk_18;
-    ((S_800AFD5C_2 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_9C))->unk_06 = (s16) ((temp_v0 << 0xC) / 5);
-    temp_v0_2 = ((S_800AFD5C_0 *)((u8 *)arg0 - 0x10))->unk_18 + 1;
-    ((S_800AFD5C_0 *)((u8 *)arg0 - 0x10))->unk_18 = temp_v0_2;
-    if (temp_v0_2 < 6) {
+    step = ((S_800AFD5C_0 *)((u8 *)object - 0x10))->unk_18;
+    ((S_800AFD5C_2 *)(((Rec_func_800AF254_arg1 *)object)->unk_9C))->unk_06 = (s16) ((step << 0xC) / 5);
+    nextStep = ((S_800AFD5C_0 *)((u8 *)object - 0x10))->unk_18 + 1;
+    ((S_800AFD5C_0 *)((u8 *)object - 0x10))->unk_18 = nextStep;
+    if (nextStep < 6) {
     } else {
-        ((S_800AFD5C_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_800AFD00;
+        ((S_800AFD5C_0 *)((u8 *)object - 0x10))->unk_00 = &D_800AFD00;
     }
-    func_800AF9C4(arg0);
+    func_800AF9C4(object);
 }

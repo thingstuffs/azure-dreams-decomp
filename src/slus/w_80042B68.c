@@ -14,17 +14,18 @@ typedef struct {
 
 extern void func_80042BDC();
 
-void func_80042B68(SlotOwner *arg0, s8 arg1)
+/* Clear slots of the requested type and notify the owner after each match. */
+void func_80042B68(SlotOwner *owner, s8 match_type)
 {
-    s32 var_s1;
-    s8 temp_a1;
+    s32 slot_index;
+    s8 slot_type;
 
-    for (var_s1 = 3; var_s1 >= 0; var_s1--) {
-        temp_a1 = arg0->slots[var_s1].type;
-        if (temp_a1 == arg1) {
-            arg0->slots[var_s1].type = 0;
-            arg0->slots[var_s1].value = 0;
-            func_80042BDC(arg0, arg1);
+    for (slot_index = 3; slot_index >= 0; slot_index--) {
+        slot_type = owner->slots[slot_index].type;
+        if (slot_type == match_type) {
+            owner->slots[slot_index].type = 0;
+            owner->slots[slot_index].value = 0;
+            func_80042BDC(owner, match_type);
         }
     }
 }

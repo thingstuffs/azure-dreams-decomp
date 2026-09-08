@@ -11,6 +11,7 @@ extern void func_80018BD0();
 extern s32 func_80018C50();
 extern void *D_80016000;
 
+/* Updates event state and checks completion conditions, invoking a callback if unmet. */
 s32 func_8001686C(void)
 {
     func_80018BD0(0xFB7);

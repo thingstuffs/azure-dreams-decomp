@@ -15,19 +15,20 @@ s32 func_800AD9B4();                /* extern */
 extern u16 D_80083462;
 extern M2C_UNK D_800D8C64;
 
-void func_800D9884(S_800D9884_0 *arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3) {
+/* Updates the target and resets state after a successful check or a reset flag. */
+void func_800D9884(S_800D9884_0 *state, M2C_UNK unused, M2C_UNK source, M2C_UNK target) {
     if (func_800AB1C0() != 0) {
-        func_800AD594(arg3, 4);
-        func_800A4ACC(arg3);
-        if ((func_800AD9B4(arg2, arg3) << 0x10) > 0) {
-            arg0->unk_8C = &D_800D8C64;
-            arg0->unk_90.at00.v = 0;
-            goto block_3;
+        func_800AD594(target, 4);
+        func_800A4ACC(target);
+        if ((func_800AD9B4(source, target) << 0x10) > 0) {
+            state->unk_8C = &D_800D8C64;
+            state->unk_90.at00.v = 0;
+            goto check_reset_flag;
         }
     } else {
-block_3:
+check_reset_flag:
         if (D_80083462 & 0x80) {
-            arg0->unk_90.at02.v = 0;
+            state->unk_90.at02.v = 0;
         }
     }
 }

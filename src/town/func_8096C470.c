@@ -14,19 +14,20 @@ struct Ent {
 extern unsigned char D_80126A01[];
 extern struct Tbl D_801278B0[];
 
-void func_80124908(struct Ent *arg0)
+/* Update entry flags from the global value and the entry's table threshold. */
+void func_80124908(struct Ent *entry)
 {
-    unsigned char v;
+    unsigned char flags;
 
     if (D_80126A01[0] != 0) {
-        arg0->unkE |= 1;
+        entry->unkE |= 1;
     } else {
-        arg0->unkE &= 0xFE;
+        entry->unkE &= 0xFE;
     }
-    if (D_80126A01[0] < ((D_801278B0[arg0->unk13].unk4 - 3) << 4)) {
-        v = arg0->unkE | 2;
+    if (D_80126A01[0] < ((D_801278B0[entry->unk13].unk4 - 3) << 4)) {
+        flags = entry->unkE | 2;
     } else {
-        v = arg0->unkE & 0xFD;
+        flags = entry->unkE & 0xFD;
     }
-    arg0->unkE = v;
+    entry->unkE = flags;
 }

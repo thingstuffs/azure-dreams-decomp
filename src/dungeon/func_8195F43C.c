@@ -124,66 +124,66 @@ extern void func_80065820(void *, void *);
 extern u8 D_8002745C[];
 extern u8 D_80083160[];
 
-void func_8195F43C(void *arg0, void *arg1, u8 *object, s16 arg3, s16 arg4)
+/* Project a textured object quad onto the height grid and add it to the ordering table. */
+void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_y)
 {
-    u8 **global = (u8 **)D_80083160;
+    u8 **render_state = (u8 **)D_80083160;
     u8 *scratch = (u8 *)0x1F800000;
-    u8 *tableBase = D_8002745C;
-    u8 *base;
+    u8 *height_grid = D_8002745C;
+    u8 *render_ctx;
     u8 *packet;
     u8 *texture;
-    u8 *table;
-    u8 *table2;
-    u32 index;
-    s16 x0;
-    s16 x1;
-    s16 y0;
-    s16 y1;
-    s32 visible0;
-    s32 visible1;
-    s32 visible2;
-    s32 visible3;
-    s32 visible01;
-    s32 visible012;
-    s32 temp;
-    s32 temp2;
-    u32 lowMask;
-    u32 highMask;
-    u16 objectValue;
-    s32 objectY;
+    u8 *height_row;
+    u8 *next_height_row;
+    u32 depth;
+    s16 left;
+    s16 right;
+    s16 top;
+    s16 bottom;
+    s32 visible_0;
+    s32 visible_1;
+    s32 visible_2;
+    s32 visible_3;
+    s32 visible_01;
+    s32 visible_012;
+    s32 edge_uv;
+    u32 address_mask;
+    u32 tag_mask;
+    u16 page_offset;
+    s32 scale_y;
 
-    (void)arg0;
-    base = *global;
-    ((S_8195F43C_0 *)scratch)->unk_20 = base + 0xB0;
-    ((S_8195F43C_0 *)scratch)->unk_E4 = ((S_8195F43C_1 *)arg1)->unk_02 + ((arg3 - 3) << 6);
-    ((S_8195F43C_0 *)scratch)->unk_E8 = ((S_8195F43C_1 *)arg1)->unk_06 + ((arg4 - 3) << 6);
-    ((S_8195F43C_0 *)scratch)->unk_EC = ((S_8195F43C_1 *)arg1)->unk_0A;
+    (void)unused;
+    render_ctx = *render_state;
+    ((S_8195F43C_0 *)scratch)->unk_20 = render_ctx + 0xB0;
+    ((S_8195F43C_0 *)scratch)->unk_E4 = ((S_8195F43C_1 *)origin)->unk_02 + ((tile_x - 3) << 6);
+    ((S_8195F43C_0 *)scratch)->unk_E8 = ((S_8195F43C_1 *)origin)->unk_06 + ((tile_y - 3) << 6);
+    ((S_8195F43C_0 *)scratch)->unk_EC = ((S_8195F43C_1 *)origin)->unk_0A;
 
-    table = (u8 *)((u32)(arg4 * 2) +
-        (u32)(tableBase + arg3 * 0x10));
-    tableBase += 0x10;
-    table2 = (u8 *)((u32)(arg4 * 2) +
-        (u32)(tableBase + arg3 * 0x10));
+    height_row = (u8 *)((u32)(tile_y * 2) +
+        (u32)(height_grid + tile_x * 0x10));
+    height_grid += 0x10;
+    next_height_row = (u8 *)((u32)(tile_y * 2) +
+        (u32)(height_grid + tile_x * 0x10));
     {
-        register u32 rawTableValue ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register u32 height ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-        rawTableValue = ((S_8195F43C_2 *)table)->unk_00;
-        ((S_8195F43C_0 *)scratch)->unk_74 = (s16)rawTableValue / 2;
+        height = ((S_8195F43C_2 *)height_row)->unk_00;
+        ((S_8195F43C_0 *)scratch)->unk_74 = (s16)height / 2;
     }
-    ((S_8195F43C_0 *)scratch)->unk_7C = (s16)((S_8195F43C_3 *)table2)->unk_00 / 2;
-    ((S_8195F43C_0 *)scratch)->unk_84 = (s16)((S_8195F43C_2 *)table)->unk_02 / 2;
-    ((S_8195F43C_0 *)scratch)->unk_8C = (s16)((S_8195F43C_3 *)table2)->unk_02 / 2;
+    ((S_8195F43C_0 *)scratch)->unk_7C = (s16)((S_8195F43C_3 *)next_height_row)->unk_00 / 2;
+    ((S_8195F43C_0 *)scratch)->unk_84 = (s16)((S_8195F43C_2 *)height_row)->unk_02 / 2;
+    ((S_8195F43C_0 *)scratch)->unk_8C = (s16)((S_8195F43C_3 *)next_height_row)->unk_02 / 2;
 
-    packet = ((S_8195F43C_4 *)base)->unk_8D0;
+    packet = ((S_8195F43C_4 *)render_ctx)->unk_8D0;
     func_800649A0();
 
     VFIELD(scratch, u32, 0x30) = ((S_8195F43C_5 *)object)->unk_1C * 2;
-    objectY = ((S_8195F43C_5 *)object)->unk_1E;
+    scale_y = ((S_8195F43C_5 *)object)->unk_1E;
     VFIELD(scratch, u32, 0x38) = 0x2000;
     VFIELD(scratch, u16, 0x102) = 0;
     VFIELD(scratch, u16, 0x104) = 0;
     VFIELD(scratch, u16, 0x100) = 0;
-    ((S_8195F43C_0 *)scratch)->unk_34 = objectY * 2;
+    ((S_8195F43C_0 *)scratch)->unk_34 = scale_y * 2;
     func_80065820(scratch + 0x100, scratch + 0xD0);
     func_80064AE0(scratch + 0x11C);
     func_80064840(scratch + 0x11C, scratch + 0xD0, scratch + 0x50);
@@ -192,141 +192,141 @@ void func_8195F43C(void *arg0, void *arg1, u8 *object, s16 arg3, s16 arg4)
     func_80064CF0(scratch + 0x50);
 
     texture = ((S_8195F43C_5 *)object)->unk_08;
-    x0 = (s8)((S_8195F43C_6 *)texture)->unk_02;
-    ((S_8195F43C_0 *)scratch)->unk_80 = x0;
-    ((S_8195F43C_0 *)scratch)->unk_70 = x0;
-    x1 = x0 + ((S_8195F43C_6 *)texture)->unk_0A;
-    ((S_8195F43C_0 *)scratch)->unk_88 = x1;
-    ((S_8195F43C_0 *)scratch)->unk_78 = x1;
-    y0 = (s8)((S_8195F43C_6 *)texture)->unk_03;
-    ((S_8195F43C_0 *)scratch)->unk_7A = y0;
-    ((S_8195F43C_0 *)scratch)->unk_72 = y0;
-    y1 = y0 + ((S_8195F43C_6 *)texture)->unk_0B;
-    ((S_8195F43C_0 *)scratch)->unk_8A = y1;
-    ((S_8195F43C_0 *)scratch)->unk_82 = y1;
+    left = (s8)((S_8195F43C_6 *)texture)->unk_02;
+    ((S_8195F43C_0 *)scratch)->unk_80 = left;
+    ((S_8195F43C_0 *)scratch)->unk_70 = left;
+    right = left + ((S_8195F43C_6 *)texture)->unk_0A;
+    ((S_8195F43C_0 *)scratch)->unk_88 = right;
+    ((S_8195F43C_0 *)scratch)->unk_78 = right;
+    top = (s8)((S_8195F43C_6 *)texture)->unk_03;
+    ((S_8195F43C_0 *)scratch)->unk_7A = top;
+    ((S_8195F43C_0 *)scratch)->unk_72 = top;
+    bottom = top + ((S_8195F43C_6 *)texture)->unk_0B;
+    ((S_8195F43C_0 *)scratch)->unk_8A = bottom;
+    ((S_8195F43C_0 *)scratch)->unk_82 = bottom;
 
-    index = func_80065590(scratch + 0x70, scratch + 0x78,
+    depth = func_80065590(scratch + 0x70, scratch + 0x78,
                           scratch + 0x80, scratch + 0x88,
                           packet + 8, packet + 0x10,
                           packet + 0x18, packet + 0x20,
                           scratch + 0x90, scratch + 0x94);
-    ((S_8195F43C_0 *)scratch)->unk_C0 = index;
+    ((S_8195F43C_0 *)scratch)->unk_C0 = depth;
 
-    if (index < 0x1E0U) {
-        visible0 = 0;
+    if (depth < 0x1E0U) {
+        visible_0 = 0;
         if ((u16)(((S_8195F43C_7 *)packet)->unk_08.u + 0x20) < 0x181U) {
-            visible0 = (u16)(((S_8195F43C_7 *)packet)->unk_0A.u + 0x20) < 0x121U;
+            visible_0 = (u16)(((S_8195F43C_7 *)packet)->unk_0A.u + 0x20) < 0x121U;
         }
-        visible1 = 0;
+        visible_1 = 0;
         if ((u16)(((S_8195F43C_7 *)packet)->unk_10 + 0x20) < 0x181U) {
-            visible1 = (u16)(((S_8195F43C_7 *)packet)->unk_12 + 0x20) < 0x121U;
+            visible_1 = (u16)(((S_8195F43C_7 *)packet)->unk_12 + 0x20) < 0x121U;
         }
-        visible01 = visible0 | visible1;
-        visible2 = 0;
+        visible_01 = visible_0 | visible_1;
+        visible_2 = 0;
         if ((u16)(((S_8195F43C_7 *)packet)->unk_18 + 0x20) < 0x181U) {
-            visible2 = (u16)(((S_8195F43C_7 *)packet)->unk_1A + 0x20) < 0x121U;
+            visible_2 = (u16)(((S_8195F43C_7 *)packet)->unk_1A + 0x20) < 0x121U;
         }
-        visible012 = visible01 | visible2;
-        visible3 = 0;
+        visible_012 = visible_01 | visible_2;
+        visible_3 = 0;
         if ((u16)(((S_8195F43C_7 *)packet)->unk_20.u + 0x20) < 0x181U) {
-            visible3 = (u16)(((S_8195F43C_7 *)packet)->unk_22.u + 0x20) < 0x121U;
+            visible_3 = (u16)(((S_8195F43C_7 *)packet)->unk_22.u + 0x20) < 0x121U;
         }
 
-        if ((visible012 | visible3) != 0) {
+        if ((visible_012 | visible_3) != 0) {
             VFIELD(scratch, s32, 8) = ((S_8195F43C_6 *)texture)->unk_08;
             VFIELD(scratch, s32, 0x10) = ((S_8195F43C_6 *)texture)->unk_0A;
             VFIELD(scratch, s32, 0xC) = ((S_8195F43C_6 *)texture)->unk_09;
             VFIELD(scratch, s32, 0x14) = ((S_8195F43C_6 *)texture)->unk_0B;
 
             ((S_8195F43C_7 *)packet)->unk_0E = ((S_8195F43C_5 *)object)->unk_12 + (*(u16 *)((u8 *)texture + 6));
-            objectValue = ((S_8195F43C_5 *)object)->unk_10;
-            if (objectValue != 0) {
-                u32 tailValue;
-                tailValue = objectValue + (((S_8195F43C_6 *)texture)->unk_04 & 0xFF9F);
-                ASM_TAILSLOT_PIN(tailValue);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            page_offset = ((S_8195F43C_5 *)object)->unk_10;
+            if (page_offset != 0) {
+                u32 texture_page;
+                texture_page = page_offset + (((S_8195F43C_6 *)texture)->unk_04 & 0xFF9F);
+                ASM_TAILSLOT_PIN(texture_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 func_80024FEC();
                 return;
             }
             (*(u16 *)((u8 *)packet + 0x16)) = ((S_8195F43C_6 *)texture)->unk_04;
 
             {
-                s32 low;
-                s32 high;
+                s32 u;
+                s32 width;
 
-                low = VFIELD(scratch, s32, 8);
-                high = VFIELD(scratch, s32, 0x10);
-                if (low + high >= 0x100) {
-                    VFIELD(scratch, s32, 0x10) = high - 1;
+                u = VFIELD(scratch, s32, 8);
+                width = VFIELD(scratch, s32, 0x10);
+                if (u + width >= 0x100) {
+                    VFIELD(scratch, s32, 0x10) = width - 1;
                 }
             }
             {
-                s32 low;
-                s32 high;
+                s32 v;
+                s32 height;
 
-                low = VFIELD(scratch, s32, 0xC);
-                high = VFIELD(scratch, s32, 0x14);
-                if (low + high >= 0x100) {
-                    VFIELD(scratch, s32, 0x14) = high - 1;
+                v = VFIELD(scratch, s32, 0xC);
+                height = VFIELD(scratch, s32, 0x14);
+                if (v + height >= 0x100) {
+                    VFIELD(scratch, s32, 0x14) = height - 1;
                 }
             }
 
             {
-                s32 y;
-                u16 packed;
-                register u16 packedOffset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                s32 v_end;
+                u16 uv_row;
+                register u16 packed_u ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                 {
-                    register s32 coord ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                    register s32 v ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                     {
-                        s32 x;
-                        register s32 dx ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                        s32 width;
+                        register s32 u ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                        x = VFIELD(scratch, s32, 0x10);
-                        dx = VFIELD(scratch, s32, 8);
-                        coord = VFIELD(scratch, s32, 0xC);
-                        VFIELD(scratch, s32, 0x10) = x + dx;
+                        width = VFIELD(scratch, s32, 0x10);
+                        u = VFIELD(scratch, s32, 8);
+                        v = VFIELD(scratch, s32, 0xC);
+                        VFIELD(scratch, s32, 0x10) = width + u;
                     }
                     {
-                        register s32 shifted ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                        register s32 packed_v ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                        shifted = coord;
-                        ASM_USE(shifted);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                        y = VFIELD(scratch, s32, 0x14);
-                        shifted <<= 8;
-                        VFIELD(scratch, s32, 0xC) = shifted;
-                        packed = VFIELD(scratch, u16, 0xC);
-                        y += coord;
+                        packed_v = v;
+                        ASM_USE(packed_v);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                        v_end = VFIELD(scratch, s32, 0x14);
+                        packed_v <<= 8;
+                        VFIELD(scratch, s32, 0xC) = packed_v;
+                        uv_row = VFIELD(scratch, u16, 0xC);
+                        v_end += v;
                     }
                 }
-                packedOffset = VFIELD(scratch, u16, 8);
-                VFIELD(scratch, s32, 0x14) = y;
-                VFIELD(scratch, s32, 0x14) = y << 8;
-                (*(u16 *)((u8 *)packet + 0xC)) = packed + packedOffset;
+                packed_u = VFIELD(scratch, u16, 8);
+                VFIELD(scratch, s32, 0x14) = v_end;
+                VFIELD(scratch, s32, 0x14) = v_end << 8;
+                (*(u16 *)((u8 *)packet + 0xC)) = uv_row + packed_u;
             }
             (*(u16 *)((u8 *)packet + 0x14)) = VFIELD(scratch, u16, 0xC) + VFIELD(scratch, u16, 0x10);
             (*(u16 *)((u8 *)packet + 0x1C)) = VFIELD(scratch, u16, 0x14) + VFIELD(scratch, u16, 8);
             (*(u16 *)((u8 *)packet + 0x24)) = VFIELD(scratch, u16, 0x14) + VFIELD(scratch, u16, 0x10);
 
             if (((S_8195F43C_0 *)scratch)->unk_50 >= 0x1800) {
-                temp = ((S_8195F43C_7 *)packet)->unk_24;
+                edge_uv = ((S_8195F43C_7 *)packet)->unk_24;
                 {
-                    s32 faded;
+                    s32 edge_uv_prev;
 
-                    faded = temp + 0xFF;
-                    ((S_8195F43C_7 *)packet)->unk_24 = faded;
+                    edge_uv_prev = edge_uv + 0xFF;
+                    ((S_8195F43C_7 *)packet)->unk_24 = edge_uv_prev;
                 }
-                ((S_8195F43C_7 *)packet)->unk_14 = temp;
+                ((S_8195F43C_7 *)packet)->unk_14 = edge_uv;
             }
             if (((S_8195F43C_0 *)scratch)->unk_58 >= 0x1800) {
-                temp = ((S_8195F43C_7 *)packet)->unk_25;
+                edge_uv = ((S_8195F43C_7 *)packet)->unk_25;
                 {
-                    s32 faded;
+                    s32 edge_uv_prev;
 
-                    faded = temp + 0xFF;
-                    ((S_8195F43C_7 *)packet)->unk_25 = faded;
+                    edge_uv_prev = edge_uv + 0xFF;
+                    ((S_8195F43C_7 *)packet)->unk_25 = edge_uv_prev;
                 }
-                ((S_8195F43C_7 *)packet)->unk_1D = temp;
+                ((S_8195F43C_7 *)packet)->unk_1D = edge_uv;
             }
             if (((S_8195F43C_7 *)packet)->unk_08.s > ((S_8195F43C_7 *)packet)->unk_20.s) {
                 ((S_8195F43C_7 *)packet)->unk_14--;
@@ -344,17 +344,17 @@ void func_8195F43C(void *arg0, void *arg1, u8 *object, s16 arg3, s16 arg4)
                 ((S_8195F43C_7 *)packet)->unk_04.at03.v = 0x2E;
             }
 
-            lowMask = 0x00FFFFFF;
-            highMask = 0xFF000000;
-            ((S_8195F43C_7 *)packet)->unk_00.at00.v = (((S_8195F43C_7 *)packet)->unk_00.at00.v & highMask) |
-                ((*(u32 *)((u8 *)(((S_8195F43C_0 *)scratch)->unk_20) + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) & lowMask);
+            address_mask = 0x00FFFFFF;
+            tag_mask = 0xFF000000;
+            ((S_8195F43C_7 *)packet)->unk_00.at00.v = (((S_8195F43C_7 *)packet)->unk_00.at00.v & tag_mask) |
+                ((*(u32 *)((u8 *)(((S_8195F43C_0 *)scratch)->unk_20) + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) & address_mask);
             (*(u32 *)((u8 *)(((S_8195F43C_0 *)scratch)->unk_20) + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) =
-                ((*(u32 *)((u8 *)(((S_8195F43C_0 *)scratch)->unk_20) + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) & highMask) |
-                ((u32)packet & lowMask);
+                ((*(u32 *)((u8 *)(((S_8195F43C_0 *)scratch)->unk_20) + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) & tag_mask) |
+                ((u32)packet & address_mask);
             packet += 0x28;
         }
     }
 
     func_80064A40();
-    ((S_8195F43C_8 *)(*global))->unk_8D0 = packet;
+    ((S_8195F43C_8 *)(*render_state))->unk_8D0 = packet;
 }

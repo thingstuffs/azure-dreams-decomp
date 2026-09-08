@@ -17,10 +17,7 @@ extern s32 StartRCnt(u32 spec);
 
 extern void func_80058510(void);
 
-/* If the guard flag D_800737C0 is clear, run the one-time RCnt/event setup:
- * sets the guard, opens+enables an interrupt-mode event bound to
- * func_80058510 on counter 0xF2000002, configures and starts that RCnt,
- * then clears the mode flag and the guard flag again. */
+/* Set up the root counter interrupt event and start the counter unless setup is in progress. */
 void func_800585A0(void)
 {
     if (D_800737C0[0] == 0) {

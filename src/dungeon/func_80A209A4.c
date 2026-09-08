@@ -11,18 +11,18 @@ typedef struct {
 
 extern s32 D_800814A0[3];
 
-void func_801741A4(Func80A209A4Data *arg0) {
-    Func80A209A4Data *data = arg0;
-    u16 count;
+/* Advance motion and set completion flags when the countdown expires. */
+void func_801741A4(Func80A209A4Data *motion) {
+    Func80A209A4Data *data = motion;
+    u16 ticks_left;
 
-    
     data->fieldC += data->field10;
     data->field10 += data->field14;
     data->field14 += 0xFFFF4000;
     data->field8 += 0x10000;
-    count = data->field18 - 1;
-    data->field18 = count;
-    if ((count << 16) <= 0) {
+    ticks_left = data->field18 - 1;
+    data->field18 = ticks_left;
+    if ((ticks_left << 16) <= 0) {
         *(u16 *)((u8 *)data - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }

@@ -46,55 +46,56 @@ typedef struct {
     s16 field16;
 } StackRecord;
 
-void func_80097AD0(S_80097AD0_0 *arg0, S_80097AD0_1 *arg1, s32 count) {
+/* Spawn objects at randomized positions around an origin with evenly spaced angles. */
+void func_80097AD0(S_80097AD0_0 *origin, S_80097AD0_1 *spread, s32 count) {
     StackRecord record;
     s32 angle;
-    s32 step;
+    s32 angle_step;
     s32 magnitude;
-    s32 i;
-    s32 value;
+    s32 object_index;
+    s32 angle_component;
     s32 y;
     u16 initial_y;
     S_80097AD0_2 *object;
 
     if (count != 0) {
-        step = 0x1000 / count;
-        do { i = 0; } while (0);
+        angle_step = 0x1000 / count;
+        do { object_index = 0; } while (0);
         do { angle = rand(); } while (0);
-        initial_y = arg0->unk_0A;
+        initial_y = origin->unk_0A;
         record.field16 = -4;
         record.y = initial_y;
         if (count > 0) {
             do {
-                record.x = (arg0->unk_02 +
-                            func_800374F4(arg1->unk_00.u16)) -
-                           (arg1->unk_00.s32 / 2);
-                record.z = (arg0->unk_06 +
-                            func_800374F4(arg1->unk_04.u16)) -
-                           (arg1->unk_04.s32 / 2);
-                y = (arg0->unk_0A -
-                     func_800374F4(arg1->unk_08.u16)) -
-                    (arg1->unk_08.s32 / 2);
+                record.x = (origin->unk_02 +
+                            func_800374F4(spread->unk_00.u16)) -
+                           (spread->unk_00.s32 / 2);
+                record.z = (origin->unk_06 +
+                            func_800374F4(spread->unk_04.u16)) -
+                           (spread->unk_04.s32 / 2);
+                y = (origin->unk_0A -
+                     func_800374F4(spread->unk_08.u16)) -
+                    (spread->unk_08.s32 / 2);
                 record.y = y;
                 record.fieldC = func_80064584(angle, y) << 5;
-                value = func_800644B8(angle);
+                angle_component = func_800644B8(angle);
                 {
                     void *record_ptr = &record;
                     ASM_KEEP(record_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    value <<= 5;
-                    record.field10 = value;
+                    angle_component <<= 5;
+                    record.field10 = angle_component;
                     object = func_8009792C(record_ptr, angle);
                 }
                 if (object != 0) {
-                    value = func_800644B8(angle) << 5;
-                    if (value < 0) {
-                        value = -value;
+                    angle_component = func_800644B8(angle) << 5;
+                    if (angle_component < 0) {
+                        angle_component = -angle_component;
                     }
-                    ((S_80097AD0_3 *)(object->unk_08))->unk_14 = -value;
+                    ((S_80097AD0_3 *)(object->unk_08))->unk_14 = -angle_component;
                 }
-                i++;
-                angle += step;
-            } while (i < count);
+                object_index++;
+                angle += angle_step;
+            } while (object_index < count);
         }
     }
 }

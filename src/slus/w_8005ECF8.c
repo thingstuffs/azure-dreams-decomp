@@ -18,36 +18,28 @@ extern s32 D_8007998C[3];
 
 extern s32 TestEvent(s32 event);
 
-/* summary: Waits for/checks the SPU transfer-complete event on channel
- * D_800794EC[0] and reports/latches completion status into D_8007998C[0].
- * If either the channel is already marked busy (D_800794F4[0] == 1) or a
- * completion was already latched (D_8007998C[0] == 1), returns 1
- * immediately without touching D_8007998C. Otherwise polls TestEvent()
- * once; if called with a1==1 it blocks (busy-waits) until the event fires
- * and always reports 1, latching that into D_8007998C. If called with
- * a1!=1 it is non-blocking: unless the single poll already returned
- * exactly 1 it returns that raw poll result without latching D_8007998C. */
-s32 func_8005ECF8(s32 a1)
+/* Polls or waits for SPU transfer completion and latches the completion status. */
+s32 func_8005ECF8(s32 wait_for_completion)
 {
-    s32 result;
+    s32 event_status;
 
     if (D_800794F4[0] == 1 || D_8007998C[0] == 1) {
         return 1;
     }
 
-    result = TestEvent(D_800794EC[0]);
-    if (a1 == 1) {
-        if (result == 0) {
+    event_status = TestEvent(D_800794EC[0]);
+    if (wait_for_completion == 1) {
+        if (event_status == 0) {
             while (TestEvent(D_800794EC[0]) == 0) {
             }
         }
-        result = 1;
+        event_status = 1;
     } else {
-        if (result != 1) {
-            return result;
+        if (event_status != 1) {
+            return event_status;
         }
     }
 
-    D_8007998C[0] = result;
-    return result;
+    D_8007998C[0] = event_status;
+    return event_status;
 }

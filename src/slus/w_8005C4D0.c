@@ -34,41 +34,41 @@ extern void func_80056DB4(s32 arg0);
 extern void func_8005E97C(s32 arg0, s32 arg1);
 extern s32 func_8005EB78(s32 arg0);
 
-/* Activates one SPU slot, services it until completion, then clears busy. */
-s32 func_8005C4D0(s16 arg0)
+/* Services an active SPU slot until completion and clears the busy flag. */
+s32 func_8005C4D0(s16 slot_id)
 {
-    u8 *access = (u8 *)D_80085F98;
-    u8 *base = (u8 *)D_80085458;
-    s32 idx = arg0;
-    s32 tmp;
-    u8 *ent;
-    s32 ret;
+    u8 *busy_or_slot = (u8 *)D_80085F98;
+    u8 *slots = (u8 *)D_80085458;
+    s32 slot_index = slot_id;
+    s32 slot_handle;
+    u8 *slot;
+    s32 status;
     u16 active;
 
-    ent = base + idx * 0x78;
-    active = *(u16 *)(ent + 0x1A);
-    *(s32 *)access = 1;
+    slot = slots + slot_index * 0x78;
+    active = *(u16 *)(slot + 0x1A);
+    *(s32 *)busy_or_slot = 1;
     if (active == 0) {
         goto fail;
     }
-    if (*(u16 *)(ent + 6) < 0x10) {
+    if (*(u16 *)(slot + 6) < 0x10) {
         goto fail;
     }
 
-    tmp = D_80073740[idx];
-    access = ent;
-    *(u16 *)(access + 0x1A) = 0;
-    *(u16 *)(access + 0x0A) = 0;
-    func_80056D44(idx, (S_80085458 *)access);
-    func_80056DB4(idx);
-    func_8005E97C(0, D_80073740[idx]);
+    slot_handle = D_80073740[slot_index];
+    busy_or_slot = slot;
+    *(u16 *)(busy_or_slot + 0x1A) = 0;
+    *(u16 *)(busy_or_slot + 0x0A) = 0;
+    func_80056D44(slot_index, (S_80085458 *)busy_or_slot);
+    func_80056DB4(slot_index);
+    func_8005E97C(0, D_80073740[slot_index]);
     do {
-        func_8005E97C(0, tmp);
-        ret = func_8005EB78(tmp);
-        if (ret == 2) {
+        func_8005E97C(0, slot_handle);
+        status = func_8005EB78(slot_handle);
+        if (status == 2) {
             goto success;
         }
-    } while (ret != 0);
+    } while (status != 0);
     goto success;
 
 fail:

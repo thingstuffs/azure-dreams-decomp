@@ -79,6 +79,7 @@ extern u8 D_80100D98[];
 extern s32 D_80100DB0;
 extern s32 D_80100E18;
 
+/* Initialize the town scene and configure its object for the current mode. */
 void func_8008FFC8(void)
 {
     ScenePos *scene;
@@ -86,8 +87,8 @@ void func_8008FFC8(void)
     TownState *state;
     TownObject *object;
     TownWork *work;
-    void *shared;
-    s32 color;
+    void *shared_data;
+    s32 neutral_color;
     u16 x_offset;
     u16 x_coord;
     u16 y_offset;
@@ -103,10 +104,10 @@ void func_8008FFC8(void)
     render->source = D_80080A80;
     func_8008EF58();
 
-    shared = D_800D0420;
-    func_8008F01C(D_800CFCB4, scene, shared);
+    shared_data = D_800D0420;
+    func_8008F01C(D_800CFCB4, scene, shared_data);
     func_8008FCE0();
-    func_8008FD48(D_800FE490, scene, shared);
+    func_8008FD48(D_800FE490, scene, shared_data);
 
     state = &D_8006ADBC;
     if (state->mode == 0x37000C) {
@@ -135,14 +136,14 @@ void func_8008FFC8(void)
 
         object->callback = D_800903FC;
         func_8004491C(object, D_800970FC);
-        color = 0x808080;
+        neutral_color = 0x808080;
         render->scale1 = 0x1000;
         render->scale0 = 0x1000;
 
         coords = state->coords;
         x_offset = state->x_offset;
         x_coord = coords[0];
-        render->color = color;
+        render->color = neutral_color;
         scene->x = x_offset + x_coord;
         y_offset = state->y_offset;
         y_coord = coords[1];

@@ -25,29 +25,30 @@ typedef struct {
 extern u16 D_80027330;
 extern s32 D_800814A0[3];
 
-void func_8195FC60(u16 *arg0, Motion *arg1, Effect *arg2)
+/* Advance motion, fade the effect, and flag expiry when its timer runs out. */
+void func_8195FC60(u16 *state, Motion *motion, Effect *effect)
 {
-    u8 color;
-    s16 timer;
+    u8 brightness;
+    s16 ticks_left;
 
     D_80027330++;
 
-    arg1->x += arg1->dx;
-    arg1->y += arg1->dy;
-    arg1->z += arg1->dz;
-    arg1->dz += 0x40000;
+    motion->x += motion->dx;
+    motion->y += motion->dy;
+    motion->z += motion->dz;
+    motion->dz += 0x40000;
 
-    arg2->x += arg2->dx;
-    arg2->y += arg2->dy;
+    effect->x += effect->dx;
+    effect->y += effect->dy;
 
-    color = arg2->red;
-    color = color - color / *(s16 *)((u8 *)arg0 + 0x4C);
-    arg2->blue = arg2->green = arg2->red = color;
+    brightness = effect->red;
+    brightness = brightness - brightness / *(s16 *)((u8 *)state + 0x4C);
+    effect->blue = effect->green = effect->red = brightness;
 
-    timer = arg0[0x26] - 1;
-    arg0[0x26] = timer;
-    if ((timer << 16) <= 0) {
-        arg0[-1] |= 0x8000;
+    ticks_left = state[0x26] - 1;
+    state[0x26] = ticks_left;
+    if ((ticks_left << 16) <= 0) {
+        state[-1] |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

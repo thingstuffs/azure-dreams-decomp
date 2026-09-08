@@ -20,28 +20,29 @@ typedef struct S_80026C54_1 {
 
 extern s32 D_800814A0[3];
 
-void func_80026C54(void *arg0) {
-    S_80026C54_1 *temp_v0;
-    s16 temp_v1;
-    u16 temp_a0;
-    s32 value;
+/* Waits for the linked object flag, then fades the stored value and marks completion. */
+void func_80026C54(void *effect) {
+    S_80026C54_1 *linked_object;
+    s16 state;
+    u16 state_value;
+    s32 fade_value;
 
-    temp_v0 = ((S_80026C54_0 *)arg0)->unk_04;
-    temp_v1 = ((S_80026C54_0 *)arg0)->unk_00.s;
-    temp_a0 = *(volatile u16 *)arg0;
+    linked_object = ((S_80026C54_0 *)effect)->unk_04;
+    state = ((S_80026C54_0 *)effect)->unk_00.s;
+    state_value = *(volatile u16 *)effect;
 
-    switch (temp_v1) {
+    switch (state) {
     case 0:
-        if (temp_v0->unk_1A & 8) {
-            ((S_80026C54_0 *)arg0)->unk_00.u = temp_a0 + 1;
+        if (linked_object->unk_1A & 8) {
+            ((S_80026C54_0 *)effect)->unk_00.u = state_value + 1;
         }
         break;
 
     case 1:
-        value = ((S_80026C54_0 *)arg0)->unk_08 + 0xFFF7F7F8U;
-        ((S_80026C54_0 *)arg0)->unk_08 = value;
-        if (value <= 0x80808) {
-            ((S_80026C54_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+        fade_value = ((S_80026C54_0 *)effect)->unk_08 + 0xFFF7F7F8U;
+        ((S_80026C54_0 *)effect)->unk_08 = fade_value;
+        if (fade_value <= 0x80808) {
+            ((S_80026C54_0_pre *)effect)[-1].unk_00 |= 0x8000;
             D_800814A0[0] |= 0x8000;
         }
         break;

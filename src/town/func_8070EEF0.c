@@ -8,9 +8,10 @@ extern s8 D_80016000[];
 
 typedef void (*TownCallback)(s32, s32);
 
+/* Checks town event conditions and invokes the object callback when they are met. */
 s32 func_80017EF0(void) {
-    s8 *object;
-    s32 result;
+    s8 *callback_owner;
+    s32 status;
 
     func_80016CC4();
     if (func_8001A8EC(0xB) != 0) {
@@ -27,14 +28,14 @@ s32 func_80017EF0(void) {
     }
 
     func_8001A554(0x942);
-    object = *(s8 **)(*(s8 **)D_80016000 + 0x20);
-    (*(TownCallback *)(object + 0x2F8))(0xE, 0x200);
-    result = 0;
+    callback_owner = *(s8 **)(*(s8 **)D_80016000 + 0x20);
+    (*(TownCallback *)(callback_owner + 0x2F8))(0xE, 0x200);
+    status = 0;
     goto done;
 
 return_one:
-    result = 1;
+    status = 1;
 
 done:
-    return result;
+    return status;
 }

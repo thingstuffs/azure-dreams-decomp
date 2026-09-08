@@ -17,89 +17,90 @@ typedef struct {
 
 extern Result92360 D_800CFE60[];
 
-Result92360 *func_8008FAC0(Object92360 *arg0, Object92360 *arg1)
+/* Returns the smallest signed overlap axis and amount for two intersecting object boxes. */
+Result92360 *func_8008FAC0(Object92360 *box_a, Object92360 *box_b)
 {
-    register s32 *a0_part1 = arg0->parts.part1;
-    register s32 *a1_part1 = arg1->parts.part1;
-    register s32 *a0_part0 = arg0->parts.part0;
-    register s32 *a1_part0 = arg1->parts.part0;
-    s32 *a0_values1 = a0_part1;
-    s32 *a0_values = a0_part0;
-    s32 *a1_values = a1_part0;
-    s32 *a1_extent = a1_part1;
-    register s32 lx, rx, ly, ry, lz, rz;
-    register s32 dx, dx2, dy, dy2, dz, dz2, tmp;
-    register s32 ax, ax2, ay, ay2, az, az2;
-    register s32 fx, fy, fz1, fz2, c1, c2, c3;
+    register s32 *a_bounds = box_a->parts.part1;
+    register s32 *b_bounds = box_b->parts.part1;
+    register s32 *a_position = box_a->parts.part0;
+    register s32 *b_position = box_b->parts.part0;
+    s32 *a_offset = a_bounds;
+    s32 *a_coords = a_position;
+    s32 *b_coords = b_position;
+    s32 *b_extents = b_bounds;
+    register s32 a_min_x, b_min_x, a_min_y, b_min_y, a_min_z, b_min_z;
+    register s32 overlap_x, overlap_x_alt, overlap_y, overlap_y_alt, overlap_z, overlap_z_alt, a_max_x;
+    register s32 abs_x, abs_x_alt, abs_y, abs_y_alt, abs_z, abs_z_alt;
+    register s32 depth_x, depth_y, depth_z_for_x, depth_z_for_y, y_shallower_z, x_shallower_z, y_shallower_z_alt;
 
-    lx = a0_values[0] + a0_values1[0];
-    rx = a1_values[0] + a1_part1[0];
-    dx = lx - (rx + a1_extent[3]);
-    if (dx > 0) return 0;
-    tmp = lx + a0_part1[3];
-    dx2 = tmp - rx;
-    c2 = 0;
-    if (dx2 < 0) goto ret0;
+    a_min_x = a_coords[0] + a_offset[0];
+    b_min_x = b_coords[0] + b_bounds[0];
+    overlap_x = a_min_x - (b_min_x + b_extents[3]);
+    if (overlap_x > 0) return 0;
+    a_max_x = a_min_x + a_bounds[3];
+    overlap_x_alt = a_max_x - b_min_x;
+    x_shallower_z = 0;
+    if (overlap_x_alt < 0) goto no_overlap;
 
-    ly = a0_values[1] + a0_values1[1];
-    ry = a1_values[1] + a1_part1[1];
-    dy = ly - (ry + a1_extent[4]);
-    if (dy > 0) return 0;
-    dy2 = (ly + a0_part1[4]) - ry;
-    c2 = 0;
-    if (dy2 < 0) goto ret0;
+    a_min_y = a_coords[1] + a_offset[1];
+    b_min_y = b_coords[1] + b_bounds[1];
+    overlap_y = a_min_y - (b_min_y + b_extents[4]);
+    if (overlap_y > 0) return 0;
+    overlap_y_alt = (a_min_y + a_bounds[4]) - b_min_y;
+    x_shallower_z = 0;
+    if (overlap_y_alt < 0) goto no_overlap;
 
-    lz = a0_values[2] + a0_values1[2];
-    rz = a1_values[2] + a1_part1[2];
-    dz = lz - (rz + a1_extent[5]);
-    if (dz > 0) return 0;
-    dz2 = (lz + a0_part1[5]) - rz;
-    if (dz2 < 0) return 0;
+    a_min_z = a_coords[2] + a_offset[2];
+    b_min_z = b_coords[2] + b_bounds[2];
+    overlap_z = a_min_z - (b_min_z + b_extents[5]);
+    if (overlap_z > 0) return 0;
+    overlap_z_alt = (a_min_z + a_bounds[5]) - b_min_z;
+    if (overlap_z_alt < 0) return 0;
 
     do {
-        ax = __builtin_abs(dx);
+        abs_x = __builtin_abs(overlap_x);
     } while (0);
-    ax2 = __builtin_abs(dx2);
-    if (ax2 < ax) dx = dx2;
-    ay = __builtin_abs(dy);
-    ay2 = __builtin_abs(dy2);
-    if (ay2 < ay) dy = dy2;
-    az = __builtin_abs(dz);
-    az2 = __builtin_abs(dz2);
-    if (az2 < az) dz = dz2;
+    abs_x_alt = __builtin_abs(overlap_x_alt);
+    if (abs_x_alt < abs_x) overlap_x = overlap_x_alt;
+    abs_y = __builtin_abs(overlap_y);
+    abs_y_alt = __builtin_abs(overlap_y_alt);
+    if (abs_y_alt < abs_y) overlap_y = overlap_y_alt;
+    abs_z = __builtin_abs(overlap_z);
+    abs_z_alt = __builtin_abs(overlap_z_alt);
+    if (abs_z_alt < abs_z) overlap_z = overlap_z_alt;
 
-    if (dx == 0) {
-        if (dy == 0) return 0;
-        if (dz == 0) return 0;
+    if (overlap_x == 0) {
+        if (overlap_y == 0) return 0;
+        if (overlap_z == 0) return 0;
     }
-    if (dy != 0) goto choose;
-    if (dz != 0) goto choose;
-ret0:
+    if (overlap_y != 0) goto choose_axis;
+    if (overlap_z != 0) goto choose_axis;
+no_overlap:
     return 0;
 
-choose:
-    fx = __builtin_abs(dx);
-    fy = __builtin_abs(dy);
-    if (fx < fy) {
-        fz1 = __builtin_abs(dz);
-        c1 = fy < fz1;
-        if (c1) goto use_x;
-        c2 = fx < fz1;
-        if (!c2) goto use_z;
+choose_axis:
+    depth_x = __builtin_abs(overlap_x);
+    depth_y = __builtin_abs(overlap_y);
+    if (depth_x < depth_y) {
+        depth_z_for_x = __builtin_abs(overlap_z);
+        y_shallower_z = depth_y < depth_z_for_x;
+        if (y_shallower_z) goto use_x;
+        x_shallower_z = depth_x < depth_z_for_x;
+        if (!x_shallower_z) goto use_z;
 use_x:
         D_800CFE60[0].axis = 0;
-        D_800CFE60[0].amount = dx;
+        D_800CFE60[0].amount = overlap_x;
         return D_800CFE60;
     }
-    fz2 = __builtin_abs(dz);
-    c3 = fy < fz2;
-    if (c3) {
+    depth_z_for_y = __builtin_abs(overlap_z);
+    y_shallower_z_alt = depth_y < depth_z_for_y;
+    if (y_shallower_z_alt) {
         D_800CFE60[0].axis = 1;
-        D_800CFE60[0].amount = dy;
+        D_800CFE60[0].amount = overlap_y;
         return D_800CFE60;
     }
 use_z:
     D_800CFE60[0].axis = 2;
-    D_800CFE60[0].amount = dz;
+    D_800CFE60[0].amount = overlap_z;
     return D_800CFE60;
 }

@@ -34,6 +34,7 @@ extern s32 D_800814A0[3];
 extern s32 func_800644B8(s16);
 extern s32 func_80064584(s16);
 
+/* Updates angular motion and fades three channels in, holds them, then fades them out. */
 void func_800BBBE0(State *state, Output *output, Interp *interp) {
     output->value2 = state->value4 + (func_80064584(state->angle) >> state->shift);
     output->value6 = state->value6 + (func_800644B8(state->angle) >> state->shift);

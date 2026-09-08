@@ -2,52 +2,53 @@
 
 extern s32 func_8004D828(s32);
 
-s32 func_8004D880(s32 arg0)
+/* Converts fullwidth alphanumerics to ASCII, delegating other character codes. */
+s32 func_8004D880(s32 char_code)
 {
-    s32 value;
-    s32 value_use;
-    s32 offset;
-    s32 result;
+    s32 code;
+    s32 letter_code;
+    s32 range_index;
+    s32 output_char;
 
-    if (arg0 & 1) {
-        value = arg0;
+    if (char_code & 1) {
+        code = char_code;
     } else {
-        value = arg0;
+        code = char_code;
     }
 
-    if (value & 2) {
-        offset = value + 0x7DB1;
+    if (code & 2) {
+        range_index = code + 0x7DB1;
     } else {
-        offset = value + 0x7DB1;
+        range_index = code + 0x7DB1;
     }
-    arg0 = value;
-    if ((u32)(offset & 0xFFFF) < 10) {
-        result = offset + 0x30;
+    char_code = code;
+    if ((u32)(range_index & 0xFFFF) < 10) {
+        output_char = range_index + 0x30;
         goto done;
     }
 
-    if (value & 4) {
-        value_use = value;
+    if (code & 4) {
+        letter_code = code;
     } else {
-        value_use = value;
+        letter_code = code;
     }
-    if (value_use & 8) {
-        offset = value_use + 0x7DA0;
+    if (letter_code & 8) {
+        range_index = letter_code + 0x7DA0;
     } else {
-        offset = value_use + 0x7DA0;
+        range_index = letter_code + 0x7DA0;
     }
-    if ((u32)(offset & 0xFFFF) < 26) {
-        result = offset + 0x41;
+    if ((u32)(range_index & 0xFFFF) < 26) {
+        output_char = range_index + 0x41;
         goto done;
     }
 
-    value_use += 0x7D7F;
-    if ((u32)(value_use & 0xFFFF) < 26) {
-        result = value_use + 0x61;
+    letter_code += 0x7D7F;
+    if ((u32)(letter_code & 0xFFFF) < 26) {
+        output_char = letter_code + 0x61;
     } else {
-        result = func_8004D828(arg0 & 0xFFFF);
+        output_char = func_8004D828(char_code & 0xFFFF);
     }
 
 done:
-    return result & 0xFF;
+    return output_char & 0xFF;
 }

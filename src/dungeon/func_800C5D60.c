@@ -74,47 +74,45 @@ typedef struct S_800CB4C0_5 {
     s16 unk_B4;
 } S_800CB4C0_5;   /* temp_v0_2 in func_800CB4C0 */
 
-void *func_800CB4C0(void *arg0, s16 arg1) {
-    s32 temp_s32;
-    S_800CB4C0_1 *temp_s0;
-    void *temp_v0;
-    S_800CB4C0_5 *temp_v0_2;
-    S_800CB4C0_4 *temp_v0_3;
-    S_800CB4C0_3 *temp_v1;
+/* Creates an object with shared or copied source coordinates and initializes its display state. */
+void *func_800CB4C0(void *source, s16 copy_position) {
+    s32 display_value;
+    S_800CB4C0_1 *display;
+    void *object;
+    S_800CB4C0_5 *state;
+    S_800CB4C0_4 *source_display;
+    S_800CB4C0_3 *position;
 
-    temp_v0 = func_8003FD64(0x100, arg0);
-    if (temp_v0 != NULL) {
-        ((S_800CB4C0_0 *)temp_v0)->unk_10 = &D_800CB374;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s0 = ((S_800CB4C0_0 *)temp_v0)->unk_0C;
-        func_8003DB94(temp_s0, &D_800E02CC, 0);
-        temp_s0->unk_1E = 0x1400;
-        temp_s0->unk_1C = 0x1400;
-        temp_s0->unk_10 = 0x20;
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-        if ((arg1 << 0x10) == 0) {
-            ((S_800CB4C0_0 *)temp_v0)->unk_08 = ((S_800CB4C0_2 *)arg0)->unk_08;
+    object = func_8003FD64(0x100, source);
+    if (object != NULL) {
+        ((S_800CB4C0_0 *)object)->unk_10 = &D_800CB374;
+        func_8004491C(object, &D_80045340);
+        display = ((S_800CB4C0_0 *)object)->unk_0C;
+        func_8003DB94(display, &D_800E02CC, 0);
+        display->unk_1E = 0x1400;
+        display->unk_1C = 0x1400;
+        display->unk_10 = 0x20;
+        display->unk_14 = (u16) (display->unk_14 | 0xC);
+        if ((copy_position << 0x10) == 0) {
+            ((S_800CB4C0_0 *)object)->unk_08 = ((S_800CB4C0_2 *)source)->unk_08;
         } else {
-            temp_v1 = ((S_800CB4C0_0 *)temp_v0)->unk_08;
-            temp_v1->unk_02 = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)arg0)->unk_08))->unk_02;
-            temp_v1->unk_06 = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)arg0)->unk_08))->unk_06;
-            temp_v1->unk_0A = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)arg0)->unk_08))->unk_0A;
-            temp_v0_3 = ((S_800CB4C0_2 *)arg0)->unk_0C;
-            temp_s32 = temp_v0_3->unk_0C;
-            temp_s0->unk_10 = 0x60;
-            temp_s0->unk_0C = temp_s32;
+            position = ((S_800CB4C0_0 *)object)->unk_08;
+            position->unk_02 = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)source)->unk_08))->unk_02;
+            position->unk_06 = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)source)->unk_08))->unk_06;
+            position->unk_0A = (u16) ((S_800CB4C0_7 *)(((S_800CB4C0_6 *)source)->unk_08))->unk_0A;
+            source_display = ((S_800CB4C0_2 *)source)->unk_0C;
+            display_value = source_display->unk_0C;
+            display->unk_10 = 0x60;
+            display->unk_0C = display_value;
         }
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_s0->unk_06 = -1;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_v0_2 = temp_v0 + 0x20;
-        ASM_KEEP(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_v0_2->unk_A8 = arg0;
-        temp_v0_2->unk_B4 = arg1;
-        temp_v0_2->unk_96 = 8;
+
+        display->unk_06 = -1;
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        state = object + 0x20;
+        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        state->unk_A8 = source;
+        state->unk_B4 = copy_position;
+        state->unk_96 = 8;
     }
-    return temp_v0;
+    return object;
 }
-/* MECHANISM: The zero-arg tail arm copies arg0->8 into the allocation before LEAD 22.
-   Split $v0/$v1 load names and a pinned +0x20 base reproduce the retail live ranges.
-   Two zero-word fences hold the final stores/base birth; one kept return joins both paths. */

@@ -8,11 +8,12 @@ extern M2C_UNK D_8001BB7C;
 extern M2C_UNK D_8001C358;
 extern u8 D_8001E891;
 
-s32 func_800177FC(s32 arg0, s32 arg1, M2C_UNK arg2) {
-    M2C_UNK result;
+/* Process the selected entry and return its result or the override pointer. */
+s32 func_800177FC(s32 context, s32 unused, M2C_UNK entry_id) {
+    M2C_UNK entry_result;
 
-    result = func_80019DFC(&D_8001BB7C, &D_8001C358, arg0, arg2);
-    return func_80019D44(&D_8001BB7C, arg0, arg2) != 0
+    entry_result = func_80019DFC(&D_8001BB7C, &D_8001C358, context, entry_id);
+    return func_80019D44(&D_8001BB7C, context, entry_id) != 0
         ? (s32)&D_8001E891
-        : result;
+        : entry_result;
 }

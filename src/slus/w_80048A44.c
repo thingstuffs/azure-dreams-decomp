@@ -1,8 +1,5 @@
 #include "common.h"
 
-/* Selects a frame via func_800489F4, dispatches via func_80048998, then divides the
- * newly-selected frame's leading u16 by the global divisor D_80080A84, storing the
- * quotient into obj->unk5 and clearing bits 0x6000 of obj->unk14. */
 /* Frame element pointed to by S_80048A44_Obj.unk0; only the first field (a u16) is read here */
 typedef struct S_80048A44_Frame {
     /* 0x0 */ u16 unk0;
@@ -49,15 +46,16 @@ extern void func_80048998(S_80083110 *a0, s32 a1);
  * declared with size > 8 bytes to steer gcc away from small-data addressing. */
 extern u8 D_80080A84[16];
 
-void func_80048A44(S_80048A44_Obj *a0, s16 a1, s16 a2, s32 a3) {
-    u16 v1;
+/* Selects and dispatches a frame, stores its scaled leading value, and clears flags 0x6000. */
+void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 dispatch_arg) {
+    u16 frame_value;
     u8 divisor;
 
-    func_800489F4((S_800489F4_Obj *)a0, a1, a2);
-    func_80048998((S_80083110 *)a0, a3);
+    func_800489F4((S_800489F4_Obj *)obj, frame_group, frame_index);
+    func_80048998((S_80083110 *)obj, dispatch_arg);
 
-    v1 = a0->unk0->unk0;
+    frame_value = obj->unk0->unk0;
     divisor = D_80080A84[0];
-    a0->unk14 = a0->unk14 & 0x9FFF;
-    a0->unk5 = (u8)((s32)v1 / (s32)divisor);
+    obj->unk14 = obj->unk14 & 0x9FFF;
+    obj->unk5 = (u8)((s32)frame_value / (s32)divisor);
 }

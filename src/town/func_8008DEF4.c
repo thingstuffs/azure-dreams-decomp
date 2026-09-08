@@ -10,81 +10,82 @@ extern void func_8008B818(s32, s32, s32, s32);
 extern s8 D_800CFC2C[11];
 extern u8 D_800FC418;
 
-s32 func_8008B654(s32 arg0, s32 arg1) {
-    s32 sp10[12];
-    s32 sp40[12];
-    s32 *var_s1;
-    s32 *var_s3;
-    s32 *var_s0;
-    s32 temp_a0;
-    s32 temp_a1;
-    s32 temp_a2;
-    s32 temp_a3;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 var_s2;
-    register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+/* Allocate and initialize eleven linked objects and their resources. */
+s32 func_8008B654(s32 value_7c, s32 value_78) {
+    s32 objects[12];
+    s32 resources[12];
+    s32 *object_slot;
+    s32 *resource_slot;
+    s32 *array_start;
+    s32 object_index;
+    s32 linked_data;
+    s32 object_arg;
+    s32 resource_arg;
+    s32 new_object;
+    s32 new_resource;
+    s32 index;
+    register s32 incomplete ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s8 *var_s0_2;
-    s8 temp_v0_3;
-    s8 *temp_v0_4;
+    s8 *link_indices;
+    s8 link_index;
+    s8 *object_data;
 
-    var_s2 = 0;
-    var_s1 = sp10;
-    var_s3 = sp40;
-loop_1:
-    temp_v0 = func_8003FC64(0x11);
-    var_v0 = var_s2 < 0xB;
-    if (temp_v0 != 0) {
-        temp_v0_2 = func_80033BE4();
-        ASM_KEEP_NV(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        if ((temp_v0_2 == 0) || (func_80033C1C(temp_v0_2, 0), *var_s1 = temp_v0, var_s1 += 1, *var_s3 = temp_v0_2, ({ ASM_KEEP(temp_v0_2); 0; }), var_s2 += 1, var_s3 += 1, ((var_s2 < 0xB) == 0))) {
-            var_v0 = var_s2 < 0xB;
+    index = 0;
+    object_slot = objects;
+    resource_slot = resources;
+allocate_pair:
+    new_object = func_8003FC64(0x11);
+    incomplete = index < 0xB;
+    if (new_object != 0) {
+        new_resource = func_80033BE4();
+        ASM_KEEP_NV(new_resource);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        if ((new_resource == 0) || (func_80033C1C(new_resource, 0), *object_slot = new_object, object_slot += 1, *resource_slot = new_resource, ({ ASM_KEEP(new_resource); 0; }), index += 1, resource_slot += 1, ((index < 0xB) == 0))) {
+            incomplete = index < 0xB;
         } else {
-            goto loop_1;
+            goto allocate_pair;
         }
     }
-    if (var_v0 != 0) {
-        if (var_s1 != sp10) {
-            var_s0 = sp10;
+    if (incomplete != 0) {
+        if (object_slot != objects) {
+            array_start = objects;
             do {
-                var_s1 -= 1;
-                func_8003FFF0(*var_s1);
-                func_80040044(*var_s1);
-            } while (var_s1 != var_s0);
+                object_slot -= 1;
+                func_8003FFF0(*object_slot);
+                func_80040044(*object_slot);
+            } while (object_slot != array_start);
         }
-        if (var_s3 != sp40) {
-            var_s0 = sp40;
+        if (resource_slot != resources) {
+            array_start = resources;
             do {
-                var_s3 -= 1;
-                func_80033C84(*var_s3);
-            } while (var_s3 != var_s0);
+                resource_slot -= 1;
+                func_80033C84(*resource_slot);
+            } while (resource_slot != array_start);
         }
         return 0;
     }
-    var_s1 = sp10;
-    var_s3 = sp40;
-    var_s2 = hard_zero;
-    var_s0_2 = D_800CFC2C;
+    object_slot = objects;
+    resource_slot = resources;
+    index = hard_zero;
+    link_indices = D_800CFC2C;
     do {
-    temp_v0_3 = *(s8 *)((u32)var_s2 + (u32)var_s0_2);
-    if (temp_v0_3 == var_s2) {
-        temp_a1 = 0;
-    } else {
-        temp_a1 = sp10[temp_v0_3] + 0x20;
-    }
-    temp_a0 = var_s2;
-    var_s2 += 1;
-    temp_v0_4 = (s8 *)(*var_s1 + 0x20);
-    *(s32 *)(temp_v0_4 + 0x74) = 0;
-    *(s32 *)(temp_v0_4 + 0x78) = arg1;
-    *(s32 *)(temp_v0_4 + 0x7C) = arg0;
-    temp_a2 = *var_s1;
-    var_s1 += 1;
-    temp_a3 = *var_s3;
-    var_s3 += 1;
-    func_8008B818(temp_a0, temp_a1, temp_a2, temp_a3);
-    } while (var_s2 < 0xB);
+        link_index = *(s8 *)((u32)index + (u32)link_indices);
+        if (link_index == index) {
+            linked_data = 0;
+        } else {
+            linked_data = objects[link_index] + 0x20;
+        }
+        object_index = index;
+        index += 1;
+        object_data = (s8 *)(*object_slot + 0x20);
+        *(s32 *)(object_data + 0x74) = 0;
+        *(s32 *)(object_data + 0x78) = value_78;
+        *(s32 *)(object_data + 0x7C) = value_7c;
+        object_arg = *object_slot;
+        object_slot += 1;
+        resource_arg = *resource_slot;
+        resource_slot += 1;
+        func_8008B818(object_index, linked_data, object_arg, resource_arg);
+    } while (index < 0xB);
     D_800FC418 = 0;
     return 1;
 }

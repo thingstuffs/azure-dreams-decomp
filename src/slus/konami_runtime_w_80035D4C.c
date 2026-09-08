@@ -10,12 +10,13 @@ typedef struct {
 extern Entry D_8006A94C[];
 extern void func_80033AA8(s32 arg0);
 
-void func_80035D4C(s16 arg0) {
+/* Pass each matching key's value to func_80033AA8. */
+void func_80035D4C(s16 key) {
     Entry *entry = D_8006A94C;
 
     if (entry->key != 0) {
         do {
-            if (arg0 == entry->key) {
+            if (key == entry->key) {
                 func_80033AA8(entry->value);
             }
             entry++;

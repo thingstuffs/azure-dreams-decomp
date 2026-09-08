@@ -38,27 +38,28 @@ typedef struct S_800ADC4C_3 {
     s16 unk_1E;
 } S_800ADC4C_3;   /* temp_v0_2 in func_800ADC4C */
 
-void *func_800ADC4C(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s8 *arg3) {
-    S_800ADC4C_0 *temp_v0;
-    S_800ADC4C_3 *temp_v0_2;
-    S_800ADC4C_1 *temp_v1;
+/* Create an object with the supplied position and render settings, and clear its status flag. */
+void *func_800ADC4C(Rec_D_800E3D7C *source_pos, s32 render_param, s16 initial_state, s8 *status) {
+    S_800ADC4C_0 *object;
+    S_800ADC4C_3 *render_data;
+    S_800ADC4C_1 *position;
 
-    temp_v0 = func_8003FD64(0x12, &D_80083498);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_800ADB8C;
-        func_8004491C(temp_v0, &D_800ADBCC);
-        temp_v1 = temp_v0->unk_08;
-        temp_v1->unk_02 = (u16) arg0->unk_00.at02_u16.v;
-        temp_v1->unk_06 = (u16) arg0->unk_04.at02_u16.v;
-        temp_v1->unk_0A = (u16) arg0->unk_08.at02_u16.v;
-        temp_v0_2 = temp_v0->unk_0C;
-        temp_v0_2->unk_08 = arg1;
-        temp_v0_2->unk_0C = 0x808080;
-        temp_v0_2->unk_1E = 0x1000;
-        temp_v0_2->unk_1C = 0x1000;
-        temp_v0->unk_28 = arg2;
-        temp_v0->unk_20 = arg3;
-        *arg3 = 0;
+    object = func_8003FD64(0x12, &D_80083498);
+    if (object != NULL) {
+        object->unk_10 = &D_800ADB8C;
+        func_8004491C(object, &D_800ADBCC);
+        position = object->unk_08;
+        position->unk_02 = (u16) source_pos->unk_00.at02_u16.v;
+        position->unk_06 = (u16) source_pos->unk_04.at02_u16.v;
+        position->unk_0A = (u16) source_pos->unk_08.at02_u16.v;
+        render_data = object->unk_0C;
+        render_data->unk_08 = render_param;
+        render_data->unk_0C = 0x808080;
+        render_data->unk_1E = 0x1000;
+        render_data->unk_1C = 0x1000;
+        object->unk_28 = initial_state;
+        object->unk_20 = status;
+        *status = 0;
     }
-    return temp_v0;
+    return object;
 }

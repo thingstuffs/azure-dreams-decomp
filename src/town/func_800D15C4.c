@@ -24,13 +24,14 @@ typedef struct S_800CED24_1 {
     s32 unk_14;
 } S_800CED24_1;   /* arg1 in func_800CED24 */
 
-void func_800CED24(Rec_func_80094268_arg0 *arg0, S_800CED24_1 *arg1, M2C_UNK arg2) {
-    s8 byteval;
+/* Initializes the object from its table entry and resets the companion state. */
+void func_800CED24(Rec_func_80094268_arg0 *object, S_800CED24_1 *state, M2C_UNK init_data) {
+    s8 entry_value;
 
-    func_800C2E84(arg0, arg2, &D_800D72D4);
+    func_800C2E84(object, init_data, &D_800D72D4);
     D_80082660[5].unk0 = 0;
-    byteval = D_80082660[arg0->unk_60].unk2;
-    arg0->unk_54 = &D_800CE8CC;
-    arg0->unk_90.as_s16 = (s16) byteval;
-    arg1->unk_14 = 0xFFF60000;
+    entry_value = D_80082660[object->unk_60].unk2;
+    object->unk_54 = &D_800CE8CC;
+    object->unk_90.as_s16 = (s16) entry_value;
+    state->unk_14 = 0xFFF60000;
 }

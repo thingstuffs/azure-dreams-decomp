@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "records/Rec_func_80024600_arg1.h"
 
 extern s32 D_800814A0[3];
 extern s32 D_800DEDB0[3];
@@ -16,77 +17,73 @@ typedef struct S_80024A34_0 {
 } S_80024A34_0;   /* temp_a0 in func_80024A34 */
 
 
-typedef struct S_80024A34_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80024A34_2;   /* arg1 in func_80024A34 */
 
-void func_80024A34(void *arg0, S_80024A34_2 *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_s1;
-    s16 temp_s2;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 var_a2;
-    s32 var_s1;
-    s32 var_v0;
-    s32 var_v0_2;
+/* Initialize the object's visual state and apply a random spherical position offset. */
+void func_80024A34(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E80 *visual) {
+    s16 azimuth;
+    s16 polar_angle;
+    s32 radial_x;
+    s32 radial_y;
+    s32 rotation_rand;
+    s32 polar_rand;
+    s32 azimuth_rand;
+    s32 node_index;
+    s32 azimuth_biased;
+    s32 rotation_quotient;
+    s32 polar_quotient;
     s32 *flags_base;
-    void **var_a1;
-    S_80024A34_0 *temp_a0;
+    void **node_slot;
+    S_80024A34_0 *node;
 
-    var_a2 = 0;
+    node_index = 0;
     flags_base = (s32 *)(u32)0x80080000;
-    var_a1 = (void **)arg0;
+    node_slot = (void **)object;
     do {
-        if ((temp_a0 = var_a1[5]) != NULL) {
+        if ((node = node_slot[5]) != NULL) {
             u16 node_flags;
             s32 global_flags;
-            node_flags = temp_a0->unk_1E;
+            node_flags = node->unk_1E;
             global_flags = flags_base[0x528];
             node_flags = (u16)(node_flags | 0x8000);
             global_flags = global_flags | 0x8000;
-            temp_a0->unk_1E = node_flags;
+            node->unk_1E = node_flags;
             flags_base[0x528] = global_flags;
         }
-        var_a2 += 1;
-        var_a1 += 1;
-    } while (var_a2 < 3);
-    func_8003DB94(arg2, D_800DEDB0, 0, flags_base);
-    arg2->unk_0C.at02_u8.v = 0xC0;
-    arg2->unk_0C.at01_u8.v = 0xC0;
-    arg2->unk_0C.at00_u8.v = 0xC0;
-    arg2->unk_1C.at02_s16.v = 0x800;
-    arg2->unk_1C.at00_s16.v = 0x800;
-    arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v | 0xC);
-    arg2->unk_10.as_u16 = (u16) (arg2->unk_10.as_u16 | 0x20);
-    var_v0 = rand();
-    temp_v0 = var_v0;
-    if (temp_v0 < 0) {
-        var_v0 = (s32) (temp_v0 + 0xFFF);
+        node_index += 1;
+        node_slot += 1;
+    } while (node_index < 3);
+    func_8003DB94(visual, D_800DEDB0, 0, flags_base);
+    visual->unk_0C.at02_u8.v = 0xC0;
+    visual->unk_0C.at01_u8.v = 0xC0;
+    visual->unk_0C.at00_u8.v = 0xC0;
+    visual->unk_1C.at02_s16.v = 0x800;
+    visual->unk_1C.at00_s16.v = 0x800;
+    visual->unk_14.at00_u16.v = (u16) (visual->unk_14.at00_u16.v | 0xC);
+    visual->unk_10.as_u16 = (u16) (visual->unk_10.as_u16 | 0x20);
+    rotation_quotient = rand();
+    rotation_rand = rotation_quotient;
+    if (rotation_rand < 0) {
+        rotation_quotient = (s32) (rotation_rand + 0xFFF);
     }
-    var_v0 >>= 0xC;
-    arg2->unk_1A.as_s16 = (s16) (temp_v0 - (var_v0 << 0xC));
-    temp_v0_2 = rand();
-    var_v0_2 = temp_v0_2;
-    if (temp_v0_2 < 0) {
-        var_v0_2 = temp_v0_2 + 0xFFF;
+    rotation_quotient >>= 0xC;
+    visual->unk_1A.as_s16 = (s16) (rotation_rand - (rotation_quotient << 0xC));
+    polar_rand = rand();
+    polar_quotient = polar_rand;
+    if (polar_rand < 0) {
+        polar_quotient = polar_rand + 0xFFF;
     }
-    var_v0_2 >>= 0xC;
-    temp_s2 = temp_v0_2 - (var_v0_2 << 0xC);
-    temp_v0_3 = rand();
-    var_s1 = temp_v0_3;
-    if (temp_v0_3 < 0) {
-        var_s1 = temp_v0_3 + 0xFFF;
+    polar_quotient >>= 0xC;
+    polar_angle = polar_rand - (polar_quotient << 0xC);
+    azimuth_rand = rand();
+    azimuth_biased = azimuth_rand;
+    if (azimuth_rand < 0) {
+        azimuth_biased = azimuth_rand + 0xFFF;
     }
-    temp_s1 = temp_v0_3 - ((var_s1 >> 0xC) << 0xC);
-    temp_s0 = func_800644B8(temp_s2);
-    arg1->unk_00 = (s32) (arg1->unk_00 + ((temp_s0 >> 4) * (func_800644B8(temp_s1) >> 4) * 0x10));
-    temp_s0_2 = func_800644B8(temp_s2);
-    arg1->unk_04 = (s32) (arg1->unk_04 + ((temp_s0_2 >> 4) * (func_80064584(temp_s1) >> 4) * 0x10));
-    arg1->unk_08 = (s32) (arg1->unk_08 + ((func_80064584(temp_s2) >> 4) << 0xC));
-    func_80024600(arg0, arg1);
+    azimuth = azimuth_rand - ((azimuth_biased >> 0xC) << 0xC);
+    radial_x = func_800644B8(polar_angle);
+    position->unk_00 = (s32) (position->unk_00 + ((radial_x >> 4) * (func_800644B8(azimuth) >> 4) * 0x10));
+    radial_y = func_800644B8(polar_angle);
+    position->unk_04 = (s32) (position->unk_04 + ((radial_y >> 4) * (func_80064584(azimuth) >> 4) * 0x10));
+    position->unk_08 = (s32) (position->unk_08 + ((func_80064584(polar_angle) >> 4) << 0xC));
+    func_80024600(object, position);
 }

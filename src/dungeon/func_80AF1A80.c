@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_80083460.h"
 
 typedef struct S_80173280_0 {
     u8 pad_00[0x8C];
@@ -44,10 +45,6 @@ typedef struct S_80173280_3 {
 } S_80173280_3;   /* tile in func_80173280 */
 
 
-typedef struct S_80173280_5 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_80173280_5;   /* D_80083460 in func_80173280 */
 
 typedef struct S_80173280_6 {
     u8 pad_00[0xA6];
@@ -80,30 +77,31 @@ extern u8 D_80170838[16];
 extern u8 D_801717F4[];
 extern u8 D_80175988[];
 
-void func_80173280(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advances action setup, target effects, animation timing, and cleanup. */
+void func_80173280(void *actor, void *motion, void *tile_arg, void *action)
 {
-    s16 i;
-    register void *tile ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 ry;
-    s32 rx;
-    void *obj;
-    u8 *kindp;
+    s16 particle_index;
+    register void *tile ASM_REG("$20") = tile_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 offset_y;
+    s32 offset_x;
+    void *target_obj;
+    u8 *kind_data;
     s32 state;
-    s32 flag;
-    register s32 save_nudge ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    static void *const keepalive[] = {
+    s32 effect_flags;
+    register s32 action_dep ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    static void *const kind_labels[] = {
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
         &&kind_7, &&kind_6, &&kind_5
     };
 
 #ifdef NON_MATCHING
-    save_nudge = 0;
+    action_dep = 0;
 #endif
-    ASM_KEEP_DEP_NV(save_nudge, arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_USE(save_nudge);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    state = ((S_80173280_0 *)arg0)->unk_9B;
+    ASM_KEEP_DEP_NV(action_dep, action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_USE(action_dep);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    state = ((S_80173280_0 *)actor)->unk_9B;
     ASM_KEEP(tile);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    flag = 0;
+    effect_flags = 0;
     if (state != 1) {
         if ((s32)state < 2) {
             if (state == 0) {
@@ -122,8 +120,8 @@ void func_80173280(void *arg0, void *arg1, void *arg2, void *arg3)
     goto state_1;
 
 state_0:
-    if (((S_80173280_1 *)arg3)->unk_1C & 0x2000) {
-        u32 kind = (((S_80173280_1 *)arg3)->unk_46 & 0x3FFF) - 1;
+    if (((S_80173280_1 *)action)->unk_1C & 0x2000) {
+        u32 kind = (((S_80173280_1 *)action)->unk_46 & 0x3FFF) - 1;
 
         if (kind >= 7) {
             goto kind_default;
@@ -131,16 +129,16 @@ state_0:
         goto *(((void **)D_80170838)[kind]);
 
 kind_5:
-        flag = 1;
+        effect_flags = 1;
         goto kind_3;
 kind_6:
-        flag = 1;
+        effect_flags = 1;
         goto kind_2;
 kind_7:
-        flag = 1;
+        effect_flags = 1;
         goto kind_1;
     } else {
-        u32 kind = ((S_80173280_1 *)arg3)->unk_46 & 0x3FFF;
+        u32 kind = ((S_80173280_1 *)action)->unk_46 & 0x3FFF;
 
         if (kind == 2) {
             goto kind_2;
@@ -149,63 +147,63 @@ kind_7:
             if (kind == 1) {
                 goto kind_1;
             }
-            kindp = 0;
+            kind_data = 0;
             goto use_kind;
         }
         if (kind == 3) {
             goto kind_3;
         }
-        kindp = 0;
+        kind_data = 0;
         goto use_kind;
     }
 
 kind_3:
-    kindp = (u8 *)arg3 + 0xE;
+    kind_data = (u8 *)action + 0xE;
     goto use_kind;
 kind_2:
-    kindp = (u8 *)arg3 + 0xB;
+    kind_data = (u8 *)action + 0xB;
     goto use_kind;
 kind_1:
-    kindp = (u8 *)arg3 + 8;
+    kind_data = (u8 *)action + 8;
     goto use_kind;
 kind_default:
-    kindp = 0;
+    kind_data = 0;
 
 use_kind:
-    if (*kindp != 0) {
-        *(volatile u16 *)((u8 *)arg0 + 0x98) =
-            ((S_80173280_0 *)arg0)->unk_98 & 0xFF7F;
+    if (*kind_data != 0) {
+        *(volatile u16 *)((u8 *)actor + 0x98) =
+            ((S_80173280_0 *)actor)->unk_98 & 0xFF7F;
         {
-            s32 use_flag = flag;
-            ASM_KEEP(use_flag);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            if (use_flag) {
-                obj = D_800814A8;
-                ((S_80173280_1 *)arg3)->unk_60 = obj;
+            s32 reuse_target = effect_flags;
+            ASM_KEEP(reuse_target);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            if (reuse_target) {
+                target_obj = D_800814A8;
+                ((S_80173280_1 *)action)->unk_60 = target_obj;
                 goto copy_existing;
             }
         }
         {
-            u8 *base;
+            u8 *kind_table;
             u8 kind;
-            u8 *entry;
+            u8 *kind_entry;
 
-            base = (u8 *)0x80070000;
-            ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            kind = *kindp;
-            base -= 0x21DC;
-            entry = (u8 *)((u32)(kind * 20) + (u32)base);
-            ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            kind_table = (u8 *)0x80070000;
+            ASM_KEEP(kind_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            kind = *kind_data;
+            kind_table -= 0x21DC;
+            kind_entry = (u8 *)((u32)(kind * 20) + (u32)kind_table);
+            ASM_KEEP(kind_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            if (entry[0x12] == 2) {
-                obj = ((S_80173280_1 *)arg3)->unk_60;
+            if (kind_entry[0x12] == 2) {
+                target_obj = ((S_80173280_1 *)action)->unk_60;
 
-                if (obj != 0) {
+                if (target_obj != 0) {
 copy_existing:
                     {
-                        register u8 *other ASM_REG("$3") =
-                            ((S_80173280_2 *)((u8 *)obj - 0x14))->unk_00;
-                        ((S_80173280_1 *)arg3)->unk_72.s = other[0x24];
-                        ((S_80173280_1 *)arg3)->unk_73.s = other[0x25];
+                        register u8 *target_tile ASM_REG("$3") =
+                            ((S_80173280_2 *)((u8 *)target_obj - 0x14))->unk_00;
+                        ((S_80173280_1 *)action)->unk_72.s = target_tile[0x24];
+                        ((S_80173280_1 *)action)->unk_73.s = target_tile[0x25];
                     }
                     goto invoke_move;
                 }
@@ -213,13 +211,13 @@ copy_existing:
             }
         }
 
-        *(void * volatile *)((u8 *)arg3 + 0x60) =
-            func_800A05A4(arg3, ((S_80173280_3 *)tile)->unk_24, ((S_80173280_3 *)tile)->unk_25,
-                          ((S_80173280_1 *)arg3)->unk_2A, 0x10);
-        ASM_KEEP(flag);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        *(void * volatile *)((u8 *)action + 0x60) =
+            func_800A05A4(action, ((S_80173280_3 *)tile)->unk_24, ((S_80173280_3 *)tile)->unk_25,
+                          ((S_80173280_1 *)action)->unk_2A, 0x10);
+        ASM_KEEP(effect_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
-            s32 x = ((S_80173280_1 *)arg3)->unk_72.u;
-            s32 y = ((S_80173280_1 *)arg3)->unk_73.u;
+            s32 x = ((S_80173280_1 *)action)->unk_72.u;
+            s32 y = ((S_80173280_1 *)action)->unk_73.u;
 
             if (x < 0) {
                 x = -x;
@@ -227,37 +225,37 @@ copy_existing:
             if (y < 0) {
                 y = -y;
             }
-            ((S_80173280_1 *)arg3)->unk_72.s = x;
-            ((S_80173280_1 *)arg3)->unk_73.s = y;
+            ((S_80173280_1 *)action)->unk_72.s = x;
+            ((S_80173280_1 *)action)->unk_73.s = y;
         }
 
 call_move:
         (void)0;
 invoke_move:
-        if (func_800A94A0(arg3, kindp, flag, (u8 *)arg0 + 0x98)) {
-            ((S_80173280_0 *)arg0)->unk_96.s = 0x18;
-            ((S_80173280_0 *)arg0)->unk_9E = 4;
-            ((S_80173280_0 *)arg0)->unk_9B++;
+        if (func_800A94A0(action, kind_data, effect_flags, (u8 *)actor + 0x98)) {
+            ((S_80173280_0 *)actor)->unk_96.s = 0x18;
+            ((S_80173280_0 *)actor)->unk_9E = 4;
+            ((S_80173280_0 *)actor)->unk_9B++;
             return;
         }
         goto done;
     }
 
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((S_80173280_3 *)tile)->unk_24, ((S_80173280_3 *)tile)->unk_25);
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, ((S_80173280_3 *)tile)->unk_24, ((S_80173280_3 *)tile)->unk_25);
     {
-        u8 *global = D_800814A8;
-        ((S_80173280_5 *)D_80083460)->unk_0C = 0;
-        ((S_80173280_6 *)global)->unk_A6--;
+        u8 *active_actor = D_800814A8;
+        ((Rec_D_80083460 *)D_80083460)->unk_0C = 0;
+        ((S_80173280_6 *)active_actor)->unk_A6--;
     }
-    func_800A4ACC(arg3);
-    ((S_80173280_1 *)arg3)->unk_6D--;
-    ((S_80173280_0 *)arg0)->unk_8C = D_801717F4;
-    ((S_80173280_1 *)arg3)->unk_73.s = 0;
-    ((S_80173280_1 *)arg3)->unk_72.s = 0;
-    ((S_80173280_1 *)arg3)->unk_46 &= 0x7FFF;
+    func_800A4ACC(action);
+    ((S_80173280_1 *)action)->unk_6D--;
+    ((S_80173280_0 *)actor)->unk_8C = D_801717F4;
+    ((S_80173280_1 *)action)->unk_73.s = 0;
+    ((S_80173280_1 *)action)->unk_72.s = 0;
+    ((S_80173280_1 *)action)->unk_46 &= 0x7FFF;
     return;
 
 state_1:
@@ -266,74 +264,74 @@ state_1:
         return;
     }
     ((S_80173280_3 *)tile)->unk_14 &= 0xF7FF;
-    ((S_80173280_0 *)arg0)->unk_9B++;
+    ((S_80173280_0 *)actor)->unk_9B++;
     func_800A56E0(0x703);
 
 state_2:
-    i = 0;
+    particle_index = 0;
     do {
-        flag = func_80069EF8() & 0xFF;
-        flag |= 0x80;
-        rx = (s16)((func_80069EF8() & 0x7F) - 0x40);
-        ry = (s16)((func_80069EF8() & 0x7F) - 0x40);
-        D_80170CF8((u8 *)arg0 - 0x20, 0, 0x00808080, flag, rx, ry,
+        effect_flags = func_80069EF8() & 0xFF;
+        effect_flags |= 0x80;
+        offset_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
+        offset_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
+        D_80170CF8((u8 *)actor - 0x20, 0, 0x00808080, effect_flags, offset_x, offset_y,
                    (s16)((func_80069EF8() & 0x7F) - 0x40));
-        i++;
-    } while (i < 5);
+        particle_index++;
+    } while (particle_index < 5);
 
-    ((S_80173280_0 *)arg0)->unk_9E--;
-    if ((s16)((S_80173280_0 *)arg0)->unk_9E == 1) {
+    ((S_80173280_0 *)actor)->unk_9E--;
+    if ((s16)((S_80173280_0 *)actor)->unk_9E == 1) {
         ((S_80173280_3 *)tile)->unk_14 |= 0x800;
     }
-    if (((S_80173280_0 *)arg0)->unk_96.u == 5) {
+    if (((S_80173280_0 *)actor)->unk_96.u == 5) {
         ((S_80173280_3 *)tile)->unk_14 &= 0xF7FF;
     }
-    ((S_80173280_0 *)arg0)->unk_96.s--;
-    if ((s16)((S_80173280_0 *)arg0)->unk_96.s > 0 &&
+    ((S_80173280_0 *)actor)->unk_96.s--;
+    if ((s16)((S_80173280_0 *)actor)->unk_96.s > 0 &&
         !(((S_80173280_3 *)tile)->unk_14 & 0xE000)) {
         goto done;
     }
-    ((S_80173280_0 *)arg0)->unk_98 |= 0x80;
-    ((S_80173280_0 *)arg0)->unk_9B++;
+    ((S_80173280_0 *)actor)->unk_98 |= 0x80;
+    ((S_80173280_0 *)actor)->unk_9B++;
     ((S_80173280_3 *)tile)->unk_14 |= 0x800;
-    ((S_80173280_0 *)arg0)->unk_96.s = 0x14;
+    ((S_80173280_0 *)actor)->unk_96.s = 0x14;
     return;
 
 state_3:
-    kindp = D_80083460;
-    if (((S_80173280_7 *)kindp)->unk_0C == 0) {
-        ((S_80173280_0 *)arg0)->unk_96.s = 0;
+    kind_data = D_80083460;
+    if (((S_80173280_7 *)kind_data)->unk_0C == 0) {
+        ((S_80173280_0 *)actor)->unk_96.s = 0;
     }
-    ((S_80173280_0 *)arg0)->unk_96.s--;
-    if ((s16)((S_80173280_0 *)arg0)->unk_96.s <= 0) {
-        *(volatile u16 *)((u8 *)arg0 + 0x96) = 0;
+    ((S_80173280_0 *)actor)->unk_96.s--;
+    if ((s16)((S_80173280_0 *)actor)->unk_96.s <= 0) {
+        *(volatile u16 *)((u8 *)actor + 0x96) = 0;
         ((S_80173280_3 *)tile)->unk_14 &= 0xF7FF;
     }
     if (!(((S_80173280_3 *)tile)->unk_14 & 0xE000)) {
         goto done;
     }
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((S_80173280_3 *)tile)->unk_24, ((S_80173280_3 *)tile)->unk_25);
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, ((S_80173280_3 *)tile)->unk_24, ((S_80173280_3 *)tile)->unk_25);
     if (((S_80173280_3 *)tile)->unk_2C != D_80175988) {
-        u8 *table = D_80175988;
-        (*(u8 * *)((u8 *)tile + 0x2C)) = table;
+        u8 *frame_table = D_80175988;
+        (*(u8 * *)((u8 *)tile + 0x2C)) = frame_table;
         func_80047784(tile,
-            table[((D_80083228 + ((S_80173280_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            frame_table[((D_80083228 + ((S_80173280_1 *)action)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80173280_3 *)tile)->unk_14 &= 0xF7FF;
     }
-    if (((S_80173280_7 *)kindp)->unk_0C != 0) {
+    if (((S_80173280_7 *)kind_data)->unk_0C != 0) {
         goto done;
     }
-    ((S_80173280_7 *)kindp)->unk_0A--;
-    ((S_80173280_0 *)arg0)->unk_8C = D_801717F4;
-    func_800A4ACC(arg3);
-    ((S_80173280_1 *)arg3)->unk_73.s = 0;
-    ((S_80173280_1 *)arg3)->unk_72.s = 0;
-    ((S_80173280_1 *)arg3)->unk_6D--;
-    ((S_80173280_1 *)arg3)->unk_46 &= 0x7FFF;
+    ((S_80173280_7 *)kind_data)->unk_0A--;
+    ((S_80173280_0 *)actor)->unk_8C = D_801717F4;
+    func_800A4ACC(action);
+    ((S_80173280_1 *)action)->unk_73.s = 0;
+    ((S_80173280_1 *)action)->unk_72.s = 0;
+    ((S_80173280_1 *)action)->unk_6D--;
+    ((S_80173280_1 *)action)->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
 
 done:

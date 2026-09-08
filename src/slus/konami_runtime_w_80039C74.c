@@ -9,17 +9,18 @@ typedef struct Func80039C74State {
 
 extern s32 func_80033B2C(s32 arg0);
 
-void func_80039C74(Func80039C74State *arg0) {
-    u8 *initial = arg0->read_ptr;
-    s32 value = initial[0] + (initial[1] << 8);
+/* Jump to the encoded address if the signed operand check returns zero. */
+void func_80039C74(Func80039C74State *state) {
+    u8 *operand_ptr = state->read_ptr;
+    s32 operand = operand_ptr[0] + (operand_ptr[1] << 8);
 
-    arg0->read_ptr = initial + 2;
-    if (func_80033B2C((s16)value) == 0) {
-        u8 *ptr = arg0->read_ptr;
+    state->read_ptr = operand_ptr + 2;
+    if (func_80033B2C((s16)operand) == 0) {
+        u8 *target_ptr = state->read_ptr;
 
-        arg0->read_ptr = (u8 *)(ptr[0] + (ptr[1] << 8) +
-                                (ptr[2] << 16) + (ptr[3] << 24));
+        state->read_ptr = (u8 *)(target_ptr[0] + (target_ptr[1] << 8) +
+                                  (target_ptr[2] << 16) + (target_ptr[3] << 24));
     } else {
-        arg0->read_ptr += 4;
+        state->read_ptr += 4;
     }
 }

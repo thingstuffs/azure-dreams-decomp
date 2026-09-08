@@ -19,31 +19,32 @@ extern s16 D_80017614;
 extern void func_800173F8();
 extern void func_80017560(void);
 
+/* Installs the town callback, enforces a minimum town value of 40, and runs the setup sequence. */
 void func_8050E100(void)
 {
-    s32 value;
+    s32 current_town_value;
 #ifndef NON_MATCHING
-    u8 *func_page;
+    u8 *callback_code_base;
 #endif
     S_8050E100_1 *town = ((S_8050E100_0 *)(*(void **)D_80016000))->unk_38;
 #ifndef NON_MATCHING
-    u8 *page = (u8 *)0x80010000;
+    u8 *callback_storage_base = (u8 *)0x80010000;
 
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    func_page = (u8 *)0x80010000;
-    ASM_KEEP(func_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(callback_storage_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    callback_code_base = (u8 *)0x80010000;
+    ASM_KEEP(callback_code_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 #endif
-    value = town->unk_35BE;
+    current_town_value = town->unk_35BE;
 
     do {
 #ifdef NON_MATCHING
         D_80017618 = func_80017560;
 #else
-        *(void (**)(void))(page + 0x7618) =
-            (void (*)(void))(func_page + 0x7560);
+        *(void (**)(void))(callback_storage_base + 0x7618) =
+            (void (*)(void))(callback_code_base + 0x7560);
 #endif
     } while (0);
-    if (value < 40) {
+    if (current_town_value < 40) {
         town->unk_35BE = 40;
     }
     func_800173F8(0xAE3, town);

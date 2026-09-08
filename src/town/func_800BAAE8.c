@@ -32,40 +32,41 @@ typedef struct S_800B8248_1 {
     u8 unk_03;
 } S_800B8248_1;   /* temp_v0_2 in func_800B8248 */
 
+/* Initializes the default region and processes each occupied resource slot. */
 void func_800B8248(void) {
-    s32 temp_a0;
-    s32 temp_a1;
-    s32 temp_a2;
-    s32 temp_a3;
-    s32 var_a0;
-    s32 var_s0;
-    u8 temp_v0;
-    u8 *temp_s1;
-    void *temp_s4;
-    S_800B8248_0 *temp_t0;
-    S_800B8248_1 *temp_v0_2;
+    s32 region_x;
+    s32 region_y;
+    s32 region_width;
+    s32 region_height;
+    s32 slot_index;
+    s32 slot_counter;
+    u8 resource_index;
+    u8 *resources;
+    void *state_base;
+    S_800B8248_0 *slot;
+    S_800B8248_1 *region;
 
     func_8009CDB4();
     func_8009CDCC(0x3FU, 0U, 0x10U, 0x10U, D_800D43F0);
-    var_s0 = 0;
-    temp_s4 = (void *)0x80010000;
-    temp_s1 = D_800D2644;
+    slot_counter = 0;
+    state_base = (void *)0x80010000;
+    resources = D_800D2644;
     do {
-        var_a0 = var_s0 & 0xFF;
-        temp_t0 = (void *)((var_a0 * 2) + (s32)temp_s4);
-        temp_v0 = temp_t0->unk_33A4;
-        if (temp_v0 != 0) {
-            ((S_800B8248_2 *)((void *)((temp_v0 << 5) + (s32)temp_s1)))->unk_0A = 1;
-            temp_v0_2 = (var_a0 * 8) + D_800D2EA4;
-            temp_a0 = temp_v0_2->unk_00;
-            temp_a1 = temp_v0_2->unk_01;
-            temp_a2 = temp_v0_2->unk_02;
-            temp_a3 = temp_v0_2->unk_03;
-            temp_v0 = temp_t0->unk_33A4;
-            func_8009CDCC(temp_a0, temp_a1, temp_a2, temp_a3,
-                          (temp_v0 << 5) + (D_800D2644 + 0xC));
+        slot_index = slot_counter & 0xFF;
+        slot = (void *)((slot_index * 2) + (s32)state_base);
+        resource_index = slot->unk_33A4;
+        if (resource_index != 0) {
+            ((S_800B8248_2 *)((void *)((resource_index << 5) + (s32)resources)))->unk_0A = 1;
+            region = (slot_index * 8) + D_800D2EA4;
+            region_x = region->unk_00;
+            region_y = region->unk_01;
+            region_width = region->unk_02;
+            region_height = region->unk_03;
+            resource_index = slot->unk_33A4;
+            func_8009CDCC(region_x, region_y, region_width, region_height,
+                          (resource_index << 5) + (D_800D2644 + 0xC));
         }
-        var_s0 += 1;
-    } while ((u32)(u8)var_s0 < 0x21U);
+        slot_counter += 1;
+    } while ((u32)(u8)slot_counter < 0x21U);
     func_8009CE34();
 }

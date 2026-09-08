@@ -11,10 +11,11 @@ typedef struct S_80091990_0 {
     u16 unk_14;
 } S_80091990_0;   /* arg2 in func_80091990 */
 
-void func_80091990(M2C_UNK **arg0, M2C_UNK arg1, S_80091990_0 *arg2) {
-    if (arg2->unk_14 & 0x6000) {
-        func_80094984(&D_800D0158, arg0);
-        *arg0 = &D_800917EC;
+/* Resets the handler when state flags are set, then invokes the base handler. */
+void func_80091990(M2C_UNK **handler_slot, M2C_UNK context, S_80091990_0 *state) {
+    if (state->unk_14 & 0x6000) {
+        func_80094984(&D_800D0158, handler_slot);
+        *handler_slot = &D_800917EC;
     }
-    func_800917EC(arg0, arg1, arg2);
+    func_800917EC(handler_slot, context, state);
 }

@@ -27,37 +27,34 @@ extern s32 func_8001A9B4(s32);
 extern s8 D_80016000[];
 extern u8 *D_8001E950;
 
-s32 func_8001BFF4(S_8001BFF4_1 *arg0, s32 arg1) {
+/* Updates the indexed entry from the current selection in mode 2. */
+s32 func_8001BFF4(S_8001BFF4_1 *context, s32 entry_index) {
     u8 mode;
 
     mode = D_8001E950[5];
     if (mode == 2) {
         if ((*(Callback *)((u8 *)(((S_8001BFF4_2 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x2D4))(0) == mode) {
             if (func_8001A58C(D_8001E950[4]) != 0) {
-                ((S_8001BFF4_3 *)((u8 *)arg0->unk_10 + arg1 * 0x10))->unk_08 =
+                ((S_8001BFF4_3 *)((u8 *)context->unk_10 + entry_index * 0x10))->unk_08 =
                     func_8001A86C(D_8001E950[4]);
                 return 0;
             } else {
-                ((S_8001BFF4_3 *)((u8 *)arg0->unk_10 + arg1 * 0x10))->unk_08 =
+                ((S_8001BFF4_3 *)((u8 *)context->unk_10 + entry_index * 0x10))->unk_08 =
                     func_8001A86C(0);
                 return 0;
             }
         } else {
-            s32 value;
+            s32 selection;
 
             if (func_8001A58C(D_8001E950[4]) != 0) {
-                value = D_8001E950[4];
+                selection = D_8001E950[4];
             } else {
-                value = 0;
+                selection = 0;
             }
-            ((S_8001BFF4_3 *)((u8 *)arg0->unk_10 + arg1 * 0x10))->unk_08 =
-                func_8001A9B4(value);
+            ((S_8001BFF4_3 *)((u8 *)context->unk_10 + entry_index * 0x10))->unk_08 =
+                func_8001A9B4(selection);
             return 0;
         }
     }
     return 1;
 }
-
-/* MECHANISM: Repeated D_8001E950 accesses hold its page in s1; args occupy s2/s3,
-   producing the five-save 0x28 frame. Three identical store/return tails cross-jump
-   into one v0 store, while the in-range j targets remain local control flow. */

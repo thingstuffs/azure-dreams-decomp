@@ -10,8 +10,9 @@ typedef struct {
 
 extern UnalignedBlock24 D_80029550;
 
-void func_80028774(UnalignedBlock12 *arg0) {
-    register UnalignedBlock12 *dst ASM_REG("$2") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+/* Copies the 24-byte block at D_80029550 to the destination. */
+void func_80028774(UnalignedBlock12 *dest) {
+    register UnalignedBlock12 *dst ASM_REG("$2") = dest;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     ASM_KEEP(dst);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     dst[0] = D_80029550.chunks[0];

@@ -75,66 +75,67 @@ extern void func_800948BC();
 extern void func_800B8FC8();
 extern void func_80041094();
 
+/* Draws randomized vertical streaks and advances the object's motion and fade sequence. */
 void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect) {
-    StackData stack;
-    s32 useAlt;
-    u32 stateDiff;
-    RenderState **stateSlot;
-    RenderState *state;
-    RenderState *callState;
+    StackData draw_data;
+    s32 use_alt_buffer;
+    u32 buffer_diff;
+    RenderState **render_state_slot;
+    RenderState *render_state;
+    RenderState *call_state;
     Primitive *prim;
-    u8 *list;
-    s32 i;
-    register s32 firstConst ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register Primitive *firstCallArg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *prim_list;
+    s32 index_or_phase;
+    register s32 area_origin ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register Primitive *first_prim ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-    firstConst = 0x01800340;
-    stack.field18 = firstConst;
-    stack.field1C = 0x00400040;
-    stateSlot = &D_80083160;
-    state = *stateSlot;
+    area_origin = 0x01800340;
+    draw_data.field18 = area_origin;
+    draw_data.field1C = 0x00400040;
+    render_state_slot = &D_80083160;
+    render_state = *render_state_slot;
     do {
-        prim = (Primitive *)state->nextPrim;
+        prim = (Primitive *)render_state->nextPrim;
     } while (0);
-    list = (u8 *)state + 0x8B0;
-    firstCallArg = prim;
-    state->nextPrim = (u8 *)prim + 0xC;
-    stateDiff = (u32)state ^ (u32)D_801C9E40;
+    prim_list = (u8 *)render_state + 0x8B0;
+    first_prim = prim;
+    render_state->nextPrim = (u8 *)prim + 0xC;
+    buffer_diff = (u32)render_state ^ (u32)D_801C9E40;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    callState = *(RenderState *volatile *)&D_80083160;
-    useAlt = stateDiff != 0;
-    func_80067E2C(firstCallArg, callState, state);
-    func_8006658C(list, prim);
-    ASM_USE_NV(list);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    call_state = *(RenderState *volatile *)&D_80083160;
+    use_alt_buffer = buffer_diff != 0;
+    func_80067E2C(first_prim, call_state, render_state);
+    func_8006658C(prim_list, prim);
+    ASM_USE_NV(prim_list);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     if (obj->count > 0) {
-        i = 0;
+        index_or_phase = 0;
         do {
-            RenderState *iterState;
-            iterState = *stateSlot;
-            prim = (Primitive *)iterState->nextPrim;
-            iterState->nextPrim = (u8 *)prim + 0x10;
+            RenderState *streak_state;
+            streak_state = *render_state_slot;
+            prim = (Primitive *)streak_state->nextPrim;
+            streak_state->nextPrim = (u8 *)prim + 0x10;
             prim->fieldC = (func_80069EF8() & 0x3F) + 0x340;
             prim->field8 = prim->fieldC;
             {
-                s32 r = func_80069EF8() & 0x3F;
-                s32 edge;
-                prim->fieldA = 0x180 - r;
+                s32 y_offset = func_80069EF8() & 0x3F;
+                s32 bottom_y;
+                prim->fieldA = 0x180 - y_offset;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                edge = 0x1BF - r;
-                prim->fieldE = edge;
-                if (useAlt) {
-                    edge -= 0xE0;
-                    prim->fieldE = edge;
+                bottom_y = 0x1BF - y_offset;
+                prim->fieldE = bottom_y;
+                if (use_alt_buffer) {
+                    bottom_y -= 0xE0;
+                    prim->fieldE = bottom_y;
                     prim->fieldA -= 0xE0;
                 }
-                ASM_USE_NV(useAlt);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                ASM_USE_NV(use_alt_buffer);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             }
             prim->field4 = 0;
             func_800667BC(prim);
-            func_8006658C(list, prim);
-            i += 1;
-        } while (i < obj->count);
+            func_8006658C(prim_list, prim);
+            index_or_phase += 1;
+        } while (index_or_phase < obj->count);
     }
 
     if (obj->count < 0x60) {
@@ -142,32 +143,32 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
     }
 
     {
-        RenderState *postState;
-        postState = *stateSlot;
-        prim = (Primitive *)postState->nextPrim;
-        postState->nextPrim = (u8 *)prim + 0xC;
-        func_80067E2C(prim, &stack.field18);
-        func_8006658C(list, prim);
+        RenderState *area_state;
+        area_state = *render_state_slot;
+        prim = (Primitive *)area_state->nextPrim;
+        area_state->nextPrim = (u8 *)prim + 0xC;
+        func_80067E2C(prim, &draw_data.field18);
+        func_8006658C(prim_list, prim);
     }
-    stack.field20 = 0x360;
-    stack.field22 = 0x1B8;
-    func_800B8FC8(obj->handle, &stack.field18, &stack.field20, 1, 0);
+    draw_data.field20 = 0x360;
+    draw_data.field22 = 0x1B8;
+    func_800B8FC8(obj->handle, &draw_data.field18, &draw_data.field20, 1, 0);
 
     {
-        u16 counter = obj->counter + 1;
-        i = (s16)obj->phase;
-        obj->counter = counter;
-        if (i == 0) {
-            if ((s16)counter >= 0x21) {
+        u16 frame_count = obj->counter + 1;
+        index_or_phase = (s16)obj->phase;
+        obj->counter = frame_count;
+        if (index_or_phase == 0) {
+            if ((s16)frame_count >= 0x21) {
                 if (obj->handle[0x13] == 0) {
-                    u8 *dungeonState;
+                    u8 *dungeon_state;
                     func_80091934(obj->handle, D_80083780, D_80082E80, 0);
                     ((u8 *)D_800E3D7C[0])[0x9B] = 0x11;
-                    dungeonState = *(u8 *volatile *)D_800E3D7C;
+                    dungeon_state = *(u8 *volatile *)D_800E3D7C;
                     *(u8 * volatile *)(D_80082E80 + 0x2C) = D_800DD0F8;
                     func_80048A44(
                         D_80082E80,
-                        D_800DD0F8[((s32)(*D_80083228 + *(s16 *)(dungeonState + 0x2A)) + 0x100 >> 9) & 7],
+                        D_800DD0F8[((s32)(*D_80083228 + *(s16 *)(dungeon_state + 0x2A)) + 0x100 >> 9) & 7],
                         1,
                         1);
                 }
@@ -175,27 +176,27 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
             } else {
                 return;
             }
-        } else if (i == 1) {
-            MotionState *parent;
+        } else if (index_or_phase == 1) {
+            MotionState *parent_motion;
             effect->fieldC = effect->fieldC - (effect->fieldC >> 3);
             effect->fieldD = effect->fieldD - (effect->fieldD >> 3);
             effect->fieldE = effect->fieldE - (effect->fieldE >> 3);
             effect->field1C = effect->field1C + ((0x400 - effect->field1C) >> 2);
-            parent = *(MotionState **)((u8 *)obj - 0x18);
+            parent_motion = *(MotionState **)((u8 *)obj - 0x18);
             motion->field8 = motion->field8 + motion->field14;
-            parent->field8 = motion->field8;
+            parent_motion->field8 = motion->field8;
             motion->field14 = motion->field14 + 0xFFFC0000;
             if (obj->handle[0x13] == 0 &&
                 (*(u16 *)(*(u8 **)((u8 *)D_800E3D7C[0] - 0x14) + 0x14) & 0x6000)) {
-                s16 value = func_8003F794(6, 0x20);
-                u8 *table = D_80083120;
-                s16 *slot;
-                void *callArg;
-                D_800814E8 = value;
-                slot = (s16 *)(table + (((s32)(value << 16)) >> 0xD) + 6);
-                callArg = D_800E3D7C[0];
-                *slot = i;
-                func_800945E8(callArg);
+                s16 entry_index = func_8003F794(6, 0x20);
+                u8 *entry_table = D_80083120;
+                s16 *entry_flag;
+                void *active_dungeon;
+                D_800814E8 = entry_index;
+                entry_flag = (s16 *)(entry_table + (((s32)(entry_index << 16)) >> 0xD) + 6);
+                active_dungeon = D_800E3D7C[0];
+                *entry_flag = index_or_phase;
+                func_800945E8(active_dungeon);
                 func_800948BC();
                 D_80082E76 = 0x8000;
                 func_80041094(6, 0, 0, 0, 0x8000);

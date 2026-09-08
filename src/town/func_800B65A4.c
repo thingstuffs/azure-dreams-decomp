@@ -16,9 +16,10 @@ typedef struct {
 
 extern Raw16 D_80089298;
 
-void func_800B3D04(Arg0 *arg0, s32 arg1) {
-    Raw16 sp;
+/* Writes the table value at entry_index - 2 to the selected entry's destination. */
+void func_800B3D04(Arg0 *entry_table, s32 entry_index) {
+    Raw16 values;
 
-    do { sp = D_80089298; } while (0);
-    arg0->entries[arg1]->dst[0] = ((s32 *)sp.bytes)[arg1 - 2];
+    do { values = D_80089298; } while (0);
+    entry_table->entries[entry_index]->dst[0] = ((s32 *)values.bytes)[entry_index - 2];
 }

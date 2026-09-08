@@ -28,38 +28,39 @@ typedef struct S_8001A678_3 {
 
 extern u8 *D_80016000;
 
-void func_8001A678(s32 unused, u32 arg1, u32 arg2)
+/* Set the position from coordinates scaled by 64 and the selected entry offsets. */
+void func_8001A678(s32 unused, u32 x, u32 y)
 {
     u8 *root = D_80016000;
-    S_8001A678_1 *entry_ptr;
+    S_8001A678_1 *entry_table;
     S_8001A678_3 *position;
-    u32 index;
-    s32 value1;
-    s32 value2;
+    u32 entry_address;
+    s32 x_offset;
+    s32 y_offset;
 
-    entry_ptr = ((S_8001A678_0 *)root)->unk_30;
-    index = ((S_8001A678_0 *)root)->unk_08.s;
+    entry_table = ((S_8001A678_0 *)root)->unk_30;
+    entry_address = ((S_8001A678_0 *)root)->unk_08.s;
     do {
-        index <<= 5;
+        entry_address <<= 5;
     } while (0);
     do {
-        entry_ptr = entry_ptr->unk_00;
+        entry_table = entry_table->unk_00;
     } while (0);
-    index += (u32)entry_ptr;
+    entry_address += (u32)entry_table;
     position = ((S_8001A678_0 *)root)->unk_1C;
     do {
-        arg1 <<= 6;
+        x <<= 6;
     } while (0);
-    value1 = ((S_8001A678_2 *)((void *)index))->unk_0C;
-    value1 += 0x20;
-    arg1 += value1;
-    position->unk_04 = arg1;
+    x_offset = ((S_8001A678_2 *)((void *)entry_address))->unk_0C;
+    x_offset += 0x20;
+    x += x_offset;
+    position->unk_04 = x;
     root = ((S_8001A678_0 *)root)->unk_1C;
     do {
-        arg2 <<= 6;
+        y <<= 6;
     } while (0);
-    value2 = ((S_8001A678_2 *)((void *)index))->unk_0E;
-    value2 += 0x20;
-    arg2 += value2;
-    ((S_8001A678_0 *)root)->unk_08.u = arg2;
+    y_offset = ((S_8001A678_2 *)((void *)entry_address))->unk_0E;
+    y_offset += 0x20;
+    y += y_offset;
+    ((S_8001A678_0 *)root)->unk_08.u = y;
 }

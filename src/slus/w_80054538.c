@@ -1,12 +1,5 @@
 #include "common.h"
 
-/* Timed-ramp/state-machine step for a task-block struct (same family as
- * src/code.c's S_800848F8 and src/w_800544A4.c's S_80084858): state 1 ramps
- * field10 up by field14, clamping at 0x7F and latching state 3; state 2
- * ramps field10 down by field14, clamping at field12 and latching state 3.
- * Any other state returns immediately without touching anything else. Once
- * a ramp has run, invokes the struct's own no-arg completion callback
- * (field0) if one is set. */
 #ifndef NULL
 #define NULL 0
 #endif
@@ -28,34 +21,35 @@ typedef struct S_80054538 {
     /* 0x18 */ s16 field18;
 } S_80054538;
 
-void func_80054538(S_80054538 *arg0) {
-    s16 v0;
-    s16 clamp;
+/* Advances the active ramp, clamps its value at the limit, and invokes its callback. */
+void func_80054538(S_80054538 *ramp) {
+    s16 next_value;
+    s16 target;
     void (*callback)(void);
 
-    switch (arg0->state) {
+    switch (ramp->state) {
     case 1:
-        v0 = arg0->field10 + arg0->field14;
-        arg0->field10 = v0;
-        if (v0 >= 0x80) {
-            arg0->field10 = 0x7F;
-            arg0->state = 3;
+        next_value = ramp->field10 + ramp->field14;
+        ramp->field10 = next_value;
+        if (next_value >= 0x80) {
+            ramp->field10 = 0x7F;
+            ramp->state = 3;
         }
         break;
     case 2:
-        v0 = arg0->field10 - arg0->field14;
-        clamp = arg0->field12;
-        arg0->field10 = v0;
-        if (v0 < arg0->field12) {
-            arg0->field10 = clamp;
-            arg0->state = 3;
+        next_value = ramp->field10 - ramp->field14;
+        target = ramp->field12;
+        ramp->field10 = next_value;
+        if (next_value < ramp->field12) {
+            ramp->field10 = target;
+            ramp->state = 3;
         }
         break;
     default:
         return;
     }
 
-    callback = arg0->field0;
+    callback = ramp->field0;
     if (callback != NULL) {
         callback();
     }

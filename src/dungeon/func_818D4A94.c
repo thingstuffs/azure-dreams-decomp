@@ -28,61 +28,62 @@ typedef struct S_818D4A94_1 {
 extern s16 D_80025118[5];
 extern s32 D_800814A0[3];
 
-void func_818D4A94(void *arg0, S_818D4A94_0 *arg1)
+/* Advance position and velocity, and flag completion near the target or when the countdown expires. */
+void func_818D4A94(void *motion, S_818D4A94_0 *position)
 {
-    register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 a ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 aux ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 one;
-    s32 z;
+    register s32 updated_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 axis_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 accel_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 active_flag;
+    s32 axis_step;
 
-    x = arg1->unk_00.at00.v;
-    x += ((S_818D4A94_1 *)arg0)->unk_3C;
-    arg1->unk_00.at00.v = x;
-    x = arg1->unk_04;
-    x += ((S_818D4A94_1 *)arg0)->unk_40;
-    arg1->unk_04 = x;
-    x = arg1->unk_08;
-    x += ((S_818D4A94_1 *)arg0)->unk_44;
-    arg1->unk_08 = x;
+    updated_value = position->unk_00.at00.v;
+    updated_value += ((S_818D4A94_1 *)motion)->unk_3C;
+    position->unk_00.at00.v = updated_value;
+    updated_value = position->unk_04;
+    updated_value += ((S_818D4A94_1 *)motion)->unk_40;
+    position->unk_04 = updated_value;
+    updated_value = position->unk_08;
+    updated_value += ((S_818D4A94_1 *)motion)->unk_44;
+    position->unk_08 = updated_value;
 
-    x = ((S_818D4A94_1 *)arg0)->unk_3C;
-    z = ((S_818D4A94_1 *)arg0)->unk_48;
-    a = ((S_818D4A94_1 *)arg0)->unk_4C;
-    aux = ((S_818D4A94_1 *)arg0)->unk_50;
-    x += z;
-    ((S_818D4A94_1 *)arg0)->unk_3C = x;
-    x = ((S_818D4A94_1 *)arg0)->unk_40;
-    z = ((S_818D4A94_1 *)arg0)->unk_44;
-    x += a;
-    z += aux;
-    ((S_818D4A94_1 *)arg0)->unk_40 = x;
-    x = ((S_818D4A94_1 *)arg0)->unk_34;
-    ASM_USE(x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_MEM_NV(a, D_80025118[0]);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_USE2_NV(a, x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ((S_818D4A94_1 *)arg0)->unk_44 = z;
-    a = arg1->unk_00.at02.v;
-    ASM_USE(a);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    one = 1;
-    ASM_USE2_NV(a, one);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    x -= a;
-    if (x < 0) {
-        x = -x;
+    updated_value = ((S_818D4A94_1 *)motion)->unk_3C;
+    axis_step = ((S_818D4A94_1 *)motion)->unk_48;
+    axis_value = ((S_818D4A94_1 *)motion)->unk_4C;
+    accel_z = ((S_818D4A94_1 *)motion)->unk_50;
+    updated_value += axis_step;
+    ((S_818D4A94_1 *)motion)->unk_3C = updated_value;
+    updated_value = ((S_818D4A94_1 *)motion)->unk_40;
+    axis_step = ((S_818D4A94_1 *)motion)->unk_44;
+    updated_value += axis_value;
+    axis_step += accel_z;
+    ((S_818D4A94_1 *)motion)->unk_40 = updated_value;
+    updated_value = ((S_818D4A94_1 *)motion)->unk_34;
+    ASM_USE(updated_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_MEM_NV(axis_value, D_80025118[0]);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_USE2_NV(axis_value, updated_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ((S_818D4A94_1 *)motion)->unk_44 = axis_step;
+    axis_value = position->unk_00.at02.v;
+    ASM_USE(axis_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    active_flag = 1;
+    ASM_USE2_NV(axis_value, active_flag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    updated_value -= axis_value;
+    if (updated_value < 0) {
+        updated_value = -updated_value;
     }
-    x = x < 0x10;
-    D_80025118[0] = one;
-    if (x) {
-        ((S_818D4A94_1_pre *)arg0)[-1].unk_00 |= 0x8000;
+    updated_value = updated_value < 0x10;
+    D_80025118[0] = active_flag;
+    if (updated_value) {
+        ((S_818D4A94_1_pre *)motion)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 
-    x = ((S_818D4A94_1 *)arg0)->unk_32;
-    x -= 8;
-    ((S_818D4A94_1 *)arg0)->unk_32 = x;
-    x <<= 16;
-    if (x <= 0) {
-        ((S_818D4A94_1_pre *)arg0)[-1].unk_00 |= 0x8000;
+    updated_value = ((S_818D4A94_1 *)motion)->unk_32;
+    updated_value -= 8;
+    ((S_818D4A94_1 *)motion)->unk_32 = updated_value;
+    updated_value <<= 16;
+    if (updated_value <= 0) {
+        ((S_818D4A94_1_pre *)motion)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

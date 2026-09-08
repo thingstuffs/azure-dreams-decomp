@@ -14,6 +14,7 @@ typedef struct {
 extern DungeonState D_8008333C;
 extern DungeonCell D_800EA000[];
 
+// Sets the value of inactive dungeon cells in rows and columns 1 through 62.
 void func_80019A84(s16 value) {
     DungeonState *state;
     DungeonCell *cells;

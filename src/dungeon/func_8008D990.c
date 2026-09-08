@@ -104,88 +104,89 @@ extern M2C_UNK D_800E296C;
 extern M2C_UNK D_800E3CD0;
 extern M2C_UNK D_800E4938;
 
-void func_800930F0(void *arg0, s32 arg1, S_800930F0_1 *arg2, S_800930F0_2 *arg3) {
+/* Advances the dungeon transition through its delay, setup, and completion phases. */
+void func_800930F0(void *state, s32 unused, S_800930F0_1 *tile, S_800930F0_2 *actor) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17 };
-    M2C_UNK *var_v0;
-    M2C_UNK *var_v1;
-    u8 *var_s0;
-    s32 *var_s2;
-    s32 var_s1;
-    s32 temp_s0;
-    s32 temp_v0_2;
-    u16 temp_v0;
-    u8 temp_v1;
-    void *temp_v0_3;
-    s16 *var_s4;
+    M2C_UNK *control_state;
+    M2C_UNK *transition_base;
+    u8 *saved_state_base;
+    s32 *slot_cursor;
+    s32 slot_index;
+    s32 slot_object;
+    s32 load_status;
+    u16 wait_ticks;
+    u8 phase;
+    void *created_object;
+    s16 *type_values;
 
-    temp_v1 = ((Rec_D_800E3D7C *)arg0)->unk_9B;
-    if (temp_v1 >= 0x12U) {
+    phase = ((Rec_D_800E3D7C *)state)->unk_9B;
+    if (phase >= 0x12U) {
         goto block_25;
     }
-    (void)jt_keep; goto *D_80088A10[(u32)(temp_v1)];
+    (void)jt_keep; goto *D_80088A10[(u32)(phase)];
 jt_c0:
-    var_s1 = 1;
-    ((Rec_D_800E3D7C *)arg0)->unk_96 = 0U;
-    func_800B2074((arg2->unk_24 << 6) | 0x20, (arg2->unk_25 << 6) | 0x20);
-    var_s4 = &D_800DCED4;
-    var_s2 = (s32 *)arg0 + 1;
-    arg3->unk_1C = (s32) (arg3->unk_1C | 0x40000000);
+    slot_index = 1;
+    ((Rec_D_800E3D7C *)state)->unk_96 = 0U;
+    func_800B2074((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20);
+    type_values = &D_800DCED4;
+    slot_cursor = (s32 *)state + 1;
+    actor->unk_1C = (s32) (actor->unk_1C | 0x40000000);
     do {
-        temp_s0 = ((S_800930F0_3 *)var_s2)->unk_AC;
-        if (temp_s0 != 0) {
-            func_800C542C(temp_s0, var_s4[func_800429E4(temp_s0)], (s16)var_s1, 0);
+        slot_object = ((S_800930F0_3 *)slot_cursor)->unk_AC;
+        if (slot_object != 0) {
+            func_800C542C(slot_object, type_values[func_800429E4(slot_object)], (s16)slot_index, 0);
         }
-        var_s1 -= 1;
-        var_s2 -= 1;
-    } while (var_s1 >= 0);
-    ((Rec_D_800E3D7C *)arg0)->unk_9B = (u8) (((Rec_D_800E3D7C *)arg0)->unk_9B + 1);
+        slot_index -= 1;
+        slot_cursor -= 1;
+    } while (slot_index >= 0);
+    ((Rec_D_800E3D7C *)state)->unk_9B = (u8) (((Rec_D_800E3D7C *)state)->unk_9B + 1);
 jt_c1:
-    temp_v0 = ((Rec_D_800E3D7C *)arg0)->unk_96 + 1;
-    ((Rec_D_800E3D7C *)arg0)->unk_96 = temp_v0;
-    if ((s16) temp_v0 < 0x3D) {
+    wait_ticks = ((Rec_D_800E3D7C *)state)->unk_96 + 1;
+    ((Rec_D_800E3D7C *)state)->unk_96 = wait_ticks;
+    if ((s16) wait_ticks < 0x3D) {
         goto block_26;
     }
-    var_v1 = (M2C_UNK *)0x800E0000;
-    var_s0 = (u8 *)0x80010000;
-    if (((S_800930F0_4 *)var_s0)->unk_3714.s & 4) {
+    transition_base = (M2C_UNK *)0x800E0000;
+    saved_state_base = (u8 *)0x80010000;
+    if (((S_800930F0_4 *)saved_state_base)->unk_3714.s & 4) {
         goto block_21;
     }
-    func_800945E8(arg0);
+    func_800945E8(state);
     func_800948BC();
-    ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_state_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
         register UnalignedCopy3 *copy_src ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         UnalignedCopy3 *copy_dst;
-        register s32 copy_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 copy_v1;
+        register s32 copy_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 middle_word;
 
         copy_src = (UnalignedCopy3 *)0x80013710;
         copy_dst = (UnalignedCopy3 *)0x80012080;
         ASM_KEEP(copy_dst);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        copy_v0 = copy_src->unk0;
-        copy_v1 = copy_src->unk4;
-        copy_dst->unk0 = copy_v0;
-        copy_dst->unk4 = copy_v1;
-        copy_v0 = copy_src->unk8;
-        copy_dst->unk8 = copy_v0;
-        ((S_800930F0_4 *)var_s0)->unk_3714.u = 0;
-        ((S_800930F0_4 *)var_s0)->unk_3716 = 0;
-        ((S_800930F0_4 *)var_s0)->unk_3718 = 0;
-        ((S_800930F0_4 *)var_s0)->unk_371A = 0;
+        copy_word = copy_src->unk0;
+        middle_word = copy_src->unk4;
+        copy_dst->unk0 = copy_word;
+        copy_dst->unk4 = middle_word;
+        copy_word = copy_src->unk8;
+        copy_dst->unk8 = copy_word;
+        ((S_800930F0_4 *)saved_state_base)->unk_3714.u = 0;
+        ((S_800930F0_4 *)saved_state_base)->unk_3716 = 0;
+        ((S_800930F0_4 *)saved_state_base)->unk_3718 = 0;
+        ((S_800930F0_4 *)saved_state_base)->unk_371A = 0;
         func_800A6780(copy_dst, copy_src);
     }
-    if (((S_800930F0_4 *)var_s0)->unk_2090 == 0) {
+    if (((S_800930F0_4 *)saved_state_base)->unk_2090 == 0) {
         goto block_12;
     }
-    if (((S_800930F0_4 *)var_s0)->unk_2090 != 1) {
+    if (((S_800930F0_4 *)saved_state_base)->unk_2090 != 1) {
         goto block_12;
     }
-    ((S_800930F0_4 *)var_s0)->unk_234 = (s32) (((S_800930F0_4 *)var_s0)->unk_234 + 1);
+    ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
     func_80043568();
-    ((S_800930F0_4 *)var_s0)->unk_2090 = 0;
+    ((S_800930F0_4 *)saved_state_base)->unk_2090 = 0;
     goto block_13;
 block_12:
-    ((S_800930F0_4 *)var_s0)->unk_234 = (s32) (((S_800930F0_4 *)var_s0)->unk_234 + 1);
+    ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
 block_13:
     func_800A56E0(0x514);
     ((S_800930F0_5 *)(&D_800E4938))->unk_00.s = &D_80021268;
@@ -193,21 +194,21 @@ block_13:
     (*(s32 *)&D_800E296C) = (s32) (((S_800930F0_6 *)(&D_800E296C))->unk_00 | 0x2000);
     goto block_24;
 jt_c2:
-    temp_v0_2 = func_800A613C();
-    D_800DCF64 = temp_v0_2;
-    if (temp_v0_2 == 0) {
+    load_status = func_800A613C();
+    D_800DCF64 = load_status;
+    if (load_status == 0) {
         goto block_25;
     }
     goto block_24;
 jt_c3:
-    temp_v0_3 = ((S_800930F0_5 *)(&D_800E4938))->unk_00.u(((S_800930F0_5 *)(&D_800E4938))->unk_04, ((S_800930F0_5 *)(&D_800E4938))->unk_08);
-    ((Rec_D_800E3D7C *)arg0)->unk_C8 = temp_v0_3;
-    if (temp_v0_3 == NULL) {
+    created_object = ((S_800930F0_5 *)(&D_800E4938))->unk_00.u(((S_800930F0_5 *)(&D_800E4938))->unk_04, ((S_800930F0_5 *)(&D_800E4938))->unk_08);
+    ((Rec_D_800E3D7C *)state)->unk_C8 = created_object;
+    if (created_object == NULL) {
         goto block_27;
     }
-    ((Rec_D_800E3D7C *)arg0)->unk_9B = (u8) (((Rec_D_800E3D7C *)arg0)->unk_9B + 1);
+    ((Rec_D_800E3D7C *)state)->unk_9B = (u8) (((Rec_D_800E3D7C *)state)->unk_9B + 1);
 jt_c4:
-    if (!(((S_800930F0_12 *)(((Rec_D_800E3D7C *)arg0)->unk_C8))->unk_1E & 0x8000)) {
+    if (!(((S_800930F0_12 *)(((Rec_D_800E3D7C *)state)->unk_C8))->unk_1E & 0x8000)) {
         goto block_25;
     }
     func_80040AA0(D_80082E6B);
@@ -215,41 +216,41 @@ jt_c4:
     func_800481E0();
     goto block_24;
 jt_c16:
-    var_v1 = (M2C_UNK *)0x800E0000;
+    transition_base = (M2C_UNK *)0x800E0000;
     if (!(((S_800930F0_7 *)(&D_80013714))->unk_00 & 4)) {
         goto block_23;
     }
 block_21:
-    if (((S_800930F0_8 *)var_v1)->unk_3CD0.s != 0) {
+    if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
         goto block_26;
     }
-    ((S_800930F0_8 *)var_v1)->unk_3CD0.u = 1;
+    ((S_800930F0_8 *)transition_base)->unk_3CD0.u = 1;
     func_80040AA0(3U);
     goto block_26;
 block_23:
-    func_800945E8(arg0);
+    func_800945E8(state);
     func_800948BC();
     {
-        s32 call_a0;
-        register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        register s32 call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register s32 call_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        u8 *store_base;
-        register u16 store_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 command;
+        register s32 zero_arg_1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        register s32 zero_arg_2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register s32 zero_arg_3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u8 *flags_base;
+        register u16 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-        call_a0 = 6;
-        call_a1 = 0;
-        call_a2 = call_a1;
-        call_a3 = call_a1;
-        ASM_KEEP4_NV(call_a0, call_a1, call_a2, call_a3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        store_base = (u8 *)0x80080000;
-        ASM_KEEP(store_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        store_value = 0x8000;
-        ((S_800930F0_9 *)store_base)->unk_2E76 = store_value;
-        func_80041094(call_a0, call_a1, call_a2, call_a3, 0x8000);
+        command = 6;
+        zero_arg_1 = 0;
+        zero_arg_2 = zero_arg_1;
+        zero_arg_3 = zero_arg_1;
+        ASM_KEEP4_NV(command, zero_arg_1, zero_arg_2, zero_arg_3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        flags_base = (u8 *)0x80080000;
+        ASM_KEEP(flags_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        flags = 0x8000;
+        ((S_800930F0_9 *)flags_base)->unk_2E76 = flags;
+        func_80041094(command, zero_arg_1, zero_arg_2, zero_arg_3, 0x8000);
     }
 block_24:
-    ((Rec_D_800E3D7C *)arg0)->unk_9B = (u8) (((Rec_D_800E3D7C *)arg0)->unk_9B + 1);
+    ((Rec_D_800E3D7C *)state)->unk_9B = (u8) (((Rec_D_800E3D7C *)state)->unk_9B + 1);
 jt_c5:
 jt_c6:
 jt_c7:
@@ -265,9 +266,9 @@ jt_c17:
 block_25:
     goto block_26;
 block_26:
-    var_v0 = &D_80083160;
-    ((S_800930F0_10 *)var_v0)->unk_CC = 0;
-    ((S_800930F0_10 *)var_v0)->unk_154 = 0;
+    control_state = &D_80083160;
+    ((S_800930F0_10 *)control_state)->unk_CC = 0;
+    ((S_800930F0_10 *)control_state)->unk_154 = 0;
     (*(s32 *)&D_800E296C) = (s32) (((S_800930F0_6 *)(&D_800E296C))->unk_00 | 0x40000);
 block_27:
     return;

@@ -34,114 +34,115 @@ extern void func_800597A8(Entity *);
 extern s32 func_80058A04(Entity *);
 extern void func_80059814(Entity *);
 
+/* Initialize entity offsets and state according to the input format. */
 s32 func_800599B0(void)
 {
-    u32 i;
-    Entity *p;
-    s32 off;
-    s32 amt;
-    u8 *q;
-    u8 *qtmp;
-    s32 amt2;
-    register s32 v ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 sum;
-    s32 k68a;
-    s32 k68b;
-    s32 c;
+    u32 entity_index;
+    Entity *entity;
+    s32 offset;
+    s32 length;
+    u8 *length_cursor;
+    u8 *data;
+    s32 span;
+    register s32 start ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 end;
+    s32 default_value;
+    s32 packed_default;
+    s32 format;
     s32 mode;
 
     D_800737C4 = 0;
     D_800737C8 = 1;
-    off = 0;
-    c = *D_80085FA4;
-    if (c == 0x70) {
+    offset = 0;
+    format = *D_80085FA4;
+    if (format == 0x70) {
         D_800737C8 = 0;
-    } else if (c == 0x4B) {
+    } else if (format == 0x4B) {
         D_800737C8 = 2;
     }
     func_80058B70();
     mode = D_800737C8;
     if (mode < 0) {
-        goto ret0;
+        goto done;
     }
     if (mode < 2) {
-        goto lane01;
+        goto init_entities;
     }
     if (mode == 2) {
-        goto lane2;
+        goto init_spans;
     }
     return 0;
-lane01:
+init_entities:
     {
-        i = 0;
+        entity_index = 0;
         if (D_800869B4 == 0) {
-            goto ret0;
+            goto done;
         }
-        k68a = 0x68;
-        p = D_80085FA8;
+        default_value = 0x68;
+        entity = D_80085FA8;
         do {
             if (D_800737C8 == 1) {
-                p->f00 = off + 1;
-                p->f24 = k68a;
-                p->f20 = k68a;
-                func_800597A8(p);
-                off = p->f00;
+                entity->f00 = offset + 1;
+                entity->f24 = default_value;
+                entity->f20 = default_value;
+                func_800597A8(entity);
+                offset = entity->f00;
             }
-            p->f04 = p->f00;
-            p->f10 = func_80058A04(p);
-            p->f48 = 0;
-            p->f4A = 0;
-            p->f49 = 0;
-            p->f2C = 0;
-            p->f40 = 0;
+            entity->f04 = entity->f00;
+            entity->f10 = func_80058A04(entity);
+            entity->f48 = 0;
+            entity->f4A = 0;
+            entity->f49 = 0;
+            entity->f2C = 0;
+            entity->f40 = 0;
             if (D_800737C4 != 0) {
-                func_80059814(p);
+                func_80059814(entity);
             }
-            p++;
-            i++;
-        } while (i < (u32)D_800869B4);
-        goto ret0;
+            entity++;
+            entity_index++;
+        } while (entity_index < (u32)D_800869B4);
+        goto done;
     }
-lane2:
-    off = 0x50;
-    qtmp = D_80085FA4;
-    i = 0;
+init_spans:
+    offset = 0x50;
+    data = D_80085FA4;
+    entity_index = 0;
     if (D_800869B4 == 0) {
-        goto ret0;
+        goto done;
     }
-    k68b = 0x68;
-    p = D_80085FA8;
-    q = qtmp;
+    packed_default = 0x68;
+    entity = D_80085FA8;
+    length_cursor = data;
     do {
-        p->f00 = off;
-        amt = *(u16 *)(q + 0x10);
-        p->f18 = amt;
-        ASM_KEEP_NV(amt);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        amt2 = amt;
-        ASM_KEEP_NV(amt2);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        p->f24 = k68b;
-        p->f20 = k68b;
-        v = p->f00;
-        sum = v;
-        ASM_USE2_NV(sum, amt2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        p->f04 = v;
-        p->f38 = v;
-        off += amt;
-        sum += amt2;
-        p->f1C = sum;
-        p->f10 = func_80058A04(p);
-        p->f48 = 0;
-        p->f4A = 0;
-        p->f49 = 0;
-        p->f2C = 0;
-        p->f40 = 0;
+        entity->f00 = offset;
+        length = *(u16 *)(length_cursor + 0x10);
+        entity->f18 = length;
+        ASM_KEEP_NV(length);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        span = length;
+        ASM_KEEP_NV(span);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        entity->f24 = packed_default;
+        entity->f20 = packed_default;
+        start = entity->f00;
+        end = start;
+        ASM_USE2_NV(end, span);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        entity->f04 = start;
+        entity->f38 = start;
+        offset += length;
+        end += span;
+        entity->f1C = end;
+        entity->f10 = func_80058A04(entity);
+        entity->f48 = 0;
+        entity->f4A = 0;
+        entity->f49 = 0;
+        entity->f2C = 0;
+        entity->f40 = 0;
         if (D_800737C4 != 0) {
-            func_80059814(p);
+            func_80059814(entity);
         }
-        p++;
-        q += 2;
-        i++;
-    } while (i < (u32)D_800869B4);
-ret0:
+        entity++;
+        length_cursor += 2;
+        entity_index++;
+    } while (entity_index < (u32)D_800869B4);
+done:
     return 0;
 }

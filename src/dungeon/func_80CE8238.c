@@ -72,55 +72,56 @@ extern u8 D_80175E54[];
 extern u8 D_80175E5C[];
 extern u8 D_80175E64[];
 
-void func_80171A38(void *arg0, S_80171A38_4 *arg1, S_80171A38_3 *arg2)
+/* Update position and part state, then mark the object used unless its part is exempt. */
+void func_80171A38(void *object, S_80171A38_4 *position, S_80171A38_3 *part_state)
 {
     S_80171A38_1 *record;
     S_80171A38_2 *part;
-    S_80171A38_5 *source;
-    u16 next_value;
-    Vec3s delta;
+    S_80171A38_5 *base_position;
+    u16 part_value;
+    Vec3s position_delta;
 
-    record = (u8 *)((S_80171A38_0 *)arg0)->unk_20 - 0x20;
+    record = (u8 *)((S_80171A38_0 *)object)->unk_20 - 0x20;
     if ((record->unk_1E & 0x8000) != 0) {
         goto mark_used;
     }
 
     do { part = record->unk_0C; } while (0);
-    next_value = part->unk_06;
-    source = record->unk_08;
-    arg2->unk_06 = next_value + 1;
+    part_value = part->unk_06;
+    base_position = record->unk_08;
+    part_state->unk_06 = part_value + 1;
 
     if (part->unk_04 == 0) {
-        arg2->unk_1E = 0x400;
-        arg2->unk_1C = 0x400;
+        part_state->unk_1E = 0x400;
+        part_state->unk_1C = 0x400;
     }
     if (part->unk_04 == 1) {
-        arg2->unk_1E = 0x700;
-        arg2->unk_1C = 0x700;
+        part_state->unk_1E = 0x700;
+        part_state->unk_1C = 0x700;
     }
     if (part->unk_04 == 2) {
-        arg2->unk_1E = 0xa00;
-        arg2->unk_1C = 0xa00;
+        part_state->unk_1E = 0xa00;
+        part_state->unk_1C = 0xa00;
     }
     if (part->unk_04 == 3) {
-        arg2->unk_1E = 0x700;
-        arg2->unk_1C = 0x700;
+        part_state->unk_1E = 0x700;
+        part_state->unk_1C = 0x700;
     }
     if (part->unk_04 == 4) {
-        arg2->unk_1E = 0x400;
-        arg2->unk_1C = 0x400;
+        part_state->unk_1E = 0x400;
+        part_state->unk_1C = 0x400;
     }
 
-    arg1->unk_02 = source->unk_02;
-    arg1->unk_06 = source->unk_06;
-    arg1->unk_0A = source->unk_0A;
+    position->unk_02 = base_position->unk_02;
+    position->unk_06 = base_position->unk_06;
+    position->unk_0A = base_position->unk_0A;
 
     if (func_8003DE58(
             ((S_80171A38_6 *)(record->unk_0C))->unk_08,
-            record->unk_0C, &delta, 0) != 0) {
-        arg1->unk_02 += delta.x;
-        arg1->unk_06 += delta.y;
-        arg1->unk_0A += delta.z;
+            record->unk_0C, &position_delta, 0) != 0) {
+        position->unk_02 += position_delta.x;
+        position->unk_06 += position_delta.y;
+        position->unk_0A += position_delta.z;
     }
 
     if (part->unk_2C == D_80175E54 ||
@@ -130,6 +131,6 @@ void func_80171A38(void *arg0, S_80171A38_4 *arg1, S_80171A38_3 *arg2)
     }
 
 mark_used:
-    ((S_80171A38_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    ((S_80171A38_0_pre *)object)[-1].unk_00 |= 0x8000;
     D_800814A0[0] |= 0x8000;
 }

@@ -19,36 +19,37 @@ typedef struct {
 extern DungeonState D_80083460;
 
 
-void func_800AA5E4(Rec_func_800A9E70_arg0 *arg0, void *arg1, void *arg2, Rec_D_800E3D7C *arg3) {
-    s32 var_a2;
-    s32 temp_v0;
-    s32 x;
-    s32 y;
-    void *var_a0;
+/* Resets entity state, selects a new position, and increments the dungeon counter. */
+void func_800AA5E4(Rec_func_800A9E70_arg0 *entity, void *unused, void *position, Rec_D_800E3D7C *entity_state) {
+    s32 tile_mask;
+    s32 flags;
+    s32 tile_x;
+    s32 tile_y;
+    void *tile_x_ptr;
     DungeonState *state;
 
-    arg0->unk_9A.as_s8 = 4;
-    arg0->unk_9B.as_s8 = 0;
-    arg0->unk_8C = 0;
-    arg0->unk_96.as_s16 = 0x10;
-    arg0->unk_98 = arg0->unk_98 | 8;
-    temp_v0 = arg3->unk_1C.as_s32 | 0x10000;
-    arg3->unk_1C.as_s32 = temp_v0;
-    x = ((Rec_D_80082E80 *)arg2)->unk_24;
-    y = ((Rec_D_80082E80 *)arg2)->unk_25;
-    var_a2 = 0x3000;
-    if (temp_v0 & 0x2000) {
-        var_a2 = 0x300;
+    entity->unk_9A.as_s8 = 4;
+    entity->unk_9B.as_s8 = 0;
+    entity->unk_8C = 0;
+    entity->unk_96.as_s16 = 0x10;
+    entity->unk_98 = entity->unk_98 | 8;
+    flags = entity_state->unk_1C.as_s32 | 0x10000;
+    entity_state->unk_1C.as_s32 = flags;
+    tile_x = ((Rec_D_80082E80 *)position)->unk_24;
+    tile_y = ((Rec_D_80082E80 *)position)->unk_25;
+    tile_mask = 0x3000;
+    if (flags & 0x2000) {
+        tile_mask = 0x300;
     }
-    func_8009A3D0(x, y, var_a2);
-    var_a0 = (u8 *)arg2 + 0x24;
-loop:
-    if ((s16)func_800A4E2C(var_a0, (u8 *)arg2 + 0x25) < 0) {
-        var_a0 = (u8 *)arg2 + 0x24;
-        goto loop;
+    func_8009A3D0(tile_x, tile_y, tile_mask);
+    tile_x_ptr = (u8 *)position + 0x24;
+retry_position:
+    if ((s16)func_800A4E2C(tile_x_ptr, (u8 *)position + 0x25) < 0) {
+        tile_x_ptr = (u8 *)position + 0x24;
+        goto retry_position;
     }
-    ((Rec_D_80082E80 *)arg2)->unk_26.as_s8 = func_8009FB34(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
-    func_800AA53C(arg3);
+    ((Rec_D_80082E80 *)position)->unk_26.as_s8 = func_8009FB34(((Rec_D_80082E80 *)position)->unk_24, ((Rec_D_80082E80 *)position)->unk_25);
+    func_800AA53C(entity_state);
     state = &D_80083460;
     ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     state->counter = state->counter + 1;

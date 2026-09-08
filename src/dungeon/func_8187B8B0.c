@@ -12,85 +12,83 @@ extern s32 rand();
 extern s32 D_80024DA0;
 extern s32 D_80024FF0;
 
+/* Creates an object at a randomized offset from the source and initializes its actor data. */
 void func_8187B8B0(
-    void *arg0,
-    s16 arg1,
-    s32 arg2,
-    s16 arg3,
-    s32 arg4,
-    s32 arg5,
-    s32 arg6)
+    void *source,
+    s16 field_04_value,
+    s32 field_00_value,
+    s16 paired_value,
+    s32 x_offset,
+    s32 y_offset,
+    s32 z_offset)
 {
-    s32 held_arg4 = arg4;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *held_arg0 = arg0;
-    register s16 held_arg1 ASM_REG("$22") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 held_arg2 ASM_REG("$23") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s16 held_arg3 ASM_REG("$20") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s32 held_arg5 = arg5;
-    s32 held_arg6 = arg6;
-    void *temp_s0;
-    void *actor;
-    s32 random1;
-    s32 random2;
-    s32 random3;
-    s32 offset1;
-    s32 offset2;
-    s32 offset3;
-    s32 value1;
-    s32 value2;
-    s32 value3;
-    register void *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *call_data;
-    void *dest1;
-    void *dest2;
-    void *dest3;
+    s32 saved_x_offset = x_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *source_obj = source;
+    register s16 saved_field_04 ASM_REG("$22") = field_04_value;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 saved_field_00 ASM_REG("$23") = field_00_value;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s16 saved_pair ASM_REG("$20") = paired_value;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 saved_y_offset = y_offset;
+    s32 saved_z_offset = z_offset;
+    void *spawned_obj;
+    void *actor_data;
+    s32 x_jitter;
+    s32 y_jitter;
+    s32 z_jitter;
+    s32 x_bias;
+    s32 y_bias;
+    s32 z_bias;
+    s32 x_pos;
+    s32 y_pos;
+    s32 z_pos;
+    register void *init_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *init_data;
+    void *x_dest;
+    void *y_dest;
+    void *z_dest;
 
-    temp_s0 = func_8003FD64(0x211, held_arg0);
-    if (temp_s0 != NULL) {
-        FIELD(temp_s0, s32 *, 0x10) = (s32)&D_80024FF0;
-        random1 = rand() & 0x1F;
-        value1 = FIELD(FIELD(held_arg0, void **, 8), u16 *, 2);
-        dest1 = FIELD(temp_s0, void **, 8);
-        value1 += random1;
-        offset1 = held_arg4 - 0x10;
-        value1 += offset1;
-        FIELD(dest1, s16 *, 2) = (s16)value1;
+    spawned_obj = func_8003FD64(0x211, source_obj);
+    if (spawned_obj != NULL) {
+        FIELD(spawned_obj, s32 *, 0x10) = (s32)&D_80024FF0;
+        x_jitter = rand() & 0x1F;
+        x_pos = FIELD(FIELD(source_obj, void **, 8), u16 *, 2);
+        x_dest = FIELD(spawned_obj, void **, 8);
+        x_pos += x_jitter;
+        x_bias = saved_x_offset - 0x10;
+        x_pos += x_bias;
+        FIELD(x_dest, s16 *, 2) = (s16)x_pos;
 
-        random2 = rand() & 0x1F;
-        value2 = FIELD(FIELD(held_arg0, void **, 8), u16 *, 6);
-        dest2 = FIELD(temp_s0, void **, 8);
-        value2 += random2;
-        offset2 = held_arg5 - 0x10;
-        value2 += offset2;
-        FIELD(dest2, s16 *, 6) = (s16)value2;
+        y_jitter = rand() & 0x1F;
+        y_pos = FIELD(FIELD(source_obj, void **, 8), u16 *, 6);
+        y_dest = FIELD(spawned_obj, void **, 8);
+        y_pos += y_jitter;
+        y_bias = saved_y_offset - 0x10;
+        y_pos += y_bias;
+        FIELD(y_dest, s16 *, 6) = (s16)y_pos;
 
-        random3 = rand();
-        call_obj = temp_s0;
-        call_data = &D_80024DA0;
-        ASM_USE2(call_obj, call_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        random3 &= 0x1F;
-        value3 = FIELD(FIELD(held_arg0, void **, 8), u16 *, 0xA);
-        actor = (u8 *)temp_s0 + 0x20;
-        dest3 = FIELD(temp_s0, void **, 8);
-        value3 += random3;
-        offset3 = held_arg6 - 0x10;
-        value3 += offset3;
-        FIELD(dest3, s16 *, 0xA) = (s16)value3;
-        ASM_KEEP(held_arg4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg5);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg6);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        FIELD(actor, s16 *, 0x4) = held_arg1;
-        ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        FIELD(actor, s16 *, 0x10) = held_arg3;
-        FIELD(actor, s16 *, 0x12) = held_arg3;
-        func_8004491C(call_obj, call_data, dest3);
-        ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        FIELD(actor, s32 *, 0xB4) = rand() + 0x10000;
-        FIELD(temp_s0, s32 *, 0x20) = held_arg2;
-        ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        z_jitter = rand();
+        init_obj = spawned_obj;
+        init_data = &D_80024DA0;
+        ASM_USE2(init_obj, init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        z_jitter &= 0x1F;
+        z_pos = FIELD(FIELD(source_obj, void **, 8), u16 *, 0xA);
+        actor_data = (u8 *)spawned_obj + 0x20;
+        z_dest = FIELD(spawned_obj, void **, 8);
+        z_pos += z_jitter;
+        z_bias = saved_z_offset - 0x10;
+        z_pos += z_bias;
+        FIELD(z_dest, s16 *, 0xA) = (s16)z_pos;
+        ASM_KEEP(saved_x_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(saved_y_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(saved_z_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        FIELD(actor_data, s16 *, 0x4) = saved_field_04;
+        ASM_KEEP(saved_field_04);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        FIELD(actor_data, s16 *, 0x10) = saved_pair;
+        FIELD(actor_data, s16 *, 0x12) = saved_pair;
+        func_8004491C(init_obj, init_data, z_dest);
+        ASM_KEEP(saved_pair);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        FIELD(actor_data, s32 *, 0xB4) = rand() + 0x10000;
+        FIELD(spawned_obj, s32 *, 0x20) = saved_field_00;
+        ASM_KEEP(saved_field_00);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }
 
-/* MECHANISM: The 0x38 frame and s2/s3/s5 stack-argument roles come from guarded held locals.
-   Separate random/value/destination/offset names reproduce each v0/v1/a0 coordinate live range.
-   Anchoring a0/a1 before splitting the third random mask fixes the final word-47 schedule seam. */

@@ -66,52 +66,53 @@ typedef struct S_800C2CDC_4 {
     u16 unk_0A;
 } S_800C2CDC_4;   /* counter_base in func_800C2CDC */
 
-s32 func_800C2CDC(void *arg0, u8 *arg1, s16 arg2) {
+/* Creates an object at the entity position, updates its state, and decrements the global count. */
+s32 func_800C2CDC(void *actor, u8 *object_data, s16 action_type) {
     S_800C2CDC_1 *entity;
     s32 object_fields;
     u8 *entries;
     s32 *counter_base;
     s32 object;
     s32 handle;
-    s16 index;
+    s16 entry_index;
 
-    if (arg0 == *(u8 **)D_800E3D7C) {
-        ((S_800C2CDC_0 *)arg0)->unk_110 = arg1;
-        func_8008D344(arg0, D_80083780, D_80082E80, arg0);
+    if (actor == *(u8 **)D_800E3D7C) {
+        ((S_800C2CDC_0 *)actor)->unk_110 = object_data;
+        func_8008D344(actor, D_80083780, D_80082E80, actor);
         return 0;
     }
 
-    entity = ((S_800C2CDC_0_pre *)arg0)[-1].unk_00;
+    entity = ((S_800C2CDC_0_pre *)actor)[-1].unk_00;
     object = func_800C7380(entity->unk_24,
                            entity->unk_25,
-                           ((S_800C2CDC_0 *)arg0)->unk_88, 7, *arg1);
+                           ((S_800C2CDC_0 *)actor)->unk_88, 7, *object_data);
     if (object == 0) {
         return 0;
     }
 
     func_800A56E0(0x816);
-    index = func_800B60B8(entity->unk_24,
+    entry_index = func_800B60B8(entity->unk_24,
                           entity->unk_25,
-                          ((S_800C2CDC_0 *)arg0)->unk_88, 6, object);
+                          ((S_800C2CDC_0 *)actor)->unk_88, 6, object);
     object_fields = object + 0x20;
     ASM_KEEP(object_fields);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     entries = D_800E39C8;
-    ((S_800C2CDC_2 *)object_fields)->unk_20 = index;
-    ((S_800C2CDC_3 *)(entries + (index * 24)))->unk_08 = 0;
+    ((S_800C2CDC_2 *)object_fields)->unk_20 = entry_index;
+    ((S_800C2CDC_3 *)(entries + (entry_index * 24)))->unk_08 = 0;
 
     handle = func_800990FC();
     object = func_8009929C(8, handle);
 
-    if (arg2 == 13) {
+    if (action_type == 13) {
         object = func_800999B0(func_80099194(D_800893D4,
-                    func_80099734(arg0, func_80099194(D_800E1684,
-                        func_80099368(arg1, object)))));
+                    func_80099734(actor, func_80099194(D_800E1684,
+                        func_80099368(object_data, object)))));
 
-        if (!(((S_800C2CDC_0 *)arg0)->unk_1C & 0x2000) &&
-                ((S_800C2CDC_0 *)arg0)->unk_13 < 0x31) {
+        if (!(((S_800C2CDC_0 *)actor)->unk_1C & 0x2000) &&
+                ((S_800C2CDC_0 *)actor)->unk_13 < 0x31) {
             func_8009A3D0(entity->unk_24,
                           entity->unk_25, 0x3000);
-            ((S_800C2CDC_0 *)arg0)->unk_1C |= 0x2000;
+            ((S_800C2CDC_0 *)actor)->unk_1C |= 0x2000;
             func_8009A21C(entity->unk_24,
                           entity->unk_25, 0x300);
         }
@@ -124,12 +125,12 @@ s32 func_800C2CDC(void *arg0, u8 *arg1, s16 arg2) {
     func_80099290(func_80099194(D_800E169A, handle));
     func_800A5720(handle);
 
-    if ((s16)func_80042900(arg0, 2) != 0) {
-        func_80042B68(arg0, 2);
+    if ((s16)func_80042900(actor, 2) != 0) {
+        func_80042B68(actor, 2);
     }
 
     func_8009A21C(entity->unk_24, entity->unk_25, 2);
-    func_80098B38(arg1);
+    func_80098B38(object_data);
     counter_base = &D_80083460;
     ((S_800C2CDC_4 *)counter_base)->unk_0A--;
     return 1;

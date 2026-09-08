@@ -27,16 +27,17 @@ extern void *func_80017960(void *, void *, s32, s32);
 extern void func_80018594(s32);
 extern s32 func_8001868C(s32);
 
-void *func_80016714(s32 arg0, s32 arg1, s32 arg2)
+/* Looks up event data and applies special-event state updates and overrides. */
+void *func_80016714(s32 entry_id, s32 unused, s32 event_id)
 {
-    void *result;
-    u8 *base;
+    void *event_data;
+    u8 *event_table;
 
-    base = D_800189DC;
-    result = func_80017960(base, D_80018B94, arg0, arg2);
-    if (arg2 == 0xB) {
+    event_table = D_800189DC;
+    event_data = func_80017960(event_table, D_80018B94, entry_id, event_id);
+    if (event_id == 0xB) {
         func_80018594(0x1458);
-        if (func_800178A8(base, arg0, 0xB) != 0) {
+        if (func_800178A8(event_table, entry_id, 0xB) != 0) {
             return &D_8001A3AE[0];
         }
         ((S_80016714_1 *)(((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8 +
@@ -45,13 +46,13 @@ void *func_80016714(s32 arg0, s32 arg1, s32 arg2)
                   ((Rec_D_80016000 *)D_80016000)->unk_40.as_pu8))->unk_04 >= 5U) {
             func_80018594(0x1459);
         }
-        return result;
+        return event_data;
     }
-    if (arg2 == 0x1C) {
+    if (event_id == 0x1C) {
         if (func_8001868C(0x992) == 0) {
             func_80018594(0x992);
             return &D_8001A495[0];
         }
     }
-    return result;
+    return event_data;
 }

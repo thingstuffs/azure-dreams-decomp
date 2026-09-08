@@ -81,22 +81,23 @@ extern s32 D_80045340;
 extern u8 D_800DEC70[];
 extern u8 D_80170A84[];
 
+/* Creates a sprite effect offset from its origin and initializes its return motion. */
 void func_80AC55DC(
-    S_80AC55DC_1 *arg0, s16 arg1, s32 arg2, s16 arg3,
-    s32 arg4, s32 arg5, s32 arg6)
+    S_80AC55DC_1 *origin, s16 effect_id, s32 effect_value, s16 duration,
+    s32 offset_x, s32 offset_y, s32 offset_z)
 {
     void *node;
     S_80AC55DC_2 *work;
     S_80AC55DC_4 *sprite;
-    S_80AC55DC_3 *source;
-    u16 third;
-    u16 flags;
-    s32 size;
-    void *data;
-    s32 div_raw;
-    s32 numerator;
-    s32 divisor;
-    register s32 adjusted ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_80AC55DC_3 *origin_pos;
+    u16 origin_z;
+    u16 sprite_flags;
+    s32 sprite_size;
+    void *sprite_data;
+    s32 duration_shifted;
+    s32 offset_fixed;
+    s32 duration_signed;
+    register s32 duration_eighth ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 step_x ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register s32 step_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register s32 step_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -106,38 +107,38 @@ void func_80AC55DC(
         ((S_80AC55DC_0 *)node)->unk_10 = D_80170A84;
 
         ((S_80AC55DC_5 *)(((S_80AC55DC_0 *)node)->unk_08))->unk_02 =
-            ((S_80AC55DC_6 *)(arg0->unk_08))->unk_02 + arg4;
+            ((S_80AC55DC_6 *)(origin->unk_08))->unk_02 + offset_x;
         ((S_80AC55DC_5 *)(((S_80AC55DC_0 *)node)->unk_08))->unk_06 =
-            ((S_80AC55DC_6 *)(arg0->unk_08))->unk_06 + arg5;
+            ((S_80AC55DC_6 *)(origin->unk_08))->unk_06 + offset_y;
         ((S_80AC55DC_5 *)(((S_80AC55DC_0 *)node)->unk_08))->unk_0A =
-            ((S_80AC55DC_6 *)(arg0->unk_08))->unk_0A + arg6 - 0x14;
+            ((S_80AC55DC_6 *)(origin->unk_08))->unk_0A + offset_z - 0x14;
 
         work = (u8 *)node + 0x20;
-        work->unk_36 = ((S_80AC55DC_6 *)(arg0->unk_08))->unk_02;
-        work->unk_38 = ((S_80AC55DC_6 *)(arg0->unk_08))->unk_06;
-        div_raw = arg3 << 16;
-        source = arg0->unk_08;
-        divisor = div_raw >> 16;
-        third = source->unk_0A;
-        adjusted = divisor;
-        work->unk_3A = third;
+        work->unk_36 = ((S_80AC55DC_6 *)(origin->unk_08))->unk_02;
+        work->unk_38 = ((S_80AC55DC_6 *)(origin->unk_08))->unk_06;
+        duration_shifted = duration << 16;
+        origin_pos = origin->unk_08;
+        duration_signed = duration_shifted >> 16;
+        origin_z = origin_pos->unk_0A;
+        duration_eighth = duration_signed;
+        work->unk_3A = origin_z;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        numerator = arg4 << 16;
-        numerator = -numerator;
-        if (divisor < 0) {
-            adjusted = divisor + 7;
+        offset_fixed = offset_x << 16;
+        offset_fixed = -offset_fixed;
+        if (duration_signed < 0) {
+            duration_eighth = duration_signed + 7;
         }
-        adjusted >>= 3;
+        duration_eighth >>= 3;
 
-        step_x = numerator / adjusted;
+        step_x = offset_fixed / duration_eighth;
         work->unk_40 = step_x / 2;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        numerator = arg5 << 16;
-        numerator = -numerator;
-        step_y = numerator / adjusted;
+        offset_fixed = offset_y << 16;
+        offset_fixed = -offset_fixed;
+        step_y = offset_fixed / duration_eighth;
         work->unk_44 = step_y / 2;
-        ASM_KEEP(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        step_z = -(arg6 << 16) / adjusted;
+        ASM_KEEP(duration_eighth);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        step_z = -(offset_z << 16) / duration_eighth;
         work->unk_48 = step_z / 2;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
@@ -148,27 +149,27 @@ void func_80AC55DC(
         ASM_KEEP(step_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         work->unk_54 = step_z / 4;
 
-        work->unk_14 = arg1;
-        work->unk_32 = arg3;
-        work->unk_34 = arg3;
+        work->unk_14 = effect_id;
+        work->unk_32 = duration;
+        work->unk_34 = duration;
         func_8004491C(node, &D_80045340);
 
-        data = D_800DEC70;
-        ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        sprite_data = D_800DEC70;
+        ASM_KEEP(sprite_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         sprite = ((S_80AC55DC_0 *)node)->unk_0C;
-        size = 0x20;
-        flags = sprite->unk_14;
+        sprite_size = 0x20;
+        sprite_flags = sprite->unk_14;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        sprite->unk_10 = size;
+        sprite->unk_10 = sprite_size;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         sprite->unk_0E = 0;
         sprite->unk_0D = 0;
         sprite->unk_0C = 0;
-        sprite->unk_14 = flags | 0xC;
-        ((S_80AC55DC_0 *)node)->unk_20 = arg2;
-        work->unk_08 = arg2;
-        func_8003DB94(sprite, data, 0);
+        sprite->unk_14 = sprite_flags | 0xC;
+        ((S_80AC55DC_0 *)node)->unk_20 = effect_value;
+        work->unk_08 = effect_value;
+        func_8003DB94(sprite, sprite_data, 0);
     }
 }
 

@@ -96,57 +96,58 @@ typedef struct S_80D659DC_5 {
     s32 unk_10;
 } S_80D659DC_5;   /* temp_a2 in func_80D659DC */
 
-void func_80D659DC(Rec_D_800E3D7C *arg0, u32 arg1, s32 arg2) {
-    S_80D659DC_1 *temp_a0;
-    S_80D659DC_3 *temp_a0_2;
-    S_80D659DC_4 *temp_a1;
-    S_80D659DC_5 *temp_a2;
-    S_80D659DC_2 *temp_s0;
-    EffectBase *temp_s0_2;
-    Effect *temp_v0;
+/* Spawns an effect offset from the source with randomized velocity biased along the given angle. */
+void func_80D659DC(Rec_D_800E3D7C *source, u32 angle, s32 effect_param) {
+    S_80D659DC_1 *position_x;
+    S_80D659DC_3 *position_y;
+    S_80D659DC_4 *velocity_x;
+    S_80D659DC_5 *velocity_y;
+    S_80D659DC_2 *direction;
+    EffectBase *base;
+    Effect *effect;
 
-    temp_v0 = func_8003FD64(0x211, arg0);
-    if (temp_v0 != NULL) {
-        temp_s0_2 = &temp_v0->base;
-        ((S_80D659DC_0 *)temp_v0)->unk_10 = &D_800D707C;
-        ((S_80D659DC_8 *)(((S_80D659DC_6 *)temp_v0)->unk_08))->unk_02 = (u16)
-            ((S_80D659DC_9 *)(arg0->unk_08.at00_pv.v))->unk_02;
-        ((S_80D659DC_8 *)(((S_80D659DC_6 *)temp_v0)->unk_08))->unk_06 = (u16)
-            ((S_80D659DC_9 *)(arg0->unk_08.at00_pv.v))->unk_06;
-        ((S_80D659DC_8 *)(((S_80D659DC_6 *)temp_v0)->unk_08))->unk_0A = (s16)
-            (((S_80D659DC_9 *)(arg0->unk_08.at00_pv.v))->unk_0A - 0x58);
-        temp_s0 = (void *)D_800E2468 + ((arg1 >> 7) & 0x1C);
-        temp_a0 = ((S_80D659DC_0 *)temp_v0)->unk_08;
-        temp_a0->unk_02 = (u16)
-            (temp_a0->unk_02 +
-             (temp_s0->unk_00 * 0x12));
-        temp_a0_2 = ((S_80D659DC_0 *)temp_v0)->unk_08;
-        temp_a0_2->unk_06 = (u16)
-            (temp_a0_2->unk_06 +
-             (temp_s0->unk_02 * 0x12));
-        ((S_80D659DC_8 *)(((S_80D659DC_6 *)temp_v0)->unk_08))->unk_0C = (s32)
+    effect = func_8003FD64(0x211, source);
+    if (effect != NULL) {
+        base = &effect->base;
+        ((S_80D659DC_0 *)effect)->unk_10 = &D_800D707C;
+        ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_02 = (u16)
+            ((S_80D659DC_9 *)(source->unk_08.at00_pv.v))->unk_02;
+        ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_06 = (u16)
+            ((S_80D659DC_9 *)(source->unk_08.at00_pv.v))->unk_06;
+        ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_0A = (s16)
+            (((S_80D659DC_9 *)(source->unk_08.at00_pv.v))->unk_0A - 0x58);
+        direction = (void *)D_800E2468 + ((angle >> 7) & 0x1C);
+        position_x = ((S_80D659DC_0 *)effect)->unk_08;
+        position_x->unk_02 = (u16)
+            (position_x->unk_02 +
+             (direction->unk_00 * 0x12));
+        position_y = ((S_80D659DC_0 *)effect)->unk_08;
+        position_y->unk_06 = (u16)
+            (position_y->unk_06 +
+             (direction->unk_02 * 0x12));
+        ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_0C = (s32)
             (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((S_80D659DC_8 *)(((S_80D659DC_6 *)temp_v0)->unk_08))->unk_10 = (s32)
+        ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_10 = (s32)
             (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((S_80D659DC_8 *)(((S_80D659DC_6 *)temp_v0)->unk_08))->unk_14 = (s32)
+        ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_14 = (s32)
             (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        temp_a1 = ((S_80D659DC_0 *)temp_v0)->unk_08;
-        temp_a1->unk_0C = (s32)
-            (temp_a1->unk_0C +
-             (temp_s0->unk_00 * 0x1C0000));
+        velocity_x = ((S_80D659DC_0 *)effect)->unk_08;
+        velocity_x->unk_0C = (s32)
+            (velocity_x->unk_0C +
+             (direction->unk_00 * 0x1C0000));
         {
-            s32 temp_v1 = temp_s0->unk_02;
+            s32 direction_y = direction->unk_02;
 
-            temp_a2 = ((S_80D659DC_0 *)temp_v0)->unk_08;
-            temp_a2->unk_10 = (s32)
-                (temp_a2->unk_10 +
-                 (temp_v1 * 0x1C0000));
-            temp_s0_2->field14 = arg1;
-            temp_s0_2->field32 = 0xC;
-            temp_s0_2->field34 = 0xC;
-            func_8004491C(temp_v0, &D_800D68F4, temp_a2);
-            ((S_80D659DC_0 *)temp_v0)->unk_20 = arg2;
-            temp_s0_2->field8 = arg2;
+            velocity_y = ((S_80D659DC_0 *)effect)->unk_08;
+            velocity_y->unk_10 = (s32)
+                (velocity_y->unk_10 +
+                 (direction_y * 0x1C0000));
+            base->field14 = angle;
+            base->field32 = 0xC;
+            base->field34 = 0xC;
+            func_8004491C(effect, &D_800D68F4, velocity_y);
+            ((S_80D659DC_0 *)effect)->unk_20 = effect_param;
+            base->field8 = effect_param;
         }
     }
 }

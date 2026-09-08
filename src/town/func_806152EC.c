@@ -8,6 +8,7 @@ extern s32 func_80018C50();
 extern s8 D_80016000[];
 extern s8 D_8001BD48[];
 
+/* Selects a town event from flag checks or invokes the default town callback. */
 s32 func_80016AEC(void) {
     void *town;
 
@@ -31,7 +32,3 @@ s32 func_80016AEC(void) {
     (*(TownCallback *)((s8 *)*(void **)((s8 *)*(void **)D_80016000 + 0x20) + 0x2F8))(0x10, 0x200);
     return 0;
 }
-
-/* MECHANISM: The apparent in-row callees are a shared callback site and epilogue.
-   Duplicated indirect-call expressions retain each arm's load/argument setup;
-   cdk then cross-jumps only the jalr suffix and schedules symbolic page loads. */

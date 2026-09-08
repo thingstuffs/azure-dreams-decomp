@@ -25,18 +25,19 @@ extern u8 D_80166914[];
 extern u8 D_80167C30[];
 extern s16 D_80175DD8[][8][2][3];
 
+/* Spawn seven colored segments from interpolated vertices and advance the effect lifetime. */
 void func_80168914(u8 *state, s32 *position, u8 *colors)
 {
     s32 step;
-    s32 row;
-    s32 column;
-    s32 object_index;
+    s32 vertex_index;
+    s32 axis;
+    s32 segment_index;
     u8 *object;
-    u8 *data;
+    u8 *payload;
     u8 *sprite;
-    u8 *out;
-    volatile ColorEntry *color_out;
-    u16 timer;
+    u8 *object_position;
+    volatile ColorEntry *vertex_color;
+    u16 ticks_left;
 
     if ((FIELD(s16, state, 0x12) == 0) &&
         (FIELD(s16, state, 0x18) < 12)) {
@@ -45,29 +46,29 @@ void func_80168914(u8 *state, s32 *position, u8 *colors)
 
     step = 1;
     do {
-        row = 0;
+        vertex_index = 0;
         do {
-            column = 0;
+            axis = 0;
             do {
-                D_80175DD8[FIELD(s16, state, 0x1C)][step][row][column] =
-                    D_80175DD8[FIELD(s16, state, 0x1C)][0][row][column] +
-                    (D_80175DD8[FIELD(s16, state, 0x1C)][7][row][column] -
-                     D_80175DD8[FIELD(s16, state, 0x1C)][0][row][column]) *
+                D_80175DD8[FIELD(s16, state, 0x1C)][step][vertex_index][axis] =
+                    D_80175DD8[FIELD(s16, state, 0x1C)][0][vertex_index][axis] +
+                    (D_80175DD8[FIELD(s16, state, 0x1C)][7][vertex_index][axis] -
+                     D_80175DD8[FIELD(s16, state, 0x1C)][0][vertex_index][axis]) *
                     step / 7;
-                column++;
-            } while (column < 3);
-            row++;
-        } while (row < 2);
+                axis++;
+            } while (axis < 3);
+            vertex_index++;
+        } while (vertex_index < 2);
         step++;
     } while (step < 7);
 
-    object_index = 0;
+    segment_index = 0;
     do {
         object = func_8003FC64(0x212);
         if (object != 0) {
-            data = object + 0x20;
-            FIELD(s16, data, 0x18) = 1;
-            FIELD(s16, data, 0x1A) = 1;
+            payload = object + 0x20;
+            FIELD(s16, payload, 0x18) = 1;
+            FIELD(s16, payload, 0x1A) = 1;
             FIELD(void *, object, 0x10) = D_80167C30;
             func_8004491C(object, D_80166914);
 
@@ -75,56 +76,56 @@ void func_80168914(u8 *state, s32 *position, u8 *colors)
             FIELD(u16, sprite, 0x10) = 0x20;
             FIELD(u16, sprite, 0x14) |= 0xC;
 
-            out = FIELD(u8 *, object, 8);
-            FIELD(s32, out, 0) = position[0];
-            FIELD(s32, out, 4) = position[1];
+            object_position = FIELD(u8 *, object, 8);
+            FIELD(s32, object_position, 0) = position[0];
+            FIELD(s32, object_position, 4) = position[1];
             step = 0;
-            color_out = (volatile ColorEntry *)data;
-            FIELD(s32, out, 8) = position[2];
+            vertex_color = (volatile ColorEntry *)payload;
+            FIELD(s32, object_position, 8) = position[2];
 
             sprite = FIELD(u8 *, object, 0xC);
             FIELD(s16, sprite, 0x1C) = FIELD(s16, sprite, 0x1E) = 0x1000;
             sprite[0xC] = sprite[0xD] = sprite[0xE] = 0x80;
 
             do {
-                color_out->red = colors[0xC];
-                color_out->green = colors[0xD];
-                color_out->blue = colors[0xE];
+                vertex_color->red = colors[0xC];
+                vertex_color->green = colors[0xD];
+                vertex_color->blue = colors[0xE];
                 step++;
-                color_out++;
+                vertex_color++;
             } while (step < 4);
 
-            if (object_index == 0) {
-                data[0] = data[1] = data[2] =
-                data[4] = data[5] = data[6] = 0;
+            if (segment_index == 0) {
+                payload[0] = payload[1] = payload[2] =
+                payload[4] = payload[5] = payload[6] = 0;
             }
-            if (object_index == 6) {
-                data[8] = data[9] = data[0xA] =
-                data[0xC] = data[0xD] = data[0xE] = 0;
+            if (segment_index == 6) {
+                payload[8] = payload[9] = payload[0xA] =
+                payload[0xC] = payload[0xD] = payload[0xE] = 0;
             }
 
             FIELD(s16, sprite, 6) = 0;
             func_8003DB94(sprite, D_800DEAE0, 0);
 
-            row = 0;
+            vertex_index = 0;
             do {
-                column = 0;
+                axis = 0;
                 do {
-                    ((ObjectPayload *)data)->out1[row][column] =
-                        D_80175DD8[FIELD(s16, state, 0x1C)][object_index][row][column];
-                    ((ObjectPayload *)data)->out2[row][column] =
-                        D_80175DD8[FIELD(s16, state, 0x1C)][object_index + 1][row][column];
-                    column++;
-                } while (column < 3);
-                row++;
-            } while (row < 2);
+                    ((ObjectPayload *)payload)->out1[vertex_index][axis] =
+                        D_80175DD8[FIELD(s16, state, 0x1C)][segment_index][vertex_index][axis];
+                    ((ObjectPayload *)payload)->out2[vertex_index][axis] =
+                        D_80175DD8[FIELD(s16, state, 0x1C)][segment_index + 1][vertex_index][axis];
+                    axis++;
+                } while (axis < 3);
+                vertex_index++;
+            } while (vertex_index < 2);
         }
-        object_index++;
-    } while (object_index < 7);
+        segment_index++;
+    } while (segment_index < 7);
 
-    timer = FIELD(u16, state, 0x18) - 1;
-    FIELD(u16, state, 0x18) = timer;
-    if ((s16)timer <= 0) {
+    ticks_left = FIELD(u16, state, 0x18) - 1;
+    FIELD(u16, state, 0x18) = ticks_left;
+    if ((s16)ticks_left <= 0) {
         FIELD(u16, state, -2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }

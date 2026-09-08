@@ -36,43 +36,38 @@ typedef struct S_800BB798_3 {
     s16 unk_4A;
 } S_800BB798_3;   /* temp_v0_2 in func_800BB798 */
 
-s32 func_800BB798(S_800BB798_0 *arg0, s16 arg1, s16 arg2) {
-    s32 temp_a0;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    u8 *temp_s1;
-    s32 temp_t0;
-    s32 temp_v0_math;
-    void *temp_v0;
-    S_800BB798_3 *temp_v0_2;
-    void *temp_v1;
+/* Converts polar spawn data to components and initializes a new object with it. */
+s32 func_800BB798(S_800BB798_0 *spawn_data, s16 state_48, s16 state_4a) {
+    s32 angle;
+    s32 radius_fixed;
+    s32 radius;
+    u8 *angle_state;
+    s32 component;
+    s32 trig_factor;
+    void *object;
+    S_800BB798_3 *object_state;
+    void *object_data;
 
-    temp_s1 = D_80083160;
-    temp_a0 = arg0->unk_10 + ((S_800BB798_1 *)temp_s1)->unk_C8;
-    temp_s0 = arg0->unk_0C;
-    temp_v0_math = func_80064584(temp_a0);
-    temp_s0_2 = temp_s0 >> 0xC;
-    temp_t0 = temp_s0_2 * temp_v0_math;
-    arg0->unk_0C = temp_t0;
-    temp_a0 = arg0->unk_10 + ((S_800BB798_1 *)temp_s1)->unk_C8;
-    temp_v0_math = func_800644B8(temp_a0);
-    
-    
-    temp_t0 = temp_s0_2 * temp_v0_math;
-    arg0->unk_10 = temp_t0;
-    temp_v0 = func_8003FD64(0x312, &D_80083498);
-    if (temp_v0 != NULL) {
-        temp_v1 = ((S_800BB798_2 *)temp_v0)->unk_08;
-        ((S_800BB798_2 *)temp_v0)->unk_10 = &D_800BB894;
-        *(Copy24 *)temp_v1 = *(Copy24 *)arg0;
-        temp_v0_2 = temp_v0 + 0x20;
-        temp_v0_2->unk_48 = arg1;
-        temp_v0_2->unk_4A = arg2;
+    angle_state = D_80083160;
+    angle = spawn_data->unk_10 + ((S_800BB798_1 *)angle_state)->unk_C8;
+    radius_fixed = spawn_data->unk_0C;
+    trig_factor = func_80064584(angle);
+    radius = radius_fixed >> 0xC;
+    component = radius * trig_factor;
+    spawn_data->unk_0C = component;
+    angle = spawn_data->unk_10 + ((S_800BB798_1 *)angle_state)->unk_C8;
+    trig_factor = func_800644B8(angle);
+
+    component = radius * trig_factor;
+    spawn_data->unk_10 = component;
+    object = func_8003FD64(0x312, &D_80083498);
+    if (object != NULL) {
+        object_data = ((S_800BB798_2 *)object)->unk_08;
+        ((S_800BB798_2 *)object)->unk_10 = &D_800BB894;
+        *(Copy24 *)object_data = *(Copy24 *)spawn_data;
+        object_state = object + 0x20;
+        object_state->unk_48 = state_48;
+        object_state->unk_4A = state_4a;
     }
     return 0;
 }
-
-/* MECHANISM: A held D_80083160 base in s1 plus destructive s0 and t0 live ranges
-   reproduces the 0x28 frame and both multiply/call schedules.  Splitting each
-   call argument and using one 24-byte aggregate copy yields the retail a3 hold
-   and grouped v0/a0/a1/a2 loads/stores without load-delay nops. */

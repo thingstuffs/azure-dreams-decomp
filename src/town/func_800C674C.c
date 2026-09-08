@@ -13,12 +13,13 @@ typedef struct S_800C3EAC_0 {
 
 /* extern */
 
-void func_800C3EAC(s32 arg0, S_800C3EAC_0 *arg1, M2C_UNK arg2) {
-    arg1->unk_08.at00.v = (s32) (arg1->unk_08.at00.v + arg1->unk_14);
-    if (func_800C2B38(arg1) < arg1->unk_08.at02.v) {
-        arg1->unk_08.at02.v = func_800C2B38(arg1);
-        func_800C4174(arg0, arg1, arg2);
+/* Advance the object's fixed-point value and clamp it when it exceeds the limit. */
+void func_800C3EAC(s32 context, S_800C3EAC_0 *object, M2C_UNK update_data) {
+    object->unk_08.at00.v = (s32) (object->unk_08.at00.v + object->unk_14);
+    if (func_800C2B38(object) < object->unk_08.at02.v) {
+        object->unk_08.at02.v = func_800C2B38(object);
+        func_800C4174(context, object, update_data);
         return;
     }
-    func_80095388(arg1);
+    func_80095388(object);
 }

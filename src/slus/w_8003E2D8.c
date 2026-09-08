@@ -21,25 +21,21 @@ extern struct S_8003E2D8 D_80083160;
 
 extern s32 func_8003E240(s32 a0);
 
-/* Reads controller/pad state via func_8003E240(0). Saves the previous
- * field_8 reading into the history's old slot, stores the new reading
- * into field_8 (clearing it if the top nibble reads 0xF, e.g. no
- * controller present), then recomputes the trg mask as the newly-set
- * bits: (new ^ old) & new. */
+/* Updates controller state, clears invalid readings, and records newly pressed buttons. */
 void func_8003E2D8(void)
 {
-    struct S_8003E2D8 *base = &D_80083160;
-    Hist_8003E2D8 *h = (Hist_8003E2D8 *)&base->field_8;
-    s32 old = base->field_8;
-    s32 v;
+    struct S_8003E2D8 *pad_state = &D_80083160;
+    Hist_8003E2D8 *history = (Hist_8003E2D8 *)&pad_state->field_8;
+    s32 prev_buttons = pad_state->field_8;
+    s32 buttons;
 
-    h->old = old;
-    base->field_8 = func_8003E240(0);
+    history->old = prev_buttons;
+    pad_state->field_8 = func_8003E240(0);
 
-    if ((base->field_8 & 0xF000) == 0xF000) {
-        base->field_8 = 0;
+    if ((pad_state->field_8 & 0xF000) == 0xF000) {
+        pad_state->field_8 = 0;
     }
 
-    v = base->field_8;
-    h->trg = (v ^ h->old) & v;
+    buttons = pad_state->field_8;
+    history->trg = (buttons ^ history->old) & buttons;
 }

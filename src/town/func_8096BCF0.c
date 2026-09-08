@@ -43,21 +43,22 @@ extern u8 D_80127F48[16];
 extern u8 D_80128038[16];
 extern u8 D_801289EC[16];
 
-void func_80124188(TownObject *arg0)
+/* Updates the numbered menu entries and selection sprite. */
+void func_80124188(TownObject *menu)
 {
-    register s32 slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    TownObject *obj = arg0;
-    s16 value;
-    s32 iteration;
-    s32 input;
-    void **lo_digits;
-    void **hi_digits;
-    register s32 initial ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 page;
-    s32 clear;
-    SpriteFields *source;
+    register s32 sprite_slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    TownObject *obj = menu;
+    s16 entry_number;
+    s32 entry_index;
+    s32 entry_id;
+    void **normal_digits;
+    void **selected_digits;
+    register s32 digit_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 table_page;
+    s32 blank_count;
+    SpriteFields *display_sprite;
 
-    func_80123A60(arg0);
+    func_80123A60(menu);
     *obj->town->slots[28] = D_80127E4C;
     *obj->town->slots[29] = D_80127F48;
     *obj->town->slots[30] = D_80126988[obj->digit];
@@ -65,46 +66,46 @@ void func_80124188(TownObject *arg0)
     *obj->town->slots[32] = D_801289EC;
 
     if (obj->digit == 3) {
-        slot = 33;
-        iteration = 0;
-        initial = 0x80120000;
-        ASM_KEEP(initial);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        hi_digits = (void **)(initial + 0x69A8);
-        initial = *(volatile u8 *)&obj->digit;
-        page = 0x80120000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        lo_digits = (void **)(page + 0x69D0);
-        initial <<= 4;
-        input = initial;
-        value = initial | 1;
-        ASM_KEEP(initial);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        sprite_slot = 33;
+        entry_index = 0;
+        digit_base = 0x80120000;
+        ASM_KEEP(digit_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        selected_digits = (void **)(digit_base + 0x69A8);
+        digit_base = *(volatile u8 *)&obj->digit;
+        table_page = 0x80120000;
+        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        normal_digits = (void **)(table_page + 0x69D0);
+        digit_base <<= 4;
+        entry_id = digit_base;
+        entry_number = digit_base | 1;
+        ASM_KEEP(digit_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         do {
-            if (func_80123200((u8)input) != 0) {
-                *obj->town->slots[slot++] = D_80127B64;
-                if (iteration == obj->row) {
-                    *obj->town->slots[slot] = hi_digits[value / 10];
-                    slot++;
-                    *obj->town->slots[slot++] = hi_digits[value % 10];
+            if (func_80123200((u8)entry_id) != 0) {
+                *obj->town->slots[sprite_slot++] = D_80127B64;
+                if (entry_index == obj->row) {
+                    *obj->town->slots[sprite_slot] = selected_digits[entry_number / 10];
+                    sprite_slot++;
+                    *obj->town->slots[sprite_slot++] = selected_digits[entry_number % 10];
                 } else {
-                    *obj->town->slots[slot] = lo_digits[value / 10];
-                    slot++;
-                    *obj->town->slots[slot++] = lo_digits[value % 10];
+                    *obj->town->slots[sprite_slot] = normal_digits[entry_number / 10];
+                    sprite_slot++;
+                    *obj->town->slots[sprite_slot++] = normal_digits[entry_number % 10];
                 }
             } else {
-                *obj->town->slots[slot++] = D_80127B70;
-                *obj->town->slots[slot++] = 0;
-                *obj->town->slots[slot++] = 0;
+                *obj->town->slots[sprite_slot++] = D_80127B70;
+                *obj->town->slots[sprite_slot++] = 0;
+                *obj->town->slots[sprite_slot++] = 0;
             }
 
-            clear = 0;
+            blank_count = 0;
             do {
-                *obj->town->slots[slot++] = 0;
-                clear++;
-            } while (clear < 21);
-            iteration++;
-            input++;
-            value++;
-        } while (iteration < 2);
+                *obj->town->slots[sprite_slot++] = 0;
+                blank_count++;
+            } while (blank_count < 21);
+            entry_index++;
+            entry_id++;
+            entry_number++;
+        } while (entry_index < 2);
 
         obj->town->display->src->f8 = D_80126B20[obj->row];
         obj->town->display->src->fA = D_80126B24[0];
@@ -112,47 +113,47 @@ void func_80124188(TownObject *arg0)
             *obj->town->slots[30] = D_80128038;
         }
     } else {
-        slot = 33;
-        iteration = 0;
-        initial = 0x80120000;
-        ASM_KEEP(initial);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        hi_digits = (void **)(initial + 0x69A8);
-        initial = *(volatile u8 *)&obj->digit;
-        page = 0x80120000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        lo_digits = (void **)(page + 0x69D0);
-        initial <<= 4;
-        input = initial;
-        value = initial | 1;
-        ASM_KEEP(initial);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        sprite_slot = 33;
+        entry_index = 0;
+        digit_base = 0x80120000;
+        ASM_KEEP(digit_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        selected_digits = (void **)(digit_base + 0x69A8);
+        digit_base = *(volatile u8 *)&obj->digit;
+        table_page = 0x80120000;
+        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        normal_digits = (void **)(table_page + 0x69D0);
+        digit_base <<= 4;
+        entry_id = digit_base;
+        entry_number = digit_base | 1;
+        ASM_KEEP(digit_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         do {
-            if (func_80123200((u8)input) != 0) {
-                *obj->town->slots[slot++] = D_80127B64;
-                if (iteration == (obj->row << 3) + obj->index) {
-                    *obj->town->slots[slot] = hi_digits[value / 10];
-                    slot++;
-                    *obj->town->slots[slot++] = hi_digits[value % 10];
+            if (func_80123200((u8)entry_id) != 0) {
+                *obj->town->slots[sprite_slot++] = D_80127B64;
+                if (entry_index == (obj->row << 3) + obj->index) {
+                    *obj->town->slots[sprite_slot] = selected_digits[entry_number / 10];
+                    sprite_slot++;
+                    *obj->town->slots[sprite_slot++] = selected_digits[entry_number % 10];
                 } else {
-                    *obj->town->slots[slot] = lo_digits[value / 10];
-                    slot++;
-                    *obj->town->slots[slot++] = lo_digits[value % 10];
+                    *obj->town->slots[sprite_slot] = normal_digits[entry_number / 10];
+                    sprite_slot++;
+                    *obj->town->slots[sprite_slot++] = normal_digits[entry_number % 10];
                 }
             } else {
-                *obj->town->slots[slot++] = D_80127B70;
-                *obj->town->slots[slot++] = 0;
-                *obj->town->slots[slot++] = 0;
+                *obj->town->slots[sprite_slot++] = D_80127B70;
+                *obj->town->slots[sprite_slot++] = 0;
+                *obj->town->slots[sprite_slot++] = 0;
             }
 
-            iteration++;
-            input++;
-            value++;
-        } while (iteration < 16);
+            entry_index++;
+            entry_id++;
+            entry_number++;
+        } while (entry_index < 16);
 
         obj->town->display->src->f8 = D_80126B20[obj->row];
         obj->town->display->src->fA = D_80126B24[obj->index];
     }
 
-    source = obj->town->display->src;
-    source->f6 = 0x1000;
-    source->f4 = 0x1000;
+    display_sprite = obj->town->display->src;
+    display_sprite->f6 = 0x1000;
+    display_sprite->f4 = 0x1000;
 }

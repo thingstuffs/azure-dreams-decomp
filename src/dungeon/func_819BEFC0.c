@@ -102,121 +102,123 @@ extern s32 D_80083460;
 extern s32 D_800DE870;
 extern s32 D_800E3D7C;
 
-void func_800247C0(void *arg0, void *arg1)
+/* Shrink the effect, spawn inward-moving particles, and finish when its timer expires. */
+void func_800247C0(void *effect, void *origin)
 {
-    void *var_sp10;
-    u16 var_x;
-    s32 sp20;
-    s16 temp_v0_5;
-    s16 temp_v1_3;
-    s16 var_s3;
-    s32 temp_fp;
-    s32 temp_s6;
-    s32 temp_v0;
-    u16 temp_v0_2;
-    u16 temp_v0_3;
-    u32 temp_v1;
-    u16 temp_v1_2;
-    u16 temp_v1_4;
-    void *temp_a0;
-    void *temp_s0;
-    void *temp_s1;
-    void *temp_s2;
-    u8 *global_base;
+    void *effect_state;
+    u16 offset_x;
+    s32 velocity_x;
+    s16 next_timer;
+    s16 color_channel;
+    s16 particle_index;
+    s32 offset_y;
+    s32 offset_z;
+    s32 random_bits;
+    s32 completion_state;
+    u16 next_scale_x;
+    u16 next_scale_y;
+    u32 scale_x;
+    u16 scale_y;
+    u16 timer;
+    void *position;
+    void *particle_state;
+    void *sprite;
+    void *object;
+    u8 *effect_globals;
 
     D_8002992E = 1;
-    var_x = (func_80069EF8() & 0x3F) - 0x20;
-    temp_fp = (func_80069EF8() & 0x3F) - 0x20;
-    temp_v0 = func_80069EF8();
-    temp_s2 = ((S_800247C0_0 *)arg0)->unk_20;
-    temp_a0 = ((S_800247C0_1 *)temp_s2)->unk_08;
-    temp_s1 = ((S_800247C0_1 *)temp_s2)->unk_0C;
-    ((S_800247C0_2 *)arg1)->unk_00.at00.v = ((S_800247C0_3 *)temp_a0)->unk_00.at00.v;
-    ((S_800247C0_2 *)arg1)->unk_04.at00.v = ((S_800247C0_3 *)temp_a0)->unk_04;
-    temp_s6 = (temp_v0 & 0x3F) - 0x20;
-    ((S_800247C0_2 *)arg1)->unk_08.at00.v = ((S_800247C0_3 *)temp_a0)->unk_08;
-    temp_v1 = ((S_800247C0_4 *)temp_s1)->unk_1C.s;
-    temp_s2 += 0x20;
-    var_sp10 = temp_s2;
-    if (temp_v1 >= 0x801U) {
-        temp_v0_2 = temp_v1 - 0x50;
-        ((S_800247C0_4 *)temp_s1)->unk_1C.s = temp_v0_2;
-        if ((u32)(temp_v0_2 & 0xFFFF) < 0x800U) {
-            ((S_800247C0_4 *)temp_s1)->unk_1C.s = 0x800U;
+    offset_x = (func_80069EF8() & 0x3F) - 0x20;
+    offset_y = (func_80069EF8() & 0x3F) - 0x20;
+    random_bits = func_80069EF8();
+    object = ((S_800247C0_0 *)effect)->unk_20;
+    position = ((S_800247C0_1 *)object)->unk_08;
+    sprite = ((S_800247C0_1 *)object)->unk_0C;
+    ((S_800247C0_2 *)origin)->unk_00.at00.v = ((S_800247C0_3 *)position)->unk_00.at00.v;
+    ((S_800247C0_2 *)origin)->unk_04.at00.v = ((S_800247C0_3 *)position)->unk_04;
+    offset_z = (random_bits & 0x3F) - 0x20;
+    ((S_800247C0_2 *)origin)->unk_08.at00.v = ((S_800247C0_3 *)position)->unk_08;
+    scale_x = ((S_800247C0_4 *)sprite)->unk_1C.s;
+    object += 0x20;
+    effect_state = object;
+    if (scale_x >= 0x801U) {
+        next_scale_x = scale_x - 0x50;
+        ((S_800247C0_4 *)sprite)->unk_1C.s = next_scale_x;
+        if ((u32)(next_scale_x & 0xFFFF) < 0x800U) {
+            ((S_800247C0_4 *)sprite)->unk_1C.s = 0x800U;
         }
     }
-    temp_v1_2 = ((S_800247C0_4 *)temp_s1)->unk_1E.s;
-    if (temp_v1_2 >= 0x801U) {
-        temp_v0_3 = temp_v1_2 - 0x50;
-        ((S_800247C0_4 *)temp_s1)->unk_1E.s = temp_v0_3;
-        if ((u32)(temp_v0_3 & 0xFFFF) < 0x800U) {
-            ((S_800247C0_4 *)temp_s1)->unk_1E.s = 0x800U;
+    scale_y = ((S_800247C0_4 *)sprite)->unk_1E.s;
+    if (scale_y >= 0x801U) {
+        next_scale_y = scale_y - 0x50;
+        ((S_800247C0_4 *)sprite)->unk_1E.s = next_scale_y;
+        if ((u32)(next_scale_y & 0xFFFF) < 0x800U) {
+            ((S_800247C0_4 *)sprite)->unk_1E.s = 0x800U;
         }
     }
-    if (((S_800247C0_0 *)arg0)->unk_28 >= 0xB) {
-        var_s3 = 0;
-        for (; var_s3 < 4; var_s3++) {
-            temp_s2 = func_8003FC64(0x212);
-            if (temp_s2 == NULL) {
+    if (((S_800247C0_0 *)effect)->unk_28 >= 0xB) {
+        particle_index = 0;
+        for (; particle_index < 4; particle_index++) {
+            object = func_8003FC64(0x212);
+            if (object == NULL) {
                 continue;
             }
-            temp_s0 = temp_s2 + 0x20;
-            ((S_800247C0_5 *)temp_s0)->unk_28 = 0x14;
-            ((S_800247C0_1 *)temp_s2)->unk_10 = &D_800246B0;
-            func_8004491C(temp_s2, &D_80045340);
-            temp_s1 = ((S_800247C0_1 *)temp_s2)->unk_0C;
-            ((S_800247C0_4 *)temp_s1)->unk_10 = 0x20;
-            ((S_800247C0_4 *)temp_s1)->unk_14 |= 0xC;
-            temp_a0 = ((S_800247C0_1 *)temp_s2)->unk_08;
-            ((S_800247C0_3 *)temp_a0)->unk_00.at02.v =
-                ((S_800247C0_2 *)arg1)->unk_00.at02.v + var_x;
-            ((S_800247C0_8 *)(((S_800247C0_1 *)temp_s2)->unk_08))->unk_06 =
-                ((S_800247C0_2 *)arg1)->unk_04.at02.v + temp_fp;
-            ((S_800247C0_8 *)(((S_800247C0_1 *)temp_s2)->unk_08))->unk_0A =
-                ((S_800247C0_2 *)arg1)->unk_08.at02.v + temp_s6 - 0x10;
-            sp20 = 0 - ((s32)(var_x << 0x10) >> 7);
-            ((S_800247C0_5 *)temp_s0)->unk_88 = sp20;
-            ((S_800247C0_5 *)temp_s0)->unk_8C =
-                0 - ((s32)(temp_fp << 0x10) >> 7);
-            ((S_800247C0_5 *)temp_s0)->unk_90 =
-                0 - ((s32)(temp_s6 << 0x10) >> 7);
-            temp_s1 = ((S_800247C0_1 *)temp_s2)->unk_0C;
-            ((S_800247C0_4 *)temp_s1)->unk_1E.u = 0x1000;
-            ((S_800247C0_4 *)temp_s1)->unk_1C.u = 0x1000;
-            temp_v1_3 = func_8002458C(3);
-            ((S_800247C0_4 *)temp_s1)->unk_0E = 0;
-            ((S_800247C0_4 *)temp_s1)->unk_0D = 0;
-            ((S_800247C0_4 *)temp_s1)->unk_0C = 0;
-            if (temp_v1_3 == 0) {
-                ((S_800247C0_4 *)temp_s1)->unk_0C = 0x10;
+            particle_state = object + 0x20;
+            ((S_800247C0_5 *)particle_state)->unk_28 = 0x14;
+            ((S_800247C0_1 *)object)->unk_10 = &D_800246B0;
+            func_8004491C(object, &D_80045340);
+            sprite = ((S_800247C0_1 *)object)->unk_0C;
+            ((S_800247C0_4 *)sprite)->unk_10 = 0x20;
+            ((S_800247C0_4 *)sprite)->unk_14 |= 0xC;
+            position = ((S_800247C0_1 *)object)->unk_08;
+            ((S_800247C0_3 *)position)->unk_00.at02.v =
+                ((S_800247C0_2 *)origin)->unk_00.at02.v + offset_x;
+            ((S_800247C0_8 *)(((S_800247C0_1 *)object)->unk_08))->unk_06 =
+                ((S_800247C0_2 *)origin)->unk_04.at02.v + offset_y;
+            ((S_800247C0_8 *)(((S_800247C0_1 *)object)->unk_08))->unk_0A =
+                ((S_800247C0_2 *)origin)->unk_08.at02.v + offset_z - 0x10;
+            velocity_x = 0 - ((s32)(offset_x << 0x10) >> 7);
+            ((S_800247C0_5 *)particle_state)->unk_88 = velocity_x;
+            ((S_800247C0_5 *)particle_state)->unk_8C =
+                0 - ((s32)(offset_y << 0x10) >> 7);
+            ((S_800247C0_5 *)particle_state)->unk_90 =
+                0 - ((s32)(offset_z << 0x10) >> 7);
+            sprite = ((S_800247C0_1 *)object)->unk_0C;
+            ((S_800247C0_4 *)sprite)->unk_1E.u = 0x1000;
+            ((S_800247C0_4 *)sprite)->unk_1C.u = 0x1000;
+            color_channel = func_8002458C(3);
+            ((S_800247C0_4 *)sprite)->unk_0E = 0;
+            ((S_800247C0_4 *)sprite)->unk_0D = 0;
+            ((S_800247C0_4 *)sprite)->unk_0C = 0;
+            if (color_channel == 0) {
+                ((S_800247C0_4 *)sprite)->unk_0C = 0x10;
             }
-            if (temp_v1_3 == 1) {
-                ((S_800247C0_4 *)temp_s1)->unk_0D = 0x10;
+            if (color_channel == 1) {
+                ((S_800247C0_4 *)sprite)->unk_0D = 0x10;
             }
-            if (temp_v1_3 == 2) {
-                ((S_800247C0_4 *)temp_s1)->unk_0E = 0x10;
+            if (color_channel == 2) {
+                ((S_800247C0_4 *)sprite)->unk_0E = 0x10;
             }
-            ((S_800247C0_4 *)temp_s1)->unk_12 = 0x7DCF;
-            ((S_800247C0_4 *)temp_s1)->unk_14 |= 0x100;
-            func_8003DB94(temp_s1, &D_800DE870, 0);
+            ((S_800247C0_4 *)sprite)->unk_12 = 0x7DCF;
+            ((S_800247C0_4 *)sprite)->unk_14 |= 0x100;
+            func_8003DB94(sprite, &D_800DE870, 0);
         }
     }
-    temp_v1_4 = ((S_800247C0_0 *)arg0)->unk_28;
-    temp_v0_5 = temp_v1_4 - 1;
-    ((S_800247C0_0 *)arg0)->unk_28 = temp_v0_5;
-    if ((temp_v0_5 << 0x10) <= 0) {
-        global_base = (u8 *)&D_80083460;
-        ((S_800247C0_0 *)arg0)->unk_28 = temp_v1_4;
-        if (((S_800247C0_6 *)global_base)->unk_10 == NULL) {
-            ((S_800247C0_6 *)global_base)->unk_10 = ((S_800247C0_0 *)arg0)->unk_20;
+    timer = ((S_800247C0_0 *)effect)->unk_28;
+    next_timer = timer - 1;
+    ((S_800247C0_0 *)effect)->unk_28 = next_timer;
+    if ((next_timer << 0x10) <= 0) {
+        effect_globals = (u8 *)&D_80083460;
+        ((S_800247C0_0 *)effect)->unk_28 = timer;
+        if (((S_800247C0_6 *)effect_globals)->unk_10 == NULL) {
+            ((S_800247C0_6 *)effect_globals)->unk_10 = ((S_800247C0_0 *)effect)->unk_20;
         }
-        temp_s2 = ((S_800247C0_0 *)arg0)->unk_20;
-        func_800A48F0(temp_s2 + 0x20, 0x18, 0x14);
-        ((S_800247C0_7 *)var_sp10)->unk_28 = 0;
-        temp_v0 = D_800E3D7C;
-        ((S_800247C0_7 *)var_sp10)->unk_64 = -1;
-        ((S_800247C0_7 *)var_sp10)->unk_60 = temp_v0;
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        object = ((S_800247C0_0 *)effect)->unk_20;
+        func_800A48F0(object + 0x20, 0x18, 0x14);
+        ((S_800247C0_7 *)effect_state)->unk_28 = 0;
+        completion_state = D_800E3D7C;
+        ((S_800247C0_7 *)effect_state)->unk_64 = -1;
+        ((S_800247C0_7 *)effect_state)->unk_60 = completion_state;
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

@@ -3,27 +3,28 @@
 extern s32 func_800B2834();
 extern u8 D_8008910C[];
 
-u8 *func_8009F77C(s32 arg0, s32 arg1) {
-    u8 values[4];
+/* Returns the first four-byte table entry whose first two bytes match the keys. */
+u8 *func_8009F77C(s32 first_key, s32 second_key) {
+    u8 last_indices[4];
     u8 *entry;
-    u8 *page;
+    u8 *scan_base;
     s32 index;
-    s32 count;
+    s32 last_index;
 
-    memcpy(values, D_8008910C, 4);
-    count = values[func_800B2834()];
+    memcpy(last_indices, D_8008910C, 4);
+    last_index = last_indices[func_800B2834()];
     index = 0;
-    if (count <= -1) {
+    if (last_index <= -1) {
         goto no_match;
     }
     entry = (u8 *) 0x80011F80;
-    page = (u8 *) 0x80010000;
+    scan_base = (u8 *) 0x80010000;
 loop:
-    if ((page[0x1F80] != arg0) || (page[0x1F81] != arg1)) {
+    if ((scan_base[0x1F80] != first_key) || (scan_base[0x1F81] != second_key)) {
         entry += 4;
         index++;
-        page += 4;
-        if (count < index) {
+        scan_base += 4;
+        if (last_index < index) {
             goto no_match;
         }
         goto loop;
@@ -32,7 +33,3 @@ loop:
 no_match:
     return 0;
 }
-
-/* MECHANISM: A four-byte local array forces the retail unaligned global-to-stack copy.
-   The no-argument ABI call keeps both arguments in s0/s1; separate entry/page pointers reproduce
-   the two-address loop, with a signed-width count preserving the pre-loop guard. */

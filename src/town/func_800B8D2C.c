@@ -15,15 +15,16 @@ typedef struct S_800B648C_1 {
 void *func_800B6464();                       /* extern */
 s32 func_800B677C();                         /* extern */
 
-void func_800B648C(S_800B648C_0 *arg0, M2C_UNK arg1) {
-    S_800B648C_1 *var_s1;
+/* Stores the fetched chain and initializes its terminal link. */
+void func_800B648C(S_800B648C_0 *owner, M2C_UNK source) {
+    S_800B648C_1 *tail;
 
-    var_s1 = func_800B6464(arg1);
-    arg0->unk_0C = var_s1;
-    if (var_s1->unk_0C.s != 0) {
+    tail = func_800B6464(source);
+    owner->unk_0C = tail;
+    if (tail->unk_0C.s != 0) {
         do {
-            var_s1 = var_s1->unk_0C.u;
-        } while (var_s1->unk_0C.s != 0);
+            tail = tail->unk_0C.u;
+        } while (tail->unk_0C.s != 0);
     }
-    var_s1->unk_0C.s = func_800B677C(arg1);
+    tail->unk_0C.s = func_800B677C(source);
 }

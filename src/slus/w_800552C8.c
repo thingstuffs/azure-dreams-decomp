@@ -1,9 +1,5 @@
 #include "common.h"
 
-/* If D_800847D0's status flags have bit 0x100 set, compute a stereo-pan-like value from
-   D_800848F8.field8 scaled by D_80084808[1] (D_8008480A) over 32767, further scaled by
-   D_800848F8.field10 over 128, clamp it via func_80055750, and issue it (together with
-   D_800847D0.field22) to func_8005B27C. */
 /* Canonical "task/timer object" struct shared with func_80055990's own D_80055990_Struct
    (src/code.c) and w_800540A8.c's D_80055990_Struct / w_80054C58.c's S_80084858: field0 is
    a function pointer, followed by s16 field8/fieldA, s32 fieldC, then more s16 fields. */
@@ -52,17 +48,18 @@ extern s16 D_80084808[8];
 extern s32 func_80055750(s16 arg0);
 extern void func_8005B27C(s16 a0, s32 a1, s32 a2);
 
+/* Scale and clamp the output value when enabled, then apply it to both channels. */
 void func_800552C8(void)
 {
-    s32 prod;
-    s32 v0;
-    s16 s2;
+    s32 scale_product;
+    s32 scaled_value;
+    s16 channel_value;
 
     if (D_800847D0.flags1 & 0x100) {
-        prod = D_800848F8.field8 * D_80084808[1];
-        v0 = (s16) (prod / 32767);
-        v0 = v0 * D_800848F8.field10;
-        s2 = func_80055750((s16) (v0 / 128));
-        func_8005B27C(D_800847D0.field22, s2, s2);
+        scale_product = D_800848F8.field8 * D_80084808[1];
+        scaled_value = (s16) (scale_product / 32767);
+        scaled_value = scaled_value * D_800848F8.field10;
+        channel_value = func_80055750((s16) (scaled_value / 128));
+        func_8005B27C(D_800847D0.field22, channel_value, channel_value);
     }
 }

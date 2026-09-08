@@ -34,22 +34,23 @@ extern void func_80099F70(u32);
 extern void func_8009F644(Actor *, s32, s32, s32);
 extern s32 func_800A5C70(void);
 
-s32 func_800973F0(Entity *arg0, s32 arg1, s32 arg2, Actor *arg3) {
+/* Reset the entity state and initialize the active dungeon actor. */
+s32 func_800973F0(Entity *entity, s32 unused, s32 action_param, Actor *actor) {
     DungeonState *state;
 
-    arg0->field98 |= 0x2000;
-    func_8009C93C(arg3, arg2, arg3->field2A, 1, 0);
-    if (arg3->field1C & 0x400) {
-        arg3->field2A = (u16)arg3->field2A + (func_800A6D30() & 0xE00);
+    entity->field98 |= 0x2000;
+    func_8009C93C(actor, action_param, actor->field2A, 1, 0);
+    if (actor->field1C & 0x400) {
+        actor->field2A = (u16)actor->field2A + (func_800A6D30() & 0xE00);
     }
-    arg0->field9A = 0x37;
+    entity->field9A = 0x37;
     state = &D_80083460;
-    arg0->field9B = 0;
-    arg0->field8C = 0;
-    state->field0C = arg3;
-    arg0->fieldA6 = 0;
-    func_80099F70(arg3->field5C);
-    func_8009F644(arg3, 0x18, 0, 0);
+    entity->field9B = 0;
+    entity->field8C = 0;
+    state->field0C = actor;
+    entity->fieldA6 = 0;
+    func_80099F70(actor->field5C);
+    func_8009F644(actor, 0x18, 0, 0);
     if (func_800A5C70() != 0) {
         state->field2 |= 0x80;
     }

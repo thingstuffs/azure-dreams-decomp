@@ -30,35 +30,36 @@ typedef struct S_800B98B4_2 {
     u8 unk_00;
 } S_800B98B4_2;   /* temp_v2 in func_800B98B4 */
 
+/* Processes enabled entries across 33 slots and handles entries of type 1. */
 void func_800B98B4(void) {
-    u8 *var_s0;
-    u8 *var_s1;
-    u8 *var_s3;
-    s32 var_s2;
-    u8 temp_v0;
-    S_800B98B4_0 *temp_v1;
-    S_800B98B4_2 *temp_v2;
+    u8 *state_base;
+    u8 *slot_data;
+    u8 *entry_table;
+    s32 slot_index;
+    u8 entry_id;
+    S_800B98B4_0 *entry;
+    S_800B98B4_2 *reloaded_entry;
 
     func_8003E4FC(6, &D_800D1BF4, 0);
-    var_s2 = 0;
+    slot_index = 0;
     func_8003F320();
     func_80033AE8(0x12C3);
-    var_s3 = D_800D2644;
-    var_s1 = D_800D2EA4;
-    var_s0 = (u8 *)0x80010000;
+    entry_table = D_800D2644;
+    slot_data = D_800D2EA4;
+    state_base = (u8 *)0x80010000;
     do {
-        temp_v0 = M2C_FIELD(var_s0, u8 *, 0x33A4 + (var_s2 * 2));
-        if (temp_v0 != 0) {
-            temp_v1 = (void *)((u32)(temp_v0 << 5) + (u32)var_s3);
-            if (temp_v1->unk_01 != 0) {
-                func_800B7934(((S_800B98B4_1 *)var_s1)->unk_00, ((S_800B98B4_1 *)var_s1)->unk_01, temp_v1->unk_00);
+        entry_id = M2C_FIELD(state_base, u8 *, 0x33A4 + (slot_index * 2));
+        if (entry_id != 0) {
+            entry = (void *)((u32)(entry_id << 5) + (u32)entry_table);
+            if (entry->unk_01 != 0) {
+                func_800B7934(((S_800B98B4_1 *)slot_data)->unk_00, ((S_800B98B4_1 *)slot_data)->unk_01, entry->unk_00);
             }
-            temp_v2 = (void *)((u32)(M2C_FIELD(var_s0, u8 *, 0x33A4 + (var_s2 * 2)) << 5) + (u32)var_s3);
-            if (temp_v2->unk_00 == 1) {
+            reloaded_entry = (void *)((u32)(M2C_FIELD(state_base, u8 *, 0x33A4 + (slot_index * 2)) << 5) + (u32)entry_table);
+            if (reloaded_entry->unk_00 == 1) {
                 func_80033AA8(0x12C3);
             }
         }
-        var_s1 += 8;
-        var_s2 += 1;
-    } while (var_s2 < 0x21);
+        slot_data += 8;
+        slot_index += 1;
+    } while (slot_index < 0x21);
 }

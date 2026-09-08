@@ -22,19 +22,20 @@ typedef struct S_807B08F0_1 {
     s16 unk_08;
 } S_807B08F0_1;   /* temp_s0 in func_807B08F0 */
 
-void func_807B08F0(s32 arg0, s32 arg1, s16 arg2) {
-    S_807B08F0_1 *temp_s0;
-    void *temp_v0;
+/* Allocate and initialize an object at the center of the specified tile. */
+void func_807B08F0(s32 tile_x, s32 tile_y, s16 initial_value) {
+    S_807B08F0_1 *state;
+    void *object;
 
-    temp_v0 = func_8003FC64(2);
-    if (temp_v0 != NULL) {
-        ((S_807B08F0_0 *)temp_v0)->unk_10 = &D_800F81A0;
-        func_8004491C(temp_v0, &D_800F833C);
-        temp_s0 = temp_v0 + 0x20;
-        ((S_807B08F0_0 *)temp_v0)->unk_20 = (u16) (((s32) (arg0 << 0x10) >> 0xA) + 0x20);
-        do { temp_s0->unk_02 = (u16) (((s32) (arg1 << 0x10) >> 0xA) + 0x20); } while (0);
-        temp_s0->unk_04 = func_800BCB04(((S_807B08F0_0 *)temp_v0)->unk_20, temp_s0->unk_02, -0x400);
-        temp_s0->unk_06 = arg2;
-        temp_s0->unk_08 = 0;
+    object = func_8003FC64(2);
+    if (object != NULL) {
+        ((S_807B08F0_0 *)object)->unk_10 = &D_800F81A0;
+        func_8004491C(object, &D_800F833C);
+        state = object + 0x20;
+        ((S_807B08F0_0 *)object)->unk_20 = (u16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
+        do { state->unk_02 = (u16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20); } while (0);
+        state->unk_04 = func_800BCB04(((S_807B08F0_0 *)object)->unk_20, state->unk_02, -0x400);
+        state->unk_06 = initial_value;
+        state->unk_08 = 0;
     }
 }

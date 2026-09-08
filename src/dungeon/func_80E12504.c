@@ -75,31 +75,32 @@ typedef struct S_80175D04_5 {
     u16 unk_0A;
 } S_80175D04_5;   /* child in func_80175D04 */
 
-void *func_80175D04(S_80175D04_0 *arg0, Copy24 *input, S_80175D04_3 *source)
+/* Creates an object with a source-adjusted position and motion toward a directional target. */
+void *func_80175D04(S_80175D04_0 *actor, Copy24 *start_pos, S_80175D04_3 *source)
 {
-    Copy24 local;
-    Vec3u16 delta;
-    u16 selector;
-    s32 table_offset;
-    s16 table_value;
-    Copy24 *out;
+    Copy24 target_pos;
+    Vec3u16 source_offset;
+    u16 direction_bits;
+    s32 direction_offset;
+    s16 axis_step;
+    Copy24 *motion;
     void *object;
-    S_80175D04_5 *child;
+    S_80175D04_5 *child_pos;
     S_80175D04_2 *render;
 
-    selector = arg0->unk_2A;
-    local = *input;
-    table_offset = (selector >> 8) & 0xE;
+    direction_bits = actor->unk_2A;
+    target_pos = *start_pos;
+    direction_offset = (direction_bits >> 8) & 0xE;
 
-    table_value = *(s16 *)((u8 *)&D_8006CCD8 + table_offset);
-    ((S_80175D04_1 *)(&local))->unk_02 +=
-        (table_value * arg0->unk_B2 * 0x40) +
-        (table_value * 0x20);
+    axis_step = *(s16 *)((u8 *)&D_8006CCD8 + direction_offset);
+    ((S_80175D04_1 *)(&target_pos))->unk_02 +=
+        (axis_step * actor->unk_B2 * 0x40) +
+        (axis_step * 0x20);
 
-    table_value = *(s16 *)((u8 *)&D_8006CCE8 + table_offset);
-    ((S_80175D04_1 *)(&local))->unk_06 +=
-        (table_value * arg0->unk_B2 * 0x40) +
-        (table_value * 0x20);
+    axis_step = *(s16 *)((u8 *)&D_8006CCE8 + direction_offset);
+    ((S_80175D04_1 *)(&target_pos))->unk_06 +=
+        (axis_step * actor->unk_B2 * 0x40) +
+        (axis_step * 0x20);
 
     object = func_8003FC64(0x312);
     if (object != 0) {
@@ -115,26 +116,26 @@ void *func_80175D04(S_80175D04_0 *arg0, Copy24 *input, S_80175D04_3 *source)
         render->unk_10 |= 0x20;
         func_80047784(render, 0x47, 0);
 
-        child = (*(void * *)((u8 *)object + 8));
-        (*(Copy24 *)((u8 *)object + 0x24)) = *input;
-        out = (Copy24 *)((u8 *)object + 0x20);
+        child_pos = (*(void * *)((u8 *)object + 8));
+        (*(Copy24 *)((u8 *)object + 0x24)) = *start_pos;
+        motion = (Copy24 *)((u8 *)object + 0x20);
 
-        delta.z = 0;
-        delta.y = 0;
-        delta.x = 0;
-        if (func_8003DE58(source->unk_08, source, &delta, 1) != 0) {
-            ((S_80175D04_4 *)out)->unk_04.at02.v += delta.x;
-            child->unk_02 = ((S_80175D04_4 *)out)->unk_04.at02.v;
-            ((S_80175D04_4 *)out)->unk_08.at02.v += delta.y;
-            child->unk_06 = ((S_80175D04_4 *)out)->unk_08.at02.v;
-            ((S_80175D04_4 *)out)->unk_0E += delta.z;
-            child->unk_0A = ((S_80175D04_4 *)out)->unk_0E;
+        source_offset.z = 0;
+        source_offset.y = 0;
+        source_offset.x = 0;
+        if (func_8003DE58(source->unk_08, source, &source_offset, 1) != 0) {
+            ((S_80175D04_4 *)motion)->unk_04.at02.v += source_offset.x;
+            child_pos->unk_02 = ((S_80175D04_4 *)motion)->unk_04.at02.v;
+            ((S_80175D04_4 *)motion)->unk_08.at02.v += source_offset.y;
+            child_pos->unk_06 = ((S_80175D04_4 *)motion)->unk_08.at02.v;
+            ((S_80175D04_4 *)motion)->unk_0E += source_offset.z;
+            child_pos->unk_0A = ((S_80175D04_4 *)motion)->unk_0E;
         }
 
-        ((S_80175D04_4 *)out)->unk_10 =
-            ((s32)local.words[0] - ((S_80175D04_4 *)out)->unk_04.at00.v) / 0x20;
-        ((S_80175D04_4 *)out)->unk_14 =
-            ((s32)local.words[1] - ((S_80175D04_4 *)out)->unk_08.at00.v) / 0x20;
+        ((S_80175D04_4 *)motion)->unk_10 =
+            ((s32)target_pos.words[0] - ((S_80175D04_4 *)motion)->unk_04.at00.v) / 0x20;
+        ((S_80175D04_4 *)motion)->unk_14 =
+            ((s32)target_pos.words[1] - ((S_80175D04_4 *)motion)->unk_08.at00.v) / 0x20;
 
         return object;
     }

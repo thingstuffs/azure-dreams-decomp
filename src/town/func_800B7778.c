@@ -5,27 +5,28 @@ extern s32 func_800491CC();
 extern s32 func_8004B404();
 extern s32 D_8002E5E8[];
 
-s32 func_800B4ED8(void *arg0, s32 arg1) {
-    s32 *temp_v1;
+/* Initializes object resources and defaults, returning whether the auxiliary allocation succeeds. */
+s32 func_800B4ED8(void *object, s32 resource_id) {
+    s32 *default_values;
     register s32 call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 var_s1;
+    s32 resource_handle;
+    s32 buffer;
+    s32 success;
 
-    var_s1 = 0;
-    temp_v0 = func_80049004((s8 *)arg0 + 0x60, arg1, 0xC);
-    *(s32 *)((s8 *)arg0 + 0x5C) = temp_v0;
-    if (temp_v0 != 0) {
-        call_arg = temp_v0;
+    success = 0;
+    resource_handle = func_80049004((s8 *)object + 0x60, resource_id, 0xC);
+    *(s32 *)((s8 *)object + 0x5C) = resource_handle;
+    if (resource_handle != 0) {
+        call_arg = resource_handle;
         ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_v1 = D_8002E5E8;
-        *(s32 *)((s8 *)arg0 + 0x40) = D_8002E5E8[0];
-        *(s32 *)((s8 *)arg0 + 0x44) = temp_v1[1];
-        *(s32 *)((s8 *)arg0 + 0x48) = temp_v1[2];
-        func_800491CC(call_arg, (s8 *)arg0 + 0x40, 0x29);
-        temp_v0_2 = func_8004B404(0x48);
-        var_s1 = temp_v0_2 != 0;
-        *(s32 *)((s8 *)arg0 + 0x20) = temp_v0_2;
+        default_values = D_8002E5E8;
+        *(s32 *)((s8 *)object + 0x40) = D_8002E5E8[0];
+        *(s32 *)((s8 *)object + 0x44) = default_values[1];
+        *(s32 *)((s8 *)object + 0x48) = default_values[2];
+        func_800491CC(call_arg, (s8 *)object + 0x40, 0x29);
+        buffer = func_8004B404(0x48);
+        success = buffer != 0;
+        *(s32 *)((s8 *)object + 0x20) = buffer;
     }
-    return var_s1;
+    return success;
 }

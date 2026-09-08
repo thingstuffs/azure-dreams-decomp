@@ -17,19 +17,19 @@ typedef struct S_8070207C_1 {
     u16 unk_1DCC;
 } S_8070207C_1;   /* (D_80700000 + final_index) in func_8070207C */
 
-void func_8070207C(s32 arg0) {
-    register s32 temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s32 temp_s1;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 final_index;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+/* Dispatches the entry's second value based on its first, then processes the first. */
+void func_8070207C(s32 entry_index) {
+    register s32 entry_offset ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 saved_index;
+    s32 final_offset;
 
-    temp_s1 = arg0;
-       /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    temp_s0 = arg0 * 4;
-    if (func_80702714(((S_8070207C_0 *)((D_80700000 + temp_s0)))->unk_1DCC) != 0) {
-        func_80702670(((S_8070207C_0 *)((D_80700000 + temp_s0)))->unk_1DCE);
+    saved_index = entry_index;
+    entry_offset = entry_index * 4;
+    if (func_80702714(((S_8070207C_0 *)(D_80700000 + entry_offset))->unk_1DCC) != 0) {
+        func_80702670(((S_8070207C_0 *)(D_80700000 + entry_offset))->unk_1DCE);
     } else {
-        func_807026C0(((S_8070207C_0 *)((D_80700000 + temp_s0)))->unk_1DCE);
+        func_807026C0(((S_8070207C_0 *)(D_80700000 + entry_offset))->unk_1DCE);
     }
-    final_index = temp_s1 * 4;
-    func_80702670(((S_8070207C_1 *)((D_80700000 + final_index)))->unk_1DCC);
+    final_offset = saved_index * 4;
+    func_80702670(((S_8070207C_1 *)(D_80700000 + final_offset))->unk_1DCC);
 }

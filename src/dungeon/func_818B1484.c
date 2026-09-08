@@ -34,58 +34,59 @@ typedef struct S_818B1484_3 {
     u16 unk_0A;
 } S_818B1484_3;   /* arg1 in func_818B1484 */
 
-s32 func_818B1484(S_818B1484_1 *arg0, S_818B1484_3 *arg1, M2C_UNK arg2) {
-    void *call_a0;
-    s32 sp20[34];
-    s32 *var_s5;
-    s32 *var_s2;
-    s16 temp_s0_2;
-    s32 temp_a1;
-    s32 temp_s0;
-    s32 temp_v0;
-    s32 var_a0;
-    s32 var_s0;
-    s32 var_s1;
-    s32 var_s1_2;
-    u16 temp_a2;
-    void *var_s2_2;
+/* Builds a trigonometric lookup table and processes the remaining effect entries. */
+s32 func_818B1484(S_818B1484_1 *effect, S_818B1484_3 *target, M2C_UNK context) {
+    void *effect_arg;
+    s32 wave_table[34];
+    s32 *table_ptr;
+    s32 *sample_ptr;
+    s16 entry_scale;
+    s32 entry_arg;
+    s32 sample_angle;
+    s32 phase;
+    s32 phase_rounded;
+    s32 index_rounded;
+    s32 sample_index;
+    s32 entry_index;
+    u16 entry_offset;
+    void *entry_ptr;
 
-    var_s5 = sp20;
-    var_s1 = 0x10;
-    var_s2 = &sp20[16];
+    table_ptr = wave_table;
+    sample_index = 0x10;
+    sample_ptr = &wave_table[16];
     do {
-        var_s0 = var_s1;
-        if (var_s1 < 0) {
-            var_s0 = var_s1 + 0xF;
+        index_rounded = sample_index;
+        if (sample_index < 0) {
+            index_rounded = sample_index + 0xF;
         }
-        temp_s0 = (var_s1 - ((var_s0 >> 4) * 0x10)) << 8;
-        ((S_818B1484_0 *)var_s2)->unk_00 = (u32) (func_800644B8(temp_s0) >> 4);
-        ((S_818B1484_0 *)var_s2)->unk_44 = (s32) (func_80064584(temp_s0) >> 4);
+        sample_angle = (sample_index - ((index_rounded >> 4) * 0x10)) << 8;
+        ((S_818B1484_0 *)sample_ptr)->unk_00 = (u32) (func_800644B8(sample_angle) >> 4);
+        ((S_818B1484_0 *)sample_ptr)->unk_44 = (s32) (func_80064584(sample_angle) >> 4);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        var_s1 -= 1;
-        var_s2--;
-    } while (var_s1 >= 0);
-    var_s1_2 = ((s32) (arg0->unk_16 << 0x10) >> 0x12) + 1;
-    if (var_s1_2 < 8) {
-        var_s2_2 = (void *) ((var_s1_2 << 1) + (u32) arg0);
+        sample_index -= 1;
+        sample_ptr--;
+    } while (sample_index >= 0);
+    entry_index = ((s32) (effect->unk_16 << 0x10) >> 0x12) + 1;
+    if (entry_index < 8) {
+        entry_ptr = (void *) ((entry_index << 1) + (u32) effect);
         do {
-            temp_v0 = arg0->unk_10 - var_s1_2;
-            var_a0 = temp_v0;
-            if (temp_v0 < 0) {
-                var_a0 = temp_v0 + 0xF;
+            phase = effect->unk_10 - entry_index;
+            phase_rounded = phase;
+            if (phase < 0) {
+                phase_rounded = phase + 0xF;
             }
-            temp_s0_2 = (func_800644B8((temp_v0 - ((var_a0 >> 4) * 0x10)) << 9) >> 9) + 0x20;
-            func_80064584(var_s1_2 << 9);
-            call_a0 = arg0;
-            ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            temp_a2 = ((S_818B1484_2 *)var_s2_2)->unk_1A;
-            var_s2_2 += 2;
-            temp_a1 = var_s1_2 << 0x11;
-            var_s1_2 += 1;
-            func_80024610(call_a0, arg1, arg2, temp_s0_2,
-                         (s32) (s16) (arg1->unk_0A - temp_a2),
-                         var_s5, 0xFF, temp_a1 >> 0x10);
-        } while (var_s1_2 < 8);
+            entry_scale = (func_800644B8((phase - ((phase_rounded >> 4) * 0x10)) << 9) >> 9) + 0x20;
+            func_80064584(entry_index << 9);
+            effect_arg = effect;
+            ASM_KEEP(effect_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            entry_offset = ((S_818B1484_2 *)entry_ptr)->unk_1A;
+            entry_ptr += 2;
+            entry_arg = entry_index << 0x11;
+            entry_index += 1;
+            func_80024610(effect_arg, target, context, entry_scale,
+                         (s32) (s16) (target->unk_0A - entry_offset),
+                         table_ptr, 0xFF, entry_arg >> 0x10);
+        } while (entry_index < 8);
     }
     return 0;
 }

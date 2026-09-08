@@ -40,19 +40,20 @@ extern M2C_UNK D_80081F78;
 extern M2C_UNK D_800822F0;
 extern M2C_UNK func_8003571C;
 
-void func_8003566C(S_8003566C_0 *arg0) {
-    S_8003566C_1 *temp_v0;
-    S_8003566C_2 *temp_v1;
+/* Decrease the stored value, clamp negatives to zero, and advance state below 0x100. */
+void func_8003566C(S_8003566C_0 *state) {
+    S_8003566C_1 *value_data;
+    S_8003566C_2 *clamp_data;
 
-    temp_v0 = arg0->unk_00;
-    temp_v0->unk_08 = (u16) (temp_v0->unk_08 - 0xA0);
-    temp_v1 = arg0->unk_00;
-    if ((s16) temp_v1->unk_08 < 0) {
-        temp_v1->unk_08 = 0U;
+    value_data = state->unk_00;
+    value_data->unk_08 = (u16) (value_data->unk_08 - 0xA0);
+    clamp_data = state->unk_00;
+    if ((s16) clamp_data->unk_08 < 0) {
+        clamp_data->unk_08 = 0U;
     }
-    if ((s16) ((S_8003566C_4 *)(((S_8003566C_3 *)arg0)->unk_00))->unk_08 < 0x100) {
-        func_80035E58(&D_800822F0, &D_80081F78, &D_8006A86C, arg0, 1, arg0->unk_74);
-        arg0->unk_4D = 0;
-        arg0->unk_68 = &func_8003571C;
+    if ((s16) ((S_8003566C_4 *)(((S_8003566C_3 *)state)->unk_00))->unk_08 < 0x100) {
+        func_80035E58(&D_800822F0, &D_80081F78, &D_8006A86C, state, 1, state->unk_74);
+        state->unk_4D = 0;
+        state->unk_68 = &func_8003571C;
     }
 }

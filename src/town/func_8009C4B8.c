@@ -18,41 +18,41 @@ typedef struct {
 extern s16 func_800C2AE8(void *arg0);
 extern void func_80098928(void *arg0, void *arg1, s32 arg2);
 
-void func_80099C18(void *arg0, void *arg1, s32 arg2) {
+/* Advance the position toward its target and update its angle. */
+void func_80099C18(void *work_data, void *position_data, s32 context) {
     Position *pos;
     Work *work;
-    u16 temp_v0;
+    u16 steps_left;
     s32 remaining;
 
-    work = arg0;
-    pos = arg1;
-    temp_v0 = work->count - 1;
-    work->count = temp_v0;
-    remaining = (s16)temp_v0;
+    work = work_data;
+    pos = position_data;
+    steps_left = work->count - 1;
+    work->count = steps_left;
+    remaining = (s16)steps_left;
     if (remaining <= 0) {
         pos->x = work->target_x << 16;
         pos->y = work->target_y << 16;
-        func_80098928(work, pos, arg2);
-        ASM_USE(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        func_80098928(work, pos, context);
         pos->angle = func_800C2AE8(pos);
         return;
     }
 
     {
-        s32 value;
+        s32 x;
 
-        value = pos->x;
-        pos->x = value +
-            ((work->target_x << 16) - value) / remaining;
+        x = pos->x;
+        pos->x = x +
+            ((work->target_x << 16) - x) / remaining;
     }
     {
-        s32 value_y;
+        s32 y;
 
-        value_y = pos->y;
-        *(volatile s32 *)&pos->y = value_y +
-            ((work->target_y << 16) - value_y) / (s16)work->count;
+        y = pos->y;
+        *(volatile s32 *)&pos->y = y +
+            ((work->target_y << 16) - y) / (s16)work->count;
     }
 
-    ASM_USE(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_USE(position_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     pos->angle = func_800C2AE8(pos);
 }

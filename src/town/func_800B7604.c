@@ -28,26 +28,27 @@ extern void func_800B49A8(void *arg0);
 extern void func_800B4A60(void *arg0);
 extern void func_800B4B7C(void *arg0);
 
-void func_800B4D64(Obj *arg0) {
-    s32 i;
+/* Initialize slot data and offsets, then configure the object. */
+void func_800B4D64(Obj *obj) {
+    s32 slot_index;
 
-    for (i = 0; i < 2; i++) {
-        arg0->unk5c[i]->unk00 = D_80078CDC;
-        arg0->unk5c[i]->unk04->unk08 = i << 7;
+    for (slot_index = 0; slot_index < 2; slot_index++) {
+        obj->unk5c[slot_index]->unk00 = D_80078CDC;
+        obj->unk5c[slot_index]->unk04->unk08 = slot_index << 7;
     }
 
-    func_800B3558(arg0->unk20);
+    func_800B3558(obj->unk20);
 
-    for (i = 2; i < 4; i++) {
-        arg0->unk5c[i]->unk00 = arg0->unk20;
-        arg0->unk5c[i]->unk04->unk08 = (i - 2) << 7;
+    for (slot_index = 2; slot_index < 4; slot_index++) {
+        obj->unk5c[slot_index]->unk00 = obj->unk20;
+        obj->unk5c[slot_index]->unk04->unk08 = (slot_index - 2) << 7;
     }
 
-    func_800B47BC(arg0);
-    func_800B4908((u8 *)arg0->unk5c + 0x18);
-    func_800B49A8((u8 *)arg0->unk5c + 0x40);
-    func_800B4A60(arg0->unk5c);
-    func_800B474C((u8 *)arg0->unk5c + 0x68);
-    func_800B48B8(arg0);
-    func_800B4B7C(arg0);
+    func_800B47BC(obj);
+    func_800B4908((u8 *)obj->unk5c + 0x18);
+    func_800B49A8((u8 *)obj->unk5c + 0x40);
+    func_800B4A60(obj->unk5c);
+    func_800B474C((u8 *)obj->unk5c + 0x68);
+    func_800B48B8(obj);
+    func_800B4B7C(obj);
 }

@@ -68,99 +68,96 @@ typedef struct S_800AEBC4_6 {
 extern s32 D_8002E5D8[4];
 extern s32 D_8002E5E8[3];
 
-void func_800AEBC4(void *arg0, S_800AEBC4_4 *arg1, S_800AEBC4_1 *arg2, S_800AEBC4_3 *arg3,
-                   s32 arg4, s32 arg5) {
-    S_800AEBC4_6 *tail = arg0;
-    u8 *base0;
-    u8 *base1;
-    s32 word;
+/* Copies two templates into linked records and initializes position and offset vectors. */
+void func_800AEBC4(void *vector_data, S_800AEBC4_4 *config, S_800AEBC4_1 *position_data, S_800AEBC4_3 *secondary_data,
+                   s32 input_x, s32 input_y) {
+    S_800AEBC4_6 *vectors = vector_data;
+    u8 *template_base;
+    u8 *data_ptr;
+    s32 value;
     s32 x;
     register s32 y ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 *stack = __builtin_frame_address(0);
+    s32 *stack_args = __builtin_frame_address(0);
 
-    ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(vectors);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
-    base0 = (u8 *)D_8002E5D8 + 0x1A28;
+    template_base = (u8 *)D_8002E5D8 + 0x1A28;
 #else
-    base0 = (u8 *)0x80030000;
+    template_base = (u8 *)0x80030000;
 #endif
-    ASM_KEEP(base0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    word = ((S_800AEBC4_0_pre *)base0)[-1].unk_00;
+    ASM_KEEP(template_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    value = ((S_800AEBC4_0_pre *)template_base)[-1].unk_00;
 #ifdef NON_MATCHING
-    x = arg4;
+    x = input_x;
 #else
-    x = stack[4];
+    x = stack_args[4];
 #endif
     ASM_UNDEF(y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
-    y = arg5;
+    y = input_y;
 #else
-    y = stack[5];
+    y = stack_args[5];
 #endif
     ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    base0 -= 0x1A28;
-    arg2->unk_00 = word;
+    template_base -= 0x1A28;
+    position_data->unk_00 = value;
 
-    word = ((S_800AEBC4_0 *)base0)->unk_04;
-    arg2->unk_04 = word;
+    value = ((S_800AEBC4_0 *)template_base)->unk_04;
+    position_data->unk_04 = value;
 
-    word = ((S_800AEBC4_0 *)base0)->unk_08;
-    ASM_UNDEF(base1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    value = ((S_800AEBC4_0 *)template_base)->unk_08;
+    ASM_UNDEF(data_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
-    base1 = (u8 *)D_8002E5E8 + 0x1A18;
+    data_ptr = (u8 *)D_8002E5E8 + 0x1A18;
 #else
-    base1 = (u8 *)0x80030000;
+    data_ptr = (u8 *)0x80030000;
 #endif
-    ASM_KEEP(base1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    arg2->unk_08 = word;
+    ASM_KEEP(data_ptr);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    position_data->unk_08 = value;
 
-    word = ((S_800AEBC4_0 *)base0)->unk_0C;
-    base0 = (u8 *)(u32)((S_800AEBC4_2_pre *)base1)[-1].unk_00;
-    base1 -= 0x1A18;
-    arg2->unk_0C = word;
-    arg3->unk_00 = (s32)(u32)base0;
+    value = ((S_800AEBC4_0 *)template_base)->unk_0C;
+    template_base = (u8 *)(u32)((S_800AEBC4_2_pre *)data_ptr)[-1].unk_00;
+    data_ptr -= 0x1A18;
+    position_data->unk_0C = value;
+    secondary_data->unk_00 = (s32)(u32)template_base;
 
-    word = ((S_800AEBC4_2 *)base1)->unk_04;
-    arg3->unk_04 = word;
-    word = ((S_800AEBC4_2 *)base1)->unk_08;
-    arg3->unk_08 = word;
+    value = ((S_800AEBC4_2 *)data_ptr)->unk_04;
+    secondary_data->unk_04 = value;
+    value = ((S_800AEBC4_2 *)data_ptr)->unk_08;
+    secondary_data->unk_08 = value;
 
-    arg1->unk_08 = arg3;
-    ASM_UNDEF(base1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    base1 = arg3;
-    ASM_KEEP(base1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    word = -0x400;
-    arg1->unk_04.s = arg2;
-    arg1->unk_00 = 0;
-    ((S_800AEBC4_2 *)base1)->unk_02 = (s16)word;
+    config->unk_08 = secondary_data;
+    ASM_UNDEF(data_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    data_ptr = secondary_data;
+    ASM_KEEP(data_ptr);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    value = -0x400;
+    config->unk_04.s = position_data;
+    config->unk_00 = 0;
+    ((S_800AEBC4_2 *)data_ptr)->unk_02 = (s16)value;
 
-    word = arg1->unk_04.u;
-    ((S_800AEBC4_5 *)((void *)(u32)word))->unk_08 = (s16)x;
-    word = arg1->unk_04.u;
-    ((S_800AEBC4_5 *)((void *)(u32)word))->unk_0A = (s16)y;
-    word = arg1->unk_04.u;
-    base0 = (u8 *)0x400;
-    ((S_800AEBC4_5 *)((void *)(u32)word))->unk_0C = (s16)(u32)base0;
-    base1 = (u8 *)(u32)arg1->unk_04.u;
-    word = 4;
-    ((S_800AEBC4_2 *)base1)->unk_0F = (u8)word;
+    value = config->unk_04.u;
+    ((S_800AEBC4_5 *)((void *)(u32)value))->unk_08 = (s16)x;
+    value = config->unk_04.u;
+    ((S_800AEBC4_5 *)((void *)(u32)value))->unk_0A = (s16)y;
+    value = config->unk_04.u;
+    template_base = (u8 *)0x400;
+    ((S_800AEBC4_5 *)((void *)(u32)value))->unk_0C = (s16)(u32)template_base;
+    data_ptr = (u8 *)(u32)config->unk_04.u;
+    value = 4;
+    ((S_800AEBC4_2 *)data_ptr)->unk_0F = (u8)value;
 
-    tail->unk_0C = (s16)x;
-    tail->unk_0E = (s16)y;
-    tail->unk_10 = (s16)(u32)base0;
-    ASM_KEEP(base0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    word = -0x60;
+    vectors->unk_0C = (s16)x;
+    vectors->unk_0E = (s16)y;
+    vectors->unk_10 = (s16)(u32)template_base;
+    ASM_KEEP(template_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    value = -0x60;
     if (x < 0) {
-        word = 0x30;
+        value = 0x30;
     }
-    word -= x;
-    tail->unk_14 = (s16)word;
-    word = -0x40 - y;
-    tail->unk_16 = (s16)word;
-    word = -0x200;
-    tail->unk_18 = (s16)word;
+    value -= x;
+    vectors->unk_14 = (s16)value;
+    value = -0x40 - y;
+    vectors->unk_16 = (s16)value;
+    value = -0x200;
+    vectors->unk_18 = (s16)value;
 }
-
-/* MECHANISM: Frameless leaf with ABI stack words held in t1/t2 and arg0 held in t0.
-   Explicit page-base lifetimes put the two template copies in a0/v1, while the
-   post-copy hard-register boundary forces the retail a3-to-v1 secondary pointer. */

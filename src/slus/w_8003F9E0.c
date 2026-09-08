@@ -10,12 +10,12 @@ typedef struct S_8003F9E0 {
 
 extern s32 func_8003F80C(s32 a0, s32 a1, s32 a2, s32 a3);
 
-/* Iterate a NULL(f0)-terminated array of entries, dispatching each via func_8003F80C. */
-void func_8003F9E0(S_8003F9E0 *a0) {
-    S_8003F9E0 *s1 = a0;
+/* Dispatch draw entries until an entry with a zero handle is reached. */
+void func_8003F9E0(S_8003F9E0 *entries) {
+    S_8003F9E0 *entry = entries;
 
-    while (s1->f0) {
-        func_8003F80C(s1->f0, s1->f4, s1->f6, 0);
-        s1++;
+    while (entry->f0) {
+        func_8003F80C(entry->f0, entry->f4, entry->f6, 0);
+        entry++;
     }
 }

@@ -125,246 +125,247 @@ extern u8 D_80167C30[];
 extern u8 D_80173B4C[];
 extern u8 D_80175DD8[];
 
-void func_80168C88(u8 *arg0, void *arg1, void *arg2_in)
+/* Builds seven colored effect segments from interpolated coordinates and decrements their source effect lifetime. */
+void func_80168C88(u8 *effect, void *origin, void *color_in)
 {
-    register void *arg2 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s16 temp_v1;
-    u16 temp_a0;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 var_t0;
-    s32 var_t4;
-    s32 var_t5;
-    s32 var_t2;
-    s32 var_t3;
-    register s32 var_t1 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 var_a3;
-    s32 temp_a1;
-    register u8 *temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u8 *temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s16 *temp_a2;
-    register s32 temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register void *color ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 phase;
+    u16 phase_bits;
+    s32 red_scaled;
+    s32 green_scaled;
+    s32 step;
+    s32 step_offset;
+    s32 dest_offset;
+    s32 edge;
+    s32 sample_offset;
+    register s32 edge_offset ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 axis;
+    s32 dest_coord;
+    register u8 *shape_row ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *endpoint ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 *start_coord;
+    register s32 scaled_delta ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *table_base;
-    s32 var_s3;
-    s32 var_s4;
-    void *temp_v0_2;
-    u8 *temp_s0;
-    register void *temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *temp_v1_3;
-    register s32 var_t0_2 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    void *temp_a3_2;
-    s32 var_t2_2;
-    u8 *var_t0_3;
-    u8 *temp_a0_3;
-    void *temp_a0_4;
-    s32 var_a3_2;
-    s32 temp_t1;
-    u16 *var_a1;
-    register u16 *var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temp_a0_5;
-    s32 temp_v1_4;
-    s32 temp_v0_4;
-    register u8 *lookup ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 *lookup_final;
-    s16 temp_v0_3;
-    u8 *base_80175DD8;
+    s32 segment;
+    s32 segment_offset;
+    void *task;
+    u8 *segment_data;
+    register void *render_flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *position;
+    register s32 vertex ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *vertex_color ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    void *render_data;
+    s32 side;
+    u8 *vertex_base;
+    u8 *texture_data;
+    void *texture;
+    s32 coord;
+    s32 source_offset;
+    u16 *near_vertex;
+    register u16 *far_vertex ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 coord_offset;
+    s32 source_side;
+    s32 source_index;
+    register u8 *coord_lookup ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *far_coord;
+    s16 ticks_left;
+    u8 *coord_table;
     register s32 one ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-    temp_v1 = ((S_80168C88_0 *)arg0)->unk_12.s;
-    temp_a0 = *(volatile u16 *)(arg0 + 0x12);
-    arg2 = arg2_in;
-    if (temp_v1 == 0) {
+    phase = ((S_80168C88_0 *)effect)->unk_12.s;
+    phase_bits = *(volatile u16 *)(effect + 0x12);
+    color = color_in;
+    if (phase == 0) {
         goto status_zero;
     }
-    if (temp_v1 == 1) {
+    if (phase == 1) {
         goto status_one;
     }
-    var_t0 = 1;
+    step = 1;
     goto table_setup;
 
 status_zero:
-    if (((S_80168C88_0 *)arg0)->unk_18.s < 6) {
-        ((S_80168C88_0 *)arg0)->unk_12.u = temp_a0 + 1;
+    if (((S_80168C88_0 *)effect)->unk_18.s < 6) {
+        ((S_80168C88_0 *)effect)->unk_12.u = phase_bits + 1;
     }
     goto table_start;
 
 status_one:
-    var_v0 = ((S_80168C88_0 *)arg0)->unk_00 * ((S_80168C88_0 *)arg0)->unk_18.s;
-    if (var_v0 < 0) {
-        var_v0 += 3;
+    red_scaled = ((S_80168C88_0 *)effect)->unk_00 * ((S_80168C88_0 *)effect)->unk_18.s;
+    if (red_scaled < 0) {
+        red_scaled += 3;
     }
-    ((S_80168C88_1 *)arg2)->unk_0C = var_v0 >> 2;
-    var_v0_2 = ((S_80168C88_0 *)arg0)->unk_01 * ((S_80168C88_0 *)arg0)->unk_18.s;
-    if (var_v0_2 < 0) {
-        var_v0_2 += 3;
+    ((S_80168C88_1 *)color)->unk_0C = red_scaled >> 2;
+    green_scaled = ((S_80168C88_0 *)effect)->unk_01 * ((S_80168C88_0 *)effect)->unk_18.s;
+    if (green_scaled < 0) {
+        green_scaled += 3;
     }
-    ((S_80168C88_1 *)arg2)->unk_0D = var_v0_2 >> 2;
+    ((S_80168C88_1 *)color)->unk_0D = green_scaled >> 2;
 
 table_start:
-    var_t0 = 1;
+    step = 1;
 table_setup:
     table_base = D_80175DD8;
-    var_t4 = 0xC;
+    step_offset = 0xC;
     do {
-        var_t2 = 0;
-        var_t5 = var_t4;
-        var_t3 = var_t2;
-loop_14:
-        var_a3 = 0;
-        var_t1 = var_t3;
-loop_15:
-        temp_a1 = var_a3 * 2;
-        temp_v1_2 = (u8 *)(((S_80168C88_0 *)arg0)->unk_1C * 0x60);
-        ASM_KEEP_NV(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        temp_v1_2 += (s32)table_base;
-        temp_v0 = (u8 *)((s32)var_t1 + (s32)temp_v1_2);
-        temp_a2 = (s16 *)temp_a1;
-        temp_a2 = (s16 *)((u8 *)temp_a2 + (s32)temp_v0);
-        ASM_KEEP_DEP_NV(temp_a2, temp_v0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        temp_v0 += temp_a1;
-        ASM_KEEP_NV(temp_v0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        temp_a0_2 = (((S_80168C88_2 *)temp_v0)->unk_54 - *temp_a2) * var_t0;
-        var_a3 += 1;
-        temp_v1_2 = (u8 *)((s32)var_t5 + (s32)temp_v1_2);
-        temp_v1_2 = (u8 *)((s32)var_t1 + (s32)temp_v1_2);
-        temp_a1 += (s32)temp_v1_2;
-        ASM_KEEP_NV(temp_a1);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        ((S_80168C88_3 *)((void *)temp_a1))->unk_00 = *temp_a2 + temp_a0_2 / 7;
-        if (var_a3 < 3) {
-            goto loop_15;
+        edge = 0;
+        dest_offset = step_offset;
+        sample_offset = edge;
+interpolate_edge:
+        axis = 0;
+        edge_offset = sample_offset;
+interpolate_axis:
+        dest_coord = axis * 2;
+        shape_row = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60);
+        ASM_KEEP_NV(shape_row);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        shape_row += (s32)table_base;
+        endpoint = (u8 *)((s32)edge_offset + (s32)shape_row);
+        start_coord = (s16 *)dest_coord;
+        start_coord = (s16 *)((u8 *)start_coord + (s32)endpoint);
+        ASM_KEEP_DEP_NV(start_coord, endpoint);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        endpoint += dest_coord;
+        ASM_KEEP_NV(endpoint);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        scaled_delta = (((S_80168C88_2 *)endpoint)->unk_54 - *start_coord) * step;
+        axis += 1;
+        shape_row = (u8 *)((s32)dest_offset + (s32)shape_row);
+        shape_row = (u8 *)((s32)edge_offset + (s32)shape_row);
+        dest_coord += (s32)shape_row;
+        ASM_KEEP_NV(dest_coord);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        ((S_80168C88_3 *)((void *)dest_coord))->unk_00 = *start_coord + scaled_delta / 7;
+        if (axis < 3) {
+            goto interpolate_axis;
         }
-        var_t2 += 1;
-        var_t3 += 6;
-        if (var_t2 < 2) {
-            goto loop_14;
+        edge += 1;
+        sample_offset += 6;
+        if (edge < 2) {
+            goto interpolate_edge;
         }
-        var_t0 += 1;
-        var_t4 += 0xC;
-    } while (var_t0 < 7);
+        step += 1;
+        step_offset += 0xC;
+    } while (step < 7);
 
-    var_s3 = 0;
-    base_80175DD8 = D_80175DD8;
+    segment = 0;
+    coord_table = D_80175DD8;
     one = 1;
-    var_s4 = var_s3;
-    ((S_80168C88_0 *)arg0)->unk_1E = ((S_80168C88_0 *)arg0)->unk_1E - 1;
+    segment_offset = segment;
+    ((S_80168C88_0 *)effect)->unk_1E = ((S_80168C88_0 *)effect)->unk_1E - 1;
     do {
-        temp_v0_2 = func_8003FC64(0x12);
-        if (temp_v0_2 != NULL) {
+        task = func_8003FC64(0x12);
+        if (task != NULL) {
             register void *task_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             void *init_fn;
             void *callback;
 
-            task_arg = temp_v0_2;
-            temp_s0 = (u8 *)temp_v0_2 + 0x20;
+            task_arg = task;
+            segment_data = (u8 *)task + 0x20;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             init_fn = D_80167C30;
-            ASM_KEEP_DEP_NV(init_fn, temp_s0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_DEP_NV(init_fn, segment_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             callback = D_80166914;
-            ((S_80168C88_4 *)temp_s0)->unk_18 = one;
-            ((S_80168C88_4 *)temp_s0)->unk_1A = one;
-            ((S_80168C88_5 *)temp_v0_2)->unk_10 = init_fn;
+            ((S_80168C88_4 *)segment_data)->unk_18 = one;
+            ((S_80168C88_4 *)segment_data)->unk_1A = one;
+            ((S_80168C88_5 *)task)->unk_10 = init_fn;
             func_8004491C(task_arg, callback);
 
-            temp_a3 = ((S_80168C88_5 *)temp_v0_2)->unk_0C;
-            ((S_80168C88_6 *)temp_a3)->unk_10 = 0x20;
-            ((S_80168C88_6 *)temp_a3)->unk_14 |= 0xC;
+            render_flags = ((S_80168C88_5 *)task)->unk_0C;
+            ((S_80168C88_6 *)render_flags)->unk_10 = 0x20;
+            ((S_80168C88_6 *)render_flags)->unk_14 |= 0xC;
 
-            temp_v1_3 = ((S_80168C88_5 *)temp_v0_2)->unk_08;
-            ((S_80168C88_7 *)temp_v1_3)->unk_00 = ((S_80168C88_8 *)arg1)->unk_00;
-            var_t0_2 = 0;
-            ((S_80168C88_7 *)temp_v1_3)->unk_04 = ((S_80168C88_8 *)arg1)->unk_04;
-            var_a0 = temp_s0;
-            ((S_80168C88_7 *)temp_v1_3)->unk_08 = ((S_80168C88_8 *)arg1)->unk_08;
+            position = ((S_80168C88_5 *)task)->unk_08;
+            ((S_80168C88_7 *)position)->unk_00 = ((S_80168C88_8 *)origin)->unk_00;
+            vertex = 0;
+            ((S_80168C88_7 *)position)->unk_04 = ((S_80168C88_8 *)origin)->unk_04;
+            vertex_color = segment_data;
+            ((S_80168C88_7 *)position)->unk_08 = ((S_80168C88_8 *)origin)->unk_08;
 
-            temp_a3_2 = ((S_80168C88_5 *)temp_v0_2)->unk_0C;
-            ((S_80168C88_9 *)temp_a3_2)->unk_1E = 0x1000;
-            ((S_80168C88_9 *)temp_a3_2)->unk_1C = 0x1000;
-            ((S_80168C88_9 *)temp_a3_2)->unk_0E = 0x80;
-            ((S_80168C88_9 *)temp_a3_2)->unk_0D = 0x80;
-            ((S_80168C88_9 *)temp_a3_2)->unk_0C = 0x80;
-
-            do {
-                ((S_80168C88_10 *)var_a0)->unk_00 = ((S_80168C88_1 *)arg2)->unk_0C;
-                ((S_80168C88_10 *)var_a0)->unk_01 = ((S_80168C88_1 *)arg2)->unk_0D;
-                var_t0_2 += 1;
-                ((S_80168C88_10 *)var_a0)->unk_02 = ((S_80168C88_1 *)arg2)->unk_0E;
-                var_a0 += 4;
-            } while (var_t0_2 < 4);
-
-            if (var_s3 == 0) {
-                ((S_80168C88_4 *)temp_s0)->unk_06 = 0;
-                ((S_80168C88_4 *)temp_s0)->unk_05 = 0;
-                ((S_80168C88_4 *)temp_s0)->unk_04 = 0;
-                ((S_80168C88_4 *)temp_s0)->unk_02 = 0;
-                ((S_80168C88_4 *)temp_s0)->unk_01 = 0;
-                ((S_80168C88_4 *)temp_s0)->unk_00 = 0;
-            }
-            if (var_s3 == 6) {
-                ((S_80168C88_4 *)temp_s0)->unk_0E = 0;
-                ((S_80168C88_4 *)temp_s0)->unk_0D = 0;
-                ((S_80168C88_4 *)temp_s0)->unk_0C = 0;
-                ((S_80168C88_4 *)temp_s0)->unk_0A = 0;
-                ((S_80168C88_4 *)temp_s0)->unk_09 = 0;
-                ((S_80168C88_4 *)temp_s0)->unk_08 = 0;
-            }
-
-            ((S_80168C88_9 *)temp_a3_2)->unk_06 = 0;
-            __builtin_memcpy(temp_s0 + 0x28, D_80173B4C, 0xC);
-
-            var_t2_2 = 0;
-            var_t3 = var_s4;
-            var_t0_3 = temp_s0;
-            temp_a0_3 = var_t0_3 + 0x28;
-            ((S_80168C88_9 *)temp_a3_2)->unk_08 = temp_a0_3;
-            ((S_80168C88_11 *)temp_a0_3)->unk_08 += ((S_80168C88_0 *)arg0)->unk_1C * 4;
-            temp_a0_4 = ((S_80168C88_9 *)temp_a3_2)->unk_08;
-            ((S_80168C88_12 *)temp_a0_4)->unk_09 += (((S_80168C88_0 *)arg0)->unk_1E & 3) * 8;
+            render_data = ((S_80168C88_5 *)task)->unk_0C;
+            ((S_80168C88_9 *)render_data)->unk_1E = 0x1000;
+            ((S_80168C88_9 *)render_data)->unk_1C = 0x1000;
+            ((S_80168C88_9 *)render_data)->unk_0E = 0x80;
+            ((S_80168C88_9 *)render_data)->unk_0D = 0x80;
+            ((S_80168C88_9 *)render_data)->unk_0C = 0x80;
 
             do {
-                var_a3_2 = 0;
-                temp_v1_4 = one - var_t2_2;
-                ASM_KEEP_NV(temp_v1_4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                temp_v0_4 = temp_v1_4 * 2;
-                temp_v0_4 += temp_v1_4;
-                ASM_KEEP_NV(temp_v0_4);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                temp_t1 = temp_v0_4 * 2;
-                var_a2 = (u16 *)(var_t0_3 + 0x80);
-                var_a1 = (u16 *)(var_t0_3 + 0x74);
-loop_28:
-                temp_a0_5 = var_a3_2 * 2;
-                lookup = (u8 *)(((S_80168C88_0 *)arg0)->unk_1C * 0x60);
-                lookup += (s32)base_80175DD8;
-                lookup = (u8 *)((s32)var_t3 + (s32)lookup);
-                lookup = (u8 *)((s32)temp_t1 + (s32)lookup);
-                lookup = (u8 *)((s32)temp_a0_5 + (s32)lookup);
-                *var_a1 = ((S_80168C88_13 *)lookup)->unk_00;
-                var_a3_2 += 1;
-                var_a1 += 1;
-                lookup = (u8 *)(((S_80168C88_0 *)arg0)->unk_1C * 0x60);
-                lookup += (s32)base_80175DD8;
-                lookup = (u8 *)((s32)var_t3 + (s32)lookup);
-                lookup += 0xC;
-                lookup = (u8 *)((s32)temp_t1 + (s32)lookup);
-                lookup_final = (u8 *)((s32)temp_a0_5 + (s32)lookup);
-                ASM_KEEP_NV(lookup_final);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                *var_a2 = ((S_80168C88_14 *)lookup_final)->unk_00;
-                var_a2 += 1;
-                if (var_a3_2 < 3) {
-                    goto loop_28;
+                ((S_80168C88_10 *)vertex_color)->unk_00 = ((S_80168C88_1 *)color)->unk_0C;
+                ((S_80168C88_10 *)vertex_color)->unk_01 = ((S_80168C88_1 *)color)->unk_0D;
+                vertex += 1;
+                ((S_80168C88_10 *)vertex_color)->unk_02 = ((S_80168C88_1 *)color)->unk_0E;
+                vertex_color += 4;
+            } while (vertex < 4);
+
+            if (segment == 0) {
+                ((S_80168C88_4 *)segment_data)->unk_06 = 0;
+                ((S_80168C88_4 *)segment_data)->unk_05 = 0;
+                ((S_80168C88_4 *)segment_data)->unk_04 = 0;
+                ((S_80168C88_4 *)segment_data)->unk_02 = 0;
+                ((S_80168C88_4 *)segment_data)->unk_01 = 0;
+                ((S_80168C88_4 *)segment_data)->unk_00 = 0;
+            }
+            if (segment == 6) {
+                ((S_80168C88_4 *)segment_data)->unk_0E = 0;
+                ((S_80168C88_4 *)segment_data)->unk_0D = 0;
+                ((S_80168C88_4 *)segment_data)->unk_0C = 0;
+                ((S_80168C88_4 *)segment_data)->unk_0A = 0;
+                ((S_80168C88_4 *)segment_data)->unk_09 = 0;
+                ((S_80168C88_4 *)segment_data)->unk_08 = 0;
+            }
+
+            ((S_80168C88_9 *)render_data)->unk_06 = 0;
+            __builtin_memcpy(segment_data + 0x28, D_80173B4C, 0xC);
+
+            side = 0;
+            sample_offset = segment_offset;
+            vertex_base = segment_data;
+            texture_data = vertex_base + 0x28;
+            ((S_80168C88_9 *)render_data)->unk_08 = texture_data;
+            ((S_80168C88_11 *)texture_data)->unk_08 += ((S_80168C88_0 *)effect)->unk_1C * 4;
+            texture = ((S_80168C88_9 *)render_data)->unk_08;
+            ((S_80168C88_12 *)texture)->unk_09 += (((S_80168C88_0 *)effect)->unk_1E & 3) * 8;
+
+            do {
+                coord = 0;
+                source_side = one - side;
+                ASM_KEEP_NV(source_side);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                source_index = source_side * 2;
+                source_index += source_side;
+                ASM_KEEP_NV(source_index);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                source_offset = source_index * 2;
+                far_vertex = (u16 *)(vertex_base + 0x80);
+                near_vertex = (u16 *)(vertex_base + 0x74);
+copy_coord:
+                coord_offset = coord * 2;
+                coord_lookup = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60);
+                coord_lookup += (s32)coord_table;
+                coord_lookup = (u8 *)((s32)sample_offset + (s32)coord_lookup);
+                coord_lookup = (u8 *)((s32)source_offset + (s32)coord_lookup);
+                coord_lookup = (u8 *)((s32)coord_offset + (s32)coord_lookup);
+                *near_vertex = ((S_80168C88_13 *)coord_lookup)->unk_00;
+                coord += 1;
+                near_vertex += 1;
+                coord_lookup = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60);
+                coord_lookup += (s32)coord_table;
+                coord_lookup = (u8 *)((s32)sample_offset + (s32)coord_lookup);
+                coord_lookup += 0xC;
+                coord_lookup = (u8 *)((s32)source_offset + (s32)coord_lookup);
+                far_coord = (u8 *)((s32)coord_offset + (s32)coord_lookup);
+                ASM_KEEP_NV(far_coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                *far_vertex = ((S_80168C88_14 *)far_coord)->unk_00;
+                far_vertex += 1;
+                if (coord < 3) {
+                    goto copy_coord;
                 }
-                var_t2_2 += 1;
-                var_t0_3 += 6;
-            } while (var_t2_2 < 2);
+                side += 1;
+                vertex_base += 6;
+            } while (side < 2);
         }
-        var_s3 += 1;
-        var_s4 += 0xC;
-    } while (var_s3 < 7);
+        segment += 1;
+        segment_offset += 0xC;
+    } while (segment < 7);
 
-    temp_v0_3 = ((S_80168C88_0 *)arg0)->unk_18.u - 1;
-    ((S_80168C88_0 *)arg0)->unk_18.s = temp_v0_3;
-    if ((temp_v0_3 << 0x10) <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    ticks_left = ((S_80168C88_0 *)effect)->unk_18.u - 1;
+    ((S_80168C88_0 *)effect)->unk_18.s = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

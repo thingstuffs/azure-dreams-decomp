@@ -4,51 +4,47 @@ extern s16 D_80083780[];
 extern u8 D_800C75D0[];
 extern s8 D_800E3D20[];
 
-s32 func_800C77D0(s32 arg0, void *arg1, s32 arg2, s16 arg3) {
-    s32 d;
-    s32 rhs;
-    s32 result;
-    void *old;
+/* Selects a nearby target, initializes its state slot, and returns change flags. */
+s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value) {
+    s32 distance;
+    s32 target_coord;
+    s32 change_flags;
+    void *previous_target;
     u8 *state;
     u8 *slot;
-    s32 arg2keep;
+    s32 new_target_id;
 
-    d = D_80083780[1];
-    rhs = *(s16 *)((u8 *)arg1 + 2);
-    d -= rhs;
-    if (d < 0) d = -d;
-    if (d >= 0xC1) {
+    distance = D_80083780[1];
+    target_coord = *(s16 *)((u8 *)target + 2);
+    distance -= target_coord;
+    if (distance < 0) distance = -distance;
+    if (distance >= 0xC1) {
         return 0;
     }
-    arg2keep = arg2;
-    ASM_KEEP(arg2keep);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    d = D_80083780[3];
-    rhs = *(s16 *)((u8 *)arg1 + 6);
-    d -= rhs;
-    if (d < 0) d = -d;
-    if (d >= 0xC1) {
+    new_target_id = target_id;
+    ASM_KEEP(new_target_id);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    distance = D_80083780[3];
+    target_coord = *(s16 *)((u8 *)target + 6);
+    distance -= target_coord;
+    if (distance < 0) distance = -distance;
+    if (distance >= 0xC1) {
         return 0;
     }
 
     state = (u8 *)&D_80083178;
     slot = state + 0xB8;
-    old = *(void **)(slot + 0xC);
-    *(s32 *)(slot + 0x34) = arg0;
-    *(void **)(slot + 0xC) = arg1;
+    previous_target = *(void **)(slot + 0xC);
+    *(s32 *)(slot + 0x34) = slot_id;
+    *(void **)(slot + 0xC) = target;
     *(s32 *)(slot + 0x28) = 0;
     *(void **)slot = slot + 4;
-    result = old != arg1;
-    if (*(s32 *)(slot + 0x14) != 9) result |= 2;
+    change_flags = previous_target != target;
+    if (*(s32 *)(slot + 0x14) != 9) change_flags |= 2;
     *(s32 *)(slot + 0x14) = 9;
     *(s32 *)(slot + 0x18) = 0;
-    *(s16 *)(slot + 0x26) = arg3;
+    *(s16 *)(slot + 0x26) = slot_value;
     *(void **)(state + 0xB4) = D_800C75D0;
-    if (result & 1) D_800E3D20[0] = arg2keep;
-    *(s16 *)(slot + 0x24) = arg2;
-    return result;
+    if (change_flags & 1) D_800E3D20[0] = new_target_id;
+    *(s16 *)(slot + 0x24) = target_id;
+    return change_flags;
 }
-
-/* MECHANISM: A guarded $v0 distance accumulator plus separate rhs halfword gives
-   the retail load/subtract roles; the post-merge keeps preserve its abs CFG.
-   The late $t2 arg copy fills the threshold delay, while void-call/return-zero
-   exposes the frameless SHAPE-C dispatcher tail and its zero return delay. */

@@ -17,39 +17,40 @@ typedef struct ValueLink {
 extern s32 * volatile D_80129728[28];
 
 
-void func_801237E8(Rec_func_801237A4_arg0 *arg0) {
-    s32 * volatile *var_base;
-    s32 * volatile *var_a1;
-    s32 * volatile *var_a2;
-    s32 *temp_v1;
-    s32 temp_a0;
-    s32 var_a3;
-    u16 temp_a1;
+/* Swap paired slot values and linked halfwords, toggle the state flag, and update. */
+void func_801237E8(Rec_func_801237A4_arg0 *state) {
+    s32 * volatile *slots;
+    s32 * volatile *right_slot;
+    s32 * volatile *left_slot;
+    s32 *left_word;
+    s32 saved_word;
+    s32 slot_index;
+    u16 saved_half;
     ValueLink *right;
     ValueLink *left;
     HalfValue *right_value;
     HalfValue *left_value;
 
-    var_a3 = 2;
-    var_base = D_80129728;
-    var_a1 = var_base + 0x10;
-    var_a2 = var_base + 2;
+    slot_index = 2;
+    slots = D_80129728;
+    right_slot = slots + 0x10;
+    left_slot = slots + 2;
     do {
-        temp_v1 = *var_a2;
-        var_a2 += 1;
-        temp_a0 = *temp_v1;
-        var_a3 += 1;
-        *temp_v1 = **var_a1;
-        **var_a1 = temp_a0;
-        var_a1 += 1;
-    } while (var_a3 < 0xE);
+        left_word = *left_slot;
+        left_slot += 1;
+        saved_word = *left_word;
+        slot_index += 1;
+        *left_word = **right_slot;
+        **right_slot = saved_word;
+        right_slot += 1;
+    } while (slot_index < 0xE);
     right = (ValueLink *) D_80129728[22];
     left = (ValueLink *) D_80129728[8];
     right_value = right->next;
     left_value = left->next;
-    temp_a1 = left_value->value;
+    saved_half = left_value->value;
     left_value->value = right_value->value;
-    ((ValueLink *) D_80129728[22])->next->value = temp_a1;
-    arg0->unk_16 = (s8) (arg0->unk_16 ^ 1);
-    func_801237A4(arg0, temp_a1, var_a2, var_a3);
+    ((ValueLink *) D_80129728[22])->next->value = saved_half;
+    state->unk_16 = (s8) (state->unk_16 ^ 1);
+    func_801237A4(state, saved_half, left_slot, slot_index);
 }

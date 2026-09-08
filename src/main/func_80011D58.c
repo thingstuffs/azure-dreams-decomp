@@ -30,7 +30,8 @@ extern void func_80024D18(void *arg0, s32 arg1);
 extern u8 D_80027DD0[];
 extern u8 D_8002A990[];
 
-void *func_80024D58(s32 arg0, s32 arg1, s32 arg2)
+/* Create or reset the shared object and initialize its work area. */
+void *func_80024D58(s32 parent, s32 context, s32 mode)
 {
     u8 *base;
     u8 *work;
@@ -46,12 +47,12 @@ void *func_80024D58(s32 arg0, s32 arg1, s32 arg2)
         bzero(work, 0xE30);
     }
 
-    ((S_80024D58_1 *)work)->unk_7C = arg1;
-    ((S_80024D58_1 *)work)->unk_80 = arg2;
+    ((S_80024D58_1 *)work)->unk_7C = context;
+    ((S_80024D58_1 *)work)->unk_80 = mode;
     func_80024C70(work, 0x15);
     ((S_80024D58_0 *)base)->unk_0C = work + 0xB2C;
     ((S_80024D58_1 *)work)->unk_B38 = func_80024C48(work + 0xB3C);
-    func_80024D18(work, arg0);
+    func_80024D18(work, parent);
     ((S_80024D58_0 *)base)->unk_10 = 0;
     return base;
 }

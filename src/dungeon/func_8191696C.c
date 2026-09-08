@@ -23,30 +23,31 @@ extern void D_80024024(void);
 extern volatile s8 D_800E3D20[];
 
 
-s32 func_8002416C(s32 unused, s32 arg1, s32 arg2, s16 arg3) {
+/* Initializes a dispatch request and reports changes to its identifier and prior mode. */
+s32 func_8002416C(s32 unused, s32 request_id, s32 request_value, s16 request_param) {
     struct S_80083178 *state = &D_80083178;
-    S_8191696C_state *p = (S_8191696C_state *)&state->field_B8;
-    void *next = (void *)((u8 *)&state->field_B8 + 4);
-    register s32 saved_arg2 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 temp_v1;
-    s32 var_a1;
+    S_8191696C_state *dispatch = (S_8191696C_state *)&state->field_B8;
+    void *payload_start = (void *)((u8 *)&state->field_B8 + 4);
+    register s32 saved_value ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 prev_request_id;
+    s32 change_flags;
 
-    temp_v1 = p->unkC4;
-    p->unkC4 = arg1;
-    p->unkE0 = 0;
-    p->field_B8 = next;
-    saved_arg2 = arg2;
-    var_a1 = temp_v1 != arg1;
-    if (p->unkCC != 9) {
-        var_a1 |= 2;
+    prev_request_id = dispatch->unkC4;
+    dispatch->unkC4 = request_id;
+    dispatch->unkE0 = 0;
+    dispatch->field_B8 = payload_start;
+    saved_value = request_value;
+    change_flags = prev_request_id != request_id;
+    if (dispatch->unkCC != 9) {
+        change_flags |= 2;
     }
-    p->unkCC = 0xC;
-    p->unkD0 = 0;
-    p->unkDE = arg3;
+    dispatch->unkCC = 0xC;
+    dispatch->unkD0 = 0;
+    dispatch->unkDE = request_param;
     state->callback = D_80024024;
-    if (var_a1 & 1) {
-        D_800E3D20[0] = saved_arg2;
+    if (change_flags & 1) {
+        D_800E3D20[0] = saved_value;
     }
-    p->unkDC = arg2;
-    return var_a1;
+    dispatch->unkDC = request_value;
+    return change_flags;
 }

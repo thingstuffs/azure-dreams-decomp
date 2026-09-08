@@ -14,56 +14,53 @@ extern u8 D_80018B94[16];
 extern u8 D_8001B333[];
 extern u8 D_8001B3D2[];
 
-s32 func_80016B9C(s32 arg0, s32 unused, s32 arg2)
+/* Selects a response and advances the four-state counter for event 11. */
+s32 func_80016B9C(s32 context, s32 unused, s32 event_id)
 {
-    register s32 held_arg0 ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register void *base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u32 secondary_page;
+    register s32 saved_context ASM_REG("$19") = context;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *data_base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u32 data_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 table_page;
     s32 result;
-    s32 index;
+    s32 state_index;
 
-    if (arg2 == 1) {
+    if (event_id == 1) {
         return (s32) D_8001B3D2;
     }
 
-    result = func_80016D98(arg2);
+    result = func_80016D98(event_id);
     if (result != 0) {
         return result;
     }
 
-    secondary_page = 0x80020000;
-    ASM_KEEP(secondary_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    page = 0x80020000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    base = (void *) (page - 0x75F4);
-    result = func_80017960(base, (void *) (secondary_page - 0x746C),
-                          held_arg0, arg2);
-    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    index = func_80018868(0x990, 2);
+    table_page = 0x80020000;
+    ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    data_page = 0x80020000;
+    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    data_base = (void *) (data_page - 0x75F4);
+    result = func_80017960(data_base, (void *) (table_page - 0x746C),
+                          saved_context, event_id);
+    ASM_KEEP(saved_context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    state_index = func_80018868(0x990, 2);
 
-    if (arg2 != 0xB) {
+    if (event_id != 0xB) {
         return result;
     }
 
     func_80018594(0x998);
-    if (func_80017904(base, held_arg0, 0xB) == 0) {
+    if (func_80017904(data_base, saved_context, 0xB) == 0) {
         if (func_8001868C(0x997) == 0) {
-            index++;
-            if (index == 4) {
-                index = 0;
+            state_index++;
+            if (state_index == 4) {
+                state_index = 0;
             }
-            func_800188E8(0x990, index, 2);
+            func_800188E8(0x990, state_index, 2);
         }
     }
 
-    if (func_800178A8(&D_80018A0C, held_arg0, arg2) == 0) {
+    if (func_800178A8(&D_80018A0C, saved_context, event_id) == 0) {
         return result;
     }
     return (s32) D_8001B333;
 }
 
-/* MECHANISM: The true-space three-argument ABI and guarded s3/s4 roles restore
-   the 0x28 frame; pinned a1/v0 page halves reproduce the two address sequences.
-   Keeping arg0 after the first call preserves save order without fencing the
-   final CFG backfills; == 0 supplies retail's word-59 beqz polarity. */

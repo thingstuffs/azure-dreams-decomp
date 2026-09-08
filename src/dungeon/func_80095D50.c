@@ -53,32 +53,33 @@ typedef struct Rec
 } Rec;
 extern s32 func_8009A350(s16, s16, s32, u16 *);
 extern s32 func_800A41F0(u8 *);
-void *func_8009B4B0(u8 *arg0, s16 arg1, s16 arg2)
+/* Finds an eligible entry at the requested coordinates after checking the tile to the left. */
+void *func_8009B4B0(u8 *entry, s16 x, s16 y)
 {
-  u16 sp10;
-  u8 *root;
-  u16 key1;
-  u16 key2;
-  key1 = arg1 - 1;
-  root = arg0;
-  if (((func_8009A350((s16) key1, arg2, 0, &sp10) << 0x10) == 0) || ((sp10 & 0x3300) != 0))
+  u16 tile_flags;
+  u8 *list_head;
+  u16 tile_x;
+  u16 tile_y;
+  tile_x = x - 1;
+  list_head = entry;
+  if (((func_8009A350((s16) tile_x, y, 0, &tile_flags) << 0x10) == 0) || ((tile_flags & 0x3300) != 0))
   {
-    arg0 = ((Rec *) arg0)->next + 0x20;
-    if (arg0 != root)
+    entry = ((Rec *) entry)->next + 0x20;
+    if (entry != list_head)
     {
- do { } while (0);
-      key1 = arg1;
-      key2 = arg2;
+      do { } while (0);
+      tile_x = x;
+      tile_y = y;
       do
       {
-        u8 *item = *((u8 **) (arg0 - 0x14));
-        if ((((*((u8 *) (item + 0x24))) == key1) && ((*((u8 *) (item + 0x25))) == key2)) && ((func_800A41F0(arg0) << 0x10) != 0))
+        u8 *entry_data = *((u8 **) (entry - 0x14));
+        if ((((*((u8 *) (entry_data + 0x24))) == tile_x) && ((*((u8 *) (entry_data + 0x25))) == tile_y)) && ((func_800A41F0(entry) << 0x10) != 0))
         {
-          return arg0;
+          return entry;
         }
-        arg0 = ((Rec *) arg0)->next + 0x20;
+        entry = ((Rec *) entry)->next + 0x20;
       }
-      while (arg0 != root);
+      while (entry != list_head);
     }
   }
   return 0;

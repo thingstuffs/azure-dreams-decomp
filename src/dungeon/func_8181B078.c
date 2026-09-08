@@ -34,64 +34,65 @@ extern s32 D_800814A0[3];
 extern void func_8002491C(void) __attribute__((noreturn));
 extern void func_80024920(void) __attribute__((noreturn));
 
-void func_8181B078(void *arg0, S_8181B078_1 *arg1, S_8181B078_2 *arg2)
+/* Advances the object cycle and position, flagging expiry or a flagged source. */
+void func_8181B078(void *object, S_8181B078_1 *position, S_8181B078_2 *source)
 {
     s32 one;
-    register s32 tail_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s16 state;
+    register s32 next_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 phase;
 
     D_80025914 = 1;
-    ((S_8181B078_0 *)arg0)->unk_02.s--;
+    ((S_8181B078_0 *)object)->unk_02.s--;
 
-    if (++((S_8181B078_0 *)arg0)->unk_1C >= 2) {
-        ((S_8181B078_0 *)arg0)->unk_1C = 0;
-        state = ((S_8181B078_0 *)arg0)->unk_1E;
+    if (++((S_8181B078_0 *)object)->unk_1C >= 2) {
+        ((S_8181B078_0 *)object)->unk_1C = 0;
+        phase = ((S_8181B078_0 *)object)->unk_1E;
         one = 1;
 
-        if (state == one) {
+        if (phase == one) {
             goto state_1;
         }
-        if (state >= 2) {
+        if (phase >= 2) {
             goto check_state_2;
         }
-        if (state == 0) {
+        if (phase == 0) {
             goto state_0;
         }
         func_80024920();
 
 check_state_2:
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        if (state == 2) {
+        if (phase == 2) {
             goto state_2;
         }
         func_80024920();
 
 state_0:
-        ((S_8181B078_0 *)arg0)->unk_1E = one;
-        tail_value = ((S_8181B078_0 *)arg0)->unk_28 + 8;
-        ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ((S_8181B078_0 *)object)->unk_1E = one;
+        next_value = ((S_8181B078_0 *)object)->unk_28 + 8;
+        ASM_TAILSLOT_PIN_TIED(next_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8002491C();
 
 state_1:
-        ((S_8181B078_0 *)arg0)->unk_1E = 2;
-        tail_value = ((S_8181B078_0 *)arg0)->unk_28 + 8;
-        ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ((S_8181B078_0 *)object)->unk_1E = 2;
+        next_value = ((S_8181B078_0 *)object)->unk_28 + 8;
+        ASM_TAILSLOT_PIN_TIED(next_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8002491C();
 
 state_2:
-        ((S_8181B078_0 *)arg0)->unk_1E = 0;
-        ((S_8181B078_0 *)arg0)->unk_28 -= 16;
+        ((S_8181B078_0 *)object)->unk_1E = 0;
+        ((S_8181B078_0 *)object)->unk_28 -= 16;
     }
 
-    arg1->unk_08 += ((S_8181B078_0 *)arg0)->unk_60;
+    position->unk_08 += ((S_8181B078_0 *)object)->unk_60;
 
-    if (((S_8181B078_0 *)arg0)->unk_02.u <= 0) {
-        ((S_8181B078_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    if (((S_8181B078_0 *)object)->unk_02.u <= 0) {
+        ((S_8181B078_0_pre *)object)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 
-    if (arg2->unk_14 & 0x8000) {
-        ((S_8181B078_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    if (source->unk_14 & 0x8000) {
+        ((S_8181B078_0_pre *)object)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

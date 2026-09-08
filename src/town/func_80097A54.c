@@ -25,100 +25,101 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_800652AC(Vec3 *, Vec3 *, Vec3 *);
 
+/* Moves the actor perpendicular to the selected direction unless the step changes sides. */
 void func_800951B4(Actor *actor)
 {
-    Vec3 first;
-    volatile Vec3 delta;
-    Vec3 point;
-    Vec3 result;
-    s16 index;
-    s32 status;
-    s32 value;
-    s32 dx;
-    s32 dy;
+    Vec3 direction;
+    volatile Vec3 step;
+    Vec3 position;
+    Vec3 side_result;
+    s16 direction_index;
+    s32 initial_side;
+    s32 fixed_coord;
+    s32 step_x;
+    s32 step_y;
     TownState *town;
-    Vec3 *call_first;
-    Vec3 *call_point;
+    Vec3 *direction_ptr;
+    Vec3 *position_ptr;
     Vec3 *call_result;
 
     town = &D_80083160;
     ASM_KEEP(town);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    index = func_80094BC8(town->field8, town->fieldC8);
-    if (index == -1) {
+    direction_index = func_80094BC8(town->field8, town->fieldC8);
+    if (direction_index == -1) {
         return;
     }
 
-    first.x = func_800644B8(index);
-    first.y = func_80064584(index);
-    first.z = 0;
+    direction.x = func_800644B8(direction_index);
+    direction.y = func_80064584(direction_index);
+    direction.z = 0;
 
-    value = actor->x;
-    if (value < 0) {
-        value += 0xFFF;
+    fixed_coord = actor->x;
+    if (fixed_coord < 0) {
+        fixed_coord += 0xFFF;
     }
-    point.x = value >> 12;
+    position.x = fixed_coord >> 12;
 
-    call_first = &first;
-    value = actor->y;
-    if (value < 0) {
-        value += 0xFFF;
+    direction_ptr = &direction;
+    fixed_coord = actor->y;
+    if (fixed_coord < 0) {
+        fixed_coord += 0xFFF;
     }
-    call_point = &point;
-    call_result = &result;
+    position_ptr = &position;
+    call_result = &side_result;
     ASM_KEEP(call_result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    point.y = value >> 12;
-    point.z = 0;
+    position.y = fixed_coord >> 12;
+    position.z = 0;
 
-    func_800652AC(call_first, call_point, call_result);
-    status = result.z;
+    func_800652AC(direction_ptr, position_ptr, call_result);
+    initial_side = side_result.z;
 
-    if (status >= 0) {
-        s32 x;
-        s32 y;
+    if (initial_side >= 0) {
+        s32 dir_x;
+        s32 dir_y;
 
-        y = first.y;
-        x = first.x;
-        dx = y << 5;
-        dy = -x;
+        dir_y = direction.y;
+        dir_x = direction.x;
+        step_x = dir_y << 5;
+        step_y = -dir_x;
     } else {
-        s32 x;
-        s32 y;
+        s32 dir_x;
+        s32 dir_y;
 
-        y = first.y;
-        x = first.x;
-        dx = (-y) << 5;
-        dy = x;
+        dir_y = direction.y;
+        dir_x = direction.x;
+        step_x = (-dir_y) << 5;
+        step_y = dir_x;
     }
-    dy <<= 5;
-    delta.x = dx;
-    delta.y = dy;
+    step_y <<= 5;
+    step.x = step_x;
+    step.y = step_y;
 
-    value = actor->x + delta.x;
-    if (value < 0) {
-        value += 0xFFF;
+    fixed_coord = actor->x + step.x;
+    if (fixed_coord < 0) {
+        fixed_coord += 0xFFF;
     }
-    point.x = value >> 12;
+    position.x = fixed_coord >> 12;
 
-    call_first = &first;
-    value = actor->y + delta.y;
-    if (value < 0) {
-        value += 0xFFF;
+    direction_ptr = &direction;
+    fixed_coord = actor->y + step.y;
+    if (fixed_coord < 0) {
+        fixed_coord += 0xFFF;
     }
-    call_point = &point;
-    call_result = &result;
+    position_ptr = &position;
+    call_result = &side_result;
     ASM_KEEP(call_result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    point.y = value >> 12;
-    point.z = 0;
+    position.y = fixed_coord >> 12;
+    position.z = 0;
 
-    func_800652AC(call_first, call_point, call_result);
-    if (status >= 0) {
-        if (result.z < 0) {
+    func_800652AC(direction_ptr, position_ptr, call_result);
+    if (initial_side >= 0) {
+        if (side_result.z < 0) {
             return;
         }
-    } else if (result.z >= 0) {
+    } else if (side_result.z >= 0) {
         return;
     }
 
-    actor->x += delta.x;
-    actor->y += delta.y;
+    actor->x += step.x;
+    actor->y += step.y;
 }

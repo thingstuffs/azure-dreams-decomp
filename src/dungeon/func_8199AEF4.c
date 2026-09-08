@@ -32,13 +32,14 @@ extern char D_80024A8C[];
 extern char D_80083498[];
 extern Source *D_800814A8[];
 
-void func_8199AEF4(s32 arg0, s32 arg1)
+/* Allocate a node and initialize its child with supplied values and shared source data. */
+void func_8199AEF4(s32 node_value, s32 child_value)
 {
     Node *node;
     Child *child;
     Source *source;
     void *callback;
-    u16 value;
+    u16 source_value;
 
     node = func_8003FD64(0x10, D_80083498);
     if (node != NULL) {
@@ -47,11 +48,11 @@ void func_8199AEF4(s32 arg0, s32 arg1)
         callback = D_80024A8C;
         source = D_800814A8[0];
         child->field10 = callback;
-        node->field20 = arg0;
+        node->field20 = node_value;
         child->field04 = D_80083498;
-        value = source->field88;
-        child->field0C = arg1;
+        source_value = source->field88;
+        child->field0C = child_value;
         child->field08 = node;
-        child->field38 = value;
+        child->field38 = source_value;
     }
 }

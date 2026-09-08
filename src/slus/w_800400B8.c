@@ -38,13 +38,14 @@ extern void func_800AC4C4(void);
 extern void func_800402F4(void);
 extern void func_80044B48(void);
 
+/* Runs state updates and clears the pending update flags. */
 void func_800400B8(void)
 {
-  S_800400B8_D80083160 *s0 = &D_80083160;
-  s32 flag;
-  if ((D_80080A86.val == 0) && (s0->field_1DC != 0))
+  S_800400B8_D80083160 *state = &D_80083160;
+  s32 mode;
+  if ((D_80080A86.val == 0) && (state->field_1DC != 0))
   {
-    func_80046884(s0->field_18, s0->field_20, 0);
+    func_80046884(state->field_18, state->field_20, 0);
     func_8003BFE4();
   }
   func_80040190();
@@ -53,13 +54,13 @@ void func_800400B8(void)
     func_800401FC();
   }
   __asm__ __volatile__("");
-  flag = D_80080A86.val;
+  mode = D_80080A86.val;
   D_800814A0_store = 0;
-  if (flag == 0)
+  if (mode == 0)
   {
     func_8004027C();
     func_8004D70C();
-    if (s0->field_1DC != 0)
+    if (state->field_1DC != 0)
     {
       func_800AC3EC();
       func_800AC4C4();

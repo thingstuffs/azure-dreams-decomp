@@ -7,27 +7,28 @@ extern s32 D_80019104;
 extern s32 D_800197D0;
 extern s32 D_80019397;
 
-void *func_80016118(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    void *s1;
-    s32 s0;
-    void *s3;
+/* Looks up an entry and substitutes special results for codes 0x2D and 0x2F. */
+void *func_80016118(void *input, s32 unused_1, s32 input_code, s32 unused_3) {
+    void *lookup_input;
+    s32 code;
+    void *result;
 
-    s1 = arg0;
-    s0 = arg2;
+    lookup_input = input;
+    code = input_code;
     {
-        void *s2 = &D_80018968;
+        void *lookup_data = &D_80018968;
 
-        s3 = func_80017B0C(s2, &D_80019104, s1, s0);
-        if (s0 == 0x2D) {
-            if (func_80017A54(s2, s1, 0x2D) != 0) {
+        result = func_80017B0C(lookup_data, &D_80019104, lookup_input, code);
+        if (code == 0x2D) {
+            if (func_80017A54(lookup_data, lookup_input, 0x2D) != 0) {
                 return &D_800197D0;
             }
         }
     }
-    if (s0 == 0x2F) {
-        if (func_80017A54(&D_80018968, s1, 0x2F) != 0) {
+    if (code == 0x2F) {
+        if (func_80017A54(&D_80018968, lookup_input, 0x2F) != 0) {
             return &D_80019397;
         }
     }
-    return s3;
+    return result;
 }

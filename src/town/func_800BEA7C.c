@@ -35,27 +35,28 @@ extern void *func_8003FC64(u32);
 extern void func_8004491C(void *, void *);
 extern void func_80044BB0(void);
 
-void func_800BC1DC(Input *arg0, s32 arg1, s32 arg2)
+/* Create an object at the supplied position and initialize its callback and display data. */
+void func_800BC1DC(Input *position, s32 object_value, s32 data_value)
 {
-    Object *obj;
-    register u8 *ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 color;
+    Object *object;
+    register u8 *field_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 neutral_color;
 
-    obj = func_8003FC64(0x136);
-    if (obj != 0) {
-        obj->field_0x10 = arg1;
-        obj->vec->field_0x02 = arg0->field_0x00;
-        obj->vec->field_0x06 = arg0->field_0x02;
-        func_8004491C(obj, (void *)func_80044BB0);
-        color = 0x808080;
-        ptr = (u8 *)obj + 0x20;
-        ASM_KEEP(ptr);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        *(s16 *)(ptr + 2) = 0x1E;
-        ptr = (u8 *)obj->data;
-        *(s16 *)(ptr + 0x1E) = 0x1000;
-        *(s16 *)(ptr + 0x1C) = 0x1000;
-        *(s32 *)(ptr + 8) = arg2;
-        *(s32 *)(ptr + 0xC) = color;
-        *(s16 *)(ptr + 0x10) = 0x60;
+    object = func_8003FC64(0x136);
+    if (object != 0) {
+        object->field_0x10 = object_value;
+        object->vec->field_0x02 = position->field_0x00;
+        object->vec->field_0x06 = position->field_0x02;
+        func_8004491C(object, (void *)func_80044BB0);
+        neutral_color = 0x808080;
+        field_base = (u8 *)object + 0x20;
+        ASM_KEEP(field_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        *(s16 *)(field_base + 2) = 0x1E;
+        field_base = (u8 *)object->data;
+        *(s16 *)(field_base + 0x1E) = 0x1000;
+        *(s16 *)(field_base + 0x1C) = 0x1000;
+        *(s32 *)(field_base + 8) = data_value;
+        *(s32 *)(field_base + 0xC) = neutral_color;
+        *(s16 *)(field_base + 0x10) = 0x60;
     }
 }

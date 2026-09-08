@@ -28,7 +28,8 @@ extern void PopMatrix(void);
 extern void TransposeMatrix(MATRIX *m0, MATRIX *m1);
 extern void ApplyMatrixSV(MATRIX *m, SVECTOR *v0, SVECTOR *v1);
 
-void func_80046A5C(USVECTOR *arg0, SVECTOR *arg1) {
+/* Transform a position into local coordinates using the current matrix. */
+void func_80046A5C(USVECTOR *position, SVECTOR *local_position) {
     MATRIX current;
     MATRIX transposed;
     SVECTOR delta;
@@ -36,11 +37,11 @@ void func_80046A5C(USVECTOR *arg0, SVECTOR *arg1) {
     ReadRotMatrix(&current);
     PushMatrix();
 
-    delta.vx = arg0->vx - current.t[0][0];
-    delta.vy = arg0->vy - current.t[1][0];
-    delta.vz = arg0->vz - current.t[2][0];
+    delta.vx = position->vx - current.t[0][0];
+    delta.vy = position->vy - current.t[1][0];
+    delta.vz = position->vz - current.t[2][0];
 
     TransposeMatrix(&current, &transposed);
-    ApplyMatrixSV(&transposed, &delta, arg1);
+    ApplyMatrixSV(&transposed, &delta, local_position);
     PopMatrix();
 }

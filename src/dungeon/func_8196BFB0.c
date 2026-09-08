@@ -48,84 +48,85 @@ extern s16 D_800269B4;
 extern s32 D_800814A0;
 extern u8 D_80083780[];
 
-void func_8196BFB0(void *arg0, void *arg1, void *arg2)
+/* Updates and renders a shrinking object with collision and lifetime checks. */
+void func_8196BFB0(void *object, void *position, void *render_state)
 {
     s32 height;
-    s16 x;
-    s16 z;
+    s16 scale_x;
+    s16 scale_y;
     s32 collide_x;
     s32 collide_y;
     s32 collide_z;
     u8 *camera;
 
-    ((S_8196BFB0_0 *)arg1)->unk_00.at00.v += ((S_8196BFB0_1 *)arg0)->unk_8C;
-    ((S_8196BFB0_1 *)arg0)->unk_8C += ((S_8196BFB0_1 *)arg0)->unk_98;
-    collide_x = ((S_8196BFB0_0 *)arg1)->unk_00.at02.v;
-    collide_y = ((S_8196BFB0_0 *)arg1)->unk_04.at02.v;
-    collide_z = ((S_8196BFB0_0 *)arg1)->unk_08.at02.v;
+    ((S_8196BFB0_0 *)position)->unk_00.at00.v += ((S_8196BFB0_1 *)object)->unk_8C;
+    ((S_8196BFB0_1 *)object)->unk_8C += ((S_8196BFB0_1 *)object)->unk_98;
+    collide_x = ((S_8196BFB0_0 *)position)->unk_00.at02.v;
+    collide_y = ((S_8196BFB0_0 *)position)->unk_04.at02.v;
+    collide_z = ((S_8196BFB0_0 *)position)->unk_08.at02.v;
     D_800269B4 = 1;
     if ((s16)func_800A45D8(collide_x, collide_y, collide_z) != 0) {
-        ((S_8196BFB0_0 *)arg1)->unk_00.at00.v -= ((S_8196BFB0_1 *)arg0)->unk_8C;
-        ((S_8196BFB0_1 *)arg0)->unk_8C = 0;
-        ((S_8196BFB0_1 *)arg0)->unk_98 = 0;
+        ((S_8196BFB0_0 *)position)->unk_00.at00.v -= ((S_8196BFB0_1 *)object)->unk_8C;
+        ((S_8196BFB0_1 *)object)->unk_8C = 0;
+        ((S_8196BFB0_1 *)object)->unk_98 = 0;
     }
 
-    ((S_8196BFB0_0 *)arg1)->unk_04.at00.v += ((S_8196BFB0_1 *)arg0)->unk_90;
-    ((S_8196BFB0_1 *)arg0)->unk_90 += ((S_8196BFB0_1 *)arg0)->unk_9C;
-    if ((s16)func_800A45D8(((S_8196BFB0_0 *)arg1)->unk_00.at02.v,
-                           ((S_8196BFB0_0 *)arg1)->unk_04.at02.v,
-                           ((S_8196BFB0_0 *)arg1)->unk_08.at02.v) != 0) {
-        ((S_8196BFB0_0 *)arg1)->unk_04.at00.v -= ((S_8196BFB0_1 *)arg0)->unk_90;
-        ((S_8196BFB0_1 *)arg0)->unk_90 = 0;
-        ((S_8196BFB0_1 *)arg0)->unk_9C = 0;
+    ((S_8196BFB0_0 *)position)->unk_04.at00.v += ((S_8196BFB0_1 *)object)->unk_90;
+    ((S_8196BFB0_1 *)object)->unk_90 += ((S_8196BFB0_1 *)object)->unk_9C;
+    if ((s16)func_800A45D8(((S_8196BFB0_0 *)position)->unk_00.at02.v,
+                           ((S_8196BFB0_0 *)position)->unk_04.at02.v,
+                           ((S_8196BFB0_0 *)position)->unk_08.at02.v) != 0) {
+        ((S_8196BFB0_0 *)position)->unk_04.at00.v -= ((S_8196BFB0_1 *)object)->unk_90;
+        ((S_8196BFB0_1 *)object)->unk_90 = 0;
+        ((S_8196BFB0_1 *)object)->unk_9C = 0;
     }
 
-    ((S_8196BFB0_0 *)arg1)->unk_08.at00.v += ((S_8196BFB0_1 *)arg0)->unk_94;
-    ((S_8196BFB0_1 *)arg0)->unk_94 += ((S_8196BFB0_1 *)arg0)->unk_A0;
+    ((S_8196BFB0_0 *)position)->unk_08.at00.v += ((S_8196BFB0_1 *)object)->unk_94;
+    ((S_8196BFB0_1 *)object)->unk_94 += ((S_8196BFB0_1 *)object)->unk_A0;
 
-    height = ((S_8196BFB0_0 *)arg1)->unk_08.at02.v;
-    if ((s16)func_800BCB04(((S_8196BFB0_0 *)arg1)->unk_00.at02.v,
-                           ((S_8196BFB0_0 *)arg1)->unk_04.at02.v,
-                           (s16)(((S_8196BFB0_0 *)arg1)->unk_08.at02u.v - 4)) - 0x10 < height) {
-        ((S_8196BFB0_1 *)arg0)->unk_94 = 0;
-        ((S_8196BFB0_1 *)arg0)->unk_90 = 0;
-        ((S_8196BFB0_1 *)arg0)->unk_8C = 0;
-        ((S_8196BFB0_0 *)arg1)->unk_08.at02.v =
-            func_800BCB04(((S_8196BFB0_0 *)arg1)->unk_00.at02.v,
-                          ((S_8196BFB0_0 *)arg1)->unk_04.at02.v,
-                          (s16)(((S_8196BFB0_0 *)arg1)->unk_08.at02p.v - 4)) - 0x11;
-        ((S_8196BFB0_0 *)arg1)->unk_08.at00u.v = 0;
-        ((S_8196BFB0_1 *)arg0)->unk_2C = 0;
+    height = ((S_8196BFB0_0 *)position)->unk_08.at02.v;
+    if ((s16)func_800BCB04(((S_8196BFB0_0 *)position)->unk_00.at02.v,
+                           ((S_8196BFB0_0 *)position)->unk_04.at02.v,
+                           (s16)(((S_8196BFB0_0 *)position)->unk_08.at02u.v - 4)) - 0x10 < height) {
+        ((S_8196BFB0_1 *)object)->unk_94 = 0;
+        ((S_8196BFB0_1 *)object)->unk_90 = 0;
+        ((S_8196BFB0_1 *)object)->unk_8C = 0;
+        ((S_8196BFB0_0 *)position)->unk_08.at02.v =
+            func_800BCB04(((S_8196BFB0_0 *)position)->unk_00.at02.v,
+                          ((S_8196BFB0_0 *)position)->unk_04.at02.v,
+                          (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - 4)) - 0x11;
+        ((S_8196BFB0_0 *)position)->unk_08.at00u.v = 0;
+        ((S_8196BFB0_1 *)object)->unk_2C = 0;
     }
 
-    if (((S_8196BFB0_1 *)arg0)->unk_50++ >= 3) {
-        x = ((S_8196BFB0_2 *)arg2)->unk_1C.u;
-        z = ((S_8196BFB0_2 *)arg2)->unk_1E.u;
-        x = x - 0x100;
-        if (x < 0) {
-            x = 0;
+    if (((S_8196BFB0_1 *)object)->unk_50++ >= 3) {
+        scale_x = ((S_8196BFB0_2 *)render_state)->unk_1C.u;
+        scale_y = ((S_8196BFB0_2 *)render_state)->unk_1E.u;
+        scale_x = scale_x - 0x100;
+        if (scale_x < 0) {
+            scale_x = 0;
         }
-        z = z - 0x100;
-        if (z < 0) {
-            z = 0;
+        scale_y = scale_y - 0x100;
+        if (scale_y < 0) {
+            scale_y = 0;
         }
-        ((S_8196BFB0_2 *)arg2)->unk_1C.s = x;
-        ((S_8196BFB0_2 *)arg2)->unk_1E.s = z;
+        ((S_8196BFB0_2 *)render_state)->unk_1C.s = scale_x;
+        ((S_8196BFB0_2 *)render_state)->unk_1E.s = scale_y;
     }
 
     camera = D_80083780;
-    func_80024AF8(arg0, arg1, arg2,
-                  (s16)(((S_8196BFB0_0 *)arg1)->unk_00.at02.v - ((S_8196BFB0_3 *)camera)->unk_02),
-                  (s16)(((S_8196BFB0_0 *)arg1)->unk_04.at02.v - ((S_8196BFB0_3 *)camera)->unk_06),
-                  (s16)(((S_8196BFB0_0 *)arg1)->unk_08.at02p.v - ((S_8196BFB0_3 *)camera)->unk_0A));
+    func_80024AF8(object, position, render_state,
+                  (s16)(((S_8196BFB0_0 *)position)->unk_00.at02.v - ((S_8196BFB0_3 *)camera)->unk_02),
+                  (s16)(((S_8196BFB0_0 *)position)->unk_04.at02.v - ((S_8196BFB0_3 *)camera)->unk_06),
+                  (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - ((S_8196BFB0_3 *)camera)->unk_0A));
 
-    if (--((S_8196BFB0_1 *)arg0)->unk_2C <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    if (--((S_8196BFB0_1 *)object)->unk_2C <= 0) {
+        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 
-    if (((S_8196BFB0_2 *)arg2)->unk_14 & 0x8000) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    if (((S_8196BFB0_2 *)render_state)->unk_14 & 0x8000) {
+        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

@@ -48,32 +48,33 @@ extern u8 D_80028238[12];
 extern u8 D_80028250[12];
 extern u8 D_80045340[12];
 
-void func_8195A35C(Object *arg0, s16 arg1) {
-    Pair pair;
-    Object *obj;
+/* Creates an object at its owner's position and initializes its sprite and angle. */
+void func_8195A35C(Object *owner, s16 angle) {
+    Pair rect;
+    Object *spawned;
     Node *node;
     ObjectTail *tail;
 
-    obj = func_8003FD64(0x212, arg0);
-    if (obj != 0) {
-        obj->field10 = D_80025AC4;
-        func_8004491C(obj, D_80045340);
-        obj->sprite->x = arg0->sprite->x;
-        obj->sprite->y = arg0->sprite->y;
-        obj->sprite->z = arg0->sprite->z;
-        node = obj->node;
+    spawned = func_8003FD64(0x212, owner);
+    if (spawned != 0) {
+        spawned->field10 = D_80025AC4;
+        func_8004491C(spawned, D_80045340);
+        spawned->sprite->x = owner->sprite->x;
+        spawned->sprite->y = owner->sprite->y;
+        spawned->sprite->z = owner->sprite->z;
+        node = spawned->node;
         node->field8 = D_800281FC;
         node->field1E = 0x2800;
         node->field1C = 0x2800;
         node->field6 = 8;
-        node->field1A = arg1 + 0x400;
-        tail = (ObjectTail *)((u8 *)obj + 0x20);
+        node->field1A = angle + 0x400;
+        tail = (ObjectTail *)((u8 *)spawned + 0x20);
         node->fieldC = 0x808080;
-        tail->owner = arg0;
-        tail->angle = arg1;
-        pair.first = 0x01400340;
-        pair.second = 0x200020;
-        func_800B835C(D_80028238, &pair, 0, 0);
-        func_800B835C(D_80028250, &pair, 1, 0);
+        tail->owner = owner;
+        tail->angle = angle;
+        rect.first = 0x01400340;
+        rect.second = 0x200020;
+        func_800B835C(D_80028238, &rect, 0, 0);
+        func_800B835C(D_80028250, &rect, 1, 0);
     }
 }

@@ -14,16 +14,15 @@ typedef struct S_8005C668 {
 extern s32 D_80073740[];
 extern void func_8005F134(void *a0);
 
-/* Builds a partially-filled request struct (flags=D_80073740[a0], type=3,
- * two raw s16 params) and forwards it to func_8005F134; always returns 0. */
-s32 func_8005C668(s16 a0, s16 a1, s16 a2)
+/* Sends a type-3 request with indexed flags and two s16 parameters, then returns zero. */
+s32 func_8005C668(s16 flags_index, s16 param_1, s16 param_2)
 {
-    S_8005C668 sp10;
+    S_8005C668 request;
 
-    sp10.unk4 = 3;
-    sp10.unk0 = *(&D_80073740[a0]);
-    sp10.unk8 = a1;
-    sp10.unkA = a2;
-    func_8005F134(&sp10);
+    request.unk4 = 3;
+    request.unk0 = *(&D_80073740[flags_index]);
+    request.unk8 = param_1;
+    request.unkA = param_2;
+    func_8005F134(&request);
     return 0;
 }

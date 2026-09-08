@@ -51,24 +51,25 @@ extern M2C_UNK func_800B8024();
 extern Counter D_80083460;
 extern M2C_UNK D_800B7774;
 
-void *func_800B7B60(void *arg0, s32 *arg1) {
-    u16 temp_a2;
-    S_800B7B60_3 *temp_a1;
-    S_800B7B60_0 *temp_v0;
-    S_800B7B60_2 *temp_v1;
+/* Allocates an object, copies the source coordinates, and increments the object counter. */
+void *func_800B7B60(void *source, s32 *init_value) {
+    u16 coord_z;
+    S_800B7B60_3 *src_coords;
+    S_800B7B60_0 *object;
+    S_800B7B60_2 *dst_coords;
 
-    temp_v0 = func_8003FC64(0x12);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_800B7774;
-        temp_v0->unk_20 = *arg1;
-        temp_a1 = ((S_800B7B60_1_pre *)arg0)[-1].unk_00;
-        temp_v1 = temp_v0->unk_08;
-        temp_v1->unk_02 = temp_a1->unk_02;
-        temp_v1->unk_06 = temp_a1->unk_06;
-        temp_a2 = temp_a1->unk_0A;
-        temp_v1->unk_0A = temp_a2;
-        func_800B8024((s16) temp_v1->unk_02, (s16) temp_v1->unk_06, (s16) temp_a2);
+    object = func_8003FC64(0x12);
+    if (object != NULL) {
+        object->unk_10 = &D_800B7774;
+        object->unk_20 = *init_value;
+        src_coords = ((S_800B7B60_1_pre *)source)[-1].unk_00;
+        dst_coords = object->unk_08;
+        dst_coords->unk_02 = src_coords->unk_02;
+        dst_coords->unk_06 = src_coords->unk_06;
+        coord_z = src_coords->unk_0A;
+        dst_coords->unk_0A = coord_z;
+        func_800B8024((s16) dst_coords->unk_02, (s16) dst_coords->unk_06, (s16) coord_z);
         D_80083460.value++;
     }
-    return temp_v0;
+    return object;
 }

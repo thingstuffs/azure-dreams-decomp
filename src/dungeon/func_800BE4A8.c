@@ -23,36 +23,34 @@ typedef struct S_800C3C08_1 {
     u16 unk_0A;
 } S_800C3C08_1;   /* global_base in func_800C3C08 */
 
-s32 func_800C3C08(void *arg0, s32 arg1, s16 arg2) {
-    u8 *global_base;
-    u8 temp_v1;
+/* Process an entity event, increment its counter, and finish the event with a visual effect. */
+s32 func_800C3C08(void *entity, s32 event, s16 event_type) {
+    u8 *counter_base;
+    u8 entity_count;
 
-    if (arg0 == D_800E3D7C[0]) {
-        ((Rec_D_800E3D7C *)arg0)->unk_110 = arg1;
-        func_8008D330(arg0, D_80083780, D_80082E80, arg0);
+    if (entity == D_800E3D7C[0]) {
+        ((Rec_D_800E3D7C *)entity)->unk_110 = event;
+        func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;
     }
-    if ((u32) arg0 <= 0x9FFFFFFFU) {
-        func_800A63B8(arg0, arg1, arg2);
-        if (func_800AD6FC(arg0, (D_800DDE84[((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v] >> 6) & 3, 0) == 0) {
-            func_800A5F38(arg0, arg1);
+    if ((u32) entity <= 0x9FFFFFFFU) {
+        func_800A63B8(entity, event, event_type);
+        if (func_800AD6FC(entity, (D_800DDE84[((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v] >> 6) & 3, 0) == 0) {
+            func_800A5F38(entity, event);
             return 1;
         }
     }
-    temp_v1 = ((Rec_D_800E3D7C *)arg0)->unk_00.at03_u8.v;
-    if (temp_v1 < 0xFFU) {
-        ((Rec_D_800E3D7C *)arg0)->unk_00.at03_u8.v = (u8) (temp_v1 + 1);
-        if (((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) {
-            func_80099844(arg0, D_800E1843);
+    entity_count = ((Rec_D_800E3D7C *)entity)->unk_00.at03_u8.v;
+    if (entity_count < 0xFFU) {
+        ((Rec_D_800E3D7C *)entity)->unk_00.at03_u8.v = (u8) (entity_count + 1);
+        if (((Rec_D_800E3D7C *)entity)->unk_14.as_s32 & 0x4000) {
+            func_80099844(entity, D_800E1843);
         }
     }
-    func_800D4FC8(arg0 - 0x20, 0x202020, 0x616);
-    func_80098B38(arg1);
-    global_base = (u8 *)&D_80083460;
-    
-    ((S_800C3C08_1 *)global_base)->unk_0A = (u16) (((S_800C3C08_1 *)global_base)->unk_0A - 1);
+    func_800D4FC8(entity - 0x20, 0x202020, 0x616);
+    func_80098B38(event);
+    counter_base = (u8 *)&D_80083460;
+
+    ((S_800C3C08_1 *)counter_base)->unk_0A = (u16) (((S_800C3C08_1 *)counter_base)->unk_0A - 1);
     return 1;
 }
-/* MECHANISM: The natural args produce the 0x20 frame and s0/s1 holds; the first callee needs four args.
-   A void dispatcher plus explicit 0/1 returns gives the two LEAD-22 SHAPE-C jump delay values.
-   ASM_KEEP holds &D_80083460 so its addiu base and 0xA lhu/sh displacements remain split. */

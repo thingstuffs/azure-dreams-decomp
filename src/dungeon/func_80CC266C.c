@@ -45,73 +45,74 @@ extern u16 D_80083462;
 extern u8 *D_800E3D7C;
 extern u8 D_80176348[];
 
-s32 func_80175E6C(void *arg0, void *arg1, void *arg2, void *arg3) {
-    s32 sp18;
-    s32 temp_a0;
-    s32 var_s0;
-    s32 var_s1;
-    s32 var_v0;
-    void *temp_v0;
-    void *temp_v0_2;
-    register void *var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *arg2p ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *base;
+/* Selects a neighboring target and starts an action when the reference entity is nearby. */
+s32 func_80175E6C(void *action_state, void *unused, void *actor_pos_arg, void *actor) {
+    s32 distance;
+    s32 neighbor_flags;
+    s32 direction;
+    s32 reference_found;
+    s32 result;
+    void *neighbor;
+    void *target_pos;
+    register void *target ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *actor_pos ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *global_state;
 
-    arg2p = arg2;
-    ASM_KEEP_NV(arg2p);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    var_s2 = NULL;
-    ASM_KEEP_NV(var_s2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
+    actor_pos = actor_pos_arg;
+    ASM_KEEP_NV(actor_pos);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    target = NULL;
+    ASM_KEEP_NV(target);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8) (((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
     if ((D_80083462 & 0x2008) ||
-        (var_s1 = (s32) var_s2, ((func_800A2C34(arg3) << 0x10) != 0))) {
-        goto return_minus_1;
+        (reference_found = (s32) target, ((func_800A2C34(actor) << 0x10) != 0))) {
+        goto return_failure;
     }
-    var_s0 = 0;
-    goto after_minus_1;
-return_minus_1:
+    direction = 0;
+    goto scan_start;
+return_failure:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-    var_v0 = -1;
-    goto return_label;
-after_minus_1:
-loop_5:
-    temp_v0 = func_800A04F0(arg3, ((S_80175E6C_1 *)arg2p)->unk_24, ((S_80175E6C_1 *)arg2p)->unk_25, (s16) (var_s0 << 9));
-    if (temp_v0 != NULL) {
-        if (temp_v0 == D_800E3D7C) {
-            var_s1 = 1;
-            goto block_12;
+    result = -1;
+    goto done;
+scan_start:
+scan_neighbors:
+    neighbor = func_800A04F0(actor, ((S_80175E6C_1 *)actor_pos)->unk_24, ((S_80175E6C_1 *)actor_pos)->unk_25, (s16) (direction << 9));
+    if (neighbor != NULL) {
+        if (neighbor == D_800E3D7C) {
+            reference_found = 1;
+            goto next_direction;
         }
-        temp_a0 = ((S_80175E6C_2 *)temp_v0)->unk_14;
-        if (temp_a0 & 0x4000) {
-            if (!(temp_a0 & 0x20000000)) {
-                var_s2 = temp_v0;
+        neighbor_flags = ((S_80175E6C_2 *)neighbor)->unk_14;
+        if (neighbor_flags & 0x4000) {
+            if (!(neighbor_flags & 0x20000000)) {
+                target = neighbor;
             }
         }
-        goto block_12;
+        goto next_direction;
     }
-block_12:
-    var_s0 += 1;
-    if (var_s0 >= 8) {
-        if ((var_s2 != NULL) && (var_s1 & 0xFFFF)) {
-            base = D_80083460;
-            ASM_KEEP(var_s1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ((S_80175E6C_3 *)base)->unk_0A = (u16) (((S_80175E6C_3 *)base)->unk_0A + 1);
-            ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv = var_s2;
-            func_800A9A0C(var_s2);
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_s8 = 0x17;
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9B.as_s8 = 0;
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_8C = 0;
-            temp_v0_2 = ((S_80175E6C_6_pre *)(((Rec_D_800E3D7C *)arg3)->unk_60.as_pv))[-1].unk_00;
-            ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(((S_80175E6C_1 *)arg2p)->unk_24, ((S_80175E6C_1 *)arg2p)->unk_25, ((S_80175E6C_5 *)temp_v0_2)->unk_24, ((S_80175E6C_5 *)temp_v0_2)->unk_25, &sp18);
-            (*(u8 **)((u8 *)arg2p + 0x2C)) = D_80176348;
-            func_80047784(arg2p, D_80176348[((s32) (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
-            func_80175E14(arg3);
-            var_v0 = 1;
-            goto return_label;
+next_direction:
+    direction += 1;
+    if (direction >= 8) {
+        if ((target != NULL) && (reference_found & 0xFFFF)) {
+            global_state = D_80083460;
+            ASM_KEEP(reference_found);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ((S_80175E6C_3 *)global_state)->unk_0A = (u16) (((S_80175E6C_3 *)global_state)->unk_0A + 1);
+            ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = target;
+            func_800A9A0C(target);
+            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;
+            ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
+            ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
+            target_pos = ((S_80175E6C_6_pre *)(((Rec_D_800E3D7C *)actor)->unk_60.as_pv))[-1].unk_00;
+            ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 = func_800A0818(((S_80175E6C_1 *)actor_pos)->unk_24, ((S_80175E6C_1 *)actor_pos)->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24, ((S_80175E6C_5 *)target_pos)->unk_25, &distance);
+            (*(u8 **)((u8 *)actor_pos + 0x2C)) = D_80176348;
+            func_80047784(actor_pos, D_80176348[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+            func_80175E14(actor);
+            result = 1;
+            goto done;
         }
-        var_v0 = 0;
-        goto return_label;
+        result = 0;
+        goto done;
     }
-    goto loop_5;
-return_label:
-    return var_v0;
+    goto scan_neighbors;
+done:
+    return result;
 }

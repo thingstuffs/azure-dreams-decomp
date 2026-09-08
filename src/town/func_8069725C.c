@@ -9,15 +9,16 @@ extern M2C_UNK D_80018964;
 extern M2C_UNK D_80018AD0;
 extern M2C_UNK D_80019BD1;
 
-M2C_UNK *func_8069725C(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    M2C_UNK *var_s1;
+/* Look up an entry and return the fallback when its check succeeds. */
+M2C_UNK *func_8069725C(s32 entry_id, M2C_UNK unused, M2C_UNK context) {
+    M2C_UNK *entry;
 
     if (func_80018820() >= 0x14) {
         func_800179A0();
     }
-    var_s1 = func_80017BDC(&D_80018964, &D_80018AD0, arg0, arg2);
-    if (func_80017B24(&D_80018964, arg0, arg2) != 0) {
-        var_s1 = &D_80019BD1;
+    entry = func_80017BDC(&D_80018964, &D_80018AD0, entry_id, context);
+    if (func_80017B24(&D_80018964, entry_id, context) != 0) {
+        entry = &D_80019BD1;
     }
-    return var_s1;
+    return entry;
 }

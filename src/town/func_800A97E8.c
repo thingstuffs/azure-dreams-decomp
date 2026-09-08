@@ -104,54 +104,55 @@ typedef struct S_800A6F48_11 {
     u8 unk_0E;
 } S_800A6F48_11;   /* arg3 in func_800A6F48 */
 
-void func_800A6F48(S_800A6F48_10 *arg0, S_800A6F48_0 *arg1, S_800A6F48_2 *arg2, S_800A6F48_11 *arg3) {
+/* Creates two offset objects, adjusts their components, and initializes the owner and color. */
+void func_800A6F48(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_state, S_800A6F48_2 *origin, S_800A6F48_11 *color) {
     s32 position[5];
-    M2C_UNK *temp_v1;
-    M2C_UNK *temp_v1_4;
-    s32 var_v0;
-    s32 var_v0_2;
-    u32 temp_v0;
-    S_800A6F48_4 *temp_v0_2;
-    register S_800A6F48_8 *temp_v0_3 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    S_800A6F48_5 *temp_v1_2;
-    S_800A6F48_6 *temp_v1_3;
-    S_800A6F48_9 *temp_v1_5;
+    M2C_UNK *offset_data;
+    M2C_UNK *second_offset_data;
+    s32 y_component;
+    s32 z_component;
+    u32 offset_sum;
+    S_800A6F48_4 *first_object;
+    register S_800A6F48_8 *second_object ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_800A6F48_5 *first_y_data;
+    S_800A6F48_6 *first_z_data;
+    S_800A6F48_9 *second_y_data;
 
-    arg1->unk_0C = &D_800D0DD8;
-    temp_v0 = ((S_800A6F48_1 *)(&D_800D0DD8))->unk_04 + ((S_800A6F48_1 *)(&D_800D0DD8))->unk_10;
-    position[0] = arg2->unk_00 + ((s32) (temp_v0 + (temp_v0 >> 0x1F)) >> 1);
-    temp_v1 = arg1->unk_0C;
-    position[1] = arg2->unk_04 + ((S_800A6F48_3 *)temp_v1)->unk_04 + ((S_800A6F48_3 *)temp_v1)->unk_10;
-    position[2] = arg2->unk_08;
-    temp_v0_2 = func_800A75B8(position);
-    ((S_800A6F48_14 *)(((S_800A6F48_12 *)temp_v0_2)->unk_08))->unk_0C = 0x10000;
-    temp_v1_2 = temp_v0_2->unk_08;
-    var_v0 = temp_v1_2->unk_10;
-    if (var_v0 < 0) {
-        var_v0 += 3;
+    spawn_state->unk_0C = &D_800D0DD8;
+    offset_sum = ((S_800A6F48_1 *)(&D_800D0DD8))->unk_04 + ((S_800A6F48_1 *)(&D_800D0DD8))->unk_10;
+    position[0] = origin->unk_00 + ((s32) (offset_sum + (offset_sum >> 0x1F)) >> 1);
+    offset_data = spawn_state->unk_0C;
+    position[1] = origin->unk_04 + ((S_800A6F48_3 *)offset_data)->unk_04 + ((S_800A6F48_3 *)offset_data)->unk_10;
+    position[2] = origin->unk_08;
+    first_object = func_800A75B8(position);
+    ((S_800A6F48_14 *)(((S_800A6F48_12 *)first_object)->unk_08))->unk_0C = 0x10000;
+    first_y_data = first_object->unk_08;
+    y_component = first_y_data->unk_10;
+    if (y_component < 0) {
+        y_component += 3;
     }
-    temp_v1_2->unk_10 = (s32) (var_v0 >> 2);
-    temp_v1_3 = temp_v0_2->unk_08;
-    var_v0_2 = temp_v1_3->unk_14;
-    if (var_v0_2 < 0) {
-        var_v0_2 += 3;
+    first_y_data->unk_10 = (s32) (y_component >> 2);
+    first_z_data = first_object->unk_08;
+    z_component = first_z_data->unk_14;
+    if (z_component < 0) {
+        z_component += 3;
     }
-    temp_v1_3->unk_14 = (s32) (var_v0_2 >> 2);
-    temp_v0_2->unk_B0 = 0;
-    func_800ABD74(position, temp_v0_2);
-    temp_v1_4 = arg1->unk_0C;
-    position[0] = arg2->unk_00 - ((((S_800A6F48_7 *)temp_v1_4)->unk_04 + ((S_800A6F48_7 *)temp_v1_4)->unk_10) / 3);
-    temp_v0_3 = func_800A75B8(position);
-    ((S_800A6F48_15 *)(((S_800A6F48_13 *)temp_v0_3)->unk_08))->unk_0C = -0x8000;
-    temp_v1_5 = temp_v0_3->unk_08;
-    temp_v1_5->unk_10 = (s32) (temp_v1_5->unk_10 / 3);
-    temp_v0_3->unk_B0 = 0;
-    func_800ABD74(position, temp_v0_3);
-    arg0->unk_50 = &D_800A70EC;
-    arg0->unk_6C = 0xA;
-    arg3->unk_0E = 0x80;
-    arg3->unk_0D = 0x80;
-    arg3->unk_0C = 0x80;
+    first_z_data->unk_14 = (s32) (z_component >> 2);
+    first_object->unk_B0 = 0;
+    func_800ABD74(position, first_object);
+    second_offset_data = spawn_state->unk_0C;
+    position[0] = origin->unk_00 - ((((S_800A6F48_7 *)second_offset_data)->unk_04 + ((S_800A6F48_7 *)second_offset_data)->unk_10) / 3);
+    second_object = func_800A75B8(position);
+    ((S_800A6F48_15 *)(((S_800A6F48_13 *)second_object)->unk_08))->unk_0C = -0x8000;
+    second_y_data = second_object->unk_08;
+    second_y_data->unk_10 = (s32) (second_y_data->unk_10 / 3);
+    second_object->unk_B0 = 0;
+    func_800ABD74(position, second_object);
+    owner->unk_50 = &D_800A70EC;
+    owner->unk_6C = 0xA;
+    color->unk_0E = 0x80;
+    color->unk_0D = 0x80;
+    color->unk_0C = 0x80;
 }
 
 /* MECHANISM: A five-word position array exposes all three initialized siblings and

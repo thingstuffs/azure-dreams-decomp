@@ -15,15 +15,16 @@ typedef struct S_80099B70_0 {
     s32 unk_14;
 } S_80099B70_0;   /* arg1 in func_80099B70 */
 
-void func_80099B70(s32 arg0, S_80099B70_0 *arg1, M2C_UNK arg2) {
-    s16 temp_v0;
+/* Advance the object's position and handle crossing the sampled limit. */
+void func_80099B70(s32 context, S_80099B70_0 *object, M2C_UNK update_data) {
+    s16 limit;
 
-    arg1->unk_08.at00.v = (s32) (arg1->unk_08.at00.v + arg1->unk_14);
-    temp_v0 = func_80095978(arg1, &D_800FE488);
-    if (temp_v0 < arg1->unk_08.at02.v) {
-        func_80095A94(arg1, temp_v0, &D_800FE488);
-        func_80098928(arg0, arg1, arg2);
+    object->unk_08.at00.v = (s32) (object->unk_08.at00.v + object->unk_14);
+    limit = func_80095978(object, &D_800FE488);
+    if (limit < object->unk_08.at02.v) {
+        func_80095A94(object, limit, &D_800FE488);
+        func_80098928(context, object, update_data);
         return;
     }
-    func_80095388(arg1, temp_v0);
+    func_80095388(object, limit);
 }

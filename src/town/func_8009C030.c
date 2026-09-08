@@ -9,19 +9,20 @@ s16 func_800C2AE8();
 
 /* extern */
 
-void func_80099790(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
-    u16 temp_v0;
+/* Move toward the target position and advance the motion state when the countdown ends. */
+void func_80099790(Rec_func_80094268_arg0 *motion, Rec_D_800E3D7C *position, M2C_UNK context) {
+    u16 steps_left;
 
-    arg1->unk_08.at02_s16.v = func_800C2AE8(arg1);
-    temp_v0 = arg0->unk_0A.as_u16 - 1;
-    arg0->unk_0A.as_u16 = temp_v0;
-    if ((s16) temp_v0 <= 0) {
-        arg1->unk_00.at02_u16.v = (u16) arg0->unk_30;
-        arg1->unk_04.at02_u16.v = (u16) arg0->unk_32;
-        arg0->unk_10.as_u16 = (u16) arg0->unk_0E;
-        func_80098928(arg0, arg1, arg2);
+    position->unk_08.at02_s16.v = func_800C2AE8(position);
+    steps_left = motion->unk_0A.as_u16 - 1;
+    motion->unk_0A.as_u16 = steps_left;
+    if ((s16) steps_left <= 0) {
+        position->unk_00.at02_u16.v = (u16) motion->unk_30;
+        position->unk_04.at02_u16.v = (u16) motion->unk_32;
+        motion->unk_10.as_u16 = (u16) motion->unk_0E;
+        func_80098928(motion, position, context);
         return;
     }
-    arg1->unk_00.at02_u16.v = (u16) (arg1->unk_00.at02_u16.v + ((s32) ((s16) arg0->unk_30 - (s16) arg1->unk_00.at02_u16.v) / (s16) temp_v0));
-    arg1->unk_04.at02_u16.v = (u16) (arg1->unk_04.at02_u16.v + ((s32) ((s16) arg0->unk_32 - (s16) arg1->unk_04.at02_u16.v) / (s16) arg0->unk_0A.as_u16));
+    position->unk_00.at02_u16.v = (u16) (position->unk_00.at02_u16.v + ((s32) ((s16) motion->unk_30 - (s16) position->unk_00.at02_u16.v) / (s16) steps_left));
+    position->unk_04.at02_u16.v = (u16) (position->unk_04.at02_u16.v + ((s32) ((s16) motion->unk_32 - (s16) position->unk_04.at02_u16.v) / (s16) motion->unk_0A.as_u16));
 }

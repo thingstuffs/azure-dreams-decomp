@@ -2,45 +2,46 @@
 
 extern s32 rand(void);
 
-s32 func_8017165C(s32 arg0) {
-    s32 value;
+/* Returns a random sample below limit, or zero when limit is zero. */
+s32 func_8017165C(s32 limit) {
+    s32 sample;
 
-    value = 0;
-    if (arg0 != 0) {
-        if (arg0 < 5) {
+    sample = 0;
+    if (limit != 0) {
+        if (limit < 5) {
             do {
-                value = (rand() & 0xC) >> 2;
-            } while (value >= arg0);
-            return value;
+                sample = (rand() & 0xC) >> 2;
+            } while (sample >= limit);
+            return sample;
         }
-        if (arg0 < 0x11) {
+        if (limit < 0x11) {
             do {
-                value = (rand() & 0xF0) >> 4;
-            } while (value >= arg0);
-            return value;
+                sample = (rand() & 0xF0) >> 4;
+            } while (sample >= limit);
+            return sample;
         }
-        if (arg0 < 0x41) {
+        if (limit < 0x41) {
             do {
-                value = (rand() & 0xFC) >> 2;
-            } while (value >= arg0);
-            return value;
+                sample = (rand() & 0xFC) >> 2;
+            } while (sample >= limit);
+            return sample;
         }
-        if (arg0 < 0x101) {
+        if (limit < 0x101) {
             do {
-                value = (rand() & 0xFF0) >> 4;
-            } while (value >= arg0);
-            return value;
+                sample = (rand() & 0xFF0) >> 4;
+            } while (sample >= limit);
+            return sample;
         }
-        if (arg0 < 0x1001) {
+        if (limit < 0x1001) {
             do {
-                value = rand() & 0xFFF;
-            } while (value >= arg0);
-            return value;
+                sample = rand() & 0xFFF;
+            } while (sample >= limit);
+            return sample;
         }
         do {
-            value = rand() & 0xFFFF;
-        } while (value >= arg0);
+            sample = rand() & 0xFFFF;
+        } while (sample >= limit);
     }
 
-    return value;
+    return sample;
 }

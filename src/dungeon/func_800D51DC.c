@@ -59,83 +59,84 @@ extern s32 func_80065420();
 extern void func_80066640();
 extern void func_800666F4();
 
-s32 func_800DA93C(void *arg0) {
-    void *walker;
-    void *record;
-    S_800A1600_D80083160 *base;
+/* Build textured quad packets from a linked list and insert them into the ordering table. */
+s32 func_800DA93C(void *first_quad) {
+    void *quad_data;
+    void *packet;
+    S_800A1600_D80083160 *render_state;
     s32 scratch;
-    s32 sum;
-    register s32 work;
-    s32 value;
-    s32 quotient;
-    s8 byte_lo;
-    s8 byte_hi;
-    s32 quotient2;
-    s8 byte_lo2;
-    s8 byte_hi2;
-    u32 mask_lo;
-    u32 mask_hi;
+    s32 depth;
+    register s32 link_addr;
+    s32 tile_index;
+    s32 u_offset;
+    s8 u_left;
+    s8 u_right;
+    s32 v_offset;
+    s8 v_top;
+    s8 v_bottom;
+    u32 addr_mask;
+    u32 tag_mask;
 
-    walker = arg0;
-    base = &D_80083160;
-    mask_lo = 0x00FFFFFF;
-    mask_hi = 0xFF000000;
+    quad_data = first_quad;
+    render_state = &D_80083160;
+    addr_mask = 0x00FFFFFF;
+    tag_mask = 0xFF000000;
 
     do {
-        record = ((S_800DA93C_0 *)(base->unk0))->unk_8D0;
-        ((S_800DA93C_0 *)(base->unk0))->unk_8D0 = (u8 *)record + 0x28;
+        packet = ((S_800DA93C_0 *)(render_state->unk0))->unk_8D0;
+        ((S_800DA93C_0 *)(render_state->unk0))->unk_8D0 = (u8 *)packet + 0x28;
 
-        sum = func_80065420((u8 *)walker + 0x28,
-                           (u8 *)record + 8, &scratch, &scratch);
-        sum += func_80065420((u8 *)walker + 0x30,
-                            (u8 *)record + 0x10, &scratch, &scratch);
-        sum += func_80065420((u8 *)walker + 0x38,
-                            (u8 *)record + 0x18, &scratch, &scratch);
-        sum += func_80065420((u8 *)walker + 0x40,
-                            (u8 *)record + 0x20, &scratch, &scratch);
-        sum = (sum >> 2) - 8;
+        depth = func_80065420((u8 *)quad_data + 0x28,
+                           (u8 *)packet + 8, &scratch, &scratch);
+        depth += func_80065420((u8 *)quad_data + 0x30,
+                            (u8 *)packet + 0x10, &scratch, &scratch);
+        depth += func_80065420((u8 *)quad_data + 0x38,
+                            (u8 *)packet + 0x18, &scratch, &scratch);
+        depth += func_80065420((u8 *)quad_data + 0x40,
+                            (u8 *)packet + 0x20, &scratch, &scratch);
+        depth = (depth >> 2) - 8;
 
-        if ((u32)sum < 0x1E0U) {
-            scratch = 0xFF - ((S_800DA93C_1 *)walker)->unk_02;
-            ((S_800DA93C_2 *)record)->unk_04 = (*(s32 *)((u8 *)walker + 0x10));
-            func_800666F4(record);
-            func_80066640(record, 1);
+        if ((u32)depth < 0x1E0U) {
+            scratch = 0xFF - ((S_800DA93C_1 *)quad_data)->unk_02;
+            ((S_800DA93C_2 *)packet)->unk_04 = (*(s32 *)((u8 *)quad_data + 0x10));
+            func_800666F4(packet);
+            func_80066640(packet, 1);
 
-            ((S_800DA93C_2 *)record)->unk_16 = ((S_800DA93C_1 *)walker)->unk_04;
-            ((S_800DA93C_2 *)record)->unk_0E = ((S_800DA93C_1 *)walker)->unk_06;
+            ((S_800DA93C_2 *)packet)->unk_16 = ((S_800DA93C_1 *)quad_data)->unk_04;
+            ((S_800DA93C_2 *)packet)->unk_0E = ((S_800DA93C_1 *)quad_data)->unk_06;
 
-            value = (s16)(((S_800DA93C_1 *)walker)->unk_02 % 8);
-            scratch = value;
+            tile_index = (s16)(((S_800DA93C_1 *)quad_data)->unk_02 % 8);
+            scratch = tile_index;
 
-            quotient = (value % 4) << 5;
-            byte_lo = quotient - 0x80;
-            byte_hi = quotient - 0x61;
-            ((S_800DA93C_2 *)record)->unk_14 = byte_lo;
-            ((S_800DA93C_2 *)record)->unk_0C = byte_lo;
-            ((S_800DA93C_2 *)record)->unk_24 = byte_hi;
-            ((S_800DA93C_2 *)record)->unk_1C = byte_hi;
+            u_offset = (tile_index % 4) << 5;
+            u_left = u_offset - 0x80;
+            u_right = u_offset - 0x61;
+            ((S_800DA93C_2 *)packet)->unk_14 = u_left;
+            ((S_800DA93C_2 *)packet)->unk_0C = u_left;
+            ((S_800DA93C_2 *)packet)->unk_24 = u_right;
+            ((S_800DA93C_2 *)packet)->unk_1C = u_right;
 
-            quotient2 = (scratch / 4) << 5;
-            byte_lo2 = quotient2 + 0x40;
-            byte_hi2 = quotient2 + 0x5F;
-            ((S_800DA93C_2 *)record)->unk_1D = byte_lo2;
-            ((S_800DA93C_2 *)record)->unk_0D = byte_lo2;
-            ((S_800DA93C_2 *)record)->unk_25 = byte_hi2;
-            ((S_800DA93C_2 *)record)->unk_15 = byte_hi2;
+            v_offset = (scratch / 4) << 5;
+            v_top = v_offset + 0x40;
+            v_bottom = v_offset + 0x5F;
+            ((S_800DA93C_2 *)packet)->unk_1D = v_top;
+            ((S_800DA93C_2 *)packet)->unk_0D = v_top;
+            ((S_800DA93C_2 *)packet)->unk_25 = v_bottom;
+            ((S_800DA93C_2 *)packet)->unk_15 = v_bottom;
 
-            work = sum << 2;
-            ((S_800DA93C_2 *)record)->unk_00 =
-                (((S_800DA93C_2 *)record)->unk_00 & mask_hi) |
-                (((S_800DA93C_3 *)((u8 *)((u32)work + (u32)base->unk0)))->unk_B0 & mask_lo);
-            work += (s32)base->unk0;
-            ((S_800DA93C_4 *)((u8 *)work))->unk_B0 =
-                (((S_800DA93C_4 *)((u8 *)work))->unk_B0 & mask_hi) |
-                ((u32)record & mask_lo);
+            link_addr = depth << 2;
+            ((S_800DA93C_2 *)packet)->unk_00 =
+                (((S_800DA93C_2 *)packet)->unk_00 & tag_mask) |
+                (((S_800DA93C_3 *)((u8 *)((u32)link_addr + (u32)render_state->unk0)))->unk_B0 & addr_mask);
+            link_addr += (s32)render_state->unk0;
+            ((S_800DA93C_4 *)((u8 *)link_addr))->unk_B0 =
+                (((S_800DA93C_4 *)((u8 *)link_addr))->unk_B0 & tag_mask) |
+                ((u32)packet & addr_mask);
         }
 
-        work = ((S_800DA93C_1_pre *)walker)[-1].unk_00;
-        walker = (void *)(work + 0x20);
-    } while (work != 0);
+        link_addr = ((S_800DA93C_1_pre *)quad_data)[-1].unk_00;
+        quad_data = (void *)(link_addr + 0x20);
+    } while (link_addr != 0);
 
     return 0;
 }

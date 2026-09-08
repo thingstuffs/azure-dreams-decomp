@@ -69,48 +69,49 @@ typedef struct S_80165D0C_4 {
     u16 unk_0A;
 } S_80165D0C_4;   /* ((S_80165D0C_0 *)arg0)->unk_08 in func_80165D0C */
 
-void func_80165D0C(S_80165D0C_0 *arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
-    s32 temp_v1;
-    S_80165D0C_2 *temp_s0;
-    S_80165D0C_1 *temp_s1;
-    void *temp_v0;
-    register s32 held_arg4 ASM_REG("$19") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 held_arg5 ASM_REG("$20") = arg5;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+/* Spawn an effect relative to the source with randomized motion and sprite size. */
+void func_80165D0C(S_80165D0C_0 *source, s16 duration, s32 scale, s32 offset_x, s32 offset_y, s32 offset_z, s32 velocity_z) {
+    s32 sprite_scale;
+    S_80165D0C_2 *sprite;
+    S_80165D0C_1 *effect_state;
+    void *effect;
+    register s32 held_offset_y ASM_REG("$19") = offset_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 held_offset_z ASM_REG("$20") = offset_z;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
-    temp_v0 = func_8003FC64(0x12);
-    if (temp_v0 != NULL) {
-        (*(M2C_UNK **)((u8 *)temp_v0 + 0x10)) = &D_80165AB8;
-        ((S_80165D0C_3 *)((*(void **)((u8 *)temp_v0 + 8))))->unk_02 = (s16) (((S_80165D0C_4 *)(arg0->unk_08))->unk_02 + arg3);
-        ((S_80165D0C_3 *)((*(void **)((u8 *)temp_v0 + 8))))->unk_06 = (s16) (((S_80165D0C_4 *)(arg0->unk_08))->unk_06 + held_arg4);
-        ((S_80165D0C_3 *)((*(void **)((u8 *)temp_v0 + 8))))->unk_0A = (s16) (((S_80165D0C_4 *)(arg0->unk_08))->unk_0A + held_arg5);
-        temp_s1 = temp_v0 + 0x20;
-        temp_s1->unk_42 = (u16) ((S_80165D0C_4 *)(arg0->unk_08))->unk_02;
-        temp_s1->unk_44 = (u16) ((S_80165D0C_4 *)(arg0->unk_08))->unk_06;
-        temp_s1->unk_46 = (u16) ((S_80165D0C_4 *)(arg0->unk_08))->unk_0A;
-        ((S_80165D0C_3 *)((*(void **)((u8 *)temp_v0 + 8))))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
-        ((S_80165D0C_3 *)((*(void **)((u8 *)temp_v0 + 8))))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
-        ((S_80165D0C_3 *)((*(void **)((u8 *)temp_v0 + 8))))->unk_14 = (s32) (arg6 + 0xFFFC0000);
-        temp_s1->unk_60 = 0x10000;
-        temp_s1->unk_14 = arg1;
-        temp_s1->unk_32 = 0;
-        temp_s1->unk_34 = 0;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s0 = (*(void **)((u8 *)temp_v0 + 0xC));
-        temp_s0->unk_06 = -4;
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 & 0xFFF3);
-        temp_v1 = 0x1000 / (s32) (func_80167088(5) + 8);
-        temp_s0->unk_0C = arg2;
-        temp_s0->unk_1E = (s16) temp_v1;
-        temp_s0->unk_1C = (s16) temp_v1;
-        (*(s32 *)((u8 *)temp_v0 + 0x20)) = arg2;
-        temp_s1->unk_04 = arg2;
-        temp_s1->unk_08 = arg2;
-        (*(Copy12 *)((u8 *)temp_v0 + 0x56)) =
+    effect = func_8003FC64(0x12);
+    if (effect != NULL) {
+        (*(M2C_UNK **)((u8 *)effect + 0x10)) = &D_80165AB8;
+        ((S_80165D0C_3 *)((*(void **)((u8 *)effect + 8))))->unk_02 = (s16) (((S_80165D0C_4 *)(source->unk_08))->unk_02 + offset_x);
+        ((S_80165D0C_3 *)((*(void **)((u8 *)effect + 8))))->unk_06 = (s16) (((S_80165D0C_4 *)(source->unk_08))->unk_06 + held_offset_y);
+        ((S_80165D0C_3 *)((*(void **)((u8 *)effect + 8))))->unk_0A = (s16) (((S_80165D0C_4 *)(source->unk_08))->unk_0A + held_offset_z);
+        effect_state = effect + 0x20;
+        effect_state->unk_42 = (u16) ((S_80165D0C_4 *)(source->unk_08))->unk_02;
+        effect_state->unk_44 = (u16) ((S_80165D0C_4 *)(source->unk_08))->unk_06;
+        effect_state->unk_46 = (u16) ((S_80165D0C_4 *)(source->unk_08))->unk_0A;
+        ((S_80165D0C_3 *)((*(void **)((u8 *)effect + 8))))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
+        ((S_80165D0C_3 *)((*(void **)((u8 *)effect + 8))))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
+        ((S_80165D0C_3 *)((*(void **)((u8 *)effect + 8))))->unk_14 = (s32) (velocity_z + 0xFFFC0000);
+        effect_state->unk_60 = 0x10000;
+        effect_state->unk_14 = duration;
+        effect_state->unk_32 = 0;
+        effect_state->unk_34 = 0;
+        func_8004491C(effect, &D_80045340);
+        sprite = (*(void **)((u8 *)effect + 0xC));
+        sprite->unk_06 = -4;
+        sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFF3);
+        sprite_scale = 0x1000 / (s32) (func_80167088(5) + 8);
+        sprite->unk_0C = scale;
+        sprite->unk_1E = (s16) sprite_scale;
+        sprite->unk_1C = (s16) sprite_scale;
+        (*(s32 *)((u8 *)effect + 0x20)) = scale;
+        effect_state->unk_04 = scale;
+        effect_state->unk_08 = scale;
+        (*(Copy12 *)((u8 *)effect + 0x56)) =
             (*(Copy12 *)((u8 *)D_80173B34 + 0));
-        temp_s0->unk_08 = (void *) (temp_v0 + 0x56);
+        sprite->unk_08 = (void *) (effect + 0x56);
     }
 }
 
-/* MECHANISM: Pinned stack args arg4/arg5 create the retail s3/s4 hold set and 0x30 frame;
+/* MECHANISM: Pinned stack args offset_y/offset_z create the retail s3/s4 hold set and 0x30 frame;
    end-placed ASM_KEEP guards preserve the exact prologue and call-delay scheduling.
    A packed Copy12 assignment emits the retail lwl/lwr and swl/swr copy sequence. */

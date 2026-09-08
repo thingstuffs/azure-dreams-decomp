@@ -48,10 +48,11 @@ extern u8 D_80024A00[];
 extern u8 D_80045340[];
 extern u8 D_800DE938[];
 
-void *func_80024A98(S_80024A98_2 *arg0)
+/* Creates a visual node at the supplied coordinates with 16 evenly spaced radial effects. */
+void *func_80024A98(S_80024A98_2 *source_coords)
 {
     s16 angle;
-    s32 i;
+    s32 effect_index;
     S_80024A98_3 *part;
     S_80024A98_1 *coords;
     S_80024A98_0 *node;
@@ -61,9 +62,9 @@ void *func_80024A98(S_80024A98_2 *arg0)
         node->unk_10 = D_80024A00;
         func_8004491C(node, D_80045340);
         coords = node->unk_08;
-        coords->unk_02 = arg0->unk_02;
-        coords->unk_06 = arg0->unk_06;
-        coords->unk_0A = arg0->unk_0A;
+        coords->unk_02 = source_coords->unk_02;
+        coords->unk_06 = source_coords->unk_06;
+        coords->unk_0A = source_coords->unk_0A;
         part = node->unk_0C;
         part->unk_1E = 0x1000;
         part->unk_1C = 0x1000;
@@ -71,13 +72,13 @@ void *func_80024A98(S_80024A98_2 *arg0)
         func_8003DB94(part, D_800DE938, 0);
         part->unk_10 = 0x20;
         part->unk_14 |= 0xC;
-        i = 0;
+        effect_index = 0;
         angle = rand();
         do {
             func_800254C4(coords, angle, 0x10, 1);
-            i++;
+            effect_index++;
             angle += 0x100;
-        } while (i < 0x10);
+        } while (effect_index < 0x10);
     }
     return node;
 }

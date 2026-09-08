@@ -26,36 +26,37 @@ extern int D_800814A0[];
 extern u8 D_80045340[];
 extern void func_80024A7C(void) __attribute__((noreturn));
 
-void func_8182718C(void *arg0, void *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_v1_2;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    S_8182718C_1 *temp_v1;
+/* Advance a timed two-state action and propagate target status flags. */
+void func_8182718C(void *state_data, void *unused, Rec_D_80082E80 *target) {
+    s16 state;
+    u16 timer;
+    u16 ticks_left;
+    S_8182718C_1 *linked_data;
 
-    temp_v1 = ((S_8182718C_0 *)arg0)->unk_00;
-    temp_v1->unk_52 = (s16) (temp_v1->unk_52 | 0x8000);
-    temp_v1_2 = ((S_8182718C_0 *)arg0)->unk_4C.s;
-    if (temp_v1_2 == 0) {
+    linked_data = ((S_8182718C_0 *)state_data)->unk_00;
+    linked_data->unk_52 = (s16) (linked_data->unk_52 | 0x8000);
+    state = ((S_8182718C_0 *)state_data)->unk_4C.s;
+    if (state == 0) {
         goto zero_state;
     }
-    if (temp_v1_2 == 1) {
+    if (state == 1) {
         goto one_state;
     }
     func_80024A7C();
 
 zero_state:
     {
-        u16 temp_zero_4c;
-        u16 temp_zero_4e;
+        u16 old_state;
+        u16 interval;
 
-        temp_v0_2 = ((S_8182718C_0 *)arg0)->unk_48 - 1;
-        ((S_8182718C_0 *)arg0)->unk_48 = temp_v0_2;
-        if ((temp_v0_2 << 0x10) <= 0) {
-            func_8004491C(arg0 - 0x20, D_80045340);
-            temp_zero_4c = ((S_8182718C_0 *)arg0)->unk_4C.u;
-            temp_zero_4e = ((S_8182718C_0 *)arg0)->unk_4E;
-            ((S_8182718C_0 *)arg0)->unk_48 = temp_zero_4e;
-            ((S_8182718C_0 *)arg0)->unk_4C.u = (u16) (temp_zero_4c + 1);
+        ticks_left = ((S_8182718C_0 *)state_data)->unk_48 - 1;
+        ((S_8182718C_0 *)state_data)->unk_48 = ticks_left;
+        if ((ticks_left << 0x10) <= 0) {
+            func_8004491C(state_data - 0x20, D_80045340);
+            old_state = ((S_8182718C_0 *)state_data)->unk_4C.u;
+            interval = ((S_8182718C_0 *)state_data)->unk_4E;
+            ((S_8182718C_0 *)state_data)->unk_48 = interval;
+            ((S_8182718C_0 *)state_data)->unk_4C.u = (u16) (old_state + 1);
             func_80024A7C();
         }
         goto done;
@@ -63,14 +64,14 @@ zero_state:
 
 one_state:
     {
-        temp_v0 = ((S_8182718C_0 *)arg0)->unk_48;
-        ((S_8182718C_0 *)arg0)->unk_48 = (u16) (temp_v0 - 1);
-        if ((temp_v0 << 0x10) <= 0) {
-            func_800478B8(arg2);
-            ((S_8182718C_0 *)arg0)->unk_48 = (u16) ((S_8182718C_0 *)arg0)->unk_4E;
+        timer = ((S_8182718C_0 *)state_data)->unk_48;
+        ((S_8182718C_0 *)state_data)->unk_48 = (u16) (timer - 1);
+        if ((timer << 0x10) <= 0) {
+            func_800478B8(target);
+            ((S_8182718C_0 *)state_data)->unk_48 = (u16) ((S_8182718C_0 *)state_data)->unk_4E;
         }
-        if (arg2->unk_14.at00_u16.v & 0x6000) {
-            ((S_8182718C_0_pre *)arg0)[-1].unk_00 = (u16) (((S_8182718C_0_pre *)arg0)[-1].unk_00 | 0x8000);
+        if (target->unk_14.at00_u16.v & 0x6000) {
+            ((S_8182718C_0_pre *)state_data)[-1].unk_00 = (u16) (((S_8182718C_0_pre *)state_data)[-1].unk_00 | 0x8000);
             D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
         }
     }

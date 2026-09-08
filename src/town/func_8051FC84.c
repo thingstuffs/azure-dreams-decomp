@@ -22,6 +22,7 @@ extern M2C_UNK func_80018A64();
 extern Rec_D_80016000 *D_80016000;
 extern void *D_800190E0;
 
+/* Calls func_80018A64, sets the indexed entry's state to 2, and invokes the context callback. */
 void func_8051FC84(void) {
     func_80018A64(0x5C8);
     ((S_8051FC84_1 *)(((D_80016000->unk_08.at00_s32.v * 8) + D_80016000->unk_40.as_s32)))->unk_01 = 2;

@@ -13,37 +13,37 @@ extern void func_8005552C(s32 a0, s32 a1);
 extern void func_800543C8(void);
 extern void func_800557BC(void);
 
+/* Dispatch commands by type until a zero code, then finalize processing. */
 void func_800542BC(void) {
-    s32 temp_a0;
-    s32 temp_v0;
-    s32 temp_v1;
+    s32 command_code;
+    s32 command;
+    s32 command_type;
 
     D_80084850[0] += 1;
-loop_1:
-    temp_v0 = func_800557C8();
-    temp_a0 = temp_v0 & 0xFFFF;
-    temp_v1 = temp_v0 & 0xF00;
-    if (temp_a0 != 0) {
-        switch (temp_v1) {
+next_command:
+    command = func_800557C8();
+    command_code = command & 0xFFFF;
+    command_type = command & 0xF00;
+    if (command_code != 0) {
+        switch (command_type) {
         case 0x0:
-            func_80054788(temp_a0, temp_v0);
+            func_80054788(command_code, command);
             break;
         case 0x300:
-            func_80054B08(temp_a0, temp_v0);
+            func_80054B08(command_code, command);
             break;
         case 0x200:
-            func_8005500C(temp_a0, temp_v0);
+            func_8005500C(command_code, command);
             break;
         case 0x500:
         case 0x700:
         case 0x800:
         case 0x600:
-            func_8005552C(temp_v0 & 0xFFFF, temp_v0);
+            func_8005552C(command & 0xFFFF, command);
             break;
         }
-        goto loop_1;
+        goto next_command;
     }
-    /* void — do not pass temp_a0==0 (that emitted move a0,zero in delay). */
     func_800543C8();
     func_800557BC();
 }

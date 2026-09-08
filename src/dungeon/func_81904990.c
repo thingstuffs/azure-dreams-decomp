@@ -28,81 +28,81 @@ M2C_UNK func_80067EF4();
 extern M2C_UNK D_8006CD10[3];
 extern u8 D_80083160[];
 
-void func_81904990(void *arg0, void *arg1, s32 *arg2, s32 arg3) {
-    u16 arg3_copy;
-    s32 sp30_0;
-    M2C_UNK var_a1;
-    s32 byte_b;
-    s32 sh16;
-    s32 m256_t;
-    u8 *cpv0;
-    void *dpg;
-    void *ca0;
-    s32 ca1;
-    void *ca2;
-    void *ca3;
-    s16 temp_v0_4;
-    s16 temp_v0_5;
-    s16 temp_v0_6;
-    s16 temp_v0_7;
-    s16 temp_v0_8;
-    s16 temp_v0_9;
-    u16 temp_tail_src;
-    FnPtr temp_v0_10;
-    u8 *blk;
-    s32 *temp_v1;
-    s32 *temp_v1_10;
-    s32 *temp_v1_11;
-    s32 *temp_v1_7;
-    s32 *temp_v1_8;
-    s32 *temp_v1_9;
-    u8 *var_a0_2;
-    u8 *var_s1;
-    register u8 *var_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temp_a0_2;
-    s32 tA0;
-    s32 tA1;
-    s32 tA2;
-    s32 tA3;
-    s32 temp_a3;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
-    s32 var_t3;
-    s32 var_t4;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u32 temp_s4_12;
-    u16 temp_s4_16;
-    u16 temp_v1_6;
-    register u8 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 temp_v1_4;
-    u8 temp_v1_5;
-    register u8 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-    u8 *temp_s0;
-    void *temp_s4;
-    u8 *temp_s5;
-    void *var_a0;
-    void *var_t2;
-    M2C_UNK *d6;
-    s32 nine;
-    s32 tail_v0;
-    s32 tail_v1;
-    register s32 mask24 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    s32 mask_top;
+/* Build textured sprite strips and append their packets to the ordering table. */
+void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw_mode) {
+    u16 saved_draw_mode;
+    s32 callback_arg;
+    M2C_UNK matrix_arg;
+    s32 origin_byte;
+    s32 restore_mode;
+    s32 angle_bias;
+    u8 *row_quad;
+    void *render_state;
+    void *callback_sprite;
+    s32 callback_param;
+    void *callback_frame;
+    void *callback_data;
+    s16 left_x;
+    s16 right_x;
+    s16 top_y;
+    s16 bottom_y;
+    s16 strip_bottom;
+    u16 base_tpage;
+    FnPtr draw_callback;
+    u8 *first_quad;
+    s32 *mode_link;
+    s32 *right_row_link;
+    s32 *restore_link;
+    s32 *first_link;
+    s32 *second_link;
+    s32 *left_row_link;
+    u8 *restore_packet;
+    u8 *packet;
+    register u8 *quad_end ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 row_v_offset;
+    s32 first_addr;
+    s32 second_addr;
+    s32 left_row_addr;
+    s32 right_row_addr;
+    s32 mode_bits;
+    s32 u_end;
+    s32 v_end;
+    s32 wrapped_v_offset;
+    s32 row_index;
+    u16 angle_or_pivot;
+    u16 pivot_y;
+    u32 clut_override;
+    u16 tpage_offset;
+    u16 sprite_flags;
+    register u8 prim_code ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 right_u;
+    u8 bottom_v;
+    register u8 blend_code ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    u8 *frame_data;
+    void *frame;
+    u8 *frame_header;
+    void *setup_arg;
+    void *row_heights;
+    M2C_UNK *view_matrix;
+    s32 quad_words;
+    s32 tail_value;
+    s32 tail_uv;
+    register s32 addr_mask ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s32 length_mask;
     register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *base ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    register void *sprite_base ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
 
-    var_a0 = arg0;
-    base = arg1;
-    temp_s4 = M2C_FIELD(base, void **, -0x14);
+    setup_arg = screen_pos;
+    sprite_base = sprite;
+    frame = M2C_FIELD(sprite_base, void **, -0x14);
     {
-        void **q;
-        q = (void **)D_80083160;
+        void **state_ptr;
+        state_ptr = (void **)D_80083160;
         ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        sp30_0 = M2C_FIELD(base, s32 *, -0x18);
-        dpg = *q;
+        callback_arg = M2C_FIELD(sprite_base, s32 *, -0x18);
+        render_state = *state_ptr;
     }
-    temp_s5 = M2C_FIELD(temp_s4, void **, 8);
+    frame_header = M2C_FIELD(frame, void **, 8);
     scratch = (u8 *)0x1F800000;
     ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     M2C_FIELD(scratch, s32 *, 0x0EC) = NULL;
@@ -110,336 +110,336 @@ void func_81904990(void *arg0, void *arg1, s32 *arg2, s32 arg3) {
     M2C_FIELD(scratch, u16 *, 0x084) = 0;
     M2C_FIELD(scratch, u16 *, 0x07C) = 0;
     M2C_FIELD(scratch, u16 *, 0x074) = 0;
-    var_s1 = M2C_FIELD(dpg, u8 **, 0x8D0);
-    M2C_FIELD(scratch, s32 **, 0x020) = arg2;
+    packet = M2C_FIELD(render_state, u8 **, 0x8D0);
+    M2C_FIELD(scratch, s32 **, 0x020) = ordering_table;
     M2C_FIELD(scratch, s32 *, 0x0C0) = NULL;
-    M2C_FIELD(scratch, u16 *, 0x0B8) = (s16) (M2C_FIELD(var_a0, u16 *, 0) - 0xA0);
-    M2C_FIELD(scratch, u16 *, 0x0BA) = (u16) (M2C_FIELD(var_a0, u16 *, 2) - 0x78);
-    arg3_copy = (u16) arg3;
-    temp_a3 = arg3 << 0x10;
-    var_a1 = 0;
-    if (temp_a3 != 0) {
-        func_80067EF4(var_s1, 0, 0, temp_a3);
+    M2C_FIELD(scratch, u16 *, 0x0B8) = (s16) (M2C_FIELD(setup_arg, u16 *, 0) - 0xA0);
+    M2C_FIELD(scratch, u16 *, 0x0BA) = (u16) (M2C_FIELD(setup_arg, u16 *, 2) - 0x78);
+    saved_draw_mode = (u16) draw_mode;
+    mode_bits = draw_mode << 0x10;
+    matrix_arg = 0;
+    if (mode_bits != 0) {
+        func_80067EF4(packet, 0, 0, mode_bits);
         {
-        s32 m24l = 0xFFFFFF;
-        var_a1 = 0xFF000000;
-        M2C_FIELD(var_s1, s32 *, 0) = (M2C_FIELD(var_s1, s32 *, 0) & 0xFF000000) | (*M2C_FIELD(scratch, s32 **, 0x020) & m24l);
+            s32 link_mask = 0xFFFFFF;
+            matrix_arg = 0xFF000000;
+            M2C_FIELD(packet, s32 *, 0) = (M2C_FIELD(packet, s32 *, 0) & 0xFF000000) | (*M2C_FIELD(scratch, s32 **, 0x020) & link_mask);
         }
-        temp_v1 = M2C_FIELD(scratch, s32 **, 0x020);
-        var_a0 = (void *) ((s32) var_s1 & 0xFFFFFF);
-        var_s1 += 12;
-        *temp_v1 = (*temp_v1 & 0xFF000000) | (s32) var_a0;
+        mode_link = M2C_FIELD(scratch, s32 **, 0x020);
+        setup_arg = (void *) ((s32) packet & 0xFFFFFF);
+        packet += 12;
+        *mode_link = (*mode_link & 0xFF000000) | (s32) setup_arg;
     }
-    nine = 9;
-    ASM_KEEP_NV(nine);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    mask24 = 0xFFFFFF;
-    mask_top = 0xFF000000;
-    ASM_KEEP_NV(mask_top);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    d6 = D_8006CD10;
-    M2C_FIELD(d6, s32 *, 0x1C) = (s32) D_FIELD(s32 *, 0xA0);
-    func_800649A0((s32) var_a0, var_a1);
+    quad_words = 9;
+    ASM_KEEP_NV(quad_words);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    addr_mask = 0xFFFFFF;
+    length_mask = 0xFF000000;
+    ASM_KEEP_NV(length_mask);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    view_matrix = D_8006CD10;
+    M2C_FIELD(view_matrix, s32 *, 0x1C) = (s32) D_FIELD(s32 *, 0xA0);
+    func_800649A0((s32) setup_arg, matrix_arg);
     {
-        s32 d_c4;
-        s32 d_c6;
-        s32 d_c8;
-        d_c4 = D_FIELD(s16 *, 0xC4);
-        d_c6 = D_FIELD(s16 *, 0xC6);
-        d_c8 = D_FIELD(s16 *, 0xC8);
-        M2C_FIELD(scratch, s32 *, 0x030) = d_c4;
-        M2C_FIELD(scratch, s32 *, 0x034) = d_c6;
-        M2C_FIELD(scratch, s32 *, 0x038) = d_c8;
+        s32 view_x;
+        s32 view_y;
+        s32 view_z;
+        view_x = D_FIELD(s16 *, 0xC4);
+        view_y = D_FIELD(s16 *, 0xC6);
+        view_z = D_FIELD(s16 *, 0xC8);
+        M2C_FIELD(scratch, s32 *, 0x030) = view_x;
+        M2C_FIELD(scratch, s32 *, 0x034) = view_y;
+        M2C_FIELD(scratch, s32 *, 0x038) = view_z;
     }
-    M2C_FIELD(scratch, u16 *, 0x100) = (u16) M2C_FIELD(temp_s4, u16 *, 0x16);
-    M2C_FIELD(scratch, u16 *, 0x104) = (s16) (M2C_FIELD(temp_s4, u16 *, 0x1A) - (u16) M2C_FIELD(scratch, s32 *, 0x034));
-    temp_v0 = (((u16) M2C_FIELD(scratch, s32 *, 0x038) + 0x100) & 0x1FF);
-    m256_t = M2C_FIELD(temp_s4, u16 *, 0x18) - 0x100;
-    M2C_FIELD(scratch, u16 *, 0x102) = temp_v0 + m256_t;
-    temp_v0 = M2C_FIELD(temp_s4, u16 *, 0x20);
-    M2C_FIELD(scratch, s32 *, 0x0E4) = (s32) temp_v0;
-    M2C_FIELD(scratch, u16 *, 0x108) = temp_v0;
-    temp_v0_2 = M2C_FIELD(temp_s4, u16 *, 0x22);
-    M2C_FIELD(scratch, s32 *, 0x0E8) = (s32) temp_v0_2;
-    M2C_FIELD(scratch, u16 *, 0x10A) = temp_v0_2;
+    M2C_FIELD(scratch, u16 *, 0x100) = (u16) M2C_FIELD(frame, u16 *, 0x16);
+    M2C_FIELD(scratch, u16 *, 0x104) = (s16) (M2C_FIELD(frame, u16 *, 0x1A) - (u16) M2C_FIELD(scratch, s32 *, 0x034));
+    angle_or_pivot = (((u16) M2C_FIELD(scratch, s32 *, 0x038) + 0x100) & 0x1FF);
+    angle_bias = M2C_FIELD(frame, u16 *, 0x18) - 0x100;
+    M2C_FIELD(scratch, u16 *, 0x102) = angle_or_pivot + angle_bias;
+    angle_or_pivot = M2C_FIELD(frame, u16 *, 0x20);
+    M2C_FIELD(scratch, s32 *, 0x0E4) = (s32) angle_or_pivot;
+    M2C_FIELD(scratch, u16 *, 0x108) = angle_or_pivot;
+    pivot_y = M2C_FIELD(frame, u16 *, 0x22);
+    M2C_FIELD(scratch, s32 *, 0x0E8) = (s32) pivot_y;
+    M2C_FIELD(scratch, u16 *, 0x10A) = pivot_y;
     func_80065820((void *)0x1F800100, (void *)0x1F8000D0);
     {
-        s32 e1c;
-        s32 e1e;
-        e1c = M2C_FIELD(temp_s4, u16 *, 0x1C);
-        M2C_FIELD(scratch, s32 *, 0x030) = e1c;
-        e1e = M2C_FIELD(temp_s4, u16 *, 0x1E);
+        s32 scale_x;
+        s32 scale_y;
+        scale_x = M2C_FIELD(frame, u16 *, 0x1C);
+        M2C_FIELD(scratch, s32 *, 0x030) = scale_x;
+        scale_y = M2C_FIELD(frame, u16 *, 0x1E);
         M2C_FIELD(scratch, s32 *, 0x038) = (s32)0x1000;
-        M2C_FIELD(scratch, s32 *, 0x034) = e1e;
+        M2C_FIELD(scratch, s32 *, 0x034) = scale_y;
     }
     func_80064BC0((void *)0x1F8000D0, (void *)0x1F800030);
-    func_80064840(d6, (void *)0x1F8000D0, (void *)0x1F800050);
+    func_80064840(view_matrix, (void *)0x1F8000D0, (void *)0x1F800050);
     func_80064D80((void *)0x1F800050);
     func_80064CF0((void *)0x1F800050);
-    temp_s0 = temp_s5 + 8;
-    ASM_KEEP_NV(temp_s0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    M2C_FIELD(scratch, u16 *, 0x024) = (u16) M2C_FIELD(temp_s4, u16 *, 0x14);
-    if (!(M2C_FIELD(temp_s5, u8 *, 0) & 0x20)) {
-        M2C_FIELD(scratch, s32 *, 0x008) = (s32) M2C_FIELD(temp_s0, u8 *, 0);
-        M2C_FIELD(scratch, s32 *, 0x00C) = (s32) M2C_FIELD(temp_s0, u8 *, 1);
-        M2C_FIELD(scratch, s32 *, 0x010) = (s32) M2C_FIELD(temp_s0, u8 *, 2);
-        M2C_FIELD(scratch, s32 *, 0x014) = (s32) M2C_FIELD(temp_s0, u8 *, 3);
-        if ((M2C_FIELD(temp_s5, u8 *, 0) ^ M2C_FIELD(scratch, u16 *, 0x024)) & 1) {
-            byte_b = *(volatile u8 *)((s8 *)temp_s0 + -6);
-            tail_v0 = (0 - (s32)(s8) byte_b) - M2C_FIELD(scratch, u16 *, 0x108);
-            M2C_FIELD(scratch, u16 *, 0x080) = tail_v0;
-            M2C_FIELD(scratch, u16 *, 0x070) = tail_v0;
-            tail_v0 = tail_v0 - M2C_FIELD(scratch, u16 *, 0x010);
-            ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    frame_data = frame_header + 8;
+    ASM_KEEP_NV(frame_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    M2C_FIELD(scratch, u16 *, 0x024) = (u16) M2C_FIELD(frame, u16 *, 0x14);
+    if (!(M2C_FIELD(frame_header, u8 *, 0) & 0x20)) {
+        M2C_FIELD(scratch, s32 *, 0x008) = (s32) M2C_FIELD(frame_data, u8 *, 0);
+        M2C_FIELD(scratch, s32 *, 0x00C) = (s32) M2C_FIELD(frame_data, u8 *, 1);
+        M2C_FIELD(scratch, s32 *, 0x010) = (s32) M2C_FIELD(frame_data, u8 *, 2);
+        M2C_FIELD(scratch, s32 *, 0x014) = (s32) M2C_FIELD(frame_data, u8 *, 3);
+        if ((M2C_FIELD(frame_header, u8 *, 0) ^ M2C_FIELD(scratch, u16 *, 0x024)) & 1) {
+            origin_byte = *(volatile u8 *)((s8 *)frame_data + -6);
+            tail_value = (0 - (s32)(s8) origin_byte) - M2C_FIELD(scratch, u16 *, 0x108);
+            M2C_FIELD(scratch, u16 *, 0x080) = tail_value;
+            M2C_FIELD(scratch, u16 *, 0x070) = tail_value;
+            tail_value = tail_value - M2C_FIELD(scratch, u16 *, 0x010);
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_8002443C((u16) M2C_FIELD(scratch, s32 *, 0x010));
             return;
         }
-        byte_b = *(volatile u8 *)((s8 *)temp_s0 + -6);
-        temp_v0_4 = (s32)(s8) byte_b - M2C_FIELD(scratch, u16 *, 0x108);
-        M2C_FIELD(scratch, u16 *, 0x080) = temp_v0_4;
-        M2C_FIELD(scratch, u16 *, 0x070) = temp_v0_4;
-        temp_v0_5 = temp_v0_4 + (u16) M2C_FIELD(scratch, s32 *, 0x010);
-        M2C_FIELD(scratch, u16 *, 0x088) = temp_v0_5;
-        M2C_FIELD(scratch, u16 *, 0x078) = temp_v0_5;
-        if ((M2C_FIELD(temp_s5, u8 *, 0) ^ M2C_FIELD(scratch, u16 *, 0x024)) & 2) {
-            byte_b = *(volatile u8 *)((s8 *)temp_s0 + -5);
-            tail_v0 = (0 - (s32)(s8) byte_b) - M2C_FIELD(scratch, u16 *, 0x10A);
-            M2C_FIELD(scratch, u16 *, 0x07A) = tail_v0;
-            M2C_FIELD(scratch, u16 *, 0x072) = tail_v0;
-            tail_v0 = tail_v0 - M2C_FIELD(scratch, u16 *, 0x014);
-            ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        origin_byte = *(volatile u8 *)((s8 *)frame_data + -6);
+        left_x = (s32)(s8) origin_byte - M2C_FIELD(scratch, u16 *, 0x108);
+        M2C_FIELD(scratch, u16 *, 0x080) = left_x;
+        M2C_FIELD(scratch, u16 *, 0x070) = left_x;
+        right_x = left_x + (u16) M2C_FIELD(scratch, s32 *, 0x010);
+        M2C_FIELD(scratch, u16 *, 0x088) = right_x;
+        M2C_FIELD(scratch, u16 *, 0x078) = right_x;
+        if ((M2C_FIELD(frame_header, u8 *, 0) ^ M2C_FIELD(scratch, u16 *, 0x024)) & 2) {
+            origin_byte = *(volatile u8 *)((s8 *)frame_data + -5);
+            tail_value = (0 - (s32)(s8) origin_byte) - M2C_FIELD(scratch, u16 *, 0x10A);
+            M2C_FIELD(scratch, u16 *, 0x07A) = tail_value;
+            M2C_FIELD(scratch, u16 *, 0x072) = tail_value;
+            tail_value = tail_value - M2C_FIELD(scratch, u16 *, 0x014);
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_800244B0((u16) M2C_FIELD(scratch, s32 *, 0x014));
             return;
         }
-        byte_b = *(volatile u8 *)((s8 *)temp_s0 + -5);
-        temp_v0_7 = (s32)(s8) byte_b - M2C_FIELD(scratch, u16 *, 0x10A);
-        M2C_FIELD(scratch, u16 *, 0x07A) = temp_v0_7;
-        M2C_FIELD(scratch, u16 *, 0x072) = temp_v0_7;
-        temp_v0_8 = temp_v0_7 + (u16) M2C_FIELD(scratch, s32 *, 0x014);
-        M2C_FIELD(scratch, u16 *, 0x08A) = temp_v0_8;
-        M2C_FIELD(scratch, u16 *, 0x082) = temp_v0_8;
+        origin_byte = *(volatile u8 *)((s8 *)frame_data + -5);
+        top_y = (s32)(s8) origin_byte - M2C_FIELD(scratch, u16 *, 0x10A);
+        M2C_FIELD(scratch, u16 *, 0x07A) = top_y;
+        M2C_FIELD(scratch, u16 *, 0x072) = top_y;
+        bottom_y = top_y + (u16) M2C_FIELD(scratch, s32 *, 0x014);
+        M2C_FIELD(scratch, u16 *, 0x08A) = bottom_y;
+        M2C_FIELD(scratch, u16 *, 0x082) = bottom_y;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_800654B0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0, scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, scratch + 0x90, scratch + 0x94);
-        M2C_FIELD(var_s1, s16 *, 8) = (s16) (M2C_FIELD(scratch, u16 *, 0x0F0) + M2C_FIELD(scratch, u16 *, 0x0B8));
-        M2C_FIELD(var_s1, s16 *, 0xA) = (s16) (M2C_FIELD(scratch, u16 *, 0x0F2) + M2C_FIELD(scratch, u16 *, 0x0BA));
-        M2C_FIELD(var_s1, s16 *, 0x10) = (s16) (M2C_FIELD(scratch, u16 *, 0x0F4) + M2C_FIELD(scratch, u16 *, 0x0B8));
-        M2C_FIELD(var_s1, s16 *, 0x12) = (s16) (M2C_FIELD(scratch, u16 *, 0x0F6) + M2C_FIELD(scratch, u16 *, 0x0BA));
-        M2C_FIELD(var_s1, s16 *, 0x18) = (s16) (M2C_FIELD(scratch, u16 *, 0x0F8) + M2C_FIELD(scratch, u16 *, 0x0B8));
-        M2C_FIELD(var_s1, s16 *, 0x1A) = (s16) (M2C_FIELD(scratch, u16 *, 0x0FA) + M2C_FIELD(scratch, u16 *, 0x0BA));
-        M2C_FIELD(var_s1, s16 *, 0x20) = (s16) (M2C_FIELD(scratch, u16 *, 0x0FC) + M2C_FIELD(scratch, u16 *, 0x0B8));
-        M2C_FIELD(var_s1, s16 *, 0x22) = (s16) (M2C_FIELD(scratch, u16 *, 0x0FE) + M2C_FIELD(scratch, u16 *, 0x0BA));
-        M2C_FIELD(var_s1, s8 *, 3) = nine;
-        ASM_USE2_NV(nine, nine);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        func_800654B0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0, scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, scratch + 0x90, scratch + 0x94);
+        M2C_FIELD(packet, s16 *, 8) = (s16) (M2C_FIELD(scratch, u16 *, 0x0F0) + M2C_FIELD(scratch, u16 *, 0x0B8));
+        M2C_FIELD(packet, s16 *, 0xA) = (s16) (M2C_FIELD(scratch, u16 *, 0x0F2) + M2C_FIELD(scratch, u16 *, 0x0BA));
+        M2C_FIELD(packet, s16 *, 0x10) = (s16) (M2C_FIELD(scratch, u16 *, 0x0F4) + M2C_FIELD(scratch, u16 *, 0x0B8));
+        M2C_FIELD(packet, s16 *, 0x12) = (s16) (M2C_FIELD(scratch, u16 *, 0x0F6) + M2C_FIELD(scratch, u16 *, 0x0BA));
+        M2C_FIELD(packet, s16 *, 0x18) = (s16) (M2C_FIELD(scratch, u16 *, 0x0F8) + M2C_FIELD(scratch, u16 *, 0x0B8));
+        M2C_FIELD(packet, s16 *, 0x1A) = (s16) (M2C_FIELD(scratch, u16 *, 0x0FA) + M2C_FIELD(scratch, u16 *, 0x0BA));
+        M2C_FIELD(packet, s16 *, 0x20) = (s16) (M2C_FIELD(scratch, u16 *, 0x0FC) + M2C_FIELD(scratch, u16 *, 0x0B8));
+        M2C_FIELD(packet, s16 *, 0x22) = (s16) (M2C_FIELD(scratch, u16 *, 0x0FE) + M2C_FIELD(scratch, u16 *, 0x0BA));
+        M2C_FIELD(packet, s8 *, 3) = quad_words;
+        ASM_USE2_NV(quad_words, quad_words);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         {
-            s32 t10 = M2C_FIELD(scratch, s32 *, 0x010);
-            s32 t08 = M2C_FIELD(scratch, s32 *, 0x008);
-            t10 = t10 - 1;
+            s32 width = M2C_FIELD(scratch, s32 *, 0x010);
+            s32 u_start = M2C_FIELD(scratch, s32 *, 0x008);
+            width = width - 1;
             {
-                s32 t08b = t10 + t08;
-                temp_v1_2 = t08b;
+                s32 last_u = width + u_start;
+                u_end = last_u;
             }
         }
-        M2C_FIELD(scratch, s32 *, 0x010) = temp_v1_2;
-        if (temp_v1_2 & 0x100) {
-            M2C_FIELD(scratch, s32 *, 0x010) = temp_v1_2 - 1;
+        M2C_FIELD(scratch, s32 *, 0x010) = u_end;
+        if (u_end & 0x100) {
+            M2C_FIELD(scratch, s32 *, 0x010) = u_end - 1;
         }
         {
-            s32 t14 = M2C_FIELD(scratch, s32 *, 0x014);
-            s32 t0c = M2C_FIELD(scratch, s32 *, 0x00C);
-            t14 = t14 - 1;
+            s32 height = M2C_FIELD(scratch, s32 *, 0x014);
+            s32 v_start = M2C_FIELD(scratch, s32 *, 0x00C);
+            height = height - 1;
             {
-                s32 t0cb = t14 + t0c;
-                temp_v1_3 = t0cb;
+                s32 last_v = height + v_start;
+                v_end = last_v;
             }
         }
-        M2C_FIELD(scratch, s32 *, 0x014) = temp_v1_3;
-        if (temp_v1_3 & 0x100) {
-            M2C_FIELD(scratch, s32 *, 0x014) = temp_v1_3 - 1;
+        M2C_FIELD(scratch, s32 *, 0x014) = v_end;
+        if (v_end & 0x100) {
+            M2C_FIELD(scratch, s32 *, 0x014) = v_end - 1;
         }
         M2C_FIELD(scratch, s32 *, 0x014) <<= 8;
         M2C_FIELD(scratch, s32 *, 0x00C) <<= 8;
-        temp_s4_12 = M2C_FIELD(temp_s4, u16 *, 0x12);
-        if (temp_s4_12 != 0) {
+        clut_override = M2C_FIELD(frame, u16 *, 0x12);
+        if (clut_override != 0) {
             if (M2C_FIELD(scratch, u16 *, 0x024) & 0x100) {
-                M2C_FIELD(var_s1, u16 *, 0xE) = temp_s4_12;
+                M2C_FIELD(packet, u16 *, 0xE) = clut_override;
                 func_80024640();
                 return;
             }
-            tail_v0 = temp_s4_12 + M2C_FIELD(temp_s0, u16 *, -2);
-            ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            tail_value = clut_override + M2C_FIELD(frame_data, u16 *, -2);
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80024638();
             return;
         }
-        M2C_FIELD(var_s1, u16 *, 0xE) = (u16) M2C_FIELD(temp_s0, u16 *, -2);
-        M2C_FIELD(var_s1, s16 *, 0xC) = (s16) ((u16) M2C_FIELD(scratch, s32 *, 0x00C) + (u16) M2C_FIELD(scratch, s32 *, 0x008));
-        M2C_FIELD(var_s1, s16 *, 0x14) = (s16) ((u16) M2C_FIELD(scratch, s32 *, 0x00C) + (u16) M2C_FIELD(scratch, s32 *, 0x010));
-        temp_s4_16 = M2C_FIELD(temp_s4, u16 *, 0x10);
-        if (temp_s4_16 != 0) {
-            temp_tail_src = M2C_FIELD(temp_s0, u16 *, -4) & 0xFF9F;
-            tail_v0 = temp_s4_16 + temp_tail_src;
-            ASM_TAILSLOT_PIN(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        M2C_FIELD(packet, u16 *, 0xE) = (u16) M2C_FIELD(frame_data, u16 *, -2);
+        M2C_FIELD(packet, s16 *, 0xC) = (s16) ((u16) M2C_FIELD(scratch, s32 *, 0x00C) + (u16) M2C_FIELD(scratch, s32 *, 0x008));
+        M2C_FIELD(packet, s16 *, 0x14) = (s16) ((u16) M2C_FIELD(scratch, s32 *, 0x00C) + (u16) M2C_FIELD(scratch, s32 *, 0x010));
+        tpage_offset = M2C_FIELD(frame, u16 *, 0x10);
+        if (tpage_offset != 0) {
+            base_tpage = M2C_FIELD(frame_data, u16 *, -4) & 0xFF9F;
+            tail_value = tpage_offset + base_tpage;
+            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80024690();
             return;
         }
-        M2C_FIELD(var_s1, u16 *, 0x16) = (u16) M2C_FIELD(temp_s0, u16 *, -4);
-        M2C_FIELD(var_s1, s16 *, 0x1C) = (s16) ((u16) M2C_FIELD(scratch, s32 *, 0x014) | (u16) M2C_FIELD(scratch, s32 *, 0x008));
+        M2C_FIELD(packet, u16 *, 0x16) = (u16) M2C_FIELD(frame_data, u16 *, -4);
+        M2C_FIELD(packet, s16 *, 0x1C) = (s16) ((u16) M2C_FIELD(scratch, s32 *, 0x014) | (u16) M2C_FIELD(scratch, s32 *, 0x008));
         {
-            register s32 h14 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            h14 = (u16) M2C_FIELD(scratch, s32 *, 0x014);
-            M2C_FIELD(var_s1, s16 *, 0x24) = (s16) (h14 | (u16) M2C_FIELD(scratch, s32 *, 0x010));
+            register s32 packed_v ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            packed_v = (u16) M2C_FIELD(scratch, s32 *, 0x014);
+            M2C_FIELD(packet, s16 *, 0x24) = (s16) (packed_v | (u16) M2C_FIELD(scratch, s32 *, 0x010));
         }
-        if (M2C_FIELD(var_s1, s16 *, 0x20) < M2C_FIELD(var_s1, s16 *, 8)) {
-            temp_v1_4 = (u8) M2C_FIELD(var_s1, s16 *, 0x24);
-            M2C_FIELD(var_s1, u8 *, 0x24) = (u8) (temp_v1_4 + 0xFF);
-            M2C_FIELD(var_s1, u8 *, 0x14) = temp_v1_4;
+        if (M2C_FIELD(packet, s16 *, 0x20) < M2C_FIELD(packet, s16 *, 8)) {
+            right_u = (u8) M2C_FIELD(packet, s16 *, 0x24);
+            M2C_FIELD(packet, u8 *, 0x24) = (u8) (right_u + 0xFF);
+            M2C_FIELD(packet, u8 *, 0x14) = right_u;
         }
-        if (M2C_FIELD(var_s1, s16 *, 0xA) > M2C_FIELD(var_s1, s16 *, 0x22)) {
-            temp_v1_5 = M2C_FIELD(var_s1, u8 *, 0x25);
-            M2C_FIELD(var_s1, u8 *, 0x25) = (u8) (temp_v1_5 + 0xFF);
-            M2C_FIELD(var_s1, u8 *, 0x1D) = temp_v1_5;
+        if (M2C_FIELD(packet, s16 *, 0xA) > M2C_FIELD(packet, s16 *, 0x22)) {
+            bottom_v = M2C_FIELD(packet, u8 *, 0x25);
+            M2C_FIELD(packet, u8 *, 0x25) = (u8) (bottom_v + 0xFF);
+            M2C_FIELD(packet, u8 *, 0x1D) = bottom_v;
         }
-        temp_a0 = M2C_FIELD(temp_s0, u8 *, -7);
-        M2C_FIELD(temp_s4, u8 *, 0xF) = temp_a0;
-        temp_v1_6 = M2C_FIELD(scratch, u16 *, 0x024);
-        if (temp_v1_6 & 8) {
-            var_v0 = temp_v1_6 & 4;
-            if (var_v0 != 0) {
-                var_v0 = temp_a0 | 2;
+        prim_code = M2C_FIELD(frame_data, u8 *, -7);
+        M2C_FIELD(frame, u8 *, 0xF) = prim_code;
+        sprite_flags = M2C_FIELD(scratch, u16 *, 0x024);
+        if (sprite_flags & 8) {
+            blend_code = sprite_flags & 4;
+            if (blend_code != 0) {
+                blend_code = prim_code | 2;
             } else {
-                var_v0 = temp_a0 & 0xFD;
+                blend_code = prim_code & 0xFD;
             }
-            M2C_FIELD(temp_s4, u8 *, 0xF) = var_v0;
+            M2C_FIELD(frame, u8 *, 0xF) = blend_code;
         }
-        blk = var_s1;
-        M2C_FIELD(var_s1, s32 *, 4) = (s32) M2C_FIELD(temp_s4, s32 *, 0xC);
-        M2C_FIELD(base, u16 *, 0x62) = (u16) M2C_FIELD(var_s1, s16 *, 0xA);
-        var_t0 = blk + 32;
-        temp_v0_9 = (u16) M2C_FIELD(var_s1, s16 *, 0xA) + M2C_FIELD(base, u16 *, 0x64);
-        M2C_FIELD(var_s1, s16 *, 0x22) = temp_v0_9;
-        M2C_FIELD(var_s1, s16 *, 0x1A) = temp_v0_9;
-        tA0 = (s32) var_s1 & mask24;
-        M2C_FIELD(var_s1, s32 *, 0) = (M2C_FIELD(var_s1, s32 *, 0) & mask_top) | (*M2C_FIELD(scratch, s32 **, 0x020) & mask24);
-        temp_v1_7 = M2C_FIELD(scratch, s32 **, 0x020);
-        var_s1 += 40;
-        *temp_v1_7 = (*temp_v1_7 & mask_top) | tA0;
-        M2C_FIELD(var_s1, s8 *, 3) = nine;
+        first_quad = packet;
+        M2C_FIELD(packet, s32 *, 4) = (s32) M2C_FIELD(frame, s32 *, 0xC);
+        M2C_FIELD(sprite_base, u16 *, 0x62) = (u16) M2C_FIELD(packet, s16 *, 0xA);
+        quad_end = first_quad + 32;
+        strip_bottom = (u16) M2C_FIELD(packet, s16 *, 0xA) + M2C_FIELD(sprite_base, u16 *, 0x64);
+        M2C_FIELD(packet, s16 *, 0x22) = strip_bottom;
+        M2C_FIELD(packet, s16 *, 0x1A) = strip_bottom;
+        first_addr = (s32) packet & addr_mask;
+        M2C_FIELD(packet, s32 *, 0) = (M2C_FIELD(packet, s32 *, 0) & length_mask) | (*M2C_FIELD(scratch, s32 **, 0x020) & addr_mask);
+        first_link = M2C_FIELD(scratch, s32 **, 0x020);
+        packet += 40;
+        *first_link = (*first_link & length_mask) | first_addr;
+        M2C_FIELD(packet, s8 *, 3) = quad_words;
 
-        *(Blk40 *)var_s1 = *(Blk40 *)blk;
-        var_t4 = 1;
-        var_t3 = -0x30;
-        var_t2 = base + 2;
-        tA1 = (s32) var_s1 & mask24;
-        M2C_FIELD(var_s1, u16 *, 8) = (u16) (M2C_FIELD(var_s1, u16 *, 8) + 0x40);
-        M2C_FIELD(var_s1, u16 *, 0x10) = (u16) (M2C_FIELD(var_s1, u16 *, 0x10) + 0x40);
-        M2C_FIELD(var_s1, u16 *, 0x18) = (u16) (M2C_FIELD(var_s1, u16 *, 0x18) + 0x40);
-        M2C_FIELD(var_s1, u16 *, 0x20) = (u16) (M2C_FIELD(var_s1, u16 *, 0x20) + 0x40);
-        M2C_FIELD(var_s1, s32 *, 0) = (M2C_FIELD(var_s1, s32 *, 0) & mask_top) | (*M2C_FIELD(scratch, s32 **, 0x020) & mask24);
-        temp_v1_8 = M2C_FIELD(scratch, s32 **, 0x020);
-        var_s1 += 40;
-        var_t0 = var_s1 + 32;
-        *temp_v1_8 = (*temp_v1_8 & mask_top) | tA1;
-loop_33:
-        M2C_FIELD(var_t0, s8 *, -0x1D) = nine;
-        *(Blk40 *)var_s1 = *(Blk40 *)blk;
-        M2C_FIELD(var_t0, s16 *, -0x16) = (s16) (M2C_FIELD(base, u16 *, 0x62) + M2C_FIELD(var_t2, u16 *, 0x62));
-        M2C_FIELD(var_t0, s16 *, -0xE) = (s16) (M2C_FIELD(base, u16 *, 0x62) + M2C_FIELD(var_t2, u16 *, 0x62));
-        M2C_FIELD(var_t0, s16 *, -6) = (s16) (M2C_FIELD(base, u16 *, 0x62) + M2C_FIELD(var_t2, u16 *, 0x64));
-        M2C_FIELD(var_t0, s16 *, 2) = (s16) (M2C_FIELD(base, u16 *, 0x62) + M2C_FIELD(var_t2, u16 *, 0x64));
-        temp_a0_2 = var_t4 * 0x10;
-        if (var_t4 < 4) {
-            tail_v0 = M2C_FIELD(var_t0, u8 *, -0x13);
-            tail_v1 = M2C_FIELD(var_t0, u8 *, -0xB);
-            tail_v0 = tail_v0 + temp_a0_2;
-            M2C_FIELD(var_t0, u8 *, -0x13) = (u8) tail_v0;
-            tail_v0 = M2C_FIELD(var_t0, u8 *, -3);
-            tail_v1 = tail_v1 + temp_a0_2;
-            M2C_FIELD(var_t0, u8 *, -0xB) = (u8) tail_v1;
-            tail_v1 = M2C_FIELD(var_t0, u8 *, 5);
-            tail_v0 = tail_v0 + temp_a0_2;
-            tail_v1 = tail_v1 + temp_a0_2;
-            ASM_KEEP(tail_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(tail_v1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        *(Blk40 *)packet = *(Blk40 *)first_quad;
+        row_index = 1;
+        wrapped_v_offset = -0x30;
+        row_heights = sprite_base + 2;
+        second_addr = (s32) packet & addr_mask;
+        M2C_FIELD(packet, u16 *, 8) = (u16) (M2C_FIELD(packet, u16 *, 8) + 0x40);
+        M2C_FIELD(packet, u16 *, 0x10) = (u16) (M2C_FIELD(packet, u16 *, 0x10) + 0x40);
+        M2C_FIELD(packet, u16 *, 0x18) = (u16) (M2C_FIELD(packet, u16 *, 0x18) + 0x40);
+        M2C_FIELD(packet, u16 *, 0x20) = (u16) (M2C_FIELD(packet, u16 *, 0x20) + 0x40);
+        M2C_FIELD(packet, s32 *, 0) = (M2C_FIELD(packet, s32 *, 0) & length_mask) | (*M2C_FIELD(scratch, s32 **, 0x020) & addr_mask);
+        second_link = M2C_FIELD(scratch, s32 **, 0x020);
+        packet += 40;
+        quad_end = packet + 32;
+        *second_link = (*second_link & length_mask) | second_addr;
+    next_row:
+        M2C_FIELD(quad_end, s8 *, -0x1D) = quad_words;
+        *(Blk40 *)packet = *(Blk40 *)first_quad;
+        M2C_FIELD(quad_end, s16 *, -0x16) = (s16) (M2C_FIELD(sprite_base, u16 *, 0x62) + M2C_FIELD(row_heights, u16 *, 0x62));
+        M2C_FIELD(quad_end, s16 *, -0xE) = (s16) (M2C_FIELD(sprite_base, u16 *, 0x62) + M2C_FIELD(row_heights, u16 *, 0x62));
+        M2C_FIELD(quad_end, s16 *, -6) = (s16) (M2C_FIELD(sprite_base, u16 *, 0x62) + M2C_FIELD(row_heights, u16 *, 0x64));
+        M2C_FIELD(quad_end, s16 *, 2) = (s16) (M2C_FIELD(sprite_base, u16 *, 0x62) + M2C_FIELD(row_heights, u16 *, 0x64));
+        row_v_offset = row_index * 0x10;
+        if (row_index < 4) {
+            tail_value = M2C_FIELD(quad_end, u8 *, -0x13);
+            tail_uv = M2C_FIELD(quad_end, u8 *, -0xB);
+            tail_value = tail_value + row_v_offset;
+            M2C_FIELD(quad_end, u8 *, -0x13) = (u8) tail_value;
+            tail_value = M2C_FIELD(quad_end, u8 *, -3);
+            tail_uv = tail_uv + row_v_offset;
+            M2C_FIELD(quad_end, u8 *, -0xB) = (u8) tail_uv;
+            tail_uv = M2C_FIELD(quad_end, u8 *, 5);
+            tail_value = tail_value + row_v_offset;
+            tail_uv = tail_uv + row_v_offset;
+            ASM_KEEP(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(tail_uv);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80024958();
             return;
         }
-        tail_v0 = M2C_FIELD(var_t0, u8 *, -0x13);
-        tail_v1 = M2C_FIELD(var_t0, u8 *, -0xB);
-        tail_v0 = tail_v0 + var_t3;
-        M2C_FIELD(var_t0, u8 *, -0x13) = (u8) tail_v0;
-        tail_v0 = M2C_FIELD(var_t0, u8 *, -3);
-        tail_v1 = tail_v1 + var_t3;
-        M2C_FIELD(var_t0, u8 *, -0xB) = (u8) tail_v1;
-        tail_v1 = M2C_FIELD(var_t0, u8 *, 5);
-        tail_v0 = tail_v0 + var_t3;
-        tail_v1 = tail_v1 + var_t3;
-        M2C_FIELD(var_t0, u8 *, -3) = (u8) tail_v0;
-        M2C_FIELD(var_t0, u8 *, 5) = (u8) tail_v1;
-        var_t0 += 40;
-        cpv0 = var_s1;
-        ASM_KEEP(cpv0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        tA2 = (s32) var_s1 & mask24;
+        tail_value = M2C_FIELD(quad_end, u8 *, -0x13);
+        tail_uv = M2C_FIELD(quad_end, u8 *, -0xB);
+        tail_value = tail_value + wrapped_v_offset;
+        M2C_FIELD(quad_end, u8 *, -0x13) = (u8) tail_value;
+        tail_value = M2C_FIELD(quad_end, u8 *, -3);
+        tail_uv = tail_uv + wrapped_v_offset;
+        M2C_FIELD(quad_end, u8 *, -0xB) = (u8) tail_uv;
+        tail_uv = M2C_FIELD(quad_end, u8 *, 5);
+        tail_value = tail_value + wrapped_v_offset;
+        tail_uv = tail_uv + wrapped_v_offset;
+        M2C_FIELD(quad_end, u8 *, -3) = (u8) tail_value;
+        M2C_FIELD(quad_end, u8 *, 5) = (u8) tail_uv;
+        quad_end += 40;
+        row_quad = packet;
+        ASM_KEEP(row_quad);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        left_row_addr = (s32) packet & addr_mask;
         {
-            register s32 sv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-            sv = M2C_FIELD(var_s1, s32 *, 0);
-            M2C_FIELD(var_s1, s32 *, 0) = (sv & mask_top) | (*M2C_FIELD(scratch, s32 **, 0x020) & mask24);
+            register s32 packet_tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+            packet_tag = M2C_FIELD(packet, s32 *, 0);
+            M2C_FIELD(packet, s32 *, 0) = (packet_tag & length_mask) | (*M2C_FIELD(scratch, s32 **, 0x020) & addr_mask);
         }
-        temp_v1_9 = M2C_FIELD(scratch, s32 **, 0x020);
-        var_s1 += 40;
-        *temp_v1_9 = (*temp_v1_9 & mask_top) | tA2;
-        M2C_FIELD(var_t0, s8 *, -0x1D) = nine;
-        *(Blk40 *)var_s1 = *(Blk40 *)cpv0;
-        var_t3 += 0x10;
-        var_t2 = (u8 *)var_t2 + 2;
-        var_t4 += 1;
-        tA3 = (s32) var_s1 & mask24;
-        M2C_FIELD(var_t0, u16 *, -0x18) = (u16) (M2C_FIELD(var_t0, u16 *, -0x18) + 0x40);
-        M2C_FIELD(var_t0, u16 *, -0x10) = (u16) (M2C_FIELD(var_t0, u16 *, -0x10) + 0x40);
-        M2C_FIELD(var_t0, u16 *, -8) = (u16) (M2C_FIELD(var_t0, u16 *, -8) + 0x40);
-        M2C_FIELD(var_t0, u16 *, 0) = (u16) (M2C_FIELD(var_t0, u16 *, 0) + 0x40);
+        left_row_link = M2C_FIELD(scratch, s32 **, 0x020);
+        packet += 40;
+        *left_row_link = (*left_row_link & length_mask) | left_row_addr;
+        M2C_FIELD(quad_end, s8 *, -0x1D) = quad_words;
+        *(Blk40 *)packet = *(Blk40 *)row_quad;
+        wrapped_v_offset += 0x10;
+        row_heights = (u8 *)row_heights + 2;
+        row_index += 1;
+        right_row_addr = (s32) packet & addr_mask;
+        M2C_FIELD(quad_end, u16 *, -0x18) = (u16) (M2C_FIELD(quad_end, u16 *, -0x18) + 0x40);
+        M2C_FIELD(quad_end, u16 *, -0x10) = (u16) (M2C_FIELD(quad_end, u16 *, -0x10) + 0x40);
+        M2C_FIELD(quad_end, u16 *, -8) = (u16) (M2C_FIELD(quad_end, u16 *, -8) + 0x40);
+        M2C_FIELD(quad_end, u16 *, 0) = (u16) (M2C_FIELD(quad_end, u16 *, 0) + 0x40);
         {
-            register s32 sv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-            sv = M2C_FIELD(var_s1, s32 *, 0);
-            M2C_FIELD(var_s1, s32 *, 0) = (sv & mask_top) | (*M2C_FIELD(scratch, s32 **, 0x020) & mask24);
+            register s32 packet_tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+            packet_tag = M2C_FIELD(packet, s32 *, 0);
+            M2C_FIELD(packet, s32 *, 0) = (packet_tag & length_mask) | (*M2C_FIELD(scratch, s32 **, 0x020) & addr_mask);
         }
-        temp_v1_10 = M2C_FIELD(scratch, s32 **, 0x020);
-        var_t0 += 40;
-        *temp_v1_10 = (*temp_v1_10 & mask_top) | tA3;
-        var_s1 += 40;
-        if (var_t4 < 8) {
-            goto loop_33;
+        right_row_link = M2C_FIELD(scratch, s32 **, 0x020);
+        quad_end += 40;
+        *right_row_link = (*right_row_link & length_mask) | right_row_addr;
+        packet += 40;
+        if (row_index < 8) {
+            goto next_row;
         }
         func_80024AA0();
     }
-    temp_v0_10 = M2C_FIELD(temp_s0, FnPtr *, 0);
-    if (temp_v0_10 != NULL) {
-        ca0 = base;
-        ca2 = temp_s4;
-        ca1 = sp30_0;
-        ca3 = temp_s5;
-        var_s1 = temp_v0_10(ca0, ca1, ca2, ca3, var_s1);
+    draw_callback = M2C_FIELD(frame_data, FnPtr *, 0);
+    if (draw_callback != NULL) {
+        callback_sprite = sprite_base;
+        callback_frame = frame;
+        callback_param = callback_arg;
+        callback_data = frame_header;
+        packet = draw_callback(callback_sprite, callback_param, callback_frame, callback_data, packet);
     }
-    if ((s8) M2C_FIELD(temp_s5, u8 *, 0) >= 0) {
-        temp_s0 += 12;
-        temp_s5 += 12;
-        ASM_KEEP(temp_s0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(temp_s5);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    if ((s8) M2C_FIELD(frame_header, u8 *, 0) >= 0) {
+        frame_data += 12;
+        frame_header += 12;
+        ASM_KEEP(frame_data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(frame_header);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         func_80024390();
         return;
     }
-    sh16 = arg3_copy << 0x10;
+    restore_mode = saved_draw_mode << 0x10;
 
-    var_a0_2 = var_s1;
-    if (sh16 != 0) {
-        func_80067EF4(var_a0_2, 0, 1);
-        M2C_FIELD(var_s1, s32 *, 0) = (M2C_FIELD(var_s1, s32 *, 0) & 0xFF000000) | (*M2C_FIELD(scratch, s32 **, 0x020) & 0xFFFFFF);
-        temp_v1_11 = M2C_FIELD(scratch, s32 **, 0x020);
-        var_a0_2 = (u8 *) ((s32) var_s1 & 0xFFFFFF);
-        var_s1 += 12;
-        *temp_v1_11 = (*temp_v1_11 & 0xFF000000) | (s32) var_a0_2;
+    restore_packet = packet;
+    if (restore_mode != 0) {
+        func_80067EF4(restore_packet, 0, 1);
+        M2C_FIELD(packet, s32 *, 0) = (M2C_FIELD(packet, s32 *, 0) & 0xFF000000) | (*M2C_FIELD(scratch, s32 **, 0x020) & 0xFFFFFF);
+        restore_link = M2C_FIELD(scratch, s32 **, 0x020);
+        restore_packet = (u8 *) ((s32) packet & 0xFFFFFF);
+        packet += 12;
+        *restore_link = (*restore_link & 0xFF000000) | (s32) restore_packet;
     }
-    func_80064A40((s32) var_a0_2);
+    func_80064A40((s32) restore_packet);
     {
-        u8 *tp = D_80083160;
-        u64 raw = *(u64 *)tp;
-        void *root = (void *)(u32)raw;
-        M2C_FIELD(root, u8 **, 0x8D0) = var_s1;
+        u8 *state_slot = D_80083160;
+        u64 state_bits = *(u64 *)state_slot;
+        void *final_state = (void *)(u32)state_bits;
+        M2C_FIELD(final_state, u8 **, 0x8D0) = packet;
     }
 }

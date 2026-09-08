@@ -56,55 +56,51 @@ extern s16 D_80083228;
 extern u8 D_8017573C;
 extern u8 D_80176498[];
 
-void *func_80175858(void *arg0, Copy24 *arg1, void *arg2) {
-    void *temp_a0;
-    void *temp_a2;
-    void *temp_v0;
-    void *temp_v1;
+/* Allocate and initialize an object with source direction, render properties, and copied data. */
+void *func_80175858(void *direction_src, Copy24 *initial_data, void *render_src) {
+    void *render_data;
+    void *object_state;
+    void *object;
+    void *data_dst;
     register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *arg0_hold = arg0;
-    Copy24 *arg1_hold = arg1;
-    void *arg2_hold = arg2;
+    register u16 render_attr ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *direction_ref = direction_src;
+    Copy24 *data_src = initial_data;
+    void *render_ref = render_src;
 
-    ASM_KEEP_NV(arg0_hold);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(arg1_hold);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(arg2_hold);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    temp_v0 = func_8003FC64(0x312);
-    if (temp_v0 != NULL) {
+    ASM_KEEP_NV(direction_ref);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(data_src);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(render_ref);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    object = func_8003FC64(0x312);
+    if (object != NULL) {
         goto allocated;
     }
     result = NULL;
     goto done;
 allocated:
-    ((S_80175858_0 *)temp_v0)->unk_10 = &D_8017573C;
-    func_8004491C(temp_v0, &D_80045340);
-    temp_a2 = temp_v0 + 0x20;
-    ASM_KEEP_NV(temp_a2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_80175858_1 *)temp_a2)->unk_04.s =
-        (u16)((S_80175858_2 *)arg0_hold)->unk_2A;
-    temp_a0 = ((S_80175858_0 *)temp_v0)->unk_0C;
-    ((S_80175858_3 *)temp_a0)->unk_28 =
-        ((S_80175858_4 *)arg2_hold)->unk_28;
-    temp_a1 = ((S_80175858_4 *)arg2_hold)->unk_12;
-    ((S_80175858_3 *)temp_a0)->unk_1E = 0x800;
-    ((S_80175858_3 *)temp_a0)->unk_1C = 0x800;
-    ((S_80175858_3 *)temp_a0)->unk_0C = 0x808080;
-    (*(u16 *)((u8 *)temp_a0 + 0x12)) = temp_a1;
+    ((S_80175858_0 *)object)->unk_10 = &D_8017573C;
+    func_8004491C(object, &D_80045340);
+    object_state = object + 0x20;
+    ASM_KEEP_NV(object_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ((S_80175858_1 *)object_state)->unk_04.s =
+        (u16)((S_80175858_2 *)direction_ref)->unk_2A;
+    render_data = ((S_80175858_0 *)object)->unk_0C;
+    ((S_80175858_3 *)render_data)->unk_28 =
+        ((S_80175858_4 *)render_ref)->unk_28;
+    render_attr = ((S_80175858_4 *)render_ref)->unk_12;
+    ((S_80175858_3 *)render_data)->unk_1E = 0x800;
+    ((S_80175858_3 *)render_data)->unk_1C = 0x800;
+    ((S_80175858_3 *)render_data)->unk_0C = 0x808080;
+    (*(u16 *)((u8 *)render_data + 0x12)) = render_attr;
     func_80047784(
-        temp_a0,
+        render_data,
         D_80176498[
-            ((D_80083228 + ((S_80175858_1 *)temp_a2)->unk_04.u + 0x100) >> 9) &
+            ((D_80083228 + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
             7],
         0);
-    temp_v1 = ((S_80175858_0 *)temp_v0)->unk_08;
-    result = temp_v0;
-    *(Copy24 *)temp_v1 = *arg1_hold;
+    data_dst = ((S_80175858_0 *)object)->unk_08;
+    result = object;
+    *(Copy24 *)data_dst = *data_src;
 done:
     return result;
 }
-
-/* MECHANISM: True-space CFG plus one v0 result carrier preserves bnez/local-j/zero-delay.
-   Guarded s1/s3/s2 argument holds reproduce the 0x28 frame and exact save scatter.
-   Byte-table typing and an early a1 halfword lifetime remove scaling and load-delay drift.
-   Holding the copy destination in v1 before v0 yields retail's packed 24-byte copy order. */

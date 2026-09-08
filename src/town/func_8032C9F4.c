@@ -7,26 +7,22 @@ extern s32 D_8001BB4C[];
 extern s32 D_8001C354;
 extern s32 D_8001FAE8[];
 
-s32 func_800171F4(s32 arg0, s32 arg1, s32 arg2) {
-    s32 saved_arg0 = arg0;
-    s32 saved_arg2;
-    s32 *base;
+/* Processes a request by mode, returning a fallback pointer if the mode 7 check fails. */
+s32 func_800171F4(s32 request, s32 unused, s32 mode) {
+    s32 saved_request = request;
+    s32 saved_mode;
+    s32 *data_base;
     s32 result;
 
-    saved_arg2 = arg2;
-    base = D_8001BB4C;
-    result = func_80019DFC(base, &D_8001C354, saved_arg0, saved_arg2);
-    if (saved_arg2 == 7) {
+    saved_mode = mode;
+    data_base = D_8001BB4C;
+    result = func_80019DFC(data_base, &D_8001C354, saved_request, saved_mode);
+    if (saved_mode == 7) {
         if (func_80019370() != 0) {
             return result;
         }
         return (s32)D_8001FAE8;
     }
-    func_80019D44(base, saved_arg0, saved_arg2);
+    func_80019D44(data_base, saved_request, saved_mode);
     return result;
 }
-
-/* MECHANISM: Ordinary locals let the four cross-call values allocate naturally as
-   s3=arg0, s0=arg2, s2=the held global base, and s1=the first call's result.
-   Removing all inherited hard-register pins restores the retail 0x28 frame and
-   s3/s0/s2 save-and-copy order; the body CFG then matches without barriers. */

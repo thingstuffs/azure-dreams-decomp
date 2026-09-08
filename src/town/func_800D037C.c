@@ -17,24 +17,25 @@ typedef struct S_800CDADC_0 {
 
 /* extern */
 
-void func_800CDADC(Rec_func_80094268_arg0 *arg0, S_800CDADC_0 *arg1, M2C_UNK arg2) {
-    u16 temp_v0;
+/* Advance motion, clamp at its limit, and handle the remaining steps. */
+void func_800CDADC(Rec_func_80094268_arg0 *entity, S_800CDADC_0 *motion, M2C_UNK context) {
+    u16 steps_left;
 
-    arg1->unk_08.at00.v = (s32) (arg1->unk_08.at00.v + arg1->unk_14);
-    if (func_800C2AE8(arg1) < arg1->unk_08.at02.v) {
-        arg1->unk_08.at02.v = func_800C2AE8(arg1);
-        temp_v0 = arg0->unk_90.as_u16 - 1;
-        arg0->unk_90.as_u16 = temp_v0;
-        if ((temp_v0 << 0x10) <= 0) {
-            arg1->unk_14 = 0;
-            func_800CDF94(arg0, arg1, arg2);
+    motion->unk_08.at00.v = (s32) (motion->unk_08.at00.v + motion->unk_14);
+    if (func_800C2AE8(motion) < motion->unk_08.at02.v) {
+        motion->unk_08.at02.v = func_800C2AE8(motion);
+        steps_left = entity->unk_90.as_u16 - 1;
+        entity->unk_90.as_u16 = steps_left;
+        if ((steps_left << 0x10) <= 0) {
+            motion->unk_14 = 0;
+            func_800CDF94(entity, motion, context);
             return;
         }
-        if (func_800C30E0(arg0, arg1, arg2) == 0) {
-            func_800CDF00(arg0, arg1, arg2);
+        if (func_800C30E0(entity, motion, context) == 0) {
+            func_800CDF00(entity, motion, context);
             return;
         }
     } else {
-        func_80095388(arg1);
+        func_80095388(motion);
     }
 }

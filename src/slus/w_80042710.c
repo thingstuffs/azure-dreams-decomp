@@ -1,7 +1,5 @@
 #include "common.h"
 
-#include "common.h"
-
 #ifdef __mips__
 #define PIN_KEEP(v) __asm__ __volatile__("" : "=r"(v) : "0"(v))
 #define PIN_BARRIER(v) __asm__ __volatile__("" : : "r"(v))
@@ -68,102 +66,101 @@ typedef struct
   u32 f54;
 } S_80042710;
 extern void func_80041E70(S_80042710 *a0);
-void func_80042710(S_80042710 *a0, S_80042710 *a1)
+/* Copy record fields, merge flags, update the tagged group, and refresh the destination. */
+void func_80042710(S_80042710 *dst_record, S_80042710 *src_record)
 {
-  register S_80042710 *src ASM_REG("$10") = a1;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-  register s32 i ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  u8 first;
-  PIN_KEEP(src);
-  first = src->f00;
-  PIN_BARRIER(first);
+  register S_80042710 *src ASM_REG("$10") = src_record;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  register s32 index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+  u8 field_00;
+  field_00 = src->f00;
+  PIN_BARRIER(field_00);
   {
-  register S_80042710 *dest ASM_REG("$9") = a0;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  PIN_KEEP(dest);
-  dest->f00 = first;
-  dest->f01 = src->f01;
-  dest->f02 = src->f02;
-  dest->f03 = src->f03;
-  dest->f04 = src->f04;
-  dest->f05 = src->f05;
-  dest->f06 = src->f06;
-  i = 2;
-  {
-    register u8 *sp ASM_REG("$4") = (u8 *)src + 6;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register u8 *dp ASM_REG("$3") = (u8 *)dest + 6;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register S_80042710 *dst ASM_REG("$9") = dst_record;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+    PIN_KEEP(dst);
+    dst->f00 = field_00;
+    dst->f01 = src->f01;
+    dst->f02 = src->f02;
+    dst->f03 = src->f03;
+    dst->f04 = src->f04;
+    dst->f05 = src->f05;
+    dst->f06 = src->f06;
+    index = 2;
+    {
+      register u8 *src_slot1 ASM_REG("$4") = (u8 *)src + 6;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+      register u8 *dst_slot1 ASM_REG("$3") = (u8 *)dst + 6;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+      do
+      {
+        dst_slot1[8] = src_slot1[8];
+        dst_slot1[10] = src_slot1[10];
+        src_slot1 -= 3;
+        dst_slot1 -= 3;
+        index--;
+      }
+      while (index >= 0);
+    }
+    dst->f11 = src->f11;
+    dst->f12 = src->f12;
+    dst->f13 = src->f13;
+    dst->f14 = (dst->f14 | src->f14) & 0xFFEFFFFF;
+    dst->f18 = src->f18;
+    dst->f1c = (dst->f1c | src->f1c) & 0xEFF6FEFF;
+    dst->f20 = src->f20;
+    dst->f22 = src->f22;
+    dst->f24 = src->f24;
+    dst->f26 = src->f26;
+    dst->f27 = src->f27;
+    dst->f28 = src->f28;
+    dst->f2a = src->f2a;
+    index = 3;
+    {
+      register s8 *src_slot2 ASM_REG("$8") = (s8 *)src + 6;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+      register s8 *dst_slot2 ASM_REG("$7") = (s8 *)dst + 6;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+      register s32 slot_a ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+      register s32 slot_b;
+      do
+      {
+        slot_a = src_slot2[44];
+        slot_b = src_slot2[45];
+        dst_slot2[44] = slot_a;
+        dst_slot2[45] = slot_b;
+        PIN_BARRIER2(slot_a, slot_b);
+        src_slot2 -= 2;
+        index--;
+        dst_slot2 -= 2;
+      }
+      while (index >= 0);
+    }
+    index = 12;
     do
     {
-      dp[8] = sp[8];
-      dp[10] = sp[10];
-      sp -= 3;
-      dp -= 3;
-      i--;
+      dst->name[index] = src->name[index];
+      index--;
     }
-    while (i >= 0);
-  }
-  dest->f11 = src->f11;
-  dest->f12 = src->f12;
-  dest->f13 = src->f13;
-  dest->f14 = (dest->f14 | src->f14) & 0xFFEFFFFF;
-  dest->f18 = src->f18;
-  dest->f1c = (dest->f1c | src->f1c) & 0xEFF6FEFF;
-  dest->f20 = src->f20;
-  dest->f22 = src->f22;
-  dest->f24 = src->f24;
-  dest->f26 = src->f26;
-  dest->f27 = src->f27;
-  dest->f28 = src->f28;
-  dest->f2a = src->f2a;
-  i = 3;
-  {
-    register s8 *sp2 ASM_REG("$8") = (s8 *)src + 6;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register s8 *dp2 ASM_REG("$7") = (s8 *)dest + 6;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register s32 y;
-    do
+    while (index >= 0);
+    dst->f43 = src->f43;
+    dst->f44 = src->f44;
+    if (dst->grp48.f.tag == 0)
     {
-      x = sp2[44];
-      y = sp2[45];
-      PIN_BARRIER2(x, y);
-      dp2[44] = x;
-      dp2[45] = y;
-      PIN_BARRIER2(x, y);
-      sp2 -= 2;
-      i--;
-      dp2 -= 2;
+      dst->grp48 = src->grp48;
     }
-    while (i >= 0);
-  }
-  i = 12;
-  do
-  {
-    dest->name[i] = src->name[i];
-    i--;
-  }
-  while (i >= 0);
-  dest->f43 = src->f43;
-  dest->f44 = src->f44;
-  if (dest->grp48.f.tag == 0)
-  {
-    dest->grp48 = src->grp48;
-  }
-  if (src->grp48.f.tag == 0xF)
-  {
-    dest->grp48 = src->grp48;
-    if (src->f4c != 0)
+    if (src->grp48.f.tag == 0xF)
     {
-      dest->f4c = &dest->grp48;
+      dst->grp48 = src->grp48;
+      if (src->f4c != 0)
+      {
+        dst->f4c = &dst->grp48;
+      }
     }
-  }
-  dest->f45 = src->f45;
-  {
-    u32 final_value = src->f54;
-    PIN_BARRIER(final_value);
+    dst->f45 = src->f45;
     {
-      S_80042710 *call_arg = dest;
-      PIN_KEEP(call_arg);
-      dest->f54 = final_value;
-      func_80041E70(call_arg);
+      u32 field_54 = src->f54;
+      PIN_BARRIER(field_54);
+      {
+        S_80042710 *refresh_dst = dst;
+        PIN_KEEP(refresh_dst);
+        dst->f54 = field_54;
+        func_80041E70(refresh_dst);
+      }
     }
-  }
   }
 }

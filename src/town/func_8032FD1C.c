@@ -36,50 +36,51 @@ typedef struct S_8001A51C_2 {
     s16 unk_14;
 } S_8001A51C_2;   /* var_t2 in func_8001A51C */
 
-void func_8001A51C(u16 *arg0, S_8001A51C_1 *arg1) {
-    s32 var_a2;
-    s32 var_t0;
-    register s32 var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    s32 var_v0;
-    s32 var_v1;
-    volatile u16 *var_a3;
-    u16 *var_t1;
-    register u16 *var_store ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s8 *var_t2;
-    void *temp_v0;
+/* Copy nonzero 16-bit values from the source into the destination rectangle. */
+void func_8001A51C(u16 *source, S_8001A51C_1 *rect) {
+    s32 col;
+    s32 row;
+    register s32 dst_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 row_offset;
+    s32 stride_shift;
+    volatile u16 *src_cursor;
+    u16 *dst_base;
+    register u16 *dst_cell ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s8 *grid_info;
+    void *buffer_state;
 
-    var_a3 = arg0;
-    ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    temp_v0 = ((S_8001A51C_4 *)(((S_8001A51C_3 *)(D_80016000[0]))->unk_24))->unk_70;
-    var_t2 = (s8 *)temp_v0 + 0x1DC;
-    var_t1 = ((S_8001A51C_0 *)temp_v0)->unk_1DC;
-    var_t0 = 0;
-    if (arg1->unk_06 > 0) {
+    src_cursor = source;
+    ASM_KEEP(src_cursor);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    buffer_state = ((S_8001A51C_4 *)(((S_8001A51C_3 *)(D_80016000[0]))->unk_24))->unk_70;
+    grid_info = (s8 *)buffer_state + 0x1DC;
+    dst_base = ((S_8001A51C_0 *)buffer_state)->unk_1DC;
+    row = 0;
+    if (rect->unk_06 > 0) {
         do {
-            var_a2 = 0;
-            if (arg1->unk_04 > 0) {
+            col = 0;
+            if (rect->unk_04 > 0) {
                 do {
-                    var_a0 = arg1->unk_00;
-                    var_a0 += var_a2;
-                    ASM_KEEP(var_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    var_v0 = arg1->unk_02;
-                    var_v0 += var_t0;
-                    ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    var_v1 = ((S_8001A51C_2 *)var_t2)->unk_14;
-                    var_v0 <<= var_v1;
-                    var_a0 += var_v0;
-                    if (*var_a3 != 0) {
-                        var_store = (u16 *)((var_a0 << 1) + (s32)var_t1);
-                        ASM_KEEP(var_store);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        *var_store = *var_a3;
+                    dst_index = rect->unk_00;
+                    dst_index += col;
+                    ASM_KEEP(dst_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    row_offset = rect->unk_02;
+                    row_offset += row;
+                    ASM_KEEP(row_offset);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    stride_shift = ((S_8001A51C_2 *)grid_info)->unk_14;
+                    row_offset <<= stride_shift;
+                    dst_index += row_offset;
+                    if (*src_cursor != 0) {
+                        dst_cell = (u16 *)((dst_index << 1) + (s32)dst_base);
+                        ASM_KEEP(dst_cell);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        *dst_cell = *src_cursor;
                     }
-                    var_a2 += 1;
-                    var_a3 += 1;
-                } while (var_a2 < arg1->unk_04);
+                    col += 1;
+                    src_cursor += 1;
+                } while (col < rect->unk_04);
             }
             do {
-                var_t0 += 1;
+                row += 1;
             } while (0);
-        } while (var_t0 < arg1->unk_06);
+        } while (row < rect->unk_06);
     }
 }

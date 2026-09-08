@@ -40,40 +40,41 @@ typedef struct S_801264AC_3 {
     s32 unk_184;
 } S_801264AC_3;   /* &D_80129728 in func_801264AC */
 
-s32 func_801264AC(S_801264AC_2 *arg0) {
-    M2C_UNK **var_v1;
-    M2C_UNK *var_a0;
-    M2C_UNK *var_a1;
-    M2C_UNK *var_a2;
-    M2C_UNK *var_t0;
-    s32 var_a3;
-    s32 ret;
+/* Initializes 98 linked nodes and attaches their table to the context. */
+s32 func_801264AC(S_801264AC_2 *context) {
+    M2C_UNK **node_slot;
+    M2C_UNK *node;
+    M2C_UNK *node_data;
+    M2C_UNK *node_aux;
+    M2C_UNK *prev_node;
+    s32 node_count;
+    s32 result;
 
-    var_t0 = NULL;
-    var_a3 = 0;
-    var_v1 = &D_80129728;
-    var_a2 = &D_8012A4F8;
-    var_a1 = &D_80129ED8;
-    var_a0 = &D_801298B8;
+    prev_node = NULL;
+    node_count = 0;
+    node_slot = &D_80129728;
+    node_aux = &D_8012A4F8;
+    node_data = &D_80129ED8;
+    node = &D_801298B8;
     do {
-        *var_v1 = var_a0;
-        ((S_801264AC_0 *)var_a0)->unk_04 = var_a1;
-        var_a1 += 4;
-        var_a0 += 4;
-        var_a3 += 1;
-        ((S_801264AC_1 *)(*var_v1))->unk_08 = var_a2;
-        var_a2 += 3;
-        ((S_801264AC_1 *)(*var_v1))->unk_0C = var_t0;
-        var_t0 = *var_v1;
-        var_v1 += 1;
-    } while (var_a3 < 0x62);
-    func_8004CC38(&D_80129728, 0x62, var_a2, var_a3);
+        *node_slot = node;
+        ((S_801264AC_0 *)node)->unk_04 = node_data;
+        node_data += 4;
+        node += 4;
+        node_count += 1;
+        ((S_801264AC_1 *)(*node_slot))->unk_08 = node_aux;
+        node_aux += 3;
+        ((S_801264AC_1 *)(*node_slot))->unk_0C = prev_node;
+        prev_node = *node_slot;
+        node_slot += 1;
+    } while (node_count < 0x62);
+    func_8004CC38(&D_80129728, 0x62, node_aux, node_count);
     func_8004CCBC(&D_80129728, 0x62);
-    arg0->unk_58 = &D_80129728;
-    arg0->unk_54 = (s32)((S_801264AC_3 *)(&D_80129728))->unk_184;
-    ret = 1;
-    ASM_KEEP(ret);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    return ret;
+    context->unk_58 = &D_80129728;
+    context->unk_54 = (s32)((S_801264AC_3 *)(&D_80129728))->unk_184;
+    result = 1;
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    return result;
 }
 
 /* MECHANISM: The natural loop shape yields the exact 32-byte frame and s1/s0/ra saves.

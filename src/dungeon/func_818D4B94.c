@@ -55,65 +55,66 @@ typedef struct S_818D4B94_1 {
     s32 unk_50;
 } S_818D4B94_1;   /* temp_s0 in func_818D4B94 */
 
-void func_818D4B94(Rec_D_800E3D7C *arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
-    s16 held_arg1 = arg1;
-    s32 held_arg2 = arg2;
-    s32 held_arg3 = arg3;
-    register s32 held_arg4 ASM_REG("$18") = arg4;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 held_arg5 ASM_REG("$19") = arg5;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 held_arg6 ASM_REG("$20") = arg6;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 signed_arg3;
-    s32 var_v1;
-    s32 temp_a1;
-    s32 numerator;
-    s32 temp_lo;
-    s32 temp_lo_2;
-    s32 var_v1_2;
-    S_818D4B94_1 *temp_s0;
-    void *temp_v0;
+/* Creates an offset effect with velocity directed back toward the source position. */
+void func_818D4B94(Rec_D_800E3D7C *source, s16 setting_14, s32 setting_08, s32 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
+    s16 saved_setting_14 = setting_14;
+    s32 saved_setting_08 = setting_08;
+    s32 saved_duration = duration;
+    register s32 saved_offset_x ASM_REG("$18") = offset_x;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 saved_offset_y ASM_REG("$19") = offset_y;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 saved_offset_z ASM_REG("$20") = offset_z;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 signed_duration;
+    s32 biased_duration;
+    s32 step_count;
+    s32 return_delta_x;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
+    S_818D4B94_1 *state;
+    void *effect;
 
-    temp_v0 = func_8003FD64(0x211, arg0);
-    if (temp_v0 != NULL) {
-        ((S_818D4B94_0 *)temp_v0)->unk_10 = &D_80024294;
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)temp_v0)->unk_08))->unk_02 = (s16) (((S_818D4B94_5 *)(arg0->unk_08.at00_pv.v))->unk_02 + held_arg4);
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)temp_v0)->unk_08))->unk_06 = (s16) (((S_818D4B94_5 *)(arg0->unk_08.at00_pv.v))->unk_06 + held_arg5);
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)temp_v0)->unk_08))->unk_0A = (s16) (((S_818D4B94_5 *)(arg0->unk_08.at00_pv.v))->unk_0A + held_arg6);
-        temp_s0 = temp_v0 + 0x20;
-        temp_s0->unk_34 = (u16) ((S_818D4B94_5 *)(arg0->unk_08.at00_pv.v))->unk_02;
-        temp_s0->unk_36 = (u16) ((S_818D4B94_5 *)(arg0->unk_08.at00_pv.v))->unk_06;
-        temp_s0->unk_38 = (u16) ((S_818D4B94_5 *)(arg0->unk_08.at00_pv.v))->unk_0A;
-        signed_arg3 = (s16) held_arg3;
-        var_v1 = signed_arg3;
-        numerator = 0 - (held_arg4 << 0x10);
-        if (signed_arg3 < 0) {
-            var_v1 = signed_arg3 + 7;
+    effect = func_8003FD64(0x211, source);
+    if (effect != NULL) {
+        ((S_818D4B94_0 *)effect)->unk_10 = &D_80024294;
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_02 = (s16) (((S_818D4B94_5 *)(source->unk_08.at00_pv.v))->unk_02 + saved_offset_x);
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_06 = (s16) (((S_818D4B94_5 *)(source->unk_08.at00_pv.v))->unk_06 + saved_offset_y);
+        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_0A = (s16) (((S_818D4B94_5 *)(source->unk_08.at00_pv.v))->unk_0A + saved_offset_z);
+        state = effect + 0x20;
+        state->unk_34 = (u16) ((S_818D4B94_5 *)(source->unk_08.at00_pv.v))->unk_02;
+        state->unk_36 = (u16) ((S_818D4B94_5 *)(source->unk_08.at00_pv.v))->unk_06;
+        state->unk_38 = (u16) ((S_818D4B94_5 *)(source->unk_08.at00_pv.v))->unk_0A;
+        signed_duration = (s16) saved_duration;
+        biased_duration = signed_duration;
+        return_delta_x = 0 - (saved_offset_x << 0x10);
+        if (signed_duration < 0) {
+            biased_duration = signed_duration + 7;
         }
-        temp_a1 = var_v1 >> 3;
-        temp_lo = numerator / temp_a1;
-        if (temp_lo < 0) {
-            temp_lo += 0xF;
+        step_count = biased_duration >> 3;
+        velocity_x = return_delta_x / step_count;
+        if (velocity_x < 0) {
+            velocity_x += 0xF;
         }
-        temp_s0->unk_48 = temp_lo >> 4;
-        ASM_KEEP(held_arg4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_lo_2 = (s32) (0 - (held_arg5 << 0x10)) / temp_a1;
-        if (temp_lo_2 < 0) {
-            temp_lo_2 += 0xF;
+        state->unk_48 = velocity_x >> 4;
+        ASM_KEEP(saved_offset_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        velocity_y = (s32) (0 - (saved_offset_y << 0x10)) / step_count;
+        if (velocity_y < 0) {
+            velocity_y += 0xF;
         }
-        temp_s0->unk_4C = temp_lo_2 >> 4;
-        ASM_KEEP(held_arg5);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        var_v1_2 = (s32) (0 - (held_arg6 << 0x10)) / temp_a1;
-        if (var_v1_2 < 0) {
-            var_v1_2 += 0xF;
+        state->unk_4C = velocity_y >> 4;
+        ASM_KEEP(saved_offset_y);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(saved_setting_14);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(saved_duration);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(saved_setting_08);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        velocity_z = (s32) (0 - (saved_offset_z << 0x10)) / step_count;
+        if (velocity_z < 0) {
+            velocity_z += 0xF;
         }
-        temp_s0->unk_50 = (s32) (var_v1_2 >> 4);
-        temp_s0->unk_14 = held_arg1;
-        temp_s0->unk_32 = held_arg3;
-        func_8004491C(temp_v0, &D_80024044, signed_arg3);
-        ASM_KEEP(held_arg6);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_s0->unk_08 = held_arg2;
+        state->unk_50 = (s32) (velocity_z >> 4);
+        state->unk_14 = saved_setting_14;
+        state->unk_32 = saved_duration;
+        func_8004491C(effect, &D_80024044, signed_duration);
+        ASM_KEEP(saved_offset_z);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        state->unk_08 = saved_setting_08;
     }
 }
 

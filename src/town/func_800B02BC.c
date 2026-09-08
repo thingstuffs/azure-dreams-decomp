@@ -11,16 +11,17 @@ extern void func_800B17E4(s32 arg0);
 extern s32 D_800D1558;
 extern s32 D_800D155C;
 
-void func_800ADA1C(s32 *arg0) {
-    u8 *entry;
+/* Handles the selected entry according to its type, flags, and availability. */
+void func_800ADA1C(s32 *state) {
+    u8 *selected_entry;
 
-    entry = (u8 *) (arg0[1] * 4 + arg0[8]);
-    if (entry[1] != 0x16) {
-        if (!(entry[3] & 0x80)) {
-            if (func_800AD99C(arg0) != 0) {
+    selected_entry = (u8 *) (state[1] * 4 + state[8]);
+    if (selected_entry[1] != 0x16) {
+        if (!(selected_entry[3] & 0x80)) {
+            if (func_800AD99C(state) != 0) {
                 func_80053DA8(0x503);
-                func_800AD7F8(arg0);
-                func_800B17E4(arg0[10]);
+                func_800AD7F8(state);
+                func_800B17E4(state[10]);
                 return;
             }
             func_80053DA8(0x506);
@@ -28,12 +29,12 @@ void func_800ADA1C(s32 *arg0) {
             return;
         }
         func_80053DA8(0x506);
-        if (arg0[6] == 1) {
+        if (state[6] == 1) {
             func_8004DD2C(D_800D155C);
             return;
         }
     } else {
-        func_800AE30C((s8 *) arg0 - 0x20);
-        func_800AD8CC(arg0);
+        func_800AE30C((s8 *) state - 0x20);
+        func_800AD8CC(state);
     }
 }

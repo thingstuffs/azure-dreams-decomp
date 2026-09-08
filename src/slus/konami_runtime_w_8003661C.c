@@ -27,10 +27,11 @@ typedef struct S_8003661C_0 {
 M2C_UNK func_80053DA8();                     /* extern */
 extern M2C_UNK func_80036484;
 
-void func_8003661C(S_8003661C_0 *arg0) {
-    ((S_8003661C_2 *)(((S_8003661C_1 *)arg0)->unk_74))->unk_27 = (u8) arg0->unk_4D;
-    arg0->unk_64 = 0x11;
-    arg0->unk_68 = &func_80036484;
-    arg0->unk_4D = (u8) (arg0->unk_4D | 0x80);
+/* Save the object's flags in its linked data and initialize state 0x11. */
+void func_8003661C(S_8003661C_0 *object) {
+    ((S_8003661C_2 *)(((S_8003661C_1 *)object)->unk_74))->unk_27 = (u8) object->unk_4D;
+    object->unk_64 = 0x11;
+    object->unk_68 = &func_80036484;
+    object->unk_4D = (u8) (object->unk_4D | 0x80);
     func_80053DA8(0x503);
 }

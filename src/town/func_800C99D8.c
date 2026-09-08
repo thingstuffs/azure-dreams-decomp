@@ -17,10 +17,11 @@ extern u8 D_80082660[];
 extern u8 D_800C3C28[];
 extern u8 D_800D5CD0[];
 
-void func_800C7138(Obj *arg0, s32 unused, Arg2 *arg2) {
-    if (arg2->unk14 & 0x6000) {
-        func_800C2E84(arg0, arg2, D_800D5CD0);
-        D_80082660[arg0->unk60 * 8] = 0;
-        arg0->unk54 = D_800C3C28;
+// Process the flagged event, clear the object's indexed flag, and reset its state pointer.
+void func_800C7138(Obj *object, s32 unused, Arg2 *event) {
+    if (event->unk14 & 0x6000) {
+        func_800C2E84(object, event, D_800D5CD0);
+        D_80082660[object->unk60 * 8] = 0;
+        object->unk54 = D_800C3C28;
     }
 }

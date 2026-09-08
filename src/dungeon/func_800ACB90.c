@@ -36,29 +36,30 @@ extern void func_80099FDC(void *);
 extern void func_8009A21C(u8, u8, s32);
 extern void func_800BC26C(void *, s32, void *, void *);
 
-void func_800B22F0(void *arg0, Rec_D_800E3D7C *arg1, void *arg2)
+/* Initialize the entity sprite position, scale, color, and active state. */
+void func_800B22F0(void *entity, Rec_D_800E3D7C *position, void *sprite)
 {
-    u8 *state = (u8 *)arg0 + 0x20;
+    u8 *state = (u8 *)entity + 0x20;
 
-    ((S_800B22F0_0 *)arg2)->unk_26 =
-        func_8009FB34(((S_800B22F0_0 *)arg2)->unk_24, ((S_800B22F0_0 *)arg2)->unk_25);
-    func_800A2B04(arg1, ((S_800B22F0_0 *)arg2)->unk_24, ((S_800B22F0_0 *)arg2)->unk_25);
+    ((S_800B22F0_0 *)sprite)->unk_26 =
+        func_8009FB34(((S_800B22F0_0 *)sprite)->unk_24, ((S_800B22F0_0 *)sprite)->unk_25);
+    func_800A2B04(position, ((S_800B22F0_0 *)sprite)->unk_24, ((S_800B22F0_0 *)sprite)->unk_25);
 
     ((S_800B22F0_1 *)state)->unk_88 =
-        func_800BCB04(arg1->unk_00.at02_u16.v, arg1->unk_04.at02_u16.v,
-                      (s16)(arg1->unk_08.at02_u16.v - 0x20));
+        func_800BCB04(position->unk_00.at02_u16.v, position->unk_04.at02_u16.v,
+                      (s16)(position->unk_08.at02_u16.v - 0x20));
 
-    ((S_800B22F0_0 *)arg2)->unk_1E = 0x1000;
-    ((S_800B22F0_0 *)arg2)->unk_1C = 0x1000;
-    ((S_800B22F0_0 *)arg2)->unk_0C = 0x2C808080;
-    ((S_800B22F0_0 *)arg2)->unk_14 |= 0x8000;
-    func_80099FDC(arg0);
+    ((S_800B22F0_0 *)sprite)->unk_1E = 0x1000;
+    ((S_800B22F0_0 *)sprite)->unk_1C = 0x1000;
+    ((S_800B22F0_0 *)sprite)->unk_0C = 0x2C808080;
+    ((S_800B22F0_0 *)sprite)->unk_14 |= 0x8000;
+    func_80099FDC(entity);
 
-    func_8009A21C(((S_800B22F0_0 *)arg2)->unk_24, ((S_800B22F0_0 *)arg2)->unk_25,
+    func_8009A21C(((S_800B22F0_0 *)sprite)->unk_24, ((S_800B22F0_0 *)sprite)->unk_25,
                   (((S_800B22F0_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
     ((S_800B22F0_1 *)state)->unk_AD = 1;
     ((S_800B22F0_1 *)state)->unk_71 = 0;
     ((S_800B22F0_1 *)state)->unk_1C |= 0x40000000;
-    func_800BC26C(arg0, 0, (u8 *)arg2 + 0x2C, (u8 *)arg0 + 0x4A);
+    func_800BC26C(entity, 0, (u8 *)sprite + 0x2C, (u8 *)entity + 0x4A);
 }

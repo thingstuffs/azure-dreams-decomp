@@ -21,6 +21,7 @@ typedef struct {
 
 extern TownState *D_80016000;
 
+/* Invoke both town callbacks and subtract 0x30 from the entry value in state 3. */
 s32 func_80017150(void)
 {
     D_80016000->callbacks->callback1(1);

@@ -20,58 +20,59 @@ typedef struct S_800BCE7C_0 {
 
 s32 func_80065F90();
 
-s32 func_800BCE7C(S_800BCE7C_0 *arg0) {
-    s32 temp_a0;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    s32 temp_v0_5;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
+/* Compute direction angles and check that adjacent angular gaps do not exceed a half turn. */
+s32 func_800BCE7C(S_800BCE7C_0 *state) {
+    s32 second_offset;
+    s32 fourth_angle;
+    s32 fourth_offset;
+    s32 third_angle;
+    s32 third_offset;
+    s32 second_angle;
+    s32 second_to_third;
+    s32 fourth_to_first;
+    s32 third_to_fourth;
 
-    if (arg0->unk_154.at00.v != 0) {
-        if (arg0->unk_160.at00.v == 0) {
-            goto block_6;
+    if (state->unk_154.at00.v != 0) {
+        if (state->unk_160.at00.v == 0) {
+            goto accept;
         }
-        arg0->unk_164 = func_80065F90(arg0->unk_154.at02.v, (s16) arg0->unk_154.at00.v);
-        temp_v0 = func_80065F90(arg0->unk_160.at02.v, (s16) arg0->unk_160.at00.v);
-        arg0->unk_170 = temp_v0;
-        temp_v0_2 = temp_v0 - arg0->unk_164;
-        temp_v1_2 = (0x1000 - temp_v0_2) & 0xFFF;
-        arg0->unk_180 = temp_v1_2;
-        arg0->unk_170 = temp_v0_2;
-        if (temp_v1_2 >= 0x801) {
+        state->unk_164 = func_80065F90(state->unk_154.at02.v, (s16) state->unk_154.at00.v);
+        fourth_angle = func_80065F90(state->unk_160.at02.v, (s16) state->unk_160.at00.v);
+        state->unk_170 = fourth_angle;
+        fourth_offset = fourth_angle - state->unk_164;
+        fourth_to_first = (0x1000 - fourth_offset) & 0xFFF;
+        state->unk_180 = fourth_to_first;
+        state->unk_170 = fourth_offset;
+        if (fourth_to_first >= 0x801) {
             return 0;
         }
-        if (arg0->unk_15C.at00.v == 0) {
-            goto block_6;
+        if (state->unk_15C.at00.v == 0) {
+            goto accept;
         }
-        temp_v0_3 = func_80065F90(arg0->unk_15C.at02.v, (s16) arg0->unk_15C.at00.v);
-        arg0->unk_16C = temp_v0_3;
-        temp_v0_4 = temp_v0_3 - arg0->unk_164;
-        temp_v1_3 = (arg0->unk_170 - temp_v0_4) & 0xFFF;
-        arg0->unk_17C = temp_v1_3;
-        arg0->unk_16C = temp_v0_4;
-        if (temp_v1_3 >= 0x801) {
+        third_angle = func_80065F90(state->unk_15C.at02.v, (s16) state->unk_15C.at00.v);
+        state->unk_16C = third_angle;
+        third_offset = third_angle - state->unk_164;
+        third_to_fourth = (state->unk_170 - third_offset) & 0xFFF;
+        state->unk_17C = third_to_fourth;
+        state->unk_16C = third_offset;
+        if (third_to_fourth >= 0x801) {
             return 0;
         }
-        if (arg0->unk_158.at00.v != 0) {
-            goto block_7;
+        if (state->unk_158.at00.v != 0) {
+            goto check_second;
         }
-block_6:
-        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+accept:
+        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         return 1;
-block_7:
-        temp_v0_5 = func_80065F90(arg0->unk_158.at02.v, (s16) arg0->unk_158.at00.v);
-        arg0->unk_168 = temp_v0_5;
-        temp_a0 = (temp_v0_5 - arg0->unk_164) & 0xFFF;
-        arg0->unk_168 = temp_a0;
-        if (temp_a0 < 0x801) {
-            temp_v1 = (arg0->unk_16C - temp_a0) & 0xFFF;
-            arg0->unk_178 = temp_v1;
-            return temp_v1 < 0x801;
+check_second:
+        second_angle = func_80065F90(state->unk_158.at02.v, (s16) state->unk_158.at00.v);
+        state->unk_168 = second_angle;
+        second_offset = (second_angle - state->unk_164) & 0xFFF;
+        state->unk_168 = second_offset;
+        if (second_offset < 0x801) {
+            second_to_third = (state->unk_16C - second_offset) & 0xFFF;
+            state->unk_178 = second_to_third;
+            return second_to_third < 0x801;
         }
         return 0;
     }

@@ -14,52 +14,49 @@ extern TownRoot *D_80016000[4];
 extern s32 func_80018640(s32);
 extern void func_80018548(s32);
 
+/* Selects an available option and triggers its associated action, or returns -1. */
 s32 func_80016C7C(void)
 {
-    s32 valid[4];
-    s32 selected;
+    s32 available[4];
+    s32 choice;
 
-    selected = 0;
-    valid[0] = 0;
-    valid[1] = 0;
-    valid[2] = 0;
-    valid[3] = 0;
+    choice = 0;
+    available[0] = 0;
+    available[1] = 0;
+    available[2] = 0;
+    available[3] = 0;
 
     if (func_80018640(0x1472) != 0) {
-        selected = 1;
-        valid[0] = 1;
+        choice = 1;
+        available[0] = 1;
     }
     if (func_80018640(0x1470) != 0) {
-        selected += 1;
-        valid[1] = 1;
+        choice += 1;
+        available[1] = 1;
     }
     if (func_80018640(0x1474) != 0) {
-        selected += 1;
-        valid[2] = 1;
+        choice += 1;
+        available[2] = 1;
     }
     if (func_80018640(0x146E) != 0) {
-        selected += 1;
-        valid[3] = 1;
+        choice += 1;
+        available[3] = 1;
     }
 
-    if (selected != 0) {
-        u32 page = 0x80010000;
-        
+    if (choice != 0) {
+        u32 root_page = 0x80010000;
+
         {
-            s32 *valid_p = valid;
+            s32 *available_flags = available;
 
             do {
-                selected = (*(TownRoot **)(page + 0x6000))->callbacks->select(4);
-            } while (valid_p[selected] == 0);
+                choice = (*(TownRoot **)(root_page + 0x6000))->callbacks->select(4);
+            } while (available_flags[choice] == 0);
         }
-        func_80018548(selected + 0x9B7);
+        func_80018548(choice + 0x9B7);
     } else {
-        selected = -1;
+        choice = -1;
     }
 
-    return selected;
+    return choice;
 }
-
-/* MECHANISM: The sibling valid[4] stack object yields the 0x30 frame and s0/s1/s2 saves.
-   A guarded $s2 page carrier places the 0x8001 lui in the selected-branch delay slot.
-   Its inner scope leaves valid's stack base naturally in $s1 for the callback loop. */

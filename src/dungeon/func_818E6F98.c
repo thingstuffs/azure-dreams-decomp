@@ -44,17 +44,18 @@ extern s16 func_8006649C(s32, s32);
 extern void func_80066640(Primitive *, s32);
 extern void func_800666F4(Primitive *);
 
-s32 func_818E6F98(void *arg0, void *arg1)
+/* Queues a textured quad at the supplied world position. */
+s32 func_818E6F98(void *sprite_data, void *position)
 {
-    u16 input[4];
-    s16 output0[4];
-    WorkOutput output1;
+    u16 world_pos[4];
+    s16 screen_points[4];
+    WorkOutput scratch;
     register u8 *uv_source ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     DungeonState **state_address;
-    register s16 *output_base ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register WorkOutput *output1_base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s16 *output_cursor;
-    s32 i;
+    register s16 *screen_base ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register WorkOutput *scratch_base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s16 *screen_cursor;
+    s32 point_index;
     u32 ordering_index;
     s32 width;
     Primitive *primitive;
@@ -65,27 +66,27 @@ s32 func_818E6F98(void *arg0, void *arg1)
     s32 uv_high;
     register s32 node ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 half_width;
-    u16 left_x;
+    u16 center_x;
     u32 table_offset;
 
     state_address = (DungeonState **)D_80083160;
-    output_base = output0;
-    output1_base = &output1;
-    uv_source = arg0;
-    input[0] = *(u16 *)((u8 *)arg1 + 2);
-    input[1] = *(u16 *)((u8 *)arg1 + 6);
-    input[2] = *(u16 *)((u8 *)arg1 + 0xA) - 0x20;
-    i = 0;
-    output_cursor = output_base;
+    screen_base = screen_points;
+    scratch_base = &scratch;
+    uv_source = sprite_data;
+    world_pos[0] = *(u16 *)((u8 *)position + 2);
+    world_pos[1] = *(u16 *)((u8 *)position + 6);
+    world_pos[2] = *(u16 *)((u8 *)position + 0xA) - 0x20;
+    point_index = 0;
+    screen_cursor = screen_base;
     do {
         ordering_index =
-            func_80065420(input, output_cursor, output1_base, output1_base) - 8;
-        output_cursor += 2;
-        i++;
-        input[2] += 0x40;
-    } while (i < 2);
+            func_80065420(world_pos, screen_cursor, scratch_base, scratch_base) - 8;
+        screen_cursor += 2;
+        point_index++;
+        world_pos[2] += 0x40;
+    } while (point_index < 2);
 
-    width = output0[1] - output0[3];
+    width = screen_points[1] - screen_points[3];
     if (ordering_index < 0x1E0U) {
         state = *state_address;
         primitive = state->next_primitive;
@@ -96,13 +97,13 @@ s32 func_818E6F98(void *arg0, void *arg1)
         primitive->tpage = func_80066460(0, 1, 0x2C0, 0x100);
         primitive->clut = func_8006649C(0x20, 0x1F8);
 
-        output1.w[0] = width >> 1;
-        left_x = output0[0];
-        half_width = output1.h[0];
-        primitive->x0 = primitive->x1 = left_x + half_width;
-        primitive->x2 = primitive->x3 = output0[0] - half_width;
-        primitive->y0 = primitive->y2 = output0[1];
-        primitive->y1 = primitive->y3 = output0[3];
+        scratch.w[0] = width >> 1;
+        center_x = screen_points[0];
+        half_width = scratch.h[0];
+        primitive->x0 = primitive->x1 = center_x + half_width;
+        primitive->x2 = primitive->x3 = screen_points[0] - half_width;
+        primitive->y0 = primitive->y2 = screen_points[1];
+        primitive->y1 = primitive->y3 = screen_points[3];
 
         uv = *(u8 *)(uv_source + 0x52);
         table_offset = ordering_index << 2;
@@ -128,15 +129,15 @@ s32 func_818E6F98(void *arg0, void *arg1)
             (*(u32 *)((u8 *)table_state + 0xB0 + table_offset) & 0xFF000000) |
             ((u32)primitive & 0x00FFFFFF);
     }
-    ASM_KEEP(output_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(screen_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
-    node = *(s32 *)((u8 *)arg0 - 8);
+    node = *(s32 *)((u8 *)sprite_data - 8);
     if (node != 0) {
         s32 callback_state;
 
-        arg0 = (u8 *)node + 0x20;
+        sprite_data = (u8 *)node + 0x20;
         callback_state = *(s32 *)(node + 8);
-        ASM_USE2(arg0, callback_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_USE2(sprite_data, callback_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800247D4();
     }
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */

@@ -78,17 +78,18 @@ extern s32 D_801719DC;
 extern u8 D_80174684[];
 extern u8 D_8017468C[];
 
-void func_80173CD4(void *in0, void *in1, void *in2, void *in3)
+/* Advance the actor action state, handle status flags, and update directional animation. */
+void func_80173CD4(void *action_in, void *context_in, void *sprite_in, void *actor_in)
 {
     s32 state;
-    void *arg0 = in0;
-    register void *arg1 ASM_REG("$19") = in1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *arg2 ASM_REG("$17") = in2;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    void *arg3;
-    register u8 *global ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *action = action_in;
+    register void *context ASM_REG("$19") = context_in;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *sprite ASM_REG("$17") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *actor;
+    register u8 *world_state ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    state = ((S_80173CD4_0 *)arg0)->unk_9B;
-    arg3 = in3;
+    state = ((S_80173CD4_0 *)action)->unk_9B;
+    actor = actor_in;
     if (state == 1) {
         goto state_one;
     }
@@ -108,147 +109,147 @@ at_least_two:
 
 state_zero:
     {
-        u8 *base;
-        u8 *table;
-        if (!(((S_80173CD4_1 *)arg2)->unk_14 & 0xE000)) {
+        u8 *world_counters;
+        u8 *direction_anims;
+        if (!(((S_80173CD4_1 *)sprite)->unk_14 & 0xE000)) {
             goto done;
         }
-        table = D_80174684;
-        (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-        func_80047784(arg2,
-            table[((D_80083228 + ((S_80173CD4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+        direction_anims = D_80174684;
+        (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
+        func_80047784(sprite,
+            direction_anims[((D_80083228 + ((S_80173CD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        base = (u8 *)&D_80083460;
-        ((S_80173CD4_3 *)base)->unk_0A--;
+        world_counters = (u8 *)&D_80083460;
+        ((S_80173CD4_3 *)world_counters)->unk_0A--;
         goto increment_state;
     }
 
 state_one:
     {
-        register u32 global_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        u32 flags;
+        register u32 world_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u32 actor_flags;
 
-        if ((func_80042900(arg3, 1) << 16) == 0) {
+        if ((func_80042900(actor, 1) << 16) == 0) {
             goto animate;
         }
 
-        global_page = 0x80080000;
-        ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        global = (u8 *)(global_page + 0x3460);
-        if (((S_80173CD4_4 *)global)->unk_02 & 0x1000) {
+        world_page = 0x80080000;
+        ASM_KEEP(world_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        world_state = (u8 *)(world_page + 0x3460);
+        if (((S_80173CD4_4 *)world_state)->unk_02 & 0x1000) {
             goto done;
         }
 
-        if (((S_80173CD4_2 *)arg3)->unk_64 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
+        if (((S_80173CD4_2 *)actor)->unk_64 != 0) {
+            if (func_800AA6B4(action, context, sprite, 0) != 0) {
                 goto done;
             }
         }
 
-        if (((S_80173CD4_2 *)arg3)->unk_25 == 0) {
-            if (((S_80173CD4_4 *)global)->unk_02 & 0x2008) {
+        if (((S_80173CD4_2 *)actor)->unk_25 == 0) {
+            if (((S_80173CD4_4 *)world_state)->unk_02 & 0x2008) {
                 goto done;
             }
-            func_800AA79C(arg0, arg1, arg2, arg3);
+            func_800AA79C(action, context, sprite, actor);
             goto done;
         }
 
-        if ((func_800A2C34(arg3) << 16) != 0) {
+        if ((func_800A2C34(actor) << 16) != 0) {
             goto done;
         }
 
-        flags = ((S_80173CD4_2 *)arg3)->unk_1C;
-        if (flags & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        actor_flags = ((S_80173CD4_2 *)actor)->unk_1C;
+        if (actor_flags & 0x100) {
+            func_800AA258(action, context, sprite, actor);
             goto done;
         }
 
-        if (flags & 0x80000) {
-            u16 old_value;
-            u16 amount;
-            u32 saved;
+        if (actor_flags & 0x80000) {
+            u16 current_amount;
+            u16 pending_amount;
+            u32 packed_adjustment;
 
-            func_800AA888(arg0, arg1, arg2, arg3);
-            old_value = ((S_80173CD4_0 *)arg0)->unk_92;
-            amount = ((S_80173CD4_0 *)arg0)->unk_A4.at02.v;
-            saved = ((S_80173CD4_0 *)arg0)->unk_A4.at00.v;
-            ((S_80173CD4_0 *)arg0)->unk_A4.at02.v = 0;
-            ((S_80173CD4_0 *)arg0)->unk_B8 = 0;
-            ((S_80173CD4_0 *)arg0)->unk_AC = 0;
-            ((S_80173CD4_0 *)arg0)->unk_B0 = 0;
-            ((S_80173CD4_0 *)arg0)->unk_92 = old_value - amount;
-            ((S_80173CD4_0 *)arg0)->unk_A8 = saved;
-            func_801743F0(arg0, arg1, arg2, arg3);
+            func_800AA888(action, context, sprite, actor);
+            current_amount = ((S_80173CD4_0 *)action)->unk_92;
+            pending_amount = ((S_80173CD4_0 *)action)->unk_A4.at02.v;
+            packed_adjustment = ((S_80173CD4_0 *)action)->unk_A4.at00.v;
+            ((S_80173CD4_0 *)action)->unk_A4.at02.v = 0;
+            ((S_80173CD4_0 *)action)->unk_B8 = 0;
+            ((S_80173CD4_0 *)action)->unk_AC = 0;
+            ((S_80173CD4_0 *)action)->unk_B0 = 0;
+            ((S_80173CD4_0 *)action)->unk_92 = current_amount - pending_amount;
+            ((S_80173CD4_0 *)action)->unk_A8 = packed_adjustment;
+            func_801743F0(action, context, sprite, actor);
             goto done;
         }
 
-        if (((S_80173CD4_2 *)arg3)->unk_6D == 0) {
+        if (((S_80173CD4_2 *)actor)->unk_6D == 0) {
             goto done;
         }
-        if ((func_800A2C34(arg3) << 16) != 0) {
-            if ((func_8009A180(arg3,
+        if ((func_800A2C34(actor) << 16) != 0) {
+            if ((func_8009A180(actor,
                     (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                 goto done;
             }
         }
 
-        func_800A9A0C(arg3);
-        func_800A9A04(arg3);
-        if ((func_80042900(arg3, 1) << 16) != 0) {
-            u8 *origin;
-            s8 coordinate;
+        func_800A9A0C(actor);
+        func_800A9A04(actor);
+        if ((func_80042900(actor, 1) << 16) != 0) {
+            u8 *reference_pos;
+            s8 room_id;
 
-            origin = D_80082E80;
-            coordinate = ((S_80173CD4_1 *)arg2)->unk_26;
-            if ((((coordinate == ((S_80173CD4_6 *)origin)->unk_26) &&
-                    (coordinate >= 0)) ||
-                    (func_8009FD40(origin, arg2) < 2)) &&
+            reference_pos = D_80082E80;
+            room_id = ((S_80173CD4_1 *)sprite)->unk_26;
+            if ((((room_id == ((S_80173CD4_6 *)reference_pos)->unk_26) &&
+                    (room_id >= 0)) ||
+                    (func_8009FD40(reference_pos, sprite) < 2)) &&
                     !(func_800A6D30() & 7)) {
-                func_80042B68(arg3, 1);
+                func_80042B68(actor, 1);
             }
         }
 
-        if ((func_80042900(arg3, 1) << 16) != 0) {
+        if ((func_80042900(actor, 1) << 16) != 0) {
             goto done;
         }
     }
 
 animate:
     {
-        u8 *table;
+        u8 *direction_anims;
 
-        table = D_8017468C;
-        (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-        func_80047784(arg2,
-            table[((D_80083228 + ((S_80173CD4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+        direction_anims = D_8017468C;
+        (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
+        func_80047784(sprite,
+            direction_anims[((D_80083228 + ((S_80173CD4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        ((S_80173CD4_2 *)arg3)->unk_1C |= 0x40000;
-        if (((S_80173CD4_1 *)arg2)->unk_14 & 0x8000) {
+        ((S_80173CD4_2 *)actor)->unk_1C |= 0x40000;
+        if (((S_80173CD4_1 *)sprite)->unk_14 & 0x8000) {
             goto set_pointer;
         }
 
         {
-            register u8 *base ASM_REG("$2") = (u8 *)&D_80083460;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ((S_80173CD4_3 *)base)->unk_0A++;
+            register u8 *world_counters ASM_REG("$2") = (u8 *)&D_80083460;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ((S_80173CD4_3 *)world_counters)->unk_0A++;
         }
     }
 
 increment_state:
-    ((S_80173CD4_0 *)arg0)->unk_9B++;
+    ((S_80173CD4_0 *)action)->unk_9B++;
     goto done;
 
 state_two:
-    if (((S_80173CD4_1 *)arg2)->unk_14 & 0xE000) {
-        register u8 *base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    if (((S_80173CD4_1 *)sprite)->unk_14 & 0xE000) {
+        register u8 *world_counters ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        base = (u8 *)&D_80083460;
-        ((S_80173CD4_3 *)base)->unk_0A--;
+        world_counters = (u8 *)&D_80083460;
+        ((S_80173CD4_3 *)world_counters)->unk_0A--;
         goto set_pointer;
     }
     goto done;
 
 set_pointer:
-    ((S_80173CD4_0 *)arg0)->unk_8C = &D_801719DC;
+    ((S_80173CD4_0 *)action)->unk_8C = &D_801719DC;
 
 done:
     return;

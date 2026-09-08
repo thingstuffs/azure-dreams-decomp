@@ -33,29 +33,29 @@ extern S_80079500 D_80079500;
 extern s32 func_8005D9DC(void *arg);
 
 /* Enables/disables SPU reverb and mirrors the active flag in D_800794F8. */
-s32 func_8005D88C(s32 onOff)
+s32 func_8005D88C(s32 enable)
 {
-    u16 cnt;
+    u16 spu_control;
 
-    switch (onOff) {
+    switch (enable) {
     case 0:
-        cnt = D_80079958.ptr->spucnt;
+        spu_control = D_80079958.ptr->spucnt;
         D_800794F8.value = 0;
-        cnt &= ~0x80;
-        D_80079958.ptr->spucnt = cnt;
+        spu_control &= ~0x80;
+        D_80079958.ptr->spucnt = spu_control;
         break;
 
     case 1:
-        if ((D_800794FC.value != onOff) && func_8005D9DC(D_80079500.ptr)) {
-            cnt = D_80079958.ptr->spucnt;
+        if ((D_800794FC.value != enable) && func_8005D9DC(D_80079500.ptr)) {
+            spu_control = D_80079958.ptr->spucnt;
             D_800794F8.value = 0;
-            cnt &= ~0x80;
-            D_80079958.ptr->spucnt = cnt;
+            spu_control &= ~0x80;
+            D_80079958.ptr->spucnt = spu_control;
         } else {
-            cnt = D_80079958.ptr->spucnt;
-            D_800794F8.value = onOff;
-            cnt |= 0x80;
-            D_80079958.ptr->spucnt = cnt;
+            spu_control = D_80079958.ptr->spucnt;
+            D_800794F8.value = enable;
+            spu_control |= 0x80;
+            D_80079958.ptr->spucnt = spu_control;
         }
         break;
     }

@@ -1,32 +1,30 @@
 #include "common.h"
 
-/* Build a cumulative table of (n^3)/8 with a correction term of (m^2*32) added
- * once m=(i-20) becomes positive (m runs from -19 up to 79 as n runs 5..103,
- * i runs 1..99). Then stash an unrelated constant into D_80083778. */
 extern s32 D_800835E8[100];
 extern s32 D_80083778[3];
 
+/* Build a cumulative cubic table with a quadratic correction after index 20, then store a fixed constant. */
 void func_80043674(void)
 {
-    s32 n;
-    s32 m;
-    s32 i;
+    s32 cube_base;
+    s32 bonus_base;
+    s32 index;
 
-    n = 4;
-    m = -20;
+    cube_base = 4;
+    bonus_base = -20;
     D_800835E8[0] = 0;
-    for (i = 1; i < 100; i++, n++)
+    for (index = 1; index < 100; index++, cube_base++)
     {
-        m++;
-        D_800835E8[i] = ((u32)(n * n * n) >> 3) + D_800835E8[i - 1];
-        if (m > 0)
+        bonus_base++;
+        D_800835E8[index] = ((u32)(cube_base * cube_base * cube_base) >> 3) + D_800835E8[index - 1];
+        if (bonus_base > 0)
         {
-            D_800835E8[i] = D_800835E8[i] + ((m * m) << 5);
+            D_800835E8[index] = D_800835E8[index] + ((bonus_base * bonus_base) << 5);
         }
     }
 
     {
-        s32 tmp = 0xFA56EA00;
-        D_80083778[0] = tmp;
+        s32 fixed_value = 0xFA56EA00;
+        D_80083778[0] = fixed_value;
     }
 }

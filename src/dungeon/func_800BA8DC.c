@@ -24,37 +24,35 @@ typedef struct S_800C003C_1 {
     u16 unk_0A;
 } S_800C003C_1;   /* global_base in func_800C003C */
 
-s32 func_800C003C(void *arg0, s32 arg1, s16 arg2) {
-    u8 temp_v1;
+/* Update entity state and counters, with special handling for the primary entity. */
+s32 func_800C003C(void *entity, s32 event_id, s16 event_param) {
+    u8 update_count;
     s8 *global_base;
 
-    if (arg0 == D_800E3D7C[0]) {
-        ((Rec_D_800E3D7C *)arg0)->unk_110 = arg1;
-        func_8008D330(arg0, &D_80083780, &D_80082E80, arg0);
+    if (entity == D_800E3D7C[0]) {
+        ((Rec_D_800E3D7C *)entity)->unk_110 = event_id;
+        func_8008D330(entity, &D_80083780, &D_80082E80, entity);
         return 0;
     }
-    if ((u32) arg0 <= 0x9FFFFFFFU) {
-        func_800A63B8(arg0, arg1, arg2);
-        if (func_800AD6FC(arg0, (D_800DDE84[((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v] >> 6) & 3, 0) == 0) {
-            func_800A5F38(arg0, arg1);
+    if ((u32) entity <= 0x9FFFFFFFU) {
+        func_800A63B8(entity, event_id, event_param);
+        if (func_800AD6FC(entity, (D_800DDE84[((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v] >> 6) & 3, 0) == 0) {
+            func_800A5F38(entity, event_id);
             return 1;
         }
     }
-    temp_v1 = ((Rec_D_800E3D7C *)arg0)->unk_00.at02_u8.v;
-    if (temp_v1 < 0xFFU) {
-        ((Rec_D_800E3D7C *)arg0)->unk_00.at02_u8.v = (u8) (temp_v1 + 1);
+    update_count = ((Rec_D_800E3D7C *)entity)->unk_00.at02_u8.v;
+    if (update_count < 0xFFU) {
+        ((Rec_D_800E3D7C *)entity)->unk_00.at02_u8.v = (u8) (update_count + 1);
     }
-    func_800A48F0(arg0, 7, 8);
-    if (((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) {
-        func_80099844(arg0, &D_800E206A);
+    func_800A48F0(entity, 7, 8);
+    if (((Rec_D_800E3D7C *)entity)->unk_14.as_s32 & 0x4000) {
+        func_80099844(entity, &D_800E206A);
     }
-    func_800D4FC8(arg0 - 0x20, 0xF02020, 0x616);
-    func_80098B38(arg1);
+    func_800D4FC8(entity - 0x20, 0xF02020, 0x616);
+    func_80098B38(event_id);
     global_base = (s8 *) &D_80083460;
     ((S_800C003C_1 *)global_base)->unk_0A = (u16) (((S_800C003C_1 *)global_base)->unk_0A - 1);
     return 1;
 }
 
-/* MECHANISM: Natural long-lived arguments produce retail's 0x20 frame and s0/s1 saves.
-   A byte-pointer held base forces the final global's explicit lui/addiu pair and +0xA accesses.
-   Typed u16 table indexing fixes scale-by-two; void tails expose 0/1 jump-delay constants. */

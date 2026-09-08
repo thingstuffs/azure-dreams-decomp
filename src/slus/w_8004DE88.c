@@ -8,18 +8,19 @@ extern u32 D_80083D88[0x24];
 extern MessageHandler D_800714A4[];
 extern s32 D_80081550;
 
-void func_8004DE88(char *arg0)
+/* Builds and dispatches a message with control codes and two embedded addresses. */
+void func_8004DE88(char *message)
 {
     char *cursor;
     u32 address;
-    register char *buffer ASM_REG("$17");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register char *buffer ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
     buffer = (char *)0x80080000;
     ASM_KEEP_NV(buffer);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     cursor = buffer + 0x3E18;
     ASM_KEEP_NV(cursor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     buffer[0x3E18] = 8;
-    strcpy(cursor + 1, arg0);
+    strcpy(cursor + 1, message);
 
     buffer += 0x3E18;
     cursor = strrchr(buffer, 0);

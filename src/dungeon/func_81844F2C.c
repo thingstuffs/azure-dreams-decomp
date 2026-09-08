@@ -42,39 +42,40 @@ typedef struct S_81844F2C_4 {
 extern void func_80024808() __attribute__((noreturn));
 extern void func_80024860(void) __attribute__((noreturn));
 
-void func_81844F2C(void *arg0) {
-    u8 *base;
-    register u8 *page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 call_a0;
-    register u32 call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    u32 sum;
-    u32 addend;
+/* Updates an effect's position, colors, countdown, and completion flags. */
+void func_81844F2C(void *effect_data) {
+    u8 *effect;
+    register u8 *flag_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 tick_or_index;
+    register u32 saved_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u32 position;
+    u32 step;
     s32 state;
-    u32 delta;
+    u32 color_delta;
     register u32 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_81844F2C_1 *entity;
-    u8 *cursor;
+    u8 *color_cursor;
 
-    base = arg0;
-    entity = ((S_81844F2C_0 *)base)->unk_00;
+    effect = effect_data;
+    entity = ((S_81844F2C_0 *)effect)->unk_00;
     entity->unk_52 =
         (u16)(entity->unk_52 | 0x8000);
 
-    sum = ((S_81844F2C_0 *)base)->unk_04;
-    addend = ((S_81844F2C_0 *)base)->unk_0C;
-    call_a0 = ((S_81844F2C_0 *)base)->unk_2A.s;
-    sum += addend;
-    ((S_81844F2C_0 *)base)->unk_04 = (u16)sum;
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    sum = ((S_81844F2C_0 *)base)->unk_06.s;
-    addend = ((S_81844F2C_0 *)base)->unk_0E;
-    call_a2 = ((S_81844F2C_0 *)base)->unk_2C.s;
-    sum += addend;
-    state = ((S_81844F2C_0 *)base)->unk_2C.u;
-    ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    call_a0 -= 1;
-    ((S_81844F2C_0 *)base)->unk_2A.u = (u16)call_a0;
-    ((S_81844F2C_0 *)base)->unk_06.u = (u16)sum;
+    position = ((S_81844F2C_0 *)effect)->unk_04;
+    step = ((S_81844F2C_0 *)effect)->unk_0C;
+    tick_or_index = ((S_81844F2C_0 *)effect)->unk_2A.s;
+    position += step;
+    ((S_81844F2C_0 *)effect)->unk_04 = (u16)position;
+    ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    position = ((S_81844F2C_0 *)effect)->unk_06.s;
+    step = ((S_81844F2C_0 *)effect)->unk_0E;
+    saved_state = ((S_81844F2C_0 *)effect)->unk_2C.s;
+    position += step;
+    state = ((S_81844F2C_0 *)effect)->unk_2C.u;
+    ASM_KEEP(tick_or_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    tick_or_index -= 1;
+    ((S_81844F2C_0 *)effect)->unk_2A.u = (u16)tick_or_index;
+    ((S_81844F2C_0 *)effect)->unk_06.u = (u16)position;
 
     if (state == 1) {
         goto state_1;
@@ -96,43 +97,43 @@ state_at_least_2:
     return;
 
 state_0:
-    call_a0 = 7 - (s16)call_a0;
-    if (call_a0 < 5) {
-        ((S_81844F2C_2 *)(base + (call_a0 * 4)))->unk_14 = 0x00808080;
-        func_80024808(call_a0, base, call_a2);
+    tick_or_index = 7 - (s16)tick_or_index;
+    if (tick_or_index < 5) {
+        ((S_81844F2C_2 *)(effect + (tick_or_index * 4)))->unk_14 = 0x00808080;
+        func_80024808(tick_or_index, effect, saved_state);
         return;
     }
 
-    call_a0 = 4;
-    delta = 0xFFDFDFE0;
-    cursor = base + 0x10;
+    tick_or_index = 4;
+    color_delta = 0xFFDFDFE0;
+    color_cursor = effect + 0x10;
     do {
-        call_a0 -= 1;
-        ((S_81844F2C_3 *)cursor)->unk_14 += delta;
-        cursor -= 4;
-    } while (call_a0 >= 0);
+        tick_or_index -= 1;
+        ((S_81844F2C_3 *)color_cursor)->unk_14 += color_delta;
+        color_cursor -= 4;
+    } while (tick_or_index >= 0);
 
-    if (((S_81844F2C_0 *)base)->unk_2A.p > 0) {
+    if (((S_81844F2C_0 *)effect)->unk_2A.p > 0) {
         return;
     }
-    ((S_81844F2C_0 *)base)->unk_2A.s = 3;
-    ((S_81844F2C_0 *)base)->unk_2C.p += 1;
+    ((S_81844F2C_0 *)effect)->unk_2A.s = 3;
+    ((S_81844F2C_0 *)effect)->unk_2C.p += 1;
     func_80024860();
     return;
 
 state_1:
-    if ((call_a0 << 16) > 0) {
+    if ((tick_or_index << 16) > 0) {
         return;
     }
-    next_state = call_a2 + 1;
-    ((S_81844F2C_0 *)base)->unk_2C.p = (u16)next_state;
+    next_state = saved_state + 1;
+    ((S_81844F2C_0 *)effect)->unk_2C.p = (u16)next_state;
     func_80024860();
     return;
 
 state_2:
-    page = (u8 *)0x80080000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ((S_81844F2C_0_pre *)base)[-1].unk_00 =
-        (u16)(((S_81844F2C_0_pre *)base)[-1].unk_00 | 0x8000);
-    ((S_81844F2C_4 *)page)->unk_14A0 |= 0x8000;
+    flag_page = (u8 *)0x80080000;
+    ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ((S_81844F2C_0_pre *)effect)[-1].unk_00 =
+        (u16)(((S_81844F2C_0_pre *)effect)[-1].unk_00 | 0x8000);
+    ((S_81844F2C_4 *)flag_page)->unk_14A0 |= 0x8000;
 }

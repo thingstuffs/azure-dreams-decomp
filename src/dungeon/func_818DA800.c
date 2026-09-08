@@ -43,37 +43,33 @@ __asm__(".globl func_80024000\n"
 #define FUNC_818DA800_BODY func_80024000
 #endif
 
-void FUNC_818DA800_BODY(void *arg0_in, void *arg1_in)
+/* Advances a targeted effect through movement, particle spawning, target interaction, and cleanup. */
+void FUNC_818DA800_BODY(void *effect_state_in, void *motion_in)
 {
+    void *effect_state = effect_state_in;
+    void *motion = motion_in;
 #ifdef __mips__
-    void *arg0 = arg0_in;
-    void *arg1 = arg1_in;
-#else
-    void *arg0 = arg0_in;
-    void *arg1 = arg1_in;
-#endif
-#ifdef __mips__
-    register void *inner ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *source;
+    register void *actor ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *actor_data;
     void *image_base;
     void *resource_base;
 #else
-    void *inner;
-    void *source;
+    void *actor;
+    void *actor_data;
     void *image_base;
     void *resource_base;
 #endif
 #ifdef __mips__
-    register s32 base_or_count ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 actor_or_corner ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #else
-    s32 base_or_count;
+    s32 actor_or_corner;
 #endif
     s16 timer;
-    s32 index;
-    s32 coord;
-    void **table;
-    void *target;
-    static void *const keepalive[] = {
+    s32 phase_or_entry;
+    s32 tile_coord;
+    void **phase_table;
+    void *phase_label;
+    static void *const phase_labels[] = {
         &&finish,
         &&case0,
         &&case1,
@@ -83,272 +79,264 @@ void FUNC_818DA800_BODY(void *arg0_in, void *arg1_in)
         &&case5,
     };
 
-    inner = FIELD(arg0, void *, 0);
-    timer = (u16)FIELD(arg0, u16, 0x50);
+    actor = FIELD(effect_state, void *, 0);
+    timer = (u16)FIELD(effect_state, u16, 0x50);
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     timer -= 1;
-    index = *(s16 *)((u8 *)arg0 + 0xA);
+    phase_or_entry = *(s16 *)((u8 *)effect_state + 0xA);
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    source = FIELD(inner, void *, -0x14);
-    FIELD(arg0, u16, 0x50) = timer;
+    actor_data = FIELD(actor, void *, -0x14);
+    FIELD(effect_state, u16, 0x50) = timer;
 
-    if ((u32)index >= 6) {
+    if ((u32)phase_or_entry >= 6) {
         goto finish;
     }
-    base_or_count = (s32)((u8 *)inner - 0x20);
-    table = jtbl_80024008;
-    ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    index <<= 2;
-    index = (s32)((u8 *)table + index);
-    target = *(void **)(u32)index;
-    (void)keepalive;
-    goto *target;
+    actor_or_corner = (s32)((u8 *)actor - 0x20);
+    phase_table = jtbl_80024008;
+    ASM_KEEP(phase_table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    phase_or_entry <<= 2;
+    phase_or_entry = (s32)((u8 *)phase_table + phase_or_entry);
+    phase_label = *(void **)(u32)phase_or_entry;
+    (void)phase_labels;
+    goto *phase_label;
 
 case0:
-        if ((FIELD(FIELD(arg0, void *, 4), u16, 0) & 0x80) == 0) {
-            goto finish;
+    if ((FIELD(FIELD(effect_state, void *, 4), u16, 0) & 0x80) == 0) {
+        goto finish;
+    }
+    {
+        void *target_actor;
+        s16 height;
+
+        height = (s16)func_800A3820(0x22);
+        target_actor = func_800A05A4(actor,
+            FIELD(actor_data, u8, 0x24),
+            FIELD(actor_data, u8, 0x25),
+            FIELD(actor, s16, 0x2A), height);
+        FIELD(actor, void *, 0x60) = target_actor;
+        if (target_actor == 0) {
+            FIELD(actor, u8, 0x72) = FIELD(actor_data, u8, 0x24);
+            FIELD(actor, u8, 0x73) = FIELD(actor_data, u8, 0x25);
+            goto update;
         }
         {
-            void *obj;
-            s16 height;
-
-            height = (s16)func_800A3820(0x22);
-            obj = func_800A05A4(inner,
-                                FIELD(source, u8, 0x24),
-                                FIELD(source, u8, 0x25),
-                                FIELD(inner, s16, 0x2A), height);
-            FIELD(inner, void *, 0x60) = obj;
-            if (obj == 0) {
-                FIELD(inner, u8, 0x72) = FIELD(source, u8, 0x24);
-                FIELD(inner, u8, 0x73) = FIELD(source, u8, 0x25);
-                goto update;
-            }
-            {
 #ifdef __mips__
-                register void *new_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register void *target_data ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #else
-                void *new_source;
+            void *target_data;
 #endif
-                new_source = FIELD(obj, void *, -0x14);
-                FIELD(inner, u8, 0x72) = FIELD(new_source, u8, 0x24);
-                FIELD(inner, u8, 0x73) = FIELD(new_source, u8, 0x25);
-            }
+            target_data = FIELD(target_actor, void *, -0x14);
+            FIELD(actor, u8, 0x72) = FIELD(target_data, u8, 0x24);
+            FIELD(actor, u8, 0x73) = FIELD(target_data, u8, 0x25);
         }
+    }
 
 update:
-        FIELD(arg1, u16, 2) =
-            FIELD(FIELD((void *)base_or_count, void *, 8), u16, 2);
-        FIELD(arg1, u16, 6) =
-            FIELD(FIELD((void *)base_or_count, void *, 8), u16, 6);
-        FIELD(arg1, u16, 0xA) =
-            FIELD(FIELD((void *)base_or_count, void *, 8), u16, 0xA);
-        FIELD(arg0, u16, 0x50) = 8;
-        coord = FIELD(inner, s8, 0x72);
-        FIELD(arg1, s16, 0xE) =
-            (coord << 6) - (FIELD(arg1, u16, 2) - 0x20);
-        FIELD(arg1, s32, 0xC) = FIELD(arg1, s32, 0xC) /
-            FIELD(arg0, s16, 0x50);
-        coord = FIELD(inner, s8, 0x73);
-        FIELD(arg1, s16, 0x12) =
-            (coord << 6) - (FIELD(arg1, u16, 6) - 0x20);
-        FIELD(arg1, s32, 0x10) = FIELD(arg1, s32, 0x10) /
-            FIELD(arg0, s16, 0x50);
-        FIELD(arg1, s16, 0x16) = func_800BCB04(
-            FIELD(arg1, u16, 2), FIELD(arg1, u16, 6),
-            (s16)(FIELD(FIELD((void *)base_or_count, void *, 8), u16, 0xA) -
-                  0x30)) - FIELD(arg1, s16, 0xA);
-        FIELD(arg1, s32, 0x14) = FIELD(arg1, s32, 0x14) /
-            FIELD(arg0, s16, 0x50);
-        func_800A56E0(0x300);
-        FIELD(arg0, u16, 0xA)++;
-        goto finish;
+    FIELD(motion, u16, 2) =
+        FIELD(FIELD((void *)actor_or_corner, void *, 8), u16, 2);
+    FIELD(motion, u16, 6) =
+        FIELD(FIELD((void *)actor_or_corner, void *, 8), u16, 6);
+    FIELD(motion, u16, 0xA) =
+        FIELD(FIELD((void *)actor_or_corner, void *, 8), u16, 0xA);
+    FIELD(effect_state, u16, 0x50) = 8;
+    tile_coord = FIELD(actor, s8, 0x72);
+    FIELD(motion, s16, 0xE) =
+        (tile_coord << 6) - (FIELD(motion, u16, 2) - 0x20);
+    FIELD(motion, s32, 0xC) = FIELD(motion, s32, 0xC) /
+        FIELD(effect_state, s16, 0x50);
+    tile_coord = FIELD(actor, s8, 0x73);
+    FIELD(motion, s16, 0x12) =
+        (tile_coord << 6) - (FIELD(motion, u16, 6) - 0x20);
+    FIELD(motion, s32, 0x10) = FIELD(motion, s32, 0x10) /
+        FIELD(effect_state, s16, 0x50);
+    FIELD(motion, s16, 0x16) = func_800BCB04(
+        FIELD(motion, u16, 2), FIELD(motion, u16, 6),
+        (s16)(FIELD(FIELD((void *)actor_or_corner, void *, 8), u16, 0xA) -
+              0x30)) - FIELD(motion, s16, 0xA);
+    FIELD(motion, s32, 0x14) = FIELD(motion, s32, 0x14) /
+        FIELD(effect_state, s16, 0x50);
+    func_800A56E0(0x300);
+    FIELD(effect_state, u16, 0xA)++;
+    goto finish;
 
 case1:
-        FIELD(arg1, s32, 0) += FIELD(arg1, s32, 0xC);
-        FIELD(arg1, s32, 4) += FIELD(arg1, s32, 0x10);
-        FIELD(arg1, s32, 8) += FIELD(arg1, s32, 0x14);
-        if (FIELD(arg0, s16, 0x50) > 0) {
-            goto finish;
-        }
-        {
-#ifdef __mips__
-            u8 *base_page;
-#else
-            u8 *base_page;
-#endif
-            base_or_count = 3;
-#ifdef __mips__
-            base_page = (u8 *)0x80020000;
-            ASM_KEEP(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            image_base = base_page + 0x4538;
-            base_page = (u8 *)0x800E0000;
-            ASM_KEEP(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            resource_base = base_page - 0x1520;
-#else
-            image_base = D_80024538;
-            resource_base = D_800DEAE0;
-#endif
-            do {
-                void *obj;
-#ifdef __mips__
-                register void *prim ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#else
-                void *prim;
-#endif
-#ifdef __mips__
-                void *state;
-#else
-                void *state;
-#endif
-                void *resource_cursor;
-#ifdef __mips__
-                s32 x;
-                s32 result;
-                s32 dst_or_delta;
-                register s32 prim_color ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-#else
-                s32 x;
-                s32 result;
-                s32 dst_or_delta;
-                s32 prim_color;
-#endif
-
-                obj = func_8003FD64(0x312, D_80083498);
-                if (obj != 0) {
-                    func_8004491C(obj, D_80045340);
-                    prim = FIELD(obj, void *, 0xC);
-                    dst_or_delta = (s32)FIELD(obj, void *, 8);
-                    FIELD(obj, void *, 0x10) = image_base;
-                    x = FIELD(arg1, s16, 2);
-                    state = (u8 *)obj + 0x20;
-                    if (base_or_count >> 1) {
-                        result = x - 16;
-                    } else {
-                        result = x + 16;
-                    }
-                    FIELD((void *)dst_or_delta, s16, 2) = result;
-                    dst_or_delta = (s32)FIELD(obj, void *, 8);
-                    x = FIELD(arg1, s16, 6);
-                    if ((base_or_count & 1) == 0) {
-                        result = x + 16;
-                    } else {
-                        result = x - 16;
-                    }
-                    FIELD((void *)dst_or_delta, s16, 6) = result;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    prim_color = 0xC00000;
-                    ASM_KEEP(prim_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    dst_or_delta = -0x100000;
-                    FIELD(FIELD(obj, void *, 8), s32, 8) =
-                        FIELD(arg1, s32, 8) + dst_or_delta;
-                    FIELD(prim, s16, 0x1E) = 0xC00;
-                    FIELD(prim, s16, 0x10) = 0x60;
-                    {
-                        u16 prim_flags;
-
-                        prim_flags = FIELD(prim, u16, 0x14);
-                        prim_color |= 0xC0C0;
-                        FIELD(prim, void *, 0) = resource_base;
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        resource_cursor = resource_base;
-                        ASM_KEEP(resource_cursor);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        FIELD(prim, s16, 0x1C) = 0;
-                        FIELD(prim, s32, 0xC) = prim_color;
-                        prim_flags |= 0xC;
-                        FIELD(prim, u16, 0x14) = prim_flags;
-                    }
-                    FIELD(prim, void *, 8) = FIELD(resource_cursor, void *, 4);
-                    FIELD(prim, u8, 4) = 0;
-                    FIELD(prim, u8, 5) = 0;
-                    FIELD(state, void *, 0) = arg0;
-                    FIELD(state, u16, 0x48) =
-                        FIELD(inner, void *, 0x60) ? 0x20 : 0xA;
-                    FIELD(state, u16, 0x4C) = 0;
-                }
-                base_or_count--;
-            } while (base_or_count >= 0);
-        }
-        if (FIELD(inner, void *, 0x60) != 0) {
-            void *obj;
-            obj = func_8003FD64(0x201, D_80083498);
-            if (obj != 0) {
-#ifdef __mips__
-                register void *state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                u16 y;
-#else
-                void *state;
-                u16 y;
-#endif
-                u16 z;
-                s32 last;
-                func_8004491C(obj, D_80024714);
-                FIELD(obj, void *, 0x10) = D_80024684;
-                state = (u8 *)obj + 0x20;
-                FIELD(state, u16, 4) = FIELD(arg1, u16, 2);
-                y = FIELD(arg1, u16, 6);
-                FIELD(state, u16, 6) = y;
-                z = FIELD(arg1, u16, 0xA);
-                FIELD(state, u16, 0x12) = 1;
-                FIELD(state, s32, 0xC) = -64;
-                last = 40;
-                FIELD(state, u16, 8) = z;
-                FIELD(obj, void *, 0x20) = arg0;
-                FIELD(state, u16, 0x10) = last;
-            }
-        }
-        FIELD(arg0, u16, 0x50) = 10;
-        FIELD(arg0, u16, 0xA)++;
+    FIELD(motion, s32, 0) += FIELD(motion, s32, 0xC);
+    FIELD(motion, s32, 4) += FIELD(motion, s32, 0x10);
+    FIELD(motion, s32, 8) += FIELD(motion, s32, 0x14);
+    if (FIELD(effect_state, s16, 0x50) > 0) {
         goto finish;
+    }
+    {
+        u8 *base_page;
+        actor_or_corner = 3;
+#ifdef __mips__
+        base_page = (u8 *)0x80020000;
+        ASM_KEEP(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        image_base = base_page + 0x4538;
+        base_page = (u8 *)0x800E0000;
+        ASM_KEEP(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        resource_base = base_page - 0x1520;
+#else
+        image_base = D_80024538;
+        resource_base = D_800DEAE0;
+#endif
+        do {
+            void *burst_obj;
+#ifdef __mips__
+            register void *prim ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+#else
+            void *prim;
+#endif
+            void *child_state;
+            void *resource_cursor;
+#ifdef __mips__
+            s32 center_coord;
+            s32 corner_coord;
+            s32 position_or_z_offset;
+            register s32 prim_color ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+#else
+            s32 center_coord;
+            s32 corner_coord;
+            s32 position_or_z_offset;
+            s32 prim_color;
+#endif
+
+            burst_obj = func_8003FD64(0x312, D_80083498);
+            if (burst_obj != 0) {
+                func_8004491C(burst_obj, D_80045340);
+                prim = FIELD(burst_obj, void *, 0xC);
+                position_or_z_offset = (s32)FIELD(burst_obj, void *, 8);
+                FIELD(burst_obj, void *, 0x10) = image_base;
+                center_coord = FIELD(motion, s16, 2);
+                child_state = (u8 *)burst_obj + 0x20;
+                if (actor_or_corner >> 1) {
+                    corner_coord = center_coord - 16;
+                } else {
+                    corner_coord = center_coord + 16;
+                }
+                FIELD((void *)position_or_z_offset, s16, 2) = corner_coord;
+                position_or_z_offset = (s32)FIELD(burst_obj, void *, 8);
+                center_coord = FIELD(motion, s16, 6);
+                if ((actor_or_corner & 1) == 0) {
+                    corner_coord = center_coord + 16;
+                } else {
+                    corner_coord = center_coord - 16;
+                }
+                FIELD((void *)position_or_z_offset, s16, 6) = corner_coord;
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                prim_color = 0xC00000;
+                ASM_KEEP(prim_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                position_or_z_offset = -0x100000;
+                FIELD(FIELD(burst_obj, void *, 8), s32, 8) =
+                    FIELD(motion, s32, 8) + position_or_z_offset;
+                FIELD(prim, s16, 0x1E) = 0xC00;
+                FIELD(prim, s16, 0x10) = 0x60;
+                {
+                    u16 prim_flags;
+
+                    prim_flags = FIELD(prim, u16, 0x14);
+                    prim_color |= 0xC0C0;
+                    FIELD(prim, void *, 0) = resource_base;
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    resource_cursor = resource_base;
+                    ASM_KEEP(resource_cursor);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    FIELD(prim, s16, 0x1C) = 0;
+                    FIELD(prim, s32, 0xC) = prim_color;
+                    prim_flags |= 0xC;
+                    FIELD(prim, u16, 0x14) = prim_flags;
+                }
+                FIELD(prim, void *, 8) = FIELD(resource_cursor, void *, 4);
+                FIELD(prim, u8, 4) = 0;
+                FIELD(prim, u8, 5) = 0;
+                FIELD(child_state, void *, 0) = effect_state;
+                FIELD(child_state, u16, 0x48) =
+                    FIELD(actor, void *, 0x60) ? 0x20 : 0xA;
+                FIELD(child_state, u16, 0x4C) = 0;
+            }
+            actor_or_corner--;
+        } while (actor_or_corner >= 0);
+    }
+    if (FIELD(actor, void *, 0x60) != 0) {
+        void *impact_obj;
+        impact_obj = func_8003FD64(0x201, D_80083498);
+        if (impact_obj != 0) {
+#ifdef __mips__
+            register void *child_state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u16 effect_y;
+#else
+            void *child_state;
+            u16 effect_y;
+#endif
+            u16 effect_z;
+            s32 duration;
+            func_8004491C(impact_obj, D_80024714);
+            FIELD(impact_obj, void *, 0x10) = D_80024684;
+            child_state = (u8 *)impact_obj + 0x20;
+            FIELD(child_state, u16, 4) = FIELD(motion, u16, 2);
+            effect_y = FIELD(motion, u16, 6);
+            FIELD(child_state, u16, 6) = effect_y;
+            effect_z = FIELD(motion, u16, 0xA);
+            FIELD(child_state, u16, 0x12) = 1;
+            FIELD(child_state, s32, 0xC) = -64;
+            duration = 40;
+            FIELD(child_state, u16, 8) = effect_z;
+            FIELD(impact_obj, void *, 0x20) = effect_state;
+            FIELD(child_state, u16, 0x10) = duration;
+        }
+    }
+    FIELD(effect_state, u16, 0x50) = 10;
+    FIELD(effect_state, u16, 0xA)++;
+    goto finish;
 
 case2:
-        if (FIELD(arg0, s16, 0x50) > 0) {
-            goto finish;
-        }
-        if (FIELD(inner, void *, 0x60) == 0) {
-            FIELD(arg0, u16, 0x50) = 8;
-            FIELD(arg0, u16, 0xA) = 5;
-            goto finish;
-        }
-        FIELD(arg0, u16, 0x50) = 20;
-        FIELD(arg0, u16, 0xA)++;
+    if (FIELD(effect_state, s16, 0x50) > 0) {
         goto finish;
+    }
+    if (FIELD(actor, void *, 0x60) == 0) {
+        FIELD(effect_state, u16, 0x50) = 8;
+        FIELD(effect_state, u16, 0xA) = 5;
+        goto finish;
+    }
+    FIELD(effect_state, u16, 0x50) = 20;
+    FIELD(effect_state, u16, 0xA)++;
+    goto finish;
 
 case3:
-        if (FIELD(arg0, s16, 0x50) > 0) {
-            goto finish;
-        }
-        if (FIELD(inner, void *, 0x60) != 0 &&
-            func_8009D218(FIELD(inner, void *, 0x60), 1, inner) == 0 &&
-            (FIELD(FIELD(inner, void *, 0x60), u32, 0x14) & 4) != 0) {
-            func_800C8900(
-                FIELD(inner, void *, 0x60),
-                FIELD(D_800E3D68, u8, 0) == 0xFF ? 0xFF : 0x10,
-                2);
-        }
-        FIELD(arg0, u16, 0x50) = 10;
-        FIELD(arg0, u16, 0xA)++;
+    if (FIELD(effect_state, s16, 0x50) > 0) {
         goto finish;
+    }
+    if (FIELD(actor, void *, 0x60) != 0 &&
+        func_8009D218(FIELD(actor, void *, 0x60), 1, actor) == 0 &&
+        (FIELD(FIELD(actor, void *, 0x60), u32, 0x14) & 4) != 0) {
+        func_800C8900(
+            FIELD(actor, void *, 0x60),
+            FIELD(D_800E3D68, u8, 0) == 0xFF ? 0xFF : 0x10,
+            2);
+    }
+    FIELD(effect_state, u16, 0x50) = 10;
+    FIELD(effect_state, u16, 0xA)++;
+    goto finish;
 
 case4:
-        if (FIELD(arg0, s16, 0x50) > 0) {
-            goto finish;
-        }
-        FIELD(arg0, u16, 0x50) = 4;
-        FIELD(arg0, u16, 0xA)++;
+    if (FIELD(effect_state, s16, 0x50) > 0) {
         goto finish;
+    }
+    FIELD(effect_state, u16, 0x50) = 4;
+    FIELD(effect_state, u16, 0xA)++;
+    goto finish;
 
 case5:
-        if (FIELD(arg0, s16, 0x52) & (u16)0x8000) {
-            FIELD(arg0, u16, 0x52) &= 0x7FFF;
-            goto finish;
-        }
-        if (FIELD(arg0, s16, 0x50) > 0) {
-            goto finish;
-        }
-        D_8008346C[0] = 0;
-        FIELD(arg0, u16, -2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+    if (FIELD(effect_state, s16, 0x52) & (u16)0x8000) {
+        FIELD(effect_state, u16, 0x52) &= 0x7FFF;
         goto finish;
+    }
+    if (FIELD(effect_state, s16, 0x50) > 0) {
+        goto finish;
+    }
+    D_8008346C[0] = 0;
+    FIELD(effect_state, u16, -2) |= 0x8000;
+    D_800814A0[0] |= 0x8000;
+    goto finish;
 
 finish:
     ;

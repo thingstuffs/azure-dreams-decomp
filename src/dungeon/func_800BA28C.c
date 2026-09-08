@@ -56,25 +56,26 @@ typedef struct S_800BF9EC_3 {
     u16 unk_14;
 } S_800BF9EC_3;   /* ((S_800BF9EC_2_pre *)node)[-1].unk_00 in func_800BF9EC */
 
-s32 func_800BF9EC(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
+/* Applies an action to the target or eligible list nodes and updates action state. */
+s32 func_800BF9EC(Rec_D_800E3D7C *target, s32 action_id, s16 action_type, s32 action_param)
 {
     S_800BF9EC_1 *head;
     void *node;
 
-    if (arg2 == 13) {
-        return func_80098864(arg1, arg3);
+    if (action_type == 13) {
+        return func_80098864(action_id, action_param);
     }
 
-    if (arg0 == D_800E3D7C) {
-        arg0->unk_110 = arg1;
-        func_8008D344(arg0, D_80083780, D_80082E80, arg0);
+    if (target == D_800E3D7C) {
+        target->unk_110 = action_id;
+        func_8008D344(target, D_80083780, D_80082E80, target);
         return 0;
     }
 
-    if ((u32)arg0 <= 0x9FFFFFFF) {
-        func_800A6480(arg0, arg1, arg2);
-        if (func_800AD6FC(arg0, D_800DDE84[arg0->unk_10.at03_u8.v] & 3, arg1) == 0) {
-            func_800A5F38(arg0, arg1);
+    if ((u32)target <= 0x9FFFFFFF) {
+        func_800A6480(target, action_id, action_type);
+        if (func_800AD6FC(target, D_800DDE84[target->unk_10.at03_u8.v] & 3, action_id) == 0) {
+            func_800A5F38(target, action_id);
             return 1;
         }
     } else {
@@ -87,15 +88,15 @@ s32 func_800BF9EC(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
             do {
                 if (((((S_800BF9EC_2 *)node)->unk_1C & 0x2400) != 0x2000 ||
                      (func_80042900(node, 12) << 16) != 0) &&
-                    arg0->unk_10.at01_u8.v < 99) {
+                    target->unk_10.at01_u8.v < 99) {
                     ((S_800BF9EC_2 *)node)->unk_18 = D_800835E8[((S_800BF9EC_2 *)node)->unk_11];
                     func_800A1D4C(node, 0);
                     if ((((S_800BF9EC_3 *)(((S_800BF9EC_2_pre *)node)[-1].unk_00))->unk_14 & 0x8000) == 0) {
-                        s32 kind = 0x8003;
+                        s32 effect_id = 0x8003;
                         if (((S_800BF9EC_2 *)node)->unk_14 & 0x2000) {
-                            kind = 0x8002;
+                            effect_id = 0x8002;
                         }
-                        func_800B4C7C(kind, node, -2, 1);
+                        func_800B4C7C(effect_id, node, -2, 1);
                     }
                 }
                 node = (u8 *)((S_800BF9EC_2 *)node)->unk_5C + 0x20;
@@ -103,7 +104,7 @@ s32 func_800BF9EC(Rec_D_800E3D7C *arg0, s32 arg1, s16 arg2, s32 arg3)
         }
     }
 
-    func_80098B38(arg1);
+    func_80098B38(action_id);
     D_80083460.field_A--;
     return 1;
 }

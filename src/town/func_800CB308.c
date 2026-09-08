@@ -45,37 +45,34 @@ typedef struct S_800C8A68_4 {
     s16 unk_1E;
 } S_800C8A68_4;   /* temp_s1 in func_800C8A68 */
 
-s32 func_800C8A68(S_800C8A68_2 *arg0) {
-    S_800C8A68_1 *temp_a1;
-    S_800C8A68_3 *temp_s0;
-    S_800C8A68_4 *temp_s1;
-    void *temp_v0;
-    s32 temp_v1;
+/* Allocate and initialize an object at an offset from the supplied position. */
+s32 func_800C8A68(S_800C8A68_2 *source_pos) {
+    S_800C8A68_1 *position;
+    S_800C8A68_3 *object_state;
+    S_800C8A68_4 *render_state;
+    void *object;
+    s32 offset_z;
 
-    temp_v0 = func_8003FD64(0x136, &D_80083498);
-    if (temp_v0 == NULL) {
+    object = func_8003FD64(0x136, &D_80083498);
+    if (object == NULL) {
         return 0;
     }
-    temp_a1 = ((S_800C8A68_0 *)temp_v0)->unk_08;
-    temp_s1 = ((S_800C8A68_0 *)temp_v0)->unk_0C;
-    temp_s0 = temp_v0 + 0x20;
-    temp_a1->unk_00 = arg0->unk_00;
-    temp_a1->unk_04 = arg0->unk_04;
-    temp_v1 = arg0->unk_08 + 0xFFDC0000;
-    temp_a1->unk_0C = 0x100000;
-    temp_a1->unk_10 = 0;
-    temp_a1->unk_08 = temp_v1;
-    ((S_800C8A68_0 *)temp_v0)->unk_10 = &D_800C8B8C;
-    temp_s0->unk_90 = 2;
-    func_800C8B5C(temp_s0, temp_a1, temp_s1);
-    temp_s1->unk_1E = 0x1000;
-    temp_s1->unk_1C = 0x1000;
-    temp_s1->unk_0C = 0x808080;
-    func_8003DB94(temp_s1, &D_800EE344, 0);
-    func_80033CD8(temp_s0, &D_80045340);
-    return (s32) temp_v0;
+    position = ((S_800C8A68_0 *)object)->unk_08;
+    render_state = ((S_800C8A68_0 *)object)->unk_0C;
+    object_state = object + 0x20;
+    position->unk_00 = source_pos->unk_00;
+    position->unk_04 = source_pos->unk_04;
+    offset_z = source_pos->unk_08 + 0xFFDC0000;
+    position->unk_0C = 0x100000;
+    position->unk_10 = 0;
+    position->unk_08 = offset_z;
+    ((S_800C8A68_0 *)object)->unk_10 = &D_800C8B8C;
+    object_state->unk_90 = 2;
+    func_800C8B5C(object_state, position, render_state);
+    render_state->unk_1E = 0x1000;
+    render_state->unk_1C = 0x1000;
+    render_state->unk_0C = 0x808080;
+    func_8003DB94(render_state, &D_800EE344, 0);
+    func_80033CD8(object_state, &D_80045340);
+    return (s32) object;
 }
-
-/* MECHANISM: A guard-clause tail keeps the allocation in s2 for the live return,
-   while defining base+0x20 after the child loads yields s3/s2/s1/s0 retail roles.
-   Volatile scalar copies plus a named third word reproduce the exact record-store schedule. */

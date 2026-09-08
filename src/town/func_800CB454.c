@@ -18,6 +18,7 @@ extern s32 D_800D636C[2];
 extern u8 D_800C8C3C[];
 extern void func_80095388(ObjectState *, s32);
 
+/* Moves the object by its velocity and switches callbacks when vertical velocity is nonnegative. */
 void func_800C8BB4(Owner *owner, ObjectState *state)
 {
     s32 *velocity;
@@ -33,6 +34,3 @@ void func_800C8BB4(Owner *owner, ObjectState *state)
         owner->callback = D_800C8C3C;
     }
 }
-
-/* MECHANISM: The three component updates are expressed in record order (x, y, z).
-   The named velocity base and velocity_z local expose the page lifetime and call arg. */

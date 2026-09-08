@@ -4,36 +4,37 @@
 extern u8 *D_80175D50[3];
 extern u8 D_80083780[12];
 
+/* Return the direction from the reference position to the node position. */
 s32 func_80170408(void) {
-    s16 *node = *(s16 **)(D_80175D50[0] + 8);
-    s16 *base = (s16 *)D_80083780;
-    s16 base2 = base[1];
-    s16 node2 = node[1];
+    s16 *node_pos = *(s16 **)(D_80175D50[0] + 8);
+    s16 *ref_pos = (s16 *)D_80083780;
+    s16 ref_x = ref_pos[1];
+    s16 node_x = node_pos[1];
 
-    if (base2 < node2) {
-        s16 base6 = base[3];
-        s16 node6 = node[3];
-        if (base6 < node6)
+    if (ref_x < node_x) {
+        s16 ref_z = ref_pos[3];
+        s16 node_z = node_pos[3];
+        if (ref_z < node_z)
             return 1;
-        if (node6 < base6)
+        if (node_z < ref_z)
             return 7;
         return 0;
-    } else if (node2 < base2) {
-        s16 base6 = base[3];
-        s16 node6 = node[3];
-        if (base6 < node6)
+    } else if (node_x < ref_x) {
+        s16 ref_z = ref_pos[3];
+        s16 node_z = node_pos[3];
+        if (ref_z < node_z)
             return 3;
-        if (node6 < base6)
+        if (node_z < ref_z)
             return 5;
         return 4;
     } else {
-        s16 base6 = base[3];
-        s16 node6 = node[3];
-        s32 result = 6;
-        if (base6 < node6)
+        s16 ref_z = ref_pos[3];
+        s16 node_z = node_pos[3];
+        s32 direction = 6;
+        if (ref_z < node_z)
             return 2;
-        if (node6 < base6)
-            return result;
+        if (node_z < ref_z)
+            return direction;
         return 0;
     }
 }

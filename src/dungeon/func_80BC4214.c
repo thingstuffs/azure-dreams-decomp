@@ -24,84 +24,85 @@ extern s32 D_801719DC;
 extern s32 D_8017466C;
 
 
-void func_80173A14(S_80173A14_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
+/* Advance the action delay, reset motion, and select the next handler. */
+void func_80173A14(S_80173A14_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 *action_info, void *actor_data)
 {
-    s16 timer;
-    s32 value;
-    s32 *state;
+    s16 delay;
+    s32 tracked_actor;
+    s32 *global_state;
 
-    switch (arg0->unk_9B) {
+    switch (action->unk_9B) {
     case 0:
-        func_800AD4D0(arg3);
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        arg0->unk_9B++;
+        func_800AD4D0(actor_data);
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        action->unk_9B++;
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
+        if (((Rec_D_800E3D7C *)actor_data)->unk_28 == 0) {
             goto start_action;
         }
-        if (arg2->unk_14.at00_u16.v & 0x8000) {
-            arg0->unk_96.s = 0;
-            arg0->unk_9B = 2;
+        if (action_info->unk_14.at00_u16.v & 0x8000) {
+            action->unk_96.s = 0;
+            action->unk_9B = 2;
             return;
         }
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228) {
-            timer = 8;
+        if (((Rec_D_800E3D7C *)actor_data)->unk_1C.as_s32 & 0x228) {
+            delay = 8;
         } else {
-            timer = -1;
+            delay = -1;
         }
-        arg0->unk_96.s = timer;
+        action->unk_96.s = delay;
         /* fall through */
 
     case 1:
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        if (arg0->unk_96.s > 0) {
-            arg0->unk_96.s = arg0->unk_96.u - 1;
-        } else if (arg2->unk_14.at00_u16.v & 0x6000) {
-            arg0->unk_96.s = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        if (action->unk_96.s > 0) {
+            action->unk_96.s = action->unk_96.u - 1;
+        } else if (action_info->unk_14.at00_u16.v & 0x6000) {
+            action->unk_96.s = 0;
         }
-        if (arg0->unk_96.s != 0) {
+        if (action->unk_96.s != 0) {
             return;
         }
-        if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
+        if (((Rec_D_800E3D7C *)actor_data)->unk_28 != 0) {
             goto increment_state;
         }
         goto start_action;
 
 start_action:
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800AAA54(arg0, arg1, arg2, &D_8017466C);
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800AAA54(action, motion, action_info, &D_8017466C);
         return;
 
 increment_state:
-        arg0->unk_96.s = 2;
-        arg0->unk_9B++;
+        action->unk_96.s = 2;
+        action->unk_9B++;
         return;
 
     case 2:
-        if (arg0->unk_96.s != 0) {
-            arg1->unk_10.at00_s32.v = 0;
-            arg1->unk_0C.as_s32 = 0;
+        if (action->unk_96.s != 0) {
+            motion->unk_10.at00_s32.v = 0;
+            motion->unk_0C.as_s32 = 0;
         }
-        timer = arg0->unk_96.u - 1;
-        arg0->unk_96.s = timer;
-        if ((s32)(timer << 16) > 0) {
+        delay = action->unk_96.u - 1;
+        action->unk_96.s = delay;
+        if ((s32)(delay << 16) > 0) {
             return;
         }
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800A2B04(motion, action_info->unk_24, action_info->unk_25);
 
-        state = &D_80083460;
-        value = state[4];
-        if (value == (s32)((u8 *)arg3 - 0x20)) {
-            state[4] = value & 0x7FFFFFFF;
+        global_state = &D_80083460;
+        tracked_actor = global_state[4];
+        if (tracked_actor == (s32)((u8 *)actor_data - 0x20)) {
+            global_state[4] = tracked_actor & 0x7FFFFFFF;
         }
-        arg0->unk_8C = &D_801719DC;
+        action->unk_8C = &D_801719DC;
         return;
 
     default:

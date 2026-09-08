@@ -29,24 +29,25 @@ typedef struct S_8197D3B8_2 {
 extern void func_800478B8(void *);
 extern s32 D_800814A0[3];
 
-void func_8197D3B8(void *arg0, S_8197D3B8_0 *arg1, Rec_D_80082E80 *arg2)
+/* Applies motion deltas, marks the primitive, and propagates status flags. */
+void func_8197D3B8(void *render_entry, S_8197D3B8_0 *motion, Rec_D_80082E80 *status)
 {
     s32 delta_y;
     s32 delta_z;
     S_8197D3B8_2 *primitive;
 
-    delta_y = arg1->unk_10;
-    delta_z = arg1->unk_14;
-    arg1->unk_00 += arg1->unk_0C;
-    arg1->unk_04 += delta_y;
-    arg1->unk_08 += delta_z;
+    delta_y = motion->unk_10;
+    delta_z = motion->unk_14;
+    motion->unk_00 += motion->unk_0C;
+    motion->unk_04 += delta_y;
+    motion->unk_08 += delta_z;
 
-    primitive = ((S_8197D3B8_1 *)arg0)->unk_00;
+    primitive = ((S_8197D3B8_1 *)render_entry)->unk_00;
     primitive->unk_52 |= 0x8000;
 
-    func_800478B8(arg2);
-    if (arg2->unk_14.at00_u16.v & 0x6000) {
-        ((S_8197D3B8_1_pre *)arg0)[-1].unk_00 |= 0x8000;
+    func_800478B8(status);
+    if (status->unk_14.at00_u16.v & 0x6000) {
+        ((S_8197D3B8_1_pre *)render_entry)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

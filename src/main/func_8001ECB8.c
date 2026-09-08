@@ -10,23 +10,24 @@ extern void func_80406368(void);
 extern void func_80405A3C(void);
 extern void func_80405C4C(void);
 
-void func_80405CB8(void *arg0)
+// Selects the next callback based on the operation result and clears the context's state field.
+void func_80405CB8(void *context)
 {
-    void (*callback)(void);
-    void *call_arg;
-    s32 result;
+    void (*next_callback)(void);
+    void *object_base;
+    s32 operation_result;
 
-    result = func_80402154(FIELD(arg0, s32 *, 0x28), 0x80010000);
-    call_arg = (u8 *)arg0 - 0x20;
-    if (result == 0) {
-        FIELD(arg0, void (**)(void), 0x34) = func_80406368;
-        func_8040325C(call_arg);
-        callback = func_80405A3C;
+    operation_result = func_80402154(FIELD(context, s32 *, 0x28), 0x80010000);
+    object_base = (u8 *)context - 0x20;
+    if (operation_result == 0) {
+        FIELD(context, void (**)(void), 0x34) = func_80406368;
+        func_8040325C(object_base);
+        next_callback = func_80405A3C;
     } else {
         func_80405C44(0x80010000);
-        callback = func_80405C4C;
+        next_callback = func_80405C4C;
     }
-    FIELD(arg0, void (**)(void), -0x10) = callback;
+    FIELD(context, void (**)(void), -0x10) = next_callback;
     func_80400908();
-    FIELD(arg0, s32 *, 0x40) = 0;
+    FIELD(context, s32 *, 0x40) = 0;
 }

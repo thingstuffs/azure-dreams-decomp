@@ -20,18 +20,19 @@ extern void SetDrawMode(void *p, s32 dfe, s32 abe, u16 tpage,
                         Func80036A70_DrawMode *env);
 extern void AddPrim(void *ot, void *p);
 
-void func_80036A70(s32 arg0)
+/* Adds a draw-mode primitive for the texture page at (448, 256) to the ordering table. */
+void func_80036A70(s32 ot_index)
 {
-    void *prim;
-    Func80036A70_DrawMode env;
+    void *draw_mode;
+    Func80036A70_DrawMode texture_window;
 
-    prim = D_80083160[0]->nextPrim;
-    D_80083160[0]->nextPrim = (u8 *)prim + 0xC;
+    draw_mode = D_80083160[0]->nextPrim;
+    D_80083160[0]->nextPrim = (u8 *)draw_mode + 0xC;
 
-    env.r0 = 0;
-    env.r1 = 0;
-    env.r2 = 0;
-    env.r3 = 0;
-    SetDrawMode(prim, 0, 0, GetTPage(0, 0, 0x1C0, 0x100), &env);
-    AddPrim((u8 *)D_80083160[0] + 0x70 + (arg0 << 2), prim);
+    texture_window.r0 = 0;
+    texture_window.r1 = 0;
+    texture_window.r2 = 0;
+    texture_window.r3 = 0;
+    SetDrawMode(draw_mode, 0, 0, GetTPage(0, 0, 0x1C0, 0x100), &texture_window);
+    AddPrim((u8 *)D_80083160[0] + 0x70 + (ot_index << 2), draw_mode);
 }

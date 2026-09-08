@@ -13,15 +13,16 @@ typedef struct S_80024EF8_0 {
 M2C_UNK func_80024930(void *, M2C_UNK, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 s32 func_800644B8(s32);                                                    /* extern */
 
-s32 func_80024EF8(S_80024EF8_0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    s32 temp_s0;
-    s32 temp_s0_2;
-    u8 temp_s1;
+/* Draws two effect layers with opposing angles and phase-dependent sizes. */
+s32 func_80024EF8(S_80024EF8_0 *effect, M2C_UNK draw_arg1, M2C_UNK draw_arg2) {
+    s32 primary_size;
+    s32 secondary_size;
+    u8 fade;
 
-    temp_s1 = ~(arg0->unk_10.u8 * 0x10);
-    temp_s0 = (s32) (func_800644B8((0x10 - arg0->unk_10.s16) << 6) * 2) >> 8;
-    temp_s0_2 = (s32) ((func_800644B8((0x10 - arg0->unk_10.s16) << 6) >> 4) * 0x18) >> 8;
-    func_80024930(arg0, arg1, arg2, (s16) (arg0->unk_14 << 5), 0x140, (s32) (s16) temp_s0, 3, 0x40);
-    func_80024930(arg0, arg1, arg2, (s16) ((s32) (0 - (arg0->unk_14 << 0x16)) >> 0x10), 0x140, (s32) (s16) temp_s0_2, 1, temp_s1 & 0xFF);
+    fade = ~(effect->unk_10.u8 * 0x10);
+    primary_size = (s32) (func_800644B8((0x10 - effect->unk_10.s16) << 6) * 2) >> 8;
+    secondary_size = (s32) ((func_800644B8((0x10 - effect->unk_10.s16) << 6) >> 4) * 0x18) >> 8;
+    func_80024930(effect, draw_arg1, draw_arg2, (s16) (effect->unk_14 << 5), 0x140, (s32) (s16) primary_size, 3, 0x40);
+    func_80024930(effect, draw_arg1, draw_arg2, (s16) ((s32) (0 - (effect->unk_14 << 0x16)) >> 0x10), 0x140, (s32) (s16) secondary_size, 1, fade & 0xFF);
     return 0;
 }

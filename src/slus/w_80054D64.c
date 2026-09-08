@@ -46,20 +46,17 @@ extern s16 D_8008480C[8];
 
 extern void func_8005A56C(s32 arg0, s32 arg1, s32 arg2);
 
-/* If status flag 0x400 is set, computes a pitch-bend value from D_80084858's
-   field8/field10 scaling factors and D_8008480C[0] (a 0..32767-scaled
-   percentage), then dispatches it as an SPU pitch-bend command via
-   func_8005A56C (mode 0, same value on both channels). */
+/* Apply the scaled pitch bend to both channels when status flag 0x400 is set. */
 void func_80054D64(void) {
     s16 pitch;
-    s32 tmp;
+    s32 scaled_pitch;
 
     if (D_800847D0.flags1 & 0x400) {
-        S_80084858 *p = &D_80084858;
+        S_80084858 *pitch_task = &D_80084858;
 
-        pitch = (p->field8 * D_8008480C[0]) / 32767;
-        tmp = pitch * p->field10;
-        pitch = tmp / 128;
+        pitch = (pitch_task->field8 * D_8008480C[0]) / 32767;
+        scaled_pitch = pitch * pitch_task->field10;
+        pitch = scaled_pitch / 128;
         func_8005A56C(0, pitch, pitch);
     }
 }

@@ -39,99 +39,100 @@ typedef struct {
     u16 flags;
 } Effect;
 
-void func_8182D698(Object *arg0, Motion *arg1, Effect *arg2) {
+/* Advance motion with damping and downward acceleration, then count down or fade the effect. */
+void func_8182D698(Object *object, Motion *motion, Effect *effect) {
     s16 state;
 
-    ((s32 *)arg0->child)[3] |= 0x8000;
+    ((s32 *)object->child)[3] |= 0x8000;
     {
         s32 y;
-        s32 dy;
+        s32 y_velocity;
 
         {
             register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 dx0;
+            s32 x_velocity;
 
-            x = arg1->x;
-            dx0 = arg1->dx;
-            y = arg1->y;
-            dy = arg1->dy;
-            x += dx0;
-            arg1->x = x;
+            x = motion->x;
+            x_velocity = motion->dx;
+            y = motion->y;
+            y_velocity = motion->dy;
+            x += x_velocity;
+            motion->x = x;
         }
         {
             register s32 z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 dz;
-            s32 dx;
-            volatile s32 *dx_addr = &arg1->dx;
-            s32 dx_step;
-            s32 random;
-            s32 scaled;
-            s32 tail;
+            s32 z_velocity;
+            s32 x_velocity;
+            volatile s32 *x_velocity_addr = &motion->dx;
+            s32 x_drag;
+            s32 random_value;
+            s32 z_jitter;
+            s32 falling_velocity;
 
-            z = arg1->z;
-            dz = arg1->dz;
-            y += dy;
-            arg1->y = y;
+            z = motion->z;
+            z_velocity = motion->dz;
+            y += y_velocity;
+            motion->y = y;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            dx = *dx_addr;
-            z += dz;
-            dx_step = dx >> 3;
-            arg1->z = z;
+            x_velocity = *x_velocity_addr;
+            z += z_velocity;
+            x_drag = x_velocity >> 3;
+            motion->z = z;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             {
-                register s32 dy_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register s32 y_velocity_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                dy_copy = dy;
-                ASM_KEEP(dy_copy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                arg1->dx = dx - dx_step;
-                arg1->dy = dy_copy - (dy_copy >> 3);
+                y_velocity_copy = y_velocity;
+                ASM_KEEP(y_velocity_copy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                motion->dx = x_velocity - x_drag;
+                motion->dy = y_velocity_copy - (y_velocity_copy >> 3);
             }
-            random = func_80069EF8(dx_step, dy);
-            scaled = random * 4;
-            tail = arg1->dz;
-            tail -= 0x4000;
-            arg1->dz = tail - scaled;
+            random_value = func_80069EF8(x_drag, y_velocity);
+            z_jitter = random_value * 4;
+            falling_velocity = motion->dz;
+            falling_velocity -= 0x4000;
+            motion->dz = falling_velocity - z_jitter;
         }
     }
 
-    state = arg0->kind;
+    state = object->kind;
     if (state == 0) {
-        goto state_zero;
+        goto countdown;
     }
     if (state == 1) {
-        goto state_one;
+        goto fade;
     }
     func_80025010();
 
-state_zero: {
-        u16 count = arg0->count - 1;
-        arg0->count = count;
-        if ((count << 0x10) <= 0) {
-            func_8004491C((u8 *)arg0 - 0x20, D_80045340);
-            arg0->kind++;
+countdown: {
+        u16 ticks_left = object->count - 1;
+        object->count = ticks_left;
+        if ((ticks_left << 0x10) <= 0) {
+            func_8004491C((u8 *)object - 0x20, D_80045340);
+            object->kind++;
             func_80025010();
         }
     }
     return;
 
-state_one:
-        func_800478B8(arg2);
-        if (arg2->flags & 0x6000) {
-            arg2->pad[4] = 0;
-            arg2->pad[5] = 0;
+fade:
+        func_800478B8(effect);
+        if (effect->flags & 0x6000) {
+            effect->pad[4] = 0;
+            effect->pad[5] = 0;
         }
         {
-            s32 amount = (func_80069EF8() & 0xF) + 4;
-            if (amount >= arg2->limit) {
-                *(s32 *)((u8 *)arg2 + 0xC) = 0;
-                *((u16 *)((u8 *)arg0 - 2)) |= 0x8000;
+            s32 fade_step = (func_80069EF8() & 0xF) + 4;
+            if (fade_step >= effect->limit) {
+                *(s32 *)((u8 *)effect + 0xC) = 0;
+                *((u16 *)((u8 *)object - 2)) |= 0x8000;
                 D_800814A0[0] |= 0x8000;
                 func_80025010();
             } else {
-                u8 value = arg2->value_e - amount;
-                arg2->value_e = value;
-                arg2->value_d = value;
-                arg2->limit = value;
+                u8 fade_value = effect->value_e - fade_step;
+                effect->value_e = fade_value;
+                effect->value_d = fade_value;
+                effect->limit = fade_value;
             }
         }
 }

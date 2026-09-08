@@ -46,30 +46,31 @@ typedef struct S_80093D8C_3 {
 } S_80093D8C_3;   /* temp_a0 in func_80093D8C */
 
 
-void func_80093D8C(s32 arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2) {
-    S_80093D8C_3 *temp_a0;
-    S_80093D8C_0 *temp_v0;
-    S_80093D8C_1 *temp_v1;
+/* Create a sprite effect at the supplied position and attach it to its owner. */
+void func_80093D8C(s32 sort_order, Rec_D_800E3D7C *source_pos, Rec_D_80082E80 *owner) {
+    S_80093D8C_3 *sprite;
+    S_80093D8C_0 *effect;
+    S_80093D8C_1 *position;
 
-    temp_v0 = func_8003FD64(0x310, arg0 - 0x20);
-    if (temp_v0 != NULL) {
-        temp_v1 = temp_v0->unk_08;
-        temp_v0->unk_10 = &D_80093A94;
-        temp_v1->unk_02 = (u16) arg1->unk_00.at02_u16.v;
-        temp_v1->unk_06 = (u16) arg1->unk_04.at02_u16.v;
-        temp_v1->unk_0A = (u16) arg1->unk_08.at02_u16.v;
-        temp_a0 = temp_v0->unk_0C;
-        temp_a0->unk_28 = (s32) arg2->unk_28.at00_s32.v;
-        temp_a0->unk_1E = 0x1000;
-        temp_a0->unk_14 = 0xCU;
-        temp_a0->unk_10 = 0x20;
-        temp_a0->unk_0C = 0xF8F8F8;
-        temp_a0->unk_1C = 0;
-        temp_a0->unk_06 = 4;
-        temp_a0->unk_14 = (u16) (temp_a0->unk_14 | 0x200);
-        func_80048A44(temp_a0, 0xD0, 0, 2);
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v0->unk_20 = arg2;
-        temp_v0->unk_26 = 0x10;
+    effect = func_8003FD64(0x310, sort_order - 0x20);
+    if (effect != NULL) {
+        position = effect->unk_08;
+        effect->unk_10 = &D_80093A94;
+        position->unk_02 = (u16) source_pos->unk_00.at02_u16.v;
+        position->unk_06 = (u16) source_pos->unk_04.at02_u16.v;
+        position->unk_0A = (u16) source_pos->unk_08.at02_u16.v;
+        sprite = effect->unk_0C;
+        sprite->unk_28 = (s32) owner->unk_28.at00_s32.v;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_14 = 0xCU;
+        sprite->unk_10 = 0x20;
+        sprite->unk_0C = 0xF8F8F8;
+        sprite->unk_1C = 0;
+        sprite->unk_06 = 4;
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0x200);
+        func_80048A44(sprite, 0xD0, 0, 2);
+        func_8004491C(effect, &D_80045340);
+        effect->unk_20 = owner;
+        effect->unk_26 = 0x10;
     }
 }

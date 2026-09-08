@@ -284,325 +284,314 @@ typedef struct S_80089AA0_27 {
     void * unk_3DE8;
 } S_80089AA0_27;   /* root_page in func_80089AA0 */
 
-void func_80089AA0(void *in_arg0, void *in_arg1, void *in_arg2) {
-    register void *arg0 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register void *arg2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *arg1;
-    void *base_83160;
-    volatile s32 sp10;
-    M2C_UNK (*temp_v0_8)(void *, void *, void *, void *);
-    M2C_UNK (*temp_v1_3)(void *, void *, void *, void *);
-    M2C_UNK *var_s0;
+/* Updates the actor, applies movement and input, and processes dungeon actor turns. */
+void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
+    register void *actor_or_result ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register void *sprite_or_root ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *motion_or_count;
+    void *world_state;
+    volatile s32 repeat_pass;
+    M2C_UNK (*update_callback)(void *, void *, void *, void *);
+    M2C_UNK (*current_callback)(void *, void *, void *, void *);
+    M2C_UNK *record_or_page;
     M2C_UNK *early_status;
-    M2C_UNK *var_v0_3;
-    M2C_UNK *var_v0_4;
-    M2C_UNK *var_v1_2;
-    M2C_UNK *var_v1_5;
-    s32 temp_s0_2;
-    s32 temp_s1;
-    s32 temp_v0;
-    s16 temp_v0_10;
-    s32 *temp_a1;
-    s32 temp_a0_4;
-    register s32 temp_a2_role ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_v1_10;
-    register s32 temp_v1_sign ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 temp_v1_9;
-    s32 var_s5;
-    register s32 var_s6 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 var_s6_2 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temp_v0_9;
-    u16 temp_a0;
-    u16 temp_v0_14;
-    u16 temp_v0_6;
-    u16 temp_v0_7;
-    u16 temp_v1_12;
-    u16 temp_v1_13;
-    u16 temp_v1_14;
-    u16 temp_v1_2;
-    u16 temp_v1_5;
-    u16 temp_v1_6;
-    u16 temp_v1_7;
-    u16 temp_v1_8;
-    u16 var_v0_5;
-    u16 shared_a2_flags;
-    u32 *var_a2;
-    u32 temp_v0_2;
-    u32 temp_v0_3;
-    u32 temp_v0_4;
-    u32 temp_v0_5;
-    u8 temp_a0_2;
-    u8 temp_a0_3;
-    s32 temp_a1_3;
-    u8 temp_v1;
-    u8 temp_v1_11;
-    s32 var_v1_3;
-    s32 var_v1_4;
-    S_80089AA0_11 *temp_a1_2;
-    void *temp_s2;
-    register void *temp_v0_12 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    S_80089AA0_20 *temp_v0_13;
-    void *temp_v1_4;
-    S_80089AA0_14 *var_a0;
-    void *var_a3;
-    void *var_s0_2;
-    void *var_s0_3;
-    void *var_s0_4;
-    void *var_s1;
-    register s32 stack_flag ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *var_s1_3;
-    void *var_s1_4;
-    void *var_s1_5;
-    void *var_s4;
-    void *var_s4_2;
-    register void *arg0_copy ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    S_80089AA0_2 *held_83178;
-    void *page_8008;
+    M2C_UNK *turn_status;
+    M2C_UNK *loop_status;
+    M2C_UNK *input_status;
+    M2C_UNK *callback_page;
+    s32 facing;
+    s32 state_or_address;
+    s16 floor_height;
+    s32 *previous_input;
+    s32 flags_or_height;
+    register s32 height_limit ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 record_callback;
+    register s32 turn_sign ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 retry_callback;
+    register s32 companion_index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 pending_passes ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 room_index;
+    u16 input_flags;
+    u16 pass_flags;
+    u16 slow_phase;
+    u16 normal_phase;
+    u16 loop_flags;
+    u16 cleared_pass_flags;
+    u16 final_flags;
+    u16 turn_flags;
+    u16 air_flags;
+    u16 previous_height;
+    u16 fall_flags;
+    u16 phase_flags;
+    u16 next_flags;
+    u16 ground_flags;
+    u32 *companion_fraction;
+    u32 actor_fraction;
+    u32 actor_remainder;
+    u32 companion_total;
+    u32 companion_remainder;
+    u8 actor_limit;
+    u8 companion_limit;
+    s32 pending_low;
+    u8 action_id;
+    u8 pending_high;
+    s32 actor_points;
+    s32 companion_points;
+    S_80089AA0_11 *companion;
+    register void *next_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    S_80089AA0_20 *linked_sprite;
+    S_80089AA0_14 *reset_actor;
+    void *companion_slot;
+    void *linked_actor;
+    register s32 page_or_repeat ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    S_80089AA0_2 *world_object;
+    void *companion_counters;
     S_80089AA0_3 *status_base;
-    register void *status_or_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register void *status_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register void *callback_status ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     S_80089AA0_23 *tail_status;
-    void *copy_dst;
+    void *input_snapshot;
     void *next_record;
-    register u8 *root_page ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u8 *next_page;
+    register u8 *next_record_page ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *actor_root_page;
     u16 initial_flags;
 
-    arg0 = in_arg0;
-    base_83160 = D_80083160;
+    actor_or_result = in_actor;
+    world_state = D_80083160;
     initial_flags = D_80013714;
-    arg1 = in_arg1;
-    arg2 = in_arg2;
-    arg0_copy = arg0;
-    held_83178 = (u8 *)base_83160 + 0x18;
+    motion_or_count = in_motion;
+    sprite_or_root = in_sprite;
+    actor = actor_or_result;
+    world_object = (u8 *)world_state + 0x18;
     if (initial_flags & 4) {
-        var_s0 = (M2C_UNK *)0x80080000;
-        if ((D_800E3CD0 == 0) && (((S_80089AA0_0 *)base_83160)->unk_10 != 0)) {
+        record_or_page = (M2C_UNK *)0x80080000;
+        if ((D_800E3CD0 == 0) && (((S_80089AA0_0 *)world_state)->unk_10 != 0)) {
             D_800E3CD0 = 1;
             func_80040AA0(3);
             goto function_end;
         }
-        goto block_6;
+        goto update_audio;
     }
-    var_s0 = (M2C_UNK *)0x80080000;
-block_6:
-    if ((((S_80089AA0_1 *)var_s0)->unk_AA0.u != 0) && (D_800E3CD0 == 0) && (func_80053EF0(1) == 0)) {
+    record_or_page = (M2C_UNK *)0x80080000;
+update_audio:
+    if ((((S_80089AA0_1 *)record_or_page)->unk_AA0.u != 0) && (D_800E3CD0 == 0) && (func_80053EF0(1) == 0)) {
         func_80053DA8(0x200);
-        ((S_80089AA0_1 *)var_s0)->unk_AA0.s = 0;
+        ((S_80089AA0_1 *)record_or_page)->unk_AA0.s = 0;
         D_80080A88 = 1;
     }
     ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     if (D_80013714 & 4) {
-        register s16 *dce_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        s32 *dce_step_page;
-        s32 dce_value;
-        s32 reverse_step;
-        dce_base = (s16 *)0x800E0000;
-        ASM_KEEP_NV(dce_base);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-        dce_step_page = (s32 *)0x80080000;
-        ASM_KEEP_NV(dce_step_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        dce_base = (s16 *)((u8 *)dce_base - 0x31A0);
-        reverse_step = *(s32 *)((u8 *)dce_step_page + 0x1468);
-        dce_value = dce_base[2];
-        if (reverse_step & 1) {
-            reverse_step = dce_value + 8;
+        register s16 *effect_data ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        s32 *effect_step_page;
+        s32 effect_angle;
+        s32 angle_step;
+        effect_data = (s16 *)0x800E0000;
+        ASM_KEEP_NV(effect_data);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+        effect_step_page = (s32 *)0x80080000;
+        ASM_KEEP_NV(effect_step_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        effect_data = (s16 *)((u8 *)effect_data - 0x31A0);
+        angle_step = *(s32 *)((u8 *)effect_step_page + 0x1468);
+        effect_angle = effect_data[2];
+        if (angle_step & 1) {
+            angle_step = effect_angle + 8;
         } else {
-            reverse_step = dce_value - 8;
+            angle_step = effect_angle - 8;
         }
-        dce_base[2] = (s16) reverse_step;
+        effect_data[2] = (s16) angle_step;
         D_800832B4[0] = 0;
         func_8004D7A8(1);
         func_8004D294(0, (s16 *)((u8 *)&D_800DCF4F - 0xEF), 2);
     }
-    (*(s16 *)((u8 *)arg0 + 0x9E)) = (s16) (((u16) held_83178->unk_B0 >> 9) & 7);
+    (*(s16 *)((u8 *)actor_or_result + 0x9E)) = (s16) (((u16) world_object->unk_B0 >> 9) & 7);
     status_base = &D_80083460;
     status_base->unk_02 = (u16) (status_base->unk_02 & 0xFFCF);
-    temp_a1 = &D_800E4948;
+    previous_input = &D_800E4948;
     if (status_base->unk_08 == D_800E4948) {
-        if (status_base->unk_0C == ((S_80089AA0_4 *)temp_a1)->unk_04) {
-            if (status_base->unk_10 == ((S_80089AA0_4 *)temp_a1)->unk_08) {
-                if (status_base->unk_14 == ((S_80089AA0_4 *)temp_a1)->unk_0C) {
+        if (status_base->unk_0C == ((S_80089AA0_4 *)previous_input)->unk_04) {
+            if (status_base->unk_10 == ((S_80089AA0_4 *)previous_input)->unk_08) {
+                if (status_base->unk_14 == ((S_80089AA0_4 *)previous_input)->unk_0C) {
                     if (!(D_80013714 & 8)) {
-                        temp_v1 = (*(u8 *)((u8 *)arg0 + 0x9A));
-                        if ((temp_v1 != 0x17) && (temp_v1 != 0x27) && (temp_v1 != 0x29) && (D_800DCF4F == 0)) {
+                        action_id = (*(u8 *)((u8 *)actor_or_result + 0x9A));
+                        if ((action_id != 0x17) && (action_id != 0x27) && (action_id != 0x29) && (D_800DCF4F == 0)) {
                             if (status_base->unk_0C == 0) {
                                 if ((status_base->unk_10 == 0) && (status_base->unk_14 == 0)) {
                                     if (status_base->unk_08 != 0) {
-                                        goto block_27;
+                                        goto count_idle_tick;
                                     }
-                                    goto block_31;
+                                    goto reset_idle_count;
                                 }
                                 D_800DD160 += 1;
-                                goto local_89ce0;
+                                goto snapshot_input;
                             }
-block_27:
+count_idle_tick:
                             D_800DD160 += 1;
-                            goto local_89ce0;
+                            goto snapshot_input;
                         }
-                        goto block_30;
+                        goto reset_idle_entry;
                     }
                 }
             }
         }
-        goto block_31;
+        goto reset_idle_count;
     }
-block_30:
-block_31:
+reset_idle_entry:
+reset_idle_count:
     D_800DD160 = 0;
-local_89ce0:
-    copy_dst = D_80083468;
-    func_8003DB6C(&D_800E4948, copy_dst, 4);
-    var_v1_2 = (u8 *)copy_dst - 8;
-    if (((S_80089AA0_5 *)var_v1_2)->unk_0C == 0) {
-        if (((S_80089AA0_5 *)var_v1_2)->unk_10 == 0) {
-            temp_a0 = ((S_80089AA0_5 *)var_v1_2)->unk_02;
-            if (!(temp_a0 & 8) && (((S_80089AA0_5 *)var_v1_2)->unk_08 == 0)) {
-                if (((S_80089AA0_5 *)var_v1_2)->unk_14 == 0) {
-                    if (!(((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x100000) && (((S_80089AA0_5 *)var_v1_2)->unk_0A == 0)) {
-                        if (!(temp_a0 & 0x2E01)) {
-                            if ((func_8009F5CC(temp_a0) << 0x10) != 0) {
+snapshot_input:
+    input_snapshot = D_80083468;
+    func_8003DB6C(&D_800E4948, input_snapshot, 4);
+    input_status = (u8 *)input_snapshot - 8;
+    if (((S_80089AA0_5 *)input_status)->unk_0C == 0) {
+        if (((S_80089AA0_5 *)input_status)->unk_10 == 0) {
+            input_flags = ((S_80089AA0_5 *)input_status)->unk_02;
+            if (!(input_flags & 8) && (((S_80089AA0_5 *)input_status)->unk_08 == 0)) {
+                if (((S_80089AA0_5 *)input_status)->unk_14 == 0) {
+                    if (!(((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x100000) && (((S_80089AA0_5 *)input_status)->unk_0A == 0)) {
+                        if (!(input_flags & 0x2E01)) {
+                            if ((func_8009F5CC(input_flags) << 0x10) != 0) {
                                 func_800C6AB0();
                             }
-                            temp_v1_2 = ((S_80089AA0_5 *)var_v1_2)->unk_02;
-                            if (temp_v1_2 & 2) {
-                                ((S_80089AA0_5 *)var_v1_2)->unk_02 = (u16) ((temp_v1_2 & 0xFFFD) | 0x20);
+                            turn_flags = ((S_80089AA0_5 *)input_status)->unk_02;
+                            if (turn_flags & 2) {
+                                ((S_80089AA0_5 *)input_status)->unk_02 = (u16) ((turn_flags & 0xFFFD) | 0x20);
                                 func_800A0DD8();
-                                temp_v0 = func_80042900(arg0_copy, 7);
-                                temp_v1_sign = temp_v0;
-                                temp_v0 = 0x80;
-                                if (temp_v1_sign <= 0) {
-                                    temp_v0 = 0x100;
-                                    if (temp_v1_sign < 0) {
-                                        temp_v0 = 0x200;
+                                state_or_address = func_80042900(actor, 7);
+                                turn_sign = state_or_address;
+                                state_or_address = 0x80;
+                                if (turn_sign <= 0) {
+                                    state_or_address = 0x100;
+                                    if (turn_sign < 0) {
+                                        state_or_address = 0x200;
                                     }
                                 }
-                                ((S_80089AA0_7_pre *)copy_dst)[-1].unk_00 = (s16) temp_v0;
+                                ((S_80089AA0_7_pre *)input_snapshot)[-1].unk_00 = (s16) state_or_address;
                                 ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                                 if (!(D_80013714 & 8)) {
-                                    status_or_base = &D_80083460;
-                                    ((S_80089AA0_8 *)status_or_base)->unk_1E = (u16) (((S_80089AA0_8 *)status_or_base)->unk_1E + 1);
-                                    temp_v0_2 = ((S_80089AA0_9 *)(&D_800E3D70))->unk_00 + (*(u8 *)((u8 *)arg0_copy + 0x29));
-                                    D_800E3D70 = (s32)temp_v0_2;
-                                    var_v1_3 = (*(u8 *)((u8 *)arg0_copy + 0x28));
-                                    if (temp_v0_2 >= 0x101U) {
+                                    status_page = &D_80083460;
+                                    ((S_80089AA0_8 *)status_page)->unk_1E = (u16) (((S_80089AA0_8 *)status_page)->unk_1E + 1);
+                                    actor_fraction = ((S_80089AA0_9 *)(&D_800E3D70))->unk_00 + (*(u8 *)((u8 *)actor + 0x29));
+                                    D_800E3D70 = (s32)actor_fraction;
+                                    actor_points = (*(u8 *)((u8 *)actor + 0x28));
+                                    if (actor_fraction >= 0x101U) {
                                         do {
-                                            temp_v0_3 = (u32)D_800E3D70 - 0x100;
-                                            D_800E3D70 = (s32)temp_v0_3;
-                                            var_v1_3 += 1;
-                                        } while (temp_v0_3 >= 0x101U);
+                                            actor_remainder = (u32)D_800E3D70 - 0x100;
+                                            D_800E3D70 = (s32)actor_remainder;
+                                            actor_points += 1;
+                                        } while (actor_remainder >= 0x101U);
                                     }
-                                    temp_a0_2 = (*(u8 *)((u8 *)arg0_copy + 0x29));
-                                    if ((s32) temp_a0_2 < (s32) var_v1_3) {
-                                        var_v1_3 = temp_a0_2;
+                                    actor_limit = (*(u8 *)((u8 *)actor + 0x29));
+                                    if ((s32) actor_limit < (s32) actor_points) {
+                                        actor_points = actor_limit;
                                     }
-                                    (*(u8 *)((u8 *)arg0_copy + 0x28)) = var_v1_3;
-                                    var_s6 = 1;
-                                    page_8008 = &D_800E3D74;
-                                    var_a2 = (u32 *)((u8 *)page_8008 + 4);
-                                    var_a3 = arg0 + 4;
+                                    (*(u8 *)((u8 *)actor + 0x28)) = actor_points;
+                                    companion_index = 1;
+                                    companion_counters = &D_800E3D74;
+                                    companion_fraction = (u32 *)((u8 *)companion_counters + 4);
+                                    companion_slot = actor_or_result + 4;
                                     do {
-                                        temp_a1_2 = ((S_80089AA0_10 *)var_a3)->unk_AC;
-                                        if ((temp_a1_2 != NULL) && (temp_a1_2->unk_25 != 0)) {
-                                            temp_v0_4 = *var_a2 + temp_a1_2->unk_29;
-                                            *var_a2 = temp_v0_4;
-                                            var_v1_4 = temp_a1_2->unk_28;
-                                            if (temp_v0_4 >= 0x101U) {
+                                        companion = ((S_80089AA0_10 *)companion_slot)->unk_AC;
+                                        if ((companion != NULL) && (companion->unk_25 != 0)) {
+                                            companion_total = *companion_fraction + companion->unk_29;
+                                            *companion_fraction = companion_total;
+                                            companion_points = companion->unk_28;
+                                            if (companion_total >= 0x101U) {
                                                 do {
-                                                    temp_v0_5 = *var_a2 - 0x100;
-                                                    *var_a2 = temp_v0_5;
-                                                    var_v1_4 += 1;
-                                                } while (temp_v0_5 >= 0x101U);
+                                                    companion_remainder = *companion_fraction - 0x100;
+                                                    *companion_fraction = companion_remainder;
+                                                    companion_points += 1;
+                                                } while (companion_remainder >= 0x101U);
                                             }
-                                            temp_a0_3 = temp_a1_2->unk_29;
-                                            if ((s32) temp_a0_3 < (s32) var_v1_4) {
-                                                var_v1_4 = temp_a0_3;
+                                            companion_limit = companion->unk_29;
+                                            if ((s32) companion_limit < (s32) companion_points) {
+                                                companion_points = companion_limit;
                                             }
-                                            temp_a1_2->unk_28 = var_v1_4;
+                                            companion->unk_28 = companion_points;
                                         }
-                                        var_a2 -= 1;
-                                        var_s6 -= 1;
-                                        var_a3 -= 4;
-                                    } while (var_s6 >= 0);
+                                        companion_fraction -= 1;
+                                        companion_index -= 1;
+                                        companion_slot -= 4;
+                                    } while (companion_index >= 0);
                                 }
-                                if ((*(s32 *)((u8 *)arg0_copy + 0x1C)) & 0x800) {
-                                    temp_v0_6 = (*(u16 *)((u8 *)arg0 + 0xF8));
-                                    (*(u16 *)((u8 *)arg0 + 0xF8)) = (u16) (temp_v0_6 + 1);
-                                    (*(s8 *)((u8 *)arg0_copy + 3)) = (s8) ((func_800644B8((s16) temp_v0_6) >> 8) + 0x30);
-                                    goto local_89f78;
+                                if ((*(s32 *)((u8 *)actor + 0x1C)) & 0x800) {
+                                    slow_phase = (*(u16 *)((u8 *)actor_or_result + 0xF8));
+                                    (*(u16 *)((u8 *)actor_or_result + 0xF8)) = (u16) (slow_phase + 1);
+                                    (*(s8 *)((u8 *)actor + 3)) = (s8) ((func_800644B8((s16) slow_phase) >> 8) + 0x30);
+                                    goto update_actor_state;
                                 }
-                                temp_v0_7 = (*(u16 *)((u8 *)arg0 + 0xF8));
-                                (*(u16 *)((u8 *)arg0 + 0xF8)) = (u16) (temp_v0_7 + 1);
-                                (*(s8 *)((u8 *)arg0_copy + 3)) = (s8) ((func_800644B8((s16) temp_v0_7) >> 7) + 0x40);
-local_89f78:
-                                (*(s32 *)((u8 *)arg0 + 0x128)) = (s32) (func_800A6D30() & 0xFFFF);
+                                normal_phase = (*(u16 *)((u8 *)actor_or_result + 0xF8));
+                                (*(u16 *)((u8 *)actor_or_result + 0xF8)) = (u16) (normal_phase + 1);
+                                (*(s8 *)((u8 *)actor + 3)) = (s8) ((func_800644B8((s16) normal_phase) >> 7) + 0x40);
+update_actor_state:
+                                (*(s32 *)((u8 *)actor_or_result + 0x128)) = (s32) (func_800A6D30() & 0xFFFF);
                                 if (!(D_80013714 & 8)) {
-                                    (*(u16 *)((u8 *)arg0 + 0x118)) = (u16) ((*(u16 *)((u8 *)arg0 + 0x118)) + 1);
+                                    (*(u16 *)((u8 *)actor_or_result + 0x118)) = (u16) ((*(u16 *)((u8 *)actor_or_result + 0x118)) + 1);
                                 }
-                                func_800A4ACC(arg0_copy);
-                                temp_v1_3 = (*(M2C_UNK (**)(void *, void *, void *, void *))((u8 *)arg0 + 0x8C));
-                                if (temp_v1_3 == (Callback4)D_80096384) {
-                                    var_v1_5 = &D_80083460;
-                                    if ((func_80042900(arg0_copy, 0xA) << 0x10) == 0) {
+                                func_800A4ACC(actor);
+                                current_callback = (*(M2C_UNK (**)(void *, void *, void *, void *))((u8 *)actor_or_result + 0x8C));
+                                if (current_callback == (Callback4)D_80096384) {
+                                    callback_page = &D_80083460;
+                                    if ((func_80042900(actor, 0xA) << 0x10) == 0) {
                                         callback_status = (void *)0x80080000;
                                         ASM_KEEP_NV(callback_status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                                        temp_v0 = (s32)&D_8008ACDC;
+                                        state_or_address = (s32)&D_8008ACDC;
                                         callback_status = (u8 *)callback_status + 0x3460;
-                                        (*(Callback4 *)((u8 *)arg0 + 0x8C)) = (Callback4)temp_v0;
-                                        goto local_a024;
+                                        (*(Callback4 *)((u8 *)actor_or_result + 0x8C)) = (Callback4)state_or_address;
+                                        goto mark_callback_change;
                                     }
-                                    goto local_a034;
+                                    goto clear_turn_flags;
                                 }
-                                var_v1_5 = (M2C_UNK *)0x80080000;
-                                if (temp_v1_3 == (Callback4)&D_8008ACDC) {
-                                    if ((func_80042900(arg0_copy, 0xA) << 0x10) != 0) {
+                                callback_page = (M2C_UNK *)0x80080000;
+                                if (current_callback == (Callback4)&D_8008ACDC) {
+                                    if ((func_80042900(actor, 0xA) << 0x10) != 0) {
                                         callback_status = (void *)0x80080000;
                                         ASM_KEEP_NV(callback_status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                                         callback_status = (u8 *)callback_status + 0x3460;
-                                        (*(Callback4 *)((u8 *)arg0 + 0x8C)) = (Callback4)D_80096384;
-                                        goto local_a024;
+                                        (*(Callback4 *)((u8 *)actor_or_result + 0x8C)) = (Callback4)D_80096384;
+                                        goto mark_callback_change;
                                     }
-                                    goto local_a034;
+                                    goto clear_turn_flags;
                                 }
-                                goto local_a034;
+                                goto clear_turn_flags;
                             } else {
-                                goto local_a034;
+                                goto clear_turn_flags;
                             }
-local_a024:
+mark_callback_change:
                             ((S_80089AA0_12 *)callback_status)->unk_02 =
                                 (u16)(((S_80089AA0_12 *)callback_status)->unk_02 | 4);
-local_a034:
+clear_turn_flags:
                             callback_status = (void *)0x80080000;
                             ASM_KEEP_NV(callback_status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                             callback_status = (u8 *)callback_status + 0x3460;
                             ((S_80089AA0_12 *)callback_status)->unk_02 =
                                 (u16)(((S_80089AA0_12 *)callback_status)->unk_02 & 0xBFFB);
-                            (*(u32 *)((u8 *)arg0_copy + 0x14)) &= 0x7FFE7FFF;
+                            (*(u32 *)((u8 *)actor + 0x14)) &= 0x7FFE7FFF;
                             goto after_status_or;
                         }
-                        goto block_75;
+                        goto mark_input_active;
                     }
-                    goto block_74;
+                    goto mark_input_entry;
                 }
-                goto block_75;
+                goto mark_input_active;
             }
-            goto block_74;
+            goto mark_input_entry;
         }
-        goto block_75;
+        goto mark_input_active;
     }
-block_74:
-block_75:
-    status_or_base = &D_80083460;
-    ((S_80089AA0_8 *)status_or_base)->unk_02 = (u16) (((S_80089AA0_8 *)status_or_base)->unk_02 | 4);
+mark_input_entry:
+mark_input_active:
+    status_page = &D_80083460;
+    ((S_80089AA0_8 *)status_page)->unk_02 = (u16) (((S_80089AA0_8 *)status_page)->unk_02 | 4);
 after_status_or:
     if (!(D_80013714 & 8)) {
-        if (((*(u8 *)((u8 *)arg0 + 0x9A)) != 0x17) && (D_800DCF4F == 0) && ((u32) ((S_80089AA0_13 *)(&D_800DD160))->unk_00 >= 0x385U)) {
-            var_a0 = D_800E3D7C;
+        if (((*(u8 *)((u8 *)actor_or_result + 0x9A)) != 0x17) && (D_800DCF4F == 0) && ((u32) ((S_80089AA0_13 *)(&D_800DD160))->unk_00 >= 0x385U)) {
+            reset_actor = D_800E3D7C;
             D_800DD160 = 0;
             do {
-                var_a0->unk_6C = 0;
-                var_a0->unk_71 = (u8) (var_a0->unk_71 & 0x7F);
-                var_a0 = var_a0->unk_5C + 0x20;
-            } while (var_a0 != D_800E3D7C);
+                reset_actor->unk_6C = 0;
+                reset_actor->unk_71 = (u8) (reset_actor->unk_71 & 0x7F);
+                reset_actor = reset_actor->unk_5C + 0x20;
+            } while (reset_actor != D_800E3D7C);
             {
                 S_80089AA0_15 *reset_base;
                 reset_base = &D_80083460;
@@ -615,174 +604,174 @@ after_status_or:
             }
         }
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (!(D_80013714 & 8) && (!(D_80083462 & 4) || (((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x40) || ((*(u8 *)((u8 *)arg0 + 0x9A)) == 0x17))) {
+        if (!(D_80013714 & 8) && (!(D_80083462 & 4) || (((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x40) || ((*(u8 *)((u8 *)actor_or_result + 0x9A)) == 0x17))) {
             D_800E296C = (s32)(D_800E296C & ~0x40);
-            if ((func_800C77D0(arg0_copy - 0x20, arg1, 8, D_800DCE60[3]) << 0x10) != 0) {
+            if ((func_800C77D0(actor - 0x20, motion_or_count, 8, D_800DCE60[3]) << 0x10) != 0) {
                 D_800832B4[0] = 0;
                 func_8004D7A8(1);
                 func_8004D294(0, D_800DCE60, 2);
-                goto local_a1c4;
+                goto update_sprite;
             }
             D_800E3D20 = 0;
-            goto block_90;
+            goto sprite_update_entry;
         }
-        goto block_90;
+        goto sprite_update_entry;
     }
-block_90:
-local_a1c4:
-    if (!((*(s32 *)((u8 *)arg0_copy + 0x1C)) & 0x20)) {
-        if ((func_80042900(arg0_copy, 0xA) << 0x10) != 0) {
-            func_800478B8(arg2);
-            goto local_a21c;
+sprite_update_entry:
+update_sprite:
+    if (!((*(s32 *)((u8 *)actor + 0x1C)) & 0x20)) {
+        if ((func_80042900(actor, 0xA) << 0x10) != 0) {
+            func_800478B8(sprite_or_root);
+            goto run_actor_callbacks;
         }
-        func_80048AC8(arg2, 1);
-        goto local_a21c;
+        func_80048AC8(sprite_or_root, 1);
+        goto run_actor_callbacks;
     }
-    ((S_80089AA0_16 *)arg2)->unk_14 = (u16) (((S_80089AA0_16 *)arg2)->unk_14 | 0x6000);
-local_a21c:
-    temp_v0_8 = (*(M2C_UNK (**)(void *, void *, void *, void *))((u8 *)arg0 + 0x8C));
-    if (temp_v0_8 != NULL) {
-        temp_v0_8(arg0, arg1, arg2, arg0_copy);
+    ((S_80089AA0_16 *)sprite_or_root)->unk_14 = (u16) (((S_80089AA0_16 *)sprite_or_root)->unk_14 | 0x6000);
+run_actor_callbacks:
+    update_callback = (*(M2C_UNK (**)(void *, void *, void *, void *))((u8 *)actor_or_result + 0x8C));
+    if (update_callback != NULL) {
+        update_callback(actor_or_result, motion_or_count, sprite_or_root, actor);
     }
-    D_800DD168[(*(u8 *)((u8 *)arg0 + 0x9A))](arg0, arg1, arg2, arg0_copy);
-    temp_s0_2 = ((s32) (D_80083228 + (*(s16 *)((u8 *)arg0_copy + 0x2A)) + 0x100) >> 9) & 7;
-    if ((*(s16 *)((u8 *)arg0 + 0x94)) != temp_s0_2) {
-        if ((func_80042900(arg0_copy, 0xA) << 0x10) != 0) {
-            func_8003DB94(arg2, ((void **)((S_80089AA0_16 *)arg2)->unk_2C)[temp_s0_2], ((S_80089AA0_16 *)arg2)->unk_04);
-            goto local_a2e8;
+    D_800DD168[(*(u8 *)((u8 *)actor_or_result + 0x9A))](actor_or_result, motion_or_count, sprite_or_root, actor);
+    facing = ((s32) (D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+    if ((*(s16 *)((u8 *)actor_or_result + 0x94)) != facing) {
+        if ((func_80042900(actor, 0xA) << 0x10) != 0) {
+            func_8003DB94(sprite_or_root, ((void **)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing], ((S_80089AA0_16 *)sprite_or_root)->unk_04);
+            goto store_facing;
         }
-        func_800489F4(arg2, ((u8 *)((S_80089AA0_16 *)arg2)->unk_2C)[temp_s0_2], ((S_80089AA0_16 *)arg2)->unk_04, 1);
-local_a2e8:
-        (*(s16 *)((u8 *)arg0 + 0x94)) = temp_s0_2;
-        if (((*(u8 *)((u8 *)arg0 + 0x9A)) != 0x22) && (D_8006CCF8[temp_s0_2] != 0)) {
-            ((S_80089AA0_16 *)arg2)->unk_14 = (u16)(((S_80089AA0_16 *)arg2)->unk_14 | 1);
-            goto block_107;
+        func_800489F4(sprite_or_root, ((u8 *)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing], ((S_80089AA0_16 *)sprite_or_root)->unk_04, 1);
+store_facing:
+        (*(s16 *)((u8 *)actor_or_result + 0x94)) = facing;
+        if (((*(u8 *)((u8 *)actor_or_result + 0x9A)) != 0x22) && (D_8006CCF8[facing] != 0)) {
+            ((S_80089AA0_16 *)sprite_or_root)->unk_14 = (u16)(((S_80089AA0_16 *)sprite_or_root)->unk_14 | 1);
+            goto update_room;
         }
-        ((S_80089AA0_16 *)arg2)->unk_14 = (u16) (((S_80089AA0_16 *)arg2)->unk_14 & 0xFFFE);
-        goto block_107;
+        ((S_80089AA0_16 *)sprite_or_root)->unk_14 = (u16) (((S_80089AA0_16 *)sprite_or_root)->unk_14 & 0xFFFE);
+        goto update_room;
     }
-block_107:
-    temp_v0_9 = func_8009FB34(((S_80089AA0_16 *)arg2)->unk_24, ((S_80089AA0_16 *)arg2)->unk_25);
+update_room:
+    room_index = func_8009FB34(((S_80089AA0_16 *)sprite_or_root)->unk_24, ((S_80089AA0_16 *)sprite_or_root)->unk_25);
     {
         s32 table_index;
         void *table_base;
         S_80089AA0_17 *table_entry;
-        ((S_80089AA0_16 *)arg2)->unk_26 = temp_v0_9;
-        temp_v0_9 <<= 24;
-        table_index = temp_v0_9 >> 24;
+        ((S_80089AA0_16 *)sprite_or_root)->unk_26 = room_index;
+        room_index <<= 24;
+        table_index = room_index >> 24;
         if (table_index >= 0) {
             table_base = D_800E2970;
             table_entry = table_base + (table_index * 0x14);
             table_entry->unk_0C = (u16) (table_entry->unk_0C | 1);
         }
     }
-    func_800A020C((*(s32 *)((u8 *)arg0_copy + 0x1C)), arg2 + 0xC);
-    if (!((*(s32 *)((u8 *)arg0_copy + 0x14)) & 0x100000)) {
-        ((S_80089AA0_18 *)arg1)->unk_00.at00.v = (s32) (((S_80089AA0_18 *)arg1)->unk_00.at00.v + ((S_80089AA0_18 *)arg1)->unk_0C);
-        ((S_80089AA0_18 *)arg1)->unk_04.at00.v = (s32) (((S_80089AA0_18 *)arg1)->unk_04.at00.v + ((S_80089AA0_18 *)arg1)->unk_10);
-        if (!((*(u16 *)((u8 *)arg0 + 0x98)) & 8)) {
-            ((S_80089AA0_18 *)arg1)->unk_14 = (s32) (((S_80089AA0_18 *)arg1)->unk_14 + ((*(s8 *)((u8 *)arg0 + 0x9D)) * 0x14000));
-            (*(s8 *)((u8 *)arg0 + 0x9D)) = (s8) ((u8) (*(s8 *)((u8 *)arg0 + 0x9D)) + 1);
+    func_800A020C((*(s32 *)((u8 *)actor + 0x1C)), sprite_or_root + 0xC);
+    if (!((*(s32 *)((u8 *)actor + 0x14)) & 0x100000)) {
+        ((S_80089AA0_18 *)motion_or_count)->unk_00.at00.v = (s32) (((S_80089AA0_18 *)motion_or_count)->unk_00.at00.v + ((S_80089AA0_18 *)motion_or_count)->unk_0C);
+        ((S_80089AA0_18 *)motion_or_count)->unk_04.at00.v = (s32) (((S_80089AA0_18 *)motion_or_count)->unk_04.at00.v + ((S_80089AA0_18 *)motion_or_count)->unk_10);
+        if (!((*(u16 *)((u8 *)actor_or_result + 0x98)) & 8)) {
+            ((S_80089AA0_18 *)motion_or_count)->unk_14 = (s32) (((S_80089AA0_18 *)motion_or_count)->unk_14 + ((*(s8 *)((u8 *)actor_or_result + 0x9D)) * 0x14000));
+            (*(s8 *)((u8 *)actor_or_result + 0x9D)) = (s8) ((u8) (*(s8 *)((u8 *)actor_or_result + 0x9D)) + 1);
         }
-        (*(s32 *)((u8 *)arg0 + 0x90)) = (s32) ((*(s32 *)((u8 *)arg0 + 0x90)) + ((S_80089AA0_18 *)arg1)->unk_14);
-        temp_v0_10 = func_800BCB04(((S_80089AA0_18 *)arg1)->unk_00.at02.v, ((S_80089AA0_18 *)arg1)->unk_04.at02.v, (s16) ((*(u16 *)((u8 *)arg0_copy + 0x88)) - 0x20));
-        if (temp_v0_10 < 0x200) {
-            if (((*(s16 *)((u8 *)arg0 + 0x92)) + (s16) (*(u16 *)((u8 *)arg0_copy + 0x88))) >= temp_v0_10) {
-                if (((*(u16 *)((u8 *)arg0 + 0x98)) & 4) || (((S_80089AA0_18 *)arg1)->unk_14 < 0)) {
-                    shared_a2_flags =
-                        (u16)((*(u16 *)((u8 *)arg0 + 0xA2)) & 0xFFEF);
+        (*(s32 *)((u8 *)actor_or_result + 0x90)) = (s32) ((*(s32 *)((u8 *)actor_or_result + 0x90)) + ((S_80089AA0_18 *)motion_or_count)->unk_14);
+        floor_height = func_800BCB04(((S_80089AA0_18 *)motion_or_count)->unk_00.at02.v, ((S_80089AA0_18 *)motion_or_count)->unk_04.at02.v, (s16) ((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
+        if (floor_height < 0x200) {
+            if (((*(s16 *)((u8 *)actor_or_result + 0x92)) + (s16) (*(u16 *)((u8 *)actor + 0x88))) >= floor_height) {
+                if (((*(u16 *)((u8 *)actor_or_result + 0x98)) & 4) || (((S_80089AA0_18 *)motion_or_count)->unk_14 < 0)) {
+                    ground_flags =
+                        (u16)((*(u16 *)((u8 *)actor_or_result + 0xA2)) & 0xFFEF);
                     goto store_a2_flags;
                 }
-                (*(s32 *)((u8 *)arg0 + 0x90)) = 0;
-                ((S_80089AA0_18 *)arg1)->unk_14 = 0;
-                (*(s8 *)((u8 *)arg0 + 0x9D)) = 0;
-                if (!((*(u16 *)((u8 *)arg0 + 0xA2)) & 0x10)) {
+                (*(s32 *)((u8 *)actor_or_result + 0x90)) = 0;
+                ((S_80089AA0_18 *)motion_or_count)->unk_14 = 0;
+                (*(s8 *)((u8 *)actor_or_result + 0x9D)) = 0;
+                if (!((*(u16 *)((u8 *)actor_or_result + 0xA2)) & 0x10)) {
                     if (!(((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x80000)) {
                         func_800A56E0(0x508);
                     }
-                    func_800B66C8(arg1);
+                    func_800B66C8(motion_or_count);
                 }
-                shared_a2_flags = (u16) ((*(u16 *)((u8 *)arg0 + 0xA2)) | 0x10);
+                ground_flags = (u16) ((*(u16 *)((u8 *)actor_or_result + 0xA2)) | 0x10);
 store_a2_flags:
-                (*(volatile u16 *)((u8 *)arg0 + 0xA2)) = shared_a2_flags;
-                (*(u16 *)((u8 *)arg0 + 0xA2)) =
-                    (u16)((*(u16 *)((u8 *)arg0 + 0xA2)) & 0xF7FF);
-                goto local_a514;
+                (*(volatile u16 *)((u8 *)actor_or_result + 0xA2)) = ground_flags;
+                (*(u16 *)((u8 *)actor_or_result + 0xA2)) =
+                    (u16)((*(u16 *)((u8 *)actor_or_result + 0xA2)) & 0xF7FF);
+                goto adjust_floor_height;
             }
-            temp_v1_5 = (*(u16 *)((u8 *)arg0 + 0xA2));
-            if (temp_v1_5 & 0x800) {
-                (*(u16 *)((u8 *)arg0 + 0xA2)) = (u16) (temp_v1_5 & 0xFFEF);
+            air_flags = (*(u16 *)((u8 *)actor_or_result + 0xA2));
+            if (air_flags & 0x800) {
+                (*(u16 *)((u8 *)actor_or_result + 0xA2)) = (u16) (air_flags & 0xFFEF);
             }
-            (*(u16 *)((u8 *)arg0 + 0xA2)) = (u16) ((*(u16 *)((u8 *)arg0 + 0xA2)) | 0x800);
-local_a514:
-            temp_a0_4 = (*(s32 *)((u8 *)arg0_copy + 0x1C));
-            if (temp_a0_4 & 0x40000000) {
-                temp_v1_6 = (*(u16 *)((u8 *)arg0_copy + 0x88));
-                temp_v0 = temp_a0_4 & 0xBFFFFFFF;
-                (*(s32 *)((u8 *)arg0_copy + 0x1C)) = temp_v0;
-                temp_a2_role = temp_v1_6;
-                ASM_KEEP(temp_a2_role);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                temp_a2_role -= 0x20;
-                temp_a2_role <<= 16;
-                temp_a2_role >>= 16;
-                (*(u16 *)((u8 *)arg0_copy + 0x8A)) = temp_v1_6;
-                temp_a0_4 = (s16)func_800BCB04((((S_80089AA0_16 *)arg2)->unk_24 << 6) | 0x20, (((S_80089AA0_16 *)arg2)->unk_25 << 6) | 0x20, temp_a2_role);
-                (*(s16 *)((u8 *)arg0 + 0x92)) = (s16) ((u16) (*(s16 *)((u8 *)arg0 + 0x92)) + ((*(u16 *)((u8 *)arg0_copy + 0x88)) - temp_a0_4));
-                (*(u16 *)((u8 *)arg0_copy + 0x88)) = (u16) temp_a0_4;
+            (*(u16 *)((u8 *)actor_or_result + 0xA2)) = (u16) ((*(u16 *)((u8 *)actor_or_result + 0xA2)) | 0x800);
+adjust_floor_height:
+            flags_or_height = (*(s32 *)((u8 *)actor + 0x1C));
+            if (flags_or_height & 0x40000000) {
+                previous_height = (*(u16 *)((u8 *)actor + 0x88));
+                state_or_address = flags_or_height & 0xBFFFFFFF;
+                (*(s32 *)((u8 *)actor + 0x1C)) = state_or_address;
+                height_limit = previous_height;
+                ASM_KEEP(height_limit);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                height_limit -= 0x20;
+                height_limit <<= 16;
+                height_limit >>= 16;
+                (*(u16 *)((u8 *)actor + 0x8A)) = previous_height;
+                flags_or_height = (s16)func_800BCB04((((S_80089AA0_16 *)sprite_or_root)->unk_24 << 6) | 0x20, (((S_80089AA0_16 *)sprite_or_root)->unk_25 << 6) | 0x20, height_limit);
+                (*(s16 *)((u8 *)actor_or_result + 0x92)) = (s16) ((u16) (*(s16 *)((u8 *)actor_or_result + 0x92)) + ((*(u16 *)((u8 *)actor + 0x88)) - flags_or_height));
+                (*(u16 *)((u8 *)actor + 0x88)) = (u16) flags_or_height;
                 if (D_80083462 & 0x80) {
-                    (*(s32 *)((u8 *)arg0 + 0x90)) = 0;
-                    ((S_80089AA0_18 *)arg1)->unk_14 = 0;
-                    (*(s8 *)((u8 *)arg0 + 0x9D)) = 0;
-                    (*(u16 *)((u8 *)arg0 + 0xA2)) =
-                        (u16)((*(u16 *)((u8 *)arg0 + 0xA2)) | 0x10);
-                    goto block_133;
+                    (*(s32 *)((u8 *)actor_or_result + 0x90)) = 0;
+                    ((S_80089AA0_18 *)motion_or_count)->unk_14 = 0;
+                    (*(s8 *)((u8 *)actor_or_result + 0x9D)) = 0;
+                    (*(u16 *)((u8 *)actor_or_result + 0xA2)) =
+                        (u16)((*(u16 *)((u8 *)actor_or_result + 0xA2)) | 0x10);
+                    goto store_height;
                 }
             }
-            goto block_133;
+            goto store_height;
         }
-        temp_v1_7 = (*(u16 *)((u8 *)arg0 + 0xA2));
-        if (temp_v1_7 & 0x800) {
-            (*(u16 *)((u8 *)arg0 + 0xA2)) = (u16) (temp_v1_7 & 0xFFEF);
+        fall_flags = (*(u16 *)((u8 *)actor_or_result + 0xA2));
+        if (fall_flags & 0x800) {
+            (*(u16 *)((u8 *)actor_or_result + 0xA2)) = (u16) (fall_flags & 0xFFEF);
         }
-        (*(u16 *)((u8 *)arg0 + 0xA2)) = (u16) ((*(u16 *)((u8 *)arg0 + 0xA2)) | 0x800);
-block_133:
-        ((S_80089AA0_18 *)arg1)->unk_0A = (s16) ((*(u16 *)((u8 *)arg0_copy + 0x88)) + (u16) (*(s16 *)((u8 *)arg0 + 0x92)));
-        goto block_134;
+        (*(u16 *)((u8 *)actor_or_result + 0xA2)) = (u16) ((*(u16 *)((u8 *)actor_or_result + 0xA2)) | 0x800);
+store_height:
+        ((S_80089AA0_18 *)motion_or_count)->unk_0A = (s16) ((*(u16 *)((u8 *)actor + 0x88)) + (u16) (*(s16 *)((u8 *)actor_or_result + 0x92)));
+        goto finish_movement;
     }
-block_134:
-    func_80096100(arg0, arg1, arg2, arg0_copy);
-    if (!((*(s32 *)((u8 *)arg0_copy + 0x14)) & 0x100000)) {
-        if ((D_800DD258 != ((S_80089AA0_16 *)arg2)->unk_24) || (D_800DD25A != ((S_80089AA0_16 *)arg2)->unk_25)) {
+finish_movement:
+    func_80096100(actor_or_result, motion_or_count, sprite_or_root, actor);
+    if (!((*(s32 *)((u8 *)actor + 0x14)) & 0x100000)) {
+        if ((D_800DD258 != ((S_80089AA0_16 *)sprite_or_root)->unk_24) || (D_800DD25A != ((S_80089AA0_16 *)sprite_or_root)->unk_25)) {
             func_8009D3B0();
             if ((func_800A2C34(0) << 0x10) == 0) {
-                if ((func_800A4474(((S_80089AA0_16 *)arg2)->unk_24, ((S_80089AA0_16 *)arg2)->unk_25) << 0x10) != 0) {
-                    (*(u16 *)((u8 *)arg0 + 0xA2)) =
-                        (u16)((*(u16 *)((u8 *)arg0 + 0xA2)) | 0x200);
-                    goto block_142;
+                if ((func_800A4474(((S_80089AA0_16 *)sprite_or_root)->unk_24, ((S_80089AA0_16 *)sprite_or_root)->unk_25) << 0x10) != 0) {
+                    (*(u16 *)((u8 *)actor_or_result + 0xA2)) =
+                        (u16)((*(u16 *)((u8 *)actor_or_result + 0xA2)) | 0x200);
+                    goto check_tile_actor;
                 }
-                (*(u16 *)((u8 *)arg0 + 0xA2)) = (u16) ((*(u16 *)((u8 *)arg0 + 0xA2)) & 0xFDFF);
-                goto block_142;
+                (*(u16 *)((u8 *)actor_or_result + 0xA2)) = (u16) ((*(u16 *)((u8 *)actor_or_result + 0xA2)) & 0xFDFF);
+                goto check_tile_actor;
             }
         }
-block_142:
-        arg0 = func_8009B25C(arg0_copy, ((S_80089AA0_16 *)arg2)->unk_24, ((S_80089AA0_16 *)arg2)->unk_25, (s16) (*(u16 *)((u8 *)arg0_copy + 0x88)));
-        if (arg0 != NULL) {
-            func_8009A180(arg0, D_800814A8);
-            (*(s32 *)((u8 *)arg0 + 0x1C)) = (s32) ((*(s32 *)((u8 *)arg0 + 0x1C)) & 0x7FFFFFFF);
+check_tile_actor:
+        actor_or_result = func_8009B25C(actor, ((S_80089AA0_16 *)sprite_or_root)->unk_24, ((S_80089AA0_16 *)sprite_or_root)->unk_25, (s16) (*(u16 *)((u8 *)actor + 0x88)));
+        if (actor_or_result != NULL) {
+            func_8009A180(actor_or_result, D_800814A8);
+            (*(s32 *)((u8 *)actor_or_result + 0x1C)) = (s32) ((*(s32 *)((u8 *)actor_or_result + 0x1C)) & 0x7FFFFFFF);
         }
-        D_800DD258 = (u16) ((S_80089AA0_16 *)arg2)->unk_24;
-        D_800DD25A = (u16) ((S_80089AA0_16 *)arg2)->unk_25;
-        goto block_145;
+        D_800DD258 = (u16) ((S_80089AA0_16 *)sprite_or_root)->unk_24;
+        D_800DD25A = (u16) ((S_80089AA0_16 *)sprite_or_root)->unk_25;
+        goto clear_linked_flags;
     }
-block_145:
-    var_s1 = (*(void **)((u8 *)arg0_copy + 0x5C)) + 0x20;
-    arg2 = arg0_copy;
-    if (var_s1 != arg0_copy) {
+clear_linked_flags:
+    linked_actor = (*(void **)((u8 *)actor + 0x5C)) + 0x20;
+    sprite_or_root = actor;
+    if (linked_actor != actor) {
         do {
-            temp_v0_13 = ((S_80089AA0_19_pre *)var_s1)[-1].unk_00.p;
-            temp_v0_13->unk_14 = (u16) (temp_v0_13->unk_14 & 0xFFBF);
-            var_s1 = ((S_80089AA0_19 *)var_s1)->unk_5C.i + 0x20;
-        } while (var_s1 != arg2);
+            linked_sprite = ((S_80089AA0_19_pre *)linked_actor)[-1].unk_00.p;
+            linked_sprite->unk_14 = (u16) (linked_sprite->unk_14 & 0xFFBF);
+            linked_actor = ((S_80089AA0_19 *)linked_actor)->unk_5C.i + 0x20;
+        } while (linked_actor != sprite_or_root);
     }
     early_status = &D_80083460;
     if (((S_80089AA0_21 *)early_status)->unk_02 & 0x800) {
@@ -795,224 +784,224 @@ block_145:
             }
         }
     }
-    var_v0_3 = &D_80083460;
-    temp_v1_8 = ((S_80089AA0_22 *)var_v0_3)->unk_02;
-    if (!(temp_v1_8 & 0x400)) {
-        if (temp_v1_8 & 0x2000) {
+    turn_status = &D_80083460;
+    phase_flags = ((S_80089AA0_22 *)turn_status)->unk_02;
+    if (!(phase_flags & 0x400)) {
+        if (phase_flags & 0x2000) {
             if ((func_800A2C34(0) << 0x10) == 0) {
-                var_s1 = (*(void **)((u8 *)arg0_copy + 0x5C)) + 0x20;
-                arg2 = arg0_copy;
-                if (var_s1 != arg0_copy) {
+                linked_actor = (*(void **)((u8 *)actor + 0x5C)) + 0x20;
+                sprite_or_root = actor;
+                if (linked_actor != actor) {
                     do {
-                        ((S_80089AA0_19 *)var_s1)->unk_8A = (u16) ((S_80089AA0_19 *)var_s1)->unk_88;
-                        ((S_80089AA0_19 *)var_s1)->unk_6A = (u16) ((S_80089AA0_19 *)var_s1)->unk_2A;
-                        var_s1 = ((S_80089AA0_19 *)var_s1)->unk_5C.i + 0x20;
-                    } while (var_s1 != arg2);
+                        ((S_80089AA0_19 *)linked_actor)->unk_8A = (u16) ((S_80089AA0_19 *)linked_actor)->unk_88;
+                        ((S_80089AA0_19 *)linked_actor)->unk_6A = (u16) ((S_80089AA0_19 *)linked_actor)->unk_2A;
+                        linked_actor = ((S_80089AA0_19 *)linked_actor)->unk_5C.i + 0x20;
+                    } while (linked_actor != sprite_or_root);
                 }
-                arg2 = arg0_copy;
+                sprite_or_root = actor;
                 do {
-                    var_s0 = (*(void **)((u8 *)arg0_copy + 0x5C));
-                    var_s1 = (u8 *)var_s0 + 0x20;
-                    var_s6_2 = 0;
-                    if (var_s1 != arg0_copy) {
+                    record_or_page = (*(void **)((u8 *)actor + 0x5C));
+                    linked_actor = (u8 *)record_or_page + 0x20;
+                    pending_passes = 0;
+                    if (linked_actor != actor) {
                         do {
-                            temp_v1_9 = ((S_80089AA0_1 *)var_s0)->unk_10;
-                            D_800E3DE8 = ((S_80089AA0_19 *)var_s1)->unk_5C.p;
-                            if (temp_v1_9 > 0) {
-                                temp_v1_9 |= 0x80000000;
-                                ((M2C_UNK (*)(void *, s32, s32)) temp_v1_9)((u8 *)var_s0 + 0x20, ((S_80089AA0_1 *)var_s0)->unk_08, ((S_80089AA0_1 *)var_s0)->unk_0C);
-                                if (!(((S_80089AA0_1 *)var_s0)->unk_1E & 0x8000) && (((S_80089AA0_19 *)var_s1)->unk_71 < 0) && (((S_80089AA0_19 *)var_s1)->unk_6D != 0)) {
-                                    var_s6_2 += 1;
+                            retry_callback = ((S_80089AA0_1 *)record_or_page)->unk_10;
+                            D_800E3DE8 = ((S_80089AA0_19 *)linked_actor)->unk_5C.p;
+                            if (retry_callback > 0) {
+                                retry_callback |= 0x80000000;
+                                ((M2C_UNK (*)(void *, s32, s32)) retry_callback)((u8 *)record_or_page + 0x20, ((S_80089AA0_1 *)record_or_page)->unk_08, ((S_80089AA0_1 *)record_or_page)->unk_0C);
+                                if (!(((S_80089AA0_1 *)record_or_page)->unk_1E & 0x8000) && (((S_80089AA0_19 *)linked_actor)->unk_71 < 0) && (((S_80089AA0_19 *)linked_actor)->unk_6D != 0)) {
+                                    pending_passes += 1;
                                 }
                             }
-                            var_s0 = D_800E3DE8;
-                            var_s1 = (u8 *)var_s0 + 0x20;
-                        } while (var_s1 != arg2);
+                            record_or_page = D_800E3DE8;
+                            linked_actor = (u8 *)record_or_page + 0x20;
+                        } while (linked_actor != sprite_or_root);
                     }
-                } while (var_s6_2 != 0);
-                var_s1 = (*(void **)((u8 *)arg0_copy + 0x5C)) + 0x20;
-                arg2 = arg0_copy;
-                if (var_s1 != arg0_copy) {
+                } while (pending_passes != 0);
+                linked_actor = (*(void **)((u8 *)actor + 0x5C)) + 0x20;
+                sprite_or_root = actor;
+                if (linked_actor != actor) {
                     do {
-                        func_800A9AFC(((S_80089AA0_19_pre *)var_s1)[-1].unk_00.i, var_s1);
-                        var_s1 = ((S_80089AA0_19 *)var_s1)->unk_5C.i + 0x20;
-                    } while (var_s1 != arg2);
+                        func_800A9AFC(((S_80089AA0_19_pre *)linked_actor)[-1].unk_00.i, linked_actor);
+                        linked_actor = ((S_80089AA0_19 *)linked_actor)->unk_5C.i + 0x20;
+                    } while (linked_actor != sprite_or_root);
                 }
-                status_or_base = &D_80083460;
-                ((S_80089AA0_8 *)status_or_base)->unk_02 =
-                    (u16)((((S_80089AA0_8 *)status_or_base)->unk_02 & 0xDFFF) | 0x1000);
-                goto block_176;
+                status_page = &D_80083460;
+                ((S_80089AA0_8 *)status_page)->unk_02 =
+                    (u16)((((S_80089AA0_8 *)status_page)->unk_02 & 0xDFFF) | 0x1000);
+                goto process_turns;
             }
-            ((S_80089AA0_22 *)var_v0_3)->unk_02 = (u16) (((S_80089AA0_22 *)var_v0_3)->unk_02 & 0xDFFF);
-            var_s1 = (*(void **)((u8 *)arg0_copy + 0x5C)) + 0x20;
-            if (var_s1 != arg0_copy) {
+            ((S_80089AA0_22 *)turn_status)->unk_02 = (u16) (((S_80089AA0_22 *)turn_status)->unk_02 & 0xDFFF);
+            linked_actor = (*(void **)((u8 *)actor + 0x5C)) + 0x20;
+            if (linked_actor != actor) {
                 do {
-                    var_s0 = var_s1 - 0x20;
-                    temp_v1_10 = ((S_80089AA0_1 *)var_s0)->unk_10;
-                    D_800E3DE8 = ((S_80089AA0_19 *)var_s1)->unk_5C.p;
-                    if (temp_v1_10 > 0) {
-                        temp_v1_10 |= 0x80000000;
-                        ((M2C_UNK (*)(void *, s32, s32)) temp_v1_10)(var_s1, ((S_80089AA0_1 *)var_s0)->unk_08, ((S_80089AA0_1 *)var_s0)->unk_0C);
+                    record_or_page = linked_actor - 0x20;
+                    record_callback = ((S_80089AA0_1 *)record_or_page)->unk_10;
+                    D_800E3DE8 = ((S_80089AA0_19 *)linked_actor)->unk_5C.p;
+                    if (record_callback > 0) {
+                        record_callback |= 0x80000000;
+                        ((M2C_UNK (*)(void *, s32, s32)) record_callback)(linked_actor, ((S_80089AA0_1 *)record_or_page)->unk_08, ((S_80089AA0_1 *)record_or_page)->unk_0C);
                     }
-                    var_s1 = (u8 *)D_800E3DE8 + 0x20;
-                } while (var_s1 != arg0_copy);
+                    linked_actor = (u8 *)D_800E3DE8 + 0x20;
+                } while (linked_actor != actor);
             }
-            status_or_base = &D_80083460;
-            ((S_80089AA0_8 *)status_or_base)->unk_02 =
-                (u16) (((S_80089AA0_8 *)status_or_base)->unk_02 | 0x2000);
-            goto block_176;
+            status_page = &D_80083460;
+            ((S_80089AA0_8 *)status_page)->unk_02 =
+                (u16) (((S_80089AA0_8 *)status_page)->unk_02 | 0x2000);
+            goto process_turns;
         }
     }
-block_176:
+process_turns:
     tail_status = &D_80083460;
     if (tail_status->unk_10 > 0) {
         tail_status->unk_10 = 0;
     }
-    var_s6_2 = 0;
-    next_page = (u8 *)0x800E0000;
-    ASM_KEEP(next_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    root_page = (u8 *)0x800E0000;
-    sp10 = 0;
+    pending_passes = 0;
+    actor_root_page = (u8 *)0x800E0000;
+    ASM_KEEP(actor_root_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    next_record_page = (u8 *)0x800E0000;
+    repeat_pass = 0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    var_v0_5 = tail_status->unk_02 | 1;
-    var_v0_4 = tail_status;
-loop_179:
-    ((S_80089AA0_24 *)var_v0_4)->unk_02 = var_v0_5;
-loop_180:
-    stack_flag = (s32)0x800E0000;
-    ASM_KEEP(stack_flag);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    if ((((S_80089AA0_25 *)((void *)stack_flag))->unk_296C & 0x100000) && ((func_800A2C34(0) << 0x10) == 0)) {
-        arg0_copy = ((S_80089AA0_26 *)next_page)->unk_3D7C;
-loop_183:
-        temp_v1_11 = (*(u8 *)((u8 *)arg0_copy + 0x41));
-        temp_a1_3 = (*(u8 *)((u8 *)arg0_copy + 0x42));
-        (*(u8 *)((u8 *)arg0_copy + 0x42)) = 0U;
-        (*(u8 *)((u8 *)arg0_copy + 0x41)) = 0U;
-        (*(s32 *)((u8 *)arg0_copy + 0x18)) = (s32) ((*(s32 *)((u8 *)arg0_copy + 0x18)) + ((temp_v1_11 << 8) | temp_a1_3));
-        if ((func_800A1C58(arg0_copy, temp_a1_3) << 0x10) == 0) {
-            temp_v0_12 = (*(void **)((u8 *)arg0_copy + 0x5C));
-            arg0_copy = (u8 *)temp_v0_12 + 0x20;
-            if (arg0_copy == ((S_80089AA0_26 *)next_page)->unk_3D7C) {
+    next_flags = tail_status->unk_02 | 1;
+    loop_status = tail_status;
+store_loop_flags:
+    ((S_80089AA0_24 *)loop_status)->unk_02 = next_flags;
+begin_actor_pass:
+    page_or_repeat = (s32)0x800E0000;
+    ASM_KEEP(page_or_repeat);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    if ((((S_80089AA0_25 *)((void *)page_or_repeat))->unk_296C & 0x100000) && ((func_800A2C34(0) << 0x10) == 0)) {
+        actor = ((S_80089AA0_26 *)actor_root_page)->unk_3D7C;
+apply_pending_points:
+        pending_high = (*(u8 *)((u8 *)actor + 0x41));
+        pending_low = (*(u8 *)((u8 *)actor + 0x42));
+        (*(u8 *)((u8 *)actor + 0x42)) = 0U;
+        (*(u8 *)((u8 *)actor + 0x41)) = 0U;
+        (*(s32 *)((u8 *)actor + 0x18)) = (s32) ((*(s32 *)((u8 *)actor + 0x18)) + ((pending_high << 8) | pending_low));
+        if ((func_800A1C58(actor, pending_low) << 0x10) == 0) {
+            next_link = (*(void **)((u8 *)actor + 0x5C));
+            actor = (u8 *)next_link + 0x20;
+            if (actor == ((S_80089AA0_26 *)actor_root_page)->unk_3D7C) {
                 s32 clear_mask;
                 clear_mask = (s32)0xFFEF0000;
                 ASM_KEEP_NV(clear_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                stack_flag = (s32)0x800E0000;
+                page_or_repeat = (s32)0x800E0000;
                 clear_mask |= 0xFFFF;
-                ((S_80089AA0_25 *)((void *)stack_flag))->unk_296C =
-                    ((S_80089AA0_25 *)((void *)stack_flag))->unk_296C & clear_mask;
-                goto block_186;
+                ((S_80089AA0_25 *)((void *)page_or_repeat))->unk_296C =
+                    ((S_80089AA0_25 *)((void *)page_or_repeat))->unk_296C & clear_mask;
+                goto begin_linked_pass;
             }
-            goto loop_183;
+            goto apply_pending_points;
         }
-        goto block_186_set_c;
+        goto store_pending_actor;
     }
-block_186:
-    arg2 = ((S_80089AA0_26 *)next_page)->unk_3D7C;
-    var_s0 = ((S_80089AA0_16 *)arg2)->unk_5C;
-    arg0_copy = (u8 *)var_s0 + 0x20;
-    arg1 = NULL;
-    if (arg0_copy != arg2) {
-loop_187:
-        next_record = (*(void * volatile *)((u8 *)arg0_copy + 0x5C));
-        stack_flag = sp10;
-        ((S_80089AA0_27 *)root_page)->unk_3DE8 = next_record;
-        if (((stack_flag == 0) || ((*(s8 *)((u8 *)arg0_copy + 0x6D)) != 0) || (((S_80089AA0_24 *)var_v0_4)->unk_14 != 0)) && (((S_80089AA0_1 *)var_s0)->unk_10 > 0)) {
-            arg0 = (void *)(s32)(s16)func_800A2C34(0);
-            if (((S_80089AA0_24 *)var_v0_4)->unk_14 != 0) {
-                if (arg0 == NULL) {
-                    if ((((S_80089AA0_1 *)var_s0)->unk_B8 & 0xFFFF0000) == 0x150000) {
-                        ((S_80089AA0_24 *)var_v0_4)->unk_0C = (void *) ((u8 *)var_s0 + 0x20);
-                        goto block_195;
+begin_linked_pass:
+    sprite_or_root = ((S_80089AA0_26 *)actor_root_page)->unk_3D7C;
+    record_or_page = ((S_80089AA0_16 *)sprite_or_root)->unk_5C;
+    actor = (u8 *)record_or_page + 0x20;
+    motion_or_count = NULL;
+    if (actor != sprite_or_root) {
+update_linked_actor:
+        next_record = (*(void * volatile *)((u8 *)actor + 0x5C));
+        page_or_repeat = repeat_pass;
+        ((S_80089AA0_27 *)next_record_page)->unk_3DE8 = next_record;
+        if (((page_or_repeat == 0) || ((*(s8 *)((u8 *)actor + 0x6D)) != 0) || (((S_80089AA0_24 *)loop_status)->unk_14 != 0)) && (((S_80089AA0_1 *)record_or_page)->unk_10 > 0)) {
+            actor_or_result = (void *)(s32)(s16)func_800A2C34(0);
+            if (((S_80089AA0_24 *)loop_status)->unk_14 != 0) {
+                if (actor_or_result == NULL) {
+                    if ((((S_80089AA0_1 *)record_or_page)->unk_B8 & 0xFFFF0000) == 0x150000) {
+                        ((S_80089AA0_24 *)loop_status)->unk_0C = (void *) ((u8 *)record_or_page + 0x20);
+                        goto callback_entry;
                     }
-                    goto block_201;
+                    goto advance_linked_actor;
                 }
-                goto block_196;
+                goto run_linked_callback;
             }
-block_195:
-block_196:
-            temp_v0 = (s32)0x80000000;
+callback_entry:
+run_linked_callback:
+            state_or_address = (s32)0x80000000;
             {
-            s32 callback_a1;
-            callback_a1 = ((S_80089AA0_1 *)var_s0)->unk_08;
-            ASM_KEEP_NV(callback_a1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            temp_v1_10 = ((S_80089AA0_1 *)var_s0)->unk_10;
-            temp_v1_10 |= temp_v0;
-            ((M2C_UNK (*)(void *, s32, s32)) temp_v1_10)((u8 *)var_s0 + 0x20, callback_a1, ((S_80089AA0_1 *)var_s0)->unk_0C);
+                s32 callback_context;
+                callback_context = ((S_80089AA0_1 *)record_or_page)->unk_08;
+                ASM_KEEP_NV(callback_context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                record_callback = ((S_80089AA0_1 *)record_or_page)->unk_10;
+                record_callback |= state_or_address;
+                ((M2C_UNK (*)(void *, s32, s32)) record_callback)((u8 *)record_or_page + 0x20, callback_context, ((S_80089AA0_1 *)record_or_page)->unk_0C);
             }
-            if (!(((S_80089AA0_1 *)var_s0)->unk_1E & 0x8000)) {
-                if ((*(s8 *)((u8 *)arg0_copy + 0x6D)) != 0) {
-                    arg1 = (void *)((s32)arg1 + 1);
+            if (!(((S_80089AA0_1 *)record_or_page)->unk_1E & 0x8000)) {
+                if ((*(s8 *)((u8 *)actor + 0x6D)) != 0) {
+                    motion_or_count = (void *)((s32)motion_or_count + 1);
                 }
-                if ((arg0 == NULL) || ((func_800A2C34(0) << 0x10) != 0)) {
-                    goto block_201;
+                if ((actor_or_result == NULL) || ((func_800A2C34(0) << 0x10) != 0)) {
+                    goto advance_linked_actor;
                 }
             }
         } else {
-block_201:
-            var_s0 = ((S_80089AA0_27 *)root_page)->unk_3DE8;
-            arg0_copy = (u8 *)var_s0 + 0x20;
-            if (arg0_copy != arg2) {
-                goto loop_187;
+advance_linked_actor:
+            record_or_page = ((S_80089AA0_27 *)next_record_page)->unk_3DE8;
+            actor = (u8 *)record_or_page + 0x20;
+            if (actor != sprite_or_root) {
+                goto update_linked_actor;
             }
         }
     }
-    temp_v1_12 = ((S_80089AA0_24 *)var_v0_4)->unk_02;
-    if (temp_v1_12 & 0x1000) {
-        if (((S_80089AA0_24 *)var_v0_4)->unk_08 == 0) {
-            if (((S_80089AA0_24 *)var_v0_4)->unk_04 == 0) {
-                ((S_80089AA0_24 *)var_v0_4)->unk_02 = (u16) ((temp_v1_12 & 0xEFF7) | 0x4000);
-                if (arg1 != NULL) {
-                    stack_flag = 1;
-                    *(s32 *)&sp10 = stack_flag;
-                    goto loop_180;
+    loop_flags = ((S_80089AA0_24 *)loop_status)->unk_02;
+    if (loop_flags & 0x1000) {
+        if (((S_80089AA0_24 *)loop_status)->unk_08 == 0) {
+            if (((S_80089AA0_24 *)loop_status)->unk_04 == 0) {
+                ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) ((loop_flags & 0xEFF7) | 0x4000);
+                if (motion_or_count != NULL) {
+                    page_or_repeat = 1;
+                    *(s32 *)&repeat_pass = page_or_repeat;
+                    goto begin_actor_pass;
                 }
-                goto block_219;
-block_186_set_c:
-                ((S_80089AA0_24 *)var_v0_4)->unk_0C = arg0_copy;
-                goto block_186;
+                goto check_pass_completion;
+store_pending_actor:
+                ((S_80089AA0_24 *)loop_status)->unk_0C = actor;
+                goto begin_linked_pass;
             }
         } else {
-            goto block_219;
+            goto check_pass_completion;
         }
     } else {
-        if (!(temp_v1_12 & 0x400)) {
-            goto block_219;
+        if (!(loop_flags & 0x400)) {
+            goto check_pass_completion;
         }
-        if (temp_v1_12 & 0x800) {
-            goto block_219;
+        if (loop_flags & 0x800) {
+            goto check_pass_completion;
         }
         if ((func_800A2C34(0) << 0x10) != 0) {
-            goto block_219;
+            goto check_pass_completion;
         }
         if ((func_800A2B28() << 0x10) != 0) {
-            goto block_219;
+            goto check_pass_completion;
         }
-        if (var_s6_2 == 0) {
-            var_s6_2 = 1;
-            goto loop_180;
+        if (pending_passes == 0) {
+            pending_passes = 1;
+            goto begin_actor_pass;
         }
-        temp_v0_14 = ((S_80089AA0_24 *)var_v0_4)->unk_02;
-            temp_v1_13 = temp_v0_14 & 0xFBFF;
-            ((S_80089AA0_24 *)var_v0_4)->unk_02 = temp_v1_13;
-            if (!(temp_v0_14 & 0x4000)) {
-                ((S_80089AA0_24 *)var_v0_4)->unk_02 = (u16) (temp_v1_13 | 0x800);
-                if (func_800A5C70() != 0) {
-                    ((S_80089AA0_24 *)var_v0_4)->unk_02 =
-                        (u16)(((S_80089AA0_24 *)var_v0_4)->unk_02 | 0x80);
-                    goto function_end;
-                }
+        pass_flags = ((S_80089AA0_24 *)loop_status)->unk_02;
+        cleared_pass_flags = pass_flags & 0xFBFF;
+        ((S_80089AA0_24 *)loop_status)->unk_02 = cleared_pass_flags;
+        if (!(pass_flags & 0x4000)) {
+            ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) (cleared_pass_flags | 0x800);
+            if (func_800A5C70() != 0) {
+                ((S_80089AA0_24 *)loop_status)->unk_02 =
+                    (u16)(((S_80089AA0_24 *)loop_status)->unk_02 | 0x80);
+                goto function_end;
             }
-        goto function_end;
-block_219:
-        if ((arg0_copy == ((S_80089AA0_26 *)next_page)->unk_3D7C) && (arg1 == NULL)) {
-            ((S_80089AA0_24 *)var_v0_4)->unk_02 = (u16) (((S_80089AA0_24 *)var_v0_4)->unk_02 & 0xFFFE);
         }
-        temp_v1_14 = ((S_80089AA0_24 *)var_v0_4)->unk_02;
-        if (!(temp_v1_14 & 0x80) || (((S_80089AA0_24 *)var_v0_4)->unk_0C != NULL) || (((S_80089AA0_24 *)var_v0_4)->unk_10 != 0) || (((S_80089AA0_24 *)var_v0_4)->unk_0A != 0) || (((S_80089AA0_24 *)var_v0_4)->unk_08 == 0)) {
+        goto function_end;
+check_pass_completion:
+        if ((actor == ((S_80089AA0_26 *)actor_root_page)->unk_3D7C) && (motion_or_count == NULL)) {
+            ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) (((S_80089AA0_24 *)loop_status)->unk_02 & 0xFFFE);
+        }
+        final_flags = ((S_80089AA0_24 *)loop_status)->unk_02;
+        if (!(final_flags & 0x80) || (((S_80089AA0_24 *)loop_status)->unk_0C != NULL) || (((S_80089AA0_24 *)loop_status)->unk_10 != 0) || (((S_80089AA0_24 *)loop_status)->unk_0A != 0) || (((S_80089AA0_24 *)loop_status)->unk_08 == 0)) {
             goto function_end;
         }
-        var_v0_5 = temp_v1_14 & 0xFFF7;
-        goto loop_179;
+        next_flags = final_flags & 0xFFF7;
+        goto store_loop_flags;
     }
 function_end:
     return;

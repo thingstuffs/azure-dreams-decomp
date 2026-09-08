@@ -1,7 +1,3 @@
-/* Rowbase phase-2 landing shape (docs/rowbase_lane_phase2.md): natural plain C
- * at the Beldo region true base 0x80174334 — the function defines its
- * TRUE-space name func_80174334; the j->0x8017xxxx words are its own local
- * if/else joins (gap probe 5). No pins, no noreturn scaffolding. */
 #include "common.h"
 
 typedef struct S_80174334_0 {
@@ -142,30 +138,31 @@ extern void func_80065820(void *, void *);
 extern void func_8006671C(void *);
 extern u8 D_80083160[];
 
-void func_80174334(void *arg0, void *arg1, void *arg2, s16 arg3)
+/* Project a textured quad and add it to the ordering table if visible. */
+void func_80174334(void *quad, void *position, void *draw_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     u8 *texture;
-    s32 index;
-    u16 flags;
-    u8 texFlags;
+    s32 ot_index;
+    u16 draw_flags;
+    u8 tex_flags;
     MATRIX matrix;
 
     ((S_80174334_0 *)scratch)->unk_24.p = *(u8 **)D_80083160 + 0xB0;
-    ((S_80174334_0 *)scratch)->unk_88 = ((S_80174334_1 *)arg1)->unk_02;
-    ((S_80174334_0 *)scratch)->unk_8C = ((S_80174334_1 *)arg1)->unk_06;
-    ((S_80174334_0 *)scratch)->unk_90 = ((S_80174334_1 *)arg1)->unk_0A;
-    ((S_80174334_2 *)arg2)->unk_14 |= 0x8000;
+    ((S_80174334_0 *)scratch)->unk_88 = ((S_80174334_1 *)position)->unk_02;
+    ((S_80174334_0 *)scratch)->unk_8C = ((S_80174334_1 *)position)->unk_06;
+    ((S_80174334_0 *)scratch)->unk_90 = ((S_80174334_1 *)position)->unk_0A;
+    ((S_80174334_2 *)draw_state)->unk_14 |= 0x8000;
 
     func_800649A0();
 
     ((S_80174334_0 *)scratch)->unk_3C = 0x2000;
     ((S_80174334_0 *)scratch)->unk_38 = 0x2000;
     ((S_80174334_0 *)scratch)->unk_34 = 0x2000;
-    ((S_80174334_0 *)scratch)->unk_A4 = ((S_80174334_2 *)arg2)->unk_16;
-    ((S_80174334_0 *)scratch)->unk_A8 = ((S_80174334_2 *)arg2)->unk_1A;
-    ((S_80174334_0 *)scratch)->unk_A6 = ((S_80174334_2 *)arg2)->unk_18;
+    ((S_80174334_0 *)scratch)->unk_A4 = ((S_80174334_2 *)draw_state)->unk_16;
+    ((S_80174334_0 *)scratch)->unk_A8 = ((S_80174334_2 *)draw_state)->unk_1A;
+    ((S_80174334_0 *)scratch)->unk_A6 = ((S_80174334_2 *)draw_state)->unk_18;
     func_80065820(scratch + 0xA4, scratch + 0x74);
     func_80064AE0(&matrix);
     func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
@@ -173,8 +170,8 @@ void func_80174334(void *arg0, void *arg1, void *arg2, s16 arg3)
     func_80064D80(scratch + 0x54);
     func_80064CF0(scratch + 0x54);
 
-    texture = ((S_80174334_2 *)arg2)->unk_08;
-    ((S_80174334_0 *)scratch)->unk_28 = ((S_80174334_2 *)arg2)->unk_14;
+    texture = ((S_80174334_2 *)draw_state)->unk_08;
+    ((S_80174334_0 *)scratch)->unk_28 = ((S_80174334_2 *)draw_state)->unk_14;
     ((S_80174334_0 *)scratch)->unk_0C.s32 = texture[8];
     ((S_80174334_0 *)scratch)->unk_10.s32 = texture[9];
     (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
@@ -182,27 +179,27 @@ void func_80174334(void *arg0, void *arg1, void *arg2, s16 arg3)
     packet = ((S_80174334_3 *)(*(u8 **)D_80083160))->unk_8D0;
     ((S_80174334_3 *)(*(u8 **)D_80083160))->unk_8D0 = packet + 0x34;
 
-    ((S_80174334_0 *)scratch)->unk_B0 = ((S_80174334_4 *)arg0)->unk_64;
-    ((S_80174334_0 *)scratch)->unk_B8 = ((S_80174334_4 *)arg0)->unk_6A;
-    ((S_80174334_0 *)scratch)->unk_C0 = ((S_80174334_4 *)arg0)->unk_70;
-    ((S_80174334_0 *)scratch)->unk_C8 = ((S_80174334_4 *)arg0)->unk_76;
-    ((S_80174334_0 *)scratch)->unk_B2 = ((S_80174334_4 *)arg0)->unk_66;
-    ((S_80174334_0 *)scratch)->unk_BA = ((S_80174334_4 *)arg0)->unk_6C;
-    ((S_80174334_0 *)scratch)->unk_C2 = ((S_80174334_4 *)arg0)->unk_72;
-    ((S_80174334_0 *)scratch)->unk_CA = ((S_80174334_4 *)arg0)->unk_78;
-    ((S_80174334_0 *)scratch)->unk_B4 = ((S_80174334_4 *)arg0)->unk_68;
-    ((S_80174334_0 *)scratch)->unk_BC = ((S_80174334_4 *)arg0)->unk_6E;
-    ((S_80174334_0 *)scratch)->unk_C4 = ((S_80174334_4 *)arg0)->unk_74;
-    ((S_80174334_0 *)scratch)->unk_CC = ((S_80174334_4 *)arg0)->unk_7A;
+    ((S_80174334_0 *)scratch)->unk_B0 = ((S_80174334_4 *)quad)->unk_64;
+    ((S_80174334_0 *)scratch)->unk_B8 = ((S_80174334_4 *)quad)->unk_6A;
+    ((S_80174334_0 *)scratch)->unk_C0 = ((S_80174334_4 *)quad)->unk_70;
+    ((S_80174334_0 *)scratch)->unk_C8 = ((S_80174334_4 *)quad)->unk_76;
+    ((S_80174334_0 *)scratch)->unk_B2 = ((S_80174334_4 *)quad)->unk_66;
+    ((S_80174334_0 *)scratch)->unk_BA = ((S_80174334_4 *)quad)->unk_6C;
+    ((S_80174334_0 *)scratch)->unk_C2 = ((S_80174334_4 *)quad)->unk_72;
+    ((S_80174334_0 *)scratch)->unk_CA = ((S_80174334_4 *)quad)->unk_78;
+    ((S_80174334_0 *)scratch)->unk_B4 = ((S_80174334_4 *)quad)->unk_68;
+    ((S_80174334_0 *)scratch)->unk_BC = ((S_80174334_4 *)quad)->unk_6E;
+    ((S_80174334_0 *)scratch)->unk_C4 = ((S_80174334_4 *)quad)->unk_74;
+    ((S_80174334_0 *)scratch)->unk_CC = ((S_80174334_4 *)quad)->unk_7A;
 
-    index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+    ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
                           scratch + 0xC0, scratch + 0xC8,
                           packet + 8, packet + 0x14,
                           packet + 0x20, packet + 0x2C,
-                          scratch + 0xD0, scratch + 0xD4) - arg3 - 6;
-    ((S_80174334_0 *)scratch)->unk_100 = index;
+                          scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
+    ((S_80174334_0 *)scratch)->unk_100 = ot_index;
 
-    if ((u32)index < 0x1E0) {
+    if ((u32)ot_index < 0x1E0) {
         if ((((u16)(((S_80174334_5 *)packet)->unk_08.u + 0x20) < 0x181) &&
              ((u16)(((S_80174334_5 *)packet)->unk_0A.u + 0x20) < 0x121)) |
             (((u16)(((S_80174334_5 *)packet)->unk_14 + 0x20) < 0x181) &&
@@ -211,7 +208,7 @@ void func_80174334(void *arg0, void *arg1, void *arg2, s16 arg3)
              ((u16)(((S_80174334_5 *)packet)->unk_22 + 0x20) < 0x121)) |
             (((u16)(((S_80174334_5 *)packet)->unk_2C.u + 0x20) < 0x181) &&
              ((u16)(((S_80174334_5 *)packet)->unk_2E.u + 0x20) < 0x121))) {
-            ((S_80174334_2 *)arg2)->unk_14 &= 0x7FFF;
+            ((S_80174334_2 *)draw_state)->unk_14 &= 0x7FFF;
 
             ((S_80174334_0 *)scratch)->unk_14.s32 += ((S_80174334_0 *)scratch)->unk_0C.s32;
             if (((S_80174334_0 *)scratch)->unk_14.s32 & 0x100) {
@@ -224,11 +221,11 @@ void func_80174334(void *arg0, void *arg1, void *arg2, s16 arg3)
             ((S_80174334_0 *)scratch)->unk_10.s32 <<= 8;
             ((S_80174334_0 *)scratch)->unk_18.s32 <<= 8;
 
-            if (((S_80174334_2 *)arg2)->unk_12) {
+            if (((S_80174334_2 *)draw_state)->unk_12) {
                 if (((S_80174334_0 *)scratch)->unk_28 & 0x100) {
-                    ((S_80174334_5 *)packet)->unk_0E = ((S_80174334_2 *)arg2)->unk_12;
+                    ((S_80174334_5 *)packet)->unk_0E = ((S_80174334_2 *)draw_state)->unk_12;
                 } else {
-                    ((S_80174334_5 *)packet)->unk_0E = ((S_80174334_2 *)arg2)->unk_12 +
+                    ((S_80174334_5 *)packet)->unk_0E = ((S_80174334_2 *)draw_state)->unk_12 +
                                               ((S_80174334_6 *)texture)->unk_06;
                 }
             } else {
@@ -240,8 +237,8 @@ void func_80174334(void *arg0, void *arg1, void *arg2, s16 arg3)
             ((S_80174334_5 *)packet)->unk_18.u16 = ((S_80174334_0 *)scratch)->unk_10.u16 +
                                        ((S_80174334_0 *)scratch)->unk_14.u16;
 
-            if (((S_80174334_2 *)arg2)->unk_10) {
-                ((S_80174334_5 *)packet)->unk_1A = ((S_80174334_2 *)arg2)->unk_10 +
+            if (((S_80174334_2 *)draw_state)->unk_10) {
+                ((S_80174334_5 *)packet)->unk_1A = ((S_80174334_2 *)draw_state)->unk_10 +
                                            (((S_80174334_6 *)texture)->unk_04 & 0xFF9F);
             } else {
                 ((S_80174334_5 *)packet)->unk_1A = ((S_80174334_6 *)texture)->unk_04;
@@ -261,22 +258,22 @@ void func_80174334(void *arg0, void *arg1, void *arg2, s16 arg3)
                 ((S_80174334_5 *)packet)->unk_30.at01.v--;
             }
 
-            ((S_80174334_5 *)packet)->unk_04.at00.v = ((S_80174334_4 *)arg0)->unk_04;
-            ((S_80174334_5 *)packet)->unk_10 = ((S_80174334_4 *)arg0)->unk_08;
-            ((S_80174334_5 *)packet)->unk_1C = ((S_80174334_4 *)arg0)->unk_0C;
-            ((S_80174334_5 *)packet)->unk_28 = ((S_80174334_4 *)arg0)->unk_10;
+            ((S_80174334_5 *)packet)->unk_04.at00.v = ((S_80174334_4 *)quad)->unk_04;
+            ((S_80174334_5 *)packet)->unk_10 = ((S_80174334_4 *)quad)->unk_08;
+            ((S_80174334_5 *)packet)->unk_1C = ((S_80174334_4 *)quad)->unk_0C;
+            ((S_80174334_5 *)packet)->unk_28 = ((S_80174334_4 *)quad)->unk_10;
 
             func_8006671C(packet);
 
-            texFlags = texture[1];
-            ((S_80174334_2 *)arg2)->unk_0F = texFlags;
-            flags = ((S_80174334_0 *)scratch)->unk_28;
-            if (flags & 8) {
-                ((S_80174334_2 *)arg2)->unk_0F = (flags & 4) ?
-                    (texFlags | 2) : (texFlags & 0xFD);
+            tex_flags = texture[1];
+            ((S_80174334_2 *)draw_state)->unk_0F = tex_flags;
+            draw_flags = ((S_80174334_0 *)scratch)->unk_28;
+            if (draw_flags & 8) {
+                ((S_80174334_2 *)draw_state)->unk_0F = (draw_flags & 4) ?
+                    (tex_flags | 2) : (tex_flags & 0xFD);
             }
 
-            ((S_80174334_5 *)packet)->unk_04.at03.v |= ((S_80174334_2 *)arg2)->unk_0F;
+            ((S_80174334_5 *)packet)->unk_04.at03.v |= ((S_80174334_2 *)draw_state)->unk_0F;
             ((S_80174334_5 *)packet)->unk_00 = (((S_80174334_5 *)packet)->unk_00 & 0xFF000000) |
                 ((*(u32 *)((u8 *)(((S_80174334_0 *)scratch)->unk_24.p2) + ((S_80174334_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
 

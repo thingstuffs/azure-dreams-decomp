@@ -44,28 +44,24 @@ extern void func_8005A4E8(u8 a0, u8 a1, u8 a2);
 extern void func_8005A56C(s32 a0, s32 a1, s32 a2);
 extern s32 func_8003E4FC(s32 a0, void *a1, void *a2);
 
-/* Sets a global mode flag to 2, moves the pending sub-fields (field32/field30)
- * into the active sub-fields (field2C/field2D), sets status bit 0x200 in
- * flags2, resets two timer-like subsystems (func_8005A4E8/func_8005A56C with
- * all-zero args), and registers two callbacks (kinds 0xE and 0xD) via
- * func_8003E4FC against &field28 and &field2C. */
+/* Enters mode 2, activates pending status fields, resets subsystems, and registers status callbacks. */
 void func_80054CD4(void) {
-    S_800847D0 *a0;
-    u8 tmp32;
-    u8 tmp30;
+    S_800847D0 *status;
+    u8 pending_2c;
+    u8 pending_2d;
 
     D_80084904.v = 2;
 
-    a0 = &D_800847D0;
-    tmp32 = a0->field32;
-    tmp30 = a0->field30;
+    status = &D_800847D0;
+    pending_2c = status->field32;
+    pending_2d = status->field30;
 
-    a0->field2C = tmp32;
-    a0->field2D = tmp30;
-    a0->flags2 |= 0x200;
+    status->field2C = pending_2c;
+    status->field2D = pending_2d;
+    status->flags2 |= 0x200;
 
     func_8005A4E8(0, 0, 0);
     func_8005A56C(0, 0, 0);
-    func_8003E4FC(0xE, 0, &a0->field28);
-    func_8003E4FC(0xD, (void *)(s32) a0->field8, &a0->field2C);
+    func_8003E4FC(0xE, 0, &status->field28);
+    func_8003E4FC(0xD, (void *)(s32) status->field8, &status->field2C);
 }

@@ -8,10 +8,11 @@ extern Data40 D_800170FC;
 extern u8 D_8001632C[];
 extern void func_80018FC8(Data40 *, u8 *, s32, s32);
 
-void func_804762B8(s32 arg0, s32 arg1, s32 arg2)
+/* Pass a local copy of the global data and the shared byte table to func_80018FC8. */
+void func_804762B8(s32 first_value, s32 unused, s32 second_value)
 {
-    Data40 data;
+    Data40 data_copy;
 
-    data = D_800170FC;
-    func_80018FC8(&data, D_8001632C, arg0, arg2);
+    data_copy = D_800170FC;
+    func_80018FC8(&data_copy, D_8001632C, first_value, second_value);
 }

@@ -13,9 +13,10 @@ typedef struct S_80039A88_0 {
 
 s32 func_80053EF0();                         /* extern */
 
-void func_80039A88(S_80039A88_0 *arg0) {
+/* Clear the state value and decrement the counter when func_80053EF0(4) succeeds. */
+void func_80039A88(S_80039A88_0 *state) {
     if (func_80053EF0(4) != 0) {
-        arg0->unk_10 = 0;
-        arg0->unk_1C = (s32) (arg0->unk_1C - 1);
+        state->unk_10 = 0;
+        state->unk_1C = (s32) (state->unk_1C - 1);
     }
 }

@@ -62,35 +62,36 @@ typedef struct S_800A84D0_4 {
     s16 unk_02;
 } S_800A84D0_4;   /* temp_v1 in func_800A84D0 */
 
-void *func_800A84D0(S_800A84D0_2 *arg0) {
-    s32 temp_s0_2;
-    S_800A84D0_3 *temp_s0;
-    S_800A84D0_1 *temp_s1;
-    void *temp_v0;
-    S_800A84D0_4 *temp_v1;
+/* Creates an effect at the supplied position and initializes its sprite and random state. */
+void *func_800A84D0(S_800A84D0_2 *source_position) {
+    s32 random_offset;
+    S_800A84D0_3 *sprite;
+    S_800A84D0_1 *position;
+    void *object;
+    S_800A84D0_4 *effect_state;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_s1 = ((S_800A84D0_0 *)temp_v0)->unk_08;
-        temp_s0 = ((S_800A84D0_0 *)temp_v0)->unk_0C;
-        ((S_800A84D0_0 *)temp_v0)->unk_10 = &D_800A8440;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s1->unk_02 = (u16) arg0->unk_02;
-        temp_s1->unk_06 = (u16) arg0->unk_06;
-        temp_s1->unk_0A = (u16) arg0->unk_0A;
-        func_8003DB94(temp_s0, &D_800D1464, 0);
-        temp_s0->unk_0E = 0xFF;
-        temp_s0->unk_0D = 0xFF;
-        temp_s0->unk_0C = 0xFF;
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        temp_s0->unk_10 = 0x60;
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-        temp_s0_2 = func_800374F4(7);
-        temp_v1 = temp_v0 + 0x20;
-        temp_v1->unk_02 = (s16) (temp_s0_2 + func_800374F4(7));
+    object = func_8003FC64(0x212);
+    if (object != NULL) {
+        position = ((S_800A84D0_0 *)object)->unk_08;
+        sprite = ((S_800A84D0_0 *)object)->unk_0C;
+        ((S_800A84D0_0 *)object)->unk_10 = &D_800A8440;
+        func_8004491C(object, &D_80045340);
+        position->unk_02 = (u16) source_position->unk_02;
+        position->unk_06 = (u16) source_position->unk_06;
+        position->unk_0A = (u16) source_position->unk_0A;
+        func_8003DB94(sprite, &D_800D1464, 0);
+        sprite->unk_0E = 0xFF;
+        sprite->unk_0D = 0xFF;
+        sprite->unk_0C = 0xFF;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_10 = 0x60;
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        random_offset = func_800374F4(7);
+        effect_state = object + 0x20;
+        effect_state->unk_02 = (s16) (random_offset + func_800374F4(7));
     }
-    return temp_v0;
+    return object;
 }
 
 /* MECHANISM: Preserve the seed's 0x28 frame and s3/s2/s1/s0 held-value layout.

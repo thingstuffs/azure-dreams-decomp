@@ -71,61 +71,62 @@ extern s32 D_80045340;
 extern u8 D_8006CCD8;
 extern u8 D_8006CCE8;
 extern u8 D_80175978;
-void *func_80175F60(void *arg0, Copy24 *input, void *source)
+/* Create a render object and initialize its position and motion toward a directional target. */
+void *func_80175F60(void *emitter, Copy24 *position, void *source)
 {
-  void *new_var;
-  Copy24 local;
-  Vec3u16 delta;
-  u16 selector;
-  s32 table_offset;
-  Copy24 *held_input;
+  void *emitter_copy;
+  Copy24 target_position;
+  Vec3u16 position_offset;
+  u16 direction_flags;
+  s32 direction_offset;
+  Copy24 *position_data;
   void *object;
-  void *child;
-  void *held_source;
+  void *transform;
+  void *source_copy;
   void *render;
   void *result;
-  held_input = input;
-  held_source = source;
-  selector = *((u16 *) (((u8 *) arg0) + 0x2A));
-  new_var = arg0;
-  local = *held_input;
-  table_offset = (selector >> 8) & 0xE;
-  *((u16 *) (((u8 *) (&local)) + 2)) += ((*((s16 *) (((u8 *) (&D_8006CCD8)) + table_offset))) * (*((s16 *) (((u8 *) arg0) + 0xB2)))) * 0x40;
-  *((u16 *) (((u8 *) (&local)) + 6)) += ((*((s16 *) (((u8 *) (&D_8006CCE8)) + table_offset))) * (*((s16 *) (((u8 *) new_var) + 0xB2)))) * 0x40;
+  position_data = position;
+  source_copy = source;
+  direction_flags = *((u16 *) (((u8 *) emitter) + 0x2A));
+  emitter_copy = emitter;
+  target_position = *position_data;
+  direction_offset = (direction_flags >> 8) & 0xE;
+  *((u16 *) (((u8 *) (&target_position)) + 2)) += ((*((s16 *) (((u8 *) (&D_8006CCD8)) + direction_offset))) * (*((s16 *) (((u8 *) emitter) + 0xB2)))) * 0x40;
+  *((u16 *) (((u8 *) (&target_position)) + 6)) += ((*((s16 *) (((u8 *) (&D_8006CCE8)) + direction_offset))) * (*((s16 *) (((u8 *) emitter_copy) + 0xB2)))) * 0x40;
   object = func_8003FC64(0x312);
   if (object != 0)
   {
     *((void **) (((u8 *) object) + 0x10)) = &D_80175978;
     func_8004491C(object, &D_80045340);
     render = *((void **) (((u8 *) object) + 0xC));
-    *((s32 *) (((u8 *) render) + 0x28)) = *((s32 *) (((u8 *) held_source) + 0x28));
+    *((s32 *) (((u8 *) render) + 0x28)) = *((s32 *) (((u8 *) source_copy) + 0x28));
     *((s16 *) (((u8 *) render) + 0x1E)) = 0x800;
     *((s16 *) (((u8 *) render) + 0x1C)) = 0x800;
     *((u32 *) (((u8 *) render) + 0xC)) = 0x00808080;
     *((u16 *) (((u8 *) render) + 0x14)) |= 0xC;
     *((u16 *) (((u8 *) render) + 0x10)) |= 0x20;
     func_80047784(render, 0x47, 0);
-    child = *((void **) (((u8 *) object) + 8));
-    *((Copy24 *) (((u8 *) object) + 0x24)) = *held_input;
-    held_input = (Copy24 *) (((u8 *) object) + 0x20);
-    delta.z = 0;
-    delta.y = 0;
-    delta.x = 0;
-    if (func_8003DE58(*((void **) (((u8 *) held_source) + 8)), held_source, &delta, 1) != 0)
+    transform = *((void **) (((u8 *) object) + 8));
+    *((Copy24 *) (((u8 *) object) + 0x24)) = *position_data;
+    position_data = (Copy24 *) (((u8 *) object) + 0x20);
+    position_offset.z = 0;
+    position_offset.y = 0;
+    position_offset.x = 0;
+    if (func_8003DE58(*((void **) (((u8 *) source_copy) + 8)), source_copy, &position_offset, 1) != 0)
     {
-      *((u16 *) (((u8 *) held_input) + 6)) += delta.x;
-      *((u16 *) (((u8 *) child) + 2)) = *((u16 *) (((u8 *) held_input) + 6));
-      *((u16 *) (((u8 *) held_input) + 0xA)) += delta.y;
-      *((u16 *) (((u8 *) child) + 6)) = *((u16 *) (((u8 *) held_input) + 0xA));
-      *((u16 *) (((u8 *) held_input) + 0xE)) += delta.z;
-      *((u16 *) (((u8 *) child) + 0xA)) = *((u16 *) (((u8 *) held_input) + 0xE));
+      *((u16 *) (((u8 *) position_data) + 6)) += position_offset.x;
+      *((u16 *) (((u8 *) transform) + 2)) = *((u16 *) (((u8 *) position_data) + 6));
+      *((u16 *) (((u8 *) position_data) + 0xA)) += position_offset.y;
+      *((u16 *) (((u8 *) transform) + 6)) = *((u16 *) (((u8 *) position_data) + 0xA));
+      *((u16 *) (((u8 *) position_data) + 0xE)) += position_offset.z;
+      *((u16 *) (((u8 *) transform) + 0xA)) = *((u16 *) (((u8 *) position_data) + 0xE));
     }
-    *((s32 *) (((u8 *) held_input) + 0x10)) = (((s32) local.words[0]) - (*((s32 *) (((u8 *) held_input) + 4)))) / 0x20;
-    *((s32 *) (((u8 *) held_input) + 0x14)) = (((s32) local.words[1]) - (*((s32 *) (((u8 *) held_input) + 8)))) / 0x20;
+    *((s32 *) (((u8 *) position_data) + 0x10)) = (((s32) target_position.words[0]) - (*((s32 *) (((u8 *) position_data) + 4)))) / 0x20;
+    *((s32 *) (((u8 *) position_data) + 0x14)) = (((s32) target_position.words[1]) - (*((s32 *) (((u8 *) position_data) + 8)))) / 0x20;
     result = object;
     return result;
   }
-  if (held_input || source)
+  if (position_data || source)
   {
     return 0;
   }

@@ -63,11 +63,12 @@ extern s32 D_8017140C;
 extern u8 D_80175894[];
 extern u8 D_8017588C[];
 
-void func_801738E0(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advance the actor animation state and process pending actions. */
+void func_801738E0(void *entity, void *context, void *anim, void *actor)
 {
     s32 state;
 
-    state = ((S_801738E0_0 *)arg0)->unk_9B;
+    state = ((S_801738E0_0 *)entity)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -87,112 +88,112 @@ at_least_two:
 
 state_zero:
     {
-        s32 *base;
-        u8 *table;
+        s32 *scene_state;
+        u8 *direction_anims;
 
-        if (!(((S_801738E0_1 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((S_801738E0_1 *)anim)->unk_14 & 0xE000)) {
             goto done;
         }
 
-        base = &D_80083460;
-        ((S_801738E0_2 *)base)->unk_0A--;
-        table = D_80175894;
-        (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-        func_80047784(arg2,
-            table[((D_80083228 + ((S_801738E0_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+        scene_state = &D_80083460;
+        ((S_801738E0_2 *)scene_state)->unk_0A--;
+        direction_anims = D_80175894;
+        (*(void * *)((u8 *)anim + 0x2C)) = direction_anims;
+        func_80047784(anim,
+            direction_anims[((D_80083228 + ((S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         goto increment_state;
     }
 
 state_one:
     {
-        u8 *global;
-        u32 flags;
+        u8 *scene_state;
+        u32 actor_flags;
 
-        if (((S_801738E0_3 *)arg3)->unk_25 != 0) {
-            s32 *base;
+        if (((S_801738E0_3 *)actor)->unk_25 != 0) {
+            s32 *scene_state;
 
-            (*(void * *)((u8 *)arg2 + 0x2C)) = D_8017588C;
-            func_80047784(arg2,
-                D_8017588C[((D_80083228 + ((S_801738E0_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+            (*(void * *)((u8 *)anim + 0x2C)) = D_8017588C;
+            func_80047784(anim,
+                D_8017588C[((D_80083228 + ((S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            ((S_801738E0_3 *)arg3)->unk_1C |= 0x40000;
-            base = &D_80083460;
-            ((S_801738E0_2 *)base)->unk_0A++;
+            ((S_801738E0_3 *)actor)->unk_1C |= 0x40000;
+            scene_state = &D_80083460;
+            ((S_801738E0_2 *)scene_state)->unk_0A++;
             goto increment_state;
         }
 
-        global = (u8 *)&D_80083460;
-        if (((S_801738E0_4 *)global)->unk_02 & 0x1000) {
+        scene_state = (u8 *)&D_80083460;
+        if (((S_801738E0_4 *)scene_state)->unk_02 & 0x1000) {
             goto done;
         }
 
-        if (((S_801738E0_3 *)arg3)->unk_64 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
+        if (((S_801738E0_3 *)actor)->unk_64 != 0) {
+            if (func_800AA6B4(entity, context, anim, 0) != 0) {
                 goto done;
             }
         }
 
-        if ((func_800A2C34(arg3) << 16) != 0) {
+        if ((func_800A2C34(actor) << 16) != 0) {
             goto done;
         }
 
-        flags = ((S_801738E0_3 *)arg3)->unk_1C;
-        if (flags & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        actor_flags = ((S_801738E0_3 *)actor)->unk_1C;
+        if (actor_flags & 0x100) {
+            func_800AA258(entity, context, anim, actor);
             goto done;
         }
 
-        if (flags & 0x80000) {
-            u16 old_value;
-            u16 amount;
+        if (actor_flags & 0x80000) {
+            u16 entity_value;
+            u16 pending_delta;
 
-            func_800AA888(arg0, arg1, arg2, arg3);
-            old_value = ((S_801738E0_0 *)arg0)->unk_92;
-            amount = ((S_801738E0_0 *)arg0)->unk_B6;
-            ((S_801738E0_0 *)arg0)->unk_B6 = 0;
-            ((S_801738E0_0 *)arg0)->unk_B8 = 0;
-            ((S_801738E0_0 *)arg0)->unk_92 = old_value - amount;
-            func_80173C34(arg0, arg1, arg2, arg3);
+            func_800AA888(entity, context, anim, actor);
+            entity_value = ((S_801738E0_0 *)entity)->unk_92;
+            pending_delta = ((S_801738E0_0 *)entity)->unk_B6;
+            ((S_801738E0_0 *)entity)->unk_B6 = 0;
+            ((S_801738E0_0 *)entity)->unk_B8 = 0;
+            ((S_801738E0_0 *)entity)->unk_92 = entity_value - pending_delta;
+            func_80173C34(entity, context, anim, actor);
             goto done;
         }
 
-        if (((S_801738E0_3 *)arg3)->unk_6D == 0) {
+        if (((S_801738E0_3 *)actor)->unk_6D == 0) {
             goto done;
         }
-        if ((func_800A2C34(arg3) << 16) != 0) {
-            if ((func_8009A180(arg3,
+        if ((func_800A2C34(actor) << 16) != 0) {
+            if ((func_8009A180(actor,
                     (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                 goto done;
             }
         }
 
-        func_800A9A0C(arg3);
-        func_800A9A04(arg3);
-        if (((S_801738E0_3 *)arg3)->unk_25 == 0) {
+        func_800A9A0C(actor);
+        func_800A9A04(actor);
+        if (((S_801738E0_3 *)actor)->unk_25 == 0) {
             goto done;
         }
 
-        (*(void * *)((u8 *)arg2 + 0x2C)) = D_8017588C;
-        func_80047784(arg2,
-            D_8017588C[((D_80083228 + ((S_801738E0_3 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+        (*(void * *)((u8 *)anim + 0x2C)) = D_8017588C;
+        func_80047784(anim,
+            D_8017588C[((D_80083228 + ((S_801738E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        ((S_801738E0_3 *)arg3)->unk_1C |= 0x40000;
-        ((S_801738E0_4 *)global)->unk_0A++;
+        ((S_801738E0_3 *)actor)->unk_1C |= 0x40000;
+        ((S_801738E0_4 *)scene_state)->unk_0A++;
     }
 
 increment_state:
-    ((S_801738E0_0 *)arg0)->unk_9B++;
+    ((S_801738E0_0 *)entity)->unk_9B++;
     goto done;
 
 state_two:
-    if (((S_801738E0_1 *)arg2)->unk_14 & 0xE000) {
-        s32 *base;
+    if (((S_801738E0_1 *)anim)->unk_14 & 0xE000) {
+        s32 *scene_state;
 
-        base = &D_80083460;
-        ((S_801738E0_2 *)base)->unk_0A--;
-        ((S_801738E0_3 *)arg3)->unk_1C &= ~0x208;
-        ((S_801738E0_0 *)arg0)->unk_8C = &D_8017140C;
+        scene_state = &D_80083460;
+        ((S_801738E0_2 *)scene_state)->unk_0A--;
+        ((S_801738E0_3 *)actor)->unk_1C &= ~0x208;
+        ((S_801738E0_0 *)entity)->unk_8C = &D_8017140C;
     }
 
 done:

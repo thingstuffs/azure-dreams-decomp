@@ -9,18 +9,14 @@ extern M2C_UNK D_80092CD4;
 extern M2C_UNK D_800D0140;
 
 
-void func_800945B8(M2C_UNK **arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
-    /* fidelity ratchet PASSTHRU_NO_ARGS fix (decomp_issues.md 20-22): retail's
-     * `jal 0x800948DC` forwards $a0,$a1,$a3 untouched from this row's entry.
-     * $a3 is never read here, so m2c gave the row no name for it; the pinned
-     * forwarder locals below are that name (section 22).  `need` is a
-     * positional SET, so the call carries positions 0..3 (section 21). */
-    register M2C_UNK _a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register M2C_UNK _a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register M2C_UNK _a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    M2C_UNK _a3;
-    func_800948DC(_a0, _a1, _a2, _a3);
-    arg1->unk_14.as_s32 = 0xFFEF0000;
-    func_80094984(&D_800D0140, arg0, arg2);
-    *arg0 = &D_80092CD4;
+/* Initializes the state and sets the output pointer to D_80092CD4. */
+void func_800945B8(M2C_UNK **outputSlot, Rec_D_800E3D7C *state, M2C_UNK initContext) {
+    register M2C_UNK entryOutputSlot ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register M2C_UNK entryState ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register M2C_UNK entryInitContext ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    M2C_UNK forwardedExtraArgument;
+    func_800948DC(entryOutputSlot, entryState, entryInitContext, forwardedExtraArgument);
+    state->unk_14.as_s32 = 0xFFEF0000;
+    func_80094984(&D_800D0140, outputSlot, initContext);
+    *outputSlot = &D_80092CD4;
 }

@@ -35,54 +35,55 @@ extern void func_80025340(Obj *);
 extern u8 D_80025940[];
 extern void *D_80026208;
 
-void func_8197829C(s32 arg0, s32 *arg1, s32 *arg2)
+/* Creates an object with height-adjusted endpoints and movement increments for 12 steps. */
+void func_8197829C(s32 object_arg, s32 *start_pos, s32 *end_pos)
 {
     register Obj *obj ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ObjSub *sub;
-    s32 temp_a2;
-    s32 temp_v0;
+    ObjSub *motion;
+    s32 end_z;
+    s32 start_z;
     s32 step_z;
     s32 step_y;
     s16 height;
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {
-        obj->arg = arg0;
-        sub = (ObjSub *)&obj->arg;
+        obj->arg = object_arg;
+        motion = (ObjSub *)&obj->arg;
         obj->callback = D_80025940;
         ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        sub->unk4C = 0;
-        sub->unk4E = 0;
-        sub->x1 = arg1[0];
-        sub->x2 = sub->x1;
-        sub->y1 = arg1[1];
-        sub->y2 = sub->y1;
-        height = func_800BCAD0(arg1);
+        motion->unk4C = 0;
+        motion->unk4E = 0;
+        motion->x1 = start_pos[0];
+        motion->x2 = motion->x1;
+        motion->y1 = start_pos[1];
+        motion->y2 = motion->y1;
+        height = func_800BCAD0(start_pos);
         if (height >= 0x201) {
-            sub->z1 = arg1[2];
+            motion->z1 = start_pos[2];
             func_80025B34();
             return;
         }
-        sub->z1 = height << 16;
-        sub->z2 = height << 16;
-        sub->x0 = arg2[0];
-        sub->y0 = arg2[1];
-        height = func_800BCAD0(arg2);
+        motion->z1 = height << 16;
+        motion->z2 = height << 16;
+        motion->x0 = end_pos[0];
+        motion->y0 = end_pos[1];
+        height = func_800BCAD0(end_pos);
         if (height >= 0x201) {
-            sub->z0 = arg1[2];
+            motion->z0 = start_pos[2];
             func_80025B78();
             return;
         }
-        sub->z0 = height << 16;
+        motion->z0 = height << 16;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        sub->unk40 = (arg2[0] - arg1[0]) / 12;
-        temp_a2 = sub->z0;
-        temp_v0 = sub->z1;
-        D_80026208 = &sub->x2;
-        step_z = (temp_a2 - temp_v0) / 12;
-        step_y = (arg2[1] - arg1[1]) / 12;
-        sub->unk48 = step_z;
-        sub->unk44 = step_y;
+        motion->unk40 = (end_pos[0] - start_pos[0]) / 12;
+        end_z = motion->z0;
+        start_z = motion->z1;
+        D_80026208 = &motion->x2;
+        step_z = (end_z - start_z) / 12;
+        step_y = (end_pos[1] - start_pos[1]) / 12;
+        motion->unk48 = step_z;
+        motion->unk44 = step_y;
         func_80025340(obj);
     }
 }

@@ -20,22 +20,23 @@ typedef struct S_8016F79C_1 {
     s16 unk_2A;
 } S_8016F79C_1;   /* s2 in func_8016F79C */
 
-void func_8016F79C(void *unused0, u8 *arg1, void *unused2) {
-    u8 *base2 = (u8 *)&D_80083498;
-    register volatile u8 *s2 = (volatile u8 *)(base2 + 0x20);
-    u8 *base = D_80175D50[1];
-    u8 *s0 = base + 0x20;
-    s16 raw_value = func_8016F428(arg1);
-    s32 value = raw_value;
+/* Sets the target field from the record or source field and restores two record words. */
+void func_8016F79C(void *unused_0, u8 *record, void *unused_2) {
+    u8 *source_base = (u8 *)&D_80083498;
+    register volatile u8 *source_data = (volatile u8 *)(source_base + 0x20);
+    u8 *target_base = D_80175D50[1];
+    u8 *target_data = target_base + 0x20;
+    s16 raw_value = func_8016F428(record);
+    s32 decoded_value = raw_value;
 
-    if (value == 9) {
-        ((S_8016F79C_0 *)s0)->unk_2A = ((S_8016F79C_1 *)s2)->unk_2A;
+    if (decoded_value == 9) {
+        ((S_8016F79C_0 *)target_data)->unk_2A = ((S_8016F79C_1 *)source_data)->unk_2A;
     } else {
-        ((S_8016F79C_0 *)s0)->unk_2A = (u16)(value << 9);
+        ((S_8016F79C_0 *)target_data)->unk_2A = (u16)(decoded_value << 9);
     }
     {
-        register volatile u16 *table = (volatile u16 *)D_80083780;
-        *(u16 *)(arg1 + 2) = table[1];
-        *(u16 *)(arg1 + 6) = table[3];
+        register volatile u16 *default_words = (volatile u16 *)D_80083780;
+        *(u16 *)(record + 2) = default_words[1];
+        *(u16 *)(record + 6) = default_words[3];
     }
 }

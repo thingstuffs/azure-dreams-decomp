@@ -52,15 +52,16 @@ extern s32 rand(void);
 extern void func_800DBA90(void *);
 extern u32 D_800814A0;
 
-void func_80173F0C(void *arg0, void *arg1, void *arg2)
+/* Updates the effect's motion and fade, then marks it for removal. */
+void func_80173F0C(void *effect, void *position, void *visual)
 {
-    CallRecord record;
-    OutputVector output;
+    CallRecord transform;
+    OutputVector transformed_pos;
     s16 state;
-    s32 value;
+    s32 quarter_angle;
     u16 angle;
 
-    state = ((S_80173F0C_0 *)arg0)->unk_4C.s;
+    state = ((S_80173F0C_0 *)effect)->unk_4C.s;
     if (state == 0) {
         goto state_zero;
     }
@@ -70,58 +71,54 @@ void func_80173F0C(void *arg0, void *arg1, void *arg2)
     goto done;
 
 state_zero:
-    func_800478B8(arg2);
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
-        ((Rec_D_80082E80 *)arg2)->unk_04.as_s8 = 0;
-        ((Rec_D_80082E80 *)arg2)->unk_05.as_s8 = 0;
+    func_800478B8(visual);
+    if (((Rec_D_80082E80 *)visual)->unk_14.at00_u16.v & 0x6000) {
+        ((Rec_D_80082E80 *)visual)->unk_04.as_s8 = 0;
+        ((Rec_D_80082E80 *)visual)->unk_05.as_s8 = 0;
     }
-    ((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v += 0xFFE7E7E8;
-    if ((u8)((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v < 0x30U) {
-        ((S_80173F0C_0 *)arg0)->unk_4C.u++;
+    ((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v += 0xFFE7E7E8;
+    if ((u8)((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v < 0x30U) {
+        ((S_80173F0C_0 *)effect)->unk_4C.u++;
     }
 
-    angle = ((S_80173F0C_0 *)arg0)->unk_08 + 10;
-    value = (s32)(angle << 16) >> 18;
-    ((S_80173F0C_0 *)arg0)->unk_08 = angle;
-    ((S_80173F0C_0 *)arg0)->unk_04 = (u16)(-(value * value) >> 4);
+    angle = ((S_80173F0C_0 *)effect)->unk_08 + 10;
+    quarter_angle = (s32)(angle << 16) >> 18;
+    ((S_80173F0C_0 *)effect)->unk_08 = angle;
+    ((S_80173F0C_0 *)effect)->unk_04 = (u16)(-(quarter_angle * quarter_angle) >> 4);
 
     {
-        s32 random;
+        s32 height_jitter;
         s32 height;
 
-        random = rand() & 0x7F;
-        
-        height = ((S_80173F0C_0 *)arg0)->unk_14;
+        height_jitter = rand() & 0x7F;
+
+        height = ((S_80173F0C_0 *)effect)->unk_14;
         height += 0x140;
-        height += random;
-        ((S_80173F0C_0 *)arg0)->unk_14 = height;
+        height += height_jitter;
+        ((S_80173F0C_0 *)effect)->unk_14 = height;
     }
-    ((S_80173F0C_0 *)arg0)->unk_04 += (s32)(((S_80173F0C_0 *)arg0)->unk_48 << 16) >> 17;
-    if (((S_80173F0C_0 *)arg0)->unk_48 & 1) {
-        ((S_80173F0C_0 *)arg0)->unk_08++;
+    ((S_80173F0C_0 *)effect)->unk_04 += (s32)(((S_80173F0C_0 *)effect)->unk_48 << 16) >> 17;
+    if (((S_80173F0C_0 *)effect)->unk_48 & 1) {
+        ((S_80173F0C_0 *)effect)->unk_08++;
     }
 
-    record.field0 = (u8 *)arg0 + 4;
-    record.field4 = &output;
-    record.field8 = *(Unaligned8 *)((u8 *)arg0 + 0x14);
-    record.field10 = *(Unaligned8 *)((u8 *)arg0 + 0xC);
-    record.field18 = 1;
-    record.field1A = 1;
-    func_800DBA90(&record);
-    ((S_80173F0C_2 *)arg1)->unk_02 = output.x;
-    ((S_80173F0C_2 *)arg1)->unk_06 = output.y;
-    ((S_80173F0C_2 *)arg1)->unk_0A = output.z;
-    ((S_80173F0C_0 *)arg0)->unk_48--;
+    transform.field0 = (u8 *)effect + 4;
+    transform.field4 = &transformed_pos;
+    transform.field8 = *(Unaligned8 *)((u8 *)effect + 0x14);
+    transform.field10 = *(Unaligned8 *)((u8 *)effect + 0xC);
+    transform.field18 = 1;
+    transform.field1A = 1;
+    func_800DBA90(&transform);
+    ((S_80173F0C_2 *)position)->unk_02 = transformed_pos.x;
+    ((S_80173F0C_2 *)position)->unk_06 = transformed_pos.y;
+    ((S_80173F0C_2 *)position)->unk_0A = transformed_pos.z;
+    ((S_80173F0C_0 *)effect)->unk_48--;
     goto done;
 
 state_one:
-    (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
     D_800814A0 |= 0x8000;
 
 done:
     return;
 }
-
-/* MECHANISM: Declaration order puts the address-taken call record at sp+0x10 and output at sp+0x30,
-   producing the 0x48 frame and exact s0/s1/s2 saves; true-space gotos preserve the tail CFG.
-   A guarded v0 random-result pin plus in-place height += random closes the final addiu motion. */

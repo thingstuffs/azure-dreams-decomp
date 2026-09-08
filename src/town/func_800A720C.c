@@ -15,27 +15,28 @@ extern s32 D_80100D90;
 extern s32 D_80100DB8[];
 extern s32 D_80100DE0[];
 
+/* Run both contexts' callbacks, then update the flag from the current mode and threshold. */
 void func_800A496C(void)
 {
-    s32 *base0;
-    s32 *base1;
+    s32 *primary_context;
+    s32 *secondary_context;
     Callback callback;
 
-    base0 = D_80100DE0;
-    base1 = D_80100DB8;
+    primary_context = D_80100DE0;
+    secondary_context = D_80100DB8;
 
-    callback = FIELD(base0, Callback, 0x24);
+    callback = FIELD(primary_context, Callback, 0x24);
     if (callback != NULL) {
-        callback(base0);
+        callback(primary_context);
     }
-    if (FIELD(base1, Callback, 0x1C) != NULL) {
-        FIELD(base1, Callback, 0x1C)(base1);
+    if (FIELD(secondary_context, Callback, 0x1C) != NULL) {
+        FIELD(secondary_context, Callback, 0x1C)(secondary_context);
     }
-    if (FIELD(base0, Callback, 0x28) != NULL) {
-        FIELD(base0, Callback, 0x28)(base0);
+    if (FIELD(primary_context, Callback, 0x28) != NULL) {
+        FIELD(primary_context, Callback, 0x28)(primary_context);
     }
-    if (FIELD(base1, Callback, 0x20) != NULL) {
-        FIELD(base1, Callback, 0x20)(base1);
+    if (FIELD(secondary_context, Callback, 0x20) != NULL) {
+        FIELD(secondary_context, Callback, 0x20)(secondary_context);
     }
 
     func_800A4A58();
@@ -48,6 +49,3 @@ void func_800A496C(void)
     }
 }
 
-/* MECHANISM: Held D_80100DE0/D_80100DB8 as distinct bases to produce the exact s0/s1 prologue.
-   Named only the first callback live range; inline later loads naturally color v1 then v0.
-   Restored the flag=1 tail-call delay-slot store, completing the exact 56-word CFG. */

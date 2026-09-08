@@ -104,43 +104,44 @@ extern M2C_UNK D_800792DC;
 extern M2C_UNK D_800D15F4;
 
 
-void func_800B1188(void *arg0) {
-    s32 var_a1;
-    s32 var_a3;
-    s32 var_t0;
-    s32 temp_a0_2;
-    s32 var_a2;
-    void *temp_a0;
+/* Initialize UI resources and position five rows of display elements. */
+void func_800B1188(void *ui) {
+    s32 lower_y;
+    s32 left_y;
+    s32 right_y;
+    s32 row_offset;
+    s32 row;
+    void *header;
 
-    *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_00 = &D_800788E0;
-    temp_a0 = arg0 + 0x34;
-    *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_04 = temp_a0;
-    ((S_800B1188_15 *)(((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_04))->unk_04))->unk_0A = 0x2F;
-    func_800B08D4(temp_a0);
-    func_800B0C68(arg0);
-    func_8004CBFC(arg0 + 0x28, &D_800792DC, ((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_08);
-    var_a2 = 4;
-    var_a1 = 0xC8;
-    var_t0 = 0x55;
-    var_a3 = 0x58;
-    *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_pv))->unk_0C = &D_800D15F4;
+    *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_00 = &D_800788E0;
+    header = ui + 0x34;
+    *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04 = header;
+    ((S_800B1188_15 *)(((S_800B1188_9 *)(((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_04))->unk_04))->unk_0A = 0x2F;
+    func_800B08D4(header);
+    func_800B0C68(ui);
+    func_8004CBFC(ui + 0x28, &D_800792DC, ((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_08);
+    row = 4;
+    lower_y = 0xC8;
+    right_y = 0x55;
+    left_y = 0x58;
+    *((S_800B1188_3 *)(((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_pv))->unk_0C = &D_800D15F4;
     do {
-        temp_a0_2 = var_a2 * 4;
-        ((S_800B1188_10 *)(((S_800B1188_4 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_10))->unk_04))->unk_08 = -0x50;
-        ((S_800B1188_10 *)(((S_800B1188_4 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_10))->unk_04))->unk_0A = var_a3;
-        ((S_800B1188_11 *)(((S_800B1188_5 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_24))->unk_04))->unk_08 = 0x56;
-        ((S_800B1188_11 *)(((S_800B1188_5 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_24))->unk_04))->unk_0A = var_t0;
-        ((S_800B1188_12 *)(((S_800B1188_6 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_38))->unk_04))->unk_08 = 0x3C;
-        ((S_800B1188_12 *)(((S_800B1188_6 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_38))->unk_04))->unk_0A = var_a1;
-        ((S_800B1188_13 *)(((S_800B1188_7 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_4C))->unk_04))->unk_08 = 0x8C;
-        ((S_800B1188_13 *)(((S_800B1188_7 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_4C))->unk_04))->unk_0A = var_a1;
-        ((S_800B1188_14 *)(((S_800B1188_8 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_60))->unk_04))->unk_08 = 0x34;
-        var_a2 -= 1;
-        var_a3 -= 0x10;
-        var_t0 -= 0x10;
-        ((S_800B1188_14 *)(((S_800B1188_8 *)(((S_800B1188_2 *)((temp_a0_2 + ((Rec_func_800B0C68_arg0 *)arg0)->unk_CC.as_s32)))->unk_60))->unk_04))->unk_0A = var_a1;
-        var_a1 -= 0x10;
-    } while (var_a2 >= 0);
-    func_800B0D0C(arg0, var_a1, var_a2, var_a3);
-    func_800B0FD4(arg0);
+        row_offset = row * 4;
+        ((S_800B1188_10 *)(((S_800B1188_4 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_10))->unk_04))->unk_08 = -0x50;
+        ((S_800B1188_10 *)(((S_800B1188_4 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_10))->unk_04))->unk_0A = left_y;
+        ((S_800B1188_11 *)(((S_800B1188_5 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_24))->unk_04))->unk_08 = 0x56;
+        ((S_800B1188_11 *)(((S_800B1188_5 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_24))->unk_04))->unk_0A = right_y;
+        ((S_800B1188_12 *)(((S_800B1188_6 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_38))->unk_04))->unk_08 = 0x3C;
+        ((S_800B1188_12 *)(((S_800B1188_6 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_38))->unk_04))->unk_0A = lower_y;
+        ((S_800B1188_13 *)(((S_800B1188_7 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_4C))->unk_04))->unk_08 = 0x8C;
+        ((S_800B1188_13 *)(((S_800B1188_7 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_4C))->unk_04))->unk_0A = lower_y;
+        ((S_800B1188_14 *)(((S_800B1188_8 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_60))->unk_04))->unk_08 = 0x34;
+        row -= 1;
+        left_y -= 0x10;
+        right_y -= 0x10;
+        ((S_800B1188_14 *)(((S_800B1188_8 *)(((S_800B1188_2 *)((row_offset + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_60))->unk_04))->unk_0A = lower_y;
+        lower_y -= 0x10;
+    } while (row >= 0);
+    func_800B0D0C(ui, lower_y, row, left_y);
+    func_800B0FD4(ui);
 }

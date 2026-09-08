@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* Builds four "list pointer" fields in D_80083160's sub-record at +0x1DC (f4/f8/fC/f10) from word-offsets in D_8006E7F0[arg1], and relocates the first list in place by adding arg0 to each of its count entries. */
 /* D_8006E7F0: array of pointers to per-type info records; each record has a
  * u16 count at +0x6 and four u16 word-offsets at +0x8/+0xA/+0xC/+0xE. */
 typedef struct S_80046D64_Info {
@@ -32,28 +31,29 @@ typedef struct S_80083160_View {
 
 extern S_80083160_View D_80083160;
 
-void func_80046D64(s32 arg0, s16 arg1)
+/* Sets four list pointers from type offsets and relocates the first list entries. */
+void func_80046D64(s32 data_base, s16 type_index)
 {
-    S_80083160_View *base = &D_80083160;
-    S_80046D64_Dst *dst = &base->sub;
-    s32 *p;
-    s32 *cur;
-    s32 count;
+    S_80083160_View *state = &D_80083160;
+    S_80046D64_Dst *lists = &state->sub;
+    s32 *first_list;
+    s32 *entry;
+    s32 remaining;
 
-    p = (s32 *) (arg0 + D_8006E7F0[arg1]->off8 * 4);
-    dst->f4 = (s32) p;
+    first_list = (s32 *) (data_base + D_8006E7F0[type_index]->off8 * 4);
+    lists->f4 = (s32) first_list;
 
-    cur = p;
-    count = D_8006E7F0[arg1]->count;
-    if (count > 0) {
+    entry = first_list;
+    remaining = D_8006E7F0[type_index]->count;
+    if (remaining > 0) {
         do {
-            count--;
-            *cur += arg0;
-            cur++;
-        } while (count > 0);
+            remaining--;
+            *entry += data_base;
+            entry++;
+        } while (remaining > 0);
     }
 
-    dst->f8 = arg0 + D_8006E7F0[arg1]->offA * 4;
-    dst->fC = arg0 + D_8006E7F0[arg1]->offC * 4;
-    dst->f10 = arg0 + D_8006E7F0[arg1]->offE * 4;
+    lists->f8 = data_base + D_8006E7F0[type_index]->offA * 4;
+    lists->fC = data_base + D_8006E7F0[type_index]->offC * 4;
+    lists->f10 = data_base + D_8006E7F0[type_index]->offE * 4;
 }

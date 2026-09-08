@@ -7,30 +7,26 @@ extern s32 VSync(s32 mode);
 
 extern u16 D_80080B00;
 
-/* Main frame-pump loop: polls pad/state via func_80053EF0(1); returns once it
- * reports 0. On the first nonzero poll, if the reported value isn't 3, fires
- * func_80053DA8(0xC1) once. Each iteration calls func_80044618(2), waits on
- * VSync(1), extracts a 9-bit field from the result, and stores it into
- * D_80080B00 whenever it changes. */
+/* Pumps frames until polling returns zero, handling the first poll and caching the VSync field. */
 void func_80044698(void)
 {
-    s32 flag = 0;
-    s32 v1;
-    register s32 v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 first_poll_done = 0;
+    s32 poll_state;
+    register s32 frame_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     for (;;)
     {
-        v1 = func_80053EF0(1);
-        if (v1 == 0)
+        poll_state = func_80053EF0(1);
+        if (poll_state == 0)
         {
             return;
         }
 
-        v0 = flag;
-        if (v0 == 0)
+        frame_value = first_poll_done;
+        if (frame_value == 0)
         {
-            flag = 1;
-            if (v1 != 3)
+            first_poll_done = 1;
+            if (poll_state != 3)
             {
                 func_80053DA8(0xC1);
             }
@@ -38,11 +34,11 @@ void func_80044698(void)
 
         func_80044618(2);
 
-        v0 = (u32)VSync(1) >> 8;
-        v0 = v0 & 0x1FF;
-        if ((u32)v0 != D_80080B00)
+        frame_value = (u32)VSync(1) >> 8;
+        frame_value = frame_value & 0x1FF;
+        if ((u32)frame_value != D_80080B00)
         {
-            D_80080B00 = (u16)v0;
+            D_80080B00 = (u16)frame_value;
         }
     }
 }

@@ -66,28 +66,24 @@ extern int func_80054AF0(int arg0);
 extern void func_80054C58(void);
 extern void func_80054CD4(void);
 
-/* Message/event dispatcher for a subsystem keyed by a byte opcode
-   (arg0 & 0xFF): 0xE4 = query/arm a countdown against a CD-position-derived
-   value; 0x74 = commit a countdown (rotating pending fields into active ones
-   via func_80054C58/func_80054CD4) once armed; 0xF4 = cancel an armed
-   countdown (same commit path). */
-void func_80054E00(s32 arg0) {
-    s32 op = arg0 & 0xFF;
+/* Handles byte opcodes to arm, commit, or cancel a countdown. */
+void func_80054E00(s32 event) {
+    s32 opcode = event & 0xFF;
 
-    if (op == 0xE4)
-        goto case_E4;
+    if (opcode == 0xE4)
+        goto arm_countdown;
 
-    if (op < 0xE5) {
-        if (op == 0x74)
-            goto case_74;
+    if (opcode < 0xE5) {
+        if (opcode == 0x74)
+            goto commit_countdown;
         return;
     }
 
-    if (op == 0xF4)
-        goto case_F4;
+    if (opcode == 0xF4)
+        goto cancel_countdown;
     return;
 
-case_74:
+commit_countdown:
     func_8005A4E8(0, 0, 0);
     func_8003E4FC(9, 0, 0);
     D_800847D0.flags1 &= ~0x400;
@@ -95,23 +91,23 @@ case_74:
         D_80084904.v = 1;
         D_80084858.field4 = 0;
         if (D_800847D0.field10 != 0) {
-            s16 r = (s16)func_80054AF0(D_800847D0.field1C);
-            D_80084858.field8 = r;
-            D_80084858.fieldA = r;
-            goto tail;
+            s16 countdown = (s16)func_80054AF0(D_800847D0.field1C);
+            D_80084858.field8 = countdown;
+            D_80084858.fieldA = countdown;
+            goto apply_countdown;
         }
     }
     return;
 
-case_E4:
+arm_countdown:
     if (D_800847D0.flags2 & 0x200) {
         func_8003E4FC(9, 0, 0);
         return;
     }
     if (D_800847D0.flags1 & 0x400) {
-        u32 r = (u32)func_80053D64();
-        D_800847D0.field18 = r;
-        if (D_800847D0.field8 >= r) {
+        u32 cd_position = (u32)func_80053D64();
+        D_800847D0.field18 = cd_position;
+        if (D_800847D0.field8 >= cd_position) {
             D_800847D0.field18 = D_800847D0.field8;
         }
         D_80084864.v = 2;
@@ -123,14 +119,14 @@ case_E4:
     }
     return;
 
-case_F4:
+cancel_countdown:
     if (D_800847D0.flags1 & 0x4000) {
         D_800847D0.field18 = 0;
-        goto tail;
+        goto apply_countdown;
     }
     return;
 
-tail:
+apply_countdown:
     func_80054C58();
     func_80054CD4();
 }

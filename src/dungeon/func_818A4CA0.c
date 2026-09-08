@@ -62,63 +62,64 @@ typedef struct S_818A4CA0_4 {
     s16 unk_0A;
 } S_818A4CA0_4;   /* temp_s3 in func_818A4CA0 */
 
-s32 func_818A4CA0(S_818A4CA0_1 *arg0, S_818A4CA0_2 *arg1, s16 arg2, s16 arg3) {
+/* Create a sprite effect at a random offset from the supplied position. */
+s32 func_818A4CA0(S_818A4CA0_1 *effect_data, S_818A4CA0_2 *origin, s16 effect_param, s16 frame_index) {
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    s16 temp_s0_2;
-    u16 temp_v1;
-    s32 shifted_arg3;
-    s32 temp_v0_2;
-    s32 var_s0;
+    s16 angle;
+    u16 height;
+    s32 shifted_frame;
+    s32 random_value;
+    s32 biased_random;
     void *callback;
-    S_818A4CA0_3 *temp_s0;
-    S_818A4CA0_4 *temp_s3;
-    void *temp_v0;
+    S_818A4CA0_3 *sprite;
+    S_818A4CA0_4 *position;
+    void *effect;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
         callback = &D_80024340;
         ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_818A4CA0_0 *)temp_v0)->unk_20 = arg0;
-        arg0 = temp_v0 + 0x20;
-        ((S_818A4CA0_0 *)temp_v0)->unk_10 = callback;
-        arg0->unk_04 = arg2;
-        arg0->unk_06 = (s16) (-6 - (rand() % 5));
-        arg0->unk_08 = (u16) arg1->unk_02;
-        arg0->unk_0A = (u16) arg1->unk_06;
-        arg0->unk_0C = (u16) (arg1->unk_0A + 0x20);
-        temp_s0 = ((S_818A4CA0_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_0E = 0x60;
-        temp_s0->unk_0D = 0x60;
-        temp_s0->unk_0C = 0x60;
-        temp_s0->unk_12 = 0x7E07;
-        temp_s0->unk_10 = (u16) (temp_s0->unk_10 | 0x60);
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0x100);
-        shifted_arg3 = (s32)arg3 << 0x10;
-        func_8003DB94(temp_s0, &D_800DECF8, (s16) ((shifted_arg3 >> 0x10) % 5), shifted_arg3 >> 0x1F);
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s3 = ((S_818A4CA0_0 *)temp_v0)->unk_08;
-        temp_v0_2 = rand();
-        var_s0 = temp_v0_2;
-        if (temp_v0_2 < 0) {
-            var_s0 = temp_v0_2 + 0xFFF;
+        ((S_818A4CA0_0 *)effect)->unk_20 = effect_data;
+        effect_data = effect + 0x20;
+        ((S_818A4CA0_0 *)effect)->unk_10 = callback;
+        effect_data->unk_04 = effect_param;
+        effect_data->unk_06 = (s16) (-6 - (rand() % 5));
+        effect_data->unk_08 = (u16) origin->unk_02;
+        effect_data->unk_0A = (u16) origin->unk_06;
+        effect_data->unk_0C = (u16) (origin->unk_0A + 0x20);
+        sprite = ((S_818A4CA0_0 *)effect)->unk_0C;
+        sprite->unk_0E = 0x60;
+        sprite->unk_0D = 0x60;
+        sprite->unk_0C = 0x60;
+        sprite->unk_12 = 0x7E07;
+        sprite->unk_10 = (u16) (sprite->unk_10 | 0x60);
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
+        shifted_frame = (s32)frame_index << 0x10;
+        func_8003DB94(sprite, &D_800DECF8, (s16) ((shifted_frame >> 0x10) % 5), shifted_frame >> 0x1F);
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        func_8004491C(effect, &D_80045340);
+        position = ((S_818A4CA0_0 *)effect)->unk_08;
+        random_value = rand();
+        biased_random = random_value;
+        if (random_value < 0) {
+            biased_random = random_value + 0xFFF;
         }
-        temp_s0_2 = temp_v0_2 - ((var_s0 >> 0xC) << 0xC);
-        temp_s3->unk_02 = (s16) (arg0->unk_08 + ((s32) (func_800644B8(temp_s0_2) * 2) >> 8));
-        temp_s3->unk_06 = (s16) (arg0->unk_0A + ((s32) (func_80064584(temp_s0_2) * 2) >> 8));
-        temp_v1 = arg0->unk_0C;
-        ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        result = (s32)temp_v0;
+        angle = random_value - ((biased_random >> 0xC) << 0xC);
+        position->unk_02 = (s16) (effect_data->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
+        position->unk_06 = (s16) (effect_data->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
+        height = effect_data->unk_0C;
+        ASM_KEEP(height);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        result = (s32)effect;
         ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_s3->unk_0A = (s16)temp_v1;
+        position->unk_0A = (s16)height;
         func_80024650();
     }
     result = 0;
     return result;
 }
 
-/* MECHANISM: Reuse arg0 as the +0x20 base and pin only the allocated object in s2,
-   giving the retail 0x28 frame and saved-role order; split shifted arg3 drives a3/a2.
+/* MECHANISM: Reuse effect_data as the +0x20 base and pin only the allocated object in s2,
+   giving the retail 0x28 frame and saved-role order; split shifted frame_index drives a3/a2.
    Value fences place the callback low half and tail lhu/move, while noreturn LEAD 18
    plus the failure-only s2 clobber preserves the object tail return and literal zero. */

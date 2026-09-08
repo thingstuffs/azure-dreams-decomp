@@ -46,41 +46,41 @@ extern s32 func_80026BFC(s32);
 extern void func_80026D0C(void *);
 extern void func_80026CD8(void *);
 
-void func_800274F0(S_800274F0_Arg *arg0) {
-    S_8003E2D8 *state;
-    s32 value;
-    s32 flags;
-    s32 direction = 0;
-    s32 temp;
-    s32 end;
-    s32 next;
-    s32 old_value;
-    s32 limit;
-    s32 delta;
-    s32 reload;
+/* Handles menu actions and repeated grid navigation, updating the selection and page. */
+void func_800274F0(S_800274F0_Arg *menu) {
+    S_8003E2D8 *input;
+    s32 held_buttons;
+    s32 pressed_buttons;
+    s32 index_step = 0;
+    s32 repeat_ticks;
+    s32 next_index;
+    s32 selected_index;
+    s32 item_count;
+    s32 remaining_items;
+    s32 repeat_buttons;
 
-    state = &D_80083160;
-    value = state->unk8;
-    if (value == 0)
+    input = &D_80083160;
+    held_buttons = input->unk8;
+    if (held_buttons == 0)
         goto done;
-    flags = state->unk10;
-    if (flags & 0x20) {
-        func_80053DA8(0x515, state);
-        func_800274A8(arg0);
+    pressed_buttons = input->unk10;
+    if (pressed_buttons & 0x20) {
+        func_80053DA8(0x515, input);
+        func_800274A8(menu);
         goto done;
     }
-    if (flags & 0x10) {
-        func_80053DA8(0x503, state);
+    if (pressed_buttons & 0x10) {
+        func_80053DA8(0x503, input);
         goto finish_effect;
     }
-    if (flags & 0x40) {
-        func_80053DA8(0x503, state);
-        func_80027454(&arg0->unk38, arg0->unk14,
-                      (arg0->unk8 / 72) * 72, arg0->unk28);
-        func_800265B8(func_8002553C(arg0->unk44),
-                      arg0->unk40 + ((arg0->unk8 % 72) * 2));
-        if (arg0->unk14 == 1 ||
-            func_80026BFC(arg0->unk48->unk28) != 0)
+    if (pressed_buttons & 0x40) {
+        func_80053DA8(0x503, input);
+        func_80027454(&menu->unk38, menu->unk14,
+                      (menu->unk8 / 72) * 72, menu->unk28);
+        func_800265B8(func_8002553C(menu->unk44),
+                      menu->unk40 + ((menu->unk8 % 72) * 2));
+        if (menu->unk14 == 1 ||
+            func_80026BFC(menu->unk48->unk28) != 0)
             goto finish_effect;
         goto done;
     }
@@ -88,75 +88,75 @@ void func_800274F0(S_800274F0_Arg *arg0) {
     goto direction_entry;
 
 finish_effect:
-    func_800274A8(arg0);
-    func_800255AC(arg0->unk44);
+    func_800274A8(menu);
+    func_800255AC(menu->unk44);
     goto done;
 
 direction_entry:
-    if (!(value & 0xF000))
+    if (!(held_buttons & 0xF000))
         goto direction_common;
-    if (flags & 0xF000) {
-        arg0->unkC = 0;
-        flags = state->unk10;
-        if (flags & 0x8000) {
-            direction = -1;
+    if (pressed_buttons & 0xF000) {
+        menu->unkC = 0;
+        pressed_buttons = input->unk10;
+        if (pressed_buttons & 0x8000) {
+            index_step = -1;
             goto direction_common;
         }
-        if (flags & 0x2000) {
-            direction = 1;
+        if (pressed_buttons & 0x2000) {
+            index_step = 1;
             goto direction_common;
         }
-        if (flags & 0x1000) {
-            direction = -9;
+        if (pressed_buttons & 0x1000) {
+            index_step = -9;
             goto direction_common;
         }
-        if (flags & 0x4000)
-            direction = 9;
+        if (pressed_buttons & 0x4000)
+            index_step = 9;
         goto direction_common;
     }
 
-    temp = arg0->unkC;
-    if (temp < 9)
+    repeat_ticks = menu->unkC;
+    if (repeat_ticks < 9)
         goto increment_done;
-    arg0->unkC = temp - 1;
-    reload = state->unk8;
-    if (reload & 0x8000) {
-        direction = -1;
+    menu->unkC = repeat_ticks - 1;
+    repeat_buttons = input->unk8;
+    if (repeat_buttons & 0x8000) {
+        index_step = -1;
         goto direction_common;
     }
-    if (reload & 0x2000) {
-        direction = 1;
+    if (repeat_buttons & 0x2000) {
+        index_step = 1;
         goto direction_common;
     }
-    if (reload & 0x1000) {
-        direction = -9;
+    if (repeat_buttons & 0x1000) {
+        index_step = -9;
         goto direction_common;
     }
-    if (reload & 0x4000)
-        direction = 9;
+    if (repeat_buttons & 0x4000)
+        index_step = 9;
     goto direction_common;
 
 increment_done:
-    arg0->unkC = temp + 1;
+    menu->unkC = repeat_ticks + 1;
 
 direction_common:
-    if (direction == 0)
+    if (index_step == 0)
         goto done;
-    func_80053DA8(0x502, state);
-    old_value = arg0->unk8;
-    limit = arg0->unk3C;
-    next = old_value + direction;
-    delta = limit - next;
-    if (!(delta > 0 && limit >= delta))
+    func_80053DA8(0x502, input);
+    selected_index = menu->unk8;
+    item_count = menu->unk3C;
+    next_index = selected_index + index_step;
+    remaining_items = item_count - next_index;
+    if (!(remaining_items > 0 && item_count >= remaining_items))
         goto done;
-    arg0->unk8 = next;
-    if ((next - direction) / 72 == next / 72) {
-        func_80026D0C(arg0->unk88);
+    menu->unk8 = next_index;
+    if ((next_index - index_step) / 72 == next_index / 72) {
+        func_80026D0C(menu->unk88);
         goto done;
     }
-    func_80026CD8(arg0->unk88);
-    *(void **)((u8 *)arg0 - 0x10) = D_80027E84;
-    arg0->unk0 = arg0->unk4;
+    func_80026CD8(menu->unk88);
+    *(void **)((u8 *)menu - 0x10) = D_80027E84;
+    menu->unk0 = menu->unk4;
 
 done:
     return;

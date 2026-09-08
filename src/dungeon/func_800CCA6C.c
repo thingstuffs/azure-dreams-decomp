@@ -45,21 +45,22 @@ extern void func_800A2B04(CcaMotion *, u8, u8);
 extern void func_800AAA54(CcaState *, CcaMotion *, CcaInfo *, s32);
 extern void func_800AD4D0(CcaAnim *);
 
+/* Decelerate motion, then align to the target tile and advance the state. */
 void func_800D21CC(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *anim) {
-    s32 status;
+    s32 phase;
 
-    status = state->status;
-    if (status == 1) {
-        goto update;
+    phase = state->status;
+    if (phase == 1) {
+        goto decelerate;
     }
-    if (status < 2) {
-        if (status == 0) {
+    if (phase < 2) {
+        if (phase == 0) {
             goto start;
         }
         goto done;
     }
-    if (status == 2) {
-        goto state2;
+    if (phase == 2) {
+        goto align_to_tile;
     }
     goto done;
 
@@ -75,7 +76,7 @@ start:
             goto done;
         }
         state->count = 8;
-        goto update;
+        goto decelerate;
     }
     motion->dz = 0;
     motion->dy = 0;
@@ -83,29 +84,29 @@ start:
     func_800AAA54(state, motion, info, 0);
     goto done;
 
-update:
+decelerate:
     {
-        s32 dx;
-        s32 dx_adjusted;
-        s32 dy;
-        s32 dy_adjusted;
-        u16 count;
+        s32 velocity_x;
+        s32 biased_dx;
+        s32 velocity_y;
+        s32 biased_dy;
+        u16 frames_left;
 
-        dx = motion->dx;
-        dx_adjusted = dx;
-        if (dx < 0) {
-            dx_adjusted = dx + 3;
+        velocity_x = motion->dx;
+        biased_dx = velocity_x;
+        if (velocity_x < 0) {
+            biased_dx = velocity_x + 3;
         }
-        motion->dx = dx - (dx_adjusted >> 2);
-        dy = motion->dy;
-        dy_adjusted = dy;
-        if (dy < 0) {
-            dy_adjusted = dy + 3;
+        motion->dx = velocity_x - (biased_dx >> 2);
+        velocity_y = motion->dy;
+        biased_dy = velocity_y;
+        if (velocity_y < 0) {
+            biased_dy = velocity_y + 3;
         }
-        motion->dy = dy - (dy_adjusted >> 2);
-        count = state->count - 1;
-        state->count = count;
-        if ((s32)(count << 16) > 0) {
+        motion->dy = velocity_y - (biased_dy >> 2);
+        frames_left = state->count - 1;
+        state->count = frames_left;
+        if ((s32)(frames_left << 16) > 0) {
             goto done;
         }
         if (anim->active == 0) {
@@ -120,23 +121,23 @@ update:
         goto done;
     }
 
-state2:
+align_to_tile:
     {
-        s16 count;
-        u16 next_count;
+        s16 frames_left;
+        u16 next_frames;
 
-        count = state->count;
-        if (count != 0) {
-            s32 x;
-            s32 y;
+        frames_left = state->count;
+        if (frames_left != 0) {
+            s32 origin_x;
+            s32 origin_y;
 
-            motion->dx = (s32)(((((s32)info->x << 6) - (x = motion->x - 0x20)) << 15) / count);
-            y = motion->y - 0x20;
-            motion->dy = (s32)(((((s32)info->y << 6) - y) << 15) / state->count);
+            motion->dx = (s32)(((((s32)info->x << 6) - (origin_x = motion->x - 0x20)) << 15) / frames_left);
+            origin_y = motion->y - 0x20;
+            motion->dy = (s32)(((((s32)info->y << 6) - origin_y) << 15) / state->count);
         }
-        next_count = state->count - 1;
-        state->count = next_count;
-        if ((s32)(next_count << 16) > 0) {
+        next_frames = state->count - 1;
+        state->count = next_frames;
+        if ((s32)(next_frames << 16) > 0) {
             goto done;
         }
         motion->dz = 0;

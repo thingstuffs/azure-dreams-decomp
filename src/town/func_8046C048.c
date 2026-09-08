@@ -25,18 +25,19 @@ s32 func_8001E7E4();                         /* extern */
 extern Rec_D_80016000 *D_80016000;
 extern s16 D_8001902C[];
 
+/* Invoke the callback for nonzero row entries using the selected mode and bounds. */
 void func_8001D048(void) {
-    s32 result;
-    s32 call_result;
-    s32 arg0;
-    long work_s0;
-    unsigned long temp_v0;
+    s32 mode_check;
+    s32 entry_result;
+    s32 callback_arg;
+    long row_or_column;
+    unsigned long bounds_addr;
     s32 mode;
-    register s32 outer ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 row_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 row_offset;
     s32 check_offset;
     register s32 mode_offset ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 value ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 entry_value ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s8 *row;
     register s8 *check_base ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 *bounds;
@@ -44,59 +45,59 @@ void func_8001D048(void) {
     S_8001D048_3 *callback_base;
     M2C_UNK (*callback)(s32, u8, s32);
 
-    work_s0 = (long)D_80016000->unk_38.as_ps8;
-    result = func_8001E7E4(1);
+    row_or_column = (long)D_80016000->unk_38.as_ps8;
+    mode_check = func_8001E7E4(1);
     mode = 0;
-    if (result != 0) {
+    if (mode_check != 0) {
         goto mode_done;
     }
-    result = func_8001E7E4(2);
+    mode_check = func_8001E7E4(2);
     mode = 2;
-    if (result == 0) {
+    if (mode_check == 0) {
         goto mode_done;
     }
     mode = 1;
 mode_done:
     ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    outer = 0;
-    ASM_KEEP(outer);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    row_offset = outer;
+    row_index = 0;
+    ASM_KEEP(row_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    row_offset = row_index;
     ASM_KEEP(row_offset);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    row = (s8 *)work_s0;
+    row = (s8 *)row_or_column;
     ASM_KEEP(row);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     check_offset = mode * 8;
     do {
         check_base = (s8 *)D_8001902C;
-        temp_v0 = (unsigned long)check_offset + (unsigned long)check_base;
-        ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        work_s0 = 0;
-        if (*(s16 *)temp_v0 > 0) {
-            temp_v0 = 0x80020000UL;
-            ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            bounds = (s16 *)(temp_v0 - 0x6FD4);
+        bounds_addr = (unsigned long)check_offset + (unsigned long)check_base;
+        ASM_KEEP(bounds_addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        row_or_column = 0;
+        if (*(s16 *)bounds_addr > 0) {
+            bounds_addr = 0x80020000UL;
+            ASM_KEEP(bounds_addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            bounds = (s16 *)(bounds_addr - 0x6FD4);
             mode_offset = mode * 8;
-loop_6:
-            value = ((S_8001D048_1 *)(row + work_s0))->unk_3640;
-            if (value != 0) {
-                call_result = func_8001D280(outer, work_s0, mode);
+process_entry:
+            entry_value = ((S_8001D048_1 *)(row + row_or_column))->unk_3640;
+            if (entry_value != 0) {
+                entry_result = func_8001D280(row_index, row_or_column, mode);
                 global_base = D_80016000;
                 ASM_USE(global_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                arg0 = call_result;
-                ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                callback_arg = entry_result;
+                ASM_KEEP(callback_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 callback_base = global_base->unk_20;
                 callback = callback_base->unk_2D0;
-                callback(arg0, value, mode);
-                work_s0 += 1;
-                if (work_s0 < *(s16 *)((long)(mode_offset + row_offset) + (long)bounds)) {
-                    goto loop_6;
+                callback(callback_arg, entry_value, mode);
+                row_or_column += 1;
+                if (row_or_column < *(s16 *)((long)(mode_offset + row_offset) + (long)bounds)) {
+                    goto process_entry;
                 }
             }
         }
         row_offset += 0x18;
         row += 0xC;
-        outer += 1;
+        row_index += 1;
         check_offset += 0x18;
-    } while (outer < 0x10);
+    } while (row_index < 0x10);
 }
 
 /* MECHANISM: Separate byte offsets keep row_offset in s5 and the two mode-derived

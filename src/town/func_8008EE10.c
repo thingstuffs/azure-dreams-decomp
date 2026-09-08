@@ -19,17 +19,18 @@ typedef struct WorkVec {
 
 extern s32 func_8008CFE8(WorkVec *, Vec4 *, s32);
 
-s16 func_8008C570(Vec4 *arg0, Vec4 *arg1, s32 arg2)
+/* Evaluate the vector sum and adjust a nonzero result by the entry's integer x component. */
+s16 func_8008C570(Vec4 *vector, Vec4 *entries, s32 entry_index)
 {
     WorkVec sum;
-    s32 offset = arg2 * 16;
-    Vec4 *entry = (Vec4 *)((uptr)offset + (uptr)arg1);
+    s32 offset = entry_index * 16;
+    Vec4 *entry = (Vec4 *)((uptr)offset + (uptr)entries);
     s32 result;
 
-    sum.x = arg0->x + entry->x;
-    sum.y = arg0->y + entry->y;
-    sum.z = arg0->z + entry->z;
-    result = func_8008CFE8(&sum, arg1, offset);
+    sum.x = vector->x + entry->x;
+    sum.y = vector->y + entry->y;
+    sum.z = vector->z + entry->z;
+    result = func_8008CFE8(&sum, entries, offset);
 
     if ((result << 16) == 0) {
         return 0;

@@ -26,42 +26,43 @@ extern void func_800C15C0(s32, s32);
 extern u8 D_80083780[8];
 extern u8 D_800C21F8[];
 
-s32 func_800C2124(TownObject *arg0) {
+/* Applies an eligible nearby object's effects and updates its callback. */
+s32 func_800C2124(TownObject *object) {
     TownPosition *position;
-    register s32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 dx ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 coord_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 offset_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 check_id;
     register void *callback ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s16 abs_x;
-    register s16 abs_z ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 distance_x;
+    register s16 distance_z ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     position = (TownPosition *)D_80083780;
     ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    dx = arg0->x;
-    scratch = position->x;
-    check_id = arg0->check_id;
+    offset_x = object->x;
+    coord_value = position->x;
+    check_id = object->check_id;
     position = (TownPosition *)(s32)position->z;
-    dx -= scratch;
-    scratch = arg0->z;
-    abs_x = dx;
-    if (dx < 0) {
-        abs_x = -abs_x;
+    offset_x -= coord_value;
+    coord_value = object->z;
+    distance_x = offset_x;
+    if (offset_x < 0) {
+        distance_x = -distance_x;
     }
-    scratch -= (s32)position;
-    abs_z = scratch;
-    if (scratch < 0) {
-        abs_z = -abs_z;
+    coord_value -= (s32)position;
+    distance_z = coord_value;
+    if (coord_value < 0) {
+        distance_z = -distance_z;
     }
     ASM_KEEP(check_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (func_80033B2C(check_id, dx) != 0) {
-        if (arg0->range_x >= abs_x) {
-            scratch = abs_z;
-            if (arg0->range_z >= scratch) {
-                func_800C15C0(arg0->effect_a, arg0->effect_b);
-                scratch = 1;
-                ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    if (func_80033B2C(check_id, offset_x) != 0) {
+        if (object->range_x >= distance_x) {
+            coord_value = distance_z;
+            if (object->range_z >= coord_value) {
+                func_800C15C0(object->effect_a, object->effect_b);
+                coord_value = 1;
+                ASM_KEEP(coord_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 callback = D_800C21F8;
-                arg0->callback = callback;
+                object->callback = callback;
                 return;
             }
         }
@@ -70,7 +71,3 @@ s32 func_800C2124(TownObject *arg0) {
     return 0;
 }
 
-/* MECHANISM: A pinned $v1 position base plus explicit $a1/$v0/$a0 load roles reproduces
-   retail's interleaved five-load prologue body without load-delay nops.  Keeping the
-   narrow $s1/$s2 distances live makes $v0 perform both sign extensions; the named
-   second widening places its sll before the range load, and a short $v1 callback holds la. */

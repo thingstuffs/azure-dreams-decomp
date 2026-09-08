@@ -29,34 +29,35 @@ typedef struct S_80024B48_2 {
     u16 unk_52;
 } S_80024B48_2;   /* ((S_80024B48_0 *)arg0)->unk_00 in func_80024B48 */
 
-void func_80024B48(void *arg0) {
-    s32 temp_v0;
-    s32 temp_v1;
-    s32 temp_v2;
-    s32 temp_v3;
+/* Initialize object coordinates and set completion flags after 32 ticks. */
+void func_80024B48(void *object) {
+    s32 tile_x;
+    s32 tile_y;
+    s32 offset_tile_x;
+    s32 offset_tile_y;
 
-    ((S_80024B48_2 *)(((S_80024B48_0 *)arg0)->unk_00))->unk_52 =
-        (s16) (((S_80024B48_2 *)(((S_80024B48_0 *)arg0)->unk_00))->unk_52 | 0x8000);
-    ((S_80024B48_0 *)arg0)->unk_48 = (u16) (((S_80024B48_0 *)arg0)->unk_48 + 1);
-    if (((S_80024B48_0 *)arg0)->unk_4C != 0) {
-        if (((S_80024B48_0 *)arg0)->unk_4C != 1) {
+    ((S_80024B48_2 *)(((S_80024B48_0 *)object)->unk_00))->unk_52 =
+        (s16) (((S_80024B48_2 *)(((S_80024B48_0 *)object)->unk_00))->unk_52 | 0x8000);
+    ((S_80024B48_0 *)object)->unk_48 = (u16) (((S_80024B48_0 *)object)->unk_48 + 1);
+    if (((S_80024B48_0 *)object)->unk_4C != 0) {
+        if (((S_80024B48_0 *)object)->unk_4C != 1) {
             return;
         }
-        goto block_5;
+        goto check_completion;
     }
-    temp_v0 = (s16) ((S_80024B48_0 *)arg0)->unk_0C;
-    temp_v1 = (s16) ((S_80024B48_0 *)arg0)->unk_0E;
-    ((S_80024B48_0 *)arg0)->unk_48 = 0U;
-    ((S_80024B48_0 *)arg0)->unk_04 = (s16) ((temp_v0 << 6) + 0x20);
-    ((S_80024B48_0 *)arg0)->unk_06 = (s16) ((temp_v1 << 6) + 0x20);
-    temp_v2 = (s16) ((S_80024B48_0 *)arg0)->unk_0C;
-    temp_v3 = (s16) ((S_80024B48_0 *)arg0)->unk_0E;
-    ((S_80024B48_0 *)arg0)->unk_0C = (s16) ((temp_v2 - 7) << 6);
-    ((S_80024B48_0 *)arg0)->unk_0E = (s16) ((temp_v3 - 7) << 6);
-    ((S_80024B48_0 *)arg0)->unk_4C = (s16) ((u16) ((S_80024B48_0 *)arg0)->unk_4C + 1);
-block_5:
-    if ((s16) ((S_80024B48_0 *)arg0)->unk_48 >= 0x20) {
-        (*(u16 *)((u8 *)arg0 + (-2))) = (u16) (((S_80024B48_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    tile_x = (s16) ((S_80024B48_0 *)object)->unk_0C;
+    tile_y = (s16) ((S_80024B48_0 *)object)->unk_0E;
+    ((S_80024B48_0 *)object)->unk_48 = 0U;
+    ((S_80024B48_0 *)object)->unk_04 = (s16) ((tile_x << 6) + 0x20);
+    ((S_80024B48_0 *)object)->unk_06 = (s16) ((tile_y << 6) + 0x20);
+    offset_tile_x = (s16) ((S_80024B48_0 *)object)->unk_0C;
+    offset_tile_y = (s16) ((S_80024B48_0 *)object)->unk_0E;
+    ((S_80024B48_0 *)object)->unk_0C = (s16) ((offset_tile_x - 7) << 6);
+    ((S_80024B48_0 *)object)->unk_0E = (s16) ((offset_tile_y - 7) << 6);
+    ((S_80024B48_0 *)object)->unk_4C = (s16) ((u16) ((S_80024B48_0 *)object)->unk_4C + 1);
+check_completion:
+    if ((s16) ((S_80024B48_0 *)object)->unk_48 >= 0x20) {
+        (*(u16 *)((u8 *)object + (-2))) = (u16) (((S_80024B48_0_pre *)object)[-1].unk_00 | 0x8000);
         (*(s32 *)((u8 *)D_80080000 + (0x14A0))) = (s32) (((Rec_D_80080000 *)D_80080000)->unk_14A0 | 0x8000);
     }
 }

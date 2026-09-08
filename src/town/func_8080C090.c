@@ -16,6 +16,7 @@ extern Object *func_800374FC(s32 type, void *descriptor);
 extern void func_8003BC18(Object *object, void (*callback)(void));
 extern void func_8005888C(void);
 
+/* Creates an object with the supplied payload and owner and registers its callback. */
 void func_8080C090(void *owner, Copy40 *payload)
 {
     Object *object = func_800374FC(1, D_801328C8);

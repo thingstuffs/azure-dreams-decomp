@@ -62,48 +62,49 @@ extern u8 D_80045340[9];
 extern u8 D_80174180[9];
 extern u8 D_80174D08[12];
 
-void func_801741D0(s32 arg0, S_801741D0_3 *arg1, s32 arg2, s8 arg3, s32 arg4)
+/* Creates a tinted sprite at the source position with a height offset and random rotation. */
+void func_801741D0(s32 unused_0, S_801741D0_3 *source_pos, s32 unused_2, s8 green, s32 red_blue)
 {
-    s32 saved_arg4 = arg4;
-    register s8 saved_arg3 ASM_REG("$20") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 saved_red_blue = red_blue;
+    register s8 saved_green ASM_REG("$20") = green;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *node;
-    S_801741D0_1 *sub;
-    S_801741D0_2 *pos;
-    u8 *bytes;
+    S_801741D0_1 *sprite;
+    S_801741D0_2 *position;
+    u8 *node_params;
 
     node = func_8003FC64(0x212);
     if (node != NULL) {
         ((S_801741D0_0 *)node)->unk_10 = D_80174180;
         func_8004491C(node, D_80045340);
 
-        sub = ((S_801741D0_0 *)node)->unk_0C;
-        sub->unk_10 = 0x60;
-        sub->unk_14 |= 0xC;
+        sprite = ((S_801741D0_0 *)node)->unk_0C;
+        sprite->unk_10 = 0x60;
+        sprite->unk_14 |= 0xC;
 
-        pos = ((S_801741D0_0 *)node)->unk_08;
-        pos->unk_02 = arg1->unk_02;
-        pos->unk_06 = arg1->unk_06;
-        pos->unk_0A = arg1->unk_0A - 0x28;
+        position = ((S_801741D0_0 *)node)->unk_08;
+        position->unk_02 = source_pos->unk_02;
+        position->unk_06 = source_pos->unk_06;
+        position->unk_0A = source_pos->unk_0A - 0x28;
 
-        sub = ((S_801741D0_0 *)node)->unk_0C;
-        sub->unk_1E = 0x400;
-        sub->unk_1C = 0x400;
-        sub->unk_06 = 6;
-        bytes = (u8 *)node + 0x20;
+        sprite = ((S_801741D0_0 *)node)->unk_0C;
+        sprite->unk_1E = 0x400;
+        sprite->unk_1C = 0x400;
+        sprite->unk_06 = 6;
+        node_params = (u8 *)node + 0x20;
         ((S_801741D0_0 *)node)->unk_20 = 0x70;
-        bytes[1] = 0x10;
-        bytes[2] = 0x10;
-        ASM_KEEP(saved_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        sub->unk_0D = saved_arg3;
-        sub->unk_0C = saved_arg4;
-        sub->unk_0E = saved_arg4;
-        sub->unk_1A = rand() & 0xFFF;
+        node_params[1] = 0x10;
+        node_params[2] = 0x10;
+        ASM_KEEP(saved_green);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        sprite->unk_0D = saved_green;
+        sprite->unk_0C = saved_red_blue;
+        sprite->unk_0E = saved_red_blue;
+        sprite->unk_1A = rand() & 0xFFF;
 
         memcpy((u8 *)node + 0x48, D_80174D08, 12);
-        sub->unk_08 = (u8 *)node + 0x48;
+        sprite->unk_08 = (u8 *)node + 0x48;
     }
 }
 
-/* MECHANISM: The 40-byte frame holds arg1/node/sub in s2/s1/s0 and byte args in s4/s3.
+/* MECHANISM: The 40-byte frame holds source_pos/node/sprite in s2/s1/s0 and byte args in s4/s3.
    CDK 2.7.2-G0 gives the retail memcpy temp colors and unaligned 12-byte copy sequence.
-   ASM_KEEP(saved_arg3) at its last use schedules the prologue saves as s2, s4, then s3. */
+   ASM_KEEP(saved_green) at its last use schedules the prologue saves as s2, s4, then s3. */

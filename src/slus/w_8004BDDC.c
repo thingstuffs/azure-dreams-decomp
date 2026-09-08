@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-/* first_pass warm draft: compiles, best score 115 @ 2.7.2 */
 #include "common.h"
 
 typedef struct S_8004BDDC_0 {
@@ -51,75 +50,76 @@ typedef struct S_8004BDDC_2 {
 
 M2C_UNK func_8004C010();                 /* extern */
 
-void *func_8004BDDC(s32 arg0, s32 arg1, void *arg2, void *arg3, void *arg4) {
-    register void *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s8 temp_v0;
-    s8 temp_v1_3;
-    u8 temp_v1;
-    u8 temp_v1_2;
-    void *temp_s0;
-    void *temp_s0_2;
-    void *temp_s0_3;
-    void *temp_s0_4;
+/* Build a textured Gouraud quad packet with tinted vertex colors and adjusted UV bounds. */
+void *func_8004BDDC(s32 tint_a, s32 tint_b, void *packet, void *record, void *command) {
+    register void *color_record ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s8 u_end;
+    s8 v_end;
+    u8 u_span;
+    u8 v_span;
+    void *color_1;
+    void *color_2;
+    void *color_3;
+    void *color_0;
 
-    ((S_8004BDDC_0 *)arg2)->unk_2C = (s32) ((S_8004BDDC_0 *)arg2)->unk_20.at00.v;
-    ((S_8004BDDC_0 *)arg2)->unk_20.at00.v = (s32) ((S_8004BDDC_0 *)arg2)->unk_18.at00.v;
-    ((S_8004BDDC_0 *)arg2)->unk_14.at00.v = (s32) ((S_8004BDDC_0 *)arg2)->unk_10.at00.v;
-    temp_s3 = arg3;
+    ((S_8004BDDC_0 *)packet)->unk_2C = (s32) ((S_8004BDDC_0 *)packet)->unk_20.at00.v;
+    ((S_8004BDDC_0 *)packet)->unk_20.at00.v = (s32) ((S_8004BDDC_0 *)packet)->unk_18.at00.v;
+    ((S_8004BDDC_0 *)packet)->unk_14.at00.v = (s32) ((S_8004BDDC_0 *)packet)->unk_10.at00.v;
+    color_record = record;
     {
-        u8 f8 = *(volatile u8 *) ((u8 *) arg4 + 8);
-        temp_v1 = *(volatile u8 *) ((u8 *) arg4 + 0xA);
-        if ((temp_v1 + f8) >= 0x100) {
-            ((S_8004BDDC_1 *)arg4)->unk_0A = (u8) (temp_v1 - 1);
+        u8 u_start = *(volatile u8 *) ((u8 *) command + 8);
+        u_span = *(volatile u8 *) ((u8 *) command + 0xA);
+        if ((u_span + u_start) >= 0x100) {
+            ((S_8004BDDC_1 *)command)->unk_0A = (u8) (u_span - 1);
         }
     }
     {
-        u8 f9 = *(volatile u8 *) ((u8 *) arg4 + 9);
-        temp_v1_2 = *(volatile u8 *) ((u8 *) arg4 + 0xB);
-        if ((temp_v1_2 + f9) >= 0x100) {
-            ((S_8004BDDC_1 *)arg4)->unk_0B = (u8) (temp_v1_2 - 1);
+        u8 v_start = *(volatile u8 *) ((u8 *) command + 9);
+        v_span = *(volatile u8 *) ((u8 *) command + 0xB);
+        if ((v_span + v_start) >= 0x100) {
+            ((S_8004BDDC_1 *)command)->unk_0B = (u8) (v_span - 1);
         }
     }
-    temp_s3 = (void *) ((u8 *) temp_s3 + 0xC);
-    temp_s0 = arg2 + 0x10;
-    ((S_8004BDDC_0 *)arg2)->unk_10.at00.v = (s32) ((S_8004BDDC_2 *)temp_s3)->unk_00;
-    ((S_8004BDDC_0 *)arg2)->unk_04 = (u8) ((S_8004BDDC_0 *)arg2)->unk_10.at03.v;
-    func_8004C010(temp_s0, arg0);
-    func_8004C010(temp_s0, arg1);
-    temp_s0_2 = arg2 + 0x1C;
-    ((S_8004BDDC_0 *)arg2)->unk_1C.at00.v = (s32) ((S_8004BDDC_2 *)temp_s3)->unk_04;
-    ((S_8004BDDC_0 *)arg2)->unk_05 = (u8) ((S_8004BDDC_0 *)arg2)->unk_1C.at03.v;
-    func_8004C010(temp_s0_2, arg0);
-    func_8004C010(temp_s0_2, arg1);
-    temp_s0_3 = arg2 + 0x28;
-    ((S_8004BDDC_0 *)arg2)->unk_28.at00.v = (s32) ((S_8004BDDC_2 *)temp_s3)->unk_08;
-    ((S_8004BDDC_0 *)arg2)->unk_06 = (u8) ((S_8004BDDC_0 *)arg2)->unk_28.at03.v;
-    func_8004C010(temp_s0_3, arg0);
-    func_8004C010(temp_s0_3, arg1);
-    temp_s0_4 = arg2 + 4;
-    func_8004C010(temp_s0_4, arg0);
-    func_8004C010(temp_s0_4, arg1);
-    ((S_8004BDDC_0 *)arg2)->unk_03 = 0xC;
-    ((S_8004BDDC_0 *)arg2)->unk_07 = (u8) ((S_8004BDDC_1 *)arg4)->unk_01;
-    ((S_8004BDDC_0 *)arg2)->unk_0C = (u8) ((S_8004BDDC_1 *)arg4)->unk_08;
-    ((S_8004BDDC_0 *)arg2)->unk_0E = (u16) ((S_8004BDDC_1 *)arg4)->unk_06;
-    ((S_8004BDDC_0 *)arg2)->unk_0D = (u8) ((S_8004BDDC_1 *)arg4)->unk_09;
-    if ((((S_8004BDDC_0 *)arg2)->unk_14.at00u.v < ((S_8004BDDC_0 *)arg2)->unk_08) ||
-        (((S_8004BDDC_0 *)arg2)->unk_08 != ((S_8004BDDC_0 *)arg2)->unk_20.at00u.v)) {
-        ((S_8004BDDC_1 *)arg4)->unk_0A = (u8) (((S_8004BDDC_1 *)arg4)->unk_0A - 1);
+    color_record = (void *) ((u8 *) color_record + 0xC);
+    color_1 = packet + 0x10;
+    ((S_8004BDDC_0 *)packet)->unk_10.at00.v = (s32) ((S_8004BDDC_2 *)color_record)->unk_00;
+    ((S_8004BDDC_0 *)packet)->unk_04 = (u8) ((S_8004BDDC_0 *)packet)->unk_10.at03.v;
+    func_8004C010(color_1, tint_a);
+    func_8004C010(color_1, tint_b);
+    color_2 = packet + 0x1C;
+    ((S_8004BDDC_0 *)packet)->unk_1C.at00.v = (s32) ((S_8004BDDC_2 *)color_record)->unk_04;
+    ((S_8004BDDC_0 *)packet)->unk_05 = (u8) ((S_8004BDDC_0 *)packet)->unk_1C.at03.v;
+    func_8004C010(color_2, tint_a);
+    func_8004C010(color_2, tint_b);
+    color_3 = packet + 0x28;
+    ((S_8004BDDC_0 *)packet)->unk_28.at00.v = (s32) ((S_8004BDDC_2 *)color_record)->unk_08;
+    ((S_8004BDDC_0 *)packet)->unk_06 = (u8) ((S_8004BDDC_0 *)packet)->unk_28.at03.v;
+    func_8004C010(color_3, tint_a);
+    func_8004C010(color_3, tint_b);
+    color_0 = packet + 4;
+    func_8004C010(color_0, tint_a);
+    func_8004C010(color_0, tint_b);
+    ((S_8004BDDC_0 *)packet)->unk_03 = 0xC;
+    ((S_8004BDDC_0 *)packet)->unk_07 = (u8) ((S_8004BDDC_1 *)command)->unk_01;
+    ((S_8004BDDC_0 *)packet)->unk_0C = (u8) ((S_8004BDDC_1 *)command)->unk_08;
+    ((S_8004BDDC_0 *)packet)->unk_0E = (u16) ((S_8004BDDC_1 *)command)->unk_06;
+    ((S_8004BDDC_0 *)packet)->unk_0D = (u8) ((S_8004BDDC_1 *)command)->unk_09;
+    if ((((S_8004BDDC_0 *)packet)->unk_14.at00u.v < ((S_8004BDDC_0 *)packet)->unk_08) ||
+        (((S_8004BDDC_0 *)packet)->unk_08 != ((S_8004BDDC_0 *)packet)->unk_20.at00u.v)) {
+        ((S_8004BDDC_1 *)command)->unk_0A = (u8) (((S_8004BDDC_1 *)command)->unk_0A - 1);
     }
-    temp_v0 = ((S_8004BDDC_1 *)arg4)->unk_08 + ((S_8004BDDC_1 *)arg4)->unk_0A;
-    ((S_8004BDDC_0 *)arg2)->unk_30 = temp_v0;
-    ((S_8004BDDC_0 *)arg2)->unk_18.at00u.v = temp_v0;
-    ((S_8004BDDC_0 *)arg2)->unk_18.at01.v = (u8) ((S_8004BDDC_1 *)arg4)->unk_09;
-    ((S_8004BDDC_0 *)arg2)->unk_18.at02.v = (u16) ((S_8004BDDC_1 *)arg4)->unk_04;
-    ((S_8004BDDC_0 *)arg2)->unk_24 = (u8) ((S_8004BDDC_1 *)arg4)->unk_08;
-    if ((((S_8004BDDC_0 *)arg2)->unk_20.at02.v < ((S_8004BDDC_0 *)arg2)->unk_0A) ||
-        (((S_8004BDDC_0 *)arg2)->unk_0A != ((S_8004BDDC_0 *)arg2)->unk_14.at02.v)) {
-        ((S_8004BDDC_1 *)arg4)->unk_0B = (u8) (((S_8004BDDC_1 *)arg4)->unk_0B - 1);
+    u_end = ((S_8004BDDC_1 *)command)->unk_08 + ((S_8004BDDC_1 *)command)->unk_0A;
+    ((S_8004BDDC_0 *)packet)->unk_30 = u_end;
+    ((S_8004BDDC_0 *)packet)->unk_18.at00u.v = u_end;
+    ((S_8004BDDC_0 *)packet)->unk_18.at01.v = (u8) ((S_8004BDDC_1 *)command)->unk_09;
+    ((S_8004BDDC_0 *)packet)->unk_18.at02.v = (u16) ((S_8004BDDC_1 *)command)->unk_04;
+    ((S_8004BDDC_0 *)packet)->unk_24 = (u8) ((S_8004BDDC_1 *)command)->unk_08;
+    if ((((S_8004BDDC_0 *)packet)->unk_20.at02.v < ((S_8004BDDC_0 *)packet)->unk_0A) ||
+        (((S_8004BDDC_0 *)packet)->unk_0A != ((S_8004BDDC_0 *)packet)->unk_14.at02.v)) {
+        ((S_8004BDDC_1 *)command)->unk_0B = (u8) (((S_8004BDDC_1 *)command)->unk_0B - 1);
     }
-    temp_v1_3 = ((S_8004BDDC_1 *)arg4)->unk_09 + ((S_8004BDDC_1 *)arg4)->unk_0B;
-    ((S_8004BDDC_0 *)arg2)->unk_31 = temp_v1_3;
-    ((S_8004BDDC_0 *)arg2)->unk_25 = temp_v1_3;
-    return temp_s3;
+    v_end = ((S_8004BDDC_1 *)command)->unk_09 + ((S_8004BDDC_1 *)command)->unk_0B;
+    ((S_8004BDDC_0 *)packet)->unk_31 = v_end;
+    ((S_8004BDDC_0 *)packet)->unk_25 = v_end;
+    return color_record;
 }

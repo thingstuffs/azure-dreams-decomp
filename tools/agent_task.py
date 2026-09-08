@@ -6,9 +6,10 @@
 
 The model gets the current clean C for the row, the task (readable locals, a one-line summary,
 control-flow simplification only where it stays exact), the verify command it may run, and must
-write the result file.  The harness verifies independently; accepted output goes to
-refine/<container>/<name>.c and the journal ledger/agents/<model>.jsonl records outcome, wall
-time and token usage from the codex session log.
+write the result file.  The harness verifies independently; accepted output is kept under
+ledger/agents/out/<model>/ and, with --commit, landed into src/<container>/<name>.c through
+tools/promote.py (journal ledger/promotions.jsonl); ledger/agents/<model>.jsonl records outcome,
+wall time and token usage from the codex session log.
 """
 import argparse, json, os, random, re, shutil, subprocess, sys, tempfile, time
 from pathlib import Path
@@ -28,7 +29,7 @@ The file below already compiles to the retail bytes. Make it READABLE without ch
 - keep every extern declaration and every struct as they are unless you prove the change is byte-exact
 - do NOT rename struct members (`unk_XX` stay: they are named later from evidence across all users); do not add or remove members
 Verify with:  {verify}
-It prints JSON; "exact": true is required. You may run it as often as you like. Write the final file to {out} (overwrite). Reply with one line: DONE <n_verify_runs> or GAVEUP <reason>.
+It prints JSON; "exact": true is required. You may run it as often as you like. Before you reply DONE, run it ONCE MORE with `--gate` appended: that proves the file through the retail window (the proof of record; slower). If it reports "gate": "NO MATCH", the last change respelled a jump or tail call in a way the window rejects (this row may be linked at a different address than the isolated check assumes): undo that change, keep the pinned spelling, and re-verify. Write the final file to {out} (overwrite). Reply with one line: DONE <n_verify_runs> or GAVEUP <reason>.
 
 {evidence}--- {name} ---
 {src}
@@ -92,8 +93,10 @@ def one(row, model, effort, timeout):
         rec.update({"exact": v.get("exact"), "class": v.get("class"), "total": v.get("total")})
         if v.get("exact"):
             keep = LEDGER / "agents" / "out" / f"{model}-{effort}" / row["container"]; keep.mkdir(parents=True, exist_ok=True); (keep / name).write_text(new)
-            if COMMIT:
-                dst = ROOT / "refine" / row["container"] / name; dst.parent.mkdir(parents=True, exist_ok=True); dst.write_text(new)
+            if COMMIT:   # land into src/ (the gated tree) and journal it: ledger/promotions.jsonl is what L3 reads
+                from promote import promote_text
+                prec = promote_text(row, new, f"agent:{model}-{effort}")
+                append_jsonl(LEDGER / "promotions.jsonl", prec); rec["landed"] = prec["outcome"] in ("landed", "noop")
             rec["outcome"] = "accepted"; rec["out_sha"] = sha_text(new)
             # readability proxies
             rec["m2c_locals_left"] = len(set(re.findall(r"\b(temp_[a-z0-9_]+|arg[0-9]|sp[0-9A-F]{2,}|var_[a-z0-9_]+)\b", new)))
@@ -117,7 +120,7 @@ def main():
     ap.add_argument("--model", required=True); ap.add_argument("--effort", default="high"); ap.add_argument("--rows")
     ap.add_argument("--sample", type=int); ap.add_argument("--seed", type=int, default=1); ap.add_argument("--timeout", type=int, default=900)
     ap.add_argument("--min-size", type=int, default=100); ap.add_argument("--max-size", type=int, default=600)
-    ap.add_argument("--commit", action="store_true", help="also write accepted output to refine/ (campaign mode)")
+    ap.add_argument("--commit", action="store_true", help="also land accepted output into src/ (campaign mode; journal ledger/promotions.jsonl)")
     ap.add_argument("--with-gotos", action="store_true", help="sample only rows whose current text has gotos")
     ap.add_argument("--all", action="store_true", help="every eligible row not yet journalled (campaign mode)")
     ap.add_argument("--workers", type=int, default=1); ap.add_argument("--limit", type=int)
@@ -139,12 +142,11 @@ def main():
     (ROOT / "work").mkdir(exist_ok=True)
     if a.container: rs = [r for r in rs if r["container"] == a.container]
     if a.all:
-        # 'quota' and 'rejected' rows are retried; an accepted row whose refine/ body was set aside by a pin
-        # bump (tools/pin_bump.py: not exact at the new pin) is served again
-        by_id = {r["id"]: r for r in rows()}
-        def has_refine(i):
-            r = by_id.get(i); return bool(r) and (ROOT / "refine" / r["container"] / Path(r["c_path"]).name).exists()
-        done = {j["id"] for j in read_jsonl(journal) if j.get("outcome") == "unchanged" or (j.get("outcome") == "accepted" and has_refine(j["id"]))}
+        # 'quota' and 'rejected' rows are retried; an accepted row counts as done once its body landed in src/
+        # (ledger/promotions.jsonl); a body set aside by a pin bump is served again
+        from promote import landed_ids
+        landed = landed_ids()
+        done = {j["id"] for j in read_jsonl(journal) if j.get("outcome") == "unchanged" or (j.get("outcome") == "accepted" and j["id"] in landed)}
         rs = [r for r in rs if r["id"] not in done]
         rs.sort(key=lambda r: r["size"])
     if a.limit: rs = rs[:a.limit]

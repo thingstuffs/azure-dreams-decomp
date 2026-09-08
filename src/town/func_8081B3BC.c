@@ -24,7 +24,8 @@ extern u8 D_8002614C[];
 extern u8 D_80045340[];
 extern u8 D_800F7944[];
 
-void func_800253BC(Copy20 *arg0, s32 arg1)
+/* Creates object 0x136 with the supplied initial state and Y position. */
+void func_800253BC(Copy20 *init_data, s32 pos_y)
 {
     Object136 *obj;
     u8 *data;
@@ -32,7 +33,7 @@ void func_800253BC(Copy20 *arg0, s32 arg1)
 
     obj = func_8003FC64(0x136);
     if (obj != 0) {
-        obj->init = *arg0;
+        obj->init = *init_data;
         obj->callback = D_8002614C;
         func_8004491C(obj, D_80045340);
 
@@ -40,7 +41,7 @@ void func_800253BC(Copy20 *arg0, s32 arg1)
         entity = obj->entity;
         *(s32 *)(data + 0) = 0x05380000;
         *(s32 *)(data + 8) = 0xFFE00000;
-        *(s32 *)(data + 4) = arg1;
+        *(s32 *)(data + 4) = pos_y;
         *(s16 *)(entity + 0x1E) = 0x1000;
         *(s16 *)(entity + 0x1C) = 0x1000;
         *(s32 *)(entity + 8) = (s32)D_800F7944;

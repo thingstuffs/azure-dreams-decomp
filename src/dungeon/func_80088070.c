@@ -12,50 +12,51 @@ extern u8 D_800DD0B8[8];
 extern s32 D_8008D470;
 extern s32 D_8008ACDC;
 
-void func_8008D7D0(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3) {
+/* Create an effect at the target and initialize its state and sound. */
+void func_8008D7D0(u8 *actor, s32 effect_arg, u8 *target, u8 *source) {
     u16 flags;
-    s32 idx;
-    u8 *temp_v0;
-    u8 *temp_v1;
-    u8 *temp_s0;
-    s32 var_a0;
+    s32 direction;
+    u8 *effect;
+    u8 *transform;
+    u8 *effect_state;
+    s32 sound_id;
 
-    *(s8 *)(arg0 + 0x9A) = 0x23;
-    *(s8 *)(arg0 + 0x9B) = 0;
-    *(void **)(arg0 + 0x8C) = NULL;
+    *(s8 *)(actor + 0x9A) = 0x23;
+    *(s8 *)(actor + 0x9B) = 0;
+    *(void **)(actor + 0x8C) = NULL;
 
-    flags = *(u16 *)(arg0 + 0xA2);
-    *(u16 *)(arg0 + 0xA2) = flags & 0xFF7F;
+    flags = *(u16 *)(actor + 0xA2);
+    *(u16 *)(actor + 0xA2) = flags & 0xFF7F;
 
-    *(u8 **)(arg2 + 0x2C) = &D_800DD0B8[0];
+    *(u8 **)(target + 0x2C) = &D_800DD0B8[0];
 
-    idx = ((D_80083228 + *(s16 *)(arg3 + 0x2A) + 0x100) >> 9) & 7;
-    func_80048A44(arg2, D_800DD0B8[idx], 0, 1);
+    direction = ((D_80083228 + *(s16 *)(source + 0x2A) + 0x100) >> 9) & 7;
+    func_80048A44(target, D_800DD0B8[direction], 0, 1);
 
-    temp_v0 = func_800A8608(arg0 - 0x20, *(void **)(arg0 + 0xBC), 0, 0, 0);
-    *(void **)(arg0 + 0x124) = temp_v0;
-    if (temp_v0 != NULL) {
-        *(void **)(temp_v0 + 0x10) = &D_8008D470;
-        temp_v1 = *(u8 **)(temp_v0 + 8);
-        *(s16 *)(temp_v1 + 2) = (s16)((arg2[0x24] << 6) + 0x20);
-        *(s16 *)(temp_v1 + 6) = (s16)((arg2[0x25] << 6) + 0x20);
-        temp_s0 = temp_v0 + 0x20;
-        *(u16 *)(temp_v1 + 0xA) = *(u16 *)(arg3 + 0x88);
-        *(s16 *)(temp_s0 + 0xAA) = 1;
-        *(s16 *)(temp_s0 + 0xA8) = 0x1E;
-        *(u8 **)(temp_s0 + 0x90) = arg2;
-        *(s32 *)(temp_s0 + 0x8C) = arg1;
-        *(u8 **)(temp_s0 + 0x9C) = temp_v0 + 0xB8;
+    effect = func_800A8608(actor - 0x20, *(void **)(actor + 0xBC), 0, 0, 0);
+    *(void **)(actor + 0x124) = effect;
+    if (effect != NULL) {
+        *(void **)(effect + 0x10) = &D_8008D470;
+        transform = *(u8 **)(effect + 8);
+        *(s16 *)(transform + 2) = (s16)((target[0x24] << 6) + 0x20);
+        *(s16 *)(transform + 6) = (s16)((target[0x25] << 6) + 0x20);
+        effect_state = effect + 0x20;
+        *(u16 *)(transform + 0xA) = *(u16 *)(source + 0x88);
+        *(s16 *)(effect_state + 0xAA) = 1;
+        *(s16 *)(effect_state + 0xA8) = 0x1E;
+        *(u8 **)(effect_state + 0x90) = target;
+        *(s32 *)(effect_state + 0x8C) = effect_arg;
+        *(u8 **)(effect_state + 0x9C) = effect + 0xB8;
 
-        var_a0 = 0x505;
-        if (*(u8 *)(*(u8 **)(arg0 + 0xBC) + 1) == 0xE) {
-            var_a0 = 0x516;
+        sound_id = 0x505;
+        if (*(u8 *)(*(u8 **)(actor + 0xBC) + 1) == 0xE) {
+            sound_id = 0x516;
         }
-        func_800A56E0(var_a0);
+        func_800A56E0(sound_id);
 
-        *(s16 *)(temp_s0 + 0xAE) = (s16)(*(u16 *)(arg3 + 0x46) == 1);
-        *(u16 *)(arg0 + 0x46) = 0;
+        *(s16 *)(effect_state + 0xAE) = (s16)(*(u16 *)(source + 0x46) == 1);
+        *(u16 *)(actor + 0x46) = 0;
         return;
     }
-    *(void **)(arg0 + 0x8C) = &D_8008ACDC;
+    *(void **)(actor + 0x8C) = &D_8008ACDC;
 }

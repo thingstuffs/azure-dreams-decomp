@@ -13,6 +13,7 @@ extern s32 func_800194D8(s32);
 extern s8 D_80016000[];
 extern s32 D_80019AFC;
 
+/* Loads the current entry's value, conditionally clears it, and handles the follow-up check. */
 s32 func_805D32DC(void) {
     TownRecord *record;
 
@@ -30,7 +31,3 @@ s32 func_805D32DC(void) {
     }
     return 0;
 }
-
-/* MECHANISM: Direct repeated accesses to the correctly sized globals keep their hi-page
-   bases live in s1/s0 across the first call; the record type fixes byte width and x8 indexing.
-   The remaining control flow mirrors the three retail call/branch regions. */

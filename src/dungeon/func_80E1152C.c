@@ -50,87 +50,88 @@ extern void func_80047784(D2 *, u8, s32);
 extern void func_80175F60(D0 *, void *, D2 *);
 extern void func_801762A4(s32, D3 *);
 
-void func_80174D2C(D0 *arg0, void *arg1, D2 *arg2, D3 *arg3) {
-    s32 dispatch_state;
-    u16 flags;
-    u16 timer;
+/* Advances a timed actor state sequence and updates its sprite direction. */
+void func_80174D2C(D0 *action, void *context, D2 *sprite, D3 *actor) {
+    s32 action_state;
+    u16 sprite_flags;
+    u16 ticks_left;
 
-    dispatch_state = arg0->state;
-    if (dispatch_state == 1) {
+    action_state = action->state;
+    if (action_state == 1) {
         goto state_1;
     }
-    if (dispatch_state < 2) {
-        if (dispatch_state == 0) {
+    if (action_state < 2) {
+        if (action_state == 0) {
             goto state_0;
         }
-    } else if (dispatch_state == 2) {
+    } else if (action_state == 2) {
         goto state_2;
     }
     goto common;
 
 state_0:
-    flags = arg2->flags;
-    if (flags & 0x8000) {
-        arg2->flags = flags | 0x6000;
-        arg0->state = 2;
+    sprite_flags = sprite->flags;
+    if (sprite_flags & 0x8000) {
+        sprite->flags = sprite_flags | 0x6000;
+        action->state = 2;
         goto epilogue;
     }
-    if (arg2->kind == 1) {
-        if (flags & 0x1000) {
+    if (sprite->kind == 1) {
+        if (sprite_flags & 0x1000) {
             goto call_75f60;
         }
-        if ((flags & 0x6000) == 0) {
+        if ((sprite_flags & 0x6000) == 0) {
             goto common;
         }
     } else {
-        if ((flags & 0x6000) == 0) {
+        if ((sprite_flags & 0x6000) == 0) {
             goto common;
         }
     }
 
 call_75f60:
-    func_80175F60(arg0, arg1, arg2);
-    if (arg3->flags & 0x4000) {
-        func_801762A4(1, arg3);
-    } else if (((D3Nested *) arg3->field_60)->flags & 0x4000) {
-        func_801762A4(0, arg3);
+    func_80175F60(action, context, sprite);
+    if (actor->flags & 0x4000) {
+        func_801762A4(1, actor);
+    } else if (((D3Nested *) actor->field_60)->flags & 0x4000) {
+        func_801762A4(0, actor);
     }
     func_800A56E0(0x80D);
-    arg0->field_96 = 0x20;
-    arg0->state = arg0->state + 1;
+    action->field_96 = 0x20;
+    action->state = action->state + 1;
     goto common;
 
 state_1:
-    timer = arg0->field_96 - 1;
-    arg0->field_96 = timer;
-    if ((timer << 16) != 0) {
-        if (!(arg2->flags & 0x8000)) {
+    ticks_left = action->field_96 - 1;
+    action->field_96 = ticks_left;
+    if ((ticks_left << 16) != 0) {
+        if (!(sprite->flags & 0x8000)) {
             goto common;
         }
     }
-    arg0->field_96 = 4;
-    arg0->state = arg0->state + 1;
+    action->field_96 = 4;
+    action->state = action->state + 1;
     goto common;
 
 state_2:
-    timer = arg0->field_96 - 1;
-    arg0->field_96 = timer;
-    if ((timer << 16) != 0) {
-        if (!(arg2->flags & 0xE000)) {
+    ticks_left = action->field_96 - 1;
+    action->field_96 = ticks_left;
+    if ((ticks_left << 16) != 0) {
+        if (!(sprite->flags & 0xE000)) {
             goto epilogue;
         }
     }
-    func_800AD594(arg3, 0x400);
-    func_800A2B04(arg1, arg2->value_24, arg2->value_25);
-    arg0->field_8C = D_80171094;
+    func_800AD594(actor, 0x400);
+    func_800A2B04(context, sprite->value_24, sprite->value_25);
+    action->field_8C = D_80171094;
     *D_8008346C = 0;
-    arg3->value_46 &= 0x7FFF;
+    actor->value_46 &= 0x7FFF;
 
 common:
-    if (arg2->flags & 0xE000) {
-        arg2->field_2C = D_80176460;
-        func_80047784(arg2, D_80176460[(((*D_80083228 + arg3->value_2A + 0x100) >> 9) & 7)], 0);
-        arg0->field_98 &= 0xFFF7;
+    if (sprite->flags & 0xE000) {
+        sprite->field_2C = D_80176460;
+        func_80047784(sprite, D_80176460[(((*D_80083228 + actor->value_2A + 0x100) >> 9) & 7)], 0);
+        action->field_98 &= 0xFFF7;
     }
 
 epilogue:

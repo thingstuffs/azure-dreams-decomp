@@ -2,21 +2,22 @@
 
 extern u8 D_80409290[];
 
+/* Returns whether text matches a record prefix, comparing at most 21 bytes. */
 s32 func_80401AA4(s32 count, u8 *text)
 {
-    s32 index;
-    s32 result;
+    s32 record_index;
+    s32 matched;
     s32 mismatch;
     u8 *record;
-    register u8 *record_pos ASM_REG("$6");
-    register u8 *text_pos ASM_REG("$7");
-    register u8 *record_end ASM_REG("$10");
-    u8 byte;
-    s32 pad;
+    register u8 *record_pos ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *text_pos ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *record_end ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 text_byte;
+    s32 stack_pad;
 
-    (void)&pad;
-    index = 0;
-    result = 0;
+    (void)&stack_pad;
+    record_index = 0;
+    matched = 0;
     if (count > 0) {
         record = D_80409290;
 outer:
@@ -25,9 +26,9 @@ outer:
         text_pos = text;
         record_end = record + 21;
 inner:
-        byte = *text_pos;
-        if (byte != 0) {
-            if (byte != *record_pos++) {
+        text_byte = *text_pos;
+        if (text_byte != 0) {
+            if (text_byte != *record_pos++) {
                 goto mismatch_found;
             }
             text_pos++;
@@ -39,7 +40,7 @@ after:
         if (mismatch != 0) {
             goto next_record;
         }
-        result = 1;
+        matched = 1;
         goto done;
 
 mismatch_found:
@@ -47,12 +48,12 @@ mismatch_found:
         goto after;
 
 next_record:
-        index++;
+        record_index++;
         record += 40;
-        if (index < count) {
+        if (record_index < count) {
             goto outer;
         }
     }
 done:
-    return result;
+    return matched;
 }

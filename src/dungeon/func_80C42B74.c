@@ -56,50 +56,51 @@ extern u8 D_80045340;
 extern s32 D_800DEC00;
 extern u8 D_801741A0;
 
-void func_80174374(void *arg0, Rec_func_80173CFC_arg1 *arg1, s32 arg2, s32 arg3, s32 arg4, u16 arg5) {
-    void *obj;
-    S_80174374_0 *work;
-    register void *part ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register void *pos ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s16 value;
+/* Creates a yellow effect at an angular offset from the supplied position. */
+void func_80174374(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unused_param_2, s32 unused_param_3, s32 angle, u16 height_offset) {
+    void *effect;
+    S_80174374_0 *effect_state;
+    register void *sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *position ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 wrapped_angle;
 
-    obj = func_8003FC64(0x212);
-    if (obj != 0) {
-        value = arg4;
-        work = (u8 *)obj + 0x20;
-        work->unk_1A = 0x14;
-        work->unk_1E = arg4;
-        ((S_80174374_1 *)obj)->unk_10 = &D_801741A0;
-        func_8004491C(obj, &D_80045340);
+    effect = func_8003FC64(0x212);
+    if (effect != 0) {
+        wrapped_angle = angle;
+        effect_state = (u8 *)effect + 0x20;
+        effect_state->unk_1A = 0x14;
+        effect_state->unk_1E = angle;
+        ((S_80174374_1 *)effect)->unk_10 = &D_801741A0;
+        func_8004491C(effect, &D_80045340);
 
-        part = ((S_80174374_1 *)obj)->unk_0C;
-        ((S_80174374_2 *)part)->unk_10 = 0x20;
-        ((S_80174374_2 *)part)->unk_14 |= 0xC;
+        sprite = ((S_80174374_1 *)effect)->unk_0C;
+        ((S_80174374_2 *)sprite)->unk_10 = 0x20;
+        ((S_80174374_2 *)sprite)->unk_14 |= 0xC;
 
-        pos = ((S_80174374_1 *)obj)->unk_08;
-        work->unk_40 = arg1->unk_00.at00_s32.v;
-        work->unk_44 = arg1->unk_04.at00_s32.v;
+        position = ((S_80174374_1 *)effect)->unk_08;
+        effect_state->unk_40 = origin->unk_00.at00_s32.v;
+        effect_state->unk_44 = origin->unk_04.at00_s32.v;
 
-        while (value >= 0x1001) {
-            value -= 0x1000;
+        while (wrapped_angle >= 0x1001) {
+            wrapped_angle -= 0x1000;
         }
 
-        ((S_80174374_4 *)pos)->unk_00 = work->unk_40 + func_80064584(value) * 0x280;
-        ((S_80174374_4 *)pos)->unk_04 = work->unk_44 + func_800644B8(value) * 0x280;
-        ((S_80174374_4 *)pos)->unk_0A = arg1->unk_0A + arg5;
+        ((S_80174374_4 *)position)->unk_00 = effect_state->unk_40 + func_80064584(wrapped_angle) * 0x280;
+        ((S_80174374_4 *)position)->unk_04 = effect_state->unk_44 + func_800644B8(wrapped_angle) * 0x280;
+        ((S_80174374_4 *)position)->unk_0A = origin->unk_0A + height_offset;
 
-        part = ((S_80174374_1 *)obj)->unk_0C;
-        ((S_80174374_2 *)part)->unk_1E = 0x400;
-        ((S_80174374_2 *)part)->unk_1C = 0x400;
-        ((S_80174374_2 *)part)->unk_0E = 0x60;
-        ((S_80174374_2 *)part)->unk_0D = 0xFF;
-        ((S_80174374_2 *)part)->unk_0C = 0xFF;
-        work->unk_00 = 0xFF;
-        work->unk_01 = ((S_80174374_2 *)part)->unk_0D;
-        work->unk_02 = ((S_80174374_2 *)part)->unk_0E;
+        sprite = ((S_80174374_1 *)effect)->unk_0C;
+        ((S_80174374_2 *)sprite)->unk_1E = 0x400;
+        ((S_80174374_2 *)sprite)->unk_1C = 0x400;
+        ((S_80174374_2 *)sprite)->unk_0E = 0x60;
+        ((S_80174374_2 *)sprite)->unk_0D = 0xFF;
+        ((S_80174374_2 *)sprite)->unk_0C = 0xFF;
+        effect_state->unk_00 = 0xFF;
+        effect_state->unk_01 = ((S_80174374_2 *)sprite)->unk_0D;
+        effect_state->unk_02 = ((S_80174374_2 *)sprite)->unk_0E;
 
-        func_8003DB94(part, &D_800DEC00, rand() & 1);
-        ((S_80174374_2 *)part)->unk_12 = 0x7DCF;
-        ((S_80174374_2 *)part)->unk_14 |= 0x100;
+        func_8003DB94(sprite, &D_800DEC00, rand() & 1);
+        ((S_80174374_2 *)sprite)->unk_12 = 0x7DCF;
+        ((S_80174374_2 *)sprite)->unk_14 |= 0x100;
     }
 }

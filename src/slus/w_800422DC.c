@@ -28,26 +28,23 @@ extern short func_800422A8(unsigned int a0, unsigned int a1, unsigned short a2, 
 extern void func_80042B68(void *a0, int a1);
 extern int  findSlotByType(void *a0, int a1);
 
-/* Rebuild `other`'s per-slot state (clearing stale ids 0x1A/0x1C/0x1D and
- * releasing 0x1B), conditionally raise a flag on `other`, then snapshot the
- * first 0x4C bytes of `other` into `self` and derive two slot indices plus
- * a trailing word from `other`'s trailing fields. */
-void func_800422DC(S_800422DC_Self *a0, S_800422DC_Other *a1)
+/* Prepare source slot state and copy it into a snapshot with resolved slot indices. */
+void func_800422DC(S_800422DC_Self *snapshot, S_800422DC_Other *source)
 {
-    func_80042B68(a1, 0x1A);
-    findSlotByType(a1, 0x1B);
-    func_80042B68(a1, 0x1C);
-    func_80042B68(a1, 0x1D);
+    func_80042B68(source, 0x1A);
+    findSlotByType(source, 0x1B);
+    func_80042B68(source, 0x1C);
+    func_80042B68(source, 0x1D);
 
-    if (a1->f25 == 0) {
-        if (a1->f13 != 0) {
-            a1->f1C |= 8;
+    if (source->f25 == 0) {
+        if (source->f13 != 0) {
+            source->f1C |= 8;
         }
     }
 
-    func_8003DB6C((int *)a0, (int *)a1, 0x13);
+    func_8003DB6C((int *)snapshot, (int *)source, 0x13);
 
-    a0->f4C = (u8)func_800422A8((unsigned int)a1->f4C, 0x80010248, 4, 0x14);
-    a0->f4D = (u8)func_800422A8((unsigned int)a1->f50, 0x80010248, 4, 0x14);
-    a0->f50 = a1->f54;
+    snapshot->f4C = (u8)func_800422A8((unsigned int)source->f4C, 0x80010248, 4, 0x14);
+    snapshot->f4D = (u8)func_800422A8((unsigned int)source->f50, 0x80010248, 4, 0x14);
+    snapshot->f50 = source->f54;
 }

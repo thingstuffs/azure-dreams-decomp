@@ -86,47 +86,48 @@ extern u8 D_800D5AC0[];
 extern u8 D_800D5CA0[];
 extern s16 D_800E2468[];
 
-void func_800D5DCC(Rec_D_800E3D7C *arg0, s16 arg1, s32 arg2)
+/* Spawn an effect offset from the source with randomized directional velocity. */
+void func_800D5DCC(Rec_D_800E3D7C *source, s16 angle, s32 effect_value)
 {
-    S_800D5DCC_2 *temp_a0;
-    S_800D5DCC_4 *temp_a0_2;
-    S_800D5DCC_5 *temp_a1;
-    S_800D5DCC_6 *temp_a2;
-    S_800D5DCC_3 *temp_s0;
-    S_800D5DCC_7 *temp_s0_2;
-    void *temp_v0;
+    S_800D5DCC_2 *pos_x;
+    S_800D5DCC_4 *pos_y;
+    S_800D5DCC_5 *velocity_x;
+    S_800D5DCC_6 *velocity_y;
+    S_800D5DCC_3 *direction;
+    S_800D5DCC_7 *effect_state;
+    void *effect;
 
-    temp_v0 = func_8003FD64(0x211, arg0);
-    if (temp_v0 != NULL) {
-        ((S_800D5DCC_0 *)temp_v0)->unk_10 = D_800D5CA0;
-        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)temp_v0)->unk_08))->unk_02 =
-            ((S_800D5DCC_9 *)(arg0->unk_08.at00_pv.v))->unk_02;
-        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)temp_v0)->unk_08))->unk_06 =
-            ((S_800D5DCC_9 *)(arg0->unk_08.at00_pv.v))->unk_06;
-        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)temp_v0)->unk_08))->unk_0A =
-            ((S_800D5DCC_9 *)(arg0->unk_08.at00_pv.v))->unk_0A - 0x14;
-        temp_s0 = ((arg1 >> 7) & 0x1C) + (u8 *)D_800E2468;
-        temp_a0 = ((S_800D5DCC_0 *)temp_v0)->unk_08;
-        temp_a0->unk_02 += temp_s0->unk_00 * 0x10;
-        temp_a0_2 = ((S_800D5DCC_0 *)temp_v0)->unk_08;
-        temp_a0_2->unk_06 += temp_s0->unk_02 * 0x10;
-        ((S_800D5DCC_10 *)(((S_800D5DCC_0 *)temp_v0)->unk_0C))->unk_06 = 6;
-        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)temp_v0)->unk_08))->unk_0C =
-            ((rand(temp_a0_2) & 0x7FFF) - 0x4000) << 6;
-        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)temp_v0)->unk_08))->unk_10 =
+    effect = func_8003FD64(0x211, source);
+    if (effect != NULL) {
+        ((S_800D5DCC_0 *)effect)->unk_10 = D_800D5CA0;
+        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_02 =
+            ((S_800D5DCC_9 *)(source->unk_08.at00_pv.v))->unk_02;
+        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_06 =
+            ((S_800D5DCC_9 *)(source->unk_08.at00_pv.v))->unk_06;
+        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_0A =
+            ((S_800D5DCC_9 *)(source->unk_08.at00_pv.v))->unk_0A - 0x14;
+        direction = ((angle >> 7) & 0x1C) + (u8 *)D_800E2468;
+        pos_x = ((S_800D5DCC_0 *)effect)->unk_08;
+        pos_x->unk_02 += direction->unk_00 * 0x10;
+        pos_y = ((S_800D5DCC_0 *)effect)->unk_08;
+        pos_y->unk_06 += direction->unk_02 * 0x10;
+        ((S_800D5DCC_10 *)(((S_800D5DCC_0 *)effect)->unk_0C))->unk_06 = 6;
+        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_0C =
+            ((rand(pos_y) & 0x7FFF) - 0x4000) << 6;
+        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_10 =
             ((rand() & 0x7FFF) - 0x4000) << 6;
-        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)temp_v0)->unk_08))->unk_14 =
+        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_14 =
             ((rand() & 0x7FFF) - 0x4000) << 5;
-        temp_a1 = ((S_800D5DCC_0 *)temp_v0)->unk_08;
-        temp_a1->unk_0C += temp_s0->unk_00 * 0x160000;
-        temp_s0_2 = (u8 *)temp_v0 + 0x20;
-        temp_a2 = ((S_800D5DCC_0 *)temp_v0)->unk_08;
-        temp_a2->unk_10 += temp_s0->unk_02 * 0x160000;
-        temp_s0_2->unk_14 = arg1;
-        temp_s0_2->unk_32 = 7;
-        temp_s0_2->unk_34 = 7;
-        func_8004491C(temp_v0, D_800D5AC0, temp_a2);
-        ((S_800D5DCC_0 *)temp_v0)->unk_20 = arg2;
-        temp_s0_2->unk_08 = arg2;
+        velocity_x = ((S_800D5DCC_0 *)effect)->unk_08;
+        velocity_x->unk_0C += direction->unk_00 * 0x160000;
+        effect_state = (u8 *)effect + 0x20;
+        velocity_y = ((S_800D5DCC_0 *)effect)->unk_08;
+        velocity_y->unk_10 += direction->unk_02 * 0x160000;
+        effect_state->unk_14 = angle;
+        effect_state->unk_32 = 7;
+        effect_state->unk_34 = 7;
+        func_8004491C(effect, D_800D5AC0, velocity_y);
+        ((S_800D5DCC_0 *)effect)->unk_20 = effect_value;
+        effect_state->unk_08 = effect_value;
     }
 }

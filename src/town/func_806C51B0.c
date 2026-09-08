@@ -31,15 +31,16 @@ extern M2C_UNK D_80016000;
 extern s32 D_800190C0[3];
 
 
+/* Store two 16.16 values, clear the third component, and invoke both callbacks. */
 void func_806C51B0(void) {
-    s32 *command;
-    s32 value;
+    s32 *fixed_values;
+    s32 second_value;
 
     D_800190C0[0] = ((S_806C51B0_2 *)(((S_806C51B0_1 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_1C))->unk_04 << 16;
-    value = ((S_806C51B0_2 *)(((S_806C51B0_1 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_1C))->unk_08;
-    do { command = D_800190C0; } while (0);
-    command[2] = 0;
-    command[1] = value << 16;
+    second_value = ((S_806C51B0_2 *)(((S_806C51B0_1 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_1C))->unk_08;
+    fixed_values = D_800190C0;
+    fixed_values[2] = 0;
+    fixed_values[1] = second_value << 16;
     ((S_806C51B0_3 *)(((S_806C51B0_1 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20))->unk_208(0);
     ((S_806C51B0_3 *)(((S_806C51B0_1 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20))->unk_228(0);
 }

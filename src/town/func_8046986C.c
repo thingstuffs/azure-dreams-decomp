@@ -27,55 +27,56 @@ extern u8 D_80017B18;
 extern u8 D_80017D50;
 
 
-u8 *func_8001A86C(s32 arg0) {
-    s32 i;
-    s32 flag;
-    register s32 setting ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *base;
+/* Sets entry flags from record state and selection, then prepares the output buffer. */
+u8 *func_8001A86C(s32 selected_index) {
+    s32 entry_index;
+    s32 first_marked;
+    register s32 entry_flag ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *output_base;
     Record12 *record_base;
     Record12 *record;
-    void *out;
+    void *entry;
 
-    flag = 0;
-    base = &D_80017D50;
-    if (arg0 != 0) {
-        i = 1;
-        setting = 0x400;
-        out = base + 0x14;
+    first_marked = 0;
+    output_base = &D_80017D50;
+    if (selected_index != 0) {
+        entry_index = 1;
+        entry_flag = 0x400;
+        entry = output_base + 0x14;
         record_base = D_8001791C;
         record = &record_base[1];
 loop:
         if (func_8001E670(record->field4) != 0) {
             if (record->field8 != 0) {
-                ((S_8001A86C_0 *)out)->unk_02 = setting;
-                if (i == 1) {
-                    flag = 1;
+                ((S_8001A86C_0 *)entry)->unk_02 = entry_flag;
+                if (entry_index == 1) {
+                    first_marked = 1;
                 }
                 goto next;
             }
-            if (arg0 == i) {
-                ((S_8001A86C_0 *)out)->unk_02 = setting;
+            if (selected_index == entry_index) {
+                ((S_8001A86C_0 *)entry)->unk_02 = entry_flag;
             }
         }
 next:
-        out += 0x14;
-        i++;
+        entry += 0x14;
+        entry_index++;
         record++;
-        if (i < 8) {
+        if (entry_index < 8) {
             goto loop;
         }
     }
 
-    func_8001A200(base, &D_80017ADC);
-    func_8001A1A0(base, &D_80017AE8);
-    if (flag != 0) {
-        *(s16 *)(base + 0xA2) = 0x400;
-        func_8001A1A0(base + 0xA0, &D_80017B00);
+    func_8001A200(output_base, &D_80017ADC);
+    func_8001A1A0(output_base, &D_80017AE8);
+    if (first_marked != 0) {
+        *(s16 *)(output_base + 0xA2) = 0x400;
+        func_8001A1A0(output_base + 0xA0, &D_80017B00);
     } else {
-        *(s16 *)(base + 0xB6) = 0x400;
-        func_8001A1A0(base + 0xB4, &D_80017B0C);
+        *(s16 *)(output_base + 0xB6) = 0x400;
+        func_8001A1A0(output_base + 0xB4, &D_80017B0C);
     }
-    func_8001A1A0(base + 0xDC, &D_80017AF4);
-    func_8001A1A0(base + 0xC8, &D_80017B18);
-    return base;
+    func_8001A1A0(output_base + 0xDC, &D_80017AF4);
+    func_8001A1A0(output_base + 0xC8, &D_80017B18);
+    return output_base;
 }

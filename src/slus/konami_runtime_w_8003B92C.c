@@ -12,6 +12,7 @@ extern void func_80043458(void);
 extern void func_8003B820(void);
 extern void func_8003B714(void);
 
+/* Runs runtime updates and adds the counter increment, capping the total at one billion. */
 void func_8003B92C(void) {
     CounterPage *page;
     u32 total;

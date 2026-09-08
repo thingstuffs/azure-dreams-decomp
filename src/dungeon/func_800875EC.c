@@ -45,61 +45,62 @@ extern u8 D_80083460[9];
 extern u8 D_800DCFB8[];
 extern u8 D_800DD018[];
 
-void func_8008CD4C(Rec_func_8008ACDC_arg0 *arg0, M2C_UNK arg1, S_8008CD4C_0 *arg2, void *arg3, s32 arg4) {
-    register S_8008CD4C_2 *actor ASM_REG("$20") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+/* Checks the next tile and updates the actor's movement state and directional animation. */
+void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, M2C_UNK context, S_8008CD4C_0 *sprite, void *actor_data, s32 move_state) {
+    register S_8008CD4C_2 *actor ASM_REG("$20") = actor_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 offset;
-    s32 x;
-    s32 y;
-    s32 ent;
-    u16 *xstep;
-    u16 *ystep;
+    s32 direction_offset;
+    s32 next_x;
+    s32 next_y;
+    s32 target;
+    u16 *x_step;
+    u16 *y_step;
     u8 *control;
 
-    arg2->unk_2C = D_800DD018;
-    state = arg4;
-    arg0->unk_9A.as_u8 = 0x18;
-    arg0->unk_9B.as_u8 = 0;
-    arg0->unk_8C.as_s32 = 0;
+    sprite->unk_2C = D_800DD018;
+    state = move_state;
+    action->unk_9A.as_u8 = 0x18;
+    action->unk_9B.as_u8 = 0;
+    action->unk_8C.as_s32 = 0;
 
     if ((s16)state != -2) {
-        offset = ((actor->unk_2A.s >> 8) & 0xE);
-        xstep = (u16 *)((u8 *)D_8006CCD8 + offset);
-        x = arg2->unk_24 + *xstep;
-        ystep = (u16 *)((u8 *)D_8006CCE8 + offset);
-        y = arg2->unk_25.s + *ystep;
-        ent = func_8009B25C(actor, x & 0xFFFF, y & 0xFFFF,
+        direction_offset = ((actor->unk_2A.s >> 8) & 0xE);
+        x_step = (u16 *)((u8 *)D_8006CCD8 + direction_offset);
+        next_x = sprite->unk_24 + *x_step;
+        y_step = (u16 *)((u8 *)D_8006CCE8 + direction_offset);
+        next_y = sprite->unk_25.s + *y_step;
+        target = func_8009B25C(actor, next_x & 0xFFFF, next_y & 0xFFFF,
                             actor->unk_88);
-        if (ent != 0) {
-            if ((func_8009ADB8(actor, ent, (s16)x, (s16)y,
+        if (target != 0) {
+            if ((func_8009ADB8(actor, target, (s16)next_x, (s16)next_y,
                                actor->unk_88) << 16) != 0) {
-                arg0->unk_124 = ent;
-                func_8009A3D0(arg2->unk_24,
-                              arg2->unk_25.s, 0x300);
-                arg2->unk_24 =
-                    arg2->unk_24 + *(u8 *)xstep;
-                arg2->unk_25.u =
-                    arg2->unk_25.s + *(u8 *)ystep;
-                func_8009A21C(arg2->unk_24,
-                              arg2->unk_25.u, 0x300);
+                action->unk_124 = target;
+                func_8009A3D0(sprite->unk_24,
+                              sprite->unk_25.s, 0x300);
+                sprite->unk_24 =
+                    sprite->unk_24 + *(u8 *)x_step;
+                sprite->unk_25.u =
+                    sprite->unk_25.s + *(u8 *)y_step;
+                func_8009A21C(sprite->unk_24,
+                              sprite->unk_25.u, 0x300);
 
                 actor->unk_1C |= 0x40000000;
                 control = D_80083460;
                 ((S_8008CD4C_3 *)control)->unk_04 = 0x20;
                 ((S_8008CD4C_3 *)control)->unk_02 |= 8;
-                arg0->unk_9B.as_u8 = 0x10;
-                arg2->unk_2C = D_800DCFB8;
-                arg0->unk_96.as_s16 = 4;
+                action->unk_9B.as_u8 = 0x10;
+                sprite->unk_2C = D_800DCFB8;
+                action->unk_96.as_s16 = 4;
                 func_8009F644(actor, 8, 0, 0);
                 func_800A56E0(0x50B);
-                func_80094ED4(arg0, arg1, arg2, actor);
+                func_80094ED4(action, context, sprite, actor);
             }
         }
     }
 
     func_80048A44(
-        arg2,
-        arg2->unk_2C
+        sprite,
+        sprite->unk_2C
             [((D_80083228[0] + actor->unk_2A.u + 0x100) >> 9) & 7],
         0, 1);
     ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

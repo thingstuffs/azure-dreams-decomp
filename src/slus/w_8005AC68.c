@@ -17,13 +17,14 @@ extern S_8005AC68 D_80086A40[16];
 
 extern void func_8005A1D0(s32 arg0);
 
-void func_8005AC68(s16 arg0) {
-    S_8005AC68 *base = D_80086A40;
-    S_8005AC68 *p = &base[arg0];
-    s16 cleared = -1;
+/* Releases an occupied slot's data and marks the slot free. */
+void func_8005AC68(s16 slot_index) {
+    S_8005AC68 *slots = D_80086A40;
+    S_8005AC68 *slot = &slots[slot_index];
+    s16 free_marker = -1;
 
-    if (cleared != p->marker) {
-        func_8005A1D0(p->unk10);
-        p->marker = cleared;
+    if (free_marker != slot->marker) {
+        func_8005A1D0(slot->unk10);
+        slot->marker = free_marker;
     }
 }

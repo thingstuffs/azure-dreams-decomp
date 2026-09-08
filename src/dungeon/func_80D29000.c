@@ -80,60 +80,61 @@ __asm__(".globl func_80D29000\n"
 #define BODY_NAME func_80D29000
 #endif
 
-void BODY_NAME(void *arg0, void *arg1, void *arg2)
+/* Advance and damp effect motion, expand and fade its sprite, and mark expiration. */
+void BODY_NAME(void *effect, void *motion, void *sprite)
 {
-    StackWork work;
-    s16 count;
-    s16 level;
-    s32 first;
-    s32 value;
-    void *other;
+    StackWork projection;
+    s16 next_life;
+    s16 life;
+    s32 motion_depth;
+    s32 render_value;
+    void *anchor_pos;
 
-    ((S_80D29000_0 *)arg1)->unk_00.at00.v += ((S_80D29000_0 *)arg1)->unk_0C;
-    ((S_80D29000_0 *)arg1)->unk_04.at00.v += ((S_80D29000_0 *)arg1)->unk_10;
-    ((S_80D29000_0 *)arg1)->unk_08.at00.v += ((S_80D29000_0 *)arg1)->unk_14;
-    ((S_80D29000_0 *)arg1)->unk_0C = ((S_80D29000_0 *)arg1)->unk_0C * 9 / 10;
-    ((S_80D29000_0 *)arg1)->unk_10 = ((S_80D29000_0 *)arg1)->unk_10 * 9 / 10;
-    ((S_80D29000_0 *)arg1)->unk_14 = ((S_80D29000_0 *)arg1)->unk_14 * 8 / 10;
+    ((S_80D29000_0 *)motion)->unk_00.at00.v += ((S_80D29000_0 *)motion)->unk_0C;
+    ((S_80D29000_0 *)motion)->unk_04.at00.v += ((S_80D29000_0 *)motion)->unk_10;
+    ((S_80D29000_0 *)motion)->unk_08.at00.v += ((S_80D29000_0 *)motion)->unk_14;
+    ((S_80D29000_0 *)motion)->unk_0C = ((S_80D29000_0 *)motion)->unk_0C * 9 / 10;
+    ((S_80D29000_0 *)motion)->unk_10 = ((S_80D29000_0 *)motion)->unk_10 * 9 / 10;
+    ((S_80D29000_0 *)motion)->unk_14 = ((S_80D29000_0 *)motion)->unk_14 * 8 / 10;
 
-    if (((S_80D29000_1 *)arg2)->unk_1C == 0) {
-        ((S_80D29000_1 *)arg2)->unk_1E = 0x400;
-        ((S_80D29000_1 *)arg2)->unk_1C = 0x400;
+    if (((S_80D29000_1 *)sprite)->unk_1C == 0) {
+        ((S_80D29000_1 *)sprite)->unk_1E = 0x400;
+        ((S_80D29000_1 *)sprite)->unk_1C = 0x400;
     }
 
-    value = ((S_80D29000_1 *)arg2)->unk_1E + 0x32;
-    ((S_80D29000_1 *)arg2)->unk_1E = value;
-    ((S_80D29000_1 *)arg2)->unk_1C = value;
+    render_value = ((S_80D29000_1 *)sprite)->unk_1E + 0x32;
+    ((S_80D29000_1 *)sprite)->unk_1E = render_value;
+    ((S_80D29000_1 *)sprite)->unk_1C = render_value;
 
-    work.xyz[0] = ((S_80D29000_0 *)arg1)->unk_00.at02.v;
-    work.xyz[1] = ((S_80D29000_0 *)arg1)->unk_04.at02.v;
-    work.xyz[2] = ((S_80D29000_0 *)arg1)->unk_08.at02.v;
-    first = func_80065420(work.xyz, &work.out18, &work.out20, &work.out24);
+    projection.xyz[0] = ((S_80D29000_0 *)motion)->unk_00.at02.v;
+    projection.xyz[1] = ((S_80D29000_0 *)motion)->unk_04.at02.v;
+    projection.xyz[2] = ((S_80D29000_0 *)motion)->unk_08.at02.v;
+    motion_depth = func_80065420(projection.xyz, &projection.out18, &projection.out20, &projection.out24);
 
-    other = ((S_80D29000_2 *)arg0)->unk_A8;
-    work.xyz[0] = ((S_80D29000_3 *)other)->unk_02;
-    work.xyz[1] = ((S_80D29000_3 *)other)->unk_06;
-    work.xyz[2] = ((S_80D29000_3 *)other)->unk_0A;
-    ((S_80D29000_1 *)arg2)->unk_06 = first -
-        func_80065420(work.xyz, &work.out18, &work.out20, &work.out24) -
-        D_800DCECC[((D_80083228 + ((S_80D29000_2 *)arg0)->unk_94 + 0x100) >> 9) & 7] * 2;
+    anchor_pos = ((S_80D29000_2 *)effect)->unk_A8;
+    projection.xyz[0] = ((S_80D29000_3 *)anchor_pos)->unk_02;
+    projection.xyz[1] = ((S_80D29000_3 *)anchor_pos)->unk_06;
+    projection.xyz[2] = ((S_80D29000_3 *)anchor_pos)->unk_0A;
+    ((S_80D29000_1 *)sprite)->unk_06 = motion_depth -
+        func_80065420(projection.xyz, &projection.out18, &projection.out20, &projection.out24) -
+        D_800DCECC[((D_80083228 + ((S_80D29000_2 *)effect)->unk_94 + 0x100) >> 9) & 7] * 2;
 
-    level = ((S_80D29000_2 *)arg0)->unk_96.s;
-    if (level < 10) {
-        ((S_80D29000_1 *)arg2)->unk_10 = 0x20;
-        ((S_80D29000_1 *)arg2)->unk_12 = 0xFF80;
-        ((S_80D29000_1 *)arg2)->unk_14 |= 0xC;
-        value = (level << 7) / 10;
-        ((S_80D29000_1 *)arg2)->unk_0E = value;
-        ((S_80D29000_1 *)arg2)->unk_0D = value;
-        ((S_80D29000_1 *)arg2)->unk_0C = value;
+    life = ((S_80D29000_2 *)effect)->unk_96.s;
+    if (life < 10) {
+        ((S_80D29000_1 *)sprite)->unk_10 = 0x20;
+        ((S_80D29000_1 *)sprite)->unk_12 = 0xFF80;
+        ((S_80D29000_1 *)sprite)->unk_14 |= 0xC;
+        render_value = (life << 7) / 10;
+        ((S_80D29000_1 *)sprite)->unk_0E = render_value;
+        ((S_80D29000_1 *)sprite)->unk_0D = render_value;
+        ((S_80D29000_1 *)sprite)->unk_0C = render_value;
     }
 
-    func_800478B8(arg2);
-    count = ((S_80D29000_2 *)arg0)->unk_96.u - 1;
-    ((S_80D29000_2 *)arg0)->unk_96.u = count;
-    if ((count << 16) <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    func_800478B8(sprite);
+    next_life = ((S_80D29000_2 *)effect)->unk_96.u - 1;
+    ((S_80D29000_2 *)effect)->unk_96.u = next_life;
+    if ((next_life << 16) <= 0) {
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

@@ -21,13 +21,14 @@ typedef struct S_80021028_1 {
 
 extern s32 D_800814A0[3];
 
-void func_80021028(void *arg0) {
-    S_80021028_1 *temp_a0;
+/* Updates the object's derived value and propagates the linked data's 0x8000 flag. */
+void func_80021028(void *object) {
+    S_80021028_1 *objectData;
 
-    temp_a0 = ((S_80021028_0 *)arg0)->unk_04;
-    ((S_80021028_0 *)arg0)->unk_0E = (s16) ((temp_a0->unk_06 * 0xC) + 0x1E);
-    if (temp_a0->unk_04 & 0x8000) {
-        ((S_80021028_0_pre *)arg0)[-1].unk_00 = (u16) (((S_80021028_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    objectData = ((S_80021028_0 *)object)->unk_04;
+    ((S_80021028_0 *)object)->unk_0E = (s16) ((objectData->unk_06 * 0xC) + 0x1E);
+    if (objectData->unk_04 & 0x8000) {
+        ((S_80021028_0_pre *)object)[-1].unk_00 = (u16) (((S_80021028_0_pre *)object)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

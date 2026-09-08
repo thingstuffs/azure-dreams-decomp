@@ -28,12 +28,13 @@ extern void func_80047784(void *, s32, s32);
 extern s32 func_800AC82C(void *, s32, void *, void *);
 extern s32 func_800AD9B4(void *, void *);
 
-void func_8016D4B8(DungeonObject *arg0, s32 arg1, DungeonState *arg2, DungeonInput *arg3) {
+/* Selects the mode table and updates the dungeon object state. */
+void func_8016D4B8(DungeonObject *object, s32 update_param, DungeonState *state, DungeonInput *input) {
     s32 mode;
-    u8 *table;
-    u8 *current;
+    u8 *mode_table;
+    u8 *current_table;
 
-    mode = arg0->mode;
+    mode = object->mode;
     if (mode == 1)
         goto mode_1;
     if (mode < 2) {
@@ -48,34 +49,34 @@ void func_8016D4B8(DungeonObject *arg0, s32 arg1, DungeonState *arg2, DungeonInp
     goto call_common;
 
 mode_0:
-    current = arg2->field_2C;
-    table = D_801739A0;
+    current_table = state->field_2C;
+    mode_table = D_801739A0;
     goto update_table;
 
 mode_1:
-    current = arg2->field_2C;
-    table = D_801739A8;
+    current_table = state->field_2C;
+    mode_table = D_801739A8;
     goto update_table;
 
 mode_2:
-    current = arg2->field_2C;
-    table = D_801739B0;
+    current_table = state->field_2C;
+    mode_table = D_801739B0;
     goto update_table;
 
 mode_3:
-    current = arg2->field_2C;
-    table = D_801739B8;
+    current_table = state->field_2C;
+    mode_table = D_801739B8;
 
 update_table:
-    if (current != table) {
-        arg2->field_2C = table;
-        func_80047784(arg2, *(u8 *)((((s32) (*D_80083228 + arg3->field_2A + 0x100) >> 9) & 7) + (u32) table), 0);
+    if (current_table != mode_table) {
+        state->field_2C = mode_table;
+        func_80047784(state, *(u8 *)((((s32) (*D_80083228 + input->field_2A + 0x100) >> 9) & 7) + (u32) mode_table), 0);
     }
 
 call_common:
-    if (func_800AC82C(arg0, arg1, arg2, arg3) != 0) {
-        if ((func_800AD9B4(arg2, arg3) << 0x10) > 0) {
-            arg0->field_8C = D_8016A36C;
+    if (func_800AC82C(object, update_param, state, input) != 0) {
+        if ((func_800AD9B4(state, input) << 0x10) > 0) {
+            object->field_8C = D_8016A36C;
         }
     }
     return;

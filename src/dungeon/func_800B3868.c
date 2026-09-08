@@ -20,69 +20,67 @@ extern void func_800B9144(Position *, s32, void *, s16);
 extern s8 D_80083160[];
 extern u8 D_801C9E40[16];
 
-void func_800B8FC8(s32 arg0, Position *arg1, Position *arg2, s32 arg3, volatile s32 arg4)
+/* Queue a clipped sprite with an optional black background, adjusting Y for the active buffer. */
+void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 clear_bg, volatile s32 draw_flags)
 {
-    Position pos;
+    Position draw_pos;
     s8 *context;
-    void *first_context;
+    void *draw_context;
     void *ordering_table;
-    Packet *packet;
-    register s32 held_arg3 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 shifted ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 held_arg4;
+    Packet *area_packet;
+    register s32 saved_clear_bg ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 shift_y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 saved_draw_flags;
     s32 y;
 
     context = *(s8 **)D_80083160;
-    held_arg3 = arg3;
-    shifted = context != (s8 *)D_801C9E40;
-    packet = *(Packet **)(context + 0x8D0);
+    saved_clear_bg = clear_bg;
+    shift_y = context != (s8 *)D_801C9E40;
+    area_packet = *(Packet **)(context + 0x8D0);
     ordering_table = context + 0x8B0;
-    *(Packet **)(context + 0x8D0) = (Packet *)((u8 *)packet + 0xC);
-    first_context = *(void * volatile *)D_80083160;
-    held_arg4 = arg4;
-    ASM_KEEP_DEP_NV(packet, held_arg4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    func_80067E2C(packet, first_context);
-    func_8006658C(ordering_table, packet);
+    *(Packet **)(context + 0x8D0) = (Packet *)((u8 *)area_packet + 0xC);
+    draw_context = *(void * volatile *)D_80083160;
+    saved_draw_flags = draw_flags;
+    ASM_KEEP_DEP_NV(area_packet, saved_draw_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    func_80067E2C(area_packet, draw_context);
+    func_8006658C(ordering_table, area_packet);
 
-    pos.x = arg2->x;
-    y = arg2->y;
+    draw_pos.x = screen_pos->x;
+    y = screen_pos->y;
     {
         s8 **context_slot;
 
-        if (shifted) {
+        if (shift_y) {
             y -= 0xE0;
         }
         context_slot = (s8 **)D_80083160;
-        pos.y = y;
-        func_800B9144(&pos, arg0, ordering_table, (s16)held_arg4);
+        draw_pos.y = y;
+        func_800B9144(&draw_pos, sprite, ordering_table, (s16)saved_draw_flags);
 
-        if ((u16)held_arg3 != 0) {
-            Packet *packet2;
+        if ((u16)saved_clear_bg != 0) {
+            Packet *clear_packet;
 
             context = *context_slot;
-            packet2 = *(Packet **)(context + 0x8D0);
-            *(Packet **)(context + 0x8D0) = (Packet *)((u8 *)packet2 + 0x10);
-            packet2->code = 0x60000000;
-            packet2->size = 3;
-            packet2->x = arg1->x;
-            y = arg1->y;
-            if (shifted) {
+            clear_packet = *(Packet **)(context + 0x8D0);
+            *(Packet **)(context + 0x8D0) = (Packet *)((u8 *)clear_packet + 0x10);
+            clear_packet->code = 0x60000000;
+            clear_packet->size = 3;
+            clear_packet->x = clip_rect->x;
+            y = clip_rect->y;
+            if (shift_y) {
                 y -= 0xE0;
             }
-            packet2->y = y;
-            packet2->data = *(u32 *)((u8 *)arg1 + 4);
-            func_8006658C(ordering_table, packet2);
+            clear_packet->y = y;
+            clear_packet->data = *(u32 *)((u8 *)clip_rect + 4);
+            func_8006658C(ordering_table, clear_packet);
         }
-        ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(saved_clear_bg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         context = *context_slot;
-        packet = *(Packet **)(context + 0x8D0);
-        *(Packet **)(context + 0x8D0) = (Packet *)((u8 *)packet + 0xC);
-        func_80067E2C(packet, arg1);
-        func_8006658C(ordering_table, packet);
+        area_packet = *(Packet **)(context + 0x8D0);
+        *(Packet **)(context + 0x8D0) = (Packet *)((u8 *)area_packet + 0xC);
+        func_80067E2C(area_packet, clip_rect);
+        func_8006658C(ordering_table, area_packet);
     }
 }
 
-/* MECHANISM: A two-halfword Position stack object preserves both stores passed by address.
-   Split arg2/context-slot live ranges target s1 reuse; the global value remains reloadable.
-   Natural long-lived arguments and packet bases are intended to produce the nine-register frame. */

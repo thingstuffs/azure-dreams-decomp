@@ -98,8 +98,9 @@ extern s32 D_8007361C[256];
 extern s32 D_801747F0;
 extern DirectionVector D_801755E0[];
 
-void func_80174D98(void *arg0, SourcePosition *arg1, void *arg2,
-                   DungeonObjectArg *arg3)
+/* Creates a dungeon entity with the supplied position, direction, and object data. */
+void func_80174D98(void *owner, SourcePosition *source_pos, void *unused,
+                   DungeonObjectArg *object)
 {
     Entity *entity;
     EntityWork *work;
@@ -108,7 +109,7 @@ void func_80174D98(void *arg0, SourcePosition *arg1, void *arg2,
     DungeonGroup *groups;
     DungeonGroup *group;
     s32 *results;
-    s32 cell;
+    s32 entry_index;
     PackedWord *copy_src;
     PackedWord *copy_dst;
     u32 copied_word;
@@ -126,33 +127,33 @@ void func_80174D98(void *arg0, SourcePosition *arg1, void *arg2,
     render = entity->render;
     render->flags &= 0xFFF3;
     work = &entity->work;
-    copy_src = (PackedWord *)&arg3->copied[0];
-    work->owner = arg0;
+    copy_src = (PackedWord *)&object->copied[0];
+    work->owner = owner;
     copied_word = copy_src->value;
     copy_dst->value = copied_word;
-    func_801745B4(copy_dst, arg3, render);
-    arg3->copied[0] = 0;
-    arg3->copied[1] = 0;
+    func_801745B4(copy_dst, object, render);
+    object->copied[0] = 0;
+    object->copied[1] = 0;
 
     position = entity->position;
-    position->x = arg1->x;
-    position->y = arg1->y;
-    position->z = arg1->z - 0x20;
+    position->x = source_pos->x;
+    position->y = source_pos->y;
+    position->z = source_pos->z - 0x20;
 
-    work->x = D_801755E0[(arg3->mode >> 9) & 7].x << 18;
-    work->y = D_801755E0[(arg3->mode >> 9) & 7].y << 18;
+    work->x = D_801755E0[(object->mode >> 9) & 7].x << 18;
+    work->y = D_801755E0[(object->mode >> 9) & 7].y << 18;
     work->z = 0xFFF80000;
     work->scale = 0x14900;
-    work->mode = (arg3->mode >> 9) & 7;
+    work->mode = (object->mode >> 9) & 7;
 
     render = entity->render;
     render->scale_x = 0x1000;
     render->scale_y = 0x1000;
-    render->height = D_801755E0[(arg3->mode >> 9) & 7].y * 6;
+    render->height = D_801755E0[(object->mode >> 9) & 7].y * 6;
 
-    *(u16 *)((u8 *)arg0 + 0xA2) = 0x4D;
-    work->x_cell = (s16)arg1->x / 0x40;
-    work->y_cell = (s16)arg1->y / 0x40;
+    *(u16 *)((u8 *)owner + 0xA2) = 0x4D;
+    work->x_cell = (s16)source_pos->x / 0x40;
+    work->y_cell = (s16)source_pos->y / 0x40;
 
     results = D_8007361C;
     groups = D_80073414;
@@ -162,9 +163,9 @@ void func_80174D98(void *arg0, SourcePosition *arg1, void *arg2,
 
     group = &groups[work->group];
     if (group->active == 0) {
-        cell = work->entry * 5;
+        entry_index = work->entry * 5;
     } else {
-        cell = work->entry * 3;
+        entry_index = work->entry * 3;
     }
-    render->result = results[group->entries[cell].height];
+    render->result = results[group->entries[entry_index].height];
 }

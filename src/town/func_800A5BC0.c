@@ -14,6 +14,7 @@ typedef struct Obj800A5BC0 {
 extern s32 D_800814A0[3];
 extern void func_800A2FCC(void *ctx, s32 x, s32 y, s32 value);
 
+/* Advance the object's motion and timer-scaled value, or mark it expired. */
 void func_800A3320(Obj800A5BC0 *obj, void *ctx)
 {
     obj->timer--;

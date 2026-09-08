@@ -7,29 +7,25 @@ extern M2C_UNK D_800D4640;
 extern M2C_UNK D_800D4658;
 extern M2C_UNK D_800D4660;
 
-s32 func_800C1D44(s32 arg0) {
-    s8 *base;
+/* Checks a masked value against the table selected by the current state. */
+s32 func_800C1D44(s32 value) {
+    s8 *state;
     s32 result;
 
-    base = (s8 *)&D_8006ADBC;
-    arg0 &= 0x3FFF;
-    if (*(s16 *)(base + 0x18) != 0xC) {
-        func_800C1C68(arg0, &D_800D4640);
+    state = (s8 *)&D_8006ADBC;
+    value &= 0x3FFF;
+    if (*(s16 *)(state + 0x18) != 0xC) {
+        func_800C1C68(value, &D_800D4640);
         return;
     }
-    if (*(s16 *)(base + 0x1A) == 0xD) {
-        if (func_800C1C68(arg0, &D_800D4658) == 0) {
+    if (*(s16 *)(state + 0x1A) == 0xD) {
+        if (func_800C1C68(value, &D_800D4658) == 0) {
             goto return_zero;
         }
-        {
-            s32 dead_value;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            dead_value = 6;
-            ASM_KEEP(dead_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        }
-        return;
+        return 6;
     }
-    if (*(s16 *)(base + 0x1A) == 0x2A) {
-        if (func_800C1C68(arg0, &D_800D4660) != 0) {
+    if (*(s16 *)(state + 0x1A) == 0x2A) {
+        if (func_800C1C68(value, &D_800D4660) != 0) {
             return 7;
         }
     }
@@ -37,7 +33,3 @@ return_zero:
     result = 0;
     return result;
 }
-
-/* MECHANISM: A held D_8006ADBC byte base and in-place arg mask preserve the
-   0x18-byte ra-only frame and retail register lifetimes. A scoped guarded $v0
-   dead-value keep places li v0,6 in the beqz delay slot before the tail call. */

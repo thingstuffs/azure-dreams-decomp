@@ -68,11 +68,12 @@ typedef struct S_80169C1C_0 {
     s16 unk_1E;
 } S_80169C1C_0;   /* sub in func_80169C1C */
 
+/* Create and initialize an object at the global position. */
 void func_80169C1C(void)
 {
     void *object;
-    S_80169C1C_0 *sub;
-    Vec3i *dst;
+    S_80169C1C_0 *sub_object;
+    Vec3i *position;
 
     object = func_8003FC64(0x12);
     if (object != NULL) {
@@ -80,25 +81,25 @@ void func_80169C1C(void)
         (*(void * *)((u8 *)object + 0x10)) = D_80169754;
         func_8004491C(object, D_80045340);
 
-        sub = (*(void * *)((u8 *)object + 0xC));
-        sub->unk_10 = 0x20;
-        sub->unk_06 = 0;
-        sub->unk_14 |= 0xC;
+        sub_object = (*(void * *)((u8 *)object + 0xC));
+        sub_object->unk_10 = 0x20;
+        sub_object->unk_06 = 0;
+        sub_object->unk_14 |= 0xC;
 
-        dst = (*(Vec3i * *)((u8 *)object + 8));
-        dst->x = D_80083780[0];
-        dst->y = D_80083780[1];
-        dst->z = D_80083780[2];
+        position = (*(Vec3i * *)((u8 *)object + 8));
+        position->x = D_80083780[0];
+        position->y = D_80083780[1];
+        position->z = D_80083780[2];
 
-        sub = (*(void * *)((u8 *)object + 0xC));
-        sub->unk_1E = 0x1000;
-        sub->unk_1C = 0x1000;
-        sub->unk_0E = 0x80;
-        sub->unk_0D = 0x80;
-        sub->unk_0C = 0x80;
-        sub->unk_14 |= 0x80;
+        sub_object = (*(void * *)((u8 *)object + 0xC));
+        sub_object->unk_1E = 0x1000;
+        sub_object->unk_1C = 0x1000;
+        sub_object->unk_0E = 0x80;
+        sub_object->unk_0D = 0x80;
+        sub_object->unk_0C = 0x80;
+        sub_object->unk_14 |= 0x80;
 
         (*(PackedVec3i *)((u8 *)object + 0x48)) = *(PackedVec3i *)D_80173B40;
-        sub->unk_08 = (u8 *)object + 0x48;
+        sub_object->unk_08 = (u8 *)object + 0x48;
     }
 }

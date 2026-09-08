@@ -50,33 +50,34 @@ extern void func_80053DCC(short arg0);
 extern void func_80053DF0(short);
 extern void func_80053E14(short a0);
 extern void func_8003D468(void);
+
+/* Handles a held button combination and restores saved settings when it triggers. */
 int func_8003D92C(void)
 {
-  int a;
-  int b;
+  int trigger_flags;
+  int held_flags;
   register int flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  int saved;
-  u8 *page = BASE_PAGE;
-  register S_8003D92C_80083160 *p ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  p = (S_8003D92C_80083160 *)(page + BASE_OFFSET);
+  int saved_setting;
+  u8 *input_page = BASE_PAGE;
+  register S_8003D92C_80083160 *input_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+  ASM_KEEP_NV(input_page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+  input_state = (S_8003D92C_80083160 *)(input_page + BASE_OFFSET);
   if (D_80082E6F[0] & 0x80)
   {
     return 0;
   }
-  ASM_KEEP_NV(p);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  a = p->field10;
-  if (a & 0x100)
+  ASM_KEEP_NV(input_state);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+  trigger_flags = input_state->field10;
+  if (trigger_flags & 0x100)
   {
-    if (!(p->field8 & 0x800))
+    if (!(input_state->field8 & 0x800))
     {
       D_80080ABE = 1;
     }
   }
-  else
-    if (a & 0x800)
+  else if (trigger_flags & 0x800)
   {
-    if (p->field8 & 0x100)
+    if (input_state->field8 & 0x100)
     {
       D_80080ABE = 1;
     }
@@ -87,8 +88,8 @@ int func_8003D92C(void)
       return 0;
     }
   }
-  b = p->field8;
-  if (!(b & 0x100))
+  held_flags = input_state->field8;
+  if (!(held_flags & 0x100))
   {
     D_80080ABE = 0;
     D_80080ABC = 0;
@@ -96,7 +97,7 @@ int func_8003D92C(void)
   }
   if (D_80080ABE != 0)
   {
-    if (b & 0x800)
+    if (held_flags & 0x800)
     {
       D_80080ABC += D_80080A84[0];
       if (D_80080ABC >= 0x169)
@@ -113,7 +114,10 @@ int func_8003D92C(void)
   {
     D_80080ABE = 0;
     D_80080ABC = 0;
- func_8003F320(); while (func_80053EF0(4) == 0x100) { func_8003E758();
+    func_8003F320();
+    while (func_80053EF0(4) == 0x100)
+    {
+      func_8003E758();
       func_80044618(2);
     }
 
@@ -128,14 +132,14 @@ int func_8003D92C(void)
     func_80040AA0(3);
     {
       u8 *flags_base = FLAGS_PAGE;
-      saved = D_80080A94[0];
-      ASM_KEEP(flags_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+      saved_setting = D_80080A94[0];
+      ASM_KEEP(flags_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (trigger_flags copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
       flags = *(int *)(flags_base + FLAGS_OFFSET);
       D_80080A8A[0] = 0;
       D_80080A88[0] = 0;
       D_80080AA0[0] = 0;
       *(int *)(flags_base + FLAGS_OFFSET) = flags & ~2;
-      func_80053DCC(saved);
+      func_80053DCC(saved_setting);
     }
     func_80053DF0(D_80080A98[0]);
     func_80053E14(D_80080A9C[0]);

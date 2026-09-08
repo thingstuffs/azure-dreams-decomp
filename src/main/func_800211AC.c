@@ -31,66 +31,67 @@ typedef struct S_804081AC_0 {
     u16 unk_1E;
 } S_804081AC_0;   /* object in func_804081AC */
 
-void func_804081AC(void *arg0)
+/* Handles menu selection input and refreshes the displayed state pair. */
+void func_804081AC(void *menu)
 {
-    s32 changed[2];
+    s32 state_changed[2];
     StatePair *state;
-    StatePair *state_arg;
-    s32 input;
-    s32 flags;
-    s32 status;
-    s32 value;
+    StatePair *display_state;
+    s32 buttons;
+    s32 button_flags;
+    s32 selection_changed;
+    s32 old_selection;
 
-    input = D_801379A8;
-    status = 0;
-    if (input != 0) {
-        flags = D_801379B0;
-        if (flags & 0x40) {
-            s32 *object;
+    buttons = D_801379A8;
+    selection_changed = 0;
+    if (buttons != 0) {
+        button_flags = D_801379B0;
+        if (button_flags & 0x40) {
+            s32 *linked_object;
 
             func_80063FF8(0x515);
-            func_804084DC((u8 *)arg0 - 0x20);
+            func_804084DC((u8 *)menu - 0x20);
             D_8008CA34 = 2;
             func_80400EF8();
             func_8003FD58(0, 0xF, 0, 0);
-            object = (*(s32 * *)((u8 *)arg0 + 0x14));
-            ((S_804081AC_0 *)object)->unk_1E |= 0x2000;
-            goto status_check;
-        } else if (flags & 0x20) {
+            linked_object = (*(s32 * *)((u8 *)menu + 0x14));
+            ((S_804081AC_0 *)linked_object)->unk_1E |= 0x2000;
+            goto selection_check;
+        } else if (button_flags & 0x20) {
             func_80063FF8(0x514);
-            func_804008A0((*(s32 *)((u8 *)arg0 + 0xC)));
-            (*(s32 *)((u8 *)arg0 + 0x34)) = 0;
-            (*(void * *)((u8 *)arg0 + -0x10)) = func_804080A4;
+            func_804008A0((*(s32 *)((u8 *)menu + 0xC)));
+            (*(s32 *)((u8 *)menu + 0x34)) = 0;
+            (*(void * *)((u8 *)menu + -0x10)) = func_804080A4;
             goto function_return;
-        } else if (input & 0xA000) {
-            if (input & 0x8000) {
-                value = (*(s32 *)((u8 *)arg0 + 0xC));
-                (*(s32 *)((u8 *)arg0 + 0xC)) = 0;
-                if (value != 0) {
-                    status = 1;
+        } else if (buttons & 0xA000) {
+            if (buttons & 0x8000) {
+                old_selection = (*(s32 *)((u8 *)menu + 0xC));
+                (*(s32 *)((u8 *)menu + 0xC)) = 0;
+                if (old_selection != 0) {
+                    selection_changed = 1;
                 }
             } else {
-                value = (*(s32 *)((u8 *)arg0 + 0xC));
-                if (value == 0) {
-                    status = 1;
+                old_selection = (*(s32 *)((u8 *)menu + 0xC));
+                if (old_selection == 0) {
+                    selection_changed = 1;
                 }
-                (*(s32 *)((u8 *)arg0 + 0xC)) = 1;
+                (*(s32 *)((u8 *)menu + 0xC)) = 1;
             }
         }
 
-status_check:
-        if (status != 0) {
+selection_check:
+        if (selection_changed != 0) {
             func_80063FF8(0x502);
-            func_80407830((*(s32 *)((u8 *)arg0 + 0x24)), (*(s32 *)((u8 *)arg0 + 0xC)));
+            func_80407830((*(s32 *)((u8 *)menu + 0x24)), (*(s32 *)((u8 *)menu + 0xC)));
         }
     }
 
     state = func_804017EC();
-    changed[0] = state->first != (*(s32 *)((u8 *)arg0 + 0x18));
-    changed[1] = state->second != (*(s32 *)((u8 *)arg0 + 0x1C));
-    state_arg = state;
-    (*(StatePair *)((u8 *)arg0 + 0x18)) = *state;
-    func_8040787C((*(s32 *)((u8 *)arg0 + 0x24)), state_arg, changed);
+    state_changed[0] = state->first != (*(s32 *)((u8 *)menu + 0x18));
+    state_changed[1] = state->second != (*(s32 *)((u8 *)menu + 0x1C));
+    display_state = state;
+    (*(StatePair *)((u8 *)menu + 0x18)) = *state;
+    func_8040787C((*(s32 *)((u8 *)menu + 0x24)), display_state, state_changed);
     func_8003FA78(&D_80400854, D_804090F8[state->first]);
     func_8003FA78(&D_80400860, D_804090F8[state->second]);
     func_804018FC();

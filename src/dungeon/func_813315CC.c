@@ -36,65 +36,66 @@ extern LocalPositionTable D_8016484C;
 extern u8 D_80167C74[];
 extern u8 D_80175DD8[];
 
-void func_801685CC(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4)
+/* Creates a color-coded effect with direction-based offsets and initializes its vertex buffer. */
+void func_801685CC(void *source_obj, void *origin, s32 unused, s32 effect_param, u16 color_mode)
 {
     register u8 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *copy_dst ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register u8 *copy_end;
-    register u32 copy0;
-    register u32 copy1;
-    register u32 copy2;
-    register u32 copy3;
-    register void *held_arg0 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u32 copy_word_0;
+    register u32 copy_word_1;
+    register u32 copy_word_2;
+    register u32 copy_word_3;
+    register void *held_source ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     LocalPositionTable positions;
     void *obj;
     u8 *part;
     void *render;
-    register void *dest ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *effect_pos ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 mode;
     register s32 neg_one ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    u32 sixty;
+    u32 base_intensity;
     register void *callback_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 table_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register u8 *position_base ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 table_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *callback_data;
-    s32 third_direction;
+    s32 direction;
     register void *db_render ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *db_data;
     u8 *copy_src_init;
     s32 src_misalignment;
-    s32 temp_a0_2;
-    s32 var_a2_2;
-    s32 var_t0;
-    s32 var_t2;
-    s32 var_t3;
-    register s32 var_t4 ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 var_t5;
-    u16 *var_a3_2;
-    u16 temp_a1_4;
-    u8 *var_t1;
+    s32 coord_offset;
+    s32 coord_index;
+    s32 vertex_offset;
+    s32 vertex_index;
+    s32 pair_offset;
+    register s32 held_vertex_offset ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 pair_index;
+    u16 *coord_src;
+    u16 coord_value;
+    u8 *vertex_base;
     u8 *out_base;
     register s32 out_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     copy_dst = (u8 *)&positions;
     copy_src_init = (u8 *)&D_8016484C;
     src_misalignment = (s32)copy_src_init & 3;
-    held_arg0 = arg0;
+    held_source = source_obj;
     if (src_misalignment) {
         copy_src = copy_src_init;
         copy_end = copy_src + 0x90;
         do {
-            copy0 = ((PackedCopy16 *)copy_src)->words[0];
-            copy1 = ((PackedCopy16 *)copy_src)->words[1];
-            copy2 = ((PackedCopy16 *)copy_src)->words[2];
-            copy3 = ((PackedCopy16 *)copy_src)->words[3];
-            ((PackedCopy16 *)copy_dst)->words[0] = copy0;
-            ((PackedCopy16 *)copy_dst)->words[1] = copy1;
-            ((PackedCopy16 *)copy_dst)->words[2] = copy2;
-            ((PackedCopy16 *)copy_dst)->words[3] = copy3;
-            ASM_KEEP(copy0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-               /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            copy_word_0 = ((PackedCopy16 *)copy_src)->words[0];
+            copy_word_1 = ((PackedCopy16 *)copy_src)->words[1];
+            copy_word_2 = ((PackedCopy16 *)copy_src)->words[2];
+            copy_word_3 = ((PackedCopy16 *)copy_src)->words[3];
+            ((PackedCopy16 *)copy_dst)->words[0] = copy_word_0;
+            ((PackedCopy16 *)copy_dst)->words[1] = copy_word_1;
+            ((PackedCopy16 *)copy_dst)->words[2] = copy_word_2;
+            ((PackedCopy16 *)copy_dst)->words[3] = copy_word_3;
+            ASM_KEEP(copy_word_0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             copy_src += 0x10;
             copy_dst += 0x10;
         } while (copy_src != copy_end);
@@ -104,16 +105,16 @@ void func_801685CC(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4)
     copy_src = copy_src_init;
     copy_end = copy_src + 0x90;
     do {
-        copy0 = ((Copy16 *)copy_src)->words[0];
-        copy1 = ((Copy16 *)copy_src)->words[1];
-        copy2 = ((Copy16 *)copy_src)->words[2];
-        copy3 = ((Copy16 *)copy_src)->words[3];
-        ((Copy16 *)copy_dst)->words[0] = copy0;
-        ((Copy16 *)copy_dst)->words[1] = copy1;
-        ((Copy16 *)copy_dst)->words[2] = copy2;
-        ((Copy16 *)copy_dst)->words[3] = copy3;
-        ASM_KEEP(copy0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-           /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        copy_word_0 = ((Copy16 *)copy_src)->words[0];
+        copy_word_1 = ((Copy16 *)copy_src)->words[1];
+        copy_word_2 = ((Copy16 *)copy_src)->words[2];
+        copy_word_3 = ((Copy16 *)copy_src)->words[3];
+        ((Copy16 *)copy_dst)->words[0] = copy_word_0;
+        ((Copy16 *)copy_dst)->words[1] = copy_word_1;
+        ((Copy16 *)copy_dst)->words[2] = copy_word_2;
+        ((Copy16 *)copy_dst)->words[3] = copy_word_3;
+        ASM_KEEP(copy_word_0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         copy_src += 0x10;
         copy_dst += 0x10;
     } while (copy_src != copy_end);
@@ -126,20 +127,20 @@ copy_done:
         part = (u8 *)obj + 0x20;
         S16_AT(part, 0x18) = 0x50;
         S16_AT(part, 0x1A) = 0x50;
-        U16_AT(part, 0x1C) = arg4;
-        S32_AT(part, 0x24) = arg3;
+        U16_AT(part, 0x1C) = color_mode;
+        S32_AT(part, 0x24) = effect_param;
         PTR_AT(obj, 0x10) = D_80167C74;
         func_8004491C(callback_obj, callback_data);
 
         render = PTR_AT(obj, 0xC);
-        sixty = 0x60;
-        S16_AT(render, 0x10) = sixty;
+        base_intensity = 0x60;
+        S16_AT(render, 0x10) = base_intensity;
         U16_AT(render, 0x14) |= 0x8C;
 
-        dest = PTR_AT(obj, 8);
-        S32_AT(dest, 0) = S32_AT(arg1, 0);
-        S32_AT(dest, 4) = S32_AT(arg1, 4);
-        S32_AT(dest, 8) = S32_AT(arg1, 8);
+        effect_pos = PTR_AT(obj, 8);
+        S32_AT(effect_pos, 0) = S32_AT(origin, 0);
+        S32_AT(effect_pos, 4) = S32_AT(origin, 4);
+        S32_AT(effect_pos, 8) = S32_AT(origin, 8);
 
         neg_one = -1;
         VS16_AT(part, 0x7A) = 1;
@@ -154,11 +155,11 @@ copy_done:
         render = VPTR_AT(obj, 0xC);
         VS16_AT(render, 0x1E) = 0x1000;
         VS16_AT(render, 0x1C) = 0x1000;
-        U8_AT(render, 0xE) = sixty;
-        U8_AT(render, 0xD) = sixty;
-        U8_AT(render, 0xC) = sixty;
+        U8_AT(render, 0xE) = base_intensity;
+        U8_AT(render, 0xD) = base_intensity;
+        U8_AT(render, 0xC) = base_intensity;
 
-        mode = (s16)arg4;
+        mode = (s16)color_mode;
         if (mode == 0) {
             U8_AT(render, 0xC) = 0xC0;
         }
@@ -172,64 +173,64 @@ copy_done:
         table_offset = mode * 6;
         position_base = (u8 *)&positions;
         table_index =
-            ((U16_AT(held_arg0, 0x2A) >> 9) & 7) * 0x12;
+            ((U16_AT(held_source, 0x2A) >> 9) & 7) * 0x12;
         table_index = table_offset + table_index;
         table_index = (s32)position_base + table_index;
         S32_AT(part, 0x5C) =
             *(s16 *)table_index * 0x50000;
         table_index =
-            ((U16_AT(held_arg0, 0x2A) >> 9) & 7) * 0x12;
+            ((U16_AT(held_source, 0x2A) >> 9) & 7) * 0x12;
         table_index = table_offset + table_index;
         table_index = (s32)position_base + table_index;
         S32_AT(part, 0x60) =
             S16_AT((u8 *)table_index, 2) * 0x50000;
         db_render = render;
-        third_direction = U16_AT(held_arg0, 0x2A) >> 9;
-        third_direction &= 7;
+        direction = U16_AT(held_source, 0x2A) >> 9;
+        direction &= 7;
         table_offset +=
-            ((third_direction << 3) + third_direction) << 1;
+            ((direction << 3) + direction) << 1;
         position_base += table_offset;
-        ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         db_data = D_800DEAE0;
         S32_AT(part, 0x64) =
             S16_AT(position_base, 4) << 19;
         func_8003DB94(db_render, db_data, 0, render);
 
-        var_t5 = 0;
+        pair_index = 0;
         out_base = D_80175DD8;
-        var_t3 = var_t5;
+        pair_offset = pair_index;
         do {
-            var_t2 = 0;
-            var_t1 = part;
-            var_t0 = 0;
-loop_16:
-            var_a2_2 = 0;
-            var_t4 = var_t0;
-            var_a3_2 = (u16 *)(var_t1 + 0x74);
-loop_17:
-            temp_a1_4 = *var_a3_2++;
-            temp_a0_2 = var_a2_2 * 2;
-            var_a2_2 += 1;
+            vertex_index = 0;
+            vertex_base = part;
+            vertex_offset = 0;
+copy_vertex:
+            coord_index = 0;
+            held_vertex_offset = vertex_offset;
+            coord_src = (u16 *)(vertex_base + 0x74);
+copy_coord:
+            coord_value = *coord_src++;
+            coord_offset = coord_index * 2;
+            coord_index += 1;
             out_index =
                 (s16)S16_AT(part, 0x1C) * 0x60;
             out_index = out_index + (s32)out_base;
-            out_index = var_t3 + out_index;
-            out_index = var_t4 + out_index;
-            *(u16 *)(temp_a0_2 + out_index) = temp_a1_4;
-            if (var_a2_2 < 3) {
-                goto loop_17;
+            out_index = pair_offset + out_index;
+            out_index = held_vertex_offset + out_index;
+            *(u16 *)(coord_offset + out_index) = coord_value;
+            if (coord_index < 3) {
+                goto copy_coord;
             }
-            var_t1 += 6;
-            var_t2 += 1;
-            var_t0 += 6;
-            if (var_t2 < 2) {
-                goto loop_16;
+            vertex_base += 6;
+            vertex_index += 1;
+            vertex_offset += 6;
+            if (vertex_index < 2) {
+                goto copy_vertex;
             }
-            var_t5 += 1;
-            var_t3 += 0xC;
-        } while (var_t5 < 8);
+            pair_index += 1;
+            pair_offset += 0xC;
+        } while (pair_index < 8);
         ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     }
 
-    (void)arg2;
+    (void)unused;
 }

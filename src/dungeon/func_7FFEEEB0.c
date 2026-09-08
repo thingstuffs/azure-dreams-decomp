@@ -15,28 +15,29 @@ typedef struct S_8008C610_1 {
     s32 unk_08;
 } S_8008C610_1;   /* temp_s0 in func_8008C610 */
 
-s16 func_8008C610(S_8008C610_0 *arg0, s32 arg1, s32 arg2) {
-    s32 sp[5];
-    s32 temp_v0;
-    s32 temp_a2;
-    s32 temp_v1;
-    s32 var_v0_2;
-    S_8008C610_1 *temp_s0;
+/* Evaluates the summed position and subtracts the offset's integer Y component. */
+s16 func_8008C610(S_8008C610_0 *base_pos, s32 offsets_addr, s32 offset_index) {
+    s32 position[5];
+    s32 sample_result;
+    s32 offset_bytes;
+    s32 offset_y;
+    s32 whole_y;
+    S_8008C610_1 *offset;
 
-    temp_a2 = arg2 * 0x10;
-    temp_s0 = temp_a2 + arg1;
-    sp[0] = arg0->unk_00 + temp_s0->unk_00;
-    sp[1] = arg0->unk_04 + temp_s0->unk_04;
-    sp[2] = arg0->unk_08 + temp_s0->unk_08;
-    temp_v0 = func_8008D01C(sp);
-    if ((s16) temp_v0 == 0x7FFF) {
+    offset_bytes = offset_index * 0x10;
+    offset = offset_bytes + offsets_addr;
+    position[0] = base_pos->unk_00 + offset->unk_00;
+    position[1] = base_pos->unk_04 + offset->unk_04;
+    position[2] = base_pos->unk_08 + offset->unk_08;
+    sample_result = func_8008D01C(position);
+    if ((s16) sample_result == 0x7FFF) {
         return 0x7FFF;
     }
-    temp_v1 = temp_s0->unk_04;
-    var_v0_2 = temp_v1 >> 0x10;
-    if (temp_v1 < 0) {
-        temp_v1 += 0xFFFF;
-        var_v0_2 = temp_v1 >> 0x10;
+    offset_y = offset->unk_04;
+    whole_y = offset_y >> 0x10;
+    if (offset_y < 0) {
+        offset_y += 0xFFFF;
+        whole_y = offset_y >> 0x10;
     }
-    return temp_v0 - var_v0_2;
+    return sample_result - whole_y;
 }

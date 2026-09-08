@@ -48,71 +48,72 @@ extern void func_80038408(void);
 __asm__(".set D_800C3174, 0x800C3174");
 __asm__(".set D_800C321C, 0x800C321C");
 
-void func_8003931C(State *arg0)
+/* Initializes the selected entry or defers processing when it is active or unavailable. */
+void func_8003931C(State *state)
 {
-    u8 *cursor = arg0->read_ptr;
-    u8 *read;
-    u8 raw_index = *cursor;
-    s32 index;
-    Entry *base;
+    u8 *cursor = state->read_ptr;
+    u8 *value_ptr;
+    u8 index_byte = *cursor;
+    s32 entry_index;
+    Entry *entries;
     Entry *entry;
     AuxState *aux;
-    ObjectBlock *data;
-    volatile ObjectBlock *header;
-    void *type;
+    ObjectBlock *object;
+    volatile ObjectBlock *object_header;
+    void *object_type;
 
     cursor++;
-    arg0->read_ptr = cursor;
-    index = raw_index & 0xFF;
-    base = D_80082660;
-    entry = base + index;
-    aux = arg0->aux;
+    state->read_ptr = cursor;
+    entry_index = index_byte & 0xFF;
+    entries = D_80082660;
+    entry = entries + entry_index;
+    aux = state->aux;
     if (entry->active != 0) {
         goto active;
     }
-    if (index == 0) {
+    if (entry_index == 0) {
         goto done;
     }
 
     do {
-        data = func_800392A4(index);
+        object = func_800392A4(entry_index);
     } while (0);
-    if (data == 0) {
+    if (object == 0) {
         goto unavailable;
     }
 
-    header = data - 1;
-    read = arg0->read_ptr;
-    entry->value = *read;
-    read++;
-    arg0->read_ptr = read;
+    object_header = object - 1;
+    value_ptr = state->read_ptr;
+    entry->value = *value_ptr;
+    value_ptr++;
+    state->read_ptr = value_ptr;
     entry->active = 1;
     entry->aux_value = aux->value_48;
 
-    if (index == 1 &&
-        (type = header->type) != (void *)D_800C3174 &&
-        type != (void *)D_800C321C) {
-        *(s16 *)((u8 *)data + 0x36) = aux->value_4c;
-        *(s16 *)((u8 *)data + 0x38) = aux->value_50;
+    if (entry_index == 1 &&
+        (object_type = object_header->type) != (void *)D_800C3174 &&
+        object_type != (void *)D_800C321C) {
+        *(s16 *)((u8 *)object + 0x36) = aux->value_4c;
+        *(s16 *)((u8 *)object + 0x38) = aux->value_50;
         goto done;
     }
 
-    *(s16 *)((u8 *)data + 0x88) = aux->value_4c;
-    *(s16 *)((u8 *)data + 0x8A) = aux->value_50;
+    *(s16 *)((u8 *)object + 0x88) = aux->value_4c;
+    *(s16 *)((u8 *)object + 0x8A) = aux->value_50;
     goto done;
 
 unavailable:
-    arg0->callback = func_80038408;
-    arg0->entry_index = raw_index;
-    arg0->timer = 0x10;
-    arg0->read_ptr -= 2;
+    state->callback = func_80038408;
+    state->entry_index = index_byte;
+    state->timer = 0x10;
+    state->read_ptr -= 2;
     goto done;
 
 active:
     do {
-        arg0->read_ptr = cursor - 2;
-        arg0->entry_index = raw_index;
-        arg0->callback = func_800383D4;
+        state->read_ptr = cursor - 2;
+        state->entry_index = index_byte;
+        state->callback = func_800383D4;
     } while (0);
 
 done:

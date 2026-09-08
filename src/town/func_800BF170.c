@@ -20,20 +20,21 @@ extern u8 D_800BE0D4[];
 extern s32 D_800D20E8[];
 extern u8 D_800D20F4[];
 
-void func_800BC8D0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2)
+/* Initializes the object with default data and updates its associated state. */
+void func_800BC8D0(void *object, s32 init_arg, Rec_D_80082E80 *state)
 {
-    s32 *data;
+    s32 *defaults;
 
-    arg2->unk_14.at00_u16.v |= 0x1C;
-    ((S_800BC8D0_1_pre *)arg0)[-1].unk_00 = D_800BE0D4;
-    ((Rec_D_800CFCB4 *)arg0)->unk_50 = 0;
-    ((Rec_D_800CFCB4 *)arg0)->unk_48 = D_80089634;
-    func_8004491C((u8 *)arg0 - 0x20, D_80045340);
+    state->unk_14.at00_u16.v |= 0x1C;
+    ((S_800BC8D0_1_pre *)object)[-1].unk_00 = D_800BE0D4;
+    ((Rec_D_800CFCB4 *)object)->unk_50 = 0;
+    ((Rec_D_800CFCB4 *)object)->unk_48 = D_80089634;
+    func_8004491C((u8 *)object - 0x20, D_80045340);
 
-    data = D_800D20E8;
-    ((Rec_D_800CFCB4 *)arg0)->unk_A0 = data[0];
-    ((Rec_D_800CFCB4 *)arg0)->unk_A4 = data[1];
-    ((Rec_D_800CFCB4 *)arg0)->unk_A8 = data[2];
-    func_8008F104(arg0, arg1, D_800D20F4);
-    func_8003DB94(arg2, data[2], 0);
+    defaults = D_800D20E8;
+    ((Rec_D_800CFCB4 *)object)->unk_A0 = defaults[0];
+    ((Rec_D_800CFCB4 *)object)->unk_A4 = defaults[1];
+    ((Rec_D_800CFCB4 *)object)->unk_A8 = defaults[2];
+    func_8008F104(object, init_arg, D_800D20F4);
+    func_8003DB94(state, defaults[2], 0);
 }

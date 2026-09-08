@@ -78,188 +78,189 @@ extern u8 *D_80083160;
 extern u8 D_1F800000[];
 extern s16 D_800D0A40;
 
-void func_800A17CC(void *arg0, s32 arg1) {
-    s16 work[4];
-    s32 first_value;
-    s32 coord_y;
-    s32 actor_y;
-    register s32 value3;
-    u8 *root;
-    u8 *packet40;
-    u8 *packet24;
-    u8 *packet12;
-    EmptyArg empty;
-    void *pE8;
-    void *pEC;
-    void *pF0;
-    void *pF4;
-    void *p94;
-    void *p98;
-    void *p84;
-    void *p8C;
-    s32 work_size;
+/* Project and enqueue a textured sprite quad with a translucent overlay. */
+void func_800A17CC(void *sprite, s32 position) {
+    s16 texture_window[4];
+    s32 texture_page;
+    s32 texture_y;
+    s32 height;
+    register s32 top_z;
+    u8 *render_state;
+    u8 *textured_quad;
+    u8 *overlay_quad;
+    u8 *draw_mode;
+    EmptyArg unused_arg;
+    void *screen_xy0;
+    void *screen_xy1;
+    void *screen_xy2;
+    void *screen_xy3;
+    void *depth_cue;
+    void *transform_flags;
+    void *vertex2;
+    void *vertex3;
+    s32 window_size;
     s32 color;
-    u8 *call_packet;
+    u8 *quad_packet;
     register u8 *scratch ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     color = 0x800000;
     ASM_KEEP_NV(color);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    root = D_80083160;
-    work_size = 0x80;
-    work[1] = 0;
-    work[0] = 0;
-    work[2] = work_size;
-    work[3] = work_size;
+    render_state = D_80083160;
+    window_size = 0x80;
+    texture_window[1] = 0;
+    texture_window[0] = 0;
+    texture_window[2] = window_size;
+    texture_window[3] = window_size;
 
-    packet40 = ((S_800A17CC_0 *)root)->unk_8D0;
-    call_packet = packet40;
-    ((S_800A17CC_0 *)root)->unk_8D0 = packet40 + 0x28;
+    textured_quad = ((S_800A17CC_0 *)render_state)->unk_8D0;
+    quad_packet = textured_quad;
+    ((S_800A17CC_0 *)render_state)->unk_8D0 = textured_quad + 0x28;
     color |= 0x8080;
-    ((S_800A17CC_1 *)packet40)->unk_04 = color;
-    func_800666F4(call_packet, color);
+    ((S_800A17CC_1 *)textured_quad)->unk_04 = color;
+    func_800666F4(quad_packet, color);
 
-    first_value = func_80066460(1, 0,
-        ((S_800A17CC_2 *)arg0)->unk_6C & 0xFF80, ((S_800A17CC_2 *)arg0)->unk_6E);
-    ((S_800A17CC_1 *)packet40)->unk_16 = first_value;
-    ((S_800A17CC_1 *)packet40)->unk_0E = func_8006649C(0, 0x1EF);
+    texture_page = func_80066460(1, 0,
+        ((S_800A17CC_2 *)sprite)->unk_6C & 0xFF80, ((S_800A17CC_2 *)sprite)->unk_6E);
+    ((S_800A17CC_1 *)textured_quad)->unk_16 = texture_page;
+    ((S_800A17CC_1 *)textured_quad)->unk_0E = func_8006649C(0, 0x1EF);
 
     {
-        s32 x1;
-        s32 rem1;
+        s32 texture_x;
+        s32 left_u;
 
-        x1 = ((S_800A17CC_2 *)arg0)->unk_6C;
-        ASM_KEEP_NV(x1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        texture_x = ((S_800A17CC_2 *)sprite)->unk_6C;
+        ASM_KEEP_NV(texture_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         scratch = (u8 *)0x1F800000;
         ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        rem1 = (s16)(x1 % 0x80);
-        rem1 /= 2;
-        ((S_800A17CC_1 *)packet40)->unk_1C = rem1;
-        ((S_800A17CC_1 *)packet40)->unk_0C = rem1;
+        left_u = (s16)(texture_x % 0x80);
+        left_u /= 2;
+        ((S_800A17CC_1 *)textured_quad)->unk_1C = left_u;
+        ((S_800A17CC_1 *)textured_quad)->unk_0C = left_u;
     }
     {
-        s32 x2;
-        s16 rem2;
-        s32 result2;
+        s32 texture_x;
+        s16 page_x;
+        s32 right_u;
 
-        x2 = ((S_800A17CC_2 *)arg0)->unk_6C;
-        rem2 = x2 % 0x80;
-        result2 = (rem2 / 2) + ((S_800A17CC_2 *)arg0)->unk_70;
-        ((S_800A17CC_1 *)packet40)->unk_24 = result2;
-        ((S_800A17CC_1 *)packet40)->unk_14 = result2;
+        texture_x = ((S_800A17CC_2 *)sprite)->unk_6C;
+        page_x = texture_x % 0x80;
+        right_u = (page_x / 2) + ((S_800A17CC_2 *)sprite)->unk_70;
+        ((S_800A17CC_1 *)textured_quad)->unk_24 = right_u;
+        ((S_800A17CC_1 *)textured_quad)->unk_14 = right_u;
     }
     {
-        s32 x3;
-        s32 rem3;
+        s32 texture_y;
+        s32 top_v;
 
-        x3 = ((S_800A17CC_2 *)arg0)->unk_6E;
-        rem3 = x3 % 0x100;
-        ((S_800A17CC_1 *)packet40)->unk_15 = rem3;
-        ((S_800A17CC_1 *)packet40)->unk_0D = rem3;
+        texture_y = ((S_800A17CC_2 *)sprite)->unk_6E;
+        top_v = texture_y % 0x100;
+        ((S_800A17CC_1 *)textured_quad)->unk_15 = top_v;
+        ((S_800A17CC_1 *)textured_quad)->unk_0D = top_v;
     }
 
-    coord_y = ((S_800A17CC_2 *)arg0)->unk_6E;
+    texture_y = ((S_800A17CC_2 *)sprite)->unk_6E;
     {
-        s32 adjusted_y;
+        s32 bottom_v;
 
-        adjusted_y = (coord_y % 0x100) + ((S_800A17CC_2 *)arg0)->unk_72;
-        ((S_800A17CC_1 *)packet40)->unk_25 = adjusted_y;
-        ((S_800A17CC_1 *)packet40)->unk_1D = adjusted_y;
+        bottom_v = (texture_y % 0x100) + ((S_800A17CC_2 *)sprite)->unk_72;
+        ((S_800A17CC_1 *)textured_quad)->unk_25 = bottom_v;
+        ((S_800A17CC_1 *)textured_quad)->unk_1D = bottom_v;
     }
 
-    func_800A130C((void *)0x1F800074, arg1, coord_y);
-    func_800A130C((void *)0x1F80007C, arg1);
-    func_800A130C((void *)0x1F800084, arg1);
+    func_800A130C((void *)0x1F800074, position, texture_y);
+    func_800A130C((void *)0x1F80007C, position);
+    func_800A130C((void *)0x1F800084, position);
     func_800A1330((void *)0x1F80008C, (void *)0x1F800074);
 
-    pE8 = (void *)0x1F8000E8;
-    pEC = (void *)0x1F8000EC;
-    pF0 = (void *)0x1F8000F0;
-    pF4 = (void *)0x1F8000F4;
-    p94 = (void *)0x1F800094;
-    p98 = (void *)0x1F800098;
+    screen_xy0 = (void *)0x1F8000E8;
+    screen_xy1 = (void *)0x1F8000EC;
+    screen_xy2 = (void *)0x1F8000F0;
+    screen_xy3 = (void *)0x1F8000F4;
+    depth_cue = (void *)0x1F800094;
+    transform_flags = (void *)0x1F800098;
 
     {
-        s32 value0;
+        s32 quad_y;
 
-        value0 = SCRATCH(u16, 0x8E) - 0x30;
-        p84 = (void *)0x1F800084;
-        SCRATCH(u16, 0x8E) = value0;
-        SCRATCH(u16, 0x86) = value0;
-        SCRATCH(u16, 0x7E) = value0;
-        SCRATCH(u16, 0x76) = value0;
+        quad_y = SCRATCH(u16, 0x8E) - 0x30;
+        vertex2 = (void *)0x1F800084;
+        SCRATCH(u16, 0x8E) = quad_y;
+        SCRATCH(u16, 0x86) = quad_y;
+        SCRATCH(u16, 0x7E) = quad_y;
+        SCRATCH(u16, 0x76) = quad_y;
     }
     {
-        s32 value1;
+        s32 left_x;
 
-        value1 = SCRATCH(u16, 0x74) - ((S_800A17CC_2 *)arg0)->unk_78;
-        SCRATCH(u16, 0x74) = value1;
-        SCRATCH(u16, 0x84) = value1;
+        left_x = SCRATCH(u16, 0x74) - ((S_800A17CC_2 *)sprite)->unk_78;
+        SCRATCH(u16, 0x74) = left_x;
+        SCRATCH(u16, 0x84) = left_x;
     }
     {
-        s32 value2;
+        s32 right_x;
 
-        value2 = SCRATCH(u16, 0x7C) + ((S_800A17CC_2 *)arg0)->unk_78;
-        p8C = (void *)0x1F80008C;
-        SCRATCH(u16, 0x7C) = value2;
-        SCRATCH(u16, 0x8C) = value2;
+        right_x = SCRATCH(u16, 0x7C) + ((S_800A17CC_2 *)sprite)->unk_78;
+        vertex3 = (void *)0x1F80008C;
+        SCRATCH(u16, 0x7C) = right_x;
+        SCRATCH(u16, 0x8C) = right_x;
     }
-    actor_y = ((S_800A17CC_2 *)arg0)->unk_7A;
+    height = ((S_800A17CC_2 *)sprite)->unk_7A;
     SCRATCH(s32, 0xC4) = func_800654B0(
         (void *)0x1F800074, (void *)0x1F80007C,
-        p84, p8C,
-        pE8, pEC, pF0, pF4, p94, p98,
-        (value3 = SCRATCH(u16, 0x78),
-            actor_y *= 2,
-            value3 -= actor_y,
-            SCRATCH(u16, 0x78) = value3,
-            SCRATCH(u16, 0x80) = value3,
-            empty)) - 8;
+        vertex2, vertex3,
+        screen_xy0, screen_xy1, screen_xy2, screen_xy3, depth_cue, transform_flags,
+        (top_z = SCRATCH(u16, 0x78),
+            height *= 2,
+            top_z -= height,
+            SCRATCH(u16, 0x78) = top_z,
+            SCRATCH(u16, 0x80) = top_z,
+            unused_arg)) - 8;
 
-    ((S_800A17CC_1 *)packet40)->unk_08 = SCRATCH(u16, 0xE8);
-    ((S_800A17CC_1 *)packet40)->unk_0A = SCRATCH(u16, 0xEA);
-    ((S_800A17CC_1 *)packet40)->unk_10 = SCRATCH(u16, 0xEC);
-    ((S_800A17CC_1 *)packet40)->unk_12 = SCRATCH(u16, 0xEE);
-    ((S_800A17CC_1 *)packet40)->unk_18 = SCRATCH(u16, 0xF0);
-    ((S_800A17CC_1 *)packet40)->unk_1A = SCRATCH(u16, 0xF2);
-    ((S_800A17CC_1 *)packet40)->unk_20 = SCRATCH(u16, 0xF4);
-    (*(u16 *)((u8 *)packet40 + 0x22)) = SCRATCH(u16, 0xF6);
+    ((S_800A17CC_1 *)textured_quad)->unk_08 = SCRATCH(u16, 0xE8);
+    ((S_800A17CC_1 *)textured_quad)->unk_0A = SCRATCH(u16, 0xEA);
+    ((S_800A17CC_1 *)textured_quad)->unk_10 = SCRATCH(u16, 0xEC);
+    ((S_800A17CC_1 *)textured_quad)->unk_12 = SCRATCH(u16, 0xEE);
+    ((S_800A17CC_1 *)textured_quad)->unk_18 = SCRATCH(u16, 0xF0);
+    ((S_800A17CC_1 *)textured_quad)->unk_1A = SCRATCH(u16, 0xF2);
+    ((S_800A17CC_1 *)textured_quad)->unk_20 = SCRATCH(u16, 0xF4);
+    (*(u16 *)((u8 *)textured_quad + 0x22)) = SCRATCH(u16, 0xF6);
 
-    root = D_80083160;
-    packet24 = ((S_800A17CC_0 *)root)->unk_8D0;
-    ((S_800A17CC_0 *)root)->unk_8D0 = packet24 + 0x18;
-    ((S_800A17CC_3 *)packet24)->unk_04 = ((S_800A17CC_2 *)arg0)->unk_12;
-    ((S_800A17CC_3 *)packet24)->unk_05 = ((S_800A17CC_2 *)arg0)->unk_12;
-    ((S_800A17CC_3 *)packet24)->unk_06 = ((S_800A17CC_2 *)arg0)->unk_12;
-    func_800666E0(packet24);
-    func_80066640(packet24, 1);
-    ((S_800A17CC_3 *)packet24)->unk_08 = SCRATCH(u16, 0xE8);
-    ((S_800A17CC_3 *)packet24)->unk_0A = SCRATCH(u16, 0xEA);
-    ((S_800A17CC_3 *)packet24)->unk_0C = SCRATCH(u16, 0xEC);
-    ((S_800A17CC_3 *)packet24)->unk_0E = SCRATCH(u16, 0xEE);
-    ((S_800A17CC_3 *)packet24)->unk_10 = SCRATCH(u16, 0xF0);
-    ((S_800A17CC_3 *)packet24)->unk_12 = SCRATCH(u16, 0xF2);
-    ((S_800A17CC_3 *)packet24)->unk_14 = SCRATCH(u16, 0xF4);
-    (*(u16 *)((u8 *)packet24 + 0x16)) = SCRATCH(u16, 0xF6);
+    render_state = D_80083160;
+    overlay_quad = ((S_800A17CC_0 *)render_state)->unk_8D0;
+    ((S_800A17CC_0 *)render_state)->unk_8D0 = overlay_quad + 0x18;
+    ((S_800A17CC_3 *)overlay_quad)->unk_04 = ((S_800A17CC_2 *)sprite)->unk_12;
+    ((S_800A17CC_3 *)overlay_quad)->unk_05 = ((S_800A17CC_2 *)sprite)->unk_12;
+    ((S_800A17CC_3 *)overlay_quad)->unk_06 = ((S_800A17CC_2 *)sprite)->unk_12;
+    func_800666E0(overlay_quad);
+    func_80066640(overlay_quad, 1);
+    ((S_800A17CC_3 *)overlay_quad)->unk_08 = SCRATCH(u16, 0xE8);
+    ((S_800A17CC_3 *)overlay_quad)->unk_0A = SCRATCH(u16, 0xEA);
+    ((S_800A17CC_3 *)overlay_quad)->unk_0C = SCRATCH(u16, 0xEC);
+    ((S_800A17CC_3 *)overlay_quad)->unk_0E = SCRATCH(u16, 0xEE);
+    ((S_800A17CC_3 *)overlay_quad)->unk_10 = SCRATCH(u16, 0xF0);
+    ((S_800A17CC_3 *)overlay_quad)->unk_12 = SCRATCH(u16, 0xF2);
+    ((S_800A17CC_3 *)overlay_quad)->unk_14 = SCRATCH(u16, 0xF4);
+    (*(u16 *)((u8 *)overlay_quad + 0x16)) = SCRATCH(u16, 0xF6);
 
-    root = D_80083160;
-    SCRATCH(u32, 0x24) = (s32)(root + 0xB0);
-    packet12 = ((S_800A17CC_0 *)root)->unk_8D0;
-    ((S_800A17CC_0 *)root)->unk_8D0 = packet12 + 0xC;
-    func_80067F20(packet12, 1, 0, first_value & 0xFFFF, &D_800D0A40);
-    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), packet12);
-    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), packet24);
+    render_state = D_80083160;
+    SCRATCH(u32, 0x24) = (s32)(render_state + 0xB0);
+    draw_mode = ((S_800A17CC_0 *)render_state)->unk_8D0;
+    ((S_800A17CC_0 *)render_state)->unk_8D0 = draw_mode + 0xC;
+    func_80067F20(draw_mode, 1, 0, texture_page & 0xFFFF, &D_800D0A40);
+    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
+    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), overlay_quad);
 
-    root = D_80083160;
-    packet12 = ((S_800A17CC_0 *)root)->unk_8D0;
-    ((S_800A17CC_0 *)root)->unk_8D0 = packet12 + 0xC;
-    func_80067F20(packet12, 1, 0,
+    render_state = D_80083160;
+    draw_mode = ((S_800A17CC_0 *)render_state)->unk_8D0;
+    ((S_800A17CC_0 *)render_state)->unk_8D0 = draw_mode + 0xC;
+    func_80067F20(draw_mode, 1, 0,
         func_80066460(0, 1, 0x140, 0) & 0xFFFF, 0);
-    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), packet12);
-    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), packet40);
+    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
+    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), textured_quad);
 
-    root = D_80083160;
-    packet12 = ((S_800A17CC_0 *)root)->unk_8D0;
-    ((S_800A17CC_0 *)root)->unk_8D0 = packet12 + 0xC;
-    func_80067F20(packet12, 1, 0, first_value & 0xFFFF, work);
-    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), packet12);
+    render_state = D_80083160;
+    draw_mode = ((S_800A17CC_0 *)render_state)->unk_8D0;
+    ((S_800A17CC_0 *)render_state)->unk_8D0 = draw_mode + 0xC;
+    func_80067F20(draw_mode, 1, 0, texture_page & 0xFFFF, texture_window);
+    func_8006658C((u8 *)SCRATCH(u32, 0x24) + (SCRATCH(s32, 0xC4) * 4), draw_mode);
 }

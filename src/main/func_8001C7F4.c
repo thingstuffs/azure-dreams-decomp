@@ -5,18 +5,19 @@ __asm__(".set D_80408C8C, 0x80408C8C");
 
 extern void func_80051B50(s32 arg0, s32 arg1, s32 arg2);
 
-void func_8001C7F4(s32 arg0) {
-    s32 *var_s1;
-    s32 var_s0;
-    s32 var_s2;
+// Process four entries spaced 0x3C bytes apart using consecutive table values.
+void func_8001C7F4(s32 baseAddress) {
+    s32 *tableValue;
+    s32 entryOffset;
+    s32 entryIndex;
 
-    var_s2 = 0;
-    var_s1 = &D_80408C8C;
-    var_s0 = 0x90;
+    entryIndex = 0;
+    tableValue = &D_80408C8C;
+    entryOffset = 0x90;
     do {
-        func_80051B50(arg0 + var_s0, *var_s1, 1);
-        var_s1++;
-        var_s0 += 0x3C;
-        var_s2++;
-    } while (var_s2 < 4);
+        func_80051B50(baseAddress + entryOffset, *tableValue, 1);
+        tableValue++;
+        entryOffset += 0x3C;
+        entryIndex++;
+    } while (entryIndex < 4);
 }

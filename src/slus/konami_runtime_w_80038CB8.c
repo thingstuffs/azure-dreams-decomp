@@ -11,117 +11,118 @@ extern void func_80038128(void);
 
 typedef void (*Callback)(void);
 
-void func_80038CB8(void *arg0)
+/* Render text glyphs and advance the cursor according to the display rate. */
+void func_80038CB8(void *text)
 {
-    s32 var_s1;
-    s32 temp_v1_2;
-    s32 temp_v0_3;
-    u8 *temp_a0;
-    u8 *temp_v0;
-    u8 *temp_v1;
-    u8 *var_a0;
-    u8 *var_v1;
+    s32 neg_glyph_count;
+    s32 glyph_delay;
+    s32 column_or_rate;
+    u8 *batch_glyph;
+    u8 *next_glyph;
+    u8 *glyph;
+    u8 *fast_cursor;
+    u8 *batch_cursor;
 
-    if (FIELD(arg0, u8, 0x2E) != 0) {
-        var_a0 = FIELD(arg0, u8 *, 0x1C);
-        if (*(s8 *)var_a0 <= 0) {
+    if (FIELD(text, u8, 0x2E) != 0) {
+        fast_cursor = FIELD(text, u8 *, 0x1C);
+        if (*(s8 *)fast_cursor <= 0) {
             do {
-            if ((*var_a0 == 0) ||
-                (FIELD(arg0, s16, 0x20) < (s32)FIELD(arg0, u8, 0x24))) {
-                func_80038F48(arg0);
-                if (*(s8 *)FIELD(arg0, u8 *, 0x1C) <= 0) {
-                    func_8003AB44(
-                        FIELD(arg0, u8 *, 0x1C),
-                        FIELD(arg0, s16, 0x20),
-                        FIELD(arg0, s16, 0x22),
-                        FIELD(arg0, u8, 0x2A),
-                        (s32)FIELD(arg0, s16, 0x00),
-                        (s32)(s16)(FIELD(arg0, s16, 0x02) + 2),
-                        1);
-                    temp_v1 = FIELD(arg0, u8 *, 0x1C);
-                    FIELD(arg0, s16, 0x20) =
-                        (s16)((u16)FIELD(arg0, s16, 0x20) + 1);
-                    temp_v0 = temp_v1 + 2;
-                    FIELD(arg0, u8 *, 0x1C) = temp_v0;
-                    var_a0 = temp_v0;
-                    if (*(s8 *)(temp_v1 + 2) <= 0) {
-                        continue;
+                if ((*fast_cursor == 0) ||
+                    (FIELD(text, s16, 0x20) < (s32)FIELD(text, u8, 0x24))) {
+                    func_80038F48(text);
+                    if (*(s8 *)FIELD(text, u8 *, 0x1C) <= 0) {
+                        func_8003AB44(
+                            FIELD(text, u8 *, 0x1C),
+                            FIELD(text, s16, 0x20),
+                            FIELD(text, s16, 0x22),
+                            FIELD(text, u8, 0x2A),
+                            (s32)FIELD(text, s16, 0x00),
+                            (s32)(s16)(FIELD(text, s16, 0x02) + 2),
+                            1);
+                        glyph = FIELD(text, u8 *, 0x1C);
+                        FIELD(text, s16, 0x20) =
+                            (s16)((u16)FIELD(text, s16, 0x20) + 1);
+                        next_glyph = glyph + 2;
+                        FIELD(text, u8 *, 0x1C) = next_glyph;
+                        fast_cursor = next_glyph;
+                        if (*(s8 *)(glyph + 2) <= 0) {
+                            continue;
+                        }
                     }
+                } else {
+                    goto advance_line;
                 }
-            } else {
-                goto block_15;
-            }
-            break;
+                break;
             } while (1);
         }
     } else {
-        if (FIELD(arg0, s8, 0x28) >= 0) {
-            goto block_16;
+        if (FIELD(text, s8, 0x28) >= 0) {
+            goto render_one;
         }
-        var_v1 = FIELD(arg0, u8 *, 0x1C);
-        if (*(s8 *)var_v1 > 0) {
-            goto block_14;
+        batch_cursor = FIELD(text, u8 *, 0x1C);
+        if (*(s8 *)batch_cursor > 0) {
+            goto reset_rate;
         }
-        var_s1 = 0;
-loop_9:
-        if ((*var_v1 != 0) &&
-            (FIELD(arg0, s16, 0x20) >= (s32)FIELD(arg0, u8, 0x24))) {
-            goto block_15;
+        neg_glyph_count = 0;
+render_batch:
+        if ((*batch_cursor != 0) &&
+            (FIELD(text, s16, 0x20) >= (s32)FIELD(text, u8, 0x24))) {
+            goto advance_line;
         }
-        func_80038F48(arg0);
-        if (*(s8 *)FIELD(arg0, u8 *, 0x1C) > 0) {
-            goto block_end;
+        func_80038F48(text);
+        if (*(s8 *)FIELD(text, u8 *, 0x1C) > 0) {
+            goto done;
         }
-        var_s1 -= 1;
+        neg_glyph_count -= 1;
         func_8003AB44(
-            FIELD(arg0, u8 *, 0x1C),
-            FIELD(arg0, s16, 0x20),
-            FIELD(arg0, s16, 0x22),
-            FIELD(arg0, u8, 0x2A),
-            (s32)FIELD(arg0, s16, 0x00),
-            (s32)(s16)(FIELD(arg0, s16, 0x02) + 2),
+            FIELD(text, u8 *, 0x1C),
+            FIELD(text, s16, 0x20),
+            FIELD(text, s16, 0x22),
+            FIELD(text, u8, 0x2A),
+            (s32)FIELD(text, s16, 0x00),
+            (s32)(s16)(FIELD(text, s16, 0x02) + 2),
             1);
-        temp_v0_3 = FIELD(arg0, u16, 0x20);
-        temp_a0 = FIELD(arg0, u8 *, 0x1C);
-        temp_v0_3 += 1;
-        FIELD(arg0, s16, 0x20) = (s16)temp_v0_3;
-        temp_v0_3 = FIELD(arg0, s8, 0x28);
-        var_v1 = temp_a0 + 2;
-        FIELD(arg0, u8 *, 0x1C) = var_v1;
-        if (var_s1 < temp_v0_3) {
-            goto block_14;
+        column_or_rate = FIELD(text, u16, 0x20);
+        batch_glyph = FIELD(text, u8 *, 0x1C);
+        column_or_rate += 1;
+        FIELD(text, s16, 0x20) = (s16)column_or_rate;
+        column_or_rate = FIELD(text, s8, 0x28);
+        batch_cursor = batch_glyph + 2;
+        FIELD(text, u8 *, 0x1C) = batch_cursor;
+        if (neg_glyph_count < column_or_rate) {
+            goto reset_rate;
         }
-        if (*(s8 *)(temp_a0 + 2) <= 0) {
-            goto loop_9;
+        if (*(s8 *)(batch_glyph + 2) <= 0) {
+            goto render_batch;
         }
-block_14:
-        FIELD(arg0, s8, 0x28) =
-            *(u8 *)(FIELD(arg0, u8 *, 0x80) + 3);
-        goto block_end;
-block_15:
-        func_80039148(arg0);
-        goto block_end;
-block_16:
-        func_80038F48(arg0);
-        if (*(s8 *)FIELD(arg0, u8 *, 0x1C) <= 0) {
+reset_rate:
+        FIELD(text, s8, 0x28) =
+            *(u8 *)(FIELD(text, u8 *, 0x80) + 3);
+        goto done;
+advance_line:
+        func_80039148(text);
+        goto done;
+render_one:
+        func_80038F48(text);
+        if (*(s8 *)FIELD(text, u8 *, 0x1C) <= 0) {
             func_8003AB44(
-                FIELD(arg0, u8 *, 0x1C),
-                FIELD(arg0, s16, 0x20),
-                FIELD(arg0, s16, 0x22),
-                FIELD(arg0, u8, 0x2A),
-                (s32)FIELD(arg0, s16, 0x00),
-                (s32)(s16)(FIELD(arg0, s16, 0x02) + 2),
+                FIELD(text, u8 *, 0x1C),
+                FIELD(text, s16, 0x20),
+                FIELD(text, s16, 0x22),
+                FIELD(text, u8, 0x2A),
+                (s32)FIELD(text, s16, 0x00),
+                (s32)(s16)(FIELD(text, s16, 0x02) + 2),
                 1);
-            FIELD(arg0, s16, 0x20) =
-                (s16)((u16)FIELD(arg0, s16, 0x20) + 1);
-            temp_v1_2 = FIELD(arg0, s8, 0x28);
-            FIELD(arg0, u8 *, 0x1C) = FIELD(arg0, u8 *, 0x1C) + 2;
-            if (temp_v1_2 != 0) {
-                FIELD(arg0, s16, 0x18) = (s16)temp_v1_2;
-                FIELD(arg0, Callback, 0x10) = func_80038128;
+            FIELD(text, s16, 0x20) =
+                (s16)((u16)FIELD(text, s16, 0x20) + 1);
+            glyph_delay = FIELD(text, s8, 0x28);
+            FIELD(text, u8 *, 0x1C) = FIELD(text, u8 *, 0x1C) + 2;
+            if (glyph_delay != 0) {
+                FIELD(text, s16, 0x18) = (s16)glyph_delay;
+                FIELD(text, Callback, 0x10) = func_80038128;
             }
         }
-block_end:
+done:
         ;
     }
 }

@@ -32,28 +32,29 @@ extern void *D_80530598[];
 extern u8 D_8052DC78[];
 extern u8 D_8052D770[];
 
-void func_8052C854(void *arg0, void *arg1)
+/* Updates slot machine bets, reels, winning lines, and payout effects. */
+void func_8052C854(void *machine, void *position)
 {
-    u8 *self = (u8 *)arg0;
+    u8 *self = (u8 *)machine;
     u8 *input;
-    u8 *common_value;
-    register u8 *arg1_bytes;
-    s32 state;
-    s32 i;
-    s32 j;
-    s32 inner;
-    s16 *digit_base;
-    s32 state_one;
-    u8 *obj;
+    u8 *effect_config;
+    register u8 *position_or_effect;
+    s32 state_or_buttons;
+    s32 symbol_index;
+    s32 scan_index;
+    s32 row_or_digit_sum;
+    s16 *payout_digits;
+    s32 bet_state;
+    u8 *effect_obj;
 
     input = D_8012F130;
-    state = FIELD(self, s16 *, 0x5C);
-    arg1_bytes = (u8 *)arg1;
-    common_value = D_80526704;
-    if ((u32)state >= 8U) {
+    state_or_buttons = FIELD(self, s16 *, 0x5C);
+    position_or_effect = (u8 *)position;
+    effect_config = D_80526704;
+    if ((u32)state_or_buttons >= 8U) {
         goto done;
     }
-    switch (state) {
+    switch (state_or_buttons) {
     case 0: goto state_0;
     case 1: goto state_1;
     case 2: goto state_2;
@@ -68,12 +69,12 @@ state_0:
     FIELD(self, u16 *, 0x62) = 0;
     FIELD(self, u16 *, 0x64) = 0;
     func_802441A4(input);
-    state_one = 1;
-    FIELD(self, s16 *, 0x5C) = state_one;
+    bet_state = 1;
+    FIELD(self, s16 *, 0x5C) = bet_state;
     if (COUNT_VALUE < 1000U) {
         goto done;
     }
-    if (func_80252550(D_80530154, arg1_bytes) == 0) {
+    if (func_80252550(D_80530154, position_or_effect) == 0) {
         goto done;
     }
     D_80530598[0] = func_80232868(0, -80, 64);
@@ -87,17 +88,17 @@ state_0:
 
 state_1:
     if (FIELD(input, u32 *, 8) & 0x5000) {
-        u16 value = FIELD(self, u16 *, 0x5E);
-        FIELD(self, u16 *, 0x5E) = value - 1;
-        if ((s16)value < 0) {
+        u16 ticks_left = FIELD(self, u16 *, 0x5E);
+        FIELD(self, u16 *, 0x5E) = ticks_left - 1;
+        if ((s16)ticks_left < 0) {
             FIELD(self, u16 *, 0x5E) = 0;
-            goto label_C984;
+            goto check_bet_input;
         }
     } else {
         FIELD(self, u16 *, 0x5E) = 5;
     }
 
-label_C984:
+check_bet_input:
     if ((FIELD(input, u32 *, 0x10) & 0x1000) ||
         ((FIELD(input, u32 *, 8) & 0x1000) &&
          (FIELD(self, s16 *, 0x5E) <= 0))) {
@@ -107,8 +108,8 @@ label_C984:
             }
             ++FIELD(self, u16 *, 0x64);
             {
-                u32 *count = &D_80012BCC;
-                COUNT_STORE(*count - 1000);
+                u32 *balance = &D_80012BCC;
+                COUNT_STORE(*balance - 1000);
             }
             goto done;
         }
@@ -125,13 +126,13 @@ label_C984:
     }
 
     {
-        state = FIELD(input, u32 *, 0x10);
-        if (state & 0x40) {
+        state_or_buttons = FIELD(input, u32 *, 0x10);
+        if (state_or_buttons & 0x40) {
             FIELD(self, u16 *, 0x5E) = 10;
             FIELD(self, s16 *, 0x5C) = 3;
             goto done;
         }
-        if (!(state & 0x20) || FIELD(self, u16 *, 0x64) == 0) {
+        if (!(state_or_buttons & 0x20) || FIELD(self, u16 *, 0x64) == 0) {
             goto done;
         }
         FIELD(self, u16 *, 0x5E) = 20;
@@ -141,9 +142,9 @@ label_C984:
 
 state_2:
     {
-        s32 value = FIELD(self, u16 *, 0x5E) - 1;
-        FIELD(self, u16 *, 0x5E) = value;
-        if ((s16)value > 0) {
+        s32 ticks_left = FIELD(self, u16 *, 0x5E) - 1;
+        FIELD(self, u16 *, 0x5E) = ticks_left;
+        if ((s16)ticks_left > 0) {
             goto done;
         }
         COUNT_STORE(COUNT_VALUE + (s32)FIELD(self, u16 *, 0x64) * 1000);
@@ -154,22 +155,22 @@ state_2:
 
 state_3:
     {
-        s32 value = FIELD(self, u16 *, 0x5E) - 1;
-        FIELD(self, u16 *, 0x5E) = value;
-        if ((s16)value > 0) {
+        s32 ticks_left = FIELD(self, u16 *, 0x5E) - 1;
+        FIELD(self, u16 *, 0x5E) = ticks_left;
+        if ((s16)ticks_left > 0) {
             goto done;
         }
         {
-            u8 *slot;
-            j = 2;
-            i = 2;
-            slot = self + 8;
+            u8 *reel_slot;
+            scan_index = 2;
+            symbol_index = 2;
+            reel_slot = self + 8;
             do {
-                u8 *child = FIELD(slot, u8 **, 0x4C);
-                FIELD(child, s16 *, 0x24) = i;
-                slot -= 4;
-                j--;
-            } while (j >= 0);
+                u8 *reel = FIELD(reel_slot, u8 **, 0x4C);
+                FIELD(reel, s16 *, 0x24) = symbol_index;
+                reel_slot -= 4;
+                scan_index--;
+            } while (scan_index >= 0);
         }
         FIELD(self, s16 *, 0x5C) = 5;
         goto done;
@@ -177,11 +178,11 @@ state_3:
 
 state_4:
     {
-        s16 index = FIELD(self, s16 *, 0x5E);
-        u8 *child = FIELD(
-            self + (s32)index * 4,
+        s16 reel_index = FIELD(self, s16 *, 0x5E);
+        u8 *reel = FIELD(
+            self + (s32)reel_index * 4,
             u8 **, 0x4C);
-        if (FIELD(child, s16 *, 0x24) != 3) {
+        if (FIELD(reel, s16 *, 0x24) != 3) {
             goto done;
         }
         FIELD(self, s16 *, 0x5C) = 6;
@@ -191,20 +192,20 @@ state_4:
 
 state_5:
     {
-        u16 value = FIELD(self, u16 *, 0x60);
-        FIELD(self, u16 *, 0x60) = value - 1;
-        if ((s16)value <= 0) {
+        u16 ticks_left = FIELD(self, u16 *, 0x60);
+        FIELD(self, u16 *, 0x60) = ticks_left - 1;
+        if ((s16)ticks_left <= 0) {
             FIELD(self, u16 *, 0x60) = 0;
         }
     }
 
     if ((FIELD(input, u32 *, 0x10) & 0x20) &&
         FIELD(self, s16 *, 0x60) == 0) {
-        s16 index = FIELD(self, s16 *, 0x5E);
-        u8 *child = FIELD(
-            self + (s32)index * 4,
+        s16 reel_index = FIELD(self, s16 *, 0x5E);
+        u8 *reel = FIELD(
+            self + (s32)reel_index * 4,
             u8 **, 0x4C);
-        FIELD(child, s16 *, 0x24) = 4;
+        FIELD(reel, s16 *, 0x24) = 4;
         FIELD(self, u16 *, 0x60) = 10;
         FIELD(self, u16 *, 0x5E) = FIELD(self, u16 *, 0x5E) + 1;
     }
@@ -214,200 +215,166 @@ state_5:
     }
     FIELD(self, s32 *, 0x58) = 0;
     {
-        /* pad/tailpad reproduce retail's 160-byte locals area.  tailpad is
-           one word short of the natural [2]: the missing word is taken by
-           the dead spill slot reload allocates for the (slot - self) seed
-           of the j-gadget below (gcc 2.6.3 reload1.c:2309 alter_reg gives a
-           stack slot to every pseudo with reg_renumber < 0 and stale
-           reg_n_refs > 0, even when combine already deleted its insns).  */
+        /* Padding preserves the retail stack frame, including a dead spill slot. */
         struct MatrixFrame {
             s32 pad[22];
             s32 values[9];
             s32 tailpad[1];
         } matrix_frame;
-        u8 *slot_base;
-        u8 *table_base;
-        u8 *scratch;
-        u8 *slot;
-        s16 *map;
-        s32 matrix_count;
+        u8 *reel_slot_base;
+        u8 *strip_base;
+        u8 *matrix_cursor;
+        u8 *reel_slot;
+        s16 *payout_table;
+        s32 bet_count;
 
-        j = 2;
-        slot_base = self + 8;
-        table_base = D_8053019C[2];
-        scratch = (u8 *)matrix_frame.pad + 24;
-        inner = 2;
+        scan_index = 2;
+        reel_slot_base = self + 8;
+        strip_base = D_8053019C[2];
+        matrix_cursor = (u8 *)matrix_frame.pad + 24;
+        row_or_digit_sum = 2;
 
 matrix_outer:
         {
-            u8 *table;
-            s32 *dst;
-            u8 *child;
-            inner = 2;
-            table = table_base;
-            slot = slot_base;
-            dst = (s32 *)(scratch + 96);
+            u8 *reel_strip;
+            s32 *symbol_dst;
+            u8 *reel;
+            row_or_digit_sum = 2;
+            reel_strip = strip_base;
+            reel_slot = reel_slot_base;
+            symbol_dst = (s32 *)(matrix_cursor + 96);
             do {
-            {
-                child = *(u8 **)(slot + 0x4C);
-                i = FIELD(child, s16 *, 0x2A);
-                /* Runtime no-ops (i*3 - i - i == i); combine folds all nine
-                   away before allocation, so they emit nothing.  They are
-                   load-bearing twice at the earlier passes:
-                   1) loop.c keeps the %12 magic constant (lui/ori) INSIDE
-                      this loop, as retail has it, only while the body holds
-                      > threshold real insns at loop time: move_movables'
-                      (threshold*savings*lifetime) >= insn_count test
-                      (gcc 2.6.3 loop.c:1622, threshold = 2*(1+n_non_fixed_regs),
-                      loop.c:525).  Measured on this row: 56 insns rejected,
-                      52 hoisted (+2 words) -- eight copies are NOT enough.
-                   2) flow.c counts the folded statements into i's
-                      reg_n_refs (flow.c:1977, loop-depth weighted), keeping
-                      the function-scope i top-priority in global.c's
-                      allocno_compare (global.c:594) so it owns $a0 across
-                      this loop exactly as retail's words 260-271 need.  */
-                i = i * 3 - i - i;
-                i = i * 3 - i - i;
-                i = i * 3 - i - i;
-                i = i * 3 - i - i;
-                i = i * 3 - i - i;
-                i = i * 3 - i - i;
-                i = i * 3 - i - i;
-                i = i * 3 - i - i;
-                i = i * 3 - i - i;
-                /* Single-expression form owns retail's words 272-273: the
-                   sum, remainder and address temporaries are fresh locals
-                   that each die exactly once, so local-alloc chains them
-                   into one quantity (combine_regs; a tie to i itself is
-                   impossible -- local-alloc.c:1762 refuses when the dying
-                   reg is a global) and the ascending scan lands it in $a0
-                   because the div-magic subexpression quantities hold
-                   $v0/$v1 first (qty_compare, local-alloc.c:1576).  */
-                *dst = table[(inner + i) % 12];
-                dst--;
-                inner--;
-            }
-            } while (inner >= 0);
-            slot_base -= 4;
-            table_base -= 12;
-            scratch -= 4;
-            j--;
-            scratch -= 8;
+                {
+                    reel = *(u8 **)(reel_slot + 0x4C);
+                    symbol_index = FIELD(reel, s16 *, 0x2A);
+                    /* These no-ops preserve loop placement and register allocation. */
+                    symbol_index = symbol_index * 3 - symbol_index - symbol_index;
+                    symbol_index = symbol_index * 3 - symbol_index - symbol_index;
+                    symbol_index = symbol_index * 3 - symbol_index - symbol_index;
+                    symbol_index = symbol_index * 3 - symbol_index - symbol_index;
+                    symbol_index = symbol_index * 3 - symbol_index - symbol_index;
+                    symbol_index = symbol_index * 3 - symbol_index - symbol_index;
+                    symbol_index = symbol_index * 3 - symbol_index - symbol_index;
+                    symbol_index = symbol_index * 3 - symbol_index - symbol_index;
+                    symbol_index = symbol_index * 3 - symbol_index - symbol_index;
+                    /* Keep this expression together to preserve temporary register allocation. */
+                    *symbol_dst = reel_strip[(row_or_digit_sum + symbol_index) % 12];
+                    symbol_dst--;
+                    row_or_digit_sum--;
+                }
+            } while (row_or_digit_sum >= 0);
+            reel_slot_base -= 4;
+            strip_base -= 12;
+            matrix_cursor -= 4;
+            scan_index--;
+            matrix_cursor -= 8;
         }
-        if (j >= 0) {
+        if (scan_index >= 0) {
             goto matrix_outer;
         }
 
-        matrix_count = FIELD(self, u16 *, 0x64);
+        bet_count = FIELD(self, u16 *, 0x64);
         {
-            /* j == 0 here: after three outer iterations slot == self, so
-               t == 0 and t*3 - t - t - t == 0; combine folds the whole pair
-               to `j = 0` (retail's move $a3,$zero).  The (slot - self) seed
-               is load-bearing: it is slot's 4th weighted reference at flow
-               time, and with matrix_count read from self (retail word 283,
-               lhu base $s0) slot needs exactly 4 refs to keep the five loop
-               pointers in retail's $t0-$t4 fill order under global.c's
-               floor_log2(n_refs)-quantised allocno_compare (global.c:594).
-               Cost: one dead 4-byte spill slot, absorbed by tailpad[].  */
-            s32 t = slot - self;
-            j = t * 3 - t - t - t;
-            if (matrix_count > 0) {
-                map = D_805301CC;
+            /* This zero seed preserves reel_slot's reference count and a dead spill slot. */
+            s32 slot_offset = reel_slot - self;
+            scan_index = slot_offset * 3 - slot_offset - slot_offset - slot_offset;
+            if (bet_count > 0) {
+                payout_table = D_805301CC;
                 do {
-                switch (j) {
-                case 0: {
-                    u16 flags;
-                    if (matrix_frame.values[1] != matrix_frame.values[4] ||
-                        matrix_frame.values[1] != matrix_frame.values[7]) {
+                    switch (scan_index) {
+                    case 0: {
+                        u16 win_flags;
+                        if (matrix_frame.values[1] != matrix_frame.values[4] ||
+                            matrix_frame.values[1] != matrix_frame.values[7]) {
+                            break;
+                        }
+                        {
+                            s32 symbol = matrix_frame.values[1];
+                            s32 base_payout = (s32)payout_table[symbol] * 1000;
+                            win_flags = FIELD(self, u16 *, 0x62);
+                            FIELD(self, u16 *, 0x62) = win_flags | 4;
+                            {
+                                register s32 line_payout =
+                                    (s32)FIELD(self, u16 *, 0x64) * base_payout;
+                                FIELD(self, s32 *, 0x58) =
+                                    line_payout + FIELD(self, s32 *, 0x58);
+                            }
+                        }
+                        if (matrix_frame.values[4] == 0) {
+                            u16 jackpot_flags = win_flags | 5;
+                            FIELD(self, u16 *, 0x62) = jackpot_flags;
+                        }
                         break;
                     }
-                    {
-                        s32 value = matrix_frame.values[1];
-                        s32 offset = (s32)map[value] * 1000;
-                        flags = FIELD(self, u16 *, 0x62);
-                        FIELD(self, u16 *, 0x62) = flags | 4;
-                        {
-                            register s32 delta =
-                                (s32)FIELD(self, u16 *, 0x64) * offset;
-                            FIELD(self, s32 *, 0x58) =
-                                delta + FIELD(self, s32 *, 0x58);
+                    case 1:
+                        if (matrix_frame.values[0] == matrix_frame.values[3] &&
+                            matrix_frame.values[0] == matrix_frame.values[6]) {
+                            FIELD(self, u16 *, 0x62) |= 0x10;
+                            {
+                                s32 symbol = matrix_frame.values[0];
+                                s32 base_payout = (s32)payout_table[symbol] * 1000;
+                                s32 line_payout =
+                                    (s32)FIELD(self, u16 *, 0x64) * base_payout;
+                                FIELD(self, s32 *, 0x58) =
+                                    line_payout + FIELD(self, s32 *, 0x58);
+                            }
+                            if (matrix_frame.values[0] == 0) {
+                                FIELD(self, u16 *, 0x62) |= 1;
+                            }
                         }
-                    }
-                    if (matrix_frame.values[4] == 0) {
-                        u16 next_flags = flags | 5;
-                        FIELD(self, u16 *, 0x62) = next_flags;
-                    }
-                    break;
-                }
-                case 1:
-                    if (matrix_frame.values[0] == matrix_frame.values[3] &&
-                        matrix_frame.values[0] == matrix_frame.values[6]) {
-                        FIELD(self, u16 *, 0x62) |= 0x10;
-                        {
-                            s32 value = matrix_frame.values[0];
-                            s32 offset = (s32)map[value] * 1000;
-                            s32 delta =
-                                (s32)FIELD(self, u16 *, 0x64) * offset;
-                            FIELD(self, s32 *, 0x58) =
-                                delta + FIELD(self, s32 *, 0x58);
+                        if (matrix_frame.values[2] != matrix_frame.values[5] ||
+                            matrix_frame.values[2] != matrix_frame.values[8]) {
+                            break;
                         }
-                        if (matrix_frame.values[0] == 0) {
+                        FIELD(self, u16 *, 0x62) |= 8;
+                        {
+                            s32 symbol = matrix_frame.values[8];
+                            s32 base_payout = (s32)payout_table[symbol] * 1000;
+                            s32 line_payout =
+                                (s32)FIELD(self, u16 *, 0x64) * base_payout;
+                            FIELD(self, s32 *, 0x58) =
+                                    line_payout + FIELD(self, s32 *, 0x58);
+                        }
+                        if (matrix_frame.values[8] == 0) {
                             FIELD(self, u16 *, 0x62) |= 1;
                         }
-                    }
-                    if (matrix_frame.values[2] != matrix_frame.values[5] ||
-                        matrix_frame.values[2] != matrix_frame.values[8]) {
                         break;
-                    }
-                    FIELD(self, u16 *, 0x62) |= 8;
-                    {
-                        s32 value = matrix_frame.values[8];
-                        s32 offset = (s32)map[value] * 1000;
-                        s32 delta =
-                            (s32)FIELD(self, u16 *, 0x64) * offset;
-                        FIELD(self, s32 *, 0x58) =
-                                delta + FIELD(self, s32 *, 0x58);
-                    }
-                    if (matrix_frame.values[8] == 0) {
-                        FIELD(self, u16 *, 0x62) |= 1;
-                    }
-                    break;
-                case 2:
-                    if (matrix_frame.values[0] == matrix_frame.values[4] &&
-                        matrix_frame.values[8] == matrix_frame.values[0]) {
-                        FIELD(self, u16 *, 0x62) |= 0x40;
+                    case 2:
+                        if (matrix_frame.values[0] == matrix_frame.values[4] &&
+                            matrix_frame.values[8] == matrix_frame.values[0]) {
+                            FIELD(self, u16 *, 0x62) |= 0x40;
+                            {
+                                s32 symbol = matrix_frame.values[4];
+                                s32 base_payout = (s32)payout_table[symbol] * 1000;
+                                s32 line_payout =
+                                    (s32)FIELD(self, u16 *, 0x64) * base_payout;
+                                FIELD(self, s32 *, 0x58) =
+                                    line_payout + FIELD(self, s32 *, 0x58);
+                            }
+                            if (matrix_frame.values[4] == 0) {
+                                FIELD(self, u16 *, 0x62) |= 1;
+                            }
+                        }
+                        if (matrix_frame.values[2] != matrix_frame.values[4] ||
+                            matrix_frame.values[6] != matrix_frame.values[2]) {
+                            break;
+                        }
+                        FIELD(self, u16 *, 0x62) |= 0x20;
                         {
-                            s32 value = matrix_frame.values[4];
-                            s32 offset = (s32)map[value] * 1000;
-                            s32 delta =
-                                (s32)FIELD(self, u16 *, 0x64) * offset;
+                            s32 symbol = matrix_frame.values[4];
+                            s32 base_payout = (s32)payout_table[symbol] * 1000;
+                            s32 line_payout =
+                                (s32)FIELD(self, u16 *, 0x64) * base_payout;
                             FIELD(self, s32 *, 0x58) =
-                                delta + FIELD(self, s32 *, 0x58);
+                                line_payout + FIELD(self, s32 *, 0x58);
                         }
                         if (matrix_frame.values[4] == 0) {
                             FIELD(self, u16 *, 0x62) |= 1;
                         }
-                    }
-                    if (matrix_frame.values[2] != matrix_frame.values[4] ||
-                        matrix_frame.values[6] != matrix_frame.values[2]) {
                         break;
                     }
-                    FIELD(self, u16 *, 0x62) |= 0x20;
-                    {
-                        s32 value = matrix_frame.values[4];
-                        s32 offset = (s32)map[value] * 1000;
-                        s32 delta =
-                            (s32)FIELD(self, u16 *, 0x64) * offset;
-                        FIELD(self, s32 *, 0x58) =
-                            delta + FIELD(self, s32 *, 0x58);
-                    }
-                    if (matrix_frame.values[4] == 0) {
-                        FIELD(self, u16 *, 0x62) |= 1;
-                    }
-                    break;
-                }
-                    j++;
-                } while (j < FIELD(self, u16 *, 0x64));
+                    scan_index++;
+                } while (scan_index < FIELD(self, u16 *, 0x64));
             }
         }
     }
@@ -421,50 +388,50 @@ state_6:
     }
 
     if (FIELD(self, u16 *, 0x62) & 1) {
-        obj = (u8 *)func_800373DC(0x100);
-        if (obj != 0) {
-            FIELD(obj, u8 **, 0x10) = D_8052DC78;
+        effect_obj = (u8 *)func_800373DC(0x100);
+        if (effect_obj != 0) {
+            FIELD(effect_obj, u8 **, 0x10) = D_8052DC78;
         }
     }
 
     {
-        s32 amount = FIELD(self, s32 *, 0x58);
-        s32 quotient10 = (j = amount / 1000) / 10;
-        s32 hundreds = quotient10 / 10;
-        s32 ones = j - quotient10 * 10;
-        s32 tens = quotient10;
-        s32 ext = (tens -= hundreds * 10, ones << 16);
-        s16 narrow_tens = (inner = ext >> 16, (s16)tens);
+        s32 payout = FIELD(self, s32 *, 0x58);
+        s32 payout_tens = (scan_index = payout / 1000) / 10;
+        s32 hundreds = payout_tens / 10;
+        s32 ones = scan_index - payout_tens * 10;
+        s32 tens = payout_tens;
+        s32 ones_shift_or_split = (tens -= hundreds * 10, ones << 16);
+        s16 narrow_tens = (row_or_digit_sum = ones_shift_or_split >> 16, (s16)tens);
         s32 signed_tens = narrow_tens;
         s32 signed_hundreds;
-        s32 hundreds_ext;
-        s16 *decimal_base = D_80530590;
-        inner += signed_tens;
+        s32 hundreds_shift;
+        s16 *digits = D_80530590;
+        row_or_digit_sum += signed_tens;
         hundreds = hundreds % 10;
-        hundreds_ext = hundreds << 16;
-        amount = hundreds_ext >> 16;
-        signed_hundreds = amount;
-        inner += signed_hundreds;
+        hundreds_shift = hundreds << 16;
+        payout = hundreds_shift >> 16;
+        signed_hundreds = payout;
+        row_or_digit_sum += signed_hundreds;
 
-    decimal_base[0] = ones;
-    DIGIT1 = narrow_tens;
-    DIGIT2 = hundreds;
-        ext = (inner < 10);
-        if (ext) {
+        digits[0] = ones;
+        DIGIT1 = narrow_tens;
+        DIGIT2 = hundreds;
+        ones_shift_or_split = (row_or_digit_sum < 10);
+        if (ones_shift_or_split) {
             if (signed_hundreds > 0) {
-                s32 dec2 = hundreds - 1;
-                inner += 9;
-                DIGIT2 = dec2;
+                s32 remaining_hundreds = hundreds - 1;
+                row_or_digit_sum += 9;
+                DIGIT2 = remaining_hundreds;
                 DIGIT1 = narrow_tens + 10;
-                goto label_D164;
+                goto start_payout;
             }
             if (narrow_tens > 0) {
-                inner += 9;
+                row_or_digit_sum += 9;
                 DIGIT1 = narrow_tens - 1;
-                decimal_base[0] = ones + 10;
+                digits[0] = ones + 10;
             }
         }
-label_D164:
+start_payout:
         FIELD(self, u16 *, 0x5E) = 0;
         FIELD(self, s16 *, 0x5C) = 7;
         goto done;
@@ -481,79 +448,79 @@ state_7:
         }
     }
 
-    digit_base = (s16 *)D_80530590;
+    payout_digits = (s16 *)D_80530590;
     {
-        s32 digit2 = DIGIT2;
-    if ((s32)digit_base[0] + DIGIT1 + digit2 == 0) {
-        if (!(FIELD(self, u16 *, 0x62) & 2)) {
-            void *effect = D_80530598[0];
-            FIELD(self, u16 *, 0x64) = 0;
-            func_80232A08(effect);
-            FIELD(self, u16 *, 0x5E) = 10;
-            FIELD(self, s16 *, 0x5C) = 3;
-        }
-        FIELD(self, u16 *, 0x62) &= 0xFFFD;
-        goto done;
-    }
-    }
-
-    {
-        u8 *state_data;
-        u8 *object_data;
-        s32 color;
-        s32 half;
-
-        obj = (u8 *)func_800373DC(0x136);
-
-        if (obj == 0) {
+        s32 hundreds_left = DIGIT2;
+        if ((s32)payout_digits[0] + DIGIT1 + hundreds_left == 0) {
+            if (!(FIELD(self, u16 *, 0x62) & 2)) {
+                void *bet_effect = D_80530598[0];
+                FIELD(self, u16 *, 0x64) = 0;
+                func_80232A08(bet_effect);
+                FIELD(self, u16 *, 0x5E) = 10;
+                FIELD(self, s16 *, 0x5C) = 3;
+            }
+            FIELD(self, u16 *, 0x62) &= 0xFFFD;
             goto done;
         }
-        FIELD(obj, u8 **, 0x10) = D_8052D770;
-        FIELD(FIELD(obj, u8 **, 8), s32 *, 0) =
-            FIELD(arg1_bytes, s32 *, 0) + (s32)0xFEC00000;
-        FIELD(FIELD(obj, u8 **, 8), s32 *, 4) =
-            FIELD(arg1_bytes, s32 *, 4) + (s32)0xFFC00000;
-        FIELD(FIELD(obj, u8 **, 8), s32 *, 8) =
-            FIELD(arg1_bytes, s32 *, 8) + (s32)0xFFC00000;
-        state_data = FIELD(obj, u8 **, 8);
-        FIELD(state_data, s32 *, 0x10) = 0;
-        FIELD(state_data, s32 *, 0xC) = 0;
-        FIELD(FIELD(obj, u8 **, 8), s32 *, 0x14) = 0x40000;
-        func_8003BC18(obj, D_8003C558);
-        object_data = FIELD(obj, u8 **, 0xC);
-        FIELD(object_data, u16 *, 0x1E) = 0x1000;
-        FIELD(object_data, u16 *, 0x1C) = 0x1000;
-        arg1_bytes = obj + 0x20;
+    }
+
+    {
+        u8 *motion;
+        u8 *sprite;
+        s32 tint;
+        s32 sprite_offset;
+
+        effect_obj = (u8 *)func_800373DC(0x136);
+
+        if (effect_obj == 0) {
+            goto done;
+        }
+        FIELD(effect_obj, u8 **, 0x10) = D_8052D770;
+        FIELD(FIELD(effect_obj, u8 **, 8), s32 *, 0) =
+            FIELD(position_or_effect, s32 *, 0) + (s32)0xFEC00000;
+        FIELD(FIELD(effect_obj, u8 **, 8), s32 *, 4) =
+            FIELD(position_or_effect, s32 *, 4) + (s32)0xFFC00000;
+        FIELD(FIELD(effect_obj, u8 **, 8), s32 *, 8) =
+            FIELD(position_or_effect, s32 *, 8) + (s32)0xFFC00000;
+        motion = FIELD(effect_obj, u8 **, 8);
+        FIELD(motion, s32 *, 0x10) = 0;
+        FIELD(motion, s32 *, 0xC) = 0;
+        FIELD(FIELD(effect_obj, u8 **, 8), s32 *, 0x14) = 0x40000;
+        func_8003BC18(effect_obj, D_8003C558);
+        sprite = FIELD(effect_obj, u8 **, 0xC);
+        FIELD(sprite, u16 *, 0x1E) = 0x1000;
+        FIELD(sprite, u16 *, 0x1C) = 0x1000;
+        position_or_effect = effect_obj + 0x20;
 
         if (DIGIT2 != 0) {
             DIGIT2--;
-            FIELD(obj, s16 *, 0x74) = 2;
-            goto label_D338;
+            FIELD(effect_obj, s16 *, 0x74) = 2;
+            goto configure_effect;
         }
         if (DIGIT1 != 0) {
             DIGIT1--;
-            FIELD(obj, s16 *, 0x74) = 1;
-            half = FIELD(object_data, u16 *, 0x12) - 5;
-            goto label_D334;
+            FIELD(effect_obj, s16 *, 0x74) = 1;
+            sprite_offset = FIELD(sprite, u16 *, 0x12) - 5;
+            goto set_sprite_offset;
         }
         if (DIGIT0 != 0) {
             DIGIT0--;
-            FIELD(obj, s16 *, 0x74) = 0;
-            half = FIELD(object_data, u16 *, 0x12) + 5;
-label_D334:
-            FIELD(object_data, u16 *, 0x12) = half;
+            FIELD(effect_obj, s16 *, 0x74) = 0;
+            sprite_offset = FIELD(sprite, u16 *, 0x12) + 5;
+set_sprite_offset:
+            FIELD(sprite, u16 *, 0x12) = sprite_offset;
         }
 
-label_D338:
-        color = 0x00808080;
-        FIELD(object_data, void **, 0) = (void *)D_80077C64;
-        FIELD(object_data, s32 *, 8) = D_80077C68[0];
-        FIELD(object_data, u8 *, 4) = 0;
-        FIELD(object_data, u8 *, 5) = 0;
-        FIELD(object_data, s32 *, 0xC) = color;
-        FIELD(arg1_bytes, void **, 0) = self;
-        FIELD(arg1_bytes, void **, 0x50) = common_value;
-        func_8023FA58(arg1_bytes + 8, FIELD(obj, void **, 8), D_8053016C);
+configure_effect:
+        tint = 0x00808080;
+        FIELD(sprite, void **, 0) = (void *)D_80077C64;
+        FIELD(sprite, s32 *, 8) = D_80077C68[0];
+        FIELD(sprite, u8 *, 4) = 0;
+        FIELD(sprite, u8 *, 5) = 0;
+        FIELD(sprite, s32 *, 0xC) = tint;
+        FIELD(position_or_effect, void **, 0) = self;
+        FIELD(position_or_effect, void **, 0x50) = effect_config;
+        func_8023FA58(position_or_effect + 8, FIELD(effect_obj, void **, 8), D_8053016C);
     }
 
 done:

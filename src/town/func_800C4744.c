@@ -25,50 +25,51 @@ extern s32 D_800C1F8C;
 extern s32 func_80033B2C(s16);
 extern void func_80053DA8(u16);
 
+/* Triggers the entity action and updates its handler when its predicate and distance checks pass. */
 void func_800C1EA4(Entity *entity)
 {
-    Position *position;
-    register s32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 x_distance ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    Position *reference_pos;
+    register s32 axis_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 x_delta ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 mode;
-    s16 abs_x;
-    s16 abs_y;
+    s16 x_distance;
+    s16 y_distance;
 
-    position = (Position *)D_80083780;
-    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    x_distance = entity->x;
-    scratch = position->x;
-    position = (Position *)(s32)position->y;
-    x_distance -= scratch;
-    scratch = entity->y;
-    abs_x = x_distance;
-    if (x_distance < 0) {
-        abs_x = -abs_x;
+    reference_pos = (Position *)D_80083780;
+    ASM_KEEP(reference_pos);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    x_delta = entity->x;
+    axis_value = reference_pos->x;
+    reference_pos = (Position *)(s32)reference_pos->y;
+    x_delta -= axis_value;
+    axis_value = entity->y;
+    x_distance = x_delta;
+    if (x_delta < 0) {
+        x_distance = -x_distance;
     }
-    scratch -= (s32)position;
+    axis_value -= (s32)reference_pos;
     mode = entity->mode;
-    abs_y = scratch;
-    if (scratch < 0) {
-        abs_y = -abs_y;
+    y_distance = axis_value;
+    if (axis_value < 0) {
+        y_distance = -y_distance;
     }
 
     if (mode == 0) {
         if (func_80033B2C(entity->predicate_arg) == 0) {
             return;
         }
-        scratch = abs_x << 16;
+        axis_value = x_distance << 16;
     } else {
         if (func_80033B2C(entity->predicate_arg) != 0) {
             return;
         }
-        scratch = abs_x << 16;
+        axis_value = x_distance << 16;
     }
 
-    if (entity->limit_x < (scratch >> 16)) {
+    if (entity->limit_x < (axis_value >> 16)) {
         return;
     }
-    scratch = abs_y << 16;
-    if (entity->limit_y < (scratch >> 16)) {
+    axis_value = y_distance << 16;
+    if (entity->limit_y < (axis_value >> 16)) {
         return;
     }
 
@@ -76,6 +77,3 @@ void func_800C1EA4(Entity *entity)
     entity->handler = &D_800C1F8C;
 }
 
-/* MECHANISM: The internal 0x800C1F30 jump is a shared CFG label, not a callee.
-   A guarded v1 Position base and split v1 mode role reproduce the retail prefix;
-   branch-local shifted-x values fill both predicate delay slots and merge in v0. */

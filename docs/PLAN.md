@@ -98,7 +98,7 @@ azure-clean/
                             prototypes, globals; m2c_compat.h holds the few residual macros
   src/slus/<module>.c       functions grouped by module, retail order inside a module
   src/main/…  src/town/…  src/dungeon/…  src/ovmovie/…
-  refine/<container>/<func>.c   hand-refined bodies that supersede the generated ones
+  ledger/agents/out/…       every accepted agent body as delivered; tools/promote.py lands it in src/
   names.tsv                 semantic names with evidence; aliases keep func_ addresses
   tools/                    census, verify, xform/*, sweep, refresh, status  (small)
   ledger/                   per-row: source sha, verdict, level, tool hashes (jsonl, append-only)
@@ -114,7 +114,7 @@ Cleanliness levels per row (the metric; `STATUS.md` reports bytes at ≥ each le
 | L0 | verified byte-exact at the pin through stock cells and name-blind assembler |
 | L1 | no boilerplate, no dead pins, no `LABEL_AS_CALL` / zero-arg pass-through (fidelity classes) and no pseudo-call to a label inside the row (checked from the text, not only the baseline audit) — the mechanical sweeps have been tried on every site (`t8_passthru`, `t10_epilogue`, the mid-row lanes) |
 | L2 | no `M2C_FIELD`: typed access through a (possibly partial, `unk_`-padded) struct |
-| L3 | locals named, one-line summary comment, control flow simplified where match allows; **every remaining pin, marker and tail-call spelling was attempted for removal** by the lane that refined the row (journalled counts before/after) |
+| L3 | locals named, one-line summary comment, control flow simplified where match allows; the accepted body **landed in `src/`** (`ledger/promotions.jsonl`, verified; there is no second tree); **every remaining pin, marker and tail-call spelling was attempted for removal** by the lane that refined the row (journalled counts before/after) |
 | L4 | in a module with a shared header; struct declared once; globals typed; names and module membership agree with the row's evidence (`docs/EVIDENCE.md`: a row carrying `main.c:40` is in `main.c`) |
 | L5 | **strict, nothing left**: no `ASM_*` pin or marker, no noreturn tail-call spelling, no fidelity site of any audit class (blocking or byte-derived), no computed-goto table, no inline asm, no `NON_MATCHING` guard. A row that cannot get there stays at L4 with each residue documented with the measured reason (`ledger/levels.jsonl` `l5_residue` names it) |
 
@@ -197,8 +197,8 @@ fits. This is where the **Astra evaluation** happens (§5).
 
 Heavily pinned and computed-goto functions (617 dungeon files with >10 pins, ~185 jump-table
 TUs). Real rewrite work: `switch` instead of `goto *table[]`, struct types instead of register
-games. Some will keep pins; they get a documented reason. Hand results go under `refine/` and
-survive snapshot refreshes.
+games. Some will keep pins; they get a documented reason. Hand results land in `src/` through
+`tools/promote.py` (verified, journalled) and survive snapshot refreshes through that journal.
 
 Sequence: L0 → L1 (this week, machine) → Astra/luna/sol evaluation on L2 (30-row bake-off) →
 L2 at scale with the winner → L3 headers/modules alongside → L4 continuously on the residue.

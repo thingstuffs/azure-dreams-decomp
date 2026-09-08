@@ -12,34 +12,35 @@ extern s32 D_80017598;
 extern s32 D_800175A4;
 extern s32 func_800198D0();
 
-void func_80017460(void **arg0) {
-    TownValues local;
-    register void *result;
-    s32 index;
-    register TownValues *source;
+/* Selects a data pointer based on queried conditions and the current state index. */
+void func_80017460(void **out_data) {
+    TownValues condition_ids;
+    register void *selected_data;
+    s32 state_index;
+    register TownValues *condition_table;
 
-    source = (TownValues *)(D_80010000 + 0x7134);
-    local = *source;
+    condition_table = (TownValues *)(D_80010000 + 0x7134);
+    condition_ids = *condition_table;
     if (func_800198D0(0x1391) == 0) {
         goto second_call;
     }
-    result = &D_80017530;
+    selected_data = &D_80017530;
     goto out;
 second_call:
     if (func_800198D0(0x14) == 0) {
         goto set_3c;
     }
-    index = *(s32 *)(*(void **)D_80016000 + 8);
-    if (func_800198D0(local.values[index]) != 0) {
+    state_index = *(s32 *)(*(void **)D_80016000 + 8);
+    if (func_800198D0(condition_ids.values[state_index]) != 0) {
         goto set_a4;
     }
-    result = &D_80017598;
+    selected_data = &D_80017598;
     goto out;
 set_a4:
-    result = &D_800175A4;
+    selected_data = &D_800175A4;
     goto out;
 set_3c:
-    result = &D_8001753C;
+    selected_data = &D_8001753C;
 out:
-    *arg0 = result;
+    *out_data = selected_data;
 }

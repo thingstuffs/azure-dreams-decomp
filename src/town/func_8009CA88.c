@@ -46,57 +46,58 @@ M2C_UNK func_80098928();
 u16 func_800C2AE8();
 extern u8 D_80082660;
 extern M2C_UNK D_80099C18;
-void func_8009A1E8(void *arg0, void *arg1, M2C_UNK arg2)
+/* Set travel timing from distance and speed, or snap motion to the destination. */
+void func_8009A1E8(void *actor, void *motion, M2C_UNK context)
 {
-  unsigned int new_var2;
-  s32 temp_a0;
-  s32 var_v0_2;
-  s32 var_v1;
-  register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-  s32 var_v0;
-  s8 *new_var;
-  *(((*((s32 *) (((s8 *) arg0) + 0x40))) * 8) + (&D_80082660)) = 0;
-  *((M2C_UNK **) (((s8 *) arg0) + 4)) = &D_80099C18;
-  var_v1 = func_8003BD84(((*((s16 *) (((s8 *) arg0) + 0x36))) << 0x10) - (*((s32 *) (((s8 *) arg1) + 0))), ((*((s16 *) (((s8 *) arg0) + 0x38))) << 0x10) - (*((s32 *) (((s8 *) arg1) + 4))));
-  if (var_v1 < 0)
+  unsigned int modifier_bits;
+  s32 base_ticks;
+  s32 scaled_ticks;
+  s32 distance;
+  register s32 speed_modifier ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+  s32 modifier_magnitude;
+  s8 *movement_state;
+  *(((*((s32 *) (((s8 *) actor) + 0x40))) * 8) + (&D_80082660)) = 0;
+  *((M2C_UNK **) (((s8 *) actor) + 4)) = &D_80099C18;
+  distance = func_8003BD84(((*((s16 *) (((s8 *) actor) + 0x36))) << 0x10) - (*((s32 *) (((s8 *) motion) + 0))), ((*((s16 *) (((s8 *) actor) + 0x38))) << 0x10) - (*((s32 *) (((s8 *) motion) + 4))));
+  if (distance < 0)
   {
-    var_v1 += 0x1FFFF;
+    distance += 0x1FFFF;
   }
-  new_var = (s8 *) (((*((s32 *) (((s8 *) arg0) + 0x40))) * 8) + (&D_80082660));
-  temp_a0 = var_v1 >> 0x11;
-  *((s16 *) (((s8 *) arg0) + 0xA)) = (s16) temp_a0;
-  temp_v1 = *((s8 *) (new_var + 2));
-  if (temp_v1 == (-0x80))
+  movement_state = (s8 *) (((*((s32 *) (((s8 *) actor) + 0x40))) * 8) + (&D_80082660));
+  base_ticks = distance >> 0x11;
+  *((s16 *) (((s8 *) actor) + 0xA)) = (s16) base_ticks;
+  speed_modifier = *((s8 *) (movement_state + 2));
+  if (speed_modifier == (-0x80))
   {
-    *((s32 *) (((s8 *) arg1) + 0)) = (s32) ((*((s16 *) (((s8 *) arg0) + 0x36))) << 0x10);
-    *((s32 *) (((s8 *) arg1) + 4)) = (s32) ((*((s16 *) (((s8 *) arg0) + 0x38))) << 0x10);
-    *((u16 *) (((s8 *) arg1) + 0xA)) = (u16) ((*((u16 *) (((s8 *) arg1) + 0xA))) - 0x80);
-    *((u16 *) (((s8 *) arg1) + 0xA)) = func_800C2AE8(arg1);
-    func_80098928(arg0, arg1, arg2);
+    *((s32 *) (((s8 *) motion) + 0)) = (s32) ((*((s16 *) (((s8 *) actor) + 0x36))) << 0x10);
+    *((s32 *) (((s8 *) motion) + 4)) = (s32) ((*((s16 *) (((s8 *) actor) + 0x38))) << 0x10);
+    *((u16 *) (((s8 *) motion) + 0xA)) = (u16) ((*((u16 *) (((s8 *) motion) + 0xA))) - 0x80);
+    *((u16 *) (((s8 *) motion) + 0xA)) = func_800C2AE8(motion);
+    func_80098928(actor, motion, context);
     return;
   }
-  if (temp_v1 > 0)
+  if (speed_modifier > 0)
   {
-    *((s16 *) (((s8 *) arg0) + 0xA)) = (s16) ((temp_a0 << 4) / (temp_v1 + 0x10));
+    *((s16 *) (((s8 *) actor) + 0xA)) = (s16) ((base_ticks << 4) / (speed_modifier + 0x10));
     return;
   }
-  if (temp_v1 < 0)
+  if (speed_modifier < 0)
   {
-    ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    new_var2 = temp_v1;
-    if (temp_v1 < 0)
+    ASM_KEEP(speed_modifier);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    modifier_bits = speed_modifier;
+    if (speed_modifier < 0)
     {
-      var_v0 = 0 - new_var2;
+      modifier_magnitude = 0 - modifier_bits;
     }
     else
     {
-      var_v0 = new_var2;
+      modifier_magnitude = modifier_bits;
     }
-    var_v0_2 = temp_a0 * (var_v0 + 0x10);
-    if (var_v0_2 < 0)
+    scaled_ticks = base_ticks * (modifier_magnitude + 0x10);
+    if (scaled_ticks < 0)
     {
-      var_v0_2 += 0xF;
+      scaled_ticks += 0xF;
     }
-    *((s16 *) (((s8 *) arg0) + 0xA)) = (s16) (var_v0_2 >> 4);
+    *((s16 *) (((s8 *) actor) + 0xA)) = (s16) (scaled_ticks >> 4);
   }
 }

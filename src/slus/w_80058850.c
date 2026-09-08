@@ -14,20 +14,17 @@ extern s8 D_800330FC[];
 
 extern s32 func_80058800(s8 *a0, s8 *a1, s32 a2);
 
-/* Searches a byte table (base D_80085FA4[0], length D_800869B0[0]) starting at
- * byte index `a0`, looking for a run of 4 bytes matching D_800330FC. Returns
- * (match index + 4) on success, or -1 if the search runs off the end of the
- * table without finding a match. */
-s32 func_80058850(s32 a0)
+/* Searches from start_index for D_800330FC's four bytes, returning the index after the match or -1. */
+s32 func_80058850(s32 start_index)
 {
-    s32 s0 = a0;
+    s32 byte_index = start_index;
 
     do {
-        if (func_80058800(D_800330FC, (s8 *)D_80085FA4[0] + s0, 4) == 0) {
-            return s0 + 4;
+        if (func_80058800(D_800330FC, (s8 *)D_80085FA4[0] + byte_index, 4) == 0) {
+            return byte_index + 4;
         }
-        s0 = s0 + 1;
-    } while ((u32)D_800869B0[0] >= (u32)s0);
+        byte_index = byte_index + 1;
+    } while ((u32)D_800869B0[0] >= (u32)byte_index);
 
     return -1;
 }

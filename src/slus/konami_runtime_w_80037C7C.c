@@ -22,39 +22,40 @@ typedef struct Func80037C7CState {
     s16 field40;
 } Func80037C7CState;
 
-void func_80037C7C(Func80037C7CState *arg0, s32 arg1) {
-    s16 value = (s16)arg1;
-    s32 original = arg1;
+/* Update paired offsets and clamped extents from the input offset. */
+void func_80037C7C(Func80037C7CState *state, s32 offset) {
+    s16 signed_offset = (s16)offset;
+    s32 input_offset = offset;
 
-    arg0->field00[4] = value;
-    if (value >= 0x37) {
-        arg0->field0C = -0x38;
-        arg0->field10 = 0x30;
+    state->field00[4] = signed_offset;
+    if (signed_offset >= 0x37) {
+        state->field0C = -0x38;
+        state->field10 = 0x30;
     } else {
-        arg0->field0C = -original - 2;
-        arg0->field10 = original - 6;
-        if ((s16)arg0->field10 <= 0) {
-            arg0->field10 = 1;
+        state->field0C = -input_offset - 2;
+        state->field10 = input_offset - 6;
+        if ((s16)state->field10 <= 0) {
+            state->field10 = 1;
         }
     }
 
-    if ((s16)original < 0x36) {
-        arg0->field24 = -original + 0x36;
+    if ((s16)input_offset < 0x36) {
+        state->field24 = -input_offset + 0x36;
     } else {
-        arg0->field24 = 0;
+        state->field24 = 0;
     }
 
-    arg1 = -original;
-    arg0->field18 = arg0->field10;
-    arg0->field28 = arg1 - 3;
-    arg0->field2C = original + 6;
-    if ((s16)arg0->field2C <= 0) {
-        arg0->field2C = 1;
+    offset = -input_offset;
+    state->field18 = state->field10;
+    state->field28 = offset - 3;
+    state->field2C = input_offset + 6;
+    if ((s16)state->field2C <= 0) {
+        state->field2C = 1;
     }
-    if ((s16)original < 0x40) {
-        arg0->field40 = arg1 + 0x40;
+    if ((s16)input_offset < 0x40) {
+        state->field40 = offset + 0x40;
     } else {
-        arg0->field40 = 0;
+        state->field40 = 0;
     }
-    arg0->field34 = arg0->field2C;
+    state->field34 = state->field2C;
 }

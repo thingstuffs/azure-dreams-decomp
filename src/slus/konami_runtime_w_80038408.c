@@ -14,12 +14,13 @@ typedef struct {
 extern int func_800392A4(u8 arg0);
 extern void func_80038A10(void);
 
-void func_80038408(FuncState *arg0) {
-    if (func_800392A4(arg0->state_2f) == 0) {
-        arg0->state_89 -= 1;
-        if ((signed char)arg0->state_89 >= 0) {
+/* Advance the state handler when the state check succeeds or the countdown expires. */
+void func_80038408(FuncState *state) {
+    if (func_800392A4(state->state_2f) == 0) {
+        state->state_89 -= 1;
+        if ((signed char)state->state_89 >= 0) {
             return;
         }
     }
-    arg0->state_func = func_80038A10;
+    state->state_func = func_80038A10;
 }

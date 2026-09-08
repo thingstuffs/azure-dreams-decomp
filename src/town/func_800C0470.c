@@ -35,26 +35,27 @@ typedef struct S_800BDBD0_3 {
     s32 unk_08;
 } S_800BDBD0_3;   /* arg0 in func_800BDBD0 */
 
-void *func_800BDBD0(S_800BDBD0_3 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    S_800BDBD0_0 *temp_v0;
-    S_800BDBD0_1 *temp_v1;
-    S_800BDBD0_2 *temp_v1_2;
+/* Creates an object at the supplied position and initializes its visual properties. */
+void *func_800BDBD0(S_800BDBD0_3 *source_pos, s32 object_data, s32 angle, s32 visual_data) {
+    S_800BDBD0_0 *object;
+    S_800BDBD0_1 *visual;
+    S_800BDBD0_2 *position;
 
-    temp_v0 = func_8003FC64(0x136);
-    if (temp_v0 != NULL) {
-        func_8004491C(temp_v0, &D_80046398);
-        temp_v1 = temp_v0->unk_0C;
-        temp_v0->unk_10 = arg1;
-        temp_v1->unk_1A = (s16) arg2;
-        temp_v1->unk_1C = 0x1000;
-        temp_v1->unk_1E = 0x1000;
-        temp_v1->unk_20 = 0x1000;
-        temp_v1->unk_0C = 0x808080;
-        temp_v1->unk_08 = arg3;
-        temp_v1_2 = temp_v0->unk_08;
-        temp_v1_2->unk_00 = arg0->unk_00;
-        temp_v1_2->unk_04 = arg0->unk_04;
-        temp_v1_2->unk_08 = arg0->unk_08;
+    object = func_8003FC64(0x136);
+    if (object != NULL) {
+        func_8004491C(object, &D_80046398);
+        visual = object->unk_0C;
+        object->unk_10 = object_data;
+        visual->unk_1A = (s16) angle;
+        visual->unk_1C = 0x1000;
+        visual->unk_1E = 0x1000;
+        visual->unk_20 = 0x1000;
+        visual->unk_0C = 0x808080;
+        visual->unk_08 = visual_data;
+        position = object->unk_08;
+        position->unk_00 = source_pos->unk_00;
+        position->unk_04 = source_pos->unk_04;
+        position->unk_08 = source_pos->unk_08;
     }
-    return temp_v0;
+    return object;
 }

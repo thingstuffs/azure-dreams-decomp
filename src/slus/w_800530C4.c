@@ -25,26 +25,27 @@ typedef struct Main {
     Child *children[16];
 } Main;
 
-void func_800530C4(Main *arg0)
+/* Reset group state, increment its counter, and set bit 0x8000 in the main, child, and global flags. */
+void func_800530C4(Main *main)
 {
-    Group **p;
-    s32 i;
+    Group **group_slot;
+    s32 child_index;
     Child *child;
-    Child **children;
+    Child **child_cursor;
 
-    arg0->group->field_1C = 0;
-    i = 0;
-    arg0->group->counter++;
-    p = &arg0->group;
-    children = (Child **)p;
+    main->group->field_1C = 0;
+    child_index = 0;
+    main->group->counter++;
+    group_slot = &main->group;
+    child_cursor = (Child **)group_slot;
     do {
-        child = children[4];
+        child = child_cursor[4];
         D_800814A0 |= 0x8000;
         child->flags |= 0x8000;
-        children++;
-        i++;
-    } while (i < 16);
+        child_cursor++;
+        child_index++;
+    } while (child_index < 16);
 
-    ((volatile u16 *)p)[-1] |= 0x8000;
+    ((volatile u16 *)group_slot)[-1] |= 0x8000;
     D_800814A0_store = D_800814A0;
 }

@@ -44,36 +44,33 @@ typedef struct S_800CB374_3 {
     s32 unk_CC;
 } S_800CB374_3;   /* ((S_800CB374_0 *)arg0)->unk_A8 in func_800CB374 */
 
-void func_800CB374(void *arg0, void *arg1, S_800CB374_1 *arg2) {
-    s16 temp_v0;
-    u8 temp_a0;
-    S_800CB374_2 *temp_v1;
+/* Fades primitive colors or copies source attributes and propagates completion flags. */
+void func_800CB374(void *effect, void *unused, S_800CB374_1 *primitive) {
+    s16 fade_steps;
+    u8 blue;
+    S_800CB374_2 *source_primitive;
 
-    func_800478B8(arg2);
-    if (((S_800CB374_0 *)arg0)->unk_B4 != 0) {
-        arg2->unk_0C.at00.v = (u8) (arg2->unk_0C.at00.v - ((s32) arg2->unk_0C.at00.v / (s16) ((S_800CB374_0 *)arg0)->unk_96));
-        arg2->unk_0C.at01.v = (u8) (arg2->unk_0C.at01.v - ((s32) arg2->unk_0C.at01.v / (s16) ((S_800CB374_0 *)arg0)->unk_96));
-        temp_a0 = arg2->unk_0C.at02.v - ((s32) arg2->unk_0C.at02.v / (s16) ((S_800CB374_0 *)arg0)->unk_96);
-        arg2->unk_0C.at02.v = temp_a0;
-        arg2->unk_06 = (u16) (arg2->unk_06 - 1);
-        temp_v0 = (u16) ((S_800CB374_0 *)arg0)->unk_96 - 1;
-        ((S_800CB374_0 *)arg0)->unk_96 = temp_v0;
-        if ((temp_v0 << 0x10) > 0) {
+    func_800478B8(primitive);
+    if (((S_800CB374_0 *)effect)->unk_B4 != 0) {
+        primitive->unk_0C.at00.v = (u8) (primitive->unk_0C.at00.v - ((s32) primitive->unk_0C.at00.v / (s16) ((S_800CB374_0 *)effect)->unk_96));
+        primitive->unk_0C.at01.v = (u8) (primitive->unk_0C.at01.v - ((s32) primitive->unk_0C.at01.v / (s16) ((S_800CB374_0 *)effect)->unk_96));
+        blue = primitive->unk_0C.at02.v - ((s32) primitive->unk_0C.at02.v / (s16) ((S_800CB374_0 *)effect)->unk_96);
+        primitive->unk_0C.at02.v = blue;
+        primitive->unk_06 = (u16) (primitive->unk_06 - 1);
+        fade_steps = (u16) ((S_800CB374_0 *)effect)->unk_96 - 1;
+        ((S_800CB374_0 *)effect)->unk_96 = fade_steps;
+        if ((fade_steps << 0x10) > 0) {
             return;
         }
-        goto block_5;
+        goto mark_complete;
     }
-    arg2->unk_0C.at00u.v = ((S_800CB374_3 *)(((S_800CB374_0 *)arg0)->unk_A8))->unk_CC;
-    temp_v1 = ((S_800CB374_3 *)(((S_800CB374_0 *)arg0)->unk_A8))->unk_0C;
-    arg2->unk_1C = (u16) temp_v1->unk_1C;
-    arg2->unk_1E = (u16) temp_v1->unk_1E;
-    if (((S_800CB374_3 *)(((S_800CB374_0 *)arg0)->unk_A8))->unk_1E & 0x8000) {
-block_5:
-        ((S_800CB374_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800CB374_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    primitive->unk_0C.at00u.v = ((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_CC;
+    source_primitive = ((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_0C;
+    primitive->unk_1C = (u16) source_primitive->unk_1C;
+    primitive->unk_1E = (u16) source_primitive->unk_1E;
+    if (((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_1E & 0x8000) {
+mark_complete:
+        ((S_800CB374_0_pre *)effect)[-1].unk_00 = (u16) (((S_800CB374_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0.v |= 0x8000;
     }
 }
-
-/* MECHANISM: The 0x20 frame naturally holds arg0 in s1 and arg2 in s0 across the call.
-   A zero-argument tail call and 32-bit fallback copy restore the retail ABI and widths.
-   Ordering the +6 halfword decrement after all byte reductions closes the one-word cascade. */

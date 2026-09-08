@@ -2,33 +2,34 @@
 
 extern s32 D_800814A0[];
 
-void func_7FDD3BE4(void *arg0) {
-    void *temp_t0;
-    void *var_a3;
-    s32 var_a1;
-    s32 var_a2;
-    s32 temp_v1;
-    s32 sum;
+/* Packs three capped source components, copies an attribute, and propagates the high-bit flag. */
+void func_7FDD3BE4(void *dest) {
+    void *source;
+    void *component_cursor;
+    s32 component;
+    s32 byte_index;
+    s32 shift;
+    s32 packed_value;
 
-    temp_t0 = *(void **) ((s8 *) arg0 + 4);
-    var_a2 = 2;
-    *(s32 *) ((s8 *) arg0 + 8) = 0;
-    var_a3 = (s8 *) temp_t0 + 4;
+    source = *(void **) ((s8 *) dest + 4);
+    byte_index = 2;
+    *(s32 *) ((s8 *) dest + 8) = 0;
+    component_cursor = (s8 *) source + 4;
     do {
-        var_a1 = *(s16 *) ((s8 *) var_a3 + 0xE);
-        if (var_a1 >= 0x100) {
-            var_a1 = 0xFF;
+        component = *(s16 *) ((s8 *) component_cursor + 0xE);
+        if (component >= 0x100) {
+            component = 0xFF;
         }
-        var_a3 = (s8 *) var_a3 - 2;
-        temp_v1 = var_a2 * 8;
-        var_a2 -= 1;
-        sum = *(s32 *) ((s8 *) arg0 + 8);
-        sum = sum + (var_a1 << temp_v1);
-        *(s32 *) ((s8 *) arg0 + 8) = sum;
-    } while (var_a2 >= 0);
-    *(u16 *) ((s8 *) arg0 + 0x14) = *(u16 *) ((s8 *) temp_t0 + 0x14);
-    if (*(s16 *) ((s8 *) temp_t0 + 0x16) & 0x8000) {
-        *(u16 *) ((s8 *) arg0 - 2) = *(u16 *) ((s8 *) arg0 - 2) | 0x8000;
+        component_cursor = (s8 *) component_cursor - 2;
+        shift = byte_index * 8;
+        byte_index -= 1;
+        packed_value = *(s32 *) ((s8 *) dest + 8);
+        packed_value = packed_value + (component << shift);
+        *(s32 *) ((s8 *) dest + 8) = packed_value;
+    } while (byte_index >= 0);
+    *(u16 *) ((s8 *) dest + 0x14) = *(u16 *) ((s8 *) source + 0x14);
+    if (*(s16 *) ((s8 *) source + 0x16) & 0x8000) {
+        *(u16 *) ((s8 *) dest - 2) = *(u16 *) ((s8 *) dest - 2) | 0x8000;
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 }

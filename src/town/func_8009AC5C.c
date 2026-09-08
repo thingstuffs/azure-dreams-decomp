@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_80097D54_arg0.h"
 
 
 extern s32 func_80098464();
@@ -10,14 +11,8 @@ extern s16 func_800C2AE8();
 
 
 
-typedef struct S_800983BC_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    u8 pad_0C[0x4];
-    s16 unk_10;
-} S_800983BC_1;   /* arg0 in func_800983BC */
 
-void func_800983BC(S_800983BC_1 *arg0, Rec_D_800E3D7C *arg1, s32 arg2) {
+void func_800983BC(Rec_func_80097D54_arg0 *arg0, Rec_D_800E3D7C *arg1, s32 arg2) {
     s16 temp_a0;
     u16 temp_v0;
     s32 side_v0;

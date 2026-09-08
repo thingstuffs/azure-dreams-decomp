@@ -31,61 +31,62 @@ extern s32 func_80053DA8();
 extern s32 func_800DC650();
 extern u8 D_800E2924[];
 
-void func_800DC724(S_800DC724_0 *arg0, s32 arg1)
+/* Move toward the indexed position, then apply the pending index once settled. */
+void func_800DC724(S_800DC724_0 *state, s32 coord)
 {
-    s32 temp_v0_2;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 temp_a2;
+    s32 next_index;
+    s32 delta_x;
+    s32 delta_y;
+    s32 current_index;
+    s32 biased_dx;
+    s32 biased_dy;
+    s32 target_y;
     s32 index;
     s32 target_x;
-    u8 *table;
+    u8 *positions;
     S_800DC724_2 *holder;
-    S_800DC724_3 *temp_a0;
-    S_800DC724_1 *temp_v0;
+    S_800DC724_3 *position;
+    S_800DC724_1 *target;
 
-    table = D_800E2924;
-    index = arg0->unk_50;
-    holder = arg0->unk_3C;
-    temp_v0 = (index * 4) + table;
-    target_x = temp_v0->unk_00;
-    do { temp_a2 = temp_v0->unk_02; } while (0);
-    do { temp_a0 = holder->unk_04; } while (0);
-    arg0->unk_58 = 0;
-    temp_v1 = (s16)target_x - temp_a0->unk_08;
-    if (temp_v1 != 0) {
-        do { arg0->unk_58 = 1; } while (0);
-        arg1 = temp_a0->unk_08;
-        var_v0 = temp_v1 + 3;
-        if (temp_v1 <= 0) {
-            var_v0 = temp_v1 - 3;
+    positions = D_800E2924;
+    index = state->unk_50;
+    holder = state->unk_3C;
+    target = (index * 4) + positions;
+    target_x = target->unk_00;
+    do { target_y = target->unk_02; } while (0);
+    do { position = holder->unk_04; } while (0);
+    state->unk_58 = 0;
+    delta_x = (s16)target_x - position->unk_08;
+    if (delta_x != 0) {
+        do { state->unk_58 = 1; } while (0);
+        coord = position->unk_08;
+        biased_dx = delta_x + 3;
+        if (delta_x <= 0) {
+            biased_dx = delta_x - 3;
         }
-        temp_a0->unk_08 = arg1 + (var_v0 >> 2);
+        position->unk_08 = coord + (biased_dx >> 2);
     }
-    temp_v1_2 = (s16)temp_a2 - temp_a0->unk_0A;
-    if (temp_v1_2 != 0) {
-        arg0->unk_58 = 1;
-        arg1 = temp_a0->unk_0A;
-        var_v0_2 = temp_v1_2 + 3;
-        if (temp_v1_2 <= 0) {
-            var_v0_2 = temp_v1_2 - 3;
+    delta_y = (s16)target_y - position->unk_0A;
+    if (delta_y != 0) {
+        state->unk_58 = 1;
+        coord = position->unk_0A;
+        biased_dy = delta_y + 3;
+        if (delta_y <= 0) {
+            biased_dy = delta_y - 3;
         }
-        temp_a0->unk_0A = arg1 + (var_v0_2 >> 2);
+        position->unk_0A = coord + (biased_dy >> 2);
     }
-    func_800DC650(arg0, arg1, temp_a2);
-    if (arg0->unk_58 != 0) {
+    func_800DC650(state, coord, target_y);
+    if (state->unk_58 != 0) {
         return;
     }
-    temp_v1_3 = arg0->unk_50;
-    temp_v0_2 = arg0->unk_54;
-    if (temp_v1_3 == temp_v0_2) {
+    current_index = state->unk_50;
+    next_index = state->unk_54;
+    if (current_index == next_index) {
         return;
     }
-    if ((temp_v0_2 ^ temp_v1_3) & 2) {
+    if ((next_index ^ current_index) & 2) {
         func_80053DA8(0x507);
     }
-    arg0->unk_50 = arg0->unk_54;
+    state->unk_50 = state->unk_54;
 }

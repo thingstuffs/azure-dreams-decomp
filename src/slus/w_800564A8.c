@@ -1,9 +1,5 @@
 #include "common.h"
 
-/* Loop over D_80085458 entries 0..D_80073734[0]-1; for each entry whose f06
-   dispatch index is < 0x10, forwards the entry pointer plus &D_80084960[f06]
-   to func_800561D8, then re-dispatches the entry's f10/f12 fields via
-   func_800563B0(i, f10, f12). */
 /* D_80085458[64]: stride 0x78 table; only fields f06 (dispatch index), f10, f12
    (params forwarded to func_800563B0) are touched by this function. */
 typedef struct S_800564A8_85458 {
@@ -39,13 +35,14 @@ extern S_80084960 D_80084960[16];
 extern void func_800561D8(S_800564A8_85458 *arg0, S_80084960 *arg1);
 extern s32 func_800563B0(s32 a0, u16 a1, u16 a2);
 
+/* Process each entry with a valid dispatch index using its dispatch record and parameters. */
 void func_800564A8(void) {
-    s32 i;
+    s32 entry_index;
 
-    for (i = 0; i < D_80073734[0]; i++) {
-        if ((u16)D_80085458[i].f06 < 0x10) {
-            func_800561D8(&D_80085458[i], &D_80084960[D_80085458[i].f06]);
-            func_800563B0(i, D_80085458[i].f10, D_80085458[i].f12);
+    for (entry_index = 0; entry_index < D_80073734[0]; entry_index++) {
+        if ((u16)D_80085458[entry_index].f06 < 0x10) {
+            func_800561D8(&D_80085458[entry_index], &D_80084960[D_80085458[entry_index].f06]);
+            func_800563B0(entry_index, D_80085458[entry_index].f10, D_80085458[entry_index].f12);
         }
     }
 }

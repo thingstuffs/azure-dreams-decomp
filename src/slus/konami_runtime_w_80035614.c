@@ -18,8 +18,9 @@ extern M2C_UNK D_80081F14;
 extern M2C_UNK D_800821CC;
 extern M2C_UNK func_8003566C;
 
-void func_80035614(S_80035614_0 *arg0) {
-    func_80035888(&D_800821CC, &D_80081F14, arg0, 0, arg0->unk_74);
-    arg0->unk_4C = 0;
-    arg0->unk_68 = &func_8003566C;
+/* Initialize the object, clear its state byte, and set its next handler. */
+void func_80035614(S_80035614_0 *object) {
+    func_80035888(&D_800821CC, &D_80081F14, object, 0, object->unk_74);
+    object->unk_4C = 0;
+    object->unk_68 = &func_8003566C;
 }

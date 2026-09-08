@@ -18,14 +18,15 @@ typedef struct Actor {
     s32 unk6C;
 } Actor;
 
-void func_8008BB50(Actor *arg0) {
-    SubStruct *sub = arg0->sub;
+/* Advance the actor's signed counter, resetting it and loading indexed state when positive. */
+void func_8008BB50(Actor *actor) {
+    SubStruct *sub = actor->sub;
 
     sub->unk8 += 0x200;
-    if ((s16)arg0->sub->unk8 > 0) {
-        arg0->sub->unk8 = 0;
-        arg0->unk68 = D_8008BC58;
-        arg0->unk64 = D_800CFC70[arg0->unk66];
-        arg0->unk6C = D_800CFC7C[arg0->unk66];
+    if ((s16)actor->sub->unk8 > 0) {
+        actor->sub->unk8 = 0;
+        actor->unk68 = D_8008BC58;
+        actor->unk64 = D_800CFC70[actor->unk66];
+        actor->unk6C = D_800CFC7C[actor->unk66];
     }
 }

@@ -27,22 +27,23 @@ extern LocalTable D_80170874;
 extern u8 D_80174C70[12];
 extern LocalPacket D_80175A0C;
 
-void func_80174F24(s32 arg0, void *arg1)
+/* Spawn an object near the origin with randomized position and directional motion. */
+void func_80174F24(s32 unused, void *origin)
 {
-    LocalVector vector;
-    LocalTable table;
+    LocalVector direction;
+    LocalTable directions;
     s16 angle;
-    s32 random;
-    s32 base;
+    s32 jitter;
+    s32 coordinate;
     s32 x_offset;
     u8 *globals;
-    u8 *table_base;
+    u8 *direction_entry;
     void *object;
     void *state;
     void *transform;
     void *display;
 
-    table = D_80170874;
+    directions = D_80170874;
     object = func_8003FC64(0x212);
     state = (u8 *)object + 0x20;
     if (object != 0) {
@@ -64,30 +65,28 @@ void func_80174F24(s32 arg0, void *arg1)
         FIELD(display, u16, 0x14) |= 0xC;
 
         transform = FIELD(object, void *, 8);
-        random = rand() & 0x1F;
-        base = FIELD(arg1, u16, 2) - 0x10;
-        base += random;
-        FIELD(transform, s16, 2) = base;
-        random = rand() & 0x1F;
-        base = FIELD(arg1, u16, 6) - 0x10;
-        base += random;
-        FIELD(transform, s16, 6) = base;
-        random = (rand() & 0x1F) - 0x70;
-        base = FIELD(arg1, u16, 0xA);
-        base += random;
-        FIELD(transform, s16, 0xA) = base;
-        
-        
+        jitter = rand() & 0x1F;
+        coordinate = FIELD(origin, u16, 2) - 0x10;
+        coordinate += jitter;
+        FIELD(transform, s16, 2) = coordinate;
+        jitter = rand() & 0x1F;
+        coordinate = FIELD(origin, u16, 6) - 0x10;
+        coordinate += jitter;
+        FIELD(transform, s16, 6) = coordinate;
+        jitter = (rand() & 0x1F) - 0x70;
+        coordinate = FIELD(origin, u16, 0xA);
+        coordinate += jitter;
+        FIELD(transform, s16, 0xA) = coordinate;
 
-        table_base = (u8 *)&table;
-        vector.x = FIELD(table_base, u16,
+        direction_entry = (u8 *)&directions;
+        direction.x = FIELD(direction_entry, u16,
             ((FIELD(state, s16, 0x18) - 0x400) >> 7) & 0x1C);
-        table_base +=
+        direction_entry +=
             ((FIELD(state, s16, 0x18) - 0x400) >> 7) & 0x1C;
-        vector.y = FIELD(table_base, u16, 2);
-        x_offset = vector.x << 19;
+        direction.y = FIELD(direction_entry, u16, 2);
+        x_offset = direction.x << 19;
         FIELD(transform, s32, 0xC) = x_offset;
-        FIELD(transform, s32, 0x10) = vector.y << 19;
+        FIELD(transform, s32, 0x10) = direction.y << 19;
         FIELD(transform, s32, 0) += x_offset;
         FIELD(transform, s32, 4) += FIELD(transform, s32, 0x10);
 

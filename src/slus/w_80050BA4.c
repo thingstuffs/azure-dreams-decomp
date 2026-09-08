@@ -41,40 +41,42 @@ extern int func_8004CAA0(void *a0, int a1, void *a2);
 extern s32 D_800814A0_abs __attribute__((section(".data")));
 __asm__(".set D_800814A0_abs, 0x800814A0");
 
-void *func_80050BA4(s32 a0)
+/* Creates an owner and its companion object, flagging failed setup for cleanup. */
+void *func_80050BA4(s32 init_data)
 {
-  void *s2;
-  S_80050BA4_s1 *s1;
-  S_80050BA4_sub *s0;
-  void *v0;
+  void *owner;
+  S_80050BA4_s1 *object;
+  S_80050BA4_sub *state;
+  void *resource;
 
-  s2 = func_8003FC64(0);
-  if (s2 == 0)
+  owner = func_8003FC64(0);
+  if (owner == 0)
   {
     return 0;
   }
-  s1 = func_8003FC64(0);
-  if (s1 != 0)
+  object = func_8003FC64(0);
+  if (object != 0)
   {
-    s0 = (S_80050BA4_sub *) (((u8 *) s1) + 0x20);
-    s0->field_0xA0 = s2;
-    if (func_80050AF0(s0, 0x11) != 0)
+    state = (S_80050BA4_sub *) (((u8 *) object) + 0x20);
+    state->field_0xA0 = owner;
+    if (func_80050AF0(state, 0x11) != 0)
     {
-      s1->field_0xC = &s1->field_0x78;
-      s0->field_0x64 = func_80050B7C(s0->field_0x68);
-      func_80050A00(s0, (void *) a0);
-      s1->field_0x10 = (void *) func_80050694;
-      v0 = func_8004FDE0((void *) 2);
-      s0->field_0x28 = v0;
-      if (v0 != 0)
+      object->field_0xC = &object->field_0x78;
+      state->field_0x64 = func_80050B7C(state->field_0x68);
+      func_80050A00(state, (void *) init_data);
+      object->field_0x10 = (void *) func_80050694;
+      resource = func_8004FDE0((void *) 2);
+      state->field_0x28 = resource;
+      if (resource != 0)
       {
         func_8004E130();
-        func_8004491C(s1, (void *) func_8004CAA0);
-        return s2;
+        func_8004491C(object, (void *) func_8004CAA0);
+        return owner;
       }
     }
-    func_8004B248(&s0->field_0x6c);
-    do { s1->field_0x1E |= 0x8000; D_800814A0_abs |= 0x8000; } while (0);
+    func_8004B248(&state->field_0x6c);
+    object->field_0x1E |= 0x8000;
+    D_800814A0_abs |= 0x8000;
   }
-  return s2;
+  return owner;
 }

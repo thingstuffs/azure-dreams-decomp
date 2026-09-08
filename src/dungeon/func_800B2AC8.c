@@ -54,46 +54,46 @@ extern u8 D_80045340[];
 extern u8 D_8006E240[9];
 extern u8 D_800B80D8[];
 
-void *func_800B8228(u32 arg0, u32 arg1, s32 arg2, void *arg3) {
-    S_800B8228_2 *temp_s0;
-    void *temp_v0;
-    S_800B8228_1 *temp_v1;
-    S_800B8228_3 *temp_v1_2;
+/* Creates and initializes an effect, or invokes its fallback if allocation fails. */
+void *func_800B8228(u32 x, u32 y, s32 z, void *effect_data) {
+    S_800B8228_2 *appearance;
+    void *effect;
+    S_800B8228_1 *position;
+    S_800B8228_3 *grid_position;
 
-    temp_v0 = func_8003FC64(0x12);
-    if (temp_v0 == NULL)
+    effect = func_8003FC64(0x12);
+    if (effect == NULL)
         goto failure;
 
     {
-        func_8004491C(temp_v0, D_80045340);
-        ((S_800B8228_0 *)temp_v0)->unk_10 = D_800B80D8;
-        temp_v1 = ((S_800B8228_0 *)temp_v0)->unk_08;
-        temp_v1->unk_02 = arg0;
-        temp_v1->unk_06 = arg1;
-        temp_v1->unk_0A = arg2;
-        temp_v1->unk_16 = -0x12;
-        temp_s0 = ((S_800B8228_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_0C = 0x808080;
-        temp_s0->unk_1E = 0xC90;
-        temp_s0->unk_1C = 0xC90;
-        temp_s0->unk_08 = func_800A7A38(arg3,
-                                               temp_s0->unk_0C);
-        temp_v1_2 = (u8 *)temp_v0 + 0x20;
-        temp_v1_2->unk_B0 = arg0 >> 6;
-        temp_v1_2->unk_B2 = arg1 >> 6;
-        *(PackedWord *)((u8 *)temp_v0 + 0xB8) = *(PackedWord *)arg3;
-        func_800BC26C(temp_v0, 0, 0, 0);
+        func_8004491C(effect, D_80045340);
+        ((S_800B8228_0 *)effect)->unk_10 = D_800B80D8;
+        position = ((S_800B8228_0 *)effect)->unk_08;
+        position->unk_02 = x;
+        position->unk_06 = y;
+        position->unk_0A = z;
+        position->unk_16 = -0x12;
+        appearance = ((S_800B8228_0 *)effect)->unk_0C;
+        appearance->unk_0C = 0x808080;
+        appearance->unk_1E = 0xC90;
+        appearance->unk_1C = 0xC90;
+        appearance->unk_08 = func_800A7A38(effect_data, appearance->unk_0C);
+        grid_position = (u8 *)effect + 0x20;
+        grid_position->unk_B0 = x >> 6;
+        grid_position->unk_B2 = y >> 6;
+        *(PackedWord *)((u8 *)effect + 0xB8) = *(PackedWord *)effect_data;
+        func_800BC26C(effect, 0, 0, 0);
         func_800A56E0(0x51C);
     }
 
     goto done;
 
 failure:
-    func_800A7A7C((s32)(arg0 << 0xA) >> 0x10,
-                  (s32)(arg1 << 0xA) >> 0x10,
-                  (s32)(arg2 << 0x10) >> 0x10,
-                  D_8006E240, arg3);
+    func_800A7A7C((s32)(x << 0xA) >> 0x10,
+                  (s32)(y << 0xA) >> 0x10,
+                  (s32)(z << 0x10) >> 0x10,
+                  D_8006E240, effect_data);
 
 done:
-    return temp_v0;
+    return effect;
 }

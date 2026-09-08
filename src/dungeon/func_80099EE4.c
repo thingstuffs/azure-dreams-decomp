@@ -13,21 +13,22 @@ extern void *D_80088D7C[];
 
 extern u8 *func_8009F9E8(s32 arg0, s32 arg1);
 
-void func_8009F644(void *arg0, s32 arg1, s32 arg2, s8 arg3) {
-    u8 *object = arg0;
+/* Records an object action in the dungeon buffer, combining compatible entries. */
+void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte) {
+    u8 *object = object_ptr;
     DungeonWriteState *state = (DungeonWriteState *)0x80013710;
-    register s32 saved_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 saved_arg2 = arg2;
-    s8 saved_arg3 = arg3;
+    register s32 saved_action ASM_REG("$21") = action_code;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 saved_payload = payload;
+    s8 saved_extra = extra_byte;
     u8 *entry;
     u8 *old_entry;
     register s32 compare_kind ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 kind;
-    register s32 shifted_arg1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 packed;
-    s32 high_bit;
-    s16 action;
-    u32 index;
+    register s32 shifted_action ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 entry_tag;
+    s32 flag_bit;
+    s16 action_offset;
+    u32 dispatch_index;
     register s32 out_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (D_800E296C[0] & 0x10000000) {
@@ -48,9 +49,9 @@ void func_8009F644(void *arg0, s32 arg1, s32 arg2, s8 arg3) {
         if ((entry[1] & 7) != compare_kind) {
             goto clear_entry;
         }
-        shifted_arg1 = arg1 << 16;
+        shifted_action = action_code << 16;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        if (((*(volatile u8 *)(entry + 1)) & 0xF8) != (shifted_arg1 >> 16)) {
+        if (((*(volatile u8 *)(entry + 1)) & 0xF8) != (shifted_action >> 16)) {
             goto clear_entry;
         }
         if (entry[0] < 0x7F) {
@@ -64,35 +65,35 @@ clear_entry:
     }
 
 entry_valid:
-    action = (s16)(saved_arg1 - 8);
-    index = (s16)action;
+    action_offset = (s16)(saved_action - 8);
+    dispatch_index = (s16)action_offset;
     {
-        static void *const jt_keep[] = {
+        static void *const dispatch_labels[] = {
             &&jt_case0, &&jt_case20, &&jt_case40,
             &&jt_case68, &&jt_case48, &&jt_default
         };
-        (void)jt_keep;
+        (void)dispatch_labels;
     }
-    if (index < 161U) {
-        goto *D_80088D7C[(u32)index];
+    if (dispatch_index < 161U) {
+        goto *D_80088D7C[(u32)dispatch_index];
     } else {
         goto jt_default;
     }
 
 jt_case0:
-        entry[1] = saved_arg1 | kind;
+        entry[1] = saved_action | kind;
         out_value = entry[0] + 1;
         goto jt_write0;
 
 jt_case20:
-        entry[1] = saved_arg1 | kind;
-        out_value = saved_arg2 | 0x80;
+        entry[1] = saved_action | kind;
+        out_value = saved_payload | 0x80;
         goto jt_write0;
 
 jt_case40:
-        entry[1] = saved_arg1 | kind;
-        entry[0] = saved_arg2 | 0x80;
-        entry[2] = saved_arg3;
+        entry[1] = saved_action | kind;
+        entry[0] = saved_payload | 0x80;
+        entry[2] = saved_extra;
         entry[3] = 0;
         state->position += 2;
         entry += 2;
@@ -100,20 +101,20 @@ jt_case40:
 
 jt_case68:
         old_entry = entry;
-        packed = saved_arg1 | kind;
-        high_bit = (saved_arg2 & 1) << 5;
-        entry = func_8009F9E8(packed & 0xFF, high_bit);
+        entry_tag = saved_action | kind;
+        flag_bit = (saved_payload & 1) << 5;
+        entry = func_8009F9E8(entry_tag & 0xFF, flag_bit);
         if (old_entry != entry) {
             state->position--;
-            entry[1] = packed;
-            entry[0] = high_bit | -0x80 | (saved_arg3 & 0x1F);
+            entry[1] = entry_tag;
+            entry[0] = flag_bit | -0x80 | (saved_extra & 0x1F);
             goto jt_return;
         }
         /* fall through */
 
 jt_case48:
-        entry[1] = saved_arg1 | kind;
-        entry[0] = ((saved_arg2 & 1) << 5) | -0x80 | (saved_arg3 & 0x1F);
+        entry[1] = saved_action | kind;
+        entry[0] = ((saved_payload & 1) << 5) | -0x80 | (saved_extra & 0x1F);
         goto jt_default;
 
 jt_write0:
@@ -125,5 +126,5 @@ jt_default:
     entry[2] = 0;
 
 jt_return:
-    ASM_KEEP(saved_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_action);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

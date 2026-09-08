@@ -44,47 +44,48 @@ typedef struct S_81910844_3 {
 extern s32 D_800814A0[3];
 s32 func_800644B8(s32);
 
-void func_81910844(void *arg0, S_81910844_2 *arg1, S_81910844_3 *arg2) {
-    s32 temp_v0;
-    s32 temp_v1_3;
-    s32 temp_v1_4;
-    s32 temp_a1;
-    s32 temp_a0_2;
-    u16 temp_v0_2;
-    u16 temp_v1_2;
-    s16 temp_v1_5;
-    s16 temp_v0_3;
-    S_81910844_1 *temp_v1;
+/* Advance motion and visual animation, flagging completion after the duration. */
+void func_81910844(void *state, S_81910844_2 *motion, S_81910844_3 *visual) {
+    s32 pos_x;
+    s32 pos_y;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 scale_step;
+    u16 angle;
+    u16 scale;
+    s16 elapsed;
+    s16 duration;
+    S_81910844_1 *owner;
 
-    temp_v1 = ((S_81910844_0 *)arg0)->unk_00;
-    temp_v1->unk_14 =
-        (u16) (temp_v1->unk_14 + 1);
-    ((S_81910844_0 *)arg0)->unk_06.s =
-        (u16) (((S_81910844_0 *)arg0)->unk_06.s + 1);
-    temp_v0 = arg1->unk_00;
-    temp_v1_4 = arg1->unk_0C;
-    temp_v1_3 = arg1->unk_04;
-    temp_a1 = arg1->unk_10;
-    arg1->unk_00 = temp_v0 + temp_v1_4;
-    arg1->unk_04 = temp_v1_3 + temp_a1;
-    ((S_81910844_0 *)arg0)->unk_0C =
-        ((S_81910844_0 *)arg0)->unk_0C + arg1->unk_14;
-    arg1->unk_08 =
-        ((S_81910844_0 *)arg0)->unk_0C -
-        ((func_800644B8((0x800 / (s16) ((S_81910844_0 *)arg0)->unk_08) *
-                       (s16) ((S_81910844_0 *)arg0)->unk_06.s) >> 4) << 0xE);
-    temp_a0_2 = 0x200 / (s16) ((S_81910844_0 *)arg0)->unk_08;
-    temp_v0_2 = arg2->unk_1A;
-    temp_v1_2 = arg2->unk_1E;
-    arg2->unk_1A = temp_v0_2 + 0x300;
-    temp_v1_2 = temp_v1_2 - temp_a0_2;
-    arg2->unk_1E = temp_v1_2;
-    arg2->unk_1C = temp_v1_2;
-    temp_v1_5 = ((S_81910844_0 *)arg0)->unk_06.u;
-    temp_v0_3 = ((S_81910844_0 *)arg0)->unk_08;
-    if (temp_v1_5 > temp_v0_3) {
-        ((S_81910844_0_pre *)arg0)[-1].unk_00 =
-            ((S_81910844_0_pre *)arg0)[-1].unk_00 | 0x8000;
+    owner = ((S_81910844_0 *)state)->unk_00;
+    owner->unk_14 =
+        (u16) (owner->unk_14 + 1);
+    ((S_81910844_0 *)state)->unk_06.s =
+        (u16) (((S_81910844_0 *)state)->unk_06.s + 1);
+    pos_x = motion->unk_00;
+    velocity_x = motion->unk_0C;
+    pos_y = motion->unk_04;
+    velocity_y = motion->unk_10;
+    motion->unk_00 = pos_x + velocity_x;
+    motion->unk_04 = pos_y + velocity_y;
+    ((S_81910844_0 *)state)->unk_0C =
+        ((S_81910844_0 *)state)->unk_0C + motion->unk_14;
+    motion->unk_08 =
+        ((S_81910844_0 *)state)->unk_0C -
+        ((func_800644B8((0x800 / (s16) ((S_81910844_0 *)state)->unk_08) *
+                       (s16) ((S_81910844_0 *)state)->unk_06.s) >> 4) << 0xE);
+    scale_step = 0x200 / (s16) ((S_81910844_0 *)state)->unk_08;
+    angle = visual->unk_1A;
+    scale = visual->unk_1E;
+    visual->unk_1A = angle + 0x300;
+    scale = scale - scale_step;
+    visual->unk_1E = scale;
+    visual->unk_1C = scale;
+    elapsed = ((S_81910844_0 *)state)->unk_06.u;
+    duration = ((S_81910844_0 *)state)->unk_08;
+    if (elapsed > duration) {
+        ((S_81910844_0_pre *)state)[-1].unk_00 =
+            ((S_81910844_0_pre *)state)[-1].unk_00 | 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

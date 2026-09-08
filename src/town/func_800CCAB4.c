@@ -30,19 +30,20 @@ extern TownState D_80083498;
 extern void func_800CA774(Object *, Position *, void *, GameState *);
 extern void func_80053DA8(s32);
 
-void func_800CA214(Object *object, Position *position, void *arg2)
+/* Move halfway toward the target each tick and finish the transition when the timer expires. */
+void func_800CA214(Object *object, Position *position, void *context)
 {
-    s16 timer;
+    s16 ticks_left;
     GameState *game = &D_80083160;
 
     if (object->timer == 8) {
         game->transition = 0x10;
     }
 
-    timer = (u16)object->timer - 1;
-    object->timer = timer;
-    if (timer <= 0) {
-        func_800CA774(object, position, arg2, game);
+    ticks_left = (u16)object->timer - 1;
+    object->timer = ticks_left;
+    if (ticks_left <= 0) {
+        func_800CA774(object, position, context, game);
         func_80053DA8(0x605);
         return;
     }

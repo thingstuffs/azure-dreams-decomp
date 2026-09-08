@@ -46,17 +46,18 @@ extern void func_800AD568(void *obj);
 extern void func_800BC0A8(s16 x, s16 y, s16 z, s16 angle,
                           s32 height, s32 depth, s32 color, s32 offset);
 
-void func_800C1718(DungeonState *state, RenderSource *arg1, u8 *arg2) {
-    s32 i;
-    s32 j;
-    RenderSource *source = arg1;
+/* Updates a three-stage visual effect, restoring objects and fading the rendered effect. */
+void func_800C1718(DungeonState *state, RenderSource *render_source, u8 *effect_data) {
+    s32 object_index;
+    s32 step_index;
+    RenderSource *source = render_source;
     s16 mode = state->mode;
-    s16 count;
-    s16 marker;
-    u16 angle1;
-    u16 angle2;
-    void *entry;
-    u8 *obj;
+    s16 frames_left;
+    s16 reset_marker;
+    u16 grow_angle;
+    u16 fade_angle;
+    void *object_entry;
+    u8 *object;
 
     if (mode == 1)
         goto mode_one;
@@ -71,39 +72,39 @@ void func_800C1718(DungeonState *state, RenderSource *arg1, u8 *arg2) {
 
 mode_zero:
     {
-        u16 value = *(u16 *)(arg2 + 0x1c);
-        value += (u16)((0x800 - value) / state->count);
-        *(u16 *)(arg2 + 0x1c) = value;
-        *(u16 *)(arg2 + 0x1e) = value;
+        u16 effect_scale = *(u16 *)(effect_data + 0x1c);
+        effect_scale += (u16)((0x800 - effect_scale) / state->count);
+        *(u16 *)(effect_data + 0x1c) = effect_scale;
+        *(u16 *)(effect_data + 0x1e) = effect_scale;
     }
 
-    count = (u16)state->count - 1;
-    state->count = count;
-    if ((count << 16) > 0)
+    frames_left = (u16)state->count - 1;
+    state->count = frames_left;
+    if ((frames_left << 16) > 0)
         goto done;
 
-    i = 0;
-    marker = 0xff;
+    object_index = 0;
+    reset_marker = 0xff;
     do {
-        entry = *(void **)(D_800E3D7C[0] + i * 4 + 0xac);
-        if (entry != NULL) {
-            obj = entry;
-            j = 1;
-            *(u8 *)(obj + 0x26) = *(u8 *)(obj + 0x68);
-            *(u8 *)(obj + 0x27) = *(u8 *)(obj + 0x69);
+        object_entry = *(void **)(D_800E3D7C[0] + object_index * 4 + 0xac);
+        if (object_entry != NULL) {
+            object = object_entry;
+            step_index = 1;
+            *(u8 *)(object + 0x26) = *(u8 *)(object + 0x68);
+            *(u8 *)(object + 0x27) = *(u8 *)(object + 0x69);
             do {
-                func_80042B68(obj, (s8)j);
-                j += 1;
-            } while (j < 0x21);
-            *(s16 *)(obj + 0x64) = marker;
-            *(s32 *)(obj + 0x1c) &= 0xfbffe107;
-            func_800AD568(obj);
-            *(s8 *)(obj + 0x24) = marker;
-            *(u8 *)(obj + 0x25) = *(u8 *)(obj + 0x66);
-            func_80041E70(obj);
+                func_80042B68(object, (s8)step_index);
+                step_index += 1;
+            } while (step_index < 0x21);
+            *(s16 *)(object + 0x64) = reset_marker;
+            *(s32 *)(object + 0x1c) &= 0xfbffe107;
+            func_800AD568(object);
+            *(s8 *)(object + 0x24) = reset_marker;
+            *(u8 *)(object + 0x25) = *(u8 *)(object + 0x66);
+            func_80041E70(object);
         }
-        i += 1;
-    } while (i < 2);
+        object_index += 1;
+    } while (object_index < 2);
 
     state->count = 8;
     state->mode += 1;
@@ -112,18 +113,18 @@ mode_zero:
 mode_one:
     state->field50 = (s16)((u16)state->field50 +
         ((0xc0 - state->field50) / state->count));
-    j = 0;
+    step_index = 0;
     do {
-        angle1 = state->field4e + 0x100;
-        state->field4e = angle1;
-        func_800BC0A8(source->x, source->y, source->z, (s16)angle1,
+        grow_angle = state->field4e + 0x100;
+        state->field4e = grow_angle;
+        func_800BC0A8(source->x, source->y, source->z, (s16)grow_angle,
                       state->field50, state->field58, 0x802020,
                       state->field48);
-        j += 1;
-    } while (j < 4);
-    count = (u16)state->count - 1;
-    state->count = count;
-    if ((count << 16) > 0)
+        step_index += 1;
+    } while (step_index < 4);
+    frames_left = (u16)state->count - 1;
+    state->count = frames_left;
+    if ((frames_left << 16) > 0)
         goto done;
     state->count = 4;
     state->mode += 1;
@@ -132,24 +133,24 @@ mode_one:
 mode_two:
     state->field50 = (s16)((u16)state->field50 -
         (state->field50 / state->count));
-    *(u8 *)(arg2 + 0xc) = (u8)(*(u8 *)(arg2 + 0xc) -
-        (*(u8 *)(arg2 + 0xc) / state->count));
-    *(u8 *)(arg2 + 0xd) = (u8)(*(u8 *)(arg2 + 0xd) -
-        (*(u8 *)(arg2 + 0xd) / state->count));
-    *(u8 *)(arg2 + 0xe) = (u8)(*(u8 *)(arg2 + 0xe) -
-        (*(u8 *)(arg2 + 0xe) / state->count));
-    j = 0;
+    *(u8 *)(effect_data + 0xc) = (u8)(*(u8 *)(effect_data + 0xc) -
+        (*(u8 *)(effect_data + 0xc) / state->count));
+    *(u8 *)(effect_data + 0xd) = (u8)(*(u8 *)(effect_data + 0xd) -
+        (*(u8 *)(effect_data + 0xd) / state->count));
+    *(u8 *)(effect_data + 0xe) = (u8)(*(u8 *)(effect_data + 0xe) -
+        (*(u8 *)(effect_data + 0xe) / state->count));
+    step_index = 0;
     do {
-        angle2 = state->field4e + 0x100;
-        state->field4e = angle2;
-        func_800BC0A8(source->x, source->y, source->z, (s16)angle2,
+        fade_angle = state->field4e + 0x100;
+        state->field4e = fade_angle;
+        func_800BC0A8(source->x, source->y, source->z, (s16)fade_angle,
                       state->field50, state->field58, 0x802020,
                       state->field48);
-        j += 1;
-    } while (j < 4);
-    count = (u16)state->count - 1;
-    state->count = count;
-    if ((count << 16) > 0)
+        step_index += 1;
+    } while (step_index < 4);
+    frames_left = (u16)state->count - 1;
+    state->count = frames_left;
+    if ((frames_left << 16) > 0)
         goto done;
     *((u16 *)state - 1) |= 0x8000;
     D_800814A0 |= 0x8000;

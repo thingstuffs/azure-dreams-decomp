@@ -29,15 +29,16 @@ typedef struct {
 
 extern void func_80038A10(void);
 
-void func_80038690(Func80038690State *arg0) {
-    Func80038690Context *context = arg0->context;
+/* Run the selected handler and advance the state callback on a nonzero result. */
+void func_80038690(Func80038690State *state) {
+    Func80038690Context *context = state->context;
     s32 result;
 
-    result = context->handlers[arg0->table_index](context->arg0, context->arg1,
-                                                   context->arg2, context->arg3);
+    result = context->handlers[state->table_index](context->arg0, context->arg1,
+                                                  context->arg2, context->arg3);
     context->callback_result = result;
     if (result != 0) {
-        arg0->result = result;
-        arg0->callback = func_80038A10;
+        state->result = result;
+        state->callback = func_80038A10;
     }
 }

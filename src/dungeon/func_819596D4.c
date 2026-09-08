@@ -58,70 +58,71 @@ typedef struct S_80024ED4_4 {
     s16 unk_38;
 } S_80024ED4_4;   /* temp_s1 in func_80024ED4 */
 
-void *func_80024ED4(Rec_func_800243C4_arg1 *arg0) {
-    s32 sp20[2];
-    s32 var_s3;
-    M2C_UNK var_a0;
-    s16 temp_s6;
-    u16 temp_v0_2;
-    u16 temp_v0_3;
-    u16 temp_v0_4;
-    u8 *var_a1;
-    S_80024ED4_2 *temp_s0;
-    S_80024ED4_4 *temp_s1;
-    void *temp_v0;
-    S_80024ED4_3 *temp_v1;
-    void *var_s4;
-    s16 *temp_v0_1;
+/* Creates up to sixteen linked effect segments at the given position. */
+void *func_80024ED4(Rec_func_800243C4_arg1 *position) {
+    s32 setup_params[2];
+    s32 segment_index;
+    M2C_UNK alloc_flags;
+    s16 angle;
+    u16 x;
+    u16 y;
+    u16 z;
+    u8 *parent;
+    S_80024ED4_2 *coords;
+    S_80024ED4_4 *segment_state;
+    void *segment;
+    S_80024ED4_3 *render_state;
+    void *previous_segment;
+    s16 *origin_coords;
 
-    temp_v0_1 = D_80083780;
-    var_s4 = NULL;
-    var_s3 = 0;
-    temp_s6 = func_800A07D0(temp_v0_1[1], temp_v0_1[3], arg0->unk_02, arg0->unk_06);
+    origin_coords = D_80083780;
+    previous_segment = NULL;
+    segment_index = 0;
+    angle = func_800A07D0(origin_coords[1], origin_coords[3], position->unk_02, position->unk_06);
     do {
-        var_a0 = 0x12;
-        if (var_s3 != 0) {
-            var_a0 = 0x212;
+        alloc_flags = 0x12;
+        if (segment_index != 0) {
+            alloc_flags = 0x212;
         }
-        var_a1 = var_s4;
-        if (var_s4 == NULL) {
-            var_a1 = D_80083498;
+        parent = previous_segment;
+        if (previous_segment == NULL) {
+            parent = D_80083498;
         }
-        temp_v0 = func_8003FD64(var_a0, var_a1);
-        temp_s1 = temp_v0 + 0x20;
-        if (temp_v0 != NULL) {
-            temp_s0 = ((S_80024ED4_1 *)temp_v0)->unk_08;
-            ((S_80024ED4_1 *)temp_v0)->unk_10 = &D_80024728;
-            temp_v0_2 = (u16) arg0->unk_02;
-            temp_s0->unk_02 = temp_v0_2;
-            temp_s0->unk_0E = temp_v0_2;
-            temp_v0_3 = (u16) arg0->unk_06;
-            temp_s0->unk_06 = temp_v0_3;
-            temp_s0->unk_12 = temp_v0_3;
-            temp_v0_4 = arg0->unk_0A.as_u16;
-            temp_s0->unk_0A = temp_v0_4;
-            temp_s0->unk_16 = temp_v0_4;
-            temp_v1 = ((S_80024ED4_1 *)temp_v0)->unk_0C;
-            temp_v1->unk_08 = &D_80028214;
-            temp_v1->unk_1E = 0x800;
-            temp_v1->unk_1C = 0x800;
-            temp_s1->unk_30 = 0x10;
-            if (var_s3 == 0) {
-                temp_s1->unk_14 = (s16) (temp_s0->unk_02 + (func_80064584(temp_s6) >> 5));
-                temp_s1->unk_16 = (s16) (temp_s0->unk_06 + (func_800644B8(temp_s6) >> 5));
-                temp_s1->unk_18 = (s16) (temp_s0->unk_0A - 0x40);
-                func_80024654((s16) temp_s0->unk_02, (s16) temp_s0->unk_06, (s16) temp_s0->unk_0A, temp_s1->unk_14, (s32) temp_s1->unk_16, (s32) temp_s1->unk_18, temp_v0 + 0x2C);
-                sp20[0] = 0x01200340;
-                sp20[1] = 0x200020;
-                func_800B835C(D_800DF334, sp20, 1, 0);
+        segment = func_8003FD64(alloc_flags, parent);
+        segment_state = segment + 0x20;
+        if (segment != NULL) {
+            coords = ((S_80024ED4_1 *)segment)->unk_08;
+            ((S_80024ED4_1 *)segment)->unk_10 = &D_80024728;
+            x = (u16) position->unk_02;
+            coords->unk_02 = x;
+            coords->unk_0E = x;
+            y = (u16) position->unk_06;
+            coords->unk_06 = y;
+            coords->unk_12 = y;
+            z = position->unk_0A.as_u16;
+            coords->unk_0A = z;
+            coords->unk_16 = z;
+            render_state = ((S_80024ED4_1 *)segment)->unk_0C;
+            render_state->unk_08 = &D_80028214;
+            render_state->unk_1E = 0x800;
+            render_state->unk_1C = 0x800;
+            segment_state->unk_30 = 0x10;
+            if (segment_index == 0) {
+                segment_state->unk_14 = (s16) (coords->unk_02 + (func_80064584(angle) >> 5));
+                segment_state->unk_16 = (s16) (coords->unk_06 + (func_800644B8(angle) >> 5));
+                segment_state->unk_18 = (s16) (coords->unk_0A - 0x40);
+                func_80024654((s16) coords->unk_02, (s16) coords->unk_06, (s16) coords->unk_0A, segment_state->unk_14, (s32) segment_state->unk_16, (s32) segment_state->unk_18, segment + 0x2C);
+                setup_params[0] = 0x01200340;
+                setup_params[1] = 0x200020;
+                func_800B835C(D_800DF334, setup_params, 1, 0);
             }
-            temp_s1->unk_08 = var_s4;
-            var_s4 = temp_v0;
-            temp_s1->unk_38 = var_s3;
+            segment_state->unk_08 = previous_segment;
+            previous_segment = segment;
+            segment_state->unk_38 = segment_index;
         } else {
-            return var_s4;
+            return previous_segment;
         }
-        var_s3++;
-    } while (var_s3 < 0x10);
-    return temp_v0;
+        segment_index++;
+    } while (segment_index < 0x10);
+    return segment;
 }

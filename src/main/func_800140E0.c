@@ -55,16 +55,17 @@ M2C_UNK func_80027054(void *);                            /* extern */
 M2C_UNK func_80027080();       /* extern */
 
 
-void func_800270E0(void *arg0) {
-    func_80027054(arg0);
-    func_80027080(arg0 + 4, 0x36, 0x10);
-    func_80027018(arg0);
-    ((S_800270E0_5 *)(((S_800270E0_1 *)(((Rec_func_80027018_arg0 *)arg0)->unk_FC.as_pv))->unk_04))->unk_08 = 0x8E;
-    ((S_800270E0_5 *)(((S_800270E0_1 *)(((Rec_func_80027018_arg0 *)arg0)->unk_FC.as_pv))->unk_04))->unk_0A = 0x82;
-    ((S_800270E0_6 *)(((S_800270E0_2 *)(((Rec_func_80027018_arg0 *)arg0)->unk_F0.as_pv))->unk_04))->unk_08 = 9;
-    ((S_800270E0_6 *)(((S_800270E0_2 *)(((Rec_func_80027018_arg0 *)arg0)->unk_F0.as_pv))->unk_04))->unk_0A = 0xA;
-    ((S_800270E0_7 *)(((S_800270E0_3 *)(((Rec_func_80027018_arg0 *)arg0)->unk_F4.as_pv))->unk_04))->unk_08 = 0x42;
-    ((S_800270E0_7 *)(((S_800270E0_3 *)(((Rec_func_80027018_arg0 *)arg0)->unk_F4.as_pv))->unk_04))->unk_0A = 0xA;
-    ((S_800270E0_8 *)(((S_800270E0_4 *)(((Rec_func_80027018_arg0 *)arg0)->unk_F8.as_pv))->unk_04))->unk_08 = 0x24;
-    ((S_800270E0_8 *)(((S_800270E0_4 *)(((Rec_func_80027018_arg0 *)arg0)->unk_F8.as_pv))->unk_04))->unk_0A = 0xA;
+/* Initializes the object and positions its four components. */
+void func_800270E0(void *object) {
+    func_80027054(object);
+    func_80027080(object + 4, 0x36, 0x10);
+    func_80027018(object);
+    ((S_800270E0_5 *)(((S_800270E0_1 *)(((Rec_func_80027018_arg0 *)object)->unk_FC.as_pv))->unk_04))->unk_08 = 0x8E;
+    ((S_800270E0_5 *)(((S_800270E0_1 *)(((Rec_func_80027018_arg0 *)object)->unk_FC.as_pv))->unk_04))->unk_0A = 0x82;
+    ((S_800270E0_6 *)(((S_800270E0_2 *)(((Rec_func_80027018_arg0 *)object)->unk_F0.as_pv))->unk_04))->unk_08 = 9;
+    ((S_800270E0_6 *)(((S_800270E0_2 *)(((Rec_func_80027018_arg0 *)object)->unk_F0.as_pv))->unk_04))->unk_0A = 0xA;
+    ((S_800270E0_7 *)(((S_800270E0_3 *)(((Rec_func_80027018_arg0 *)object)->unk_F4.as_pv))->unk_04))->unk_08 = 0x42;
+    ((S_800270E0_7 *)(((S_800270E0_3 *)(((Rec_func_80027018_arg0 *)object)->unk_F4.as_pv))->unk_04))->unk_0A = 0xA;
+    ((S_800270E0_8 *)(((S_800270E0_4 *)(((Rec_func_80027018_arg0 *)object)->unk_F8.as_pv))->unk_04))->unk_08 = 0x24;
+    ((S_800270E0_8 *)(((S_800270E0_4 *)(((Rec_func_80027018_arg0 *)object)->unk_F8.as_pv))->unk_04))->unk_0A = 0xA;
 }

@@ -1,13 +1,5 @@
 #include "common.h"
 
-/* Clears bit 0x2000 in a0's 0x1E flags halfword, then allocates a node via
- * func_8003FC64(0). On success, stashes a1 at node+0x24, stores a0 at
- * node+0x20, fires a status/sound event (func_80053DA8(0xD1)), installs
- * func_8004ED5C as the node's callback (node+0x10), and forwards the
- * node's tail (node+0x28) to func_8004EB3C to finish initialization.
- * Returns the allocated node (or NULL). */
-#include "common.h"
-
 /* Node returned by func_8003FC64. We only model the fields touched here:
  * a "public" area starting at offset 0x20 (owner back-pointer), and two
  * writes made through a pointer into that area: +4 (the stashed a1 arg)
@@ -30,22 +22,23 @@ extern void func_8004EB3C(void *a0);
 extern void func_8004ED5C(void *a0);
 extern s16 func_80053DA8(s32 a0);
 
-void *func_8004EDA8(void *a0, void *a1)
+/* Clears the owner flag and allocates and initializes a callback node with its context. */
+void *func_8004EDA8(void *owner_arg, void *context_arg)
 {
-    S_8004EDA8_owner *s2 = (S_8004EDA8_owner *)a0;
-    void *s3 = a1;
-    S_8004EDA8_node *s1;
-    u8 *s0;
+    S_8004EDA8_owner *owner = (S_8004EDA8_owner *)owner_arg;
+    void *context = context_arg;
+    S_8004EDA8_node *node;
+    u8 *node_fields;
 
-    s2->flags_0x1E = s2->flags_0x1E & 0xDFFF;
-    s1 = (S_8004EDA8_node *)func_8003FC64(0);
-    if (s1 != 0) {
-        s0 = (u8 *)&s1->owner_0x20;
-        *(void **)(s0 + 4) = s3;
-        s1->owner_0x20 = s2;
+    owner->flags_0x1E = owner->flags_0x1E & 0xDFFF;
+    node = (S_8004EDA8_node *)func_8003FC64(0);
+    if (node != 0) {
+        node_fields = (u8 *)&node->owner_0x20;
+        *(void **)(node_fields + 4) = context;
+        node->owner_0x20 = owner;
         func_80053DA8(0xD1);
-        *(void (**)(void *))(s0 - 0x10) = func_8004ED5C;
-        func_8004EB3C((u8 *)s1 + 0x28);
+        *(void (**)(void *))(node_fields - 0x10) = func_8004ED5C;
+        func_8004EB3C((u8 *)node + 0x28);
     }
-    return s1;
+    return node;
 }

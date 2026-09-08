@@ -60,43 +60,44 @@ typedef struct S_8009F4C0_2 {
     u8 unk_983;
 } S_8009F4C0_2;   /* temp_v1 in func_8009F4C0 */
 
-void func_8009F4C0(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3) {
-    void *var_s1;
-    s32 temp_a1;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 temp_s5;
-    register s32 temp_s3;
-    void *temp_v0;
-    S_8009F4C0_2 *temp_v1;
-    S_8009F4C0_1 *temp_v2;
-    register void *baseD ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+/* Initialize the town entity record and synchronize its slot state. */
+void func_8009F4C0(Rec_func_80094268_arg0 *entity, M2C_UNK unused_arg1, M2C_UNK unused_arg2, M2C_UNK context) {
+    void *stored_entry;
+    s32 unused_value;
+    s32 record_offset;
+    s32 record_value;
+    s32 slot_index;
+    register s32 record_index;
+    void *source_entry;
+    S_8009F4C0_2 *slot_flags;
+    S_8009F4C0_1 *slot_state;
+    register void *data_base ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    temp_s5 = arg0->unk_95;
-    func_80033CD8(arg0, &D_80045340);
-    temp_v2 = (temp_s5 * 4) + 0x80010000;
-    temp_v2->unk_981 = 0x13;
+    slot_index = entity->unk_95;
+    func_80033CD8(entity, &D_80045340);
+    slot_state = (slot_index * 4) + 0x80010000;
+    slot_state->unk_981 = 0x13;
     memset(&D_80100A10, 0, 0x54);
-    func_80042640(&D_80100A10, arg0->unk_4C);
-    temp_s3 = temp_s5;
-    func_800423C0(&D_80100A10, arg0->unk_4C, 0);
+    func_80042640(&D_80100A10, entity->unk_4C);
+    record_index = slot_index;
+    func_800423C0(&D_80100A10, entity->unk_4C, 0);
     func_800422DC(&D_80100AF8, &D_80100A10);
-    *(struct TownCopy84 *)((u8 *)0x80010A80 + (temp_s3 * 0x54)) = D_80100AF8;
-    var_s1 = (void *) 0x80010AB4;
-    temp_s0 = temp_s3 * 0x54;
-    var_s1 = (u8 *)var_s1 + temp_s0;
-    temp_v0 = func_8003C06C(arg0->unk_4C);
-    *(struct PackedTownEntry *)var_s1 = *(struct PackedTownEntry *)temp_v0;
-    baseD = (void *) 0x80010000;
-    temp_v1 = (temp_s5 * 4) + (u8 *)baseD;
-    temp_v1->unk_983 = (u8) ((temp_v1->unk_983 & 0xC0) | temp_s3);
-    ((S_8009F4C0_3 *)((temp_s0 + (u8 *)baseD)))->unk_AC3 = temp_s5;
-    arg0->unk_4D = (u8) temp_v1->unk_981;
-    arg0->unk_4F = (u8) temp_v1->unk_983;
-    temp_s3 = (u8) (((S_8009F4C0_4 *)(((arg0->unk_95 * 4) + (u8 *)baseD)))->unk_983 & 0x3F);
-    temp_s0_2 = ((S_8009F4C0_5 *)(((temp_s3 * 0x54) + (u8 *)baseD)))->unk_A94;
-    func_8003E188(arg0->unk_4C, 1, baseD);
-    func_8009DC8C(arg0, arg3, arg0->unk_4C, temp_s0_2);
-    arg0->unk_50.as_pm = &D_8009F374;
-    arg0->unk_6C.as_s16 = 0xA;
+    *(struct TownCopy84 *)((u8 *)0x80010A80 + (record_index * 0x54)) = D_80100AF8;
+    stored_entry = (void *) 0x80010AB4;
+    record_offset = record_index * 0x54;
+    stored_entry = (u8 *)stored_entry + record_offset;
+    source_entry = func_8003C06C(entity->unk_4C);
+    *(struct PackedTownEntry *)stored_entry = *(struct PackedTownEntry *)source_entry;
+    data_base = (void *) 0x80010000;
+    slot_flags = (slot_index * 4) + (u8 *)data_base;
+    slot_flags->unk_983 = (u8) ((slot_flags->unk_983 & 0xC0) | record_index);
+    ((S_8009F4C0_3 *)((record_offset + (u8 *)data_base)))->unk_AC3 = slot_index;
+    entity->unk_4D = (u8) slot_flags->unk_981;
+    entity->unk_4F = (u8) slot_flags->unk_983;
+    record_index = (u8) (((S_8009F4C0_4 *)(((entity->unk_95 * 4) + (u8 *)data_base)))->unk_983 & 0x3F);
+    record_value = ((S_8009F4C0_5 *)(((record_index * 0x54) + (u8 *)data_base)))->unk_A94;
+    func_8003E188(entity->unk_4C, 1, data_base);
+    func_8009DC8C(entity, context, entity->unk_4C, record_value);
+    entity->unk_50.as_pm = &D_8009F374;
+    entity->unk_6C.as_s16 = 0xA;
 }

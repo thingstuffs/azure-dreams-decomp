@@ -21,17 +21,18 @@ extern DungeonState D_80083460;
 extern s32 D_80083498[4];
 extern Rotation D_80083780;
 
+/* Increment the dungeon count and initialize a new object's callback and rotation. */
 void func_800D7F38(void)
 {
-    u8 *obj;
+    u8 *object;
 
     D_80083460.count++;
-    obj = func_8003FD64(2, D_80083498);
-    if (obj != 0) {
-        *(void (**)(void))(obj + 0x10) = func_800D7FB8;
-        obj += 0x20;
-        *(u16 *)(obj + 4) = D_80083780.x;
-        *(u16 *)(obj + 6) = D_80083780.y;
-        *(u16 *)(obj + 8) = D_80083780.z - 0x30;
+    object = func_8003FD64(2, D_80083498);
+    if (object != 0) {
+        *(void (**)(void))(object + 0x10) = func_800D7FB8;
+        object += 0x20;
+        *(u16 *)(object + 4) = D_80083780.x;
+        *(u16 *)(object + 6) = D_80083780.y;
+        *(u16 *)(object + 8) = D_80083780.z - 0x30;
     }
 }

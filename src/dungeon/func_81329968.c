@@ -30,47 +30,48 @@ typedef struct S_80171168_2 {
     s32 unk_1C;
 } S_80171168_2;   /* temp_s2 in func_80171168 */
 
-void func_80171168(s32 arg0) {
-    const Config24 *config;
-    Config24 local;
-    M2C_UNK var_a2;
-    M2C_UNK var_a2_2;
-    u8 *local_bytes;
-    u8 *global_base;
-    u8 call_a0;
-    u8 call_a1;
-    u8 final_a0;
-    u8 final_a1;
-    register s16 *temp_a0;
-    s32 temp_s3;
-    S_80171168_1 *temp_s0;
-    S_80171168_2 *temp_s2;
+/* Move the entity to a selected offset from the origin and update its cell flags. */
+void func_80171168(s32 offset_index) {
+    const Config24 *offset_table;
+    Config24 offsets;
+    M2C_UNK old_cell_mask;
+    M2C_UNK new_cell_mask;
+    u8 *offset_bytes;
+    u8 *origin;
+    u8 old_x;
+    u8 old_y;
+    u8 new_x;
+    u8 new_y;
+    register s16 *offset_pair;
+    s32 entity_id;
+    S_80171168_1 *entity;
+    S_80171168_2 *entity_state;
 
-    config = (const Config24 *)D_8016A87C;
-    local = *config;
-    temp_a0 = (s16 *)local.data;
-    var_a2 = 0x3000;
-    temp_s2 = *D_80174CD8 + 0x20;
-    temp_s0 = ((S_80171168_0 *)(*D_80174CD8))->unk_0C;
-    temp_s3 = ((S_80171168_0 *)(*D_80174CD8))->unk_08;
-    temp_s0->unk_14 = (u16) (temp_s0->unk_14 & 0xFF7F);
-    call_a0 = temp_s0->unk_24;
-    call_a1 = temp_s0->unk_25;
-    if (temp_s2->unk_1C & 0x2000) {
-        var_a2 = 0x300;
+    offset_table = (const Config24 *)D_8016A87C;
+    offsets = *offset_table;
+    offset_pair = (s16 *)offsets.data;
+    old_cell_mask = 0x3000;
+    entity_state = *D_80174CD8 + 0x20;
+    entity = ((S_80171168_0 *)(*D_80174CD8))->unk_0C;
+    entity_id = ((S_80171168_0 *)(*D_80174CD8))->unk_08;
+    entity->unk_14 = (u16) (entity->unk_14 & 0xFF7F);
+    old_x = entity->unk_24;
+    old_y = entity->unk_25;
+    if (entity_state->unk_1C & 0x2000) {
+        old_cell_mask = 0x300;
     }
-    func_8009A3D0(call_a0, call_a1, var_a2);
-    global_base = D_80082E80;
-    temp_a0 = &temp_a0[arg0];
-    local_bytes = (u8 *)temp_a0;
-    temp_s0->unk_24 = (u8) (global_base[0x24] + local_bytes[0]);
-    temp_s0->unk_25 = (u8) (global_base[0x25] + local_bytes[1]);
-    func_800A2B04(temp_s3, temp_s0->unk_24, temp_s0->unk_25);
-    final_a0 = temp_s0->unk_24;
-    final_a1 = temp_s0->unk_25;
-    var_a2_2 = 0x3000;
-    if (temp_s2->unk_1C & 0x2000) {
-        var_a2_2 = 0x300;
+    func_8009A3D0(old_x, old_y, old_cell_mask);
+    origin = D_80082E80;
+    offset_pair = &offset_pair[offset_index];
+    offset_bytes = (u8 *)offset_pair;
+    entity->unk_24 = (u8) (origin[0x24] + offset_bytes[0]);
+    entity->unk_25 = (u8) (origin[0x25] + offset_bytes[1]);
+    func_800A2B04(entity_id, entity->unk_24, entity->unk_25);
+    new_x = entity->unk_24;
+    new_y = entity->unk_25;
+    new_cell_mask = 0x3000;
+    if (entity_state->unk_1C & 0x2000) {
+        new_cell_mask = 0x300;
     }
-    func_8009A21C(final_a0, final_a1, var_a2_2);
+    func_8009A21C(new_x, new_y, new_cell_mask);
 }

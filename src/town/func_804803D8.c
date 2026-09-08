@@ -17,6 +17,7 @@ extern Rec_D_80016000 *D_80016000;
 extern M2C_UNK D_80019440;
 extern s32 D_80019540;
 
+/* Prepare D_80019440 for the callback and store its result in D_80019540. */
 void func_804803D8(void) {
     func_80016948(&D_80019440, 0x100);
     func_80016A38(&D_80019440);

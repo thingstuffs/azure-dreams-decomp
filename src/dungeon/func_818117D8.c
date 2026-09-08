@@ -33,29 +33,30 @@ typedef struct {
     S_8002E5E8 *unk8;
 } Owner;
 
-void func_800267D8(void *unused, Owner *arg1, S_8002E5D8 *arg2,
-                   S_8002E5E8 *arg3) {
-    S_8002E5D8 *src0 = &D_8002E5D8;
-    S_8002E5E8 *src1 = &D_8002E5E8;
-    s32 *tmp;
+/* Initialize the owner with default patch and auxiliary data. */
+void func_800267D8(void *unused, Owner *owner, S_8002E5D8 *patch_data,
+                   S_8002E5E8 *aux_data) {
+    S_8002E5D8 *patch_defaults = &D_8002E5D8;
+    S_8002E5E8 *aux_defaults = &D_8002E5E8;
+    s32 *aux_first_word;
 
-    arg2->unk0 = src0->unk0;
-    tmp = &src1->unk0;
-    arg2->unk4 = src0->unk4;
-    arg2->unk8 = src0->unk8;
-    arg2->unkC = src0->unkC;
+    patch_data->unk0 = patch_defaults->unk0;
+    aux_first_word = &aux_defaults->unk0;
+    patch_data->unk4 = patch_defaults->unk4;
+    patch_data->unk8 = patch_defaults->unk8;
+    patch_data->unkC = patch_defaults->unkC;
 
-    arg3->unk0 = *tmp;
-    arg3->unk4 = src1->unk4;
-    arg3->unk8 = src1->unk8;
+    aux_data->unk0 = *aux_first_word;
+    aux_data->unk4 = aux_defaults->unk4;
+    aux_data->unk8 = aux_defaults->unk8;
 
-    arg1->unk4 = (PatchRecord *)arg2;
-    arg1->unk8 = arg3;
-    arg1->unk0 = 0;
+    owner->unk4 = (PatchRecord *)patch_data;
+    owner->unk8 = aux_data;
+    owner->unk0 = 0;
 
-    arg1->unk4->unk8 = -96;
-    arg1->unk4->unkA = -112;
-    arg1->unk4->unkC = 0x200;
-    arg1->unk4->unk6 = 0;
-    arg1->unk4->unkF = 4;
+    owner->unk4->unk8 = -96;
+    owner->unk4->unkA = -112;
+    owner->unk4->unkC = 0x200;
+    owner->unk4->unk6 = 0;
+    owner->unk4->unkF = 4;
 }

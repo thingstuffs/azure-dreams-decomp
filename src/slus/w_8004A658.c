@@ -1,8 +1,8 @@
 #include "common.h"
 
-/* Two-level item table lookup: itemCategoryTable[a0].kind selects whether the
- * itemCategoryTable[a0].records array (pointed to by the struct's offset0xC field)
- * is laid out as 12-byte or 20-byte records; records[a1]'s signed halfword field
+/* Two-level item table lookup: itemCategoryTable[categoryIndex].kind selects whether the
+ * itemCategoryTable[categoryIndex].records array (pointed to by the struct's offset0xC field)
+ * is laid out as 12-byte or 20-byte records; records[recordIndex]'s signed halfword field
  * at offset 2 is then used as an index into the word table D_8007361C. */
 typedef struct S_8004A658_CategoryEntry {
     u8 kind;         /* 0x0: selects 12-byte (nonzero) vs 20-byte (zero) record layout */
@@ -17,9 +17,10 @@ typedef struct S_8004A658_RecB { s16 f0; s16 f1; s16 pad[8]; } S_8004A658_RecB; 
 extern S_8004A658_CategoryEntry itemCategoryTable[];
 extern s32 D_8007361C[256];
 
-s32 func_8004A658(s32 a0, s32 a1)
+/* Returns the word-table value selected by an item record in the given category. */
+s32 func_8004A658(s32 categoryIndex, s32 recordIndex)
 {
-    return D_8007361C[(&itemCategoryTable[a0])->kind == 0
-        ? ((S_8004A658_RecB *)(&itemCategoryTable[a0])->records)[a1].f1
-        : ((S_8004A658_RecA *)(&itemCategoryTable[a0])->records)[a1].f1];
+    return D_8007361C[(&itemCategoryTable[categoryIndex])->kind == 0
+        ? ((S_8004A658_RecB *)(&itemCategoryTable[categoryIndex])->records)[recordIndex].f1
+        : ((S_8004A658_RecA *)(&itemCategoryTable[categoryIndex])->records)[recordIndex].f1];
 }

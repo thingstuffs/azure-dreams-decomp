@@ -12,23 +12,24 @@ extern DungeonState D_80083460;
 extern s16 D_800DCF5E;
 extern u8 D_801751C0[12];
 
-void func_801751C0(void *arg0, s32 arg1, s32 arg2, void *arg3)
+/* Initializes entity state and conditionally clears its data pointer and increments the dungeon count. */
+void func_801751C0(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
 {
-    u8 *entity = arg0;
-    u8 *other = arg3;
-    DungeonState *state = &D_80083460;
+    u8 *entity = entity_data;
+    u8 *other_entity = other_data;
+    DungeonState *dungeon_state = &D_80083460;
     s32 kind = 0x18;
 
-    other[0x71] &= 0x7F;
+    other_entity[0x71] &= 0x7F;
     *(void **)(entity + 0x8C) = &D_801751C0;
     entity[0x9A] = kind;
     entity[0x9B] = 0;
-    other[0x6D] = 0;
-    if (!(state->flags & 0x2000) && ((func_800A2BDC(other) << 16) == 0)) {
+    other_entity[0x6D] = 0;
+    if (!(dungeon_state->flags & 0x2000) && ((func_800A2BDC(other_entity) << 16) == 0)) {
         *(void **)(entity + 0x8C) = 0;
         entity[0x9A] = kind;
         entity[0x9B] = 0;
         D_800DCF5E = 0;
-        state->count++;
+        dungeon_state->count++;
     }
 }

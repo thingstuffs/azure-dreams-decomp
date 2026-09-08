@@ -30,7 +30,8 @@ extern u8 D_80024730[];
 extern u8 D_80025368[];
 extern u8 D_80045340[];
 
-void func_81868FDC(s32 arg0, void *arg1) {
+/* Create and initialize a sprite object, storing a value and copying three source halfwords. */
+void func_81868FDC(s32 value, void *source_data) {
     Object *obj;
     Sprite *sprite;
     u16 *dst;
@@ -40,7 +41,7 @@ void func_81868FDC(s32 arg0, void *arg1) {
     if (obj != 0) {
         obj->callback = D_80024730;
         sprite = obj->sprite;
-        obj->value = arg0;
+        obj->value = value;
         sprite->b = 0x80;
         sprite->g = 0x80;
         sprite->r = 0x80;
@@ -52,7 +53,7 @@ void func_81868FDC(s32 arg0, void *arg1) {
         sprite->flags14 |= 0x10C;
         func_8004491C(obj, D_80045340);
         dst = obj->dst;
-        src = arg1;
+        src = source_data;
         dst[1] = src[1];
         dst[3] = src[3];
         dst[5] = src[5];

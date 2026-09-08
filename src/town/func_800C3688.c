@@ -48,9 +48,10 @@ typedef int s32;
 extern u32 D_8006ADBC;
 extern s32 D_800D3824[];
 extern void func_800BC45C(s32 arg0, s16 arg1, void *state);
+/* Calls func_800BC45C with the first table entry matching the state's ID. */
 void func_800C0DE8(void)
 {
-  s32 *entry;
+  s32 *table_entry;
   s8 *state;
   if (*((volatile s32 *) D_800D3824) != (-1))
   {
@@ -58,17 +59,17 @@ void func_800C0DE8(void)
     {
       state = (s8 *) (&D_8006ADBC);
     } while (0);
-    entry = D_800D3824;
-    loop:
-    if (*((s16 *) (state + 0x1A)) == (*entry))
+    table_entry = D_800D3824;
+    check_entry:
+    if (*((s16 *) (state + 0x1A)) == (*table_entry))
     {
-      func_800BC45C(*((s32 *) (((s8 *) entry) + 4)), *((s16 *) (((s8 *) entry) + 8)), state);
+      func_800BC45C(*((s32 *) (((s8 *) table_entry) + 4)), *((s16 *) (((s8 *) table_entry) + 8)), state);
       return;
     }
-    entry += 3;
-    if (*entry != (-1))
+    table_entry += 3;
+    if (*table_entry != (-1))
     {
-      goto loop;
+      goto check_entry;
     }
   }
 }

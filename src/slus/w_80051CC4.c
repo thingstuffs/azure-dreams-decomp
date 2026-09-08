@@ -31,97 +31,91 @@ typedef struct S_80051CC4_Ptr
   u8 field_0x0D;
   u8 field_0x0E;
 } S_80051CC4_Ptr;
-void func_80051CC4(S_80051CC4_Sub *a0, void *a1_unused, S_80051CC4_Ptr *a2)
+/* Fade through seven table entries, then advance the owner and mark completion. */
+void func_80051CC4(S_80051CC4_Sub *state, void *unused_arg, S_80051CC4_Ptr *visual)
 {
-  u8 *usedPage;
-  u16 newField6 = a0->field_0x06 + 1;
-  s32 mode = a0->field_0x04;
-  u16 origField4 = *((volatile u16 *) (&a0->field_0x04));
-  u16 resetVal;
-  u32 used;
-  a0->field_0x06 = newField6;
-  switch (mode)
+  u8 *flags_page;
+  u16 next_tick = state->field_0x06 + 1;
+  s32 phase = state->field_0x04;
+  u16 saved_phase = *((volatile u16 *) (&state->field_0x04));
+  u16 advance_phase;
+  u32 flags;
+  state->field_0x06 = next_tick;
+  switch (phase)
   {
     case 0:
-      if (a0->field_0x0C != 0)
-    {
-      resetVal = a0->field_0x04;
-      a0->field_0x0C = 0;
-      goto reset_bump;
-    }
+      if (state->field_0x0C != 0)
+      {
+        advance_phase = state->field_0x04;
+        state->field_0x0C = 0;
+        goto reset_bump;
+      }
       break;
 
     case 1:
-    {
-      u8 val = a2->field_0x0E + 4;
-      a2->field_0x0E = val;
-      a2->field_0x0D = val;
-      a2->field_0x0C = val;
-    }
-      if (a0->field_0x06 < 0x20)
-    {
-      break;
-    }
-      resetVal = a0->field_0x04;
-      reset_bump:
-    do { a0->field_0x06 = 0; } while (0);
+      {
+        u8 brightness = visual->field_0x0E + 4;
+        visual->field_0x0E = brightness;
+        visual->field_0x0D = brightness;
+        visual->field_0x0C = brightness;
+      }
+      if (state->field_0x06 < 0x20)
+      {
+        break;
+      }
+      advance_phase = state->field_0x04;
+    reset_bump:
+      do { state->field_0x06 = 0; } while (0);
 
-      a0->field_0x04 = resetVal + 1;
+      state->field_0x04 = advance_phase + 1;
       break;
 
     case 2:
-      if (((s16) newField6) >= 0x3F)
-    {
-      a0->field_0x04 = origField4 + 1;
-      a0->field_0x06 = 0;
-    }
+      if (((s16) next_tick) >= 0x3F)
+      {
+        state->field_0x04 = saved_phase + 1;
+        state->field_0x06 = 0;
+      }
       break;
 
     case 3:
-    {
-      u8 val = a2->field_0x0E - 4;
-      a2->field_0x0E = val;
-      a2->field_0x0D = val;
-      a2->field_0x0C = val;
-    }
-      if (a0->field_0x06 < 0x20)
-    {
-      break;
-    }
-    {
-      s16 idx = a0->field_0x0A + 1;
-      a0->field_0x0A = idx;
-      if (idx != 7)
       {
-        idx = idx % 7;
-        a0->field_0x0A = idx;
-        a2->field_0x08 = (*(&D_80071A68[idx])).field_0x00;
-        a0->field_0x04 = 0;
-        a0->field_0x06 = 0;
-        return;
+        u8 brightness = visual->field_0x0E - 4;
+        visual->field_0x0E = brightness;
+        visual->field_0x0D = brightness;
+        visual->field_0x0C = brightness;
       }
-    }
+      if (state->field_0x06 < 0x20)
+      {
+        break;
+      }
+      {
+        s16 entry_index = state->field_0x0A + 1;
+        state->field_0x0A = entry_index;
+        if (entry_index != 7)
+        {
+          entry_index = entry_index % 7;
+          state->field_0x0A = entry_index;
+          visual->field_0x08 = (*(&D_80071A68[entry_index])).field_0x00;
+          state->field_0x04 = 0;
+          state->field_0x06 = 0;
+          return;
+        }
+      }
       goto shared_end;
 
     default:
-      a2->field_0x0E = 0;
-      a2->field_0x0D = 0;
-      a2->field_0x0C = 0;
-      shared_end:
-    a0->owner->field_0x14 = 0;
-
-      a0->owner->field_0x06 = a0->owner->field_0x06 + 1;
-      *((u16 *) (((u8 *) a0) - 2)) |= 0x8000;
-      used = D_800814A0;
-      
-      used |= 0x8000;
-      
-      usedPage = (u8 *) 0x80080000;
-      
-      *((u32 *) (usedPage + 0x14A0)) = used;
-      
+      visual->field_0x0E = 0;
+      visual->field_0x0D = 0;
+      visual->field_0x0C = 0;
+    shared_end:
+      state->owner->field_0x14 = 0;
+      state->owner->field_0x06 = state->owner->field_0x06 + 1;
+      *((u16 *) (((u8 *) state) - 2)) |= 0x8000;
+      flags = D_800814A0;
+      flags |= 0x8000;
+      flags_page = (u8 *) 0x80080000;
+      *((u32 *) (flags_page + 0x14A0)) = flags;
       break;
-
   }
-
 }
