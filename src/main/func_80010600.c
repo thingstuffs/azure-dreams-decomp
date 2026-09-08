@@ -1,10 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_800233D0_arg0.h"
 
-typedef struct S_80023600_1 {
-    u8 pad_00[0x1A0];
-    void * unk_1A0;
-} S_80023600_1;   /* arg0 in func_80023600 */
 
 typedef struct S_80023600_2 {
     u8 pad_00[0x1A8];
@@ -20,7 +17,7 @@ typedef struct S_80023600_2 {
 typedef struct S_80023600_3 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_80023600_3;   /* ((S_80023600_1 *)arg0)->unk_1A0 in func_80023600 */
+} S_80023600_3;   /* ((Rec_func_800233D0_arg0 *)arg0)->unk_1A0 in func_80023600 */
 
 typedef struct S_80023600_4 {
     u8 pad_00[0x4];
@@ -45,7 +42,7 @@ typedef struct S_80023600_7 {
 typedef struct S_80023600_8 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80023600_8;   /* ((S_80023600_3 *)(((S_80023600_1 *)arg0)->unk_1A0))->unk_04 in func_80023600 */
+} S_80023600_8;   /* ((S_80023600_3 *)(((Rec_func_800233D0_arg0 *)arg0)->unk_1A0))->unk_04 in func_80023600 */
 
 typedef struct S_80023600_9 {
     u8 pad_00[0x8];
@@ -79,11 +76,6 @@ M2C_UNK func_80023470();       /* extern */
 M2C_UNK func_8002352C();                            /* extern */
 M2C_UNK func_800235A0();    /* extern */
 
-typedef struct S_80023600_0 {
-    u8 pad_00[0x80];
-    s32 unk_80;
-    s32 unk_84;
-} S_80023600_0;   /* arg0 in func_80023600 */
 
 void func_80023600(void *arg0) {
     s32 var_t3;
@@ -95,8 +87,8 @@ void func_80023600(void *arg0) {
     s32 var_a3;
     void *var_a0;
 
-    ((S_80023600_0 *)arg0)->unk_80 = 1;
-    ((S_80023600_0 *)arg0)->unk_84 = 1;
+    ((Rec_func_800233D0_arg0 *)arg0)->unk_80 = 1;
+    ((Rec_func_800233D0_arg0 *)arg0)->unk_84 = 1;
     func_8002352C();
     func_800235A0(arg0 + 4, 0x36, 0x10);
     func_800233D0(arg0);
@@ -108,7 +100,7 @@ void func_80023600(void *arg0) {
     var_a1 = 0xA;
     var_a2 = 0x82;
     var_a0 = arg0;
-    ((S_80023600_8 *)(((S_80023600_3 *)(((S_80023600_1 *)arg0)->unk_1A0))->unk_04))->unk_0A = 0x1A;
+    ((S_80023600_8 *)(((S_80023600_3 *)(((Rec_func_800233D0_arg0 *)arg0)->unk_1A0))->unk_04))->unk_0A = 0x1A;
     do {
         ((S_80023600_9 *)(((S_80023600_4 *)(((S_80023600_2 *)var_a0)->unk_1D8))->unk_04))->unk_08 = var_t3;
         ((S_80023600_9 *)(((S_80023600_4 *)(((S_80023600_2 *)var_a0)->unk_1D8))->unk_04))->unk_0A = var_a2;

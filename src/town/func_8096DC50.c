@@ -1,11 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_801237A4_arg0.h"
 
-typedef struct S_801260E8_0 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-    u8 pad_06[0x52];
-    void * unk_58;
-} S_801260E8_0;   /* arg0 in func_801260E8 */
 
 typedef struct S_801260E8_1 {
     s32 unk_00;
@@ -46,7 +41,7 @@ extern void *D_8011AD90[];
 extern TownInitialPosition D_80126AF8[5];
 extern void *D_80129728[];
 
-void func_801260E8(S_801260E8_0 *arg0)
+void func_801260E8(Rec_func_801237A4_arg0 *arg0)
 {
     static void *const switch_labels[] = {
         &&case_0,
@@ -82,7 +77,7 @@ void func_801260E8(S_801260E8_0 *arg0)
     s32 value;
     u16 half;
 
-    selector = (s16)(arg0->unk_04 - 1);
+    selector = (s16)(arg0->unk_04.as_u16 - 1);
     if ((u32)selector >= 20) {
         goto done;
     }

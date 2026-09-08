@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_800AB030_arg0.h"
 
 
 extern s32 func_800AAE98(void *);
@@ -9,14 +10,6 @@ extern u8 D_800AB408[];
 extern u8 D_800AB708[];
 
 
-typedef struct S_800AB5C0_0 {
-    u8 pad_00[0x50];
-    void * unk_50;
-    u8 pad_54[0x18];
-    u16 unk_6C;
-    u8 pad_6E[0x22];
-    s16 unk_90;
-} S_800AB5C0_0;   /* arg0 in func_800AB5C0 */
 
 typedef struct S_800AB5C0_1 {
     u8 pad_00[0x2];
@@ -33,7 +26,7 @@ typedef struct S_800AB5C0_1 {
     u16 unk_16;
 } S_800AB5C0_1;   /* arg1 in func_800AB5C0 */
 
-void func_800AB5C0(S_800AB5C0_0 *arg0, S_800AB5C0_1 *arg1) {
+void func_800AB5C0(Rec_func_800AB030_arg0 *arg0, S_800AB5C0_1 *arg1) {
     s16 buf[12];
     s32 offset;
     u16 timer;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_80024E80_arg1.h"
 
 typedef struct S_80024E80_0 {
     u8 pad_00[0x8];
@@ -48,11 +49,6 @@ typedef struct S_80024E80_4 {
     s32 unk_14;
 } S_80024E80_4;   /* points in func_80024E80 */
 
-typedef struct S_80024E80_5 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80024E80_5;   /* arg1 in func_80024E80 */
 
 typedef struct S_80024E80_6 {
     u8 pad_00[0x14];
@@ -76,7 +72,7 @@ extern s32 D_80045340;
 extern u8 D_800DE39C[];
 
 
-void *func_80024E80(void *arg0, S_80024E80_5 *arg1) {
+void *func_80024E80(void *arg0, Rec_func_80024E80_arg1 *arg1) {
     void *obj;
     S_80024E80_2 *work;
     S_80024E80_3 *control;
@@ -117,9 +113,9 @@ void *func_80024E80(void *arg0, S_80024E80_5 *arg1) {
     points->unk_10 = ((S_80024E80_1 *)arg0)->unk_24;
     points->unk_14 = ((S_80024E80_1 *)arg0)->unk_28;
 
-    dx = ((S_80024E80_1 *)arg0)->unk_20 - arg1->unk_00;
-    dy = ((S_80024E80_1 *)arg0)->unk_24 - arg1->unk_04;
-    dz = ((S_80024E80_1 *)arg0)->unk_28 - arg1->unk_08;
+    dx = ((S_80024E80_1 *)arg0)->unk_20 - arg1->unk_00.at00_s32.v;
+    dy = ((S_80024E80_1 *)arg0)->unk_24 - arg1->unk_04.at00_s32.v;
+    dz = ((S_80024E80_1 *)arg0)->unk_28 - arg1->unk_08.at00_s32.v;
 
     work->unk_0E = func_80065F90(
         func_800647A0((((dx >> 12) * (dx >> 12)) +

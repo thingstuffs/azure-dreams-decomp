@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_80167A98_arg1.h"
+#include "records/Rec_func_80167A98_arg0.h"
 
 M2C_UNK func_8003DB94();  /* extern */
 void *func_8003FC64();                       /* extern */
@@ -46,18 +48,9 @@ typedef struct S_80167A98_2 {
     s32 unk_08;
 } S_80167A98_2;   /* temp_a1 in func_80167A98 */
 
-typedef struct S_80167A98_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80167A98_3;   /* arg1 in func_80167A98 */
 
-typedef struct S_80167A98_4 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-} S_80167A98_4;   /* arg0 in func_80167A98 */
 
-void func_80167A98(S_80167A98_4 *arg0, S_80167A98_3 *arg1) {
+void func_80167A98(Rec_func_80167A98_arg0 *arg0, Rec_func_80167A98_arg1 *arg1) {
     S_80167A98_2 *temp_a1;
     S_80167A98_1 *temp_s0;
     S_80167A98_0 *temp_v0;

@@ -1,6 +1,5 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800814A0.h"
 
 typedef struct S_800C4F20_10 {
     u8 pad_00[0x1C];
@@ -99,6 +98,9 @@ typedef struct S_800C4F20_8 {
     s32 unk_14;
 } S_800C4F20_8;   /* temp_a0_7 in func_800C4F20 */
 
+typedef struct S_800C4F20_9 {
+    s32 unk_00;
+} S_800C4F20_9;   /* &D_800814A0 in func_800C4F20 */
 
 
 extern void *D_800893E4[];
@@ -310,7 +312,7 @@ block_22:
     temp_a0_7 = ((S_800C4F20_0 *)arg0)->unk_24;
     temp_a0_7->unk_14 = (s32) (temp_a0_7->unk_14 & 0xFFEFFFFF);
     ((S_800C4F20_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)arg0)[-1].unk_00 | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((Rec_D_800814A0 *)(&D_800814A0))->unk_00 | 0x8000);
+    (*(s32 *)&D_800814A0) = (s32) (((S_800C4F20_9 *)(&D_800814A0))->unk_00 | 0x8000);
     return;
 jt_c4:
 jt_c5:

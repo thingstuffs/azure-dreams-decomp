@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_800243B8_arg0.h"
 
 #ifndef NULL
 #define NULL 0
@@ -31,10 +32,6 @@ typedef struct S_800243B8_1 {
     u16 unk_3A;
 } S_800243B8_1;   /* data in func_800243B8 */
 
-typedef struct S_800243B8_2 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-} S_800243B8_2;   /* arg0 in func_800243B8 */
 
 typedef struct S_800243B8_3 {
     s32 unk_00;
@@ -80,7 +77,7 @@ extern s32 func_80069EF8(void);
 extern u8 D_800240D8[];
 extern u8 D_800777DC[];
 
-void *func_800243B8(S_800243B8_2 *arg0, S_800243B8_3 *arg1, S_800243B8_4 *arg2)
+void *func_800243B8(Rec_func_800243B8_arg0 *arg0, S_800243B8_3 *arg1, S_800243B8_4 *arg2)
 {
     s16 amplitude;
     s32 angle_x;
@@ -99,7 +96,7 @@ void *func_800243B8(S_800243B8_2 *arg0, S_800243B8_3 *arg1, S_800243B8_4 *arg2)
         ((S_800243B8_0 *)obj)->unk_20 = arg0;
         data->unk_34 = 0;
         data->unk_36 = 0;
-        data->unk_3A = arg0->unk_12;
+        data->unk_3A = arg0->unk_12.as_u16;
 
         amplitude = func_80069EF8() % 48;
         angle_x = func_80069EF8() % 0x1000;

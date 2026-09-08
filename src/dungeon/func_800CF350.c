@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_800247B8_arg0.h"
 
 #define UNALIGNED32(expr) (expr)
 
@@ -21,10 +22,6 @@ typedef struct S_800D4AB0_0 {
     void * unk_88;
 } S_800D4AB0_0;   /* temp_v1 in func_800D4AB0 */
 
-typedef struct S_800D4AB0_1 {
-    u8 pad_00[0x88];
-    void * unk_88;
-} S_800D4AB0_1;   /* arg0 in func_800D4AB0 */
 
 typedef struct S_800D4AB0_2 {
     u8 pad_00[0x6];
@@ -63,9 +60,9 @@ typedef struct S_800D4AB0_4 {
 typedef struct S_800D4AB0_5_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_800D4AB0_5_pre;   /* the 0x18 bytes before ((S_800D4AB0_1 *)arg0)->unk_88 in func_800D4AB0, addressed as ((S_800D4AB0_1 *)arg0)->unk_88[-1] */
+} S_800D4AB0_5_pre;   /* the 0x18 bytes before ((Rec_func_800247B8_arg0 *)arg0)->unk_88 in func_800D4AB0, addressed as ((Rec_func_800247B8_arg0 *)arg0)->unk_88[-1] */
 
-void func_800D4AB0(S_800D4AB0_1 *arg0) {
+void func_800D4AB0(Rec_func_800247B8_arg0 *arg0) {
     S_800D4AB0_3 *temp_a0;
     S_800D4AB0_2 *temp_a3;
     void *temp_v0;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_800D6DC0_arg2.h"
 
 typedef struct S_80175594_0 {
     u8 pad_00[0x8C];
@@ -31,17 +32,6 @@ typedef struct S_80175594_1 {
     s32 unk_14;
 } S_80175594_1;   /* arg1 in func_80175594 */
 
-typedef struct S_80175594_2 {
-    u8 pad_00[0x5];
-    u8 unk_05;
-    u8 pad_06[0xE];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80175594_2;   /* arg2 in func_80175594 */
 
 typedef struct S_80175594_3 {
     u8 pad_00[0x1C];
@@ -120,9 +110,9 @@ case_0:
     ((S_80175594_1 *)arg1)->unk_14 = 0;
     ((S_80175594_1 *)arg1)->unk_10 = 0;
     ((S_80175594_1 *)arg1)->unk_0C = 0;
-    if (((S_80175594_2 *)arg2)->unk_14 & 0x8000) {
+    if (((Rec_func_800D6DC0_arg2 *)arg2)->unk_14 & 0x8000) {
         ((S_80175594_0 *)arg0)->unk_9B = 7;
-        ((S_80175594_2 *)arg2)->unk_14 |= 0x6000;
+        ((Rec_func_800D6DC0_arg2 *)arg2)->unk_14 |= 0x6000;
         goto done;
     }
     if (((S_80175594_0 *)arg0)->unk_A0.at00.v <= 0x6FFFF) {
@@ -230,20 +220,20 @@ next_state:
     goto done;
 
 case_7:
-    func_8009A3D0(((S_80175594_2 *)arg2)->unk_24, ((S_80175594_2 *)arg2)->unk_25,
+    func_8009A3D0(((Rec_func_800D6DC0_arg2 *)arg2)->unk_24, ((Rec_func_800D6DC0_arg2 *)arg2)->unk_25,
         (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
     attempts = 0x20;
     world = D_80082E80;
-    old_x = ((S_80175594_2 *)arg2)->unk_24;
-    old_y = ((S_80175594_2 *)arg2)->unk_25;
+    old_x = ((Rec_func_800D6DC0_arg2 *)arg2)->unk_24;
+    old_y = ((Rec_func_800D6DC0_arg2 *)arg2)->unk_25;
     do {
         do {
             result = func_800A4E2C((u8 *)arg2 + 0x24, (u8 *)arg2 + 0x25);
         } while (result < 0);
 
         dx = world[0x24];
-        dy = ((S_80175594_2 *)arg2)->unk_24;
-        entity_y = ((S_80175594_2 *)arg2)->unk_25;
+        dy = ((Rec_func_800D6DC0_arg2 *)arg2)->unk_24;
+        entity_y = ((Rec_func_800D6DC0_arg2 *)arg2)->unk_25;
         dx -= dy;
         dy = world[0x25];
         if (dx < 0) {
@@ -257,12 +247,12 @@ case_7:
             goto coordinates_ready;
         }
     } while (--attempts >= 0);
-    ((S_80175594_2 *)arg2)->unk_24 = old_x;
-    ((S_80175594_2 *)arg2)->unk_25 = old_y;
+    ((Rec_func_800D6DC0_arg2 *)arg2)->unk_24 = old_x;
+    ((Rec_func_800D6DC0_arg2 *)arg2)->unk_25 = old_y;
 
 coordinates_ready:
-    ((S_80175594_1 *)arg1)->unk_02.s = (((S_80175594_2 *)arg2)->unk_24 << 6) + 0x20;
-    ((S_80175594_1 *)arg1)->unk_06.s = (((S_80175594_2 *)arg2)->unk_25 << 6) + 0x20;
+    ((S_80175594_1 *)arg1)->unk_02.s = (((Rec_func_800D6DC0_arg2 *)arg2)->unk_24 << 6) + 0x20;
+    ((S_80175594_1 *)arg1)->unk_06.s = (((Rec_func_800D6DC0_arg2 *)arg2)->unk_25 << 6) + 0x20;
     result = func_800BCB04(((S_80175594_1 *)arg1)->unk_02.u, ((S_80175594_1 *)arg1)->unk_06.u,
         -0x200);
     result -= 0x11;
@@ -273,12 +263,12 @@ coordinates_ready:
     ((S_80175594_0 *)arg0)->unk_A0.at00.v = 0;
     ((S_80175594_3 *)object)->unk_88 = -0x200;
     result = func_800BCB04(
-        (((S_80175594_2 *)arg2)->unk_24 << 6) | 0x20,
-        (((S_80175594_2 *)arg2)->unk_25 << 6) | 0x20,
+        (((Rec_func_800D6DC0_arg2 *)arg2)->unk_24 << 6) | 0x20,
+        (((Rec_func_800D6DC0_arg2 *)arg2)->unk_25 << 6) | 0x20,
         -0x200);
     ((S_80175594_3 *)object)->unk_88 = result;
 
-    func_8009A21C(((S_80175594_2 *)arg2)->unk_24, ((S_80175594_2 *)arg2)->unk_25,
+    func_8009A21C(((Rec_func_800D6DC0_arg2 *)arg2)->unk_24, ((Rec_func_800D6DC0_arg2 *)arg2)->unk_25,
         (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
     func_800AA53C(object);
     func_800AD594(object, 0x1000);
@@ -292,12 +282,12 @@ coordinates_ready:
     (*(u16 *)((u8 *)arg0 + 0x98)) |= 8;
 
     table = D_800E2348;
-    if (((S_80175594_2 *)arg2)->unk_2C != table) {
+    if (((Rec_func_800D6DC0_arg2 *)arg2)->unk_2C != table) {
         (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
         func_80047784(arg2,
             table[((D_80083228 + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
             0);
-        ((S_80175594_2 *)arg2)->unk_05 = 1;
+        ((Rec_func_800D6DC0_arg2 *)arg2)->unk_05 = 1;
         ((S_80175594_0 *)arg0)->unk_A0.at02.v = 0;
         ((S_80175594_0 *)arg0)->unk_9E = 0;
     }

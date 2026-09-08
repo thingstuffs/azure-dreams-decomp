@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_801744DC_arg1.h"
+#include "records/Rec_func_801744DC_arg0.h"
 
 typedef struct S_801744DC_0 {
     u8 pad_00[0x1E];
@@ -44,19 +46,7 @@ typedef struct S_801744DC_3 {
     u16 unk_0A;
 } S_801744DC_3;   /* coords in func_801744DC */
 
-typedef struct S_801744DC_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_801744DC_4;   /* arg1 in func_801744DC */
 
-typedef struct S_801744DC_5 {
-    u8 pad_00[0x1C];
-    s16 unk_1C;
-} S_801744DC_5;   /* arg0 in func_801744DC */
 
 
 
@@ -75,7 +65,7 @@ extern u8 D_800DEC70[];
 extern s32 D_80174300;
 extern Pair16 D_8017610C[];
 
-void func_801744DC(S_801744DC_5 *arg0, S_801744DC_4 *arg1)
+void func_801744DC(Rec_func_801744DC_arg0 *arg0, Rec_func_801744DC_arg1 *arg1)
 {
     void *node;
     S_801744DC_0 *work;

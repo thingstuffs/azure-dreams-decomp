@@ -7932,72 +7932,6 @@
 "unions": 4,
 "members": 23
 },
-"Rec_D_800814A0": {
-"class": "global:D_800814A0",
-"header": "records/Rec_D_800814A0.h",
-"sha256": "c3df686aaac047cf4d214b31f2cc7a9834d81de7bf5177e1d24676829530ea40",
-"needs_compat": false,
-"compiles": true,
-"paths": {
-"dungeon/func_8008DCFC|S_8009345C_6": {
-"0x0": "unk_00"
-},
-"dungeon/func_800A6018|S_800AB778_10": {
-"0x0": "unk_00"
-},
-"dungeon/func_800BF7C0|S_800C4F20_9": {
-"0x0": "unk_00"
-},
-"dungeon/func_800C0620|S_800C5D80_4": {
-"0x0": "unk_00"
-},
-"dungeon/func_800D2A74|S_800D81D4_3": {
-"0x0": "unk_00"
-},
-"dungeon/func_809990E8|S_8014C8E8_2": {
-"0x0": "unk_00"
-},
-"dungeon/func_80BEDF38|S_80173738_2": {
-"0x0": "unk_00"
-},
-"dungeon/func_80C97514|S_80C97514_10": {
-"0x0": "unk_00"
-},
-"dungeon/func_81814A80|S_81814A80_1": {
-"0x0": "unk_00"
-},
-"dungeon/func_8182C800|S_8182C800_22": {
-"0x0": "unk_00"
-},
-"dungeon/func_818AAE60|S_80024660_11": {
-"0x0": "unk_00"
-},
-"dungeon/func_818B7F38|S_80025738_12": {
-"0x0": "unk_00"
-},
-"dungeon/func_818FF710|S_818FF710_29": {
-"0x0": "unk_00"
-},
-"dungeon/func_81912154|S_80025954_13": {
-"0x0": "unk_00"
-},
-"dungeon/func_8195281C|S_8195281C_9": {
-"0x0": "unk_00"
-},
-"dungeon/func_819A0EF0|S_800246F0_3": {
-"0x0": "unk_00"
-}
-},
-"unmapped": [],
-"rows": 16,
-"structs": 16,
-"span": 4,
-"containers": {
-"dungeon": 16
-},
-"unions": 0,
-"members": 1
-},
 "Rec_D_800CFCB4": {
 "class": "global:D_800CFCB4",
 "header": "records/Rec_D_800CFCB4.h",
@@ -8077,6 +8011,56 @@
 "unions": 2,
 "members": 22
 },
+"Rec_func_800AF254_arg1": {
+"class": "param:town:func_800AF254:arg1",
+"header": "records/Rec_func_800AF254_arg1.h",
+"sha256": "6b360401ddc5389cc5218cf4ecf77a71a71e86830be0095646f59b8a42dc9029",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800B1C0C|S_800AF36C_1": {
+"0x0": "unk_00",
+"0xA8": "unk_A8.as_pv"
+},
+"town/func_800B1C0C|S_800AF36C_0": {
+"0xA8": "unk_A8.as_pv"
+},
+"town/func_800B1F14|S_800AF674_1": {
+"0x0": "unk_00"
+},
+"town/func_800B2100|S_800AF860_0": {
+"0xA8": "unk_A8.as_s32"
+},
+"town/func_800B2150|S_800AF8B0_1": {
+"0x0": "unk_00"
+},
+"town/func_800B2150|S_800AF8B0_0": {
+"0x10": "unk_10",
+"0x18": "unk_18"
+},
+"town/func_800B25A0|S_800AFD00_0": {
+"0xA8": "unk_A8.as_pv"
+},
+"town/func_800B25FC|S_800AFD5C_1": {
+"0x9C": "unk_9C"
+},
+"town/func_800B2848|S_800AFFA8_0": {
+"0x0": "unk_00",
+"0xA8": "unk_A8.as_s32"
+}
+},
+"unmapped": [
+"town/func_800B1F14|S_800AF674_0"
+],
+"rows": 7,
+"structs": 9,
+"span": 172,
+"containers": {
+"town": 9
+},
+"unions": 1,
+"members": 5
+},
 "Rec_D_8001E950": {
 "class": "global:D_8001E950",
 "header": "records/Rec_D_8001E950.h",
@@ -8125,5 +8109,2736 @@
 },
 "unions": 0,
 "members": 5
+},
+"Rec_D_80083160": {
+"class": "global:D_80083160",
+"header": "records/Rec_D_80083160.h",
+"sha256": "d1e7b41f8f5b6acef90d9d083a0e14874d2cc1ab12d3fb9d25e6560107736097",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80083E28|S_80089588_0": {
+"0x8D0": "unk_8D0"
+},
+"dungeon/func_800966CC|S_8009BE2C_0": {
+"0x0": "unk_00.as_pv"
+},
+"dungeon/func_80099038|S_8009E798_4": {
+"0xC8": "unk_C8.as_u16"
+},
+"dungeon/func_800A0860|S_800A5FC0_1": {
+"0x0": "unk_00.as_pv"
+},
+"dungeon/func_80ACB000|S_80ACB000_0": {
+"0x0": "unk_00.as_pv"
+},
+"dungeon/func_8180C3C0|S_800253C0_20": {
+"0xC8": "unk_C8.as_s16"
+},
+"dungeon/func_818C29D4|S_818C29D4_3": {
+"0x0": "unk_00.as_pu8"
+}
+},
+"unmapped": [
+"dungeon/func_81911A8C|S_81911A8C_2"
+],
+"rows": 7,
+"structs": 7,
+"span": 2260,
+"containers": {
+"dungeon": 7
+},
+"unions": 2,
+"members": 3
+},
+"Rec_func_801237A4_arg0": {
+"class": "param:dungeon:func_801237A4:arg0",
+"header": "records/Rec_func_801237A4_arg0.h",
+"sha256": "8192eb18df9ab2ae77ea1095890244bd813a340e5943b9a38195228b75e68454",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_8096D944|S_80125DDC_0": {
+"0x4": "unk_04.as_u16"
+},
+"town/func_8096DB20|S_80125FB8_0": {
+"0x4": "unk_04.as_u16"
+},
+"town/func_8096DC50|S_801260E8_0": {
+"0x4": "unk_04.as_u16",
+"0x58": "unk_58"
+},
+"town/func_8096E188|S_80126620_0": {
+"0x4": "unk_04.as_s16",
+"0x6": "unk_06",
+"0x8": "unk_08",
+"0xA": "unk_0A",
+"0xB": "unk_0B",
+"0xC": "unk_0C",
+"0xD": "unk_0D",
+"0xE": "unk_0E",
+"0xF": "unk_0F",
+"0x10": "unk_10",
+"0x11": "unk_11",
+"0x12": "unk_12",
+"0x13": "unk_13",
+"0x14": "unk_14",
+"0x15": "unk_15",
+"0x16": "unk_16",
+"0x17": "unk_17",
+"0x18": "unk_18"
+},
+"dungeon/func_808CB30C|S_801237A4_0": {
+"0x16": "unk_16"
+},
+"dungeon/func_808CB350|S_801237E8_0": {
+"0x16": "unk_16"
+}
+},
+"unmapped": [],
+"rows": 6,
+"structs": 6,
+"span": 92,
+"containers": {
+"town": 4,
+"dungeon": 2
+},
+"unions": 1,
+"members": 19
+},
+"Rec_func_8008D024_arg0": {
+"class": "param:dungeon:func_8008D024:arg0",
+"header": "records/Rec_func_8008D024_arg0.h",
+"sha256": "3f0177ab06e2cda9989170c33f506db0fccc76ffbad164fc81de1645f3e63383",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_800878C4|S_8008D024_2": {
+"0x1C": "unk_1C",
+"0x8C": "unk_8C",
+"0x9A": "unk_9A",
+"0x9B": "unk_9B.as_s8",
+"0x104": "unk_104",
+"0x120": "unk_120"
+},
+"dungeon/func_80087BD0|S_8008D330_0": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_80088290|S_8008D9F0_0": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_8008B4B0|S_80090C10_0": {
+"0x96": "unk_96",
+"0x9B": "unk_9B.as_u8",
+"0xA2": "unk_A2",
+"0xAC": "unk_AC",
+"0xB0": "unk_B0",
+"0xBC": "unk_BC",
+"0xC8": "unk_C8"
+},
+"dungeon/func_8008C1C0|S_80091920_0": {
+"0x8C": "unk_8C",
+"0x9A": "unk_9A",
+"0x9B": "unk_9B.as_s8"
+},
+"dungeon/func_8008FF58|S_800956B8_3": {
+"0x60": "unk_60",
+"0x110": "unk_110"
+}
+},
+"unmapped": [],
+"rows": 6,
+"structs": 6,
+"span": 290,
+"containers": {
+"dungeon": 6
+},
+"unions": 1,
+"members": 14
+},
+"Rec_func_800B0C68_arg0": {
+"class": "param:town:func_800B0C68:arg0",
+"header": "records/Rec_func_800B0C68_arg0.h",
+"sha256": "ace8d27d22f16b8136971c03930594e54ed738ee24004cdf011966ef2b842c4b",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800B3508|S_800B0C68_1": {
+"0xCC": "unk_CC.as_pv"
+},
+"town/func_800B3508|S_800B0C68_0": {
+"0x8": "unk_08",
+"0xCC": "unk_CC.as_pv"
+},
+"town/func_800B35AC|S_800B0D0C_0": {
+"0xCC": "unk_CC.as_pv"
+},
+"town/func_800B3A28|S_800B1188_1": {
+"0xCC": "unk_CC.as_pv"
+},
+"town/func_800B3A28|S_800B1188_0": {
+"0xCC": "unk_CC.as_s32"
+}
+},
+"unmapped": [],
+"rows": 3,
+"structs": 5,
+"span": 208,
+"containers": {
+"town": 5
+},
+"unions": 1,
+"members": 2
+},
+"Rec_func_800B683C_arg0": {
+"class": "param:town:func_800B683C:arg0",
+"header": "records/Rec_func_800B683C_arg0.h",
+"sha256": "4c3172ca32ceb04af617db5b91cbfb86df4540ed91160d409f62a23408102b7c",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"town/func_800B90DC|S_800B683C_1": {
+"0x98": "unk_98"
+},
+"town/func_800B90DC|S_800B683C_0": {
+"0x98": "unk_98"
+},
+"town/func_800B9168|S_800B68C8_0": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08",
+"0xC": "unk_0C",
+"0xE": "unk_0E",
+"0x14": "unk_14"
+},
+"town/func_800B96DC|S_800B6E3C_0": {
+"0x4": "unk_04",
+"0x8": "unk_08",
+"0xA": "unk_0A",
+"0x10": "unk_10",
+"0x14": "unk_14",
+"0xD0": "unk_D0",
+"0xD4": "unk_D4",
+"0xDC": "unk_DC"
+},
+"town/func_800B97F4|S_800B6F54_0": {
+"0xD0": "unk_D0",
+"0xD4": "unk_D4"
+}
+},
+"unmapped": [],
+"rows": 4,
+"structs": 5,
+"span": 224,
+"containers": {
+"town": 5
+},
+"unions": 0,
+"members": 12
+},
+"Rec_func_800165F4_arg0": {
+"class": "param:town:func_800165F4:arg0",
+"header": "records/Rec_func_800165F4_arg0.h",
+"sha256": "69a63ec9bed36ff431459733eae309ae570f80b125de806ea2afe535f0c31825",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_8032C72C|S_80016F2C_0": {
+"0x18": "unk_18"
+},
+"town/func_8032C7F8|S_80016FF8_0": {
+"0x18": "unk_18"
+},
+"town/func_8032CC90|S_80017490_0": {
+"0x18": "unk_18"
+},
+"town/func_8032CE2C|S_8001762C_0": {
+"0x18": "unk_18"
+},
+"town/func_8032F354|S_80019B54_0": {
+"0x10": "unk_10",
+"0x18": "unk_18"
+}
+},
+"unmapped": [],
+"rows": 5,
+"structs": 5,
+"span": 26,
+"containers": {
+"town": 5
+},
+"unions": 0,
+"members": 2
+},
+"Rec_D_80082EB0": {
+"class": "global:D_80082EB0",
+"header": "records/Rec_D_80082EB0.h",
+"sha256": "d9eecdd9da69c8bee2ec680574556315134f800eb3296586a4eecaf203e70d55",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_8008B4B0|S_80090C10_3": {
+"0x0": "unk_00.as_pv",
+"0x4": "unk_04"
+},
+"dungeon/func_8008BCD0|S_80091430_3": {
+"0x0": "unk_00.as_s32"
+},
+"dungeon/func_8008C1F8|S_80091958_1": {
+"0x8": "unk_08"
+},
+"dungeon/func_8008FDD8|S_80095538_3": {
+"0x0": "unk_00.as_pv"
+}
+},
+"unmapped": [
+"dungeon/func_8008FDD8|S_80095538_1"
+],
+"rows": 4,
+"structs": 4,
+"span": 12,
+"containers": {
+"dungeon": 4
+},
+"unions": 1,
+"members": 3
+},
+"Rec_D_80083460": {
+"class": "global:D_80083460",
+"header": "records/Rec_D_80083460.h",
+"sha256": "8d358cf1d4a9500d93321aff770a66b65496b02cd59a339ec11408dc87d77931",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_800A53B0|S_800AAB10_3": {
+"0xC": "unk_0C"
+},
+"dungeon/func_8028325C|S_8001625C_1": {
+"0x0": "unk_00"
+},
+"dungeon/func_80A1FBBC|S_801733BC_6": {
+"0xA": "unk_0A"
+},
+"dungeon/func_80AF1A80|S_80173280_5": {
+"0xC": "unk_0C"
+},
+"dungeon/func_80FB3DB8|S_801735B8_1": {
+"0xA": "unk_0A"
+}
+},
+"unmapped": [],
+"rows": 5,
+"structs": 5,
+"span": 16,
+"containers": {
+"dungeon": 5
+},
+"unions": 0,
+"members": 3
+},
+"Rec_func_800AD058_arg2": {
+"class": "param:dungeon:func_800AD058:arg2",
+"header": "records/Rec_func_800AD058_arg2.h",
+"sha256": "64eb628f813d4a81b79f729424262754fab6d86e73b757115bc12d871f6bf33a",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80E8DEEC|S_801736EC_2": {
+"0xC": "unk_0C",
+"0x10": "unk_10",
+"0x12": "unk_12",
+"0x14": "unk_14"
+},
+"dungeon/func_80E8F3F8|S_80174BF8_2": {
+"0x14": "unk_14",
+"0x2C": "unk_2C"
+},
+"dungeon/func_80E8F548|S_80174D48_4": {
+"0x24": "unk_24",
+"0x25": "unk_25"
+},
+"dungeon/func_80F3610C|S_8017390C_6": {
+"0xC": "unk_0C",
+"0x10": "unk_10",
+"0x12": "unk_12",
+"0x14": "unk_14",
+"0x24": "unk_24",
+"0x25": "unk_25"
+}
+},
+"unmapped": [
+"dungeon/func_800A78F8|S_800AD058_1"
+],
+"rows": 4,
+"structs": 4,
+"span": 48,
+"containers": {
+"dungeon": 4
+},
+"unions": 0,
+"members": 7
+},
+"Rec_D_80082A38": {
+"class": "global:D_80082A38",
+"header": "records/Rec_D_80082A38.h",
+"sha256": "dd057ae579982bf1172c8af90b05a2b1c45c5ad57d47e370da4cc5327e6f1a19",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"slus/konami_runtime_w_80034EB4|S_80034EB4_0": {
+"0x0": "unk_00",
+"0x1": "unk_01",
+"0x34": "unk_34"
+},
+"slus/konami_runtime_w_80034F88|S_80034F88_0": {
+"0x34": "unk_34",
+"0x38": "unk_38",
+"0x108": "unk_108"
+},
+"slus/konami_runtime_w_80034FD0|S_80034FD0_0": {
+"0x10": "unk_10"
+},
+"slus/konami_runtime_w_80034FE4|S_80034FE4_0": {
+"0x9C": "unk_9C"
+},
+"slus/konami_runtime_w_80035060|S_80035060_0": {
+"0x3": "unk_03"
+}
+},
+"unmapped": [],
+"rows": 5,
+"structs": 5,
+"span": 268,
+"containers": {
+"slus": 5
+},
+"unions": 0,
+"members": 8
+},
+"Rec_func_8009431C_arg0": {
+"class": "param:dungeon:func_8009431C:arg0",
+"header": "records/Rec_func_8009431C_arg0.h",
+"sha256": "722249604ed06f9217d37eaea1d7219bc24e530d41fe960e57d9d061e6a51c09",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"town/func_80093314|S_80090A74_3": {
+"0x2C": "unk_2C"
+},
+"town/func_800A7ED8|S_800A5638_0": {
+"0x0": "unk_00.as_x78b360"
+},
+"dungeon/func_7FFF6BBC|S_8009431C_0": {
+"0x0": "unk_00.as_pm",
+"0xA": "unk_0A"
+}
+},
+"unmapped": [
+"town/func_80093B00|S_80091260_2"
+],
+"rows": 3,
+"structs": 3,
+"span": 48,
+"containers": {
+"town": 2,
+"dungeon": 1
+},
+"unions": 1,
+"members": 3
+},
+"Rec_func_800B1DCC_arg0": {
+"class": "param:town:func_800B1DCC:arg0",
+"header": "records/Rec_func_800B1DCC_arg0.h",
+"sha256": "5f91891dbf34cda6be0b3e8066bba7aad8f5064400055dd6f9a775d51729c0d0",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800B4820|S_800B1F80_0": {
+"0xC": "unk_0C"
+},
+"town/func_800B4908|S_800B2068_0": {
+"0xC": "unk_0C",
+"0x18": "unk_18"
+},
+"town/func_800B4CA0|S_800B2400_0": {
+"0xC": "unk_0C",
+"0x14": "unk_14",
+"0x18": "unk_18"
+}
+},
+"unmapped": [
+"town/func_800B4EAC|S_800B260C_1"
+],
+"rows": 3,
+"structs": 3,
+"span": 28,
+"containers": {
+"town": 3
+},
+"unions": 0,
+"members": 3
+},
+"Rec_func_800247B8_arg1": {
+"class": "param:dungeon:func_800247B8:arg1",
+"header": "records/Rec_func_800247B8_arg1.h",
+"sha256": "59704ce47f81528a3bf39e2f4610dc4ce83fbfcab744021456a3160c91ca16e8",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81922FB8|S_800247B8_5": {
+"0x2": "unk_02",
+"0x6": "unk_06",
+"0xA": "unk_0A"
+},
+"dungeon/func_819232EC|S_80024AEC_5": {
+"0x2": "unk_02",
+"0x6": "unk_06",
+"0xA": "unk_0A"
+},
+"dungeon/func_81923534|S_80024D34_4": {
+"0x2": "unk_02",
+"0x6": "unk_06",
+"0xA": "unk_0A"
+}
+},
+"unmapped": [
+"dungeon/func_8192365C|S_80024E5C_2"
+],
+"rows": 3,
+"structs": 3,
+"span": 12,
+"containers": {
+"dungeon": 3
+},
+"unions": 0,
+"members": 3
+},
+"Rec_D_80081FDC": {
+"class": "global:D_80081FDC",
+"header": "records/Rec_D_80081FDC.h",
+"sha256": "c9dafdd68885479a19bdb102bd668afeb35fd4e556c2720898e2bbc8e40fd58a",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"slus/konami_runtime_w_80033C1C|S_80033C1C_0": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08",
+"0xA": "unk_0A",
+"0xC": "unk_0C",
+"0x10": "unk_10",
+"0x14": "unk_14",
+"0x18": "unk_18",
+"0x20": "unk_20",
+"0x24": "unk_24",
+"0x28": "unk_28",
+"0x30": "unk_30",
+"0x34": "unk_34",
+"0x38": "unk_38",
+"0x40": "unk_40",
+"0x44": "unk_44",
+"0x48": "unk_48",
+"0x4C": "unk_4C",
+"0x50": "unk_50",
+"0x54": "unk_54",
+"0x58": "unk_58",
+"0x5C": "unk_5C",
+"0x60": "unk_60"
+},
+"slus/konami_runtime_w_80036B10|S_80036B10_2": {
+"0x60": "unk_60"
+},
+"slus/konami_runtime_w_80036D4C|S_80036D4C_2": {
+"0x60": "unk_60"
+},
+"slus/konami_runtime_w_8003719C|S_8003719C_2": {
+"0x60": "unk_60"
+}
+},
+"unmapped": [],
+"rows": 4,
+"structs": 4,
+"span": 100,
+"containers": {
+"slus": 4
+},
+"unions": 0,
+"members": 23
+},
+"Rec_func_800233D0_arg0": {
+"class": "param:main:func_800233D0:arg0",
+"header": "records/Rec_func_800233D0_arg0.h",
+"sha256": "33451419fc8b66413d318d273f559e4457d79d3ca84a20afd58c97f9eb629969",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"main/func_800103D0|S_800233D0_0": {
+"0x1A0": "unk_1A0",
+"0x1A4": "unk_1A4"
+},
+"main/func_80010600|S_80023600_1": {
+"0x1A0": "unk_1A0"
+},
+"main/func_80010600|S_80023600_0": {
+"0x80": "unk_80",
+"0x84": "unk_84"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 3,
+"span": 424,
+"containers": {
+"main": 3
+},
+"unions": 0,
+"members": 4
+},
+"Rec_func_8009EE9C_arg0": {
+"class": "param:town:func_8009EE9C:arg0",
+"header": "records/Rec_func_8009EE9C_arg0.h",
+"sha256": "45afc1c26ac59d66d843f76ef80ff8b6a3d8056d653318e386a6a2636fe89650",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"town/func_800A173C|S_8009EE9C_1": {
+"0x6C": "unk_6C",
+"0xA0": "unk_A0"
+},
+"town/func_800A1A60|S_8009F1C0_1": {
+"0x4D": "unk_4D",
+"0x50": "unk_50.as_pv",
+"0x6C": "unk_6C",
+"0x95": "unk_95"
+},
+"town/func_800A1D2C|S_8009F48C_0": {
+"0x50": "unk_50.as_pm"
+}
+},
+"unmapped": [],
+"rows": 3,
+"structs": 3,
+"span": 164,
+"containers": {
+"town": 3
+},
+"unions": 1,
+"members": 5
+},
+"Rec_func_800A0668_arg0": {
+"class": "param:town:func_800A0668:arg0",
+"header": "records/Rec_func_800A0668_arg0.h",
+"sha256": "1c58425cd2e474b117f790e5844c4b53018b8aad50d5df752b1ae3b927c4b04c",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"town/func_800A2F08|S_800A0668_0": {
+"0x95": "unk_95",
+"0x98": "unk_98"
+},
+"town/func_800A36DC|S_800A0E3C_0": {
+"0x50": "unk_50",
+"0x6C": "unk_6C"
+},
+"town/func_800A37B0|S_800A0F10_1": {
+"0x72": "unk_72"
+}
+},
+"unmapped": [],
+"rows": 3,
+"structs": 3,
+"span": 156,
+"containers": {
+"town": 3
+},
+"unions": 0,
+"members": 5
+},
+"Rec_func_800AAE98_arg0": {
+"class": "param:town:func_800AAE98:arg0",
+"header": "records/Rec_func_800AAE98_arg0.h",
+"sha256": "856291a5000a33b34bcb19d48f3bab65fdd4a900649a0af2118bc6188989e16b",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800AD738|S_800AAE98_0": {
+"0x2": "unk_02",
+"0x6": "unk_06"
+},
+"town/func_800ADFA8|S_800AB708_0": {
+"0x2": "unk_02",
+"0x6": "unk_06",
+"0xA": "unk_0A"
+}
+},
+"unmapped": [
+"town/func_800ADE60|S_800AB5C0_1"
+],
+"rows": 2,
+"structs": 2,
+"span": 12,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 3
+},
+"Rec_func_800B15B8_arg0": {
+"class": "param:town:func_800B15B8:arg0",
+"header": "records/Rec_func_800B15B8_arg0.h",
+"sha256": "d543772b53671ccda8dda9160969fa2f39c8f12445ffea874fe99eaf39f7071d",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800B3E58|S_800B15B8_0": {
+"0xCC": "unk_CC"
+},
+"town/func_800B3F04|S_800B1664_0": {
+"0xC0": "unk_C0"
+},
+"town/func_800B3F04|S_800B1664_3": {
+"0xC0": "unk_C0"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 3,
+"span": 208,
+"containers": {
+"town": 3
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_800B3FB8_arg0": {
+"class": "param:town:func_800B3FB8:arg0",
+"header": "records/Rec_func_800B3FB8_arg0.h",
+"sha256": "eb6c5db7780c48dbe7e5badbf242e58b498cdb066299e5fffddf19262d7769c3",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800B6858|S_800B3FB8_3": {
+"0x5C": "unk_5C"
+},
+"town/func_800B6858|S_800B3FB8_1": {
+"0x20": "unk_20",
+"0x5C": "unk_5C"
+},
+"town/func_800B6C88|S_800B43E8_0": {
+"0x20": "unk_20"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 3,
+"span": 96,
+"containers": {
+"town": 3
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_800C9F34_arg0": {
+"class": "param:dungeon:func_800C9F34:arg0",
+"header": "records/Rec_func_800C9F34_arg0.h",
+"sha256": "e6606312f0a5afa45d860b044fd130361238b33773184e45a22d7b82b0491125",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_800C47D4|S_800C9F34_1": {
+"0x98": "unk_98",
+"0x9A": "unk_9A.as_s8"
+},
+"dungeon/func_800C497C|S_800CA0DC_2": {
+"0x96": "unk_96",
+"0x9A": "unk_9A.as_u8"
+},
+"dungeon/func_800C5334|S_800CAA94_0": {
+"0x1C": "unk_1C",
+"0x8C": "unk_8C",
+"0x96": "unk_96",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B"
+}
+},
+"unmapped": [],
+"rows": 3,
+"structs": 3,
+"span": 156,
+"containers": {
+"dungeon": 3
+},
+"unions": 1,
+"members": 6
+},
+"Rec_func_800247B8_arg0": {
+"class": "param:dungeon:func_800247B8:arg0",
+"header": "records/Rec_func_800247B8_arg0.h",
+"sha256": "9858a0993970ff33a0ff6f17ca857a3776206b0753b42478500fd44e1bbd4b75",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_800CF350|S_800D4AB0_1": {
+"0x88": "unk_88"
+},
+"dungeon/func_81922FB8|S_800247B8_3": {
+"0x56": "unk_56"
+}
+},
+"unmapped": [
+"dungeon/func_8192365C|S_80024E5C_0"
+],
+"rows": 2,
+"structs": 2,
+"span": 140,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_800D4BD4_arg2": {
+"class": "param:dungeon:func_800D4BD4:arg2",
+"header": "records/Rec_func_800D4BD4_arg2.h",
+"sha256": "689ae7c3b9f8daf7c59e7a9c331e0a03b6fafb5355bd78674ea2f4ac6e9a0fdd",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_800CF474|S_800D4BD4_4": {
+"0x2": "unk_02.as_u16",
+"0x6": "unk_06.as_u16",
+"0xA": "unk_0A.as_u16"
+},
+"dungeon/func_800CF688|S_800D4DE8_1": {
+"0x2": "unk_02.as_s16",
+"0x6": "unk_06.as_s16",
+"0xA": "unk_0A.as_s16"
+},
+"dungeon/func_800CFB34|S_800D5294_1": {
+"0x2": "unk_02.as_s16",
+"0x6": "unk_06.as_s16",
+"0xA": "unk_0A.as_s16"
+}
+},
+"unmapped": [],
+"rows": 3,
+"structs": 3,
+"span": 12,
+"containers": {
+"dungeon": 3
+},
+"unions": 3,
+"members": 3
+},
+"Rec_func_800D4BD4_arg1": {
+"class": "param:dungeon:func_800D4BD4:arg1",
+"header": "records/Rec_func_800D4BD4_arg1.h",
+"sha256": "4cc81839bef198346784466011ff5cc3ba3144e667f61e9cb2cb64bebcd089c0",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_800CF474|S_800D4BD4_6": {
+"0xC": "unk_0C"
+},
+"dungeon/func_800CF688|S_800D4DE8_0": {
+"0x0": "unk_00",
+"0x16": "unk_16",
+"0x1E": "unk_1E",
+"0x24": "unk_24",
+"0x3C": "unk_3C",
+"0x3E": "unk_3E",
+"0x40": "unk_40"
+},
+"dungeon/func_800CFB34|S_800D5294_0": {
+"0x16": "unk_16",
+"0x1E": "unk_1E",
+"0x24": "unk_24",
+"0x3C": "unk_3C",
+"0x3E": "unk_3E",
+"0x40": "unk_40"
+}
+},
+"unmapped": [],
+"rows": 3,
+"structs": 3,
+"span": 66,
+"containers": {
+"dungeon": 3
+},
+"unions": 0,
+"members": 8
+},
+"Rec_func_800D6DC0_arg1": {
+"class": "param:dungeon:func_800D6DC0:arg1",
+"header": "records/Rec_func_800D6DC0_arg1.h",
+"sha256": "4b8866c518eb76c51c67f46416d009ced16e24ae8f6ac416945f7b59337dfbd4",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_800D1660|S_800D6DC0_3": {
+"0x2": "unk_02",
+"0x6": "unk_06",
+"0xA": "unk_0A"
+},
+"dungeon/func_80E3BD94|S_80175594_2": {
+"0x2": "unk_02",
+"0x6": "unk_06",
+"0xA": "unk_0A"
+}
+},
+"unmapped": [
+"dungeon/func_80D69D94|S_80175594_1"
+],
+"rows": 2,
+"structs": 2,
+"span": 12,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 3
+},
+"Rec_func_8017360C_arg0": {
+"class": "param:dungeon:func_8017360C:arg0",
+"header": "records/Rec_func_8017360C_arg0.h",
+"sha256": "e7306f4f03c97f1f5517ba78cf20eeb04b0e128bcb3c5b30c064ecb151489652",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_809782AC|S_80173AAC_0": {
+"0x8C": "unk_8C.as_pv",
+"0x92": "unk_92",
+"0x9B": "unk_9B",
+"0x9E": "unk_9E",
+"0xA2": "unk_A2"
+},
+"dungeon/func_80978600|S_80173E00_2": {
+"0x8C": "unk_8C.as_pu8"
+}
+},
+"unmapped": [
+"dungeon/func_80977E0C|S_8017360C_0"
+],
+"rows": 2,
+"structs": 2,
+"span": 164,
+"containers": {
+"dungeon": 2
+},
+"unions": 1,
+"members": 5
+},
+"Rec_func_80172CC0_arg0": {
+"class": "param:dungeon:func_80172CC0:arg0",
+"header": "records/Rec_func_80172CC0_arg0.h",
+"sha256": "7ef4ab897c8e6a066a21d055275bc70b19409967c3f4eb42747cf0c6d98c949f",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80A734C0|S_80172CC0_0": {
+"0x8C": "unk_8C.as_pv",
+"0x96": "unk_96.as_u16",
+"0x98": "unk_98",
+"0x9B": "unk_9B.as_u8",
+"0xA8": "unk_A8"
+},
+"dungeon/func_80CE94C0|S_80172CC0_3": {
+"0x8C": "unk_8C.as_s32",
+"0x96": "unk_96.as_s16",
+"0x9A": "unk_9A.as_u8"
+},
+"dungeon/func_80CE9E78|S_80173678_0": {
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B.as_s8"
+}
+},
+"unmapped": [],
+"rows": 3,
+"structs": 3,
+"span": 170,
+"containers": {
+"dungeon": 3
+},
+"unions": 4,
+"members": 6
+},
+"Rec_D_80080000": {
+"class": "global:D_80080000",
+"header": "records/Rec_D_80080000.h",
+"sha256": "910de0bc8a4c773bab92a77bfe4f2363471387e2acdf1189478e52c2f267d9a2",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80BC1264|S_80BC1264_2": {
+"0x14A0": "unk_14A0"
+},
+"dungeon/func_8132E164|S_80165164_2": {
+"0x14A0": "unk_14A0"
+},
+"dungeon/func_819B3348|S_80024B48_1": {
+"0x14A0": "unk_14A0"
+}
+},
+"unmapped": [],
+"rows": 3,
+"structs": 3,
+"span": 5284,
+"containers": {
+"dungeon": 3
+},
+"unions": 0,
+"members": 1
+},
+"Rec_func_8017121C_arg1": {
+"class": "param:dungeon:func_8017121C:arg1",
+"header": "records/Rec_func_8017121C_arg1.h",
+"sha256": "26faa79c096939dd331f518bc3d9518a32f32becc8a08a8223f8d2540c773367",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80CE7A1C|S_8017121C_4": {
+"0x2": "unk_02",
+"0x6": "unk_06",
+"0xA": "unk_0A"
+},
+"dungeon/func_80CE7CFC|S_801714FC_5": {
+"0xA": "unk_0A"
+},
+"dungeon/func_80CEABC4|S_801743C4_1": {
+"0xC": "unk_0C",
+"0x10": "unk_10",
+"0x14": "unk_14"
+}
+},
+"unmapped": [],
+"rows": 3,
+"structs": 3,
+"span": 24,
+"containers": {
+"dungeon": 3
+},
+"unions": 0,
+"members": 6
+},
+"Rec_D_80174CD8": {
+"class": "global:D_80174CD8",
+"header": "records/Rec_D_80174CD8.h",
+"sha256": "3eb585a62e376f6e723fa19716d762f536efeb61d20177781159ba0b99a86428",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81329C70|S_80171470_0": {
+"0xD2": "unk_D2"
+},
+"dungeon/func_8132A960|S_80172160_0": {
+"0x8": "unk_08"
+},
+"dungeon/func_8132AAF0|S_801722F0_0": {
+"0x8": "unk_08"
+}
+},
+"unmapped": [],
+"rows": 3,
+"structs": 3,
+"span": 212,
+"containers": {
+"dungeon": 3
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_80025850_arg0": {
+"class": "param:dungeon:func_80025850:arg0",
+"header": "records/Rec_func_80025850_arg0.h",
+"sha256": "e2ded647f76bb53f82e7541bb3afcb3ca1dbc49c832d6ecc1c645975e5093931",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_818109CC|S_800259CC_1": {
+"0x18": "unk_18"
+},
+"dungeon/func_818109CC|S_800259CC_0": {
+"0x8": "unk_08"
+},
+"dungeon/func_81811084|S_80026084_0": {
+"0x54": "unk_54"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 3,
+"span": 88,
+"containers": {
+"dungeon": 3
+},
+"unions": 0,
+"members": 3
+},
+"Rec_func_80027328_arg0": {
+"class": "param:dungeon:func_80027328:arg0",
+"header": "records/Rec_func_80027328_arg0.h",
+"sha256": "b0cbf9c40fcc3f9ead1f46fb53a645b14a1e7613741bee135bb61ea32be9db76",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81812328|S_80027328_0": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08"
+},
+"dungeon/func_81812384|S_80027384_0": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08"
+},
+"dungeon/func_818123E4|S_800273E4_0": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08"
+}
+},
+"unmapped": [],
+"rows": 3,
+"structs": 3,
+"span": 12,
+"containers": {
+"dungeon": 3
+},
+"unions": 0,
+"members": 3
+},
+"Rec_func_80027AD0_arg0": {
+"class": "param:dungeon:func_80027AD0:arg0",
+"header": "records/Rec_func_80027AD0_arg0.h",
+"sha256": "85ec6f350a0266fb9aa5117176713db4dbf655da4a50c1c9ba83de709f069d15",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81812C94|S_80027C94_0": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x40": "unk_40",
+"0x88": "unk_88"
+},
+"dungeon/func_818130FC|S_800280FC_1": {
+"0x4C": "unk_4C"
+},
+"dungeon/func_8181323C|S_8002823C_0": {
+"0x88": "unk_88"
+}
+},
+"unmapped": [],
+"rows": 3,
+"structs": 3,
+"span": 140,
+"containers": {
+"dungeon": 3
+},
+"unions": 0,
+"members": 5
+},
+"Rec_func_80034F58_arg0": {
+"class": "param:slus:func_80034F58:arg0",
+"header": "records/Rec_func_80034F58_arg0.h",
+"sha256": "974faca68bbb117d5be0ab876793d191e0fd1c27338d1c3a4e8781025124e975",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"slus/konami_runtime_w_80035068|S_80035068_2": {
+"0x10": "unk_10"
+},
+"slus/konami_runtime_w_80035068|S_80035068_1": {
+"0x10": "unk_10"
+},
+"slus/konami_runtime_w_80035888|S_80035888_4": {
+"0x1": "unk_01"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 3,
+"span": 20,
+"containers": {
+"slus": 3
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_80036210_arg0": {
+"class": "param:slus:func_80036210:arg0",
+"header": "records/Rec_func_80036210_arg0.h",
+"sha256": "73b49ef0ff2802563deff1f1d2acca77c11a4c6ec4cea7e297aa65c8f993b7eb",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"slus/konami_runtime_w_80036210|S_80036210_1": {
+"0x74": "unk_74.as_pv"
+},
+"slus/konami_runtime_w_80036210|S_80036210_0": {
+"0x4C": "unk_4C",
+"0x68": "unk_68"
+},
+"slus/konami_runtime_w_80036B10|S_80036B10_5": {
+"0x74": "unk_74.as_pm"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 3,
+"span": 120,
+"containers": {
+"slus": 3
+},
+"unions": 1,
+"members": 3
+},
+"Rec_func_8002290C_arg0": {
+"class": "param:main:func_8002290C:arg0",
+"header": "records/Rec_func_8002290C_arg0.h",
+"sha256": "d69868e008e270fd0d5ee4ed73f59f3db7f7c2ab72b7949035115dc2d03d8c4b",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"main/func_8000F90C|S_8002290C_0": {
+"0x8E0": "unk_8E0"
+},
+"main/func_8000FC48|S_80022C48_0": {
+"0x8": "unk_08",
+"0xC": "unk_0C",
+"0x14": "unk_14",
+"0x20": "unk_20"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 2276,
+"containers": {
+"main": 2
+},
+"unions": 0,
+"members": 5
+},
+"Rec_func_80025030_arg0": {
+"class": "param:main:func_80025030:arg0",
+"header": "records/Rec_func_80025030_arg0.h",
+"sha256": "0c08e1d68e28a277f8d5591213f35efa4efd5122da55a491d2789afd7c9bc167",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"main/func_8001292C|S_8002592C_0": {
+"0x48": "unk_48",
+"0x4C": "unk_4C"
+},
+"main/func_8001293C|S_8002593C_0": {
+"0x20": "unk_20",
+"0x28": "unk_28",
+"0x30": "unk_30",
+"0x44": "unk_44",
+"0x48": "unk_48"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 80,
+"containers": {
+"main": 2
+},
+"unions": 0,
+"members": 6
+},
+"Rec_func_80026CF0_arg0": {
+"class": "param:dungeon:func_80026CF0:arg0",
+"header": "records/Rec_func_80026CF0_arg0.h",
+"sha256": "889aff38fdc6f9ad7bde6fef77b064e52240866b1652a0de7e2053374da4c455",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"main/func_80013E90|S_80026E90_0": {
+"0x0": "unk_00"
+},
+"dungeon/func_81811CF0|S_80026CF0_0": {
+"0xC": "unk_0C",
+"0x10": "unk_10"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 20,
+"containers": {
+"main": 1,
+"dungeon": 1
+},
+"unions": 0,
+"members": 3
+},
+"Rec_func_80027018_arg0": {
+"class": "param:main:func_80027018:arg0",
+"header": "records/Rec_func_80027018_arg0.h",
+"sha256": "38b9daab84038210c2ca09808aa4b004f160d15bf2ec2480dc1474f1cd3e54f7",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"main/func_80014018|S_80027018_0": {
+"0xF0": "unk_F0.as_ppm",
+"0xF4": "unk_F4.as_ppm",
+"0xF8": "unk_F8.as_ppv",
+"0xFC": "unk_FC.as_ppv"
+},
+"main/func_800140E0|S_800270E0_0": {
+"0xF0": "unk_F0.as_pv",
+"0xF4": "unk_F4.as_pv",
+"0xF8": "unk_F8.as_pv",
+"0xFC": "unk_FC.as_pv"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 256,
+"containers": {
+"main": 2
+},
+"unions": 4,
+"members": 4
+},
+"Rec_func_8008F074_arg0": {
+"class": "param:town:func_8008F074:arg0",
+"header": "records/Rec_func_8008F074_arg0.h",
+"sha256": "1390245085c7199bcb25a13b006f7900f253f98ecea966d716682ab6890a8374",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_80091914|S_8008F074_0": {
+"0x14": "unk_14"
+},
+"town/func_800C2284|S_800BF9E4_0": {
+"0x48": "unk_48",
+"0x50": "unk_50"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 84,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 3
+},
+"Rec_func_8008F2D4_arg0": {
+"class": "param:town:func_8008F2D4:arg0",
+"header": "records/Rec_func_8008F2D4_arg0.h",
+"sha256": "0cf04bd5d79d259bae01db1e45a7520c7adffc8044d8d2bceb7648877ec829f4",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_80091DAC|S_8008F50C_0": {
+"0x37": "unk_37"
+},
+"town/func_80091DC0|S_8008F520_0": {
+"0x36": "unk_36"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 56,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_8008F2D4_arg1": {
+"class": "param:town:func_8008F2D4:arg1",
+"header": "records/Rec_func_8008F2D4_arg1.h",
+"sha256": "cddec8320a88a8c60546c6c879a4834830438338ae7f6eae4a55538052fb3897",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_80091DAC|S_8008F50C_1": {
+"0x0": "unk_00",
+"0xC": "unk_0C"
+},
+"town/func_80091DC0|S_8008F520_1": {
+"0x0": "unk_00",
+"0xC": "unk_0C"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 16,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 2
+},
+"Rec_D_800FE490": {
+"class": "global:D_800FE490",
+"header": "records/Rec_D_800FE490.h",
+"sha256": "b9145bcbd37ad447e915ceef1713f26d80b8ccea54fe6ec685840d41823fa3f4",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800925E8|S_8008FD48_0": {
+"0x8": "unk_08",
+"0xC": "unk_0C",
+"0x14": "unk_14",
+"0x15": "unk_15"
+},
+"town/func_800981B0|S_80095910_0": {
+"0x10": "unk_10"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 22,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 5
+},
+"Rec_func_80090C68_arg0": {
+"class": "param:town:func_80090C68:arg0",
+"header": "records/Rec_func_80090C68_arg0.h",
+"sha256": "2208667eff7cf5d28982096955525c699c1a36d0ec4736b00d64fef033f4ca5a",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_80093508|S_80090C68_0": {
+"0x0": "unk_00",
+"0xA": "unk_0A"
+},
+"town/func_800935E4|S_80090D44_0": {
+"0x0": "unk_00"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 12,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 2
+},
+"Rec_D_800CFCC4": {
+"class": "global:D_800CFCC4",
+"header": "records/Rec_D_800CFCC4.h",
+"sha256": "5b9fddff3a88daeb6f79ff91f5739f8fa5c4e565035688ef5a6a8c5220ed21f8",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_8009508C|S_800927EC_2": {
+"0x14": "unk_14"
+},
+"town/func_800A0B60|S_8009E2C0_0": {
+"0x4F": "unk_4F"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 80,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_80097D54_arg0": {
+"class": "param:town:func_80097D54:arg0",
+"header": "records/Rec_func_80097D54_arg0.h",
+"sha256": "a1595161623d062d9db79bb2d50e5bb5939dd4ad598ac000467d851f8a48710b",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_8009A5F4|S_80097D54_0": {
+"0xA": "unk_0A",
+"0x1C": "unk_1C"
+},
+"town/func_8009AC5C|S_800983BC_1": {
+"0xA": "unk_0A",
+"0x10": "unk_10"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 32,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 3
+},
+"Rec_func_8009B828_arg0": {
+"class": "param:town:func_8009B828:arg0",
+"header": "records/Rec_func_8009B828_arg0.h",
+"sha256": "ed455dc6cab2f414311931449d10de23ecc10f4fe3fb15b0f6b8aeacb5134557",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"town/func_8009E0C8|S_8009B828_1": {
+"0x6C": "unk_6C.as_u16"
+},
+"town/func_8009E9E8|S_8009C148_2": {
+"0x50": "unk_50",
+"0x6C": "unk_6C.as_s16"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 110,
+"containers": {
+"town": 2
+},
+"unions": 1,
+"members": 2
+},
+"Rec_D_80100B70": {
+"class": "global:D_80100B70",
+"header": "records/Rec_D_80100B70.h",
+"sha256": "9e5c8c2afa4b9d8db99f06eae422d16c59cd26656922361b932a89ca77e20290",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800A3B54|S_800A12B4_0": {
+"0x12": "unk_12",
+"0x6E": "unk_6E"
+},
+"town/func_800A3BF4|S_800A1354_0": {
+"0x10": "unk_10"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 112,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 3
+},
+"Rec_func_80021E88_arg1": {
+"class": "param:town:func_80021E88:arg1",
+"header": "records/Rec_func_80021E88_arg1.h",
+"sha256": "17e3e39082b5e296829a1e98675f2593725cf8679607221737fb49505393ac0a",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800A52B8|S_800A2A18_0": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08"
+},
+"town/func_8081F688|S_80021E88_3": {
+"0x8": "unk_08"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 12,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 3
+},
+"Rec_D_80100D98": {
+"class": "global:D_80100D98",
+"header": "records/Rec_D_80100D98.h",
+"sha256": "8647bc9fd4dd0a10ef5ad9936b7ee61dc3bea190ec64073de1df587329a73e01",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800A7150|S_800A48B0_0": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08",
+"0xC": "unk_0C",
+"0x10": "unk_10",
+"0x14": "unk_14"
+},
+"town/func_800C2BFC|S_800C035C_9": {
+"0x8": "unk_08"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 24,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 6
+},
+"Rec_func_8009CD18_arg1": {
+"class": "param:town:func_8009CD18:arg1",
+"header": "records/Rec_func_8009CD18_arg1.h",
+"sha256": "a14ceb3b576c28ebbcd709da111c0729a292da4c75e7261a3daaea70c36737b4",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800A9640|S_800A6DA0_1": {
+"0x1C": "unk_1C",
+"0x1E": "unk_1E",
+"0x20": "unk_20"
+},
+"town/func_800A96BC|S_800A6E1C_1": {
+"0x16": "unk_16",
+"0x1C": "unk_1C",
+"0x1E": "unk_1E",
+"0x20": "unk_20"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 34,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 4
+},
+"Rec_func_800AB014_arg0": {
+"class": "param:town:func_800AB014:arg0",
+"header": "records/Rec_func_800AB014_arg0.h",
+"sha256": "cd1061e3828835a700f6c73bf53a6aabde6735adc41df0a0b05eac8a3a7b5c4c",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"town/func_800AD8B4|S_800AB014_0": {
+"0x72": "unk_72.as_u16"
+},
+"town/func_800ADFA8|S_800AB708_1": {
+"0x50": "unk_50",
+"0x6C": "unk_6C",
+"0x72": "unk_72.as_s16",
+"0x90": "unk_90"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 146,
+"containers": {
+"town": 2
+},
+"unions": 1,
+"members": 4
+},
+"Rec_func_800AB030_arg0": {
+"class": "param:town:func_800AB030:arg0",
+"header": "records/Rec_func_800AB030_arg0.h",
+"sha256": "13c4f4106ed0d16f50fc34c4c388e1fa11fe5052af1c07ba94b7c1993d1abee2",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800AD8D0|S_800AB030_0": {
+"0x6A": "unk_6A"
+},
+"town/func_800ADE60|S_800AB5C0_0": {
+"0x50": "unk_50",
+"0x6C": "unk_6C",
+"0x90": "unk_90"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 146,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 4
+},
+"Rec_func_800AD7F8_arg0": {
+"class": "param:town:func_800AD7F8:arg0",
+"header": "records/Rec_func_800AD7F8_arg0.h",
+"sha256": "32b490e358cabaac00e55551ac341e7e325555008ad1f14a6d703d6e7abf4ffd",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800B0098|S_800AD7F8_0": {
+"0x4": "unk_04",
+"0x20": "unk_20"
+},
+"town/func_800B03A4|S_800ADB04_0": {
+"0x4": "unk_04",
+"0x20": "unk_20"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 36,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_800B2DA0_arg1": {
+"class": "param:town:func_800B2DA0:arg1",
+"header": "records/Rec_func_800B2DA0_arg1.h",
+"sha256": "ef5b89e7b99ced359117aa3ac848b9a3ec214aae418cfaa8b0a1c637939e78ed",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800B5B74|S_800B32D4_0": {
+"0x0": "unk_00",
+"0xA8": "unk_A8"
+},
+"town/func_800B5CE0|S_800B3440_0": {
+"0xA8": "unk_A8"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 172,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_800C9B44_arg0": {
+"class": "param:town:func_800C9B44:arg0",
+"header": "records/Rec_func_800C9B44_arg0.h",
+"sha256": "e03da2e72433e49d0d68767a5cc07d80e57f71fb266ce3fcd059837272d99d21",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_800CC3E4|S_800C9B44_1": {
+"0x90": "unk_90"
+},
+"town/func_800CC658|S_800C9DB8_1": {
+"0x72": "unk_72",
+"0x84": "unk_84",
+"0x86": "unk_86",
+"0x8C": "unk_8C",
+"0x8E": "unk_8E"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 146,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 6
+},
+"Rec_func_800206D0_arg1": {
+"class": "param:town:func_800206D0:arg1",
+"header": "records/Rec_func_800206D0_arg1.h",
+"sha256": "2bfc34e2961b1ad8b7eb5e061a6b7df83a8d11b189c702235a66484f51a2ea0c",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"town/func_8081DED0|S_800206D0_3": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08",
+"0xC": "unk_0C",
+"0x10": "unk_10",
+"0x14": "unk_14"
+},
+"town/func_80820EBC|S_800236BC_0": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08",
+"0xC": "unk_0C",
+"0x10": "unk_10",
+"0x14": "unk_14"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 24,
+"containers": {
+"town": 2
+},
+"unions": 0,
+"members": 6
+},
+"Rec_D_800287A4": {
+"class": "global:D_800287A4",
+"header": "records/Rec_D_800287A4.h",
+"sha256": "c7c806cc1caff6b985e9eefcf37ede6207ef2d9ade7cc87e6bb8bb8a9c304b83",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80097AB8|S_8009D218_0": {
+"0x13": "unk_13"
+},
+"dungeon/func_800C60CC|S_800CB82C_6": {
+"0x2A": "unk_2A"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 44,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_800A5DFC_arg1": {
+"class": "param:dungeon:func_800A5DFC:arg1",
+"header": "records/Rec_func_800A5DFC_arg1.h",
+"sha256": "98dc7982e339c46e3cfef3c7377b7ac514eee989f1c406b7f97bf7f4947c72d3",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_800A069C|S_800A5DFC_1": {
+"0x2": "unk_02",
+"0x6": "unk_06",
+"0xA": "unk_0A"
+},
+"dungeon/func_80CBE9B0|S_801721B0_3": {
+"0x2": "unk_02",
+"0x6": "unk_06",
+"0xC": "unk_0C",
+"0x10": "unk_10",
+"0x14": "unk_14"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 24,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 6
+},
+"Rec_func_800AD058_arg0": {
+"class": "param:dungeon:func_800AD058:arg0",
+"header": "records/Rec_func_800AD058_arg0.h",
+"sha256": "7c665136725c9e3e781950911b25d14144daa97497f7dbac2e9443f6ca415f70",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_800A78F8|S_800AD058_0": {
+"0x96": "unk_96",
+"0x9B": "unk_9B"
+},
+"dungeon/func_80E8DEEC|S_801736EC_0": {
+"0x96": "unk_96",
+"0x9B": "unk_9B"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 156,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_8001CE44_arg0": {
+"class": "param:dungeon:func_8001CE44:arg0",
+"header": "records/Rec_func_8001CE44_arg0.h",
+"sha256": "751074f136d24cd85b3a35cd0ebd063f6fd77e7461c627217b62af4d9e4d1862",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80289E44|S_8001CE44_0": {
+"0x0": "unk_00",
+"0x2": "unk_02",
+"0x4": "unk_04",
+"0x6": "unk_06"
+},
+"dungeon/func_8028A4AC|S_8001D4AC_0": {
+"0xA": "unk_0A"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 12,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 5
+},
+"Rec_func_801736F4_arg0": {
+"class": "param:dungeon:func_801736F4:arg0",
+"header": "records/Rec_func_801736F4_arg0.h",
+"sha256": "f770cbe19d4f5cb7cfeda1000b752ebbba89992c610a908935e3e3f3eb1cf196",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_809CBEF4|S_801736F4_0": {
+"0x8C": "unk_8C",
+"0x9B": "unk_9B"
+},
+"dungeon/func_80A73EF4|S_801736F4_0": {
+"0x8C": "unk_8C",
+"0x9B": "unk_9B"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 156,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_80174800_arg0": {
+"class": "param:dungeon:func_80174800:arg0",
+"header": "records/Rec_func_80174800_arg0.h",
+"sha256": "6519f8cdec3add3f252724ea1995121662af7cc84b957949559927747d335881",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_809F7320|S_80174B20_0": {
+"0x96": "unk_96",
+"0x9B": "unk_9B",
+"0xAC": "unk_AC",
+"0xB0": "unk_B0"
+},
+"dungeon/func_80AC9000|S_80174800_1": {
+"0x13": "unk_13",
+"0x5C": "unk_5C"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 178,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 6
+},
+"Rec_func_800AB538_arg0": {
+"class": "param:dungeon:func_800AB538:arg0",
+"header": "records/Rec_func_800AB538_arg0.h",
+"sha256": "443685ed3e7953a5be9256d298991aaeae50fc05ea3ded7312db0fdad2caaf71",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80A49C2C|S_8017342C_0": {
+"0xB6": "unk_B6"
+},
+"dungeon/func_80E10550|S_80173D50_0": {
+"0xA6": "unk_A6"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 184,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_80171CD4_arg0": {
+"class": "param:dungeon:func_80171CD4:arg0",
+"header": "records/Rec_func_80171CD4_arg0.h",
+"sha256": "8a07bb0bc5762f41d9ede804f76002db2c54c9501831d6728e372c42700aa49e",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80AC64D4|S_80171CD4_1": {
+"0x8C": "unk_8C",
+"0x90": "unk_90",
+"0x96": "unk_96",
+"0x9A": "unk_9A.as_u8",
+"0x9D": "unk_9D"
+},
+"dungeon/func_80AC6E88|S_80172688_0": {
+"0x90": "unk_90",
+"0x9A": "unk_9A.as_s8",
+"0x9B": "unk_9B",
+"0x9D": "unk_9D"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 158,
+"containers": {
+"dungeon": 2
+},
+"unions": 1,
+"members": 6
+},
+"Rec_func_80171CD4_arg1": {
+"class": "param:dungeon:func_80171CD4:arg1",
+"header": "records/Rec_func_80171CD4_arg1.h",
+"sha256": "b489778eaed2d8c1130bf457e87fd232b3cc28c895780e614dd2cddbfa083711",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80AC64D4|S_80171CD4_2": {
+"0x14": "unk_14"
+},
+"dungeon/func_80AC6E88|S_80172688_2": {
+"0x14": "unk_14"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 24,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 1
+},
+"Rec_func_801732A4_arg0": {
+"class": "param:dungeon:func_801732A4:arg0",
+"header": "records/Rec_func_801732A4_arg0.h",
+"sha256": "ec70d85d2cbae903752e04393ab6d08f89f44081c84ad5df1a09762b96eb3ae9",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"dungeon/func_80BEE4EC|S_80173CEC_0": {
+"0x96": "unk_96",
+"0x9B": "unk_9B",
+"0xA6": "unk_A6",
+"0xAC": "unk_AC"
+},
+"dungeon/func_80F5FAA4|S_801732A4_0": {
+"0x8": "unk_08",
+"0xC": "unk_0C",
+"0x10": "unk_10",
+"0x4A": "unk_4A",
+"0x8C": "unk_8C",
+"0x96": "unk_96",
+"0x98": "unk_98",
+"0x9B": "unk_9B",
+"0xA0": "unk_A0",
+"0xAA": "unk_AA",
+"0xBB": "unk_BB"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 188,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 13
+},
+"Rec_func_80173CFC_arg1": {
+"class": "param:dungeon:func_80173CFC:arg1",
+"header": "records/Rec_func_80173CFC_arg1.h",
+"sha256": "e129608499739efb6ea3102d98791897238e655f6b5f112d12308c61b5a158c1",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80C42B74|S_80174374_3": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0xA": "unk_0A"
+},
+"dungeon/func_80C964FC|S_80173CFC_3": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_0A"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 12,
+"containers": {
+"dungeon": 2
+},
+"unions": 2,
+"members": 3
+},
+"Rec_func_801724B0_arg0": {
+"class": "param:dungeon:func_801724B0:arg0",
+"header": "records/Rec_func_801724B0_arg0.h",
+"sha256": "d700602706b0bedaa2b28dba7f7d7af898b9a58df95b9d394c6e62eaab506e50",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80D66CB0|S_801724B0_2": {
+"0x8C": "unk_8C",
+"0x96": "unk_96",
+"0x9A": "unk_9A",
+"0x9E": "unk_9E"
+},
+"dungeon/func_80D6760C|S_80172E0C_0": {
+"0x9A": "unk_9A",
+"0x9B": "unk_9B",
+"0xAA": "unk_AA"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 172,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 6
+},
+"Rec_func_800D6DC0_arg2": {
+"class": "param:dungeon:func_800D6DC0:arg2",
+"header": "records/Rec_func_800D6DC0_arg2.h",
+"sha256": "92473885b9e5efa389514ca90a5e88156e1ab97804e0a2a66bcdfb6cb52fd4d6",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80D69D94|S_80175594_2": {
+"0x5": "unk_05",
+"0x14": "unk_14",
+"0x24": "unk_24",
+"0x25": "unk_25",
+"0x2C": "unk_2C"
+},
+"dungeon/func_80E3BD94|S_80175594_4": {
+"0x8": "unk_08",
+"0xC": "unk_0C",
+"0x10": "unk_10",
+"0x12": "unk_12",
+"0x14": "unk_14",
+"0x16": "unk_16",
+"0x18": "unk_18",
+"0x1A": "unk_1A",
+"0x1C": "unk_1C",
+"0x1E": "unk_1E",
+"0x20": "unk_20",
+"0x22": "unk_22"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 48,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 16
+},
+"Rec_func_80173204_arg0": {
+"class": "param:dungeon:func_80173204:arg0",
+"header": "records/Rec_func_80173204_arg0.h",
+"sha256": "3c55c829debe7ae9fde3aaaf2d3c4f8cd3ad785f9e2812dbd780377ce6548bcc",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80DE6220|S_80173A20_0": {
+"0x8C": "unk_8C.as_pv",
+"0x9B": "unk_9B",
+"0xA4": "unk_A4"
+},
+"dungeon/func_810AFA04|S_80173204_0": {
+"0x8C": "unk_8C.as_pu8",
+"0x9B": "unk_9B"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 168,
+"containers": {
+"dungeon": 2
+},
+"unions": 1,
+"members": 3
+},
+"Rec_func_80173DD4_arg0": {
+"class": "param:dungeon:func_80173DD4:arg0",
+"header": "records/Rec_func_80173DD4_arg0.h",
+"sha256": "092f035d9807acf851aca5e434deab938e016872106cf523fc656698f4b852ed",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80E105D4|S_80173DD4_0": {
+"0x8C": "unk_8C",
+"0x92": "unk_92",
+"0x9B": "unk_9B",
+"0xA6": "unk_A6",
+"0xAC": "unk_AC"
+},
+"dungeon/func_80E11860|S_80175060_4": {
+"0x88": "unk_88"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 174,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 6
+},
+"Rec_func_80173D78_arg0": {
+"class": "param:dungeon:func_80173D78:arg0",
+"header": "records/Rec_func_80173D78_arg0.h",
+"sha256": "24e77b0c357621f9a69a334809149879ef3bba01a1145d3172df62fe2673b2a0",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_80E3A578|S_80173D78_0": {
+"0x8C": "unk_8C",
+"0x96": "unk_96",
+"0x9A": "unk_9A",
+"0x9B": "unk_9B",
+"0xA4": "unk_A4",
+"0xAC": "unk_AC"
+},
+"dungeon/func_80E3C5D0|S_80175DD0_5": {
+"0x2A": "unk_2A"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 173,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 7
+},
+"Rec_func_801744DC_arg1": {
+"class": "param:dungeon:func_801744DC:arg1",
+"header": "records/Rec_func_801744DC_arg1.h",
+"sha256": "f9b3c370a88a67ea006acca34124337459c8e78a2c340bb6b3d848de386bf433",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81032CDC|S_801744DC_4": {
+"0x2": "unk_02",
+"0x6": "unk_06",
+"0xA": "unk_0A"
+},
+"dungeon/func_81032EEC|S_801746EC_4": {
+"0x2": "unk_02",
+"0x6": "unk_06",
+"0xA": "unk_0A"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 12,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 3
+},
+"Rec_func_801744DC_arg0": {
+"class": "param:dungeon:func_801744DC:arg0",
+"header": "records/Rec_func_801744DC_arg0.h",
+"sha256": "983bbf5fe6fffb134732e4ad1aa8d4816012885378a24a695062b6edd6eba442",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81032CDC|S_801744DC_5": {
+"0x1C": "unk_1C"
+},
+"dungeon/func_81032EEC|S_801746EC_5": {
+"0x1C": "unk_1C"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 30,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 1
+},
+"Rec_func_80172D08_arg1": {
+"class": "param:dungeon:func_80172D08:arg1",
+"header": "records/Rec_func_80172D08_arg1.h",
+"sha256": "698cc8cf726c6429b2e496173dd0a01b0553e7acf45aaee6570320a920768f7f",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81085508|S_80172D08_3": {
+"0xC": "unk_0C",
+"0x10": "unk_10",
+"0x14": "unk_14"
+},
+"dungeon/func_8108726C|S_80174A6C_3": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08",
+"0xC": "unk_0C",
+"0x10": "unk_10",
+"0x14": "unk_14"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 24,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 6
+},
+"Rec_func_80167A98_arg1": {
+"class": "param:dungeon:func_80167A98:arg1",
+"header": "records/Rec_func_80167A98_arg1.h",
+"sha256": "2aa1ed56755b149c1b80b45aefbec922f2de94006ebd69f6d991198d12a80a86",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81330A98|S_80167A98_3": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08"
+},
+"dungeon/func_81330C74|S_80167C74_2": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 12,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 3
+},
+"Rec_func_80167A98_arg0": {
+"class": "param:dungeon:func_80167A98:arg0",
+"header": "records/Rec_func_80167A98_arg0.h",
+"sha256": "eaaee5f1e1c1ed788aa7165db978a76ec44b11608c2ce88cf0e25120f7dd1f5b",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81330A98|S_80167A98_4": {
+"0x1C": "unk_1C"
+},
+"dungeon/func_81330C74|S_80167C74_0": {
+"0x12": "unk_12",
+"0x18": "unk_18",
+"0x1C": "unk_1C",
+"0x1E": "unk_1E",
+"0x24": "unk_24",
+"0x5C": "unk_5C",
+"0x60": "unk_60",
+"0x64": "unk_64",
+"0x68": "unk_68",
+"0x6C": "unk_6C",
+"0x70": "unk_70"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 116,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 11
+},
+"Rec_D_80175D50": {
+"class": "global:D_80175D50",
+"header": "records/Rec_D_80175D50.h",
+"sha256": "d51a6e112c2eefcbf3e652197256a4d8cc1877f57e253ec6ebf95ab849d68789",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81338324|S_8016F324_0": {
+"0xBA": "unk_BA"
+},
+"dungeon/func_81339700|S_80170700_0": {
+"0xC": "unk_0C"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 187,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 2
+},
+"Rec_D_80175D54": {
+"class": "global:D_80175D54",
+"header": "records/Rec_D_80175D54.h",
+"sha256": "c90308ded70ce7ad311394ed800f03f8d72665d951b09916f5243013218b901b",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_813385D8|S_8016F5D8_3": {
+"0xA8": "unk_A8"
+},
+"dungeon/func_8133A5D0|S_801715D0_0": {
+"0x8": "unk_08"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 170,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 2
+},
+"Rec_func_80025D28_arg0": {
+"class": "param:dungeon:func_80025D28:arg0",
+"header": "records/Rec_func_80025D28_arg0.h",
+"sha256": "a8b159bfcd144db07c95eff2a676c400e15f8168031bf85a209f46fb8153559c",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81810D28|S_80025D28_0": {
+"0x0": "unk_00",
+"0x1": "unk_01",
+"0x2": "unk_02",
+"0x3": "unk_03",
+"0x4": "unk_04",
+"0xA": "unk_0A",
+"0xB": "unk_0B"
+},
+"dungeon/func_819AE528|S_80025D28_0": {
+"0x1C": "unk_1C",
+"0x1E": "unk_1E",
+"0x20": "unk_20",
+"0x30": "unk_30",
+"0x34": "unk_34",
+"0x36": "unk_36",
+"0x38": "unk_38",
+"0x3E": "unk_3E",
+"0x40": "unk_40"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 66,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 16
+},
+"Rec_func_80024264_arg1": {
+"class": "param:dungeon:func_80024264:arg1",
+"header": "records/Rec_func_80024264_arg1.h",
+"sha256": "a618839ff504bcb8e31c0e68430691f2e824d6e6ddd9aaafb786289a648e4fd5",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81868B84|S_81868B84_2": {
+"0x2": "unk_00.at02_u16.v",
+"0x6": "unk_04.at02_u16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xE": "unk_0C.at02_u16.v",
+"0x12": "unk_10.at02_u16.v"
+},
+"dungeon/func_81898A64|S_80024264_3": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v",
+"0xC": "unk_0C.at00_s32.v",
+"0x10": "unk_10.at00_s32.v",
+"0x14": "unk_14"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 24,
+"containers": {
+"dungeon": 2
+},
+"unions": 5,
+"members": 6
+},
+"Rec_func_800243B8_arg0": {
+"class": "param:dungeon:func_800243B8:arg0",
+"header": "records/Rec_func_800243B8_arg0.h",
+"sha256": "cf61fa5c228d09cb3d2695e847c1dfc86c83c82cf206c414dd100957ce24d996",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_818AABB8|S_800243B8_2": {
+"0x12": "unk_12.as_u16"
+},
+"dungeon/func_818AAE60|S_80024660_0": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x9": "unk_09",
+"0xA": "unk_0A",
+"0xE": "unk_0E",
+"0x10": "unk_10",
+"0x12": "unk_12.as_s16",
+"0x14": "unk_14"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 22,
+"containers": {
+"dungeon": 2
+},
+"unions": 1,
+"members": 8
+},
+"Rec_func_800249DC_arg0": {
+"class": "param:dungeon:func_800249DC:arg0",
+"header": "records/Rec_func_800249DC_arg0.h",
+"sha256": "57e69f8e232b9c20dafd6a20737f85162aed0038aa73ba16ceb752bb341962d4",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_818E71DC|S_800249DC_0": {
+"0x0": "unk_00.at00_pv.v",
+"0x1C": "unk_1C",
+"0x20": "unk_20",
+"0x24": "unk_24",
+"0x34": "unk_34",
+"0x38": "unk_38",
+"0x3C": "unk_3C",
+"0x48": "unk_48"
+},
+"dungeon/func_819ACB28|S_819ACB28_2": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_06",
+"0xA": "unk_0A"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 74,
+"containers": {
+"dungeon": 2
+},
+"unions": 1,
+"members": 10
+},
+"Rec_func_80024170_arg0": {
+"class": "param:dungeon:func_80024170:arg0",
+"header": "records/Rec_func_80024170_arg0.h",
+"sha256": "ec0351a8cfe2f16a0d3c124f66f61136aadae3e266a085aa0070cde28acc1879",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81910970|S_80024170_2": {
+"0x12": "unk_12.as_u16"
+},
+"dungeon/func_81912154|S_80025954_0": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x9": "unk_09",
+"0xA": "unk_0A",
+"0xE": "unk_0E",
+"0x10": "unk_10",
+"0x12": "unk_12.as_s16",
+"0x14": "unk_14"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 22,
+"containers": {
+"dungeon": 2
+},
+"unions": 1,
+"members": 8
+},
+"Rec_func_80024600_arg1": {
+"class": "param:dungeon:func_80024600:arg1",
+"header": "records/Rec_func_80024600_arg1.h",
+"sha256": "ab9d4526d58fd573609d072807ef8bddcf78aaad6f3139759f22f350ca71a8dc",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81917234|S_80024A34_2": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08"
+},
+"dungeon/func_8191740C|S_80024C0C_3": {
+"0x0": "unk_00",
+"0x4": "unk_04",
+"0x8": "unk_08",
+"0xC": "unk_0C"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 16,
+"containers": {
+"dungeon": 2
+},
+"unions": 0,
+"members": 4
+},
+"Rec_func_80024E80_arg1": {
+"class": "param:dungeon:func_80024E80:arg1",
+"header": "records/Rec_func_80024E80_arg1.h",
+"sha256": "203073fdcd1094f44ef81d7371d225c1cc08eb21536edca8a7cecfb0b684e981",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81917680|S_80024E80_5": {
+"0x0": "unk_00.at00_s32.v",
+"0x4": "unk_04.at00_s32.v",
+"0x8": "unk_08.at00_s32.v"
+},
+"dungeon/func_81917894|S_80025094_3": {
+"0x2": "unk_00.at02_s16.v",
+"0x6": "unk_04.at02_s16.v",
+"0xA": "unk_08.at02_u16.v",
+"0xE": "unk_0E",
+"0x12": "unk_12"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 20,
+"containers": {
+"dungeon": 2
+},
+"unions": 3,
+"members": 5
+},
+"Rec_func_800243C4_arg1": {
+"class": "param:dungeon:func_800243C4:arg1",
+"header": "records/Rec_func_800243C4_arg1.h",
+"sha256": "df4ca4239439cf1c47d78dd9ca2883ed38d49eebfc25310ce2fd0269a5de0612",
+"needs_compat": false,
+"compiles": true,
+"paths": {
+"dungeon/func_81958BC4|S_800243C4_2": {
+"0x2": "unk_02",
+"0x6": "unk_06",
+"0xA": "unk_0A.as_s16"
+},
+"dungeon/func_819596D4|S_80024ED4_0": {
+"0x2": "unk_02",
+"0x6": "unk_06",
+"0xA": "unk_0A.as_u16"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 12,
+"containers": {
+"dungeon": 2
+},
+"unions": 1,
+"members": 3
+},
+"Rec_func_800381D0_arg0": {
+"class": "param:slus:func_800381D0:arg0",
+"header": "records/Rec_func_800381D0_arg0.h",
+"sha256": "8aa70dcaec6e17af64494ff6630a6d904e65c9acc3ded4726d3532df459871ce",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"slus/konami_runtime_w_800381D0|S_800381D0_0": {
+"0x1C": "unk_1C"
+},
+"slus/konami_runtime_w_80039148|S_80039148_0": {
+"0x10": "unk_10",
+"0x18": "unk_18",
+"0x20": "unk_20",
+"0x22": "unk_22",
+"0x25": "unk_25",
+"0x2E": "unk_2E"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 47,
+"containers": {
+"slus": 2
+},
+"unions": 0,
+"members": 7
+},
+"Rec_func_800384A8_arg0": {
+"class": "param:slus:func_800384A8:arg0",
+"header": "records/Rec_func_800384A8_arg0.h",
+"sha256": "fdbd4d19c634b8a8f581c3a5693d663e83afb4e3b283dc047908a7fecc2475f3",
+"needs_compat": true,
+"compiles": true,
+"paths": {
+"slus/konami_runtime_w_800384A8|S_800384A8_0": {
+"0x10": "unk_10"
+},
+"slus/konami_runtime_w_80038538|S_80038538_0": {
+"0x10": "unk_10"
+}
+},
+"unmapped": [],
+"rows": 2,
+"structs": 2,
+"span": 20,
+"containers": {
+"slus": 2
+},
+"unions": 0,
+"members": 1
 }
 }

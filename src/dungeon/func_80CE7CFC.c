@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_8017121C_arg1.h"
 
 
 typedef struct { s32 w0, w1, w2, w3; } Blk16;
@@ -70,10 +71,6 @@ typedef struct S_801714FC_4 {
     u16 unk_0A;
 } S_801714FC_4;   /* q in func_801714FC */
 
-typedef struct S_801714FC_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_801714FC_5;   /* arg1 in func_801714FC */
 
 typedef struct S_801714FC_6_pre {
     void * unk_00;
@@ -161,7 +158,7 @@ void func_801714FC(void *arg0, void *arg1, void *arg2, void *arg3)
         ((S_801714FC_3 *)s0v)->unk_02 = (t72 << 6) + 0x20;
         t73 = ((S_801714FC_0 *)arg3)->unk_73.s;
         ((S_801714FC_3 *)s0v)->unk_06 = (t73 << 6) + 0x20;
-        ((S_801714FC_3 *)s0v)->unk_0A = ((S_801714FC_5 *)arg1)->unk_0A;
+        ((S_801714FC_3 *)s0v)->unk_0A = ((Rec_func_8017121C_arg1 *)arg1)->unk_0A;
         {
             void *r = ((S_801714FC_6_pre *)arg0)[-1].unk_00;
             if (func_8003DE58(((S_801714FC_7 *)r)->unk_08, r, spbuf, 0) != 0) {

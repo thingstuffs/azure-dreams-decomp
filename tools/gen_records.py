@@ -167,7 +167,7 @@ def main():
         if s.get("class") and not n.endswith("_pre"):
             classes[s["class"]].append(n)
     OUT.mkdir(parents=True, exist_ok=True)
-    records = {}; bad_headers = []
+    records = {}; bad_headers = []; skipped_scalars = []
     for key, members in sorted(classes.items(), key=lambda kv: -len(kv[1])):
         if key.startswith("local:"): continue
         name = class_name(key, members, structs)
@@ -178,6 +178,10 @@ def main():
         hdr, paths, unmapped, info = build(key, members, structs)
         if hdr is None:
             print(f"{key}: no usable member struct"); continue
+        if info["rows"] < max(2, a.min_rows):
+            continue                     # a record shared by one function is not a shared record
+        if info["members"] == 1 and info["unions"] == 0 and info["span"] <= 4 and min(int(o, 16) for pth in paths.values() for o in pth) == 0:
+            skipped_scalars.append(name); continue   # a scalar global read through a one-member struct: typed-global work (L4), not a record
         p = OUT / f"{name}.h"
         if not p.exists() or p.read_text() != hdr:
             p.write_text(hdr)
@@ -189,6 +193,9 @@ def main():
                          "compiles": not err, "paths": paths, "unmapped": unmapped, **info}
         print(f"{name:28} rows {info['rows']:4} structs {info['structs']:4} span 0x{info['span']:X} members {info['members']} unions {info['unions']} unmapped {len(unmapped)}")
     json.dump(records, open(LEDGER / "records.json", "w"), indent=0)
+    for n in skipped_scalars:
+        (OUT / f"{n}.h").unlink(missing_ok=True)
+    if skipped_scalars: print(f"{len(skipped_scalars)} scalar classes skipped (typed-global work, not records): {', '.join(skipped_scalars[:8])}{' ...' if len(skipped_scalars) > 8 else ''}")
     print(f"{len(records)} record headers in include/records/; mapping in ledger/records.json" + (f"; NOT COMPILING: {bad_headers}" if bad_headers else "; every header compiles standalone (gcc 2.7.2)"))
     sys.exit(1 if bad_headers else 0)
 

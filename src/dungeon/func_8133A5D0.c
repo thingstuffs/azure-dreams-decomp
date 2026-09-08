@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80175D54.h"
 
 void *func_8003FD64();               /* extern */
 M2C_UNK func_8004491C();           /* extern */
@@ -10,10 +11,6 @@ extern s16 D_80173AFC[];
 extern void *D_80175D54;
 extern void *D_80175DB8;
 
-typedef struct S_801715D0_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_801715D0_0;   /* D_80175D54 in func_801715D0 */
 
 typedef struct S_801715D0_1 {
     u8 pad_00[0x8];
@@ -89,7 +86,7 @@ void func_801715D0(void) {
     S_801715D0_2 *temp_v1;
     register S_801715D0_8 *temp_v1_2 ASM_REG("$3");   /* MATCH pin: retail register colouring depends on it */
 
-    temp_s2 = ((S_801715D0_0 *)D_80175D54)->unk_08;
+    temp_s2 = ((Rec_D_80175D54 *)D_80175D54)->unk_08;
     temp_s1 = D_80175D54 + 0x20;
     temp_v0 = func_8003FD64(0x12, D_80175D54);
     if (temp_v0 != NULL) {

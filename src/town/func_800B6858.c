@@ -1,11 +1,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_800B3FB8_arg0.h"
 
-typedef struct S_800B3FB8_3 {
-    u8 pad_00[0x5C];
-    s32 unk_5C;
-} S_800B3FB8_3;   /* arg0 in func_800B3FB8 */
 
 typedef struct S_800B3FB8_4 {
     u8 pad_00[0x4];
@@ -23,7 +20,7 @@ typedef struct S_800B3FB8_5 {
 
 typedef struct S_800B3FB8_6 {
     void * unk_00;
-} S_800B3FB8_6;   /* temp_s1 + ((S_800B3FB8_3 *)arg0)->unk_5C in func_800B3FB8 */
+} S_800B3FB8_6;   /* temp_s1 + ((Rec_func_800B3FB8_arg0 *)arg0)->unk_5C in func_800B3FB8 */
 
 typedef struct S_800B3FB8_7 {
     u8 pad_00[0x8];
@@ -38,12 +35,6 @@ typedef struct S_800B3FB8_0 {
     s32 unk_00;
 } S_800B3FB8_0;   /* temp_s3 in func_800B3FB8 */
 
-typedef struct S_800B3FB8_1 {
-    u8 pad_00[0x20];
-    s32 unk_20;
-    u8 pad_24[0x38];
-    s32 unk_5C;
-} S_800B3FB8_1;   /* arg0 in func_800B3FB8 */
 
 typedef struct S_800B3FB8_2 {
     s32 unk_00;
@@ -56,12 +47,12 @@ typedef struct S_800B3FB8_2 {
     s32 unk_10;
 } S_800B3FB8_2;   /* arg1 in func_800B3FB8 */
 
-void func_800B3FB8(S_800B3FB8_1 *arg0, S_800B3FB8_2 *arg1, s32 arg2) {
+void func_800B3FB8(Rec_func_800B3FB8_arg0 *arg0, S_800B3FB8_2 *arg1, s32 arg2) {
     s32 temp_s1;
     S_800B3FB8_0 *temp_s3;
 
     temp_s1 = arg2 * 4;
-    temp_s3 = ((S_800B3FB8_6 *)(temp_s1 + ((S_800B3FB8_3 *)arg0)->unk_5C))->unk_00;
+    temp_s3 = ((S_800B3FB8_6 *)(temp_s1 + ((Rec_func_800B3FB8_arg0 *)arg0)->unk_5C))->unk_00;
     temp_s3->unk_00 = (s32) arg0->unk_20;
     ((S_800B3FB8_7 *)(((S_800B3FB8_4 *)temp_s3)->unk_04))->unk_08.s = (u16) arg1->unk_04;
     ((S_800B3FB8_7 *)(((S_800B3FB8_4 *)temp_s3)->unk_04))->unk_0A.s = (u16) arg1->unk_06;

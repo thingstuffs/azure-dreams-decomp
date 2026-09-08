@@ -1,6 +1,5 @@
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800814A0.h"
 
 typedef struct S_800246F0_0_pre {
     u16 unk_00;
@@ -21,6 +20,9 @@ typedef struct S_800246F0_2 {
     s32 unk_10;
 } S_800246F0_2;   /* arg1 in func_800246F0 */
 
+typedef struct S_800246F0_3 {
+    s32 unk_00;
+} S_800246F0_3;   /* D_800814A0 in func_800246F0 */
 
 
 extern void func_800478B8(void *);
@@ -54,6 +56,6 @@ void func_800246F0(void *arg0, S_800246F0_2 *arg1, Rec_D_80082E80 *arg2)
     arg1->unk_04 = y + dy;
     if (((S_800246F0_0 *)arg0)->unk_3A.u <= 0) {
         ((S_800246F0_0_pre *)arg0)[-1].unk_00 |= 0x8000;
-        ((Rec_D_800814A0 *)D_800814A0)->unk_00 |= 0x8000;
+        ((S_800246F0_3 *)D_800814A0)->unk_00 |= 0x8000;
     }
 }

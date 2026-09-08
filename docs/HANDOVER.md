@@ -32,10 +32,11 @@ Dashboard: http://<lan-host>:8002/ (`tools/dashboard_serve.sh`; restart it if th
 - **T7 shared headers: done for every class with ≥ 10 rows** (`docs/STRUCT_CENSUS.md`, "T7
   result"). `tools/gen_records.py` writes `include/records/Rec_*.h` (12 records) and
   `ledger/records.json` from the census; `tools/xform/t7_headers.py` (sweep `t7_headers`)
-  converted 1,014 rows / 611,680 B (23.9 %) with 0 mismatches; touched windows re-gated
-  (562/562 windows byte-identical), SLUS gate MATCH. Re-running the census carries converted structs forward, so
-  headers only ever gain views. Rows below the 10-row threshold keep their local structs
-  (`--min-rows` lowers it; the same machinery applies).
+  converted 1,014 rows at the ≥ 10-row threshold, then 1,168 rows / 659,544 B (25.8 %) on 88
+  of 102 records at `--min-rows 2`, 0 mismatches, every touched window re-gated byte-identical
+  (562 then 103 / 103 windows byte-identical), SLUS gate MATCH. Re-running the census carries converted structs
+  forward, so headers only ever gain views. Scalar globals read through one-member structs are
+  deliberately not records (typed-global work for L4).
 
 ## What happens next (in order)
 

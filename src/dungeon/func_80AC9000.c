@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_80174800_arg0.h"
 
 typedef struct S_80174800_0_pre {
     void * unk_00;
@@ -16,12 +17,6 @@ typedef struct S_80174800_1_pre {
     u8 pad_08[0x10];
 } S_80174800_1_pre;   /* the 0x18 bytes before arg0 in func_80174800, addressed as arg0[-1] */
 
-typedef struct S_80174800_1 {
-    u8 pad_00[0x13];
-    u8 unk_13;
-    u8 pad_14[0x48];
-    void * unk_5C;
-} S_80174800_1;   /* arg0 in func_80174800 */
 
 typedef struct S_80174800_2 {
     u8 pad_00[0x24];
@@ -67,13 +62,13 @@ void func_80174800(void *arg0, s32 arg1, s32 arg2, s16 arg3)
             (tile->unk_25 == (match_y & 0xFFFF)) &&
             (height = data->unk_0A, height <= arg3 + 0x38) &&
             (height > arg3 - 0x38) &&
-            ((u32)(((S_80174800_1 *)arg0)->unk_13 - 0x33) >= 4U)) {
+            ((u32)(((Rec_func_80174800_arg0 *)arg0)->unk_13 - 0x33) >= 4U)) {
             actor->unk_84 = 0x7C;
             actor->unk_85 =
                 (s8)((s32)(actor->unk_26 * 3) >> 1);
             func_8009C93C(actor, owner,
                           actor->unk_2A, 1, 0);
             }
-        arg0 = (u8 *)((S_80174800_1 *)arg0)->unk_5C + 0x20;
+        arg0 = (u8 *)((Rec_func_80174800_arg0 *)arg0)->unk_5C + 0x20;
     }
 }

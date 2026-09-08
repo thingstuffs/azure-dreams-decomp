@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_800249DC_arg0.h"
 
 typedef struct S_819ACB28_0_pre {
     u16 unk_00;
@@ -23,14 +24,6 @@ typedef struct S_819ACB28_1 {
     u16 unk_14;
 } S_819ACB28_1;   /* temp_s0 in func_819ACB28 */
 
-typedef struct S_819ACB28_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_819ACB28_2;   /* arg1 in func_819ACB28 */
 
 typedef struct S_819ACB28_3 {
     u8 pad_00[0x2];
@@ -73,7 +66,7 @@ extern CounterView D_80027452;
 extern u8 D_80045340[];
 extern FlagsView D_800814A0;
 
-void func_819ACB28(void *arg0, S_819ACB28_2 *arg1, S_819ACB28_4 *arg2)
+void func_819ACB28(void *arg0, Rec_func_800249DC_arg0 *arg1, S_819ACB28_4 *arg2)
 {
     s16 temp_v1;
     u16 temp_a0;
@@ -97,7 +90,7 @@ void func_819ACB28(void *arg0, S_819ACB28_2 *arg1, S_819ACB28_4 *arg2)
         }
 
         temp_a0_2 = ((S_819ACB28_5 *)(((S_819ACB28_0 *)arg0)->unk_08))->unk_08;
-        arg1->unk_02 =
+        arg1->unk_00.at02_s16.v =
             temp_a0_2->unk_02 + ((S_819ACB28_0 *)arg0)->unk_24;
         arg1->unk_06 =
             temp_a0_2->unk_06 + ((S_819ACB28_0 *)arg0)->unk_26;

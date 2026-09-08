@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80174CD8.h"
 
 #ifndef NULL
 #define NULL 0
@@ -6,10 +7,6 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct S_80172160_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80172160_0;   /* D_80174CD8 in func_80172160 */
 
 typedef struct S_80172160_1 {
     u8 pad_00[0x16];
@@ -63,7 +60,7 @@ extern s32 rand();
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DE870;
 extern M2C_UNK D_801720D0;
-extern S_80172160_0 *D_80174CD8;
+extern Rec_D_80174CD8 *D_80174CD8;
 
 void func_80172160(void)
 {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_80090C68_arg0.h"
 
 
 
@@ -14,18 +15,15 @@ extern void func_8009550C(void *arg0);
 extern void func_80099754(void *arg0);
 extern s32 D_80083160[3];
 
-typedef struct S_80090D44_0 {
-    s32 unk_00;
-} S_80090D44_0;   /* arg0 in func_80090D44 */
 
 void func_80090D44(void *arg0, void *arg1, s32 arg2) {
     s32 temp_s0;
     s32 *global;
 
     global = D_80083160;
-    temp_s0 = ((S_80090D44_0 *)arg0)->unk_00;
+    temp_s0 = ((Rec_func_80090C68_arg0 *)arg0)->unk_00;
     func_80090A74();
-    if ((temp_s0 == ((S_80090D44_0 *)arg0)->unk_00) &&
+    if ((temp_s0 == ((Rec_func_80090C68_arg0 *)arg0)->unk_00) &&
         (global[2] & 0x80)) {
         func_80099754(arg1);
         func_8009550C(arg1);

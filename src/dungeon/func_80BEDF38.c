@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800814A0.h"
 
 typedef struct S_80173738_0_pre {
     u16 unk_00;
@@ -22,6 +21,9 @@ typedef struct S_80173738_0 {
 } S_80173738_0;   /* arg0 in func_80173738 */
 
 
+typedef struct S_80173738_2 {
+    s32 unk_00;
+} S_80173738_2;   /* D_800814A0 in func_80173738 */
 
 
 typedef struct {
@@ -69,6 +71,6 @@ void func_80173738(void *arg0, FuncArg1 *arg1, Rec_D_80082E80 *arg2) {
     ((S_80173738_0 *)arg0)->unk_1A = temp_v0;
     if ((temp_v0 << 0x10) <= 0) {
         ((S_80173738_0_pre *)arg0)[-1].unk_00 = (u16) (((S_80173738_0_pre *)arg0)[-1].unk_00 | 0x8000);
-        ((Rec_D_800814A0 *)D_800814A0)->unk_00 = (s32) (((Rec_D_800814A0 *)D_800814A0)->unk_00 | 0x8000);
+        ((S_80173738_2 *)D_800814A0)->unk_00 = (s32) (((S_80173738_2 *)D_800814A0)->unk_00 | 0x8000);
     }
 }

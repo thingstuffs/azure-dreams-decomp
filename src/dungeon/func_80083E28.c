@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80083160.h"
 
 typedef struct S_80089588_3 {
     s32 unk_00;
@@ -11,10 +12,6 @@ typedef struct S_80089588_4 {
 } S_80089588_4;   /* ((S_80089588_3 *)temp_s1)->unk_00 in func_80089588 */
 
 
-typedef struct S_80089588_0 {
-    u8 pad_00[0x8D0];
-    void * unk_8D0;
-} S_80089588_0;   /* D_80083160 in func_80089588 */
 
 typedef struct S_80089588_1 {
     u8 pad_00[0x3];
@@ -54,7 +51,7 @@ void func_80089588(void) {
     register u32 temp_s1 ASM_REG("$17");   /* MATCH pin: retail address form (%hi/%lo vs base+offset) depends on it */
 
     temp_s0 = (s32) D_80083160 != (s32) D_801C9E40;
-    temp_s2 = ((S_80089588_0 *)D_80083160)->unk_8D0;
+    temp_s2 = ((Rec_D_80083160 *)D_80083160)->unk_8D0;
     func_80067E2C(temp_s2, D_80083160);
     func_8006658C((u8 *)D_80083160 + 0x7B0, temp_s2);
     temp_s2 += 0xC;

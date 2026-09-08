@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_8008D024_arg0.h"
 
 
 extern void *D_800E3DF0[];
@@ -42,12 +43,6 @@ typedef struct S_800956B8_2 {
     void * unk_AC;
 } S_800956B8_2;   /* (u8 *)arg0 + index * 4 in func_800956B8 */
 
-typedef struct S_800956B8_3 {
-    u8 pad_00[0x60];
-    void * unk_60;
-    u8 pad_64[0xAC];
-    void * unk_110;
-} S_800956B8_3;   /* arg0 in func_800956B8 */
 
 typedef struct S_800956B8_4 {
     u8 pad_00[0x8C];
@@ -134,12 +129,12 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
         void *st;
         register s32 two ASM_REG("$2");   /* MATCH pin: keeps a constant in a register as retail does */
 
-        st = ((S_800956B8_3 *)arg0)->unk_60;
+        st = ((Rec_func_8008D024_arg0 *)arg0)->unk_60;
         two = 2;
         ((S_800956B8_4 *)st)->unk_9A = two;
         ((S_800956B8_4 *)st)->unk_9B = 0;
         ((S_800956B8_4 *)st)->unk_8C = 0;
-        ((S_800956B8_3 *)arg0)->unk_110 = arg3;
+        ((Rec_func_8008D024_arg0 *)arg0)->unk_110 = arg3;
     }
 }
 

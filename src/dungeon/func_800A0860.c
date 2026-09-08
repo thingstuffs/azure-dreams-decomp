@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80083160.h"
 typedef s32 M2C_UNK;
 
 typedef struct S_800A5FC0_0 {
@@ -6,9 +7,6 @@ typedef struct S_800A5FC0_0 {
     void * unk_8D0;
 } S_800A5FC0_0;   /* temp_v1 in func_800A5FC0 */
 
-typedef struct S_800A5FC0_1 {
-    void * unk_00;
-} S_800A5FC0_1;   /* &D_80083160 in func_800A5FC0 */
 
 typedef struct S_800A5FC0_2 {
     s32 unk_00;
@@ -36,7 +34,7 @@ typedef struct S_800A5FC0_4 {
 typedef struct S_800A5FC0_5 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_800A5FC0_5;   /* ((S_800A5FC0_1 *)(&D_80083160))->unk_00 in func_800A5FC0 */
+} S_800A5FC0_5;   /* ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv in func_800A5FC0 */
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -57,8 +55,8 @@ s32 func_800A5FC0(S_800A5FC0_2 *arg0) {
     temp_v1 = D_80083160[0];
     temp_s2 = temp_v1->unk_8D0;
     temp_v1->unk_8D0 = (void *) (temp_s2 + 0xC);
-    temp_s0 = ((S_800A5FC0_5 *)(((S_800A5FC0_1 *)(&D_80083160))->unk_00))->unk_8D0;
-    ((S_800A5FC0_5 *)(((S_800A5FC0_1 *)(&D_80083160))->unk_00))->unk_8D0 = (void *) (temp_s0 + 0x18);
+    temp_s0 = ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0;
+    ((S_800A5FC0_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0 = (void *) (temp_s0 + 0x18);
     temp_s3 = (void **)&D_80083160;
     func_80067F20(temp_s2, 0, 0, arg0->unk_04, 0);
     ((S_800A5FC0_3 *)temp_s0)->unk_04 = (s32) arg0->unk_00;

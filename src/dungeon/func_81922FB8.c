@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_800247B8_arg0.h"
+#include "records/Rec_func_800247B8_arg1.h"
 
 typedef s32 M2C_UNK;
 
@@ -55,10 +57,6 @@ typedef struct S_800247B8_2 {
     s16 unk_1E;
 } S_800247B8_2;   /* part in func_800247B8 */
 
-typedef struct S_800247B8_3 {
-    u8 pad_00[0x56];
-    s16 unk_56;
-} S_800247B8_3;   /* arg0 in func_800247B8 */
 
 typedef struct S_800247B8_4 {
     u8 pad_00[0x2];
@@ -69,14 +67,6 @@ typedef struct S_800247B8_4 {
     u16 unk_0A;
 } S_800247B8_4;   /* dest in func_800247B8 */
 
-typedef struct S_800247B8_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800247B8_5;   /* arg1 in func_800247B8 */
 
 
 
@@ -89,7 +79,7 @@ extern s32 rand();
 extern M2C_UNK D_80024670[];
 extern M2C_UNK D_800246C4[];
 
-void func_800247B8(S_800247B8_3 *arg0, S_800247B8_5 *arg1)
+void func_800247B8(Rec_func_800247B8_arg0 *arg0, Rec_func_800247B8_arg1 *arg1)
 {
     s32 temp_s0;
     s32 temp_s0_2;

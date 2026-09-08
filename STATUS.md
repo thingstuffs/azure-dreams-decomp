@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-07T23:31:55Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-08T00:00:59Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -30,7 +30,7 @@ Baseline NOT exact: 0 rows
 | inline asm outside macros | 362 | 256,260 | 10.0% | 362 | 256,260 | 10.0% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 1489 | 680,132 | 26.6% |
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 2655 | 1,286,668 | 50.3% |
-| local address-named struct | 633 | 346,988 | 13.6% | 3241 | 1,618,908 | 63.3% |
+| local address-named struct | 633 | 346,988 | 13.6% | 3182 | 1,613,264 | 63.1% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 155,088 | 6.1% | 1243 | 193,136 | 7.5% |
 
 Pin sites: 25,878 total; REG 12,818, KEEP 6,889, KEEP_NV 2,501, SCHED_BARRIER 1,355, TAILSLOT_PIN 501, USE 299, USE_NV 261, KEEP_DEP_NV 184.
@@ -42,8 +42,8 @@ Pin sites: 25,878 total; REG 12,818, KEEP 6,889, KEEP_NV 2,501, SCHED_BARRIER 1,
 | L0 | 2,558,124 | 100.0% |
 | L1 | 1,870,772 | 73.1% |
 | L2 | 1,775,756 | 69.4% |
-| L3 | 807,756 | 31.6% |
+| L3 | 954,656 | 37.3% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
-On shared record headers (T7, `include/records/`): 1014 rows, 611,680 bytes (23.9%); records used: 12.
+On shared record headers (T7, `include/records/`): 1168 rows, 659,544 bytes (25.8%); records used: 88.

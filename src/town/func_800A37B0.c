@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_800A0668_arg0.h"
 
 s32 func_8008FAC0();              /* extern */
 void func_800A0F88(void);          /* extern */
@@ -14,12 +15,8 @@ typedef struct S_800A0F10_0 {
     u16 unk_10;
 } S_800A0F10_0;   /* global_base in func_800A0F10 */
 
-typedef struct S_800A0F10_1 {
-    u8 pad_00[0x72];
-    u16 unk_72;
-} S_800A0F10_1;   /* arg0 in func_800A0F10 */
 
-s32 func_800A0F10(S_800A0F10_1 *arg0, M2C_UNK arg1) {
+s32 func_800A0F10(Rec_func_800A0668_arg0 *arg0, M2C_UNK arg1) {
     if (func_8008FAC0(arg1, &D_800CFCB4) != 0) {
         s32 *global_base = &D_800834B8;
         s32 global_angle = ((S_800A0F10_0 *)global_base)->unk_10;

@@ -1,6 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_8009EE9C_arg0.h"
 
-typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -21,14 +21,8 @@ typedef struct S_8009EE9C_0 {
     s32 unk_14;
 } S_8009EE9C_0;   /* arg2 in func_8009EE9C */
 
-typedef struct S_8009EE9C_1 {
-    u8 pad_00[0x6C];
-    s16 unk_6C;
-    u8 pad_6E[0x32];
-    s32 unk_A0;
-} S_8009EE9C_1;   /* arg0 in func_8009EE9C */
 
-void func_8009EE9C(S_8009EE9C_1 *arg0, s32 arg1, S_8009EE9C_0 *arg2, M2C_UNK arg3) {
+void func_8009EE9C(Rec_func_8009EE9C_arg0 *arg0, s32 arg1, S_8009EE9C_0 *arg2, M2C_UNK arg3) {
     s32 temp_s0;
 
     temp_s0 = arg2->unk_08;

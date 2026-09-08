@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_80024170_arg0.h"
 
 typedef struct S_80024170_0 {
     u8 pad_00[0x8];
@@ -17,10 +18,6 @@ typedef struct S_80024170_1 {
     s32 unk_0C;
 } S_80024170_1;   /* temp_s2 in func_80024170 */
 
-typedef struct S_80024170_2 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-} S_80024170_2;   /* arg0 in func_80024170 */
 
 typedef struct S_80024170_3 {
     u8 pad_00[0x8];
@@ -60,7 +57,7 @@ extern u8 D_80024044[9];
 extern u8 D_80045340[9];
 extern u8 D_800DE720[9];
 
-s32 func_80024170(S_80024170_2 *arg0, void *arg1)
+s32 func_80024170(Rec_func_80024170_arg0 *arg0, void *arg1)
 {
     s32 temp_a0;
     s32 temp_a1;
@@ -79,7 +76,7 @@ s32 func_80024170(S_80024170_2 *arg0, void *arg1)
         ((S_80024170_0 *)temp_v0)->unk_10 = D_80024044;
         ((S_80024170_0 *)temp_v0)->unk_20 = arg0;
         temp_s2->unk_06 = 0;
-        temp_s2->unk_08 = arg0->unk_12;
+        temp_s2->unk_08 = arg0->unk_12.as_u16;
         temp_s0 = ((S_80024170_0 *)temp_v0)->unk_0C;
         temp_s0->unk_0E = 0x80;
         temp_s0->unk_0D = 0x80;

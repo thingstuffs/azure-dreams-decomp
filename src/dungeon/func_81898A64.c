@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_80024264_arg1.h"
 
 
 
@@ -48,16 +49,8 @@ typedef struct S_80024264_2 {
     s32 unk_14;
 } S_80024264_2;   /* temp_a0 in func_80024264 */
 
-typedef struct S_80024264_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80024264_3;   /* arg1 in func_80024264 */
 
-void *func_80024264(s32 arg0, S_80024264_3 *arg1)
+void *func_80024264(s32 arg0, Rec_func_80024264_arg1 *arg1)
 {
     S_80024264_2 *temp_a0;
     S_80024264_1 *temp_s0;
@@ -83,11 +76,11 @@ void *func_80024264(s32 arg0, S_80024264_3 *arg1)
     temp_s0->unk_1A = 0xC00;
     func_8004491C(temp_v0, &D_80045340);
     temp_a0 = temp_v0->unk_08;
-    temp_a0->unk_00 = arg1->unk_00;
-    temp_a0->unk_04 = arg1->unk_04;
-    temp_a0->unk_08 = arg1->unk_08 + 0x500000;
-    temp_a0->unk_0C = arg1->unk_0C;
-    temp_a0->unk_10 = arg1->unk_10;
+    temp_a0->unk_00 = arg1->unk_00.at00_s32.v;
+    temp_a0->unk_04 = arg1->unk_04.at00_s32.v;
+    temp_a0->unk_08 = arg1->unk_08.at00_s32.v + 0x500000;
+    temp_a0->unk_0C = arg1->unk_0C.at00_s32.v;
+    temp_a0->unk_10 = arg1->unk_10.at00_s32.v;
     temp_a0->unk_14 = arg1->unk_14;
     return temp_v0;
 }

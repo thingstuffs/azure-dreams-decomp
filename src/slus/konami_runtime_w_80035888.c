@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "records/Rec_func_80034F58_arg0.h"
 
 typedef struct S_80035888_0 {
     u8 pad_00[0x8];
@@ -41,10 +42,6 @@ typedef struct S_80035888_3 {
     s32 unk_0C;
 } S_80035888_3;   /* partC in func_80035888 */
 
-typedef struct S_80035888_4 {
-    u8 pad_00[0x1];
-    u8 unk_01;
-} S_80035888_4;   /* arg4 in func_80035888 */
 
 typedef struct S_80035888_5 {
     u8 pad_00[0x34];
@@ -121,7 +118,7 @@ void func_80035888(void *arg0, void *arg1, s32 *arg2, s16 arg3, void *arg4)
     ((S_80035888_3 *)partC)->unk_04 = 0;
     ((S_80035888_3 *)partC)->unk_05 = 0;
     ((S_80035888_1 *)object)->unk_74 = arg4;
-    ((S_80035888_1 *)object)->unk_78 = ((S_80035888_4 *)arg4)->unk_01;
+    ((S_80035888_1 *)object)->unk_78 = ((Rec_func_80034F58_arg0 *)arg4)->unk_01;
     ((S_80035888_5 *)(((S_80035888_0 *)node)->unk_20))->unk_34 =
         D_8006A90C[((S_80035888_6 *)(((S_80035888_1 *)object)->unk_74))->unk_02];
     }

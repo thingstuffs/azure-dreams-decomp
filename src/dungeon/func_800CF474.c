@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_800D4BD4_arg2.h"
+#include "records/Rec_func_800D4BD4_arg1.h"
 
 typedef struct S_800D4BD4_0 {
     u8 pad_00[0xC];
@@ -29,14 +31,6 @@ typedef struct S_800D4BD4_3 {
     u16 unk_0A;
 } S_800D4BD4_3;   /* temp_v1 in func_800D4BD4 */
 
-typedef struct S_800D4BD4_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800D4BD4_4;   /* arg2 in func_800D4BD4 */
 
 typedef struct S_800D4BD4_5 {
     u8 pad_00[0xC];
@@ -49,10 +43,6 @@ typedef struct S_800D4BD4_5 {
     s16 unk_1E;
 } S_800D4BD4_5;   /* temp_a0_2 in func_800D4BD4 */
 
-typedef struct S_800D4BD4_6 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-} S_800D4BD4_6;   /* arg1 in func_800D4BD4 */
 
 
 
@@ -61,7 +51,7 @@ extern void func_8003DB94(void *, void *, s32);
 extern s32 D_80045340;
 extern s32 D_800DECF8;
 
-void func_800D4BD4(void *arg0, S_800D4BD4_6 *arg1, S_800D4BD4_4 *arg2)
+void func_800D4BD4(void *arg0, Rec_func_800D4BD4_arg1 *arg1, Rec_func_800D4BD4_arg2 *arg2)
 {
     S_800D4BD4_2 *temp_a0;
     S_800D4BD4_5 *temp_a0_2;
@@ -77,9 +67,9 @@ void func_800D4BD4(void *arg0, S_800D4BD4_6 *arg1, S_800D4BD4_4 *arg2)
     temp_a0->unk_10 = 0x20;
     temp_a0->unk_14 = temp_a0->unk_14 | 0xC;
     temp_v1 = ((S_800D4BD4_1 *)arg0)->unk_08;
-    temp_v1->unk_02 = arg2->unk_02;
-    temp_v1->unk_06 = arg2->unk_06;
-    temp_v1->unk_0A = arg2->unk_0A;
+    temp_v1->unk_02 = arg2->unk_02.as_u16;
+    temp_v1->unk_06 = arg2->unk_06.as_u16;
+    temp_v1->unk_0A = arg2->unk_0A.as_u16;
     temp_a0_2 = ((S_800D4BD4_1 *)arg0)->unk_0C;
     temp_a0_2->unk_1E = 0x800;
     temp_a0_2->unk_1C = 0x800;

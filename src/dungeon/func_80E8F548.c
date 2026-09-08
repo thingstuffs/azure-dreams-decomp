@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_800AD058_arg2.h"
 
 typedef s32 M2C_UNK;
 typedef struct {
@@ -55,13 +56,8 @@ typedef struct S_80174D48_3 {
     s16 unk_1E;
 } S_80174D48_3;   /* temp_s1 in func_80174D48 */
 
-typedef struct S_80174D48_4 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80174D48_4;   /* arg1 in func_80174D48 */
 
-void func_80174D48(void *arg0, S_80174D48_4 *arg1, void *arg2)
+void func_80174D48(void *arg0, Rec_func_800AD058_arg2 *arg1, void *arg2)
 {
     s32 temp_a2;
     s32 temp_byte;

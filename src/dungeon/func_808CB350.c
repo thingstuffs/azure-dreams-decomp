@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_801237A4_arg0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void func_801237A4();    /* extern */
@@ -15,12 +16,8 @@ typedef struct ValueLink {
 
 extern s32 * volatile D_80129728[28];
 
-typedef struct S_801237E8_0 {
-    u8 pad_00[0x16];
-    u8 unk_16;
-} S_801237E8_0;   /* arg0 in func_801237E8 */
 
-void func_801237E8(S_801237E8_0 *arg0) {
+void func_801237E8(Rec_func_801237A4_arg0 *arg0) {
     s32 * volatile *var_base;
     s32 * volatile *var_a1;
     s32 * volatile *var_a2;

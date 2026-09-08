@@ -1,11 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_80021E88_arg1.h"
 
-typedef struct S_800A2A18_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800A2A18_0;   /* arg1 in func_800A2A18 */
 
 typedef struct S_800A2A18_1 {
     s32 unk_00;
@@ -28,7 +24,7 @@ typedef struct S_800A2A18_2 {
 
 extern S_800A2A18_2 *D_80100D20;
 
-s32 func_800A2A18(S_800A2A18_1 *arg0, S_800A2A18_0 *arg1) {
+s32 func_800A2A18(S_800A2A18_1 *arg0, Rec_func_80021E88_arg1 *arg1) {
     s32 temp_a0;
     s32 temp_a1;
     s32 temp_a3;

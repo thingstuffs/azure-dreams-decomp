@@ -1,13 +1,10 @@
 #include "common.h"
+#include "records/Rec_D_80175D50.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-typedef struct S_80170700_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_80170700_0;   /* D_80175D50 in func_80170700 */
 
 typedef struct S_80170700_1 {
     u8 pad_00[0x8];
@@ -80,7 +77,7 @@ void func_80170700(void) {
     void *var_a3;
     register void *call_obj ASM_REG("$4");   /* MATCH pin: retail schedule: same instructions, different order without it */
 
-    temp_s0 = ((S_80170700_0 *)D_80175D50)->unk_0C;
+    temp_s0 = ((Rec_D_80175D50 *)D_80175D50)->unk_0C;
     temp_v0 = func_8003FC64(0x112);
     var_a3 = temp_s0;
     if (temp_v0 != NULL) {

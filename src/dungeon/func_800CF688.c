@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_800D4BD4_arg1.h"
+#include "records/Rec_func_800D4BD4_arg2.h"
 
 #ifndef NULL
 #define NULL 0
@@ -8,28 +10,7 @@ typedef struct S_800D4DE8_0_pre {
     u16 unk_00;
 } S_800D4DE8_0_pre;   /* the 0x2 bytes before arg0 in func_800D4DE8, addressed as arg0[-1] */
 
-typedef struct S_800D4DE8_0 {
-    void * unk_00;
-    u8 pad_04[0x12];
-    u16 unk_16;
-    u8 pad_18[0x6];
-    u16 unk_1E;
-    u8 pad_20[0x4];
-    void * unk_24;
-    u8 pad_28[0x14];
-    u16 unk_3C;
-    u16 unk_3E;
-    u16 unk_40;
-} S_800D4DE8_0;   /* arg0 in func_800D4DE8 */
 
-typedef struct S_800D4DE8_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800D4DE8_1;   /* arg1 in func_800D4DE8 */
 
 typedef struct S_800D4DE8_2 {
     u8 pad_00[0x8];
@@ -74,7 +55,7 @@ typedef struct S_800D4DE8_7 {
 typedef struct S_800D4DE8_8 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_800D4DE8_8;   /* ((S_800D4DE8_0 *)arg0)->unk_00 in func_800D4DE8 */
+} S_800D4DE8_8;   /* ((Rec_func_800D4BD4_arg1 *)arg0)->unk_00 in func_800D4DE8 */
 
 
 
@@ -86,7 +67,7 @@ extern u8 D_80083460[];
 extern u8 D_800D4CB0[];
 extern u8 D_800DDC40[];
 
-void func_800D4DE8(void *arg0, S_800D4DE8_1 *arg1, s32 arg2) {
+void func_800D4DE8(void *arg0, Rec_func_800D4BD4_arg2 *arg1, s32 arg2) {
     s32 var_s1;
     u16 temp_v0;
     u16 temp_v0_4;
@@ -96,18 +77,18 @@ void func_800D4DE8(void *arg0, S_800D4DE8_1 *arg1, s32 arg2) {
     S_800D4DE8_3 *temp_v0_3;
     u8 *global;
 
-    temp_a0 = ((S_800D4DE8_0 *)arg0)->unk_24;
-    arg1->unk_02 =
+    temp_a0 = ((Rec_func_800D4BD4_arg1 *)arg0)->unk_24;
+    arg1->unk_02.as_s16 =
         (s16)(((S_800D4DE8_7 *)(temp_a0->unk_08))->unk_02 +
-              ((S_800D4DE8_0 *)arg0)->unk_3C);
-    arg1->unk_06 =
+              ((Rec_func_800D4BD4_arg1 *)arg0)->unk_3C);
+    arg1->unk_06.as_s16 =
         (s16)(((S_800D4DE8_7 *)(temp_a0->unk_08))->unk_06 +
-              ((S_800D4DE8_0 *)arg0)->unk_3E);
-    arg1->unk_0A =
+              ((Rec_func_800D4BD4_arg1 *)arg0)->unk_3E);
+    arg1->unk_0A.as_s16 =
         (s16)(((S_800D4DE8_7 *)(temp_a0->unk_08))->unk_0A +
-              ((S_800D4DE8_0 *)arg0)->unk_40);
-    temp_v0 = ((S_800D4DE8_0 *)arg0)->unk_16 + 1;
-    ((S_800D4DE8_0 *)arg0)->unk_16 = temp_v0;
+              ((Rec_func_800D4BD4_arg1 *)arg0)->unk_40);
+    temp_v0 = ((Rec_func_800D4BD4_arg1 *)arg0)->unk_16 + 1;
+    ((Rec_func_800D4BD4_arg1 *)arg0)->unk_16 = temp_v0;
     if ((s16)temp_v0 < 0x14) {
         var_s1 = 0;
         do {
@@ -127,13 +108,13 @@ void func_800D4DE8(void *arg0, S_800D4DE8_1 *arg1, s32 arg2) {
                     ((rand() & 0x7FFF) - 0x4000) << 7;
                 temp_s0->unk_0A =
                     temp_s0->unk_0A -
-                    (D_800DDC40[((S_800D4DE8_8 *)(((S_800D4DE8_0 *)arg0)->unk_00))->unk_13] >> 1);
+                    (D_800DDC40[((S_800D4DE8_8 *)(((Rec_func_800D4BD4_arg1 *)arg0)->unk_00))->unk_13] >> 1);
             }
             var_s1 += 1;
         } while (var_s1 < 4);
     }
-    temp_v0_4 = ((S_800D4DE8_0 *)arg0)->unk_1E - 1;
-    ((S_800D4DE8_0 *)arg0)->unk_1E = temp_v0_4;
+    temp_v0_4 = ((Rec_func_800D4BD4_arg1 *)arg0)->unk_1E - 1;
+    ((Rec_func_800D4BD4_arg1 *)arg0)->unk_1E = temp_v0_4;
     if ((temp_v0_4 << 0x10) <= 0) {
         ((S_800D4DE8_0_pre *)arg0)[-1].unk_00 = ((S_800D4DE8_0_pre *)arg0)[-1].unk_00 | 0x8000;
         D_800814A0 |= 0x8000;

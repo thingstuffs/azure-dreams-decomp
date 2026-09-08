@@ -1,15 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_800B683C_arg0.h"
 
 M2C_UNK func_8003F2A4();                         /* extern */
 
-typedef struct S_800B6F54_0 {
-    u8 pad_00[0xD0];
-    s32 unk_D0;
-    s32 unk_D4;
-} S_800B6F54_0;   /* arg0 in func_800B6F54 */
 
-s32 func_800B6F54(S_800B6F54_0 *arg0) {
+s32 func_800B6F54(Rec_func_800B683C_arg0 *arg0) {
     s32 temp_a0;
     s32 temp_a0_2;
     s32 var_v0;

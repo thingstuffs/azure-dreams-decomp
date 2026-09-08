@@ -1,21 +1,12 @@
 #include "common.h"
+#include "records/Rec_func_80025D28_arg0.h"
 
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-typedef struct S_80025D28_0 {
-    u8 unk_00;
-    s8 unk_01;
-    s8 unk_02;
-    s8 unk_03;
-    s32 unk_04;
-    u8 pad_08[0x2];
-    s8 unk_0A;
-    s8 unk_0B;
-} S_80025D28_0;   /* arg0 in func_80025D28 */
 
-void func_80025D28(S_80025D28_0 *arg0) {
+void func_80025D28(Rec_func_80025D28_arg0 *arg0) {
     volatile s32 sp0;
     s32 value;
     u8 flags;

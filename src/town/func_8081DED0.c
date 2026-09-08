@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_800206D0_arg1.h"
 
 
 typedef struct Vec3 {
@@ -37,14 +38,6 @@ typedef struct S_800206D0_2 {
     u16 unk_14;
 } S_800206D0_2;   /* arg2 in func_800206D0 */
 
-typedef struct S_800206D0_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800206D0_3;   /* arg1 in func_800206D0 */
 
 
 extern void func_800478B8(void *);
@@ -138,17 +131,17 @@ state1:
 
 state2:
     func_800478B8(arg2);
-    ((S_800206D0_3 *)arg1)->unk_00 += ((S_800206D0_3 *)arg1)->unk_0C;
-    ((S_800206D0_3 *)arg1)->unk_04 += ((S_800206D0_3 *)arg1)->unk_10;
-    ((S_800206D0_3 *)arg1)->unk_08 += ((S_800206D0_3 *)arg1)->unk_14;
-    ((S_800206D0_3 *)arg1)->unk_14 += 0x30000;
+    ((Rec_func_800206D0_arg1 *)arg1)->unk_00 += ((Rec_func_800206D0_arg1 *)arg1)->unk_0C;
+    ((Rec_func_800206D0_arg1 *)arg1)->unk_04 += ((Rec_func_800206D0_arg1 *)arg1)->unk_10;
+    ((Rec_func_800206D0_arg1 *)arg1)->unk_08 += ((Rec_func_800206D0_arg1 *)arg1)->unk_14;
+    ((Rec_func_800206D0_arg1 *)arg1)->unk_14 += 0x30000;
     value = --((S_800206D0_0 *)arg0)->unk_02.s;
     if ((s16)value > 0) {
         goto end;
     }
     func_80053DA8(0x501);
-    ((S_800206D0_3 *)arg1)->unk_08 = 0xFFC00000;
-    ((S_800206D0_3 *)arg1)->unk_14 = ((rand() & 0xFF) << 11) + 0xFFE80000;
+    ((Rec_func_800206D0_arg1 *)arg1)->unk_08 = 0xFFC00000;
+    ((Rec_func_800206D0_arg1 *)arg1)->unk_14 = ((rand() & 0xFF) << 11) + 0xFFE80000;
     ((S_800206D0_0 *)arg0)->unk_02.u = (rand() & 0xF) + 30;
     ((S_800206D0_0 *)arg0)->unk_00 = 3;
     goto end;
@@ -159,12 +152,12 @@ state3:
         s32 object_value;
 
         func_800478B8(arg2);
-        ((S_800206D0_3 *)arg1)->unk_08 += ((S_800206D0_3 *)arg1)->unk_14;
-        ((S_800206D0_3 *)arg1)->unk_14 += 0x30000;
-        if (floor < ((S_800206D0_3 *)arg1)->unk_08) {
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_08 += ((Rec_func_800206D0_arg1 *)arg1)->unk_14;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_14 += 0x30000;
+        if (floor < ((Rec_func_800206D0_arg1 *)arg1)->unk_08) {
             func_80053DA8(0x501);
-            ((S_800206D0_3 *)arg1)->unk_08 = floor;
-            ((S_800206D0_3 *)arg1)->unk_14 = -((S_800206D0_3 *)arg1)->unk_14 >> 1;
+            ((Rec_func_800206D0_arg1 *)arg1)->unk_08 = floor;
+            ((Rec_func_800206D0_arg1 *)arg1)->unk_14 = -((Rec_func_800206D0_arg1 *)arg1)->unk_14 >> 1;
         }
         if (func_8008FD9C(D_80024420, arg1, &D_800D0420, D_80083780) != 0) {
             func_80053DA8(0x516);
@@ -184,7 +177,7 @@ state3:
         ((S_800206D0_2 *)arg2)->unk_04 = 0;
         ((S_800206D0_2 *)arg2)->unk_05 = 0;
         ((S_800206D0_2 *)arg2)->unk_08 = object_value;
-        ((S_800206D0_3 *)arg1)->unk_08 = floor;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_08 = floor;
         goto end;
     }
 

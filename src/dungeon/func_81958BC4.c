@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_800243C4_arg1.h"
 
 
 extern s32 func_8003DE58(void *, void *, void *, s32);
@@ -45,14 +46,6 @@ typedef struct S_800243C4_1 {
     u16 unk_14;
 } S_800243C4_1;   /* temp_s0 in func_800243C4 */
 
-typedef struct S_800243C4_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800243C4_2;   /* arg1 in func_800243C4 */
 
 typedef struct S_800243C4_3 {
     u8 pad_00[0x2];
@@ -74,7 +67,7 @@ typedef struct S_800243C4_5 {
     void * unk_0C;
 } S_800243C4_5;   /* ((S_800243C4_0 *)arg0)->unk_08 in func_800243C4 */
 
-void func_800243C4(void *arg0, S_800243C4_2 *arg1, S_800243C4_4 *arg2)
+void func_800243C4(void *arg0, Rec_func_800243C4_arg1 *arg1, S_800243C4_4 *arg2)
 {
     s16 temp_v1;
     u16 temp_a0;
@@ -107,7 +100,7 @@ void func_800243C4(void *arg0, S_800243C4_2 *arg1, S_800243C4_4 *arg2)
             temp_a0_2->unk_02 + ((S_800243C4_0 *)arg0)->unk_24;
         arg1->unk_06 =
             temp_a0_2->unk_06 + ((S_800243C4_0 *)arg0)->unk_26;
-        arg1->unk_0A =
+        arg1->unk_0A.as_s16 =
             temp_a0_2->unk_0A + ((S_800243C4_0 *)arg0)->unk_28.u;
         if (func_80024ED4(arg1) != 0) {
             func_8004491C((u8 *)arg0 - 0x20, D_80045340);

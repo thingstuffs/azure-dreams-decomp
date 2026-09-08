@@ -1,9 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_801237A4_arg0.h"
 
-typedef struct S_80125DDC_0 {
-    u8 pad_00[0x4];
-    u16 unk_04;
-} S_80125DDC_0;   /* arg0 in func_80125DDC */
 
 typedef struct S_80125DDC_1 {
     u8 pad_00[0x8];
@@ -22,7 +19,7 @@ extern void func_801247F8(void *);
 extern void *D_8011AD08[];
 extern s8 D_80129728;
 
-void func_80125DDC(S_80125DDC_0 *arg0)
+void func_80125DDC(Rec_func_801237A4_arg0 *arg0)
 {
     static void *const sw_keep[20] = {
         &&case_0,
@@ -35,7 +32,7 @@ void func_80125DDC(S_80125DDC_0 *arg0)
     };
     s32 swi;
 
-    swi = (s16)(arg0->unk_04 - 1);
+    swi = (s16)(arg0->unk_04.as_u16 - 1);
     if ((u32)swi >= 20) {
         goto done;
     }

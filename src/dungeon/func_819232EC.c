@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_800247B8_arg1.h"
 
 typedef struct {
     u8 bytes[12];
@@ -57,16 +58,8 @@ typedef struct S_80024AEC_4 {
     u16 unk_0A;
 } S_80024AEC_4;   /* temp_v1_2 in func_80024AEC */
 
-typedef struct S_80024AEC_5 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024AEC_5;   /* arg1 in func_80024AEC */
 
-void func_80024AEC(S_80024AEC_1 *arg0, S_80024AEC_5 *arg1) {
+void func_80024AEC(S_80024AEC_1 *arg0, Rec_func_800247B8_arg1 *arg1) {
     S_80024AEC_3 *temp_a3;
     void *temp_v0;
     S_80024AEC_0 *temp_v1;

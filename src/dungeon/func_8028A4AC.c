@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_8001CE44_arg0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *D_80016000[];
@@ -12,16 +13,12 @@ s32 func_800A6D30();                                /* extern */
 extern M2C_UNK D_8001F670;
 
 
-typedef struct S_8001D4AC_0 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8001D4AC_0;   /* arg0 in func_8001D4AC */
 
 typedef struct S_8001D4AC_1 {
     s32 unk_00;
 } S_8001D4AC_1;   /* &D_8001F670 in func_8001D4AC */
 
-void func_8001D4AC(S_8001D4AC_0 *arg0, s16 arg1) {
+void func_8001D4AC(Rec_func_8001CE44_arg0 *arg0, s16 arg1) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
     u32 temp_v1;
 

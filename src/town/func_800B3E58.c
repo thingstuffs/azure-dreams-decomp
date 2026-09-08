@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_800B15B8_arg0.h"
 
 
 
@@ -11,10 +12,6 @@ typedef s32 M2C_UNK;
 
 extern M2C_UNK func_8004E99C();
 
-typedef struct S_800B15B8_0 {
-    u8 pad_00[0xCC];
-    void * unk_CC;
-} S_800B15B8_0;   /* arg0 in func_800B15B8 */
 
 typedef struct S_800B15B8_1 {
     u8 pad_00[0x10];
@@ -27,7 +24,7 @@ typedef struct S_800B15B8_1 {
     s32 * unk_60;
 } S_800B15B8_1;   /* var_s0 in func_800B15B8 */
 
-void func_800B15B8(S_800B15B8_0 *arg0) {
+void func_800B15B8(Rec_func_800B15B8_arg0 *arg0) {
     register void *var_s0 ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
     s32 var_s1;
 
