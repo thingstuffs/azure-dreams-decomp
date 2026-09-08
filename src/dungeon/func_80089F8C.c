@@ -12,7 +12,6 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_80048A44();
-extern void func_8008F7DC(void) __attribute__((noreturn));
 M2C_UNK func_8009A66C();
 M2C_UNK func_8009F644();
 s32 func_800A44E0();
@@ -34,10 +33,7 @@ void func_8008F6EC(void *arg0, void *arg1, void *arg2, void *arg3) {
     var_s1 = 0;
     if (D_80081485 == 0x13) {
         var_s1 = (func_8009A66C(((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, arg2, arg3, 0x20) << 0x10) > 0;
-        ASM_TAILSLOT_PIN_TIED(var_s1);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        func_8008F7DC();
-    }
-    if ((func_800A44E0(((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v, ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v, ((Rec_D_800E3D7C *)arg3)->unk_88.as_s16, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16) << 0x10) == 0) {
+    } else if ((func_800A44E0(((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v, ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v, ((Rec_D_800E3D7C *)arg3)->unk_88.as_s16, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16) << 0x10) == 0) {
         temp_v1 = ((u16) ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 >> 8) & 0xE;
         if ((func_800A7234((s16) (((Rec_D_80082E80 *)arg2)->unk_24 + *(u16 *)(D_8006CCD8 + temp_v1)), (s16) (((Rec_D_80082E80 *)arg2)->unk_25 + *(u16 *)(D_8006CCE8 + temp_v1)), ((Rec_D_800E3D7C *)arg3)->unk_88.as_s16, &sp18, &sp1A, &sp1C) << 0x10) != 0) {
             do { var_s1 = 1; } while (0);

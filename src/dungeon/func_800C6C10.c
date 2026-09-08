@@ -11,7 +11,6 @@ extern void func_8009CE1C();
 extern s16 func_800B500C();
 extern s16 func_800A70E4();
 extern void func_800CCC20();
-extern void func_800CC46C();
 extern u8 D_800E3648[], D_800E3548[];
 extern u8 *D_800E3D7C[];
 extern u32 D_800814A0[3];
@@ -32,10 +31,9 @@ void func_800CC370(void *p)
     if (i >= 0) {
         if (D_800E3648[i * 4] == 7) {
             func_800CCC20(0, i);
-            func_800CC46C();
-            return;
+        } else {
+            U32(D_800E3648, i * 4) = 0;
         }
-        U32(D_800E3648, i * 4) = 0;
     }
     i = func_800A70E4(S16(p, 0), S16(p, 2), S16(p, 4));
     if (i >= 0) {
