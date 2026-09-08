@@ -2,7 +2,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 
-typedef struct S_8014EB4C_0 {
+typedef struct S_80172B4C_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
     s32 unk_90;
@@ -15,21 +15,21 @@ typedef struct S_8014EB4C_0 {
     union { s16 s; u16 u; } unk_9E;   /* accessed as both */
     u8 pad_A0[0x4];
     s32 unk_A4;
-} S_8014EB4C_0;   /* arg0 in func_8014EB4C */
+} S_80172B4C_0;   /* arg0 in func_80172B4C */
 
 
 
 
-typedef struct S_8014EB4C_4 {
+typedef struct S_80172B4C_4 {
     u8 pad_00[0x8];
     union { s16 s; u16 u; } unk_08;   /* accessed as both */
-} S_8014EB4C_4;   /* global_base in func_8014EB4C */
+} S_80172B4C_4;   /* global_base in func_80172B4C */
 
-typedef struct S_8014EB4C_5 {
+typedef struct S_80172B4C_5 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_8014EB4C_5;   /* map_base in func_8014EB4C */
+} S_80172B4C_5;   /* map_base in func_80172B4C */
 
 
 
@@ -45,30 +45,30 @@ extern s32 func_800AD9B4(void *, void *);
 extern u8 D_80082E80[];
 extern s16 D_80083228;
 extern s32 D_80083460;
-extern u8 D_8014D6F4[];
-extern u8 D_80151554[];
-extern u8 D_80151574[];
-extern u8 D_8015157C[];
+extern u8 D_801716F4[];
+extern u8 D_80175554[];
+extern u8 D_80175574[];
+extern u8 D_8017557C[];
 
-/* Updates hop motion and animations, then finishes the action when its timer expires. */
-void func_8014EB4C(void *action, void *motion, void *sprite, void *actor)
+/* Updates an actor's arcing move to its tile and finishes the action when its timer expires. */
+void func_80172B4C(void *action, void *motion, void *sprite, void *actor)
 {
     s32 state;
-    s32 move_frames;
+    s32 move_ticks;
     s32 target_x;
     s32 pos_x;
     s32 height_offset;
     s32 arc_offset;
     s32 pos_y;
-    s32 frame_count;
-    s32 action_timer;
+    s32 next_move_ticks;
+    s32 action_ticks;
     s32 actor_flags;
-    s32 direction_aux;
-    u8 *global_state;
+    s32 facing_aux;
+    u8 *action_globals;
     u8 *target_sprite;
-    u8 *anim_table;
+    u8 *idle_anims;
 
-    state = ((S_8014EB4C_0 *)action)->unk_9B;
+    state = ((S_80172B4C_0 *)action)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -88,96 +88,96 @@ void func_8014EB4C(void *action, void *motion, void *sprite, void *actor)
 
 state_zero:
 {
-    u8 *state_anims;
+    u8 *phase_anims;
 
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
         goto decrement_timer;
     }
-    state_anims = D_80151574;
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = state_anims;
+    phase_anims = D_80175574;
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = phase_anims;
     func_80047784(sprite,
-        state_anims[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        phase_anims[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
-    ((S_8014EB4C_0 *)action)->unk_98 |= 8;
+    ((S_80172B4C_0 *)action)->unk_98 |= 8;
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 &= 0xF7FFFFFF;
-    ((S_8014EB4C_0 *)action)->unk_9E.s = 5;
-    ((S_8014EB4C_0 *)action)->unk_A4 = 0;
-    ((S_8014EB4C_0 *)action)->unk_9B++;
+    ((S_80172B4C_0 *)action)->unk_9E.s = 5;
+    ((S_80172B4C_0 *)action)->unk_A4 = 0;
+    ((S_80172B4C_0 *)action)->unk_9B++;
 }
 
 state_one:
-    move_frames = ((S_8014EB4C_0 *)action)->unk_9E.s;
-    ((S_8014EB4C_0 *)action)->unk_90 -= ((S_8014EB4C_0 *)action)->unk_A4;
-    if (move_frames != 0) {
+    move_ticks = ((S_80172B4C_0 *)action)->unk_9E.s;
+    ((S_80172B4C_0 *)action)->unk_90 -= ((S_80172B4C_0 *)action)->unk_A4;
+    if (move_ticks != 0) {
         target_x = ((Rec_D_80082E80 *)sprite)->unk_24;
         pos_x = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v;
         target_x <<= 6;
         pos_x -= 0x20;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = ((target_x - pos_x) << 16) / move_frames;
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = ((target_x - pos_x) << 16) / move_ticks;
 
         pos_y = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v;
         pos_y -= 0x20;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
             (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - pos_y) << 16) /
-            ((S_8014EB4C_0 *)action)->unk_9E.s;
+            ((S_80172B4C_0 *)action)->unk_9E.s;
 
-        ((S_8014EB4C_0 *)action)->unk_A4 =
-            (-func_800644B8(((S_8014EB4C_0 *)action)->unk_9E.s * 0x199)) << 10;
+        ((S_80172B4C_0 *)action)->unk_A4 =
+            (-func_800644B8(((S_80172B4C_0 *)action)->unk_9E.s * 0x199)) << 10;
     }
 
-    height_offset = ((S_8014EB4C_0 *)action)->unk_90;
-    arc_offset = ((S_8014EB4C_0 *)action)->unk_A4;
-    frame_count = ((S_8014EB4C_0 *)action)->unk_9E.u;
+    height_offset = ((S_80172B4C_0 *)action)->unk_90;
+    arc_offset = ((S_80172B4C_0 *)action)->unk_A4;
+    next_move_ticks = ((S_80172B4C_0 *)action)->unk_9E.u;
     height_offset += arc_offset;
-    frame_count -= 1;
-    ((S_8014EB4C_0 *)action)->unk_9E.u = frame_count;
-    ((S_8014EB4C_0 *)action)->unk_90 = height_offset;
-    if ((frame_count << 16) >= 0) {
+    next_move_ticks -= 1;
+    ((S_80172B4C_0 *)action)->unk_9E.u = next_move_ticks;
+    ((S_80172B4C_0 *)action)->unk_90 = height_offset;
+    if ((next_move_ticks << 16) >= 0) {
         goto state_two;
     }
 
-    ((S_8014EB4C_0 *)action)->unk_90 = 0;
-    ((S_8014EB4C_0 *)action)->unk_98 &= 0xFFF7;
+    ((S_80172B4C_0 *)action)->unk_90 = 0;
+    ((S_80172B4C_0 *)action)->unk_98 &= 0xFFF7;
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 |= 0x08000000;
-    ((S_8014EB4C_0 *)action)->unk_9B++;
+    ((S_80172B4C_0 *)action)->unk_9B++;
 
 state_two:
 {
-    u8 *state_anims;
+    u8 *phase_anims;
 
     if (((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x08000000) {
-        ((S_8014EB4C_0 *)action)->unk_98 &= 0xFFF7;
+        ((S_80172B4C_0 *)action)->unk_98 &= 0xFFF7;
         ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        state_anims = D_8015157C;
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = state_anims;
+        phase_anims = D_8017557C;
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = phase_anims;
         func_80047784(sprite,
-            state_anims[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            phase_anims[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0xC00;
-        ((S_8014EB4C_0 *)action)->unk_9B++;
+        ((S_80172B4C_0 *)action)->unk_9B++;
         goto decrement_timer;
     }
     goto decrement_timer;
 }
 
 state_three:
-    anim_table = D_80151554;
-    if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != anim_table) {
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+    idle_anims = D_80175554;
+    if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != idle_anims) {
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = idle_anims;
         func_80047784(sprite,
-            anim_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            idle_anims[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
     }
 
 decrement_timer:
-    action_timer = ((S_8014EB4C_0 *)action)->unk_96 - 1;
-    ((S_8014EB4C_0 *)action)->unk_96 = action_timer;
-    if ((action_timer << 16) > 0) {
+    action_ticks = ((S_80172B4C_0 *)action)->unk_96 - 1;
+    ((S_80172B4C_0 *)action)->unk_96 = action_ticks;
+    if ((action_ticks << 16) > 0) {
         return;
     }
 
@@ -189,9 +189,9 @@ decrement_timer:
     func_800AD594(actor, 3);
     func_800A4ACC(actor);
 
-    global_state = (u8 *)&D_80083460;
-    if (((S_8014EB4C_4 *)global_state)->unk_08.s != 0) {
-        ((S_8014EB4C_4 *)global_state)->unk_08.u--;
+    action_globals = (u8 *)&D_80083460;
+    if (((S_80172B4C_4 *)action_globals)->unk_08.s != 0) {
+        ((S_80172B4C_4 *)action_globals)->unk_08.u--;
     }
 
     actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32;
@@ -211,13 +211,13 @@ decrement_timer:
     ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 = func_800A0818(
         ((Rec_D_80082E80 *)sprite)->unk_24,
         ((Rec_D_80082E80 *)sprite)->unk_25,
-        ((S_8014EB4C_5 *)target_sprite)->unk_24,
-        ((S_8014EB4C_5 *)target_sprite)->unk_25,
-        &direction_aux);
+        ((S_80172B4C_5 *)target_sprite)->unk_24,
+        ((S_80172B4C_5 *)target_sprite)->unk_25,
+        &facing_aux);
 
 collision_check:
     if ((func_800AD9B4(sprite, actor) << 16) > 0) {
-        ((S_8014EB4C_0 *)action)->unk_8C = D_8014D6F4;
+        ((S_80172B4C_0 *)action)->unk_8C = D_801716F4;
         func_800A9A04(actor);
     }
 }
