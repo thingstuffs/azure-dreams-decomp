@@ -5,8 +5,17 @@ Repo: https://github.com/thingstuffs/azure-dreams-decomp (private; renamed from 
 Dashboard: served on the LAN by `tools/dashboard_serve.sh` (port 8002; restart it if the box rebooted).
 
 Efficiency follow-up: [Astra and Claude usage advice](AGENT_EFFICIENCY_HANDOVER.md) records the
-2026-09-08 live-lane review and a proposed batching/context/verification pilot. Recommendations
-are not yet implemented; the standing campaign instructions below still apply.
+2026-09-08 live-lane review. **Pilot run the same day** (40 frozen rows ≤ 100 B, same model and
+effort, no landing until judged): the standing single-row prompt cost 45 s and 88k input tokens per
+row; readability-only single rows 32 s / 60k; readability-only batches of ten **8.3 s / 12.9k input
+/ 1.8k uncached / 175 output tokens per row**, with the same acceptance (39–40 of 40), the same
+readability outcome (m2c locals 70→10) and summaries of equal quality. Adopted: the ≤ 100 B band
+and the evidence re-serve run `--mode readability --batch 10`; larger rows keep the full prompt;
+usage now comes from `codex exec --json` events; completions are journalled as they arrive; a row
+that failed twice at the same text is not served a third time (`--retry-all` re-opens it); landing
+skips the duplicate scorer run. The pin-removal obligation for tiny rows lives in the tracked queue
+`work/pin_queue_tiny.txt` (PLAN.md L3 definition). Orchestration is now `tools/campaign.py` with
+`work/campaign_plan.json` (tiers → commits → quota back-off), PID in `work/campaign_controller.pid`.
 
 ## Where things stand
 

@@ -78,8 +78,10 @@ def body_for(row, source):
         p = LEDGER / "agents" / "out" / source.split(":", 1)[1] / row["container"] / name
     return p if p.exists() else None
 
-def promote_text(row, text, source, dry_run=False):
-    """Verify `text` for `row`; write src/ when exact. Returns the journal record."""
+def promote_text(row, text, source, dry_run=False, pre_verified_sha=None):
+    """Verify `text` for `row`; write src/ when exact. Returns the journal record.
+    pre_verified_sha: the harness already ran the scorer on exactly this text (same sha after normalisation): skip the
+    duplicate scorer run; the window gate (when the row needs one) still runs."""
     text = normalise(text)
     cp = clean_path(row)
     before = cp.read_text(errors="replace") if cp.exists() else raw_path(row).read_text(errors="replace")
@@ -87,9 +89,12 @@ def promote_text(row, text, source, dry_run=False):
            "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
     if text == before:
         return dict(rec, outcome="noop", out_sha=sha_text(text))
-    with tempfile.TemporaryDirectory() as td:
-        p = Path(td) / cp.name; p.write_text(text)
-        v = verify(row, p, include_root=INCLUDE)
+    if pre_verified_sha and sha_text(text) == pre_verified_sha:
+        v = {"exact": True, "status": "ok", "class": "match", "total": 0, "secs": 0, "err": None, "reused": "harness verify of the same text"}
+    else:
+        with tempfile.TemporaryDirectory() as td:
+            p = Path(td) / cp.name; p.write_text(text)
+            v = verify(row, p, include_root=INCLUDE)
     rec.update({"exact": v.get("exact"), "status": v.get("status"), "class": v.get("class"), "total": v.get("total"), "secs": v.get("secs"),
                 "err": (v.get("err") or "").replace(str(ROOT), "<repo>").replace(str(Path.home()), "<home>")[-300:] or None})
     if not v.get("exact"):

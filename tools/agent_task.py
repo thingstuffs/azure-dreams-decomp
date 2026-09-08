@@ -35,17 +35,56 @@ It prints JSON; "exact": true is required. You may run it as often as you like. 
 {src}
 """
 
+PROMPT_READABILITY = """You are cleaning up functions of a byte-exact PlayStation decompilation (Azure Dreams, GCC 2.7.2/2.8.1 era).
+Each file below already compiles to the retail bytes. Make it READABLE without changing the machine code, and do ONLY this:
+- rename m2c locals (temp_v0, arg0, sp10, var_a1 ...) to names that say what they hold; keep `func_XXXXXXXX`/`D_XXXXXXXX` symbols unchanged
+- add ONE line summary comment above each function (what it does), as a /* C comment */ (never //), no chatter, no line-by-line narration
+- local names in lowercase_snake_case (project style); short and specific; use the EVIDENCE block's names where one is given
+- do NOT touch pins (ASM_*), markers, extern declarations, structs, control flow or member names (`unk_XX` stay): those are handled by other lanes
+Verify each file with its own command below (it prints JSON; "exact": true is required). Write each result to its own path (overwrite).
+Do not explore the repository: everything you need is in this message. Reply with one line per file: DONE <id> <n_verify_runs> or GAVEUP <id> <reason>.
+"""
+
+def batch_prompt(items):
+    """items: [(row, out_path, verify_cmd, evidence_block, src)] -> one prompt for several small rows."""
+    parts = [PROMPT_READABILITY]
+    for row, out, vcmd, ev, src in items:
+        parts.append(f"=== ROW {row['id']}  (function {row['func']}, {row['size']} bytes)\nfile: {out}\nverify: {vcmd}\n{ev}--- source ---\n{src}\n")
+    return "\n".join(parts)
+
 def run_codex(model, effort, prompt, workdir, timeout):
     cmd = ["codex", "exec", "-C", str(workdir), "--dangerously-bypass-approvals-and-sandbox", "--skip-git-repo-check",
-           "-m", model, "-c", f'model_reasoning_effort="{effort}"', "-o", str(workdir / "last_message.txt"), "-"]
+           "-m", model, "-c", f'model_reasoning_effort="{effort}"', "-o", str(workdir / "last_message.txt"), "--json", "-"]
     t0 = time.time()
     try:
         r = subprocess.run(cmd, input=prompt, capture_output=True, text=True, timeout=timeout, cwd=workdir)
         rc = r.returncode; err = (r.stderr or "")[-400:]
     except subprocess.TimeoutExpired:
-        rc = -1; err = "timeout"
+        rc = -1; err = "timeout"; r = None
     secs = round(time.time() - t0, 1)
     usage = {}
+    # usage from the client's own event stream (codex exec --json): the last event carrying a usage/total_token_usage object
+    try:
+        for line in (r.stdout if r else "").splitlines():
+            try: j = json.loads(line)
+            except Exception: continue
+            s = json.dumps(j)
+            if "usage" in s or "total_token_usage" in s:
+                def dig(o):
+                    if isinstance(o, dict):
+                        if "input_tokens" in o and "output_tokens" in o: return o
+                        for v in o.values():
+                            f = dig(v)
+                            if f: return f
+                    return None
+                u = dig(j)
+                if u:
+                    usage = {k: v for k, v in u.items() if isinstance(v, int)}; usage["source"] = "json-events"
+                    tid = j.get("thread_id") or j.get("id") or (j.get("thread") or {}).get("id")
+                    if tid: usage["thread"] = str(tid)[:40]
+    except Exception as e:
+        usage = {"error": str(e)[:80]}
+    if usage: return rc, secs, usage, err
     # codex records the rollout under ~/.codex/sessions/YYYY/MM/DD/*.jsonl with the cwd and a
     # running total_token_usage; the work dir is unique per row so cwd identifies the session
     try:
@@ -63,6 +102,11 @@ def run_codex(model, effort, prompt, workdir, timeout):
         usage = {"error": str(e)[:80]}
     return rc, secs, usage, err
 
+OUT_TAG = ""   # journal/out suffix so parallel arms (pilots) keep their bodies apart
+MODE = "full"  # or "readability"
+BATCH = 0
+RETRY_ALL = False
+
 def one(row, model, effort, timeout):
     name = Path(row["c_path"]).name
     cp = ROOT / "src" / row["container"] / name
@@ -75,11 +119,14 @@ def one(row, model, effort, timeout):
         ev = prompt_block(row["id"])
     except Exception:
         ev = ""
-    prompt = PROMPT.format(verify=verify_cmd, out=out, name=name, src=src, evidence=ev)
+    if MODE == "readability":
+        prompt = batch_prompt([(row, out, verify_cmd, ev, src)])
+    else:
+        prompt = PROMPT.format(verify=verify_cmd, out=out, name=name, src=src, evidence=ev)
     rc, secs, usage, err = run_codex(model, effort, prompt, work, timeout)
     new = out.read_text(errors="replace") if out.exists() else src
     reply = (work / "last_message.txt").read_text(errors="replace").strip()[-200:] if (work / "last_message.txt").exists() else ""
-    rec = {"id": row["id"], "model": model, "effort": effort, "rc": rc, "secs": secs, "usage": usage, "reply": reply, "evidence": bool(ev),
+    rec = {"id": row["id"], "model": model, "effort": effort, "mode": MODE, "rc": rc, "secs": secs, "usage": usage, "reply": reply, "evidence": bool(ev),
            "changed": new != src, "in_sha": sha_text(src), "lines_in": src.count("\n"), "lines_out": new.count("\n")}
     quota = rc != 0 and any(k in (err or "").lower() for k in ("rate limit", "usage limit", "quota", "429", "too many requests"))
     if quota:
@@ -92,10 +139,10 @@ def one(row, model, effort, timeout):
         v = verify(row, out, include_root=INCLUDE)
         rec.update({"exact": v.get("exact"), "class": v.get("class"), "total": v.get("total")})
         if v.get("exact"):
-            keep = LEDGER / "agents" / "out" / f"{model}-{effort}" / row["container"]; keep.mkdir(parents=True, exist_ok=True); (keep / name).write_text(new)
+            keep = LEDGER / "agents" / "out" / (f"{model}-{effort}" + (f"-{OUT_TAG}" if OUT_TAG else "")) / row["container"]; keep.mkdir(parents=True, exist_ok=True); (keep / name).write_text(new)
             if COMMIT:   # land into src/ (the gated tree) and journal it: ledger/promotions.jsonl is what L3 reads
                 from promote import promote_text
-                prec = promote_text(row, new, f"agent:{model}-{effort}")
+                prec = promote_text(row, new, f"agent:{model}-{effort}" + (f"-{OUT_TAG}" if OUT_TAG else ""), pre_verified_sha=sha_text(new))
                 append_jsonl(LEDGER / "promotions.jsonl", prec); rec["landed"] = prec["outcome"] in ("landed", "noop")
             rec["outcome"] = "accepted"; rec["out_sha"] = sha_text(new)
             # readability proxies
@@ -115,6 +162,62 @@ def one(row, model, effort, timeout):
     shutil.rmtree(work, ignore_errors=True)
     return rec
 
+def finish_row(row, model, effort, src, out, work, rc, secs, usage, reply, err, batch_id=None, n_in_batch=1):
+    """Verify one row's output file and build its journal record (shared by one() and batch())."""
+    new = out.read_text(errors="replace") if out.exists() else src
+    rec = {"id": row["id"], "model": model, "effort": effort, "mode": MODE, "rc": rc, "secs": round(secs / n_in_batch, 1), "batch_secs": secs, "usage": usage, "reply": reply,
+           "batch": batch_id, "batch_n": n_in_batch, "changed": new != src, "in_sha": sha_text(src), "lines_in": src.count("\n"), "lines_out": new.count("\n")}
+    quota = rc != 0 and any(k in (err or "").lower() for k in ("rate limit", "usage limit", "quota", "429", "too many requests"))
+    if quota:
+        rec["outcome"] = "quota"; rec["err"] = (err or "")[-200:]; return rec
+    if new == src:
+        rec["outcome"] = "unchanged"; return rec
+    v = verify(row, out, include_root=INCLUDE)
+    rec.update({"exact": v.get("exact"), "class": v.get("class"), "total": v.get("total")})
+    if v.get("exact"):
+        name = Path(row["c_path"]).name
+        keep = LEDGER / "agents" / "out" / (f"{model}-{effort}" + (f"-{OUT_TAG}" if OUT_TAG else "")) / row["container"]; keep.mkdir(parents=True, exist_ok=True); (keep / name).write_text(new)
+        if COMMIT:
+            from promote import promote_text
+            prec = promote_text(row, new, f"agent:{model}-{effort}" + (f"-{OUT_TAG}" if OUT_TAG else ""), pre_verified_sha=sha_text(new))
+            append_jsonl(LEDGER / "promotions.jsonl", prec); rec["landed"] = prec["outcome"] in ("landed", "noop")
+        rec["outcome"] = "accepted"; rec["out_sha"] = sha_text(new)
+        rec["m2c_locals_left"] = len(set(re.findall(r"\b(temp_[a-z0-9_]+|arg[0-9]|sp[0-9A-F]{2,}|var_[a-z0-9_]+)\b", new)))
+        rec["m2c_locals_in"] = len(set(re.findall(r"\b(temp_[a-z0-9_]+|arg[0-9]|sp[0-9A-F]{2,}|var_[a-z0-9_]+)\b", src)))
+        rec["gotos_in"] = len(re.findall(r"\bgoto\b", src)); rec["gotos_out"] = len(re.findall(r"\bgoto\b", new))
+        rec["pins_in"] = len(re.findall(r"\bASM_[A-Z0-9_]+\(", src)); rec["pins_out"] = len(re.findall(r"\bASM_[A-Z0-9_]+\(", new))
+        rec["summary"] = bool(re.search(r"^/\*.*\*/\s*\n\s*(?:[A-Za-z_][\w\s\*]*?)\bfunc_", new, re.M))
+    else:
+        rec["outcome"] = "rejected"
+    return rec
+
+def batch(rows_, model, effort, timeout):
+    """One codex call for several small rows (readability-only packet); one journal record per row."""
+    work = Path(tempfile.mkdtemp(prefix="agentb_", dir=str(ROOT / "work")))
+    items = []
+    for row in rows_:
+        name = Path(row["c_path"]).name
+        cp = ROOT / "src" / row["container"] / name
+        src = (cp if cp.exists() else raw_path(row)).read_text(errors="replace")
+        out = work / name; out.write_text(src)
+        vcmd = f"python3 {ROOT}/tools/verify.py {row['id']} {out} --include-root {INCLUDE}"
+        try:
+            from evidence import prompt_block; ev = prompt_block(row["id"])
+        except Exception:
+            ev = ""
+        items.append((row, out, vcmd, ev, src))
+    prompt = batch_prompt(items)
+    rc, secs, usage, err = run_codex(model, effort, prompt, work, timeout)
+    reply = (work / "last_message.txt").read_text(errors="replace").strip() if (work / "last_message.txt").exists() else ""
+    bid = work.name
+    recs = []
+    for row, out, vcmd, ev, src in items:
+        line = next((l for l in reply.splitlines() if row["id"] in l), "")[-160:]
+        rec = finish_row(row, model, effort, src, out, work, rc, secs, usage, line, err, batch_id=bid, n_in_batch=len(items))
+        rec["evidence"] = bool(ev); recs.append(rec)
+    shutil.rmtree(work, ignore_errors=True)
+    return recs
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True); ap.add_argument("--effort", default="high"); ap.add_argument("--rows")
@@ -126,8 +229,12 @@ def main():
     ap.add_argument("--workers", type=int, default=1); ap.add_argument("--limit", type=int)
     ap.add_argument("--container")
     ap.add_argument("--tag", default="", help="journal name suffix")
+    ap.add_argument("--mode", default="full", choices=["full", "readability"], help="full = the standing prompt (names + summary + removal attempts + gate step); readability = names + summary only, prepared packet, no exploration")
+    ap.add_argument("--batch", type=int, default=0, help="rows per codex call (readability mode): related small rows share one session")
+    ap.add_argument("--batch-bytes", type=int, default=6000, help="max summed source bytes per batch")
+    ap.add_argument("--retry-all", action="store_true", help="serve rows again even after two failed attempts at the same text")
     a = ap.parse_args()
-    global COMMIT; COMMIT = a.commit
+    global COMMIT, OUT_TAG, MODE, BATCH, RETRY_ALL; COMMIT = a.commit; OUT_TAG = a.tag; MODE = a.mode; BATCH = a.batch if a.mode == "readability" else 0; RETRY_ALL = a.retry_all
     lv = {x["id"]: x for x in read_jsonl(LEDGER / "levels.jsonl")}
     rs = [r for r in rows() if lv.get(r["id"], {}).get("level", -1) >= 1 and a.min_size <= r["size"] <= a.max_size]
     if a.with_gotos:
@@ -149,20 +256,57 @@ def main():
         done = {j["id"] for j in read_jsonl(journal) if j.get("outcome") == "unchanged" or (j.get("outcome") == "accepted" and j["id"] in landed)}
         rs = [r for r in rs if r["id"] not in done]
         rs.sort(key=lambda r: r["size"])
+    if not RETRY_ALL:
+        # a row that failed twice on the SAME text gets no third identical attempt (new text or --retry-all re-opens it)
+        fails = {}
+        for j in read_jsonl(journal):
+            if j.get("outcome") in ("rejected", "build-failed", "gate-mismatch") and j.get("in_sha"): fails[(j["id"], j["in_sha"])] = fails.get((j["id"], j["in_sha"]), 0) + 1
+        def cur_sha(r):
+            cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+            return sha_text((cp if cp.exists() else raw_path(r)).read_text(errors="replace"))
+        skipped = [r for r in rs if fails.get((r["id"], cur_sha(r)), 0) >= 2]
+        if skipped:
+            print(f"{len(skipped)} rows skipped: two failed attempts at their current text (use --retry-all)", flush=True)
+            rs = [r for r in rs if r not in skipped]
     if a.limit: rs = rs[:a.limit]
-    print(f"{len(rs)} rows, {a.workers} workers, model {a.model} {a.effort}", flush=True)
-    from concurrent.futures import ThreadPoolExecutor
-    def work(r):
-        rec = one(r, a.model, a.effort, a.timeout); rec["at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-        return rec
-    quota_hits = 0
+    # batches: same container, adjacent in file order, bounded by rows and summed source bytes
+    units = []
+    if BATCH > 1:
+        cur = []
+        def size_of(r):
+            cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name
+            return (cp if cp.exists() else raw_path(r)).stat().st_size
+        for r in sorted(rs, key=lambda r: (r["container"], r.get("foff") or 0)):
+            if cur and (len(cur) >= BATCH or cur[0]["container"] != r["container"] or sum(size_of(x) for x in cur) + size_of(r) > a.batch_bytes):
+                units.append(cur); cur = []
+            cur.append(r)
+        if cur: units.append(cur)
+    else:
+        units = [[r] for r in rs]
+    print(f"{len(rs)} rows in {len(units)} unit(s), {a.workers} workers, model {a.model} {a.effort}, mode {MODE}" + (f", batch {BATCH}" if BATCH > 1 else ""), flush=True)
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    def work(unit):
+        at = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        recs = batch(unit, a.model, a.effort, a.timeout) if len(unit) > 1 else [one(unit[0], a.model, a.effort, a.timeout)]
+        for rec in recs: rec["at"] = at
+        return recs
+    quota_hits = 0; stop = False
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
-        for rec in ex.map(work, rs):
-            append_jsonl(journal, rec); print(json.dumps({k: rec.get(k) for k in ("id", "outcome", "secs", "class", "total", "m2c_locals_in", "m2c_locals_left", "gotos_in", "gotos_out", "reply")}), flush=True)
-            quota_hits = quota_hits + 1 if rec["outcome"] == "quota" else 0
-            if quota_hits >= 3:
-                print("QUOTA: three consecutive rate-limit failures; stopping (relaunch with --all after the reset)", flush=True)
-                ex.shutdown(wait=False, cancel_futures=True); break
+        pending = set(); it = iter(units)
+        while not stop and (pending or True):
+            while len(pending) < a.workers and not stop:
+                u = next(it, None)
+                if u is None: break
+                pending.add(ex.submit(work, u))
+            if not pending: break
+            done_f = next(as_completed(pending)); pending.discard(done_f)
+            for rec in done_f.result():
+                append_jsonl(journal, rec); print(json.dumps({k: rec.get(k) for k in ("id", "outcome", "secs", "class", "total", "m2c_locals_in", "m2c_locals_left", "gotos_in", "gotos_out", "reply")}), flush=True)
+                quota_hits = quota_hits + 1 if rec["outcome"] == "quota" else 0
+                if quota_hits >= 3:
+                    print("QUOTA: three consecutive rate-limit failures; stopping (relaunch with --all after the reset)", flush=True)
+                    stop = True
+        if stop: ex.shutdown(wait=False, cancel_futures=True)
 
 if __name__ == "__main__":
     main()

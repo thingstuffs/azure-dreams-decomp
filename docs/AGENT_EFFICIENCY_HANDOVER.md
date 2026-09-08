@@ -4,6 +4,12 @@ Written 2026-09-08 after reviewing the campaign harness, journals, documentation
 Astra lane. This is a proposed improvement programme, not an implemented change or a measured
 speedup. The review did not interrupt the campaign or modify its sources, prompts, or gates.
 
+> **Outcome (same day, maintainer):** the readability pilot below was run on 40 frozen rows and
+> measured (numbers in `HANDOVER.md`, top). Recommendations 1, 2 (for the ≤ 100 B band), 3 (the
+> duplicate scorer run) and 5 (JSON usage events, arrival-order journalling, attempt limits, a
+> controller: `tools/campaign.py`) are implemented in `tools/agent_task.py` / `tools/promote.py`.
+> The dedicated worker profile and the failed-hypothesis cache wait for the shape lane.
+
 The main opportunity is to reduce repeated context discovery and orchestration per function.
 Keep the existing strategy: machines apply reusable transforms; agents supply naming judgement
 and solve the residue; independent compilation and the applicable retail gates prove changes.
