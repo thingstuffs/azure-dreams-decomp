@@ -30,7 +30,8 @@ def commit(msg):
     if r.returncode == 0:
         subprocess.run(["git", "push", "-q"], cwd=ROOT, capture_output=True, text=True); log("committed: " + msg[:80])
     else:
-        log("nothing to commit" if "nothing to commit" in (r.stdout + r.stderr) else "commit failed: " + (r.stdout + r.stderr)[-200:])
+        out = r.stdout + r.stderr
+        log("nothing to commit" if ("nothing to commit" in out or "nothing added to commit" in out) else "commit failed: " + out[-200:])
 
 def launch(plan, tier, n, dry_run):
     cmd = [sys.executable, str(ROOT / "tools/agent_task.py"), "--model", plan["model"], "--effort", plan.get("effort", "high"),
