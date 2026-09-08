@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_801248C0();                            /* extern */
+/* extern */
 
 typedef struct S_80124F6C_0 {
     u8 pad_00[0x4];
@@ -11,9 +11,11 @@ typedef struct S_80124F6C_0 {
     s8 unk_0A;
 } S_80124F6C_0;   /* arg0 in func_80124F6C */
 
+
+M2C_UNK func_801248C0(S_80124F6C_0 *);
 void func_80124F6C(S_80124F6C_0 *arg0) {
     arg0->unk_0A = 8;
     arg0->unk_04 = 0;
     arg0->unk_06 = 0;
-    func_801248C0();
+    func_801248C0(arg0);
 }

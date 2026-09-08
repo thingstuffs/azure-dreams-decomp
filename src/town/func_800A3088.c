@@ -16,7 +16,7 @@ typedef struct {
     s16 unk6;
 } S800A3088Arg2;
 
-extern s32 func_800A0668();
+extern s32 func_800A0668(S800A3088Arg0 *);
 extern void func_800A083C(S800A3088Arg0 *arg0);
 extern s32 func_800A0F10(S800A3088Arg0 *arg0, s32 arg1);
 extern void func_8009A674(s32 arg0, s32 arg1, s32 arg2);
@@ -27,7 +27,7 @@ void func_800A07E8(S800A3088Arg0 *arg0, s32 arg1, S800A3088Arg2 *arg2) {
         register S800A3088Arg0 *callArg ASM_REG("$4");   /* MATCH pin: retail delay-slot contents depend on it */
         s32 result;
 
-        result = func_800A0668();
+        result = func_800A0668(arg0);
         callArg = arg0;
         if (result == 0) {
             func_800A083C(callArg);

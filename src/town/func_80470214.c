@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_80017E98(void);
+extern s32 func_80017E98(void *, s32);
 extern s32 func_80019A04(void *, void *, s32);
 extern s32 func_80019ABC(void *, void *, void *, s32);
 extern s32 func_8001A510(s16);
@@ -19,7 +19,7 @@ s32 func_80017214(void *arg0, s32 arg1, s32 arg2)
     s32 result;
     s32 ret;
 
-    if (func_80017E98() != 0) {
+    if (func_80017E98(arg0, arg1) != 0) {
         s32 page;
 
         page = (s32)0x80020000;

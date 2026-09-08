@@ -51,12 +51,12 @@ typedef struct S_800270E0_8 {
 
 
 M2C_UNK func_80027018();                      /* extern */
-M2C_UNK func_80027054();                            /* extern */
+M2C_UNK func_80027054(void *);                            /* extern */
 M2C_UNK func_80027080();       /* extern */
 
 
 void func_800270E0(void *arg0) {
-    func_80027054();
+    func_80027054(arg0);
     func_80027080(arg0 + 4, 0x36, 0x10);
     func_80027018(arg0);
     ((S_800270E0_5 *)(((S_800270E0_1 *)(((Rec_func_80027018_arg0 *)arg0)->unk_FC.as_pv))->unk_04))->unk_08 = 0x8E;

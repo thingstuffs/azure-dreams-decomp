@@ -24,7 +24,7 @@ extern s32 func_800AA924(void *, void *, void *, void *);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
 
-extern void func_80171A18(void);
+extern void func_80171A18(void *, void *, void *, void *);
 extern void func_80171C34(void *, void *, void *, void *);
 extern s32 func_8017237C(void *, void *, void *, void *);
 extern void func_80172548(void *, void *, void *, void *);
@@ -104,7 +104,7 @@ void func_801714D4(void *arg0, void *arg1, void *arg2, void *arg3)
 
     if (D_80083462 & 0x1000) {
         ((S_801714D4_0 *)arg0)->unk_9A = 14;
-        func_80171A18();
+        func_80171A18(arg0, arg1, arg2, arg3);
         return;
     }
 

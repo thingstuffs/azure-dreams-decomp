@@ -21,6 +21,52 @@ def audit_index():
         idx[key] = dict(c)
     return idx
 
+DECL_LINE = re.compile(r"^[ \t]*(?!(?:return|goto|if|else|while|for|switch|case|do)\b)(?:extern[ \t]+)?[A-Za-z_][A-Za-z0-9_ \t\*]*\b(?P<name>func_[0-9A-F]{8}|[A-Za-z_][A-Za-z0-9_]*)[ \t]*\([^;{]*\)[ \t]*(?:__attribute__[^;]*)?;[ \t]*$")   # a type-prefixed prototype, never a `return f();` statement
+
+def live_sites(text, sites):
+    """The baseline audit (config/decomp_audit_baseline.json) grandfathers every fidelity site as it
+    was at the pin.  A site is LIVE only while the current text still carries its spelling: a
+    LABEL_AS_CALL site while `target(` is still called (declarations do not count), a
+    PASSTHRU_NO_ARGS site while an empty-paren call of the target remains.  The other classes are
+    byte-derived and never block; they are kept as recorded."""
+    calls = "\n".join(l for l in text.splitlines() if not DECL_LINE.match(l) and not l.lstrip().startswith("#"))
+    # `extern T name_tail(void) asm("func_X");` aliases: a call of the alias is a call of func_X
+    aliases = {}
+    for m in re.finditer(r"\b([A-Za-z_][A-Za-z0-9_]*)\s*\([^)]*\)\s*(?:__attribute__\(\([^)]*\)\)\s*)?(?:__asm__|asm)\s*\(\s*\"(func_[0-9A-F]{8})\"\s*\)", text):
+        aliases.setdefault(m.group(2), set()).add(m.group(1))
+    def called(tgt, empty=False):
+        names = [tgt] + sorted(aliases.get(tgt, ()))
+        pat = r"(?<![A-Za-z0-9_])(?:" + "|".join(re.escape(n) for n in names) + r")\s*\(" + (r"\s*\)" if empty else "")
+        return re.search(pat, calls) is not None
+    out = []
+    for s in sites:
+        cls, tgt = (s.split("|") + ["", ""])[:2]
+        if cls == "LABEL_AS_CALL":
+            if called(tgt): out.append(s)
+        elif cls == "PASSTHRU_NO_ARGS":
+            if called(tgt, empty=True): out.append(s)
+        else:
+            out.append(s)
+    return out
+
+_SITES = None
+def audit_sites():
+    """{container/func: [site strings]} straight from the baseline."""
+    global _SITES
+    if _SITES is None:
+        d = json.load(open(ROOT / "config/decomp_audit_baseline.json"))
+        _SITES = {key: list(v.get("sites", [])) for key, v in d.get("sites", {}).items()}
+    return _SITES
+
+def live_audit(row, text):
+    """{class: n} of the row's sites still present in `text` (the current clean file)."""
+    keys = [f"{row['container']}/{f}" for f in (row.get("defs") or [row["func"]])]
+    c = collections.Counter()
+    for k in keys:
+        for s in live_sites(text, audit_sites().get(k, [])):
+            c[s.split("|")[0]] += 1
+    return dict(c)
+
 def census_one(row, audit):
     p = raw_path(row)
     if not p.exists():
@@ -35,6 +81,8 @@ def census_one(row, audit):
     aud = collections.Counter()
     for k in keys:
         aud.update(audit.get(k, {}))
+    cp = ROOT / "src" / row["container"] / Path(row["c_path"]).name
+    live = live_audit(row, cp.read_text(errors="replace") if cp.exists() else text)
     rec = {
         "id": row["id"], "lines": text.count("\n"), "chars": len(text),
         "boiler": "This header contains macros emitted by m2c" in text or "typedef float f32;" in text,
@@ -51,7 +99,7 @@ def census_one(row, audit):
         "inline_asm": len(re.findall(r"__asm__|\basm\s*\(", text)), "include_asm": "INCLUDE_ASM(" in text,
         "noreturn": text.count("noreturn"), "register_decls": len(re.findall(r"\bregister\b", text)),
         "volatile": text.count("volatile"), "switch": len(re.findall(r"\bswitch\s*\(", text)),
-        "audit": dict(aud), "ndefs": len(defs),
+        "audit": live, "audit_pin": dict(aud), "ndefs": len(defs),
     }
     return rec
 

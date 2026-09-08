@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-08T00:00:59Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-08T00:28:36Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -28,8 +28,8 @@ Baseline NOT exact: 0 rows
 | goto | 1545 | 1,318,412 | 51.5% | 1545 | 1,318,412 | 51.5% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 317 | 437,288 | 17.1% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 362 | 256,260 | 10.0% |
-| fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 1489 | 680,132 | 26.6% |
-| any fidelity site | 2655 | 1,286,668 | 50.3% | 2655 | 1,286,668 | 50.3% |
+| fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 1363 | 643,104 | 25.1% |
+| any fidelity site | 2655 | 1,286,668 | 50.3% | 2541 | 1,256,708 | 49.1% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3182 | 1,613,264 | 63.1% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 155,088 | 6.1% | 1243 | 193,136 | 7.5% |
 
@@ -40,9 +40,9 @@ Pin sites: 25,878 total; REG 12,818, KEEP 6,889, KEEP_NV 2,501, SCHED_BARRIER 1,
 | level | bytes | % |
 |---|---:|---:|
 | L0 | 2,558,124 | 100.0% |
-| L1 | 1,870,772 | 73.1% |
-| L2 | 1,775,756 | 69.4% |
-| L3 | 954,656 | 37.3% |
+| L1 | 1,907,800 | 74.6% |
+| L2 | 1,808,376 | 70.7% |
+| L3 | 1,084,380 | 42.4% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 

@@ -5,7 +5,7 @@ typedef struct {
     s16 unk_18;
 } UnkStruct;
 
-extern void func_800160C0(void);
+extern void func_800160C0(UnkStruct *);
 extern void func_80018A64(s32);
 extern void func_80018ADC(s32);
 extern s32 func_80018B5C(s32);
@@ -14,7 +14,7 @@ extern s16 D_80018CFA[5];
 s32 func_80016650(UnkStruct *arg0) {
     s32 status;
 
-    func_800160C0();
+    func_800160C0(arg0);
     if (func_80018B5C(arg0->unk_18) != 0) {
         status = func_80018B5C(D_80018CFA[0]);
     } else {

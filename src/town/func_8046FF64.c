@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_80017E98(void);
+s32 func_80017E98(void *, s32);
 s32 func_80019A04();
 s32 func_80019ABC();
 s32 func_8001A510();
@@ -16,7 +16,7 @@ s32 func_80016F64(void *arg0, s32 arg1, s32 arg2) {
     s32 temp_s1;
     s32 var_v0;
 
-    var_v0 = func_80017E98();
+    var_v0 = func_80017E98(arg0, arg1);
     var_s0 = (s32 *)0x80020000;
     if (var_v0 != 0) {
         if (func_8001A510(*(s16 *)((s8 *)arg0 + 0x18)) == 0) {

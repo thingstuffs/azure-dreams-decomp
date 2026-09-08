@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_8001628C();    /* extern */
-s32 func_80017E98();                                /* extern */
+s32 func_80017E98(s32, M2C_UNK);                                /* extern */
 s32 func_80019A04();      /* extern */
 s32 func_80019ABC(); /* extern */
 s32 func_8001A510();                             /* extern */
@@ -21,7 +21,7 @@ s32 func_8001747C(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
     s32 temp_s1;
     s32 var_v0;
 
-    if (func_80017E98() != 0) {
+    if (func_80017E98(arg0, arg1) != 0) {
         page_v0 = (u8 *)0x80020000;
         ASM_KEEP(page_v0);   /* MATCH pin: load-bearing for the whole function shape */
         return (s32)(page_v0 - 0x49C4);

@@ -73,7 +73,7 @@ typedef struct S_80023600_12 {
 
 M2C_UNK func_800233D0();                      /* extern */
 M2C_UNK func_80023470();       /* extern */
-M2C_UNK func_8002352C();                            /* extern */
+M2C_UNK func_8002352C(void *);                            /* extern */
 M2C_UNK func_800235A0();    /* extern */
 
 
@@ -89,7 +89,7 @@ void func_80023600(void *arg0) {
 
     ((Rec_func_800233D0_arg0 *)arg0)->unk_80 = 1;
     ((Rec_func_800233D0_arg0 *)arg0)->unk_84 = 1;
-    func_8002352C();
+    func_8002352C(arg0);
     func_800235A0(arg0 + 4, 0x36, 0x10);
     func_800233D0(arg0);
     var_a3 = 0;

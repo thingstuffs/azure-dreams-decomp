@@ -6,7 +6,7 @@ extern u8 D_8001B14C[];
 extern u8 D_8001C018[];
 
 extern u8 *func_80016E48(u32);
-extern u8 *func_80017C08(void);
+extern u8 *func_80017C08(s32);
 
 u8 *func_800180C8(s32 arg0, s32 arg1, s32 arg2)
 {
@@ -34,7 +34,7 @@ u8 *func_800180C8(s32 arg0, s32 arg1, s32 arg2)
     goto *target;
 
 case_12:
-    return func_80017C08();
+    return func_80017C08(arg0);
 
 case_19:
     return D_8001C018;

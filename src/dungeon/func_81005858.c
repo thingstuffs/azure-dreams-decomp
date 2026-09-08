@@ -76,7 +76,7 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, DungeonCallback);
-extern void func_801715F0(void);
+extern void func_801715F0(void *, void *, void *, void *);
 extern void func_80171848(void *, void *, void *, void *);
 extern s32 func_80171FF4(void *, void *, void *, void *);
 extern void func_801721B8(void *, void *, void *, void *);
@@ -106,7 +106,7 @@ void func_80171058(void *arg0, void *arg1, void *arg2, void *arg3)
   if (initial_flags & 0x1000)
   {
     *((u8 *) (((u8 *) arg0) + 0x9A)) = 0xE;
-    func_801715F0();
+    func_801715F0(arg0, arg1, arg2, arg3);
     goto row_epilogue;
   }
   if ((*((u8 *) (((u8 *) arg3) + 0x25))) == 0)

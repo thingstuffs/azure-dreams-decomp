@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800AC82C(void);
+extern s32 func_800AC82C(void *, void *, void *, void *);
 extern s32 func_800AD9B4(void *, void *);
 extern void func_80047784(void *, u8, s32);
 
@@ -22,7 +22,7 @@ void func_80173720(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *call_obj;
     s32 index;
 
-    if (func_800AC82C() != 0) {
+    if (func_800AC82C(arg0, arg1, arg2, arg3) != 0) {
         if ((func_800AD9B4(obj2, obj3) << 0x10) > 0) {
             if (*(u8 *)((u8 *)obj0 + 0xA7) != 0) {
                 *(void **)((u8 *)obj0 + 0x8C) = D_80173B98;

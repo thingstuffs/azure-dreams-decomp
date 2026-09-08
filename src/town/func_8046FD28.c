@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 s32 func_8001628C();           /* extern */
-s32 func_80017E98();                                /* extern */
+s32 func_80017E98(s32, M2C_UNK);                                /* extern */
 s32 func_80019A04();         /* extern */
 s32 func_80019ABC(); /* extern */
 s32 func_8001A510();                         /* extern */
@@ -14,7 +14,7 @@ extern M2C_UNK D_8001CDF2;
 s32 func_80016D28(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
     s32 var_s1;
 
-    if (func_80017E98() != 0) {
+    if (func_80017E98(arg0, arg1) != 0) {
         s32 page;
 
         page = (s32) 0x80020000;

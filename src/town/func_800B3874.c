@@ -27,7 +27,7 @@ M2C_UNK func_800B0D7C();                      /* extern */
 s32 func_800B0F30();                             /* extern */
 s32 func_800B0F94();                             /* extern */
 M2C_UNK func_800B10D4();                            /* extern */
-M2C_UNK func_800B15B8();                            /* extern */
+M2C_UNK func_800B15B8(void *);                            /* extern */
 extern M2C_UNK D_800D1600;
 
 typedef struct S_800B0FD4_0 {
@@ -59,7 +59,7 @@ void func_800B0FD4(void *arg0) {
     s32 var_s4;
     S_800B0FD4_1 *temp_v0;
 
-    func_800B15B8();
+    func_800B15B8(arg0);
     var_s4 = 0;
     temp_v1 = ctx->unk_10;
     var_s2 = 0;

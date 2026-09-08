@@ -7,7 +7,9 @@ typedef struct S_801257C8_0 {
     s8 unk_0A;
 } S_801257C8_0;   /* arg0 in func_801257C8 */
 
+
+extern void func_80124188(S_801257C8_0 *);
 void func_801257C8(S_801257C8_0 *arg0) {
-    func_80124188();
+    func_80124188(arg0);
     arg0->unk_0A = 1;
 }

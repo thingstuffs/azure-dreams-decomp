@@ -36,7 +36,7 @@ def main():
                 "computed_goto": len(_re.findall(r"\bgoto\s*\*", t)), "inline_asm": len(_re.findall(r"__asm__|\basm\s*\(", t)),
                 "m2c_locals": len(set(_re.findall(r"\b(temp_[a-z0-9_]+|arg[0-9]|sp[0-9A-F]{2,}|var_[a-z0-9_]+|phi_[a-z0-9_]+)\b", t))),
                 "n_local_structs": len(set(_re.findall(r"\b((?:S_|Struct|Func)[0-9A-F]{7,8}[A-Za-z0-9_]*)\b", t))),
-                "audit": cen.get(r["id"], {}).get("audit", {})}
+                "audit": cen.get(r["id"], {}).get("audit", {})}   # live: sites still spelled in the current text
     curc = {r["id"]: cur_facts(r) for r in rs}
     defs = [("m2c boilerplate block", lambda c: c["boiler"]), ("M2C_FIELD raw offsets", lambda c: c["m2c_field"] > 0), ("m2c local names", lambda c: c["m2c_locals"] > 0),
             ("ASM_ pins", lambda c: c["pin_total"] > 0), ("goto", lambda c: c["gotos"] > 0), ("computed-goto jump table", lambda c: c["computed_goto"] > 0),
@@ -44,7 +44,7 @@ def main():
             ("any fidelity site", lambda c: bool(c["audit"])), ("local address-named struct", lambda c: c["n_local_structs"] > 0),
             ("clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names)", lambda c: not c["boiler"] and c["m2c_field"] == 0 and c["pin_total"] == 0 and c["gotos"] == 0 and c["m2c_locals"] == 0)]
     for name, f in defs:
-        sel = [by[i] for i, c in cen.items() if not c.get("missing") and f(c)]
+        sel = [by[i] for i, c in cen.items() if not c.get("missing") and f(dict(c, audit=c.get("audit_pin", c.get("audit", {}))))]   # pin column: the audit as it was at the pin
         b = sum(r["size"] for r in sel)
         sel2 = [by[i] for i, c in curc.items() if c and f(c)]
         b2 = sum(r["size"] for r in sel2)

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8008BF0C(void);
+extern void func_8008BF0C(void **);
 
 void func_8008BFB0(void **arg0) {
     register void *record ASM_REG("$3");   /* MATCH pin: load-bearing for the whole function shape */
@@ -16,7 +16,7 @@ void func_8008BFB0(void **arg0) {
     record = *arg0;
     if (*(s16 *)((u8 *)record + 0xA) >= 0x801) {
         *(u16 *)((u8 *)record + 0xA) = 0x800;
-        func_8008BF0C();
+        func_8008BF0C(arg0);
     }
 }
 
