@@ -18,10 +18,10 @@ typedef struct S_800AF96C_0 {
 } S_800AF96C_0;   /* arg0 in func_800AF96C; pointer addresses record offset 0x10 */
 
 
-s32 func_800AF8B0();                                /* extern */
+s32 func_800AF8B0(void *);                                /* extern */
 
 void func_800AF96C(void *arg0) {
-    ((S_800AF96C_2 *)(((S_800AF96C_1 *)arg0)->unk_00))->unk_04 = func_800AF8B0();
+    ((S_800AF96C_2 *)(((S_800AF96C_1 *)arg0)->unk_00))->unk_04 = func_800AF8B0(arg0);
     if (((S_800AF96C_2 *)(((S_800AF96C_1 *)arg0)->unk_00))->unk_04 != 0) {
         ((S_800AF96C_0 *)((u8 *)arg0 - 0x10))->unk_00 = (s32) ((S_800AF96C_0 *)((u8 *)arg0 - 0x10))->unk_14;
     }

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_800AB378(void);
+s32 func_800AB378(void *, s32, s32, s32);
 s32 func_800AD9B4(s32, s32);
 extern u8 D_80170F20;
 extern u8 D_80173B98;
@@ -19,7 +19,7 @@ void func_80172538(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 call_arg1 = arg3;
     void *value;
 
-    if ((func_800AB378() != 0) &&
+    if ((func_800AB378(arg0, arg1, arg2, arg3) != 0) &&
         ((func_800AD9B4(call_arg0, call_arg1) << 0x10) > 0)) {
         if (object->unk_A7 != 0) {
             value = &D_80173B98;

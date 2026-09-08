@@ -28,7 +28,7 @@ typedef struct TownObject {
 } TownObject;
 
 extern u8 func_80123200(u32);
-extern void func_80123A60(void);
+extern void func_80123A60(TownObject *);
 
 extern void *D_80126988[4];
 extern void *D_80126998[4];
@@ -57,7 +57,7 @@ void func_80124188(TownObject *arg0)
     s32 clear;
     SpriteFields *source;
 
-    func_80123A60();
+    func_80123A60(arg0);
     *obj->town->slots[28] = D_80127E4C;
     *obj->town->slots[29] = D_80127F48;
     *obj->town->slots[30] = D_80126988[obj->digit];

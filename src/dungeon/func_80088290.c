@@ -18,7 +18,6 @@ extern s16 D_80083228[5];
 extern s16 D_800814E8;
 extern S_80083120 D_80083120[8];
 
-extern void func_80094E34(void);
 extern s16 func_80042900(void *, s32);
 extern void func_80048A44(void *, u8, s32, s32);
 extern s16 func_800A4474(u8, u8);
@@ -35,6 +34,8 @@ typedef struct S_8008D9F0_0 {
 
 
 
+
+extern void func_80094E34(S_8008D9F0_0 *);
 void func_8008D9F0(S_8008D9F0_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
     s16 temp_v0;
     s16 temp_v0_2;
@@ -42,7 +43,7 @@ void func_8008D9F0(S_8008D9F0_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2, Rec_D_800
     arg0->unk_9A = 0x25;
     arg0->unk_9B = 0;
     arg0->unk_8C = 0;
-    func_80094E34();
+    func_80094E34(arg0);
     if (func_80042900(arg3, 0xA) == 0) {
         arg2->unk_2C.as_pu8 = D_800DCFB0;
         func_80048A44(arg2, D_800DCFB0[((s32)(D_80083228[0] + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7], 0, 1);

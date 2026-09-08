@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800AAE30(void);
+extern void func_800AAE30(void *, s32, s32 *);
 extern s32 D_800834B8;
 extern u8 D_800AA5F8[];
 extern s32 *D_800D0B14;
@@ -18,7 +18,7 @@ void func_800AAD3C(void *arg0, s32 arg1, s32 *arg2) {
     }
     
     if (D_800834B8 != (s32)D_800AA5F8) {
-        func_800AAE30();
+        func_800AAE30(arg0, arg1, arg2);
     }
 }
 

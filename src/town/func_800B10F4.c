@@ -2,7 +2,7 @@
 
 #define F(e, t, o) (*(t *)((s8 *)(e) + (o)))
 
-extern void func_800AE734(void);
+extern void func_800AE734(void *);
 
 void func_800AE854(void *arg0) {
     s32 a0;
@@ -18,7 +18,7 @@ void func_800AE854(void *arg0) {
     s32 last_denom;
     void *ptr;
 
-    func_800AE734();
+    func_800AE734(arg0);
     a0 = F(arg0, s32, 0x20);
     diff = F(arg0, s32, 0x1C) - a0;
     f8 = F(arg0, s32, 8) * 0x10;

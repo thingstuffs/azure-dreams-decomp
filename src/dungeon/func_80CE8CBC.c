@@ -39,7 +39,7 @@ M2C_UNK func_800AA888(); /* extern */
 s32 func_800AA924(); /* extern */
 M2C_UNK func_800AAB10(); /* extern */
 M2C_UNK func_800AAF00(); /* extern */
-void func_80172CC0();                            /* extern */
+void func_80172CC0(void *, M2C_UNK, void *, void *);                            /* extern */
 M2C_UNK func_80172F58(); /* extern */
 s32 func_80173734(); /* extern */
 void func_80173B48(); /* extern */
@@ -101,7 +101,7 @@ void func_801724BC(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
         goto block_2;
     }
     ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xEU;
-    func_80172CC0();
+    func_80172CC0(arg0, arg1, arg2, arg3);
     return;
 block_2:
     if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v != 0) {

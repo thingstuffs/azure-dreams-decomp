@@ -36,7 +36,7 @@ extern s32 D_800814A0;
 extern s32 D_80083780;
 
 extern void func_80033D08(void *);
-extern s32 func_8009CFE0(void);
+extern s32 func_8009CFE0(void *, void *);
 
 void func_800B9998(void *arg0, void *arg1, void *arg2) {
     register u8 *p1 ASM_REG("$17") = arg1;   /* MATCH pin: load-bearing for the whole function shape */
@@ -53,7 +53,7 @@ void func_800B9998(void *arg0, void *arg1, void *arg2) {
     s32 raw_angle;
     s32 addend;
 
-    if (func_8009CFE0() != 0) {
+    if (func_8009CFE0(arg0, arg1) != 0) {
         byte_ptr = ((S_800B9998_0 *)arg0)->unk_98;
         if (byte_ptr != 0) {
             *byte_ptr = 0;

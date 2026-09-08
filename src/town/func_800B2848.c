@@ -4,7 +4,7 @@
 
 extern int func_80049490();
 extern M2C_UNK func_800AF254();
-extern M2C_UNK func_800AF448();
+extern M2C_UNK func_800AF448(Rec_func_800AF254_arg1 *);
 extern M2C_UNK func_800AF520();
 extern M2C_UNK func_800AF674();
 extern M2C_UNK func_800AF784();
@@ -21,7 +21,7 @@ typedef struct S_800AFFA8_1 {
 void func_800AFFA8(Rec_func_800AF254_arg1 *arg0) {
     S_800AFFA8_1 *temp_v1;
 
-    func_800AF448();
+    func_800AF448(arg0);
     func_800AF520(arg0);
     func_800AF674(arg0);
     func_800AF784(arg0);

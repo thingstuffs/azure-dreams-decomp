@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800A0668();
+extern s32 func_800A0668(void *);
 extern s32 func_800A0F10(void *arg0, void *arg1);
 extern void func_800A0B1C(void *arg0);
 extern void func_800A0B74(void *arg0, s32 arg1);
@@ -9,7 +9,7 @@ extern void *D_800A08E8;
 
 void func_800A0AC8(void *arg0, void *arg1, void *arg2) {
     if (*(s16 *)((u8 *)arg0 + 0x68) == 0) {
-        if (func_800A0668() == 0) {
+        if (func_800A0668(arg0) == 0) {
             void *call_arg = arg0;
             ASM_KEEP(call_arg);   /* MATCH pin: retail delay-slot contents depend on it */
             func_800A0B1C(call_arg);

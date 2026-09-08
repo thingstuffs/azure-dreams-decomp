@@ -8,7 +8,9 @@ typedef struct S_80024FFC_0 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_8002593C[];
+
+extern void func_80025030(void *);
 void func_80024FFC(void *arg0) {
-    func_80025030();
+    func_80025030(arg0);
     ((S_80024FFC_0 *)((u8 *)arg0 - 0x10))->unk_00 = D_8002593C;
 }

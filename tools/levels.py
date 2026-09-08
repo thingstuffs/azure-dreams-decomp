@@ -8,7 +8,7 @@ module with a shared header.  L5 pin-free or every pin documented.
 import re, collections
 from pathlib import Path
 from common import ROOT, LEDGER, rows, read_jsonl, write_jsonl, raw_path
-from census import PIN_RE, M2C_LOCAL_RE, audit_index
+from census import PIN_RE, M2C_LOCAL_RE, audit_index, live_audit
 
 def main():
     base = {b["id"]: b for b in read_jsonl(LEDGER / "baseline.jsonl")}
@@ -25,7 +25,7 @@ def main():
         cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name
         text = (cp if cp.exists() else raw_path(r)).read_text(errors="replace")
         keys = [f"{r['container']}/{f}" for f in (r.get("defs") or [r["func"]])]
-        blocking = any(k2 in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS") for k in keys for k2 in audit.get(k, {}))
+        blocking = any(k2 in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS") for k2 in live_audit(r, text))   # live: a removed site no longer blocks
         pins = len(PIN_RE.findall(text))
         boiler = "This header contains macros emitted by m2c" in text or "typedef float f32;" in text
         level = 0
