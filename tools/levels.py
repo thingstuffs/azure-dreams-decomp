@@ -30,6 +30,11 @@ def intra_tail_calls(r, text):
     return n
 
 def main():
+    try:
+        from evidence import EV as _EV
+        _ev = {e["id"]: [k for k in ("assert_sites", "identifiers", "adrando", "data", "vm", "knowledge", "name") if e.get(k)] for e in read_jsonl(_EV / "rows.jsonl")} if (_EV / "rows.jsonl").exists() else {}
+    except Exception:
+        _ev = {}
     base = {b["id"]: b for b in read_jsonl(LEDGER / "baseline.jsonl")}
     sweeps = {}
     for p in (LEDGER / "sweeps").glob("*.jsonl"):
@@ -65,7 +70,7 @@ def main():
                         if pins == 0 and tail_idiom == 0 and not any_site and computed_goto == 0 and inline_asm == 0 and "NON_MATCHING" not in text:
                             level = 5
         recs = sorted(set(re.findall(r'#include "records/(Rec_[A-Za-z0-9_]+)\.h"', text)))
-        out.append({"id": r["id"], "level": level, "pins_left": pins, "m2c_field": len(re.findall(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in text.splitlines() if not l.lstrip().startswith("#")))), "blocking": blocking, "records": recs,
+        out.append({"id": r["id"], "level": level, "evidence": _ev.get(r["id"], []), "pins_left": pins, "m2c_field": len(re.findall(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in text.splitlines() if not l.lstrip().startswith("#")))), "blocking": blocking, "records": recs,
                     "l5_residue": [k for k, v in (("pins", pins), ("tail_call", tail_idiom), ("fidelity_site", int(any_site)), ("computed_goto", computed_goto), ("inline_asm", inline_asm), ("non_matching", int("NON_MATCHING" in text))) if v]}); tally[level] += r["size"]
         if recs: tally["records"] += r["size"]; tally["records_rows"] += 1
     write_jsonl(LEDGER / "levels.jsonl", out)

@@ -72,6 +72,13 @@ def main():
     else:
         exb = sum(r["size"] for r in rs if r["stock"] and (base.get(r["id"], {}).get("exact") is True or (r["kind"] == "slus" and base.get(r["id"], {}).get("status") == "ok")))
         out.append(f"L0 (verified byte-exact at the pin): {exb:,} bytes ({100*exb/tot:.1f}%). No transforms applied yet; every row is at L0.\n")
+    try:
+        from evidence import census as _ev_census
+        out.append("\n## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)\n")
+        out.append(_ev_census())
+        out.append("\nEvery lane prompt (tools/agent_task.py) carries the row's block; L4 module placement must agree with the assertion source map.")
+    except Exception as e:
+        out.append(f"\n(evidence census unavailable: {e})")
     (ROOT / "STATUS.md").write_text("\n".join(out) + "\n")
     print("\n".join(out))
 
