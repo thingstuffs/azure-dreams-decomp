@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800814A0.h"
 
 
 typedef struct S_800AB778_19 {
@@ -105,6 +104,9 @@ typedef struct S_800AB778_9 {
     void * unk_110;
 } S_800AB778_9;   /* page_obj4 in func_800AB778 */
 
+typedef struct S_800AB778_10 {
+    s32 unk_00;
+} S_800AB778_10;   /* &D_800814A0 in func_800AB778 */
 
 typedef struct S_800AB778_11 {
     u8 pad_00[0xA];
@@ -400,7 +402,7 @@ state_case4:
     }
     func_8009A028(arg3);
     ((S_800AB778_0_pre *)arg3)[-1].unk_00 |= 0x8000;
-    ((Rec_D_800814A0 *)(&D_800814A0))->unk_00 |= 0x8000;
+    ((S_800AB778_10 *)(&D_800814A0))->unk_00 |= 0x8000;
     state4_tail = (u8 *)&D_80083460;
     state4_count = ((S_800AB778_11 *)state4_tail)->unk_0A;
     state4_owner = ((S_800AB778_11 *)state4_tail)->unk_0C;

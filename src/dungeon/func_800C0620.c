@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
-#include "records/Rec_D_800814A0.h"
 
 typedef struct S_800C5D80_0 {
     u8 pad_00[0x8];
@@ -24,6 +23,9 @@ typedef struct S_800C5D80_3 {
     u16 unk_0A;
 } S_800C5D80_3;   /* global in func_800C5D80 */
 
+typedef struct S_800C5D80_4 {
+    s32 unk_00;
+} S_800C5D80_4;   /* &D_800814A0 in func_800C5D80 */
 
 
 M2C_UNK func_800478B8();                      /* extern */
@@ -50,7 +52,7 @@ void func_800C5D80(void *arg0, S_800C5D80_0 *arg1, Rec_D_80082E80 *arg2) {
             global->unk_0A = (u16) (global->unk_0A - 1);
         }
         ((S_800C5D80_2 *)((u8 *)arg0 - 0x2))->unk_00 = (u16) (((S_800C5D80_2 *)((u8 *)arg0 - 0x2))->unk_00 | 0x8000);
-        ((Rec_D_800814A0 *)(&D_800814A0))->unk_00 = (s32) (((Rec_D_800814A0 *)(&D_800814A0))->unk_00 | 0x8000);
+        ((S_800C5D80_4 *)(&D_800814A0))->unk_00 = (s32) (((S_800C5D80_4 *)(&D_800814A0))->unk_00 | 0x8000);
     }
 }
 

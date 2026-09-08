@@ -1,16 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_80025030_arg0.h"
 
-typedef struct S_8002593C_0 {
-    u8 pad_00[0x20];
-    s32 unk_20;
-    u8 pad_24[0x4];
-    s32 unk_28;
-    u8 pad_2C[0x4];
-    s32 unk_30;
-    u8 pad_34[0x10];
-    s32 unk_44;
-    s32 unk_48;
-} S_8002593C_0;   /* object in func_8002593C */
 
 
 
@@ -45,12 +35,12 @@ void func_8002593C(u8 *object)
         if (flags & 0x20) {
             func_80053DA8(0x515);
             func_80025D34(object - 0x20);
-            func_80027AFC(((S_8002593C_0 *)object)->unk_20, 0);
+            func_80027AFC(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
             goto epilogue;
         }
         if (flags & 0x40) {
             func_80053DA8(0x503);
-            if (((S_8002593C_0 *)object)->unk_48 == 0) {
+            if (((Rec_func_80025030_arg0 *)object)->unk_48 == 0) {
                 func_8002592C(object);
                 changed = 1;
                 goto direction_check;
@@ -60,7 +50,7 @@ void func_8002593C(u8 *object)
         }
         if (input & 0x5000) {
             if (flags & 0x5000) {
-                ((S_8002593C_0 *)object)->unk_30 = 0;
+                ((Rec_func_80025030_arg0 *)object)->unk_30 = 0;
                 flags = controller[4];
                 if (flags & 0x1000) {
                     status = -1;
@@ -68,9 +58,9 @@ void func_8002593C(u8 *object)
                     status = 1;
                 }
             } else {
-                value = ((S_8002593C_0 *)object)->unk_30;
+                value = ((Rec_func_80025030_arg0 *)object)->unk_30;
                 if (value >= 13) {
-                    ((S_8002593C_0 *)object)->unk_30 = value - 4;
+                    ((Rec_func_80025030_arg0 *)object)->unk_30 = value - 4;
                     new_input = controller[2];
                     if (new_input & 0x1000) {
                         status = -1;
@@ -78,7 +68,7 @@ void func_8002593C(u8 *object)
                         status = 1;
                     }
                 } else {
-                    ((S_8002593C_0 *)object)->unk_30 = value + 1;
+                    ((Rec_func_80025030_arg0 *)object)->unk_30 = value + 1;
                 }
             }
             goto direction_check;
@@ -86,23 +76,23 @@ void func_8002593C(u8 *object)
 
         if (input & 0xA000) {
             if (input & 0x2000) {
-                ((S_8002593C_0 *)object)->unk_48 = 1;
+                ((Rec_func_80025030_arg0 *)object)->unk_48 = 1;
                 changed = 1;
                 goto direction_check;
             }
-            ((S_8002593C_0 *)object)->unk_48 = 0;
+            ((Rec_func_80025030_arg0 *)object)->unk_48 = 0;
             changed = 1;
         }
 
 direction_check:
         if (status != 0) {
             func_80053DA8(0x502);
-            if (((S_8002593C_0 *)object)->unk_48 == 1) {
-                ((S_8002593C_0 *)object)->unk_28 =
-                    func_80049DE8(((S_8002593C_0 *)object)->unk_28, status, 5);
+            if (((Rec_func_80025030_arg0 *)object)->unk_48 == 1) {
+                ((Rec_func_80025030_arg0 *)object)->unk_28 =
+                    func_80049DE8(((Rec_func_80025030_arg0 *)object)->unk_28, status, 5);
             } else {
-                ((S_8002593C_0 *)object)->unk_44 =
-                    func_80049DE8(((S_8002593C_0 *)object)->unk_44, status, 3);
+                ((Rec_func_80025030_arg0 *)object)->unk_44 =
+                    func_80049DE8(((Rec_func_80025030_arg0 *)object)->unk_44, status, 3);
             }
             func_80025030(object);
         }
@@ -119,7 +109,7 @@ direction_check:
 
 forced_tail:
     func_80025D34(object - 0x20);
-    func_80027AFC(((S_8002593C_0 *)object)->unk_20, 0);
+    func_80027AFC(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
 
 changed_check:
     if (changed != 0) {

@@ -1,22 +1,10 @@
 #include "common.h"
+#include "records/Rec_func_80173D78_arg0.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef s32 M2C_UNK;
 
-typedef struct S_80173D78_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0x6];
-    u16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-    u8 unk_9B;
-    u8 pad_9C[0x8];
-    void * unk_A4;
-    u8 pad_A8[0x4];
-    u8 unk_AC;
-} S_80173D78_0;   /* arg0 in func_80173D78 */
 
 typedef struct S_80173D78_1 {
     u8 pad_00[0xC];
@@ -116,7 +104,7 @@ void func_80173D78(void *arg0, void *arg1, S_80173D78_1 *arg2, S_80173D78_2 *arg
     u16 counter;
     u8 state;
 
-    state = ((S_80173D78_0 *)arg0)->unk_9B;
+    state = ((Rec_func_80173D78_arg0 *)arg0)->unk_9B;
     if (state >= 5U) {
         return;
     }
@@ -131,23 +119,23 @@ jt_c0:
     if (!(flags16 & 0x8000)) {
         func_800A56E0(0x80D);
     }
-    ((S_80173D78_0 *)arg0)->unk_9B = ((S_80173D78_0 *)arg0)->unk_9B + 1;
+    ((Rec_func_80173D78_arg0 *)arg0)->unk_9B = ((Rec_func_80173D78_arg0 *)arg0)->unk_9B + 1;
     if (arg2->unk_14 & 0x8000) {
-        ((S_80173D78_0 *)arg0)->unk_96 = 0;
+        ((Rec_func_80173D78_arg0 *)arg0)->unk_96 = 0;
         func_8017424C();
     }
-    ((S_80173D78_0 *)arg0)->unk_96 = 0x10;
+    ((Rec_func_80173D78_arg0 *)arg0)->unk_96 = 0x10;
     func_8017424C();
 
 jt_c1:
-    if (!(((S_80173D78_0 *)arg0)->unk_96 & 3)) {
+    if (!(((Rec_func_80173D78_arg0 *)arg0)->unk_96 & 3)) {
         if (!(arg2->unk_14 & 0x8000)) {
             func_80175DD0(arg0, arg1, arg2, 0);
             func_80175DD0(arg0, arg1, arg2, 1);
         }
     }
-    counter = ((S_80173D78_0 *)arg0)->unk_96 - 1;
-    ((S_80173D78_0 *)arg0)->unk_96 = counter;
+    counter = ((Rec_func_80173D78_arg0 *)arg0)->unk_96 - 1;
+    ((Rec_func_80173D78_arg0 *)arg0)->unk_96 = counter;
     if ((s16)counter > 0) {
         return;
     }
@@ -157,7 +145,7 @@ jt_c1:
     y = arg2->unk_25 + *(u16 *)((s8 *)&D_8006CCE8 + index);
     arg3->unk_60.i = 0;
 
-    if (((S_80173D78_0 *)arg0)->unk_AC == 0) {
+    if (((Rec_func_80173D78_arg0 *)arg0)->unk_AC == 0) {
         found = func_8009B25C(arg3, x & 0xFFFF, y & 0xFFFF,
                              arg3->unk_88);
         arg3->unk_60.p = found;
@@ -182,7 +170,7 @@ jt_c1:
         }
     }
 
-    if (((S_80173D78_0 *)arg0)->unk_AC < 2U) {
+    if (((Rec_func_80173D78_arg0 *)arg0)->unk_AC < 2U) {
         if (arg3->unk_60.i == 0) {
             step = func_800A70E4((s16)x, (s16)y,
                                  arg3->unk_88);
@@ -196,7 +184,7 @@ jt_c1:
         void *counter_base;
 
         func_800A9A0C(arg3);
-        ((S_80173D78_0 *)arg0)->unk_8C = &D_80170EE4;
+        ((Rec_func_80173D78_arg0 *)arg0)->unk_8C = &D_80170EE4;
         counter_base = &D_80083460;
         ((S_80173D78_4 *)counter_base)->unk_0A =
             ((S_80173D78_4 *)counter_base)->unk_0A - 1;
@@ -204,7 +192,7 @@ jt_c1:
         func_8017424C();
     }
 
-    ((S_80173D78_0 *)arg0)->unk_9B = ((S_80173D78_0 *)arg0)->unk_9B + 1;
+    ((Rec_func_80173D78_arg0 *)arg0)->unk_9B = ((Rec_func_80173D78_arg0 *)arg0)->unk_9B + 1;
     map_flags = arg3->unk_14;
     sound_x = arg2->unk_24;
     sound_y = arg2->unk_25;
@@ -216,7 +204,7 @@ jt_c1:
 
     arg3->unk_1C |= 0x10000;
     created = func_8017618C(arg0, arg1, arg2, arg3);
-    ((S_80173D78_0 *)arg0)->unk_A4 = created;
+    ((Rec_func_80173D78_arg0 *)arg0)->unk_A4 = created;
     if (created != 0) {
         base = (s8 *)arg0 - 0x20;
         func_80044A50(base);
@@ -268,16 +256,16 @@ jt_c2:
     arg2->unk_14 |= 0x800;
     arg2->unk_12 = arg2->unk_12 + 0x80;
     arg2->unk_14 &= 0xFFF3;
-    ((S_80173D78_0 *)arg0)->unk_9B = ((S_80173D78_0 *)arg0)->unk_9B + 1;
+    ((Rec_func_80173D78_arg0 *)arg0)->unk_9B = ((Rec_func_80173D78_arg0 *)arg0)->unk_9B + 1;
     func_8017424C();
 
 jt_c3:
 {
     void *counter_base;
 
-    ((S_80173D78_0 *)arg0)->unk_9A = 0x18;
-    ((S_80173D78_0 *)arg0)->unk_9B = 0;
-    ((S_80173D78_0 *)arg0)->unk_8C = &D_8017398C;
+    ((Rec_func_80173D78_arg0 *)arg0)->unk_9A = 0x18;
+    ((Rec_func_80173D78_arg0 *)arg0)->unk_9B = 0;
+    ((Rec_func_80173D78_arg0 *)arg0)->unk_8C = &D_8017398C;
     counter_base = &D_80083460;
     ((S_80173D78_4 *)counter_base)->unk_0A =
         ((S_80173D78_4 *)counter_base)->unk_0A - 1;

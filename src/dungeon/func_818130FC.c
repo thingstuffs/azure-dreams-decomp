@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_80027AD0_arg0.h"
 
 
 
@@ -59,10 +60,6 @@ typedef struct S_800280FC_0 {
     s32 * unk_14;
 } S_800280FC_0;   /* arg1 in func_800280FC */
 
-typedef struct S_800280FC_1 {
-    u8 pad_00[0x4C];
-    s32 unk_4C;
-} S_800280FC_1;   /* arg0 in func_800280FC */
 
 typedef struct S_800280FC_2 {
     s32 unk_00;
@@ -87,7 +84,7 @@ void func_800280FC(void *arg0, void *arg1) {
     *((S_800280FC_0 *)arg1)->unk_0C = 0;
     ((S_800280FC_6 *)(((S_800280FC_4 *)arg1)->unk_10))->unk_00 = 0;
     ((S_800280FC_9 *)(((S_800280FC_6 *)(((S_800280FC_4 *)arg1)->unk_10))->unk_04))->unk_08 = 0x58;
-    *((S_800280FC_0 *)arg1)->unk_14 = ((S_800280FC_1 *)arg0)->unk_4C + 0x18;
+    *((S_800280FC_0 *)arg1)->unk_14 = ((Rec_func_80027AD0_arg0 *)arg0)->unk_4C + 0x18;
     func_80027AD0(arg0, 0, 1);
     var_a1 = 6;
     var_a2 = 0x58;

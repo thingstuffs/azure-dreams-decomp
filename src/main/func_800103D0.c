@@ -1,10 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_800233D0_arg0.h"
 
-typedef struct S_800233D0_0 {
-    u8 pad_00[0x1A0];
-    void * unk_1A0;
-    void * unk_1A4;
-} S_800233D0_0;   /* arg0 in func_800233D0 */
 
 typedef struct S_800233D0_1 {
     u8 pad_00[0x1A8];
@@ -19,11 +15,11 @@ typedef struct S_800233D0_1 {
 
 typedef struct S_800233D0_2 {
     s32 unk_00;
-} S_800233D0_2;   /* ((S_800233D0_0 *)arg0)->unk_1A0 in func_800233D0 */
+} S_800233D0_2;   /* ((Rec_func_800233D0_arg0 *)arg0)->unk_1A0 in func_800233D0 */
 
 typedef struct S_800233D0_3 {
     void * unk_00;
-} S_800233D0_3;   /* ((S_800233D0_0 *)arg0)->unk_1A4 in func_800233D0 */
+} S_800233D0_3;   /* ((Rec_func_800233D0_arg0 *)arg0)->unk_1A4 in func_800233D0 */
 
 typedef struct S_800233D0_4 {
     void * unk_00;
@@ -64,8 +60,8 @@ void func_800233D0(void *arg0)
     source1 = D_80077EFC;
     base4 = (u8 *)arg0 + 4;
     offset = 0x90;
-    ((S_800233D0_2 *)(((S_800233D0_0 *)arg0)->unk_1A0))->unk_00 = result;
-    ((S_800233D0_3 *)(((S_800233D0_0 *)arg0)->unk_1A4))->unk_00 = D_80077E84;
+    ((S_800233D0_2 *)(((Rec_func_800233D0_arg0 *)arg0)->unk_1A0))->unk_00 = result;
+    ((S_800233D0_3 *)(((Rec_func_800233D0_arg0 *)arg0)->unk_1A4))->unk_00 = D_80077E84;
     cursor = arg0;
     do {
         ((S_800233D0_4 *)(((S_800233D0_1 *)cursor)->unk_1A8))->unk_00 = source0;

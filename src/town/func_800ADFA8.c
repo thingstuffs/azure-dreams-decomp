@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_800AAE98_arg0.h"
+#include "records/Rec_func_800AB014_arg0.h"
 
 s32 func_800AAE98();                          /* extern */
 M2C_UNK func_800AAFE0();          /* extern */
@@ -12,27 +14,9 @@ typedef struct {
     u16 value;
 } LocalEntry;
 
-typedef struct S_800AB708_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800AB708_0;   /* arg1 in func_800AB708 */
 
-typedef struct S_800AB708_1 {
-    u8 pad_00[0x50];
-    M2C_UNK * unk_50;
-    u8 pad_54[0x18];
-    s16 unk_6C;
-    u8 pad_6E[0x4];
-    s16 unk_72;
-    u8 pad_74[0x1C];
-    s16 unk_90;
-} S_800AB708_1;   /* arg0 in func_800AB708 */
 
-void func_800AB708(S_800AB708_1 *arg0, S_800AB708_0 *arg1) {
+void func_800AB708(Rec_func_800AB014_arg0 *arg0, Rec_func_800AAE98_arg0 *arg1) {
     LocalEntry sp10[6];
     void *call_arg;
     register s32 call_result ASM_REG("$2");   /* MATCH pin: retail schedule: same instructions, different order without it */
@@ -55,7 +39,7 @@ void func_800AB708(S_800AB708_1 *arg0, S_800AB708_0 *arg1) {
     func_800AB014(arg0, 4);
     if (arg0->unk_90 >= 0x64) {
         arg0->unk_50 = &D_800AB5C0;
-        arg0->unk_72 = 0;
+        arg0->unk_72.as_s16 = 0;
         arg0->unk_6C = 0xA;
     }
 }

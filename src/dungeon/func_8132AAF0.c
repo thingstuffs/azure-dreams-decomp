@@ -1,10 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80174CD8.h"
 
-typedef struct S_801722F0_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_801722F0_0;   /* D_80174CD8 in func_801722F0 */
 
 typedef struct S_801722F0_1 {
     u8 pad_00[0x16];
@@ -53,7 +50,7 @@ M2C_UNK func_800A56E0();
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DE870;
 extern M2C_UNK D_80172274;
-extern S_801722F0_0 *D_80174CD8;
+extern Rec_D_80174CD8 *D_80174CD8;
 
 void func_801722F0(void) {
     S_801722F0_3 *temp_a0;

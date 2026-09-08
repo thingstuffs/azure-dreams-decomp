@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_80173CFC_arg1.h"
 
 typedef struct S_80174374_0 {
     u8 unk_00;
@@ -34,12 +35,6 @@ typedef struct S_80174374_2 {
     s16 unk_1E;
 } S_80174374_2;   /* part in func_80174374 */
 
-typedef struct S_80174374_3 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80174374_3;   /* arg1 in func_80174374 */
 
 typedef struct S_80174374_4 {
     s32 unk_00;
@@ -61,7 +56,7 @@ extern u8 D_80045340;
 extern s32 D_800DEC00;
 extern u8 D_801741A0;
 
-void func_80174374(void *arg0, S_80174374_3 *arg1, s32 arg2, s32 arg3, s32 arg4, u16 arg5) {
+void func_80174374(void *arg0, Rec_func_80173CFC_arg1 *arg1, s32 arg2, s32 arg3, s32 arg4, u16 arg5) {
     void *obj;
     S_80174374_0 *work;
     register void *part ASM_REG("$16");   /* MATCH pin: retail callee-saved set / frame layout depends on it */
@@ -82,8 +77,8 @@ void func_80174374(void *arg0, S_80174374_3 *arg1, s32 arg2, s32 arg3, s32 arg4,
         ((S_80174374_2 *)part)->unk_14 |= 0xC;
 
         pos = ((S_80174374_1 *)obj)->unk_08;
-        work->unk_40 = arg1->unk_00;
-        work->unk_44 = arg1->unk_04;
+        work->unk_40 = arg1->unk_00.at00_s32.v;
+        work->unk_44 = arg1->unk_04.at00_s32.v;
 
         while (value >= 0x1001) {
             value -= 0x1000;

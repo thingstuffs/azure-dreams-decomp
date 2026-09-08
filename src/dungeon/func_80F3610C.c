@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_800AD058_arg2.h"
 
 typedef s32 M2C_UNK;
 
@@ -51,16 +52,6 @@ typedef struct S_8017390C_5 {
     s16 unk_1E;
 } S_8017390C_5;   /* temp_s1 in func_8017390C */
 
-typedef struct S_8017390C_6 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_8017390C_6;   /* arg2 in func_8017390C */
 
 typedef struct {
     s32 value;
@@ -79,7 +70,7 @@ extern M2C_UNK D_8006E240;
 extern M2C_UNK D_80173770;
 extern s16 D_8008346A;
 
-void func_8017390C(S_8017390C_0 *arg0, void *arg1, S_8017390C_6 *arg2, void *arg3)
+void func_8017390C(S_8017390C_0 *arg0, void *arg1, Rec_func_800AD058_arg2 *arg2, void *arg3)
 {
     s32 temp_a2;
     s32 temp_word;

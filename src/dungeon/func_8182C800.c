@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
-#include "records/Rec_D_800814A0.h"
 
 typedef struct S_8182C800_0_pre {
     u16 unk_00;
@@ -173,6 +172,9 @@ typedef struct S_8182C800_21 {
     s32 unk_04;
 } S_8182C800_21;   /* page_d in BODY_NAME */
 
+typedef struct S_8182C800_22 {
+    s32 unk_00;
+} S_8182C800_22;   /* D_800814A0 in BODY_NAME */
 
 typedef struct S_8182C800_23 {
     s32 unk_00;
@@ -707,7 +709,7 @@ jt_c4:
         }
         *D_8008346C = 0;
         ((S_8182C800_0_pre *)arg0)[-1].unk_00 = (u16) (((S_8182C800_0_pre *)arg0)[-1].unk_00 | 0x8000);
-        ((Rec_D_800814A0 *)D_800814A0)->unk_00 = (s32) (((Rec_D_800814A0 *)D_800814A0)->unk_00 | 0x8000);
+        ((S_8182C800_22 *)D_800814A0)->unk_00 = (s32) (((S_8182C800_22 *)D_800814A0)->unk_00 | 0x8000);
 jt_end:
         return;
 }

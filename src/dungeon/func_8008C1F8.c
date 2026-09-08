@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80082EB0.h"
 
 typedef struct S_80091958_0 {
     u8 pad_00[0x8C];
@@ -9,10 +10,6 @@ typedef struct S_80091958_0 {
     void * unk_C8;
 } S_80091958_0;   /* arg0 in func_80091958 */
 
-typedef struct S_80091958_1 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80091958_1;   /* &D_80082EB0 in func_80091958 */
 
 typedef struct S_80091958_2 {
     u8 pad_00[0x1C];
@@ -51,7 +48,7 @@ void func_80091958(S_80091958_0 *arg0, s32 arg1, s32 arg2, S_80091958_2 *arg3)
         }
         break;
     case 2:
-        ((S_80091958_1 *)(&D_80082EB0))->unk_08 = 0;
+        ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_08 = 0;
         if (arg3->unk_1C & 0x100000) {
             arg0->unk_8C = D_8008EAC8;
         } else {

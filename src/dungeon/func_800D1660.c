@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_800D6DC0_arg1.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80083498[];
@@ -76,21 +77,13 @@ typedef struct S_800D6DC0_2 {
     s16 unk_16;
 } S_800D6DC0_2;   /* temp_s0 in func_800D6DC0 */
 
-typedef struct S_800D6DC0_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_800D6DC0_3;   /* arg1 in func_800D6DC0 */
 
 typedef struct S_800D6DC0_4 {
     u8 pad_00[0x2A];
     s16 unk_2A;
 } S_800D6DC0_4;   /* arg3 in func_800D6DC0 */
 
-void func_800D6DC0(void *arg0, S_800D6DC0_3 *arg1, void *arg2, S_800D6DC0_4 *arg3) {
+void func_800D6DC0(void *arg0, Rec_func_800D6DC0_arg1 *arg1, void *arg2, S_800D6DC0_4 *arg3) {
     s32 temp_lo;
     s32 temp_s1;
     s32 temp_t0;

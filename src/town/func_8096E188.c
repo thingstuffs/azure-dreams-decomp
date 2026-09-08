@@ -1,26 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_801237A4_arg0.h"
 
-typedef struct S_80126620_0 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-    s16 unk_06;
-    s16 unk_08;
-    u8 unk_0A;
-    u8 unk_0B;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 unk_0F;
-    u8 unk_10;
-    u8 unk_11;
-    u8 unk_12;
-    u8 unk_13;
-    u8 unk_14;
-    u8 unk_15;
-    u8 unk_16;
-    u8 unk_17;
-    u8 unk_18;
-} S_80126620_0;   /* arg0 in func_80126620 */
 
 
 
@@ -35,29 +15,29 @@ extern void func_8012656C(void *, void *, void *);
 void func_80126620(void *arg0) {
     s32 one = 1;
 
-    ((S_80126620_0 *)arg0)->unk_04 = 0;
-    ((S_80126620_0 *)arg0)->unk_06 = 0;
-    ((S_80126620_0 *)arg0)->unk_08 = 0;
-    ((S_80126620_0 *)arg0)->unk_0A = 0;
-    ((S_80126620_0 *)arg0)->unk_0B = 0;
-    ((S_80126620_0 *)arg0)->unk_0C = one;
-    ((S_80126620_0 *)arg0)->unk_0D = 0;
-    ((S_80126620_0 *)arg0)->unk_0E = 0;
-    ((S_80126620_0 *)arg0)->unk_0F = 0;
-    ((S_80126620_0 *)arg0)->unk_10 = 0;
-    ((S_80126620_0 *)arg0)->unk_11 = 0;
-    ((S_80126620_0 *)arg0)->unk_12 = 0;
-    ((S_80126620_0 *)arg0)->unk_13 = 0;
-    ((S_80126620_0 *)arg0)->unk_14 = 0;
-    ((S_80126620_0 *)arg0)->unk_16 = 0;
-    ((S_80126620_0 *)arg0)->unk_17 = 0xFF;
-    ((S_80126620_0 *)arg0)->unk_18 = 0xFF;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_04.as_s16 = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_06 = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_08 = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_0A = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_0B = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_0C = one;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_0D = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_0E = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_0F = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_10 = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_11 = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_12 = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_13 = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_14 = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_16 = 0;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_17 = 0xFF;
+    ((Rec_func_801237A4_arg0 *)arg0)->unk_18 = 0xFF;
 
     if ((func_80123200(0x31) & 0xFF) ||
         (func_80123200(0x30) & 0xFF)) {
-        ((S_80126620_0 *)arg0)->unk_15 = 0;
+        ((Rec_func_801237A4_arg0 *)arg0)->unk_15 = 0;
     } else {
-        ((S_80126620_0 *)arg0)->unk_15 = one;
+        ((Rec_func_801237A4_arg0 *)arg0)->unk_15 = one;
     }
 
     func_8012656C((u8 *)arg0 + 0x48, (u8 *)arg0 + 0x20,

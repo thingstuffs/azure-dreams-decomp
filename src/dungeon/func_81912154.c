@@ -1,19 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800814A0.h"
+#include "records/Rec_func_80024170_arg0.h"
 
-typedef struct S_80025954_0 {
-    void * unk_00;
-    u16 * unk_04;
-    u8 pad_08[0x1];
-    u8 unk_09;
-    s16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-} S_80025954_0;   /* arg0 in func_80025954 */
 
 typedef struct S_80025954_1 {
     u8 pad_00[0x2A];
@@ -92,6 +80,9 @@ typedef struct S_80025954_12 {
     s32 unk_00;
 } S_80025954_12;   /* stack.motion in func_80025954 */
 
+typedef struct S_80025954_13 {
+    s32 unk_00;
+} S_80025954_13;   /* &D_800814A0 in func_80025954 */
 
 typedef struct S_80025954_14 {
     u8 pad_00[0x14];
@@ -170,17 +161,17 @@ void func_80025954(void *arg0, void *arg1_in, void *arg2) {
     register u32 saved_t0 ASM_REG("$8");   /* MATCH pin: load-bearing for the whole function shape */
     void *call_a1;
 
-    temp_v1 = ((S_80025954_0 *)arg0)->unk_0A;
-    temp_s7 = ((S_80025954_0 *)arg0)->unk_00;
-    ((S_80025954_0 *)arg0)->unk_10 = (u16) (((S_80025954_0 *)arg0)->unk_10 + 1);
+    temp_v1 = ((Rec_func_80024170_arg0 *)arg0)->unk_0A;
+    temp_s7 = ((Rec_func_80024170_arg0 *)arg0)->unk_00;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_10 = (u16) (((Rec_func_80024170_arg0 *)arg0)->unk_10 + 1);
     if ((u32) temp_v1 >= 7U) {
         goto block_49;
     }
     (void)jt_keep; goto *D_80024028[(u32)(temp_v1)];
 jt_c0:
-    ((S_80025954_0 *)arg0)->unk_10 = 0U;
-    ((S_80025954_0 *)arg0)->unk_0A = (s16) ((u16) ((S_80025954_0 *)arg0)->unk_0A + 1);
-    ((S_80025954_0 *)arg0)->unk_0E = (u16) (((u16) ((S_80025954_1 *)temp_s7)->unk_2A >> 9) & 7);
+    ((Rec_func_80024170_arg0 *)arg0)->unk_10 = 0U;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_0A = (s16) ((u16) ((Rec_func_80024170_arg0 *)arg0)->unk_0A + 1);
+    ((Rec_func_80024170_arg0 *)arg0)->unk_0E = (u16) (((u16) ((S_80025954_1 *)temp_s7)->unk_2A >> 9) & 7);
     ((S_80025954_2 *)arg2)->unk_0C = 0x808080;
 jt_c1:
     temp_s0 = temp_s7 - 0x20;
@@ -211,7 +202,7 @@ block_7:
     var_v0_4 = temp_v1_3 - 0x40;
 block_8:
     ((S_80025954_5 *)arg1)->unk_08.at02.v = var_v0_4;
-    if (!(*((S_80025954_0 *)arg0)->unk_04 & 0x80)) {
+    if (!(*((Rec_func_80024170_arg0 *)arg0)->unk_04 & 0x80)) {
         goto block_49;
     }
     temp_v0 = ((S_80025954_1 *)temp_s7)->unk_60;
@@ -252,33 +243,33 @@ block_14:
     var_v0_4 = 0 - var_v0_4;
 block_16:
     stack.distance[2] = (u16) var_v0_4;
-    ((S_80025954_0 *)arg0)->unk_12 = var_a1;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16 = var_a1;
 loop_17:
-    if (((S_80025954_10 *)var_a2)->unk_18 <= ((S_80025954_0 *)arg0)->unk_12) {
+    if (((S_80025954_10 *)var_a2)->unk_18 <= ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16) {
         goto block_19;
     }
-    ((S_80025954_0 *)arg0)->unk_12 = (s16) (u16) ((S_80025954_10 *)var_a2)->unk_18;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16 = (s16) (u16) ((S_80025954_10 *)var_a2)->unk_18;
 block_19:
     var_s3 += 1;
     var_a2 += 2;
     if (var_s3 < 3) {
         goto loop_17;
     }
-    temp_v0_2 = (s32) ((u16) ((S_80025954_0 *)arg0)->unk_12 << 0x10) >> 0x14;
-    ((S_80025954_0 *)arg0)->unk_12 = (s16) temp_v0_2;
+    temp_v0_2 = (s32) ((u16) ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16 << 0x10) >> 0x14;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16 = (s16) temp_v0_2;
     if (temp_v0_2 != 0) {
         goto block_22;
     }
-    ((S_80025954_0 *)arg0)->unk_12 = 1;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16 = 1;
 block_22:
     var_v0_4 = ((S_80025954_8 *)temp_a3)->unk_00.at00.v;
     temp_a0 = ((S_80025954_5 *)arg1)->unk_00.at00.v;
     var_v0_4 -= temp_a0;
-    var_v0_4 /= ((S_80025954_0 *)arg0)->unk_12;
+    var_v0_4 /= ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16;
     temp_a0 = ((S_80025954_5 *)arg1)->unk_04.at00.v;
     ((S_80025954_5 *)arg1)->unk_0C = var_v0_4;
     var_v0_4 = ((S_80025954_8 *)temp_a3)->unk_04.at00.v - temp_a0;
-    var_v0_4 /= ((S_80025954_0 *)arg0)->unk_12;
+    var_v0_4 /= ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16;
     ((S_80025954_5 *)arg1)->unk_10 = var_v0_4;
     temp_v1_4 = ((S_80025954_1 *)temp_s7)->unk_60;
     var_v0_4 = D_800DDC40[((S_80025954_9 *)temp_v1_4)->unk_13] << 0x10;
@@ -286,13 +277,13 @@ block_22:
     var_v0_4 = ((S_80025954_5 *)arg1)->unk_08.at00.v;
     var_v0_4 += 0x300000;
     temp_v1_6 -= var_v0_4;
-    temp_v1_6 /= ((S_80025954_0 *)arg0)->unk_12;
+    temp_v1_6 /= ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16;
     call_a1 = arg1;
     ASM_KEEP(call_a1);   /* MATCH pin: retail delay-slot fill depends on it */
     ((S_80025954_11 *)call_a1)->unk_14 = temp_v1_6;
     ASM_JALDELAY_PIN(temp_v1_6);   /* MATCH pin: load-bearing for the whole function shape */
     func_80024170(arg0, call_a1, var_a2, temp_a3);
-    var_v0_4 = (u16) ((S_80025954_0 *)arg0)->unk_0A + 1;
+    var_v0_4 = (u16) ((Rec_func_80024170_arg0 *)arg0)->unk_0A + 1;
     goto block_48;
 block_23:
     var_s3 = 0;
@@ -305,7 +296,7 @@ block_23:
     var_fp = var_s4;
     stack.saved_y = (u16) var_s5;
 loop_24:
-    if ((func_800A44E0(((s16) var_s4 << 6) & 0xFFC0, ((s16) var_s5 << 6) & 0xFFC0, ((S_80025954_1 *)temp_s7)->unk_88, (s16) (((S_80025954_0 *)arg0)->unk_0E << 9)) << 0x10) != 0) {
+    if ((func_800A44E0(((s16) var_s4 << 6) & 0xFFC0, ((s16) var_s5 << 6) & 0xFFC0, ((S_80025954_1 *)temp_s7)->unk_88, (s16) (((Rec_func_80024170_arg0 *)arg0)->unk_0E << 9)) << 0x10) != 0) {
         goto block_28;
     }
     {
@@ -317,7 +308,7 @@ loop_24:
         ASM_KEEP(lookup_base);   /* MATCH pin: load-bearing for the whole function shape */
         lookup_base = (s16 *) ((u8 *) lookup_base - 0x3328);
 #endif
-        temp_v0_3 = (s16) ((S_80025954_0 *)arg0)->unk_0E;
+        temp_v0_3 = (s16) ((Rec_func_80024170_arg0 *)arg0)->unk_0E;
         height = (u16) ((S_80025954_1 *)temp_s7)->unk_88;
         x_lookup_first = (s16 *) ((temp_v0_3 << 1) + (u32) lookup_base);
         ASM_KEEP(x_lookup_first);   /* MATCH pin: retail schedule: same instructions, different order without it */
@@ -354,7 +345,7 @@ loop_24:
         ASM_KEEP(lookup_base);   /* MATCH pin: load-bearing for the whole function shape */
         lookup_base = (s16 *) ((u8 *) lookup_base - 0x3328);
 #endif
-        temp_v1_5 = (s16) ((S_80025954_0 *)arg0)->unk_0E;
+        temp_v1_5 = (s16) ((Rec_func_80024170_arg0 *)arg0)->unk_0E;
         var_s3 += 1;
         x_lookup_next = (s16 *) ((temp_v1_5 << 1) + (u32) lookup_base);
     }
@@ -389,7 +380,7 @@ block_29:
     final_base = D_8006CCD8;
     temp_v1_6 >>= 0xA;
     ASM_SCHED_BARRIER();   /* MATCH pin: retail delay-slot fill depends on it */
-    var_v0_4 = (s16) ((S_80025954_0 *)arg0)->unk_0E;
+    var_v0_4 = (s16) ((Rec_func_80024170_arg0 *)arg0)->unk_0E;
     var_v0_4 <<= 1;
     final_ptr = (s16 *) ((u8 *) final_base + var_v0_4);
     final_base = D_8006CCE8;
@@ -399,7 +390,7 @@ block_29:
     ((S_80025954_8 *)temp_a3)->unk_00.at02.v = temp_v1_6;
     temp_v1_6 = (u32) temp_v1_6 << 0x10;
     saved_t0 = stack.saved_y;
-    var_v0_4 = (s16) ((S_80025954_0 *)arg0)->unk_0E;
+    var_v0_4 = (s16) ((Rec_func_80024170_arg0 *)arg0)->unk_0E;
     temp_a1_2 = (u32) saved_t0 << 0x10;
     var_v0_4 <<= 1;
     final_ptr = (s16 *) ((u8 *) final_base + var_v0_4);
@@ -431,27 +422,27 @@ block_31:
     temp_a1_2 = 0 - temp_a1_2;
 block_33:
     stack.distance[1] = temp_a1_2;
-    ((S_80025954_0 *)arg0)->unk_12 = temp_v1_6;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16 = temp_v1_6;
     if ((s16) stack.distance[1] <= (s16) temp_v1_6) {
         goto block_35;
     }
-    ((S_80025954_0 *)arg0)->unk_12 = (s16) (u16) stack.distance[1];
+    ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16 = (s16) (u16) stack.distance[1];
 block_35:
-    var_v0_4 = (s32) ((u16) ((S_80025954_0 *)arg0)->unk_12 << 0x10) >> 0x14;
-    ((S_80025954_0 *)arg0)->unk_12 = (s16) var_v0_4;
+    var_v0_4 = (s32) ((u16) ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16 << 0x10) >> 0x14;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16 = (s16) var_v0_4;
     if (var_v0_4 != 0) {
         goto block_37;
     }
-    ((S_80025954_0 *)arg0)->unk_12 = 1;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16 = 1;
 block_37:
     var_v0_4 = ((S_80025954_12 *)(stack.motion))->unk_00;
     temp_a0 = ((S_80025954_5 *)arg1)->unk_00.at00.v;
     var_v0_4 -= temp_a0;
-    var_v0_4 /= ((S_80025954_0 *)arg0)->unk_12;
+    var_v0_4 /= ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16;
     temp_a0 = ((S_80025954_5 *)arg1)->unk_04.at00.v;
     ((S_80025954_5 *)arg1)->unk_0C = var_v0_4;
     var_v0_4 = ((S_80025954_8 *)temp_a3)->unk_04.at00.v - temp_a0;
-    var_v0_4 /= ((S_80025954_0 *)arg0)->unk_12;
+    var_v0_4 /= ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16;
     call_a1 = arg1;
     ((S_80025954_11 *)call_a1)->unk_14 = 0;
     ((S_80025954_11 *)call_a1)->unk_10 = var_v0_4;
@@ -463,47 +454,47 @@ jt_c2:
     ((S_80025954_5 *)arg1)->unk_00.at00.v = (s32) (((S_80025954_5 *)arg1)->unk_00.at00.v + ((S_80025954_5 *)arg1)->unk_0C);
     ((S_80025954_5 *)arg1)->unk_04.at00.v = (s32) (((S_80025954_5 *)arg1)->unk_04.at00.v + ((S_80025954_5 *)arg1)->unk_10);
     ((S_80025954_5 *)arg1)->unk_08.at00.v = (s32) (((S_80025954_5 *)arg1)->unk_08.at00.v + ((S_80025954_5 *)arg1)->unk_14);
-    if ((s16) ((S_80025954_0 *)arg0)->unk_10 < ((S_80025954_0 *)arg0)->unk_12) {
+    if ((s16) ((Rec_func_80024170_arg0 *)arg0)->unk_10 < ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16) {
         goto block_49;
     }
     func_80025874(arg0, arg1, ((S_80025954_15 *)(((S_80025954_1 *)temp_s7)->unk_60))->unk_88);
     func_800A56E0(0x300);
     goto block_44;
 jt_c3:
-    if ((s16) ((S_80025954_0 *)arg0)->unk_10 >= 8) {
+    if ((s16) ((Rec_func_80024170_arg0 *)arg0)->unk_10 >= 8) {
         goto block_44;
     }
-    ((S_80025954_0 *)arg0)->unk_14 = 0;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_14 = 0;
     return;
 jt_c4:
-    if ((s16) ((S_80025954_0 *)arg0)->unk_10 < 0x44) {
+    if ((s16) ((Rec_func_80024170_arg0 *)arg0)->unk_10 < 0x44) {
         goto block_49;
     }
-    func_8009CE1C(((S_80025954_1 *)temp_s7)->unk_60, 0x18, ((S_80025954_0 *)arg0)->unk_09, 1, (s32) (s16) (((S_80025954_0 *)arg0)->unk_0E << 9), temp_s7, 1);
+    func_8009CE1C(((S_80025954_1 *)temp_s7)->unk_60, 0x18, ((Rec_func_80024170_arg0 *)arg0)->unk_09, 1, (s32) (s16) (((Rec_func_80024170_arg0 *)arg0)->unk_0E << 9), temp_s7, 1);
 block_44:
-    ((S_80025954_0 *)arg0)->unk_10 = 0U;
-    ((S_80025954_0 *)arg0)->unk_0A = (s16) ((u16) ((S_80025954_0 *)arg0)->unk_0A + 1);
+    ((Rec_func_80024170_arg0 *)arg0)->unk_10 = 0U;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_0A = (s16) ((u16) ((Rec_func_80024170_arg0 *)arg0)->unk_0A + 1);
     goto block_49;
 jt_c5:
-    if (((S_80025954_0 *)arg0)->unk_14 != 0) {
+    if (((Rec_func_80024170_arg0 *)arg0)->unk_14 != 0) {
         goto block_49;
     }
     D_8008346C = 0;
     (*(u16 *)((u8 *)arg0 + -2)) = (u16) ((*(u16 *)((u8 *)arg0 + -2)) | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((Rec_D_800814A0 *)(&D_800814A0))->unk_00 | 0x8000);
+    (*(s32 *)&D_800814A0) = (s32) (((S_80025954_13 *)(&D_800814A0))->unk_00 | 0x8000);
     goto block_49;
 jt_c6:
     ((S_80025954_5 *)arg1)->unk_00.at00.v = (s32) (((S_80025954_5 *)arg1)->unk_00.at00.v + ((S_80025954_5 *)arg1)->unk_0C);
     ((S_80025954_5 *)arg1)->unk_04.at00.v = (s32) (((S_80025954_5 *)arg1)->unk_04.at00.v + ((S_80025954_5 *)arg1)->unk_10);
     ((S_80025954_5 *)arg1)->unk_08.at00.v = (s32) (((S_80025954_5 *)arg1)->unk_08.at00.v + ((S_80025954_5 *)arg1)->unk_14);
-    if ((s16) ((S_80025954_0 *)arg0)->unk_10 < ((S_80025954_0 *)arg0)->unk_12) {
+    if ((s16) ((Rec_func_80024170_arg0 *)arg0)->unk_10 < ((Rec_func_80024170_arg0 *)arg0)->unk_12.as_s16) {
         goto block_49;
     }
     var_v0_4 = 5;
 block_48:
-    ((S_80025954_0 *)arg0)->unk_0A = var_v0_4;
-    ((S_80025954_0 *)arg0)->unk_10 = 0U;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_0A = var_v0_4;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_10 = 0U;
 block_49:
-    ((S_80025954_0 *)arg0)->unk_14 = 0;
+    ((Rec_func_80024170_arg0 *)arg0)->unk_14 = 0;
     return;
 }

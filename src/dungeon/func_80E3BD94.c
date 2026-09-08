@@ -1,4 +1,6 @@
 #include "common.h"
+#include "records/Rec_func_800D6DC0_arg1.h"
+#include "records/Rec_func_800D6DC0_arg2.h"
 
 typedef struct S_80175594_0 {
     u8 pad_00[0x1C];
@@ -71,35 +73,12 @@ typedef struct S_80175594_1 {
     u16 unk_10A;
 } S_80175594_1;   /* scratch in func_80175594 */
 
-typedef struct S_80175594_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80175594_2;   /* arg1 in func_80175594 */
 
 typedef struct S_80175594_3 {
     u8 pad_00[0x8D0];
     u8 * unk_8D0;
 } S_80175594_3;   /* state in func_80175594 */
 
-typedef struct S_80175594_4 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    s32 unk_0C;
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-    u16 unk_22;
-} S_80175594_4;   /* arg2 in func_80175594 */
 
 typedef struct S_80175594_5 {
     u8 pad_00[0x1C];
@@ -190,7 +169,7 @@ typedef struct {
     u8 fB;
 } Texture;
 
-void func_80175594(S_80175594_0 *arg0, S_80175594_2 *arg1, S_80175594_4 *arg2, s16 arg3)
+void func_80175594(S_80175594_0 *arg0, Rec_func_800D6DC0_arg1 *arg1, Rec_func_800D6DC0_arg2 *arg2, s16 arg3)
 {
     u8 **global = (u8 **)D_80083160;
     u8 *scratch = (u8 *)0x1F800000;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80083460.h"
 
 typedef struct S_8001625C_0 {
     u8 pad_00[0x2];
@@ -15,9 +16,6 @@ typedef struct S_8001625C_0 {
     s16 unk_1C;
 } S_8001625C_0;   /* state in func_8001625C */
 
-typedef struct S_8001625C_1 {
-    s16 unk_00;
-} S_8001625C_1;   /* &D_80083460 in func_8001625C */
 
 typedef struct S_8001625C_2 {
     u8 pad_00[0x4];
@@ -73,7 +71,7 @@ void func_8001625C(void) {
     ((S_8001625C_0 *)state)->unk_14 = 0;
     ((S_8001625C_0 *)state)->unk_0C = 0;
     ((S_8001625C_0 *)state)->unk_10 = 0;
-    ((S_8001625C_1 *)(&D_80083460))->unk_00 = 0x100;
+    ((Rec_D_80083460 *)(&D_80083460))->unk_00 = 0x100;
     ((S_8001625C_0 *)state)->unk_02 = 0;
     ((S_8001625C_0 *)state)->unk_1C = 0;
     ((S_8001625C_0 *)state)->unk_04 = 0;

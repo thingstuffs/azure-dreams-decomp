@@ -1,17 +1,13 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_80027328_arg0.h"
 
 s32 func_80026E70();                    /* extern */
 s32 func_8002714C();      /* extern */
 M2C_UNK func_8004B1A4();                         /* extern */
 
-typedef struct S_800273E4_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800273E4_0;   /* arg0 in func_800273E4 */
 
-void *func_800273E4(S_800273E4_0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
+void *func_800273E4(Rec_func_80027328_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
     s32 temp_a2;
 
     func_8004B1A4(arg0->unk_08);

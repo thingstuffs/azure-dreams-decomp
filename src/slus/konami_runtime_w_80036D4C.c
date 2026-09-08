@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "records/Rec_D_80081FDC.h"
 
 typedef struct S_80036D4C_4 {
     u8 pad_00[0x20];
@@ -36,10 +37,6 @@ typedef struct S_80036D4C_1 {
     s16 unk_66;
 } S_80036D4C_1;   /* temp_s1 in func_80036D4C */
 
-typedef struct S_80036D4C_2 {
-    u8 pad_00[0x60];
-    s32 unk_60;
-} S_80036D4C_2;   /* arg1 in func_80036D4C */
 
 typedef struct S_80036D4C_3 {
     s32 unk_00;
@@ -68,7 +65,7 @@ extern M2C_UNK D_80082BC0;
 extern M2C_UNK func_80033D54;
 extern M2C_UNK func_80036F24;
 
-void func_80036D4C(s32 arg0, S_80036D4C_2 *arg1, s32 *arg2, s16 arg3, s32 arg4, s32 arg5) {
+void func_80036D4C(s32 arg0, Rec_D_80081FDC *arg1, s32 *arg2, s16 arg3, s32 arg4, s32 arg5) {
     S_80036D4C_1 *temp_s1;
     S_80036D4C_3 *temp_s2;
     void *temp_v0;

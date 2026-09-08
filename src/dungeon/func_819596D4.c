@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_800243C4_arg1.h"
 
 extern s16 D_80083780[];
 extern u8 D_80083498[];
@@ -13,14 +14,6 @@ M2C_UNK func_800B835C();
 extern M2C_UNK D_80028214;
 extern M2C_UNK D_80024728;
 
-typedef struct S_80024ED4_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024ED4_0;   /* arg0 in func_80024ED4 */
 
 typedef struct S_80024ED4_1 {
     u8 pad_00[0x8];
@@ -65,7 +58,7 @@ typedef struct S_80024ED4_4 {
     s16 unk_38;
 } S_80024ED4_4;   /* temp_s1 in func_80024ED4 */
 
-void *func_80024ED4(S_80024ED4_0 *arg0) {
+void *func_80024ED4(Rec_func_800243C4_arg1 *arg0) {
     s32 sp20[2];
     s32 var_s3;
     M2C_UNK var_a0;
@@ -105,7 +98,7 @@ void *func_80024ED4(S_80024ED4_0 *arg0) {
             temp_v0_3 = (u16) arg0->unk_06;
             temp_s0->unk_06 = temp_v0_3;
             temp_s0->unk_12 = temp_v0_3;
-            temp_v0_4 = arg0->unk_0A;
+            temp_v0_4 = arg0->unk_0A.as_u16;
             temp_s0->unk_0A = temp_v0_4;
             temp_s0->unk_16 = temp_v0_4;
             temp_v1 = ((S_80024ED4_1 *)temp_v0)->unk_0C;

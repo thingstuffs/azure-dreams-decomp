@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_800247B8_arg1.h"
 
 typedef struct S_80024D34_0 {
     u8 pad_00[0x5A];
@@ -29,14 +30,6 @@ typedef struct S_80024D34_3 {
     s16 unk_0A;
 } S_80024D34_3;   /* position in func_80024D34 */
 
-typedef struct S_80024D34_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024D34_4;   /* arg1 in func_80024D34 */
 
 typedef struct S_80024D34_5 {
     u8 pad_00[0xC];
@@ -63,7 +56,7 @@ extern u8 D_80024C0C[16];
 extern u8 D_80045340[16];
 extern u8 D_800DE870[16];
 
-void func_80024D34(void *arg0, S_80024D34_4 *arg1)
+void func_80024D34(void *arg0, Rec_func_800247B8_arg1 *arg1)
 {
     u16 flags;
     S_80024D34_2 *control;

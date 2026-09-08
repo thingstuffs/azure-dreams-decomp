@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80082EB0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_800E296C[3];
@@ -60,9 +61,6 @@ typedef struct S_80091430_2_pre {
     u8 pad_04[0x14];
 } S_80091430_2_pre;   /* the 0x18 bytes before temp_t0 in func_80091430, addressed as temp_t0[-1] */
 
-typedef struct S_80091430_3 {
-    s32 unk_00;
-} S_80091430_3;   /* D_80082EB0 in func_80091430 */
 
 typedef struct S_80091430_4 {
     u8 pad_00[0x1C];
@@ -229,7 +227,7 @@ block_16:
                         actor->unk_8A = temp_v0_3;
                         *D_800E4940 = (s32) temp_v0_3;
                         func_8008CF6C(arg0, arg1, arg2, D_8004F5F4);
-                        ((S_80091430_3 *)D_80082EB0)->unk_00 = 0;
+                        ((Rec_D_80082EB0 *)D_80082EB0)->unk_00.as_s32 = 0;
                         (*(s32 *)((u8 *)arg0 + 0xC8)) = 0;
                         (*(void **)((u8 *)arg0 + 0x104)) = NULL;
                         func_8004E130();

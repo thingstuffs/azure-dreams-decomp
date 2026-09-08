@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
-#include "records/Rec_D_800814A0.h"
 
 typedef struct S_80C97514_12 {
     u8 pad_00[0x8];
@@ -87,6 +86,9 @@ typedef struct S_80C97514_9 {
     u16 unk_2A;
 } S_80C97514_9;   /* temp_v1_3 in func_80C97514 */
 
+typedef struct S_80C97514_10 {
+    s32 unk_00;
+} S_80C97514_10;   /* &D_800814A0 in func_80C97514 */
 
 typedef struct S_80C97514_11 {
     u8 pad_00[0xA];
@@ -291,7 +293,7 @@ jt_c8:
     }
     ((S_80C97514_15 *)(((Rec_D_80082E80 *)arg3)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)arg3)->unk_8A;
     ((S_80C97514_0_pre *)arg0)[-1].unk_00 = (u16) (((S_80C97514_0_pre *)arg0)[-1].unk_00 | 0x8000);
-    (*(s32 *)&D_800814A0) = (s32) (((Rec_D_800814A0 *)(&D_800814A0))->unk_00 | 0x8000);
+    (*(s32 *)&D_800814A0) = (s32) (((S_80C97514_10 *)(&D_800814A0))->unk_00 | 0x8000);
     temp_base2 = &D_80083460;
     temp_base2->unk_0A = (u16) (temp_base2->unk_0A - 1);
     ((Rec_D_80082E80 *)arg3)->unk_6D = 0;

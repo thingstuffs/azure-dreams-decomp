@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80083160.h"
 
 typedef struct S_8009E798_0 {
     u8 pad_00[0x8D0];
@@ -81,10 +82,6 @@ typedef struct S_8009E798_3 {
     u8 unk_25;
 } S_8009E798_3;   /* var_s2 in func_8009E798 */
 
-typedef struct S_8009E798_4 {
-    u8 pad_00[0xC8];
-    u16 unk_C8;
-} S_8009E798_4;   /* D_80083160 in func_8009E798 */
 
 typedef struct S_8009E798_5_pre {
     u32 unk_00;
@@ -186,7 +183,7 @@ s32 func_8009E798(void *arg0, void *arg1, void *arg2)
 
     ((S_8009E798_1 *)scratch)->unk_98 = 0;
     ((S_8009E798_1 *)scratch)->unk_9A = 0;
-    ((S_8009E798_1 *)scratch)->unk_9C = ((S_8009E798_4 *)D_80083160)->unk_C8;
+    ((S_8009E798_1 *)scratch)->unk_9C = ((Rec_D_80083160 *)D_80083160)->unk_C8.as_u16;
     func_80065820(scratch + 0x98, scratch + 0xD0);
     func_80064BC0(scratch + 0xD0, scratch + 0x30);
 

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_80024264_arg1.h"
 
 typedef struct S_81868B84_0_pre {
     u16 unk_00;
@@ -21,18 +22,6 @@ typedef struct S_81868B84_1 {
     u16 unk_14;
 } S_81868B84_1;   /* temp_v0 in func_81868B84 */
 
-typedef struct S_81868B84_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u8 pad_10[0x2];
-    u16 unk_12;
-} S_81868B84_2;   /* arg1 in func_81868B84 */
 
 typedef struct S_81868B84_3 {
     u8 pad_00[0x16];
@@ -89,7 +78,7 @@ void func_81868B84(void *arg0, void *arg1) {
     return;
 
 state0:
-        ((S_81868B84_2 *)arg1)->unk_0A = (u16) (((S_81868B84_2 *)arg1)->unk_0A - 4);
+        ((Rec_func_80024264_arg1 *)arg1)->unk_08.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)arg1)->unk_08.at02_u16.v - 4);
         func_80024264(((S_81868B84_0 *)arg0)->unk_0C, arg1, ((S_81868B84_0 *)arg0)->unk_10);
         if (((S_81868B84_0 *)arg0)->unk_02.u < 8) {
             return;
@@ -112,10 +101,10 @@ state1:
         do {
             temp_s0_2 = var_s4_2 >> 0x10;
             temp_lo = (func_800644B8((s16) ((S_81868B84_0 *)arg0)->unk_08 + temp_s0_2) >> 4) * (s16) ((S_81868B84_0 *)arg0)->unk_06;
-            ((S_81868B84_2 *)arg1)->unk_02 = (u16) (((S_81868B84_2 *)arg1)->unk_0E + (temp_lo >> 8));
+            ((Rec_func_80024264_arg1 *)arg1)->unk_00.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)arg1)->unk_0C.at02_u16.v + (temp_lo >> 8));
             temp_lo = (func_80064584((s16) ((S_81868B84_0 *)arg0)->unk_08 + temp_s0_2) >> 4) * (s16) ((S_81868B84_0 *)arg0)->unk_06;
-            ((S_81868B84_2 *)arg1)->unk_06 = (u16) (((S_81868B84_2 *)arg1)->unk_12 + (temp_lo >> 8));
-            if ((func_800A45D8(((S_81868B84_2 *)arg1)->unk_02, ((S_81868B84_2 *)arg1)->unk_06, (s16) ((S_81868B84_2 *)arg1)->unk_0A, temp_lo) << 0x10) == 0) {
+            ((Rec_func_80024264_arg1 *)arg1)->unk_04.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)arg1)->unk_10.at02_u16.v + (temp_lo >> 8));
+            if ((func_800A45D8(((Rec_func_80024264_arg1 *)arg1)->unk_00.at02_u16.v, ((Rec_func_80024264_arg1 *)arg1)->unk_04.at02_u16.v, (s16) ((Rec_func_80024264_arg1 *)arg1)->unk_08.at02_u16.v, temp_lo) << 0x10) == 0) {
                 func_80024264(((S_81868B84_0 *)arg0)->unk_0C, arg1, ((S_81868B84_0 *)arg0)->unk_10);
             }
             var_s4_2 += 0x05550000;
@@ -140,10 +129,10 @@ state2:
         do {
             temp_s0 = var_s4 >> 0x10;
             temp_lo = (func_800644B8((s16) ((S_81868B84_0 *)arg0)->unk_08 + temp_s0) >> 4) * (s16) ((S_81868B84_0 *)arg0)->unk_06;
-            ((S_81868B84_2 *)arg1)->unk_02 = (u16) (((S_81868B84_2 *)arg1)->unk_0E + (temp_lo >> 8));
+            ((Rec_func_80024264_arg1 *)arg1)->unk_00.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)arg1)->unk_0C.at02_u16.v + (temp_lo >> 8));
             temp_lo = (func_80064584((s16) ((S_81868B84_0 *)arg0)->unk_08 + temp_s0) >> 4) * (s16) ((S_81868B84_0 *)arg0)->unk_06;
-            ((S_81868B84_2 *)arg1)->unk_06 = (u16) (((S_81868B84_2 *)arg1)->unk_12 + (temp_lo >> 8));
-            if ((func_800A45D8(((S_81868B84_2 *)arg1)->unk_02, ((S_81868B84_2 *)arg1)->unk_06, (s16) ((S_81868B84_2 *)arg1)->unk_0A, temp_lo) << 0x10) == 0) {
+            ((Rec_func_80024264_arg1 *)arg1)->unk_04.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)arg1)->unk_10.at02_u16.v + (temp_lo >> 8));
+            if ((func_800A45D8(((Rec_func_80024264_arg1 *)arg1)->unk_00.at02_u16.v, ((Rec_func_80024264_arg1 *)arg1)->unk_04.at02_u16.v, (s16) ((Rec_func_80024264_arg1 *)arg1)->unk_08.at02_u16.v, temp_lo) << 0x10) == 0) {
                 func_80024264(((S_81868B84_0 *)arg0)->unk_0C, arg1, ((S_81868B84_0 *)arg0)->unk_10);
             }
             var_s4 += 0x05550000;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80080000.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80080000[];
@@ -23,10 +24,6 @@ typedef struct S_80024B48_0 {
     s16 unk_4C;
 } S_80024B48_0;   /* arg0 in func_80024B48 */
 
-typedef struct S_80024B48_1 {
-    u8 pad_00[0x14A0];
-    s32 unk_14A0;
-} S_80024B48_1;   /* D_80080000 in func_80024B48 */
 
 typedef struct S_80024B48_2 {
     u8 pad_00[0x52];
@@ -62,6 +59,6 @@ void func_80024B48(void *arg0) {
 block_5:
     if ((s16) ((S_80024B48_0 *)arg0)->unk_48 >= 0x20) {
         (*(u16 *)((u8 *)arg0 + (-2))) = (u16) (((S_80024B48_0_pre *)arg0)[-1].unk_00 | 0x8000);
-        (*(s32 *)((u8 *)D_80080000 + (0x14A0))) = (s32) (((S_80024B48_1 *)D_80080000)->unk_14A0 | 0x8000);
+        (*(s32 *)((u8 *)D_80080000 + (0x14A0))) = (s32) (((Rec_D_80080000 *)D_80080000)->unk_14A0 | 0x8000);
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80100B70.h"
 
 #define SCALE255(value) ((u32)(value) / 255)
 
@@ -14,10 +15,6 @@ extern u16 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 
-typedef struct S_800A1354_0 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-} S_800A1354_0;   /* arg0 in func_800A1354 */
 
 typedef struct S_800A1354_1 {
     u8 pad_00[0x24];
@@ -90,7 +87,7 @@ void func_800A1354(u8 *arg0)
     s32 rand1;
     s32 color3;
 
-    scale = ((S_800A1354_0 *)arg0)->unk_10;
+    scale = ((Rec_D_80100B70 *)arg0)->unk_10;
     ((S_800A1354_1 *)scratch)->unk_24 = *ctx_addr + 0xB0;
     do {
         u8 *ctx = *ctx_addr;

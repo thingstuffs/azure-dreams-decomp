@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_D_80083160.h"
 
 typedef struct S_800253C0_0 {
     u8 pad_00[0x8C];
@@ -142,10 +143,6 @@ typedef struct S_800253C0_19 {
     s16 unk_C8;
 } S_800253C0_19;   /* page8 in func_800253C0 */
 
-typedef struct S_800253C0_20 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} S_800253C0_20;   /* D_80083160 in func_800253C0 */
 
 
 
@@ -824,7 +821,7 @@ L_AC4:
     fa0 = arg2;
     ((S_800253C0_3 *)fa0)->unk_2C = D_800DD150;
     fa2 = 0;
-    tp = D_800DD150 + ((((((S_800253C0_20 *)D_80083160)->unk_C8 +
+    tp = D_800DD150 + ((((((Rec_D_80083160 *)D_80083160)->unk_C8.as_s16 +
           ((S_800253C0_1 *)arg3)->unk_2A.s) + 0x100) >> 9) & 7);
 L_F6C:
     func_80048A44(fa0, *tp, fa2, 1);

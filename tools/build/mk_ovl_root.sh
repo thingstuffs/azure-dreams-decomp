@@ -7,8 +7,11 @@
 # Gate build outputs land in build_ovl/work/.
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-# RAW=1 builds a second root over raw/ (the untouched pinned sources) for A/B checks
-if [ "${RAW:-0}" = "1" ]; then B="$ROOT/build_ovl_raw"; SRCROOT="$ROOT/raw"; else B="$ROOT/build_ovl"; SRCROOT="$ROOT/src"; fi
+# RAW=1 builds a second root over raw/ (the untouched pinned sources) for A/B checks;
+# EXP=<name> SRCROOT=<dir> builds build_ovl_<name>/ over any tree laid out like src/ (experiments
+# gate candidate C without touching src/ and without disturbing the standing root)
+if [ -n "${EXP:-}" ]; then B="$ROOT/build_ovl_$EXP"; SRCROOT="${SRCROOT:?EXP needs SRCROOT}";
+elif [ "${RAW:-0}" = "1" ]; then B="$ROOT/build_ovl_raw"; SRCROOT="$ROOT/raw"; else B="$ROOT/build_ovl"; SRCROOT="$ROOT/src"; fi
 for need in toolchain/compilers/gcc-2.7.2/cc1 .venv/bin/python work/disc/containers/DUNGEON_DUNGEON.BIN work/disc/extract/SLUS_006.14 tools/maspsx/maspsx.py; do
   [ -e "$ROOT/$need" ] || { echo "missing $need: run tools/setup.sh" >&2; exit 1; }
 done

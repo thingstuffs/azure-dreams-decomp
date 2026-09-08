@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80175D54.h"
 
 typedef struct S_8016F5D8_0 {
     u8 pad_00[0x4];
@@ -21,10 +22,6 @@ typedef struct S_8016F5D8_2 {
     s16 unk_0A;
 } S_8016F5D8_2;   /* arg1 in func_8016F5D8 */
 
-typedef struct S_8016F5D8_3 {
-    u8 pad_00[0xA8];
-    u16 unk_A8;
-} S_8016F5D8_3;   /* D_80175D54 in func_8016F5D8 */
 
 
 s32 func_800644B8();                        /* extern */
@@ -89,7 +86,7 @@ void func_8016F5D8(S_8016F5D8_1 *arg0, S_8016F5D8_2 *arg1, S_8016F5D8_0 *arg2) {
         arg0->unk_A0.at00.v += func_800644B8(temp_a0) << 6;
     }
 finish:
-    arg1->unk_0A = (s16) ((((S_8016F5D8_3 *)D_80175D54)->unk_A8 + arg0->unk_92) - arg0->unk_A0.at02.v);
+    arg1->unk_0A = (s16) ((((Rec_D_80175D54 *)D_80175D54)->unk_A8 + arg0->unk_92) - arg0->unk_A0.at02.v);
 }
 
 /* MECHANISM: Direct accumulator expressions and one-argument fallback calls recover

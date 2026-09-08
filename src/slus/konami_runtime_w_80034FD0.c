@@ -2,13 +2,10 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "records/Rec_D_80082A38.h"
 
-typedef struct S_80034FD0_0 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_80034FD0_0;   /* arg0 in func_80034FD0 */
 
 
 s32 func_80034FD0(void *arg0) {
-    return ((S_80034FD0_0 *)arg0)->unk_10 != (s32) (arg0 + 8);
+    return ((Rec_D_80082A38 *)arg0)->unk_10 != (s32) (arg0 + 8);
 }

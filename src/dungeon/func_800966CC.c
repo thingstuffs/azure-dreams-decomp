@@ -1,9 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_D_80083160.h"
 
-typedef struct S_8009BE2C_0 {
-    void * unk_00;
-} S_8009BE2C_0;   /* &D_80083160 in func_8009BE2C */
 
 typedef struct S_8009BE2C_1 {
     u8 pad_00[0x3];
@@ -33,7 +31,7 @@ typedef struct S_8009BE2C_4_pre {
 typedef struct S_8009BE2C_5 {
     u8 pad_00[0x8D0];
     void * unk_8D0;
-} S_8009BE2C_5;   /* ((S_8009BE2C_0 *)(&D_80083160))->unk_00 in func_8009BE2C */
+} S_8009BE2C_5;   /* ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv in func_8009BE2C */
 
 typedef struct S_8009BE2C_6 {
     u8 pad_00[0x8D0];
@@ -55,8 +53,8 @@ void func_8009BE2C(void *arg0, s32 arg1, S_8009BE2C_2 *arg2) {
     void *temp_s0;
     void **temp_s1;
 
-    temp_s0 = ((S_8009BE2C_5 *)(((S_8009BE2C_0 *)(&D_80083160))->unk_00))->unk_8D0;
-    ((S_8009BE2C_5 *)(((S_8009BE2C_0 *)(&D_80083160))->unk_00))->unk_8D0 = (void *) (temp_s0 + 0x10);
+    temp_s0 = ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0;
+    ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0 = (void *) (temp_s0 + 0x10);
     ((S_8009BE2C_1 *)temp_s0)->unk_0C = 0x140;
     ((S_8009BE2C_1 *)temp_s0)->unk_08 = 0;
     ((S_8009BE2C_1 *)temp_s0)->unk_0A = 0;

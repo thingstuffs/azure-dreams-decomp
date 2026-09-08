@@ -1,19 +1,14 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "records/Rec_func_8001CE44_arg0.h"
 
 M2C_UNK func_80017480();     /* extern */
 s32 func_80017BEC();                             /* extern */
 M2C_UNK func_8001D4AC();                 /* extern */
 M2C_UNK func_8001D5D8();                 /* extern */
 
-typedef struct S_8001CE44_0 {
-    s16 unk_00;
-    s16 unk_02;
-    s16 unk_04;
-    s16 unk_06;
-} S_8001CE44_0;   /* arg0 in func_8001CE44 */
 
-void func_8001CE44(S_8001CE44_0 *arg0, s16 arg1) {
+void func_8001CE44(Rec_func_8001CE44_arg0 *arg0, s16 arg1) {
     do {
         func_8001D5D8(arg0, arg1);
         func_8001D4AC(arg0, arg1);

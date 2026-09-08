@@ -1,9 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "records/Rec_D_80083160.h"
 
-typedef struct S_80ACB000_0 {
-    void * unk_00;
-} S_80ACB000_0;   /* &D_80083160 in BODY_NAME */
 
 typedef struct S_80ACB000_1 {
     u8 pad_00[0x8D0];
@@ -106,7 +104,7 @@ BODY_STORAGE s32 BODY_NAME(void *arg0_in, void *arg1_in)
     register void *arg1_reg = arg1_in;
     void **global = &D_80083160;
     u32 low_mask = 0x00FFFFFFU;
-    void *base = ((S_80ACB000_0 *)(&D_80083160))->unk_00;
+    void *base = ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv;
     register u32 high_mask ASM_REG("$20") = 0xFF000000U;   /* MATCH pin: load-bearing for the whole function shape */
     u8 *scratch = (u8 *)0x1F800000;
     register s32 result ASM_REG("$2");   /* MATCH pin: retail register colouring depends on it */

@@ -122,3 +122,14 @@ overlap unions in the big dungeon record (`unk_0C` with eight views, `unk_14` wi
 honest but ugly — they record that different functions read the same bytes with different
 widths. Naming (L4) starts from these files, and a name change in a header reaches every user at
 once, verified through the same gate.
+
+### Threshold lowered to every class with two or more member functions (2026-09-08)
+
+`tools/gen_records.py --min-rows 2`: 102 record headers (the 12 first-wave headers unchanged
+byte for byte, which is what the type-derived view names were for). Two exclusions added on the
+way, both recorded in the generator: a class whose usable members all sit in one function is not a
+shared record, and a *scalar* class (one member at offset 0, no union, span ≤ 4 — a global read
+through a one-member struct, `Rec_D_800814A0` and six others) is typed-global work for L4, not a
+record; their 24 converted rows were restored to the pre-T7 text and re-swept. Result:
+**1,168 rows / 659,544 B (25.8 %) on 88 records**, 0 mismatches; touched windows re-gated:
+103 / 103 windows byte-identical; SLUS gate MATCH.

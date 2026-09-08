@@ -1,4 +1,5 @@
 #include "common.h"
+#include "records/Rec_func_80021E88_arg1.h"
 
 typedef struct S_80021E88_0 {
     s16 unk_00;
@@ -22,10 +23,6 @@ typedef struct S_80021E88_2 {
     s32 unk_0C;
 } S_80021E88_2;   /* arg2 in func_80021E88 */
 
-typedef struct S_80021E88_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-} S_80021E88_3;   /* arg1 in func_80021E88 */
 
 typedef struct S_80021E88_4 {
     u8 pad_00[0x22];
@@ -42,7 +39,7 @@ extern u8 D_800243F0[];
 extern s32 D_80024438[];
 extern s32 D_80024444[];
 
-void func_80021E88(S_80021E88_0 *arg0, S_80021E88_3 *arg1, S_80021E88_2 *arg2) {
+void func_80021E88(S_80021E88_0 *arg0, Rec_func_80021E88_arg1 *arg1, S_80021E88_2 *arg2) {
     s16 state;
     s32 value;
     s32 transition_value;
