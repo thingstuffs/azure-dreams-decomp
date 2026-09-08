@@ -30,14 +30,19 @@ Dashboard: http://<lan-host>:8002/ (`tools/dashboard_serve.sh`; restart it if th
   `tools/apply_candidates.py`, journal `t11_midrow`). Continue the mid-row lane over the remaining
   single-site rows (`work/lac_lane/batchN/rows.tsv` + the pilot brief), then multi-site rows; the
   census is live so STATUS shows the burn-down.
-- **Layer 2 agent campaign (Astra, gpt-6-astra high):** the 100–600-byte tier is exhausted (every
-  eligible row journalled, 2,447 accepted all-time before tonight). Tonight it moved to the
-  600–1000-byte tier: `tools/agent_task.py --model gpt-6-astra --effort high --all --min-size 600
-  --max-size 1000 --workers 3 --limit 900 --commit --tag campaign` (log `work/astra_campaign6.log`,
-  journal `ledger/agents/gpt-6-astra-high-campaign.jsonl`); acceptance so far 100 %. Next tiers:
-  1000–2000 (538 rows, 746 KB) then 2000+ (120 rows). Relaunch the same command after a quota
-  reset; it resumes. Campaign output is committed separately ("campaign: …" commits): journal +
-  `ledger/agents/out/` + `refine/`.
+- **Layer 2 agent campaign (Astra, gpt-6-astra high) — orchestration state (2026-09-08 03:30 UTC):**
+  one process at a time, always `tools/agent_task.py --model gpt-6-astra --effort high --all
+  --min-size A --max-size B --workers 3 --limit 900 --commit --tag campaign` (log
+  `work/astra_campaignN.log`, journal `ledger/agents/gpt-6-astra-high-campaign.jsonl`, resumable;
+  the prompt now attempts scaffolding removal and journals `pins_in/out`, `sites_in/out`).
+  All-time: 3,234 accepted, 11 rejected. Running now: the 1000–2000 B tier (197/201 accepted,
+  34 rows left). Pools still to serve (eligible = level ≥ 1, ovmovie excluded), in order:
+  2000–4000 B (79 rows), 4000+ B (13), then **100–600 B again (288 rows: they became eligible when
+  the burn-down cleared their blocking sites)**, then 0–100 B (1,995 tiny rows; cheap, mostly
+  pin-removal attempts). When a tier prints `0 rows`, launch the next; when the log shows
+  `quota` outcomes the harness stops cleanly after three in a row — relaunch after the reset.
+  Commit campaign output separately: `git add ledger/agents refine && git commit -m "campaign: …"`
+  (the scrub hook runs; push after). Kill only by PID (`pgrep -f '[a]gent_task.py --model'`).
 - **T7 shared headers: done for every class with ≥ 10 rows** (`docs/STRUCT_CENSUS.md`, "T7
   result"). `tools/gen_records.py` writes `include/records/Rec_*.h` (12 records) and
   `ledger/records.json` from the census; `tools/xform/t7_headers.py` (sweep `t7_headers`)
