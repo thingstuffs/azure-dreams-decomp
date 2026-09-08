@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-08T00:28:36Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-08T00:38:02Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -30,6 +30,8 @@ Baseline NOT exact: 0 rows
 | inline asm outside macros | 362 | 256,260 | 10.0% | 362 | 256,260 | 10.0% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 1363 | 643,104 | 25.1% |
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 2541 | 1,256,708 | 49.1% |
+| noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 751 | 560,500 | 21.9% |
+| maspsx marker pins (scaffolding) | 394 | 351,668 | 13.7% | 391 | 348,256 | 13.6% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3182 | 1,613,264 | 63.1% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 155,088 | 6.1% | 1243 | 193,136 | 7.5% |
 

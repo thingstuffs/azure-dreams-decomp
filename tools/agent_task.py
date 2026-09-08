@@ -24,7 +24,8 @@ The file below already compiles to the retail bytes. Make it READABLE without ch
 - add ONE line summary comment above the function (what it does), as a /* C comment */ (never //), no chatter, no line-by-line narration
 - local names in lowercase_snake_case (project style); keep them short and specific
 - you MAY simplify control flow (goto -> loops/if) and fold trivial temps ONLY if the bytes stay identical; when unsure leave the shape
-- keep every ASM_* pin macro, every extern declaration and every struct as they are unless you prove the change is byte-exact
+- SCAFFOLDING: every ASM_* pin macro, every maspsx marker (ASM_TAILSLOT_PIN/ASM_PAGEBASE_PIN/ASM_JALDELAY_PIN) and every pseudo-call to a noreturn tail label (`extern void func_X(void) __attribute__((noreturn)); func_X();` standing for a jump inside this function) is debt: it stands for a source shape nobody has found yet. For each one, TRY to remove it — delete the pin and re-verify; turn a mid-row tail pseudo-call into if/else that rejoins at the shared tail; give a zero-argument pass-through call its real arguments — and keep the removal only when verify says "exact": true. Never leave a pin out on a guess; a removal that costs bytes goes back. Report how many you removed in your DONE line: DONE <n_verify_runs> pins:<before>-><after> sites:<before>-><after>
+- keep every extern declaration and every struct as they are unless you prove the change is byte-exact
 - do NOT rename struct members (`unk_XX` stay: they are named later from evidence across all users); do not add or remove members
 Verify with:  {verify}
 It prints JSON; "exact": true is required. You may run it as often as you like. Write the final file to {out} (overwrite). Reply with one line: DONE <n_verify_runs> or GAVEUP <reason>.
@@ -93,6 +94,14 @@ def one(row, model, effort, timeout):
             rec["m2c_locals_left"] = len(set(re.findall(r"\b(temp_[a-z0-9_]+|arg[0-9]|sp[0-9A-F]{2,}|var_[a-z0-9_]+)\b", new)))
             rec["m2c_locals_in"] = len(set(re.findall(r"\b(temp_[a-z0-9_]+|arg[0-9]|sp[0-9A-F]{2,}|var_[a-z0-9_]+)\b", src)))
             rec["gotos_in"] = len(re.findall(r"\bgoto\b", src)); rec["gotos_out"] = len(re.findall(r"\bgoto\b", new))
+            # scaffolding removal attempted by the lane (PLAN: every L3 lane tries; the journal keeps the counts)
+            rec["pins_in"] = len(re.findall(r"\bASM_[A-Z0-9_]+\(", src)); rec["pins_out"] = len(re.findall(r"\bASM_[A-Z0-9_]+\(", new))
+            try:
+                from census import live_audit
+                bi = live_audit(row, src); bo = live_audit(row, new)
+                rec["sites_in"] = sum(bi.get(k, 0) for k in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS")); rec["sites_out"] = sum(bo.get(k, 0) for k in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS"))
+            except Exception:
+                pass
         else:
             rec["outcome"] = "rejected"
     shutil.rmtree(work, ignore_errors=True)
