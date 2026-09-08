@@ -89,6 +89,111 @@ VM_TABLES = [
     ("0x8008077C", 0x53F7C, 16, "resident function-pointer table (role not yet named)"),
 ]
 
+# ---- the script symbol dump (TOWN.BIN devkit blob): 36-byte records, u32 value + char name[32] ----
+SYM_NAME = re.compile(rb"^[A-Za-z_][A-Za-z0-9_]*$")
+FAMILIES = {  # prefix: (what the numbers are, how the repo uses them)
+    "FNO_": ("script function numbers: the town event-script VM calls C functions by number through a dispatch table (entry = number - 100); the text after FNO_ is the developer's name of that C function", "function names (ledger/evidence/names_proposed.tsv), per-row evidence"),
+    "F_": ("event flag numbers (index into the save-game event-flag array); F_act_<npc> are the actor flags, F_<scene>_* scene flags", "flag constants (include/script_symbols.h) wherever a flag test/set call takes a literal"),
+    "Ftt_": ("event flags, talk-table variant (same number space)", "flag constants"),
+    "Ft_": ("event flags, talk variant", "flag constants"), "Fr_": ("event flags, reserve variant", "flag constants"),
+    "Fc_": ("event flags, count/clear variant", "flag constants"), "Fp_": ("event flags, pool/person variant", "flag constants"),
+    "Fost_": ("event flag, object-set variant", "flag constants"), "Fo_": ("event flag", "flag constants"), "Frg_": ("event flag", "flag constants"),
+    "GOODS_": ("shop goods save flags (GOODS_SAVE_FLG_NN), in the flag number space", "flag constants"),
+    "mamonogoya_": ("monster-hut (mamono-goya) flags and status slots; 0x8000-based numbers are a second flag bank", "flag constants"),
+    "SSTP_": ("scene step ids: the per-scene state-machine steps the scripts wait on (SSTP_ANGEL_APPEAR ...)", "step constants and scene summaries"),
+    "IMG_": ("portrait image ids per character (IMG_B<name>_<pose>; 0..12 within each character's set)", "image constants"),
+    "S_": ("script system-call numbers: the VM's built-in operations (S_open_shop, S_flgtst, S_rand_sn, S_printf/S_sprintf/S_getchar/S_exit ...)", "opcode/builtin names for the VM handlers"),
+    "V_": ("script variable slots (V_sys, V_gamew2, V_pobj, V_pad03..)", "variable-slot constants"),
+    "sn_": ("scene numbers and scene switches (sn_win_sw0.., sn_open_*)", "scene constants"),
+    "PSN_": ("person (NPC) demo-motion commands PSN_DM_* (home position, talk, walk a way, jump, display on/off, delete)", "NPC command constants"),
+    "ANM_": ("animation ids paired with the PSN_DM commands", "animation constants"), "ANMWAY_": ("facing directions (down/left/up/right)", "direction constants"),
+    "mam_": ("mama's first-talk ids", "constants"), "fg_": ("opening-demo end flags", "flag constants"), "SB01_": ("scene sb01 steps", "step constants"),
+    "func_": ("town-map function numbers (func_town_map_reset/del/set)", "constants"), "P_": ("person ids (cheriru scenes)", "constants"),
+    "Arg_": ("script argument slots (mode, pno, sno)", "constants"), "snf_": ("script booleans", "constants"), "TB_": ("table ids", "constants"),
+    "Mode_": ("person modes", "constants"), "NUM_": ("counts (NUM_SN_VAR_WORK)", "constants"), "DFLT_": ("defaults", "constants"),
+    "SHOW970906_": ("build tag: the 1997-09-06 show version", "provenance"),
+}
+def family_of(name):
+    m = re.match(r"(_?[A-Za-z0-9]+_)", name); f = m.group(1) if m else ""
+    return f if f in FAMILIES else (f.lstrip("_") if f.lstrip("_") in FAMILIES else f or "(other)")
+
+def parse_symbol_tables(b: bytes):
+    """Runs of >= 3 consecutive 36-byte records (u32 value, NUL-padded 32-byte identifier)."""
+    tables, cur, i, n = [], [], 0, len(b)
+    while i + 36 <= n:
+        v = struct.unpack_from("<I", b, i)[0]; nm = b[i + 4:i + 36]; z = nm.find(b"\0")
+        if z > 0 and SYM_NAME.match(nm[:z]) and not any(nm[z:]):
+            cur.append({"file_offset": f"0x{i:X}", "value": v, "name": nm[:z].decode()}); i += 36
+        else:
+            if len(cur) >= 3: tables.append(cur)
+            cur = []; i += 4
+    if len(cur) >= 3: tables.append(cur)
+    return tables
+
+def detect_fno_table(b: bytes, rs, fno_names):
+    """The dispatch table the script VM indexes with (number - 100): the run of pointer words whose
+    named-number entries land on known function starts most often. Returns the entry list."""
+    town = [r for r in rs if r["container"] == "town" and r.get("foff") is not None]
+    by_foff = {r["foff"]: r for r in town}
+    anch = [(r["foff"], int(r["true_name"][5:], 16) - r["foff"]) for r in town if r.get("true_name")]
+    idx = _addr_index(rs); names = _names()
+    n = len(b) // 4; W = struct.unpack_from(f"<{n}I", b, 0)
+    runs, run, start = [], 0, 0
+    for i, w in enumerate(W):
+        if 0x8002D000 <= w < 0x80200000 and w % 4 == 0:
+            if run == 0: start = i
+            run += 1
+        else:
+            if run >= 112: runs.append((start * 4, run))
+            run = 0
+    best = None
+    for foff, nn in runs:
+        a = min(anch, key=lambda t: abs(t[0] - foff)); delta = a[1]
+        ws = W[foff // 4: foff // 4 + nn]
+        hits = sum(1 for i, w in enumerate(ws) if (i + 100) in fno_names and ((w - delta) in by_foff or _lookup(idx, "slus", w)))
+        if best is None or hits > best[0]: best = (hits, foff, nn, delta, ws)
+    if not best: return None
+    hits, foff, nn, delta, ws = best
+    stub = Counter(ws).most_common(1)[0][0] if Counter(ws).most_common(1)[0][1] > 4 else None
+    ents = []
+    for i, w in enumerate(ws):
+        r = by_foff.get(w - delta); res = _lookup(idx, "slus", w)
+        ents.append({"number": i + 100, "symbol": fno_names.get(i + 100), "dev_name": fno_names[i + 100][4:] if (i + 100) in fno_names else None,
+                     "target": f"0x{w:08X}", "row": r["id"] if r else (res[0] if res and res[2] == 0 else None),
+                     "row_func": r["func"] if r else (names.get(res[1], (res[1],))[0] if res and res[2] == 0 else None),
+                     "stub": w == stub})
+    return {"file_offset": f"0x{foff:X}", "vram": f"0x{foff + delta:08X}", "entries": nn, "index": "number - 100",
+            "named_numbers_on_function_starts": f"{hits}/{sum(1 for k in fno_names if 100 <= k < 100 + nn)}",
+            "stub_target": f"0x{stub:08X}" if stub else None, "table": ents}
+
+def import_town_symbols(town_bin):
+    b = Path(town_bin).read_bytes(); tabs = parse_symbol_tables(b)
+    recs = [dict(r, family=family_of(r["name"])) for t in tabs for r in t]
+    fam = Counter(r["family"] for r in recs)
+    (EV / "script_symbols.json").write_text(json.dumps({
+        "source": "TOWN.BIN devkit blob: the scene tool's symbol dump, 36-byte records (u32 value + 32-byte name); identical on the Japanese disc (one name fewer)",
+        "tables": [{"file_offset": t[0]["file_offset"], "records": len(t)} for t in tabs],
+        "families": {k: {"count": v, "what": FAMILIES.get(k, ("", ""))[0], "use": FAMILIES.get(k, ("", ""))[1]} for k, v in fam.most_common()},
+        "records": recs}, indent=1) + "\n")
+    with (DOCS / "script_symbols.tsv").open("w") as f:
+        f.write("name\tvalue\tfamily\tfile_offset\n")
+        for r in recs: f.write(f"{r['name']}\t{r['value']}\t{r['family']}\t{r['file_offset']}\n")
+    fno = {r["value"]: r["name"] for r in recs if r["name"].startswith("FNO_")}
+    ft = detect_fno_table(b, rows(), fno)
+    if ft: (EV / "fno_table.json").write_text(json.dumps(ft, indent=1) + "\n")
+    # a header of the constants, for the L4 lanes (not included by anything until a lane proves a literal is one of these)
+    H = ["/* Generated by tools/evidence.py from the script symbol dump Konami left in TOWN.BIN (docs/SYMBOLS.md).",
+         " * Values are the developer's own numbers: event flags (F_*), goods flags, scene steps (SSTP_*), script",
+         " * system calls (S_*), function numbers (FNO_*), person commands (PSN_DM_*) ... Include it only where a", " * literal has been proven to be one of these. */", "#ifndef SCRIPT_SYMBOLS_H", "#define SCRIPT_SYMBOLS_H", ""]
+    seen = set()
+    for r in recs:
+        if r["name"] in seen: continue
+        seen.add(r["name"]); H.append(f"#define {r['name']} {r['value']}")
+    H += ["", "#endif", ""]
+    (ROOT / "include" / "script_symbols.h").write_text("\n".join(H))
+    print(f"script symbols: {len(recs)} records in {len(tabs)} tables; families {fam.most_common(8)}")
+    if ft: print(f"FNO dispatch table: {ft['file_offset']} (vram {ft['vram']}), {ft['entries']} entries, named numbers on function starts {ft['named_numbers_on_function_starts']}, stub {ft['stub_target']}")
+
 def _names():
     out = {}
     p = ROOT / "config" / "names.tsv"
@@ -178,6 +283,8 @@ def cmd_import(a):
                "lcgConstants": {"modulus": "0x1fffFFFFffff", "multiplier": "0x5DEECE66D", "increment": 11}}
         (EV / "adrando_map.json").write_text(json.dumps(adr, indent=1) + "\n")
         print(f"adrando_map.json: {len(rom)} romAddresses, layouts {list(adr['rowLength'])}")
+    if a.town_bin:
+        import_town_symbols(a.town_bin)
     if a.knowledge_dir:
         kd = EV / "knowledge"; kd.mkdir(exist_ok=True); n = 0
         for p in sorted(Path(a.knowledge_dir).glob("func_*.json")):
@@ -197,7 +304,7 @@ def build():
     for r in rs:
         if r.get("true_name"): by_true[(r["container"], r["true_name"])].append(r)
     names = _names(); idx = _addr_index(rs)
-    per = defaultdict(lambda: {"assert_sites": [], "identifiers": [], "knowledge": [], "adrando": [], "data": [], "vm": [], "name": []})
+    per = defaultdict(lambda: {"assert_sites": [], "identifiers": [], "knowledge": [], "adrando": [], "data": [], "vm": [], "name": [], "script_function": []})
     # 1. assertion sites -> rows (by container+foff for the representative copy, by true_name for retired duplicates)
     asserts, unowned = [], []
     if CSV.exists():
@@ -299,6 +406,21 @@ def build():
             if str(note.get("doc", "")).strip().lower() in ("", "n/a", "none", "tbd"): note.pop("doc", None)
             for rid in dict.fromkeys(sym_to_rows.get(f, [])):
                 per[rid]["knowledge"].append(note); k_hits += 1
+    # 4b. script function numbers -> the functions the town dispatch table names
+    ftp = EV / "fno_table.json"
+    if ftp.exists():
+        ft = json.loads(ftp.read_text()); prop = []
+        for e in ft["table"]:
+            if not e["row"]: continue
+            if e["stub"]:
+                per[e["row"]]["script_function"].append({"number": e["number"], "dev_name": None, "stub": True, "table": ft["vram"]})
+                continue
+            per[e["row"]]["script_function"].append({"number": e["number"], "dev_name": e["dev_name"], "symbol": e["symbol"], "stub": False, "table": ft["vram"]})
+            if e["dev_name"] and not e["dev_name"].startswith("nouse") and e["row_func"] and e["row_func"].startswith("func_"):
+                new = e["dev_name"]; note = ""
+                if new.startswith("func_"): new = "scr_" + new; note = " (developer name starts with func_, which the alias mechanism reserves; prefixed scr_)"
+                prop.append(f"0x{int(e['row_func'][5:], 16):08X}\t{e['row_func']}\t{new}\tscript function number {e['number']}: dispatch table {ft['vram']} entry {e['number'] - 100} = this function; developer symbol {e['symbol']} (TOWN.BIN symbol dump){note}")
+        (EV / "names_proposed.tsv").write_text("# Proposed function renames from the script symbol dump (docs/SYMBOLS.md §5). Same columns as config/names.tsv;\n# apply at L4 with the gate (tools/build/ccproc.py alias mechanism). Not applied yet.\n" + "\n".join(prop) + "\n")
     # 5. applied names
     for r in rs:
         syms = (r.get("defs") or []) + ([r["func"]] if r.get("func") else [])
@@ -306,17 +428,18 @@ def build():
             if s in names: per[r["id"]]["name"].append({"symbol": s, "new_name": names[s][0], "evidence": names[s][1]})
     out = []
     for rid, e in per.items():
-        if not (e["assert_sites"] or e["identifiers"] or e["knowledge"] or e["adrando"] or e["data"] or e["vm"] or e["name"]): continue
+        if not (e["assert_sites"] or e["identifiers"] or e["knowledge"] or e["adrando"] or e["data"] or e["vm"] or e["name"] or e["script_function"]): continue
         e["knowledge"].sort(key=lambda n: n["func"]); e["name"].sort(key=lambda n: n["symbol"])
         r = by_id[rid]
         out.append({"id": rid, "container": r["container"], "size": r["size"], "func": r["func"], "true_name": r.get("true_name"),
                     "assert_sites": [s for s in e["assert_sites"] if s.get("own_copy")] or e["assert_sites"][:1],
                     "assert_copies": len(e["assert_sites"]), "identifiers": e["identifiers"], "knowledge": e["knowledge"],
-                    "adrando": e["adrando"], "data": e["data"], "vm": e["vm"], "name": e["name"]})
+                    "adrando": e["adrando"], "data": e["data"], "vm": e["vm"], "name": e["name"], "script_function": e["script_function"]})
     out.sort(key=lambda x: (x["container"], x["func"] or x["id"]))
     write_jsonl(EV / "rows.jsonl", out)
     print(f"assertions: {len(asserts)} rows carry {sum(a['copies'] for a in asserts)} site copies; {len(unowned)} copies in functions the tree does not own")
     print(f"adrando: {adr_hits} code entries resolved to a function, {sum(len(e['data']) for e in per.values())} data-table references attached to rows; vm tables: {len(tables)}; knowledge: {k_hits} row notes; names: {sum(1 for e in per.values() if e['name'])} rows")
+    print(f"script functions: {sum(1 for e in per.values() if any(not s['stub'] for s in e['script_function']))} rows named by the dispatch table")
     print(f"rows with any evidence: {len(out)}")
     return out
 
@@ -345,6 +468,12 @@ def prompt_block(rid):
         L.append(f"- randomizer map: `{a['name']}` is at {a['ram']}" + (f" (+0x{a['offset_in_function']:X} into this function)" if a["offset_in_function"] else " = this function") + (f"; {a['note']}" if a["note"] else ""))
     for v in e["vm"]:
         L.append(f"- resident pointer table {v['table']}: this function is entry {v['index']} ({v['role']})")
+    sf = [s for s in e.get("script_function", []) if not s.get("stub")]
+    if sf:
+        L.append("- script function: the town event-script VM reaches this function by number " + ", ".join(str(s["number"]) for s in sf) + f" through the dispatch table at {sf[0]['table']}; the developer's name for it is `" + "` / `".join(s["dev_name"] for s in sf if s["dev_name"]) + "` (symbol " + ", ".join(s["symbol"] for s in sf if s.get("symbol")) + "). Use that name in the summary comment; the symbol rename itself happens through config/names.tsv.")
+    st = [s for s in e.get("script_function", []) if s.get("stub")]
+    if st:
+        L.append(f"- script function stub: {len(st)} script function numbers dispatch here in this overlay (the real implementation lives in another scene overlay or the number is unused)")
     for d in e.get("data", []):
         lay = f"; record {d['record_bytes']} bytes" if d.get("record_bytes") else ""
         fields = ("; fields (byte offsets): " + ", ".join(f"{k}@{v}" for k, v in d["layout"].items())) if d.get("layout") else ""
@@ -365,7 +494,7 @@ def prompt_block(rid):
 def census(md=True):
     rs = rows(); by_id = {r["id"]: r for r in rs}
     ev = read_jsonl(EV / "rows.jsonl") if (EV / "rows.jsonl").exists() else []
-    kinds = [("assert_sites", "assert file:line / expression"), ("identifiers", "developer identifiers"), ("adrando", "randomizer map (code)"), ("data", "randomizer map (data tables)"), ("vm", "resident pointer tables"), ("knowledge", "prior notes"), ("name", "applied names")]
+    kinds = [("assert_sites", "assert file:line / expression"), ("identifiers", "developer identifiers"), ("adrando", "randomizer map (code)"), ("data", "randomizer map (data tables)"), ("vm", "resident pointer tables"), ("script_function", "script function names"), ("knowledge", "prior notes"), ("name", "applied names")]
     tab = defaultdict(lambda: Counter())
     for e in ev:
         for k, _ in kinds:
@@ -389,8 +518,9 @@ def symbols_md():
     O.append("*Generated by `python3 tools/evidence.py symbols` from `ledger/evidence/`; the index of sources and per-level rules is `docs/EVIDENCE.md`. Regenerate after `tools/evidence.py build`.*\n")
     O.append("""Konami shipped Azure Dreams with debug code still in it. That leaves four kinds of real names on the
 disc, none of which a decompiler could invent: the **source file names and line numbers** of the
-assertions, the **identifier text** of the debug prints, the **developer's file paths and ids**, and
-the **table addresses** that the community's randomizer mapped and named. This page lists all of
+assertions, the **identifier text** of the debug prints, the **script symbol dump** (thousands of named
+constants and the script function numbers, §5), the **developer's file paths and ids**, and the **table
+addresses** that the community's randomizer mapped and named. This page lists all of
 them in plain language and says what each one will become in the C. The rule throughout: a name
 the developers wrote is used verbatim; a name the randomizer chose is used for the data symbol it
 maps; everything else stays `func_XXXXXXXX` / `unk_XX` until evidence arrives.
@@ -498,8 +628,73 @@ maps; everything else stays `func_XXXXXXXX` / `unk_XX` until evidence arrives.
     rest = [e for e in adr["romAddresses"] if not e["ram"]]
     if rest:
         O.append("Entries without a load address (data blobs inside overlay files, located by disc offset only): " + ", ".join(f"`{e['name']}`" + (f" ({e['file']} @ {e['file_offset']})" if e.get("file") else "") for e in rest) + ".\n")
-    # 5. pointer tables
-    O.append("## 5. Resident pointer tables (opcode numbering)\n")
+    # 5. the script symbol dump
+    ss_p = EV / "script_symbols.json"; ft_p = EV / "fno_table.json"
+    if ss_p.exists():
+        ss = json.loads(ss_p.read_text()); recs = ss["records"]
+        O.append("## 5. The script symbol dump Konami left in TOWN.BIN\n")
+        O.append(f"""Inside the devkit blob in TOWN.BIN (two tables, file offsets {', '.join(t['file_offset'] for t in ss['tables'])}) sits the scene tool's
+symbol dump: **{len(recs):,} records** of a 32-bit value and a 32-byte name. These are the constants the event scripts
+were compiled against, with the developers' own names: event flags, function numbers, scene steps, script system
+calls, image and person ids. The Japanese disc carries the same dump (one name fewer), so the US disc is the complete
+source. The full list is `docs/evidence/script_symbols.tsv`; `include/script_symbols.h` defines every one of them for
+the day a lane proves that a literal in the C is one of these numbers.
+""")
+        O.append("| family | count | what the numbers are | how the repo uses them |")
+        O.append("|---|---:|---|---|")
+        for k, v in ss["families"].items():
+            O.append(f"| `{k}` | {v['count']} | {v['what'] or '—'} | {v['use'] or '—'} |")
+        O.append("")
+        if ft_p.exists():
+            ft = json.loads(ft_p.read_text())
+            named = [e for e in ft["table"] if e["dev_name"] and not e["stub"] and e["row"]]
+            stubs = [e for e in ft["table"] if e["stub"] and e["dev_name"]]
+            unnamed = [e for e in ft["table"] if not e["dev_name"] and e["row"]]
+            O.append("### 5.1 Script function numbers: the dispatch table, resolved\n")
+            O.append(f"""The `FNO_` numbers are how a town script calls C code: the VM takes the number, subtracts 100 and indexes the
+function-pointer table at `{ft['vram']}` (TOWN.BIN file {ft['file_offset']}, {ft['entries']} entries, in the town main
+overlay). {ft['named_numbers_on_function_starts']} of the named numbers land exactly on a known function start, so **the text
+after `FNO_` is the developer's own name for that C function**. {len(named)} of them resolve to a function this tree owns
+(the resident ones through the SLUS rows); they are listed in `ledger/evidence/names_proposed.tsv` in `config/names.tsv`
+format, to be applied at L4 through the alias mechanism (byte-exact by construction). Names that begin with `func_`
+(`FNO_func_sn_ball` ...) collide with the address-derived namespace the tools reserve and are proposed with a `scr_` prefix.
+{len(stubs)} numbers ({stubs[0]['number']}–{stubs[-1]['number']}) point at one stub (`{ft['stub_target']}`) in this overlay: their
+implementations live in the scene overlays or script modules and are still to be located. Numbers {unnamed[0]['number']}–{unnamed[-1]['number']}
+have functions but no name in the dump (the dump predates them); `FNO_func_sn_casino` = 3 is the one number below 100.
+""")
+            O.append("| number | developer name | function (row) | note |")
+            O.append("|---|---|---|---|")
+            for e in ft["table"]:
+                if not e["dev_name"] and not e["row"]: continue
+                note = "stub in this overlay" if e["stub"] else ("" if e["row"] else f"target {e['target']} is not a function start the tree knows")
+                O.append(f"| {e['number']} | `{e['dev_name'] or '—'}` | `{e['row'] or '—'}`{(' (' + e['row_func'] + ')') if e['row_func'] and e['row'] and e['row_func'] != e['row'].split('/')[-1] else ''} | {note} |")
+            O.append("")
+        # small families in full
+        by = defaultdict(list)
+        for r in recs: by[r["family"]].append((r["value"], r["name"]))
+        O.append("### 5.2 The small families in full\n")
+        for fam_, title in (("S_", "Script system calls (`S_`)"), ("V_", "Script variable slots (`V_`)"), ("sn_", "Scene numbers and switches (`sn_`)"), ("PSN_", "Person demo-motion commands (`PSN_DM_*`)"), ("ANM_", "Animations (`ANM_`)"), ("ANMWAY_", "Directions"), ("IMG_", "Portrait image ids (`IMG_`)"), ("SSTP_", "Scene steps (`SSTP_`)"), ("mam_", "`mam_`"), ("fg_", "`fg_`")):
+            items = sorted(set(by.get(fam_, [])))
+            if not items: continue
+            O.append(f"- **{title}** ({len(items)}): " + ", ".join(f"`{n}`={v}" for v, n in items))
+        O.append("")
+        O.append("""The `S_` numbers 0–32 line up one-for-one with the 33-entry resident pointer table at `0x8006B01C` (a table of small
+trampolines at the start of the SLUS text, listed in `ledger/evidence/vm_tables.json`): `S_open_sell_dougu` = 0 ...
+`S_set_no_change_seq` = 32. That is a hypothesis from the counts and order, not yet a proof; reading the VM's system-call
+handler settles it, and would name those 33 trampolines and the overlay functions behind them. `S_printf` /
+`S_sprintf` / `S_getchar` / `S_exit` (34, 90–92) are the developer-console calls the port found unimplemented in retail.
+""")
+        O.append("### 5.3 The flags (`F_` and its variants, `GOODS_`, `mamonogoya_`)\n")
+        F = sorted(set(by["F_"]))
+        O.append(f"""{len(F):,} event-flag numbers plus the `Ftt_` / `Ft_` / `Fr_` / `Fc_` / `Fp_` variants and the `GOODS_SAVE_FLG_NN` goods flags,
+all in one number space (up to 0x{max(v for v, _ in F):X}); `mamonogoya_setfgNN` / `mamonogoya_stat_NN` use a second, 0x8000-based bank.
+The names read as scene + event: `F_sakaba_close` (bar closed), `F_guy_sword_pickup`, `F_ultima_egg_pickup`,
+`F_act_<npc>` (actor flags for every town character: player, mascot, gy, rees, wedy, gosh, selfy, paty, far, mia, niko,
+vivian, cheril, ...). They become the argument names of the flag test/set calls once a lane proves which resident
+routine is the flag accessor (`flgtst.c` is its devkit test harness); until then they live in the header and the TSV.
+Examples: """ + ", ".join(f"`{n}`={v}" for v, n in F[:10]) + " ...\n")
+    # 6. pointer tables
+    O.append("## 6. Resident pointer tables (opcode numbering)\n")
     if vm:
         t0 = vm[0]
         O.append(f"The event-script VM's handler table at `{t0['vram']}` has {t0['entries']} entries: entry *i* is the handler for script opcode *i*. {t0['role'].split(':', 1)[1].strip()}. Handlers therefore get names of the form `ScriptOp<NN>_<verb>` once the verb is read from the body; the numbering itself is a fact.\n")
@@ -511,7 +706,7 @@ maps; everything else stays `func_XXXXXXXX` / `unk_XX` until evidence arrives.
         O.append("")
         O.append("Five more resident function-pointer tables are resolved to rows but not yet named: " + ", ".join(f"`{x['vram']}` ({x['entries']} entries)" for x in vm[1:]) + ". Their roles come from reading the dispatcher that indexes them.\n")
     # 6. names + notes
-    O.append("## 6. Names already applied, and the prior notes\n")
+    O.append("## 7. Names already applied, and the prior notes\n")
     O.append(f"`config/names.tsv` holds {len(names)} function renames applied through the alias mechanism (byte-exact by construction), each with an evidence line:\n")
     O.append("| symbol | name | evidence |")
     O.append("|---|---|---|")
@@ -520,12 +715,13 @@ maps; everything else stays `func_XXXXXXXX` / `unk_XX` until evidence arrives.
     kn = len(list((EV / "knowledge").glob("func_*.json"))) if (EV / "knowledge").exists() else 0
     O.append(f"\n{kn} prior per-function notes (`ledger/evidence/knowledge/`) carry a one-paragraph description, typed globals and callee summaries written during the matching campaign. They are medium-confidence: the lane sees them as candidates and checks them against the code.\n")
     # 7. how used
-    O.append("""## 7. How the repo uses all of this
+    O.append("""## 8. How the repo uses all of this
 
 1. **Every lane prompt carries the row's evidence block** (`tools/agent_task.py`; `tools/evidence.py show <row>`
    prints it). The L2/L3 lane names locals and writes the summary from it, keeps assertion lines exact, and
    leaves `func_` / `D_` / `unk_` symbols alone. The journal marks `evidence: true` on those rows.
-2. **L4 names** are applied in one place each: functions through `config/names.tsv` (alias, byte-exact),
+2. **L4 names** are applied in one place each: functions through `config/names.tsv` (alias, byte-exact;
+   `ledger/evidence/names_proposed.tsv` holds the script-function names ready to apply),
    data symbols through the symbol files, struct members through `include/records/Rec_*.h`. Trust order:
    developer text (verbatim) → randomizer table names (verbatim for the data symbol) → pointer-table
    numbering → prior notes (verified) → call-site roles. No name without an evidence line.
@@ -541,7 +737,7 @@ maps; everything else stays `func_XXXXXXXX` / `unk_XX` until evidence arrives.
 
 def main():
     ap = argparse.ArgumentParser(); sub = ap.add_subparsers(dest="cmd", required=True)
-    i = sub.add_parser("import"); i.add_argument("--adrando-constants"); i.add_argument("--knowledge-dir")
+    i = sub.add_parser("import"); i.add_argument("--adrando-constants"); i.add_argument("--knowledge-dir"); i.add_argument("--town-bin", help="TOWN.BIN container: parse the script symbol dump + FNO dispatch table")
     sub.add_parser("build"); s = sub.add_parser("show"); s.add_argument("row"); sub.add_parser("census"); sub.add_parser("symbols")
     a = ap.parse_args()
     if a.cmd == "import": cmd_import(a)

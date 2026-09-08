@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-08T02:51:53Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-08T03:40:06Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -44,7 +44,7 @@ Pin sites: 25,878 total; REG 12,818, KEEP 6,889, KEEP_NV 2,501, SCHED_BARRIER 1,
 | L0 | 2,558,124 | 100.0% |
 | L1 | 1,991,104 | 77.8% |
 | L2 | 1,891,456 | 73.9% |
-| L3 | 1,465,776 | 57.3% |
+| L3 | 1,593,004 | 62.3% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
@@ -52,11 +52,11 @@ On shared record headers (T7, `include/records/`): 1168 rows, 659,544 bytes (25.
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
-| container | assert file:line / expression | developer identifiers | randomizer map (code) | randomizer map (data tables) | resident pointer tables | prior notes | applied names | any (rows / bytes) |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| slus | 0 | 0 | 1 | 0 | 72 | 408 | 14 | 475 / 327,604 |
-| main | 18 | 5 | 1 | 0 | 0 | 0 | 0 | 19 / 6,420 |
-| town | 21 | 8 | 1 | 1 | 0 | 0 | 0 | 23 / 6,296 |
-| dungeon | 0 | 0 | 24 | 21 | 0 | 0 | 0 | 44 / 35,592 |
+| container | assert file:line / expression | developer identifiers | randomizer map (code) | randomizer map (data tables) | resident pointer tables | script function names | prior notes | applied names | any (rows / bytes) |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| slus | 0 | 0 | 1 | 0 | 72 | 2 | 408 | 14 | 475 / 327,604 |
+| main | 18 | 5 | 1 | 0 | 0 | 0 | 0 | 0 | 19 / 6,420 |
+| town | 21 | 8 | 1 | 1 | 0 | 51 | 0 | 0 | 74 / 10,228 |
+| dungeon | 0 | 0 | 24 | 21 | 0 | 0 | 0 | 0 | 44 / 35,592 |
 
 Every lane prompt (tools/agent_task.py) carries the row's block; L4 module placement must agree with the assertion source map.
