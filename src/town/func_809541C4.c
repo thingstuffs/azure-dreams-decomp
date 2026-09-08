@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
-extern void func_80021298(void) __attribute__((noreturn));
 extern void func_80047738(void *, u8, s8);
 extern void func_80047784(void *, u8, s32);
 extern u8 D_8006CCF8[];
@@ -26,6 +25,7 @@ void func_800211C4(S_800211C4_0 *arg0, void *arg1, Rec_D_80082E80 *arg2) {
     u8 *temp_v0;
     s32 temp_v2;
     u16 temp_v1;
+    u16 finalVal;
     S_800211C4_2 *arg1_hold = arg1;
 
     temp_v1 = (arg0->unk_2A + 0x2000) & 0xFFF;
@@ -50,10 +50,9 @@ page_check:
     ASM_KEEP(base_v0);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
     temp_v0 = (u8 *)(temp_s0 + base_v0);
     if (temp_v0[0] != 0) {
-        u32 temp_return;
-        temp_return = arg2->unk_14.at00_u16.v | 1;
-        ASM_TAILSLOT_PIN_TIED(temp_return);   /* MATCH pin: retail keeps a copy the compiler would otherwise drop/add */
-        func_80021298();
+        finalVal = arg2->unk_14.at00_u16.v | 1;
+    } else {
+        finalVal = arg2->unk_14.at00_u16.v & 0xFFFE;
     }
-    arg2->unk_14.at00_u16.v = (u16)(arg2->unk_14.at00_u16.v & 0xFFFE);
+    arg2->unk_14.at00_u16.v = finalVal;
 }

@@ -40,7 +40,6 @@ typedef struct S_8009DA50_2 {
 extern s32 func_80033B2C();
 extern s32 func_8008CC90();
 extern s32 func_8009D424();
-extern void func_8009DC4C(void);
 extern s16 D_8006ADD4;
 
 void func_8009DA50(u8 *arg0, void *arg1, s32 arg2, s32 arg3)
@@ -67,9 +66,12 @@ loop_2:
         if (*var_s1 == 0) {
             if (!(var_a1 & 1)) {
                 if (func_80033B2C((*(s16 *)((u8 *)var_s0 + 1)), var_a1) == 0) {
-                    func_8009DC4C();
                     var_s0 += 0x14;
-                    KEEP_VALUE(var_s0);
+                    var_a1 = *var_s0;
+                    var_s1 += 0x14;
+                    if ((var_a1 & 0xC0) != 0x80) {
+                        goto loop_2;
+                    }
                     return;
                 }
                 goto block_8;

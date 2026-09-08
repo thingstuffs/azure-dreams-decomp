@@ -2,8 +2,6 @@
 
 extern s32 func_8009A350(s16, s16, s16, u16 *);
 extern s16 func_800D0DE0(s16, s16, s16);
-extern void func_800D1304(s16, s16, s32, s32);
-
 extern s16 D_8006CCD8[];
 extern s16 D_8006CCE8[];
 extern u8 D_8008333C[32];
@@ -38,7 +36,6 @@ s32 func_800D112C(s16 arg0, s32 arg1, s32 arg2) {
     bounds = D_8008333C;
 
     if (x < 0 || x >= (1 << *(s16 *)(bounds + 0x14))) {
-        func_800D1304(direction, x, arg2, byte_offset);
         return 0;
     }
 
@@ -55,7 +52,6 @@ s32 func_800D112C(s16 arg0, s32 arg1, s32 arg2) {
         return 0;
     }
     if (y >= (1 << *(s16 *)(bounds + 0x16))) {
-        func_800D1304(direction, x, arg2, byte_offset);
         return 0;
     }
 
