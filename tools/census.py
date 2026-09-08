@@ -98,6 +98,9 @@ def census_one(row, audit):
         "nonmatching": "NON_MATCHING" in text,
         "inline_asm": len(re.findall(r"__asm__|\basm\s*\(", text)), "include_asm": "INCLUDE_ASM(" in text,
         "noreturn": text.count("noreturn"), "register_decls": len(re.findall(r"\bregister\b", text)),
+        # scaffolding debt (docs/FIDELITY.md): the noreturn tail-call spelling and the maspsx markers
+        "tail_idiom": len(re.findall(r"__attribute__\s*\(\s*\(\s*noreturn\s*\)\s*\)", text)) + len(re.findall(r"\basm\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)|__asm__\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)", text)),
+        "markers": sum(pins.get(k, 0) for k in ("TAILSLOT_PIN", "TAILSLOT_PIN_TIED", "PAGEBASE_PIN", "JALDELAY_PIN", "LIVE_SIBCALL_PIN", "SHAPE_D_SIBCALL_PIN", "BRANCH_LABEL_SPLIT")),
         "volatile": text.count("volatile"), "switch": len(re.findall(r"\bswitch\s*\(", text)),
         "audit": live, "audit_pin": dict(aud), "ndefs": len(defs),
     }

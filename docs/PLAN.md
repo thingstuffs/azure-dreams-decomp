@@ -110,14 +110,27 @@ Cleanliness levels per row (the metric; `STATUS.md` reports bytes at ≥ each le
 | level | meaning |
 |---|---|
 | L0 | verified byte-exact at the pin through stock cells and name-blind assembler |
-| L1 | no boilerplate, no dead pins, no `LABEL_AS_CALL` / zero-arg pass-through (fidelity classes) |
+| L1 | no boilerplate, no dead pins, no `LABEL_AS_CALL` / zero-arg pass-through (fidelity classes) — the mechanical sweeps have been tried on every site (`t8_passthru`, the label-as-call lanes) |
 | L2 | no `M2C_FIELD`: typed access through a (possibly partial, `unk_`-padded) struct |
-| L3 | locals named, one-line summary comment, control flow simplified where match allows |
+| L3 | locals named, one-line summary comment, control flow simplified where match allows; **every remaining pin, marker and tail-call spelling was attempted for removal** by the lane that refined the row (journalled counts before/after) |
 | L4 | in a module with a shared header; struct declared once; globals typed |
-| L5 | pin-free (or every remaining pin documented with the retail-shape reason) |
+| L5 | scaffolding-free: no `ASM_*` pin, no maspsx marker, no noreturn tail-call spelling; a row that cannot reach it keeps each residue documented with the measured reason |
 
 A row can sit at L3 with pins. Honest scaffolding with a comment is readable; silent
 scaffolding is not.
+
+**Scaffolding debt is one class (measured 2026-09-08, `docs/FIDELITY.md`, `work/exp_psyq/`):**
+the gcc-facing pins, the maspsx markers (`ASM_TAILSLOT_PIN`, `ASM_PAGEBASE_PIN`,
+`ASM_JALDELAY_PIN`) and the noreturn tail-call spelling (`extern void tail(void)
+__attribute__((noreturn)); tail();`, which maspsx turns into retail's `j`) all compensate for a
+source shape we have not found: the shipped SN compiler reproduces the decompals rebuild byte
+for byte, and the shipped ASPSX fills no delay slot and converts no `jal`. So the rule for all
+three is the same — find the shape, prove it through the window gate, delete the scaffolding —
+and the attempts are scheduled at three points: the L1 sweeps (mechanical rules with a measured
+yield), every L3 lane (the refining agent must try, and its journal records pins/markers/sites
+before and after), and a dedicated L5 shape-search pass on what is left. The end state also
+retires maspsx's tail-`jal`→`j` and frame-elision passes, which have no producer in the shipped
+toolchain.
 
 ---
 
