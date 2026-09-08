@@ -97,18 +97,18 @@ extern void func_80056A08(void);
 extern void func_8005E97C(s32 a0, s32 a1);
 extern s32 func_8005EB78(s32 a0);
 extern void *jtbl_80032F04[];
-void func_80057D20(u8 idx, u8 type, u32 val)
+/* Applies a channel control change and updates affected voices. */
+void func_80057D20(u8 channel, u8 control, u32 value)
 {
-  S_80084960 *e = &D_80084960[idx];
-  s32 flag14 = 0;
-  s32 flag18 = 0;
-  s32 i;
-  u32 new_var;
-  s32 k;
-  s32 r;
-  s32 x;
-  s32 sel;
-  static void *const keepalive[] = {
+  S_80084960 *settings = &D_80084960[channel];
+  s32 refresh_notes = 0;
+  s32 stopped_voices = 0;
+  s32 voice_idx;
+  u32 control_value;
+  s32 entry_idx;
+  s32 voice_status;
+  s32 control_index;
+  static void *const case_labels[] = {
     &&L_case_1, &&L_case_2, &&L_case_3, &&L_case_4, &&L_case_5, &&L_case_7,
     &&L_case_10, &&L_case_11, &&L_case_12, &&L_case_20, &&L_case_21, &&L_case_22,
     &&L_case_23, &&L_case_25, &&L_case_26, &&L_case_27, &&L_case_28, &&L_case_30,
@@ -116,317 +116,311 @@ void func_80057D20(u8 idx, u8 type, u32 val)
     &&L_case_121, &&L_case_123, &&L_case_126,
     &&L_default
   };
-  (void)keepalive;
-  new_var = val;
-  sel = (s32)type - 1;
-  if ((u32)sel >= 0x7E)
+  (void)case_labels;
+  control_value = value;
+  control_index = (s32)control - 1;
+  if ((u32)control_index >= 0x7E)
   {
     goto after_switch;
   }
-  goto *jtbl_80032F04[sel];
+  goto *jtbl_80032F04[control_index];
   {
-    L_case_1:
-      if (((u32) e->f48) < 0x40)
+  L_case_1:
+    if (((u32) settings->f48) < 0x40)
     {
-      e->f08 = new_var & 0xFF;
-      e->f40 = ((u8) new_var) << 1;
-      if ((e->f44 != 0) && (e->f40 != 0))
+      settings->f08 = control_value & 0xFF;
+      settings->f40 = ((u8) control_value) << 1;
+      if ((settings->f44 != 0) && (settings->f40 != 0))
       {
-        e->f38 = ((u32) e->f40 << 2) / e->f44;
+        settings->f38 = ((u32) settings->f40 << 2) / settings->f44;
       }
       else
       {
-        e->f3a = 0;
-        for (i = 0; i < D_80073734; i++)
+        settings->f3a = 0;
+        for (voice_idx = 0; voice_idx < D_80073734; voice_idx++)
         {
-          if (D_80085458[i].f06 == idx)
+          if (D_80085458[voice_idx].f06 == channel)
           {
-            func_80056654(&D_80085458[i], 1);
+            func_80056654(&D_80085458[voice_idx], 1);
           }
         }
-
       }
-      if (((new_var & 0xFF) == 0) || (e->f38 == 0))
+      if (((control_value & 0xFF) == 0) || (settings->f38 == 0))
       {
-        e->f3a = 0;
-        for (i = 0; i < D_80073734; i++)
+        settings->f3a = 0;
+        for (voice_idx = 0; voice_idx < D_80073734; voice_idx++)
         {
-          if (D_80085458[i].f06 == idx)
+          if (D_80085458[voice_idx].f06 == channel)
           {
-            func_80056654(&D_80085458[i], 1);
+            func_80056654(&D_80085458[voice_idx], 1);
           }
         }
-
       }
     }
     else
     {
-      e->f08 = new_var & 0xFF;
-      e->f44 = new_var & 0xFF;
-      if (((new_var & 0xFF) != 0) && (e->f40 != 0))
+      settings->f08 = control_value & 0xFF;
+      settings->f44 = control_value & 0xFF;
+      if (((control_value & 0xFF) != 0) && (settings->f40 != 0))
       {
-        e->f38 = (e->f40 / (new_var & 0xFF)) << 1;
+        settings->f38 = (settings->f40 / (control_value & 0xFF)) << 1;
       }
       else
       {
-        e->f3a = 0;
-        for (i = 0; i < D_80073734; i++)
+        settings->f3a = 0;
+        for (voice_idx = 0; voice_idx < D_80073734; voice_idx++)
         {
-          if (D_80085458[i].f06 == idx)
+          if (D_80085458[voice_idx].f06 == channel)
           {
-            func_80056654(&D_80085458[i], 1);
+            func_80056654(&D_80085458[voice_idx], 1);
           }
         }
-
       }
-      if (((new_var & 0xFF) == 0) || (e->f38 == 0))
+      if (((control_value & 0xFF) == 0) || (settings->f38 == 0))
       {
-        e->f3a = 0;
-        for (i = 0; i < D_80073734; i++)
+        settings->f3a = 0;
+        for (voice_idx = 0; voice_idx < D_80073734; voice_idx++)
         {
-          if (D_80085458[i].f06 == idx)
+          if (D_80085458[voice_idx].f06 == channel)
           {
-            func_80056654(&D_80085458[i], 1);
+            func_80056654(&D_80085458[voice_idx], 1);
           }
         }
-
       }
     }
-      func_80055E7C(4, idx, e->f08);
-      goto after_switch;
+    func_80055E7C(4, channel, settings->f08);
+    goto after_switch;
 
-    L_case_2:
-      if (((u32) e->f48) < 0x40)
+  L_case_2:
+    if (((u32) settings->f48) < 0x40)
     {
-      e->f44 = new_var & 0xFF;
+      settings->f44 = control_value & 0xFF;
     }
     else
     {
       ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-      e->f40 = (new_var & 0xFF) << 1;
+      settings->f40 = (control_value & 0xFF) << 1;
     }
-      goto after_switch;
+    goto after_switch;
 
-    L_case_3:
-      e->f48 = new_var & 0xFF;
-      goto after_switch;
+  L_case_3:
+    settings->f48 = control_value & 0xFF;
+    goto after_switch;
 
-    L_case_4:
-      e->f28 = new_var & 0xFF;
-      goto after_switch;
+  L_case_4:
+    settings->f28 = control_value & 0xFF;
+    goto after_switch;
 
-    L_case_5:
-      e->f50 = new_var & 0xFF;
-      goto after_switch;
+  L_case_5:
+    settings->f50 = control_value & 0xFF;
+    goto after_switch;
 
-    L_case_7:
+  L_case_7:
     {
-      register s32 call_flag ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-      e->f0c = new_var & 0xFF;
-      call_flag = 1;
-      ASM_KEEP(call_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-      func_80055E7C(3, idx, new_var & 0xFF, flag14 = call_flag);
-      goto after_switch;
-    }
-
-    L_case_10:
-    {
-      register s32 call_flag ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-      e->f04 = ((new_var & 0xFF) == 0) ? (1) : (new_var & 0xFF);
-      call_flag = 1;
-      ASM_KEEP(call_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-      func_80055E7C(2, idx, e->f04, flag14 = call_flag);
+      register s32 refresh_flag ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+      settings->f0c = control_value & 0xFF;
+      refresh_flag = 1;
+      ASM_KEEP(refresh_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+      func_80055E7C(3, channel, control_value & 0xFF, refresh_notes = refresh_flag);
       goto after_switch;
     }
 
-    L_case_11:
+  L_case_10:
     {
-      register s32 call_flag ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-      e->f14 = new_var & 0xFF;
-      call_flag = 1;
-      ASM_KEEP(call_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-      func_80055E7C(5, idx, new_var & 0xFF, flag14 = call_flag);
+      register s32 refresh_flag ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+      settings->f04 = ((control_value & 0xFF) == 0) ? (1) : (control_value & 0xFF);
+      refresh_flag = 1;
+      ASM_KEEP(refresh_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+      func_80055E7C(2, channel, settings->f04, refresh_notes = refresh_flag);
       goto after_switch;
     }
 
-    L_case_12:
+  L_case_11:
     {
-      register s32 call_flag ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-      e->f2c = new_var & 0xFF;
-      call_flag = 1;
-      ASM_KEEP(call_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-      flag14 = call_flag;
+      register s32 refresh_flag ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+      settings->f14 = control_value & 0xFF;
+      refresh_flag = 1;
+      ASM_KEEP(refresh_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+      func_80055E7C(5, channel, control_value & 0xFF, refresh_notes = refresh_flag);
       goto after_switch;
     }
 
-    L_case_20:
-      e->f6c = new_var << 1;
-      goto after_switch;
-
-    L_case_21:
-      e->f6e = new_var;
-      goto after_switch;
-
-    L_case_22:
-      e->f68 = (new_var & 0xFF) << 4;
-      e->f64 = (new_var & 0xFF) << 4;
-      e->f6d = 0;
-      e->f5d = 1;
-      goto after_switch;
-
-    L_case_23:
-      e->f6d = new_var;
-      if (((new_var & 0xFF) != 0) && (e->f68 != 0))
+  L_case_12:
     {
-      e->f70 = e->f68 / (new_var & 0xFF);
-      if (e->f70 == 0)
+      register s32 refresh_flag ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+      settings->f2c = control_value & 0xFF;
+      refresh_flag = 1;
+      ASM_KEEP(refresh_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+      refresh_notes = refresh_flag;
+      goto after_switch;
+    }
+
+  L_case_20:
+    settings->f6c = control_value << 1;
+    goto after_switch;
+
+  L_case_21:
+    settings->f6e = control_value;
+    goto after_switch;
+
+  L_case_22:
+    settings->f68 = (control_value & 0xFF) << 4;
+    settings->f64 = (control_value & 0xFF) << 4;
+    settings->f6d = 0;
+    settings->f5d = 1;
+    goto after_switch;
+
+  L_case_23:
+    settings->f6d = control_value;
+    if (((control_value & 0xFF) != 0) && (settings->f68 != 0))
+    {
+      settings->f70 = settings->f68 / (control_value & 0xFF);
+      if (settings->f70 == 0)
       {
-        e->f70 = 1;
+        settings->f70 = 1;
       }
     }
-      goto after_switch;
+    goto after_switch;
 
-    L_case_25:
-      e->f88 = new_var << 1;
-      goto after_switch;
+  L_case_25:
+    settings->f88 = control_value << 1;
+    goto after_switch;
 
-    L_case_26:
-      e->f8a = new_var;
-      goto after_switch;
+  L_case_26:
+    settings->f8a = control_value;
+    goto after_switch;
 
-    L_case_27:
-      e->f84 = (new_var & 0xFF) << 7;
-      e->f80 = (new_var & 0xFF) << 7;
-      e->f89 = 0;
-      e->f78 = 1;
-      goto after_switch;
+  L_case_27:
+    settings->f84 = (control_value & 0xFF) << 7;
+    settings->f80 = (control_value & 0xFF) << 7;
+    settings->f89 = 0;
+    settings->f78 = 1;
+    goto after_switch;
 
-    L_case_28:
-      e->f89 = new_var;
-      if (((new_var & 0xFF) != 0) && (e->f84 != 0))
+  L_case_28:
+    settings->f89 = control_value;
+    if (((control_value & 0xFF) != 0) && (settings->f84 != 0))
     {
-      e->f8c = e->f84 / (new_var & 0xFF);
-      if (e->f8c == 0)
+      settings->f8c = settings->f84 / (control_value & 0xFF);
+      if (settings->f8c == 0)
       {
-        e->f8c = 1;
+        settings->f8c = 1;
       }
     }
-      goto after_switch;
+    goto after_switch;
 
-    L_case_30:
-      D_80073738.f0 = new_var & 0xFF;
-      func_800564A8();
-      goto after_switch;
+  L_case_30:
+    D_80073738.f0 = control_value & 0xFF;
+    func_800564A8();
+    goto after_switch;
 
-    L_case_64:
-      for (k = 0; k < D_80073734; k++)
+  L_case_64:
+    for (entry_idx = 0; entry_idx < D_80073734; entry_idx++)
     {
-      if (idx == D_80085458[k].f06)
+      if (channel == D_80085458[entry_idx].f06)
       {
-        if (((u32) (new_var & 0xFF)) < 0x40)
+        if (((u32) (control_value & 0xFF)) < 0x40)
         {
-          for (i = 0; i < D_80073734; i++)
+          for (voice_idx = 0; voice_idx < D_80073734; voice_idx++)
           {
-            if (((D_80085458[i].f06 == idx) && (D_80085458[i].f1d != 0)) && (D_80085458[i].f1c & 0x80))
+            if (((D_80085458[voice_idx].f06 == channel) && (D_80085458[voice_idx].f1d != 0)) && (D_80085458[voice_idx].f1c & 0x80))
             {
               {
-                register s32 v ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                register s32 acc ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                v = D_80073740[i];
-                acc = flag18;
-                ASM_KEEP_DEP_NV(acc, v);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                acc |= v;
-                flag18 = acc;
+                register s32 voice_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                register s32 merged_mask ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                voice_mask = D_80073740[voice_idx];
+                merged_mask = stopped_voices;
+                ASM_KEEP_DEP_NV(merged_mask, voice_mask);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                merged_mask |= voice_mask;
+                stopped_voices = merged_mask;
               }
               do
               {
-                func_8005E97C(0, D_80073740[i]);
-                r = func_8005EB78(D_80073740[i]);
+                func_8005E97C(0, D_80073740[voice_idx]);
+                voice_status = func_8005EB78(D_80073740[voice_idx]);
               }
-              while ((r != 2) && (r != 0));
-              D_80085458[i].f1d = 0;
-              D_80085458[i].f1a = 0;
+              while ((voice_status != 2) && (voice_status != 0));
+              D_80085458[voice_idx].f1d = 0;
+              D_80085458[voice_idx].f1a = 0;
             }
           }
 
-          D_80085458[k].f1d = 0;
+          D_80085458[entry_idx].f1d = 0;
         }
         else
         {
-          D_80085458[k].f1d = 1;
+          D_80085458[entry_idx].f1d = 1;
         }
       }
     }
 
-      if (((u32) (new_var & 0xFF)) < 0x40)
+    if (((u32) (control_value & 0xFF)) < 0x40)
     {
-      D_80084960[idx].f18 = 0;
+      D_80084960[channel].f18 = 0;
     }
     else
     {
-      D_80084960[idx].f18 = 1;
+      D_80084960[channel].f18 = 1;
     }
-      goto after_switch;
+    goto after_switch;
 
-    L_case_91:
-      e->f30 = new_var & 0x7F;
-      goto after_switch;
+  L_case_91:
+    settings->f30 = control_value & 0x7F;
+    goto after_switch;
 
-    L_case_6:
-      e->f4e = new_var;
-      if ((e->f4d != 0x14) && (e->f4d != 0x1E))
+  L_case_6:
+    settings->f4e = control_value;
+    if ((settings->f4d != 0x14) && (settings->f4d != 0x1E))
     {
-      func_80057A94(e);
+      func_80057A94(settings);
     }
-      goto after_switch;
+    goto after_switch;
 
-    L_case_98:
-      e->f4c = new_var;
-      goto after_switch;
+  L_case_98:
+    settings->f4c = control_value;
+    goto after_switch;
 
-    L_case_99:
-      e->f4d = new_var;
-      goto after_switch;
+  L_case_99:
+    settings->f4d = control_value;
+    goto after_switch;
 
-    L_case_120:
+  L_case_120:
 
-    L_case_121:
+  L_case_121:
 
-    L_case_123:
-      func_80056A08();
-      goto after_switch;
+  L_case_123:
+    func_80056A08();
+    goto after_switch;
 
-    L_case_126:
-      e->f98 = new_var;
-      goto after_switch;
+  L_case_126:
+    settings->f98 = control_value;
+    goto after_switch;
 
-    L_default:
-      goto after_switch;
-
+  L_default:
+    goto after_switch;
   }
-  after_switch: ;
+after_switch: ;
 
   {
-    register s32 pending_flag ASM_REG("$7") = flag18;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if (pending_flag)
+    register s32 pending_voices ASM_REG("$7") = stopped_voices;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    if (pending_voices)
     {
-      func_8005E97C(0, pending_flag);
+      func_8005E97C(0, pending_voices);
     }
   }
   {
-    register s32 pending_flag ASM_REG("$7") = flag14;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(pending_flag);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    if (pending_flag)
+    register s32 pending_refresh ASM_REG("$7") = refresh_notes;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(pending_refresh);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    if (pending_refresh)
     {
-      for (k = 0; k < D_80073734; k++)
+      for (entry_idx = 0; entry_idx < D_80073734; entry_idx++)
       {
-        if ((idx == D_80085458[k].f06) && (D_80085458[k].f1a != 0))
+        if ((channel == D_80085458[entry_idx].f06) && (D_80085458[entry_idx].f1a != 0))
         {
-          func_800561D8(&D_80085458[k], &D_80084960[idx]);
-          func_800563B0(k, D_80085458[k].f10, D_80085458[k].f12);
+          func_800561D8(&D_80085458[entry_idx], &D_80084960[channel]);
+          func_800563B0(entry_idx, D_80085458[entry_idx].f10, D_80085458[entry_idx].f12);
         }
       }
-
     }
   }
 }

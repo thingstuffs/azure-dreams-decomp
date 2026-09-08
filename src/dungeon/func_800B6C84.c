@@ -45,8 +45,9 @@ extern s32 func_80045310(void *);
 extern void func_800BC4D4(void *, void *, s16, s32);
 extern s16 func_800BCB04(u16, u16, s16);
 
-s32 func_800BC3E4(void *arg0) {
-    void *node = arg0;
+/* Traverse object nodes backward and process unflagged primitives with their computed depth. */
+s32 func_800BC3E4(void *start_node) {
+    void *node = start_node;
     s32 *state = D_80083160;
     volatile u16 *scratch = (volatile u16 *)0x1F800000;
     register void *previous ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

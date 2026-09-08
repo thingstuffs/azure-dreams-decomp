@@ -22,36 +22,33 @@ extern void func_800478B8(void *);
 extern s32 D_800814A0;
 extern s32 D_80083460;
 
-void func_800C5A64(void *arg0, s32 *arg1, void *arg2)
+/* Advance and damp effect motion, fade its primitive, and mark it expired when its lifetime ends. */
+void func_800C5A64(void *effect, s32 *motion, void *primitive)
 {
     s16 remaining;
     u8 *counter_base;
 
-    arg1[0] += arg1[3];
-    arg1[1] += arg1[4];
-    arg1[2] += arg1[5];
-    arg1[3] -= arg1[3] >> 3;
-    arg1[4] -= arg1[4] >> 3;
+    motion[0] += motion[3];
+    motion[1] += motion[4];
+    motion[2] += motion[5];
+    motion[3] -= motion[3] >> 3;
+    motion[4] -= motion[4] >> 3;
 
-    func_800478B8(arg2);
+    func_800478B8(primitive);
 
-    ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v -= ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v / ((S_800C5A64_1 *)arg0)->unk_10.s;
-    ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v -= ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v / ((S_800C5A64_1 *)arg0)->unk_10.s;
-    ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v -= ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v / ((S_800C5A64_1 *)arg0)->unk_10.s;
+    ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v -= ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v / ((S_800C5A64_1 *)effect)->unk_10.s;
+    ((Rec_D_80082E80 *)primitive)->unk_0C.at01_u8.v -= ((Rec_D_80082E80 *)primitive)->unk_0C.at01_u8.v / ((S_800C5A64_1 *)effect)->unk_10.s;
+    ((Rec_D_80082E80 *)primitive)->unk_0C.at02_u8.v -= ((Rec_D_80082E80 *)primitive)->unk_0C.at02_u8.v / ((S_800C5A64_1 *)effect)->unk_10.s;
 
-    remaining = ((S_800C5A64_1 *)arg0)->unk_10.u - 1;
-    ((S_800C5A64_1 *)arg0)->unk_10.s = remaining;
+    remaining = ((S_800C5A64_1 *)effect)->unk_10.u - 1;
+    ((S_800C5A64_1 *)effect)->unk_10.s = remaining;
     if ((remaining << 16) <= 0) {
-        if ((((S_800C5A64_1 *)arg0)->unk_0C == 0) &&
-            (((S_800C5A64_1 *)arg0)->unk_1C == 0)) {
+        if ((((S_800C5A64_1 *)effect)->unk_0C == 0) &&
+            (((S_800C5A64_1 *)effect)->unk_1C == 0)) {
             counter_base = (u8 *)&D_80083460;
             ((S_800C5A64_2 *)counter_base)->unk_0A--;
         }
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }
-
-/* MECHANISM: The two call-crossing arguments naturally occupy s1/s0, producing
-   the retail 0x20 frame and save order; the one-argument callee contract leaves
-   the final arg1[4] store available for the jal delay slot. */

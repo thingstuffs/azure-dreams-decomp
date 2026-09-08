@@ -71,69 +71,70 @@ typedef struct S_801715D0_8 {
     s16 unk_1E;
 } S_801715D0_8;   /* temp_v1_2 in func_801715D0 */
 
+/* Creates and initializes an object offset in its owner's facing direction. */
 void func_801715D0(void) {
-    s32 temp_a0_2;
-    s32 temp_a0_3;
-    s32 var_v0;
-    s32 var_v0_2;
-    register S_801715D0_4 *temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    S_801715D0_6 *temp_s1;
-    S_801715D0_5 *temp_s2;
-    u8 *entry;
-    u8 *table;
-    register S_801715D0_3 *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    void *temp_v0;
-    S_801715D0_2 *temp_v1;
-    register S_801715D0_8 *temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 owner_x;
+    s32 owner_y;
+    s32 tile_x;
+    s32 tile_y;
+    register S_801715D0_4 *object_pos ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_801715D0_6 *owner_state;
+    S_801715D0_5 *owner_pos;
+    u8 *direction;
+    u8 *direction_table;
+    register S_801715D0_3 *object_state ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *object;
+    S_801715D0_2 *render_flags;
+    register S_801715D0_8 *sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    temp_s2 = ((Rec_D_80175D54 *)D_80175D54)->unk_08;
-    temp_s1 = D_80175D54 + 0x20;
-    temp_v0 = func_8003FD64(0x12, D_80175D54);
-    if (temp_v0 != NULL) {
-        ((S_801715D0_1 *)temp_v0)->unk_10 = &D_801714AC;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v1 = ((S_801715D0_1 *)temp_v0)->unk_0C;
-        temp_s3 = temp_v0 + 0x20;
-        temp_v1->unk_14 = (u16) ((temp_v1->unk_14 & 0xFFF3) | 0x80);
-        temp_s3->unk_24 = temp_s1;
-        temp_a0 = ((S_801715D0_1 *)temp_v0)->unk_08;
-        temp_a0->unk_02 = (u16) temp_s2->unk_02;
-        temp_a0->unk_06 = (u16) temp_s2->unk_06;
-        temp_a0->unk_0A = (u16) temp_s2->unk_0A;
-        table = (u8 *) 0x80170000;
-        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        table += 0x3AFC;
-        entry = (u8 *) ((u32) (((u16) temp_s1->unk_2A >> 7) & 0x1C) + (u32) table);
-        temp_a0->unk_02 = (u16) (temp_a0->unk_02 + (((S_801715D0_7 *)entry)->unk_00 * 6));
-        entry = (u8 *) ((u32) (((u16) temp_s1->unk_2A >> 7) & 0x1C) + (u32) table);
-        temp_a0->unk_06 = (u16) (temp_a0->unk_06 + (((S_801715D0_7 *)entry)->unk_02 * 6));
-        temp_v1_2 = ((S_801715D0_1 *)temp_v0)->unk_0C;
-        temp_v1_2->unk_1E = 0x1000;
-        temp_v1_2->unk_1C = 0x1000;
-        temp_a0_2 = (s16) temp_s2->unk_02;
-        var_v0 = temp_a0_2 - 0x20;
-        if (var_v0 < 0) {
-            var_v0 = (s32) (temp_a0_2 + 0x1F) >> 6;
+    owner_pos = ((Rec_D_80175D54 *)D_80175D54)->unk_08;
+    owner_state = D_80175D54 + 0x20;
+    object = func_8003FD64(0x12, D_80175D54);
+    if (object != NULL) {
+        ((S_801715D0_1 *)object)->unk_10 = &D_801714AC;
+        func_8004491C(object, &D_80045340);
+        render_flags = ((S_801715D0_1 *)object)->unk_0C;
+        object_state = object + 0x20;
+        render_flags->unk_14 = (u16) ((render_flags->unk_14 & 0xFFF3) | 0x80);
+        object_state->unk_24 = owner_state;
+        object_pos = ((S_801715D0_1 *)object)->unk_08;
+        object_pos->unk_02 = (u16) owner_pos->unk_02;
+        object_pos->unk_06 = (u16) owner_pos->unk_06;
+        object_pos->unk_0A = (u16) owner_pos->unk_0A;
+        direction_table = (u8 *) 0x80170000;
+        ASM_KEEP(direction_table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        direction_table += 0x3AFC;
+        direction = (u8 *) ((u32) (((u16) owner_state->unk_2A >> 7) & 0x1C) + (u32) direction_table);
+        object_pos->unk_02 = (u16) (object_pos->unk_02 + (((S_801715D0_7 *)direction)->unk_00 * 6));
+        direction = (u8 *) ((u32) (((u16) owner_state->unk_2A >> 7) & 0x1C) + (u32) direction_table);
+        object_pos->unk_06 = (u16) (object_pos->unk_06 + (((S_801715D0_7 *)direction)->unk_02 * 6));
+        sprite = ((S_801715D0_1 *)object)->unk_0C;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        owner_x = (s16) owner_pos->unk_02;
+        tile_x = owner_x - 0x20;
+        if (tile_x < 0) {
+            tile_x = (s32) (owner_x + 0x1F) >> 6;
         } else {
-            var_v0 >>= 6;
+            tile_x >>= 6;
         }
-        temp_s3->unk_58 = (s8) var_v0;
-        temp_a0_3 = (s16) temp_s2->unk_06;
-        var_v0_2 = temp_a0_3 - 0x20;
-        if (var_v0_2 < 0) {
-            var_v0_2 = (s32) (temp_a0_3 + 0x1F) >> 6;
+        object_state->unk_58 = (s8) tile_x;
+        owner_y = (s16) owner_pos->unk_06;
+        tile_y = owner_y - 0x20;
+        if (tile_y < 0) {
+            tile_y = (s32) (owner_y + 0x1F) >> 6;
         } else {
-            var_v0_2 >>= 6;
+            tile_y >>= 6;
         }
-        temp_s3->unk_59 = (s8) var_v0_2;
-        temp_v1_2->unk_0E = 0x80;
-        temp_v1_2->unk_0D = 0x80;
-        temp_v1_2->unk_0C = 0x80;
-        temp_v1_2->unk_08 = &D_80077854;
-        D_80175DB8 = temp_v0;
+        object_state->unk_59 = (s8) tile_y;
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
+        sprite->unk_08 = &D_80077854;
+        D_80175DB8 = object;
     }
 }
 
 /* MECHANISM: Last-use pins hold the object+0x20 base in s3 and the a0/v0/v1 live-range roles, yielding the retail 0x28 frame.
-   A held 0x80170000 page plus addiu 0x3AFC prevents the table low half from folding into its signed halfword loads.
+   A held 0x80170000 page plus addiu 0x3AFC prevents the direction_table low half from folding into its signed halfword loads.
    Named integer-form index+base sums preserve addu v0,v0,a1; shared v0 normalization and u8 color stores close the tail. */

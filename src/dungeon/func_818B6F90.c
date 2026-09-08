@@ -101,56 +101,57 @@ typedef struct S_818B6F90_3 {
     u8 unk_0E;
 } S_818B6F90_3;   /* arg1 in func_818B6F90 */
 
-s32 func_818B6F90(s32 arg0, u8 *arg1)
+/* Projects a textured color-gradient quad and links it into the ordering table if its depth is in range. */
+s32 func_818B6F90(s32 texture_index, u8 *color_source)
 {
-    u8 *base;
+    u8 *render_buffer;
     u8 *packet;
     u8 *scratch;
-    s32 xpos;
-    s32 shade;
-    register s16 tpage ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    u32 *ot;
-    u32 *ot2;
-    u32 index;
-    u32 index2;
-    u32 otword;
-    u8 *a70;
-    u8 *a74;
-    u8 *a78;
-    u8 *a7C;
-    u8 *a08;
-    u8 *a0C;
+    s32 texture_u;
+    s32 texture_v;
+    register s16 texture_id ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u32 *ot_read;
+    u32 *ot_write;
+    u32 depth_index;
+    u32 write_depth;
+    u32 ot_entry;
+    u8 *screen_xy0;
+    u8 *screen_xy1;
+    u8 *screen_xy2;
+    u8 *screen_xy3;
+    u8 *depth_cue;
+    u8 *transform_flags;
 
     scratch = (u8 *)0x1F800000;
-    base = *(u8 **)D_80083160;
-    ((S_818B6F90_0 *)scratch)->unk_00 = base + 0xB0;
-    packet = ((S_818B6F90_1 *)base)->unk_8D0;
-    ((S_818B6F90_1 *)base)->unk_8D0 = packet + 0x34;
+    render_buffer = *(u8 **)D_80083160;
+    ((S_818B6F90_0 *)scratch)->unk_00 = render_buffer + 0xB0;
+    packet = ((S_818B6F90_1 *)render_buffer)->unk_8D0;
+    ((S_818B6F90_1 *)render_buffer)->unk_8D0 = packet + 0x34;
     ((S_818B6F90_2 *)packet)->unk_00.at03.v = 0x0C;
     ((S_818B6F90_2 *)packet)->unk_07 = 0x3E;
 
-    tpage = func_80066460(0, 3, 0x300, 0x100);
-    xpos = (arg0 << 16) >> 13;
-    xpos += 0x80;
-    a70 = scratch + 0x70;
-    a74 = scratch + 0x74;
-    a78 = scratch + 0x78;
-    a7C = scratch + 0x7C;
-    a08 = scratch + 0x08;
-    a0C = scratch + 0x0C;
+    texture_id = func_80066460(0, 3, 0x300, 0x100);
+    texture_u = (texture_index << 16) >> 13;
+    texture_u += 0x80;
+    screen_xy0 = scratch + 0x70;
+    screen_xy1 = scratch + 0x74;
+    screen_xy2 = scratch + 0x78;
+    screen_xy3 = scratch + 0x7C;
+    depth_cue = scratch + 0x08;
+    transform_flags = scratch + 0x0C;
 
-    ((S_818B6F90_2 *)packet)->unk_1A = tpage;
-    tpage = 0x7DCF;
-    shade = 0x40;
-    ASM_KEEP_NV(shade);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ((S_818B6F90_2 *)packet)->unk_0E = tpage;
-    ((S_818B6F90_2 *)packet)->unk_18 = xpos | 7;
-    ((S_818B6F90_2 *)packet)->unk_24 = xpos | 7;
-    ((S_818B6F90_2 *)packet)->unk_0C = xpos;
-    ((S_818B6F90_2 *)packet)->unk_0D = shade;
-    ((S_818B6F90_2 *)packet)->unk_19 = shade;
+    ((S_818B6F90_2 *)packet)->unk_1A = texture_id;
+    texture_id = 0x7DCF;
+    texture_v = 0x40;
+    ASM_KEEP_NV(texture_v);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ((S_818B6F90_2 *)packet)->unk_0E = texture_id;
+    ((S_818B6F90_2 *)packet)->unk_18 = texture_u | 7;
+    ((S_818B6F90_2 *)packet)->unk_24 = texture_u | 7;
+    ((S_818B6F90_2 *)packet)->unk_0C = texture_u;
+    ((S_818B6F90_2 *)packet)->unk_0D = texture_v;
+    ((S_818B6F90_2 *)packet)->unk_19 = texture_v;
     ((S_818B6F90_2 *)packet)->unk_25 = 0x7F;
-    ((S_818B6F90_2 *)packet)->unk_30 = xpos;
+    ((S_818B6F90_2 *)packet)->unk_30 = texture_u;
     ((S_818B6F90_2 *)packet)->unk_31 = 0x7F;
     ((S_818B6F90_2 *)packet)->unk_04 = 0;
     ((S_818B6F90_2 *)packet)->unk_05 = 0;
@@ -159,12 +160,12 @@ s32 func_818B6F90(s32 arg0, u8 *arg1)
     ((S_818B6F90_2 *)packet)->unk_11 = 0;
     ((S_818B6F90_2 *)packet)->unk_12 = 0;
 
-    ((S_818B6F90_2 *)packet)->unk_1C = ((S_818B6F90_3 *)arg1)->unk_0C;
-    ((S_818B6F90_2 *)packet)->unk_1D = ((S_818B6F90_3 *)arg1)->unk_0D;
-    ((S_818B6F90_2 *)packet)->unk_1E = ((S_818B6F90_3 *)arg1)->unk_0E;
-    ((S_818B6F90_2 *)packet)->unk_28 = ((S_818B6F90_3 *)arg1)->unk_0C;
-    ((S_818B6F90_2 *)packet)->unk_29 = ((S_818B6F90_3 *)arg1)->unk_0D;
-    ((S_818B6F90_2 *)packet)->unk_2A = ((S_818B6F90_3 *)arg1)->unk_0E;
+    ((S_818B6F90_2 *)packet)->unk_1C = ((S_818B6F90_3 *)color_source)->unk_0C;
+    ((S_818B6F90_2 *)packet)->unk_1D = ((S_818B6F90_3 *)color_source)->unk_0D;
+    ((S_818B6F90_2 *)packet)->unk_1E = ((S_818B6F90_3 *)color_source)->unk_0E;
+    ((S_818B6F90_2 *)packet)->unk_28 = ((S_818B6F90_3 *)color_source)->unk_0C;
+    ((S_818B6F90_2 *)packet)->unk_29 = ((S_818B6F90_3 *)color_source)->unk_0D;
+    ((S_818B6F90_2 *)packet)->unk_2A = ((S_818B6F90_3 *)color_source)->unk_0E;
 
     ((S_818B6F90_0 *)scratch)->unk_10 = ((S_818B6F90_0 *)scratch)->unk_30 >> 16;
     ((S_818B6F90_0 *)scratch)->unk_18 = ((S_818B6F90_0 *)scratch)->unk_40 >> 16;
@@ -183,8 +184,8 @@ s32 func_818B6F90(s32 arg0, u8 *arg1)
 
     ((S_818B6F90_0 *)scratch)->unk_04.v = func_80065590(
         scratch + 0x10, scratch + 0x18, scratch + 0x20, scratch + 0x28,
-        a70, a74, a78, a7C,
-        a08, a0C);
+        screen_xy0, screen_xy1, screen_xy2, screen_xy3,
+        depth_cue, transform_flags);
 
     (*(u16 *)((u8 *)packet + (0x08))) = ((S_818B6F90_0 *)scratch)->unk_70;
     (*(u16 *)((u8 *)packet + (0x0A))) = ((S_818B6F90_0 *)scratch)->unk_72;
@@ -195,17 +196,17 @@ s32 func_818B6F90(s32 arg0, u8 *arg1)
     ((S_818B6F90_2 *)packet)->unk_2C = ((S_818B6F90_0 *)scratch)->unk_7C;
     ((S_818B6F90_2 *)packet)->unk_2E = ((S_818B6F90_0 *)scratch)->unk_7E;
 
-    index = ((S_818B6F90_0 *)scratch)->unk_04.v2;
-    if (index < 0x1E0) {
-        ot = (*(u32 * volatile *)((u8 *)scratch + (0x00)));
-        otword = ot[index];
+    depth_index = ((S_818B6F90_0 *)scratch)->unk_04.v2;
+    if (depth_index < 0x1E0) {
+        ot_read = (*(u32 * volatile *)((u8 *)scratch + (0x00)));
+        ot_entry = ot_read[depth_index];
         ((S_818B6F90_2 *)packet)->unk_00.at00.v =
             (((S_818B6F90_2 *)packet)->unk_00.at00.v & 0xFF000000) |
-            (otword & 0x00FFFFFF);
-        index2 = ((S_818B6F90_0 *)scratch)->unk_04.v2;
-        ot2 = (*(u32 * volatile *)((u8 *)scratch + (0x00)));
-        ot2[index2] =
-            (ot2[index2] & 0xFF000000) |
+            (ot_entry & 0x00FFFFFF);
+        write_depth = ((S_818B6F90_0 *)scratch)->unk_04.v2;
+        ot_write = (*(u32 * volatile *)((u8 *)scratch + (0x00)));
+        ot_write[write_depth] =
+            (ot_write[write_depth] & 0xFF000000) |
             ((u32)packet & 0x00FFFFFF);
     }
 

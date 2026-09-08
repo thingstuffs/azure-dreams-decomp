@@ -3,6 +3,7 @@
 
 M2C_UNK func_80402F84();   /* extern */
 
-void func_8001C1E4(M2C_UNK arg0, M2C_UNK arg1) {
-    func_80402F84(arg0, 0xe, 2, arg1);
+/* Dispatch operation 0xe in mode 2 with the supplied context and payload. */
+void func_8001C1E4(M2C_UNK context, M2C_UNK payload) {
+    func_80402F84(context, 0xe, 2, payload);
 }

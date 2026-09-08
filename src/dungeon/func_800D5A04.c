@@ -28,69 +28,66 @@ M2C_UNK func_800478B8();                      /* extern */
 s32 rand();                             /* extern */
 extern s32 D_800814A0;
 
-void func_800DB164(void *arg0, void *arg1, void *arg2) {
-    s16 temp_v1;
-    s32 temp_a0;
-    s32 temp_v0;
+/* Updates a timed effect's animation and motion, marking it for removal when finished. */
+void func_800DB164(void *effect, void *motion, void *visual) {
+    s16 phase;
+    s32 ticks_left;
+    s32 next_phase;
 
-    temp_v1 = ((S_800DB164_0 *)arg0)->unk_4C.s;
-    temp_a0 = ((S_800DB164_0 *)arg0)->unk_48 - 1;
-    ((S_800DB164_0 *)arg0)->unk_48 = temp_a0;
-    if (temp_v1 == 1) {
+    phase = ((S_800DB164_0 *)effect)->unk_4C.s;
+    ticks_left = ((S_800DB164_0 *)effect)->unk_48 - 1;
+    ((S_800DB164_0 *)effect)->unk_48 = ticks_left;
+    if (phase == 1) {
         goto case_1;
     }
-    if (temp_v1 >= 2) {
+    if (phase >= 2) {
         goto check_2;
     }
-    if (temp_v1 == 0) {
+    if (phase == 0) {
         goto case_0;
     }
-    goto block_16;
+    goto update_motion;
 
 check_2:
-    if (temp_v1 == 2) {
+    if (phase == 2) {
         goto case_2;
     }
-    goto block_16;
+    goto update_motion;
 
 case_0:
-    ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v - ((rand(temp_a0) & 0xFF) + 0x300));
-    ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = (u16) (((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v + ((rand() & 0xFF) + 0x200));
-    if ((s16) ((S_800DB164_0 *)arg0)->unk_48 > 0) {
-        goto block_16;
+    ((Rec_D_80082E80 *)visual)->unk_1C.at00_u16.v = (u16) (((Rec_D_80082E80 *)visual)->unk_1C.at00_u16.v - ((rand(ticks_left) & 0xFF) + 0x300));
+    ((Rec_D_80082E80 *)visual)->unk_1C.at02_u16.v = (u16) (((Rec_D_80082E80 *)visual)->unk_1C.at02_u16.v + ((rand() & 0xFF) + 0x200));
+    if ((s16) ((S_800DB164_0 *)effect)->unk_48 > 0) {
+        goto update_motion;
     }
-    temp_v0 = ((S_800DB164_0 *)arg0)->unk_4C.u + 1;
-    goto store_increment;
+    next_phase = ((S_800DB164_0 *)effect)->unk_4C.u + 1;
+    goto advance_phase;
 
 case_1:
-    ((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v = (s32) (((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v + 0xFFF3F3F4);
-    ((S_800DB164_2 *)arg1)->unk_14 = (s32) (((S_800DB164_2 *)arg1)->unk_14 - ((rand(temp_a0) & 0xFF) << 0xA));
-    if (((S_800DB164_2 *)arg1)->unk_08.at02.v < ((S_800DB164_0 *)arg0)->unk_10) {
-        temp_v1 = 4;
-        ((S_800DB164_0 *)arg0)->unk_48 = temp_v1;
-        temp_v0 = ((S_800DB164_0 *)arg0)->unk_4C.u + 1;
-        goto store_increment;
+    ((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v = (s32) (((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v + 0xFFF3F3F4);
+    ((S_800DB164_2 *)motion)->unk_14 = (s32) (((S_800DB164_2 *)motion)->unk_14 - ((rand(ticks_left) & 0xFF) << 0xA));
+    if (((S_800DB164_2 *)motion)->unk_08.at02.v < ((S_800DB164_0 *)effect)->unk_10) {
+        phase = 4;
+        ((S_800DB164_0 *)effect)->unk_48 = phase;
+        next_phase = ((S_800DB164_0 *)effect)->unk_4C.u + 1;
+        goto advance_phase;
     }
 
-    goto block_16;
+    goto update_motion;
 
-store_increment:
-    ((S_800DB164_0 *)arg0)->unk_4C.u = temp_v0;
-    goto block_16;
+advance_phase:
+    ((S_800DB164_0 *)effect)->unk_4C.u = next_phase;
+    goto update_motion;
 
 case_2:
-    if ((temp_a0 << 0x10) <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_800DB164_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    if ((ticks_left << 0x10) <= 0) {
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800DB164_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
     }
 
-block_16:
-    if (((S_800DB164_0 *)arg0)->unk_4C.s != 0) {
-        ((S_800DB164_2 *)arg1)->unk_08.at00.v = (s32) (((S_800DB164_2 *)arg1)->unk_08.at00.v + ((S_800DB164_2 *)arg1)->unk_14);
-        func_800478B8(arg2);
+update_motion:
+    if (((S_800DB164_0 *)effect)->unk_4C.s != 0) {
+        ((S_800DB164_2 *)motion)->unk_08.at00.v = (s32) (((S_800DB164_2 *)motion)->unk_08.at00.v + ((S_800DB164_2 *)motion)->unk_14);
+        func_800478B8(visual);
     }
 }
-
-/* MECHANISM: The true-space function uses three held argument bases and local CFG joins at
-   800DB268/800DB298; restoring the shared increment/store join made the 94-word shape exact.
-   Reusing the selector local for constant 4 colored it v1 and preserved the increment in v0. */

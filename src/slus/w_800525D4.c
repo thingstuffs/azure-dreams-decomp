@@ -38,69 +38,61 @@ extern void func_80051E94(void *a0, S_800525D4_sub *a1);
 extern void func_800520B4(void *a0, S_800525D4_sub *a1);
 extern void func_80053374(void *a0, S_800525D4_sub *a1);
 
-/* Allocates a node via func_8003FC64(0). On success, installs the node's
- * vtable (func_80052144), zeroes its embedded sub-object and points its
- * f8 field at D_80071E44, then runs global init (func_8003F540) and sets a
- * flag (func_80053DA8(0x300)). It then tries to attach up to 5 sub-slots,
- * each obtained via func_8003FD64(0x212, node); on success the slot pointer
- * is stashed in the sub-object and the sub-object's slot count is bumped.
- * The second slot is skipped entirely if func_80033B2C(0x1392) returns
- * non-zero. The retail binary never sets up a return value (leftover $v0
- * from the last operation performed); it is effectively void. */
+/* Allocates and initializes a node, then attaches up to five slots. */
 void func_800525D4(void)
 {
-    S_800525D4_obj *s2;
-    S_800525D4_sub *s0;
-    register void *s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    S_800525D4_obj *node;
+    S_800525D4_sub *slots;
+    register void *slot ASM_REG("$17");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
-    s2 = (S_800525D4_obj *)func_8003FC64(0);
-    if (s2 != 0) {
-        s0 = &s2->sub;
-        s2->vtable = func_80052144;
-        s2->sub.f0 = 0;
-        s0->f2 = 0;
-        s0->count = 0;
-        s0->f6 = 0;
-        s0->f8 = D_80071E44;
-        s0->fC = 0;
-        s0->f10 = 0;
-        s0->f14 = 0;
-        s0->f18 = 0;
-        s0->f1C = 0;
+    node = (S_800525D4_obj *)func_8003FC64(0);
+    if (node != 0) {
+        slots = &node->sub;
+        node->vtable = func_80052144;
+        node->sub.f0 = 0;
+        slots->f2 = 0;
+        slots->count = 0;
+        slots->f6 = 0;
+        slots->f8 = D_80071E44;
+        slots->fC = 0;
+        slots->f10 = 0;
+        slots->f14 = 0;
+        slots->f18 = 0;
+        slots->f1C = 0;
         func_8003F540(0, 0x15B7C, 0, 0x10093C8);
         func_80053DA8(0x300);
 
-        s1 = func_8003FD64(0x212, s2);
-        if (s1 != 0) {
-            func_80051708(s1, s0);
-            s0->fC = s1;
-            s0->count++;
+        slot = func_8003FD64(0x212, node);
+        if (slot != 0) {
+            func_80051708(slot, slots);
+            slots->fC = slot;
+            slots->count++;
         }
         if (func_80033B2C(0x1392) == 0) {
-            s1 = func_8003FD64(0x212, s2);
-            if (s1 != 0) {
-                func_80051BFC(s1, s0);
-                s0->f10 = s1;
-                s0->count++;
+            slot = func_8003FD64(0x212, node);
+            if (slot != 0) {
+                func_80051BFC(slot, slots);
+                slots->f10 = slot;
+                slots->count++;
             }
         }
-        s1 = func_8003FD64(0x212, s2);
-        if (s1 != 0) {
-            func_80051E94(s1, s0);
-            s0->f14 = s1;
-            s0->count++;
+        slot = func_8003FD64(0x212, node);
+        if (slot != 0) {
+            func_80051E94(slot, slots);
+            slots->f14 = slot;
+            slots->count++;
         }
-        s1 = func_8003FD64(0x212, s2);
-        if (s1 != 0) {
-            func_800520B4(s1, s0);
-            s0->f18 = s1;
-            s0->count++;
+        slot = func_8003FD64(0x212, node);
+        if (slot != 0) {
+            func_800520B4(slot, slots);
+            slots->f18 = slot;
+            slots->count++;
         }
-        s1 = func_8003FD64(0x212, s2);
-        if (s1 != 0) {
-            func_80053374(s1, s0);
-            s0->f1C = s1;
-            s0->count++;
+        slot = func_8003FD64(0x212, node);
+        if (slot != 0) {
+            func_80053374(slot, slots);
+            slots->f1C = slot;
+            slots->count++;
         }
     }
 }

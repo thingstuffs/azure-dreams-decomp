@@ -22,28 +22,29 @@ typedef struct S_80019ADC_2 {
     u8 unk_01;
 } S_80019ADC_2;   /* temp_v1 in func_80019ADC */
 
-s32 func_80019ADC(s32 arg0, s32 arg1) {
+/* Return the first entry index matching both bytes, or -1 if none matches. */
+s32 func_80019ADC(s32 match_byte_1, s32 match_byte_0) {
     s32 result;
-    s32 var_a3;
-    void **var_a2;
-    void *temp_v0;
-    S_80019ADC_2 *temp_v1;
+    s32 entry_index;
+    void **entry_slot;
+    void *list_owner;
+    S_80019ADC_2 *entry;
 
     result = -1;
-    do { temp_v0 = ((S_80019ADC_0 *)(*(void **)D_80016000))->unk_38; } while (0);
-    var_a2 = temp_v0 + 0x29C;
-    var_a3 = 0;
-    if (((S_80019ADC_1 *)temp_v0)->unk_29C != 0) {
+    do { list_owner = ((S_80019ADC_0 *)(*(void **)D_80016000))->unk_38; } while (0);
+    entry_slot = list_owner + 0x29C;
+    entry_index = 0;
+    if (((S_80019ADC_1 *)list_owner)->unk_29C != 0) {
 loop_1:
-        do { temp_v1 = *var_a2; } while (0);
-        if ((temp_v1->unk_01 == arg0) &&
-            (temp_v1->unk_00 == arg1)) {
-            result = var_a3;
+        do { entry = *entry_slot; } while (0);
+        if ((entry->unk_01 == match_byte_1) &&
+            (entry->unk_00 == match_byte_0)) {
+            result = entry_index;
             goto done;
         }
-        var_a2 = (void **)((s8 *)var_a2 + 4);
-        var_a3 += 1;
-        if (*var_a2 == 0) {
+        entry_slot = (void **)((s8 *)entry_slot + 4);
+        entry_index += 1;
+        if (*entry_slot == 0) {
             goto done;
         }
         goto loop_1;

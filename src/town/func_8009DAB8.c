@@ -19,18 +19,19 @@ typedef struct S_8009B218_0_pre {
 
 
 
-void func_8009B218(void *arg0, M2C_UNK arg1, Rec_D_80082E80 *arg2, s32 arg3) {
-    ((S_8009B218_0_pre *)arg0)[-1].unk_00 = &D_8009B148;
-    func_80033CD8(arg0, &D_80045340);
-    ((Rec_func_80094268_arg0 *)arg0)->unk_8C = 0;
-    ((Rec_func_80094268_arg0 *)arg0)->unk_8E = 0;
-    arg2->unk_00 = 0;
-    arg2->unk_04.as_s8 = 0;
-    arg2->unk_05.as_s8 = 0;
-    if (arg3 != 0) {
-        ((Rec_func_80094268_arg0 *)arg0)->unk_58 = arg3;
-        func_8009BFD8(arg0, arg0, arg1, arg2);
+/* Initialize object and state, using the supplied value or default data. */
+void func_8009B218(void *object, M2C_UNK context, Rec_D_80082E80 *state, s32 init_value) {
+    ((S_8009B218_0_pre *)object)[-1].unk_00 = &D_8009B148;
+    func_80033CD8(object, &D_80045340);
+    ((Rec_func_80094268_arg0 *)object)->unk_8C = 0;
+    ((Rec_func_80094268_arg0 *)object)->unk_8E = 0;
+    state->unk_00 = 0;
+    state->unk_04.as_s8 = 0;
+    state->unk_05.as_s8 = 0;
+    if (init_value != 0) {
+        ((Rec_func_80094268_arg0 *)object)->unk_58 = init_value;
+        func_8009BFD8(object, object, context, state);
         return;
     }
-    ((Rec_func_80094268_arg0 *)arg0)->unk_50.as_pm = &D_8009B2BC;
+    ((Rec_func_80094268_arg0 *)object)->unk_50.as_pm = &D_8009B2BC;
 }

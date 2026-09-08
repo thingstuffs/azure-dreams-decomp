@@ -30,30 +30,31 @@ typedef struct S_800BD72C_0_pre {
 } S_800BD72C_0_pre;   /* the 0x18 bytes before arg0 in func_800BD72C, addressed as arg0[-1] */
 
 
-s32 func_800BD72C(void *arg0, s32 arg1, s16 arg2)
+/* Processes an entity event, handling the player separately and completing other events. */
+s32 func_800BD72C(void *entity, s32 event, s16 event_type)
 {
-    if (arg0 == D_800E3D7C) {
-        ((Rec_D_800E3D7C *)arg0)->unk_110 = arg1;
-        func_8008D330(arg0, D_80083780, D_80082E80, arg0);
+    if (entity == D_800E3D7C) {
+        ((Rec_D_800E3D7C *)entity)->unk_110 = event;
+        func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;
     }
 
-    if ((s32)arg0 <= 0x9FFFFFFF) {
-        func_800A63B8(arg0, arg1, arg2);
+    if ((s32)entity <= 0x9FFFFFFF) {
+        func_800A63B8(entity, event, event_type);
         if (func_800AD6FC(
-                arg0, (D_800DDE84[((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v] >> 6) & 3, 0) == 0) {
-            func_800A5F38(arg0, arg1);
+                entity, (D_800DDE84[((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v] >> 6) & 3, 0) == 0) {
+            func_800A5F38(entity, event);
             return 1;
         }
     }
 
-    func_800C4AFC(((S_800BD72C_0_pre *)arg0)[-1].unk_00, 0xC0C0C0, arg0);
-    if ((((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) &&
-        !(((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 & 0x200)) {
+    func_800C4AFC(((S_800BD72C_0_pre *)entity)[-1].unk_00, 0xC0C0C0, entity);
+    if ((((Rec_D_800E3D7C *)entity)->unk_14.as_s32 & 0x4000) &&
+        !(((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x200)) {
         func_800997FC(D_800E0E9B);
     }
-    func_80042B68(arg0, 1);
-    func_80098B38(arg1);
+    func_80042B68(entity, 1);
+    func_80098B38(event);
     D_80083460.fieldA--;
     return 1;
 }

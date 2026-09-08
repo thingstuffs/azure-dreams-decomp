@@ -46,47 +46,48 @@ extern u8 D_80045340[];
 extern u8 D_80026AB0[];
 
 
-void *func_8002470C(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 count)
+/* Spawn particles at the given position with randomized motion and sprite frames. */
+void *func_8002470C(s16 x, s16 y, s16 z, s16 heading, s16 count)
 {
-    Object *obj = 0;
-    s16 base_angle = (s16)arg3;
-    s32 iterations = count;
+    Object *particle = 0;
+    s16 base_angle = (s16)heading;
+    s32 remaining = count;
 
-    while (iterations > 0) {
-        obj = func_8003FC64(0x202);
-        if (obj != 0) {
-            s32 angle;
-            s32 final_angle;
-            S_8002470C_0 *dst;
+    while (remaining > 0) {
+        particle = func_8003FC64(0x202);
+        if (particle != 0) {
+            s32 angle_offset;
+            s32 move_angle;
+            S_8002470C_0 *motion;
             S_8002470C_1 *sprite;
             u8 *extra;
 
-            obj->callback = func_800245F8;
-            func_8004491C(obj, D_80045340);
-            dst = obj->dst;
-            dst->unk_02 = (s16)arg0;
-            dst->unk_06 = (s16)arg1;
-            dst->unk_0A = (s16)(arg2 + 0x10);
+            particle->callback = func_800245F8;
+            func_8004491C(particle, D_80045340);
+            motion = particle->dst;
+            motion->unk_02 = (s16)x;
+            motion->unk_06 = (s16)y;
+            motion->unk_0A = (s16)(z + 0x10);
 
-            angle = (s16)((rand() & 0x7FF) - 0x400);
-            angle -= 0x800;
-            final_angle = base_angle + angle;
-            dst->unk_0C = func_80064584(final_angle) << 6;
-            dst->unk_10 = func_800644B8(final_angle) << 6;
-            dst->unk_14 =
+            angle_offset = (s16)((rand() & 0x7FF) - 0x400);
+            angle_offset -= 0x800;
+            move_angle = base_angle + angle_offset;
+            motion->unk_0C = func_80064584(move_angle) << 6;
+            motion->unk_10 = func_800644B8(move_angle) << 6;
+            motion->unk_14 =
                 (rand() & 0x1FFFF) - 0x10000;
 
-            sprite = obj->sprite;
+            sprite = particle->sprite;
             sprite->unk_1E = 0x1000;
             sprite->unk_1C = 0x1000;
             sprite->unk_0C = 0x808080;
             func_8003DB94(sprite, D_80026AB0, rand() & 7);
 
-            extra = (u8 *)obj + 0x20;
+            extra = (u8 *)particle + 0x20;
             ((S_8002470C_2 *)extra)->unk_30 = (s16)((rand() & 7) + 0x10);
-            ((S_8002470C_2 *)extra)->unk_36 = (s16)arg3;
+            ((S_8002470C_2 *)extra)->unk_36 = (s16)heading;
         }
-        iterations--;
+        remaining--;
     }
-    return obj;
+    return particle;
 }

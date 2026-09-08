@@ -9,6 +9,7 @@ typedef struct S_8003A288_0 {
 } S_8003A288_0;   /* arg0 in func_8003A288 */
 
 
-void func_8003A288(S_8003A288_0 *arg0) {
-    arg0->unk_1C = (s32) (arg0->unk_1C + 1);
+/* Increments the event-script context's counter at offset 0x1C. */
+void func_8003A288(S_8003A288_0 *script_ctx) {
+    script_ctx->unk_1C = (s32) (script_ctx->unk_1C + 1);
 }

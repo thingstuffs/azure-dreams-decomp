@@ -27,26 +27,27 @@ typedef struct {
 extern s32 D_8002E5D8[4];
 extern s32 D_8002E5E8[3];
 
-void func_800B0944(TownOwner *arg0, TownPartA *arg1, TownPartB *arg2) {
-    s32 *src1 = D_8002E5D8;
-    s32 *src2 = D_8002E5E8;
-    s32 first2;
+/* Initialize and attach both town parts, then set the owner and part defaults. */
+void func_800B0944(TownOwner *owner, TownPartA *part_a, TownPartB *part_b) {
+    s32 *defaults_a = D_8002E5D8;
+    s32 *defaults_b = D_8002E5E8;
+    s32 first_b_word;
 
-    ((s32 *)arg1)[0] = D_8002E5D8[0];
-    ((s32 *)arg1)[1] = src1[1];
-    ((s32 *)arg1)[2] = src1[2];
-    first2 = D_8002E5E8[0];
-    ((s32 *)arg1)[3] = src1[3];
-    ((s32 *)arg2)[0] = first2;
-    ((s32 *)arg2)[1] = src2[1];
-    ((s32 *)arg2)[2] = src2[2];
-    arg0->partA = arg1;
-    arg0->partB = arg2;
-    arg0->unk0 = 0;
-    arg0->partA->unk8 = 0;
-    arg0->partA->unkA = -0x6C;
-    arg0->partA->unkC = 0x200;
-    arg0->partA->unkF = 4;
-    arg0->partA->unk6 = 0;
-    arg0->partB->unk8 = 0x30;
+    ((s32 *)part_a)[0] = D_8002E5D8[0];
+    ((s32 *)part_a)[1] = defaults_a[1];
+    ((s32 *)part_a)[2] = defaults_a[2];
+    first_b_word = D_8002E5E8[0];
+    ((s32 *)part_a)[3] = defaults_a[3];
+    ((s32 *)part_b)[0] = first_b_word;
+    ((s32 *)part_b)[1] = defaults_b[1];
+    ((s32 *)part_b)[2] = defaults_b[2];
+    owner->partA = part_a;
+    owner->partB = part_b;
+    owner->unk0 = 0;
+    owner->partA->unk8 = 0;
+    owner->partA->unkA = -0x6C;
+    owner->partA->unkC = 0x200;
+    owner->partA->unkF = 4;
+    owner->partA->unk6 = 0;
+    owner->partB->unk8 = 0x30;
 }

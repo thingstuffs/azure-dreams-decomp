@@ -72,22 +72,23 @@ extern s32 D_80083498;
 extern u8 D_80171A38;
 extern Packed3 D_80175EE8;
 
-void func_80171BEC(void *arg0, S_80171BEC_3 *arg1)
+/* Creates a render object at the supplied position with an optional owner offset. */
+void func_80171BEC(void *attachment, S_80171BEC_3 *base_position)
 {
     Offset3 offset;
     void *object;
     S_80171BEC_1 *render;
     register u8 *copy_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register PackedWord *copy_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 copy0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u32 copy1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 copy2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 data_word_0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 data_word_1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 data_word_2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_80171BEC_2 *position;
     S_80171BEC_5 *owner;
 
     object = func_8003FD64(0x212, &D_80083498);
     if (object != 0) {
-        ((S_80171BEC_0 *)object)->unk_40 = arg0;
+        ((S_80171BEC_0 *)object)->unk_40 = attachment;
         ((S_80171BEC_0 *)object)->unk_10 = &D_80171A38;
         func_8004491C(object, &D_80045340);
 
@@ -97,11 +98,11 @@ void func_80171BEC(void *arg0, S_80171BEC_3 *arg1)
         render->unk_14 |= 0xC;
 
         position = ((S_80171BEC_0 *)object)->unk_08;
-        position->unk_00.at00.v = arg1->unk_00;
-        position->unk_04.at00.v = arg1->unk_04;
-        position->unk_08.at00.v = arg1->unk_08;
+        position->unk_00.at00.v = base_position->unk_00;
+        position->unk_04.at00.v = base_position->unk_04;
+        position->unk_08.at00.v = base_position->unk_08;
 
-        owner = ((S_80171BEC_4_pre *)arg0)[-1].unk_00;
+        owner = ((S_80171BEC_4_pre *)attachment)[-1].unk_00;
         if (func_8003DE58(owner->unk_08, owner, &offset, 0) != 0) {
             position->unk_00.at02.v += offset.x;
             position->unk_04.at02.v += offset.y;
@@ -119,13 +120,13 @@ void func_80171BEC(void *arg0, S_80171BEC_3 *arg1)
         copy_page = (u8 *)0x80170000;
         ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         copy_source = (PackedWord *)(copy_page + 0x5EE8);
-        copy0 = copy_source[0].value;
-        copy1 = copy_source[1].value;
-        copy2 = copy_source[2].value;
-        ((PackedWord *)((u8 *)object + 0x44))[0].value = copy0;
-        ((PackedWord *)((u8 *)object + 0x44))[1].value = copy1;
-        ((PackedWord *)((u8 *)object + 0x44))[2].value = copy2;
-        ASM_KEEP(copy2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        data_word_0 = copy_source[0].value;
+        data_word_1 = copy_source[1].value;
+        data_word_2 = copy_source[2].value;
+        ((PackedWord *)((u8 *)object + 0x44))[0].value = data_word_0;
+        ((PackedWord *)((u8 *)object + 0x44))[1].value = data_word_1;
+        ((PackedWord *)((u8 *)object + 0x44))[2].value = data_word_2;
+        ASM_KEEP(data_word_2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         render->unk_08 = (u8 *)object + 0x44;
     }
 }

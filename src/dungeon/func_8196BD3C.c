@@ -48,40 +48,41 @@ extern u8 D_80045340[];
 extern void *func_8003FC64(u32);
 extern void func_8004491C(void *, void *);
 
-void func_8196BD3C(void *arg0) {
-    void *obj;
-    u8 *work;
+/* Creates a display object at the source position with zero scale and color. */
+void func_8196BD3C(void *source) {
+    void *object;
+    u8 *object_state;
     Display *display;
-    void *from;
-    void *to;
+    void *source_pos;
+    void *object_pos;
 
-    obj = func_8003FC64(0x212);
-    if (obj != 0) {
-        work = (u8 *)obj + 0x20;
-        ((S_8196BD3C_0 *)work)->unk_2C = 0xB;
-        ((S_8196BD3C_0 *)work)->unk_7C = arg0;
-        ((S_8196BD3C_1 *)obj)->unk_10 = D_8002525C;
-        func_8004491C(obj, D_80045340);
+    object = func_8003FC64(0x212);
+    if (object != 0) {
+        object_state = (u8 *)object + 0x20;
+        ((S_8196BD3C_0 *)object_state)->unk_2C = 0xB;
+        ((S_8196BD3C_0 *)object_state)->unk_7C = source;
+        ((S_8196BD3C_1 *)object)->unk_10 = D_8002525C;
+        func_8004491C(object, D_80045340);
 
-        display = ((S_8196BD3C_1 *)obj)->unk_0C;
+        display = ((S_8196BD3C_1 *)object)->unk_0C;
         display->field10 = 0x20;
         display->field6 = 0;
         display->flags |= 0xC;
 
-        from = ((S_8196BD3C_2_pre *)arg0)[-1].unk_00;
-        to = ((S_8196BD3C_1 *)obj)->unk_08;
-        ((s32 *)to)[0] = ((s32 *)from)[0];
-        ((s32 *)to)[1] = ((s32 *)from)[1];
-        ((s32 *)to)[2] = ((s32 *)from)[2];
+        source_pos = ((S_8196BD3C_2_pre *)source)[-1].unk_00;
+        object_pos = ((S_8196BD3C_1 *)object)->unk_08;
+        ((s32 *)object_pos)[0] = ((s32 *)source_pos)[0];
+        ((s32 *)object_pos)[1] = ((s32 *)source_pos)[1];
+        ((s32 *)object_pos)[2] = ((s32 *)source_pos)[2];
 
-        display = ((S_8196BD3C_1 *)obj)->unk_0C;
+        display = ((S_8196BD3C_1 *)object)->unk_0C;
         display->scaleX = 0;
         display->scaleY = 0;
         display->blue = 0;
         display->green = 0;
         display->red = 0;
 
-        *(PackedVec3 *)((u8 *)obj + 0x58) = D_80026978;
-        display->vector = (u8 *)obj + 0x58;
+        *(PackedVec3 *)((u8 *)object + 0x58) = D_80026978;
+        display->vector = (u8 *)object + 0x58;
     }
 }

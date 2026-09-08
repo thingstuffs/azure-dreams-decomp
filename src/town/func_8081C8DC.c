@@ -12,19 +12,20 @@ typedef struct {
 extern void func_800478B8(void *arg0, void *arg1);
 extern s32 D_800814A0;
 
-void func_800268DC(void *arg0, S_8081C8DC *arg1, S_8081C8DC *arg2)
+/* Advances the position and propagates flags from the processed result. */
+void func_800268DC(void *object_data, S_8081C8DC *motion, S_8081C8DC *result)
 {
-    s32 temp_a0;
-    s32 temp_a2;
+    s32 delta_y;
+    s32 delta_z;
 
-    temp_a0 = arg1->field10;
-    temp_a2 = arg1->field14;
-    arg1->field0 += arg1->fieldC;
-    arg1->field4 += temp_a0;
-    arg1->field8 += temp_a2;
-    func_800478B8(arg2, arg1);
-    if (*(u16 *)((u8 *)arg2 + 0x14) & 0x6000) {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    delta_y = motion->field10;
+    delta_z = motion->field14;
+    motion->field0 += motion->fieldC;
+    motion->field4 += delta_y;
+    motion->field8 += delta_z;
+    func_800478B8(result, motion);
+    if (*(u16 *)((u8 *)result + 0x14) & 0x6000) {
+        *(u16 *)((u8 *)object_data - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

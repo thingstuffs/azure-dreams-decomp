@@ -4,6 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_8001A490();                     /* extern */
 
+/* Passes 0x7A1 to func_8001A490. */
 void func_80016B88(void) {
     func_8001A490(0x7A1);
 }

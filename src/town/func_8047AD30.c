@@ -4,6 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_80016400;
 
+/* Returns the address of D_80016400. */
 M2C_UNK *func_8047AD30(void) {
     return &D_80016400;
 }

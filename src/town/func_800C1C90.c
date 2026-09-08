@@ -49,41 +49,38 @@ extern u8 D_800D232C[];
 extern s32 D_800D2344[3];
 extern s32 D_800814A0[3];
 
-void func_800BF3F0(void *arg0)
+/* Creates and initializes an object, then sets the caller and global flags. */
+void func_800BF3F0(void *caller_data)
 {
-    S_800BF3F0_3 *temp_a0;
-    S_800BF3F0_2 *temp_a1;
-    void *temp_v0;
-    S_800BF3F0_1 *temp_v1;
-    s32 value;
+    S_800BF3F0_3 *transform;
+    S_800BF3F0_2 *position;
+    void *object;
+    S_800BF3F0_1 *render_state;
+    s32 transform_value;
     u32 color;
 
-    temp_v0 = func_8003FC64(0x136);
-    if (temp_v0 != NULL) {
-        func_8004491C(temp_v0, D_80046398);
+    object = func_8003FC64(0x136);
+    if (object != NULL) {
+        func_8004491C(object, D_80046398);
         color = 0x00808080U;
-        
-        ((S_800BF3F0_0 *)temp_v0)->unk_10 = D_800BF1C8;
-        temp_v1 = ((S_800BF3F0_0 *)temp_v0)->unk_0C;
-        temp_v1->unk_1C = 0x1000;
-        temp_v1->unk_1E = 0x1000;
-        temp_v1->unk_20 = 0x1000;
-        temp_v1->unk_0C = color;
-        temp_a0 = temp_v0 + 0x20;
-        temp_v1->unk_1A = 0;
-        temp_v1->unk_08 = 0x4A;
-        temp_a1 = ((S_800BF3F0_0 *)temp_v0)->unk_08;
-        temp_a1->unk_00 = 0x02C00000;
-        temp_a1->unk_04 = 0x02300000;
-        value = D_800D2344[0];
-        temp_a1->unk_08 = 0xFFC00000;
-        temp_a0->unk_48 = value;
-        func_8008F074(temp_a0, temp_a1, D_800D232C);
+
+        ((S_800BF3F0_0 *)object)->unk_10 = D_800BF1C8;
+        render_state = ((S_800BF3F0_0 *)object)->unk_0C;
+        render_state->unk_1C = 0x1000;
+        render_state->unk_1E = 0x1000;
+        render_state->unk_20 = 0x1000;
+        render_state->unk_0C = color;
+        transform = object + 0x20;
+        render_state->unk_1A = 0;
+        render_state->unk_08 = 0x4A;
+        position = ((S_800BF3F0_0 *)object)->unk_08;
+        position->unk_00 = 0x02C00000;
+        position->unk_04 = 0x02300000;
+        transform_value = D_800D2344[0];
+        position->unk_08 = 0xFFC00000;
+        transform->unk_48 = transform_value;
+        func_8008F074(transform, position, D_800D232C);
     }
-    ((S_800BF3F0_4_pre *)arg0)[-1].unk_00 |= 0x8000;
+    ((S_800BF3F0_4_pre *)caller_data)[-1].unk_00 |= 0x8000;
     D_800814A0[0] |= 0x8000;
 }
-
-/* MECHANISM: The 0x20 frame holds arg0 in s1 and the allocated object in s0.
-   Loading D_800D2344 before the final buffer store creates retail's a0 handoff
-   and schedules the global lui/lw pair before the 0xFFC00000 store. */

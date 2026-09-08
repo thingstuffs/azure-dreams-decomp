@@ -9,6 +9,7 @@ typedef struct S_8009E3D4_0 {
 
 extern S_8009E3D4_0 *D_80100AF0;
 
+/* Return the high-bit flag from D_80100AF0->unk_1E. */
 s32 func_8009E3D4(void) {
     return D_80100AF0->unk_1E & 0x8000;
 }

@@ -42,33 +42,34 @@ extern s8 D_80016000[];
 extern s16 D_80019676;
 extern s32 D_80019AFC;
 
-s32 func_800167E4(S_800167E4_0 *arg0, s32 arg1)
+/* Clears flagged town status and dispatches the action when its conditions are met. */
+s32 func_800167E4(S_800167E4_0 *entity, s32 action_arg)
 {
     S_800167E4_1 *town;
-    s32 id;
+    s32 flag_id;
 
     town = *(void **)D_80016000;
-    id = arg0->unk_18;
+    flag_id = entity->unk_18;
     D_80019AFC = ((S_800167E4_3 *)(town->unk_08 * 8 + town->unk_40))->unk_04;
 
-    if (func_800194D8(id) != 0) {
+    if (func_800194D8(flag_id) != 0) {
         {
-            S_800167E4_2 *town2;
-            s32 index;
+            S_800167E4_2 *clear_town;
+            s32 entry_index;
 
-            town2 = *(void **)D_80016000;
-            index = town2->unk_08;
-            ((S_800167E4_4 *)(index * 8 + town2->unk_40))->unk_04 = 0;
+            clear_town = *(void **)D_80016000;
+            entry_index = clear_town->unk_08;
+            ((S_800167E4_4 *)(entry_index * 8 + clear_town->unk_40))->unk_04 = 0;
         }
-        id = arg0->unk_18;
+        flag_id = entity->unk_18;
         D_80019AFC = 0;
-        func_80019458(id);
+        func_80019458(flag_id);
     }
 
     if (func_8001776C() != 0 && func_800194D8(0x637) != 0) {
         if (func_800194D8(D_80019676) == 0 && D_80019AFC == 0) {
             func_80019458(0x637);
-            func_80018308(arg0, arg1);
+            func_80018308(entity, action_arg);
             return 1;
         }
     } else {
@@ -78,7 +79,3 @@ s32 func_800167E4(S_800167E4_0 *arg0, s32 arg1)
     func_80017E1C();
     return 0;
 }
-
-/* MECHANISM: The true-space function holds the town and status global pages in s1/s0,
-   while arg0/arg1 remain live in s2/s3 across calls; an s32 named call argument fixes
-   load/store scheduling, and a block-local town2/index scope fixes the v0/v1 coloring. */

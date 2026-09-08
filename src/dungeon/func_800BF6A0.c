@@ -24,37 +24,34 @@ extern u16 D_80083462;
 extern s32 D_800E18C8;
 extern s8 D_800E2970[];
 
-void func_800C4E00(void *arg0)
+/* Advance the countdown and update entry and completion flags when it expires. */
+void func_800C4E00(void *state)
 {
-    s32 temp_v0;
-    s32 index;
-    register u32 offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 countdown;
+    s32 entry_index;
+    register u32 addr_or_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (D_80083462 & 0x10) {
-        temp_v0 = ((S_800C4E00_0 *)arg0)->unk_08 - 1;
-        ((S_800C4E00_0 *)arg0)->unk_08 = temp_v0;
-        if ((temp_v0 << 0x10) <= 0) {
-            if (((S_800C4E00_0 *)arg0)->unk_0A == 1) {
+        countdown = ((S_800C4E00_0 *)state)->unk_08 - 1;
+        ((S_800C4E00_0 *)state)->unk_08 = countdown;
+        if ((countdown << 0x10) <= 0) {
+            if (((S_800C4E00_0 *)state)->unk_0A == 1) {
                 func_800997FC(&D_800E18C8);
-                index = ((S_800C4E00_0 *)arg0)->unk_0C;
-                offset = index << 2;
-                offset += index;
-                offset <<= 2;
-                offset += (u32)D_800E2970;
-                ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                ((S_800C4E00_1 *)((void *)offset))->unk_0C =
-                    ((S_800C4E00_1 *)((void *)offset))->unk_0C & 0xFFFD;
+                entry_index = ((S_800C4E00_0 *)state)->unk_0C;
+                addr_or_flags = entry_index << 2;
+                addr_or_flags += entry_index;
+                addr_or_flags <<= 2;
+                addr_or_flags += (u32)D_800E2970;
+                ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                ((S_800C4E00_1 *)((void *)addr_or_flags))->unk_0C =
+                    ((S_800C4E00_1 *)((void *)addr_or_flags))->unk_0C & 0xFFFD;
             }
-            offset = ((S_800C4E00_0_pre *)arg0)[-1].unk_00;
-            offset |= 0x8000;
-            ((S_800C4E00_0_pre *)arg0)[-1].unk_00 = offset;
-            offset = D_800814A0;
-            offset |= 0x8000;
-            D_800814A0 = offset;
+            addr_or_flags = ((S_800C4E00_0_pre *)state)[-1].unk_00;
+            addr_or_flags |= 0x8000;
+            ((S_800C4E00_0_pre *)state)[-1].unk_00 = addr_or_flags;
+            addr_or_flags = D_800814A0;
+            addr_or_flags |= 0x8000;
+            D_800814A0 = addr_or_flags;
         }
     }
 }
-
-/* MECHANISM: A signed countdown removes the u16 re-extension, and direct global RMWs keep 45 words.
-   Guarded $a0 index and $v0 scaled-address/tail reuse reproduce retail's runtime roles.
-   With that structure fixed, the late orientation closes exactly at 2.7.2-cdk-G0. */

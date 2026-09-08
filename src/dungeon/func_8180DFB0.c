@@ -17,36 +17,37 @@ typedef struct S_80026FB0_1 {
 
 extern s32 D_800814A0;
 
-void func_80026FB0(void *arg0, s32 arg1, void *arg2)
+/* Waits, then fades the color channels toward 0x80 and flags completion. */
+void func_80026FB0(void *effect, s32 unused, void *color)
 {
-    s16 state;
-    s32 timer;
-    s32 value;
+    s16 phase;
+    s32 frames_left;
+    s32 intensity;
 
-    state = ((S_80026FB0_0 *)arg0)->unk_64.s;
-    switch (state) {
+    phase = ((S_80026FB0_0 *)effect)->unk_64.s;
+    switch (phase) {
     default:
         return;
 
     case 0:
-        timer = (u16)((S_80026FB0_0 *)arg0)->unk_66 - 1;
-        ((S_80026FB0_0 *)arg0)->unk_66 = timer;
-        if ((timer << 16) <= 0) {
-            ((S_80026FB0_0 *)arg0)->unk_66 = 0x10;
-            ((S_80026FB0_0 *)arg0)->unk_64.u += 1;
+        frames_left = (u16)((S_80026FB0_0 *)effect)->unk_66 - 1;
+        ((S_80026FB0_0 *)effect)->unk_66 = frames_left;
+        if ((frames_left << 16) <= 0) {
+            ((S_80026FB0_0 *)effect)->unk_66 = 0x10;
+            ((S_80026FB0_0 *)effect)->unk_64.u += 1;
         }
         break;
 
     case 1:
-        value = ((S_80026FB0_1 *)arg2)->unk_0C;
-        value = value + ((0x80 - value) / ((S_80026FB0_0 *)arg0)->unk_66);
-        ((S_80026FB0_1 *)arg2)->unk_0C = value;
-        ((S_80026FB0_1 *)arg2)->unk_0E = value;
-        ((S_80026FB0_1 *)arg2)->unk_0D = value;
-        timer = (u16)((S_80026FB0_0 *)arg0)->unk_66 - 1;
-        ((S_80026FB0_0 *)arg0)->unk_66 = timer;
-        if ((timer << 16) <= 0) {
-            (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        intensity = ((S_80026FB0_1 *)color)->unk_0C;
+        intensity = intensity + ((0x80 - intensity) / ((S_80026FB0_0 *)effect)->unk_66);
+        ((S_80026FB0_1 *)color)->unk_0C = intensity;
+        ((S_80026FB0_1 *)color)->unk_0E = intensity;
+        ((S_80026FB0_1 *)color)->unk_0D = intensity;
+        frames_left = (u16)((S_80026FB0_0 *)effect)->unk_66 - 1;
+        ((S_80026FB0_0 *)effect)->unk_66 = frames_left;
+        if ((frames_left << 16) <= 0) {
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
             D_800814A0 |= 0x8000;
         }
         break;

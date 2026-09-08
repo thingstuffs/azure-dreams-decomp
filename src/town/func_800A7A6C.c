@@ -23,31 +23,32 @@ typedef struct S_800A51CC_1 {
 extern u8 D_80083160[0xB2];
 extern u8 D_800A526C[16];
 
-void func_800A51CC(S_800A51CC_0 *arg0)
+/* Update current and saved coordinates from the reference, or set state 9 if they differ. */
+void func_800A51CC(S_800A51CC_0 *object)
 {
-    u8 *base;
-    s32 value;
-    u16 component;
+    u8 *reference;
+    s32 position_pair;
+    u16 coord;
 
-    base = D_80083160;
-    value = arg0->unk_00.at00.v;
-    if ((value != ((S_800A51CC_1 *)base)->unk_AC.at00.v) ||
-        (arg0->unk_04.s != ((S_800A51CC_1 *)base)->unk_B0.s)) {
-        if ((value != arg0->unk_10.at00.v) ||
-            (arg0->unk_04.s != arg0->unk_14.s)) {
-            arg0->unk_18 = 9;
-            arg0->unk_20 = D_800A526C;
+    reference = D_80083160;
+    position_pair = object->unk_00.at00.v;
+    if ((position_pair != ((S_800A51CC_1 *)reference)->unk_AC.at00.v) ||
+        (object->unk_04.s != ((S_800A51CC_1 *)reference)->unk_B0.s)) {
+        if ((position_pair != object->unk_10.at00.v) ||
+            (object->unk_04.s != object->unk_14.s)) {
+            object->unk_18 = 9;
+            object->unk_20 = D_800A526C;
             return;
         }
 
-        component = ((S_800A51CC_1 *)base)->unk_AC.at00u.v;
-        arg0->unk_00.at00u.v = component;
-        arg0->unk_10.at00u.v = component;
-        component = ((S_800A51CC_1 *)base)->unk_AC.at02.v;
-        arg0->unk_00.at02.v = component;
-        arg0->unk_10.at02.v = component;
-        component = ((S_800A51CC_1 *)base)->unk_B0.u;
-        arg0->unk_04.u = component;
-        arg0->unk_14.u = component;
+        coord = ((S_800A51CC_1 *)reference)->unk_AC.at00u.v;
+        object->unk_00.at00u.v = coord;
+        object->unk_10.at00u.v = coord;
+        coord = ((S_800A51CC_1 *)reference)->unk_AC.at02.v;
+        object->unk_00.at02.v = coord;
+        object->unk_10.at02.v = coord;
+        coord = ((S_800A51CC_1 *)reference)->unk_B0.u;
+        object->unk_04.u = coord;
+        object->unk_14.u = coord;
     }
 }

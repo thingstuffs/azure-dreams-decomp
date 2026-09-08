@@ -39,6 +39,7 @@ extern s32 D_80029508[];
 extern void func_80026370(Destinations *, s32);
 extern s32 func_8004DC14(s32, s32);
 
+/* Initialize destination values and pointers from the source record. */
 void func_80026878(Source *src, Destinations *dst)
 {
     *dst->dst0 = D_80029508[src->word10];

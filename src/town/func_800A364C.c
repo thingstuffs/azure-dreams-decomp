@@ -19,11 +19,12 @@ typedef struct S_800A0DAC_0 {
     u16 unk_6E;
 } S_800A0DAC_0;   /* arg0 in func_800A0DAC */
 
-void func_800A0DAC(S_800A0DAC_0 *arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3) {
-    func_800A12B4(&D_80100B70, arg2, arg3);
-    arg0->unk_6E = (u16)(arg0->unk_6E + 0x10);
-    if (func_800A1080(&D_80100B70, arg2, arg3) != 0) {
-        arg0->unk_6C = 0x20;
-        arg0->unk_50 = &D_800A0E3C;
+/* Advance the state counter and apply the next state when the check succeeds. */
+void func_800A0DAC(S_800A0DAC_0 *state, M2C_UNK unused, M2C_UNK context_a, M2C_UNK context_b) {
+    func_800A12B4(&D_80100B70, context_a, context_b);
+    state->unk_6E = (u16)(state->unk_6E + 0x10);
+    if (func_800A1080(&D_80100B70, context_a, context_b) != 0) {
+        state->unk_6C = 0x20;
+        state->unk_50 = &D_800A0E3C;
     }
 }

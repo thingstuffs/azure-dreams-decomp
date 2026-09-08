@@ -15,14 +15,15 @@ typedef struct S_800A0F10_0 {
 } S_800A0F10_0;   /* global_base in func_800A0F10 */
 
 
-s32 func_800A0F10(Rec_func_800A0668_arg0 *arg0, M2C_UNK arg1) {
-    if (func_8008FAC0(arg1, &D_800CFCB4) != 0) {
+/* Tests the input and object angle against either supported global state. */
+s32 func_800A0F10(Rec_func_800A0668_arg0 *object, M2C_UNK test_value) {
+    if (func_8008FAC0(test_value, &D_800CFCB4) != 0) {
         s32 *global_base = &D_800834B8;
         s32 global_angle = ((S_800A0F10_0 *)global_base)->unk_10;
         s32 object_angle;
 
         ASM_KEEP(global_angle);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        object_angle = arg0->unk_72;
+        object_angle = object->unk_72;
 
         if ((u32) (((object_angle & 0xFFF) - (global_angle & 0xFFF)) + 0x3FF) < 0x7FFU) {
             if ((D_800834B8 == (s32)&D_80091260) || (D_800834B8 == (s32)&D_80091528)) {

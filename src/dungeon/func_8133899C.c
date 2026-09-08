@@ -27,14 +27,15 @@ extern void *D_801649E8[];
 extern void *D_80175D58[];
 extern void *D_80175D5C[];
 
-void func_8016F99C(void *arg0, S_8016F99C_1 *arg1)
+/* Advances a timed transition, updates its target, and marks completion. */
+void func_8016F99C(void *transition, S_8016F99C_1 *target)
 {
     s32 state;
     u16 timer;
     u32 next_state;
     u32 next_timer;
 
-    state = ((S_8016F99C_0 *)arg0)->unk_12.s;
+    state = ((S_8016F99C_0 *)transition)->unk_12.s;
     switch (state) {
     case 1:
         goto case_1;
@@ -54,34 +55,34 @@ void func_8016F99C(void *arg0, S_8016F99C_1 *arg1)
     }
 
 case_1:
-    arg1->unk_0A = 1;
+    target->unk_0A = 1;
     goto done;
 
 case_2:
-    next_state = ((S_8016F99C_0 *)arg0)->unk_12.u;
+    next_state = ((S_8016F99C_0 *)transition)->unk_12.u;
     next_timer = 0x11;
     goto advance_state;
 
 case_3:
-    arg1->unk_06 = arg1->unk_06 - 8;
-    timer = ((S_8016F99C_0 *)arg0)->unk_18 - 1;
-    ((S_8016F99C_0 *)arg0)->unk_18 = timer;
+    target->unk_06 = target->unk_06 - 8;
+    timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
+    ((S_8016F99C_0 *)transition)->unk_18 = timer;
     if ((timer << 16) > 0) {
         goto done;
     }
-    ((S_8016F99C_0 *)arg0)->unk_18 = 0x11;
-    ((S_8016F99C_0 *)arg0)->unk_12.u = ((S_8016F99C_0 *)arg0)->unk_12.u + 1;
-    arg1->unk_0A = 3;
+    ((S_8016F99C_0 *)transition)->unk_18 = 0x11;
+    ((S_8016F99C_0 *)transition)->unk_12.u = ((S_8016F99C_0 *)transition)->unk_12.u + 1;
+    target->unk_0A = 3;
     goto done;
 
 case_4:
-    arg1->unk_06 = arg1->unk_06 + 8;
-    timer = ((S_8016F99C_0 *)arg0)->unk_18 - 1;
-    ((S_8016F99C_0 *)arg0)->unk_18 = timer;
+    target->unk_06 = target->unk_06 + 8;
+    timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
+    ((S_8016F99C_0 *)transition)->unk_18 = timer;
     if ((timer << 16) > 0) {
         goto done;
     }
-    if (((S_8016F99C_0 *)arg0)->unk_1C == 0) {
+    if (((S_8016F99C_0 *)transition)->unk_1C == 0) {
         goto clear_58;
     }
     next_state = 0x80170000;
@@ -90,22 +91,22 @@ case_4:
     goto finish;
 
 case_10:
-    next_state = ((S_8016F99C_0 *)arg0)->unk_12.u;
+    next_state = ((S_8016F99C_0 *)transition)->unk_12.u;
     next_timer = 0x14;
 advance_state:
-    ((S_8016F99C_0 *)arg0)->unk_18 = next_timer;
+    ((S_8016F99C_0 *)transition)->unk_18 = next_timer;
     ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    ((S_8016F99C_0 *)arg0)->unk_12.u = next_state + 1;
+    ((S_8016F99C_0 *)transition)->unk_12.u = next_state + 1;
     goto done;
 
 case_11:
-    arg1->unk_06 = arg1->unk_06 - 8;
-    timer = ((S_8016F99C_0 *)arg0)->unk_18 - 1;
-    ((S_8016F99C_0 *)arg0)->unk_18 = timer;
+    target->unk_06 = target->unk_06 - 8;
+    timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
+    ((S_8016F99C_0 *)transition)->unk_18 = timer;
     if ((timer << 16) > 0) {
         goto done;
     }
-    if (((S_8016F99C_0 *)arg0)->unk_1C != 0) {
+    if (((S_8016F99C_0 *)transition)->unk_1C != 0) {
         goto clear_5C;
     }
 clear_58:
@@ -118,7 +119,7 @@ clear_5C:
     ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     *(void **)(next_state + 0x5D5C) = 0;
 finish:
-    ((S_8016F99C_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
     next_timer = 0x80080000;
     ASM_KEEP(next_timer);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     *(s32 *)(next_timer + 0x14A0) |= 0x8000;

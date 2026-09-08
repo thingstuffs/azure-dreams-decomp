@@ -12,6 +12,7 @@ typedef struct S_8065C17C_0 {
 extern s32 D_800183D4;
 extern S_8065C17C_0 *D_800183CC;
 
+/* Cache the current record's unk_24 value and return its unk_20 value. */
 s32 func_8065C17C(void) {
     D_800183D4 = D_800183CC->unk_24;
     return D_800183CC->unk_20;

@@ -23,19 +23,20 @@ typedef struct TownTransition {
 
 extern void func_800A4D4C(void *arg0, void *arg1);
 
+/* Reset on target changes or move toward the midpoint of the two targets. */
 void func_800A4E1C(TownTransition *state) {
     Vec3i *target;
 
     target = state->target;
     if (target != state->previous_target) {
-        Vec3i *saved_target = target;
+        Vec3i *new_target = target;
 
-        ASM_KEEP(saved_target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(new_target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         state->steps = 9;
         state->unk14 = 0;
         state->unk18 = 0;
         state->unk1C = 0;
-        state->previous_target = saved_target;
+        state->previous_target = new_target;
         func_800A4D4C(state, state);
         return;
     }

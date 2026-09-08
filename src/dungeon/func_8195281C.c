@@ -94,129 +94,130 @@ extern M2C_UNK D_80024998;
 extern s16 D_800249A4;
 extern s16 D_800249A6;
 
-void func_8195281C(void *arg0, void *arg1) {
+/* Advances a timed effect sequence, fading model colors and marking completion. */
+void func_8195281C(void *effect, void *color_data) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
-    s32 sp10[2];
-    s16 temp_v0;
-    s16 temp_v0_2;
-    s32 temp_v1;
-    void *temp_a0;
-    S_8195281C_6 *var_a1;
-    u8 *temp_v1_2;
-    S_8195281C_3 *temp_v1_3;
-    u16 temp_v0_3;
-    u16 temp_v1_4;
-    S_8195281C_4 *temp_v1_5;
-    u16 temp_v1_6;
-    S_8195281C_2 *temp_v1_7;
-    void **temp_a0_base;
+    s32 upload_rect[2];
+    s16 delay_left;
+    s16 fade_left;
+    s32 stage;
+    void *model;
+    S_8195281C_6 *model_colors;
+    u8 *effect_manager;
+    S_8195281C_3 *actor_state;
+    u16 ready_stage;
+    u16 actor_param;
+    S_8195281C_4 *model_owner;
+    u16 fade_stage;
+    S_8195281C_2 *actor_counters;
+    void **actor_slot;
 
-    var_a1 = arg1;
-    temp_v1 = ((S_8195281C_0 *)arg0)->unk_0A.s;
-    ((S_8195281C_0 *)arg0)->unk_16 = (u16) (((S_8195281C_0 *)arg0)->unk_16 + 1);
-    if ((u32) temp_v1 >= 5U) {
+    model_colors = color_data;
+    stage = ((S_8195281C_0 *)effect)->unk_0A.s;
+    ((S_8195281C_0 *)effect)->unk_16 = (u16) (((S_8195281C_0 *)effect)->unk_16 + 1);
+    if ((u32) stage >= 5U) {
         goto block_27;
     }
-    (void)jt_keep; goto *D_80024008[(s32) temp_v1];
+    (void)jt_keep; goto *D_80024008[(s32) stage];
 jt_c0:
-    sp10[0] = 0x01000340;
-    sp10[1] = 0x200020;
-    func_800B835C(D_800DF334, sp10, 1, 0);
-    sp10[0] = 0x01000360;
-    func_800B835C(&D_80024980, sp10, 1, 0);
+    upload_rect[0] = 0x01000340;
+    upload_rect[1] = 0x200020;
+    func_800B835C(D_800DF334, upload_rect, 1, 0);
+    upload_rect[0] = 0x01000360;
+    func_800B835C(&D_80024980, upload_rect, 1, 0);
     ((S_8195281C_10 *)(((S_8195281C_1 *)D_800814A8)->unk_00.i))->unk_F4 = &D_80024998;
-    func_800B8C20(((S_8195281C_0 *)arg0)->unk_00 - 0x20, ((S_8195281C_0 *)arg0)->unk_04, 0, 0);
-    ((S_8195281C_0 *)arg0)->unk_0A.s = (s16) ((u16) ((S_8195281C_0 *)arg0)->unk_0A.s + 1);
+    func_800B8C20(((S_8195281C_0 *)effect)->unk_00 - 0x20, ((S_8195281C_0 *)effect)->unk_04, 0, 0);
+    ((S_8195281C_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1);
 jt_c1:
-    temp_a0_base = (void **) D_800814A8;
-    if (!(*((S_8195281C_0 *)arg0)->unk_04 & 0x80)) {
+    actor_slot = (void **) D_800814A8;
+    if (!(*((S_8195281C_0 *)effect)->unk_04 & 0x80)) {
         goto block_27;
     }
-    temp_v1_7 = *temp_a0_base;
-    ((S_8195281C_0 *)arg0)->unk_18 = 0x12;
-    temp_v1_7->unk_A6 = (u16) (temp_v1_7->unk_A6 - 1);
-    temp_v1_7->unk_A8 = (u8) ((S_8195281C_0 *)arg0)->unk_08;
-    temp_v1_3 = *temp_a0_base;
-    temp_v1_3->unk_A9 = (u8) ((S_8195281C_0 *)arg0)->unk_09;
-    temp_v1_3 = *temp_a0_base;
+    actor_counters = *actor_slot;
+    ((S_8195281C_0 *)effect)->unk_18 = 0x12;
+    actor_counters->unk_A6 = (u16) (actor_counters->unk_A6 - 1);
+    actor_counters->unk_A8 = (u8) ((S_8195281C_0 *)effect)->unk_08;
+    actor_state = *actor_slot;
+    actor_state->unk_A9 = (u8) ((S_8195281C_0 *)effect)->unk_09;
+    actor_state = *actor_slot;
     D_800249A4 = 0;
-    temp_v0_3 = ((S_8195281C_0 *)arg0)->unk_0A.u;
-    temp_v1_4 = temp_v1_3->unk_2A;
-    ((S_8195281C_0 *)arg0)->unk_0A.u = temp_v0_3 + 1;
-    ((S_8195281C_0 *)arg0)->unk_14.u = temp_v1_4;
+    ready_stage = ((S_8195281C_0 *)effect)->unk_0A.u;
+    actor_param = actor_state->unk_2A;
+    ((S_8195281C_0 *)effect)->unk_0A.u = ready_stage + 1;
+    ((S_8195281C_0 *)effect)->unk_14.u = actor_param;
     func_80024330();
     return;
 jt_c2:
-    if (((S_8195281C_0 *)arg0)->unk_18 != 8) {
+    if (((S_8195281C_0 *)effect)->unk_18 != 8) {
         goto block_8;
     }
     func_800A56E0(0x300);
 block_8:
-    temp_v0 = (u16) ((S_8195281C_0 *)arg0)->unk_18 - 1;
-    ((S_8195281C_0 *)arg0)->unk_18 = temp_v0;
-    if ((temp_v0 << 0x10) > 0) {
+    delay_left = (u16) ((S_8195281C_0 *)effect)->unk_18 - 1;
+    ((S_8195281C_0 *)effect)->unk_18 = delay_left;
+    if ((delay_left << 0x10) > 0) {
         goto block_28;
     }
-    temp_v1_5 = ((S_8195281C_1 *)D_800814A8)->unk_00.p;
-    ((S_8195281C_0 *)arg0)->unk_18 = 0x20;
-    func_80024908(arg0 - 0x20, ((S_8195281C_0 *)arg0)->unk_14.s, ((S_8195281C_0 *)arg0)->unk_09, temp_v1_5->unk_60);
-    ((S_8195281C_0 *)arg0)->unk_0A.s = (u16) ((S_8195281C_0 *)arg0)->unk_0A.s + 1;
+    model_owner = ((S_8195281C_1 *)D_800814A8)->unk_00.p;
+    ((S_8195281C_0 *)effect)->unk_18 = 0x20;
+    func_80024908(effect - 0x20, ((S_8195281C_0 *)effect)->unk_14.s, ((S_8195281C_0 *)effect)->unk_09, model_owner->unk_60);
+    ((S_8195281C_0 *)effect)->unk_0A.s = (u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1;
     func_80024330();
     return;
 jt_c3:
-    temp_a0 = ((S_8195281C_10 *)(((S_8195281C_1 *)D_800814A8)->unk_00.i))->unk_60;
-    if (temp_a0 == NULL) {
+    model = ((S_8195281C_10 *)(((S_8195281C_1 *)D_800814A8)->unk_00.i))->unk_60;
+    if (model == NULL) {
         goto block_18;
     }
-    var_a1 = ((S_8195281C_5_pre *)temp_a0)[-1].unk_00;
-    ((S_8195281C_5 *)temp_a0)->unk_1C = (s32) (((S_8195281C_5 *)temp_a0)->unk_1C | 0x10000000);
-    var_a1->unk_0C.at00.v = (u8) (var_a1->unk_0C.at00.v - 4);
-    var_a1->unk_0C.at01.v = (u8) (var_a1->unk_0C.at01.v - 4);
-    var_a1->unk_0C.at02.v = (u8) (var_a1->unk_0C.at02.v - 4);
-    if ((u8) var_a1->unk_0C.at00.v >= 0x20U) {
+    model_colors = ((S_8195281C_5_pre *)model)[-1].unk_00;
+    ((S_8195281C_5 *)model)->unk_1C = (s32) (((S_8195281C_5 *)model)->unk_1C | 0x10000000);
+    model_colors->unk_0C.at00.v = (u8) (model_colors->unk_0C.at00.v - 4);
+    model_colors->unk_0C.at01.v = (u8) (model_colors->unk_0C.at01.v - 4);
+    model_colors->unk_0C.at02.v = (u8) (model_colors->unk_0C.at02.v - 4);
+    if ((u8) model_colors->unk_0C.at00.v >= 0x20U) {
         goto block_14;
     }
-    var_a1->unk_0C.at00.v = 0x20U;
+    model_colors->unk_0C.at00.v = 0x20U;
 block_14:
-    if ((u8) var_a1->unk_0C.at01.v >= 0x20U) {
+    if ((u8) model_colors->unk_0C.at01.v >= 0x20U) {
         goto block_16;
     }
-    var_a1->unk_0C.at01.v = 0x20U;
+    model_colors->unk_0C.at01.v = 0x20U;
 block_16:
-    if ((u8) var_a1->unk_0C.at02.v >= 0x20U) {
+    if ((u8) model_colors->unk_0C.at02.v >= 0x20U) {
         goto block_18;
     }
-    var_a1->unk_0C.at02.v = 0x20U;
+    model_colors->unk_0C.at02.v = 0x20U;
 block_18:
     if (D_80082E94 & 0x8000) {
         goto block_21;
     }
-    temp_v0_2 = (u16) ((S_8195281C_0 *)arg0)->unk_18 - 1;
-    ((S_8195281C_0 *)arg0)->unk_18 = temp_v0_2;
-    if ((temp_v0_2 << 0x10) >= 0) {
+    fade_left = (u16) ((S_8195281C_0 *)effect)->unk_18 - 1;
+    ((S_8195281C_0 *)effect)->unk_18 = fade_left;
+    if ((fade_left << 0x10) >= 0) {
         goto block_28;
     }
 block_21:
-    temp_a0 = ((S_8195281C_7 *)(D_800E3D7C[0]))->unk_60;
-    if (temp_a0 == NULL) {
+    model = ((S_8195281C_7 *)(D_800E3D7C[0]))->unk_60;
+    if (model == NULL) {
         goto block_23;
     }
-    var_a1 = ((S_8195281C_5_pre *)temp_a0)[-1].unk_00;
-    var_a1->unk_0C.at00u.v = 0x808080;
+    model_colors = ((S_8195281C_5_pre *)model)[-1].unk_00;
+    model_colors->unk_0C.at00u.v = 0x808080;
 block_23:
-    temp_v1_6 = ((S_8195281C_0 *)arg0)->unk_0A.u;
+    fade_stage = ((S_8195281C_0 *)effect)->unk_0A.u;
     D_800249A4 = 1;
-    ((S_8195281C_0 *)arg0)->unk_0A.u = temp_v1_6 + 1;
+    ((S_8195281C_0 *)effect)->unk_0A.u = fade_stage + 1;
     func_80024330();
     return;
 jt_c4:
     if (D_800249A6 != 0) {
         goto block_28;
     }
-    temp_v1_2 = (u8 *) D_80083460;
-    ((S_8195281C_8 *)temp_v1_2)->unk_0C = 0;
-    ((S_8195281C_8 *)temp_v1_2)->unk_0A = (u16) (((S_8195281C_8 *)temp_v1_2)->unk_0A - 1);
-    ((S_8195281C_0_pre *)arg0)[-1].unk_00 = (u16) (((S_8195281C_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    effect_manager = (u8 *) D_80083460;
+    ((S_8195281C_8 *)effect_manager)->unk_0C = 0;
+    ((S_8195281C_8 *)effect_manager)->unk_0A = (u16) (((S_8195281C_8 *)effect_manager)->unk_0A - 1);
+    ((S_8195281C_0_pre *)effect)[-1].unk_00 = (u16) (((S_8195281C_0_pre *)effect)[-1].unk_00 | 0x8000);
     ((S_8195281C_9 *)D_800814A0)->unk_00 = (s32) (((S_8195281C_9 *)D_800814A0)->unk_00 | 0x8000);
 block_27:
 block_28:

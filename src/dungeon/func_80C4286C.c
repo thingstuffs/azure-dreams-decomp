@@ -63,39 +63,40 @@ extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEC70;
 extern M2C_UNK D_80173FF4;
 
-void func_8017406C(void *arg0, void *arg1) {
-    S_8017406C_0 *temp_s0;
-    S_8017406C_2 *temp_s1;
-    void *temp_v0;
-    S_8017406C_3 *temp_s3 = arg1;
-    S_8017406C_4 *temp_v1;
+/* Create a tinted sprite effect at the supplied position with a random variant. */
+void func_8017406C(void *unused, void *position_data) {
+    S_8017406C_0 *effect_state;
+    S_8017406C_2 *sprite;
+    void *effect;
+    S_8017406C_3 *source_pos = position_data;
+    S_8017406C_4 *effect_pos;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != 0) {
-        temp_s0 = temp_v0 + 0x20;
-        temp_s0->unk_1A = 0xF;
-        ((S_8017406C_1 *)temp_v0)->unk_10 = &D_80173FF4;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s1 = ((S_8017406C_1 *)temp_v0)->unk_0C;
-        temp_s1->unk_10 = 0x20;
-        temp_s1->unk_14 = (u16)(temp_s1->unk_14 | 0xC);
-        temp_v1 = ((S_8017406C_1 *)temp_v0)->unk_08;
-        temp_s0->unk_40 = (s32)temp_s3->unk_00.at00.v;
-        temp_s0->unk_44 = (s32)temp_s3->unk_04.at00.v;
-        temp_v1->unk_02 = (u16)temp_s3->unk_00.at02.v;
-        temp_v1->unk_06 = (u16)temp_s3->unk_04.at02.v;
-        temp_v1->unk_0A = (u16)temp_s3->unk_0A;
-        temp_s1 = ((S_8017406C_1 *)temp_v0)->unk_0C;
-        temp_s1->unk_1E = 0x800;
-        temp_s1->unk_1C = 0x800;
-        temp_s1->unk_0E = 0x60U;
-        temp_s1->unk_0D = 0xFFU;
-        temp_s1->unk_0C = 0xFFU;
-        ((S_8017406C_1 *)temp_v0)->unk_20 = 0xFFU;
-        temp_s0->unk_01 = (u8)temp_s1->unk_0D;
-        temp_s0->unk_02 = (u8)temp_s1->unk_0E;
-        func_8003DB94(temp_s1, &D_800DEC70, rand() & 1);
-        temp_s1->unk_12 = 0x7DCF;
-        temp_s1->unk_14 = (u16)(temp_s1->unk_14 | 0x100);
+    effect = func_8003FC64(0x212);
+    if (effect != 0) {
+        effect_state = effect + 0x20;
+        effect_state->unk_1A = 0xF;
+        ((S_8017406C_1 *)effect)->unk_10 = &D_80173FF4;
+        func_8004491C(effect, &D_80045340);
+        sprite = ((S_8017406C_1 *)effect)->unk_0C;
+        sprite->unk_10 = 0x20;
+        sprite->unk_14 = (u16)(sprite->unk_14 | 0xC);
+        effect_pos = ((S_8017406C_1 *)effect)->unk_08;
+        effect_state->unk_40 = (s32)source_pos->unk_00.at00.v;
+        effect_state->unk_44 = (s32)source_pos->unk_04.at00.v;
+        effect_pos->unk_02 = (u16)source_pos->unk_00.at02.v;
+        effect_pos->unk_06 = (u16)source_pos->unk_04.at02.v;
+        effect_pos->unk_0A = (u16)source_pos->unk_0A;
+        sprite = ((S_8017406C_1 *)effect)->unk_0C;
+        sprite->unk_1E = 0x800;
+        sprite->unk_1C = 0x800;
+        sprite->unk_0E = 0x60U;
+        sprite->unk_0D = 0xFFU;
+        sprite->unk_0C = 0xFFU;
+        ((S_8017406C_1 *)effect)->unk_20 = 0xFFU;
+        effect_state->unk_01 = (u8)sprite->unk_0D;
+        effect_state->unk_02 = (u8)sprite->unk_0E;
+        func_8003DB94(sprite, &D_800DEC70, rand() & 1);
+        sprite->unk_12 = 0x7DCF;
+        sprite->unk_14 = (u16)(sprite->unk_14 | 0x100);
     }
 }

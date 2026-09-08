@@ -64,36 +64,37 @@ typedef struct S_80BC172C_1 {
     s16 unk_34;
 } S_80BC172C_1;   /* temp_s0 in func_80BC172C */
 
-void func_80BC172C(void *arg0, register s16 arg1, register s32 arg2, register s32 arg3, register s32 arg4, register s32 arg5, register s32 arg6) {
-    register void *held_arg0 = arg0;
-    register s16 held_arg1 = arg1;
-    register s32 held_arg2 = arg2;
-    register s32 held_arg4 = arg4;
-    register s32 held_arg5 = arg5;
-    register s32 held_arg6 = arg6;
-    S_80BC172C_1 *temp_s0;
-    void *temp_v0;
-    u16 temp_coord;
+/* Spawn an effect at an offset from its parent with randomized motion. */
+void func_80BC172C(void *parent_arg, register s16 effect_param_arg, register s32 state_value_arg, register s32 unused_arg, register s32 offset_x_arg, register s32 offset_y_arg, register s32 offset_z_arg) {
+    register void *parent = parent_arg;
+    register s16 effect_param = effect_param_arg;
+    register s32 state_value = state_value_arg;
+    register s32 offset_x = offset_x_arg;
+    register s32 offset_y = offset_y_arg;
+    register s32 offset_z = offset_z_arg;
+    S_80BC172C_1 *effect_data;
+    void *effect;
+    u16 parent_x;
 
-    temp_v0 = func_8003FD64(0x211, held_arg0);
-    if (temp_v0 != NULL) {
-        ((S_80BC172C_0 *)temp_v0)->unk_10 = &D_80170BFC;
+    effect = func_8003FD64(0x211, parent);
+    if (effect != NULL) {
+        ((S_80BC172C_0 *)effect)->unk_10 = &D_80170BFC;
         do {
-        temp_coord = ((S_80BC172C_4 *)(((S_80BC172C_2 *)held_arg0)->unk_08))->unk_02;
-        ((S_80BC172C_5 *)(((S_80BC172C_3 *)temp_v0)->unk_08))->unk_02 = (s16) (temp_coord + held_arg4);
-        ((S_80BC172C_5 *)(((S_80BC172C_3 *)temp_v0)->unk_08))->unk_06 = (s16) (((S_80BC172C_4 *)(((S_80BC172C_2 *)held_arg0)->unk_08))->unk_06 + held_arg5);
-        ((S_80BC172C_5 *)(((S_80BC172C_3 *)temp_v0)->unk_08))->unk_0A = (s16) ((((S_80BC172C_4 *)(((S_80BC172C_2 *)held_arg0)->unk_08))->unk_0A + held_arg6) - 0x64);
+            parent_x = ((S_80BC172C_4 *)(((S_80BC172C_2 *)parent)->unk_08))->unk_02;
+            ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_02 = (s16) (parent_x + offset_x);
+            ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_06 = (s16) (((S_80BC172C_4 *)(((S_80BC172C_2 *)parent)->unk_08))->unk_06 + offset_y);
+            ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_0A = (s16) ((((S_80BC172C_4 *)(((S_80BC172C_2 *)parent)->unk_08))->unk_0A + offset_z) - 0x64);
         } while (0);
-        ((S_80BC172C_6 *)(((S_80BC172C_3 *)temp_v0)->unk_0C))->unk_06 = 6;
-        ((S_80BC172C_5 *)(((S_80BC172C_3 *)temp_v0)->unk_08))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
-        ((S_80BC172C_5 *)(((S_80BC172C_3 *)temp_v0)->unk_08))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
-        temp_s0 = temp_v0 + 0x20;
-        ((S_80BC172C_5 *)(((S_80BC172C_3 *)temp_v0)->unk_08))->unk_14 = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
-        temp_s0->unk_14 = held_arg1;
-        temp_s0->unk_32 = 5;
-        temp_s0->unk_34 = 5;
-        func_8004491C(temp_v0, D_80170884);
-        ((S_80BC172C_0 *)temp_v0)->unk_20 = held_arg2;
-        temp_s0->unk_08 = held_arg2;
+        ((S_80BC172C_6 *)(((S_80BC172C_3 *)effect)->unk_0C))->unk_06 = 6;
+        ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
+        ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
+        effect_data = effect + 0x20;
+        ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_14 = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
+        effect_data->unk_14 = effect_param;
+        effect_data->unk_32 = 5;
+        effect_data->unk_34 = 5;
+        func_8004491C(effect, D_80170884);
+        ((S_80BC172C_0 *)effect)->unk_20 = state_value;
+        effect_data->unk_08 = state_value;
     }
 }

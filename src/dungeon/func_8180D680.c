@@ -12,143 +12,144 @@ extern s32 rand(void);
 extern u8 D_80028868[];
 extern s32 D_800814A0;
 
-void func_80026680(void *arg0, void *arg1, void *arg2)
+/* Update a trailing effect's position, brightness, and animation frame. */
+void func_80026680(void *effect, void *transform, void *render_data)
 {
-    s32 i;
-    s32 color;
-    register s32 color_temp ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 color_byte ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 color_sub ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s16 mode;
-    s16 timer;
-    u16 fade;
-    u32 next;
-    u8 opacity0;
-    u8 opacity1;
-    void *src;
-    void *dst;
-    void *link;
-    void *color_outer;
-    register void *color_inner ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 history_index;
+    s32 brightness;
+    register s32 brightness_delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 source_brightness ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 brightness_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 phase;
+    s16 frames_left;
+    u16 fade_brightness;
+    u32 next_frame;
+    u8 fade_in_brightness;
+    u8 fade_out_brightness;
+    void *history_src;
+    void *history_dst;
+    void *related;
+    void *parent;
+    register void *parent_render ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    i = 6;
+    history_index = 6;
     do {
-        dst = (u8 *)arg0 + (i * 8);
-        i--;
-        src = (u8 *)arg0 + (i * 8);
-        U16_AT(dst, 0x24) = U16_AT(src, 0x24);
-        U16_AT(dst, 0x26) = U16_AT(src, 0x26);
-        U16_AT(dst, 0x28) = U16_AT(src, 0x28);
-    } while (i > 0);
+        history_dst = (u8 *)effect + (history_index * 8);
+        history_index--;
+        history_src = (u8 *)effect + (history_index * 8);
+        U16_AT(history_dst, 0x24) = U16_AT(history_src, 0x24);
+        U16_AT(history_dst, 0x26) = U16_AT(history_src, 0x26);
+        U16_AT(history_dst, 0x28) = U16_AT(history_src, 0x28);
+    } while (history_index > 0);
 
-    U16_AT(arg0, 0x24) = U16_AT(arg1, 2);
-    U16_AT(arg0, 0x26) = U16_AT(arg1, 6);
-    U16_AT(arg0, 0x28) = U16_AT(arg1, 0xA);
+    U16_AT(effect, 0x24) = U16_AT(transform, 2);
+    U16_AT(effect, 0x26) = U16_AT(transform, 6);
+    U16_AT(effect, 0x28) = U16_AT(transform, 0xA);
 
-    link = PTR_AT(arg0, 8);
-    if (link != 0) {
+    related = PTR_AT(effect, 8);
+    if (related != 0) {
         goto attached;
     }
 
-    mode = S16_AT(arg0, 0x64);
-    if (mode == 0) {
-        goto mode_zero;
+    phase = S16_AT(effect, 0x64);
+    if (phase == 0) {
+        goto approach_target;
     }
-    if (mode == 1) {
-        goto mode_one;
+    if (phase == 1) {
+        goto fade_out;
     }
-    goto common;
+    goto update_trail;
 
-mode_zero:
-    U16_AT(arg1, 2) += ((S16_AT(PTR_AT(arg0, 0), 2) - S16_AT(arg1, 2)) * 4) /
-                       S16_AT(arg0, 0x66);
-    U16_AT(arg1, 6) += ((S16_AT(PTR_AT(arg0, 0), 6) - S16_AT(arg1, 6)) * 4) /
-                       S16_AT(arg0, 0x66);
-    S32_AT(arg1, 8) +=
-        (S32_AT(PTR_AT(arg0, 0), 8) -
-         (func_800644B8(S16_AT(arg0, 0x66) * 42) << 12) -
-         S32_AT(arg1, 8)) /
-        S16_AT(arg0, 0x66);
+approach_target:
+    U16_AT(transform, 2) += ((S16_AT(PTR_AT(effect, 0), 2) - S16_AT(transform, 2)) * 4) /
+                       S16_AT(effect, 0x66);
+    U16_AT(transform, 6) += ((S16_AT(PTR_AT(effect, 0), 6) - S16_AT(transform, 6)) * 4) /
+                       S16_AT(effect, 0x66);
+    S32_AT(transform, 8) +=
+        (S32_AT(PTR_AT(effect, 0), 8) -
+         (func_800644B8(S16_AT(effect, 0x66) * 42) << 12) -
+         S32_AT(transform, 8)) /
+        S16_AT(effect, 0x66);
 
-    if (S16_AT(arg0, 0x6A) < 0xC0) {
-        U16_AT(arg0, 0x6A) = U16_AT(arg0, 0x6A) + 0x10;
+    if (S16_AT(effect, 0x6A) < 0xC0) {
+        U16_AT(effect, 0x6A) = U16_AT(effect, 0x6A) + 0x10;
     }
-    opacity0 = U8_AT(arg0, 0x6A);
-    U8_AT(arg2, 0xD) = opacity0;
-    U8_AT(arg2, 0xE) = opacity0;
-    U8_AT(arg2, 0xC) = opacity0;
+    fade_in_brightness = U8_AT(effect, 0x6A);
+    U8_AT(render_data, 0xD) = fade_in_brightness;
+    U8_AT(render_data, 0xE) = fade_in_brightness;
+    U8_AT(render_data, 0xC) = fade_in_brightness;
 
-    timer = U16_AT(arg0, 0x66) - 1;
-    S16_AT(arg0, 0x66) = timer;
-    if (timer > 0) {
-        goto common;
-    }
-
-    U16_AT(arg1, 2) = U16_AT(PTR_AT(arg0, 0), 2);
-    U16_AT(arg1, 6) = U16_AT(PTR_AT(arg0, 0), 6);
-    U16_AT(arg1, 0xA) = U16_AT(PTR_AT(arg0, 0), 0xA);
-    U16_AT(arg0, 0x64)++;
-    goto common;
-
-mode_one:
-    link = PTR_AT(arg0, 4);
-    if (link != 0) {
-        link = PTR_AT(link, -0x14);
-        U8_AT(link, 0xC) = ((U16_AT(arg0, 0x68) & 3) * 0x10) + 0x40;
-        U8_AT(link, 0xD) = ((U16_AT(arg0, 0x68) & 3) * 0x10) + 0x40;
-        U8_AT(link, 0xE) = ((U16_AT(arg0, 0x68) & 3) * 0x10) + 0x40;
+    frames_left = U16_AT(effect, 0x66) - 1;
+    S16_AT(effect, 0x66) = frames_left;
+    if (frames_left > 0) {
+        goto update_trail;
     }
 
-    fade = U16_AT(arg0, 0x6A);
-    fade = fade - ((s32)(fade << 16) >> 19);
-    U16_AT(arg0, 0x6A) = fade;
-    opacity1 = U8_AT(arg0, 0x6A);
-    U8_AT(arg2, 0xD) = opacity1;
-    U8_AT(arg2, 0xE) = opacity1;
-    U8_AT(arg2, 0xC) = opacity1;
+    U16_AT(transform, 2) = U16_AT(PTR_AT(effect, 0), 2);
+    U16_AT(transform, 6) = U16_AT(PTR_AT(effect, 0), 6);
+    U16_AT(transform, 0xA) = U16_AT(PTR_AT(effect, 0), 0xA);
+    U16_AT(effect, 0x64)++;
+    goto update_trail;
 
-    if (S16_AT(arg0, 0x6A) < 0x11) {
-        U16_AT(arg0, -2) |= 0x8000;
+fade_out:
+    related = PTR_AT(effect, 4);
+    if (related != 0) {
+        related = PTR_AT(related, -0x14);
+        U8_AT(related, 0xC) = ((U16_AT(effect, 0x68) & 3) * 0x10) + 0x40;
+        U8_AT(related, 0xD) = ((U16_AT(effect, 0x68) & 3) * 0x10) + 0x40;
+        U8_AT(related, 0xE) = ((U16_AT(effect, 0x68) & 3) * 0x10) + 0x40;
+    }
+
+    fade_brightness = U16_AT(effect, 0x6A);
+    fade_brightness = fade_brightness - ((s32)(fade_brightness << 16) >> 19);
+    U16_AT(effect, 0x6A) = fade_brightness;
+    fade_out_brightness = U8_AT(effect, 0x6A);
+    U8_AT(render_data, 0xD) = fade_out_brightness;
+    U8_AT(render_data, 0xE) = fade_out_brightness;
+    U8_AT(render_data, 0xC) = fade_out_brightness;
+
+    if (S16_AT(effect, 0x6A) < 0x11) {
+        U16_AT(effect, -2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
-    goto common;
+    goto update_trail;
 
 attached:
-    link = (u8 *)link + 0x20;
-    U16_AT(arg1, 2) = U16_AT(link, 0x34);
-    U16_AT(arg1, 6) = U16_AT(link, 0x36);
-    U16_AT(arg1, 0xA) = U16_AT(link, 0x38);
+    related = (u8 *)related + 0x20;
+    U16_AT(transform, 2) = U16_AT(related, 0x34);
+    U16_AT(transform, 6) = U16_AT(related, 0x36);
+    U16_AT(transform, 0xA) = U16_AT(related, 0x38);
 
-    color_outer = PTR_AT(arg0, 8);
-    color_inner = PTR_AT(color_outer, 0xC);
-    color_byte = U8_AT(color_inner, 0xC);
-    color_sub = U16_AT(arg0, 0x6E);
-    color_temp = color_byte - color_sub;
-    color = color_temp;
-    ASM_KEEP(color_temp);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    if ((s16)color_temp < 0x20) {
-        color = 0;
+    parent = PTR_AT(effect, 8);
+    parent_render = PTR_AT(parent, 0xC);
+    source_brightness = U8_AT(parent_render, 0xC);
+    brightness_offset = U16_AT(effect, 0x6E);
+    brightness_delta = source_brightness - brightness_offset;
+    brightness = brightness_delta;
+    ASM_KEEP(brightness_delta);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    if ((s16)brightness_delta < 0x20) {
+        brightness = 0;
     }
 
-    timer = U16_AT(arg0, 0x66) - 1;
-    S16_AT(arg0, 0x66) = timer;
-    if ((timer <= 0) && ((s16)color == 0)) {
-        U16_AT(arg0, -2) |= 0x8000;
+    frames_left = U16_AT(effect, 0x66) - 1;
+    S16_AT(effect, 0x66) = frames_left;
+    if ((frames_left <= 0) && ((s16)brightness == 0)) {
+        U16_AT(effect, -2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
-    U8_AT(arg2, 0xE) = color;
-    U8_AT(arg2, 0xD) = color;
-    U8_AT(arg2, 0xC) = color;
+    U8_AT(render_data, 0xE) = brightness;
+    U8_AT(render_data, 0xD) = brightness;
+    U8_AT(render_data, 0xC) = brightness;
 
-common:
-    S16_AT(arg1, 0xE) = U16_AT(arg0, 0x44) + (rand() & 0xF) - 8;
-    S16_AT(arg1, 0x12) = U16_AT(arg0, 0x46) + (rand() & 0xF) - 8;
-    S16_AT(arg1, 0x16) = U16_AT(arg0, 0x48) + (rand() & 0xF) - 8;
+update_trail:
+    S16_AT(transform, 0xE) = U16_AT(effect, 0x44) + (rand() & 0xF) - 8;
+    S16_AT(transform, 0x12) = U16_AT(effect, 0x46) + (rand() & 0xF) - 8;
+    S16_AT(transform, 0x16) = U16_AT(effect, 0x48) + (rand() & 0xF) - 8;
 
-    next = U32_AT(arg2, 8) + 0xC;
-    U32_AT(arg2, 8) = next;
-    if ((u32)D_80028868 < next) {
-        U32_AT(arg2, 8) = (u32)(D_80028868 - 0x48);
+    next_frame = U32_AT(render_data, 8) + 0xC;
+    U32_AT(render_data, 8) = next_frame;
+    if ((u32)D_80028868 < next_frame) {
+        U32_AT(render_data, 8) = (u32)(D_80028868 - 0x48);
     }
-    U16_AT(arg0, 0x68)++;
+    U16_AT(effect, 0x68)++;
 }

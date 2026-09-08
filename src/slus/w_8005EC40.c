@@ -19,22 +19,20 @@ extern S_80079990 D_80079990;
 
 extern s32 func_8005D460(s32 a0, s32 a1);
 
-/* Clamps a1 (rate/param) to a maximum of 0x7EFF0, forwards it (with a0)
- * to func_8005D460, then clears D_8007998C.value if D_80079990 is zero
- * (no active queue). Returns the clamped a1. */
-s32 func_8005EC40(s32 a0, u32 a1)
+/* Applies and returns the rate capped at 0x7EFF0, clearing the flag when the queue is inactive. */
+s32 func_8005EC40(s32 target, u32 rate)
 {
-    u32 s0 = a1;
+    u32 clamped_rate = rate;
 
-    if (s0 > 0x7EFF0) {
-        s0 = 0x7EFF0;
+    if (clamped_rate > 0x7EFF0) {
+        clamped_rate = 0x7EFF0;
     }
 
-    func_8005D460(a0, s0);
+    func_8005D460(target, clamped_rate);
 
     if (D_80079990.value == 0) {
         D_8007998C.value = 0;
     }
 
-    return s0;
+    return clamped_rate;
 }

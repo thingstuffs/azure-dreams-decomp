@@ -21,23 +21,24 @@ extern void bzero(void *ptr, s32 len);
 extern void *func_8004A700(s32 category, s32 item);
 extern void *func_8004A784(s32 category, s32 item);
 
+/* Return existing item data, or allocate, clear, and register it. */
 void *func_8004A83C(s32 category, s32 item)
 {
-    void *result;
+    void *item_data;
     volatile ItemCategory *categories;
     ItemRecord *records;
 
-    result = func_8004A784(category, item);
+    item_data = func_8004A784(category, item);
 
-    if (result == 0) {
-        result = func_8004A700(category, item);
-        if (result != 0) {
-            bzero(result, 0x13);
+    if (item_data == 0) {
+        item_data = func_8004A700(category, item);
+        if (item_data != 0) {
+            bzero(item_data, 0x13);
             categories = itemCategoryTable;
             records = categories[category].records;
-            records[item].ptr = result;
+            records[item].ptr = item_data;
         }
     }
 
-    return result;
+    return item_data;
 }

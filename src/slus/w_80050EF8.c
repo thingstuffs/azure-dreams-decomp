@@ -18,12 +18,7 @@ extern void *func_8004FDE0(void *a0);
 extern int func_8004CAA0(void *a0, int a1, void *a2);
 extern void func_8004491C(void *a0, void *a1);
 
-/* Lazily allocates/initializes the sub-object's result pointer via
- * func_8004FDE0 (using field20 as its input), storing the result into
- * field28. On success (or if already initialized), if field24 holds a
- * pending value, moves it into obj->field10 and registers a callback
- * (func_8004CAA0) via func_8004491C. Returns the (possibly still-NULL)
- * result pointer. */
+/* Lazily initializes and returns the result object, applying any pending value and registering a callback when ready. */
 void *func_80050EF8(S_80050EF8 *obj)
 {
     S_80050EF8_sub *sub = &obj->sub;

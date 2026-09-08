@@ -42,84 +42,85 @@ extern u8 D_80082E80[];
 extern s32 D_80083460;
 extern s32 D_80170E5C;
 
-void func_80172290(S_80172290_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
-    s32 stack_value;
-    s32 count;
-    s32 flags;
-    s32 state;
+/* Advance arcing movement toward the destination tile and finalize the landing. */
+void func_80172290(S_80172290_0 *animation, Rec_D_800E3D7C *motion, Rec_D_80082E80 *destination, Rec_D_800E3D7C *entity) {
+    s32 query_output;
+    s32 frames_left;
+    s32 entity_flags;
+    s32 phase;
 
-    state = arg0->unk_9B;
-    if (state == 1) {
+    phase = animation->unk_9B;
+    if (phase == 1) {
         goto movement;
     }
-    if (state >= 2) {
+    if (phase >= 2) {
         goto high_state;
     }
-    if (state == 0) {
+    if (phase == 0) {
         goto initialize;
     }
     goto countdown;
 
 high_state:
-    if (state == 2) {
+    if (phase == 2) {
         goto check_flag;
     }
     goto countdown;
 
 initialize:
-    arg0->unk_98 |= 8;
-    arg1->unk_14.as_s32 = 0xFFEE0000;
-    arg3->unk_1C.as_s32 &= 0xF7FFFFFF;
-    arg0->unk_A0 = 0;
-    arg0->unk_9B++;
+    animation->unk_98 |= 8;
+    motion->unk_14.as_s32 = 0xFFEE0000;
+    entity->unk_1C.as_s32 &= 0xF7FFFFFF;
+    animation->unk_A0 = 0;
+    animation->unk_9B++;
 
 movement:
-    count = arg0->unk_96.s;
-    arg0->unk_90 -= arg0->unk_A0;
-    if (count != 0) {
+    frames_left = animation->unk_96.s;
+    animation->unk_90 -= animation->unk_A0;
+    if (frames_left != 0) {
         {
-            s32 coord = arg2->unk_24 << 6;
-            s32 current = arg1->unk_00.at02_s16.v - 0x20;
+            s32 target_x = destination->unk_24 << 6;
+            s32 current_x = motion->unk_00.at02_s16.v - 0x20;
 
-            arg1->unk_0C.as_s32 = ((coord - current) << 16) / count;
+            motion->unk_0C.as_s32 = ((target_x - current_x) << 16) / frames_left;
         }
         {
-            s32 coord = arg2->unk_25 << 6;
-            s32 current = arg1->unk_04.at02_s16.v - 0x20;
+            s32 target_y = destination->unk_25 << 6;
+            s32 current_y = motion->unk_04.at02_s16.v - 0x20;
 
-            arg1->unk_10.at00_s32.v =
-                ((coord - current) << 16) / arg0->unk_96.s;
+            motion->unk_10.at00_s32.v =
+                ((target_y - current_y) << 16) / animation->unk_96.s;
         }
-        arg0->unk_A0 += arg1->unk_14.as_s32;
-        arg1->unk_14.as_s32 += 0x40000;
+        animation->unk_A0 += motion->unk_14.as_s32;
+        motion->unk_14.as_s32 += 0x40000;
     }
 
-    arg0->unk_90 += arg0->unk_A0;
-    if (arg0->unk_96.s < 2) {
-        arg0->unk_90 = 0;
-        arg0->unk_98 &= 0xFFF7;
-        arg3->unk_1C.as_s32 |= 0x08000000;
-        arg0->unk_9B++;
+    animation->unk_90 += animation->unk_A0;
+    if (animation->unk_96.s < 2) {
+        animation->unk_90 = 0;
+        animation->unk_98 &= 0xFFF7;
+        entity->unk_1C.as_s32 |= 0x08000000;
+        animation->unk_9B++;
     }
 
 check_flag:
-    if (arg3->unk_1C.as_s32 & 0x08000000) {
-        arg0->unk_98 &= 0xFFF7;
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-        arg0->unk_9B++;
+    if (entity->unk_1C.as_s32 & 0x08000000) {
+        animation->unk_98 &= 0xFFF7;
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800A2B04(motion, destination->unk_24, destination->unk_25);
+        animation->unk_9B++;
     }
 
 countdown:
-    if ((s16)--arg0->unk_96.u <= 0) {
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-        func_800AD594(arg3, 4);
-        func_800A4ACC(arg3);
+    if ((s16)--animation->unk_96.u <= 0) {
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800A2B04(motion, destination->unk_24, destination->unk_25);
+        func_800AD594(entity, 4);
+        func_800A4ACC(entity);
 
         {
             u8 *global_state = (u8 *)&D_80083460;
@@ -129,31 +130,31 @@ countdown:
             }
         }
 
-        flags = arg3->unk_1C.as_s32;
-        if (!(flags & 0x2000)) {
+        entity_flags = entity->unk_1C.as_s32;
+        if (!(entity_flags & 0x2000)) {
             goto low_flags;
         }
-        if (arg3->unk_44.at02_u16.v & 0x8000) {
-            arg3->unk_44.at02_u16.v &= 0x7FFF;
+        if (entity->unk_44.at02_u16.v & 0x8000) {
+            entity->unk_44.at02_u16.v &= 0x7FFF;
         }
         goto call_entity;
 
 low_flags:
-        if (flags & 0x410) {
+        if (entity_flags & 0x410) {
             goto call_entity;
         }
-        if (flags & 0x20000) {
+        if (entity_flags & 0x20000) {
             u8 *map_state = D_80082E80;
 
-            arg3->unk_2A.as_s16 = func_800A0818(
-                arg2->unk_24, arg2->unk_25,
-                ((S_80172290_5 *)map_state)->unk_24, ((S_80172290_5 *)map_state)->unk_25, &stack_value);
+            entity->unk_2A.as_s16 = func_800A0818(
+                destination->unk_24, destination->unk_25,
+                ((S_80172290_5 *)map_state)->unk_24, ((S_80172290_5 *)map_state)->unk_25, &query_output);
         }
 
 call_entity:
-        if ((func_800AD9B4(arg2, arg3) << 16) > 0) {
-            arg0->unk_8C = &D_80170E5C;
-            func_800A9A04(arg3);
+        if ((func_800AD9B4(destination, entity) << 16) > 0) {
+            animation->unk_8C = &D_80170E5C;
+            func_800A9A04(entity);
         }
     }
 

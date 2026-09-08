@@ -13,20 +13,21 @@ typedef struct S_800C8FF0_1 {
     s32 unk_04;
 } S_800C8FF0_1;   /* arg1 in func_800C8FF0 */
 
-void func_800C8FF0(Rec_func_80094268_arg0 *arg0, S_800C8FF0_1 *arg1, M2C_UNK arg2) {
-    u16 temp_v0;
-    M2C_UNK temp_v1;
+/* Decrement the entity's timer, updating motion until the next state begins. */
+void func_800C8FF0(Rec_func_80094268_arg0 *entity, S_800C8FF0_1 *motion, M2C_UNK context) {
+    u16 ticks_left;
+    M2C_UNK transition_context;
 
-    temp_v0 = arg0->unk_6C.as_u16 - 1;
-    arg0->unk_6C.as_u16 = temp_v0;
-    temp_v1 = arg2;
-    if ((s16) temp_v0 < 0) {
-        func_800C2E84(arg0, temp_v1, &D_800D6268);
-        arg0->unk_6C.as_u16 = 3U;
-        arg0->unk_50.as_pm = &D_800C907C;
-        arg0->unk_72.as_s16 = 0xC00;
+    ticks_left = entity->unk_6C.as_u16 - 1;
+    entity->unk_6C.as_u16 = ticks_left;
+    transition_context = context;
+    if ((s16) ticks_left < 0) {
+        func_800C2E84(entity, transition_context, &D_800D6268);
+        entity->unk_6C.as_u16 = 3U;
+        entity->unk_50.as_pm = &D_800C907C;
+        entity->unk_72.as_s16 = 0xC00;
         return;
     }
-    arg0->unk_72.as_s16 = 0x800;
-    arg1->unk_04 = (s32) (arg1->unk_04 + 0xFFEAAAAB);
+    entity->unk_72.as_s16 = 0x800;
+    motion->unk_04 = (s32) (motion->unk_04 + 0xFFEAAAAB);
 }

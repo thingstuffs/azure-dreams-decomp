@@ -18,8 +18,9 @@ typedef struct S_800A8B98_1 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_800A8ADC;
 
-void func_800A8B98(void *arg0, S_800A8B98_1 *arg1) {
-    ((S_800A8B98_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_800A8ADC;
-    arg1->unk_08 = (s32) (((S_800A8B98_0 *)((u8 *)arg0 - 0x10))->unk_A6 << 0x10);
-    ((S_800A8B98_0 *)((u8 *)arg0 - 0x10))->unk_7C = 5;
+/* Sets the record's pointer and state and copies its signed byte to the output's high half. */
+void func_800A8B98(void *record_data, S_800A8B98_1 *output) {
+    ((S_800A8B98_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_800A8ADC;
+    output->unk_08 = (s32) (((S_800A8B98_0 *)((u8 *)record_data - 0x10))->unk_A6 << 0x10);
+    ((S_800A8B98_0 *)((u8 *)record_data - 0x10))->unk_7C = 5;
 }

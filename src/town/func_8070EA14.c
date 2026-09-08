@@ -21,11 +21,12 @@ extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 extern void func_8001A5CC(s32);
 
-char *func_80017A14(s32 arg0, s32 arg1, s32 arg2)
+/* Select dialogue from event state and update flags for the selected interaction. */
+char *func_80017A14(s32 unused_0, s32 unused_1, s32 dialogue_id)
 {
-    s32 selector = arg2;
-    u32 index;
-    static void *const keepalive[] = {
+    s32 dialogue_selector = dialogue_id;
+    u32 case_index;
+    static void *const case_labels[] = {
         &&L_case19,
         &&L_case18,
         &&L_case12,
@@ -33,11 +34,11 @@ char *func_80017A14(s32 arg0, s32 arg1, s32 arg2)
         &&L_default
     };
 
-    index = selector - 12;
-    if (index >= 43) {
+    case_index = dialogue_selector - 12;
+    if (case_index >= 43) {
         goto L_default;
     }
-    goto *jtbl_800165A0[index];
+    goto *jtbl_800165A0[case_index];
 
 L_case19:
     if (func_8001A64C(0x938) == 0) {
@@ -69,9 +70,9 @@ L_case12:
         func_8001A5CC(0x94D);
         func_8001A554(0x94C);
         {
-            u8 *state = (u8 *)0x80010000;
-            (*(void (**)(s32))((u8 *)*(void **)((u8 *)*(void **)(state + 0x6000) + 0x20) + 0x258))(1);
-            if (*(s32 *)((u8 *)*(void **)((u8 *)*(void **)(state + 0x6000) + 0x1C) + 8) < 0x460) {
+            u8 *globals_base = (u8 *)0x80010000;
+            (*(void (**)(s32))((u8 *)*(void **)((u8 *)*(void **)(globals_base + 0x6000) + 0x20) + 0x258))(1);
+            if (*(s32 *)((u8 *)*(void **)((u8 *)*(void **)(globals_base + 0x6000) + 0x1C) + 8) < 0x460) {
                 return D_800224EE;
             }
             return D_8002242C;
@@ -80,7 +81,7 @@ L_case12:
     return D_8002264A;
 
 L_case34:
-    return func_80016E48(selector);
+    return func_80016E48(dialogue_selector);
 
 L_default:
     return D_8001B14C;

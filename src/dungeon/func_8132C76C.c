@@ -67,44 +67,45 @@ typedef struct S_80173F6C_3 {
     u8 * unk_2C;
 } S_80173F6C_3;   /* temp_s0 in func_80173F6C */
 
+/* Create and initialize an object with offset coordinates and directional animation. */
 void func_80173F6C(void) {
-    M2C_UNK var_a2;
-    S_80173F6C_3 *temp_s0;
-    S_80173F6C_0 *temp_s1;
-    S_80173F6C_2 *temp_s3;
-    void *temp_v0;
-    u8 *temp_v1;
-    u16 temp_v2;
+    M2C_UNK unused;
+    S_80173F6C_3 *sprite;
+    S_80173F6C_0 *object_state;
+    S_80173F6C_2 *model;
+    void *object;
+    u8 *origin;
+    u16 sprite_flags;
 
-    temp_v0 = func_8003FD64(0x112, D_80083498);
-    if (temp_v0 != NULL) {
-        temp_s1 = temp_v0 + 0x20;
-        temp_s1->unk_13 = 0x18;
-        temp_s1->unk_9A = 0;
-        temp_s1->unk_96 = 0;
-        ((S_80173F6C_1 *)temp_v0)->unk_10 = &D_801730AC;
-        func_8004491C(temp_v0, D_80045340);
-        temp_v1 = D_80082E80;
-        temp_s3 = ((S_80173F6C_1 *)temp_v0)->unk_08;
-        temp_s3->unk_0A = (u16) ((S_80173F6C_5 *)(((Rec_D_800E3D7C *)D_80083498)->unk_08.at00_pv.v))->unk_0A;
-        temp_s0 = ((S_80173F6C_1 *)temp_v0)->unk_0C;
-        temp_s0->unk_24 = (u8) (temp_v1[0x24] + 9);
-        temp_s0->unk_25 = (u8) (temp_v1[0x25] - 9);
-        temp_s0->unk_2C = D_80174C84;
-        func_800A9C18(temp_v0, temp_s3, temp_s0, 0);
-        temp_s1->unk_B6 = 1;
-        temp_s1->unk_2A = 0x800;
-        func_80047784(temp_s0, temp_s0->unk_2C[((s32) (*D_80083228 + 0x900) >> 9) & 7], 0);
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        func_8009A3D0(temp_s0->unk_24, temp_s0->unk_25,
-                      (temp_s1->unk_1C & 0x2000) ? 0x300 : 0x3000);
-        func_8009A028(temp_s1);
-        ((S_80173F6C_1 *)temp_v0)->unk_10 = (M2C_UNK *) ((s32) ((S_80173F6C_1 *)temp_v0)->unk_10 | 0x80000000);
-        func_80172A14(temp_s1, temp_s3, temp_s0);
-        temp_v2 = temp_s0->unk_14;
-        *D_80174CE0 = temp_v0;
-        temp_s0->unk_14 = (u16) (temp_v2 | 0x80);
+    object = func_8003FD64(0x112, D_80083498);
+    if (object != NULL) {
+        object_state = object + 0x20;
+        object_state->unk_13 = 0x18;
+        object_state->unk_9A = 0;
+        object_state->unk_96 = 0;
+        ((S_80173F6C_1 *)object)->unk_10 = &D_801730AC;
+        func_8004491C(object, D_80045340);
+        origin = D_80082E80;
+        model = ((S_80173F6C_1 *)object)->unk_08;
+        model->unk_0A = (u16) ((S_80173F6C_5 *)(((Rec_D_800E3D7C *)D_80083498)->unk_08.at00_pv.v))->unk_0A;
+        sprite = ((S_80173F6C_1 *)object)->unk_0C;
+        sprite->unk_24 = (u8) (origin[0x24] + 9);
+        sprite->unk_25 = (u8) (origin[0x25] - 9);
+        sprite->unk_2C = D_80174C84;
+        func_800A9C18(object, model, sprite, 0);
+        object_state->unk_B6 = 1;
+        object_state->unk_2A = 0x800;
+        func_80047784(sprite, sprite->unk_2C[((s32) (*D_80083228 + 0x900) >> 9) & 7], 0);
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        func_8009A3D0(sprite->unk_24, sprite->unk_25,
+                      (object_state->unk_1C & 0x2000) ? 0x300 : 0x3000);
+        func_8009A028(object_state);
+        ((S_80173F6C_1 *)object)->unk_10 = (M2C_UNK *) ((s32) ((S_80173F6C_1 *)object)->unk_10 | 0x80000000);
+        func_80172A14(object_state, model, sprite);
+        sprite_flags = sprite->unk_14;
+        *D_80174CE0 = object;
+        sprite->unk_14 = (u16) (sprite_flags | 0x80);
         func_800A152C(0x18, 1);
     }
 }

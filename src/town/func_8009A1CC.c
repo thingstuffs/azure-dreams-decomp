@@ -66,82 +66,83 @@ typedef struct S_8009792C_3 {
     s16 unk_1E;
 } S_8009792C_3;   /* temp_s0 in func_8009792C */
 
-void *func_8009792C(S_8009792C_2 *arg0, u32 arg1) {
-    s16 *temp_a0_2;
-    s16 *temp_s4;
-    s16 *table_x;
-    s32 temp_a0;
-    s32 temp_s0_2;
-    s32 var_v0;
-    s32 var_v0_2;
-    u32 temp_s4_idx;
-    u8 *temp_page;
-    register void *temp_call ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    void *temp_a1;
-    S_8009792C_3 *temp_s0;
-    S_8009792C_1 *temp_s2;
-    void *temp_v0;
+/* Creates an offset effect with randomized motion and initializes its appearance. */
+void *func_8009792C(S_8009792C_2 *source, u32 angle) {
+    s16 *y_offset;
+    s16 *effect_params;
+    s16 *x_offsets;
+    s32 offset_index;
+    s32 random_part;
+    s32 x_velocity;
+    s32 y_velocity;
+    u32 direction;
+    u8 *callback_page;
+    register void *init_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    void *init_data;
+    S_8009792C_3 *appearance;
+    S_8009792C_1 *motion;
+    void *effect;
 
-    arg1 >>= 9;
-    temp_s4_idx = arg1 & 7;
-    temp_v0 = func_8003FC64(0x212, arg1);
-    if (temp_v0 != NULL) {
-        temp_call = temp_v0;
-        temp_a1 = &D_80045340;
-        ASM_KEEP_NV(temp_a1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    angle >>= 9;
+    direction = angle & 7;
+    effect = func_8003FC64(0x212, angle);
+    if (effect != NULL) {
+        init_object = effect;
+        init_data = &D_80045340;
+        ASM_KEEP_NV(init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
-        temp_page = (u8 *)&D_800ABB20 + 0x44E0;
+        callback_page = (u8 *)&D_800ABB20 + 0x44E0;
 #else
-        temp_page = (u8 *)0x800B0000;
+        callback_page = (u8 *)0x800B0000;
 #endif
-        ASM_KEEP_NV(temp_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_s2 = ((S_8009792C_0 *)temp_v0)->unk_08;
-        temp_s0 = ((S_8009792C_0 *)temp_v0)->unk_0C;
-        ((S_8009792C_0 *)temp_v0)->unk_10 =
-            (M2C_UNK *)(temp_page - 0x44E0);
-        func_8004491C(temp_call, temp_a1);
-        temp_a0 = temp_s4_idx * 2;
-        table_x = (s16 *)&D_8006CCD8;
-        ASM_KEEP(table_x);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        temp_a0_2 = (s16 *)((u8 *)&D_8006CCE8 + temp_a0);
-        temp_s2->unk_02 =
-            (s16)(arg0->unk_02 -
-                  (table_x[temp_s4_idx] * 0x10));
-        temp_s2->unk_06 =
-            (s16)(arg0->unk_06 - (*temp_a0_2 * 0x10));
-        temp_s2->unk_0A =
-            (u16)arg0->unk_0A;
-        var_v0 = 0 -
-                 (arg0->unk_0C *
-                  ((rand(temp_a0_2) & 1) + 2));
-        if (var_v0 < 0) {
-            var_v0 += 0xF;
+        ASM_KEEP_NV(callback_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        motion = ((S_8009792C_0 *)effect)->unk_08;
+        appearance = ((S_8009792C_0 *)effect)->unk_0C;
+        ((S_8009792C_0 *)effect)->unk_10 =
+            (M2C_UNK *)(callback_page - 0x44E0);
+        func_8004491C(init_object, init_data);
+        offset_index = direction * 2;
+        x_offsets = (s16 *)&D_8006CCD8;
+        ASM_KEEP(x_offsets);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        y_offset = (s16 *)((u8 *)&D_8006CCE8 + offset_index);
+        motion->unk_02 =
+            (s16)(source->unk_02 -
+                  (x_offsets[direction] * 0x10));
+        motion->unk_06 =
+            (s16)(source->unk_06 - (*y_offset * 0x10));
+        motion->unk_0A =
+            (u16)source->unk_0A;
+        x_velocity = 0 -
+                 (source->unk_0C *
+                  ((rand(y_offset) & 1) + 2));
+        if (x_velocity < 0) {
+            x_velocity += 0xF;
         }
-        temp_s4 = (s16 *)((s8 *)temp_v0 + 0x20);
-        ASM_KEEP(temp_s4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_s2->unk_0C = (s32)(var_v0 >> 4);
-        var_v0_2 = 0 -
-                   (arg0->unk_10 *
+        effect_params = (s16 *)((s8 *)effect + 0x20);
+        ASM_KEEP(effect_params);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        motion->unk_0C = (s32)(x_velocity >> 4);
+        y_velocity = 0 -
+                   (source->unk_10 *
                     ((rand() & 1) + 2));
-        if (var_v0_2 < 0) {
-            var_v0_2 += 0xF;
+        if (y_velocity < 0) {
+            y_velocity += 0xF;
         }
-        temp_s2->unk_10 = (s32)(var_v0_2 >> 4);
-        temp_s2->unk_14 =
+        motion->unk_10 = (s32)(y_velocity >> 4);
+        motion->unk_14 =
             (s32)((~rand() & 1) << 0xF);
-        func_8003DB94(temp_s0, &D_800D1464, 0);
-        temp_s0->unk_0E = 0xFF;
-        temp_s0->unk_0D = 0xFF;
-        temp_s0->unk_0C = 0xFF;
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        temp_s0->unk_10 = 0x60;
-        temp_s0->unk_14 =
-            (u16)(temp_s0->unk_14 | 0xC);
-        temp_s0_2 = func_800374F4(7);
-        temp_s4[1] = (s16)(temp_s0_2 + func_800374F4(7));
+        func_8003DB94(appearance, &D_800D1464, 0);
+        appearance->unk_0E = 0xFF;
+        appearance->unk_0D = 0xFF;
+        appearance->unk_0C = 0xFF;
+        appearance->unk_1E = 0x1000;
+        appearance->unk_1C = 0x1000;
+        appearance->unk_10 = 0x60;
+        appearance->unk_14 =
+            (u16)(appearance->unk_14 | 0xC);
+        random_part = func_800374F4(7);
+        effect_params[1] = (s16)(random_part + func_800374F4(7));
     }
-    return temp_v0;
+    return effect;
 }
 
 /* MECHANISM: Hold the zero-low-half 0x800B page across the two object loads,

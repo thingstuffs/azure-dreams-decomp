@@ -22,58 +22,59 @@ extern s32 func_800644B8(s32);
 extern s16 D_800267B8;
 extern s32 D_800814A0[3];
 
-void func_800251A0(void *arg0)
+/* Update eight animation slots and mark completion when the countdown expires. */
+void func_800251A0(void *anim_state)
 {
-    s16 temp_v0;
-    s32 var_s1;
-    register s32 store_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 initial_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s16 *global_flag;
-    u16 temp_a0;
-    register u16 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 delta;
-    DungeonAnimSlot *var_a1;
-    register DungeonAnimSlot *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 next_phase;
+    s32 slot_index;
+    register s32 active_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 ticks_left ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 *active_flag;
+    u16 phase;
+    register u16 offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 offset_delta;
+    DungeonAnimSlot *setup_slot;
+    register DungeonAnimSlot *slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    var_s1 = 1;
-    var_a1 = (DungeonAnimSlot *)((u8 *)arg0 + 2);
-    initial_value = ((S_800251A0_0 *)arg0)->unk_02;
-    global_flag = &D_800267B8;
-    ASM_KEEP(initial_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    store_value = var_s1;
-    *global_flag = (s16)store_value;
-    ASM_KEEP(store_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_800251A0_0 *)arg0)->unk_02 = (u16)(initial_value - 1);
+    slot_index = 1;
+    setup_slot = (DungeonAnimSlot *)((u8 *)anim_state + 2);
+    ticks_left = ((S_800251A0_0 *)anim_state)->unk_02;
+    active_flag = &D_800267B8;
+    ASM_KEEP(ticks_left);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    active_value = slot_index;
+    *active_flag = (s16)active_value;
+    ASM_KEEP(active_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ((S_800251A0_0 *)anim_state)->unk_02 = (u16)(ticks_left - 1);
     do {
-        var_a1->field_62 = (s16)(var_s1 * 0x10);
-        var_s1 += 1;
-        var_a1 = (DungeonAnimSlot *)((u8 *)var_a1 + 2);
-    } while (var_s1 < 9);
+        setup_slot->field_62 = (s16)(slot_index * 0x10);
+        slot_index += 1;
+        setup_slot = (DungeonAnimSlot *)((u8 *)setup_slot + 2);
+    } while (slot_index < 9);
 
-    var_s1 = 1;
-    var_s0 = (DungeonAnimSlot *)((u8 *)arg0 + 2);
+    slot_index = 1;
+    slot = (DungeonAnimSlot *)((u8 *)anim_state + 2);
     do {
-        delta = func_800644B8(var_s0->field_50) >> 9;
-        temp_v1 = var_s0->field_62;
-        temp_a0 = (u16)var_s0->field_50;
-        temp_v1 += delta;
-        temp_v0 = temp_a0 + 0x50;
-        var_s0->field_50 = temp_v0;
-        var_s0->field_62 = temp_v1;
-        if (temp_v0 >= 0x1001) {
-            s16 wrapped;
+        offset_delta = func_800644B8(slot->field_50) >> 9;
+        offset = slot->field_62;
+        phase = (u16)slot->field_50;
+        offset += offset_delta;
+        next_phase = phase + 0x50;
+        slot->field_50 = next_phase;
+        slot->field_62 = offset;
+        if (next_phase >= 0x1001) {
+            s16 wrapped_phase;
 
-            wrapped = temp_a0 - 0xFB0;
-            var_s0->field_50 = wrapped;
+            wrapped_phase = phase - 0xFB0;
+            slot->field_50 = wrapped_phase;
         }
-        var_s1 += 1;
-        var_s0 = (DungeonAnimSlot *)((u8 *)var_s0 + 2);
-    } while (var_s1 < 9);
+        slot_index += 1;
+        slot = (DungeonAnimSlot *)((u8 *)slot + 2);
+    } while (slot_index < 9);
 
 
-    if ((s16)((S_800251A0_0 *)arg0)->unk_02 <= 0) {
-        ((S_800251A0_0_pre *)arg0)[-1].unk_00 =
-            (u16)(((S_800251A0_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    if ((s16)((S_800251A0_0 *)anim_state)->unk_02 <= 0) {
+        ((S_800251A0_0_pre *)anim_state)[-1].unk_00 =
+            (u16)(((S_800251A0_0_pre *)anim_state)[-1].unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 }

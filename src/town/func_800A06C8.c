@@ -11,15 +11,16 @@ typedef struct {
     /* 0x50 */ void (*unk50)(void *, void *, s32, s32);
 } EntityLike;
 
-void func_8009DE28(EntityLike *arg0, s32 arg1, s32 arg2)
+/* Invoke the entity callback and perform follow-up processing unless its flags suppress it. */
+void func_8009DE28(EntityLike *entity, s32 callback_id, s32 callback_data)
 {
-    u16 *flags = (u16 *)((u8 *)arg0 - 2);
+    u16 *flags = (u16 *)((u8 *)entity - 2);
 
-    arg0->unk50(arg0, arg0, arg1, arg2);
+    entity->unk50(entity, entity, callback_id, callback_data);
     if (!(*flags & 0x8000)) {
-        func_800970AC(func_8009706C(arg1), arg0);
-        if (arg0->unk4D == 0x13) {
-            func_800478B8((void *)arg2);
+        func_800970AC(func_8009706C(callback_id), entity);
+        if (entity->unk4D == 0x13) {
+            func_800478B8((void *)callback_data);
         }
     }
 }

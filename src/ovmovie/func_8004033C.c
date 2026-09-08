@@ -3,7 +3,8 @@
 extern s32 D_801781D8;
 extern s32 D_801781DC;
 
-void func_8004033C(s16 arg0, s16 arg1) {
-    D_801781D8 = (s32) arg0;
-    D_801781DC = (s32) arg1;
+/* Stores two signed values in the movie state globals. */
+void func_8004033C(s16 value_d8, s16 value_dc) {
+    D_801781D8 = (s32) value_d8;
+    D_801781DC = (s32) value_dc;
 }

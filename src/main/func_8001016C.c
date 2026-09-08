@@ -3,7 +3,8 @@
 
 M2C_UNK func_80022D60();   /* extern */
 
-void func_8002316C(s32 arg0) {
-    s32 temp = 0;
-    func_80022D60(arg0, 0x13, temp, temp);
+/* Dispatches command 0x13 with the supplied argument and two zero arguments. */
+void func_8002316C(s32 command_arg) {
+    s32 zero = 0;
+    func_80022D60(command_arg, 0x13, zero, zero);
 }

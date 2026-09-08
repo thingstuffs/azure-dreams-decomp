@@ -16,54 +16,52 @@ typedef struct {
 extern Template0 D_8002E5D8;
 extern Vec3 D_8002E5E8;
 
-void func_800DCC3C(u8 *arg0) {
+/* Initialize nine records and vectors from templates, setting each record's last byte to 4. */
+void func_800DCC3C(u8 *object) {
     u8 *header;
-    s32 i;
-    u8 *page0;
-    Template0 *src0;
-    u8 value;
-    u8 *page1;
-    Vec3 *src1;
-    register s32 offset1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 offset0;
-    register s32 final_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 final_value;
+    s32 entry_index;
+    u8 *record_page;
+    Template0 *record_template;
+    u8 tail_byte;
+    u8 *vector_page;
+    Vec3 *vector_template;
+    register s32 vector_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 record_offset;
+    register s32 vector_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 vector_z;
 
-    header = arg0;
-    i = 0;
-    ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    page0 = (u8 *)0x80030000;
-    ASM_KEEP(page0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    src0 = (Template0 *)(page0 - 0x1A28);
-    ASM_KEEP(src0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    value = 4;
-    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    page1 = (u8 *)0x80030000;
-    ASM_KEEP(page1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    src1 = (Vec3 *)(page1 - 0x1A18);
-    ASM_KEEP(src1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    offset1 = i;
+    header = object;
+    entry_index = 0;
+    ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    record_page = (u8 *)0x80030000;
+    ASM_KEEP(record_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    record_template = (Template0 *)(record_page - 0x1A28);
+    ASM_KEEP(record_template);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    tail_byte = 4;
+    ASM_KEEP(tail_byte);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    vector_page = (u8 *)0x80030000;
+    ASM_KEEP(vector_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    vector_template = (Vec3 *)(vector_page - 0x1A18);
+    ASM_KEEP(vector_template);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    vector_offset = entry_index;
 
     do {
-        offset0 = i * 0x10;
-        *(s32 *)(offset0 + *(s32 *)(header + 4)) =
-            *(s32 *)(page0 - 0x1A28);
-        *(s32 *)(offset0 + *(s32 *)(header + 4) + 4) = src0->unk4;
-        *(s32 *)(offset0 + *(s32 *)(header + 4) + 8) = src0->unk8;
-        *(s32 *)(offset0 + *(s32 *)(header + 4) + 0xC) = src0->unkC;
-        *(u8 *)(offset0 + *(s32 *)(header + 4) + 0xF) = value;
-        i++;
-        *(s32 *)(offset1 + *(s32 *)(header + 8)) =
-            *(s32 *)(page1 - 0x1A18);
-        *(s32 *)(offset1 + *(s32 *)(header + 8) + 4) = src1->y;
-        final_base = *(s32 *)(header + 8);
-        final_value = src1->z;
-        final_base = offset1 + final_base;
-        *(s32 *)(final_base + 8) = final_value;
-        offset1 += 0xC;
-    } while (i < 9);
+        record_offset = entry_index * 0x10;
+        *(s32 *)(record_offset + *(s32 *)(header + 4)) =
+            *(s32 *)(record_page - 0x1A28);
+        *(s32 *)(record_offset + *(s32 *)(header + 4) + 4) = record_template->unk4;
+        *(s32 *)(record_offset + *(s32 *)(header + 4) + 8) = record_template->unk8;
+        *(s32 *)(record_offset + *(s32 *)(header + 4) + 0xC) = record_template->unkC;
+        *(u8 *)(record_offset + *(s32 *)(header + 4) + 0xF) = tail_byte;
+        entry_index++;
+        *(s32 *)(vector_offset + *(s32 *)(header + 8)) =
+            *(s32 *)(vector_page - 0x1A18);
+        *(s32 *)(vector_offset + *(s32 *)(header + 8) + 4) = vector_template->y;
+        vector_addr = *(s32 *)(header + 8);
+        vector_z = vector_template->z;
+        vector_addr = vector_offset + vector_addr;
+        *(s32 *)(vector_addr + 8) = vector_z;
+        vector_offset += 0xC;
+    } while (entry_index < 9);
 }
 
-/* MECHANISM: Frameless leaf with pinned header/index/offset roles and two
-   separately held 0x80030000 page bases; keep seams derive full bases by addiu.
-   Reversed offset+base indexing and a final v0/v1 live-range split close the copy. */

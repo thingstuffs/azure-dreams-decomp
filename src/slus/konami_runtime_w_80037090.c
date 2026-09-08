@@ -29,33 +29,34 @@ extern u8 D_80082B50[16];
 extern u8 D_80082B60[16];
 extern u8 D_80082B70[16];
 
-void func_80037090(Func37090Input *arg0, void *arg1, Func37090Output *arg2) {
-    u8 value;
+/* Updates lookup data and selects the current entry's table value and blinking color. */
+void func_80037090(Func37090Input *state, void *context, Func37090Output *output) {
+    u8 entry;
 
-    if (func_80037534(arg0, arg1, arg2) != 0) {
+    if (func_80037534(state, context, output) != 0) {
         return;
     }
 
-    func_80036C7C(arg0->base + 0xC, (u8 *)D_8006A958, D_80082B50);
-    func_80036C7C(arg0->base + 0xC, (u8 *)D_8006A964, D_80082B60);
-    func_80036C7C(arg0->base + 0xC, (u8 *)D_8006A970, D_80082B70);
+    func_80036C7C(state->base + 0xC, (u8 *)D_8006A958, D_80082B50);
+    func_80036C7C(state->base + 0xC, (u8 *)D_8006A964, D_80082B60);
+    func_80036C7C(state->base + 0xC, (u8 *)D_8006A970, D_80082B70);
 
     {
-        u8 *base = arg0->base + 0x4C;
-        s16 index = arg0->index;
+        u8 *entries = state->base + 0x4C;
+        s16 entry_index = state->index;
 
-        value = base[index];
+        entry = entries[entry_index];
     }
-    if (value & 0x80) {
-        arg0->counter++;
-        if (arg0->counter & 1) {
-            arg2->color = 0xC0C0C0;
+    if (entry & 0x80) {
+        state->counter++;
+        if (state->counter & 1) {
+            output->color = 0xC0C0C0;
         } else {
-            arg2->color = 0;
+            output->color = 0;
         }
     } else {
-        arg2->color = 0;
+        output->color = 0;
     }
 
-    arg2->table_value = D_8006A97C[((value & 0x7F) + arg0->table_index)];
+    output->table_value = D_8006A97C[((entry & 0x7F) + state->table_index)];
 }

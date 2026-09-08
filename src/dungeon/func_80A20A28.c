@@ -14,276 +14,276 @@ extern void func_800DBA90();
 extern u8 D_80083160[0x8D4];
 extern u8 D_8017087C[];
 
-s32 func_80174228(u8 *arg0)
+/* Render linked items as shaded textured strips using projected bounds and a mirrored height profile. */
+s32 func_80174228(u8 *item_data)
 {
     u8 storage[0x80];
     s32 depth;
-    s32 depth_old;
-    s32 depth_input;
-    s32 depth_result;
-    s32 x_condition;
-    u8 *slot;
-    s32 maxx;
-    s32 depth_offset;
-    u8 *work_ptr;
-    u8 *setup_cursor;
-    s32 packed_x;
-    s32 packed_y;
+    s32 biased_depth;
+    s32 prev_depth;
+    s32 next_depth;
+    s32 extends_right;
+    u8 *vertices;
+    s32 right_bound;
+    s32 ot_offset;
+    u8 *vertex_base;
+    u8 *setup_source;
+    s32 min_xy;
+    s32 max_xy;
     s32 i;
-    s32 *tmpp;
-    s32 delta;
-    s32 q;
-    s32 value;
-    register s32 tail_y ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 pos_y ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u8 *next;
-    register s32 x0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 x1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 y0;
-    register s32 y1;
-    register s32 width;
-    register s32 neg_width;
-    u32 mask24;
-    register u32 hi8 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register u8 *vertex0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 *scratch_ptr;
+    s32 screen_width;
+    s32 strip_offset;
+    s32 tex_coord;
+    register s32 far_z ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 near_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *next_node;
+    register s32 left_coord ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 right_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 top_y;
+    register s32 bottom_y;
+    register s32 half_width;
+    register s32 left_x;
+    u32 addr_mask;
+    register u32 tag_mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register u8 *init_vertex ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *vertex;
     u8 *prim;
     u8 shade;
     u8 tex_height;
     u8 *context;
     u8 *context2;
-    u8 *dst;
-    u8 *mirror;
+    u8 *profile_dst;
+    u8 *profile_mirror;
     u32 mirror_addr;
-    s16 *elem_ptr;
-    s32 elem;
-    s32 item_term;
-    s32 raw;
-    s32 ret;
-    s32 d8;
-    s32 outv;
-    u32 outu;
-    u16 item_u;
-    s32 half;
+    s16 *profile_base;
+    s32 brightness;
+    s32 shade_bias;
+    s32 profile_raw;
+    s32 vertex_depth;
+    s32 screen_coord;
+    u32 coord_bits;
+    u16 profile_peak;
+    s32 half_height;
     register u8 *item ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 abs11 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 *page;
-    register u8 *sb ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *setup ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 render_term ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *render_state;
+    register u8 *profile_storage ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *transform ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    page = D_80083160;
+    render_state = D_80083160;
     __builtin_memcpy(storage, D_8017087C, 8);
     depth = 0;
-    slot = storage + 8;
+    vertices = storage + 8;
 
     do {
-    item = arg0;
-    work_ptr = slot;
-    i = 3;
-    tail_y = -0xA0;
-    pos_y = 0x10;
-    FIELD(storage, s32, 0x7C) = 0x40;
-    width = FIELD(storage, u16, 0x7C);
-    vertex0 = work_ptr + 0x18;
-    neg_width = -width;
-    do {
-        FIELD(vertex0, u16, 0) = width;
-        if (i < 2) {
-            FIELD(vertex0, u16, 0) = neg_width;
-        }
-        FIELD(vertex0, s16, 2) = 0;
-        if (i & 1) {
-            FIELD(vertex0, s16, 4) = tail_y;
-        } else {
-            FIELD(vertex0, s16, 4) = pos_y;
-        }
-        i--;
-        vertex0 -= 8;
-    } while (i >= 0);
-
-    setup = storage + 0x28;
-    ASM_KEEP_NV(setup);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    packed_x &= 0xFFFF;
-    packed_y &= 0xFFFF;
-    i = 3;
-    setup_cursor = page;
-    abs11 = FIELD(setup_cursor, u16, 0xC8);
-    ASM_USE_NV(abs11);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    FIELD(storage, s16, 0x32) = 0;
-    FIELD(storage, s16, 0x30) = 0;
-    setup_cursor = slot;
-    tmpp = &TMP;
-    vertex = setup_cursor + 0x18;
-    FIELD(storage, u8 *, 0x28) = setup_cursor;
-    FIELD(storage, u8 *, 0x2C) = setup_cursor;
-    FIELD(storage, s16, 0x34) = -abs11;
-    __builtin_memcpy(storage + 0x38, item, 8);
-    FIELD(storage, s16, 0x40) = 4;
-    FIELD(storage, s16, 0x42) = 0;
-    func_800DBA90(setup, neg_width, pos_y, tail_y);
-
-    packed_x |= 0x75300000;
-    packed_x &= 0xFFFF0000;
-    packed_x |= 0x7530;
-    packed_y |= 0x8AD00000;
-    packed_y &= 0xFFFF0000;
-    packed_y |= 0x8AD0;
-
-    do {
-        ret = func_80065420(vertex, &OUTX, tmpp, tmpp);
-        depth_input = depth;
-        outv = OUTX;
-        depth_old = depth_input - 8;
-        ASM_USE2_NV(outv, depth_old);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        depth_result = depth_old + ret;
-        x_condition = (s16)packed_y < outv;
-        depth = depth_result;
-        outu = (u16)OUTX;
-        if (x_condition) {
-            packed_y &= 0xFFFF0000;
-            outu |= packed_y;
-            packed_y = outu;
-        } else if (outv < (s16)packed_x) {
-            packed_x &= 0xFFFF0000;
-            outu |= packed_x;
-            packed_x = outu;
-        }
-        outv = OUTY;
-        outu = (u16)OUTY;
-        if ((packed_y >> 16) < outv) {
-            packed_y &= 0xFFFF;
-            packed_y = packed_y | (outu << 16);
-        } else if (outv < (packed_x >> 16)) {
-            packed_x &= 0xFFFF;
-            packed_x = packed_x | (outu << 16);
-        }
-        i--;
-        vertex -= 8;
-    } while (i >= 0);
-
-    i = 1;
-    depth >>= 2;
-    item_u = FIELD(item, u16, 0xE);
-    ASM_KEEP_MEMDEP_NV(item_u, dst, storage[0]);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    dst = storage + 0x60;
-    FIELD(storage, u16, 0x5E) = item_u;
-    do {
-        mirror_addr = (0xB - i) * 2;
-        mirror_addr += (u32)storage;
-        mirror = (u8 *)mirror_addr;
-        raw = FIELD(storage, u16, 0x48 + (0xC - i) * 2);
-        i++;
-        half = (raw << 16) >> 17;
-        FIELD(dst, s16, 0) = half;
-        FIELD(mirror, s16, 0x48) = half;
-        dst += 2;
-    } while (i < 0xC);
-
-    if ((u32)depth < 0x1E0U) {
-        i = 0;
+        item = item_data;
+        vertex_base = vertices;
+        i = 3;
+        far_z = -0xA0;
+        near_z = 0x10;
+        FIELD(storage, s32, 0x7C) = 0x40;
+        half_width = FIELD(storage, u16, 0x7C);
+        init_vertex = vertex_base + 0x18;
+        left_x = -half_width;
         do {
-            context = FIELD(page, u8 *, 0);
-            prim = FIELD(context, u8 *, 0x8D0);
-            FIELD(context, u8 *, 0x8D0) = prim + 0x28;
-
-            elem_ptr = (s16 *)(storage + i * 2 - 0x10);
-            ASM_USE(elem_ptr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            abs11 = 0xB;
-            abs11 -= i;
-            elem = FIELD(elem_ptr, s16, 0x58);
-            if (abs11 < 0) {
-                abs11 = -abs11;
+            FIELD(init_vertex, u16, 0) = half_width;
+            if (i < 2) {
+                FIELD(init_vertex, u16, 0) = left_x;
             }
-            elem -= abs11;
-            item_term = FIELD(item, s16, 0x18);
-            elem *= 2;
-            item_term *= 4;
-            item_term += 0x5C;
-            elem += item_term;
-            TMP = elem;
-            if (elem < 0) {
-                TMP = 0;
+            FIELD(init_vertex, s16, 2) = 0;
+            if (i & 1) {
+                FIELD(init_vertex, s16, 4) = far_z;
+            } else {
+                FIELD(init_vertex, s16, 4) = near_z;
             }
-            shade = TMP;
-            FIELD(prim, u8, 6) = shade;
-            FIELD(prim, u8, 5) = shade;
-            FIELD(prim, u8, 4) = shade;
-            func_800666F4(prim);
-            func_80066640(prim, 1);
-            FIELD(prim, s16, 0x16) = func_80066460(2, 1, 0x340, 0x100);
+            i--;
+            init_vertex -= 8;
+        } while (i >= 0);
 
-            abs11 = i * FIELD(storage, s16, 4);
-            x0 = abs11 / 23;
-            FIELD(prim, s8, 0x14) = x0;
-            FIELD(prim, s8, 0xC) = x0;
-            value = x0;
-            value += ((FIELD(storage, u16, 4) << 16) >> 16) / 23;
-            FIELD(prim, u8, 0x1D) = 0;
-            FIELD(prim, u8, 0xD) = 0;
-            FIELD(prim, s8, 0x24) = value;
-            FIELD(prim, s8, 0x1C) = value;
+        transform = storage + 0x28;
+        ASM_KEEP_NV(transform);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        min_xy &= 0xFFFF;
+        max_xy &= 0xFFFF;
+        i = 3;
+        setup_source = render_state;
+        render_term = FIELD(setup_source, u16, 0xC8);
+        ASM_USE_NV(render_term);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        FIELD(storage, s16, 0x32) = 0;
+        FIELD(storage, s16, 0x30) = 0;
+        setup_source = vertices;
+        scratch_ptr = &TMP;
+        vertex = setup_source + 0x18;
+        FIELD(storage, u8 *, 0x28) = setup_source;
+        FIELD(storage, u8 *, 0x2C) = setup_source;
+        FIELD(storage, s16, 0x34) = -render_term;
+        __builtin_memcpy(storage + 0x38, item, 8);
+        FIELD(storage, s16, 0x40) = 4;
+        FIELD(storage, s16, 0x42) = 0;
+        func_800DBA90(transform, left_x, near_z, far_z);
 
-            tex_height = FIELD(storage, u8, 6);
-            ASM_USE(tex_height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            FIELD(prim, u8, 0x25) = tex_height;
-            value = FIELD(prim, u8, 0xD) + 2;
-            if (tex_height >= 2) {
-                value = FIELD(prim, u8, 0xD) + FIELD(prim, u8, 0x25);
+        min_xy |= 0x75300000;
+        min_xy &= 0xFFFF0000;
+        min_xy |= 0x7530;
+        max_xy |= 0x8AD00000;
+        max_xy &= 0xFFFF0000;
+        max_xy |= 0x8AD0;
+
+        do {
+            vertex_depth = func_80065420(vertex, &OUTX, scratch_ptr, scratch_ptr);
+            prev_depth = depth;
+            screen_coord = OUTX;
+            biased_depth = prev_depth - 8;
+            ASM_USE2_NV(screen_coord, biased_depth);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            next_depth = biased_depth + vertex_depth;
+            extends_right = (s16)max_xy < screen_coord;
+            depth = next_depth;
+            coord_bits = (u16)OUTX;
+            if (extends_right) {
+                max_xy &= 0xFFFF0000;
+                coord_bits |= max_xy;
+                max_xy = coord_bits;
+            } else if (screen_coord < (s16)min_xy) {
+                min_xy &= 0xFFFF0000;
+                coord_bits |= min_xy;
+                min_xy = coord_bits;
             }
-            maxx = (s16)packed_y;
-            delta = maxx - (s16)packed_x;
-            FIELD(prim, u8, 0x25) = value;
-            FIELD(prim, u8, 0x15) = value;
-
-            q = (delta * i) / 23;
-            TMP = q;
-            if (i < 0xB) {
-                TMP = q + FIELD(item, s16, 0xA);
-                if ((delta >> 1) < TMP) {
-                    TMP = delta >> 1;
-                }
-            } else if (i >= 0xC) {
-                TMP = q - FIELD(item, s16, 0xA);
-                if (TMP < (delta >> 1)) {
-                    TMP = delta >> 1;
-                }
+            screen_coord = OUTY;
+            coord_bits = (u16)OUTY;
+            if ((max_xy >> 16) < screen_coord) {
+                max_xy &= 0xFFFF;
+                max_xy = max_xy | (coord_bits << 16);
+            } else if (screen_coord < (min_xy >> 16)) {
+                min_xy &= 0xFFFF;
+                min_xy = min_xy | (coord_bits << 16);
             }
+            i--;
+            vertex -= 8;
+        } while (i >= 0);
 
-            x0 = (u16)TMP + packed_x;
-            FIELD(prim, s16, 0x10) = x0;
-            FIELD(prim, s16, 8) = x0;
-            x1 = x0 + delta / 23;
-            FIELD(prim, s16, 0x20) = x1;
-            FIELD(prim, s16, 0x18) = x1;
-
-            sb = storage;
-            y0 = FIELD(sb, u16, 0x48 + i * 2) + (packed_x >> 16);
-            FIELD(prim, s16, 0x1A) = y0;
-            FIELD(prim, s16, 0xA) = y0;
-            y1 = FIELD(sb, u16, 0x48 + i * 2) + (packed_y >> 16);
-            FIELD(prim, s16, 0x22) = y1;
-            FIELD(prim, s16, 0x12) = y1;
-
-            depth_offset = depth * 4;
-            hi8 = 0xFF000000;
-            mask24 = 0x00FFFFFF;
-            context = FIELD(page, u8 *, 0);
-            FIELD(prim, u32, 0) = (FIELD(prim, u32, 0) & hi8) |
-                (FIELD(context, u32, 0xB0 + depth_offset) & mask24);
-            context2 = FIELD(page, u8 *, 0);
-            FIELD(context2, u32, 0xB0 + depth_offset) =
-                (FIELD(context2, u32, 0xB0 + depth_offset) & hi8) |
-                ((u32)prim & mask24);
-
+        i = 1;
+        depth >>= 2;
+        profile_peak = FIELD(item, u16, 0xE);
+        ASM_KEEP_MEMDEP_NV(profile_peak, profile_dst, storage[0]);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        profile_dst = storage + 0x60;
+        FIELD(storage, u16, 0x5E) = profile_peak;
+        do {
+            mirror_addr = (0xB - i) * 2;
+            mirror_addr += (u32)storage;
+            profile_mirror = (u8 *)mirror_addr;
+            profile_raw = FIELD(storage, u16, 0x48 + (0xC - i) * 2);
             i++;
-        } while (i < 0x17);
-    }
+            half_height = (profile_raw << 16) >> 17;
+            FIELD(profile_dst, s16, 0) = half_height;
+            FIELD(profile_mirror, s16, 0x48) = half_height;
+            profile_dst += 2;
+        } while (i < 0xC);
 
-    next = FIELD(arg0, u8 *, -8);
-    if (next == 0) {
-        break;
-    }
-    arg0 = next + 0x20;
+        if ((u32)depth < 0x1E0U) {
+            i = 0;
+            do {
+                context = FIELD(render_state, u8 *, 0);
+                prim = FIELD(context, u8 *, 0x8D0);
+                FIELD(context, u8 *, 0x8D0) = prim + 0x28;
+
+                profile_base = (s16 *)(storage + i * 2 - 0x10);
+                ASM_USE(profile_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                render_term = 0xB;
+                render_term -= i;
+                brightness = FIELD(profile_base, s16, 0x58);
+                if (render_term < 0) {
+                    render_term = -render_term;
+                }
+                brightness -= render_term;
+                shade_bias = FIELD(item, s16, 0x18);
+                brightness *= 2;
+                shade_bias *= 4;
+                shade_bias += 0x5C;
+                brightness += shade_bias;
+                TMP = brightness;
+                if (brightness < 0) {
+                    TMP = 0;
+                }
+                shade = TMP;
+                FIELD(prim, u8, 6) = shade;
+                FIELD(prim, u8, 5) = shade;
+                FIELD(prim, u8, 4) = shade;
+                func_800666F4(prim);
+                func_80066640(prim, 1);
+                FIELD(prim, s16, 0x16) = func_80066460(2, 1, 0x340, 0x100);
+
+                render_term = i * FIELD(storage, s16, 4);
+                left_coord = render_term / 23;
+                FIELD(prim, s8, 0x14) = left_coord;
+                FIELD(prim, s8, 0xC) = left_coord;
+                tex_coord = left_coord;
+                tex_coord += ((FIELD(storage, u16, 4) << 16) >> 16) / 23;
+                FIELD(prim, u8, 0x1D) = 0;
+                FIELD(prim, u8, 0xD) = 0;
+                FIELD(prim, s8, 0x24) = tex_coord;
+                FIELD(prim, s8, 0x1C) = tex_coord;
+
+                tex_height = FIELD(storage, u8, 6);
+                ASM_USE(tex_height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                FIELD(prim, u8, 0x25) = tex_height;
+                tex_coord = FIELD(prim, u8, 0xD) + 2;
+                if (tex_height >= 2) {
+                    tex_coord = FIELD(prim, u8, 0xD) + FIELD(prim, u8, 0x25);
+                }
+                right_bound = (s16)max_xy;
+                screen_width = right_bound - (s16)min_xy;
+                FIELD(prim, u8, 0x25) = tex_coord;
+                FIELD(prim, u8, 0x15) = tex_coord;
+
+                strip_offset = (screen_width * i) / 23;
+                TMP = strip_offset;
+                if (i < 0xB) {
+                    TMP = strip_offset + FIELD(item, s16, 0xA);
+                    if ((screen_width >> 1) < TMP) {
+                        TMP = screen_width >> 1;
+                    }
+                } else if (i >= 0xC) {
+                    TMP = strip_offset - FIELD(item, s16, 0xA);
+                    if (TMP < (screen_width >> 1)) {
+                        TMP = screen_width >> 1;
+                    }
+                }
+
+                left_coord = (u16)TMP + min_xy;
+                FIELD(prim, s16, 0x10) = left_coord;
+                FIELD(prim, s16, 8) = left_coord;
+                right_x = left_coord + screen_width / 23;
+                FIELD(prim, s16, 0x20) = right_x;
+                FIELD(prim, s16, 0x18) = right_x;
+
+                profile_storage = storage;
+                top_y = FIELD(profile_storage, u16, 0x48 + i * 2) + (min_xy >> 16);
+                FIELD(prim, s16, 0x1A) = top_y;
+                FIELD(prim, s16, 0xA) = top_y;
+                bottom_y = FIELD(profile_storage, u16, 0x48 + i * 2) + (max_xy >> 16);
+                FIELD(prim, s16, 0x22) = bottom_y;
+                FIELD(prim, s16, 0x12) = bottom_y;
+
+                ot_offset = depth * 4;
+                tag_mask = 0xFF000000;
+                addr_mask = 0x00FFFFFF;
+                context = FIELD(render_state, u8 *, 0);
+                FIELD(prim, u32, 0) = (FIELD(prim, u32, 0) & tag_mask) |
+                    (FIELD(context, u32, 0xB0 + ot_offset) & addr_mask);
+                context2 = FIELD(render_state, u8 *, 0);
+                FIELD(context2, u32, 0xB0 + ot_offset) =
+                    (FIELD(context2, u32, 0xB0 + ot_offset) & tag_mask) |
+                    ((u32)prim & addr_mask);
+
+                i++;
+            } while (i < 0x17);
+        }
+
+        next_node = FIELD(item_data, u8 *, -8);
+        if (next_node == 0) {
+            break;
+        }
+        item_data = next_node + 0x20;
     } while (1);
     return 0;
 }

@@ -48,39 +48,40 @@ static Callback const func_8184A800_table[]
 #define FUNC_8184A800_BODY func_8184A800
 #endif
 
-void FUNC_8184A800_BODY(void *arg0, void *arg1, void *arg2)
+/* Apply a random number of updates to the target and propagate its status flags. */
+void FUNC_8184A800_BODY(void *owner, void *unused, void *target)
 {
-    s32 random;
+    s32 random_value;
     register s32 quotient ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s16 count;
-    s16 i;
-    s16 next;
-    void *object;
+    s16 update_count;
+    s16 update_index;
+    s16 next_index;
+    void *owner_data;
 
-    object = *(void **)((u8 *)arg0 + 0xC);
-    *(u16 *)((u8 *)object + 0x16) += 1;
-    *(s16 *)((u8 *)arg2 + 0x1A) = 0;
+    owner_data = *(void **)((u8 *)owner + 0xC);
+    *(u16 *)((u8 *)owner_data + 0x16) += 1;
+    *(s16 *)((u8 *)target + 0x1A) = 0;
 
     quotient = rand();
     ASM_KEEP(quotient);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    random = quotient;
+    random_value = quotient;
     quotient >>= 2;
-    if (random < 0) {
-        quotient = (random + 3) >> 2;
+    if (random_value < 0) {
+        quotient = (random_value + 3) >> 2;
     }
-    count = (random - (quotient * 4)) + 1;
+    update_count = (random_value - (quotient * 4)) + 1;
 
-    i = 0;
-    if (count > 0) {
+    update_index = 0;
+    if (update_count > 0) {
         do {
-            func_800478B8(arg2);
-            next = i + 1;
-            i = next;
-        } while (next < count);
+            func_800478B8(target);
+            next_index = update_index + 1;
+            update_index = next_index;
+        } while (next_index < update_count);
     }
 
-    if (*(u16 *)((u8 *)arg2 + 0x14) & 0x6000) {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
+        *(u16 *)((u8 *)owner - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

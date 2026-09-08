@@ -74,57 +74,58 @@ extern CounterView D_80027330;
 extern u8 D_80045340[];
 extern FlagsView D_800814A0;
 
-void func_8195EB88(void *arg0, S_8195EB88_2 *arg1, S_8195EB88_4 *arg2)
+/* Updates the effect position, brightens and fades its primitive, and marks completion. */
+void func_8195EB88(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive)
 {
-    s16 temp_v1;
-    u16 temp_a0;
-    S_8195EB88_3 *temp_a0_2;
-    S_8195EB88_1 *temp_s0;
+    s16 phase;
+    u16 phase_value;
+    S_8195EB88_3 *base_position;
+    S_8195EB88_1 *source_state;
 
     D_80027330.value = D_80027330.value + 1;
-    temp_v1 = ((S_8195EB88_0 *)arg0)->unk_48.s;
-    temp_a0 = ((S_8195EB88_0 *)arg0)->unk_48.u;
+    phase = ((S_8195EB88_0 *)effect)->unk_48.s;
+    phase_value = ((S_8195EB88_0 *)effect)->unk_48.u;
 
-    if (temp_v1 == 0) {
-        temp_s0 = ((S_8195EB88_5 *)(((S_8195EB88_0 *)arg0)->unk_0C))->unk_0C;
-        if (((S_8195EB88_0 *)arg0)->unk_4A == 0) {
-            if (func_8003DE58(temp_s0->unk_08, temp_s0,
-                              (u8 *)arg0 + 0x40, 0) != 0) {
-                ((S_8195EB88_0 *)arg0)->unk_4A = 1;
+    if (phase == 0) {
+        source_state = ((S_8195EB88_5 *)(((S_8195EB88_0 *)effect)->unk_0C))->unk_0C;
+        if (((S_8195EB88_0 *)effect)->unk_4A == 0) {
+            if (func_8003DE58(source_state->unk_08, source_state,
+                              (u8 *)effect + 0x40, 0) != 0) {
+                ((S_8195EB88_0 *)effect)->unk_4A = 1;
                 func_80024414();
             }
-            if (temp_s0->unk_14 & 0x8000) {
-                ((S_8195EB88_0 *)arg0)->unk_4A = 1;
-                ((S_8195EB88_0 *)arg0)->unk_44.s = -0x40;
+            if (source_state->unk_14 & 0x8000) {
+                ((S_8195EB88_0 *)effect)->unk_4A = 1;
+                ((S_8195EB88_0 *)effect)->unk_44.s = -0x40;
             }
-            if (((S_8195EB88_0 *)arg0)->unk_4A == 0) {
+            if (((S_8195EB88_0 *)effect)->unk_4A == 0) {
                 goto end;
             }
         }
 
-        temp_a0_2 = ((S_8195EB88_5 *)(((S_8195EB88_0 *)arg0)->unk_0C))->unk_08;
-        arg1->unk_02 =
-            temp_a0_2->unk_02 + ((S_8195EB88_0 *)arg0)->unk_40;
-        arg1->unk_06 =
-            temp_a0_2->unk_06 + ((S_8195EB88_0 *)arg0)->unk_42;
-        arg1->unk_0A =
-            temp_a0_2->unk_0A + ((S_8195EB88_0 *)arg0)->unk_44.u;
-        if (func_80027204(arg1) != 0) {
-            func_8004491C((u8 *)arg0 - 0x20, D_80045340);
-            ((S_8195EB88_0 *)arg0)->unk_48.u = ((S_8195EB88_0 *)arg0)->unk_48.u + 1;
+        base_position = ((S_8195EB88_5 *)(((S_8195EB88_0 *)effect)->unk_0C))->unk_08;
+        position->unk_02 =
+            base_position->unk_02 + ((S_8195EB88_0 *)effect)->unk_40;
+        position->unk_06 =
+            base_position->unk_06 + ((S_8195EB88_0 *)effect)->unk_42;
+        position->unk_0A =
+            base_position->unk_0A + ((S_8195EB88_0 *)effect)->unk_44.u;
+        if (func_80027204(position) != 0) {
+            func_8004491C((u8 *)effect - 0x20, D_80045340);
+            ((S_8195EB88_0 *)effect)->unk_48.u = ((S_8195EB88_0 *)effect)->unk_48.u + 1;
             func_80024520();
         }
-    } else if (temp_v1 == 1) {
-        if (arg2->unk_0C.u8 < 0xC0) {
-            arg2->unk_0C.u32 += 0x202020;
+    } else if (phase == 1) {
+        if (primitive->unk_0C.u8 < 0xC0) {
+            primitive->unk_0C.u32 += 0x202020;
             func_80024520();
         }
-        ((S_8195EB88_0 *)arg0)->unk_48.u = temp_a0 + 1;
+        ((S_8195EB88_0 *)effect)->unk_48.u = phase_value + 1;
         func_80024520();
-    } else if (temp_v1 == 2) {
-        arg2->unk_0C.u32 += 0xFFEFEFF0;
-        if (arg2->unk_0C.u8 == 0) {
-            ((S_8195EB88_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    } else if (phase == 2) {
+        primitive->unk_0C.u32 += 0xFFEFEFF0;
+        if (primitive->unk_0C.u8 == 0) {
+            ((S_8195EB88_0_pre *)effect)[-1].unk_00 |= 0x8000;
             D_800814A0.value |= 0x8000;
         }
     }

@@ -15,22 +15,19 @@ extern s32 func_800498EC(s32 value);
 extern s32 func_80049984(s32 value, s32 arg1);
 extern s32 D_80077FBC[];
 
-void func_800B5C60(s32 unused, Func800B8500Entry **entries, s32 value) {
-    s32 eight = 8;
+/* Initializes three entries with offsets and fixed, supplied, and computed values. */
+void func_800B5C60(s32 source_value, Func800B8500Entry **entries, s32 entry_value) {
+    s32 entry_offset = 8;
 
     entries[0]->inner->field_8 = -0x38;
-    entries[0]->inner->field_A = eight;
+    entries[0]->inner->field_A = entry_offset;
     entries[0]->value = &D_80077FBC[0];
 
     entries[1]->inner->field_8 = -0x38;
-    entries[1]->inner->field_A = eight;
-    entries[1]->value = value;
+    entries[1]->inner->field_A = entry_offset;
+    entries[1]->value = entry_value;
 
     entries[2]->inner->field_8 = -0x10;
     entries[2]->inner->field_A = 0x16;
-    entries[2]->value = func_800498EC(func_80049984(unused, eight));
+    entries[2]->value = func_800498EC(func_80049984(source_value, entry_offset));
 }
-
-/* MECHANISM: The 24-byte frame and entries base held in s0 already matched retail.
-   Naming constant 8 as one live range holds it in a1 across both earlier stores
-   and the final call, replacing the redundant rematerialization with retail's nop. */

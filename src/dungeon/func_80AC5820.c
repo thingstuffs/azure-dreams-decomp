@@ -50,42 +50,43 @@ typedef struct StackWork {
     s32 out24;
 } StackWork;
 
-void func_80AC5820(void *arg0, S_80AC5820_0 *arg1, Rec_D_80082E80 *arg2)
+/* Updates the relative position value with an angle bias and flags countdown completion. */
+void func_80AC5820(void *state, S_80AC5820_0 *position, Rec_D_80082E80 *result)
 {
     StackWork work;
-    s16 count;
-    s32 first;
-    s32 second;
-    s8 *table_entry;
+    s16 ticks_left;
+    s32 position_value;
+    s32 reference_value;
+    s8 *angle_bias;
     u32 angle_page;
-    S_80AC5820_2 *other;
+    S_80AC5820_2 *reference_pos;
 
-    work.xyz[0] = arg1->unk_02;
-    work.xyz[1] = arg1->unk_06;
-    work.xyz[2] = arg1->unk_0A;
-    first = func_80065420(work.xyz, &work.out18, &work.out20, &work.out24);
+    work.xyz[0] = position->unk_02;
+    work.xyz[1] = position->unk_06;
+    work.xyz[2] = position->unk_0A;
+    position_value = func_80065420(work.xyz, &work.out18, &work.out20, &work.out24);
 
-    other = ((S_80AC5820_1 *)arg0)->unk_A8;
-    work.xyz[0] = other->unk_02;
-    work.xyz[1] = other->unk_06;
-    work.xyz[2] = other->unk_0A;
-    second = func_80065420(work.xyz, &work.out18, &work.out20, &work.out24);
+    reference_pos = ((S_80AC5820_1 *)state)->unk_A8;
+    work.xyz[0] = reference_pos->unk_02;
+    work.xyz[1] = reference_pos->unk_06;
+    work.xyz[2] = reference_pos->unk_0A;
+    reference_value = func_80065420(work.xyz, &work.out18, &work.out20, &work.out24);
     angle_page = 0x80080000;
     ASM_KEEP(angle_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    table_entry = &D_800DCECC[
+    angle_bias = &D_800DCECC[
         ((*(s16 *)(angle_page + 0x3228) +
-          ((S_80AC5820_1 *)arg0)->unk_94 + 0x100) >> 9) & 7];
-    arg2->unk_06.as_s16 = first - second - *table_entry * 2;
+          ((S_80AC5820_1 *)state)->unk_94 + 0x100) >> 9) & 7];
+    result->unk_06.as_s16 = position_value - reference_value - *angle_bias * 2;
 
-    func_800478B8(arg2, table_entry);
-    count = ((S_80AC5820_1 *)arg0)->unk_96 - 1;
-    ((S_80AC5820_1 *)arg0)->unk_96 = count;
-    if ((count << 16) <= 0) {
+    func_800478B8(result, angle_bias);
+    ticks_left = ((S_80AC5820_1 *)state)->unk_96 - 1;
+    ((S_80AC5820_1 *)state)->unk_96 = ticks_left;
+    if ((ticks_left << 16) <= 0) {
         register u32 flags_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         flags_page = 0x80080000;
         ASM_KEEP(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ((S_80AC5820_1_pre *)arg0)[-1].unk_00 |= 0x8000;
+        ((S_80AC5820_1_pre *)state)[-1].unk_00 |= 0x8000;
         *(s32 *)(flags_page + 0x14A0) |= 0x8000;
     }
 }

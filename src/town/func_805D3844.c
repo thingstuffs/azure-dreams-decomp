@@ -55,7 +55,8 @@ typedef unsigned int u32;
 typedef int s32;
 typedef s8 M2C_UNK8;
 extern unsigned int D_80016000[0x10];
+/* Writes 0x61 through the pointer at offset 0x1C of D_80016000's first entry. */
 void func_80017844(void)
 {
-  *(*((s32 **) (((s8 *) (*D_80016000)) + 0x1C))) = 0x61;
+  **(s32 **)((s8 *)D_80016000[0] + 0x1C) = 0x61;
 }

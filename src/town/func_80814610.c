@@ -25,26 +25,23 @@ typedef struct S_80814610_2_pre {
 M2C_UNK func_8003EA54();                 /* extern */
 extern s32 D_80084D5C;
 
-void func_80814610(void *arg0, void *arg1, void *arg2) {
-    s32 temp_a2;
-    u8 temp_v0;
+/* Updates motion and brightness, processes the visual, and marks flagged objects. */
+void func_80814610(void *object, void *motion, void *visual) {
+    s32 velocity;
+    u8 brightness;
 
-    temp_a2 = ((S_80814610_0 *)arg1)->unk_14;
-    if (temp_a2 != 0) {
-        ((S_80814610_0 *)arg1)->unk_08 = (s32) (((S_80814610_0 *)arg1)->unk_08 + temp_a2);
-        ((S_80814610_0 *)arg1)->unk_14 = (s32) (((S_80814610_0 *)arg1)->unk_14 + 0x18000);
-        temp_v0 = ((S_80814610_1 *)arg2)->unk_0E - 0x20;
-        ((S_80814610_1 *)arg2)->unk_0E = temp_v0;
-        ((S_80814610_1 *)arg2)->unk_0D = temp_v0;
-        ((S_80814610_1 *)arg2)->unk_0C = temp_v0;
+    velocity = ((S_80814610_0 *)motion)->unk_14;
+    if (velocity != 0) {
+        ((S_80814610_0 *)motion)->unk_08 = (s32) (((S_80814610_0 *)motion)->unk_08 + velocity);
+        ((S_80814610_0 *)motion)->unk_14 = (s32) (((S_80814610_0 *)motion)->unk_14 + 0x18000);
+        brightness = ((S_80814610_1 *)visual)->unk_0E - 0x20;
+        ((S_80814610_1 *)visual)->unk_0E = brightness;
+        ((S_80814610_1 *)visual)->unk_0D = brightness;
+        ((S_80814610_1 *)visual)->unk_0C = brightness;
     }
-    func_8003EA54(arg2);
-    if (((S_80814610_1 *)arg2)->unk_14 & 0x6000) {
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_80814610_2_pre *)arg0)[-1].unk_00 | 0x8000);
+    func_8003EA54(visual);
+    if (((S_80814610_1 *)visual)->unk_14 & 0x6000) {
+        (*(u16 *)((u8 *)object + -2)) = (u16) (((S_80814610_2_pre *)object)[-1].unk_00 | 0x8000);
         D_80084D5C |= 0x8000;
     }
 }
-
-/* MECHANISM: Natural arg lifetimes produce the retail 0x20 frame with s0=arg2 and s1=arg0.
-   The one-argument callee shape removes the dead a1 move and closes the displacement cascade.
-   The 2.7.2-G0 route preserves the established scalar declaration while emitting retail hi/lo accesses. */

@@ -4,6 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_8001E578();                     /* extern */
 
+/* Calls func_8001E578 with 0x400. */
 void func_8001CEFC(void) {
     func_8001E578(0x400);
 }

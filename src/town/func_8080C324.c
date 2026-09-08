@@ -85,25 +85,26 @@ extern s16 D_805306D6[];
 extern s32 D_805306D8[];
 
 
+/* Initializes the town display nodes, panel lines, and content entries. */
 s32 func_8080C324(void) {
-    Record30 rec2;
-    Record28 rec1;
-    s16 *lower;
-    s16 *upper;
-    s32 count;
-    s32 loop_value;
-    register s32 page1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 page2;
-    s32 store_page;
-    s32 store_value;
-    s16 value1;
-    s32 loaded;
-    s32 field_value;
+    Record30 content_record;
+    Record28 rect_record;
+    s16 *clear_entry;
+    s16 *offset_entry;
+    s32 remaining;
+    s32 initial_offset;
+    register s32 offset_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 clear_addr;
+    s32 state_page;
+    s32 initial_state;
+    s16 line_x;
+    s32 color_or_flags;
+    s32 panel_width;
     void *node;
     S_8080C324_1 *root;
-    S_8080C324_2 *inner;
-    void *call_base;
-    void *call_record;
+    S_8080C324_2 *render_state;
+    void *panel_template;
+    void *panel_record;
 
     root = 0;
     func_80058F88(0x704);
@@ -119,136 +120,136 @@ s32 func_8080C324(void) {
     if (node != 0) {
         ((S_8080C324_0 *)node)->unk_10 = (s32)D_80527250;
         func_8003BC18(node, D_8003C558);
-        inner = ((S_8080C324_0 *)node)->unk_0C;
+        render_state = ((S_8080C324_0 *)node)->unk_0C;
         ((S_8080C324_3 *)(((S_8080C324_0 *)node)->unk_08))->unk_00 = 0x03A00000;
         ((S_8080C324_3 *)(((S_8080C324_0 *)node)->unk_08))->unk_04 = 0x01E00000;
         ((S_8080C324_3 *)(((S_8080C324_0 *)node)->unk_08))->unk_08 = 0x00200000;
         ((S_8080C324_0 *)node)->unk_CC = root;
-        inner->unk_1E = 0x1000;
-        inner->unk_1C = 0x1000;
-        func_80034A1C(inner, D_80289454, 0);
-        inner->unk_0C = 0x00808080;
+        render_state->unk_1E = 0x1000;
+        render_state->unk_1C = 0x1000;
+        func_80034A1C(render_state, D_80289454, 0);
+        render_state->unk_0C = 0x00808080;
         func_8023FAE8((u8 *)node + 0x20, ((S_8080C324_0 *)node)->unk_08, D_8052FF84);
     }
 
-    count = 7;
-    loop_value = 0x30;
-    page1 = 0x80530000;
-    ASM_KEEP_NV(page1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    page1 += 0x6D6;
-    upper = (s16 *)page1;
-    page2 = 0x80530000;
-    ASM_KEEP_NV(page2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    page2 += 0x666;
-    lower = (s16 *)page2;
+    remaining = 7;
+    initial_offset = 0x30;
+    offset_addr = 0x80530000;
+    ASM_KEEP_NV(offset_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    offset_addr += 0x6D6;
+    offset_entry = (s16 *)offset_addr;
+    clear_addr = 0x80530000;
+    ASM_KEEP_NV(clear_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    clear_addr += 0x666;
+    clear_entry = (s16 *)clear_addr;
     do {
-        *lower = 0;
-        *upper = loop_value;
-        upper--;
-        count--;
-        lower--;
-    } while (count >= 0);
+        *clear_entry = 0;
+        *offset_entry = initial_offset;
+        offset_entry--;
+        remaining--;
+        clear_entry--;
+    } while (remaining >= 0);
 
-    loaded = 0x00404040;
-    call_base = D_805267E0;
-    call_record = &rec1;
-    ASM_USE2(call_base, call_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    count = 8;
-    value1 = 0xE0;
-    rec1.f8 = loaded;
-    loaded = rec1.f16;
-    store_value = 0x3020;
-    store_page = 0x80530000;
-    *(s32 *)(store_page + 0x6D8) = store_value;
-    rec1.fC = 0x30;
-    rec1.fE = 0xA0;
+    color_or_flags = 0x00404040;
+    panel_template = D_805267E0;
+    panel_record = &rect_record;
+    ASM_USE2(panel_template, panel_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    remaining = 8;
+    line_x = 0xE0;
+    rect_record.f8 = color_or_flags;
+    color_or_flags = rect_record.f16;
+    initial_state = 0x3020;
+    state_page = 0x80530000;
+    *(s32 *)(state_page + 0x6D8) = initial_state;
+    rect_record.fC = 0x30;
+    rect_record.fE = 0xA0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    field_value = 0xE0;
-    ASM_KEEP_NV(field_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    rec1.f10 = field_value;
-    rec1.f12 = 0x22;
-    rec1.f14 = 2;
-    rec1.f0 = 0;
-    rec1.f2 = 0x10;
-    rec1.f4 = root;
-    loaded |= 3;
-    rec1.f16 = loaded;
-    func_80526C90(call_base, call_record);
+    panel_width = 0xE0;
+    ASM_KEEP_NV(panel_width);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    rect_record.f10 = panel_width;
+    rect_record.f12 = 0x22;
+    rect_record.f14 = 2;
+    rect_record.f0 = 0;
+    rect_record.f2 = 0x10;
+    rect_record.f4 = root;
+    color_or_flags |= 3;
+    rect_record.f16 = color_or_flags;
+    func_80526C90(panel_template, panel_record);
 
-    rec1.fE = 0xA2;
-    rec1.f10 = 1;
-    rec1.f12 = 0x1E;
-    rec1.f14 = 0;
-    rec1.f8 = 0x00808080;
-    rec1.f0 = 0;
-    rec1.f4 = root;
-    rec1.f16 |= 0xFFFD;
+    rect_record.fE = 0xA2;
+    rect_record.f10 = 1;
+    rect_record.f12 = 0x1E;
+    rect_record.f14 = 0;
+    rect_record.f8 = 0x00808080;
+    rect_record.f0 = 0;
+    rect_record.f4 = root;
+    rect_record.f16 |= 0xFFFD;
     do {
-        rec1.fC = value1;
-        func_80526C90(D_805268D4, &rec1);
-        count--;
-        value1 -= 0x10;
-    } while (count >= 0);
+        rect_record.fC = line_x;
+        func_80526C90(D_805268D4, &rect_record);
+        remaining--;
+        line_x -= 0x10;
+    } while (remaining >= 0);
 
-    rec1.fC = 0x32;
-    rec1.fE = 0xB0;
-    rec1.f10 = 0xDC;
-    rec1.f12 = 1;
-    func_80526C90(D_805268D4, &rec1);
+    rect_record.fC = 0x32;
+    rect_record.fE = 0xB0;
+    rect_record.f10 = 0xDC;
+    rect_record.f12 = 1;
+    func_80526C90(D_805268D4, &rect_record);
 
     {
-        s32 *words2;
-        s32 count2;
-        s16 value2;
-        s32 init_value;
-        s32 loop_value;
-        void *base2;
-        void *record2;
+        s32 *content_ptr;
+        s32 content_remaining;
+        s16 content_x;
+        s32 color_or_content;
+        s32 content;
+        void *content_template;
+        void *content_args;
 
-        init_value = 0x00808080;
-        base2 = D_80526970;
-        record2 = &rec2;
-        ASM_USE2(base2, record2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        count2 = 8;
-        ASM_KEEP_NV(count2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        value2 = 0xE4;
-        words2 = D_805300BC;
-        rec2.f10 = init_value;
-        init_value = (s32)0x80530000;
-        init_value = *(s32 *)(init_value + 0xC0);
-        rec2.f14 = 0x34;
-        rec2.f16 = 0xB6;
-        rec2.f18 = 3;
-        rec2.f1C = 2;
-        rec2.f1A = 0x7C80;
-        rec2.f0 = 0;
-        rec2.f2 = 0x10;
-        rec2.fC = root;
-        rec2.f4 = init_value;
-        func_80526BFC(base2, record2);
+        color_or_content = 0x00808080;
+        content_template = D_80526970;
+        content_args = &content_record;
+        ASM_USE2(content_template, content_args);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        content_remaining = 8;
+        ASM_KEEP_NV(content_remaining);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        content_x = 0xE4;
+        content_ptr = D_805300BC;
+        content_record.f10 = color_or_content;
+        color_or_content = (s32)0x80530000;
+        color_or_content = *(s32 *)(color_or_content + 0xC0);
+        content_record.f14 = 0x34;
+        content_record.f16 = 0xB6;
+        content_record.f18 = 3;
+        content_record.f1C = 2;
+        content_record.f1A = 0x7C80;
+        content_record.f0 = 0;
+        content_record.f2 = 0x10;
+        content_record.fC = root;
+        content_record.f4 = color_or_content;
+        func_80526BFC(content_template, content_args);
 
-        rec2.f16 = 0xA4;
+        content_record.f16 = 0xA4;
         do {
-            register void *iter_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register void *iter_record ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            register void *entry_template ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            register void *entry_record ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
-            iter_base = D_80526970;
-            loop_value = *words2;
-            ASM_USE(loop_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            iter_record = &rec2;
-            ASM_KEEP_NV(iter_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            rec2.f14 = value2;
-            value2 -= 0x10;
-            words2--;
-            count2--;
-            rec2.f4 = loop_value;
-            func_80526BFC(iter_base, iter_record);
-        } while (count2 >= 0);
+            entry_template = D_80526970;
+            content = *content_ptr;
+            ASM_USE(content);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            entry_record = &content_record;
+            ASM_KEEP_NV(entry_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            content_record.f14 = content_x;
+            content_x -= 0x10;
+            content_ptr--;
+            content_remaining--;
+            content_record.f4 = content;
+            func_80526BFC(entry_template, entry_record);
+        } while (content_remaining >= 0);
 
-        rec2.f14 = 0xF4;
-        rec2.f16 = 0xB6;
-        rec2.f4 = (s32)D_805306D8;
-        func_80526BFC(D_80526A0C, &rec2);
+        content_record.f14 = 0xF4;
+        content_record.f16 = 0xB6;
+        content_record.f4 = (s32)D_805306D8;
+        func_80526BFC(D_80526A0C, &content_record);
     }
     return 0;
 }

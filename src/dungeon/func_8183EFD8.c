@@ -87,117 +87,118 @@ void *func_8003FD64();                 /* extern */
 s32 func_80069EF8();                          /* extern */
 extern u8 D_80024688[];
 
-void func_8183EFD8(void *arg0, S_8183EFD8_3 *arg1, S_8183EFD8_2 *arg2) {
-    register void *r_arg0 ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+/* Brightens and accelerates an effect, spawns particles, then fades it out. */
+void func_8183EFD8(void *effect_arg, S_8183EFD8_3 *motion, S_8183EFD8_2 *sprite) {
+    register void *effect ASM_REG("$19") = effect_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 color;
-    s32 temp_v1_2;
-    s32 temp_v0_3;
+    s32 phase;
+    s32 z_velocity;
     s32 random;
-    s32 var_s2;
-    u8 temp_v0;
-    u8 temp_v0_2;
-    S_8183EFD8_6 *temp_s0;
-    void *temp_v0_4;
-    S_8183EFD8_1 *temp_v1;
-    S_8183EFD8_8 *temp_v1_3;
-    void *global_s6;
+    s32 count_or_step;
+    u8 bright_level;
+    u8 fade_level;
+    S_8183EFD8_6 *particle_sprite;
+    void *particle;
+    S_8183EFD8_1 *owner;
+    S_8183EFD8_8 *particle_state;
+    void *particle_data;
 
-    ASM_KEEP_NV(r_arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    temp_v1 = ((S_8183EFD8_0 *)r_arg0)->unk_00;
-    temp_v1->unk_52 = (u16) (temp_v1->unk_52 | 0x8000);
-    temp_v1_2 = *(s16 *)((s8 *)r_arg0 + 0x4C);
-    ((S_8183EFD8_0 *)r_arg0)->unk_48 = (u16) (((S_8183EFD8_0 *)r_arg0)->unk_48 - 1);
-    if (temp_v1_2 == 1) {
-        goto case_1;
+    ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    owner = ((S_8183EFD8_0 *)effect)->unk_00;
+    owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
+    phase = *(s16 *)((s8 *)effect + 0x4C);
+    ((S_8183EFD8_0 *)effect)->unk_48 = (u16) (((S_8183EFD8_0 *)effect)->unk_48 - 1);
+    if (phase == 1) {
+        goto accelerate;
     }
-    if (temp_v1_2 < 2) {
-        if (temp_v1_2 == 0) {
-            goto case_0;
+    if (phase < 2) {
+        if (phase == 0) {
+            goto brighten;
         }
         func_80024A5C();
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    var_s2 = 0x10;
-    if (temp_v1_2 == 2) {
-        goto case_2;
+    count_or_step = 0x10;
+    if (phase == 2) {
+        goto fade_out;
     }
     func_80024A5C();
 
-case_0:
-        func_800478B8(arg2);
-        if ((u8) arg2->unk_0C.at00.v < 0x81U) {
-            temp_v0 = arg2->unk_0C.at02.v + 0x20;
-            arg2->unk_0C.at02.v = temp_v0;
-            arg2->unk_0C.at01.v = temp_v0;
-            arg2->unk_0C.at00.v = temp_v0;
-        }
-        if ((s16) ((S_8183EFD8_0 *)r_arg0)->unk_48 <= 0) {
-            ((S_8183EFD8_0 *)r_arg0)->unk_48 = 0x10U;
-            ((S_8183EFD8_0 *)r_arg0)->unk_4C.u = (u16) (((S_8183EFD8_0 *)r_arg0)->unk_4C.u + 1);
-            func_80024A5C();
-        }
-        goto end;
+brighten:
+    func_800478B8(sprite);
+    if ((u8) sprite->unk_0C.at00.v < 0x81U) {
+        bright_level = sprite->unk_0C.at02.v + 0x20;
+        sprite->unk_0C.at02.v = bright_level;
+        sprite->unk_0C.at01.v = bright_level;
+        sprite->unk_0C.at00.v = bright_level;
+    }
+    if ((s16) ((S_8183EFD8_0 *)effect)->unk_48 <= 0) {
+        ((S_8183EFD8_0 *)effect)->unk_48 = 0x10U;
+        ((S_8183EFD8_0 *)effect)->unk_4C.u = (u16) (((S_8183EFD8_0 *)effect)->unk_4C.u + 1);
+        func_80024A5C();
+    }
+    goto end;
 
-case_1:
-        temp_v0_3 = arg1->unk_14 + 0x8000;
-        arg1->unk_14 = temp_v0_3;
-        arg1->unk_08 = (s32) (arg1->unk_08 + temp_v0_3);
-        var_s2 = 0x14;
-        if ((s16) ((S_8183EFD8_0 *)r_arg0)->unk_48 <= 0) {
-            global_s6 = D_80024688;
-            ((S_8183EFD8_0 *)r_arg0)->unk_4C.s = (s16) ((u16) ((S_8183EFD8_0 *)r_arg0)->unk_4C.s + 1);
-            do {
-                temp_v0_4 = func_8003FD64(0x312, D_80083498);
-                if (temp_v0_4 != NULL) {
-                    ((S_8183EFD8_4 *)temp_v0_4)->unk_10 = global_s6;
-                    temp_s0 = ((S_8183EFD8_4 *)temp_v0_4)->unk_0C;
-                    ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)temp_v0_4)->unk_08))->unk_00 = (s32) arg1->unk_00;
-                    ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)temp_v0_4)->unk_08))->unk_04 = (s32) arg1->unk_04;
-                    random = func_80069EF8();
-                    {
-                        S_8183EFD8_5 *child = ((S_8183EFD8_4 *)temp_v0_4)->unk_08;
-                        child->unk_08 = (s32) (arg1->unk_08 + ((random & 0x1F) << 0x10));
-                        random = func_80069EF8(child);
-                    }
-                    ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)temp_v0_4)->unk_08))->unk_0C = (s32) (((random & 0xFFF) - 0x7FF) << 8);
-                    random = func_80069EF8();
-                    color = 0x800000;
-                    ASM_KEEP_NV(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                    ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)temp_v0_4)->unk_08))->unk_10 = (s32) (((random & 0xFFF) - 0x7FF) << 8);
-                    temp_s0->unk_1E = 0x1000;
-                    temp_s0->unk_1C = 0x1000;
-                    temp_s0->unk_10 = 0x20;
-                    temp_s0->unk_00 = D_800DECF8;
-                    temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-                    random = (s32) ((Rec_D_80016000 *)D_800DECF8)->unk_04.at00_s32.v;
-                    color |= 0x8080;
-                    temp_s0->unk_04 = 0;
-                    temp_s0->unk_05 = 0;
-                    temp_s0->unk_0C = color;
-                    temp_s0->unk_08 = random;
-                    temp_v1_3 = temp_v0_4 + 0x20;
-                    temp_v1_3->unk_48 = (s16) (func_80069EF8((void *)color) & 3);
-                    temp_v1_3->unk_4A = 0xC;
-                    temp_v1_3->unk_4C = 0;
-                    ((S_8183EFD8_4 *)temp_v0_4)->unk_20 = (void *) ((S_8183EFD8_0 *)r_arg0)->unk_00;
+accelerate:
+    z_velocity = motion->unk_14 + 0x8000;
+    motion->unk_14 = z_velocity;
+    motion->unk_08 = (s32) (motion->unk_08 + z_velocity);
+    count_or_step = 0x14;
+    if ((s16) ((S_8183EFD8_0 *)effect)->unk_48 <= 0) {
+        particle_data = D_80024688;
+        ((S_8183EFD8_0 *)effect)->unk_4C.s = (s16) ((u16) ((S_8183EFD8_0 *)effect)->unk_4C.s + 1);
+        do {
+            particle = func_8003FD64(0x312, D_80083498);
+            if (particle != NULL) {
+                ((S_8183EFD8_4 *)particle)->unk_10 = particle_data;
+                particle_sprite = ((S_8183EFD8_4 *)particle)->unk_0C;
+                ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)particle)->unk_08))->unk_00 = (s32) motion->unk_00;
+                ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)particle)->unk_08))->unk_04 = (s32) motion->unk_04;
+                random = func_80069EF8();
+                {
+                    S_8183EFD8_5 *particle_motion = ((S_8183EFD8_4 *)particle)->unk_08;
+                    particle_motion->unk_08 = (s32) (motion->unk_08 + ((random & 0x1F) << 0x10));
+                    random = func_80069EF8(particle_motion);
                 }
-                var_s2 -= 1;
-            } while (var_s2 >= 0);
-            func_80024A5C();
-        }
-        goto end;
+                ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)particle)->unk_08))->unk_0C = (s32) (((random & 0xFFF) - 0x7FF) << 8);
+                random = func_80069EF8();
+                color = 0x800000;
+                ASM_KEEP_NV(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)particle)->unk_08))->unk_10 = (s32) (((random & 0xFFF) - 0x7FF) << 8);
+                particle_sprite->unk_1E = 0x1000;
+                particle_sprite->unk_1C = 0x1000;
+                particle_sprite->unk_10 = 0x20;
+                particle_sprite->unk_00 = D_800DECF8;
+                particle_sprite->unk_14 = (u16) (particle_sprite->unk_14 | 0xC);
+                random = (s32) ((Rec_D_80016000 *)D_800DECF8)->unk_04.at00_s32.v;
+                color |= 0x8080;
+                particle_sprite->unk_04 = 0;
+                particle_sprite->unk_05 = 0;
+                particle_sprite->unk_0C = color;
+                particle_sprite->unk_08 = random;
+                particle_state = particle + 0x20;
+                particle_state->unk_48 = (s16) (func_80069EF8((void *)color) & 3);
+                particle_state->unk_4A = 0xC;
+                particle_state->unk_4C = 0;
+                ((S_8183EFD8_4 *)particle)->unk_20 = (void *) ((S_8183EFD8_0 *)effect)->unk_00;
+            }
+            count_or_step -= 1;
+        } while (count_or_step >= 0);
+        func_80024A5C();
+    }
+    goto end;
 
-case_2:
-        if (var_s2 >= (s32) arg2->unk_0C.at00.v) {
-            arg2->unk_0C.at00u.v = 0;
-            ((S_8183EFD8_0_pre *)r_arg0)[-1].unk_00 = (u16) (((S_8183EFD8_0_pre *)r_arg0)[-1].unk_00 | 0x8000);
-            D_800814A0[0] |= 0x8000;
-            func_80024A5C();
-        }
-        temp_v0_2 = arg2->unk_0C.at02.v - 0x10;
-        arg2->unk_0C.at02.v = temp_v0_2;
-        arg2->unk_0C.at01.v = temp_v0_2;
-        arg2->unk_0C.at00.v = temp_v0_2;
+fade_out:
+    if (count_or_step >= (s32) sprite->unk_0C.at00.v) {
+        sprite->unk_0C.at00u.v = 0;
+        ((S_8183EFD8_0_pre *)effect)[-1].unk_00 = (u16) (((S_8183EFD8_0_pre *)effect)[-1].unk_00 | 0x8000);
+        D_800814A0[0] |= 0x8000;
+        func_80024A5C();
+    }
+    fade_level = sprite->unk_0C.at02.v - 0x10;
+    sprite->unk_0C.at02.v = fade_level;
+    sprite->unk_0C.at01.v = fade_level;
+    sprite->unk_0C.at00.v = fade_level;
 
 end:
     return;

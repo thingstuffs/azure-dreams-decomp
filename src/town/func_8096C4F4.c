@@ -9,8 +9,9 @@ typedef struct S_8012498C_0 {
     s8 unk_0A;
 } S_8012498C_0;   /* arg0 in func_8012498C */
 
-void func_8012498C(S_8012498C_0 *arg0) {
-    arg0->unk_0A = 1;
-    arg0->unk_04 = 0;
-    arg0->unk_06 = 0;
+/* Initialize state with its byte field set to one and both 16-bit fields cleared. */
+void func_8012498C(S_8012498C_0 *state) {
+    state->unk_0A = 1;
+    state->unk_04 = 0;
+    state->unk_06 = 0;
 }

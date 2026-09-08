@@ -10,11 +10,12 @@ typedef struct S_800AB014_1 {
     u16 unk_06;
 } S_800AB014_1;   /* p in func_800AB014 */
 
-void func_800AB014(Rec_func_800AB014_arg0 *arg0, s32 arg1) {
-    s8 *base;
-    s8 *p;
+/* Copy the indexed table entry's 16-bit value into the record. */
+void func_800AB014(Rec_func_800AB014_arg0 *record, s32 entry_index) {
+    s8 *table_base;
+    s8 *entry;
 
-    base = (s8 *) &D_80100E40;
-    p = base + (arg1 * 8);
-    arg0->unk_72.as_u16 = (u16) ((S_800AB014_1 *)p)->unk_06;
+    table_base = (s8 *) &D_80100E40;
+    entry = table_base + (entry_index * 8);
+    record->unk_72.as_u16 = (u16) ((S_800AB014_1 *)entry)->unk_06;
 }

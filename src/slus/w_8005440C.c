@@ -28,11 +28,7 @@ extern s32 func_800545F4(S_800848F8 *a0);
 extern void func_800553D4(s32 a0);
 extern void func_80054538(S_800848F8 *a0);
 
-/* Fires an event (func_800550E8) if flags2 bit 0x2 is set. Then, if flags1
- * bit 0x100 is set, checks a CD/task status via func_80059D60(): if it's 3,
- * or otherwise if func_800545F4 on D_800848F8 signals failure (-1), raises
- * event 0x71 via func_800553D4. Finally always dispatches func_80054538 on
- * D_800848F8. */
+/* Handles flag-triggered events and status checks, then dispatches the state block. */
 void func_8005440C(void) {
     if (D_800847D0.flags2 & 0x2) {
         func_800550E8();

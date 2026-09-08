@@ -46,205 +46,206 @@ extern S_80079958 D_80079958;
 extern u16 D_80079520[256];
 extern s32 D_80079980[3];
 extern s32 func_8005F90C(s32 a0, s32 a1, s32 a2, s32 a3);
-void func_8005FA34(S_8005FA34 *arg0)
+/* Read volume, pitch, addresses, and envelope settings for the first selected voice. */
+void func_8005FA34(S_8005FA34 *voice_attr)
 {
-  s32 idx;
-  s32 i;
-  S_8005FA34_ent *ent;
-  S_8005FA34_ent *entp;
-  register s32 off ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  u16 *p;
-  u16 *p2;
-  s32 va;
-  s32 vb;
-  s16 ca;
-  s16 cb;
+  s32 voice_index;
+  s32 voice_bit;
+  S_8005FA34_ent *voice_regs;
+  S_8005FA34_ent *voice;
+  register s32 voice_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+  u16 *pitch_regs;
+  u16 *envelope_regs;
+  s32 volume_or_note;
+  s32 right_volume;
+  s16 left_mode;
+  s16 right_mode;
   u16 pitch;
-  s32 res;
-  s32 shift;
-  s32 e;
-  s32 h;
-  idx = -1;
-  for (i = 0; i < 0x18; i++)
+  s32 note;
+  s32 address_shift;
+  s32 voice_word;
+  s32 volume_word;
+  voice_index = -1;
+  for (voice_bit = 0; voice_bit < 0x18; voice_bit++)
   {
-    if (arg0->unk0 & (1 << i))
+    if (voice_attr->unk0 & (1 << voice_bit))
     {
-      idx = i;
+      voice_index = voice_bit;
       break;
     }
   }
 
-  if (idx == (-1))
+  if (voice_index == (-1))
   {
     return;
   }
-  ca = 0;
-  off = idx * 16;
-  ent = D_80079958.ptr;
+  left_mode = 0;
+  voice_offset = voice_index * 16;
+  voice_regs = D_80079958.ptr;
   ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-  h = idx * 2;
-  e = idx * 8;
-  entp = (S_8005FA34_ent *)(off + (u32)ent);
-  va = entp->unk0;
-  vb = entp->unk2;
-  if (va & 0x8000)
+  volume_word = voice_index * 2;
+  voice_word = voice_index * 8;
+  voice = (S_8005FA34_ent *)(voice_offset + (u32)voice_regs);
+  volume_or_note = voice->unk0;
+  right_volume = voice->unk2;
+  if (volume_or_note & 0x8000)
   {
-    switch (va & 0xF000)
+    switch (volume_or_note & 0xF000)
     {
       case 0x8000:
-        ca = 1;
+        left_mode = 1;
         break;
 
       case 0x9000:
-        ca = 2;
+        left_mode = 2;
         break;
 
       case 0xA000:
-        ca = 3;
+        left_mode = 3;
         break;
 
       case 0xB000:
-        ca = 4;
+        left_mode = 4;
         break;
 
       case 0xC000:
-        ca = 5;
+        left_mode = 5;
         break;
 
       case 0xD000:
-        ca = 6;
+        left_mode = 6;
         break;
 
       case 0xE000:
-        ca = 7;
+        left_mode = 7;
         break;
 
       case 0xF000:
-        ca = 7;
+        left_mode = 7;
         break;
 
     }
 
-    va &= 0xFFF;
+    volume_or_note &= 0xFFF;
   }
-  cb = 0;
-  if (vb & 0x8000)
+  right_mode = 0;
+  if (right_volume & 0x8000)
   {
-    switch (vb & 0xF000)
+    switch (right_volume & 0xF000)
     {
       case 0x8000:
-        cb = 1;
+        right_mode = 1;
         break;
 
       case 0x9000:
-        cb = 2;
+        right_mode = 2;
         break;
 
       case 0xA000:
-        cb = 3;
+        right_mode = 3;
         break;
 
       case 0xB000:
-        cb = 4;
+        right_mode = 4;
         break;
 
       case 0xC000:
-        cb = 5;
+        right_mode = 5;
         break;
 
       case 0xD000:
-        cb = 6;
+        right_mode = 6;
         break;
 
       case 0xE000:
-        cb = 7;
+        right_mode = 7;
         break;
 
       case 0xF000:
-        cb = 7;
+        right_mode = 7;
         break;
 
     }
 
-    vb &= 0xFFF;
+    right_volume &= 0xFFF;
   }
   {
-    u32 x = 0x8000;
-    u32 y = (u16) va;
-    arg0->unk8 = (y < 0x4000U) ? va : (y - x);
+    u32 sign_bias = 0x8000;
+    u32 volume_bits = (u16) volume_or_note;
+    voice_attr->unk8 = (volume_bits < 0x4000U) ? volume_or_note : (volume_bits - sign_bias);
   }
   {
-    u32 x = 0x8000;
-    u32 y = (u16) vb;
-    arg0->unkA = (y < 0x4000U) ? vb : (y - x);
+    u32 sign_bias = 0x8000;
+    u32 volume_bits = (u16) right_volume;
+    voice_attr->unkA = (volume_bits < 0x4000U) ? right_volume : (volume_bits - sign_bias);
   }
-  arg0->unkE = cb;
-  p = (u16 *) D_80079958.ptr;
-  arg0->unkC = ca;
-  arg0->unk10 = p[h + 0x100];
-  arg0->unk12 = p[h + 0x101];
-  pitch = p[e + 2];
-  arg0->unk14 = pitch;
-  va = D_80079520[idx];
-  res = func_8005F90C(va >> 8, va & 0xFF, pitch, vb);
-  if (res >= 0)
+  voice_attr->unkE = right_mode;
+  pitch_regs = (u16 *) D_80079958.ptr;
+  voice_attr->unkC = left_mode;
+  voice_attr->unk10 = pitch_regs[volume_word + 0x100];
+  voice_attr->unk12 = pitch_regs[volume_word + 0x101];
+  pitch = pitch_regs[voice_word + 2];
+  voice_attr->unk14 = pitch;
+  volume_or_note = D_80079520[voice_index];
+  note = func_8005F90C(volume_or_note >> 8, volume_or_note & 0xFF, pitch, right_volume);
+  if (note >= 0)
   {
-    arg0->unk16 = (u16) res;
+    voice_attr->unk16 = (u16) note;
   }
   else
   {
-    arg0->unk16 = 0;
+    voice_attr->unk16 = 0;
   }
-  arg0->unk18 = D_80079520[idx];
-  p2 = (u16 *) D_80079958.ptr;
-  shift = D_80079980[0];
-  arg0->unk1A = p2[e + 6];
-  arg0->unk1C = ((s32) p2[e + 3]) << shift;
-  arg0->unk20 = ((s32) p2[e + 7]) << shift;
+  voice_attr->unk18 = D_80079520[voice_index];
+  envelope_regs = (u16 *) D_80079958.ptr;
+  address_shift = D_80079980[0];
+  voice_attr->unk1A = envelope_regs[voice_word + 6];
+  voice_attr->unk1C = ((s32) envelope_regs[voice_word + 3]) << address_shift;
+  voice_attr->unk20 = ((s32) envelope_regs[voice_word + 7]) << address_shift;
   {
-    u16 f8;
-    u16 fA;
+    u16 adsr_low;
+    u16 adsr_high;
 
-    f8 = p2[e + 4];
-    fA = p2[e + 5];
-    if (f8 & 0x8000)
+    adsr_low = envelope_regs[voice_word + 4];
+    adsr_high = envelope_regs[voice_word + 5];
+    if (adsr_low & 0x8000)
     {
-      arg0->unk24 = 5;
+      voice_attr->unk24 = 5;
     }
     else
     {
-      arg0->unk24 = 1;
+      voice_attr->unk24 = 1;
     }
-    if ((fA & 0xE000) == 0xC000)
+    if ((adsr_high & 0xE000) == 0xC000)
     {
-      arg0->unk28 = 7;
+      voice_attr->unk28 = 7;
     }
-    else if ((fA & 0xE000) == 0x8000)
+    else if ((adsr_high & 0xE000) == 0x8000)
     {
-      arg0->unk28 = 5;
+      voice_attr->unk28 = 5;
     }
-    else if ((fA & 0xE000) == 0x4000)
+    else if ((adsr_high & 0xE000) == 0x4000)
     {
-      arg0->unk28 = 3;
+      voice_attr->unk28 = 3;
     }
     else
     {
-      arg0->unk28 = 1;
+      voice_attr->unk28 = 1;
     }
-    if (fA & 0x20)
+    if (adsr_high & 0x20)
     {
-      arg0->unk2C = 7;
+      voice_attr->unk2C = 7;
     }
     else
     {
-      arg0->unk2C = 3;
+      voice_attr->unk2C = 3;
     }
-    arg0->unk30 = (s16) ((f8 >> 8) & 0x3F);
-    arg0->unk32 = (s16) ((f8 & 0xF0) >> 4);
-    arg0->unk34 = (s16) ((fA >> 6) & 0x7F);
-    arg0->unk36 = (s16) (fA & 0x1F);
-    arg0->unk38 = (s16) (f8 & 0xF);
-    arg0->unk3A = f8;
-    arg0->unk3C = fA;
+    voice_attr->unk30 = (s16) ((adsr_low >> 8) & 0x3F);
+    voice_attr->unk32 = (s16) ((adsr_low & 0xF0) >> 4);
+    voice_attr->unk34 = (s16) ((adsr_high >> 6) & 0x7F);
+    voice_attr->unk36 = (s16) (adsr_high & 0x1F);
+    voice_attr->unk38 = (s16) (adsr_low & 0xF);
+    voice_attr->unk3A = adsr_low;
+    voice_attr->unk3C = adsr_high;
   }
 }

@@ -14,10 +14,11 @@ extern void memset(s32, s32, s32);
 extern void strcpy(s32, s32);
 extern void func_800263C0(s32, s32);
 
-void func_8002661C(s8 *arg0, s32 arg1) {
-    Func8181161CData *data = (Func8181161CData *)(arg0 + 0x20);
+// Clears the object's text buffer, copies the source string, and passes it to func_800263C0.
+void func_8002661C(s8 *object, s32 sourceString) {
+    Func8181161CData *textData = (Func8181161CData *)(object + 0x20);
 
-    memset(data->field_14, 0, (D_800294F8[data->index] << 1) | 1);
-    strcpy(data->field_14, arg1);
-    func_800263C0(data->field_70, data->field_14);
+    memset(textData->field_14, 0, (D_800294F8[textData->index] << 1) | 1);
+    strcpy(textData->field_14, sourceString);
+    func_800263C0(textData->field_70, textData->field_14);
 }

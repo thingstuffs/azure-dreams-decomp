@@ -31,64 +31,65 @@ extern s32 func_80069EF8(void);
 #define STORE_U16(p, v) (*(u16 *)(p) = (v))
 #define STORE_U8(p, v) (*(u8 *)(p) = (v))
 
-s32 func_81845068(u8 *arg0)
+/* Draw textured quads with randomized texture and horizontal jitter for each linked effect node. */
+s32 func_81845068(u8 *first_node)
 {
-    u32 selectors[4];
-    Packed8 packed;
-    Coord coords[3];
+    u32 uv_choices[4];
+    Packed8 world_pos;
+    Coord screen_coords[3];
     u8 *node;
-    u8 *current;
-    register u8 *next ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *global;
+    u8 *effect_node;
+    register u8 *next_link ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *render_state;
     register u8 *alloc_ctx ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    u8 *table_ctx;
-    register u8 *table_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *ot_ctx;
+    register u8 *ot_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *prim;
-    Coord *coord_base;
-    Coord *coord;
-    register Coord *shared;
-    s32 i;
-    s32 index;
-    u16 offset_half_first;
-    u16 offset_half_second;
-    s32 temp;
-    s32 color0;
-    s32 color1;
-    s32 random;
-    register u32 mask ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u32 table_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u16 x0;
-    u16 y0;
-    u16 y1;
+    Coord *screen_base;
+    Coord *screen_pos;
+    register Coord *scratch_or_height;
+    s32 index_or_jitter;
+    s32 depth_bucket;
+    u16 half_width;
+    u16 jitter_half_width;
+    s32 tex_value;
+    s32 tex_u_start;
+    s32 tex_u_end;
+    s32 random_value;
+    register u32 addr_mask ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 ot_or_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u16 vertex_x;
+    u16 base_y;
+    u16 tip_y;
 
-    node = arg0;
-    global = D_80083160;
+    node = first_node;
+    render_state = D_80083160;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    selectors[0] = 0xA0;
-    do { selectors[1] = 0x80; } while (0);
-    coord_base = &coords[0];
-    selectors[2] = 0;
-    selectors[3] = 0x20;
-    mask = 0xFFFFFF;
+    uv_choices[0] = 0xA0;
+    do { uv_choices[1] = 0x80; } while (0);
+    screen_base = &screen_coords[0];
+    uv_choices[2] = 0;
+    uv_choices[3] = 0x20;
+    addr_mask = 0xFFFFFF;
 
     do {
-        current = node;
-        packed = *(Packed8 *)(node + 4);
-        i = 0;
-        shared = &coords[2];
-        coord = coord_base;
+        effect_node = node;
+        world_pos = *(Packed8 *)(node + 4);
+        index_or_jitter = 0;
+        scratch_or_height = &screen_coords[2];
+        screen_pos = screen_base;
         do {
-            index = func_80065420(&packed, coord, shared, shared) - 8;
-            coord++;
-            i++;
-            *(u16 *)((u8 *)&packed + 4) =
-                *(u16 *)((u8 *)&packed + 4) + 0xB0;
-        } while (i < 2);
+            depth_bucket = func_80065420(&world_pos, screen_pos, scratch_or_height, scratch_or_height) - 8;
+            screen_pos++;
+            index_or_jitter++;
+            *(u16 *)((u8 *)&world_pos + 4) =
+                *(u16 *)((u8 *)&world_pos + 4) + 0xB0;
+        } while (index_or_jitter < 2);
 
-        shared = (Coord *)(coords[0].y - coords[1].y);
+        scratch_or_height = (Coord *)(screen_coords[0].y - screen_coords[1].y);
 
-        if ((u32)index < 0x1E0) {
-            alloc_ctx = LOAD_PTR(global);
+        if ((u32)depth_bucket < 0x1E0) {
+            alloc_ctx = LOAD_PTR(render_state);
             prim = LOAD_PTR(alloc_ctx + 0x8D0);
             LOAD_PTR(alloc_ctx + 0x8D0) = prim + 0x34;
             STORE_U32(prim + 4, 0x00808080);
@@ -97,54 +98,54 @@ s32 func_81845068(u8 *arg0)
             STORE_U16(prim + 0x16, func_80066460(0, 0, 0x2C0, 0x100));
             STORE_U16(prim + 0x0E, func_8006649C(0xA0, 0x1F7));
 
-            ((Scratch *)&coords[2])->word = (s32)shared / 6;
-            x0 = coords[0].x;
-            offset_half_first = ((Scratch *)&coords[2])->half;
-            x0 += offset_half_first;
-            STORE_U16(prim + 0x10, x0);
-            STORE_U16(prim + 8, x0);
-            x0 = coords[0].x - offset_half_first;
-            STORE_U16(prim + 0x20, x0);
-            STORE_U16(prim + 0x18, x0);
-            y0 = coords[0].y;
-            STORE_U16(prim + 0x1A, y0);
-            STORE_U16(prim + 0x0A, y0);
-            y1 = coords[1].y;
-            STORE_U16(prim + 0x22, y1);
-            STORE_U16(prim + 0x12, y1);
+            ((Scratch *)&screen_coords[2])->word = (s32)scratch_or_height / 6;
+            vertex_x = screen_coords[0].x;
+            half_width = ((Scratch *)&screen_coords[2])->half;
+            vertex_x += half_width;
+            STORE_U16(prim + 0x10, vertex_x);
+            STORE_U16(prim + 8, vertex_x);
+            vertex_x = screen_coords[0].x - half_width;
+            STORE_U16(prim + 0x20, vertex_x);
+            STORE_U16(prim + 0x18, vertex_x);
+            base_y = screen_coords[0].y;
+            STORE_U16(prim + 0x1A, base_y);
+            STORE_U16(prim + 0x0A, base_y);
+            tip_y = screen_coords[1].y;
+            STORE_U16(prim + 0x22, tip_y);
+            STORE_U16(prim + 0x12, tip_y);
 
-            temp = 7 - *(s16 *)(current + 0x2A);
-            ((Scratch *)&coords[2])->word = temp;
-            table_entry = (u8 *)(index * 4);
-            ASM_KEEP_NV(table_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            color1 = (((Scratch *)&coords[2])->byte & 3) << 5;
-            color0 = color1 - 0x80;
-            color1 -= 0x61;
-            STORE_U8(prim + 0x1C, color0);
-            STORE_U8(prim + 0x0C, color0);
-            STORE_U8(prim + 0x24, color1);
-            STORE_U8(prim + 0x14, color1);
-            temp = ((Scratch *)&coords[2])->word >> 2;
-            temp <<= 5;
-            STORE_U8(prim + 0x25, temp);
-            STORE_U8(prim + 0x1D, temp);
-            STORE_U8(prim + 0x15, temp + 0x1F);
-            STORE_U8(prim + 0x0D, temp + 0x1F);
+            tex_value = 7 - *(s16 *)(effect_node + 0x2A);
+            ((Scratch *)&screen_coords[2])->word = tex_value;
+            ot_entry = (u8 *)(depth_bucket * 4);
+            ASM_KEEP_NV(ot_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            tex_u_end = (((Scratch *)&screen_coords[2])->byte & 3) << 5;
+            tex_u_start = tex_u_end - 0x80;
+            tex_u_end -= 0x61;
+            STORE_U8(prim + 0x1C, tex_u_start);
+            STORE_U8(prim + 0x0C, tex_u_start);
+            STORE_U8(prim + 0x24, tex_u_end);
+            STORE_U8(prim + 0x14, tex_u_end);
+            tex_value = ((Scratch *)&screen_coords[2])->word >> 2;
+            tex_value <<= 5;
+            STORE_U8(prim + 0x25, tex_value);
+            STORE_U8(prim + 0x1D, tex_value);
+            STORE_U8(prim + 0x15, tex_value + 0x1F);
+            STORE_U8(prim + 0x0D, tex_value + 0x1F);
             {
-                register u32 high_mask ASM_REG("$5") = 0xFF000000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                table_ctx = LOAD_PTR(global);
-                table_word = LOAD_U32(table_ctx + 0xB0 + index * 4);
-                STORE_U32(prim, (LOAD_U32(prim) & high_mask) | (table_word & mask));
-                table_ctx = LOAD_PTR(global);
-                table_entry += (u32)table_ctx;
-                table_word = LOAD_U32(table_entry + 0xB0);
-                table_word &= high_mask;
-                STORE_U32(table_entry + 0xB0,
-                          table_word | ((u32)prim & mask));
+                register u32 tag_mask ASM_REG("$5") = 0xFF000000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                ot_ctx = LOAD_PTR(render_state);
+                ot_or_coord = LOAD_U32(ot_ctx + 0xB0 + depth_bucket * 4);
+                STORE_U32(prim, (LOAD_U32(prim) & tag_mask) | (ot_or_coord & addr_mask));
+                ot_ctx = LOAD_PTR(render_state);
+                ot_entry += (u32)ot_ctx;
+                ot_or_coord = LOAD_U32(ot_entry + 0xB0);
+                ot_or_coord &= tag_mask;
+                STORE_U32(ot_entry + 0xB0,
+                          ot_or_coord | ((u32)prim & addr_mask));
             }
         }
 
-        alloc_ctx = LOAD_PTR(global);
+        alloc_ctx = LOAD_PTR(render_state);
         prim = LOAD_PTR(alloc_ctx + 0x8D0);
         LOAD_PTR(alloc_ctx + 0x8D0) = prim + 0x34;
         STORE_U32(prim + 4, 0x00161616);
@@ -153,58 +154,58 @@ s32 func_81845068(u8 *arg0)
         STORE_U16(prim + 0x16, func_80066460(0, 3, 0x2C0, 0x100));
         STORE_U16(prim + 0x0E, func_8006649C((func_80069EF8() & 0xF) << 4, 0x1F8));
 
-        i = func_80069EF8() & 1;
-        temp = *(u8 *)&selectors[i];
-        STORE_U8(prim + 0x1C, temp);
-        STORE_U8(prim + 0x0C, temp);
-        temp = *(u8 *)&selectors[i] + 0x5F;
-        STORE_U8(prim + 0x24, temp);
-        STORE_U8(prim + 0x14, temp);
-        temp = *((u8 *)&selectors[i] + 8) + 0x20;
-        STORE_U8(prim + 0x15, temp);
-        STORE_U8(prim + 0x0D, temp);
-        temp = *((u8 *)&selectors[i] + 8);
-        STORE_U8(prim + 0x25, temp);
-        STORE_U8(prim + 0x1D, temp);
+        index_or_jitter = func_80069EF8() & 1;
+        tex_value = *(u8 *)&uv_choices[index_or_jitter];
+        STORE_U8(prim + 0x1C, tex_value);
+        STORE_U8(prim + 0x0C, tex_value);
+        tex_value = *(u8 *)&uv_choices[index_or_jitter] + 0x5F;
+        STORE_U8(prim + 0x24, tex_value);
+        STORE_U8(prim + 0x14, tex_value);
+        tex_value = *((u8 *)&uv_choices[index_or_jitter] + 8) + 0x20;
+        STORE_U8(prim + 0x15, tex_value);
+        STORE_U8(prim + 0x0D, tex_value);
+        tex_value = *((u8 *)&uv_choices[index_or_jitter] + 8);
+        STORE_U8(prim + 0x25, tex_value);
+        STORE_U8(prim + 0x1D, tex_value);
 
-        random = func_80069EF8();
-        i = (random % 64) - 0x20;
-        table_word = (s32)shared / 6;
-        ((Scratch *)&coords[2])->word = table_word;
-        i = (i >> 1) + (i >> 2);
-        table_word = (u16)coords[0].x;
-        offset_half_second = ((Scratch *)&coords[2])->half;
-        x0 = table_word + offset_half_second + i;
-        STORE_U16(prim + 0x10, x0);
-        STORE_U16(prim + 8, x0);
-        x0 = coords[0].x - offset_half_second + i * 2;
-        STORE_U16(prim + 0x20, x0);
-        STORE_U16(prim + 0x18, x0);
-        y0 = coords[0].y;
-        table_entry = (u8 *)(index * 4);
-        STORE_U16(prim + 0x1A, y0);
-        STORE_U16(prim + 0x0A, y0);
-        y1 = coords[1].y;
-        STORE_U16(prim + 0x22, y1);
-        STORE_U16(prim + 0x12, y1);
+        random_value = func_80069EF8();
+        index_or_jitter = (random_value % 64) - 0x20;
+        ot_or_coord = (s32)scratch_or_height / 6;
+        ((Scratch *)&screen_coords[2])->word = ot_or_coord;
+        index_or_jitter = (index_or_jitter >> 1) + (index_or_jitter >> 2);
+        ot_or_coord = (u16)screen_coords[0].x;
+        jitter_half_width = ((Scratch *)&screen_coords[2])->half;
+        vertex_x = ot_or_coord + jitter_half_width + index_or_jitter;
+        STORE_U16(prim + 0x10, vertex_x);
+        STORE_U16(prim + 8, vertex_x);
+        vertex_x = screen_coords[0].x - jitter_half_width + index_or_jitter * 2;
+        STORE_U16(prim + 0x20, vertex_x);
+        STORE_U16(prim + 0x18, vertex_x);
+        base_y = screen_coords[0].y;
+        ot_entry = (u8 *)(depth_bucket * 4);
+        STORE_U16(prim + 0x1A, base_y);
+        STORE_U16(prim + 0x0A, base_y);
+        tip_y = screen_coords[1].y;
+        STORE_U16(prim + 0x22, tip_y);
+        STORE_U16(prim + 0x12, tip_y);
 
         {
-            register u32 high_mask ASM_REG("$5") = 0xFF000000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            table_ctx = LOAD_PTR(global);
-            table_word = LOAD_U32(table_ctx + 0xB0 + index * 4);
-            STORE_U32(prim, (LOAD_U32(prim) & high_mask) | (table_word & mask));
-            table_ctx = LOAD_PTR(global);
-            table_entry += (u32)table_ctx;
-            table_word = LOAD_U32(table_entry + 0xB0);
-            table_word &= high_mask;
-            STORE_U32(table_entry + 0xB0,
-                      table_word | ((u32)prim & mask));
+            register u32 tag_mask ASM_REG("$5") = 0xFF000000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            ot_ctx = LOAD_PTR(render_state);
+            ot_or_coord = LOAD_U32(ot_ctx + 0xB0 + depth_bucket * 4);
+            STORE_U32(prim, (LOAD_U32(prim) & tag_mask) | (ot_or_coord & addr_mask));
+            ot_ctx = LOAD_PTR(render_state);
+            ot_entry += (u32)ot_ctx;
+            ot_or_coord = LOAD_U32(ot_entry + 0xB0);
+            ot_or_coord &= tag_mask;
+            STORE_U32(ot_entry + 0xB0,
+                      ot_or_coord | ((u32)prim & addr_mask));
         }
 
-        next = LOAD_PTR(node - 8);
-        node = next + 0x20;
-    } while (next != 0);
+        next_link = LOAD_PTR(node - 8);
+        node = next_link + 0x20;
+    } while (next_link != 0);
 
-    ASM_SET(next);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    ASM_SET(next_link);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return 0;
 }

@@ -2,15 +2,14 @@
 
 /* --- gcc 2.8.1 -O2 -fno-schedule-insns2 translation unit --- */
 
-/* Forwards (0, 0, a0, a3) to func_8004B364 (a0 saved before being zeroed).
-   maspsx LEAD 1b un-fills the jr load-delay slot with the sp restore. */
 extern void func_8004B364(int a0, int a1, int a2, int a3);
 
-void func_8004B404(int a0, int a1, int a2, int a3)
+/* Forwards two values to func_8004B364 with two leading zero arguments. */
+void func_8004B404(int value, int unused_1, int unused_2, int extra_value)
 {
-    int save = a0;
-    a0 = 0;
-    func_8004B364(a0, a0, save, a3);
+    int saved_value = value;
+    value = 0;
+    func_8004B364(value, value, saved_value, extra_value);
 }
 
 
@@ -21,10 +20,9 @@ extern u8 D_8008152C[0x10];
 
 extern void func_800479D4(void *a0, void *a1, u16 a2);
 
-/* Passes fixed globals plus the truncated argument through to func_800479D4,
-   then returns a pointer to a fixed global (its own return value is unused). */
-void *func_80047DB8(s32 a0)
+/* Calls func_800479D4 with fixed buffers and a 16-bit value, then returns D_8008152C. */
+void *func_80047DB8(s32 value)
 {
-    func_800479D4(&D_80016000, &D_80023000, (u16)a0);
+    func_800479D4(&D_80016000, &D_80023000, (u16)value);
     return &D_8008152C;
 }

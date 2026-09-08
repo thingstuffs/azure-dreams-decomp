@@ -24,17 +24,18 @@ extern void func_80016510(s32, s32);
 extern s32 func_80016654(s32);
 extern void func_80016CCC(s32);
 
-s32 func_8001670C(u32 records, s32 optional, u32 ctx, s32 arg3)
+/* Processes the selected record's pair and optional context action, then returns the record's value. */
+s32 func_8001670C(u32 records, s32 condition_arg, u32 context, s32 record_selector)
 {
-    s32 index;
+    s32 record_index;
     u32 pair;
 
-    index = func_800161EC(records, arg3);
-    pair = (((S_8001670C_0 *)(index * 8 + records))->unk_02 * 4)
-         + ((S_8001670C_1 *)ctx)->unk_14;
+    record_index = func_800161EC(records, record_selector);
+    pair = (((S_8001670C_0 *)(record_index * 8 + records))->unk_02 * 4)
+         + ((S_8001670C_1 *)context)->unk_14;
     func_80016510(((S_8001670C_2 *)pair)->unk_00, ((S_8001670C_2 *)pair)->unk_02);
-    if (optional != 0 && func_80016654(optional) != 0) {
-        func_80016CCC(((S_8001670C_1 *)ctx)->unk_18);
+    if (condition_arg != 0 && func_80016654(condition_arg) != 0) {
+        func_80016CCC(((S_8001670C_1 *)context)->unk_18);
     }
-    return ((S_8001670C_0 *)(index * 8 + records))->unk_04;
+    return ((S_8001670C_0 *)(record_index * 8 + records))->unk_04;
 }

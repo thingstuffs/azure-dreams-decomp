@@ -47,23 +47,23 @@ extern void func_800A2B04(S810AF65C_1 *, u8, u8);
 extern void func_800AAA54(S810AF65C_0 *, S810AF65C_1 *, S810AF65C_2 *, u8 *);
 extern void func_800AD4D0(S810AF65C_3 *);
 
-void func_80172E5C(S810AF65C_0 *arg0, S810AF65C_1 *arg1,
-                   S810AF65C_2 *arg2, S810AF65C_3 *arg3) {
+/* Updates directional movement, then returns the actor to its tile position. */
+void func_80172E5C(S810AF65C_0 *animation, S810AF65C_1 *motion,
+                   S810AF65C_2 *tile, S810AF65C_3 *actor) {
     s32 timer;
-    s32 index;
+    s32 direction;
     s32 state;
-    s32 value;
-    s32 rounded;
-    s32 other;
-    s32 other_rounded;
-    s32 value_2;
-    s32 rounded_2;
-    s32 *base;
+    s32 move_ticks;
+    s32 biased_x;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 biased_y;
+    s32 *global_state;
 
-    timer = arg0->field_96 - 1;
-    index = ((u16)arg3->field_6a >> 9) & 7;
-    state = arg0->field_9b;
-    arg0->field_96 = timer;
+    timer = animation->field_96 - 1;
+    direction = ((u16)actor->field_6a >> 9) & 7;
+    state = animation->field_9b;
+    animation->field_96 = timer;
 
     if (state == 1) {
         goto state_1;
@@ -83,64 +83,64 @@ void func_80172E5C(S810AF65C_0 *arg0, S810AF65C_1 *arg1,
     goto done;
 
 state_0:
-    func_800AD4D0(arg3);
-    arg0->field_96 = 2;
-    arg0->field_9b = arg0->field_9b + 1;
-    if (arg3->field_28 == 0) {
-        arg1->field_14 = 0;
-        arg1->field_10 = 0;
-        arg1->field_0c = 0;
-        arg0->field_96 = 0;
-        func_800AAA54(arg0, arg1, arg2, D_80173C94);
+    func_800AD4D0(actor);
+    animation->field_96 = 2;
+    animation->field_9b = animation->field_9b + 1;
+    if (actor->field_28 == 0) {
+        motion->field_14 = 0;
+        motion->field_10 = 0;
+        motion->field_0c = 0;
+        animation->field_96 = 0;
+        func_800AAA54(animation, motion, tile, D_80173C94);
         goto done;
     }
-    if ((arg2->field_14 & 0x8000) != 0) {
-        arg0->field_9b = 3;
+    if ((tile->field_14 & 0x8000) != 0) {
+        animation->field_9b = 3;
         goto done;
     }
     goto state_1;
 
 state_1:
-    if ((s16)arg0->field_96 > 0) {
+    if ((s16)animation->field_96 > 0) {
         goto done;
     }
-    arg1->field_0c = (s16)D_8006CCD8[index] << 18;
-    arg1->field_10 = (s16)D_8006CCE8[index] << 18;
-    value = 5;
-    if ((arg3->field_1c & 0x228) != 0) {
-        value = 8;
+    motion->field_0c = (s16)D_8006CCD8[direction] << 18;
+    motion->field_10 = (s16)D_8006CCE8[direction] << 18;
+    move_ticks = 5;
+    if ((actor->field_1c & 0x228) != 0) {
+        move_ticks = 8;
     }
-    arg0->field_96 = value;
-    other = arg1->field_0c;
-    rounded = other;
-    if (other < 0) {
-        rounded = other + 3;
+    animation->field_96 = move_ticks;
+    velocity_x = motion->field_0c;
+    biased_x = velocity_x;
+    if (velocity_x < 0) {
+        biased_x = velocity_x + 3;
     }
-    value_2 = arg1->field_10;
-    arg1->field_0c = other - (rounded >> 2);
-    rounded_2 = value_2;
-    if (value_2 < 0) {
-        rounded_2 = value_2 + 3;
+    velocity_y = motion->field_10;
+    motion->field_0c = velocity_x - (biased_x >> 2);
+    biased_y = velocity_y;
+    if (velocity_y < 0) {
+        biased_y = velocity_y + 3;
     }
-    arg1->field_10 = value_2 - (rounded_2 >> 2);
-    arg0->field_9b = arg0->field_9b + 1;
+    motion->field_10 = velocity_y - (biased_y >> 2);
+    animation->field_9b = animation->field_9b + 1;
     goto state_tail;
 
 state_2:
-    arg1->field_0c = arg1->field_0c - ((s16)D_8006CCD8[index] << 15);
-    arg1->field_10 = arg1->field_10 - ((s16)D_8006CCE8[index] << 15);
-    if ((s16)arg0->field_96 != 0) {
+    motion->field_0c = motion->field_0c - ((s16)D_8006CCD8[direction] << 15);
+    motion->field_10 = motion->field_10 - ((s16)D_8006CCE8[direction] << 15);
+    if ((s16)animation->field_96 != 0) {
         goto done;
     }
-    if (arg3->field_28 == 0) {
-        arg1->field_14 = 0;
-        arg1->field_10 = 0;
-        arg1->field_0c = 0;
-        func_800AAA54(arg0, arg1, arg2, D_80173C94);
+    if (actor->field_28 == 0) {
+        motion->field_14 = 0;
+        motion->field_10 = 0;
+        motion->field_0c = 0;
+        func_800AAA54(animation, motion, tile, D_80173C94);
         goto done;
     }
-    arg0->field_96 = 4;
-    arg0->field_9b = arg0->field_9b + 1;
+    animation->field_96 = 4;
+    animation->field_9b = animation->field_9b + 1;
 
 state_tail:
     goto done;
@@ -150,35 +150,35 @@ state_3:
         goto reset;
     }
     {
-        s32 coordinate;
-        s32 delta;
+        s32 tile_x;
+        s32 origin_x;
 
-        coordinate = arg2->field_24 << 6;
-        delta = arg1->field_02 - 0x20;
-        arg1->field_0c = (coordinate - delta) << 15;
+        tile_x = tile->field_24 << 6;
+        origin_x = motion->field_02 - 0x20;
+        motion->field_0c = (tile_x - origin_x) << 15;
     }
     {
-        s32 coordinate;
-        s32 delta;
+        s32 tile_y;
+        s32 origin_y;
 
-        coordinate = arg2->field_25 << 6;
-        delta = arg1->field_06 - 0x20;
-        arg1->field_10 = (coordinate - delta) << 15;
+        tile_y = tile->field_25 << 6;
+        origin_y = motion->field_06 - 0x20;
+        motion->field_10 = (tile_y - origin_y) << 15;
     }
-    if ((s16)arg0->field_96 > 0) {
+    if ((s16)animation->field_96 > 0) {
         goto done;
     }
 
 reset:
-    arg1->field_14 = 0;
-    arg1->field_10 = 0;
-    arg1->field_0c = 0;
-    func_800A2B04(arg1, arg2->field_24, arg2->field_25);
-    base = D_80083460;
-    if (base[4] == (s32)((u8 *)arg3 - 0x20)) {
-        base[4] = base[4] & 0x7fffffff;
+    motion->field_14 = 0;
+    motion->field_10 = 0;
+    motion->field_0c = 0;
+    func_800A2B04(motion, tile->field_24, tile->field_25);
+    global_state = D_80083460;
+    if (global_state[4] == (s32)((u8 *)actor - 0x20)) {
+        global_state[4] = global_state[4] & 0x7fffffff;
     }
-    arg0->field_8c = D_80170E54;
+    animation->field_8c = D_80170E54;
 
 done:
     return;

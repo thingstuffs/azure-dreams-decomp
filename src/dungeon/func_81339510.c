@@ -10,10 +10,11 @@ typedef struct S_80170510_0 {
     s16 unk_18;
 } S_80170510_0;   /* temp_v1 in func_80170510 */
 
+/* Clear the state value at 0x18 and increment the counter at 0x12. */
 void func_80170510(void) {
-    S_80170510_0 *temp_v1;
+    S_80170510_0 *state;
 
-    temp_v1 = D_80175D64 + 0x20;
-    temp_v1->unk_18 = 0;
-    temp_v1->unk_12 = (u16) (temp_v1->unk_12 + 1);
+    state = D_80175D64 + 0x20;
+    state->unk_18 = 0;
+    state->unk_12 = (u16) (state->unk_12 + 1);
 }

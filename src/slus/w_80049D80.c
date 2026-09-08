@@ -15,8 +15,9 @@ extern S_80080B54 D_80080B54[3];
 extern void *func_80049CF4(void *a0, void *a1);
 extern void func_800499E8(void *a0, void *a1, void *a2);
 
-void initSubRecordPair(void *a0, void *a1)
+/* Initializes a subrecord pair with shared data and the default color entry. */
+void initSubRecordPair(void *record_pair, void *init_data)
 {
-    func_80049CF4(a0, a1);
-    func_800499E8((u8 *)a0 + 0x18, a1, &D_80080B54[0]);
+    func_80049CF4(record_pair, init_data);
+    func_800499E8((u8 *)record_pair + 0x18, init_data, &D_80080B54[0]);
 }

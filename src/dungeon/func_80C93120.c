@@ -25,71 +25,68 @@ typedef struct S_80170920_1 {
 
 extern s32 D_800814A0;
 
-void func_80170920(void *arg0, void *arg1, void *arg2)
+/* Expands and brightens the effect, then shrinks and fades it until expiration. */
+void func_80170920(void *effect, void *unused, void *visual)
 {
     s16 state;
-    s32 quotient;
-    u8 color;
+    s32 fade_brightness;
+    u8 brightness;
 
-    state = ((S_80170920_0 *)arg0)->unk_1C.s;
+    state = ((S_80170920_0 *)effect)->unk_1C.s;
     if (state == 1) {
-        goto state_1;
+        goto begin_fade;
     }
     if (state >= 2) {
-        goto check_2;
+        goto check_fade;
     }
     if (state == 0) {
-        goto state_0;
+        goto expand;
     }
-    goto shared;
+    goto update;
 
-check_2:
+check_fade:
     if (state == 2) {
-        goto state_2;
+        goto fade;
     }
-    goto shared;
+    goto update;
 
-state_0:
-    ((S_80170920_1 *)arg2)->unk_1C += 0x258;
-    ((S_80170920_1 *)arg2)->unk_1E += 0x258;
-    color = ((S_80170920_1 *)arg2)->unk_0E + 0xC;
-    ((S_80170920_1 *)arg2)->unk_0E = color;
-    ((S_80170920_1 *)arg2)->unk_0D = color;
-    ((S_80170920_1 *)arg2)->unk_0C = color;
-    if (((S_80170920_1 *)arg2)->unk_1C < 0x1770) {
-        goto shared;
+expand:
+    ((S_80170920_1 *)visual)->unk_1C += 0x258;
+    ((S_80170920_1 *)visual)->unk_1E += 0x258;
+    brightness = ((S_80170920_1 *)visual)->unk_0E + 0xC;
+    ((S_80170920_1 *)visual)->unk_0E = brightness;
+    ((S_80170920_1 *)visual)->unk_0D = brightness;
+    ((S_80170920_1 *)visual)->unk_0C = brightness;
+    if (((S_80170920_1 *)visual)->unk_1C < 0x1770) {
+        goto update;
     }
-    goto increment;
+    goto advance_state;
 
-state_1:
-    ((S_80170920_1 *)arg2)->unk_10 = 0x20;
-    ((S_80170920_1 *)arg2)->unk_0E = 0x50;
-    ((S_80170920_1 *)arg2)->unk_0D = 0x50;
-    ((S_80170920_1 *)arg2)->unk_0C = 0x50;
+begin_fade:
+    ((S_80170920_1 *)visual)->unk_10 = 0x20;
+    ((S_80170920_1 *)visual)->unk_0E = 0x50;
+    ((S_80170920_1 *)visual)->unk_0D = 0x50;
+    ((S_80170920_1 *)visual)->unk_0C = 0x50;
 
-increment:
-    ((S_80170920_0 *)arg0)->unk_1C.u++;
-    goto shared;
+advance_state:
+    ((S_80170920_0 *)effect)->unk_1C.u++;
+    goto update;
 
-state_2:
-    ((S_80170920_1 *)arg2)->unk_10 = 0x60;
-    ((S_80170920_0 *)arg0)->unk_24.s--;
-    ((S_80170920_1 *)arg2)->unk_1C -= 0x190;
-    ((S_80170920_1 *)arg2)->unk_1E -= 0x190;
-    quotient = (((S_80170920_0 *)arg0)->unk_24.u << 7) /
-               ((S_80170920_0 *)arg0)->unk_26;
-    ((S_80170920_1 *)arg2)->unk_0E = quotient;
-    ((S_80170920_1 *)arg2)->unk_0D = quotient;
-    ((S_80170920_1 *)arg2)->unk_0C = quotient;
+fade:
+    ((S_80170920_1 *)visual)->unk_10 = 0x60;
+    ((S_80170920_0 *)effect)->unk_24.s--;
+    ((S_80170920_1 *)visual)->unk_1C -= 0x190;
+    ((S_80170920_1 *)visual)->unk_1E -= 0x190;
+    fade_brightness = (((S_80170920_0 *)effect)->unk_24.u << 7) /
+               ((S_80170920_0 *)effect)->unk_26;
+    ((S_80170920_1 *)visual)->unk_0E = fade_brightness;
+    ((S_80170920_1 *)visual)->unk_0D = fade_brightness;
+    ((S_80170920_1 *)visual)->unk_0C = fade_brightness;
 
-shared:
-    ((S_80170920_1 *)arg2)->unk_1A += 0x190;
-    if (((S_80170920_0 *)arg0)->unk_24.u <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+update:
+    ((S_80170920_1 *)visual)->unk_1A += 0x190;
+    if (((S_80170920_0 *)effect)->unk_24.u <= 0) {
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }
-
-/* MECHANISM: Rowbase recovery makes both apparent func_8017xxxx targets local CFG joins,
-   leaving a frameless leaf with arg2 resident in $a2. Explicit labels preserve the
-   retail block order; direct scalar RMW preserves the D_800814A0 tail shape. */

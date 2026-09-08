@@ -15,8 +15,9 @@ typedef struct S_80038570_0 {
 
 extern M2C_UNK func_80038588;
 
-void func_80038570(S_80038570_0 *arg0) {
-    arg0->unk_27 = 0;
-    arg0->unk_84 = 0;
-    arg0->unk_10 = &func_80038588;
+/* Clear two state fields and set the next handler. */
+void func_80038570(S_80038570_0 *state) {
+    state->unk_27 = 0;
+    state->unk_84 = 0;
+    state->unk_10 = &func_80038588;
 }

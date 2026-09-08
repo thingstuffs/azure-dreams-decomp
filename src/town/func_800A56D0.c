@@ -64,67 +64,68 @@ extern void func_80066640(void *, s32);
 extern void func_80066708(void *, void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
-void func_800A2E30(InputPair arg0, InputPair arg2, InputPair arg4,
-                   InputPair arg6, u16 arg8)
+/* Project and enqueue a shaded quad, then enqueue its draw mode packet. */
+void func_800A2E30(InputPair vertex_0, InputPair vertex_1, InputPair vertex_2,
+                   InputPair vertex_3, u16 shade)
 {
-    OutputPair out0;
-    OutputPair out1;
-    OutputPair out2;
-    OutputPair out3;
-    u32 out4;
-    u32 out5;
-    s32 value;
-    u8 *ctx;
-    u8 *obj;
+    OutputPair screen_0;
+    OutputPair screen_1;
+    OutputPair screen_2;
+    OutputPair screen_3;
+    u32 depth_cue;
+    u32 transform_flags;
+    s32 depth_or_page;
+    u8 *draw_ctx;
+    u8 *packet;
 
     {
-        u8 *initial_ctx;
+        u8 *quad_ctx;
 
-        initial_ctx = *(u8 **)D_80083160;
-        obj = ((S_800A2E30_0 *)initial_ctx)->unk_8D0;
-        ((S_800A2E30_0 *)initial_ctx)->unk_8D0 = obj + 0x24;
-        ((S_800A2E30_1 *)obj)->unk_16 = arg8;
-        ((S_800A2E30_1 *)obj)->unk_15 = arg8;
-        ((S_800A2E30_1 *)obj)->unk_14 = arg8;
-        ((S_800A2E30_1 *)obj)->unk_06 = arg8;
-        ((S_800A2E30_1 *)obj)->unk_05 = arg8;
-        ((S_800A2E30_1 *)obj)->unk_04 = arg8;
-        ((S_800A2E30_1 *)obj)->unk_1E = 0;
-        ((S_800A2E30_1 *)obj)->unk_1D = 0;
-        ((S_800A2E30_1 *)obj)->unk_1C = 0;
-        ((S_800A2E30_1 *)obj)->unk_0E = 0;
-        ((S_800A2E30_1 *)obj)->unk_0D = 0;
-        ((S_800A2E30_1 *)obj)->unk_0C = 0;
-        func_80066708(obj, initial_ctx);
+        quad_ctx = *(u8 **)D_80083160;
+        packet = ((S_800A2E30_0 *)quad_ctx)->unk_8D0;
+        ((S_800A2E30_0 *)quad_ctx)->unk_8D0 = packet + 0x24;
+        ((S_800A2E30_1 *)packet)->unk_16 = shade;
+        ((S_800A2E30_1 *)packet)->unk_15 = shade;
+        ((S_800A2E30_1 *)packet)->unk_14 = shade;
+        ((S_800A2E30_1 *)packet)->unk_06 = shade;
+        ((S_800A2E30_1 *)packet)->unk_05 = shade;
+        ((S_800A2E30_1 *)packet)->unk_04 = shade;
+        ((S_800A2E30_1 *)packet)->unk_1E = 0;
+        ((S_800A2E30_1 *)packet)->unk_1D = 0;
+        ((S_800A2E30_1 *)packet)->unk_1C = 0;
+        ((S_800A2E30_1 *)packet)->unk_0E = 0;
+        ((S_800A2E30_1 *)packet)->unk_0D = 0;
+        ((S_800A2E30_1 *)packet)->unk_0C = 0;
+        func_80066708(packet, quad_ctx);
     }
-    func_80066640(obj, 1);
+    func_80066640(packet, 1);
 
-    value = func_800654B0(&arg0, &arg2, &arg4, &arg6,
-                          &out0, &out1, &out2, &out3, &out4, &out5);
+    depth_or_page = func_800654B0(&vertex_0, &vertex_1, &vertex_2, &vertex_3,
+                          &screen_0, &screen_1, &screen_2, &screen_3, &depth_cue, &transform_flags);
 
-    ((S_800A2E30_1 *)obj)->unk_08 = out0.first;
-    ((S_800A2E30_1 *)obj)->unk_0A = out0.second;
-    ((S_800A2E30_1 *)obj)->unk_10 = out1.first;
-    ((S_800A2E30_1 *)obj)->unk_12 = out1.second;
-    ((S_800A2E30_1 *)obj)->unk_18 = out2.first;
-    ((S_800A2E30_1 *)obj)->unk_1A = out2.second;
-    ((S_800A2E30_1 *)obj)->unk_20 = out3.first;
-    ((S_800A2E30_1 *)obj)->unk_22 = out3.second;
+    ((S_800A2E30_1 *)packet)->unk_08 = screen_0.first;
+    ((S_800A2E30_1 *)packet)->unk_0A = screen_0.second;
+    ((S_800A2E30_1 *)packet)->unk_10 = screen_1.first;
+    ((S_800A2E30_1 *)packet)->unk_12 = screen_1.second;
+    ((S_800A2E30_1 *)packet)->unk_18 = screen_2.first;
+    ((S_800A2E30_1 *)packet)->unk_1A = screen_2.second;
+    ((S_800A2E30_1 *)packet)->unk_20 = screen_3.first;
+    ((S_800A2E30_1 *)packet)->unk_22 = screen_3.second;
 
-    if (value >= 0x1E0) {
-        value = 0x1DF;
+    if (depth_or_page >= 0x1E0) {
+        depth_or_page = 0x1DF;
     }
-    ASM_USE(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_USE(depth_or_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    func_8006658C(*(u8 **)D_80083160 + 0xD8, obj);
+    func_8006658C(*(u8 **)D_80083160 + 0xD8, packet);
 
-    ctx = *(u8 **)D_80083160;
-    obj = ((S_800A2E30_2 *)ctx)->unk_8D0;
-    ((S_800A2E30_2 *)ctx)->unk_8D0 = obj + 0xC;
-    value = func_80066460(0, 1, 0x140, 0);
-    func_80067F20(obj, 0, 0, (u16)value, 0);
+    draw_ctx = *(u8 **)D_80083160;
+    packet = ((S_800A2E30_2 *)draw_ctx)->unk_8D0;
+    ((S_800A2E30_2 *)draw_ctx)->unk_8D0 = packet + 0xC;
+    depth_or_page = func_80066460(0, 1, 0x140, 0);
+    func_80067F20(packet, 0, 0, (u16)depth_or_page, 0);
 
-    func_8006658C(*(u8 **)D_80083160 + 0xD8, obj);
+    func_8006658C(*(u8 **)D_80083160 + 0xD8, packet);
 }
 
 /* MECHANISM: Four address-taken 8-byte aggregate inputs force the a0-a3 homes

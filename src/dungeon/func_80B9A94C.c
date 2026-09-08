@@ -59,14 +59,15 @@ extern u8 D_801740B4[];
 extern u8 D_80174108[];
 extern Packed12 D_80174FC0;
 
+/* Fades the effect color, spawns four textured objects, and expires the effect when its lifetime ends. */
 void func_8017414C(EffectState *state, s32 *position, EffectColor *color)
 {
     EffectObject *object;
-    u8 *sub;
+    u8 *effect_data;
     RenderData *render;
     s32 *object_position;
     u8 *texture;
-    u8 *entry;
+    u8 *color_entry;
     s16 object_index;
     s16 color_index;
     s16 row;
@@ -75,49 +76,49 @@ void func_8017414C(EffectState *state, s32 *position, EffectColor *color)
     s16 current_offset;
 
     if (state->phase == 1) {
-        goto phase_one;
+        goto hold_color;
     } else if (state->phase < 2) {
         if (state->phase == 0) {
-            goto phase_zero;
+            goto fade_in;
         }
-        goto state_done;
+        goto spawn_objects;
     } else {
         if (state->phase == 2) {
-            goto phase_two;
+            goto fade_out;
         }
-        goto state_done;
+        goto spawn_objects;
     }
 
-phase_zero:
+fade_in:
     color->red = state->red * (50 - state->lifetime) / 10;
     color->green = state->green * (50 - state->lifetime) / 10;
     color->blue = state->blue * (50 - state->lifetime) / 10;
     if (state->lifetime < 41) {
         state->phase++;
     }
-    goto state_done;
+    goto spawn_objects;
 
-phase_one:
+hold_color:
     if (state->lifetime < 12) {
         state->phase++;
     }
-    goto state_done;
+    goto spawn_objects;
 
-phase_two:
+fade_out:
     color->red = state->red * state->lifetime / 10;
     color->green = state->green * state->lifetime / 10;
     color->blue = state->blue * state->lifetime / 10;
 
-state_done:
+spawn_objects:
     state->spawn_count++;
     object_index = 0;
     do {
         object = func_8003FC64(0x12);
         if (object != 0) {
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            sub = object->sub;
-            *(s16 *)(sub + 0x1A) = 1;
-            *(s16 *)(sub + 0x1C) = 1;
+            effect_data = object->sub;
+            *(s16 *)(effect_data + 0x1A) = 1;
+            *(s16 *)(effect_data + 0x1C) = 1;
             object->update = D_80174108;
             func_8004491C(object, D_801740B4);
 
@@ -137,26 +138,26 @@ state_done:
             render->red = 0x80;
 
             do {
-                entry = sub + color_index * 4;
-                entry[4] = color->red;
-                entry[5] = color->green;
-                entry[6] = color->blue;
+                color_entry = effect_data + color_index * 4;
+                color_entry[4] = color->red;
+                color_entry[5] = color->green;
+                color_entry[6] = color->blue;
                 color_index++;
             } while (color_index < 4);
 
             if (object_index == 3) {
-                sub[0xA] = 0;
-                sub[9] = 0;
-                sub[8] = 0;
-                sub[6] = 0;
-                sub[5] = 0;
-                sub[4] = 0;
+                effect_data[0xA] = 0;
+                effect_data[9] = 0;
+                effect_data[8] = 0;
+                effect_data[6] = 0;
+                effect_data[5] = 0;
+                effect_data[4] = 0;
             }
 
             render->field06 = 0;
-            *(Packed12 *)(sub + 0x28) = D_80174FC0;
+            *(Packed12 *)(effect_data + 0x28) = D_80174FC0;
             row = 0;
-            render->texture = sub + 0x28;
+            render->texture = effect_data + 0x28;
             texture = render->texture;
             texture[8] += state->grid_offset * 4;
             texture = render->texture;
@@ -165,7 +166,7 @@ state_done:
             do {
                 column = 0;
                 do {
-                    ((EffectState *)sub)->grid[row][column] =
+                    ((EffectState *)effect_data)->grid[row][column] =
                         state->grid[row][column];
                     column++;
                 } while (column < 3);
@@ -174,10 +175,10 @@ state_done:
 
             next_offset = -((object_index + 1) * 0x10);
             current_offset = -(object_index * 0x10);
-            *(s16 *)(sub + 0x6E) = next_offset;
-            *(s16 *)(sub + 0x68) = next_offset;
-            *(s16 *)(sub + 0x7A) = current_offset;
-            *(s16 *)(sub + 0x74) = current_offset;
+            *(s16 *)(effect_data + 0x6E) = next_offset;
+            *(s16 *)(effect_data + 0x68) = next_offset;
+            *(s16 *)(effect_data + 0x7A) = current_offset;
+            *(s16 *)(effect_data + 0x74) = current_offset;
         }
         object_index++;
     } while (object_index < 4);

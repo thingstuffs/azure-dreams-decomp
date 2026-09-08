@@ -1,12 +1,12 @@
 #include "common.h"
 
-/* Initialization trampoline: calls a fixed sequence of setup routines. */
 extern void func_8005B300(void);
 extern void func_8005B418(int arg0);
 extern void func_8005B348(void);
 extern void func_8005E7E0(int arg0);
 extern void func_8005B320(void);
 
+/* Runs the setup routines in their required order. */
 void func_800541E8(void)
 {
     func_8005B300();

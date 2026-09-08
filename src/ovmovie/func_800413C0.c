@@ -5,25 +5,26 @@ extern s32 D_8017681C;
 extern void func_80177D08(void);
 extern void func_80177C48(void);
 
+/* Wait for status bit 29 to clear, returning -1 on timeout or 0 on success. */
 s32 func_800413C0(void) {
-    volatile s32 sp10;
+    volatile s32 polls_left;
     u32 *status;
-    s32 init;
+    s32 poll_limit;
 
     asm(
         "lui $3,%%hi(D_80178380)\n\t"
         "lw $3,%%lo(D_80178380)($3)\n\t"
         "lui $2,0x10"
-        : "=r"(status), "=r"(init));
-    sp10 = init;
+        : "=r"(status), "=r"(poll_limit));
+    polls_left = poll_limit;
     if (*(volatile u32 *) status & 0x20000000) {
-        s32 sentinel;
-        u32 *status_loop;
+        s32 timeout_value;
+        u32 *poll_status;
 
-        sentinel = -1;
+        timeout_value = -1;
         do {
-            sp10 = sp10 - 1;
-            if (sp10 == sentinel) {
+            polls_left = polls_left - 1;
+            if (polls_left == timeout_value) {
                 asm volatile(
                     "lui $4,%%hi(D_8017681C)\n\t"
                     "addiu $4,$4,%%lo(D_8017681C)"
@@ -37,8 +38,8 @@ s32 func_800413C0(void) {
             asm volatile(
                 "lui $2,%%hi(D_80178380)\n\t"
                 "lw $2,%%lo(D_80178380)($2)"
-                : "=r"(status_loop));
-        } while (*(volatile u32 *) status_loop & 0x20000000);
+                : "=r"(poll_status));
+        } while (*(volatile u32 *) poll_status & 0x20000000);
     }
     return 0;
 }

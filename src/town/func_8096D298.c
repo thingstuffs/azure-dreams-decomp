@@ -22,13 +22,14 @@ extern void **D_8012975C[];
 extern u8 D_801285FC[];
 extern u8 D_80128608[];
 
-void func_80125730(TownObject *arg0)
+/* Set town slots from an active object's flags, or clear them when inactive. */
+void func_80125730(TownObject *object)
 {
-    if (arg0->active != 0) {
-        if (arg0->flags & 1) {
+    if (object->active != 0) {
+        if (object->flags & 1) {
             *D_80129758[0] = D_801285FC;
         }
-        if (arg0->flags & 2) {
+        if (object->flags & 2) {
             *D_8012975C[0] = D_80128608;
             return;
         }

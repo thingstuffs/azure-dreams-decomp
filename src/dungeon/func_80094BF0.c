@@ -24,18 +24,19 @@ extern s16 D_8006CCD8[8];
 extern s16 D_8006CCE8[8];
 extern SharedState D_80083160;
 
-s16 func_8009A350(s16 x, s16 y, s16 tableIndex, u16 *flags)
+/* Returns the grid entry value at the selected offset and writes its flags. */
+s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags)
 {
-    s32 gridX;
-    s32 gridY;
+    s32 grid_x;
+    s32 grid_y;
     s32 index;
     SharedState *state;
     Entry *entry;
 
-    gridX = x + D_8006CCD8[tableIndex];
+    grid_x = x + D_8006CCD8[offset_index];
     state = &D_80083160;
-    gridY = y + D_8006CCE8[tableIndex];
-    index = gridX + (gridY << state->grid.shift);
+    grid_y = y + D_8006CCE8[offset_index];
+    index = grid_x + (grid_y << state->grid.shift);
     entry = (Entry *)((index * sizeof(Entry)) +
                       (unsigned long)state->grid.entries);
     *flags = entry->flags;

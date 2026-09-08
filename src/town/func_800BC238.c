@@ -38,84 +38,80 @@ extern s32 D_80083780;
 extern void func_80033D08(void *);
 extern s32 func_8009CFE0(void *, void *);
 
-void func_800B9998(void *arg0, void *arg1, void *arg2) {
-    register u8 *p1 ASM_REG("$17") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *p2 = arg2;
-    s8 *byte_ptr;
-    u8 *town;
+/* Deactivate the object when triggered; otherwise update its spin from nearby motion and advance rotation. */
+void func_800B9998(void *object, void *position, void *rotation) {
+    register u8 *position_data ASM_REG("$17") = position;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *rotation_data = rotation;
+    s8 *active_flag;
+    u8 *town_state;
     s32 dx;
     s32 dy;
-    s32 dx_ok;
-    s32 sum;
-    register s32 arg1_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 arg1_y;
-    s32 angle;
-    s32 raw_angle;
-    s32 addend;
+    s32 near_x;
+    s32 speed_sq;
+    register s32 position_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 position_y;
+    s32 spin_speed;
+    s32 raw_speed;
+    s32 angle_step;
 
-    if (func_8009CFE0(arg0, arg1) != 0) {
-        byte_ptr = ((S_800B9998_0 *)arg0)->unk_98;
-        if (byte_ptr != 0) {
-            *byte_ptr = 0;
+    if (func_8009CFE0(object, position) != 0) {
+        active_flag = ((S_800B9998_0 *)object)->unk_98;
+        if (active_flag != 0) {
+            *active_flag = 0;
         }
-        func_80033D08(arg0);
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        func_80033D08(object);
+        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
         goto epilogue;
     }
 
-    raw_angle = ((S_800B9998_0 *)arg0)->unk_66.s;
-    angle = ((S_800B9998_0 *)arg0)->unk_66.u;
-    if (angle >= 0x100) {
-        ((S_800B9998_0 *)arg0)->unk_66.s = raw_angle - 0x20;
-        goto angle_ready;
+    raw_speed = ((S_800B9998_0 *)object)->unk_66.s;
+    spin_speed = ((S_800B9998_0 *)object)->unk_66.u;
+    if (spin_speed >= 0x100) {
+        ((S_800B9998_0 *)object)->unk_66.s = raw_speed - 0x20;
+        goto speed_ready;
     }
-    if (angle >= 0x10) {
-        ((S_800B9998_0 *)arg0)->unk_66.s = raw_angle - 0x10;
-        goto angle_ready;
+    if (spin_speed >= 0x10) {
+        ((S_800B9998_0 *)object)->unk_66.s = raw_speed - 0x10;
+        goto speed_ready;
     }
-    ((S_800B9998_0 *)arg0)->unk_66.s = 0;
+    ((S_800B9998_0 *)object)->unk_66.s = 0;
 
-    angle_ready:
-    town = (u8 *)&D_80083780;
-    dx = ((S_800B9998_1 *)town)->unk_02;
-    arg1_x = ((S_800B9998_2 *)p1)->unk_02;
-    arg1_y = ((S_800B9998_2 *)p1)->unk_06;
-    dx -= arg1_x;
+    speed_ready:
+    town_state = (u8 *)&D_80083780;
+    dx = ((S_800B9998_1 *)town_state)->unk_02;
+    position_x = ((S_800B9998_2 *)position_data)->unk_02;
+    position_y = ((S_800B9998_2 *)position_data)->unk_06;
+    dx -= position_x;
     if (dx < 0) {
         dx = -dx;
     }
     dx = (s16)dx;
-    dy = ((S_800B9998_1 *)town)->unk_06;
-    dx_ok = dx < 0x81;
-    ASM_USE(dx_ok);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    dy -= arg1_y;
+    dy = ((S_800B9998_1 *)town_state)->unk_06;
+    near_x = dx < 0x81;
+    ASM_USE(near_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    dy -= position_y;
     if (dy < 0) {
         dy = -dy;
     }
 
-    if (dx_ok && ((s16)dy < 0x81)) {
-        sum = (((S_800B9998_1 *)town)->unk_0E * ((S_800B9998_1 *)town)->unk_0E) +
-              (((S_800B9998_1 *)town)->unk_12 * ((S_800B9998_1 *)town)->unk_12);
-        ((S_800B9998_0 *)arg0)->unk_66.s =
-            ((S_800B9998_0 *)arg0)->unk_66.s +
-            ((s32)(sum + ((u32)sum >> 31)) >> 1);
+    if (near_x && ((s16)dy < 0x81)) {
+        speed_sq = (((S_800B9998_1 *)town_state)->unk_0E * ((S_800B9998_1 *)town_state)->unk_0E) +
+              (((S_800B9998_1 *)town_state)->unk_12 * ((S_800B9998_1 *)town_state)->unk_12);
+        ((S_800B9998_0 *)object)->unk_66.s =
+            ((S_800B9998_0 *)object)->unk_66.s +
+            ((s32)(speed_sq + ((u32)speed_sq >> 31)) >> 1);
     }
 
-    if (((S_800B9998_0 *)arg0)->unk_66.u >= 0x601) {
-        ((S_800B9998_0 *)arg0)->unk_66.s = 0x600;
+    if (((S_800B9998_0 *)object)->unk_66.u >= 0x601) {
+        ((S_800B9998_0 *)object)->unk_66.s = 0x600;
     }
 
-    addend = ((S_800B9998_0 *)arg0)->unk_66.s + 0x80;
-    ((S_800B9998_3 *)p2)->unk_1A.s = ((S_800B9998_3 *)p2)->unk_1A.s + addend;
-    ((S_800B9998_3 *)p2)->unk_1A.u =
-        ((S_800B9998_3 *)p2)->unk_1A.u & 0xFFF;
+    angle_step = ((S_800B9998_0 *)object)->unk_66.s + 0x80;
+    ((S_800B9998_3 *)rotation_data)->unk_1A.s = ((S_800B9998_3 *)rotation_data)->unk_1A.s + angle_step;
+    ((S_800B9998_3 *)rotation_data)->unk_1A.u =
+        ((S_800B9998_3 *)rotation_data)->unk_1A.u & 0xFFF;
 
 epilogue:
     return;
 }
-
-/* MECHANISM: TRUE-space local joins keep the 0x20 frame and s0/s1/s2 pointer ABI.
-   cdk-G0 preserves D_80083780 in a1; D_800814A0 remains a direct scalar RMW.
-   Guarded p1/s1, p2/s2, arg1_x/v1, and arg1_y/a0 roles close the coloring.
-   Narrowed dx, input-only dx/dx_ok uses, and a volatile tail reread close scheduling. */

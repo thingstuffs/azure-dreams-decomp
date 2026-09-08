@@ -8,20 +8,21 @@ extern u8 D_8001A730[9];
 extern u8 D_8001AAEC[9];
 extern u8 D_8001DE58[9];
 
-void *func_8001632C(s32 arg0, s32 arg1, s32 arg2) {
-    void *result = 0;
+/* Returns data selected by kind and the current global index. */
+void *func_8001632C(s32 unused_0, s32 unused_1, s32 data_kind) {
+    void *data = 0;
 
-    if (arg2 == 8) {
-        result = func_80016250(D_80019698[D_8001967C[0]]);
-    } else if (arg2 == 6) {
-        result = D_8001A730;
-    } else if (arg2 == 1) {
+    if (data_kind == 8) {
+        data = func_80016250(D_80019698[D_8001967C[0]]);
+    } else if (data_kind == 6) {
+        data = D_8001A730;
+    } else if (data_kind == 1) {
         if (D_8001967C[0] != 3) {
-            result = D_8001DE58;
+            data = D_8001DE58;
         } else {
-            result = D_8001AAEC;
+            data = D_8001AAEC;
         }
     }
 
-    return result;
+    return data;
 }

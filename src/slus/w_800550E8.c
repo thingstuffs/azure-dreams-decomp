@@ -32,51 +32,51 @@ extern int func_8005B3D8(s16, s16);
 extern void func_800552C8(void);
 extern void func_8005AE90(s16, u8, s16);
 
+/* Process the pending selection and initialize its entry and mode. */
 void func_800550E8(void)
 {
-    u8 buf[32];
-    s16 idx;
-    s32 arg;
-    u16 state;
-    s16 masked;
-    s16 val;
-    u16 hi_bits;
-    s16 avail;
+    u8 entry_data[32];
+    s16 value_offset;
+    u16 selection;
+    s16 entry_index;
+    s16 entry_value;
+    u16 mode_bits;
+    s16 is_ready;
 
     if (D_800847D0.unk26 == -1) {
         func_800553D4(0x71);
         return;
     }
-    avail = func_8005405C(0);
-    if (!avail) {
+    is_ready = func_8005405C(0);
+    if (!is_ready) {
         D_800847D0.unk4 |= 2;
         return;
     }
-    idx = -((((u8)D_800847D0.unk26) >> 4) << 1);
-    if (func_8005B470(0, buf) == 0) {
-        func_8005537C(buf[0x18] + idx);
+    value_offset = -((((u8)D_800847D0.unk26) >> 4) << 1);
+    if (func_8005B470(0, entry_data) == 0) {
+        func_8005537C(entry_data[0x18] + value_offset);
     } else {
         func_8005537C(0x64);
     }
 
-    state = D_800847D0.unk26;
-    hi_bits = state & 0xF000;
-    masked = state & 0xF;
-    D_800847D0.unk26 = masked;
-    val = D_80084810[D_800847D0.unk20][masked];
-    if (val != 0) {
-        func_8005B3D8(val, val);
+    selection = D_800847D0.unk26;
+    mode_bits = selection & 0xF000;
+    entry_index = selection & 0xF;
+    D_800847D0.unk26 = entry_index;
+    entry_value = D_80084810[D_800847D0.unk20][entry_index];
+    if (entry_value != 0) {
+        func_8005B3D8(entry_value, entry_value);
     }
     D_800847D0.unk22 = func_8005AE08(
         D_80084878[D_800847D0.unk20][D_800847D0.unk26], 0);
     D_800847D0.unk26 = -1;
     D_800847D0.unk0 &= ~0x1000;
     D_800847D0.unk4 &= ~2;
-    if (hi_bits != 0) {
+    if (mode_bits != 0) {
         D_800848F8.unk4 = 1;
         D_800848F8.unk8 = 0;
-        if (hi_bits != 0x8000) {
-            if (hi_bits != 0x9000) {
+        if (mode_bits != 0x8000) {
+            if (mode_bits != 0x9000) {
                 goto set_default;
             }
             D_800848F8.unk16 = 4;

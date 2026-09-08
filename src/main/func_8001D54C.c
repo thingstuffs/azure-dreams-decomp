@@ -1,17 +1,18 @@
 #include "common.h"
 
-void func_8001D54C(void *arg0) {
-    s32 i;
-    u8 *ptr;
-    s32 *out;
+/* Clears the ten values referenced by the pointer array at offset 0x1D8. */
+void func_8001D54C(void *state) {
+    s32 index;
+    u8 *cursor;
+    s32 *value;
 
-    ptr = arg0;
-    i = 0;
+    cursor = state;
+    index = 0;
     do {
-        out = *(s32 **)(ptr + 0x1D8);
-        ASM_KEEP(out);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        *out = 0;
-        i++;
-        ptr += 4;
-    } while (i < 10);
+        value = *(s32 **)(cursor + 0x1D8);
+        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        *value = 0;
+        index++;
+        cursor += 4;
+    } while (index < 10);
 }

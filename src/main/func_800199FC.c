@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
+/* Set the word at 0x80409504 to 4 and return zero. */
 s32 func_800199FC(void) {
     *(s32 *)0x80409504 = 4;
     return 0;

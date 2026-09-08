@@ -46,59 +46,60 @@ struct S_10 {
 };
 void *func_8003FC64(s32, s32, s16 **, s32);
 
+/* Initializes effect state and sets the high flag bit on three adjacent entries. */
 void func_800F65CC(void) {
-    s16 **var_a2;
-    s16 *temp_v0;
-    s32 temp_s0;
-    s32 var_a1;
-    S_8003E2D8 *base;
-    s16 *s1;
-    S_80082E60 *a0;
-    s16 **table;
-    s32 a3;
-    u16 temp_v0_3;
-    S_800F65CC_0 *temp_v0_2;
-    S_800F65CC_2 *temp_v1;
+    s16 **state_slot;
+    s16 *state_value;
+    s32 entries_base;
+    s32 index;
+    S_8003E2D8 *world_state;
+    s16 *entry_info;
+    S_80082E60 *effect_state;
+    s16 **state_table;
+    s32 state_code;
+    u16 entry_flags;
+    S_800F65CC_0 *effect;
+    S_800F65CC_2 *entry;
 
-    base = &D_80083160;
-    s1 = (s16 *)((u8 *)base + 0x1DC);
-    temp_s0 = base->field_1DC;
-    var_a1 = 1;
-    a3 = 0x11;
-    table = D_800F8A44;
-    var_a2 = table + 1;
-    a0 = &D_80082E60;
-    a0->field_10 = 0x1F;
-    a0->field_12 = 0x3E;
-    a0->field_16 = (u16)(a0->field_16 | 1);
+    world_state = &D_80083160;
+    entry_info = (s16 *)((u8 *)world_state + 0x1DC);
+    entries_base = world_state->field_1DC;
+    index = 1;
+    state_code = 0x11;
+    state_table = D_800F8A44;
+    state_slot = state_table + 1;
+    effect_state = &D_80082E60;
+    effect_state->field_10 = 0x1F;
+    effect_state->field_12 = 0x3E;
+    effect_state->field_16 = (u16)(effect_state->field_16 | 1);
     do {
-        temp_v0 = *var_a2;
-        if (temp_v0 != NULL) {
-            *temp_v0 = a3;
+        state_value = *state_slot;
+        if (state_value != NULL) {
+            *state_value = state_code;
         }
-        var_a1 -= 1;
-        var_a2 -= 1;
-    } while (var_a1 >= 0);
-    temp_v0_2 = func_8003FC64(0x12, var_a1, var_a2, a3);
-    if (temp_v0_2 != NULL) {
-        s16 *status;
+        index -= 1;
+        state_slot -= 1;
+    } while (index >= 0);
+    effect = func_8003FC64(0x12, index, state_slot, state_code);
+    if (effect != NULL) {
+        s16 *status_base;
 
-        temp_v0_2->unk_10 = &D_800F6544;
-        temp_v0_2->unk_24 = 0x38;
-        status = (s16 *)0x80010000;
-        if (!((u16)status[0x3714 / 2] & 1)) {
+        effect->unk_10 = &D_800F6544;
+        effect->unk_24 = 0x38;
+        status_base = (s16 *)0x80010000;
+        if (!((u16)status_base[0x3714 / 2] & 1)) {
             *(struct S_10 *)((u32)0x80010000 | 0x3720) = *(struct S_10 *)D_800F8A4C;
-            status[0x371A / 2] = 0;
-            status[0x3718 / 2] = 0;
-            status[0x3716 / 2] = 4;
-            status[0x3714 / 2] = (u16)(status[0x3714 / 2] | 1);
+            status_base[0x371A / 2] = 0;
+            status_base[0x3718 / 2] = 0;
+            status_base[0x3716 / 2] = 4;
+            status_base[0x3714 / 2] = (u16)(status_base[0x3714 / 2] | 1);
         }
     }
-    var_a1 = 0x1E;
+    index = 0x1E;
     do {
-        temp_v1 = ((var_a1 + (0x3E << ((S_800F65CC_1 *)s1)->unk_14)) * 6) + temp_s0;
-        temp_v0_3 = temp_v1->unk_04.s;
-        var_a1 += 1;
-        temp_v1->unk_04.u = (s16)(temp_v0_3 | 0x8000);
-    } while (var_a1 < 0x21);
+        entry = ((index + (0x3E << ((S_800F65CC_1 *)entry_info)->unk_14)) * 6) + entries_base;
+        entry_flags = entry->unk_04.s;
+        index += 1;
+        entry->unk_04.u = (s16)(entry_flags | 0x8000);
+    } while (index < 0x21);
 }

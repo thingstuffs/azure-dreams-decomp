@@ -3,6 +3,7 @@
 
 M2C_UNK func_80402F84();   /* extern */
 
-void func_8001C11C(M2C_UNK arg0, M2C_UNK arg1) {
-    func_80402F84(arg0, 2, 2, arg1);
+/* Forwards the target and value to func_80402F84 with both selectors set to 2. */
+void func_8001C11C(M2C_UNK target, M2C_UNK value) {
+    func_80402F84(target, 2, 2, value);
 }

@@ -16,20 +16,21 @@ extern void *D_80016000;
 extern s32 D_8001C370;
 extern s32 D_8001C374;
 
+/* Save the current context value and dispatch the selected entry's type callback. */
 void func_8001A3FC(void) {
-    s32 *entryBase;
+    s32 *entry_base;
     S_8001A3FC_1 *entry;
     u8 type;
-    s32 index;
-    s32 offset;
+    s32 entry_index;
+    s32 entry_offset;
 
     do {
-        entryBase = &D_8001C370;
+        entry_base = &D_8001C370;
     } while (0);
-    index = ((Rec_D_80016000 *)D_80016000)->unk_14;
-    offset = index * 0x1C;
+    entry_index = ((Rec_D_80016000 *)D_80016000)->unk_14;
+    entry_offset = entry_index * 0x1C;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    entry = (void *)(offset + *entryBase);
+    entry = (void *)(entry_offset + *entry_base);
     do {
         type = entry->unk_00;
     } while (0);

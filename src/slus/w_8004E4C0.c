@@ -1,25 +1,31 @@
 #include "common.h"
+/* Writes decimal digits least significant first, pads to width, and null-terminates. */
 char *func_8004E4C0(u32 value, s32 width, char *buf, s32 pad) {
-    s32 count; u32 q; s32 limit;
-    register u32 next ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    count = 1;
-    q = value / 10u;
-    *buf = (char)((value - q * 10u) + '0');
-    q = width & 0xFFFF;
+    s32 char_count;
+    u32 quotient_or_width;
+    s32 digit_limit;
+    register u32 quotient ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    char_count = 1;
+    quotient_or_width = value / 10u;
+    *buf = (char)((value - quotient_or_width * 10u) + '0');
+    quotient_or_width = width & 0xFFFF;
     buf++;
-    if (count < (s32)q) {
-        limit = q;
+    if (char_count < (s32)quotient_or_width) {
+        digit_limit = quotient_or_width;
         do {
         top:
             value = value / 10u;
             if (value == 0) break;
-            count++;
-            next = value / 10u;
-            ASM_KEEP_NV(next);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            *buf++ = (char)((value - next * 10u) + '0');
-        } while (count < limit);
-        q = width & 0xFFFF;
-        while (count < (s32)q) { *buf++ = (char)pad; count++; }
+            char_count++;
+            quotient = value / 10u;
+            ASM_KEEP_NV(quotient);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+            *buf++ = (char)((value - quotient * 10u) + '0');
+        } while (char_count < digit_limit);
+        quotient_or_width = width & 0xFFFF;
+        while (char_count < (s32)quotient_or_width) {
+            *buf++ = (char)pad;
+            char_count++;
+        }
     }
     *buf = 0;
     return buf - (width & 0xFFFF);

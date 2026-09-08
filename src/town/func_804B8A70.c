@@ -22,6 +22,7 @@ typedef struct {
 
 extern TownState *D_80016000;
 
+/* Invoke both town callbacks with 1 and shift the position by (+32, -16). */
 void func_80017270(void)
 {
     D_80016000->callbacks->callback1(1);

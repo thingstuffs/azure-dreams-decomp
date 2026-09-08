@@ -51,24 +51,22 @@ typedef struct S_800C52D0_5 {
     u16 unk_1A;
 } S_800C52D0_5;   /* arg2 in func_800C52D0 */
 
-void func_800C52D0(S_800C52D0_0 *arg0, S_800C52D0_2 *arg1, S_800C52D0_5 *arg2) {
-    s32 var_a0;
-    S_800C52D0_4 *temp_a0;
-    S_800C52D0_3 *temp_a3;
-    S_800C52D0_1 *temp_v0;
+/* Computes an offset position and subtracts 0x20 from the output state. */
+void func_800C52D0(S_800C52D0_0 *object, S_800C52D0_2 *out_pos, S_800C52D0_5 *state) {
+    s32 z_product;
+    S_800C52D0_4 *offsets;
+    S_800C52D0_3 *base_pos;
+    S_800C52D0_1 *object_data;
 
-    temp_v0 = arg0->unk_9C;
-    temp_a3 = temp_v0->unk_08;
-    temp_a0 = temp_v0->unk_0C;
-    arg1->unk_04 = (s32) temp_a3->unk_04;
-    arg1->unk_00 = (s32) (temp_a3->unk_00 + (temp_a0->unk_1C * D_800D5138));
-    var_a0 = ((S_800C52D0_7 *)(((S_800C52D0_6 *)temp_a0)->unk_08))->unk_03 * temp_a0->unk_1E;
-    if (var_a0 < 0) {
-        var_a0 += 0xFFF;
+    object_data = object->unk_9C;
+    base_pos = object_data->unk_08;
+    offsets = object_data->unk_0C;
+    out_pos->unk_04 = (s32) base_pos->unk_04;
+    out_pos->unk_00 = (s32) (base_pos->unk_00 + (offsets->unk_1C * D_800D5138));
+    z_product = ((S_800C52D0_7 *)(((S_800C52D0_6 *)offsets)->unk_08))->unk_03 * offsets->unk_1E;
+    if (z_product < 0) {
+        z_product += 0xFFF;
     }
-    arg1->unk_08 = (s32) (temp_a3->unk_08 + ((var_a0 >> 0xC) * D_800D513C));
-    arg2->unk_1A = (u16) (arg2->unk_1A - 0x20);
+    out_pos->unk_08 = (s32) (base_pos->unk_08 + ((z_product >> 0xC) * D_800D513C));
+    state->unk_1A = (u16) (state->unk_1A - 0x20);
 }
-/* MECHANISM: The function remains a frameless leaf with all ABI arguments in caller-saved registers.
-   Declaring D_800D5138 const lets its lui/lw pair cross the first output store without a false alias.
-   The signed-byte multiply, negative rounding branch, and halfword tail preserve retail widths and CFG. */

@@ -68,91 +68,92 @@ typedef struct {
     s32 out24;
 } StackWork;
 
-void func_80170AD0(void *arg0, void *arg1, void *arg2)
+/* Update effect brightness, size and position, then decrement its lifetime. */
+void func_80170AD0(void *state, void *position, void *effect_arg)
 {
-    StackWork work;
-    void *coords;
+    StackWork coord_work;
+    void *effect_coords;
     void *effect;
-    s16 level;
-    s16 count;
-    s32 value;
-    register s32 product ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 first;
-    s32 second;
-    s32 amount;
-    void *other;
+    s16 ticks_left;
+    s16 next_ticks;
+    s32 brightness;
+    register s32 scaled_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 position_value;
+    s32 reference_value;
+    s32 effect_size;
+    void *reference_coords;
 
-    coords = arg1;
+    effect_coords = position;
 
-    level = ((S_80170AD0_0 *)arg0)->unk_96.s;
-    effect = arg2;
-    if (level < 0x15) {
-        value = (level << 7) / 20;
+    ticks_left = ((S_80170AD0_0 *)state)->unk_96.s;
+    effect = effect_arg;
+    if (ticks_left < 0x15) {
+        brightness = (ticks_left << 7) / 20;
         ((S_80170AD0_1 *)effect)->unk_0C = ((S_80170AD0_1 *)effect)->unk_0D =
-            ((S_80170AD0_1 *)effect)->unk_0E = value;
+            ((S_80170AD0_1 *)effect)->unk_0E = brightness;
     }
 
-    level = ((S_80170AD0_0 *)arg0)->unk_96.s;
-    if (level >= 0x2B) {
-        amount = ((S_80170AD0_1 *)effect)->unk_1E + 0x2BC;
+    ticks_left = ((S_80170AD0_0 *)state)->unk_96.s;
+    if (ticks_left >= 0x2B) {
+        effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0x2BC;
         goto set_amount;
     }
-    if (level >= 0x28) {
-        amount = ((S_80170AD0_1 *)effect)->unk_1E + 0x226;
+    if (ticks_left >= 0x28) {
+        effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0x226;
         goto set_amount;
     }
-    if (level >= 0x26) {
-        amount = ((S_80170AD0_1 *)effect)->unk_1E + 0x190;
+    if (ticks_left >= 0x26) {
+        effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0x190;
         goto set_amount;
     }
-    if (level >= 0x24) {
-        amount = ((S_80170AD0_1 *)effect)->unk_1E + 0xC8;
+    if (ticks_left >= 0x24) {
+        effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0xC8;
         goto set_amount;
     }
-    if (level >= 0x1A) {
-        amount = ((S_80170AD0_1 *)effect)->unk_1E + 0x64;
+    if (ticks_left >= 0x1A) {
+        effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0x64;
 set_amount:
-        ((S_80170AD0_1 *)effect)->unk_1E = amount;
-        ((S_80170AD0_1 *)effect)->unk_1C = amount;
+        ((S_80170AD0_1 *)effect)->unk_1E = effect_size;
+        ((S_80170AD0_1 *)effect)->unk_1C = effect_size;
     }
 
     {
-        void *stats;
+        void *effect_params;
 
-        stats = ((S_80170AD0_1 *)effect)->unk_08;
-        product = (((S_80170AD0_2 *)stats)->unk_0B + ((S_80170AD0_2 *)stats)->unk_03) *
+        effect_params = ((S_80170AD0_1 *)effect)->unk_08;
+        scaled_offset = (((S_80170AD0_2 *)effect_params)->unk_0B + ((S_80170AD0_2 *)effect_params)->unk_03) *
                   ((S_80170AD0_1 *)effect)->unk_1E;
     }
-    if (product < 0) {
-        product += 0xFFF;
+    if (scaled_offset < 0) {
+        scaled_offset += 0xFFF;
     }
-    product >>= 12;
-    product = -product;
-    ((S_80170AD0_1 *)effect)->unk_22 = product / 2;
+    scaled_offset >>= 12;
+    scaled_offset = -scaled_offset;
+    ((S_80170AD0_1 *)effect)->unk_22 = scaled_offset / 2;
 
-    if (((S_80170AD0_0 *)arg0)->unk_A2 == 0) {
-        work.xyz[0] = ((S_80170AD0_3 *)coords)->unk_02;
-        work.xyz[1] = ((S_80170AD0_3 *)coords)->unk_06;
-        work.xyz[2] = ((S_80170AD0_3 *)coords)->unk_0A;
-        first = func_80065420(work.xyz, &work.out18, &work.out20, &work.out24);
+    if (((S_80170AD0_0 *)state)->unk_A2 == 0) {
+        coord_work.xyz[0] = ((S_80170AD0_3 *)effect_coords)->unk_02;
+        coord_work.xyz[1] = ((S_80170AD0_3 *)effect_coords)->unk_06;
+        coord_work.xyz[2] = ((S_80170AD0_3 *)effect_coords)->unk_0A;
+        position_value = func_80065420(coord_work.xyz, &coord_work.out18, &coord_work.out20, &coord_work.out24);
 
-        other = ((S_80170AD0_0 *)arg0)->unk_A8;
-        work.xyz[0] = ((S_80170AD0_4 *)other)->unk_02;
-        work.xyz[1] = ((S_80170AD0_4 *)other)->unk_06;
-        work.xyz[2] = ((S_80170AD0_4 *)other)->unk_0A;
-        second = func_80065420(work.xyz, &work.out18, &work.out20, &work.out24);
-        ((S_80170AD0_1 *)effect)->unk_06 = first - second -
-            (D_800DCECC[((D_80083228 + ((S_80170AD0_0 *)arg0)->unk_94 + 0x100) >> 9) & 7] * 2);
+        reference_coords = ((S_80170AD0_0 *)state)->unk_A8;
+        coord_work.xyz[0] = ((S_80170AD0_4 *)reference_coords)->unk_02;
+        coord_work.xyz[1] = ((S_80170AD0_4 *)reference_coords)->unk_06;
+        coord_work.xyz[2] = ((S_80170AD0_4 *)reference_coords)->unk_0A;
+        reference_value = func_80065420(coord_work.xyz, &coord_work.out18, &coord_work.out20, &coord_work.out24);
+        ((S_80170AD0_1 *)effect)->unk_06 = position_value - reference_value -
+            (D_800DCECC[((D_80083228 + ((S_80170AD0_0 *)state)->unk_94 + 0x100) >> 9) & 7] * 2);
         goto position_done;
     }
 
     ((S_80170AD0_1 *)effect)->unk_06 = 4;
 position_done:
     func_800478B8(effect);
-    count = ((S_80170AD0_0 *)arg0)->unk_96.u - 1;
-    ((S_80170AD0_0 *)arg0)->unk_96.u = count;
-    if ((count << 16) <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    next_ticks = ((S_80170AD0_0 *)state)->unk_96.u - 1;
+    ((S_80170AD0_0 *)state)->unk_96.u = next_ticks;
+    if ((next_ticks << 16) <= 0) {
+        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

@@ -18,15 +18,16 @@ M2C_UNK func_80035090();                      /* extern */
 M2C_UNK func_8003FFF0();                      /* extern */
 M2C_UNK func_80044A50();                      /* extern */
 
-void func_80035820(void *arg0) {
-    void *temp_s0;
+/* Run handlers for a type-0x101 record and its enclosing object. */
+void func_80035820(void *record) {
+    void *object_base;
 
-    if (((S_80035820_0 *)arg0)->unk_50 == 0x101) {
-        func_80034EB4(((S_80035820_0 *)arg0)->unk_74);
-        func_80033C84(((S_80035820_0 *)arg0)->unk_00);
-        func_80035090(arg0 + 0x54);
-        temp_s0 = arg0 - 0x20;
-        func_80044A50(temp_s0);
-        func_8003FFF0(temp_s0);
+    if (((S_80035820_0 *)record)->unk_50 == 0x101) {
+        func_80034EB4(((S_80035820_0 *)record)->unk_74);
+        func_80033C84(((S_80035820_0 *)record)->unk_00);
+        func_80035090(record + 0x54);
+        object_base = record - 0x20;
+        func_80044A50(object_base);
+        func_8003FFF0(object_base);
     }
 }

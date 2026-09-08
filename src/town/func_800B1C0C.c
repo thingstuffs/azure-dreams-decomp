@@ -80,22 +80,19 @@ typedef struct S_800AF36C_15 {
 
 
 
-void func_800AF36C(Rec_func_800AF254_arg1 *arg0) {
+/* Set paired coordinates from the object's last decimal digit. */
+void func_800AF36C(Rec_func_800AF254_arg1 *object) {
     s32 digit;
     s32 row;
-    S_800AF36C_2 *temp_v1;
-    S_800AF36C_3 *temp_v1_2;
+    S_800AF36C_2 *x_parts;
+    S_800AF36C_3 *y_parts;
 
-    digit = ((S_800AF36C_4 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_00))->unk_18 % 10;
+    digit = ((S_800AF36C_4 *)(((Rec_func_800AF254_arg1 *)object)->unk_00))->unk_18 % 10;
     row = digit / 5;
-    ((S_800AF36C_15 *)(((S_800AF36C_10 *)(((S_800AF36C_5 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_A8.as_pv))->unk_10))->unk_04))->unk_08 = (s16) ((row << 7) - 0x38);
-    ((S_800AF36C_15 *)(((S_800AF36C_10 *)(((S_800AF36C_5 *)(((Rec_func_800AF254_arg1 *)arg0)->unk_A8.as_pv))->unk_10))->unk_04))->unk_0A = (s16) (((digit - (row * 5)) << 4) + 8);
-    temp_v1 = arg0->unk_A8.as_pv;
-    ((S_800AF36C_11 *)(((S_800AF36C_6 *)(temp_v1->unk_14))->unk_04))->unk_08 = (s16) (((S_800AF36C_12 *)(((S_800AF36C_7 *)(temp_v1->unk_10))->unk_04))->unk_08 + 0x38);
-    temp_v1_2 = arg0->unk_A8.as_pv;
-    ((S_800AF36C_13 *)(((S_800AF36C_8 *)(temp_v1_2->unk_14))->unk_04))->unk_0A = (s16) (((S_800AF36C_14 *)(((S_800AF36C_9 *)(temp_v1_2->unk_10))->unk_04))->unk_0A - 9);
+    ((S_800AF36C_15 *)(((S_800AF36C_10 *)(((S_800AF36C_5 *)(((Rec_func_800AF254_arg1 *)object)->unk_A8.as_pv))->unk_10))->unk_04))->unk_08 = (s16) ((row << 7) - 0x38);
+    ((S_800AF36C_15 *)(((S_800AF36C_10 *)(((S_800AF36C_5 *)(((Rec_func_800AF254_arg1 *)object)->unk_A8.as_pv))->unk_10))->unk_04))->unk_0A = (s16) (((digit - (row * 5)) << 4) + 8);
+    x_parts = object->unk_A8.as_pv;
+    ((S_800AF36C_11 *)(((S_800AF36C_6 *)(x_parts->unk_14))->unk_04))->unk_08 = (s16) (((S_800AF36C_12 *)(((S_800AF36C_7 *)(x_parts->unk_10))->unk_04))->unk_08 + 0x38);
+    y_parts = object->unk_A8.as_pv;
+    ((S_800AF36C_13 *)(((S_800AF36C_8 *)(y_parts->unk_14))->unk_04))->unk_0A = (s16) (((S_800AF36C_14 *)(((S_800AF36C_9 *)(y_parts->unk_10))->unk_04))->unk_0A - 9);
 }
-
-/* MECHANISM: Frameless leaf with no saved registers or stack locals.
-   Cache the decimal digit and row as sibling scalars so the two coordinate stores
-   share retail's division results instead of recomputing the modulo chain. */

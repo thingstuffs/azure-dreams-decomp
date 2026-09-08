@@ -38,51 +38,52 @@ typedef struct S_802EE3A0_1 {
     s32 unk_00;
 } S_802EE3A0_1;   /* temp_v1 in func_802EE3A0 */
 
-void func_802EE3A0(s32 arg0) {
-    s32 base;
-    s32 temp_ret;
-    Local64 sp10;
-    Local16 sp50;
-    Local64 *sp10p;
-    Local16 *sp50p;
-    s32 var_a2;
-    s32 var_v1;
-    s32 data_offset;
-    S_802EE3A0_1 *temp_v1;
-    s32 edge;
-    s32 gate;
+/* Builds count-dependent text and sets its display position. */
+void func_802EE3A0(s32 panel_addr) {
+    s32 panel_base;
+    s32 count;
+    Local64 count_text;
+    Local16 number_text;
+    Local64 *count_text_ptr;
+    Local16 *number_text_ptr;
+    s32 line_index;
+    s32 line_offset;
+    s32 text_offset;
+    S_802EE3A0_1 *text_entry;
+    s32 prefix_word;
+    s32 layout_gate;
 
-    base = arg0;
-    temp_ret = func_80402268();
-    if (temp_ret >= 3) goto block_3;
-    func_80051B50(base + 0x80, D_804006C4, 1);
-    func_80405454(base + 0x188, D_804006EC);
-    goto fake_tail;
-block_3:
-    memcpy(&sp10, &D_80400714, 5);
-    sp50p = &sp50;
-    func_8003830C(temp_ret / 3, sp50p);
-    sp10p = &sp10;
-    func_8007BF50(sp10p, sp50p);
-    func_8007BF50(sp10p, D_8040071C);
-    func_80051B50(base + 0x80, sp10p, 1);
-block_common:
-    var_a2 = 0;
-    while (temp_ret < 3 ? var_a2 < 2 : var_a2 < 1) {
-        var_v1 = var_a2 * 4;
-        temp_v1 = ((S_802EE3A0_0 *)((base + var_v1)))->unk_B18;
-        data_offset = (var_a2 * 0x108) + 0x80;
-        temp_v1->unk_00 = (s32) (base + data_offset);
-        ((S_802EE3A0_3 *)(((S_802EE3A0_2 *)temp_v1)->unk_04))->unk_08 = 0xA9;
-        ((S_802EE3A0_3 *)(((S_802EE3A0_2 *)temp_v1)->unk_04))->unk_0A = (s16) ((var_a2 * 0x10) + 0x110);
-        var_a2 += 1;
+    panel_base = panel_addr;
+    count = func_80402268();
+    if (count >= 3) goto build_count_text;
+    func_80051B50(panel_base + 0x80, D_804006C4, 1);
+    func_80405454(panel_base + 0x188, D_804006EC);
+    goto check_layout;
+build_count_text:
+    memcpy(&count_text, &D_80400714, 5);
+    number_text_ptr = &number_text;
+    func_8003830C(count / 3, number_text_ptr);
+    count_text_ptr = &count_text;
+    func_8007BF50(count_text_ptr, number_text_ptr);
+    func_8007BF50(count_text_ptr, D_8040071C);
+    func_80051B50(panel_base + 0x80, count_text_ptr, 1);
+position_text:
+    line_index = 0;
+    while (count < 3 ? line_index < 2 : line_index < 1) {
+        line_offset = line_index * 4;
+        text_entry = ((S_802EE3A0_0 *)((panel_base + line_offset)))->unk_B18;
+        text_offset = (line_index * 0x108) + 0x80;
+        text_entry->unk_00 = (s32) (panel_base + text_offset);
+        ((S_802EE3A0_3 *)(((S_802EE3A0_2 *)text_entry)->unk_04))->unk_08 = 0xA9;
+        ((S_802EE3A0_3 *)(((S_802EE3A0_2 *)text_entry)->unk_04))->unk_0A = (s16) ((line_index * 0x10) + 0x110);
+        line_index += 1;
     }
     return;
-fake_tail:
-    edge = D_80400714;
-    if (edge != 0) gate = 0;
-    else if (edge < 0) gate = 0;
-    else gate = 0;
-    if (gate != 0) goto block_common;
+check_layout:
+    prefix_word = D_80400714;
+    if (prefix_word != 0) layout_gate = 0;
+    else if (prefix_word < 0) layout_gate = 0;
+    else layout_gate = 0;
+    if (layout_gate != 0) goto position_text;
     return;
 }

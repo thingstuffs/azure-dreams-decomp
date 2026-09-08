@@ -5,33 +5,34 @@
 extern void func_80048660(u8 *, s32);
 extern void func_80048870(u8 *, s32, s32);
 
-void func_800488F0(u8 *arg0, s32 *arg1, s32 arg2)
+/* Apply selected operations to eligible records in a terminated list. */
+void func_800488F0(u8 *records, s32 *shared_value, s32 operation_flags)
 {
-    u8 *cur;
-    s32 *arg1p;
-    s32 *back;
-    s32 flag2;
-    s32 flag1;
+    u8 *record;
+    s32 *value_ptr;
+    s32 *prior_value;
+    s32 apply_value;
+    s32 apply_pair;
 
-    cur = arg0;
-    arg1p = arg1;
-    back = (s32 *)cur;
-    flag2 = arg2 & 2;
-    flag1 = arg2 & 1;
+    record = records;
+    value_ptr = shared_value;
+    prior_value = (s32 *)record;
+    apply_value = operation_flags & 2;
+    apply_pair = operation_flags & 1;
     while (1) {
-        if ((*cur & 0x60) == 0) {
-            back = (s32 *)((s8 *)back - 4);
-            if (flag2 != 0) {
-                func_80048660(cur, *arg1p);
+        if ((*record & 0x60) == 0) {
+            prior_value = (s32 *)((s8 *)prior_value - 4);
+            if (apply_value != 0) {
+                func_80048660(record, *value_ptr);
             }
-            if (flag1 != 0) {
-                func_80048870(cur, *arg1p, *back);
+            if (apply_pair != 0) {
+                func_80048870(record, *value_ptr, *prior_value);
             }
         }
-        if ((*cur & 0x80) != 0) {
-            cur += 0xC;
+        if ((*record & 0x80) != 0) {
+            record += 0xC;
             break;
         }
-        cur += 0xC;
+        record += 0xC;
     }
 }

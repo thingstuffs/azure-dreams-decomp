@@ -7,7 +7,7 @@ typedef struct S_8009C46C_0 {
 } S_8009C46C_0;   /* arg0 in func_8009C46C */
 
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-void func_8009C46C(S_8009C46C_0 *arg0) {
-    arg0->unk_50();
+/* Invoke the object's callback. */
+void func_8009C46C(S_8009C46C_0 *object) {
+    object->unk_50();
 }

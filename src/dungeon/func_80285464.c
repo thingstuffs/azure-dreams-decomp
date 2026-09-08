@@ -102,156 +102,157 @@ extern Ent8 D_800E3CD8[];
 extern s32 D_800E3D6C;
 extern u8 D_800EA000[];
 
-void func_80018464(s16 arg0)
+/* Loads dungeon layout data into rooms, map cells, and placed records. */
+void func_80018464(s16 layout_number)
 {
     DungeonCfg *cfg;
     MapCell *map;
-    RecB *rb;
-    u8 *p;
-    u16 *q;
-    s32 i;
-    s16 idx;
-    s32 c;
-    register s32 tbl ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 v;
-    u16 mv;
-    u16 sy;
+    RecB *placed_record;
+    u8 *data;
+    u16 *room_header;
+    s32 entry_index;
+    s16 layout_index;
+    s32 x_or_marker;
+    register s32 layout_id ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 map_value;
+    u16 tile_value;
+    u16 shift_y;
 
-    idx = arg0 - 1;
-    tbl = D_8001F604[idx];
-    p = D_8008148C;
-    D_80081480 = p;
+    layout_index = layout_number - 1;
+    layout_id = D_8001F604[layout_index];
+    data = D_8008148C;
+    D_80081480 = data;
     cfg = &D_8008333C;
     map = cfg->cells;
-    func_8003E4FC(6, tbl, 0);
+    func_8003E4FC(6, layout_id, 0);
     func_8003F320();
-    i = 0;
+    entry_index = 0;
 
-    q = (u16 *)(p + 4);
-    cfg->shift_x = ((u16 *)p)[0];
+    room_header = (u16 *)(data + 4);
+    cfg->shift_x = ((u16 *)data)[0];
     cfg->mask_x = (1 << cfg->shift_x) - 1;
-    sy = ((u16 *)p)[1];
+    shift_y = ((u16 *)data)[1];
     cfg->span_x = 64 << cfg->shift_x;
-    cfg->shift_y = sy;
+    cfg->shift_y = shift_y;
     cfg->mask_y = (1 << cfg->shift_y) - 1;
     cfg->span_y = 64 << cfg->shift_y;
 
-    while (q[2] != 0) {
-        D_800E2970[i].active = 1;
-        D_800E2970[i].x = q[0];
-        D_800E2970[i].y = q[1];
-        D_800E2970[i].w = q[2];
-        D_800E2970[i].h = q[3];
-        D_800E2970[i].count = 0;
-        p = (u8 *)(q + 4);
-        ASM_KEEP_NV(q);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        while (*p != 0) {
-            D_800E2970[i].tiles = &D_800E2C40[i << 6];
-            ROOM_CELL(i, D_800E2970[i].count).a = *p++;
-            ROOM_CELL(i, D_800E2970[i].count).b = *p++;
-            ROOM_CELL(i, D_800E2970[i].count).c = *p;
-            p += 2;
-            D_800E2970[i].count++;
+    while (room_header[2] != 0) {
+        D_800E2970[entry_index].active = 1;
+        D_800E2970[entry_index].x = room_header[0];
+        D_800E2970[entry_index].y = room_header[1];
+        D_800E2970[entry_index].w = room_header[2];
+        D_800E2970[entry_index].h = room_header[3];
+        D_800E2970[entry_index].count = 0;
+        data = (u8 *)(room_header + 4);
+        ASM_KEEP_NV(room_header);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        while (*data != 0) {
+            D_800E2970[entry_index].tiles = &D_800E2C40[entry_index << 6];
+            ROOM_CELL(entry_index, D_800E2970[entry_index].count).a = *data++;
+            ROOM_CELL(entry_index, D_800E2970[entry_index].count).b = *data++;
+            ROOM_CELL(entry_index, D_800E2970[entry_index].count).c = *data;
+            data += 2;
+            D_800E2970[entry_index].count++;
         }
-        i++;
-        p += 2;
-        q = (u16 *)p;
+        entry_index++;
+        data += 2;
+        room_header = (u16 *)data;
     }
-    p = (u8 *)(q + 4);
-    ASM_KEEP_NV(p);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    D_8008146E = i;
-    i = 0;
-    while (*p != 0) {
-        D_800E3CD8[i].kind = p[2] + 2;
-        D_800E3CD8[i].x = p[0];
-        D_800E3CD8[i].y = p[1];
-        mv = map[p[0] + (p[1] << cfg->shift_x)].value - 32;
-        map[p[0] + (p[1] << cfg->shift_x)].value = mv;
-        D_800E3CD8[i].value = mv;
-        if (D_800E3CD8[i].kind == 2) {
-            map[p[0] + (p[1] << cfg->shift_x)].kind = 1;
+    data = (u8 *)(room_header + 4);
+    ASM_KEEP_NV(data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    D_8008146E = entry_index;
+    entry_index = 0;
+    while (*data != 0) {
+        D_800E3CD8[entry_index].kind = data[2] + 2;
+        D_800E3CD8[entry_index].x = data[0];
+        D_800E3CD8[entry_index].y = data[1];
+        tile_value = map[data[0] + (data[1] << cfg->shift_x)].value - 32;
+        map[data[0] + (data[1] << cfg->shift_x)].value = tile_value;
+        D_800E3CD8[entry_index].value = tile_value;
+        if (D_800E3CD8[entry_index].kind == 2) {
+            map[data[0] + (data[1] << cfg->shift_x)].kind = 1;
         }
-        func_8009A21C(p[0], p[1], 32);
-        i++;
-        p += 4;
+        func_8009A21C(data[0], data[1], 32);
+        entry_index++;
+        data += 4;
     }
-    if (func_800199C8(i) != 0) {
-        i++;
+    if (func_800199C8(entry_index) != 0) {
+        entry_index++;
     }
     D_8001F586 = 1;
-    i++;
-    while (i < 4) {
-        D_800E3CD8[i].kind = 0;
-        i++;
+    entry_index++;
+    while (entry_index < 4) {
+        D_800E3CD8[entry_index].kind = 0;
+        entry_index++;
     }
 
-    p += 2;
-    i = 0;
-    while ((c = *p) != 0) {
-        if (c == 99) {
+    data += 2;
+    entry_index = 0;
+    while ((x_or_marker = *data) != 0) {
+        if (x_or_marker == 99) {
             D_800E3D6C |= 2;
-            p += 6;
+            data += 6;
             break;
         }
-        p++;
-        D_800E36C8[i].f0 = c;
-        D_800E36C8[i].f1 = *p++;
-        D_800E3548[i].f0 = *p++;
-        D_800E3548[i].f1 = *p++;
-        D_800E3548[i].f3 = *p++;
-        D_800E3548[i].f2 = *p++;
-        D_800E36C8[i].f8 = func_800A7A38(&D_800E3548[i]);
-        i++;
+        data++;
+        D_800E36C8[entry_index].f0 = x_or_marker;
+        D_800E36C8[entry_index].f1 = *data++;
+        D_800E3548[entry_index].f0 = *data++;
+        D_800E3548[entry_index].f1 = *data++;
+        D_800E3548[entry_index].f3 = *data++;
+        D_800E3548[entry_index].f2 = *data++;
+        D_800E36C8[entry_index].f8 = func_800A7A38(&D_800E3548[entry_index]);
+        entry_index++;
     }
-    while (i < 64) {
-        D_800E3548[i].f1 = 0;
-        D_800E3548[i].f0 = 0;
-        i++;
+    while (entry_index < 64) {
+        D_800E3548[entry_index].f1 = 0;
+        D_800E3548[entry_index].f0 = 0;
+        entry_index++;
     }
 
-    p += 2;
-    i = 0;
-    while ((c = *p) != 0) {
-        if (c == 99) {
+    data += 2;
+    entry_index = 0;
+    while ((x_or_marker = *data) != 0) {
+        if (x_or_marker == 99) {
             D_800E3D6C |= 8;
-            p += 6;
+            data += 6;
             break;
         }
-        p++;
-        D_800E39C8[i].f6 = c;
-        D_800E39C8[i].f7 = *p++;
-        D_800E3648[i].f0 = *p++;
-        D_800E3648[i].f1 = *p++;
-        D_800E3648[i].f3 = *p++;
-        D_800E3648[i].f2 = *p++;
-        D_800E39C8[i].f8 = D_800DF258[D_800E3648[i].f0];
-        func_8009A21C(D_800E39C8[i].f6, D_800E39C8[i].f7, 32);
-        i++;
+        data++;
+        D_800E39C8[entry_index].f6 = x_or_marker;
+        D_800E39C8[entry_index].f7 = *data++;
+        D_800E3648[entry_index].f0 = *data++;
+        D_800E3648[entry_index].f1 = *data++;
+        D_800E3648[entry_index].f3 = *data++;
+        D_800E3648[entry_index].f2 = *data++;
+        D_800E39C8[entry_index].f8 = D_800DF258[D_800E3648[entry_index].f0];
+        func_8009A21C(D_800E39C8[entry_index].f6, D_800E39C8[entry_index].f7, 32);
+        entry_index++;
     }
 
-    p += 2;
-    while (*p != 0) {
+    data += 2;
+    while (*data != 0) {
         D_800E296C |= 0x10000000;
-        D_800E39C8[i].f6 = *p++;
-        D_800E39C8[i].f7 = *p++;
-        D_800E3648[i].f0 = *p++;
-        D_800E3648[i].f1 = *p++;
-        D_800E3648[i].f3 = *p++;
-        D_800E3648[i].f2 = *p++;
-        i++;
+        D_800E39C8[entry_index].f6 = *data++;
+        D_800E39C8[entry_index].f7 = *data++;
+        D_800E3648[entry_index].f0 = *data++;
+        D_800E3648[entry_index].f1 = *data++;
+        D_800E3648[entry_index].f3 = *data++;
+        D_800E3648[entry_index].f2 = *data++;
+        entry_index++;
     }
-    p += 2;
-    while (i < 32) {
-        D_800E3648[i].f1 = 0;
-        D_800E3648[i].f0 = 0;
-        i++;
+    data += 2;
+    while (entry_index < 32) {
+        D_800E3648[entry_index].f1 = 0;
+        D_800E3648[entry_index].f0 = 0;
+        entry_index++;
     }
 
-    func_8004068C(p, D_800EA000);
-    for (i = 0; D_800E3548[i].f1 != 0; i++) {
-        rb = &D_800E36C8[i];
-        v = func_800BCA68(rb->f0 << 6, rb->f1 << 6);
-        rb->f4 = v;
-        *(s16 *)&rb->f2 = v;
+    func_8004068C(data, D_800EA000);
+    for (entry_index = 0; D_800E3548[entry_index].f1 != 0; entry_index++) {
+        placed_record = &D_800E36C8[entry_index];
+        map_value = func_800BCA68(placed_record->f0 << 6, placed_record->f1 << 6);
+        placed_record->f4 = map_value;
+        *(s16 *)&placed_record->f2 = map_value;
     }
 }

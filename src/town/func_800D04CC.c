@@ -11,11 +11,12 @@ typedef struct S_800CDC2C_0 {
 } S_800CDC2C_0;   /* arg0 in func_800CDC2C */
 
 
-void func_800CDC2C(S_800CDC2C_0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
-    arg0->unk_72 = (u16) (arg0->unk_72 + 0x400);
-    arg1->unk_08.at00_s32.v = (s32) (arg1->unk_08.at00_s32.v + arg1->unk_14.as_s32);
-    func_80095388(arg1);
-    if (arg1->unk_14.as_s32 >= 0) {
-        func_800CE04C(arg0, arg1, arg2);
+/* Advance the object and motion state, then run the follow-up handler for a nonnegative step. */
+void func_800CDC2C(S_800CDC2C_0 *object, Rec_D_800E3D7C *motion, M2C_UNK context) {
+    object->unk_72 = (u16) (object->unk_72 + 0x400);
+    motion->unk_08.at00_s32.v = (s32) (motion->unk_08.at00_s32.v + motion->unk_14.as_s32);
+    func_80095388(motion);
+    if (motion->unk_14.as_s32 >= 0) {
+        func_800CE04C(object, motion, context);
     }
 }

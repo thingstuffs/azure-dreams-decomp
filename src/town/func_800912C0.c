@@ -68,35 +68,37 @@ extern s32 D_800FE484;
 
 extern s32 func_8008CE08(Scratch_8008EA20 *scratch);
 
-s32 func_8008EA20(s32 arg0, s32 arg1, s32 arg2)
+/* Returns the highest valid cell height within the scan limit, or zero if none. */
+s32 func_8008EA20(s32 world_x, s32 world_z, s32 world_y)
 {
     Scratch_8008EA20 *scratch = (Scratch_8008EA20 *)0x1F800000;
-    s16 scan_x = arg0;
-    s16 scan_z = arg1;
-    s16 saved_y = arg2;
+    s16 scan_x = world_x;
+    s16 scan_z = world_z;
+    s16 query_y = world_y;
     s32 z_base;
+    s32 tile_mask;
     Global_8008EA20 *global = &D_80083160;
     Map_8008EA20 *map = &global->map;
     u16 *tiles;
     Vec_8008EA20 *vertices;
 
-    arg2 = -0x40;
-    z_base = (s32)((u32)(arg1 & arg2) << 16) >> 16;
-    scratch->limit = ((s16)arg1 - z_base) + 0x14;
+    tile_mask = -0x40;
+    z_base = (s32)((u32)(world_z & tile_mask) << 16) >> 16;
+    scratch->limit = ((s16)world_z - z_base) + 0x14;
     scratch->best = 0;
     scratch->z_base = z_base;
-    scratch->x = arg0 & 0x3F;
-    scratch->y = saved_y;
+    scratch->x = world_x & 0x3F;
+    scratch->y = query_y;
     scratch->heights = map->heights;
-    scratch->z = arg1 & 0x3F;
-    scratch->x_origin = arg0 & 0x3F;
+    scratch->z = world_z & 0x3F;
+    scratch->x_origin = world_x & 0x3F;
     tiles = global->map.tiles;
     vertices = map->vertices;
 
-    if ((arg0 & 0x3F) >= 0x20) {
+    if ((world_x & 0x3F) >= 0x20) {
         scratch->x_step = 0x40;
     } else {
-        scratch->x_step = arg2;
+        scratch->x_step = tile_mask;
     }
 
     if (scratch->z < 0x20) {
@@ -151,54 +153,48 @@ s32 func_8008EA20(s32 arg0, s32 arg1, s32 arg2)
                 (s16)(map->z_mask & (grid_z >> 6)) << map->shift;
 
             if (tiles[(s16)scratch->tile] != 0) {
-                u16 tile;
+                u16 tile_entry;
                 Cell_8008EA20 *cell;
 
                 scratch->x =
                     (u16)scratch->x_origin - (u16)scratch->x_offset;
-                tile = tiles[(s16)scratch->tile];
-                cell = map->cells[tile & 0x3FFF];
+                tile_entry = tiles[(s16)scratch->tile];
+                cell = map->cells[tile_entry & 0x3FFF];
 
                 for (;;) {
                     if (scratch->heights[cell->height_index].y > 0 &&
                         !(((u8 *)&cell->flags)[1] & 1)) {
-                        s32 value;
+                        s32 cell_height;
 
                         scratch->quad[0] =
                             vertices[cell->v0].x - (u16)scratch->x;
                         scratch->quad[1] =
                             vertices[cell->v0].z - (u16)scratch->y;
                         scratch->quad[2] =
-                            vertices[cell->v1].x -
-                            (u16)scratch->x;
+                            vertices[cell->v1].x - (u16)scratch->x;
                         scratch->quad[3] =
-                            vertices[cell->v1].z -
-                            (u16)scratch->y;
+                            vertices[cell->v1].z - (u16)scratch->y;
                         scratch->quad[4] =
-                            vertices[cell->v2].x -
-                            (u16)scratch->x;
+                            vertices[cell->v2].x - (u16)scratch->x;
                         scratch->quad[5] =
-                            vertices[cell->v2].z -
-                            (u16)scratch->y;
+                            vertices[cell->v2].z - (u16)scratch->y;
                         scratch->quad[6] =
-                            vertices[cell->v3].x -
-                            (u16)scratch->x;
+                            vertices[cell->v3].x - (u16)scratch->x;
                         scratch->quad[7] =
-                            vertices[cell->v3].z -
-                            (u16)scratch->y;
+                            vertices[cell->v3].z - (u16)scratch->y;
 
                         if (func_8008CE08(scratch) != 0) {
-                            s16 scratch_x = scratch->x;
+                            s16 local_x = scratch->x;
 
-                            value =
+                            cell_height =
                                 (scratch->heights[cell->height_index].x *
-                                     (vertices[cell->v0].x - scratch_x) +
+                                     (vertices[cell->v0].x - local_x) +
                                  scratch->heights[cell->height_index].z *
                                      (vertices[cell->v0].z - (s16)scratch->y) +
                                  scratch->heights[cell->height_index].y *
                                      vertices[cell->v0].y) /
                                 scratch->heights[cell->height_index].y;
-                            scratch->z = value;
+                            scratch->z = cell_height;
                             scratch->z += (u16)scratch->z_offset;
                             if (scratch->limit >= scratch->z &&
                                 scratch->best < scratch->z) {

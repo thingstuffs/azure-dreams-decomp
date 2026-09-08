@@ -51,38 +51,39 @@ extern M2C_UNK D_80045340;
 extern u16 D_80082E94;
 extern M2C_UNK D_80093A94;
 
-void func_80093C70(s32 arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2) {
-    S_80093C70_3 *temp_s0;
-    void *temp_v0;
-    S_80093C70_1 *temp_v1;
-    S_80093C70_5 *temp_v1_2;
-    u16 temp_flags;
+/* Creates a sprite effect at the supplied position and links it to its owner. */
+void func_80093C70(s32 priority, Rec_D_800E3D7C *source_pos, Rec_D_80082E80 *owner) {
+    S_80093C70_3 *sprite;
+    void *effect;
+    S_80093C70_1 *position;
+    S_80093C70_5 *effect_state;
+    u16 flags;
 
-    temp_v0 = func_8003FD64(0x310, arg0 - 0x20);
-    if (temp_v0 != NULL) {
-        temp_v1 = ((S_80093C70_0 *)temp_v0)->unk_08;
-        ((S_80093C70_0 *)temp_v0)->unk_10 = &D_80093A94;
-        temp_v1->unk_02 = (u16) arg1->unk_00.at02_u16.v;
-        temp_v1->unk_06 = (u16) arg1->unk_04.at02_u16.v;
-        temp_v1->unk_0A = (u16) arg1->unk_08.at02_u16.v;
-        temp_s0 = ((S_80093C70_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_28 = (s32) arg2->unk_28.at00_s32.v;
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        temp_flags = temp_s0->unk_14.s;
-        temp_s0->unk_06 = 4;
-        temp_s0->unk_14.u = (u16) (temp_flags | 0x200);
+    effect = func_8003FD64(0x310, priority - 0x20);
+    if (effect != NULL) {
+        position = ((S_80093C70_0 *)effect)->unk_08;
+        ((S_80093C70_0 *)effect)->unk_10 = &D_80093A94;
+        position->unk_02 = (u16) source_pos->unk_00.at02_u16.v;
+        position->unk_06 = (u16) source_pos->unk_04.at02_u16.v;
+        position->unk_0A = (u16) source_pos->unk_08.at02_u16.v;
+        sprite = ((S_80093C70_0 *)effect)->unk_0C;
+        sprite->unk_28 = (s32) owner->unk_28.at00_s32.v;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        flags = sprite->unk_14.s;
+        sprite->unk_06 = 4;
+        sprite->unk_14.u = (u16) (flags | 0x200);
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (D_80082E94 & 1) {
-            temp_s0->unk_14.u = (u16) (temp_s0->unk_14.u | 1);
+            sprite->unk_14.u = (u16) (sprite->unk_14.u | 1);
         }
-        func_80048A44(temp_s0, 0xCE, 0, 3);
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v1_2 = temp_v0 + 0x20;
-        ((S_80093C70_0 *)temp_v0)->unk_20 = arg2;
-        temp_v1_2->unk_06 = 0x10;
-        temp_s0->unk_0C = 0x2C808080;
-        temp_v1_2->unk_08 = 1;
+        func_80048A44(sprite, 0xCE, 0, 3);
+        func_8004491C(effect, &D_80045340);
+        effect_state = effect + 0x20;
+        ((S_80093C70_0 *)effect)->unk_20 = owner;
+        effect_state->unk_06 = 0x10;
+        sprite->unk_0C = 0x2C808080;
+        effect_state->unk_08 = 1;
     }
 }
 /* MECHANISM: The natural three-pointer lifetimes reproduce retail's 0x20 frame

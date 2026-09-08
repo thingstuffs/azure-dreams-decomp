@@ -64,181 +64,182 @@ typedef struct S_818C2FAC_2 {
     s16 unk_1E;
 } S_818C2FAC_2;   /* (void *)temp in func_818C2FAC */
 
-s32 func_818C2FAC(void *arg0, void *arg1, s32 arg2)
+/* Creates an effect with a selected appearance, random rotation, and a directional offset. */
+s32 func_818C2FAC(void *owner, void *source_position, s32 direction)
 {
-    s32 angle;
-    s16 kind;
-    s32 biased;
-    s32 random;
-    s32 reduced;
-    s32 h1;
-    s32 h2;
-    s32 delta;
-    s32 newv;
-    u16 flags;
-    u16 mode;
-    s64_local pair01;
-    product_pair pair;
+    s32 variant_seed;
+    s16 variant;
+    s32 biased_seed;
+    s32 random_value;
+    s32 biased_random;
+    s32 x_factor;
+    s32 y_factor;
+    s32 y_offset;
+    s32 new_y;
+    u16 render_flags;
+    u16 render_mode;
+    s64_local position_xy;
+    product_pair product_bits;
     s32 quotient;
-    s32 copy2;
-    s32 copy3;
-    s32 copy4;
-    s32 copy5;
-    uptr input = (uptr)arg0;
-    uptr source = (uptr)arg1;
-    s32 a0i;
-    register s32 coord ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    register uptr obj ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register uptr temp ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 pa0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    register u32 pg0 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 pa1;
-    register u32 pg1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 prod;
-    s32 magic;
-    S_818C2FAC_1 *work;
+    s32 position_z;
+    s32 position_word_3;
+    s32 position_word_4;
+    s32 position_word_5;
+    uptr data_addr = (uptr)owner;
+    uptr position_addr = (uptr)source_position;
+    s32 object_type;
+    register s32 offset_angle ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register uptr effect ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register uptr render_or_radius ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 render_arg_low ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    register u32 page_base_low ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 render_arg_high;
+    register u32 page_base_high ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 scaled_radius;
+    s32 divisor_reciprocal;
+    S_818C2FAC_1 *effect_state;
 
-    a0i = 0x212;
-    ASM_KEEP_NV(a0i);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    coord = arg2;
-    obj = (uptr)func_8003FC64(a0i);
-    ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (obj != NULL) {
+    object_type = 0x212;
+    ASM_KEEP_NV(object_type);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    offset_angle = direction;
+    effect = (uptr)func_8003FC64(object_type);
+    ASM_KEEP(position_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    if (effect != NULL) {
 
-    ((S_818C2FAC_0 *)((void *)obj))->unk_10 = D_80024710;
-    ((S_818C2FAC_0 *)((void *)obj))->unk_20 = (*(s32 *)((u8 *)((void *)input) + 0));
-    work = (u8 *)obj + 0x20;
-    work->unk_04 = 0;
-    work->unk_06 = 0;
+        ((S_818C2FAC_0 *)((void *)effect))->unk_10 = D_80024710;
+        ((S_818C2FAC_0 *)((void *)effect))->unk_20 = (*(s32 *)((u8 *)((void *)data_addr) + 0));
+        effect_state = (u8 *)effect + 0x20;
+        effect_state->unk_04 = 0;
+        effect_state->unk_06 = 0;
 
-    temp = (uptr)((S_818C2FAC_0 *)((void *)obj))->unk_0C;
-    flags = ((S_818C2FAC_2 *)((void *)temp))->unk_14;
-    ((S_818C2FAC_2 *)((void *)temp))->unk_0E = 0x80;
-    ((S_818C2FAC_2 *)((void *)temp))->unk_0D = 0x80;
-    ((S_818C2FAC_2 *)((void *)temp))->unk_0C = 0x80;
-    mode = ((S_818C2FAC_2 *)((void *)temp))->unk_10;
-    flags |= 0xC;
-    mode |= 0x60;
-    ((S_818C2FAC_2 *)((void *)temp))->unk_14 = flags;
-    flags |= 0x100;
-    ((S_818C2FAC_2 *)((void *)temp))->unk_10 = mode;
-    ((S_818C2FAC_2 *)((void *)temp))->unk_14 = flags;
+        render_or_radius = (uptr)((S_818C2FAC_0 *)((void *)effect))->unk_0C;
+        render_flags = ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_14;
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_0E = 0x80;
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_0D = 0x80;
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_0C = 0x80;
+        render_mode = ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_10;
+        render_flags |= 0xC;
+        render_mode |= 0x60;
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_14 = render_flags;
+        render_flags |= 0x100;
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_10 = render_mode;
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_14 = render_flags;
 
-    angle = (*(s16 *)((u8 *)((void *)input) + 0x12));
-    biased = angle;
-    if (angle < 0) {
-        biased = angle + 3;
-    }
-    kind = angle - ((biased >> 2) * 4);
+        variant_seed = (*(s16 *)((u8 *)((void *)data_addr) + 0x12));
+        biased_seed = variant_seed;
+        if (variant_seed < 0) {
+            biased_seed = variant_seed + 3;
+        }
+        variant = variant_seed - ((biased_seed >> 2) * 4);
 
-    if (kind == 1) goto case1;
-    if (kind >= 2) goto tree2;
-    pa0 = (s32)temp;
-    if (kind == 0) goto case0;
+        if (variant == 1) goto case1;
+        if (variant >= 2) goto tree2;
+        render_arg_low = (s32)render_or_radius;
+        if (variant == 0) goto case0;
 #ifndef NON_MATCHING
-    ASM_KEEP(pa0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    pg0 = 0x800E0000;
-    ASM_PAGEBASE_PIN(pg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_800248CC();
+        ASM_KEEP(render_arg_low);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        page_base_low = 0x800E0000;
+        ASM_PAGEBASE_PIN(page_base_low);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        func_800248CC();
 #else
-    func_800248CC((void *)temp, 0x800E0000);
+        func_800248CC((void *)render_or_radius, 0x800E0000);
 #endif
-tree2:
-    if (kind == 2) goto case2;
-    pa1 = (s32)temp;
-    if (kind == 3) goto case3;
+    tree2:
+        if (variant == 2) goto case2;
+        render_arg_high = (s32)render_or_radius;
+        if (variant == 3) goto case3;
 #ifndef NON_MATCHING
-    ASM_KEEP(pa1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    pg1 = 0x800E0000;
-    ASM_PAGEBASE_PIN(pg1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_800248CC();
+        ASM_KEEP(render_arg_high);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        page_base_high = 0x800E0000;
+        ASM_PAGEBASE_PIN(page_base_high);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        func_800248CC();
 #else
-    func_800248CC((void *)temp, 0x800E0000);
+        func_800248CC((void *)render_or_radius, 0x800E0000);
 #endif
-case0:
-    {
-        s32 vpin0;
-        vpin0 = 0x7DCF;
-        ASM_TAILSLOT_PIN(vpin0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800248C0();
-    }
-case1:
-    {
-        s32 vpin1;
-        vpin1 = 0x7E00;
-        ASM_TAILSLOT_PIN(vpin1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800248C0();
-    }
-case2:
-    {
-        s32 vpin2;
-        vpin2 = 0x7E01;
-        ASM_TAILSLOT_PIN(vpin2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800248C0();
-    }
-case3:
-    ((S_818C2FAC_2 *)((void *)temp))->unk_12 = 0x7E02;
-    ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    {
-        s32 A0p;
-        u8 *A1p;
-        A0p = (s32)temp;
-        A1p = D_800DEC70;
-        func_8003DB94(A0p, A1p, 0);
-    }
-    random = func_80069EF8();
-    reduced = random;
-    if (random < 0) {
-        reduced = random + 0xFFF;
-    }
-    ((S_818C2FAC_2 *)((void *)temp))->unk_1A = random - ((reduced >> 12) << 12);
-    ((S_818C2FAC_2 *)((void *)temp))->unk_1E = 0x1000;
-    ((S_818C2FAC_2 *)((void *)temp))->unk_1C = 0x1000;
-    func_8004491C((void *)obj, D_80045340);
+    case0:
+        {
+            s32 appearance_id;
+            appearance_id = 0x7DCF;
+            ASM_TAILSLOT_PIN(appearance_id);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            func_800248C0();
+        }
+    case1:
+        {
+            s32 appearance_id;
+            appearance_id = 0x7E00;
+            ASM_TAILSLOT_PIN(appearance_id);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            func_800248C0();
+        }
+    case2:
+        {
+            s32 appearance_id;
+            appearance_id = 0x7E01;
+            ASM_TAILSLOT_PIN(appearance_id);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            func_800248C0();
+        }
+    case3:
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7E02;
+        ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        {
+            s32 render_arg;
+            u8 *render_table;
+            render_arg = (s32)render_or_radius;
+            render_table = D_800DEC70;
+            func_8003DB94(render_arg, render_table, 0);
+        }
+        random_value = func_80069EF8();
+        biased_random = random_value;
+        if (random_value < 0) {
+            biased_random = random_value + 0xFFF;
+        }
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1A = random_value - ((biased_random >> 12) << 12);
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1E = 0x1000;
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1C = 0x1000;
+        func_8004491C((void *)effect, D_80045340);
 
-    input = (uptr)((S_818C2FAC_0 *)((void *)obj))->unk_08;
-    pair01 = (*(s64_local *)((u8 *)((void *)source) + 0));
-    copy2 = (*(s32 *)((u8 *)((void *)source) + 8));
-    copy3 = (*(s32 *)((u8 *)((void *)source) + 0xC));
-    (*(s64_local *)((u8 *)((void *)input) + 0)) = pair01;
-    (*(s32 *)((u8 *)((void *)input) + 8)) = copy2;
-    (*(s32 *)((u8 *)((void *)input) + 0xC)) = copy3;
-    copy4 = (*(s32 *)((u8 *)((void *)source) + 0x10));
-    copy5 = (*(s32 *)((u8 *)((void *)source) + 0x14));
-    (*(s32 *)((u8 *)((void *)input) + 0x10)) = copy4;
-    (*(s32 *)((u8 *)((void *)input) + 0x14)) = copy5;
+        data_addr = (uptr)((S_818C2FAC_0 *)((void *)effect))->unk_08;
+        position_xy = (*(s64_local *)((u8 *)((void *)position_addr) + 0));
+        position_z = (*(s32 *)((u8 *)((void *)position_addr) + 8));
+        position_word_3 = (*(s32 *)((u8 *)((void *)position_addr) + 0xC));
+        (*(s64_local *)((u8 *)((void *)data_addr) + 0)) = position_xy;
+        (*(s32 *)((u8 *)((void *)data_addr) + 8)) = position_z;
+        (*(s32 *)((u8 *)((void *)data_addr) + 0xC)) = position_word_3;
+        position_word_4 = (*(s32 *)((u8 *)((void *)position_addr) + 0x10));
+        position_word_5 = (*(s32 *)((u8 *)((void *)position_addr) + 0x14));
+        (*(s32 *)((u8 *)((void *)data_addr) + 0x10)) = position_word_4;
+        (*(s32 *)((u8 *)((void *)data_addr) + 0x14)) = position_word_5;
 
-    random = func_80069EF8();
-    magic = 0x78787879;
-    temp = (uptr)random;
-    ASM_USE_NV(magic);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    coord = (s16)coord;
-    temp = (uptr)((s32)temp % 17 + 0x20);
-    h1 = func_800644B8(coord) >> 4;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp = (uptr)(s16)(s32)temp;
-    {
-        s32 sh1;
-        prod = h1 * (s32)temp;
-        sh1 = prod << 8;
-        (*(s32 *)((u8 *)((void *)input) + 0)) += sh1;
-    }
-    {
-        register s32 ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        h2 = func_80064584(coord) >> 4;
-        ret = (s32)obj;
-        prod = h2 * (s32)temp;
-        delta = prod << 8;
-        newv = (*(s32 *)((u8 *)((void *)input) + 4)) + delta;
-        ASM_KEEP(ret);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        (*(s32 *)((u8 *)((void *)input) + 4)) = newv;
-        func_800249E4(delta);
-    }
+        random_value = func_80069EF8();
+        divisor_reciprocal = 0x78787879;
+        render_or_radius = (uptr)random_value;
+        ASM_USE_NV(divisor_reciprocal);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        offset_angle = (s16)offset_angle;
+        render_or_radius = (uptr)((s32)render_or_radius % 17 + 0x20);
+        x_factor = func_800644B8(offset_angle) >> 4;
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        render_or_radius = (uptr)(s16)(s32)render_or_radius;
+        {
+            s32 x_offset;
+            scaled_radius = x_factor * (s32)render_or_radius;
+            x_offset = scaled_radius << 8;
+            (*(s32 *)((u8 *)((void *)data_addr) + 0)) += x_offset;
+        }
+        {
+            register s32 effect_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            y_factor = func_80064584(offset_angle) >> 4;
+            effect_result = (s32)effect;
+            scaled_radius = y_factor * (s32)render_or_radius;
+            y_offset = scaled_radius << 8;
+            new_y = (*(s32 *)((u8 *)((void *)data_addr) + 4)) + y_offset;
+            ASM_KEEP(effect_result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            (*(s32 *)((u8 *)((void *)data_addr) + 4)) = new_y;
+            func_800249E4(y_offset);
+        }
 
     }
     {
-        s32 rv;
-        rv = 0;
-        return rv;
+        s32 result;
+        result = 0;
+        return result;
     }
 }

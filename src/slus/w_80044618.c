@@ -1,10 +1,5 @@
 #include "common.h"
 
-/* Checks the just-polled controller id (VSync(1)'s return value, high byte)
- * against the last cached id for this pad slot (arg0==2 selects a 9-bit id
- * mask 0x1FF; any other arg0 uses an 8-bit mask 0xFF). If it matches the
- * cache, returns 2 immediately. Otherwise updates the cache and returns
- * func_800542BC()'s result (a queue/processor kick). */
 extern s32 VSync(s32 mode);
 extern s32 func_800542BC(void);
 
@@ -12,31 +7,32 @@ extern s32 func_800542BC(void);
  * (offset +2) is touched here (a "last reported controller id" cache). */
 extern u16 D_80080AFC[2];
 
-s32 func_80044618(s32 arg0) {
-    u16 field;
-    u16 var_v0;
-    s32 ret;
-    u32 v1;
-    u32 v1_2;
+/* Updates the cached controller id and calls func_800542BC when it changes. */
+s32 func_80044618(s32 id_mode) {
+    u16 cached_id;
+    u16 new_id;
+    s32 vsync_result;
+    u32 id_bits;
+    u32 new_id_bits;
 
-    ret = VSync(1);
-    field = D_80080AFC[1];
-    v1 = (u32) ret >> 8;
-    if (arg0 == 2) {
-        if ((v1 & 0x1FF) == field) {
+    vsync_result = VSync(1);
+    cached_id = D_80080AFC[1];
+    id_bits = (u32) vsync_result >> 8;
+    if (id_mode == 2) {
+        if ((id_bits & 0x1FF) == cached_id) {
             return 2;
         }
-        goto block_4;
+        goto update_cache;
     }
-    if ((v1 & 0xFF) != field) {
-block_4:
-        v1_2 = (u32) ret >> 8;
-        if (arg0 == 2) {
-            var_v0 = v1_2 & 0x1FF;
+    if ((id_bits & 0xFF) != cached_id) {
+update_cache:
+        new_id_bits = (u32) vsync_result >> 8;
+        if (id_mode == 2) {
+            new_id = new_id_bits & 0x1FF;
         } else {
-            var_v0 = v1_2 & 0xFF;
+            new_id = new_id_bits & 0xFF;
         }
-        D_80080AFC[1] = var_v0;
+        D_80080AFC[1] = new_id;
         return func_800542BC();
     }
     return 2;

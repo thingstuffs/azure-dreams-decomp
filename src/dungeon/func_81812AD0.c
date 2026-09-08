@@ -11,10 +11,11 @@ extern s32 func_800499E8();
 extern RECT D_80025034[2];
 extern s8 D_80080B54[];
 
-void func_80027AD0(void *arg0, s32 arg1, s32 arg2) {
+// Applies a rectangle with height scaled by the current value relative to the maximum.
+void func_80027AD0(void *context, s32 currentValue, s32 maxValue) {
     RECT rect;
 
     rect = D_80025034[0];
-    rect.h = ((s32) (arg1 * 0x90) / arg2) + 4;
-    func_800499E8(*(s32 *)((s8 *)arg0 + 0x4C) + 0x18, &rect, D_80080B54);
+    rect.h = ((s32) (currentValue * 0x90) / maxValue) + 4;
+    func_800499E8(*(s32 *)((s8 *)context + 0x4C) + 0x18, &rect, D_80080B54);
 }

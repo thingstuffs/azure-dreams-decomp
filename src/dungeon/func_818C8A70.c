@@ -101,199 +101,199 @@ extern M2C_UNK D_80024024;
 extern M2C_UNK D_80024124;
 extern u8 D_800E3D68;
 
-void func_818C8A70(void *arg0, S_818C8A70_4 *arg1) {
-    M2C_UNK var_a1;
-    s16 temp_v1;
-    s32 temp_a2;
-    s32 temp_random;
-    u16 temp_v0_2;
-    u16 temp_v0_3;
-    u16 temp_v0_6;
-    S_818C8A70_3 *temp_s0;
-    S_818C8A70_5 *temp_s2;
-    register S_818C8A70_1 *temp_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    S_818C8A70_6 *temp_s7;
-    void *temp_v0;
+/* Updates a moving effect, spawns particles, and advances its timed phases. */
+void func_818C8A70(void *effect, S_818C8A70_4 *position) {
+    M2C_UNK effect_mode;
+    s16 coord;
+    s16 phase;
+    s32 effect_value;
+    s32 random_value;
+    u16 remaining_ticks;
+    u16 burst_ticks;
+    u16 fade_ticks;
+    S_818C8A70_3 *sprite;
+    S_818C8A70_5 *particle_pos;
+    register S_818C8A70_1 *particle_state ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_818C8A70_6 *source;
+    void *particle;
 
     D_80024D04 = 1;
-    temp_s7 = ((S_818C8A70_0 *)arg0)->unk_2C;
-    if (((S_818C8A70_0 *)arg0)->unk_00 == 0) {
-        temp_v0 = func_8003FC64(0x212);
-        temp_s4 = temp_v0 + 0x20;
-        if (temp_v0 != NULL) {
-            temp_s4->unk_02 = 0x1A;
-            ((S_818C8A70_2 *)temp_v0)->unk_10 = &D_80024124;
-            func_8004491C(temp_v0, D_80045340);
-            temp_s0 = ((S_818C8A70_2 *)temp_v0)->unk_0C;
-            temp_s0->unk_10 = 0x60;
-            temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-            temp_s2 = ((S_818C8A70_2 *)temp_v0)->unk_08;
-            temp_random = func_80069EF8();
-            temp_v1 = arg1->unk_00.at02.v;
-            temp_v1 -= 8;
-            temp_v1 += temp_random & 0xF;
-            temp_s2->unk_02 = temp_v1;
-            temp_random = func_80069EF8();
-            temp_v1 = arg1->unk_04.at02.v;
-            temp_v1 -= 8;
-            temp_v1 += temp_random & 0xF;
-            temp_s2->unk_06 = temp_v1;
-            temp_random = func_80069EF8();
-            temp_v1 = arg1->unk_08.at02.v;
-            temp_v1 -= 4;
-            temp_v1 += temp_random & 7;
-            temp_s2->unk_0A = temp_v1;
-            temp_s4->unk_60 = (s32) (func_80069EF8() + 0xFFFE0000);
-            temp_s0 = ((S_818C8A70_2 *)temp_v0)->unk_0C;
-            temp_s0->unk_1C = 0x1000;
-            temp_s0->unk_1E = 0x1000;
-            temp_s0->unk_0E = 0x80;
-            temp_s0->unk_0D = 0x80;
-            temp_s0->unk_0C = 0x80;
-            temp_s0->unk_12 = 0x7DCF;
-            temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0x100);
-            func_8003DB94(temp_s0, D_800DE870, 0);
+    source = ((S_818C8A70_0 *)effect)->unk_2C;
+    if (((S_818C8A70_0 *)effect)->unk_00 == 0) {
+        particle = func_8003FC64(0x212);
+        particle_state = particle + 0x20;
+        if (particle != NULL) {
+            particle_state->unk_02 = 0x1A;
+            ((S_818C8A70_2 *)particle)->unk_10 = &D_80024124;
+            func_8004491C(particle, D_80045340);
+            sprite = ((S_818C8A70_2 *)particle)->unk_0C;
+            sprite->unk_10 = 0x60;
+            sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+            particle_pos = ((S_818C8A70_2 *)particle)->unk_08;
+            random_value = func_80069EF8();
+            coord = position->unk_00.at02.v;
+            coord -= 8;
+            coord += random_value & 0xF;
+            particle_pos->unk_02 = coord;
+            random_value = func_80069EF8();
+            coord = position->unk_04.at02.v;
+            coord -= 8;
+            coord += random_value & 0xF;
+            particle_pos->unk_06 = coord;
+            random_value = func_80069EF8();
+            coord = position->unk_08.at02.v;
+            coord -= 4;
+            coord += random_value & 7;
+            particle_pos->unk_0A = coord;
+            particle_state->unk_60 = (s32) (func_80069EF8() + 0xFFFE0000);
+            sprite = ((S_818C8A70_2 *)particle)->unk_0C;
+            sprite->unk_1C = 0x1000;
+            sprite->unk_1E = 0x1000;
+            sprite->unk_0E = 0x80;
+            sprite->unk_0D = 0x80;
+            sprite->unk_0C = 0x80;
+            sprite->unk_12 = 0x7DCF;
+            sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
+            func_8003DB94(sprite, D_800DE870, 0);
         }
-        temp_v0_2 = ((S_818C8A70_0 *)arg0)->unk_02 - 1;
-        ((S_818C8A70_0 *)arg0)->unk_02 = temp_v0_2;
-        if ((temp_v0_2 << 0x10) <= 0) {
-            if (((S_818C8A70_0 *)arg0)->unk_08 != 0) {
-                ((S_818C8A70_0 *)arg0)->unk_00 = 1;
-                ((S_818C8A70_0 *)arg0)->unk_02 = 0U;
+        remaining_ticks = ((S_818C8A70_0 *)effect)->unk_02 - 1;
+        ((S_818C8A70_0 *)effect)->unk_02 = remaining_ticks;
+        if ((remaining_ticks << 0x10) <= 0) {
+            if (((S_818C8A70_0 *)effect)->unk_08 != 0) {
+                ((S_818C8A70_0 *)effect)->unk_00 = 1;
+                ((S_818C8A70_0 *)effect)->unk_02 = 0U;
                 func_800A56E0(0x300);
                 func_80024414();
                 return;
             }
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            ((S_818C8A70_0_pre *)arg0)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)arg0)[-1].unk_00 | 0x8000);
+            ((S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
             D_800814A0[0] = D_800814A0[0] | 0x8000;
-            goto block_8;
         }
-block_8:
-        if ((func_800A4778(arg1->unk_00.at02.v, arg1->unk_04.at02.v, (s16) arg1->unk_08.at02.v, ((S_818C8A70_0 *)arg0)->unk_30) << 0x10) == 0) {
-            arg1->unk_00.at00.v = (s32) (arg1->unk_00.at00.v + ((S_818C8A70_0 *)arg0)->unk_58);
-            arg1->unk_04.at00.v = (s32) (arg1->unk_04.at00.v + ((S_818C8A70_0 *)arg0)->unk_5C);
-            arg1->unk_08.at00.v = (s32) (arg1->unk_08.at00.v + ((S_818C8A70_0 *)arg0)->unk_60);
-            goto block_10;
+        if ((func_800A4778(position->unk_00.at02.v, position->unk_04.at02.v, (s16) position->unk_08.at02.v, ((S_818C8A70_0 *)effect)->unk_30) << 0x10) == 0) {
+            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((S_818C8A70_0 *)effect)->unk_58);
+            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((S_818C8A70_0 *)effect)->unk_5C);
+            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + ((S_818C8A70_0 *)effect)->unk_60);
+            goto update_phase;
         }
-        goto block_25;
+        goto remove_effect;
     }
-block_10:
-    temp_v1 = ((S_818C8A70_0 *)arg0)->unk_00;
-    if (temp_v1 == 1) {
-        temp_v0_3 = ((S_818C8A70_0 *)arg0)->unk_02 + 1;
-        ((S_818C8A70_0 *)arg0)->unk_02 = temp_v0_3;
-        if ((temp_v0_3 & 3) == temp_v1) {
-            temp_v0 = func_8003FC64(0x212);
-            temp_s4 = temp_v0 + 0x20;
-            if (temp_v0 != NULL) {
-                register s16 temp_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                temp_s4->unk_02 = 0x1A;
-                ((S_818C8A70_2 *)temp_v0)->unk_10 = &D_80024124;
-                func_8004491C(temp_v0, D_80045340);
-                temp_s0 = ((S_818C8A70_2 *)temp_v0)->unk_0C;
-                temp_s0->unk_10 = 0x60;
-                temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-                temp_s2 = ((S_818C8A70_2 *)temp_v0)->unk_08;
-                temp_s0 = ((S_818C8A70_7_pre *)(((S_818C8A70_0 *)arg0)->unk_30))[-1].unk_00;
-                temp_random = func_80069EF8();
-                temp_v1 = temp_s0->unk_02;
-                temp_v1 -= 0x10;
-                temp_v1 += temp_random & 0x1F;
-                temp_s2->unk_02 = temp_v1;
-                temp_random = func_80069EF8();
-                temp_v1 = temp_s0->unk_06;
-                temp_v1 -= 0x10;
-                temp_v1 += temp_random & 0x1F;
-                temp_s2->unk_06 = temp_v1;
-                temp_random = func_80069EF8();
-                temp_random &= 0x1F;
-                temp_v1 = temp_s0->unk_0A;
-                temp_random += 0x10;
-                temp_z = temp_v1 - temp_random;
-                temp_s2->unk_0A = temp_z;
-                temp_s4->unk_58 = (s32) (func_80069EF8() - 0x8000);
-                temp_s4->unk_5C = (s32) (func_80069EF8() - 0x8000);
-                temp_s4->unk_60 = (s32) ((func_80069EF8() + 0xFFFC0000) * 2);
-                temp_s0 = ((S_818C8A70_2 *)temp_v0)->unk_0C;
-                temp_s0->unk_1C = 0x1000;
-                temp_s0->unk_1E = 0x1000;
-                temp_s0->unk_0E = 0x80;
-                temp_s0->unk_0D = 0x80;
-                temp_s0->unk_0C = 0x80;
-                temp_s0->unk_12 = 0x7DCF;
-                temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0x100);
-                func_8003DB94(temp_s0, D_800DE870, 0);
+update_phase:
+    phase = ((S_818C8A70_0 *)effect)->unk_00;
+    if (phase == 1) {
+        burst_ticks = ((S_818C8A70_0 *)effect)->unk_02 + 1;
+        ((S_818C8A70_0 *)effect)->unk_02 = burst_ticks;
+        if ((burst_ticks & 3) == phase) {
+            particle = func_8003FC64(0x212);
+            particle_state = particle + 0x20;
+            if (particle != NULL) {
+                register s16 particle_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                particle_state->unk_02 = 0x1A;
+                ((S_818C8A70_2 *)particle)->unk_10 = &D_80024124;
+                func_8004491C(particle, D_80045340);
+                sprite = ((S_818C8A70_2 *)particle)->unk_0C;
+                sprite->unk_10 = 0x60;
+                sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+                particle_pos = ((S_818C8A70_2 *)particle)->unk_08;
+                sprite = ((S_818C8A70_7_pre *)(((S_818C8A70_0 *)effect)->unk_30))[-1].unk_00;
+                random_value = func_80069EF8();
+                coord = sprite->unk_02;
+                coord -= 0x10;
+                coord += random_value & 0x1F;
+                particle_pos->unk_02 = coord;
+                random_value = func_80069EF8();
+                coord = sprite->unk_06;
+                coord -= 0x10;
+                coord += random_value & 0x1F;
+                particle_pos->unk_06 = coord;
+                random_value = func_80069EF8();
+                random_value &= 0x1F;
+                coord = sprite->unk_0A;
+                random_value += 0x10;
+                particle_z = coord - random_value;
+                particle_pos->unk_0A = particle_z;
+                particle_state->unk_58 = (s32) (func_80069EF8() - 0x8000);
+                particle_state->unk_5C = (s32) (func_80069EF8() - 0x8000);
+                particle_state->unk_60 = (s32) ((func_80069EF8() + 0xFFFC0000) * 2);
+                sprite = ((S_818C8A70_2 *)particle)->unk_0C;
+                sprite->unk_1C = 0x1000;
+                sprite->unk_1E = 0x1000;
+                sprite->unk_0E = 0x80;
+                sprite->unk_0D = 0x80;
+                sprite->unk_0C = 0x80;
+                sprite->unk_12 = 0x7DCF;
+                sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
+                func_8003DB94(sprite, D_800DE870, 0);
             }
         }
-        if ((((S_818C8A70_0 *)arg0)->unk_02 & 3) == 2) {
-            temp_v0 = func_8003FC64(0x212);
-            temp_s4 = temp_v0 + 0x20;
-            if (temp_v0 != NULL) {
-                register s16 temp_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                temp_s4->unk_02 = 0x14;
-                ((S_818C8A70_2 *)temp_v0)->unk_10 = &D_80024024;
-                func_8004491C(temp_v0, D_80045340);
-                temp_s0 = ((S_818C8A70_2 *)temp_v0)->unk_0C;
-                temp_s0->unk_10 = 0;
-                temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-                temp_s2 = ((S_818C8A70_2 *)temp_v0)->unk_08;
-                temp_s0 = ((S_818C8A70_7_pre *)(((S_818C8A70_0 *)arg0)->unk_30))[-1].unk_00;
-                temp_random = func_80069EF8();
-                temp_v1 = temp_s0->unk_02;
-                temp_v1 -= 0x10;
-                temp_v1 += temp_random & 0x1F;
-                temp_s2->unk_02 = temp_v1;
-                temp_random = func_80069EF8();
-                temp_v1 = temp_s0->unk_06;
-                temp_v1 -= 0x10;
-                temp_v1 += temp_random & 0x1F;
-                temp_s2->unk_06 = temp_v1;
-                temp_random = func_80069EF8();
-                temp_random &= 0x3F;
-                temp_v1 = temp_s0->unk_0A;
-                temp_random += 0x20;
-                temp_z = temp_v1 - temp_random;
-                temp_s2->unk_0A = temp_z;
-                temp_s0 = ((S_818C8A70_2 *)temp_v0)->unk_0C;
-                temp_s0->unk_1C = 0x800;
-                temp_s0->unk_1E = 0x800;
-                temp_s4->unk_60 = (s32) (func_80069EF8() + 0xFFFE0000);
-                temp_s0->unk_0E = 0x80;
-                temp_s0->unk_0D = 0x80;
-                temp_s0->unk_0C = 0x80;
-                temp_s0->unk_12 = 0x7DC0;
-                temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0x100);
-                func_8003DB94(temp_s0, D_800DEC00, 0);
+        if ((((S_818C8A70_0 *)effect)->unk_02 & 3) == 2) {
+            particle = func_8003FC64(0x212);
+            particle_state = particle + 0x20;
+            if (particle != NULL) {
+                register s16 particle_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                particle_state->unk_02 = 0x14;
+                ((S_818C8A70_2 *)particle)->unk_10 = &D_80024024;
+                func_8004491C(particle, D_80045340);
+                sprite = ((S_818C8A70_2 *)particle)->unk_0C;
+                sprite->unk_10 = 0;
+                sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+                particle_pos = ((S_818C8A70_2 *)particle)->unk_08;
+                sprite = ((S_818C8A70_7_pre *)(((S_818C8A70_0 *)effect)->unk_30))[-1].unk_00;
+                random_value = func_80069EF8();
+                coord = sprite->unk_02;
+                coord -= 0x10;
+                coord += random_value & 0x1F;
+                particle_pos->unk_02 = coord;
+                random_value = func_80069EF8();
+                coord = sprite->unk_06;
+                coord -= 0x10;
+                coord += random_value & 0x1F;
+                particle_pos->unk_06 = coord;
+                random_value = func_80069EF8();
+                random_value &= 0x3F;
+                coord = sprite->unk_0A;
+                random_value += 0x20;
+                particle_z = coord - random_value;
+                particle_pos->unk_0A = particle_z;
+                sprite = ((S_818C8A70_2 *)particle)->unk_0C;
+                sprite->unk_1C = 0x800;
+                sprite->unk_1E = 0x800;
+                particle_state->unk_60 = (s32) (func_80069EF8() + 0xFFFE0000);
+                sprite->unk_0E = 0x80;
+                sprite->unk_0D = 0x80;
+                sprite->unk_0C = 0x80;
+                sprite->unk_12 = 0x7DC0;
+                sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
+                func_8003DB94(sprite, D_800DEC00, 0);
             }
         }
-        if ((s16) ((S_818C8A70_0 *)arg0)->unk_02 >= 0x29) {
-            ((S_818C8A70_0 *)arg0)->unk_00 = 2;
-            ((S_818C8A70_0 *)arg0)->unk_02 = 0U;
-            if (func_8009D218(temp_s7->unk_60, 1, temp_s7) == 0) {
-                s32 final_random;
-                u32 final_field;
-                final_random = func_800A6D30();
-                final_random &= 3;
-                final_field = ((S_818C8A70_0 *)arg0)->unk_15;
+        if ((s16) ((S_818C8A70_0 *)effect)->unk_02 >= 0x29) {
+            ((S_818C8A70_0 *)effect)->unk_00 = 2;
+            ((S_818C8A70_0 *)effect)->unk_02 = 0U;
+            if (func_8009D218(source->unk_60, 1, source) == 0) {
+                s32 random_bonus;
+                u32 effect_scale;
+                random_bonus = func_800A6D30();
+                random_bonus &= 3;
+                effect_scale = ((S_818C8A70_0 *)effect)->unk_15;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                final_random += 2;
-                final_field >>= 2;
-                temp_a2 = final_field + final_random;
-                var_a1 = 0x10;
+                random_bonus += 2;
+                effect_scale >>= 2;
+                effect_value = effect_scale + random_bonus;
+                effect_mode = 0x10;
                 if (D_800E3D68 == 0xFF) {
-                    var_a1 = 0xFF;
+                    effect_mode = 0xFF;
                 }
-                func_800C8CD8(((S_818C8A70_0 *)arg0)->unk_30, var_a1, temp_a2);
+                func_800C8CD8(((S_818C8A70_0 *)effect)->unk_30, effect_mode, effect_value);
             }
         }
     }
-    if (((S_818C8A70_0 *)arg0)->unk_00 == 2) {
-        temp_v0_6 = ((S_818C8A70_0 *)arg0)->unk_02 + 1;
-        ((S_818C8A70_0 *)arg0)->unk_02 = temp_v0_6;
-        if ((s16) temp_v0_6 >= 0x15) {
-block_25:
-            ((S_818C8A70_0_pre *)arg0)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    if (((S_818C8A70_0 *)effect)->unk_00 == 2) {
+        fade_ticks = ((S_818C8A70_0 *)effect)->unk_02 + 1;
+        ((S_818C8A70_0 *)effect)->unk_02 = fade_ticks;
+        if ((s16) fade_ticks >= 0x15) {
+remove_effect:
+            ((S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
             D_800814A0[0] = D_800814A0[0] | 0x8000;
         }
     }

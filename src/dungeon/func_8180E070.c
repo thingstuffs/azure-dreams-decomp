@@ -43,29 +43,30 @@ typedef struct S_80027070_3 {
     s16 unk_66;
 } S_80027070_3;   /* temp_v1 in func_80027070 */
 
-void *func_80027070(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4) {
-    S_80027070_2 *temp_a0;
-    void *temp_v0;
-    S_80027070_1 *temp_v0_2;
-    S_80027070_3 *temp_v1;
+/* Creates an object with the given position, graphic index, and state value. */
+void *func_80027070(s16 x, s16 y, s16 z, s16 graphic_index, s32 state_value) {
+    S_80027070_2 *graphics;
+    void *object;
+    S_80027070_1 *position;
+    S_80027070_3 *state;
 
-    temp_v0 = func_8003FD64(0x12, &D_80083498);
-    if (temp_v0 != NULL) {
-        ((S_80027070_0 *)temp_v0)->unk_10 = &D_80026FB0;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v0_2 = ((S_80027070_0 *)temp_v0)->unk_08;
-        temp_v0_2->unk_02 = arg0;
-        temp_v0_2->unk_06 = arg1;
-        temp_v0_2->unk_0A = arg2;
-        temp_a0 = ((S_80027070_0 *)temp_v0)->unk_0C;
-        temp_a0->unk_08 = (void *) ((arg3 * 0xC) + &D_80028808);
-        temp_a0->unk_1E = 0x1000;
-        temp_a0->unk_1C = 0x1000;
-        temp_a0->unk_10 = 0x20;
-        temp_a0->unk_14 = (u16) (temp_a0->unk_14 | 0xC);
-        temp_v1 = temp_v0 + 0x20;
-        temp_v1->unk_04 = arg4;
-        temp_v1->unk_66 = 0x1C;
+    object = func_8003FD64(0x12, &D_80083498);
+    if (object != NULL) {
+        ((S_80027070_0 *)object)->unk_10 = &D_80026FB0;
+        func_8004491C(object, &D_80045340);
+        position = ((S_80027070_0 *)object)->unk_08;
+        position->unk_02 = x;
+        position->unk_06 = y;
+        position->unk_0A = z;
+        graphics = ((S_80027070_0 *)object)->unk_0C;
+        graphics->unk_08 = (void *) ((graphic_index * 0xC) + &D_80028808);
+        graphics->unk_1E = 0x1000;
+        graphics->unk_1C = 0x1000;
+        graphics->unk_10 = 0x20;
+        graphics->unk_14 = (u16) (graphics->unk_14 | 0xC);
+        state = object + 0x20;
+        state->unk_04 = state_value;
+        state->unk_66 = 0x1C;
     }
-    return temp_v0;
+    return object;
 }

@@ -62,65 +62,66 @@ extern u8 D_80024A08[9];
 extern u8 D_80025B38[9];
 extern u8 D_80045C34[9];
 
-s32 func_818C32F4(s32 *arg0, S_818C32F4_4 *arg1, void *arg2) {
-    S_818C32F4_3 *template_arg = arg2;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    s32 temp_a0;
-    s32 temp_a1;
-    s32 temp_a2;
-    s32 temp_a3;
-    u16 temp_angle;
-    void *temp_init;
-    S_818C32F4_2 *temp_s0;
-    void *temp_v0;
-    S_818C32F4_1 *temp_v0_2;
-    S_818C32F4_5 *temp_v1;
+/* Creates an object with the supplied identifier, data, and visual template. */
+s32 func_818C32F4(s32 *object_id, S_818C32F4_4 *source_data, void *visual_template) {
+    S_818C32F4_3 *template_visual = visual_template;
+    register s32 object_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s32 copy_word_0;
+    s32 copy_word_1;
+    s32 copy_word_2;
+    s32 copy_word_3;
+    u16 angle;
+    void *init_data;
+    S_818C32F4_2 *visual;
+    void *object;
+    S_818C32F4_1 *object_state;
+    S_818C32F4_5 *object_data;
 
-    temp_v0 = func_8003FC64(0x212);
-    ASM_KEEP(template_arg);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    if (temp_v0 != 0) {
-        ((S_818C32F4_0 *)temp_v0)->unk_10 = D_80024A08;
-        ((S_818C32F4_0 *)temp_v0)->unk_20 = *arg0;
-        temp_v0_2 = (u8 *)temp_v0 + 0x20;
-        temp_v0_2->unk_04 = 0;
-        temp_v0_2->unk_06 = 0;
-        temp_s0 = ((S_818C32F4_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_0C.at00.v = template_arg->unk_0C;
-        if ((u8)temp_s0->unk_0C.at00.v != 0) {
-            temp_s0->unk_0C.at00u.v = 0xC0;
+    object = func_8003FC64(0x212);
+    ASM_KEEP(template_visual);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    if (object != 0) {
+        ((S_818C32F4_0 *)object)->unk_10 = D_80024A08;
+        ((S_818C32F4_0 *)object)->unk_20 = *object_id;
+        object_state = (u8 *)object + 0x20;
+        object_state->unk_04 = 0;
+        object_state->unk_06 = 0;
+        visual = ((S_818C32F4_0 *)object)->unk_0C;
+        visual->unk_0C.at00.v = template_visual->unk_0C;
+        if ((u8)visual->unk_0C.at00.v != 0) {
+            visual->unk_0C.at00u.v = 0xC0;
         }
-        if (temp_s0->unk_0C.at01.v != 0) {
-            temp_s0->unk_0C.at01.v = 0xC0;
+        if (visual->unk_0C.at01.v != 0) {
+            visual->unk_0C.at01.v = 0xC0;
         }
-        if (temp_s0->unk_0C.at02.v != 0) {
-            temp_s0->unk_0C.at02.v = 0xC0;
+        if (visual->unk_0C.at02.v != 0) {
+            visual->unk_0C.at02.v = 0xC0;
         }
-        temp_s0->unk_14 = temp_s0->unk_14 | 0xC;
-        temp_s0->unk_10 = temp_s0->unk_10 | 0x60;
-        func_8003DB94(temp_s0, D_80025B38, 0);
-        temp_init = D_80045C34;
-        temp_angle = template_arg->unk_1A;
-        temp_s0->unk_1E = 0x1400;
-        temp_s0->unk_1C = 0x1400;
-        temp_s0->unk_1A = temp_angle;
-        func_8004491C(temp_v0, temp_init);
-        temp_v1 = ((S_818C32F4_0 *)temp_v0)->unk_08;
-        ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        result = (s32)temp_v0;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        temp_a0 = arg1->unk_00;
-        temp_a1 = arg1->unk_04;
-        temp_a2 = arg1->unk_08;
-        temp_a3 = arg1->unk_0C;
-        temp_v1->unk_00 = temp_a0;
-        temp_v1->unk_04 = temp_a1;
-        temp_v1->unk_08 = temp_a2;
-        temp_v1->unk_0C = temp_a3;
-        temp_a0 = arg1->unk_10;
-        temp_a1 = arg1->unk_14;
-        temp_v1->unk_10 = temp_a0;
-        temp_v1->unk_14 = temp_a1;
-        func_80024C28(temp_a0, temp_a1, temp_a2, temp_a3);
+        visual->unk_14 = visual->unk_14 | 0xC;
+        visual->unk_10 = visual->unk_10 | 0x60;
+        func_8003DB94(visual, D_80025B38, 0);
+        init_data = D_80045C34;
+        angle = template_visual->unk_1A;
+        visual->unk_1E = 0x1400;
+        visual->unk_1C = 0x1400;
+        visual->unk_1A = angle;
+        func_8004491C(object, init_data);
+        object_data = ((S_818C32F4_0 *)object)->unk_08;
+        ASM_KEEP(object_data);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        object_result = (s32)object;
+        ASM_KEEP(object_result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        copy_word_0 = source_data->unk_00;
+        copy_word_1 = source_data->unk_04;
+        copy_word_2 = source_data->unk_08;
+        copy_word_3 = source_data->unk_0C;
+        object_data->unk_00 = copy_word_0;
+        object_data->unk_04 = copy_word_1;
+        object_data->unk_08 = copy_word_2;
+        object_data->unk_0C = copy_word_3;
+        copy_word_0 = source_data->unk_10;
+        copy_word_1 = source_data->unk_14;
+        object_data->unk_10 = copy_word_0;
+        object_data->unk_14 = copy_word_1;
+        func_80024C28(copy_word_0, copy_word_1, copy_word_2, copy_word_3);
     }
     return 0;
 }

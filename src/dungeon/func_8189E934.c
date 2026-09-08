@@ -57,42 +57,43 @@ typedef struct S_80024134_1 {
     s16 unk_1E;
 } S_80024134_1;   /* temp_s0 in func_80024134 */
 
-s32 func_80024134(s32 arg0, void *arg1, s16 arg2) {
-    s32 temp_v1;
-    s32 var_v0;
-    void *temp_v0;
-    Tail *temp_s2;
-    S_80024134_1 *temp_s0;
-    void *temp_v0_2;
+/* Allocates an object, initializes its display data, and copies the input state. */
+s32 func_80024134(s32 stored_value, void *input, s16 stored_tag) {
+    s32 random_or_w2;
+    s32 rounded_random;
+    void *object;
+    Tail *state;
+    S_80024134_1 *display;
+    void *input_copy;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_s2 = (Tail *)((s8 *)temp_v0 + 0x20);
-        ((S_80024134_0 *)temp_v0)->unk_10 = D_80024020;
-        temp_s2->arg0 = arg0;
-        ((S_80024134_0 *)temp_v0)->unk_20 = 0;
-        temp_s2->arg2 = arg2;
-        temp_s0 = ((S_80024134_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        temp_s0->unk_08 = D_80024C78;
-        temp_s0->unk_12 = 0x7E02;
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0x100);
-        var_v0 = rand();
-        temp_v1 = var_v0;
-        if (temp_v1 < 0) {
-            var_v0 = temp_v1 + 0xFFF;
+    object = func_8003FC64(0x212);
+    if (object != NULL) {
+        state = (Tail *)((s8 *)object + 0x20);
+        ((S_80024134_0 *)object)->unk_10 = D_80024020;
+        state->arg0 = stored_value;
+        ((S_80024134_0 *)object)->unk_20 = 0;
+        state->arg2 = stored_tag;
+        display = ((S_80024134_0 *)object)->unk_0C;
+        display->unk_0E = 0x80;
+        display->unk_0D = 0x80;
+        display->unk_0C = 0x80;
+        display->unk_08 = D_80024C78;
+        display->unk_12 = 0x7E02;
+        display->unk_14 = (u16) (display->unk_14 | 0x100);
+        rounded_random = rand();
+        random_or_w2 = rounded_random;
+        if (random_or_w2 < 0) {
+            rounded_random = random_or_w2 + 0xFFF;
         }
-        temp_s0->unk_1A = (s16) (temp_v1 - ((var_v0 >> 0xC) << 0xC));
-        temp_s0->unk_1E = 0x800;
-        temp_s0->unk_1C = 0x800;
-        func_8004491C(temp_v0, D_80045340);
-        temp_v0_2 = ((S_80024134_0 *)temp_v0)->unk_08;
-        *(Input6 *)temp_v0_2 = *(Input6 *)arg1;
-        temp_v1 = *(volatile s32 *)((s8 *)temp_v0_2 + 8);
-        temp_s2->copy = temp_v1;
-        return (s32)temp_v0;
+        display->unk_1A = (s16) (random_or_w2 - ((rounded_random >> 0xC) << 0xC));
+        display->unk_1E = 0x800;
+        display->unk_1C = 0x800;
+        func_8004491C(object, D_80045340);
+        input_copy = ((S_80024134_0 *)object)->unk_08;
+        *(Input6 *)input_copy = *(Input6 *)input;
+        random_or_w2 = *(volatile s32 *)((s8 *)input_copy + 8);
+        state->copy = random_or_w2;
+        return (s32)object;
     }
     return 0;
 }

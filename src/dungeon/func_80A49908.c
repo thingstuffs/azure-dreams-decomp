@@ -20,131 +20,132 @@ extern void func_800A32A4(void *);
 extern void func_800A56E0(s32);
 extern void func_800ACF88(void *);
 
-void func_80173108(void *arg0, s32 arg1, void *arg2, void *arg3)
+/* Fade the entity's sprites, then remove the entity and trigger its final effect. */
+void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
 {
     u8 state;
-    u8 *object;
-    s32 inner;
-    s32 outer;
+    u8 *sprite_group;
+    s32 sprite_index;
+    s32 group_index;
 
-    state = U8(arg0, 0x9B);
-    object = 0;
+    state = U8(actor, 0x9B);
+    sprite_group = 0;
     switch (state) {
     case 0:
         if (S16(&D_80083460, 0xA) != 0) {
             break;
         }
-        U8(arg0, 0x9B) = 1;
+        U8(actor, 0x9B) = 1;
         /* fallthrough */
     case 1: {
-        s32 flags;
-        s32 offset;
-        u8 *outer_ptr;
-        u32 white;
-        u8 *call_ptr;
+        s32 entity_flags;
+        s32 sprite_offset;
+        u8 *group_cursor;
+        u32 white_rgb;
+        u8 *group_sprite;
 
-        flags = S32(arg3, 0x14);
-        if (flags & 0x4000) {
-            if (!(flags & 0x20000000)) {
-                func_800ACF88(arg3);
+        entity_flags = S32(entity, 0x14);
+        if (entity_flags & 0x4000) {
+            if (!(entity_flags & 0x20000000)) {
+                func_800ACF88(entity);
             }
         }
         func_800A56E0(0x805);
 
-        outer = 0;
-        S16(arg2, 0x10) = 0x60;
-        U16(arg2, 0x14) |= 0xC;
-        U16(arg0, 0x98) &= 0xDFFF;
-        if (S16(arg0, 0x9E) > 0) {
-            white = 0xFFFFFF;
-            outer_ptr = arg0;
+        group_index = 0;
+        S16(sprite, 0x10) = 0x60;
+        U16(sprite, 0x14) |= 0xC;
+        U16(actor, 0x98) &= 0xDFFF;
+        if (S16(actor, 0x9E) > 0) {
+            white_rgb = 0xFFFFFF;
+            group_cursor = actor;
             do {
-                object = (u8 *)PTR(outer_ptr, 0xA4) + 0x20;
-                inner = 0;
-                if (S16(object, 2) > 0) {
-                    offset = 8;
+                sprite_group = (u8 *)PTR(group_cursor, 0xA4) + 0x20;
+                sprite_index = 0;
+                if (S16(sprite_group, 2) > 0) {
+                    sprite_offset = 8;
                     do {
-                        call_ptr = object + offset;
-                        U32(call_ptr, 0xC) = white;
-                        func_80047784(call_ptr, 0x23, 0);
-                        offset += 0x30;
-                        inner++;
-                    } while (inner < S16(object, 2));
+                        group_sprite = sprite_group + sprite_offset;
+                        U32(group_sprite, 0xC) = white_rgb;
+                        func_80047784(group_sprite, 0x23, 0);
+                        sprite_offset += 0x30;
+                        sprite_index++;
+                    } while (sprite_index < S16(sprite_group, 2));
                 }
-                outer_ptr += 4;
-                outer++;
-            } while (outer < S16(arg0, 0x9E));
+                group_cursor += 4;
+                group_index++;
+            } while (group_index < S16(actor, 0x9E));
         }
-        U8(arg0, 0x9B) = U8(arg0, 0x9B) + 1;
+        U8(actor, 0x9B) = U8(actor, 0x9B) + 1;
         break;
     }
 
     case 2: {
-        u8 *scan_ptr;
-        u8 *entry;
-        s32 delta;
+        u8 *group_cursor;
+        u8 *sprite_entry;
+        s32 fade_delta;
 
-        if ((s32)object < S16(arg0, 0x9E)) {
-            outer = 0;
-            delta = 0xFFEFEFF0;
-            scan_ptr = arg0;
+        if ((s32)sprite_group < S16(actor, 0x9E)) {
+            group_index = 0;
+            fade_delta = 0xFFEFEFF0;
+            group_cursor = actor;
             do {
-                object = (u8 *)PTR(scan_ptr, 0xA4) + 0x20;
-                inner = 0;
-                if (S16(object, 2) > 0) {
-                    entry = object;
+                sprite_group = (u8 *)PTR(group_cursor, 0xA4) + 0x20;
+                sprite_index = 0;
+                if (S16(sprite_group, 2) > 0) {
+                    sprite_entry = sprite_group;
                     do {
-                        (*(volatile u32 *)((u8 *)entry + 0x14)) += delta;
-                        inner++;
-                        entry += 0x30;
-                    } while (inner < S16(object, 2));
+                        (*(volatile u32 *)((u8 *)sprite_entry + 0x14)) += fade_delta;
+                        sprite_index++;
+                        sprite_entry += 0x30;
+                    } while (sprite_index < S16(sprite_group, 2));
                 }
-                scan_ptr += 4;
-                outer++;
-            } while (outer < S16(arg0, 0x9E));
+                group_cursor += 4;
+                group_index++;
+            } while (group_index < S16(actor, 0x9E));
         }
-        if (U16(object, 0x1C) & 0x6000) {
-            PTR(arg2, 0x2C) = D_8017588C;
-            func_80047784(arg2,
-                D_8017588C[((D_80083228 + S16(arg3, 0x2A) + 0x100) >> 9) & 7],
+        if (U16(sprite_group, 0x1C) & 0x6000) {
+            PTR(sprite, 0x2C) = D_8017588C;
+            func_80047784(sprite,
+                D_8017588C[((D_80083228 + S16(entity, 0x2A) + 0x100) >> 9) & 7],
                 0);
-            U16(arg0, 0x96) = 0x80;
-            U8(arg0, 0x9B) = U8(arg0, 0x9B) + 1;
+            U16(actor, 0x96) = 0x80;
+            U8(actor, 0x9B) = U8(actor, 0x9B) + 1;
         }
         break;
     }
 
     case 3: {
-        u8 color;
-        u8 arg0_value;
-        u8 arg1_value;
-        s32 effect;
-        u8 *global_base;
+        u8 brightness;
+        u8 tile_x;
+        u8 tile_y;
+        s32 effect_id;
+        u8 *dungeon_state;
 
-        U32(arg3, 0x1C) |= 0x10000000;
-        color = U8(arg0, 0x96);
-        U8(arg2, 0xE) = color;
-        U8(arg2, 0xD) = color;
-        U8(arg2, 0xC) = color;
-        U16(arg0, 0x96) -= 0x10;
-        if (U8(arg2, 0xC) != 0) {
+        U32(entity, 0x1C) |= 0x10000000;
+        brightness = U8(actor, 0x96);
+        U8(sprite, 0xE) = brightness;
+        U8(sprite, 0xD) = brightness;
+        U8(sprite, 0xC) = brightness;
+        U16(actor, 0x96) -= 0x10;
+        if (U8(sprite, 0xC) != 0) {
             break;
         }
-        global_base = (u8 *)&D_80083460;
-        if (U32(global_base, 0x10) == (u32)((u8 *)arg3 - 0x20)) {
-            U32(global_base, 0x10) &= 0x7FFFFFFF;
+        dungeon_state = (u8 *)&D_80083460;
+        if (U32(dungeon_state, 0x10) == (u32)((u8 *)entity - 0x20)) {
+            U32(dungeon_state, 0x10) &= 0x7FFFFFFF;
         }
-        func_800A2FE0(arg3);
-        func_800A32A4(arg3);
-        arg0_value = U8(arg2, 0x24);
-        arg1_value = U8(arg2, 0x25);
-        effect = 0x3000;
-        if (U32(arg3, 0x1C) & 0x2000) {
-            effect = 0x300;
+        func_800A2FE0(entity);
+        func_800A32A4(entity);
+        tile_x = U8(sprite, 0x24);
+        tile_y = U8(sprite, 0x25);
+        effect_id = 0x3000;
+        if (U32(entity, 0x1C) & 0x2000) {
+            effect_id = 0x300;
         }
-        func_8009A3D0(arg0_value, arg1_value, effect);
-        func_8009A028(arg3);
-        U16(arg3, -2) |= 0x8000;
+        func_8009A3D0(tile_x, tile_y, effect_id);
+        func_8009A028(entity);
+        U16(entity, -2) |= 0x8000;
         D_800814A0 |= 0x8000;
         break;
     }

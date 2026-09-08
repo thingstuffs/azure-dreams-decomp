@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
+#include "records/Rec_func_800206D0_arg1.h"
 
 
 typedef struct Vec3 {
@@ -9,14 +10,6 @@ typedef struct Vec3 {
 } Vec3;
 
 
-typedef struct S_800236BC_0 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800236BC_0;   /* arg1 in func_800236BC */
 
 typedef struct S_800236BC_1 {
     void * unk_00;
@@ -62,9 +55,9 @@ void func_800236BC(void *arg0, void *arg1, void *arg2)
     s32 *localp = (s32 *)&local;
     u32 speculative_page;
 
-    ((S_800236BC_0 *)arg1)->unk_00 += ((S_800236BC_0 *)arg1)->unk_0C;
-    ((S_800236BC_0 *)arg1)->unk_04 += ((S_800236BC_0 *)arg1)->unk_10;
-    ((S_800236BC_0 *)arg1)->unk_08 += ((S_800236BC_0 *)arg1)->unk_14;
+    ((Rec_func_800206D0_arg1 *)arg1)->unk_00 += ((Rec_func_800206D0_arg1 *)arg1)->unk_0C;
+    ((Rec_func_800206D0_arg1 *)arg1)->unk_04 += ((Rec_func_800206D0_arg1 *)arg1)->unk_10;
+    ((Rec_func_800206D0_arg1 *)arg1)->unk_08 += ((Rec_func_800206D0_arg1 *)arg1)->unk_14;
     ((S_800236BC_3 *)(((S_800236BC_1 *)arg0)->unk_00))->unk_62 |= 2;
 
     state = ((S_800236BC_1 *)arg0)->unk_04.s;
@@ -93,62 +86,62 @@ void func_800236BC(void *arg0, void *arg1, void *arg2)
 
 state_0:
         func_800478B8(arg2);
-        ((S_800236BC_0 *)arg1)->unk_14 += 0x40000;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_14 += 0x40000;
         ((S_800236BC_1 *)arg0)->unk_1D = 0;
-        if (((S_800236BC_0 *)arg1)->unk_08 < 0) {
+        if (((Rec_func_800206D0_arg1 *)arg1)->unk_08 < 0) {
             return;
         }
         func_80053DA8(0x501);
-        ((S_800236BC_0 *)arg1)->unk_08 = 0;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_08 = 0;
         ((S_800236BC_1 *)arg0)->unk_06.s = 15;
-        ((S_800236BC_0 *)arg1)->unk_0C = ((rand() % 320) - 64) << 12;
-        ((S_800236BC_0 *)arg1)->unk_10 = (rand() % 96 + 128) << 12;
-        ((S_800236BC_0 *)arg1)->unk_14 = 0xFFF00000;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_0C = ((rand() % 320) - 64) << 12;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_10 = (rand() % 96 + 128) << 12;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_14 = 0xFFF00000;
         ((S_800236BC_1 *)arg0)->unk_04.u++;
         return;
 
 state_1:
         func_800478B8(arg2);
-        ((S_800236BC_0 *)arg1)->unk_14 += 0x40000;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_14 += 0x40000;
         ((S_800236BC_1 *)arg0)->unk_06.u--;
-        if (((S_800236BC_0 *)arg1)->unk_08 < 0) {
+        if (((Rec_func_800206D0_arg1 *)arg1)->unk_08 < 0) {
             return;
         }
         func_80053DA8(0x501);
         if (((S_800236BC_1 *)arg0)->unk_06.s > 0) {
-            ((S_800236BC_0 *)arg1)->unk_08 = 0;
-            ((S_800236BC_0 *)arg1)->unk_14 = -((S_800236BC_0 *)arg1)->unk_14;
+            ((Rec_func_800206D0_arg1 *)arg1)->unk_08 = 0;
+            ((Rec_func_800206D0_arg1 *)arg1)->unk_14 = -((Rec_func_800206D0_arg1 *)arg1)->unk_14;
             return;
         }
-        ((S_800236BC_0 *)arg1)->unk_08 = 0;
-        ((S_800236BC_0 *)arg1)->unk_10 = 0;
-        ((S_800236BC_0 *)arg1)->unk_0C = 0;
-        ((S_800236BC_0 *)arg1)->unk_14 = ((rand() & 0xFF) << 11) - 0x150000;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_08 = 0;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_10 = 0;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_0C = 0;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_14 = ((rand() & 0xFF) << 11) - 0x150000;
         ((S_800236BC_1 *)arg0)->unk_06.s = (rand() & 0xF) + 30;
         ((S_800236BC_1 *)arg0)->unk_04.u++;
         return;
 
 state_2:
         func_800478B8(arg2);
-        ((S_800236BC_0 *)arg1)->unk_14 += 0x30000;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_14 += 0x30000;
         ((S_800236BC_1 *)arg0)->unk_06.u--;
         speculative_page = 0x80020000;
-        if (((S_800236BC_0 *)arg1)->unk_08 < 0) {
+        if (((Rec_func_800206D0_arg1 *)arg1)->unk_08 < 0) {
             goto state_2_collision;
         }
-        ((S_800236BC_0 *)arg1)->unk_08 = 0;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_08 = 0;
         if (((S_800236BC_1 *)arg0)->unk_06.s < 0) {
             value = D_800244DC[((S_800236BC_1 *)arg0)->unk_54];
             ((Rec_D_80082E80 *)arg2)->unk_12.at00_s16.v = 0;
             ((Rec_D_80082E80 *)arg2)->unk_04.as_u8 = 0;
             ((Rec_D_80082E80 *)arg2)->unk_05.as_u8 = 0;
             ((Rec_D_80082E80 *)arg2)->unk_08 = value;
-            ((S_800236BC_0 *)arg1)->unk_14 = 0;
+            ((Rec_func_800206D0_arg1 *)arg1)->unk_14 = 0;
             ((S_800236BC_1 *)arg0)->unk_06.s = 150;
             ((S_800236BC_1 *)arg0)->unk_04.u++;
             return func_800239BC();
         }
-        ((S_800236BC_0 *)arg1)->unk_14 = -((S_800236BC_0 *)arg1)->unk_14 >> 1;
+        ((Rec_func_800206D0_arg1 *)arg1)->unk_14 = -((Rec_func_800206D0_arg1 *)arg1)->unk_14 >> 1;
         ASM_KEEP(speculative_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         speculative_page = 0x80020000;
 state_2_collision:

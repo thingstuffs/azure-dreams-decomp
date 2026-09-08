@@ -9,26 +9,16 @@ typedef struct Box {
     s32 d;
 } Box;
 
-s32 func_8008FD9C(Box *a, Box *b, Box *c, Box *e)
+/* Tests whether two offset boxes overlap or touch on all three axes. */
+s32 func_8008FD9C(Box *box_a, Box *offset_a, Box *box_b, Box *offset_b)
 {
-    s32 lo;
-    s32 hi;
+    s32 axis_a;
+    s32 axis_b;
 
-    if ((lo = b->x + a->x, hi = e->x + c->x, hi + c->w >= lo) && lo + a->w >= hi &&
-        (lo = b->y + a->y, hi = e->y + c->y, hi + c->h >= lo) && lo + a->h >= hi &&
-        (lo = b->z + a->z, hi = e->z + c->z, hi + c->d >= lo) && lo + a->d >= hi) {
+    if ((axis_a = offset_a->x + box_a->x, axis_b = offset_b->x + box_b->x, axis_b + box_b->w >= axis_a) && axis_a + box_a->w >= axis_b &&
+        (axis_a = offset_a->y + box_a->y, axis_b = offset_b->y + box_b->y, axis_b + box_b->h >= axis_a) && axis_a + box_a->h >= axis_b &&
+        (axis_a = offset_a->z + box_a->z, axis_b = offset_b->z + box_b->z, axis_b + box_b->d >= axis_a) && axis_a + box_a->d >= axis_b) {
         return 1;
     }
     return 0;
 }
-
-/* MECHANISM: frameless leaf. ONE six-term `&&` chain returning 1, with a single
-   trailing `return 0` -- NOT six early `return 0;` statements. The && chain gives
-   the false-target block SIX predecessors, which is what suppresses gcc's
-   jump.c store-flag canonicalization (`slt;xori` + `j`) on the last term; the
-   six branches each then get `move $v0,$zero` copied into their delay slot, and
-   the final term keeps its `beqz / addiu $v0,$zero,1 / move $v0,$zero` pair with
-   the compare demoted to $v1 because $v0 is live-out.
-   Per-axis `lo`/`hi` are re-assigned via the comma operator INSIDE the chain so
-   short-circuit order pins retail's load order (b,a then e,c,c->w); hoisting them
-   to statements before the `if` reorders the first axis' loads. */

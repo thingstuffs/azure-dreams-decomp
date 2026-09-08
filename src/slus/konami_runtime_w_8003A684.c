@@ -14,19 +14,20 @@ typedef struct Func8003A684State {
     struct Func8003A684State *table;
 } Func8003A684State;
 
-void func_8003A684(Func8003A684State *arg0) {
-    u8 *ptr = arg0->read_ptr;
-    u8 opcode = *ptr;
+// Jump to the encoded address if the opcode's table value is negative, otherwise skip it.
+void func_8003A684(Func8003A684State *state) {
+    u8 *stream_ptr = state->read_ptr;
+    u8 opcode = *stream_ptr;
 
-    ptr++;
-    arg0->read_ptr = ptr;
-    if (((Func8003A684Entry *)((u8 *)arg0->table + opcode * 4))->value < 0) {
-        u32 value = (u32)ptr[0]
-                  + ((u32)ptr[1] << 8)
-                  + ((u32)ptr[2] << 16)
-                  + ((u32)ptr[3] << 24);
-        arg0->read_ptr = (u8 *)value;
+    stream_ptr++;
+    state->read_ptr = stream_ptr;
+    if (((Func8003A684Entry *)((u8 *)state->table + opcode * 4))->value < 0) {
+        u32 jump_address = (u32)stream_ptr[0]
+                         + ((u32)stream_ptr[1] << 8)
+                         + ((u32)stream_ptr[2] << 16)
+                         + ((u32)stream_ptr[3] << 24);
+        state->read_ptr = (u8 *)jump_address;
     } else {
-        arg0->read_ptr = ptr + 4;
+        state->read_ptr = stream_ptr + 4;
     }
 }

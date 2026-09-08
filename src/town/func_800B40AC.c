@@ -22,11 +22,12 @@ extern u8 *strcat(u8 *dst, const u8 *src);
 extern void func_8004E99C(s32 value);
 extern s32 func_8004E298(u8 *data, u8 *text, s32 arg2);
 
-void func_800B180C(Func800B40ACArg *arg0) {
+/* Refreshes the display with the formatted global value and its suffix. */
+void func_800B180C(Func800B40ACArg *display) {
     u8 text[32];
     func_8004E5A0(READ_D_80012D5C(), 10, text);
     func_8004E69C(text);
     strcat(text, D_800D160C);
-    func_8004E99C(*arg0->handle);
-    *arg0->handle = func_8004E298(arg0->data + 0x48, text, 0);
+    func_8004E99C(*display->handle);
+    *display->handle = func_8004E298(display->data + 0x48, text, 0);
 }

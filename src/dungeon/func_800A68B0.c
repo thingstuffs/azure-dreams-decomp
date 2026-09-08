@@ -32,117 +32,118 @@ typedef struct S_800AC010_5 {
     u16 unk_0A;
 } S_800AC010_5;   /* counter2 in func_800AC010 */
 
-s32 func_800AC010(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
-    u16 sp20;
-    u16 sp22;
-    M2C_UNK var_a2;
-    M2C_UNK var_a2_2;
-    M2C_UNK move_flags1;
-    M2C_UNK move_flags2;
-    u8 move_x1;
-    u8 move_y1;
-    u8 move_x2;
-    u8 move_y2;
-    s32 *counter1;
-    s32 *counter2;
-    s16 temp_a0;
-    s32 temp_v0_5;
-    s32 temp_v1;
-    s16 temp_v0;
-    s16 temp_v0_4;
-    u16 temp_v0_3;
-    void *temp_v0_2;
+/* Advance tile movement, handle object contact, and finalize the stopping position. */
+s32 func_800AC010(void *move_state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile_pos, Rec_D_800E3D7C *actor) {
+    u16 resolved_x;
+    u16 resolved_y;
+    M2C_UNK contact_tile_mask;
+    M2C_UNK stop_tile_mask;
+    M2C_UNK contact_flags;
+    M2C_UNK stop_flags;
+    u8 contact_x;
+    u8 contact_y;
+    u8 stop_x;
+    u8 stop_y;
+    s32 *contact_counters;
+    s32 *stop_counters;
+    s16 move_ticks;
+    s32 target_x;
+    s32 axis_pos;
+    s16 ticks_left;
+    s16 ground_height;
+    u16 steps_left;
+    void *hit_object;
 
-    temp_a0 = ((Rec_func_800A9E70_arg0 *)arg0)->unk_96.as_s16;
-    if (temp_a0 != 0) {
-        temp_v0_5 = arg2->unk_24;
-        temp_v1 = arg1->unk_00.at02_s16.v;
-        temp_v0_5 <<= 6;
-        temp_v1 -= 0x20;
-        arg1->unk_0C.as_s32 = (s32) ((s32) ((temp_v0_5 - temp_v1) << 0x10) / temp_a0);
-        temp_v1 = arg1->unk_04.at02_s16.v - 0x20;
-        arg1->unk_10.at00_s32.v = (s32) ((s32) (((arg2->unk_25 << 6) - temp_v1) << 0x10) / (s16) ((Rec_func_800A9E70_arg0 *)arg0)->unk_96.as_s16);
+    move_ticks = ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16;
+    if (move_ticks != 0) {
+        target_x = tile_pos->unk_24;
+        axis_pos = motion->unk_00.at02_s16.v;
+        target_x <<= 6;
+        axis_pos -= 0x20;
+        motion->unk_0C.as_s32 = (s32) ((s32) ((target_x - axis_pos) << 0x10) / move_ticks);
+        axis_pos = motion->unk_04.at02_s16.v - 0x20;
+        motion->unk_10.at00_s32.v = (s32) ((s32) (((tile_pos->unk_25 << 6) - axis_pos) << 0x10) / (s16) ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16);
     }
-    temp_v0 = (u16) ((Rec_func_800A9E70_arg0 *)arg0)->unk_96.as_s16 - 1;
-    ((Rec_func_800A9E70_arg0 *)arg0)->unk_96.as_s16 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        temp_v0_2 = func_8009C93C(arg3, arg2, arg3->unk_6A.as_s16, 0, 0);
-        if (temp_v0_2 != NULL) {
-            func_8009CE1C(arg3, 4, 1, 8, (s32) (s16) ((u16) arg3->unk_6A.as_s16 + 0x800), 0, 1);
-            func_8009CE1C(temp_v0_2, 8, 1, 8, (s32) arg3->unk_6A.as_s16, 0, 1);
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)arg0)->unk_98 & 0xFFF7);
-            arg1->unk_14.as_s32 = 0;
-            arg1->unk_10.at00_s32.v = 0;
-            arg1->unk_0C.as_s32 = 0;
-            arg3->unk_1C.as_s32 = (s32) (arg3->unk_1C.as_s32 | 0x40000000);
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9C.as_u8 = (u8) arg2->unk_26.as_u8;
-            arg2->unk_26.as_u8 = func_8009FB34(arg2->unk_24, arg2->unk_25);
-            func_800A19E4(arg2, arg3, 3, 6, arg0 + 0x9C);
-            if ((func_8009B88C(arg3, arg2->unk_24, arg2->unk_25, &sp20, &sp22) << 0x10) != 0) {
+    ticks_left = (u16) ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 - 1;
+    ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        hit_object = func_8009C93C(actor, tile_pos, actor->unk_6A.as_s16, 0, 0);
+        if (hit_object != NULL) {
+            func_8009CE1C(actor, 4, 1, 8, (s32) (s16) ((u16) actor->unk_6A.as_s16 + 0x800), 0, 1);
+            func_8009CE1C(hit_object, 8, 1, 8, (s32) actor->unk_6A.as_s16, 0, 1);
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
+            motion->unk_14.as_s32 = 0;
+            motion->unk_10.at00_s32.v = 0;
+            motion->unk_0C.as_s32 = 0;
+            actor->unk_1C.as_s32 = (s32) (actor->unk_1C.as_s32 | 0x40000000);
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26.as_u8;
+            tile_pos->unk_26.as_u8 = func_8009FB34(tile_pos->unk_24, tile_pos->unk_25);
+            func_800A19E4(tile_pos, actor, 3, 6, move_state + 0x9C);
+            if ((func_8009B88C(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) != 0) {
                 goto object_move_ok;
             }
 common_fail:
-            func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-            func_800AA5E4(arg0, arg1, arg2, arg3);
+            func_800A2B04(motion, tile_pos->unk_24, tile_pos->unk_25);
+            func_800AA5E4(move_state, motion, tile_pos, actor);
             return 0;
 object_move_ok:
-            arg2->unk_24 = sp20;
-            arg2->unk_25 = sp22;
-            func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-            move_flags1 = arg3->unk_1C.as_s32;
-            move_x1 = arg2->unk_24;
-            move_y1 = arg2->unk_25;
-            var_a2 = 0x3000;
-            if (move_flags1 & 0x2000) {
-                var_a2 = 0x300;
+            tile_pos->unk_24 = resolved_x;
+            tile_pos->unk_25 = resolved_y;
+            func_800A2B04(motion, tile_pos->unk_24, tile_pos->unk_25);
+            contact_flags = actor->unk_1C.as_s32;
+            contact_x = tile_pos->unk_24;
+            contact_y = tile_pos->unk_25;
+            contact_tile_mask = 0x3000;
+            if (contact_flags & 0x2000) {
+                contact_tile_mask = 0x300;
             }
-            func_8009A21C(move_x1, move_y1, var_a2);
-            counter1 = D_80083460;
-            arg3->unk_1C.as_s32 = (s32) (arg3->unk_1C.as_s32 & 0xFFDFFFFF);
-            ((S_800AC010_4 *)counter1)->unk_0A = (u16) (((S_800AC010_4 *)counter1)->unk_0A - 1);
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_96.as_s16 = 0;
-            arg3->unk_71.as_s8 = 0;
+            func_8009A21C(contact_x, contact_y, contact_tile_mask);
+            contact_counters = D_80083460;
+            actor->unk_1C.as_s32 = (s32) (actor->unk_1C.as_s32 & 0xFFDFFFFF);
+            ((S_800AC010_4 *)contact_counters)->unk_0A = (u16) (((S_800AC010_4 *)contact_counters)->unk_0A - 1);
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
+            actor->unk_71.as_s8 = 0;
             return 1;
         }
-        if ((func_8009B164(arg3->unk_6A.as_s16, arg1, arg2) << 0x10) != 0) {
-            temp_v0_3 = arg3->unk_8A.as_u16 - 1;
-            arg3->unk_8A.as_u16 = temp_v0_3;
-            if ((temp_v0_3 << 0x10) > 0) {
-                arg2->unk_24 = (u8) (arg2->unk_24 + *(((u16) arg3->unk_6A.as_s16 >> 9 & 7) + D_8006CCD8));
-                arg2->unk_25 = (u8) (arg2->unk_25 + *(((u16) arg3->unk_6A.as_s16 >> 9 & 7) + D_8006CCE8));
-                ((Rec_func_800A9E70_arg0 *)arg0)->unk_96.as_s16 = 2;
+        if ((func_8009B164(actor->unk_6A.as_s16, motion, tile_pos) << 0x10) != 0) {
+            steps_left = actor->unk_8A.as_u16 - 1;
+            actor->unk_8A.as_u16 = steps_left;
+            if ((steps_left << 0x10) > 0) {
+                tile_pos->unk_24 = (u8) (tile_pos->unk_24 + *(((u16) actor->unk_6A.as_s16 >> 9 & 7) + D_8006CCD8));
+                tile_pos->unk_25 = (u8) (tile_pos->unk_25 + *(((u16) actor->unk_6A.as_s16 >> 9 & 7) + D_8006CCE8));
+                ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 2;
                 goto movement_return;
             }
         }
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)arg0)->unk_98 & 0xFFF7);
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_9C.as_u8 = (u8) arg2->unk_26.as_u8;
-        arg2->unk_26.as_u8 = func_8009FB34(arg2->unk_24, arg2->unk_25);
-        func_800A19E4(arg2, arg3, 3, 6, arg0 + 0x9C);
-        temp_v0_4 = func_800BCB04((arg2->unk_24 << 6) | 0x20, (arg2->unk_25 << 6) | 0x20, (s16) (arg1->unk_08.at02_u16.v - 0x20));
-        if (temp_v0_4 < 0x200) {
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_90.at02_s16.v = 0;
-            arg3->unk_88.as_s16 = temp_v0_4;
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
+        ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26.as_u8;
+        tile_pos->unk_26.as_u8 = func_8009FB34(tile_pos->unk_24, tile_pos->unk_25);
+        func_800A19E4(tile_pos, actor, 3, 6, move_state + 0x9C);
+        ground_height = func_800BCB04((tile_pos->unk_24 << 6) | 0x20, (tile_pos->unk_25 << 6) | 0x20, (s16) (motion->unk_08.at02_u16.v - 0x20));
+        if (ground_height < 0x200) {
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_90.at02_s16.v = 0;
+            actor->unk_88.as_s16 = ground_height;
         }
-        counter2 = D_80083460;
-        ((S_800AC010_5 *)counter2)->unk_0A = (u16) (((S_800AC010_5 *)counter2)->unk_0A - 1);
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_96.as_s16 = 0;
-        arg3->unk_1C.as_s32 = (s32) ((arg3->unk_1C.as_s32 | 0x40000000) & 0xFFDFFFFF);
-        if ((func_8009B88C(arg3, arg2->unk_24, arg2->unk_25, &sp20, &sp22) << 0x10) != 0) {
-            arg2->unk_24 = sp20;
-            arg2->unk_25 = sp22;
-            func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-            move_flags2 = arg3->unk_1C.as_s32;
-            move_x2 = arg2->unk_24;
-            move_y2 = arg2->unk_25;
-            var_a2_2 = 0x3000;
-            if (move_flags2 & 0x2000) {
-                var_a2_2 = 0x300;
+        stop_counters = D_80083460;
+        ((S_800AC010_5 *)stop_counters)->unk_0A = (u16) (((S_800AC010_5 *)stop_counters)->unk_0A - 1);
+        ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
+        actor->unk_1C.as_s32 = (s32) ((actor->unk_1C.as_s32 | 0x40000000) & 0xFFDFFFFF);
+        if ((func_8009B88C(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) != 0) {
+            tile_pos->unk_24 = resolved_x;
+            tile_pos->unk_25 = resolved_y;
+            func_800A2B04(motion, tile_pos->unk_24, tile_pos->unk_25);
+            stop_flags = actor->unk_1C.as_s32;
+            stop_x = tile_pos->unk_24;
+            stop_y = tile_pos->unk_25;
+            stop_tile_mask = 0x3000;
+            if (stop_flags & 0x2000) {
+                stop_tile_mask = 0x300;
             }
-            func_8009A21C(move_x2, move_y2, var_a2_2);
-            arg3->unk_71.as_s8 = 0;
+            func_8009A21C(stop_x, stop_y, stop_tile_mask);
+            actor->unk_71.as_s8 = 0;
             return 1;
         }
         goto common_fail;

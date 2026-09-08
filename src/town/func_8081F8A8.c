@@ -23,125 +23,121 @@ typedef struct S_800220A8_2 {
 M2C_UNK func_800644B8();
 extern M2C_UNK D_800814A0;
 
-void func_800220A8(void *arg0, void *arg1) {
-    s16 temp_v1;
-    s32 temp_v0;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
-    s32 var_v0;
-    s32 temp_a1;
-    u16 temp_a0_2;
+/* Update motion through approach, oscillation, and withdrawal, flagging completion. */
+void func_800220A8(void *motion_state, void *motion) {
+    s16 state;
+    s32 phase_two;
 
-    temp_a1 = 2;
-    if (((S_800220A8_2 *)(((S_800220A8_0 *)arg0)->unk_04))->unk_18 == temp_a1) {
-        ((S_800220A8_0 *)arg0)->unk_00 = 3;
+    phase_two = 2;
+    if (((S_800220A8_2 *)(((S_800220A8_0 *)motion_state)->unk_04))->unk_18 == phase_two) {
+        ((S_800220A8_0 *)motion_state)->unk_00 = 3;
     }
-    temp_v1 = ((S_800220A8_0 *)arg0)->unk_00;
-    if (temp_v1 != temp_a1) {
-        if (temp_v1 < 3) {
-            if (temp_v1 != 0) {
-                if (temp_v1 == 1) {
-                    goto state1;
+    state = ((S_800220A8_0 *)motion_state)->unk_00;
+    if (state != phase_two) {
+        if (state < 3) {
+            if (state != 0) {
+                if (state == 1) {
+                    goto accelerate;
                 }
                 return;
             }
-            goto state0;
+            goto approach;
         }
-        if (temp_v1 != 3) {
-            if (temp_v1 != 0xF0) {
+        if (state != 3) {
+            if (state != 0xF0) {
                 return;
             }
-            goto state_f0;
+            goto oscillate;
         }
-        goto state3;
+        goto withdraw;
     }
-    goto state2;
+    goto decelerate;
 
-state0:
-    if ((((S_800220A8_1 *)arg1)->unk_08 += 0x100000) < (s32)0xFF900000) {
+approach:
+    if ((((S_800220A8_1 *)motion)->unk_08 += 0x100000) < (s32)0xFF900000) {
         return;
     }
-    ((S_800220A8_0 *)arg0)->unk_02 = 0;
-    ((S_800220A8_1 *)arg1)->unk_14 = -0x40000;
-    goto set_state1;
+    ((S_800220A8_0 *)motion_state)->unk_02 = 0;
+    ((S_800220A8_1 *)motion)->unk_14 = -0x40000;
+    goto start_acceleration;
 
-state1:
+accelerate:
 {
-    s32 state1_a0;
-    register s32 state1_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 state1_v0;
+    s32 velocity;
+    register s32 next_velocity ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 position;
 
-    state1_a0 = ((S_800220A8_1 *)arg1)->unk_14;
-    state1_v1 = state1_a0;
-    ASM_KEEP_NV(state1_v1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    state1_v0 = ((S_800220A8_1 *)arg1)->unk_08;
-    state1_v0 += state1_a0;
-    state1_v1 += 0x4000;
-    ((S_800220A8_1 *)arg1)->unk_08 = state1_v0;
-    ((S_800220A8_1 *)arg1)->unk_14 = state1_v1;
-    if (state1_v1 != 0x40000) {
+    velocity = ((S_800220A8_1 *)motion)->unk_14;
+    next_velocity = velocity;
+    ASM_KEEP_NV(next_velocity);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    position = ((S_800220A8_1 *)motion)->unk_08;
+    position += velocity;
+    next_velocity += 0x4000;
+    ((S_800220A8_1 *)motion)->unk_08 = position;
+    ((S_800220A8_1 *)motion)->unk_14 = next_velocity;
+    if (next_velocity != 0x40000) {
         return;
     }
-    ((S_800220A8_0 *)arg0)->unk_00 = temp_a1;
+    ((S_800220A8_0 *)motion_state)->unk_00 = phase_two;
     return;
 }
 
-state2:
+decelerate:
 {
-    register s32 state2_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 state2_v1;
+    register s32 position_or_velocity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 velocity_step;
 
-    state2_v0 = ((S_800220A8_1 *)arg1)->unk_08;
-    state2_v1 = ((S_800220A8_1 *)arg1)->unk_14;
-    state2_v0 += state2_v1;
-    ((S_800220A8_1 *)arg1)->unk_08 = state2_v0;
-    state2_v0 = state2_v1;
-    state2_v1 = -0x8000;
-    state2_v0 += state2_v1;
-    ((S_800220A8_1 *)arg1)->unk_14 = state2_v0;
-    if (state2_v0 != -0x40000) {
+    position_or_velocity = ((S_800220A8_1 *)motion)->unk_08;
+    velocity_step = ((S_800220A8_1 *)motion)->unk_14;
+    position_or_velocity += velocity_step;
+    ((S_800220A8_1 *)motion)->unk_08 = position_or_velocity;
+    position_or_velocity = velocity_step;
+    velocity_step = -0x8000;
+    position_or_velocity += velocity_step;
+    ((S_800220A8_1 *)motion)->unk_14 = position_or_velocity;
+    if (position_or_velocity != -0x40000) {
         return;
     }
 }
 
-set_state1:
-    ((S_800220A8_0 *)arg0)->unk_00 = 1;
+start_acceleration:
+    ((S_800220A8_0 *)motion_state)->unk_00 = 1;
     return;
 
-state_f0:
+oscillate:
 {
-    u16 statef0_a0;
-    s32 statef0_v0;
-    s32 statef0_v1;
+    u16 phase;
+    s32 position;
+    s32 base_position;
 
-    statef0_a0 = (((S_800220A8_0 *)arg0)->unk_02 + 1) & 0x7F;
-    ((S_800220A8_0 *)arg0)->unk_02 = statef0_a0;
-    statef0_v0 = func_800644B8(statef0_a0 << 6, temp_a1, arg0);
-    statef0_v0 <<= 7;
-    statef0_v1 = (s32)0xFF900000;
-    statef0_v0 += statef0_v1;
-    ((S_800220A8_1 *)arg1)->unk_08 = statef0_v0;
+    phase = (((S_800220A8_0 *)motion_state)->unk_02 + 1) & 0x7F;
+    ((S_800220A8_0 *)motion_state)->unk_02 = phase;
+    position = func_800644B8(phase << 6, phase_two, motion_state);
+    position <<= 7;
+    base_position = (s32)0xFF900000;
+    position += base_position;
+    ((S_800220A8_1 *)motion)->unk_08 = position;
     return;
 }
 
-state3:
+withdraw:
 {
-    register s32 state3_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 state3_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 position_or_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 exit_check ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    state3_v0 = ((S_800220A8_1 *)arg1)->unk_08;
-    state3_v1 = (s32)0xFFF00000;
-    state3_v0 += state3_v1;
-    state3_v1 = (s32)0xFE000000;
-    state3_v1 = state3_v1 < state3_v0;
-    ((S_800220A8_1 *)arg1)->unk_08 = state3_v0;
-    if (state3_v1 != 0) {
+    position_or_flags = ((S_800220A8_1 *)motion)->unk_08;
+    exit_check = (s32)0xFFF00000;
+    position_or_flags += exit_check;
+    exit_check = (s32)0xFE000000;
+    exit_check = exit_check < position_or_flags;
+    ((S_800220A8_1 *)motion)->unk_08 = position_or_flags;
+    if (exit_check != 0) {
         return;
     }
-    (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
-    state3_v0 = D_800814A0;
-    state3_v0 |= 0x8000;
-    D_800814A0 = state3_v0;
+    (*(u16 *)((u8 *)motion_state + -2)) |= 0x8000;
+    position_or_flags = D_800814A0;
+    position_or_flags |= 0x8000;
+    D_800814A0 = position_or_flags;
     return;
 }
 }

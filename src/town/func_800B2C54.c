@@ -15,15 +15,16 @@ extern void func_8004B248(void *arg0);
 extern void func_800B0318(s32 arg0);
 extern s32 D_800814A0;
 
-void func_800B03B4(Object *arg0)
+// Process a non-null object and set its local and global 0x8000 flags.
+void func_800B03B4(Object *object)
 {
     Inner *inner;
 
-    if (arg0 != 0) {
-        inner = &arg0->inner;
-        func_8004B248((u8 *)arg0 + 0xCC);
+    if (object != 0) {
+        inner = &object->inner;
+        func_8004B248((u8 *)object + 0xCC);
         func_800B0318(inner->field_A8);
-        arg0->flags |= 0x8000;
+        object->flags |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

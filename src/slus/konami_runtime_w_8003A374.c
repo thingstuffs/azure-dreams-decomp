@@ -9,42 +9,43 @@ typedef struct {
     u8 *table;
 } Func8003A374State;
 
-void func_8003A374(Func8003A374State *arg0) {
-    u8 *temp_v0;
-    u32 temp_t0;
-    u32 temp_t1;
-    u32 temp_v1;
-    u8 *temp_a1;
-    u32 temp_a2;
-    u32 temp_a3;
-    u32 temp_a1_value;
+/* Copies a table word to the destination address selected by the command bytes. */
+void func_8003A374(Func8003A374State *state) {
+    u8 *cursor;
+    u32 source_entry;
+    u32 dest_offset;
+    u32 dest_lookup;
+    u8 *addr_bytes;
+    u32 addr_byte1;
+    u32 addr_byte2;
+    u32 addr_byte3;
     u32 table_base;
 
-    temp_v0 = arg0->read_ptr;
-    temp_t0 = temp_v0[0];
-    temp_v0++;
-    arg0->read_ptr = temp_v0;
-    temp_t1 = temp_v0[0];
-    temp_a1 = temp_v0 + 1;
-    arg0->read_ptr = temp_a1;
-    temp_v1 = temp_v0[1];
-    temp_a2 = temp_a1[1];
-    temp_a3 = temp_a1[2];
-    temp_a1_value = temp_a1[3];
-    arg0->read_ptr = temp_v0 + 5;
-    table_base = (u32)arg0->table;
-    temp_t1 <<= 2;
-    temp_a2 <<= 8;
+    cursor = state->read_ptr;
+    source_entry = cursor[0];
+    cursor++;
+    state->read_ptr = cursor;
+    dest_offset = cursor[0];
+    addr_bytes = cursor + 1;
+    state->read_ptr = addr_bytes;
+    dest_lookup = cursor[1];
+    addr_byte1 = addr_bytes[1];
+    addr_byte2 = addr_bytes[2];
+    addr_byte3 = addr_bytes[3];
+    state->read_ptr = cursor + 5;
+    table_base = (u32)state->table;
+    dest_offset <<= 2;
+    addr_byte1 <<= 8;
     do {
-        temp_v1 += temp_a2;
+        dest_lookup += addr_byte1;
     } while (0);
-    temp_a3 <<= 16;
-    temp_v1 += temp_a3;
-    temp_a1_value <<= 24;
-    temp_v1 += temp_a1_value;
-    temp_v1 += temp_t1;
-    temp_t0 <<= 2;
-    temp_t0 += table_base;
-    *(s32 *)(u32)*(u8 *)temp_v1 =
-        *(s32 *)(temp_t0 + 0x48);
+    addr_byte2 <<= 16;
+    dest_lookup += addr_byte2;
+    addr_byte3 <<= 24;
+    dest_lookup += addr_byte3;
+    dest_lookup += dest_offset;
+    source_entry <<= 2;
+    source_entry += table_base;
+    *(s32 *)(u32)*(u8 *)dest_lookup =
+        *(s32 *)(source_entry + 0x48);
 }

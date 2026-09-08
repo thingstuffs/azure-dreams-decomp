@@ -20,10 +20,11 @@ typedef struct S_800399EC_0 {
 } S_800399EC_0;   /* arg0 in func_800399EC */
 
 
-void func_800399EC(S_800399EC_0 *arg0) {
-    u8 *temp_v0;
+/* Store the next event-script byte in the linked object's field and advance the script pointer. */
+void func_800399EC(S_800399EC_0 *script_ctx) {
+    u8 *script_ptr;
 
-    temp_v0 = arg0->unk_1C;
-    ((S_800399EC_2 *)(((S_800399EC_1 *)arg0)->unk_80))->unk_3D = (u8) *temp_v0;
-    arg0->unk_1C = (u8 *) (temp_v0 + 1);
+    script_ptr = script_ctx->unk_1C;
+    ((S_800399EC_2 *)(((S_800399EC_1 *)script_ctx)->unk_80))->unk_3D = (u8) *script_ptr;
+    script_ctx->unk_1C = (u8 *) (script_ptr + 1);
 }

@@ -1,14 +1,9 @@
 #include "common.h"
+#include "records/Rec_func_801736F4_arg0.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
 
-typedef struct S_801736F4_0 {
-    u8 pad_00[0x8C];
-    void * unk_8C;
-    u8 pad_90[0xB];
-    u8 unk_9B;
-} S_801736F4_0;   /* arg0 in func_801736F4 */
 
 
 typedef struct S_801736F4_2 {
@@ -44,11 +39,12 @@ extern u8 D_80170E54;
 extern u8 D_80173CD4[];
 extern u8 D_80173CDC[];
 
-void func_801736F4(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advances the entity's animation state and processes pending actions. */
+void func_801736F4(void *controller, void *context, void *sprite, void *entity)
 {
     s32 state;
 
-    state = ((S_801736F4_0 *)arg0)->unk_9B;
+    state = ((Rec_func_801736F4_arg0 *)controller)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -68,104 +64,104 @@ at_least_two:
 
 state_zero:
     {
-        s32 *base;
-        u8 *table;
+        s32 *counter_state;
+        u8 *direction_anims;
 
-        if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
             goto done;
         }
 
-        base = &D_80083460;
-        ((S_801736F4_2 *)base)->unk_0A--;
-        table = D_80173CDC;
-        (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-        func_80047784(arg2,
-            table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        counter_state = &D_80083460;
+        ((S_801736F4_2 *)counter_state)->unk_0A--;
+        direction_anims = D_80173CDC;
+        (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
+        func_80047784(sprite,
+            direction_anims[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         goto increment_state;
     }
 
 state_one:
     {
-        u8 *global;
-        u32 flags;
+        u8 *dungeon_state;
+        u32 entity_flags;
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v != 0) {
-            s32 *base;
+        if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v != 0) {
+            s32 *counter_state;
 
-            (*(void * *)((u8 *)arg2 + 0x2C)) = D_80173CD4;
-            func_80047784(arg2,
-                D_80173CD4[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            (*(void * *)((u8 *)sprite + 0x2C)) = D_80173CD4;
+            func_80047784(sprite,
+                D_80173CD4[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
-            (*(u32 *)((u8 *)arg3 + 0x1C)) |= 0x40000;
-            base = &D_80083460;
-            ((S_801736F4_2 *)base)->unk_0A++;
+            (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
+            counter_state = &D_80083460;
+            ((S_801736F4_2 *)counter_state)->unk_0A++;
             goto increment_state;
         }
 
-        global = (u8 *)&D_80083460;
-        if (((S_801736F4_4 *)global)->unk_02 & 0x1000) {
+        dungeon_state = (u8 *)&D_80083460;
+        if (((S_801736F4_4 *)dungeon_state)->unk_02 & 0x1000) {
             goto done;
         }
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
+        if (((Rec_D_800E3D7C *)entity)->unk_64.as_s16 != 0) {
+            if (func_800AA6B4(controller, context, sprite, 0) != 0) {
                 goto done;
             }
         }
 
-        if ((func_800A2C34(arg3) << 16) != 0) {
+        if ((func_800A2C34(entity) << 16) != 0) {
             goto done;
         }
 
-        flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32;
-        if (flags & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        entity_flags = ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32;
+        if (entity_flags & 0x100) {
+            func_800AA258(controller, context, sprite, entity);
             goto done;
         }
 
-        if (flags & 0x80000) {
-            func_800AA888(arg0, arg1, arg2, arg3);
-            func_80173A30(arg0, arg1, arg2, arg3);
+        if (entity_flags & 0x80000) {
+            func_800AA888(controller, context, sprite, entity);
+            func_80173A30(controller, context, sprite, entity);
             goto done;
         }
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
+        if (((Rec_D_800E3D7C *)entity)->unk_6D.as_s8 == 0) {
             goto done;
         }
-        if ((func_800A2C34(arg3) << 16) != 0) {
-            if ((func_8009A180(arg3,
+        if ((func_800A2C34(entity) << 16) != 0) {
+            if ((func_8009A180(entity,
                     (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                 goto done;
             }
         }
 
-        func_800A9A0C(arg3);
-        func_800A9A04(arg3);
-        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
+        func_800A9A0C(entity);
+        func_800A9A04(entity);
+        if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v == 0) {
             goto done;
         }
 
-        (*(void * *)((u8 *)arg2 + 0x2C)) = D_80173CD4;
-        func_80047784(arg2,
-            D_80173CD4[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        (*(void * *)((u8 *)sprite + 0x2C)) = D_80173CD4;
+        func_80047784(sprite,
+            D_80173CD4[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x40000;
-        ((S_801736F4_4 *)global)->unk_0A++;
+        ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 |= 0x40000;
+        ((S_801736F4_4 *)dungeon_state)->unk_0A++;
     }
 
 increment_state:
-    ((S_801736F4_0 *)arg0)->unk_9B++;
+    ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
     goto done;
 
 state_two:
-    if (((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000) {
-        s32 *base;
+    if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000) {
+        s32 *counter_state;
 
-        base = &D_80083460;
-        ((S_801736F4_2 *)base)->unk_0A--;
-        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x208;
-        ((S_801736F4_0 *)arg0)->unk_8C = &D_80170E54;
+        counter_state = &D_80083460;
+        ((S_801736F4_2 *)counter_state)->unk_0A--;
+        ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 &= ~0x208;
+        ((Rec_func_801736F4_arg0 *)controller)->unk_8C = &D_80170E54;
     }
 
 done:

@@ -19,26 +19,27 @@ extern void func_80408394(void *arg0, s32 arg1, s32 arg2);
 extern void func_804084DC(void *arg0);
 extern void func_804083A0(void);
 
-void *func_802F13FC(s32 arg0, M2C_UNK arg1) {
-    void *var_s0;
-    u8 *var_s3;
+/* Creates or resets the town object, initializes its state, and installs its callback. */
+void *func_802F13FC(s32 init_value_a, M2C_UNK init_value_b) {
+    void *object;
+    u8 *state;
 
-    var_s0 = D_8040C5C0;
-    var_s3 = (u8 *)var_s0 + 0x20;
-    if (func_80047FD8(var_s0) == 0) {
-        var_s0 = func_8003C714(0, D_8040C5C0, 0x19);
-        if (var_s0 == NULL) {
+    object = D_8040C5C0;
+    state = (u8 *)object + 0x20;
+    if (func_80047FD8(object) == 0) {
+        object = func_8003C714(0, D_8040C5C0, 0x19);
+        if (object == NULL) {
             func_8007C040(D_8040086C, D_80400894, 0x173);
             func_8007BEF0(1);
-            goto block_3;
+            goto reset_object;
         }
     } else {
-block_3:
-        func_804084DC(var_s0);
+reset_object:
+        func_804084DC(object);
         D_8040C5DE_STORE[0] = (u16) (D_8040C5DE_LOAD[0] & 0x7FFF);
-        func_8007BFE0(var_s3, 0x44);
+        func_8007BFE0(state, 0x44);
     }
-    func_80408394(var_s3, arg0, arg1);
-    *(void **)((u8 *)var_s0 + 0x10) = (void *)func_804083A0;
-    return var_s0;
+    func_80408394(state, init_value_a, init_value_b);
+    *(void **)((u8 *)object + 0x10) = (void *)func_804083A0;
+    return object;
 }

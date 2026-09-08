@@ -9,8 +9,9 @@ typedef struct {
 
 extern u8 D_80016000[];
 
-void func_8059EAA0(s32 arg0) {
+/* Store the value in the first word of the current state entry. */
+void func_8059EAA0(s32 value) {
     State *state = *(State **)D_80016000;
 
-    do { state->base[state->count * 2] = arg0; } while (0);
+    state->base[state->count * 2] = value;
 }

@@ -32,33 +32,34 @@ typedef struct S_800249B4_2 {
     s16 unk_08;
 } S_800249B4_2;   /* temp_v1 in func_800249B4 */
 
-void func_800249B4(void *arg0) {
-    s32 var_t0;
-    s16 var_t1;
-    s16 var_a3;
-    s32 var_a2;
-    void *temp_a0;
-    S_800249B4_1 *temp_v0;
-    S_800249B4_2 *temp_v1;
-    void *var_a1;
+/* Initialize two resource buffers and assign them to vertically spaced entries. */
+void func_800249B4(void *context) {
+    s32 entry_index;
+    s16 x;
+    s16 y;
+    s32 buffer_offset;
+    void *buffer;
+    S_800249B4_1 *entry;
+    S_800249B4_2 *position;
+    void *entry_cursor;
 
-    func_8004DA74((u8 *)arg0 + 0x84, D_800283EC[0], 1);
-    func_8004DA74((u8 *)arg0 + 0x204, D_800283EC[1], 1);
-    var_t0 = 0;
-    var_t1 = 0xA9;
-    var_a3 = 0x110;
-    var_a2 = 0x84;
-    var_a1 = arg0;
+    func_8004DA74((u8 *)context + 0x84, D_800283EC[0], 1);
+    func_8004DA74((u8 *)context + 0x204, D_800283EC[1], 1);
+    entry_index = 0;
+    x = 0xA9;
+    y = 0x110;
+    buffer_offset = 0x84;
+    entry_cursor = context;
     do {
-        temp_a0 = (u8 *)arg0 + var_a2;
-        temp_v0 = ((S_800249B4_0 *)var_a1)->unk_B4C;
-        var_a2 += 0x180;
-        temp_v1 = temp_v0->unk_04;
-        var_a1 = (u8 *)var_a1 + 4;
-        temp_v0->unk_00 = temp_a0;
-        temp_v1->unk_08 = var_t1;
-        var_t0 += 1;
-        ((S_800249B4_4 *)(((S_800249B4_3 *)temp_v0)->unk_04))->unk_0A = var_a3;
-        var_a3 += 0x10;
-    } while (var_t0 < 2);
+        buffer = (u8 *)context + buffer_offset;
+        entry = ((S_800249B4_0 *)entry_cursor)->unk_B4C;
+        buffer_offset += 0x180;
+        position = entry->unk_04;
+        entry_cursor = (u8 *)entry_cursor + 4;
+        entry->unk_00 = buffer;
+        position->unk_08 = x;
+        entry_index += 1;
+        ((S_800249B4_4 *)(((S_800249B4_3 *)entry)->unk_04))->unk_0A = y;
+        y += 0x10;
+    } while (entry_index < 2);
 }

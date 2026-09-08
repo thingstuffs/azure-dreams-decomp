@@ -6,6 +6,7 @@ extern void *D_80016000[];
 extern u8 D_80016300[];
 extern u8 D_800164EB[];
 
+/* Selects a message based on the current message, callback result, and town state. */
 u8 *func_800168D4(void)
 {
     u8 *message;

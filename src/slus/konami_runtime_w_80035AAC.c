@@ -11,6 +11,7 @@ typedef struct S_80035AAC_0 {
 
 extern M2C_UNK func_80035AF8;
 
-void func_80035AAC(S_80035AAC_0 *arg0) {
-    arg0->unk_68 = &func_80035AF8;
+/* Set the object's function pointer to func_80035AF8. */
+void func_80035AAC(S_80035AAC_0 *object) {
+    object->unk_68 = &func_80035AF8;
 }

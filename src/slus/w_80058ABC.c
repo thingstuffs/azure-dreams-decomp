@@ -1,16 +1,16 @@
 #include "common.h"
 
-/* Calls func_800589B8(a0) four times and packs the four byte-masked results into a 32-bit word via func_80058A7C. */
 extern s32 func_800589B8(s32 a0);
 extern u32 func_80058A7C(s32 a0, s32 a1, s32 a2, s32 a3);
 
-u32 func_80058ABC(s32 a0)
+/* Packs the low bytes of four successive func_800589B8 results into a word. */
+u32 func_80058ABC(s32 input)
 {
-    s32 b0, b1, b2, b3;
+    s32 first_byte, second_byte, third_byte, fourth_byte;
 
-    b0 = func_800589B8(a0);
-    b1 = func_800589B8(a0);
-    b2 = func_800589B8(a0);
-    b3 = func_800589B8(a0);
-    return func_80058A7C(b0 & 0xFF, b1 & 0xFF, b2 & 0xFF, b3 & 0xFF);
+    first_byte = func_800589B8(input);
+    second_byte = func_800589B8(input);
+    third_byte = func_800589B8(input);
+    fourth_byte = func_800589B8(input);
+    return func_80058A7C(first_byte & 0xFF, second_byte & 0xFF, third_byte & 0xFF, fourth_byte & 0xFF);
 }

@@ -27,92 +27,93 @@ typedef struct {
     s16 y1;
 } LineF2;
 
-void func_80052774(s16 x, s16 y, s16 w, s16 n)
+/* Draw a shaded horizontal line with dimmer translucent lines above and below. */
+void func_80052774(s16 x, s16 y, s16 width, s16 shade_step)
 {
-    D80083160_t *base;
-    LineF2 *p;
-    LineF2 *q;
-    LineF2 *r;
-    s16 g;
-    s16 b;
+    D80083160_t *render_state;
+    LineF2 *center_line;
+    LineF2 *upper_line;
+    LineF2 *lower_line;
+    s16 red_green;
+    s16 blue;
 
-    base = &D_80083160;
-    if (n < 0x11) {
-        b = n * 8 + 0x80;
-        if (b == 0x100) {
-            b = 0xFF;
+    render_state = &D_80083160;
+    if (shade_step < 0x11) {
+        blue = shade_step * 8 + 0x80;
+        if (blue == 0x100) {
+            blue = 0xFF;
         }
-        g = n * 8 + 0x40;
+        red_green = shade_step * 8 + 0x40;
     } else {
-        b = 0x200 - n * 16;
-        g = 0x100 - n * 8;
+        blue = 0x200 - shade_step * 16;
+        red_green = 0x100 - shade_step * 8;
     }
 
-    p = (LineF2 *)base->ctx->prim;
-    base->ctx->prim = (u8 *)p + 0x10;
-    p->len = 3;
-    p->code = 0x40;
-    p->r0 = g;
-    p->g0 = g;
-    p->b0 = b;
+    center_line = (LineF2 *)render_state->ctx->prim;
+    render_state->ctx->prim = (u8 *)center_line + 0x10;
+    center_line->len = 3;
+    center_line->code = 0x40;
+    center_line->r0 = red_green;
+    center_line->g0 = red_green;
+    center_line->b0 = blue;
     if (x > 0) {
-        p->x0 = 0;
-        p->y0 = y;
-        p->x1 = x + w - 1;
-        p->y1 = y;
+        center_line->x0 = 0;
+        center_line->y0 = y;
+        center_line->x1 = x + width - 1;
+        center_line->y1 = y;
     } else {
-        p->x0 = x;
-        p->y0 = y;
-        p->x1 = x + w - 1;
-        p->y1 = y;
+        center_line->x0 = x;
+        center_line->y0 = y;
+        center_line->x1 = x + width - 1;
+        center_line->y1 = y;
     }
-    *(u32 *)p = (*(u32 *)p & 0xFF000000) | (base->ctx->ot & 0xFFFFFF);
-    base->ctx->ot = (base->ctx->ot & 0xFF000000) | ((u32)p & 0xFFFFFF);
+    *(u32 *)center_line = (*(u32 *)center_line & 0xFF000000) | (render_state->ctx->ot & 0xFFFFFF);
+    render_state->ctx->ot = (render_state->ctx->ot & 0xFF000000) | ((u32)center_line & 0xFFFFFF);
 
-    b = b / 3;
-    b = b * 2;
-    g = g / 3;
-    g = g * 2;
+    blue = blue / 3;
+    blue = blue * 2;
+    red_green = red_green / 3;
+    red_green = red_green * 2;
 
-    q = (LineF2 *)base->ctx->prim;
-    base->ctx->prim = (u8 *)q + 0x10;
-    q->len = 3;
-    q->code = 0x42;
-    q->r0 = g;
-    q->g0 = g;
-    q->b0 = b;
+    upper_line = (LineF2 *)render_state->ctx->prim;
+    render_state->ctx->prim = (u8 *)upper_line + 0x10;
+    upper_line->len = 3;
+    upper_line->code = 0x42;
+    upper_line->r0 = red_green;
+    upper_line->g0 = red_green;
+    upper_line->b0 = blue;
     if (x > 0) {
-        q->x0 = 0;
-        q->y0 = y - 1;
-        q->x1 = x + w - 1;
-        q->y1 = y - 1;
+        upper_line->x0 = 0;
+        upper_line->y0 = y - 1;
+        upper_line->x1 = x + width - 1;
+        upper_line->y1 = y - 1;
     } else {
-        q->x0 = x;
-        q->y0 = y - 1;
-        q->x1 = x + w - 1;
-        q->y1 = y - 1;
+        upper_line->x0 = x;
+        upper_line->y0 = y - 1;
+        upper_line->x1 = x + width - 1;
+        upper_line->y1 = y - 1;
     }
-    *(u32 *)q = (*(u32 *)q & 0xFF000000) | (base->ctx->ot & 0xFFFFFF);
-    base->ctx->ot = (base->ctx->ot & 0xFF000000) | ((u32)q & 0xFFFFFF);
+    *(u32 *)upper_line = (*(u32 *)upper_line & 0xFF000000) | (render_state->ctx->ot & 0xFFFFFF);
+    render_state->ctx->ot = (render_state->ctx->ot & 0xFF000000) | ((u32)upper_line & 0xFFFFFF);
 
-    r = (LineF2 *)base->ctx->prim;
-    base->ctx->prim = (u8 *)r + 0x10;
-    r->len = 3;
-    r->code = 0x42;
-    r->r0 = g;
-    r->g0 = g;
-    r->b0 = b;
+    lower_line = (LineF2 *)render_state->ctx->prim;
+    render_state->ctx->prim = (u8 *)lower_line + 0x10;
+    lower_line->len = 3;
+    lower_line->code = 0x42;
+    lower_line->r0 = red_green;
+    lower_line->g0 = red_green;
+    lower_line->b0 = blue;
     if (x > 0) {
-        r->x0 = 0;
-        r->y0 = y + 1;
-        r->x1 = x + w - 1;
-        r->y1 = y + 1;
+        lower_line->x0 = 0;
+        lower_line->y0 = y + 1;
+        lower_line->x1 = x + width - 1;
+        lower_line->y1 = y + 1;
     } else {
-        r->x0 = x;
-        r->y0 = y + 1;
-        r->x1 = x + w - 1;
-        r->y1 = y + 1;
+        lower_line->x0 = x;
+        lower_line->y0 = y + 1;
+        lower_line->x1 = x + width - 1;
+        lower_line->y1 = y + 1;
     }
-    *(u32 *)r = (*(u32 *)r & 0xFF000000) | (base->ctx->ot & 0xFFFFFF);
-    base->ctx->ot = (base->ctx->ot & 0xFF000000) | ((u32)r & 0xFFFFFF);
+    *(u32 *)lower_line = (*(u32 *)lower_line & 0xFF000000) | (render_state->ctx->ot & 0xFFFFFF);
+    render_state->ctx->ot = (render_state->ctx->ot & 0xFF000000) | ((u32)lower_line & 0xFFFFFF);
 }

@@ -20,26 +20,27 @@ extern u8 D_800C321C[];
 
 extern s32 func_80033D38(void *);
 
-Node *func_800C2F88(s16 arg0)
+/* Find the first eligible node of either supported kind with the requested ID. */
+Node *func_800C2F88(s16 target_id)
 {
     Node *node;
     Node *next;
     s32 kind;
     u8 *data;
-    u8 *kind1;
-    u8 *kind2;
+    u8 *kind_a;
+    u8 *kind_b;
 
     node = D_80081498.head;
     if (node != 0) {
-        kind1 = D_800C3174;
-        kind2 = D_800C321C;
+        kind_a = D_800C3174;
+        kind_b = D_800C321C;
         do {
             kind = node->kind;
             next = node->next;
             if (kind < 0 && !(node->flags & 0x400)) {
                 data = node->data;
-                if ((kind == (s32)kind1 || kind == (s32)kind2) &&
-                    *(s32 *)(data + 0x60) == arg0 &&
+                if ((kind == (s32)kind_a || kind == (s32)kind_b) &&
+                    *(s32 *)(data + 0x60) == target_id &&
                     func_80033D38(data) != 0) {
                     return node;
                 }

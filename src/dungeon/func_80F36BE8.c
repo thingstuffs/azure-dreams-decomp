@@ -22,14 +22,15 @@ typedef struct Page8008 {
     u32 flags;
 } Page8008;
 
-void func_801743E8(void *arg0, Rec_D_800E3D7C *arg1, Rec_func_800AA258_arg2 *arg2)
+/* Update a timed effect's size and position, then set its completion flags. */
+void func_801743E8(void *effect, Rec_D_800E3D7C *position, Rec_func_800AA258_arg2 *visual)
 {
     s32 state;
-    u16 value;
-    register Page8008 *page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 size_or_state;
+    register Page8008 *flag_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    state = ((S_801743E8_0 *)arg0)->unk_9B;
-    ((S_801743E8_0 *)arg0)->unk_96.s--;
+    state = ((S_801743E8_0 *)effect)->unk_9B;
+    ((S_801743E8_0 *)effect)->unk_96.s--;
 
     if (state == 1) {
         goto state_1;
@@ -49,50 +50,46 @@ void func_801743E8(void *arg0, Rec_D_800E3D7C *arg1, Rec_func_800AA258_arg2 *arg
     goto exit;
 
 state_0:
-    if (arg2->unk_14 & 0x8000) {
-        ((S_801743E8_0 *)arg0)->unk_9B = 3;
+    if (visual->unk_14 & 0x8000) {
+        ((S_801743E8_0 *)effect)->unk_9B = 3;
         goto exit;
     }
-    ((S_801743E8_0 *)arg0)->unk_96.s = 3;
-    ((S_801743E8_0 *)arg0)->unk_9B++;
+    ((S_801743E8_0 *)effect)->unk_96.s = 3;
+    ((S_801743E8_0 *)effect)->unk_9B++;
 
 state_1:
-    value = arg2->unk_1E - 0x50;
-    arg2->unk_1E = value;
-    arg2->unk_1C = value;
-    if (((S_801743E8_0 *)arg0)->unk_96.u < 0) {
+    size_or_state = visual->unk_1E - 0x50;
+    visual->unk_1E = size_or_state;
+    visual->unk_1C = size_or_state;
+    if (((S_801743E8_0 *)effect)->unk_96.u < 0) {
         state = 2;
-        value = ((S_801743E8_0 *)arg0)->unk_9B;
-        ((S_801743E8_0 *)arg0)->unk_96.s = state;
+        size_or_state = ((S_801743E8_0 *)effect)->unk_9B;
+        ((S_801743E8_0 *)effect)->unk_96.s = state;
         goto increment_state;
     }
     goto exit;
 
 state_2:
-    arg1->unk_08.at00_s32.v += 0x28000;
-    value = arg2->unk_1E - 0x80;
-    arg2->unk_1E = value;
-    arg2->unk_1C = value;
-    if (((S_801743E8_0 *)arg0)->unk_96.u >= 0) {
+    position->unk_08.at00_s32.v += 0x28000;
+    size_or_state = visual->unk_1E - 0x80;
+    visual->unk_1E = size_or_state;
+    visual->unk_1C = size_or_state;
+    if (((S_801743E8_0 *)effect)->unk_96.u >= 0) {
         goto exit;
     }
-    value = ((S_801743E8_0 *)arg0)->unk_9B;
+    size_or_state = ((S_801743E8_0 *)effect)->unk_9B;
 
 increment_state:
-    value++;
-    ((S_801743E8_0 *)arg0)->unk_9B = value;
+    size_or_state++;
+    ((S_801743E8_0 *)effect)->unk_9B = size_or_state;
     goto exit;
 
 state_3:
-    page = (Page8008 *)0x80080000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ((S_801743E8_0_pre *)arg0)[-1].unk_00 |= 0x8000;
-    page->flags |= 0x8000;
+    flag_page = (Page8008 *)0x80080000;
+    ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ((S_801743E8_0_pre *)effect)[-1].unk_00 |= 0x8000;
+    flag_page->flags |= 0x8000;
 
 exit:
     return;
 }
-
-/* MECHANISM: True-space in-range jumps are local CFG, producing the frameless leaf.
-   Separate counter/state live ranges give retail's v1/v0 shared-increment roles.
-   A guarded v1 page pointer holds 0x80080000 for the 0x14A0 RMW displacement. */

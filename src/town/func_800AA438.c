@@ -30,18 +30,19 @@ typedef struct S_800A7B98_3 {
     s16 unk_6C;
 } S_800A7B98_3;   /* temp_s0 in func_800A7B98 */
 
-void func_800A7B98(s32 arg0, M2C_UNK arg1, S_800A7B98_2 *arg2) {
-    S_800A7B98_3 *temp_s0;
-    void *temp_v0;
-    S_800A7B98_1 *temp_v1;
+/* Creates an object, copies its source data fields, and initializes its state. */
+void func_800A7B98(s32 ownerDataAddress, M2C_UNK creationParam, S_800A7B98_2 *sourceData) {
+    S_800A7B98_3 *objectState;
+    void *createdObject;
+    S_800A7B98_1 *objectData;
 
-    temp_v0 = func_8009C390(arg0 - 0x20, arg1, &D_800A7C0C, 0);
-    temp_s0 = temp_v0 + 0x20;
-    if (temp_v0 != NULL) {
-        temp_v1 = ((S_800A7B98_0 *)temp_v0)->unk_0C;
-        temp_v1->unk_08 = (s32) arg2->unk_08;
-        temp_v1->unk_14 = (u16) arg2->unk_14;
-        func_80033CD8(temp_s0, &D_80045340);
-        temp_s0->unk_6C = 5;
+    createdObject = func_8009C390(ownerDataAddress - 0x20, creationParam, &D_800A7C0C, 0);
+    objectState = createdObject + 0x20;
+    if (createdObject != NULL) {
+        objectData = ((S_800A7B98_0 *)createdObject)->unk_0C;
+        objectData->unk_08 = (s32) sourceData->unk_08;
+        objectData->unk_14 = (u16) sourceData->unk_14;
+        func_80033CD8(objectState, &D_80045340);
+        objectState->unk_6C = 5;
     }
 }

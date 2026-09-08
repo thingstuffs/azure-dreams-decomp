@@ -54,15 +54,16 @@ extern void func_80045340(void);
 extern void func_80172DFC(void);
 extern u8 D_800DE870[];
 
-void func_80172F44(S_80172F44_4 *arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Creates a visual effect at an offset position with randomized state. */
+void func_80172F44(S_80172F44_4 *position, s32 x_offset, s32 y_offset, s32 z_offset)
 {
     void *object;
     S_80172F44_3 *transform;
     S_80172F44_2 *display;
     u8 *state;
-    s32 value;
-    s32 word8;
-    u16 x;
+    s32 random_value;
+    s32 z_fixed;
+    u16 x_integer;
 
     object = func_8003FC64(0x212);
     if (object != 0) {
@@ -77,22 +78,22 @@ void func_80172F44(S_80172F44_4 *arg0, s32 arg1, s32 arg2, s32 arg3)
         display->unk_14 |= 0xC;
 
         transform = ((S_80172F44_1 *)object)->unk_08;
-        transform->unk_00.at00.v = arg0->unk_00;
-        transform->unk_04.at00.v = arg0->unk_04;
+        transform->unk_00.at00.v = position->unk_00;
+        transform->unk_04.at00.v = position->unk_04;
         
-        x = transform->unk_00.at02.v;
-        word8 = arg0->unk_08;
-        transform->unk_00.at02.v = x + arg1;
-        transform->unk_08.at00.v = word8;
-        transform->unk_04.at02.v += arg2;
-        transform->unk_08.at02.v += arg3;
+        x_integer = transform->unk_00.at02.v;
+        z_fixed = position->unk_08;
+        transform->unk_00.at02.v = x_integer + x_offset;
+        transform->unk_08.at00.v = z_fixed;
+        transform->unk_04.at02.v += y_offset;
+        transform->unk_08.at02.v += z_offset;
 
-        value = rand();
-        ((S_80172F44_0 *)state)->unk_58 = value - 0x8000;
-        value = rand();
-        ((S_80172F44_0 *)state)->unk_5C = value - 0x8000;
-        value = rand();
-        ((S_80172F44_0 *)state)->unk_60 = value - 0x40000;
+        random_value = rand();
+        ((S_80172F44_0 *)state)->unk_58 = random_value - 0x8000;
+        random_value = rand();
+        ((S_80172F44_0 *)state)->unk_5C = random_value - 0x8000;
+        random_value = rand();
+        ((S_80172F44_0 *)state)->unk_60 = random_value - 0x40000;
 
         display = ((S_80172F44_1 *)object)->unk_0C;
         display->unk_1E = 0x400;

@@ -53,69 +53,70 @@ typedef struct S_81959B44_3 {
     s16 unk_1C;
 } S_81959B44_3;   /* temp_s2_2 in func_81959B44 */
 
-void *func_81959B44(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
-    s32 subroutine_arg4;
-    s32 subroutine_arg6;
-    s32 subroutine_arg8;
-    s32 sp28;
-    M2C_UNK var_a0;
-    s16 temp_s1_2;
-    s16 temp_s3_3;
-    s32 var_s6;
-    s32 temp_lo;
-    s32 temp_s1;
-    s32 temp_s3;
-    s32 temp_s3_2;
-    s32 temp_s4;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    S_81959B44_2 *temp_s0;
-    S_81959B44_1 *temp_s2;
-    S_81959B44_3 *temp_s2_2;
-    void *temp_v0;
+/* Create sixteen objects in a ring around the given center with a scaled radius. */
+void *func_81959B44(s16 center_x, s16 center_y, s16 center_z, s16 radius_scale) {
+    s32 call_pad_4;
+    s32 call_pad_6;
+    s32 call_pad_8;
+    s32 div6_magic;
+    M2C_UNK object_flags;
+    s16 pos_y;
+    s16 pos_x;
+    s32 ring_index;
+    s32 y_scale_product;
+    s32 y_component;
+    s32 x_component;
+    s32 x_offset;
+    s32 angle;
+    s32 neg_y_fixed;
+    s32 x_fixed;
+    S_81959B44_2 *state;
+    S_81959B44_1 *position;
+    S_81959B44_3 *transform;
+    void *object;
 
-    var_s6 = 0;
-    sp28 = 0x2AAAAAAB;
+    ring_index = 0;
+    div6_magic = 0x2AAAAAAB;
     do {
-        var_a0 = 0x12;
-        if (arg3 != 0) {
-            var_a0 = 0x212;
+        object_flags = 0x12;
+        if (radius_scale != 0) {
+            object_flags = 0x212;
         }
-        temp_v0 = func_8003FC64(var_a0);
-        if (temp_v0 != NULL) {
-            ((S_81959B44_0 *)temp_v0)->unk_10 = &D_800250B4;
-            func_8004491C(temp_v0, &D_80045C34);
-            temp_s4 = var_s6 << 8;
-            temp_s2 = ((S_81959B44_0 *)temp_v0)->unk_08;
-            temp_s3 = func_80064584(temp_s4) >> 7;
-            temp_s3_2 = temp_s3 + ((s32) ((s16) temp_s3 * arg3) >> 2);
-            temp_s1 = func_800644B8(temp_s4) >> 7;
-            temp_lo = (s16) temp_s1 * arg3;
-            temp_s0 = temp_v0 + 0x20;
-            temp_s3_3 = arg0 + temp_s3_2;
-            temp_s2->unk_02 = temp_s3_3;
-            temp_s0->unk_1C = temp_s3_3;
-            temp_s1_2 = arg1 + (temp_s1 + (temp_lo >> 2));
-            temp_s2->unk_06 = temp_s1_2;
-            temp_s0->unk_1E = temp_s1_2;
-            temp_s2->unk_0A = arg2;
-            temp_s0->unk_20 = arg2;
-            temp_s2_2 = ((S_81959B44_0 *)temp_v0)->unk_0C;
-            temp_s2_2->unk_08 = &D_80028220;
-            temp_s2_2->unk_1C = 0x1000;
-            temp_s2_2->unk_1A = (u16) (temp_s4 + 0x400);
-            temp_v0_2 = 0 - (func_800644B8(temp_s4) << 0xC);
-            temp_s2_2->unk_16 = (s16) ((temp_v0_2 / 6) >> 0xC);
-            temp_v0_3 = func_80064584(temp_s4) << 0xC;
-            temp_s2_2->unk_18 = (s16) ((temp_v0_3 / 6) >> 0xC);
-            temp_s0->unk_14 = temp_s3_3;
-            temp_s0->unk_16 = temp_s1_2;
-            temp_s0->unk_18 = arg2;
-            temp_s0->unk_38 = var_s6;
-            temp_s0->unk_30 = (s16) (arg3 + 4);
-            temp_s0->unk_3C = (u16) arg3;
+        object = func_8003FC64(object_flags);
+        if (object != NULL) {
+            ((S_81959B44_0 *)object)->unk_10 = &D_800250B4;
+            func_8004491C(object, &D_80045C34);
+            angle = ring_index << 8;
+            position = ((S_81959B44_0 *)object)->unk_08;
+            x_component = func_80064584(angle) >> 7;
+            x_offset = x_component + ((s32) ((s16) x_component * radius_scale) >> 2);
+            y_component = func_800644B8(angle) >> 7;
+            y_scale_product = (s16) y_component * radius_scale;
+            state = object + 0x20;
+            pos_x = center_x + x_offset;
+            position->unk_02 = pos_x;
+            state->unk_1C = pos_x;
+            pos_y = center_y + (y_component + (y_scale_product >> 2));
+            position->unk_06 = pos_y;
+            state->unk_1E = pos_y;
+            position->unk_0A = center_z;
+            state->unk_20 = center_z;
+            transform = ((S_81959B44_0 *)object)->unk_0C;
+            transform->unk_08 = &D_80028220;
+            transform->unk_1C = 0x1000;
+            transform->unk_1A = (u16) (angle + 0x400);
+            neg_y_fixed = 0 - (func_800644B8(angle) << 0xC);
+            transform->unk_16 = (s16) ((neg_y_fixed / 6) >> 0xC);
+            x_fixed = func_80064584(angle) << 0xC;
+            transform->unk_18 = (s16) ((x_fixed / 6) >> 0xC);
+            state->unk_14 = pos_x;
+            state->unk_16 = pos_y;
+            state->unk_18 = center_z;
+            state->unk_38 = ring_index;
+            state->unk_30 = (s16) (radius_scale + 4);
+            state->unk_3C = (u16) radius_scale;
         }
-        var_s6 += 1;
-    } while (var_s6 < 0x10);
-    return temp_v0;
+        ring_index += 1;
+    } while (ring_index < 0x10);
+    return object;
 }

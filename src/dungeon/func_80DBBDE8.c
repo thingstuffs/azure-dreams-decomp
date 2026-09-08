@@ -32,79 +32,80 @@ typedef struct S_801735E8_3 {
     s32 unk_14;
 } S_801735E8_3;   /* arg1 in func_801735E8 */
 
-void func_801735E8(void *arg0, S_801735E8_3 *arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
-    S_801735E8_0 *base0;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    s32 temp_v1;
-    base0 = arg0;
+/* Advances the actor's staged animation sequence and handles completion. */
+void func_801735E8(void *action_data, S_801735E8_3 *motion, Rec_D_80082E80 *animation, Rec_D_800E3D7C *actor) {
+    S_801735E8_0 *action;
+    u16 phase_value;
+    u16 elapsed_ticks;
+    s32 phase;
+    action = action_data;
 
-    temp_v1 = base0->unk_9B;
-    if (temp_v1 == 1) {
+    phase = action->unk_9B;
+    if (phase == 1) {
         goto state1;
     }
-    if (temp_v1 < 2) {
-        if (temp_v1 == 0) {
+    if (phase < 2) {
+        if (phase == 0) {
             goto state0;
         }
         goto done;
     }
-    if (temp_v1 == 2) {
+    if (phase == 2) {
         goto state2;
     }
-    if (temp_v1 == 3) {
+    if (phase == 3) {
         goto state3;
     }
     goto done;
 
 state0:
-    if (arg2->unk_14.at00_u16.v & 0x8000) {
-        base0->unk_9B = 3U;
-        arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v | 0x6000);
-        func_8009C12C(arg3, arg2, arg3->unk_2A.as_s16, 1);
+    if (animation->unk_14.at00_u16.v & 0x8000) {
+        action->unk_9B = 3U;
+        animation->unk_14.at00_u16.v = (u16) (animation->unk_14.at00_u16.v | 0x6000);
+        func_8009C12C(actor, animation, actor->unk_2A.as_s16, 1);
         goto done;
     }
-    arg1->unk_14 = 0;
-    arg1->unk_10 = 0;
-    arg1->unk_0C = 0;
-    temp_v0 = base0->unk_9B;
-    base0->unk_96 = 0U;
-    base0->unk_9B = (u8) (temp_v0 + 1);
+    motion->unk_14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
+    phase_value = action->unk_9B;
+    action->unk_96 = 0U;
+    action->unk_9B = (u8) (phase_value + 1);
     goto done;
 
 state1:
-        temp_v0_2 = base0->unk_96 + 1;
-        base0->unk_96 = temp_v0_2;
-    if ((s16) temp_v0_2 != 4 && !(arg2->unk_14.at00_u16.v & 0xE000)) {
+    elapsed_ticks = action->unk_96 + 1;
+    action->unk_96 = elapsed_ticks;
+    if ((s16) elapsed_ticks != 4 && !(animation->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
-    arg2->unk_2C.as_pm = &D_801753E4;
-    func_80047784(arg2, D_801753E4[(((s32) (*D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7)], 0);
+    animation->unk_2C.as_pm = &D_801753E4;
+    func_80047784(animation, D_801753E4[(((s32) (*D_80083228 + actor->unk_2A.as_s16 + 0x100) >> 9) & 7)], 0);
     func_800A56E0(0x808);
-    temp_v0 = base0->unk_9B;
-    base0->unk_96 = 0U;
-    base0->unk_9B = (u8) (temp_v0 + 1);
+    phase_value = action->unk_9B;
+    action->unk_96 = 0U;
+    action->unk_9B = (u8) (phase_value + 1);
     goto done;
 
 state2:
-    temp_v0 = base0->unk_96 + 1;
-    base0->unk_96 = temp_v0;
-    if ((s16) temp_v0 != 4 && !(arg2->unk_14.at00_u16.v & 0xE000)) {
+    phase_value = action->unk_96 + 1;
+    action->unk_96 = phase_value;
+    if ((s16) phase_value != 4 && !(animation->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
-    func_8009C12C(arg3, arg2, arg3->unk_2A.as_s16, 1);
-    temp_v0 = base0->unk_9B;
-    base0->unk_96 = 0U;
-    base0->unk_9B = (u8) (temp_v0 + 1);
+    func_8009C12C(actor, animation, actor->unk_2A.as_s16, 1);
+    phase_value = action->unk_9B;
+    action->unk_96 = 0U;
+    action->unk_9B = (u8) (phase_value + 1);
     goto done;
 
 state3:
-    if (arg2->unk_14.at00_u16.v & 0xE000) {
-        func_800AD594(arg3, 0x100);
-        base0->unk_8C = D_80171E20;
+    if (animation->unk_14.at00_u16.v & 0xE000) {
+        func_800AD594(actor, 0x100);
+        action->unk_8C = D_80171E20;
         *D_8008346C = 0;
-        func_800A4ACC(arg3);
-        arg3->unk_44.at02_u16.v = (u16) (arg3->unk_44.at02_u16.v & 0x7FFF);
+        func_800A4ACC(actor);
+        actor->unk_44.at02_u16.v = (u16) (actor->unk_44.at02_u16.v & 0x7FFF);
     }
 
 done:

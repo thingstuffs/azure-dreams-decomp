@@ -20,29 +20,30 @@ extern u8 D_80082E80[];
 extern u8 D_80083228[];
 extern HeightData D_80083780;
 
-void func_800260DC(u8 *obj, u8 *dst, u8 *rgb)
+/* Updates position history, motion and shading, and flags objects whose positions have settled. */
+void func_800260DC(u8 *obj, u8 *coords_out, u8 *rgb)
 {
-    register u8 *other ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u8 *other_data ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *linked_obj ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u8 *linked_data ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *room;
-    u8 *iter_src;
-    u8 *iter_dst;
+    u8 *history_src;
+    u8 *history_dst;
     s16 *x_adjust;
     s16 *y_adjust;
-    s32 i;
-    s32 offset;
-    register s32 phase ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 duration;
+    s32 history_index;
+    s32 history_offset;
+    register s32 direction_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 frames_left;
     s32 shade;
-    register u8 *shade_ptr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 shade_raw;
-    register s32 pointer_shade ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *linked_rgb ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 raw_shade;
+    register s32 linked_shade ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 final_coord;
     register s32 final_adjust ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 final_state;
     u16 final_z;
-    s32 compare_lhs;
-    s32 compare_rhs;
+    s32 previous_z;
+    s32 current_z;
     u16 y;
     u16 z;
 
@@ -50,28 +51,28 @@ void func_800260DC(u8 *obj, u8 *dst, u8 *rgb)
     U16_AT(obj, 0x1E) = U16_AT(obj, 0x2E);
     U16_AT(obj, 0x22) = U16_AT(obj, 0x30);
 
-    i = 1;
+    history_index = 1;
 copy_history:
-    offset = i * 8;
-    i--;
-    iter_src = obj + i * 8;
-    iter_dst = obj + offset;
-    U16_AT(iter_dst, 0x24) = U16_AT(iter_src, 0x24);
-    U16_AT(iter_dst, 0x26) = U16_AT(iter_src, 0x26);
-    U16_AT(iter_dst, 0x28) = U16_AT(iter_src, 0x28);
-    if (i > 0) {
+    history_offset = history_index * 8;
+    history_index--;
+    history_src = obj + history_index * 8;
+    history_dst = obj + history_offset;
+    U16_AT(history_dst, 0x24) = U16_AT(history_src, 0x24);
+    U16_AT(history_dst, 0x26) = U16_AT(history_src, 0x26);
+    U16_AT(history_dst, 0x28) = U16_AT(history_src, 0x28);
+    if (history_index > 0) {
         goto copy_history;
     }
 
     y = U16_AT(obj, 0x12);
     z = U16_AT(obj, 0x16);
     U16_AT(obj, 0x24) = U16_AT(obj, 0x0E);
-    other = PTR_AT(obj, 8);
+    linked_obj = PTR_AT(obj, 8);
     ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     U16_AT(obj, 0x26) = y;
     U16_AT(obj, 0x28) = z;
 
-    if (other != 0) {
+    if (linked_obj != 0) {
         goto have_other;
     }
 
@@ -84,21 +85,21 @@ copy_history:
     goto copy_out;
 
 interpolate:
-    phase = ((-S16_AT(D_80083228, 0) + 0x500) >> 8) & 0xE;
+    direction_offset = ((-S16_AT(D_80083228, 0) + 0x500) >> 8) & 0xE;
     room = D_80082E80;
-    x_adjust = (s16 *)(D_8006CCD8 + phase);
+    x_adjust = (s16 *)(D_8006CCD8 + direction_offset);
     {
         s32 x_target;
         s32 x_current;
 
         x_target = room[0x24] + *x_adjust;
-        duration = S16_AT(obj, 0x66);
+        frames_left = S16_AT(obj, 0x66);
         ASM_KEEP(x_target);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         x_current = S16_AT(obj, 0x0E);
         U16_AT(obj, 0x0E) += ((x_target << 6) -
-                              ((x_current -= 0x20), x_current)) / duration;
+                              ((x_current -= 0x20), x_current)) / frames_left;
     }
-    y_adjust = (s16 *)(D_8006CCE8 + phase);
+    y_adjust = (s16 *)(D_8006CCE8 + direction_offset);
     {
         s32 y_target;
         s32 y_current;
@@ -108,12 +109,12 @@ interpolate:
         ASM_KEEP(y_target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         y_current = S16_AT(obj, 0x12);
         U16_AT(obj, 0x12) += ((y_target << 6) -
-                              ((y_current -= 0x20), y_current)) / duration;
+                              ((y_current -= 0x20), y_current)) / frames_left;
     }
 
     S32_AT(obj, 0x14) +=
         (D_80083780.height -
-         (func_800644B8(duration * 42, duration) << 12) -
+         (func_800644B8(frames_left * 42, frames_left) << 12) -
          S32_AT(obj, 0x14)) / S16_AT(obj, 0x66);
 
     if (S16_AT(obj, 0x6A) < 0x80) {
@@ -141,7 +142,7 @@ interpolate:
     final_coord <<= 6;
     final_coord += 0x20;
     U16_AT(obj, 0x12) = final_coord;
-       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     final_state = U16_AT(obj, 0x64);
     final_z = U16_AT(&D_80083780, 0x0A);
     U16_AT(obj, 0x64) = final_state + 1;
@@ -155,31 +156,31 @@ state_one:
     if (S16_AT(obj, 0x1E) != S16_AT(obj, 0x12)) {
         goto copy_out;
     }
-    compare_lhs = S16_AT(obj, 0x22);
-    compare_rhs = S16_AT(obj, 0x16);
+    previous_z = S16_AT(obj, 0x22);
+    current_z = S16_AT(obj, 0x16);
     goto compare_z;
 
 have_other:
-    other_data = other + 0x20;
-    U16_AT(obj, 0x0E) = U16_AT(other_data, 0x2C);
-    U16_AT(obj, 0x12) = U16_AT(other_data, 0x2E);
-    z = U16_AT(other_data, 0x30);
+    linked_data = linked_obj + 0x20;
+    U16_AT(obj, 0x0E) = U16_AT(linked_data, 0x2C);
+    U16_AT(obj, 0x12) = U16_AT(linked_data, 0x2E);
+    z = U16_AT(linked_data, 0x30);
     U16_AT(obj, 0x16) = z;
 
     if (S16_AT(obj, 0x64) != 0) {
         goto compare_position;
     }
 
-    shade_ptr = PTR_AT(PTR_AT(obj, 8), 0x0C);
-    shade_raw = U8_AT(shade_ptr, 0x0C) - S16_AT(obj, 0x6E) * 8;
-    pointer_shade = shade_raw;
-    ASM_KEEP(pointer_shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    if ((s16)shade_raw < 0) {
-        pointer_shade = 0;
+    linked_rgb = PTR_AT(PTR_AT(obj, 8), 0x0C);
+    raw_shade = U8_AT(linked_rgb, 0x0C) - S16_AT(obj, 0x6E) * 8;
+    linked_shade = raw_shade;
+    ASM_KEEP(linked_shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    if ((s16)raw_shade < 0) {
+        linked_shade = 0;
     }
-    U8_AT(rgb, 0x0E) = pointer_shade;
-    U8_AT(rgb, 0x0D) = pointer_shade;
-    U8_AT(rgb, 0x0C) = pointer_shade;
+    U8_AT(rgb, 0x0E) = linked_shade;
+    U8_AT(rgb, 0x0D) = linked_shade;
+    U8_AT(rgb, 0x0C) = linked_shade;
 
     U16_AT(obj, 0x66)--;
     if (S16_AT(obj, 0x66) > 0) {
@@ -195,11 +196,11 @@ compare_position:
     if (S16_AT(obj, 0x1E) != S16_AT(obj, 0x12)) {
         goto copy_out;
     }
-    compare_lhs = S16_AT(obj, 0x22);
-    compare_rhs = (s16)z;
+    previous_z = S16_AT(obj, 0x22);
+    current_z = (s16)z;
 
 compare_z:
-    if (compare_lhs != compare_rhs) {
+    if (previous_z != current_z) {
         goto copy_out;
     }
     U16_AT(obj, -2) |= 0x8000;
@@ -207,12 +208,12 @@ compare_z:
     goto done;
 
 copy_out:
-    U16_AT(dst, 2) = U16_AT(obj, 0x1A);
-    U16_AT(dst, 6) = U16_AT(obj, 0x1E);
-    U16_AT(dst, 0x0A) = U16_AT(obj, 0x22);
-    U16_AT(dst, 0x0E) = U16_AT(obj, 0x0E);
-    U16_AT(dst, 0x12) = U16_AT(obj, 0x12);
-    U16_AT(dst, 0x16) = U16_AT(obj, 0x16);
+    U16_AT(coords_out, 2) = U16_AT(obj, 0x1A);
+    U16_AT(coords_out, 6) = U16_AT(obj, 0x1E);
+    U16_AT(coords_out, 0x0A) = U16_AT(obj, 0x22);
+    U16_AT(coords_out, 0x0E) = U16_AT(obj, 0x0E);
+    U16_AT(coords_out, 0x12) = U16_AT(obj, 0x12);
+    U16_AT(coords_out, 0x16) = U16_AT(obj, 0x16);
     U16_AT(obj, 0x68)++;
 
 done:

@@ -1,11 +1,12 @@
 #include "common.h"
 
-s32 func_800B5E10(s32 arg0) {
-    s32 var_v1;
+/* Maps value 0x39 to 2 and returns other values unchanged. */
+s32 func_800B5E10(s32 value) {
+    s32 mapped_value;
 
-    var_v1 = 2;
-    if (arg0 != 0x39) {
-        var_v1 = arg0;
+    mapped_value = 2;
+    if (value != 0x39) {
+        mapped_value = value;
     }
-    return var_v1;
+    return mapped_value;
 }

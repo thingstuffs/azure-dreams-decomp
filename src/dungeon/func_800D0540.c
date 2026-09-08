@@ -2,9 +2,10 @@
 
 extern s32 D_800814A0;
 
+/* Advance and damp effect motion, fade its colors, and flag expiration. */
 void func_800D5CA0(u8 *effect, s32 *motion)
 {
-    s16 timer;
+    s16 ticks_left;
 
     motion[0] += motion[3];
     motion[1] += motion[4];
@@ -20,15 +21,11 @@ void func_800D5CA0(u8 *effect, s32 *motion)
     effect[6] = (effect[2] * *(s16 *)(effect + 0x32)) /
                 *(s16 *)(effect + 0x34);
 
-    timer = *(u16 *)(effect + 0x32) - 1;
-    *(s16 *)(effect + 0x32) = timer;
+    ticks_left = *(u16 *)(effect + 0x32) - 1;
+    *(s16 *)(effect + 0x32) = ticks_left;
     *(s32 *)(effect + 8) = *(s32 *)(effect + 4);
-    if (timer <= 0) {
+    if (ticks_left <= 0) {
         *(u16 *)(effect - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }
-
-/* MECHANISM: A frameless leaf with natural array compound updates lets cdk-G0
-   retain motion[4] in a2; direct per-channel byte assignments force the three
-   scale/divisor reloads, and the scalar global RMW yields the held hi/lo base. */

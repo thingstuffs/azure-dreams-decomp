@@ -43,32 +43,33 @@ typedef struct {
     EntityVector *unk8;
 } Entity;
 
-void func_800B3EEC(Entity *a0, Template16 *a1, EntityVector *a2) {
-    Template16 *src0 = &D_8002E5D8;
-    Template12 *src1 = &D_8002E5E8;
-    s32 *tmp;
+/* Initialize an entity and its part and vector storage from default templates. */
+void func_800B3EEC(Entity *entity, Template16 *part, EntityVector *vector) {
+    Template16 *part_template = &D_8002E5D8;
+    Template12 *vector_template = &D_8002E5E8;
+    s32 *vector_word;
 
-    a1->unk0 = src0->unk0;
-    tmp = &src1->unk0;
-    a1->unk4 = src0->unk4;
-    a1->unk8 = src0->unk8;
-    a1->unkC = src0->unkC;
+    part->unk0 = part_template->unk0;
+    vector_word = &vector_template->unk0;
+    part->unk4 = part_template->unk4;
+    part->unk8 = part_template->unk8;
+    part->unkC = part_template->unkC;
 
-    ((Template12 *)a2)->unk0 = *tmp;
-    ((Template12 *)a2)->unk4 = src1->unk4;
-    ((Template12 *)a2)->unk8 = src1->unk8;
+    ((Template12 *)vector)->unk0 = *vector_word;
+    ((Template12 *)vector)->unk4 = vector_template->unk4;
+    ((Template12 *)vector)->unk8 = vector_template->unk8;
 
-    a0->unk4 = (EntityPart *)a1;
-    a0->unk8 = a2;
-    a0->unk0 = 0;
+    entity->unk4 = (EntityPart *)part;
+    entity->unk8 = vector;
+    entity->unk0 = 0;
 
-    a0->unk4->unk0 = 0;
-    a0->unk4->unk1 = 0;
-    a0->unk4->unk2 = 0;
-    a0->unk4->unk8 = 0;
-    a0->unk4->unkA = 0;
-    a0->unk4->unkC = 0x200;
-    a0->unk4->unk6 = 0x1000;
-    a0->unk8->unk8 = 0x30;
-    a0->unk4->unkF = 4;
+    entity->unk4->unk0 = 0;
+    entity->unk4->unk1 = 0;
+    entity->unk4->unk2 = 0;
+    entity->unk4->unk8 = 0;
+    entity->unk4->unkA = 0;
+    entity->unk4->unkC = 0x200;
+    entity->unk4->unk6 = 0x1000;
+    entity->unk8->unk8 = 0x30;
+    entity->unk4->unkF = 4;
 }

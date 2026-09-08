@@ -2,13 +2,14 @@
 
 extern s16 D_80083228;
 
-u32 func_80095360(s32 arg0) {
-    s32 value;
+/* Returns the sector of the wrapped angle difference with a 0x500 offset. */
+u32 func_80095360(s32 angle) {
+    s32 angle_delta;
 
-    arg0 -= 0x500;
-    value = (D_80083228 - arg0) & 0xFFF;
-    if (value < 0) {
-        value += 0x1FF;
+    angle -= 0x500;
+    angle_delta = (D_80083228 - angle) & 0xFFF;
+    if (angle_delta < 0) {
+        angle_delta += 0x1FF;
     }
-    return (u32)value >> 9;
+    return (u32)angle_delta >> 9;
 }

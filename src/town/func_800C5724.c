@@ -12,20 +12,21 @@ typedef struct {
     /* 0x78 */ s32 *unk78;
 } Struct800C5724;
 
-void func_800C2E84(Struct800C5724 *arg0, s8 *arg1, s32 *arg2) {
-    s32 *var_a2;
-    s16 var_v1;
+/* Store and count a zero-terminated entry list, then initialize the output with a selected entry. */
+void func_800C2E84(Struct800C5724 *state, s8 *output, s32 *entries) {
+    s32 *entry_end;
+    s16 entry_count;
 
-    var_a2 = arg2;
-    arg0->unk78 = var_a2;
-    var_v1 = 0;
-    if (*var_a2 != 0) {
+    entry_end = entries;
+    state->unk78 = entry_end;
+    entry_count = 0;
+    if (*entry_end != 0) {
         do {
-            var_a2 += 1;
-            var_v1++;
-        } while (*var_a2 != 0);
+            entry_end += 1;
+            entry_count++;
+        } while (*entry_end != 0);
     }
-    arg0->unk64 = var_v1;
-    func_800C2CB0(arg0, arg1, arg0->unk78[func_800C2E1C(arg0->unk72, var_v1, var_a2)], 0);
-    arg1[5] = 0;
+    state->unk64 = entry_count;
+    func_800C2CB0(state, output, state->unk78[func_800C2E1C(state->unk72, entry_count, entry_end)], 0);
+    output[5] = 0;
 }

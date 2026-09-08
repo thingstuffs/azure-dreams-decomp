@@ -30,33 +30,31 @@ typedef struct S_8004EF90 {
     S_8004EF90_sub sub;
 } S_8004EF90;
 
-/* Initializes an object at a0: sets a type/flag byte, copies three global
- * values into fields 4/8/C, then initializes a sub-structure at offset
- * 0x18, and returns a pointer to offset 0xC of that sub-structure. */
-void *func_8004EF90(void *a0)
+/* Initializes the object header and sub-structure, returning a pointer just past the sub-structure. */
+void *func_8004EF90(void *cursor)
 {
-    S_8004EF90 *hdr = (S_8004EF90 *)a0;
-    S_8004EF90_sub *sub;
-    s32 unk1_val;
-    s32 unk4_val;
-    s32 unkC_val;
+    S_8004EF90 *object = (S_8004EF90 *)cursor;
+    S_8004EF90_sub *subHeader;
+    s32 subInitValue;
+    s32 initialHeaderWord4;
+    s32 initialHeaderWordC;
 
-    hdr->unk1 = 0xB0;
-    hdr->unk8 = D_80071660[0];
-    unk1_val = 0x81;
-    unk4_val = D_80071668[0];
-    unkC_val = D_80071664[0];
-    hdr->unk1 = 2 | hdr->unk1;
-    hdr->unk4 = unk4_val;
-    hdr->unkC = unkC_val;
+    object->unk1 = 0xB0;
+    object->unk8 = D_80071660[0];
+    subInitValue = 0x81;
+    initialHeaderWord4 = D_80071668[0];
+    initialHeaderWordC = D_80071664[0];
+    object->unk1 = 2 | object->unk1;
+    object->unk4 = initialHeaderWord4;
+    object->unkC = initialHeaderWordC;
 
-    a0 = (u8 *)a0 + 0x18;
-    sub = (S_8004EF90_sub *)a0;
-    sub->unk1 = unk1_val;
-    sub->unk4 = 0x20;
-    unk1_val = 0;
-    sub->unk6 = unk1_val;
-    sub->unk0 = sub->unk0 | 0x80;
+    cursor = (u8 *)cursor + 0x18;
+    subHeader = (S_8004EF90_sub *)cursor;
+    subHeader->unk1 = subInitValue;
+    subHeader->unk4 = 0x20;
+    subInitValue = 0;
+    subHeader->unk6 = subInitValue;
+    subHeader->unk0 = subHeader->unk0 | 0x80;
 
-    return (u8 *)a0 + 0xC;
+    return (u8 *)cursor + 0xC;
 }

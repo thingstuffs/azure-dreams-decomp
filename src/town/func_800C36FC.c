@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
+/* No-op stub for script functions without an implementation in this overlay. */
 void func_800C0E5C(void) {
 
 }

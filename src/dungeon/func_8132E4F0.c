@@ -28,21 +28,22 @@ typedef struct S_801654F0_1 {
 
 extern s32 D_800814A0[3];
 
-void func_801654F0(void *arg0, S_801654F0_0 *arg1)
+/* Advance effect motion, copy its color, and flag expiration when its lifetime ends. */
+void func_801654F0(void *effect, S_801654F0_0 *motion)
 {
-    u16 temp_v0;
+    u16 life_left;
 
-    arg1->unk_00 = arg1->unk_00 + arg1->unk_0C;
-    arg1->unk_04 = arg1->unk_04 + arg1->unk_10;
-    arg1->unk_08 = arg1->unk_08 + arg1->unk_14;
-    ((S_801654F0_1 *)arg0)->unk_04.at00.v = ((S_801654F0_1 *)arg0)->unk_00;
-    ((S_801654F0_1 *)arg0)->unk_04.at01.v = ((S_801654F0_1 *)arg0)->unk_01;
-    ((S_801654F0_1 *)arg0)->unk_04.at02.v = ((S_801654F0_1 *)arg0)->unk_02;
-    temp_v0 = ((S_801654F0_1 *)arg0)->unk_32 - 1;
-    ((S_801654F0_1 *)arg0)->unk_32 = temp_v0;
-    ((S_801654F0_1 *)arg0)->unk_08 = ((S_801654F0_1 *)arg0)->unk_04.at00u.v;
-    if ((temp_v0 << 0x10) <= 0) {
-        ((S_801654F0_1_pre *)arg0)[-1].unk_00 |= 0x8000;
+    motion->unk_00 = motion->unk_00 + motion->unk_0C;
+    motion->unk_04 = motion->unk_04 + motion->unk_10;
+    motion->unk_08 = motion->unk_08 + motion->unk_14;
+    ((S_801654F0_1 *)effect)->unk_04.at00.v = ((S_801654F0_1 *)effect)->unk_00;
+    ((S_801654F0_1 *)effect)->unk_04.at01.v = ((S_801654F0_1 *)effect)->unk_01;
+    ((S_801654F0_1 *)effect)->unk_04.at02.v = ((S_801654F0_1 *)effect)->unk_02;
+    life_left = ((S_801654F0_1 *)effect)->unk_32 - 1;
+    ((S_801654F0_1 *)effect)->unk_32 = life_left;
+    ((S_801654F0_1 *)effect)->unk_08 = ((S_801654F0_1 *)effect)->unk_04.at00u.v;
+    if ((life_left << 0x10) <= 0) {
+        ((S_801654F0_1_pre *)effect)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

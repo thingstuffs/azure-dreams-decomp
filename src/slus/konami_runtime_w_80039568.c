@@ -11,6 +11,7 @@ typedef struct S_80039568_0 {
 
 extern M2C_UNK func_80038464;
 
-void func_80039568(S_80039568_0 *arg0) {
-    arg0->unk_10 = &func_80038464;
+/* Sets the event-script context's handler to func_80038464. */
+void func_80039568(S_80039568_0 *script_ctx) {
+    script_ctx->unk_10 = &func_80038464;
 }

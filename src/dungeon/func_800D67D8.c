@@ -8,9 +8,10 @@ typedef struct S_800DBF38_0 {
     s32 unk_54;
 } S_800DBF38_0;   /* temp_v1 in func_800DBF38 */
 
+/* Clears bit 0 of the flags in the current state record. */
 void func_800DBF38(void) {
-    S_800DBF38_0 *temp_v1;
+    S_800DBF38_0 *state;
 
-    temp_v1 = D_800E5910 + 0x20;
-    temp_v1->unk_54 = (s32) (temp_v1->unk_54 & ~1);
+    state = D_800E5910 + 0x20;
+    state->unk_54 = (s32) (state->unk_54 & ~1);
 }

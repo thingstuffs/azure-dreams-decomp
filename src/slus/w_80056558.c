@@ -18,19 +18,20 @@ extern S_80056558_85458 D_80085458[64];
 
 extern s32 func_800563B0();
 
+/* Updates entries with offset-adjusted values when their offsets differ. */
 void func_80056558(void) {
-    s32 i;
-    S_80056558_85458 *p;
-    s32 temp;
-    s32 check;
+    s32 entry_index;
+    S_80056558_85458 *entry;
+    s32 offset;
+    s32 reference_offset;
 
-    for (i = 0; i < D_80073734[0]; i++) {
-        p = &D_80085458[i];
-        check = p->f6c;
-        __asm__ volatile("" : : "r"(check));
-        temp = p->f58;
-        if (check != temp) {
-            func_800563B0(i, p->f10 + temp, p->f12 + temp);
+    for (entry_index = 0; entry_index < D_80073734[0]; entry_index++) {
+        entry = &D_80085458[entry_index];
+        reference_offset = entry->f6c;
+        __asm__ volatile("" : : "r"(reference_offset));
+        offset = entry->f58;
+        if (reference_offset != offset) {
+            func_800563B0(entry_index, entry->f10 + offset, entry->f12 + offset);
         }
     }
 }

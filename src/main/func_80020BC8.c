@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-void func_80020BC8(s32 *arg0, s32 arg1) {
-    *arg0 = arg1;
+/* Stores the value at the destination. */
+void func_80020BC8(s32 *dest, s32 value) {
+    *dest = value;
 }

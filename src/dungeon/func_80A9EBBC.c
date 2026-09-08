@@ -38,26 +38,27 @@ typedef struct S_801743BC_3 {
     s16 unk_1E;
 } S_801743BC_3;   /* temp_v0_2 in func_801743BC */
 
-void func_801743BC(M2C_UNK arg0, Rec_D_800E3D7C *arg1) {
-    S_801743BC_0 *temp_v0;
-    S_801743BC_3 *temp_v0_2;
-    S_801743BC_1 *temp_v1;
+/* Creates an effect at the supplied position and initializes its sprite. */
+void func_801743BC(M2C_UNK unused, Rec_D_800E3D7C *source_pos) {
+    S_801743BC_0 *effect;
+    S_801743BC_3 *sprite;
+    S_801743BC_1 *effect_pos;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_3A = 0x2D;
-        temp_v0->unk_10 = &D_80174318;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v1 = temp_v0->unk_08;
-        temp_v1->unk_02 = (u16) arg1->unk_00.at02_u16.v;
-        temp_v1->unk_06 = (u16) arg1->unk_04.at02_u16.v;
-        temp_v1->unk_0A = (u16) arg1->unk_08.at02_u16.v;
-        temp_v0_2 = temp_v0->unk_0C;
-        temp_v0_2->unk_1E = 0x1000;
-        temp_v0_2->unk_1C = 0x1000;
-        temp_v0_2->unk_0C = 0;
-        temp_v0_2->unk_0E = 0;
-        temp_v0_2->unk_0D = 0;
-        temp_v0_2->unk_14 = (u16) (temp_v0_2->unk_14 | 0x80);
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        effect->unk_3A = 0x2D;
+        effect->unk_10 = &D_80174318;
+        func_8004491C(effect, &D_80045340);
+        effect_pos = effect->unk_08;
+        effect_pos->unk_02 = (u16) source_pos->unk_00.at02_u16.v;
+        effect_pos->unk_06 = (u16) source_pos->unk_04.at02_u16.v;
+        effect_pos->unk_0A = (u16) source_pos->unk_08.at02_u16.v;
+        sprite = effect->unk_0C;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_0C = 0;
+        sprite->unk_0E = 0;
+        sprite->unk_0D = 0;
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0x80);
     }
 }

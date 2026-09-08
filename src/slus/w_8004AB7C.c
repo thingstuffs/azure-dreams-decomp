@@ -30,20 +30,21 @@ extern void func_800A6D98(s32 a0);
 extern void func_8004AA78(s32 a0);
 extern void func_8004A940(void);
 
+/* Process item categories enabled by the current category flag bit. */
 void func_8004AB7C(void)
 {
-    s32 i;
-    S_8004AB7C_CategoryEntry *entry;
+    s32 category_id;
+    S_8004AB7C_CategoryEntry *category;
 
     func_8003E1FC();
     func_8003F320();
     func_800A6D60(1);
     func_800A6D98(D_80013628.v);
 
-    entry = itemCategoryTable;
-    for (i = 0; i < 20; i++, entry++) {
-        if (((s32)entry->pad1[0] >> D_80012090.v) & 1) {
-            func_8004AA78(i);
+    category = itemCategoryTable;
+    for (category_id = 0; category_id < 20; category_id++, category++) {
+        if (((s32)category->pad1[0] >> D_80012090.v) & 1) {
+            func_8004AA78(category_id);
         }
     }
 

@@ -63,109 +63,109 @@ extern void func_80066640(void *, s32);
 extern void func_800666B8(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
-void func_800A2690(void *arg0)
+/* Advance the effect lifetime and draw a fading, flickering triangle. */
+void func_800A2690(void *effect)
 {
     u16 angle;
-    u16 h0;
-    u16 x0;
-    u16 x1;
-    u16 count;
-    s16 sx;
-    s16 sy;
-    s32 center;
-    s32 phase;
-    s32 a;
-    s32 b;
-    s32 c;
-    s32 d;
-    s32 e;
-    s32 f;
-    s32 d2;
-    s32 sum;
+    u16 base_x;
+    u16 base_phase_x;
+    u16 base_phase_y;
+    u16 ticks_left;
+    s16 phase_x;
+    s16 phase_y;
+    s32 center_x;
+    s32 fade_wave;
+    s32 wave_x2;
+    s32 wave_x4;
+    s32 wave_x8;
+    s32 wave_y2;
+    s32 wave_y4;
+    s32 wave_y8;
+    s32 biased_wave_y2;
+    s32 wave_sum;
     s32 intensity;
-    s32 value;
-    s32 scaled;
-    u8 *source;
-    u8 *state;
-    u8 *prim;
-    u8 *packet;
+    s32 draw_page;
+    u8 *params;
+    u8 *render_state;
+    u8 *triangle;
+    u8 *draw_packet;
 
-    source = ((S_800A2690_0 *)arg0)->unk_14;
-    angle = ((S_800A2690_1 *)source)->unk_02;
-    h0 = ((S_800A2690_1 *)source)->unk_00;
-    x0 = ((S_800A2690_1 *)source)->unk_04;
-    count = ((S_800A2690_0 *)arg0)->unk_04 - 1;
-    x1 = ((S_800A2690_1 *)source)->unk_06;
-    center = h0 + ((S_800A2690_0 *)arg0)->unk_08 + 0xA0;
-    ((S_800A2690_0 *)arg0)->unk_04 = count;
-    sx = x0 + ((S_800A2690_0 *)arg0)->unk_0A;
-    sy = x1 + ((S_800A2690_0 *)arg0)->unk_0C;
+    params = ((S_800A2690_0 *)effect)->unk_14;
+    angle = ((S_800A2690_1 *)params)->unk_02;
+    base_x = ((S_800A2690_1 *)params)->unk_00;
+    base_phase_x = ((S_800A2690_1 *)params)->unk_04;
+    ticks_left = ((S_800A2690_0 *)effect)->unk_04 - 1;
+    base_phase_y = ((S_800A2690_1 *)params)->unk_06;
+    center_x = base_x + ((S_800A2690_0 *)effect)->unk_08 + 0xA0;
+    ((S_800A2690_0 *)effect)->unk_04 = ticks_left;
+    phase_x = base_phase_x + ((S_800A2690_0 *)effect)->unk_0A;
+    phase_y = base_phase_y + ((S_800A2690_0 *)effect)->unk_0C;
 
-    if ((count << 16) <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    if ((ticks_left << 16) <= 0) {
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     } else {
-        state = *(u8 **)D_80083160;
-        prim = ((S_800A2690_2 *)state)->unk_8D0;
-        ((S_800A2690_2 *)state)->unk_8D0 = prim + 0x24;
+        render_state = *(u8 **)D_80083160;
+        triangle = ((S_800A2690_2 *)render_state)->unk_8D0;
+        ((S_800A2690_2 *)render_state)->unk_8D0 = triangle + 0x24;
 
-        phase = func_800644B8(((s16)((S_800A2690_0 *)arg0)->unk_04 << 11) /
-                             ((S_800A2690_0 *)arg0)->unk_06);
-        intensity = phase / 16;
+        fade_wave = func_800644B8(((s16)((S_800A2690_0 *)effect)->unk_04 << 11) /
+                             ((S_800A2690_0 *)effect)->unk_06);
+        intensity = fade_wave / 16;
 
-        a = func_800644B8(sx * 2);
-        b = func_800644B8(sx * 4);
-        c = func_800644B8(sx * 8);
-        d = func_800644B8(sy * 2);
-        e = func_800644B8(sy * 4);
-        f = func_800644B8(sy * 8);
-        sum = a + b + c;
-        d2 = d + 0x2400;
-        sum += d2;
-        sum += e;
-        sum += f;
-        sum += 0x2400;
+        wave_x2 = func_800644B8(phase_x * 2);
+        wave_x4 = func_800644B8(phase_x * 4);
+        wave_x8 = func_800644B8(phase_x * 8);
+        wave_y2 = func_800644B8(phase_y * 2);
+        wave_y4 = func_800644B8(phase_y * 4);
+        wave_y8 = func_800644B8(phase_y * 8);
+        wave_sum = wave_x2 + wave_x4 + wave_x8;
+        biased_wave_y2 = wave_y2 + 0x2400;
+        wave_sum += biased_wave_y2;
+        wave_sum += wave_y4;
+        wave_sum += wave_y8;
+        wave_sum += 0x2400;
 
-        intensity = (intensity * sum) / 36864;
+        intensity = (intensity * wave_sum) / 36864;
         intensity =
-            (intensity * ((S_800A2690_4 *)(((S_800A2690_0 *)arg0)->unk_14))->unk_08) / 4096;
+            (intensity * ((S_800A2690_4 *)(((S_800A2690_0 *)effect)->unk_14))->unk_08) / 4096;
         intensity /= 4;
 
-        ((S_800A2690_3 *)prim)->unk_0E = intensity;
-        ((S_800A2690_3 *)prim)->unk_0D = intensity;
-        ((S_800A2690_3 *)prim)->unk_0C = intensity;
-        ((S_800A2690_3 *)prim)->unk_06 = intensity;
-        ((S_800A2690_3 *)prim)->unk_05 = intensity;
-        ((S_800A2690_3 *)prim)->unk_04 = intensity;
-        ((S_800A2690_3 *)prim)->unk_16 = 0;
-        ((S_800A2690_3 *)prim)->unk_15 = 0;
-        ((S_800A2690_3 *)prim)->unk_14 = 0;
-        func_800666B8(prim);
-        func_80066640(prim, 1);
+        ((S_800A2690_3 *)triangle)->unk_0E = intensity;
+        ((S_800A2690_3 *)triangle)->unk_0D = intensity;
+        ((S_800A2690_3 *)triangle)->unk_0C = intensity;
+        ((S_800A2690_3 *)triangle)->unk_06 = intensity;
+        ((S_800A2690_3 *)triangle)->unk_05 = intensity;
+        ((S_800A2690_3 *)triangle)->unk_04 = intensity;
+        ((S_800A2690_3 *)triangle)->unk_16 = 0;
+        ((S_800A2690_3 *)triangle)->unk_15 = 0;
+        ((S_800A2690_3 *)triangle)->unk_14 = 0;
+        func_800666B8(triangle);
+        func_80066640(triangle, 1);
 
-        ((S_800A2690_3 *)prim)->unk_08 = center - ((S_800A2690_0 *)arg0)->unk_10 / 32;
-        ((S_800A2690_3 *)prim)->unk_0A = 0;
-        ((S_800A2690_3 *)prim)->unk_10 = center + ((S_800A2690_0 *)arg0)->unk_10 / 32;
-        ((S_800A2690_3 *)prim)->unk_12 = 0;
-        ((S_800A2690_3 *)prim)->unk_18 =
-            center - (((S_800A2690_0 *)arg0)->unk_10 * func_800644B8((s16)angle)) / 4096;
-        (*(s16 *)((u8 *)prim + 0x1A)) =
-            (((S_800A2690_0 *)arg0)->unk_10 * func_80064584((s16)angle)) / 4096;
+        ((S_800A2690_3 *)triangle)->unk_08 = center_x - ((S_800A2690_0 *)effect)->unk_10 / 32;
+        ((S_800A2690_3 *)triangle)->unk_0A = 0;
+        ((S_800A2690_3 *)triangle)->unk_10 = center_x + ((S_800A2690_0 *)effect)->unk_10 / 32;
+        ((S_800A2690_3 *)triangle)->unk_12 = 0;
+        ((S_800A2690_3 *)triangle)->unk_18 =
+            center_x - (((S_800A2690_0 *)effect)->unk_10 * func_800644B8((s16)angle)) / 4096;
+        (*(s16 *)((u8 *)triangle + 0x1A)) =
+            (((S_800A2690_0 *)effect)->unk_10 * func_80064584((s16)angle)) / 4096;
 
-        state = *(u8 **)D_80083160;
-        packet = ((S_800A2690_2 *)state)->unk_8D0;
-        ((S_800A2690_2 *)state)->unk_8D0 = packet + 0xC;
-        value = func_80066460(0, 0, 0x140, 0);
-        func_80067F20(packet, 0, 0, value & 0xFFFF, 0);
-        func_8006658C(*(u8 **)D_80083160 + 0xD8, packet);
+        render_state = *(u8 **)D_80083160;
+        draw_packet = ((S_800A2690_2 *)render_state)->unk_8D0;
+        ((S_800A2690_2 *)render_state)->unk_8D0 = draw_packet + 0xC;
+        draw_page = func_80066460(0, 0, 0x140, 0);
+        func_80067F20(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
+        func_8006658C(*(u8 **)D_80083160 + 0xD8, draw_packet);
 
-        func_8006658C(*(u8 **)D_80083160 + 0xD8, prim);
+        func_8006658C(*(u8 **)D_80083160 + 0xD8, triangle);
 
-        state = *(u8 **)D_80083160;
-        packet = ((S_800A2690_2 *)state)->unk_8D0;
-        ((S_800A2690_2 *)state)->unk_8D0 = packet + 0xC;
-        value = func_80066460(0, 1, 0x140, 0);
-        func_80067F20(packet, 0, 0, value & 0xFFFF, 0);
-        func_8006658C(*(u8 **)D_80083160 + 0xD8, packet);
+        render_state = *(u8 **)D_80083160;
+        draw_packet = ((S_800A2690_2 *)render_state)->unk_8D0;
+        ((S_800A2690_2 *)render_state)->unk_8D0 = draw_packet + 0xC;
+        draw_page = func_80066460(0, 1, 0x140, 0);
+        func_80067F20(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
+        func_8006658C(*(u8 **)D_80083160 + 0xD8, draw_packet);
     }
 }

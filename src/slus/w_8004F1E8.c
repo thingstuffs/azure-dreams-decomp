@@ -17,33 +17,34 @@ typedef struct Prim12 {
 extern s16 GetClut();
 extern s16 GetTPage();
 
-Prim12 *func_8004F1E8(Prim12 *p) {
-    p->code = 0x80;
-    p->w = 0;
-    p->h = 0;
-    p->u = 0xFF;
-    p->v = 0xFF;
-    p++;
+/* Initializes four primitive records and returns the next free record. */
+Prim12 *func_8004F1E8(Prim12 *prim) {
+    prim->code = 0x80;
+    prim->w = 0;
+    prim->h = 0;
+    prim->u = 0xFF;
+    prim->v = 0xFF;
+    prim++;
 
-    p->code = 0x2C;
-    p->x = GetTPage(1, 0, 0x380, 0x100);
-    p->y = GetClut(0, 0x1F5);
-    p->u = 0xA0;
-    p->w = 0;
-    p->h = 0;
-    p->v = 0x70;
-    p++;
+    prim->code = 0x2C;
+    prim->x = GetTPage(1, 0, 0x380, 0x100);
+    prim->y = GetClut(0, 0x1F5);
+    prim->u = 0xA0;
+    prim->w = 0;
+    prim->h = 0;
+    prim->v = 0x70;
+    prim++;
 
-    p->w = 0x70;
-    p->h = 0xE0;
-    p->code = 0x80;
-    p->u = 8;
-    p->v = 8;
-    p++;
+    prim->w = 0x70;
+    prim->h = 0xE0;
+    prim->code = 0x80;
+    prim->u = 8;
+    prim->v = 8;
+    prim++;
 
-    p->code = 0x81;
-    p->x = 0x20;
-    p->y = 0;
-    p->tag = 0x80;
-    return p + 1;
+    prim->code = 0x81;
+    prim->x = 0x20;
+    prim->y = 0;
+    prim->tag = 0x80;
+    return prim + 1;
 }

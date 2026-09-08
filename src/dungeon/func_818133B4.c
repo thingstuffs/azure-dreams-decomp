@@ -43,19 +43,20 @@ extern s32 func_80028534();
 extern s32 func_80028648();
 extern s32 D_80027D7C;
 
-void func_800283B4(s32 arg0) {
-    void *temp_s0;
+/* Initializes object state and installs its handler pointer. */
+void func_800283B4(s32 object_addr) {
+    void *object_state;
 
-    temp_s0 = arg0 + 0x20;
-    ((S_800283B4_0 *)temp_s0)->unk_14 = 1;
-    ((S_800283B4_1 *)(((S_800283B4_0 *)temp_s0)->unk_80))->unk_02 = 0;
-    ((S_800283B4_0 *)temp_s0)->unk_08 = 0;
-    ((S_800283B4_0 *)temp_s0)->unk_28 = ((S_800283B4_2 *)(((S_800283B4_0 *)temp_s0)->unk_48))->unk_1C;
-    ((S_800283B4_0 *)temp_s0)->unk_38 = ((S_800283B4_0 *)temp_s0)->unk_18;
-    func_80027454(arg0 + 0x58, ((S_800283B4_0 *)temp_s0)->unk_14, 0, ((S_800283B4_0 *)temp_s0)->unk_28);
-    func_80027FF4(((S_800283B4_0 *)temp_s0)->unk_4C, ((S_800283B4_0 *)temp_s0)->unk_14);
-    ((S_800283B4_0 *)temp_s0)->unk_84 = func_80027FA4(((S_800283B4_0 *)temp_s0)->unk_88);
-    func_80028534(((S_800283B4_0 *)temp_s0)->unk_88);
-    func_80028648(arg0);
-    ((S_800283B4_0_pre *)temp_s0)[-1].unk_00 = &D_80027D7C;
+    object_state = object_addr + 0x20;
+    ((S_800283B4_0 *)object_state)->unk_14 = 1;
+    ((S_800283B4_1 *)(((S_800283B4_0 *)object_state)->unk_80))->unk_02 = 0;
+    ((S_800283B4_0 *)object_state)->unk_08 = 0;
+    ((S_800283B4_0 *)object_state)->unk_28 = ((S_800283B4_2 *)(((S_800283B4_0 *)object_state)->unk_48))->unk_1C;
+    ((S_800283B4_0 *)object_state)->unk_38 = ((S_800283B4_0 *)object_state)->unk_18;
+    func_80027454(object_addr + 0x58, ((S_800283B4_0 *)object_state)->unk_14, 0, ((S_800283B4_0 *)object_state)->unk_28);
+    func_80027FF4(((S_800283B4_0 *)object_state)->unk_4C, ((S_800283B4_0 *)object_state)->unk_14);
+    ((S_800283B4_0 *)object_state)->unk_84 = func_80027FA4(((S_800283B4_0 *)object_state)->unk_88);
+    func_80028534(((S_800283B4_0 *)object_state)->unk_88);
+    func_80028648(object_addr);
+    ((S_800283B4_0_pre *)object_state)[-1].unk_00 = &D_80027D7C;
 }

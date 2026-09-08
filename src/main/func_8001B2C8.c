@@ -13,14 +13,15 @@ extern s32 D_804094EC[];
 extern s32 D_8009DDD8[];
 extern s32 D_8009EB58[];
 
-s32 func_804022C8(s32 arg0)
+/* Run the slot operation to completion and update its counters. */
+s32 func_804022C8(s32 slot_index)
 {
     u8 state[32];
-    s32 attempts;
+    s32 poll_count;
     s32 result;
 
-    attempts = 0;
-    func_80401BF4(state, arg0);
+    poll_count = 0;
+    func_80401BF4(state, slot_index);
     func_80408654(0);
     func_80408654(1);
     func_80401578();
@@ -28,30 +29,30 @@ s32 func_804022C8(s32 arg0)
     do {
         result = func_8040153C();
         if (result == 0) {
-            attempts++;
+            poll_count++;
             func_800702F0(0);
         }
     } while (result == 0);
-    func_8007C040(D_80400038, D_804000F8, attempts);
+    func_8007C040(D_80400038, D_804000F8, poll_count);
 
-    if (arg0 < 5) {
-        s32 *base;
-        s32 *dst;
-        s32 *src;
-        s32 flag;
+    if (slot_index < 5) {
+        s32 *counters;
+        s32 *counter_dst;
+        s32 *counter_src;
+        s32 alternate_counter;
 
-        base = D_8009EB58;
-        dst = base;
-        flag = D_804094EC[0];
-        D_8009DDD8[arg0 * 32] = 0;
-        if (flag != 0) {
-            dst++;
+        counters = D_8009EB58;
+        counter_dst = counters;
+        alternate_counter = D_804094EC[0];
+        D_8009DDD8[slot_index * 32] = 0;
+        if (alternate_counter != 0) {
+            counter_dst++;
         }
-        src = base;
-        if (flag != 0) {
-            src++;
+        counter_src = counters;
+        if (alternate_counter != 0) {
+            counter_src++;
         }
-        *dst = *src + 3;
+        *counter_dst = *counter_src + 3;
     }
     return result == 1;
 }

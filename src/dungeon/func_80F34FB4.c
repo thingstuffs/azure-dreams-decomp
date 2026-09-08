@@ -81,245 +81,237 @@ typedef struct S_801727B4_4 {
     s16 unk_36;
 } S_801727B4_4;   /* temp_s0 in func_801727B4 */
 
-void func_801727B4(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5 };
-    Vec3sTable sp10;
-    Vec3sTable sp28;
-    s32 temp_a0;
-    s32 temp_a0_2;
-    s32 temp_v0;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
-    u32 formula_factor;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 var_v1;
-    s32 case_left;
-    s32 case_right;
-    u16 temp_v0_3;
-    u16 temp_v0_7;
-    u8 temp_v1;
-    u8 state_v;
-    void *temp_a2;
-    S_801727B4_4 *temp_s0;
-    void *temp_v0_2;
-    void *temp_v0_6;
-    void *temp_v1_4;
+/* Updates a staged movement animation, emits effects, and restores the actor at its starting position. */
+void func_801727B4(void *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 *animation, void *actor) {
+    static void *const state_labels[] = { &&start_motion, &&start_jump, &&update_jump, &&emit_effect, &&finish_animation, &&return_to_start };
+    Vec3sTable effect_vectors_a;
+    Vec3sTable effect_vectors_b;
+    s32 reverse_facing;
+    s32 actor_handle;
+    s32 facing;
+    s32 has_offset;
+    s32 direction_index;
+    s32 vertical_speed;
+    u32 fade_steps;
+    s32 wrapped_facing;
+    s32 axis_distance;
+    s32 start_coord;
+    u16 effect_coord;
+    u16 ticks_left;
+    u8 state;
+    u8 previous_state;
+    S_801727B4_4 *effect_data;
+    void *effect;
 
-    sp10 = D_80170838;
-    sp28 = D_8017084C;
-    temp_v1 = ((S_801727B4_0 *)arg0)->unk_9B;
-    if (temp_v1 >= 6U) {
-        goto block_50;
+    effect_vectors_a = D_80170838;
+    effect_vectors_b = D_8017084C;
+    state = ((S_801727B4_0 *)action)->unk_9B;
+    if (state >= 6U) {
+        goto done;
     }
-    (void)jt_keep; goto *D_80170860[(u32)(temp_v1)];
-jt_c0:
-    ((S_801727B4_0 *)arg0)->unk_A8 = (u16) arg1->unk_00.at02_u16.v;
-    ((S_801727B4_0 *)arg0)->unk_AA = (u16) arg1->unk_04.at02_u16.v;
-    if (!(arg2->unk_14.at00_u16.v & 0x8000)) {
-        goto block_5;
+    (void)state_labels;
+    goto *D_80170860[(u32)(state)];
+start_motion:
+    ((S_801727B4_0 *)action)->unk_A8 = (u16) motion->unk_00.at02_u16.v;
+    ((S_801727B4_0 *)action)->unk_AA = (u16) motion->unk_04.at02_u16.v;
+    if (!(animation->unk_14.at00_u16.v & 0x8000)) {
+        goto set_velocity;
     }
-    ((S_801727B4_0 *)arg0)->unk_9B = 5U;
-    arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v | 0x6000);
-    func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
-    goto block_50;
-block_5:
-    temp_v0 = ((u16) ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 >> 9) & 7;
-    temp_a0 = temp_v0 + 4;
-    var_v1 = temp_a0;
-    if (temp_a0 >= 0) {
-        goto block_7;
+    ((S_801727B4_0 *)action)->unk_9B = 5U;
+    animation->unk_14.at00_u16.v = (u16) (animation->unk_14.at00_u16.v | 0x6000);
+    func_8009C12C(actor, animation, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+    goto done;
+set_velocity:
+    facing = ((u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 9) & 7;
+    reverse_facing = facing + 4;
+    wrapped_facing = reverse_facing;
+    if (reverse_facing >= 0) {
+        goto apply_velocity;
     }
-    var_v1 = temp_v0 + 0xB;
-block_7:
-    temp_v1_2 = temp_a0 - (var_v1 & 0x18);
-    arg1->unk_0C.as_s32 = (s32) ((s16) D_8006CCD8[temp_v1_2] * 0x30000);
-    arg1->unk_10.at00_s32.v = (s32) ((s16) D_8006CCE8[temp_v1_2] * 0x30000);
-    arg2->unk_2C.as_pu8 = &D_80174A8C;
-    func_80047784(arg2, (&D_80174A8C)[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    wrapped_facing = facing + 0xB;
+apply_velocity:
+    direction_index = reverse_facing - (wrapped_facing & 0x18);
+    motion->unk_0C.as_s32 = (s32) ((s16) D_8006CCD8[direction_index] * 0x30000);
+    motion->unk_10.at00_s32.v = (s32) ((s16) D_8006CCE8[direction_index] * 0x30000);
+    animation->unk_2C.as_pu8 = &D_80174A8C;
+    func_80047784(animation, (&D_80174A8C)[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     goto increment_state_load;
-jt_c1:
-    if (!(arg2->unk_14.at00_u16.v & 0xE000)) {
-        goto block_50;
+start_jump:
+    if (!(animation->unk_14.at00_u16.v & 0xE000)) {
+        goto done;
     }
-    arg2->unk_2C.as_pu8 = &D_80174A94;
-    func_80047784(arg2, (&D_80174A94)[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
-    ((S_801727B4_0 *)arg0)->unk_90 = 0;
-    ((S_801727B4_0 *)arg0)->unk_98 = (u16) (((S_801727B4_0 *)arg0)->unk_98 | 8);
-    arg1->unk_14.as_s32 = 0xFFF40000;
+    animation->unk_2C.as_pu8 = &D_80174A94;
+    func_80047784(animation, (&D_80174A94)[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    ((S_801727B4_0 *)action)->unk_90 = 0;
+    ((S_801727B4_0 *)action)->unk_98 = (u16) (((S_801727B4_0 *)action)->unk_98 | 8);
+    motion->unk_14.as_s32 = 0xFFF40000;
     goto increment_state_load;
-jt_c2:
-    temp_v1_3 = arg1->unk_14.as_s32 + 0x20000;
-    arg1->unk_14.as_s32 = temp_v1_3;
-    ((S_801727B4_0 *)arg0)->unk_90 = (s32) (((S_801727B4_0 *)arg0)->unk_90 + temp_v1_3);
-    if (!(arg2->unk_14.at00_u16.v & 0xE000)) {
-        goto block_50;
+update_jump:
+    vertical_speed = motion->unk_14.as_s32 + 0x20000;
+    motion->unk_14.as_s32 = vertical_speed;
+    ((S_801727B4_0 *)action)->unk_90 = (s32) (((S_801727B4_0 *)action)->unk_90 + vertical_speed);
+    if (!(animation->unk_14.at00_u16.v & 0xE000)) {
+        goto done;
     }
-    arg1->unk_0C.as_s32 = (s32) ((s32) (0 - arg1->unk_0C.as_s32) >> 1);
-    arg1->unk_10.at00_s32.v = (s32) ((s32) (0 - arg1->unk_10.at00_s32.v) >> 1);
-    arg2->unk_2C.as_pu8 = D_80174AA4;
-    func_80047784(arg2, D_80174AA4[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
-    ((S_801727B4_0 *)arg0)->unk_96 = 7;
-    ((S_801727B4_0 *)arg0)->unk_9B = (u8) (((S_801727B4_0 *)arg0)->unk_9B + 1);
-    goto block_50;
-jt_c3:
-    if (arg2->unk_04.as_s8 >= 3) {
-        goto block_20;
+    motion->unk_0C.as_s32 = (s32) ((s32) (0 - motion->unk_0C.as_s32) >> 1);
+    motion->unk_10.at00_s32.v = (s32) ((s32) (0 - motion->unk_10.at00_s32.v) >> 1);
+    animation->unk_2C.as_pu8 = D_80174AA4;
+    func_80047784(animation, D_80174AA4[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    ((S_801727B4_0 *)action)->unk_96 = 7;
+    ((S_801727B4_0 *)action)->unk_9B = (u8) (((S_801727B4_0 *)action)->unk_9B + 1);
+    goto done;
+emit_effect:
+    if (animation->unk_04.as_s8 >= 3) {
+        goto create_effect;
     }
-    if (func_8003DE58(arg2->unk_08, arg2, arg0 + 0xAC, 0) != 0) {
-        goto block_18;
+    if (func_8003DE58(animation->unk_08, animation, action + 0xAC, 0) != 0) {
+        goto translate_offset;
     }
-    ((S_801727B4_0 *)arg0)->unk_B0 = 0U;
-    ((S_801727B4_0 *)arg0)->unk_AE = 0U;
-    ((S_801727B4_0 *)arg0)->unk_AC = 0U;
-block_18:
-    ((S_801727B4_0 *)arg0)->unk_AC = (u16) (((S_801727B4_0 *)arg0)->unk_AC + arg1->unk_00.at02_u16.v);
-    ((S_801727B4_0 *)arg0)->unk_AE = (u16) (((S_801727B4_0 *)arg0)->unk_AE + arg1->unk_04.at02_u16.v);
-    ((S_801727B4_0 *)arg0)->unk_B0 = (u16) (((S_801727B4_0 *)arg0)->unk_B0 + arg1->unk_08.at02_u16.v);
-    goto block_24;
-block_20:
-    temp_v0_2 = func_8003FD64(1, D_80083498);
-    if (temp_v0_2 == NULL) {
-        goto block_24;
+    ((S_801727B4_0 *)action)->unk_B0 = 0U;
+    ((S_801727B4_0 *)action)->unk_AE = 0U;
+    ((S_801727B4_0 *)action)->unk_AC = 0U;
+translate_offset:
+    ((S_801727B4_0 *)action)->unk_AC = (u16) (((S_801727B4_0 *)action)->unk_AC + motion->unk_00.at02_u16.v);
+    ((S_801727B4_0 *)action)->unk_AE = (u16) (((S_801727B4_0 *)action)->unk_AE + motion->unk_04.at02_u16.v);
+    ((S_801727B4_0 *)action)->unk_B0 = (u16) (((S_801727B4_0 *)action)->unk_B0 + motion->unk_08.at02_u16.v);
+    goto update_timer;
+create_effect:
+    effect = func_8003FD64(1, D_80083498);
+    if (effect == NULL) {
+        goto update_timer;
     }
-    (*(M2C_UNK **)((u8 *)temp_v0_2 + 0x10)) = &D_800DB618;
-    func_8004491C(temp_v0_2, &D_800DB660);
-    temp_s0 = temp_v0_2 + 0x20;
-    temp_s0->unk_10 = (u16) ((S_801727B4_0 *)arg0)->unk_AC;
-    temp_s0->unk_12 = (u16) ((S_801727B4_0 *)arg0)->unk_AE;
-    temp_s0->unk_14 = (u16) ((S_801727B4_0 *)arg0)->unk_B0;
-    temp_v0 = func_8003DE58(arg2->unk_08, arg2, arg0 + 0xAC, 0);
-    if (temp_v0 == 0) {
-        ((S_801727B4_0 *)arg0)->unk_B0 = 0U;
-        ((S_801727B4_0 *)arg0)->unk_AE = 0U;
-        ((S_801727B4_0 *)arg0)->unk_AC = 0U;
+    (*(M2C_UNK **)((u8 *)effect + 0x10)) = &D_800DB618;
+    func_8004491C(effect, &D_800DB660);
+    effect_data = effect + 0x20;
+    effect_data->unk_10 = (u16) ((S_801727B4_0 *)action)->unk_AC;
+    effect_data->unk_12 = (u16) ((S_801727B4_0 *)action)->unk_AE;
+    effect_data->unk_14 = (u16) ((S_801727B4_0 *)action)->unk_B0;
+    has_offset = func_8003DE58(animation->unk_08, animation, action + 0xAC, 0);
+    if (has_offset == 0) {
+        ((S_801727B4_0 *)action)->unk_B0 = 0U;
+        ((S_801727B4_0 *)action)->unk_AE = 0U;
+        ((S_801727B4_0 *)action)->unk_AC = 0U;
     }
     {
-    s32 color_a;
-    s32 color_b;
-    s32 color_c;
-    s32 effect_a0;
-    s32 effect_a1;
-    s32 effect_a2;
+        s32 purple;
+        s32 light_gray;
+        s32 base_gray;
 
-    color_a = 0x200020;
-    color_b = 0xC0C0C0;
-    effect_a0 = 0;
-    effect_a1 = 1;
-    effect_a2 = 0x2C0;
-    temp_v0_3 = ((S_801727B4_0 *)arg0)->unk_AC + arg1->unk_00.at02_u16.v;
-    ((S_801727B4_0 *)arg0)->unk_AC = temp_v0_3;
-    temp_s0->unk_08 = temp_v0_3;
-    temp_v0_3 = ((S_801727B4_0 *)arg0)->unk_AE + arg1->unk_04.at02_u16.v;
-    ((S_801727B4_0 *)arg0)->unk_AE = temp_v0_3;
-    temp_s0->unk_0A = temp_v0_3;
-    temp_v0_3 = ((S_801727B4_0 *)arg0)->unk_B0 + arg1->unk_08.at02_u16.v;
-    ((S_801727B4_0 *)arg0)->unk_B0 = temp_v0_3;
-    temp_s0->unk_0C = temp_v0_3;
-    temp_s0->unk_2C = (u16) ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16;
-    temp_s0->unk_2E = 0x10;
-    temp_s0->unk_30 = 0x10;
-    temp_s0->unk_36 = 0x10;
-    temp_s0->unk_04 = color_a;
-    temp_s0->unk_18 = color_b;
-    formula_factor = 6 - arg2->unk_04.as_s8;
-    color_c = 0x141414;
-    temp_s0->unk_1C = (s32) ((formula_factor * 0x30303) + color_c);
-    (*(Vec3s *)((u8 *)temp_v0_2 + 0x40)) = sp10.item[arg2->unk_04.as_s8 - 3];
-    (*(Vec3s *)((u8 *)temp_v0_2 + 0x46)) = sp28.item[arg2->unk_04.as_s8 - 3];
-    temp_s0->unk_32 = func_80066460(effect_a0, effect_a1, effect_a2, 0x100);
-    temp_s0->unk_34 = func_8006649C(0, 0x1F8);
+        purple = 0x200020;
+        light_gray = 0xC0C0C0;
+        effect_coord = ((S_801727B4_0 *)action)->unk_AC + motion->unk_00.at02_u16.v;
+        ((S_801727B4_0 *)action)->unk_AC = effect_coord;
+        effect_data->unk_08 = effect_coord;
+        effect_coord = ((S_801727B4_0 *)action)->unk_AE + motion->unk_04.at02_u16.v;
+        ((S_801727B4_0 *)action)->unk_AE = effect_coord;
+        effect_data->unk_0A = effect_coord;
+        effect_coord = ((S_801727B4_0 *)action)->unk_B0 + motion->unk_08.at02_u16.v;
+        ((S_801727B4_0 *)action)->unk_B0 = effect_coord;
+        effect_data->unk_0C = effect_coord;
+        effect_data->unk_2C = (u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16;
+        effect_data->unk_2E = 0x10;
+        effect_data->unk_30 = 0x10;
+        effect_data->unk_36 = 0x10;
+        effect_data->unk_04 = purple;
+        effect_data->unk_18 = light_gray;
+        fade_steps = 6 - animation->unk_04.as_s8;
+        base_gray = 0x141414;
+        effect_data->unk_1C = (s32) ((fade_steps * 0x30303) + base_gray);
+        (*(Vec3s *)((u8 *)effect + 0x40)) = effect_vectors_a.item[animation->unk_04.as_s8 - 3];
+        (*(Vec3s *)((u8 *)effect + 0x46)) = effect_vectors_b.item[animation->unk_04.as_s8 - 3];
+        effect_data->unk_32 = func_80066460(0, 1, 0x2C0, 0x100);
+        effect_data->unk_34 = func_8006649C(0, 0x1F8);
     }
-block_24:
-    temp_v0_7 = ((S_801727B4_0 *)arg0)->unk_96 - 1;
-    ((S_801727B4_0 *)arg0)->unk_96 = temp_v0_7;
-    if ((temp_v0_7 << 0x10) == 0) {
-        goto block_26;
+update_timer:
+    ticks_left = ((S_801727B4_0 *)action)->unk_96 - 1;
+    ((S_801727B4_0 *)action)->unk_96 = ticks_left;
+    if ((ticks_left << 0x10) == 0) {
+        goto trigger_action;
     }
-    if (!(arg2->unk_14.at00_u16.v & 0x8000)) {
-        goto block_27;
+    if (!(animation->unk_14.at00_u16.v & 0x8000)) {
+        goto check_animation;
     }
-block_26:
-    func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
+trigger_action:
+    func_8009C12C(actor, animation, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
     func_800A56E0(0x808);
-block_27:
-    if (!(arg2->unk_14.at00_u16.v & 0xE000)) {
-        goto block_50;
+check_animation:
+    if (!(animation->unk_14.at00_u16.v & 0xE000)) {
+        goto done;
     }
-    arg2->unk_2C.as_pu8 = D_80174AAC;
-    func_80047784(arg2, D_80174AAC[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
-    ((S_801727B4_0 *)arg0)->unk_98 = (u16) (((S_801727B4_0 *)arg0)->unk_98 & 0xFFF7);
-    ((S_801727B4_0 *)arg0)->unk_9B = (u8) (((S_801727B4_0 *)arg0)->unk_9B + 1);
-    goto block_50;
-jt_c4:
-    if (!(arg2->unk_14.at00_u16.v & 0xE000)) {
-        goto block_50;
+    animation->unk_2C.as_pu8 = D_80174AAC;
+    func_80047784(animation, D_80174AAC[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    ((S_801727B4_0 *)action)->unk_98 = (u16) (((S_801727B4_0 *)action)->unk_98 & 0xFFF7);
+    ((S_801727B4_0 *)action)->unk_9B = (u8) (((S_801727B4_0 *)action)->unk_9B + 1);
+    goto done;
+finish_animation:
+    if (!(animation->unk_14.at00_u16.v & 0xE000)) {
+        goto done;
     }
-    arg2->unk_2C.as_pu8 = D_80174AAC;
-    func_80047784(arg2, D_80174AAC[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
-    if (!(arg2->unk_14.at00_u16.v & 0x8000)) {
-        goto block_33;
+    animation->unk_2C.as_pu8 = D_80174AAC;
+    func_80047784(animation, D_80174AAC[((s32) (*D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    if (!(animation->unk_14.at00_u16.v & 0x8000)) {
+        goto advance_state;
     }
-    func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-block_33:
+    func_800A2B04(motion, animation->unk_24, animation->unk_25);
+advance_state:
 increment_state_load:
-    state_v = ((S_801727B4_0 *)arg0)->unk_9B;
+    previous_state = ((S_801727B4_0 *)action)->unk_9B;
 increment_state:
-    ((S_801727B4_0 *)arg0)->unk_9B = (u8) (state_v + 1);
-    goto block_50;
-jt_c5:
-    case_left = (s16) arg1->unk_00.at02_u16.v;
-    case_right = (s16) ((S_801727B4_0 *)arg0)->unk_A8;
-    case_left = case_left - case_right;
-    if (case_left >= 0) {
-        goto block_37;
+    ((S_801727B4_0 *)action)->unk_9B = (u8) (previous_state + 1);
+    goto done;
+return_to_start:
+    axis_distance = (s16) motion->unk_00.at02_u16.v;
+    start_coord = (s16) ((S_801727B4_0 *)action)->unk_A8;
+    axis_distance = axis_distance - start_coord;
+    if (axis_distance >= 0) {
+        goto check_x_distance;
     }
-    case_left = 0 - case_left;
-block_37:
-    if (case_left >= 0x41) {
-        goto block_41;
+    axis_distance = 0 - axis_distance;
+check_x_distance:
+    if (axis_distance >= 0x41) {
+        goto adjust_position;
     }
-    case_left = (s16) arg1->unk_04.at02_u16.v;
-    case_right = (s16) ((S_801727B4_0 *)arg0)->unk_AA;
-    case_left = case_left - case_right;
-    if (case_left >= 0) {
-        goto block_40;
+    axis_distance = (s16) motion->unk_04.at02_u16.v;
+    start_coord = (s16) ((S_801727B4_0 *)action)->unk_AA;
+    axis_distance = axis_distance - start_coord;
+    if (axis_distance >= 0) {
+        goto check_y_distance;
     }
-    case_left = 0 - case_left;
-block_40:
-    if (case_left < 0x41) {
-        goto block_42;
+    axis_distance = 0 - axis_distance;
+check_y_distance:
+    if (axis_distance < 0x41) {
+        goto check_start_position;
     }
-block_41:
-    func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-block_42:
-    if ((s16) arg1->unk_00.at02_u16.v != (s16) ((S_801727B4_0 *)arg0)->unk_A8) {
-        goto block_50;
+adjust_position:
+    func_800A2B04(motion, animation->unk_24, animation->unk_25);
+check_start_position:
+    if ((s16) motion->unk_00.at02_u16.v != (s16) ((S_801727B4_0 *)action)->unk_A8) {
+        goto done;
     }
-    if ((s16) arg1->unk_04.at02_u16.v != (s16) ((S_801727B4_0 *)arg0)->unk_AA) {
-        goto block_50;
+    if ((s16) motion->unk_04.at02_u16.v != (s16) ((S_801727B4_0 *)action)->unk_AA) {
+        goto done;
     }
-    arg1->unk_10.at00_s32.v = 0;
-    arg1->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-    func_800AD594(arg3, 0x100);
-    ((S_801727B4_0 *)arg0)->unk_8C = D_80170E94;
+    motion->unk_10.at00_s32.v = 0;
+    motion->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, animation->unk_24, animation->unk_25);
+    func_800AD594(actor, 0x100);
+    ((S_801727B4_0 *)action)->unk_8C = D_80170E94;
     *D_8008346C = 0;
-    func_800A4ACC(arg3);
-    if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
-        ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v = (u16) (((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x7FFF);
+    func_800A4ACC(actor);
+    if (((Rec_D_800E3D7C *)actor)->unk_6D.as_s8 == 0) {
+        ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v = (u16) (((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x7FFF);
     } else {
-        *D_800E3DE8 = arg3 - 0x20;
+        *D_800E3DE8 = actor - 0x20;
     }
-block_47:
-    temp_a0_2 = ((Rec_D_800E3D7C *)arg3)->unk_60.as_s32;
-    if (temp_a0_2 == 0) {
-        goto block_50;
+update_actor_handle:
+    actor_handle = ((Rec_D_800E3D7C *)actor)->unk_60.as_s32;
+    if (actor_handle == 0) {
+        goto done;
     }
-    if (((Rec_D_800E3D7C *)arg3)->unk_14.as_s32 & 0x20000) {
-        goto block_50;
+    if (((Rec_D_800E3D7C *)actor)->unk_14.as_s32 & 0x20000) {
+        goto done;
     }
-    func_800C8EFC(temp_a0_2, 0x10);
-block_50:
+    func_800C8EFC(actor_handle, 0x10);
+done:
     return;
 }

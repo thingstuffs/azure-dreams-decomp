@@ -30,14 +30,15 @@ extern void func_800A7A7C(s32, s32, s32, void *, void *);
 extern s32 D_8006E240;
 extern s32 D_800814A0;
 
-void func_800B80D8(void *arg0, void *arg1, void *arg2)
+/* Animate object motion and scale, then signal completion. */
+void func_800B80D8(void *object, void *motion, void *display)
 {
     s16 state;
     s32 velocity;
-    u16 counter;
-    u16 pos;
+    u16 frames_left;
+    u16 scale;
 
-    state = ((S_800B80D8_0 *)arg0)->unk_A2.s;
+    state = ((S_800B80D8_0 *)object)->unk_A2.s;
     if (state == 1) {
         goto state_one;
     }
@@ -56,46 +57,42 @@ state_ge_two:
     goto exit;
 
 state_zero:
-    if (!(((S_800B80D8_1 *)arg2)->unk_14 & 0x8000)) {
+    if (!(((S_800B80D8_1 *)display)->unk_14 & 0x8000)) {
         goto zero_continue;
     }
-    ((S_800B80D8_0 *)arg0)->unk_A2.u = 2;
+    ((S_800B80D8_0 *)object)->unk_A2.u = 2;
     goto exit;
 
 zero_continue:
-    ((S_800B80D8_0 *)arg0)->unk_A4 = 12;
-    ((S_800B80D8_0 *)arg0)->unk_A2.u++;
+    ((S_800B80D8_0 *)object)->unk_A4 = 12;
+    ((S_800B80D8_0 *)object)->unk_A2.u++;
 state_one:
-    velocity = ((S_800B80D8_2 *)arg1)->unk_14 + 0x30000;
-    ((S_800B80D8_2 *)arg1)->unk_14 = velocity;
-    ((S_800B80D8_2 *)arg1)->unk_08.at00.v += velocity;
-    pos = ((S_800B80D8_1 *)arg2)->unk_1C;
-    if (pos < 0x1000) {
-        ((S_800B80D8_1 *)arg2)->unk_1C = pos + 0x50;
-        ((S_800B80D8_1 *)arg2)->unk_1E += 0x50;
+    velocity = ((S_800B80D8_2 *)motion)->unk_14 + 0x30000;
+    ((S_800B80D8_2 *)motion)->unk_14 = velocity;
+    ((S_800B80D8_2 *)motion)->unk_08.at00.v += velocity;
+    scale = ((S_800B80D8_1 *)display)->unk_1C;
+    if (scale < 0x1000) {
+        ((S_800B80D8_1 *)display)->unk_1C = scale + 0x50;
+        ((S_800B80D8_1 *)display)->unk_1E += 0x50;
     }
-    counter = ((S_800B80D8_0 *)arg0)->unk_A4 - 1;
-    ((S_800B80D8_0 *)arg0)->unk_A4 = counter;
-    if ((counter << 16) != 0) {
+    frames_left = ((S_800B80D8_0 *)object)->unk_A4 - 1;
+    ((S_800B80D8_0 *)object)->unk_A4 = frames_left;
+    if ((frames_left << 16) != 0) {
         goto exit;
     }
-    ((S_800B80D8_2 *)arg1)->unk_14 = 0;
-    ((S_800B80D8_0 *)arg0)->unk_A2.u++;
+    ((S_800B80D8_2 *)motion)->unk_14 = 0;
+    ((S_800B80D8_0 *)object)->unk_A2.u++;
     goto exit;
 
 state_two:
-    func_800A7A7C(((S_800B80D8_0 *)arg0)->unk_B0,
-                  ((S_800B80D8_0 *)arg0)->unk_B2,
-                  (s16)(((S_800B80D8_2 *)arg1)->unk_08.at02.v - 0x20),
+    func_800A7A7C(((S_800B80D8_0 *)object)->unk_B0,
+                  ((S_800B80D8_0 *)object)->unk_B2,
+                  (s16)(((S_800B80D8_2 *)motion)->unk_08.at02.v - 0x20),
                   &D_8006E240,
-                  (u8 *)arg0 + 0x98);
-    (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+                  (u8 *)object + 0x98);
+    (*(u16 *)((u8 *)object + -2)) |= 0x8000;
     D_800814A0 |= 0x8000;
 
 exit:
     return;
 }
-
-/* MECHANISM: true-space local jumps are C returns to one shared epilogue.
-   A 0x20 frame holds only arg0 in s0 across the one real five-argument call;
-   arg1 naturally occupies a3, and phase-one is a labeled fallthrough join. */

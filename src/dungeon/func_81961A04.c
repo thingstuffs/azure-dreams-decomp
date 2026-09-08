@@ -69,74 +69,75 @@ typedef struct S_81961A04_4 {
     u16 unk_1E;
 } S_81961A04_4;   /* temp_a1 in func_81961A04 */
 
-void *func_81961A04(void *arg0)
+/* Allocates and initializes objects at the supplied position across nine slots. */
+void *func_81961A04(void *position)
 {
-    S_81961A04_1 *temp_s3;
-    s32 var_s1;
-    M2C_UNK *temp_s5;
-    M2C_UNK *temp_s4;
-    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    void *temp_v0;
-    s32 arithmetic_v0;
-    register s32 arithmetic_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 reload_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 temp_v0_2;
-    u16 temp_v0_3;
-    u16 temp_v0_4;
-    S_81961A04_4 *temp_a1;
-    S_81961A04_3 *temp_a2;
-    S_81961A04_2 *temp_v1;
+    S_81961A04_1 *source_pos;
+    s32 slot;
+    M2C_UNK *object_handler;
+    M2C_UNK *control_handler;
+    register s32 last_slot ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    void *object;
+    s32 slot_offset;
+    register s32 control_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 control_scale ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 pos_x;
+    u16 pos_y;
+    u16 pos_z;
+    S_81961A04_4 *control;
+    S_81961A04_3 *state;
+    S_81961A04_2 *positions;
 
-    temp_s3 = arg0;
-    var_s1 = 0;
-    temp_s5 = &D_80026DE4;
-    temp_s4 = &D_800273B0;
-    temp_s2 = 8;
-loop_1:
-    temp_v0 = func_8003FC64(2);
-    if (temp_v0 != NULL) {
-        ((S_81961A04_0 *)temp_v0)->unk_10 = temp_s5;
-        func_8004491C(temp_v0, &D_800CEEFC);
-        temp_v1 = ((S_81961A04_0 *)temp_v0)->unk_08;
-        temp_v0_2 = temp_s3->unk_02;
-        temp_a2 = temp_v0 + 0x20;
-        temp_v1->unk_02 = temp_v0_2;
-        temp_v1->unk_0E = temp_v0_2;
-        temp_a2->unk_38 = temp_v0_2;
-        temp_v0_3 = temp_s3->unk_06;
-        temp_v1->unk_06 = temp_v0_3;
-        temp_v1->unk_12 = temp_v0_3;
-        temp_a2->unk_3A = temp_v0_3;
-        temp_v0_4 = temp_s3->unk_0A;
-        temp_v1->unk_0A = temp_v0_4;
-        temp_v1->unk_16 = temp_v0_4;
-        temp_a2->unk_3C = temp_v0_4;
-        temp_a1 = ((S_81961A04_0 *)temp_v0)->unk_0C;
-        temp_a1->unk_08 = temp_s4;
-        if (var_s1 != temp_s2) {
-            arithmetic_v0 = 0x200;
-            ASM_TAILSLOT_PIN(arithmetic_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    source_pos = position;
+    slot = 0;
+    object_handler = &D_80026DE4;
+    control_handler = &D_800273B0;
+    last_slot = 8;
+allocate_slot:
+    object = func_8003FC64(2);
+    if (object != NULL) {
+        ((S_81961A04_0 *)object)->unk_10 = object_handler;
+        func_8004491C(object, &D_800CEEFC);
+        positions = ((S_81961A04_0 *)object)->unk_08;
+        pos_x = source_pos->unk_02;
+        state = object + 0x20;
+        positions->unk_02 = pos_x;
+        positions->unk_0E = pos_x;
+        state->unk_38 = pos_x;
+        pos_y = source_pos->unk_06;
+        positions->unk_06 = pos_y;
+        positions->unk_12 = pos_y;
+        state->unk_3A = pos_y;
+        pos_z = source_pos->unk_0A;
+        positions->unk_0A = pos_z;
+        positions->unk_16 = pos_z;
+        state->unk_3C = pos_z;
+        control = ((S_81961A04_0 *)object)->unk_0C;
+        control->unk_08 = control_handler;
+        if (slot != last_slot) {
+            slot_offset = 0x200;
+            ASM_TAILSLOT_PIN(slot_offset);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_800272BC();
             return (void *)0x200;
         }
-        ASM_KEEP(temp_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        do { temp_a1->unk_1E = 0x800U; } while (0);
-        arithmetic_v0 = (temp_s2 - var_s1) * 4;
-        arithmetic_v1 = -0x80 - arithmetic_v0;
-        reload_a0 = M2C_FIELD_V(temp_a1, u16 *, 0x1E);
-        temp_a1->unk_0C = (s8)arithmetic_v1;
-        temp_a1->unk_1C = reload_a0;
-        temp_a2->unk_54 = var_s1;
-        if (var_s1 == temp_s2) {
-            temp_a2->unk_54 = 7;
+        ASM_KEEP(last_slot);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        do { control->unk_1E = 0x800U; } while (0);
+        slot_offset = (last_slot - slot) * 4;
+        control_value = -0x80 - slot_offset;
+        control_scale = M2C_FIELD_V(control, u16 *, 0x1E);
+        control->unk_0C = (s8)control_value;
+        control->unk_1C = control_scale;
+        state->unk_54 = slot;
+        if (slot == last_slot) {
+            state->unk_54 = 7;
         }
-        temp_a2->unk_4C = temp_s2;
-        goto block_8;
+        state->unk_4C = last_slot;
+        goto next_slot;
     }
-block_8:
-    var_s1 += 1;
-    if (var_s1 < 9) {
-        goto loop_1;
+next_slot:
+    slot += 1;
+    if (slot < 9) {
+        goto allocate_slot;
     }
-    return temp_v0;
+    return object;
 }

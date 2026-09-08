@@ -1,9 +1,5 @@
 #include "common.h"
 
-/* Init routine: resets timer state via func_8005A4E8(0,0,0), initializes the
-   D_80055990_Struct-shaped object at D_80084858, and zero-clears a subset of
-   fields (0x8,0xC,0x10,0x14,0x18 as s32; 0x30,0x31,0x32,0x33 as s8) of the
-   struct at D_800847D0. */
 /* callee: task/timer-like initializer, already matched in src/code.c */
 typedef struct {
     char pad0[4];      /* 0x0 */
@@ -39,6 +35,7 @@ typedef struct {
 
 extern S_800847D0 D_800847D0;
 
+/* Resets timer state, initializes D_80084858, and clears selected fields of D_800847D0. */
 void func_800540A8(void) {
     func_8005A4E8(0, 0, 0);
     func_80055990(&D_80084858);

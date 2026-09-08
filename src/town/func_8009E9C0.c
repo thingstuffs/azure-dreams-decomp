@@ -22,11 +22,12 @@ typedef struct S_8009C120_2 {
     s16 unk_6C;
 } S_8009C120_2;   /* arg0 in func_8009C120 */
 
-void func_8009C120(S_8009C120_2 *arg0, S_8009C120_0 *arg1, S_8009C120_1 *arg2) {
-    arg1->unk_15 = 0;
-    arg2->unk_0C = 0;
-    arg2->unk_10 = 0;
-    arg2->unk_14 = 0;
-    arg0->unk_50 = &D_8009B828;
-    arg0->unk_6C = 7;
+/* Clear status and values, then initialize the state's data pointer and mode. */
+void func_8009C120(S_8009C120_2 *state, S_8009C120_0 *status, S_8009C120_1 *values) {
+    status->unk_15 = 0;
+    values->unk_0C = 0;
+    values->unk_10 = 0;
+    values->unk_14 = 0;
+    state->unk_50 = &D_8009B828;
+    state->unk_6C = 7;
 }

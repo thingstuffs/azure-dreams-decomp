@@ -41,66 +41,63 @@ extern u8 D_8012E998[];
 extern u8 D_80133198[];
 
 
-void func_801254D8(void *arg0) {
-    Rect rect0;
-    Rect rect1;
-    u8 state;
+/* Loads an image and palette into VRAM, then updates the loading state. */
+void func_801254D8(void *context) {
+    Rect image_rect;
+    Rect palette_rect;
+    u8 load_phase;
 
-    state = ((S_801254D8_0 *)arg0)->unk_0B;
-    if (state != 0) {
-        if (state != 1) {
+    load_phase = ((S_801254D8_0 *)context)->unk_0B;
+    if (load_phase != 0) {
+        if (load_phase != 1) {
             return;
         }
         goto state_ready;
     }
 
     func_8003F6D4(8, D_8012A998, D_80133198,
-                  D_80126D44[((S_801254D8_0 *)arg0)->unk_13][1]);
+                  D_80126D44[((S_801254D8_0 *)context)->unk_13][1]);
     func_8003E4FC(6, D_80133198, 0);
-    ((S_801254D8_0 *)arg0)->unk_0D = 0;
-    func_8003E4FC(0xFF, D_8003E140, (u8 *)arg0 + 0xD);
-    ((S_801254D8_0 *)arg0)->unk_0B++;
+    ((S_801254D8_0 *)context)->unk_0D = 0;
+    func_8003E4FC(0xFF, D_8003E140, (u8 *)context + 0xD);
+    ((S_801254D8_0 *)context)->unk_0B++;
 
 state_ready:
-    if (((S_801254D8_0 *)arg0)->unk_0D == 0) {
+    if (((S_801254D8_0 *)context)->unk_0D == 0) {
         return;
     }
 
-    rect1.x = 0;
-    rect1.y = ((S_801254D8_0 *)arg0)->unk_16 + 0x1CA;
-    rect1.w = 0x100;
-    rect1.h = 1;
-    func_800672D8(&rect1, D_8012A998);
+    palette_rect.x = 0;
+    palette_rect.y = ((S_801254D8_0 *)context)->unk_16 + 0x1CA;
+    palette_rect.w = 0x100;
+    palette_rect.h = 1;
+    func_800672D8(&palette_rect, D_8012A998);
 
     func_8004068C(D_8012A998 + 0x200, D_8012E998);
 
-    rect0.x = (((S_801254D8_0 *)arg0)->unk_16 << 6) + 0x240;
-    rect0.y = 0x80;
-    rect0.w = 0x40;
-    rect0.h = 0x80;
-    func_800672D8(&rect0, D_8012E998);
+    image_rect.x = (((S_801254D8_0 *)context)->unk_16 << 6) + 0x240;
+    image_rect.y = 0x80;
+    image_rect.w = 0x40;
+    image_rect.h = 0x80;
+    func_800672D8(&image_rect, D_8012E998);
 
-    ((S_801254D8_1 *)((u8 *)arg0 + ((S_801254D8_0 *)arg0)->unk_16))->unk_17 =
-        ((S_801254D8_0 *)arg0)->unk_13;
+    ((S_801254D8_1 *)((u8 *)context + ((S_801254D8_0 *)context)->unk_16))->unk_17 =
+        ((S_801254D8_0 *)context)->unk_13;
 
     {
-        u32 value = ((S_801254D8_0 *)arg0)->unk_13;
-        register u32 rhs ASM_REG("$3") = ((S_801254D8_0 *)arg0)->unk_14;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u32 state_value = ((S_801254D8_0 *)context)->unk_13;
+        register u32 index_limit ASM_REG("$3") = ((S_801254D8_0 *)context)->unk_14;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        value = value < rhs;
-        if (value == 0) {
-            value = 0xB;
+        state_value = state_value < index_limit;
+        if (state_value == 0) {
+            state_value = 0xB;
         } else {
-            value = 0xA;
+            state_value = 0xA;
         }
-        ((S_801254D8_0 *)arg0)->unk_0A = value;
-        value = 1;
-        ((S_801254D8_0 *)arg0)->unk_04 = value;
+        ((S_801254D8_0 *)context)->unk_0A = state_value;
+        state_value = 1;
+        ((S_801254D8_0 *)context)->unk_04 = state_value;
     }
-    ((S_801254D8_0 *)arg0)->unk_0B = 0;
-    ((S_801254D8_0 *)arg0)->unk_06 = 0x19;
+    ((S_801254D8_0 *)context)->unk_0B = 0;
+    ((S_801254D8_0 *)context)->unk_06 = 0x19;
 }
-
-/* MECHANISM: Sibling Rect locals produce the 0x30 frame; arg0 and the active global base settle in $s1/$s0.
-   One unsigned pinned $v0 serially carries lhs, sltu/result, 10/11, then 1; a short-lived pinned $v1 holds rhs.
-   Splitting those roles removes the false cross-call literal-1 $s2 hold and restores the retail prologue/tail order. */

@@ -46,98 +46,99 @@ extern void func_800C7930(void *, void *, s32, s32);
 extern s32 D_80083460;
 extern u16 D_80083462;
 
-s32 func_8017237C(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Validates an actor action, applies its effect, and updates the action state and remaining count. */
+s32 func_8017237C(void *action_data, void *effect_data, void *target_data, void *actor_data)
 {
-    S_8017237C_2 *p0 = arg0;
-    void *p1 = arg1;
-    void *p3 = arg3;
-    u16 *flags;
-    u8 *page;
-    register s32 state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 raw;
-    u8 masked;
+    S_8017237C_2 *action = action_data;
+    void *effect = effect_data;
+    void *actor = actor_data;
+    u16 *global_flags;
+    u8 *global_page;
+    register s32 action_ready ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 target_code;
+    u8 actor_flags;
 
-    masked = ((S_8017237C_0 *)p3)->unk_71;
+    actor_flags = ((S_8017237C_0 *)actor)->unk_71;
     {
-    S_8017237C_1 *p2 = arg2;
+        S_8017237C_1 *target = target_data;
 
-    masked = (u8)(masked & 0x7F);
-    ((S_8017237C_0 *)p3)->unk_71 = masked;
-    ASM_KEEP(masked);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    page = (u8 *)0x80080000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    flags = (u16 *)(page + 0x3460);
-    ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    state = 0;
+        actor_flags = (u8)(actor_flags & 0x7F);
+        ((S_8017237C_0 *)actor)->unk_71 = actor_flags;
+        ASM_KEEP(actor_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        global_page = (u8 *)0x80080000;
+        ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        global_flags = (u16 *)(global_page + 0x3460);
+        ASM_KEEP(global_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        action_ready = 0;
 
-    if (flags[1] & 0x2000) {
-        return -1;
-    }
-
-    raw = func_800A04F0(
-        p3, p2->unk_24, p2->unk_25,
-        ((S_8017237C_0 *)p3)->unk_2A);
-    {
-    register void *first_call0 ASM_REG("$4") = p3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 hit ASM_REG("$17") = raw;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-
-    if (func_800A2CB8(first_call0, hit) == 0) {
-        return state;
-    }
-    if (flags[1] & 0x2000) {
-        return -1;
-    }
-    if ((((S_8017237C_0 *)p3)->unk_46 & 0x8000) == 0) {
-        if (flags[1] & 8) {
+        if (global_flags[1] & 0x2000) {
             return -1;
         }
-    }
 
-    if ((u16)(0 - func_800A0134(hit, p3) + 0x40) >= 0x81U) {
-        return state;
-    }
+        target_code = func_800A04F0(
+            actor, target->unk_24, target->unk_25,
+            ((S_8017237C_0 *)actor)->unk_2A);
+        {
+            register void *check_actor ASM_REG("$4") = actor;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            register s32 result ASM_REG("$17") = target_code;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    state = 1;
-    if ((((S_8017237C_0 *)p3)->unk_46 & 0x8000) == 0) {
-        if (D_80083462 & 8) {
-            return -1;
+            if (func_800A2CB8(check_actor, result) == 0) {
+                return action_ready;
+            }
+            if (global_flags[1] & 0x2000) {
+                return -1;
+            }
+            if ((((S_8017237C_0 *)actor)->unk_46 & 0x8000) == 0) {
+                if (global_flags[1] & 8) {
+                    return -1;
+                }
+            }
+
+            if ((u16)(0 - func_800A0134(result, actor) + 0x40) >= 0x81U) {
+                return action_ready;
+            }
+
+            action_ready = 1;
+            if ((((S_8017237C_0 *)actor)->unk_46 & 0x8000) == 0) {
+                if (D_80083462 & 8) {
+                    return -1;
+                }
+            }
+            if (func_800A2B5C(actor) != 0) {
+                return -1;
+            }
+
+            func_800C7930((u8 *)actor - 0x20, effect, 8, 0x300);
+
+            if (func_800A2B5C(actor) != 0) {
+                return -1;
+            }
+            result = action_ready;
+
+            action->unk_9B = 0;
+            action->unk_96 = 0;
+            if (result != 0) {
+                S_8017237C_3 *active_actor = actor;
+                void *action_target = target;
+                s32 facing;
+                u8 remaining_count;
+
+                action->unk_8C = 0;
+                action->unk_9A = 0x11;
+                facing = active_actor->unk_2A;
+                active_actor->unk_84 = 0x7C;
+                remaining_count = active_actor->unk_6D;
+                active_actor->unk_85 = 0;
+                active_actor->unk_6D = (u8)(remaining_count - 1);
+                func_8009C93C(active_actor, action_target, facing, 1, 0);
+            }
+
+            ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            return result;
         }
-    }
-    if (func_800A2B5C(p3) != 0) {
-        return -1;
-    }
-
-    func_800C7930((u8 *)p3 - 0x20, p1, 8, 0x300);
-
-    if (func_800A2B5C(p3) != 0) {
-        return -1;
-    }
-    hit = state;
-
-    p0->unk_9B = 0;
-    p0->unk_96 = 0;
-    if (hit != 0) {
-        S_8017237C_3 *call0 = p3;
-        void *call1 = p2;
-        s32 angle;
-        u8 count;
-
-        p0->unk_8C = 0;
-        p0->unk_9A = 0x11;
-        angle = call0->unk_2A;
-        call0->unk_84 = 0x7C;
-        count = call0->unk_6D;
-        call0->unk_85 = 0;
-        call0->unk_6D = (u8)(count - 1);
-        func_8009C93C(call0, call1, angle, 1, 0);
-    }
-
-    ASM_KEEP(p0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(hit);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    return hit;
-    }
     }
 }
 

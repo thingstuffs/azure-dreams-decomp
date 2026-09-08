@@ -41,28 +41,29 @@ __asm__(".globl func_8186E800\n"
 #define BODY_ATTR
 #endif
 
-BODY_STORAGE void BODY_NAME(void *arg0, s32 arg1) BODY_ATTR;
+BODY_STORAGE void BODY_NAME(void *entity, s32 effect_param) BODY_ATTR;
 
-BODY_STORAGE void BODY_NAME(void *arg0, s32 arg1)
+/* Applies effect 0x12 to an eligible entity and handles messages for flagged entities. */
+BODY_STORAGE void BODY_NAME(void *entity, s32 effect_param)
 {
-    s32 value;
-    s32 temp_v0;
+    s32 message_end;
+    s32 message_start;
 
-    if (func_8009D218(arg0, 1) == 0) {
-        if ((func_800A48F0(arg0, 0x12,
-                          (s8)(func_800A6870(arg1 & 0xFF) + 2)) << 16) != 0) {
-            if (FIELD(arg0, s32, 0x14) & 0x4000) {
-                func_80099844(arg0, &D_800E1C64);
+    if (func_8009D218(entity, 1) == 0) {
+        if ((func_800A48F0(entity, 0x12,
+                          (s8)(func_800A6870(effect_param & 0xFF) + 2)) << 16) != 0) {
+            if (FIELD(entity, s32, 0x14) & 0x4000) {
+                func_80099844(entity, &D_800E1C64);
                 func_80024154();
             }
-        } else if (FIELD(arg0, s32, 0x14) & 0x4000) {
-            value = func_800990FC();
-            temp_v0 = value;
-            value = func_80099194(&D_80024004, value);
-            value = func_80099734(arg0, value);
-            value = func_80099194(&D_80024034, value);
-            func_80099290(value);
-            func_800A5720(temp_v0);
+        } else if (FIELD(entity, s32, 0x14) & 0x4000) {
+            message_end = func_800990FC();
+            message_start = message_end;
+            message_end = func_80099194(&D_80024004, message_end);
+            message_end = func_80099734(entity, message_end);
+            message_end = func_80099194(&D_80024034, message_end);
+            func_80099290(message_end);
+            func_800A5720(message_start);
         }
     }
 }

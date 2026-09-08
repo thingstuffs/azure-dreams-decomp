@@ -5,6 +5,7 @@ typedef struct {
     u16 unk16;
 } Struct_80819920;
 
-void func_80023920(s32 arg0, s32 arg1, Struct_80819920 *arg2) {
-    arg2->unk16 -= 0x20;
+/* Decrease the object's unk16 field by 0x20. */
+void func_80023920(s32 unused_0, s32 unused_1, Struct_80819920 *object) {
+    object->unk16 -= 0x20;
 }

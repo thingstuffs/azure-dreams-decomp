@@ -10,12 +10,13 @@ typedef struct S_800252A4_0 {
 
 extern M2C_UNK D_80025230;
 
-void func_800252A4(void *arg0) {
-    s32 temp_v0;
+/* Decrement the record's countdown and set its pointer when the countdown becomes negative. */
+void func_800252A4(void *record_data) {
+    s32 countdown;
 
-    temp_v0 = ((S_800252A4_0 *)((u8 *)arg0 - 0x10))->unk_4C - 1;
-    ((S_800252A4_0 *)((u8 *)arg0 - 0x10))->unk_4C = temp_v0;
-    if (temp_v0 < 0) {
-        ((S_800252A4_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_80025230;
+    countdown = ((S_800252A4_0 *)((u8 *)record_data - 0x10))->unk_4C - 1;
+    ((S_800252A4_0 *)((u8 *)record_data - 0x10))->unk_4C = countdown;
+    if (countdown < 0) {
+        ((S_800252A4_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_80025230;
     }
 }

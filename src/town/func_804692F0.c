@@ -3,22 +3,23 @@
 extern u8 D_8001791C[96];
 s32 func_8001E670();
 
+// Count entries 1 through 7 whose field at offset 4 passes func_8001E670.
 s32 func_8001A2F0(void) {
-    s32 var_s2;
-    s32 var_s1;
-    u8 *var_s0;
-    u8 *temp_v0;
+    s32 matchingEntryCount;
+    s32 entryIndex;
+    u8 *entry;
+    u8 *entryTable;
 
-    var_s2 = 0;
-    var_s1 = 1;
-    temp_v0 = D_8001791C;
-    var_s0 = temp_v0 + 0xC;
+    matchingEntryCount = 0;
+    entryIndex = 1;
+    entryTable = D_8001791C;
+    entry = entryTable + 0xC;
     do {
-        if (func_8001E670(*(s16 *)(var_s0 + 4)) != 0) {
-            var_s2 += 1;
+        if (func_8001E670(*(s16 *)(entry + 4)) != 0) {
+            matchingEntryCount += 1;
         }
-        var_s1 += 1;
-        var_s0 += 0xC;
-    } while (var_s1 < 8);
-    return var_s2;
+        entryIndex += 1;
+        entry += 0xC;
+    } while (entryIndex < 8);
+    return matchingEntryCount;
 }

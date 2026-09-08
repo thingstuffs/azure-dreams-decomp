@@ -21,24 +21,25 @@ extern void *func_8004FDE0(void *a0);
 extern s32 D_800814A0;
 extern s32 D_800814A0_w asm("D_800814A0");
 
-void *func_8004F5F4(void *a0, void *a1)
+/* Creates a callback node and initializes its result, marking failure if initialization fails. */
+void *func_8004F5F4(void *unused, void *source)
 {
-    S_8004F5F4_node *s0 = (S_8004F5F4_node *)func_8003FC64(0);
-    void *new_var;
-    S_8004F5F4_sub *v1;
+    S_8004F5F4_node *node = (S_8004F5F4_node *)func_8003FC64(0);
+    void *result;
+    S_8004F5F4_sub *sub;
     s32 global_flags;
     u8 *global_page;
 
-    if (s0 != 0) {
-        s0->callback = func_8004F5B0;
-        v1 = &s0->sub;
-        new_var = (v1->result = func_8004FDE0(a1));
-        if (new_var == 0) {
+    if (node != 0) {
+        node->callback = func_8004F5B0;
+        sub = &node->sub;
+        result = (sub->result = func_8004FDE0(source));
+        if (result == 0) {
             do {
-                s0->flags |= 0x8000;
+                node->flags |= 0x8000;
             } while (0);
             global_flags = D_800814A0_w;
-            s0 = 0;
+            node = 0;
             global_flags |= 0x8000;
             
 #ifdef NON_MATCHING
@@ -50,5 +51,5 @@ void *func_8004F5F4(void *a0, void *a1)
 #endif
         }
     }
-    return s0;
+    return node;
 }

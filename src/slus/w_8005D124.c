@@ -11,16 +11,17 @@ extern s32 * volatile D_80079960;
 extern s32 *D_80079964;
 extern s32 D_800799A8;
 
-void func_8005D124(s32 arg0, s16 arg1, s32 arg2)
+/* Starts a DMA transfer from SPU RAM to main RAM. */
+void func_8005D124(s32 ram_address, s16 spu_address, s32 block_count)
 {
-    VOLATILE_FIELD(D_80079958, s16, 0x1A6) = arg1;
+    VOLATILE_FIELD(D_80079958, s16, 0x1A6) = spu_address;
     func_8005D730();
     VOLATILE_FIELD(D_80079958, u16, 0x1AA) |= 0x30;
     func_8005D730();
     func_8005D704();
 
-    *D_8007995C = arg0;
-    *D_80079960 = ((u32)arg2 << 16) | 0x10;
+    *D_8007995C = ram_address;
+    *D_80079960 = ((u32)block_count << 16) | 0x10;
     D_800799A8 = 1;
     *D_80079964 = 0x01000200;
 }

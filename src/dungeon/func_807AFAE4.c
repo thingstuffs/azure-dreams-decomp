@@ -24,15 +24,16 @@ void *func_8003FD64();                  /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 extern M2C_UNK D_800F71A4;
 
-void func_807AFAE4(void *arg0) {
-    S_807AFAE4_0 *temp_v0;
+/* Initializes a linked object from the source record and invokes func_800A56E0 on success. */
+void func_807AFAE4(void *sourceData) {
+    S_807AFAE4_0 *linkedObject;
 
-    temp_v0 = func_8003FD64(2, arg0 - 0x20);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_800F71A4;
-        temp_v0->unk_20 = arg0;
-        temp_v0->unk_08 = (s32) ((S_807AFAE4_1 *)((u8 *)arg0 - 0x18))->unk_00;
-        temp_v0->unk_2A = (u16) ((S_807AFAE4_1 *)((u8 *)arg0 - 0x18))->unk_42;
+    linkedObject = func_8003FD64(2, sourceData - 0x20);
+    if (linkedObject != NULL) {
+        linkedObject->unk_10 = &D_800F71A4;
+        linkedObject->unk_20 = sourceData;
+        linkedObject->unk_08 = (s32) ((S_807AFAE4_1 *)((u8 *)sourceData - 0x18))->unk_00;
+        linkedObject->unk_2A = (u16) ((S_807AFAE4_1 *)((u8 *)sourceData - 0x18))->unk_42;
         func_800A56E0(0x703);
     }
 }

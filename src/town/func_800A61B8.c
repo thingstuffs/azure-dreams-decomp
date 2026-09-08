@@ -29,71 +29,72 @@ typedef struct S_800A3918_2 {
 extern void *D_8008274C;
 extern s32 D_800C5100;
 
-void func_800A3918(S_800A3918_0 *arg0, s32 arg1) {
+/* Advances the animation phase and frame index, applying the state-one offset transition. */
+void func_800A3918(S_800A3918_0 *anim, s32 unused) {
     s16 state;
-    s32 value;
-    register u8 *base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s16 tmp;
-    u16 utmp;
+    s32 phase;
+    register u8 *global_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 offset;
+    u16 offset_bits;
 
-    state = arg0->unk_02;
+    state = anim->unk_02;
     if (state == 0) {
         goto state_zero;
     }
-    base = (u8 *)0x80100000;
+    global_base = (u8 *)0x80100000;
     if (state == 1) {
         goto state_one;
     }
     goto finish;
 
 state_zero:
-    if (arg0->unk_0C == 0) {
-        value = (s16)(arg0->unk_08.s + 0x1BC0);
-        arg0->unk_06 += 2;
-        value %= 0x1C00;
+    if (anim->unk_0C == 0) {
+        phase = (s16)(anim->unk_08.s + 0x1BC0);
+        anim->unk_06 += 2;
+        phase %= 0x1C00;
     } else {
-        value = (s16)(arg0->unk_08.s + 0x1B71);
-        arg0->unk_06 += 1;
-        value %= 0x1C00;
+        phase = (s16)(anim->unk_08.s + 0x1B71);
+        anim->unk_06 += 1;
+        phase %= 0x1C00;
     }
-    arg0->unk_08.u = value;
+    anim->unk_08.u = phase;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    arg0->unk_00++;
+    anim->unk_00++;
     if (((S_800A3918_1 *)D_8008274C)->unk_74 == &D_800C5100) {
-        arg0->unk_02 = 1;
+        anim->unk_02 = 1;
     }
     goto finish;
 
 state_one:
-    ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    tmp = ((S_800A3918_2 *)base)->unk_D8A.s;
-    utmp = ((S_800A3918_2 *)base)->unk_D8A.u;
-    if (tmp < -0x1FFF) {
-        ((S_800A3918_2 *)base)->unk_D8A.s = -0x2000;
+    ASM_KEEP_NV(global_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    offset = ((S_800A3918_2 *)global_base)->unk_D8A.s;
+    offset_bits = ((S_800A3918_2 *)global_base)->unk_D8A.u;
+    if (offset < -0x1FFF) {
+        ((S_800A3918_2 *)global_base)->unk_D8A.s = -0x2000;
     } else {
-        arg0->unk_12 -= 0x20;
-        tmp = utmp + arg0->unk_12;
-        ((S_800A3918_2 *)base)->unk_D8A.s = tmp;
-        if (tmp < -0x1FFF) {
-            ((S_800A3918_2 *)base)->unk_D8A.s = -0x2000;
+        anim->unk_12 -= 0x20;
+        offset = offset_bits + anim->unk_12;
+        ((S_800A3918_2 *)global_base)->unk_D8A.s = offset;
+        if (offset < -0x1FFF) {
+            ((S_800A3918_2 *)global_base)->unk_D8A.s = -0x2000;
         }
     }
-    if (arg0->unk_14.s < 0x200) {
-        arg0->unk_14.s = arg0->unk_14.u + 0x20;
+    if (anim->unk_14.s < 0x200) {
+        anim->unk_14.s = anim->unk_14.u + 0x20;
     }
-    if (arg0->unk_0C == 0) {
-        value = (s16)(arg0->unk_08.s + 0x1C00 - arg0->unk_14.u);
-        arg0->unk_06 += 2;
-        value %= 0x1C00;
+    if (anim->unk_0C == 0) {
+        phase = (s16)(anim->unk_08.s + 0x1C00 - anim->unk_14.u);
+        anim->unk_06 += 2;
+        phase %= 0x1C00;
     } else {
-        value = (s16)(arg0->unk_08.s + 0x1C00 - arg0->unk_14.s * 2);
-        arg0->unk_06 += 1;
-        value %= 0x1C00;
+        phase = (s16)(anim->unk_08.s + 0x1C00 - anim->unk_14.s * 2);
+        anim->unk_06 += 1;
+        phase %= 0x1C00;
     }
-    arg0->unk_08.u = value;
+    anim->unk_08.u = phase;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    arg0->unk_00++;
+    anim->unk_00++;
 
 finish:
-    arg0->unk_16 = arg0->unk_08.u / 0x200 + 0x10;
+    anim->unk_16 = anim->unk_08.u / 0x200 + 0x10;
 }

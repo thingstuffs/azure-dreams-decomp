@@ -47,55 +47,56 @@ extern s16 D_80083228;
 extern s32 D_80083460;
 extern u8 D_80175F48;
 
-s32 func_80172050(void *arg0, s32 arg1, void *arg2, void *arg3)
+/* Attempts an actor action and initializes its output and directional display on success. */
+s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *acting_actor)
 {
     volatile u8 frame_pad[8];
     void *out;
-    s32 held_arg1;
+    s32 action_value;
     register void *info ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *actor;
     void *call_actor;
-    u16 *state;
-    u8 *table;
-    register s32 temp_v0 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 raw_v0;
+    u16 *global_state;
+    u8 *direction_table;
+    register s32 target_angle ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 computed_angle;
     s32 result;
-    s32 actor84_value;
-    u16 flags;
+    s32 action_code;
+    u16 state_flags;
 
-    out = arg0;
-    actor = arg3;
+    out = action_out;
+    actor = acting_actor;
     ((S_80172050_0 *)actor)->unk_71 &= 0x7F;
-    held_arg1 = arg1;
-    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    state = (u16 *)&D_80083460;
-    if (state[1] & 0x2000) {
+    action_value = action_param;
+    ASM_KEEP(action_value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    global_state = (u16 *)&D_80083460;
+    if (global_state[1] & 0x2000) {
         goto failure;
     }
-    info = arg2;
+    info = actor_info;
 
-    raw_v0 = func_800A04F0(actor, ((S_80172050_1 *)info)->unk_24,
+    computed_angle = func_800A04F0(actor, ((S_80172050_1 *)info)->unk_24,
         ((S_80172050_1 *)info)->unk_25, ((S_80172050_0 *)actor)->unk_2A);
     call_actor = actor;
-    temp_v0 = raw_v0;
-    if ((func_800A2CB8(call_actor, temp_v0) << 16) == 0) {
+    target_angle = computed_angle;
+    if ((func_800A2CB8(call_actor, target_angle) << 16) == 0) {
         result = 0;
         goto done;
     }
 
-    flags = state[1];
-    if (flags & 0x2000) {
+    state_flags = global_state[1];
+    if (state_flags & 0x2000) {
         result = -1;
         goto done;
     }
     if (!(((S_80172050_0 *)actor)->unk_46 & 0x8000)) {
-        if (flags & 8) {
+        if (state_flags & 8) {
             result = -1;
             goto done;
         }
     }
 
-    if ((u16)(-func_800A0134(temp_v0, actor) + 0x3F) >= 0x7F) {
+    if ((u16)(-func_800A0134(target_angle, actor) + 0x3F) >= 0x7F) {
         result = 0;
         goto done;
     }
@@ -104,28 +105,28 @@ s32 func_80172050(void *arg0, s32 arg1, void *arg2, void *arg3)
         goto done;
     }
 
-    func_800C7930((u8 *)actor - 0x20, held_arg1, 8, 0x300);
+    func_800C7930((u8 *)actor - 0x20, action_value, 8, 0x300);
     if ((func_800A2B5C(actor) << 16) == 0) {
         goto success;
     }
 
 failure:
-    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(global_state);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     result = -1;
     goto done;
 
 success:
     ((S_80172050_2 *)out)->unk_9A = 0x11;
-    actor84_value = 0x7C;
+    action_code = 0x7C;
     ((S_80172050_2 *)out)->unk_9B = 0;
     ((S_80172050_2 *)out)->unk_8C = 0;
     ASM_KEEP(out);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ((S_80172050_0 *)actor)->unk_84 = actor84_value;
+    ((S_80172050_0 *)actor)->unk_84 = action_code;
     ((S_80172050_0 *)actor)->unk_85 = 4;
-    table = &D_80175F48;
-    (*(void * *)((u8 *)info + 0x2C)) = table;
+    direction_table = &D_80175F48;
+    (*(void * *)((u8 *)info + 0x2C)) = direction_table;
     func_80047784(info,
-        table[((D_80083228 + ((S_80172050_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        direction_table[((D_80083228 + ((S_80172050_0 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     call_actor = actor;
     ASM_KEEP(call_actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -140,5 +141,5 @@ done:
 
 /* MECHANISM: The eight-byte frame object and pinned long-lived roles reproduce
    retail's 0x40 frame; the held D_80083460 base remains in s2 across calls.
-   A fall-through schedule barrier blocks the flags andi, while removing the
-   target-head temp_v0 keep lets dbr duplicate move a0,s1 into branch slot R#42. */
+   A fall-through schedule barrier blocks the state_flags andi, while removing the
+   target-head target_angle keep lets dbr duplicate move a0,s1 into branch slot R#42. */

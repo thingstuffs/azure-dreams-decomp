@@ -17,20 +17,21 @@ extern Status D_800E39C8[];
 extern Slot D_800E3648[];
 extern void func_800B5F80(s32 arg0);
 
-void func_800B6008(s32 arg0, s32 arg1) {
-    s32 var_s1;
-    s16 var_s3;
-    s16 var_s4;
+/* Process each active slot at the given coordinates. */
+void func_800B6008(s32 x, s32 y) {
+    s32 slot_index;
+    s16 target_y;
+    s16 target_x;
 
-    var_s1 = 0;
-    var_s4 = arg0;
-    var_s3 = arg1;
+    slot_index = 0;
+    target_x = x;
+    target_y = y;
     do {
-        if ((D_800E3648[var_s1].active != 0) &&
-            (D_800E39C8[var_s1].x == var_s4) &&
-            (D_800E39C8[var_s1].y == var_s3)) {
-            func_800B5F80(var_s1);
+        if ((D_800E3648[slot_index].active != 0) &&
+            (D_800E39C8[slot_index].x == target_x) &&
+            (D_800E39C8[slot_index].y == target_y)) {
+            func_800B5F80(slot_index);
         }
-        var_s1 += 1;
-    } while (var_s1 < 0x20);
+        slot_index += 1;
+    } while (slot_index < 0x20);
 }

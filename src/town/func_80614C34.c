@@ -7,13 +7,14 @@ extern s32 D_8001925C;
 extern void func_800181C8();
 extern s32 func_80018C50();
 
-void func_80016434(s32 arg0, s32 arg1, s32 arg2) {
-    register void *call_arg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+/* Selects data using query 0xFBC and forwards it with the supplied values. */
+void func_80016434(s32 primaryValue, s32 unusedValue, s32 secondaryValue) {
+    register void *selectedData ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (func_80018C50(0xFBC) != 0) {
-        call_arg0 = &D_80018E34;
+        selectedData = &D_80018E34;
     } else {
-        call_arg0 = &D_80018E1C;
+        selectedData = &D_80018E1C;
     }
-    func_800181C8(call_arg0, &D_8001925C, arg0, arg2);
+    func_800181C8(selectedData, &D_8001925C, primaryValue, secondaryValue);
 }

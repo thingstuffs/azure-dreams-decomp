@@ -3,6 +3,7 @@
 
 M2C_UNK func_80402F84();   /* extern */
 
-void func_8001C39C(M2C_UNK arg0, M2C_UNK arg1) {
-    func_80402F84(arg0, 0x12, 1, arg1);
+/* Forward the context and value with fixed arguments 0x12 and 1. */
+void func_8001C39C(M2C_UNK context, M2C_UNK value) {
+    func_80402F84(context, 0x12, 1, value);
 }

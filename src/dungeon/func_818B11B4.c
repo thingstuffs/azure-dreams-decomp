@@ -23,67 +23,68 @@ extern s32 func_800644B8();
 extern s32 func_80064584();
 
 
-s32 func_818B11B4(S_818B11B4_0 *arg0, S_818B11B4_2 *arg1, s32 arg2) {
-    s32 sp20[34];
-    s32 *buffer;
-    s32 *cursor;
+/* Builds a trigonometric table and processes up to eight height-offset segments. */
+s32 func_818B11B4(S_818B11B4_0 *source, S_818B11B4_2 *height_ref, s32 segment_param) {
+    s32 trig_table[34];
+    s32 *trig_buffer;
+    s32 *trig_cursor;
     s16 angle;
-    s32 shifted_index;
-    s32 trig_arg;
-    s32 position;
+    s32 scaled_segment;
+    s32 table_angle;
+    s32 phase;
     s32 segment_count;
-    s32 quotient_arg;
-    s32 quotient;
+    s32 biased_phase;
+    s32 biased_index;
     s32 table_index;
-    s32 index;
-    s32 count;
+    s32 segment_index;
+    s32 segment_limit;
     u16 height;
     void *height_cursor;
-    void *call_arg0;
+    void *segment_source;
 
-    buffer = sp20;
+    trig_buffer = trig_table;
     table_index = 0x10;
-    cursor = &sp20[16];
+    trig_cursor = &trig_table[16];
     do {
-        quotient = table_index;
+        biased_index = table_index;
         if (table_index < 0) {
-            quotient = table_index + 0xF;
+            biased_index = table_index + 0xF;
         }
-        trig_arg = (table_index - ((quotient >> 4) * 0x10)) << 8;
-        cursor[0] = func_800644B8(trig_arg) >> 4;
-        cursor[17] = func_80064584(trig_arg) >> 4;
+        table_angle = (table_index - ((biased_index >> 4) * 0x10)) << 8;
+        trig_cursor[0] = func_800644B8(table_angle) >> 4;
+        trig_cursor[17] = func_80064584(table_angle) >> 4;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         table_index--;
-        cursor--;
+        trig_cursor--;
     } while (table_index >= 0);
 
-    segment_count = (s32)(arg0->unk_16 << 0x10) >> 0x12;
-    count = 8;
+    segment_count = (s32)(source->unk_16 << 0x10) >> 0x12;
+    segment_limit = 8;
     if (segment_count < 9) {
-        count = segment_count;
+        segment_limit = segment_count;
     }
 
-    index = 0;
-    if (count > 0) {
-        height_cursor = arg0;
+    segment_index = 0;
+    if (segment_limit > 0) {
+        height_cursor = source;
         do {
-            position = arg0->unk_10 - index;
-            quotient_arg = position;
-            if (position < 0) {
-                quotient_arg = position + 0xF;
+            phase = source->unk_10 - segment_index;
+            biased_phase = phase;
+            if (phase < 0) {
+                biased_phase = phase + 0xF;
             }
-            angle = (func_800644B8((position - ((quotient_arg >> 4) * 0x10)) << 9) >> 9) + 0x20;
-            func_80064584(index << 9);
-            call_arg0 = arg0;
-            ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            angle = (func_800644B8((phase - ((biased_phase >> 4) * 0x10)) << 9) >> 9) + 0x20;
+            func_80064584(segment_index << 9);
+            segment_source = source;
+            ASM_KEEP(segment_source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             height = ((S_818B11B4_1 *)height_cursor)->unk_1A;
             height_cursor = (u8 *)height_cursor + 2;
-            shifted_index = index << 0x11;
-            index++;
-            func_80024610(call_arg0, arg1, arg2, angle,
-                         (u32)(s16)(arg1->unk_0A - height),
-                         buffer, 0xFF, shifted_index >> 0x10);
-        } while (index < count);
+            scaled_segment = segment_index << 0x11;
+            segment_index++;
+            func_80024610(segment_source, height_ref, segment_param, angle,
+                         (u32)(s16)(height_ref->unk_0A - height),
+                         trig_buffer, 0xFF, scaled_segment >> 0x10);
+        } while (segment_index < segment_limit);
     }
     return 0;
 }

@@ -11,10 +11,11 @@ typedef struct S_806D43CC_0 {
     s16 unk_18;
 } S_806D43CC_0;   /* arg0 in func_806D43CC */
 
-void func_806D43CC(S_806D43CC_0 *arg0, M2C_UNK arg1) {
+/* Performs conditional object setup before forwarding to func_800176B8. */
+void func_806D43CC(S_806D43CC_0 *object, M2C_UNK forwardedValue) {
     if (func_8001868C(0x145C) != 0) {
         func_800188E8(0x990, 2, 2);
-        func_80018594(arg0->unk_18);
+        func_80018594(object->unk_18);
     }
-    func_800176B8(arg0, arg1);
+    func_800176B8(object, forwardedValue);
 }

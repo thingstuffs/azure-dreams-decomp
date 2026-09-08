@@ -12,32 +12,33 @@ extern u8 D_801131B8[];
 extern s32 func_8008ACE8(s32, void *);
 extern void func_8008ACAC(s32, s32, s32);
 
-void func_8008AD90(s32 arg0, s32 arg1) {
-    s32 temp_a1_2;
-    s32 temp_s0;
-    s32 temp_s1;
-    s32 var_a0;
-    Record *temp_a1;
-    Record *temp_v1;
-    s32 base;
+/* Shifts records up one slot and processes their data with the given offset. */
+void func_8008AD90(s32 record_count, s32 data_offset) {
+    s32 data_addr;
+    s32 record_value;
+    s32 src_index;
+    s32 dst_index;
+    Record *dst_record;
+    Record *src_record;
+    s32 records_base;
     u8 *state;
 
-    var_a0 = arg0;
-    if (var_a0 != 0) {
-        base = (s32)D_800CF720;
+    dst_index = record_count;
+    if (dst_index != 0) {
+        records_base = (s32)D_800CF720;
         state = D_801131B8;
         do {
-            temp_a1 = (Record *)(var_a0 * 8 + base);
-            temp_s1 = var_a0 - 1;
-            temp_v1 = (Record *)(temp_s1 * 8 + base);
-            temp_a1->b0 = temp_v1->b0;
-            temp_a1->b1 = temp_v1->b1;
-            temp_a1->h2 = temp_v1->h2;
-            temp_s0 = temp_v1->w4;
-            temp_a1->w4 = temp_s0;
-            temp_a1_2 = *(s32 *)(state + 0x2c) + func_8008ACE8(temp_s1, temp_a1);
-            func_8008ACAC(temp_a1_2 + arg1, temp_a1_2, temp_s0);
-            var_a0 = temp_s1;
-        } while (var_a0 != 0);
+            dst_record = (Record *)(dst_index * 8 + records_base);
+            src_index = dst_index - 1;
+            src_record = (Record *)(src_index * 8 + records_base);
+            dst_record->b0 = src_record->b0;
+            dst_record->b1 = src_record->b1;
+            dst_record->h2 = src_record->h2;
+            record_value = src_record->w4;
+            dst_record->w4 = record_value;
+            data_addr = *(s32 *)(state + 0x2c) + func_8008ACE8(src_index, dst_record);
+            func_8008ACAC(data_addr + data_offset, data_addr, record_value);
+            dst_index = src_index;
+        } while (dst_index != 0);
     }
 }

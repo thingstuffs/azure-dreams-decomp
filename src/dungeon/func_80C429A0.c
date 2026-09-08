@@ -31,30 +31,31 @@ s32 rand();                                /* extern */
 M2C_UNK func_8017406C();      /* extern */
 extern s32 D_800814A0[3];
 
-void func_801741A0(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_a0;
-    s16 temp_v0;
-    s16 temp_v0_2;
+/* Update the effect's orbit and height, fade its color, and mark it for removal when its life expires. */
+void func_801741A0(void *effect, Rec_D_800E3D7C *position, Rec_D_80082E80 *primitive) {
+    s16 life;
+    s16 angle;
+    s16 next_life;
 
-    temp_v0 = ((S_801741A0_0 *)arg0)->unk_1E - 0x12C;
-    ((S_801741A0_0 *)arg0)->unk_1E = (u16) temp_v0;
-    arg1->unk_00.at00_s32.v = (s32) (((S_801741A0_0 *)arg0)->unk_40 + (func_80064584(temp_v0) * 0x280));
-    arg1->unk_04.at00_s32.v = (s32) (((S_801741A0_0 *)arg0)->unk_44 + (func_800644B8((s16) ((S_801741A0_0 *)arg0)->unk_1E) * 0x280));
-    arg1->unk_08.at00_s32.v = (s32) (arg1->unk_08.at00_s32.v + 0xFFF60000);
-    func_800478B8(arg2);
-    if ((((S_801741A0_0 *)arg0)->unk_1A < 0x11) && (((S_801741A0_0 *)arg0)->unk_20 == 0) && !(rand() & 0xF)) {
-        func_8017406C(arg0, arg1, arg2);
+    angle = ((S_801741A0_0 *)effect)->unk_1E - 0x12C;
+    ((S_801741A0_0 *)effect)->unk_1E = (u16) angle;
+    position->unk_00.at00_s32.v = (s32) (((S_801741A0_0 *)effect)->unk_40 + (func_80064584(angle) * 0x280));
+    position->unk_04.at00_s32.v = (s32) (((S_801741A0_0 *)effect)->unk_44 + (func_800644B8((s16) ((S_801741A0_0 *)effect)->unk_1E) * 0x280));
+    position->unk_08.at00_s32.v = (s32) (position->unk_08.at00_s32.v + 0xFFF60000);
+    func_800478B8(primitive);
+    if ((((S_801741A0_0 *)effect)->unk_1A < 0x11) && (((S_801741A0_0 *)effect)->unk_20 == 0) && !(rand() & 0xF)) {
+        func_8017406C(effect, position, primitive);
     }
-    temp_a0 = ((S_801741A0_0 *)arg0)->unk_1A;
-    if (temp_a0 < 0xA) {
-        arg2->unk_0C.at00_s8.v = (s8) ((((S_801741A0_0 *)arg0)->unk_00 * temp_a0) / 9);
-        arg2->unk_0C.at01_s8.v = (s8) ((((S_801741A0_0 *)arg0)->unk_01 * ((S_801741A0_0 *)arg0)->unk_1A) / 9);
-        arg2->unk_0C.at02_s8.v = (s8) ((((S_801741A0_0 *)arg0)->unk_02 * ((S_801741A0_0 *)arg0)->unk_1A) / 9);
+    life = ((S_801741A0_0 *)effect)->unk_1A;
+    if (life < 0xA) {
+        primitive->unk_0C.at00_s8.v = (s8) ((((S_801741A0_0 *)effect)->unk_00 * life) / 9);
+        primitive->unk_0C.at01_s8.v = (s8) ((((S_801741A0_0 *)effect)->unk_01 * ((S_801741A0_0 *)effect)->unk_1A) / 9);
+        primitive->unk_0C.at02_s8.v = (s8) ((((S_801741A0_0 *)effect)->unk_02 * ((S_801741A0_0 *)effect)->unk_1A) / 9);
     }
-    temp_v0_2 = (u16) ((S_801741A0_0 *)arg0)->unk_1A - 1;
-    ((S_801741A0_0 *)arg0)->unk_1A = temp_v0_2;
-    if ((temp_v0_2 << 0x10) <= 0) {
-        ((S_801741A0_0_pre *)arg0)[-1].unk_00 = (u16) (((S_801741A0_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    next_life = (u16) ((S_801741A0_0 *)effect)->unk_1A - 1;
+    ((S_801741A0_0 *)effect)->unk_1A = next_life;
+    if ((next_life << 0x10) <= 0) {
+        ((S_801741A0_0_pre *)effect)[-1].unk_00 = (u16) (((S_801741A0_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

@@ -76,159 +76,160 @@ extern Object *func_8003FD64(s32, void *);
 extern void func_8004491C(Object *, void *);
 extern s32 func_800A07D0(s16, s16, s16, s16);
 
+/* Create nine linked objects and initialize their positions, headings, and position histories. */
 void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
 {
     Object *objects[9];
-    u16 local_x;
-    u16 local_y;
-    u16 local_z;
-    s32 angle_value;
-    u8 *reference;
-    Object **base;
-    Object **cur;
+    u16 spawn_x;
+    u16 spawn_y;
+    u16 spawn_z;
+    s32 spawn_angle;
+    u8 *target_pos;
+    Object **object_base;
+    Object **object_slot;
     Pos *pos;
     Part *part;
     Entity *entity;
-    Entity *previous;
-    Entity *call_entity;
-    void *call_data;
-    register s32 i ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 j;
-    s32 target;
+    Entity *prev_entity;
+    Entity *update_entity;
+    void *part_data;
+    register s32 object_index ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 history_index;
+    s32 target_angle;
     s32 normalized_target;
     s32 signed_target;
-    s32 current;
-    s32 difference;
+    s32 angle_bits;
+    s32 angle_delta;
     register u8 *allocation_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *allocation_data;
 
-    angle_value = angle;
-    previous = 0;
-    local_x = x;
-    local_y = y;
-    local_z = z;
+    spawn_angle = angle;
+    prev_entity = 0;
+    spawn_x = x;
+    spawn_y = y;
+    spawn_z = z;
     if (func_8003FA44(9) == 0) {
         register void *failure_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        failure_result = previous;
+        failure_result = prev_entity;
         ASM_TAILSLOT_PIN_TIED(failure_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8002620C();
         return failure_result;
     }
 
-    i = 0;
-    base = &objects[i];
-    reference = D_80083780;
-    cur = base;
+    object_index = 0;
+    object_base = &objects[object_index];
+    target_pos = D_80083780;
+    object_slot = object_base;
     do {
 #ifdef NON_MATCHING
         allocation_page = D_80080010 - 0x10;
 #else
         allocation_page = (u8 *)0x80080000;
 #endif
-        if (i != 0) {
-            register Object *prior ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            prior = cur[-1];
-            ASM_KEEP(prior);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        if (object_index != 0) {
+            register Object *prev_object ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            prev_object = object_slot[-1];
+            ASM_KEEP(prev_object);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80025FD4();
         }
         ASM_KEEP(allocation_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         allocation_data = allocation_page + 0x3498;
-        ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        *cur = func_8003FD64(2, allocation_data);
-        (*cur)->state = (void (*)(void *))D_80024DAC;
-        func_8004491C(*cur, D_800C9034);
+        ASM_KEEP(object_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        *object_slot = func_8003FD64(2, allocation_data);
+        (*object_slot)->state = (void (*)(void *))D_80024DAC;
+        func_8004491C(*object_slot, D_800C9034);
 
-        pos = (*cur)->pos;
-        pos->x = local_x;
-        pos->y = local_y;
-        pos->z = local_z;
+        pos = (*object_slot)->pos;
+        pos->x = spawn_x;
+        pos->y = spawn_y;
+        pos->z = spawn_z;
 
-        part = (*cur)->part;
+        part = (*object_slot)->part;
         part->f16 = 0x400;
-        part->f1A = angle_value - 0x400;
-        part->table = D_80026B2C + (i * 0x10);
+        part->f1A = spawn_angle - 0x400;
+        part->table = D_80026B2C + (object_index * 0x10);
         part->f10 = 0x60;
         part->flags |= 0xC;
 
-        entity = &(*cur)->entity;
-        if (i != 0) {
-            u32 link_value;
-            u32 link_work;
-            link_value = (u32)D_80026BBC;
-            link_work = link_value + i;
-            link_value = *(u8 *)link_work;
-            if (link_value != 0) {
-                link_work = 0x7FFFFFFF;
-                link_value = (u32)base[link_value - 1] & link_work;
-                ASM_TAILSLOT_PIN_TIED(link_value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        entity = &(*object_slot)->entity;
+        if (object_index != 0) {
+            u32 parent_link;
+            u32 link_scratch;
+            parent_link = (u32)D_80026BBC;
+            link_scratch = parent_link + object_index;
+            parent_link = *(u8 *)link_scratch;
+            if (parent_link != 0) {
+                link_scratch = 0x7FFFFFFF;
+                parent_link = (u32)object_base[parent_link - 1] & link_scratch;
+                ASM_TAILSLOT_PIN_TIED(parent_link);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 func_800260AC();
             } else {
-                entity->parent = cur[-1];
+                entity->parent = object_slot[-1];
             }
         }
 
         entity->f34 = 0x10;
-        entity->angle = angle_value + 0x400;
-        entity->f44 = ((u32)angle_value >> 9) & 7;
+        entity->angle = spawn_angle + 0x400;
+        entity->f44 = ((u32)spawn_angle >> 9) & 7;
         entity->f3C = 0;
-        entity->f3A = D_80026BC8[i] != 0 ? 0xF : 0;
+        entity->f3A = D_80026BC8[object_index] != 0 ? 0xF : 0;
         entity->f36 = 1;
-        entity->index = i;
+        entity->index = object_index;
 
-        if (previous != 0) {
-            previous->next = *cur;
+        if (prev_entity != 0) {
+            prev_entity->next = *object_slot;
         }
 
-        target = func_800A07D0(pos->x, pos->y,
-                              *(s16 *)(reference + 2),
-                              *(s16 *)(reference + 6));
+        target_angle = func_800A07D0(pos->x, pos->y,
+                              *(s16 *)(target_pos + 2),
+                              *(s16 *)(target_pos + 6));
 
-        current = (u16)entity->angle;
-        entity->angle = (current & 0x800)
-            ? (current | 0xF800)
-            : (current & 0x7FF);
+        angle_bits = (u16)entity->angle;
+        entity->angle = (angle_bits & 0x800)
+            ? (angle_bits | 0xF800)
+            : (angle_bits & 0x7FF);
 
-        normalized_target = target & 0x800;
+        normalized_target = target_angle & 0x800;
         if (normalized_target != 0) {
-            normalized_target = target | 0xF800;
+            normalized_target = target_angle | 0xF800;
         } else {
-            normalized_target = target & 0x7FF;
+            normalized_target = target_angle & 0x7FF;
         }
-        target = normalized_target;
+        target_angle = normalized_target;
 
-        current = (s32)((u32)target << 16);
-        signed_target = current >> 16;
-        difference = (s16)entity->angle;
-        difference -= signed_target;
-        current = (u16)entity->angle;
-        if (difference < 0) {
-            difference = -difference;
+        angle_bits = (s32)((u32)target_angle << 16);
+        signed_target = angle_bits >> 16;
+        angle_delta = (s16)entity->angle;
+        angle_delta -= signed_target;
+        angle_bits = (u16)entity->angle;
+        if (angle_delta < 0) {
+            angle_delta = -angle_delta;
         }
-        if (difference >= 0x801) {
-            entity->angle = (target & -0x1000) |
-                            (current & 0xFFF);
+        if (angle_delta >= 0x801) {
+            entity->angle = (target_angle & -0x1000) |
+                            (angle_bits & 0xFFF);
         }
 
         entity->direction = (s16)entity->angle < signed_target;
 
-        j = 7;
+        history_index = 7;
         do {
-            entity->history[j].x = pos->x;
-            entity->history[j].y = pos->y;
-            entity->history[j].z = pos->z;
-            j--;
-        } while (j >= 0);
+            entity->history[history_index].x = pos->x;
+            entity->history[history_index].y = pos->y;
+            entity->history[history_index].z = pos->z;
+            history_index--;
+        } while (history_index >= 0);
 
         func_800262B0(part, 0);
-        call_entity = entity;
-        ASM_KEEP(call_entity);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        call_data = part->unk0;
-        previous = call_entity;
-        ASM_KEEP(previous);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        cur++;
-        i++;
-        func_80026240(call_entity, call_data);
-    } while (i < 9);
+        update_entity = entity;
+        ASM_KEEP(update_entity);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        part_data = part->unk0;
+        prev_entity = update_entity;
+        ASM_KEEP(prev_entity);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        object_slot++;
+        object_index++;
+        func_80026240(update_entity, part_data);
+    } while (object_index < 9);
 
     return objects[0];
 }

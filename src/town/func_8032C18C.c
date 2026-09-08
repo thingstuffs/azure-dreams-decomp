@@ -6,16 +6,17 @@ extern u8 D_8001B924[];
 extern u8 D_8001B944[];
 extern s32 D_8001C354;
 
-void func_8001698C(s32 arg0, s32 arg1, s32 arg2) {
-    void *arg_ptr;
+// Dispatches a value and code with state-selected data, setting the state for codes other than 0x2D.
+void func_8001698C(s32 value, s32 unused, s32 code) {
+    void *selectedData;
 
     if (D_8001B920 != 0) {
-        arg_ptr = D_8001B944;
+        selectedData = D_8001B944;
     } else {
-        arg_ptr = D_8001B924;
+        selectedData = D_8001B924;
     }
-    if (arg2 != 0x2D) {
+    if (code != 0x2D) {
         D_8001B920 = 1;
     }
-    func_80019DFC(arg_ptr, &D_8001C354, arg0, arg2);
+    func_80019DFC(selectedData, &D_8001C354, value, code);
 }

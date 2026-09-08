@@ -42,30 +42,31 @@ typedef union {
     s32 value;
 } S_800B4200_arg4;
 
-void func_800B1960(S_800B4200_a0 *a0, S_8002E5D8 *a1,
-                   S_800B4200_a2 *a2, s32 arg3, S_800B4200_arg4 arg4) {
-    s32 y = arg4.value;
-    S_8002E5D8 *src0 = &D_8002E5D8;
-    S_8002E5E8 *src1 = &D_8002E5E8;
-    s32 *tmp;
+/* Initialize the state and its buffers from templates, then set the position. */
+void func_800B1960(S_800B4200_a0 *state, S_8002E5D8 *params,
+                   S_800B4200_a2 *data, s32 x, S_800B4200_arg4 y_arg) {
+    s32 y = y_arg.value;
+    S_8002E5D8 *params_template = &D_8002E5D8;
+    S_8002E5E8 *data_template = &D_8002E5E8;
+    s32 *first_word;
 
-    a1->unk0 = src0->unk0;
-    tmp = &src1->unk0;
-    a1->unk4 = src0->unk4;
-    a1->unk8 = src0->unk8;
-    a1->unkC = src0->unkC;
+    params->unk0 = params_template->unk0;
+    first_word = &data_template->unk0;
+    params->unk4 = params_template->unk4;
+    params->unk8 = params_template->unk8;
+    params->unkC = params_template->unkC;
 
-    ((S_8002E5E8 *)a2)->unk0 = *tmp;
-    ((S_8002E5E8 *)a2)->unk4 = src1->unk4;
-    ((S_8002E5E8 *)a2)->unk8 = src1->unk8;
+    ((S_8002E5E8 *)data)->unk0 = *first_word;
+    ((S_8002E5E8 *)data)->unk4 = data_template->unk4;
+    ((S_8002E5E8 *)data)->unk8 = data_template->unk8;
     
 
-    a0->unk4 = (S_800B4200_a1 *)a1;
-    a0->unk8 = a2;
-    a0->unk0 = 0;
+    state->unk4 = (S_800B4200_a1 *)params;
+    state->unk8 = data;
+    state->unk0 = 0;
 
-    a0->unk4->unkF = 4;
-    a0->unk4->unk8 = arg3 + 0x80;
-    a0->unk4->unkA = y;
-    a0->unk4->unkC = 0x200;
+    state->unk4->unkF = 4;
+    state->unk4->unk8 = x + 0x80;
+    state->unk4->unkA = y;
+    state->unk4->unkC = 0x200;
 }

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_80033D38(void);
+extern s32 func_80033D38(void *, void *);
 extern void func_800C3780(void *arg0, void *arg1, void *arg2);
 extern void func_800C37C4(void *arg0, void *arg1, void *arg2);
 
@@ -10,7 +10,7 @@ void func_800C337C(void *arg0, void *arg1, void *arg2) {
     u8 *obj = (u8 *) arg0;
     u8 state;
 
-    if (func_80033D38() != 0) {
+    if (func_80033D38(arg0, arg1) != 0) {
         obj[0x15] = 1;
     }
     state = obj[0x94];

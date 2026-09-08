@@ -7,14 +7,12 @@ extern void func_8003F320(void);
 extern void func_800253A0(void *a0, void *a1, s32 a2, void *a3);
 extern UA32 D_80080B50;
 
-/* Copies the 4-byte D_80080B50 global to a stack local (unaligned-safe block
- * move), runs func_8004B634()/func_8003F320(), then forwards arg0, NULL, 0,
- * and the stack copy to func_800253A0. */
-void func_8004B7D0(void *a0)
+/* Calls func_8004B634 and func_8003F320, then forwards the target and a copy of D_80080B50 to func_800253A0. */
+void func_8004B7D0(void *target)
 {
-    UA32 local10;
-    *(UA32 *)&local10 = *(UA32 *)&D_80080B50;
+    UA32 global_copy;
+    *(UA32 *)&global_copy = *(UA32 *)&D_80080B50;
     func_8004B634();
     func_8003F320();
-    func_800253A0(a0, 0, 0, &local10);
+    func_800253A0(target, 0, 0, &global_copy);
 }

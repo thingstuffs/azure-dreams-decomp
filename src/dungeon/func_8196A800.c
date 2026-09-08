@@ -28,33 +28,34 @@ __asm__(".globl func_8196A800\n"
 extern s16 D_800269B4;
 extern s32 D_800814A0;
 
-BODY_STORAGE void BODY_NAME(void *arg0, void *arg1, void *arg2) BODY_ATTR;
+BODY_STORAGE void BODY_NAME(void *state, void *unused, void *visual) BODY_ATTR;
 
-BODY_STORAGE void BODY_NAME(void *arg0, void *arg1, void *arg2) {
-    s32 quotient;
-    u16 count;
+/* Updates a countdown-driven visual and clears its owner slot when the countdown expires. */
+BODY_STORAGE void BODY_NAME(void *state, void *unused, void *visual) {
+    s32 remaining_ratio;
+    u16 ticks_left;
 
-    count = *(u16 *)((u8 *)arg0 + 0x2C) - 1;
-    quotient = (s32)((s32)(count << 16) >> 9) /
-               (s16)*(u16 *)((u8 *)arg0 + 0x2E);
+    ticks_left = *(u16 *)((u8 *)state + 0x2C) - 1;
+    remaining_ratio = (s32)((s32)(ticks_left << 16) >> 9) /
+               (s16)*(u16 *)((u8 *)state + 0x2E);
     D_800269B4 = 1;
-    *(u16 *)((u8 *)arg0 + 0x2C) = count;
-    *(u8 *)((u8 *)arg2 + 0x0E) += 4;
-    *(s8 *)((u8 *)arg2 + 0x0D) = (s8)quotient;
-    *(s8 *)((u8 *)arg2 + 0x0C) = (s8)quotient;
-    if (*(s16 *)((u8 *)arg2 + 6) >= -6) {
-        *(s16 *)((u8 *)arg2 + 6) -= 2;
+    *(u16 *)((u8 *)state + 0x2C) = ticks_left;
+    *(u8 *)((u8 *)visual + 0x0E) += 4;
+    *(s8 *)((u8 *)visual + 0x0D) = (s8)remaining_ratio;
+    *(s8 *)((u8 *)visual + 0x0C) = (s8)remaining_ratio;
+    if (*(s16 *)((u8 *)visual + 6) >= -6) {
+        *(s16 *)((u8 *)visual + 6) -= 2;
     }
-    if (*(s16 *)((u8 *)arg0 + 0x2C) <= 0) {
-        s16 *slot;
-        s32 index;
-        s32 base;
+    if (*(s16 *)((u8 *)state + 0x2C) <= 0) {
+        s16 *owner_slot;
+        s32 slot_offset;
+        s32 owner_addr;
 
-        index = *(s16 *)((u8 *)arg0 + 0x50) * 2;
-        base = *(s32 *)((u8 *)arg0 + 0x7C);
-        slot = (s16 *)(index + base + 0x64);
-        *slot = 0;
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+        slot_offset = *(s16 *)((u8 *)state + 0x50) * 2;
+        owner_addr = *(s32 *)((u8 *)state + 0x7C);
+        owner_slot = (s16 *)(slot_offset + owner_addr + 0x64);
+        *owner_slot = 0;
+        *(u16 *)((u8 *)state - 2) |= 0x8000;
         D_800814A0 = D_800814A0 | 0x8000;
     }
 }

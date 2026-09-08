@@ -11,11 +11,12 @@ typedef struct S_8016F2BC_0 {
     s8 unk_9B;
 } S_8016F2BC_0;   /* temp_v0 in func_8016F2BC */
 
+/* Clears three state fields in the current object. */
 void func_8016F2BC(void) {
-    S_8016F2BC_0 *temp_v0;
+    S_8016F2BC_0 *state;
 
-    temp_v0 = D_80175D50 + 0x20;
-    temp_v0->unk_9A = 0;
-    temp_v0->unk_9B = 0;
-    temp_v0->unk_96 = 0;
+    state = D_80175D50 + 0x20;
+    state->unk_9A = 0;
+    state->unk_9B = 0;
+    state->unk_96 = 0;
 }

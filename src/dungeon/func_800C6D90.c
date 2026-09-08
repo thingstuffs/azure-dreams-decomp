@@ -28,19 +28,20 @@ s32 func_80064584();                             /* extern */
 M2C_UNK func_800CC5F0(); /* extern */
 extern s32 D_800814A0[3];
 
-void func_800CC4F0(void *arg0, S_800CC4F0_0 *arg1) {
-    u16 temp_v0;
+/* Updates directional motion, emits paired effects, and marks completion when the timer expires. */
+void func_800CC4F0(void *effect_data, S_800CC4F0_0 *position) {
+    u16 ticks_left;
 
-    arg1->unk_0E = (u16) (arg1->unk_0E + (func_80064584(((S_800CC4F0_1 *)((u8 *)arg0 - 0x2))->unk_06) >> 6));
-    arg1->unk_12 = (u16) (arg1->unk_12 + (func_800644B8(((S_800CC4F0_1 *)((u8 *)arg0 - 0x2))->unk_06) >> 6));
-    if (((S_800CC4F0_1 *)((u8 *)arg0 - 0x2))->unk_08 == 0) {
-        func_800CC5F0((u16) arg1->unk_02 >> 6, (u16) arg1->unk_06 >> 6, arg1->unk_0A, ((S_800CC4F0_1 *)((u8 *)arg0 - 0x2))->unk_06, 0, 1);
-        func_800CC5F0((u16) arg1->unk_02 >> 6, (u16) arg1->unk_06 >> 6, arg1->unk_0A, ((S_800CC4F0_1 *)((u8 *)arg0 - 0x2))->unk_06, 1, 1);
+    position->unk_0E = (u16) (position->unk_0E + (func_80064584(((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06) >> 6));
+    position->unk_12 = (u16) (position->unk_12 + (func_800644B8(((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06) >> 6));
+    if (((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_08 == 0) {
+        func_800CC5F0((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A, ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06, 0, 1);
+        func_800CC5F0((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A, ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06, 1, 1);
     }
-    temp_v0 = ((S_800CC4F0_1 *)((u8 *)arg0 - 0x2))->unk_04 - 1;
-    ((S_800CC4F0_1 *)((u8 *)arg0 - 0x2))->unk_04 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        ((S_800CC4F0_1 *)((u8 *)arg0 - 0x2))->unk_00 = (u16) (((S_800CC4F0_1 *)((u8 *)arg0 - 0x2))->unk_00 | 0x8000);
+    ticks_left = ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_04 - 1;
+    ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_04 = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

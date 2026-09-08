@@ -19,22 +19,23 @@ typedef struct S_81984AF4_1 {
 extern void func_80026350(void) __attribute__((noreturn));
 extern void func_800263B8(void) __attribute__((noreturn));
 
-void func_81984AF4(void *arg0, s16 *arg1, s32 arg2, s32 arg3) {
+/* Resolve the current entry, apply an index step, and enforce the index bounds. */
+void func_81984AF4(void *object, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
-    s32 shifted;
-    u32 flag;
-    u32 next;
+    s32 shifted_index;
+    u32 clamp_flags;
+    u32 next_index;
     u8 index;
-    S_81984AF4_0 *obj = arg0;
-    s32 initialIndex = obj->unk_04.s;
+    S_81984AF4_0 *obj = object;
+    s32 initial_index = obj->unk_04.s;
     S_81984AF4_1 *owner = obj->unk_08;
 
     obj->unk_00 =
-        owner->unk_0C + (initialIndex * 22);
-    step = *arg1;
+        owner->unk_0C + (initial_index * 22);
+    step = *index_step;
     if (step > 0) {
-        next = obj->unk_04.u + 1;
-        ASM_TAILSLOT_PIN_TIED(next);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        next_index = obj->unk_04.u + 1;
+        ASM_TAILSLOT_PIN_TIED(next_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80026350();
     }
     if (step < 0) {
@@ -42,17 +43,17 @@ void func_81984AF4(void *arg0, s16 *arg1, s32 arg2, s32 arg3) {
             obj->unk_04.u - 1;
     }
     index = (u8)obj->unk_04.s;
-    shifted = index << 24;
-    if ((s8)index < (s16)arg2) {
-        flag = obj->unk_14.s | 0x4000;
-        obj->unk_04.s = arg2;
-        ASM_TAILSLOT_PIN_TIED(flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    shifted_index = index << 24;
+    if ((s8)index < (s16)min_index) {
+        clamp_flags = obj->unk_14.s | 0x4000;
+        obj->unk_04.s = min_index;
+        ASM_TAILSLOT_PIN_TIED(clamp_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800263B8();
     }
-    if ((s8)index > (s16)arg3) {
-        flag = obj->unk_14.s | 0x4000;
-        obj->unk_04.s = arg3;
-        ASM_TAILSLOT_PIN_TIED(flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    if ((s8)index > (s16)max_index) {
+        clamp_flags = obj->unk_14.s | 0x4000;
+        obj->unk_04.s = max_index;
+        ASM_TAILSLOT_PIN_TIED(clamp_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800263B8();
     }
     obj->unk_14.u &= 0xBFFF;

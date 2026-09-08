@@ -7,6 +7,7 @@ typedef struct S_800B1730_0 {
     s32 unk_24;
 } S_800B1730_0;   /* arg0 in func_800B1730 */
 
-void func_800B1730(S_800B1730_0 *arg0) {
-    arg0->unk_24 = 1;
+/* Sets the object's field at offset 0x24 to one. */
+void func_800B1730(S_800B1730_0 *object) {
+    object->unk_24 = 1;
 }

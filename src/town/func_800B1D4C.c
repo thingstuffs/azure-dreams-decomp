@@ -17,12 +17,13 @@ typedef struct {
     Object *objects[10];
 } Context;
 
-void func_800AF4AC(Context *arg0)
+// Arrange ten objects in two columns of five rows.
+void func_800AF4AC(Context *context)
 {
-    s32 i;
+    s32 layoutIndex;
 
-    for (i = 6; i < 16; i++) {
-        arg0->objects[i - 6]->data->x = ((i - 6) / 5) * 128 + -48;
-        arg0->objects[i - 6]->data->y = ((i - 6) % 5) * 16 + 22;
+    for (layoutIndex = 6; layoutIndex < 16; layoutIndex++) {
+        context->objects[layoutIndex - 6]->data->x = ((layoutIndex - 6) / 5) * 128 + -48;
+        context->objects[layoutIndex - 6]->data->y = ((layoutIndex - 6) % 5) * 16 + 22;
     }
 }

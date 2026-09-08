@@ -8,14 +8,11 @@ typedef struct CopyData {
     u8 tail;
 } CopyData;
 
-void func_800AFE10(s32 arg0)
+/* Passes a local copy of D_800891F8 to func_800491F4 for the target. */
+void func_800AFE10(s32 target)
 {
-    CopyData copy;
+    CopyData data_copy;
 
-    __builtin_memcpy(&copy, D_800891F8, 0x29);
-    func_800491F4(arg0, &copy, 0x28);
+    __builtin_memcpy(&data_copy, D_800891F8, 0x29);
+    func_800491F4(target, &data_copy, 0x28);
 }
-
-/* MECHANISM: The true-space definition makes 0x800AFEB8 a compiler-generated local copy join.
-   A word-aligned stack record plus a 41-byte builtin copy yields the 0x48 frame and both copy loops.
-   The cdk-G0 lineage emits retail's split global address, $t1 argument hold, and dispatch schedule. */

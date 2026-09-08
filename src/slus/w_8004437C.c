@@ -1,9 +1,5 @@
 #include "common.h"
 
-/* Toggles the active double-buffer slot (D_80080AFC) for the D_80080AF4[]
- * pointer table keyed against D_8006E704[arg0]; on a real change, repacks the
- * entry's packed 32-bit field (top 9 bits kept, low 23 bits replaced by the
- * low 23 bits of a marker-table address) and registers/flushes it. */
 /* S_8006E704: array of pointers to a small struct whose only field this
  * function touches is a packed 32-bit "color/mode" word at offset 0 (top 9
  * bits = category, low 23 bits = an id taken from the ADDRESS of one of two
@@ -37,31 +33,32 @@ extern s32 func_8003E4FC(s32 a0, void *a1, s32 a2);
 extern void func_8003F320(void);
 extern short func_80053DA8(int a0);
 
-s32 func_8004437C(s16 arg0, s16 arg1)
+/* Selects a buffered entry, registering it with the slot marker and applying the requested mode. */
+s32 func_8004437C(s16 entry_index, s16 mode)
 {
-    if (D_8006E704[arg0] == D_80080AF4[D_80080AFC]) {
+    if (D_8006E704[entry_index] == D_80080AF4[D_80080AFC]) {
         return 1;
     }
 
     D_80080AFC = (u16) D_80080AFC ^ 1;
 
-    if (D_8006E704[arg0] != D_80080AF4[D_80080AFC]) {
+    if (D_8006E704[entry_index] != D_80080AF4[D_80080AFC]) {
         func_800542BC();
 
-        if (D_80080AF3 != arg1) {
+        if (D_80080AF3 != mode) {
             func_80044698();
         }
 
-        D_8006E704[arg0]->field_0 &= ~0x7FFFFF;
-        D_8006E704[arg0]->field_0 |=
+        D_8006E704[entry_index]->field_0 &= ~0x7FFFFF;
+        D_8006E704[entry_index]->field_0 |=
             ((D_80080AFC != 0) ? (s32) D_801C4640 : (s32) D_801BEE40) & 0x7FFFFF;
 
-        func_8003E4FC(6, D_8006E704[arg0], 0);
-        D_80080AF4[D_80080AFC] = D_8006E704[arg0];
+        func_8003E4FC(6, D_8006E704[entry_index], 0);
+        D_80080AF4[D_80080AFC] = D_8006E704[entry_index];
         func_8003F320();
     }
 
-    func_8004450C(arg1);
+    func_8004450C(mode);
 
     func_80053DA8((D_80080AFC != 0) ? 0x22 : 0x21);
 

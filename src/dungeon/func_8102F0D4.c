@@ -42,33 +42,34 @@ extern s32 D_800814A0[3];
 s32 func_80065420();
 extern s32 func_800478B8();
 
-void func_8102F0D4(void *arg0, S_8102F0D4_0 *arg1, Rec_D_80082E80 *arg2) {
-    u16 sp10[3];
-    M2C_S64 sp18;
-    s16 sp20;
-    M2C_UNK sp24;
-    s32 temp_v0;
-    s32 temp_v1_2;
-    s8 *temp_a1;
-    u16 temp_v0_2;
-    S_8102F0D4_2 *temp_v1;
+/* Updates relative depth with a direction offset and flags expiration when the countdown ends. */
+void func_8102F0D4(void *state, S_8102F0D4_0 *position, Rec_D_80082E80 *entity) {
+    u16 coords[3];
+    M2C_S64 transform_result;
+    s16 transform_aux;
+    M2C_UNK transform_flags;
+    s32 position_depth;
+    s32 reference_depth;
+    s8 *direction_offset;
+    u16 ticks_left;
+    S_8102F0D4_2 *reference_pos;
 
-    sp10[0] = arg1->unk_02;
-    sp10[1] = arg1->unk_06;
-    sp10[2] = arg1->unk_0A;
-    temp_v0 = func_80065420(sp10, &sp18, &sp20, &sp24);
-    temp_v1 = ((S_8102F0D4_1 *)arg0)->unk_A8;
-    sp10[0] = temp_v1->unk_02;
-    sp10[1] = temp_v1->unk_06;
-    sp10[2] = temp_v1->unk_0A;
-    temp_v1_2 = func_80065420(sp10, &sp18, &sp20, &sp24);
-    temp_a1 = &D_800DCECC[((s32) (*D_80083228 + ((S_8102F0D4_1 *)arg0)->unk_94 + 0x100) >> 9) & 7];
-    arg2->unk_06.as_s16 = (s16) ((temp_v0 - temp_v1_2) - (*temp_a1 * 2));
-    func_800478B8(arg2, temp_a1);
-    temp_v0_2 = ((S_8102F0D4_1 *)arg0)->unk_96 - 1;
-    ((S_8102F0D4_1 *)arg0)->unk_96 = temp_v0_2;
-    if ((temp_v0_2 << 0x10) <= 0) {
-        ((S_8102F0D4_1_pre *)arg0)[-1].unk_00 = (u16) (((S_8102F0D4_1_pre *)arg0)[-1].unk_00 | 0x8000);
+    coords[0] = position->unk_02;
+    coords[1] = position->unk_06;
+    coords[2] = position->unk_0A;
+    position_depth = func_80065420(coords, &transform_result, &transform_aux, &transform_flags);
+    reference_pos = ((S_8102F0D4_1 *)state)->unk_A8;
+    coords[0] = reference_pos->unk_02;
+    coords[1] = reference_pos->unk_06;
+    coords[2] = reference_pos->unk_0A;
+    reference_depth = func_80065420(coords, &transform_result, &transform_aux, &transform_flags);
+    direction_offset = &D_800DCECC[((s32) (*D_80083228 + ((S_8102F0D4_1 *)state)->unk_94 + 0x100) >> 9) & 7];
+    entity->unk_06.as_s16 = (s16) ((position_depth - reference_depth) - (*direction_offset * 2));
+    func_800478B8(entity, direction_offset);
+    ticks_left = ((S_8102F0D4_1 *)state)->unk_96 - 1;
+    ((S_8102F0D4_1 *)state)->unk_96 = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        ((S_8102F0D4_1_pre *)state)[-1].unk_00 = (u16) (((S_8102F0D4_1_pre *)state)[-1].unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 }

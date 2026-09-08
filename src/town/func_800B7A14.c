@@ -53,17 +53,18 @@ typedef struct S_800B5174_0 {
     u8 unk_29;
 } S_800B5174_0;   /* arg0 in func_800B5174 */
 
-void *func_800B5174(S_800B5174_0 *arg0, S_800B5174_1 *arg1, s32 arg2) {
-    ((S_800B5174_5 *)(((S_800B5174_2 *)(arg1->unk_00))->unk_04))->unk_08 = -0x38;
-    ((S_800B5174_5 *)(((S_800B5174_2 *)(arg1->unk_00))->unk_04))->unk_0A = 8;
-    ((S_800B5174_2 *)(arg1->unk_00))->unk_00 = &D_80077FBC;
-    ((S_800B5174_6 *)(((S_800B5174_3 *)(arg1->unk_04))->unk_04))->unk_08 = -0x38;
-    ((S_800B5174_6 *)(((S_800B5174_3 *)(arg1->unk_04))->unk_04))->unk_0A = 8;
-    ((S_800B5174_3 *)(arg1->unk_04))->unk_00 = arg2;
-    ((S_800B5174_7 *)(((S_800B5174_4 *)(arg1->unk_08))->unk_04))->unk_08 = -0x18;
-    ((S_800B5174_7 *)(((S_800B5174_4 *)(arg1->unk_08))->unk_04))->unk_0A = 0x30;
-    ((S_800B5174_4 *)(arg1->unk_08))->unk_00 = &D_800D1794;
-    func_800B512C(&D_800D1794, arg0->unk_28);
-    func_800B512C(&D_800D1794 + 0xC, arg0->unk_29);
-    return arg1;
+/* Positions three display elements, assigns their content, and updates the shared value buffer. */
+void *func_800B5174(S_800B5174_0 *values, S_800B5174_1 *elements, s32 content) {
+    ((S_800B5174_5 *)(((S_800B5174_2 *)(elements->unk_00))->unk_04))->unk_08 = -0x38;
+    ((S_800B5174_5 *)(((S_800B5174_2 *)(elements->unk_00))->unk_04))->unk_0A = 8;
+    ((S_800B5174_2 *)(elements->unk_00))->unk_00 = &D_80077FBC;
+    ((S_800B5174_6 *)(((S_800B5174_3 *)(elements->unk_04))->unk_04))->unk_08 = -0x38;
+    ((S_800B5174_6 *)(((S_800B5174_3 *)(elements->unk_04))->unk_04))->unk_0A = 8;
+    ((S_800B5174_3 *)(elements->unk_04))->unk_00 = content;
+    ((S_800B5174_7 *)(((S_800B5174_4 *)(elements->unk_08))->unk_04))->unk_08 = -0x18;
+    ((S_800B5174_7 *)(((S_800B5174_4 *)(elements->unk_08))->unk_04))->unk_0A = 0x30;
+    ((S_800B5174_4 *)(elements->unk_08))->unk_00 = &D_800D1794;
+    func_800B512C(&D_800D1794, values->unk_28);
+    func_800B512C(&D_800D1794 + 0xC, values->unk_29);
+    return elements;
 }

@@ -79,74 +79,75 @@ extern s32 rand();
 extern M2C_UNK D_80024670[];
 extern M2C_UNK D_800246C4[];
 
-void func_800247B8(Rec_func_800247B8_arg0 *arg0, Rec_func_800247B8_arg1 *arg1)
+/* Creates an effect at the supplied position with randomized color and radial offsets. */
+void func_800247B8(Rec_func_800247B8_arg0 *source, Rec_func_800247B8_arg1 *origin)
 {
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 temp_s1;
-    s32 random;
-    void *obj;
-    S_800247B8_0 *work;
-    S_800247B8_2 *part;
-    S_800247B8_4 *dest;
+    s32 elevation;
+    s32 planar_radius;
+    s32 azimuth;
+    s32 random_value;
+    void *effect;
+    S_800247B8_0 *state;
+    S_800247B8_2 *sprite;
+    S_800247B8_4 *position;
 
-    obj = func_8003FC64(0x212);
-    if (obj != NULL) {
-        work = obj + 0x20;
-        work->unk_5A = 10;
-        work->unk_5C = 10;
-        random = func_8002406C(8);
-        work->unk_18.at00.v = 0x303030;
-        if (random & 1) {
-            work->unk_18.at00u.v = 0x90;
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        state = effect + 0x20;
+        state->unk_5A = 10;
+        state->unk_5C = 10;
+        random_value = func_8002406C(8);
+        state->unk_18.at00.v = 0x303030;
+        if (random_value & 1) {
+            state->unk_18.at00u.v = 0x90;
         }
-        if (random & 2) {
-            work->unk_18.at01.v = 0x90;
+        if (random_value & 2) {
+            state->unk_18.at01.v = 0x90;
         }
-        if (random & 4) {
-            work->unk_18.at02.v = 0x90;
+        if (random_value & 4) {
+            state->unk_18.at02.v = 0x90;
         }
-        work->unk_10 = 0;
-        work->unk_14 = 0;
-        work->unk_1C = work->unk_18.at00.v;
-        ((S_800247B8_1 *)obj)->unk_20 = work->unk_10;
-        work->unk_04 = work->unk_14;
-        work->unk_08 = work->unk_18.at00.v;
-        work->unk_0C = work->unk_1C;
-        ((S_800247B8_1 *)obj)->unk_10 = D_800246C4;
-        func_8004491C(obj, D_80024670);
+        state->unk_10 = 0;
+        state->unk_14 = 0;
+        state->unk_1C = state->unk_18.at00.v;
+        ((S_800247B8_1 *)effect)->unk_20 = state->unk_10;
+        state->unk_04 = state->unk_14;
+        state->unk_08 = state->unk_18.at00.v;
+        state->unk_0C = state->unk_1C;
+        ((S_800247B8_1 *)effect)->unk_10 = D_800246C4;
+        func_8004491C(effect, D_80024670);
 
-        part = ((S_800247B8_1 *)obj)->unk_0C;
-        part->unk_10 = 0x20;
-        part->unk_14 |= 0xC;
-        temp_s0 = rand(part) & 0xFFF;
-        temp_s0_2 = (arg0->unk_56 * func_80064584(temp_s0)) >> 12;
-        work->unk_24.s = (arg0->unk_56 * func_800644B8(temp_s0)) >> 12;
-        temp_s1 = rand() & 0xFFF;
-        work->unk_20.s = ((s16)temp_s0_2 * func_80064584(temp_s1)) >> 12;
-        work->unk_22.s = ((s16)temp_s0_2 * func_800644B8(temp_s1)) >> 12;
+        sprite = ((S_800247B8_1 *)effect)->unk_0C;
+        sprite->unk_10 = 0x20;
+        sprite->unk_14 |= 0xC;
+        elevation = rand(sprite) & 0xFFF;
+        planar_radius = (source->unk_56 * func_80064584(elevation)) >> 12;
+        state->unk_24.s = (source->unk_56 * func_800644B8(elevation)) >> 12;
+        azimuth = rand() & 0xFFF;
+        state->unk_20.s = ((s16)planar_radius * func_80064584(azimuth)) >> 12;
+        state->unk_22.s = ((s16)planar_radius * func_800644B8(azimuth)) >> 12;
 
-        work->unk_26 = work->unk_20.u + func_8002406C(0x10) - 8;
-        work->unk_28 = work->unk_22.u + func_8002406C(0x10) - 8;
-        random = func_8002406C(0x10);
-        work->unk_36 = 0;
-        work->unk_34 = 0;
-        work->unk_32 = 0;
-        work->unk_30 = 0;
-        work->unk_2E = 0;
-        work->unk_2C = 0;
-        work->unk_2A = work->unk_24.u + random - 8;
+        state->unk_26 = state->unk_20.u + func_8002406C(0x10) - 8;
+        state->unk_28 = state->unk_22.u + func_8002406C(0x10) - 8;
+        random_value = func_8002406C(0x10);
+        state->unk_36 = 0;
+        state->unk_34 = 0;
+        state->unk_32 = 0;
+        state->unk_30 = 0;
+        state->unk_2E = 0;
+        state->unk_2C = 0;
+        state->unk_2A = state->unk_24.u + random_value - 8;
 
-        dest = ((S_800247B8_1 *)obj)->unk_08;
-        dest->unk_02 = arg1->unk_02;
-        dest->unk_06 = arg1->unk_06;
-        dest->unk_0A = arg1->unk_0A;
+        position = ((S_800247B8_1 *)effect)->unk_08;
+        position->unk_02 = origin->unk_02;
+        position->unk_06 = origin->unk_06;
+        position->unk_0A = origin->unk_0A;
 
-        part = ((S_800247B8_1 *)obj)->unk_0C;
-        part->unk_1E = 0x1000;
-        part->unk_1C = 0x1000;
-        part->unk_0E = 0x80;
-        part->unk_0D = 0x80;
-        part->unk_0C = 0x80;
+        sprite = ((S_800247B8_1 *)effect)->unk_0C;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
     }
 }

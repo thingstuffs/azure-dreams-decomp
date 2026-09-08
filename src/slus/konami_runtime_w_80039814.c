@@ -7,19 +7,20 @@ typedef struct {
 
 extern u8 *func_8003C8E4(s32 arg0);
 
-void func_80039814(ParserState *arg0)
+/* Read an entry key and value, copying the value to entry bytes 2 and 3 if found. */
+void func_80039814(ParserState *parser)
 {
-    u8 value;
-    u8 next_value;
+    u8 entry_key;
+    u8 entry_value;
     u8 *entry;
 
-    value = arg0->read_ptr[0];
-    arg0->read_ptr = arg0->read_ptr + 1;
-    entry = func_8003C8E4(value);
+    entry_key = parser->read_ptr[0];
+    parser->read_ptr = parser->read_ptr + 1;
+    entry = func_8003C8E4(entry_key);
     if (entry != 0) {
-        next_value = arg0->read_ptr[0];
-        entry[2] = next_value;
-        entry[3] = next_value;
+        entry_value = parser->read_ptr[0];
+        entry[2] = entry_value;
+        entry[3] = entry_value;
     }
-    arg0->read_ptr = arg0->read_ptr + 1;
+    parser->read_ptr = parser->read_ptr + 1;
 }

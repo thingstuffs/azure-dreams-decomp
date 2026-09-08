@@ -3,37 +3,38 @@
 extern void func_80022300(void *arg0, void *arg1, s32 arg2);
 extern void func_8002233C(s32 arg0, s32 arg1, s32 arg2);
 
-static __inline__ u32 calculate_first(
-    void *arg0,
-    s32 arg1
+static __inline__ u32 calculate_x(
+    void *context,
+    s32 column
 )
 {
-    u32 first;
+    u32 x;
 
-    first = (u32)arg1 * 4U;
-    first -= (u32)(*(s32 *)((u8 *)arg0 + 0x18) / 2);
-    return first + 0xA2;
+    x = (u32)column * 4U;
+    x -= (u32)(*(s32 *)((u8 *)context + 0x18) / 2);
+    return x + 0xA2;
 }
 
-void func_800223B4(void *arg0, s32 arg1, s32 arg2, s32 arg3, volatile s32 arg4)
+/* Positions the current record and updates the specified row. */
+void func_800223B4(void *context, s32 column, s32 mode, s32 row, volatile s32 row_value)
 {
-    void *base = arg0;
+    void *state = context;
     s32 *record;
     void *position;
-    u32 first;
-    s32 saved_arg4;
+    u32 x;
+    s32 saved_row_value;
 
-    first = calculate_first(base, arg1);
-    position = (u8 *)base + 0xE4;
-    record = *(s32 **)((u8 *)base + 0x8E4);
-    *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 8) = (s16)first;
+    x = calculate_x(state, column);
+    position = (u8 *)state + 0xE4;
+    record = *(s32 **)((u8 *)state + 0x8E4);
+    *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 8) = (s16)x;
     *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 0xA) =
-        (s16)((arg3 * 0x11) - (*(s32 *)((u8 *)base + 0x1C) / 2) + 0x7A);
-    saved_arg4 = arg4;
-    func_80022300(base, position, arg2);
+        (s16)((row * 0x11) - (*(s32 *)((u8 *)state + 0x1C) / 2) + 0x7A);
+    saved_row_value = row_value;
+    func_80022300(state, position, mode);
     record[0] = (s32)(unsigned long)position;
     func_8002233C(
-        *(s32 *)*(s32 **)((u8 *)base + arg3 * 4 + 0x8CC),
-        saved_arg4,
-        arg2);
+        *(s32 *)*(s32 **)((u8 *)state + row * 4 + 0x8CC),
+        saved_row_value,
+        mode);
 }

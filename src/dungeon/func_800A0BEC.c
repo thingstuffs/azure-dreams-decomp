@@ -18,17 +18,18 @@ typedef struct S_800A634C_1 {
     s16 unk_0C;
 } S_800A634C_1;   /* temp_v1 in func_800A634C */
 
-void *func_800A634C(s16 arg0) {
-    void *temp_v0;
-    S_800A634C_1 *temp_v1;
+/* Allocates an object and initializes its state with the supplied value. */
+void *func_800A634C(s16 initialValue) {
+    void *object;
+    S_800A634C_1 *objectState;
 
-    temp_v0 = func_8003FC64(0);
-    if (temp_v0 != NULL) {
-        ((S_800A634C_0 *)temp_v0)->unk_10 = &D_800A6194;
-        func_8004491C(temp_v0, &D_800A624C);
-        temp_v1 = temp_v0 + 0x20;
-        temp_v1->unk_08 = 8;
-        temp_v1->unk_0C = arg0;
+    object = func_8003FC64(0);
+    if (object != NULL) {
+        ((S_800A634C_0 *)object)->unk_10 = &D_800A6194;
+        func_8004491C(object, &D_800A624C);
+        objectState = object + 0x20;
+        objectState->unk_08 = 8;
+        objectState->unk_0C = initialValue;
     }
-    return temp_v0;
+    return object;
 }

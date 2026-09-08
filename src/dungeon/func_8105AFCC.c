@@ -44,14 +44,15 @@ extern void func_800A4ACC(Obj3 *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(Obj3 *, s32);
 
-void func_801727CC(Obj0 *arg0, M2C_UNK arg1, Obj2 *arg2, Obj3 *arg3) {
-    s16 count;
+/* Advances a timed actor animation and applies its completion effects. */
+void func_801727CC(Obj0 *action, M2C_UNK context, Obj2 *sprite, Obj3 *actor) {
+    s16 ticks_left;
     s32 state;
     s32 volume;
 
-    state = arg0->field9B;
-    count = arg0->field96 - 1;
-    arg0->field96 = count;
+    state = action->field9B;
+    ticks_left = action->field96 - 1;
+    action->field96 = ticks_left;
     if (state == 1)
         goto state_one;
     if (state < 2) {
@@ -64,48 +65,48 @@ void func_801727CC(Obj0 *arg0, M2C_UNK arg1, Obj2 *arg2, Obj3 *arg3) {
     goto done;
 
 state_zero:
-    if (arg2->field14 & 0x8000) {
-        arg0->field9B = 0xFF;
-        arg2->field14 |= 0x6000;
-        func_8009C12C(arg3, arg2, arg3->field2A, 1);
+    if (sprite->field14 & 0x8000) {
+        action->field9B = 0xFF;
+        sprite->field14 |= 0x6000;
+        func_8009C12C(actor, sprite, actor->field2A, 1);
         goto done;
     }
-    if (arg0->field98 & 0x8000) {
-        arg2->field2C = D_80174010;
-        count = 10;
+    if (action->field98 & 0x8000) {
+        sprite->field2C = D_80174010;
+        ticks_left = 10;
     } else {
-        arg2->field2C = D_80173FE8;
-        count = 4;
+        sprite->field2C = D_80173FE8;
+        ticks_left = 4;
     }
-    arg0->field96 = count;
-    func_80047784(arg2, arg2->field2C[(((s32) (D_80083228[0] + arg3->field2A + 0x100) >> 9) & 7)], 0);
-    arg0->field9B++;
+    action->field96 = ticks_left;
+    func_80047784(sprite, sprite->field2C[(((s32) (D_80083228[0] + actor->field2A + 0x100) >> 9) & 7)], 0);
+    action->field9B++;
     goto done;
 
 state_one:
-    if ((count << 16) > 0)
+    if ((ticks_left << 16) > 0)
         goto done;
     func_800A56E0(0x809);
-    func_8009C12C(arg3, arg2, arg3->field2A, 1);
-    arg0->field9B = 0xFF;
+    func_8009C12C(actor, sprite, actor->field2A, 1);
+    action->field9B = 0xFF;
     goto done;
 
 state_ff:
-    if ((arg2->field14 & 0xE000) == 0)
+    if ((sprite->field14 & 0xE000) == 0)
         goto done;
-    func_800A2B04(arg1, arg2->field24, arg2->field25);
+    func_800A2B04(context, sprite->field24, sprite->field25);
     volume = 0x100;
-    if (arg0->field98 & 0x8000)
+    if (action->field98 & 0x8000)
         volume = 0x800;
-    func_800AD594(arg3, volume);
-    arg0->field8C = &D_80170F68;
+    func_800AD594(actor, volume);
+    action->field8C = &D_80170F68;
     *D_8008346C = 0;
-    func_800A4ACC(arg3);
-    if (arg3->field6D == 0) {
-        arg3->field46 &= 0x7FFF;
+    func_800A4ACC(actor);
+    if (actor->field6D == 0) {
+        actor->field46 &= 0x7FFF;
         goto done;
     }
-    *D_800E3DE8 = (void *)((s8 *)arg3 - 0x20);
+    *D_800E3DE8 = (void *)((s8 *)actor - 0x20);
 
 done:
     return;

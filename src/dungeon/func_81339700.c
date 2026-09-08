@@ -66,54 +66,55 @@ extern u8 D_80170000[0x3A81];
 extern void *D_80175D50;
 extern void *D_80175D64;
 
+/* Creates an object from the current object's data and initializes its position and appearance. */
 void func_80170700(void) {
-    s32 temp_t0;
-    s32 var_a1;
-    S_80170700_3 *temp_a0;
-    void *temp_s0;
-    S_80170700_2 *temp_s0_2;
-    S_80170700_1 *temp_v0;
-    void *var_a2;
-    void *var_a3;
+    s32 copy_end;
+    s32 data_index;
+    S_80170700_3 *position;
+    void *source_data;
+    S_80170700_2 *render_data;
+    S_80170700_1 *object;
+    void *copy_dst;
+    void *copy_src;
     register void *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    temp_s0 = ((Rec_D_80175D50 *)D_80175D50)->unk_0C;
-    temp_v0 = func_8003FC64(0x112);
-    var_a3 = temp_s0;
-    if (temp_v0 != NULL) {
-        temp_t0 = (s32)var_a3 + 0x30;
-        temp_s0_2 = temp_v0->unk_0C;
-        temp_v0->unk_38 = 0;
-        temp_v0->unk_10 = &D_80170534;
-        var_a2 = temp_s0_2;
+    source_data = ((Rec_D_80175D50 *)D_80175D50)->unk_0C;
+    object = func_8003FC64(0x112);
+    copy_src = source_data;
+    if (object != NULL) {
+        copy_end = (s32)copy_src + 0x30;
+        render_data = object->unk_0C;
+        object->unk_38 = 0;
+        object->unk_10 = &D_80170534;
+        copy_dst = render_data;
         do {
-            *(Copy16 *)var_a2 = *(Copy16 *)var_a3;
-            var_a3 = (u8 *)var_a3 + 0x10;
-            var_a2 = (u8 *)var_a2 + 0x10;
-        } while (var_a3 != (void *)temp_t0);
-        temp_s0_2->unk_14 =
-            (temp_s0_2->unk_14 & 0xFF7F) | 0x400;
-        func_8004491C(temp_v0, &D_80045340, var_a2, var_a3);
-        call_obj = temp_s0_2;
-        var_a1 = *(&D_80170000[0x3A80]);
-        ASM_KEEP(var_a1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_s0_2->unk_2C = &D_80170000[0x3A80];
-        func_80047784(call_obj, var_a1, 0);
-        temp_s0_2->unk_06 = 6;
-        temp_s0_2->unk_14 &= 0xFFF3;
-        temp_a0 = temp_v0->unk_08;
-        temp_a0->unk_02 = D_80083780.x2;
-        temp_a0->unk_06 = D_80083780.x6 - 0x400;
-        temp_a0->unk_0A = D_80083780.xA;
-        temp_s0_2->unk_1E = 0x1000;
-        temp_s0_2->unk_1C = 0x1000;
-        temp_s0_2->unk_0E = 0x80;
-        temp_s0_2->unk_0D = 0x80;
-        temp_s0_2->unk_0C = 0x80;
-        D_80175D64 = temp_v0;
+            *(Copy16 *)copy_dst = *(Copy16 *)copy_src;
+            copy_src = (u8 *)copy_src + 0x10;
+            copy_dst = (u8 *)copy_dst + 0x10;
+        } while (copy_src != (void *)copy_end);
+        render_data->unk_14 =
+            (render_data->unk_14 & 0xFF7F) | 0x400;
+        func_8004491C(object, &D_80045340, copy_dst, copy_src);
+        call_obj = render_data;
+        data_index = *(&D_80170000[0x3A80]);
+        ASM_KEEP(data_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        render_data->unk_2C = &D_80170000[0x3A80];
+        func_80047784(call_obj, data_index, 0);
+        render_data->unk_06 = 6;
+        render_data->unk_14 &= 0xFFF3;
+        position = object->unk_08;
+        position->unk_02 = D_80083780.x2;
+        position->unk_06 = D_80083780.x6 - 0x400;
+        position->unk_0A = D_80083780.xA;
+        render_data->unk_1E = 0x1000;
+        render_data->unk_1C = 0x1000;
+        render_data->unk_0E = 0x80;
+        render_data->unk_0D = 0x80;
+        render_data->unk_0C = 0x80;
+        D_80175D64 = object;
     }
 }
 
 /* MECHANISM: Preserve the seed's 0x20 frame and long-lived s0/s1 roles.
    A widened byte local plus call_obj pinned in a0 fixes the pre-call order.
-   ASM_KEEP(var_a1) delays a2=0 while the following store fills the jal slot. */
+   ASM_KEEP(data_index) delays a2=0 while the following store fills the jal slot. */

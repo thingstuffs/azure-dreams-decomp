@@ -32,22 +32,23 @@ typedef struct S_818330F0_3 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_800814A0;
-void func_818330F0(void *arg0, void *arg1, void *arg2) {
-    s16 temp_a0;
-    s16 temp_v0;
-    void *temp_v1;
+/* Ease the position toward its target, brighten the primitive, and flag completion. */
+void func_818330F0(void *effect, void *position, void *primitive) {
+    s16 target_z;
+    s16 current_z;
+    void *owner;
 
-    ((S_818330F0_0 *)arg1)->unk_02 = (s16) ((u16) ((S_818330F0_0 *)arg1)->unk_02 + ((((S_818330F0_1 *)arg0)->unk_0C - ((S_818330F0_0 *)arg1)->unk_02) / 12));
-    ((S_818330F0_0 *)arg1)->unk_06 = (s16) ((u16) ((S_818330F0_0 *)arg1)->unk_06 + ((((S_818330F0_1 *)arg0)->unk_0E - ((S_818330F0_0 *)arg1)->unk_06) / 12));
-    temp_a0 = ((S_818330F0_1 *)arg0)->unk_10;
-    temp_v0 = ((S_818330F0_0 *)arg1)->unk_0A;
-    ((S_818330F0_0 *)arg1)->unk_0A = (s16) ((u16) ((S_818330F0_0 *)arg1)->unk_0A + ((temp_a0 - temp_v0) / 10));
-    ((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v = (s32) (((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v + 0xC0C0C);
-    temp_v1 = ((S_818330F0_1 *)arg0)->unk_00;
-    ((S_818330F0_3 *)temp_v1)->unk_52 = (u16) (((S_818330F0_3 *)temp_v1)->unk_52 | 0x8000);
-    func_800478B8(arg2);
-    if ((u8) ((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v >= 0x91U) {
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_818330F0_1_pre *)arg0)[-1].unk_00 | 0x8000);
+    ((S_818330F0_0 *)position)->unk_02 = (s16) ((u16) ((S_818330F0_0 *)position)->unk_02 + ((((S_818330F0_1 *)effect)->unk_0C - ((S_818330F0_0 *)position)->unk_02) / 12));
+    ((S_818330F0_0 *)position)->unk_06 = (s16) ((u16) ((S_818330F0_0 *)position)->unk_06 + ((((S_818330F0_1 *)effect)->unk_0E - ((S_818330F0_0 *)position)->unk_06) / 12));
+    target_z = ((S_818330F0_1 *)effect)->unk_10;
+    current_z = ((S_818330F0_0 *)position)->unk_0A;
+    ((S_818330F0_0 *)position)->unk_0A = (s16) ((u16) ((S_818330F0_0 *)position)->unk_0A + ((target_z - current_z) / 10));
+    ((Rec_D_80082E80 *)primitive)->unk_0C.at00_s32.v = (s32) (((Rec_D_80082E80 *)primitive)->unk_0C.at00_s32.v + 0xC0C0C);
+    owner = ((S_818330F0_1 *)effect)->unk_00;
+    ((S_818330F0_3 *)owner)->unk_52 = (u16) (((S_818330F0_3 *)owner)->unk_52 | 0x8000);
+    func_800478B8(primitive);
+    if ((u8) ((Rec_D_80082E80 *)primitive)->unk_0C.at00_s32.v >= 0x91U) {
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_818330F0_1_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
     }
 }

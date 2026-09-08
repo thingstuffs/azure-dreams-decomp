@@ -10,18 +10,16 @@ typedef struct {
     S_80042518_Slot slot[4];
 } S_80042518;
 
-/* Search backward through a 4-entry slot array (each slot: type byte + value byte)
-   for one whose type matches a1; if found, clear that slot and return its value,
-   otherwise return 0. */
-s32 findSlotByType(S_80042518 *a0, s8 a1) {
-    s32 i;
+/* Clear the last slot of the requested type and return its value, or zero if absent. */
+s32 findSlotByType(S_80042518 *slots, s8 type) {
+    s32 slot_index;
 
-    for (i = 3; i >= 0; i--) {
-        if (a0->slot[i].type == a1) {
-            s32 v0 = a0->slot[i].value;
-            a0->slot[i].type = 0;
-            a0->slot[i].value = 0;
-            return v0;
+    for (slot_index = 3; slot_index >= 0; slot_index--) {
+        if (slots->slot[slot_index].type == type) {
+            s32 value = slots->slot[slot_index].value;
+            slots->slot[slot_index].type = 0;
+            slots->slot[slot_index].value = 0;
+            return value;
         }
     }
     return 0;

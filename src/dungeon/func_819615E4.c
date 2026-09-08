@@ -59,14 +59,15 @@ extern void func_800271EC(void) __attribute__((noreturn));
 extern void func_8003DE58(void *, void *, Vec3s *, s16);
 extern void func_800B8D64(s16, s16, s16);
 
+/* Interpolate the target position, fade its color, and finish the transition. */
 void func_819615E4(State *state, Target *target, u8 *color)
 {
-    Vec3s delta;
-    Vec3s base;
-    s32 d;
-    s32 a;
-    s16 value;
-    u16 next;
+    Vec3s position_offset;
+    Vec3s position;
+    s32 distance;
+    s32 current_coord;
+    s16 smoothed_coord;
+    u16 phase_value;
     register u32 table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     D_80027330[0]++;
@@ -95,79 +96,79 @@ void func_819615E4(State *state, Target *target, u8 *color)
 
 init:
     {
-        s32 index;
+        s32 transform_offset;
         u8 *spawn = D_80083780;
 
-        base.x = *(u16 *)(spawn + 2);
-        base.y = *(u16 *)(spawn + 6);
-        base.z = *(u16 *)(D_800E3D7C + 0x88) - 0x50;
-        index = ((D_80083228 + *(s16 *)(D_800E3D7C + 0x2A) + 0x100) >> 7) & 0x1C;
-        func_8003DE58(*(void **)((s32)index + (s32)D_800E3D18), D_80082E80,
-                      &delta, 0);
-        base.x += delta.x;
-        state->x = base.x;
-        base.y += delta.y;
-        state->y = base.y;
-        base.z += delta.z;
-        state->z = base.z;
+        position.x = *(u16 *)(spawn + 2);
+        position.y = *(u16 *)(spawn + 6);
+        position.z = *(u16 *)(D_800E3D7C + 0x88) - 0x50;
+        transform_offset = ((D_80083228 + *(s16 *)(D_800E3D7C + 0x2A) + 0x100) >> 7) & 0x1C;
+        func_8003DE58(*(void **)((s32)transform_offset + (s32)D_800E3D18), D_80082E80,
+                      &position_offset, 0);
+        position.x += position_offset.x;
+        state->x = position.x;
+        position.y += position_offset.y;
+        state->y = position.y;
+        position.z += position_offset.z;
+        state->z = position.z;
         state->state++;
     }
 update:
     {
-        s32 product;
+        s32 step_offset;
 
-        a = state->cur_x;
-        d = state->x - a;
-        if (d < 0) {
-            d += 7;
+        current_coord = state->cur_x;
+        distance = state->x - current_coord;
+        if (distance < 0) {
+            distance += 7;
         }
-        product = (d >> 3) * (state->step + 1);
+        step_offset = (distance >> 3) * (state->step + 1);
         target->x = (u16)target->x +
-            (a + product - target->x) / state->timer;
+            (current_coord + step_offset - target->x) / state->timer;
     }
     {
-        s32 product;
+        s32 step_offset;
 
-        a = state->cur_y;
-        d = state->y - a;
-        if (d < 0) {
-            d += 7;
+        current_coord = state->cur_y;
+        distance = state->y - current_coord;
+        if (distance < 0) {
+            distance += 7;
         }
-        product = (d >> 3) * (state->step + 1);
+        step_offset = (distance >> 3) * (state->step + 1);
         target->y = (u16)target->y +
-            (a + product - target->y) / state->timer;
+            (current_coord + step_offset - target->y) / state->timer;
     }
     {
-        s32 product;
+        s32 step_offset;
 
-        a = state->cur_z;
-        d = state->z - a;
-        if (d < 0) {
-            d += 7;
+        current_coord = state->cur_z;
+        distance = state->z - current_coord;
+        if (distance < 0) {
+            distance += 7;
         }
-        product = (d >> 3) * (state->step + 1);
+        step_offset = (distance >> 3) * (state->step + 1);
         target->z = (u16)target->z +
-            (a + product - target->z) / state->timer;
+            (current_coord + step_offset - target->z) / state->timer;
     }
 
-    value = (u16)state->cur_x + ((target->x - state->cur_x) >> 2);
-    state->cur_x = value;
-    target->cur_x = value;
-    value = (u16)state->cur_y + ((target->y - state->cur_y) >> 2);
-    state->cur_y = value;
-    target->cur_y = value;
-    value = (u16)state->cur_z + ((target->z - state->cur_z) >> 2);
-    state->cur_z = value;
-    target->cur_z = value;
+    smoothed_coord = (u16)state->cur_x + ((target->x - state->cur_x) >> 2);
+    state->cur_x = smoothed_coord;
+    target->cur_x = smoothed_coord;
+    smoothed_coord = (u16)state->cur_y + ((target->y - state->cur_y) >> 2);
+    state->cur_y = smoothed_coord;
+    target->cur_y = smoothed_coord;
+    smoothed_coord = (u16)state->cur_z + ((target->z - state->cur_z) >> 2);
+    state->cur_z = smoothed_coord;
+    target->cur_z = smoothed_coord;
 
-    next = state->timer - 1;
-    state->timer = next;
-    if ((s16)next > 0) {
+    phase_value = state->timer - 1;
+    state->timer = phase_value;
+    if ((s16)phase_value > 0) {
         return;
     }
     func_800B8D64(state->x, state->y, state->z);
-    next = state->state;
-    ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    phase_value = state->state;
+    ASM_KEEP(phase_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     {
         register u16 reset_timer ASM_REG("$3") = 5;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
@@ -178,9 +179,9 @@ update:
 
 fade:
     color[0xC] -= color[0xC] / state->timer;
-    next = state->timer - 1;
-    state->timer = next;
-    if ((s16)next > 0) {
+    phase_value = state->timer - 1;
+    state->timer = phase_value;
+    if ((s16)phase_value > 0) {
         return;
     }
     if (state->step == 0) {
@@ -194,22 +195,22 @@ fade:
 
 phase:
     {
-        s32 index;
+        s32 direction_offset;
         u8 *table;
 
         table = (u8 *)(table_page + 0x2E80);
-        func_8003DE58(*(void **)(table + 8), table, &base, 0);
-        next = state->phase - 1;
-        state->phase = next;
-        if ((s16)next > 0) {
+        func_8003DE58(*(void **)(table + 8), table, &position, 0);
+        phase_value = state->phase - 1;
+        state->phase = phase_value;
+        if ((s16)phase_value > 0) {
             return;
         }
-        index = ((*(u16 *)(D_800E3D7C + 0x2A) >> 8) & 0xE);
+        direction_offset = ((*(u16 *)(D_800E3D7C + 0x2A) >> 8) & 0xE);
         func_80025334(
             (s16)(((table[0x24] +
-                    (*(s16 *)((u8 *)&D_8006CCD8 + index) * 4)) << 6) + 0x20),
+                    (*(s16 *)((u8 *)&D_8006CCD8 + direction_offset) * 4)) << 6) + 0x20),
             (s16)(((table[0x25] +
-                    (*(s16 *)((u8 *)&D_8006CCE8 + index) * 4)) << 6) + 0x20),
+                    (*(s16 *)((u8 *)&D_8006CCE8 + direction_offset) * 4)) << 6) + 0x20),
             *(s16 *)(D_800E3D7C + 0x88));
 finish:
         FIELD(state, u16, -2) |= 0x8000;

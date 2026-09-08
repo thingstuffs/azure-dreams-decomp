@@ -6,44 +6,41 @@
 
 extern s32 D_800814A0;
 
-void func_800CC744(void *arg0, void *arg1, void *arg2) {
-    s16 temp_a1;
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s32 delta;
-    u8 temp_v0;
-    u8 temp_v1;
-    u8 temp_v1_2;
+/* Fade the color toward 0xE0, then to black, and flag completion. */
+void func_800CC744(void *fade, void *unused, void *color) {
+    s16 steps;
+    s16 brighten_left;
+    s16 darken_left;
+    s32 blue_step;
+    u8 blue;
+    u8 red;
+    u8 green;
 
-    if (S16(arg0, 0) == 0) {
-        temp_v1 = U8(arg2, 0xC);
-        U8(arg2, 0xC) = temp_v1 + ((0xE0 - temp_v1) / S16(arg0, 2));
-        temp_v1_2 = U8(arg2, 0xD);
-        temp_a1 = S16(arg0, 2);
-        temp_v0 = U8(arg2, 0xE);
-        U8(arg2, 0xD) = temp_v1_2 + ((0xE0 - temp_v1_2) / temp_a1);
-        delta = (0xE0 - temp_v0) / S16(arg0, 2);
-        U8(arg2, 0xE) = temp_v0 + delta;
-        temp_v0_2 = U16(arg0, 2) - 1;
-        S16(arg0, 2) = temp_v0_2;
-        if ((temp_v0_2 << 16) <= 0) {
-            S16(arg0, 2) = 0x10;
-            U16(arg0, 0)++;
+    if (S16(fade, 0) == 0) {
+        red = U8(color, 0xC);
+        U8(color, 0xC) = red + ((0xE0 - red) / S16(fade, 2));
+        green = U8(color, 0xD);
+        steps = S16(fade, 2);
+        blue = U8(color, 0xE);
+        U8(color, 0xD) = green + ((0xE0 - green) / steps);
+        blue_step = (0xE0 - blue) / S16(fade, 2);
+        U8(color, 0xE) = blue + blue_step;
+        brighten_left = U16(fade, 2) - 1;
+        S16(fade, 2) = brighten_left;
+        if ((brighten_left << 16) <= 0) {
+            S16(fade, 2) = 0x10;
+            U16(fade, 0)++;
             return;
         }
     } else {
-        U8(arg2, 0xC) = U8(arg2, 0xC) - (U8(arg2, 0xC) / S16(arg0, 2));
-        U8(arg2, 0xD) = U8(arg2, 0xD) - (U8(arg2, 0xD) / S16(arg0, 2));
-        U8(arg2, 0xE) = U8(arg2, 0xE) - (U8(arg2, 0xE) / S16(arg0, 2));
-        temp_v0_3 = U16(arg0, 2) - 1;
-        S16(arg0, 2) = temp_v0_3;
-        if ((temp_v0_3 << 16) <= 0) {
-            U16(arg0, -2) |= 0x8000;
+        U8(color, 0xC) = U8(color, 0xC) - (U8(color, 0xC) / S16(fade, 2));
+        U8(color, 0xD) = U8(color, 0xD) - (U8(color, 0xD) / S16(fade, 2));
+        U8(color, 0xE) = U8(color, 0xE) - (U8(color, 0xE) / S16(fade, 2));
+        darken_left = U16(fade, 2) - 1;
+        S16(fade, 2) = darken_left;
+        if ((darken_left << 16) <= 0) {
+            U16(fade, -2) |= 0x8000;
             D_800814A0 |= 0x8000;
         }
     }
 }
-
-/* MECHANISM: The retail function is frameless and save-free; natural locals preserve its byte/halfword widths.
-   The cdk-G0 lineage supplies the retail tail-jump/store schedule.
-   Direct scalar D_800814A0 access removes an address addiu and restores the load-delay nop. */

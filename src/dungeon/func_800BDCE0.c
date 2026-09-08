@@ -29,64 +29,65 @@ extern u8 D_800E176F[];
 extern u8 D_800E1788[];
 extern u8 *D_800E3D7C;
 
-s32 func_800C3440(void *arg0, s32 arg1, s16 arg2, s32 arg3)
+/* Applies a curse-removal item effect and reports changes to equipped items. */
+s32 func_800C3440(void *target, s32 item, s16 use_mode, s32 use_context)
 {
-    u8 *obj;
-    s32 value;
-    s32 active;
+    u8 *equipment;
+    s32 message_buf;
+    s32 uncursed;
 
-    if (arg2 == 13) {
-        return func_80098864(arg1, arg3);
+    if (use_mode == 13) {
+        return func_80098864(item, use_context);
     }
 
-    if (arg0 == D_800E3D7C) {
-        *(s32 *)((u8 *)arg0 + 0x110) = arg1;
-        func_8008D344(arg0, D_80083780, D_80082E80, arg0);
+    if (target == D_800E3D7C) {
+        *(s32 *)((u8 *)target + 0x110) = item;
+        func_8008D344(target, D_80083780, D_80082E80, target);
         return 0;
     }
 
-    if ((u32)arg0 <= 0x9FFFFFFF) {
-        func_800A6480(arg0, arg1);
-        if (func_800AD6FC(arg0,
-                          D_800DDE84[((u8 *)arg0)[0x13]] & 3,
-                          arg1) == 0) {
-            func_800A5F38(arg0, arg1);
+    if ((u32)target <= 0x9FFFFFFF) {
+        func_800A6480(target, item);
+        if (func_800AD6FC(target,
+                         D_800DDE84[((u8 *)target)[0x13]] & 3,
+                         item) == 0) {
+            func_800A5F38(target, item);
             return 1;
         }
     } else {
         func_800C4D78(0xC0C0C0, 0);
         func_800A56E0(0x702);
-        func_80042B68(arg0, 8);
+        func_80042B68(target, 8);
 
-        active = 0;
-        obj = *(u8 **)(D_800E3D7C + 0x4C);
-        if (obj[1] != 0 && (obj[3] & 0x40) != 0) {
-            obj[3] &= 0xBF;
-            value = func_800990FC();
+        uncursed = 0;
+        equipment = *(u8 **)(D_800E3D7C + 0x4C);
+        if (equipment[1] != 0 && (equipment[3] & 0x40) != 0) {
+            equipment[3] &= 0xBF;
+            message_buf = func_800990FC();
             func_80099290(func_80099194(D_800E1756,
-                                        func_80099368(obj, value)));
-            func_800A5720(value);
-            active = 1;
+                                      func_80099368(equipment, message_buf)));
+            func_800A5720(message_buf);
+            uncursed = 1;
         }
 
-        obj = *(u8 **)(D_800E3D7C + 0x50);
-        if (obj[1] != 0 && (obj[3] & 0x40) != 0) {
-            obj[3] &= 0xBF;
-            value = func_800990FC();
+        equipment = *(u8 **)(D_800E3D7C + 0x50);
+        if (equipment[1] != 0 && (equipment[3] & 0x40) != 0) {
+            equipment[3] &= 0xBF;
+            message_buf = func_800990FC();
             func_80099290(func_80099194(D_800E176F,
-                                        func_80099368(obj, value)));
-            func_800A5720(value);
-            active = 1;
+                                      func_80099368(equipment, message_buf)));
+            func_800A5720(message_buf);
+            uncursed = 1;
         }
 
-        if (active == 0) {
-            value = func_800990FC();
-            func_80099290(func_80099194(D_800E1788, value));
-            func_800A5720(value);
+        if (uncursed == 0) {
+            message_buf = func_800990FC();
+            func_80099290(func_80099194(D_800E1788, message_buf));
+            func_800A5720(message_buf);
         }
     }
 
     D_80083460.fieldA--;
-    func_80098B38(arg1);
+    func_80098B38(item);
     return 1;
 }

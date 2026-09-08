@@ -13,13 +13,13 @@ M2C_UNK func_800478B8();                     /* extern */
 M2C_UNK func_8008F134();                      /* extern */
 s32 func_80096FF4();                         /* extern */
 M2C_UNK func_800970AC();                 /* extern */
-s32 func_8009D20C();                                /* extern */
+s32 func_8009D20C(void *, M2C_UNK);                                /* extern */
 extern s32 D_800814A0[];
 
 void func_8009DD40(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
     s8 *temp_v0;
 
-    if (func_8009D20C() != 0) {
+    if (func_8009D20C(arg0, arg1) != 0) {
         func_8008F134(arg0);
         temp_v0 = ((Rec_D_80082D58 *)arg0)->unk_98.as_ps8;
         if (temp_v0 != NULL) {

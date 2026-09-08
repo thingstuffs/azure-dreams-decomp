@@ -7,23 +7,24 @@ extern void func_80025B9C(void);
 extern void func_80024F7C(void);
 extern void func_80025B60(void);
 
-void func_80025BD4(void *arg0) {
-    void *base;
-    s32 idx;
+/* Processes the current slot and selects callbacks when unavailable or all five are done. */
+void func_80025BD4(void *state_arg) {
+    void *state;
+    s32 slot;
 
-    base = arg0;
-    idx = *(s32 *)((u8 *)base + 0x24);
-    if (idx < 5) {
-        if (func_80021D54(idx) != 0) {
-            *(s32 *)((u8 *)base + 4 + idx * 4) = func_80023FF0((u8 *)base - 0x20, idx);
-            *(s32 *)((u8 *)base + 0x24) = *(s32 *)((u8 *)base + 0x24) + 1;
+    state = state_arg;
+    slot = *(s32 *)((u8 *)state + 0x24);
+    if (slot < 5) {
+        if (func_80021D54(slot) != 0) {
+            *(s32 *)((u8 *)state + 4 + slot * 4) = func_80023FF0((u8 *)state - 0x20, slot);
+            *(s32 *)((u8 *)state + 0x24) = *(s32 *)((u8 *)state + 0x24) + 1;
         } else {
-            *(void (**)(void))((u8 *)base + 0x34) = func_80025B9C;
-            func_80023004((u8 *)base - 0x20);
-            *(void (**)(void))((u8 *)base - 0x10) = func_80024F7C;
+            *(void (**)(void))((u8 *)state + 0x34) = func_80025B9C;
+            func_80023004((u8 *)state - 0x20);
+            *(void (**)(void))((u8 *)state - 0x10) = func_80024F7C;
         }
     }
-    if (idx == 5) {
-        *(void (**)(void))((u8 *)base - 0x10) = func_80025B60;
+    if (slot == 5) {
+        *(void (**)(void))((u8 *)state - 0x10) = func_80025B60;
     }
 }

@@ -103,6 +103,7 @@ extern void func_800F80A4(void) __attribute__((noreturn));
 extern void func_800F80A8(void) __attribute__((noreturn));
 extern void func_800F80A8_returning(void) __asm__("func_800F80A8");
 
+/* Move the entity to a passable tile near the room and update tile occupancy. */
 s32 func_807B040C(void) {
     DirectionOffsets offsets = *(DirectionOffsets *)D_800F6050;
     u16 collision_flags;
@@ -117,13 +118,13 @@ s32 func_807B040C(void) {
     s32 dy;
     s32 distance_x;
     s32 target_y;
-    s32 entity_y;
-    s32 scaled_distance;
-    s16 height;
+    s32 delta_y;
+    s32 move_ticks;
+    s16 ground_height;
     s32 tile_flags;
-    u8 call_x;
-    u8 call_y;
-    s16 *delta;
+    u8 tile_x;
+    u8 tile_y;
+    s16 *direction_offset;
     u8 *room;
     u8 *collision;
 
@@ -132,7 +133,7 @@ s32 func_807B040C(void) {
     }
     if (state < 2) {
         if (state == 0) {
-            goto state_zero;
+            goto begin_move;
         }
         {
             s32 result;
@@ -144,7 +145,7 @@ s32 func_807B040C(void) {
         }
     }
     if (state == 2) {
-        goto state_two;
+        goto finish_move;
     }
     {
         s32 result;
@@ -155,87 +156,87 @@ s32 func_807B040C(void) {
         return result;
     }
 
-state_zero:
+begin_move:
     {
-    u8 *state_page;
-    u8 *state_room;
-    s32 state_target;
-    s32 state_dy;
+        u8 *room_page;
+        u8 *nearby_room;
+        s32 target_coord;
+        s32 room_distance_y;
 
 #ifdef NON_MATCHING
-    state_page = D_80082E80 - 0x2E80;
+        room_page = D_80082E80 - 0x2E80;
 #else
-    state_page = (u8 *)0x80080000;
+        room_page = (u8 *)0x80080000;
 #endif
-    ASM_KEEP_NV(state_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    state_room = state_page + 0x2E80;
-    dx = ((S_807B040C_2 *)state_room)->unk_24;
-    state_target = ((S_807B040C_3 *)target)->unk_24;
-    dx -= state_target;
+        ASM_KEEP_NV(room_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        nearby_room = room_page + 0x2E80;
+        dx = ((S_807B040C_2 *)nearby_room)->unk_24;
+        target_coord = ((S_807B040C_3 *)target)->unk_24;
+        dx -= target_coord;
         if (dx < 0) {
             dx = -dx;
         }
         if (dx < 3) {
-            state_dy = ((S_807B040C_2 *)state_room)->unk_25;
-            state_target = ((S_807B040C_3 *)target)->unk_25;
-            state_dy -= state_target;
-            if (state_dy < 0) {
-                state_dy = -state_dy;
+            room_distance_y = ((S_807B040C_2 *)nearby_room)->unk_25;
+            target_coord = ((S_807B040C_3 *)target)->unk_25;
+            room_distance_y -= target_coord;
+            if (room_distance_y < 0) {
+                room_distance_y = -room_distance_y;
             }
-            if (state_dy < 3) {
+            if (room_distance_y < 3) {
                 register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                register s32 store_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                register s32 next_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 result = 1;
                 ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                store_state = 0x63;
-                ((S_807B040C_1 *)entity)->unk_9B = store_state;
-                store_state = 2;
-                ((S_807B040C_1 *)entity)->unk_B8 = store_state;
+                next_state = 0x63;
+                ((S_807B040C_1 *)entity)->unk_9B = next_state;
+                next_state = 2;
+                ((S_807B040C_1 *)entity)->unk_B8 = next_state;
                 func_800F80A8();
                 return result;
             }
         }
     }
 
-        ((S_807B040C_1 *)entity)->unk_9B++;
-        direction = func_800F6D28(motion);
-        direction += 4;
-        if (direction >= 8) {
-            direction -= 8;
-        }
-        room = D_80082E80;
-        collision = D_80083780;
+    ((S_807B040C_1 *)entity)->unk_9B++;
+    direction = func_800F6D28(motion);
+    direction += 4;
+    if (direction >= 8) {
+        direction -= 8;
+    }
+    room = D_80082E80;
+    collision = D_80083780;
 
 find_direction:
-        func_8009A350(((S_807B040C_4 *)room)->unk_24, ((S_807B040C_4 *)room)->unk_25,
-                      (s16)direction, &collision_flags);
-        if (collision_flags & 0xB400) {
-            goto next_direction;
-        }
+    func_8009A350(((S_807B040C_4 *)room)->unk_24, ((S_807B040C_4 *)room)->unk_25,
+                  (s16)direction, &collision_flags);
+    if (collision_flags & 0xB400) {
+        goto next_direction;
+    }
 
-        delta = (s16 *)&offsets + direction * 2;
-        ((S_807B040C_1 *)entity)->unk_AA.s16 = ((S_807B040C_4 *)room)->unk_24 + (u16)delta[0];
-        ((S_807B040C_1 *)entity)->unk_AE.s16 = ((S_807B040C_4 *)room)->unk_25 + (u16)delta[1];
-        if ((s16)func_800A45D8(
-                ((((S_807B040C_1 *)entity)->unk_AA.s16 << 6) + 0x20) & 0xFFE0,
-                ((((S_807B040C_1 *)entity)->unk_AE.s16 << 6) + 0x20) & 0xFFE0,
-                ((S_807B040C_5 *)collision)->unk_0A) != 0) {
+    direction_offset = (s16 *)&offsets + direction * 2;
+    ((S_807B040C_1 *)entity)->unk_AA.s16 = ((S_807B040C_4 *)room)->unk_24 + (u16)direction_offset[0];
+    ((S_807B040C_1 *)entity)->unk_AE.s16 = ((S_807B040C_4 *)room)->unk_25 + (u16)direction_offset[1];
+    if ((s16)func_800A45D8(
+            ((((S_807B040C_1 *)entity)->unk_AA.s16 << 6) + 0x20) & 0xFFE0,
+            ((((S_807B040C_1 *)entity)->unk_AE.s16 << 6) + 0x20) & 0xFFE0,
+            ((S_807B040C_5 *)collision)->unk_0A) != 0) {
 next_direction:
-            direction++;
-            if (direction < 8) {
-                goto find_direction;
-            }
-            direction = 0;
-            ASM_TAILSLOT_PIN(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800F7DA8();
-            return direction;
+        direction++;
+        if (direction < 8) {
+            goto find_direction;
         }
+        direction = 0;
+        ASM_TAILSLOT_PIN(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        func_800F7DA8();
+        return direction;
+    }
 
-        {
+    {
         s32 target_x;
-        register s32 collision_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        s32 distance_compare;
+        register s32 distance_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 y_is_farther;
         s32 entity_flags;
 
         distance_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
@@ -245,50 +246,50 @@ next_direction:
         target_y = ((S_807B040C_3 *)target)->unk_25;
         ASM_KEEP_NV(target_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         distance_x -= target_x;
-        entity_y = ((S_807B040C_1 *)entity)->unk_AE.s16;
+        delta_y = ((S_807B040C_1 *)entity)->unk_AE.s16;
         if (distance_x < 0) {
             distance_x = -distance_x;
         }
-        entity_y -= target_y;
-        collision_y = entity_y;
-        if (entity_y < 0) {
-            collision_y = -collision_y;
+        delta_y -= target_y;
+        distance_y = delta_y;
+        if (delta_y < 0) {
+            distance_y = -distance_y;
         }
-        distance_compare = distance_x < collision_y;
-        if (distance_compare) {
-            scaled_distance = collision_y * 4;
+        y_is_farther = distance_x < distance_y;
+        if (y_is_farther) {
+            move_ticks = distance_y * 4;
         } else {
-            scaled_distance = distance_x * 4;
+            move_ticks = distance_x * 4;
         }
-        ((S_807B040C_1 *)entity)->unk_96.s = scaled_distance;
+        ((S_807B040C_1 *)entity)->unk_96.s = move_ticks;
 
         entity_flags = ((S_807B040C_6 *)entity_aux)->unk_1C;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        call_x = ((S_807B040C_3 *)target)->unk_24;
-        call_y = ((S_807B040C_3 *)target)->unk_25;
+        tile_x = ((S_807B040C_3 *)target)->unk_24;
+        tile_y = ((S_807B040C_3 *)target)->unk_25;
         tile_flags = 0x3000;
         if (entity_flags & 0x2000) {
             tile_flags = 0x300;
         }
-        func_8009A3D0(call_x, call_y, tile_flags);
-        }
+        func_8009A3D0(tile_x, tile_y, tile_flags);
+    }
     goto move_entity;
 
 move_entity:
     {
-        register s32 move_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 move_raw_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 move_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        s32 move_x_arg;
+        register s32 world_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 tile_origin_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 world_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 aligned_x;
 
-        move_x = ((S_807B040C_1 *)entity)->unk_AA.s16 << 6;
-        ASM_KEEP_NV(move_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        move_x += 0x20;
-        move_raw_y = ((S_807B040C_1 *)entity)->unk_AE.s16 << 6;
-        ASM_KEEP_NV(move_raw_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        move_y = move_raw_y + 0x20;
-        move_x_arg = move_x & 0xFFE0;
-        height = func_800BCB04(move_x_arg, move_y & 0xFFE0, -0x400);
+        world_x = ((S_807B040C_1 *)entity)->unk_AA.s16 << 6;
+        ASM_KEEP_NV(world_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        world_x += 0x20;
+        tile_origin_y = ((S_807B040C_1 *)entity)->unk_AE.s16 << 6;
+        ASM_KEEP_NV(tile_origin_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        world_y = tile_origin_y + 0x20;
+        aligned_x = world_x & 0xFFE0;
+        ground_height = func_800BCB04(aligned_x, world_y & 0xFFE0, -0x400);
     }
     motion[3] = ((((((S_807B040C_1 *)entity)->unk_AA.s16 << 6) + 0x20) << 16) -
                  motion[0]) /
@@ -296,7 +297,7 @@ move_entity:
     motion[4] = ((((((S_807B040C_1 *)entity)->unk_AE.s16 << 6) + 0x20) << 16) -
                  motion[1]) /
                 ((S_807B040C_1 *)entity)->unk_96.s;
-    motion[5] = (((s16)height - ((S_807B040C_6 *)entity_aux)->unk_88) << 16) /
+    motion[5] = (((s16)ground_height - ((S_807B040C_6 *)entity_aux)->unk_88) << 16) /
                 ((S_807B040C_1 *)entity)->unk_96.s;
     ((S_807B040C_6 *)entity_aux)->unk_88 =
         (u16)((S_807B040C_6 *)entity_aux)->unk_88 + ((S_807B040C_7 *)motion)->unk_16;
@@ -345,7 +346,7 @@ set_direction:
     func_800F80A4();
     return 0;
 
-state_two:
+finish_move:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_807B040C_3 *)target)->unk_24 = ((S_807B040C_1 *)entity)->unk_AA.u8;
     ((S_807B040C_3 *)target)->unk_25 = ((S_807B040C_1 *)entity)->unk_AE.u8;
@@ -362,14 +363,14 @@ state_two:
 
         entity_flags = ((S_807B040C_1 *)entity)->unk_1C;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        call_x = ((S_807B040C_3 *)target)->unk_24;
-        call_y = ((S_807B040C_3 *)target)->unk_25;
+        tile_x = ((S_807B040C_3 *)target)->unk_24;
+        tile_y = ((S_807B040C_3 *)target)->unk_25;
         tile_flags = 0x3000;
         if (entity_flags & 0x2000) {
             tile_flags = 0x300;
         }
     }
-    func_8009A21C(call_x, call_y, tile_flags);
+    func_8009A21C(tile_x, tile_y, tile_flags);
     ((S_807B040C_1 *)entity)->unk_B8 = state;
     {
         register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

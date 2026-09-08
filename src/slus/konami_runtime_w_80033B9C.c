@@ -5,6 +5,7 @@
 
 M2C_UNK func_80033AA8();                         /* extern */
 
-void func_80033B9C(s16 arg0) {
-    func_80033AA8(arg0);
+/* Forwards a signed 16-bit value to func_80033AA8. */
+void func_80033B9C(s16 value) {
+    func_80033AA8(value);
 }

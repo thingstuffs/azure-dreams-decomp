@@ -29,28 +29,29 @@ typedef struct S_800AE1AC_1 {
     M2C_UNK * unk_10;
 } S_800AE1AC_1;   /* var_s1 in func_800AE1AC */
 
-void *func_800AE1AC(M2C_UNK arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 temp_v0;
-    S_800AE1AC_0 *temp_s0;
-    void *var_s1;
+/* Allocate and initialize an object with two resources, cleaning up if either fails. */
+void *func_800AE1AC(M2C_UNK unused, s32 primary_param, s32 secondary_param, s32 shared_param) {
+    s32 second_resource;
+    S_800AE1AC_0 *state;
+    void *object;
 
-    var_s1 = func_8003FC64(0);
-    if (var_s1 != NULL) {
-        temp_s0 = var_s1 + 0x20;
-        temp_s0->unk_20 = arg3;
-        temp_s0->unk_18 = arg1;
-        temp_s0->unk_1C = arg2;
-        temp_s0->unk_14 = 6;
-        func_800ADFE8(temp_s0);
-        ((S_800AE1AC_1 *)var_s1)->unk_10 = &D_800AE090;
-        temp_s0->unk_28 = func_800B14B0(var_s1, temp_s0->unk_04, temp_s0->unk_08, temp_s0->unk_0C, temp_s0->unk_10, temp_s0->unk_20, arg1);
-        temp_v0 = func_800B1BEC(var_s1, 0x48, -0xC);
-        temp_s0->unk_2C = temp_v0;
-        if ((temp_s0->unk_28 == 0) || (temp_v0 == 0)) {
-            func_800AE2A4(temp_s0);
-            var_s1 = NULL;
+    object = func_8003FC64(0);
+    if (object != NULL) {
+        state = object + 0x20;
+        state->unk_20 = shared_param;
+        state->unk_18 = primary_param;
+        state->unk_1C = secondary_param;
+        state->unk_14 = 6;
+        func_800ADFE8(state);
+        ((S_800AE1AC_1 *)object)->unk_10 = &D_800AE090;
+        state->unk_28 = func_800B14B0(object, state->unk_04, state->unk_08, state->unk_0C, state->unk_10, state->unk_20, primary_param);
+        second_resource = func_800B1BEC(object, 0x48, -0xC);
+        state->unk_2C = second_resource;
+        if ((state->unk_28 == 0) || (second_resource == 0)) {
+            func_800AE2A4(state);
+            object = NULL;
         }
-        func_800AE0F4(temp_s0);
+        func_800AE0F4(state);
     }
-    return var_s1;
+    return object;
 }

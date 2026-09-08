@@ -2,20 +2,21 @@
 
 extern void func_80016D20(s32);
 
-void func_800167B4(s16 *arg0, s32 count)
+// Pass each signed 16-bit value in the input pairs to func_80016D20 in order.
+void func_800167B4(s16 *value_pairs, s32 pair_count)
 {
     volatile s32 frame_pad[2];
-    s32 i;
-    s16 *pairs;
+    s32 pair_index;
+    s16 *current_pair;
 
-    i = 0;
-    if (count > 0) {
-        pairs = arg0;
+    pair_index = 0;
+    if (pair_count > 0) {
+        current_pair = value_pairs;
         do {
-            func_80016D20(pairs[0]);
-            i++;
-            func_80016D20(pairs[1]);
-            pairs += 2;
-        } while (i < count);
+            func_80016D20(current_pair[0]);
+            pair_index++;
+            func_80016D20(current_pair[1]);
+            current_pair += 2;
+        } while (pair_index < pair_count);
     }
 }

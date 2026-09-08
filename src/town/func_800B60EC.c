@@ -12,8 +12,9 @@ typedef struct S_800B384C_0 {
 
 extern M2C_UNK D_800B34FC;
 
-void func_800B384C(void *arg0, s32 arg1) {
-    ((S_800B384C_0 *)((u8 *)arg0 - 0x10))->unk_28 = arg1;
-    ((S_800B384C_0 *)((u8 *)arg0 - 0x10))->unk_10 = (s32) (arg1 + 0x20);
-    ((S_800B384C_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_800B34FC;
+/* Set the record's base and offset values and its data pointer. */
+void func_800B384C(void *record_field, s32 base_value) {
+    ((S_800B384C_0 *)((u8 *)record_field - 0x10))->unk_28 = base_value;
+    ((S_800B384C_0 *)((u8 *)record_field - 0x10))->unk_10 = (s32) (base_value + 0x20);
+    ((S_800B384C_0 *)((u8 *)record_field - 0x10))->unk_00 = &D_800B34FC;
 }

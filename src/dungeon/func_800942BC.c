@@ -48,57 +48,53 @@ extern s32 func_800644B8(s32);
 extern s32 func_80065420(void *, void *, void *, void *);
 extern void func_800C96E8(void *, void *);
 
-s32 func_80099A1C(void *arg0, S_80099A1C_1 *arg1, S_80099A1C_2 *arg2)
+/* Build scratch parameters and apply them to each object in a linked chain. */
+s32 func_80099A1C(void *object, S_80099A1C_1 *position, S_80099A1C_2 *offset_data)
 {
     u8 *scratch;
-    void *next;
-    s32 value;
+    void *next_node;
+    s32 transform_result;
 
     scratch = (u8 *)0x1F800000;
     ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
 loop:
-    ((S_80099A1C_0 *)scratch)->unk_00 = arg1->unk_02;
-    ((S_80099A1C_0 *)scratch)->unk_02 = arg1->unk_06;
-    ((S_80099A1C_0 *)scratch)->unk_04 = arg1->unk_0A;
+    ((S_80099A1C_0 *)scratch)->unk_00 = position->unk_02;
+    ((S_80099A1C_0 *)scratch)->unk_02 = position->unk_06;
+    ((S_80099A1C_0 *)scratch)->unk_04 = position->unk_0A;
 
-    value = func_80065420(
+    transform_result = func_80065420(
         scratch,
         scratch + 0xB8,
         scratch + 0x90,
         scratch + 0x94);
-    ((S_80099A1C_0 *)scratch)->unk_C0 = value - arg2->unk_06;
+    ((S_80099A1C_0 *)scratch)->unk_C0 = transform_result - offset_data->unk_06;
 
     {
-        s32 delta;
-        u16 accum;
+        s32 half_offset;
+        u16 adjusted_coord;
 
-        delta = ((S_80099A1C_3 *)arg0)->unk_00;
-        accum = ((S_80099A1C_0 *)scratch)->unk_B8;
-        delta = (delta << 16) >> 17;
-        ASM_KEEP(delta);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        accum -= delta;
-        ((S_80099A1C_0 *)scratch)->unk_B8 = accum;
+        half_offset = ((S_80099A1C_3 *)object)->unk_00;
+        adjusted_coord = ((S_80099A1C_0 *)scratch)->unk_B8;
+        half_offset = (half_offset << 16) >> 17;
+        ASM_KEEP(half_offset);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        adjusted_coord -= half_offset;
+        ((S_80099A1C_0 *)scratch)->unk_B8 = adjusted_coord;
     }
     ((S_80099A1C_0 *)scratch)->unk_B8 +=
         (func_800644B8(
-            (((S_80099A1C_3 *)arg0)->unk_0C << 8) +
-            (((S_80099A1C_3 *)arg0)->unk_08 << 7)) *
-         (((S_80099A1C_3 *)arg0)->unk_08 >> 2)) >> 9;
+            (((S_80099A1C_3 *)object)->unk_0C << 8) +
+            (((S_80099A1C_3 *)object)->unk_08 << 7)) *
+         (((S_80099A1C_3 *)object)->unk_08 >> 2)) >> 9;
 
-    func_800C96E8(arg0, scratch);
+    func_800C96E8(object, scratch);
 
-    next = ((S_80099A1C_3_pre *)arg0)[-1].unk_00;
-    arg0 = (u8 *)next + 0x20;
-    if (next != 0) {
-        arg1 = ((S_80099A1C_4 *)next)->unk_08;
-        arg2 = ((S_80099A1C_4 *)next)->unk_0C;
+    next_node = ((S_80099A1C_3_pre *)object)[-1].unk_00;
+    object = (u8 *)next_node + 0x20;
+    if (next_node != 0) {
+        position = ((S_80099A1C_4 *)next_node)->unk_08;
+        offset_data = ((S_80099A1C_4 *)next_node)->unk_0C;
         goto loop;
     }
     return 0;
 }
-
-/* MECHANISM: Recover the true-space back-edge as a local loop, keeping the current
-   object/state in s1/s2 and the 0x1F800000 scratch base in pinned s0.
-   Use the real four-argument scratch offsets and a word store at +0xC0; a scoped
-   v0 delta pin closes the final v0/v1 allocation swap in the halfword update. */

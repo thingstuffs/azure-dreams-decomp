@@ -14,54 +14,55 @@ extern s32 D_8017085C;
 extern void *D_80175D50;
 extern void *D_80175D68;
 
+/* Creates a linked object and initializes its position and rendering state. */
 void func_80170A5C(void)
 {
-    u16 temp_a0_u;
-    u16 temp_a1;
-    u16 temp_v0_u;
-    void *temp_s1;
-    register void *temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    void *temp_s3;
-    void *temp_v0;
-    void *temp_v1;
-    void *temp_v1_2;
-    void *temp_v1_3;
+    u16 object_z;
+    u16 source_z;
+    u16 object_y;
+    void *source_pos;
+    register void *object_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *source_data;
+    void *object;
+    void *render_flags;
+    void *object_pos;
+    void *render_state;
 
-    temp_s1 = FIELD(D_80175D50, void **, 8);
-    temp_s3 = D_80175D50 + 0x20;
-    temp_v0 = func_8003FD64(0x12, D_80175D50);
-    if (temp_v0 != NULL) {
-        FIELD(temp_v0, void **, 0x10) = &D_8017085C;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v1 = FIELD(temp_v0, void **, 0xC);
-        temp_s2 = temp_v0 + 0x20;
-        FIELD(temp_v1, u16 *, 0x14) =
-            (u16)(FIELD(temp_v1, u16 *, 0x14) & 0xFFF3);
-        FIELD(temp_s2, void **, 0x24) = temp_s3;
-        temp_v1_2 = FIELD(temp_v0, void **, 8);
-        FIELD(temp_v1_2, u16 *, 2) = FIELD(temp_s1, u16 *, 2);
-        FIELD(temp_v1_2, u16 *, 6) = FIELD(temp_s1, u16 *, 6);
-        FIELD(temp_v1_2, volatile u16 *, 0xA) =
-            FIELD(temp_s1, volatile u16 *, 0xA);
-        temp_a1 = FIELD(temp_s1, volatile u16 *, 0xA);
-        temp_v0_u = FIELD(temp_v1_2, volatile u16 *, 6);
-        temp_a0_u = FIELD(temp_v1_2, volatile u16 *, 0xA);
-        FIELD(temp_v1_2, u16 *, 6) = (u16)(temp_v0_u - 0x140);
-        FIELD(temp_v1_2, u16 *, 0x16) = temp_a1;
-        FIELD(temp_v1_2, u16 *, 0xA) = (u16)(temp_a0_u - 0x20);
-        temp_v1_3 = FIELD(temp_v0, void **, 0xC);
-        FIELD(temp_v1_3, s16 *, 0x1E) = 0x1000;
-        FIELD(temp_v1_3, s16 *, 0x1C) = 0x1000;
-        FIELD(temp_v1_3, s16 *, 6) = 6;
-        FIELD(temp_s2, s8 *, 0x58) =
-            (FIELD(temp_s1, s16 *, 2) - 0x20) / 0x40;
-        FIELD(temp_s2, s8 *, 0x59) =
-            (FIELD(temp_s1, s16 *, 6) - 0x20) / 0x40;
-        FIELD(temp_v1_3, u8 *, 0xE) = 0x80;
-        FIELD(temp_v1_3, u8 *, 0xD) = 0x80;
-        FIELD(temp_v1_3, u8 *, 0xC) = 0x80;
-        FIELD(temp_v1_3, void **, 8) = &D_8006E240;
-        D_80175D68 = temp_v0;
+    source_pos = FIELD(D_80175D50, void **, 8);
+    source_data = D_80175D50 + 0x20;
+    object = func_8003FD64(0x12, D_80175D50);
+    if (object != NULL) {
+        FIELD(object, void **, 0x10) = &D_8017085C;
+        func_8004491C(object, &D_80045340);
+        render_flags = FIELD(object, void **, 0xC);
+        object_data = object + 0x20;
+        FIELD(render_flags, u16 *, 0x14) =
+            (u16)(FIELD(render_flags, u16 *, 0x14) & 0xFFF3);
+        FIELD(object_data, void **, 0x24) = source_data;
+        object_pos = FIELD(object, void **, 8);
+        FIELD(object_pos, u16 *, 2) = FIELD(source_pos, u16 *, 2);
+        FIELD(object_pos, u16 *, 6) = FIELD(source_pos, u16 *, 6);
+        FIELD(object_pos, volatile u16 *, 0xA) =
+            FIELD(source_pos, volatile u16 *, 0xA);
+        source_z = FIELD(source_pos, volatile u16 *, 0xA);
+        object_y = FIELD(object_pos, volatile u16 *, 6);
+        object_z = FIELD(object_pos, volatile u16 *, 0xA);
+        FIELD(object_pos, u16 *, 6) = (u16)(object_y - 0x140);
+        FIELD(object_pos, u16 *, 0x16) = source_z;
+        FIELD(object_pos, u16 *, 0xA) = (u16)(object_z - 0x20);
+        render_state = FIELD(object, void **, 0xC);
+        FIELD(render_state, s16 *, 0x1E) = 0x1000;
+        FIELD(render_state, s16 *, 0x1C) = 0x1000;
+        FIELD(render_state, s16 *, 6) = 6;
+        FIELD(object_data, s8 *, 0x58) =
+            (FIELD(source_pos, s16 *, 2) - 0x20) / 0x40;
+        FIELD(object_data, s8 *, 0x59) =
+            (FIELD(source_pos, s16 *, 6) - 0x20) / 0x40;
+        FIELD(render_state, u8 *, 0xE) = 0x80;
+        FIELD(render_state, u8 *, 0xD) = 0x80;
+        FIELD(render_state, u8 *, 0xC) = 0x80;
+        FIELD(render_state, void **, 8) = &D_8006E240;
+        D_80175D68 = object;
     }
 }
 

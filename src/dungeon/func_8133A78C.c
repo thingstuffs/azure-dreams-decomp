@@ -8,12 +8,13 @@ typedef struct S_8017178C_0 {
     s16 unk_12;
     u8 pad_14[0x4];
     s16 unk_18;
-} S_8017178C_0;   /* temp_v0 in func_8017178C */
+} S_8017178C_0;   /* state in func_8017178C */
 
-void func_8017178C(s16 arg0) {
-    S_8017178C_0 *temp_v0;
+/* Stores the value at offset 0x12 and clears the field at offset 0x18. */
+void func_8017178C(s16 value) {
+    S_8017178C_0 *state;
 
-    temp_v0 = D_80175D60 + 0x20;
-    temp_v0->unk_12 = arg0;
-    temp_v0->unk_18 = 0;
+    state = D_80175D60 + 0x20;
+    state->unk_12 = value;
+    state->unk_18 = 0;
 }

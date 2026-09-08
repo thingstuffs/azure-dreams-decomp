@@ -15,26 +15,27 @@ extern u8 D_800C3960[];
 __asm__(".set D_800C3174, 0x800C3174");
 __asm__(".set D_800C321C, 0x800C321C");
 
-void *func_800392A4(u8 arg0)
+/* Returns object data for slot 1 or objects with matching type and data tags. */
+void *func_800392A4(u8 object_index)
 {
     u8 *object;
-    void *type;
-    void *result;
+    void *object_type;
+    void *object_data;
 
-    object = D_80082660[arg0].object;
+    object = D_80082660[object_index].object;
     if (object == 0) {
         return 0;
     }
 
-    result = object + 0x20;
-    if (arg0 == 1) {
-        return result;
+    object_data = object + 0x20;
+    if (object_index == 1) {
+        return object_data;
     }
 
-    type = *(void **)(object + 0x10);
-    if (type == D_800C3174 || type == D_800C321C) {
-        if (*(void **)((u8 *)result + 0x50) == D_800C3960) {
-            return result;
+    object_type = *(void **)(object + 0x10);
+    if (object_type == D_800C3174 || object_type == D_800C321C) {
+        if (*(void **)((u8 *)object_data + 0x50) == D_800C3960) {
+            return object_data;
         }
     }
 

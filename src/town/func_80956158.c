@@ -19,56 +19,52 @@ typedef struct S_80023158_1 {
 extern s32 rand(void *);
 extern void func_800ABD74(void *);
 
-void func_80023158(S_80023158_0 *arg0, Rec_D_800E3D7C *arg1)
+/* Runs a 24-tick value decrease with random callbacks, then waits to reset. */
+void func_80023158(S_80023158_0 *sequence, Rec_D_800E3D7C *target)
 {
     s16 state;
-    s32 count;
+    s32 ticks_left;
     u16 next_state;
-    S_80023158_1 *obj;
+    S_80023158_1 *owner;
 
-    state = arg0->unk_18.s;
-    obj = arg0->unk_00;
+    state = sequence->unk_18.s;
+    owner = sequence->unk_00;
 
     switch (state) {
     case 0: {
-        register s16 reset_count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s16 duration ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        if (obj->unk_2C != 3) {
+        if (owner->unk_2C != 3) {
             break;
         }
-        reset_count = 0x18;
-        next_state = arg0->unk_18.u;
-        arg0->unk_1A = reset_count;
+        duration = 0x18;
+        next_state = sequence->unk_18.u;
+        sequence->unk_1A = duration;
         goto increment_state;
     }
 
     case 1:
-        arg1->unk_04.at00_s32.v += 0xFFF00000;
-        if (!(rand(obj) & 7)) {
-            func_800ABD74(arg1);
+        target->unk_04.at00_s32.v += 0xFFF00000;
+        if (!(rand(owner) & 7)) {
+            func_800ABD74(target);
         }
-        count = arg0->unk_1A - 1;
-        arg0->unk_1A = count;
-        if ((count << 16) > 0) {
+        ticks_left = sequence->unk_1A - 1;
+        sequence->unk_1A = ticks_left;
+        if ((ticks_left << 16) > 0) {
             break;
         }
-        next_state = arg0->unk_18.u;
+        next_state = sequence->unk_18.u;
 
 increment_state:
         next_state++;
-        arg0->unk_18.u = next_state;
+        sequence->unk_18.u = next_state;
         break;
 
     case 2:
-        if (obj->unk_2C < 3) {
-            arg0->unk_18.s = 0;
-            arg1->unk_04.at00_s32.v += 0x01400000;
+        if (owner->unk_2C < 3) {
+            sequence->unk_18.s = 0;
+            target->unk_04.at00_s32.v += 0x01400000;
         }
         break;
     }
 }
-
-/* MECHANISM: A natural switch restores retail's dispatch and 0/1/2 body order.
-   Predecessor-specific state reloads feed the shared increment; s32 keeps the countdown unmasked.
-   True-space naming and cross-call args produce the exact 0x20 s0/s1/ra frame.
-   At 2.95.2-G0, case-local reset_count pinned to v1 after the compare closes coloring. */

@@ -3,6 +3,7 @@
 
 M2C_UNK func_80018FDC(s32, s32);             /* extern */
 
-void func_80472098(s32 arg0) {
-    func_80018FDC(arg0, 0);
+/* Calls func_80018FDC with the supplied value and a zero second argument. */
+void func_80472098(s32 value) {
+    func_80018FDC(value, 0);
 }

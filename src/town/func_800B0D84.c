@@ -2,6 +2,7 @@
 
 extern s32 D_800D156C[];
 
-s32 func_800AE4E4(s32 arg0) {
-    return D_800D156C[arg0];
+/* Returns the table entry at the given index. */
+s32 func_800AE4E4(s32 index) {
+    return D_800D156C[index];
 }

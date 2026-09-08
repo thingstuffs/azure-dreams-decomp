@@ -2,34 +2,35 @@
 
 extern s8 D_800CF720[16];
 
-s32 func_8008AD1C(s32 arg0, s32 arg1, s32 arg2) {
-    s32 var_result;
-    s32 var_a3;
-    s32 var_v0;
-    s32 var_t1;
-    s8 *var_t0;
-    s8 *var_v1;
+/* Returns the matching entry index, or the entry count with the high bit set if absent. */
+s32 func_8008AD1C(s32 first_byte, s32 second_byte, s32 halfword_value) {
+    s32 result;
+    s32 entry_index;
+    s32 end_marker;
+    s32 scan_end_marker;
+    s8 *entry_table;
+    s8 *entry;
 
-    var_t0 = D_800CF720;
-    var_a3 = 0;
-    var_v0 = -1;
-    if (var_t0[1] != var_v0) {
-        var_t1 = var_v0;
-        var_v1 = var_t0;
-loop_2:
-        if ((arg0 != var_v1[0]) || (arg1 != var_v1[1]) || (arg2 != *(s16 *)(var_v1 + 2))) {
-            var_v1 += 8;
-            var_a3 += 1;
-            if (var_v1[1] == var_t1) {
-                goto block_6;
+    entry_table = D_800CF720;
+    entry_index = 0;
+    end_marker = -1;
+    if (entry_table[1] != end_marker) {
+        scan_end_marker = end_marker;
+        entry = entry_table;
+check_entry:
+        if ((first_byte != entry[0]) || (second_byte != entry[1]) || (halfword_value != *(s16 *)(entry + 2))) {
+            entry += 8;
+            entry_index += 1;
+            if (entry[1] == scan_end_marker) {
+                goto not_found;
             }
-            goto loop_2;
+            goto check_entry;
         }
-        var_result = var_a3;
+        result = entry_index;
     } else {
-block_6:
-        var_result = var_a3 - 0x80000000;
+not_found:
+        result = entry_index - 0x80000000;
     }
-    ASM_USE(var_result);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-    return var_result;
+    ASM_USE(result);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    return result;
 }

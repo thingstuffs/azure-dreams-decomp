@@ -64,22 +64,23 @@ extern u8 D_80083498[];
 extern u8 D_800BC00C[];
 extern u8 D_800F1654[];
 
-void func_800BBCA0(void *arg0, void *arg1)
+/* Spawns particles around the origin, emits a burst, then marks the effect finished. */
+void func_800BBCA0(void *effect, void *effect_origin)
 {
-    register void *self ASM_REG("$21") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *origin ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u16 nextState ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *self ASM_REG("$21") = effect;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *origin ASM_REG("$20") = effect_origin;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u16 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state;
     u16 timer;
-    s32 count;
-    s32 random;
+    s32 spawn_count;
+    s32 rand_value;
     u8 *object;
     u8 *sprite;
     u8 *motion;
     s32 *position;
     s32 *velocity;
-    u8 *objectType;
-    u8 *spriteType;
+    u8 *object_type;
+    u8 *sprite_type;
 
     timer = ((S_800BBCA0_0 *)self)->unk_48 - 1;
     state = ((S_800BBCA0_0 *)self)->unk_4C.s;
@@ -88,7 +89,7 @@ void func_800BBCA0(void *arg0, void *arg1)
         goto state_one;
     }
     if (state < 2) {
-        count = 7;
+        spawn_count = 7;
         if (state == 0) {
             goto state_zero;
         }
@@ -100,25 +101,25 @@ void func_800BBCA0(void *arg0, void *arg1)
     goto done;
 
 state_zero:
-    objectType = D_800BC00C;
-    spriteType = D_800F1654;
+    object_type = D_800BC00C;
+    sprite_type = D_800F1654;
     do {
         object = func_8003FD64(0x312, D_80083498);
         if (object != 0) {
-            ((S_800BBCA0_1 *)object)->unk_10 = objectType;
+            ((S_800BBCA0_1 *)object)->unk_10 = object_type;
             func_8004491C(object, &D_80045340);
             sprite = ((S_800BBCA0_1 *)object)->unk_0C;
             motion = object + 0x20;
 
-            random = rand();
+            rand_value = rand();
             position = ((S_800BBCA0_1 *)object)->unk_08;
-            position[0] = ((S_800BBCA0_2 *)origin)->unk_00.at00.v + (((random & 0x1FF) - 0x100) << 13);
-            random = rand();
+            position[0] = ((S_800BBCA0_2 *)origin)->unk_00.at00.v + (((rand_value & 0x1FF) - 0x100) << 13);
+            rand_value = rand();
             position = ((S_800BBCA0_1 *)object)->unk_08;
-            position[1] = ((S_800BBCA0_2 *)origin)->unk_04.at00.v + (((random & 0x1FF) - 0x100) << 13);
-            random = rand();
+            position[1] = ((S_800BBCA0_2 *)origin)->unk_04.at00.v + (((rand_value & 0x1FF) - 0x100) << 13);
+            rand_value = rand();
             position = ((S_800BBCA0_1 *)object)->unk_08;
-            position[2] = ((S_800BBCA0_2 *)origin)->unk_08.at00.v + (((random & 0x1FF) - 0x100) << 13);
+            position[2] = ((S_800BBCA0_2 *)origin)->unk_08.at00.v + (((rand_value & 0x1FF) - 0x100) << 13);
 
             ((S_800BBCA0_3 *)motion)->unk_0C = ((S_800BBCA0_2 *)origin)->unk_00.at02.v;
             ((S_800BBCA0_3 *)motion)->unk_0E = ((S_800BBCA0_2 *)origin)->unk_04.at02.v;
@@ -128,51 +129,51 @@ state_zero:
             ((S_800BBCA0_4 *)sprite)->unk_10 = 0x20;
             ((S_800BBCA0_4 *)sprite)->unk_14 |= 0xC;
             ((S_800BBCA0_3 *)motion)->unk_48 = 6;
-            ((S_800BBCA0_4 *)sprite)->unk_00 = spriteType;
-            ((S_800BBCA0_4 *)sprite)->unk_08 = ((S_800BBCA0_5 *)spriteType)->unk_04;
+            ((S_800BBCA0_4 *)sprite)->unk_00 = sprite_type;
+            ((S_800BBCA0_4 *)sprite)->unk_08 = ((S_800BBCA0_5 *)sprite_type)->unk_04;
             ((S_800BBCA0_4 *)sprite)->unk_04 = 0;
             ((S_800BBCA0_4 *)sprite)->unk_05 = 0;
             ((S_800BBCA0_4 *)sprite)->unk_0C = 0x101010;
         }
-        count--;
-    } while (count >= 0);
+        spawn_count--;
+    } while (spawn_count >= 0);
     if (func_80033BC0(0x97) != 0) {
-        nextState = ((S_800BBCA0_0 *)self)->unk_4C.u;
-        nextState++;
+        next_state = ((S_800BBCA0_0 *)self)->unk_4C.u;
+        next_state++;
         goto store_state;
     }
     goto done;
 
 state_one:
-    count = 0x64;
-    objectType = D_800BC00C;
-    spriteType = D_800F1654;
+    spawn_count = 0x64;
+    object_type = D_800BC00C;
+    sprite_type = D_800F1654;
     do {
         object = func_8003FD64(0x312, D_80083498);
         motion = object + 0x20;
         if (object != 0) {
-            ((S_800BBCA0_1 *)object)->unk_10 = objectType;
+            ((S_800BBCA0_1 *)object)->unk_10 = object_type;
             func_8004491C(object, &D_80045340);
             sprite = ((S_800BBCA0_1 *)object)->unk_0C;
 
-            random = rand();
+            rand_value = rand();
             position = ((S_800BBCA0_1 *)object)->unk_08;
-            position[0] = ((S_800BBCA0_2 *)origin)->unk_00.at00.v + (((random & 0x1FF) - 0x100) << 10);
-            random = rand();
+            position[0] = ((S_800BBCA0_2 *)origin)->unk_00.at00.v + (((rand_value & 0x1FF) - 0x100) << 10);
+            rand_value = rand();
             position = ((S_800BBCA0_1 *)object)->unk_08;
-            position[1] = ((S_800BBCA0_2 *)origin)->unk_04.at00.v + (((random & 0x1FF) - 0x100) << 10);
-            random = rand();
+            position[1] = ((S_800BBCA0_2 *)origin)->unk_04.at00.v + (((rand_value & 0x1FF) - 0x100) << 10);
+            rand_value = rand();
             position = ((S_800BBCA0_1 *)object)->unk_08;
-            position[2] = ((S_800BBCA0_2 *)origin)->unk_08.at00.v + (((random & 0x1FF) - 0x100) << 10);
-            random = rand();
+            position[2] = ((S_800BBCA0_2 *)origin)->unk_08.at00.v + (((rand_value & 0x1FF) - 0x100) << 10);
+            rand_value = rand();
             velocity = ((S_800BBCA0_1 *)object)->unk_08;
-            velocity[3] = ((random & 0x1FF) - 0x100) << 14;
-            random = rand();
+            velocity[3] = ((rand_value & 0x1FF) - 0x100) << 14;
+            rand_value = rand();
             velocity = ((S_800BBCA0_1 *)object)->unk_08;
-            velocity[4] = ((random & 0x1FF) - 0x100) << 14;
-            random = rand();
+            velocity[4] = ((rand_value & 0x1FF) - 0x100) << 14;
+            rand_value = rand();
             velocity = ((S_800BBCA0_1 *)object)->unk_08;
-            velocity[5] = ((random & 0x1FF) - 0x100) << 12;
+            velocity[5] = ((rand_value & 0x1FF) - 0x100) << 12;
 
             ((S_800BBCA0_4 *)sprite)->unk_1E = 0x200;
             ((S_800BBCA0_4 *)sprite)->unk_1C = 0x200;
@@ -180,20 +181,20 @@ state_one:
             ((S_800BBCA0_4 *)sprite)->unk_14 |= 0xC;
             ((S_800BBCA0_3 *)motion)->unk_48 = 0xF;
             ((S_800BBCA0_3 *)motion)->unk_4C = 1;
-            ((S_800BBCA0_4 *)sprite)->unk_00 = spriteType;
-            ((S_800BBCA0_4 *)sprite)->unk_08 = ((S_800BBCA0_5 *)spriteType)->unk_04;
+            ((S_800BBCA0_4 *)sprite)->unk_00 = sprite_type;
+            ((S_800BBCA0_4 *)sprite)->unk_08 = ((S_800BBCA0_5 *)sprite_type)->unk_04;
             ((S_800BBCA0_4 *)sprite)->unk_04 = 0;
             ((S_800BBCA0_4 *)sprite)->unk_05 = 0;
             ((S_800BBCA0_4 *)sprite)->unk_0C = 0x808080;
         }
-        count--;
-    } while (count >= 0);
-    nextState = ((S_800BBCA0_0 *)self)->unk_4C.u;
+        spawn_count--;
+    } while (spawn_count >= 0);
+    next_state = ((S_800BBCA0_0 *)self)->unk_4C.u;
     ((S_800BBCA0_0 *)self)->unk_48 = 0x10;
-    nextState++;
+    next_state++;
 
 store_state:
-    ((S_800BBCA0_0 *)self)->unk_4C.u = nextState;
+    ((S_800BBCA0_0 *)self)->unk_4C.u = next_state;
     goto done;
 
 state_two:

@@ -21,63 +21,64 @@ extern u8 D_80083160[];
 extern void func_80036880(Object *arg0, void *arg1, void *arg2);
 extern void func_80053DA8(s32 arg0);
 
-void func_800366F4(Object *arg0, void *arg1, void *arg2) {
-    s32 next;
-    s32 test;
+/* Move the two-column menu cursor and handle confirmation input. */
+void func_800366F4(Object *menu, void *confirm_arg1, void *confirm_arg2) {
+    s32 next_cursor;
+    s32 prev_cursor;
     s32 cursor;
-    s32 count;
-    u32 flags;
-    u8 *state;
+    s32 item_count;
+    u32 buttons;
+    u8 *input_state;
 
-    state = D_80083160;
-    cursor = arg0->unk4D;
-    flags = *(u32 *)(state + 0x10);
-    if (flags & 0x2000) {
-        goto move_up;
+    input_state = D_80083160;
+    cursor = menu->unk4D;
+    buttons = *(u32 *)(input_state + 0x10);
+    if (buttons & 0x2000) {
+        goto switch_column;
     }
-    if (!(flags & 0x8000)) {
-        goto after_move_up;
+    if (!(buttons & 0x8000)) {
+        goto after_switch_column;
     }
-move_up:
-    next = cursor + 1;
+switch_column:
+    next_cursor = cursor + 1;
     if (cursor & 1) {
         cursor -= 1;
-    } else if (next < arg0->child->unk26) {
-        cursor = next;
+    } else if (next_cursor < menu->child->unk26) {
+        cursor = next_cursor;
     }
-    flags = *(u32 *)(state + 0x10);
-after_move_up:
+    buttons = *(u32 *)(input_state + 0x10);
+after_switch_column:
 
-    if (flags & 0x4000) {
-        next = cursor + 2;
-        if (next < arg0->child->unk26) {
-            cursor = next;
+    if (buttons & 0x4000) {
+        next_cursor = cursor + 2;
+        if (next_cursor < menu->child->unk26) {
+            cursor = next_cursor;
         } else {
             cursor %= 2;
         }
     } else {
-        if (flags & 0x1000) {
-            test = cursor - 2;
-            if (test >= 0) {
-                cursor = test;
+        if (buttons & 0x1000) {
+            prev_cursor = cursor - 2;
+            if (prev_cursor >= 0) {
+                cursor = prev_cursor;
             } else {
-                count = arg0->child->unk26;
-                if (!(count & 1)) {
-                    cursor = (cursor % 2) + count - 2;
+                item_count = menu->child->unk26;
+                if (!(item_count & 1)) {
+                    cursor = (cursor % 2) + item_count - 2;
                 } else if (cursor & 1) {
-                    cursor = count - 2;
+                    cursor = item_count - 2;
                 } else {
-                    cursor = count - 1;
+                    cursor = item_count - 1;
                 }
             }
         }
     }
 
-    if (arg0->unk4D != cursor) {
+    if (menu->unk4D != cursor) {
         func_80053DA8(0x502);
-        arg0->unk4D = cursor;
+        menu->unk4D = cursor;
     }
-    if (*(u32 *)(state + 0x10) & 0x40) {
-        func_80036880(arg0, arg1, arg2);
+    if (*(u32 *)(input_state + 0x10) & 0x40) {
+        func_80036880(menu, confirm_arg1, confirm_arg2);
     }
 }

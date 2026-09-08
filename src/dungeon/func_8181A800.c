@@ -30,22 +30,23 @@ extern s16 D_80025914[9];
 extern s32 D_800814A0[3];
 
 #ifdef __mips__
-static void BODY_NAME(void *arg0, void *arg1, void *arg2)
+static void BODY_NAME(void *record_data, void *unused, void *update_data)
     __attribute__((section(".text.func_8181A84C")));
 #endif
 
-static void BODY_NAME(void *arg0, void *arg1, void *arg2) {
-    s16 count;
-    volatile s16 *flag;
+/* Decrement the record counter, process update data, and flag depletion. */
+static void BODY_NAME(void *record_data, void *unused, void *update_data) {
+    s16 remaining;
+    volatile s16 *update_flag;
 
-    flag = D_80025914;
-    count = (s16)((S_8181A800_0 *)((u8 *)arg0 - 0x2))->unk_04 - 1;
-    flag[0] = 1;
-    ((S_8181A800_0 *)((u8 *)arg0 - 0x2))->unk_04 = count;
-    func_800478B8(arg2);
-    if (((S_8181A800_0 *)((u8 *)arg0 - 0x2))->unk_04 <= 0) {
-        ((S_8181A800_0 *)((u8 *)arg0 - 0x2))->unk_00 =
-            (u16)(((S_8181A800_0 *)((u8 *)arg0 - 0x2))->unk_00 | 0x8000);
+    update_flag = D_80025914;
+    remaining = (s16)((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 - 1;
+    update_flag[0] = 1;
+    ((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 = remaining;
+    func_800478B8(update_data);
+    if (((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 <= 0) {
+        ((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_00 =
+            (u16)(((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
     }
 }

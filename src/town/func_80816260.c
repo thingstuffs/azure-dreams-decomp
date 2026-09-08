@@ -20,14 +20,15 @@ typedef struct S_80020260_1 {
 
 extern s32 D_800814A0;
 
-void func_80020260(void *arg0) {
+/* Fades an effect in and out around an object event, then marks completion. */
+void func_80020260(void *effect) {
     s16 state;
-    s32 value_1;
-    s32 value_2;
+    s32 color;
+    s32 faded_color;
     void *object;
 
-    state = ((S_80020260_0 *)arg0)->unk_00.s;
-    object = ((S_80020260_0 *)arg0)->unk_04;
+    state = ((S_80020260_0 *)effect)->unk_00.s;
+    object = ((S_80020260_0 *)effect)->unk_04;
 
     if (state == 1) {
         goto state_1;
@@ -50,26 +51,26 @@ state_0:
     if (((S_80020260_1 *)object)->unk_36 != 0xFF) {
         goto done;
     }
-    ((S_80020260_0 *)arg0)->unk_16 &= 0xFFFD;
-    ((S_80020260_0 *)arg0)->unk_00.u++;
+    ((S_80020260_0 *)effect)->unk_16 &= 0xFFFD;
+    ((S_80020260_0 *)effect)->unk_00.u++;
     goto done;
 
 state_1:
-    value_1 = ((S_80020260_0 *)arg0)->unk_08;
-    if (value_1 <= 0x40403F) {
-        ((S_80020260_0 *)arg0)->unk_08 = value_1 + 0x80808;
+    color = ((S_80020260_0 *)effect)->unk_08;
+    if (color <= 0x40403F) {
+        ((S_80020260_0 *)effect)->unk_08 = color + 0x80808;
     }
     if ((((S_80020260_1 *)object)->unk_2A & 1) == 0) {
         goto done;
     }
-    ((S_80020260_0 *)arg0)->unk_00.u++;
+    ((S_80020260_0 *)effect)->unk_00.u++;
     goto done;
 
 state_2:
-    value_2 = ((S_80020260_0 *)arg0)->unk_08 + (s32)0xFFF7F7F8;
-    ((S_80020260_0 *)arg0)->unk_08 = value_2;
-    if (value_2 <= 0x80808) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    faded_color = ((S_80020260_0 *)effect)->unk_08 + (s32)0xFFF7F7F8;
+    ((S_80020260_0 *)effect)->unk_08 = faded_color;
+    if (faded_color <= 0x80808) {
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 

@@ -126,6 +126,60 @@ def gate_window(row, raw: bool):
     _GATE_CACHE[key] = res
     return res
 
+def window_lock(yaml_name, raw=False):
+    """A cross-process lock for one window's build dir (fcntl.flock on build_ovl/work/<window>.lock): the
+    campaign workers, the sweeps, promote.py and gate_all all compile the same window from src/."""
+    import fcntl
+    class _L:
+        def __init__(self, p): self.p = p; self.f = None
+        def __enter__(self):
+            self.p.parent.mkdir(parents=True, exist_ok=True); self.f = open(self.p, "w"); fcntl.flock(self.f, fcntl.LOCK_EX); return self
+        def __exit__(self, *a):
+            fcntl.flock(self.f, fcntl.LOCK_UN); self.f.close()
+    return _L(gate_root(raw) / "work" / f"{yaml_name}.lock")
+
+def run_window_gate(yaml_name, raw=False):
+    """One uncached run of the window gate -> ('MATCH'|'NO MATCH'|'ERROR', detail). Caller holds the lock."""
+    b = gate_root(raw)
+    r = subprocess.run(NICE + ["python3", "tools/overlay_local_gate.py", "--config", "config/overlays/" + yaml_name, "--clean"],
+                       cwd=b, capture_output=True, text=True, timeout=3600)
+    out = (r.stdout + r.stderr).strip().splitlines()
+    last = next((l for l in reversed(out) if l.startswith(("MATCH", "NO MATCH"))), None)
+    if last is None:
+        return "ERROR", (out[-1] if out else "")[:200].replace(str(ROOT), "<repo>")
+    return ("MATCH" if last.startswith("MATCH") else "NO MATCH"), last[:200]
+
+def gate_candidate(row, cfile):
+    """Prove a candidate through the row's window(s): the candidate replaces the row's src/ text under the
+    window lock, the gate runs, the text is restored.  The per-row scorer links every row at its true base;
+    the gate links a row with no recorded true name at its synthetic address, so a scorer-exact body whose
+    internal jumps changed spelling can still be wrong in the window (2026-09-08).  Returns
+    {"gate": ..., "windows": [...], "detail": ...}."""
+    from common import covering_windows, clean_path
+    if row["kind"] != "overlay" or not row.get("gate_config"):
+        return {"gate": "n/a"}
+    wins = {Path(row["gate_config"]).name}
+    for w in covering_windows(row["container"], row["foff"], row["size"]):
+        n = Path(w[0]).name
+        if n.endswith(".yaml"): wins.add(n)
+    wins = sorted(wins)
+    cp = clean_path(row); before = cp.read_text(errors="replace") if cp.exists() else raw_path(row).read_text(errors="replace")
+    cand = Path(cfile).read_text(errors="replace")
+    locks = [window_lock(w) for w in wins]
+    for l in locks: l.__enter__()
+    try:
+        cp.parent.mkdir(parents=True, exist_ok=True); cp.write_text(cand)
+        try:
+            for w in wins:
+                res, detail = run_window_gate(w)
+                if res != "MATCH":
+                    return {"gate": res, "window": w, "windows": wins, "detail": detail}
+        finally:
+            cp.write_text(before)
+    finally:
+        for l in reversed(locks): l.__exit__(None, None, None)
+    return {"gate": "MATCH", "windows": wins}
+
 def gate_fallback(row, rec, raw: bool):
     """Scorer said not exact: consult the window gate; a MATCH proves the row's current text."""
     if rec.get("exact") is True or row["kind"] != "overlay" or not row.get("gate_config"):
@@ -216,6 +270,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("row_id", nargs="?"); ap.add_argument("cfile", nargs="?")
     ap.add_argument("--regions", action="store_true"); ap.add_argument("--include-root")
+    ap.add_argument("--gate", action="store_true", help="after a scorer-exact verdict, also prove the candidate through the row's window gate (the proof of record; slower)")
     ap.add_argument("--baseline", action="store_true"); ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--container"); ap.add_argument("--limit", type=int); ap.add_argument("--all", action="store_true", help="include non-stock rows")
     a = ap.parse_args()
@@ -258,7 +313,10 @@ def main():
                   f"{sum(1 for r in upd.values() if r.get('exact') is not True)} still not exact")
         return
     row = by[a.row_id]
-    print(json.dumps(verify(row, Path(a.cfile).resolve(), a.regions, a.include_root), indent=1))
+    v = verify(row, Path(a.cfile).resolve(), a.regions, a.include_root)
+    if a.gate:
+        v.update(gate_candidate(row, Path(a.cfile).resolve()) if v.get("exact") else {"gate": "skipped: not exact in isolation"})
+    print(json.dumps(v, indent=1))
 
 if __name__ == "__main__":
     main()

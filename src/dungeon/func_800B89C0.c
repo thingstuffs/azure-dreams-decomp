@@ -52,79 +52,80 @@ typedef struct S_800BE120_1 {
     u8 unk_03;
 } S_800BE120_1;   /* arg1 in func_800BE120 */
 
-s32 func_800BE120(void *arg0, S_800BE120_1 *arg1, s16 arg2) {
-    s32 state;
-    s32 state_test;
-    void *call_arg;
-    register s32 pass_result ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 raw_result;
-    s32 result;
+/* Applies data to an entity and handles the resulting update or fallback. */
+s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
+    s32 stored;
+    s32 stored_test;
+    void *call_entity;
+    register s32 context_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 zero_result ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 new_context;
+    s32 context;
 
-    state = 0;
+    stored = 0;
 #ifdef NON_MATCHING
-    hard_zero = 0;
+    zero_result = 0;
 #endif
-    if (arg0 == D_800E3D7C[0]) {
-        ((S_800BE120_0 *)arg0)->unk_110 = (s32)arg1;
-        func_8008D330(arg0, &D_80083780, &D_80082E80, arg0);
-        return hard_zero;
+    if (entity == D_800E3D7C[0]) {
+        ((S_800BE120_0 *)entity)->unk_110 = (s32)data;
+        func_8008D330(entity, &D_80083780, &D_80082E80, entity);
+        return zero_result;
     }
 
-    if ((u32)arg0 <= 0x9FFFFFFFU) {
-        func_800A63B8(arg0, arg1, arg2);
-        if (((S_800BE120_0 *)arg0)->unk_13 >= 2) {
-            if (!(((S_800BE120_0 *)arg0)->unk_54 & 0x800000)) {
-                if (((S_800BE120_0 *)arg0)->unk_48.at01.v == 0) {
-                    if (func_800AD6FC(arg0,
-                            (D_800DDE84[((S_800BE120_0 *)arg0)->unk_13] >> 6) & 3,
+    if ((u32)entity <= 0x9FFFFFFFU) {
+        func_800A63B8(entity, data, mode);
+        if (((S_800BE120_0 *)entity)->unk_13 >= 2) {
+            if (!(((S_800BE120_0 *)entity)->unk_54 & 0x800000)) {
+                if (((S_800BE120_0 *)entity)->unk_48.at01.v == 0) {
+                    if (func_800AD6FC(entity,
+                            (D_800DDE84[((S_800BE120_0 *)entity)->unk_13] >> 6) & 3,
                             0) == 0) {
-                        goto block_finalize;
+                        goto finalize;
                     }
-                    ((S_800BE120_0 *)arg0)->unk_48.at00.v = *(s32 *)arg1;
-                    ((S_800BE120_0 *)arg0)->unk_48.at00u.v = arg1->unk_00;
-                    ((S_800BE120_0 *)arg0)->unk_48.at01.v = arg1->unk_01;
-                    ((S_800BE120_0 *)arg0)->unk_48.at02.v = arg1->unk_02;
-                    ((S_800BE120_0 *)arg0)->unk_48.at03.v = arg1->unk_03;
-                    ((S_800BE120_0 *)arg0)->unk_54 |= 0x800000;
-                    func_800D5460((s8 *)arg0 - 0x20, 0x20A0A0, 0x702);
-                    state = 1;
-                    if (((S_800BE120_0 *)arg0)->unk_14 & 0x4000) {
-                        func_80099844(arg0, D_800E0FF4);
+                    ((S_800BE120_0 *)entity)->unk_48.at00.v = *(s32 *)data;
+                    ((S_800BE120_0 *)entity)->unk_48.at00u.v = data->unk_00;
+                    ((S_800BE120_0 *)entity)->unk_48.at01.v = data->unk_01;
+                    ((S_800BE120_0 *)entity)->unk_48.at02.v = data->unk_02;
+                    ((S_800BE120_0 *)entity)->unk_48.at03.v = data->unk_03;
+                    ((S_800BE120_0 *)entity)->unk_54 |= 0x800000;
+                    func_800D5460((s8 *)entity - 0x20, 0x20A0A0, 0x702);
+                    stored = 1;
+                    if (((S_800BE120_0 *)entity)->unk_14 & 0x4000) {
+                        func_80099844(entity, D_800E0FF4);
                     }
                 }
             }
         }
     }
 
-    state_test = state;
-    ASM_KEEP(state_test);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if (state_test != 0) {
-        goto block_end;
+    stored_test = stored;
+    ASM_KEEP(stored_test);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    if (stored_test != 0) {
+        goto consume_data;
     }
-    if ((((S_800BE120_0 *)arg0)->unk_13 < 2) ||
-        (((S_800BE120_0 *)arg0)->unk_54 & 0x800000) ||
-        (((S_800BE120_0 *)arg0)->unk_48.at01.v != 0)) {
-        raw_result = func_800990FC();
-        call_arg = arg0;
-        ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        pass_result = raw_result;
-        ASM_KEEP(pass_result);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        result = pass_result;
+    if ((((S_800BE120_0 *)entity)->unk_13 < 2) ||
+        (((S_800BE120_0 *)entity)->unk_54 & 0x800000) ||
+        (((S_800BE120_0 *)entity)->unk_48.at01.v != 0)) {
+        new_context = func_800990FC();
+        call_entity = entity;
+        ASM_KEEP(call_entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        context_arg = new_context;
+        ASM_KEEP(context_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        context = context_arg;
         func_80099290(func_80099194(D_8008935C,
-            func_80099368(arg1, func_80099194(D_800E100F,
-                func_80099734((s32)call_arg, pass_result)))));
-        func_800A5720(result);
-        goto block_finalize;
+            func_80099368(data, func_80099194(D_800E100F,
+                func_80099734((s32)call_entity, context_arg)))));
+        func_800A5720(context);
+        goto finalize;
     }
-    goto block_end;
+    goto consume_data;
 
-block_finalize:
-    func_800A5F38(arg0, arg1);
+finalize:
+    func_800A5F38(entity, data);
     return 1;
 
-block_end:
-    func_80098B38(arg1);
+consume_data:
+    func_80098B38(data);
     D_80083460.fieldA = (u16)(D_80083460.fieldA - 1);
     return 1;
 }

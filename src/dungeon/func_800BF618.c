@@ -30,28 +30,29 @@ typedef struct S_800C4D78_1 {
     u16 unk_0A;
 } S_800C4D78_1;   /* counter_base in func_800C4D78 */
 
-void func_800C4D78(s32 arg0, s32 arg1) {
-    S_800C4D78_0 *temp_v0;
+/* Creates an object with the supplied payload, optionally triggers an event, and increments the counter. */
+void func_800C4D78(s32 payload, s32 trigger_event) {
+    S_800C4D78_0 *object;
     u8 *counter_base;
-    register s32 held_arg0 ASM_REG("$17") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 held_arg1 ASM_REG("$16") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 held_payload ASM_REG("$17") = payload;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 held_event ASM_REG("$16") = trigger_event;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    temp_v0 = func_8003FD64(0x200, &D_80083498);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_26 = 0x20;
-        temp_v0->unk_10 = &D_800C4C00;
-        temp_v0->unk_20 = held_arg0;
-        if ((held_arg1 << 0x10) != 0) {
+    object = func_8003FD64(0x200, &D_80083498);
+    if (object != NULL) {
+        object->unk_26 = 0x20;
+        object->unk_10 = &D_800C4C00;
+        object->unk_20 = held_payload;
+        if ((held_event << 0x10) != 0) {
             func_800A56E0(0x501);
         }
         counter_base = (u8 *)&D_80083460;
         ((S_800C4D78_1 *)counter_base)->unk_0A =
             (u16)(((S_800C4D78_1 *)counter_base)->unk_0A + 1);
-        ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_payload);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_event);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
 }
 
 /* MECHANISM: A short-lived D_80083460 base preserves the retail lui/addiu/lhu form.
-   Pinned arg roles reproduce s1=arg0 and s0=arg1 across the allocator call.
+   Pinned arg roles reproduce s1=payload and s0=trigger_event across the allocator call.
    Tail keepalives force sw-before-sll while leaving the retail prologue schedule intact. */

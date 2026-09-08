@@ -58,22 +58,22 @@ extern u8 D_800D2324[];
 extern u8 D_800F15AC[];
 extern u16 D_80113138[];
 
-void func_800BEBA4(State *state, Motion *motion, u8 *arg2)
+/* Update motion, spawn particles, and flash then restore the palette. */
+void func_800BEBA4(State *state, Motion *motion, u8 *sprite_data)
 {
     u16 colors[16];
-    s32 i;
-    s32 c0;
-    s32 c1;
-    s32 c2;
-    s32 old_dz;
+    s32 index;
+    s32 red;
+    s32 green;
+    s32 blue;
     s32 gravity;
     s16 timer;
     u16 color;
-    u16 *src;
-    u16 *base;
-    Object *obj;
+    u16 *source_color;
+    u16 *original_palette;
+    Object *particle;
     Sprite *sprite;
-    static void *const keepalive[] = {
+    static void *const state_labels[] = {
         &&L_case0,
         &&L_case1,
         &&L_case2,
@@ -88,87 +88,86 @@ void func_800BEBA4(State *state, Motion *motion, u8 *arg2)
     motion->z += motion->dz;
     motion->dz += gravity;
 
-    (void)keepalive;
+    (void)state_labels;
     {
-        s32 selector;
+        s32 phase;
 
-        selector = state->state;
-        if ((u32)selector >= 6) {
+        phase = state->state;
+        if ((u32)phase >= 6) {
             goto L_epilogue;
         }
-        goto *jtbl_800898AC[(u32)selector];
+        goto *jtbl_800898AC[(u32)phase];
     }
 
 L_case0:
-        if (state->timer > 0) {
-            goto L_epilogue;
-        }
-
-        func_80053DA8(0x519, gravity);
-        i = 15;
-        do {
-            obj = func_8003FC64(0x136);
-            if (obj != 0) {
-                obj->callback = func_800BF15C;
-                func_8004491C(obj, D_80045340);
-                sprite = obj->sprite;
-                obj->position->x = motion->x + ((rand() & 0x1FF) - 0x100) * 0x2000;
-                obj->position->y = motion->y + ((rand() & 0x1FF) - 0x100) * 0x2000;
-                obj->position->z = motion->z;
-                sprite->unk10 = 0x60;
-                sprite->scale_x = 0x1000;
-                sprite->scale_y = 0x1000;
-                sprite->flags |= 0xC;
-                func_8003DB94(sprite, D_800F15AC, 0);
-                sprite->color = 0x606060;
-            }
-            i--;
-        } while (i >= 0);
-        state->timer = 8;
-        state->state++;
+    if (state->timer > 0) {
         goto L_epilogue;
+    }
+
+    func_80053DA8(0x519, gravity);
+    index = 15;
+    do {
+        particle = func_8003FC64(0x136);
+        if (particle != 0) {
+            particle->callback = func_800BF15C;
+            func_8004491C(particle, D_80045340);
+            sprite = particle->sprite;
+            particle->position->x = motion->x + ((rand() & 0x1FF) - 0x100) * 0x2000;
+            particle->position->y = motion->y + ((rand() & 0x1FF) - 0x100) * 0x2000;
+            particle->position->z = motion->z;
+            sprite->unk10 = 0x60;
+            sprite->scale_x = 0x1000;
+            sprite->scale_y = 0x1000;
+            sprite->flags |= 0xC;
+            func_8003DB94(sprite, D_800F15AC, 0);
+            sprite->color = 0x606060;
+        }
+        index--;
+    } while (index >= 0);
+    state->timer = 8;
+    state->state++;
+    goto L_epilogue;
 
 L_case1:
-        if (state->timer > 0) {
-            goto L_epilogue;
-        }
-        *(u16 *)(arg2 + 0x14) |= 0x80;
-        state->timer = 0x40;
-        state->state++;
+    if (state->timer > 0) {
         goto L_epilogue;
+    }
+    *(u16 *)(sprite_data + 0x14) |= 0x80;
+    state->timer = 0x40;
+    state->state++;
+    goto L_epilogue;
 
 L_case2: {
-        u16 *dst2;
-        s32 max_color;
+        u16 *output_color;
+        s32 channel_max;
         s32 color_bias;
 
         func_8006733C(D_800D2324, colors);
         func_80067014(0);
 
-        i = 15;
-        max_color = 0x1F;
+        index = 15;
+        channel_max = 0x1F;
         color_bias = -0x8000;
-        dst2 = &colors[15];
+        output_color = &colors[15];
         do {
-            color = *dst2;
+            color = *output_color;
             timer = state->timer;
-            c0 = max_color - (((max_color - (color & 0x1F)) * timer) >> 6);
-            c1 = max_color - (((max_color - ((s16)color >> 5 & 0x1F)) * timer) >> 6);
-            c2 = max_color - (((max_color - ((s16)color >> 10 & 0x1F)) * timer) >> 6);
-            *dst2 = (c2 << 10) + ((c1 << 5) + color_bias) + c0;
-            i--;
-            dst2--;
-        } while (i >= 0);
+            red = channel_max - (((channel_max - (color & 0x1F)) * timer) >> 6);
+            green = channel_max - (((channel_max - ((s16)color >> 5 & 0x1F)) * timer) >> 6);
+            blue = channel_max - (((channel_max - ((s16)color >> 10 & 0x1F)) * timer) >> 6);
+            *output_color = (blue << 10) + ((green << 5) + color_bias) + red;
+            index--;
+            output_color--;
+        } while (index >= 0);
 
         if (state->timer < 0x30) {
-            i = 0;
-            while (i < 0x10 - (state->timer >> 2)) {
-                i++;
-                c0 = (rand() % 3) * 8 + 0xF;
-                c1 = (rand() % 3) * 8 + 0xF;
-                c2 = (rand() % 3) * 8 + 0xF;
-                colors[rand() & 0xF] = (c2 << 10) +
-                                                ((c1 << 5) - 0x8000) + c0;
+            index = 0;
+            while (index < 0x10 - (state->timer >> 2)) {
+                index++;
+                red = (rand() % 3) * 8 + 0xF;
+                green = (rand() % 3) * 8 + 0xF;
+                blue = (rand() % 3) * 8 + 0xF;
+                colors[rand() & 0xF] = (blue << 10) + ((green << 5) - 0x8000) + red;
             }
         }
 
@@ -182,47 +181,47 @@ L_case2: {
     }
 
 L_case3:
-        i = 15;
-        do {
-            c0 = (rand() % 3) * 8 + 0xF;
-            c1 = (rand() % 3) * 8 + 0xF;
-            c2 = (rand() % 3) * 8 + 0xF;
-            colors[i] = (c2 << 10) + ((c1 << 5) - 0x8000) + c0;
-            i--;
-        } while (i >= 0);
-        func_800672D8(D_800D231C, colors);
-        func_80067014(0);
-        if (state->timer <= 0) {
-            state->timer = 0x20;
-            state->state++;
-        }
-        goto L_epilogue;
+    index = 15;
+    do {
+        red = (rand() % 3) * 8 + 0xF;
+        green = (rand() % 3) * 8 + 0xF;
+        blue = (rand() % 3) * 8 + 0xF;
+        colors[index] = (blue << 10) + ((green << 5) - 0x8000) + red;
+        index--;
+    } while (index >= 0);
+    func_800672D8(D_800D231C, colors);
+    func_80067014(0);
+    if (state->timer <= 0) {
+        state->timer = 0x20;
+        state->state++;
+    }
+    goto L_epilogue;
 
 L_case4: {
-        u16 *dst4;
-        s32 max_color;
+        u16 *output_color;
+        s32 channel_max;
         s32 color_bias;
 
-        i = 15;
-        max_color = 0x1F;
+        index = 15;
+        channel_max = 0x1F;
         color_bias = -0x8000;
-        dst4 = &colors[15];
-        base = D_80113138;
-        src = base + 15;
+        output_color = &colors[15];
+        original_palette = D_80113138;
+        source_color = original_palette + 15;
         do {
-            color = *src;
+            color = *source_color;
             timer = state->timer;
-            c0 = color & 0x1F;
-            c1 = (color >> 5) & 0x1F;
-            c2 = (color >> 10) & 0x1F;
-            c0 += ((max_color - c0) * timer) >> 5;
-            c1 += ((max_color - c1) * timer) >> 5;
-            c2 += ((max_color - c2) * timer) >> 5;
-            *dst4 = (c2 << 10) + ((c1 << 5) + color_bias) + c0;
-            src--;
-            dst4--;
-            i--;
-        } while (i >= 0);
+            red = color & 0x1F;
+            green = (color >> 5) & 0x1F;
+            blue = (color >> 10) & 0x1F;
+            red += ((channel_max - red) * timer) >> 5;
+            green += ((channel_max - green) * timer) >> 5;
+            blue += ((channel_max - blue) * timer) >> 5;
+            *output_color = (blue << 10) + ((green << 5) + color_bias) + red;
+            source_color--;
+            output_color--;
+            index--;
+        } while (index >= 0);
         func_800672D8(D_800D231C, colors);
         func_80067014(0);
         if (state->timer <= 0) {
@@ -232,10 +231,10 @@ L_case4: {
     }
 
 L_case5:
-        func_800672D8(D_800D231C, D_80113138);
-        func_80067014(0);
-        *(u16 *)((u8 *)state - 2) |= 0x8000;
-        D_800814A0[0] |= 0x8000;
+    func_800672D8(D_800D231C, D_80113138);
+    func_80067014(0);
+    *(u16 *)((u8 *)state - 2) |= 0x8000;
+    D_800814A0[0] |= 0x8000;
 L_epilogue:
     ;
 }

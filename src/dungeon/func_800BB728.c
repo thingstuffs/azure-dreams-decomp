@@ -91,45 +91,46 @@ extern u8 D_800E1456[];
 extern u8 D_800E146F[];
 extern u8 *D_800E3D7C[];
 
-s32 func_800C0E88(void *arg0, void *arg1, s16 arg2, void *arg3)
+/* Applies data to an object, updates its slots, and handles delayed consumption. */
+s32 func_800C0E88(void *object_arg, void *data_arg, s16 action, void *context)
 {
     u8 *object;
     register u8 *data ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *scan;
-    u8 *record;
+    u8 *slot_scan;
+    u8 *object_record;
     u8 *status;
-    u8 *current;
+    u8 *current_object;
     u8 *tail_status;
-    u8 *equal_object;
+    u8 *active_object;
     u8 *callback;
     u8 *message_table;
-    s32 message;
+    s32 message_start;
     s32 slot;
     s32 scan_slot;
-    s32 quotient;
-    s32 value;
-    s32 x;
-    s32 y;
-    s16 timer;
+    s32 slot_count;
+    s32 message_end;
+    s32 x_magnitude;
+    s32 y_magnitude;
+    s16 delay_timer;
     u32 flags;
 
-    object = arg0;
-    data = arg1;
+    object = object_arg;
+    data = data_arg;
     ASM_KEEP_NV(data);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    arg1 = arg3;
-    ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    data_arg = context;
+    ASM_KEEP_NV(data_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-    if (arg2 == 13) {
-        return func_80098864(data, arg1);
+    if (action == 13) {
+        return func_80098864(data, data_arg);
     }
 
-    current = D_800E3D7C[0];
-    if (object == current) {
+    current_object = D_800E3D7C[0];
+    if (object == current_object) {
         callback = D_80083780;
         data[3] |= 0x20;
-        equal_object = D_800E3D7C[0];
-        ((S_800C0E88_0 *)equal_object)->unk_110 = data;
-        func_8008D344(equal_object, callback, D_80082E80, equal_object);
+        active_object = D_800E3D7C[0];
+        ((S_800C0E88_0 *)active_object)->unk_110 = data;
+        func_8008D344(active_object, callback, D_80082E80, active_object);
 return_zero:
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         return 0;
@@ -144,9 +145,9 @@ return_zero:
                 goto normal_finish;
             }
             message_table = D_8006DE24;
-            scan = object;
+            slot_scan = object;
 scan_next:
-            if (scan[8] == 0) {
+            if (slot_scan[8] == 0) {
                 flags = ((S_800C0E88_2 *)object)->unk_14;
                 if (flags & 1) {
                     scan_slot = ((data[0] - 1) * 3) + 1;
@@ -157,30 +158,30 @@ scan_next:
                 } else if (flags & 4) {
                     scan_slot = ((data[0] - 1) * 3) + 3;
 set_scan_slot:
-                    scan[8] = scan_slot;
+                    slot_scan[8] = scan_slot;
                 }
 
-                quotient = ((S_800C0E88_1 *)data)->unk_02.s;
-                quotient /= 10;
-                ((S_800C0E88_3 *)scan)->unk_0A = quotient;
-                ((S_800C0E88_3 *)scan)->unk_09 = quotient;
+                slot_count = ((S_800C0E88_1 *)data)->unk_02.s;
+                slot_count /= 10;
+                ((S_800C0E88_3 *)slot_scan)->unk_0A = slot_count;
+                ((S_800C0E88_3 *)slot_scan)->unk_09 = slot_count;
 
                 if (((S_800C0E88_2 *)object)->unk_14 & 0x4000) {
-                    message = func_800990FC();
-                    value = func_80099734(object, message);
-                    value = func_80099194(D_800E1440, value);
-                    value = func_80099194(
-                        *(void **)(message_table + (scan[8] * 20)), value);
-                    value = func_80099194(D_800E144C, value);
-                    func_80099290(value);
-                    func_800A5720(message);
+                    message_start = func_800990FC();
+                    message_end = func_80099734(object, message_start);
+                    message_end = func_80099194(D_800E1440, message_end);
+                    message_end = func_80099194(
+                        *(void **)(message_table + (slot_scan[8] * 20)), message_end);
+                    message_end = func_80099194(D_800E144C, message_end);
+                    func_80099290(message_end);
+                    func_800A5720(message_start);
                     goto normal_finish;
                 }
                 goto normal_finish;
             }
 
-            scan += 3;
-            if ((s32)scan >= (s32)object + 9) {
+            slot_scan += 3;
+            if ((s32)slot_scan >= (s32)object + 9) {
                 goto normal_finish;
             }
             goto scan_next;
@@ -209,7 +210,7 @@ decrement_status:
         goto return_one;
     }
 
-    ((S_800C0E88_5 *)current)->unk_98 &= 0xFF7F;
+    ((S_800C0E88_5 *)current_object)->unk_98 &= 0xFF7F;
     ((S_800C0E88_2 *)object)->unk_09 = 0xFF;
 
     slot = (data[0] - 1) * 3;
@@ -221,22 +222,22 @@ decrement_status:
         ((S_800C0E88_2 *)object)->unk_08 = slot + 3;
     }
 
-    record = ((S_800C0E88_2_pre *)object)[-1].unk_00;
+    object_record = ((S_800C0E88_2_pre *)object)[-1].unk_00;
     object = (u8 *)((u32)object & 0xDFFFFFFF);
     ((S_800C0E88_2 *)object)->unk_60 = func_800A05A4(
-        object, record[0x24], record[0x25], ((S_800C0E88_2 *)object)->unk_2A, 16);
+        object, object_record[0x24], object_record[0x25], ((S_800C0E88_2 *)object)->unk_2A, 16);
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
 
-    x = ((S_800C0E88_2 *)object)->unk_72;
-    y = ((S_800C0E88_2 *)object)->unk_73;
-    if (x < 0) {
-        x = -x;
+    x_magnitude = ((S_800C0E88_2 *)object)->unk_72;
+    y_magnitude = ((S_800C0E88_2 *)object)->unk_73;
+    if (x_magnitude < 0) {
+        x_magnitude = -x_magnitude;
     }
-    if (y < 0) {
-        y = -y;
+    if (y_magnitude < 0) {
+        y_magnitude = -y_magnitude;
     }
-    ((S_800C0E88_2 *)object)->unk_72 = x;
-    ((S_800C0E88_2 *)object)->unk_73 = y;
+    ((S_800C0E88_2 *)object)->unk_72 = x_magnitude;
+    ((S_800C0E88_2 *)object)->unk_73 = y_magnitude;
 
     if (data[3] & 0x20) {
         if (func_800A94A0(object, object + 8, 0,
@@ -247,9 +248,9 @@ decrement_status:
         data[3] &= 0xDF;
     }
 
-    timer = D_800DF4B0[0] - 1;
-    D_800DF4B0[0] = timer;
-    if (timer >= 0) {
+    delay_timer = D_800DF4B0[0] - 1;
+    D_800DF4B0[0] = delay_timer;
+    if (delay_timer >= 0) {
         return 0;
     }
 
@@ -263,11 +264,11 @@ decrement_status:
     ((S_800C0E88_7 *)(D_800814A8[0]))->unk_98 |= 0x80;
     ((S_800C0E88_1 *)data)->unk_02.u--;
 
-    message = func_800990FC();
-    value = func_800992E8(data, message);
-    value = func_80099194(D_800E146F, value);
-    func_80099290(value);
-    func_800A5720(message);
+    message_start = func_800990FC();
+    message_end = func_800992E8(data, message_start);
+    message_end = func_80099194(D_800E146F, message_end);
+    func_80099290(message_end);
+    func_800A5720(message_start);
     ((S_800C0E88_6 *)status)->unk_0A--;
 return_one:
     return 1;

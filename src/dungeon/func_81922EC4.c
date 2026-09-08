@@ -17,16 +17,17 @@ typedef struct {
 extern s16 D_80025B60;
 extern s32 D_800814A0;
 
+/* Fades four dungeon colors toward black and flags completion when time runs out. */
 void func_800246C4(DungeonColorWork *work)
 {
-    s16 i;
+    s16 color_index;
     DungeonColor *color;
 
     D_80025B60 = 1;
     work->remaining--;
 
-    for (i = 0; i < 4; i++) {
-        color = &work->color[i];
+    for (color_index = 0; color_index < 4; color_index++) {
+        color = &work->color[color_index];
         color->r = (color[4].r * work->remaining) / work->duration;
         color->g = (color[4].g * work->remaining) / work->duration;
         color->b = (color[4].b * work->remaining) / work->duration;

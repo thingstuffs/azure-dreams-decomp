@@ -13,7 +13,8 @@ extern s16 D_80080AD4;
 extern void *D_80080ADC;
 extern s32 func_8003E39C();
 
-s32 func_8003E4FC(s32 arg0, void *arg1)
+/* Dispatch supported event codes and update the associated event state. */
+s32 func_8003E4FC(s32 event_code, void *event_data)
 {
     ResultBox_8003E4FC result;
     s32 kind;
@@ -21,7 +22,7 @@ s32 func_8003E4FC(s32 arg0, void *arg1)
     s32 null_kind;
     void *call_arg;
 
-    kind = arg0 & 0xFF;
+    kind = event_code & 0xFF;
     if (kind < 13) {
         if (kind < 11) {
             if (kind == 4) {
@@ -99,35 +100,35 @@ case_0:
     goto call_three;
 
 case_2:
-    call_kind = (u8)arg0;
-    goto call_arg1;
+    call_kind = (u8)event_code;
+    goto call_with_data;
 
 case_ff:
-    result.value = func_8003E39C(0xFF, arg1);
+    result.value = func_8003E39C(0xFF, event_data);
     goto done;
 
 case_6:
-    call_arg = arg1;
+    call_arg = event_data;
     D_80080ADC = ((EventSource_8003E4FC *)call_arg)->field4;
-    result.value = func_8003E39C((u8)arg0, call_arg);
+    result.value = func_8003E39C((u8)event_code, call_arg);
     goto done;
 
 case_9:
-    call_kind = (u8)arg0;
+    call_kind = (u8)event_code;
     call_arg = 0;
     result = (ResultBox_8003E4FC){ 0 };
     goto call_three;
 
 case_13:
     D_80080AD4 = 0;
-    if (arg1 == 0) {
+    if (event_data == 0) {
         null_kind = 13;
         goto call_null;
     }
     func_8003E39C(13, 0);
-    func_8003E39C(2, arg1, 0);
-    result.value = func_8003E39C(27, arg1, 0);
-    D_80080ADC = arg1;
+    func_8003E39C(2, event_data, 0);
+    result.value = func_8003E39C(27, event_data, 0);
+    D_80080ADC = event_data;
     goto done;
 
 case_14:
@@ -137,14 +138,14 @@ call_null:
     goto done;
 
 case_21:
-    func_8003E39C(2, arg1, 0);
+    func_8003E39C(2, event_data, 0);
     call_kind = 21;
-    goto call_arg1;
+    goto call_with_data;
 
 case_27:
     call_kind = 27;
-call_arg1:
-    call_arg = arg1;
+call_with_data:
+    call_arg = event_data;
 call_three:
     result.value = func_8003E39C(call_kind, call_arg, 0);
     goto done;

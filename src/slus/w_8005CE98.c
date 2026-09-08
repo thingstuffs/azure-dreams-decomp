@@ -19,54 +19,55 @@ extern char D_80033228[];
 extern void func_8005D730(void);
 extern void printf();
 
-void func_8005CE98(u16 *src, u32 size)
+/* Writes source data to SPU RAM through the transfer FIFO and waits for completion. */
+void func_8005CE98(u16 *src, u32 bytes_left)
 {
-    u16 *p;
-    u16 stat;
-    u16 mask;
-    s32 n;
-    s32 i;
-    u32 tries;
-    u32 m;
-    u16 c;
+    u16 *src_pos;
+    u16 initial_status;
+    u16 saved_status;
+    s32 chunk_bytes;
+    s32 byte_offset;
+    u32 poll_count;
+    u32 expected_status;
+    u16 control;
 
-    p = src;
-    stat = D_80079958->spustat;
+    src_pos = src;
+    initial_status = D_80079958->spustat;
     D_80079958->dt_addr = D_80079970;
-    mask = stat & 0x7FF;
+    saved_status = initial_status & 0x7FF;
     func_8005D730();
 
-    while (size != 0) {
-        n = 0x40;
-        if (size < 0x41) {
-            n = size;
+    while (bytes_left != 0) {
+        chunk_bytes = 0x40;
+        if (bytes_left < 0x41) {
+            chunk_bytes = bytes_left;
         }
-        for (i = 0; i < n; i += 2) {
-            D_80079958->dt_fifo = *p++;
+        for (byte_offset = 0; byte_offset < chunk_bytes; byte_offset += 2) {
+            D_80079958->dt_fifo = *src_pos++;
         }
-        c = D_80079958->spucnt;
-        c = (c & 0xFFCF) | 0x10;
-        D_80079958->spucnt = c;
+        control = D_80079958->spucnt;
+        control = (control & 0xFFCF) | 0x10;
+        D_80079958->spucnt = control;
         func_8005D730();
-        tries = 0;
+        poll_count = 0;
         while (D_80079958->spustat & 0x400) {
-            if (++tries >= 0xF01) {
+            if (++poll_count >= 0xF01) {
                 printf(D_800331F4, D_80033214);
                 break;
             }
         }
         func_8005D730();
         func_8005D730();
-        size -= n;
+        bytes_left -= chunk_bytes;
     }
 
-    m = mask;
-    tries = 0;
-    c = D_80079958->spucnt;
-    c &= 0xFFCF;
-    D_80079958->spucnt = c;
-    while ((D_80079958->spustat & 0x7FF) != m) {
-        if (++tries >= 0xF01) {
+    expected_status = saved_status;
+    poll_count = 0;
+    control = D_80079958->spucnt;
+    control &= 0xFFCF;
+    D_80079958->spucnt = control;
+    while ((D_80079958->spustat & 0x7FF) != expected_status) {
+        if (++poll_count >= 0xF01) {
             printf(D_800331F4, D_80033228);
             break;
         }

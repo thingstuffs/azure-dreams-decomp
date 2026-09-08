@@ -2,6 +2,7 @@
 
 extern s16 D_80162004[];
 
+/* Clears all entries in the 128-by-128 table. */
 void func_800B7314(void) {
     s16 row;
     s16 column;
@@ -16,7 +17,3 @@ void func_800B7314(void) {
         row++;
     } while (row < 128);
 }
-
-/* MECHANISM: Frameless leaf with two signed-16-bit induction variables.
-   A flat s16 table makes the row stride and element scaling explicit,
-   while nested do-while loops preserve the retail increment/test CFG. */

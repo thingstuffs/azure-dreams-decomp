@@ -28,30 +28,32 @@ static inline s32 shift10(s32 value)
 {
     return value >> 10;
 }
+
+/* Swap draw buffers and update the animated coordinate history on a new display field. */
 void func_8003CB08(void)
 {
-    void **display = &D_80083160[0];
+    void **draw_buffer = &D_80083160[0];
 
     if ((D_80082E60.field_0 & 3) == 1) {
-        u8 field = (u8)((u32)VSync(1) >> 8);
+        u8 field_id = (u8)((u32)VSync(1) >> 8);
 
-        if (field != D_80080AAA) {
-            u8 *next;
-            s32 i;
-            s32 result;
-            s32 high;
-            s32 low;
+        if (field_id != D_80080AAA) {
+            u8 *next_buffer;
+            s32 layer;
+            s32 trig_value;
+            s32 wave_offset;
+            s32 center_offset;
 
-            D_80080AAA = field;
+            D_80080AAA = field_id;
             PutDispEnv((u8 *)D_80083160[0] + 0x5C);
-            PutDrawEnv(*display);
+            PutDrawEnv(*draw_buffer);
 
-            next = D_801C9E40[0];
-            if (*display == D_801C9E40[0]) {
-                next += 0x108D4;
+            next_buffer = D_801C9E40[0];
+            if (*draw_buffer == D_801C9E40[0]) {
+                next_buffer += 0x108D4;
             }
-            D_80083160[0] = next;
-            *(u32 *)(next + 0x8D0) = (u32)next + 0x8D4;
+            D_80083160[0] = next_buffer;
+            *(u32 *)(next_buffer + 0x8D0) = (u32)next_buffer + 0x8D4;
 
             if (D_80080AA6 != D_80083960[0]) {
                 D_80080AA6 = D_80083960[0];
@@ -59,47 +61,47 @@ void func_8003CB08(void)
             }
 
             {
-                register s32 count ASM_REG("$16") = 63;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                s16 *base2 = D_800838D8;
-                s16 *dst2 = base2 + 63;
-                s16 *src2 = base2 + 62;
-                s16 *base1 = D_80083858;
-                s16 *dst1 = base1 + 63;
-                s16 *src1 = base1 + 62;
+                register s32 remaining ASM_REG("$16") = 63;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                s16 *y_history = D_800838D8;
+                s16 *y_dst = y_history + 63;
+                s16 *y_src = y_history + 62;
+                s16 *x_history = D_80083858;
+                s16 *x_dst = x_history + 63;
+                s16 *x_src = x_history + 62;
 
                 do {
-                    *dst1 = *src1;
-                    src1--;
-                    count--;
-                    *dst2 = *src2;
-                    src2--;
-                    dst1--;
-                    dst2--;
-                } while (count > 0);
+                    *x_dst = *x_src;
+                    x_src--;
+                    remaining--;
+                    *y_dst = *y_src;
+                    y_src--;
+                    x_dst--;
+                    y_dst--;
+                } while (remaining > 0);
             }
 
-            i = 3;
-            result = rcos(D_80080AA4 * 80);
+            layer = 3;
+            trig_value = rcos(D_80080AA4 * 80);
             {
-                s16 *out = D_80083858;
-                high = result >> 7;
-                ASM_KEEP(high);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                low = shift10(result) + 0x100;
-                *out = (s16)(high + low);
+                s16 *x_head = D_80083858;
+                wave_offset = trig_value >> 7;
+                ASM_KEEP(wave_offset);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                center_offset = shift10(trig_value) + 0x100;
+                *x_head = (s16)(wave_offset + center_offset);
             }
 
-            result = rsin(D_80080AA4 * 80);
+            trig_value = rsin(D_80080AA4 * 80);
             {
-                s16 *out = D_800838D8;
-                high = result >> 7;
-                ASM_KEEP(high);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                low = shift10(result) + 0xB0;
-                *out = (s16)(high + low);
+                s16 *y_head = D_800838D8;
+                wave_offset = trig_value >> 7;
+                ASM_KEEP(wave_offset);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                center_offset = shift10(trig_value) + 0xB0;
+                *y_head = (s16)(wave_offset + center_offset);
             }
 
             func_8003D0F0();
-            for (; i >= 0; i--) {
-                func_8003CCB0(i);
+            for (; layer >= 0; layer--) {
+                func_8003CCB0(layer);
             }
 
             if (D_80080AA8 != 0) {

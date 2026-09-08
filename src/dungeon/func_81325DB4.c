@@ -11,32 +11,33 @@ extern DungeonState D_80083460;
 extern u8 D_8016B778[];
 extern void func_8016AD00(void);
 
-void func_8016D5B4(void *arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Advances the object's counter and switches its script when the dungeon is ready. */
+void func_8016D5B4(void *object, s32 unused_1, s32 unused_2, s32 state_base)
 {
-    u8 old;
-    u8 value;
+    u8 previous_count;
+    u8 count;
 
-    old = *(u8 *)((u8 *)arg0 + 0x9B);
-    value = old + 1;
-    *(u8 *)((u8 *)arg0 + 0x9B) = value;
+    previous_count = *(u8 *)((u8 *)object + 0x9B);
+    count = previous_count + 1;
+    *(u8 *)((u8 *)object + 0x9B) = count;
 
-    if (value == 1) {
-        s32 state = D_80083460.field_10;
+    if (count == 1) {
+        s32 state_code = D_80083460.field_10;
 
-        if (state == arg3 - 0x20) {
-            D_80083460.field_10 = state & 0x7FFFFFFF;
+        if (state_code == state_base - 0x20) {
+            D_80083460.field_10 = state_code & 0x7FFFFFFF;
             return;
         }
-    } else if (value >= 5) {
-        DungeonState *state = &D_80083460;
+    } else if (count >= 5) {
+        DungeonState *dungeon = &D_80083460;
 
-        *(u8 *)((u8 *)arg0 + 0x9B) = old;
-        if (state->field_A == 0) {
+        *(u8 *)((u8 *)object + 0x9B) = previous_count;
+        if (dungeon->field_A == 0) {
             func_8016AD00();
-            *(s8 *)((u8 *)arg0 + 0xB4) = 1;
-            state->field_A = (u16)state->field_A + 1;
-            *(u8 *)((u8 *)arg0 + 0x9B) = 0;
-            *(u8 **)((u8 *)arg0 + 0x8C) = D_8016B778;
+            *(s8 *)((u8 *)object + 0xB4) = 1;
+            dungeon->field_A = (u16)dungeon->field_A + 1;
+            *(u8 *)((u8 *)object + 0x9B) = 0;
+            *(u8 **)((u8 *)object + 0x8C) = D_8016B778;
         }
     }
 }

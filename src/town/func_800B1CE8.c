@@ -26,9 +26,10 @@ extern M2C_UNK D_80071244;
 extern M2C_UNK D_800792DC;
 
 
-void func_800AF448(void *arg0) {
-    if (((S_800AF448_1 *)(((S_800AF448_0 *)arg0)->unk_00))->unk_1C != 0) {
-        func_8004CBFC(arg0 + 0x1C, &D_800792DC, ((S_800AF448_2 *)(((S_800AF448_0 *)arg0)->unk_A8))->unk_10);
-        *((S_800AF448_2 *)(((S_800AF448_0 *)arg0)->unk_A8))->unk_14 = &D_80071244;
+/* Update an enabled object's data and reset its referenced pointer. */
+void func_800AF448(void *object) {
+    if (((S_800AF448_1 *)(((S_800AF448_0 *)object)->unk_00))->unk_1C != 0) {
+        func_8004CBFC(object + 0x1C, &D_800792DC, ((S_800AF448_2 *)(((S_800AF448_0 *)object)->unk_A8))->unk_10);
+        *((S_800AF448_2 *)(((S_800AF448_0 *)object)->unk_A8))->unk_14 = &D_80071244;
     }
 }

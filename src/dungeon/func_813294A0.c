@@ -10,10 +10,11 @@ typedef struct S_80170CA0_0 {
     s8 unk_9A;
 } S_80170CA0_0;   /* temp_v0 in func_80170CA0 */
 
+/* Clear the current object's two state fields. */
 void func_80170CA0(void) {
-    S_80170CA0_0 *temp_v0;
+    S_80170CA0_0 *state;
 
-    temp_v0 = *D_80174CE0 + 0x20;
-    temp_v0->unk_9A = 0;
-    temp_v0->unk_96 = 0;
+    state = *D_80174CE0 + 0x20;
+    state->unk_9A = 0;
+    state->unk_96 = 0;
 }

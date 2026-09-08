@@ -35,30 +35,31 @@ typedef struct S_80170298_1 {
     s16 unk_1E;
 } S_80170298_1;   /* part2 in func_80170298 */
 
+/* Allocate a type 0x12 object, clear its state, and attach a copy of the default data. */
 void func_80170298(void)
 {
-    void *obj;
-    S_80170298_0 *part1;
-    S_80170298_1 *part2;
+    void *object;
+    S_80170298_0 *axis_state;
+    S_80170298_1 *data_state;
 
-    obj = func_8003FC64(0x12);
-    if (obj != 0) {
-        (*(void * *)((u8 *)obj + 0x10)) = D_801701CC;
-        func_8004491C(obj, D_80044BB0);
+    object = func_8003FC64(0x12);
+    if (object != 0) {
+        (*(void * *)((u8 *)object + 0x10)) = D_801701CC;
+        func_8004491C(object, D_80044BB0);
 
-        do { part1 = (*(void * *)((u8 *)obj + 8)); } while (0);
-        part1->unk_0A = 0;
-        part1->unk_06 = 0;
-        part1->unk_02 = 0;
+        do { axis_state = (*(void * *)((u8 *)object + 8)); } while (0);
+        axis_state->unk_0A = 0;
+        axis_state->unk_06 = 0;
+        axis_state->unk_02 = 0;
 
-        part2 = (*(void * *)((u8 *)obj + 0xC));
-        part2->unk_1E = 0;
-        part2->unk_1C = 0;
-        part2->unk_0E = 0;
-        part2->unk_0D = 0;
-        part2->unk_0C = 0;
+        data_state = (*(void * *)((u8 *)object + 0xC));
+        data_state->unk_1E = 0;
+        data_state->unk_1C = 0;
+        data_state->unk_0E = 0;
+        data_state->unk_0D = 0;
+        data_state->unk_0C = 0;
 
-        (*(Copy12 *)((u8 *)obj + 0x48)) = D_80173B1C;
-        part2->unk_08 = (u8 *)obj + 0x48;
+        (*(Copy12 *)((u8 *)object + 0x48)) = D_80173B1C;
+        data_state->unk_08 = (u8 *)object + 0x48;
     }
 }

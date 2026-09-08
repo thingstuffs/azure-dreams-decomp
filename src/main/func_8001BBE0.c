@@ -3,40 +3,41 @@
 extern s32 func_80051B50(void *arg0, s32 arg1, s32 arg2);
 extern u8 D_80408B2C[];
 
-void func_80402BE0(u8 *arg0)
+/* Position and update four display items using the selected table row. */
+void func_80402BE0(u8 *state)
 {
-    s32 i;
+    s32 item_index;
     s32 draw_offset;
     s32 vertical_offset;
-    u8 *scan;
+    u8 *item_cursor;
     u8 *item;
-    u32 index_address;
-    u32 row_address;
-    u8 *table;
+    u32 entry_addr;
+    u32 row_addr;
+    u8 *item_table;
 
-    i = 0;
-    table = D_80408B2C;
+    item_index = 0;
+    item_table = D_80408B2C;
     draw_offset = 0x234;
     vertical_offset = 0;
-    scan = arg0;
+    item_cursor = state;
     do {
-        u8 *draw;
+        u8 *draw_buffer;
 
-        draw = arg0 + draw_offset;
+        draw_buffer = state + draw_offset;
         draw_offset += 0x108;
-        item = *(u8 **)(scan + 0x68C);
-        scan += 4;
-        *(s16 *)(*(u8 **)(item + 4) + 8) = 0x124 - (*(s32 *)(arg0 + 0x18) / 2);
-        index_address = (u32)(i * 4);
-        *(s16 *)(*(u8 **)(item + 4) + 0xA) = vertical_offset - (*(s32 *)(arg0 + 0x1C) / 2) + 0xFC;
-        i++;
+        item = *(u8 **)(item_cursor + 0x68C);
+        item_cursor += 4;
+        *(s16 *)(*(u8 **)(item + 4) + 8) = 0x124 - (*(s32 *)(state + 0x18) / 2);
+        entry_addr = (u32)(item_index * 4);
+        *(s16 *)(*(u8 **)(item + 4) + 0xA) = vertical_offset - (*(s32 *)(state + 0x1C) / 2) + 0xFC;
+        item_index++;
         vertical_offset += 0x11;
-        row_address = (u32)(*(s32 *)(arg0 + 8) * 0x10);
-        row_address += (u32)(unsigned long)table;
-        index_address += row_address;
+        row_addr = (u32)(*(s32 *)(state + 8) * 0x10);
+        row_addr += (u32)(unsigned long)item_table;
+        entry_addr += row_addr;
         *(s32 *)item = func_80051B50(
-            draw,
-            *(s32 *)(unsigned long)index_address,
+            draw_buffer,
+            *(s32 *)(unsigned long)entry_addr,
             1);
-    } while (i < 4);
+    } while (item_index < 4);
 }

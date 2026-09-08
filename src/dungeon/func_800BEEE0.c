@@ -41,40 +41,41 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 rand(void);
 
+/* Updates effect brightness, paired color values, and motion through three stages. */
 void func_800C4640(EffectState *state, EffectWork *work, EffectColor *color) {
-    s16 type;
+    s16 stage;
 
-    type = state->type;
-    if (type == 1) {
+    stage = state->type;
+    if (stage == 1) {
         goto type1;
     }
-    if (type < 2) {
-        if (type == 0) {
+    if (stage < 2) {
+        if (stage == 0) {
             goto type0;
         }
         goto common;
     }
-    if (type == 2) {
+    if (stage == 2) {
         goto type2;
     }
     goto common;
 
 type0:
     {
-        u8 old_value;
-        s32 value;
-        s32 old_value_1e;
-        u16 value_1e;
+        u8 old_brightness;
+        s32 brightness;
+        s32 old_pair_value;
+        u16 pair_value;
 
-        old_value = color->b;
-        value = old_value + (((state->mode != 0 ? 0xf0 : 0x40) - old_value) / ((s16 *)state)[1]);
-        old_value_1e = color->value_1e;
-        color->b = value;
-        color->g = value;
-        color->r = value;
-        value_1e = old_value_1e + (((state->mode != 0 ? 0x100 : 0x400) - old_value_1e) / ((s16 *)state)[1]);
-        color->value_1e = value_1e;
-        color->value_1c = value_1e;
+        old_brightness = color->b;
+        brightness = old_brightness + (((state->mode != 0 ? 0xf0 : 0x40) - old_brightness) / ((s16 *)state)[1]);
+        old_pair_value = color->value_1e;
+        color->b = brightness;
+        color->g = brightness;
+        color->r = brightness;
+        pair_value = old_pair_value + (((state->mode != 0 ? 0x100 : 0x400) - old_pair_value) / ((s16 *)state)[1]);
+        color->value_1e = pair_value;
+        color->value_1c = pair_value;
         work->offset -= 0x200;
     }
     if (((state->count = state->count - 1) << 16) > 0) {
@@ -86,18 +87,18 @@ type0:
 
 type1:
     {
-        u8 value;
+        u8 brightness;
 
         work->offset += 0x1800;
         if (state->mode != 0) {
             if (rand() & 3) {
-                value = 0x10;
+                brightness = 0x10;
             } else {
-                value = 0xf0;
+                brightness = 0xf0;
             }
-            color->b = value;
-            color->g = value;
-            color->r = value;
+            color->b = brightness;
+            color->g = brightness;
+            color->r = brightness;
         }
     }
     if (((state->count = state->count - 1) << 16) > 0) {
@@ -109,60 +110,60 @@ type1:
 
 type2:
     {
-        u8 value;
-        s16 count;
+        u8 brightness;
+        s16 ticks_left;
 
         work->offset += 0x2000;
         if (state->mode != 0) {
             if (rand() & 3) {
                 goto type2_value_constant;
             }
-            count = state->count;
-            value = ((count << 4) - count) >> 1;
+            ticks_left = state->count;
+            brightness = ((ticks_left << 4) - ticks_left) >> 1;
             goto type2_value_done;
         type2_value_constant:
-            value = 0x10;
+            brightness = 0x10;
         type2_value_done:
-            color->b = value;
-            color->g = value;
-            color->r = value;
+            color->b = brightness;
+            color->g = brightness;
+            color->r = brightness;
         }
     }
     if (((state->count = state->count - 1) << 16) <= 0) {
-        u16 *previous;
+        u16 *flags;
 
-        previous = ((u16 *)state) - 1;
-        *previous |= 0x8000;
+        flags = ((u16 *)state) - 1;
+        *flags |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 
 common:
     if (state->current < state->max) {
-        s16 current;
+        s16 amplitude;
 
-        current = state->current + 2;
-        state->current = current;
-        if (state->max < current) {
+        amplitude = state->current + 2;
+        state->current = amplitude;
+        if (state->max < amplitude) {
             state->current = state->max;
         }
     }
 
     {
-        u16 phase;
-        u16 angle;
+        u16 next_phase;
+        u16 next_angle;
 
-        phase = state->phase + 1;
-        state->phase = phase;
-        angle = state->angle + (func_800644B8((phase << 16) >> 8) >> 6);
-        state->angle = angle;
-        work->value = state->work->value + ((func_80064584((s16)angle) * state->current) >> 12);
+        next_phase = state->phase + 1;
+        state->phase = next_phase;
+        next_angle = state->angle + (func_800644B8((next_phase << 16) >> 8) >> 6);
+        state->angle = next_angle;
+        work->value = state->work->value + ((func_80064584((s16)next_angle) * state->current) >> 12);
     }
 
     {
-        s32 temp;
+        s32 height_product;
 
-        temp = func_800644B8((s16)state->angle) * state->current;
-        work->height = state->work->height + (temp >> 12);
+        height_product = func_800644B8((s16)state->angle) * state->current;
+        work->height = state->work->height + (height_product >> 12);
         work->position += work->offset;
     }
 }

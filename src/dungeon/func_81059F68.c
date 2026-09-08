@@ -32,52 +32,53 @@ extern s8 D_80082EA4;
 extern s32 D_80083460;
 extern s8 D_800E2970[];
 
-void func_80171768(u8 *in0, void *arg1, u8 *in2, u8 *in3)
+/* Updates actor movement, choosing a direction and recording its path. */
+void func_80171768(u8 *move_work_in, void *entry_context, u8 *position_in, u8 *actor_in)
 {
-    register u8 *arg0 ASM_REG("$21") = in0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *arg2 ASM_REG("$19") = in2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *arg3 ASM_REG("$18") = in3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 special;
-    s16 counter;
+    register u8 *move_work ASM_REG("$21") = move_work_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *position ASM_REG("$19") = position_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u8 *actor ASM_REG("$18") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 limit_turn;
+    s16 step_index;
     s16 *angle_steps;
     u8 *state;
-    void *found;
+    void *target_link;
     u16 state_flags;
     s32 actor_flags;
-    s32 call_result;
+    s32 random_turn;
     register s32 current_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 special_test;
-    s32 trial;
+    s32 turn_limit;
+    s32 trial_angle;
 
     state = (u8 *)&D_80083460;
     state_flags = U16_AT(state, 2);
-    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    special = 0;
+    ASM_KEEP(move_work);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    limit_turn = 0;
 
     if (state_flags & 0x4000) {
         goto check_entry;
     }
-    if (S8_AT(arg3, 0x71) < 0) {
+    if (S8_AT(actor, 0x71) < 0) {
         goto negative_entry;
     }
 
 check_entry:
-    if (U8_AT(arg3, 0x12) >= 2) {
+    if (U8_AT(actor, 0x12) >= 2) {
         goto reject_entry;
     }
-    if ((func_80171F24(arg0, arg1, arg2, arg3) << 16) != 0) {
+    if ((func_80171F24(move_work, entry_context, position, actor) << 16) != 0) {
         goto accepted_entry;
     }
 
 reject_entry:
-    func_800A9A0C(arg3);
+    func_800A9A0C(actor);
     goto done;
 
 accepted_entry:
-    if (PTR_AT(state, 0xC) == arg3) {
-        U16_AT(arg3, 0x46) = 0xC008;
+    if (PTR_AT(state, 0xC) == actor) {
+        U16_AT(actor, 0x46) = 0xC008;
     }
     goto done;
 
@@ -86,8 +87,8 @@ negative_entry:
         goto done;
     }
 
-    func_800A19E4(arg2, arg3, 3, 6, arg0 + 0x9C);
-    actor_flags = S32_AT(arg3, 0x1C);
+    func_800A19E4(position, actor, 3, 6, move_work + 0x9C);
+    actor_flags = S32_AT(actor, 0x1C);
     if (!(actor_flags & 0x410)) {
         goto check_mode_2000;
     }
@@ -95,25 +96,25 @@ negative_entry:
         goto mode_410_without_400;
     }
 
-    found = func_800A02AC(arg3, U8_AT(arg2, 0x24), U8_AT(arg2, 0x25));
-    if (found != 0) {
+    target_link = func_800A02AC(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
+    if (target_link != 0) {
         goto found_actor;
     }
     {
-        register s32 field_value ASM_REG("$2") = S32_AT(arg3, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 turn_flags ASM_REG("$2") = S32_AT(actor, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        if (field_value < 0) {
+        if (turn_flags < 0) {
             goto zero_counter;
         }
-        S32_AT(arg3, 0x14) = field_value | 0x80000000;
+        S32_AT(actor, 0x14) = turn_flags | 0x80000000;
     }
-    call_result = func_800A6D30();
-    U16_AT(arg3, 0x2A) += (call_result & 7) << 9;
+    random_turn = func_800A6D30();
+    U16_AT(actor, 0x2A) += (random_turn & 7) << 9;
     goto zero_counter;
 
 mode_410_without_400:
-    if (func_800A04F0(arg3, U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
-                      S16_AT(arg3, 0x2A)) == 0) {
+    if (func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
+                      S16_AT(actor, 0x2A)) == 0) {
         goto loop_setup;
     }
     goto clear_path;
@@ -122,7 +123,7 @@ check_mode_2000:
     if (!(actor_flags & 0x2000)) {
         goto check_tile_kind;
     }
-    if (U16_AT(arg3, 0x46) & 0x8000) {
+    if (U16_AT(actor, 0x46) & 0x8000) {
         goto loop_setup;
     }
     if (!(actor_flags & 0x20000)) {
@@ -136,29 +137,29 @@ check_mode_2000:
         s32 target_y;
         u8 *target = D_80082E80;
 
-        direction = (U8_AT(arg3, 0x45) +
+        direction = (U8_AT(actor, 0x45) +
                      ((s32)(U16_AT(D_800814A8, 0x2A) << 16) >> 25)) & 7;
         offset = direction * 2;
         target_x = U8_AT(target, 0x24) + U16_AT(&D_8006CCD8, offset);
         target_y = U8_AT(target, 0x25) + U16_AT(&D_8006CCE8, offset);
-        if ((U8_AT(arg2, 0x24) == (u16)target_x) &&
-            (U8_AT(arg2, 0x25) == (u16)target_y)) {
+        if ((U8_AT(position, 0x24) == (u16)target_x) &&
+            (U8_AT(position, 0x25) == (u16)target_y)) {
             goto clear_path;
         }
 
         {
-            u8 *buffer = arg0 + 0x98;
+            u8 *angle_work = move_work + 0x98;
             s16 next_angle = func_800A0818(
-                U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
-                (s16)target_x, (s16)target_y, buffer);
+                U8_AT(position, 0x24), U8_AT(position, 0x25),
+                (s16)target_x, (s16)target_y, angle_work);
 
-            U16_AT(arg3, 0x2A) = next_angle;
-            if ((func_8009A66C(next_angle, arg2, arg3, 0x20) << 16) <= 0) {
+            U16_AT(actor, 0x2A) = next_angle;
+            if ((func_8009A66C(next_angle, position, actor, 0x20) << 16) <= 0) {
                 u8 *fallback = (u8 *)&D_80082EA4 - 0x24;
 
-                U16_AT(arg3, 0x2A) = func_800A0818(
-                    U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
-                    U8_AT(fallback, 0x24), U8_AT(fallback, 0x25), buffer);
+                U16_AT(actor, 0x2A) = func_800A0818(
+                    U8_AT(position, 0x24), U8_AT(position, 0x25),
+                    U8_AT(fallback, 0x24), U8_AT(fallback, 0x25), angle_work);
             }
         }
     }
@@ -166,189 +167,189 @@ check_mode_2000:
         u8 *target = (u8 *)&D_80082EA4 - 0x24;
 
         if ((func_8009FD7C(
-                 U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
+                 U8_AT(position, 0x24), U8_AT(position, 0x25),
                  U8_AT(target, 0x24), U8_AT(target, 0x25)) << 16) != 0) {
-            special = 1;
+            limit_turn = 1;
         }
     }
     goto loop_setup;
 
 check_tile_kind:
     {
-        s32 kind;
+        s32 tile_kind;
         s32 offset;
-        u8 *entry;
+        u8 *tile_table;
 
-        kind = S8_AT(arg2, 0x26);
-        if (kind >= 0) {
-            entry = (u8 *)&D_800E2970;
-            offset = kind * 0x14;
-            offset += (s32)entry;
+        tile_kind = S8_AT(position, 0x26);
+        if (tile_kind >= 0) {
+            tile_table = (u8 *)&D_800E2970;
+            offset = tile_kind * 0x14;
+            offset += (s32)tile_table;
             if (U16_AT((u8 *)offset, 0xC) & 2) {
                 goto invoke_fallback;
             }
         }
     }
-    if (U16_AT(arg3, 0x46) & 0x8000) {
+    if (U16_AT(actor, 0x46) & 0x8000) {
         goto loop_setup;
     }
 
-    found = func_800A02AC(arg3, U8_AT(arg2, 0x24), U8_AT(arg2, 0x25));
-    if (!(U16_AT(arg0, 0x98) & 0x8000)) {
+    target_link = func_800A02AC(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
+    if (!(U16_AT(move_work, 0x98) & 0x8000)) {
         goto zero_counter;
     }
-    if (found == 0) {
+    if (target_link == 0) {
         goto loop_setup;
     }
     if ((func_8009A540(
-             ((S16_AT(arg3, 0x2A) >> 9) & 0xFFFF),
-             U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
-             (s16)(U16_AT(arg3, 0x88) - 0x20)) << 16) != 0) {
+             ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
+             U8_AT(position, 0x24), U8_AT(position, 0x25),
+             (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
         goto found_actor;
     }
     goto found_retry;
 
 found_actor:
     {
-        u8 *other = PTR_AT(found, -0x14);
-        register u8 *buffer ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(other);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        buffer = arg0 + 0x98;
+        u8 *target_actor = PTR_AT(target_link, -0x14);
+        register u8 *angle_work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(target_actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        angle_work = move_work + 0x98;
 
-        U16_AT(arg3, 0x2A) = func_800A0818(
-            U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
-            U8_AT(other, 0x24), U8_AT(other, 0x25), buffer);
-        U8_AT(arg3, 0x71) &= 0x7F;
+        U16_AT(actor, 0x2A) = func_800A0818(
+            U8_AT(position, 0x24), U8_AT(position, 0x25),
+            U8_AT(target_actor, 0x24), U8_AT(target_actor, 0x25), angle_work);
+        U8_AT(actor, 0x71) &= 0x7F;
         goto done;
     }
 
 found_retry:
-    if (func_800A04F0(arg3, U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
-                      S16_AT(arg3, 0x2A)) != 0) {
+    if (func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
+                      S16_AT(actor, 0x2A)) != 0) {
         if ((func_8009A540(
-                 ((S16_AT(arg3, 0x2A) >> 9) & 0xFFFF),
-                 U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
-                 (s16)(U16_AT(arg3, 0x88) - 0x20)) << 16) != 0) {
+                 ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
+                 U8_AT(position, 0x24), U8_AT(position, 0x25),
+                 (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
             goto clear_path;
         }
     }
-    if (!(S32_AT(arg3, 0x1C) & 0x20000)) {
+    if (!(S32_AT(actor, 0x1C) & 0x20000)) {
         goto invoke_fallback;
     }
     {
         u8 *goal = (u8 *)&D_80082EA4 - 0x24;
-        u8 *buffer = arg0 + 0x98;
+        u8 *angle_work = move_work + 0x98;
 
-        U16_AT(arg3, 0x2A) = func_800A0818(
-            U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
-            U8_AT(goal, 0x24), U8_AT(goal, 0x25), buffer);
+        U16_AT(actor, 0x2A) = func_800A0818(
+            U8_AT(position, 0x24), U8_AT(position, 0x25),
+            U8_AT(goal, 0x24), U8_AT(goal, 0x25), angle_work);
         if ((func_8009FD7C(
-                 U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
+                 U8_AT(position, 0x24), U8_AT(position, 0x25),
                  U8_AT(goal, 0x24), U8_AT(goal, 0x25)) << 16) == 0) {
             goto loop_setup;
         }
         if ((func_8009A540(
-                 ((S16_AT(arg3, 0x2A) >> 9) & 0xFFFF),
-                 U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
-                 (s16)(U16_AT(arg3, 0x88) - 0x20)) << 16) == 0) {
+                 ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
+                 U8_AT(position, 0x24), U8_AT(position, 0x25),
+                 (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) == 0) {
             goto loop_setup;
         }
     }
     goto clear_path;
 
 invoke_fallback:
-    func_800A0E6C(arg2, S8_AT(arg0, 0x9C), arg3, arg0 + 0x98);
+    func_800A0E6C(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
 
 zero_counter:
 
 loop_setup:
-    counter = 0;
+    step_index = 0;
     angle_steps = D_8006CD00;
 
-    for (; counter < 8; counter++) {
-    current_angle = S16_AT(arg3, 0x2A);
-    if (U16_AT(arg0, 0x98) & 2) {
-        trial = current_angle - angle_steps[counter];
-    } else {
-        trial = current_angle + angle_steps[counter];
-    }
-    if ((func_8009A66C((s16)trial, arg2, arg3, 0x20) << 16) > 0) {
-        if (counter >= 3) {
-            special_test = special;
-            ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            if (special_test != 0) {
-                goto clear_path;
+    for (; step_index < 8; step_index++) {
+        current_angle = S16_AT(actor, 0x2A);
+        if (U16_AT(move_work, 0x98) & 2) {
+            trial_angle = current_angle - angle_steps[step_index];
+        } else {
+            trial_angle = current_angle + angle_steps[step_index];
+        }
+        if ((func_8009A66C((s16)trial_angle, position, actor, 0x20) << 16) > 0) {
+            if (step_index >= 3) {
+                turn_limit = limit_turn;
+                ASM_KEEP(turn_limit);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                if (turn_limit != 0) {
+                    goto clear_path;
+                }
             }
+            U16_AT(actor, 0x2A) = trial_angle;
+            {
+                u8 *path_slot;
+
+                path_slot = actor;
+                path_slot += U8_AT(actor, 0x71) & 0x7F;
+                U8_AT(path_slot, 0x74) = U8_AT(position, 0x24);
+                path_slot = actor;
+                path_slot += U8_AT(actor, 0x71) & 0x7F;
+                U8_AT(path_slot, 0x7C) = U8_AT(position, 0x25);
+            }
+            U8_AT(actor, 0x71)++;
+
+            func_8009A3D0(
+                U8_AT(position, 0x24), U8_AT(position, 0x25),
+                (S32_AT(actor, 0x1C) & 0x2000) ? 0x300 : 0x3000);
+
+            {
+                s32 move_offset = (U16_AT(actor, 0x2A) >> 8) & 0xE;
+                register u8 *x_steps ASM_REG("$3") = (u8 *)&D_8006CCD8;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+
+                U8_AT(position, 0x24) += U8_AT(x_steps, move_offset);
+                U8_AT(position, 0x25) += U8_AT(&D_8006CCE8, move_offset);
+            }
+            func_8009A21C(
+                U8_AT(position, 0x24), U8_AT(position, 0x25),
+                (S32_AT(actor, 0x1C) & 0x2000) ? 0x300 : 0x3000);
+            break;
         }
-        U16_AT(arg3, 0x2A) = trial;
-        {
-            u8 *slot;
 
-            slot = arg3;
-            slot += U8_AT(arg3, 0x71) & 0x7F;
-            U8_AT(slot, 0x74) = U8_AT(arg2, 0x24);
-            slot = arg3;
-            slot += U8_AT(arg3, 0x71) & 0x7F;
-            U8_AT(slot, 0x7C) = U8_AT(arg2, 0x25);
+        if ((step_index == 0) &&
+            (U16_AT(&D_80082EA4, 0) != U16_AT(position, 0x24)) &&
+            ((func_8009A180(
+                  actor, S32_AT(D_800814A8, 0x58) + 0x20) << 16) != 0)) {
+            goto done;
         }
-        U8_AT(arg3, 0x71)++;
-
-        func_8009A3D0(
-            U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
-            (S32_AT(arg3, 0x1C) & 0x2000) ? 0x300 : 0x3000);
-
-        {
-            s32 move_offset = (U16_AT(arg3, 0x2A) >> 8) & 0xE;
-            register u8 *x_steps ASM_REG("$3") = (u8 *)&D_8006CCD8;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-            U8_AT(arg2, 0x24) += U8_AT(x_steps, move_offset);
-            U8_AT(arg2, 0x25) += U8_AT(&D_8006CCE8, move_offset);
-        }
-        func_8009A21C(
-            U8_AT(arg2, 0x24), U8_AT(arg2, 0x25),
-            (S32_AT(arg3, 0x1C) & 0x2000) ? 0x300 : 0x3000);
-        break;
-    }
-
-    if ((counter == 0) &&
-        (U16_AT(&D_80082EA4, 0) != U16_AT(arg2, 0x24)) &&
-        ((func_8009A180(
-              arg3, S32_AT(D_800814A8, 0x58) + 0x20) << 16) != 0)) {
-        goto done;
-    }
     }
 
 post_loop_test:
-    if (counter >= 8) {
-        U8_AT(arg3, 0x71) &= 0x7F;
-        U16_AT(arg3, 0x46) &= 0x7FFF;
-        func_800A9A0C(arg3);
+    if (step_index >= 8) {
+        U8_AT(actor, 0x71) &= 0x7F;
+        U16_AT(actor, 0x46) &= 0x7FFF;
+        func_800A9A0C(actor);
         goto done;
     }
 
-    U16_AT(arg3, 0x46) &= 0x7FFF;
-    U8_AT(arg0, 0x9C) = U8_AT(arg2, 0x26);
-    U8_AT(arg3, 0x6D)--;
+    U16_AT(actor, 0x46) &= 0x7FFF;
+    U8_AT(move_work, 0x9C) = U8_AT(position, 0x26);
+    U8_AT(actor, 0x6D)--;
     {
-        u8 *global_count = (u8 *)&D_80083460;
+        u8 *move_state = (u8 *)&D_80083460;
 
-        U16_AT(global_count, 8)++;
+        U16_AT(move_state, 8)++;
     }
-    if (S8_AT(arg3, 0x6D) != 0) {
+    if (S8_AT(actor, 0x6D) != 0) {
         goto actor_survives;
     }
 
 clear_path:
-    U8_AT(arg3, 0x71) &= 0x7F;
+    U8_AT(actor, 0x71) &= 0x7F;
     goto done;
 
 actor_survives:
-    counter = func_800BCB04(
-        (U8_AT(arg2, 0x24) << 6) | 0x20,
-        (U8_AT(arg2, 0x25) << 6) | 0x20,
-        (s16)(U16_AT(arg3, 0x88) - 0x20));
-    if (counter < 0x200) {
-        U16_AT(arg3, 0x88) = counter;
+    step_index = func_800BCB04(
+        (U8_AT(position, 0x24) << 6) | 0x20,
+        (U8_AT(position, 0x25) << 6) | 0x20,
+        (s16)(U16_AT(actor, 0x88) - 0x20));
+    if (step_index < 0x200) {
+        U16_AT(actor, 0x88) = step_index;
     }
     goto done;
 

@@ -37,22 +37,23 @@ M2C_UNK func_8004B248();
 M2C_UNK func_800B15B8();
 extern GlobalFlags D_800814A0;
 
-void func_800B1664(void *arg0) {
-    u16 temp_a0;
-    s32 shifted;
-    S_800B1664_1 *temp_a1;
-    S_800B1664_2 *temp_v1;
+/* Halve a state value, decrement another, and trigger cleanup below the threshold. */
+void func_800B1664(void *object) {
+    u16 decay_value;
+    s32 decay_shifted;
+    S_800B1664_1 *decay_state;
+    S_800B1664_2 *counter_state;
 
-    temp_a1 = ((Rec_func_800B15B8_arg0 *)arg0)->unk_C0;
-    temp_a0 = temp_a1->unk_06;
-    shifted = temp_a0 << 0x10;
-    temp_a1->unk_06 = (u16) (temp_a0 - ((s32) ((shifted >> 0x10) + ((u32) shifted >> 0x1F)) >> 1));
-    temp_v1 = ((Rec_func_800B15B8_arg0 *)arg0)->unk_C0;
-    temp_v1->unk_04 = (u16) (temp_v1->unk_04 - 0x100);
-    if ((s16) ((S_800B1664_4 *)(((Rec_func_800B15B8_arg0 *)arg0)->unk_C0))->unk_06 < 0x11) {
-        func_8004B248(arg0 + 0xD0, temp_a1);
-        func_800B15B8(arg0);
-        ((S_800B1664_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800B1664_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    decay_state = ((Rec_func_800B15B8_arg0 *)object)->unk_C0;
+    decay_value = decay_state->unk_06;
+    decay_shifted = decay_value << 0x10;
+    decay_state->unk_06 = (u16) (decay_value - ((s32) ((decay_shifted >> 0x10) + ((u32) decay_shifted >> 0x1F)) >> 1));
+    counter_state = ((Rec_func_800B15B8_arg0 *)object)->unk_C0;
+    counter_state->unk_04 = (u16) (counter_state->unk_04 - 0x100);
+    if ((s16) ((S_800B1664_4 *)(((Rec_func_800B15B8_arg0 *)object)->unk_C0))->unk_06 < 0x11) {
+        func_8004B248(object + 0xD0, decay_state);
+        func_800B15B8(object);
+        ((S_800B1664_0_pre *)object)[-1].unk_00 = (u16) (((S_800B1664_0_pre *)object)[-1].unk_00 | 0x8000);
         D_800814A0.value |= 0x8000;
     }
 }

@@ -11,13 +11,14 @@ typedef struct Func80039578State {
 
 extern void func_80038128(void *arg0);
 
-void func_80039578(Func80039578State *arg0) {
-    u32 ptr = (u32)arg0->read_ptr;
-    u32 next = ptr;
-    u32 lo = *(u8 *)ptr;
+/* Read a little-endian 16-bit value and set the state's callback. */
+void func_80039578(Func80039578State *state) {
+    u32 addr_or_high = (u32)state->read_ptr;
+    u32 read_addr = addr_or_high;
+    u32 low_byte = *(u8 *)addr_or_high;
 
-    ptr = *(u8 *)(ptr + 1);
-    arg0->read_ptr = (u8 *)(next + 2);
-    arg0->func_10 = func_80038128;
-    arg0->half_18 = (u16)(lo + (ptr << 8));
+    addr_or_high = *(u8 *)(addr_or_high + 1);
+    state->read_ptr = (u8 *)(read_addr + 2);
+    state->func_10 = func_80038128;
+    state->half_18 = (u16)(low_byte + (addr_or_high << 8));
 }

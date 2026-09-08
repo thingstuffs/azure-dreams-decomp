@@ -17,19 +17,20 @@ typedef struct S_809750E8_0 {
 
 extern s32 D_800814A0[3];
 
-void func_809750E8(void *arg0, void *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_v0;
-    s32 temp_lo;
+/* Applies countdown-scaled intensity and sets completion flags when the countdown expires. */
+void func_809750E8(void *record_data, void *unused, Rec_D_80082E80 *color_target) {
+    s16 remaining_ticks;
+    s32 intensity;
 
-    temp_lo = (s32) (((S_809750E8_0 *)((u8 *)arg0 - 0x2))->unk_98 << 7) / (s16) ((S_809750E8_0 *)((u8 *)arg0 - 0x2))->unk_AC;
-    arg2->unk_0C.at02_s8.v = (s8) temp_lo;
-    arg2->unk_0C.at01_s8.v = (s8) temp_lo;
-    arg2->unk_0C.at00_s8.v = (s8) temp_lo;
-    func_800478B8(arg2);
-    temp_v0 = (u16) ((S_809750E8_0 *)((u8 *)arg0 - 0x2))->unk_98 - 1;
-    ((S_809750E8_0 *)((u8 *)arg0 - 0x2))->unk_98 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        ((S_809750E8_0 *)((u8 *)arg0 - 0x2))->unk_00 = (u16) (((S_809750E8_0 *)((u8 *)arg0 - 0x2))->unk_00 | 0x8000);
+    intensity = (s32) (((S_809750E8_0 *)((u8 *)record_data - 0x2))->unk_98 << 7) / (s16) ((S_809750E8_0 *)((u8 *)record_data - 0x2))->unk_AC;
+    color_target->unk_0C.at02_s8.v = (s8) intensity;
+    color_target->unk_0C.at01_s8.v = (s8) intensity;
+    color_target->unk_0C.at00_s8.v = (s8) intensity;
+    func_800478B8(color_target);
+    remaining_ticks = (u16) ((S_809750E8_0 *)((u8 *)record_data - 0x2))->unk_98 - 1;
+    ((S_809750E8_0 *)((u8 *)record_data - 0x2))->unk_98 = remaining_ticks;
+    if ((remaining_ticks << 0x10) <= 0) {
+        ((S_809750E8_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_809750E8_0 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 }

@@ -90,165 +90,166 @@ extern s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *,
 extern void func_80066640(Primitive *, s32);
 extern void func_800666F4(Primitive *);
 extern void func_800DBA90(Transform *);
+/* Draw linked items as fading textured quads along interpolated, oscillating paths. */
 s32 func_800DB660(Item *item)
 {
-  Vec16 source[4];
-  Vec16 projected[4];
+  Vec16 local_vertices[4];
+  Vec16 quad_vertices[4];
   Transform transform;
-  s32 call_scratch;
-  Dungeon *new_var;
-  s32 iteration;
-  s32 step_x;
-  s32 step_y;
-  s32 step_z;
+  s32 projection_scratch;
+  Dungeon *dungeon_copy;
+  s32 quad_index;
+  s32 accum_x;
+  s32 accum_y;
+  s32 accum_z;
   s32 delta_x;
   s32 delta_y;
   s32 delta_z;
-  s32 base_angle;
-  s32 mask;
-  Dungeon **context_p;
-  context_p = (Dungeon **) D_80083160;
-  mask = 0x00FFFFFF;
+  s32 z_phase;
+  s32 address_mask;
+  Dungeon **dungeon_ptr;
+  dungeon_ptr = (Dungeon **) D_80083160;
+  address_mask = 0x00FFFFFF;
   for (;;)
   {
-    s32 half_width = (-item->width) >> 1;
-    s32 half_height;
-    s32 end_width;
-    s32 end_height;
+    s32 left_x = (-item->width) >> 1;
+    s32 near_z;
+    s32 right_x;
+    s32 far_z;
     s32 color;
-    s32 depth;
-    Item *held_item;
-    Item *next_item;
-    source[1].x = half_width;
-    source[0].x = half_width;
-    half_height = (-item->height) >> 1;
-    source[2].z = half_height;
-    source[0].z = half_height;
-    end_width = half_width + ((u16) item->width);
-    source[3].x = end_width;
-    source[2].x = end_width;
-    end_height = half_height + ((u16) item->height);
-    source[3].z = end_height;
-    source[1].z = end_height;
-    source[3].y = 0;
-    source[2].y = 0;
-    source[1].y = 0;
-    source[0].y = 0;
-    iteration = 0;
-    held_item = item;
-    base_angle = item->depth;
-    depth = item->base_angle;
+    s32 offset_phase;
+    Item *current_item;
+    Item *next_node;
+    local_vertices[1].x = left_x;
+    local_vertices[0].x = left_x;
+    near_z = (-item->height) >> 1;
+    local_vertices[2].z = near_z;
+    local_vertices[0].z = near_z;
+    right_x = left_x + ((u16) item->width);
+    local_vertices[3].x = right_x;
+    local_vertices[2].x = right_x;
+    far_z = near_z + ((u16) item->height);
+    local_vertices[3].z = far_z;
+    local_vertices[1].z = far_z;
+    local_vertices[3].y = 0;
+    local_vertices[2].y = 0;
+    local_vertices[1].y = 0;
+    local_vertices[0].y = 0;
+    quad_index = 0;
+    current_item = item;
+    z_phase = item->depth;
+    offset_phase = item->base_angle;
     color = item->color;
     delta_x = item->x1 - item->x0;
     delta_y = item->y1 - item->y0;
     delta_z = item->z1 - item->z0;
     if (item->count >= 0)
     {
-      step_z = 0;
-      step_y = step_z;
-      step_x = step_y;
+      accum_z = 0;
+      accum_y = accum_z;
+      accum_x = accum_y;
       do
       {
         Primitive *primitive;
-        u8 *projected_base;
+        u8 *vertex_bytes;
         u32 *ordering_entry;
-        void *p0;
-        void *p2;
-        void *p3;
-        void *p1;
+        void *vertex_0;
+        void *vertex_2;
+        void *vertex_3;
+        void *vertex_1;
         s32 ordering_index;
-        s32 trig;
-        u8 u_value;
+        s32 wave_value;
+        u8 u_start;
         u8 u_end;
-        u8 v_value;
+        u8 v_start;
         u8 v_end;
-        trig = func_800644B8(depth);
-        transform.x = (trig * held_item->scale) >> 12;
+        wave_value = func_800644B8(offset_phase);
+        transform.x = (wave_value * current_item->scale) >> 12;
         transform.z = 0;
         transform.y = 0;
         transform.p0 = &transform.x;
         transform.p1 = &transform.x;
-        transform.sx = held_item->tpage;
-        transform.sy = held_item->x0 + (step_x / held_item->count);
-        transform.sz = held_item->y0 + (step_y / held_item->count);
-        trig = func_800644B8(base_angle);
-        transform.value = (held_item->z0 + (step_z / held_item->count)) + ((trig * held_item->angle) >> 12);
+        transform.sx = current_item->tpage;
+        transform.sy = current_item->x0 + (accum_x / current_item->count);
+        transform.sz = current_item->y0 + (accum_y / current_item->count);
+        wave_value = func_800644B8(z_phase);
+        transform.value = (current_item->z0 + (accum_z / current_item->count)) + ((wave_value * current_item->angle) >> 12);
         transform.one = 1;
         transform.zero = 0;
         func_800DBA90((Transform *) (&transform.p0));
-        projected_base = (u8 *) projected;
-        p0 = projected_base;
-        p2 = projected_base + 16;
-        p3 = projected_base + 24;
-        projected[1].x = transform.x - (((s16) held_item->width) >> 1);
-        projected[0].x = projected[1].x;
-        projected[3].x = projected[0].x + held_item->width;
-        projected[2].x = projected[3].x;
-        projected[2].z = transform.z - (((s16) held_item->height) >> 1);
-        projected[0].z = projected[2].z;
-        projected[3].z = projected[2].z + held_item->height;
-        projected[1].z = projected[3].z;
-        projected[3].y = transform.y;
-        projected[2].y = projected[3].y;
-        projected[1].y = projected[2].y;
-        projected[0].y = projected[1].y;
-        base_angle += held_item->depth_step;
-        p1 = projected_base + 8;
+        vertex_bytes = (u8 *) quad_vertices;
+        vertex_0 = vertex_bytes;
+        vertex_2 = vertex_bytes + 16;
+        vertex_3 = vertex_bytes + 24;
+        quad_vertices[1].x = transform.x - (((s16) current_item->width) >> 1);
+        quad_vertices[0].x = quad_vertices[1].x;
+        quad_vertices[3].x = quad_vertices[0].x + current_item->width;
+        quad_vertices[2].x = quad_vertices[3].x;
+        quad_vertices[2].z = transform.z - (((s16) current_item->height) >> 1);
+        quad_vertices[0].z = quad_vertices[2].z;
+        quad_vertices[3].z = quad_vertices[2].z + current_item->height;
+        quad_vertices[1].z = quad_vertices[3].z;
+        quad_vertices[3].y = transform.y;
+        quad_vertices[2].y = quad_vertices[3].y;
+        quad_vertices[1].y = quad_vertices[2].y;
+        quad_vertices[0].y = quad_vertices[1].y;
+        z_phase += current_item->depth_step;
+        vertex_1 = vertex_bytes + 8;
         {
-          Dungeon *dungeon = *context_p;
+          Dungeon *dungeon = *dungeon_ptr;
           primitive = dungeon->next_primitive;
-          depth += held_item->angle_step;
+          offset_phase += current_item->angle_step;
           dungeon->next_primitive = (Primitive *) (((u8 *) primitive) + 0x34);
         }
-        ordering_index = func_800654B0(p0, p1, p2, p3, ((u8 *) primitive) + 8, ((u8 *) primitive) + 0x10, ((u8 *) primitive) + 0x18, ((u8 *) primitive) + 0x20, &call_scratch, &call_scratch) - 8;
+        ordering_index = func_800654B0(vertex_0, vertex_1, vertex_2, vertex_3, ((u8 *) primitive) + 8, ((u8 *) primitive) + 0x10, ((u8 *) primitive) + 0x18, ((u8 *) primitive) + 0x20, &projection_scratch, &projection_scratch) - 8;
         if (((u32) ordering_index) < 0x1E0)
         {
           primitive->color = color;
           func_800666F4(primitive);
           func_80066640(primitive, 1);
-          *((u16 *) (((u8 *) primitive) + 0x16)) = held_item->clut;
-          *((u16 *) (((u8 *) primitive) + 0x0E)) = held_item->tex;
-          u_value = held_item->u0;
-          *(((u8 *) primitive) + 0x14) = u_value;
-          *(((u8 *) primitive) + 0x0C) = u_value;
-          u_end = held_item->u0 + held_item->du;
+          *((u16 *) (((u8 *) primitive) + 0x16)) = current_item->clut;
+          *((u16 *) (((u8 *) primitive) + 0x0E)) = current_item->tex;
+          u_start = current_item->u0;
+          *(((u8 *) primitive) + 0x14) = u_start;
+          *(((u8 *) primitive) + 0x0C) = u_start;
+          u_end = current_item->u0 + current_item->du;
           *(((u8 *) primitive) + 0x24) = u_end;
           *(((u8 *) primitive) + 0x1C) = u_end;
-          v_value = held_item->v0;
-          *(((u8 *) primitive) + 0x1D) = v_value;
-          *(((u8 *) primitive) + 0x0D) = v_value;
-          v_end = held_item->v0 + held_item->dv;
+          v_start = current_item->v0;
+          *(((u8 *) primitive) + 0x1D) = v_start;
+          *(((u8 *) primitive) + 0x0D) = v_start;
+          v_end = current_item->v0 + current_item->dv;
           *(((u8 *) primitive) + 0x25) = v_end;
           *(((u8 *) primitive) + 0x15) = v_end;
           {
-            Dungeon *dungeon = *context_p;
-            Dungeon *next_dungeon;
-            u32 tag;
-            tag = (primitive->tag & 0xFF000000) | (dungeon->ordering[ordering_index] & mask);
-            primitive->tag = tag;
-            new_var = *context_p;
+            Dungeon *dungeon = *dungeon_ptr;
+            Dungeon *ordering_dungeon;
+            u32 chain_tag;
+            chain_tag = (primitive->tag & 0xFF000000) | (dungeon->ordering[ordering_index] & address_mask);
+            primitive->tag = chain_tag;
+            dungeon_copy = *dungeon_ptr;
             ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            next_dungeon = new_var;
-            next_dungeon->ordering[ordering_index] = (next_dungeon->ordering[ordering_index] & 0xFF000000) | (((u32) primitive) & mask);
+            ordering_dungeon = dungeon_copy;
+            ordering_dungeon->ordering[ordering_index] = (ordering_dungeon->ordering[ordering_index] & 0xFF000000) | (((u32) primitive) & address_mask);
           }
         }
         if (color > 0x80807)
         {
           color -= 0x80808;
         }
-        step_z += delta_z;
-        step_y += delta_y;
-        step_x += delta_x;
-        iteration++;
+        accum_z += delta_z;
+        accum_y += delta_y;
+        accum_x += delta_x;
+        quad_index++;
       }
-      while (iteration <= held_item->count);
+      while (quad_index <= current_item->count);
     }
-    next_item = *((Item **) (((u8 *) item) - 8));
-    if (next_item == 0)
+    next_node = *((Item **) (((u8 *) item) - 8));
+    if (next_node == 0)
     {
       break;
     }
-    item = (Item *) (((u8 *) next_item) + 0x20);
+    item = (Item *) (((u8 *) next_node) + 0x20);
   }
 
   return 0;

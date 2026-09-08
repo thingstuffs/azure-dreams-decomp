@@ -11,13 +11,12 @@ extern S_80086C00 D_80086C00[8];
 
 extern void func_800564A8(s16 a0);
 
-/* Stores masked a1/a2 into the field_8/field_A of the D_80086C00 entry
-   selected by index a0, then calls func_800564A8 with that same index. */
-void func_8005B27C(s16 a0, s32 a1, s32 a2)
+/* Stores two 7-bit values in the selected entry, then calls func_800564A8 for it. */
+void func_8005B27C(s16 index, s32 value_8, s32 value_a)
 {
-    S_80086C00 *base = D_80086C00;
-    S_80086C00 *v0 = base + a0;
-    v0->field_8 = a1 & 0x7F;
-    v0->field_A = a2 & 0x7F;
-    func_800564A8(a0);
+    S_80086C00 *entries = D_80086C00;
+    S_80086C00 *entry = entries + index;
+    entry->field_8 = value_8 & 0x7F;
+    entry->field_A = value_a & 0x7F;
+    func_800564A8(index);
 }

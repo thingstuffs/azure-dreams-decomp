@@ -47,7 +47,8 @@ extern s32 D_80045340;
 extern s32 D_80083498;
 extern u8 D_800DDC40[];
 
-void *func_80027368(s16 arg0, s16 arg1, s16 arg2, S_80027368_2 *arg3)
+/* Creates a sprite object at the given position with a source-dependent Z offset. */
+void *func_80027368(s16 pos_x, s16 pos_y, s16 pos_z, S_80027368_2 *source)
 {
     void *object;
     S_80027368_1 *part;
@@ -59,21 +60,17 @@ void *func_80027368(s16 arg0, s16 arg1, s16 arg2, S_80027368_2 *arg3)
         ((S_80027368_0 *)object)->unk_10 = &D_80027164;
         func_8004491C(object, &D_80045340);
         part = ((S_80027368_0 *)object)->unk_08;
-        part->unk_02 = arg0;
-        part->unk_06 = arg1;
+        part->unk_02 = pos_x;
+        part->unk_06 = pos_y;
         part->unk_0A =
-            arg2 - (D_800DDC40[arg3->unk_13] >> 1);
+            pos_z - (D_800DDC40[source->unk_13] >> 1);
         sprite = ((S_80027368_0 *)object)->unk_0C;
         sprite->unk_08 = &D_80028874;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         work = (u8 *)object + 0x20;
-        work->unk_04 = arg3;
+        work->unk_04 = source;
         work->unk_66 = 0x10;
     }
     return object;
 }
-
-/* MECHANISM: Four call-live arguments naturally occupy s1-s4 while the
-   allocated object occupies s0; three distinct subrecord locals separate
-   the a0 and v1 lifetimes while preserving the retail access widths. */

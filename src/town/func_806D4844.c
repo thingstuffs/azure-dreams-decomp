@@ -37,24 +37,24 @@ typedef struct S_80016844_1 {
     s32 unk_40;
 } S_80016844_1;   /* D_80016000[0] in func_80016844 */
 
-s32 func_80016844(S_80016844_0 *arg0, M2C_UNK arg1) {
-    s32 temp_v0;
-    s32 var_v0;
+/* Runs the selected object handler and clears the current entry status. */
+s32 func_80016844(S_80016844_0 *object, M2C_UNK context) {
+    s32 result;
 
-    var_v0 = 0;
+    result = 0;
     if (func_8001868C(0x1459) != 0) {
-        func_80018594(arg0->unk_18);
+        func_80018594(object->unk_18);
         ((S_80016844_2 *)(((((S_80016844_1 *)(D_80016000[0]))->unk_08 * 8) +
                    ((S_80016844_1 *)(D_80016000[0]))->unk_40)))->unk_04 = 0;
-        return func_800177CC(arg0, arg1);
+        return func_800177CC(object, context);
     }
     if (func_8001868C(0x1458) != 0) {
-        func_80018594(arg0->unk_18);
-        var_v0 = func_800176B8(arg0, arg1);
-        if (var_v0 != 0) {
+        func_80018594(object->unk_18);
+        result = func_800176B8(object, context);
+        if (result != 0) {
             ((S_80016844_3 *)(((((S_80016844_1 *)(D_80016000[0]))->unk_08 * 8) +
                        ((S_80016844_1 *)(D_80016000[0]))->unk_40)))->unk_04 = 0;
         }
     }
-    return var_v0;
+    return result;
 }

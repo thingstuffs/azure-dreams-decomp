@@ -21,44 +21,41 @@ typedef struct S_8003FF2C {
 
 extern void func_8003DB4C(int *p, int n);
 
-/* Zeroes arg2 words at arg1, links arg1 onto the head of the list at *arg3,
- * writes flags derived from arg0 into arg1's 0x1E field, and computes/stores
- * one or two pointers (relative to arg1's tail, arg1 + arg2 words) into
- * fields 0xC/0x8 depending on which bits of (arg0|0x80) are set. Returns arg1. */
-S_8003FF2C *func_8003FF2C(s32 arg0, S_8003FF2C *arg1, s16 arg2, S_8003FF2C **arg3)
+/* Clears and prepends a node, setting its flags and optional tail payload pointers. */
+S_8003FF2C *func_8003FF2C(s32 flags, S_8003FF2C *storage, s16 word_count, S_8003FF2C **list_head)
 {
-    S_8003FF2C *oldHead;
-    S_8003FF2C *tail;
+    S_8003FF2C *old_head;
+    S_8003FF2C *payload_cursor;
     S_8003FF2C *node;
-    s32 cond;
+    s32 payload_flags;
 
-    arg0 = arg0 | 0x80;
-    node = arg1;
-    func_8003DB4C((int *)node, arg2);
-    node->link0 = *arg3;
-    *arg3 = node;
-    oldHead = node->link0;
-    node->link4 = (void *)arg3;
-    if (oldHead != NULL) {
-        oldHead->link4 = (void *)node;
+    flags = flags | 0x80;
+    node = storage;
+    func_8003DB4C((int *)node, word_count);
+    node->link0 = *list_head;
+    *list_head = node;
+    old_head = node->link0;
+    node->link4 = (void *)list_head;
+    if (old_head != NULL) {
+        old_head->link4 = (void *)node;
     }
-    node->flags1E = (s16)(arg0 | 0x4000);
-    tail = (S_8003FF2C *)((u8 *)node + (arg2 << 2));
-    if (arg0 & 6) {
-        tail = (S_8003FF2C *)((u8 *)tail - 0x24);
-        goto write_fieldC;
+    node->flags1E = (s16)(flags | 0x4000);
+    payload_cursor = (S_8003FF2C *)((u8 *)node + (word_count << 2));
+    if (flags & 6) {
+        payload_cursor = (S_8003FF2C *)((u8 *)payload_cursor - 0x24);
+        goto write_link_c;
     }
-    if (arg0 & 0x41) {
-        tail = (S_8003FF2C *)((u8 *)tail - 0x18);
-write_fieldC:
-        node->linkC = tail;
-        cond = arg0 & 0x57;
+    if (flags & 0x41) {
+        payload_cursor = (S_8003FF2C *)((u8 *)payload_cursor - 0x18);
+write_link_c:
+        node->linkC = payload_cursor;
+        payload_flags = flags & 0x57;
     } else {
-        cond = arg0 & 0x57;
+        payload_flags = flags & 0x57;
     }
-    if (cond != 0) {
-        tail = (S_8003FF2C *)((u8 *)tail - 0x18);
-        node->link8 = tail;
+    if (payload_flags != 0) {
+        payload_cursor = (S_8003FF2C *)((u8 *)payload_cursor - 0x18);
+        node->link8 = payload_cursor;
     }
     return node;
 }

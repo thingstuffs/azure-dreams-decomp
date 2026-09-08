@@ -27,36 +27,33 @@ typedef struct S_8006CE80 {
 extern S_8006CE80 D_8006CE80[];
 extern u8 D_80082E60[];
 
-/* Runs the id'th dispatch-table entry's list of no-arg callback functions until one of them
- * sets the flag byte at D_80082E60+0xE, in which case it returns 1 immediately. Returns 0 if
- * there's no handler, no callback array, an empty array, or every callback ran without setting
- * the flag. */
-s32 func_80040F2C(u16 a0)
+/* Runs an entry's callbacks, returning 1 if the flag at D_80082E60[0xE] is set after a call, otherwise 0. */
+s32 func_80040F2C(u16 entry_id)
 {
-    S_8006CE80 *p;
+    S_8006CE80 *entry;
     S_8006CE80_Handler *handler;
 
-    p = D_8006CE80 + a0;
-    handler = p->handler;
+    entry = D_8006CE80 + entry_id;
+    handler = entry->handler;
     if (handler != 0)
     {
-        S_8006CE80_FuncPtr *funcs = handler->funcs;
+        S_8006CE80_FuncPtr *callback = handler->funcs;
         do
         {
-            if (funcs != 0)
+            if (callback != 0)
             {
-                if ((*funcs) != 0)
+                if ((*callback) != 0)
                 {
                     do
                     {
-                        (*funcs)();
+                        (*callback)();
                         if (D_80082E60[0xE] != 0)
                         {
                             return 1;
                         }
-                        funcs++;
+                        callback++;
                     }
-                    while ((*funcs) != 0);
+                    while ((*callback) != 0);
                 }
             }
             else

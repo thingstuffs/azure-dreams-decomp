@@ -62,34 +62,35 @@ extern u8 D_80082E60[];
 extern u16 D_80082E76;
 extern volatile s8 D_800D381A;
 extern s32 func_80041094();
+/* Passes the selected entry's bottom-center coordinates to func_80041094 and clears the selection. */
 void func_800B90F0(void)
 {
-  s32 i = 0x20;
-  u8 *state = D_800D3814;
-  u8 *shared = D_80082E60;
-  u8 *table = D_800D2EA4;
-  u8 *entry = table + 0x100;
-  u8 *slot = (u8 *) 0x80010040;
-  u8 *new_var;
-  u8 *fallback;
-  loop:
-  i--;
+  s32 entry_index = 0x20;
+  u8 *selection_state = D_800D3814;
+  u8 *shared_state = D_80082E60;
+  u8 *entries = D_800D2EA4;
+  u8 *entry = entries + 0x100;
+  u8 *id_cursor = (u8 *) 0x80010040;
+  u8 *fallback_entries;
+  u8 *fallback_entry;
+  scan_entries:
+  entry_index--;
 
-  if (slot[0x33A4] == state[6])
+  if (id_cursor[0x33A4] == selection_state[6])
   {
-    func_80041094(0xB, ((entry[0] + (entry[2] >> 1)) << 6) | 0x20, ((entry[1] + entry[3]) << 6) | 0x20, 0, (*((u16 *) (&shared[0x16]))) ^ 1);
-    state[6] = 0;
+    func_80041094(0xB, ((entry[0] + (entry[2] >> 1)) << 6) | 0x20, ((entry[1] + entry[3]) << 6) | 0x20, 0, (*((u16 *) (&shared_state[0x16]))) ^ 1);
+    selection_state[6] = 0;
     return;
   }
   entry -= 8;
-  slot -= 2;
-  if (i <= 0)
+  id_cursor -= 2;
+  if (entry_index <= 0)
   {
-    new_var = D_800D2EA4;
-    fallback = new_var + (i * 8);
-    func_80041094(0xB, ((fallback[0] + (fallback[2] >> 1)) << 6) | 0x20, ((fallback[1] + fallback[3]) << 6) | 0x20, 0, D_80082E76 ^ 1);
+    fallback_entries = D_800D2EA4;
+    fallback_entry = fallback_entries + (entry_index * 8);
+    func_80041094(0xB, ((fallback_entry[0] + (fallback_entry[2] >> 1)) << 6) | 0x20, ((fallback_entry[1] + fallback_entry[3]) << 6) | 0x20, 0, D_80082E76 ^ 1);
     D_800D381A = 0;
     return;
   }
-  goto loop;
+  goto scan_entries;
 }

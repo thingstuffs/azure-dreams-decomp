@@ -75,115 +75,116 @@ extern s32 D_80024420;
 extern s32 D_8002445C[];
 extern s32 D_80045340;
 
-void func_8081DD70(void *arg0, void *arg1) {
-    register void *source_arg ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *record_arg ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *held_global;
+/* Create an object, copy its source and record data, and initialize its rendering state. */
+void func_8081DD70(void *source_data, void *record_data) {
+    register void *source ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *record ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *global_data;
     void *object;
     void *copy_dst;
     void *packet;
-    u8 *src_seed;
-    u8 *dst_seed;
-    register u8 *end_seed ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 *src_start;
+    u8 *dst_start;
+    register u8 *src_limit ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *src;
     u8 *dst;
-    u8 *end;
-    register s32 word0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 word1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 word2;
-    s32 word3;
+    u8 *src_end;
+    register s32 word_0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 word_1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 word_2;
+    s32 word_3;
 
-    source_arg = arg0;
-    record_arg = arg1;
-    held_global = &D_80020014;
+    source = source_data;
+    record = record_data;
+    global_data = &D_80020014;
     object = func_8003FC64(0x136);
     copy_dst = (u8 *)object + 0x20;
     if (object != 0) {
-        dst_seed = copy_dst;
-        src_seed = source_arg;
-        end_seed = (u8 *)source_arg + 0x50;
-        dst = dst_seed;
-        src = src_seed;
-        end = end_seed;
+        dst_start = copy_dst;
+        src_start = source;
+        src_limit = (u8 *)source + 0x50;
+        dst = dst_start;
+        src = src_start;
+        src_end = src_limit;
         do {
-            word0 = ((S_8081DD70_0 *)src)->unk_00;
-            word1 = ((S_8081DD70_0 *)src)->unk_04;
-            word2 = ((S_8081DD70_0 *)src)->unk_08;
-            word3 = ((S_8081DD70_0 *)src)->unk_0C;
-            ((S_8081DD70_1 *)dst)->unk_00 = word0;
-            ((S_8081DD70_1 *)dst)->unk_04 = word1;
-            ((S_8081DD70_1 *)dst)->unk_08 = word2;
-            ((S_8081DD70_1 *)dst)->unk_0C = word3;
+            word_0 = ((S_8081DD70_0 *)src)->unk_00;
+            word_1 = ((S_8081DD70_0 *)src)->unk_04;
+            word_2 = ((S_8081DD70_0 *)src)->unk_08;
+            word_3 = ((S_8081DD70_0 *)src)->unk_0C;
+            ((S_8081DD70_1 *)dst)->unk_00 = word_0;
+            ((S_8081DD70_1 *)dst)->unk_04 = word_1;
+            ((S_8081DD70_1 *)dst)->unk_08 = word_2;
+            ((S_8081DD70_1 *)dst)->unk_0C = word_3;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             src += 0x10;
             dst += 0x10;
-        } while (src != end);
-        word0 = ((S_8081DD70_0 *)src)->unk_00;
-        word1 = ((S_8081DD70_0 *)src)->unk_04;
-        ((S_8081DD70_1 *)dst)->unk_00 = word0;
-        ((S_8081DD70_1 *)dst)->unk_04 = word1;
+        } while (src != src_end);
+        word_0 = ((S_8081DD70_0 *)src)->unk_00;
+        word_1 = ((S_8081DD70_0 *)src)->unk_04;
+        ((S_8081DD70_1 *)dst)->unk_00 = word_0;
+        ((S_8081DD70_1 *)dst)->unk_04 = word_1;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         {
             register void *call_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             void *call_data;
             register void *copy_packet ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 record0;
-            s32 record1;
-            register s32 record2 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register s32 record3 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            s32 record_word_0;
+            s32 record_word_1;
+            register s32 record_word_2 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 record_word_3 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
             call_object = object;
             call_data = &D_80045340;
             ASM_USE2(call_object, call_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             copy_packet = ((S_8081DD70_2 *)object)->unk_08;
             ((S_8081DD70_2 *)object)->unk_10 = &D_800206D0;
-            record0 = ((S_8081DD70_3 *)record_arg)->unk_00;
-            record1 = ((S_8081DD70_3 *)record_arg)->unk_04;
-            record2 = ((S_8081DD70_3 *)record_arg)->unk_08;
-            record3 = ((S_8081DD70_3 *)record_arg)->unk_0C;
-            ((S_8081DD70_4 *)copy_packet)->unk_00 = record0;
-            ((S_8081DD70_4 *)copy_packet)->unk_04 = record1;
-            ((S_8081DD70_4 *)copy_packet)->unk_08 = record2;
-            ((S_8081DD70_4 *)copy_packet)->unk_0C = record3;
-            record0 = ((S_8081DD70_3 *)record_arg)->unk_10;
-            record1 = ((S_8081DD70_3 *)record_arg)->unk_14;
-            ((S_8081DD70_4 *)copy_packet)->unk_10 = record0;
-            ((S_8081DD70_4 *)copy_packet)->unk_14 = record1;
+            record_word_0 = ((S_8081DD70_3 *)record)->unk_00;
+            record_word_1 = ((S_8081DD70_3 *)record)->unk_04;
+            record_word_2 = ((S_8081DD70_3 *)record)->unk_08;
+            record_word_3 = ((S_8081DD70_3 *)record)->unk_0C;
+            ((S_8081DD70_4 *)copy_packet)->unk_00 = record_word_0;
+            ((S_8081DD70_4 *)copy_packet)->unk_04 = record_word_1;
+            ((S_8081DD70_4 *)copy_packet)->unk_08 = record_word_2;
+            ((S_8081DD70_4 *)copy_packet)->unk_0C = record_word_3;
+            record_word_0 = ((S_8081DD70_3 *)record)->unk_10;
+            record_word_1 = ((S_8081DD70_3 *)record)->unk_14;
+            ((S_8081DD70_4 *)copy_packet)->unk_10 = record_word_0;
+            ((S_8081DD70_4 *)copy_packet)->unk_14 = record_word_1;
             func_8004491C(call_object, call_data);
         }
 
         {
-            s32 temp_v0;
-            s32 temp_v1;
-            void *temp_a0;
-            S_8081DD70_5 *temp_a1;
-            s32 temp_a2;
+            s32 setup_value;
+            s32 resource_addr;
+            void *state_fields;
+            S_8081DD70_5 *object_packet;
+            s32 color_or_context;
 
-            temp_a2 = 0x00808080;
-            temp_v0 = 0x1000;
-            temp_a1 = ((S_8081DD70_2 *)object)->unk_0C;
-            temp_v1 = (s32)D_8002445C;
-            temp_a1->unk_1E = temp_v0;
-            temp_a1->unk_1C = temp_v0;
-            temp_v0 = ((S_8081DD70_6 *)source_arg)->unk_54;
-            temp_v1 = *(s32 *)(temp_v1 + (temp_v0 * 4));
-            temp_v0 = temp_a1->unk_14;
+            color_or_context = 0x00808080;
+            setup_value = 0x1000;
+            object_packet = ((S_8081DD70_2 *)object)->unk_0C;
+            resource_addr = (s32)D_8002445C;
+            object_packet->unk_1E = setup_value;
+            object_packet->unk_1C = setup_value;
+            setup_value = ((S_8081DD70_6 *)source)->unk_54;
+            resource_addr = *(s32 *)(resource_addr + (setup_value * 4));
+            setup_value = object_packet->unk_14;
             ASM_KEEP(copy_dst);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            temp_a0 = (u8 *)copy_dst + 8;
-            temp_a1->unk_0C = temp_a2;
-            temp_a2 = (s32)&D_80024420;
-            temp_a1->unk_04 = 0;
-            temp_a1->unk_05 = 0;
-            temp_v0 |= 0x80;
-            temp_a1->unk_14 = temp_v0;
-            temp_a1->unk_08 = temp_v1;
-            ((S_8081DD70_7 *)copy_dst)->unk_50 = held_global;
-            temp_a1 = ((S_8081DD70_2 *)object)->unk_08;
-            func_8008F074(temp_a0, temp_a1, (void *)temp_a2);
+            state_fields = (u8 *)copy_dst + 8;
+            object_packet->unk_0C = color_or_context;
+            color_or_context = (s32)&D_80024420;
+            object_packet->unk_04 = 0;
+            object_packet->unk_05 = 0;
+            setup_value |= 0x80;
+            object_packet->unk_14 = setup_value;
+            object_packet->unk_08 = resource_addr;
+            ((S_8081DD70_7 *)copy_dst)->unk_50 = global_data;
+            object_packet = ((S_8081DD70_2 *)object)->unk_08;
+            func_8008F074(state_fields, object_packet, (void *)color_or_context);
         }
-        ASM_KEEP(source_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(record_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }
 

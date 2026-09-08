@@ -51,25 +51,26 @@ typedef struct S_80174690_3 {
     s32 unk_28;
 } S_80174690_3;   /* temp_a0 in func_80174690 */
 
-void func_80174690(S_80174690_2 *arg0) {
-    S_80174690_3 *temp_a0;
-    S_80174690_1 *temp_a1;
-    void *temp_v0;
+/* Creates an effect from the source and initializes its sprite and callbacks. */
+void func_80174690(S_80174690_2 *source) {
+    S_80174690_3 *sprite;
+    S_80174690_1 *effect_data;
+    void *effect;
 
-    temp_v0 = func_8003FD64(0x112, arg0);
-    if (temp_v0 != NULL) {
-        temp_a0 = ((S_80174690_0 *)temp_v0)->unk_0C;
-        ((S_80174690_0 *)temp_v0)->unk_10 = &D_801745F0;
-        temp_a1 = temp_v0 + 0x20;
-        temp_a1->unk_18 = (void *) arg0->unk_0C;
-        temp_a1->unk_1C = (s32) arg0->unk_08;
-        temp_a0->unk_1E = 0x1000;
-        temp_a0->unk_1C = 0x1000;
-        temp_a0->unk_0C = 0x808080;
-        temp_a0->unk_12 = (u16) (temp_a0->unk_12 - 0x80);
-        temp_a0->unk_14 = (u16) (temp_a0->unk_14 | 0xC);
-        temp_a0->unk_28 = (s32) ((S_80174690_5 *)(((S_80174690_4 *)temp_a1)->unk_18))->unk_28;
-        func_80047784(temp_a0, 0x44, 0);
-        func_8004491C(temp_v0, &D_80045340);
+    effect = func_8003FD64(0x112, source);
+    if (effect != NULL) {
+        sprite = ((S_80174690_0 *)effect)->unk_0C;
+        ((S_80174690_0 *)effect)->unk_10 = &D_801745F0;
+        effect_data = effect + 0x20;
+        effect_data->unk_18 = (void *) source->unk_0C;
+        effect_data->unk_1C = (s32) source->unk_08;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_0C = 0x808080;
+        sprite->unk_12 = (u16) (sprite->unk_12 - 0x80);
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        sprite->unk_28 = (s32) ((S_80174690_5 *)(((S_80174690_4 *)effect_data)->unk_18))->unk_28;
+        func_80047784(sprite, 0x44, 0);
+        func_8004491C(effect, &D_80045340);
     }
 }

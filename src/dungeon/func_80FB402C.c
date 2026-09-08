@@ -94,11 +94,12 @@ extern u8 D_80170F6C[];
 extern u8 D_80174424[];
 extern u8 D_80175298[];
 
-void func_8017382C(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advances the actor action through its entry, active, and exit animation states. */
+void func_8017382C(void *action, void *context, void *sprite, void *actor)
 {
     s32 state;
 
-    state = ((S_8017382C_0 *)arg0)->unk_9B;
+    state = ((S_8017382C_0 *)action)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -118,165 +119,165 @@ void func_8017382C(void *arg0, void *arg1, void *arg2, void *arg3)
 
 state_zero:
     {
-        s32 i;
-        s32 scaled;
-        s32 index;
-        u8 *entry;
-        register u8 *records ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        u8 *table;
-        u8 *global;
+        s32 record_index;
+        s32 index_twice;
+        s32 word_offset;
+        u8 *facing_record;
+        register u8 *record ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 *direction_table;
+        u8 *counter_base;
         void *effect;
-        register u8 *child ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register u8 *effect_state ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u16 facing;
 
-        i = 0;
-        if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0xE000)) {
+        record_index = 0;
+        if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
             goto done;
         }
 
-        ((S_8017382C_0 *)arg0)->unk_AE = ((Rec_func_800AA258_arg2 *)arg2)->unk_12;
-        records = ((Rec_func_800AA258_arg2 *)arg2)->unk_08;
+        ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12;
+        record = ((Rec_func_800AA258_arg2 *)sprite)->unk_08;
 scan_zero:
-        scaled = i << 1;
-        if (!(((S_8017382C_2 *)records)->unk_00 & 0x20)) {
+        index_twice = record_index << 1;
+        if (!(((S_8017382C_2 *)record)->unk_00 & 0x20)) {
             goto scan_zero_done;
         }
-        records += 0xC;
-        i++;
+        record += 0xC;
+        record_index++;
         goto scan_zero;
-        scan_zero_done:
-        index = scaled + i;
-        entry = (u8 *)((unsigned long)(index << 2) +
-                       (unsigned long)((Rec_func_800AA258_arg2 *)arg2)->unk_08);
-        ((S_8017382C_0 *)arg0)->unk_AC.s =
-            ((S_8017382C_3 *)entry)->unk_06 & 0xFFC0;
+scan_zero_done:
+        word_offset = index_twice + record_index;
+        facing_record = (u8 *)((unsigned long)(word_offset << 2) +
+                       (unsigned long)((Rec_func_800AA258_arg2 *)sprite)->unk_08);
+        ((S_8017382C_0 *)action)->unk_AC.s =
+            ((S_8017382C_3 *)facing_record)->unk_06 & 0xFFC0;
 
-        table = D_80175298;
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
+        direction_table = D_80175298;
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
         func_80047784(
-            arg2,
-            table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            sprite,
+            direction_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
 
-        global = (u8 *)&D_80083460;
-        ((S_8017382C_5 *)global)->unk_0A--;
+        counter_base = (u8 *)&D_80083460;
+        ((S_8017382C_5 *)counter_base)->unk_0A--;
         effect = func_8003FD64(0x10, D_80083498);
-        child = (u8 *)effect + 0x20;
+        effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
-            ((S_8017382C_7 *)child)->unk_A0 = 0;
-            facing = ((S_8017382C_0 *)arg0)->unk_AC.s;
-            ((S_8017382C_7 *)child)->unk_A4 = 0x100;
-            ((S_8017382C_7 *)child)->unk_A6 = 1;
-            ((S_8017382C_7 *)child)->unk_A8 = 8;
-            ((S_8017382C_7 *)child)->unk_A2 = (s16)facing >> 6;
-            ((S_8017382C_0 *)arg0)->unk_96 = 8;
-            ((S_8017382C_7 *)child)->unk_96 = 0;
-            ((S_8017382C_7 *)child)->unk_9E = 0;
+            ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
+            facing = ((S_8017382C_0 *)action)->unk_AC.s;
+            ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
+            ((S_8017382C_7 *)effect_state)->unk_A6 = 1;
+            ((S_8017382C_7 *)effect_state)->unk_A8 = 8;
+            ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)facing >> 6;
+            ((S_8017382C_0 *)action)->unk_96 = 8;
+            ((S_8017382C_7 *)effect_state)->unk_96 = 0;
+            ((S_8017382C_7 *)effect_state)->unk_9E = 0;
         }
         goto increment_state;
     }
 
 state_one:
     {
-        s32 angle;
+        s32 angle_shifted;
         s32 signed_angle;
-        s32 rounded;
-        s32 remainder;
+        s32 rounded_angle;
+        s32 angle_remainder;
         u16 timer;
 
-        angle = ((S_8017382C_0 *)arg0)->unk_AE << 16;
-        signed_angle = angle >> 16;
-        rounded = signed_angle;
-        if (rounded < 0) {
-            rounded += 7;
+        angle_shifted = ((S_8017382C_0 *)action)->unk_AE << 16;
+        signed_angle = angle_shifted >> 16;
+        rounded_angle = signed_angle;
+        if (rounded_angle < 0) {
+            rounded_angle += 7;
         }
-        remainder = signed_angle - ((rounded >> 3) << 3);
-        ((Rec_func_800AA258_arg2 *)arg2)->unk_12 =
+        angle_remainder = signed_angle - ((rounded_angle >> 3) << 3);
+        ((Rec_func_800AA258_arg2 *)sprite)->unk_12 =
             func_8006649C(
-                ((((s32)(remainder << 16) >> 18) << 6) + 0x340),
-                ((angle >> 19) + 0x100)) -
-            ((S_8017382C_0 *)arg0)->unk_AC.s;
+                ((((s32)(angle_remainder << 16) >> 18) << 6) + 0x340),
+                ((angle_shifted >> 19) + 0x100)) -
+            ((S_8017382C_0 *)action)->unk_AC.s;
 
-        timer = ((S_8017382C_0 *)arg0)->unk_96 - 1;
-        ((S_8017382C_0 *)arg0)->unk_96 = timer;
+        timer = ((S_8017382C_0 *)action)->unk_96 - 1;
+        ((S_8017382C_0 *)action)->unk_96 = timer;
         if ((s16)timer > 0) {
-            if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0x8000)) {
+            if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000)) {
                 goto done;
             }
         }
-        ((Rec_func_800AA258_arg2 *)arg2)->unk_12 = ((S_8017382C_0 *)arg0)->unk_AE - 0x40;
+        ((Rec_func_800AA258_arg2 *)sprite)->unk_12 = ((S_8017382C_0 *)action)->unk_AE - 0x40;
         goto increment_state;
     }
 
 state_two:
     {
-        s32 i;
-        s32 scaled;
-        s32 index;
-        u8 *entry;
-        u8 *records;
-        u8 *table;
-        u8 *late_table;
+        s32 record_index;
+        s32 index_twice;
+        s32 word_offset;
+        u8 *facing_record;
+        u8 *record;
+        u8 *direction_table;
+        u8 *exit_table;
         u8 *early_counter;
         u8 *status_base;
         u8 *late_counter;
         void *effect;
-        u8 *child;
-        void *random_arg;
+        u8 *effect_state;
+        void *check_actor;
         register u16 facing ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-        if (((S_8017382C_0 *)arg0)->unk_AC.u == 0) {
-            i = 0;
-            records = ((Rec_func_800AA258_arg2 *)arg2)->unk_08;
+        if (((S_8017382C_0 *)action)->unk_AC.u == 0) {
+            record_index = 0;
+            record = ((Rec_func_800AA258_arg2 *)sprite)->unk_08;
 scan_two:
-            scaled = i << 1;
-            if (!(((S_8017382C_2 *)records)->unk_00 & 0x20)) {
+            index_twice = record_index << 1;
+            if (!(((S_8017382C_2 *)record)->unk_00 & 0x20)) {
                 goto scan_two_done;
             }
-            records += 0xC;
-            i++;
+            record += 0xC;
+            record_index++;
             goto scan_two;
 scan_two_done:
-            index = scaled + i;
-            entry = (u8 *)((unsigned long)(index << 2) +
-                           (unsigned long)((Rec_func_800AA258_arg2 *)arg2)->unk_08);
-            ((S_8017382C_0 *)arg0)->unk_AC.s =
-                ((S_8017382C_3 *)entry)->unk_06 & 0xFFC0;
+            word_offset = index_twice + record_index;
+            facing_record = (u8 *)((unsigned long)(word_offset << 2) +
+                           (unsigned long)((Rec_func_800AA258_arg2 *)sprite)->unk_08);
+            ((S_8017382C_0 *)action)->unk_AC.s =
+                ((S_8017382C_3 *)facing_record)->unk_06 & 0xFFC0;
         }
 
-        if ((s16)func_80042900(arg3, 1) != 0) {
+        if ((s16)func_80042900(actor, 1) != 0) {
             goto state_two_active;
         }
 
-        table = D_80175298;
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
+        direction_table = D_80175298;
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
         func_80047784(
-            arg2,
-            table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            sprite,
+            direction_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
 
         effect = func_8003FD64(0x10, D_80083498);
-        child = (u8 *)effect + 0x20;
+        effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
-            ((S_8017382C_7 *)child)->unk_A0 = 0;
-            facing = ((S_8017382C_0 *)arg0)->unk_AC.s;
-            ((S_8017382C_7 *)child)->unk_A4 = 0x100;
-            ((S_8017382C_7 *)child)->unk_A6 = 1;
-            ((S_8017382C_7 *)child)->unk_A8 = 8;
-            ((S_8017382C_7 *)child)->unk_A2 = (s16)facing >> 6;
-            ((S_8017382C_0 *)arg0)->unk_96 = 8;
-            ((S_8017382C_7 *)child)->unk_96 = 0;
-            ((S_8017382C_7 *)child)->unk_9E = 1;
+            ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
+            facing = ((S_8017382C_0 *)action)->unk_AC.s;
+            ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
+            ((S_8017382C_7 *)effect_state)->unk_A6 = 1;
+            ((S_8017382C_7 *)effect_state)->unk_A8 = 8;
+            ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)facing >> 6;
+            ((S_8017382C_0 *)action)->unk_96 = 8;
+            ((S_8017382C_7 *)effect_state)->unk_96 = 0;
+            ((S_8017382C_7 *)effect_state)->unk_9E = 1;
         }
 
-        ((S_8017382C_0 *)arg0)->unk_AE = ((Rec_func_800AA258_arg2 *)arg2)->unk_12 + 0x40;
+        ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12 + 0x40;
         early_counter = (u8 *)&D_80083460;
         ((S_8017382C_8 *)early_counter)->unk_0A++;
 
 increment_state:
-        ((S_8017382C_0 *)arg0)->unk_9B++;
+        ((S_8017382C_0 *)action)->unk_9B++;
         goto done;
 
 state_two_active:
@@ -284,139 +285,139 @@ state_two_active:
         if (((S_8017382C_9 *)status_base)->unk_02 & 0x1000) {
             goto done;
         }
-        if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
+        if (((Rec_D_800E3D7C *)actor)->unk_64.as_s16 != 0) {
+            if (func_800AA6B4(action, context, sprite, 0) != 0) {
                 goto done;
             }
         }
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
+        if (((Rec_D_800E3D7C *)actor)->unk_24.at01_u8.v == 0) {
             if (((S_8017382C_9 *)status_base)->unk_02 & 0x2008) {
                 goto done;
             }
-            func_800AA79C(arg0, arg1, arg2, arg3);
+            func_800AA79C(action, context, sprite, actor);
             goto done;
         }
 
-        if ((s16)func_800A2C34(arg3) != 0) {
+        if ((s16)func_800A2C34(actor) != 0) {
             goto done;
         }
 
         {
-            u32 flags;
+            u32 actor_flags;
 
-            flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32;
-            if (flags & 0x100) {
-                func_800AA258(arg0, arg1, arg2, arg3);
+            actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32;
+            if (actor_flags & 0x100) {
+                func_800AA258(action, context, sprite, actor);
                 goto done;
             }
-            if (flags & 0x80000) {
-                func_800AA888(arg0, arg1, arg2, arg3);
-                func_80174250(arg0, arg1, arg2, arg3);
+            if (actor_flags & 0x80000) {
+                func_800AA888(action, context, sprite, actor);
+                func_80174250(action, context, sprite, actor);
                 goto done;
             }
         }
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
+        if (((Rec_D_800E3D7C *)actor)->unk_6D.as_s8 == 0) {
             goto done;
         }
-        if ((s16)func_800A2C34(arg3) != 0) {
+        if ((s16)func_800A2C34(actor) != 0) {
             if ((s16)func_8009A180(
-                    arg3, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                    actor, (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                 goto done;
             }
         }
 
-        func_800A9A0C(arg3);
-        func_800A9A04(arg3);
-        if ((s16)func_80042900(arg3, 1) != 0) {
+        func_800A9A0C(actor);
+        func_800A9A04(actor);
+        if ((s16)func_80042900(actor, 1) != 0) {
             s8 tile;
 
-            random_arg = D_80082E80;
-            tile = ((Rec_func_800AA258_arg2 *)arg2)->unk_26.as_s8;
+            check_actor = D_80082E80;
+            tile = ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_s8;
             if ((tile != ((Rec_D_80082E80 *)D_80082E80)->unk_26.as_s8) || (tile < 0)) {
-                s32 r;
+                s32 distance;
 
-                r = (s16)func_8009FD40(D_80082E80, arg2);
-                random_arg = arg3;
-                if (r >= 2) {
+                distance = (s16)func_8009FD40(D_80082E80, sprite);
+                check_actor = actor;
+                if (distance >= 2) {
                     goto second_call;
                 }
             }
-            if (!(func_800A6D30(random_arg) & 7)) {
-                func_80042B68(arg3, 1);
+            if (!(func_800A6D30(check_actor) & 7)) {
+                func_80042B68(actor, 1);
             }
         }
 
-        random_arg = arg3;
+        check_actor = actor;
 second_call:
-        if ((s16)func_80042900(random_arg, 1) != 0) {
+        if ((s16)func_80042900(check_actor, 1) != 0) {
             goto done;
         }
 
-        late_table = D_80175298;
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = late_table;
+        exit_table = D_80175298;
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = exit_table;
         func_80047784(
-            arg2,
-            late_table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            sprite,
+            exit_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
 
         effect = func_8003FD64(0x10, D_80083498);
-        child = (u8 *)effect + 0x20;
+        effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
-            ((S_8017382C_7 *)child)->unk_A0 = 0;
-            facing = ((S_8017382C_0 *)arg0)->unk_AC.s;
-            ((S_8017382C_7 *)child)->unk_A4 = 0x100;
-            ((S_8017382C_7 *)child)->unk_A6 = 1;
-            ((S_8017382C_7 *)child)->unk_A8 = 8;
-            ((S_8017382C_7 *)child)->unk_A2 = (s16)facing >> 6;
-            ((S_8017382C_0 *)arg0)->unk_96 = 8;
-            ((S_8017382C_7 *)child)->unk_96 = 0;
-            ((S_8017382C_7 *)child)->unk_9E = 1;
+            ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
+            facing = ((S_8017382C_0 *)action)->unk_AC.s;
+            ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
+            ((S_8017382C_7 *)effect_state)->unk_A6 = 1;
+            ((S_8017382C_7 *)effect_state)->unk_A8 = 8;
+            ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)facing >> 6;
+            ((S_8017382C_0 *)action)->unk_96 = 8;
+            ((S_8017382C_7 *)effect_state)->unk_96 = 0;
+            ((S_8017382C_7 *)effect_state)->unk_9E = 1;
         }
         late_counter = (u8 *)&D_80083460;
         ((S_8017382C_12 *)late_counter)->unk_0A++;
-        ((S_8017382C_0 *)arg0)->unk_9B++;
-        ((S_8017382C_0 *)arg0)->unk_AE = ((Rec_func_800AA258_arg2 *)arg2)->unk_12 + 0x40;
+        ((S_8017382C_0 *)action)->unk_9B++;
+        ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12 + 0x40;
         goto done;
     }
 
 state_three:
     {
-        s32 angle;
+        s32 angle_shifted;
         s32 signed_angle;
-        s32 rounded;
-        s32 remainder;
+        s32 rounded_angle;
+        s32 angle_remainder;
         u16 timer;
-        u8 *global;
+        u8 *counter_base;
 
-        angle = ((S_8017382C_0 *)arg0)->unk_AE << 16;
-        signed_angle = angle >> 16;
-        rounded = signed_angle;
-        if (rounded < 0) {
-            rounded += 7;
+        angle_shifted = ((S_8017382C_0 *)action)->unk_AE << 16;
+        signed_angle = angle_shifted >> 16;
+        rounded_angle = signed_angle;
+        if (rounded_angle < 0) {
+            rounded_angle += 7;
         }
-        remainder = signed_angle - ((rounded >> 3) << 3);
-        ((Rec_func_800AA258_arg2 *)arg2)->unk_12 =
+        angle_remainder = signed_angle - ((rounded_angle >> 3) << 3);
+        ((Rec_func_800AA258_arg2 *)sprite)->unk_12 =
             func_8006649C(
-                ((((s32)(remainder << 16) >> 18) << 6) + 0x340),
-                ((angle >> 19) + 0x102)) -
-            ((S_8017382C_0 *)arg0)->unk_AC.s;
+                ((((s32)(angle_remainder << 16) >> 18) << 6) + 0x340),
+                ((angle_shifted >> 19) + 0x102)) -
+            ((S_8017382C_0 *)action)->unk_AC.s;
 
-        if (!(((Rec_func_800AA258_arg2 *)arg2)->unk_14 & 0x8000)) {
-            timer = ((S_8017382C_0 *)arg0)->unk_96 - 1;
-            ((S_8017382C_0 *)arg0)->unk_96 = timer;
+        if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000)) {
+            timer = ((S_8017382C_0 *)action)->unk_96 - 1;
+            ((S_8017382C_0 *)action)->unk_96 = timer;
             if ((s16)timer > 0) {
                 goto done;
             }
         }
 
-        global = (u8 *)&D_80083460;
-        ((S_8017382C_5 *)global)->unk_0A--;
-        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x200;
-        ((S_8017382C_0 *)arg0)->unk_8C = D_80170F6C;
-        ((Rec_func_800AA258_arg2 *)arg2)->unk_12 = ((S_8017382C_0 *)arg0)->unk_AE;
+        counter_base = (u8 *)&D_80083460;
+        ((S_8017382C_5 *)counter_base)->unk_0A--;
+        ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 &= ~0x200;
+        ((S_8017382C_0 *)action)->unk_8C = D_80170F6C;
+        ((Rec_func_800AA258_arg2 *)sprite)->unk_12 = ((S_8017382C_0 *)action)->unk_AE;
     }
 
 done:

@@ -39,342 +39,325 @@ __asm__(".globl func_80170800\n"
 #define BODY_NAME func_80170800
 #endif
 
-#define scratch scratch_page
-
-void BODY_NAME(void *arg0, void *arg1, void *arg2, s16 arg3) {
-    s32 temp_a0;
-    register s32 temp_a3;
-    register s32 temp_c4;
-    register s32 temp_c6;
-    s16 temp_v0_10;
-    s16 temp_v0_11;
-    s16 temp_v0_5;
-    s16 temp_v0_7;
-    s16 temp_v0_8;
-    s16 temp_v0_9;
-    s32 temp_a1;
-    s32 temp_a2_2;
-    s32 *temp_v1_9;
-    s32 var_a1;
-    s32 var_a2;
-    s32 var_v1;
-    s32 var_v1_2;
-    u32 temp_a2;
-    u16 temp_v0_3;
-    u16 temp_v0_4;
-    register u16 temp_v1_5;
-    u32 temp_v0;
-    u32 temp_v0_2;
-    u32 temp_v0_6;
-    u32 temp_scaled;
-    register u32 coord_addend;
-    register u32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 temp_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 adjust_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u32 mask_value;
-    u32 temp_a0_3;
-    register u8 temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 temp_v1_3;
-    u8 temp_v1_4;
-    register u8 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *(*temp_v0_12)(void *, void *, void *, void *, void *);
-    void *temp_s0;
-    void *temp_s3;
-    register void *temp_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u32 mask;
-    register void *initial_ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 page_color;
-    void *var_s2;
-    void *p_arg0 = arg0;
-    register void *p_arg1 = arg1;
-    register void *p_arg2 ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s16 p_arg3 ASM_REG("$16") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *call_a0 ASM_REG("$4") = (u8 *)0x1F800004;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *call_a1 ASM_REG("$5") = (u8 *)0x1F8000F8;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register u8 *scratch_seed ASM_REG("$6") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register u8 *page_base ASM_REG("$8") = (u8 *)0x80080000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+/* Project sprite entries into textured quads and append visible quads to the ordering table. */
+void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s16 depth_bias_arg) {
+    s32 screen_y3;
+    register s32 view_rot_z;
+    register s32 view_rot_x;
+    register s32 view_rot_y;
+    s16 top_y;
+    s16 bottom_y;
+    s16 flipped_left_x;
+    s16 left_x;
+    s16 right_x;
+    s16 flipped_top_y;
+    s32 first_three_visible;
+    s32 first_two_visible;
+    s32 *ot_entry;
+    s32 corner2_visible;
+    s32 corner0_visible;
+    s32 corner1_visible;
+    s32 corner3_visible;
+    u32 view_y_angle;
+    u16 field_value;
+    u16 scale_y;
+    register u16 sprite_flags;
+    u32 depth;
+    u32 ot_index;
+    u32 neg_width;
+    u32 depth_scaled;
+    register u32 coord_offset;
+    register u32 uv_right ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 uv_bottom ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 screen_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 coord_value;
+    u32 packet_addr;
+    register u8 packet_code ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 right_u;
+    u8 bottom_v;
+    register u8 blend_code ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *(*draw_callback)(void *, void *, void *, void *, void *);
+    void *entry_uv;
+    void *render_data;
+    register void *render_state ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 address_mask;
+    register void *render_buffer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 load_dependency;
+    void *packet;
+    void *sprite_size = size_arg;
+    register void *position = position_arg;
+    register void *sprite ASM_REG("$20") = sprite_arg;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s16 depth_bias ASM_REG("$16") = depth_bias_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *work_src ASM_REG("$4") = (u8 *)0x1F800004;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *work_dst ASM_REG("$5") = (u8 *)0x1F8000F8;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register u8 *work_aux ASM_REG("$6") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register u8 *state_page ASM_REG("$8") = (u8 *)0x80080000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *scratch_page;
-    register u8 *call_a3;
-    ASM_KEEP_MEMDEP_NV(p_arg1, page_color, M2C_FIELD(&D_80083160, void **, 0));   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u8 *projection_flags;
+    ASM_KEEP_MEMDEP_NV(position, load_dependency, M2C_FIELD(&D_80083160, void **, 0));   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch_page = (u8 *)0x1F800000;
-    ASM_KEEP_NV(scratch_seed);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(p_arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(p_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(p_arg3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#define arg0 p_arg0
-#define arg1 p_arg1
-#define arg2 p_arg2
-#define arg3 p_arg3
+    ASM_KEEP_NV(work_aux);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(sprite_size);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(depth_bias);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    scratch_seed = (u8 *)((u32)scratch_seed | 0xD0);
-    initial_ptr = M2C_FIELD(&D_80083160, void **, 0);
-    M2C_FIELD(scratch, u32 *, 0x90) = 0;
-    M2C_FIELD(scratch, u16 *, 0xCC) = 0;
-    M2C_FIELD(scratch, u16 *, 0xC4) = 0;
-    M2C_FIELD(scratch, u16 *, 0xBC) = 0;
-    M2C_FIELD(scratch, u16 *, 0xB4) = 0;
-    M2C_FIELD(scratch, u32 *, 0x24) = initial_ptr + 0xB0;
-    M2C_FIELD(scratch, u16 *, 4) = M2C_FIELD(arg1, u16 *, 2);
-    call_a3 = scratch_page;
-    ASM_KEEP_MEMDEP_NV(scratch_page, page_color, M2C_FIELD(&D_80083160, void **, 0));   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    ASM_SET(page_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(call_a3);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    M2C_FIELD(scratch, u16 *, 6) = M2C_FIELD(arg1, u16 *, 6);
-    M2C_FIELD(scratch, u16 *, 8) = M2C_FIELD(arg1, u16 *, 0xA);
-    call_a3 = (u8 *)((u32)call_a3 | 0xD4);
-    var_s2 = M2C_FIELD(initial_ptr, void **, 0x8D0);
-    temp_s7 = (void *)(page_base + 0x3160);
-    M2C_FIELD(scratch, u32 *, 0x100) = func_80065420(call_a0, call_a1, scratch_seed, call_a3);
-    M2C_FIELD(arg2, u16 *, 0x14) = (u16)(M2C_FIELD(arg2, u16 *, 0x14) | 0x8000);
-    temp_v0 = M2C_FIELD(scratch, u32 *, 0x100);
-    temp_scaled = temp_v0 * 4;
-    temp_v0 -= 0xA;
-    temp_v0_2 = temp_v0 - arg3;
-    temp_s3 = &D_8006CD30;
-    M2C_FIELD(temp_s3, s32 *, 0x1C) = (s32)temp_scaled;
-    M2C_FIELD(scratch, u32 *, 0x100) = temp_v0_2;
-    if (temp_v0_2 < 0x1D6U) {
-        mask = 0x00FF0000;
+    work_aux = (u8 *)((u32)work_aux | 0xD0);
+    render_buffer = M2C_FIELD(&D_80083160, void **, 0);
+    M2C_FIELD(scratch_page, u32 *, 0x90) = 0;
+    M2C_FIELD(scratch_page, u16 *, 0xCC) = 0;
+    M2C_FIELD(scratch_page, u16 *, 0xC4) = 0;
+    M2C_FIELD(scratch_page, u16 *, 0xBC) = 0;
+    M2C_FIELD(scratch_page, u16 *, 0xB4) = 0;
+    M2C_FIELD(scratch_page, u32 *, 0x24) = render_buffer + 0xB0;
+    M2C_FIELD(scratch_page, u16 *, 4) = M2C_FIELD(position, u16 *, 2);
+    projection_flags = scratch_page;
+    ASM_KEEP_MEMDEP_NV(scratch_page, load_dependency, M2C_FIELD(&D_80083160, void **, 0));   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    ASM_SET(state_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(projection_flags);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    M2C_FIELD(scratch_page, u16 *, 6) = M2C_FIELD(position, u16 *, 6);
+    M2C_FIELD(scratch_page, u16 *, 8) = M2C_FIELD(position, u16 *, 0xA);
+    projection_flags = (u8 *)((u32)projection_flags | 0xD4);
+    packet = M2C_FIELD(render_buffer, void **, 0x8D0);
+    render_state = (void *)(state_page + 0x3160);
+    M2C_FIELD(scratch_page, u32 *, 0x100) = func_80065420(work_src, work_dst, work_aux, projection_flags);
+    M2C_FIELD(sprite, u16 *, 0x14) = (u16)(M2C_FIELD(sprite, u16 *, 0x14) | 0x8000);
+    depth = M2C_FIELD(scratch_page, u32 *, 0x100);
+    depth_scaled = depth * 4;
+    depth -= 0xA;
+    ot_index = depth - depth_bias;
+    render_data = &D_8006CD30;
+    M2C_FIELD(render_data, s32 *, 0x1C) = (s32)depth_scaled;
+    M2C_FIELD(scratch_page, u32 *, 0x100) = ot_index;
+    if (ot_index < 0x1D6U) {
+        address_mask = 0x00FF0000;
         func_800649A0();
-        call_a0 = scratch_page;
-        ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        call_a0 = (u8 *)((u32)call_a0 | 0xA4);
-        adjust_value = M2C_FIELD(scratch, u16 *, 0xF8);
-        call_a1 = scratch_page;
-        adjust_value -= 0xA0;
-        M2C_FIELD(scratch, u16 *, 0xF8) = adjust_value;
-        adjust_value = M2C_FIELD(scratch, u16 *, 0xFA);
-        temp_c4 = M2C_FIELD(temp_s7, s16 *, 0xC4);
-        temp_c6 = M2C_FIELD(temp_s7, s16 *, 0xC6);
-        temp_a3 = M2C_FIELD(temp_s7, s16 *, 0xC8);
-        adjust_value -= 0x78;
-        M2C_FIELD(scratch, u16 *, 0xFA) = adjust_value;
-        M2C_FIELD(scratch, u32 *, 0x34) = temp_c4;
-        M2C_FIELD(scratch, u32 *, 0x38) = temp_c6;
-        M2C_FIELD(scratch, u32 *, 0x3C) = temp_a3;
+        work_src = scratch_page;
+        ASM_KEEP_NV(work_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        work_src = (u8 *)((u32)work_src | 0xA4);
+        screen_offset = M2C_FIELD(scratch_page, u16 *, 0xF8);
+        work_dst = scratch_page;
+        screen_offset -= 0xA0;
+        M2C_FIELD(scratch_page, u16 *, 0xF8) = screen_offset;
+        screen_offset = M2C_FIELD(scratch_page, u16 *, 0xFA);
+        view_rot_x = M2C_FIELD(render_state, s16 *, 0xC4);
+        view_rot_y = M2C_FIELD(render_state, s16 *, 0xC6);
+        view_rot_z = M2C_FIELD(render_state, s16 *, 0xC8);
+        screen_offset -= 0x78;
+        M2C_FIELD(scratch_page, u16 *, 0xFA) = screen_offset;
+        M2C_FIELD(scratch_page, u32 *, 0x34) = view_rot_x;
+        M2C_FIELD(scratch_page, u32 *, 0x38) = view_rot_y;
+        M2C_FIELD(scratch_page, u32 *, 0x3C) = view_rot_z;
         ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        temp_v0_3 = M2C_FIELD(arg2, u16 *, 0x16);
-        temp_a2 = M2C_FIELD(scratch, u16 *, 0x38);
-        call_a1 = (u8 *)((u32)call_a1 | 0x74);
-        ASM_KEEP_NV(call_a1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        M2C_FIELD(scratch, u16 *, 0xA4) = temp_v0_3;
-        coord_addend = M2C_FIELD(arg2, u16 *, 0x1A);
-        mask_value = M2C_FIELD(temp_s7, u16 *, 0xB8);
-        coord_addend -= temp_a2;
-        mask_value += coord_addend;
-        M2C_FIELD(scratch, u16 *, 0xA8) = mask_value;
-        coord_addend = M2C_FIELD(arg2, u16 *, 0x18);
-        mask_value = M2C_FIELD(scratch, u16 *, 0x3C);
-        coord_addend -= 0x100;
-        mask_value = (mask_value + 0x100) & 0x1FF;
-        coord_addend += mask_value;
-        M2C_FIELD(scratch, u16 *, 0xA6) = coord_addend;
-        temp_v0_3 = M2C_FIELD(arg2, u16 *, 0x20);
-        M2C_FIELD(scratch, u32 *, 0x88) = temp_v0_3;
-        M2C_FIELD(scratch, u16 *, 0xAC) = temp_v0_3;
-        mask_value = M2C_FIELD(arg2, u16 *, 0x22);
-        ASM_KEEP_DEP_NV(mask, mask_value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        mask |= 0xFFFF;
-        ASM_KEEP_NV(mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        M2C_FIELD(scratch, u32 *, 0x8C) = mask_value;
-        M2C_FIELD(scratch, u16 *, 0xAE) = mask_value;
-        func_80065820(call_a0, call_a1, temp_a2, temp_a3);
-        call_a0 = scratch_page;
-        ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        call_a0 = (u8 *)((u32)call_a0 | 0x74);
-        call_a1 = scratch_page;
-        ASM_KEEP_NV(call_a1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        call_a1 = (u8 *)((u32)call_a1 | 0x34);
-        M2C_FIELD(scratch, u32 *, 0x34) = M2C_FIELD(arg2, u16 *, 0x1C);
-        temp_v0_4 = M2C_FIELD(arg2, u16 *, 0x1E);
-        M2C_FIELD(scratch, u32 *, 0x3C) = 0x1000;
-        M2C_FIELD(scratch, u32 *, 0x38) = temp_v0_4;
-        func_80064BC0(call_a0, call_a1);
-        call_a0 = temp_s3;
-        ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        call_a1 = scratch_page;
-        ASM_KEEP_NV(call_a1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        call_a1 = (u8 *)((u32)call_a1 | 0x74);
-        scratch_seed = scratch_page;
-        ASM_KEEP_NV(scratch_seed);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        scratch_seed = (u8 *)((u32)scratch_seed | 0x54);
-        func_80064840(call_a0, call_a1, scratch_seed);
-        call_a0 = scratch_page;
-        ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        call_a0 = (u8 *)((u32)call_a0 | 0x54);
-        func_80064D80(call_a0);
-        call_a0 = scratch_page;
-        ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        call_a0 = (u8 *)((u32)call_a0 | 0x54);
-        func_80064CF0(call_a0);
-        temp_s3 = M2C_FIELD(arg2, void **, 8);
-        temp_s0 = temp_s3 + 8;
-        M2C_FIELD(scratch, u16 *, 0x28) = M2C_FIELD(arg2, u16 *, 0x14);
-loop_80170A78:
-        if (!(M2C_FIELD(temp_s3, u8 *, 0) & 0x20)) {
-            M2C_FIELD(scratch, u32 *, 0xC) = M2C_FIELD(temp_s0, u8 *, 0);
-            M2C_FIELD(scratch, u32 *, 0x10) = M2C_FIELD(temp_s0, u8 *, 1);
-            M2C_FIELD(scratch, u32 *, 0x14) = M2C_FIELD(temp_s0, u8 *, 2);
-            M2C_FIELD(scratch, u32 *, 0x18) = M2C_FIELD(temp_s0, u8 *, 3);
-            if ((M2C_FIELD(temp_s3, u8 *, 0) ^ M2C_FIELD(scratch, u16 *, 0x28)) & 1) {
-                temp_v0_5 = (0 - ((s32)(0 - M2C_FIELD(arg0, s16 *, 0x4E)) / 2)) - M2C_FIELD(scratch, u16 *, 0xAC);
-                M2C_FIELD(scratch, u16 *, 0xC0) = temp_v0_5;
-                M2C_FIELD(scratch, u16 *, 0xB0) = temp_v0_5;
-                temp_v0_8 = temp_v0_5 - M2C_FIELD(arg0, u16 *, 0x4E);
-                goto block_80170B40;
+        field_value = M2C_FIELD(sprite, u16 *, 0x16);
+        view_y_angle = M2C_FIELD(scratch_page, u16 *, 0x38);
+        work_dst = (u8 *)((u32)work_dst | 0x74);
+        ASM_KEEP_NV(work_dst);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        M2C_FIELD(scratch_page, u16 *, 0xA4) = field_value;
+        coord_offset = M2C_FIELD(sprite, u16 *, 0x1A);
+        coord_value = M2C_FIELD(render_state, u16 *, 0xB8);
+        coord_offset -= view_y_angle;
+        coord_value += coord_offset;
+        M2C_FIELD(scratch_page, u16 *, 0xA8) = coord_value;
+        coord_offset = M2C_FIELD(sprite, u16 *, 0x18);
+        coord_value = M2C_FIELD(scratch_page, u16 *, 0x3C);
+        coord_offset -= 0x100;
+        coord_value = (coord_value + 0x100) & 0x1FF;
+        coord_offset += coord_value;
+        M2C_FIELD(scratch_page, u16 *, 0xA6) = coord_offset;
+        field_value = M2C_FIELD(sprite, u16 *, 0x20);
+        M2C_FIELD(scratch_page, u32 *, 0x88) = field_value;
+        M2C_FIELD(scratch_page, u16 *, 0xAC) = field_value;
+        coord_value = M2C_FIELD(sprite, u16 *, 0x22);
+        ASM_KEEP_DEP_NV(address_mask, coord_value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        address_mask |= 0xFFFF;
+        ASM_KEEP_NV(address_mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        M2C_FIELD(scratch_page, u32 *, 0x8C) = coord_value;
+        M2C_FIELD(scratch_page, u16 *, 0xAE) = coord_value;
+        func_80065820(work_src, work_dst, view_y_angle, view_rot_z);
+        work_src = scratch_page;
+        ASM_KEEP_NV(work_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        work_src = (u8 *)((u32)work_src | 0x74);
+        work_dst = scratch_page;
+        ASM_KEEP_NV(work_dst);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        work_dst = (u8 *)((u32)work_dst | 0x34);
+        M2C_FIELD(scratch_page, u32 *, 0x34) = M2C_FIELD(sprite, u16 *, 0x1C);
+        scale_y = M2C_FIELD(sprite, u16 *, 0x1E);
+        M2C_FIELD(scratch_page, u32 *, 0x3C) = 0x1000;
+        M2C_FIELD(scratch_page, u32 *, 0x38) = scale_y;
+        func_80064BC0(work_src, work_dst);
+        work_src = render_data;
+        ASM_KEEP_NV(work_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        work_dst = scratch_page;
+        ASM_KEEP_NV(work_dst);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        work_dst = (u8 *)((u32)work_dst | 0x74);
+        work_aux = scratch_page;
+        ASM_KEEP_NV(work_aux);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        work_aux = (u8 *)((u32)work_aux | 0x54);
+        func_80064840(work_src, work_dst, work_aux);
+        work_src = scratch_page;
+        ASM_KEEP_NV(work_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        work_src = (u8 *)((u32)work_src | 0x54);
+        func_80064D80(work_src);
+        work_src = scratch_page;
+        ASM_KEEP_NV(work_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        work_src = (u8 *)((u32)work_src | 0x54);
+        func_80064CF0(work_src);
+        render_data = M2C_FIELD(sprite, void **, 8);
+        entry_uv = render_data + 8;
+        M2C_FIELD(scratch_page, u16 *, 0x28) = M2C_FIELD(sprite, u16 *, 0x14);
+next_entry:
+        if (!(M2C_FIELD(render_data, u8 *, 0) & 0x20)) {
+            M2C_FIELD(scratch_page, u32 *, 0xC) = M2C_FIELD(entry_uv, u8 *, 0);
+            M2C_FIELD(scratch_page, u32 *, 0x10) = M2C_FIELD(entry_uv, u8 *, 1);
+            M2C_FIELD(scratch_page, u32 *, 0x14) = M2C_FIELD(entry_uv, u8 *, 2);
+            M2C_FIELD(scratch_page, u32 *, 0x18) = M2C_FIELD(entry_uv, u8 *, 3);
+            if ((M2C_FIELD(render_data, u8 *, 0) ^ M2C_FIELD(scratch_page, u16 *, 0x28)) & 1) {
+                flipped_left_x = (0 - ((s32)(0 - M2C_FIELD(sprite_size, s16 *, 0x4E)) / 2)) - M2C_FIELD(scratch_page, u16 *, 0xAC);
+                M2C_FIELD(scratch_page, u16 *, 0xC0) = flipped_left_x;
+                M2C_FIELD(scratch_page, u16 *, 0xB0) = flipped_left_x;
+                right_x = flipped_left_x - M2C_FIELD(sprite_size, u16 *, 0x4E);
+            } else {
+                neg_width = 0 - M2C_FIELD(sprite_size, s16 *, 0x4E);
+                left_x = ((s32)(neg_width + (neg_width >> 0x1F)) >> 1) - M2C_FIELD(scratch_page, u16 *, 0xAC);
+                M2C_FIELD(scratch_page, u16 *, 0xC0) = left_x;
+                M2C_FIELD(scratch_page, u16 *, 0xB0) = left_x;
+                coord_offset = (u16)M2C_FIELD(sprite_size, s16 *, 0x4E);
+                right_x = left_x + coord_offset;
             }
-            temp_v0_6 = 0 - M2C_FIELD(arg0, s16 *, 0x4E);
-            temp_v0_7 = ((s32)(temp_v0_6 + (temp_v0_6 >> 0x1F)) >> 1) - M2C_FIELD(scratch, u16 *, 0xAC);
-            M2C_FIELD(scratch, u16 *, 0xC0) = temp_v0_7;
-            M2C_FIELD(scratch, u16 *, 0xB0) = temp_v0_7;
-            coord_addend = (u16)M2C_FIELD(arg0, s16 *, 0x4E);
-            temp_v0_8 = temp_v0_7 + coord_addend;
-block_80170B40:
-            M2C_FIELD(scratch, u16 *, 0xC8) = temp_v0_8;
-            M2C_FIELD(scratch, u16 *, 0xB8) = temp_v0_8;
-            if ((M2C_FIELD(temp_s3, u8 *, 0) ^ M2C_FIELD(scratch, u16 *, 0x28)) & 2) {
-                temp_v0_9 = M2C_FIELD(arg0, u16 *, 0x50) - M2C_FIELD(scratch, u16 *, 0xAE);
-                M2C_FIELD(scratch, u16 *, 0xBA) = temp_v0_9;
-                M2C_FIELD(scratch, u16 *, 0xB2) = temp_v0_9;
-                temp_v0_11 = temp_v0_9 - M2C_FIELD(arg0, u16 *, 0x50);
-                goto block_80170BAC;
+            M2C_FIELD(scratch_page, u16 *, 0xC8) = right_x;
+            M2C_FIELD(scratch_page, u16 *, 0xB8) = right_x;
+            if ((M2C_FIELD(render_data, u8 *, 0) ^ M2C_FIELD(scratch_page, u16 *, 0x28)) & 2) {
+                flipped_top_y = M2C_FIELD(sprite_size, u16 *, 0x50) - M2C_FIELD(scratch_page, u16 *, 0xAE);
+                M2C_FIELD(scratch_page, u16 *, 0xBA) = flipped_top_y;
+                M2C_FIELD(scratch_page, u16 *, 0xB2) = flipped_top_y;
+                bottom_y = flipped_top_y - M2C_FIELD(sprite_size, u16 *, 0x50);
+            } else {
+                top_y = (0 - M2C_FIELD(sprite_size, u16 *, 0x50)) - M2C_FIELD(scratch_page, u16 *, 0xAE);
+                M2C_FIELD(scratch_page, u16 *, 0xBA) = top_y;
+                M2C_FIELD(scratch_page, u16 *, 0xB2) = top_y;
+                coord_offset = M2C_FIELD(sprite_size, u16 *, 0x50);
+                bottom_y = top_y + coord_offset;
             }
-            temp_v0_10 = (0 - M2C_FIELD(arg0, u16 *, 0x50)) - M2C_FIELD(scratch, u16 *, 0xAE);
-            M2C_FIELD(scratch, u16 *, 0xBA) = temp_v0_10;
-            M2C_FIELD(scratch, u16 *, 0xB2) = temp_v0_10;
-            coord_addend = M2C_FIELD(arg0, u16 *, 0x50);
-            temp_v0_11 = temp_v0_10 + coord_addend;
-block_80170BAC:
-            M2C_FIELD(scratch, u16 *, 0xCA) = temp_v0_11;
-            M2C_FIELD(scratch, u16 *, 0xC2) = temp_v0_11;
+            M2C_FIELD(scratch_page, u16 *, 0xCA) = bottom_y;
+            M2C_FIELD(scratch_page, u16 *, 0xC2) = bottom_y;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            func_800654B0(scratch + 0xB0, scratch + 0xB8, scratch + 0xC0, scratch + 0xC8, scratch + 0x94, scratch + 0x98, scratch + 0x9C, scratch + 0xA0, scratch + 0xD0, scratch + 0xD4);
-            M2C_FIELD(var_s2, u16 *, 8) = M2C_FIELD(scratch, u16 *, 0x94) + M2C_FIELD(scratch, u16 *, 0xF8);
-            M2C_FIELD(var_s2, u16 *, 0xA) = M2C_FIELD(scratch, u16 *, 0x96) + M2C_FIELD(scratch, u16 *, 0xFA);
-            M2C_FIELD(var_s2, u16 *, 0x10) = M2C_FIELD(scratch, u16 *, 0x98) + M2C_FIELD(scratch, u16 *, 0xF8);
-            M2C_FIELD(var_s2, u16 *, 0x12) = M2C_FIELD(scratch, u16 *, 0x9A) + M2C_FIELD(scratch, u16 *, 0xFA);
-            M2C_FIELD(var_s2, u16 *, 0x18) = M2C_FIELD(scratch, u16 *, 0x9C) + M2C_FIELD(scratch, u16 *, 0xF8);
-            M2C_FIELD(var_s2, u16 *, 0x1A) = M2C_FIELD(scratch, u16 *, 0x9E) + M2C_FIELD(scratch, u16 *, 0xFA);
-            var_a2 = 0;
-            M2C_FIELD(var_s2, u16 *, 0x20) = M2C_FIELD(scratch, u16 *, 0xA0) + M2C_FIELD(scratch, u16 *, 0xF8);
-            temp_a0 = M2C_FIELD(scratch, u16 *, 0xA2) + M2C_FIELD(scratch, u16 *, 0xFA);
-            M2C_FIELD(var_s2, s16 *, 0x22) = temp_a0;
-            if ((u32)((M2C_FIELD(var_s2, u16 *, 8) + 0x20) & 0xFFFF) < 0x181U) {
-                u32 bound = (u32)((M2C_FIELD(var_s2, u16 *, 0xA) + 0x20) & 0xFFFF);
-                var_a2 = bound < 0x121U;
+            func_800654B0(scratch_page + 0xB0, scratch_page + 0xB8, scratch_page + 0xC0, scratch_page + 0xC8, scratch_page + 0x94, scratch_page + 0x98, scratch_page + 0x9C, scratch_page + 0xA0, scratch_page + 0xD0, scratch_page + 0xD4);
+            M2C_FIELD(packet, u16 *, 8) = M2C_FIELD(scratch_page, u16 *, 0x94) + M2C_FIELD(scratch_page, u16 *, 0xF8);
+            M2C_FIELD(packet, u16 *, 0xA) = M2C_FIELD(scratch_page, u16 *, 0x96) + M2C_FIELD(scratch_page, u16 *, 0xFA);
+            M2C_FIELD(packet, u16 *, 0x10) = M2C_FIELD(scratch_page, u16 *, 0x98) + M2C_FIELD(scratch_page, u16 *, 0xF8);
+            M2C_FIELD(packet, u16 *, 0x12) = M2C_FIELD(scratch_page, u16 *, 0x9A) + M2C_FIELD(scratch_page, u16 *, 0xFA);
+            M2C_FIELD(packet, u16 *, 0x18) = M2C_FIELD(scratch_page, u16 *, 0x9C) + M2C_FIELD(scratch_page, u16 *, 0xF8);
+            M2C_FIELD(packet, u16 *, 0x1A) = M2C_FIELD(scratch_page, u16 *, 0x9E) + M2C_FIELD(scratch_page, u16 *, 0xFA);
+            corner0_visible = 0;
+            M2C_FIELD(packet, u16 *, 0x20) = M2C_FIELD(scratch_page, u16 *, 0xA0) + M2C_FIELD(scratch_page, u16 *, 0xF8);
+            screen_y3 = M2C_FIELD(scratch_page, u16 *, 0xA2) + M2C_FIELD(scratch_page, u16 *, 0xFA);
+            M2C_FIELD(packet, s16 *, 0x22) = screen_y3;
+            if ((u32)((M2C_FIELD(packet, u16 *, 8) + 0x20) & 0xFFFF) < 0x181U) {
+                u32 y_bound = (u32)((M2C_FIELD(packet, u16 *, 0xA) + 0x20) & 0xFFFF);
+                corner0_visible = y_bound < 0x121U;
             }
-            var_v1 = 0;
-            if ((u32)((M2C_FIELD(var_s2, u16 *, 0x10) + 0x20) & 0xFFFF) < 0x181U) {
-                u32 bound = (u32)((M2C_FIELD(var_s2, u16 *, 0x12) + 0x20) & 0xFFFF);
-                var_v1 = bound < 0x121U;
+            corner1_visible = 0;
+            if ((u32)((M2C_FIELD(packet, u16 *, 0x10) + 0x20) & 0xFFFF) < 0x181U) {
+                u32 y_bound = (u32)((M2C_FIELD(packet, u16 *, 0x12) + 0x20) & 0xFFFF);
+                corner1_visible = y_bound < 0x121U;
             }
-            var_a1 = 0;
-            temp_a2_2 = var_a2 | var_v1;
-            if ((u32)((M2C_FIELD(var_s2, u16 *, 0x18) + 0x20) & 0xFFFF) < 0x181U) {
-                u32 bound = (u32)((M2C_FIELD(var_s2, u16 *, 0x1A) + 0x20) & 0xFFFF);
-                var_a1 = bound < 0x121U;
+            corner2_visible = 0;
+            first_two_visible = corner0_visible | corner1_visible;
+            if ((u32)((M2C_FIELD(packet, u16 *, 0x18) + 0x20) & 0xFFFF) < 0x181U) {
+                u32 y_bound = (u32)((M2C_FIELD(packet, u16 *, 0x1A) + 0x20) & 0xFFFF);
+                corner2_visible = y_bound < 0x121U;
             }
-            var_v1_2 = 0;
-            temp_a1 = temp_a2_2 | var_a1;
-            if ((u32)((M2C_FIELD(var_s2, u16 *, 0x20) + 0x20) & 0xFFFF) < 0x181U) {
-                u32 bound = (u32)((temp_a0 + 0x20) & 0xFFFF);
-                var_v1_2 = bound < 0x121U;
+            corner3_visible = 0;
+            first_three_visible = first_two_visible | corner2_visible;
+            if ((u32)((M2C_FIELD(packet, u16 *, 0x20) + 0x20) & 0xFFFF) < 0x181U) {
+                u32 y_bound = (u32)((screen_y3 + 0x20) & 0xFFFF);
+                corner3_visible = y_bound < 0x121U;
             }
-            if ((temp_a1 | var_v1_2) != 0) {
-                M2C_FIELD(var_s2, s8 *, 3) = 9;
-                M2C_FIELD(arg2, u16 *, 0x14) = (u16)(M2C_FIELD(arg2, u16 *, 0x14) & 0x7FFF);
+            if ((first_three_visible | corner3_visible) != 0) {
+                M2C_FIELD(packet, s8 *, 3) = 9;
+                M2C_FIELD(sprite, u16 *, 0x14) = (u16)(M2C_FIELD(sprite, u16 *, 0x14) & 0x7FFF);
                 {
-                    u32 count = M2C_FIELD(scratch, u32 *, 0x14);
-                    temp_v1 = M2C_FIELD(scratch, u32 *, 0xC);
-                    count -= 1;
-                    temp_v1 = count + temp_v1;
+                    u32 texel_count = M2C_FIELD(scratch_page, u32 *, 0x14);
+                    uv_right = M2C_FIELD(scratch_page, u32 *, 0xC);
+                    texel_count -= 1;
+                    uv_right = texel_count + uv_right;
                 }
-                M2C_FIELD(scratch, u32 *, 0x14) = temp_v1;
-                if (temp_v1 & 0x100) {
-                    register u32 adjusted ASM_REG("$2") = temp_v1 - 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    M2C_FIELD(scratch, u32 *, 0x14) = adjusted;
+                M2C_FIELD(scratch_page, u32 *, 0x14) = uv_right;
+                if (uv_right & 0x100) {
+                    register u32 uv_adjusted ASM_REG("$2") = uv_right - 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    M2C_FIELD(scratch_page, u32 *, 0x14) = uv_adjusted;
                 }
                 {
-                    u32 count = M2C_FIELD(scratch, u32 *, 0x18);
-                    temp_v1_2 = M2C_FIELD(scratch, u32 *, 0x10);
-                    count -= 1;
-                    temp_v1_2 = count + temp_v1_2;
+                    u32 texel_count = M2C_FIELD(scratch_page, u32 *, 0x18);
+                    uv_bottom = M2C_FIELD(scratch_page, u32 *, 0x10);
+                    texel_count -= 1;
+                    uv_bottom = texel_count + uv_bottom;
                 }
-                M2C_FIELD(scratch, u32 *, 0x18) = temp_v1_2;
-                if (temp_v1_2 & 0x100) {
-                    register u32 adjusted ASM_REG("$2") = temp_v1_2 - 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    M2C_FIELD(scratch, u32 *, 0x18) = adjusted;
+                M2C_FIELD(scratch_page, u32 *, 0x18) = uv_bottom;
+                if (uv_bottom & 0x100) {
+                    register u32 uv_adjusted ASM_REG("$2") = uv_bottom - 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    M2C_FIELD(scratch_page, u32 *, 0x18) = uv_adjusted;
                 }
-                M2C_FIELD(scratch, u32 *, 0x18) <<= 8;
-                M2C_FIELD(scratch, u32 *, 0x10) <<= 8;
-                if (M2C_FIELD(scratch, u16 *, 0x28) & 0x100) {
-                    M2C_FIELD(var_s2, s16 *, 0xE) = M2C_FIELD(arg2, u16 *, 0x12);
-                    goto block_80170DF8;
+                M2C_FIELD(scratch_page, u32 *, 0x18) <<= 8;
+                M2C_FIELD(scratch_page, u32 *, 0x10) <<= 8;
+                if (M2C_FIELD(scratch_page, u16 *, 0x28) & 0x100) {
+                    M2C_FIELD(packet, s16 *, 0xE) = M2C_FIELD(sprite, u16 *, 0x12);
+                } else {
+                    M2C_FIELD(packet, s16 *, 0xE) = (s16)(M2C_FIELD(sprite, u16 *, 0x12) + M2C_FIELD(entry_uv, u16 *, -2));
                 }
-                M2C_FIELD(var_s2, s16 *, 0xE) = (s16)(M2C_FIELD(arg2, u16 *, 0x12) + M2C_FIELD(temp_s0, u16 *, -2));
-block_80170DF8:
-                M2C_FIELD(var_s2, s16 *, 0xC) = (s16)((u16)M2C_FIELD(scratch, u32 *, 0x10) + (u16)M2C_FIELD(scratch, u32 *, 0xC));
-                M2C_FIELD(var_s2, s16 *, 0x14) = (s16)((u16)M2C_FIELD(scratch, u32 *, 0x10) + (u16)M2C_FIELD(scratch, u32 *, 0x14));
-                if (M2C_FIELD(arg2, u16 *, 0x10) != 0) {
-                    temp_v0_3 = (M2C_FIELD(temp_s0, u16 *, -4) & 0xFF9F) + M2C_FIELD(arg2, u16 *, 0x10);
-                    goto block_80170E48;
+                M2C_FIELD(packet, s16 *, 0xC) = (s16)((u16)M2C_FIELD(scratch_page, u32 *, 0x10) + (u16)M2C_FIELD(scratch_page, u32 *, 0xC));
+                M2C_FIELD(packet, s16 *, 0x14) = (s16)((u16)M2C_FIELD(scratch_page, u32 *, 0x10) + (u16)M2C_FIELD(scratch_page, u32 *, 0x14));
+                if (M2C_FIELD(sprite, u16 *, 0x10) != 0) {
+                    field_value = (M2C_FIELD(entry_uv, u16 *, -4) & 0xFF9F) + M2C_FIELD(sprite, u16 *, 0x10);
+                } else {
+                    field_value = M2C_FIELD(entry_uv, u16 *, -4);
                 }
-                temp_v0_3 = M2C_FIELD(temp_s0, u16 *, -4);
-block_80170E48:
-                M2C_FIELD(var_s2, u16 *, 0x16) = temp_v0_3;
-                M2C_FIELD(var_s2, s16 *, 0x1C) = (s16)((u16)M2C_FIELD(scratch, u32 *, 0x18) | (u16)M2C_FIELD(scratch, u32 *, 0xC));
-                temp_v1 = (u16)M2C_FIELD(scratch, u32 *, 0x18);
-                temp_v1 |= (u16)M2C_FIELD(scratch, u32 *, 0x14);
-                M2C_FIELD(var_s2, s16 *, 0x24) = temp_v1;
-                if ((s16)M2C_FIELD(var_s2, u16 *, 0x20) < (s16)M2C_FIELD(var_s2, u16 *, 8)) {
-                    temp_v1_3 = M2C_FIELD(var_s2, u8 *, 0x24);
-                    M2C_FIELD(var_s2, u8 *, 0x24) = (u8)(temp_v1_3 + 0xFF);
-                    M2C_FIELD(var_s2, u8 *, 0x14) = temp_v1_3;
+                M2C_FIELD(packet, u16 *, 0x16) = field_value;
+                M2C_FIELD(packet, s16 *, 0x1C) = (s16)((u16)M2C_FIELD(scratch_page, u32 *, 0x18) | (u16)M2C_FIELD(scratch_page, u32 *, 0xC));
+                uv_right = (u16)M2C_FIELD(scratch_page, u32 *, 0x18);
+                uv_right |= (u16)M2C_FIELD(scratch_page, u32 *, 0x14);
+                M2C_FIELD(packet, s16 *, 0x24) = uv_right;
+                if ((s16)M2C_FIELD(packet, u16 *, 0x20) < (s16)M2C_FIELD(packet, u16 *, 8)) {
+                    right_u = M2C_FIELD(packet, u8 *, 0x24);
+                    M2C_FIELD(packet, u8 *, 0x24) = (u8)(right_u + 0xFF);
+                    M2C_FIELD(packet, u8 *, 0x14) = right_u;
                 }
-                if ((s16)M2C_FIELD(var_s2, u16 *, 0xA) > M2C_FIELD(var_s2, s16 *, 0x22)) {
-                    temp_v1_4 = M2C_FIELD(var_s2, u8 *, 0x25);
-                    M2C_FIELD(var_s2, u8 *, 0x25) = (u8)(temp_v1_4 + 0xFF);
-                    M2C_FIELD(var_s2, u8 *, 0x1D) = temp_v1_4;
+                if ((s16)M2C_FIELD(packet, u16 *, 0xA) > M2C_FIELD(packet, s16 *, 0x22)) {
+                    bottom_v = M2C_FIELD(packet, u8 *, 0x25);
+                    M2C_FIELD(packet, u8 *, 0x25) = (u8)(bottom_v + 0xFF);
+                    M2C_FIELD(packet, u8 *, 0x1D) = bottom_v;
                 }
-                temp_a0_2 = M2C_FIELD(temp_s0, u8 *, -7);
-                M2C_FIELD(arg2, u8 *, 0xF) = temp_a0_2;
-                temp_v1_5 = M2C_FIELD(scratch, u16 *, 0x28);
-                if (temp_v1_5 & 8) {
-                    var_v0 = temp_v1_5 & 4;
-                    if (var_v0) {
-                        var_v0 = temp_a0_2 | 2;
+                packet_code = M2C_FIELD(entry_uv, u8 *, -7);
+                M2C_FIELD(sprite, u8 *, 0xF) = packet_code;
+                sprite_flags = M2C_FIELD(scratch_page, u16 *, 0x28);
+                if (sprite_flags & 8) {
+                    blend_code = sprite_flags & 4;
+                    if (blend_code) {
+                        blend_code = packet_code | 2;
                     } else {
-                        var_v0 = temp_a0_2 & 0xFD;
+                        blend_code = packet_code & 0xFD;
                     }
-                    M2C_FIELD(arg2, u8 *, 0xF) = var_v0;
+                    M2C_FIELD(sprite, u8 *, 0xF) = blend_code;
                 }
-                M2C_FIELD(var_s2, s32 *, 4) = (s32)M2C_FIELD(arg2, s32 *, 0xC);
-                temp_a0_3 = (u32)var_s2 & mask;
-                M2C_FIELD(var_s2, s32 *, 0) = (s32)((M2C_FIELD(var_s2, s32 *, 0) & 0xFF000000) | (*((u32 *)((M2C_FIELD(scratch, u32 *, 0x100) * 4) + M2C_FIELD(scratch, u32 *, 0x24))) & mask));
-                temp_v1_9 = (s32 *)((M2C_FIELD(scratch, u32 *, 0x100) * 4) + M2C_FIELD(scratch, u32 *, 0x24));
-                var_s2 += 0x28;
-                *temp_v1_9 = (*temp_v1_9 & 0xFF000000) | temp_a0_3;
-                goto block_39;
+                M2C_FIELD(packet, s32 *, 4) = (s32)M2C_FIELD(sprite, s32 *, 0xC);
+                packet_addr = (u32)packet & address_mask;
+                M2C_FIELD(packet, s32 *, 0) = (s32)((M2C_FIELD(packet, s32 *, 0) & 0xFF000000) | (*((u32 *)((M2C_FIELD(scratch_page, u32 *, 0x100) * 4) + M2C_FIELD(scratch_page, u32 *, 0x24))) & address_mask));
+                ot_entry = (s32 *)((M2C_FIELD(scratch_page, u32 *, 0x100) * 4) + M2C_FIELD(scratch_page, u32 *, 0x24));
+                packet += 0x28;
+                *ot_entry = (*ot_entry & 0xFF000000) | packet_addr;
             }
-            goto block_39;
+        } else {
+            draw_callback = (void *(*)(void *, void *, void *, void *, void *))M2C_FIELD(entry_uv, void **, 0);
+            if (draw_callback != NULL) {
+                packet = draw_callback(sprite_size, position, sprite, render_data, packet);
+            }
         }
-        temp_v0_12 = (void *(*)(void *, void *, void *, void *, void *))M2C_FIELD(temp_s0, void **, 0);
-        if (temp_v0_12 != NULL) {
-            var_s2 = temp_v0_12(arg0, arg1, arg2, temp_s3, var_s2);
-        }
-block_39:
-        if ((s8)M2C_FIELD(temp_s3, u8 *, 0) >= 0) {
-            temp_s0 += 0xC;
-            temp_s3 += 0xC;
-            goto loop_80170A78;
+        if ((s8)M2C_FIELD(render_data, u8 *, 0) >= 0) {
+            entry_uv += 0xC;
+            render_data += 0xC;
+            goto next_entry;
         }
         func_80064A40();
     }
-    M2C_FIELD(M2C_FIELD(temp_s7, void **, 0), void **, 0x8D0) = var_s2;
+    M2C_FIELD(M2C_FIELD(render_state, void **, 0), void **, 0x8D0) = packet;
 }
-
-#undef arg0
-#undef arg1
-#undef arg2
-#undef arg3
-#undef scratch

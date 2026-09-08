@@ -68,10 +68,7 @@ extern void func_80055990(void *a0);
 extern void func_800552C8(void);
 extern void func_80054D64(void);
 
-/* Global init routine: clears/reinitializes the D_800847D0 status block, saturates the
-   D_80084808 short array to 0x7FFF, zeroes D_80084850, initializes the two task/timer
-   objects D_800848F8 and D_80084858 (via func_80055990), then installs their callback
-   function pointers (func_800552C8 / func_80054D64) and remaining constant fields. */
+/* Resets global status and initializes two task objects with callbacks and defaults. */
 void func_800559B4(void) {
     D_800847D0.flags1 = 0;
     D_800847D0.flags2 = 0;

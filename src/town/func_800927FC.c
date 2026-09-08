@@ -14,6 +14,7 @@ extern M2C_UNK *D_800D0414;
 extern M2C_UNK *D_800D0418;
 extern M2C_UNK *D_800D041C;
 
+/* Initialize six global pointers to their corresponding storage blocks. */
 void func_8008FF5C(void) {
     D_800D0408 = &D_800D0208;
     D_800D040C = &D_800D0248;

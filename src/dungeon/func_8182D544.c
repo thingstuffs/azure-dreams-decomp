@@ -45,62 +45,63 @@ extern s32 rand(void);
 extern u8 D_80045340[0x10];
 extern s32 D_800814A0[3];
 
-void func_8182D544(void *arg0, S_8182D544_2 *arg1, S_8182D544_3 *arg2)
+/* Move the effect, count down its timer, then fade its sprite to black. */
+void func_8182D544(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
 {
     s16 state;
     s32 delta_y;
     s32 delta_z;
-    s32 amount;
+    s32 fade_step;
     u16 timer;
-    u8 value;
+    u8 brightness;
     S_8182D544_1 *object;
 
-    object = ((S_8182D544_0 *)arg0)->unk_00;
+    object = ((S_8182D544_0 *)effect)->unk_00;
     object->unk_0C |= 0x8000;
 
-    delta_y = arg1->unk_10;
-    delta_z = arg1->unk_14;
-    arg1->unk_00 += arg1->unk_0C;
-    arg1->unk_04 += delta_y;
-    arg1->unk_08 += delta_z;
+    delta_y = motion->unk_10;
+    delta_z = motion->unk_14;
+    motion->unk_00 += motion->unk_0C;
+    motion->unk_04 += delta_y;
+    motion->unk_08 += delta_z;
 
-    state = ((S_8182D544_0 *)arg0)->unk_4C.s;
+    state = ((S_8182D544_0 *)effect)->unk_4C.s;
     if (state == 0) {
-        goto state_zero;
+        goto wait_timer;
     }
     if (state == 1) {
-        goto state_one;
+        goto fade_out;
     }
     func_80024E80();
 
-state_zero:
-    timer = ((S_8182D544_0 *)arg0)->unk_48 - 1;
-    ((S_8182D544_0 *)arg0)->unk_48 = timer;
+wait_timer:
+    timer = ((S_8182D544_0 *)effect)->unk_48 - 1;
+    ((S_8182D544_0 *)effect)->unk_48 = timer;
     if ((timer << 16) <= 0) {
-        func_8004491C((u8 *)arg0 - 0x20, D_80045340, delta_z);
-        ((S_8182D544_0 *)arg0)->unk_4C.u++;
+        func_8004491C((u8 *)effect - 0x20, D_80045340, delta_z);
+        ((S_8182D544_0 *)effect)->unk_4C.u++;
         func_80024E80();
     }
     return;
 
-state_one:
-    func_800478B8(arg2);
-    if (arg2->unk_14 & 0x6000) {
-        arg2->unk_04 = 0;
-        arg2->unk_05 = 0;
+fade_out:
+    func_800478B8(sprite);
+    if (sprite->unk_14 & 0x6000) {
+        sprite->unk_04 = 0;
+        sprite->unk_05 = 0;
     }
 
-    amount = (rand() & 0xF) + 9;
-    if (amount >= arg2->unk_0C.at00.v) {
-        arg2->unk_0C.at00u.v = 0;
-        ((S_8182D544_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    fade_step = (rand() & 0xF) + 9;
+    if (fade_step >= sprite->unk_0C.at00.v) {
+        sprite->unk_0C.at00u.v = 0;
+        ((S_8182D544_0_pre *)effect)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
         func_80024E80();
         return;
     }
 
-    value = arg2->unk_0C.at02.v - amount;
-    arg2->unk_0C.at02.v = value;
-    arg2->unk_0C.at01.v = value;
-    arg2->unk_0C.at00.v = value;
+    brightness = sprite->unk_0C.at02.v - fade_step;
+    sprite->unk_0C.at02.v = brightness;
+    sprite->unk_0C.at01.v = brightness;
+    sprite->unk_0C.at00.v = brightness;
 }

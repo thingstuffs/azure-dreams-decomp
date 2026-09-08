@@ -1,12 +1,5 @@
 #include "common.h"
 
-/* Looks up D_800710E4[a1] (array of pointers to 8-byte elements), forwards &elem[a0] to
- * func_80041284, calls func_8003F320(), reads the s16 field at offset 0x18 of the struct
- * pointed to by D_80081480.field_0, calls DrawSync(0), then tail-calls func_8004846C(val)
- * and returns its result. (True external signature per sibling wrappers in src/code.c is
- * `int func_80048500(short a0, int a1)`, but the callee body itself does no 16-bit
- * sign-extension on a0 -- declaring a0 as s32 here is required to byte-match; the short
- * width only matters at call sites.) */
 /* S_80048500_elem: 8-byte element type indexed by a0 within a D_800710E4[a1] sub-array. */
 typedef struct {
     s32 w0;
@@ -37,13 +30,14 @@ extern void func_8003F320(void);
 extern void DrawSync(s32 a0);
 extern s32 func_8004846C(s32 a0);
 
-s32 func_80048500(s32 a0, s32 a1)
+/* Processes the selected element and passes the target value to func_8004846C after drawing completes. */
+s32 func_80048500(s32 elem_index, s32 array_index)
 {
-    s32 val;
+    s32 target_value;
 
-    func_80041284(&D_800710E4[a1][a0]);
+    func_80041284(&D_800710E4[array_index][elem_index]);
     func_8003F320();
-    val = D_80081480.field_0->unk18;
+    target_value = D_80081480.field_0->unk18;
     DrawSync(0);
-    return func_8004846C(val);
+    return func_8004846C(target_value);
 }

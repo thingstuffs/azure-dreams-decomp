@@ -1,16 +1,11 @@
 #include "common.h"
 
-
-/* Globals accessed directly via %hi/%lo (not $gp small-data). Declared with a
- * size > -G (8) so gcc/as emit %hi/%lo rather than $gp-relative access; the
- * element type reflects the access width, the array length is provisional. */
 extern int   D_80084130[3];
 extern short D_80073828[5];
 extern short D_80084778[5];
 extern int   D_80086D4C[3];
 
-
-
+/* Initialize memory card services and disable automatic pad interrupt clearing. */
 void func_8003D56C(void) {
     InitCARD();
     StartCARD();
@@ -18,21 +13,22 @@ void func_8003D56C(void) {
     ChangeClearPAD(0);
 }
 
-
-void func_8003DB4C(int *p, int n) {
-    while (n != 0) {
-        *p = 0;
-        n--;
-        p++;
+/* Clear count words starting at dst. */
+void func_8003DB4C(int *dst, int count) {
+    while (count != 0) {
+        *dst = 0;
+        count--;
+        dst++;
     }
 }
 
-void func_8003DB6C(int *a0, int *a1, int a2) {
-    while (a2 != 0) {
-        *a0 = *a1;
-        a1++;
-        a2--;
-        a0++;
+/* Copy count words from src to dst. */
+void func_8003DB6C(int *dst, int *src, int count) {
+    while (count != 0) {
+        *dst = *src;
+        src++;
+        count--;
+        dst++;
     }
 }
 
@@ -56,74 +52,71 @@ struct Dst {
     unsigned short f14;
 };
 
-void func_8003DB94(struct Dst *a0, struct Elem *a1, short a2) {
-    a0->f0 = a1 + a2;
-    a0->f4 = a2;
-    a0->f5 = a1->b0;
-    a0->f14 &= 0x9FFF;
-    a0->f8 = a0->f0->f4;
+/* Select an entry and reset the state's entry flags and value. */
+void func_8003DB94(struct Dst *state, struct Elem *entries, short index) {
+    state->f0 = entries + index;
+    state->f4 = index;
+    state->f5 = entries->b0;
+    state->f14 &= 0x9FFF;
+    state->f8 = state->f0->f4;
 }
 
-
-void func_8003E12C(int *a0, int *a1)
+/* Swap two words. */
+void func_8003E12C(int *left, int *right)
 {
-    int t = *a0;
-    *a0 = *a1;
-    *a1 = t;
+    int saved = *left;
+    *left = *right;
+    *right = saved;
 }
 
-/* Set the byte pointed to by a0 to 1 (constant-value flag setter). */
-void func_8003E140(unsigned char *a0)
+/* Set the pointed-to flag. */
+void func_8003E140(unsigned char *flag)
 {
-    *a0 = 1;
+    *flag = 1;
 }
 
-
-
-
-int func_8003F52C(int a0)
+/* Return the supplied value. */
+int func_8003F52C(int value)
 {
-    return a0;
+    return value;
 }
 
-/* returns the address of global D_8006CE34 (declared >8B so codegen uses %hi/%lo instead of $gp-relative) */
 extern int D_8006CE34[4];
 
+/* Return the global status block. */
 int *func_8003F534(void) {
     return D_8006CE34;
 }
 
-
+/* Return the saved global value. */
 int func_8003F5D4(void)
 {
     return D_800814C8;
 }
 
-void func_8003F5E0(int a0)
+/* Store the global value. */
+void func_8003F5E0(int value)
 {
-    D_800814C8 = a0;
+    D_800814C8 = value;
 }
 
+/* Wait for 512 vertical synchronization intervals. */
 void func_8003F5EC(void) {
-    int i;
-    for (i = 0x200; i > 0; i--) {
+    int frames_left;
+    for (frames_left = 0x200; frames_left > 0; frames_left--) {
         VSync(0);
     }
 }
 
-/* Packs a0 (shifted into bits 31:23) with the low 23 bits of a1 into *a2, and stores a3 into *(a2+1) */
-void func_8003F6D4(int a0, int a1, int *a2, int a3)
+/* Pack a tag and 23-bit ID into a record and store its accompanying value. */
+void func_8003F6D4(int tag, int id, int *record, int value)
 {
-    a1 &= 0x7FFFFF;
-    a0 <<= 23;
-    a1 |= a0;
-    a2[0] = a1;
-    a2[1] = a3;
+    id &= 0x7FFFFF;
+    tag <<= 23;
+    id |= tag;
+    record[0] = id;
+    record[1] = value;
 }
-
-/* Push node a0 onto the freelist headed by D_80081490: read the old head,
-   store a0 as the new freelist head, clear a0's field at offset 4, and
-   link a0's field at offset 0 to the previous head. */
 
 typedef struct {
     void *head;
@@ -131,24 +124,21 @@ typedef struct {
     int pad2;
 } FreelistHead; /* real D_80081490 is >8B so hi/lo addressing is used */
 
-void func_80040044(void *a0)
+/* Push a node onto the free list and clear its second word. */
+void func_80040044(void *node)
 {
-    void *v0;
+    void *old_head;
     {
         extern void *D_80081490;
-        v0 = D_80081490;
+        old_head = D_80081490;
     }
     {
         extern FreelistHead D_80081490;
-        D_80081490.head = a0;
+        D_80081490.head = node;
     }
-    *(int *)((char *)a0 + 4) = 0;
-    *(void **)a0 = v0;
+    *(int *)((char *)node + 4) = 0;
+    *(void **)node = old_head;
 }
-
-/* Linked-list node with a next pointer at offset 0x0 and a 16-bit flags/state
- * field at offset 0x1E. Iterates a global singly-linked list, OR-ing 0xC00
- * into that field of every node. */
 
 typedef struct Node {
     struct Node *next;      /* 0x00 */
@@ -156,119 +146,96 @@ typedef struct Node {
     unsigned short field_1E; /* 0x1E */
 } Node;
 
-/* D_80081498 is accessed via %hi/%lo, so its containing symbol must be
- * larger than the -G8 small-data threshold; pad it out. */
 extern struct {
     Node *head;
     int pad[2];
 } D_80081498;
 
+/* Set flag bits 0xC00 on every node in the global list. */
 void func_80040418(void)
 {
-    Node *v1 = D_80081498.head;
+    Node *node = D_80081498.head;
 
-    if (v1 != 0) {
+    if (node != 0) {
         do {
-            v1->field_1E |= 0xC00;
-            v1 = v1->next;
-        } while (v1 != 0);
+            node->field_1E |= 0xC00;
+            node = node->next;
+        } while (node != 0);
     }
 }
 
-
-
-/* Counts the number of leading non-NULL pointer-sized entries in an array,
- * where the array is considered empty (count 0) if the first entry is NULL.
- * Returns the index of the first NULL entry found while scanning forward. */
-int func_80040F00(void **arr)
+/* Count entries in a NULL-terminated pointer array. */
+int func_80040F00(void **entries)
 {
     int count;
 
     count = 0;
-    if (arr[0] != 0) {
+    if (entries[0] != 0) {
         do {
-            arr++;
+            entries++;
             count++;
-        } while (*arr != 0);
+        } while (*entries != 0);
     }
     return count;
 }
 
-
-/* Appends a value to an int list pointed by D_800814E0, advances the
-   end pointer, and writes a zero sentinel/terminator after the new
-   entry. */
 extern int *D_800814E0;
 
-void func_80041110(int a0)
+/* Append a value to the global word list and restore its zero terminator. */
+void func_80041110(int value)
 {
-    *D_800814E0 = a0;
+    *D_800814E0 = value;
     D_800814E0++;
     *D_800814E0 = 0;
 }
 
-
-short func_800422A8(unsigned int a0, unsigned int a1, unsigned short a2, unsigned short a3)
+/* Return the stride index relative to base, or -1 when it reaches the limit. */
+short func_800422A8(unsigned int value, unsigned int base, unsigned short stride, unsigned short limit)
 {
-    unsigned int q = (a0 - a1) / a2;
-    if (q >= a3) {
+    unsigned int index = (value - base) / stride;
+    if (index >= limit) {
         return -1;
     }
-    return (short)q;
+    return (short)index;
 }
 
-/* extern decls: callees only need to match the args actually supplied here */
 extern void func_800423C0(void *a0, short a1);
 extern void func_80042984(void *a0);
 
-/* Wrapper: reconfigure something at a0 with a truncated-to-s16 parameter,
- * then run a follow-up update pass on the same object. */
-void func_800424E0(void *a0, int a1)
+/* Configure an entity with a signed halfword value and update its status. */
+void func_800424E0(void *entity, int value)
 {
-    func_800423C0(a0, (short)a1);
-    func_80042984(a0);
+    func_800423C0(entity, (short)value);
+    func_80042984(entity);
 }
 
-
-
-
-/* Variadic stub: gcc 2.7.2's o32 varargs prologue unconditionally spills
- * all four incoming register arguments (a0-a3) into the caller's argument
- * save area because of the trailing `...`, even though none are read; the
- * body itself just returns 0. */
-s32 func_80043FB8(s32 arg0, ...)
+/* Return zero for any argument list. */
+s32 func_80043FB8(s32 unused, ...)
 {
     return 0;
 }
 
-
-/* Forwards its 4 incoming args to func_8003F540, then invokes func_80053DA8
-   with a fixed flag value (0x300). Return value of neither call is used. */
 extern void func_8003F540(int a0, int a1, int a2, int a3);
 extern short func_80053DA8(int a0);
 
-void func_80044234(int a0, int a1, int a2, int a3)
+/* Forward four values and trigger status event 0x300. */
+void func_80044234(int first, int second, int third, int fourth)
 {
-    func_8003F540(a0, a1, a2, a3);
+    func_8003F540(first, second, third, fourth);
     func_80053DA8(0x300);
 }
 
-
-/* Compute a modified game-time / clock-tick style value: masks the low 24 bits of one word from the D_8006CE34 status block, subtracts 0x20, and adds an adjacent word. */
 extern int *func_8003F534(void);
 
+/* Combine the status block's low 24-bit tick value with its base adjustment. */
 int func_800445E0(void)
 {
-    int *p = func_8003F534();
-    int v1 = p[2] & 0xFFFFFF;
-    v1 = v1 - 0x20;
-    return v1 + p[1];
+    int *status = func_8003F534();
+    int ticks = status[2] & 0xFFFFFF;
+    ticks = ticks - 0x20;
+    return ticks + status[1];
 }
 
-
-
-
-/* Walks a linked list of Node46398 structs starting at *a2, calling func_800463EC(cur, a1, node, node->field6) for each, then advancing via node->field8/fieldC (next a1/a2) and a node-relative back-pointer at s0-8 until it is NULL; returns 0. */
 extern void func_800463EC(void *a0, int a1, void *a2, short a3);
 
 typedef struct Node46398 {
@@ -278,91 +245,79 @@ typedef struct Node46398 {
     void *fieldC;
 } Node46398;
 
-int func_80046398(void *a0, int a1, void *a2)
+/* Process linked objects using each node's value, record pointer, and halfword parameter. */
+int func_80046398(void *object, int value, void *record)
 {
-    void *s0 = a0;
-    Node46398 *n;
+    void *current = object;
+    Node46398 *node;
 
     do {
-        n = (Node46398 *)a2;
-        func_800463EC(s0, a1, a2, n->field6);
-        a2 = *(void **)((char *)s0 - 8);
-        s0 = (char *)a2 + 0x20;
-        if (a2 == 0)
+        node = (Node46398 *)record;
+        func_800463EC(current, value, record, node->field6);
+        record = *(void **)((char *)current - 8);
+        current = (char *)record + 0x20;
+        if (record == 0)
             break;
-        n = (Node46398 *)a2;
-        a1 = n->field8;
-        a2 = n->fieldC;
+        node = (Node46398 *)record;
+        value = node->field8;
+        record = node->fieldC;
     } while (1);
 
     return 0;
 }
 
-
-/* Calls func_80044BB0 and returns its result sign-extended from 16 bits. */
 extern int func_80044BB0(void);
 
+/* Return the query result as a signed halfword. */
 short func_80047714(void)
 {
     return (short)func_80044BB0();
 }
 
-
 extern void func_800477F4(void *arg0);
 extern void func_80047694(void *arg0);
 
-/* Runs two per-entity update steps back to back on the same entity pointer. */
-void func_800478B8(void *arg0)
+/* Run both update steps on an entity. */
+void func_800478B8(void *entity)
 {
-    func_800477F4(arg0);
-    func_80047694(arg0);
+    func_800477F4(entity);
+    func_80047694(entity);
 }
 
-
-/* Zero the 0x30-byte struct/array at D_80083D08 (init/reset routine). */
 extern void bzero(void *dst, int n);
 extern unsigned char D_80083D08[0x30];
 
+/* Clear the global 0x30-byte buffer. */
 void func_800479AC(void)
 {
     bzero(D_80083D08, 0x30);
 }
 
-
-/* Element size is 0xD000 (53248) bytes; base array of these structs lives at D_800FC000. */
 typedef struct {
     u8 unk[0xD000];
 } Struct_800FC000;
 
 extern Struct_800FC000 D_800FC000[];
 
-/* Returns a pointer to the a0'th element of the D_800FC000 struct array (element size 0xD000). */
-void *func_80047A44(s32 a0)
+/* Return the indexed 0xD000-byte global block. */
+void *func_80047A44(s32 index)
 {
-    return &D_800FC000[a0];
+    return &D_800FC000[index];
 }
 
-
-int func_80047AA4(int a0)
+/* Add 0x8000 to the supplied value. */
+int func_80047AA4(int value)
 {
-    return a0 + 0x8000;
+    return value + 0x8000;
 }
-
-/* Element size is 0xD000 (53248) bytes; base array_47C60 of these structs lives at D_800FC000. */
 
 extern Struct_800FC000 D_800FC000[];
 
-/* Given a raw address, compute its index into the D_800FC000 struct array_47C60 (element size 0xD000)
- * via plain integer division (not pointer arithmetic) so the compiler emits a full truncating
- * division rather than the exact-division-by-constant shortcut used for real pointer subtraction. */
-s32 func_80047C60(void *a0)
+/* Compute a block index from a raw address using signed division by 0xD000. */
+s32 func_80047C60(void *address)
 {
-    return ((s32)a0 - (s32)D_800FC000) / 0xD000;
+    return ((s32)address - (s32)D_800FC000) / 0xD000;
 }
-
-
-/* Sets bit 0x400 in the struct's 0x14 halfword flags field, then forwards to
- * func_80047784 with the (short-truncated) a1/a2 arguments. */
 
 typedef struct {
     unsigned char pad[0x14];
@@ -371,96 +326,88 @@ typedef struct {
 
 extern void func_80047784(Struct_80048374 *a0, short a1, short a2);
 
-void func_80048374(Struct_80048374 *a0, short a1, short a2) {
-    a0->unk14 |= 0x400;
-    func_80047784(a0, a1, a2);
+/* Set entity flag 0x400 and reselect its entry. */
+void func_80048374(Struct_80048374 *entity, short index, short offset) {
+    entity->unk14 |= 0x400;
+    func_80047784(entity, index, offset);
 }
 
-
-/* wrapper: calls func_80048500(a0, 0) */
 extern int func_80048500(short a0, int a1);
 
-void func_80048568(short a0)
+/* Load the indexed entry from table zero. */
+void func_80048568(short index)
 {
-    func_80048500(a0, 0);
+    func_80048500(index, 0);
 }
 
-
-/* Thin wrapper: sign-extends its 16-bit argument and forwards it to func_80048500
- * along with a fixed table index of 1; passes the callee's return value through. */
 extern int func_80048500(short a0, int a1);
 
-int func_80048590(short a0)
+/* Load the indexed entry from table one and return the result. */
+int func_80048590(short index)
 {
-    return func_80048500(a0, 1);
+    return func_80048500(index, 1);
 }
 
-
-/* wrapper: calls func_80048500(a0, 2) */
 extern int func_80048500(short a0, int a1);
 
-void func_800485B8(short a0)
+/* Load the indexed entry from table two. */
+void func_800485B8(short index)
 {
-    func_80048500(a0, 2);
+    func_80048500(index, 2);
 }
 
-
-/* Calls func_80048C3C(0) and returns its result */
 extern int func_80048C3C(int a0);
 
+/* Return the result of query zero. */
 int func_80048D00(void)
 {
     return func_80048C3C(0);
 }
 
-/* Calls func_80048C3C(1) and returns its result. */
 extern int func_80048C3C(int a0);
 
+/* Return the result of query one. */
 int func_80048D20(void)
 {
     return func_80048C3C(1);
 }
 
-/* Calls func_80048C3C(2) and returns its result */
 extern int func_80048C3C(int);
 
+/* Return the result of query two. */
 int func_80048D40(void)
 {
     return func_80048C3C(2);
 }
 
-/* Returns the a0-th element of the D_80071250 volatile int array */
-
-int func_80048DCC(int a0)
+/* Return the indexed global table value. */
+int func_80048DCC(int index)
 {
-    return D_80071250[a0];
+    return D_80071250[index];
 }
 
-unsigned char func_80048DE8(int arg0) {
-    volatile unsigned char *p = D_80071298;
-    return p[arg0];
+/* Read the indexed byte from the volatile global table. */
+unsigned char func_80048DE8(int index) {
+    volatile unsigned char *values = D_80071298;
+    return values[index];
 }
 
-/* Counts leading non-NULL entries in a pointer array, up to a1 entries. */
-s32 func_80048F8C(s32 *a0, s32 a1)
+/* Count nonzero entries up to the supplied limit. */
+s32 func_80048F8C(s32 *entries, s32 limit)
 {
-    s32 v1 = 0;
+    s32 count = 0;
 
-    if (a1 > 0) {
+    if (limit > 0) {
         do {
-            if (*a0 == 0) {
+            if (*entries == 0) {
                 break;
             }
-            v1++;
-            a0++;
-        } while (v1 < a1);
+            count++;
+            entries++;
+        } while (count < limit);
     }
-    return v1;
+    return count;
 }
-
-
-/* Walk a singly-linked list (next pointer at offset 0xC) to its tail node,
- * then append a1 onto the tail's next pointer. */
 
 typedef struct Struct_C_next Struct_C_next;
 struct Struct_C_next {
@@ -468,21 +415,20 @@ struct Struct_C_next {
     Struct_C_next *next;
 };
 
-void func_80049250(Struct_C_next *a0, Struct_C_next *a1) {
-    while (a0->next != 0) {
-        a0 = a0->next;
+/* Append a node to the end of a linked list. */
+void func_80049250(Struct_C_next *tail, Struct_C_next *node) {
+    while (tail->next != 0) {
+        tail = tail->next;
     }
-    a0->next = a1;
+    tail->next = node;
 }
 
-
-int func_80049280(int a0)
+/* Test whether the type equals 0x14. */
+int func_80049280(int type)
 {
-    return a0 == 0x14;
+    return type == 0x14;
 }
 
-/* Wrapper: extracts a 5-bit field from byte offset 3 of the input struct and
- * forwards it to func_80049280 (which just tests the value against 0x14). */
 extern int func_80049280(int arg0);
 
 typedef struct {
@@ -492,51 +438,43 @@ typedef struct {
     u8 unk3;
 } Struct8004928C;
 
-int func_8004928C(Struct8004928C *arg0)
+/* Test whether the record's low five type bits equal 0x14. */
+int func_8004928C(Struct8004928C *record)
 {
-    return func_80049280(arg0->unk3 & 0x1F);
+    return func_80049280(record->unk3 & 0x1F);
 }
 
-
-/* extern decls */
 extern int D_800713FC[4]; /* >8B forces hi/lo addressing (matches target's lui/addiu) */
 
 extern int func_80049374(void *a0, int *a1);
 
-/* Trivial wrapper: forwards a0 unchanged, appends &D_800713FC as second arg,
- * tail-calls func_80049374 and returns its result untouched. */
-int func_80049490(void *a0) {
-    return func_80049374(a0, D_800713FC);
+/* Process an object using the fixed global table. */
+int func_80049490(void *object) {
+    return func_80049374(object, D_800713FC);
 }
 
-
-/* extern: some status/flags query, bit 0x400 tested by caller */
 extern int func_80042A80(void);
 
-/* Returns bit 0x400 of func_80042A80()'s result (masked flag check). */
+/* Return flag bit 0x400 from the status query. */
 int func_800494FC(void) {
     return func_80042A80() & 0x400;
 }
 
+/* Map the first set low flag bit to priority 0, 1, or 2, defaulting to 3. */
+int func_80049944(int flags) {
+    int priority = 3;
 
-/* Maps a bitmask (bit0/bit1/bit2) to a priority code: bit0->0, bit1->1, bit2->2, none->3 */
-int func_80049944(int a0) {
-    int v1 = 3;
-
-    if (a0 & 1) {
-        v1 = 0;
-    } else if (a0 & 2) {
-        v1 = 1;
-    } else if (a0 & 4) {
-        v1 = 2;
+    if (flags & 1) {
+        priority = 0;
+    } else if (flags & 2) {
+        priority = 1;
+    } else if (flags & 4) {
+        priority = 2;
     }
 
-    return v1;
+    return priority;
 }
 
-/* extern decls */
-
-/* Maps a bitmask (bit0/bit1/bit2) to a priority code: bit0->0, bit1->1, bit2->2, none->3 */
 extern int func_80049944(int a0);
 
 typedef struct {
@@ -545,116 +483,95 @@ typedef struct {
     int unk14;
 } Struct80049984;
 
-/* If unk13 flag is set, look up priority code for the bitmask at unk14 via
- * func_80049944; otherwise default to 3 (no priority). */
-int func_80049984(Struct80049984 *a0)
+/* Return the record's flag priority, or 3 when its enabling byte is clear. */
+int func_80049984(Struct80049984 *record)
 {
-    int v1 = 3;
+    int priority = 3;
 
-    if (a0->unk13 != 0) {
-        v1 = func_80049944(a0->unk14);
+    if (record->unk13 != 0) {
+        priority = func_80049944(record->unk14);
     }
 
-    return v1;
+    return priority;
 }
 
-
-int func_800499DC(int *a0)
+/* Set the pointed-to flag and return one. */
+int func_800499DC(int *flag)
 {
-    *a0 = 1;
+    *flag = 1;
     return 1;
 }
 
+extern void func_80049CF4(void *packets, void *record);
 
-/* Trivial wrapper that forwards to func_80049CF4 with no arguments. */
-extern void func_80049CF4(void);
-
-void func_80049DC8(void)
+/* Initialize a pair of packets from a source record. */
+void func_80049DC8(void *packets, void *record)
 {
-    func_80049CF4();
+    func_80049CF4(packets, record);
 }
 
-
-/* Wrap an index by a single step of delta within [0, limit): given a current
- * index (a0), a signed step delta (a1), and a size/limit (a2), add the delta
- * and correct for at most one wraparound in either direction (assumes
- * |delta| <= limit). Used for circular-buffer/ring-index style advancement. */
-int func_80049DE8(int a0, int a1, int a2) {
-    a0 = a0 + a1;
-    if (a1 > 0) {
-        if (a0 < a2) {
+/* Advance an index by delta and correct a single wrap in either direction. */
+int func_80049DE8(int index, int delta, int limit) {
+    index = index + delta;
+    if (delta > 0) {
+        if (index < limit) {
         } else {
-            a0 = a0 - a2;
+            index = index - limit;
         }
     } else {
-        a0 = (a0 >= 0) ? a0 : (a2 + a0);
+        index = (index >= 0) ? index : (limit + index);
     }
-    return a0;
+    return index;
 }
 
-
-/* Returns the int value stored at index a0 in global array D_800712B4 */
-
-int func_80049E6C(int a0)
+/* Read the indexed word from the volatile global table. */
+int func_80049E6C(int index)
 {
-    volatile int *p = D_800712B4;
-    return p[a0];
+    volatile int *values = D_800712B4;
+    return values[index];
 }
 
-/* stub for callee — only argument setup / call site matters for this wrapper */
 extern int func_800438E4(void *a1);
 
-/* Trivial wrapper: forwards a1 to func_800438E4 and returns its result untouched */
-int func_8004A4C4(void *a0, void *a1) {
-    return func_800438E4(a1);
+/* Forward the second argument to the object query. */
+int func_8004A4C4(void *unused, void *object) {
+    return func_800438E4(object);
 }
 
-
-/* Returns the computed item value, or the callback's result when one runs. */
 extern s32 func_8004A574(u8 *item, s32 flag);
 
-/* Trivial wrapper: forwards its argument to func_8004A574 with a fixed flag=1 */
-s32 func_8004A618(void *arg0)
+/* file_load_com: process the item with mode one. */
+s32 func_8004A618(void *item)
 {
-    return func_8004A574(arg0, 1);
+    return func_8004A574(item, 1);
 }
 
-/* Trivial wrapper: forwards its item pointer to func_8004A574 with flag=0. */
+/* func_koya_mon_talk_pal_ld: process the item with mode zero. */
 s32 func_8004A638(void *item)
 {
     return func_8004A574(item, 0);
 }
 
-
-/* func_8004A918: zero-fill the 0x50-byte (20-entry) table at fixed address
- * 0x80013564 (an array of {short,short} entries used elsewhere as D_80013564/
- * D_80013566 via %hi/%lo folded loads/stores). Original source referenced the
- * address as a raw integer literal cast (not a named extern) -- confirmed by
- * gcc emitting `lui;ori` (generic 32-bit constant synthesis) here, matching
- * the retail bytes exactly, whereas a symbolic `&D_80013564` always compiles
- * to `lui;addiu` (or the `la` pseudo, which GNU as also expands to addiu) on
- * every pinned gcc version. */
 extern void bzero(void *ptr, int len);
 
+/* Clear the 0x50-byte table at address 0x80013564. */
 void func_8004A918(void) {
     bzero((void *)0x80013564, 0x50);
 }
 
-
-int func_8004AA34(int *a0, int *a1)
+/* Compare two signed words by subtraction. */
+int func_8004AA34(int *left, int *right)
 {
-    return *a0 - *a1;
+    return *left - *right;
 }
 
-/* Count leading non-NULL entries in a NULL-terminated pointer array.
- * Returns 0 if the first entry is already NULL, otherwise returns the
- * index of the first NULL entry found while scanning forward. */
-s32 func_8004AE3C(void **arg0)
+/* Count entries in a NULL-terminated pointer array. */
+s32 func_8004AE3C(void **entries)
 {
     void **list;
     s32 count;
 
-    list = arg0;
+    list = entries;
     count = 0;
     if (*list != 0) {
         do {
@@ -665,105 +582,85 @@ s32 func_8004AE3C(void **arg0)
     return count;
 }
 
-
-/* Comparator callback: orders two elements (each a pointer to a string) by
- * looking up the first character of each string in a translation/order table
- * pointed to by D_80081540, and returning the difference of the looked-up
- * values (used as a qsort-style compare function). */
-
 extern unsigned char *D_80081540;
 
-int func_8004AE98(unsigned char **a0, unsigned char **a1)
+/* Compare strings by their first characters' translated ordering values. */
+int func_8004AE98(unsigned char **left, unsigned char **right)
 {
-    unsigned char *s0 = *a0;
-    unsigned char *s1 = *a1;
+    unsigned char *left_text = *left;
+    unsigned char *right_text = *right;
 
-    return D_80081540[*s0] - D_80081540[*s1];
+    return D_80081540[*left_text] - D_80081540[*right_text];
 }
 
-/* trivial wrapper: saves $ra, calls func_8004AEC4, restores, returns */
 extern void func_8004AEC4(void);
 
+/* Invoke func_8004AEC4. */
 void func_8004AFC8(void)
 {
     func_8004AEC4();
 }
 
-
-/* extern/typedef decls */
 extern void func_8004B364(int a0, int a1, void *a2);
 
-/* Trivial wrapper: forwards a0 as the third arg to func_8004B364(0, 1, a0). */
-void func_8004B3DC(void *a0) {
-    func_8004B364(0, 1, a0);
+/* Forward an object with fixed leading arguments zero and one. */
+void func_8004B3DC(void *object) {
+    func_8004B364(0, 1, object);
 }
 
-
-/* Walks the singly-linked list headed by D_80081498 looking for node a0;
-   returns the matching node, or NULL if the list is empty or exhausted.
-   (Reuses the Node typedef + D_80081498 decl from func_80040418 above.) */
-Node *func_8004B4A8(Node *a0)
+/* Find the target node in the global linked list. */
+Node *func_8004B4A8(Node *target)
 {
-    Node *v0 = D_80081498.head;
+    Node *node = D_80081498.head;
 
-    while (v0 != 0) {
-        if (v0 == a0) {
+    while (node != 0) {
+        if (node == target) {
             break;
         }
-        v0 = v0->next;
+        node = node->next;
     }
 
-    return v0;
+    return node;
 }
-
-
-/* Walk an array of 12-byte-stride records starting at a0, counting records
- * until (and including) one whose first byte has the 0x80 bit set; return
- * that 1-based count. */
 
 typedef struct {
     /* 0x0 */ unsigned char unk0;
     /* 0x1 */ unsigned char pad[11];
 } Unk8004B4DC; /* size 0xC */
 
-int func_8004B4DC(Unk8004B4DC *a0) {
-    int v1 = 0;
+/* Count 12-byte records through the first record with bit 0x80 set. */
+int func_8004B4DC(Unk8004B4DC *record) {
+    int count = 0;
 
     do {
-        v1++;
-    } while ((a0++->unk0 & 0x80) == 0);
+        count++;
+    } while ((record++->unk0 & 0x80) == 0);
 
-    return v1;
+    return count;
 }
 
-
-/* trivial wrapper - invokes func_8003E4FC(6, &D_80080B48, 0) */
-/* v5-recovered decl */ extern int D_80080B48[4];
+ extern int D_80080B48[4];
+/* Process the fixed global record with command six. */
 void func_8004B634(void)
 {
     func_8003E4FC(6, D_80080B48, 0);
 }
 
-
 extern void func_8004B634(void);
 
-/* Trivial wrapper: saves $ra, calls func_8004B634, restores $ra, returns. */
+/* jyotyu_set_reserve_nyul: process the fixed reserve record. */
 void func_8004B834(void)
 {
     func_8004B634();
 }
 
-
-/* trivial wrapper - invokes func_8004B854(a0, a1, 0) */
 extern int func_8004B854(int a0, int a1, int a2);
 
-int func_8004B8BC(int a0, int a1)
+/* Forward an object and value with a zero event parameter. */
+int func_8004B8BC(int object, int value)
 {
-    return func_8004B854(a0, a1, 0);
+    return func_8004B854(object, value, 0);
 }
-
-
-
 
 extern unsigned char D_80080A84[16];
 
@@ -779,61 +676,55 @@ struct S8004CBFC_a0 {
     struct S8004CBFC_a1 *f8;
 };
 
-/* Initialize a0: store a1 pointer, divide a1->f0 by a global rate byte,
-   store the quotient, remember a2, and if a2 is non-null, copy a1->f4 into *a2. */
-void func_8004CBFC(struct S8004CBFC_a0 *a0, struct S8004CBFC_a1 *a1, int *a2) {
-    a0->f8 = a1;
-    a0->f0 = a1->f0 / D_80080A84[0];
-    a0->f4 = a2;
-    if (a2 != 0) {
-        *a2 = a1->f4;
+/* Initialize entry state, compute its rate, and optionally copy its value to the cursor. */
+void func_8004CBFC(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor) {
+    state->f8 = entry;
+    state->f0 = entry->f0 / D_80080A84[0];
+    state->f4 = cursor;
+    if (cursor != 0) {
+        *cursor = entry->f4;
     }
 }
 
-
-
-/* Given a pointer to an object, return a pointer to a sub-structure that
- * depends on the upper nibble of the byte at offset 1: type 0x30 selects
- * the field at offset 0x18, all other types (including 0x20) select the
- * field at offset 0xC. */
-void *func_8004D064(void *arg) {
-    unsigned char type = *((unsigned char *)arg + 1) & 0xF0;
+/* Select the embedded record at offset 0x18 for type 0x30, or 0xC otherwise. */
+void *func_8004D064(void *object) {
+    unsigned char type = *((unsigned char *)object + 1) & 0xF0;
 
     switch (type) {
         case 0x30:
-            arg = (char *)arg + 0x18;
+            object = (char *)object + 0x18;
             break;
         case 0x20:
         default:
-            arg = (char *)arg + 0xC;
+            object = (char *)object + 0xC;
             break;
     }
-    return arg;
+    return object;
 }
 
-
-/* Packs a byte value into a 4-byte record: out[0] = low-nibble*8,
- * out[1] = (high-nibble bits) - 0x20, out[2] = 8 (constant), out[3] = 0x10 (constant). */
-void func_8004D8F0(u32 a0, u8 *a1) {
-    a1[0] = (a0 & 0xF) << 3;
-    a1[1] = (a0 & 0xF0) - 0x20;
-    a1[2] = 8;
-    a1[3] = 0x10;
+/* Encode the value's nibbles and fixed dimensions into a four-byte record. */
+void func_8004D8F0(u32 value, u8 *record) {
+    record[0] = (value & 0xF) << 3;
+    record[1] = (value & 0xF0) - 0x20;
+    record[2] = 8;
+    record[3] = 0x10;
 }
 
-
-void func_8004D9E0(signed char *a0, int a1, int a2, int a3, int a4)
+/* Compute and store byte coordinates from dimensions and grid position. */
+void func_8004D9E0(signed char *record, int width, int height, int column, int row)
 {
-    int q = (a1 * a3) / 2 - 0x80;
-    a0[2] = a1 * 4 + q;
-    a0[3] = a2 * (a4 + 0x10) - 0x80;
+    int x_offset = (width * column) / 2 - 0x80;
+    record[2] = width * 4 + x_offset;
+    record[3] = height * (row + 0x10) - 0x80;
 }
 
-void func_8004DCE0(int a0)
+/* Store the global value. */
+void func_8004DCE0(int value)
 {
-    D_80081550 = a0;
+    D_80081550 = value;
 }
 
+/* Clear both global values. */
 void func_8004DDB4(void)
 {
     D_80081554 = 0;
@@ -842,96 +733,87 @@ void func_8004DDB4(void)
 
 extern void func_80033AE8(int);
 
-/* Trivial wrapper: invoke func_80033AE8 with a fixed argument of 2. */
+/* Invoke func_80033AE8 with mode two. */
 void func_8004DDC4(void) {
     func_80033AE8(2);
 }
 
-
-/* packs low bits of a1 into a 16-bit field at offset 6 of the struct pointed to by a0 */
-void func_8004E264(void *a0, int a1)
+/* Encode the low five index bits into the record's halfword at offset six. */
+void func_8004E264(void *record, int index)
 {
-    short v0 = (a1 & 0xF) + 0x7C80;
-    v0 = v0 + ((a1 & 0x10) << 3);
-    *(short *)((char *)a0 + 6) = v0;
+    short packed = (index & 0xF) + 0x7C80;
+    packed = packed + ((index & 0x10) << 3);
+    *(short *)((char *)record + 6) = packed;
 }
 
-unsigned char *func_8004E280(unsigned char *a0, int *a1) {
-    *a1 = *a0 - 0x30;
-    return a0 + 1;
+/* Decode one decimal character and advance the text pointer. */
+unsigned char *func_8004E280(unsigned char *text, int *digit) {
+    *digit = *text - 0x30;
+    return text + 1;
 }
 
-
-
-
-/* extern: number-to-padded-string helper (unmatched sibling) */
 extern void func_8004E4C0(int value, unsigned short width, char *buf, int pad);
 
-/* Wrapper: format `value` into `buf` right-justified in `width` columns, space-padded. */
+/* Format a value right-justified with space padding. */
 void func_8004E57C(int value, unsigned short width, char *buf)
 {
     func_8004E4C0(value, width, buf, ' ');
 }
 
-
-
+/* Return without performing any work. */
 void func_8004E994(void) {
 }
 
-/* Call func_8004B1A4 with the same argument, only if it is non-NULL. */
 extern void func_8004B1A4(void *a0);
 
-void func_8004E99C(void *a0)
+/* Update the object when its pointer is non-NULL. */
+void func_8004E99C(void *object)
 {
-    if (a0 != 0) {
-        func_8004B1A4(a0);
+    if (object != 0) {
+        func_8004B1A4(object);
     }
 }
 
-
-/* Wrapper: if arg0 is non-NULL, forward it to func_8004B1A4 (which sets a
- * flag bit at offset -2 in the object and mirrors it into a global). */
 extern void func_8004B1A4(void *arg0);
 
-void func_8004E9C0(void *arg0) {
-    if (arg0 != 0) {
-        func_8004B1A4(arg0);
+/* Update the object when its pointer is non-NULL. */
+void func_8004E9C0(void *object) {
+    if (object != 0) {
+        func_8004B1A4(object);
     }
 }
 
-
+/* Return without performing any work. */
 void func_8004E9E4(void) {
 }
 
+/* Clear the first word of the global state. */
 void func_8004EB30(void) {
     D_80084130[0] = 0;
 }
 
-/* Trivial trampoline: forwards a0 through to func_8004EDA8 with a1 forced to 0. */
 extern void *func_8004EDA8(void *arg0, int arg1);
 
-void func_8004EE30(void *a0)
+/* Create an object task with mode zero. */
+void func_8004EE30(void *object)
 {
-    func_8004EDA8(a0, 0);
+    func_8004EDA8(object, 0);
 }
 
-
-/* Trivial wrapper: forwards its own first argument to func_8004EDA8 along with constant 1. */
 extern void *func_8004EDA8(void *arg0, int arg1);
 
-void func_8004EE50(int arg0) {
-    func_8004EDA8(arg0, 1);
+/* Create an object task with mode one. */
+void func_8004EE50(int object) {
+    func_8004EDA8(object, 1);
 }
 
-
-/* Trivial wrapper: forwards its pointer argument to func_8004EDA8 with a constant second arg (2). */
 extern void *func_8004EDA8(void *arg0, int arg1);
 
-void *func_8004EE70(void *arg0)
+/* Create an object task with mode two and return it. */
+void *func_8004EE70(void *object)
 {
-    return func_8004EDA8(arg0, 2);
+    return func_8004EDA8(object, 2);
 }
-
 
 extern void func_8004EF90(void *a0);
 extern void func_8004EFF4(void *a0);
@@ -939,39 +821,35 @@ extern void func_8004F068(void *a0);
 extern void func_8004F1E8(void *a0);
 extern void func_8004F0DC(void *a0);
 
-/* Dispatches initialization to several sub-structures at fixed offsets from a0 */
-void func_8004F2BC(void *a0)
+/* Initialize four embedded records and then the containing object. */
+void func_8004F2BC(void *object)
 {
-    func_8004EF90((char *)a0 + 0x8);
-    func_8004EFF4((char *)a0 + 0x80);
-    func_8004F068((char *)a0 + 0xF8);
-    func_8004F1E8((char *)a0 + 0x170);
-    func_8004F0DC(a0);
+    func_8004EF90((char *)object + 0x8);
+    func_8004EFF4((char *)object + 0x80);
+    func_8004F068((char *)object + 0xF8);
+    func_8004F1E8((char *)object + 0x170);
+    func_8004F0DC(object);
 }
 
 extern unsigned char D_80071684[16];
 
 extern void func_800491F4(void *a0, void *a1, int a2);
 
-/* Forwards a0 to func_800491F4 along with a fixed config table and limit 7 */
-void func_8004F308(void *a0)
+/* Link entries using the fixed index table and limit seven. */
+void func_8004F308(void *entries)
 {
-    func_800491F4(a0, D_80071684, 7);
+    func_800491F4(entries, D_80071684, 7);
 }
 
-
-void func_8004F3D0(int *a0, int a1)
+/* Store a word through the supplied pointer. */
+void func_8004F3D0(int *dst, int value)
 {
-    *a0 = a1;
+    *dst = value;
 }
 
+/* Return without performing any work. */
 void func_8004F67C(void) {
 }
-
-/* Chain of pointer dereferences down to a s16 field, then subtract the two
- * results. a0/a1 each hold a pointer at offset 0x0 to a struct that holds a
- * pointer at 0xC to a struct that holds a pointer at 0x4 to a struct that
- * finally holds the s16 value at offset 0xC. */
 
 typedef struct {
     char pad0[0xC];
@@ -992,11 +870,10 @@ typedef struct {
     Level1 *l1;
 } Level0;
 
-int func_8004F85C(Level0 *a0, Level0 *a1) {
-    return a0->l1->l2->l3->val - a1->l1->l2->l3->val;
+/* Compare the signed halfwords reached through two pointer chains. */
+int func_8004F85C(Level0 *left, Level0 *right) {
+    return left->l1->l2->l3->val - right->l1->l2->l3->val;
 }
-
-
 
 typedef struct {
     u8 pad[0x10];
@@ -1006,116 +883,97 @@ typedef struct {
 
 extern s32 func_80021448(void *arg0);
 
-/* Calls func_80021448 on the sub-object at offset 0x10 and stores the
- * returned value into the field at offset 0x24. */
-void func_8004FC68(Struct_8004FC68 *arg0) {
-    arg0->unk24 = func_80021448(&arg0->unk10);
+/* Store the query result for the object's embedded record. */
+void func_8004FC68(Struct_8004FC68 *object) {
+    object->unk24 = func_80021448(&object->unk10);
 }
 
-
-/* Advances a0 by 0x20 bytes to reach an embedded sub-object, reads an index
- * field at offset 0x30 within it, then returns the int stored at offset
- * 0x10 + idx*4 within that same sub-object (an indexed array access). */
-int func_8004FF00(char *a0)
+/* Return the selected word from the embedded record's value array. */
+int func_8004FF00(char *object)
 {
-    int idx;
-    a0 = a0 + 0x20;
-    idx = *(int *)(a0 + 0x30);
-    return *(int *)(a0 + idx * 4 + 0x10);
+    int index;
+    object = object + 0x20;
+    index = *(int *)(object + 0x30);
+    return *(int *)(object + index * 4 + 0x10);
 }
 
 extern int func_8004FF00(char *a0);
 extern void func_80021300(int a0);
 
-/* Forwards its pointer arg through func_8004FF00 to compute an index/value,
- * then passes that result to func_80021300. */
-void func_800502E0(char *a0)
+/* Pass the object's selected value to func_80021300. */
+void func_800502E0(char *object)
 {
-    func_80021300(func_8004FF00(a0));
+    func_80021300(func_8004FF00(object));
 }
-
 
 extern void func_80050308(void *a0);
 
-/* Thin wrapper that forwards its single pointer argument to func_80050308. */
-void func_80050494(void *a0)
+/* Forward the object to func_80050308. */
+void func_80050494(void *object)
 {
-    func_80050308(a0);
+    func_80050308(object);
 }
-
-/* Generic vtable-style dispatcher: given a pointer to an object whose
- * first word is a function pointer, invoke that function, forwarding
- * the original argument registers (a0..a3) unchanged. */
 
 struct VtableObj {
     void (*func)();
 };
 
-void func_80050694(struct VtableObj *a0)
+/* Invoke the object's leading function pointer with the object itself. */
+void func_80050694(struct VtableObj *object)
 {
-    a0->func(a0);
+    object->func(object);
 }
 
-/* Forwards a0 to func_800491F4 along with a fixed config table and limit 0x11 */
 extern unsigned char D_800717BC[16];
 
 extern void func_800491F4(void *a0, void *a1, int a2);
 
-void func_80050B7C(void *a0)
+/* Link entries using the fixed index table and limit 0x11. */
+void func_80050B7C(void *entries)
 {
-    func_800491F4(a0, D_800717BC, 0x11);
+    func_800491F4(entries, D_800717BC, 0x11);
 }
 
-
-
-/* extern decls */
 extern int D_80080B94;
 extern int D_80080B98;
 extern void func_80050BA4(int a0);
 
-/* If D_80080B94 is nonzero, pass D_80080B98 as the argument; otherwise pass 0. */
+/* Pass the saved value when enabled, or zero otherwise. */
 void func_80050CAC(void) {
-    int a0 = 0;
+    int value = 0;
     if (D_80080B94 != 0) {
-        a0 = D_80080B98;
+        value = D_80080B98;
     }
-    func_80050BA4(a0);
+    func_80050BA4(value);
 }
-
 
 extern void func_8003AEF8(void *a0);
 extern unsigned char D_800717D0[16];
 
-/* summary: trivial wrapper that forwards the address of a large global struct/buffer to func_8003AEF8 */
+/* Process the global buffer D_800717D0. */
 void func_80050F84(void)
 {
     func_8003AEF8(&D_800717D0);
 }
 
-
 extern void func_8003AEF8(void *a0);
 
 extern char D_800717E8[12];
 
-/* Thin wrapper that forwards the address of D_800717E8 to func_8003AEF8. */
+/* Process the global buffer D_800717E8. */
 void func_80050FA8(void)
 {
     func_8003AEF8(D_800717E8);
 }
 
-
-/* Trivial wrapper: forwards a pointer to a fixed global struct/buffer. */
 extern char D_80080C1C[];
 extern void func_80041284(void *arg);
 
+/* Load the fixed global record D_80080C1C. */
 void func_80051500(void)
 {
     func_80041284(D_80080C1C);
 }
-
-
-/* Sets a status/flag field to 1 if an object's callback function pointer
- * (at offset 0x10) equals func_80051548. */
 
 extern void func_80051548(void);
 
@@ -1126,16 +984,12 @@ typedef struct {
     short field2C;
 } Struct_80051528;
 
-void func_80051528(Struct_80051528 *a0) {
-    if (a0->func == func_80051548) {
-        a0->field2C = 1;
+/* Mark the object when its callback is func_80051548. */
+void func_80051528(Struct_80051528 *object) {
+    if (object->func == func_80051548) {
+        object->field2C = 1;
     }
 }
-
-
-
-/* If this object's update-function pointer (offset 0x10) is func_800517CC,
-   set its state flag (offset 0x2C) to 1. */
 
 extern void func_800517CC(void);
 
@@ -1146,16 +1000,14 @@ typedef struct {
     unsigned short flag_2C;
 } Entity;
 
-void func_800517AC(Entity *a0)
+/* Mark the entity when its callback is func_800517CC. */
+void func_800517AC(Entity *entity)
 {
-    if (a0->update_func == func_800517CC) {
-        a0->flag_2C = 1;
+    if (entity->update_func == func_800517CC) {
+        entity->flag_2C = 1;
     }
 }
 
-
-/* Check whether an object's update-function pointer (offset 0x10) is
- * func_80051CC4, and if so set its flag/state field at offset 0x2C to 1. */
 extern void func_80051CC4(void);
 
 typedef struct {
@@ -1165,15 +1017,12 @@ typedef struct {
     short field_2C;
 } Obj;
 
-void func_80051CA4(Obj *a0) {
-    if (a0->update_func == func_80051CC4) {
-        a0->field_2C = 1;
+/* Mark the object when its callback is func_80051CC4. */
+void func_80051CA4(Obj *object) {
+    if (object->update_func == func_80051CC4) {
+        object->field_2C = 1;
     }
 }
-
-
-/* Object update-callback checker: if this object's update function pointer
- * (at offset 0x10) equals func_80051F58, mark flag at offset 0x2C. */
 
 typedef struct {
     char pad0[0x10];
@@ -1184,17 +1033,13 @@ typedef struct {
 
 extern void func_80051F58(void);
 
-void func_80051F38(Obj80051F38 *a0)
+/* Mark the object when its callback is func_80051F58. */
+void func_80051F38(Obj80051F38 *object)
 {
-    if (a0->update_func == func_80051F58) {
-        a0->flag_2C = 1;
+    if (object->update_func == func_80051F58) {
+        object->flag_2C = 1;
     }
 }
-
-
-
-
-
 
 typedef void (*StateFunc)(void *);
 
@@ -1207,92 +1052,82 @@ typedef struct {
 
 extern void func_8005313C(void *a0);
 
-/* If the entity's state function pointer is func_8005313C, mark unk2A. */
-void func_800530A4(Entity1 *a0) {
-    if (a0->unk10 == func_8005313C) {
-        a0->unk2A = 1;
+/* Mark the entity when its callback is func_8005313C. */
+void func_800530A4(Entity1 *entity) {
+    if (entity->unk10 == func_8005313C) {
+        entity->unk2A = 1;
     }
 }
 
-
-
-/* trivial wrapper: func_8003E4FC(6, a0, 0); func_8003F320(); */
 extern int func_8003E4FC(int a0, void *a1, int a2);
 extern void func_8003F320(void);
 
-void func_80053C3C(void *a0)
+/* Process a record with command six and finish the update. */
+void func_80053C3C(void *record)
 {
-    func_8003E4FC(6, a0, 0);
+    func_8003E4FC(6, record, 0);
     func_8003F320();
 }
 
-
-/* func_80055778 returns an int (0 or -1) that only matters as its low 16 bits;
-   only call site of this helper. */
 extern int func_80055778(unsigned short a0);
 
-/* summary: masks the argument to 16 bits, forwards it to func_80055778, then
-   sign-extends the 16-bit result back to a full word (i.e. returns a short). */
-short func_80053DA8(int a0)
+/* Pass the low 16 flag bits to the event handler and return its signed halfword result. */
+short func_80053DA8(int flags)
 {
-    return func_80055778((unsigned short)a0);
+    return func_80055778((unsigned short)flags);
 }
 
-
-/* Stashes arg0 into D_8008480C[0], then calls func_80054D64 (no args). The %hi
-   lui for the store is hoisted above the ra-save by the maspsx delay-slot lui-hoist. */
 extern short D_8008480C[8];
 extern void func_80054D64(void);
 
-void func_80053DCC(short arg0)
+/* Store a halfword and invoke the follow-up handler. */
+void func_80053DCC(short value)
 {
-    D_8008480C[0] = arg0;
+    D_8008480C[0] = value;
     func_80054D64();
 }
 
-/* stores a0 into global halfword D_80084808 */
-void func_80053E14(short a0)
+/* Store the global halfword value. */
+void func_80053E14(short value)
 {
-    D_80084808[0] = a0;
+    D_80084808[0] = value;
 }
 
+/* Return zero. */
 int func_800542A4(void)
 {
     return 0;
 }
 
-int func_80054AF0(int arg0)
+/* Return 0x5F for mode one and 0x7F otherwise. */
+int func_80054AF0(int mode)
 {
-    if (arg0 == 1) {
+    if (mode == 1) {
         return 0x5F;
     }
     return 0x7F;
 }
 
-
-
+/* Return without performing any work. */
 void func_800555FC(void) {
 }
 
+/* Return without performing any work. */
 void func_80055604(void) {
 }
 
-/* Trivial wrapper that forwards to func_8005BAB0 with no arguments/return value used. */
 extern void func_8005BAB0(void);
 
+/* Invoke func_8005BAB0. */
 void func_80055730(void)
 {
     func_8005BAB0();
 }
 
-
+/* Clear the global halfword. */
 void func_800557BC(void) {
     D_80084778[0] = 0;
 }
-
-/* Initializes a small task/timer-like object embedded in a larger struct:
-   sets field at 0x10 to 0x80, field at 0xC to 3, field at 0x4 to 0, and
-   fields at 0x16/0x18 both to 0xA. */
 
 typedef struct {
     char pad0[4];      /* 0x0 */
@@ -1305,109 +1140,107 @@ typedef struct {
     short field18;     /* 0x18 */
 } D_80055990_Struct;
 
-void func_80055990(D_80055990_Struct *a0) {
-    a0->field10 = 0x80;
-    a0->fieldC = 3;
-    a0->field4 = 0;
-    a0->field16 = 0xA;
-    a0->field18 = 0xA;
+/* Initialize the state record's values and two counters. */
+void func_80055990(D_80055990_Struct *state) {
+    state->field10 = 0x80;
+    state->fieldC = 3;
+    state->field4 = 0;
+    state->field16 = 0xA;
+    state->field18 = 0xA;
 }
 
-
+/* Return without performing any work. */
 void func_80055CEC(void) {
 }
 
+/* Return without performing any work. */
 void func_80055E6C(void) {
 }
 
+/* Return without performing any work. */
 void func_80055E74(void) {
 }
 
+/* Return without performing any work. */
 void func_80055E7C(void) {
 }
 
-
+/* Return without performing any work. */
 void func_80056D3C(void) {
 }
 
-
-
+/* Return without performing any work. */
 void func_80057A48(void) {
 }
 
-
+/* Return without performing any work. */
 void func_8005848C(void) {
 }
 
-/* D_800737A4: hi/lo access (lui/lw with %hi/%lo, not gp_rel) -> size must be > 8 bytes */
 extern int D_800737A4[4];
 extern void func_80059BC4(void);
 
-/* If the flag/pointer at D_800737A4 is set, call func_80059BC4(). */
+/* Invoke func_80059BC4 when the global flag is set. */
 void func_800584E4(void) {
     if (D_800737A4[0]) {
         func_80059BC4();
     }
 }
 
-
+/* Return without performing any work. */
 void func_800587F8(void) {
 }
 
-/* Packs four byte-sized values into a single 32-bit word via sequential shift/mask/combine. */
-unsigned int func_80058A7C(int a0, int a1, int a2, int a3)
+/* Pack the low bytes of four values into a word, most significant byte first. */
+unsigned int func_80058A7C(int byte_3, int byte_2, int byte_1, int byte_0)
 {
-    unsigned int v0;
+    unsigned int packed;
 
-    v0 = a0 & 0xFF;
-    v0 = v0 << 8;
-    v0 = v0 + (a1 & 0xFF);
-    v0 = v0 << 8;
-    v0 = v0 + (a2 & 0xFF);
-    v0 = v0 << 8;
-    v0 = v0 | (a3 & 0xFF);
-    return v0;
+    packed = byte_3 & 0xFF;
+    packed = packed << 8;
+    packed = packed + (byte_2 & 0xFF);
+    packed = packed << 8;
+    packed = packed + (byte_1 & 0xFF);
+    packed = packed << 8;
+    packed = packed | (byte_0 & 0xFF);
+    return packed;
 }
 
-
-int func_80058AA8(int a0, int a1)
+/* Pack two low bytes into a halfword value. */
+int func_80058AA8(int high, int low)
 {
-    return ((a0 & 0xFF) << 8) | (a1 & 0xFF);
+    return ((high & 0xFF) << 8) | (low & 0xFF);
 }
 
-int func_80058E50(int *a0, int a1)
+/* Add delta to the pointed-to counter and return its new value. */
+int func_80058E50(int *counter, int delta)
 {
-    *a0 += a1;
-    return *a0;
+    *counter += delta;
+    return *counter;
 }
 
+/* Return without performing any work. */
 void func_80058E64(void) {
 }
 
-
-
-
-/* Trivial wrapper: calls func_8005A33C with no arguments. */
 extern void func_8005A33C(void);
 
+/* Invoke func_8005A33C. */
 void func_8005A37C(void)
 {
     func_8005A33C();
 }
 
-
-void func_8005A39C(int arg0) {
-    D_80086D4C[0] = arg0;
+/* Store the first word of the global state. */
+void func_8005A39C(int value) {
+    D_80086D4C[0] = value;
 }
 
-/* extern/typedef decls */
-/* D_80073824 is accessed via hi/lo (not gp_rel) in neighboring functions
- * (func_8005A33C, func_80058510), so declare it >8 bytes to force hi/lo codegen. */
 extern s32 D_80073824[4];
 
 extern void func_80058700(void);
 
-/* If the flag/counter at D_80073824 is set, run func_80058700(). */
+/* Invoke func_80058700 when the global value is nonzero. */
 void func_8005A3A8(void)
 {
     if (D_80073824[0])
@@ -1416,23 +1249,22 @@ void func_8005A3A8(void)
     }
 }
 
-
-/* Zero out a single byte flag/global at D_8007382A. */
 extern unsigned char D_8007382A[16];
 
+/* Clear the global byte flag. */
 void func_8005A3D4(void) {
     D_8007382A[0] = 0;
 }
 
-
+/* Return without performing any work. */
 void func_8005A420(void) {
 }
 
-/* Calls three subroutines in sequence with no arguments. */
 extern void func_80056C30(void);
 extern void func_8005A26C(void);
 extern void func_8005D7BC(void);
 
+/* Run the three initialization routines in order. */
 void func_8005A4B8(void)
 {
     func_80056C30();
@@ -1440,37 +1272,30 @@ void func_8005A4B8(void)
     func_8005D7BC();
 }
 
-
-
-void func_8005ACD0(short arg0) {
-    D_80073828[0] = arg0;
+/* Store the global halfword value. */
+void func_8005ACD0(short value) {
+    D_80073828[0] = value;
 }
 
-/* Trivial wrapper: forwards to func_8005ACDC() and returns. */
 extern void func_8005ACDC(void);
 
+/* Invoke func_8005ACDC. */
 void func_8005B300(void)
 {
     func_8005ACDC();
 }
 
-
-/* extern declarations */
 extern void func_8005E450(int a0);
 extern void func_8005D88C(int a0);
 
-/* Calls two initialization/setup routines, each with constant argument 1. */
+/* Run both setup routines with mode one. */
 void func_8005B320(void) {
     func_8005E450(1);
     func_8005D88C(1);
 }
 
-
 extern int func_8005DA88(void *arg);
 
-/* Message/event record passed to func_8005DA88; only the fields this
- * caller sets (type, x, y) are laid out here, the rest is padding to
- * keep offsets/size matching the retail stack frame. */
 struct Msg8005B3D8 {
     int type;   /* 0x00 */
     int f4;     /* 0x04 */
@@ -1481,159 +1306,137 @@ struct Msg8005B3D8 {
     int f14;    /* 0x14 */
 };
 
-/* summary: builds a type-6 message with x/y scaled to 1/256 units
- * (a0/a1 << 8) on the stack and forwards it to func_8005DA88 */
-int func_8005B3D8(short a0, short a1) {
+/* Send a type-six message with coordinates scaled by 256. */
+int func_8005B3D8(short x, short y) {
     struct Msg8005B3D8 msg;
-    int t0 = a0;
-    int t1 = a1;
+    int scaled_x = x;
+    int scaled_y = y;
 
     msg.type = 6;
-    t0 = t0 << 8;
-    t1 = t1 << 8;
-    msg.x = t0;
-    msg.y = t1;
+    scaled_x = scaled_x << 8;
+    scaled_y = scaled_y << 8;
+    msg.x = scaled_x;
+    msg.y = scaled_y;
     return func_8005DA88(&msg);
 }
 
-
-
-
-/* Returns the current value of global D_80085FCC (simple accessor). */
 extern int D_80085FCC[4];
 
+/* Return the first word of the global state. */
 int func_8005C808(void) {
     return D_80085FCC[0];
 }
 
+extern void func_80057D20(short a0, int a1, int a2);
+
+/* Send command seven for the indexed entity with a seven-bit value. */
+void func_8005C88C(int unused, short index, int value)
+{
+    func_80057D20(index, 7, value & 0x7F);
+}
 
 extern void func_80057D20(short a0, int a1, int a2);
 
-/* Wrapper: forwards the item/entity index (a1) to func_80057D20 with a
- * fixed opcode of 7, passing the value argument masked to 7 bits. */
-void func_8005C88C(int a0, short a1, int a2)
+/* Send command ten for the indexed entity with a seven-bit value. */
+void func_8005C8EC(int unused, short index, int value)
 {
-    func_80057D20(a1, 7, a2 & 0x7F);
+    func_80057D20(index, 10, value & 0x7F);
 }
 
-
-extern void func_80057D20(short a0, int a1, int a2);
-
-/* Wrapper: forwards the item/entity index (a1) to func_80057D20 with a
- * fixed opcode of 10, passing the value argument masked to 7 bits. */
-void func_8005C8EC(int a0, short a1, int a2)
-{
-    func_80057D20(a1, 10, a2 & 0x7F);
-}
-
-
+/* Return without performing any work. */
 void func_8005C980(void) {
 }
 
+/* Return without performing any work. */
 void func_8005C988(void) {
 }
 
+/* Return without performing any work. */
 void func_8005C990(void) {
 }
 
+/* Return without performing any work. */
 void func_8005C998(void) {
 }
 
+/* Return without performing any work. */
 void func_8005C9A0(void) {
 }
 
-/* Sign-extends both 16-bit args to 32-bit and forwards them unchanged to func_8005A5C8. */
 extern void func_8005A5C8(s16 arg0, s16 arg1);
 
-void func_8005C9A8(s16 arg0, s16 arg1) {
-    func_8005A5C8(arg0, arg1);
+/* Forward two signed halfword values to func_8005A5C8. */
+void func_8005C9A8(s16 first, s16 second) {
+    func_8005A5C8(first, second);
 }
-
 
 extern void func_8005A428(void);
 
-/* Trivial wrapper/trampoline that calls func_8005A428 with no argument setup. */
+/* Invoke func_8005A428. */
 void func_8005C9D4(void)
 {
     func_8005A428();
 }
 
-
-/* extern: takes three byte-sized args */
 extern void func_8005A4E8(u8 a0, u8 a1, u8 a2);
 
-/* Trivial wrapper: masks each arg to a byte and forwards to func_8005A4E8. */
-void func_8005C9F4(s32 arg0, s32 arg1, s32 arg2)
+/* Forward the low bytes of three values to func_8005A4E8. */
+void func_8005C9F4(s32 first, s32 second, s32 third)
 {
-    func_8005A4E8(arg0, arg1, arg2);
+    func_8005A4E8(first, second, third);
 }
 
-
-/* Byte-mask/short-sign-extend trampoline forwarding to func_8005A56C. */
 extern void func_8005A56C(unsigned char a0, short a1, short a2);
 
-void func_8005CA1C(unsigned char a0, short a1, short a2)
+/* Forward a byte code and two signed halfword values to func_8005A56C. */
+void func_8005CA1C(unsigned char code, short first, short second)
 {
-    func_8005A56C(a0, a1, a2);
+    func_8005A56C(code, first, second);
 }
-
 
 extern void func_8005B418(s16 arg0);
 
-/* Sign-extends the low 16 bits of the argument to a short and forwards it. */
-void func_8005CA4C(s32 arg0)
+/* Forward the value as a signed halfword to func_8005B418. */
+void func_8005CA4C(s32 value)
 {
-    func_8005B418((s16)arg0);
+    func_8005B418((s16)value);
 }
 
-
-/* Trivial wrapper: calls func_8005CA90 with argument 0. */
 extern void func_8005CA90(int arg0);
 
+/* Invoke func_8005CA90 with mode zero. */
 void func_8005CA70(void)
 {
     func_8005CA90(0);
 }
 
-
-
-
-
-/* declared with size > 8 bytes so this TU emits %hi/%lo (lui/lw) addressing
-   for D_8007996C instead of %gp_rel; only element 0 (a pointer) is used here */
 extern int *D_8007996C[4];
 
-/* Clears bits 0x0F000000 and sets bit 0x20000000 in the word pointed to by
-   the global pointer D_8007996C[0]. */
+/* Clear bits 0x0F000000 and set bit 0x20000000 in the global target word. */
 void func_8005D6D8(void)
 {
-    volatile int *p = D_8007996C[0];
+    volatile int *flags = D_8007996C[0];
 
-    *p = (*p & 0xF0FFFFFF) | 0x20000000;
+    *flags = (*flags & 0xF0FFFFFF) | 0x20000000;
 }
 
-/* declared with size > 8 bytes so this TU emits %hi/%lo (lui/lw) addressing
-   for D_8007996C instead of %gp_rel; only element 0 (a pointer) is used here */
 extern int *D_8007996C[4];
 
-/* Clears bits 0x0F000000 and sets bits 0x22000000 in the word pointed to by
-   the global pointer D_8007996C[0]. */
+/* Clear bits 0x0F000000 and set bits 0x22000000 in the global target word. */
 void func_8005D704(void)
 {
-    volatile int *p = D_8007996C[0];
+    volatile int *flags = D_8007996C[0];
 
-    *p = (*p & 0xF0FFFFFF) | 0x22000000;
+    *flags = (*flags & 0xF0FFFFFF) | 0x22000000;
 }
-
 
 extern void DMACallback(int a0, int a1);
 
-/* Trampoline: calls DMACallback(4, a0), discarding the return value */
-void func_8005D798(int a0)
+/* Install the callback for DMA channel four. */
+void func_8005D798(int callback)
 {
-    DMACallback(4, a0);
+    DMACallback(4, callback);
 }
-
 
 typedef struct {
     u8 pad[0x1AA];
@@ -1647,53 +1450,37 @@ typedef struct {
 
 extern D_80079958_t D_80079958;
 
-/* Return whether bit 0x80 of the halfword at offset 0x1AA of *D_80079958.ptr is set */
+/* Test bit 0x80 in the global target's halfword at offset 0x1AA. */
 s32 func_8005DA68(void) {
     if (D_80079958.ptr->field_1AA & 0x80)
         return 1;
     return 0;
 }
 
-
-
-/* Trivial wrapper: forwards a0,a1 and calls func_8005E4C4 with fixed
- * constants 0xCC/0xCD as the last two args, returning its result untouched. */
 extern s32 func_8005E4C4(s32 a0, s32 a1, s32 a2, s32 a3);
 
-s32 func_8005E4A0(s32 a0, s32 a1) {
-    return func_8005E4C4(a0, a1, 0xCC, 0xCD);
+/* Forward two values with fixed trailing arguments 0xCC and 0xCD. */
+s32 func_8005E4A0(s32 first, s32 second) {
+    return func_8005E4C4(first, second, 0xCC, 0xCD);
 }
 
-
-
-/* extern decl for the callee */
 extern void func_8005E7B0(int a0, int a1);
 
-/* summary: calls func_8005E7B0(0xCC, 0xCD) */
+/* Invoke func_8005E7B0 with values 0xCC and 0xCD. */
 void func_8005E78C(void)
 {
     func_8005E7B0(0xCC, 0xCD);
 }
 
-
-
-
-/* extern decls for callees */
 extern void func_8005F134(void *a0);
 extern void func_8005E97C(int a0, int a1);
 
-/* summary: forwards a0 to func_8005F134, then reads the struct's first
- * word field and passes it (with mode=1) to func_8005E97C. */
-void func_8005EC0C(void *a0)
+/* Update an object and pass its first word to the mode-one handler. */
+void func_8005EC0C(void *object)
 {
-    void *s0 = a0;
+    void *current = object;
 
-    func_8005F134(a0);
-    func_8005E97C(1, *(int *)s0);
+    func_8005F134(object);
+    func_8005E97C(1, *(int *)current);
 }
-
-
-
-
-
 

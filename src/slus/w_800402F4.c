@@ -18,43 +18,44 @@ extern Entry *D_80083160[];
 extern Callback D_80083360[0x20];
 extern Entry *D_800833E0[0x20];
 
+/* Run eligible entry callbacks, clearing slots whose entries are missing. */
 void func_800402F4(void)
 {
-    Callback *callback;
-    Callback fn;
-    register s32 i ASM_REG("$18");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    Entry **entryp;
+    Callback *callback_slot;
+    Callback callback;
+    register s32 slot_index ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    Entry **entry_slot;
     Entry *entry;
-    s32 result;
+    s32 stop_requested;
 
-    i = 0;
-    callback = D_80083360;
-    entryp = D_800833E0;
+    slot_index = 0;
+    callback_slot = D_80083360;
+    entry_slot = D_800833E0;
 loop:
-    fn = *callback;
-    if (fn != 0) {
-        entry = *entryp;
+    callback = *callback_slot;
+    if (callback != 0) {
+        entry = *entry_slot;
         if (entry != 0) {
             if (!(entry->flags & 0x800)) {
-                fn(entry->data, entry->arg1, entry->arg2);
-                result = func_80045310(*(s32 *)((u8 *)D_80083160[0] + 0x8D0));
-                ASM_KEEP(result);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                callback++;
-                if (result == 0) {
-                    i++;
+                callback(entry->data, entry->arg1, entry->arg2);
+                stop_requested = func_80045310(*(s32 *)((u8 *)D_80083160[0] + 0x8D0));
+                ASM_KEEP(stop_requested);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+                callback_slot++;
+                if (stop_requested == 0) {
+                    slot_index++;
                     goto next;
                 }
                 goto done;
             }
         } else {
-            *callback = 0;
+            *callback_slot = 0;
         }
     }
-    callback++;
-    i++;
+    callback_slot++;
+    slot_index++;
 next:
-    entryp++;
-    if (i < 0x20) {
+    entry_slot++;
+    if (slot_index < 0x20) {
         goto loop;
     }
 done:

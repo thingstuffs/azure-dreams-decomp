@@ -60,95 +60,96 @@ extern u16 D_80083462;
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 
-void func_80173B48(void *in0, s32 in1, void *in2, void *in3)
+/* Resolves action targets, updates the actor position, and sets the follow-up state. */
+void func_80173B48(void *action_input, s32 x_offset_input, void *position_input, void *actor_input)
 {
-    void *arg0 = in0;
-    register s32 arg1_xoff ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *arg2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    void *arg3 = in3;
-    register s32 count ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 yoff ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u32 old_x;
-    u32 old_y;
-    s32 state;
-    u8 end_value;
-    s32 loop_x;
+    void *action = action_input;
+    register s32 x_offset ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *position ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    void *actor = actor_input;
+    register s32 remaining_steps ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 next_y ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u32 saved_x;
+    u32 saved_y;
+    s32 action_state;
+    u8 state_param;
+    s32 next_x;
 
-    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    arg1_xoff = in1;
-    ((S_80173B48_0 *)arg3)->unk_71 &= 0x7F;
-    arg2 = in2;
+    x_offset = x_offset_input;
+    ((S_80173B48_0 *)actor)->unk_71 &= 0x7F;
+    position = position_input;
     if (D_80083462 & 0x2000) {
         goto done;
     }
 
-    if ((func_800A2B5C(arg3) << 16) != 0) {
+    if ((func_800A2B5C(actor) << 16) != 0) {
         goto done;
     }
 
-    func_800C7930((u8 *)arg3 - 0x20, arg1_xoff, 8, 0x300);
-    if ((func_800A2B5C(arg3) << 16) != 0) {
+    func_800C7930((u8 *)actor - 0x20, x_offset, 8, 0x300);
+    if ((func_800A2B5C(actor) << 16) != 0) {
         goto done;
     }
 
-    ((S_80173B48_1 *)arg0)->unk_8C = 0;
-    ((S_80173B48_1 *)arg0)->unk_9A = 0x11;
-    ((S_80173B48_1 *)arg0)->unk_9B = 0;
-    ((S_80173B48_0 *)arg3)->unk_6D--;
+    ((S_80173B48_1 *)action)->unk_8C = 0;
+    ((S_80173B48_1 *)action)->unk_9A = 0x11;
+    ((S_80173B48_1 *)action)->unk_9B = 0;
+    ((S_80173B48_0 *)actor)->unk_6D--;
 
-    if (((S_80173B48_0 *)arg3)->unk_48 == 15) {
-        ((S_80173B48_0 *)arg3)->unk_60 =
-            func_800A05A4(arg3, ((S_80173B48_2 *)arg2)->unk_24,
-                          ((S_80173B48_2 *)arg2)->unk_25, ((S_80173B48_0 *)arg3)->unk_2A, 10);
-        ((S_80173B48_1 *)arg0)->unk_AC = 0;
-        if (((S_80173B48_0 *)arg3)->unk_60 == 0) {
+    if (((S_80173B48_0 *)actor)->unk_48 == 15) {
+        ((S_80173B48_0 *)actor)->unk_60 =
+            func_800A05A4(actor, ((S_80173B48_2 *)position)->unk_24,
+                          ((S_80173B48_2 *)position)->unk_25, ((S_80173B48_0 *)actor)->unk_2A, 10);
+        ((S_80173B48_1 *)action)->unk_AC = 0;
+        if (((S_80173B48_0 *)actor)->unk_60 == 0) {
             goto initial_null;
         }
 
         {
-            s16 hit = func_8009FD40(
-                ((S_80173B48_3_pre *)(((S_80173B48_0 *)arg3)->unk_60))[-1].unk_00, arg2);
-            ((S_80173B48_1 *)arg0)->unk_AA = hit;
-            func_8009C93C(arg3, arg2, ((S_80173B48_0 *)arg3)->unk_2A, hit,
-                          ((S_80173B48_0 *)arg3)->unk_60);
+            s16 travel_steps = func_8009FD40(
+                ((S_80173B48_3_pre *)(((S_80173B48_0 *)actor)->unk_60))[-1].unk_00, position);
+            ((S_80173B48_1 *)action)->unk_AA = travel_steps;
+            func_8009C93C(actor, position, ((S_80173B48_0 *)actor)->unk_2A, travel_steps,
+                          ((S_80173B48_0 *)actor)->unk_60);
         }
 
-        if (((S_80173B48_0 *)arg3)->unk_14 & 0x04000000) {
-            count = 10;
-            old_x = ((S_80173B48_2 *)arg2)->unk_24;
-            old_y = ((S_80173B48_2 *)arg2)->unk_25;
+        if (((S_80173B48_0 *)actor)->unk_14 & 0x04000000) {
+            remaining_steps = 10;
+            saved_x = ((S_80173B48_2 *)position)->unk_24;
+            saved_y = ((S_80173B48_2 *)position)->unk_25;
 
 loop:
-            loop_x = ((S_80173B48_0 *)arg3)->unk_72;
-            yoff = ((S_80173B48_0 *)arg3)->unk_73;
-            func_8009C12C(arg3, arg2, ((S_80173B48_0 *)arg3)->unk_2A,
-                          ((S_80173B48_1 *)arg0)->unk_AA);
-            count -= ((S_80173B48_1 *)arg0)->unk_AA;
-            if (count == 0) {
+            next_x = ((S_80173B48_0 *)actor)->unk_72;
+            next_y = ((S_80173B48_0 *)actor)->unk_73;
+            func_8009C12C(actor, position, ((S_80173B48_0 *)actor)->unk_2A,
+                          ((S_80173B48_1 *)action)->unk_AA);
+            remaining_steps -= ((S_80173B48_1 *)action)->unk_AA;
+            if (remaining_steps == 0) {
                 goto restore_coords;
             }
 
-            ((S_80173B48_2 *)arg2)->unk_24 = loop_x;
-            ((S_80173B48_2 *)arg2)->unk_25 = yoff;
-            ((S_80173B48_0 *)arg3)->unk_60 =
-                func_800A05A4(arg3, ((S_80173B48_2 *)arg2)->unk_24,
-                              ((S_80173B48_2 *)arg2)->unk_25,
-                              ((S_80173B48_0 *)arg3)->unk_2A, (s16)count);
-            if (((S_80173B48_0 *)arg3)->unk_60 == 0) {
+            ((S_80173B48_2 *)position)->unk_24 = next_x;
+            ((S_80173B48_2 *)position)->unk_25 = next_y;
+            ((S_80173B48_0 *)actor)->unk_60 =
+                func_800A05A4(actor, ((S_80173B48_2 *)position)->unk_24,
+                              ((S_80173B48_2 *)position)->unk_25,
+                              ((S_80173B48_0 *)actor)->unk_2A, (s16)remaining_steps);
+            if (((S_80173B48_0 *)actor)->unk_60 == 0) {
                 goto loop_null;
             }
 
-            ((S_80173B48_2 *)arg2)->unk_24 = old_x;
-            ((S_80173B48_2 *)arg2)->unk_25 = old_y;
+            ((S_80173B48_2 *)position)->unk_24 = saved_x;
+            ((S_80173B48_2 *)position)->unk_25 = saved_y;
             {
-                s16 hit = func_8009FD40(
-                    ((S_80173B48_3_pre *)(((S_80173B48_0 *)arg3)->unk_60))[-1].unk_00, arg2);
-                ((S_80173B48_1 *)arg0)->unk_AA = hit;
-                func_8009C93C(arg3, arg2, ((S_80173B48_0 *)arg3)->unk_2A, hit,
-                              ((S_80173B48_0 *)arg3)->unk_60);
+                s16 travel_steps = func_8009FD40(
+                    ((S_80173B48_3_pre *)(((S_80173B48_0 *)actor)->unk_60))[-1].unk_00, position);
+                ((S_80173B48_1 *)action)->unk_AA = travel_steps;
+                func_8009C93C(actor, position, ((S_80173B48_0 *)actor)->unk_2A, travel_steps,
+                              ((S_80173B48_0 *)actor)->unk_60);
             }
-            if (((S_80173B48_0 *)arg3)->unk_14 & 0x04000000) {
+            if (((S_80173B48_0 *)actor)->unk_14 & 0x04000000) {
                 goto loop;
             }
             goto restore_coords;
@@ -156,67 +157,67 @@ loop:
         goto render;
 
 loop_null:
-        func_8009C93C(arg3, arg2, ((S_80173B48_0 *)arg3)->unk_2A, 1, 0);
-        ((S_80173B48_1 *)arg0)->unk_AA = 1;
+        func_8009C93C(actor, position, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
+        ((S_80173B48_1 *)action)->unk_AA = 1;
 
 restore_coords:
-        ((S_80173B48_2 *)arg2)->unk_24 = old_x;
-        ((S_80173B48_2 *)arg2)->unk_25 = old_y;
+        ((S_80173B48_2 *)position)->unk_24 = saved_x;
+        ((S_80173B48_2 *)position)->unk_25 = saved_y;
         goto render;
 
 initial_null:
-        func_8009C93C(arg3, arg2, ((S_80173B48_0 *)arg3)->unk_2A, 1, 0);
-        ((S_80173B48_1 *)arg0)->unk_AA = 1;
+        func_8009C93C(actor, position, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
+        ((S_80173B48_1 *)action)->unk_AA = 1;
 
 render:
         {
-            u32 index = (((S_80173B48_0 *)arg3)->unk_6A >> 8) & 0xE;
+            u32 direction_offset = (((S_80173B48_0 *)actor)->unk_6A >> 8) & 0xE;
             func_800C78A0(
-                (u8 *)arg3 - 0x20,
-                (((S_80173B48_2 *)arg2)->unk_24 << 6) +
-                    ((s16)*(u16 *)((u8 *)D_800DCEAC + index) >> 1) + 0x20,
-                (((S_80173B48_2 *)arg2)->unk_25 << 6) +
-                    ((s16)*(u16 *)((u8 *)D_800DCEBC + index) >> 1) + 0x20,
-                ((S_80173B48_0 *)arg3)->unk_88, 8, 0x300);
+                (u8 *)actor - 0x20,
+                (((S_80173B48_2 *)position)->unk_24 << 6) +
+                    ((s16)*(u16 *)((u8 *)D_800DCEAC + direction_offset) >> 1) + 0x20,
+                (((S_80173B48_2 *)position)->unk_25 << 6) +
+                    ((s16)*(u16 *)((u8 *)D_800DCEBC + direction_offset) >> 1) + 0x20,
+                ((S_80173B48_0 *)actor)->unk_88, 8, 0x300);
         }
         goto final_state;
     }
 
-    func_8009C93C(arg3, arg2, ((S_80173B48_0 *)arg3)->unk_2A, 1, 0);
-    ((S_80173B48_1 *)arg0)->unk_AA = 1;
+    func_8009C93C(actor, position, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
+    ((S_80173B48_1 *)action)->unk_AA = 1;
 
 final_state:
-    state = ((S_80173B48_0 *)arg3)->unk_48;
-    if (state == 14) {
+    action_state = ((S_80173B48_0 *)actor)->unk_48;
+    if (action_state == 14) {
         goto state_14;
     }
-    if (state < 15) {
-        if (state == 13) {
+    if (action_state < 15) {
+        if (action_state == 13) {
             goto state_13;
         }
         goto done;
     }
-    if (state == 15) {
+    if (action_state == 15) {
         goto state_15;
     }
     goto done;
 
 state_13:
-    ((S_80173B48_0 *)arg3)->unk_84 = 0x78;
-    end_value = 8;
+    ((S_80173B48_0 *)actor)->unk_84 = 0x78;
+    state_param = 8;
     goto store_state;
 
 state_14:
-    ((S_80173B48_0 *)arg3)->unk_84 = 0x70;
-    end_value = 2;
+    ((S_80173B48_0 *)actor)->unk_84 = 0x70;
+    state_param = 2;
     goto store_state;
 
 state_15:
-    ((S_80173B48_0 *)arg3)->unk_84 = 0x74;
-    end_value = 1;
+    ((S_80173B48_0 *)actor)->unk_84 = 0x74;
+    state_param = 1;
 
 store_state:
-    ((S_80173B48_0 *)arg3)->unk_85 = end_value;
+    ((S_80173B48_0 *)actor)->unk_85 = state_param;
 
 done:
     return;

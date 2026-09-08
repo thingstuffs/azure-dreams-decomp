@@ -2,38 +2,35 @@
 
 extern u8 D_800D2644[];
 
+/* Clears record flags, then marks records referenced by nonzero indices in the strided list. */
 void func_800B8A9C(void) {
-    register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *state;
-    u8 *page;
-    u8 *base;
-    u8 value;
-    s16 one;
+    register s32 entryIndex ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *recordCursor;
+    u8 *indexPageCursor;
+    u8 *recordBase;
+    u8 recordIndex;
+    s16 markedFlag;
 
-    i = 0x42;
-    state = D_800D2644;
-    state += 0x840;
+    entryIndex = 0x42;
+    recordCursor = D_800D2644;
+    recordCursor += 0x840;
     do {
-        *(s16 *)(state + 0xA) = 0;
-        i--;
-        state -= 0x20;
-    } while (i >= 0);
+        *(s16 *)(recordCursor + 0xA) = 0;
+        entryIndex--;
+        recordCursor -= 0x20;
+    } while (entryIndex >= 0);
 
-    i = 0;
-    base = D_800D2644;
-    one = 1;
-    page = (u8 *)0x80010000;
+    entryIndex = 0;
+    recordBase = D_800D2644;
+    markedFlag = 1;
+    indexPageCursor = (u8 *)0x80010000;
     do {
-        value = page[0x33A4];
-        if (value != 0) {
-            u8 *record = (u8 *)((value << 5) + (u32)base);
-            *(s16 *)(record + 0xA) = one;
+        recordIndex = indexPageCursor[0x33A4];
+        if (recordIndex != 0) {
+            u8 *record = (u8 *)((recordIndex << 5) + (u32)recordBase);
+            *(s16 *)(record + 0xA) = markedFlag;
         }
-        i++;
-        page += 2;
-    } while (i < 0x22);
+        entryIndex++;
+        indexPageCursor += 2;
+    } while (entryIndex < 0x22);
 }
-
-/* MECHANISM: The function is a frameless leaf with one reused signed loop counter.
-   Separate base-plus-offset statements preserve the first loop's split address build;
-   byte-scaled records and a held 0x80010000 page base preserve the retail widths. */

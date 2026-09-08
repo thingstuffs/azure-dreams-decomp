@@ -9,39 +9,40 @@ typedef struct DungeonSlot {
 extern DungeonSlot *D_800E3DF0[];
 extern void func_800422DC(DungeonSlot *slot, DungeonSlot *other);
 
+/* Resets slot state and updates slots referenced by records of type 0x13. */
 void func_800948BC(void)
 {
     DungeonSlot *slot;
     u8 *record;
-    register DungeonSlot **table;
-    s32 expected;
-    DungeonSlot *other;
-    s32 i;
-    u32 index;
+    register DungeonSlot **slot_table;
+    s32 record_type;
+    DungeonSlot *linked_slot;
+    s32 count;
+    u32 slot_index;
 
     slot = (DungeonSlot *)0x800102F0;
-    i = 0x13;
+    count = 0x13;
     do {
         slot->field_13 = 0;
-        i--;
+        count--;
         slot++;
-    } while (i >= 0);
+    } while (count >= 0);
 
-    i = 0;
-    expected = 0x13;
-    table = D_800E3DF0;
+    count = 0;
+    record_type = 0x13;
+    slot_table = D_800E3DF0;
     record = (u8 *)0x8001024B;
     do {
-        if (record[-2] == expected) {
-            index = record[0] & 0x1F;
-            other = table[index];
-            if (other != 0) {
-                register u32 base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                base = 0x800102F0;
-                func_800422DC((DungeonSlot *)(base + index * 0x54), other);
+        if (record[-2] == record_type) {
+            slot_index = record[0] & 0x1F;
+            linked_slot = slot_table[slot_index];
+            if (linked_slot != 0) {
+                register u32 slot_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                slot_base = 0x800102F0;
+                func_800422DC((DungeonSlot *)(slot_base + slot_index * 0x54), linked_slot);
             }
         }
-        i++;
+        count++;
         record += 4;
-    } while (i < 0x14);
+    } while (count < 0x14);
 }

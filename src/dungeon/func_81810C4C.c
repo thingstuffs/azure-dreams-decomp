@@ -6,6 +6,7 @@ typedef struct S_80025C4C_0 {
     s32 * unk_04;
 } S_80025C4C_0;   /* arg0 in func_80025C4C */
 
-void func_80025C4C(S_80025C4C_0 *arg0) {
-    *arg0->unk_04 = 0;
+/* Clears the value referenced by the entry. */
+void func_80025C4C(S_80025C4C_0 *entry) {
+    *entry->unk_04 = 0;
 }

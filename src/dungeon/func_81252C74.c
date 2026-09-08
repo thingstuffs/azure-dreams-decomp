@@ -19,18 +19,19 @@ typedef struct S_80172474_0 {
     s16 unk_92;
 } S_80172474_0;   /* entity in func_80172474 */
 
-void func_80172474(void *arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3)
+/* Runs actor callbacks, updates entity state on success, and applies the global flag adjustment. */
+void func_80172474(void *entity_ptr, M2C_UNK unused, M2C_UNK check_arg, M2C_UNK actor_arg)
 {
-    S_80172474_0 *entity = arg0;
-    M2C_UNK value = arg2;
-    M2C_UNK actor = arg3;
+    S_80172474_0 *entity = entity_ptr;
+    M2C_UNK check_value = check_arg;
+    M2C_UNK actor = actor_arg;
 
     if (func_800AB1C0() == 0) {
         goto check_flag;
     }
     func_800AD594(actor, 0);
     func_800A4ACC(actor);
-    if ((func_800AD9B4(value, actor) << 0x10) <= 0) {
+    if ((func_800AD9B4(check_value, actor) << 0x10) <= 0) {
         return;
     }
     entity->unk_8C = &D_80171514;
@@ -38,5 +39,5 @@ check_flag:
     if (D_80083462 & 0x80) {
         entity->unk_92 = -0x20;
     }
-    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(check_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 }

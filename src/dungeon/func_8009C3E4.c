@@ -13,14 +13,15 @@ typedef struct S_800A1B44_1 {
 M2C_UNK func_800A19E4(); /* extern */
 extern Rec_D_800E3D7C *D_800E3D7C;
 
-void func_800A1B44(s16 arg0, s16 arg1) {
-    void *var_s0;
+/* Update proximity state for each actor in the list. */
+void func_800A1B44(s16 near_limit, s16 far_limit) {
+    void *actor;
 
-    var_s0 = (void *) (D_800E3D7C->unk_5C + 0x20);
-    if (var_s0 != D_800E3D7C) {
+    actor = (void *) (D_800E3D7C->unk_5C + 0x20);
+    if (actor != D_800E3D7C) {
         do {
-            func_800A19E4(((S_800A1B44_1 *)((u8 *)var_s0 - 0x14))->unk_00, var_s0, arg0, arg1, (void *) ((s32) var_s0 + 0x9C));
-            var_s0 = (void *) (((S_800A1B44_1 *)((u8 *)var_s0 - 0x14))->unk_70 + 0x20);
-        } while (var_s0 != D_800E3D7C);
+            func_800A19E4(((S_800A1B44_1 *)((u8 *)actor - 0x14))->unk_00, actor, near_limit, far_limit, (void *) ((s32) actor + 0x9C));
+            actor = (void *) (((S_800A1B44_1 *)((u8 *)actor - 0x14))->unk_70 + 0x20);
+        } while (actor != D_800E3D7C);
     }
 }

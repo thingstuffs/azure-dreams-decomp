@@ -12,35 +12,36 @@ typedef struct {
 extern s16 D_8008146E[5];
 extern DungeonEntry D_800E2970[];
 
+/* Compact occupied dungeon entries, clear the unused tail, and update the count. */
 void func_800176EC(void) {
-    s8 *var_a2;
-    s8 *var_t0;
-    s32 var_t1;
-    s32 var_a3;
+    s8 *read_entry;
+    s8 *write_entry;
+    s32 entry_count;
+    s32 entry_index;
 
-    do { var_a3 = 0; } while (0);
-    var_t1 = 0;
-    var_a2 = (s8 *)D_800E2970;
-    var_t0 = (s8 *)D_800E2970;
+    do { entry_index = 0; } while (0);
+    entry_count = 0;
+    read_entry = (s8 *)D_800E2970;
+    write_entry = (s8 *)D_800E2970;
     do {
-        if (*(s16 *)(var_a2 + 0xA) != 0) {
-            if (var_a3 != var_t1) {
-                *(DungeonEntry *)var_t0 = *(DungeonEntry *)var_a2;
+        if (*(s16 *)(read_entry + 0xA) != 0) {
+            if (entry_index != entry_count) {
+                *(DungeonEntry *)write_entry = *(DungeonEntry *)read_entry;
             }
-            var_t0 += 0x14;
-            var_t1 += 1;
+            write_entry += 0x14;
+            entry_count += 1;
         }
-        var_a3 += 1;
-        var_a2 += 0x14;
-    } while (var_a3 < 0x24);
+        entry_index += 1;
+        read_entry += 0x14;
+    } while (entry_index < 0x24);
 
-    var_a3 = var_t1;
-    if (var_t1 < 0x24) {
+    entry_index = entry_count;
+    if (entry_count < 0x24) {
         do {
-            D_800E2970[var_a3].field_A = 0;
-            D_800E2970[var_a3].field_E = 0;
-            D_800E2970[var_a3].field_10 = 0;
-        } while (++var_a3 < 0x24);
+            D_800E2970[entry_index].field_A = 0;
+            D_800E2970[entry_index].field_E = 0;
+            D_800E2970[entry_index].field_10 = 0;
+        } while (++entry_index < 0x24);
     }
-    D_8008146E[0] = var_t1;
+    D_8008146E[0] = entry_count;
 }

@@ -7,7 +7,8 @@ typedef struct {
 extern PackedWord D_80018880;
 extern s32 func_80018594(s32);
 
-void func_8067F5C4(u8 *arg0) {
+/* Copy the header, initialize 32 entries with conditional flags, and append a terminator. */
+void func_8067F5C4(u8 *entries) {
     s32 index;
     s32 marker;
     s32 tail_offset;
@@ -21,11 +22,11 @@ void func_8067F5C4(u8 *arg0) {
     ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     copy_source = copy_page - 0x7780;
     ASM_KEEP(copy_source);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    *(PackedWord *)arg0 = *(PackedWord *)copy_source;
+    *(PackedWord *)entries = *(PackedWord *)copy_source;
     ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     index = 1;
     marker = 0x18;
-    entry = arg0 + 4;
+    entry = entries + 4;
     do {
         entry[1] = marker;
         entry[0] = index;
@@ -35,7 +36,7 @@ void func_8067F5C4(u8 *arg0) {
         index++;
         entry += 4;
     } while (index < 0x21);
-    tail_base = arg0;
+    tail_base = entries;
     ASM_KEEP(tail_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     tail_offset = index * 4;
     tail = (u8 *)((u32)tail_offset + (u32)tail_base);
@@ -44,6 +45,3 @@ void func_8067F5C4(u8 *arg0) {
     tail[0] = 0;
 }
 
-/* MECHANISM: A packed four-byte aggregate forces the retail lwl/lwr then swl/swr copy.
-   Seam keeps hold page v0 across source a2 and payload v1 without leaking into the loop.
-   Named marker/walker and guarded tail pins preserve the s3/s0 and v0/v1 live ranges. */

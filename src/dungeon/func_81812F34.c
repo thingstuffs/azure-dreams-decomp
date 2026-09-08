@@ -23,15 +23,16 @@ typedef struct S_80027F34_0 {
 M2C_UNK func_80027A20();              /* extern */
 extern M2C_UNK D_80027A68;
 
-void func_80027F34(void *arg0) {
-    s32 temp_v0;
+/* Decrease the linked value from 0x400 toward zero and advance the state after the final step. */
+void func_80027F34(void *state) {
+    s32 nextStep;
 
-    ((S_80027F34_2 *)(((S_80027F34_1 *)arg0)->unk_80))->unk_02 = (s16) (0x400 - ((s32) (((S_80027F34_0 *)((u8 *)arg0 - 0x10))->unk_10 << 0xA) / (s32) ((S_80027F34_0 *)((u8 *)arg0 - 0x10))->unk_14));
-    temp_v0 = ((S_80027F34_0 *)((u8 *)arg0 - 0x10))->unk_10 + 1;
-    ((S_80027F34_0 *)((u8 *)arg0 - 0x10))->unk_10 = temp_v0;
-    if (((S_80027F34_0 *)((u8 *)arg0 - 0x10))->unk_14 < temp_v0) {
-        ((S_80027F34_0 *)((u8 *)arg0 - 0x10))->unk_10 = 0;
-        ((S_80027F34_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_80027A68;
+    ((S_80027F34_2 *)(((S_80027F34_1 *)state)->unk_80))->unk_02 = (s16) (0x400 - ((s32) (((S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 << 0xA) / (s32) ((S_80027F34_0 *)((u8 *)state - 0x10))->unk_14));
+    nextStep = ((S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 + 1;
+    ((S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 = nextStep;
+    if (((S_80027F34_0 *)((u8 *)state - 0x10))->unk_14 < nextStep) {
+        ((S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 = 0;
+        ((S_80027F34_0 *)((u8 *)state - 0x10))->unk_00 = &D_80027A68;
     }
-    func_80027A20(arg0, arg0);
+    func_80027A20(state, state);
 }

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-s32 func_80096368();                           /* extern */
+s32 func_80096368(s32 *);                           /* extern */
 s32 func_80096440();                           /* extern */
 M2C_UNK func_800966C8();                  /* extern */
 M2C_UNK func_800966F8();                  /* extern */
@@ -13,7 +13,7 @@ void func_80096208(s32 *arg0) {
     s32 temp_a1_3;
 
     if (D_800FE5CC > 0) {
-        temp_a1 = func_80096368() << 0x10;
+        temp_a1 = func_80096368(arg0) << 0x10;
         if (*arg0 >= temp_a1) {
             func_800966C8(arg0, temp_a1);
             return;

@@ -62,62 +62,59 @@ typedef struct S_800A878C_4 {
     s32 unk_04;
 } S_800A878C_4;   /* temp_s3 in func_800A878C */
 
-void *func_800A878C(S_800A878C_2 *arg0, u32 arg1) {
-    s16 *temp_a0_2;
-    s16 temp_s0_3;
-    s16 temp_v0_2;
-    s32 temp_a0;
-    s32 temp_s0_2;
-    s32 var_v0;
-    s32 var_v0_2;
-    u32 temp_a1;
-    S_800A878C_3 *temp_s0;
-    S_800A878C_1 *temp_s1;
-    S_800A878C_4 *temp_s3;
-    void *temp_v0;
+/* Creates an effect behind the source with randomized reverse motion and launch speed. */
+void *func_800A878C(S_800A878C_2 *source_motion, u32 flags) {
+    s16 *direction_y;
+    s16 launch_speed;
+    s16 stored_speed;
+    s32 direction_index;
+    s32 speed_roll;
+    s32 velocity_x;
+    s32 velocity_y;
+    u32 direction;
+    S_800A878C_3 *sprite;
+    S_800A878C_1 *motion;
+    S_800A878C_4 *launch;
+    void *effect;
 
-    temp_a1 = (arg1 >> 9) & 7;
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_s1 = ((S_800A878C_0 *)temp_v0)->unk_08;
-        temp_s0 = ((S_800A878C_0 *)temp_v0)->unk_0C;
-        ((S_800A878C_0 *)temp_v0)->unk_10 = &D_800A86BC;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_a0 = temp_a1;
-        temp_s1->unk_02 = (s16) (arg0->unk_02 - (D_8006CCD8[temp_a0] * 0x10));
-        temp_a0_2 = &D_8006CCE8[temp_a0];
-        temp_s1->unk_06 = (s16) (arg0->unk_06 - (*temp_a0_2 * 0x10));
-        temp_s1->unk_0A = (u16) arg0->unk_0A;
-        var_v0 = 0 - (arg0->unk_0C * ((rand(temp_a0_2) & 1) + 2));
-        temp_s3 = temp_v0 + 0x20;
-        if (var_v0 < 0) {
-            var_v0 += 0xF;
+    direction = (flags >> 9) & 7;
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        motion = ((S_800A878C_0 *)effect)->unk_08;
+        sprite = ((S_800A878C_0 *)effect)->unk_0C;
+        ((S_800A878C_0 *)effect)->unk_10 = &D_800A86BC;
+        func_8004491C(effect, &D_80045340);
+        direction_index = direction;
+        motion->unk_02 = (s16) (source_motion->unk_02 - (D_8006CCD8[direction_index] * 0x10));
+        direction_y = &D_8006CCE8[direction_index];
+        motion->unk_06 = (s16) (source_motion->unk_06 - (*direction_y * 0x10));
+        motion->unk_0A = (u16) source_motion->unk_0A;
+        velocity_x = 0 - (source_motion->unk_0C * ((rand(direction_y) & 1) + 2));
+        launch = effect + 0x20;
+        if (velocity_x < 0) {
+            velocity_x += 0xF;
         }
-        temp_s1->unk_0C = (s32) (var_v0 >> 4);
-        var_v0_2 = 0 - (arg0->unk_10 * ((rand() & 1) + 2));
-        if (var_v0_2 < 0) {
-            var_v0_2 += 0xF;
+        motion->unk_0C = (s32) (velocity_x >> 4);
+        velocity_y = 0 - (source_motion->unk_10 * ((rand() & 1) + 2));
+        if (velocity_y < 0) {
+            velocity_y += 0xF;
         }
-        temp_s1->unk_10 = (s32) (var_v0_2 >> 4);
-        temp_s1->unk_14 = (s32) ((~rand() & 1) << 0xF);
-        func_8003DB94(temp_s0, &D_800F15AC, 0);
-        temp_s0->unk_0E = 0xFF;
-        temp_s0->unk_0D = 0xFF;
-        temp_s0->unk_0C = 0xFF;
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        temp_s0->unk_10 = 0x60;
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-        temp_s0_2 = func_800374F4(7);
-        temp_s0_3 = temp_s0_2 + func_800374F4(7);
-        temp_s3->unk_02 = temp_s0_3;
-        temp_s1->unk_14 = (s32) (0 - (temp_s0_3 << 0x10));
-        temp_v0_2 = temp_s3->unk_02;
-        temp_s3->unk_04 = (s32) ((s32) (temp_v0_2 * temp_v0_2) / 2);
+        motion->unk_10 = (s32) (velocity_y >> 4);
+        motion->unk_14 = (s32) ((~rand() & 1) << 0xF);
+        func_8003DB94(sprite, &D_800F15AC, 0);
+        sprite->unk_0E = 0xFF;
+        sprite->unk_0D = 0xFF;
+        sprite->unk_0C = 0xFF;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_10 = 0x60;
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        speed_roll = func_800374F4(7);
+        launch_speed = speed_roll + func_800374F4(7);
+        launch->unk_02 = launch_speed;
+        motion->unk_14 = (s32) (0 - (launch_speed << 0x10));
+        stored_speed = launch->unk_02;
+        launch->unk_04 = (s32) ((s32) (stored_speed * stored_speed) / 2);
     }
-    return temp_v0;
+    return effect;
 }
-
-/* MECHANISM: The one-argument allocator ABI and pre-call masked index recover the 0x28 frame and s3 role.
-   Sized s16 direction tables and unsigned byte stores recover the scaled lh accesses and li 0xff.
-   Spelling the first-table read before the second-table pointer delays the shared sll past lui/addiu. */

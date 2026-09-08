@@ -33,25 +33,23 @@ typedef struct S_8003DF74_Vec {
 extern S_8003DF0C *func_8003DF0C(S_8003DF0C *ent, s32 want, u16 *idxOut);
 extern void func_8003DBD0(S_8003DF74_Ent *a0, void *a1, S_8003DF74_Vec *a2);
 
-/* Twin of func_8003DE58: same control flow, but table lookup goes through
- * func_8003DF0C (which also writes a reduced index into *idxOut on the
- * stack). Pure C matches at 2.7.2-cdk (see codegen_nudges fourth recipe). */
-S_8003DF0C *func_8003DF74(S_8003DF0C *arg0, S_8003DF74_Ent *arg1, S_8003DF74_Vec *arg2, s16 arg3) {
-    S_8003DF74_Vec tmp;
-    u16 idxOut;
-    S_8003DF0C *var_s0;
+/* Looks up an entry and fills its vector, using a fixed fallback for flagged entities. */
+S_8003DF0C *func_8003DF74(S_8003DF0C *table, S_8003DF74_Ent *entity, S_8003DF74_Vec *out_vec, s16 entry_id) {
+    S_8003DF74_Vec vector;
+    u16 entry_index;
+    S_8003DF0C *entry;
 
-    var_s0 = func_8003DF0C(arg0, arg3, &idxOut);
-    if (var_s0 != NULL) {
-        func_8003DBD0(arg1, (void *)var_s0, &tmp);
-        arg2->x = tmp.x;
-        arg2->y = tmp.y;
-        arg2->z = tmp.z;
-    } else if (arg1->unk14 & 0x6000) {
-        var_s0 = arg0;
-        arg2->y = 0;
-        arg2->x = 0;
-        arg2->z = (s16)-0x40;
+    entry = func_8003DF0C(table, entry_id, &entry_index);
+    if (entry != NULL) {
+        func_8003DBD0(entity, (void *)entry, &vector);
+        out_vec->x = vector.x;
+        out_vec->y = vector.y;
+        out_vec->z = vector.z;
+    } else if (entity->unk14 & 0x6000) {
+        entry = table;
+        out_vec->y = 0;
+        out_vec->x = 0;
+        out_vec->z = (s16)-0x40;
     }
-    return var_s0;
+    return entry;
 }

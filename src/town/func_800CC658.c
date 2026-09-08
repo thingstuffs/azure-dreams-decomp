@@ -2,6 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_800C9B44_arg0.h"
 
 s32 func_800374F4();                         /* extern */
 M2C_UNK func_800C9ED0();                         /* extern */
@@ -9,18 +10,8 @@ M2C_UNK func_800C9ED4();                         /* extern */
 extern void (*D_800D65D8[])(void *, void *, M2C_UNK);
 
 
-typedef struct S_800C9DB8_1 {
-    u8 pad_00[0x72];
-    s16 unk_72;
-    u8 pad_74[0x10];
-    s16 unk_84;
-    s16 unk_86;
-    u8 pad_88[0x4];
-    s16 unk_8C;
-    s16 unk_8E;
-} S_800C9DB8_1;   /* arg0 in func_800C9DB8 */
 
-void func_800C9DB8(S_800C9DB8_1 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
+void func_800C9DB8(Rec_func_800C9B44_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
     s16 temp_a0;
     s16 temp_a0_2;
     s16 temp_a0_3;

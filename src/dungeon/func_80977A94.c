@@ -26,131 +26,132 @@ extern s32 D_80083460;
 extern u8 D_801714D4;
 extern u8 D_80174148;
 
-void func_80173294(S_80173294_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
+/* Slows directional motion, then recenters the entity on its tile. */
+void func_80173294(S_80173294_0 *motion_state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile_state, void *entity)
 {
     s16 timer;
-    s32 value;
-    s32 value2;
-    s32 adjusted;
+    s32 x_speed_or_entity;
+    s32 velocity_z;
+    s32 rounded_velocity;
     s32 state;
     s32 countdown;
 
-    state = arg0->unk_9B;
+    state = motion_state->unk_9B;
     if (state == 1) {
-        goto state_1;
+        goto slow_motion;
     }
     if ((s32)state < 2) {
         if (state == 0) {
-            goto state_0;
+            goto start_motion;
         }
         return;
     }
     if (state == 2) {
-        goto state_2;
+        goto center_on_tile;
     }
     return;
 
-state_0:
-    func_800AD4D0(arg3);
-    arg1->unk_0C.as_s32 =
+start_motion:
+    func_800AD4D0(entity);
+    motion->unk_0C.as_s32 =
         -*(s16 *)((u8 *)&D_8006CCD8 +
-            ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
-    arg1->unk_10.at00_s32.v =
+            ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
+    motion->unk_10.at00_s32.v =
         -*(s16 *)((u8 *)&D_8006CCE8 +
-            ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
-    arg0->unk_9B++;
+            ((((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
+    motion_state->unk_9B++;
 
-    if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
+    if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
         goto reset_motion;
     }
-    if (arg2->unk_14.at00_u16.v & 0x8000) {
-        arg0->unk_96.s = 0;
-        arg0->unk_9B = 2;
+    if (tile_state->unk_14.at00_u16.v & 0x8000) {
+        motion_state->unk_96.s = 0;
+        motion_state->unk_9B = 2;
         return;
     }
     timer = -1;
-    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228) {
+    if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228) {
         timer = 8;
     }
-    arg0->unk_96.s = timer;
+    motion_state->unk_96.s = timer;
 
-state_1:
-    value = arg1->unk_0C.as_s32;
-    adjusted = value;
-    if (value < 0) {
-        adjusted = value + 3;
+slow_motion:
+    x_speed_or_entity = motion->unk_0C.as_s32;
+    rounded_velocity = x_speed_or_entity;
+    if (x_speed_or_entity < 0) {
+        rounded_velocity = x_speed_or_entity + 3;
     }
-    value2 = arg1->unk_10.at00_s32.v;
-    arg1->unk_0C.as_s32 = value - (adjusted >> 2);
+    velocity_z = motion->unk_10.at00_s32.v;
+    motion->unk_0C.as_s32 = x_speed_or_entity - (rounded_velocity >> 2);
 
-    adjusted = value2;
-    if (value2 < 0) {
-        adjusted = value2 + 3;
+    rounded_velocity = velocity_z;
+    if (velocity_z < 0) {
+        rounded_velocity = velocity_z + 3;
     }
-    arg1->unk_10.at00_s32.v = value2 - (adjusted >> 2);
+    motion->unk_10.at00_s32.v = velocity_z - (rounded_velocity >> 2);
 
-    if (arg0->unk_96.s > 0) {
-        arg0->unk_96.u = arg0->unk_96.u - 1;
-    } else if (arg2->unk_14.at00_u16.v & 0x6000) {
-        arg0->unk_96.s = 0;
+    if (motion_state->unk_96.s > 0) {
+        motion_state->unk_96.u = motion_state->unk_96.u - 1;
+    } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
+        motion_state->unk_96.s = 0;
     }
 
-    if (arg0->unk_96.s != 0) {
+    if (motion_state->unk_96.s != 0) {
         return;
     }
-    if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
-        goto increment_state;
+    if (((Rec_D_800E3D7C *)entity)->unk_28 != 0) {
+        goto start_centering;
     }
 
 reset_motion:
-    arg1->unk_14.as_s32 = 0;
-    arg1->unk_10.at00_s32.v = 0;
-    arg1->unk_0C.as_s32 = 0;
-    func_800AAA54(arg0, arg1, arg2, &D_80174148);
+    motion->unk_14.as_s32 = 0;
+    motion->unk_10.at00_s32.v = 0;
+    motion->unk_0C.as_s32 = 0;
+    func_800AAA54(motion_state, motion, tile_state, &D_80174148);
     return;
 
-increment_state:
-    arg0->unk_96.s = 8;
-    arg0->unk_9B++;
+start_centering:
+    motion_state->unk_96.s = 8;
+    motion_state->unk_9B++;
     return;
 
-state_2:
-    timer = arg0->unk_96.s;
+center_on_tile:
+    timer = motion_state->unk_96.s;
     if (timer != 0) {
-        s32 coord;
-        s32 current;
+        s32 tile_coord;
+        s32 offset_coord;
 
-        coord = arg2->unk_24 << 6;
-        current = arg1->unk_00.at02_s16.v;
-        current -= 0x20;
-        arg1->unk_0C.as_s32 = ((coord - current) << 15) / timer;
+        tile_coord = tile_state->unk_24 << 6;
+        offset_coord = motion->unk_00.at02_s16.v;
+        offset_coord -= 0x20;
+        motion->unk_0C.as_s32 = ((tile_coord - offset_coord) << 15) / timer;
 
-        current = arg1->unk_04.at02_s16.v;
-        current -= 0x20;
-        coord = arg2->unk_25 << 6;
-        arg1->unk_10.at00_s32.v =
-            ((coord - current) << 15) / arg0->unk_96.s;
+        offset_coord = motion->unk_04.at02_s16.v;
+        offset_coord -= 0x20;
+        tile_coord = tile_state->unk_25 << 6;
+        motion->unk_10.at00_s32.v =
+            ((tile_coord - offset_coord) << 15) / motion_state->unk_96.s;
     }
 
-    countdown = arg0->unk_96.u - 1;
-    arg0->unk_96.p = countdown;
+    countdown = motion_state->unk_96.u - 1;
+    motion_state->unk_96.p = countdown;
     if ((countdown << 16) > 0) {
         return;
     }
 
-    arg1->unk_14.as_s32 = 0;
-    arg1->unk_10.at00_s32.v = 0;
-    arg1->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, arg2->unk_24,
-        arg2->unk_25);
+    motion->unk_14.as_s32 = 0;
+    motion->unk_10.at00_s32.v = 0;
+    motion->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, tile_state->unk_24,
+        tile_state->unk_25);
     {
-        s32 *global;
+        s32 *entity_slots;
 
-        global = &D_80083460;
-        value = global[4];
-        if (value == (s32)((u8 *)arg3 - 0x20)) {
-            global[4] = value & 0x7FFFFFFF;
+        entity_slots = &D_80083460;
+        x_speed_or_entity = entity_slots[4];
+        if (x_speed_or_entity == (s32)((u8 *)entity - 0x20)) {
+            entity_slots[4] = x_speed_or_entity & 0x7FFFFFFF;
         }
     }
-    arg0->unk_8C = &D_801714D4;
+    motion_state->unk_8C = &D_801714D4;
 }

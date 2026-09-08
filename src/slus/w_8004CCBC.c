@@ -15,14 +15,14 @@ typedef struct {
     S_8002E5E8 *vec;
 } func_8004CCBC_Obj;
 
-/* summary: for i in [0,a1), copy the 3-word global vector D_8002E5E8 into (*a0)->vec, advancing a0 by one pointer each iteration */
-void func_8004CCBC(func_8004CCBC_Obj **a0, s32 a1)
+/* Copy the global vector D_8002E5E8 into each object's vector. */
+void func_8004CCBC(func_8004CCBC_Obj **objects, s32 objectCount)
 {
-    s32 i;
+    s32 objectIndex;
 
-    for (i = 0; i < a1; i++, a0++) {
-        (*a0)->vec->x = D_8002E5E8.x;
-        (*a0)->vec->y = D_8002E5E8.y;
-        (*a0)->vec->z = D_8002E5E8.z;
+    for (objectIndex = 0; objectIndex < objectCount; objectIndex++, objects++) {
+        (*objects)->vec->x = D_8002E5E8.x;
+        (*objects)->vec->y = D_8002E5E8.y;
+        (*objects)->vec->z = D_8002E5E8.z;
     }
 }

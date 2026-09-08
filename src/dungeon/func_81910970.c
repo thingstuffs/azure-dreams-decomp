@@ -57,47 +57,45 @@ extern u8 D_80024044[9];
 extern u8 D_80045340[9];
 extern u8 D_800DE720[9];
 
-s32 func_80024170(Rec_func_80024170_arg0 *arg0, void *arg1)
+/* Creates an effect at the supplied position with a randomized sprite angle. */
+s32 func_80024170(Rec_func_80024170_arg0 *owner, void *source_position)
 {
-    s32 temp_a0;
-    s32 temp_a1;
-    s32 temp_a2;
-    s32 temp_a3;
-    s32 temp_v1;
-    s32 var_v0;
-    S_80024170_3 *temp_s0;
-    S_80024170_1 *temp_s2;
-    void *temp_v0;
-    S_80024170_4 *temp_v0_2;
+    s32 random_value;
+    s32 initial_z;
+    s32 rounded_random;
+    S_80024170_3 *sprite;
+    S_80024170_1 *effect_state;
+    void *effect;
+    S_80024170_4 *position;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != 0) {
-        temp_s2 = temp_v0 + 0x20;
-        ((S_80024170_0 *)temp_v0)->unk_10 = D_80024044;
-        ((S_80024170_0 *)temp_v0)->unk_20 = arg0;
-        temp_s2->unk_06 = 0;
-        temp_s2->unk_08 = arg0->unk_12.as_u16;
-        temp_s0 = ((S_80024170_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        temp_s0->unk_08 = D_800DE720;
-        temp_s0->unk_12 = 0x7E00;
-        temp_s0->unk_14 |= 0x100;
-        var_v0 = rand();
-        temp_v1 = var_v0;
-        if (temp_v1 < 0) {
-            var_v0 = temp_v1 + 0xFFF;
+    effect = func_8003FC64(0x212);
+    if (effect != 0) {
+        effect_state = effect + 0x20;
+        ((S_80024170_0 *)effect)->unk_10 = D_80024044;
+        ((S_80024170_0 *)effect)->unk_20 = owner;
+        effect_state->unk_06 = 0;
+        effect_state->unk_08 = owner->unk_12.as_u16;
+        sprite = ((S_80024170_0 *)effect)->unk_0C;
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
+        sprite->unk_08 = D_800DE720;
+        sprite->unk_12 = 0x7E00;
+        sprite->unk_14 |= 0x100;
+        rounded_random = rand();
+        random_value = rounded_random;
+        if (random_value < 0) {
+            rounded_random = random_value + 0xFFF;
         }
-        temp_s0->unk_1A = temp_v1 - ((var_v0 >> 0xC) << 0xC);
-        temp_s0->unk_1E = 0x400;
-        temp_s0->unk_1C = 0x400;
-        func_8004491C(temp_v0, D_80045340);
-        temp_v0_2 = ((S_80024170_0 *)temp_v0)->unk_08;
-        *(Copy6 *)temp_v0_2 = *(Copy6 *)arg1;
-        temp_v1 = temp_v0_2->unk_08;
-        temp_s2->unk_0C = temp_v1;
-        return (s32)temp_v0;
+        sprite->unk_1A = random_value - ((rounded_random >> 0xC) << 0xC);
+        sprite->unk_1E = 0x400;
+        sprite->unk_1C = 0x400;
+        func_8004491C(effect, D_80045340);
+        position = ((S_80024170_0 *)effect)->unk_08;
+        *(Copy6 *)position = *(Copy6 *)source_position;
+        initial_z = position->unk_08;
+        effect_state->unk_0C = initial_z;
+        return (s32)effect;
     }
     return 0;
 }

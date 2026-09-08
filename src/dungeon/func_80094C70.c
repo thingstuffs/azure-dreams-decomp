@@ -13,77 +13,78 @@ typedef struct {
 extern DungeonState D_80083160;
 s32 func_800A6E10(s32, s32);
 
-void func_8009A3D0(s32 arg0, s32 arg1, s32 arg2)
+/* Clears selected cell flags or decrements their encoded value, clamping at zero. */
+void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
 {
     s32 flags;
     s8 *config;
     DungeonCell *cells;
-    s32 call_x;
-    s32 call_y;
-    s32 row_x;
-    s32 row_y;
-    s32 test;
-    s32 index;
+    s32 checked_x;
+    s32 checked_y;
+    s32 cell_x;
+    s32 cell_y;
+    s32 matched_flags;
+    s32 cell_index;
 
-    flags = arg2;
+    flags = flag_mask;
     cells = D_80083160.cells;
     config = (s8 *)&D_80083160.cells;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    test = flags & 0x8832;
-    if (test) {
-        test = flags & 0x800;
-        if (test) {
-            s32 call_arg0;
-            register s32 shifted_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    matched_flags = flags & 0x8832;
+    if (matched_flags) {
+        matched_flags = flags & 0x800;
+        if (matched_flags) {
+            s32 query_x;
+            register s32 row_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            call_x = (s16)arg0;
+            checked_x = (s16)x;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            call_y = (s16)arg1;
-            call_arg0 = call_x;
-            ASM_KEEP(call_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            if ((s16)func_800A6E10(call_arg0, call_y) >= 2) {
+            checked_y = (s16)y;
+            query_x = checked_x;
+            ASM_KEEP(query_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            if ((s16)func_800A6E10(query_x, checked_y) >= 2) {
                 goto done;
             }
-            shifted_y = *(s16 *)(config + 0x14);
-            shifted_y = call_y << shifted_y;
-            index = call_x + shifted_y;
+            row_offset = *(s16 *)(config + 0x14);
+            row_offset = checked_y << row_offset;
+            cell_index = checked_x + row_offset;
         } else {
             ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            index = (s16)arg0 +
-                    ((s16)arg1 << *(s16 *)(config + 0x14));
+            cell_index = (s16)x +
+                    ((s16)y << *(s16 *)(config + 0x14));
         }
 
-        cells[index].flags &= ~flags;
+        cells[cell_index].flags &= ~flags;
         goto done;
     }
 
     {
-        u32 raw_value;
-        register s32 value ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        s32 row_index;
+        u32 raw_remainder;
+        register s32 remainder ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 flag_cell_index;
         register DungeonCell *cell ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register u16 old_flags ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-        row_x = (s16)arg0;
-        row_y = (s16)arg1;
-        row_index = row_x + (row_y << *(s16 *)(config + 0x14));
-        cell = (DungeonCell *)((row_index * sizeof(DungeonCell)) +
+        cell_x = (s16)x;
+        cell_y = (s16)y;
+        flag_cell_index = cell_x + (cell_y << *(s16 *)(config + 0x14));
+        cell = (DungeonCell *)((flag_cell_index * sizeof(DungeonCell)) +
                                (unsigned long)cells);
         old_flags = cell->flags;
-        raw_value = (old_flags & flags) - (flags & 0x1100);
-        value = raw_value;
+        raw_remainder = (old_flags & flags) - (flags & 0x1100);
+        remainder = raw_remainder;
         old_flags &= ~flags;
         cell->flags = old_flags;
-        raw_value <<= 16;
-        if ((s32)raw_value < 0) {
-            value = 0;
+        raw_remainder <<= 16;
+        if ((s32)raw_remainder < 0) {
+            remainder = 0;
         }
 
-        row_index = row_x + (row_y << *(s16 *)(config + 0x14));
-        cell = (DungeonCell *)((row_index * sizeof(DungeonCell)) +
+        flag_cell_index = cell_x + (cell_y << *(s16 *)(config + 0x14));
+        cell = (DungeonCell *)((flag_cell_index * sizeof(DungeonCell)) +
                                (unsigned long)cells);
-        cell->flags |= value;
+        cell->flags |= remainder;
     }
 
 done:

@@ -56,21 +56,22 @@ extern u8 D_8016A36C[];
 extern u8 D_80173AC8[];
 extern u8 D_80173AD0[];
 
-void func_8016D0FC(void *arg0, s32 arg1, void *arg2, void *arg3)
+/* Advance the actor state, updating directional tables and the shared counter. */
+void func_8016D0FC(void *context, s32 callback_arg, void *object_arg, void *actor_arg)
 {
-    register void *object ASM_REG("$16") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *object ASM_REG("$16") = object_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *counter_base;
     register u16 count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *table_direct ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *actor = arg3;
-    u8 *table_compare;
-    u8 *current;
+    register u8 *direction_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *actor = actor_arg;
+    u8 *expected_table;
+    u8 *current_table;
     s32 state;
     s32 kind;
-    s32 flags;
-    s32 index;
+    s32 actor_flags;
+    s32 direction_index;
 
-    state = ((S_8016D0FC_0 *)arg0)->unk_9B;
+    state = ((S_8016D0FC_0 *)context)->unk_9B;
     if (state == 1) {
         goto state_1;
     }
@@ -93,7 +94,7 @@ state_0:
     count = ((S_8016D0FC_2 *)counter_base)->unk_0A;
     count--;
     ((S_8016D0FC_2 *)counter_base)->unk_0A = count;
-    kind = ((S_8016D0FC_0 *)arg0)->unk_AC;
+    kind = ((S_8016D0FC_0 *)context)->unk_AC;
     if (kind == 0xE) {
         goto set_ac8_pre;
     }
@@ -108,14 +109,14 @@ state_0:
     }
 set_ac8_pre:
 set_ac8:
-    table_direct = D_80173AC8;
-    (*(u8 * *)((u8 *)object + 0x2C)) = table_direct;
-    index = (D_80083228 + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
-    func_80047784(object, table_direct[index & 7], 0);
+    direction_table = D_80173AC8;
+    (*(u8 * *)((u8 *)object + 0x2C)) = direction_table;
+    direction_index = (D_80083228 + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
+    func_80047784(object, direction_table[direction_index & 7], 0);
     goto increment_state;
 
 state_1:
-    kind = ((S_8016D0FC_0 *)arg0)->unk_AC;
+    kind = ((S_8016D0FC_0 *)context)->unk_AC;
     if (kind == 0xE) {
         goto maybe_set_ac8;
     }
@@ -129,16 +130,16 @@ state_1:
         goto after_ac8;
     }
 maybe_set_ac8:
-    current = ((S_8016D0FC_1 *)object)->unk_2C;
-    table_compare = D_80173AC8;
-    if (current != table_compare) {
-        (*(u8 * *)((u8 *)object + 0x2C)) = table_compare;
-        index = (D_80083228 + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
-        func_80047784(object, table_compare[index & 7], 0);
+    current_table = ((S_8016D0FC_1 *)object)->unk_2C;
+    expected_table = D_80173AC8;
+    if (current_table != expected_table) {
+        (*(u8 * *)((u8 *)object + 0x2C)) = expected_table;
+        direction_index = (D_80083228 + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
+        func_80047784(object, expected_table[direction_index & 7], 0);
     }
 after_ac8:
     if (((S_8016D0FC_3 *)actor)->unk_25 != 0) {
-        kind = ((S_8016D0FC_0 *)arg0)->unk_AC;
+        kind = ((S_8016D0FC_0 *)context)->unk_AC;
         if (kind == 0xE) {
             goto set_ad0;
         }
@@ -151,21 +152,21 @@ after_ac8:
         goto done;
     }
     if (((S_8016D0FC_3 *)actor)->unk_64 != 0) {
-        if (func_800AA6B4(arg0, arg1, object, 0) != 0) {
+        if (func_800AA6B4(context, callback_arg, object, 0) != 0) {
             goto done;
         }
     }
     if ((func_800A2C34(actor) << 16) != 0) {
         goto done;
     }
-    flags = ((S_8016D0FC_3 *)actor)->unk_1C;
-    if (flags & 0x100) {
-        func_800AA258(arg0, arg1, object, actor);
+    actor_flags = ((S_8016D0FC_3 *)actor)->unk_1C;
+    if (actor_flags & 0x100) {
+        func_800AA258(context, callback_arg, object, actor);
         goto done;
     }
-    if (flags & 0x80000) {
-        func_800AA888(arg0, arg1, object, actor);
-        func_8016D4B8(arg0, arg1, object, actor);
+    if (actor_flags & 0x80000) {
+        func_800AA888(context, callback_arg, object, actor);
+        func_8016D4B8(context, callback_arg, object, actor);
         goto done;
     }
     if (((S_8016D0FC_3 *)actor)->unk_6D == 0) {
@@ -181,7 +182,7 @@ after_ac8:
     if (((S_8016D0FC_3 *)actor)->unk_25 == 0) {
         goto done;
     }
-    kind = ((S_8016D0FC_0 *)arg0)->unk_AC;
+    kind = ((S_8016D0FC_0 *)context)->unk_AC;
     if (kind == 0xE) {
         goto set_ad0;
     }
@@ -199,10 +200,10 @@ kind_ge_15:
         goto increment_counter_pre;
     }
 set_ad0:
-    table_direct = D_80173AD0;
-    (*(u8 * *)((u8 *)object + 0x2C)) = table_direct;
-    index = (D_80083228 + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
-    func_80047784(object, table_direct[index & 7], 0);
+    direction_table = D_80173AD0;
+    (*(u8 * *)((u8 *)object + 0x2C)) = direction_table;
+    direction_index = (D_80083228 + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
+    func_80047784(object, direction_table[direction_index & 7], 0);
 increment_counter_pre:
     counter_base = D_80083460;
 increment_counter:
@@ -210,7 +211,7 @@ increment_counter:
     count++;
     ((S_8016D0FC_2 *)counter_base)->unk_0A = count;
 increment_state:
-    ((S_8016D0FC_0 *)arg0)->unk_9B++;
+    ((S_8016D0FC_0 *)context)->unk_9B++;
     goto done;
 
 state_2:
@@ -219,7 +220,7 @@ state_2:
         count = ((S_8016D0FC_2 *)counter_base)->unk_0A;
         count--;
         ((S_8016D0FC_2 *)counter_base)->unk_0A = count;
-        ((S_8016D0FC_0 *)arg0)->unk_8C = D_8016A36C;
+        ((S_8016D0FC_0 *)context)->unk_8C = D_8016A36C;
     }
 done:
     return;

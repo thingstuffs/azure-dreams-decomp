@@ -61,10 +61,11 @@ extern u8 D_80083498[];
 extern u8 D_800BBA98[];
 extern Resource D_800F162C[];
 
+/* Spawn short-lived objects around the origin and set expiry flags when the timer ends. */
 void func_800BB894(Self *self, Copy24 *origin) {
-    s32 count = self->count;
+    s32 remaining = self->count;
 
-    if (count >= 0) {
+    if (remaining >= 0) {
         u8 *callback = D_800BBA98;
         Resource *resource;
 
@@ -98,8 +99,8 @@ void func_800BB894(Self *self, Copy24 *origin) {
                 primitive->color = 0x808080;
                 ((Motion *)object)->lifetime = 10;
             }
-            count--;
-        } while (count >= 0);
+            remaining--;
+        } while (remaining >= 0);
     }
 
     {

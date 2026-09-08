@@ -11,12 +11,13 @@ typedef struct S_80090F84_0 {
 
 
 M2C_UNK func_80090A74(s32 *, M2C_UNK, S_80090F84_0 *);
-void func_80090F84(s32 *arg0, M2C_UNK arg1, S_80090F84_0 *arg2) {
-    s32 temp_s0;
+/* Run the fallback handler if the value stays unchanged and either 0x6000 flag is set. */
+void func_80090F84(s32 *value, M2C_UNK context, S_80090F84_0 *record) {
+    s32 previous_value;
 
-    temp_s0 = *arg0;
-    func_80090A74(arg0, arg1, arg2);
-    if ((temp_s0 == *arg0) && (arg2->unk_14 & 0x6000)) {
-        func_80093D48(arg0, arg1, arg2);
+    previous_value = *value;
+    func_80090A74(value, context, record);
+    if ((previous_value == *value) && (record->unk_14 & 0x6000)) {
+        func_80093D48(value, context, record);
     }
 }

@@ -91,323 +91,323 @@ extern void func_800A56E0();
 extern void func_80024060();
 extern void func_800244D4(void);
 
-void func_80024C88(Controller *ctrl, Motion *motion, void *arg2)
+/* Moves to a target cell, runs child effects, and retires the controller. */
+void func_80024C88(Controller *controller, Motion *motion_arg, void *render_arg)
 {
-    register Controller *p ASM_REG("$19") = ctrl;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register Motion *m ASM_REG("$22") = motion;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register Controller *ctrl ASM_REG("$19") = controller;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register Motion *motion ASM_REG("$22") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *root;
-    register void *third ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *render_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     RootPrefix *prefix;
     Lookup *lookup;
-    Motion *initial;
-    register Motion *other ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    Motion *root_motion;
+    register Motion *linked_motion ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Child *child;
-    u8 *link;
+    u8 *linked_root;
     s16 delta[3];
-    u16 last_y;
-    u16 cell_x[1];
-    s32 i;
+    u16 target_cell_x;
+    u16 target_cell_y[1];
+    s32 index;
     register s32 diff ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register void (*update)(void);
-    s32 base;
-    s32 result;
-    s32 x;
-    s32 y;
-    u16 z;
+    register void (*child_update)(void);
+    s32 origin_coord;
+    s32 floor_height;
+    s32 cell_x;
+    s32 cell_y;
+    u16 origin_z;
     s32 state;
-    u32 tick;
-    Child **slot;
+    u32 elapsed;
+    Child **child_slot;
 
-    tick = (u16)p->timer;
-    state = p->state;
-    root = p->root;
-    p->timer = tick + 1;
-    third = arg2;
+    elapsed = (u16)ctrl->timer;
+    state = ctrl->state;
+    root = ctrl->root;
+    ctrl->timer = elapsed + 1;
+    render_data = render_arg;
     switch (state) {
     case 0:
-    p->timer = 0;
-    p->state++;
-    p->angle = (*(u16 *)(root + 0x2A) >> 9) & 7;
-    i = 7;
-    slot = &p->children[1];
-    do {
-        slot[6] = 0;
-        i--;
-        slot--;
-    } while (i >= 0);
-    ((s32 *)third)[3] = 0x00808080;
+        ctrl->timer = 0;
+        ctrl->state++;
+        ctrl->angle = (*(u16 *)(root + 0x2A) >> 9) & 7;
+        index = 7;
+        child_slot = &ctrl->children[1];
+        do {
+            child_slot[6] = 0;
+            index--;
+            child_slot--;
+        } while (index >= 0);
+        ((s32 *)render_data)[3] = 0x00808080;
 
     case 1:
-    prefix = (RootPrefix *)(root - 0x20);
-    if (func_8003DE58(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
+        prefix = (RootPrefix *)(root - 0x20);
+        if (func_8003DE58(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
+            if (!(prefix->lookup->flags & 0x8000)) {
+                goto finish;
+            }
+        }
+
+        root_motion = prefix->motion;
+        motion->x.h.hi = root_motion->x.h.hi;
+        motion->y.h.hi = root_motion->y.h.hi;
+        origin_z = root_motion->z.h.hi;
+        motion->z.h.hi = origin_z;
         if (!(prefix->lookup->flags & 0x8000)) {
+            motion->x.h.hi += delta[0];
+            motion->y.h.hi += delta[1];
+            motion->z.h.hi += delta[2];
+        } else {
+            motion->z.h.hi = origin_z - 64;
+        }
+        if (!(*ctrl->flags & 0x80)) {
             goto finish;
         }
-    }
 
-    initial = prefix->motion;
-    m->x.h.hi = initial->x.h.hi;
-    m->y.h.hi = initial->y.h.hi;
-    z = initial->z.h.hi;
-    m->z.h.hi = z;
-    if (!(prefix->lookup->flags & 0x8000)) {
-        m->x.h.hi += delta[0];
-        m->y.h.hi += delta[1];
-        m->z.h.hi += delta[2];
-    } else {
-        m->z.h.hi = z - 64;
-    }
-    if (!(*p->flags & 0x80)) {
-        goto finish;
-    }
+        ctrl->saved = *motion;
+        linked_root = *(u8 **)(root + 0x60);
+        if (linked_root != 0) {
+            s32 div_magic = (s32)0x88880000;
+            WideProduct product;
 
-    p->saved = *m;
-    link = *(u8 **)(root + 0x60);
-    if (link != 0) {
-        s32 div_magic = (s32)0x88880000;
-        WideProduct product;
+            ASM_KEEP_NV(div_magic);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            linked_motion = *(Motion **)(linked_root - 0x18);
 
-        ASM_KEEP_NV(div_magic);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        other = *(Motion **)(link - 0x18);
+            origin_coord = motion->x.h.hi;
+            diff = linked_motion->x.h.hi - origin_coord;
+            if (diff < 0) {
+                diff = -diff;
+            }
+            delta[0] = diff;
 
-        base = m->x.h.hi;
-        diff = other->x.h.hi - base;
-        if (diff < 0) {
-            diff = -diff;
-        }
-        delta[0] = diff;
+            diff = linked_motion->y.h.hi;
+            diff -= motion->y.h.hi;
+            if (diff < 0) {
+                diff = -diff;
+            }
+            delta[1] = diff;
 
-        diff = other->y.h.hi;
-        diff -= m->y.h.hi;
-        if (diff < 0) {
-            diff = -diff;
-        }
-        delta[1] = diff;
+            linked_root = *(u8 **)(root + 0x60);
+            origin_coord = motion->z.h.hi;
+            diff = *(s16 *)(linked_root + 0x88);
+            diff -= origin_coord;
+            if (diff < 0) {
+                diff = -diff;
+            }
+            delta[2] = diff;
 
-        link = *(u8 **)(root + 0x60);
-        base = m->z.h.hi;
-        diff = *(s16 *)(link + 0x88);
-        diff -= base;
-        if (diff < 0) {
-            diff = -diff;
-        }
-        delta[2] = diff;
+            linked_root = *(u8 **)(root + 0x60);
+            lookup = *(Lookup **)(linked_root - 0x14);
+            ctrl->cell_x = lookup->cell_x;
+            ctrl->cell_y = lookup->cell_y;
 
-        link = *(u8 **)(root + 0x60);
-        lookup = *(Lookup **)(link - 0x14);
-        p->cell_x = lookup->cell_x;
-        p->cell_y = lookup->cell_y;
+            ctrl->target[0].val = linked_motion->x.val;
+            ctrl->target[1].val = linked_motion->y.val;
+            diff = *(volatile u16 *)(*(u8 **)(root + 0x60) + 0x88);
+            *(volatile u16 *)&ctrl->target[2].h.lo = 0;
+            *(volatile u16 *)&ctrl->target[2].h.hi = diff;
 
-        p->target[0].val = other->x.val;
-        p->target[1].val = other->y.val;
-        diff = *(volatile u16 *)(*(u8 **)(root + 0x60) + 0x88);
-        *(volatile u16 *)&p->target[2].h.lo = 0;
-        *(volatile u16 *)&p->target[2].h.hi = diff;
-
-        div_magic |= 0x8889;
-        diff = *(volatile s32 *)&p->target[0].val;
-        diff -= m->x.val;
-        product.value = (long long)diff * div_magic;
-        m->dx.val = ((s32)((u32)product.word.upper -
-                           (0U - (u32)diff)) >> 3) - (diff >> 31);
-        diff = *(volatile s32 *)&p->target[1].val;
-        diff -= m->y.val;
-        product.value = (long long)diff * div_magic;
-        m->dy.val = ((s32)((u32)product.word.upper -
-                           (0U - (u32)diff)) >> 3) - (diff >> 31);
-        diff = *(volatile s32 *)&p->target[2].val;
-        diff -= m->z.val;
-        product.value = (long long)diff * div_magic;
-        m->dz.val = ((s32)((u32)product.word.upper -
-                           (0U - (u32)diff)) >> 3) - (diff >> 31);
-        goto advance;
-    }
-
-    i = 0;
-    lookup = prefix->lookup;
-    ASM_USE_NV(lookup);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    diff = (s32)0x80070000;
-    ASM_USE_NV(diff);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    y = lookup->cell_y;
-    x = lookup->cell_x;
-    last_y = x;
-    cell_x[0] = y;
-
-    do {
-        if ((s16)func_800A44E0(((s16)x << 6) & 0xFFC0,
-                               ((s16)y << 6) & 0xFFC0,
-                               *(s16 *)(root + 0x88),
-                               (s16)(p->angle << 9)) != 0) {
-            break;
+            div_magic |= 0x8889;
+            diff = *(volatile s32 *)&ctrl->target[0].val;
+            diff -= motion->x.val;
+            product.value = (long long)diff * div_magic;
+            motion->dx.val = ((s32)((u32)product.word.upper -
+                                (0U - (u32)diff)) >> 3) - (diff >> 31);
+            diff = *(volatile s32 *)&ctrl->target[1].val;
+            diff -= motion->y.val;
+            product.value = (long long)diff * div_magic;
+            motion->dy.val = ((s32)((u32)product.word.upper -
+                                (0U - (u32)diff)) >> 3) - (diff >> 31);
+            diff = *(volatile s32 *)&ctrl->target[2].val;
+            diff -= motion->z.val;
+            product.value = (long long)diff * div_magic;
+            motion->dz.val = ((s32)((u32)product.word.upper -
+                                (0U - (u32)diff)) >> 3) - (diff >> 31);
+            goto advance;
         }
 
-    {
-        s16 *xptr;
-        s16 *yptr;
-        s32 height;
-        s32 ang;
-        u16 hraw;
+        index = 0;
+        lookup = prefix->lookup;
+        ASM_USE_NV(lookup);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        diff = (s32)0x80070000;
+        ASM_USE_NV(diff);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        cell_y = lookup->cell_y;
+        cell_x = lookup->cell_x;
+        target_cell_x = cell_x;
+        target_cell_y[0] = cell_y;
 
-        ang = (s16)p->angle;
-        hraw = *(u16 *)(root + 0x88);
-        xptr = &D_8006CCD8[ang];
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        height = (s16)(hraw - 32);
-        yptr = &D_8006CCE8[ang];
-        result = func_800BCB04((((s16)x + *xptr) << 6) + 32 & 0xFFE0,
-                               (((s16)y + *yptr) << 6) + 32 & 0xFFE0,
-                               height);
-    }
-    if ((s16)result >= 513) {
-        break;
-    }
-    if ((s16)(result - *(u16 *)(root + 0x88)) < -63) {
-        break;
-    }
+        do {
+            if ((s16)func_800A44E0(((s16)cell_x << 6) & 0xFFC0,
+                                 ((s16)cell_y << 6) & 0xFFC0,
+                                 *(s16 *)(root + 0x88),
+                                 (s16)(ctrl->angle << 9)) != 0) {
+                break;
+            }
 
-    {
-        register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        s16 *xptr;
-        s16 *yptr;
-        s32 ang;
+            {
+                s16 *x_step;
+                s16 *y_step;
+                s32 height;
+                s32 direction;
+                u16 root_z;
 
-        ang = (s16)p->angle;
-        xptr = &D_8006CCD8[ang];
-        i++;
-        yptr = &D_8006CCE8[ang];
-        next_x = x + (u16)*xptr;
-        x = next_x;
-        next_y = y + (u16)*yptr;
-        y = next_y;
-        last_y = next_x;
-        cell_x[0] = next_y;
-    }
-    } while (i < 8);
+                direction = (s16)ctrl->angle;
+                root_z = *(u16 *)(root + 0x88);
+                x_step = &D_8006CCD8[direction];
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                height = (s16)(root_z - 32);
+                y_step = &D_8006CCE8[direction];
+                floor_height = func_800BCB04((((s16)cell_x + *x_step) << 6) + 32 & 0xFFE0,
+                                           (((s16)cell_y + *y_step) << 6) + 32 & 0xFFE0,
+                                           height);
+            }
+            if ((s16)floor_height >= 513) {
+                break;
+            }
+            if ((s16)(floor_height - *(u16 *)(root + 0x88)) < -63) {
+                break;
+            }
 
-search_done:
-    {
-        Fixed32 *target;
+            {
+                register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                s16 *x_step;
+                s16 *y_step;
+                s32 direction;
 
-        target = p->target;
-        target[2].val = 0;
-        target[1].val = 0;
-        p->target[0].val = 0;
-        target[0].h.hi = ((last_y << 16) >> 10) + 32;
-        target[1].h.hi = ((cell_x[0] << 16) >> 10) + 32;
-        target[2].h.hi = -1024;
-        target[2].h.hi = func_800BCB04((u16)target[0].h.hi,
-                                      (u16)target[1].h.hi, -1024);
-        if ((s16)target[2].h.hi >= 513) {
-            target[2].h.hi = m->z.h.hi + 32;
+                direction = (s16)ctrl->angle;
+                x_step = &D_8006CCD8[direction];
+                index++;
+                y_step = &D_8006CCE8[direction];
+                next_x = cell_x + (u16)*x_step;
+                cell_x = next_x;
+                next_y = cell_y + (u16)*y_step;
+                cell_y = next_y;
+                target_cell_x = next_x;
+                target_cell_y[0] = next_y;
+            }
+        } while (index < 8);
+
+        {
+            Fixed32 *target;
+
+            target = ctrl->target;
+            target[2].val = 0;
+            target[1].val = 0;
+            ctrl->target[0].val = 0;
+            target[0].h.hi = ((target_cell_x << 16) >> 10) + 32;
+            target[1].h.hi = ((target_cell_y[0] << 16) >> 10) + 32;
+            target[2].h.hi = -1024;
+            target[2].h.hi = func_800BCB04((u16)target[0].h.hi,
+                                        (u16)target[1].h.hi, -1024);
+            if ((s16)target[2].h.hi >= 513) {
+                target[2].h.hi = motion->z.h.hi + 32;
+            }
         }
-    }
 
-    m->dx.val = (p->target[0].val - m->x.val) / 15;
-    m->dy.val = (p->target[1].val - m->y.val) / 15;
-    m->dz.val = (p->target[2].val - m->z.val) / 15;
-    p->cell_x = last_y;
-    p->cell_y = cell_x[0];
+        motion->dx.val = (ctrl->target[0].val - motion->x.val) / 15;
+        motion->dy.val = (ctrl->target[1].val - motion->y.val) / 15;
+        motion->dz.val = (ctrl->target[2].val - motion->z.val) / 15;
+        ctrl->cell_x = target_cell_x;
+        ctrl->cell_y = target_cell_y[0];
 
 advance:
-    p->timer = 0;
-    p->state++;
-    goto finish;
+        ctrl->timer = 0;
+        ctrl->state++;
+        goto finish;
 
     case 2:
-    m->x.val += m->dx.val;
-    m->y.val += m->dy.val;
-    m->z.val += m->dz.val;
-    func_800247D4(p, third);
-    ASM_KEEP(p);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (p->timer < 15) {
-        goto finish;
-    }
-    p->timer = 0;
-    p->state++;
-    {
-        Child **walk;
+        motion->x.val += motion->dx.val;
+        motion->y.val += motion->dy.val;
+        motion->z.val += motion->dz.val;
+        func_800247D4(ctrl, render_data);
+        ASM_KEEP(ctrl);
+        if (ctrl->timer < 15) {
+            goto finish;
+        }
+        ctrl->timer = 0;
+        ctrl->state++;
+        {
+            Child **child_slot;
 
-        i = 7;
-        walk = &p->children[1];
-        do {
-            walk[6] = func_80024628(p, m, (s16)i);
-            i--;
-            walk--;
-        } while (i >= 0);
-    }
-    func_800A56E0(0x300);
-    goto finish;
+            index = 7;
+            child_slot = &ctrl->children[1];
+            do {
+                child_slot[6] = func_80024628(ctrl, motion, (s16)index);
+                index--;
+                child_slot--;
+            } while (index >= 0);
+        }
+        func_800A56E0(0x300);
+        goto finish;
 
     case 3:
-    i = 7;
-    if (p->timer < 33) {
-        goto finish;
-    }
-    update = func_800244D4;
-    p->timer = 0;
-    p->state++;
-    {
-        Child **walk;
+        index = 7;
+        if (ctrl->timer < 33) {
+            goto finish;
+        }
+        child_update = func_800244D4;
+        ctrl->timer = 0;
+        ctrl->state++;
+        {
+            Child **child_slot;
 
-        walk = &p->children[1];
-        do {
-            if (walk[6] != 0) {
-                walk[6]->update = update;
-            }
-            i--;
-            walk--;
-        } while (i >= 0);
-    }
-    goto finish;
+            child_slot = &ctrl->children[1];
+            do {
+                if (child_slot[6] != 0) {
+                    child_slot[6]->update = child_update;
+                }
+                index--;
+                child_slot--;
+            } while (index >= 0);
+        }
+        goto finish;
 
     case 4:
-    if (p->timer < 17) {
+        if (ctrl->timer < 17) {
+            goto finish;
+        }
+        func_80024060(ctrl->cell_x, ctrl->cell_y, root, ctrl->kind);
+        ctrl->timer = 0;
+        ctrl->state++;
+        {
+            register Child **child_slot ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            u8 *global_page;
+
+            index = 7;
+            global_page = (u8 *)0x80080000;
+            child_slot = &ctrl->children[1];
+            do {
+                child = child_slot[6];
+                if (child != 0) {
+                    u16 child_flags;
+                    register u32 global_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+
+                    child_flags = child->flags;
+                    ASM_KEEP(child_flags);
+                    global_flags = *(u32 *)(global_page + 0x14A0);
+                    child_flags |= 0x8000;
+                    global_flags |= 0x8000;
+                    ASM_KEEP(global_flags);
+                    child->flags = child_flags;
+                    *(u32 *)(global_page + 0x14A0) = global_flags;
+                    child_slot[6] = 0;
+                }
+                index--;
+                child_slot--;
+            } while (index >= 0);
+        }
         goto finish;
-    }
-    func_80024060(p->cell_x, p->cell_y, root, p->kind);
-    p->timer = 0;
-    p->state++;
-    {
-        register Child **walk ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        u8 *global_page;
-
-        i = 7;
-        global_page = (u8 *)0x80080000;
-        walk = &p->children[1];
-        do {
-            child = walk[6];
-            if (child != 0) {
-                u16 flags;
-                register u32 used ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-                flags = child->flags;
-                ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                used = *(u32 *)(global_page + 0x14A0);
-                flags |= 0x8000;
-                used |= 0x8000;
-                ASM_KEEP(used);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                child->flags = flags;
-                *(u32 *)(global_page + 0x14A0) = used;
-                walk[6] = 0;
-            }
-            i--;
-            walk--;
-        } while (i >= 0);
-    }
-    goto finish;
 
     case 5:
-    if (p->active == 0) {
-        D_8008346C[0] = 0;
-        *(u16 *)((u8 *)p - 2) |= 0x8000;
-        D_800814A0.value |= 0x8000;
-    }
+        if (ctrl->active == 0) {
+            D_8008346C[0] = 0;
+            *(u16 *)((u8 *)ctrl - 2) |= 0x8000;
+            D_800814A0.value |= 0x8000;
+        }
 
     default:
         break;
     }
 
 finish:
-    p->active = 0;
+    ctrl->active = 0;
 }

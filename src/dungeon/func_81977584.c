@@ -32,218 +32,218 @@ extern void func_80024A30(s32, s32, s32, s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 
-s32 func_81977584(Record *a) {
-    register s32 s2 = 0;
-    register s16 *p;
-    s32 *out;
-    s32 s4;
-    register s32 s5;
-    s32 s6;
-    register s32 s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 t0;
-    s32 t1;
+/* Builds scaled vertices and submits a shaded strip using scratchpad storage. */
+s32 func_81977584(Record *record) {
+    register s32 shade_step = 0;
+    register s16 *sample;
+    s32 *vertices;
+    s32 upper_color;
+    register s32 lower_color;
+    s32 segment;
+    register s32 prev_upper_color ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 lower_shade;
+    s32 upper_shade;
 
-    out = (s32 *)0x1F800000;
+    vertices = (s32 *)0x1F800000;
 
-    if (a->type == 1) {
+    if (record->type == 1) {
         goto type_1_or_2;
     }
-    if (a->type >= 2) {
+    if (record->type >= 2) {
         goto type_ge_2;
     }
-    if (a->type == 0) {
+    if (record->type == 0) {
         goto type_0;
     }
-    ASM_KEEP(s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s2 &= 0xffff;
-    ASM_TAILSLOT_PIN(s2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(shade_step);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    shade_step &= 0xffff;
+    ASM_TAILSLOT_PIN(shade_step);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80024E38();
 
 type_ge_2:
-    if (a->type == 2) {
+    if (record->type == 2) {
         goto type_1_or_2;
     }
-    if (a->type == 3) {
+    if (record->type == 3) {
         goto type_3;
     }
-    ASM_KEEP(s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s2 &= 0xffff;
-    ASM_TAILSLOT_PIN(s2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(shade_step);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    shade_step &= 0xffff;
+    ASM_TAILSLOT_PIN(shade_step);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80024E38();
 
 type_0:
     {
-        s32 index = a->index;
-        s32 value;
+        s32 index = record->index;
+        s32 index_work;
 
-        value = (index << 2) + index;
-        s2 = value << 18;
-        ASM_TAILSLOT_PIN(s2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        index_work = (index << 2) + index;
+        shade_step = index_work << 18;
+        ASM_TAILSLOT_PIN(shade_step);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024E38();
     }
 
 type_1_or_2:
-    s2 = 0xA0 << 16;
-    ASM_TAILSLOT_PIN(s2);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    shade_step = 0xA0 << 16;
+    ASM_TAILSLOT_PIN(shade_step);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80024E38();
 
 type_3:
-            {
-                s32 value = a->index;
-                register s32 product ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    {
+        s32 shade_base = record->index;
+        register s32 index_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-                ASM_KEEP_NV(value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                product = (value << 2) + value;
-                product <<= 2;
-                value = 160 - product;
-                s2 = value << 16;
-            }
-            s2 /= 29;
+        ASM_KEEP_NV(shade_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        index_offset = (shade_base << 2) + shade_base;
+        index_offset <<= 2;
+        shade_base = 160 - index_offset;
+        shade_step = shade_base << 16;
+    }
+    shade_step /= 29;
 
+    {
+        s32 scale;
+        s32 scaled_coord;
+        s32 fixed_coord;
+        s32 trig_value;
 
-            {
-                s32 scale;
-                s32 product;
-                s32 shifted;
-                s32 result;
+        trig_value = func_800644B8(record->f40 + record->add);
+        scale = record->scale10;
+        scaled_coord = (trig_value >> 4) * scale;
+        fixed_coord = scaled_coord << 8;
+        vertices[12] = fixed_coord;
 
-                result = func_800644B8(a->f40 + a->add);
-                scale = a->scale10;
-                product = (result >> 4) * scale;
-                shifted = product << 8;
-                out[12] = shifted;
+        trig_value = func_800644B8(record->f41 + record->add);
+        scale = record->scale11;
+        scaled_coord = (trig_value >> 4) * scale;
+        fixed_coord = scaled_coord << 8;
+        vertices[16] = fixed_coord;
 
-                result = func_800644B8(a->f41 + a->add);
-                scale = a->scale11;
-                product = (result >> 4) * scale;
-                shifted = product << 8;
-                out[16] = shifted;
+        trig_value = func_800644B8(record->f35 + record->add);
+        scale = record->scale0;
+        scaled_coord = (trig_value >> 4) * scale;
+        fixed_coord = scaled_coord << 8;
+        vertices[20] = fixed_coord;
 
-                result = func_800644B8(a->f35 + a->add);
-                scale = a->scale0;
-                product = (result >> 4) * scale;
-                shifted = product << 8;
-                out[20] = shifted;
+        trig_value = func_80064584(record->f40 + record->add);
+        scale = record->scale10;
+        scaled_coord = (trig_value >> 4) * scale;
+        fixed_coord = scaled_coord << 8;
+        vertices[13] = fixed_coord;
 
-                result = func_80064584(a->f40 + a->add);
-                scale = a->scale10;
-                product = (result >> 4) * scale;
-                shifted = product << 8;
-                out[13] = shifted;
+        trig_value = func_80064584(record->f41 + record->add);
+        scale = record->scale11;
+        scaled_coord = (trig_value >> 4) * scale;
+        fixed_coord = scaled_coord << 8;
+        vertices[17] = fixed_coord;
 
-                result = func_80064584(a->f41 + a->add);
-                scale = a->scale11;
-                product = (result >> 4) * scale;
-                shifted = product << 8;
-                out[17] = shifted;
+        {
+            s32 angle;
 
-                {
-                    s32 angle;
+            angle = record->f35 + record->add;
+            segment = 0;
+            trig_value = func_80064584(angle);
+        }
+        {
+            register s32 color_pair ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 intensity;
+            register s32 color_work ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 shade_work ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 end_color ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-                    angle = a->f35 + a->add;
-                    s6 = 0;
-                    result = func_80064584(angle);
-                }
-                {
-                register s32 v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                s32 v1;
-                register s32 a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                register s32 a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                register s32 a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            shade_work = (shade_step * 3) << 3;
+            intensity = ((shade_work - shade_step) >> 16) & 0xff;
+            ASM_KEEP_NV(intensity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            color_work = (intensity << 8) + intensity;
+            lower_color = (color_work << 8) + intensity;
+            ASM_KEEP_NV(lower_color);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-                a1 = (s2 * 3) << 3;
-                v1 = ((a1 - s2) >> 16) & 0xff;
-                ASM_KEEP_NV(v1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                a0 = (v1 << 8) + v1;
-                s5 = (a0 << 8) + v1;
-                ASM_KEEP_NV(s5);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            trig_value >>= 4;
+            ASM_KEEP_NV(trig_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-                result >>= 4;
-                ASM_KEEP_NV(result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            intensity = shade_step << 3;
+            intensity -= shade_step;
+            intensity <<= 2;
+            intensity += shade_step;
+            color_work = record->scale0;
+            intensity >>= 16;
+            scaled_coord = trig_value * color_work;
+            ASM_KEEP(intensity);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+            intensity &= 0xff;
+            ASM_KEEP_NV(intensity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                v1 = s2 << 3;
-                v1 -= s2;
-                v1 <<= 2;
-                v1 += s2;
-                a0 = a->scale0;
-                v1 >>= 16;
-                product = result * a0;
-                ASM_KEEP(v1);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                v1 &= 0xff;
-                ASM_KEEP_NV(v1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            shade_work = (shade_work >> 16) & 0xff;
+            ASM_KEEP_NV(shade_work);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            color_pair = (intensity << 8) + intensity;
+            prev_upper_color = (color_pair << 8) + intensity;
 
-                a1 = (a1 >> 16) & 0xff;
-                ASM_KEEP_NV(a1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                v0 = (v1 << 8) + v1;
-                s7 = (v0 << 8) + v1;
+            color_work = (shade_work << 8) + shade_work;
+            color_work = (color_work << 8) | shade_work;
 
-                a0 = (a1 << 8) + a1;
-                a0 = (a0 << 8) | a1;
+            fixed_coord = scaled_coord << 8;
+            vertices[21] = fixed_coord;
 
-                shifted = product << 8;
-                out[21] = shifted;
+            vertices[14] = record->f70 << 16;
+            shade_work = lower_color;
+            vertices[18] = record->f71 << 16;
+            end_color = prev_upper_color;
+            vertices[22] = record->f65 << 16;
+            upper_color = end_color;
+            func_80024770(color_work, shade_work, end_color);
+        }
+    }
 
-                out[14] = a->f70 << 16;
-                a1 = s5;
-                out[18] = a->f71 << 16;
-                a2 = s7;
-                out[22] = a->f65 << 16;
-                s4 = a2;
-                func_80024770(a0, a1, a2);
-            }
-            }
+    sample = (s16 *)record;
+    vertices[24] = vertices[20];
+    vertices[25] = vertices[21];
+    vertices[26] = vertices[22];
+    do {
+        s32 scaled_coord;
+        s32 prev_lower_color;
+        s32 saved_upper_color;
+        s32 last_trig_value;
+        s32 last_scaled_coord;
+        s32 prev_z;
 
-            p = (s16 *)a;
-            out[24] = out[20];
-            out[25] = out[21];
-            out[26] = out[22];
-            do {
-                s32 pr;
-                s32 old5;
-                s32 old4;
-                s32 final_result;
-                s32 final_product;
-                s32 saved22;
+        ASM_KEEP_NV(sample);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        vertices[12] = vertices[16];
+        scaled_coord = (func_800644B8(sample[42] + record->add) >> 4) * sample[12];
+        vertices[20] = vertices[24];
+        vertices[16] = scaled_coord << 8;
+        scaled_coord = (func_800644B8(sample[36] + record->add) >> 4) * sample[6];
+        vertices[13] = vertices[17];
+        vertices[24] = scaled_coord << 8;
+        scaled_coord = (func_80064584(sample[42] + record->add) >> 4) * sample[12];
+        ASM_KEEP_NV(scaled_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        vertices[21] = vertices[25];
+        vertices[17] = scaled_coord << 8;
+        last_trig_value = func_80064584(sample[36] + record->add);
 
-                ASM_KEEP_NV(p);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                out[12] = out[16];
-                pr = (func_800644B8(p[42] + a->add) >> 4) * p[12];
-                out[20] = out[24];
-                out[16] = pr << 8;
-                pr = (func_800644B8(p[36] + a->add) >> 4) * p[6];
-                out[13] = out[17];
-                out[24] = pr << 8;
-                pr = (func_80064584(p[42] + a->add) >> 4) * p[12];
-                ASM_KEEP_NV(pr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                out[21] = out[25];
-                out[17] = pr << 8;
-                final_result = func_80064584(p[36] + a->add);
+        lower_shade = (22 - segment) * shade_step;
+        upper_shade = (28 - segment) * shade_step;
+        prev_upper_color = upper_color;
+        prev_lower_color = lower_color;
+        saved_upper_color = prev_upper_color;
+        last_scaled_coord = (last_trig_value >> 4) * sample[6];
+        vertices[14] = vertices[18];
+        lower_color = (((lower_shade >> 16) & 0xff) * 0x10101);
+        upper_color = (((upper_shade >> 16) & 0xff) * 0x10101);
+        prev_z = vertices[26];
+        vertices[25] = last_scaled_coord << 8;
+        vertices[18] = sample[72] << 16;
+        vertices[22] = prev_z;
+        vertices[26] = sample[66] << 16;
+        func_80024A30(prev_lower_color, lower_color, saved_upper_color, upper_color);
+        sample++;
+        ++segment;
+    } while (segment < 23);
 
-                t0 = (22 - s6) * s2;
-                t1 = (28 - s6) * s2;
-                s7 = s4;
-                old5 = s5;
-                old4 = s7;
-                final_product = (final_result >> 4) * p[6];
-                out[14] = out[18];
-                s5 = (((t0 >> 16) & 0xff) * 0x10101);
-                s4 = (((t1 >> 16) & 0xff) * 0x10101);
-                saved22 = out[26];
-                out[25] = final_product << 8;
-                out[18] = p[72] << 16;
-                out[22] = saved22;
-                out[26] = p[66] << 16;
-                func_80024A30(old5, s5, old4, s4);
-                p++;
-                ++s6;
-            } while (s6 < 23);
-
-            out[12] = out[16];
-            out[16] = out[24];
-            out[13] = out[17];
-            out[17] = out[25];
-            out[14] = out[18];
-            out[18] = out[26];
-            func_80024770(s5, s4, s7);
-            return 0;
+    vertices[12] = vertices[16];
+    vertices[16] = vertices[24];
+    vertices[13] = vertices[17];
+    vertices[17] = vertices[25];
+    vertices[14] = vertices[18];
+    vertices[18] = vertices[26];
+    func_80024770(lower_color, upper_color, prev_upper_color);
+    return 0;
 }

@@ -21,13 +21,14 @@ typedef struct {
     s32 field_1C;
 } Dest81984A40;
 
+/* Copies the source record, sign-extending its three byte fields into destination words. */
 void func_81984A40(Dest81984A40 *dst, Source81984A40 *src)
 {
-    s32 field_10;
+    s32 sourceHalfword;
 
     dst->words = src->words;
-    field_10 = src->field_10;
-    dst->field_10 = field_10;
+    sourceHalfword = src->field_10;
+    dst->field_10 = sourceHalfword;
     dst->field_14 = src->field_12;
     dst->field_18 = src->field_13;
     dst->field_1C = src->field_14;

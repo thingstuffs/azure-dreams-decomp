@@ -30,21 +30,18 @@ extern s32 D_80019AFC;
 
 s32 func_80018618(void);
 
+/* Pass the selected entry byte to func_80018618 and clear it if the call returns nonzero. */
 s32 func_8001640C(void) {
-    void **page;
-    s32 result;
+    void **pageSlot;
+    s32 handlerResult;
 
-    page = (void **)D_80016000;
-    D_80019AFC = ((S_8001640C_2 *)((((S_8001640C_1 *)(((S_8001640C_0 *)page)->unk_00))->unk_08 * 8) +
-            ((S_8001640C_1 *)(((S_8001640C_0 *)page)->unk_00))->unk_40))->unk_04;
-    result = func_80018618();
-    if (result != 0) {
-        ((S_8001640C_3 *)((((S_8001640C_1 *)(((S_8001640C_0 *)page)->unk_00))->unk_08 * 8) +
-                ((S_8001640C_1 *)(((S_8001640C_0 *)page)->unk_00))->unk_40))->unk_04 = 0;
+    pageSlot = (void **)D_80016000;
+    D_80019AFC = ((S_8001640C_2 *)((((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_08 * 8) +
+            ((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_40))->unk_04;
+    handlerResult = func_80018618();
+    if (handlerResult != 0) {
+        ((S_8001640C_3 *)((((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_08 * 8) +
+                ((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_40))->unk_04 = 0;
     }
-    return result;
+    return handlerResult;
 }
-
-/* MECHANISM: A pointer to the D_80016000 pointer slot stays live in s0 across
-   the call, giving the bare page lui and 0x6000 loads with no asm barrier;
-   direct nested field expressions retain region-specific coloring. */

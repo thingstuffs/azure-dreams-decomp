@@ -7,6 +7,7 @@ extern s32 D_80080AC0;
 extern s32 D_80080AC8;
 extern u8 D_80082E6A[9];
 
+/* Select a table based on D_80082E6A[0] and pass it to func_8003E4FC. */
 void func_8003E1FC(void)
 {
     void *table = &D_80080AC0;

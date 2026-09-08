@@ -3,6 +3,7 @@
 
 M2C_UNK func_80022D60();   /* extern */
 
-void func_80022F8C(M2C_UNK arg0, M2C_UNK arg1) {
-    func_80022D60(arg0, 0xe, 2, arg1);
+/* Dispatches request 14 with parameter 2 for the parent and its status pointer. */
+void func_80022F8C(M2C_UNK parent, M2C_UNK status) {
+    func_80022D60(parent, 0xe, 2, status);
 }

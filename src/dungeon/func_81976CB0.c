@@ -78,19 +78,20 @@ extern s32 *D_80026208;
 extern s32 func_80066460(s32, s32, s32, s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
-s32 func_81976CB0(s32 arg0, s32 arg1, s32 arg2)
+/* Project and queue a textured triangle with per-vertex colors. */
+s32 func_81976CB0(s32 vertex_color0, s32 vertex_color1, s32 vertex_color2)
 {
     State81976CB0 *state;
     Packet81976CB0 *packet;
     Scratch81976CB0 *scratch = (Scratch81976CB0 *)0x1F800000;
-    s32 *offset;
-    s32 colorC0;
-    s32 color7F;
-    s32 colorFF;
-    void *out4;
-    void *out5;
-    void *out6;
-    void *out7;
+    s32 *vertex_offset;
+    s32 tex_u_left;
+    s32 tex_v_bottom;
+    s32 tex_u_right;
+    void *screen_xy1;
+    void *screen_xy2;
+    void *depth_cue;
+    void *transform_flags;
 
     state = *(State81976CB0 **)D_80083160;
     scratch->ordering_table = (u32 *)((u8 *)state + 0xB0);
@@ -100,49 +101,49 @@ s32 func_81976CB0(s32 arg0, s32 arg1, s32 arg2)
     packet->type = 9;
     packet->unk7 = 0x36;
     packet->random = func_80066460(0, 3, 0x300, 0x100);
-    out4 = (void *)((u32)scratch | 0x74);
-    out5 = (void *)((u32)scratch | 0x78);
-    out6 = (void *)((u32)scratch | 8);
-    out7 = scratch;
-    ASM_KEEP(out7);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    screen_xy1 = (void *)((u32)scratch | 0x74);
+    screen_xy2 = (void *)((u32)scratch | 0x78);
+    depth_cue = (void *)((u32)scratch | 8);
+    transform_flags = scratch;
+    ASM_KEEP(transform_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     packet->clut = 0x7DCF;
     do {
-        colorC0 = 0xC0;
-        color7F = 0x7F;
-        colorFF = 0xFF;
+        tex_u_left = 0xC0;
+        tex_v_bottom = 0x7F;
+        tex_u_right = 0xFF;
     } while (0);
-    packet->color0 = colorC0;
+    packet->color0 = tex_u_left;
     packet->color3 = 0x40;
-    packet->x0_hi = arg0 >> 16;
-    packet->x0_mid = arg0 >> 8;
-    packet->x1_hi = arg1 >> 16;
-    packet->x1_mid = arg1 >> 8;
-    packet->x2_hi = arg2 >> 16;
-    packet->x2_mid = arg2 >> 8;
-    packet->color1 = color7F;
-    packet->color2 = colorFF;
-    packet->color4 = colorFF;
-    packet->color5 = color7F;
-    packet->x0_lo = arg0;
-    packet->x1_lo = arg1;
-    packet->x2_lo = arg2;
+    packet->x0_hi = vertex_color0 >> 16;
+    packet->x0_mid = vertex_color0 >> 8;
+    packet->x1_hi = vertex_color1 >> 16;
+    packet->x1_mid = vertex_color1 >> 8;
+    packet->x2_hi = vertex_color2 >> 16;
+    packet->x2_mid = vertex_color2 >> 8;
+    packet->color1 = tex_v_bottom;
+    packet->color2 = tex_u_right;
+    packet->color4 = tex_u_right;
+    packet->color5 = tex_v_bottom;
+    packet->x0_lo = vertex_color0;
+    packet->x1_lo = vertex_color1;
+    packet->x2_lo = vertex_color2;
 
-    offset = D_80026208;
-    scratch->x0 = (scratch->vx0 + offset[0]) >> 16;
-    out7 = (void *)((u32)out7 | 0xC);
-    scratch->x1 = (scratch->vx1 + offset[0]) >> 16;
-    scratch->x2 = (scratch->vx2 + offset[0]) >> 16;
-    scratch->y0 = (scratch->vy0 + offset[1]) >> 16;
-    scratch->y1 = (scratch->vy1 + offset[1]) >> 16;
-    scratch->y2 = (scratch->vy2 + offset[1]) >> 16;
-    scratch->z0 = (scratch->vz0 + offset[2]) >> 16;
-    scratch->z1 = (scratch->vz1 + offset[2]) >> 16;
-    scratch->z2 = (scratch->vz2 + offset[2]) >> 16;
+    vertex_offset = D_80026208;
+    scratch->x0 = (scratch->vx0 + vertex_offset[0]) >> 16;
+    transform_flags = (void *)((u32)transform_flags | 0xC);
+    scratch->x1 = (scratch->vx1 + vertex_offset[0]) >> 16;
+    scratch->x2 = (scratch->vx2 + vertex_offset[0]) >> 16;
+    scratch->y0 = (scratch->vy0 + vertex_offset[1]) >> 16;
+    scratch->y1 = (scratch->vy1 + vertex_offset[1]) >> 16;
+    scratch->y2 = (scratch->vy2 + vertex_offset[1]) >> 16;
+    scratch->z0 = (scratch->vz0 + vertex_offset[2]) >> 16;
+    scratch->z1 = (scratch->vz1 + vertex_offset[2]) >> 16;
+    scratch->z2 = (scratch->vz2 + vertex_offset[2]) >> 16;
 
     scratch->ordering_index = func_80065530(
         (void *)((u32)scratch | 0x10), (void *)((u32)scratch | 0x18),
         (void *)((u32)scratch | 0x20), (void *)((u32)scratch | 0x70),
-        out4, out5, out6, out7);
+        screen_xy1, screen_xy2, depth_cue, transform_flags);
 
     packet->u8 = scratch->out0;
     packet->uA = scratch->out1;
@@ -152,8 +153,8 @@ s32 func_81976CB0(s32 arg0, s32 arg1, s32 arg2)
     packet->u22 = scratch->out5;
 
     if ((u32)scratch->ordering_index < 0x1E0U) {
-        u32 tv = scratch->ordering_table[scratch->ordering_index];
-        *(u32 *)packet = (*(u32 *)packet & 0xFF000000) | (tv & 0x00FFFFFF);
+        u32 ordering_link = scratch->ordering_table[scratch->ordering_index];
+        *(u32 *)packet = (*(u32 *)packet & 0xFF000000) | (ordering_link & 0x00FFFFFF);
         scratch->ordering_table[scratch->ordering_index] =
             (scratch->ordering_table[scratch->ordering_index] & 0xFF000000) |
             ((u32)packet & 0x00FFFFFF);

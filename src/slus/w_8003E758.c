@@ -81,200 +81,255 @@ extern u8  D_800814D2_R[16] __asm__("D_800814D2");
 
 #define CDBUF (&D_80081438[0x18])   /* == &D_80081450, %hi/%lo addressing */
 
+/* Processes queued CD commands and advances pending reads and drive operations. */
 void func_8003E758(void)
 {
-    S_80083958 *p;
-    S_80083968 *q, *e, *q3, *e3;
+    S_80083958 *driver;
+    S_80083968 *queue, *command, *active_queue, *active_command;
     int state;
-    int r, n;
-    u8  st;
-    int idx;
-    int kb;
-    u8  loc[8];
-    u8  res[8];
+    int sync_result, retries;
+    u8  status;
+    int head_index;
+    int head_stride;
+    u8  location[8];
+    u8  sync_status[8];
 
-loop:
-    p = &D_80083958;
-    p->flags &= 0xFFFE;
+process_queue:
+    driver = &D_80083958;
+    driver->flags &= 0xFFFE;
 
     if (D_800814D0 == D_800814D1[0])
-        goto empty;
+        goto queue_empty;
 
-    p->flags |= 1;
+    driver->flags |= 1;
     state = D_800814D3_1[0];
 
     if (state == 0xFF) {
-        q = D_80083968;
-        idx = D_800814D0;
-        /* idx*24 SPLIT into two carriers (idx*3, then <<3): one 4-ref temp for
+        queue = D_80083968;
+        head_index = D_800814D0;
+        /* head_index*24 SPLIT into two carriers (head_index*3, then <<3): one 4-ref temp for
          * the whole chain outranks the address %hi in local-alloc
          * (floor_log2(4)*4/5 vs floor_log2(2)*2/4) and steals $v0; two 2-ref
          * carriers do not, so the %hi keeps retail's $v0.  Same 3 insns. */
-        kb = idx * 3;
-        switch (*((u8 *)q + kb * 8)) {
+        head_stride = head_index * 3;
+        switch (*((u8 *)queue + head_stride * 8)) {
         case 0:
             D_800814D3_2[0] = 0xFF;
-            p->unk4 = 0;
+            driver->unk4 = 0;
             D_800814D2[0] = 0;
-            D_800814D0 = (idx + 1) & 0x1F;
-            goto loop;
+            D_800814D0 = (head_index + 1) & 0x1F;
+            goto process_queue;
 
         case 1:
-            r = CdSync(1, res);
-            if (r == 0) goto tail;
-            { int five5; five5 = 5;  if (r == five5) func_8003E70C(); }
+            sync_result = CdSync(1, sync_status);
+            if (sync_result == 0) goto finish;
+            {
+                int disk_error;
+                disk_error = 5;
+                if (sync_result == disk_error) func_8003E70C();
+            }
             D_800814D2[0] = 2;
-            p->unk4 = 2;
+            driver->unk4 = 2;
             D_800814D0 = D_800814D0 + 1;
-            goto tail;
+            goto finish;
 
         case 2:
-            r = CdSync(1, res);
-            if (r == 0) goto tail;
-            { int five5; five5 = 5;  if (r == five5) func_8003E70C(); }
+            sync_result = CdSync(1, sync_status);
+            if (sync_result == 0) goto finish;
+            {
+                int disk_error;
+                disk_error = 5;
+                if (sync_result == disk_error) func_8003E70C();
+            }
             D_800814D2[0] = 0;
-            p->unk4 = 0;
-            e = &q[D_800814D0];
-            CdIntToPos(e->unk04, loc);
-            if (CdControl(2, loc, CDBUF) == 0) goto tail;
+            driver->unk4 = 0;
+            command = &queue[D_800814D0];
+            CdIntToPos(command->unk04, location);
+            if (CdControl(2, location, CDBUF) == 0) goto finish;
             D_800814D0 = D_800814D0 + 1;
-            goto tail;
+            goto finish;
 
         case 6: {
-            u32 *hdr;
-            u32 word, base, hi;
-            r = CdSync(1, res);
-            if (r == 0) goto tail;
-            { int five5; five5 = 5;  if (r == five5) func_8003E70C(); }
-            D_800814D2[0] = 0;
-            p->unk4 = 0;
-            e = &q[D_800814D0];
-            hdr = (u32 *)e->unk04;
-            word = hdr[0];
-            base = word & 0x7FFFFF;
-            if (base == 0)
-                base = D_80081480[0];
-            else
-                base = base | 0x80000000;
-            hi = hdr[0] >> 23;
-            if (hi == 0) {
-                u8 *hp3 = &D_800814D3_3[0];
-                D_800814D3[0] = 0xFF;
-                hp3[-3] += 1;
-                goto tail;
+            u32 *read_info;
+            u32 read_word, read_addr, sector_count;
+            sync_result = CdSync(1, sync_status);
+            if (sync_result == 0) goto finish;
+            {
+                int disk_error;
+                disk_error = 5;
+                if (sync_result == disk_error) func_8003E70C();
             }
-            D_800814CC = (base + (hi << 11)) - 4;
+            D_800814D2[0] = 0;
+            driver->unk4 = 0;
+            command = &queue[D_800814D0];
+            read_info = (u32 *)command->unk04;
+            read_word = read_info[0];
+            read_addr = read_word & 0x7FFFFF;
+            if (read_addr == 0)
+                read_addr = D_80081480[0];
+            else
+                read_addr = read_addr | 0x80000000;
+            sector_count = read_info[0] >> 23;
+            if (sector_count == 0) {
+                u8 *state_ptr = &D_800814D3_3[0];
+                D_800814D3[0] = 0xFF;
+                state_ptr[-3] += 1;
+                goto finish;
+            }
+            D_800814CC = (read_addr + (sector_count << 11)) - 4;
             D_800814D4 = 0x80;
             if (CdControl(0xE, &D_800814D3[1], 0) == 0) return;
-            r = CdSync(1, res);
-            if (r != 0) { int five5; five5 = 5;  if (r == five5) { func_8003E70C(); return; } }
-            CdIntToPos(hdr[1], loc);
-            if (CdControl(2, loc, 0) == 0) return;
-            r = CdSync(1, res);
-            if (r != 0) { int five5; five5 = 5;  if (r == five5) { func_8003E70C(); return; } }
-            if (CdRead(hi, (u32 *)base, 0x80) == 0) return;
-            goto set_d3_1;
+            sync_result = CdSync(1, sync_status);
+            if (sync_result != 0) {
+                int disk_error;
+                disk_error = 5;
+                if (sync_result == disk_error) {
+                    func_8003E70C();
+                    return;
+                }
+            }
+            CdIntToPos(read_info[1], location);
+            if (CdControl(2, location, 0) == 0) return;
+            sync_result = CdSync(1, sync_status);
+            if (sync_result != 0) {
+                int disk_error;
+                disk_error = 5;
+                if (sync_result == disk_error) {
+                    func_8003E70C();
+                    return;
+                }
+            }
+            if (CdRead(sector_count, (u32 *)read_addr, 0x80) == 0) return;
+            goto mark_pending;
         }
 
         case 9:
-            r = CdSync(1, res);
-            if (r == 0) goto tail;
-            { int five5; five5 = 5;  if (r == five5) func_8003E70C(); }
+            sync_result = CdSync(1, sync_status);
+            if (sync_result == 0) goto finish;
+            {
+                int disk_error;
+                disk_error = 5;
+                if (sync_result == disk_error) func_8003E70C();
+            }
             D_800814D2[0] = 0;
-            p->unk4 = 0;
-            if (CdControl(9, 0, CDBUF) == 0) goto tail;
-            goto set_d3_1;
+            driver->unk4 = 0;
+            if (CdControl(9, 0, CDBUF) == 0) goto finish;
+            goto mark_pending;
 
         case 0xD:
-            r = CdSync(1, res);
-            if (r == 0) goto tail;
-            { int five5; five5 = 5;  if (r == five5) func_8003E70C(); }
+            sync_result = CdSync(1, sync_status);
+            if (sync_result == 0) goto finish;
+            {
+                int disk_error;
+                disk_error = 5;
+                if (sync_result == disk_error) func_8003E70C();
+            }
             D_800814D2[0] = 0;
-            p->unk4 = 0;
-            { int off = D_800814D0 * 24; u8 *a8 = q->unk08; if (CdControl(0xD, off + a8, CDBUF) == 0) goto tail; }
+            driver->unk4 = 0;
+            {
+                int command_offset = D_800814D0 * 24;
+                u8 *params = queue->unk08;
+                if (CdControl(0xD, command_offset + params, CDBUF) == 0) goto finish;
+            }
             D_800814D3_8[0] = 0xFF;
             D_800814D0 = D_800814D0 + 1;
-            goto tail;
+            goto finish;
 
         case 0xE:
-            r = CdSync(1, res);
-            if (r == 0) goto tail;
-            { int five5; five5 = 5;  if (r == five5) func_8003E70C(); }
+            sync_result = CdSync(1, sync_status);
+            if (sync_result == 0) goto finish;
+            {
+                int disk_error;
+                disk_error = 5;
+                if (sync_result == disk_error) func_8003E70C();
+            }
             D_800814D2[0] = 0;
-            p->unk4 = 0;
-            { int off = D_800814D0 * 24; u8 *a8 = q->unk08; if (CdControl(0xE, off + a8, CDBUF) == 0) goto tail; }
+            driver->unk4 = 0;
+            {
+                int command_offset = D_800814D0 * 24;
+                u8 *params = queue->unk08;
+                if (CdControl(0xE, command_offset + params, CDBUF) == 0) goto finish;
+            }
             D_800814D3_9[0] = 0xFF;
             D_800814D0 = D_800814D0 + 1;
-            goto tail;
+            goto finish;
 
         case 0x15:
-            r = CdSync(1, res);
-            if (r == 0) goto tail;
-            { int five5; five5 = 5;  if (r == five5) func_8003E70C(); }
+            sync_result = CdSync(1, sync_status);
+            if (sync_result == 0) goto finish;
+            {
+                int disk_error;
+                disk_error = 5;
+                if (sync_result == disk_error) func_8003E70C();
+            }
             D_800814D2[0] = 0;
-            p->unk4 = 0;
-            e = &q[D_800814D0];
-            CdIntToPos(e->unk04, loc);
-            if (CdControlF(0x15, loc) == 0) goto tail;
-            goto set_d3_1;
+            driver->unk4 = 0;
+            command = &queue[D_800814D0];
+            CdIntToPos(command->unk04, location);
+            if (CdControlF(0x15, location) == 0) goto finish;
+            goto mark_pending;
 
         case 0x1B:
-            r = CdSync(1, res);
-            if (r == 0) goto tail;
-            { int five5; five5 = 5;  if (r == five5) func_8003E70C(); }
-            D_800814D2[0] = 0;
-            p->unk4 = 0;
-            e = &q[D_800814D0];
-            CdIntToPos(e->unk04, loc);
-            n = 0x10;
-            if (CdControl(2, loc, 0) == 0) return;
+            sync_result = CdSync(1, sync_status);
+            if (sync_result == 0) goto finish;
             {
-            int five = 5;
-            for (;;) {
-                r = CdSync(1, res);
-                n--;
-                if (r == 0) goto c1b_zero;
-                n = 0x10;
-                if (r != five) goto c1b_read;
-            c1b_err:
-                func_8003E70C();
-                return;
-            c1b_zero:
-                if (n != 0) continue;
-                goto c1b_err;
-            c1b_read:
-                for (;;) {
-                    if (CdRead2(0xC8) != 0) break;
-                    if (--n == 0) goto c1b_err;
-                }
-                D_80083958.unk4 = 0;
-            set_d3_1:
-                D_800814D3_11[0] = 1;
-                goto tail;
+                int disk_error;
+                disk_error = 5;
+                if (sync_result == disk_error) func_8003E70C();
             }
+            D_800814D2[0] = 0;
+            driver->unk4 = 0;
+            command = &queue[D_800814D0];
+            CdIntToPos(command->unk04, location);
+            retries = 0x10;
+            if (CdControl(2, location, 0) == 0) return;
+            {
+                int disk_error = 5;
+                for (;;) {
+                    sync_result = CdSync(1, sync_status);
+                    retries--;
+                    if (sync_result == 0) goto wait_stream_seek;
+                    retries = 0x10;
+                    if (sync_result != disk_error) goto start_stream;
+                stream_error:
+                    func_8003E70C();
+                    return;
+                wait_stream_seek:
+                    if (retries != 0) continue;
+                    goto stream_error;
+                start_stream:
+                    for (;;) {
+                        if (CdRead2(0xC8) != 0) break;
+                        if (--retries == 0) goto stream_error;
+                    }
+                    D_80083958.unk4 = 0;
+                mark_pending:
+                    D_800814D3_11[0] = 1;
+                    goto finish;
+                }
             }
 
         case 0xA:
             D_800814D2[0] = 0;
-            p->unk4 = 0;
-            n = 0x10;
+            driver->unk4 = 0;
+            retries = 0x10;
             for (;;) {
                 if (CdReset(0) != 0) break;
-                if (--n == 0) goto c1b_err;
+                if (--retries == 0) goto stream_error;
             }
             D_800814D3[0] = 0xFF;
             D_800814D0 = D_800814D0 + 1;
-            goto tail;
+            goto finish;
 
         case 0xFF:
-            (*(void (*)(u32))q[idx].unk04)(*(u32 *)D_80083968[D_800814D0].unk08);
+            (*(void (*)(u32))queue[head_index].unk04)(*(u32 *)D_80083968[D_800814D0].unk08);
             D_800814D0 = D_800814D0 + 1;
-            goto tail;
+            goto finish;
 
         case 0xFC:
             StUnSetRing();
             D_800814D0 = D_800814D0 + 1;
-            goto tail;
+            goto finish;
 
         case 0x4:
         case 0x8:
@@ -283,144 +338,152 @@ loop:
         case 0x10:
         case 0x16:
         default:
-            goto tail;
+            goto finish;
         }
     } else if (state == 1) {
-        /* `keepalive` exists only to stop gcc deleting the case labels; it lands
+        /* `dispatch_labels` exists only to stop gcc deleting the case labels; it lands
          * in .rodata but is unreferenced from .text, so the linker discards it.
          * Idiom from src/w_800595C0.c / w_8004CECC.c / w_80042BDC.c. */
-        static void *const keepalive[] = {
-            &&L_s1_00, &&L_s1_06, &&L_s1_09, &&L_s1_15, &&L_s1_1B
+        static void *const dispatch_labels[] = {
+            &&complete_noop, &&complete_read, &&complete_pause, &&complete_seek, &&complete_stream
         };
-        u32 sel;
-        (void)keepalive;
-        q3 = D_80083968;
-        idx = D_800814D0;
-        e3 = &q3[idx];
-        sel = e3->unk00;
-        if (sel >= 0x1C) goto tail;
-        goto *jtbl_8002D5C0[sel];
+        u32 opcode;
+        (void)dispatch_labels;
+        active_queue = D_80083968;
+        head_index = D_800814D0;
+        active_command = &active_queue[head_index];
+        opcode = active_command->unk00;
+        if (opcode >= 0x1C) goto finish;
+        goto *jtbl_8002D5C0[opcode];
         {
-        L_s1_00: {
-            register u8 *hp ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            register int ff ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            int nh;
-            ff = 0xFF;
-            D_800814D3_14[0] = ff;
-            hp = &D_800814D3_13[0];
-            nh = hp[-3];
-            D_80083958.unk4 = 0;
-            D_800814D2[0] = 0;
-            hp[-3] = (nh + 1) & 0x1F;
-            goto loop;
-        }
-
-        L_s1_06:
-            r = CdSync(1, CDBUF);
-            if (r == 0) goto tail;
-            { int five5; five5 = 5;  if (r == five5) goto p2_done; }
-            D_80080AD8 = CdReadSync(1, D_800814D8);
-            if (D_80080AD8 > 0) goto tail;
-            if (D_80080AD8 != 0) goto c6_neg;
-            if (D_80080AD0 == 0) goto c6_blockA;
-            if ((*(u32 *)D_800814CC & 0xFFFF0000) == 0x10120000) goto tail;
-            func_8003E70C();
-            D_800814D2[0] = 0;
-            D_80080AD2 = D_80080AD2 + 1;
-            if ((D_80080AD2 & 3) == 3) {
-                CdReset(0);
-                func_8003F5EC();
-            }
-            D_800814D3[0] = 0xFF;
-            goto tail;
-        c6_blockA:
-            {
-                u8 *hp = &D_800814D3_15[0];
-                S_80083958 *p2 = &D_80083958;
-                D_800814D3[0] = 0xFF;
-                p2->unk4 = 2;
-                hp[-3] += 1;
-                D_800814D2[0] = D_800814D2_R[0] | 1;
-                p2->unk5 = p2->unk5 + 1;
-                goto tail;
-            }
-        c6_neg:
-            if (D_80080AD8 >= 0) goto tail;
-            goto p2_done;
-
-        L_s1_09:
-            r = CdSync(1, CDBUF);
-            if (r == 0) goto tail;
-            { int five5; five5 = 5;  if (r == five5) goto p2_done; }
-            goto p2_status;
-
-        L_s1_15:
-            r = CdSync(1, res);
-            if (r == 0) goto tail;
-            if (r != 5) goto p2_status;
-            goto p2_done;
-
-        p2_done:
-            func_8003E70C();
-            D_800814D3[0] = 0xFF;
-            D_80083958.unk4 = 0;
-            D_800814D2[0] = 0;
-            goto tail;
-
-        p2_status:
-            if (CdControl(1, 0, CDBUF) == 0) goto tail;
-            if ((D_80081450 & 0xFD) != 0) goto tail;
-            D_80083958.unk4 = 2;
-            D_800814D3[0] = 0xFF;
-            D_800814D0 = D_800814D0 + 1;
-            goto tail;
-
-        L_s1_1B:
-            if (CdSync(1, CDBUF) == 5) {
-                D_800814D3[0] = 0xFF;
-                goto tail;
-            }
-            n = 0x10;
-            for (;;) {
-                if (CdControl(1, 0, CDBUF) != 0) break;
-                if (--n == 0) {
-                    func_8003E70C();
-                    D_800814D3[0] = 0xFF;
-                    return;
-                }
-            }
-            st = D_80081450;
-            if (st & 0x40) goto tail;
-            if (st & 0x20) {
-                u8 *hp2 = &D_800814D2_P[0];
-                register S_80083968 *q2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                register int ff2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                S_80083968 *ep;
-                int hi2;
-                ff2 = 0xFF;
-                q2 = D_80083968;
-                ASM_KEEP_NV(hp2);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            complete_noop: {
+                register u8 *state_ptr ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                register int idle_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                int old_head;
+                idle_state = 0xFF;
+                D_800814D3_14[0] = idle_state;
+                state_ptr = &D_800814D3_13[0];
+                old_head = state_ptr[-3];
+                D_80083958.unk4 = 0;
                 D_800814D2[0] = 0;
-                D_800814D3[0] = ff2;
-                hi2 = hp2[-2];
-                ep = &q2[hi2];
-                ASM_SET(q2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                if (ep->unk17 != 0xFF) {
-                    D_80083958.unk4 = 4;
-                    D_80080AD4 = 1;
-                }
-                hp2[-2] += 1;
-                goto tail;
+                state_ptr[-3] = (old_head + 1) & 0x1F;
+                goto process_queue;
             }
-            if (st & 0x80) D_800814D3[0] = 0xFF;
-            goto tail;
+
+            complete_read:
+                sync_result = CdSync(1, CDBUF);
+                if (sync_result == 0) goto finish;
+                {
+                    int disk_error;
+                    disk_error = 5;
+                    if (sync_result == disk_error) goto command_failed;
+                }
+                D_80080AD8 = CdReadSync(1, D_800814D8);
+                if (D_80080AD8 > 0) goto finish;
+                if (D_80080AD8 != 0) goto read_failed;
+                if (D_80080AD0 == 0) goto read_complete;
+                if ((*(u32 *)D_800814CC & 0xFFFF0000) == 0x10120000) goto finish;
+                func_8003E70C();
+                D_800814D2[0] = 0;
+                D_80080AD2 = D_80080AD2 + 1;
+                if ((D_80080AD2 & 3) == 3) {
+                    CdReset(0);
+                    func_8003F5EC();
+                }
+                D_800814D3[0] = 0xFF;
+                goto finish;
+            read_complete:
+                {
+                    u8 *state_ptr = &D_800814D3_15[0];
+                    S_80083958 *read_driver = &D_80083958;
+                    D_800814D3[0] = 0xFF;
+                    read_driver->unk4 = 2;
+                    state_ptr[-3] += 1;
+                    D_800814D2[0] = D_800814D2_R[0] | 1;
+                    read_driver->unk5 = read_driver->unk5 + 1;
+                    goto finish;
+                }
+            read_failed:
+                if (D_80080AD8 >= 0) goto finish;
+                goto command_failed;
+
+            complete_pause:
+                sync_result = CdSync(1, CDBUF);
+                if (sync_result == 0) goto finish;
+                {
+                    int disk_error;
+                    disk_error = 5;
+                    if (sync_result == disk_error) goto command_failed;
+                }
+                goto check_drive_status;
+
+            complete_seek:
+                sync_result = CdSync(1, sync_status);
+                if (sync_result == 0) goto finish;
+                if (sync_result != 5) goto check_drive_status;
+                goto command_failed;
+
+            command_failed:
+                func_8003E70C();
+                D_800814D3[0] = 0xFF;
+                D_80083958.unk4 = 0;
+                D_800814D2[0] = 0;
+                goto finish;
+
+            check_drive_status:
+                if (CdControl(1, 0, CDBUF) == 0) goto finish;
+                if ((D_80081450 & 0xFD) != 0) goto finish;
+                D_80083958.unk4 = 2;
+                D_800814D3[0] = 0xFF;
+                D_800814D0 = D_800814D0 + 1;
+                goto finish;
+
+            complete_stream:
+                if (CdSync(1, CDBUF) == 5) {
+                    D_800814D3[0] = 0xFF;
+                    goto finish;
+                }
+                retries = 0x10;
+                for (;;) {
+                    if (CdControl(1, 0, CDBUF) != 0) break;
+                    if (--retries == 0) {
+                        func_8003E70C();
+                        D_800814D3[0] = 0xFF;
+                        return;
+                    }
+                }
+                status = D_80081450;
+                if (status & 0x40) goto finish;
+                if (status & 0x20) {
+                    u8 *status_ptr = &D_800814D2_P[0];
+                    register S_80083968 *stream_queue ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                    register int idle_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                    S_80083968 *stream_command;
+                    int stream_head;
+                    idle_state = 0xFF;
+                    stream_queue = D_80083968;
+                    ASM_KEEP_NV(status_ptr);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                    D_800814D2[0] = 0;
+                    D_800814D3[0] = idle_state;
+                    stream_head = status_ptr[-2];
+                    stream_command = &stream_queue[stream_head];
+                    ASM_SET(stream_queue);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    if (stream_command->unk17 != 0xFF) {
+                        D_80083958.unk4 = 4;
+                        D_80080AD4 = 1;
+                    }
+                    status_ptr[-2] += 1;
+                    goto finish;
+                }
+                if (status & 0x80) D_800814D3[0] = 0xFF;
+                goto finish;
 
         }
     }
 
-    goto tail;
+    goto finish;
 
-empty:
+queue_empty:
     if (CdSync(1, 0) == 5) {
         if ((func_8003F240() & 0xFF) == 0x1B) {
             D_800814D3_24[0] = 0xFF;
@@ -434,7 +497,7 @@ empty:
         }
     }
 
-tail:
+finish:
     if ((D_80083164.unk0 & 0x7FFF) == 0)
         D_80083958.counter1 = 0;
     D_800814D0 = D_800814D0 & 0x1F;

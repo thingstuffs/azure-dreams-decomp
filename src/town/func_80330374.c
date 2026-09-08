@@ -8,7 +8,8 @@ extern s8 D_80016000[];
 extern s8 D_80016130[];
 extern s8 D_80016158[];
 
-s32 func_8001AB74(s32 arg0, s32 arg1, s32 arg2) {
+/* Return the entry with the lowest value, invoking fallback callbacks if none is selected. */
+s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
     s32 entry;
     s32 context;
     s32 count;
@@ -22,9 +23,9 @@ s32 func_8001AB74(s32 arg0, s32 arg1, s32 arg2) {
     TownSetFn set_fn;
 
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    entry = arg0;
-    context = arg1;
-    count = arg2;
+    entry = entries;
+    context = eval_context;
+    count = entry_count;
     ASM_USE2(context, count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     best_value = 0x7FFFFFFF;
     index = 0;

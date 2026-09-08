@@ -8,60 +8,61 @@ typedef struct {
     s16 vz;
 } SVec3;
 
-s32 func_80046AFC(SVec3 *arg0, SVec3 *arg1, SVec3 *arg2, s32 arg3) {
+/* Project the line through two points to target_z, clamp x/y, and return 1 if depth or range checks fail. */
+s32 func_80046AFC(SVec3 *start, SVec3 *end, SVec3 *result, s32 target_z) {
     SVec3 *out; /* t2 */
-    register s32 z_arg ASM_REG("$11");  /* t3 */
-    s32 dz;
-    s32 factor;
+    register s32 output_z ASM_REG("$11");  /* t3 */
+    s32 delta_z;
+    s32 z_offset;
     s32 x;
     s32 y;
-    s16 cx;
-    s16 cy;
+    s16 clamped_x;
+    s16 clamped_y;
 
-    out = arg2;
-    z_arg = arg3;
+    out = result;
+    output_z = target_z;
 
-    dz = arg1->vz - arg0->vz;
-    if (dz < 0x40) {
+    delta_z = end->vz - start->vz;
+    if (delta_z < 0x40) {
         return 1;
     }
 
-    factor = (s16)arg3 - arg1->vz;
-    x = ((arg1->vx - arg0->vx) * factor) / dz + arg1->vx;
-    y = ((arg1->vy - arg0->vy) * factor) / dz + arg1->vy;
+    z_offset = (s16)target_z - end->vz;
+    x = ((end->vx - start->vx) * z_offset) / delta_z + end->vx;
+    y = ((end->vy - start->vy) * z_offset) / delta_z + end->vy;
 
-    cx = -0x7FF0;
+    clamped_x = -0x7FF0;
     if (x >= -0x7FF0) {
-        cx = 0x7FF0;
+        clamped_x = 0x7FF0;
         if (x < 0x7FF1) {
-            cx = (s16)x;
+            clamped_x = (s16)x;
         }
     }
-    out->vx = cx;
+    out->vx = clamped_x;
 
     if (y >= -0x7FF0) {
-        cy = 0x7FF0;
+        clamped_y = 0x7FF0;
         if (y < 0x7FF1) {
-            cy = (s16)y;
+            clamped_y = (s16)y;
         }
     } else {
-        cy = -0x7FF0;
+        clamped_y = -0x7FF0;
     }
-    out->vy = cy;
-    out->vz = z_arg;
+    out->vy = clamped_y;
+    out->vz = output_z;
 
-    if (out->vx < arg0->vx - 0x1000) {
+    if (out->vx < start->vx - 0x1000) {
         return 1;
     }
-    if (arg0->vx + 0x1000 < out->vx) {
+    if (start->vx + 0x1000 < out->vx) {
         return 1;
     }
     {
-        s32 oy;
-        oy = out->vy;
-        if (oy < arg0->vy - 0x1000) {
+        s32 output_y;
+        output_y = out->vy;
+        if (output_y < start->vy - 0x1000) {
             return 1;
         }
-        return arg0->vy + 0x1000 < oy;
+        return start->vy + 0x1000 < output_y;
     }
 }

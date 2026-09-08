@@ -31,72 +31,73 @@ extern u8 D_8011AD00[16];
 extern ImageEntry D_80126E98[];
 extern ImageList D_801278B0[];
 
-void func_80123ECC(void *arg0)
+/* Clear display regions and draw the selected entry images and numbered label. */
+void func_80123ECC(void *state)
 {
-    Rect rect;
-    char text[16];
-    char digits[5];
-    ImageList *lists;
-    char *textp;
-    s32 i;
-    u8 index;
+    Rect clear_rect;
+    char label[16];
+    char number_text[5];
+    ImageList *image_lists;
+    char *label_cursor;
+    s32 pos;
+    u8 entry_index;
 
-    rect.x = 0x1C0;
-    rect.y = 0x90;
-    rect.w = 0x38;
-    rect.h = 0x10;
-    func_800671A8(&rect, 0, 0, 0);
+    clear_rect.x = 0x1C0;
+    clear_rect.y = 0x90;
+    clear_rect.w = 0x38;
+    clear_rect.h = 0x10;
+    func_800671A8(&clear_rect, 0, 0, 0);
 
-    rect.y = 0xC0;
-    rect.w = 0x1E;
-    rect.x = 0x1C0;
-    rect.h = 0x20;
-    func_800671A8(&rect, 0, 0, 0);
+    clear_rect.y = 0xC0;
+    clear_rect.w = 0x1E;
+    clear_rect.x = 0x1C0;
+    clear_rect.h = 0x20;
+    func_800671A8(&clear_rect, 0, 0, 0);
 
-    rect.x = 0x2C0;
-    rect.w = 0x3E;
-    rect.y = 0;
-    rect.h = 0xF0;
-    func_800671A8(&rect, 0, 0, 0);
+    clear_rect.x = 0x2C0;
+    clear_rect.w = 0x3E;
+    clear_rect.y = 0;
+    clear_rect.h = 0xF0;
+    func_800671A8(&clear_rect, 0, 0, 0);
 
-    index = ((u8 *)arg0)[0x14];
-    func_801239B8(D_80126E98[index].image, 0x1C0, 0x90);
+    entry_index = ((u8 *)state)[0x14];
+    func_801239B8(D_80126E98[entry_index].image, 0x1C0, 0x90);
     func_80123928(D_8011ACEC, 0x1C7, 0xC0);
 
-    index = ((u8 *)arg0)[0x14];
-    func_80123928(*D_80126E98[index].image_ref,
-                  (s16)(0x1CF - D_80126E98[index].width), 0xD0);
+    entry_index = ((u8 *)state)[0x14];
+    func_80123928(*D_80126E98[entry_index].image_ref,
+                  (s16)(0x1CF - D_80126E98[entry_index].width), 0xD0);
 
-    index = ((u8 *)arg0)[0x14];
-    i = 0;
-    if (D_801278B0[index].count != 0) {
-        lists = D_801278B0;
+    entry_index = ((u8 *)state)[0x14];
+    pos = 0;
+    if (D_801278B0[entry_index].count != 0) {
+        image_lists = D_801278B0;
         do {
-            func_80123928(lists[index].images[i], 0x2C0, (s16)(i * 0x10));
-            if ((i & 1) || (i < (lists[((u8 *)arg0)[0x14]].count - 1))) {
+            func_80123928(image_lists[entry_index].images[pos], 0x2C0, (s16)(pos * 0x10));
+            if ((pos & 1) || (pos < (image_lists[((u8 *)state)[0x14]].count - 1))) {
                 func_80067014(0);
             }
-            i++;
-            index = ((u8 *)arg0)[0x14];
-        } while (i < lists[index].count);
+            pos++;
+            entry_index = ((u8 *)state)[0x14];
+        } while (pos < image_lists[entry_index].count);
     }
     func_80067014(0);
 
-    i = 10;
-    textp = &text[10];
+    pos = 10;
+    label_cursor = &label[10];
     do {
-        *textp = 0;
-        i--;
-        textp--;
-    } while (i >= 0);
+        *label_cursor = 0;
+        pos--;
+        label_cursor--;
+    } while (pos >= 0);
 
-    strcat(text, D_8011AD00);
-    digits[0] = 0x82;
-    digits[1] = ((((u8 *)arg0)[0x14] + 1) / 10) + 0x4F;
-    digits[2] = 0x82;
-    digits[3] = ((((u8 *)arg0)[0x14] + 1) % 10) + 0x4F;
-    digits[4] = 0;
-    strcat(text, digits);
-    func_801239B8(text, 0x1DB, 0x90);
+    strcat(label, D_8011AD00);
+    number_text[0] = 0x82;
+    number_text[1] = ((((u8 *)state)[0x14] + 1) / 10) + 0x4F;
+    number_text[2] = 0x82;
+    number_text[3] = ((((u8 *)state)[0x14] + 1) % 10) + 0x4F;
+    number_text[4] = 0;
+    strcat(label, number_text);
+    func_801239B8(label, 0x1DB, 0x90);
     func_80067014(0);
 }

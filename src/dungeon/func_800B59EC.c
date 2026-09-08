@@ -73,11 +73,12 @@ typedef struct
   u16 amount;
 } S_800BB14C_TARGET;
 extern s32 D_800814A0[3];
-void func_800BB14C(void *arg0, register S_800BB14C *arg1, S_800BB14C_TARGET *arg2)
+/* Animates the target amount and selected channels, then marks the effect finished after fading. */
+void func_800BB14C(void *effect_data, register S_800BB14C *effect, S_800BB14C_TARGET *target)
 {
   s16 state;
-  arg1 = (S_800BB14C *) arg0;
-  state = arg1->state;
+  effect = (S_800BB14C *) effect_data;
+  state = effect->state;
   if (state == 1)
   {
     goto check_status;
@@ -97,43 +98,43 @@ void func_800BB14C(void *arg0, register S_800BB14C *arg1, S_800BB14C_TARGET *arg
   goto update_values;
   state_zero:
   {
-    s16 phase = arg1->phase;
-    u16 amount = arg2->amount + (phase * 0x10);
-    arg2->amount = amount;
+    s16 phase = effect->phase;
+    u16 amount = target->amount + (phase * 0x10);
+    target->amount = amount;
     if (amount < 0x4001U)
     {
-      arg2->amount = 0x4000;
-      arg1->state = ((s16) arg1->state) + 1;
+      target->amount = 0x4000;
+      effect->state = ((s16) effect->state) + 1;
     }
   }
 
   goto check_status;
   check_status:
-  if ((((S_800BB14C_TARGET *) arg1->next)->amount & 0x8000) == 0)
+  if ((((S_800BB14C_TARGET *) effect->next)->amount & 0x8000) == 0)
   {
     goto update_values;
   }
 
-  arg1->count = 4;
-  arg1->state = 2;
+  effect->count = 4;
+  effect->state = 2;
   goto update_values;
   state_two:
   {
-    s16 count = arg1->count;
-    if (count != 0)
+    s16 fade_ticks = effect->count;
+    if (fade_ticks != 0)
     {
-      u16 amount = arg2->amount;
-      arg2->amount = amount - (((s32) amount) / count);
+      u16 amount = target->amount;
+      target->amount = amount - (((s32) amount) / fade_ticks);
     }
   }
 
   {
-    s16 count = ((u16) arg1->count) - 1;
-    arg1->count = count;
-    if (count < 0)
+    s16 fade_ticks = ((u16) effect->count) - 1;
+    effect->count = fade_ticks;
+    if (fade_ticks < 0)
     {
-      u16 value = ((volatile u16 *) arg1)[-1];
-      ((u16 *) arg1)[-1] = value | 0x8000;
+      u16 header_flags = ((volatile u16 *) effect)[-1];
+      ((u16 *) effect)[-1] = header_flags | 0x8000;
       D_800814A0[0] = D_800814A0[0] | 0x8000;
       goto done;
     }
@@ -142,42 +143,42 @@ void func_800BB14C(void *arg0, register S_800BB14C *arg1, S_800BB14C_TARGET *arg
   update_values:
   {
     u16 phase;
-    s8 value;
-    u8 phase_low;
-    phase = arg1->phase;
+    s8 pulse_value;
+    u8 pulse_step;
+    phase = effect->phase;
     phase += 1;
-    value = (arg1->field0D - 4) & 0xBF;
+    pulse_value = (effect->field0D - 4) & 0xBF;
     do
     {
-      arg1->phase = phase;
+      effect->phase = phase;
     }
     while (0);
-    arg1->field0D = value;
+    effect->field0D = pulse_value;
     do
     {
-      phase_low = arg1->phase;
+      pulse_step = effect->phase;
     }
     while (0);
-    phase_low &= 0x1F;
+    pulse_step &= 0x1F;
     if ((phase & 0x20) != 0)
     {
-      value = 0x30 - phase_low;
+      pulse_value = 0x30 - pulse_step;
     }
     else
     {
-      value = phase_low + 0x10;
+      pulse_value = pulse_step + 0x10;
     }
-    if (arg1->flags & 1)
+    if (effect->flags & 1)
     {
-      arg2->valueC = value;
+      target->valueC = pulse_value;
     }
-    if (arg1->flags & 2)
+    if (effect->flags & 2)
     {
-      arg2->valueD = value;
+      target->valueD = pulse_value;
     }
-    if (arg1->flags & 4)
+    if (effect->flags & 4)
     {
-      arg2->valueE = value;
+      target->valueE = pulse_value;
     }
   }
 

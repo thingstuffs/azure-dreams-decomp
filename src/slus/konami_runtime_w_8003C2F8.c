@@ -22,9 +22,10 @@ extern Manager D_80082D58;
 extern void func_8003C0A4(void *, void *);
 extern void func_8003C520(void);
 
+/* Prepares the manager state and installs its next callback. */
 void func_8003C2F8(void) {
-    void *base = &D_80082D58;
-    State *state = *(State **)((u8 *)base - 0x14);
+    void *manager = &D_80082D58;
+    State *state = *(State **)((u8 *)manager - 0x14);
 
     if (state->unkC == 0x80) {
         state->unkE = 0x60;
@@ -35,5 +36,5 @@ void func_8003C2F8(void) {
     }
 
     D_80082D58.callback = func_8003C520;
-    func_8003C0A4(base, state);
+    func_8003C0A4(manager, state);
 }

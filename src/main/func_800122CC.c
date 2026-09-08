@@ -15,21 +15,22 @@ extern TableEntry_800252CC D_80083E98[];
 #define FIELD32(base, offset) (*(s32 *)((u8 *)(base) + (offset)))
 #define FIELDP(base, offset) (*(void **)((u8 *)(base) + (offset)))
 
-void func_800252CC(void *arg0)
+/* Selects the parent handler and initializes state based on the indexed table value. */
+void func_800252CC(void *state)
 {
-    s32 one;
+    s32 enabled;
     void *parent;
 
-    parent = (u8 *)arg0 - 0x20;
-    if (D_80083E98[FIELD32(arg0, 0x28)].value != 0) {
-        one = 1;
-        FIELD32(arg0, 0x3C) = one;
-        func_80022F8C(parent, (u8 *)arg0 + 0x40);
-        FIELD32(arg0, 0x40) = one;
-        FIELDP(arg0, -0x10) = D_800252A4;
+    parent = (u8 *)state - 0x20;
+    if (D_80083E98[FIELD32(state, 0x28)].value != 0) {
+        enabled = 1;
+        FIELD32(state, 0x3C) = enabled;
+        func_80022F8C(parent, (u8 *)state + 0x40);
+        FIELD32(state, 0x40) = enabled;
+        FIELDP(state, -0x10) = D_800252A4;
     } else {
-        FIELDP(arg0, 0x34) = D_8002593C;
+        FIELDP(state, 0x34) = D_8002593C;
         func_800230A4(parent);
-        FIELDP(arg0, -0x10) = D_80024FAC;
+        FIELDP(state, -0x10) = D_80024FAC;
     }
 }

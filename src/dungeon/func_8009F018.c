@@ -3,84 +3,85 @@
 extern s32 func_8009A350();
 extern s32 func_800BCB04();
 
-s32 func_800A4778(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    register s32 r_arg0 ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 r_arg1 = arg1;
-    s16 sp10;
-    s16 temp_v0_3;
-    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 var_v0;
-    s32 var_v0_3;
-    register s32 temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 temp_s2;
-    register s32 temp_s5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s32 temp_v0_2;
-    s32 var_a0;
-    s32 var_v0_2;
-    s32 var_v0_4;
-    u32 temp_a0;
-    register u32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+/* Checks whether the current and offset tile centers both yield values above 0x200. */
+s32 func_800A4778(s32 x, s32 y, s32 z, s32 skip_check) {
+    register s32 source_x ASM_REG("$19") = x;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 source_y = y;
+    s16 probe_result;
+    s16 center_result;
+    register s32 center_delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 x_distance;
+    s32 y_distance;
+    register s32 center_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 probe_coord;
+    register s32 source_z ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 center_y;
+    s32 x_offset;
+    s32 x_step;
+    s32 y_offset;
+    u32 probe_x;
+    register u32 probe_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u32 coord_work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP_NV(r_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp_s2 = arg2;
-    temp_v0 = r_arg0;
-    temp_s5 = temp_s2;
-    if (arg3 == 0) {
-        temp_v0 = (u32) (temp_v0 & 0xFFFF) >> 6;
-        temp_a0 = temp_v0 - 1;
-        temp_a1 = (u32) (r_arg1 & 0xFFFF) >> 6;
-        temp_a2 = 0;
-        ASM_USE(temp_a2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        temp_s0 = temp_v0;
-        temp_v0_2 = temp_a1;
-        if ((func_8009A350(temp_a0, temp_a1, temp_a2, &sp10) << 0x10) != 0) {
-            temp_v0 = temp_s0 << 6;
-            ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            temp_s0 = temp_v0 + 0x20;
-            temp_a0 = temp_s0 & 0xFFE0;
-            temp_v0 = temp_v0_2 << 6;
-            ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            temp_v0 += 0x20;
-            temp_a1 = temp_v0 & 0xFFE0;
-            temp_a2 = (s16) (temp_s2 - 0x20);
-            temp_v0_2 = temp_v0;
-            temp_v0_3 = func_800BCB04(temp_a0, temp_a1, temp_a2);
-            sp10 = temp_v0_3;
-            if (temp_v0_3 >= 0x201) {
-                temp_s2 = temp_s0;
-                ASM_KEEP_NV(temp_s0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                temp_v0 = temp_s0 - r_arg0;
-                temp_v1 = (s16) temp_v0;
-                var_v0 = temp_v1;
-                if (temp_v1 < 0) {
-                    var_v0 = 0 - var_v0;
+    ASM_KEEP_NV(source_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    probe_coord = z;
+    coord_work = source_x;
+    source_z = probe_coord;
+    if (skip_check == 0) {
+        coord_work = (u32) (coord_work & 0xFFFF) >> 6;
+        probe_x = coord_work - 1;
+        probe_y = (u32) (source_y & 0xFFFF) >> 6;
+        probe_z = 0;
+        ASM_USE(probe_z);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        center_x = coord_work;
+        center_y = probe_y;
+        if ((func_8009A350(probe_x, probe_y, probe_z, &probe_result) << 0x10) != 0) {
+            coord_work = center_x << 6;
+            ASM_KEEP(coord_work);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            center_x = coord_work + 0x20;
+            probe_x = center_x & 0xFFE0;
+            coord_work = center_y << 6;
+            ASM_KEEP(coord_work);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            coord_work += 0x20;
+            probe_y = coord_work & 0xFFE0;
+            probe_z = (s16) (probe_coord - 0x20);
+            center_y = coord_work;
+            center_result = func_800BCB04(probe_x, probe_y, probe_z);
+            probe_result = center_result;
+            if (center_result >= 0x201) {
+                probe_coord = center_x;
+                ASM_KEEP_NV(center_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                coord_work = center_x - source_x;
+                center_delta = (s16) coord_work;
+                x_distance = center_delta;
+                if (center_delta < 0) {
+                    x_distance = 0 - x_distance;
                 }
-                var_a0 = 0;
-                if (var_v0 >= 0x16) {
-                    var_v0_2 = 0x40;
-                    if (temp_v1 > 0) {
-                        var_v0_2 = -0x40;
+                x_offset = 0;
+                if (x_distance >= 0x16) {
+                    x_step = 0x40;
+                    if (center_delta > 0) {
+                        x_step = -0x40;
                     }
-                    var_a0 = var_v0_2;
+                    x_offset = x_step;
                 }
-                temp_v0 = temp_v0_2 - r_arg1;
-                temp_v1 = (s16) temp_v0;
-                var_v0_3 = temp_v1;
-                if (temp_v1 < 0) {
-                    var_v0_3 = 0 - var_v0_3;
+                coord_work = center_y - source_y;
+                center_delta = (s16) coord_work;
+                y_distance = center_delta;
+                if (center_delta < 0) {
+                    y_distance = 0 - y_distance;
                 }
-                if (var_v0_3 >= 0x16) {
-                    var_v0_4 = 0x40;
-                    if (temp_v1 > 0) {
-                        var_v0_4 = -0x40;
+                if (y_distance >= 0x16) {
+                    y_offset = 0x40;
+                    if (center_delta > 0) {
+                        y_offset = -0x40;
                     }
                 } else {
-                    var_v0_4 = 0;
+                    y_offset = 0;
                 }
-                sp10 = func_800BCB04((temp_s2 + var_a0) & 0xFFFF, (temp_v0_2 + var_v0_4) & 0xFFFF, (s16) (temp_s5 - 0x20));
-                return sp10 > 0x200;
+                probe_result = func_800BCB04((probe_coord + x_offset) & 0xFFFF, (center_y + y_offset) & 0xFFFF, (s16) (source_z - 0x20));
+                return probe_result > 0x200;
             }
         }
     }

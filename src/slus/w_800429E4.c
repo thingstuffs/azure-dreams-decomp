@@ -16,44 +16,45 @@ typedef struct {
 extern volatile InitialStats initialStatsTable[1];
 extern u8 D_8006D160[9];
 
-s32 func_800429E4(Entity *arg0)
+/* Returns the entity class from shared initial-stat flags or its lowest class flag. */
+s32 func_800429E4(Entity *entity)
 {
-    s32 flags = arg0->flags;
-    s32 ret = 0;
+    s32 flags = entity->flags;
+    s32 class_id = 0;
 
     if (flags & 0x2000) {
-        s32 id = arg0->id;
-        s32 offset = id << 1;
-        s32 bits;
-        s32 lowBits;
+        s32 entity_id = entity->id;
+        s32 stats_offset = entity_id << 1;
+        s32 shared_flags;
+        s32 class_bits;
 
-        offset += id;
-        offset <<= 3;
-        bits = ((volatile InitialStats *)((volatile u8 *)initialStatsTable + offset))->flags & flags;
-        lowBits = bits & 7;
+        stats_offset += entity_id;
+        stats_offset <<= 3;
+        shared_flags = ((volatile InitialStats *)((volatile u8 *)initialStatsTable + stats_offset))->flags & flags;
+        class_bits = shared_flags & 7;
 
-        if (lowBits != 0) {
-            u8 *classTable = D_8006D160;
-            ret = classTable[lowBits];
+        if (class_bits != 0) {
+            u8 *class_table = D_8006D160;
+            class_id = class_table[class_bits];
             goto done_alt;
         }
 
         if (flags & 1) {
-            ret = 1;
+            class_id = 1;
             goto done;
         }
         if (flags & 2) {
-            ret = 2;
+            class_id = 2;
             goto done;
         }
         if (flags & 4) {
-            ret = 3;
+            class_id = 3;
         }
     }
 
 done:
-    return ret;
+    return class_id;
 
 done_alt:
-    return ret;
+    return class_id;
 }

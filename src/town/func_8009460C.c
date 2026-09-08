@@ -14,34 +14,35 @@ extern s32 D_800D00F0;
 extern s32 D_800D00F8;
 extern s16 D_800D0454[];
 
-void func_80091D6C(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, s32 arg2) {
-    s16 temp_v0;
-    s32 temp_s3;
+/* Updates countdown-driven motion and invokes callbacks at selected ticks. */
+void func_80091D6C(Rec_func_80094268_arg0 *state, Rec_D_800E3D7C *motion, s32 callback_arg) {
+    s16 ticks_left;
+    s32 target_position;
 
-    func_80095C80(arg1);
-    if (arg0->unk_0A.as_s16 >= 15) {
-        temp_s3 = (s32)((u32)(arg0->unk_34.as_s16 +
-                   D_800D0454[21 - arg0->unk_0A.as_s16]) << 16);
+    func_80095C80(motion);
+    if (state->unk_0A.as_s16 >= 15) {
+        target_position = (s32)((u32)(state->unk_34.as_s16 +
+                   D_800D0454[21 - state->unk_0A.as_s16]) << 16);
         goto selector_join;
     } else {
-        temp_s3 = (s32)((u32)arg0->unk_34.as_s16 << 16);
+        target_position = (s32)((u32)state->unk_34.as_s16 << 16);
     }
 
 selector_join:
-    if (arg0->unk_0A.as_s16 == 19)
-        func_80094984(&D_800D00E8, arg0, arg2);
-    if (arg0->unk_0A.as_s16 == 15)
-        func_80094984(&D_800D00F0, arg0, arg2);
-    if (arg0->unk_0A.as_s16 == 12)
-        func_80094984(&D_800D00F8, arg0, arg2);
-    temp_v0 = (u16)arg0->unk_0A.as_s16 - 1;
-    arg0->unk_0A.as_s16 = temp_v0;
-    if ((s32)((u32)(u16)temp_v0 << 16) <= 0) {
-        arg1->unk_0C.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_14.as_s32 = 0;
-        func_80094220(arg0, arg1, arg2);
+    if (state->unk_0A.as_s16 == 19)
+        func_80094984(&D_800D00E8, state, callback_arg);
+    if (state->unk_0A.as_s16 == 15)
+        func_80094984(&D_800D00F0, state, callback_arg);
+    if (state->unk_0A.as_s16 == 12)
+        func_80094984(&D_800D00F8, state, callback_arg);
+    ticks_left = (u16)state->unk_0A.as_s16 - 1;
+    state->unk_0A.as_s16 = ticks_left;
+    if ((s32)((u32)(u16)ticks_left << 16) <= 0) {
+        motion->unk_0C.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_14.as_s32 = 0;
+        func_80094220(state, motion, callback_arg);
         return;
     }
-    arg1->unk_14.as_s32 = temp_s3 - arg1->unk_08.at00_s32.v;
+    motion->unk_14.as_s32 = target_position - motion->unk_08.at00_s32.v;
 }

@@ -10,9 +10,10 @@ extern u8 D_800D5960[];
 extern u8 D_800D5988[];
 extern u8 D_800D598C[];
 
-void func_800C6544(void *arg0, s32 arg1, s32 arg2) {
-    func_800C3050(arg0, 9, D_800D5988, D_800D598C, D_800D5958,
+/* Initialize object slot 9, set its data pointers, and create its display object. */
+void func_800C6544(void *object, s32 unused_a, s32 unused_b) {
+    func_800C3050(object, 9, D_800D5988, D_800D598C, D_800D5958,
                   D_800D5960);
-    func_800C6440(arg0, arg1, arg2);
-    func_800C6C10(arg0);
+    func_800C6440(object, unused_a, unused_b);
+    func_800C6C10(object);
 }

@@ -61,45 +61,46 @@ extern void func_800A56E0(s32);
 extern void func_801676CC(DungeonWork *);
 extern void func_801685CC(DungeonState *, DungeonWork *, DungeonObject *, u8 *, s32);
 
+/* Advance the timed dungeon object sequence and update its direction table. */
 void func_8016D754(DungeonState *state, DungeonWork *work,
-                   DungeonObject *object, DungeonInput *input) {
-    u32 swi;
-    static void *const jt_keep[] = {
+                  DungeonObject *object, DungeonInput *input) {
+    u32 state_index;
+    static void *const state_labels[] = {
         &&case0, &&case1, &&case2, &&case3, &&case4, &&case5, &&case6
     };
-    swi = state->state;
-    if (swi >= 7)
+    state_index = state->state;
+    if (state_index >= 7)
         goto done;
-    (void)jt_keep;
-    goto *D_80164998[swi];
+    (void)state_labels;
+    goto *D_80164998[state_index];
 
 case1:
     {
         s32 mode;
-        register u8 *base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        u32 index;
+        register u8 *direction_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u32 direction_index;
 
         mode = state->mode;
         switch (mode) {
         case 0:
-                base = D_801739E0;
-                break;
+            direction_table = D_801739E0;
+            break;
         case 1:
-            base = D_801739E8;
+            direction_table = D_801739E8;
             break;
         case 2:
-            base = D_801739F0;
+            direction_table = D_801739F0;
             break;
         case 3:
-            base = D_801739E0 + 0x18;
+            direction_table = D_801739E0 + 0x18;
             break;
         default:
             goto case1_common;
         }
-        object->unk_2C = base;
-        index = ((s32)(D_80083228[0] + input->unk_2A + 0x100) >> 9) & 7;
+        object->unk_2C = direction_table;
+        direction_index = ((s32)(D_80083228[0] + input->unk_2A + 0x100) >> 9) & 7;
         func_80047784(object,
-            *((u8 *)((u32)index + (u32)base)), 0);
+            *((u8 *)((u32)direction_index + (u32)direction_table)), 0);
     }
 case1_common:
     func_801676CC(work);
@@ -125,16 +126,16 @@ case2:
 case3:
     {
         u16 timer;
-        s16 current;
+        s16 current_timer;
 
         timer = state->timer.unsigned_value + 1;
         state->timer.unsigned_value = timer;
         if ((s16)timer == 1) {
             func_801685CC(state, work, object, D_80083780, 0);
-            current = state->timer.signed_value;
-            if (current == (s16)timer) {
-                func_801685CC(state, work, object, D_80083780, current);
-                if (state->timer.signed_value == current)
+            current_timer = state->timer.signed_value;
+            if (current_timer == (s16)timer) {
+                func_801685CC(state, work, object, D_80083780, current_timer);
+                if (state->timer.signed_value == current_timer)
                     func_801685CC(state, work, object, D_80083780, 2);
             }
         }
@@ -146,9 +147,9 @@ case3:
 case4:
     {
         s32 mode;
-        u8 *base;
-        u8 *old;
-        u32 index;
+        u8 *direction_table;
+        u8 *previous_table;
+        u32 direction_index;
 
         if (!(object->flags & 0xE000))
             goto done;
@@ -159,29 +160,29 @@ case4:
         mode = state->mode;
         switch (mode) {
         case 0:
-                old = object->unk_2C;
-                base = D_801739A0;
-                break;
+            previous_table = object->unk_2C;
+            direction_table = D_801739A0;
+            break;
         case 1:
-            old = object->unk_2C;
-            base = D_801739A8;
+            previous_table = object->unk_2C;
+            direction_table = D_801739A8;
             break;
         case 2:
-            old = object->unk_2C;
-            base = D_801739B0;
+            previous_table = object->unk_2C;
+            direction_table = D_801739B0;
             break;
         case 3:
-            old = object->unk_2C;
-            base = D_801739A0 + 0x18;
+            previous_table = object->unk_2C;
+            direction_table = D_801739A0 + 0x18;
             break;
         default:
             goto case0;
         }
-        if (old != base) {
-            object->unk_2C = base;
-            index = ((s32)(D_80083228[0] + input->unk_2A + 0x100) >> 9) & 7;
+        if (previous_table != direction_table) {
+            object->unk_2C = direction_table;
+            direction_index = ((s32)(D_80083228[0] + input->unk_2A + 0x100) >> 9) & 7;
             func_80047784(object,
-                *((u8 *)((u32)index + (u32)base)), 0);
+                *((u8 *)((u32)direction_index + (u32)direction_table)), 0);
         }
         goto case0;
     }

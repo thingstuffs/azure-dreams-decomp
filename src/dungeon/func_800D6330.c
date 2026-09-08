@@ -25,14 +25,8 @@ typedef struct {
     /* 0x1A */ u16 unk1A;
 } Struct_800D6330;
 
-void func_800DBA90(Struct_800D6330 *arg0) {
-    /* One combined stack buffer for sp10 (zero-loop scratch), sp24/28/2c
-       (dead-store idiom: computed but never re-read; kept live purely by
-       address-escape of the LATER part of this same buffer), and sp30/34/38
-       (out params of func_80065450) + sp40. Splitting these into separate
-       locally-scoped arrays makes each individually address-taken buffer
-       round up to its own 8-byte boundary and overshoots the real frame;
-       one buffer matches the retail frame size exactly. */
+/* Transforms vertices using the selected rotation matrix and stores their coordinates. */
+void func_800DBA90(Struct_800D6330 *transform) {
     union {
         s16 sp10[9];
         struct {
@@ -44,74 +38,69 @@ void func_800DBA90(Struct_800D6330 *arg0) {
             s32 sp34;
             s32 sp38;
         } s;
-    } u;
-    s32 sp40;
-    s16 *ptr;
-    s16 *row;
-    s16 *cell;
-    s32 outer;
-    s32 two;
-    s32 value;
-    s32 offset;
-    s32 *source;
-    void *output;
+    } scratch;
+    s32 column_flags;
+    s16 *matrix_row;
+    s16 *row_base;
+    s16 *matrix_cell;
+    s32 row_vertex_index;
+    s32 last_column;
+    s32 unit_scale;
+    s32 vertex_offset;
+    s32 *vertices;
+    void *transformed;
 
     func_800649A0();
-    u.s.sp24 = arg0->unk10;
-    u.s.sp28 = arg0->unk12;
-    u.s.sp2C = arg0->unk14;
-    func_80064D80(u.sp10);
-    if (arg0->unk1A == 0) {
-        func_80065820((s8 *) arg0 + 8, u.sp10);
+    scratch.s.sp24 = transform->unk10;
+    scratch.s.sp28 = transform->unk12;
+    scratch.s.sp2C = transform->unk14;
+    func_80064D80(scratch.sp10);
+    if (transform->unk1A == 0) {
+        func_80065820((s8 *) transform + 8, scratch.sp10);
         goto post_init;
     }
-    outer = 2;
-    if (arg0->unk1A != 0x8000) {
-        two = outer;
-        value = 0x1000;
-        ptr = u.sp10 + 6;
+    row_vertex_index = 2;
+    if (transform->unk1A != 0x8000) {
+        last_column = row_vertex_index;
+        unit_scale = 0x1000;
+        matrix_row = scratch.sp10 + 6;
         do {
-            sp40 = two;
-            row = ptr;
+            column_flags = last_column;
+            row_base = matrix_row;
             do {
-                cell = (s16 *) ((sp40 << 1) + (u32) row);
-                if (outer == sp40) {
-                    *cell = value;
+                matrix_cell = (s16 *) ((column_flags << 1) + (u32) row_base);
+                if (row_vertex_index == column_flags) {
+                    *matrix_cell = unit_scale;
                 } else {
-                    *cell = 0;
+                    *matrix_cell = 0;
                 }
-                sp40--;
-            } while (sp40 >= 0);
-            outer--;
-            ptr -= 3;
-        } while (outer >= 0);
-        if (arg0->unk1A == 1) {
-            func_80065AB0(arg0->unk08, u.sp10, value, two);
-            func_80065C50(arg0->unk0A, u.sp10);
-            func_80065DF0(arg0->unk0C, u.sp10);
+                column_flags--;
+            } while (column_flags >= 0);
+            row_vertex_index--;
+            matrix_row -= 3;
+        } while (row_vertex_index >= 0);
+        if (transform->unk1A == 1) {
+            func_80065AB0(transform->unk08, scratch.sp10, unit_scale, last_column);
+            func_80065C50(transform->unk0A, scratch.sp10);
+            func_80065DF0(transform->unk0C, scratch.sp10);
         }
     }
 post_init:
-    func_80064CF0(u.sp10);
-    outer = 0;
-    if (arg0->unk18 > 0) {
+    func_80064CF0(scratch.sp10);
+    row_vertex_index = 0;
+    if (transform->unk18 > 0) {
         do {
-            output = &u.s.sp30;
-            ASM_KEEP(output);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            offset = outer * 8;
-            source = arg0->unk00;
+            transformed = &scratch.s.sp30;
+            ASM_KEEP(transformed);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            vertex_offset = row_vertex_index * 8;
+            vertices = transform->unk00;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            func_80065450((s8 *) source + offset, output, &sp40);
-            *(u16 *) ((s8 *) arg0->unk04 + outer * 8) = *(u16 *) &u.s.sp30;
-            *(u16 *) ((s8 *) arg0->unk04 + outer * 8 + 2) = *(u16 *) &u.s.sp34;
-            *(u16 *) ((s8 *) arg0->unk04 + outer * 8 + 4) = *(u16 *) &u.s.sp38;
-            outer++;
-        } while (outer < arg0->unk18);
+            func_80065450((s8 *) vertices + vertex_offset, transformed, &column_flags);
+            *(u16 *) ((s8 *) transform->unk04 + row_vertex_index * 8) = *(u16 *) &scratch.s.sp30;
+            *(u16 *) ((s8 *) transform->unk04 + row_vertex_index * 8 + 2) = *(u16 *) &scratch.s.sp34;
+            *(u16 *) ((s8 *) transform->unk04 + row_vertex_index * 8 + 4) = *(u16 *) &scratch.s.sp38;
+            row_vertex_index++;
+        } while (row_vertex_index < transform->unk18);
     }
     func_80064A40();
 }
-
-/* MECHANISM: True-space local joins and one stack aggregate produce the retail
-   0x58 frame with s2/s1/s0 holds. The matrix loop reuses address-escaped sp40;
-   integer-scaled cell addressing fixes its addu order. A guarded a1 call-arg
-   pin plus one schedule seam closes the final sll/lw/a2 setup rotation. */

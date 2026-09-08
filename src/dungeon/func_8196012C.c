@@ -64,45 +64,46 @@ extern s32 rand();
 extern s32 D_80025460[];
 extern s32 D_800258D8[];
 
-void func_8196012C(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4) {
-    s32 random;
-    s32 random_arg;
-    s16 arg4_copy;
+/* Spawn a textured particle with randomized motion at the given position. */
+void func_8196012C(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
+    s32 random_angle;
+    s32 primitive_word;
+    s16 tile_row_copy;
     S_8196012C_1 *position;
     S_8196012C_3 *primitive;
     S_8196012C_2 *render;
     void *object;
 
-    arg4_copy = arg4;
+    tile_row_copy = tile_row;
     object = func_8003FC64(0x202);
     if (object != NULL) {
         ((S_8196012C_0 *)object)->unk_10 = D_80025460;
         func_8004491C(object, D_800258D8);
         position = ((S_8196012C_0 *)object)->unk_08;
-        position->unk_02 = arg0;
-        position->unk_06 = arg1;
-        position->unk_0A = arg2;
+        position->unk_02 = x;
+        position->unk_06 = y;
+        position->unk_0A = z;
         position->unk_0E = (rand() & 0xF) - 8;
         position->unk_12 = (rand() & 0xF) - 8;
         position->unk_16 = -0x10 - (rand() & 0xF);
         render = ((S_8196012C_0 *)object)->unk_0C;
         render->unk_1E = 0x400;
         render->unk_1C = 0x400;
-        random = rand();
-        render->unk_20 = func_80064584(random);
-        render->unk_22 = func_800644B8(random);
+        random_angle = rand();
+        render->unk_20 = func_80064584(random_angle);
+        render->unk_22 = func_800644B8(random_angle);
         render->unk_10 = 0x20;
         primitive = (s8 *)object + 0x20;
         render->unk_14 = 0xC;
         render->unk_0C = 0x808080;
-        random_arg = 0xF8F82CC0;
-        ((S_8196012C_0 *)object)->unk_20 = random_arg;
+        primitive_word = 0xF8F82CC0;
+        ((S_8196012C_0 *)object)->unk_20 = primitive_word;
         primitive->unk_04 = 0x13D;
-        primitive->unk_08 = (s8)(arg3 * 0x10);
-        primitive->unk_09 = (s8)(((s32)(arg4 << 0x10) >> 0xC) - 0x80);
-        primitive->unk_0A = arg3 == 7 ? 0xF : 0x10;
-        primitive->unk_0B = arg4_copy == 7 ? 0xF : 0x10;
-        primitive->unk_4C = (rand(random_arg) & 0x1F) + 0x20;
+        primitive->unk_08 = (s8)(tile_col * 0x10);
+        primitive->unk_09 = (s8)(((s32)(tile_row << 0x10) >> 0xC) - 0x80);
+        primitive->unk_0A = tile_col == 7 ? 0xF : 0x10;
+        primitive->unk_0B = tile_row_copy == 7 ? 0xF : 0x10;
+        primitive->unk_4C = (rand(primitive_word) & 0x1F) + 0x20;
         render->unk_08 = primitive;
     }
 }

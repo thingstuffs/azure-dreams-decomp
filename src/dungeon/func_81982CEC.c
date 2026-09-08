@@ -39,10 +39,11 @@ extern s32 D_800269D4;
 extern s32 D_800269FC;
 extern s32 D_800DF31C;
 
-void *func_800244EC(S_800244EC_2 *arg0, s32 arg1)
+/* Allocate and initialize a two-part object and return its payload pointer. */
+void *func_800244EC(S_800244EC_2 *source_part, s32 offset)
 {
     s32 rect[2];
-    s32 common;
+    s32 rect_size;
     void *obj;
     S_800244EC_1 *part;
     void *result;
@@ -50,22 +51,22 @@ void *func_800244EC(S_800244EC_2 *arg0, s32 arg1)
     obj = func_8003FC64(2);
     if (obj != NULL) {
         rect[0] = 0x01000340;
-        common = 0x200020;
-        rect[1] = common;
+        rect_size = 0x200020;
+        rect[1] = rect_size;
         func_800B835C(&D_800DF31C, rect, 1, 0);
         rect[0] = 0x01200340;
-        rect[1] = common;
+        rect[1] = rect_size;
         func_800B835C(&D_800269D4, rect, 1, 0);
         part = ((S_800244EC_0 *)obj)->unk_08;
         ((S_800244EC_0 *)obj)->unk_10 = &D_8002432C;
-        part->unk_02 = arg0->unk_02;
-        part->unk_06 = arg0->unk_06;
-        part->unk_08.at02.v = arg0->unk_0A;
+        part->unk_02 = source_part->unk_02;
+        part->unk_06 = source_part->unk_06;
+        part->unk_08.at02.v = source_part->unk_0A;
         part = ((S_800244EC_0 *)obj)->unk_0C;
         part->unk_08.at00.v = &D_800269FC;
         part->unk_1E = 0xC00;
         part->unk_1C = 0xC00;
-        ((S_800244EC_0 *)obj)->unk_28 = arg1 - 0x20;
+        ((S_800244EC_0 *)obj)->unk_28 = offset - 0x20;
     }
     result = NULL;
     if (obj != NULL) {

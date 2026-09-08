@@ -27,90 +27,91 @@ typedef struct S_80051F58_a2 {
 extern s32 D_800814A0_abs __attribute__((section(".data")));
 __asm__(".set D_800814A0_abs, 0x800814A0");
 
-void func_80051F58(S_80051F58 *a0, void *a1, S_80051F58_a2 *a2, void *a3)
+/* Fade the color in, hold it, then fade it out and mark the effect complete. */
+void func_80051F58(S_80051F58 *effect, void *unused_1, S_80051F58_a2 *color, void *unused_3)
 {
-    u16 timer = a0->timer;
-    u16 next_state;
-    int new_var;
-    int state = a0->state;
-    u16 ustate = *(volatile u16 *)&a0->state;
+    u16 timer = effect->timer;
+    u16 advance_state;
+    int next_timer;
+    int state = effect->state;
+    u16 state_bits = *(volatile u16 *)&effect->state;
 
-    new_var = timer + 1;
-    a0->timer = new_var;
+    next_timer = timer + 1;
+    effect->timer = next_timer;
     if (state == 1) {
-        goto case1;
+        goto fade_in;
     }
     if (state < 2) {
         if (state == 0) {
-            goto case0;
+            goto wait_trigger;
         }
         goto default_case;
     }
     if (state == 2) {
-        goto case2;
+        goto hold;
     }
     if (state == 3) {
-        goto case3;
+        goto fade_out;
     }
     goto default_case;
 
-case0:
-    if (a0->unk0C == 0) {
+wait_trigger:
+    if (effect->unk0C == 0) {
         return;
     }
-    a0->unk0C = 0;
-    next_state = *(volatile u16 *)&a0->state;
+    effect->unk0C = 0;
+    advance_state = *(volatile u16 *)&effect->state;
     goto advance;
 
-case1:
+fade_in:
     {
-        u8 v = a2->unk0E + 2;
-        a2->unk0E = v;
-        a2->unk0D = v;
-        a2->unk0C = v;
+        u8 intensity = color->unk0E + 2;
+        color->unk0E = intensity;
+        color->unk0D = intensity;
+        color->unk0C = intensity;
     }
-    if ((s16)a0->timer < 0x40) {
+    if ((s16)effect->timer < 0x40) {
         return;
     }
-    next_state = *(volatile u16 *)&a0->state;
+    advance_state = *(volatile u16 *)&effect->state;
 
 advance:
-    a0->timer = 0;
+    effect->timer = 0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    a0->state = next_state + 1;
+    effect->state = advance_state + 1;
     return;
 
-case2:
-    if ((s16)new_var < 0x100) {
+hold:
+    if ((s16)next_timer < 0x100) {
         return;
     }
     {
-        u16 next_state = ustate + 1;
-        a0->state = next_state;
+        u16 next_state = state_bits + 1;
+        effect->state = next_state;
     }
-    a0->timer = 0;
+    effect->timer = 0;
     return;
 
-case3:
+fade_out:
     {
-        u8 v = a2->unk0E - 2;
-        a2->unk0E = v;
-        a2->unk0D = v;
-        a2->unk0C = v;
+        u8 intensity = color->unk0E - 2;
+        color->unk0E = intensity;
+        color->unk0D = intensity;
+        color->unk0C = intensity;
     }
-    if ((s16)a0->timer < 0x40) {
+    if ((s16)effect->timer < 0x40) {
         return;
     }
     goto finish;
 
 default_case:
-    a2->unk0E = 0;
-    a2->unk0D = 0;
-    a2->unk0C = 0;
+    color->unk0E = 0;
+    color->unk0D = 0;
+    color->unk0C = 0;
 
 finish:
-    a0->unk00->unk18 = 0;
-    a0->unk00->unk06 += 1;
-    *(volatile u16 *)((u16 *)a0 - 1) |= 0x8000;
+    effect->unk00->unk18 = 0;
+    effect->unk00->unk06 += 1;
+    *(volatile u16 *)((u16 *)effect - 1) |= 0x8000;
     D_800814A0_abs |= 0x8000;
 }

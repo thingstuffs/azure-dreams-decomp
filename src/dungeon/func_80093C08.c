@@ -1,5 +1,3 @@
-/* Bounded site-map pass: D_800DD720 is a pointer object in retail, not an
- * inline byte array.  Preserve that pointer live range for the case-4 path. */
 #include "common.h"
 
 typedef struct { u8 unk0; u8 unk1; s8 unk2; u8 unk3; } FuncData;
@@ -14,49 +12,48 @@ extern s32 D_800DD72C[];
 extern s32 D_800DD784[];
 extern FuncState *D_800E3D7C;
 
-u8 *func_80099368(FuncData *arg0, u8 *arg1) {
-    s32 temp_a0;
-    s32 temp_a0_2;
-    s32 var_s1;
-    u8 temp_a1;
-    u8 temp_a1_2;
-    u8 temp_v0;
-    u8 *temp_a2;
-    u8 *temp_s0;
-    u8 *temp_v0_2;
-    u8 *var_a2;
+/* Appends formatted data with type-specific affixes and a numeric value to the buffer. */
+u8 *func_80099368(FuncData *data, u8 *buffer) {
+    s32 prefix_id;
+    s32 suffix_id;
+    s32 value;
+    u8 prefix_kind;
+    u8 suffix_kind;
+    u8 kind;
+    u8 *unused_cursor;
+    u8 *format;
+    u8 *value_end;
+    u8 *out;
 
-    var_a2 = arg1;
+    out = buffer;
     if (!(D_800E3D7C->flags & 0x10)) {
-        temp_a1 = arg0->unk1;
-        temp_a0 = D_800DD72C[temp_a1];
-        if ((temp_a0 != 0) && ((temp_a1 != 0xF) || (arg0->unk0 < 0xEU))) {
-            var_a2 = func_80099194(temp_a0, var_a2, var_a2);
+        prefix_kind = data->unk1;
+        prefix_id = D_800DD72C[prefix_kind];
+        if ((prefix_id != 0) && ((prefix_kind != 0xF) || (data->unk0 < 0xEU))) {
+            out = func_80099194(prefix_id, out, out);
         }
     }
-    var_a2 = func_800992E8(arg0, var_a2, var_a2);
+    out = func_800992E8(data, out, out);
     if (D_800E3D7C->flags & 0x10) {
-        goto return_var_a2;
+        goto return_out;
     }
-    temp_a1_2 = arg0->unk1;
-    temp_a0_2 = D_800DD784[temp_a1_2];
-    if ((temp_a0_2 != 0) && ((temp_a1_2 != 0xF) || (arg0->unk0 < 0xEU))) {
-        var_a2 = func_80099194(temp_a0_2, var_a2, var_a2);
+    suffix_kind = data->unk1;
+    suffix_id = D_800DD784[suffix_kind];
+    if ((suffix_id != 0) && ((suffix_kind != 0xF) || (data->unk0 < 0xEU))) {
+        out = func_80099194(suffix_id, out, out);
     }
-    temp_v0 = arg0->unk1;
-    switch (temp_v0) {
+    kind = data->unk1;
+    switch (kind) {
     case 4:
-        if (!(arg0->unk3 & 0x80)) {
-            /* Retail loads the pointer object once into the long-lived s0
-             * role, then walks both byte streams across the helper call. */
-            temp_s0 = D_800DD720;
-            var_s1 = arg0->unk2;
-            *var_a2++ = *temp_s0++;
-            *var_a2 = *temp_s0++;
-            temp_v0_2 = func_8003AD08(var_s1, var_a2 + 1, var_a2);
-            var_a2 = temp_v0_2;
-            *var_a2++ = *temp_s0++;
-            *var_a2++ = *temp_s0++;
+        if (!(data->unk3 & 0x80)) {
+            format = D_800DD720;
+            value = data->unk2;
+            *out++ = *format++;
+            *out = *format++;
+            value_end = func_8003AD08(value, out + 1, out);
+            out = value_end;
+            *out++ = *format++;
+            *out++ = *format++;
         }
         break;
     case 14:
@@ -65,16 +62,16 @@ u8 *func_80099368(FuncData *arg0, u8 *arg1) {
     case 21:
         break;
     default:
-        if (!(arg0->unk3 & 0x80)) {
-            var_s1 = arg0->unk2;
-            if (var_s1 != 0) {
-                var_a2 = func_800992A8(var_s1, var_a2, var_a2);
-                if (var_s1 < 0) var_s1 = -var_s1;
-                var_a2 = func_8003AD08(var_s1, var_a2, var_a2);
+        if (!(data->unk3 & 0x80)) {
+            value = data->unk2;
+            if (value != 0) {
+                out = func_800992A8(value, out, out);
+                if (value < 0) value = -value;
+                out = func_8003AD08(value, out, out);
             }
         }
         break;
     }
-return_var_a2:
-    return var_a2;
+return_out:
+    return out;
 }

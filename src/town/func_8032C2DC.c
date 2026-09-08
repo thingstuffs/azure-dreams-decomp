@@ -7,20 +7,21 @@ extern s32 D_8001B964[];
 extern s32 D_8001B994[];
 extern s32 D_8001C358[];
 
-void func_80016ADC(s32 arg0, s32 arg1, s32 arg2) {
-    s32 *ptr;
+/* Dispatch a code using the active table, with special handling for code 0x3E. */
+void func_80016ADC(s32 value, s32 special_value, s32 code) {
+    s32 *active_table;
 
     if (D_8001B920[0] != 0) {
-        ptr = D_8001B994;
+        active_table = D_8001B994;
     } else {
-        ptr = D_8001B964;
+        active_table = D_8001B964;
     }
-    if ((u32)(arg2 - 0x40) < 3U) {
+    if ((u32)(code - 0x40) < 3U) {
         D_8001B920[0] = 1;
     }
-    if (arg2 != 0x3E) {
-        func_80019DFC(ptr, D_8001C358, arg0, arg2);
+    if (code != 0x3E) {
+        func_80019DFC(active_table, D_8001C358, value, code);
     } else {
-        func_80016A84(arg0, arg1, 0x3E);
+        func_80016A84(value, special_value, 0x3E);
     }
 }

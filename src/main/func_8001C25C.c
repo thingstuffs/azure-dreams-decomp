@@ -3,6 +3,7 @@
 
 M2C_UNK func_80402F84();   /* extern */
 
-void func_8001C25C(M2C_UNK arg0) {
-    func_80402F84(arg0, 0xb, 0, 0);
+/* Invoke operation 0xb for the target with both options cleared. */
+void func_8001C25C(M2C_UNK target) {
+    func_80402F84(target, 0xb, 0, 0);
 }

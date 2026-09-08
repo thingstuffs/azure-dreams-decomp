@@ -78,53 +78,54 @@ typedef struct S_8008DA80_8 {
     u16 unk_04;
 } S_8008DA80_8;   /* ((S_8008DA80_1 *)entry)->unk_04 * 8 + vertices in func_8008DA80 */
 
-s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
+/* Finds the smallest eligible surface X coordinate across neighboring grid tiles. */
+s16 func_8008DA80(s32 query_x, s32 query_y, s32 query_z)
 {
     Scratch80090320 *scratch;
     Grid80090320 *grid;
     u16 *occupancy;
-    u8 *base;
+    u8 *grid_data;
     u8 *vertices;
     u8 *entry;
     u8 *plane;
     u8 *vertex;
     s16 block_base;
     s16 tile;
-    s16 value;
+    s16 candidate_x;
     s16 x;
     u16 y;
-    s32 ysum;
-    s32 quotient;
-    s16 xsum;
+    s32 row_y;
+    s32 plane_x;
+    s16 column_x;
 
-    x = arg0;
-    y = arg1;
+    x = query_x;
+    y = query_y;
     scratch = (Scratch80090320 *)0x1F800000;
     scratch->best = 0x7FFF;
-    block_base = arg0 & ~0x3F;
+    block_base = query_x & ~0x3F;
     scratch->block_base = block_base;
-    scratch->lower_bound = (s16)arg0 - block_base - 0x14;
-    scratch->origin_y = arg1 & 0x3F;
-    scratch->origin_z = arg2;
-    base = D_80083160;
-    grid = (Grid80090320 *)(base + 0x1DC);
-    ASM_USE(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    scratch->result = (arg0 &= 0x3F);
-    scratch->saved_y = arg1 & 0x3F;
+    scratch->lower_bound = (s16)query_x - block_base - 0x14;
+    scratch->origin_y = query_y & 0x3F;
+    scratch->origin_z = query_z;
+    grid_data = D_80083160;
+    grid = (Grid80090320 *)(grid_data + 0x1DC);
+    ASM_USE(query_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    scratch->result = (query_x &= 0x3F);
+    scratch->saved_y = query_y & 0x3F;
     scratch->height_data = grid->height_data;
-    occupancy = ((S_8008DA80_0 *)base)->unk_1DC;
+    occupancy = ((S_8008DA80_0 *)grid_data)->unk_1DC;
     vertices = grid->vertices;
-    if (arg0 >= 0x20) {
+    if (query_x >= 0x20) {
         scratch->x_step = 0x40;
     } else {
         scratch->x_step = -0x40;
     }
     if ((s16)*(volatile u16 *)((u8 *)scratch + 0x1E) >= 0x20) {
-        s32 ystep_pos = 0x40;
-        scratch->y_step = ystep_pos;
+        s32 y_step_pos = 0x40;
+        scratch->y_step = y_step_pos;
     } else {
-        s32 ystep_neg = -0x40;
-        scratch->y_step = ystep_neg;
+        s32 y_step_neg = -0x40;
+        scratch->y_step = y_step_neg;
     }
 
     scratch->outer_count = 0;
@@ -132,24 +133,24 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
     scratch->start_y = y;
     scratch->outer_offset = 0;
     while (scratch->outer_count < 2) {
-        ysum = (u16)scratch->start_y + (u16)scratch->outer_offset;
-        y = ysum;
+        row_y = (u16)scratch->start_y + (u16)scratch->outer_offset;
+        y = row_y;
         if (scratch->y_step >= 0) {
-            if ((s16)ysum >= D_800FE484)
+            if ((s16)row_y >= D_800FE484)
                 goto outer_done;
-        } else if ((s16)ysum < 0) {
+        } else if ((s16)row_y < 0) {
             goto outer_done;
         }
         scratch->inner_count = 0;
         scratch->inner_offset = 0;
         scratch->origin_y = scratch->saved_y - (u16)scratch->outer_offset;
         while (scratch->inner_count < 2) {
-            xsum = (u16)scratch->start_x + (u16)scratch->inner_offset;
-            x = xsum;
+            column_x = (u16)scratch->start_x + (u16)scratch->inner_offset;
+            x = column_x;
             if (scratch->x_step >= 0) {
-                if ((s16)xsum >= D_800FE480)
+                if ((s16)column_x >= D_800FE480)
                     goto inner_done;
-            } else if ((s16)xsum < 0) {
+            } else if ((s16)column_x < 0) {
                 goto inner_done;
             }
 
@@ -178,7 +179,7 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
                                            (u32)scratch->height_data);
                             vertex = (u8 *)(((S_8008DA80_1 *)entry)->unk_00 * 8 +
                                             (u32)vertices);
-                            quotient =
+                            plane_x =
                                 (((S_8008DA80_2 *)plane)->unk_02 *
                                      (((S_8008DA80_3 *)vertex)->unk_02 -
                                       (s16)*(volatile u16 *)((u8 *)scratch + 0x1E)) +
@@ -187,12 +188,12 @@ s16 func_8008DA80(s32 arg0, s32 arg1, s32 arg2)
                                       (s16)*(volatile u16 *)((u8 *)scratch + 0x20)) +
                                  ((S_8008DA80_2 *)plane)->unk_00 * ((S_8008DA80_3 *)vertex)->unk_00) /
                                 ((S_8008DA80_2 *)plane)->unk_00;
-                            scratch->result = quotient;
-                            quotient += scratch->inner_index;
-                            scratch->result = quotient;
-                            value = quotient;
-                            if (value >= scratch->lower_bound && value < scratch->best)
-                                scratch->best = value;
+                            scratch->result = plane_x;
+                            plane_x += scratch->inner_index;
+                            scratch->result = plane_x;
+                            candidate_x = plane_x;
+                            if (candidate_x >= scratch->lower_bound && candidate_x < scratch->best)
+                                scratch->best = candidate_x;
                         }
                     }
                     if ((((S_8008DA80_1 *)entry)->unk_16.at00.v & 0x80FF) == 0x8001)

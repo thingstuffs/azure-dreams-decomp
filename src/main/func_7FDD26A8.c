@@ -106,147 +106,148 @@ typedef struct {
     s32 w1;
 } Words2;
 
-void func_80089608(void *arg0) {
-    unsigned char stack_data[104];
-    Words4 *var_a2;
-    Words4 *var_a2_2;
-    Words4 *var_a3;
-    s8 *var_s4;
-    s8 *var_s5;
-    s16 temp_a0;
-    s32 temp_v1;
-    s32 var_s2;
-    s32 temp_a0_2;
-    s32 temp_a0_3;
-    s32 temp_a1;
-    s32 temp_lo;
-    s32 temp_lo_2;
-    void *temp_v0;
-    void *var_sub;
-    void *temp_s1;
-    void *temp_t1;
+/* Updates effect brightness and rotation and spawns ten visual elements. */
+void func_80089608(void *effect) {
+    unsigned char effect_tables[104];
+    Words4 *style_src;
+    Words4 *mask_src;
+    Words4 *copy_dst;
+    s8 *radius_cursor;
+    s8 *style_cursor;
+    s16 phase_frame;
+    s32 phase;
+    s32 color_step_or_index;
+    s32 brighten_rgb;
+    s32 fade_rgb;
+    s32 axis_offset;
+    s32 x_product;
+    s32 y_product;
+    void *element;
+    void *element_state;
+    void *sprite;
+    void *owner;
     void *callback;
 
-    var_a3 = (Words4 *)&stack_data[0];
-    var_a2 = (Words4 *)&D_80088790;
-    temp_t1 = ((S_80089608_0 *)arg0)->unk_00;
+    copy_dst = (Words4 *)&effect_tables[0];
+    style_src = (Words4 *)&D_80088790;
+    owner = ((S_80089608_0 *)effect)->unk_00;
     do {
-        *var_a3 = *var_a2;
-        var_a2++;
-        var_a3++;
-    } while (var_a2 != ((Words4 *)&D_80088790 + 2));
-    *(Words2 *)var_a3 = *(Words2 *)var_a2;
-    *(Packed20 *)(stack_data + 40) = *(Packed20 *)&D_800887B8;
-    var_a3 = (Words4 *)&stack_data[64];
-    var_a2_2 = &D_800887CC;
+        *copy_dst = *style_src;
+        style_src++;
+        copy_dst++;
+    } while (style_src != ((Words4 *)&D_80088790 + 2));
+    *(Words2 *)copy_dst = *(Words2 *)style_src;
+    *(Packed20 *)(effect_tables + 40) = *(Packed20 *)&D_800887B8;
+    copy_dst = (Words4 *)&effect_tables[64];
+    mask_src = &D_800887CC;
     do {
-        *var_a3 = *var_a2_2;
-        var_a2_2++;
-        var_a3++;
-    } while (var_a2_2 != ((Words4 *)&D_800887CC + 2));
-    *(Words2 *)var_a3 = *(Words2 *)var_a2_2;
-    if (((S_80089608_1 *)temp_t1)->unk_26 & 1) {
-        ((S_80089608_0 *)arg0)->unk_08 = 0xFF;
+        *copy_dst = *mask_src;
+        mask_src++;
+        copy_dst++;
+    } while (mask_src != ((Words4 *)&D_800887CC + 2));
+    *(Words2 *)copy_dst = *(Words2 *)mask_src;
+    if (((S_80089608_1 *)owner)->unk_26 & 1) {
+        ((S_80089608_0 *)effect)->unk_08 = 0xFF;
     }
-    if (((S_80089608_1 *)temp_t1)->unk_20 >= 2) {
-        ((S_80089608_0 *)arg0)->unk_08 = 0xFF;
+    if (((S_80089608_1 *)owner)->unk_20 >= 2) {
+        ((S_80089608_0 *)effect)->unk_08 = 0xFF;
         goto epilogue;
     }
-    temp_v1 = ((S_80089608_0 *)arg0)->unk_08;
-    switch (temp_v1) {
+    phase = ((S_80089608_0 *)effect)->unk_08;
+    switch (phase) {
     case 1:
         goto angle_mode;
     case 0:
-        ((S_80089608_0 *)arg0)->unk_04 = (s32) (((S_80089608_0 *)arg0)->unk_04 + 0x20202);
-        if (((S_80089608_1 *)temp_t1)->unk_20 == 1) {
-            ((S_80089608_0 *)arg0)->unk_08++;
+        ((S_80089608_0 *)effect)->unk_04 = (s32) (((S_80089608_0 *)effect)->unk_04 + 0x20202);
+        if (((S_80089608_1 *)owner)->unk_20 == 1) {
+            ((S_80089608_0 *)effect)->unk_08++;
             goto set_spawn_count;
         }
-        var_s2 = 9;
+        color_step_or_index = 9;
         goto spawn_setup;
     case 0xFF:
         goto error_mode;
     default:
-        var_s2 = 9;
+        color_step_or_index = 9;
         goto spawn_setup;
     }
 
 angle_mode:
-    temp_a0 = ((S_80089608_0 *)arg0)->unk_0A + 1;
-    ((S_80089608_0 *)arg0)->unk_0A = (u16) temp_a0;
-    if (temp_a0 < 0x80) {
-        if (!(temp_a0 & 3)) {
-            ((S_80089608_0 *)arg0)->unk_04 += 0x10101;
+    phase_frame = ((S_80089608_0 *)effect)->unk_0A + 1;
+    ((S_80089608_0 *)effect)->unk_0A = (u16) phase_frame;
+    if (phase_frame < 0x80) {
+        if (!(phase_frame & 3)) {
+            ((S_80089608_0 *)effect)->unk_04 += 0x10101;
         }
         goto pre_spawn_angle;
     }
-    if (temp_a0 < 0x91) {
-        temp_a0_2 = ((S_80089608_0 *)arg0)->unk_04;
-        var_s2 = ((s32) (~temp_a0_2 & 0xFF) >> 1);
-        var_s2 = ((var_s2 << 8) + (var_s2 << 16)) + var_s2;
-        ((S_80089608_0 *)arg0)->unk_04 = temp_a0_2 + var_s2;
+    if (phase_frame < 0x91) {
+        brighten_rgb = ((S_80089608_0 *)effect)->unk_04;
+        color_step_or_index = ((s32) (~brighten_rgb & 0xFF) >> 1);
+        color_step_or_index = ((color_step_or_index << 8) + (color_step_or_index << 16)) + color_step_or_index;
+        ((S_80089608_0 *)effect)->unk_04 = brighten_rgb + color_step_or_index;
         goto pre_spawn_angle;
     }
-    if (temp_a0 < 0xA0) {
-        temp_a0_3 = ((S_80089608_0 *)arg0)->unk_04;
-        var_s2 = ((s32) (temp_a0_3 & 0xFF) >> 3);
-        var_s2 = ((var_s2 << 8) + (var_s2 << 16)) + var_s2;
-        ((S_80089608_0 *)arg0)->unk_04 = temp_a0_3 - var_s2;
+    if (phase_frame < 0xA0) {
+        fade_rgb = ((S_80089608_0 *)effect)->unk_04;
+        color_step_or_index = ((s32) (fade_rgb & 0xFF) >> 3);
+        color_step_or_index = ((color_step_or_index << 8) + (color_step_or_index << 16)) + color_step_or_index;
+        ((S_80089608_0 *)effect)->unk_04 = fade_rgb - color_step_or_index;
         goto pre_spawn_angle;
     }
-    ((S_80089608_0 *)arg0)->unk_08 = 0xFF;
-    ((S_80089608_0 *)arg0)->unk_04 = 0;
+    ((S_80089608_0 *)effect)->unk_08 = 0xFF;
+    ((S_80089608_0 *)effect)->unk_04 = 0;
 pre_spawn_angle:
-    ((S_80089608_0 *)arg0)->unk_0E.s -= 12;
+    ((S_80089608_0 *)effect)->unk_0E.s -= 12;
     goto set_spawn_count;
 
 error_mode:
-    (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_80089608_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80089608_0_pre *)effect)[-1].unk_00 | 0x8000);
     D_800814A0 |= 0x8000;
     goto epilogue;
 set_spawn_count:
-    var_s2 = 9;
+    color_step_or_index = 9;
 spawn_setup:
     callback = &D_80089A14;
-    var_s5 = (M2C_UNK *)&stack_data[36];
-    var_s4 = (M2C_UNK *)&stack_data[18];
+    style_cursor = (M2C_UNK *)&effect_tables[36];
+    radius_cursor = (M2C_UNK *)&effect_tables[18];
     do {
-        temp_v0 = func_8003FC64(0x111);
-        if (temp_v0 != NULL) {
-            temp_s1 = ((S_80089608_2 *)temp_v0)->unk_0C;
-            ((S_80089608_2 *)temp_v0)->unk_10 = callback;
-            func_8004491C(temp_v0, &D_80044BB0);
-            temp_lo = func_80064584(((S_80089608_0 *)arg0)->unk_0E.u) * ((S_80089608_3 *)var_s4)->unk_28;
-            temp_a1 = temp_lo >> 0xC;
-            ((S_80089608_7 *)(((S_80089608_2 *)temp_v0)->unk_08))->unk_02 = (s16) ((temp_a1 - (temp_lo >> 0xD)) + 0xA0);
-            var_sub = (void *)((s8 *)temp_v0 + 0x20);
-            temp_lo_2 = func_800644B8(((S_80089608_0 *)arg0)->unk_0E.u) * ((S_80089608_3 *)var_s4)->unk_28;
-            temp_a1 = temp_lo_2 >> 0xC;
-            ((S_80089608_7 *)(((S_80089608_2 *)temp_v0)->unk_08))->unk_06 = (s16) ((temp_a1 + (temp_lo_2 >> 0xE)) + 0x78);
-            ((S_80089608_4 *)temp_s1)->unk_1E = 0x1000;
-            ((S_80089608_4 *)temp_s1)->unk_1C = 0x1000;
-            if (var_s2 == 0) {
-                ((S_80089608_4 *)temp_s1)->unk_1A = ((S_80089608_0 *)arg0)->unk_0E.u;
+        element = func_8003FC64(0x111);
+        if (element != NULL) {
+            sprite = ((S_80089608_2 *)element)->unk_0C;
+            ((S_80089608_2 *)element)->unk_10 = callback;
+            func_8004491C(element, &D_80044BB0);
+            x_product = func_80064584(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)radius_cursor)->unk_28;
+            axis_offset = x_product >> 0xC;
+            ((S_80089608_7 *)(((S_80089608_2 *)element)->unk_08))->unk_02 = (s16) ((axis_offset - (x_product >> 0xD)) + 0xA0);
+            element_state = (void *)((s8 *)element + 0x20);
+            y_product = func_800644B8(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)radius_cursor)->unk_28;
+            axis_offset = y_product >> 0xC;
+            ((S_80089608_7 *)(((S_80089608_2 *)element)->unk_08))->unk_06 = (s16) ((axis_offset + (y_product >> 0xE)) + 0x78);
+            ((S_80089608_4 *)sprite)->unk_1E = 0x1000;
+            ((S_80089608_4 *)sprite)->unk_1C = 0x1000;
+            if (color_step_or_index == 0) {
+                ((S_80089608_4 *)sprite)->unk_1A = ((S_80089608_0 *)effect)->unk_0E.u;
                 goto configure_spawn;
             }
-            if (var_s2 == 1) {
-                ((S_80089608_4 *)temp_s1)->unk_1A = (s16) (0 - (u16) ((S_80089608_0 *)arg0)->unk_0E.u);
+            if (color_step_or_index == 1) {
+                ((S_80089608_4 *)sprite)->unk_1A = (s16) (0 - (u16) ((S_80089608_0 *)effect)->unk_0E.u);
             }
 configure_spawn:
-            ((S_80089608_4 *)temp_s1)->unk_10 = 0x60;
-            ((S_80089608_4 *)temp_s1)->unk_14 = (u16) (((S_80089608_4 *)temp_s1)->unk_14 | 0xC);
-            ((S_80089608_4 *)temp_s1)->unk_08 = (s32) ((S_80089608_5 *)var_s5)->unk_00;
-            ((S_80089608_4 *)temp_s1)->unk_04 = 0;
-            ((S_80089608_4 *)temp_s1)->unk_05 = 0;
-            ((S_80089608_4 *)temp_s1)->unk_0C = (s32) (((S_80089608_0 *)arg0)->unk_04 & ((S_80089608_5 *)var_s5)->unk_40);
-            ((S_80089608_6 *)var_sub)->unk_0C = var_s2;
-            goto block_43;
+            ((S_80089608_4 *)sprite)->unk_10 = 0x60;
+            ((S_80089608_4 *)sprite)->unk_14 = (u16) (((S_80089608_4 *)sprite)->unk_14 | 0xC);
+            ((S_80089608_4 *)sprite)->unk_08 = (s32) ((S_80089608_5 *)style_cursor)->unk_00;
+            ((S_80089608_4 *)sprite)->unk_04 = 0;
+            ((S_80089608_4 *)sprite)->unk_05 = 0;
+            ((S_80089608_4 *)sprite)->unk_0C = (s32) (((S_80089608_0 *)effect)->unk_04 & ((S_80089608_5 *)style_cursor)->unk_40);
+            ((S_80089608_6 *)element_state)->unk_0C = color_step_or_index;
+            goto next_element;
         }
-block_43:
-        var_s5 -= 4;
-        var_s2 -= 1;
-        var_s4 -= 2;
-    } while (var_s2 >= 0);
+next_element:
+        style_cursor -= 4;
+        color_step_or_index -= 1;
+        radius_cursor -= 2;
+    } while (color_step_or_index >= 0);
     return;
 epilogue:
     return;

@@ -12,32 +12,33 @@ typedef struct {
 extern u16 D_800281F8;
 extern s32 D_800814A0;
 
-void func_81959D28(void *arg0, Motion *motion) {
-    s32 xVelocity;
-    s32 yVelocity;
+/* Advance and damp motion, flagging completion when the timer expires or motion slows. */
+void func_81959D28(void *actor, Motion *motion) {
+    s32 x_velocity;
+    s32 y_velocity;
     register s32 speed ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 speedPart;
+    s32 y_speed;
     u16 timer;
     u16 counter;
 
     motion->x += motion->xVelocity;
     motion->y += motion->yVelocity;
-    xVelocity = motion->xVelocity;
-    yVelocity = *(volatile s32 *)&motion->yVelocity;
+    x_velocity = motion->xVelocity;
+    y_velocity = *(volatile s32 *)&motion->yVelocity;
     motion->z += motion->zVelocity;
-    motion->xVelocity = xVelocity - ((xVelocity >> 3) + (xVelocity >> 4));
-    motion->yVelocity = yVelocity - ((yVelocity >> 3) + (yVelocity >> 4));
+    motion->xVelocity = x_velocity - ((x_velocity >> 3) + (x_velocity >> 4));
+    motion->yVelocity = y_velocity - ((y_velocity >> 3) + (y_velocity >> 4));
 
-    timer = *(u16 *)((u8 *)arg0 + 0x30) - 1;
+    timer = *(u16 *)((u8 *)actor + 0x30) - 1;
     counter = D_800281F8 + 1;
     ASM_KEEP(counter);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    *(u16 *)((u8 *)arg0 + 0x30) = timer;
+    *(u16 *)((u8 *)actor + 0x30) = timer;
     D_800281F8 = counter;
 
     if ((s16)timer > 0) {
         speed = *(s16 *)((u8 *)motion + 0xE);
-        speedPart = *(s16 *)((u8 *)motion + 0x12);
-        speed += speedPart;
+        y_speed = *(s16 *)((u8 *)motion + 0x12);
+        speed += y_speed;
         if (speed < 0) {
             speed = -speed;
         }
@@ -46,7 +47,7 @@ void func_81959D28(void *arg0, Motion *motion) {
         }
     }
 
-    *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    *(u16 *)((u8 *)actor - 2) |= 0x8000;
     D_800814A0 |= 0x8000;
 }
 

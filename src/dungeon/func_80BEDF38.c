@@ -39,38 +39,39 @@ s32 func_80064584();
 extern s32 D_800814A0[];
 extern M2C_UNK D_800DEC70;
 
-void func_80173738(void *arg0, FuncArg1 *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_a0;
-    s16 temp_v0;
-    s32 temp_lo;
-    s32 temp_base;
-    s32 temp_delta;
-    register void *dst ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+/* Move the effect in an expanding spiral, fade its color, and flag it when its lifetime ends. */
+void func_80173738(void *effect, FuncArg1 *position, Rec_D_80082E80 *primitive) {
+    s16 life;
+    s16 next_life;
+    s32 y_offset;
+    s32 base_y;
+    s32 z_step;
+    register void *primitive_dst ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    ((S_80173738_0 *)arg0)->unk_1E = (u16) (((S_80173738_0 *)arg0)->unk_1E - 0x12C);
-    ((S_80173738_0 *)arg0)->unk_20 = (u16) (((S_80173738_0 *)arg0)->unk_20 + 2);
-    arg1->unk00 = (s32) (((S_80173738_0 *)arg0)->unk_40 + ((s16) ((S_80173738_0 *)arg0)->unk_20 * func_80064584((s16) ((S_80173738_0 *)arg0)->unk_1E) * 0x10));
-    temp_lo = (s16) ((S_80173738_0 *)arg0)->unk_20 * func_800644B8((s16) ((S_80173738_0 *)arg0)->unk_1E);
-    dst = arg2;
-    temp_delta = 0xFFF40000U;
-    ASM_KEEP_NV(temp_delta);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    temp_base = ((S_80173738_0 *)arg0)->unk_44;
-    arg1->unk08 = (s32) (arg1->unk08 + temp_delta);
-    arg1->unk04 = (s32) (temp_base + (temp_lo * 0x10));
-    func_800478B8(dst, temp_delta);
-    if (arg2->unk_14.at00_u16.v & 0x4000) {
-        func_8003DB94(arg2, &D_800DEC70, 0);
+    ((S_80173738_0 *)effect)->unk_1E = (u16) (((S_80173738_0 *)effect)->unk_1E - 0x12C);
+    ((S_80173738_0 *)effect)->unk_20 = (u16) (((S_80173738_0 *)effect)->unk_20 + 2);
+    position->unk00 = (s32) (((S_80173738_0 *)effect)->unk_40 + ((s16) ((S_80173738_0 *)effect)->unk_20 * func_80064584((s16) ((S_80173738_0 *)effect)->unk_1E) * 0x10));
+    y_offset = (s16) ((S_80173738_0 *)effect)->unk_20 * func_800644B8((s16) ((S_80173738_0 *)effect)->unk_1E);
+    primitive_dst = primitive;
+    z_step = 0xFFF40000U;
+    ASM_KEEP_NV(z_step);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    base_y = ((S_80173738_0 *)effect)->unk_44;
+    position->unk08 = (s32) (position->unk08 + z_step);
+    position->unk04 = (s32) (base_y + (y_offset * 0x10));
+    func_800478B8(primitive_dst, z_step);
+    if (primitive->unk_14.at00_u16.v & 0x4000) {
+        func_8003DB94(primitive, &D_800DEC70, 0);
     }
-    temp_a0 = ((S_80173738_0 *)arg0)->unk_1A;
-    if (temp_a0 < 0xA) {
-        arg2->unk_0C.at00_s8.v = (s8) ((((S_80173738_0 *)arg0)->unk_00 * temp_a0) / 9);
-        arg2->unk_0C.at01_s8.v = (s8) ((((S_80173738_0 *)arg0)->unk_01 * ((S_80173738_0 *)arg0)->unk_1A) / 9);
-        arg2->unk_0C.at02_s8.v = (s8) ((((S_80173738_0 *)arg0)->unk_02 * ((S_80173738_0 *)arg0)->unk_1A) / 9);
+    life = ((S_80173738_0 *)effect)->unk_1A;
+    if (life < 0xA) {
+        primitive->unk_0C.at00_s8.v = (s8) ((((S_80173738_0 *)effect)->unk_00 * life) / 9);
+        primitive->unk_0C.at01_s8.v = (s8) ((((S_80173738_0 *)effect)->unk_01 * ((S_80173738_0 *)effect)->unk_1A) / 9);
+        primitive->unk_0C.at02_s8.v = (s8) ((((S_80173738_0 *)effect)->unk_02 * ((S_80173738_0 *)effect)->unk_1A) / 9);
     }
-    temp_v0 = (u16) ((S_80173738_0 *)arg0)->unk_1A - 1;
-    ((S_80173738_0 *)arg0)->unk_1A = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        ((S_80173738_0_pre *)arg0)[-1].unk_00 = (u16) (((S_80173738_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    next_life = (u16) ((S_80173738_0 *)effect)->unk_1A - 1;
+    ((S_80173738_0 *)effect)->unk_1A = next_life;
+    if ((next_life << 0x10) <= 0) {
+        ((S_80173738_0_pre *)effect)[-1].unk_00 = (u16) (((S_80173738_0_pre *)effect)[-1].unk_00 | 0x8000);
         ((S_80173738_2 *)D_800814A0)->unk_00 = (s32) (((S_80173738_2 *)D_800814A0)->unk_00 | 0x8000);
     }
 }

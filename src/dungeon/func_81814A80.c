@@ -38,10 +38,11 @@ extern void func_800478B8(void *arg0);
 extern void func_80024374(void) __attribute__((noreturn));
 extern void func_800243C8(void) __attribute__((noreturn));
 
+/* Accumulate motion, process the update mode, and mark expired or flagged state. */
 void func_81814A80(State *state, s32 *sum, Flags *flags) {
-    s32 i;
-    register s32 compare ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 next;
+    s32 update_count;
+    register s32 more_updates ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 next_tick;
 
     state->unk02 = state->unk02 - 1;
     state->unk58 = state->unk58 + state->unk64;
@@ -73,24 +74,24 @@ mode0:
 
 mode1:
     if (state->unk1a > 0) {
-        i = 0;
-        ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        update_count = 0;
+        ASM_KEEP(update_count);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_800478B8(flags);
-        i = i + 1;
-        compare = i < state->unk1a;
-        if (compare) {
+        update_count = update_count + 1;
+        more_updates = update_count < state->unk1a;
+        if (more_updates) {
             func_80024374();
         }
     }
     goto done;
 
 mode2:
-        next = state->unk1c + 1;
-        state->unk1c = next;
-        if ((s16) next >= state->unk1a) {
-            func_800478B8(flags);
-            state->unk1c = 0;
-        }
+    next_tick = state->unk1c + 1;
+    state->unk1c = next_tick;
+    if ((s16) next_tick >= state->unk1a) {
+        func_800478B8(flags);
+        state->unk1c = 0;
+    }
 
 done:
 

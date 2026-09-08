@@ -44,117 +44,114 @@ extern S_80084918 D_80084918;
 extern s16 D_80084920[8];
 extern s32 D_80073740[];
 extern s32 func_8005F134(S_80084918 *arg, S_80055E84 *arg1);
-void func_80055E84(S_80055E84 *arg0)
+/* Advance volume modulation and apply the updated channel volumes. */
+void func_80055E84(S_80055E84 *voice)
 {
-  s32 t;
-  s8 fac;
-  s32 p;
-  s8 n;
-  s32 v;
-  if (arg0->unk4C != 0)
+  s32 scaled_offset;
+  s8 phase;
+  s32 volume;
+  if (voice->unk4C != 0)
   {
-    if (arg0->unk42 != arg0->unk50)
+    if (voice->unk42 != voice->unk50)
     {
-      arg0->unk42 = arg0->unk42 + 1;
+      voice->unk42 = voice->unk42 + 1;
     }
     else
     {
-      if (arg0->unk44 >= arg0->unk51)
+      if (voice->unk44 >= voice->unk51)
       {
-        arg0->unk48 = arg0->unk4C;
+        voice->unk48 = voice->unk4C;
       }
       else
       {
-        if (arg0->unk44 != 0)
+        if (voice->unk44 != 0)
         {
-          arg0->unk48 = arg0->unk48 + arg0->unk54;
+          voice->unk48 = voice->unk48 + voice->unk54;
         }
         else
         {
-          arg0->unk48 = arg0->unk54;
+          voice->unk48 = voice->unk54;
         }
-        arg0->unk44 = arg0->unk44 + 1;
+        voice->unk44 = voice->unk44 + 1;
       }
-      arg0->unk43 = arg0->unk43 + arg0->unk52;
-      arg0->unk41 = 0;
-      n = arg0->unk43;
-      if (n < 0)
+      voice->unk43 = voice->unk43 + voice->unk52;
+      voice->unk41 = 0;
+      phase = voice->unk43;
+      if (phase < 0)
       {
-        register s32 a ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        s32 b;
-        s32 x = -n;
-        a = x << 1;
-        b = a;
-        if ((x << 25) < 0)
+        register s32 double_phase ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        s32 wave;
+        s32 phase_mag = -phase;
+        double_phase = phase_mag << 1;
+        wave = double_phase;
+        if ((phase_mag << 25) < 0)
         {
-          b = -a;
+          wave = -double_phase;
         }
-        p = arg0->unk48 * (s8) b;
-        if (p > 0)
+        scaled_offset = voice->unk48 * (s8) wave;
+        if (scaled_offset > 0)
         {
-          p = -p;
+          scaled_offset = -scaled_offset;
         }
-      }
-      else
-      {
-        register s32 a ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        s32 b;
-        s32 x = n;
-        a = x << 1;
-        b = a;
-        if ((x << 25) < 0)
-        {
-          b = -a;
-        }
-        p = arg0->unk48 * (s8) b;
-        if (p < 0)
-        {
-          p = -p;
-        }
-      }
-      if (p != 0)
-      {
-        if (p < 0)
-        {
-          p = p + 0xFF;
-        }
-        arg0->unk58 = p >> 8;
       }
       else
       {
-        arg0->unk58 = 0;
+        register s32 double_phase ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        s32 wave;
+        s32 phase_mag = phase;
+        double_phase = phase_mag << 1;
+        wave = double_phase;
+        if ((phase_mag << 25) < 0)
+        {
+          wave = -double_phase;
+        }
+        scaled_offset = voice->unk48 * (s8) wave;
+        if (scaled_offset < 0)
+        {
+          scaled_offset = -scaled_offset;
+        }
+      }
+      if (scaled_offset != 0)
+      {
+        if (scaled_offset < 0)
+        {
+          scaled_offset = scaled_offset + 0xFF;
+        }
+        voice->unk58 = scaled_offset >> 8;
+      }
+      else
+      {
+        voice->unk58 = 0;
       }
     }
-    if (arg0->unk6C != arg0->unk58)
+    if (voice->unk6C != voice->unk58)
     {
-      arg0->unk6C = (u16) arg0->unk58;
+      voice->unk6C = (u16) voice->unk58;
       D_80084918.field4 = 0xF;
-      D_80084918.field0 = D_80073740[arg0->unk0];
-      v = arg0->unk10 + arg0->unk58;
-      if (v < 0)
+      D_80084918.field0 = D_80073740[voice->unk0];
+      volume = voice->unk10 + voice->unk58;
+      if (volume < 0)
       {
-        v = 0;
+        volume = 0;
       }
-      else
-        if (v >= 0x4000)
+      else if (volume >= 0x4000)
       {
-        v = 0x3FFF;
+        volume = 0x3FFF;
       }
-      D_80084920[0] = v;
-      v = arg0->unk12 + arg0->unk58;
-      if (v < 0)
+      D_80084920[0] = volume;
+      volume = voice->unk12 + voice->unk58;
+      if (volume < 0)
       {
-        v = 0;
+        volume = 0;
       }
-      else
-        if (v >= 0x4000)
+      else if (volume >= 0x4000)
       {
-        v = 0x3FFF;
+        volume = 0x3FFF;
       }
-      D_80084918.fieldA = v;
+      D_80084918.fieldA = volume;
       D_80084918.fieldC = 0;
       D_80084918.fieldE = 0;
-      func_8005F134(&D_80084918, arg0);
+      func_8005F134(&D_80084918, voice);
     }
   }
 }

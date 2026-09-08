@@ -41,70 +41,71 @@ extern s32 rsin(s32 arg0);
 extern s32 rcos(s32 arg0);
 extern s32 D_800814A0_abs __attribute__((section(".data")));
 __asm__(".set D_800814A0_abs, 0x800814A0");
-void func_80051548(S_80051548_Obj *a0, S_80051548_Vec *a1, S_80051548_Flags *a2)
+/* Advances staged object motion and marks completion. */
+void func_80051548(S_80051548_Obj *obj, S_80051548_Vec *position, S_80051548_Flags *flags)
 {
   s16 state;
-  u16 next_state;
-  a0->field6 = a0->field6 + 1;
-  func_800478B8(a2);
-  state = a0->state;
+  u16 prior_state;
+  obj->field6 = obj->field6 + 1;
+  func_800478B8(flags);
+  state = obj->state;
   switch (state)
   {
   case 1:
-    goto case1;
+    goto move_arc;
   case 0:
   case 2:
-    goto case0;
+    goto wait_trigger;
   case 3:
-    goto case3;
+    goto move_linear;
   default:
-    a2->e = 0;
-    goto default_tail;
+    flags->e = 0;
+    goto clear_flags;
   }
-  case1:
-  a1->x = 0x01C00000 - (((rsin(((s16) a0->field6) << 4) >> 4) * 3) << 14);
+  move_arc:
+  position->x = 0x01C00000 - (((rsin(((s16) obj->field6) << 4) >> 4) * 3) << 14);
 
-  a1->y = ((rcos(((s16) a0->field6) << 4) >> 4) << 13) + 0x900000;
-  if (((s16) a0->field6) < 0x40)
+  position->y = ((rcos(((s16) obj->field6) << 4) >> 4) << 13) + 0x900000;
+  if (((s16) obj->field6) < 0x40)
   {
     return;
   }
-  a1->x = 0x01000000;
-  a1->y = 0x900000;
-  a1->z = 0x700000;
-  next_state = ((S_80051548_VolState *) a0)->state;
-  a0->field6 = 0;
-  goto increment;
-  case0:
-  if (a0->field0C == 0)
+  position->x = 0x01000000;
+  position->y = 0x900000;
+  position->z = 0x700000;
+  prior_state = ((S_80051548_VolState *) obj)->state;
+  obj->field6 = 0;
+  goto advance_state;
+  wait_trigger:
+  if (obj->field0C == 0)
   {
     return;
   }
 
-  next_state = ((S_80051548_VolState *) a0)->state;
-  a0->field0C = 0;
-  a0->field6 = 0;
-  increment:
-  a0->state = next_state + 1;
+  prior_state = ((S_80051548_VolState *) obj)->state;
+  obj->field0C = 0;
+  obj->field6 = 0;
+  advance_state:
+  obj->state = prior_state + 1;
 
   return;
-  case3:
-  a1->x = a1->x + 0xFFF40000;
+  move_linear:
+  position->x = position->x + 0xFFF40000;
 
-  a1->y = a1->y + 0x20000;
-  if (((s16) a0->field6) < 0x40)
+  position->y = position->y + 0x20000;
+  if (((s16) obj->field6) < 0x40)
   {
     return;
   }
   goto finalize;
-  default_tail:
-  a2->d = 0;
-  a2->c = 0;
+  clear_flags:
+  flags->d = 0;
+  flags->c = 0;
 
   finalize:
-  a0->ptr0->unk0C = 0;
+  obj->ptr0->unk0C = 0;
 
-  a0->ptr0->cnt = a0->ptr0->cnt + 1;
-  ((u16 *) a0)[-1] |= 0x8000;
+  obj->ptr0->cnt = obj->ptr0->cnt + 1;
+  ((u16 *) obj)[-1] |= 0x8000;
   D_800814A0_abs |= 0x8000;
 }

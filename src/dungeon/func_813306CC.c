@@ -52,51 +52,52 @@ typedef struct S_801676CC_5 {
     s16 unk_1E;
 } S_801676CC_5;   /* temp_a0_3 in func_801676CC */
 
-void func_801676CC(Rec_D_800E3D7C *arg0) {
-    s16 var_s1;
-    s16 var_s2;
-    s32 var_s3;
-    s16 var_s5;
-    void *var_s6;
-    S_801676CC_2 *temp_a0;
-    S_801676CC_3 *temp_a0_2;
-    S_801676CC_5 *temp_a0_3;
-    void *temp_v0;
-    S_801676CC_0 *temp_v0_2;
+/* Creates sixteen effects at the given position with increasing sprite scales. */
+void func_801676CC(Rec_D_800E3D7C *origin) {
+    s16 scale_x;
+    s16 scale_y;
+    s32 effect_index;
+    s16 initial_ticks;
+    void *effect_data;
+    S_801676CC_2 *render_params;
+    S_801676CC_3 *position;
+    S_801676CC_5 *sprite;
+    void *effect;
+    S_801676CC_0 *effect_state;
 
-    var_s3 = 0;
-    var_s5 = 0xE;
-    var_s6 = &D_80167540;
-    var_s2 = 0x1000;
-    var_s1 = 0x1400;
+    effect_index = 0;
+    initial_ticks = 0xE;
+    effect_data = &D_80167540;
+    scale_y = 0x1000;
+    scale_x = 0x1400;
     do {
-        temp_v0 = func_8003FC64(0x212);
-        if (temp_v0 != NULL) {
-            temp_v0_2 = temp_v0 + 0x20;
-            temp_v0_2->unk_18 = var_s5;
-            temp_v0_2->unk_1A = var_s5;
-            ((S_801676CC_1 *)temp_v0)->unk_10 = var_s6;
-            func_8004491C(temp_v0, D_80045340);
-            temp_a0 = ((S_801676CC_1 *)temp_v0)->unk_0C;
-            temp_a0->unk_10 = 0x60;
-            temp_a0->unk_14 = (u16) (temp_a0->unk_14 | 0xC);
-            temp_a0_2 = ((S_801676CC_1 *)temp_v0)->unk_08;
-            temp_a0_2->unk_00 = (s32) arg0->unk_00.at00_s32.v;
-            temp_a0_2->unk_04 = (s32) arg0->unk_04.at00_s32.v;
-            temp_a0_2->unk_08 = (s32) (arg0->unk_08.at00_s32.v + 0xFFC00000);
-            temp_a0_3 = ((S_801676CC_1 *)temp_v0)->unk_0C;
-            temp_a0_3->unk_1C = var_s1;
-            temp_a0_3->unk_1E = var_s2;
-            temp_a0_3->unk_0E = 0;
-            temp_a0_3->unk_0D = 0;
-            temp_a0_3->unk_0C = 0;
-            temp_a0_3->unk_06 = 0;
-            temp_a0_3->unk_12 = 0x7DCF;
-            temp_a0_3->unk_14 = (u16) (temp_a0_3->unk_14 | 0x100);
-            func_8003DB94(temp_a0_3, D_800DEAE0, 0);
+        effect = func_8003FC64(0x212);
+        if (effect != NULL) {
+            effect_state = effect + 0x20;
+            effect_state->unk_18 = initial_ticks;
+            effect_state->unk_1A = initial_ticks;
+            ((S_801676CC_1 *)effect)->unk_10 = effect_data;
+            func_8004491C(effect, D_80045340);
+            render_params = ((S_801676CC_1 *)effect)->unk_0C;
+            render_params->unk_10 = 0x60;
+            render_params->unk_14 = (u16) (render_params->unk_14 | 0xC);
+            position = ((S_801676CC_1 *)effect)->unk_08;
+            position->unk_00 = (s32) origin->unk_00.at00_s32.v;
+            position->unk_04 = (s32) origin->unk_04.at00_s32.v;
+            position->unk_08 = (s32) (origin->unk_08.at00_s32.v + 0xFFC00000);
+            sprite = ((S_801676CC_1 *)effect)->unk_0C;
+            sprite->unk_1C = scale_x;
+            sprite->unk_1E = scale_y;
+            sprite->unk_0E = 0;
+            sprite->unk_0D = 0;
+            sprite->unk_0C = 0;
+            sprite->unk_06 = 0;
+            sprite->unk_12 = 0x7DCF;
+            sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
+            func_8003DB94(sprite, D_800DEAE0, 0);
         }
-        var_s2 += 0x200;
-        var_s3 += 1;
-        var_s1 += 0x200;
-    } while (var_s3 < 0x10);
+        scale_y += 0x200;
+        effect_index += 1;
+        scale_x += 0x200;
+    } while (effect_index < 0x10);
 }

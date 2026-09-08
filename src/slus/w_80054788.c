@@ -62,59 +62,65 @@ extern void func_80054E00(s32 a0);
 extern void func_80054A7C(u8 a0);
 extern void func_80054F9C(u32 a0, void *a1);
 
-/* MIDI-style channel-event dispatcher: switches on the high nibble of the
-   packed status byte `arg0`. 0x10/0x20 forward the full 16-bit value to
-   dedicated handlers; 0x70 fires up to three independent event handlers
-   gated by bits 0/1/2 of arg0; 0xB0/0xC0/0xD0 share a block that (if bit0
-   set and flags1 has 0x100 set and 0x1000 clear) relays a masked event to
-   D_800848F8 via func_80054F9C, and (if bit2 set and flags1 has 0x400 set
-   and 0x4000 clear) relays another masked event to D_80084858; 0xE0/0xF0
-   fire up to two handlers gated by bits 0/2; every other nibble falls
-   through to a generic default handler (func_80054A7C). */
-void func_80054788(s32 arg0) {
-    s32 a = arg0;
-    register s32 b ASM_REG("$17") = a;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+/* Dispatches packed events by status nibble and enabled event flags. */
+void func_80054788(s32 event) {
+    s32 event_bits = event;
+    register s32 packed_event ASM_REG("$17") = event_bits;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    switch (a & 0xF0) {
+    switch (event_bits & 0xF0) {
     case 0x10:
-        func_8005497C(b & 0xFFFF);
+        func_8005497C(packed_event & 0xFFFF);
         break;
     case 0x20:
-        func_800549FC(b & 0xFFFF);
+        func_800549FC(packed_event & 0xFFFF);
         break;
     case 0x70:
-        if (a & 1) func_800553D4(0x71);
-        if (a & 2) func_80054104();
-        if (a & 4) func_80054E00(0x74);
+        if (event_bits & 1) {
+            func_800553D4(0x71);
+        }
+        if (event_bits & 2) {
+            func_80054104();
+        }
+        if (event_bits & 4) {
+            func_80054E00(0x74);
+        }
         break;
     case 0xE0:
-        if (a & 1) func_800553D4(0xE1);
-        if (a & 4) func_80054E00(0xE4);
+        if (event_bits & 1) {
+            func_800553D4(0xE1);
+        }
+        if (event_bits & 4) {
+            func_80054E00(0xE4);
+        }
         break;
     case 0xF0:
-        if (a & 1) func_800553D4(0xF1);
-        if (a & 4) func_80054E00(0xF4);
+        if (event_bits & 1) {
+            func_800553D4(0xF1);
+        }
+        if (event_bits & 4) {
+            func_80054E00(0xF4);
+        }
         break;
     case 0xB0:
     case 0xC0:
     case 0xD0:
-        if (b & 1) {
+        if (packed_event & 1) {
             if (D_800847D0.flags1 & 0x100) {
                 if (!(D_800847D0.flags1 & 0x1000)) {
-                    func_80054F9C(b & 0xFFF1, &D_800848F8);
+                    func_80054F9C(packed_event & 0xFFF1, &D_800848F8);
                 }
             }
         }
-        if (b & 4) {
+        if (packed_event & 4) {
             if (D_800847D0.flags1 & 0x400) {
                 if (!(D_800847D0.flags1 & 0x4000)) {
-                    func_80054F9C(b & 0xFFF4, &D_80084858);
+                    func_80054F9C(packed_event & 0xFFF4, &D_80084858);
                 }
             }
         }
         break;
     default:
-        func_80054A7C(b & 0xFF);
+        func_80054A7C(packed_event & 0xFF);
         break;
     }
 }

@@ -14,12 +14,13 @@ typedef struct S_800C1770_1 {
     s16 unk_06;
 } S_800C1770_1;   /* temp_v0 in func_800C1770 */
 
-void func_800C1770(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
-    u8 *temp_v0;
+/* Store four signed 16-bit values in D_800D4258. */
+void func_800C1770(s16 value_0, s16 value_1, s16 value_2, s16 value_3) {
+    u8 *values;
 
-    ((S_800C1770_0 *)D_800D4258)->unk_00 = arg0;
-    temp_v0 = D_800D4258;
-    ((S_800C1770_1 *)temp_v0)->unk_02 = arg1;
-    ((S_800C1770_1 *)temp_v0)->unk_04 = arg2;
-    ((S_800C1770_1 *)temp_v0)->unk_06 = arg3;
+    ((S_800C1770_0 *)D_800D4258)->unk_00 = value_0;
+    values = D_800D4258;
+    ((S_800C1770_1 *)values)->unk_02 = value_1;
+    ((S_800C1770_1 *)values)->unk_04 = value_2;
+    ((S_800C1770_1 *)values)->unk_06 = value_3;
 }

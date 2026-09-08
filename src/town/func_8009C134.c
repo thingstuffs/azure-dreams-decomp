@@ -9,15 +9,16 @@ s16 func_800C2AE8();
 
 /* extern */
 
-void func_80099894(Rec_func_80094268_arg0 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
-    u16 temp_v0;
+/* Update the object and its countdown, dispatching expiry handling when it runs out. */
+void func_80099894(Rec_func_80094268_arg0 *state, Rec_D_800E3D7C *object, M2C_UNK context) {
+    u16 ticks_left;
 
-    arg1->unk_08.at02_s16.v = func_800C2AE8(arg1);
-    temp_v0 = arg0->unk_0A.as_u16 - 1;
-    arg0->unk_0A.as_u16 = temp_v0;
-    if ((s16) temp_v0 < 0) {
-        func_80098928(arg0, arg1, arg2);
+    object->unk_08.at02_s16.v = func_800C2AE8(object);
+    ticks_left = state->unk_0A.as_u16 - 1;
+    state->unk_0A.as_u16 = ticks_left;
+    if ((s16) ticks_left < 0) {
+        func_80098928(state, object, context);
         return;
     }
-    arg1->unk_04.at00_s32.v = (s32) (arg1->unk_04.at00_s32.v + 0xFFFE0000);
+    object->unk_04.at00_s32.v = (s32) (object->unk_04.at00_s32.v + 0xFFFE0000);
 }

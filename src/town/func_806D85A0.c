@@ -43,87 +43,88 @@ s32 func_8001876C();                         /* extern */
 extern volatile M2C_UNK D_80016000;
 extern M2C_UNK D_80018FE0;
 
+/* Processes active entries for the selected variant and updates 2x2 cells for the first group. */
 void func_806D85A0(void) {
-    s32 temp_a0;
-    s32 temp_a1;
-    s32 var_a2;
-    s32 var_s0;
-    s32 var_s1;
-    s32 var_s2;
-    s32 var_s4;
-    s32 var_s5;
-    register s32 var_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temp_v0;
-    s32 call_a0;
-    register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 call_a2;
-    register void *temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *temp_func ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *temp_s0;
-    register void *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *var_s6;
+    s32 cell_x;
+    s32 cell_y;
+    s32 cell_value;
+    s32 y_offset;
+    s32 x_offset;
+    s32 entry_index;
+    s32 group_index;
+    s32 count_offset;
+    register s32 variant ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 second_variant_active;
+    s32 initial_x;
+    register s32 initial_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 initial_value;
+    register void *context ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register void *dispatch_ptr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *entry_flags;
+    register void *position ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *group_flags;
 
-    temp_s0 = ((S_806D85A0_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_38;
+    entry_flags = ((S_806D85A0_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_38;
     if (func_8001876C(1) == 0) {
-        temp_v0 = func_8001876C(2);
-        var_s7 = 2;
-        if (temp_v0 != 0) {
-            var_s7 = 1;
+        second_variant_active = func_8001876C(2);
+        variant = 2;
+        if (second_variant_active != 0) {
+            variant = 1;
         }
     } else {
-        var_s7 = 0;
+        variant = 0;
     }
-    call_a0 = 4;
-    ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    call_a1 = call_a0;
-    call_a2 = 0;
-    ASM_KEEP_NV(call_a1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(call_a2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    temp_func = (void *)0x80010000;
-    ASM_KEEP_NV(temp_func);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    temp_v1 = ((S_806D85A0_1 *)temp_func)->unk_6000;
-    var_s4 = call_a2;
-    temp_func = ((S_806D85A0_2 *)temp_v1)->unk_20;
-    var_s5 = var_s7 * 8;
-    temp_func = ((S_806D85A0_1 *)temp_func)->unk_2D0;
-    ASM_KEEP(temp_func);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    var_s6 = temp_s0;
-    ((M2C_UNK (*)(M2C_UNK, M2C_UNK, M2C_UNK))temp_func)(call_a0, call_a1, call_a2);
+    initial_x = 4;
+    ASM_KEEP_NV(initial_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    initial_y = initial_x;
+    initial_value = 0;
+    ASM_KEEP_NV(initial_y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(initial_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    dispatch_ptr = (void *)0x80010000;
+    ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    context = ((S_806D85A0_1 *)dispatch_ptr)->unk_6000;
+    group_index = initial_value;
+    dispatch_ptr = ((S_806D85A0_2 *)context)->unk_20;
+    count_offset = variant * 8;
+    dispatch_ptr = ((S_806D85A0_1 *)dispatch_ptr)->unk_2D0;
+    ASM_KEEP(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    group_flags = entry_flags;
+    ((M2C_UNK (*)(M2C_UNK, M2C_UNK, M2C_UNK))dispatch_ptr)(initial_x, initial_y, initial_value);
     do {
-        var_s2 = 0;
-        if ((*(s16 *)((u8 *)(&D_80018FE0) + var_s5)) > 0) {
-            s16 *temp_fp;
+        entry_index = 0;
+        if ((*(s16 *)((u8 *)(&D_80018FE0) + count_offset)) > 0) {
+            s16 *entry_counts;
 
-            temp_func = (void *)0x80020000;
-            ASM_KEEP_NV(temp_func);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            temp_fp = (s16 *)((s8 *)temp_func - 0x7020);
-loop_6:
-            if (((S_806D85A0_3 *)(var_s6 + var_s2))->unk_3640 != 0) {
-                temp_s3 = func_80017024(var_s4, var_s2, var_s7);
-                if (var_s4 == 0) {
-                    var_s1 = 0;
+            dispatch_ptr = (void *)0x80020000;
+            ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            entry_counts = (s16 *)((s8 *)dispatch_ptr - 0x7020);
+next_entry:
+            if (((S_806D85A0_3 *)(group_flags + entry_index))->unk_3640 != 0) {
+                position = func_80017024(group_index, entry_index, variant);
+                if (group_index == 0) {
+                    x_offset = 0;
                     do {
-                        var_s0 = 0;
-loop_10:
-                        var_a2 = var_s1 + var_s0;
-                        temp_a0 = ((S_806D85A0_4 *)temp_s3)->unk_00 + var_s1;
-                        temp_a1 = ((S_806D85A0_4 *)temp_s3)->unk_02 + var_s0;
-                        ((S_806D85A0_6 *)(((S_806D85A0_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20))->unk_2D0(temp_a0, temp_a1, var_a2);
-                        var_s0 += 1;
-                        if (var_s0 < 2) {
-                            goto loop_10;
+                        y_offset = 0;
+next_cell:
+                        cell_value = x_offset + y_offset;
+                        cell_x = ((S_806D85A0_4 *)position)->unk_00 + x_offset;
+                        cell_y = ((S_806D85A0_4 *)position)->unk_02 + y_offset;
+                        ((S_806D85A0_6 *)(((S_806D85A0_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20))->unk_2D0(cell_x, cell_y, cell_value);
+                        y_offset += 1;
+                        if (y_offset < 2) {
+                            goto next_cell;
                         }
-                        var_s1 += 1;
-                    } while (var_s1 < 2);
+                        x_offset += 1;
+                    } while (x_offset < 2);
                 }
-                var_s2 += 1;
-                if (var_s2 < (*(s16 *)((u8 *)((s8 *)(u32)var_s5) + (s32)temp_fp))) {
-                    goto loop_6;
+                entry_index += 1;
+                if (entry_index < (*(s16 *)((u8 *)((s8 *)(u32)count_offset) + (s32)entry_counts))) {
+                    goto next_entry;
                 }
             }
         }
-        var_s5 += 0x18;
-        var_s4 += 1;
-        var_s6 += 0xC;
-    } while (var_s4 < 0x10);
+        count_offset += 0x18;
+        group_index += 1;
+        group_flags += 0xC;
+    } while (group_index < 0x10);
 }

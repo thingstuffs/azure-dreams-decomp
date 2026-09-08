@@ -10,15 +10,16 @@ extern M2C_UNK D_8001A934;
 extern M2C_UNK D_8001B1F8;
 extern M2C_UNK D_8001B63C;
 
-s32 func_800163D0(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    s32 var_s1;
+/* Select a table result, using an override or fallback when its check succeeds. */
+s32 func_800163D0(s32 context, M2C_UNK check_value, M2C_UNK selector) {
+    s32 result;
 
-    if (func_80017E98(arg0, arg1) != 0) {
+    if (func_80017E98(context, check_value) != 0) {
         return (s32)&D_8001B63C;
     }
-    var_s1 = func_80019ABC(&D_8001A934, &D_8001B1F8, arg0, arg2);
-    if (func_80019A04(&D_8001A934, arg0, arg2) != 0) {
-        var_s1 = func_8001628C(arg0, arg1, arg2);
+    result = func_80019ABC(&D_8001A934, &D_8001B1F8, context, selector);
+    if (func_80019A04(&D_8001A934, context, selector) != 0) {
+        result = func_8001628C(context, check_value, selector);
     }
-    return var_s1;
+    return result;
 }

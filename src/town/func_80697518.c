@@ -4,6 +4,7 @@
 extern u8 D_80018A0C;
 extern u8 *D_80018BF0;
 
+/* Initialize D_80018BF0 to point to D_80018A0C. */
 void func_80697518(void) {
     D_80018BF0 = &D_80018A0C;
 }

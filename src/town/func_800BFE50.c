@@ -23,38 +23,32 @@ extern u8 D_800D20CC[];
 extern s32 D_800D2130;
 extern u8 D_800E9E7C[];
 
-void func_800BD5B0(Func800BFE50Object *arg0, s32 *arg1, void *arg2) {
+/* Initialize the object and dispatch setup according to its state. */
+void func_800BD5B0(Func800BFE50Object *object, s32 *params, void *dispatch_context) {
     u8 state;
 
-    *(void **)((u8 *)arg0 - 0x10) = D_800BCE78;
-    arg0->field50 = 0;
-    func_8004491C((u8 *)arg0 - 0x20, D_80045340);
+    *(void **)((u8 *)object - 0x10) = D_800BCE78;
+    object->field50 = 0;
+    func_8004491C((u8 *)object - 0x20, D_80045340);
 
-    arg0->fieldA0 = arg1[0];
-    arg0->fieldA4 = arg1[1];
-    state = arg0->field95;
+    object->fieldA0 = params[0];
+    object->fieldA4 = params[1];
+    state = object->field95;
 
     switch (state) {
-    default: {
-        void *dispatch_arg = arg2;
-        
+    default:
         return;
-    }
 
     case 0:
-        func_8008F074(arg0, arg1, D_800D20CC);
-        func_8003DB94(arg2, D_800E9E7C, 0);
-        arg0->field68 = 0;
-        arg0->field48 = D_800D2130;
+        func_8008F074(object, params, D_800D20CC);
+        func_8003DB94(dispatch_context, D_800E9E7C, 0);
+        object->field68 = 0;
+        object->field48 = D_800D2130;
         return;
 
     case 1:
-        func_8003DB94(arg2, D_800E9E7C, 0);
-        arg0->field68 = 0;
+        func_8003DB94(dispatch_context, D_800E9E7C, 0);
+        object->field68 = 0;
         break;
     }
 }
-
-/* MECHANISM: The natural 0x20 frame holds arg0/arg1/arg2 in s0/s1/s2 and preserves the default-first CFG.
-   A block-local guarded $a0 carrier makes the beq delay-slot move the sole dispatcher-argument setup;
-   the zero-argument call then lets LEAD 22 emit the retail j with a nop delay slot. */

@@ -46,20 +46,21 @@ typedef struct S_800164E0_6 {
 
 extern s8 D_80016000[];
 
+/* Run two callbacks and initialize offset and saved coordinates from the current position. */
 void func_800164E0(void) {
-    void *temp_v1;
-    void *temp_v1_2;
-    void *temp_v1_3;
-    void *temp_v1_4;
+    void *offset_x_state;
+    void *offset_y_state;
+    void *saved_x_state;
+    void *saved_y_state;
 
     (*(Callback *)((u8 *)(((S_800164E0_5 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x248))(0);
-    temp_v1 = ((S_800164E0_6 *)((*(void * *)((u8 *)D_80016000 + 0))))->unk_1C;
-    ((S_800164E0_1 *)temp_v1)->unk_10 = ((S_800164E0_1 *)temp_v1)->unk_04 + 0x20;
-    temp_v1_2 = ((S_800164E0_5 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_1C;
-    ((S_800164E0_2 *)temp_v1_2)->unk_14 = ((S_800164E0_2 *)temp_v1_2)->unk_08;
+    offset_x_state = ((S_800164E0_6 *)((*(void * *)((u8 *)D_80016000 + 0))))->unk_1C;
+    ((S_800164E0_1 *)offset_x_state)->unk_10 = ((S_800164E0_1 *)offset_x_state)->unk_04 + 0x20;
+    offset_y_state = ((S_800164E0_5 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_1C;
+    ((S_800164E0_2 *)offset_y_state)->unk_14 = ((S_800164E0_2 *)offset_y_state)->unk_08;
     (*(Callback *)((u8 *)(((S_800164E0_5 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x258))(0xD);
-    temp_v1_3 = ((S_800164E0_6 *)((*(void * *)((u8 *)D_80016000 + 0))))->unk_1C;
-    ((S_800164E0_3 *)temp_v1_3)->unk_18 = ((S_800164E0_3 *)temp_v1_3)->unk_04;
-    temp_v1_4 = ((S_800164E0_5 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_1C;
-    ((S_800164E0_4 *)temp_v1_4)->unk_1C = ((S_800164E0_4 *)temp_v1_4)->unk_08;
+    saved_x_state = ((S_800164E0_6 *)((*(void * *)((u8 *)D_80016000 + 0))))->unk_1C;
+    ((S_800164E0_3 *)saved_x_state)->unk_18 = ((S_800164E0_3 *)saved_x_state)->unk_04;
+    saved_y_state = ((S_800164E0_5 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_1C;
+    ((S_800164E0_4 *)saved_y_state)->unk_1C = ((S_800164E0_4 *)saved_y_state)->unk_08;
 }

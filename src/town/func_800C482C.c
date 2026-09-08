@@ -23,36 +23,37 @@ extern Position D_80083780;
 extern u8 D_800C1EA4[];
 
 
-void func_800C1F8C(S_800C1F8C_0 *arg0)
+/* Trigger an action and update the object state when either position limit is exceeded. */
+void func_800C1F8C(S_800C1F8C_0 *object)
 {
-    s32 temp_a0;
-    register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 y_distance;
+    register s32 axis_distance ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 axis_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    temp_v0 = arg0->unk_04;
-    temp_v1 = D_80083780.x;
-    temp_a0 = D_80083780.y;
-    temp_v0 -= temp_v1;
-    if (temp_v0 < 0) {
-        temp_v0 = -temp_v0;
+    axis_distance = object->unk_04;
+    axis_offset = D_80083780.x;
+    y_distance = D_80083780.y;
+    axis_distance -= axis_offset;
+    if (axis_distance < 0) {
+        axis_distance = -axis_distance;
     }
-    temp_v0 <<= 16;
+    axis_distance <<= 16;
 
-    temp_v1 = arg0->unk_06 - temp_a0;
-    temp_a0 = temp_v1;
-    if (temp_v1 < 0) {
-        temp_a0 = -temp_a0;
+    axis_offset = object->unk_06 - y_distance;
+    y_distance = axis_offset;
+    if (axis_offset < 0) {
+        y_distance = -y_distance;
     }
 
-    if (arg0->unk_0C < (temp_v0 >> 16)) {
+    if (object->unk_0C < (axis_distance >> 16)) {
         goto trigger;
     }
-    temp_v0 = (s16)temp_a0;
-    if (arg0->unk_0E >= temp_v0) {
+    axis_distance = (s16)y_distance;
+    if (object->unk_0E >= axis_distance) {
         return;
     }
 
 trigger:
-    func_80053DA8(arg0->unk_10 | 0x1000);
-    arg0->unk_00 = D_800C1EA4;
+    func_80053DA8(object->unk_10 | 0x1000);
+    object->unk_00 = D_800C1EA4;
 }

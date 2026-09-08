@@ -1,14 +1,15 @@
 #include "common.h"
 
-s32 func_800B555C(s32 arg0, s32 arg1) {
-    s32 var_v1;
+/* Return 0 if equal, 3 if left is greater, or 4 if left is less. */
+s32 func_800B555C(s32 left, s32 right) {
+    s32 result;
 
-    var_v1 = 0;
-    if (arg0 != arg1) {
-        var_v1 = 3;
-        if (arg0 < arg1) {
-            var_v1 = 4;
+    result = 0;
+    if (left != right) {
+        result = 3;
+        if (left < right) {
+            result = 4;
         }
     }
-    return var_v1;
+    return result;
 }

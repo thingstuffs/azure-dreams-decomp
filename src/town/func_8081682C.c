@@ -54,26 +54,27 @@ extern s32 D_80045340;
 extern s32 D_80083498[3];
 extern s32 D_800F29B4[3];
 
-void func_8002082C(void *arg0) {
-    s32 offset;
-    s32 count;
+/* Create and initialize eight child objects using the owner's image table selection. */
+void func_8002082C(void *owner) {
+    s32 slot_offset;
+    s32 slot_index;
     S_8002082C_4 *object_data;
     S_8002082C_1 *object;
     S_8002082C_2 *image;
 
-    count = 7;
+    slot_index = 7;
     do {
         object = func_8003FD64(0x136, D_80083498);
-        ((S_8002082C_0 *)((u8 *)arg0 + count * 4))->unk_08 = object;
-        offset = count * 4;
+        ((S_8002082C_0 *)((u8 *)owner + slot_index * 4))->unk_08 = object;
+        slot_offset = slot_index * 4;
         if (object != 0) {
             object->unk_10 = D_80022698;
             func_8004491C(object, &D_80045340);
-            object->unk_20 = arg0;
+            object->unk_20 = owner;
             image = object->unk_08;
             object_data = object->unk_0C;
-            image->unk_02 = D_80026DE0[((S_8002082C_3 *)arg0)->unk_34][count].field_0;
-            image->unk_06 = D_80026DE0[((S_8002082C_3 *)arg0)->unk_34][count].field_2;
+            image->unk_02 = D_80026DE0[((S_8002082C_3 *)owner)->unk_34][slot_index].field_0;
+            image->unk_06 = D_80026DE0[((S_8002082C_3 *)owner)->unk_34][slot_index].field_2;
             object_data->unk_10 = 0x60;
             object_data->unk_0C = 0;
             object_data->unk_1E = 0x1000;
@@ -81,8 +82,8 @@ void func_8002082C(void *arg0) {
             object_data->unk_14 |= 0xC;
             func_8003DB94(object_data, D_800F29B4, 0);
         }
-        count--;
-    } while (count >= 0);
+        slot_index--;
+    } while (slot_index >= 0);
 }
 
 /* MECHANISM: Two-u16 table records force one D_80026DE0 base and lhu offsets 0/2.

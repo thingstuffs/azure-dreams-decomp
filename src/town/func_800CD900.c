@@ -18,6 +18,7 @@ typedef struct S_800CB060_1 {
 extern M2C_UNK D_800D6960;
 
 
-void func_800CB060(S_800CB060_0 *arg0) {
-    ((S_800CB060_1 *)(arg0->unk_80))->unk_04 = &D_800D6960;
+/* Set the object's linked data pointer to D_800D6960. */
+void func_800CB060(S_800CB060_0 *object) {
+    ((S_800CB060_1 *)(object->unk_80))->unk_04 = &D_800D6960;
 }

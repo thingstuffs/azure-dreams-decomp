@@ -47,45 +47,46 @@ extern s32 D_80083208;
 extern M2C_UNK D_800F6160;
 extern s16 *D_800F8A44[];
 
-void func_800F643C(s16 arg0, s16 arg1, s32 arg2) {
-    s16 temp_v0_2;
-    s32 temp_v1;
-    void *temp_a0;
-    void *temp_s0;
-    void *temp_s1;
-    void *temp_v0;
+/* Creates a dungeon object at the given position and records it in its slot. */
+void func_800F643C(s16 x, s16 y, s32 slot) {
+    s16 height;
+    s32 render_config;
+    void *object_data;
+    void *position;
+    void *model;
+    void *object;
 
-    temp_v0 = func_8003FC64(0x16);
-    if (temp_v0 != NULL) {
-        ((S_800F643C_0 *)temp_v0)->unk_10 = &D_800F6160;
-        func_8004491C(temp_v0, &D_80046398);
-        temp_v1 = D_80083208;
-        temp_s1 = ((S_800F643C_0 *)temp_v0)->unk_0C;
-        (*(s16 *)((u8 *)temp_s1 + 0x20)) = 0x1000;
-        ((S_800F643C_1 *)temp_s1)->unk_1E = 0x1000;
-        ((S_800F643C_1 *)temp_s1)->unk_1C = 0x1000;
-        ((S_800F643C_1 *)temp_s1)->unk_06 = 4;
-        ((S_800F643C_1 *)temp_s1)->unk_0C = temp_v1;
-        ((S_800F643C_1 *)temp_s1)->unk_08 = 0x70;
-        temp_s0 = ((S_800F643C_0 *)temp_v0)->unk_08;
-        ((S_800F643C_2 *)temp_s0)->unk_02 = arg0;
-        ((S_800F643C_2 *)temp_s0)->unk_06 = arg1;
-        temp_v0_2 = func_800BCB04(arg0 & 0xFFFF, arg1 & 0xFFFF, -0x400) - 0xC0;
-        temp_a0 = temp_v0 + 0x20;
-        ((S_800F643C_2 *)temp_s0)->unk_0A = temp_v0_2;
-        ((S_800F643C_3 *)temp_a0)->unk_0E = temp_v0_2;
-        ((S_800F643C_3 *)temp_a0)->unk_08 = arg2;
-        if (arg2 != 0) {
-            ((S_800F643C_3 *)temp_a0)->unk_02 = 0x800;
-            ((S_800F643C_1 *)temp_s1)->unk_1A = 0x800;
+    object = func_8003FC64(0x16);
+    if (object != NULL) {
+        ((S_800F643C_0 *)object)->unk_10 = &D_800F6160;
+        func_8004491C(object, &D_80046398);
+        render_config = D_80083208;
+        model = ((S_800F643C_0 *)object)->unk_0C;
+        (*(s16 *)((u8 *)model + 0x20)) = 0x1000;
+        ((S_800F643C_1 *)model)->unk_1E = 0x1000;
+        ((S_800F643C_1 *)model)->unk_1C = 0x1000;
+        ((S_800F643C_1 *)model)->unk_06 = 4;
+        ((S_800F643C_1 *)model)->unk_0C = render_config;
+        ((S_800F643C_1 *)model)->unk_08 = 0x70;
+        position = ((S_800F643C_0 *)object)->unk_08;
+        ((S_800F643C_2 *)position)->unk_02 = x;
+        ((S_800F643C_2 *)position)->unk_06 = y;
+        height = func_800BCB04(x & 0xFFFF, y & 0xFFFF, -0x400) - 0xC0;
+        object_data = object + 0x20;
+        ((S_800F643C_2 *)position)->unk_0A = height;
+        ((S_800F643C_3 *)object_data)->unk_0E = height;
+        ((S_800F643C_3 *)object_data)->unk_08 = slot;
+        if (slot != 0) {
+            ((S_800F643C_3 *)object_data)->unk_02 = 0x800;
+            ((S_800F643C_1 *)model)->unk_1A = 0x800;
         }
-        D_800F8A44[arg2] = temp_a0;
-        ((S_800F643C_3 *)temp_a0)->unk_10 = arg2;
-        ASM_USE(arg2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        D_800F8A44[slot] = object_data;
+        ((S_800F643C_3 *)object_data)->unk_10 = slot;
+        ASM_USE(slot);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     }
 }
 
-/* MECHANISM: The 0x30/no-local frame follows from six natural held values; s32 arg2 plus
+/* MECHANISM: The 0x30/no-local frame follows from six natural held values; s32 slot plus
    symbolic D_800F8A44[index] removes the sign-extension and scale-by-16 length cascade.
-   ASM_USE(arg2) restores retail s3/s4/s5 argument coloring, and the named one-read
+   ASM_USE(slot) restores retail s3/s4/s5 argument coloring, and the named one-read
    D_80083208 value hoists its lui/lw and preserves the v1 store schedule. */

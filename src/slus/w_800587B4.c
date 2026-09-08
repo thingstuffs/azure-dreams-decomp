@@ -15,9 +15,7 @@ extern s32 D_800737A4[4];
 extern void func_80056C30(void);
 extern void func_800599B0(void);
 
-/* Initialization routine: sets up a couple of global state words (an address-like
- * value and a flags/size value), runs two subsystem init routines, then marks a
- * global flag/counter as active. */
+/* Sets initial global state, initializes two subsystems, and marks them active. */
 void func_800587B4(void)
 {
     D_80085FA4[0] = 0x80080000;

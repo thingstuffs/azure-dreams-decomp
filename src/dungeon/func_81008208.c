@@ -49,27 +49,28 @@ extern u8 D_801748A0[];
 extern u8 D_801748A8[];
 extern u8 D_801748B0[];
 
-void func_80173A08(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advance a timed movement animation, snap the entity to its tile, and finish the action. */
+void func_80173A08(void *action, void *motion, void *sprite, void *entity)
 {
-    s32 scratch[2];
+    s32 direction_work[2];
     s32 state;
-    s32 remaining;
-    s32 tile_x;
-    s32 x;
-    s32 temp_v0;
-    s32 velocity;
-    s32 y;
-    s32 sum;
-    s32 counter;
+    s32 move_ticks;
+    s32 target_x;
+    s32 world_x;
+    s32 arc_base;
+    s32 arc_offset;
+    s32 world_y;
+    s32 height_offset;
+    s32 next_move_ticks;
     s32 entity_mask;
-    s32 timer;
-    s32 flags;
-    s32 index;
-    register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 action_ticks;
+    s32 entity_flags;
+    s32 facing_index;
+    register u8 *anim_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *global_base;
     u8 *map_base;
 
-    state = ((S_80173A08_0 *)arg0)->unk_9B;
+    state = ((S_80173A08_0 *)action)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -88,130 +89,130 @@ void func_80173A08(void *arg0, void *arg1, void *arg2, void *arg3)
     goto tick;
 
 state_zero:
-    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000)) {
+    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
         goto tick;
     }
-    table = D_801748A0;
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
-    index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
-    func_80047784(arg2, table[index & 7], 0);
-    ((S_80173A08_0 *)arg0)->unk_98 |= 8;
-    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 &= 0xF7FFFFFF;
-    ((S_80173A08_0 *)arg0)->unk_B0.s = 5;
-    ((S_80173A08_0 *)arg0)->unk_A0 = 0;
-    ((S_80173A08_0 *)arg0)->unk_9B++;
+    anim_table = D_801748A0;
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+    facing_index = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    func_80047784(sprite, anim_table[facing_index & 7], 0);
+    ((S_80173A08_0 *)action)->unk_98 |= 8;
+    ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 &= 0xF7FFFFFF;
+    ((S_80173A08_0 *)action)->unk_B0.s = 5;
+    ((S_80173A08_0 *)action)->unk_A0 = 0;
+    ((S_80173A08_0 *)action)->unk_9B++;
     goto tick;
 
 state_one:
-    ((S_80173A08_0 *)arg0)->unk_90 += 0xC0000;
-    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000)) {
+    ((S_80173A08_0 *)action)->unk_90 += 0xC0000;
+    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
         goto tick;
     }
-    table = D_801748A8;
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
-    index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
-    func_80047784(arg2, table[index & 7], 0);
-    ((S_80173A08_0 *)arg0)->unk_98 |= 8;
-    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 &= 0xF7FFFFFF;
-    ((S_80173A08_0 *)arg0)->unk_B0.s = 5;
-    ((S_80173A08_0 *)arg0)->unk_A0 = 0;
-    ((S_80173A08_0 *)arg0)->unk_90 -= 0x400000;
-    ((S_80173A08_0 *)arg0)->unk_9B++;
+    anim_table = D_801748A8;
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+    facing_index = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    func_80047784(sprite, anim_table[facing_index & 7], 0);
+    ((S_80173A08_0 *)action)->unk_98 |= 8;
+    ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 &= 0xF7FFFFFF;
+    ((S_80173A08_0 *)action)->unk_B0.s = 5;
+    ((S_80173A08_0 *)action)->unk_A0 = 0;
+    ((S_80173A08_0 *)action)->unk_90 -= 0x400000;
+    ((S_80173A08_0 *)action)->unk_9B++;
 
 state_two:
-    remaining = ((S_80173A08_0 *)arg0)->unk_B0.s;
-    ((S_80173A08_0 *)arg0)->unk_90 -= ((S_80173A08_0 *)arg0)->unk_A0;
-    if (remaining != 0) {
-        tile_x = ((Rec_D_80082E80 *)arg2)->unk_24;
-        x = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v;
-        tile_x <<= 6;
-        x -= 0x20;
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = ((tile_x - x) << 16) / remaining;
+    move_ticks = ((S_80173A08_0 *)action)->unk_B0.s;
+    ((S_80173A08_0 *)action)->unk_90 -= ((S_80173A08_0 *)action)->unk_A0;
+    if (move_ticks != 0) {
+        target_x = ((Rec_D_80082E80 *)sprite)->unk_24;
+        world_x = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v;
+        target_x <<= 6;
+        world_x -= 0x20;
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = ((target_x - world_x) << 16) / move_ticks;
 
-        y = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v;
-        y -= 0x20;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
-            (((((Rec_D_80082E80 *)arg2)->unk_25 << 6) - y) << 16) /
-            ((S_80173A08_0 *)arg0)->unk_B0.s;
+        world_y = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v;
+        world_y -= 0x20;
+        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
+            (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - world_y) << 16) /
+            ((S_80173A08_0 *)action)->unk_B0.s;
 
-        temp_v0 = (0 - func_800644B8(((S_80173A08_0 *)arg0)->unk_B0.s * 0x199)) << 10;
-        ((S_80173A08_0 *)arg0)->unk_A0 = temp_v0 + (temp_v0 >> 1);
+        arc_base = (0 - func_800644B8(((S_80173A08_0 *)action)->unk_B0.s * 0x199)) << 10;
+        ((S_80173A08_0 *)action)->unk_A0 = arc_base + (arc_base >> 1);
     }
 
-    sum = ((S_80173A08_0 *)arg0)->unk_90;
-    velocity = ((S_80173A08_0 *)arg0)->unk_A0;
-    counter = ((S_80173A08_0 *)arg0)->unk_B0.u;
-    sum += velocity;
-    counter -= 1;
-    ((S_80173A08_0 *)arg0)->unk_B0.u = counter;
-    ((S_80173A08_0 *)arg0)->unk_90 = sum;
-    if ((counter << 16) >= 0) {
+    height_offset = ((S_80173A08_0 *)action)->unk_90;
+    arc_offset = ((S_80173A08_0 *)action)->unk_A0;
+    next_move_ticks = ((S_80173A08_0 *)action)->unk_B0.u;
+    height_offset += arc_offset;
+    next_move_ticks -= 1;
+    ((S_80173A08_0 *)action)->unk_B0.u = next_move_ticks;
+    ((S_80173A08_0 *)action)->unk_90 = height_offset;
+    if ((next_move_ticks << 16) >= 0) {
         goto state_three;
     }
 
     entity_mask = 0x08000000;
     ASM_KEEP(entity_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_80173A08_0 *)arg0)->unk_90 = 0;
-    ((S_80173A08_0 *)arg0)->unk_98 &= 0xFFF7;
-    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 |= entity_mask;
-    table = D_801748B0;
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
-    index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
-    func_80047784(arg2, table[index & 7], 0);
-    ((S_80173A08_0 *)arg0)->unk_9B++;
+    ((S_80173A08_0 *)action)->unk_90 = 0;
+    ((S_80173A08_0 *)action)->unk_98 &= 0xFFF7;
+    ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 |= entity_mask;
+    anim_table = D_801748B0;
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+    facing_index = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    func_80047784(sprite, anim_table[facing_index & 7], 0);
+    ((S_80173A08_0 *)action)->unk_9B++;
 
 state_three:
-    if (!(((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x08000000)) {
+    if (!(((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x08000000)) {
         goto tick;
     }
-    ((S_80173A08_0 *)arg0)->unk_98 &= 0xFFF7;
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
-    table = D_801748B0;
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
-    index = (D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9;
-    func_80047784(arg2, table[index & 7], 0);
-    ((S_80173A08_0 *)arg0)->unk_9B++;
+    ((S_80173A08_0 *)action)->unk_98 &= 0xFFF7;
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    anim_table = D_801748B0;
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+    facing_index = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
+    func_80047784(sprite, anim_table[facing_index & 7], 0);
+    ((S_80173A08_0 *)action)->unk_9B++;
 
 tick:
-    timer = ((S_80173A08_0 *)arg0)->unk_96 - 1;
-    ((S_80173A08_0 *)arg0)->unk_96 = timer;
-    if ((timer << 16) > 0) {
+    action_ticks = ((S_80173A08_0 *)action)->unk_96 - 1;
+    ((S_80173A08_0 *)action)->unk_96 = action_ticks;
+    if ((action_ticks << 16) > 0) {
         return;
     }
 
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
-    func_800AD594(arg3, 4);
-    func_800A4ACC(arg3);
+    ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    func_800AD594(entity, 4);
+    func_800A4ACC(entity);
 
     global_base = (u8 *)&D_80083460;
     if (((S_80173A08_4 *)global_base)->unk_08.s != 0) {
         ((S_80173A08_4 *)global_base)->unk_08.u--;
     }
 
-    flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32;
-    if (flags & 0x2000) {
-        if (((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000) {
-            ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
+    entity_flags = ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32;
+    if (entity_flags & 0x2000) {
+        if (((Rec_D_800E3D7C *)entity)->unk_44.at02_u16.v & 0x8000) {
+            ((Rec_D_800E3D7C *)entity)->unk_44.at02_u16.v &= 0x7FFF;
         }
         goto finish;
     }
-    if (flags & 0x410) {
+    if (entity_flags & 0x410) {
         goto finish;
     }
-    if (flags & 0x20000) {
+    if (entity_flags & 0x20000) {
         map_base = D_80082E80;
-        ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(
-            ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
-            ((S_80173A08_5 *)map_base)->unk_24, ((S_80173A08_5 *)map_base)->unk_25, scratch);
+        ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 = func_800A0818(
+            ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+            ((S_80173A08_5 *)map_base)->unk_24, ((S_80173A08_5 *)map_base)->unk_25, direction_work);
     }
 
 finish:
-    ((S_80173A08_0 *)arg0)->unk_8C = D_80171058;
-    func_800A9A04(arg3);
+    ((S_80173A08_0 *)action)->unk_8C = D_80171058;
+    func_800A9A04(entity);
 }

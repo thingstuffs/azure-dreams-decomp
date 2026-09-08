@@ -20,11 +20,12 @@ typedef struct {
 
 extern u16 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
 
-void func_80036C7C(FuncInput *arg0, u32 *arg1, FuncOutput *arg2) {
-    arg2->value0 = arg1[0];
-    arg2->value4 = arg1[1];
-    arg2->value8 = arg1[2];
-    ((u16 *)&arg2->value4)[0] = GetTPage(0, 1, arg0->x, arg0->y);
-    ((u8 *)&arg2->value8)[0] += arg0->x_offset + (arg0->x % 64) * 4;
-    ((u8 *)&arg2->value8)[1] += (arg0->y % 256) + arg0->y_offset;
+/* Copies texture data and adjusts its texture page and UV coordinates. */
+void func_80036C7C(FuncInput *texture_pos, u32 *src, FuncOutput *dst) {
+    dst->value0 = src[0];
+    dst->value4 = src[1];
+    dst->value8 = src[2];
+    ((u16 *)&dst->value4)[0] = GetTPage(0, 1, texture_pos->x, texture_pos->y);
+    ((u8 *)&dst->value8)[0] += texture_pos->x_offset + (texture_pos->x % 64) * 4;
+    ((u8 *)&dst->value8)[1] += (texture_pos->y % 256) + texture_pos->y_offset;
 }

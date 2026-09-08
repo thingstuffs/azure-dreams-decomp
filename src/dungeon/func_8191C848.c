@@ -34,18 +34,19 @@ extern s32 D_800814A0[3];
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 
-void func_8191C848(void *arg0, S_8191C848_3 *arg1, Rec_D_80082E80 *arg2) {
-    s32 temp_lo;
-    S_8191C848_1 *temp_v1;
-    temp_v1 = ((S_8191C848_0 *)arg0)->unk_00;
-    temp_v1->unk_14 = (u16) (temp_v1->unk_14 + 1);
-    func_800478B8(arg2);
-    if (arg2->unk_14.at00_u16.v & 0x6000) {
-        ((S_8191C848_0_pre *)arg0)[-1].unk_00 = (u16) (((S_8191C848_0_pre *)arg0)[-1].unk_00 | 0x8000);
+/* Advance the motion counter, update status flags, and move the position. */
+void func_8191C848(void *motion, S_8191C848_3 *position, Rec_D_80082E80 *status) {
+    s32 y_step_scaled;
+    S_8191C848_1 *counter_state;
+    counter_state = ((S_8191C848_0 *)motion)->unk_00;
+    counter_state->unk_14 = (u16) (counter_state->unk_14 + 1);
+    func_800478B8(status);
+    if (status->unk_14.at00_u16.v & 0x6000) {
+        ((S_8191C848_0_pre *)motion)[-1].unk_00 = (u16) (((S_8191C848_0_pre *)motion)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
-    arg1->unk_02 = (u16) (arg1->unk_02 + ((s32) ((func_800644B8(((S_8191C848_0 *)arg0)->unk_08) >> 4) * ((S_8191C848_0 *)arg0)->unk_0A) >> 8));
-    temp_lo = (func_80064584(((S_8191C848_0 *)arg0)->unk_08) >> 4) * ((S_8191C848_0 *)arg0)->unk_0A;
-    arg1->unk_0A = (u16) (arg1->unk_0A - 4);
-    arg1->unk_06 = (u16) (arg1->unk_06 + (temp_lo >> 8));
+    position->unk_02 = (u16) (position->unk_02 + ((s32) ((func_800644B8(((S_8191C848_0 *)motion)->unk_08) >> 4) * ((S_8191C848_0 *)motion)->unk_0A) >> 8));
+    y_step_scaled = (func_80064584(((S_8191C848_0 *)motion)->unk_08) >> 4) * ((S_8191C848_0 *)motion)->unk_0A;
+    position->unk_0A = (u16) (position->unk_0A - 4);
+    position->unk_06 = (u16) (position->unk_06 + (y_step_scaled >> 8));
 }

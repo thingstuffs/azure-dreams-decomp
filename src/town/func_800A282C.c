@@ -19,56 +19,57 @@ extern s32 func_8003BD84(s32, s32);
 extern s32 D_800D0728[];
 extern TownState *D_80100900;
 
-s32 func_8009FF8C(s32 arg0, void *arg1)
+/* Return the nearest unflagged record's result, or -1 if none is available. */
+s32 func_8009FF8C(s32 record_set, void *target)
 {
     TownRecord *records;
     register TownRecord *record ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u8 *flagBase;
-    register u8 *argPtr ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u8 *flag_base;
+    register u8 *target_pos ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 count;
-    s32 best;
-    register s32 bestIndex ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 i;
-    s32 baseX;
-    s32 baseY;
+    s32 best_distance;
+    register s32 best_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 record_index;
+    s32 base_x;
+    s32 base_y;
     s32 distance;
     s32 result;
-    u16 rawX;
-    u16 rawY;
+    u16 raw_x;
+    u16 raw_y;
 
-    argPtr = arg1;
-    ASM_KEEP_NV(argPtr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    best = 0x7FFFFFFF;
-    i = 0;
-    count = D_800D0728[arg0];
+    target_pos = target;
+    ASM_KEEP_NV(target_pos);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    best_distance = 0x7FFFFFFF;
+    record_index = 0;
+    count = D_800D0728[record_set];
     records = *(TownRecord **)((u8 *)D_80100900->recordsOwner + 4);
-    rawX = D_80100900->x;
-    rawY = D_80100900->y;
-    bestIndex = i;
+    raw_x = D_80100900->x;
+    raw_y = D_80100900->y;
+    best_index = record_index;
     if (count > 0) {
-        baseX = (s16)rawX;
-        baseY = (s16)rawY;
+        base_x = (s16)raw_x;
+        base_y = (s16)raw_y;
         record = records;
-        flagBase = (u8 *)0x80010000;
+        flag_base = (u8 *)0x80010000;
         do {
-            if (flagBase[0x981] == 0) {
+            if (flag_base[0x981] == 0) {
                 distance = func_8003BD84(
-                    ((record->x + baseX) - *(s16 *)(argPtr + 2)) << 16,
-                    ((record->y + baseY) - *(s16 *)(argPtr + 6)) << 16);
-                if (distance < best) {
-                    best = distance;
-                    bestIndex = i;
+                    ((record->x + base_x) - *(s16 *)(target_pos + 2)) << 16,
+                    ((record->y + base_y) - *(s16 *)(target_pos + 6)) << 16);
+                if (distance < best_distance) {
+                    best_distance = distance;
+                    best_index = record_index;
                 }
             }
             record++;
-            i++;
-            flagBase += 4;
-        } while (i < count);
+            record_index++;
+            flag_base += 4;
+        } while (record_index < count);
     }
-    if (best == 0x7FFFFFFF) {
+    if (best_distance == 0x7FFFFFFF) {
         goto no_best;
     }
-    result = records[bestIndex].result;
+    result = records[best_index].result;
     goto done;
 no_best:
     result = -1;
@@ -76,7 +77,3 @@ done:
     return result;
 }
 
-/* MECHANISM: Recover the true-space tail as a local return join, retain bestIndex,
-   and use 20-byte records plus the held 0x80010000 flag-page base. Keep structural
-   roles pinned, but leave s32 baseX/baseY natural so cdk assigns fp/s6 and emits
-   both sign extensions before loading the record and flag bases. */

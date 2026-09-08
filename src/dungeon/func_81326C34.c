@@ -25,21 +25,22 @@ extern s32 *D_80174704[3];
 extern Object *D_80174CC8[3];
 extern u8 D_8016E300[];
 
+/* Creates and initializes a sprite object offset from the first source position. */
 void func_8016E434(void) {
-    s32 *source;
+    s32 *source_pos;
     Object *obj;
     s32 *position;
     u8 *sprite;
 
-    source = (s32 *)D_80174704[0][2];
+    source_pos = (s32 *)D_80174704[0][2];
     obj = func_8003FC64(0x212);
     if (obj != 0) {
         obj->callback = D_8016E300;
         func_8004491C(obj, D_80045340);
         position = obj->position;
-        position[0] = source[0] + (s32)0xFFC00000;
-        position[1] = source[1];
-        position[2] = source[2];
+        position[0] = source_pos[0] + (s32)0xFFC00000;
+        position[1] = source_pos[1];
+        position[2] = source_pos[2];
         sprite = obj->sprite;
         *(s16 *)(sprite + 0x1E) = 0x1000;
         *(s16 *)(sprite + 0x1C) = 0x1000;

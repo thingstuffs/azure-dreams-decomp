@@ -12,14 +12,52 @@ extern void func_8009A21C(u8, u8, s32);
 extern void func_800A56E0(s32);
 extern void func_800A5720(s32);
 extern void func_800C8CD8(void *, s32, s32);
-s32 func_800C2F2C(void *arg0,u8 *arg1,s16 arg2) {
-    s16 x; register s32 a ASM_REG("$5"); s32 b, r; s32 *counter_base; void *p; u8 *q; u8 *base;
-    if(arg0==D_800E3D7C){F(arg0,u8 *,0x110)=arg1;func_8008D344(arg0,D_80083780,D_80082E80,arg0);return 0;}
-    p=F(arg0,void **,-0x14); r=func_800C7380(F(p,u8,0x24),F(p,u8,0x25),F(arg0,s16,0x88),-1,*arg1);
-    if(r!=0){func_800A56E0(0x60D);x=func_800B60B8(F(p,u8,0x24),F(p,u8,0x25),F(arg0,s16,0x88),5,r);q=(u8 *)r+0x20;ASM_KEEP(q);base=D_800E39C8;F(q,s16,0x20)=x;F(base+x*0x18,s32,8)=0;a=func_800990FC();ASM_KEEP(a);b=a;
-        if(arg2==0xD){func_80099290(func_800999B0(func_80099194(D_800893D8,func_80099734(arg0,func_80099194(D_800E1713,func_80099368(arg1,a))))));func_800A5720(b);}
-        func_800997FC(D_800E16E3);func_800C8CD8(arg0,0x100,0x10);func_8009A21C(F(p,u8,0x24),F(p,u8,0x25),0x10);func_80098B38(arg1);counter_base=&D_80083460;F(counter_base,u16,0xA)--;return 1;}return 0;
+/* Processes an actor's item and updates its object entry, effects, and item count. */
+s32 func_800C2F2C(void *actor, u8 *item, s16 action) {
+    s16 entry_index;
+    register s32 message_handle ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 saved_handle, object_addr;
+    s32 *counter_base;
+    void *entity;
+    u8 *object_fields;
+    u8 *entries;
+
+    if (actor == D_800E3D7C) {
+        F(actor, u8 *, 0x110) = item;
+        func_8008D344(actor, D_80083780, D_80082E80, actor);
+        return 0;
+    }
+
+    entity = F(actor, void **, -0x14);
+    object_addr = func_800C7380(F(entity, u8, 0x24), F(entity, u8, 0x25),
+                               F(actor, s16, 0x88), -1, *item);
+    if (object_addr != 0) {
+        func_800A56E0(0x60D);
+        entry_index = func_800B60B8(F(entity, u8, 0x24), F(entity, u8, 0x25),
+                                   F(actor, s16, 0x88), 5, object_addr);
+        object_fields = (u8 *)object_addr + 0x20;
+        ASM_KEEP(object_fields);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        entries = D_800E39C8;
+        F(object_fields, s16, 0x20) = entry_index;
+        F(entries + entry_index * 0x18, s32, 8) = 0;
+        message_handle = func_800990FC();
+        ASM_KEEP(message_handle);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        saved_handle = message_handle;
+
+        if (action == 0xD) {
+            func_80099290(func_800999B0(func_80099194(D_800893D8,
+                func_80099734(actor, func_80099194(D_800E1713,
+                    func_80099368(item, message_handle))))));
+            func_800A5720(saved_handle);
+        }
+
+        func_800997FC(D_800E16E3);
+        func_800C8CD8(actor, 0x100, 0x10);
+        func_8009A21C(F(entity, u8, 0x24), F(entity, u8, 0x25), 0x10);
+        func_80098B38(item);
+        counter_base = &D_80083460;
+        F(counter_base, u16, 0xA)--;
+        return 1;
+    }
+    return 0;
 }
-/* MECHANISM: The 48-byte frame follows from the three held args, entity, and object handle.
-   Guarded v1/a1 runtime holds preserve the split object-field address and handle-copy schedule.
-   A held counter base restores the tail addiu and collapses the branch displacement cascade. */

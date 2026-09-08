@@ -1,28 +1,29 @@
 #include "common.h"
 
+/* Clears matching table entries and the associated byte in each indexed record. */
 void func_800F6490(void) {
-    s32 i;
-    u32 page;
-    s32 c13;
-    s32 c2;
+    s32 slot_index;
+    u32 table_base;
+    s32 match_byte1;
+    s32 match_byte0;
     volatile u32 *entry;
-    volatile u8 *p;
-    u32 idx;
+    volatile u8 *scan_ptr;
+    u32 record_index;
 
-    i = 0x3F;
-    page = 0x80010000;
-    c13 = 0x13;
-    c2 = 2;
-    entry = (volatile u32 *)(page | 0xA7C);
-    p = (volatile u8 *)(page | 0xFC);
+    slot_index = 0x3F;
+    table_base = 0x80010000;
+    match_byte1 = 0x13;
+    match_byte0 = 2;
+    entry = (volatile u32 *)(table_base | 0xA7C);
+    scan_ptr = (volatile u8 *)(table_base | 0xFC);
     do {
-        if (p[0x981] == c13 && p[0x980] == c2) {
-            idx = p[0x983] & 0x3F;
-            ((u8 *)page)[idx * 0x54 + 0xA93] = 0;
+        if (scan_ptr[0x981] == match_byte1 && scan_ptr[0x980] == match_byte0) {
+            record_index = scan_ptr[0x983] & 0x3F;
+            ((u8 *)table_base)[record_index * 0x54 + 0xA93] = 0;
             *entry = 0;
         }
         entry--;
-        i--;
-        p -= 4;
-    } while (i >= 0);
+        slot_index--;
+        scan_ptr -= 4;
+    } while (slot_index >= 0);
 }

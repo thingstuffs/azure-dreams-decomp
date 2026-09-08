@@ -15,25 +15,22 @@ extern void DrawSync(s32 a0);
 extern S_800483AC_rect D_800710D4;
 extern S_800483AC_rect D_800710DC;
 
-/* Allocates a 0x2000-byte scratch buffer, zeroes it, then LoadImage()s one
- * of two TIM/RECT headers into it (chosen by the s16 flag a0), DMAs it
- * out via func_8003F80C() twice per branch (offset 0x7A40/0x7A41 then
- * 0x79C0/0x79C1), and finally DrawSync(0)s. */
-void func_800483AC(s16 a0)
+/* Uploads a zeroed buffer to the selected rectangle, submits two transfers, and waits for drawing. */
+void func_800483AC(s16 use_alt_rect)
 {
-    void *buf;
+    void *clear_buf;
 
-    buf = func_80040574(0x2000);
-    bzero(buf, 0x2000);
+    clear_buf = func_80040574(0x2000);
+    bzero(clear_buf, 0x2000);
 
-    if (a0) {
-        LoadImage((RECT *)&D_800710DC, buf);
-        func_8003F80C((s32)buf, 0x7A40, 1, 2);
-        func_8003F80C((s32)buf, 0x79C0, 1, 2);
+    if (use_alt_rect) {
+        LoadImage((RECT *)&D_800710DC, clear_buf);
+        func_8003F80C((s32)clear_buf, 0x7A40, 1, 2);
+        func_8003F80C((s32)clear_buf, 0x79C0, 1, 2);
     } else {
-        LoadImage((RECT *)&D_800710D4, buf);
-        func_8003F80C((s32)buf, 0x7A41, 1, 2);
-        func_8003F80C((s32)buf, 0x79C1, 1, 2);
+        LoadImage((RECT *)&D_800710D4, clear_buf);
+        func_8003F80C((s32)clear_buf, 0x7A41, 1, 2);
+        func_8003F80C((s32)clear_buf, 0x79C1, 1, 2);
     }
     DrawSync(0);
 }

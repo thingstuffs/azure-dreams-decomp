@@ -11,39 +11,36 @@ extern s32 D_8001B6D0;
 extern s32 D_8001F690;
 extern s8 D_8001FB7F;
 
-s32 func_80016F64(void *arg0, s32 arg1, s32 arg2) {
-    register s32 *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temp_s1;
-    s32 var_v0;
+/* Selects a result for an object based on validation checks. */
+s32 func_80016F64(void *object, s32 check_mode, s32 context) {
+    register s32 *data_table ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 result;
+    s32 status_or_base;
 
-    var_v0 = func_80017E98(arg0, arg1);
-    var_s0 = (s32 *)0x80020000;
-    if (var_v0 != 0) {
-        if (func_8001A510(*(s16 *)((s8 *)arg0 + 0x18)) == 0) {
-            var_v0 = 0x80020000;
-            ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            return var_v0 - 0x4930;
+    status_or_base = func_80017E98(object, check_mode);
+    data_table = (s32 *)0x80020000;
+    if (status_or_base != 0) {
+        if (func_8001A510(*(s16 *)((s8 *)object + 0x18)) == 0) {
+            status_or_base = 0x80020000;
+            ASM_KEEP(status_or_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            return status_or_base - 0x4930;
         }
     }
 
-    var_s0 = (s32 *)((s8 *)var_s0 - 0x5674);
-    temp_s1 = func_80019ABC(var_s0, &D_8001B1F8, arg0, arg2);
-    if (func_80019A04(var_s0, arg0, arg2) != 0) {
-        var_v0 = func_8001A510(*(s16 *)((s8 *)arg0 + 0x18));
-        if (var_v0 == 0) {
+    data_table = (s32 *)((s8 *)data_table - 0x5674);
+    result = func_80019ABC(data_table, &D_8001B1F8, object, context);
+    if (func_80019A04(data_table, object, context) != 0) {
+        status_or_base = func_8001A510(*(s16 *)((s8 *)object + 0x18));
+        if (status_or_base == 0) {
             ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            var_v0 = 0x80020000;
-            ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            temp_s1 = var_v0 - 0x970;
+            status_or_base = 0x80020000;
+            ASM_KEEP(status_or_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            result = status_or_base - 0x970;
         } else {
-            var_v0 = 0x80020000;
-            ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            temp_s1 = var_v0 - 0x481;
+            status_or_base = 0x80020000;
+            ASM_KEEP(status_or_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            result = status_or_base - 0x481;
         }
     }
-    return temp_s1;
+    return result;
 }
-
-/* MECHANISM: Three-argument ABI holds arg0/arg2 in s2/s3 across calls.
-   Guarded s0/v0 pins preserve the page-base and signed-low-half live ranges.
-   The zero-path v0 clobber retains retail's redundant lui and closes the tail. */

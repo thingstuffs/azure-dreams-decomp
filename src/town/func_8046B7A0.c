@@ -24,26 +24,27 @@ typedef struct {
 
 extern TownRecord D_800186C0[];
 
+/* Selects the first record matching all four flag checks, or the default data. */
 void func_8001C7A0(void)
 {
     if (D_800186C0[0].next != 0) {
-        s16 *value_base = D_80018740;
+        s16 *check_values = D_80018740;
         TownRecord *record = D_800186C0;
-        s16 *value;
-        s32 i = 0;
+        s16 *check_value;
+        s32 flag_index = 0;
 
-outer:
-        value = value_base;
+check_record:
+        check_value = check_values;
 
         do {
-            if ((record->flags[i] != 0) != (func_8001E670(*value) != 0)) {
+            if ((record->flags[flag_index] != 0) != (func_8001E670(*check_value) != 0)) {
                 break;
             }
-            i++;
-            value++;
-        } while (i < 4);
+            flag_index++;
+            check_value++;
+        } while (flag_index < 4);
 
-        if (i == 4) {
+        if (flag_index == 4) {
             void *root = *(void **)D_80016000;
             void *owner = ((S_8001C7A0_0 *)root)->unk_1C;
 
@@ -51,9 +52,9 @@ outer:
             return;
         }
         record++;
-        i = 0;
+        flag_index = 0;
         if (record->next != 0) {
-            goto outer;
+            goto check_record;
         }
     }
 
@@ -65,6 +66,3 @@ outer:
     }
 }
 
-/* MECHANISM: an 8-byte record type keeps s2 as the record base without holding
-   a separate +4 field pointer; the s16 base/cursor occupy s3/s1 and i occupies s0.
-   The apparent 0x8001C864 callee is the row-local shared epilogue, so success returns. */

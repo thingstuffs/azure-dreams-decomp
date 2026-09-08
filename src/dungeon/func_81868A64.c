@@ -50,29 +50,30 @@ typedef struct S_81868A64_3 {
     u16 unk_0A;
 } S_81868A64_3;   /* arg1 in func_81868A64 */
 
-void func_81868A64(s32 arg0, S_81868A64_3 *arg1, s8 arg2) {
-    S_81868A64_1 *temp_s0;
-    S_81868A64_2 *temp_s0_2;
-    S_81868A64_0 *temp_v0;
+/* Creates a grayscale effect with a randomized offset from the supplied position. */
+void func_81868A64(s32 user_data, S_81868A64_3 *source_pos, s8 intensity) {
+    S_81868A64_1 *render_state;
+    S_81868A64_2 *effect_pos;
+    S_81868A64_0 *effect;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_s0 = temp_v0->unk_0C;
-        temp_v0->unk_10 = &D_8002418C;
-        temp_v0->unk_20 = arg0;
-        temp_s0->unk_0E = arg2;
-        temp_s0->unk_0D = arg2;
-        temp_s0->unk_0C = arg2;
-        func_8003DB94(temp_s0, &D_800DEDB0, 0);
-        temp_s0->unk_1E = 0x1800;
-        temp_s0->unk_1C = 0x1800;
-        temp_s0->unk_12 = 0x7E0B;
-        temp_s0->unk_10 = (u16) (temp_s0->unk_10 | 0x60);
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0x10C);
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s0_2 = temp_v0->unk_08;
-        temp_s0_2->unk_02 = (u16) arg1->unk_02;
-        temp_s0_2->unk_06 = (u16) arg1->unk_06;
-        temp_s0_2->unk_0A = (s16) ((arg1->unk_0A + (rand() % 17)) - 8);
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        render_state = effect->unk_0C;
+        effect->unk_10 = &D_8002418C;
+        effect->unk_20 = user_data;
+        render_state->unk_0E = intensity;
+        render_state->unk_0D = intensity;
+        render_state->unk_0C = intensity;
+        func_8003DB94(render_state, &D_800DEDB0, 0);
+        render_state->unk_1E = 0x1800;
+        render_state->unk_1C = 0x1800;
+        render_state->unk_12 = 0x7E0B;
+        render_state->unk_10 = (u16) (render_state->unk_10 | 0x60);
+        render_state->unk_14 = (u16) (render_state->unk_14 | 0x10C);
+        func_8004491C(effect, &D_80045340);
+        effect_pos = effect->unk_08;
+        effect_pos->unk_02 = (u16) source_pos->unk_02;
+        effect_pos->unk_06 = (u16) source_pos->unk_06;
+        effect_pos->unk_0A = (s16) ((source_pos->unk_0A + (rand() % 17)) - 8);
     }
 }

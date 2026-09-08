@@ -27,27 +27,28 @@ extern void func_80023258(void *arg0);
 extern u8 D_80027DD0[];
 extern u8 D_800291D0[];
 
-void *func_800238D4(s32 arg0)
+/* Creates or resets the object, initializes its state, and runs its update callback. */
+void *func_800238D4(s32 init_value)
 {
-    u8 *base;
-    u8 *work;
+    u8 *object;
+    u8 *state;
 
-    base = D_800291D0;
-    work = D_800291D0 + 0x20;
-    if (func_8004B4A8(base) == 0) {
-        base = func_8003FE78(0, base, 0x112);
-        func_8004491C(base, D_80027DD0);
+    object = D_800291D0;
+    state = D_800291D0 + 0x20;
+    if (func_8004B4A8(object) == 0) {
+        object = func_8003FE78(0, object, 0x112);
+        func_8004491C(object, D_80027DD0);
     } else {
-        func_80023A00(base);
-        ((S_800238D4_0 *)base)->unk_1E &= 0x7FFF;
-        bzero(work, 0x428);
+        func_80023A00(object);
+        ((S_800238D4_0 *)object)->unk_1E &= 0x7FFF;
+        bzero(state, 0x428);
     }
 
-    func_800237EC(work, 0x12);
-    ((S_800238D4_0 *)base)->unk_0C = work + 0x190;
-    ((S_800238D4_1 *)work)->unk_19C = func_800237C4(work + 0x1A0);
-    func_80023894(work, arg0);
-    *(void (**)(void *))(base + 0x10) = func_80023258;
-    func_80023258(work);
-    return base;
+    func_800237EC(state, 0x12);
+    ((S_800238D4_0 *)object)->unk_0C = state + 0x190;
+    ((S_800238D4_1 *)state)->unk_19C = func_800237C4(state + 0x1A0);
+    func_80023894(state, init_value);
+    *(void (**)(void *))(object + 0x10) = func_80023258;
+    func_80023258(state);
+    return object;
 }

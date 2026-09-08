@@ -1,25 +1,23 @@
 #include "common.h"
 
-/* Sets a 2-bit packed field in byte-array D_80013614: byte index = (s16)arg0 >> 2,
- * sub-field shift = (arg0 & 3) * 2 bits; value = (arg1's low 16 bits != 0) ? 3 : 1,
- * OR'd (not cleared) into place. */
 extern u8 D_80013614[16];
 
-void setPacked2bitFlag(s32 arg0, s32 arg1) {
-    u8 *p;
-    s32 idx;
-    s32 shift;
-    u8 old;
-    s32 val;
+/* ORs 3 into the indexed two-bit field if the flag's low 16 bits are nonzero, otherwise 1. */
+void setPacked2bitFlag(s32 field_index, s32 flag) {
+    u8 *packed_byte;
+    s32 byte_index;
+    s32 bit_shift;
+    u8 old_byte;
+    s32 field_bits;
 
-    p = D_80013614;
-    idx = (s16)arg0 >> 2;
-    p = p + idx;
-    shift = (arg0 & 3) << 1;
-    old = *p;
-    val = 1;
-    if ((arg1 << 16) != 0) {
-        val = 3;
+    packed_byte = D_80013614;
+    byte_index = (s16)field_index >> 2;
+    packed_byte = packed_byte + byte_index;
+    bit_shift = (field_index & 3) << 1;
+    old_byte = *packed_byte;
+    field_bits = 1;
+    if ((flag << 16) != 0) {
+        field_bits = 3;
     }
-    *p = old | (val << shift);
+    *packed_byte = old_byte | (field_bits << bit_shift);
 }

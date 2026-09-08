@@ -28,44 +28,45 @@ extern void *D_800E3DE8;
 extern u8 D_80170EA8;
 extern u8 D_80174060[];
 
-void func_801727EC(void *arg0, s32 arg1, void *arg2, void *arg3) {
-    u16 temp_v0;
-    u8 temp_v1;
+/* Advances a timed directional animation and updates the actor when it completes. */
+void func_801727EC(void *action_state, s32 actor_id, void *animation, void *actor) {
+    u16 ticks_left;
+    u8 phase;
 
-    temp_v1 = ((S_801727EC_0 *)arg0)->unk_9B;
-    switch (temp_v1) {
+    phase = ((S_801727EC_0 *)action_state)->unk_9B;
+    switch (phase) {
     case 0:
-        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
-            ((S_801727EC_0 *)arg0)->unk_9B = 1;
-            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
-            ((S_801727EC_0 *)arg0)->unk_96 = 1;
+        if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000) {
+            ((S_801727EC_0 *)action_state)->unk_9B = 1;
+            ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v |= 0x6000;
+            ((S_801727EC_0 *)action_state)->unk_96 = 1;
             break;
         }
-        ((S_801727EC_0 *)arg0)->unk_96 = 7;
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80174060;
-        func_80047784(arg2,
-                     D_80174060[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        ((S_801727EC_0 *)action_state)->unk_96 = 7;
+        (*(u8 * *)((u8 *)animation + 0x2C)) = D_80174060;
+        func_80047784(animation,
+                     D_80174060[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                      0);
-        ((S_801727EC_0 *)arg0)->unk_9B++;
+        ((S_801727EC_0 *)action_state)->unk_9B++;
         break;
 
     case 1:
-        temp_v0 = ((S_801727EC_0 *)arg0)->unk_96 - 1;
-        ((S_801727EC_0 *)arg0)->unk_96 = temp_v0;
-        if (((temp_v0 << 16) == 0) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-            func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
+        ticks_left = ((S_801727EC_0 *)action_state)->unk_96 - 1;
+        ((S_801727EC_0 *)action_state)->unk_96 = ticks_left;
+        if (((ticks_left << 16) == 0) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
+            func_8009C12C(actor, animation, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
             func_800A56E0(0x804);
         }
-        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
-            func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
-            func_800AD594(arg3, 0x100);
-            ((S_801727EC_0 *)arg0)->unk_8C = &D_80170EA8;
+        if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
+            func_800A2B04(actor_id, ((Rec_D_80082E80 *)animation)->unk_24, ((Rec_D_80082E80 *)animation)->unk_25);
+            func_800AD594(actor, 0x100);
+            ((S_801727EC_0 *)action_state)->unk_8C = &D_80170EA8;
             D_8008346C = 0;
-            func_800A4ACC(arg3);
-            if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 == 0) {
-                ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
+            func_800A4ACC(actor);
+            if (((Rec_D_800E3D7C *)actor)->unk_6D.as_s8 == 0) {
+                ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
             } else {
-                D_800E3DE8 = (u8 *)arg3 - 0x20;
+                D_800E3DE8 = (u8 *)actor - 0x20;
             }
         }
         break;

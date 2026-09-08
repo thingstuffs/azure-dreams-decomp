@@ -27,106 +27,107 @@ extern u8 D_8017586C[];
 extern u8 D_8017588C[];
 
 
-void func_80172DD0(S_80172DD0_1 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
+/* Update directional motion and settle the entity onto its target tile. */
+void func_80172DD0(S_80172DD0_1 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile_state, void *entity)
 {
     s16 timer;
-    s32 index;
-    s32 value;
-    s32 *state;
+    s32 direction;
+    s32 tracked_entity;
+    s32 *global_state;
 
-    index = (((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 9) & 7;
-    switch (arg0->unk_9B) {
+    direction = (((Rec_D_800E3D7C *)entity)->unk_6A.as_u16 >> 9) & 7;
+    switch (action->unk_9B) {
     case 0:
-        func_800AD4D0(arg3);
-        arg1->unk_0C.as_s32 =
-            *(s16 *)((u8 *)&D_8006CCD8 + (index * 2)) << 18;
-        arg1->unk_10.at00_s32.v =
-            *(s16 *)((u8 *)&D_8006CCE8 + (index * 2)) << 18;
-        arg0->unk_9B++;
+        func_800AD4D0(entity);
+        motion->unk_0C.as_s32 =
+            *(s16 *)((u8 *)&D_8006CCD8 + (direction * 2)) << 18;
+        motion->unk_10.at00_s32.v =
+            *(s16 *)((u8 *)&D_8006CCE8 + (direction * 2)) << 18;
+        action->unk_9B++;
 
-        if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
-            arg1->unk_14.as_s32 = 0;
-            arg1->unk_10.at00_s32.v = 0;
-            arg1->unk_0C.as_s32 = 0;
-            func_800AAA54(arg0, arg1, arg2, D_8017586C);
+        if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
+            motion->unk_14.as_s32 = 0;
+            motion->unk_10.at00_s32.v = 0;
+            motion->unk_0C.as_s32 = 0;
+            func_800AAA54(action, motion, tile_state, D_8017586C);
             return;
         }
-        if (arg2->unk_14.at00_u16.v & 0x8000) {
-            arg0->unk_96.s = 0;
-            arg0->unk_9B = 2;
+        if (tile_state->unk_14.at00_u16.v & 0x8000) {
+            action->unk_96.s = 0;
+            action->unk_9B = 2;
             return;
         }
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228) {
+        if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228) {
             timer = 8;
         } else {
             timer = -1;
         }
-        arg0->unk_96.s = timer;
-        arg1->unk_0C.as_s32 -= arg1->unk_0C.as_s32 / 4;
-        arg1->unk_10.at00_s32.v -= arg1->unk_10.at00_s32.v / 4;
+        action->unk_96.s = timer;
+        motion->unk_0C.as_s32 -= motion->unk_0C.as_s32 / 4;
+        motion->unk_10.at00_s32.v -= motion->unk_10.at00_s32.v / 4;
         /* fall through */
 
     case 1:
-        arg1->unk_0C.as_s32 -=
-            *(s16 *)((u8 *)&D_8006CCD8 + (index * 2)) << 14;
-        arg1->unk_10.at00_s32.v -=
-            *(s16 *)((u8 *)&D_8006CCE8 + (index * 2)) << 14;
-        if (arg0->unk_96.s > 0) {
-            arg0->unk_96.s = arg0->unk_96.u - 1;
-        } else if (arg2->unk_14.at00_u16.v & 0x6000) {
-            arg0->unk_96.s = 0;
+        motion->unk_0C.as_s32 -=
+            *(s16 *)((u8 *)&D_8006CCD8 + (direction * 2)) << 14;
+        motion->unk_10.at00_s32.v -=
+            *(s16 *)((u8 *)&D_8006CCE8 + (direction * 2)) << 14;
+        if (action->unk_96.s > 0) {
+            action->unk_96.s = action->unk_96.u - 1;
+        } else if (tile_state->unk_14.at00_u16.v & 0x6000) {
+            action->unk_96.s = 0;
         }
-        if (arg0->unk_96.s != 0) {
+        if (action->unk_96.s != 0) {
             return;
         }
-        if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
+        if (((Rec_D_800E3D7C *)entity)->unk_28 != 0) {
             goto increment_state;
         }
-        arg0->unk_9B = 0;
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800AAA54(arg0, arg1, arg2, D_8017588C);
+        action->unk_9B = 0;
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800AAA54(action, motion, tile_state, D_8017588C);
         return;
 
 increment_state:
-        arg0->unk_96.s = 8;
-        arg0->unk_9B++;
+        action->unk_96.s = 8;
+        action->unk_9B++;
         return;
 
     case 2:
-        if (arg0->unk_96.s != 0) {
+        if (action->unk_96.s != 0) {
             {
-                s32 coord = arg2->unk_24 << 6;
-                s32 current = arg1->unk_00.at02_s16.v - 0x20;
+                s32 target_coord = tile_state->unk_24 << 6;
+                s32 current_coord = motion->unk_00.at02_s16.v - 0x20;
 
-                arg1->unk_0C.as_s32 = ((coord - current) << 15) >> 1;
+                motion->unk_0C.as_s32 = ((target_coord - current_coord) << 15) >> 1;
             }
             {
-                s32 coord = arg2->unk_25 << 6;
-                s32 current = arg1->unk_04.at02_s16.v - 0x20;
+                s32 target_coord = tile_state->unk_25 << 6;
+                s32 current_coord = motion->unk_04.at02_s16.v - 0x20;
 
-                arg1->unk_10.at00_s32.v = ((coord - current) << 15) >> 1;
+                motion->unk_10.at00_s32.v = ((target_coord - current_coord) << 15) >> 1;
             }
-            arg1->unk_0C.as_s32 += arg1->unk_0C.as_s32 >> 1;
-            arg1->unk_10.at00_s32.v += arg1->unk_10.at00_s32.v >> 1;
+            motion->unk_0C.as_s32 += motion->unk_0C.as_s32 >> 1;
+            motion->unk_10.at00_s32.v += motion->unk_10.at00_s32.v >> 1;
         }
-        timer = arg0->unk_96.u - 1;
-        arg0->unk_96.s = timer;
+        timer = action->unk_96.u - 1;
+        action->unk_96.s = timer;
         if ((s32)(timer << 16) > 0) {
             return;
         }
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800A2B04(motion, tile_state->unk_24, tile_state->unk_25);
 
-        state = &D_80083460;
-        value = state[4];
-        if (value == (s32)((u8 *)arg3 - 0x20)) {
-            state[4] = value & 0x7FFFFFFF;
+        global_state = &D_80083460;
+        tracked_entity = global_state[4];
+        if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
+            global_state[4] = tracked_entity & 0x7FFFFFFF;
         }
-        arg0->unk_8C = D_8017140C;
+        action->unk_8C = D_8017140C;
         return;
 
     default:

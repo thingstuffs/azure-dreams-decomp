@@ -9,6 +9,7 @@ extern s32 func_80069C18(s32 arg0);
 extern s32 func_80069C08(s32 arg0);
 extern void func_800214A4(void);
 
+/* Advance the selected entry through its completion states and return its status. */
 s32 func_800210F0(void)
 {
     s32 state;
@@ -34,13 +35,13 @@ s32 func_800210F0(void)
 
 state_one:
     {
-        s32 *value;
+        s32 *completion_flag;
 
-        value = &D_80084118[0];
+        completion_flag = &D_80084118[0];
         if (D_800287CC != 0) {
-            value = &D_80084118[1];
+            completion_flag = &D_80084118[1];
         }
-        if (*value != 0) {
+        if (*completion_flag != 0) {
             result = 1;
             D_800287C8 = 0;
             goto done;
@@ -60,14 +61,14 @@ state_one:
 
 state_three:
     {
-        s32 *value;
+        s32 *completion_flag;
 
-        value = &D_80084118[0];
+        completion_flag = &D_80084118[0];
         if (D_800287CC != 0) {
-            value = &D_80084118[1];
+            completion_flag = &D_80084118[1];
         }
         result = 2;
-        *value = 1;
+        *completion_flag = 1;
         D_800287C8 = 0;
         ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     }

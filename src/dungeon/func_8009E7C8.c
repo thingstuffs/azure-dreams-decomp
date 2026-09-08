@@ -26,76 +26,72 @@ typedef struct S_800A3F28_1 {
 extern s32 func_8009FB34(u16, u16);
 extern s32 func_800A41F0(void *);
 
+/* Finds the first eligible entry with a matching nonnegative lookup ID or within one tile of (x, y). */
 void *func_800A3F28(s32 x, s32 y, void *end, void *owner)
 {
-    s32 x_hold;
-    s32 y_hold;
-    void *end_hold;
+    s32 x_or_radius;
+    s32 target_y;
+    void *sentinel;
     void *current;
-    register s32 lookup ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 x_coord;
-    register s32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *data;
-    s32 dx;
-    s32 dy;
+    register s32 lookup_id ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 target_x;
+    register s32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *entry_data;
+    s32 distance_x;
+    s32 distance_y;
 
-    x_hold = x;
+    x_or_radius = x;
        /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    y_hold = y;
-    end_hold = end;
+    target_y = y;
+    sentinel = end;
     current = owner;
-    shifted = func_8009FB34((u16)x_hold, (u16)y_hold);
-    data = (u8 *)((S_800A3F28_0 *)current)->unk_5C;
-    current = data + 0x20;
-    if (current == end_hold) {
+    scratch = func_8009FB34((u16)x_or_radius, (u16)target_y);
+    entry_data = (u8 *)((S_800A3F28_0 *)current)->unk_5C;
+    current = entry_data + 0x20;
+    if (current == sentinel) {
         goto not_found;
     }
 
-    lookup = (s16)shifted;
-    shifted = x_hold << 16;
-    x_coord = shifted >> 16;
-    x_hold = 1;
-    shifted = y_hold << 16;
-    y_hold = shifted >> 16;
+    lookup_id = (s16)scratch;
+    scratch = x_or_radius << 16;
+    target_x = scratch >> 16;
+    x_or_radius = 1;
+    scratch = target_y << 16;
+    target_y = scratch >> 16;
 loop:
     if ((func_800A41F0(current) << 16) != 0) {
-        data = ((S_800A3F28_0_pre *)current)[-1].unk_00;
-        if (lookup == ((S_800A3F28_1 *)data)->unk_26) {
-            if (lookup >= 0) {
+        entry_data = ((S_800A3F28_0_pre *)current)[-1].unk_00;
+        if (lookup_id == ((S_800A3F28_1 *)entry_data)->unk_26) {
+            if (lookup_id >= 0) {
                 return current;
             }
         }
 
-        dx = x_coord - ((S_800A3F28_1 *)data)->unk_24;
-        if (dx < 0) {
-            dx = -dx;
+        distance_x = target_x - ((S_800A3F28_1 *)entry_data)->unk_24;
+        if (distance_x < 0) {
+            distance_x = -distance_x;
         }
-        if (x_hold < dx) {
+        if (x_or_radius < distance_x) {
             goto next;
         }
 
-        dy = y_hold - ((S_800A3F28_1 *)data)->unk_25;
-        if (dy < 0) {
-            dy = -dy;
+        distance_y = target_y - ((S_800A3F28_1 *)entry_data)->unk_25;
+        if (distance_y < 0) {
+            distance_y = -distance_y;
         }
-        if (x_hold < dy) {
+        if (x_or_radius < distance_y) {
             goto next;
         }
         return current;
     }
 
 next:
-    shifted = ((S_800A3F28_0 *)current)->unk_5C;
-    current = (void *)(shifted + 0x20);
-    if (current != end_hold) {
+    scratch = ((S_800A3F28_0 *)current)->unk_5C;
+    current = (void *)(scratch + 0x20);
+    if (current != sentinel) {
         goto loop;
     }
 
 not_found:
     return NULL;
 }
-
-/* MECHANISM: The call result stays in v0 across the list-head load; owner then
-   becomes current in s0, while held coordinates/sentinel fill s2-s5 exactly.
-   Hoisted sign conversions reuse x's live range for radius; direct returns
-   merge to retail's epilogue and leave v0 free for the second delta chain. */

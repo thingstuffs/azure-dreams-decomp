@@ -24,20 +24,21 @@ extern S_8007382C D_8007382C;
 extern s32 func_8005EC40(s32 arg0, u32 arg1);
 extern void func_8005ECA0(s32 arg0);
 
-s32 func_8005AB50(s32 arg0, u32 arg1, s16 arg2)
+/* Reads a bounded chunk from the selected entry and advances its cursor. */
+s32 func_8005AB50(s32 dest, u32 read_size, s16 entry_id)
 {
     S_80086A40 *base;
     S_80086A40 *entry;
     s16 marker;
-    register u32 amount ASM_REG("$17");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register u32 amount ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     u32 remaining;
 
     base = D_80086A40;
-    entry = &base[arg2];
+    entry = &base[entry_id];
     marker = entry->marker;
-    amount = arg1;
+    amount = read_size;
 
-    if (marker != arg2) {
+    if (marker != entry_id) {
         return -1;
     }
 
@@ -48,22 +49,22 @@ s32 func_8005AB50(s32 arg0, u32 arg1, s16 arg2)
         amount = remaining;
     }
 
-    if (func_8005EC40(arg0, amount) != amount) {
+    if (func_8005EC40(dest, amount) != amount) {
         return -1;
     }
 
     {
         s32 new_cursor;
         s32 end;
-        register s32 ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         new_cursor = D_8007382C.value + amount;
         end = entry->unk14;
         D_8007382C.value = new_cursor;
-        ret = marker;
+        result = marker;
         if (new_cursor < end) {
-            ret = -2;
+            result = -2;
         }
-        return ret;
+        return result;
     }
 }

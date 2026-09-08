@@ -9,30 +9,31 @@ typedef struct S_80018EA8_0 {
     s32 unk_38;
 } S_80018EA8_0;   /* *(s8 **)D_80016000 in func_80018EA8 */
 
+/* Compacts the zero-terminated entry list by removing entries equal to -1. */
 void func_80018EA8(void) {
-    s8 *temp_a2;
-    s32 temp_v1;
-    s32 var_a0;
-    s32 var_a1;
-    s32 var_a3;
+    s8 *entries;
+    s32 entry;
+    s32 read_index;
+    s32 write_index;
+    s32 removed_entry;
 
-    var_a1 = 0;
-    temp_a2 = (s8 *)((S_80018EA8_0 *)(*(s8 **)D_80016000))->unk_38 + 0x29C;
-    var_a0 = var_a1;
-    var_a3 = -1;
-loop_1:
-    temp_v1 = *(s32 *)(temp_a2 + (var_a0 * 4));
-    if (temp_v1 != 0) {
-        if (temp_v1 != var_a3) {
-            if (var_a0 != var_a1) {
-                *(s32 *)(temp_a2 + (var_a1 * 4)) = temp_v1;
+    write_index = 0;
+    entries = (s8 *)((S_80018EA8_0 *)(*(s8 **)D_80016000))->unk_38 + 0x29C;
+    read_index = write_index;
+    removed_entry = -1;
+scan_entry:
+    entry = *(s32 *)(entries + (read_index * 4));
+    if (entry != 0) {
+        if (entry != removed_entry) {
+            if (read_index != write_index) {
+                *(s32 *)(entries + (write_index * 4)) = entry;
             }
-            var_a1 += 1;
+            write_index += 1;
         }
-        var_a0 += 1;
-        if (var_a0 < 0x14) {
-            goto loop_1;
+        read_index += 1;
+        if (read_index < 0x14) {
+            goto scan_entry;
         }
     }
-    *(s32 *)(temp_a2 + (var_a1 * 4)) = 0;
+    *(s32 *)(entries + (write_index * 4)) = 0;
 }

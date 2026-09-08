@@ -3,6 +3,7 @@
 
 M2C_UNK func_80022D60();   /* extern */
 
-void func_80022F3C(M2C_UNK arg0, M2C_UNK arg1) {
-    func_80022D60(arg0, 5, 1, arg1);
+/* Initialize a type-5, mode-1 context with the supplied owner and data. */
+void func_80022F3C(M2C_UNK owner, M2C_UNK data) {
+    func_80022D60(owner, 5, 1, data);
 }

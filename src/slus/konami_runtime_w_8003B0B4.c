@@ -22,6 +22,7 @@ extern M2C_UNK D_80081018;
 extern M2C_UNK D_800D1D54;
 extern M2C_UNK D_800D1E7C;
 
+/* Synchronize rendering, enable display output, and run runtime setup. */
 void func_8003B0B4(void) {
     VSync(0);
     VSync(0);

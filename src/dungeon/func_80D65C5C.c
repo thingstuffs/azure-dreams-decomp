@@ -73,26 +73,27 @@ extern M2C_UNK D_800DE870;
 extern s16 D_800E2468[];
 extern u8 D_80171384[];
 
-void func_80D65C5C(S_80D65C5C_1 *arg0, s32 arg1)
+/* Spawns a directional sprite effect near the source with randomized velocity. */
+void func_80D65C5C(S_80D65C5C_1 *source, s32 angle)
 {
     void *node;
     S_80D65C5C_2 *sprite;
-    s16 *offsets;
+    s16 *direction_step;
 
-    node = func_8003FC64(0x212, arg1);
+    node = func_8003FC64(0x212, angle);
     if (node != 0) {
         ((S_80D65C5C_0 *)node)->unk_10 = D_80171384;
 
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_02 =
-            ((S_80D65C5C_5 *)(arg0->unk_08))->unk_02;
+            ((S_80D65C5C_5 *)(source->unk_08))->unk_02;
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_06 =
-            ((S_80D65C5C_5 *)(arg0->unk_08))->unk_06;
+            ((S_80D65C5C_5 *)(source->unk_08))->unk_06;
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_0A =
-            ((S_80D65C5C_5 *)(arg0->unk_08))->unk_0A - 0x58;
+            ((S_80D65C5C_5 *)(source->unk_08))->unk_0A - 0x58;
 
-        offsets = (s16 *)((u8 *)D_800E2468 + (((u32)arg1 >> 7) & 0x1C));
-        ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_02 += offsets[0] * 0x12;
-        ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_06 += offsets[1] * 0x12;
+        direction_step = (s16 *)((u8 *)D_800E2468 + (((u32)angle >> 7) & 0x1C));
+        ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_02 += direction_step[0] * 0x12;
+        ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_06 += direction_step[1] * 0x12;
 
         ((S_80D65C5C_6 *)(((S_80D65C5C_0 *)node)->unk_0C))->unk_06 = 6;
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_0C =
@@ -103,12 +104,12 @@ void func_80D65C5C(S_80D65C5C_1 *arg0, s32 arg1)
             ((rand() & 0x7FFF) - 0x4000) * 0x10;
 
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_0C +=
-            offsets[0] * 0x1C0000;
+            direction_step[0] * 0x1C0000;
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_10 +=
-            offsets[1] * 0x1C0000;
+            direction_step[1] * 0x1C0000;
 
         sprite = (u8 *)node + 0x20;
-        sprite->unk_0A = arg1;
+        sprite->unk_0A = angle;
         sprite->unk_0C = 0xC;
         sprite->unk_0E = 0xC;
         func_8004491C(node, &D_80045340);

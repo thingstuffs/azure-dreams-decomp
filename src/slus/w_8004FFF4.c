@@ -1,9 +1,5 @@
 #include "common.h"
 
-/* Resets 6 slot objects reachable through a0 (which itself slides by 4 bytes
- * per iteration): zeroes the unk4-chain's halfword field, and sets the
- * unk28-chain's halfword to 0x1E and both chains' RGB-ish bytes to 0x58
- * (looks like a "reset color/highlight to default grey" pass over 6 slots). */
 /* Leaf record: RGB-ish triplet at offset 0, plus a 16-bit field at offset 8. */
 typedef struct S_8004FFF4_Leaf {
     u8 unk0;
@@ -29,23 +25,24 @@ typedef struct S_8004FFF4_Outer {
     S_8004FFF4_Mid *unk28;
 } S_8004FFF4_Outer;
 
-void func_8004FFF4(void *arg0)
+/* Resets both leaf records for six slots to default field values and gray colors. */
+void func_8004FFF4(void *slots)
 {
-    s32 i;
-    void *a0;
+    s32 slot_index;
+    void *slot_view;
 
-    a0 = arg0;
-    i = 0;
+    slot_view = slots;
+    slot_index = 0;
     do {
-        ((S_8004FFF4_Outer *)a0)->unk4->unk4->unk8 = 0;
-        ((S_8004FFF4_Outer *)a0)->unk28->unk4->unk8 = 0x1E;
-        ((S_8004FFF4_Outer *)a0)->unk28->unk4->unk0 = 0x58;
-        ((S_8004FFF4_Outer *)a0)->unk28->unk4->unk1 = 0x58;
-        ((S_8004FFF4_Outer *)a0)->unk28->unk4->unk2 = 0x58;
-        ((S_8004FFF4_Outer *)a0)->unk4->unk4->unk0 = 0x58;
-        ((S_8004FFF4_Outer *)a0)->unk4->unk4->unk1 = 0x58;
-        i += 1;
-        ((S_8004FFF4_Outer *)a0)->unk4->unk4->unk2 = 0x58;
-        a0 = (u8 *)a0 + 4;
-    } while (i < 6);
+        ((S_8004FFF4_Outer *)slot_view)->unk4->unk4->unk8 = 0;
+        ((S_8004FFF4_Outer *)slot_view)->unk28->unk4->unk8 = 0x1E;
+        ((S_8004FFF4_Outer *)slot_view)->unk28->unk4->unk0 = 0x58;
+        ((S_8004FFF4_Outer *)slot_view)->unk28->unk4->unk1 = 0x58;
+        ((S_8004FFF4_Outer *)slot_view)->unk28->unk4->unk2 = 0x58;
+        ((S_8004FFF4_Outer *)slot_view)->unk4->unk4->unk0 = 0x58;
+        ((S_8004FFF4_Outer *)slot_view)->unk4->unk4->unk1 = 0x58;
+        slot_index += 1;
+        ((S_8004FFF4_Outer *)slot_view)->unk4->unk4->unk2 = 0x58;
+        slot_view = (u8 *)slot_view + 4;
+    } while (slot_index < 6);
 }

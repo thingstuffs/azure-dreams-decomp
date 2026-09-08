@@ -17,26 +17,27 @@ typedef struct S_800CDCA8_1 {
 
 /* extern */
 
-void func_800CDCA8(Rec_func_80094268_arg0 *arg0, S_800CDCA8_1 *arg1, M2C_UNK arg2) {
-    u16 temp_v0;
+/* Update spin and vertical motion, then handle ground contact and remaining bounces. */
+void func_800CDCA8(Rec_func_80094268_arg0 *entity, S_800CDCA8_1 *motion, M2C_UNK context) {
+    u16 remaining_bounces;
 
-    arg0->unk_72.as_u16 = (u16) (arg0->unk_72.as_u16 + 0x400);
-    arg1->unk_08.at00.v = (s32) (arg1->unk_08.at00.v + arg1->unk_14);
-    if (func_800C2AE8(arg1) < arg1->unk_08.at02.v) {
-        arg1->unk_08.at02.v = func_800C2AE8(arg1);
-        temp_v0 = arg0->unk_90.as_u16 - 1;
-        arg0->unk_90.as_u16 = temp_v0;
-        if ((temp_v0 << 0x10) <= 0) {
-            arg1->unk_14 = 0;
-            arg0->unk_72.as_u16 = (u16) arg0->unk_6E;
-            func_800CDE9C(arg0, arg1, arg2);
+    entity->unk_72.as_u16 = (u16) (entity->unk_72.as_u16 + 0x400);
+    motion->unk_08.at00.v = (s32) (motion->unk_08.at00.v + motion->unk_14);
+    if (func_800C2AE8(motion) < motion->unk_08.at02.v) {
+        motion->unk_08.at02.v = func_800C2AE8(motion);
+        remaining_bounces = entity->unk_90.as_u16 - 1;
+        entity->unk_90.as_u16 = remaining_bounces;
+        if ((remaining_bounces << 0x10) <= 0) {
+            motion->unk_14 = 0;
+            entity->unk_72.as_u16 = (u16) entity->unk_6E;
+            func_800CDE9C(entity, motion, context);
             return;
         }
-        if (func_800C30E0(arg0, arg1, arg2) == 0) {
-            func_800CDFF8(arg0, arg1, arg2);
+        if (func_800C30E0(entity, motion, context) == 0) {
+            func_800CDFF8(entity, motion, context);
             return;
         }
     } else {
-        func_80095388(arg1);
+        func_80095388(motion);
     }
 }

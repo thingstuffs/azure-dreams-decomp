@@ -74,24 +74,25 @@ typedef struct S_80125800_0 {
     u8 unk_12;
 } S_80125800_0;   /* obj in func_80125800 */
 
+/* Updates an available entry's number sprites and interpolates a display field. */
 void func_80125800(TownObject *obj) {
-    s32 row8;
-    s32 offset;
-    s32 slot;
-    s32 value;
+    s32 row_offset;
+    s32 slot_offset;
+    s32 sprite_slot;
+    s32 entry_id;
 
-    row8 = obj->row << 3;
-    offset = (row8 + obj->column) * 3;
-    slot = offset + 33;
-    value = (obj->digit << 4) + row8 + obj->column;
-    if (func_80123200((u8)value) != 0) {
-        s32 number = value + 1;
+    row_offset = obj->row << 3;
+    slot_offset = (row_offset + obj->column) * 3;
+    sprite_slot = slot_offset + 33;
+    entry_id = (obj->digit << 4) + row_offset + obj->column;
+    if (func_80123200((u8)entry_id) != 0) {
+        s32 entry_number = entry_id + 1;
 
-        *obj->town->slots[slot] = (void *)D_80127B64;
-        slot = offset + 34;
-        *obj->town->slots[slot] = D_801269D0[number / 10];
-        slot = offset + 35;
-        *obj->town->slots[slot] = D_801269D0[number % 10];
+        *obj->town->slots[sprite_slot] = (void *)D_80127B64;
+        sprite_slot = slot_offset + 34;
+        *obj->town->slots[sprite_slot] = D_801269D0[entry_number / 10];
+        sprite_slot = slot_offset + 35;
+        *obj->town->slots[sprite_slot] = D_801269D0[entry_number % 10];
     }
     ((S_80125800_4 *)(((S_80125800_3 *)(((S_80125800_2 *)(((S_80125800_1 *)obj)->unk_58))->unk_184))->unk_04))->unk_0A = (s16) ((u16) D_80126B24[((S_80125800_0 *)obj)->unk_12 & 7] + (((s32) (D_80126B24[((S_80125800_0 *)obj)->unk_11 & 7] - D_80126B24[((S_80125800_0 *)obj)->unk_12 & 7]) / (s16) ((S_80125800_0 *)obj)->unk_06) * ((S_80125800_0 *)obj)->unk_04));
 }

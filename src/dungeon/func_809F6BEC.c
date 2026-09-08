@@ -47,15 +47,16 @@ extern void func_800478B8(void *);
 extern void func_800DBA90(void *);
 extern u32 D_800814A0;
 
-void func_801743EC(void *arg0, void *arg1, void *arg2)
+/* Update the effect trajectory and sprite, then flag completion when its animation ends. */
+void func_801743EC(void *effect, void *position, void *sprite)
 {
-    CallRecord record;
-    OutputVector output;
+    CallRecord transform;
+    OutputVector transformed_position;
     s16 state;
-    s32 value;
+    s32 quarter_angle;
     u16 angle;
 
-    state = ((S_801743EC_0 *)arg0)->unk_4C.s;
+    state = ((S_801743EC_0 *)effect)->unk_4C.s;
     if (state == 0) {
         goto state_zero;
     }
@@ -65,41 +66,37 @@ void func_801743EC(void *arg0, void *arg1, void *arg2)
     goto done;
 
 state_zero:
-    func_800478B8(arg2);
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
-        ((Rec_D_80082E80 *)arg2)->unk_04.as_s8 = 0;
-        ((Rec_D_80082E80 *)arg2)->unk_05.as_s8 = 0;
+    func_800478B8(sprite);
+    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
+        ((Rec_D_80082E80 *)sprite)->unk_04.as_s8 = 0;
+        ((Rec_D_80082E80 *)sprite)->unk_05.as_s8 = 0;
     }
-    ((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v += 0xFFE7E7E8;
-    if ((u8)((Rec_D_80082E80 *)arg2)->unk_0C.at00_s32.v < 0x30U) {
-        ((S_801743EC_0 *)arg0)->unk_4C.u++;
+    ((Rec_D_80082E80 *)sprite)->unk_0C.at00_s32.v += 0xFFE7E7E8;
+    if ((u8)((Rec_D_80082E80 *)sprite)->unk_0C.at00_s32.v < 0x30U) {
+        ((S_801743EC_0 *)effect)->unk_4C.u++;
     }
 
-    angle = ((S_801743EC_0 *)arg0)->unk_08 + 10;
-    value = (s32)(angle << 16) >> 18;
-    ((S_801743EC_0 *)arg0)->unk_08 = angle;
-    ((S_801743EC_0 *)arg0)->unk_04 = (u16)(-(value * value) >> 4);
+    angle = ((S_801743EC_0 *)effect)->unk_08 + 10;
+    quarter_angle = (s32)(angle << 16) >> 18;
+    ((S_801743EC_0 *)effect)->unk_08 = angle;
+    ((S_801743EC_0 *)effect)->unk_04 = (u16)(-(quarter_angle * quarter_angle) >> 4);
 
-    record.field0 = (u8 *)arg0 + 4;
-    record.field4 = &output;
-    record.field8 = *(Unaligned8 *)((u8 *)arg0 + 0x14);
-    record.field10 = *(Unaligned8 *)((u8 *)arg0 + 0xC);
-    record.field18 = 1;
-    record.field1A = 1;
-    func_800DBA90(&record);
-    ((S_801743EC_2 *)arg1)->unk_02 = output.x;
-    ((S_801743EC_2 *)arg1)->unk_06 = output.y;
-    ((S_801743EC_2 *)arg1)->unk_0A = output.z;
+    transform.field0 = (u8 *)effect + 4;
+    transform.field4 = &transformed_position;
+    transform.field8 = *(Unaligned8 *)((u8 *)effect + 0x14);
+    transform.field10 = *(Unaligned8 *)((u8 *)effect + 0xC);
+    transform.field18 = 1;
+    transform.field1A = 1;
+    func_800DBA90(&transform);
+    ((S_801743EC_2 *)position)->unk_02 = transformed_position.x;
+    ((S_801743EC_2 *)position)->unk_06 = transformed_position.y;
+    ((S_801743EC_2 *)position)->unk_0A = transformed_position.z;
     goto done;
 
 state_one:
-    (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
     D_800814A0 |= 0x8000;
 
 done:
     return;
 }
-
-/* MECHANISM: Separate 32-byte call record and 8-byte output locals establish the 0x48 frame.
-   Three long-lived arguments naturally occupy s1/s2/s0; true-space gotos recover both joins.
-   Two 8-byte byte-array assignments encode retail's paired unaligned aggregate copies. */

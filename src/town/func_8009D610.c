@@ -22,33 +22,30 @@ extern s32 D_800D0624[];
 extern void func_80094984();
 extern void func_80099754();
 
-void func_8009AD70(Rec_func_80094268_arg0 *arg0, Position *arg1, s32 arg2)
+/* Compute half the offset to the target, then snap to it and advance state when the timer expires. */
+void func_8009AD70(Rec_func_80094268_arg0 *state, Position *position, s32 context)
 {
     u16 timer;
-    s32 *position;
+    s32 *target;
 
-    position = D_800D0624;
-    arg1->half_dx = (position[0] - arg1->x) / 2;
-    arg1->half_dy = (position[1] - arg1->y) / 2;
-    arg1->half_dz = (position[2] - arg1->z) / 2;
+    target = D_800D0624;
+    position->half_dx = (target[0] - position->x) / 2;
+    position->half_dy = (target[1] - position->y) / 2;
+    position->half_dz = (target[2] - position->z) / 2;
 
-    timer = arg0->unk_0A.as_u16 - 1;
-    arg0->unk_0A.as_u16 = timer;
+    timer = state->unk_0A.as_u16 - 1;
+    state->unk_0A.as_u16 = timer;
     if ((s16)timer < 0) {
-        arg1->x = *(volatile s32 *)&D_800D0624[0];
-        arg1->y = position[1];
-        arg1->z = position[2];
-        func_80099754(arg1);
+        position->x = *(volatile s32 *)&D_800D0624[0];
+        position->y = target[1];
+        position->z = target[2];
+        func_80099754(position);
 
-        arg0->unk_30 = ((Rec_D_800E3D7C *)arg1)->unk_00.at02_u16.v;
-        arg0->unk_32 = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_u16.v;
-        func_80094984(D_800D0078, arg0, arg2);
+        state->unk_30 = ((Rec_D_800E3D7C *)position)->unk_00.at02_u16.v;
+        state->unk_32 = ((Rec_D_800E3D7C *)position)->unk_04.at02_u16.v;
+        func_80094984(D_800D0078, state, context);
 
-        arg0->unk_04.as_pv = D_8009AE88;
-        arg0->unk_10.as_s16 = 0x400;
+        state->unk_04.as_pv = D_8009AE88;
+        state->unk_10.as_s16 = 0x400;
     }
 }
-
-/* MECHANISM: A named D_800D0624 base supplies the vector accesses, with a
-   volatile fresh x reload after expiry to retain retail's load-delay split.
-   The three arguments span calls in s0/s1/s2; s16(timer) gives sll/bgez. */

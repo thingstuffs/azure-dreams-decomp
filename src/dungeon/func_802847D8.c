@@ -18,29 +18,26 @@ typedef struct S_800177D8_1 {
     s16 unk_02;
 } S_800177D8_1;   /* temp_v0_2 in func_800177D8 */
 
-void func_800177D8(s16 arg0, s8 arg1, s8 arg2, s16 arg3) {
-    register s32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 temp_v0;
-    void *base_2970;
-    void *base_2c40;
-    S_800177D8_0 *temp_t0;
-    S_800177D8_1 *temp_v0_2;
+/* Appends two bytes and a value to the selected row if it is enabled. */
+void func_800177D8(s16 row_index, s8 first_byte, s8 second_byte, s16 value) {
+    register s32 row_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 entry_count;
+    void *rows_base;
+    void *entries_base;
+    S_800177D8_0 *row;
+    S_800177D8_1 *entry;
 
-    base_2970 = (void *)D_800E2970;
-    temp_t0 = (arg0 * 0x14) + base_2970;
-    if (temp_t0->unk_0A != 0) {
-        temp_a1 = arg0 << 6;
-        base_2c40 = (void *)D_800E2C40;
-        do { temp_v0 = temp_t0->unk_0E; } while (0);
-        temp_t0->unk_10 = temp_a1 + base_2c40;
-        temp_v0_2 = ((s32)(temp_v0 << 0x10) >> 0xE) + temp_a1 + base_2c40;
-        temp_t0->unk_0E = (u16)(temp_v0 + 1);
-        temp_v0_2->unk_02 = arg3;
-        temp_v0_2->unk_00 = arg1;
-        temp_v0_2->unk_01 = arg2;
+    rows_base = (void *)D_800E2970;
+    row = (row_index * 0x14) + rows_base;
+    if (row->unk_0A != 0) {
+        row_offset = row_index << 6;
+        entries_base = (void *)D_800E2C40;
+        do { entry_count = row->unk_0E; } while (0);
+        row->unk_10 = row_offset + entries_base;
+        entry = ((s32)(entry_count << 0x10) >> 0xE) + row_offset + entries_base;
+        row->unk_0E = (u16)(entry_count + 1);
+        entry->unk_02 = value;
+        entry->unk_00 = first_byte;
+        entry->unk_01 = second_byte;
     }
 }
-
-/* MECHANISM: Frameless leaf under the true-space name, with named bases hoisting both global address pairs.
-   The row offset is guarded in $a1 immediately after definition, before the lhu temporary is born.
-   This preserves retail's $a0/$a1 and $v0/$v1 roles while keeping the 29-word schedule exact. */

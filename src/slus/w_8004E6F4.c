@@ -9,66 +9,67 @@ extern void func_8003F80C(void *data, s32 vram, s32 palette, s32 flags);
  * be separated by the two stack-argument loads retail puts between them. */
 extern u8 D_8007162C[]; /* 0x8007162C -- referenced as a literal above */
 
-void func_8004E6F4(s32 arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32 arg5)
+/* Builds and uploads a palette blending three RGB colors. */
+void func_8004E6F4(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s32 blend_row, s32 semitrans_end)
 {
-    register s32 n ASM_REG("$24") = arg5;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register s32 semitrans_limit ASM_REG("$24") = semitrans_end;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     s16 colors[16];
-    s32 i;
-    s32 inv;
-    s32 red_a;
-    s32 red_b;
-    s32 green_a;
-    s32 green_b, blue_a;
-    register s32 blue_b ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 color;
-    s32 t;
-    register s32 pad16 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u32 page;
-    s32 four;
-    register u8 *rowbase ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    u8 *row;
+    s32 color_index;
+    s32 start_weight;
+    s32 red_end;
+    s32 red_start;
+    s32 green_end;
+    s32 green_start, blue_end;
+    register s32 blue_start ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 packed_color;
+    s32 channel_sum;
+    register s32 saved_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u32 table_page;
+    s32 weight_scale;
+    register u8 *blend_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    u8 *weights;
 
-    ASM_USE_NV(pad16);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    i = 1;
+    ASM_USE_NV(saved_s0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    color_index = 1;
     colors[0] = 0;
-    four = 4;
-    page = 0x80070000;
-    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    rowbase = (u8 *)(page + 0x162C);
-    row = (u8 *)(arg4 * 8 + (u32)rowbase);
-    ASM_USE_NV(row);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    weight_scale = 4;
+    table_page = 0x80070000;
+    ASM_KEEP_NV(table_page);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    blend_table = (u8 *)(table_page + 0x162C);
+    weights = (u8 *)(blend_row * 8 + (u32)blend_table);
+    ASM_USE_NV(weights);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     do {
-        color = (i < n) << 15;
-        if (i < 5) {
-            red_a = arg2[0] * row[i - 1];
-            inv = four - row[i - 1];
-            red_b = arg1[0] * inv;
-            green_a = arg2[1] * row[i - 1];
-            green_b = arg1[1] * inv;
-            blue_a = arg2[2] * row[i - 1];
-            blue_b = arg1[2] * inv;
-            t = red_a + red_b;
-            color += t >> 5;
-            t = green_a + green_b;
-            color += t & 0x3E0;
+        packed_color = (color_index < semitrans_limit) << 15;
+        if (color_index < 5) {
+            red_end = rgb_mid[0] * weights[color_index - 1];
+            start_weight = weight_scale - weights[color_index - 1];
+            red_start = rgb_start[0] * start_weight;
+            green_end = rgb_mid[1] * weights[color_index - 1];
+            green_start = rgb_start[1] * start_weight;
+            blue_end = rgb_mid[2] * weights[color_index - 1];
+            blue_start = rgb_start[2] * start_weight;
+            channel_sum = red_end + red_start;
+            packed_color += channel_sum >> 5;
+            channel_sum = green_end + green_start;
+            packed_color += channel_sum & 0x3E0;
         } else {
-            red_a = arg3[0] * row[i - 1];
-            inv = four - row[i - 1];
-            red_b = arg2[0] * inv;
-            green_a = arg3[1] * row[i - 1];
-            green_b = arg2[1] * inv;
-            blue_a = arg3[2] * row[i - 1];
-            blue_b = arg2[2] * inv;
-            t = red_a + red_b;
-            color += t >> 5;
-            t = green_a + green_b;
-            color += t & 0x3E0;
+            red_end = rgb_end[0] * weights[color_index - 1];
+            start_weight = weight_scale - weights[color_index - 1];
+            red_start = rgb_mid[0] * start_weight;
+            green_end = rgb_end[1] * weights[color_index - 1];
+            green_start = rgb_mid[1] * start_weight;
+            blue_end = rgb_end[2] * weights[color_index - 1];
+            blue_start = rgb_mid[2] * start_weight;
+            channel_sum = red_end + red_start;
+            packed_color += channel_sum >> 5;
+            channel_sum = green_end + green_start;
+            packed_color += channel_sum & 0x3E0;
         }
-        t = blue_a + blue_b;
-        color += (t & 0x3E0) << 5;
-        colors[i] = color;
-        i++;
-    } while (i < 9);
-    func_8003F80C(colors, (arg0 & 0xF) | 0x7D00, 1, 2);
+        channel_sum = blue_end + blue_start;
+        packed_color += (channel_sum & 0x3E0) << 5;
+        colors[color_index] = packed_color;
+        color_index++;
+    } while (color_index < 9);
+    func_8003F80C(colors, (palette_slot & 0xF) | 0x7D00, 1, 2);
     DrawSync(0);
 }

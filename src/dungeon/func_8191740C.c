@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
+#include "records/Rec_func_80024600_arg1.h"
 
 
 extern void func_80024A34();
@@ -26,12 +27,6 @@ typedef struct S_80024C0C_1 {
 } S_80024C0C_1;   /* object in func_80024C0C */
 
 
-typedef struct S_80024C0C_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-} S_80024C0C_3;   /* arg1 in func_80024C0C */
 
 void func_80024C0C(void *arg0, void *arg1, void *arg2) {
     register s32 x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -60,26 +55,26 @@ state0:
     ((Rec_D_80082E80 *)arg2)->unk_1A.as_u16 += 0x200;
     x = func_800644B8(((S_80024C0C_0 *)arg0)->unk_0E);
     x = (x >> 4) * (func_800644B8(((S_80024C0C_0 *)arg0)->unk_10) >> 4);
-    ((S_80024C0C_3 *)arg1)->unk_00 += x * 0x1C;
+    ((Rec_func_80024600_arg1 *)arg1)->unk_00 += x * 0x1C;
     x = func_800644B8(((S_80024C0C_0 *)arg0)->unk_0E);
     x = (x >> 4) * (func_80064584(((S_80024C0C_0 *)arg0)->unk_10) >> 4);
-    ((S_80024C0C_3 *)arg1)->unk_04 += x * 0x1C;
-    ((S_80024C0C_3 *)arg1)->unk_08 += (func_80064584(((S_80024C0C_0 *)arg0)->unk_0E) >> 4) * 0x1C00;
+    ((Rec_func_80024600_arg1 *)arg1)->unk_04 += x * 0x1C;
+    ((Rec_func_80024600_arg1 *)arg1)->unk_08 += (func_80064584(((S_80024C0C_0 *)arg0)->unk_0E) >> 4) * 0x1C00;
     x = func_800644B8(((S_80024C0C_0 *)arg0)->unk_0E);
     x = (x >> 4) * (func_800644B8(((S_80024C0C_0 *)arg0)->unk_10) >> 4);
-    a1 = ((S_80024C0C_3 *)arg1)->unk_00;
+    a1 = ((Rec_func_80024600_arg1 *)arg1)->unk_00;
     state = ((S_80024C0C_0 *)arg0)->unk_12;
     a2 = a1 + x * 0x1C;
     if (state != 0) {
         s32 cmp;
 
-        a0 = ((S_80024C0C_3 *)arg1)->unk_0C;
+        a0 = ((Rec_func_80024600_arg1 *)arg1)->unk_0C;
         cmp = a0 < a1;
         ASM_TAILSLOT_PIN(cmp);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_80024D78(a0, a1, a2);
         return;
     }
-    a0 = ((S_80024C0C_3 *)arg1)->unk_0C;
+    a0 = ((Rec_func_80024600_arg1 *)arg1)->unk_0C;
     if (a1 < a0) {
         register s32 d1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 

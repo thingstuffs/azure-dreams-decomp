@@ -14,8 +14,9 @@ typedef struct S_80038394_0 {
 s32 func_80033B2C();                             /* extern */
 extern M2C_UNK func_80038A10;
 
-void func_80038394(S_80038394_0 *arg0) {
-    if (func_80033B2C(arg0->unk_30) != 0) {
-        arg0->unk_10 = &func_80038A10;
+/* Sets the object's handler when its status check succeeds. */
+void func_80038394(S_80038394_0 *object) {
+    if (func_80033B2C(object->unk_30) != 0) {
+        object->unk_10 = &func_80038A10;
     }
 }

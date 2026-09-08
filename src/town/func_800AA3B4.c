@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_8009CFE0(void);
+extern s32 func_8009CFE0(void *, void *);
 extern void func_80033D08(void *arg0);
 extern void func_800478B8(void *arg0);
 extern s32 D_800814A0[3];
@@ -9,7 +9,7 @@ void func_800A7B14(void *arg0, void *arg1, void *arg2)
 {
     u8 *p;
 
-    if (func_8009CFE0() != 0) {
+    if (func_8009CFE0(arg0, arg1) != 0) {
         p = *(u8 **)((u8 *)arg0 + 0x98);
         if (p != 0) {
             *p = 0;

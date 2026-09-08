@@ -63,137 +63,138 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 extern u8 D_80083160[];
 extern u8 D_1F800000[];
 
-s32 func_8002222C(void *arg0) {
-    u8 *temp_s0;
-    u8 *temp_s1;
-    s32 temp_a0;
-    s32 temp_a1_2;
-    s32 temp_v0;
-    s32 var_v1;
-    s32 call_result;
-    u8 *var_s3;
-    u8 **basep;
-    register u8 *scratch100 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *scratch180;
-    register u8 *scratch_init ASM_REG("$30");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    u8 *scratch;
-    u32 mask24;
-    u32 mask_high;
-    register s32 ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+/* Build line and draw-mode packets for each entry and link them into the ordering table. */
+s32 func_8002222C(void *first_entry) {
+    u8 *line_packet;
+    u8 *mode_packet;
+    s32 bucket_or_next;
+    s32 bucket_addr;
+    s32 packet_word;
+    s32 link_word;
+    s32 texture_page;
+    u8 *entry;
+    u8 **arena_ptr;
+    register u8 *depths ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *transform_work;
+    register u8 *scratch_base ASM_REG("$30");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u8 *screen_xy;
+    u32 addr_mask;
+    u32 count_mask;
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    var_s3 = arg0;
-    basep = (u8 **)D_80083160;
-    scratch_init = (u8 *)0x1F800000;
-    ASM_KEEP_NV(scratch_init);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    scratch = scratch_init;
-    scratch100 = scratch;
-    ASM_KEEP_NV(scratch100);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    scratch100 = (u8 *)((u32)scratch100 | 0x100);
-    scratch180 = scratch;
-    ASM_KEEP_NV(scratch180);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    scratch180 = (u8 *)((u32)scratch180 | 0x180);
-    mask24 = 0xFFFFFF;
-    mask_high = 0xFF000000;
+    entry = first_entry;
+    arena_ptr = (u8 **)D_80083160;
+    scratch_base = (u8 *)0x1F800000;
+    ASM_KEEP_NV(scratch_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    screen_xy = scratch_base;
+    depths = screen_xy;
+    ASM_KEEP_NV(depths);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    depths = (u8 *)((u32)depths | 0x100);
+    transform_work = screen_xy;
+    ASM_KEEP_NV(transform_work);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    transform_work = (u8 *)((u32)transform_work | 0x180);
+    addr_mask = 0xFFFFFF;
+    count_mask = 0xFF000000;
     do {
-        func_80065770(var_s3 + 8, scratch, scratch100, scratch180,
-                     scratch180, 2);
+        func_80065770(entry + 8, screen_xy, depths, transform_work,
+                     transform_work, 2);
         {
             u8 *arena;
-            s32 zero0;
-            s32 zero_a1;
-            s32 zero_a2;
-            s32 zero_a3;
-            u8 *next_s1;
-            arena = *basep;
+            s32 page_depth;
+            s32 page_blend;
+            s32 page_x;
+            s32 page_y;
+            u8 *packet_end;
+            arena = *arena_ptr;
             ASM_KEEP(arena);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            zero0 = 0;
-            ASM_KEEP(zero0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            temp_s0 = ((S_8002222C_0 *)arena)->unk_8D0;
-            ASM_KEEP(temp_s0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            zero_a1 = zero0;
-            ASM_KEEP(zero_a1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            ((S_8002222C_0 *)arena)->unk_8D0 = temp_s0 + 0x14;
-            arena = *basep;
+            page_depth = 0;
+            ASM_KEEP(page_depth);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            line_packet = ((S_8002222C_0 *)arena)->unk_8D0;
+            ASM_KEEP(line_packet);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            page_blend = page_depth;
+            ASM_KEEP(page_blend);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            ((S_8002222C_0 *)arena)->unk_8D0 = line_packet + 0x14;
+            arena = *arena_ptr;
             ASM_KEEP(arena);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            zero_a2 = zero0;
-            ASM_KEEP(zero_a2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            temp_s1 = ((S_8002222C_0 *)arena)->unk_8D0;
-            ASM_KEEP(temp_s1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            zero_a3 = zero0;
-            ASM_KEEP(zero_a3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            next_s1 = temp_s1 + 0xC;
-            ASM_KEEP(next_s1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            ((S_8002222C_0 *)arena)->unk_8D0 = next_s1;
-            call_result = func_80066460(zero0, zero_a1, zero_a2, zero_a3);
+            page_x = page_depth;
+            ASM_KEEP(page_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            mode_packet = ((S_8002222C_0 *)arena)->unk_8D0;
+            ASM_KEEP(mode_packet);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            page_y = page_depth;
+            ASM_KEEP(page_y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            packet_end = mode_packet + 0xC;
+            ASM_KEEP(packet_end);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            ((S_8002222C_0 *)arena)->unk_8D0 = packet_end;
+            texture_page = func_80066460(page_depth, page_blend, page_x, page_y);
         }
         {
-            u8 *call_a0;
-            s32 zero1;
-            call_a0 = temp_s1;
-            ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            zero1 = 0;
-            ASM_KEEP(zero1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            func_80067F20(call_a0, zero1, zero1, call_result & 0xFFFF, 0);
+            u8 *mode_dest;
+            s32 draw_flags;
+            mode_dest = mode_packet;
+            ASM_KEEP(mode_dest);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            draw_flags = 0;
+            ASM_KEEP(draw_flags);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            func_80067F20(mode_dest, draw_flags, draw_flags, texture_page & 0xFFFF, 0);
         }
-        temp_v0 = ((S_8002222C_1 *)var_s3)->unk_18;
-        ((S_8002222C_2 *)temp_s0)->unk_04 = temp_v0;
-        temp_v0 = ((S_8002222C_1 *)var_s3)->unk_1C;
-        ((S_8002222C_2 *)temp_s0)->unk_0C = temp_v0;
-        func_800667D0(temp_s0);
-        func_80066640(temp_s0, 1);
-        temp_v0 = ((S_8002222C_3 *)scratch)->unk_00;
-        ((S_8002222C_2 *)temp_s0)->unk_08 = temp_v0;
-        temp_v0 = ((S_8002222C_3 *)scratch)->unk_04;
-        ((S_8002222C_2 *)temp_s0)->unk_10 = temp_v0;
+        packet_word = ((S_8002222C_1 *)entry)->unk_18;
+        ((S_8002222C_2 *)line_packet)->unk_04 = packet_word;
+        packet_word = ((S_8002222C_1 *)entry)->unk_1C;
+        ((S_8002222C_2 *)line_packet)->unk_0C = packet_word;
+        func_800667D0(line_packet);
+        func_80066640(line_packet, 1);
+        packet_word = ((S_8002222C_3 *)screen_xy)->unk_00;
+        ((S_8002222C_2 *)line_packet)->unk_08 = packet_word;
+        packet_word = ((S_8002222C_3 *)screen_xy)->unk_04;
+        ((S_8002222C_2 *)line_packet)->unk_10 = packet_word;
         {
-            register s32 compare_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 temp_v1;
-            register u32 raw0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            raw0 = ((S_8002222C_4 *)scratch100)->unk_00;
-            compare_a1 = raw0 << 0x10;
-            temp_v1 = ((S_8002222C_4 *)scratch100)->unk_02 << 0x10;
-            if (compare_a1 < temp_v1) {
-                temp_v1 = compare_a1 >> 0x13;
+            register s32 depth_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 min_depth;
+            register u32 first_depth ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            first_depth = ((S_8002222C_4 *)depths)->unk_00;
+            depth_offset = first_depth << 0x10;
+            min_depth = ((S_8002222C_4 *)depths)->unk_02 << 0x10;
+            if (depth_offset < min_depth) {
+                min_depth = depth_offset >> 0x13;
             } else {
-                temp_v1 >>= 0x13;
+                min_depth >>= 0x13;
             }
-            compare_a1 = temp_v1 * 4;
-            ASM_KEEP(compare_a1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            temp_a1_2 = compare_a1;
+            depth_offset = min_depth * 4;
+            ASM_KEEP(depth_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            bucket_addr = depth_offset;
         }
-        temp_v0 = (s32)*basep;
-        var_v1 = ((S_8002222C_2 *)temp_s0)->unk_00;
-        temp_v0 = ((S_8002222C_5 *)(temp_a1_2 + temp_v0))->unk_B0;
-        var_v1 &= mask_high;
-        temp_v0 &= mask24;
-        var_v1 |= temp_v0;
-        ((S_8002222C_2 *)temp_s0)->unk_00 = var_v1;
+        packet_word = (s32)*arena_ptr;
+        link_word = ((S_8002222C_2 *)line_packet)->unk_00;
+        packet_word = ((S_8002222C_5 *)(bucket_addr + packet_word))->unk_B0;
+        link_word &= count_mask;
+        packet_word &= addr_mask;
+        link_word |= packet_word;
+        ((S_8002222C_2 *)line_packet)->unk_00 = link_word;
         {
-            register s32 base_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            base_a0 = (s32)*basep;
-            temp_a0 = temp_a1_2 + base_a0;
+            register s32 arena_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            arena_addr = (s32)*arena_ptr;
+            bucket_or_next = bucket_addr + arena_addr;
         }
-        temp_v0 = ((S_8002222C_6 *)temp_a0)->unk_B0;
-        var_v1 = (u32)temp_s0 & mask24;
-        temp_v0 &= mask_high;
-        temp_v0 |= var_v1;
-        ((S_8002222C_6 *)temp_a0)->unk_B0 = temp_v0;
-        temp_v0 = (s32)*basep;
-        var_v1 = ((S_8002222C_7 *)temp_s1)->unk_00;
-        temp_v0 = ((S_8002222C_5 *)(temp_a1_2 + temp_v0))->unk_B0;
-        var_v1 &= mask_high;
-        temp_v0 &= mask24;
-        var_v1 |= temp_v0;
-        ((S_8002222C_7 *)temp_s1)->unk_00 = var_v1;
-        temp_a1_2 += (s32)*basep;
-        temp_v0 = ((S_8002222C_8 *)temp_a1_2)->unk_B0;
-        var_v1 = (u32)temp_s1 & mask24;
-        temp_v0 &= mask_high;
-        temp_v0 |= var_v1;
-        ((S_8002222C_8 *)temp_a1_2)->unk_B0 = temp_v0;
-        temp_a0 = ((S_8002222C_1_pre *)var_s3)[-1].unk_00;
-        var_s3 = temp_a0 + 0x20;
-    } while (temp_a0 != 0);
-    ret = 0;
-    return ret;
+        packet_word = ((S_8002222C_6 *)bucket_or_next)->unk_B0;
+        link_word = (u32)line_packet & addr_mask;
+        packet_word &= count_mask;
+        packet_word |= link_word;
+        ((S_8002222C_6 *)bucket_or_next)->unk_B0 = packet_word;
+        packet_word = (s32)*arena_ptr;
+        link_word = ((S_8002222C_7 *)mode_packet)->unk_00;
+        packet_word = ((S_8002222C_5 *)(bucket_addr + packet_word))->unk_B0;
+        link_word &= count_mask;
+        packet_word &= addr_mask;
+        link_word |= packet_word;
+        ((S_8002222C_7 *)mode_packet)->unk_00 = link_word;
+        bucket_addr += (s32)*arena_ptr;
+        packet_word = ((S_8002222C_8 *)bucket_addr)->unk_B0;
+        link_word = (u32)mode_packet & addr_mask;
+        packet_word &= count_mask;
+        packet_word |= link_word;
+        ((S_8002222C_8 *)bucket_addr)->unk_B0 = packet_word;
+        bucket_or_next = ((S_8002222C_1_pre *)entry)[-1].unk_00;
+        entry = bucket_or_next + 0x20;
+    } while (bucket_or_next != 0);
+    result = 0;
+    return result;
 }

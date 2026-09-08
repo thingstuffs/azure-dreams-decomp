@@ -56,77 +56,78 @@ extern void func_800A67F4(void);
 
 
 /* Synthetic batch key: func_800869DC; true rowbase link symbol: func_8008C13C. */
-void func_8008C13C(void *arg0, s32 arg1, void *arg2, void *arg3) {
-    u8 *global_base;
-    D_80083460_s *state;
-    s16 action;
-    u8 index;
-    u8 value;
-    u8 *table;
+/* Attempts a move and updates the actor position, animation, and movement state. */
+void func_8008C13C(void *controller, s32 actor_id, void *actor, void *actor_data) {
+    u8 *dungeon_state;
+    D_80083460_s *move_state;
+    s16 move_result;
+    u8 direction_index;
+    u8 tile_x;
+    u8 *x_offsets;
 
-    global_base = D_80083160;
-    action = func_8009ABA0(((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, arg1, arg2,
-                           ((Rec_D_800E3D7C *)arg3)->unk_88.as_s16, 0x20);
+    dungeon_state = D_80083160;
+    move_result = func_8009ABA0(((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16, actor_id, actor,
+                           ((Rec_D_800E3D7C *)actor_data)->unk_88.as_s16, 0x20);
 
-    if (action > 0) {
-        func_8009A3D0(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25, 0x300);
+    if (move_result > 0) {
+        func_8009A3D0(((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25, 0x300);
 
-        index = ((u16)((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 >> 8) & 0xE;
-        table = D_8006CCD8;
-        value = ((Rec_D_80082E80 *)arg2)->unk_24;
-        value += table[index];
-        ((Rec_D_80082E80 *)arg2)->unk_24 = value;
-        ((Rec_D_80082E80 *)arg2)->unk_25 += D_8006CCE8[index];
+        direction_index = ((u16)((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 >> 8) & 0xE;
+        x_offsets = D_8006CCD8;
+        tile_x = ((Rec_D_80082E80 *)actor)->unk_24;
+        tile_x += x_offsets[direction_index];
+        ((Rec_D_80082E80 *)actor)->unk_24 = tile_x;
+        ((Rec_D_80082E80 *)actor)->unk_25 += D_8006CCE8[direction_index];
 
-        func_8009A21C(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25, 0x300);
+        func_8009A21C(((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25, 0x300);
 
         D_80083460.flags |= 8;
-        ((S_8008C13C_2 *)arg0)->unk_8C.s = 0;
+        ((S_8008C13C_2 *)controller)->unk_8C.s = 0;
 
-        if (action != 4) {
+        if (move_result != 4) {
             if (D_80013714.flags & 2) {
                 D_80083460.flags |= 0x80;
-            } else if ((((S_8008C13C_3 *)global_base)->unk_08 & 0x20) && func_800A5C70()) {
+            } else if ((((S_8008C13C_3 *)dungeon_state)->unk_08 & 0x20) && func_800A5C70()) {
                 D_80083460.flags |= 0x80;
             }
         }
 
-        state = &D_80083460;
-        if ((state->flags & 0x80) || (action == 1)) {
-            if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pv != D_800DCFD8) {
-                (*(void * *)((u8 *)arg2 + 0x2C)) = D_800DCFD8;
-                index = ((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
-                func_80048A44(arg2, D_800DCFD8[index], 0, 1);
+        move_state = &D_80083460;
+        if ((move_state->flags & 0x80) || (move_result == 1)) {
+            if (((Rec_D_80082E80 *)actor)->unk_2C.as_pv != D_800DCFD8) {
+                (*(void * *)((u8 *)actor + 0x2C)) = D_800DCFD8;
+                direction_index = ((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                func_80048A44(actor, D_800DCFD8[direction_index], 0, 1);
             }
-            func_80099F70(((Rec_D_800E3D7C *)arg3)->unk_5C);
-            func_80099F04(((Rec_D_800E3D7C *)arg3)->unk_5C);
-            state->value = 8;
-            ((S_8008C13C_2 *)arg0)->unk_9A = 0x1D;
+            func_80099F70(((Rec_D_800E3D7C *)actor_data)->unk_5C);
+            func_80099F04(((Rec_D_800E3D7C *)actor_data)->unk_5C);
+            move_state->value = 8;
+            ((S_8008C13C_2 *)controller)->unk_9A = 0x1D;
         } else {
-            ((S_8008C13C_2 *)arg0)->unk_98 |= 0xC;
-            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x4000;
-            func_80094ED4(arg0, arg1, arg2, arg3);
-            if (action == 2) {
-                ((S_8008C13C_2 *)arg0)->unk_9B = 8;
+            ((S_8008C13C_2 *)controller)->unk_98 |= 0xC;
+            ((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v |= 0x4000;
+            func_80094ED4(controller, actor_id, actor, actor_data);
+            if (move_result == 2) {
+                ((S_8008C13C_2 *)controller)->unk_9B = 8;
             }
-            state->value = 8;
-            ((S_8008C13C_2 *)arg0)->unk_9A = 0x1E;
-            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 |= 0x40000000;
-            func_8009F644(arg3, 8, 0, 0);
+            move_state->value = 8;
+            ((S_8008C13C_2 *)controller)->unk_9A = 0x1E;
+            ((Rec_D_800E3D7C *)actor_data)->unk_1C.as_s32 |= 0x40000000;
+            func_8009F644(actor_data, 8, 0, 0);
             return;
         }
 
-        func_8009F644(arg3, 8, 0, 0);
+        func_8009F644(actor_data, 8, 0, 0);
     } else {
-        ((Rec_D_80082E80 *)arg2)->unk_2C.as_pv = D_800DD0B8;
-        index = ((((S_8008C13C_3 *)global_base)->unk_C8 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7;
-        func_80048A44(arg2, D_800DD0B8[index], 0, 1);
-        ((S_8008C13C_2 *)arg0)->unk_8C.u = D_8008EAC8;
+        ((Rec_D_80082E80 *)actor)->unk_2C.as_pv = D_800DD0B8;
+        direction_index = ((((S_8008C13C_3 *)dungeon_state)->unk_C8 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+        func_80048A44(actor, D_800DD0B8[direction_index], 0, 1);
+        ((S_8008C13C_2 *)controller)->unk_8C.u = D_8008EAC8;
         return;
     }
 
     func_800A67F4();
-    func_80094ED4(arg0, arg1, arg2, arg3);
-    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 |= 0x40000000;
+    func_80094ED4(controller, actor_id, actor, actor_data);
+    ((Rec_D_800E3D7C *)actor_data)->unk_1C.as_s32 |= 0x40000000;
     D_80083460.flags |= 0x812;
 }

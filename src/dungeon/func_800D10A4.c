@@ -23,53 +23,50 @@ typedef struct S_800D6804_1 {
 
 extern s32 D_800814A0;
 
-void func_800D6804(void *arg0, void *arg1)
+/* Advance the state with a decaying delta and fade the effect color until its timer expires. */
+void func_800D6804(void *effect, void *state_data)
 {
-    s16 timer;
+    s16 frames_left;
 
     {
         register void *state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        register s32 amount ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 scaled;
-        register s32 addend ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 current;
-        s32 quarter;
+        register s32 delta ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 scaled_delta;
+        register s32 delta_copy ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 accumulated;
+        s32 decayed_delta;
 
-        state = arg1;
-        amount = ((S_800D6804_0 *)state)->unk_14;
-        current = ((S_800D6804_0 *)state)->unk_08;
-        scaled = amount << 1;
-        addend = amount;
-        ASM_KEEP(addend);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        scaled += amount;
-        current += addend;
-        ((S_800D6804_0 *)state)->unk_08 = current;
-        if (scaled < 0) {
-            scaled += 3;
+        state = state_data;
+        delta = ((S_800D6804_0 *)state)->unk_14;
+        accumulated = ((S_800D6804_0 *)state)->unk_08;
+        scaled_delta = delta << 1;
+        delta_copy = delta;
+        ASM_KEEP(delta_copy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        scaled_delta += delta;
+        accumulated += delta_copy;
+        ((S_800D6804_0 *)state)->unk_08 = accumulated;
+        if (scaled_delta < 0) {
+            scaled_delta += 3;
         }
-        quarter = scaled >> 2;
-        ((S_800D6804_0 *)state)->unk_14 = quarter;
+        decayed_delta = scaled_delta >> 2;
+        ((S_800D6804_0 *)state)->unk_14 = decayed_delta;
     }
 
-    ((S_800D6804_1 *)arg0)->unk_04.at00.v =
-        (((S_800D6804_1 *)arg0)->unk_00 * ((S_800D6804_1 *)arg0)->unk_32.s) /
-        ((S_800D6804_1 *)arg0)->unk_34;
-    ((S_800D6804_1 *)arg0)->unk_04.at01.v =
-        (((S_800D6804_1 *)arg0)->unk_01 * ((S_800D6804_1 *)arg0)->unk_32.s) /
-        ((S_800D6804_1 *)arg0)->unk_34;
-    ((S_800D6804_1 *)arg0)->unk_04.at02.v =
-        (((S_800D6804_1 *)arg0)->unk_02 * ((S_800D6804_1 *)arg0)->unk_32.s) /
-        ((S_800D6804_1 *)arg0)->unk_34;
+    ((S_800D6804_1 *)effect)->unk_04.at00.v =
+        (((S_800D6804_1 *)effect)->unk_00 * ((S_800D6804_1 *)effect)->unk_32.s) /
+        ((S_800D6804_1 *)effect)->unk_34;
+    ((S_800D6804_1 *)effect)->unk_04.at01.v =
+        (((S_800D6804_1 *)effect)->unk_01 * ((S_800D6804_1 *)effect)->unk_32.s) /
+        ((S_800D6804_1 *)effect)->unk_34;
+    ((S_800D6804_1 *)effect)->unk_04.at02.v =
+        (((S_800D6804_1 *)effect)->unk_02 * ((S_800D6804_1 *)effect)->unk_32.s) /
+        ((S_800D6804_1 *)effect)->unk_34;
 
-    timer = ((S_800D6804_1 *)arg0)->unk_32.u - 1;
-    ((S_800D6804_1 *)arg0)->unk_32.s = timer;
-    ((S_800D6804_1 *)arg0)->unk_08 = ((S_800D6804_1 *)arg0)->unk_04.at00u.v;
-    if ((timer << 16) <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    frames_left = ((S_800D6804_1 *)effect)->unk_32.u - 1;
+    ((S_800D6804_1 *)effect)->unk_32.s = frames_left;
+    ((S_800D6804_1 *)effect)->unk_08 = ((S_800D6804_1 *)effect)->unk_04.at00u.v;
+    if ((frames_left << 16) <= 0) {
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }
-
-/* MECHANISM: The true-space function is a frameless leaf; state stays in a3 while arg0 stays in a2.
-   A split shift/copy/add fixes the opening live ranges, and the tail copies the full word at +4.
-   Direct scalar RMW plus moved-source orientation at 2.7.2-cdk-G0 closes the final coloring. */

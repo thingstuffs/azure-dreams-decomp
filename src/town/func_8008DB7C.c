@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
+/* all_item_egg_kaeru: no-op town event-script handler. */
 void func_8008B2DC(void) {
 
 }

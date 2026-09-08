@@ -4,6 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_80019458();                     /* extern */
 
+/* Calls func_80019458 with value 0x639. */
 void func_805D30DC(void) {
     func_80019458(0x639);
 }

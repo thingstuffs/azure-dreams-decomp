@@ -21,36 +21,37 @@ typedef struct {
 extern ListHead D_80081498;
 extern s32 D_800A0708;
 
-void *func_800A0988(s32 arg0)
+/* Finds the first node with the required key and value whose 0x400 flag is clear. */
+void *func_800A0988(s32 requested_value)
 {
     Node *node;
-    Node *next;
-    s32 key;
-    s32 wanted_key;
-    NodeData *data;
+    Node *next_node;
+    s32 node_key;
+    s32 required_node_key;
+    NodeData *node_data;
     void *result;
 
     node = D_80081498.head;
     if (node == 0) {
         goto not_found;
     }
-    wanted_key = (s32)&D_800A0708;
+    required_node_key = (s32)&D_800A0708;
 loop:
-    key = node->field_10;
-    next = node->next;
-    if (key >= 0) {
+    node_key = node->field_10;
+    next_node = node->next;
+    if (node_key >= 0) {
         goto cont;
     }
     if (node->flags & 0x400) {
         goto cont;
     }
-    data = (NodeData *)((u8 *)node + 0x20);
-    if ((key == wanted_key) && (data->field_48 == arg0)) {
+    node_data = (NodeData *)((u8 *)node + 0x20);
+    if ((node_key == required_node_key) && (node_data->field_48 == requested_value)) {
         result = node;
         goto done;
     }
 cont:
-    node = next;
+    node = next_node;
     if (node != 0) {
         goto loop;
     }
@@ -59,7 +60,3 @@ not_found:
 done:
     return result;
 }
-
-/* MECHANISM: The retail leaf has no frame or saved registers; the head, node,
-   next, key, and held global address occupy v1/a2/a1/a3 naturally.
-   A typed node+0x20 subobject preserves the staged addiu/lw access. */

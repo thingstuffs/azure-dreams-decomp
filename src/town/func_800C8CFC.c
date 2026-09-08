@@ -22,7 +22,8 @@ typedef struct S_800C645C_0 {
     M2C_UNK ** unk_7C;
 } S_800C645C_0;   /* arg0 in func_800C645C */
 
-void func_800C645C(S_800C645C_0 *arg0) {
-    *arg0->unk_7C = &D_800D58F4;
-    ((S_800C645C_2 *)(((S_800C645C_1 *)arg0)->unk_80))->unk_04 = &D_800D58F4;
+/* Set both object references to D_800D58F4. */
+void func_800C645C(S_800C645C_0 *object) {
+    *object->unk_7C = &D_800D58F4;
+    ((S_800C645C_2 *)(((S_800C645C_1 *)object)->unk_80))->unk_04 = &D_800D58F4;
 }

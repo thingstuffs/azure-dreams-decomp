@@ -15,6 +15,7 @@ typedef struct S_800CB04C_1 {
 extern M2C_UNK D_800D6924;
 
 
-void func_800CB04C(Rec_func_80094268_arg0 *arg0) {
-    ((S_800CB04C_1 *)(arg0->unk_80))->unk_04 = &D_800D6924;
+/* Sets the record's associated data pointer to D_800D6924. */
+void func_800CB04C(Rec_func_80094268_arg0 *record) {
+    ((S_800CB04C_1 *)(record->unk_80))->unk_04 = &D_800D6924;
 }

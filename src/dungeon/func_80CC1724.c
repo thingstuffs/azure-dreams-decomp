@@ -53,90 +53,91 @@ extern s32 D_80173B98;
 extern u8 D_80176338[];
 extern u8 D_80176340[];
 
-void func_80174F24(void *arg0, void *in_arg1, void *in_arg2, void *arg3)
+/* Updates the actor's movement animation and finishes the timed action. */
+void func_80174F24(void *action, void *motion_arg, void *unit_arg, void *actor)
 {
-    register void *arg1 ASM_REG("$18") = in_arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *arg2 ASM_REG("$19") = in_arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 scratch;
-    u8 state;
+    register void *motion ASM_REG("$18") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *unit ASM_REG("$19") = unit_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 direction_aux;
+    u8 move_state;
 
-    state = ((S_80174F24_0 *)arg0)->unk_9B;
-    switch (state) {
+    move_state = ((S_80174F24_0 *)action)->unk_9B;
+    switch (move_state) {
     case 0:
-        if (((S_80174F24_1 *)arg2)->unk_14 & 0x6000) {
-            u8 *table = D_80176338;
+        if (((S_80174F24_1 *)unit)->unk_14 & 0x6000) {
+            u8 *direction_table = D_80176338;
 
-            (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
-            func_80047784(arg2,
-                table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
+            func_80047784(unit,
+                direction_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
-            ((S_80174F24_0 *)arg0)->unk_98 |= 8;
-            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 &= ~0x08000000;
-            ((S_80174F24_0 *)arg0)->unk_9E.s = 5;
-            ((S_80174F24_0 *)arg0)->unk_A0 = 0;
-            ((S_80174F24_0 *)arg0)->unk_9B++;
+            ((S_80174F24_0 *)action)->unk_98 |= 8;
+            ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 &= ~0x08000000;
+            ((S_80174F24_0 *)action)->unk_9E.s = 5;
+            ((S_80174F24_0 *)action)->unk_A0 = 0;
+            ((S_80174F24_0 *)action)->unk_9B++;
         } else {
-            goto shared;
+            goto check_timeout;
         }
         /* fall through */
 
     case 1:
         {
-            s16 timer;
-            s32 delta;
-            s32 position;
-            s32 velocity;
+            s16 move_ticks;
+            s32 target_delta;
+            s32 axis_pos;
+            s32 x_velocity;
 
-            ((S_80174F24_0 *)arg0)->unk_90 -= ((S_80174F24_0 *)arg0)->unk_A0;
-            timer = ((S_80174F24_0 *)arg0)->unk_9E.s;
-            if (timer != 0) {
-                delta = ((S_80174F24_1 *)arg2)->unk_24 << 6;
-                position = ((S_80174F24_3 *)arg1)->unk_02 - 0x20;
-                delta -= position;
-                velocity = (delta << 16) / timer;
+            ((S_80174F24_0 *)action)->unk_90 -= ((S_80174F24_0 *)action)->unk_A0;
+            move_ticks = ((S_80174F24_0 *)action)->unk_9E.s;
+            if (move_ticks != 0) {
+                target_delta = ((S_80174F24_1 *)unit)->unk_24 << 6;
+                axis_pos = ((S_80174F24_3 *)motion)->unk_02 - 0x20;
+                target_delta -= axis_pos;
+                x_velocity = (target_delta << 16) / move_ticks;
 
-                position = ((S_80174F24_3 *)arg1)->unk_06;
-                ((S_80174F24_3 *)arg1)->unk_0C = velocity;
-                position -= 0x20;
-                delta = ((S_80174F24_1 *)arg2)->unk_25 << 6;
-                delta -= position;
-                ((S_80174F24_3 *)arg1)->unk_10 =
-                    (delta << 16) / ((S_80174F24_0 *)arg0)->unk_9E.s;
+                axis_pos = ((S_80174F24_3 *)motion)->unk_06;
+                ((S_80174F24_3 *)motion)->unk_0C = x_velocity;
+                axis_pos -= 0x20;
+                target_delta = ((S_80174F24_1 *)unit)->unk_25 << 6;
+                target_delta -= axis_pos;
+                ((S_80174F24_3 *)motion)->unk_10 =
+                    (target_delta << 16) / ((S_80174F24_0 *)action)->unk_9E.s;
 
-                ((S_80174F24_0 *)arg0)->unk_A0 =
-                    (-func_800644B8(((S_80174F24_0 *)arg0)->unk_9E.s * 409)) << 9;
+                ((S_80174F24_0 *)action)->unk_A0 =
+                    (-func_800644B8(((S_80174F24_0 *)action)->unk_9E.s * 409)) << 9;
             }
 
-            ((S_80174F24_0 *)arg0)->unk_90 += ((S_80174F24_0 *)arg0)->unk_A0;
-            timer = ((S_80174F24_0 *)arg0)->unk_9E.u - 1;
-            ((S_80174F24_0 *)arg0)->unk_9E.s = timer;
-            if (timer >= 0) {
-                goto state2;
+            ((S_80174F24_0 *)action)->unk_90 += ((S_80174F24_0 *)action)->unk_A0;
+            move_ticks = ((S_80174F24_0 *)action)->unk_9E.u - 1;
+            ((S_80174F24_0 *)action)->unk_9E.s = move_ticks;
+            if (move_ticks >= 0) {
+                goto check_landing;
             }
-            ((S_80174F24_0 *)arg0)->unk_90 = 0;
-            ((S_80174F24_0 *)arg0)->unk_98 &= 0xFFF7;
-            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x08000000;
-            ((S_80174F24_0 *)arg0)->unk_9B++;
+            ((S_80174F24_0 *)action)->unk_90 = 0;
+            ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
+            ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 |= 0x08000000;
+            ((S_80174F24_0 *)action)->unk_9B++;
         }
         /* fall through */
 
     case 2:
-state2:
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x08000000) {
-            u8 *table;
+check_landing:
+        if (((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 & 0x08000000) {
+            u8 *direction_table;
 
-            ((S_80174F24_0 *)arg0)->unk_98 &= 0xFFF7;
-            ((S_80174F24_3 *)arg1)->unk_14 = 0;
-            ((S_80174F24_3 *)arg1)->unk_10 = 0;
-            ((S_80174F24_3 *)arg1)->unk_0C = 0;
-            func_800A2B04(arg1,
-                ((S_80174F24_1 *)arg2)->unk_24, ((S_80174F24_1 *)arg2)->unk_25);
-            table = D_80176340;
-            (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
-            func_80047784(arg2,
-                table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
+            ((S_80174F24_3 *)motion)->unk_14 = 0;
+            ((S_80174F24_3 *)motion)->unk_10 = 0;
+            ((S_80174F24_3 *)motion)->unk_0C = 0;
+            func_800A2B04(motion,
+                ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25);
+            direction_table = D_80176340;
+            (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
+            func_80047784(unit,
+                direction_table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
-            ((S_80174F24_0 *)arg0)->unk_9B++;
+            ((S_80174F24_0 *)action)->unk_9B++;
         }
         break;
 
@@ -144,53 +145,53 @@ state2:
         break;
     }
 
-shared:
+check_timeout:
     {
-        s16 timer;
-        s16 *counter;
-        u32 flags;
+        s16 action_ticks;
+        s16 *global_counts;
+        u32 actor_flags;
 
-        timer = ((S_80174F24_0 *)arg0)->unk_96.s - 1;
-        ((S_80174F24_0 *)arg0)->unk_96.u = timer;
-        if (timer > 0) {
+        action_ticks = ((S_80174F24_0 *)action)->unk_96.s - 1;
+        ((S_80174F24_0 *)action)->unk_96.u = action_ticks;
+        if (action_ticks > 0) {
             return;
         }
 
-        ((S_80174F24_3 *)arg1)->unk_14 = 0;
-        ((S_80174F24_3 *)arg1)->unk_10 = 0;
-        ((S_80174F24_3 *)arg1)->unk_0C = 0;
-        func_800A2B04(arg1,
-            ((S_80174F24_1 *)arg2)->unk_24, ((S_80174F24_1 *)arg2)->unk_25);
-        func_800AD594(arg3, 4);
-        func_800A4ACC(arg3);
+        ((S_80174F24_3 *)motion)->unk_14 = 0;
+        ((S_80174F24_3 *)motion)->unk_10 = 0;
+        ((S_80174F24_3 *)motion)->unk_0C = 0;
+        func_800A2B04(motion,
+            ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25);
+        func_800AD594(actor, 4);
+        func_800A4ACC(actor);
 
-        counter = (s16 *)&D_80083460;
-        if (counter[4] != 0) {
-            counter[4]--;
+        global_counts = (s16 *)&D_80083460;
+        if (global_counts[4] != 0) {
+            global_counts[4]--;
         }
 
-        flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32;
-        if (flags & 0x2000) {
-            if (((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000) {
-                ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
+        actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32;
+        if (actor_flags & 0x2000) {
+            if (((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000) {
+                ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
             }
             goto update_actor;
         }
-        if (flags & 0x410) {
+        if (actor_flags & 0x410) {
             goto update_actor;
         }
-        if (flags & 0x20000) {
-            ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(
-                ((S_80174F24_1 *)arg2)->unk_24, ((S_80174F24_1 *)arg2)->unk_25,
-                D_80082E80[0x24], D_80082E80[0x25], &scratch);
+        if (actor_flags & 0x20000) {
+            ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 = func_800A0818(
+                ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25,
+                D_80082E80[0x24], D_80082E80[0x25], &direction_aux);
         }
 
 update_actor:
-        if ((func_800AD9B4(arg2, arg3) << 16) > 0) {
-            ((S_80174F24_0 *)arg0)->unk_8C = &D_80173B98;
-            func_800A9A04(arg3);
+        if ((func_800AD9B4(unit, actor) << 16) > 0) {
+            ((S_80174F24_0 *)action)->unk_8C = &D_80173B98;
+            func_800A9A04(actor);
         }
-        ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(unit);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }

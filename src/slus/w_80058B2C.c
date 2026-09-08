@@ -3,15 +3,13 @@
 extern int func_800589B8(int a0);
 extern int func_80058AA8(int a0, int a1);
 
-/* Calls func_800589B8 twice with the same argument (its internal state
-   changes between calls), then combines the low bytes of both results via
-   func_80058AA8, returning the low 16 bits. */
-int func_80058B2C(int a0)
+/* Combines the low bytes of two successive calls with the same input and returns the low 16 bits. */
+int func_80058B2C(int input)
 {
-    int v0;
-    int v1;
+    int first_result;
+    int second_result;
 
-    v0 = func_800589B8(a0);
-    v1 = func_800589B8(a0);
-    return func_80058AA8(v0 & 0xFF, v1 & 0xFF) & 0xFFFF;
+    first_result = func_800589B8(input);
+    second_result = func_800589B8(input);
+    return func_80058AA8(first_result & 0xFF, second_result & 0xFF) & 0xFFFF;
 }

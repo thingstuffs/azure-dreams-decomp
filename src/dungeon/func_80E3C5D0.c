@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
+#include "records/Rec_func_80173D78_arg0.h"
 
 #ifndef NULL
 #define NULL 0
@@ -51,10 +52,6 @@ typedef struct S_80175DD0_4 {
     u16 unk_0A;
 } S_80175DD0_4;   /* arg1 in func_80175DD0 */
 
-typedef struct S_80175DD0_5 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_80175DD0_5;   /* arg0 in func_80175DD0 */
 
 
 
@@ -69,16 +66,17 @@ extern s16 D_80083228;
 extern s32 D_80175C60;
 extern s32 D_80175D74;
 
-void func_80175DD0(void *arg0, S_80175DD0_4 *arg1, Rec_D_80082E80 *arg2, s16 arg3) {
-    u16 position[3];
+/* Creates an object at a source position offset and sets its orientation from the parent. */
+void func_80175DD0(void *parent_data, S_80175DD0_4 *origin, Rec_D_80082E80 *source_data, s16 position_index) {
+    u16 position_offset[3];
     u16 angle;
-    s32 table_offset;
+    s32 direction_offset;
     S_80175DD0_3 *coords;
     S_80175DD0_2 *object_data;
     S_80175DD0_1 *object;
 
-    if (func_8003DE58(arg2->unk_08, arg2, position, arg3) != 0) {
-        object = func_8003FD64(0x300, (u8 *)arg0 - 0x20);
+    if (func_8003DE58(source_data->unk_08, source_data, position_offset, position_index) != 0) {
+        object = func_8003FD64(0x300, (u8 *)parent_data - 0x20);
         if ((object != NULL) &&
             ((object_data = object->unk_0C,
               coords = object->unk_08,
@@ -86,15 +84,15 @@ void func_80175DD0(void *arg0, S_80175DD0_4 *arg1, Rec_D_80082E80 *arg2, s16 arg
               object_data->unk_1E = 0x400,
               object_data->unk_1C = 0x400,
               object_data->unk_0C = 0x808080,
-              object_data->unk_28 = arg2->unk_28.at00_s32.v,
-              coords->unk_02 = arg1->unk_02 + position[0],
-              coords->unk_06 = arg1->unk_06 + position[1],
-              coords->unk_0A = arg1->unk_0A + position[2],
-              table_offset = (((S_80175DD0_5 *)arg0)->unk_2A >> 8) & 0xE,
-              coords->unk_0E = *(u16 *)(&D_8006CCD8 + table_offset),
-              coords->unk_12 = *(u16 *)(&D_8006CCE8 + table_offset),
+              object_data->unk_28 = source_data->unk_28.at00_s32.v,
+              coords->unk_02 = origin->unk_02 + position_offset[0],
+              coords->unk_06 = origin->unk_06 + position_offset[1],
+              coords->unk_0A = origin->unk_0A + position_offset[2],
+              direction_offset = (((Rec_func_80173D78_arg0 *)parent_data)->unk_2A >> 8) & 0xE,
+              coords->unk_0E = *(u16 *)(&D_8006CCD8 + direction_offset),
+              coords->unk_12 = *(u16 *)(&D_8006CCE8 + direction_offset),
               object->unk_40 = 0x10,
-              object->unk_20 = (s16 *)((u8 *)arg0 + 0x2A),
+              object->unk_20 = (s16 *)((u8 *)parent_data + 0x2A),
               func_80047784(object_data, 0x45, 0, coords),
               func_8004491C(object, &D_80175D74),
               angle = ((((D_80083228 + *object->unk_20 + 0x100) >> 9) & 7) + 2) << 9,

@@ -28,59 +28,60 @@ extern StructD80083460 D_80083460;
 void func_80044A50(void *);
 void func_8004491C(void *, void *);
 
-s32 func_800ACE34(StructArg0 *arg0, s32 arg1, StructArg2 *arg2) {
-    register StructArg0 *s0 ASM_REG("$16") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    StructArg2 *s1 = arg2;
-    u8 v1 = s0->unk9B;
-    u8 t0;
-    register s32 a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 a3;
-    register s32 a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u8 a2;
-    s32 q_v1;
-    u16 d_v1;
+/* Restores neutral color, then counts down and finalizes the effect. */
+s32 func_800ACE34(StructArg0 *object_arg, s32 unused, StructArg2 *effect_arg) {
+    register StructArg0 *object ASM_REG("$16") = object_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    StructArg2 *effect = effect_arg;
+    u8 phase = object->unk9B;
+    u8 red;
+    register s32 red_step ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 green;
+    register s32 green_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 blue;
+    s32 blue_step;
+    u16 effect_count;
 
-    if (v1 == 0) goto block1;
-    if (v1 == 1) goto block2;
+    if (phase == 0) goto restore_color;
+    if (phase == 1) goto countdown;
     return 0;
 
-block1:
-    t0 = s1->unk0C;
-    s1->unk0F++;
-    a1 = 0x80 - t0;
-    a1 = a1 / *(volatile u8 *)&s1->unk0F;
-    a3 = s1->unk0D;
-    a0 = 0x80 - a3;
-    a0 = a0 / *(volatile u8 *)&s1->unk0F;
-    a2 = s1->unk0E;
-    q_v1 = 0x80 - a2;
-    q_v1 = q_v1 / *(volatile u8 *)&s1->unk0F;
-    t0 += a1;
-    s1->unk0C = t0;
-    a3 += a0;
-    s1->unk0D = a3;
-    a2 += q_v1;
-    s1->unk0E = a2;
-    if (*(volatile u8 *)&s1->unk0F >= 8) {
-        s1->unk0E = 0x80;
-        s1->unk0D = 0x80;
-        s1->unk0C = 0x80;
-        s0->unk9B++;
+restore_color:
+    red = effect->unk0C;
+    effect->unk0F++;
+    red_step = 0x80 - red;
+    red_step = red_step / *(volatile u8 *)&effect->unk0F;
+    green = effect->unk0D;
+    green_step = 0x80 - green;
+    green_step = green_step / *(volatile u8 *)&effect->unk0F;
+    blue = effect->unk0E;
+    blue_step = 0x80 - blue;
+    blue_step = blue_step / *(volatile u8 *)&effect->unk0F;
+    red += red_step;
+    effect->unk0C = red;
+    green += green_step;
+    effect->unk0D = green;
+    blue += blue_step;
+    effect->unk0E = blue;
+    if (*(volatile u8 *)&effect->unk0F >= 8) {
+        effect->unk0E = 0x80;
+        effect->unk0D = 0x80;
+        effect->unk0C = 0x80;
+        object->unk9B++;
     }
     return 0;
 
-block2:
-    s1->unk0F--;
-    if (s1->unk0F != 0) {
+countdown:
+    effect->unk0F--;
+    if (effect->unk0F != 0) {
         return 0;
     }
-    s0 = (StructArg0 *)((u8 *)s0 - 0x20);
-    func_80044A50(s0);
-    s1->unk12 += 0x80;
-    s1->unk14 &= 0xFFF3;
-    func_8004491C(s0, D_80045340);
-    d_v1 = D_80083460.unk0A;
-    d_v1--;
-    D_80083460.unk0A = d_v1;
+    object = (StructArg0 *)((u8 *)object - 0x20);
+    func_80044A50(object);
+    effect->unk12 += 0x80;
+    effect->unk14 &= 0xFFF3;
+    func_8004491C(object, D_80045340);
+    effect_count = D_80083460.unk0A;
+    effect_count--;
+    D_80083460.unk0A = effect_count;
     return 1;
 }

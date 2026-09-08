@@ -18,21 +18,22 @@ extern s32 func_80016584();
 extern void func_80016CCC();
 extern void func_80016D20();
 
-s32 func_800165E4(S_800165E4_0 *arg0, s32 arg1) {
-    u32 entry;
-    s16 value;
+/* Processes a selected nonzero table value and its owner's parameter if the check succeeds. */
+s32 func_800165E4(S_800165E4_0 *tableOwner, s32 entryIndex) {
+    u32 entryAddress;
+    s16 entryValue;
 
-    arg1 *= 0x10;
-    entry = arg1 + arg0->unk_10;
-    value = ((S_800165E4_1 *)((void *)entry))->unk_0C;
-    if (value == 0) {
+    entryIndex *= 0x10;
+    entryAddress = entryIndex + tableOwner->unk_10;
+    entryValue = ((S_800165E4_1 *)((void *)entryAddress))->unk_0C;
+    if (entryValue == 0) {
         return 0;
     }
     if (func_80016584() == 0) {
         return 0;
     }
-    func_80016CCC(value);
-    func_80016D20(arg0->unk_18);
-    ASM_USE(arg0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    func_80016CCC(entryValue);
+    func_80016D20(tableOwner->unk_18);
+    ASM_USE(tableOwner);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     return 1;
 }

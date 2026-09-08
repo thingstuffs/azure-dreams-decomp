@@ -13,10 +13,11 @@ typedef struct S_800942B0_0 {
 } S_800942B0_0;   /* arg1 in func_800942B0 */
 
 
-void func_800942B0(Rec_func_80094268_arg0 *arg0, S_800942B0_0 *arg1, M2C_UNK arg2) {
+/* Initializes an object and its associated state. */
+void func_800942B0(Rec_func_80094268_arg0 *object, S_800942B0_0 *state, M2C_UNK initData) {
     func_800948DC();
-    arg1->unk_14 = 0xFFEF0000;
-    func_80094984(&D_800D00B0, arg0, arg2);
-    arg0->unk_00.as_pm = &D_8009204C;
-    arg0->unk_0A.as_s16 = 0;
+    state->unk_14 = 0xFFEF0000;
+    func_80094984(&D_800D00B0, object, initData);
+    object->unk_00.as_pm = &D_8009204C;
+    object->unk_0A.as_s16 = 0;
 }

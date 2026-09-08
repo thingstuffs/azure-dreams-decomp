@@ -60,6 +60,7 @@ const OverlayInitData func_8094ECC4
     };
 #endif
 
+/* Initializes the first buffer pointer to D_80016034. */
 void func_8094F01C(void) {
     D_80016D08[0] = D_80016034;
 }

@@ -11,13 +11,12 @@ typedef struct S_8004E21C {
 
 extern void *func_8004E188(void *a0, u8 a1);
 
-/* summary: decode item byte-code a1 via func_8004E188 into a scratch struct, then copy the
-   resulting 4-byte field (unaligned) into a0's corresponding field; returns a0. */
-void *decodeItemCode(void *a0, u8 a1)
+/* Decode an item code, copy the resulting word to the destination, and return it. */
+void *decodeItemCode(void *dest, u8 item_code)
 {
-    S_8004E21C local;
+    S_8004E21C decoded;
 
-    func_8004E188(&local, a1);
-    *(S_8004E21C_UA32 *)a0 = *(S_8004E21C_UA32 *)((u8 *)&local + 8);
-    return a0;
+    func_8004E188(&decoded, item_code);
+    *(S_8004E21C_UA32 *)dest = *(S_8004E21C_UA32 *)((u8 *)&decoded + 8);
+    return dest;
 }

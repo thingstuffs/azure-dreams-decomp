@@ -52,43 +52,44 @@ extern void func_80044A50(EntityFields *);
 extern void func_800BC318(EntityFields *);
 extern void func_8004491C(EntityFields *, void *);
 
-void *func_800C07AC(EntityFields *arg0) {
-    EntityFields *obj;
-    CopyFields *src;
-    CopyFields *dst;
-    ConfigFields *cfg;
-    TailFields *objTail;
-    TailFields *argTail;
-    register u16 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+/* Creates and configures an entity, copies source fields, and links it to the source. */
+void *func_800C07AC(EntityFields *source) {
+    EntityFields *entity;
+    CopyFields *source_fields;
+    CopyFields *entity_fields;
+    ConfigFields *config;
+    TailFields *entity_tail;
+    TailFields *source_tail;
+    register u16 config_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u16 size;
 
-    obj = func_8003FD64(2, arg0);
-    if (obj != NULL) {
-        func_80044A50(arg0);
-        func_800BC318(arg0);
-        obj->field10 = D_800C0404;
-        func_8004491C(obj, D_80045340);
+    entity = func_8003FD64(2, source);
+    if (entity != NULL) {
+        func_80044A50(source);
+        func_800BC318(source);
+        entity->field10 = D_800C0404;
+        func_8004491C(entity, D_80045340);
 
-        src = arg0->field8;
-        dst = obj->field8;
-        dst->field2 = src->field2;
-        dst->field6 = src->field6;
-        dst->fieldA = src->fieldA;
+        source_fields = source->field8;
+        entity_fields = entity->field8;
+        entity_fields->field2 = source_fields->field2;
+        entity_fields->field6 = source_fields->field6;
+        entity_fields->fieldA = source_fields->fieldA;
 
-        cfg = obj->fieldC;
-        cfg->field10 = 0x20;
-        cfg->field8 = D_800DF4A4;
+        config = entity->fieldC;
+        config->field10 = 0x20;
+        config->field8 = D_800DF4A4;
         size = 0x1000;
-        cfg->field1E = size;
-        cfg->field1C = size;
-        argTail = &arg0->tail;
-        flags = cfg->field14;
-        cfg->fieldC = 0x808080;
-        cfg->field14 = flags | 0xC;
-        objTail = &obj->tail;
-        objTail->field4C = 0x10;
-        objTail->field68 = argTail;
-        argTail->field14 |= 0x100000;
+        config->field1E = size;
+        config->field1C = size;
+        source_tail = &source->tail;
+        config_flags = config->field14;
+        config->fieldC = 0x808080;
+        config->field14 = config_flags | 0xC;
+        entity_tail = &entity->tail;
+        entity_tail->field4C = 0x10;
+        entity_tail->field68 = source_tail;
+        source_tail->field14 |= 0x100000;
     }
-    return obj;
+    return entity;
 }

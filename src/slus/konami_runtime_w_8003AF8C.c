@@ -9,6 +9,7 @@ typedef struct S_8003AF8C_0 {
 } S_8003AF8C_0;   /* arg0 in func_8003AF8C */
 
 
-void func_8003AF8C(S_8003AF8C_0 *arg0) {
-    arg0->unk_14 = 0;
+/* Clears the object's field at offset 0x14. */
+void func_8003AF8C(S_8003AF8C_0 *object) {
+    object->unk_14 = 0;
 }

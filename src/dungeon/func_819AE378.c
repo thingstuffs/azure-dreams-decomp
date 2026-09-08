@@ -80,59 +80,60 @@ typedef struct S_80025B78_4 {
     u16 unk_20;
 } S_80025B78_4;   /* arg2 in func_80025B78 */
 
-void *func_80025B78(void *arg0, S_80025B78_2 *arg1, S_80025B78_4 *arg2)
+/* Creates an object and copies the supplied triplet, state fields, and 32-byte data block. */
+void *func_80025B78(void *source_data, S_80025B78_2 *source_triplet, S_80025B78_4 *source_state)
 {
-    void *temp_v0;
-    S_80025B78_1 *temp_v1;
-    S_80025B78_3 *temp_v1_2;
+    void *object;
+    S_80025B78_1 *triplet;
+    S_80025B78_3 *state;
 
-    temp_v0 = func_8003FC64(0x202);
-    if (temp_v0 != NULL) {
-        ((S_80025B78_0 *)temp_v0)->unk_10 = &D_80025A34;
-        func_8004491C(temp_v0, &D_80025AAC);
-        temp_v1 = ((S_80025B78_0 *)temp_v0)->unk_08;
-        temp_v1->unk_02 = arg1->unk_02;
-        temp_v1->unk_06 = arg1->unk_06;
-        temp_v1->unk_0A = arg1->unk_0A;
-        temp_v1_2 = ((S_80025B78_0 *)temp_v0)->unk_0C;
-        temp_v1_2->unk_1C = arg2->unk_1C;
-        temp_v1_2->unk_1E = arg2->unk_1E;
-        temp_v1_2->unk_20 = arg2->unk_20;
-        temp_v1_2->unk_16 = arg2->unk_16;
-        temp_v1_2->unk_18 = arg2->unk_18;
-        temp_v1_2->unk_1A = arg2->unk_1A;
-        temp_v1_2->unk_0C = arg2->unk_0C;
-        temp_v1_2->unk_14 = arg2->unk_14;
-        temp_v1_2->unk_00 = arg2->unk_00;
-        temp_v1_2->unk_08 = arg2->unk_08;
-        temp_v1_2->unk_10 = arg2->unk_10;
-        temp_v1_2->unk_04 = arg2->unk_04;
+    object = func_8003FC64(0x202);
+    if (object != NULL) {
+        ((S_80025B78_0 *)object)->unk_10 = &D_80025A34;
+        func_8004491C(object, &D_80025AAC);
+        triplet = ((S_80025B78_0 *)object)->unk_08;
+        triplet->unk_02 = source_triplet->unk_02;
+        triplet->unk_06 = source_triplet->unk_06;
+        triplet->unk_0A = source_triplet->unk_0A;
+        state = ((S_80025B78_0 *)object)->unk_0C;
+        state->unk_1C = source_state->unk_1C;
+        state->unk_1E = source_state->unk_1E;
+        state->unk_20 = source_state->unk_20;
+        state->unk_16 = source_state->unk_16;
+        state->unk_18 = source_state->unk_18;
+        state->unk_1A = source_state->unk_1A;
+        state->unk_0C = source_state->unk_0C;
+        state->unk_14 = source_state->unk_14;
+        state->unk_00 = source_state->unk_00;
+        state->unk_08 = source_state->unk_08;
+        state->unk_10 = source_state->unk_10;
+        state->unk_04 = source_state->unk_04;
         {
-            u32 copy0;
-            u32 copy1;
-            u32 copy2;
-            register u32 copy3;
+            u32 word_0;
+            u32 word_1;
+            u32 word_2;
+            register u32 word_3;
 
-            copy0 = ((UnalignedWord *)arg0)[0].value;
-            copy1 = ((UnalignedWord *)arg0)[1].value;
-            copy2 = ((UnalignedWord *)arg0)[2].value;
-            copy3 = ((UnalignedWord *)arg0)[3].value;
-            ASM_KEEP(copy0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(copy1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(copy2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ((UnalignedWord *)((u8 *)temp_v0 + 0x20))[0].value = copy0;
-            ((UnalignedWord *)((u8 *)temp_v0 + 0x20))[1].value = copy1;
-            ((UnalignedWord *)((u8 *)temp_v0 + 0x20))[2].value = copy2;
-            ((UnalignedWord *)((u8 *)temp_v0 + 0x20))[3].value = copy3;
-            copy0 = ((UnalignedWord *)arg0)[4].value;
-            copy1 = ((UnalignedWord *)arg0)[5].value;
-            copy2 = ((UnalignedWord *)arg0)[6].value;
-            copy3 = ((UnalignedWord *)arg0)[7].value;
-            ((UnalignedWord *)((u8 *)temp_v0 + 0x20))[4].value = copy0;
-            ((UnalignedWord *)((u8 *)temp_v0 + 0x20))[5].value = copy1;
-            ((UnalignedWord *)((u8 *)temp_v0 + 0x20))[6].value = copy2;
-            ((UnalignedWord *)((u8 *)temp_v0 + 0x20))[7].value = copy3;
+            word_0 = ((UnalignedWord *)source_data)[0].value;
+            word_1 = ((UnalignedWord *)source_data)[1].value;
+            word_2 = ((UnalignedWord *)source_data)[2].value;
+            word_3 = ((UnalignedWord *)source_data)[3].value;
+            ASM_KEEP(word_0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(word_1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(word_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            ((UnalignedWord *)((u8 *)object + 0x20))[0].value = word_0;
+            ((UnalignedWord *)((u8 *)object + 0x20))[1].value = word_1;
+            ((UnalignedWord *)((u8 *)object + 0x20))[2].value = word_2;
+            ((UnalignedWord *)((u8 *)object + 0x20))[3].value = word_3;
+            word_0 = ((UnalignedWord *)source_data)[4].value;
+            word_1 = ((UnalignedWord *)source_data)[5].value;
+            word_2 = ((UnalignedWord *)source_data)[6].value;
+            word_3 = ((UnalignedWord *)source_data)[7].value;
+            ((UnalignedWord *)((u8 *)object + 0x20))[4].value = word_0;
+            ((UnalignedWord *)((u8 *)object + 0x20))[5].value = word_1;
+            ((UnalignedWord *)((u8 *)object + 0x20))[6].value = word_2;
+            ((UnalignedWord *)((u8 *)object + 0x20))[7].value = word_3;
         }
     }
-    return temp_v0;
+    return object;
 }

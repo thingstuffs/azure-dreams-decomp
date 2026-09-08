@@ -15,22 +15,19 @@ typedef struct S_8005C6B4 {
 extern s32 D_80073740[128];
 extern void func_8005F134(void *a0);
 
-/* summary: builds a local effect-request struct with flags looked up from
- * D_80073740[(s16)a0], a fixed count of 3, and two 7-bit values (a1,a2)
- * each shifted left 7 and packed as halfwords at offsets 0x8/0xA of the
- * (0x40-byte) struct, then dispatches it via func_8005F134. Always returns 0. */
-s32 func_8005C6B4(s32 a0, s32 a1, s32 a2)
+/* Dispatches an effect request with table flags, count 3, and two scaled 7-bit values. */
+s32 func_8005C6B4(s32 flag_index, s32 first_value, s32 second_value)
 {
-    S_8005C6B4 st;
+    S_8005C6B4 request;
     s32 flags;
 
-    st.count = 3;
-    flags = D_80073740[(s16)a0];
-    st.f8 = (a1 & 0x7F) << 7;
-    st.fa = (a2 & 0x7F) << 7;
-    st.flags = flags;
+    request.count = 3;
+    flags = D_80073740[(s16)flag_index];
+    request.f8 = (first_value & 0x7F) << 7;
+    request.fa = (second_value & 0x7F) << 7;
+    request.flags = flags;
 
-    func_8005F134(&st);
+    func_8005F134(&request);
 
     return 0;
 }

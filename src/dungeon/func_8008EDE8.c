@@ -17,11 +17,12 @@ typedef struct S_80094548_1 {
 extern s32 D_800E3D7C;
 
 
-void func_80094548(s32 arg0, s32 arg1) {
-    s32 temp_a0;
-    s32 temp_v0;
+/* Store the value scaled by 512 in the indexed object's field. */
+void func_80094548(s32 index, s32 value) {
+    s32 entry_offset;
+    s32 table_base;
 
-    temp_v0 = D_800E3D7C;
-    temp_a0 = (s32) (arg0 << 0x10) >> 0xE;
-    ((S_80094548_1 *)(((S_80094548_0 *)(temp_a0 + temp_v0))->unk_AC))->unk_2A = (s16) (arg1 << 9);
+    table_base = D_800E3D7C;
+    entry_offset = (s32) (index << 0x10) >> 0xE;
+    ((S_80094548_1 *)(((S_80094548_0 *)(entry_offset + table_base))->unk_AC))->unk_2A = (s16) (value << 9);
 }

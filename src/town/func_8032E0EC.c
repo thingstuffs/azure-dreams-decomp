@@ -14,6 +14,7 @@ typedef struct S_800188EC_1 {
 extern Rec_D_80016000 *D_80016000;
 
 
+/* Returns the byte at offset 0x114 in the referenced record. */
 u8 func_800188EC(void) {
     return ((S_800188EC_1 *)(D_80016000->unk_40.as_pv))->unk_114;
 }

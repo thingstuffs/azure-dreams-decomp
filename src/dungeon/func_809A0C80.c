@@ -55,89 +55,90 @@ typedef struct S_80172480_4 {
     u8 unk_9A;
 } S_80172480_4;   /* D_800E3D7C[0] in func_80172480 */
 
-void func_80172480(S_80172480_0 *arg0, s32 arg1, Rec_D_80082E80 *arg2, S_80172480_1 *arg3) {
-    s32 temp_a0;
-    u8 temp_v1;
-    u8 *base_83160 = D_80083160;
+/* Advances an actor's turn-and-animation sequence and restores its saved heading. */
+void func_80172480(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S_80172480_1 *transform) {
+    s32 heading;
+    u8 phase;
+    u8 *scene_state = D_80083160;
     unsigned long table_page;
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
+    static void *const phase_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
 
-    temp_v1 = arg0->unk_9B;
-    if (temp_v1 >= 5) {
+    phase = actor->unk_9B;
+    if (phase >= 5) {
         return;
     }
-    (void)jt_keep;
-    goto *D_80170838[(u32)temp_v1];
+    (void)phase_labels;
+    goto *D_80170838[(u32)phase];
 jt_c0:
-        temp_a0 = arg3->unk_2A & 0xFFF;
-        arg3->unk_2A = temp_a0;
-        if (((0x400 - ((((S_80172480_2 *)base_83160)->unk_C8 + 0x100) & 0xE00)) & 0xE00) != temp_a0) {
-            arg3->unk_2A = temp_a0 + 0x200;
+        heading = transform->unk_2A & 0xFFF;
+        transform->unk_2A = heading;
+        if (((0x400 - ((((S_80172480_2 *)scene_state)->unk_C8 + 0x100) & 0xE00)) & 0xE00) != heading) {
+            transform->unk_2A = heading + 0x200;
             return;
         }
         goto advance;
 jt_c1:
-        if (arg0->unk_92 == 0) {
+        if (actor->unk_92 == 0) {
             table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
-            goto block_14;
+            goto resolve_table;
         }
         table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
         ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         table_page += 0x5EC8;
-        if ((arg2->unk_14.at00_u16.v & 0x8000) == 0) {
+        if ((animation->unk_14.at00_u16.v & 0x8000) == 0) {
             return;
         }
-        goto block_14_ready;
+        goto start_animation;
 jt_c2:
-        if (arg2->unk_14.at00_u16.v & 0xE000) {
+        if (animation->unk_14.at00_u16.v & 0xE000) {
             table_page = DGN_TABLE_PAGE(D_80175ED0, 0x5ED0);
             ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             table_page += 0x5ED0;
-            goto block_14_ready;
+            goto start_animation;
         }
         goto done;
 jt_c3:
         {
-            u16 case3_loaded = ((S_80172480_2 *)base_83160)->unk_08;
-            if (case3_loaded != 0) {
+            u16 scene_status = ((S_80172480_2 *)scene_state)->unk_08;
+            if (scene_status != 0) {
                 table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
-                goto block_14;
+                goto resolve_table;
             }
             if (((S_80172480_4 *)(D_800E3D7C[0]))->unk_9A != 0x17) {
                 table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
-                goto block_14;
+                goto resolve_table;
             }
         }
         goto done;
-block_14:
+resolve_table:
         table_page += 0x5EC8;
-block_14_ready:
+start_animation:
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         {
-            u8 *table;
-            table = (u8 *)table_page;
-            arg2->unk_2C.as_pm = table;
+            u8 *animation_table;
+            animation_table = (u8 *)table_page;
+            animation->unk_2C.as_pm = animation_table;
             {
-                unsigned long entry = (unsigned long)(((s32) (D_80083228[0] + (s16) arg3->unk_2A + 0x100) >> 9) & 7);
-                entry += (unsigned long)table;
-                func_80047784(arg2, *(u8 *)entry, 0);
+                unsigned long animation_entry = (unsigned long)(((s32) (D_80083228[0] + (s16) transform->unk_2A + 0x100) >> 9) & 7);
+                animation_entry += (unsigned long)animation_table;
+                func_80047784(animation, *(u8 *)animation_entry, 0);
             }
         }
 advance:
-        temp_v1 = arg0->unk_9B + 1;
-        arg0->unk_9B = temp_v1;
+        phase = actor->unk_9B + 1;
+        actor->unk_9B = phase;
         return;
 jt_c4:
-        if (arg2->unk_14.at00_u16.v & 0xE000) {
-            arg3->unk_1C = (s32) (arg3->unk_1C | 0x40000);
+        if (animation->unk_14.at00_u16.v & 0xE000) {
+            transform->unk_1C = (s32) (transform->unk_1C | 0x40000);
             {
-                u8 *table = D_80175EB8;
-                arg2->unk_2C.as_pm = table;
-                func_80047784(arg2, table[((s32) (D_80083228[0] + (s16) arg3->unk_2A + 0x100) >> 9) & 7], 0);
+                u8 *animation_table = D_80175EB8;
+                animation->unk_2C.as_pm = animation_table;
+                func_80047784(animation, animation_table[((s32) (D_80083228[0] + (s16) transform->unk_2A + 0x100) >> 9) & 7], 0);
             }
-            arg0->unk_8C = D_801710EC;
-            arg3->unk_2A = (u16) arg0->unk_B0;
-            arg0->unk_B2 = 0;
+            actor->unk_8C = D_801710EC;
+            transform->unk_2A = (u16) actor->unk_B0;
+            actor->unk_B2 = 0;
             D_80083460[5] = (u16) (D_80083460[5] - 1);
         }
 done:

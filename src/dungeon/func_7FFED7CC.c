@@ -8,27 +8,28 @@ typedef struct S_8008AF2C_0 {
     s32 unk_04;
 } S_8008AF2C_0;   /* var_t0 in func_8008AF2C */
 
-u32 func_8008AF2C(s32 arg0, s32 arg1, s32 arg2) {
-    u32 *var_a3;
-    u32 *var_t0;
-    u32 temp_v1;
-    u32 mask_3f;
-    u32 mask_7f;
+/* Return the table value matching the three packed key fields, or zero if absent. */
+u32 func_8008AF2C(s32 key_flag, s32 key_high, s32 key_low) {
+    u32 *value_ptr;
+    u32 *entry;
+    u32 packed_key;
+    u32 high_mask;
+    u32 low_mask;
 
-    var_t0 = D_801131EC;
-    if (((S_8008AF2C_0 *)var_t0)->unk_04 != 0) {
-        mask_3f = 0x3F000000;
-        mask_7f = 0x007F0000;
-        var_a3 = var_t0 + 1;
-loop_2:
-        temp_v1 = *var_t0;
-        if ((arg0 == ((temp_v1 >> 0x17) & 1)) && (arg1 == ((temp_v1 & mask_3f) >> 0x18)) && (arg2 == ((temp_v1 & mask_7f) >> 0x10))) {
-            return *var_a3;
+    entry = D_801131EC;
+    if (((S_8008AF2C_0 *)entry)->unk_04 != 0) {
+        high_mask = 0x3F000000;
+        low_mask = 0x007F0000;
+        value_ptr = entry + 1;
+scan_entry:
+        packed_key = *entry;
+        if ((key_flag == ((packed_key >> 0x17) & 1)) && (key_high == ((packed_key & high_mask) >> 0x18)) && (key_low == ((packed_key & low_mask) >> 0x10))) {
+            return *value_ptr;
         }
-        var_a3 += 2;
-        var_t0 += 2;
-        if (*var_a3 != 0) {
-            goto loop_2;
+        value_ptr += 2;
+        entry += 2;
+        if (*value_ptr != 0) {
+            goto scan_entry;
         }
     } else {
         return 0U;

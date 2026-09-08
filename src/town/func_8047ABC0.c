@@ -5,6 +5,7 @@
 M2C_UNK func_800197D8();                     /* extern */
 extern M2C_UNK D_8001A054;
 
+/* Calls func_800197D8 with ID 0x403 and returns the address of D_8001A054. */
 M2C_UNK *func_8047ABC0(void) {
     func_800197D8(0x403);
     return &D_8001A054;

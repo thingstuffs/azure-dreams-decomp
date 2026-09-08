@@ -4,6 +4,7 @@
 extern M2C_UNK D_800160D0;
 extern M2C_UNK *D_80016E40;
 
+/* Point D_80016E40 at D_800160D0. */
 void func_806D2898(void) {
     D_80016E40 = &D_800160D0;
 }

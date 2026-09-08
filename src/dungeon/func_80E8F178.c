@@ -35,15 +35,16 @@ typedef struct S_80174978_2 {
 extern void func_800A7A7C(s16, s16, s16, s32, void *);
 extern s32 D_800814A0;
 
-void func_80174978(void *arg0, void *arg1, void *arg2) {
+/* Updates a timed movement animation and marks its completion. */
+void func_80174978(void *actor, void *motion, void *visual) {
     s32 state;
-    s32 delta;
-    s32 value;
-    register s32 sum ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 z_step;
+    s32 speed_or_z;
+    register s32 next_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u16 timer;
-    u16 next;
+    u16 next_scale;
 
-    state = ((S_80174978_0 *)arg0)->unk_9B;
+    state = ((S_80174978_0 *)actor)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -59,53 +60,53 @@ void func_80174978(void *arg0, void *arg1, void *arg2) {
     goto done;
 
 state_zero:
-    if (((S_80174978_1 *)arg2)->unk_14 & 0x8000) {
-        ((S_80174978_0 *)arg0)->unk_9B = 2;
+    if (((S_80174978_1 *)visual)->unk_14 & 0x8000) {
+        ((S_80174978_0 *)actor)->unk_9B = 2;
         goto done;
     }
-    ((S_80174978_0 *)arg0)->unk_96 = 12;
-    ((S_80174978_0 *)arg0)->unk_9B = ((S_80174978_0 *)arg0)->unk_9B + 1;
+    ((S_80174978_0 *)actor)->unk_96 = 12;
+    ((S_80174978_0 *)actor)->unk_9B = ((S_80174978_0 *)actor)->unk_9B + 1;
 
 state_one: {
-    s32 left;
-    s32 right;
+    s32 target_x;
+    s32 current_x;
 
-    left = ((S_80174978_0 *)arg0)->unk_A8 << 6;
-    right = ((S_80174978_2 *)arg1)->unk_02 - 0x20;
-    ((S_80174978_2 *)arg1)->unk_02 = (u16)((S_80174978_2 *)arg1)->unk_02 +
-        ((left - right) >> 1);
+    target_x = ((S_80174978_0 *)actor)->unk_A8 << 6;
+    current_x = ((S_80174978_2 *)motion)->unk_02 - 0x20;
+    ((S_80174978_2 *)motion)->unk_02 = (u16)((S_80174978_2 *)motion)->unk_02 +
+        ((target_x - current_x) >> 1);
 }
-    delta = ((S_80174978_0 *)arg0)->unk_AA;
-    value = ((S_80174978_2 *)arg1)->unk_14 + 0x30000;
-    sum = ((S_80174978_2 *)arg1)->unk_08.at00.v + value;
-    ((S_80174978_2 *)arg1)->unk_14 = value;
-    value = ((S_80174978_2 *)arg1)->unk_06;
-    delta <<= 6;
-    ((S_80174978_2 *)arg1)->unk_08.at00.v = sum;
-    value -= 0x20;
-    delta -= value;
-    delta >>= 1;
-    ((S_80174978_2 *)arg1)->unk_06 = (u16)((S_80174978_2 *)arg1)->unk_06 + delta;
-    if (((S_80174978_1 *)arg2)->unk_1C < 0x1000U) {
-        next = ((S_80174978_1 *)arg2)->unk_1E + 0x50;
-        ((S_80174978_1 *)arg2)->unk_1E = next;
-        ((S_80174978_1 *)arg2)->unk_1C = next;
+    z_step = ((S_80174978_0 *)actor)->unk_AA;
+    speed_or_z = ((S_80174978_2 *)motion)->unk_14 + 0x30000;
+    next_height = ((S_80174978_2 *)motion)->unk_08.at00.v + speed_or_z;
+    ((S_80174978_2 *)motion)->unk_14 = speed_or_z;
+    speed_or_z = ((S_80174978_2 *)motion)->unk_06;
+    z_step <<= 6;
+    ((S_80174978_2 *)motion)->unk_08.at00.v = next_height;
+    speed_or_z -= 0x20;
+    z_step -= speed_or_z;
+    z_step >>= 1;
+    ((S_80174978_2 *)motion)->unk_06 = (u16)((S_80174978_2 *)motion)->unk_06 + z_step;
+    if (((S_80174978_1 *)visual)->unk_1C < 0x1000U) {
+        next_scale = ((S_80174978_1 *)visual)->unk_1E + 0x50;
+        ((S_80174978_1 *)visual)->unk_1E = next_scale;
+        ((S_80174978_1 *)visual)->unk_1C = next_scale;
     }
-    timer = ((S_80174978_0 *)arg0)->unk_96 - 1;
-    ((S_80174978_0 *)arg0)->unk_96 = timer;
+    timer = ((S_80174978_0 *)actor)->unk_96 - 1;
+    ((S_80174978_0 *)actor)->unk_96 = timer;
     if ((timer << 16) != 0) {
         goto done;
     }
-    ((S_80174978_2 *)arg1)->unk_14 = 0;
-    ((S_80174978_0 *)arg0)->unk_9B = ((S_80174978_0 *)arg0)->unk_9B + 1;
+    ((S_80174978_2 *)motion)->unk_14 = 0;
+    ((S_80174978_0 *)actor)->unk_9B = ((S_80174978_0 *)actor)->unk_9B + 1;
     goto done;
 
 state_two:
-    func_800A7A7C(((S_80174978_0 *)arg0)->unk_A8,
-                  ((S_80174978_0 *)arg0)->unk_AA,
-                  (s16)(((S_80174978_2 *)arg1)->unk_08.at02.v - 0x20),
-                  ((S_80174978_1 *)arg2)->unk_08, arg0 + 0x48);
-    (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    func_800A7A7C(((S_80174978_0 *)actor)->unk_A8,
+                  ((S_80174978_0 *)actor)->unk_AA,
+                  (s16)(((S_80174978_2 *)motion)->unk_08.at02.v - 0x20),
+                  ((S_80174978_1 *)visual)->unk_08, actor + 0x48);
+    (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
     D_800814A0 |= 0x8000;
 
 done:

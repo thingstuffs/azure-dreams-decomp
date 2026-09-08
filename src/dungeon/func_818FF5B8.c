@@ -72,52 +72,53 @@ typedef struct S_818FF5B8_5 {
     u16 unk_1A;
 } S_818FF5B8_5;   /* arg2 in func_818FF5B8 */
 
-void func_818FF5B8(void **arg0, S_818FF5B8_4 *arg1, S_818FF5B8_5 *arg2) {
-    S_818FF5B8_2 *temp_a3;
-    void *temp_v0;
-    S_818FF5B8_0 *temp_v1;
-    S_818FF5B8_3 *temp_v1_2;
+/* Creates an owner-linked object with the supplied position and appearance. */
+void func_818FF5B8(void **owner_ref, S_818FF5B8_4 *spawn_pos, S_818FF5B8_5 *appearance) {
+    S_818FF5B8_2 *sprite;
+    void *object;
+    S_818FF5B8_0 *state;
+    S_818FF5B8_3 *position;
     register u8 *copy_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register Copy12 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u32 copy0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u32 copy4 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u32 copy8 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    temp_v0 = func_8003FC64(0x212);
-    temp_v1 = temp_v0 + 0x20;
-    if (temp_v0 != NULL) {
-        temp_v1->unk_2C = (void *) *arg0;
-        temp_v1->unk_30 = (s32) ((S_818FF5B8_1 *)(*arg0))->unk_60;
-        temp_v1->unk_34 = arg0;
-        (*(M2C_UNK **)((u8 *)temp_v0 + 0x10)) = &D_80024750;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_a3 = (*(void **)((u8 *)temp_v0 + 0xC));
-        temp_a3->unk_10 = 0x20;
-        temp_a3->unk_06 = 0;
-        temp_a3->unk_14 = (u16) (temp_a3->unk_14 | 0xC);
-        temp_v1_2 = (*(void **)((u8 *)temp_v0 + 8));
-        temp_v1_2->unk_00 = (s32) arg1->unk_00;
-        temp_v1_2->unk_04 = (s32) arg1->unk_04;
-        temp_v1_2->unk_08 = (s32) arg1->unk_08;
-        temp_a3 = (*(void **)((u8 *)temp_v0 + 0xC));
-        temp_a3->unk_1E = 0x800;
-        temp_a3->unk_1C = 0x800;
-        temp_a3->unk_0C = (u8) arg2->unk_0C;
-        temp_a3->unk_0D = (u8) arg2->unk_0D;
-        temp_a3->unk_0E = (u8) arg2->unk_0E;
-        temp_a3->unk_1A = (s16) (0x1000 - arg2->unk_1A);
-        ASM_KEEP(temp_a3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    object = func_8003FC64(0x212);
+    state = object + 0x20;
+    if (object != NULL) {
+        state->unk_2C = (void *) *owner_ref;
+        state->unk_30 = (s32) ((S_818FF5B8_1 *)(*owner_ref))->unk_60;
+        state->unk_34 = owner_ref;
+        (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_80024750;
+        func_8004491C(object, &D_80045340);
+        sprite = (*(void **)((u8 *)object + 0xC));
+        sprite->unk_10 = 0x20;
+        sprite->unk_06 = 0;
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        position = (*(void **)((u8 *)object + 8));
+        position->unk_00 = (s32) spawn_pos->unk_00;
+        position->unk_04 = (s32) spawn_pos->unk_04;
+        position->unk_08 = (s32) spawn_pos->unk_08;
+        sprite = (*(void **)((u8 *)object + 0xC));
+        sprite->unk_1E = 0x800;
+        sprite->unk_1C = 0x800;
+        sprite->unk_0C = (u8) appearance->unk_0C;
+        sprite->unk_0D = (u8) appearance->unk_0D;
+        sprite->unk_0E = (u8) appearance->unk_0E;
+        sprite->unk_1A = (s16) (0x1000 - appearance->unk_1A);
+        ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         copy_page = (u8 *) 0x80020000;
         ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         copy_src = (Copy12 *) (copy_page + 0x5E64);
         copy0 = copy_src->word0;
         copy4 = copy_src->word4;
         copy8 = copy_src->word8;
-        (*(Copy12 *)((u8 *)temp_v0 + 0x40)).word0 = copy0;
-        (*(Copy12 *)((u8 *)temp_v0 + 0x40)).word4 = copy4;
-        (*(Copy12 *)((u8 *)temp_v0 + 0x40)).word8 = copy8;
+        (*(Copy12 *)((u8 *)object + 0x40)).word0 = copy0;
+        (*(Copy12 *)((u8 *)object + 0x40)).word4 = copy4;
+        (*(Copy12 *)((u8 *)object + 0x40)).word8 = copy8;
         ASM_KEEP(copy8);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_a3->unk_08 = (void *) (temp_v0 + 0x40);
+        sprite->unk_08 = (void *) (object + 0x40);
     }
 }
 

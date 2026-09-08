@@ -29,69 +29,70 @@ extern u8 *D_80081480;
 extern u8 *D_8008148C[3];
 extern State80046E38 D_80082E60;
 
-void func_80046E38(s16 arg0, u8 *arg1)
+/* Processes the selected entry stream and updates the drawing buffer and mode mask. */
+void func_80046E38(s16 entry_id, u8 *stream)
 {
     Pair80046E38 pair;
-    u8 *state;
-    u8 *original;
-    s32 saved_align;
-    s32 cursor;
-    s32 count;
-    register u8 *slot_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s32 index;
-    s32 tmp;
-    Info80046E38 **slot;
-    Info80046E38 *info;
-    s32 *data;
+    u8 *stream_pos;
+    u8 *stream_start;
+    s32 buffer_start;
+    s32 data_offset;
+    s32 remaining;
+    register u8 *table_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 table_offset;
+    s32 shifted_id;
+    Info80046E38 **entry_slot;
+    Info80046E38 *entry;
+    s32 *entry_data;
 
-    state = arg1;
-    ASM_KEEP_NV(state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    original = arg1;
+    stream_pos = stream;
+    ASM_KEEP_NV(stream_pos);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    stream_start = stream;
     D_80081480 = D_8008148C[0];
-    saved_align = (s32)D_8008148C[0];
+    buffer_start = (s32)D_8008148C[0];
     DrawSync(0);
 
-    tmp = arg0 << 16;
-    ASM_KEEP_NV(tmp);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    slot_base = (u8 *)D_8006E7F0;
-    index = tmp >> 14;
-    slot = (Info80046E38 **)(index + (u32)slot_base);
-    data = (*slot)->data;
-    pair = *(Pair80046E38 *)data;
-    info = *slot;
-    count = info->count;
-    cursor = info->data[1];
+    shifted_id = entry_id << 16;
+    ASM_KEEP_NV(shifted_id);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    table_base = (u8 *)D_8006E7F0;
+    table_offset = shifted_id >> 14;
+    entry_slot = (Info80046E38 **)(table_offset + (u32)table_base);
+    entry_data = (*entry_slot)->data;
+    pair = *(Pair80046E38 *)entry_data;
+    entry = *entry_slot;
+    remaining = entry->count;
+    data_offset = entry->data[1];
 
-    if (count > 0) {
+    if (remaining > 0) {
         do {
             func_8003E4FC(6, (s32 *)&pair, 0);
-            cursor += 0x10;
+            data_offset += 0x10;
             func_8003F320();
-            state = func_8004068C(D_8008148C[-3], state);
-            count--;
-            func_8003F6D4(0x10, 0, (s32 *)&pair, cursor);
-        } while (count > 0);
+            stream_pos = func_8004068C(D_8008148C[-3], stream_pos);
+            remaining--;
+            func_8003F6D4(0x10, 0, (s32 *)&pair, data_offset);
+        } while (remaining > 0);
     }
 
-    func_80046D64(original, arg0);
+    func_80046D64(stream_start, entry_id);
     {
-        register s32 mode ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        u32 page;
+        register s32 mode ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        u32 state_page;
 
-        page = 0x80080000;
-        ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        mode = *(u8 *)(page + 0x2E6A);
+        state_page = 0x80080000;
+        ASM_KEEP_NV(state_page);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        mode = *(u8 *)(state_page + 0x2E6A);
         {
-            s32 out;
+            s32 mode_mask;
 
-            out = 2;
-            if (mode != out) {
-                out = 0x8000;
+            mode_mask = 2;
+            if (mode != mode_mask) {
+                mode_mask = 0x8000;
             } else {
-                out = 0x4000;
+                mode_mask = 0x4000;
             }
-            D_80080A7C = out;
+            D_80080A7C = mode_mask;
         }
     }
-    D_80081480 = (u8 *)((saved_align + 3) & ~3);
+    D_80081480 = (u8 *)((buffer_start + 3) & ~3);
 }

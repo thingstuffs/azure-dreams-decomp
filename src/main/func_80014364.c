@@ -26,25 +26,26 @@ extern void func_80027324(void *arg0, s32 arg1);
 extern u8 D_80027DD0[];
 extern u8 D_8002B968[];
 
-void *func_80027364(s32 arg0)
+/* Creates or resets the shared object and initializes its work state. */
+void *func_80027364(s32 init_value)
 {
-    u8 *base;
-    u8 *work;
+    u8 *object;
+    u8 *work_state;
 
-    base = D_8002B968;
-    work = D_8002B968 + 0x20;
-    if (func_8004B4A8(base) == 0) {
-        base = func_8003FE78(0, base, 0x68);
-        func_8004491C(base, D_80027DD0);
+    object = D_8002B968;
+    work_state = D_8002B968 + 0x20;
+    if (func_8004B4A8(object) == 0) {
+        object = func_8003FE78(0, object, 0x68);
+        func_8004491C(object, D_80027DD0);
     } else {
-        func_80023A00(base);
-        ((S_80027364_0 *)base)->unk_1E &= 0x7FFF;
-        bzero(work, 0x180);
+        func_80023A00(object);
+        ((S_80027364_0 *)object)->unk_1E &= 0x7FFF;
+        bzero(work_state, 0x180);
     }
 
-    func_8002727C(work, 4);
-    ((S_80027364_0 *)base)->unk_0C = work + 0xE0;
-    ((S_80027364_1 *)work)->unk_EC = func_80027254(work + 0xF0);
-    func_80027324(work, arg0);
-    return base;
+    func_8002727C(work_state, 4);
+    ((S_80027364_0 *)object)->unk_0C = work_state + 0xE0;
+    ((S_80027364_1 *)work_state)->unk_EC = func_80027254(work_state + 0xF0);
+    func_80027324(work_state, init_value);
+    return object;
 }

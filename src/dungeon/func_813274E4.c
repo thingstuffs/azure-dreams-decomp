@@ -90,75 +90,76 @@ extern M2C_UNK D_8016E528;
 extern void *D_80174704[];
 extern TableEntry D_80174708[];
 
+/* Spawn and initialize an effect at the source position when its mode and status allow it. */
 void func_8016ECE4(void) {
     volatile s32 frame_pad[2];
-    s32 var_v0;
-    s32 var_v0_2;
+    s32 rounded_x;
+    s32 rounded_y;
     u32 mode;
-    u32 page;
+    u32 mode_page;
     u32 one;
-    register S_8016ECE4_3 *temp_a0;
-    S_8016ECE4_1 *temp_s1;
-    S_8016ECE4_5 *temp_s2;
-    S_8016ECE4_6 *temp_s3;
-    void *temp_v0;
-    S_8016ECE4_4 *temp_v1;
-    void *base;
+    register S_8016ECE4_3 *sprite;
+    S_8016ECE4_1 *effect_state;
+    S_8016ECE4_5 *source_pos;
+    S_8016ECE4_6 *source_state;
+    void *effect;
+    S_8016ECE4_4 *effect_pos;
+    void *source;
 
-    base = D_80174704[0];
-    page = 0x80010000;
-    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    source = D_80174704[0];
+    mode_page = 0x80010000;
+    ASM_KEEP_NV(mode_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     one = 1;
-    ASM_KEEP_DEP_NV(one, base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_DEP_NV(one, source);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    mode = page;
+    mode = mode_page;
     mode = *(u8 *)(mode + 0x3611);
     ASM_KEEP_NV(mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp_s2 = ((S_8016ECE4_0 *)base)->unk_08;
-    temp_s3 = base + 0x20;
-    if (((mode & 3) == one) && !(func_80069EF8(base) & 1)) {
-        temp_v0 = func_8003FC64(0x12);
-        if (temp_v0 != NULL) {
-            temp_s1 = temp_v0 + 0x20;
-            temp_s1->unk_12 = 3;
-            ((S_8016ECE4_2 *)temp_v0)->unk_10 = &D_8016E528;
-            func_8004491C(temp_v0, &D_80045340);
-            temp_a0 = ((S_8016ECE4_2 *)temp_v0)->unk_0C;
-            temp_a0->unk_14 = (u16) (temp_a0->unk_14 & 0xFFF3);
-            temp_s1->unk_24 = temp_s3;
-            temp_v1 = ((S_8016ECE4_2 *)temp_v0)->unk_08;
-            temp_v1->unk_02 = (u16) temp_s2->unk_02.s;
-            temp_v1->unk_06 = (u16) temp_s2->unk_06.s;
-            temp_v1->unk_0A = (s16) (temp_s2->unk_0A - 0x80);
-            temp_s1->unk_50 = 0;
-            temp_s1->unk_4C = 0;
-            temp_s1->unk_54 = 0;
-            temp_s1->unk_60 = 0;
-            temp_s1->unk_18 = (s16) (((u16) temp_s3->unk_2A >> 9) & 7);
-            temp_a0 = ((S_8016ECE4_2 *)temp_v0)->unk_0C;
-            temp_a0->unk_1E = 0x1000;
-            temp_a0->unk_1C = 0x1000;
-            temp_a0->unk_06 = (s16) (D_80174708[((u16) temp_s3->unk_2A >> 9) & 7].field2 * 6);
-            temp_s3->unk_AA = 0x4D;
-            var_v0 = temp_s2->unk_02.u;
-            if (var_v0 < 0) {
-                var_v0 += 0x3F;
+    source_pos = ((S_8016ECE4_0 *)source)->unk_08;
+    source_state = source + 0x20;
+    if (((mode & 3) == one) && !(func_80069EF8(source) & 1)) {
+        effect = func_8003FC64(0x12);
+        if (effect != NULL) {
+            effect_state = effect + 0x20;
+            effect_state->unk_12 = 3;
+            ((S_8016ECE4_2 *)effect)->unk_10 = &D_8016E528;
+            func_8004491C(effect, &D_80045340);
+            sprite = ((S_8016ECE4_2 *)effect)->unk_0C;
+            sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFF3);
+            effect_state->unk_24 = source_state;
+            effect_pos = ((S_8016ECE4_2 *)effect)->unk_08;
+            effect_pos->unk_02 = (u16) source_pos->unk_02.s;
+            effect_pos->unk_06 = (u16) source_pos->unk_06.s;
+            effect_pos->unk_0A = (s16) (source_pos->unk_0A - 0x80);
+            effect_state->unk_50 = 0;
+            effect_state->unk_4C = 0;
+            effect_state->unk_54 = 0;
+            effect_state->unk_60 = 0;
+            effect_state->unk_18 = (s16) (((u16) source_state->unk_2A >> 9) & 7);
+            sprite = ((S_8016ECE4_2 *)effect)->unk_0C;
+            sprite->unk_1E = 0x1000;
+            sprite->unk_1C = 0x1000;
+            sprite->unk_06 = (s16) (D_80174708[((u16) source_state->unk_2A >> 9) & 7].field2 * 6);
+            source_state->unk_AA = 0x4D;
+            rounded_x = source_pos->unk_02.u;
+            if (rounded_x < 0) {
+                rounded_x += 0x3F;
             }
-            temp_s1->unk_48 = (s8) (var_v0 >> 6);
-            var_v0_2 = temp_s2->unk_06.u;
-            if (var_v0_2 < 0) {
-                var_v0_2 += 0x3F;
+            effect_state->unk_48 = (s8) (rounded_x >> 6);
+            rounded_y = source_pos->unk_06.u;
+            if (rounded_y < 0) {
+                rounded_y += 0x3F;
             }
-            temp_s1->unk_49 = (s8) (var_v0_2 >> 6);
-            temp_a0->unk_0E = 0x80;
-            temp_a0->unk_0D = 0x80;
-            temp_a0->unk_0C = 0x80;
-            temp_a0->unk_08 = &D_800777F4;
-            temp_a0->unk_14 = (u16) (temp_a0->unk_14 | 0x80);
-            temp_s1->unk_44 = 3;
-            temp_s1->unk_45 = 6;
-            temp_s1->unk_46 = 0;
-            temp_s1->unk_47 = 0;
+            effect_state->unk_49 = (s8) (rounded_y >> 6);
+            sprite->unk_0E = 0x80;
+            sprite->unk_0D = 0x80;
+            sprite->unk_0C = 0x80;
+            sprite->unk_08 = &D_800777F4;
+            sprite->unk_14 = (u16) (sprite->unk_14 | 0x80);
+            effect_state->unk_44 = 3;
+            effect_state->unk_45 = 6;
+            effect_state->unk_46 = 0;
+            effect_state->unk_47 = 0;
         }
     }
 }

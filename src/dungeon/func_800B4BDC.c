@@ -18,9 +18,8 @@ typedef struct S_800BA33C_0 {
 } S_800BA33C_0;   /* arg0 in func_800BA33C */
 
 s32 func_800BA33C(S_800BA33C_0 *arg0) {
-    register s32 code ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    code = 0x18;
-    if ((arg0 == NULL) || ((arg0->unk_13 == code) && (arg0->unk_B5 == 1))) {
+    s32 code;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    if ((arg0 == NULL) || ((arg0->unk_13 == 0x18) && (arg0->unk_B5 == 1))) {
         return 0;
     }
     if ((arg0->unk_1C & 0x20000)) {

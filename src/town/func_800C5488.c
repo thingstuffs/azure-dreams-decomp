@@ -19,15 +19,16 @@ extern s16 D_800D5078[];
 
 extern s16 func_800C2B88(s16 x, s16 z, s32 arg2);
 
-s16 func_800C2BE8(void *arg0, s32 arg1)
+/* Return the current object's cached value or look it up at the town coordinates. */
+s16 func_800C2BE8(void *object, s32 lookup_mode)
 {
     TownState *state = &D_800CFCB4;
 
-    if (arg0 == state->current &&
-        arg0 == (u8 *)D_80082660[*(s32 *)((u8 *)arg0 + 0x60)].object +
+    if (object == state->current &&
+        object == (u8 *)D_80082660[*(s32 *)((u8 *)object + 0x60)].object +
                     0x20) {
         return D_800D5078[state->object_index];
     }
 
-    return func_800C2B88(D_80083780[1], D_80083780[3], arg1);
+    return func_800C2B88(D_80083780[1], D_80083780[3], lookup_mode);
 }

@@ -10,10 +10,11 @@ typedef struct {
 
 extern State D_80100DE0;
 
+/* Initialize the state data pointers for town script command 214. */
 void func_800A50B8(void) {
-    u8 *base = (u8 *)&D_80100DE0;
+    u8 *state = (u8 *)&D_80100DE0;
 
-    *(void **)(base + 0x28) = D_800A4D4C;
+    *(void **)(state + 0x28) = D_800A4D4C;
     D_80100DE0.value = D_80100D98;
-    *(void **)(base + 0x2C) = D_80100D98;
+    *(void **)(state + 0x2C) = D_80100D98;
 }

@@ -1,27 +1,26 @@
 #include "common.h"
 
-/* Fills arr[0..cnt) with results of func_8004B404(0x82); on first zero result, calls
-   func_8004B248(arr) and returns NULL instead of the array pointer. */
 extern s32 func_8004B404(s32 a0);
 extern void func_8004B248(s32 *a0);
 
-s32 *allocBufferArray(s32 *a0, s32 a1)
+/* Allocates buffers into an array, cleaning up and returning NULL on failure. */
+s32 *allocBufferArray(s32 *buffer_array, s32 buffer_count)
 {
-    s32 *arr = a0;
-    s32 cnt = a1;
-    s32 i;
-    s32 v0;
+    s32 *buffers = buffer_array;
+    s32 count = buffer_count;
+    s32 index;
+    s32 buffer;
 
-    for (i = 0; i < cnt; i++)
+    for (index = 0; index < count; index++)
     {
-        v0 = func_8004B404(0x82);
-        arr[i] = v0;
-        if (v0 == 0)
+        buffer = func_8004B404(0x82);
+        buffers[index] = buffer;
+        if (buffer == 0)
         {
-            func_8004B248(arr);
-            arr = 0;
+            func_8004B248(buffers);
+            buffers = 0;
             break;
         }
     }
-    return arr;
+    return buffers;
 }

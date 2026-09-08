@@ -60,53 +60,54 @@ extern s32 func_80064584(s32);
 extern void func_8006658C(s32, void *);
 extern void func_8006671C(void *);
 
-void func_801750E4(u16 arg0, u16 arg1, u16 arg2, u16 arg3,
-                   u16 arg4, u16 arg5, s32 *arg6, s32 *arg7,
-                   s32 arg8, s32 arg9, s32 arg10)
+/* Emit colored quads between two concentric elliptical arcs. */
+void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_y,
+                   u16 center_x, u16 center_y, s32 *color_b_ptr, s32 *color_a_ptr,
+                   s32 draw_bucket, s32 start_segment, s32 end_segment)
 {
-    StackValues values;
-    u16 end;
-    u16 count;
-    s32 m20;
-    s32 m21;
-    s32 m00;
-    s32 m01;
+    StackValues radii;
+    u16 segment_limit;
+    u16 segment;
+    s32 scale_b_x;
+    s32 scale_b_y;
+    s32 scale_a_x;
+    s32 scale_a_y;
     register s32 angle ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 sin0;
-    s32 cos0;
-    s32 old_sin;
-    s32 old_cos;
-    u8 *blk;
-    u8 *anchor;
-    register u8 *q ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    GraphicsState **pp;
-    register GraphicsState *root ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u16 nc ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 x;
-    s32 y;
-    register s32 start ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 sin_angle;
+    s32 cos_angle;
+    s32 prev_sin;
+    s32 prev_cos;
+    u8 *prim;
+    u8 *submit_prim;
+    register u8 *vertex_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    GraphicsState **graphics_ptr;
+    register GraphicsState *graphics ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u16 next_segment ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 color_b;
+    s32 color_a;
+    register s32 first_segment ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-    start = (s16)arg9;
-    angle = start << 7;
-    values.arg0 = arg0;
-    pp = &D_80083160;
-    root = *pp;
-    blk = (u8 *)root->next_prim;
-    values.arg1 = arg1;
-    values.arg2 = arg2;
-    values.arg3 = arg3;
-    sin0 = func_80064584(angle) >> 4;
-    cos0 = func_800644B8(angle) >> 4;
-    end = arg10;
-    count = arg9;
+    first_segment = (s16)start_segment;
+    angle = first_segment << 7;
+    radii.arg0 = radius_a_x;
+    graphics_ptr = &D_80083160;
+    graphics = *graphics_ptr;
+    prim = (u8 *)graphics->next_prim;
+    radii.arg1 = radius_a_y;
+    radii.arg2 = radius_b_x;
+    radii.arg3 = radius_b_y;
+    sin_angle = func_80064584(angle) >> 4;
+    cos_angle = func_800644B8(angle) >> 4;
+    segment_limit = end_segment;
+    segment = start_segment;
 
-    if (start < (s16)arg10) {
-        m20 = values.arg2;
-        m21 = values.arg3;
-        m00 = values.arg0;
-        m01 = values.arg1;
-        q = blk + 0x1A;
-        ASM_USE2(q, m01);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    if (first_segment < (s16)end_segment) {
+        scale_b_x = radii.arg2;
+        scale_b_y = radii.arg3;
+        scale_a_x = radii.arg0;
+        scale_a_y = radii.arg1;
+        vertex_data = prim + 0x1A;
+        ASM_USE2(vertex_data, scale_a_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         do {
                ASM_USE_NV(angle);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
@@ -119,47 +120,47 @@ void func_801750E4(u16 arg0, u16 arg1, u16 arg2, u16 arg3,
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             angle += 0x80;
-            old_sin = sin0;
-            sin0 = func_80064584(angle) >> 4;
-            old_cos = cos0;
-            cos0 = func_800644B8(angle);
-            cos0 = cos0 >> 4;
+            prev_sin = sin_angle;
+            sin_angle = func_80064584(angle) >> 4;
+            prev_cos = cos_angle;
+            cos_angle = func_800644B8(angle);
+            cos_angle = cos_angle >> 4;
 
-            x = *arg6;
-            (*(u32 *)((u8 *)q + -0x0A)) = x;
-            (*(u32 *)((u8 *)q + -0x16)) = x;
-            y = *arg7;
-            (*(u32 *)((u8 *)q + 0x0E)) = y;
-            (*(u32 *)((u8 *)q + 0x02)) = y;
-            func_8006671C(blk);
+            color_b = *color_b_ptr;
+            (*(u32 *)((u8 *)vertex_data + -0x0A)) = color_b;
+            (*(u32 *)((u8 *)vertex_data + -0x16)) = color_b;
+            color_a = *color_a_ptr;
+            (*(u32 *)((u8 *)vertex_data + 0x0E)) = color_a;
+            (*(u32 *)((u8 *)vertex_data + 0x02)) = color_a;
+            func_8006671C(prim);
 
-            ((S_801750E4_0 *)q)->unk_0A = 1;
-            ((S_801750E4_0_pre *)q)[-1].unk_04 = 1;
-            ((S_801750E4_0 *)q)->unk_16 = 2;
-            ((S_801750E4_0_pre *)q)[-1].unk_10 = 2;
-            ((S_801750E4_0_pre *)q)[-1].unk_11 = 0xFB;
-            ((S_801750E4_0_pre *)q)[-1].unk_05 = 0xFB;
-            ((S_801750E4_0 *)q)->unk_17 = 0xFB;
-            ((S_801750E4_0 *)q)->unk_0B = 0xFB;
+            ((S_801750E4_0 *)vertex_data)->unk_0A = 1;
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_04 = 1;
+            ((S_801750E4_0 *)vertex_data)->unk_16 = 2;
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_10 = 2;
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_11 = 0xFB;
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_05 = 0xFB;
+            ((S_801750E4_0 *)vertex_data)->unk_17 = 0xFB;
+            ((S_801750E4_0 *)vertex_data)->unk_0B = 0xFB;
 
-            ((S_801750E4_0_pre *)q)[-1].unk_00 = arg4 + ((m20 * old_sin) >> 8);
-            ((S_801750E4_0_pre *)q)[-1].unk_02 = arg5 + ((m21 * old_cos) >> 8);
-            ((S_801750E4_0_pre *)q)[-1].unk_0C = arg4 + ((m20 * sin0) >> 8);
-            ((S_801750E4_0_pre *)q)[-1].unk_0E = arg5 + ((m21 * cos0) >> 8);
-            ((S_801750E4_0 *)q)->unk_06 = arg4 + ((m00 * old_sin) >> 8);
-            ((S_801750E4_0 *)q)->unk_08 = arg5 + ((m01 * old_cos) >> 8);
-            ((S_801750E4_0 *)q)->unk_12 = arg4 + ((m00 * sin0) >> 8);
-            ((S_801750E4_0 *)q)->unk_14 = arg5 + ((m01 * cos0) >> 8);
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_00 = center_x + ((scale_b_x * prev_sin) >> 8);
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_02 = center_y + ((scale_b_y * prev_cos) >> 8);
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_0C = center_x + ((scale_b_x * sin_angle) >> 8);
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_0E = center_y + ((scale_b_y * cos_angle) >> 8);
+            ((S_801750E4_0 *)vertex_data)->unk_06 = center_x + ((scale_a_x * prev_sin) >> 8);
+            ((S_801750E4_0 *)vertex_data)->unk_08 = center_y + ((scale_a_y * prev_cos) >> 8);
+            ((S_801750E4_0 *)vertex_data)->unk_12 = center_x + ((scale_a_x * sin_angle) >> 8);
+            ((S_801750E4_0 *)vertex_data)->unk_14 = center_y + ((scale_a_y * cos_angle) >> 8);
 
-            ((S_801750E4_0 *)q)->unk_00 = 0x133;
+            ((S_801750E4_0 *)vertex_data)->unk_00 = 0x133;
 
-            anchor = blk;
-            func_8006658C(arg8, anchor);
-            blk += sizeof(Block);
-            nc = count + 1;
-            count = nc;
-            q += sizeof(Block);
-        } while (((s32)(u32)nc << 16) < ((s32)(u32)end << 16));
+            submit_prim = prim;
+            func_8006658C(draw_bucket, submit_prim);
+            prim += sizeof(Block);
+            next_segment = segment + 1;
+            segment = next_segment;
+            vertex_data += sizeof(Block);
+        } while (((s32)(u32)next_segment << 16) < ((s32)(u32)segment_limit << 16));
     }
-    (*pp)->next_prim = blk;
+    (*graphics_ptr)->next_prim = prim;
 }

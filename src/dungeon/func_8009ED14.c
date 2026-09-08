@@ -9,18 +9,19 @@ typedef struct {
 
 extern Entry D_800E3CD8[4];
 
-s16 func_800A4474(s16 arg0, s16 arg1) {
-    s32 i;
-    s16 value;
+// Returns the value for a matching pair, stopping at the first value below two.
+s16 func_800A4474(s16 firstKey, s16 secondKey) {
+    s32 entryIndex;
+    s16 entryValue;
 
-    for (i = 0; i < 4; i++) {
-        value = D_800E3CD8[i].value;
-        if (value < 2) {
+    for (entryIndex = 0; entryIndex < 4; entryIndex++) {
+        entryValue = D_800E3CD8[entryIndex].value;
+        if (entryValue < 2) {
             return 0;
         }
-        if ((arg0 == D_800E3CD8[i].first) &&
-            (arg1 == D_800E3CD8[i].second)) {
-            return value;
+        if ((firstKey == D_800E3CD8[entryIndex].first) &&
+            (secondKey == D_800E3CD8[entryIndex].second)) {
+            return entryValue;
         }
     }
     return 0;

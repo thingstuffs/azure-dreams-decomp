@@ -1,10 +1,5 @@
 #include "common.h"
 
-/* If arg0 already matches the current registered state (D_80080AF3), return 1
- * without doing anything. Otherwise, register callbacks for the new state's
- * table entry (D_8006E6F4[arg0]), copy D_8008148C into D_80081480, update
- * D_80080AF3 to arg0, run the pending-transition handlers, then spin on
- * func_8005405C(0) until it signals completion, and return 0. */
 /* gp-relative scalar: current registered state index */
 extern s8 D_80080AF3;
 
@@ -33,20 +28,21 @@ extern short func_80053DA8(int a0);
 extern void func_800542BC(void);
 extern s16 func_8005405C(s16 n);
 
-s32 func_8004450C(s16 arg0)
+/* Register callbacks and complete a state transition, returning 1 if already current. */
+s32 func_8004450C(s16 state_index)
 {
-    if (D_80080AF3 != arg0) {
-        S_8006E6F4 *base = D_8006E6F4;
-        S_8006E6F4 *entry = base + arg0;
+    if (D_80080AF3 != state_index) {
+        S_8006E6F4 *state_table = D_8006E6F4;
+        S_8006E6F4 *state_entry = state_table + state_index;
 
-        func_8003E4FC(6, (void *)entry->field4, 0);
+        func_8003E4FC(6, (void *)state_entry->field4, 0);
         DrawSync(0);
         {
-            void *tmp1 = entry->field0;
+            void *state_callback = state_entry->field0;
             D_80081480.field_0 = D_8008148C.field_0;
-            func_8003E4FC(6, tmp1, 0);
+            func_8003E4FC(6, state_callback, 0);
         }
-        D_80080AF3 = (s8)arg0;
+        D_80080AF3 = (s8)state_index;
         func_8003F320();
         func_8003F5E0(D_8008148C_alias2.field_0);
         func_80053DA8(0x11);

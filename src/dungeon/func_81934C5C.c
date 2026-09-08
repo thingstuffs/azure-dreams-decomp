@@ -83,155 +83,156 @@ extern M2C_UNK D_80083498;
 extern M2C_UNK D_800DEDB0;
 extern M2C_UNK D_800DEE38;
 
-void func_81934C5C(void *arg0) {
-    s32 temp_a0;
-    s32 temp_v0_2;
-    s16 temp_v1_2;
-    s32 temp_a2;
-    s32 temp_a3;
-    s32 temp_state2_x;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    s32 temp_state2_dx;
-    s32 temp_call_a1;
-    s32 temp_call_a0;
-    s32 temp_state2_step_x;
-    s32 temp_state2_step_x3;
-    s32 temp_state2_step_y3;
-    s32 temp_state2_delta_y;
-    s32 temp_state2_base_y;
-    s32 temp_state2_y;
-    u16 temp_v0;
-    S_81934C5C_3 *temp_s1;
-    S_81934C5C_2 *temp_v0_3;
-    S_81934C5C_1 *temp_v1;
+/* Updates effect motion and spawns an impact effect on reaching the surface. */
+void func_81934C5C(void *effect) {
+    s32 ticks_left;
+    s32 surface_height;
+    s16 state;
+    s32 height_work;
+    s32 height_velocity;
+    s32 x_fixed;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    s32 x_velocity;
+    s32 world_y;
+    s32 world_x;
+    s32 x_step;
+    s32 x_step_tripled;
+    s32 height_step_tripled;
+    s32 display_y_step;
+    s32 display_y;
+    s32 next_display_y;
+    u16 final_display_y;
+    S_81934C5C_3 *impact_sprite;
+    S_81934C5C_2 *impact_effect;
+    S_81934C5C_1 *owner;
 
-    temp_v1 = ((S_81934C5C_0 *)arg0)->unk_00;
-    ((S_81934C5C_0 *)arg0)->unk_48.s = (u16) (((S_81934C5C_0 *)arg0)->unk_48.s - 1);
-    temp_v1->unk_0E = (u16) (temp_v1->unk_0E | 0x8000);
-    temp_v1_2 = ((S_81934C5C_0 *)arg0)->unk_4C;
-    if (temp_v1_2 == 2) {
+    owner = ((S_81934C5C_0 *)effect)->unk_00;
+    ((S_81934C5C_0 *)effect)->unk_48.s = (u16) (((S_81934C5C_0 *)effect)->unk_48.s - 1);
+    owner->unk_0E = (u16) (owner->unk_0E | 0x8000);
+    state = ((S_81934C5C_0 *)effect)->unk_4C;
+    if (state == 2) {
         goto block_state2;
     }
-    if (temp_v1_2 < 3) {
-        if (temp_v1_2 == 0) {
+    if (state < 3) {
+        if (state == 0) {
             goto block_state0;
         }
-        if (temp_v1_2 == 1) {
+        if (state == 1) {
             goto block_state1;
         }
         func_80024724();
         return;
     }
-    if (temp_v1_2 == 3) {
+    if (state == 3) {
         goto block_state3;
     }
-    if (temp_v1_2 == 0xFF) {
+    if (state == 0xFF) {
         goto block_state_ff;
     }
     func_80024724();
     return;
 
 block_state0:
-    ((S_81934C5C_0 *)arg0)->unk_48.s = 3U;
-    ((S_81934C5C_0 *)arg0)->unk_28.at02.v = -4;
-    ((S_81934C5C_0 *)arg0)->unk_30.at02.v = 0x10;
-    ((S_81934C5C_0 *)arg0)->unk_4C = (s16) ((u16) ((S_81934C5C_0 *)arg0)->unk_4C + 1);
+    ((S_81934C5C_0 *)effect)->unk_48.s = 3U;
+    ((S_81934C5C_0 *)effect)->unk_28.at02.v = -4;
+    ((S_81934C5C_0 *)effect)->unk_30.at02.v = 0x10;
+    ((S_81934C5C_0 *)effect)->unk_4C = (s16) ((u16) ((S_81934C5C_0 *)effect)->unk_4C + 1);
 
 block_state1:
-    ((S_81934C5C_0 *)arg0)->unk_1C.at00.v = (s32) (((S_81934C5C_0 *)arg0)->unk_1C.at00.v + ((S_81934C5C_0 *)arg0)->unk_28.at00.v);
-    temp_a0 = ((S_81934C5C_0 *)arg0)->unk_48.u;
-    ((S_81934C5C_0 *)arg0)->unk_24.at00.v = (s32) (((S_81934C5C_0 *)arg0)->unk_24.at00.v + ((S_81934C5C_0 *)arg0)->unk_30.at00.v);
-    if (temp_a0 <= 0) {
-        func_8002468C(temp_a0);
+    ((S_81934C5C_0 *)effect)->unk_1C.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_1C.at00.v + ((S_81934C5C_0 *)effect)->unk_28.at00.v);
+    ticks_left = ((S_81934C5C_0 *)effect)->unk_48.u;
+    ((S_81934C5C_0 *)effect)->unk_24.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_24.at00.v + ((S_81934C5C_0 *)effect)->unk_30.at00.v);
+    if (ticks_left <= 0) {
+        func_8002468C(ticks_left);
         return;
     }
     goto block_return;
 
 block_state2:
-    temp_state2_x = ((S_81934C5C_0 *)arg0)->unk_1C.at00.v;
-    temp_state2_dx = ((S_81934C5C_0 *)arg0)->unk_28.at00.v;
-    temp_call_a1 = ((S_81934C5C_0 *)arg0)->unk_20.at02.v;
+    x_fixed = ((S_81934C5C_0 *)effect)->unk_1C.at00.v;
+    x_velocity = ((S_81934C5C_0 *)effect)->unk_28.at00.v;
+    world_y = ((S_81934C5C_0 *)effect)->unk_20.at02.v;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp_a2 = ((S_81934C5C_0 *)arg0)->unk_30.at02.v;
-    temp_a3 = ((S_81934C5C_0 *)arg0)->unk_30.at00.v;
-    ((S_81934C5C_0 *)arg0)->unk_1C.at00.v = temp_state2_x + temp_state2_dx;
+    height_work = ((S_81934C5C_0 *)effect)->unk_30.at02.v;
+    height_velocity = ((S_81934C5C_0 *)effect)->unk_30.at00.v;
+    ((S_81934C5C_0 *)effect)->unk_1C.at00.v = x_fixed + x_velocity;
     ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    temp_state2_step_x = ((S_81934C5C_0 *)arg0)->unk_28.at02.v;
-    temp_call_a0 = ((S_81934C5C_0 *)arg0)->unk_1C.at02.v;
-    temp_state2_step_x3 = temp_state2_step_x * 3;
-    ASM_KEEP(temp_state2_step_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ((S_81934C5C_0 *)arg0)->unk_0C = (u16) (((S_81934C5C_0 *)arg0)->unk_0C + (temp_state2_step_x3 >> 2));
-    temp_state2_step_y3 = temp_a2 * 3;
-    temp_state2_delta_y = temp_state2_step_y3 >> 2;
+    x_step = ((S_81934C5C_0 *)effect)->unk_28.at02.v;
+    world_x = ((S_81934C5C_0 *)effect)->unk_1C.at02.v;
+    x_step_tripled = x_step * 3;
+    ASM_KEEP(x_step);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ((S_81934C5C_0 *)effect)->unk_0C = (u16) (((S_81934C5C_0 *)effect)->unk_0C + (x_step_tripled >> 2));
+    height_step_tripled = height_work * 3;
+    display_y_step = height_step_tripled >> 2;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp_state2_base_y = ((S_81934C5C_0 *)arg0)->unk_10;
+    display_y = ((S_81934C5C_0 *)effect)->unk_10;
     do {
-        temp_a2 = ((S_81934C5C_0 *)arg0)->unk_24.at00.v;
+        height_work = ((S_81934C5C_0 *)effect)->unk_24.at00.v;
     } while (0);
-    temp_state2_y = temp_state2_base_y + temp_state2_delta_y;
-    temp_a2 += temp_a3;
-    ((S_81934C5C_0 *)arg0)->unk_24.at00.v = temp_a2;
-    ((S_81934C5C_0 *)arg0)->unk_10 = temp_state2_y;
-    temp_v0_2 = func_800BCB04(temp_call_a0, temp_call_a1, -0x400, temp_a3);
-    if (temp_v0_2 >= 0x201) {
-        if (((S_81934C5C_0 *)arg0)->unk_24.at02.v > 0) {
+    next_display_y = display_y + display_y_step;
+    height_work += height_velocity;
+    ((S_81934C5C_0 *)effect)->unk_24.at00.v = height_work;
+    ((S_81934C5C_0 *)effect)->unk_10 = next_display_y;
+    surface_height = func_800BCB04(world_x, world_y, -0x400, height_velocity);
+    if (surface_height >= 0x201) {
+        if (((S_81934C5C_0 *)effect)->unk_24.at02.v > 0) {
             goto block_tail_ff;
         }
     }
-    if (temp_v0_2 >= ((S_81934C5C_0 *)arg0)->unk_24.at02.v) {
+    if (surface_height >= ((S_81934C5C_0 *)effect)->unk_24.at02.v) {
         goto block_return;
     }
-    ((S_81934C5C_0 *)arg0)->unk_24.at02.v = temp_v0_2;
-    temp_v0_3 = func_8003FD64(0x312, &D_80083498);
-    if (temp_v0_3 != NULL) {
-        temp_v0_3->unk_10 = &D_80024928;
-        temp_v0_3->unk_20 = (void *) ((S_81934C5C_0 *)arg0)->unk_00;
-        func_8004491C(temp_v0_3, &D_80045340);
-        temp_s1 = temp_v0_3->unk_0C;
-        ((S_81934C5C_5 *)(temp_v0_3->unk_08))->unk_00 = (s32) ((S_81934C5C_0 *)arg0)->unk_1C.at00.v;
-        ((S_81934C5C_5 *)(temp_v0_3->unk_08))->unk_04 = (s32) ((S_81934C5C_0 *)arg0)->unk_20.at00.v;
-        ((S_81934C5C_5 *)(temp_v0_3->unk_08))->unk_08 = (s32) ((S_81934C5C_0 *)arg0)->unk_24.at00.v;
-        temp_s1->unk_1E = 0x500;
-        temp_s1->unk_1C = 0x500;
-        temp_s1->unk_14 = (u16) (temp_s1->unk_14 | 0xC);
+    ((S_81934C5C_0 *)effect)->unk_24.at02.v = surface_height;
+    impact_effect = func_8003FD64(0x312, &D_80083498);
+    if (impact_effect != NULL) {
+        impact_effect->unk_10 = &D_80024928;
+        impact_effect->unk_20 = (void *) ((S_81934C5C_0 *)effect)->unk_00;
+        func_8004491C(impact_effect, &D_80045340);
+        impact_sprite = impact_effect->unk_0C;
+        ((S_81934C5C_5 *)(impact_effect->unk_08))->unk_00 = (s32) ((S_81934C5C_0 *)effect)->unk_1C.at00.v;
+        ((S_81934C5C_5 *)(impact_effect->unk_08))->unk_04 = (s32) ((S_81934C5C_0 *)effect)->unk_20.at00.v;
+        ((S_81934C5C_5 *)(impact_effect->unk_08))->unk_08 = (s32) ((S_81934C5C_0 *)effect)->unk_24.at00.v;
+        impact_sprite->unk_1E = 0x500;
+        impact_sprite->unk_1C = 0x500;
+        impact_sprite->unk_14 = (u16) (impact_sprite->unk_14 | 0xC);
         if (func_80069EF8() & 1) {
-            M2C_UNK *temp_tail_base = &D_800DEDB0;
+            M2C_UNK *alt_animation = &D_800DEDB0;
 
-            ASM_TAILSLOT_PIN(temp_tail_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(alt_animation);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80024678();
             return;
         }
         {
-            M2C_UNK *temp_spawn_base;
+            M2C_UNK *animation;
 
             ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            temp_spawn_base = &D_800DEE38;
-            temp_s1->unk_00 = temp_spawn_base;
-            temp_s1->unk_08 = (s32) ((S_81934C5C_4 *)temp_spawn_base)->unk_04;
-            temp_s1->unk_04 = 0;
-            temp_s1->unk_05 = 0;
+            animation = &D_800DEE38;
+            impact_sprite->unk_00 = animation;
+            impact_sprite->unk_08 = (s32) ((S_81934C5C_4 *)animation)->unk_04;
+            impact_sprite->unk_04 = 0;
+            impact_sprite->unk_05 = 0;
         }
     }
-    ((S_81934C5C_0 *)arg0)->unk_4C = (s16) ((u16) ((S_81934C5C_0 *)arg0)->unk_4C + 1);
+    ((S_81934C5C_0 *)effect)->unk_4C = (s16) ((u16) ((S_81934C5C_0 *)effect)->unk_4C + 1);
     func_80024724();
     return;
 
 block_state3:
-    ((S_81934C5C_0 *)arg0)->unk_0C = (u16) (((S_81934C5C_0 *)arg0)->unk_0C + ((s32) (((S_81934C5C_0 *)arg0)->unk_28.at02.v * 3) >> 2));
-    temp_v0 = ((S_81934C5C_0 *)arg0)->unk_10 + ((s32) (((S_81934C5C_0 *)arg0)->unk_30.at02.v * 3) >> 2);
-    ((S_81934C5C_0 *)arg0)->unk_10 = temp_v0;
-    if (((S_81934C5C_0 *)arg0)->unk_24.at02.v < (s16) temp_v0) {
-        ((S_81934C5C_0 *)arg0)->unk_10 = (u16) ((S_81934C5C_0 *)arg0)->unk_24.at02.v;
+    ((S_81934C5C_0 *)effect)->unk_0C = (u16) (((S_81934C5C_0 *)effect)->unk_0C + ((s32) (((S_81934C5C_0 *)effect)->unk_28.at02.v * 3) >> 2));
+    final_display_y = ((S_81934C5C_0 *)effect)->unk_10 + ((s32) (((S_81934C5C_0 *)effect)->unk_30.at02.v * 3) >> 2);
+    ((S_81934C5C_0 *)effect)->unk_10 = final_display_y;
+    if (((S_81934C5C_0 *)effect)->unk_24.at02.v < (s16) final_display_y) {
+        ((S_81934C5C_0 *)effect)->unk_10 = (u16) ((S_81934C5C_0 *)effect)->unk_24.at02.v;
         goto block_tail_ff;
     }
     goto block_return;
 
 block_tail_ff:
-    ((S_81934C5C_0 *)arg0)->unk_4C = 0xFF;
+    ((S_81934C5C_0 *)effect)->unk_4C = 0xFF;
     func_80024724();
     return;
 
 block_state_ff:
-    ((S_81934C5C_0_pre *)arg0)[-1].unk_00 = (u16) (((S_81934C5C_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    ((S_81934C5C_0_pre *)effect)[-1].unk_00 = (u16) (((S_81934C5C_0_pre *)effect)[-1].unk_00 | 0x8000);
     D_800814A0[0] |= 0x8000;
 
 block_return:

@@ -13,10 +13,11 @@ extern u8 D_80082E6A[];
 
 extern FuncState D_8002D594;
 
+/* Initializes runtime state and selects its mode from the configuration byte. */
 void func_8003C920(void) {
-    volatile FuncState copy;
+    volatile FuncState default_state;
 
-    __builtin_memcpy(&copy, &D_8002D594, 0x20);
+    __builtin_memcpy(&default_state, &D_8002D594, 0x20);
     if (D_80082E6A[0] != 2) {
         D_8006B200 = D_8002D594;
         D_80080A6C = 4;

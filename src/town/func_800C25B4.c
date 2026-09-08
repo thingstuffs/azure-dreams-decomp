@@ -12,14 +12,15 @@ extern u8 D_80083498[9];
 extern u8 D_800BFF7C[9];
 extern u8 D_800F15AC[9];
 
-void func_800BFD14(void *arg0)
+/* Moves the object through its animation states, spawns an effect, and marks completion. */
+void func_800BFD14(void *object)
 {
   s32 state;
-  void *temp_v0;
-  void *obj;
+  void *effect;
+  void *effect_sprite;
 
-  state = *((s16 *) (((u8 *) arg0) + 0x4C));
-  *((u16 *) (((u8 *) arg0) + 0x48)) = (u16) ((*((u16 *) (((u8 *) arg0) + 0x48))) - 1);
+  state = *((s16 *) (((u8 *) object) + 0x4C));
+  *((u16 *) (((u8 *) object) + 0x48)) = (u16) ((*((u16 *) (((u8 *) object) + 0x48))) - 1);
   if (state == 2)
   {
     goto state_2;
@@ -50,71 +51,71 @@ state_ge_3:
   goto epilogue;
 
 state_0:
-  *((u16 *) (((u8 *) arg0) + 0x48)) = 3;
-  *((s16 *) (((u8 *) arg0) + 0x2A)) = -4;
-  *((s16 *) (((u8 *) arg0) + 0x32)) = 0x14;
-  *((u16 *) (((u8 *) arg0) + 0x4C)) = (u16) ((*((u16 *) (((u8 *) arg0) + 0x4C))) + 1);
+  *((u16 *) (((u8 *) object) + 0x48)) = 3;
+  *((s16 *) (((u8 *) object) + 0x2A)) = -4;
+  *((s16 *) (((u8 *) object) + 0x32)) = 0x14;
+  *((u16 *) (((u8 *) object) + 0x4C)) = (u16) ((*((u16 *) (((u8 *) object) + 0x4C))) + 1);
 
 state_1:
-  *((s32 *) (((u8 *) arg0) + 0x1C)) += *((s32 *) (((u8 *) arg0) + 0x28));
-  *((s32 *) (((u8 *) arg0) + 0x24)) += *((s32 *) (((u8 *) arg0) + 0x30));
-  if ((*((s16 *) (((u8 *) arg0) + 0x48))) > 0)
+  *((s32 *) (((u8 *) object) + 0x1C)) += *((s32 *) (((u8 *) object) + 0x28));
+  *((s32 *) (((u8 *) object) + 0x24)) += *((s32 *) (((u8 *) object) + 0x30));
+  if ((*((s16 *) (((u8 *) object) + 0x48))) > 0)
   {
     goto epilogue;
   }
-  *((u16 *) (((u8 *) arg0) + 0x4C)) =
-      (u16) ((*((u16 *) (((u8 *) arg0) + 0x4C))) + 1);
+  *((u16 *) (((u8 *) object) + 0x4C)) =
+      (u16) ((*((u16 *) (((u8 *) object) + 0x4C))) + 1);
   goto epilogue;
 
 state_2:
-  *((u16 *) (((u8 *) arg0) + 0xC)) = (u16) ((*((u16 *) (((u8 *) arg0) + 0xC))) + (((*((s16 *) (((u8 *) arg0) + 0x2A))) * 3) >> 2));
-  *((u16 *) (((u8 *) arg0) + 0x10)) = (u16) ((*((u16 *) (((u8 *) arg0) + 0x10))) + (((*((s16 *) (((u8 *) arg0) + 0x32))) * 3) >> 2));
-  *((s32 *) (((u8 *) arg0) + 0x24)) += *((s32 *) (((u8 *) arg0) + 0x30));
-  *((s32 *) (((u8 *) arg0) + 0x1C)) += *((s32 *) (((u8 *) arg0) + 0x28));
-  if ((*((s16 *) (((u8 *) arg0) + 0x26))) <= 0)
+  *((u16 *) (((u8 *) object) + 0xC)) = (u16) ((*((u16 *) (((u8 *) object) + 0xC))) + (((*((s16 *) (((u8 *) object) + 0x2A))) * 3) >> 2));
+  *((u16 *) (((u8 *) object) + 0x10)) = (u16) ((*((u16 *) (((u8 *) object) + 0x10))) + (((*((s16 *) (((u8 *) object) + 0x32))) * 3) >> 2));
+  *((s32 *) (((u8 *) object) + 0x24)) += *((s32 *) (((u8 *) object) + 0x30));
+  *((s32 *) (((u8 *) object) + 0x1C)) += *((s32 *) (((u8 *) object) + 0x28));
+  if ((*((s16 *) (((u8 *) object) + 0x26))) <= 0)
   {
     goto epilogue;
   }
-  *((s16 *) (((u8 *) arg0) + 0x26)) = 0;
-  temp_v0 = func_8003FD64(0x312, D_80083498);
-  if (temp_v0 != 0)
+  *((s16 *) (((u8 *) object) + 0x26)) = 0;
+  effect = func_8003FD64(0x312, D_80083498);
+  if (effect != 0)
   {
-    *((void **) (((u8 *) temp_v0) + 0x10)) = D_800BFF7C;
-    func_8004491C(temp_v0, D_80045340);
-    obj = *((void **) (((u8 *) temp_v0) + 0xC));
-    *((s32 *) (((u8 *) (*((void **) (((u8 *) temp_v0) + 8)))) + 0)) = *((s32 *) (((u8 *) arg0) + 0x1C));
-    *((s32 *) (((u8 *) (*((void **) (((u8 *) temp_v0) + 8)))) + 4)) = *((s32 *) (((u8 *) arg0) + 0x20));
-    *((s32 *) (((u8 *) (*((void **) (((u8 *) temp_v0) + 8)))) + 8)) = *((s32 *) (((u8 *) arg0) + 0x24));
-    *((s16 *) (((u8 *) obj) + 0x1E)) = 0xC00;
-    *((s16 *) (((u8 *) obj) + 0x1C)) = 0xC00;
-    *((s16 *) (((u8 *) obj) + 0x10)) = 0x60;
-    *((s32 *) (((u8 *) obj) + 0xC)) = 0xA0A0A0;
-    *((void **) (((u8 *) obj) + 0)) = D_800F15AC;
-    *((u16 *) (((u8 *) obj) + 0x14)) |= 0xC;
-    *((s32 *) (((u8 *) obj) + 8)) = *((s32 *) (D_800F15AC + 4));
-    *((s8 *) (((u8 *) obj) + 4)) = 0;
-    *((s8 *) (((u8 *) obj) + 5)) = 0;
+    *((void **) (((u8 *) effect) + 0x10)) = D_800BFF7C;
+    func_8004491C(effect, D_80045340);
+    effect_sprite = *((void **) (((u8 *) effect) + 0xC));
+    *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 0)) = *((s32 *) (((u8 *) object) + 0x1C));
+    *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 4)) = *((s32 *) (((u8 *) object) + 0x20));
+    *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 8)) = *((s32 *) (((u8 *) object) + 0x24));
+    *((s16 *) (((u8 *) effect_sprite) + 0x1E)) = 0xC00;
+    *((s16 *) (((u8 *) effect_sprite) + 0x1C)) = 0xC00;
+    *((s16 *) (((u8 *) effect_sprite) + 0x10)) = 0x60;
+    *((s32 *) (((u8 *) effect_sprite) + 0xC)) = 0xA0A0A0;
+    *((void **) (((u8 *) effect_sprite) + 0)) = D_800F15AC;
+    *((u16 *) (((u8 *) effect_sprite) + 0x14)) |= 0xC;
+    *((s32 *) (((u8 *) effect_sprite) + 8)) = *((s32 *) (D_800F15AC + 4));
+    *((s8 *) (((u8 *) effect_sprite) + 4)) = 0;
+    *((s8 *) (((u8 *) effect_sprite) + 5)) = 0;
   }
-  *((u16 *) (((u8 *) arg0) + 0x48)) = 4;
-  *((u16 *) (((u8 *) arg0) + 0x4C)) =
-      (u16) ((*((u16 *) (((u8 *) arg0) + 0x4C))) + 1);
+  *((u16 *) (((u8 *) object) + 0x48)) = 4;
+  *((u16 *) (((u8 *) object) + 0x4C)) =
+      (u16) ((*((u16 *) (((u8 *) object) + 0x4C))) + 1);
   goto epilogue;
 
 state_3:
-  *((u16 *) (((u8 *) arg0) + 0xC)) = (u16) ((*((u16 *) (((u8 *) arg0) + 0xC))) + (((*((s16 *) (((u8 *) arg0) + 0x2A))) * 3) >> 2));
-  *((u16 *) (((u8 *) arg0) + 0x10)) = (u16) ((*((u16 *) (((u8 *) arg0) + 0x10))) + (((*((s16 *) (((u8 *) arg0) + 0x32))) * 3) >> 2));
-  if ((*((s16 *) (((u8 *) arg0) + 0x48))) > 0)
+  *((u16 *) (((u8 *) object) + 0xC)) = (u16) ((*((u16 *) (((u8 *) object) + 0xC))) + (((*((s16 *) (((u8 *) object) + 0x2A))) * 3) >> 2));
+  *((u16 *) (((u8 *) object) + 0x10)) = (u16) ((*((u16 *) (((u8 *) object) + 0x10))) + (((*((s16 *) (((u8 *) object) + 0x32))) * 3) >> 2));
+  if ((*((s16 *) (((u8 *) object) + 0x48))) > 0)
   {
     goto epilogue;
   }
   {
-    u16 *terminal_field = (u16 *) (((u8 *) arg0) + 0x4C);
-    *terminal_field = 0xFF;
+    u16 *state_field = (u16 *) (((u8 *) object) + 0x4C);
+    *state_field = 0xFF;
   }
   goto epilogue;
 
 state_ff:
-  *((u16 *) (((u8 *) arg0) + (-2))) |= 0x8000;
+  *((u16 *) (((u8 *) object) + (-2))) |= 0x8000;
   D_800814A0.val |= 0x8000;
 
 epilogue:

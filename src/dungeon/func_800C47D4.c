@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
+#include "records/Rec_func_800C9F34_arg0.h"
 
 typedef s32 M2C_UNK;
 
@@ -26,11 +27,6 @@ typedef struct S_800C9F34_0 {
     void * unk_0C;
 } S_800C9F34_0;   /* st in func_800C9F34 */
 
-typedef struct S_800C9F34_1 {
-    u8 pad_00[0x98];
-    u16 unk_98;
-    s8 unk_9A;
-} S_800C9F34_1;   /* arg0 in func_800C9F34 */
 
 
 typedef struct S_800C9F34_3 {
@@ -41,74 +37,53 @@ typedef struct S_800C9F34_3 {
 } S_800C9F34_3;   /* arg2 in func_800C9F34 */
 
 
-void func_800C9F34(S_800C9F34_1 *arg0, M2C_UNK arg1, S_800C9F34_3 *arg2, void *arg3) {
-    void *st = &D_80083460;
+/* Updates entity action state and dispatches the appropriate handler. */
+void func_800C9F34(Rec_func_800C9F34_arg0 *actor_state, M2C_UNK context, S_800C9F34_3 *position, void *entity) {
+    void *action_state = &D_80083460;
 
-    if (((S_800C9F34_0 *)st)->unk_02 & 0x1000) {
-        arg0->unk_9A = 0xE;
-        func_800CA0DC(arg0);
+    if (((S_800C9F34_0 *)action_state)->unk_02 & 0x1000) {
+        actor_state->unk_9A.as_s8 = 0xE;
+        func_800CA0DC(actor_state);
         return;
     }
-    if (((S_800C9F34_0 *)st)->unk_02 & 0x2000) {
-        goto block_14;
+    if (((S_800C9F34_0 *)action_state)->unk_02 & 0x2000) {
+        goto update_tile;
     }
-    arg0->unk_9A = 0xE;
-    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 =
-        ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 | 0x40000;
-    arg0->unk_98 =
-        arg0->unk_98 & 0xFFF7;
-    if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
-        goto call_aa94;
+    actor_state->unk_9A.as_s8 = 0xE;
+    ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 =
+        ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 | 0x40000;
+    actor_state->unk_98 = actor_state->unk_98 & 0xFFF7;
+    if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
+        goto dispatch_action;
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if ((D_80013714 & 8) == 0) {
-        goto path_a1c58;
+        goto check_entity;
     }
-call_aa94:
-    func_800CAA94(arg0, arg1, arg2);
+dispatch_action:
+    func_800CAA94(actor_state, context, position);
     return;
 
-path_a1c58:
-    if ((func_800A1C58(arg3) << 0x10) == 0) {
-        goto block_14;
+check_entity:
+    if ((func_800A1C58(entity) << 0x10) == 0) {
+        goto update_tile;
     }
-    if ((((S_800C9F34_0 *)st)->unk_0C == arg3) &&
-        (((S_800C9F34_0 *)st)->unk_0A == 0) &&
-        !(((S_800C9F34_0 *)st)->unk_02 & 8)) {
-        ((Rec_D_800E3D7C *)arg3)->unk_18 = 0;
-        ((S_800C9F34_0 *)st)->unk_0C = 0;
+    if ((((S_800C9F34_0 *)action_state)->unk_0C == entity) &&
+        (((S_800C9F34_0 *)action_state)->unk_0A == 0) &&
+        !(((S_800C9F34_0 *)action_state)->unk_02 & 8)) {
+        ((Rec_D_800E3D7C *)entity)->unk_18 = 0;
+        ((S_800C9F34_0 *)action_state)->unk_0C = 0;
         return;
     }
     return;
 
-block_14:
-    arg2->unk_26 = func_8009FB34(
-        arg2->unk_24, arg2->unk_25);
-    if ((((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 > 0) &&
+update_tile:
+    position->unk_26 = func_8009FB34(
+        position->unk_24, position->unk_25);
+    if ((((Rec_D_800E3D7C *)entity)->unk_6D.as_s8 > 0) &&
         (!(D_80083462 & 0x2000) ||
-         ((func_8009A180(arg3,
+         ((func_8009A180(entity,
             ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) == 0))) {
-        func_800CA93C(arg0, arg1, arg2);
+        func_800CA93C(actor_state, context, position);
     }
 }
-
-/* MECHANISM (byte-exact @2.8.1-G0, 106/106):
-   1. NO PINS. The inherited ASM_REG("$17") pin made arg0's incoming copy a body
-      insn (emitted last, into the beq delay slot) and exposed $4==$17 to cse, which
-      deleted retail's `move $a0,$s1`. Unpinned, gcc's own allocno priority
-      (floor_log2(n_refs)*freq/live_length) lands arg3=$16 arg0=$17 base=$18
-      arg2=$19 arg1=$20 with the copies in declaration order — retail exactly.
-   2. func_800CA0DC(arg0) is the 8th arg0 reference; it crosses the floor_log2
-      boundary 2->3 so arg0 outranks the held base and takes $17 instead of $18.
-      The `move $a0` it implies is deleted post-reload ($4 still holds arg0 in the
-      entry extended block), so it costs zero words.
-   3. `void *st = &D_80083460;` is the held base ($s2), reloaded at 2($s2) three
-      times; D_80083462 stays a SEPARATE global so its access re-materialises its
-      own page (retail's lui 0x8008 at 0x800C4910) after $s2 has died.
-   4. ASM_SCHED_BARRIER() at the head of the `arg3->0x28 == 0` fallthrough thread is
-      the whole point: reorg's stop_search_p() returns 1 on ASM_INPUT, so
-      fill_eager_delay_slots cannot steal the `lui %hi(D_80013714)` from the
-      fallthrough and falls back to the target thread, putting `move $a0,$s1` in the
-      slot and redirecting the branch to 0x800C4884 — retail's fill. Needed because
-      mostly_true_jump() is pinned to 0 here (EQ condition; rare_destination is 0 on
-      both sides), which always makes gcc try the fallthrough thread first. */

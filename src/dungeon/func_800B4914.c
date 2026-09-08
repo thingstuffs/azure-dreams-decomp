@@ -97,111 +97,112 @@ typedef struct S_800BA074_2 {
     s32 unk_B0;
 } S_800BA074_2;   /* ((S_800BA074_1 *)page)->unk_3D7C in func_800BA074 */
 
-void *func_800BA074(u8 *arg0) {
+/* Creates three linked display objects for the selection and initializes their appearance. */
+void *func_800BA074(u8 *selection_data) {
     Obj *objects[3];
-    u8 *input;
-    D_80083780_t *data;
-    Obj **slot;
-    s32 i;
-    register u8 *page ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 two;
+    u8 *selection;
+    D_80083780_t *layout;
+    Obj **object_slot;
+    s32 part_index;
+    register u8 *global_page ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 last_part;
 
-    input = arg0;
+    selection = selection_data;
 
     if (func_8003FA44(3) == 0) {
         return 0;
     }
 
-    i = 0;
-    two = 2;
-    data = &D_80083780;
-    page = (u8 *)0x800E0000;
-    slot = objects;
+    part_index = 0;
+    last_part = 2;
+    layout = &D_80083780;
+    global_page = (u8 *)0x800E0000;
+    object_slot = objects;
 loop:
-    *slot = func_8003FC64(0x12);
-    if (*slot != 0) {
-        SubA *subA;
-        SubB *subB;
+    *object_slot = func_8003FC64(0x12);
+    if (*object_slot != 0) {
+        SubA *transform;
+        SubB *sprite;
 
-        (*slot)->state = D_800B9A78;
-        if (i == two) {
+        (*object_slot)->state = D_800B9A78;
+        if (part_index == last_part) {
             func_8004491C(objects[2], D_80045C34);
             goto after_call;
         }
 
         {
-            Obj *callObj;
-            void *stateDef;
-            callObj = *slot;
-            stateDef = &D_80045340;
-            func_8004491C(callObj, stateDef);
+            Obj *object;
+            void *state_def;
+            object = *object_slot;
+            state_def = &D_80045340;
+            func_8004491C(object, state_def);
         }
     after_call:
-        subA = (*slot)->subA;
-        subA->f2 = data->f2;
-        subA->f6 = data->f6;
-        subB = (*slot)->subB;
-        subB->f1E = 0x1000;
-        subB->f1C = 0x1000;
-        subB->fC = 0x2C808080;
-        subB->f6 = 4;
+        transform = (*object_slot)->subA;
+        transform->f2 = layout->f2;
+        transform->f6 = layout->f6;
+        sprite = (*object_slot)->subB;
+        sprite->f1E = 0x1000;
+        sprite->f1C = 0x1000;
+        sprite->fC = 0x2C808080;
+        sprite->f6 = 4;
 
-        if (i == 0) {
-            func_800C77D0(objects[0], subA, 8, D_800DCE66[0]);
-            subB->f8 = (void *)func_8004A658(input[1], input[0]);
-        } else if (i == 1) {
-            subB->f8 = D_800DF368;
+        if (part_index == 0) {
+            func_800C77D0(objects[0], transform, 8, D_800DCE66[0]);
+            sprite->f8 = (void *)func_8004A658(selection[1], selection[0]);
+        } else if (part_index == 1) {
+            sprite->f8 = D_800DF368;
         } else {
-            func_8003DB94(subB, D_80079444, 0);
-            subB->f14 |= 0xC;
+            func_8003DB94(sprite, D_80079444, 0);
+            sprite->f14 |= 0xC;
         }
         {
-            Obj *current;
-            Aux *aux;
+            Obj *object;
+            Aux *part_state;
 
-            current = *slot;
-            aux = (Aux *)((u8 *)current + 0x20);
-            aux->fA = data->fA - D_800DDC40[0];
-            ((S_800BA074_0 *)current)->unk_20 = &D_800814A8;
-            aux->f12 = i;
-            aux->f16 = subA->f2;
-            aux->f1A = subA->f6;
-            ASM_USE_G_NV(subA);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            if (i != 0) {
-                aux->f28 = objects[0];
+            object = *object_slot;
+            part_state = (Aux *)((u8 *)object + 0x20);
+            part_state->fA = layout->fA - D_800DDC40[0];
+            ((S_800BA074_0 *)object)->unk_20 = &D_800814A8;
+            part_state->f12 = part_index;
+            part_state->f16 = transform->f2;
+            part_state->f1A = transform->f6;
+            ASM_USE_G_NV(transform);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            if (part_index != 0) {
+                part_state->f28 = objects[0];
             } else {
-                aux->f2C = input;
+                part_state->f2C = selection;
             }
-            if (func_800BA33C(((S_800BA074_2 *)(((S_800BA074_1 *)page)->unk_3D7C))->unk_AC) != 0) {
-                aux->fE = 8;
-                aux->f0 = ((S_800BA074_1 *)page)->unk_3D7C + 0xAC;
-                if (aux->f12 == two) {
-                    subB->fC = 0x101080;
+            if (func_800BA33C(((S_800BA074_2 *)(((S_800BA074_1 *)global_page)->unk_3D7C))->unk_AC) != 0) {
+                part_state->fE = 8;
+                part_state->f0 = ((S_800BA074_1 *)global_page)->unk_3D7C + 0xAC;
+                if (part_state->f12 == last_part) {
+                    sprite->fC = 0x101080;
                 }
                 goto next;
             }
-            if (func_800BA33C(((S_800BA074_2 *)(((S_800BA074_1 *)page)->unk_3D7C))->unk_B0) != 0) {
-                aux->fE = 8;
-                aux->f0 = ((S_800BA074_1 *)page)->unk_3D7C + 0xB0;
-                if (aux->f12 == two) {
-                    subB->fC = 0x801010;
+            if (func_800BA33C(((S_800BA074_2 *)(((S_800BA074_1 *)global_page)->unk_3D7C))->unk_B0) != 0) {
+                part_state->fE = 8;
+                part_state->f0 = ((S_800BA074_1 *)global_page)->unk_3D7C + 0xB0;
+                if (part_state->f12 == last_part) {
+                    sprite->fC = 0x801010;
                 }
             }
         }
     }
 
 next:
-    i++;
-    slot++;
-    if (i < 3) {
+    part_index++;
+    object_slot++;
+    if (part_index < 3) {
         goto loop;
     }
 
     {
-        u8 *fieldPtr = (u8 *)&D_80083460;
-        *(u16 *)(fieldPtr + 0xA) += 1;
+        u8 *counter_base = (u8 *)&D_80083460;
+        *(u16 *)(counter_base + 0xA) += 1;
     }
     func_800B1768(0, 0x27, 0x40, 0x209, 0, 0);
-    func_800B1B10(input, 0x4C, 0x50, 0x200, 0, 2);
+    func_800B1B10(selection, 0x4C, 0x50, 0x200, 0, 2);
     return objects[0];
 }

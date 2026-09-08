@@ -29,37 +29,38 @@ extern void *D_80016000[];
 extern u8 D_80016148[16];
 extern u8 D_80016170[16];
 
-s32 func_806D2AB0(s32 *arg0, s32 arg1)
+/* Finds an entry by key and notifies if no matching entry exists. */
+s32 func_806D2AB0(s32 *entries, s32 target_key)
 {
-    s32 *ptr;
-    s32 index;
-    s32 offset;
+    s32 *entry;
+    s32 entry_index;
+    s32 key_or_offset;
 
-    index = 0;
-    if (((S_806D2AB0_0 *)arg0)->unk_08 != 0) {
-        ptr = arg0;
+    entry_index = 0;
+    if (((S_806D2AB0_0 *)entries)->unk_08 != 0) {
+        entry = entries;
 loop:
-        offset = *ptr;
-        if (offset != arg1) {
-            ptr += 7;
-            index++;
-            if (((S_806D2AB0_1 *)ptr)->unk_08 == 0) {
-                offset = index * 8;
+        key_or_offset = *entry;
+        if (key_or_offset != target_key) {
+            entry += 7;
+            entry_index++;
+            if (((S_806D2AB0_1 *)entry)->unk_08 == 0) {
+                key_or_offset = entry_index * 8;
             } else {
                 goto loop;
             }
         } else {
-            offset = index * 8;
+            key_or_offset = entry_index * 8;
         }
-        if (((S_806D2AB0_2 *)((offset - index) * 4 + (u8 *)arg0))->unk_08 == 0) {
+        if (((S_806D2AB0_2 *)((key_or_offset - entry_index) * 4 + (u8 *)entries))->unk_08 == 0) {
             goto notify;
         }
-        return index;
+        return entry_index;
     } else {
 notify:
         (*(Callback3 *)((u8 *)(((S_806D2AB0_3 *)(D_80016000[0]))->unk_20) + 0x168))(
             D_80016148, D_80016170, 0x36);
         (*(Callback1 *)((u8 *)(((S_806D2AB0_3 *)(D_80016000[0]))->unk_20) + 0x174))(1);
     }
-    return index;
+    return entry_index;
 }

@@ -2,27 +2,28 @@
 
 extern s8 D_80016000[];
 
-s32 func_80016D78(s32 arg0)
+/* Returns the indexed flag's bit mask, with indices 0 and 1 returning themselves. */
+s32 func_80016D78(s32 flagIndex)
 {
-    s32 quotient;
+    s32 wordIndex;
     s32 result;
-    s32 *base;
-    s32 *words;
-    s32 word;
+    s32 *flagState;
+    s32 *flagWords;
+    s32 flagWord;
 
-    if (arg0 == 0) {
+    if (flagIndex == 0) {
         goto zero;
     }
-    if (arg0 == 1) {
+    if (flagIndex == 1) {
         goto one;
     }
 
-    base = *(s32 **)D_80016000;
-    quotient = arg0 / 32;
-    words = *(s32 **)((s8 *)base + 0x18);
-    word = words[quotient];
-    result = 1 << (arg0 - quotient * 32);
-    result &= word;
+    flagState = *(s32 **)D_80016000;
+    wordIndex = flagIndex / 32;
+    flagWords = *(s32 **)((s8 *)flagState + 0x18);
+    flagWord = flagWords[wordIndex];
+    result = 1 << (flagIndex - wordIndex * 32);
+    result &= flagWord;
     goto done;
 
 one:
@@ -35,7 +36,3 @@ zero:
 done:
     return result;
 }
-
-/* MECHANISM: frameless leaf under the TRUE-space name with a shared result join.
-   Tail-placed zero/one blocks preserve retail beq polarity and body-first emission.
-   A named root pointer holds *D_80016000 across /32; one-read word preserves and order. */

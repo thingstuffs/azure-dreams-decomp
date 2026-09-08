@@ -1,8 +1,5 @@
 #include "common.h"
 
-/* Builds a scaled tile-position header on the stack from arg0's packed
- * byte/word fields, then hands it plus a computed image-data pointer
- * (arg1->unkC + arg2) to func_8004878C. */
 /* Object header this function reads: same tile-dimension shape family as
  * func_8004878C / func_80047270 (a u16 tile-size word at 0x4, plus four
  * packed byte sub-fields at 0x8-0xB used to build a scaled tile-position
@@ -18,7 +15,7 @@ typedef struct {
 } S_80048870_hdr;
 
 /* Second argument: a small record whose field at 0xC is a base pointer that
- * gets offset by arg2 to form the image-data pointer for the decode call. */
+ * gets offset by data_offset to form the image-data pointer for the decode call. */
 typedef struct {
     u8 pad0[0xC];
     void *unkC;
@@ -34,13 +31,14 @@ typedef struct {
 
 extern void func_8004878C(void *a0, S_8004878C_hdr *a1);
 
-void func_80048870(S_80048870_hdr *arg0, S_80048870_rec *arg1, s32 arg2)
+/* Builds a scaled tile header and passes it with the image data to func_8004878C. */
+void func_80048870(S_80048870_hdr *tile, S_80048870_rec *image, s32 data_offset)
 {
-    S_8004878C_hdr hdr;
+    S_8004878C_hdr tile_header;
 
-    hdr.unk04 = (s16)((arg0->unkA + 1) >> 1);
-    hdr.unk06 = (s16)(arg0->unkB + 1);
-    hdr.unk00 = (s16)(((u32)arg0->unk8 >> 1) + ((arg0->unk4 << 6) & 0x3C0));
-    hdr.unk02 = (s16)(arg0->unk9 + ((arg0->unk4 << 4) & 0x100));
-    func_8004878C((void *)((u8 *)arg1->unkC + arg2), &hdr);
+    tile_header.unk04 = (s16)((tile->unkA + 1) >> 1);
+    tile_header.unk06 = (s16)(tile->unkB + 1);
+    tile_header.unk00 = (s16)(((u32)tile->unk8 >> 1) + ((tile->unk4 << 6) & 0x3C0));
+    tile_header.unk02 = (s16)(tile->unk9 + ((tile->unk4 << 4) & 0x100));
+    func_8004878C((void *)((u8 *)image->unkC + data_offset), &tile_header);
 }

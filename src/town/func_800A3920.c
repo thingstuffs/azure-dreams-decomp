@@ -68,6 +68,7 @@ extern void func_80065820(TownVec16 *rotation, TownMatrix *matrix);
 extern void func_80064BC0(TownMatrix *matrix, TownVec32 *scale);
 extern void func_800A1354(TownObject *object);
 
+/* Spin and shrink the object, update both transforms, and mark completion at zero extent. */
 s32 func_800A1080(TownObject *object, const TownPoint *point)
 {
     TownScratch *scratch = (TownScratch *)0x1F800000;
@@ -76,36 +77,36 @@ s32 func_800A1080(TownObject *object, const TownPoint *point)
     TownVec32 *scale;
     TownMatrix *first_matrix;
     TownMatrix *second_matrix;
-    s32 value;
-    s32 result;
-    u16 angle;
+    s32 animation_time;
+    s32 wave_value;
+    u16 spin_angle;
     u16 reciprocal;
     u16 extent;
 
-    angle = object->angle_y;
-    angle += 0x16;
-    object->angle_y = angle;
+    spin_angle = object->angle_y;
+    spin_angle += 0x16;
+    object->angle_y = spin_angle;
     {
-        s32 timer;
+        s32 next_timer;
 
-        timer = object->timer + 5;
-        object->timer = timer;
+        next_timer = object->timer + 5;
+        object->timer = next_timer;
         reciprocal = object->reciprocal.bits + 5;
         object->reciprocal.bits = reciprocal;
-        if (timer >= 0xFF)
+        if (next_timer >= 0xFF)
             object->timer = 0xFF;
     }
 
-    value = object->timer;
-    if (value < 0xC1)
-        result = func_800644B8(value * 5);
+    animation_time = object->timer;
+    if (animation_time < 0xC1)
+        wave_value = func_800644B8(animation_time * 5);
     else
-        result = func_800644B8((value * 0x10) - 0x400);
-    if (result < 0) {
-        result += 0xF;
-        object->reciprocal.bits = result >> 4;
+        wave_value = func_800644B8((animation_time * 0x10) - 0x400);
+    if (wave_value < 0) {
+        wave_value += 0xF;
+        object->reciprocal.bits = wave_value >> 4;
     } else {
-        object->reciprocal.bits = result >> 4;
+        object->reciprocal.bits = wave_value >> 4;
     }
     if (object->reciprocal.signed_value >= 0xFF)
         object->reciprocal.bits = 0xFF;

@@ -17,10 +17,7 @@ extern void StopRCnt(s32 arg);
 extern s32 DisableEvent(s32 event);
 extern s32 CloseEvent(s32 event);
 
-/* Tears down the periodic-update event: enters a critical section, disables
- * and closes the event registered in D_80085F9C, exits the critical
- * section, then clears the mode flag (D_80085F98) and the
- * critical-section-active flag (D_800737C0). */
+/* Stops the periodic-update counter, closes its event, and clears the mode and critical-section flags. */
 void func_8005863C(void)
 {
     D_800737C0[0] = 1;

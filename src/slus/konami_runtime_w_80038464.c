@@ -13,7 +13,8 @@ typedef struct S_80038464_0 {
 
 extern M2C_UNK func_80038478;
 
-void func_80038464(S_80038464_0 *arg0) {
-    arg0->unk_84 = 0;
-    arg0->unk_10 = &func_80038478;
+/* Clear the object's state byte and set its handler to func_80038478. */
+void func_80038464(S_80038464_0 *object) {
+    object->unk_84 = 0;
+    object->unk_10 = &func_80038478;
 }

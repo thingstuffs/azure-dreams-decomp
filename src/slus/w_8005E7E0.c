@@ -41,68 +41,60 @@ extern s32 func_8005D9DC(s32 a0);
 extern s32 func_8005D1D0();
 extern s32 WaitEvent(s32 a0);
 
-/* Streams sample data for voice a0 to the SPU in <=0x400-word chunks,
- * waiting for a transfer-complete event between chunks. Validates the
- * voice index and its size entry via func_8005D9DC, computes a start
- * address/size pair (s1=size, s2=address) from D_800799C0[a0] shifted by
- * D_80079980[0], then loops issuing func_8005D1D0 mode 2 (set address),
- * mode 1 (start), and mode 3 (upload chunk) calls, waiting on
- * D_800794EC's event each iteration. Temporarily suspends/restores the
- * D_80079974 busy flag and snapshots/restores a pending D_80079990 value
- * across the transfer. Returns -1 on invalid voice/size, 0 on success. */
-s32 func_8005E7E0(s32 a0)
+/* Streams sample data to a voice in SPU chunks, preserving busy and pending queue state. */
+s32 func_8005E7E0(s32 voice)
 {
-    s32 s0 = a0;
-    s32 s1, s2, s3, s4, s5 = 0;
-    volatile s32 local10 = 0;
+    s32 voice_or_size = voice;
+    s32 remaining, spu_addr, more_chunks, saved_busy, restore_busy = 0;
+    volatile s32 pending_swap = 0;
 
-    if ((u32)s0 >= 10)
+    if ((u32)voice_or_size >= 10)
         return -1;
 
-    if (func_8005D9DC(D_800799C0.value[s0]) != 0)
+    if (func_8005D9DC(D_800799C0.value[voice_or_size]) != 0)
         return -1;
 
-    if (s0 == 0) {
-        s1 = 0x10 << D_80079980[0];
-        s2 = 0xFFF0 << D_80079980[0];
+    if (voice_or_size == 0) {
+        remaining = 0x10 << D_80079980[0];
+        spu_addr = 0xFFF0 << D_80079980[0];
     } else {
-        s1 = (0x10000 - D_800799C0.value[s0]) << D_80079980[0];
-        s2 = D_800799C0.value[s0] << D_80079980[0];
+        remaining = (0x10000 - D_800799C0.value[voice_or_size]) << D_80079980[0];
+        spu_addr = D_800799C0.value[voice_or_size] << D_80079980[0];
     }
 
-    s4 = D_80079974[0];
-    if (s4 == 1) {
+    saved_busy = D_80079974[0];
+    if (saved_busy == 1) {
         D_80079970[1] = 0;
-        s5 = 1;
+        restore_busy = 1;
     }
 
-    s3 = 1;
+    more_chunks = 1;
     if (D_80079990[0] != 0) {
-        local10 = D_80079988[2];
+        pending_swap = D_80079988[2];
         D_8007998C[1] = 0;
     }
 
     do {
-        if ((u32)s1 >= 0x401) {
-            s0 = 0x400;
+        if ((u32)remaining >= 0x401) {
+            voice_or_size = 0x400;
         } else {
-            s0 = s1;
-            s3 = 0;
+            voice_or_size = remaining;
+            more_chunks = 0;
         }
 
-        func_8005D1D0(2, s2);
+        func_8005D1D0(2, spu_addr);
         func_8005D1D0(1);
-        func_8005D1D0(3, D_80079550, s0);
+        func_8005D1D0(3, D_80079550, voice_or_size);
         WaitEvent(D_800794EC[0]);
-        s1 -= 0x400;
-        s2 += 0x400;
-    } while (s3);
+        remaining -= 0x400;
+        spu_addr += 0x400;
+    } while (more_chunks);
 
-    if (s5)
-        D_80079970[1] = s4;
+    if (restore_busy)
+        D_80079970[1] = saved_busy;
 
-    if (local10 != 0)
-        D_80079990[0] = local10;
+    if (pending_swap != 0)
+        D_80079990[0] = pending_swap;
 
     return 0;
 }

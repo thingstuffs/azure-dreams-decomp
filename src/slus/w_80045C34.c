@@ -17,31 +17,25 @@ extern s32 func_80045310(u32 a0);
  * at offset 0x8D0 is read here. */
 extern void *D_80083160[3];
 
-/* Walks a singly-linked list of "link" records. Each link record has a next
- * pointer at offset 0x18 relative to the record base (i.e. 8 bytes before the
- * "s0" pointer passed in, which addresses record_base+0x20), an int value at
- * offset 0x8, and a pointer to an S_80045C34 record at offset 0xC. For each
- * live record whose S_80045C34 flags don't have bit 0x80 set, calls
- * func_80045CC4 and then bails out (returning 0) if func_80045310 signals to
- * stop. Always returns 0. */
-s32 func_80045C34(u8 *a0, s32 a1, S_80045C34 *a2)
+/* Processes unflagged list entries until the list ends or a stop is requested; returns zero. */
+s32 func_80045C34(u8 *first_data, s32 link_value, S_80045C34 *value_record)
 {
-    u8 *s0 = a0;
-    void *next;
+    u8 *link_data = first_data;
+    void *next_link;
 
     do {
-        if (!(a2->unk14 & 0x80)) {
-            func_80045CC4(s0, a1, a2, a2->unk6);
+        if (!(value_record->unk14 & 0x80)) {
+            func_80045CC4(link_data, link_value, value_record, value_record->unk6);
             if (func_80045310(*(u32 *)((u8 *)D_80083160[0] + 0x8D0))) {
                 return 0;
             }
         }
-        next = *(void **)(s0 - 8);
-        if (next == 0) {
+        next_link = *(void **)(link_data - 8);
+        if (next_link == 0) {
             return 0;
         }
-        s0 = (u8 *)next + 0x20;
-        a1 = *(s32 *)((u8 *)next + 8);
-        a2 = *(S_80045C34 **)((u8 *)next + 0xC);
+        link_data = (u8 *)next_link + 0x20;
+        link_value = *(s32 *)((u8 *)next_link + 8);
+        value_record = *(S_80045C34 **)((u8 *)next_link + 0xC);
     } while (1);
 }

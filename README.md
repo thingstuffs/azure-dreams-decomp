@@ -14,10 +14,9 @@ recorded in `docs/SWAPOVER.md`).
 | path | what |
 |---|---|
 | `raw/<container>/` | the pinned sources, frozen: every matched function as it was at `PIN` (`slus`, `main`, `town`, `dungeon`, `ovmovie`); `raw/include/` the pinned headers. Never edited |
-| `src/<container>/` | the current best version of **every** function: transformed where the machine layers have reached it, otherwise identical to `raw/` |
-| `refine/<container>/` | hand/agent-refined bodies (level 3+) that supersede `src/` for that function |
+| `src/<container>/` | the current best version of **every** function and the only tree the gates compile: machine-transformed where the layers have reached it, agent-refined bodies landed through `tools/promote.py` (journal `ledger/promotions.jsonl`), otherwise identical to `raw/` |
 | `include/` | headers the clean tree compiles against (`common.h`, `m2c_compat.h` for the hoisted m2c macros, `records/` shared record layouts, `script_symbols.h` the developers' script constants, generated) |
-| `ledger/` | machine-readable truth: `splits/` (the row database: every container's split table, the SLUS recipe), `rows.jsonl` (registry of matched rows), `baseline.jsonl` (byte-exact verdict per row at the pin), `reverify.jsonl`, `gate.jsonl` / `gate_slus.jsonl` / `containers.jsonl` (gate verdicts), `census.jsonl`, `levels.jsonl`, `sweeps/*.jsonl` (every transform verdict), `pins.jsonl`, `agents/` (campaign journals and bodies), `pin_bumps/`, `evidence/` (naming and module evidence per row: assertion sites, developer identifiers, randomizer map, pointer tables, prior notes) |
+| `ledger/` | machine-readable truth: `splits/` (the row database: every container's split table, the SLUS recipe), `rows.jsonl` (registry of matched rows), `baseline.jsonl` (byte-exact verdict per row at the pin), `reverify.jsonl`, `gate.jsonl` / `gate_slus.jsonl` / `containers.jsonl` (gate verdicts), `census.jsonl`, `levels.jsonl`, `sweeps/*.jsonl` (every transform verdict), `pins.jsonl`, `agents/` (campaign journals; `agents/out/` every accepted body as delivered), `promotions.jsonl` (which accepted bodies landed in `src/`, verified), `pin_bumps/`, `evidence/` (naming and module evidence per row: assertion sites, developer identifiers, randomizer map, pointer tables, prior notes) |
 | `config/` | the SLUS split (`slus_006.14.yaml`, symbols, SHA-1), the 2,181 overlay window YAMLs and symbol/as-flags/rowbase files (`overlays/`), noreturn/sibcall lists, `func_sizes.json` |
 | `tools/` | `setup.sh` + `toolchain.lock.json` (provisioning), `disc.py`, `row_db.py`, `registry.py`, `verify.py`, `sweep.py` + `xform/`, `census.py`, `levels.py`, `status.py`, `agent_task.py`, `struct_census.py`, `evidence.py`; `build/` (SLUS build, window gate runner, container check), `gate/` (the window gate and the per-row scorer), `maspsx/` (vendored assembler front end), `patches/` |
 | `docs/` | `PLAN.md` (strategy and levels), `SWAPOVER.md` (how the tree came to own everything), `REPORT_20260907.md`, `PIN_CENSUS.md`, `STRUCT_CENSUS.md`, `BAKEOFF.md`, `HANDOVER.md`, `EVIDENCE.md` (index of the naming evidence and how each level uses it), `SYMBOLS.md` (the recovered names in plain language), `evidence/` (the assertion catalogue and randomizer findings verbatim) |
@@ -33,7 +32,7 @@ the venv, `baserom/`, and the build roots (`build_slus/`, `build_ovl/`).
 | L0 | verified byte-exact at the pin through stock compilers |
 | L1 | no m2c boilerplate, dead pins erased, no blocking fidelity site |
 | L2 | no raw offset access (`M2C_FIELD` / `FIELD`): typed structs with explicit `unk_XX` members and padding |
-| L3 | locals named, one-line summary; a `refine/` body exists |
+| L3 | locals named, one-line summary: an accepted Layer-2 body landed in `src/` (`ledger/promotions.jsonl`) and is the text the gate compiles |
 | L4 | in a module with a shared header |
 | L5 | strict: no `ASM_*` pin or marker, no noreturn tail-call spelling, no fidelity site of any audit class, no computed-goto table, no inline asm. A pin that survives is annotated `/* UNRESOLVED C shape (pin): removing it <measured effect>; … */` — a debt record, never a justification |
 

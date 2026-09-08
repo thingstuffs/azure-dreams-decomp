@@ -31,14 +31,14 @@ typedef struct S_800C5214_1 {
 } S_800C5214_1;   /* part in func_800C5214 */
 
 
-
 extern void *func_8003FC64(s32);
 extern s32 func_8004491C();
 extern u8 D_800345B8[];
 extern u8 D_800C52D0[];
 extern u8 D_800F148C[];
 
-void *func_800C5214(s32 arg0)
+/* Allocates an object and initializes its display part and user data. */
+void *func_800C5214(s32 user_data)
 {
     S_800C5214_1 *part;
     S_800C5214_0 *object;
@@ -49,12 +49,12 @@ void *func_800C5214(s32 arg0)
     }
 
     {
-        register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        register u16 flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register void *return_object;
+        register u16 flags;
+        register s32 part_value;
 
         object->unk_10 = D_800C52D0;
-        object->unk_BC = arg0;
+        object->unk_BC = user_data;
         part = object->unk_0C;
         part->unk_1E = 0x1800;
         part->unk_1C = 0x1800;
@@ -67,16 +67,11 @@ void *func_800C5214(s32 arg0)
         part->unk_05 = 0;
         part->unk_06 = -0x10;
         func_8004491C(object, D_800345B8);
-        result = object;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        return_object = object;
         flags = part->unk_14;
-        value = 0x20;
-        part->unk_10 = value;
+        part_value = 0x20;
+        part->unk_10 = part_value;
         part->unk_14 = flags | 0x1C;
-        return;
+        return return_object;
     }
 }
-
-/* MECHANISM: The NULL guard preserves retail's beqz into a trailing literal-zero return.
-   Returning the s32 func_800C52B8 result exposes LEAD-22's tail shape, converting jal to j
-   while retaining the flags store in its delay slot; v0/v1/a0 pins preserve the live roles. */

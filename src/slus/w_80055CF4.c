@@ -28,21 +28,19 @@ typedef struct S_800847D0 {
 extern S_800847D0 D_800847D0;
 extern void func_80055D84(s16 param_0);
 
-/* Scans flags2's top-nibble "locked" bits (24+i for i in 0..3); on the first set
-   bit, releases it via func_80055D84(i) (which marks the channel available again
-   in D_800847D0.flags1, see src/w_80055D84.c), then clears that locked bit. */
+/* Releases the first locked channel and clears its lock flag. */
 void func_80055CF4(void) {
-    u32 i;
-    u32 shifted;
-    u32 bit;
-    u32 locked = D_800847D0.flags2 & 0xFF000000;
+    u32 channel;
+    u32 channel_bit;
+    u32 lock_bit;
+    u32 lock_flags = D_800847D0.flags2 & 0xFF000000;
 
-    for (i = 0; i < 4; i++) {
-        shifted = 0x1000000 << i;
-        bit = shifted & 0xF000000;
-        if (locked & bit) {
-            func_80055D84((s16) i);
-            D_800847D0.flags2 &= ~bit;
+    for (channel = 0; channel < 4; channel++) {
+        channel_bit = 0x1000000 << channel;
+        lock_bit = channel_bit & 0xF000000;
+        if (lock_flags & lock_bit) {
+            func_80055D84((s16) channel);
+            D_800847D0.flags2 &= ~lock_bit;
             break;
         }
     }

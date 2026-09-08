@@ -25,32 +25,29 @@ typedef struct S_800AB5C0_1 {
     u16 unk_16;
 } S_800AB5C0_1;   /* arg1 in func_800AB5C0 */
 
-void func_800AB5C0(Rec_func_800AB030_arg0 *arg0, S_800AB5C0_1 *arg1) {
-    s16 buf[12];
-    s32 offset;
-    u16 timer;
+/* Smooth coordinates toward the adjusted sample, snapping to it when the timer expires. */
+void func_800AB5C0(Rec_func_800AB030_arg0 *state, S_800AB5C0_1 *coords) {
+    s16 sampled_coords[12];
+    s32 z_offset;
+    u16 ticks_left;
 
-    if (arg0->unk_90 < 100) {
-        arg0->unk_50 = D_800AB708;
+    if (state->unk_90 < 100) {
+        state->unk_50 = D_800AB708;
     }
-    func_800AAFE0(buf, 4);
-    offset = func_800AAE98(arg1);
-    buf[5] -= offset + func_800AB030(arg0);
-    timer = arg0->unk_6C - 1;
-    arg0->unk_6C = timer;
-    if ((s16)timer < 0) {
-        arg1->unk_0E = arg1->unk_02.u = buf[1];
-        arg1->unk_12 = arg1->unk_06.u = buf[3];
-        arg1->unk_16 = arg1->unk_0A.u = buf[5];
-        arg0->unk_50 = D_800AB408;
-        arg0->unk_6C = 150;
+    func_800AAFE0(sampled_coords, 4);
+    z_offset = func_800AAE98(coords);
+    sampled_coords[5] -= z_offset + func_800AB030(state);
+    ticks_left = state->unk_6C - 1;
+    state->unk_6C = ticks_left;
+    if ((s16)ticks_left < 0) {
+        coords->unk_0E = coords->unk_02.u = sampled_coords[1];
+        coords->unk_12 = coords->unk_06.u = sampled_coords[3];
+        coords->unk_16 = coords->unk_0A.u = sampled_coords[5];
+        state->unk_50 = D_800AB408;
+        state->unk_6C = 150;
         return;
     }
-    arg1->unk_02.s = (arg1->unk_02.s + buf[1]) / 2;
-    arg1->unk_06.s = (arg1->unk_06.s + buf[3]) / 2;
-    arg1->unk_0A.s = (arg1->unk_0A.s + buf[5]) / 2;
+    coords->unk_02.s = (coords->unk_02.s + sampled_coords[1]) / 2;
+    coords->unk_06.s = (coords->unk_06.s + sampled_coords[3]) / 2;
+    coords->unk_0A.s = (coords->unk_0A.s + sampled_coords[5]) / 2;
 }
-
-/* MECHANISM: A 24-byte s16 stack object keeps the sampled coordinates at
-   sp+0x12/+0x16/+0x1A; arg0/arg1 and the cross-call offset form s2/s1/s0.
-   Chained copies load each coordinate once; the expired arm restores 150. */

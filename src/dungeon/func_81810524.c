@@ -6,6 +6,7 @@ typedef struct S_80025524_0 {
     s32 unk_40;
 } S_80025524_0;   /* arg0 in func_80025524 */
 
-s32 func_80025524(S_80025524_0 *arg0) {
-    return arg0->unk_40;
+/* Returns the object's value at offset 0x40. */
+s32 func_80025524(S_80025524_0 *object) {
+    return object->unk_40;
 }

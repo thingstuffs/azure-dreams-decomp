@@ -22,41 +22,42 @@ typedef struct S_805267E0_1 {
 
 extern s32 D_80084D5C;
 
-void func_805267E0(void *arg0) {
-    s16 temp_v1;
-    s32 temp_v0_2;
-    u16 temp_v0;
-    void *sub;
-    s16 v1;
+/* Advances a delayed fade and sets completion flags when the color reaches its threshold. */
+void func_805267E0(void *effect) {
+    s16 state;
+    s32 color;
+    u16 timer;
+    void *linked_obj;
+    s16 next_state;
     u16 flags;
 
-    temp_v1 = ((S_805267E0_0 *)arg0)->unk_00;
-    sub = ((S_805267E0_0 *)arg0)->unk_04;
-    switch (temp_v1) {                              /* irregular */
+    state = ((S_805267E0_0 *)effect)->unk_00;
+    linked_obj = ((S_805267E0_0 *)effect)->unk_04;
+    switch (state) {
     case 0:
-        temp_v0 = ((S_805267E0_0 *)arg0)->unk_02 - 1;
-        ((S_805267E0_0 *)arg0)->unk_02 = temp_v0;
-        if ((temp_v0 << 0x10) <= 0) {
-            v1 = ((S_805267E0_0 *)arg0)->unk_00;
-            flags = ((S_805267E0_0 *)arg0)->unk_16;
-            v1 = (s16) (v1 + 1);
+        timer = ((S_805267E0_0 *)effect)->unk_02 - 1;
+        ((S_805267E0_0 *)effect)->unk_02 = timer;
+        if ((timer << 0x10) <= 0) {
+            next_state = ((S_805267E0_0 *)effect)->unk_00;
+            flags = ((S_805267E0_0 *)effect)->unk_16;
+            next_state = (s16) (next_state + 1);
             flags &= 0xFFFD;
-            ((S_805267E0_0 *)arg0)->unk_16 = flags;
-            ((S_805267E0_0 *)arg0)->unk_00 = v1;
+            ((S_805267E0_0 *)effect)->unk_16 = flags;
+            ((S_805267E0_0 *)effect)->unk_00 = next_state;
             return;
         }
         return;
     case 1:
-        if (((S_805267E0_1 *)sub)->unk_2A & 1) {
-            ((S_805267E0_0 *)arg0)->unk_00 = (s16) (temp_v1 + 1);
+        if (((S_805267E0_1 *)linked_obj)->unk_2A & 1) {
+            ((S_805267E0_0 *)effect)->unk_00 = (s16) (state + 1);
             return;
         }
         break;
     case 2:
-        temp_v0_2 = ((S_805267E0_0 *)arg0)->unk_08 + 0xFFF7F7F8;
-        ((S_805267E0_0 *)arg0)->unk_08 = temp_v0_2;
-        if (temp_v0_2 <= 0x80808) {
-            (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_805267E0_0_pre *)arg0)[-1].unk_00 | 0x8000);
+        color = ((S_805267E0_0 *)effect)->unk_08 + 0xFFF7F7F8;
+        ((S_805267E0_0 *)effect)->unk_08 = color;
+        if (color <= 0x80808) {
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_805267E0_0_pre *)effect)[-1].unk_00 | 0x8000);
             D_80084D5C |= 0x8000;
         }
         break;

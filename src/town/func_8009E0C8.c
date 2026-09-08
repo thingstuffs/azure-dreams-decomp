@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_8009B828_arg0.h"
 
 M2C_UNK func_8008F294();             /* extern */
 M2C_UNK func_8008F664();             /* extern */
@@ -10,23 +11,20 @@ extern s32 D_80083788;
 extern s32 D_800D0428;
 
 
-typedef struct S_8009B828_1 {
-    u8 pad_00[0x6C];
-    u16 unk_6C;
-} S_8009B828_1;   /* arg0 in func_8009B828 */
 
-void func_8009B828(S_8009B828_1 *arg0, M2C_UNK arg1, Rec_D_800E3D7C *arg2, M2C_UNK arg3) {
-    s32 temp_a1;
-    u16 temp_v0;
+/* Update motion toward the shared target and advance state when the countdown expires. */
+void func_8009B828(Rec_func_8009B828_arg0 *state, M2C_UNK context, Rec_D_800E3D7C *motion, M2C_UNK transition_arg) {
+    s32 position;
+    u16 ticks_left;
 
-    temp_a1 = arg2->unk_08.at00_s32.v;
-    arg2->unk_14.as_s32 = (s32) ((s32) ((D_80083788 + D_800D0428) - temp_a1) / 2);
-    func_8009539C(arg2, temp_a1);
-    func_8008F294(arg1, arg2);
-    func_8008F664(arg1, arg2);
-    temp_v0 = arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_8009C148(arg0, arg1, arg2, arg3);
+    position = motion->unk_08.at00_s32.v;
+    motion->unk_14.as_s32 = (s32) ((s32) ((D_80083788 + D_800D0428) - position) / 2);
+    func_8009539C(motion, position);
+    func_8008F294(context, motion);
+    func_8008F664(context, motion);
+    ticks_left = state->unk_6C.as_u16 - 1;
+    state->unk_6C.as_u16 = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        func_8009C148(state, context, motion, transition_arg);
     }
 }

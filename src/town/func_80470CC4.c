@@ -4,6 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_8001A418();                     /* extern */
 
+/* Calls func_8001A418 with the fixed argument 0x1470. */
 void func_80017CC4(void) {
     func_8001A418(0x1470);
 }

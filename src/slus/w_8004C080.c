@@ -48,24 +48,25 @@ extern void *func_8004B954(Tint8004C080 *tint0, Tint8004C080 *tint1,
                            u8 *packet, void *record, u8 *command,
                            s32 *count, s32 mode);
 
+/* Apply command colors or draw settings to a GPU packet and return the next record. */
 void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
                     u8 *packet, void *record, u8 *command, s32 *count)
 {
-    u8 code;
-    s32 group;
-    s32 sub;
-    s32 group2;
-    u8 *color;
-    s16 values[4];
+    u8 opcode;
+    s32 primitive_type;
+    s32 length_or_code;
+    s32 extended_type;
+    u8 *packet_color;
+    s16 tex_window[4];
 
-    code = ((S_8004C080_0 *)command)->unk_01;
-    group = code & 0xFC;
+    opcode = ((S_8004C080_0 *)command)->unk_01;
+    primitive_type = opcode & 0xFC;
 
-    if (group == 0x28) {
-        color = packet + 4;
+    if (primitive_type == 0x28) {
+        packet_color = packet + 4;
         ((S_8004C080_1 *)packet)->unk_04.at00.v = ((S_8004C080_0 *)command)->unk_04.at00.v;
-        func_8004C010(color, tint0);
-        func_8004C010(color, tint1);
+        func_8004C010(packet_color, tint0);
+        func_8004C010(packet_color, tint1);
         ((S_8004C080_1 *)packet)->unk_03 = 5;
         ((S_8004C080_1 *)packet)->unk_0C = ((S_8004C080_1 *)packet)->unk_10;
         ((S_8004C080_1 *)packet)->unk_10 = ((S_8004C080_1 *)packet)->unk_18;
@@ -74,11 +75,11 @@ void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
         goto done;
     }
 
-    if (group == 0x48) {
-        color = packet + 4;
+    if (primitive_type == 0x48) {
+        packet_color = packet + 4;
         ((S_8004C080_1 *)packet)->unk_04.at00.v = ((S_8004C080_0 *)command)->unk_04.at00.v;
-        func_8004C010(color, tint0);
-        func_8004C010(color, tint1);
+        func_8004C010(packet_color, tint0);
+        func_8004C010(packet_color, tint1);
         ((S_8004C080_1 *)packet)->unk_03 = 5;
         ((S_8004C080_1 *)packet)->unk_14 = 0x55555555;
         ((S_8004C080_1 *)packet)->unk_04.at03.v = ((S_8004C080_0 *)command)->unk_01;
@@ -88,62 +89,62 @@ void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
         goto done;
     }
 
-    if (group == 0x38) {
-        color = packet + 4;
+    if (primitive_type == 0x38) {
+        packet_color = packet + 4;
         ((S_8004C080_1 *)packet)->unk_04.at00.v = ((S_8004C080_0 *)command)->unk_04.at00.v;
-        func_8004C010(color, tint0);
-        func_8004C010(color, tint1);
+        func_8004C010(packet_color, tint0);
+        func_8004C010(packet_color, tint1);
         record = (u8 *)record + 0xC;
-        sub = 8;
-        color = packet + 0xC;
-        ((S_8004C080_1 *)packet)->unk_03 = sub;
-        ((S_8004C080_1 *)packet)->unk_04.at03.v = group;
+        length_or_code = 8;
+        packet_color = packet + 0xC;
+        ((S_8004C080_1 *)packet)->unk_03 = length_or_code;
+        ((S_8004C080_1 *)packet)->unk_04.at03.v = primitive_type;
         ((S_8004C080_1 *)packet)->unk_04.at03.v = ((S_8004C080_0 *)command)->unk_01;
         ((S_8004C080_1 *)packet)->unk_0C = ((S_8004C080_2 *)record)->unk_00;
-        func_8004C010(color, tint0);
-        func_8004C010(color, tint1);
-        color = packet + 0x14;
+        func_8004C010(packet_color, tint0);
+        func_8004C010(packet_color, tint1);
+        packet_color = packet + 0x14;
         ((S_8004C080_1 *)packet)->unk_14 = ((S_8004C080_2 *)record)->unk_04;
-        func_8004C010(color, tint0);
-        func_8004C010(color, tint1);
-        color = packet + 0x1C;
+        func_8004C010(packet_color, tint0);
+        func_8004C010(packet_color, tint1);
+        packet_color = packet + 0x1C;
         ((S_8004C080_1 *)packet)->unk_1C = ((S_8004C080_2 *)record)->unk_08;
-        func_8004C010(color, tint0);
-        func_8004C010(color, tint1);
+        func_8004C010(packet_color, tint0);
+        func_8004C010(packet_color, tint1);
         goto done;
     }
 
-    if (group == 0x3C) {
+    if (primitive_type == 0x3C) {
         record = func_8004BDDC(tint0, tint1, packet, record, command);
         goto done;
     }
 
-    if (!(code & 0x80)) {
+    if (!(opcode & 0x80)) {
         goto done;
     }
 
-    sub = code & 0x7F;
-    if (sub == 0) {
-        values[0] = ((S_8004C080_0 *)command)->unk_08;
-        values[1] = ((S_8004C080_0 *)command)->unk_09;
-        values[2] = ((S_8004C080_0 *)command)->unk_0A + 1;
-        values[3] = ((S_8004C080_0 *)command)->unk_0B + 1;
-        SetTexWindow(packet, values);
+    length_or_code = opcode & 0x7F;
+    if (length_or_code == 0) {
+        tex_window[0] = ((S_8004C080_0 *)command)->unk_08;
+        tex_window[1] = ((S_8004C080_0 *)command)->unk_09;
+        tex_window[2] = ((S_8004C080_0 *)command)->unk_0A + 1;
+        tex_window[3] = ((S_8004C080_0 *)command)->unk_0B + 1;
+        SetTexWindow(packet, tex_window);
         goto done;
     }
 
-    group2 = sub & 0x7C;
-    if (sub == 1) {
+    extended_type = length_or_code & 0x7C;
+    if (length_or_code == 1) {
         SetDrawMode(packet, 1, ((S_8004C080_0 *)command)->unk_04.at02.v,
                       ((S_8004C080_0 *)command)->unk_04.at00u.v, 0);
         goto done;
     }
 
-    if (group2 == 0x30) {
+    if (extended_type == 0x30) {
         record = func_8004B954(tint0, tint1, packet, record, command, count, 1);
         goto done;
     }
-    if (group2 == 0x20) {
+    if (extended_type == 0x20) {
         record = func_8004B954(tint0, tint1, packet, record, command, count, 0);
     }
 done:

@@ -10,8 +10,9 @@ typedef struct S_8016F140_0 {
     u8 unk_71;
 } S_8016F140_0;   /* arg0 in func_8016F140 */
 
-void func_8016F140(S_8016F140_0 *arg0) {
-    arg0->unk_6D = 0;
-    arg0->unk_71 = (u8) (arg0->unk_71 & 0x7F);
-    arg0->unk_46 = (u16) (arg0->unk_46 & 0x7FFF);
+/* Clear the state byte and the high bits of the two flag fields. */
+void func_8016F140(S_8016F140_0 *state) {
+    state->unk_6D = 0;
+    state->unk_71 = (u8) (state->unk_71 & 0x7F);
+    state->unk_46 = (u16) (state->unk_46 & 0x7FFF);
 }

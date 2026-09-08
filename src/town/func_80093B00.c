@@ -58,93 +58,97 @@ typedef struct S_80091260_2 {
     union { u16 u; s16 s; } unk_3E;   /* accessed as both */
 } S_80091260_2;   /* arg0 in func_80091260 */
 
-void func_80091260(S_80091260_2 *arg0, S_80091260_0 *arg1, s32 arg2) {
-    u8 *state = D_80083160;
-    s32 result;
-    s16 value;
-    s32 *data;
+/* Dispatch actor actions from input flags and position checks. */
+void func_80091260(S_80091260_2 *actor, S_80091260_0 *position, s32 context) {
+    u8 *input_state = D_80083160;
+    s32 input_flags;
+    s32 action_result;
+    s32 tile_id;
+    s16 height;
+    s16 remaining_count;
+    s32 *action_data;
 
-    func_80095C80(arg1);
-    func_800951B4(arg1);
+    func_80095C80(position);
+    func_800951B4(position);
 
-    value = func_80095978(arg1, D_800FE488);
-    if ((value - arg1->unk_08.at02.v) >= 4) {
+    height = func_80095978(position, D_800FE488);
+    if ((height - position->unk_08.at02.v) >= 4) {
         if (D_800CFCEF[0] == 0) {
-            func_80094378(arg0, arg1, arg2);
+            func_80094378(actor, position, context);
             return;
         }
     } else if (D_800CFCEF[0] == 0) {
-        func_80095A94(arg1, value, D_800FE488);
+        func_80095A94(position, height, D_800FE488);
     }
 
-    result = ((S_80091260_1 *)state)->unk_10;
-    if (result & 0x10) {
-        func_800942B0(arg0, arg1, arg2);
+    input_flags = ((S_80091260_1 *)input_state)->unk_10;
+    if (input_flags & 0x10) {
+        func_800942B0(actor, position, context);
         return;
     }
 
-    if (result & 0x40) {
-        result = func_80095840(arg0, D_800CFCB4);
-        if (result != 0) {
-            if (result == 2) {
-                func_8009451C(arg0, arg1, arg2);
+    if (input_flags & 0x40) {
+        action_result = func_80095840(actor, D_800CFCB4);
+        if (action_result != 0) {
+            if (action_result == 2) {
+                func_8009451C(actor, position, context);
                 return;
             } else {
-                func_800944BC(arg0, arg1, arg2);
+                func_800944BC(actor, position, context);
                 return;
             }
         } else if (func_80033B2C(0xA4) != 0) {
-            func_80094088(arg0, arg1, arg2);
+            func_80094088(actor, position, context);
             return;
         }
         return;
     }
 
-    data = D_800CFCB4;
-    result = func_8009567C(data);
-    if (result != 0) {
-        if (result == -1) {
-            func_80094C1C(arg0);
-            func_80098868(arg0, arg1, arg2);
-            arg0->unk_2C = 0;
-            func_8008B158(data[4]);
+    action_data = D_800CFCB4;
+    action_result = func_8009567C(action_data);
+    if (action_result != 0) {
+        if (action_result == -1) {
+            func_80094C1C(actor);
+            func_80098868(actor, position, context);
+            actor->unk_2C = 0;
+            func_8008B158(action_data[4]);
             return;
         } else {
-            func_800943B8(arg0, arg1, arg2);
+            func_800943B8(actor, position, context);
             return;
         }
         return;
     }
 
-    result = ((S_80091260_1 *)state)->unk_08;
-    if (result & 0x20) {
-        if (arg0->unk_16 == 1) {
-            result = func_8008C180(arg1->unk_02, arg1->unk_06);
-            if (func_800C1D44((u16)result) != 0 && arg1->unk_08.at00.v > 0) {
-                func_80093FC8(arg0, arg1, arg2);
+    input_flags = ((S_80091260_1 *)input_state)->unk_08;
+    if (input_flags & 0x20) {
+        if (actor->unk_16 == 1) {
+            tile_id = func_8008C180(position->unk_02, position->unk_06);
+            if (func_800C1D44((u16)tile_id) != 0 && position->unk_08.at00.v > 0) {
+                func_80093FC8(actor, position, context);
                 return;
             } else {
-                func_80093E58(arg0, arg1, arg2);
+                func_80093E58(actor, position, context);
                 return;
             }
         } else {
-            func_80093F48(arg0, arg1, arg2);
-            func_80094C1C(arg0);
-            func_8009503C(arg1);
+            func_80093F48(actor, position, context);
+            func_80094C1C(actor);
+            func_8009503C(position);
             return;
         }
         return;
     }
 
-    if (result & 0xF000) {
-        value = arg0->unk_3E.u - 1;
-        arg0->unk_3E.s = value;
-        func_80094944(value, 12);
-        func_80094C1C(arg0);
-        func_80094C74(arg1);
-        func_80094DA8(arg1);
+    if (input_flags & 0xF000) {
+        remaining_count = actor->unk_3E.u - 1;
+        actor->unk_3E.s = remaining_count;
+        func_80094944(remaining_count, 12);
+        func_80094C1C(actor);
+        func_80094C74(position);
+        func_80094DA8(position);
         return;
     } else {
-        func_80093D48(arg0, arg1, arg2);
+        func_80093D48(actor, position, context);
     }
 }

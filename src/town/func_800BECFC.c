@@ -18,34 +18,31 @@ extern u8 D_800BC290[8];
 extern u8 D_800BC390[8];
 extern u8 D_80111FB0[8];
 
-void func_800BC45C(s32 arg0, s32 arg1)
+/* Builds two display entries and initializes a display object. */
+void func_800BC45C(s32 data_id, s32 position_offset)
 {
-    Copy8 local;
-    void *obj;
-    u8 *base;
+    Copy8 layout;
+    void *display_obj;
+    u8 *display_data;
 
-    local = D_8008961C;
+    layout = D_8008961C;
     func_8004E9E4();
-    *(u16 *)&local.word0 += (s32)(arg1 << 16) >> 14;
-    func_800BC1DC(&local, D_800BC290,
-                  func_8004DA74(D_80111FB0, (void *)arg0, 0));
-    func_800BC1DC((u8 *)&local + 4, D_800BC290, D_800782EC);
+    *(u16 *)&layout.word0 += (s32)(position_offset << 16) >> 14;
+    func_800BC1DC(&layout, D_800BC290,
+                  func_8004DA74(D_80111FB0, (void *)data_id, 0));
+    func_800BC1DC((u8 *)&layout + 4, D_800BC290, D_800782EC);
 
-    obj = func_8003FC64(1);
-    if (obj != 0) {
-        *(void **)((u8 *)obj + 0x10) = D_800BC390;
-        base = (u8 *)obj + 0x20;
-        func_8004491C(obj, &D_80053A88);
-        *(s16 *)(base + 0xC) = 0x64;
-        *(s16 *)(base + 0xE) = 0x34;
-        *(s16 *)(base + 0x10) = 0x7C;
-        *(s16 *)(base + 0x12) = 0x18;
-        *(s16 *)(base + 0x16) = 1;
-        *(s32 *)(base + 8) = 0x402020;
-        *(s16 *)(base + 2) = 0x1E;
+    display_obj = func_8003FC64(1);
+    if (display_obj != 0) {
+        *(void **)((u8 *)display_obj + 0x10) = D_800BC390;
+        display_data = (u8 *)display_obj + 0x20;
+        func_8004491C(display_obj, &D_80053A88);
+        *(s16 *)(display_data + 0xC) = 0x64;
+        *(s16 *)(display_data + 0xE) = 0x34;
+        *(s16 *)(display_data + 0x10) = 0x7C;
+        *(s16 *)(display_data + 0x12) = 0x18;
+        *(s16 *)(display_data + 0x16) = 1;
+        *(s32 *)(display_data + 8) = 0x402020;
+        *(s16 *)(display_data + 2) = 0x1E;
     }
 }
-
-/* MECHANISM: A packed 8-byte stack aggregate forces the retail lwl/lwr/swl/swr copy
-   and preserves the sibling objects at sp+0x10 and sp+0x14.
-   The true no-argument func_8004E9E4 call plus cdk lineage closes base coloring/order. */

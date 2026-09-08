@@ -38,213 +38,214 @@ typedef struct Scratch800D1A48
   u16 data10A;
 } Scratch800D1A48;
 extern void *func_800654B0(u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *, u16 *);
-void *func_800D71A8(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3, u8 *arg4)
+/* Build visible textured quads for the matching sprite and link them into the ordering table. */
+void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *placement, u8 *packet_buf)
 {
   register Scratch800D1A48 *scratch;
   register s32 index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-  register s32 arg1_reg;
-  s32 arg2_entry;
-  register s32 arg2_reg;
-  register u8 *arg3_reg ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  u8 *selected;
-  register u8 *s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-  u8 *s1;
-  u8 *s2;
-  u8 *s3;
-  register u8 *s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-  s32 last;
-  arg1_reg = arg1;
-  arg2_entry = arg2;
-  ASM_KEEP_NV(arg2_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  arg2_reg = arg2_entry;
-  ASM_KEEP_NV(arg2_reg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  arg3_reg = arg3;
-  ASM_KEEP_NV(arg3_reg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  selected = 0;
-  index = (u32) selected;
-  s7 = arg4;
+  register s32 count_or_x;
+  s32 state_addr;
+  register s32 render_state;
+  register u8 *sprite_placement ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+  u8 *sprite;
+  register u8 *packet ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+  u8 *packet_data;
+  u8 *quad_data;
+  u8 *part;
+  register u8 *quad ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+  s32 bottom_y;
+  count_or_x = count_hint;
+  state_addr = render_state_addr;
+  ASM_KEEP_NV(state_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+  render_state = state_addr;
+  ASM_KEEP_NV(render_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+  sprite_placement = placement;
+  ASM_KEEP_NV(sprite_placement);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+  sprite = 0;
+  index = (u32) sprite;
+  packet = packet_buf;
   scratch = (Scratch800D1A48 *) 0x1F800000;
   {
-  s32 count_load;
-  count_load = *((s16 *) (((u8 *) arg0) + 0x9E));
-  if (count_load > 0)
-  {
-    arg1_reg = count_load;
-    do
+    s32 sprite_count;
+    sprite_count = *((s16 *) (((u8 *) sprite_list) + 0x9E));
+    if (sprite_count > 0)
     {
-      u8 *entry = *((u8 **) (((u8 *) arg0) + 0xA4));
-      if (entry == 0)
+      count_or_x = sprite_count;
+      do
       {
-        index += 1;
-        arg0 += 4;
-      }
-      else
-      {
-        selected = entry + 0x20;
-        if ((*((u16 *) (((u8 *) arg3_reg) + 6))) == (*((u16 *) (((u8 *) selected) + 6))))
+        u8 *sprite_entry = *((u8 **) (((u8 *) sprite_list) + 0xA4));
+        if (sprite_entry == 0)
         {
-          break;
+          index += 1;
+          sprite_list += 4;
         }
-        index += 1;
-        arg0 += 4;
+        else
+        {
+          sprite = sprite_entry + 0x20;
+          if ((*((u16 *) (((u8 *) sprite_placement) + 6))) == (*((u16 *) (((u8 *) sprite) + 6))))
+          {
+            break;
+          }
+          index += 1;
+          sprite_list += 4;
+        }
       }
+      while (index < count_or_x);
     }
-    while (index < arg1_reg);
   }
-  }
-  if ((*((s16 *) (((u8 *) selected) + 2))) > 0)
+  if ((*((s16 *) (((u8 *) sprite) + 2))) > 0)
   {
     index = 0;
-    outer_loop:
+    next_part:
     {
-      s32 offset;
-      offset = (index * 3) << 4;
-      offset += 8;
-      s3 = selected + offset;
-      s4 = *((u8 **) (((u8 *) s3) + 8));
-      s1 = s7 + 4;
-      s2 = s4 + 1;
-      inner_loop:
-      if (!(s4[0] & 0x20))
+      s32 part_offset;
+      part_offset = (index * 3) << 4;
+      part_offset += 8;
+      part = sprite + part_offset;
+      quad = *((u8 **) (((u8 *) part) + 8));
+      packet_data = packet + 4;
+      quad_data = quad + 1;
+      next_quad:
+      if (!(quad[0] & 0x20))
       {
-        scratch->data08 = s2[7];
-        scratch->data0C = s2[8];
-        scratch->data10 = s2[9];
-        scratch->data14 = s2[10];
+        scratch->data08 = quad_data[7];
+        scratch->data0C = quad_data[8];
+        scratch->data10 = quad_data[9];
+        scratch->data14 = quad_data[10];
         {
-          s32 value;
-          u8 flag_byte;
-          flag_byte = s4[0];
-          if ((flag_byte ^ scratch->flags24) & 1)
+          s32 x;
+          u8 quad_flags;
+          quad_flags = quad[0];
+          if ((quad_flags ^ scratch->flags24) & 1)
           {
-            s32 base;
-            value = (0 - ((((s32) (*((volatile u8 *) (((u8 *) s2) + 1)))) << 24) >> 24)) - (*((u16 *) (((u8 *) scratch) + 0x108)));
-            base = *((u16 *) (((u8 *) scratch) + 0x10));
-            scratch->data80 = value;
-            *((volatile u16 *) (((u8 *) scratch) + 0x70)) = value;
-            value -= base;
+            s32 width;
+            x = (0 - ((((s32) (*((volatile u8 *) (((u8 *) quad_data) + 1)))) << 24) >> 24)) - (*((u16 *) (((u8 *) scratch) + 0x108)));
+            width = *((u16 *) (((u8 *) scratch) + 0x10));
+            scratch->data80 = x;
+            *((volatile u16 *) (((u8 *) scratch) + 0x70)) = x;
+            x -= width;
           }
           else
           {
-            s32 base;
-            base = *((u16 *) (((u8 *) scratch) + 0x10));
-            value = ((((s32) (*((volatile u8 *) (((u8 *) s2) + 1)))) << 24) >> 24) + (*((u16 *) (((u8 *) scratch) + 0x108)));
-            scratch->data80 = value;
-            scratch->data70 = value;
-            value += base;
+            s32 width;
+            width = *((u16 *) (((u8 *) scratch) + 0x10));
+            x = ((((s32) (*((volatile u8 *) (((u8 *) quad_data) + 1)))) << 24) >> 24) + (*((u16 *) (((u8 *) scratch) + 0x108)));
+            scratch->data80 = x;
+            scratch->data70 = x;
+            x += width;
           }
-          scratch->data88 = value;
-          scratch->data78 = value;
+          scratch->data88 = x;
+          scratch->data78 = x;
         }
         {
-          s32 value;
-          if ((arg3_reg[0] ^ (*((u16 *) (((u8 *) ((u8 *) arg2_reg)) + 0x14)))) & 1)
+          s32 x;
+          if ((sprite_placement[0] ^ (*((u16 *) (((u8 *) ((u8 *) render_state)) + 0x14)))) & 1)
           {
-            value = scratch->data80 - ((((s32) (*((volatile u8 *) (((u8 *) arg3_reg) + 2)))) << 24) >> 24);
-            scratch->data80 = value;
-            *((volatile u16 *) (((u8 *) scratch) + 0x70)) = value;
-            value = (*((u16 *) (((u8 *) scratch) + 0x88))) - ((((s32) (*((volatile u8 *) (((u8 *) arg3_reg) + 2)))) << 24) >> 24);
+            x = scratch->data80 - ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 2)))) << 24) >> 24);
+            scratch->data80 = x;
+            *((volatile u16 *) (((u8 *) scratch) + 0x70)) = x;
+            x = (*((u16 *) (((u8 *) scratch) + 0x88))) - ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 2)))) << 24) >> 24);
           }
           else
           {
-            value = scratch->data80 + ((((s32) (*((volatile u8 *) (((u8 *) arg3_reg) + 2)))) << 24) >> 24);
-            scratch->data80 = value;
-            scratch->data70 = value;
-            value = (*((u16 *) (((u8 *) scratch) + 0x88))) + ((((s32) (*((volatile u8 *) (((u8 *) arg3_reg) + 2)))) << 24) >> 24);
+            x = scratch->data80 + ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 2)))) << 24) >> 24);
+            scratch->data80 = x;
+            scratch->data70 = x;
+            x = (*((u16 *) (((u8 *) scratch) + 0x88))) + ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 2)))) << 24) >> 24);
           }
-          scratch->data88 = value;
-          scratch->data78 = value;
+          scratch->data88 = x;
+          scratch->data78 = x;
         }
         {
-          s32 value;
-          u8 flag_byte;
-          flag_byte = s4[0];
-          if ((flag_byte ^ scratch->flags24) & 2)
+          s32 y;
+          u8 quad_flags;
+          quad_flags = quad[0];
+          if ((quad_flags ^ scratch->flags24) & 2)
           {
-            s32 base;
-            value = (0 - ((((s32) (*((volatile u8 *) (((u8 *) s2) + 2)))) << 24) >> 24)) - (*((u16 *) (((u8 *) scratch) + 0x10A)));
-            base = *((u16 *) (((u8 *) scratch) + 0x14));
-            scratch->data7A = value;
-            *((volatile u16 *) (((u8 *) scratch) + 0x72)) = value;
-            value -= base;
+            s32 height;
+            y = (0 - ((((s32) (*((volatile u8 *) (((u8 *) quad_data) + 2)))) << 24) >> 24)) - (*((u16 *) (((u8 *) scratch) + 0x10A)));
+            height = *((u16 *) (((u8 *) scratch) + 0x14));
+            scratch->data7A = y;
+            *((volatile u16 *) (((u8 *) scratch) + 0x72)) = y;
+            y -= height;
           }
           else
           {
-            s32 base;
-            base = *((u16 *) (((u8 *) scratch) + 0x14));
-            value = ((((s32) (*((volatile u8 *) (((u8 *) s2) + 2)))) << 24) >> 24) - (*((u16 *) (((u8 *) scratch) + 0x10A)));
-            scratch->data7A = value;
-            scratch->data72 = value;
-            value += base;
+            s32 height;
+            height = *((u16 *) (((u8 *) scratch) + 0x14));
+            y = ((((s32) (*((volatile u8 *) (((u8 *) quad_data) + 2)))) << 24) >> 24) - (*((u16 *) (((u8 *) scratch) + 0x10A)));
+            scratch->data7A = y;
+            scratch->data72 = y;
+            y += height;
           }
-          scratch->data8A = value;
-          scratch->data82 = value;
+          scratch->data8A = y;
+          scratch->data82 = y;
         }
         {
-          s32 value;
-          if ((arg3_reg[0] ^ (*((u16 *) (((u8 *) ((u8 *) arg2_reg)) + 0x14)))) & 2)
+          s32 y;
+          if ((sprite_placement[0] ^ (*((u16 *) (((u8 *) ((u8 *) render_state)) + 0x14)))) & 2)
           {
-            value = scratch->data7A - ((((s32) (*((volatile u8 *) (((u8 *) arg3_reg) + 3)))) << 24) >> 24);
-            scratch->data7A = value;
-            *((volatile u16 *) (((u8 *) scratch) + 0x72)) = value;
-            value = scratch->data8A - ((((s32) (*((volatile u8 *) (((u8 *) arg3_reg) + 3)))) << 24) >> 24);
+            y = scratch->data7A - ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 3)))) << 24) >> 24);
+            scratch->data7A = y;
+            *((volatile u16 *) (((u8 *) scratch) + 0x72)) = y;
+            y = scratch->data8A - ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 3)))) << 24) >> 24);
           }
           else
           {
-            value = scratch->data7A + ((((s32) (*((volatile u8 *) (((u8 *) arg3_reg) + 3)))) << 24) >> 24);
-            scratch->data7A = value;
-            scratch->data72 = value;
-            value = scratch->data8A + ((((s32) (*((volatile u8 *) (((u8 *) arg3_reg) + 3)))) << 24) >> 24);
+            y = scratch->data7A + ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 3)))) << 24) >> 24);
+            scratch->data7A = y;
+            scratch->data72 = y;
+            y = scratch->data8A + ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 3)))) << 24) >> 24);
           }
-          scratch->data8A = value;
-          scratch->data82 = value;
+          scratch->data8A = y;
+          scratch->data82 = y;
         }
         ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_800654B0(&scratch->data70, &scratch->data78, &scratch->data80, &scratch->data88, &scratch->dataF0, &scratch->dataF4, &scratch->dataF8, &scratch->dataFC, (u16 *) (((u8 *) scratch) + 0x90), (u16 *) (((u8 *) scratch) + 0x94));
-        *((u16 *) (((u8 *) s1) + 4)) = scratch->dataF0 + (*((u16 *) (((u8 *) scratch) + 0xB8)));
-        *((u16 *) (((u8 *) s1) + 6)) = scratch->dataF2 + (*((u16 *) (((u8 *) scratch) + 0xBA)));
-        *((u16 *) (((u8 *) s1) + 0xC)) = scratch->dataF4 + (*((u16 *) (((u8 *) scratch) + 0xB8)));
-        *((u16 *) (((u8 *) s1) + 0xE)) = scratch->dataF6 + (*((u16 *) (((u8 *) scratch) + 0xBA)));
-        *((u16 *) (((u8 *) s1) + 0x14)) = scratch->dataF8 + (*((u16 *) (((u8 *) scratch) + 0xB8)));
-        *((u16 *) (((u8 *) s1) + 0x16)) = scratch->dataFA + (*((u16 *) (((u8 *) scratch) + 0xBA)));
-        *((u16 *) (((u8 *) s1) + 0x1C)) = scratch->dataFC + (*((u16 *) (((u8 *) scratch) + 0xB8)));
-        last = scratch->dataFE + (*((u16 *) (((u8 *) scratch) + 0xBA)));
-        *((s16 *) (((u8 *) s1) + 0x1E)) = last;
+        *((u16 *) (((u8 *) packet_data) + 4)) = scratch->dataF0 + (*((u16 *) (((u8 *) scratch) + 0xB8)));
+        *((u16 *) (((u8 *) packet_data) + 6)) = scratch->dataF2 + (*((u16 *) (((u8 *) scratch) + 0xBA)));
+        *((u16 *) (((u8 *) packet_data) + 0xC)) = scratch->dataF4 + (*((u16 *) (((u8 *) scratch) + 0xB8)));
+        *((u16 *) (((u8 *) packet_data) + 0xE)) = scratch->dataF6 + (*((u16 *) (((u8 *) scratch) + 0xBA)));
+        *((u16 *) (((u8 *) packet_data) + 0x14)) = scratch->dataF8 + (*((u16 *) (((u8 *) scratch) + 0xB8)));
+        *((u16 *) (((u8 *) packet_data) + 0x16)) = scratch->dataFA + (*((u16 *) (((u8 *) scratch) + 0xBA)));
+        *((u16 *) (((u8 *) packet_data) + 0x1C)) = scratch->dataFC + (*((u16 *) (((u8 *) scratch) + 0xB8)));
+        bottom_y = scratch->dataFE + (*((u16 *) (((u8 *) scratch) + 0xBA)));
+        *((s16 *) (((u8 *) packet_data) + 0x1E)) = bottom_y;
         {
-          s32 a2_result;
-          s32 check_value;
-          s32 v1_result;
-          register s32 a1_result;
-          s32 merged;
-          a2_result = 0;
-          if (((u16) ((*((u16 *) (((u8 *) s1) + 4))) + 0x20)) < 0x181U)
+          s32 pair_visible;
+          s32 clip_test;
+          s32 corner_visible;
+          register s32 third_visible;
+          s32 any_visible;
+          pair_visible = 0;
+          if (((u16) ((*((u16 *) (((u8 *) packet_data) + 4))) + 0x20)) < 0x181U)
           {
-            check_value = (u16) ((*((u16 *) (((u8 *) s1) + 6))) + 0x20);
-            a2_result = check_value < 0x121U;
+            clip_test = (u16) ((*((u16 *) (((u8 *) packet_data) + 6))) + 0x20);
+            pair_visible = clip_test < 0x121U;
           }
-          v1_result = 0;
-          if (((u16) ((*((u16 *) (((u8 *) s1) + 0xC))) + 0x20)) < 0x181U)
+          corner_visible = 0;
+          if (((u16) ((*((u16 *) (((u8 *) packet_data) + 0xC))) + 0x20)) < 0x181U)
           {
-            v1_result = ((u16) ((*((u16 *) (((u8 *) s1) + 0xE))) + 0x20)) < 0x121U;
+            corner_visible = ((u16) ((*((u16 *) (((u8 *) packet_data) + 0xE))) + 0x20)) < 0x121U;
           }
-          a1_result = 0;
-          check_value = (u16) ((*((u16 *) (((u8 *) s1) + 0x14))) + 0x20);
-          a2_result |= v1_result;
-          if (check_value < 0x181U)
+          third_visible = 0;
+          clip_test = (u16) ((*((u16 *) (((u8 *) packet_data) + 0x14))) + 0x20);
+          pair_visible |= corner_visible;
+          if (clip_test < 0x181U)
           {
-            check_value = (u16) ((*((u16 *) (((u8 *) s1) + 0x16))) + 0x20);
-            a1_result = check_value < 0x121U;
+            clip_test = (u16) ((*((u16 *) (((u8 *) packet_data) + 0x16))) + 0x20);
+            third_visible = clip_test < 0x121U;
           }
-          v1_result = 0;
-          merged = a2_result | a1_result;
-          if (((u16) ((*((u16 *) (((u8 *) s1) + 0x1C))) + 0x20)) < 0x181U)
+          corner_visible = 0;
+          any_visible = pair_visible | third_visible;
+          if (((u16) ((*((u16 *) (((u8 *) packet_data) + 0x1C))) + 0x20)) < 0x181U)
           {
-            v1_result = ((u16) (last + 0x20)) < 0x121U;
+            corner_visible = ((u16) (bottom_y + 0x20)) < 0x121U;
           }
-          check_value = merged | v1_result;
-          if (check_value != 0)
+          clip_test = any_visible | corner_visible;
+          if (clip_test != 0)
           {
-            *((s8 *) (((u8 *) s1) + (-1))) = 9;
+            *((s8 *) (((u8 *) packet_data) + (-1))) = 9;
             scratch->data10 += scratch->data08;
             if (scratch->data10 & 0x100)
             {
@@ -257,122 +258,122 @@ void *func_800D71A8(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3, u8 *arg4)
             }
             scratch->data14 <<= 8;
             scratch->data0C <<= 8;
-            *((s32 *) (((u8 *) s1) + 8)) = (scratch->data0C + scratch->data08) + (((*((u16 *) (((u8 *) ((u8 *) arg2_reg)) + 0x12))) + (*((u16 *) (((u8 *) s2) + 5)))) << 16);
-            *((s16 *) (((u8 *) s1) + 0x10)) = (*((u16 *) (((u8 *) scratch) + 0x0C))) + (*((u16 *) (((u8 *) scratch) + 0x10)));
+            *((s32 *) (((u8 *) packet_data) + 8)) = (scratch->data0C + scratch->data08) + (((*((u16 *) (((u8 *) ((u8 *) render_state)) + 0x12))) + (*((u16 *) (((u8 *) quad_data) + 5)))) << 16);
+            *((s16 *) (((u8 *) packet_data) + 0x10)) = (*((u16 *) (((u8 *) scratch) + 0x0C))) + (*((u16 *) (((u8 *) scratch) + 0x10)));
             {
-              u16 mode;
-              u16 value;
-              mode = *((u16 *) (((u8 *) ((u8 *) arg2_reg)) + 0x10));
-              if (mode != 0)
+              u16 blend_mode;
+              u16 tpage;
+              blend_mode = *((u16 *) (((u8 *) ((u8 *) render_state)) + 0x10));
+              if (blend_mode != 0)
               {
-                value = mode + ((*((u16 *) (((u8 *) s2) + 3))) & 0xFF9F);
+                tpage = blend_mode + ((*((u16 *) (((u8 *) quad_data) + 3))) & 0xFF9F);
               }
               else
               {
-                value = *((u16 *) (((u8 *) s2) + 3));
+                tpage = *((u16 *) (((u8 *) quad_data) + 3));
               }
-              *((u16 *) (((u8 *) s1) + 0x12)) = value;
+              *((u16 *) (((u8 *) packet_data) + 0x12)) = tpage;
             }
-            *((s16 *) (((u8 *) s1) + 0x18)) = (*((u16 *) (((u8 *) scratch) + 0x14))) + (*((u16 *) (((u8 *) scratch) + 0x08)));
+            *((s16 *) (((u8 *) packet_data) + 0x18)) = (*((u16 *) (((u8 *) scratch) + 0x14))) + (*((u16 *) (((u8 *) scratch) + 0x08)));
             {
-              s32 right_edge;
-              register s32 left_edge ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-              right_edge = *((u16 *) (((u8 *) scratch) + 0x14));
-              right_edge += *((u16 *) (((u8 *) scratch) + 0x10));
-              *((s16 *) (((u8 *) s1) + 0x20)) = right_edge;
-              arg1_reg = *((s16 *) (((u8 *) s1) + 4));
-              left_edge = *((s16 *) (((u8 *) s1) + 0x1C));
-              if (left_edge < arg1_reg)
+              s32 bottom_right_uv;
+              register s32 right_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+              bottom_right_uv = *((u16 *) (((u8 *) scratch) + 0x14));
+              bottom_right_uv += *((u16 *) (((u8 *) scratch) + 0x10));
+              *((s16 *) (((u8 *) packet_data) + 0x20)) = bottom_right_uv;
+              count_or_x = *((s16 *) (((u8 *) packet_data) + 4));
+              right_x = *((s16 *) (((u8 *) packet_data) + 0x1C));
+              if (right_x < count_or_x)
               {
-                *((u8 *) (((u8 *) s1) + 0x10)) -= 1;
-                *((u8 *) (((u8 *) s1) + 0x20)) -= 1;
+                *((u8 *) (((u8 *) packet_data) + 0x10)) -= 1;
+                *((u8 *) (((u8 *) packet_data) + 0x20)) -= 1;
               }
             }
-            if ((*((s16 *) (((u8 *) s1) + 6))) > (*((s16 *) (((u8 *) s1) + 0x1E))))
+            if ((*((s16 *) (((u8 *) packet_data) + 6))) > (*((s16 *) (((u8 *) packet_data) + 0x1E))))
             {
-              *((u8 *) (((u8 *) s1) + 0x19)) -= 1;
-              *((u8 *) (((u8 *) s1) + 0x21)) -= 1;
+              *((u8 *) (((u8 *) packet_data) + 0x19)) -= 1;
+              *((u8 *) (((u8 *) packet_data) + 0x21)) -= 1;
             }
             {
-              register u16 attr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+              register u16 part_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
               register u8 flags;
-              attr = *((u16 *) (((u8 *) s3) + 0x14));
-              flags = s2[0];
-              *((u8 *) (((u8 *) s3) + 0xF)) = flags;
-              if (attr & 8)
+              part_flags = *((u16 *) (((u8 *) part) + 0x14));
+              flags = quad_data[0];
+              *((u8 *) (((u8 *) part) + 0xF)) = flags;
+              if (part_flags & 8)
               {
-                u8 updated;
-                if (attr & 4)
+                u8 draw_flags;
+                if (part_flags & 4)
                 {
-                  updated = flags | 2;
+                  draw_flags = flags | 2;
                 }
                 else
                 {
-                  updated = flags & 0xFD;
+                  draw_flags = flags & 0xFD;
                 }
-                *((u8 *) (((u8 *) s3) + 0xF)) = updated;
-                ASM_KEEP(attr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                *((u8 *) (((u8 *) part) + 0xF)) = draw_flags;
+                ASM_KEEP(part_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
               }
             }
             {
               u8 flags;
-              if ((*((u16 *) (((u8 *) s3) + 0x14))) & 0x10)
+              if ((*((u16 *) (((u8 *) part) + 0x14))) & 0x10)
               {
-                flags = (*((u8 *) (((u8 *) s3) + 0xF))) | 1;
+                flags = (*((u8 *) (((u8 *) part) + 0xF))) | 1;
               }
               else
               {
-                flags = (*((u8 *) (((u8 *) s3) + 0xF))) & 0xFE;
+                flags = (*((u8 *) (((u8 *) part) + 0xF))) & 0xFE;
               }
-              *((u8 *) (((u8 *) s3) + 0xF)) = flags;
+              *((u8 *) (((u8 *) part) + 0xF)) = flags;
             }
-            *((s32 *) (((u8 *) s1) + 0)) = *((s32 *) (((u8 *) s3) + 0xC));
-            if (!((*((u16 *) (((u8 *) selected) + 4))) & 0x8000))
+            *((s32 *) (((u8 *) packet_data) + 0)) = *((s32 *) (((u8 *) part) + 0xC));
+            if (!((*((u16 *) (((u8 *) sprite) + 4))) & 0x8000))
             {
-              u32 table_index;
-              u8 *table_base;
-              register u32 low = 0x00FFFFFF;
-              register u32 high = 0xFF000000;
-              table_index = scratch->dataC0;
-              table_base = scratch->data20;
+              u32 depth;
+              u8 *ordering_table;
+              register u32 addr_mask = 0x00FFFFFF;
+              register u32 length_mask = 0xFF000000;
+              depth = scratch->dataC0;
+              ordering_table = scratch->data20;
               {
-                u32 *table_ptr;
-                register u32 dst_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                u32 table_value;
-                table_ptr = (u32 *) ((table_index << 2) + ((u32) table_base));
-                ASM_KEEP(table_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                dst_value = *((u32 *) (((u8 *) s7) + 0));
-                table_value = *table_ptr;
-                dst_value &= high;
-                table_value &= low;
-                dst_value |= table_value;
-                *((u32 *) (((u8 *) s7) + 0)) = dst_value;
+                u32 *ot_entry;
+                register u32 packet_tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                u32 ot_tag;
+                ot_entry = (u32 *) ((depth << 2) + ((u32) ordering_table));
+                ASM_KEEP(ot_entry);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                packet_tag = *((u32 *) (((u8 *) packet) + 0));
+                ot_tag = *ot_entry;
+                packet_tag &= length_mask;
+                ot_tag &= addr_mask;
+                packet_tag |= ot_tag;
+                *((u32 *) (((u8 *) packet) + 0)) = packet_tag;
               }
-              table_index = scratch->dataC0;
-              table_base = scratch->data20;
+              depth = scratch->dataC0;
+              ordering_table = scratch->data20;
               {
-                u32 t = ((u32) s7) & low;
-                *((u32 *) ((table_index << 2) + ((u32) table_base))) = ((*((u32 *) ((table_index << 2) + ((u32) table_base)))) & high) | t;
+                u32 packet_addr = ((u32) packet) & addr_mask;
+                *((u32 *) ((depth << 2) + ((u32) ordering_table))) = ((*((u32 *) ((depth << 2) + ((u32) ordering_table)))) & length_mask) | packet_addr;
               }
             }
-            s1 += 0x28;
-            s7 += 0x28;
+            packet_data += 0x28;
+            packet += 0x28;
           }
         }
       }
-      s2 += 0xC;
-      if (((s8) s4[0]) >= 0)
+      quad_data += 0xC;
+      if (((s8) quad[0]) >= 0)
       {
-        s4 += 0xC;
-        goto inner_loop;
+        quad += 0xC;
+        goto next_quad;
       }
       index += 1;
-      if (index < (*((s16 *) (((u8 *) selected) + 2))))
+      if (index < (*((s16 *) (((u8 *) sprite) + 2))))
       {
-        goto outer_loop;
+        goto next_part;
       }
     }
 
   }
-  return s7;
+  return packet;
 }

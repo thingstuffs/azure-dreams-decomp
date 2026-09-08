@@ -52,32 +52,33 @@ extern M2C_UNK D_80083498;
 extern M2C_UNK D_800A7338;
 extern s32 D_800D0DF0;
 
-s32 func_800A71F0(void *arg0, s32 arg1, M2C_UNK arg2) {
-    void *temp_v0;
-    register void *temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *temp_a1;
-    void *temp_s1;
+/* Creates a positioned object and initializes its state and sprite. */
+s32 func_800A71F0(void *position, s32 state_value, M2C_UNK graphic_id) {
+    void *object;
+    register void *object_state ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *transform;
+    void *sprite;
 
-    temp_v0 = func_8003FD64(0x136, &D_80083498);
-    temp_s0 = temp_v0 + 0x20;
-    if (temp_v0 == NULL) {
+    object = func_8003FD64(0x136, &D_80083498);
+    object_state = object + 0x20;
+    if (object == NULL) {
         return 0;
     }
-    temp_a1 = ((S_800A71F0_0 *)temp_v0)->unk_08;
-    temp_s1 = ((S_800A71F0_0 *)temp_v0)->unk_0C;
-    ((S_800A71F0_1 *)temp_a1)->unk_00 = (s32) ((S_800A71F0_2 *)arg0)->unk_00;
-    ((S_800A71F0_1 *)temp_a1)->unk_04 = (s32) ((S_800A71F0_2 *)arg0)->unk_04;
-    (*(s32 *)((u8 *)temp_a1 + 8)) = (s32) (((S_800A71F0_2 *)arg0)->unk_08 + 0xFFDC0000);
-    ((S_800A71F0_1 *)temp_a1)->unk_0C = (s32) D_800D0DF0;
-    ((S_800A71F0_1 *)temp_a1)->unk_10 = (s32) ((S_800A71F0_3 *)(&D_800D0DF0))->unk_04;
-    ((S_800A71F0_0 *)temp_v0)->unk_10 = &D_800A7338;
-    ((S_800A71F0_4 *)temp_s0)->unk_54 = arg1;
-    ((S_800A71F0_4 *)temp_s0)->unk_90 = 2;
-    func_800A7308(temp_s0, temp_a1, temp_s1);
-    ((S_800A71F0_5 *)temp_s1)->unk_1E = 0x1000;
-    ((S_800A71F0_5 *)temp_s1)->unk_1C = 0x1000;
-    ((S_800A71F0_5 *)temp_s1)->unk_0C = 0x808080;
-    func_8003DB94(temp_s1, arg2, 0);
-    func_80033CD8(temp_s0, &D_80045340);
-    return (s32) temp_v0;
+    transform = ((S_800A71F0_0 *)object)->unk_08;
+    sprite = ((S_800A71F0_0 *)object)->unk_0C;
+    ((S_800A71F0_1 *)transform)->unk_00 = (s32) ((S_800A71F0_2 *)position)->unk_00;
+    ((S_800A71F0_1 *)transform)->unk_04 = (s32) ((S_800A71F0_2 *)position)->unk_04;
+    (*(s32 *)((u8 *)transform + 8)) = (s32) (((S_800A71F0_2 *)position)->unk_08 + 0xFFDC0000);
+    ((S_800A71F0_1 *)transform)->unk_0C = (s32) D_800D0DF0;
+    ((S_800A71F0_1 *)transform)->unk_10 = (s32) ((S_800A71F0_3 *)(&D_800D0DF0))->unk_04;
+    ((S_800A71F0_0 *)object)->unk_10 = &D_800A7338;
+    ((S_800A71F0_4 *)object_state)->unk_54 = state_value;
+    ((S_800A71F0_4 *)object_state)->unk_90 = 2;
+    func_800A7308(object_state, transform, sprite);
+    ((S_800A71F0_5 *)sprite)->unk_1E = 0x1000;
+    ((S_800A71F0_5 *)sprite)->unk_1C = 0x1000;
+    ((S_800A71F0_5 *)sprite)->unk_0C = 0x808080;
+    func_8003DB94(sprite, graphic_id, 0);
+    func_80033CD8(object_state, &D_80045340);
+    return (s32) object;
 }

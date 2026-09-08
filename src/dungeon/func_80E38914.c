@@ -16,19 +16,20 @@ typedef struct S_80172114_0 {
     s8 unk_9A;
 } S_80172114_0;   /* held_arg0 in func_80172114 */
 
-s32 func_80172114(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    M2C_UNK held_arg1;
-    M2C_UNK held_arg2;
-    void *held_arg0;
+/* Updates object state and flags according to the state handler result. */
+s32 func_80172114(void *object, M2C_UNK state_input_a, M2C_UNK state_input_b) {
+    M2C_UNK saved_input_a;
+    M2C_UNK saved_input_b;
+    void *saved_object;
     register s32 call_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 state;
 
-    held_arg1 = arg1;
-    held_arg2 = arg2;
-    held_arg0 = arg0;
-    call_result = func_800ADDA0(held_arg1, held_arg2, held_arg0, 2, 4, held_arg0 + 0x9C);
-    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    saved_input_a = state_input_a;
+    saved_input_b = state_input_b;
+    saved_object = object;
+    call_result = func_800ADDA0(saved_input_a, saved_input_b, saved_object, 2, 4, saved_object + 0x9C);
+    ASM_KEEP(saved_input_a);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(saved_input_b);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_result <<= 16;
     state = call_result >> 16;
     call_result = 0;
@@ -54,37 +55,33 @@ state_ge_two:
     goto common_update;
 
 state_zero:
-    ((S_80172114_0 *)held_arg0)->unk_9A = 0xE;
-    func_800A9A0C(held_arg0);
+    ((S_80172114_0 *)saved_object)->unk_9A = 0xE;
+    func_800A9A0C(saved_object);
     return 0;
 
 state_two:
-    func_801716A4(held_arg0, held_arg1, held_arg2, held_arg0);
+    func_801716A4(saved_object, saved_input_a, saved_input_b, saved_object);
     return 0;
 
 state_one:
-    ((S_80172114_0 *)held_arg0)->unk_71 =
-        (u8) (((S_80172114_0 *)held_arg0)->unk_71 & 0x7F);
-    if ((func_800A2BDC(held_arg0) << 0x10) != 0) {
+    ((S_80172114_0 *)saved_object)->unk_71 =
+        (u8) (((S_80172114_0 *)saved_object)->unk_71 & 0x7F);
+    if ((func_800A2BDC(saved_object) << 0x10) != 0) {
         goto clear_field;
     }
 
 common_update:
-    ((S_80172114_0 *)held_arg0)->unk_71 =
-        (u8) (((S_80172114_0 *)held_arg0)->unk_71 & 0x7F);
+    ((S_80172114_0 *)saved_object)->unk_71 =
+        (u8) (((S_80172114_0 *)saved_object)->unk_71 & 0x7F);
     if ((D_80083462 & 8) == 0) {
         return 1;
     }
 
 clear_field:
     call_result = 0;
-    ((S_80172114_0 *)held_arg0)->unk_46 =
-        (u16) (((S_80172114_0 *)held_arg0)->unk_46 & 0x7FFF);
+    ((S_80172114_0 *)saved_object)->unk_46 =
+        (u16) (((S_80172114_0 *)saved_object)->unk_46 & 0x7FFF);
 
 negative_return:
     return call_result;
 }
-
-/* MECHANISM: Fixed s1/s2/s0 argument roles reproduce the 0x28 prologue save order.
-   The raw call result stays in v0, sign-extends into v1, then v0 becomes the zero edge value.
-   Local true-space CFG labels merge the negative and clear-field paths at one epilogue. */

@@ -42,111 +42,112 @@ extern u8 D_80082E80[];
 extern s32 D_80083460;
 extern u8 D_80170E54;
 
-void func_80172374(S_80172374_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
-    s32 sp18;
-    s32 state;
-    s32 duration;
-    s16 next_duration;
-    s32 flags;
-    u8 *global;
+/* Advances a jump toward the target tile and finishes movement when the timer expires. */
+void func_80172374(S_80172374_0 *motion, Rec_D_800E3D7C *position, Rec_D_80082E80 *target_tile, Rec_D_800E3D7C *entity) {
+    s32 direction_aux;
+    s32 jump_state;
+    s32 frames_left;
+    s16 next_frames;
+    s32 entity_flags;
+    u8 *action_counters;
 
-    state = arg0->unk_9B;
-    if (state == 1) {
-        goto state1;
+    jump_state = motion->unk_9B;
+    if (jump_state == 1) {
+        goto advance_jump;
     }
-    if (state < 2) {
-        if (state == 0) {
-            goto state0;
+    if (jump_state < 2) {
+        if (jump_state == 0) {
+            goto begin_jump;
         }
-        goto decrement;
+        goto tick_timer;
     }
-    if (state == 2) {
-        goto state2;
+    if (jump_state == 2) {
+        goto land;
     }
-    goto decrement;
+    goto tick_timer;
 
-state0:
-    if (arg0->unk_96 != 8) {
-        goto decrement;
+begin_jump:
+    if (motion->unk_96 != 8) {
+        goto tick_timer;
     }
-    arg0->unk_98 |= 8;
-    arg1->unk_14.as_s32 = 0xFFEE0000;
-    arg3->unk_1C.as_s32 &= 0xF7FFFFFF;
-    arg0->unk_A4 = 0;
-    arg0->unk_9B++;
+    motion->unk_98 |= 8;
+    position->unk_14.as_s32 = 0xFFEE0000;
+    entity->unk_1C.as_s32 &= 0xF7FFFFFF;
+    motion->unk_A4 = 0;
+    motion->unk_9B++;
 
-state1:
-    duration = arg0->unk_96;
-    arg0->unk_90 -= arg0->unk_A4;
-    if (duration != 0) {
+advance_jump:
+    frames_left = motion->unk_96;
+    motion->unk_90 -= motion->unk_A4;
+    if (frames_left != 0) {
         register s32 coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        s32 origin;
+        s32 axis_origin;
 
-        coord = arg2->unk_24 << 6;
-        origin = arg1->unk_00.at02_s16.v - 0x20;
-        coord = ((coord - origin) << 16) / duration;
-        origin = arg1->unk_04.at02_s16.v - 0x20;
-        arg1->unk_0C.as_s32 = coord;
-        coord = arg2->unk_25 << 6;
-        arg1->unk_10.at00_s32.v = ((coord - origin) << 16) / arg0->unk_96;
-        arg0->unk_A4 += arg1->unk_14.as_s32;
-        arg1->unk_14.as_s32 += 0x40000;
+        coord = target_tile->unk_24 << 6;
+        axis_origin = position->unk_00.at02_s16.v - 0x20;
+        coord = ((coord - axis_origin) << 16) / frames_left;
+        axis_origin = position->unk_04.at02_s16.v - 0x20;
+        position->unk_0C.as_s32 = coord;
+        coord = target_tile->unk_25 << 6;
+        position->unk_10.at00_s32.v = ((coord - axis_origin) << 16) / motion->unk_96;
+        motion->unk_A4 += position->unk_14.as_s32;
+        position->unk_14.as_s32 += 0x40000;
     }
-    arg0->unk_90 += arg0->unk_A4;
-    if (arg0->unk_96 < 3) {
-        arg0->unk_90 = 0;
-        arg0->unk_98 &= 0xFFF7;
-        arg3->unk_1C.as_s32 |= 0x08000000;
-        arg0->unk_9B++;
-    }
-
-state2:
-    if (arg3->unk_1C.as_s32 & 0x08000000) {
-        arg0->unk_98 &= 0xFFF7;
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-        arg0->unk_9B++;
+    motion->unk_90 += motion->unk_A4;
+    if (motion->unk_96 < 3) {
+        motion->unk_90 = 0;
+        motion->unk_98 &= 0xFFF7;
+        entity->unk_1C.as_s32 |= 0x08000000;
+        motion->unk_9B++;
     }
 
-decrement:
-    next_duration = (u16)arg0->unk_96 - 1;
-    arg0->unk_96 = next_duration;
-    if ((next_duration << 16) <= 0) {
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-        func_800AD594(arg3, 5);
-        func_800A4ACC(arg3);
+land:
+    if (entity->unk_1C.as_s32 & 0x08000000) {
+        motion->unk_98 &= 0xFFF7;
+        position->unk_14.as_s32 = 0;
+        position->unk_10.at00_s32.v = 0;
+        position->unk_0C.as_s32 = 0;
+        func_800A2B04(position, target_tile->unk_24, target_tile->unk_25);
+        motion->unk_9B++;
+    }
 
-        global = (u8 *)&D_80083460;
-        if (((S_80172374_4 *)global)->unk_08 != 0) {
-            ((S_80172374_4 *)global)->unk_08 = (u16)((S_80172374_4 *)global)->unk_08 - 1;
+tick_timer:
+    next_frames = (u16)motion->unk_96 - 1;
+    motion->unk_96 = next_frames;
+    if ((next_frames << 16) <= 0) {
+        position->unk_14.as_s32 = 0;
+        position->unk_10.at00_s32.v = 0;
+        position->unk_0C.as_s32 = 0;
+        func_800A2B04(position, target_tile->unk_24, target_tile->unk_25);
+        func_800AD594(entity, 5);
+        func_800A4ACC(entity);
+
+        action_counters = (u8 *)&D_80083460;
+        if (((S_80172374_4 *)action_counters)->unk_08 != 0) {
+            ((S_80172374_4 *)action_counters)->unk_08 = (u16)((S_80172374_4 *)action_counters)->unk_08 - 1;
         }
 
-        flags = arg3->unk_1C.as_s32;
-        if (flags & 0x2000) {
-            if (arg3->unk_44.at02_u16.v & 0x8000) {
-                arg3->unk_44.at02_u16.v &= 0x7FFF;
+        entity_flags = entity->unk_1C.as_s32;
+        if (entity_flags & 0x2000) {
+            if (entity->unk_44.at02_u16.v & 0x8000) {
+                entity->unk_44.at02_u16.v &= 0x7FFF;
             }
-            goto call_update;
+            goto update_entity;
         }
-        if (!(flags & 0x410)) {
-            if (flags & 0x20000) {
-                u8 *map = D_80082E80;
+        if (!(entity_flags & 0x410)) {
+            if (entity_flags & 0x20000) {
+                u8 *reference_tile = D_80082E80;
 
-                arg3->unk_2A.as_s16 = func_800A0818(
-                    arg2->unk_24, arg2->unk_25,
-                    ((S_80172374_5 *)map)->unk_24, ((S_80172374_5 *)map)->unk_25, &sp18);
+                entity->unk_2A.as_s16 = func_800A0818(
+                    target_tile->unk_24, target_tile->unk_25,
+                    ((S_80172374_5 *)reference_tile)->unk_24, ((S_80172374_5 *)reference_tile)->unk_25, &direction_aux);
             }
         }
 
-call_update:
-        if ((func_800AD9B4(arg2, arg3) << 16) > 0) {
-            arg0->unk_8C = &D_80170E54;
-            func_800A9A04(arg3);
+update_entity:
+        if ((func_800AD9B4(target_tile, entity) << 16) > 0) {
+            motion->unk_8C = &D_80170E54;
+            func_800A9A04(entity);
         }
     }
 }

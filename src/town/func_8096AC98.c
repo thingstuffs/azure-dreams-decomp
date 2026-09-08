@@ -15,23 +15,20 @@ extern s16 D_80129724;
 
 extern void func_80041110(void *);
 
+/* Initializes the entry list with cleared states and values spaced by 48. */
 void func_80123130(void) {
-    s16 i;
+    s16 entry_index;
 
     D_80129724 = 0;
     D_80129720 = D_80129620;
-    for (i = 0; i < 32; i++) {
-        if (i != 31) {
-            D_80129620[i].next = &D_80129620[i + 1];
+    for (entry_index = 0; entry_index < 32; entry_index++) {
+        if (entry_index != 31) {
+            D_80129620[entry_index].next = &D_80129620[entry_index + 1];
         } else {
-            D_80129620[i].next = 0;
+            D_80129620[entry_index].next = 0;
         }
-        D_80129620[i].value = i * 48;
-        D_80129620[i].state = 0;
+        D_80129620[entry_index].value = entry_index * 48;
+        D_80129620[entry_index].state = 0;
     }
     func_80041110(D_80123124);
 }
-
-/* MECHANISM: A natural s16 induction variable over an eight-byte record array
-   exposes the held base/base+8 pair and post-increment comparison seen in retail.
-   The sole post-loop call produces the 24-byte frame with only the ra save. */

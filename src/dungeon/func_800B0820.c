@@ -25,7 +25,8 @@ extern GlobalFlags D_800814A0;
 
 extern void func_8009A3D0(u8 x, u8 y, s32 type);
 
-void func_800B5F80(s32 index) {
+/* Clears a slot's state and flags any attached entity before detaching it. */
+void func_800B5F80(s32 slot_index) {
     s32 slot_offset;
     EntitySlot *slot_base;
     EntitySlot *slot;
@@ -34,9 +35,9 @@ void func_800B5F80(s32 index) {
     s32 global_flags;
 
     slot_base = D_800E39C8;
-    D_800E3648[index] = 0;
-    slot_offset = index * 0x18;
-    
+    D_800E3648[slot_index] = 0;
+    slot_offset = slot_index * 0x18;
+
     slot = (EntitySlot *)((u8 *)slot_base + slot_offset);
     func_8009A3D0(slot->x, slot->y, 0x20);
     entity = slot->entity;

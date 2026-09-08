@@ -38,60 +38,61 @@ extern void *func_800A3D18();
 extern void func_800CA444(void *, s32, void *, void *);
 extern void func_800CA788(void *, s32, void *, void *);
 
-s32 func_800CA93C(void *arg0, s32 arg1, void *arg2) {
-    register void *obj0 = arg0;
-    s32 arg1_hold = arg1;
-    S_800CA93C_2 *arg2_hold = arg2;
-    void *obj;
-    s32 mask;
-    S_800CA93C_3 *other;
-    register void *call_arg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 found;
-    void *entry;
+/* Selects a target and updates the object's state before dispatching its action. */
+s32 func_800CA93C(void *actor_arg, s32 action_arg, void *origin_arg) {
+    register void *saved_actor = actor_arg;
+    s32 action = action_arg;
+    S_800CA93C_2 *origin = origin_arg;
+    void *actor;
+    s32 clear_flag_mask;
+    S_800CA93C_3 *target;
+    register void *lookup_origin ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 found_entry;
+    void *target_entry;
 
-    call_arg0 = arg2_hold;
-    obj = obj0;
-    ((S_800CA93C_0 *)obj)->unk_14 |= 0x2000;
-    ((S_800CA93C_0 *)obj)->unk_1C |= 0x2000;
-    ((S_800CA93C_0 *)obj)->unk_60 = func_800A3D18(call_arg0, obj, 4);
-    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    lookup_origin = origin;
+    actor = saved_actor;
+    ((S_800CA93C_0 *)actor)->unk_14 |= 0x2000;
+    ((S_800CA93C_0 *)actor)->unk_1C |= 0x2000;
+    ((S_800CA93C_0 *)actor)->unk_60 = func_800A3D18(lookup_origin, actor, 4);
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-    mask = -0x2001;
-    ((S_800CA93C_0 *)obj)->unk_14 &= mask;
-    entry = ((S_800CA93C_0 *)obj)->unk_60;
-    ((S_800CA93C_0 *)obj)->unk_1C &= mask;
-    if (entry != 0) {
-        other = ((S_800CA93C_1_pre *)entry)[-1].unk_00;
-        ((S_800CA93C_0 *)obj)->unk_14 |= 0x2000;
-        ((S_800CA93C_0 *)obj)->unk_1C |= 0x2000;
-        found = func_8009B4B0(
-            obj,
-            arg2_hold->unk_24,
-            arg2_hold->unk_25);
-        ((S_800CA93C_0 *)obj)->unk_14 &= mask;
-        ((S_800CA93C_0 *)obj)->unk_1C &= mask;
-        if (found == (s32)((S_800CA93C_0 *)obj)->unk_60) {
-            ASM_KEEP(other);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            func_800CA788(obj, arg1_hold, arg2_hold, obj);
+    clear_flag_mask = -0x2001;
+    ((S_800CA93C_0 *)actor)->unk_14 &= clear_flag_mask;
+    target_entry = ((S_800CA93C_0 *)actor)->unk_60;
+    ((S_800CA93C_0 *)actor)->unk_1C &= clear_flag_mask;
+    if (target_entry != 0) {
+        target = ((S_800CA93C_1_pre *)target_entry)[-1].unk_00;
+        ((S_800CA93C_0 *)actor)->unk_14 |= 0x2000;
+        ((S_800CA93C_0 *)actor)->unk_1C |= 0x2000;
+        found_entry = func_8009B4B0(
+            actor,
+            origin->unk_24,
+            origin->unk_25);
+        ((S_800CA93C_0 *)actor)->unk_14 &= clear_flag_mask;
+        ((S_800CA93C_0 *)actor)->unk_1C &= clear_flag_mask;
+        if (found_entry == (s32)((S_800CA93C_0 *)actor)->unk_60) {
+            ASM_KEEP(target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(clear_flag_mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            func_800CA788(actor, action, origin, actor);
             return 0;
         }
-        ((S_800CA93C_0 *)obj)->unk_2A = func_800A0818(
-            arg2_hold->unk_24,
-            arg2_hold->unk_25,
-            other->unk_24,
-            other->unk_25,
-            (u8 *)obj + 0x98);
-        ((S_800CA93C_0 *)obj)->unk_46 |= 0x8000;
+        ((S_800CA93C_0 *)actor)->unk_2A = func_800A0818(
+            origin->unk_24,
+            origin->unk_25,
+            target->unk_24,
+            target->unk_25,
+            (u8 *)actor + 0x98);
+        ((S_800CA93C_0 *)actor)->unk_46 |= 0x8000;
     }
 
-    ASM_KEEP(obj0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(arg1_hold);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(arg2_hold);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    func_800CA444(obj0, arg1_hold, arg2_hold, obj);
+    ASM_KEEP(saved_actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(origin);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    func_800CA444(saved_actor, action, origin, actor);
     return 0;
 }
 
 /* MECHANISM: the 0x38 frame holds natural s4 plus pinned s5/s2/s0/s1/s3 roles.
-   Selective DEPIN of obj0 preserves natural s4 but makes the first call source s0;
+   Selective DEPIN of saved_actor preserves natural s4 but makes the first call source s0;
    the post-call s0 keep splits later live ranges without disturbing call setup. */

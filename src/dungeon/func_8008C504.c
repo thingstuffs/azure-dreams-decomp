@@ -53,116 +53,117 @@ extern M2C_UNK D_8008EAC8;
 extern u8 D_800DD038[];
 extern u8 D_800DD058[];
 
-void func_80091C64(void *arg0, void *arg1, void *arg2, void *arg3) {
+/* Animate a hop and return to the entity's tile, then restore its facing and behavior. */
+void func_80091C64(void *motion, void *position, void *entity, void *actor) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
-    M2C_UNK *var_v0;
-    M2C_UNK *var_v1;
-    s16 temp_a0;
-    u8 temp_v1;
-    u8 temp_state;
-    register u16 temp_duration ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_byte;
-    s32 temp_coord;
-    s32 temp_y_work;
-    register s32 temp_y_num ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u16 temp_v0_3;
+    M2C_UNK *next_behavior;
+    M2C_UNK *action_tracker;
+    s16 frames_left;
+    u8 phase;
+    u8 completed_phase;
+    register u16 return_duration ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 target_x;
+    s32 current_x;
+    s32 y_work;
+    register s32 y_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 delay_left;
+    u16 hop_frames_left;
+    u16 return_frames_left;
 
-    temp_v1 = ((S_80091C64_0 *)arg0)->unk_9B;
-    if (temp_v1 >= 5U) {
-        goto block_19;
+    phase = ((S_80091C64_0 *)motion)->unk_9B;
+    if (phase >= 5U) {
+        goto done;
     }
-    (void)jt_keep; goto *D_800889A8[(u32)(temp_v1)];
+    (void)jt_keep; goto *D_800889A8[(u32)(phase)];
 jt_c0:
-    temp_v0 = ((S_80091C64_0 *)arg0)->unk_96.s - 1;
-    ((S_80091C64_0 *)arg0)->unk_96.s = temp_v0;
-    if ((s16) temp_v0 >= 9) {
-        goto block_19;
+    delay_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
+    ((S_80091C64_0 *)motion)->unk_96.s = delay_left;
+    if ((s16) delay_left >= 9) {
+        goto done;
     }
-    (*(u8 **)((u8 *)arg2 + 0x2C)) = D_800DD038;
-    func_80048A44(arg2, D_800DD038[((s32) (D_80083228 + ((S_80091C64_1 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0, 1);
-    ((S_80091C64_0 *)arg0)->unk_98 = (u16) (((S_80091C64_0 *)arg0)->unk_98 | 0xC);
-    ((S_80091C64_0 *)arg0)->unk_9B = (u8) (((S_80091C64_0 *)arg0)->unk_9B + 1);
+    (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
+    func_80048A44(entity, D_800DD038[((s32) (D_80083228 + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 | 0xC);
+    ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
     func_800A56E0(0x701);
     return;
 jt_c1:
-    if (((S_80091C64_0 *)arg0)->unk_96.u == 0) {
-        goto block_6;
+    if (((S_80091C64_0 *)motion)->unk_96.u == 0) {
+        goto tick_hop;
     }
-    ((S_80091C64_2 *)arg1)->unk_00.at00.v = (s32) (((S_80091C64_2 *)arg1)->unk_00.at00.v + (func_80064584(((S_80091C64_1 *)arg3)->unk_2A + 0x400) << 6));
-    ((S_80091C64_2 *)arg1)->unk_04.at00.v = (s32) (((S_80091C64_2 *)arg1)->unk_04.at00.v + (func_800644B8(((S_80091C64_1 *)arg3)->unk_2A + 0x400) << 6));
-    ((S_80091C64_0 *)arg0)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)arg0)->unk_96.s << 8)) >> 8);
-block_6:
-    temp_v0_2 = ((S_80091C64_0 *)arg0)->unk_96.s - 1;
-    ((S_80091C64_0 *)arg0)->unk_96.s = temp_v0_2;
-    if ((temp_v0_2 << 0x10) > 0) {
-        goto block_19;
+    ((S_80091C64_2 *)position)->unk_00.at00.v = (s32) (((S_80091C64_2 *)position)->unk_00.at00.v + (func_80064584(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
+    ((S_80091C64_2 *)position)->unk_04.at00.v = (s32) (((S_80091C64_2 *)position)->unk_04.at00.v + (func_800644B8(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
+    ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s << 8)) >> 8);
+tick_hop:
+    hop_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
+    ((S_80091C64_0 *)motion)->unk_96.s = hop_frames_left;
+    if ((hop_frames_left << 0x10) > 0) {
+        goto done;
     }
-    (*(u8 **)((u8 *)arg2 + 0x2C)) = D_800DD058;
-    func_80048A44(arg2, D_800DD058[((s32) (D_80083228 + ((S_80091C64_1 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0, 1);
-    temp_state = ((S_80091C64_0 *)arg0)->unk_9B;
-    ((S_80091C64_0 *)arg0)->unk_92 = 0;
-    goto block_10;
+    (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
+    func_80048A44(entity, D_800DD058[((s32) (D_80083228 + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    completed_phase = ((S_80091C64_0 *)motion)->unk_9B;
+    ((S_80091C64_0 *)motion)->unk_92 = 0;
+    goto advance_phase;
 jt_c2:
     if (D_8008346C != 0) {
-        goto block_19;
+        goto done;
     }
-    (*(u8 **)((u8 *)arg2 + 0x2C)) = D_800DD038;
-    func_80048A44(arg2, D_800DD038[((s32) (D_80083228 + ((S_80091C64_1 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0, 1);
-    temp_state = ((S_80091C64_0 *)arg0)->unk_9B;
-    temp_duration = 8U;
-    ((S_80091C64_0 *)arg0)->unk_96.s = temp_duration;
-block_10:
-    ((S_80091C64_0 *)arg0)->unk_9B = (u8) (temp_state + 1);
+    (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
+    func_80048A44(entity, D_800DD038[((s32) (D_80083228 + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    completed_phase = ((S_80091C64_0 *)motion)->unk_9B;
+    return_duration = 8U;
+    ((S_80091C64_0 *)motion)->unk_96.s = return_duration;
+advance_phase:
+    ((S_80091C64_0 *)motion)->unk_9B = (u8) (completed_phase + 1);
     return;
 jt_c3:
-    temp_a0 = (s16) ((S_80091C64_0 *)arg0)->unk_96.s;
-    if (temp_a0 == 0) {
-        goto block_13;
+    frames_left = (s16) ((S_80091C64_0 *)motion)->unk_96.s;
+    if (frames_left == 0) {
+        goto tick_return;
     }
-    temp_byte = ((Rec_D_80082E80 *)arg2)->unk_24 << 6;
-    temp_coord = ((S_80091C64_2 *)arg1)->unk_00.at02.v - 0x20;
-    ((S_80091C64_2 *)arg1)->unk_00.at00.v = (s32) (((S_80091C64_2 *)arg1)->unk_00.at00.v + ((temp_byte - temp_coord) << 0x10) / temp_a0);
-    temp_y_num = ((Rec_D_80082E80 *)arg2)->unk_25;
-    temp_y_work = ((S_80091C64_2 *)arg1)->unk_04.at02.v;
-    temp_y_num <<= 6;
+    target_x = ((Rec_D_80082E80 *)entity)->unk_24 << 6;
+    current_x = ((S_80091C64_2 *)position)->unk_00.at02.v - 0x20;
+    ((S_80091C64_2 *)position)->unk_00.at00.v = (s32) (((S_80091C64_2 *)position)->unk_00.at00.v + ((target_x - current_x) << 0x10) / frames_left);
+    y_step = ((Rec_D_80082E80 *)entity)->unk_25;
+    y_work = ((S_80091C64_2 *)position)->unk_04.at02.v;
+    y_step <<= 6;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    temp_y_work -= 0x20;
-    temp_y_num = (temp_y_num - temp_y_work) << 0x10;
-    temp_y_work = ((S_80091C64_0 *)arg0)->unk_96.u;
-    temp_y_num /= temp_y_work;
-    temp_y_work = ((S_80091C64_2 *)arg1)->unk_04.at00.v + temp_y_num;
-    ((S_80091C64_2 *)arg1)->unk_04.at00.v = temp_y_work;
-    ((S_80091C64_0 *)arg0)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)arg0)->unk_96.s << 8)) >> 8);
-block_13:
-    temp_v0_3 = ((S_80091C64_0 *)arg0)->unk_96.s - 1;
-    ((S_80091C64_0 *)arg0)->unk_96.s = temp_v0_3;
-    if ((temp_v0_3 << 0x10) > 0) {
-        goto block_19;
+    y_work -= 0x20;
+    y_step = (y_step - y_work) << 0x10;
+    y_work = ((S_80091C64_0 *)motion)->unk_96.u;
+    y_step /= y_work;
+    y_work = ((S_80091C64_2 *)position)->unk_04.at00.v + y_step;
+    ((S_80091C64_2 *)position)->unk_04.at00.v = y_work;
+    ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s << 8)) >> 8);
+tick_return:
+    return_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
+    ((S_80091C64_0 *)motion)->unk_96.s = return_frames_left;
+    if ((return_frames_left << 0x10) > 0) {
+        goto done;
     }
-    func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
-    ((S_80091C64_0 *)arg0)->unk_92 = 0;
-    ((S_80091C64_0 *)arg0)->unk_9B = (u8) (((S_80091C64_0 *)arg0)->unk_9B + 1);
-    (*(u8 **)((u8 *)arg2 + 0x2C)) = D_800DD058;
-    func_80048A44(arg2, D_800DD058[((s32) (D_80083228 + ((S_80091C64_1 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0, 1);
+    func_800A2B04(position, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
+    ((S_80091C64_0 *)motion)->unk_92 = 0;
+    ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
+    (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
+    func_80048A44(entity, D_800DD058[((s32) (D_80083228 + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     return;
 jt_c4:
-    var_v1 = &D_80083460;
-    ((S_80091C64_4 *)var_v1)->unk_0A = (u16) (((S_80091C64_4 *)var_v1)->unk_0A - 1);
-    ((S_80091C64_1 *)arg3)->unk_2A = (s16) ((S_80091C64_0 *)arg0)->unk_11A;
-    if (!(((S_80091C64_1 *)arg3)->unk_1C & 0x100000)) {
-        goto block_17;
+    action_tracker = &D_80083460;
+    ((S_80091C64_4 *)action_tracker)->unk_0A = (u16) (((S_80091C64_4 *)action_tracker)->unk_0A - 1);
+    ((S_80091C64_1 *)actor)->unk_2A = (s16) ((S_80091C64_0 *)motion)->unk_11A;
+    if (!(((S_80091C64_1 *)actor)->unk_1C & 0x100000)) {
+        goto default_behavior;
     }
-    var_v0 = &D_8008EAC8;
-    goto block_18;
-block_17:
-    var_v0 = &D_8008ACDC;
-block_18:
-    ((S_80091C64_0 *)arg0)->unk_8C = var_v0;
-    ((S_80091C64_1 *)arg3)->unk_14 = (s32) (((S_80091C64_1 *)arg3)->unk_14 & 0xFFFDFFFF);
-    ((S_80091C64_0 *)arg0)->unk_98 = (u16) (((S_80091C64_0 *)arg0)->unk_98 & 0xFFF3);
-    ((S_80091C64_0 *)arg0)->unk_A2 = (u16) (((S_80091C64_0 *)arg0)->unk_A2 | 0x10);
-block_19:
+    next_behavior = &D_8008EAC8;
+    goto restore_behavior;
+default_behavior:
+    next_behavior = &D_8008ACDC;
+restore_behavior:
+    ((S_80091C64_0 *)motion)->unk_8C = next_behavior;
+    ((S_80091C64_1 *)actor)->unk_14 = (s32) (((S_80091C64_1 *)actor)->unk_14 & 0xFFFDFFFF);
+    ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 & 0xFFF3);
+    ((S_80091C64_0 *)motion)->unk_A2 = (u16) (((S_80091C64_0 *)motion)->unk_A2 | 0x10);
+done:
     return;
 }

@@ -21,14 +21,15 @@ typedef struct {
 
 extern void *D_80016000;
 
- s32 func_80019A34(s32 arg0, s32 arg1) {
-    S_80019A34_0 *temp_v0;
+/* Checks whether the callback's record matches the two expected bytes. */
+s32 func_80019A34(s32 expected_second, s32 expected_first) {
+    S_80019A34_0 *record;
 
-    temp_v0 = ((S_80019A34_2 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_74(0);
-    if (temp_v0 == NULL) {
+    record = ((S_80019A34_2 *)(((Rec_D_80016000 *)D_80016000)->unk_20))->unk_74(0);
+    if (record == NULL) {
         return 0;
     } else {
-        return temp_v0->unk_01 == arg0 &&
-               temp_v0->unk_00 == arg1;
+        return record->unk_01 == expected_second &&
+               record->unk_00 == expected_first;
     }
 }

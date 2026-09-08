@@ -17,118 +17,119 @@ extern void func_800A1330(void *, void *);
 extern void func_800A2DF0(void *, void *);
 extern void func_800AA068(void *, void *, void *);
 
-void func_800AA10C(u8 *arg0, void *arg1)
+/* Transform and queue mesh quads with randomized vertex colors. */
+void func_800AA10C(u8 *mesh, void *transform)
 {
     u8 *scratch;
-    u8 *initialState;
-    u8 *vertexBase;
-    u32 *masks;
-    s16 *indices;
-    u8 *p74;
-    u8 *p7C;
-    u8 *p84;
-    u8 *p8C;
-    u8 *p44;
-    u8 *state;
-    u8 **statePtr;
-    u32 *poly;
-    u32 *packet;
-    s32 random;
-    u32 rgbMask;
-    u32 codeMask;
+    u8 *initial_state;
+    u8 *vertices;
+    u32 *color_masks;
+    s16 *quad_indices;
+    u8 *vertex_0;
+    u8 *vertex_1;
+    u8 *vertex_2;
+    u8 *vertex_3;
+    u8 *vertex_work;
+    u8 *render_state;
+    u8 **render_state_ptr;
+    u32 *quad;
+    u32 *draw_mode;
+    s32 random_factor;
+    u32 address_mask;
+    u32 length_mask;
 
-    indices = FIELD(arg0, s16 *, 4);
-    vertexBase = FIELD(arg0, u8 *, 0);
-    statePtr = D_80083160;
-    initialState = *statePtr;
-    masks = FIELD(arg0, u32 *, 0x20);
+    quad_indices = FIELD(mesh, s16 *, 4);
+    vertices = FIELD(mesh, u8 *, 0);
+    render_state_ptr = D_80083160;
+    initial_state = *render_state_ptr;
+    color_masks = FIELD(mesh, u32 *, 0x20);
     scratch = (u8 *)0x1F800000;
-    FIELD(scratch, u8 *, 0x24) = initialState + 0xB0;
+    FIELD(scratch, u8 *, 0x24) = initial_state + 0xB0;
 
-    if (*indices != -1) {
-        p74 = scratch + 0x74;
-        p7C = scratch + 0x7C;
-        p84 = scratch + 0x84;
-        p8C = scratch + 0x8C;
-        p44 = scratch + 0x44;
-        rgbMask = 0x00FFFFFF;
+    if (*quad_indices != -1) {
+        vertex_0 = scratch + 0x74;
+        vertex_1 = scratch + 0x7C;
+        vertex_2 = scratch + 0x84;
+        vertex_3 = scratch + 0x8C;
+        vertex_work = scratch + 0x44;
+        address_mask = 0x00FFFFFF;
 
         do {
-            state = *statePtr;
-            poly = FIELD(state, u32 *, 0x8D0);
-            FIELD(state, u8 *, 0x8D0) = (u8 *)poly + 0x28;
+            render_state = *render_state_ptr;
+            quad = FIELD(render_state, u32 *, 0x8D0);
+            FIELD(render_state, u8 *, 0x8D0) = (u8 *)quad + 0x28;
 
-            random = rand();
-            poly[1] = (random * rand()) & masks[0];
-            random = rand();
-            poly[3] = (random * rand()) & masks[1];
-            random = rand();
-            poly[5] = (random * rand()) & masks[2];
-            random = rand();
-            poly[7] = (random * rand()) & masks[3];
+            random_factor = rand();
+            quad[1] = (random_factor * rand()) & color_masks[0];
+            random_factor = rand();
+            quad[3] = (random_factor * rand()) & color_masks[1];
+            random_factor = rand();
+            quad[5] = (random_factor * rand()) & color_masks[2];
+            random_factor = rand();
+            quad[7] = (random_factor * rand()) & color_masks[3];
 
-            func_80066844(poly);
-            func_80066640(poly, 1);
+            func_80066844(quad);
+            func_80066640(quad, 1);
 
-            func_800A1330(p74, vertexBase + (indices[0] * 8));
-            func_800A1330(p7C, vertexBase + (indices[1] * 8));
-            func_800A1330(p84, vertexBase + (indices[2] * 8));
-            func_800A1330(p8C, vertexBase + (indices[3] * 8));
+            func_800A1330(vertex_0, vertices + (quad_indices[0] * 8));
+            func_800A1330(vertex_1, vertices + (quad_indices[1] * 8));
+            func_800A1330(vertex_2, vertices + (quad_indices[2] * 8));
+            func_800A1330(vertex_3, vertices + (quad_indices[3] * 8));
 
             func_800649A0();
-            func_800AA068(arg0, p74, p44);
-            func_800AA068(arg0, p7C, p44);
-            func_800AA068(arg0, p84, p44);
-            func_800AA068(arg0, p8C, p44);
+            func_800AA068(mesh, vertex_0, vertex_work);
+            func_800AA068(mesh, vertex_1, vertex_work);
+            func_800AA068(mesh, vertex_2, vertex_work);
+            func_800AA068(mesh, vertex_3, vertex_work);
             func_80064A40();
 
-            func_800A2DF0(p74, arg1);
-            func_800A2DF0(p7C, arg1);
-            func_800A2DF0(p84, arg1);
-            func_800A2DF0(p8C, arg1);
+            func_800A2DF0(vertex_0, transform);
+            func_800A2DF0(vertex_1, transform);
+            func_800A2DF0(vertex_2, transform);
+            func_800A2DF0(vertex_3, transform);
 
             FIELD(scratch, s32, 0xC4) = func_800654B0(
-                p74, p7C, p84, p8C,
+                vertex_0, vertex_1, vertex_2, vertex_3,
                 scratch + 0xE8, scratch + 0xEC,
                 scratch + 0xF0, scratch + 0xF4,
                 scratch + 0x94, scratch + 0x98) - 0x30;
 
-            FIELD(poly, u16, 0x08) = FIELD(scratch, u16, 0xE8);
-            FIELD(poly, u16, 0x0A) = FIELD(scratch, u16, 0xEA);
-            FIELD(poly, u16, 0x10) = FIELD(scratch, u16, 0xEC);
-            FIELD(poly, u16, 0x12) = FIELD(scratch, u16, 0xEE);
-            FIELD(poly, u16, 0x18) = FIELD(scratch, u16, 0xF0);
-            FIELD(poly, u16, 0x1A) = FIELD(scratch, u16, 0xF2);
-            FIELD(poly, u16, 0x20) = FIELD(scratch, u16, 0xF4);
-            FIELD(poly, u16, 0x22) = FIELD(scratch, u16, 0xF6);
+            FIELD(quad, u16, 0x08) = FIELD(scratch, u16, 0xE8);
+            FIELD(quad, u16, 0x0A) = FIELD(scratch, u16, 0xEA);
+            FIELD(quad, u16, 0x10) = FIELD(scratch, u16, 0xEC);
+            FIELD(quad, u16, 0x12) = FIELD(scratch, u16, 0xEE);
+            FIELD(quad, u16, 0x18) = FIELD(scratch, u16, 0xF0);
+            FIELD(quad, u16, 0x1A) = FIELD(scratch, u16, 0xF2);
+            FIELD(quad, u16, 0x20) = FIELD(scratch, u16, 0xF4);
+            FIELD(quad, u16, 0x22) = FIELD(scratch, u16, 0xF6);
 
             if (FIELD(scratch, s32, 0xC4) >= 0x1E0)
                 FIELD(scratch, s32, 0xC4) = 0x1DF;
             if (FIELD(scratch, s32, 0xC4) < 0)
                 FIELD(scratch, s32, 0xC4) = 0;
 
-            state = *statePtr;
-            packet = FIELD(state, u32 *, 0x8D0);
-            FIELD(state, u8 *, 0x8D0) = (u8 *)packet + 0xC;
-            func_80067F20(packet, 1, 0,
+            render_state = *render_state_ptr;
+            draw_mode = FIELD(render_state, u32 *, 0x8D0);
+            FIELD(render_state, u8 *, 0x8D0) = (u8 *)draw_mode + 0xC;
+            func_80067F20(draw_mode, 1, 0,
                           (u16)func_80066460(0, 0, 0x140, 0), 0);
 
-            codeMask = 0xFF000000;
-            packet[0] = (packet[0] & codeMask) | (OTSLOT() & rgbMask);
-            OTSLOT() = (OTSLOT() & codeMask) | ((u32)packet & rgbMask);
-            poly[0] = (poly[0] & codeMask) | (OTSLOT() & rgbMask);
-            OTSLOT() = (OTSLOT() & codeMask) | ((u32)poly & rgbMask);
+            length_mask = 0xFF000000;
+            draw_mode[0] = (draw_mode[0] & length_mask) | (OTSLOT() & address_mask);
+            OTSLOT() = (OTSLOT() & length_mask) | ((u32)draw_mode & address_mask);
+            quad[0] = (quad[0] & length_mask) | (OTSLOT() & address_mask);
+            OTSLOT() = (OTSLOT() & length_mask) | ((u32)quad & address_mask);
 
-            state = *statePtr;
-            packet = FIELD(state, u32 *, 0x8D0);
-            FIELD(state, u8 *, 0x8D0) = (u8 *)packet + 0xC;
-            func_80067F20(packet, 1, 0,
+            render_state = *render_state_ptr;
+            draw_mode = FIELD(render_state, u32 *, 0x8D0);
+            FIELD(render_state, u8 *, 0x8D0) = (u8 *)draw_mode + 0xC;
+            func_80067F20(draw_mode, 1, 0,
                           (u16)func_80066460(0, 1, 0x140, 0), 0);
 
-            codeMask = 0xFF000000;
-            indices += 4;
-            packet[0] = (packet[0] & codeMask) | (OTSLOT() & rgbMask);
-            OTSLOT() = (OTSLOT() & codeMask) | ((u32)packet & rgbMask);
-        } while (*indices != -1);
+            length_mask = 0xFF000000;
+            quad_indices += 4;
+            draw_mode[0] = (draw_mode[0] & length_mask) | (OTSLOT() & address_mask);
+            OTSLOT() = (OTSLOT() & length_mask) | ((u32)draw_mode & address_mask);
+        } while (*quad_indices != -1);
     }
 }

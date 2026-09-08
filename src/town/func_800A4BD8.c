@@ -9,20 +9,21 @@ typedef struct TownObject {
 extern s32 D_800814A0[];
 extern u8 D_80083160[0xAB];
 
-void func_800A2338(TownObject *arg0, s32 arg1, u8 *arg2) {
-    u8 *ptr;
+/* Flags inactive objects; otherwise copies shared bytes and invokes the callback. */
+void func_800A2338(TownObject *object, s32 unused, u8 *output) {
+    u8 *active_flag;
 
-    ptr = arg0->field_40;
-    if (ptr != 0) {
-        if (*ptr == 0) {
-            ((u16 *)arg0)[-1] |= 0x8000;
+    active_flag = object->field_40;
+    if (active_flag != 0) {
+        if (*active_flag == 0) {
+            ((u16 *)object)[-1] |= 0x8000;
             D_800814A0[0] |= 0x8000;
             return;
         }
     }
 
-    arg2[0xC] = D_80083160[0xA8];
-    arg2[0xD] = D_80083160[0xA9];
-    arg2[0xE] = D_80083160[0xAA];
-    arg0->callback();
+    output[0xC] = D_80083160[0xA8];
+    output[0xD] = D_80083160[0xA9];
+    output[0xE] = D_80083160[0xAA];
+    object->callback();
 }

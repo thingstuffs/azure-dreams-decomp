@@ -13,8 +13,7 @@ extern S_80083958 D_80083958;
 
 extern void CdInit(void);
 
-/* summary: increment two u16 counters in D_80083958; if the first counter
- * (offset 0x6) reaches 0x401, call CdInit() and reset it to 0. */
+/* Increment both retry counters, resetting counter1 and initializing the CD when counter1 reaches 0x401. */
 void cdIncRetryCounters(void)
 {
     D_80083958.counter2++;

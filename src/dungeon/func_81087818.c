@@ -32,163 +32,164 @@ extern u8 D_800DDC40[];
 extern void *D_80170888[];
 extern u8 D_80175F68;
 
-void func_80175018(void *arg0, Vec3Work *arg1, void *arg2)
+/* Updates staged movement to a target and back to the actor's base position. */
+void func_80175018(void *motion, Vec3Work *trajectory, void *context)
 {
-    LocalWork local;
-#define base local.base
-#define delta local.delta
+    LocalWork work;
+#define base work.base
+#define delta work.delta
     s32 next_state;
-    u32 swi;
-    static void *const sw_keep[] = {
+    u32 state;
+    static void *const state_labels[] = {
         &&state0, &&state1, &&state2, &&state3, &&state4
     };
 
-    FIELD(arg0, u16, 2)++;
-    func_800478B8(arg2);
+    FIELD(motion, u16, 2)++;
+    func_800478B8(context);
 
-    base = *FIELD(arg0, Vec3Work *, 0x44);
+    base = *FIELD(motion, Vec3Work *, 0x44);
     delta[0] = delta[1] = delta[2] = 0;
     {
-        void *actor = FIELD(arg0, void *, 0x48);
+        void *actor = FIELD(motion, void *, 0x48);
         if ((FIELD(actor, u16, 0x14) & 0x9FFF) == 0 &&
             func_8003DE58(FIELD(actor, void *, 8), actor, delta, 3) != 0) {
             FIELD(&base, u16, 2) += delta[0];
             FIELD(&base, u16, 6) += delta[1];
             FIELD(&base, u16, 0xA) += delta[2];
-            FIELD(arg0, u16, 0xA) = delta[0];
-            FIELD(arg0, u16, 0xC) = delta[1];
-            FIELD(arg0, u16, 0xE) = delta[2];
+            FIELD(motion, u16, 0xA) = delta[0];
+            FIELD(motion, u16, 0xC) = delta[1];
+            FIELD(motion, u16, 0xE) = delta[2];
         } else {
-            FIELD(&base, u16, 2) += FIELD(arg0, u16, 0xA);
-            FIELD(&base, u16, 6) += FIELD(arg0, u16, 0xC);
-            FIELD(&base, u16, 0xA) += FIELD(arg0, u16, 0xE);
+            FIELD(&base, u16, 2) += FIELD(motion, u16, 0xA);
+            FIELD(&base, u16, 6) += FIELD(motion, u16, 0xC);
+            FIELD(&base, u16, 0xA) += FIELD(motion, u16, 0xE);
         }
     }
 
-    swi = (u32)FIELD(arg0, s16, 0);
-    if (swi >= 5) {
+    state = (u32)FIELD(motion, s16, 0);
+    if (state >= 5) {
         goto finish;
     }
-    (void)sw_keep;
-    goto *D_80170888[swi];
+    (void)state_labels;
+    goto *D_80170888[state];
 
 state0:
 {
-    void *actor = FIELD(arg0, void *, 0x40);
+    void *actor = FIELD(motion, void *, 0x40);
     void *source;
     s32 base_x;
     s32 base_y;
-    register s32 diff1_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 diff1_y;
-    register u32 value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 distance_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 distance_y;
+    register u32 direction_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 *direction_table;
-    s32 actor_coord;
+    s32 tile_x;
 
-    FIELD(arg0, s32, 0x28) = FIELD(arg0, s32, 0x2C) = FIELD(arg0, s32, 0x30) = 0;
-    FIELD(arg0, s32, 0x34) = FIELD(arg0, s32, 0x38) = FIELD(arg0, s32, 0x3C) = 0;
+    FIELD(motion, s32, 0x28) = FIELD(motion, s32, 0x2C) = FIELD(motion, s32, 0x30) = 0;
+    FIELD(motion, s32, 0x34) = FIELD(motion, s32, 0x38) = FIELD(motion, s32, 0x3C) = 0;
     switch (FIELD(actor, u8, 0xAE)) {
     case 1:
-        source = FIELD(arg0, void *, 0x4C);
-        actor_coord = FIELD(actor, s16, 0xA8);
-        value = FIELD(source, u16, 0x2A);
+        source = FIELD(motion, void *, 0x4C);
+        tile_x = FIELD(actor, s16, 0xA8);
+        direction_offset = FIELD(source, u16, 0x2A);
         direction_table = D_8006CCD8;
-        value = (value >> 8) & 0xE;
-        FIELD(arg0, s16, 0x2A) =
-            (actor_coord * 64) +
-            ((*(s16 *)((u8 *)direction_table + value) + 1) * 32);
-        FIELD(arg0, s16, 0x2E) =
-            (FIELD(FIELD(arg0, void *, 0x40), s16, 0xAA) * 64) +
-            ((*(s16 *)((u8 *)D_8006CCE8 + value) + 1) * 32);
-        FIELD(arg0, u16, 0x32) = FIELD(&base, u16, 0xA);
+        direction_offset = (direction_offset >> 8) & 0xE;
+        FIELD(motion, s16, 0x2A) =
+            (tile_x * 64) +
+            ((*(s16 *)((u8 *)direction_table + direction_offset) + 1) * 32);
+        FIELD(motion, s16, 0x2E) =
+            (FIELD(FIELD(motion, void *, 0x40), s16, 0xAA) * 64) +
+            ((*(s16 *)((u8 *)D_8006CCE8 + direction_offset) + 1) * 32);
+        FIELD(motion, u16, 0x32) = FIELD(&base, u16, 0xA);
 
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        diff1_x = FIELD(arg0, s16, 0x2A);
+        distance_x = FIELD(motion, s16, 0x2A);
         base_x = FIELD(&base, s16, 2);
         base_y = FIELD(&base, s16, 6);
-        diff1_x -= base_x;
-        if (diff1_x < 0) {
-            diff1_x = -diff1_x;
+        distance_x -= base_x;
+        if (distance_x < 0) {
+            distance_x = -distance_x;
         }
-        delta[0] = diff1_x;
-        diff1_y = FIELD(arg0, s16, 0x2E) - base_y;
-        if (diff1_y < 0) {
-            diff1_y = -diff1_y;
+        delta[0] = distance_x;
+        distance_y = FIELD(motion, s16, 0x2E) - base_y;
+        if (distance_y < 0) {
+            distance_y = -distance_y;
         }
-        delta[1] = diff1_y;
-        FIELD(arg0, s16, 4) = delta[0];
-        if (FIELD(arg0, s16, 4) < (s16)delta[1]) {
-            FIELD(arg0, u16, 4) = delta[1];
+        delta[1] = distance_y;
+        FIELD(motion, s16, 4) = delta[0];
+        if (FIELD(motion, s16, 4) < (s16)delta[1]) {
+            FIELD(motion, u16, 4) = delta[1];
         }
-        FIELD(arg0, s16, 4) = (s16)FIELD(arg0, u16, 4) >> 5;
-        if (FIELD(arg0, s16, 4) == 0) {
-            FIELD(arg0, u16, 4) = 1;
+        FIELD(motion, s16, 4) = (s16)FIELD(motion, u16, 4) >> 5;
+        if (FIELD(motion, s16, 4) == 0) {
+            FIELD(motion, u16, 4) = 1;
         }
-        arg1->dx = FIELD(arg0, s32, 0x28) - base.x;
-        arg1->dy = FIELD(arg0, s32, 0x2C) - base.y;
-        arg1->dz = 0;
+        trajectory->dx = FIELD(motion, s32, 0x28) - base.x;
+        trajectory->dy = FIELD(motion, s32, 0x2C) - base.y;
+        trajectory->dz = 0;
         break;
 
     case 2:
     {
         s32 *position;
         void *node;
-        s32 i = 1;
-        s32 diff_x;
-        s32 diff_y;
-        register s32 diff_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 axis = 1;
+        s32 distance_x;
+        s32 distance_y;
+        register s32 distance_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         u8 *delta_scan;
-        s32 case2_base_x;
-        s32 case2_base_y;
-        s32 case2_base_z;
+        s32 origin_x;
+        s32 origin_y;
+        s32 origin_z;
         s32 height;
         s32 position_z;
 
-        node = FIELD(FIELD(arg0, void *, 0x4C), void *, 0x60);
+        node = FIELD(FIELD(motion, void *, 0x4C), void *, 0x60);
         position = FIELD(node, s32 *, -0x18);
-        FIELD(arg0, s32, 0x28) = position[0];
-        FIELD(arg0, s32, 0x2C) = position[1];
-        height = D_800DDC40[FIELD(FIELD(FIELD(arg0, void *, 0x4C), void *, 0x60), u8, 0x13)];
+        FIELD(motion, s32, 0x28) = position[0];
+        FIELD(motion, s32, 0x2C) = position[1];
+        height = D_800DDC40[FIELD(FIELD(FIELD(motion, void *, 0x4C), void *, 0x60), u8, 0x13)];
         position_z = position[2];
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        diff_x = FIELD(arg0, s16, 0x2A);
-        FIELD(arg0, s32, 0x30) = position_z - (height << 15);
+        distance_x = FIELD(motion, s16, 0x2A);
+        FIELD(motion, s32, 0x30) = position_z - (height << 15);
 
-        case2_base_x = FIELD(&base, s16, 2);
-        case2_base_y = FIELD(&base, s16, 6);
-        diff_x -= case2_base_x;
-        if (diff_x < 0) {
-            diff_x = -diff_x;
+        origin_x = FIELD(&base, s16, 2);
+        origin_y = FIELD(&base, s16, 6);
+        distance_x -= origin_x;
+        if (distance_x < 0) {
+            distance_x = -distance_x;
         }
-        delta[0] = diff_x;
-        diff_y = FIELD(arg0, s16, 0x2E) - case2_base_y;
-        if (diff_y < 0) {
-            diff_y = -diff_y;
+        delta[0] = distance_x;
+        distance_y = FIELD(motion, s16, 0x2E) - origin_y;
+        if (distance_y < 0) {
+            distance_y = -distance_y;
         }
-        delta[1] = diff_y;
-        diff_z = FIELD(arg0, s16, 0x32);
-        case2_base_z = FIELD(&base, s16, 0xA);
+        delta[1] = distance_y;
+        distance_z = FIELD(motion, s16, 0x32);
+        origin_z = FIELD(&base, s16, 0xA);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         delta_scan = (u8 *)&base + 2;
-        ASM_KEEP_NV(diff_z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        diff_z -= case2_base_z;
-        if (diff_z < 0) {
-            diff_z = -diff_z;
+        ASM_KEEP_NV(distance_z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        distance_z -= origin_z;
+        if (distance_z < 0) {
+            distance_z = -distance_z;
         }
-        delta[2] = diff_z;
+        delta[2] = distance_z;
 
-        FIELD(arg0, s16, 4) = delta[0];
-        for (i = 1; i < 3; i++, delta_scan += 2) {
-            if (FIELD(delta_scan, s16, 0x18) > FIELD(arg0, s16, 4)) {
-                FIELD(arg0, u16, 4) = FIELD(delta_scan, u16, 0x18);
+        FIELD(motion, s16, 4) = delta[0];
+        for (axis = 1; axis < 3; axis++, delta_scan += 2) {
+            if (FIELD(delta_scan, s16, 0x18) > FIELD(motion, s16, 4)) {
+                FIELD(motion, u16, 4) = FIELD(delta_scan, u16, 0x18);
             }
         }
-        FIELD(arg0, s16, 4) = (s16)FIELD(arg0, u16, 4) >> 5;
-        if (FIELD(arg0, s16, 4) == 0) {
-            FIELD(arg0, u16, 4) = 1;
+        FIELD(motion, s16, 4) = (s16)FIELD(motion, u16, 4) >> 5;
+        if (FIELD(motion, s16, 4) == 0) {
+            FIELD(motion, u16, 4) = 1;
         }
-        arg1->dx = FIELD(arg0, s32, 0x28) - base.x;
-        arg1->dy = FIELD(arg0, s32, 0x2C) - base.y;
-        arg1->dz = FIELD(arg0, s32, 0x30) - base.z;
+        trajectory->dx = FIELD(motion, s32, 0x28) - base.x;
+        trajectory->dy = FIELD(motion, s32, 0x2C) - base.y;
+        trajectory->dz = FIELD(motion, s32, 0x30) - base.z;
         break;
     }
     case 0:
@@ -196,163 +197,163 @@ state0:
         break;
     }
 
-    arg1->x = base.x;
-    arg1->y = base.y;
-    arg1->z = base.z;
-    FIELD(arg0, u16, 0)++;
-    FIELD(arg0, u16, 2) = 0;
+    trajectory->x = base.x;
+    trajectory->y = base.y;
+    trajectory->z = base.z;
+    FIELD(motion, u16, 0)++;
+    FIELD(motion, u16, 2) = 0;
     goto finish;
 }
 
 state1:
 {
-    arg1->dx /= 2;
-    arg1->dy /= 2;
-    arg1->dz /= 2;
-    arg1->x += arg1->dx;
-    arg1->y += arg1->dy;
-    arg1->z += arg1->dz;
-    if (FIELD(arg0, s16, 2) < FIELD(arg0, s16, 4)) {
+    trajectory->dx /= 2;
+    trajectory->dy /= 2;
+    trajectory->dz /= 2;
+    trajectory->x += trajectory->dx;
+    trajectory->y += trajectory->dy;
+    trajectory->z += trajectory->dz;
+    if (FIELD(motion, s16, 2) < FIELD(motion, s16, 4)) {
         goto call_helper;
     }
 
-    arg1->x = FIELD(arg0, s32, 0x28);
-    arg1->y = FIELD(arg0, s32, 0x2C);
-    arg1->z = FIELD(arg0, s32, 0x30);
-    FIELD(arg0, u16, 2) = 0;
+    trajectory->x = FIELD(motion, s32, 0x28);
+    trajectory->y = FIELD(motion, s32, 0x2C);
+    trajectory->z = FIELD(motion, s32, 0x30);
+    FIELD(motion, u16, 2) = 0;
     {
-        void *actor = FIELD(arg0, void *, 0x40);
-    if (FIELD(actor, u8, 0xAE) != 2) {
-        s32 final_dz;
+        void *actor = FIELD(motion, void *, 0x40);
+        if (FIELD(actor, u8, 0xAE) != 2) {
+            s32 return_dz;
 
-        arg1->dx = (base.x - arg1->x) >> (FIELD(arg0, s16, 4) + 1);
-        arg1->dy = (base.y - arg1->y) >> (FIELD(arg0, s16, 4) + 1);
-        final_dz = (base.z - arg1->z) >> (FIELD(arg0, s16, 4) + 1);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        next_state = 3;
-        arg1->dz = final_dz;
-    } else {
-        next_state = FIELD(arg0, u16, 0) + 1;
-    }
+            trajectory->dx = (base.x - trajectory->x) >> (FIELD(motion, s16, 4) + 1);
+            trajectory->dy = (base.y - trajectory->y) >> (FIELD(motion, s16, 4) + 1);
+            return_dz = (base.z - trajectory->z) >> (FIELD(motion, s16, 4) + 1);
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            next_state = 3;
+            trajectory->dz = return_dz;
+        } else {
+            next_state = FIELD(motion, u16, 0) + 1;
+        }
     }
     goto commit_state;
 }
 
 state2:
 {
-    s32 trig_value;
-    s32 trig_value2;
+    s32 elevation_factor;
+    s32 azimuth_factor;
     {
-        s32 random_value = func_80069EF8();
-        s32 adjusted_value = random_value;
-        s32 base_angle = FIELD(arg0, u16, 6) + 0x400;
+        s32 random_angle = func_80069EF8();
+        s32 biased_angle = random_angle;
+        s32 base_angle = FIELD(motion, u16, 6) + 0x400;
         s32 quotient;
         s32 remainder;
 
-        if (random_value < 0) {
-            adjusted_value = random_value + 0x7FF;
+        if (random_angle < 0) {
+            biased_angle = random_angle + 0x7FF;
         }
-        quotient = adjusted_value >> 11;
-        remainder = random_value - (quotient << 11);
-        FIELD(arg0, u16, 6) = base_angle + remainder;
+        quotient = biased_angle >> 11;
+        remainder = random_angle - (quotient << 11);
+        FIELD(motion, u16, 6) = base_angle + remainder;
     }
     {
-        s32 random_value = func_80069EF8();
-        s32 adjusted_value = random_value;
-        s32 base_angle = FIELD(arg0, u16, 8) + 0x400;
+        s32 random_angle = func_80069EF8();
+        s32 biased_angle = random_angle;
+        s32 base_angle = FIELD(motion, u16, 8) + 0x400;
         s32 quotient;
         s32 remainder;
 
-        if (random_value < 0) {
-            adjusted_value = random_value + 0x7FF;
+        if (random_angle < 0) {
+            biased_angle = random_angle + 0x7FF;
         }
-        quotient = adjusted_value >> 11;
-        remainder = random_value - (quotient << 11);
-        FIELD(arg0, u16, 8) = base_angle + remainder;
+        quotient = biased_angle >> 11;
+        remainder = random_angle - (quotient << 11);
+        FIELD(motion, u16, 8) = base_angle + remainder;
     }
 
-    trig_value = func_800644B8(FIELD(arg0, s16, 6));
-    trig_value2 = func_800644B8(FIELD(arg0, s16, 8));
+    elevation_factor = func_800644B8(FIELD(motion, s16, 6));
+    azimuth_factor = func_800644B8(FIELD(motion, s16, 8));
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    trig_value >>= 4;
-    trig_value2 >>= 4;
-    arg1->x = FIELD(arg0, s32, 0x28) + ((trig_value * trig_value2) << 5);
-    trig_value = func_800644B8(FIELD(arg0, s16, 6));
-    trig_value2 = func_80064584(FIELD(arg0, s16, 8));
+    elevation_factor >>= 4;
+    azimuth_factor >>= 4;
+    trajectory->x = FIELD(motion, s32, 0x28) + ((elevation_factor * azimuth_factor) << 5);
+    elevation_factor = func_800644B8(FIELD(motion, s16, 6));
+    azimuth_factor = func_80064584(FIELD(motion, s16, 8));
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    trig_value >>= 4;
-    trig_value2 >>= 4;
-    arg1->y = FIELD(arg0, s32, 0x2C) + ((trig_value * trig_value2) << 5);
-    arg1->z = FIELD(arg0, s32, 0x30) + ((func_80064584(FIELD(arg0, s16, 6)) >> 4) << 13);
+    elevation_factor >>= 4;
+    azimuth_factor >>= 4;
+    trajectory->y = FIELD(motion, s32, 0x2C) + ((elevation_factor * azimuth_factor) << 5);
+    trajectory->z = FIELD(motion, s32, 0x30) + ((func_80064584(FIELD(motion, s16, 6)) >> 4) << 13);
 
-    if (FIELD(arg0, s16, 2) < 8) {
+    if (FIELD(motion, s16, 2) < 8) {
         goto call_helper;
     }
     {
-        void *actor = FIELD(arg0, void *, 0x40);
+        void *actor = FIELD(motion, void *, 0x40);
         if (FIELD(actor, u8, 0xAE) == 2) {
-            void *source = FIELD(arg0, void *, 0x4C);
-            func_8009C12C(source, FIELD(arg0, void *, 0x48),
+            void *source = FIELD(motion, void *, 0x4C);
+            func_8009C12C(source, FIELD(motion, void *, 0x48),
                           FIELD(source, s16, 0x2A), FIELD(actor, s16, 0xAC));
         }
     }
-    arg1->dx = (base.x - arg1->x) >> (FIELD(arg0, s16, 4) + 1);
-    arg1->dy = (base.y - arg1->y) >> (FIELD(arg0, s16, 4) + 1);
-    arg1->dz = (base.z - arg1->z) >> (FIELD(arg0, s16, 4) + 1);
-    FIELD(arg0, u16, 2) = 0;
+    trajectory->dx = (base.x - trajectory->x) >> (FIELD(motion, s16, 4) + 1);
+    trajectory->dy = (base.y - trajectory->y) >> (FIELD(motion, s16, 4) + 1);
+    trajectory->dz = (base.z - trajectory->z) >> (FIELD(motion, s16, 4) + 1);
+    FIELD(motion, u16, 2) = 0;
 
-    next_state = FIELD(arg0, u16, 0) + 1;
+    next_state = FIELD(motion, u16, 0) + 1;
 commit_state:
-    FIELD(arg0, u16, 0) = next_state;
+    FIELD(motion, u16, 0) = next_state;
 call_helper:
-    func_80175A90(&base, arg1);
+    func_80175A90(&base, trajectory);
     goto finish;
 }
 
 state3:
 {
-    if (FIELD(arg0, s16, 2) < FIELD(arg0, s16, 4)) {
-        arg1->dx *= 2;
-        arg1->dy *= 2;
-        arg1->dz *= 2;
-        arg1->x += arg1->dx;
-        arg1->y += arg1->dy;
-        arg1->z += arg1->dz;
-        func_80175A90(&base, arg1);
+    if (FIELD(motion, s16, 2) < FIELD(motion, s16, 4)) {
+        trajectory->dx *= 2;
+        trajectory->dy *= 2;
+        trajectory->dz *= 2;
+        trajectory->x += trajectory->dx;
+        trajectory->y += trajectory->dy;
+        trajectory->z += trajectory->dz;
+        func_80175A90(&base, trajectory);
         goto finish;
     }
-    arg1->x = base.x;
-    arg1->y = base.y;
-    arg1->z = base.z;
+    trajectory->x = base.x;
+    trajectory->y = base.y;
+    trajectory->z = base.z;
     {
-        void *actor = FIELD(arg0, void *, 0x48);
+        void *actor = FIELD(motion, void *, 0x48);
         u16 flags = FIELD(actor, u16, 0x14);
         if (!(flags & 0x800)) {
             goto finish;
         }
         FIELD(actor, u16, 0x14) = flags & 0xF7FF;
     }
-    FIELD(arg0, u16, 0)++;
-    FIELD(arg0, u16, 2) = 0;
+    FIELD(motion, u16, 0)++;
+    FIELD(motion, u16, 2) = 0;
 }
 
 state4:
 {
-    void *actor = FIELD(arg0, void *, 0x48);
+    void *actor = FIELD(motion, void *, 0x48);
     if (FIELD(actor, void *, 0x2C) != &D_80175F68) {
-        FIELD(arg0, u16, -2) |= 0x8000;
+        FIELD(motion, u16, -2) |= 0x8000;
         D_800814A0 |= 0x8000;
         return;
     }
     FIELD(actor, u16, 0x14) &= 0xF7FF;
-    arg1->x = base.x;
-    arg1->y = base.y;
-    arg1->z = base.z;
+    trajectory->x = base.x;
+    trajectory->y = base.y;
+    trajectory->z = base.z;
 }
 
 finish:
-    if (FIELD(arg0, s16, 0) != 0) {
-        func_800C77D0((u8 *)arg0 - 0x20, arg1, 8, 0x300);
+    if (FIELD(motion, s16, 0) != 0) {
+        func_800C77D0((u8 *)motion - 0x20, trajectory, 8, 0x300);
     }
 #undef delta
 #undef base

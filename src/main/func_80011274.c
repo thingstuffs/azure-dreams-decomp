@@ -8,12 +8,13 @@ typedef struct S_80024274_0 {
     s32 * unk_280;
 } S_80024274_0;   /* temp_v1 in func_80024274 */
 
-void func_80024274(s32 arg0) {
-    S_80024274_0 *temp_v1;
+/* Initialize the object's embedded state and clear its referenced word. */
+void func_80024274(s32 object_addr) {
+    S_80024274_0 *state;
 
-    if (arg0 != 0) {
-        temp_v1 = arg0 + 0x20;
-        temp_v1->unk_224 = 0x606868;
-        *temp_v1->unk_280 = 0;
+    if (object_addr != 0) {
+        state = object_addr + 0x20;
+        state->unk_224 = 0x606868;
+        *state->unk_280 = 0;
     }
 }

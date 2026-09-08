@@ -91,112 +91,113 @@ extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *,
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
-s32 func_81892C5C(void *arg0, S_81892C5C_2 *arg1)
+/* Draw a red ring around the effect center using eight projected polylines. */
+s32 func_81892C5C(void *effect, S_81892C5C_2 *center)
 {
     u8 *scratch = (u8 *)0x1F800000;
-    register u32 mask ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register u32 addr_mask ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     void *initial_context;
     s32 base_height;
-    s32 scale;
-    s32 i;
-    u32 high_mask;
-    s32 step;
+    s32 radius;
+    s32 segment;
+    u32 length_mask;
+    s32 angle_step;
     void **ot_ctx;
 
     ot_ctx = (void **)D_80083160;
     initial_context = *ot_ctx;
-    mask = 0x00FF0000;
-    mask |= 0xFFFF;
+    addr_mask = 0x00FF0000;
+    addr_mask |= 0xFFFF;
     ((S_81892C5C_0 *)scratch)->unk_18.s = (u8 *)initial_context + 0xB0;
-    base_height = ((S_81892C5C_1 *)arg0)->unk_04;
+    base_height = ((S_81892C5C_1 *)effect)->unk_04;
     ((S_81892C5C_0 *)scratch)->unk_68 = ((S_81892C5C_0 *)scratch)->unk_70 =
-        ((S_81892C5C_0 *)scratch)->unk_78 = arg1->unk_0A;
-    scale = (s16)((base_height + 1) << 5);
+        ((S_81892C5C_0 *)scratch)->unk_78 = center->unk_0A;
+    radius = (s16)((base_height + 1) << 5);
 
-    high_mask = 0xFF000000;
-    step = 0x100;
+    length_mask = 0xFF000000;
+    angle_step = 0x100;
 
-    i = 0;
+    segment = 0;
 loop:
     {
         void *context;
-        void *prim;
-        s32 angle0;
+        void *polyline;
+        s32 start_angle;
         s32 angle_base;
-        s32 angle1;
-        s32 angle2;
+        s32 mid_angle;
+        s32 end_angle;
         s32 height;
         register s32 prim_mode ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 trig_result;
-        register s32 last_prod ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        s32 x_trig;
+        register s32 end_y_scaled ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         context = *ot_ctx;
-        prim = ((S_81892C5C_3 *)context)->unk_8D0;
-        prim_mode = (s32)((u8 *)prim + 0x18);
+        polyline = ((S_81892C5C_3 *)context)->unk_8D0;
+        prim_mode = (s32)((u8 *)polyline + 0x18);
         ((S_81892C5C_3 *)context)->unk_8D0 = (void *)prim_mode;
         prim_mode = 5;
-        ((S_81892C5C_4 *)prim)->unk_00.at03.v = prim_mode;
+        ((S_81892C5C_4 *)polyline)->unk_00.at03.v = prim_mode;
         prim_mode = 0x48;
-        ((S_81892C5C_4 *)prim)->unk_07 = prim_mode;
+        ((S_81892C5C_4 *)polyline)->unk_07 = prim_mode;
         ASM_KEEP_NV(prim_mode);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((S_81892C5C_4 *)prim)->unk_14 = 0x55555555;
+        ((S_81892C5C_4 *)polyline)->unk_14 = 0x55555555;
         prim_mode |= 2;
-        ((S_81892C5C_4 *)prim)->unk_07 = prim_mode;
-        angle_base = step << 1;
-        angle0 = i * angle_base;
-        height = ((S_81892C5C_1 *)arg0)->unk_04;
-        ((S_81892C5C_4 *)prim)->unk_05 = 0;
-        ((S_81892C5C_4 *)prim)->unk_06 = 0;
-        ((S_81892C5C_4 *)prim)->unk_04 =
+        ((S_81892C5C_4 *)polyline)->unk_07 = prim_mode;
+        angle_base = angle_step << 1;
+        start_angle = segment * angle_base;
+        height = ((S_81892C5C_1 *)effect)->unk_04;
+        ((S_81892C5C_4 *)polyline)->unk_05 = 0;
+        ((S_81892C5C_4 *)polyline)->unk_06 = 0;
+        ((S_81892C5C_4 *)polyline)->unk_04 =
             (s8)(-0x80 - (height << 4));
 
-        trig_result = func_800644B8(angle0);
+        x_trig = func_800644B8(start_angle);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-        angle_base = i * 2;
-        angle1 = angle_base + 1;
-        angle1 *= step;
-        ((S_81892C5C_0 *)scratch)->unk_64 = (s16)(arg1->unk_02 +
-            (((trig_result >> 4) * scale) >> 8));
-        trig_result = func_800644B8(angle1);
+        angle_base = segment * 2;
+        mid_angle = angle_base + 1;
+        mid_angle *= angle_step;
+        ((S_81892C5C_0 *)scratch)->unk_64 = (s16)(center->unk_02 +
+            (((x_trig >> 4) * radius) >> 8));
+        x_trig = func_800644B8(mid_angle);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-        angle2 = angle_base + 2;
-        angle2 *= step;
-        ((S_81892C5C_0 *)scratch)->unk_6C = (s16)(arg1->unk_02 +
-            (((trig_result >> 4) * scale) >> 8));
-        ((S_81892C5C_0 *)scratch)->unk_74 = (s16)(arg1->unk_02 +
-            (((func_800644B8(angle2) >> 4) * scale) >> 8));
-        ((S_81892C5C_0 *)scratch)->unk_66 = (s16)(arg1->unk_06 +
-            (((func_80064584(angle0) >> 4) * scale) >> 8));
-        ((S_81892C5C_0 *)scratch)->unk_6E = (s16)(arg1->unk_06 +
-            (((func_80064584(angle1) >> 4) * scale) >> 8));
+        end_angle = angle_base + 2;
+        end_angle *= angle_step;
+        ((S_81892C5C_0 *)scratch)->unk_6C = (s16)(center->unk_02 +
+            (((x_trig >> 4) * radius) >> 8));
+        ((S_81892C5C_0 *)scratch)->unk_74 = (s16)(center->unk_02 +
+            (((func_800644B8(end_angle) >> 4) * radius) >> 8));
+        ((S_81892C5C_0 *)scratch)->unk_66 = (s16)(center->unk_06 +
+            (((func_80064584(start_angle) >> 4) * radius) >> 8));
+        ((S_81892C5C_0 *)scratch)->unk_6E = (s16)(center->unk_06 +
+            (((func_80064584(mid_angle) >> 4) * radius) >> 8));
         {
-            register s32 last_sh ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 end_y_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            last_prod = (func_80064584(angle2) >> 4) * scale;
-            last_sh = last_prod >> 8;
-            ((S_81892C5C_0 *)scratch)->unk_76 = (s16)(arg1->unk_06 + last_sh);
+            end_y_scaled = (func_80064584(end_angle) >> 4) * radius;
+            end_y_offset = end_y_scaled >> 8;
+            ((S_81892C5C_0 *)scratch)->unk_76 = (s16)(center->unk_06 + end_y_offset);
         }
 
         {
-            u8 *p0 = scratch + 0x64;
-            u8 *p1 = scratch + 0x6C;
-            u8 *p2 = scratch + 0x74;
-            u8 *p3 = scratch + 0xD8;
-            ASM_KEEP_DEP_NV(p2, last_prod);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP4_NV(p0, p1, p2, p3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            u8 *start_vertex = scratch + 0x64;
+            u8 *mid_vertex = scratch + 0x6C;
+            u8 *end_vertex = scratch + 0x74;
+            u8 *screen_start = scratch + 0xD8;
+            ASM_KEEP_DEP_NV(end_vertex, end_y_scaled);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP4_NV(start_vertex, mid_vertex, end_vertex, screen_start);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             ((S_81892C5C_0 *)scratch)->unk_B4.s = func_80065530(
-                p0, p1, p2, p3, scratch + 0xDC, scratch + 0xE0,
+                start_vertex, mid_vertex, end_vertex, screen_start, scratch + 0xDC, scratch + 0xE0,
                 scratch + 0x84, scratch + 0x88);
         }
 
-        ((S_81892C5C_4 *)prim)->unk_08 = ((S_81892C5C_0 *)scratch)->unk_D8;
-        ((S_81892C5C_4 *)prim)->unk_0A = ((S_81892C5C_0 *)scratch)->unk_DA;
-        ((S_81892C5C_4 *)prim)->unk_0C = ((S_81892C5C_0 *)scratch)->unk_DC;
-        ((S_81892C5C_4 *)prim)->unk_0E = ((S_81892C5C_0 *)scratch)->unk_DE;
-        ((S_81892C5C_4 *)prim)->unk_10 = ((S_81892C5C_0 *)scratch)->unk_E0;
-        ((S_81892C5C_4 *)prim)->unk_12 = ((S_81892C5C_0 *)scratch)->unk_E2;
+        ((S_81892C5C_4 *)polyline)->unk_08 = ((S_81892C5C_0 *)scratch)->unk_D8;
+        ((S_81892C5C_4 *)polyline)->unk_0A = ((S_81892C5C_0 *)scratch)->unk_DA;
+        ((S_81892C5C_4 *)polyline)->unk_0C = ((S_81892C5C_0 *)scratch)->unk_DC;
+        ((S_81892C5C_4 *)polyline)->unk_0E = ((S_81892C5C_0 *)scratch)->unk_DE;
+        ((S_81892C5C_4 *)polyline)->unk_10 = ((S_81892C5C_0 *)scratch)->unk_E0;
+        ((S_81892C5C_4 *)polyline)->unk_12 = ((S_81892C5C_0 *)scratch)->unk_E2;
 
         {
             u32 otz = ((S_81892C5C_0 *)scratch)->unk_B4.u;
@@ -205,53 +206,53 @@ loop:
                 void *tpage;
 
                 {
-                    u32 newv;
-                    register u32 pv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    u32 *otb = ((S_81892C5C_0 *)scratch)->unk_18.u;
-                    pv = ((S_81892C5C_4 *)prim)->unk_00.at00.v & high_mask;
-                    ((S_81892C5C_4 *)prim)->unk_00.at00.v = pv | (otb[otz] & mask);
-                    newv = (((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] & high_mask) | ((u32)prim & mask);
-                    ((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] = newv;
+                    u32 ot_link;
+                    register u32 packet_length ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    u32 *ordering_table = ((S_81892C5C_0 *)scratch)->unk_18.u;
+                    packet_length = ((S_81892C5C_4 *)polyline)->unk_00.at00.v & length_mask;
+                    ((S_81892C5C_4 *)polyline)->unk_00.at00.v = packet_length | (ordering_table[otz] & addr_mask);
+                    ot_link = (((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] & length_mask) | ((u32)polyline & addr_mask);
+                    ((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] = ot_link;
                 }
 
                 {
-                    S_81892C5C_5 *context2;
+                    S_81892C5C_5 *draw_context;
 
-                    context2 = ((struct OtCtxS *)ot_ctx)->cur;
-                    tpage = context2->unk_8D0;
-                    context2->unk_8D0 = (u8 *)tpage + 0xC;
+                    draw_context = ((struct OtCtxS *)ot_ctx)->cur;
+                    tpage = draw_context->unk_8D0;
+                    draw_context->unk_8D0 = (u8 *)tpage + 0xC;
                 }
                 func_80067F20(tpage, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
 
-                ((S_81892C5C_6 *)tpage)->unk_00 = (((S_81892C5C_6 *)tpage)->unk_00 & high_mask) |
+                ((S_81892C5C_6 *)tpage)->unk_00 = (((S_81892C5C_6 *)tpage)->unk_00 & length_mask) |
                     (((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] &
-                        mask);
+                        addr_mask);
                 ((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] =
                     (((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] &
-                        high_mask) | ((u32)tpage & mask);
+                        length_mask) | ((u32)tpage & addr_mask);
             }
         }
 
-        i++;
+        segment++;
     }
-    if (i < 8) {
+    if (segment < 8) {
         goto loop;
     }
 
     {
-        void *next = ((S_81892C5C_1_pre *)arg0)[-1].unk_00;
-        if (next != 0) {
-            arg0 = (u8 *)next + 0x20;
-            ASM_USE(arg0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            arg1 = ((S_81892C5C_7 *)next)->unk_08;
-            ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        void *next_effect = ((S_81892C5C_1_pre *)effect)[-1].unk_00;
+        if (next_effect != 0) {
+            effect = (u8 *)next_effect + 0x20;
+            ASM_USE(effect);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            center = ((S_81892C5C_7 *)next_effect)->unk_08;
+            ASM_KEEP(center);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             func_800244AC();
         }
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     {
-        register s32 rv ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(rv);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        return rv;
+        register s32 result ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        return result;
     }
 }

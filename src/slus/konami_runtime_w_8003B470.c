@@ -50,9 +50,10 @@ extern u8 D_8006AEC4[12];
 extern u32 D_80080EA0;
 extern RuntimeFlags D_80082E60;
 
+/* Initializes runtime state for the selected flags, then clears the handled flags. */
 void func_8003B470(void)
 {
-    u16 flags;
+    u16 runtime_flags;
     MainMemoryPage *page;
 
     func_8003AF8C(D_800717D0);
@@ -63,13 +64,13 @@ void func_8003B470(void)
     D_8006ADBC[0] = 0;
     func_80033D44(0);
 
-    flags = D_80082E60.flags;
-    if (flags & 0x4000) {
+    runtime_flags = D_80082E60.flags;
+    if (runtime_flags & 0x4000) {
         func_8003B42C(0);
         func_8003B988();
-        goto block_12;
+        goto shared_setup;
     }
-    if (flags & 0x8000) {
+    if (runtime_flags & 0x8000) {
         func_8003B42C(1);
         func_8003B92C();
         if ((func_80033B2C(0x1391) == 0) ||
@@ -78,39 +79,39 @@ void func_8003B470(void)
         } else if (func_80033B2C(0xA3) == 0) {
             func_8003BA9C();
         } else {
-            goto block_12;
+            goto shared_setup;
         }
-        goto block_14;
+        goto flagged_setup;
     }
-    if (flags & 4) {
-        goto block_12;
+    if (runtime_flags & 4) {
+        goto shared_setup;
     }
     page = (MainMemoryPage *)0x80010000;
-    if (!(flags & 2)) {
-        goto block_default;
+    if (!(runtime_flags & 2)) {
+        goto default_setup;
     }
     page->flags_3714 &= 0xFFFD;
     if (page->status_020A == 0) {
-        goto block_13;
+        goto zero_status_setup;
     }
     func_8003B42C(1);
     page->status_020A = 0;
     func_8003B9B8();
 
-block_12:
+shared_setup:
     func_8003B9E8();
-    goto block_14;
+    goto flagged_setup;
 
-block_13:
+zero_status_setup:
     func_8003BA24();
 
-block_14:
+flagged_setup:
     func_8008B408(1);
     func_8008B550(1);
     func_80041284(&D_80080EA0);
-    goto block_final;
+    goto finalize;
 
-block_default:
+default_setup:
     func_800434E4();
     page->red_collar_status = 1;
     func_800B9830();
@@ -119,7 +120,7 @@ block_default:
     func_8008B408(0);
     func_8008B550(0);
 
-block_final:
+finalize:
     D_80082E60.flags &= 0x3FF9;
     func_8009FF28();
     func_800B9890();

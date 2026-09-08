@@ -3,6 +3,7 @@
 
 M2C_UNK func_8001922C(s32, s32);             /* extern */
 
-void func_800192E8(s32 arg0) {
-    func_8001922C(arg0, 0);
+/* Calls func_8001922C with the supplied value and a zero second argument. */
+void func_800192E8(s32 value) {
+    func_8001922C(value, 0);
 }

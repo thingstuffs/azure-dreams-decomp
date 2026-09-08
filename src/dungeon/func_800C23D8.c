@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* Entity pointed to by arg0 */
+/* Entity transition state */
 typedef struct Entity {
     u8    pad0[0xC];
     void *unkC;      /* 0x0C -> Sub */
@@ -44,43 +44,44 @@ extern s16 D_800DCE66[5];
 
 extern void func_800C77D0(void *a0, void *a1, s32 a2, s16 a3);
 
-void func_800C7B38(void *arg0) {
-    Entity *p = arg0;
-    G *g = (G *)&D_80083178;
-    s32 st = p->unk18;
+/* Blend toward the entity target, then dispatch the next state. */
+void func_800C7B38(void *entity_data) {
+    Entity *entity = entity_data;
+    G *blend = (G *)&D_80083178;
+    s32 state = entity->unk18;
 
-    if (st == 0) goto case0;
-    if (st == 1) goto case1;
+    if (state == 0) goto blend_state;
+    if (state == 1) goto dispatch_state;
     return;
 
-case0:
-    if (p->unk24 > 0) {
-        s16 half;
-        p->unk10 -= p->unk10 >> 2;
-        g->f98 = p->unk26 + (u16)p->unk10;
-        g->fAC = (u16)g->fAC + (D_800DD264[D_800120A2] - g->fAC) / p->unk24;
-        g->fB0 = (u16)g->fB0 + (0 - g->fB0) / p->unk24;
-        g->fA4 = (u16)g->fA4 + (((Sub *)p->unkC)->f2 - g->fA4) / p->unk24;
-        g->fA6 = (u16)g->fA6 + (((Sub *)p->unkC)->f6 - g->fA6) / p->unk24;
-        half = (s16)(u16)p->unk24 / 2;
-        if (half != 0) {
-            g->fA8 = (u16)g->fA8 + (((Sub *)p->unkC)->fA - g->fA8) / half;
+blend_state:
+    if (entity->unk24 > 0) {
+        s16 half_ticks;
+        entity->unk10 -= entity->unk10 >> 2;
+        blend->f98 = entity->unk26 + (u16)entity->unk10;
+        blend->fAC = (u16)blend->fAC + (D_800DD264[D_800120A2] - blend->fAC) / entity->unk24;
+        blend->fB0 = (u16)blend->fB0 + (0 - blend->fB0) / entity->unk24;
+        blend->fA4 = (u16)blend->fA4 + (((Sub *)entity->unkC)->f2 - blend->fA4) / entity->unk24;
+        blend->fA6 = (u16)blend->fA6 + (((Sub *)entity->unkC)->f6 - blend->fA6) / entity->unk24;
+        half_ticks = (s16)(u16)entity->unk24 / 2;
+        if (half_ticks != 0) {
+            blend->fA8 = (u16)blend->fA8 + (((Sub *)entity->unkC)->fA - blend->fA8) / half_ticks;
         }
         {
-            s16 nc = (u16)p->unk24 - 1;
-            p->unk24 = nc;
-            if (nc > 0) {
+            s16 ticks_left = (u16)entity->unk24 - 1;
+            entity->unk24 = ticks_left;
+            if (ticks_left > 0) {
                 return;
             }
         }
     }
-    g->fAC = (u16)D_800DD264[D_800120A2];
-    g->fB0 = 0;
-    g->f98 = p->unk26;
-    p->unk18 += 1;
+    blend->fAC = (u16)D_800DD264[D_800120A2];
+    blend->fB0 = 0;
+    blend->f98 = entity->unk26;
+    entity->unk18 += 1;
     return;
 
-case1:
+dispatch_state:
     func_800C77D0((void *)(D_800E3D7C[0] - 0x20), D_80083780, 8, D_800DCE66[0]);
     D_80083460[5] = D_80083460[5] - 1;
 }

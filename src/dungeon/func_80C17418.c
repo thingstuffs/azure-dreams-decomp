@@ -108,19 +108,20 @@ extern void func_80047784(void *, s32, s32);
 extern void func_800A56E0(s32);
 extern void func_800DAE44(Position *, s32);
 
+/* Updates an entity's item action, animation, and return to idle. */
 void func_80172C18(State *state, Position *pos, Actor *actor, Entity *ent)
 {
-    static void *const keepalive[] = {
+    static void *const slot_labels[] = {
         &&slot1, &&slot2, &&slot3, &&slot4, &&slot5, &&slot6, &&slot7
     };
-    u8 *slot;
+    u8 *item_slot;
     s32 state_index;
-    s32 special;
+    s32 use_main_link;
     u8 *actor_parts;
     SubActor *sub_actor;
     ActorBase *actor_base;
 
-    special = 0;
+    use_main_link = 0;
     state_index = state->state9B;
     actor_parts = state->fA4;
     sub_actor = (SubActor *)(actor_parts + 0x20);
@@ -145,84 +146,84 @@ void func_80172C18(State *state, Position *pos, Actor *actor, Entity *ent)
 
 state0:
     if (ent->flags1C & 0x2000) {
-        s32 selector;
+        s32 slot_index;
 
-        selector = (ent->f46 & 0x3FFF) - 1;
-        if ((u32)selector >= 7) {
+        slot_index = (ent->f46 & 0x3FFF) - 1;
+        if ((u32)slot_index >= 7) {
             goto slot4;
         }
-        (void)keepalive;
-        goto *D_80170838[selector];
+        (void)slot_labels;
+        goto *D_80170838[slot_index];
 slot7:
-        special = 1;
+        use_main_link = 1;
         goto slot3;
 slot6:
-        special = 1;
+        use_main_link = 1;
         goto slot2;
 slot5:
-        special = 1;
+        use_main_link = 1;
         goto slot1;
     }
 
     {
-        s32 type;
+        s32 slot_type;
 
-        type = ent->f46 & 0x3FFF;
-        if (type == 2) {
+        slot_type = ent->f46 & 0x3FFF;
+        if (slot_type == 2) {
             goto slot2;
         }
-        if (type < 3) {
-            slot = 0;
-            if (type == 1) {
+        if (slot_type < 3) {
+            item_slot = 0;
+            if (slot_type == 1) {
                 goto normal_slot1;
             }
             goto have_slot;
         }
-        if (type != 3) {
-            slot = 0;
+        if (slot_type != 3) {
+            item_slot = 0;
             goto have_slot;
         }
     }
 
 slot3:
-    slot = &ent->slots[6];
+    item_slot = &ent->slots[6];
     goto have_slot;
 slot2:
-    slot = &ent->slots[3];
+    item_slot = &ent->slots[3];
     goto have_slot;
 normal_slot1:
 slot1:
-    slot = &ent->slots[0];
+    item_slot = &ent->slots[0];
     goto have_slot;
 slot4:
-    slot = 0;
+    item_slot = 0;
 
 have_slot:
-    if (*slot != 0) {
-        s32 special_test;
+    if (*item_slot != 0) {
+        s32 main_link_test;
         u16 state_flags;
         u8 *link_base;
 
         state_flags = state->flags98;
         state_flags &= 0xFF7F;
         state->flags98 = state_flags;
-        special_test = special;
-        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (special_test) {
+        main_link_test = use_main_link;
+        ASM_KEEP(main_link_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        if (main_link_test) {
             link_base = (u8 *)D_800814A8;
             ent->f60 = link_base;
             goto copy_link;
         }
-        if (D_8006DE24[*slot].f12 == 2) {
+        if (D_8006DE24[*item_slot].f12 == 2) {
             link_base = ent->f60;
             if (link_base != 0) {
 copy_link:
                 {
-                    register u8 *link ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    register u8 *linked_actor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                    link = *(u8 **)(link_base - 0x14);
-                    ent->f72 = link[0x24];
-                    ent->f73 = link[0x25];
+                    linked_actor = *(u8 **)(link_base - 0x14);
+                    ent->f72 = linked_actor[0x24];
+                    ent->f73 = linked_actor[0x25];
                 }
             }
         } else {
@@ -243,7 +244,7 @@ copy_link:
             actor_base,
             D_801744E4[((D_80083228[0] + ent->f2A + 0x100) >> 9) & 7],
             0);
-        if (!func_800A94A0(ent, slot, special, &state->flags98)) {
+        if (!func_800A94A0(ent, item_slot, use_main_link, &state->flags98)) {
             goto end;
         }
         actor->flags14 &= 0xF7FF;
@@ -342,16 +343,16 @@ no_flag4000:
             state->fA8);
     }
     {
-        Global83460 *global;
+        Global83460 *action_status;
 
-        global = &D_80083460;
-        if (global->fC != 0) {
+        action_status = &D_80083460;
+        if (action_status->fC != 0) {
             goto end;
         }
         if (!(state->flags98 & 0x4000)) {
             goto end;
         }
-        global->fA--;
+        action_status->fA--;
     }
     actor->flags14 &= 0xF7FF;
     state->f8C = (void (*)(void))D_801713A8;

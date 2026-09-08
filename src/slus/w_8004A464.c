@@ -20,13 +20,14 @@ extern s32 D_800814A0[3];
 extern s32 D_800814A0_store;
 __asm__(".set D_800814A0_store, 0x800814A0");
 
-void func_8004A464(ObjA464 *arg0)
+/* Sets object and global flags and processes the object's two inner values. */
+void func_8004A464(ObjA464 *obj)
 {
     InnerA464 *inner;
 
-    if (arg0 != 0) {
-        arg0->flags |= 0x8000;
-        inner = &arg0->inner;
+    if (obj != 0) {
+        obj->flags |= 0x8000;
+        inner = &obj->inner;
         do {
         } while (0);
         D_800814A0_store = D_800814A0[0] | 0x8000;

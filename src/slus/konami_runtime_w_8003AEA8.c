@@ -2,17 +2,18 @@
 
 #include "common.h"
 
-void func_8003AEA8(s32 *arg0, s32 arg1) {
-    s32 *var_a0;
-    s32 var_a1;
+/* Zero the requested number of 32-bit words. */
+void func_8003AEA8(s32 *words, s32 count) {
+    s32 *word;
+    s32 remaining;
 
-    var_a0 = arg0;
-    var_a1 = arg1;
-    if (var_a1 > 0) {
+    word = words;
+    remaining = count;
+    if (remaining > 0) {
         do {
-            *var_a0 = 0;
-            var_a1 -= 1;
-            var_a0 += 1;
-        } while (var_a1 > 0);
+            *word = 0;
+            remaining -= 1;
+            word += 1;
+        } while (remaining > 0);
     }
 }

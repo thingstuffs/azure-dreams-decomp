@@ -127,101 +127,102 @@ static const u32 bank_words[] __asm__("func_8127B000")
 #define BODY_NAME func_8127B000
 #endif
 
-void BODY_NAME(void *arg0, void *arg1, void *arg2)
+void BODY_NAME(void *root_arg, void *output_transform, void *target_part)
     __attribute__((section(".text.func_8127B000")));
-void BODY_NAME(void *arg0, void *arg1, void *arg2)
+/* Copies part state and applies smoothed position offsets and phase-dependent shading. */
+void BODY_NAME(void *root_arg, void *output_transform, void *target_part)
 {
-    s16 pos[3];
-    void *root = arg0;
-    register void *out ASM_REG("$17") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    S_8127B000_3 *dst = arg2;
+    s16 offset[3];
+    void *root = root_arg;
+    register void *transform ASM_REG("$17") = output_transform;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_8127B000_3 *render_part = target_part;
     S_8127B000_1 *owner;
-    register void *part ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    S_8127B000_5 *copy;
-    S_8127B000_6 *callee_part;
-    s8 value;
+    register void *source_part ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_8127B000_5 *part_transform;
+    S_8127B000_6 *motion_part;
+    s8 phase;
 
     owner = ((S_8127B000_0 *)root)->unk_AC;
-    part = owner->unk_0C;
-    copy = owner->unk_08;
+    source_part = owner->unk_0C;
+    part_transform = owner->unk_08;
 
-    if (!(((S_8127B000_2 *)part)->unk_14 & 0x80)) {
-        dst->unk_14 &= 0xFF7F;
+    if (!(((S_8127B000_2 *)source_part)->unk_14 & 0x80)) {
+        render_part->unk_14 &= 0xFF7F;
     }
 
-    ((S_8127B000_4 *)out)->unk_02 = copy->unk_02;
-    ((S_8127B000_4 *)out)->unk_06 = copy->unk_06;
-    ((S_8127B000_4 *)out)->unk_0A = copy->unk_0A;
+    ((S_8127B000_4 *)transform)->unk_02 = part_transform->unk_02;
+    ((S_8127B000_4 *)transform)->unk_06 = part_transform->unk_06;
+    ((S_8127B000_4 *)transform)->unk_0A = part_transform->unk_0A;
 
-    callee_part = owner->unk_0C;
-    if (func_8003DA40(callee_part->unk_08, callee_part, pos,
+    motion_part = owner->unk_0C;
+    if (func_8003DA40(motion_part->unk_08, motion_part, offset,
                       ((S_8127B000_0 *)root)->unk_B6) != 0) {
-        ((S_8127B000_4 *)out)->unk_02 +=
-            (pos[0] + ((S_8127B000_0 *)root)->unk_B0) / 2;
-        ((S_8127B000_4 *)out)->unk_06 +=
-            (pos[1] + ((S_8127B000_0 *)root)->unk_B2) / 2;
-        ((S_8127B000_4 *)out)->unk_0A +=
-            (pos[2] + ((S_8127B000_0 *)root)->unk_B4) / 2;
-        ((S_8127B000_0 *)root)->unk_B0 = pos[0];
-        ((S_8127B000_0 *)root)->unk_B2 = pos[1];
-        ((S_8127B000_0 *)root)->unk_B4 = pos[2];
+        ((S_8127B000_4 *)transform)->unk_02 +=
+            (offset[0] + ((S_8127B000_0 *)root)->unk_B0) / 2;
+        ((S_8127B000_4 *)transform)->unk_06 +=
+            (offset[1] + ((S_8127B000_0 *)root)->unk_B2) / 2;
+        ((S_8127B000_4 *)transform)->unk_0A +=
+            (offset[2] + ((S_8127B000_0 *)root)->unk_B4) / 2;
+        ((S_8127B000_0 *)root)->unk_B0 = offset[0];
+        ((S_8127B000_0 *)root)->unk_B2 = offset[1];
+        ((S_8127B000_0 *)root)->unk_B4 = offset[2];
     }
 
-    copy = dst->unk_08;
-    dst->unk_1C = ((S_8127B000_2 *)part)->unk_1C;
-    dst->unk_1E = ((S_8127B000_2 *)part)->unk_1E;
-    dst->unk_14 = ((S_8127B000_2 *)part)->unk_14;
-    copy->unk_01 &= 0xFE;
+    part_transform = render_part->unk_08;
+    render_part->unk_1C = ((S_8127B000_2 *)source_part)->unk_1C;
+    render_part->unk_1E = ((S_8127B000_2 *)source_part)->unk_1E;
+    render_part->unk_14 = ((S_8127B000_2 *)source_part)->unk_14;
+    part_transform->unk_01 &= 0xFE;
 
     if (((S_8127B000_0 *)root)->unk_B6 == 1) {
-        value = ((S_8127B000_2 *)part)->unk_04.s8;
-        if (value < 8) {
-            s32 tail_value = value * 7;
+        phase = ((S_8127B000_2 *)source_part)->unk_04.s8;
+        if (phase < 8) {
+            s32 scaled_phase = phase * 7;
 
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8016FA38(value);
+            ASM_TAILSLOT_PIN(scaled_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            func_8016FA38(phase);
             return;
         }
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         {
-            register s32 color ASM_REG("$2") =
-                ((15 - value) * 14) + 0x20;
+            register s32 brightness ASM_REG("$2") =
+                ((15 - phase) * 14) + 0x20;
 
-            dst->unk_0E = color;
-            dst->unk_0D = color;
-            dst->unk_0C = color;
+            render_part->unk_0E = brightness;
+            render_part->unk_0D = brightness;
+            render_part->unk_0C = brightness;
         }
-        if (!(((S_8127B000_2 *)part)->unk_14 & 0x8000) &&
-            ((S_8127B000_2 *)part)->unk_04.u16 == 0x10C) {
+        if (!(((S_8127B000_2 *)source_part)->unk_14 & 0x8000) &&
+            ((S_8127B000_2 *)source_part)->unk_04.u16 == 0x10C) {
             func_800A4398(0x709);
         }
     }
 
     if (((S_8127B000_0 *)root)->unk_B6 == 2) {
-        value = ((S_8127B000_2 *)part)->unk_04.s8;
-        if (value < 8) {
-            register s32 tail_value ASM_REG("$3") = 7 - value;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        phase = ((S_8127B000_2 *)source_part)->unk_04.s8;
+        if (phase < 8) {
+            register s32 reverse_phase ASM_REG("$3") = 7 - phase;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8016FAA8(value);
+            ASM_TAILSLOT_PIN(reverse_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            func_8016FAA8(phase);
             return;
         }
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         {
-            register s32 color ASM_REG("$2") =
-                ((value - 8) * 14) + 0x20;
+            register s32 brightness ASM_REG("$2") =
+                ((phase - 8) * 14) + 0x20;
 
-            dst->unk_0E = color;
-            dst->unk_0D = color;
-            dst->unk_0C = color;
+            render_part->unk_0E = brightness;
+            render_part->unk_0D = brightness;
+            render_part->unk_0C = brightness;
         }
-        if (!(((S_8127B000_2 *)part)->unk_14 & 0x8000) &&
-            ((S_8127B000_2 *)part)->unk_04.u16 == 0x104) {
+        if (!(((S_8127B000_2 *)source_part)->unk_14 & 0x8000) &&
+            ((S_8127B000_2 *)source_part)->unk_04.u16 == 0x104) {
             func_800A4398(0x709);
         }
     }
 
-    func_80047454(dst);
+    func_80047454(render_part);
     if (owner->unk_1E & 0x8000) {
         ((S_8127B000_0_pre *)root)[-1].unk_00 |= 0x8000;
         D_800803D4[0] |= 0x8000;

@@ -25,15 +25,16 @@ typedef struct S_818931B8_2 {
 M2C_UNK func_800478B8();                      /* extern */
 extern s32 D_800814A0[3];
 
-void func_818931B8(void *arg0, S_818931B8_2 *arg1, Rec_D_80082E80 *arg2) {
-    S_818931B8_1 *temp_v1;
+/* Increment the linked counter, reduce the source value by four, and process and flag the target status. */
+void func_818931B8(void *entry, S_818931B8_2 *source, Rec_D_80082E80 *target) {
+    S_818931B8_1 *counter_state;
 
-    temp_v1 = ((S_818931B8_0 *)arg0)->unk_00;
-    temp_v1->unk_14 = (u16) (temp_v1->unk_14 + 1);
-    arg1->unk_0A = (u16) (arg1->unk_0A - 4);
-    func_800478B8(arg2);
-    if (arg2->unk_14.at00_u16.v & 0x6000) {
-        ((S_818931B8_0_pre *)arg0)[-1].unk_00 = (u16) (((S_818931B8_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    counter_state = ((S_818931B8_0 *)entry)->unk_00;
+    counter_state->unk_14 = (u16) (counter_state->unk_14 + 1);
+    source->unk_0A = (u16) (source->unk_0A - 4);
+    func_800478B8(target);
+    if (target->unk_14.at00_u16.v & 0x6000) {
+        ((S_818931B8_0_pre *)entry)[-1].unk_00 = (u16) (((S_818931B8_0_pre *)entry)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

@@ -51,37 +51,33 @@ extern short func_80053DA8(s32 a0);
 /* tests availability bit n of D_800847D0 (matched, gcc 2.8.1, w_8005405C.c) */
 extern s32 func_8005405C(s16 n);
 
-/* summary: waits for slot (field0-1) of D_80080AF0 to already equal id+1 (already
- * processed); otherwise marks it processed, syncs vblank, propagates
- * D_8008148C into D_80081480/D_800814C8, (re)registers the record's two
- * callbacks, restarts the frame loop, arms a display-mode flag derived from
- * field0, and spins on func_8005405C until it reports available. */
-void func_8004425C(s16 a0)
+/* Activates an unprocessed record, registers its callbacks, and waits for availability. */
+void func_8004425C(s16 record_id)
 {
-    S_8006E61C *rec;
-    s16 s3;
-    u8 *counterPtr;
-    s32 flag;
-    s32 result;
+    S_8006E61C *record;
+    s16 slot;
+    u8 *processed_id;
+    s32 ready_value;
+    s32 available;
 
     {
-        register s32 off ASM_REG("$3") = (s32)a0 * sizeof(S_8006E61C);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        rec = (S_8006E61C *)((char *)D_8006E61C + off);
+        register s32 record_offset ASM_REG("$3") = (s32)record_id * sizeof(S_8006E61C);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+        record = (S_8006E61C *)((char *)D_8006E61C + record_offset);
     }
-    s3 = (s16)((u16)rec->field0 - 1);
-    counterPtr = &D_80080AF0[s3];
-    if (*counterPtr != a0 + 1) {
+    slot = (s16)((u16)record->field0 - 1);
+    processed_id = &D_80080AF0[slot];
+    if (*processed_id != record_id + 1) {
         func_800542BC();
-        *counterPtr = (u8)(a0 + 1);
+        *processed_id = (u8)(record_id + 1);
         DrawSync(0);
         {
-            void *arg8 = rec->field8;
+            void *callback = record->field8;
             D_80081480.field_0 = D_8008148C.field_0;
-            func_8003E4FC(6, arg8, 0);
+            func_8003E4FC(6, callback, 0);
         }
-        func_8003E4FC(6, rec->field4, 0);
+        func_8003E4FC(6, record->field4, 0);
         func_8003F320();
-        flag = 1;
+        ready_value = 1;
         /* == D_8008148C.field_0, but reached via the D_80081480 neighbour symbol
          * (offset +12) so gcc treats it as a genuinely different SYMBOL_REF from
          * the EARLIER D_8008148C.field_0 read above and can't CSE the two %hi/%lo
@@ -89,10 +85,10 @@ void func_8004425C(s16 a0)
          * both independently; see decomp_learnings.md's "dual-access global"
          * neighbour-symbol technique). */
         func_8003F5E0(((s32 *)&D_80081480)[3]);
-        func_80053DA8(((2 << s3) | 0x10) & 0xFFFF);
+        func_80053DA8(((2 << slot) | 0x10) & 0xFFFF);
         func_800542BC();
         do {
-            result = (s16)func_8005405C(rec->field0);
-        } while (result != flag);
+            available = (s16)func_8005405C(record->field0);
+        } while (available != ready_value);
     }
 }

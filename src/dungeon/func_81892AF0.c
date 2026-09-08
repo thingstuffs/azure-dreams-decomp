@@ -51,34 +51,35 @@ typedef struct S_81892AF0_3 {
     s32 unk_14;
 } S_81892AF0_3;   /* temp_a1 in func_81892AF0 */
 
-void *func_81892AF0(s32 arg0, Copy24 *arg1, s16 arg2) {
-    Copy24 *temp_a1;
-    S_81892AF0_2 *temp_s0;
-    void *temp_v0;
-    S_81892AF0_1 *temp_v0_2;
-    register void *var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+/* Creates a sprite object with initialized state and a copied, adjusted transform. */
+void *func_81892AF0(s32 state_value, Copy24 *source_transform, s16 variant) {
+    Copy24 *transform;
+    S_81892AF0_2 *sprite;
+    void *object;
+    S_81892AF0_1 *state;
+    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    temp_v0 = func_8003FC64(0x212);
-    var_v0 = NULL;
-    if (temp_v0 != NULL) {
-        ((S_81892AF0_0 *)temp_v0)->unk_10 = &D_8002420C;
-        temp_v0_2 = temp_v0 + 0x20;
-        ((S_81892AF0_0 *)temp_v0)->unk_20 = arg0;
-        temp_v0_2->unk_04 = 0;
-        temp_v0_2->unk_06 = arg2;
-        temp_s0 = ((S_81892AF0_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        func_8003DB94(temp_s0, &D_800E2178, 0);
-        temp_s0->unk_1E = 0x1800;
-        temp_s0->unk_1C = 0x1800;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_a1 = ((S_81892AF0_0 *)temp_v0)->unk_08;
-        var_v0 = temp_v0;
-        *temp_a1 = *arg1;
-        ((S_81892AF0_3 *)temp_a1)->unk_14 = 0x10000;
-        ((S_81892AF0_3 *)temp_a1)->unk_08 += 0xFD010000;
+    object = func_8003FC64(0x212);
+    result = NULL;
+    if (object != NULL) {
+        ((S_81892AF0_0 *)object)->unk_10 = &D_8002420C;
+        state = object + 0x20;
+        ((S_81892AF0_0 *)object)->unk_20 = state_value;
+        state->unk_04 = 0;
+        state->unk_06 = variant;
+        sprite = ((S_81892AF0_0 *)object)->unk_0C;
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
+        func_8003DB94(sprite, &D_800E2178, 0);
+        sprite->unk_1E = 0x1800;
+        sprite->unk_1C = 0x1800;
+        func_8004491C(object, &D_80045340);
+        transform = ((S_81892AF0_0 *)object)->unk_08;
+        result = object;
+        *transform = *source_transform;
+        ((S_81892AF0_3 *)transform)->unk_14 = 0x10000;
+        ((S_81892AF0_3 *)transform)->unk_08 += 0xFD010000;
     }
-    return var_v0;
+    return result;
 }

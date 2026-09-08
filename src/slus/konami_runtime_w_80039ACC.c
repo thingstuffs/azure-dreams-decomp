@@ -13,7 +13,8 @@ typedef struct S_80039ACC_0 {
 
 extern M2C_UNK func_80039AE8;
 
-void func_80039ACC(S_80039ACC_0 *arg0) {
-    arg0->unk_10 = &func_80039AE8;
-    arg0->unk_1C = (s32) (arg0->unk_1C - 1);
+/* Set the event-script continuation and decrement its counter. */
+void func_80039ACC(S_80039ACC_0 *script) {
+    script->unk_10 = &func_80039AE8;
+    script->unk_1C = (s32) (script->unk_1C - 1);
 }

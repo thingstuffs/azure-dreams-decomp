@@ -9,20 +9,21 @@ extern u8 D_8006CADE[];
 extern u8 D_800834B8[];
 extern u8 D_800D0078[];
 
-void func_8009A99C(s32 arg0)
+/* Set the block's 12-bit value and apply its header parameters. */
+void func_8009A99C(s32 value)
 {
-    void *temp_s0;
-    void *temp_v0;
-    s32 temp_s2;
-    s32 temp_s3;
+    void *block;
+    void *header;
+    s32 header_param_0c;
+    s32 header_param_08;
 
-    temp_s0 = D_800834B8;
-    temp_v0 = (s8 *)temp_s0 - 0x20;
-    temp_s3 = *(s32 *)((s8 *)temp_v0 + 8);
-    temp_s2 = *(s32 *)((s8 *)temp_v0 + 0xC);
-    func_80099754(temp_s3);
-    *(s16 *)((s8 *)temp_s0 + 0x10) = arg0 & 0xFFF;
-    func_80094984(D_800D0078, temp_s0, temp_s2);
-    func_800988C8(temp_s0, temp_s3, temp_s2);
+    block = D_800834B8;
+    header = (s8 *)block - 0x20;
+    header_param_08 = *(s32 *)((s8 *)header + 8);
+    header_param_0c = *(s32 *)((s8 *)header + 0xC);
+    func_80099754(header_param_08);
+    *(s16 *)((s8 *)block + 0x10) = value & 0xFFF;
+    func_80094984(D_800D0078, block, header_param_0c);
+    func_800988C8(block, header_param_08, header_param_0c);
     func_80035208(D_8006CADE);
 }

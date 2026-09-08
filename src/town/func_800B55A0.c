@@ -9,29 +9,30 @@ typedef struct S_800B2D00_0 {
     s32 unk_0C;
 } S_800B2D00_0;   /* arg1 in func_800B2D00 */
 
-void func_800B2D00(s32 **arg0, S_800B2D00_0 *arg1, s32 arg2) {
-    s32 **var_s2;
-    s32 *var_s0;
-    s32 temp_a0;
-    s32 temp_v1;
-    s32 var_s1;
-    s32 var_s3;
+/* Convert up to ten entries from the selected page into the output slots. */
+void func_800B2D00(s32 **outputs, S_800B2D00_0 *page_info, s32 entries_base) {
+    s32 **output_slot;
+    s32 *entry_ptr;
+    s32 entry;
+    s32 page;
+    s32 entry_index;
+    s32 count;
 
-    var_s3 = 0;
-    temp_v1 = arg1->unk_00;
-    var_s2 = arg0;
-    var_s1 = temp_v1 * 0xA;
-    var_s0 = (temp_v1 * 0x28) + arg2;
-loop_1:
-    var_s3 += 1;
-    if (var_s1 < arg1->unk_0C) {
-        temp_a0 = *var_s0;
-        var_s0 += 1;
-        var_s1 += 1;
-        **var_s2 = func_80049790(temp_a0);
-        var_s2 += 1;
-        if (var_s3 < 0xA) {
-            goto loop_1;
+    count = 0;
+    page = page_info->unk_00;
+    output_slot = outputs;
+    entry_index = page * 0xA;
+    entry_ptr = (page * 0x28) + entries_base;
+next_entry:
+    count += 1;
+    if (entry_index < page_info->unk_0C) {
+        entry = *entry_ptr;
+        entry_ptr += 1;
+        entry_index += 1;
+        **output_slot = func_80049790(entry);
+        output_slot += 1;
+        if (count < 0xA) {
+            goto next_entry;
         }
     }
 }

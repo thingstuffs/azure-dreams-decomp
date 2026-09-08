@@ -20,117 +20,119 @@ extern void LoadImage(void *rect, void *data);
 extern void DrawSync(s32 mode);
 extern void *memcpy(void *dst, void *src, s32 size);
 
-void func_80041344(s32 base, void *arg)
+/* Process resource commands to upload images, copy data, and relocate pointers. */
+void func_80041344(s32 data_base, void *scratch)
 {
-    S_80041344 *e = (S_80041344 *)base;
-    u16 step;
-    s32 i, j, n;
+    S_80041344 *entry = (S_80041344 *)data_base;
+    u16 entry_size;
+    s32 color_index, item_index, item_count;
+    s32 reloc_addr;
     s32 x, y;
-    u32 idx;
-    register u16 raw_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    u16 *walk;
+    u32 cmd_index;
+    register u16 raw_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    u16 *color;
     void *src;
-    register void *short_src ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register s32 flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    S_80041344 *op;
-    void **tbl = jtbl_8002D630;
+    register void *src_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register s32 flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    S_80041344 *command;
+    void **handlers = jtbl_8002D630;
     static void *const keepalive[] = {
         &&LA, &&LB, &&LC, &&LD, &&LE, &&LF, &&LG, &&LH, &&LI
     };
     (void)keepalive;
 
     for (;;) {
-        idx = e->cmd - 1;
-        op = e;
-        if (idx >= 9) {
+        cmd_index = entry->cmd - 1;
+        command = entry;
+        if (cmd_index >= 9) {
             goto done;
         }
-        goto *tbl[idx];
+        goto *handlers[cmd_index];
 
 LA:
-        func_8004068C((void *)(base + op->arg0), arg);
-        LoadImage((void *)&e->u, arg);
+        func_8004068C((void *)(data_base + command->arg0), scratch);
+        LoadImage((void *)&entry->u, scratch);
         DrawSync(0);
         goto next;
 LB:
-        LoadImage((void *)&e->u, (void *)(base + op->arg0));
+        LoadImage((void *)&entry->u, (void *)(data_base + command->arg0));
         DrawSync(0);
         goto next;
 LC:
-        x = e->u.t.x;
-        y = e->u.t.y;
-        short_src = (void *)op->arg0;
-        flags = (s16)e->u.t.w;
-        short_src = (void *)(base + (s32)short_src);
-        src = short_src;
+        x = entry->u.t.x;
+        y = entry->u.t.y;
+        src_addr = (void *)command->arg0;
+        flags = (s16)entry->u.t.w;
+        src_addr = (void *)(data_base + (s32)src_addr);
+        src = src_addr;
         goto call_tile;
 LD:
-        raw_flags = e->u.t.w;
-        x = e->u.t.x;
-        y = e->u.t.y;
-        short_src = (void *)op->arg0;
+        raw_flags = entry->u.t.w;
+        x = entry->u.t.x;
+        y = entry->u.t.y;
+        src_addr = (void *)command->arg0;
         raw_flags |= 2;
-        short_src = (void *)(base + (s32)short_src);
-        src = short_src;
+        src_addr = (void *)(data_base + (s32)src_addr);
+        src = src_addr;
         goto sign_flags;
 LE:
-        src = (void *)(base + op->arg0);
-        n = e->u.t.y << 4;
-        walk = (u16 *)src + 1;
-        for (j = 1; j < n; j++) {
-            *walk |= 0x8000;
-            walk++;
+        src = (void *)(data_base + command->arg0);
+        item_count = entry->u.t.y << 4;
+        color = (u16 *)src + 1;
+        for (item_index = 1; item_index < item_count; item_index++) {
+            *color |= 0x8000;
+            color++;
         }
-        raw_flags = e->u.t.w;
-        x = e->u.t.x;
-        y = e->u.t.y;
+        raw_flags = entry->u.t.w;
+        x = entry->u.t.x;
+        y = entry->u.t.y;
         raw_flags |= 4;
         goto sign_flags;
 LF:
-        src = (void *)(base + op->arg0);
-        walk = (u16 *)src;
-        n = e->u.t.y;
-        for (j = 0; j < n; j++) {
-            walk++;
-            for (i = 1; i < 16; i++) {
-                *walk |= 0x8000;
-                walk++;
+        src = (void *)(data_base + command->arg0);
+        color = (u16 *)src;
+        item_count = entry->u.t.y;
+        for (item_index = 0; item_index < item_count; item_index++) {
+            color++;
+            for (color_index = 1; color_index < 16; color_index++) {
+                *color |= 0x8000;
+                color++;
             }
         }
-        raw_flags = e->u.t.w;
-        x = e->u.t.x;
-        y = e->u.t.y;
+        raw_flags = entry->u.t.w;
+        x = entry->u.t.x;
+        y = entry->u.t.y;
         raw_flags |= 2;
 sign_flags:
         flags = (s16)raw_flags;
-        ASM_KEEP(raw_flags);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(raw_flags);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 call_tile:
         func_8003F80C(src, x, y, flags);
         DrawSync(0);
         goto next;
 LG:
-        short_src = (void *)op->arg0;
-        ASM_KEEP(short_src);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        func_8004068C((void *)(base + (s32)short_src),
-                      (void *)(D_80080A8C[0] + op->u.m.a));
+        src_addr = (void *)command->arg0;
+        ASM_KEEP(src_addr);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        func_8004068C((void *)(data_base + (s32)src_addr),
+                      (void *)(D_80080A8C[0] + command->u.m.a));
         goto next;
 LH:
-        short_src = (void *)0x80080000;
-        memcpy((void *)((u32 *)short_src)[0x2A3],
-               (void *)(base + op->arg0),
-               op->u.m.b + op->u.m.a);
+        src_addr = (void *)0x80080000;
+        memcpy((void *)((u32 *)src_addr)[0x2A3],
+               (void *)(data_base + command->arg0),
+               command->u.m.b + command->u.m.a);
         goto next;
 LI:
-        n = base + op->arg0;
-        for (j = e->u.t.x; j > 0; j--) {
-            *(s32 *)(n + 4) = base + *(s32 *)(n + 4);
+        reloc_addr = data_base + command->arg0;
+        for (item_index = entry->u.t.x; item_index > 0; item_index--) {
+            *(s32 *)(reloc_addr + 4) = data_base + *(s32 *)(reloc_addr + 4);
         }
         goto next;
 
 next:
-        step = e->size;
-        e = (S_80041344 *)((u8 *)e + step);
-        if (step == 0) {
+        entry_size = entry->size;
+        entry = (S_80041344 *)((u8 *)entry + entry_size);
+        if (entry_size == 0) {
             *(u32 *)0x80080A8C = 0;
             goto done;
         }

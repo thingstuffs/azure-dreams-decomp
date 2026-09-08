@@ -24,39 +24,40 @@ s16 func_8006649C();
 s32 func_80069EF8();
 extern s32 D_800814A0;
 
-void func_80024F40(void *arg0) {
-    s16 temp_v1;
-    void *temp_v0;
+/* Fades the object's packed color to zero, then sets completion flags. */
+void func_80024F40(void *object) {
+    s16 fade_state;
+    void *linked_object;
 
-    temp_v0 = ((S_80024F40_0 *)arg0)->unk_00;
-    ((S_80024F40_1 *)temp_v0)->unk_52 =
-        (u16)(((S_80024F40_1 *)temp_v0)->unk_52 | 0x8000);
-    ((S_80024F40_0 *)arg0)->unk_42 =
+    linked_object = ((S_80024F40_0 *)object)->unk_00;
+    ((S_80024F40_1 *)linked_object)->unk_52 =
+        (u16)(((S_80024F40_1 *)linked_object)->unk_52 | 0x8000);
+    ((S_80024F40_0 *)object)->unk_42 =
         func_8006649C((func_80069EF8() & 0xF) * 0x10, 0x1F8);
-    temp_v1 = ((S_80024F40_0 *)arg0)->unk_4A.s;
-    if (temp_v1 == 0)
+    fade_state = ((S_80024F40_0 *)object)->unk_4A.s;
+    if (fade_state == 0)
         goto status_zero;
-    if (temp_v1 == 1)
+    if (fade_state == 1)
         goto status_one;
     goto common_return;
 
 status_zero:
-    if ((u8)((S_80024F40_0 *)arg0)->unk_34.u8 >= 0x31U)
+    if ((u8)((S_80024F40_0 *)object)->unk_34.u8 >= 0x31U)
         goto status_zero_high;
-    ((S_80024F40_0 *)arg0)->unk_34.s32 = 0;
-    ((S_80024F40_0 *)arg0)->unk_4A.u++;
+    ((S_80024F40_0 *)object)->unk_34.s32 = 0;
+    ((S_80024F40_0 *)object)->unk_4A.u++;
     goto common_return;
 
 status_zero_high:
-    ((S_80024F40_0 *)arg0)->unk_34.s32 =
-        ((S_80024F40_0 *)arg0)->unk_34.s32 - 0x303030;
+    ((S_80024F40_0 *)object)->unk_34.s32 =
+        ((S_80024F40_0 *)object)->unk_34.s32 - 0x303030;
     goto common_return;
 
 status_one:
-        (*(u16 *)((u8 *)arg0 + -2)) =
-            (u16)(((S_80024F40_0_pre *)arg0)[-1].unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
-        goto common_return;
+    (*(u16 *)((u8 *)object + -2)) =
+        (u16)(((S_80024F40_0_pre *)object)[-1].unk_00 | 0x8000);
+    D_800814A0 |= 0x8000;
+    goto common_return;
 
 common_return:
     return;

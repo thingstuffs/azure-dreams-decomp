@@ -23,25 +23,22 @@ typedef struct S_800B0870_1 {
 } S_800B0870_1;   /* arg1 in func_800B0870 */
 
 
-void func_800B0870(void *arg0, S_800B0870_1 *arg1) {
-    u8 temp_v0;
-    u8 temp_v1;
+/* Initializes two consecutive records with source bytes and fixed control values. */
+void func_800B0870(void *destination, S_800B0870_1 *source) {
+    u8 sourceByte4;
+    u8 sourceByte6;
 
-    ((S_800B0870_0 *)arg0)->unk_01.s = 0x2A;
-    temp_v0 = arg1->unk_04;
-    ((S_800B0870_0 *)arg0)->unk_0A = temp_v0;
-    temp_v1 = arg1->unk_06;
-    ((S_800B0870_0 *)arg0)->unk_04.at00.v = 0x401010;
-    ((S_800B0870_0 *)arg0)->unk_0B = temp_v1;
-    ((S_800B0870_0 *)arg0)->unk_02 = (u8) arg1->unk_00;
-    ((S_800B0870_0 *)arg0)->unk_03 = (u8) arg1->unk_02;
-    arg0 += 0xC;
-    ((S_800B0870_0 *)arg0)->unk_01.u = 0x81;
-    ((S_800B0870_0 *)arg0)->unk_04.at00u.v = 0;
-    ((S_800B0870_0 *)arg0)->unk_04.at02.v = 1;
-    ((S_800B0870_0 *)arg0)->unk_00 = (u8) (((S_800B0870_0 *)arg0)->unk_00 | 0x80);
+    ((S_800B0870_0 *)destination)->unk_01.s = 0x2A;
+    sourceByte4 = source->unk_04;
+    ((S_800B0870_0 *)destination)->unk_0A = sourceByte4;
+    sourceByte6 = source->unk_06;
+    ((S_800B0870_0 *)destination)->unk_04.at00.v = 0x401010;
+    ((S_800B0870_0 *)destination)->unk_0B = sourceByte6;
+    ((S_800B0870_0 *)destination)->unk_02 = (u8) source->unk_00;
+    ((S_800B0870_0 *)destination)->unk_03 = (u8) source->unk_02;
+    destination += 0xC;
+    ((S_800B0870_0 *)destination)->unk_01.u = 0x81;
+    ((S_800B0870_0 *)destination)->unk_04.at00u.v = 0;
+    ((S_800B0870_0 *)destination)->unk_04.at02.v = 1;
+    ((S_800B0870_0 *)destination)->unk_00 = (u8) (((S_800B0870_0 *)destination)->unk_00 | 0x80);
 }
-
-/* MECHANISM: Frameless leaf; rebasing arg0 itself materializes the +0xC update.
-   Two byte temporaries order load4/store10 then load6/store-word/store11,
-   placing the constant halves in load-delay slots; u8 keeps 0x81 positive. */

@@ -11,52 +11,50 @@ extern u8 D_8002744C[9];
 extern u8 D_8002744D[9];
 extern u8 D_80083160[0x200];
 
+/* Copies a 7-by-7 tile region from the source grid into the dungeon map around the current coordinates. */
 void func_8196048C(void)
 {
-    s8 *base;
+    s8 *dungeon_state;
     DungeonMap *map;
     register s16 row ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s16 column;
-    s32 outer;
-    s32 inner;
-    u16 *source;
-    u16 *cursor;
-    u16 value;
-    register u8 row_byte ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 column_byte;
+    s16 first_column;
+    s32 rows_copied;
+    s32 columns_copied;
+    u16 *source_row;
+    u16 *source_tile;
+    u16 tile_value;
+    register u8 center_row ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 center_column;
 
-    base = D_80083160;
-    map = (DungeonMap *)(base + 0x1DC);
+    dungeon_state = D_80083160;
+    map = (DungeonMap *)(dungeon_state + 0x1DC);
     ASM_KEEP(map);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    outer = 0;
-    source = D_800273CC;
-    row_byte = D_8002744D[0];
-    column_byte = D_8002744C[0];
-    row = row_byte - 3;
-    column = column_byte - 3;
-    ASM_KEEP(row_byte);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    rows_copied = 0;
+    source_row = D_800273CC;
+    center_row = D_8002744D[0];
+    center_column = D_8002744C[0];
+    row = center_row - 3;
+    first_column = center_column - 3;
+    ASM_KEEP(center_row);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     do {
-        s16 x;
-        s32 signed_row;
+        s16 column;
+        s32 row_index;
 
-        x = column;
-        inner = 0;
-        signed_row = row;
-        cursor = source;
+        column = first_column;
+        columns_copied = 0;
+        row_index = row;
+        source_tile = source_row;
 loop:
-        value = *cursor++;
-        inner++;
-        map->tiles[(x + (signed_row << map->row_shift)) * 3 + 1] = value;
-        x++;
-        if (inner < 7) {
+        tile_value = *source_tile++;
+        columns_copied++;
+        map->tiles[(column + (row_index << map->row_shift)) * 3 + 1] = tile_value;
+        column++;
+        if (columns_copied < 7) {
             goto loop;
         }
-        source += 8;
-        outer++;
+        source_row += 8;
+        rows_copied++;
         row++;
-    } while (outer < 7);
+    } while (rows_copied < 7);
 }
 
-/* MECHANISM: Frameless leaf; a hoisted signed row and held base/map fences restore the 41-word layout.
-   Short byte pins preserve the $v0/$v1 load roles, while DEPIN lets source and signed_row split through $v0.
-   gcc 2.7.2-cdk-G0 supplies retail's two-register %hi/%lo address emission. */

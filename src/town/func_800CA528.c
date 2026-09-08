@@ -11,9 +11,10 @@ typedef struct S_800C7C88_0 {
     s8 unk_94;
 } S_800C7C88_0;   /* arg0 in func_800C7C88 */
 
-void func_800C7C88(S_800C7C88_0 *arg0) {
-    arg0->unk_84 = 0x520;
-    arg0->unk_86 = 0x2A0;
-    arg0->unk_94 = 2;
-    arg0->unk_6E = 0x400;
+/* Initializes the object's state fields to fixed defaults. */
+void func_800C7C88(S_800C7C88_0 *object) {
+    object->unk_84 = 0x520;
+    object->unk_86 = 0x2A0;
+    object->unk_94 = 2;
+    object->unk_6E = 0x400;
 }

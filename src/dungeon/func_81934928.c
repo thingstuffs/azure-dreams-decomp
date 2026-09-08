@@ -85,28 +85,29 @@ extern s32 D_8008346C;
 extern s32 D_80083498[];
 extern Copy24 D_80083780;
 
-void func_81934928(void *arg0, void *arg1)
+/* Spawns a timed particle effect, processes its midpoint target, and marks completion. */
+void func_81934928(void *effect, void *output)
 {
-    register void *self ASM_REG("$18") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *dst ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register void *self ASM_REG("$18") = effect;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *output_data ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register void *owner ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *search ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    void *found;
-    void *search_copy;
-    register void *tail_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    void *created;
-    register s32 arithmetic ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *search_origin ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *target;
+    void *saved_origin;
+    register void *tail_origin ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    void *particle;
+    register s32 rand_quotient ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 state;
-    s32 count;
-    s32 base;
-    s32 random;
+    s32 spawn_index;
+    s32 origin_component;
+    s32 random_value;
     s32 value;
     s16 countdown;
-    void *part;
+    void *particle_data;
 
     state = ((S_81934928_0 *)self)->unk_0A.s;
     owner = ((S_81934928_0 *)self)->unk_00;
-    dst = arg1;
+    output_data = output;
     if (state != 1) {
         if (state < 2) {
             if (state != 0) {
@@ -119,16 +120,16 @@ void func_81934928(void *arg0, void *arg1)
             }
             func_80024434();
         }
-        ASM_KEEP(dst);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(output_data);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if ((((S_81934928_6 *)(((S_81934928_0 *)self)->unk_04))->unk_00 & 0x80) == 0) {
             goto done;
         }
         {
             u8 *copy_page;
             register Copy24 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            s32 copy0;
-            s32 copy1;
-            s32 copy2;
+            s32 copy_word_0;
+            s32 copy_word_1;
+            s32 copy_word_2;
 #ifdef NON_MATCHING
             copy_page = (u8 *)&D_80083780 - 0x3780;
 #else
@@ -137,18 +138,18 @@ void func_81934928(void *arg0, void *arg1)
             ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             copy_src = (Copy24 *)(copy_page + 0x3780);
             ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            copy0 = copy_src->word[0];
-            copy1 = copy_src->word[1];
-            copy2 = copy_src->word[2];
-            ((s32 *)dst)[0] = copy0;
-            ((s32 *)dst)[1] = copy1;
-            ((s32 *)dst)[2] = copy2;
-            copy0 = copy_src->word[3];
-            copy1 = copy_src->word[4];
-            copy2 = copy_src->word[5];
-            ((s32 *)dst)[3] = copy0;
-            ((s32 *)dst)[4] = copy1;
-            ((s32 *)dst)[5] = copy2;
+            copy_word_0 = copy_src->word[0];
+            copy_word_1 = copy_src->word[1];
+            copy_word_2 = copy_src->word[2];
+            ((s32 *)output_data)[0] = copy_word_0;
+            ((s32 *)output_data)[1] = copy_word_1;
+            ((s32 *)output_data)[2] = copy_word_2;
+            copy_word_0 = copy_src->word[3];
+            copy_word_1 = copy_src->word[4];
+            copy_word_2 = copy_src->word[5];
+            ((s32 *)output_data)[3] = copy_word_0;
+            ((s32 *)output_data)[4] = copy_word_1;
+            ((s32 *)output_data)[5] = copy_word_2;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             copy_page += 0x3780;
             ((S_81934928_0 *)self)->unk_10.s = ((S_81934928_1 *)copy_page)->unk_02;
@@ -162,87 +163,87 @@ void func_81934928(void *arg0, void *arg1)
     }
 
 main_state:
-    count = 0x3C - ((S_81934928_0 *)self)->unk_0C.u;
-    if (count >= 8) {
-        count = 8;
+    spawn_index = 0x3C - ((S_81934928_0 *)self)->unk_0C.u;
+    if (spawn_index >= 8) {
+        spawn_index = 8;
     }
-    if (count >= 0) {
+    if (spawn_index >= 0) {
         do {
-            created = func_8003FD64(0x202, D_80083498);
-            if (created != NULL) {
-                ((S_81934928_2 *)created)->unk_10 = D_8002445C;
-                func_8004491C(created, D_80024740);
-                part = (u8 *)created + 0x20;
+            particle = func_8003FD64(0x202, D_80083498);
+            if (particle != NULL) {
+                ((S_81934928_2 *)particle)->unk_10 = D_8002445C;
+                func_8004491C(particle, D_80024740);
+                particle_data = (u8 *)particle + 0x20;
 
-                arithmetic = rand();
-                random = arithmetic;
-                base = ((S_81934928_0 *)self)->unk_10.u;
-                arithmetic >>= 9;
-                if (random < 0) {
-                    arithmetic = (random + 0x1FF) >> 9;
+                rand_quotient = rand();
+                random_value = rand_quotient;
+                origin_component = ((S_81934928_0 *)self)->unk_10.u;
+                rand_quotient >>= 9;
+                if (random_value < 0) {
+                    rand_quotient = (random_value + 0x1FF) >> 9;
                 }
-                value = base + (random - (arithmetic << 9)) - 0x100;
+                value = origin_component + (random_value - (rand_quotient << 9)) - 0x100;
                 if (value < 0) {
                     value = 0;
                 }
-                ((S_81934928_3 *)part)->unk_0C = value;
-                ((S_81934928_3 *)part)->unk_1E = value;
+                ((S_81934928_3 *)particle_data)->unk_0C = value;
+                ((S_81934928_3 *)particle_data)->unk_1E = value;
 
-                arithmetic = rand();
-                random = arithmetic;
-                base = ((S_81934928_0 *)self)->unk_12.u;
-                arithmetic >>= 9;
-                if (random < 0) {
-                    arithmetic = (random + 0x1FF) >> 9;
+                rand_quotient = rand();
+                random_value = rand_quotient;
+                origin_component = ((S_81934928_0 *)self)->unk_12.u;
+                rand_quotient >>= 9;
+                if (random_value < 0) {
+                    rand_quotient = (random_value + 0x1FF) >> 9;
                 }
-                value = base + (random - (arithmetic << 9)) - 0x100;
+                value = origin_component + (random_value - (rand_quotient << 9)) - 0x100;
                 if (value < 0) {
                     value = 0;
                 }
-                ((S_81934928_3 *)part)->unk_0E = value;
-                ((S_81934928_3 *)part)->unk_22 = value;
+                ((S_81934928_3 *)particle_data)->unk_0E = value;
+                ((S_81934928_3 *)particle_data)->unk_22 = value;
 
                 value = ((S_81934928_0 *)self)->unk_14 - 0x100;
-                ((S_81934928_3 *)part)->unk_10 = value;
-                ((S_81934928_3 *)part)->unk_26 = value;
-                ((S_81934928_2 *)created)->unk_20 = self;
+                ((S_81934928_3 *)particle_data)->unk_10 = value;
+                ((S_81934928_3 *)particle_data)->unk_26 = value;
+                ((S_81934928_2 *)particle)->unk_20 = self;
             }
-            count--;
-        } while (count >= 0);
+            spawn_index--;
+        } while (spawn_index >= 0);
     }
 
     if (((S_81934928_0 *)self)->unk_0C.u == 0x1E) {
-        search = D_800814A8;
-        if (search != NULL) {
+        search_origin = D_800814A8;
+        if (search_origin != NULL) {
             u8 *search_page;
-            register u8 *pinned_table ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            s32 call0;
-            s32 call1;
-            void *call2;
-            void *call3;
-            search_copy = search;
-            ASM_KEEP_NV(search_copy);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            register u8 *lookup_table ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 lookup_key_a;
+            s32 lookup_key_b;
+            void *lookup_origin;
+            void *lookup_context;
+            saved_origin = search_origin;
+            ASM_KEEP_NV(saved_origin);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
             search_page = D_80082E80 - 0x2E80;
 #else
             search_page = (u8 *)0x80080000;
 #endif
             ASM_KEEP(search_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            pinned_table = search_page + 0x2E80;
+            lookup_table = search_page + 0x2E80;
             ASM_KEEP(search_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            call2 = search_copy;
-            call0 = pinned_table[0x24];
-            call1 = pinned_table[0x25];
-            call3 = search;
-            found = func_800A3F28(call0, call1, call2, call3);
-            if (found != NULL) {
-                if ((((S_81934928_4 *)found)->unk_1C & 0x2000) == 0) {
-                    func_8009CE1C(found, 0x20, ((S_81934928_0 *)self)->unk_09, 0xA,
+            lookup_origin = saved_origin;
+            lookup_key_a = lookup_table[0x24];
+            lookup_key_b = lookup_table[0x25];
+            lookup_context = search_origin;
+            target = func_800A3F28(lookup_key_a, lookup_key_b, lookup_origin, lookup_context);
+            if (target != NULL) {
+                if ((((S_81934928_4 *)target)->unk_1C & 0x2000) == 0) {
+                    func_8009CE1C(target, 0x20, ((S_81934928_0 *)self)->unk_09, 0xA,
                                   ((S_81934928_5 *)owner)->unk_2A, owner, 2);
                 }
-                func_80024004(found);
-                tail_a2 = search_copy;
-                ASM_TAILSLOT_PIN(tail_a2);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                func_80024004(target);
+                tail_origin = saved_origin;
+                ASM_TAILSLOT_PIN(tail_origin);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 func_80024344();
             }
         }
@@ -264,11 +265,11 @@ state_ff:
         goto done;
     }
     {
-        u16 clear_value;
+        u16 effect_flags;
         value = ((S_81934928_0 *)self)->unk_0E.s;
-        clear_value = ((S_81934928_0 *)self)->unk_0E.u;
+        effect_flags = ((S_81934928_0 *)self)->unk_0E.u;
         if ((value & 0x8000) != 0) {
-            value = clear_value & 0x7FFF;
+            value = effect_flags & 0x7FFF;
             ((S_81934928_0 *)self)->unk_0E.u = value;
             func_80024434();
         }

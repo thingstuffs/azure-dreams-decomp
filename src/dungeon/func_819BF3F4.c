@@ -142,30 +142,31 @@ extern void func_80065820(void *, void *);
 extern void func_8006671C(void *);
 extern u8 D_80083160[];
 
-void func_80024BF4(S_80024BF4_4 *arg0, S_80024BF4_1 *arg1, S_80024BF4_2 *arg2, s16 arg3)
+/* Projects a textured quad and adds it to the ordering table when visible. */
+void func_80024BF4(S_80024BF4_4 *quad, S_80024BF4_1 *position, S_80024BF4_2 *render_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     u8 *texture;
-    s32 index;
-    u16 flags;
-    u8 texFlags;
+    s32 ot_index;
+    u16 draw_flags;
+    u8 texture_flags;
     MATRIX matrix;
 
     ((S_80024BF4_0 *)scratch)->unk_24.p = *(u8 **)D_80083160 + 0xB0;
-    ((S_80024BF4_0 *)scratch)->unk_88 = arg1->unk_02;
-    ((S_80024BF4_0 *)scratch)->unk_8C = arg1->unk_06;
-    ((S_80024BF4_0 *)scratch)->unk_90 = arg1->unk_0A;
-    arg2->unk_14 |= 0x8000;
+    ((S_80024BF4_0 *)scratch)->unk_88 = position->unk_02;
+    ((S_80024BF4_0 *)scratch)->unk_8C = position->unk_06;
+    ((S_80024BF4_0 *)scratch)->unk_90 = position->unk_0A;
+    render_state->unk_14 |= 0x8000;
 
     func_800649A0();
 
     ((S_80024BF4_0 *)scratch)->unk_3C = 0x2000;
     ((S_80024BF4_0 *)scratch)->unk_38 = 0x2000;
     ((S_80024BF4_0 *)scratch)->unk_34 = 0x2000;
-    ((S_80024BF4_0 *)scratch)->unk_A4 = arg2->unk_16;
-    ((S_80024BF4_0 *)scratch)->unk_A8 = arg2->unk_1A;
-    ((S_80024BF4_0 *)scratch)->unk_A6 = arg2->unk_18;
+    ((S_80024BF4_0 *)scratch)->unk_A4 = render_state->unk_16;
+    ((S_80024BF4_0 *)scratch)->unk_A8 = render_state->unk_1A;
+    ((S_80024BF4_0 *)scratch)->unk_A6 = render_state->unk_18;
     func_80065820(scratch + 0xA4, scratch + 0x74);
     func_80064AE0(&matrix);
     func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
@@ -173,32 +174,32 @@ void func_80024BF4(S_80024BF4_4 *arg0, S_80024BF4_1 *arg1, S_80024BF4_2 *arg2, s
     func_80064D80(scratch + 0x54);
     func_80064CF0(scratch + 0x54);
 
-    texture = arg2->unk_08;
-    ((S_80024BF4_0 *)scratch)->unk_28 = arg2->unk_14;
+    texture = render_state->unk_08;
+    ((S_80024BF4_0 *)scratch)->unk_28 = render_state->unk_14;
     packet = ((S_80024BF4_3 *)(*(u8 **)D_80083160))->unk_8D0;
     ((S_80024BF4_3 *)(*(u8 **)D_80083160))->unk_8D0 = packet + 0x34;
 
-    ((S_80024BF4_0 *)scratch)->unk_B0 = arg0->unk_4A;
-    ((S_80024BF4_0 *)scratch)->unk_B8 = arg0->unk_50;
-    ((S_80024BF4_0 *)scratch)->unk_C0 = arg0->unk_56;
-    ((S_80024BF4_0 *)scratch)->unk_C8 = arg0->unk_5C;
-    ((S_80024BF4_0 *)scratch)->unk_B2 = arg0->unk_4C;
-    ((S_80024BF4_0 *)scratch)->unk_BA = arg0->unk_52;
-    ((S_80024BF4_0 *)scratch)->unk_C2 = arg0->unk_58;
-    ((S_80024BF4_0 *)scratch)->unk_CA = arg0->unk_5E;
-    ((S_80024BF4_0 *)scratch)->unk_B4 = arg0->unk_4E;
-    ((S_80024BF4_0 *)scratch)->unk_BC = arg0->unk_54;
-    ((S_80024BF4_0 *)scratch)->unk_C4 = arg0->unk_5A;
-    ((S_80024BF4_0 *)scratch)->unk_CC = arg0->unk_60;
+    ((S_80024BF4_0 *)scratch)->unk_B0 = quad->unk_4A;
+    ((S_80024BF4_0 *)scratch)->unk_B8 = quad->unk_50;
+    ((S_80024BF4_0 *)scratch)->unk_C0 = quad->unk_56;
+    ((S_80024BF4_0 *)scratch)->unk_C8 = quad->unk_5C;
+    ((S_80024BF4_0 *)scratch)->unk_B2 = quad->unk_4C;
+    ((S_80024BF4_0 *)scratch)->unk_BA = quad->unk_52;
+    ((S_80024BF4_0 *)scratch)->unk_C2 = quad->unk_58;
+    ((S_80024BF4_0 *)scratch)->unk_CA = quad->unk_5E;
+    ((S_80024BF4_0 *)scratch)->unk_B4 = quad->unk_4E;
+    ((S_80024BF4_0 *)scratch)->unk_BC = quad->unk_54;
+    ((S_80024BF4_0 *)scratch)->unk_C4 = quad->unk_5A;
+    ((S_80024BF4_0 *)scratch)->unk_CC = quad->unk_60;
 
-    index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+    ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
                           scratch + 0xC0, scratch + 0xC8,
                           packet + 8, packet + 0x14,
                           packet + 0x20, packet + 0x2C,
-                          scratch + 0xD0, scratch + 0xD4) - arg3 - 6;
-    ((S_80024BF4_0 *)scratch)->unk_100 = index;
+                          scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
+    ((S_80024BF4_0 *)scratch)->unk_100 = ot_index;
 
-    if ((u32)index < 0x1E0) {
+    if ((u32)ot_index < 0x1E0) {
         if ((((u16)(((S_80024BF4_5 *)packet)->unk_08 + 0x20) < 0x181) &&
              ((u16)(((S_80024BF4_5 *)packet)->unk_0A + 0x20) < 0x121)) |
             (((u16)(((S_80024BF4_5 *)packet)->unk_14 + 0x20) < 0x181) &&
@@ -207,33 +208,33 @@ void func_80024BF4(S_80024BF4_4 *arg0, S_80024BF4_1 *arg1, S_80024BF4_2 *arg2, s
              ((u16)(((S_80024BF4_5 *)packet)->unk_22 + 0x20) < 0x121)) |
             (((u16)(((S_80024BF4_5 *)packet)->unk_2C + 0x20) < 0x181) &&
              ((u16)(((S_80024BF4_5 *)packet)->unk_2E + 0x20) < 0x121))) {
-            arg2->unk_14 &= 0x7FFF;
-            ((S_80024BF4_5 *)packet)->unk_0E = arg0->unk_3C;
-            ((S_80024BF4_5 *)packet)->unk_1A = arg0->unk_40;
-            ((S_80024BF4_5 *)packet)->unk_0C = arg0->unk_3A;
-            ((S_80024BF4_5 *)packet)->unk_18 = arg0->unk_3E;
-            ((S_80024BF4_5 *)packet)->unk_24 = arg0->unk_44;
-            ((S_80024BF4_5 *)packet)->unk_30 = arg0->unk_46;
-            ((S_80024BF4_5 *)packet)->unk_0D = arg0->unk_3B;
-            ((S_80024BF4_5 *)packet)->unk_19 = arg0->unk_3F;
-            ((S_80024BF4_5 *)packet)->unk_25 = arg0->unk_45;
-            ((S_80024BF4_5 *)packet)->unk_31 = arg0->unk_47;
-            ((S_80024BF4_5 *)packet)->unk_04.at00.v = arg0->unk_0C;
-            ((S_80024BF4_5 *)packet)->unk_10 = arg0->unk_10;
-            ((S_80024BF4_5 *)packet)->unk_1C = arg0->unk_14;
-            ((S_80024BF4_5 *)packet)->unk_28 = arg0->unk_18;
+            render_state->unk_14 &= 0x7FFF;
+            ((S_80024BF4_5 *)packet)->unk_0E = quad->unk_3C;
+            ((S_80024BF4_5 *)packet)->unk_1A = quad->unk_40;
+            ((S_80024BF4_5 *)packet)->unk_0C = quad->unk_3A;
+            ((S_80024BF4_5 *)packet)->unk_18 = quad->unk_3E;
+            ((S_80024BF4_5 *)packet)->unk_24 = quad->unk_44;
+            ((S_80024BF4_5 *)packet)->unk_30 = quad->unk_46;
+            ((S_80024BF4_5 *)packet)->unk_0D = quad->unk_3B;
+            ((S_80024BF4_5 *)packet)->unk_19 = quad->unk_3F;
+            ((S_80024BF4_5 *)packet)->unk_25 = quad->unk_45;
+            ((S_80024BF4_5 *)packet)->unk_31 = quad->unk_47;
+            ((S_80024BF4_5 *)packet)->unk_04.at00.v = quad->unk_0C;
+            ((S_80024BF4_5 *)packet)->unk_10 = quad->unk_10;
+            ((S_80024BF4_5 *)packet)->unk_1C = quad->unk_14;
+            ((S_80024BF4_5 *)packet)->unk_28 = quad->unk_18;
 
             func_8006671C(packet);
 
-            texFlags = texture[1];
-            arg2->unk_0F = texFlags;
-            flags = ((S_80024BF4_0 *)scratch)->unk_28;
-            if (flags & 8) {
-                arg2->unk_0F = (flags & 4) ?
-                    (texFlags | 2) : (texFlags & 0xFD);
+            texture_flags = texture[1];
+            render_state->unk_0F = texture_flags;
+            draw_flags = ((S_80024BF4_0 *)scratch)->unk_28;
+            if (draw_flags & 8) {
+                render_state->unk_0F = (draw_flags & 4) ?
+                    (texture_flags | 2) : (texture_flags & 0xFD);
             }
 
-            ((S_80024BF4_5 *)packet)->unk_04.at03.v |= arg2->unk_0F;
+            ((S_80024BF4_5 *)packet)->unk_04.at03.v |= render_state->unk_0F;
             ((S_80024BF4_5 *)packet)->unk_00 = (((S_80024BF4_5 *)packet)->unk_00 & 0xFF000000) |
                 ((*(u32 *)((u8 *)(((S_80024BF4_0 *)scratch)->unk_24.p2) + ((S_80024BF4_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
 

@@ -23,69 +23,70 @@ typedef struct S_8009D808_3 {
     s16 unk_02;
 } S_8009D808_3;   /* var_t0 in func_8009D808 */
 
-void func_8009D808(void *arg0, S_8009D808_2 *arg1, S_8009D808_1 *arg2) {
-    s16 temp_a3;
-    s16 temp_a3_2;
-    s16 temp_a3_3;
-    s16 temp_a3_4;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    s32 temp_t1;
-    u8 *base;
-    u8 *temp_t2;
-    void *var_t0;
+/* Compute coordinate bounds for four points using the configured limits. */
+void func_8009D808(void *points, S_8009D808_2 *max_point, S_8009D808_1 *min_point) {
+    s16 x_for_max;
+    s16 x_for_min;
+    s16 y_for_max;
+    s16 y_for_min;
+    s32 x_limit;
+    s32 y_limit;
+    u16 first_x;
+    u16 first_y;
+    s32 base_extent;
+    u8 *config_base;
+    u8 *size_config;
+    void *point;
 
-    temp_v0 = ((S_8009D808_0 *)arg0)->unk_00;
-    arg2->unk_00 = temp_v0;
-    arg1->unk_00 = temp_v0;
-    temp_v0_2 = ((S_8009D808_0 *)arg0)->unk_02;
-    arg2->unk_02 = temp_v0_2;
-    arg1->unk_02 = temp_v0_2;
-    base = D_80083160;
-    temp_t2 = base + 0x1DC;
-    if ((s16) arg1->unk_00 < 0) {
-        arg2->unk_00 = 0U;
-        arg1->unk_00 = 0U;
+    first_x = ((S_8009D808_0 *)points)->unk_00;
+    min_point->unk_00 = first_x;
+    max_point->unk_00 = first_x;
+    first_y = ((S_8009D808_0 *)points)->unk_02;
+    min_point->unk_02 = first_y;
+    max_point->unk_02 = first_y;
+    config_base = D_80083160;
+    size_config = config_base + 0x1DC;
+    if ((s16) max_point->unk_00 < 0) {
+        min_point->unk_00 = 0U;
+        max_point->unk_00 = 0U;
     }
-    if ((s16) arg1->unk_02 < 0) {
-        arg2->unk_02 = 0U;
-        arg1->unk_02 = 0U;
+    if ((s16) max_point->unk_02 < 0) {
+        min_point->unk_02 = 0U;
+        max_point->unk_02 = 0U;
     }
-    temp_t1 = 0x40;
-    var_t0 = arg0;
+    base_extent = 0x40;
+    point = points;
     do {
-        temp_a3 = ((S_8009D808_3 *)var_t0)->unk_00;
-        if ((s16) arg1->unk_00 < temp_a3) {
-            arg1->unk_00 = (u16) ((S_8009D808_3 *)var_t0)->unk_00;
-            temp_v1 = (temp_t1 << ((s16 *)temp_t2)[0xA]) - 1;
-            if (temp_v1 < temp_a3) {
-                arg1->unk_00 = (u16) temp_v1;
+        x_for_max = ((S_8009D808_3 *)point)->unk_00;
+        if ((s16) max_point->unk_00 < x_for_max) {
+            max_point->unk_00 = (u16) ((S_8009D808_3 *)point)->unk_00;
+            x_limit = (base_extent << ((s16 *)size_config)[0xA]) - 1;
+            if (x_limit < x_for_max) {
+                max_point->unk_00 = (u16) x_limit;
             }
         }
-        temp_a3_2 = ((S_8009D808_3 *)var_t0)->unk_00;
-        if ((s16) arg2->unk_00 > temp_a3_2) {
-            arg2->unk_00 = (u16) ((S_8009D808_3 *)var_t0)->unk_00;
-            if (temp_a3_2 < 0) {
-                arg2->unk_00 = 0U;
+        x_for_min = ((S_8009D808_3 *)point)->unk_00;
+        if ((s16) min_point->unk_00 > x_for_min) {
+            min_point->unk_00 = (u16) ((S_8009D808_3 *)point)->unk_00;
+            if (x_for_min < 0) {
+                min_point->unk_00 = 0U;
             }
         }
-        temp_a3_3 = ((S_8009D808_3 *)var_t0)->unk_02;
-        if ((s16) arg1->unk_02 < temp_a3_3) {
-            arg1->unk_02 = (u16) ((S_8009D808_3 *)var_t0)->unk_02;
-            temp_v1_2 = (temp_t1 << ((s16 *)temp_t2)[0xB]) - 1;
-            if (temp_v1_2 < temp_a3_3) {
-                arg1->unk_02 = (u16) temp_v1_2;
+        y_for_max = ((S_8009D808_3 *)point)->unk_02;
+        if ((s16) max_point->unk_02 < y_for_max) {
+            max_point->unk_02 = (u16) ((S_8009D808_3 *)point)->unk_02;
+            y_limit = (base_extent << ((s16 *)size_config)[0xB]) - 1;
+            if (y_limit < y_for_max) {
+                max_point->unk_02 = (u16) y_limit;
             }
         }
-        temp_a3_4 = ((S_8009D808_3 *)var_t0)->unk_02;
-        if ((s16) arg2->unk_02 > temp_a3_4) {
-            arg2->unk_02 = (u16) ((S_8009D808_3 *)var_t0)->unk_02;
-            if (temp_a3_4 < 0) {
-                arg2->unk_02 = 0U;
+        y_for_min = ((S_8009D808_3 *)point)->unk_02;
+        if ((s16) min_point->unk_02 > y_for_min) {
+            min_point->unk_02 = (u16) ((S_8009D808_3 *)point)->unk_02;
+            if (y_for_min < 0) {
+                min_point->unk_02 = 0U;
             }
         }
-        var_t0 += 8;
-    } while ((s32) var_t0 < (s32) (arg0 + 0x20));
+        point += 8;
+    } while ((s32) point < (s32) (points + 0x20));
 }

@@ -21,32 +21,33 @@ extern void func_80036900(RuntimeObject *);
 extern void func_8003FFF0(void *);
 extern void func_80044A50(void *);
 
-void func_8003605C(RuntimeObject *arg0, s32 arg1, s32 arg2, s32 state)
+/* Handles active-object state transitions and dispatches the object's handler. */
+void func_8003605C(RuntimeObject *object, s32 handler_arg1, s32 handler_arg2, s32 state)
 {
     u8 *entry;
     s32 unset = 0xFF;
 
-    if (arg0->active != 0) {
-        entry = arg0->base;
-        entry += arg0->index;
+    if (object->active != 0) {
+        entry = object->base;
+        entry += object->index;
         state = entry[0x4C];
 
         if (state == unset) {
             entry[0x50] = 1;
-            func_80033C84(arg0->sub);
-            func_80035090((u8 *)arg0 + 0x54);
-            arg0 = (RuntimeObject *)((u8 *)arg0 - 0x20);
-            func_80044A50(arg0);
-            func_8003FFF0(arg0);
+            func_80033C84(object->sub);
+            func_80035090((u8 *)object + 0x54);
+            object = (RuntimeObject *)((u8 *)object - 0x20);
+            func_80044A50(object);
+            func_8003FFF0(object);
             return;
         }
 
         if (state == 0xFE) {
-            arg0->state = unset;
-            arg0->state2 = unset;
-            arg0->handler = func_80036900;
+            object->state = unset;
+            object->state2 = unset;
+            object->handler = func_80036900;
         }
     }
 
-    arg0->handler(arg0, arg1, arg2, state);
+    object->handler(object, handler_arg1, handler_arg2, state);
 }

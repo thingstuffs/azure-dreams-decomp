@@ -7,34 +7,29 @@ typedef struct S_8003DF0C {
     /* 0x8 */ u8 pad2[4];
 } S_8003DF0C; /* size 0xC */
 
-/* Scan an array of 0xC-byte entries starting at ent, looking for one with
- * flags & 0x20 whose id field matches want. Writes the (adjusted) index of
- * the match, or 0, into *idxOut, then returns a pointer to the matching
- * entry (or NULL). The scan stops after processing the entry that has the
- * flags & 0x80 "last" bit set. The stored index is then reduced by half of
- * the total number of entries scanned (rounded down). */
-S_8003DF0C *func_8003DF0C(S_8003DF0C *ent, s32 want, u16 *idxOut)
+/* Return the last ID match with flag 0x20 (or NULL) and subtract half the entry count from its index (or zero). */
+S_8003DF0C *func_8003DF0C(S_8003DF0C *entry, s32 targetId, u16 *indexOut)
 {
-    u32 count;
-    u32 found;
-    u8 flags;
+    u32 entryCount;
+    u32 matchAddress;
+    u8 entryFlags;
 
-    found = 0;
-    *idxOut = 0;
-    count = found;
+    matchAddress = 0;
+    *indexOut = 0;
+    entryCount = matchAddress;
 
     do {
-        if (ent->flags & 0x20) {
-            if (ent->id == want) {
-                found = (u32)ent;
-                *idxOut = count;
+        if (entry->flags & 0x20) {
+            if (entry->id == targetId) {
+                matchAddress = (u32)entry;
+                *indexOut = entryCount;
             }
         }
-        count++;
-        flags = ent->flags;
-        ent++;
-    } while (!(flags & 0x80));
+        entryCount++;
+        entryFlags = entry->flags;
+        entry++;
+    } while (!(entryFlags & 0x80));
 
-    *idxOut = *idxOut - (count >> 1);
-    return (S_8003DF0C *)found;
+    *indexOut = *indexOut - (entryCount >> 1);
+    return (S_8003DF0C *)matchAddress;
 }

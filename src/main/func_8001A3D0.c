@@ -18,13 +18,14 @@ extern s32 D_804094E8_2[4];
 __asm__(".set D_804094E8, 0x804094E8");
 __asm__(".set D_804094E8_2, 0x804094E8");
 
+/* Clears the flag and returns 5 if it was set, or 0 otherwise. */
 s32 func_8001A3D0(void) {
-    s32 var_v1;
+    s32 result;
 
-    var_v1 = 0;
+    result = 0;
     if (D_804094E8[0] != 0) {
-        var_v1 = 5;
+        result = 5;
         D_804094E8_2[0] = 0;
     }
-    return var_v1;
+    return result;
 }

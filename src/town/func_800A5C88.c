@@ -10,19 +10,20 @@ typedef struct {
 
 extern s32 func_800A3450(s32 *, s32);
 
-void func_800A33E8(Unk800A5C88 *arg0) {
-    Unk800A5C88 local;
-    s32 i;
+// Checks up to 12 indices against adjusted input, stopping at the first zero result.
+void func_800A33E8(Unk800A5C88 *input) {
+    Unk800A5C88 adjustedInput;
+    s32 checkIndex;
 
-    local.unk0 = arg0->unk0;
-    i = 0;
-    local.unk4 = arg0->unk4;
-    local.unk8 = arg0->unk8 - 0x240000;
+    adjustedInput.unk0 = input->unk0;
+    checkIndex = 0;
+    adjustedInput.unk4 = input->unk4;
+    adjustedInput.unk8 = input->unk8 - 0x240000;
 
     do {
-        if (func_800A3450(&local.unk0, i) == 0) {
+        if (func_800A3450(&adjustedInput.unk0, checkIndex) == 0) {
             break;
         }
-        i++;
-    } while (i < 12);
+        checkIndex++;
+    } while (checkIndex < 12);
 }

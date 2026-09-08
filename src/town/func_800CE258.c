@@ -43,22 +43,23 @@ typedef struct S_800CB9B8_6 {
 
 /* extern */
 
-void func_800CB9B8(Rec_D_80082D58 *arg0, S_800CB9B8_2 *arg1) {
-    void *temp_a0;
-    S_800CB9B8_3 *temp_s0;
-    S_800CB9B8_4 *temp_s3;
-    S_800CB9B8_1 *temp_v0;
+/* Compute an entity-relative position, or run fallback updates if its state check fails. */
+void func_800CB9B8(Rec_D_80082D58 *entity, S_800CB9B8_2 *out_pos) {
+    void *state;
+    S_800CB9B8_3 *base_pos;
+    S_800CB9B8_4 *height_info;
+    S_800CB9B8_1 *state_header;
 
-    temp_a0 = arg0->unk_9C;
-    temp_v0 = temp_a0 - 0x20;
-    temp_s0 = temp_v0->unk_08;
-    temp_s3 = temp_v0->unk_0C;
-    if (func_800CB7D0(temp_a0) == 0) {
-        func_80033D08(arg0);
-        func_800C30A4(arg0);
+    state = entity->unk_9C;
+    state_header = state - 0x20;
+    base_pos = state_header->unk_08;
+    height_info = state_header->unk_0C;
+    if (func_800CB7D0(state) == 0) {
+        func_80033D08(entity);
+        func_800C30A4(entity);
         return;
     }
-    arg1->unk_00 = (s32) (temp_s0->unk_00 + (func_800644B8(((S_800CB9B8_5 *)(arg0->unk_9C))->unk_72) * 0x140));
-    arg1->unk_04 = (s32) (temp_s0->unk_04 + (func_80064584(((S_800CB9B8_5 *)(arg0->unk_9C))->unk_72) * 0x140));
-    arg1->unk_08 = (s32) (temp_s0->unk_08 + (((S_800CB9B8_6 *)(temp_s3->unk_08))->unk_03 << 0x11) + 0x100000);
+    out_pos->unk_00 = (s32) (base_pos->unk_00 + (func_800644B8(((S_800CB9B8_5 *)(entity->unk_9C))->unk_72) * 0x140));
+    out_pos->unk_04 = (s32) (base_pos->unk_04 + (func_80064584(((S_800CB9B8_5 *)(entity->unk_9C))->unk_72) * 0x140));
+    out_pos->unk_08 = (s32) (base_pos->unk_08 + (((S_800CB9B8_6 *)(height_info->unk_08))->unk_03 << 0x11) + 0x100000);
 }

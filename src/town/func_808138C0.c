@@ -43,36 +43,37 @@ extern u8 D_8052F210[];
 extern u8 D_80284430[];
 extern s32 D_80284434[];
 
-void func_808138C0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    S_808138C0_1 *temp_a0;
-    S_808138C0_0 *temp_v0;
-    s32 temp_v1;
+/* Creates an object at the given position and configures its color and rendering. */
+void func_808138C0(s32 color, s32 x, s32 y, s32 z) {
+    S_808138C0_1 *render_data;
+    S_808138C0_0 *object;
+    s32 resource_word;
 
-    temp_v0 = func_800373DC(0x136);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = (s32)D_8052F210;
-        func_8003BC18(temp_v0, D_8003C558);
-        temp_a0 = temp_v0->unk_0C;
-        ((S_808138C0_2 *)(temp_v0->unk_08))->unk_00 = arg1;
-        ((S_808138C0_2 *)(temp_v0->unk_08))->unk_04 = arg2;
-        ((S_808138C0_2 *)(temp_v0->unk_08))->unk_08 = arg3;
-        temp_a0->unk_1E = 0x1000;
-        temp_a0->unk_1C = 0x1000;
-        temp_a0->unk_00 = (s32)D_80284430;
-        temp_v1 = D_80284434[0];
-        temp_a0->unk_04 = 0;
-        temp_a0->unk_05 = 0;
-        temp_a0->unk_0C = arg0;
-        temp_a0->unk_08 = temp_v1;
-        if (arg0 != 0x808080) {
-            if (arg0 == 0xF0F0F0) {
-                temp_a0->unk_10 = 0x60;
-                ((S_808138C0_2 *)(temp_v0->unk_08))->unk_14 = 0xFFF00000;
+    object = func_800373DC(0x136);
+    if (object != NULL) {
+        object->unk_10 = (s32)D_8052F210;
+        func_8003BC18(object, D_8003C558);
+        render_data = object->unk_0C;
+        ((S_808138C0_2 *)(object->unk_08))->unk_00 = x;
+        ((S_808138C0_2 *)(object->unk_08))->unk_04 = y;
+        ((S_808138C0_2 *)(object->unk_08))->unk_08 = z;
+        render_data->unk_1E = 0x1000;
+        render_data->unk_1C = 0x1000;
+        render_data->unk_00 = (s32)D_80284430;
+        resource_word = D_80284434[0];
+        render_data->unk_04 = 0;
+        render_data->unk_05 = 0;
+        render_data->unk_0C = color;
+        render_data->unk_08 = resource_word;
+        if (color != 0x808080) {
+            if (color == 0xF0F0F0) {
+                render_data->unk_10 = 0x60;
+                ((S_808138C0_2 *)(object->unk_08))->unk_14 = 0xFFF00000;
                 goto block_4;
             }
         } else {
 block_4:
-            temp_a0->unk_14 = temp_a0->unk_14 | 0xC;
+            render_data->unk_14 = render_data->unk_14 | 0xC;
         }
     }
 }

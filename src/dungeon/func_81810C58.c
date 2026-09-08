@@ -8,6 +8,7 @@ typedef struct S_80025C58_0 {
     u8 ** unk_04;
 } S_80025C58_0;   /* arg0 in func_80025C58 */
 
-void func_80025C58(S_80025C58_0 *arg0) {
-    *arg0->unk_04 = D_800789B8;
+/* Sets the destination byte pointer to D_800789B8. */
+void func_80025C58(S_80025C58_0 *dest) {
+    *dest->unk_04 = D_800789B8;
 }

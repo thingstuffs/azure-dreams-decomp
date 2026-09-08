@@ -31,36 +31,37 @@ extern void func_800478B8(void *);
 extern s16 D_80024D04;
 extern s32 D_800814A0[3];
 
-void func_818C8924(EffectState *arg0, s32 *arg1, EffectObject *arg2)
+/* Advance effect motion and lifetime, updating its object and marking completion. */
+void func_818C8924(EffectState *effect, s32 *position, EffectObject *object)
 {
     u16 timer;
     u16 life;
 
-    arg0->x += arg0->vx;
-    arg0->y += arg0->vy;
-    arg0->z += arg0->vz;
-    arg1[0] += arg0->x;
-    arg1[1] += arg0->y;
-    arg1[2] += arg0->z;
+    effect->x += effect->vx;
+    effect->y += effect->vy;
+    effect->z += effect->vz;
+    position[0] += effect->x;
+    position[1] += effect->y;
+    position[2] += effect->z;
 
     D_80024D04 = 1;
-    timer = arg0->timer + 1;
-    arg0->timer = timer;
+    timer = effect->timer + 1;
+    effect->timer = timer;
     if (!(timer & 1)) {
-        func_800478B8(arg2);
+        func_800478B8(object);
     }
 
-    arg2->field1C += 200;
-    arg2->field1E += 200;
+    object->field1C += 200;
+    object->field1E += 200;
 
-    life = arg0->life - 1;
-    arg0->life = life;
+    life = effect->life - 1;
+    effect->life = life;
     if ((life << 16) <= 0) {
-        ((S_818C8924_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+        ((S_818C8924_0_pre *)effect)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
-    if (arg2->flags & 0x8000) {
-        ((S_818C8924_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    if (object->flags & 0x8000) {
+        ((S_818C8924_0_pre *)effect)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

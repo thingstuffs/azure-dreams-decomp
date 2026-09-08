@@ -20,11 +20,11 @@ void func_8005D7BC(void)
         D_80079950[1] = 0;
         EnterCriticalSection();
         {
-            s32 arg0 = 0;
+            s32 null_callback = 0;
 
             D_80079990[0] = 0;
             D_80079994[0] = 0;
-            func_8005D798(arg0);
+            func_8005D798(null_callback);
         }
         CloseEvent(D_800794EC[0]);
         DisableEvent(D_800794F0[-1]);

@@ -11,13 +11,14 @@ typedef struct {
     s32 unk10;
 } UnkStruct807B11B8;
 
-void func_807B11B8(u16 *arg0, UnkStruct807B11B8 *arg1, u16 *arg2) {
-    arg1->unk0 += arg1->unkC;
-    arg1->unk4 += arg1->unk10;
-    func_800478B8(arg2);
-    if (*(u16 *)((u8 *)arg2 + 0x14) & 0x6000) {
-        u16 *hp = (u16 *)((u8 *)arg0 - 2);
-        *hp = (u16)(*hp | 0x8000);
+/* Advance motion and propagate update flags to the object and global state. */
+void func_807B11B8(u16 *object_data, UnkStruct807B11B8 *motion, u16 *update_state) {
+    motion->unk0 += motion->unkC;
+    motion->unk4 += motion->unk10;
+    func_800478B8(update_state);
+    if (*(u16 *)((u8 *)update_state + 0x14) & 0x6000) {
+        u16 *object_flags = (u16 *)((u8 *)object_data - 2);
+        *object_flags = (u16)(*object_flags | 0x8000);
         D_800814A0.v = D_800814A0.v | 0x8000;
     }
 }

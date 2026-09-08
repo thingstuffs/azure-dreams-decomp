@@ -29,18 +29,19 @@ extern s32 func_804057F0(StructA_8001F678 *arg0, s32 arg1);
 extern void func_804065CC(void);
 extern u8 D_8040C628[0x1C];
 
-StructA_8001F678 *func_8001F678(s32 arg0) {
-    StructA_8001F678 *temp_v0;
+/* Creates and initializes state and installs its update callback. */
+StructA_8001F678 *func_8001F678(s32 init_value) {
+    StructA_8001F678 *state;
 
-    temp_v0 = func_8003C714(0, D_8040C628, 0x1C);
-    func_80406570((void *) ((s32) temp_v0 + 0x20), arg0);
+    state = func_8003C714(0, D_8040C628, 0x1C);
+    func_80406570((void *) ((s32) state + 0x20), init_value);
     func_804023C4();
     func_80402214();
-    temp_v0->unk68 = 1;
-    temp_v0->unk20 = func_80404C84(temp_v0, &temp_v0->unk68);
-    temp_v0->unk38 = func_80403BC4(temp_v0);
-    temp_v0->unk3C = func_804057F0(temp_v0, temp_v0->unk48);
-    temp_v0->unk44 = 0;
-    temp_v0->unk10 = func_804065CC;
-    return temp_v0;
+    state->unk68 = 1;
+    state->unk20 = func_80404C84(state, &state->unk68);
+    state->unk38 = func_80403BC4(state);
+    state->unk3C = func_804057F0(state, state->unk48);
+    state->unk44 = 0;
+    state->unk10 = func_804065CC;
+    return state;
 }

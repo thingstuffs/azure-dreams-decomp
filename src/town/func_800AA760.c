@@ -2,7 +2,7 @@
 
 #define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
 
-extern s32 func_8009CFE0(void);
+extern s32 func_8009CFE0(void *, void *);
 extern void func_80033D08(void *arg0);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80064584(s32 angle);
@@ -28,7 +28,7 @@ void func_800A7EC0(void *arg0, void *arg1)
 
     state = FIELD(arg0, u8 *, 0x60);
     index = state & 0xFF;
-    if (func_8009CFE0() != 0) {
+    if (func_8009CFE0(arg0, arg1) != 0) {
         flag = FIELD(arg0, s8 **, 0x98);
         if (flag != 0) {
             *flag = 0;

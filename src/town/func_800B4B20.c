@@ -3,24 +3,25 @@
 extern void bzero(void *dst, s32 size);
 extern s32 D_800D1648[];
 
-u32 func_800B2280(s32 *arg0, s32 arg1, s32 arg2) {
+/* Returns the first unused four-byte slot address in the selected pool. */
+u32 func_800B2280(s32 *used_addrs, s32 pool_index, s32 slot_count) {
     u8 used[256];
     s32 base;
-    s32 i;
+    s32 slot;
 
-    bzero(used, arg2);
-    base = D_800D1648[arg1];
+    bzero(used, slot_count);
+    base = D_800D1648[pool_index];
 
-    while (*arg0 != 0) {
-        used[(u32)(*arg0++ - base) >> 2] = 1;
+    while (*used_addrs != 0) {
+        used[(u32)(*used_addrs++ - base) >> 2] = 1;
     }
 
-    i = 0;
+    slot = 0;
     if (used[0] != 0) {
         do {
-            i++;
-        } while (used[i] != 0);
+            slot++;
+        } while (used[slot] != 0);
     }
 
-    return base + (i * 4);
+    return base + (slot * 4);
 }

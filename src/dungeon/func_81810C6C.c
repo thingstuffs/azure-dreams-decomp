@@ -15,23 +15,24 @@ typedef struct {
 
 extern s32 D_800294E4;
 
-void *func_80025C6C(void *arg0) {
-    s32 i;
-    s32 data;
+/* Initializes five entries with shared defaults and marks the final entry. */
+void *func_80025C6C(void *entryBuffer) {
+    s32 entryIndex;
+    s32 sharedEntryValue;
     Entry *entries;
 
-    i = 0;
-    entries = arg0;
+    entryIndex = 0;
+    entries = entryBuffer;
     do {
-        entries[i].f1 = 40;
-        data = D_800294E4;
-        entries[i].f3 = (i * 16) - 62;
-        entries[i].f2 = 2;
-        entries[i].f10 = 12;
-        entries[i].f11 = 12;
-        entries[i].f4 = data;
-        i += 1;
-    } while (i < 5);
-    FIELD(((i * 12) + arg0), u8 *, -12) = 128;
-    return arg0;
+        entries[entryIndex].f1 = 40;
+        sharedEntryValue = D_800294E4;
+        entries[entryIndex].f3 = (entryIndex * 16) - 62;
+        entries[entryIndex].f2 = 2;
+        entries[entryIndex].f10 = 12;
+        entries[entryIndex].f11 = 12;
+        entries[entryIndex].f4 = sharedEntryValue;
+        entryIndex += 1;
+    } while (entryIndex < 5);
+    FIELD(((entryIndex * 12) + entryBuffer), u8 *, -12) = 128;
+    return entryBuffer;
 }

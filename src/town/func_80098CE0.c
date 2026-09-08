@@ -6,41 +6,42 @@ extern s32 func_8008CABC();
 extern M2C_UNK *D_800D0414;
 extern s32 D_800FE5CC;
 
-s16 func_80096440(s32 *arg0)
+/* Queries the input and, for a large offset, returns the larger original or shifted result. */
+s16 func_80096440(s32 *input)
 {
-    s32 local[6];
-    s32 first_result;
+    s32 sample[6];
+    s32 original_result;
     M2C_UNK **map_slot;
-    s32 *base;
-    s32 second_result;
-    s32 delta;
-    u32 magnitude;
-    u32 bias;
+    s32 *source;
+    s32 shifted_result;
+    s32 offset;
+    u32 offset_magnitude;
+    u32 limit_bias;
     s32 limit;
 
     map_slot = &D_800D0414;
-    base = arg0;
-    local[0] = base[0];
-    local[1] = base[1];
-    local[2] = base[2];
-    first_result = func_8008CABC(local, *map_slot, 6);
-    delta = D_800FE5CC;
+    source = input;
+    sample[0] = source[0];
+    sample[1] = source[1];
+    sample[2] = source[2];
+    original_result = func_8008CABC(sample, *map_slot, 6);
+    offset = D_800FE5CC;
     limit = 0x140000;
-    bias = (u32)limit;
-    magnitude = (u32)delta;
-    magnitude += bias;
-    magnitude -= bias;
-    if (delta < 0) {
-        magnitude = (u32)limit - (magnitude + (u32)limit);
+    limit_bias = (u32)limit;
+    offset_magnitude = (u32)offset;
+    offset_magnitude += limit_bias;
+    offset_magnitude -= limit_bias;
+    if (offset < 0) {
+        offset_magnitude = (u32)limit - (offset_magnitude + (u32)limit);
     }
-    if ((s32)magnitude <= limit) {
-        return (s16)first_result;
+    if ((s32)offset_magnitude <= limit) {
+        return (s16)original_result;
     }
 
-    local[0] = base[0] - (delta / 2);
-    second_result = func_8008CABC(local, *map_slot, 6, delta);
-    if ((s16)first_result < (s16)second_result) {
-        return (s16)second_result;
+    sample[0] = source[0] - (offset / 2);
+    shifted_result = func_8008CABC(sample, *map_slot, 6, offset);
+    if ((s16)original_result < (s16)shifted_result) {
+        return (s16)shifted_result;
     }
-    return (s16)first_result;
+    return (s16)original_result;
 }

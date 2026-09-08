@@ -1,10 +1,5 @@
 #include "common.h"
 
-/* Runs the shared per-frame update (func_80056C30), conditionally runs
- * func_8005863C when the D_80086D4C[0] counter is in (0, 4), then walks the
- * first 8 entries of the D_80086A40 slot table, calling func_8005A1D0 on the
- * unk10 field of every entry whose unk00 slot-marker is non-negative, and
- * finally re-initializes the slot table via func_8005A26C. */
 /* Slot-table element (see sibling func_80057A50 for the confirmed 0x1C-byte
  * stride layout of D_80086A40). Only the fields this function touches are
  * named; the rest is padding. */
@@ -23,10 +18,11 @@ extern void func_8005863C(void);
 extern void func_8005A1D0(s32 arg0);
 extern void func_8005A26C(void);
 
+/* Runs frame updates, processes active slots among the first eight, and resets the slot table. */
 void func_8005A428(void)
 {
-    s32 i;
-    S_8005A428_D80086A40 *p;
+    s32 slot_index;
+    S_8005A428_D80086A40 *slot;
 
     func_80056C30();
 
@@ -37,14 +33,14 @@ void func_8005A428(void)
             func_8005863C();
         }
     }
-    i = 0;
+    slot_index = 0;
 
-    p = D_80086A40;
-    for (; i < 8; i++, p++)
+    slot = D_80086A40;
+    for (; slot_index < 8; slot_index++, slot++)
     {
-        if (p->unk00 >= 0)
+        if (slot->unk00 >= 0)
         {
-            func_8005A1D0(p->unk10);
+            func_8005A1D0(slot->unk10);
         }
     }
 

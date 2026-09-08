@@ -1,10 +1,5 @@
 #include "common.h"
 
-/* Scans D_80085458 for active slots (f1a != 0) whose channel index is NOT a
- * direct MIDI channel (f06 >= 0x10) and whose key fields match the caller's
- * device/channel id (encoded in arg0/arg1); for each match, clears the
- * active flags and re-dispatches the note twice via func_80056D44 while
- * OR-accumulating D_80073740[i] into a flags word passed to func_8005E97C. */
 /* D_80085458 table element, stride 0x78 bytes. Fields at 0x0A and 0x5C are
  * newly touched here (not referenced by other reconciled siblings); rest of
  * the layout matches the canonical struct established in src/w_80056A08.c
@@ -43,57 +38,58 @@ extern s32 D_80085F98[4]; /* forced hi/lo access via size > 8 */
 extern s32 func_80056D44(s32 a0, S_8005BAB0_85458 *a1);
 extern void func_8005E97C(s32 a0, s32 a1);
 
-void func_8005BAB0(s32 arg0, s32 arg1)
+/* Clears matching active indirect-channel slots, redispatches each twice, and applies their combined flags. */
+void func_8005BAB0(s32 packed_key, s32 packed_channel)
 {
-    S_8005BAB0_85458 *p;
-    s32 *q;
-    s32 acc;
-    s32 i;
+    S_8005BAB0_85458 *slot;
+    s32 *slot_flags;
+    s32 combined_flags;
+    s32 slot_index;
 
-    i = 0;
-    acc = i;
+    slot_index = 0;
+    combined_flags = slot_index;
     D_80085F98[0] = 1;
 
     if (D_80073734[0] <= 0) {
         goto done;
     }
 
-    q = D_80073740;
-    p = D_80085458;
+    slot_flags = D_80073740;
+    slot = D_80085458;
 loop:
-    if (p->f1a == 0) {
+    if (slot->f1a == 0) {
         goto next;
     }
-    if ((u16)p->f06 < 0x10) {
+    if ((u16)slot->f06 < 0x10) {
         goto next;
     }
-    if (p->f0a != (arg1 >> 8)) {
+    if (slot->f0a != (packed_channel >> 8)) {
         goto next;
     }
-    if (p->f5c != (arg0 >> 8)) {
+    if (slot->f5c != (packed_key >> 8)) {
         goto next;
     }
-    if (p->f04 != (u16)(arg0 & 0x7F)) {
+    if (slot->f04 != (u16)(packed_key & 0x7F)) {
         goto next;
     }
-    acc |= *q;
-    p->f1a = 0;
-    p->f0a = 0;
-    func_80056D44(i, p);
-    func_8005E97C(0, *q);
-    func_80056D44(i, p);
-    func_8005E97C(0, *q);
-    acc |= *q;
+    combined_flags |= *slot_flags;
+    slot->f1a = 0;
+    slot->f0a = 0;
+    func_80056D44(slot_index, slot);
+    func_8005E97C(0, *slot_flags);
+    func_80056D44(slot_index, slot);
+    func_8005E97C(0, *slot_flags);
+    combined_flags |= *slot_flags;
 next:
-    q++;
-    p++;
-    i++;
-    if (i < D_80073734[0]) {
+    slot_flags++;
+    slot++;
+    slot_index++;
+    if (slot_index < D_80073734[0]) {
         goto loop;
     }
 
 done:
 
-    func_8005E97C(0, acc);
+    func_8005E97C(0, combined_flags);
     D_80085F98[0] = 0;
 }

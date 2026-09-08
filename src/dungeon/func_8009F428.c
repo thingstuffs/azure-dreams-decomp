@@ -31,127 +31,128 @@ extern s32 D_80083110[];
 extern s16 D_80083228;
 extern u8 D_800DD274[];
 
-void func_800A4B88(void *arg0, s32 arg1) {
+/* Applies an action to the object's flags and tile state, then updates the object. */
+void func_800A4B88(void *object, s32 action) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17, &&jt_c18, &&jt_c19, &&jt_c20, &&jt_c21, &&jt_c22, &&jt_c23, &&jt_c24, &&jt_c25, &&jt_c26 };
-    M2C_UNK var_a2;
-    M2C_UNK var_a2_2;
-    M2C_UNK var_a2_3;
-    M2C_UNK var_a2_4;
-    s32 temp_a1;
-    s32 *var_v0;
-    s32 temp_v0;
-    s32 var_v1;
-    M2C_UNK *temp_a0;
-    u8 var_a0;
-    u8 var_a1;
-    void *temp_s0;
+    M2C_UNK clear_mask;
+    M2C_UNK enable_clear_mask;
+    M2C_UNK set_mask;
+    M2C_UNK disable_clear_mask;
+    s32 action_index;
+    s32 *reset_slot;
+    s32 updated_flags;
+    s32 reset_index;
+    M2C_UNK *update_state;
+    u8 tile_x;
+    u8 tile_y;
+    void *position;
 
-    temp_a1 = (s16) (arg1 - 1);
-    if ((u32) temp_a1 >= 0x1BU) {
+    action_index = (s16) (action - 1);
+    if ((u32) action_index >= 0x1BU) {
         goto block_26;
     }
-    (void)jt_keep; goto *D_80089008[(u32)(temp_a1)];
+    (void)jt_keep; goto *D_80089008[(u32)(action_index)];
 jt_c0:
-    ((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 | 0x200);
+    ((Rec_D_800E3D7C *)object)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)object)->unk_1C.as_s32 | 0x200);
     goto block_26;
 jt_c1:
-    ((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 | 0x400);
+    ((Rec_D_800E3D7C *)object)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)object)->unk_1C.as_s32 | 0x400);
     goto block_26;
 jt_c2:
-    ((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 = (s32) ((((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 & 0xFFFDFFFF) | 0x10);
+    ((Rec_D_800E3D7C *)object)->unk_1C.as_s32 = (s32) ((((Rec_D_800E3D7C *)object)->unk_1C.as_s32 & 0xFFFDFFFF) | 0x10);
     goto block_26;
 jt_c3:
-    ((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 | 0x20);
+    ((Rec_D_800E3D7C *)object)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)object)->unk_1C.as_s32 | 0x20);
     goto block_26;
 jt_c4:
-    ((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 | 0x40);
+    ((Rec_D_800E3D7C *)object)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)object)->unk_1C.as_s32 | 0x40);
     goto block_26;
 jt_c5:
-    ((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 | 0x80);
+    ((Rec_D_800E3D7C *)object)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)object)->unk_1C.as_s32 | 0x80);
     goto block_26;
 jt_c7:
-    ((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 | 0x800);
+    ((Rec_D_800E3D7C *)object)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)object)->unk_1C.as_s32 | 0x800);
     goto block_26;
 jt_c8:
-    ((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 | 0x1000);
+    ((Rec_D_800E3D7C *)object)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)object)->unk_1C.as_s32 | 0x1000);
     goto block_26;
 jt_c26:
-    temp_s0 = ((S_800A4B88_0_pre *)arg0)[-1].unk_04;
-    var_a0 = ((S_800A4B88_1 *)temp_s0)->unk_24;
-    var_a1 = ((S_800A4B88_1 *)temp_s0)->unk_25;
-    var_a2 = 0x3000;
-    if (!(((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 & 0x2000)) {
+    position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
+    tile_x = ((S_800A4B88_1 *)position)->unk_24;
+    tile_y = ((S_800A4B88_1 *)position)->unk_25;
+    clear_mask = 0x3000;
+    if (!(((Rec_D_800E3D7C *)object)->unk_1C.as_s32 & 0x2000)) {
         goto block_12;
     }
-    var_a2 = 0x300;
+    clear_mask = 0x300;
 block_12:
-    func_8009A3D0(var_a0, var_a1, var_a2);
+    func_8009A3D0(tile_x, tile_y, clear_mask);
     goto block_26;
 jt_c10:
-    temp_s0 = ((S_800A4B88_0_pre *)arg0)[-1].unk_04;
-    var_a0 = ((S_800A4B88_1 *)temp_s0)->unk_24;
-    var_a1 = ((S_800A4B88_1 *)temp_s0)->unk_25;
-    var_a2_2 = 0x3000;
-    if (!(((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 & 0x2000)) {
+    position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
+    tile_x = ((S_800A4B88_1 *)position)->unk_24;
+    tile_y = ((S_800A4B88_1 *)position)->unk_25;
+    enable_clear_mask = 0x3000;
+    if (!(((Rec_D_800E3D7C *)object)->unk_1C.as_s32 & 0x2000)) {
         goto block_15;
     }
-    var_a2_2 = 0x300;
+    enable_clear_mask = 0x300;
 block_15:
-    func_8009A3D0(var_a0, var_a1, var_a2_2);
-    temp_v0 = ((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 | 0x2000;
-    ((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 = temp_v0;
-    var_a0 = ((S_800A4B88_1 *)temp_s0)->unk_24;
-    var_a1 = ((S_800A4B88_1 *)temp_s0)->unk_25;
-    var_a2_3 = 0x3000;
-    if (!(temp_v0 & 0x2000)) {
+    func_8009A3D0(tile_x, tile_y, enable_clear_mask);
+    updated_flags = ((Rec_D_800E3D7C *)object)->unk_1C.as_s32 | 0x2000;
+    ((Rec_D_800E3D7C *)object)->unk_1C.as_s32 = updated_flags;
+    tile_x = ((S_800A4B88_1 *)position)->unk_24;
+    tile_y = ((S_800A4B88_1 *)position)->unk_25;
+    set_mask = 0x3000;
+    if (!(updated_flags & 0x2000)) {
         goto block_20;
     }
-    var_a2_3 = 0x300;
+    set_mask = 0x300;
     goto block_20;
 jt_c11:
-    temp_s0 = ((S_800A4B88_0_pre *)arg0)[-1].unk_04;
-    var_a0 = ((S_800A4B88_1 *)temp_s0)->unk_24;
-    var_a1 = ((S_800A4B88_1 *)temp_s0)->unk_25;
-    var_a2_4 = 0x3000;
-    if (!(((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 & 0x2000)) {
+    position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
+    tile_x = ((S_800A4B88_1 *)position)->unk_24;
+    tile_y = ((S_800A4B88_1 *)position)->unk_25;
+    disable_clear_mask = 0x3000;
+    if (!(((Rec_D_800E3D7C *)object)->unk_1C.as_s32 & 0x2000)) {
         goto block_19;
     }
-    var_a2_4 = 0x300;
+    disable_clear_mask = 0x300;
 block_19:
-    func_8009A3D0(var_a0, var_a1, var_a2_4);
-    ((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 & ~0x2000);
-    var_a0 = ((S_800A4B88_1 *)temp_s0)->unk_24;
-    var_a1 = ((S_800A4B88_1 *)temp_s0)->unk_25;
+    func_8009A3D0(tile_x, tile_y, disable_clear_mask);
+    ((Rec_D_800E3D7C *)object)->unk_1C.as_s32 = (s32) (((Rec_D_800E3D7C *)object)->unk_1C.as_s32 & ~0x2000);
+    tile_x = ((S_800A4B88_1 *)position)->unk_24;
+    tile_y = ((S_800A4B88_1 *)position)->unk_25;
     do {
-        var_a2_3 = 0x3000;
+        set_mask = 0x3000;
     } while (0);
 block_20:
-    func_8009A21C(var_a0, var_a1, var_a2_3);
+    func_8009A21C(tile_x, tile_y, set_mask);
     goto block_26;
 jt_c9:
     func_8003E188(0x2E, 0);
-    if (!(((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x20000000)) {
+    if (!(((Rec_D_800E3D7C *)object)->unk_14.as_s32 & 0x20000000)) {
         goto block_23;
     }
-    func_800ACB98(arg0, ((S_800A4B88_0_pre *)arg0)[-1].unk_00, ((S_800A4B88_0_pre *)arg0)[-1].unk_04, arg0);
+    func_800ACB98(object, ((S_800A4B88_0_pre *)object)[-1].unk_00, ((S_800A4B88_0_pre *)object)[-1].unk_04, object);
     return;
 block_23:
-    func_800D8590(arg0);
-    if (((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v != 0) {
+    func_800D8590(object);
+    if (((Rec_D_800E3D7C *)object)->unk_10.at03_u8.v != 0) {
         goto block_26;
     }
-    func_80096088(arg0, arg0);
-    temp_a0 = &D_80082E80;
-    (*(M2C_UNK **)((u8 *)temp_a0 + 0x2C)) = D_800DD274;
-    func_8003DB94(temp_a0, *(s32 *)(D_800DD274 + ((((s32) (D_80083228 + (*(s16 *)((u8 *)arg0 + 0x2A)) + 0x100) >> 7) & 0x1C))), 0);
-    var_v1 = 3;
-    var_v0 = D_80083110;
-    var_v0 += 3;
+    func_80096088(object, object);
+    update_state = &D_80082E80;
+    (*(M2C_UNK **)((u8 *)update_state + 0x2C)) = D_800DD274;
+    func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (D_80083228 + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 7) & 0x1C))), 0);
+    reset_index = 3;
+    reset_slot = D_80083110;
+    reset_slot += 3;
 loop_25:
-    *var_v0 = 0;
-    var_v1 -= 1;
-    var_v0 -= 1;
-    if (var_v1 >= 0) {
+    *reset_slot = 0;
+    reset_index -= 1;
+    reset_slot -= 1;
+    if (reset_index >= 0) {
         goto loop_25;
     }
 jt_c6:
@@ -170,6 +171,6 @@ jt_c23:
 jt_c24:
 jt_c25:
 block_26:
-    func_80041E70(arg0);
+    func_80041E70(object);
     return;
 }

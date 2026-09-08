@@ -70,42 +70,43 @@ extern u16 D_80094422[5];
 extern M2C_UNK D_800E2BB8;
 extern M2C_UNK D_8010AC34;
 
-void func_7FFE7CBC(S_7FFE7CBC_3 *arg0, s32 arg1) {
-    s32 temp_arg1;
-    S_7FFE7CBC_1 *temp_a0;
-    S_7FFE7CBC_4 *temp_a0_2;
-    S_7FFE7CBC_0 *temp_v0;
-    S_7FFE7CBC_2 *temp_v1;
+/* Creates an effect at the source position with the given color. */
+void func_7FFE7CBC(S_7FFE7CBC_3 *source, s32 color) {
+    s32 effect_color;
+    S_7FFE7CBC_1 *render_state;
+    S_7FFE7CBC_4 *render_data;
+    S_7FFE7CBC_0 *effect;
+    S_7FFE7CBC_2 *position;
 
-    temp_v0 = func_7003CF18(0x12);
-    if (temp_v0 != NULL) {
-        temp_a0 = temp_v0->unk_0C;
-        temp_v0->unk_10 = &D_8010AC34;
-        temp_v0->unk_44 = arg0;
-        temp_v0->unk_3E = 0x3C;
-        temp_a0->unk_10 = 0x20;
-        temp_a0->unk_14 =
-            (u16)(temp_a0->unk_14 | 0xC);
-        temp_v1 = temp_v0->unk_08;
-        temp_v1->unk_02 =
-            (u16)((S_7FFE7CBC_5 *)(arg0->unk_08))->unk_02;
-        temp_v1->unk_06 =
-            (u16)((S_7FFE7CBC_5 *)(arg0->unk_08))->unk_06;
-        temp_v1->unk_0A =
-            (u16)((S_7FFE7CBC_5 *)(arg0->unk_08))->unk_0A;
-        temp_a0_2 = temp_v0->unk_0C;
-        temp_a0_2->unk_0C.at02.v = 0x80;
-        temp_a0_2->unk_0C.at01.v = 0x80;
-        temp_a0_2->unk_0C.at00.v = 0x80;
-        temp_arg1 = *(volatile s32 *)&arg1;
-        temp_a0_2->unk_1E = 0x1000;
-        temp_a0_2->unk_1C = 0x1000;
-        temp_a0_2->unk_0C.at00u.v = temp_arg1;
-        temp_v0->unk_2C = temp_arg1;
-        temp_a0_2->unk_12 = 0x7DCE;
-        temp_a0_2->unk_14 =
-            (u16)(temp_a0_2->unk_14 | 0x100);
-        func_7003A7C4(temp_a0_2, &D_800E2BB8, 0);
+    effect = func_7003CF18(0x12);
+    if (effect != NULL) {
+        render_state = effect->unk_0C;
+        effect->unk_10 = &D_8010AC34;
+        effect->unk_44 = source;
+        effect->unk_3E = 0x3C;
+        render_state->unk_10 = 0x20;
+        render_state->unk_14 =
+            (u16)(render_state->unk_14 | 0xC);
+        position = effect->unk_08;
+        position->unk_02 =
+            (u16)((S_7FFE7CBC_5 *)(source->unk_08))->unk_02;
+        position->unk_06 =
+            (u16)((S_7FFE7CBC_5 *)(source->unk_08))->unk_06;
+        position->unk_0A =
+            (u16)((S_7FFE7CBC_5 *)(source->unk_08))->unk_0A;
+        render_data = effect->unk_0C;
+        render_data->unk_0C.at02.v = 0x80;
+        render_data->unk_0C.at01.v = 0x80;
+        render_data->unk_0C.at00.v = 0x80;
+        effect_color = *(volatile s32 *)&color;
+        render_data->unk_1E = 0x1000;
+        render_data->unk_1C = 0x1000;
+        render_data->unk_0C.at00u.v = effect_color;
+        effect->unk_2C = effect_color;
+        render_data->unk_12 = 0x7DCE;
+        render_data->unk_14 =
+            (u16)(render_data->unk_14 | 0x100);
+        func_7003A7C4(render_data, &D_800E2BB8, 0);
         D_80094422[0] += 1;
     }
 }

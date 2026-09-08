@@ -26,62 +26,63 @@ extern s8 D_80016000[];
 extern u8 D_80016034[16];
 extern u8 D_8001605C[];
 
-void func_80018D14(u8 *arg0)
+/* Clear an object and its linked state, invoking callbacks if the reference mismatches. */
+void func_80018D14(u8 *object_ref)
 {
-    void **page;
-    u8 *root;
-    register u8 *loaded_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register u32 raw_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u8 *call_table;
-    TownCall3 call3;
-    u8 *root2;
-    u8 *call_table2;
-    TownCall1 call1;
-    u8 *base;
-    u8 *objects;
-    u8 *record;
-    u8 *small;
-    s32 index;
-    u32 raw_final;
-    s32 scaled;
-    s32 scaled2;
+    void **global_page;
+    u8 *context;
+    register u8 *loaded_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register u32 object_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *callbacks;
+    TownCall3 callback_168;
+    u8 *updated_context;
+    u8 *updated_callbacks;
+    TownCall1 callback_174;
+    u8 *state_base;
+    u8 *object_table;
+    u8 *entry;
+    u8 *link_state;
+    s32 slot;
+    u32 link_flags;
+    s32 object_offset;
+    s32 link_offset;
 
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    page = (void **)0x80010000;
-    root = ((S_80018D14_0 *)page)->unk_6000;
-    loaded_base = ((S_80018D14_1 *)root)->unk_38;
-    objects = loaded_base + 0x2F0;
-    base = loaded_base;
-    raw_index = arg0[3];
-    ASM_KEEP(raw_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    index = raw_index & 0x1F;
+    global_page = (void **)0x80010000;
+    context = ((S_80018D14_0 *)global_page)->unk_6000;
+    loaded_state = ((S_80018D14_1 *)context)->unk_38;
+    object_table = loaded_state + 0x2F0;
+    state_base = loaded_state;
+    object_flags = object_ref[3];
+    ASM_KEEP(object_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    slot = object_flags & 0x1F;
 
-    if (arg0[0] != objects[index * 0x54 + 0x13]) {
-        call_table = ((S_80018D14_1 *)root)->unk_20;
-        call3 = (*(TownCall3 *)((u8 *)call_table + 0x168));
-        ASM_KEEP(call3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        call3(D_80016034, D_8001605C, 0x41);
-        root2 = ((S_80018D14_0 *)page)->unk_6000;
-        call_table2 = ((S_80018D14_2 *)root2)->unk_20;
-        call1 = (*(TownCall1 *)((u8 *)call_table2 + 0x174));
-        call1(1);
-        ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    if (object_ref[0] != object_table[slot * 0x54 + 0x13]) {
+        callbacks = ((S_80018D14_1 *)context)->unk_20;
+        callback_168 = (*(TownCall3 *)((u8 *)callbacks + 0x168));
+        ASM_KEEP(callback_168);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        callback_168(D_80016034, D_8001605C, 0x41);
+        updated_context = ((S_80018D14_0 *)global_page)->unk_6000;
+        updated_callbacks = ((S_80018D14_2 *)updated_context)->unk_20;
+        callback_174 = (*(TownCall1 *)((u8 *)updated_callbacks + 0x174));
+        callback_174(1);
+        ASM_KEEP(slot);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
 
-    scaled = index * 4;
-    record = (u8 *)((u32)(((scaled + index) * 4 + index) * 4) +
-                    (u32)objects);
-    record[0x13] = 0;
+    object_offset = slot * 4;
+    entry = (u8 *)((u32)(((object_offset + slot) * 4 + slot) * 4) +
+                    (u32)object_table);
+    entry[0x13] = 0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    raw_final = record[0x43];
-    index = raw_final & 0x3F;
-    scaled2 = index * 4;
-    small = base + scaled2;
-    small[0x980] = 0;
-    small[0x981] = 0;
+    link_flags = entry[0x43];
+    slot = link_flags & 0x3F;
+    link_offset = slot * 4;
+    link_state = state_base + link_offset;
+    link_state[0x980] = 0;
+    link_state[0x981] = 0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    record = (((scaled2 + index) * 4 + index) * 4) + base;
-    record[0xA93] = 0;
+    entry = (((link_offset + slot) * 4 + slot) * 4) + state_base;
+    entry[0xA93] = 0;
 }
 
 /* MECHANISM: Four values span the call region: literal page base, root-derived base,

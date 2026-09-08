@@ -14,10 +14,11 @@ extern char *func_80016E48(s32);
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 
-char *func_80017880(s32 arg0, s32 arg1, s32 arg2)
+/* Selects a string by selector and state flags. */
+char *func_80017880(s32 unused_0, s32 unused_1, s32 string_selector)
 {
-    s32 selector = arg2;
-    u32 index;
+    s32 selector = string_selector;
+    u32 jump_index;
     static void *const keepalive[] = {
         &&L_case12,
         &&L_case18,
@@ -26,12 +27,12 @@ char *func_80017880(s32 arg0, s32 arg1, s32 arg2)
         &&L_default
     };
 
-    index = selector - 12;
-    if (index >= 43) {
+    jump_index = selector - 12;
+    if (jump_index >= 43) {
         goto L_default;
     }
     
-    goto *jtbl_800164F0[index];
+    goto *jtbl_800164F0[jump_index];
 
 L_case19:
     return D_8001BF7C;

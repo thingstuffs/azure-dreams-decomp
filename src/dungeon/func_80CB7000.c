@@ -68,24 +68,25 @@ static void (*const func_80CB7000_table[])(void)
 #define FUNC_80CB7000_BODY func_80CB7000
 #endif
 
-void FUNC_80CB7000_BODY(void *arg0, s32 arg1, void *arg2)
+/* Initialize object state and primitive settings, and copy the source coordinates. */
+void FUNC_80CB7000_BODY(void *object, s32 state_value, void *src_coords)
 {
     void *prim;
     void *coords;
 
-    *(s32 *)((u8 *)arg0 + 0x60) = arg1;
-    func_8004491C(arg0, D_80045340);
+    *(s32 *)((u8 *)object + 0x60) = state_value;
+    func_8004491C(object, D_80045340);
 
-    prim = *(void **)((u8 *)arg0 + 0xC);
+    prim = *(void **)((u8 *)object + 0xC);
     *(s16 *)((u8 *)prim + 0x10) = 0x20;
     *(u16 *)((u8 *)prim + 0x14) |= 0xC;
 
-    coords = *(void **)((u8 *)arg0 + 8);
-    *(u16 *)((u8 *)coords + 2) = *(u16 *)((u8 *)arg2 + 2);
-    *(u16 *)((u8 *)coords + 6) = *(u16 *)((u8 *)arg2 + 6);
-    *(u16 *)((u8 *)coords + 0xA) = *(u16 *)((u8 *)arg2 + 0xA);
+    coords = *(void **)((u8 *)object + 8);
+    *(u16 *)((u8 *)coords + 2) = *(u16 *)((u8 *)src_coords + 2);
+    *(u16 *)((u8 *)coords + 6) = *(u16 *)((u8 *)src_coords + 6);
+    *(u16 *)((u8 *)coords + 0xA) = *(u16 *)((u8 *)src_coords + 0xA);
 
-    prim = *(void **)((u8 *)arg0 + 0xC);
+    prim = *(void **)((u8 *)object + 0xC);
     *(s16 *)((u8 *)prim + 0x1E) = 0x1000;
     *(s16 *)((u8 *)prim + 0x1C) = 0x1000;
     *(u8 *)((u8 *)prim + 0xE) = 0x80;

@@ -16,8 +16,9 @@ typedef struct S_800A130C_1 {
     u16 unk_0A;
 } S_800A130C_1;   /* arg1 in func_800A130C */
 
-void func_800A130C(S_800A130C_0 *arg0, S_800A130C_1 *arg1) {
-    arg0->unk_00 = (u16) arg1->unk_02;
-    arg0->unk_02 = (u16) arg1->unk_06;
-    arg0->unk_04 = (u16) arg1->unk_0A;
+/* Copies three spaced halfwords into consecutive destination fields. */
+void func_800A130C(S_800A130C_0 *dst, S_800A130C_1 *src) {
+    dst->unk_00 = (u16) src->unk_02;
+    dst->unk_02 = (u16) src->unk_06;
+    dst->unk_04 = (u16) src->unk_0A;
 }

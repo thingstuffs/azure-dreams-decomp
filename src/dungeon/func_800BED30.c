@@ -31,65 +31,62 @@ typedef struct S_800C4490_0_pre {
 } S_800C4490_0_pre;   /* the 0x18 bytes before arg0 in func_800C4490, addressed as arg0[-1] */
 
 
-s32 func_800C4490(void *arg0, s32 arg1, s16 arg2) {
-    s16 difference;
-    s32 amount;
-    s32 effect;
-    register s32 saved ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temporary;
+/* Applies a capped random stat gain to the target and displays its effect message. */
+s32 func_800C4490(void *target, s32 source, s16 effect_mode) {
+    s16 stat_gap;
+    s32 stat_gain;
+    s32 effect_text;
+    register s32 message_context ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 new_context;
 
-    if (arg0 == D_800E3D7C) {
-        ((Rec_D_800E3D7C *)arg0)->unk_110 = arg1;
-        func_8008D330(arg0, &D_80083780, &D_80082E80, arg0);
+    if (target == D_800E3D7C) {
+        ((Rec_D_800E3D7C *)target)->unk_110 = source;
+        func_8008D330(target, &D_80083780, &D_80082E80, target);
         return 0;
     }
 
-    if ((u32)arg0 <= 0x9FFFFFFF) {
-        func_800A63B8(arg0, arg1, arg2);
-        if (func_800AD6FC(arg0,
+    if ((u32)target <= 0x9FFFFFFF) {
+        func_800A63B8(target, source, effect_mode);
+        if (func_800AD6FC(target,
                          (*(u16 *)(D_800DDE84 +
-                                   ((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v * 2) >> 6) & 3,
-                         arg1) == 0) {
-            func_800A5F38(arg0, arg1);
+                                   ((Rec_D_800E3D7C *)target)->unk_10.at03_u8.v * 2) >> 6) & 3,
+                         source) == 0) {
+            func_800A5F38(target, source);
             return 1;
         }
     }
 
-    amount = (func_800A6D30() & 3) + 7;
-    if (amount >= 0x100) {
-        amount = 0xFF;
+    stat_gain = (func_800A6D30() & 3) + 7;
+    if (stat_gain >= 0x100) {
+        stat_gain = 0xFF;
     }
 
-    difference = ((Rec_D_800E3D7C *)arg0)->unk_29 - ((Rec_D_800E3D7C *)arg0)->unk_28;
-    if (difference < amount) {
-        amount = difference;
+    stat_gap = ((Rec_D_800E3D7C *)target)->unk_29 - ((Rec_D_800E3D7C *)target)->unk_28;
+    if (stat_gap < stat_gain) {
+        stat_gain = stat_gap;
     }
-    ((Rec_D_800E3D7C *)arg0)->unk_64.as_s16 = amount;
+    ((Rec_D_800E3D7C *)target)->unk_64.as_s16 = stat_gain;
 
-    if (((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) {
-        temporary = func_800990FC();
+    if (((Rec_D_800E3D7C *)target)->unk_14.as_s32 & 0x4000) {
+        new_context = func_800990FC();
         {
-            register void *call_arg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register s32 call_arg1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register void *message_target ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            register s32 context_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            call_arg0 = arg0;
-            call_arg1 = temporary;
-            saved = call_arg1;
-            effect = func_80099734(call_arg0, call_arg1);
+            message_target = target;
+            context_arg = new_context;
+            message_context = context_arg;
+            effect_text = func_80099734(message_target, context_arg);
         }
         func_80099290(func_80099194(
             &D_800893E0,
-            func_8003AD08(((Rec_D_800E3D7C *)arg0)->unk_64.as_s16,
-                          func_80099194(&D_800E18A4, effect))));
-        func_800A5720(saved);
+            func_8003AD08(((Rec_D_800E3D7C *)target)->unk_64.as_s16,
+                          func_80099194(&D_800E18A4, effect_text))));
+        func_800A5720(message_context);
     }
 
-    func_800C4AFC(((S_800C4490_0_pre *)arg0)[-1].unk_00, 0x20E020, arg0);
-    func_80098B38(arg1);
+    func_800C4AFC(((S_800C4490_0_pre *)target)[-1].unk_00, 0x20E020, target);
+    func_80098B38(source);
     D_80083460[5]--;
     return 1;
 }
-
-/* MECHANISM: The 0x20 frame and s1/s2 argument holds preserve the exact prologue and CFG.
-   Removing func_800A6D30's false argument restores its nop call delay slot.
-   Split effect/argument live ranges plus the measured s0 pin yields retail's v0->a1->s0 copy triangle. */

@@ -89,120 +89,121 @@ extern void AddPrim(void *ot, void *p);
 
 extern void *D_80083160[3];
 
-void func_800463EC(void *arg0, u8 *arg1, RenderObject *arg2, s16 arg3)
+/* Transform, light, and queue visible textured mesh quads for rendering. */
+void func_800463EC(void *unused, u8 *position, RenderObject *object, s16 depth_bias)
 {
-    MATRIX matrix;
-    u8 *globalBase;
-    Vertex *vertexTable;
-    u8 *textureTable;
-    u8 *root;
+    MATRIX view_matrix;
+    u8 *render_globals;
+    Vertex *vertex_table;
+    u8 *normal_table;
+    u8 *render_state;
     u8 *face;
     u8 *prim;
-    register volatile u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register u32 vertexIndex ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    unsigned long vertexTransfer;
-    register void *rotVertex0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    void *rotVertex1;
-    void *rotVertex2;
-    void *rotVertex3;
-    s32 a0;
-    s32 a1;
-    s32 a2;
-    s32 kind;
-    s32 depthOffset;
+    register volatile u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register u32 vertex_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    unsigned long vertex_data;
+    register void *vertex_0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    void *vertex_1;
+    void *vertex_2;
+    void *vertex_3;
+    s32 clip_xy_0;
+    s32 clip_xy_1;
+    s32 clip_xy_2;
+    s32 flip_flags;
+    s32 depth_offset;
     u16 flags;
     u16 colour;
     u32 depth;
 
-    globalBase = (u8 *)D_80083160;
-    vertexTable = *(Vertex **)(globalBase + 0x1E4);
-    textureTable = *(u8 **)(globalBase + 0x1E8);
+    render_globals = (u8 *)D_80083160;
+    vertex_table = *(Vertex **)(render_globals + 0x1E4);
+    normal_table = *(u8 **)(render_globals + 0x1E8);
 
     PushMatrix();
 
-    vertexIndex = *(volatile u16 *)&arg2->scale[0];
+    vertex_word = *(volatile u16 *)&object->scale[0];
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     scratch = (volatile u8 *)0x1F800000;
-    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
-    SPAD_NV(scratch, s32, 0x30) = vertexIndex;
-    SPAD_NV(scratch, s32, 0x34) = arg2->scale[1];
-    SPAD_NV(scratch, s32, 0x38) = arg2->scale[2];
-    SPAD_NV(scratch, s32, 0x40) = ((Rec_D_80016000 *)arg1)->unk_00.at02_s16.v;
-    SPAD_NV(scratch, s32, 0x44) = ((Rec_D_80016000 *)arg1)->unk_04.at02_s16.v;
-    SPAD_NV(scratch, s32, 0x48) = ((Rec_D_80016000 *)arg1)->unk_08.at02_s16.v;
+    SPAD_NV(scratch, s32, 0x30) = vertex_word;
+    SPAD_NV(scratch, s32, 0x34) = object->scale[1];
+    SPAD_NV(scratch, s32, 0x38) = object->scale[2];
+    SPAD_NV(scratch, s32, 0x40) = ((Rec_D_80016000 *)position)->unk_00.at02_s16.v;
+    SPAD_NV(scratch, s32, 0x44) = ((Rec_D_80016000 *)position)->unk_04.at02_s16.v;
+    SPAD_NV(scratch, s32, 0x48) = ((Rec_D_80016000 *)position)->unk_08.at02_s16.v;
 
-    ReadRotMatrix(&matrix);
-    rotVertex0 = (u8 *)scratch;
-    ASM_KEEP_NV(rotVertex0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    rotVertex0 = (void *)((unsigned long)rotVertex0 | 0x50);
-    rotVertex1 = (u8 *)scratch;
-    ASM_KEEP_NV(rotVertex1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    rotVertex1 = (void *)((unsigned long)rotVertex1 | 0x40);
-    TransMatrix(rotVertex0, rotVertex1);
-    rotVertex0 = &arg2->rotation[0];
-    rotVertex1 = (u8 *)scratch;
-    ASM_KEEP_NV(rotVertex1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    rotVertex1 = (void *)((unsigned long)rotVertex1 | 0x50);
-    RotMatrix(rotVertex0, rotVertex1);
+    ReadRotMatrix(&view_matrix);
+    vertex_0 = (u8 *)scratch;
+    ASM_KEEP_NV(vertex_0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    vertex_0 = (void *)((unsigned long)vertex_0 | 0x50);
+    vertex_1 = (u8 *)scratch;
+    ASM_KEEP_NV(vertex_1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    vertex_1 = (void *)((unsigned long)vertex_1 | 0x40);
+    TransMatrix(vertex_0, vertex_1);
+    vertex_0 = &object->rotation[0];
+    vertex_1 = (u8 *)scratch;
+    ASM_KEEP_NV(vertex_1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    vertex_1 = (void *)((unsigned long)vertex_1 | 0x50);
+    RotMatrix(vertex_0, vertex_1);
 
-    if (arg2->flags & 1) {
+    if (object->flags & 1) {
         SPAD(scratch, s32, 0x30) = -SPAD(scratch, s32, 0x30);
     }
-    if (arg2->flags & 2) {
+    if (object->flags & 2) {
         SPAD(scratch, s32, 0x34) = -SPAD(scratch, s32, 0x34);
     }
 
     ScaleMatrix((void *)0x1F800050, (void *)0x1F800030);
-    CompMatrix(&matrix, (void *)0x1F800050, (void *)0x1F8000D0);
+    CompMatrix(&view_matrix, (void *)0x1F800050, (void *)0x1F8000D0);
     SetTransMatrix((void *)0x1F8000D0);
     SetRotMatrix((void *)0x1F8000D0);
 
-    depthOffset = arg3;
-    root = D_80083160[0];
-    SPAD(scratch, void *, 0x20) = root + 0xB0;
-    prim = *(u8 **)(root + 0x8D0);
-    arg2->flags |= 0x8000;
+    depth_offset = depth_bias;
+    render_state = D_80083160[0];
+    SPAD(scratch, void *, 0x20) = render_state + 0xB0;
+    prim = *(u8 **)(render_state + 0x8D0);
+    object->flags |= 0x8000;
 
-    face = *(u8 **)(*(u8 **)(globalBase + 0x1E0) + arg2->meshIndex * 4);
+    face = *(u8 **)(*(u8 **)(render_globals + 0x1E0) + object->meshIndex * 4);
 
     for (;;) {
-        vertexIndex = ((S_800463EC_1 *)face)->unk_00;
-        vertexTransfer = ((S_800463EC_2 *)((u8 *)vertexTable + vertexIndex * 8))->unk_00;
-        vertexIndex = ((S_800463EC_1 *)face)->unk_02;
-        SPAD_NV(scratch, s32, 0x70) = vertexTransfer;
-        vertexTransfer = ((S_800463EC_2 *)((u8 *)vertexTable + vertexIndex * 8))->unk_00;
-        vertexIndex = ((S_800463EC_1 *)face)->unk_04;
-        SPAD_NV(scratch, s32, 0x78) = vertexTransfer;
-        vertexTransfer = ((S_800463EC_1 *)face)->unk_06;
-        vertexIndex = ((S_800463EC_2 *)((u8 *)vertexTable + vertexIndex * 8))->unk_00;
-        vertexTransfer = (vertexTransfer << 3) + (unsigned long)vertexTable;
-        SPAD_NV(scratch, s32, 0x80) = vertexIndex;
-        vertexIndex = ((S_800463EC_1 *)face)->unk_00;
-        vertexTransfer = ((S_800463EC_3 *)((u8 *)vertexTransfer))->unk_00;
-        vertexIndex = ((S_800463EC_2 *)((u8 *)vertexTable + vertexIndex * 8))->unk_04;
-        SPAD_NV(scratch, u16, 0x74) = vertexIndex;
-        vertexIndex = ((S_800463EC_1 *)face)->unk_02;
-        vertexIndex = ((S_800463EC_2 *)((u8 *)vertexTable + vertexIndex * 8))->unk_04;
-        rotVertex0 = (u8 *)scratch + 0x70;
-        SPAD_NV(scratch, u16, 0x7C) = vertexIndex;
-        vertexIndex = ((S_800463EC_1 *)face)->unk_04;
-        rotVertex1 = (u8 *)scratch + 0x78;
-        vertexIndex = ((S_800463EC_2 *)((u8 *)vertexTable + vertexIndex * 8))->unk_04;
-        rotVertex2 = (u8 *)scratch + 0x80;
-        SPAD_NV(scratch, u16, 0x84) = vertexIndex;
-        vertexIndex = ((S_800463EC_1 *)face)->unk_06;
-        rotVertex3 = (u8 *)scratch + 0x88;
-        SPAD_NV(scratch, s32, 0x88) = vertexTransfer;
-        vertexTransfer = ((S_800463EC_2 *)((u8 *)vertexTable + vertexIndex * 8))->unk_04;
-        SPAD_NV(scratch, u16, 0x8C) = vertexTransfer;
-        ASM_JALDELAY_PIN(vertexTransfer);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        vertex_word = ((S_800463EC_1 *)face)->unk_00;
+        vertex_data = ((S_800463EC_2 *)((u8 *)vertex_table + vertex_word * 8))->unk_00;
+        vertex_word = ((S_800463EC_1 *)face)->unk_02;
+        SPAD_NV(scratch, s32, 0x70) = vertex_data;
+        vertex_data = ((S_800463EC_2 *)((u8 *)vertex_table + vertex_word * 8))->unk_00;
+        vertex_word = ((S_800463EC_1 *)face)->unk_04;
+        SPAD_NV(scratch, s32, 0x78) = vertex_data;
+        vertex_data = ((S_800463EC_1 *)face)->unk_06;
+        vertex_word = ((S_800463EC_2 *)((u8 *)vertex_table + vertex_word * 8))->unk_00;
+        vertex_data = (vertex_data << 3) + (unsigned long)vertex_table;
+        SPAD_NV(scratch, s32, 0x80) = vertex_word;
+        vertex_word = ((S_800463EC_1 *)face)->unk_00;
+        vertex_data = ((S_800463EC_3 *)((u8 *)vertex_data))->unk_00;
+        vertex_word = ((S_800463EC_2 *)((u8 *)vertex_table + vertex_word * 8))->unk_04;
+        SPAD_NV(scratch, u16, 0x74) = vertex_word;
+        vertex_word = ((S_800463EC_1 *)face)->unk_02;
+        vertex_word = ((S_800463EC_2 *)((u8 *)vertex_table + vertex_word * 8))->unk_04;
+        vertex_0 = (u8 *)scratch + 0x70;
+        SPAD_NV(scratch, u16, 0x7C) = vertex_word;
+        vertex_word = ((S_800463EC_1 *)face)->unk_04;
+        vertex_1 = (u8 *)scratch + 0x78;
+        vertex_word = ((S_800463EC_2 *)((u8 *)vertex_table + vertex_word * 8))->unk_04;
+        vertex_2 = (u8 *)scratch + 0x80;
+        SPAD_NV(scratch, u16, 0x84) = vertex_word;
+        vertex_word = ((S_800463EC_1 *)face)->unk_06;
+        vertex_3 = (u8 *)scratch + 0x88;
+        SPAD_NV(scratch, s32, 0x88) = vertex_data;
+        vertex_data = ((S_800463EC_2 *)((u8 *)vertex_table + vertex_word * 8))->unk_04;
+        SPAD_NV(scratch, u16, 0x8C) = vertex_data;
+        ASM_JALDELAY_PIN(vertex_data);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
         SPAD(scratch, s32, 0xC0) = RotAverage4(
-            rotVertex0,
-            rotVertex1,
-            rotVertex2,
-            rotVertex3,
+            vertex_0,
+            vertex_1,
+            vertex_2,
+            vertex_3,
             prim + 8,
             prim + 0x10,
             prim + 0x18,
@@ -210,45 +211,45 @@ void func_800463EC(void *arg0, u8 *arg1, RenderObject *arg2, s16 arg3)
             scratch + 0x90,
             scratch + 0x94);
 
-        kind = arg2->flags & 3;
-        switch (kind) {
+        flip_flags = object->flags & 3;
+        switch (flip_flags) {
         case 0:
-            a0 = ((S_800463EC_4 *)prim)->unk_08;
-            a1 = ((S_800463EC_4 *)prim)->unk_10;
-            a2 = ((S_800463EC_4 *)prim)->unk_18;
+            clip_xy_0 = ((S_800463EC_4 *)prim)->unk_08;
+            clip_xy_1 = ((S_800463EC_4 *)prim)->unk_10;
+            clip_xy_2 = ((S_800463EC_4 *)prim)->unk_18;
             break;
         case 1:
-            a0 = ((S_800463EC_4 *)prim)->unk_10;
-            a1 = ((S_800463EC_4 *)prim)->unk_08;
-            a2 = ((S_800463EC_4 *)prim)->unk_20;
+            clip_xy_0 = ((S_800463EC_4 *)prim)->unk_10;
+            clip_xy_1 = ((S_800463EC_4 *)prim)->unk_08;
+            clip_xy_2 = ((S_800463EC_4 *)prim)->unk_20;
             break;
         case 2:
-            a0 = ((S_800463EC_4 *)prim)->unk_20;
-            a1 = ((S_800463EC_4 *)prim)->unk_18;
-            a2 = ((S_800463EC_4 *)prim)->unk_10;
+            clip_xy_0 = ((S_800463EC_4 *)prim)->unk_20;
+            clip_xy_1 = ((S_800463EC_4 *)prim)->unk_18;
+            clip_xy_2 = ((S_800463EC_4 *)prim)->unk_10;
             break;
         default:
-            a0 = ((S_800463EC_4 *)prim)->unk_18;
-            a1 = ((S_800463EC_4 *)prim)->unk_20;
-            a2 = ((S_800463EC_4 *)prim)->unk_08;
+            clip_xy_0 = ((S_800463EC_4 *)prim)->unk_18;
+            clip_xy_1 = ((S_800463EC_4 *)prim)->unk_20;
+            clip_xy_2 = ((S_800463EC_4 *)prim)->unk_08;
             break;
         }
 
-        SPAD(scratch, s32, 0x114) = NormalClip(a0, a1, a2);
+        SPAD(scratch, s32, 0x114) = NormalClip(clip_xy_0, clip_xy_1, clip_xy_2);
         if (SPAD(scratch, s32, 0x114) > 0) {
-            depth = SPAD(scratch, s32, 0xC0) - depthOffset;
+            depth = SPAD(scratch, s32, 0xC0) - depth_offset;
             SPAD(scratch, s32, 0xC0) = depth;
             if (depth < 0x1E0U) {
                 NormalColorCol(
-                    textureTable + ((S_800463EC_1 *)face)->unk_10 * 8,
-                    (u8 *)arg2 + 0xC,
+                    normal_table + ((S_800463EC_1 *)face)->unk_10 * 8,
+                    (u8 *)object + 0xC,
                     prim + 4);
 
                 ((S_800463EC_4 *)prim)->unk_0C.at00.v = ((S_800463EC_1 *)face)->unk_08;
-                ((S_800463EC_4 *)prim)->unk_0C.at02.v += arg2->texture;
+                ((S_800463EC_4 *)prim)->unk_0C.at02.v += object->texture;
                 ((S_800463EC_4 *)prim)->unk_14.at00.v = ((S_800463EC_1 *)face)->unk_0C;
 
-                colour = arg2->colour;
+                colour = object->colour;
                 if (colour != 0) {
                     ((S_800463EC_4 *)prim)->unk_14.at02.v = colour + (((S_800463EC_4 *)prim)->unk_14.at02.v & 0xFF9F);
                 }
@@ -257,7 +258,7 @@ void func_800463EC(void *arg0, u8 *arg1, RenderObject *arg2, s16 arg3)
                 ((S_800463EC_4 *)prim)->unk_24 = ((S_800463EC_1 *)face)->unk_14;
                 SetPolyFT4(prim);
 
-                flags = arg2->flags;
+                flags = object->flags;
                 if (flags & 8) {
                     if (flags & 4) {
                         ((S_800463EC_4 *)prim)->unk_07 |= 2;
@@ -266,7 +267,7 @@ void func_800463EC(void *arg0, u8 *arg1, RenderObject *arg2, s16 arg3)
 
                 AddPrim((u8 *)SPAD(scratch, void *, 0x20) + SPAD(scratch, s32, 0xC0) * 4, prim);
                 prim += 0x28;
-                arg2->flags &= 0x7FFF;
+                object->flags &= 0x7FFF;
             }
         }
 
@@ -277,5 +278,5 @@ void func_800463EC(void *arg0, u8 *arg1, RenderObject *arg2, s16 arg3)
     }
 
     PopMatrix();
-    *(u8 **)((u8 *)((S_800463EC_5 *)globalBase)->unk_00 + 0x8D0) = prim;
+    *(u8 **)((u8 *)((S_800463EC_5 *)render_globals)->unk_00 + 0x8D0) = prim;
 }

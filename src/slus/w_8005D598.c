@@ -11,33 +11,34 @@ extern S_80079988 D_80079988;
 typedef struct { volatile u16 *ptr; u32 pad2[2]; } S_80079958;
 extern S_80079958 D_80079958;
 
-s32 func_8005D598(s32 a0, u32 a1)
+/* Optionally aligns a value, shifts it, and stores or returns the result. */
+s32 func_8005D598(s32 index, u32 value)
 {
-    s32 a2 = a0;
-    u32 val;
+    s32 store_index = index;
+    u32 shifted_value;
 
     if (D_8007997C.value != 0) {
-        s32 divisor = D_80079984.value;
-        if (a1 % divisor != 0) {
-            a1 = a1 + divisor;
-            a1 = a1 & ~D_80079988.value;
+        s32 alignment = D_80079984.value;
+        if (value % alignment != 0) {
+            value = value + alignment;
+            value = value & ~D_80079988.value;
         }
     }
 
-    val = a1 >> D_80079980.value;
+    shifted_value = value >> D_80079980.value;
 
-    if (a2 == -2) {
-        goto ret_a1;
+    if (store_index == -2) {
+        goto return_value;
     }
-    if (a2 != -1) {
-        goto do_store;
+    if (store_index != -1) {
+        goto store_value;
     }
-    return (u16)val;
+    return (u16)shifted_value;
 
-ret_a1:
-    return a1;
+return_value:
+    return value;
 
-do_store:
-    D_80079958.ptr[a2] = (u16)val;
-    return a1;
+store_value:
+    D_80079958.ptr[store_index] = (u16)shifted_value;
+    return value;
 }

@@ -23,48 +23,49 @@ extern s32 func_800A2B5C(void *);
 extern s32 func_800A2CB8(void *, s32);
 extern void func_800C7930(void *, s32, s32, s32);
 
-s32 func_8016B954(Rec_func_800A9E70_arg0 *arg0, s32 arg1, Rec_D_80082E80 *arg2, void *arg3) {
+/* Attempts an action toward the target and initializes the action state on success. */
+s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_80082E80 *target, void *actor) {
     volatile u64 frame_pad;
-    s32 result;
-    s32 *flags;
+    s32 target_direction;
+    s32 *global_flags;
 
-    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 &= 0x7F;
-    flags = &D_80083460;
+    ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 &= 0x7F;
+    global_flags = &D_80083460;
 
-    if (((S_8016B954_1 *)flags)->unk_02 & 0x2000) {
+    if (((S_8016B954_1 *)global_flags)->unk_02 & 0x2000) {
         goto shared_failure;
     }
 
-    result = func_800A04F0(
-        arg3,
-        arg2->unk_24,
-        arg2->unk_25,
-        ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16);
+    target_direction = func_800A04F0(
+        actor,
+        target->unk_24,
+        target->unk_25,
+        ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16);
 
-    if ((func_800A2CB8(arg3, result) << 16) == 0) {
+    if ((func_800A2CB8(actor, target_direction) << 16) == 0) {
         return 0;
     }
 
-    if (((S_8016B954_1 *)flags)->unk_02 & 0x2000) {
+    if (((S_8016B954_1 *)global_flags)->unk_02 & 0x2000) {
         return -1;
     }
 
-    if (!(((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000) &&
-        (((S_8016B954_1 *)flags)->unk_02 & 8)) {
+    if (!(((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x8000) &&
+        (((S_8016B954_1 *)global_flags)->unk_02 & 8)) {
         return -1;
     }
 
-    if ((u32)(((0 - func_800A0134(result, arg3)) + 0x40) & 0xFFFF) >= 0x81U) {
+    if ((u32)(((0 - func_800A0134(target_direction, actor)) + 0x40) & 0xFFFF) >= 0x81U) {
         return 0;
     }
 
-    if ((func_800A2B5C(arg3) << 16) != 0) {
+    if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
 
-    func_800C7930((u8 *)arg3 - 0x20, arg1, 8, 0x300);
+    func_800C7930((u8 *)actor - 0x20, action_id, 8, 0x300);
 
-    if ((func_800A2B5C(arg3) << 16) == 0) {
+    if ((func_800A2B5C(actor) << 16) == 0) {
         goto success;
     }
 
@@ -72,14 +73,14 @@ shared_failure:
     return -1;
 
 success:
-    arg0->unk_9A.as_s8 = 0x11;
-    arg0->unk_9B.as_s8 = 0;
-    arg0->unk_8C = 0;
-    ((Rec_D_800E3D7C *)arg3)->unk_84.as_u8 = 0x80;
-    ((Rec_D_800E3D7C *)arg3)->unk_85.as_s8 = 32;
-    ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8--;
+    action_state->unk_9A.as_s8 = 0x11;
+    action_state->unk_9B.as_s8 = 0;
+    action_state->unk_8C = 0;
+    ((Rec_D_800E3D7C *)actor)->unk_84.as_u8 = 0x80;
+    ((Rec_D_800E3D7C *)actor)->unk_85.as_s8 = 32;
+    ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8--;
 
-    func_8009C93C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1, 0);
+    func_8009C93C(actor, target, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);
     return 1;
 }
 

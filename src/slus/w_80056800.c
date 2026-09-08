@@ -14,32 +14,31 @@ typedef struct S_80056800_0 {
     s16 unk_40;
 } S_80056800_0;   /* arg0 in func_80056800 */
 
+/* Step the enabled oscillation between its limits, or reset its value to zero. */
+void func_80056800(S_80056800_0 *state) {
+    s32 next_value;
+    s32 lower_limit;
 
-
-void func_80056800(S_80056800_0 *arg0) {
-    s32 diff;
-    s32 neg_limit;
-
-    if (arg0->unk_08 != 0) {
-        if (arg0->unk_34 != 0) {
-            if ((arg0->unk_3A + arg0->unk_38) < arg0->unk_40) {
-                arg0->unk_3A = (u16)arg0->unk_3A + (u16)arg0->unk_38;
+    if (state->unk_08 != 0) {
+        if (state->unk_34 != 0) {
+            if ((state->unk_3A + state->unk_38) < state->unk_40) {
+                state->unk_3A = (u16)state->unk_3A + (u16)state->unk_38;
                 return;
             }
-            arg0->unk_34 = 0;
-            arg0->unk_3A = (u16)arg0->unk_40;
+            state->unk_34 = 0;
+            state->unk_3A = (u16)state->unk_40;
             return;
         }
 
-        diff = arg0->unk_3A - arg0->unk_38;
-        neg_limit = -arg0->unk_40;
-        if (neg_limit < diff) {
-            arg0->unk_3A = (u16)arg0->unk_3A - (u16)arg0->unk_38;
+        next_value = state->unk_3A - state->unk_38;
+        lower_limit = -state->unk_40;
+        if (lower_limit < next_value) {
+            state->unk_3A = (u16)state->unk_3A - (u16)state->unk_38;
             return;
         }
-        arg0->unk_34 = 1;
-        arg0->unk_3A = -((s16)(u16)arg0->unk_40);
+        state->unk_34 = 1;
+        state->unk_3A = -((s16)(u16)state->unk_40);
         return;
     }
-    arg0->unk_3A = 0;
+    state->unk_3A = 0;
 }

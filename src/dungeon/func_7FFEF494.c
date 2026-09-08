@@ -2,21 +2,22 @@
 
 s16 func_8008C6B8();
 
-s16 func_8008CBF4(s32 arg0, s32 arg1, s32 arg2) {
-    s16 temp_v0;
-    s16 var_s1;
-    s32 var_s0;
+/* Return the maximum sampled value across position offsets, with a minimum of zero. */
+s16 func_8008CBF4(s32 base_position, s32 offsets, s32 offset_count) {
+    s16 sample_value;
+    s16 max_value;
+    s32 offset_index;
 
-    var_s1 = 0;
-    var_s0 = 0;
-    if (arg2 > 0) {
+    max_value = 0;
+    offset_index = 0;
+    if (offset_count > 0) {
         do {
-            temp_v0 = func_8008C6B8(arg0, arg1, var_s0);
-            if ((temp_v0 << 0x10) > (var_s1 << 0x10)) {
-                var_s1 = temp_v0;
+            sample_value = func_8008C6B8(base_position, offsets, offset_index);
+            if ((sample_value << 0x10) > (max_value << 0x10)) {
+                max_value = sample_value;
             }
-            var_s0 += 1;
-        } while (var_s0 < arg2);
+            offset_index += 1;
+        } while (offset_index < offset_count);
     }
-    return var_s1;
+    return max_value;
 }

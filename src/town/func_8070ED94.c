@@ -6,8 +6,9 @@ extern s32 func_8001A64C(s32 arg0);
 extern s32 func_8001A8EC(s32 arg0);
 extern u8 D_80016000[0x10];
 
+/* Update event flags when prerequisites are met, otherwise invoke the fallback callback. */
 s32 func_80017D94(void) {
-    s32 arg0;
+    s32 flag_id;
 
     func_80016CC4();
     if (func_8001A8EC(6) != 0) {
@@ -20,7 +21,7 @@ s32 func_80017D94(void) {
         goto check_93b;
     }
     if (func_8001A64C(0x94A) != 0) {
-        arg0 = 0x93C;
+        flag_id = 0x93C;
         goto join;
     }
 
@@ -33,18 +34,18 @@ check_93b:
     }
     func_8001A554(0x93C);
     func_8001A554(0x946);
-    arg0 = 0x947;
+    flag_id = 0x947;
 
 join:
-    func_8001A554(arg0);
+    func_8001A554(flag_id);
     return 1;
 
 callback:
     {
-        s8 *p1 = *(s8 **)D_80016000;
-        s8 *p2 = *(s8 **)(p1 + 0x20);
-        s32 (*fn)(s32, s32) = *(s32 (**)(s32, s32))(p2 + 0x2F8);
-        fn(0xF, 0x200);
+        s8 *context = *(s8 **)D_80016000;
+        s8 *callback_table = *(s8 **)(context + 0x20);
+        s32 (*fallback_fn)(s32, s32) = *(s32 (**)(s32, s32))(callback_table + 0x2F8);
+        fallback_fn(0xF, 0x200);
     }
     return 0;
 }

@@ -3,11 +3,12 @@
 extern s32 D_800814A0[];
 extern void func_800478B8(void *arg0);
 
-void func_801740FC(void *arg0, void *arg1, void *arg2)
+/* Advances object motion, decrements its timer, and flags expiration. */
+void func_801740FC(void *object_data, void *motion_data, void *work_data)
 {
-    s32 *motion = arg1;
-    u8 *object = arg0;
-    u8 *work = arg2;
+    s32 *motion = motion_data;
+    u8 *object = object_data;
+    u8 *work = work_data;
     s16 timer;
 
     *(s32 *)(work + 0xC) -= *(s32 *)(object + 0xA4);

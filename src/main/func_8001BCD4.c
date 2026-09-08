@@ -13,30 +13,31 @@ typedef struct {
 
 extern u8 D_80400544[];
 
-void *func_8001BCD4(void *arg0)
+/* Initializes four pairs of records from D_80400544 and marks the final pair. */
+void *func_8001BCD4(void *buffer)
 {
     Bytes4 values;
     s32 first_x;
     s32 first_y;
     s32 kind;
-    register u32 address ASM_REG("$5");
+    register u32 address ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 second_x;
-    u32 height_source;
+    u32 record_size;
     u8 *record;
     u8 *value;
-    u8 *end;
+    u8 *values_end;
     Fields *fields;
 
-    record = arg0;
+    record = buffer;
     values = *(Bytes4 *)D_80400544;
     first_x = 5;
     first_y = 5;
     kind = 0x48;
     address = 0x101010;
     second_x = 6;
-    height_source = sizeof(Fields);
+    record_size = sizeof(Fields);
     value = values.bytes;
-    end = values.bytes + 4;
+    values_end = values.bytes + 4;
     fields = (Fields *)(record + 4);
     do {
         fields->x = first_x;
@@ -48,17 +49,17 @@ void *func_8001BCD4(void *arg0)
         record += sizeof(Fields);
         address++;
         address--;
-        height_source++;
-        height_source--;
+        record_size++;
+        record_size--;
         fields->x = second_x;
-        fields->y = height_source >> 1;
+        fields->y = record_size >> 1;
         ((u8 *)fields)[-3] = kind;
         fields->address = address;
         fields++;
         record[0] = *value;
         value++;
         record += sizeof(Fields);
-    } while ((long)value < (long)end);
+    } while ((long)value < (long)values_end);
     record[-24] |= 0x80;
     return record;
 }

@@ -46,44 +46,43 @@ M2C_UNK func_8004491C(void *, void *);
 void func_8003DB94(void *, void *, s32);
 extern M2C_UNK D_8002404C;
 
-void func_8181A8C0(void *arg0, void *arg1, s32 arg2, s16 arg3, s16 arg4, s16 arg5) {
-    D8181A8C0Asset *temp_a0;
-    s16 temp_a0_2;
-    D8181A8C0Object *temp_v0;
-    s32 temp_v0_2;
-    s16 temp_v0_3;
-    s32 temp_a2;
-    D8181A8C0Header *temp_v1;
-    D8181A8C0Vector *temp_v1_2;
+/* Creates and initializes an object at an offset from the supplied origin. */
+void func_8181A8C0(void *unused_context, void *origin, s32 unused_id, s16 offset_x, s16 offset_y, s16 offset_z) {
+    D8181A8C0Asset *asset;
+    D8181A8C0Object *object;
+    s32 asset_param;
+    s32 setup_mode;
+    D8181A8C0Header *header;
+    D8181A8C0Vector *position;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_v1 = (D8181A8C0Header *)((u8 *)temp_v0 + 0x20);
-        temp_v1->f2 = 1;
-        temp_v1->f4 = 1;
-        temp_v0->field10 = &D_8002404C;
-        func_8004491C(temp_v0, D_80045340);
-        temp_v0_2 = 0x60;
-        temp_a2 = 2;
-        temp_a0 = temp_v0->fieldc;
-        temp_a0->f10 = temp_v0_2;
-        temp_a0->f6 = 0;
-        temp_a0->f14 = (s16) (temp_a0->f14 | 0xC);
-        temp_v1_2 = temp_v0->field8;
-        temp_v1_2->f2 = arg3;
-        temp_v1_2->f6 = (s16) arg4;
-        temp_v1_2->fa = (s16) arg5;
-        temp_v1_2->f2 += *(u16 *)((u8 *)arg1 + 2);
-        temp_v1_2->f6 += *(u16 *)((u8 *)arg1 + 6);
-        temp_v1_2->fa += *(u16 *)((u8 *)arg1 + 0xA);
-        temp_a0 = temp_v0->fieldc;
-        temp_a0->f1e = 0x400;
-        temp_a0->f1c = 0x400;
-        temp_a0->fe = 0x80;
-        temp_a0->fd = 0x80;
-        temp_a0->fc = 0x80;
-        temp_a0->f12 = 0x7DCF;
-        temp_a0->f14 = (u16) (temp_a0->f14 | 0x100);
-        func_8003DB94(temp_a0, D_800DE870, temp_a2);
+    object = func_8003FC64(0x212);
+    if (object != NULL) {
+        header = (D8181A8C0Header *)((u8 *)object + 0x20);
+        header->f2 = 1;
+        header->f4 = 1;
+        object->field10 = &D_8002404C;
+        func_8004491C(object, D_80045340);
+        asset_param = 0x60;
+        setup_mode = 2;
+        asset = object->fieldc;
+        asset->f10 = asset_param;
+        asset->f6 = 0;
+        asset->f14 = (s16) (asset->f14 | 0xC);
+        position = object->field8;
+        position->f2 = offset_x;
+        position->f6 = (s16) offset_y;
+        position->fa = (s16) offset_z;
+        position->f2 += *(u16 *)((u8 *)origin + 2);
+        position->f6 += *(u16 *)((u8 *)origin + 6);
+        position->fa += *(u16 *)((u8 *)origin + 0xA);
+        asset = object->fieldc;
+        asset->f1e = 0x400;
+        asset->f1c = 0x400;
+        asset->fe = 0x80;
+        asset->fd = 0x80;
+        asset->fc = 0x80;
+        asset->f12 = 0x7DCF;
+        asset->f14 = (u16) (asset->f14 | 0x100);
+        func_8003DB94(asset, D_800DE870, setup_mode);
     }
 }

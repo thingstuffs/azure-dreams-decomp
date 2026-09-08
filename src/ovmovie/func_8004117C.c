@@ -3,6 +3,7 @@
 
 M2C_UNK func_8006005C();                /* extern */
 
-void func_8004117C(s32 arg0) {
-    func_8006005C(1, arg0);
+/* Passes 1 and the supplied value to func_8006005C. */
+void func_8004117C(s32 value) {
+    func_8006005C(1, value);
 }

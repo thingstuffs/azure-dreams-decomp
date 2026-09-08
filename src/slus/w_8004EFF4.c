@@ -1,7 +1,5 @@
 #include "common.h"
 
-/* Initializes a struct's two sub-records (base record + record at +0x18)
- * and returns a pointer partway into the third slot (+0x18+0xC). */
 extern s32 D_8007166C[];
 extern s32 D_80071670[];
 extern s32 D_80071674[];
@@ -24,23 +22,24 @@ typedef struct S_8004EFF4_sub {
     /* 0x06 */ s16 unk18_06;
 } S_8004EFF4_sub;
 
-void *func_8004EFF4(S_8004EFF4 *a0)
+/* Initializes two records and returns a pointer at offset 0x24 from the original base. */
+void *func_8004EFF4(S_8004EFF4 *record)
 {
-    s32 temp_a1;
-    s32 temp_a2;
+    s32 initial_04;
+    s32 initial_0c;
 
-    a0->unk01 = 0xB0;
-    a0->unk08 = D_8007166C[0];
-    temp_a1 = D_80071674[0];
-    temp_a2 = D_80071670[0];
-    a0->unk01 = a0->unk01 | 2;
-    a0->unk00 = a0->unk00 | 0x60;
-    a0->unk04 = temp_a1;
-    a0->unk0C = temp_a2;
-    a0 = (S_8004EFF4 *)((u8 *)a0 + 0x18);
-    ((S_8004EFF4_sub *)a0)->unk18_01 = 0x81;
-    ((S_8004EFF4_sub *)a0)->unk18_04 = 0x20;
-    ((S_8004EFF4_sub *)a0)->unk18_06 = 1;
-    ((S_8004EFF4_sub *)a0)->unk18_00 = ((S_8004EFF4_sub *)a0)->unk18_00 | 0x80;
-    return (u8 *)a0 + 0xC;
+    record->unk01 = 0xB0;
+    record->unk08 = D_8007166C[0];
+    initial_04 = D_80071674[0];
+    initial_0c = D_80071670[0];
+    record->unk01 = record->unk01 | 2;
+    record->unk00 = record->unk00 | 0x60;
+    record->unk04 = initial_04;
+    record->unk0C = initial_0c;
+    record = (S_8004EFF4 *)((u8 *)record + 0x18);
+    ((S_8004EFF4_sub *)record)->unk18_01 = 0x81;
+    ((S_8004EFF4_sub *)record)->unk18_04 = 0x20;
+    ((S_8004EFF4_sub *)record)->unk18_06 = 1;
+    ((S_8004EFF4_sub *)record)->unk18_00 = ((S_8004EFF4_sub *)record)->unk18_00 | 0x80;
+    return (u8 *)record + 0xC;
 }

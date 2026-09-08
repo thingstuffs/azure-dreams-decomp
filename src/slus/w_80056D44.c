@@ -26,13 +26,13 @@ typedef struct {
 
 extern s32 func_8005F134(S_80084918 *arg0);
 
-/* Populates D_80084918 from arg0-indexed table + fields of *a1, then calls func_8005F134. */
-s32 func_80056D44(s32 a0, S_80056D44_Arg1 *a1) {
-    S_80084918 *p = &D_80084918;
-    p->field4 = 0x60100;
-    D_80084918.field0 = D_80073740[a0];
-    p->field3A = a1->field60;
-    p->field3C = a1->field64;
-    p->field24 = a1->field68;
-    return func_8005F134(p);
+/* Populates the global descriptor from a table entry and source fields, then processes it. */
+s32 func_80056D44(s32 table_index, S_80056D44_Arg1 *source) {
+    S_80084918 *descriptor = &D_80084918;
+    descriptor->field4 = 0x60100;
+    D_80084918.field0 = D_80073740[table_index];
+    descriptor->field3A = source->field60;
+    descriptor->field3C = source->field64;
+    descriptor->field24 = source->field68;
+    return func_8005F134(descriptor);
 }

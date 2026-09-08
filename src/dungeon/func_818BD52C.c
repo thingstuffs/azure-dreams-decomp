@@ -71,70 +71,71 @@ extern s32 D_80045340;
 extern u8 D_800DDC40[];
 extern u8 D_800DEC70[];
 
-void *func_818BD52C(S_818BD52C_1 *arg0, void *arg1, s32 arg2, s32 arg3)
+/* Creates an effect node with phase-based color, random rotation, and offset coordinates. */
+void *func_818BD52C(S_818BD52C_1 *owner, void *source_coords, s32 phase_index, s32 effect_param)
 {
-    s32 color;
-    s32 quarter;
-    s32 half;
-    s32 angle;
+    s32 scaled_color;
+    s32 color_level;
+    s32 phase_half;
+    s32 random_angle;
     s32 phase;
-    s16 bit;
-    s16 half16;
+    s16 phase_bit;
+    s16 phase_half_s16;
     S_818BD52C_3 *part;
     S_818BD52C_2 *base;
     S_818BD52C_4 *coords;
     void *node;
-    s32 val;
-    register void *ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 end_z;
+    register void *pinned_node ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     node = func_8003FC64(0x212);
     if (node != 0) {
         ((S_818BD52C_0 *)node)->unk_10 = D_80024BB0;
         base = (u8 *)node + 0x20;
-        ((S_818BD52C_0 *)node)->unk_20 = arg0->unk_00;
+        ((S_818BD52C_0 *)node)->unk_20 = owner->unk_00;
         base->unk_04 = 0;
         base->unk_06 = 0x10;
 
-        color = D_800DDC40[((S_818BD52C_5 *)(arg0->unk_18))->unk_13] * 3;
-        if (color < 0) {
-            color += 3;
+        scaled_color = D_800DDC40[((S_818BD52C_5 *)(owner->unk_18))->unk_13] * 3;
+        if (scaled_color < 0) {
+            scaled_color += 3;
         }
-        phase = (s16)(arg2 + 1);
-        quarter = color >> 2;
-        base->unk_0A = quarter;
-        base->unk_08 = quarter;
-        base->unk_0C = arg3;
+        phase = (s16)(phase_index + 1);
+        color_level = scaled_color >> 2;
+        base->unk_0A = color_level;
+        base->unk_08 = color_level;
+        base->unk_0C = effect_param;
 
         part = ((S_818BD52C_0 *)node)->unk_0C;
         part->unk_0C = (phase / 4) * 0x80;
-        half = phase / 2;
-        half16 = half;
-        bit = half16 % 2;
-        part->unk_0D = bit * 0x80;
-        bit = phase - (half * 2);
-        part->unk_0E = bit * 0x80;
+        phase_half = phase / 2;
+        phase_half_s16 = phase_half;
+        phase_bit = phase_half_s16 % 2;
+        part->unk_0D = phase_bit * 0x80;
+        phase_bit = phase - (phase_half * 2);
+        part->unk_0E = phase_bit * 0x80;
         part->unk_12 = 0x7DCF;
         part->unk_14 |= 0xC;
         part->unk_10 |= 0x20;
         part->unk_14 |= 0x100;
         func_8003DB94(part, D_800DEC70, 0, phase);
 
-        angle = rand();
-        part->unk_1A = angle % 0x1000;
+        random_angle = rand();
+        part->unk_1A = random_angle % 0x1000;
         part->unk_1E = 0xC00;
         part->unk_1C = 0xC00;
         func_8004491C(node, &D_80045340);
 
         coords = ((S_818BD52C_0 *)node)->unk_08;
-        *(Copy24 *)coords = *(Copy24 *)arg1;
+        *(Copy24 *)coords = *(Copy24 *)source_coords;
         coords->unk_0C = coords->unk_00;
         coords->unk_10 = coords->unk_04;
         coords->unk_14 = coords->unk_08;
-        ret = node;
-        val = coords->unk_14 + ((u32)base->unk_0A << 16);
-        ASM_USE(ret);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        coords->unk_14 = val;
-        func_80024F24(coords, val);
+        pinned_node = node;
+        end_z = coords->unk_14 + ((u32)base->unk_0A << 16);
+        ASM_USE(pinned_node);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        coords->unk_14 = end_z;
+        func_80024F24(coords, end_z);
     }
     return node;
 }

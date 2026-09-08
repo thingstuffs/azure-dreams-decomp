@@ -34,31 +34,32 @@ extern void func_800478B8(void *a0);
 extern void func_8003DB94(void *a0, void *a1, s16 a2);
 extern void func_80024244(void) __attribute__((noreturn));
 
-void func_8186298C(Arg0Ent *arg0, void *arg1, Arg2Ent *arg2)
+/* Grow and fade the effect, advancing or finishing it when its status flags are set. */
+void func_8186298C(Arg0Ent *state, void *unused, Arg2Ent *effect)
 {
-    u16 val;
-    u8 b;
+    u16 size;
+    u8 brightness;
 
-    arg0->unk00->unk14++;
-    val = arg2->unk1E + 0x400;
-    b = arg2->unk0E - 4;
-    arg2->unk1E = val;
-    arg2->unk1C = val;
-    arg2->unk0E = b;
-    arg2->unk0D = b;
-    arg2->unk0C = b;
-    func_800478B8(arg2);
+    state->unk00->unk14++;
+    size = effect->unk1E + 0x400;
+    brightness = effect->unk0E - 4;
+    effect->unk1E = size;
+    effect->unk1C = size;
+    effect->unk0E = brightness;
+    effect->unk0D = brightness;
+    effect->unk0C = brightness;
+    func_800478B8(effect);
 
-    if (arg2->unk14 & 0x6000) {
-        if (arg0->unk04 != 0) {
-            *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    if (effect->unk14 & 0x6000) {
+        if (state->unk04 != 0) {
+            *(u16 *)((u8 *)state - 2) |= 0x8000;
             D_800814A0.value |= 0x8000;
             func_80024244();
             return;
         } else {
             __asm__ __volatile__("");
-            func_8003DB94(arg2, D_800DEDB0, 4);
-            arg0->unk04 = 1;
+            func_8003DB94(effect, D_800DEDB0, 4);
+            state->unk04 = 1;
         }
     }
 }

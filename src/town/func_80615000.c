@@ -8,14 +8,15 @@ extern M2C_UNK D_80018EF4;
 extern M2C_UNK D_80018F0C;
 extern M2C_UNK D_8001925C;
 
-void func_80016800(s32 arg0, s32 unused, M2C_UNK arg2) {
-    register void *arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+/* Selects data based on the 0xFB1 check and forwards it with the caller's parameters. */
+void func_80016800(s32 callerValue, s32 unused, M2C_UNK callerData) {
+    register void *selectedData ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     func_80018B58(0xFE2);
     if (func_80018C50(0xFB1) == 0) {
-        arg = &D_80018EF4;
+        selectedData = &D_80018EF4;
     } else {
-        arg = &D_80018F0C;
+        selectedData = &D_80018F0C;
     }
-    func_800181C8(arg, &D_8001925C, arg0, arg2);
+    func_800181C8(selectedData, &D_8001925C, callerValue, callerData);
 }

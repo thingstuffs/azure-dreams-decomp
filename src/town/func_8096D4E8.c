@@ -37,18 +37,19 @@ extern u16 D_80126B20[2];
 extern u16 D_80126B24[8];
 extern u8 D_80127B64[16];
 
-void func_80125980(TownObject *arg0)
+/* Updates numbered slots and sprite display fields according to the object state. */
+void func_80125980(TownObject *object)
 {
-    register TownObject *obj ASM_REG("$18") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 block;
-    s32 value;
-    s32 slot;
-    s32 row8;
+    register TownObject *obj ASM_REG("$18") = object;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 slot_base;
+    s32 entry_id;
+    s32 slot_index;
+    s32 row_offset;
     s32 column;
     s16 state;
     DisplayPair *display;
-    SpriteFields *source;
-    SpriteFields *hide;
+    SpriteFields *source_sprite;
+    SpriteFields *hidden_sprite;
 
     state = obj->state;
     if (state == 2) {
@@ -67,23 +68,23 @@ void func_80125980(TownObject *arg0)
 
 state_1:
     column = obj->column;
-    row8 = obj->row << 3;
-    block = (row8 + column) * 3;
-    slot = block + 33;
-    value = (obj->digit << 4) + row8 + column;
-    if (func_80123200((u8)value) != 0) {
-        *obj->town->slots[slot] = D_80127B64;
-        slot = block + 34;
-        *obj->town->slots[slot] = D_801269D0[(value + 1) / 10];
-        slot = block + 35;
-        *obj->town->slots[slot] = D_801269D0[(value + 1) % 10];
+    row_offset = obj->row << 3;
+    slot_base = (row_offset + column) * 3;
+    slot_index = slot_base + 33;
+    entry_id = (obj->digit << 4) + row_offset + column;
+    if (func_80123200((u8)entry_id) != 0) {
+        *obj->town->slots[slot_index] = D_80127B64;
+        slot_index = slot_base + 34;
+        *obj->town->slots[slot_index] = D_801269D0[(entry_id + 1) / 10];
+        slot_index = slot_base + 35;
+        *obj->town->slots[slot_index] = D_801269D0[(entry_id + 1) % 10];
     }
     goto common;
 
 state_2:
-    hide = obj->town->display->src;
-    hide->f6 = 0;
-    hide->f4 = 0;
+    hidden_sprite = obj->town->display->src;
+    hidden_sprite->f6 = 0;
+    hidden_sprite->f4 = 0;
     goto end;
 
 state_3:
@@ -93,9 +94,9 @@ state_3:
 common:
     obj->town->display->dst->f6 = obj->town->display->src->f8;
     obj->town->display->dst->f8 = obj->town->display->src->fA;
-    source = obj->town->display->src;
-    source->f6 = 0x800;
-    source->f4 = 0x800;
+    source_sprite = obj->town->display->src;
+    source_sprite->f6 = 0x800;
+    source_sprite->f4 = 0x800;
 
 end:
     return;

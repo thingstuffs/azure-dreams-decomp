@@ -36,37 +36,38 @@ typedef struct S_8017346C_3 {
     s32 unk_14;
 } S_8017346C_3;   /* arg3 in func_8017346C */
 
-void func_8017346C(S_8017346C_0 *arg0, Rec_D_800E3D7C *arg1, S_8017346C_1 *arg2, S_8017346C_3 *arg3) {
-    u8 temp_v1;
+/* Initialize actor motion and transition its handler when action flags are set. */
+void func_8017346C(S_8017346C_0 *actor, Rec_D_800E3D7C *motion, S_8017346C_1 *action, S_8017346C_3 *status) {
+    u8 phase;
 
-    temp_v1 = arg0->unk_9B;
-    if (temp_v1 != 0) {
-        if (temp_v1 != 1) {
+    phase = actor->unk_9B;
+    if (phase != 0) {
+        if (phase != 1) {
             return;
         }
-        goto block_8;
+        goto apply_action;
     }
-    if (arg2->unk_14 & 0x8000) {
-        arg0->unk_9B = 1U;
-        arg2->unk_14 |= 0x6000;
+    if (action->unk_14 & 0x8000) {
+        actor->unk_9B = 1U;
+        action->unk_14 |= 0x6000;
         return;
     }
-    arg1->unk_14.as_s32 = 0;
-    arg1->unk_10.at00_s32.v = 0;
-    arg1->unk_0C.as_s32 = 0;
-    arg0->unk_9B = (u8) (arg0->unk_9B + 1);
-block_8:
-    if (((arg2->unk_04 == 5) && (arg2->unk_14 & 0x1000)) || (arg2->unk_14 & 0x8000)) {
+    motion->unk_14.as_s32 = 0;
+    motion->unk_10.at00_s32.v = 0;
+    motion->unk_0C.as_s32 = 0;
+    actor->unk_9B = (u8) (actor->unk_9B + 1);
+apply_action:
+    if (((action->unk_04 == 5) && (action->unk_14 & 0x1000)) || (action->unk_14 & 0x8000)) {
         func_800A56E0(0x803);
     }
-    if (arg2->unk_14 & 0xE000) {
-        arg0->unk_AE = 1;
-        arg3->unk_14 = (s32) (arg3->unk_14 | 0x40000000);
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-        arg0->unk_8C = &D_80170E94;
+    if (action->unk_14 & 0xE000) {
+        actor->unk_AE = 1;
+        status->unk_14 = (s32) (status->unk_14 | 0x40000000);
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800A2B04(motion, action->unk_24, action->unk_25);
+        actor->unk_8C = &D_80170E94;
         D_8008346C = 0;
     }
 }

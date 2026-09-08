@@ -12,14 +12,15 @@ typedef struct {
     u16 unkA;
 } Struct8009D814;
 
-void func_8009AF74(Struct8009D814 *arg0, s32 arg1, s32 arg2) {
-    s16 temp;
+/* Decrement the countdown, switch the state's table on expiry, and update the state. */
+void func_8009AF74(Struct8009D814 *state, s32 update_arg, s32 shared_arg) {
+    s16 countdown;
 
-    temp = arg0->unkA - 1;
-    arg0->unkA = temp;
-    if (temp <= 0) {
-        func_80094984(D_800D0078, arg0, arg2);
-        arg0->unk4 = D_8009AFF4;
+    countdown = state->unkA - 1;
+    state->unkA = countdown;
+    if (countdown <= 0) {
+        func_80094984(D_800D0078, state, shared_arg);
+        state->unk4 = D_8009AFF4;
     }
-    func_8009AE88(arg0, arg1, arg2);
+    func_8009AE88(state, update_arg, shared_arg);
 }

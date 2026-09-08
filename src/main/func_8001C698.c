@@ -23,29 +23,30 @@ typedef struct S_8001C698_1 {
     void ** unk_1F0;
 } S_8001C698_1;   /* var_a0 in func_8001C698 */
 
-void func_8001C698(void *arg0) {
-    s32 var_a1;
-    s32 var_a2;
-    void *g1;
-    void *g2;
-    void *base4;
-    void *var_a0;
+/* Initializes an object's value and four sets of shared and per-entry pointers. */
+void func_8001C698(void *object) {
+    s32 entry_offset;
+    s32 slot_index;
+    void *shared_data_a;
+    void *shared_data_b;
+    void *object_data;
+    void *slot_cursor;
 
-    *((S_8001C698_0 *)arg0)->unk_1B8 = func_80056F14(4);
-    *((S_8001C698_0 *)arg0)->unk_1BC = &D_80082FF4;
-    var_a2 = 0;
-    g1 = &D_80083060;
-    g2 = &D_8008306C;
-    base4 = arg0 + 4;
-    var_a1 = 0x90;
-    var_a0 = arg0;
+    *((S_8001C698_0 *)object)->unk_1B8 = func_80056F14(4);
+    *((S_8001C698_0 *)object)->unk_1BC = &D_80082FF4;
+    slot_index = 0;
+    shared_data_a = &D_80083060;
+    shared_data_b = &D_8008306C;
+    object_data = object + 4;
+    entry_offset = 0x90;
+    slot_cursor = object;
     do {
-        *((S_8001C698_1 *)var_a0)->unk_1C0 = g1;
-        *((S_8001C698_1 *)var_a0)->unk_1D0 = g2;
-        *((S_8001C698_1 *)var_a0)->unk_1E0 = base4;
-        *((S_8001C698_1 *)var_a0)->unk_1F0 = arg0 + var_a1;
-        var_a1 += 0x3C;
-        var_a2 += 1;
-        var_a0 += 4;
-    } while (var_a2 < 4);
+        *((S_8001C698_1 *)slot_cursor)->unk_1C0 = shared_data_a;
+        *((S_8001C698_1 *)slot_cursor)->unk_1D0 = shared_data_b;
+        *((S_8001C698_1 *)slot_cursor)->unk_1E0 = object_data;
+        *((S_8001C698_1 *)slot_cursor)->unk_1F0 = object + entry_offset;
+        entry_offset += 0x3C;
+        slot_index += 1;
+        slot_cursor += 4;
+    } while (slot_index < 4);
 }

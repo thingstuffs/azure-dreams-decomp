@@ -72,108 +72,109 @@ extern u8 D_80529594[];
 extern s32 D_805300F4[];
 
 
-void func_8080E838(void *arg0, void *arg1) {
+/* Allocates an object, copies its source data, and initializes its components. */
+void func_8080E838(void *source_data, void *initial_data) {
     void *obj;
-    void *result;
+    void *allocated_obj;
     register void *source ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register void *initial ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register u8 *payload ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *part;
-    register u8 *held ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *payload_table ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Copy16 *copy_src;
     Copy16 *copy_dst;
     Copy16 *copy_end;
-    s32 loop0;
-    register s32 loop1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 loop2;
-    register s32 loop3 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 word0;
-    register s32 word1 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 word2 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 word3 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *call_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 copy_word_0;
+    register s32 copy_word_1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 copy_or_obj;
+    register s32 copy_or_entry ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 field_value;
+    register s32 field_or_table ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 init_word_2 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 init_word_3 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *setup_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 *table_base ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-    source = arg0;
+    source = source_data;
     ASM_KEEP_NV(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    initial = arg1;
+    initial = initial_data;
     ASM_KEEP_NV(initial);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    result = func_800373DC(0x136);
-    held = D_8052643C;
-    ASM_KEEP_NV(held);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    obj = result;
+    allocated_obj = func_800373DC(0x136);
+    payload_table = D_8052643C;
+    ASM_KEEP_NV(payload_table);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    obj = allocated_obj;
     payload = (u8 *)obj + 0x20;
     if (obj != 0) {
         copy_dst = (Copy16 *)payload;
         copy_src = (Copy16 *)source;
         copy_end = (Copy16 *)((u8 *)source + 0x50);
         do {
-            loop0 = ((S_8080E838_0 *)copy_src)->unk_00;
-            loop1 = ((S_8080E838_0 *)copy_src)->unk_04;
-            loop2 = ((S_8080E838_0 *)copy_src)->unk_08;
-            loop3 = ((S_8080E838_0 *)copy_src)->unk_0C;
-            ((S_8080E838_1 *)copy_dst)->unk_00 = loop0;
-            ((S_8080E838_1 *)copy_dst)->unk_04 = loop1;
-            ((S_8080E838_1 *)copy_dst)->unk_08 = loop2;
-            ((S_8080E838_1 *)copy_dst)->unk_0C = loop3;
+            copy_word_0 = ((S_8080E838_0 *)copy_src)->unk_00;
+            copy_word_1 = ((S_8080E838_0 *)copy_src)->unk_04;
+            copy_or_obj = ((S_8080E838_0 *)copy_src)->unk_08;
+            copy_or_entry = ((S_8080E838_0 *)copy_src)->unk_0C;
+            ((S_8080E838_1 *)copy_dst)->unk_00 = copy_word_0;
+            ((S_8080E838_1 *)copy_dst)->unk_04 = copy_word_1;
+            ((S_8080E838_1 *)copy_dst)->unk_08 = copy_or_obj;
+            ((S_8080E838_1 *)copy_dst)->unk_0C = copy_or_entry;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             copy_src++;
             copy_dst++;
         } while (copy_src != copy_end);
-        word0 = ((S_8080E838_0 *)copy_src)->unk_00;
-        loop1 = ((S_8080E838_0 *)copy_src)->unk_04;
-        ((S_8080E838_1 *)copy_dst)->unk_00 = word0;
-        ((S_8080E838_1 *)copy_dst)->unk_04 = loop1;
+        field_value = ((S_8080E838_0 *)copy_src)->unk_00;
+        copy_word_1 = ((S_8080E838_0 *)copy_src)->unk_04;
+        ((S_8080E838_1 *)copy_dst)->unk_00 = field_value;
+        ((S_8080E838_1 *)copy_dst)->unk_04 = copy_word_1;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        loop2 = (s32)obj;
-        ASM_KEEP(loop2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        call_data = D_8003C558;
+        copy_or_obj = (s32)obj;
+        ASM_KEEP(copy_or_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        setup_data = D_8003C558;
         part = ((S_8080E838_2 *)obj)->unk_08;
         ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        word0 = (s32)D_80529594;
-        ((S_8080E838_2 *)obj)->unk_10 = word0;
-        word0 = ((S_8080E838_3 *)initial)->unk_00;
-        word1 = ((S_8080E838_3 *)initial)->unk_04;
-        word2 = ((S_8080E838_3 *)initial)->unk_08;
-        word3 = ((S_8080E838_3 *)initial)->unk_0C;
-        ((S_8080E838_4 *)part)->unk_00 = word0;
-        ((S_8080E838_4 *)part)->unk_04.at00.v = word1;
-        ((S_8080E838_4 *)part)->unk_08 = word2;
-        ((S_8080E838_4 *)part)->unk_0C = word3;
-        word0 = ((S_8080E838_3 *)initial)->unk_10;
-        word1 = ((S_8080E838_3 *)initial)->unk_14;
-        ((S_8080E838_4 *)part)->unk_10 = word0;
-        ((S_8080E838_4 *)part)->unk_14.s32 = word1;
-        func_8003BC18((void *)loop2, call_data);
+        field_value = (s32)D_80529594;
+        ((S_8080E838_2 *)obj)->unk_10 = field_value;
+        field_value = ((S_8080E838_3 *)initial)->unk_00;
+        field_or_table = ((S_8080E838_3 *)initial)->unk_04;
+        init_word_2 = ((S_8080E838_3 *)initial)->unk_08;
+        init_word_3 = ((S_8080E838_3 *)initial)->unk_0C;
+        ((S_8080E838_4 *)part)->unk_00 = field_value;
+        ((S_8080E838_4 *)part)->unk_04.at00.v = field_or_table;
+        ((S_8080E838_4 *)part)->unk_08 = init_word_2;
+        ((S_8080E838_4 *)part)->unk_0C = init_word_3;
+        field_value = ((S_8080E838_3 *)initial)->unk_10;
+        field_or_table = ((S_8080E838_3 *)initial)->unk_14;
+        ((S_8080E838_4 *)part)->unk_10 = field_value;
+        ((S_8080E838_4 *)part)->unk_14.s32 = field_or_table;
+        func_8003BC18((void *)copy_or_obj, setup_data);
 
-        word1 = 0x800000;
-        ASM_KEEP(word1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        field_or_table = 0x800000;
+        ASM_KEEP(field_or_table);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         part = ((S_8080E838_2 *)obj)->unk_0C;
-        word0 = 0x1000;
-        ((S_8080E838_4 *)part)->unk_1E = word0;
-        ((S_8080E838_4 *)part)->unk_1C = word0;
-        word0 = ((S_8080E838_5 *)source)->unk_54;
-        ASM_KEEP(word0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        word1 |= 0x8080;
-        word0 <<= 2;
+        field_value = 0x1000;
+        ((S_8080E838_4 *)part)->unk_1E = field_value;
+        ((S_8080E838_4 *)part)->unk_1C = field_value;
+        field_value = ((S_8080E838_5 *)source)->unk_54;
+        ASM_KEEP(field_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        field_or_table |= 0x8080;
+        field_value <<= 2;
         table_base = (s32 *)0x80530000;
-        table_base = (s32 *)((s32)table_base - -word0);
-        loop3 = ((S_8080E838_6 *)table_base)->unk_130;
-        ASM_KEEP(loop3);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        word0 = ((S_8080E838_4 *)part)->unk_14.u16;
+        table_base = (s32 *)((s32)table_base - -field_value);
+        copy_or_entry = ((S_8080E838_6 *)table_base)->unk_130;
+        ASM_KEEP(copy_or_entry);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        field_value = ((S_8080E838_4 *)part)->unk_14.u16;
         ((S_8080E838_4 *)part)->unk_04.at00u.v = 0;
         ((S_8080E838_4 *)part)->unk_04.at01.v = 0;
-        ((S_8080E838_4 *)part)->unk_0C = word1;
-        word0 |= 0x80;
-        ((S_8080E838_4 *)part)->unk_14.u16 = word0;
-        ASM_KEEP(word0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_8080E838_4 *)part)->unk_08 = loop3;
-        ((S_8080E838_7 *)payload)->unk_50 = held;
+        ((S_8080E838_4 *)part)->unk_0C = field_or_table;
+        field_value |= 0x80;
+        ((S_8080E838_4 *)part)->unk_14.u16 = field_value;
+        ASM_KEEP(field_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ((S_8080E838_4 *)part)->unk_08 = copy_or_entry;
+        ((S_8080E838_7 *)payload)->unk_50 = payload_table;
         ASM_KEEP_NV(payload);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        call_data = ((S_8080E838_2 *)obj)->unk_08;
-        ASM_KEEP(call_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        word1 = (s32)D_805300F4;
-        ASM_KEEP(word1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        func_8023FA58(payload + 8, call_data, (void *)word1);
+        setup_data = ((S_8080E838_2 *)obj)->unk_08;
+        ASM_KEEP(setup_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        field_or_table = (s32)D_805300F4;
+        ASM_KEEP(field_or_table);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        func_8023FA58(payload + 8, setup_data, (void *)field_or_table);
     }
 }

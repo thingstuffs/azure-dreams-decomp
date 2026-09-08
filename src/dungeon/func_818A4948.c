@@ -14,28 +14,29 @@ extern u8 D_80045340[];
 register u32 match_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
 
-void *func_818A4948(s32 arg0, void *arg1) {
+/* Creates and initializes an object with the supplied data and coordinates. */
+void *func_818A4948(s32 user_data, void *source_coords) {
     void *obj;
-    void *sub;
-    void *vec;
-    u8 *call_data;
+    void *render_data;
+    void *coords;
+    u8 *init_data;
 #ifdef NON_MATCHING
     u32 match_v0;
 #endif
 
     obj = func_8003FC64(0x212);
 #ifndef NON_MATCHING
-    call_data = (u8 *)0x80020000;
+    init_data = (u8 *)0x80020000;
 #else
-    call_data = D_80025238;
+    init_data = D_80025238;
 #endif
     if (obj == 0) {
         match_v0 = 0;
         func_80024210();
     }
 #ifndef NON_MATCHING
-    ASM_KEEP(call_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    call_data += 0x5238;
+    ASM_KEEP(init_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    init_data += 0x5238;
     match_v0 = 0x80020000;
     ASM_KEEP(match_v0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     match_v0 += 0x40C4;
@@ -44,35 +45,35 @@ void *func_818A4948(s32 arg0, void *arg1) {
 #endif
     FIELD(obj, void **, 0x10) = (void *)match_v0;
     match_v0 = 0x80;
-    sub = FIELD(obj, void **, 0xC);
-    FIELD(obj, s32 *, 0x20) = arg0;
-    FIELD(sub, u8 *, 0xE) = (u8)match_v0;
-    FIELD(sub, u8 *, 0xD) = (u8)match_v0;
-    FIELD(sub, u8 *, 0xC) = (u8)match_v0;
-    func_8003DB94(sub, call_data, 0);
+    render_data = FIELD(obj, void **, 0xC);
+    FIELD(obj, s32 *, 0x20) = user_data;
+    FIELD(render_data, u8 *, 0xE) = (u8)match_v0;
+    FIELD(render_data, u8 *, 0xD) = (u8)match_v0;
+    FIELD(render_data, u8 *, 0xC) = (u8)match_v0;
+    func_8003DB94(render_data, init_data, 0);
     {
-        void *call_obj = obj;
+        void *init_obj = obj;
 
-        ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        call_data = D_80045340;
-        ASM_KEEP(call_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(init_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        init_data = D_80045340;
+        ASM_KEEP(init_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         match_v0 = 0x800;
-        FIELD(sub, s16 *, 0x1E) = (s16)match_v0;
-        FIELD(sub, s16 *, 0x1C) = (s16)match_v0;
-        match_v0 = FIELD(sub, u16 *, 0x14);
-        FIELD(sub, s16 *, 0x12) = 0x7E07;
+        FIELD(render_data, s16 *, 0x1E) = (s16)match_v0;
+        FIELD(render_data, s16 *, 0x1C) = (s16)match_v0;
+        match_v0 = FIELD(render_data, u16 *, 0x14);
+        FIELD(render_data, s16 *, 0x12) = 0x7E07;
         match_v0 |= 0x100;
-        FIELD(sub, u16 *, 0x14) = (u16)match_v0;
-        func_8004491C(call_obj, call_data);
+        FIELD(render_data, u16 *, 0x14) = (u16)match_v0;
+        func_8004491C(init_obj, init_data);
     }
-    vec = FIELD(obj, void **, 8);
+    coords = FIELD(obj, void **, 8);
 #ifndef NON_MATCHING
-    __asm__ __volatile__("" : : "r"(arg1));
+    __asm__ __volatile__("" : : "r"(source_coords));
 #endif
-    match_v0 = FIELD(arg1, u16 *, 2);
-    FIELD(vec, u16 *, 2) = (u16)match_v0;
-    match_v0 = FIELD(arg1, u16 *, 6);
-    FIELD(vec, u16 *, 6) = (u16)match_v0;
-    FIELD(vec, u16 *, 0xA) = FIELD(arg1, u16 *, 0xA);
+    match_v0 = FIELD(source_coords, u16 *, 2);
+    FIELD(coords, u16 *, 2) = (u16)match_v0;
+    match_v0 = FIELD(source_coords, u16 *, 6);
+    FIELD(coords, u16 *, 6) = (u16)match_v0;
+    FIELD(coords, u16 *, 0xA) = FIELD(source_coords, u16 *, 0xA);
     return obj;
 }

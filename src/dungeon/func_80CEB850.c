@@ -89,30 +89,31 @@ extern u8 D_80175E6C[];
 extern u8 D_80175E74[];
 extern u8 D_80175E7C[];
 
-void func_80175050(M2C_UNK *arg0, M2C_UNK arg1, void *arg2_in, M2C_UNK *arg3_in) {
-    register u8 *temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *state1_callback;
-    u8 *old_callback;
-    M2C_UNK *state0_arg0;
-    register M2C_UNK *var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    M2C_UNK *state1_base;
-    M2C_UNK *arg3;
-    register void *arg2 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+/* Updates actor state, directional animations, and the shared activity count. */
+void func_80175050(M2C_UNK *task, M2C_UNK task_id, void *sprite_in, M2C_UNK *actor_in) {
+    register u8 *anim_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *next_anim_table;
+    u8 *old_anim_table;
+    M2C_UNK *starting_task;
+    register M2C_UNK *data_ptr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    M2C_UNK *turn_state;
+    M2C_UNK *actor;
+    register void *sprite ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 flags;
     s32 state;
     s32 kind;
     s8 floor;
 
-    arg3 = arg3_in;
-    arg2 = arg2_in;
-    ASM_KEEP_NV(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    state = ((S_80175050_0 *)arg0)->unk_9B;
+    actor = actor_in;
+    sprite = sprite_in;
+    ASM_KEEP_NV(sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    state = ((S_80175050_0 *)task)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((S_80175050_1 *)arg2)->unk_14 & 0xE000)) {
+        if (!(((S_80175050_1 *)sprite)->unk_14 & 0xE000)) {
             goto done;
         }
-        kind = ((S_80175050_2 *)arg3)->unk_48;
+        kind = ((S_80175050_2 *)actor)->unk_48;
         if (kind == 14) {
             goto state0_kind_14;
         }
@@ -127,180 +128,179 @@ void func_80175050(M2C_UNK *arg0, M2C_UNK arg1, void *arg2_in, M2C_UNK *arg3_in)
         }
         goto state0_default_high;
 state0_kind_13:
-        temp_a1 = D_80175E54;
+        anim_table = D_80175E54;
         goto state0_notify;
 state0_kind_14:
-        temp_a1 = D_80175E5C;
+        anim_table = D_80175E5C;
         goto state0_notify;
 state0_kind_15:
-        temp_a1 = D_80175E64;
+        anim_table = D_80175E64;
 state0_notify:
-        ((S_80175050_1 *)arg2)->unk_2C = temp_a1;
-        var_v0 = (M2C_UNK *)((((D_80083228[0] + ((S_80175050_2 *)arg3)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)temp_a1);
-        func_80047784(arg2, ((S_80175050_3 *)var_v0)->unk_00, 0);
-        state0_arg0 = arg0;
-        var_v0 = (M2C_UNK *)D_80083460;
+        ((S_80175050_1 *)sprite)->unk_2C = anim_table;
+        data_ptr = (M2C_UNK *)((((D_80083228[0] + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table);
+        func_80047784(sprite, ((S_80175050_3 *)data_ptr)->unk_00, 0);
+        starting_task = task;
+        data_ptr = (M2C_UNK *)D_80083460;
         goto state0_decrement;
 state0_default_low:
-        state0_arg0 = arg0;
-        var_v0 = (M2C_UNK *)D_80083460;
+        starting_task = task;
+        data_ptr = (M2C_UNK *)D_80083460;
         goto state0_decrement;
 state0_default_high:
-        state0_arg0 = arg0;
-        var_v0 = (M2C_UNK *)D_80083460;
+        starting_task = task;
+        data_ptr = (M2C_UNK *)D_80083460;
 state0_decrement:
-        ((S_80175050_3 *)var_v0)->unk_0A--;
-        ((S_80175050_4 *)state0_arg0)->unk_9B++;
-        func_80171BEC_returning(state0_arg0, arg1, arg2);
+        ((S_80175050_3 *)data_ptr)->unk_0A--;
+        ((S_80175050_4 *)starting_task)->unk_9B++;
+        func_80171BEC_returning(starting_task, task_id, sprite);
         goto done;
 
     case 1:
-        kind = ((S_80175050_2 *)arg3)->unk_48;
+        kind = ((S_80175050_2 *)actor)->unk_48;
         switch (kind) {
         case 13:
-            old_callback = ((S_80175050_1 *)arg2)->unk_2C;
-            state1_callback = D_80175E54;
+            old_anim_table = ((S_80175050_1 *)sprite)->unk_2C;
+            next_anim_table = D_80175E54;
             goto state1_maybe_update;
         case 14:
-            old_callback = ((S_80175050_1 *)arg2)->unk_2C;
-            state1_callback = D_80175E5C;
+            old_anim_table = ((S_80175050_1 *)sprite)->unk_2C;
+            next_anim_table = D_80175E5C;
             goto state1_maybe_update;
         case 15:
-            old_callback = ((S_80175050_1 *)arg2)->unk_2C;
-            state1_callback = D_80175E64;
+            old_anim_table = ((S_80175050_1 *)sprite)->unk_2C;
+            next_anim_table = D_80175E64;
             break;
         default:
             goto state1_check;
         }
 state1_maybe_update:
-        if (old_callback != state1_callback) {
-            ((S_80175050_1 *)arg2)->unk_2C = state1_callback;
-            var_v0 = (M2C_UNK *)((((D_80083228[0] + ((S_80175050_2 *)arg3)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)state1_callback);
-            func_80047784(arg2, ((S_80175050_3 *)var_v0)->unk_00, 0);
+        if (old_anim_table != next_anim_table) {
+            ((S_80175050_1 *)sprite)->unk_2C = next_anim_table;
+            data_ptr = (M2C_UNK *)((((D_80083228[0] + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)next_anim_table);
+            func_80047784(sprite, ((S_80175050_3 *)data_ptr)->unk_00, 0);
         }
 
 state1_check:
+        if ((func_80042900(actor, 1) << 16) == 0) {
+            kind = ((S_80175050_2 *)actor)->unk_48;
+            if (kind != 14) {
+                if (kind < 15) {
+                    if (kind != 13) {
+                        goto suffix;
+                    }
+                    anim_table = D_80175E6C;
+                    goto state1_notify;
+                }
+                goto kind_ge_15;
+            } else {
+                anim_table = D_80175E6C + 8;
+                goto state1_notify;
+            }
+        }
 
-    if ((func_80042900(arg3, 1) << 16) == 0) {
-        kind = ((S_80175050_2 *)arg3)->unk_48;
+        turn_state = (M2C_UNK *)D_80083460;
+        if (((S_80175050_5 *)turn_state)->unk_02 & 0x1000) {
+            goto done;
+        }
+        if (((S_80175050_2 *)actor)->unk_64 != 0 && func_800AA6B4(task, task_id, sprite, 0) != 0) {
+            goto done;
+        }
+        if (((S_80175050_2 *)actor)->unk_25 == 0) {
+            if (((S_80175050_5 *)turn_state)->unk_02 & 0x2008) {
+                goto done;
+            }
+            func_800AA79C(task, task_id, sprite, actor);
+            goto done;
+        }
+        if ((func_800A2C34(actor) << 16) != 0) {
+            goto done;
+        }
+        flags = ((S_80175050_2 *)actor)->unk_1C;
+        if (flags & 0x100) {
+            func_800AA258(task, task_id, sprite, actor);
+            goto done;
+        }
+        if (flags & 0x80000) {
+            func_800AA888(task, task_id, sprite, actor);
+            func_801759A0(task, task_id, sprite, actor);
+            goto done;
+        }
+        if (((S_80175050_2 *)actor)->unk_6D == 0) {
+            goto done;
+        }
+        if ((func_800A2C34(actor) << 16) != 0) {
+            if ((func_8009A180(actor, *(u8 **)(D_800814A8[0] + 0x58) + 0x20) << 16) != 0) {
+                goto done;
+            }
+        }
+        func_800A9A0C(actor);
+        func_800A9A04(actor);
+        if ((func_80042900(actor, 1) << 16) != 0) {
+            register unsigned long player_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register M2C_UNK *player ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            player_page = 0x80080000;
+            ASM_KEEP_NV(player_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            player = (M2C_UNK *)(player_page + 0x2E80);
+            floor = ((S_80175050_1 *)sprite)->unk_26;
+            if (!((floor == ((S_80175050_6 *)player)->unk_26 && floor >= 0) || func_8009FD40(player, sprite) < 2)) {
+                goto second_check;
+            }
+            if (func_800A6D30(player) & 7) {
+                goto second_check;
+            }
+            func_80042B68(actor, 1);
+        }
+
+second_check:
+        if ((func_80042900(actor, 1) << 16) != 0) {
+            goto done;
+        }
+        kind = ((S_80175050_2 *)actor)->unk_48;
         if (kind != 14) {
             if (kind < 15) {
-                if (kind != 13) {
-                    goto suffix;
+                if (kind == 13) {
+                    goto kind_13;
                 }
-                temp_a1 = D_80175E6C;
-                goto state1_notify;
+                goto suffix;
             }
             goto kind_ge_15;
         } else {
-            temp_a1 = D_80175E6C + 8;
-            goto state1_notify;
+            goto kind_14;
         }
-    }
-
-    state1_base = (M2C_UNK *)D_80083460;
-    if (((S_80175050_5 *)state1_base)->unk_02 & 0x1000) {
-        goto done;
-    }
-    if (((S_80175050_2 *)arg3)->unk_64 != 0 && func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
-        goto done;
-    }
-    if (((S_80175050_2 *)arg3)->unk_25 == 0) {
-        if (((S_80175050_5 *)state1_base)->unk_02 & 0x2008) {
-            goto done;
-        }
-        func_800AA79C(arg0, arg1, arg2, arg3);
-        goto done;
-    }
-    if ((func_800A2C34(arg3) << 16) != 0) {
-        goto done;
-    }
-    flags = ((S_80175050_2 *)arg3)->unk_1C;
-    if (flags & 0x100) {
-        func_800AA258(arg0, arg1, arg2, arg3);
-        goto done;
-    }
-    if (flags & 0x80000) {
-        func_800AA888(arg0, arg1, arg2, arg3);
-        func_801759A0(arg0, arg1, arg2, arg3);
-        goto done;
-    }
-    if (((S_80175050_2 *)arg3)->unk_6D == 0) {
-        goto done;
-    }
-    if ((func_800A2C34(arg3) << 16) != 0) {
-        if ((func_8009A180(arg3, *(u8 **)(D_800814A8[0] + 0x58) + 0x20) << 16) != 0) {
-            goto done;
-        }
-    }
-    func_800A9A0C(arg3);
-    func_800A9A04(arg3);
-    if ((func_80042900(arg3, 1) << 16) != 0) {
-        register unsigned long var_a0_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register M2C_UNK *var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        var_a0_page = 0x80080000;
-        ASM_KEEP_NV(var_a0_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        var_a0 = (M2C_UNK *)(var_a0_page + 0x2E80);
-        floor = ((S_80175050_1 *)arg2)->unk_26;
-        if (!((floor == ((S_80175050_6 *)var_a0)->unk_26 && floor >= 0) || func_8009FD40(var_a0, arg2) < 2)) {
-            goto second_check;
-        }
-        if (func_800A6D30(var_a0) & 7) {
-            goto second_check;
-        }
-        func_80042B68(arg3, 1);
-    }
-
-second_check:
-    if ((func_80042900(arg3, 1) << 16) != 0) {
-        goto done;
-    }
-    kind = ((S_80175050_2 *)arg3)->unk_48;
-    if (kind != 14) {
-        if (kind < 15) {
-            if (kind == 13) {
-                goto kind_13;
-            }
-            goto suffix;
-        }
-        goto kind_ge_15;
-    } else {
-        goto kind_14;
-    }
 kind_ge_15:
-    if (kind == 15) {
-        goto kind_15;
-    }
-    goto suffix;
+        if (kind == 15) {
+            goto kind_15;
+        }
+        goto suffix;
 kind_13:
-    temp_a1 = D_80175E6C;
-    goto state1_notify;
+        anim_table = D_80175E6C;
+        goto state1_notify;
 kind_14:
-    temp_a1 = D_80175E74;
-    goto state1_notify;
+        anim_table = D_80175E74;
+        goto state1_notify;
 kind_15:
-    temp_a1 = D_80175E7C;
+        anim_table = D_80175E7C;
 state1_notify:
-    ((S_80175050_1 *)arg2)->unk_2C = temp_a1;
-    var_v0 = (M2C_UNK *)((((D_80083228[0] + ((S_80175050_2 *)arg3)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)temp_a1);
-    func_80047784(arg2, ((S_80175050_3 *)var_v0)->unk_00, 0);
+        ((S_80175050_1 *)sprite)->unk_2C = anim_table;
+        data_ptr = (M2C_UNK *)((((D_80083228[0] + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table);
+        func_80047784(sprite, ((S_80175050_3 *)data_ptr)->unk_00, 0);
 
 suffix:
-    if (((S_80175050_1 *)arg2)->unk_14 & 0x8000) {
-        ((S_80175050_0 *)arg0)->unk_8C = D_801724BC;
-        goto done;
-    }
-    var_v0 = (M2C_UNK *)D_80083460;
-    ((S_80175050_3 *)var_v0)->unk_0A++;
-    ((S_80175050_0 *)arg0)->unk_9B++;
+        if (((S_80175050_1 *)sprite)->unk_14 & 0x8000) {
+            ((S_80175050_0 *)task)->unk_8C = D_801724BC;
+            goto done;
+        }
+        data_ptr = (M2C_UNK *)D_80083460;
+        ((S_80175050_3 *)data_ptr)->unk_0A++;
+        ((S_80175050_0 *)task)->unk_9B++;
 
-    goto done;
+        goto done;
 
     case 2:
-        if (((S_80175050_1 *)arg2)->unk_14 & 0xE000) {
-            var_v0 = (M2C_UNK *)D_80083460;
-            ((S_80175050_3 *)var_v0)->unk_0A--;
-            ((S_80175050_0 *)arg0)->unk_8C = D_801724BC;
+        if (((S_80175050_1 *)sprite)->unk_14 & 0xE000) {
+            data_ptr = (M2C_UNK *)D_80083460;
+            ((S_80175050_3 *)data_ptr)->unk_0A--;
+            ((S_80175050_0 *)task)->unk_8C = D_801724BC;
         }
         goto done;
 

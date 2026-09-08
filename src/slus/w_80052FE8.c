@@ -51,28 +51,29 @@ typedef struct {
     u16 unk2E;
 } S_80052FE8;
 
-void func_80052FE8(S_80052FE8 *a0, s16 a1) {
-    S_80052FE8_C *a2;
-    S_80052FE8_B *b;
-    u16 *v0;
+/* Initialize the object callbacks, display entry, rendering defaults, and position. */
+void func_80052FE8(S_80052FE8 *object, s16 entry_index) {
+    S_80052FE8_C *render_state;
+    S_80052FE8_B *position;
+    u16 *state_fields;
 
-    a0->unk10 = func_80052CE0;
-    v0 = &a0->unk20;
-    v0[0] = 0;
-    v0[1] = 0;
-    v0[2] = 0;
-    v0[6] = 0;
-    v0[7] = 0;
-    v0[4] = a1;
-    a2 = a0->unkC;
-    a2->unkC = 0x808080;
-    a2->unk1E = 0x1000;
-    a2->unk1C = 0x1000;
-    a2->unk8 = D_80084478 + a1;
-    a2->unk14 |= 0x80;
-    func_8004491C(a0, func_80044BB0);
-    b = a0->unk8;
-    b->unk0 = 0;
-    b->unk4 = 0;
-    b->unk8 = 0x600000;
+    object->unk10 = func_80052CE0;
+    state_fields = &object->unk20;
+    state_fields[0] = 0;
+    state_fields[1] = 0;
+    state_fields[2] = 0;
+    state_fields[6] = 0;
+    state_fields[7] = 0;
+    state_fields[4] = entry_index;
+    render_state = object->unkC;
+    render_state->unkC = 0x808080;
+    render_state->unk1E = 0x1000;
+    render_state->unk1C = 0x1000;
+    render_state->unk8 = D_80084478 + entry_index;
+    render_state->unk14 |= 0x80;
+    func_8004491C(object, func_80044BB0);
+    position = object->unk8;
+    position->unk0 = 0;
+    position->unk4 = 0;
+    position->unk8 = 0x600000;
 }

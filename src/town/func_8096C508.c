@@ -40,71 +40,72 @@ extern void func_80044144(s32, s32, s32, s32);
 extern void func_8004B248(void *);
 extern void func_801231DC(void);
 
-void func_801249A0(Object *arg0)
+/* Handles input to update object selections, action states, and exit behavior. */
+void func_801249A0(Object *object)
 {
-    GlobalState *state = &D_80083160;
-    u32 flags;
-    register u32 tail_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 other;
-    u8 second;
-    u8 wanted;
-    s32 i;
-    s32 **table;
+    GlobalState *input_state = &D_80083160;
+    u32 input_flags;
+    register u32 side_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 active_value;
+    u8 alternate_value;
+    u8 target_value;
+    s32 entry_index;
+    s32 **reset_entries;
 
-    flags = state->field_10;
-    if (flags & 0x40) {
-        s32 slot;
-        register Object *call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    input_flags = input_state->field_10;
+    if (input_flags & 0x40) {
+        s32 slot_index;
+        register Object *slot_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-        if (!func_80123200(arg0->field_13)) {
+        if (!func_80123200(object->field_13)) {
             goto end;
         }
         func_80053DA8(0x702);
-        slot = arg0->field_16;
-        wanted = arg0->field_13;
-        other = *((u8 *)arg0 + slot + 0x17);
-        if (other == wanted) {
+        slot_index = object->field_16;
+        target_value = object->field_13;
+        active_value = *((u8 *)object + slot_index + 0x17);
+        if (active_value == target_value) {
             goto matched_six;
         }
-        slot ^= 1;
-        second = *((u8 *)arg0 + slot + 0x17);
-        if (second != wanted) {
+        slot_index ^= 1;
+        alternate_value = *((u8 *)object + slot_index + 0x17);
+        if (alternate_value != target_value) {
             goto check_five;
         }
-        call_arg = arg0;
-        arg0->field_16 = slot;
-        func_801237A4(call_arg);
+        slot_object = object;
+        object->field_16 = slot_index;
+        func_801237A4(slot_object);
 matched_six:
-        arg0->field_A = 6;
-        arg0->field_4 = 1;
-        arg0->field_6 = 0x19;
+        object->field_A = 6;
+        object->field_4 = 1;
+        object->field_6 = 0x19;
         goto end;
 check_five:
-        if (other == 0xFF) {
+        if (active_value == 0xFF) {
             goto matched_five;
         }
-        if (second == 0xFF) {
-            call_arg = arg0;
-            arg0->field_16 = slot;
-            func_801237A4(call_arg);
+        if (alternate_value == 0xFF) {
+            slot_object = object;
+            object->field_16 = slot_index;
+            func_801237A4(slot_object);
         }
 matched_five:
-        arg0->field_A = 5;
-        arg0->field_B = 0;
+        object->field_A = 5;
+        object->field_B = 0;
         goto end;
     }
 
-    if (flags & 0x20) {
+    if (input_flags & 0x20) {
         func_80053DA8(0x700);
         if (D_80082E6B == 0x17) {
             func_80044144(0, 0, 0, 0);
-            table = (s32 **)&D_80129728;
-            for (i = 0; i < 98; i++) {
-                *table[i] = 0;
+            reset_entries = (s32 **)&D_80129728;
+            for (entry_index = 0; entry_index < 98; entry_index++) {
+                *reset_entries[entry_index] = 0;
             }
-            *(u16 *)((u8 *)arg0->field_0 + 0x1E) |= 0x2000;
-            func_8004B248((u8 *)arg0 + 0x5C);
-            *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+            *(u16 *)((u8 *)object->field_0 + 0x1E) |= 0x2000;
+            func_8004B248((u8 *)object + 0x5C);
+            *(u16 *)((u8 *)object - 2) |= 0x8000;
             D_800814A0 |= 0x8000;
             func_801231DC();
             D_80080A84 = 2;
@@ -112,104 +113,104 @@ matched_five:
         }
     }
 
-    flags = state->field_10;
-    if (flags & 0x8000) {
-        u8 mode;
+    input_flags = input_state->field_10;
+    if (input_flags & 0x8000) {
+        u8 selection_group;
 
-        if (arg0->field_10 == 0) {
-            (*(volatile u8 *)&arg0->field_F) += 3;
-            (*(volatile u8 *)&arg0->field_F) &= 3;
+        if (object->field_10 == 0) {
+            (*(volatile u8 *)&object->field_F) += 3;
+            (*(volatile u8 *)&object->field_F) &= 3;
         }
-        mode = arg0->field_F;
-        arg0->field_10 ^= 1;
-        if ((mode == 3) && (arg0->field_15 != 0)) {
-            arg0->field_F = 2;
+        selection_group = object->field_F;
+        object->field_10 ^= 1;
+        if ((selection_group == 3) && (object->field_15 != 0)) {
+            object->field_F = 2;
         }
-        arg0->field_A = 0;
+        object->field_A = 0;
         goto end;
     }
-    if (flags & 0x2000) {
-        u8 mode;
+    if (input_flags & 0x2000) {
+        u8 selection_group;
 
-        if (arg0->field_10 != 0) {
-            (*(volatile u8 *)&arg0->field_F) += 1;
-            (*(volatile u8 *)&arg0->field_F) &= 3;
+        if (object->field_10 != 0) {
+            (*(volatile u8 *)&object->field_F) += 1;
+            (*(volatile u8 *)&object->field_F) &= 3;
         }
-        mode = arg0->field_F;
-        arg0->field_10 ^= 1;
-        if ((mode == 3) && (arg0->field_15 != 0)) {
-            arg0->field_F = 0;
+        selection_group = object->field_F;
+        object->field_10 ^= 1;
+        if ((selection_group == 3) && (object->field_15 != 0)) {
+            object->field_F = 0;
         }
-        arg0->field_A = 0;
+        object->field_A = 0;
         goto end;
     }
 
-    flags = state->field_8;
-    if (flags & 0x1000) {
-        if (arg0->field_F == 3) {
+    input_flags = input_state->field_8;
+    if (input_flags & 0x1000) {
+        if (object->field_F == 3) {
             goto reset_four;
         }
         {
-            u32 raw_toggle;
-            s32 saved_toggle;
+            u32 selection_value;
+            s32 previous_selection;
 
-            raw_toggle = 1;
-            (*(volatile s16 *)&arg0->field_4) = raw_toggle;
-            raw_toggle = arg0->field_11;
-            saved_toggle = raw_toggle;
-            ASM_KEEP(saved_toggle);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            *(volatile u8 *)&arg0->field_11 = raw_toggle + 7;
-            arg0->field_6 = 4;
-            (*(volatile u8 *)&arg0->field_11) &= 7;
-            arg0->field_12 = saved_toggle;
+            selection_value = 1;
+            (*(volatile s16 *)&object->field_4) = selection_value;
+            selection_value = object->field_11;
+            previous_selection = selection_value;
+            ASM_KEEP(previous_selection);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            *(volatile u8 *)&object->field_11 = selection_value + 7;
+            object->field_6 = 4;
+            (*(volatile u8 *)&object->field_11) &= 7;
+            object->field_12 = previous_selection;
         }
-        if ((*(volatile u8 *)&arg0->field_11) != 7) {
+        if ((*(volatile u8 *)&object->field_11) != 7) {
             goto set_two;
         }
-        tail_value = arg0->field_10;
-        arg0->field_A = 3;
+        side_value = object->field_10;
+        object->field_A = 3;
         goto toggle;
     }
-    if (!(flags & 0x4000)) {
+    if (!(input_flags & 0x4000)) {
         goto end;
     }
     {
-        u32 raw_toggle;
-        s32 saved_toggle;
-        register s32 one ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        u32 selection_value;
+        s32 previous_selection;
+        register s32 start_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-        one = 1;
-        if (arg0->field_F == 3) {
+        start_step = 1;
+        if (object->field_F == 3) {
             goto reset_four;
         }
-        raw_toggle = arg0->field_11;
-        saved_toggle = raw_toggle;
-        ASM_KEEP(saved_toggle);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        *(volatile u8 *)&arg0->field_11 = raw_toggle + 1;
-        arg0->field_4 = one;
-        (*(volatile u8 *)&arg0->field_11) &= 7;
-        arg0->field_12 = saved_toggle;
+        selection_value = object->field_11;
+        previous_selection = selection_value;
+        ASM_KEEP(previous_selection);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        *(volatile u8 *)&object->field_11 = selection_value + 1;
+        object->field_4 = start_step;
+        (*(volatile u8 *)&object->field_11) &= 7;
+        object->field_12 = previous_selection;
     }
-    arg0->field_6 = 4;
-    if ((*(volatile u8 *)&arg0->field_11) != 0) {
+    object->field_6 = 4;
+    if ((*(volatile u8 *)&object->field_11) != 0) {
         goto set_two;
     }
-    tail_value = arg0->field_10;
-    ASM_KEEP(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    arg0->field_A = 3;
+    side_value = object->field_10;
+    ASM_KEEP(side_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    object->field_A = 3;
     goto toggle;
 
 set_two:
-    arg0->field_A = 2;
+    object->field_A = 2;
     goto end;
 reset_four:
-    tail_value = 1;
-    arg0->field_4 = tail_value;
-    tail_value = arg0->field_10;
-    arg0->field_6 = 4;
-    arg0->field_A = 4;
+    side_value = 1;
+    object->field_4 = side_value;
+    side_value = object->field_10;
+    object->field_6 = 4;
+    object->field_A = 4;
 toggle:
-    arg0->field_10 = tail_value ^ 1;
+    object->field_10 = side_value ^ 1;
 end:
     return;
 }

@@ -93,7 +93,8 @@ __asm__(".globl func_806D23A4\n"
 #define BODY_NAME func_806D23A4
 #endif
 
-void BODY_NAME(void *arg0, s32 arg1, void *arg2)
+/* Apply the selected record from the fixed tables to the context. */
+void BODY_NAME(void *context, s32 unused, void *selector)
 {
-    func_8001670C(D_800160B8, D_80016E3C, arg0, arg2);
+    func_8001670C(D_800160B8, D_80016E3C, context, selector);
 }

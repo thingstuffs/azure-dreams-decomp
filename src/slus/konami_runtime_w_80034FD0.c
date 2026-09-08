@@ -6,6 +6,7 @@
 
 
 
-s32 func_80034FD0(void *arg0) {
-    return ((Rec_D_80082A38 *)arg0)->unk_10 != (s32) (arg0 + 8);
+/* Tests whether the stored address differs from the record's offset-8 address. */
+s32 func_80034FD0(void *record) {
+    return ((Rec_D_80082A38 *)record)->unk_10 != (s32) (record + 8);
 }

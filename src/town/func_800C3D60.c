@@ -22,18 +22,19 @@ extern void func_800540A8(void);
 extern void func_8004425C(s32 arg0);
 extern s16 func_80053DA8(s32 arg0);
 
+/* Triggers the selected town entry's effect and sound when the town state is 12. */
 s32 func_800C14C0(void) {
-    TownState *state;
-    s32 index;
+    TownState *town_state;
+    s32 entry_index;
     TownEntry *entries;
     TownEntry *entry;
 
-    state = &D_8006ADBC;
-    index = func_800C0F60(state->index);
+    town_state = &D_8006ADBC;
+    entry_index = func_800C0F60(town_state->index);
     func_800540A8();
-    if (state->state == 12) {
+    if (town_state->state == 12) {
         entries = D_800D4094;
-        entry = &entries[index];
+        entry = &entries[entry_index];
         if (entry->effect != -1) {
             func_8004425C(entry->effect);
         }
@@ -43,7 +44,3 @@ s32 func_800C14C0(void) {
     }
     return 1;
 }
-
-/* MECHANISM: Preserve the seed's exact 0x20 frame and held s0/s1 lifetimes.
-   The sole residue was the table symbol's high half: D_800D4094, not D_800C4094.
-   Typed 10-byte entries retain the retail index*10 and halfword access widths. */

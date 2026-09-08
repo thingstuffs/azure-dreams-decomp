@@ -61,42 +61,43 @@ extern s32 D_80083498;
 extern s32 D_800DDC40;
 extern s32 D_800DEB70;
 
-void func_81977D08(S_81977D08_4 *arg0, S_81977D08_3 *arg1)
+/* Create an owner-linked sprite effect at the supplied position with a vertical offset. */
+void func_81977D08(S_81977D08_4 *owner, S_81977D08_3 *position)
 {
-    S_81977D08_2 *temp_a2;
-    S_81977D08_1 *temp_s0;
-    S_81977D08_0 *temp_v0;
+    S_81977D08_2 *effect_pos;
+    S_81977D08_1 *sprite;
+    S_81977D08_0 *effect;
 
-    temp_v0 = func_8003FD64(0x212, &D_80083498);
-    if (temp_v0 != NULL) {
-        register void *call_a1 ASM_REG("$5") = &D_800DEB70;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    effect = func_8003FD64(0x212, &D_80083498);
+    if (effect != NULL) {
+        register void *sprite_data ASM_REG("$5") = &D_800DEB70;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-        ASM_KEEP_NV(call_a1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_v0->unk_10 = &D_8002548C;
+        ASM_KEEP_NV(sprite_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        effect->unk_10 = &D_8002548C;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
             register s32 color ASM_REG("$2") = 0x80;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-            temp_s0 = temp_v0->unk_0C;
+            sprite = effect->unk_0C;
             {
                 s32 zero = 0;
 
-                temp_v0->unk_20 = arg0;
-                temp_s0->unk_0E = color;
-                temp_s0->unk_0D = color;
-                temp_s0->unk_0C = color;
-                func_8003DB94(temp_s0, call_a1, zero);
+                effect->unk_20 = owner;
+                sprite->unk_0E = color;
+                sprite->unk_0D = color;
+                sprite->unk_0C = color;
+                func_8003DB94(sprite, sprite_data, zero);
             }
         }
-        temp_s0->unk_1E = 0x1800;
-        temp_s0->unk_1C = 0x1800;
-        temp_s0->unk_14 = temp_s0->unk_14 | 0xC;
-        temp_s0->unk_10 = temp_s0->unk_10 | 0x20;
-        temp_a2 = temp_v0->unk_08;
-        temp_a2->unk_00 = arg1->unk_00;
-        temp_a2->unk_04 = arg1->unk_04;
-        temp_a2->unk_08 = arg1->unk_08 -
-            (((u8 *)&D_800DDC40)[((S_81977D08_5 *)(arg0->unk_14))->unk_13] >> 1 << 16);
-        func_8004491C(temp_v0, &D_80045340, temp_a2);
+        sprite->unk_1E = 0x1800;
+        sprite->unk_1C = 0x1800;
+        sprite->unk_14 = sprite->unk_14 | 0xC;
+        sprite->unk_10 = sprite->unk_10 | 0x20;
+        effect_pos = effect->unk_08;
+        effect_pos->unk_00 = position->unk_00;
+        effect_pos->unk_04 = position->unk_04;
+        effect_pos->unk_08 = position->unk_08 -
+            (((u8 *)&D_800DDC40)[((S_81977D08_5 *)(owner->unk_14))->unk_13] >> 1 << 16);
+        func_8004491C(effect, &D_80045340, effect_pos);
     }
 }

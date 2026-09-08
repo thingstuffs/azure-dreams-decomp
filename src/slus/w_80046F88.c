@@ -19,57 +19,54 @@ typedef struct S_80046F88 {
     /*0x24*/ void *anchor;
 } S_80046F88;
 
-s32 func_80046F88(void *arg0)
+/* Relocates embedded and array pointers after the object moves, returning the address delta. */
+s32 func_80046F88(void *object_addr)
 {
-    S_80046F88 *obj = (S_80046F88 *)arg0;
-    /* delta must live in $a3; counter i takes $a2. Guarded pin for PC port. */
-    register s32 delta ASM_REG("$7");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s32 t14;
-    s32 tmp;
-    s32 i;
-    s32 *p;
-    s32 *q;
+    S_80046F88 *obj = (S_80046F88 *)object_addr;
+    /* delta must live in $a3; counter entry_index takes $a2. Guarded pin for PC port. */
+    register s32 delta ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 addr_or_count;
+    s32 ptr_value;
+    s32 entry_index;
+    s32 *cursor;
+    s32 *pair_ptr;
 
     delta = 0;
-    if (arg0 != obj->anchor) {
-        delta = (s32)arg0 - (s32)obj->anchor;
-        /* Single tmp chains through arr/end/val0C/val1C so v0 is reused,
-         * forcing a memory reload of p after the arr store (retail shape).
-         * t14 holds val14 then is reused for count — that reuse assigns
-         * t14/count to v1 and tmp to v0 (opposite of separate locals). */
-        tmp = (s32)obj->arr;
-        t14 = obj->val14;
-        i = 0;
-        obj->anchor = arg0;
-        tmp = tmp + delta;
-        obj->arr = (s32 *)tmp;
-        tmp = (s32)obj->end;
-        p = obj->arr;
-        tmp = tmp + delta;
-        obj->end = (s32 *)tmp;
-        tmp = obj->val0C;
-        t14 = t14 + delta;
-        obj->val14 = t14;
-        tmp = tmp + delta;
-        obj->val0C = tmp;
-        tmp = obj->val1C;
-        t14 = obj->count;
-        tmp = tmp + delta;
-        obj->val1C = tmp;
-        if (t14 > 0) {
+    if (object_addr != obj->anchor) {
+        delta = (s32)object_addr - (s32)obj->anchor;
+        ptr_value = (s32)obj->arr;
+        addr_or_count = obj->val14;
+        entry_index = 0;
+        obj->anchor = object_addr;
+        ptr_value = ptr_value + delta;
+        obj->arr = (s32 *)ptr_value;
+        ptr_value = (s32)obj->end;
+        cursor = obj->arr;
+        ptr_value = ptr_value + delta;
+        obj->end = (s32 *)ptr_value;
+        ptr_value = obj->val0C;
+        addr_or_count = addr_or_count + delta;
+        obj->val14 = addr_or_count;
+        ptr_value = ptr_value + delta;
+        obj->val0C = ptr_value;
+        ptr_value = obj->val1C;
+        addr_or_count = obj->count;
+        ptr_value = ptr_value + delta;
+        obj->val1C = ptr_value;
+        if (addr_or_count > 0) {
             do {
-                i++;
-                *p += delta;
-                p++;
-            } while (i < obj->count);
+                entry_index++;
+                *cursor += delta;
+                cursor++;
+            } while (entry_index < obj->count);
         }
-        if ((u32)p < (u32)obj->end) {
-            q = p + 1;
+        if ((u32)cursor < (u32)obj->end) {
+            pair_ptr = cursor + 1;
             do {
-                p += 2;
-                *q += delta;
-                q += 2;
-            } while ((u32)p < (u32)obj->end);
+                cursor += 2;
+                *pair_ptr += delta;
+                pair_ptr += 2;
+            } while ((u32)cursor < (u32)obj->end);
         }
     }
     return delta;

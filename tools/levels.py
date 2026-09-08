@@ -30,6 +30,7 @@ def intra_tail_calls(r, text):
     return n
 
 def main():
+    promoted = {j["id"] for j in read_jsonl(LEDGER / "promotions.jsonl") if j.get("outcome") == "landed"} if (LEDGER / "promotions.jsonl").exists() else set()
     try:
         from evidence import EV as _EV
         _ev = {e["id"]: [k for k in ("assert_sites", "identifiers", "adrando", "data", "vm", "knowledge", "name") if e.get(k)] for e in read_jsonl(_EV / "rows.jsonl")} if (_EV / "rows.jsonl").exists() else {}
@@ -48,6 +49,7 @@ def main():
             out.append({"id": r["id"], "level": -1}); tally[-1] += r["size"]; continue
         cp = ROOT / "src" / r["container"] / Path(r["c_path"]).name
         text = (cp if cp.exists() else raw_path(r)).read_text(errors="replace")
+        raw_text = raw_path(r).read_text(errors="replace") if raw_path(r).exists() else ""
         keys = [f"{r['container']}/{f}" for f in (r.get("defs") or [r["func"]])]
         live = live_audit(r, text)                                                       # live: a removed site no longer blocks
         blocking = any(k2 in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS") for k2 in live) or intra_tail_calls(r, text) > 0
@@ -61,7 +63,7 @@ def main():
             level = 1
             if not re.search(r"(?<![A-Za-z0-9_])(?:M2C_)?FIELD\(", "\n".join(l for l in text.splitlines() if not l.lstrip().startswith("#"))):
                 level = 2
-                if (ROOT / "refine" / r["container"] / Path(r["c_path"]).name).exists():
+                if r["id"] in promoted and text != raw_text:   # a landed Layer-2 body is the src text (ledger/promotions.jsonl)
                     level = 3
                     if r["id"] in sweeps.get("l4_modules", {}):
                         level = 4

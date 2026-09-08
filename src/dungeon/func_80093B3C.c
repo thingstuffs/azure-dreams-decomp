@@ -1,6 +1,7 @@
 #include "common.h"
 
-void *func_8009929C(s8 arg0, s8 *arg1) {
-    *arg1 = arg0;
-    return arg1 + 1;
+/* Writes a byte and returns the next destination address. */
+void *func_8009929C(s8 value, s8 *dest) {
+    *dest = value;
+    return dest + 1;
 }

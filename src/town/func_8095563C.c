@@ -1,10 +1,3 @@
-/*
- * laneF v01: fresh forward derivation of func_8002263C (func_8095563C).
- * Divergence from the optimised lineage: each diagonal arm's band value is a
- * single variable `d` assigned once per condition (retail: t0 in all 8 sites),
- * instead of per-condition one-shot temps. Everything else follows the retail
- * stream shape re-derived from work/town_100_20260812/fable_r5_8095563c/retail.dis.
- */
 #include "common.h"
 
 typedef struct {
@@ -38,419 +31,412 @@ extern Zone D_80024020[];
 extern Box D_800240E0[];
 extern void *D_80020180[];
 
-#define Z(F) (D_80024020[*pi].F)
-#define ZKM(F) (D_80024020[km].F)
-#define ZI(F) (D_80024020[idx].F)
+#define CURRENT_ZONE(F) (D_80024020[*zone_id].F)
+#define OLD_ZONE(F) (D_80024020[old_zone].F)
+#define CANDIDATE_ZONE(F) (D_80024020[candidate].F)
 
-#define PUSH(DA3, DA2)               \
-    adx = p->dx;                     \
-    ady = p->dy;                     \
-    if (adx < 0) {                   \
-        adx = -adx;                  \
-    }                                \
-    if (ady < 0) {                   \
-        ady = -ady;                  \
-    }                                \
-    if (ady < adx) {                 \
-        *oy += (DA3);                \
-    } else {                         \
-        *ox += (DA2);                \
-    }                                \
-    goto bump3;
+#define PUSH(PUSH_Y, PUSH_X)            \
+    abs_dx = actor->dx;                 \
+    abs_dy = actor->dy;                 \
+    if (abs_dx < 0) {                   \
+        abs_dx = -abs_dx;               \
+    }                                   \
+    if (abs_dy < 0) {                   \
+        abs_dy = -abs_dy;               \
+    }                                   \
+    if (abs_dy < abs_dx) {              \
+        *offset_y += (PUSH_Y);          \
+    } else {                            \
+        *offset_x += (PUSH_X);          \
+    }                                   \
+    goto push_back;
 
-s32 func_8002263C(Actor *p, s16 *pi, s32 *ox, s32 *oy) {
-    register Box *q ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 i ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 idx;
-    s32 k;
-    register s32 km ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    s32 adx;
-    s32 ady;
-    s32 d0;
-    s32 px;
-    s32 py;
-    s32 ex;
-    s32 ey;
-    s32 ew;
-    s32 d1;
-    s32 d2;
-    s32 nx;
-    s32 kk;
-    s32 hpx;
-    s32 hex;
-    s32 hew;
-    s32 hd;
-    static void *const keepalive[] = {&&Lc2, &&Lc3, &&Lc4, &&Lc5, &&Lr0};
+/* Resolve actor collisions against zone boundaries and linked boxes. */
+s32 func_8002263C(Actor *actor, s16 *zone_id, s32 *offset_x, s32 *offset_y) {
+    register Box *box ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 neighbor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 candidate;
+    s32 box_id;
+    register s32 old_zone ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 abs_dx;
+    s32 abs_dy;
+    s32 velocity;
+    s32 zone_kind;
+    s32 actor_x;
+    s32 edge_x;
+    s32 box_width;
+    s32 edge_delta;
+    static void *const case_labels[] = {&&diagonal_2, &&diagonal_3, &&diagonal_4, &&diagonal_5, &&clear};
 
-    (void)keepalive;
-    idx = 0;
-    i = *pi + 1;
-    while (i >= *pi - 1) {
-        idx = (i + 16) % 16;
-        if (p->x < ZI(x)) {
-            goto next1;
+    (void)case_labels;
+    candidate = 0;
+    neighbor = *zone_id + 1;
+    while (neighbor >= *zone_id - 1) {
+        candidate = (neighbor + 16) % 16;
+        if (actor->x < CANDIDATE_ZONE(x)) {
+            goto next_neighbor;
         }
-        if (p->y < ZI(y)) {
-            goto next1;
+        if (actor->y < CANDIDATE_ZONE(y)) {
+            goto next_neighbor;
         }
-        if (ZI(x) + ZI(w) < p->x) {
-            goto next1;
+        if (CANDIDATE_ZONE(x) + CANDIDATE_ZONE(w) < actor->x) {
+            goto next_neighbor;
         }
-        if (ZI(y) + ZI(h) < p->y) {
-            goto next1;
+        if (CANDIDATE_ZONE(y) + CANDIDATE_ZONE(h) < actor->y) {
+            goto next_neighbor;
         }
-        goto found;
-    next1:
-        i--;
+        goto zone_found;
+    next_neighbor:
+        neighbor--;
     }
-check:
-    if (idx >= 0) {
-        goto miss;
+check_zone:
+    if (candidate >= 0) {
+        goto clamp_to_zone;
     }
 
-    k = Z(link);
-    if (k < 0) {
-        goto dispatch;
+    box_id = CURRENT_ZONE(link);
+    if (box_id < 0) {
+        goto check_edges;
     }
-    if (p->z < -32) {
-        goto dispatch;
+    if (actor->z < -32) {
+        goto check_edges;
     }
     {
-        register s32 k8 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        u8 *bb;
-        Box *qq;
-        bb = (u8 *)D_800240E0;
+        register s32 box_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 *box_data;
+        Box *linked_box;
+        box_data = (u8 *)D_800240E0;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        k8 = k << 3;
-        qq = (Box *)(bb + k8);
-        ASM_KEEP_NV(qq);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        q = qq;
+        box_offset = box_id << 3;
+        linked_box = (Box *)(box_data + box_offset);
+        ASM_KEEP_NV(linked_box);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        box = linked_box;
     }
-    ASM_KEEP(q);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(box);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
-        s32 pxe;
-        s32 exe;
-        s32 pye;
-        s32 eye;
-        pxe = p->x;
-        exe = q->x;
-        if (pxe < exe) {
-            goto dispatch;
+        s32 actor_x;
+        s32 box_x;
+        s32 actor_y;
+        s32 box_y;
+        actor_x = actor->x;
+        box_x = box->x;
+        if (actor_x < box_x) {
+            goto check_edges;
         }
-        pye = p->y;
-        eye = q->y;
-        if (pye < eye) {
-            goto dispatch;
+        actor_y = actor->y;
+        box_y = box->y;
+        if (actor_y < box_y) {
+            goto check_edges;
         }
-        if (exe + q->w < pxe) {
-            goto dispatch;
+        if (box_x + box->w < actor_x) {
+            goto check_edges;
         }
-        if (eye + q->h < pye) {
-            goto dispatch;
+        if (box_y + box->h < actor_y) {
+            goto check_edges;
         }
     }
-    if (Z(kind) != 0) {
-        goto horiz;
+    if (CURRENT_ZONE(kind) != 0) {
+        goto clamp_x;
     }
 
-    *oy -= p->dy;
-    d0 = p->dy;
-    if (d0 > 0) {
-        p->y = q->y;
-        goto ret2;
+    *offset_y -= actor->dy;
+    velocity = actor->dy;
+    if (velocity > 0) {
+        actor->y = box->y;
+        goto adjusted;
     }
-    if (d0 < 0) {
-        p->y = q->y + q->h;
-        goto ret2;
+    if (velocity < 0) {
+        actor->y = box->y + box->h;
+        goto adjusted;
     }
     {
-        s32 vpy;
-        s32 vey;
-        s32 veh;
-        s32 vd;
-        vpy = p->y;
+        s32 actor_y;
+        s32 edge_y;
+        s32 box_height;
+        s32 edge_delta;
+        actor_y = actor->y;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        vey = q->y;
-        veh = q->h;
-        vd = vpy - vey;
-        if (vd < 0) {
-            vd = -vd;
+        edge_y = box->y;
+        box_height = box->h;
+        edge_delta = actor_y - edge_y;
+        if (edge_delta < 0) {
+            edge_delta = -edge_delta;
         }
-        vey = vey + veh;
-        vey = vey - vpy;
-        if (vey < 0) {
-            vey = -vey;
+        edge_y = edge_y + box_height;
+        edge_y = edge_y - actor_y;
+        if (edge_y < 0) {
+            edge_y = -edge_y;
         }
-        vd = vd < vey;
-        vey = (u16)q->y;
-        veh = (u16)q->h;
-        if (vd) {
-            p->y = vey;
-            goto ret2;
+        edge_delta = edge_delta < edge_y;
+        edge_y = (u16)box->y;
+        box_height = (u16)box->h;
+        if (edge_delta) {
+            actor->y = edge_y;
+            goto adjusted;
         }
-        vey = vey + veh;
-        p->y = vey;
+        edge_y = edge_y + box_height;
+        actor->y = edge_y;
     }
-    goto ret2;
+    goto adjusted;
 
-horiz:
-    *ox -= p->dx;
-    d0 = p->dx;
-    if (d0 > 0) {
-        hex = (u16)q->x;
-        p->x = hex;
-        goto ret2;
+clamp_x:
+    *offset_x -= actor->dx;
+    velocity = actor->dx;
+    if (velocity > 0) {
+        edge_x = (u16)box->x;
+        actor->x = edge_x;
+        goto adjusted;
     }
-    if (d0 < 0) {
-        hex = (u16)q->x;
-        hd = (u16)q->w;
-        hex = hex + hd;
-        goto storex;
+    if (velocity < 0) {
+        edge_x = (u16)box->x;
+        edge_delta = (u16)box->w;
+        edge_x = edge_x + edge_delta;
+        goto store_x;
     }
-    hpx = p->x;
+    actor_x = actor->x;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    hex = q->x;
-    hew = q->w;
-    hd = hpx - hex;
-    if (hd < 0) {
-        hd = -hd;
+    edge_x = box->x;
+    box_width = box->w;
+    edge_delta = actor_x - edge_x;
+    if (edge_delta < 0) {
+        edge_delta = -edge_delta;
     }
-    hex = hex + hew;
-    hex = hex - hpx;
-    if (hex < 0) {
-        hex = -hex;
+    edge_x = edge_x + box_width;
+    edge_x = edge_x - actor_x;
+    if (edge_x < 0) {
+        edge_x = -edge_x;
     }
-    hd = hd < hex;
-    hex = (u16)q->x;
-    hew = (u16)q->w;
-    if (hd) {
-        goto storex;
+    edge_delta = edge_delta < edge_x;
+    edge_x = (u16)box->x;
+    box_width = (u16)box->w;
+    if (edge_delta) {
+        goto store_x;
     }
-    hex = hex + hew;
-storex:
-    ASM_KEEP(hex);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    p->x = hex;
-    goto ret2;
+    edge_x = edge_x + box_width;
+store_x:
+    ASM_KEEP(edge_x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    actor->x = edge_x;
+    goto adjusted;
 
-dispatch:
-    kk = Z(kind);
-    if ((u32)kk >= 6) {
-        goto bump3;
+check_edges:
+    zone_kind = CURRENT_ZONE(kind);
+    if ((u32)zone_kind >= 6) {
+        goto push_back;
     }
-    goto *D_80020180[kk];
-found:
-        *pi = idx;
-        idx = -1;
-        goto check;
+    goto *D_80020180[zone_kind];
+zone_found:
+    *zone_id = candidate;
+    candidate = -1;
+    goto check_zone;
 
-Lc2:
+diagonal_2:
     {
-        register s32 d12 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        register s32 zy2 ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 zh2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 s2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 zx2;
-        s32 py2;
-        s32 px2;
-        s32 t2v;
-        s32 nxa;
-        py2 = p->y;
-        zy2 = Z(y);
-        zx2 = Z(x);
-        px2 = p->x;
-        t2v = zy2 + 0x100;
-        d12 = zx2 + t2v;
-        nxa = -px2;
-        s2 = nxa + d12;
-        s2 = py2 - s2;
-        t2v = zy2 - 0x70;
-        if (s2 < 0) {
+        register s32 band ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        register s32 zone_y ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 zone_height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 edge_delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 zone_x;
+        s32 actor_y;
+        s32 actor_x;
+        s32 edge_y;
+        s32 neg_x;
+        actor_y = actor->y;
+        zone_y = CURRENT_ZONE(y);
+        zone_x = CURRENT_ZONE(x);
+        actor_x = actor->x;
+        edge_y = zone_y + 0x100;
+        band = zone_x + edge_y;
+        neg_x = -actor_x;
+        edge_delta = neg_x + band;
+        edge_delta = actor_y - edge_delta;
+        edge_y = zone_y - 0x70;
+        if (edge_delta < 0) {
             PUSH(0x80000, 0x80000)
         }
-        s2 = Z(w);
-        zh2 = Z(h);
-        s2 = zx2 + s2;
-        s2 = s2 + t2v;
-        d12 = s2 + zh2;
-        s2 = nxa + d12;
-        s2 = py2 - s2;
-        if (s2 > 0) {
+        edge_delta = CURRENT_ZONE(w);
+        zone_height = CURRENT_ZONE(h);
+        edge_delta = zone_x + edge_delta;
+        edge_delta = edge_delta + edge_y;
+        band = edge_delta + zone_height;
+        edge_delta = neg_x + band;
+        edge_delta = actor_y - edge_delta;
+        if (edge_delta > 0) {
             PUSH(-0x100000, -0x100000)
         }
     }
-        return 0;
+    return 0;
 
-Lc3:
+diagonal_3:
     {
-        register s32 s3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 d13 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        register s32 pi3 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 zx3 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 zy3;
-        s32 py3;
-        s32 px3;
-        u8 *zb3;
-        zb3 = (u8 *)D_80024020;
-        pi3 = *pi;
-        ASM_KEEP(pi3);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        px3 = p->x;
-        py3 = p->y;
+        register s32 edge_delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 band ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        register s32 current_zone ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 zone_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 zone_y;
+        s32 actor_y;
+        s32 actor_x;
+        u8 *zone_data;
+        zone_data = (u8 *)D_80024020;
+        current_zone = *zone_id;
+        ASM_KEEP(current_zone);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        actor_x = actor->x;
+        actor_y = actor->y;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        zx3 = ((Zone *)zb3)[pi3].x;
-        s3 = ((Zone *)zb3)[pi3].w;
-        zy3 = ((Zone *)zb3)[pi3].y;
-        s3 = zx3 + s3;
-        s3 = s3 - 0x100;
-        d13 = zy3 - s3;
-        s3 = px3 + d13;
-        s3 = py3 - s3;
-        zx3 = zx3 + 0x70;
-        if (s3 < 0) {
+        zone_x = ((Zone *)zone_data)[current_zone].x;
+        edge_delta = ((Zone *)zone_data)[current_zone].w;
+        zone_y = ((Zone *)zone_data)[current_zone].y;
+        edge_delta = zone_x + edge_delta;
+        edge_delta = edge_delta - 0x100;
+        band = zone_y - edge_delta;
+        edge_delta = actor_x + band;
+        edge_delta = actor_y - edge_delta;
+        zone_x = zone_x + 0x70;
+        if (edge_delta < 0) {
             PUSH(0x80000, -0x80000)
         }
-        s3 = ((Zone *)zb3)[pi3].h;
-        s3 = zy3 + s3;
-        d13 = s3 - zx3;
-        s3 = px3 + d13;
-        s3 = py3 - s3;
-        if (s3 > 0) {
+        edge_delta = ((Zone *)zone_data)[current_zone].h;
+        edge_delta = zone_y + edge_delta;
+        band = edge_delta - zone_x;
+        edge_delta = actor_x + band;
+        edge_delta = actor_y - edge_delta;
+        if (edge_delta > 0) {
             PUSH(-0x100000, 0x100000)
         }
     }
-        return 0;
+    return 0;
 
-Lc4:
+diagonal_4:
     {
-        register s32 s4 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 d14 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        register s32 pi4 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 zy4 ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 zx4 ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 t4v ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 py4;
-        s32 px4;
-        u8 *zb4;
-        zb4 = (u8 *)D_80024020;
-        pi4 = *pi;
-        ASM_KEEP(pi4);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        px4 = p->x;
-        py4 = p->y;
+        register s32 edge_delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 band ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        register s32 current_zone ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 zone_y ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 zone_x ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 edge_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 actor_y;
+        s32 actor_x;
+        u8 *zone_data;
+        zone_data = (u8 *)D_80024020;
+        current_zone = *zone_id;
+        ASM_KEEP(current_zone);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        actor_x = actor->x;
+        actor_y = actor->y;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        zy4 = ((Zone *)zb4)[pi4].y;
-        s4 = ((Zone *)zb4)[pi4].h;
-        zx4 = ((Zone *)zb4)[pi4].x;
-        s4 = zy4 + s4;
-        t4v = zx4 + 0x100;
-        d14 = s4 - t4v;
-        s4 = px4 + d14;
-        s4 = py4 - s4;
-        t4v = zy4 + 0x70;
-        if (s4 > 0) {
+        zone_y = ((Zone *)zone_data)[current_zone].y;
+        edge_delta = ((Zone *)zone_data)[current_zone].h;
+        zone_x = ((Zone *)zone_data)[current_zone].x;
+        edge_delta = zone_y + edge_delta;
+        edge_coord = zone_x + 0x100;
+        band = edge_delta - edge_coord;
+        edge_delta = actor_x + band;
+        edge_delta = actor_y - edge_delta;
+        edge_coord = zone_y + 0x70;
+        if (edge_delta > 0) {
             PUSH(-0x100000, 0x100000)
         }
-        s4 = ((Zone *)zb4)[pi4].w;
-        s4 = zx4 + s4;
-        d14 = t4v - s4;
-        s4 = px4 + d14;
-        s4 = py4 - s4;
-        if (s4 < 0) {
+        edge_delta = ((Zone *)zone_data)[current_zone].w;
+        edge_delta = zone_x + edge_delta;
+        band = edge_coord - edge_delta;
+        edge_delta = actor_x + band;
+        edge_delta = actor_y - edge_delta;
+        if (edge_delta < 0) {
             PUSH(0x200000, -0x200000)
         }
     }
-        return 0;
+    return 0;
 
-Lc5:
+diagonal_5:
     {
-        register s32 s5 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 d15 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        register s32 zw5 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 zy5;
-        s32 zx5;
-        s32 nx5;
-        s32 py5;
-        s32 t5v;
-        zy5 = Z(y);
+        register s32 edge_delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 band ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        register s32 zone_width ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 zone_y;
+        s32 zone_x;
+        s32 neg_x;
+        s32 actor_y;
+        s32 edge_x;
+        zone_y = CURRENT_ZONE(y);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        zw5 = Z(w);
-        zx5 = Z(x);
-        s5 = zy5 + zw5;
-        t5v = zx5 - 0x100;
-        s5 = s5 + t5v;
-        d15 = s5 + zw5;
+        zone_width = CURRENT_ZONE(w);
+        zone_x = CURRENT_ZONE(x);
+        edge_delta = zone_y + zone_width;
+        edge_x = zone_x - 0x100;
+        edge_delta = edge_delta + edge_x;
+        band = edge_delta + zone_width;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        nx5 = p->x;
-        py5 = p->y;
-        nx5 = -nx5;
-        s5 = nx5 + d15;
-        s5 = py5 - s5;
-        if (s5 > 0) {
+        neg_x = actor->x;
+        actor_y = actor->y;
+        neg_x = -neg_x;
+        edge_delta = neg_x + band;
+        edge_delta = actor_y - edge_delta;
+        if (edge_delta > 0) {
             PUSH(-0x100000, -0x100000)
         }
-        s5 = zy5 + zx5;
-        d15 = s5 + 0x70;
-        s5 = nx5 + d15;
-        s5 = py5 - s5;
-        if (s5 < 0) {
+        edge_delta = zone_y + zone_x;
+        band = edge_delta + 0x70;
+        edge_delta = neg_x + band;
+        edge_delta = actor_y - edge_delta;
+        if (edge_delta < 0) {
             PUSH(0x200000, 0x200000)
         }
     }
-        return 0;
-
-Lr0:
     return 0;
-bump3:
-    *ox -= p->dx * 3;
-    *oy -= p->dy * 3;
+
+clear:
+    return 0;
+push_back:
+    *offset_x -= actor->dx * 3;
+    *offset_y -= actor->dy * 3;
     return 1;
 
-miss:
-    km = *pi;
-    if (ZKM(kind) != 1) {
-        s32 pxm = p->x;
-        s32 exm = ZKM(x);
-        if (pxm < exm) {
-            p->x = ZKM(x) + 8;
-        } else if (exm + ZKM(w) < pxm) {
-            p->x = ZKM(x) + ZKM(w) - 8;
+clamp_to_zone:
+    old_zone = *zone_id;
+    if (OLD_ZONE(kind) != 1) {
+        s32 actor_x = actor->x;
+        s32 zone_x = OLD_ZONE(x);
+        if (actor_x < zone_x) {
+            actor->x = OLD_ZONE(x) + 8;
+        } else if (zone_x + OLD_ZONE(w) < actor_x) {
+            actor->x = OLD_ZONE(x) + OLD_ZONE(w) - 8;
         }
-        *ox -= p->dx * 3;
+        *offset_x -= actor->dx * 3;
     }
-    if (ZKM(kind) != 0) {
-        s32 pym = p->y;
-        s32 eym = ZKM(y);
-        if (pym < eym) {
-            p->y = ZKM(y) + 8;
-        } else if (eym + ZKM(h) < pym) {
-            p->y = ZKM(y) + ZKM(h) - 8;
+    if (OLD_ZONE(kind) != 0) {
+        s32 actor_y = actor->y;
+        s32 zone_y = OLD_ZONE(y);
+        if (actor_y < zone_y) {
+            actor->y = OLD_ZONE(y) + 8;
+        } else if (zone_y + OLD_ZONE(h) < actor_y) {
+            actor->y = OLD_ZONE(y) + OLD_ZONE(h) - 8;
         }
-        *oy -= p->dy * 3;
+        *offset_y -= actor->dy * 3;
     }
     {
-        register s32 g3 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 piT;
-        ASM_UNDEF(g3);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        piT = *pi;
-        ASM_USE(g3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        i = piT + 1;
+        register s32 scratch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 current_zone;
+        ASM_UNDEF(scratch);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        current_zone = *zone_id;
+        ASM_USE(scratch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        neighbor = current_zone + 1;
     }
-    while (i >= *pi - 1) {
-        idx = (i + 16) % 16;
-        if (p->x < ZI(x)) {
-            goto next2;
+    while (neighbor >= *zone_id - 1) {
+        candidate = (neighbor + 16) % 16;
+        if (actor->x < CANDIDATE_ZONE(x)) {
+            goto next_clamped_neighbor;
         }
-        if (p->y < ZI(y)) {
-            goto next2;
+        if (actor->y < CANDIDATE_ZONE(y)) {
+            goto next_clamped_neighbor;
         }
-        if (ZI(x) + ZI(w) < p->x) {
-            goto next2;
+        if (CANDIDATE_ZONE(x) + CANDIDATE_ZONE(w) < actor->x) {
+            goto next_clamped_neighbor;
         }
-        if (ZI(y) + ZI(h) < p->y) {
-            goto next2;
+        if (CANDIDATE_ZONE(y) + CANDIDATE_ZONE(h) < actor->y) {
+            goto next_clamped_neighbor;
         }
-        *pi = idx;
-    next2:
-        i--;
+        *zone_id = candidate;
+    next_clamped_neighbor:
+        neighbor--;
     }
-ret2:
+adjusted:
     return 2;
 }

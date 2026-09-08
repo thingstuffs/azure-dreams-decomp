@@ -42,23 +42,24 @@ extern s32 D_800E3D7C;
 extern void *D_800E3DF0[];
 extern s32 D_800814A0;
 
-s16 func_800A6620(void *arg0, s32 arg1)
+/* Removes the object from its slot, performs flagged cleanup, and releases its handle. */
+s16 func_800A6620(void *handle, s32 extra_cleanup)
 {
-    s32 mode;
+    s32 sound_mode;
     s32 index;
-    void **slot;
-    void **table;
+    void **object_slot;
+    void **object_table;
     void *object;
-    void *entry;
+    void *state_entry;
     void *owner;
     u8 sound_x;
     u8 sound_y;
 
-    table = D_800E3DF0;
-    index = ((Rec_D_80016000 *)arg0)->unk_00.at03_u8.v & 0x1F;
-    slot = &table[index];
-    object = *slot;
-    *slot = 0;
+    object_table = D_800E3DF0;
+    index = ((Rec_D_80016000 *)handle)->unk_00.at03_u8.v & 0x1F;
+    object_slot = &object_table[index];
+    object = *object_slot;
+    *object_slot = 0;
     index = ((S_800A6620_1 *)object)->unk_43;
 
     if (index < 0x40) {
@@ -66,26 +67,26 @@ s16 func_800A6620(void *arg0, s32 arg1)
         func_800422DC((void *)(0x80010A80 + index * 0x54), object);
     }
 
-    if (((Rec_D_80016000 *)arg0)->unk_00.at03_u8.v & 0x20) {
+    if (((Rec_D_80016000 *)handle)->unk_00.at03_u8.v & 0x20) {
         index = func_800A1BD0(object);
         if (index >= 0) {
-            entry = (void *)(index * 4 + D_800E3D7C);
-            ((S_800A6620_2 *)entry)->unk_AC = 0;
-            ((S_800A6620_2 *)entry)->unk_D0 = 0;
+            state_entry = (void *)(index * 4 + D_800E3D7C);
+            ((S_800A6620_2 *)state_entry)->unk_AC = 0;
+            ((S_800A6620_2 *)state_entry)->unk_D0 = 0;
         }
 
         if ((func_80042900(object, 0x1B) << 16) == 0) {
             owner = ((S_800A6620_1_pre *)object)[-1].unk_00;
             sound_x = ((S_800A6620_3 *)owner)->unk_24;
             sound_y = ((S_800A6620_3 *)owner)->unk_25;
-            mode = 0x3000;
+            sound_mode = 0x3000;
             if (((S_800A6620_1 *)object)->unk_1C & 0x2000) {
-                mode = 0x300;
+                sound_mode = 0x300;
             }
-            func_8009A3D0(sound_x, sound_y, mode);
+            func_8009A3D0(sound_x, sound_y, sound_mode);
         }
 
-        if (arg1 != 0) {
+        if (extra_cleanup != 0) {
             func_800A32A4(object);
         }
         func_8009A028(object);
@@ -93,6 +94,6 @@ s16 func_800A6620(void *arg0, s32 arg1)
         D_800814A0 |= 0x8000;
     }
 
-    func_80098B38(arg0);
+    func_80098B38(handle);
     return index;
 }

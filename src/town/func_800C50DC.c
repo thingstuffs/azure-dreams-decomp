@@ -11,10 +11,11 @@ typedef struct S_800C283C_0 {
     M2C_UNK * unk_50;
 } S_800C283C_0;   /* v1 in func_800C283C */
 
-void func_800C283C(s32 arg0) {
-    S_800C283C_0 *v1 = D_800FE4A0;
-    if (v1 == (void *)arg0) {
-        v1->unk_14 = 0;
-        v1->unk_50 = &D_800C2864;
+/* Reset the current object's state and data pointer when its address matches. */
+void func_800C283C(s32 object_addr) {
+    S_800C283C_0 *current_object = D_800FE4A0;
+    if (current_object == (void *)object_addr) {
+        current_object->unk_14 = 0;
+        current_object->unk_50 = &D_800C2864;
     }
 }

@@ -85,96 +85,97 @@ extern DungeonObject *func_8003FD64(s32, void *);
 extern void func_8004491C(DungeonObject *, void *);
 extern void func_800A56E0(s32);
 
-void func_800D7A78(DungeonState *arg0) {
-    u16 sp10[3];
+/* Updates the effect position, spawns eight objects per tick, and expires after a delay. */
+void func_800D7A78(DungeonState *effect) {
+    u16 position_offset[3];
 
     {
-        u8 *table = D_80082E80;
-        if (func_8003DE58(*(s32 *)(table + 8), table, sp10, 0) != 0) {
-            u8 *base = D_80083780;
-            arg0->x = *(u16 *)(base + 2) + sp10[0];
-            arg0->y = *(u16 *)(base + 6) + sp10[1];
-            arg0->z = *(u16 *)(base + 0xA) + sp10[2] + 0x20;
+        u8 *position_table = D_80082E80;
+        if (func_8003DE58(*(s32 *)(position_table + 8), position_table, position_offset, 0) != 0) {
+            u8 *position_base = D_80083780;
+            effect->x = *(u16 *)(position_base + 2) + position_offset[0];
+            effect->y = *(u16 *)(position_base + 6) + position_offset[1];
+            effect->z = *(u16 *)(position_base + 0xA) + position_offset[2] + 0x20;
         }
     }
 
-    if (arg0->state == 1) {
+    if (effect->state == 1) {
         goto spawn_objects;
     }
-    if (arg0->state < 2) {
-        if (arg0->state == 0) {
+    if (effect->state < 2) {
+        if (effect->state == 0) {
             goto start_objects;
         }
         goto done;
     }
-    if (arg0->state == 0xFF) {
+    if (effect->state == 0xFF) {
         goto expired;
     }
     goto done;
 
 start_objects:
     func_800A56E0(0x600);
-    arg0->timer = 0x3C;
-    arg0->state += 1;
+    effect->timer = 0x3C;
+    effect->state += 1;
 
 spawn_objects:
     {
-        s32 index = 7;
-        u8 *list = D_800D7D30;
-        DungeonCounter *counter = (DungeonCounter *)D_80083460;
-        DungeonTemplate *template = (DungeonTemplate *)D_800DEA68;
+        s32 spawn_index = 7;
+        u8 *object_data = D_800D7D30;
+        DungeonCounter *object_counter = (DungeonCounter *)D_80083460;
+        DungeonTemplate *object_template = (DungeonTemplate *)D_800DEA68;
 
         do {
             DungeonObject *object = func_8003FD64(0x312, D_80083498);
             if (object != NULL) {
-                object->unk10 = (DungeonInner *)list;
-                counter->count += 1;
+                object->unk10 = (DungeonInner *)object_data;
+                object_counter->count += 1;
                 func_8004491C(object, D_80045340);
                 {
-                    DungeonInner *inner = object->unkC;
-                    DungeonObjectTail *tail = (DungeonObjectTail *)((u8 *)object + 0x20);
-                    u16 flags;
+                    DungeonInner *object_inner = object->unkC;
+                    DungeonObjectTail *object_tail = (DungeonObjectTail *)((u8 *)object + 0x20);
+                    u16 saved_flags;
 
                     *(s32 *)((u8 *)object->unk8 + 0x14) = 0xFFFC0000;
-                    flags = inner->unk14;
-                    inner->unk1E = 0x600;
-                    inner->unk1C = 0x600;
-                    inner->unk10 = 0x20;
-                    inner->unk0 = template;
-                    inner->unk14 = flags | 0xC;
-                    inner->unk8 = template->unk4;
-                    inner->unk4 = 0;
-                    inner->unk5 = 0;
-                    inner->unkC = arg0->unkC;
-                    ((ObjectPositionView *)object)->position = ((StatePositionView *)arg0)->position;
-                    *(u16 *)((u8 *)object->unk8 + 0xA) = arg0->z;
-                    tail->position = (s16)((index << 9) + ((s16)arg0->timer * 0x28));
-                    tail->unk1C = 0x180000 - ((0x3C - (s16)arg0->timer) << 0xD);
-                    tail->unk2A = 6;
-                    tail->unk34 = ((s16)arg0->timer - 0x3C) << 0xC;
+                    saved_flags = object_inner->unk14;
+                    object_inner->unk1E = 0x600;
+                    object_inner->unk1C = 0x600;
+                    object_inner->unk10 = 0x20;
+                    object_inner->unk0 = object_template;
+                    object_inner->unk14 = saved_flags | 0xC;
+                    object_inner->unk8 = object_template->unk4;
+                    object_inner->unk4 = 0;
+                    object_inner->unk5 = 0;
+                    object_inner->unkC = effect->unkC;
+                    ((ObjectPositionView *)object)->position = ((StatePositionView *)effect)->position;
+                    *(u16 *)((u8 *)object->unk8 + 0xA) = effect->z;
+                    object_tail->position = (s16)((spawn_index << 9) + ((s16)effect->timer * 0x28));
+                    object_tail->unk1C = 0x180000 - ((0x3C - (s16)effect->timer) << 0xD);
+                    object_tail->unk2A = 6;
+                    object_tail->unk34 = ((s16)effect->timer - 0x3C) << 0xC;
                 }
             }
-            index -= 1;
-        } while (index >= 0);
+            spawn_index -= 1;
+        } while (spawn_index >= 0);
     }
 
     {
-        u16 value = arg0->timer - 1;
-        arg0->timer = value;
-        if ((s16)value <= 0) {
-            arg0->timer = 8;
-            arg0->state = 0xFF;
+        u16 ticks_left = effect->timer - 1;
+        effect->timer = ticks_left;
+        if ((s16)ticks_left <= 0) {
+            effect->timer = 8;
+            effect->state = 0xFF;
         }
     }
     goto done;
 
 expired:
     {
-        u16 value = arg0->timer - 1;
-        arg0->timer = value;
-        if ((s16)value <= 0) {
+        u16 ticks_left = effect->timer - 1;
+        effect->timer = ticks_left;
+        if ((s16)ticks_left <= 0) {
             ((DungeonCounter *)D_80083460)->count -= 1;
-            *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+            *(u16 *)((u8 *)effect - 2) |= 0x8000;
             *(u32 *)D_800814A0 |= 0x8000;
         }
     }

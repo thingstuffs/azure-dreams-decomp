@@ -74,67 +74,68 @@ extern u8 D_80083160[];
 extern void func_80065034(void *arg0, void *arg1, void *arg2);
 extern void func_8006658C(s32 arg0, void *arg1);
 
-void func_800D1824(u8 *arg0)
+/* Transform grid tiles into quads and add visible ones to the ordering table. */
+void func_800D1824(u8 *tiles)
 {
     register u8 *scratch ASM_REG("$16") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *globals = D_80083160;
-    u8 *input = arg0;
+    u8 *tile = tiles;
     u8 *style;
     register u8 *prim ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *rec;
-    register u8 *cmd ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u8 *gte0;
-    u8 *root;
+    u8 *tile_z;
+    register u8 *packet_len ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *vertex_0;
+    u8 *render_state;
     u8 *draw_prim;
-    u8 *vertex1;
-    u8 *vertex2;
+    u8 *vertex_1;
+    u8 *vertex_2;
     s32 x;
     s32 y;
     s32 depth;
-    s32 otz;
-    u16 rec_value;
+    s32 tri_depth;
+    u16 z;
 
     ((S_800D1824_0 *)scratch)->unk_28 = 0;
-    root = ((S_800D1824_1 *)globals)->unk_00;
+    render_state = ((S_800D1824_1 *)globals)->unk_00;
     style = ((S_800D1824_5 *)(((S_800D1824_1 *)globals)->unk_1E0))->unk_10;
-    prim = ((S_800D1824_2 *)root)->unk_8D0;
+    prim = ((S_800D1824_2 *)render_state)->unk_8D0;
     ((S_800D1824_0 *)scratch)->unk_2C = -0x1000;
-    ((S_800D1824_0 *)scratch)->unk_20 = root + 0xB0;
+    ((S_800D1824_0 *)scratch)->unk_20 = render_state + 0xB0;
 
-    ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    if (*input != 0) {
+    ASM_KEEP(tile);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    if (*tile != 0) {
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        gte0 = scratch + 0x70;
+        vertex_0 = scratch + 0x70;
         ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        rec = arg0 + 2;
-        cmd = prim + 3;
+        tile_z = tiles + 2;
+        packet_len = prim + 3;
 
         do {
-            if (((S_800D1824_3 *)rec)->unk_00.s != 0x8000) {
-                do { vertex1 = scratch + 0x78; } while (0);
-                x = (s32)*input << 6;
+            if (((S_800D1824_3 *)tile_z)->unk_00.s != 0x8000) {
+                do { vertex_1 = scratch + 0x78; } while (0);
+                x = (s32)*tile << 6;
                 ((S_800D1824_0 *)scratch)->unk_80 = (s16)x;
                 ((S_800D1824_0 *)scratch)->unk_70 = (s16)x;
                 x += 0x40;
                 ((S_800D1824_0 *)scratch)->unk_88 = (s16)x;
                 ((S_800D1824_0 *)scratch)->unk_78 = (s16)x;
 
-                y = (s32)((S_800D1824_3_pre *)rec)[-1].unk_00 << 6;
+                y = (s32)((S_800D1824_3_pre *)tile_z)[-1].unk_00 << 6;
                 ((S_800D1824_0 *)scratch)->unk_7A = (s16)y;
                 ((S_800D1824_0 *)scratch)->unk_72 = (s16)y;
                 y += 0x40;
                 ((S_800D1824_0 *)scratch)->unk_8A = (s16)y;
                 ((S_800D1824_0 *)scratch)->unk_82 = (s16)y;
 
-                rec_value = ((S_800D1824_3 *)rec)->unk_00.s;
-                ((S_800D1824_0 *)scratch)->unk_84 = rec_value;
-                ((S_800D1824_0 *)scratch)->unk_7C = rec_value;
-                ((S_800D1824_0 *)scratch)->unk_74 = rec_value;
+                z = ((S_800D1824_3 *)tile_z)->unk_00.s;
+                ((S_800D1824_0 *)scratch)->unk_84 = z;
+                ((S_800D1824_0 *)scratch)->unk_7C = z;
+                ((S_800D1824_0 *)scratch)->unk_74 = z;
 
-                vertex2 = scratch + 0x80;
-                gte_ldv3(gte0, vertex1, vertex2);
+                vertex_2 = scratch + 0x80;
+                gte_ldv3(vertex_0, vertex_1, vertex_2);
                 ((S_800D1824_0 *)scratch)->unk_8C =
-                    ((S_800D1824_3 *)rec)->unk_00.u;
+                    ((S_800D1824_3 *)tile_z)->unk_00.u;
                 gte_rtpt_nn();
                 gte_nclip();
                 gte_stopz(scratch + 0x114);
@@ -144,9 +145,9 @@ void func_800D1824(u8 *arg0)
                     gte_avsz3();
                     gte_stotz(scratch + 0xC0);
                     gte_ldv0(scratch + 0x88);
-                    otz = ((S_800D1824_0 *)scratch)->unk_C0;
-                    otz = otz * 3;
-                    ((S_800D1824_0 *)scratch)->unk_C0 = otz;
+                    tri_depth = ((S_800D1824_0 *)scratch)->unk_C0;
+                    tri_depth = tri_depth * 3;
+                    ((S_800D1824_0 *)scratch)->unk_C0 = tri_depth;
 
                     gte_rtps_nn();
                     gte_stszotz(scratch + 0xCC);
@@ -160,13 +161,13 @@ void func_800D1824(u8 *arg0)
                         func_80065034(scratch + 0x28, globals + 0xA8,
                                      prim + 4);
 
-                        (*(u32 *)((u8 *)cmd + 9)) = ((S_800D1824_4 *)style)->unk_08;
-                        (*(u32 *)((u8 *)cmd + 0x11)) = ((S_800D1824_4 *)style)->unk_0C;
-                        (*(u16 *)((u8 *)cmd + 0x19)) = ((S_800D1824_4 *)style)->unk_12;
+                        (*(u32 *)((u8 *)packet_len + 9)) = ((S_800D1824_4 *)style)->unk_08;
+                        (*(u32 *)((u8 *)packet_len + 0x11)) = ((S_800D1824_4 *)style)->unk_0C;
+                        (*(u16 *)((u8 *)packet_len + 0x19)) = ((S_800D1824_4 *)style)->unk_12;
                         prim += 0x28;
-                        (*(u16 *)((u8 *)cmd + 0x21)) = ((S_800D1824_4 *)style)->unk_14;
-                        cmd[0] = 9;
-                        cmd += 0x28;
+                        (*(u16 *)((u8 *)packet_len + 0x21)) = ((S_800D1824_4 *)style)->unk_14;
+                        packet_len[0] = 9;
+                        packet_len += 0x28;
                         func_8006658C(
                             (s32)((S_800D1824_0 *)scratch)->unk_20 +
                                 (((S_800D1824_0 *)scratch)->unk_C0 << 2),
@@ -175,9 +176,9 @@ void func_800D1824(u8 *arg0)
                 }
             }
 
-            input += 4;
-            rec += 4;
-        } while (*input != 0);
+            tile += 4;
+            tile_z += 4;
+        } while (*tile != 0);
     }
 
     ((S_800D1824_6 *)(((S_800D1824_1 *)globals)->unk_00))->unk_8D0 = prim;

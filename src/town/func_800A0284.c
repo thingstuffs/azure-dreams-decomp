@@ -21,22 +21,23 @@ typedef struct S_8009D9E4_1 {
     s16 unk_0E;
 } S_8009D9E4_1;   /* arg1 in func_8009D9E4 */
 
-void func_8009D9E4(S_8009D9E4_0 *arg0, S_8009D9E4_1 *arg1) {
-    s16 temp_v0;
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
+/* Builds four corner vertices from a rectangle with position offsets. */
+void func_8009D9E4(S_8009D9E4_0 *rectangle, S_8009D9E4_1 *vertices) {
+    s16 left;
+    s16 right;
+    s16 top;
+    s16 bottom;
 
-    temp_v0 = arg0->unk_00 + arg0->unk_04;
-    arg1->unk_08 = temp_v0;
-    arg1->unk_00 = temp_v0;
-    temp_v0_2 = arg0->unk_08 + (arg0->unk_00 + arg0->unk_04);
-    arg1->unk_0C = temp_v0_2;
-    arg1->unk_04 = temp_v0_2;
-    temp_v0_3 = arg0->unk_02 + arg0->unk_06;
-    arg1->unk_06 = temp_v0_3;
-    arg1->unk_02 = temp_v0_3;
-    temp_v0_4 = arg0->unk_0A + (arg0->unk_02 + arg0->unk_06);
-    arg1->unk_0E = temp_v0_4;
-    arg1->unk_0A = temp_v0_4;
+    left = rectangle->unk_00 + rectangle->unk_04;
+    vertices->unk_08 = left;
+    vertices->unk_00 = left;
+    right = rectangle->unk_08 + (rectangle->unk_00 + rectangle->unk_04);
+    vertices->unk_0C = right;
+    vertices->unk_04 = right;
+    top = rectangle->unk_02 + rectangle->unk_06;
+    vertices->unk_06 = top;
+    vertices->unk_02 = top;
+    bottom = rectangle->unk_0A + (rectangle->unk_02 + rectangle->unk_06);
+    vertices->unk_0E = bottom;
+    vertices->unk_0A = bottom;
 }

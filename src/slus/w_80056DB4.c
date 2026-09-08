@@ -19,17 +19,15 @@ extern s32 D_80073740[];
 
 extern void func_8005F134(S_80084918 *arg0);
 
-/* Builds a request record in D_80084918 (0x60100 in field_0x04, looked-up
- * D_80073740[arg0] in field_0x00, zeroed field_0x3A/0x3C, constant 5 in
- * field_0x24) and hands it to func_8005F134. */
-void func_80056DB4(s32 arg0) {
-    s32 temp;
+/* Builds and submits a request using the indexed table value. */
+void func_80056DB4(s32 request_index) {
+    s32 request_value;
 
     D_80084918.field_0x04 = 0x60100;
-    temp = D_80073740[arg0];
+    request_value = D_80073740[request_index];
     D_80084918.field_0x3A = 0;
     D_80084918.field_0x3C = 0;
     D_80084918.field_0x24 = 5;
-    D_80084918.field_0x00 = temp;
+    D_80084918.field_0x00 = request_value;
     func_8005F134(&D_80084918);
 }

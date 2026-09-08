@@ -12,30 +12,31 @@ typedef struct PlaybackState {
 extern s32 func_800588C8(s32);
 extern u32 func_80058ABC(PlaybackState *);
 
+/* Updates the playback position and next position, returning 1 if playback has ended. */
 s32 func_800597A8(PlaybackState *state)
 {
-    s32 result;
+    s32 updated_position;
     u32 step;
-    register s32 position ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s32 next;
-    register u32 raw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 next_position;
+    register u32 step_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    result = func_800588C8(state->position);
-    state->position = result;
-    if (result == -1) {
+    updated_position = func_800588C8(state->position);
+    state->position = updated_position;
+    if (updated_position == -1) {
         return 1;
     }
 
-    raw = func_80058ABC(state);
-    state->step = raw;
-    ASM_KEEP(raw);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    step = raw;
-    ASM_KEEP_NV(step);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    step_value = func_80058ABC(state);
+    state->step = step_value;
+    ASM_KEEP(step_value);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    step = step_value;
+    ASM_KEEP_NV(step);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     position = state->position;
-    next = position;
-    ASM_KEEP_NV(next);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    next += step;
+    next_position = position;
+    ASM_KEEP_NV(next_position);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    next_position += step;
     state->previous_position = position;
-    state->next_position = next;
+    state->next_position = next_position;
     return 0;
 }

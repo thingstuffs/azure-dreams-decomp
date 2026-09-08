@@ -14,35 +14,28 @@ extern s32 func_8003E4FC(s32 a0, void *a1, s32 a2);
 extern void func_8003F320(void);
 extern void func_80041344(s32 a0, s32 a1);
 
-/* Reads a packed word from *a0: bits [22:0] are an id, bit 31 is a "valid"
- * flag, and bits [30:23] are an offset. If the id field is nonzero, this is
- * treated as an explicit id (ORed with 0x80000000) and the base time is taken
- * directly from D_8008148C.field_0. Otherwise the base time is D_8008148C's
- * field_0 plus the offset field (shifted down). Either way the computed base
- * time is stashed into D_80081480.field_0, then the callback is registered
- * (func_8003E4FC), synced (func_8003F320), and func_80041344 is invoked with
- * the id/base-time pair. */
-void func_80041284(void *a0)
+/* Decode a packed ID or relative offset, synchronize, and dispatch the resolved values. */
+void func_80041284(void *packed_data)
 {
-    s32 s0;
-    s32 s1;
-    register s32 t0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 t1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 id_or_base;
+    s32 target_time;
+    register s32 offset_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 id_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     DrawSync(0);
-    s0 = *(s32 *)a0 & 0x7FFFFF;
-    if (s0 == 0) {
-        t0 = D_8008148C.field_0;
-        s0 = t0;
-        s1 = s0 + ((*(volatile u32 *)a0 & 0xFF800000) >> 12);
-        D_80081480.field_0 = s0;
+    id_or_base = *(s32 *)packed_data & 0x7FFFFF;
+    if (id_or_base == 0) {
+        offset_base = D_8008148C.field_0;
+        id_or_base = offset_base;
+        target_time = id_or_base + ((*(volatile u32 *)packed_data & 0xFF800000) >> 12);
+        D_80081480.field_0 = id_or_base;
     } else {
-        t1 = D_8008148C.field_0;
-        s0 = s0 | 0x80000000;
-        s1 = t1;
-        D_80081480.field_0 = s1;
+        id_base = D_8008148C.field_0;
+        id_or_base = id_or_base | 0x80000000;
+        target_time = id_base;
+        D_80081480.field_0 = target_time;
     }
-    func_8003E4FC(6, a0, 0);
+    func_8003E4FC(6, packed_data, 0);
     func_8003F320();
-    func_80041344(s0, s1);
+    func_80041344(id_or_base, target_time);
 }

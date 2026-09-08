@@ -12,17 +12,17 @@ typedef struct {
 extern s32 func_800AD968(void);
 extern s32 func_800AD914(u8 *arg0);
 
-s32 func_800AD99C(UnkStruct800B023C *arg0) {
-    s32 temp_s0;
+/* Checks whether the entry bypasses the limit or its combined value is below 20. */
+s32 func_800AD99C(UnkStruct800B023C *entry) {
+    s32 total;
 
-    if (arg0->unk18 == 0) {
-        if ((u32) (arg0->unk20[(arg0->unk04 * 4) + 1] - 0x17) < 2U) {
+    if (entry->unk18 == 0) {
+        if ((u32) (entry->unk20[(entry->unk04 * 4) + 1] - 0x17) < 2U) {
             return 1;
         }
-        temp_s0 = func_800AD968();
-        temp_s0 += func_800AD914(arg0->unk20);
-        __asm__ __volatile__("" ::: "memory");
-        return temp_s0 < 20;
+        total = func_800AD968();
+        total += func_800AD914(entry->unk20);
+        return total < 20;
     }
     return 1;
 }

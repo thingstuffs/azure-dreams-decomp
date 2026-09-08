@@ -11,11 +11,12 @@ typedef struct S_8016F304_0 {
     s8 unk_9B;
 } S_8016F304_0;   /* temp_v0 in func_8016F304 */
 
-void func_8016F304(s8 arg0) {
-    S_8016F304_0 *temp_v0;
+/* Sets the state ID and clears the associated byte and halfword. */
+void func_8016F304(s8 state_id) {
+    S_8016F304_0 *state;
 
-    temp_v0 = D_80175D50 + 0x20;
-    temp_v0->unk_9A = arg0;
-    temp_v0->unk_9B = 0;
-    temp_v0->unk_96 = 0;
+    state = D_80175D50 + 0x20;
+    state->unk_9A = state_id;
+    state->unk_9B = 0;
+    state->unk_96 = 0;
 }

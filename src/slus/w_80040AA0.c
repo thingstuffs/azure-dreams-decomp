@@ -27,25 +27,26 @@ extern s8 D_80080A88[12];
 extern void func_80043568(void);
 extern void func_80053DA8(s32 arg0);
 extern void func_800542BC(void);
-void func_80040AA0(s16 arg0)
+/* Updates the requested state and triggers transition handling when needed. */
+void func_80040AA0(s16 requested_state)
 {
-  u16 idx = ((u16) arg0) & 0xFFFF;
-  struct S_8006CE80 *entry = &D_8006CE80[idx];
-  s32 oldA;
+  u16 state_index = ((u16) requested_state) & 0xFFFF;
+  struct S_8006CE80 *state_entry = &D_8006CE80[state_index];
+  s32 current_state;
   if (D_80082E60.field_8.h == 3)
   {
     return;
   }
-  if ((idx == 6) && (D_80082E60.field_A == 2))
+  if ((state_index == 6) && (D_80082E60.field_A == 2))
   {
     func_80043568();
   }
   D_80082E60.field_E = 1;
-  oldA = D_80082E60.field_A;
-  D_80082E60.field_8.h = arg0;
-  if (oldA != entry->field_0)
+  current_state = D_80082E60.field_A;
+  D_80082E60.field_8.h = requested_state;
+  if (current_state != state_entry->field_0)
   {
-    if ((((u16) arg0) & 0xFFFF) == 5)
+    if ((((u16) requested_state) & 0xFFFF) == 5)
     {
       func_80053DA8(0x72);
     }

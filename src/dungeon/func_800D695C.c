@@ -23,23 +23,24 @@ typedef struct S_800DC0BC_2 {
 extern void *D_800814A8;
 extern void func_800DC078(s32, u8);
 
-void func_800DC0BC(S_800DC0BC_1 *arg0, s32 *arg1) {
+/* Updates two target entries when their cached values differ from the current values. */
+void func_800DC0BC(S_800DC0BC_1 *cached_values, s32 *target_base) {
     void **page;
     S_800DC0BC_0 *owner;
-    u8 temp_v1;
-    u8 temp_v1_2;
+    u8 first_value;
+    u8 second_value;
 
     page = &D_800814A8;
     owner = *page;
-    temp_v1 = owner->unk_28;
-    if (temp_v1 != arg0->unk_10) {
-        func_800DC078(arg1[0], owner->unk_28);
-        arg0->unk_10 = ((S_800DC0BC_2 *)(*page))->unk_28;
+    first_value = owner->unk_28;
+    if (first_value != cached_values->unk_10) {
+        func_800DC078(target_base[0], owner->unk_28);
+        cached_values->unk_10 = ((S_800DC0BC_2 *)(*page))->unk_28;
     }
     owner = *page;
-    temp_v1_2 = owner->unk_29;
-    if (temp_v1_2 != arg0->unk_14) {
-        func_800DC078(arg1[0] + 0xC, owner->unk_29);
-        arg0->unk_14 = ((S_800DC0BC_2 *)(*page))->unk_29;
+    second_value = owner->unk_29;
+    if (second_value != cached_values->unk_14) {
+        func_800DC078(target_base[0] + 0xC, owner->unk_29);
+        cached_values->unk_14 = ((S_800DC0BC_2 *)(*page))->unk_29;
     }
 }

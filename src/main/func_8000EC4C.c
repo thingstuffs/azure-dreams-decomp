@@ -5,27 +5,28 @@ extern s32 lseek();
 extern s32 write();
 extern s32 close();
 
-s32 func_80021C4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+/* Writes 128-byte units at a file offset, optionally creating the file first. */
+s32 func_80021C4C(s32 path, s32 buffer, s32 unit_count, s32 unit_offset, s32 skip_create) {
     s32 fd;
     s32 ok;
 
     ok = 0;
-    if (arg4 == 0) {
-        fd = open(arg0, 0x30200);
+    if (skip_create == 0) {
+        fd = open(path, 0x30200);
         if (fd == -1) {
             return ok;
         }
         close(fd);
     }
 
-    fd = open(arg0, 2);
+    fd = open(path, 2);
     if (fd == -1) {
         return ok;
     }
 
-    if ((arg3 == 0) || (lseek(fd, arg3 << 7, 0) != -1)) {
-        s32 sz = arg2 << 7;
-        if (write(fd, arg1, sz) == sz) {
+    if ((unit_offset == 0) || (lseek(fd, unit_offset << 7, 0) != -1)) {
+        s32 byte_count = unit_count << 7;
+        if (write(fd, buffer, byte_count) == byte_count) {
             ok = 1;
         }
     }

@@ -76,32 +76,33 @@ __asm__(".set D_800D426E, 0x800D426E");
 __asm__(".set D_800812F8, 0x800812F8");
 __asm__(".set D_800D381A, 0x800D381A");
 
-void func_8003BAF8(InputRecord *arg0)
+/* Updates the runtime state from an input record and invokes its callback. */
+void func_8003BAF8(InputRecord *input)
 {
     TableEntry *entry;
     PairRecord *pair;
     RuntimeState *state;
-    void *value;
-    void *state_word;
-    u16 temp;
+    void *callback_data;
+    void *state_data;
+    u16 entry_index;
 
     func_800A0560();
     D_8006ADBC.field_28 = D_8006ADBC.field_18;
     D_8006ADEC.field_28 = D_8006ADBC.field_18;
     D_8006ADBC.field_2A = D_8006ADBC.field_1A;
     D_8006ADEC.field_2A = D_8006ADBC.field_1A;
-    D_8006ADEC.field_18 = arg0->field_00;
-    temp = arg0->field_02;
-    D_8006ADEC.field_1A = temp;
-    D_800D381A = temp;
+    D_8006ADEC.field_18 = input->field_00;
+    entry_index = input->field_02;
+    D_8006ADEC.field_1A = entry_index;
+    D_800D381A = entry_index;
     do { } while (0);
 
-    if (arg0->field_00 == 11) {
+    if (input->field_00 == 11) {
         entry = (TableEntry *)((u8 *)D_800D2650 +
-                               (arg0->field_02 << 5));
+                               (input->field_02 << 5));
     } else {
         entry = (TableEntry *)((u8 *)D_800D2FC0 +
-                               (arg0->field_02 << 5));
+                               (input->field_02 << 5));
     }
 
     pair = func_800C1034(D_8006ADEC_read.field_18,
@@ -113,43 +114,43 @@ void func_8003BAF8(InputRecord *arg0)
     }
 
     state = &D_8006ADEC;
-    state_word = arg0->field_0C;
+    state_data = input->field_0C;
     state->field_10 = entry;
-    state->field_24 = state_word;
-    state->field_14 = arg0->field_04;
-    state->field_16 = arg0->field_06;
-    state->field_0C = D_800D5070[arg0->field_10 & 3];
-    state->field_0E = arg0->field_12;
-    value = arg0->field_08;
-    if (value != 0) {
+    state->field_24 = state_data;
+    state->field_14 = input->field_04;
+    state->field_16 = input->field_06;
+    state->field_0C = D_800D5070[input->field_10 & 3];
+    state->field_0E = input->field_12;
+    callback_data = input->field_08;
+    if (callback_data != 0) {
         if (state->field_18 != 12) {
             state->field_04 = &D_800812F8;
         } else {
-            state->field_04 = value;
+            state->field_04 = callback_data;
         }
     }
 
     if (D_8006AE10[0] != 0) {
-        D_8006AE10[0](state, value);
+        D_8006AE10[0](state, callback_data);
     }
 
-    func_80041094(arg0->field_00,
+    func_80041094(input->field_00,
                   (s16)(entry->field_04 +
-                        (arg0->field_04 + entry->field_00)),
+                        (input->field_04 + entry->field_00)),
                   (s16)(entry->field_06 +
-                        (arg0->field_06 + entry->field_02)),
+                        (input->field_06 + entry->field_02)),
                   0, D_80082E76[0] ^ 1);
 
     D_80013714[0] &= 0xFFFD;
     {
-        s32 ret = func_80034FE4(D_80082A38);
-        if (ret != 0) {
-            s16 one = 1;
+        s32 check_result = func_80034FE4(D_80082A38);
+        if (check_result != 0) {
+            s16 enabled = 1;
             do { } while (0);
-            D_8006ADE8[0] = one;
+            D_8006ADE8[0] = enabled;
             D_8006AE18[0] = 0;
         } else {
-            ASM_KEEP(ret);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(check_result);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
             D_8006ADE8_else[0] = 0;
             D_8006AE18[0] = 0;
         }

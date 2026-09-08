@@ -73,23 +73,24 @@ extern void func_8004E9E4();
 extern void func_8006733C();
 extern void func_8008F104();
 
+/* Creates parent and child display objects and uploads their graphics data. */
 void func_800224E0(void)
 {
-    s16 rect[4];
-    s32 i;
+    s16 upload_rect[4];
+    s32 child_index;
     register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *obj;
-    u8 *parent;
-    u8 *slot;
+    u8 *parent_state;
+    u8 *child_slot;
     u8 *callback;
     u8 *prim;
-    u8 *draw;
-    u8 *callback_slot;
-    u8 *tbl;
-    u32 color;
-    u8 *cbt;
+    u8 *draw_state;
+    u8 *object_state;
+    u8 *child_script;
+    u32 neutral_color;
+    u8 *render_state;
 
-    parent = NULL;
+    parent_state = NULL;
     callback = D_80020224;
     func_8004E9E4();
     D_80024628[0] = 0;
@@ -98,75 +99,75 @@ void func_800224E0(void)
 
     obj = func_8003FC64(0x32);
     if (obj != NULL) {
-        parent = obj + 0x20;
+        parent_state = obj + 0x20;
         prim = ((S_800224E0_0 *)obj)->unk_08;
         ((S_800224E0_0 *)obj)->unk_10 = D_80022768;
         ((S_800224E0_1 *)prim)->unk_00 = 0x04600000;
         ((S_800224E0_1 *)prim)->unk_04 = 0x03600000;
-        ((S_800224E0_2 *)parent)->unk_48 = callback;
-        func_8008F104(parent, prim, D_80024470);
+        ((S_800224E0_2 *)parent_state)->unk_48 = callback;
+        func_8008F104(parent_state, prim, D_80024470);
     }
 
-    i = 2;
-    tbl = D_80023404;
-    slot = parent + 8;
+    child_index = 2;
+    child_script = D_80023404;
+    child_slot = parent_state + 8;
     do {
         obj = func_8003FC64(2);
-        ((S_800224E0_3 *)slot)->unk_4C = obj;
+        ((S_800224E0_3 *)child_slot)->unk_4C = obj;
         if (obj != NULL) {
-            ((S_800224E0_0 *)obj)->unk_10 = tbl;
-            ((S_800224E0_0 *)obj)->unk_28 = i;
-            ((S_800224E0_0 *)obj)->unk_20.at00.v = parent;
+            ((S_800224E0_0 *)obj)->unk_10 = child_script;
+            ((S_800224E0_0 *)obj)->unk_28 = child_index;
+            ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
         }
-        i--;
-        slot -= 4;
-    } while (i >= 0);
+        child_index--;
+        child_slot -= 4;
+    } while (child_index >= 0);
 
     obj = func_8003FC64(0x136);
     if (obj != NULL) {
         func_8004491C(obj, D_80046398);
-        color = 0x00808080;
-        cbt = obj + 0x28;
+        neutral_color = 0x00808080;
+        render_state = obj + 0x28;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_800224E0_0 *)obj)->unk_10 = D_80023DE0;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         value = 0x1000;
         ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         prim = ((S_800224E0_0 *)obj)->unk_08;
-        draw = ((S_800224E0_0 *)obj)->unk_0C;
-        ((S_800224E0_0 *)obj)->unk_20.at00.v = parent;
-        ((S_800224E0_4 *)draw)->unk_1C = value;
-        ((S_800224E0_4 *)draw)->unk_1E = value;
-        ((S_800224E0_4 *)draw)->unk_20 = value;
-        ((S_800224E0_4 *)draw)->unk_08 = 0x2C;
-        ((S_800224E0_4 *)draw)->unk_12 = 0;
-        ((S_800224E0_4 *)draw)->unk_14 = 0;
-        ((S_800224E0_4 *)draw)->unk_10 = 0;
-        ((S_800224E0_4 *)draw)->unk_16 = 0;
-        ((S_800224E0_4 *)draw)->unk_18 = 0;
-        ((S_800224E0_4 *)draw)->unk_1A = 0;
-        ((S_800224E0_4 *)draw)->unk_00 = 0;
-        ((S_800224E0_4 *)draw)->unk_04 = 0;
-        ((S_800224E0_4 *)draw)->unk_05 = 0;
-        ((S_800224E0_4 *)draw)->unk_0C = color;
+        draw_state = ((S_800224E0_0 *)obj)->unk_0C;
+        ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
+        ((S_800224E0_4 *)draw_state)->unk_1C = value;
+        ((S_800224E0_4 *)draw_state)->unk_1E = value;
+        ((S_800224E0_4 *)draw_state)->unk_20 = value;
+        ((S_800224E0_4 *)draw_state)->unk_08 = 0x2C;
+        ((S_800224E0_4 *)draw_state)->unk_12 = 0;
+        ((S_800224E0_4 *)draw_state)->unk_14 = 0;
+        ((S_800224E0_4 *)draw_state)->unk_10 = 0;
+        ((S_800224E0_4 *)draw_state)->unk_16 = 0;
+        ((S_800224E0_4 *)draw_state)->unk_18 = 0;
+        ((S_800224E0_4 *)draw_state)->unk_1A = 0;
+        ((S_800224E0_4 *)draw_state)->unk_00 = 0;
+        ((S_800224E0_4 *)draw_state)->unk_04 = 0;
+        ((S_800224E0_4 *)draw_state)->unk_05 = 0;
+        ((S_800224E0_4 *)draw_state)->unk_0C = neutral_color;
         ((S_800224E0_1 *)prim)->unk_00 = 0x04400000;
         ((S_800224E0_1 *)prim)->unk_04 = 0x02C00000;
-        callback_slot = obj + 0x20;
+        object_state = obj + 0x20;
         ((S_800224E0_1 *)prim)->unk_08 = 0;
-        (*(void * volatile *)((u8 *)callback_slot + 0x50)) = callback;
-        func_8008F104(cbt, ((S_800224E0_0 *)obj)->unk_08, D_800244A0);
+        (*(void * volatile *)((u8 *)object_state + 0x50)) = callback;
+        func_8008F104(render_state, ((S_800224E0_0 *)obj)->unk_08, D_800244A0);
     }
 
-    i = 4;
+    child_index = 4;
     do {
         obj = func_8003FC64(0x100);
         if (obj != NULL) {
             func_8004491C(obj, D_8002415C);
-            ((S_800224E0_0 *)obj)->unk_20.at00.v = parent;
+            ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
             ((S_800224E0_0 *)obj)->unk_10 = D_80023EB0;
             obj += 0x20;
-            ((S_800224E0_0 *)obj)->unk_20.at02.v = i;
-            switch (i) {
+            ((S_800224E0_0 *)obj)->unk_20.at02.v = child_index;
+            switch (child_index) {
             case 0:
                 value = 1;
                 ((S_800224E0_0 *)obj)->unk_20.at00u.v = value;
@@ -185,17 +186,17 @@ void func_800224E0(void)
                 break;
             }
         }
-        i--;
-    } while (i >= 0);
+        child_index--;
+    } while (child_index >= 0);
 
-    rect[0] = 0x40;
-    rect[1] = 0x1D0;
-    rect[2] = 0x20;
-    rect[3] = 1;
-    func_8006733C(rect, D_80024640);
-    rect[0] = 0xC0;
-    rect[1] = 0x1F8;
-    rect[2] = 0x30;
-    rect[3] = 1;
-    func_8006733C(rect, D_80024680);
+    upload_rect[0] = 0x40;
+    upload_rect[1] = 0x1D0;
+    upload_rect[2] = 0x20;
+    upload_rect[3] = 1;
+    func_8006733C(upload_rect, D_80024640);
+    upload_rect[0] = 0xC0;
+    upload_rect[1] = 0x1F8;
+    upload_rect[2] = 0x30;
+    upload_rect[3] = 1;
+    func_8006733C(upload_rect, D_80024680);
 }

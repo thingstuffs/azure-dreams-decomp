@@ -25,9 +25,10 @@ typedef struct S_800C7CF0_2 {
     s16 unk_06;
 } S_800C7CF0_2;   /* out in func_800C7CF0 */
 
-void func_800C7CF0(void *arg0, void *arg1) {
-    register void *object ASM_REG("$7") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *out ASM_REG("$16") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+/* Move the output toward the target position until the object countdown expires. */
+void func_800C7CF0(void *moving_object, void *position) {
+    register void *object ASM_REG("$7") = moving_object;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *out ASM_REG("$16") = position;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 signed_frames ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 target_x;
     u16 target_y;
@@ -56,6 +57,3 @@ void func_800C7CF0(void *arg0, void *arg1) {
                   (s16)((S_800C7CF0_1 *)object)->unk_6C);
 }
 
-/* MECHANISM: Preserve the seed's $a3 object and $s0 output roles and 0x20 frame.
-   Split the signed frame count into a guarded $a0 live range; explicit shifts emit
-   retail's sll-v0/sra-a0 pair and force move a0,a3 in the call delay slot. */

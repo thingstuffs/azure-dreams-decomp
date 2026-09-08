@@ -9,11 +9,12 @@ extern M2C_UNK D_80098078;
 extern M2C_UNK D_800D01E0;
 
 
-void func_80099680(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1) {
-    func_80094984(&D_800D01E0, arg0);
+/* Initialize the object and pass the setup value to the next initialization step. */
+void func_80099680(Rec_func_80094268_arg0 *object, M2C_UNK setupValue) {
+    func_80094984(&D_800D01E0, object);
     D_80082668 = 0;
-    arg0->unk_04.as_pm = &D_80098078;
-    arg0->unk_10.as_s16 = 0;
-    arg0->unk_0A.as_s16 = 4;
-    func_80099754(arg1);
+    object->unk_04.as_pm = &D_80098078;
+    object->unk_10.as_s16 = 0;
+    object->unk_0A.as_s16 = 4;
+    func_80099754(setupValue);
 }

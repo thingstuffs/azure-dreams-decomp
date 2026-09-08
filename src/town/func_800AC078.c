@@ -16,8 +16,9 @@ typedef struct S_800A97D8_1 {
 extern M2C_UNK D_800A6CF0;
 extern M2C_UNK D_800A9778;
 
-void func_800A97D8(void *arg0, S_800A97D8_1 *arg1) {
-    ((S_800A97D8_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_800A6CF0;
-    ((S_800A97D8_0 *)((u8 *)arg0 - 0x10))->unk_60 = &D_800A9778;
-    arg1->unk_08 = 0;
+/* Initialize the record pointers and clear the associated state field. */
+void func_800A97D8(void *record_data, S_800A97D8_1 *state) {
+    ((S_800A97D8_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_800A6CF0;
+    ((S_800A97D8_0 *)((u8 *)record_data - 0x10))->unk_60 = &D_800A9778;
+    state->unk_08 = 0;
 }

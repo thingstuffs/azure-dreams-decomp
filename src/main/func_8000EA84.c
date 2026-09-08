@@ -10,7 +10,7 @@ extern s32 D_80027F18[];
 s32 func_80021A84(s32 arg0) {
     s32 *var_v0;
     s32 var_v1;
-    register s32 ret_val ASM_REG("$2");
+    s32 ret_val;
 
     _card_wait(0);
     _card_wait(1);

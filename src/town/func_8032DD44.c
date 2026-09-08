@@ -24,19 +24,20 @@ extern M2C_UNK D_8001BE44;
 extern M2C_UNK D_8001C354;
 
 
-void func_80018544(s32 arg0, s32 unused, s32 arg2) {
-    void *arg;
+/* Handles the conditional callback and selects data according to flag 0x1460. */
+void func_80018544(s32 context, s32 unused, s32 event_code) {
+    void *selected_data;
 
-    if ((arg2 == 0x1E) && (func_80019A34(0xD, 1) != 0)) {
+    if ((event_code == 0x1E) && (func_80019A34(0xD, 1) != 0)) {
         ((S_80018544_1 *)(D_80016000->unk_20))->unk_78(0);
         func_8001ACE8(0x1460);
         func_80019BC0();
     }
 
     if (func_8001ADE0(0x1460) != 0) {
-        arg = &D_8001BE2C;
+        selected_data = &D_8001BE2C;
     } else {
-        arg = &D_8001BE44;
+        selected_data = &D_8001BE44;
     }
-    func_80019DFC(arg, &D_8001C354, arg0, arg2);
+    func_80019DFC(selected_data, &D_8001C354, context, event_code);
 }

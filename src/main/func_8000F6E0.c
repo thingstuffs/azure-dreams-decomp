@@ -1,9 +1,5 @@
 #include "common.h"
 
-/* Entity-init: copy two global templates (D_8002E5D8->*a1, D_8002E5E8->*a2), link them
-   into a0, then patch 4 fields of *a1 with hardcoded defaults.
-   Same shape as func_8004EEFC / func_80010A78; unkA is -0x48 (not -0x78). */
-
 typedef struct S_8002E5D8 {
     s32 unk0;
     s32 unk4;
@@ -42,27 +38,28 @@ typedef struct {
     S_8000F6E0_a2 *unk8;
 } S_8000F6E0_a0;
 
-void func_800226E0(S_8000F6E0_a0 *a0, S_8002E5D8 *a1, S_8000F6E0_a2 *a2) {
-    S_8002E5D8 *src0 = &D_8002E5D8;
-    S_8002E5E8 *src1 = &D_8002E5E8;
-    s32 *tmp;
+/* Copy and link entity templates, clear its state, and set primary field defaults. */
+void func_800226E0(S_8000F6E0_a0 *entity, S_8002E5D8 *primary_data, S_8000F6E0_a2 *secondary_data) {
+    S_8002E5D8 *primary_template = &D_8002E5D8;
+    S_8002E5E8 *secondary_template = &D_8002E5E8;
+    s32 *secondary_head;
 
-    a1->unk0 = src0->unk0;
-    tmp = &src1->unk0;
-    a1->unk4 = src0->unk4;
-    a1->unk8 = src0->unk8;
-    a1->unkC = src0->unkC;
+    primary_data->unk0 = primary_template->unk0;
+    secondary_head = &secondary_template->unk0;
+    primary_data->unk4 = primary_template->unk4;
+    primary_data->unk8 = primary_template->unk8;
+    primary_data->unkC = primary_template->unkC;
 
-    ((S_8002E5E8 *)a2)->unk0 = *tmp;
-    ((S_8002E5E8 *)a2)->unk4 = src1->unk4;
-    ((S_8002E5E8 *)a2)->unk8 = src1->unk8;
+    ((S_8002E5E8 *)secondary_data)->unk0 = *secondary_head;
+    ((S_8002E5E8 *)secondary_data)->unk4 = secondary_template->unk4;
+    ((S_8002E5E8 *)secondary_data)->unk8 = secondary_template->unk8;
 
-    a0->unk4 = (S_8000F6E0_a1 *)a1;
-    a0->unk8 = a2;
-    a0->unk0 = 0;
+    entity->unk4 = (S_8000F6E0_a1 *)primary_data;
+    entity->unk8 = secondary_data;
+    entity->unk0 = 0;
 
-    a0->unk4->unk8 = -0xA0;
-    a0->unk4->unkA = -0x48;
-    a0->unk4->unkC = 0x200;
-    a0->unk4->unkF = 4;
+    entity->unk4->unk8 = -0xA0;
+    entity->unk4->unkA = -0x48;
+    entity->unk4->unkC = 0x200;
+    entity->unk4->unkF = 4;
 }

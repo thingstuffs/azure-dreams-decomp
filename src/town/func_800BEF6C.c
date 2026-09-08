@@ -19,12 +19,13 @@ typedef struct S_800BC6CC_2_pre {
 extern int func_800478B8();
 extern int D_800814A0;
 
-void func_800BC6CC(void *arg0, void *arg1, void *arg2) {
-    func_800478B8(arg2);
-    ((S_800BC6CC_0 *)arg1)->unk_00 = (s32) (((S_800BC6CC_0 *)arg1)->unk_00 + ((S_800BC6CC_0 *)arg1)->unk_0C);
-    ((S_800BC6CC_0 *)arg1)->unk_04 = (s32) (((S_800BC6CC_0 *)arg1)->unk_04 + ((S_800BC6CC_0 *)arg1)->unk_10);
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) {
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_800BC6CC_2_pre *)arg0)[-1].unk_00 | 0x8000);
+/* Advance the two coordinates and propagate status flags to the object and global state. */
+void func_800BC6CC(void *object_data, void *motion, void *status) {
+    func_800478B8(status);
+    ((S_800BC6CC_0 *)motion)->unk_00 = (s32) (((S_800BC6CC_0 *)motion)->unk_00 + ((S_800BC6CC_0 *)motion)->unk_0C);
+    ((S_800BC6CC_0 *)motion)->unk_04 = (s32) (((S_800BC6CC_0 *)motion)->unk_04 + ((S_800BC6CC_0 *)motion)->unk_10);
+    if (((Rec_D_80082E80 *)status)->unk_14.at00_u16.v & 0x6000) {
+        (*(u16 *)((u8 *)object_data + -2)) = (u16) (((S_800BC6CC_2_pre *)object_data)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
     }
 }

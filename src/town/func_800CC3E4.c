@@ -16,21 +16,22 @@ typedef struct S_800C9B44_0 {
 
 /* extern */
 
-void func_800C9B44(Rec_func_800C9B44_arg0 *arg0, S_800C9B44_0 *arg1, M2C_UNK arg2) {
-    u16 temp_v0;
+/* Advance motion and handle reaching the position limit. */
+void func_800C9B44(Rec_func_800C9B44_arg0 *state, S_800C9B44_0 *motion, M2C_UNK context) {
+    u16 remaining_count;
 
-    arg1->unk_08.at00.v = (s32) (arg1->unk_08.at00.v + arg1->unk_14);
-    if (func_800C2AE8(arg1) < arg1->unk_08.at02.v) {
-        arg1->unk_08.at02.v = func_800C2AE8(arg1);
-        temp_v0 = arg0->unk_90 - 1;
-        arg0->unk_90 = temp_v0;
-        if ((temp_v0 << 0x10) <= 0) {
-            arg1->unk_14 = 0;
-            func_800C9DB8(arg0, arg1, arg2);
+    motion->unk_08.at00.v = (s32) (motion->unk_08.at00.v + motion->unk_14);
+    if (func_800C2AE8(motion) < motion->unk_08.at02.v) {
+        motion->unk_08.at02.v = func_800C2AE8(motion);
+        remaining_count = state->unk_90 - 1;
+        state->unk_90 = remaining_count;
+        if ((remaining_count << 0x10) <= 0) {
+            motion->unk_14 = 0;
+            func_800C9DB8(state, motion, context);
             return;
         }
-        func_800C9C94(arg0, arg1, arg2);
+        func_800C9C94(state, motion, context);
         return;
     }
-    func_80095388(arg1);
+    func_80095388(motion);
 }

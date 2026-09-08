@@ -3,69 +3,70 @@
 
 extern u8 D_80700000[];
 
+/* Clears six indexed bits in the shared bitmap. */
 void func_8087514C(void) {
     register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    s32 var_a2;
-    s32 var_t1;
-    s16 *var_t0;
+    s32 slot;
+    s32 one_bit;
+    s16 *bit_index_ptr;
 
-    var_a2 = zero | 1;
+    slot = zero | 1;
     ASM_UNDEF(zero);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    var_t1 = zero | 1;
-    var_t0 = (s16 *)(D_80700000 + 0xBAE);
+    one_bit = zero | 1;
+    bit_index_ptr = (s16 *)(D_80700000 + 0xBAE);
     do {
-        register s32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        register s32 var_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 temp_a0_offset;
-        s32 temp_word;
-        s32 temp_word_2;
-        s32 *temp_a0;
+        register s32 bit_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 bit_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        register s32 slot_offset ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 word_addr;
+        s32 first_word;
+        s32 second_word;
+        s32 *word_ptr;
 
-        temp_a1 = *var_t0;
-        var_a3 = var_a2 << 1;
-        var_v0 = temp_a1;
-        if (temp_a1 < 0) {
-            var_v0 = temp_a1 + 0x1F;
+        bit_index = *bit_index_ptr;
+        slot_offset = slot << 1;
+        bit_value = bit_index;
+        if (bit_index < 0) {
+            bit_value = bit_index + 0x1F;
         }
-        var_v0 >>= 5;
-        temp_a0_offset = var_v0 << 2;
-        var_v0 = temp_a1 - (var_v0 << 5);
+        bit_value >>= 5;
+        word_addr = bit_value << 2;
+        bit_value = bit_index - (bit_value << 5);
         {
-            s32 page;
-            page = 0x80700000;
-            page = *(s32 *)(page + 0x1968);
-            var_v0 = var_t1 << var_v0;
-            temp_a0_offset = temp_a0_offset + page;
-            temp_a0 = (s32 *)temp_a0_offset;
+            s32 bitmap_base;
+            bitmap_base = 0x80700000;
+            bitmap_base = *(s32 *)(bitmap_base + 0x1968);
+            bit_value = one_bit << bit_value;
+            word_addr = word_addr + bitmap_base;
+            word_ptr = (s32 *)word_addr;
         }
-        temp_word = *temp_a0;
-        var_v0 = ~var_v0;
-        var_v0 = var_v0 & temp_word;
-        *temp_a0 = var_v0;
+        first_word = *word_ptr;
+        bit_value = ~bit_value;
+        bit_value = bit_value & first_word;
+        *word_ptr = bit_value;
 
-        temp_a1 = *(s16 *)(D_80700000 + var_a3 + 0xBA4);
-        var_v0 = temp_a1;
-        if (temp_a1 < 0) {
-            var_v0 = temp_a1 + 0x1F;
+        bit_index = *(s16 *)(D_80700000 + slot_offset + 0xBA4);
+        bit_value = bit_index;
+        if (bit_index < 0) {
+            bit_value = bit_index + 0x1F;
         }
-        var_a2 += 1;
-        var_v0 >>= 5;
-        temp_a0_offset = var_v0 << 2;
-        var_v0 = temp_a1 - (var_v0 << 5);
+        slot += 1;
+        bit_value >>= 5;
+        word_addr = bit_value << 2;
+        bit_value = bit_index - (bit_value << 5);
         {
-            s32 page;
-            page = 0x80700000;
-            page = *(s32 *)(page + 0x1968);
-            var_v0 = var_t1 << var_v0;
-            temp_a0_offset = temp_a0_offset + page;
-            temp_a0 = (s32 *)temp_a0_offset;
+            s32 bitmap_base;
+            bitmap_base = 0x80700000;
+            bitmap_base = *(s32 *)(bitmap_base + 0x1968);
+            bit_value = one_bit << bit_value;
+            word_addr = word_addr + bitmap_base;
+            word_ptr = (s32 *)word_addr;
         }
-        temp_word_2 = *temp_a0;
-        ASM_KEEP(temp_word_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        var_v0 = ~var_v0;
-        var_v0 = var_v0 & temp_word_2;
-        *temp_a0 = var_v0;
-        var_t0 += 1;
-    } while (var_a2 < 4);
+        second_word = *word_ptr;
+        ASM_KEEP(second_word);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        bit_value = ~bit_value;
+        bit_value = bit_value & second_word;
+        *word_ptr = bit_value;
+        bit_index_ptr += 1;
+    } while (slot < 4);
 }

@@ -38,15 +38,14 @@ struct S_80047694 {
     s32 *field_28;
 };
 
-/* summary: dispatch on arg0's flags/global state to one of three handlers,
- * passing through the entry-array pointer and the s32* cursor unchanged. */
-void func_80047694(struct S_80047694 *arg0)
+/* Dispatch entries and cursor to a handler selected by state flags and global mode. */
+void func_80047694(struct S_80047694 *state)
 {
-    if (arg0->field_14 & 0x400) {
-        func_800482C8((struct S_800482C8_Entry *)arg0->field_8, arg0->field_28);
+    if (state->field_14 & 0x400) {
+        func_800482C8((struct S_800482C8_Entry *)state->field_8, state->field_28);
     } else if (D_80082E6A.field_0 == 1) {
-        func_8004761C(arg0->field_8, arg0->field_28);
+        func_8004761C(state->field_8, state->field_28);
     } else {
-        func_800475A4(arg0->field_8, arg0->field_28);
+        func_800475A4(state->field_8, state->field_28);
     }
 }

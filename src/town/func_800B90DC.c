@@ -14,16 +14,17 @@ typedef struct S_800B683C_2 {
 M2C_UNK func_800B6580();
 
 
-void func_800B683C(void *arg0) {
-    s32 *temp_v0;
-    s32 var_a1;
+/* Clears two linked values and initializes the object's embedded data. */
+void func_800B683C(void *object) {
+    s32 *linkedValue;
+    s32 slotIndex;
 
-    var_a1 = 0x14;
+    slotIndex = 0x14;
     do {
-        temp_v0 = *(s32 **)((var_a1 * 4) + ((Rec_func_800B683C_arg0 *)arg0)->unk_98);
-        var_a1 += 1;
-        *temp_v0 = 0;
-    } while (var_a1 < 0x16);
-    *((S_800B683C_2 *)(((Rec_func_800B683C_arg0 *)arg0)->unk_98))->unk_5C = arg0 + 0x18;
-    func_800B6580(*((S_800B683C_2 *)(((Rec_func_800B683C_arg0 *)arg0)->unk_98))->unk_5C, 0);
+        linkedValue = *(s32 **)((slotIndex * 4) + ((Rec_func_800B683C_arg0 *)object)->unk_98);
+        slotIndex += 1;
+        *linkedValue = 0;
+    } while (slotIndex < 0x16);
+    *((S_800B683C_2 *)(((Rec_func_800B683C_arg0 *)object)->unk_98))->unk_5C = object + 0x18;
+    func_800B6580(*((S_800B683C_2 *)(((Rec_func_800B683C_arg0 *)object)->unk_98))->unk_5C, 0);
 }

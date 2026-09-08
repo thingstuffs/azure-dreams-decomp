@@ -3,6 +3,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_80018B5C();                         /* extern */
 
+/* Returns whether func_80018B5C reports a nonzero value for 0x5BD. */
 s32 func_8051EC7C(void) {
     return func_80018B5C(0x5BD) != 0;
 }

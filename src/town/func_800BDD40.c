@@ -25,15 +25,16 @@ typedef struct S_800BB4A0_2 {
     s32 unk_08;
 } S_800BB4A0_2;   /* arg1 in func_800BB4A0 */
 
-void func_800BB4A0(void *arg0, S_800BB4A0_2 *arg1) {
-    S_800BB4A0_0 *temp_a0;
+/* Initializes an object's header and state, including its associated state value. */
+void func_800BB4A0(void *objectState, S_800BB4A0_2 *associatedState) {
+    S_800BB4A0_0 *objectHeader;
 
-    temp_a0 = arg0 - 0x20;
-    temp_a0->unk_10 = &D_800BB030;
-    func_8004491C(temp_a0, &D_800BB218);
-    ((S_800BB4A0_1 *)arg0)->unk_97 = 0x48;
-    ((S_800BB4A0_1 *)arg0)->unk_68 = 0;
-    ((S_800BB4A0_1 *)arg0)->unk_6C = 0;
-    ((S_800BB4A0_1 *)arg0)->unk_66 = 0;
-    arg1->unk_08 = 0xFFA00000;
+    objectHeader = objectState - 0x20;
+    objectHeader->unk_10 = &D_800BB030;
+    func_8004491C(objectHeader, &D_800BB218);
+    ((S_800BB4A0_1 *)objectState)->unk_97 = 0x48;
+    ((S_800BB4A0_1 *)objectState)->unk_68 = 0;
+    ((S_800BB4A0_1 *)objectState)->unk_6C = 0;
+    ((S_800BB4A0_1 *)objectState)->unk_66 = 0;
+    associatedState->unk_08 = 0xFFA00000;
 }

@@ -11,11 +11,10 @@ typedef struct {
 extern void func_8005097C(char *a0);
 extern void func_80050640(void);
 
-/* Sets a0->field_1C = a1, re-inits the sub-object via func_8005097C(a0->field_2C),
-   then installs func_80050640 as a0's vtable/dispatch function pointer at field_0. */
-void func_800509C4(S_800509C4 *a0, void *a1)
+/* Stores the object's context, reinitializes its sub-object, and installs its dispatch handler. */
+void func_800509C4(S_800509C4 *object, void *context)
 {
-    a0->field_1C = a1;
-    func_8005097C(a0->field_2C);
-    a0->field_0 = func_80050640;
+    object->field_1C = context;
+    func_8005097C(object->field_2C);
+    object->field_0 = func_80050640;
 }

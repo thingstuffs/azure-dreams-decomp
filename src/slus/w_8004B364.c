@@ -1,9 +1,5 @@
 #include "common.h"
 
-/* Allocates a pool node via func_8003FC64(0). If allocation succeeds and both
- * a0 and a1 are non-null, stores a1/a0 into the node's sub-record (field_0x8)
- * and installs func_8004B324 as the node's callback (field_0x10). Returns a
- * pointer 0x20 bytes into the node (or NULL if allocation failed). */
 /* Sub-record written into the node's field_0x8 slot: two words at offset
  * 0x00 and 0x04. */
 typedef struct S_8004B364_Sub {
@@ -24,15 +20,16 @@ typedef struct S_8004B364_Node {
 extern void *func_8003FC64(s32 a0);
 extern void func_8004B324(void *a0, void *a1);
 
-void *func_8004B364(void *a0, void *a1)
+/* Allocates a pool node, optionally sets its record and callback, and returns its payload or NULL. */
+void *func_8004B364(void *second_value, void *first_value)
 {
     S_8004B364_Node *node = (S_8004B364_Node *)func_8003FC64(0);
 
     if (node != 0) {
-        if (a0 != 0 && a1 != 0) {
+        if (second_value != 0 && first_value != 0) {
             S_8004B364_Sub *sub = node->field_0x08;
-            sub->field_0x00 = a1;
-            sub->field_0x04 = a0;
+            sub->field_0x00 = first_value;
+            sub->field_0x04 = second_value;
             node->field_0x10 = func_8004B324;
         }
         node = (S_8004B364_Node *)((u8 *)node + 0x20);

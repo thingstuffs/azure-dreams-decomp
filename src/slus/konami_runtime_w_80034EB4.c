@@ -6,8 +6,9 @@
 
 
 
-void func_80034EB4(Rec_D_80082A38 *arg0) {
-    arg0->unk_00 = 0;
-    arg0->unk_01 = 0;
-    arg0->unk_34 = 0;
+/* Clears the record fields at offsets 0x00, 0x01, and 0x34. */
+void func_80034EB4(Rec_D_80082A38 *record) {
+    record->unk_00 = 0;
+    record->unk_01 = 0;
+    record->unk_34 = 0;
 }

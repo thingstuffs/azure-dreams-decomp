@@ -15,49 +15,50 @@ typedef struct {
 
 extern DungeonGroup D_80073414[];
 
-void func_800A9024(s32 arg0) {
-    DungeonGroup *var_a3;
-    s32 var_a1;
-    register s32 var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 var_t0;
-    s32 var_v0;
-    s32 temp_t1;
-    u32 ram;
-    s32 one;
-    s32 bit;
-    u16 *temp_a0;
-    u16 temp_v1;
-    void *temp_v0;
+/* Marks eligible items in selected groups and records them in the item bitset. */
+void func_800A9024(s32 group_bit) {
+    DungeonGroup *group;
+    s32 item_index;
+    register s32 item_offset ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 group_index;
+    s32 byte_index_bias;
+    s32 group_bitset_offset;
+    u32 ram_base;
+    s32 bit_mask;
+    s32 bit_index;
+    u16 *item_flags;
+    u16 flags;
+    void *bitset_base;
 
-    var_t0 = 0;
-    ram = 0x80010000;
-    one = 1;
-    var_a3 = D_80073414;
+    group_index = 0;
+    ram_base = 0x80010000;
+    bit_mask = 1;
+    group = D_80073414;
     do {
-        ASM_KEEP(var_a3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        if (((s32)*((u8 *)var_a3 + 1) >> arg0) & 1) {
-            var_a1 = 0;
-            if (var_a3->count != 0) {
-                temp_t1 = var_t0 * 8;
-                var_a2 = 0;
+        ASM_KEEP(group);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        if (((s32)*((u8 *)group + 1) >> group_bit) & 1) {
+            item_index = 0;
+            if (group->count != 0) {
+                group_bitset_offset = group_index * 8;
+                item_offset = 0;
                 do {
-                    temp_a0 = (u16 *)(var_a2 + (s32)var_a3->entries);
-                    temp_v1 = *temp_a0;
-                    if (!(temp_v1 & 0x200)) {
-                        *temp_a0 = temp_v1 | 0x400;
-                        var_v0 = var_a1;
-                        if (var_a1 < 0) {
-                            var_v0 = var_a1 + 7;
+                    item_flags = (u16 *)(item_offset + (s32)group->entries);
+                    flags = *item_flags;
+                    if (!(flags & 0x200)) {
+                        *item_flags = flags | 0x400;
+                        byte_index_bias = item_index;
+                        if (item_index < 0) {
+                            byte_index_bias = item_index + 7;
                         }
-                        temp_v0 = (void *)(temp_t1 + (var_v0 >> 3) + ram);
-                        bit = var_a1 & 7;
-                        *((u8 *) temp_v0 + 0x5720) = (u8) (*((u8 *) temp_v0 + 0x5720) | (one << bit));
+                        bitset_base = (void *)(group_bitset_offset + (byte_index_bias >> 3) + ram_base);
+                        bit_index = item_index & 7;
+                        *((u8 *) bitset_base + 0x5720) = (u8) (*((u8 *) bitset_base + 0x5720) | (bit_mask << bit_index));
                     }
-                    var_a2 += sizeof(DungeonItem);
-                } while (++var_a1 < (s32)var_a3->count);
+                    item_offset += sizeof(DungeonItem);
+                } while (++item_index < (s32)group->count);
             }
         }
-        var_t0 += 1;
-        var_a3 += 1;
-    } while (var_t0 < 0x13);
+        group_index += 1;
+        group += 1;
+    } while (group_index < 0x13);
 }

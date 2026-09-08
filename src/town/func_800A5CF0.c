@@ -33,23 +33,24 @@ extern u8 D_800A34E0[];
 extern u8 D_800A3508[];
 
 
-void *func_800A3450(S_800A3450_2 *arg0, s16 arg1)
+/* Creates an object with copied input data, preset references, and an initial value. */
+void *func_800A3450(S_800A3450_2 *source_data, s16 initial_value)
 {
     S_800A3450_0 *object;
-    S_800A3450_1 *copy;
+    S_800A3450_1 *object_data;
     register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     object = func_8003FD64(0x136, D_80083498);
     result = 0;
     if (object != 0) {
-        copy = object->unk_08;
-        copy->unk_00 = arg0->unk_00;
-        copy->unk_04 = arg0->unk_04;
+        object_data = object->unk_08;
+        object_data->unk_00 = source_data->unk_00;
+        object_data->unk_04 = source_data->unk_04;
         result = object;
-        copy->unk_08 = arg0->unk_08;
+        object_data->unk_08 = source_data->unk_08;
         ((S_800A3450_3 *)result)->unk_10 = D_800A34E0;
         ((S_800A3450_3 *)result)->unk_20 = D_800A3508;
-        ((S_800A3450_3 *)result)->unk_42 = arg1;
+        ((S_800A3450_3 *)result)->unk_42 = initial_value;
     }
     return result;
 }

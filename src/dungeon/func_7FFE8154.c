@@ -46,47 +46,56 @@ extern void D_8010B008(void);
 extern s32 D_80086AD8;
 extern u16 D_80094422;
 
-void func_7FFE8154(Entity *self, Position *origin, s32 arg2) {
-    s32 i;
-    u16 value;
+/* Emit scattered particles during the first 19 ticks and mark the entity expired when its timer ends. */
+void func_7FFE8154(Entity *self, Position *origin, s32 spawn_param) {
+    s32 spawn_count;
+    u16 tick_count;
     Header *header;
     union {
         Particle *particle;
         Position *position;
-    } work;
+    } spawn_data;
 
     header = self->header;
     origin->x = header->position->x + self->x;
     origin->y = header->position->y + self->y;
     origin->z = header->position->z + self->z;
-    value = self->counter + 1;
-    self->counter = value;
-    if ((s16)value < 20) {
-        i = 0;
+    tick_count = self->counter + 1;
+    self->counter = tick_count;
+    if ((s16)tick_count < 20) {
+        spawn_count = 0;
         do {
-            work.particle = func_7003CF18(0x212);
-            i++;
-            if (work.particle != 0) {
-                func_7010B30C(work.particle, self, origin, arg2);
-                work.particle->size_x = 10;
-                work.particle->size_y = 10;
-                work.particle->callback = D_8010B008;
-                work.position = work.particle->position;
-                { s32 rx = func_700750E0(); s32 px = work.position->x - 31; work.position->x = px + (rx & 0x3F); }
-                { s32 ry = func_700750E0(); s32 py = work.position->y - 31; work.position->y = py + (ry & 0x3F); }
-                work.position->velocity = -((func_700750E0() & 0xFFFF) + 0x80000) * 2;
+            spawn_data.particle = func_7003CF18(0x212);
+            spawn_count++;
+            if (spawn_data.particle != 0) {
+                func_7010B30C(spawn_data.particle, self, origin, spawn_param);
+                spawn_data.particle->size_x = 10;
+                spawn_data.particle->size_y = 10;
+                spawn_data.particle->callback = D_8010B008;
+                spawn_data.position = spawn_data.particle->position;
+                {
+                    s32 random_x = func_700750E0();
+                    s32 base_x = spawn_data.position->x - 31;
+                    spawn_data.position->x = base_x + (random_x & 0x3F);
+                }
+                {
+                    s32 random_y = func_700750E0();
+                    s32 base_y = spawn_data.position->y - 31;
+                    spawn_data.position->y = base_y + (random_y & 0x3F);
+                }
+                spawn_data.position->velocity = -((func_700750E0() & 0xFFFF) + 0x80000) * 2;
             }
-        } while (i < 4);
+        } while (spawn_count < 4);
     }
-    value = self->timer - 1;
-    self->timer = value;
-    if ((value << 16) <= 0) {
-        u16 *counter = &D_80094422;
-        u16 next_counter;
+    tick_count = self->timer - 1;
+    self->timer = tick_count;
+    if ((tick_count << 16) <= 0) {
+        u16 *active_count = &D_80094422;
+        u16 remaining_count;
 
         *((u16 *)self - 1) |= 0x8000;
-        next_counter = *counter - 1;
+        remaining_count = *active_count - 1;
         D_80086AD8 |= 0x8000;
-        *counter = next_counter;
+        *active_count = remaining_count;
     }
 }

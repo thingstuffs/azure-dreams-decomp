@@ -3,7 +3,6 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_800644B8(s32);
-extern void func_800C4174(void);
 
 
 typedef struct S_800C4E30_0 {
@@ -17,6 +16,8 @@ typedef struct S_800C4E30_1 {
     s16 unk_1E;
 } S_800C4E30_1;   /* arg2 in func_800C4E30 */
 
+
+extern void func_800C4174(S_800C4E30_0 *, void *, S_800C4E30_1 *);
 void func_800C4E30(S_800C4E30_0 *arg0, void *arg1, S_800C4E30_1 *arg2) {
     s16 temp_v0;
     s32 var_v0;
@@ -28,7 +29,7 @@ void func_800C4E30(S_800C4E30_0 *arg0, void *arg1, S_800C4E30_1 *arg2) {
     if (temp_v0 <= 0) {
         arg2->unk_1E = 0x1000;
         arg2->unk_1C = 0x1000;
-        func_800C4174();
+        func_800C4174(arg0, arg1, arg2);
         return;
     }
     var_v0 = func_800644B8(temp_v0 * 0x199);

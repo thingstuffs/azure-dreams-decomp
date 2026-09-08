@@ -57,48 +57,45 @@ extern s32 D_80053858[4];
 extern s32 D_80053A88;
 extern u8 D_800782EC[8];
 
-void func_80022290(void *arg0)
+/* Initializes display resources and creates rectangle and image objects. */
+void func_80022290(void *context)
 {
-    Packed8 local;
-    void *obj1;
-    S_80022290_1 *data1;
-    void *obj2;
-    S_80022290_3 *data2;
-    void *tail_value;
+    Packed8 setup_words;
+    void *rect_obj;
+    S_80022290_1 *rect_data;
+    void *image_obj;
+    S_80022290_3 *image_data;
+    void *image_resource;
 
-    local = D_8002021C;
-    func_800BC1DC(&local, D_800223D8,
-                  func_8004DA74(arg0, D_8002446C, 0));
-    func_800BC1DC((u8 *)&local + 4, D_800223D8, D_800782EC);
+    setup_words = D_8002021C;
+    func_800BC1DC(&setup_words, D_800223D8,
+                  func_8004DA74(context, D_8002446C, 0));
+    func_800BC1DC((u8 *)&setup_words + 4, D_800223D8, D_800782EC);
 
-    obj1 = func_8003FC64(1);
-    if (obj1 != NULL) {
-        data1 = obj1 + 0x20;
-        ((S_80022290_0 *)obj1)->unk_10 = D_800223E0;
-        func_8004491C(obj1, &D_80053A88);
-        data1->unk_0C = 0xB8;
-        data1->unk_0E = 0x14;
-        data1->unk_10 = 0x7C;
-        data1->unk_12 = 0x18;
-        data1->unk_16 = 1;
-        data1->unk_08 = 0x402020;
+    rect_obj = func_8003FC64(1);
+    if (rect_obj != NULL) {
+        rect_data = rect_obj + 0x20;
+        ((S_80022290_0 *)rect_obj)->unk_10 = D_800223E0;
+        func_8004491C(rect_obj, &D_80053A88);
+        rect_data->unk_0C = 0xB8;
+        rect_data->unk_0E = 0x14;
+        rect_data->unk_10 = 0x7C;
+        rect_data->unk_12 = 0x18;
+        rect_data->unk_16 = 1;
+        rect_data->unk_08 = 0x402020;
     }
 
-    obj2 = func_8003FC64(1);
-    if (obj2 != NULL) {
-        data2 = obj2 + 0x20;
-        ((S_80022290_2 *)obj2)->unk_10 = D_800223E8;
-        func_8004491C(obj2, D_80053858);
-        data2->unk_14 = 0xF0;
-        data2->unk_16 = 0x20;
-        data2->unk_18 = 3;
-        tail_value = D_80024468;
-        data2->unk_1A = 0x7C80;
-        data2->unk_10 = 0x808080;
-        data2->unk_04 = tail_value;
+    image_obj = func_8003FC64(1);
+    if (image_obj != NULL) {
+        image_data = image_obj + 0x20;
+        ((S_80022290_2 *)image_obj)->unk_10 = D_800223E8;
+        func_8004491C(image_obj, D_80053858);
+        image_data->unk_14 = 0xF0;
+        image_data->unk_16 = 0x20;
+        image_data->unk_18 = 3;
+        image_resource = D_80024468;
+        image_data->unk_1A = 0x7C80;
+        image_data->unk_10 = 0x808080;
+        image_data->unk_04 = image_resource;
     }
 }
-
-/* MECHANISM: the true-space ABI preserves incoming arg0; a packed 8-byte local
-   produces the lwl/lwr and swl/swr copy, while split object/data names shape s0.
-   A one-read tail_value hoists the final global load and removes its delay nop. */

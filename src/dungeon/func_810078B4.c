@@ -81,20 +81,21 @@ extern u8 D_80171058[];
 extern u8 D_801748E0[];
 extern u8 D_801748E8[];
 
-void func_801730B4(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
+/* Updates actor state, animation, and callback according to entity status flags. */
+void func_801730B4(void *actor_in, void *context_in, void *sprite_in, void *entity_in)
 {
-    void *arg0 = in_arg0;
-    void *arg1 = in_arg1;
-    void *arg2 = in_arg2;
-    void *arg3 = in_arg3;
-    s32 flags;
+    void *actor = actor_in;
+    void *context = context_in;
+    void *sprite = sprite_in;
+    void *entity = entity_in;
+    s32 status_flags;
     u16 current_value;
-    u16 old_value;
+    u16 value_adjustment;
     register u8 *page_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *global_base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 state;
 
-    state = ((S_801730B4_0 *)arg0)->unk_9B;
+    state = ((S_801730B4_0 *)actor)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -110,12 +111,12 @@ void func_801730B4(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
     goto done;
 
 state_zero:
-    if (!(((S_801730B4_1 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((S_801730B4_1 *)sprite)->unk_14 & 0xE000)) {
         goto done;
     }
-    (*(void * *)((u8 *)arg2 + 0x2C)) = D_801748E0;
-    func_80047784(arg2,
-        D_801748E0[((D_80083228 + ((S_801730B4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+    (*(void * *)((u8 *)sprite + 0x2C)) = D_801748E0;
+    func_80047784(sprite,
+        D_801748E0[((D_80083228 + ((S_801730B4_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
         u8 *counter_base = (u8 *)&D_80083460;
@@ -128,19 +129,19 @@ state_zero:
     goto increment_state;
 
 state_one:
-    if ((func_80042900(arg3, 1) << 16) != 0) {
+    if ((func_80042900(entity, 1) << 16) != 0) {
         page_base = (u8 *)0x80080000;
         goto state_one_active;
     }
-    (*(void * *)((u8 *)arg2 + 0x2C)) = D_801748E8;
-    func_80047784(arg2,
-        D_801748E8[((D_80083228 + ((S_801730B4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+    (*(void * *)((u8 *)sprite + 0x2C)) = D_801748E8;
+    func_80047784(sprite,
+        D_801748E8[((D_80083228 + ((S_801730B4_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
-    ((S_801730B4_2 *)arg3)->unk_1C.s |= 0x40000;
-    if (!(((S_801730B4_1 *)arg2)->unk_14 & 0x8000)) {
+    ((S_801730B4_2 *)entity)->unk_1C.s |= 0x40000;
+    if (!(((S_801730B4_1 *)sprite)->unk_14 & 0x8000)) {
         goto increment_counter;
     }
-    ((S_801730B4_2 *)arg3)->unk_1C.s &= ~0x200;
+    ((S_801730B4_2 *)entity)->unk_1C.s &= ~0x200;
     goto assign_callback;
 
 state_one_active:
@@ -150,81 +151,81 @@ state_one_active:
         if (((S_801730B4_4 *)global_base)->unk_02 & 0x1000) {
             goto done;
         }
-        if (((S_801730B4_2 *)arg3)->unk_64 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, 0) != 0) {
+        if (((S_801730B4_2 *)entity)->unk_64 != 0) {
+            if (func_800AA6B4(actor, context, sprite, 0) != 0) {
                 goto done;
             }
         }
-        if (((S_801730B4_2 *)arg3)->unk_25 == 0) {
+        if (((S_801730B4_2 *)entity)->unk_25 == 0) {
             if (((S_801730B4_4 *)global_base)->unk_02 & 0x2008) {
                 goto done;
             }
-            func_800AA79C(arg0, arg1, arg2, arg3);
+            func_800AA79C(actor, context, sprite, entity);
             goto done;
         }
-        if ((func_800A2C34(arg3) << 16) != 0) {
+        if ((func_800A2C34(entity) << 16) != 0) {
             goto done;
         }
-        flags = ((S_801730B4_2 *)arg3)->unk_1C.u;
-        if (flags & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        status_flags = ((S_801730B4_2 *)entity)->unk_1C.u;
+        if (status_flags & 0x100) {
+            func_800AA258(actor, context, sprite, entity);
             goto done;
         }
-        if (flags & 0x80000) {
-            void *copy_arg0;
+        if (status_flags & 0x80000) {
+            void *actor_copy;
 
-            func_800AA888(arg0, arg1, arg2, arg3);
-            copy_arg0 = arg0;
-            ASM_KEEP(copy_arg0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            current_value = ((S_801730B4_5 *)copy_arg0)->unk_92;
-            old_value = ((S_801730B4_5 *)copy_arg0)->unk_A6;
-            ((S_801730B4_5 *)copy_arg0)->unk_A6 = 0;
-            ((S_801730B4_5 *)copy_arg0)->unk_B2 = 0;
-            ((S_801730B4_5 *)copy_arg0)->unk_92 = current_value - old_value;
-            func_80173834(copy_arg0, arg1, arg2, arg3);
+            func_800AA888(actor, context, sprite, entity);
+            actor_copy = actor;
+            ASM_KEEP(actor_copy);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            current_value = ((S_801730B4_5 *)actor_copy)->unk_92;
+            value_adjustment = ((S_801730B4_5 *)actor_copy)->unk_A6;
+            ((S_801730B4_5 *)actor_copy)->unk_A6 = 0;
+            ((S_801730B4_5 *)actor_copy)->unk_B2 = 0;
+            ((S_801730B4_5 *)actor_copy)->unk_92 = current_value - value_adjustment;
+            func_80173834(actor_copy, context, sprite, entity);
             goto done;
         }
-        if (((S_801730B4_2 *)arg3)->unk_6D == 0) {
+        if (((S_801730B4_2 *)entity)->unk_6D == 0) {
             goto done;
         }
-        if ((func_800A2C34(arg3) << 16) != 0) {
+        if ((func_800A2C34(entity) << 16) != 0) {
             void *owner = D_800814A8;
 
-            if ((func_8009A180(arg3,
+            if ((func_8009A180(entity,
                     (u8 *)((S_801730B4_6 *)owner)->unk_58 + 0x20) << 16) != 0) {
                 goto done;
             }
         }
-        func_800A9A0C(arg3);
-        func_800A9A04(arg3);
-        if ((func_80042900(arg3, 1) << 16) != 0) {
+        func_800A9A0C(entity);
+        func_800A9A04(entity);
+        if ((func_80042900(entity, 1) << 16) != 0) {
             u8 *origin = D_80082E80;
-            s8 tile = ((S_801730B4_1 *)arg2)->unk_26;
+            s8 tile = ((S_801730B4_1 *)sprite)->unk_26;
 
             if (((tile == ((S_801730B4_7 *)origin)->unk_26) && (tile >= 0)) ||
-                ((s16)func_8009FD40(origin, arg2) < 2)) {
+                ((s16)func_8009FD40(origin, sprite) < 2)) {
                 if (!(func_800A6D30() & 7)) {
-                    func_80042B68(arg3, 1);
+                    func_80042B68(entity, 1);
                 }
             }
         }
-        if ((func_80042900(arg3, 1) << 16) != 0) {
+        if ((func_80042900(entity, 1) << 16) != 0) {
             goto done;
         }
     }
-    (*(void * *)((u8 *)arg2 + 0x2C)) = D_801748E8;
-    func_80047784(arg2,
-        D_801748E8[((D_80083228 + ((S_801730B4_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+    (*(void * *)((u8 *)sprite + 0x2C)) = D_801748E8;
+    func_80047784(sprite,
+        D_801748E8[((D_80083228 + ((S_801730B4_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
-        u32 late_flags;
+        u32 updated_flags;
 
-        late_flags = ((S_801730B4_2 *)arg3)->unk_1C.s;
-        late_flags |= 0x40000;
-        ((S_801730B4_2 *)arg3)->unk_1C.s = late_flags;
+        updated_flags = ((S_801730B4_2 *)entity)->unk_1C.s;
+        updated_flags |= 0x40000;
+        ((S_801730B4_2 *)entity)->unk_1C.s = updated_flags;
     }
-    if (((S_801730B4_1 *)arg2)->unk_14 & 0x8000) {
-        ((S_801730B4_2 *)arg3)->unk_1C.u &= ~0x200;
+    if (((S_801730B4_1 *)sprite)->unk_14 & 0x8000) {
+        ((S_801730B4_2 *)entity)->unk_1C.u &= ~0x200;
         goto assign_callback;
     }
 
@@ -239,11 +240,11 @@ increment_counter:
     }
 
 increment_state:
-    ((S_801730B4_0 *)arg0)->unk_9B++;
+    ((S_801730B4_0 *)actor)->unk_9B++;
     goto done;
 
 state_two:
-    if (!(((S_801730B4_1 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((S_801730B4_1 *)sprite)->unk_14 & 0xE000)) {
         goto done;
     }
     {
@@ -253,15 +254,15 @@ state_two:
     }
 
 clear_callback:
-    ((S_801730B4_2 *)arg3)->unk_1C.u &= ~0x200;
+    ((S_801730B4_2 *)entity)->unk_1C.u &= ~0x200;
 
 assign_callback:
-    ((S_801730B4_0 *)arg0)->unk_8C = D_80171058;
+    ((S_801730B4_0 *)actor)->unk_8C = D_80171058;
 
 done:
-    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     return;
 }

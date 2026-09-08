@@ -14,9 +14,10 @@ typedef struct S_800385E8_0 {
 M2C_UNK func_80053DA8();                     /* extern */
 extern M2C_UNK func_80038A10;
 
-void func_800385E8(S_800385E8_0 *arg0) {
-    if (arg0->unk_84 != 0) {
+/* When the object's flag is set, call func_80053DA8 and update its handler. */
+void func_800385E8(S_800385E8_0 *object) {
+    if (object->unk_84 != 0) {
         func_80053DA8(0xB4);
-        arg0->unk_10 = &func_80038A10;
+        object->unk_10 = &func_80038A10;
     }
 }

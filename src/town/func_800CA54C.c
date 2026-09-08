@@ -4,6 +4,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-void func_800C7CAC(Rec_func_80094268_arg0 *arg0) {
-    arg0->unk_94 = 0;
+/* Clears the record's unk_94 field. */
+void func_800C7CAC(Rec_func_80094268_arg0 *record) {
+    record->unk_94 = 0;
 }

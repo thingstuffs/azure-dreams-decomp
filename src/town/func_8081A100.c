@@ -55,125 +55,126 @@ extern void func_80048568(s32);
 extern s32 rand(void);
 extern void func_800C15C0(s32, s32);
 
+/* Initializes shared state and three columns of linked display objects. */
 s32 func_80024100(void)
 {
-    Vec3i first;
-    Vec3i second;
-    void *root;
-    void *obj;
-    S_80024100_2 *part;
-    void *callback;
-    void *final_callback;
-    void *link;
-    s32 i;
-    register s32 coord ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 value;
-    u16 flags;
+    Vec3i primary_values;
+    Vec3i secondary_values;
+    void *parent_state;
+    void *object;
+    S_80024100_2 *element;
+    void *update_callback;
+    void *render_data;
+    void *value_ptr;
+    s32 column;
+    register s32 x_pos ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 random_value;
+    u16 element_flags;
 
-    root = NULL;
-    first = D_80020090;
-    second = D_800200A8;
+    parent_state = NULL;
+    primary_values = D_80020090;
+    secondary_values = D_800200A8;
 
     func_800C15C0(0x24, 0x200);
     func_80033B9C(0x552);
     func_80033B9C(0xA4);
     func_80033B9C(0xA5);
     func_80048568(7);
-    func_8003E188(0x3F, root);
+    func_8003E188(0x3F, parent_state);
 
-    obj = func_8003FD64(0x136, D_80083498);
-    if (obj != NULL) {
-        root = (u8 *)obj + 0x20;
-        ((S_80024100_0 *)obj)->unk_10 = &D_800243D8;
-        ((S_80024100_1 *)root)->unk_0A = 0x1E;
-        value = rand();
-        ((S_80024100_1 *)root)->unk_04 = value & 3;
-        ((S_80024100_1 *)root)->unk_0C |= 4;
+    object = func_8003FD64(0x136, D_80083498);
+    if (object != NULL) {
+        parent_state = (u8 *)object + 0x20;
+        ((S_80024100_0 *)object)->unk_10 = &D_800243D8;
+        ((S_80024100_1 *)parent_state)->unk_0A = 0x1E;
+        random_value = rand();
+        ((S_80024100_1 *)parent_state)->unk_04 = random_value & 3;
+        ((S_80024100_1 *)parent_state)->unk_0C |= 4;
     }
 
-    i = 2;
-    callback = &D_80024954;
-    coord = 0xD0;
+    column = 2;
+    update_callback = &D_80024954;
+    x_pos = 0xD0;
     do {
-        obj = func_8003FD64(1, D_80083498);
-        part = (u8 *)obj + 0x20;
-        if (obj != NULL) {
-            ((S_80024100_0 *)obj)->unk_10 = callback;
-            func_8004491C(obj, D_80053858);
-            part->unk_16.s = 0xB4;
-            part->unk_18 = 3;
-            part->unk_1A = 0x7C80;
-            part->unk_14 = coord;
-            part->unk_10.at00.v = 0x808080;
-            part->unk_04.i = ((s32 *)&first)[i];
-            part->unk_0C.at00.v = root;
+        object = func_8003FD64(1, D_80083498);
+        element = (u8 *)object + 0x20;
+        if (object != NULL) {
+            ((S_80024100_0 *)object)->unk_10 = update_callback;
+            func_8004491C(object, D_80053858);
+            element->unk_16.s = 0xB4;
+            element->unk_18 = 3;
+            element->unk_1A = 0x7C80;
+            element->unk_14 = x_pos;
+            element->unk_10.at00.v = 0x808080;
+            element->unk_04.i = ((s32 *)&primary_values)[column];
+            element->unk_0C.at00.v = parent_state;
         }
-        i--;
-        coord -= 0x58;
-    } while (i >= 0);
+        column--;
+        x_pos -= 0x58;
+    } while (column >= 0);
 
-    i = 2;
-    callback = &D_800249A0;
-    coord = 0xD8;
+    column = 2;
+    update_callback = &D_800249A0;
+    x_pos = 0xD8;
     do {
-        obj = func_8003FD64(1, D_80083498);
-        part = (u8 *)obj + 0x20;
-        if (obj != NULL) {
-            ((S_80024100_0 *)obj)->unk_10 = callback;
-            func_8004491C(obj, D_80053858);
-            part->unk_16.s = 0xC4;
-            part->unk_18 = 3;
-            part->unk_1A = 0x7C80;
-            part->unk_14 = coord;
-            part->unk_10.at00.v = 0x808080;
-            part->unk_04.i = ((s32 *)&second)[i];
-            switch (i) {
+        object = func_8003FD64(1, D_80083498);
+        element = (u8 *)object + 0x20;
+        if (object != NULL) {
+            ((S_80024100_0 *)object)->unk_10 = update_callback;
+            func_8004491C(object, D_80053858);
+            element->unk_16.s = 0xC4;
+            element->unk_18 = 3;
+            element->unk_1A = 0x7C80;
+            element->unk_14 = x_pos;
+            element->unk_10.at00.v = 0x808080;
+            element->unk_04.i = ((s32 *)&secondary_values)[column];
+            switch (column) {
             case 0:
-                link = (u8 *)root + 6;
+                value_ptr = (u8 *)parent_state + 6;
                 break;
             case 1:
-                link = (u8 *)root + 8;
+                value_ptr = (u8 *)parent_state + 8;
                 break;
             case 2:
-                link = (u8 *)root + 0xA;
+                value_ptr = (u8 *)parent_state + 0xA;
                 break;
             default:
-                part->unk_0C.at00.v = root;
+                element->unk_0C.at00.v = parent_state;
                 goto second_continue;
             }
-            part->unk_08.p = link;
-            part->unk_0C.at00.v = root;
+            element->unk_08.p = value_ptr;
+            element->unk_0C.at00.v = parent_state;
         }
 second_continue:
-        i--;
-        coord -= 0x58;
-    } while (i >= 0);
+        column--;
+        x_pos -= 0x58;
+    } while (column >= 0);
 
-    i = 2;
-    callback = &D_80024A30;
-    coord = 0xCC;
+    column = 2;
+    update_callback = &D_80024A30;
+    x_pos = 0xCC;
     do {
-        obj = func_8003FD64(1, D_80083498);
-        if (obj != NULL) {
-            final_callback = &D_80053A88;
-            ASM_KEEP(final_callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            part = (u8 *)obj + 0x20;
-            ((S_80024100_0 *)obj)->unk_10 = callback;
-            func_8004491C(obj, final_callback);
-            flags = part->unk_16.u;
-            part->unk_0C.at02.v = 0xB0;
-            part->unk_10.at00u.v = 0x50;
-            part->unk_10.at02.v = 0x20;
-            part->unk_0C.at00u.v = coord;
-            part->unk_14 = 2;
-            part->unk_08.i = 0x404040;
-            part->unk_04.p = root;
-            flags |= 1;
-            part->unk_16.u = flags;
+        object = func_8003FD64(1, D_80083498);
+        if (object != NULL) {
+            render_data = &D_80053A88;
+            ASM_KEEP(render_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            element = (u8 *)object + 0x20;
+            ((S_80024100_0 *)object)->unk_10 = update_callback;
+            func_8004491C(object, render_data);
+            element_flags = element->unk_16.u;
+            element->unk_0C.at02.v = 0xB0;
+            element->unk_10.at00u.v = 0x50;
+            element->unk_10.at02.v = 0x20;
+            element->unk_0C.at00u.v = x_pos;
+            element->unk_14 = 2;
+            element->unk_08.i = 0x404040;
+            element->unk_04.p = parent_state;
+            element_flags |= 1;
+            element->unk_16.u = element_flags;
         }
-        i--;
-        coord -= 0x58;
-    } while (i >= 0);
+        column--;
+        x_pos -= 0x58;
+    } while (column >= 0);
 
     return 0;
 }

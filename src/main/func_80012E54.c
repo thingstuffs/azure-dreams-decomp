@@ -3,22 +3,23 @@
 s32 func_80033B2C();                             /* extern */
 extern s16 D_80028010[8];
 
+/* Return a bitmask of the eight entries for which func_80033B2C is nonzero. */
 s32 func_80025E54(void) {
-    s16 *var_s1;
-    s32 var_s0;
-    s32 var_s2;
-    s32 var_s3;
+    s16 *entry;
+    s32 index;
+    s32 result_mask;
+    s32 bit;
 
-    var_s2 = 0;
-    var_s0 = 0;
-    var_s3 = 1;
-    var_s1 = D_80028010;
+    result_mask = 0;
+    index = 0;
+    bit = 1;
+    entry = D_80028010;
     do {
-        if (func_80033B2C(*var_s1) != 0) {
-            var_s2 += var_s3 << var_s0;
+        if (func_80033B2C(*entry) != 0) {
+            result_mask += bit << index;
         }
-        var_s0 += 1;
-        var_s1 += 1;
-    } while (var_s0 < 8);
-    return var_s2;
+        index += 1;
+        entry += 1;
+    } while (index < 8);
+    return result_mask;
 }

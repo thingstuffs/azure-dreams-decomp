@@ -3,8 +3,7 @@
 
 M2C_UNK func_80022D60();   /* extern */
 
-void func_80022EC4(M2C_UNK arg0, M2C_UNK arg1) {
-    M2C_UNK orig = arg1;
-    arg1 = 2;
-    func_80022D60(arg0, arg1, arg1, orig);
+/* Forwards the input and value with both middle arguments set to 2. */
+void func_80022EC4(M2C_UNK input, M2C_UNK value) {
+    func_80022D60(input, 2, 2, value);
 }

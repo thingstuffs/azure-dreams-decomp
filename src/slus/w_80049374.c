@@ -30,44 +30,45 @@ extern CatEnt itemCategoryTable[];
 extern char D_80083D38[0x40];
 extern char *D_800713F8[];
 
-s32 func_80049374(Item *arg0, StrPair *arg1) {
-    char *var_s1;
-    s32 var_v1;
-    CatEnt *temp_a0;
-    CatEnt *base;
-    s32 idx;
-    s32 id;
+/* Selects item text or a fallback, adjusts its special suffix, and passes it to func_8004DD2C. */
+s32 func_80049374(Item *item, StrPair *fallbacks) {
+    char *item_text;
+    s32 record_words;
+    CatEnt *category;
+    CatEnt *category_table;
+    s32 category_id;
+    s32 item_id;
 
-    if ((arg0 == 0) || (arg0->unk1 == 0)) {
-        var_s1 = arg1->unk4;
-    } else if (func_800494FC(arg0) != 0) {
-        var_s1 = arg1->unk0;
+    if ((item == 0) || (item->unk1 == 0)) {
+        item_text = fallbacks->unk4;
+    } else if (func_800494FC(item) != 0) {
+        item_text = fallbacks->unk0;
     } else {
-        /* 3-statement base form: lui fills prior branch delay; idx then add */
-        base = itemCategoryTable;
-        idx = arg0->unk1;
-        temp_a0 = base + idx;
-        if (temp_a0->kind == 0) {
-            id = arg0->unk0;
-            var_v1 = id * 4;
+        /* 3-statement category_table form: lui fills prior branch delay; category_id then add */
+        category_table = itemCategoryTable;
+        category_id = item->unk1;
+        category = category_table + category_id;
+        if (category->kind == 0) {
+            item_id = item->unk0;
+            record_words = item_id * 4;
         } else {
-            id = arg0->unk0;
-            var_v1 = id * 2;
+            item_id = item->unk0;
+            record_words = item_id * 2;
         }
-        var_v1 = var_v1 + id;
-        /* Pin scale/addr to $v1 so final addu is addu v1,v1,v0 (not addu v0,v0,v1) */
+        record_words = record_words + item_id;
+        /* Pin scale/record_addr to $v1 so final addu is addu v1,v1,v0 (not addu v0,v0,v1) */
         {
-            register s32 addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            addr = var_v1;
-            addr = addr * 4;
-            addr = addr + (s32)temp_a0->records;
-            var_s1 = *(char **)(addr + 8);
+            register s32 record_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+            record_addr = record_words;
+            record_addr = record_addr * 4;
+            record_addr = record_addr + (s32)category->records;
+            item_text = *(char **)(record_addr + 8);
         }
-        if ((arg0->unk1 == 0x13) && (func_8004928C(arg0) != 0)) {
-            strcpy(D_80083D38, var_s1);
+        if ((item->unk1 == 0x13) && (func_8004928C(item) != 0)) {
+            strcpy(D_80083D38, item_text);
             strcpy(rindex(D_80083D38, 0) - 0x12, D_800713F8[0]);
-            var_s1 = D_80083D38;
+            item_text = D_80083D38;
         }
     }
-    return func_8004DD2C(var_s1);
+    return func_8004DD2C(item_text);
 }

@@ -107,172 +107,173 @@ extern s32 rand(void);
 extern void func_8008F074(void *, void *, void *);
 extern void func_800C15C0(s32, s32);
 
+/* Creates a parent object, three children, paired display rows, and a final display element. */
 s32 func_800254A4(void)
 {
-    void *first[2];
-    void *second[2];
-    register u8 *root ASM_REG("$21") = NULL;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *obj;
-    S_800254A4_3 *part1;
-    S_800254A4_5 *part2;
-    S_800254A4_6 *part3;
-    S_800254A4_7 *final_part;
-    S_800254A4_4 *draw;
+    void *left_data[2];
+    void *right_data[2];
+    register u8 *parent_state ASM_REG("$21") = NULL;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *object;
+    S_800254A4_3 *child_state;
+    S_800254A4_5 *left_state;
+    S_800254A4_6 *right_state;
+    S_800254A4_7 *final_state;
+    S_800254A4_4 *draw_state;
     S_800254A4_2 *packet;
-    void *link;
-    void *stack_value;
-    void *first_callback;
+    void *value_ptr;
+    void *row_data;
+    void *child_callback;
     void *callback;
-    void *aux;
-    void **slot;
-    u8 *source;
-    u8 *indexed_source;
-    u8 *dst0;
-    u8 *dst1;
-    u8 byte;
-    s32 i;
+    void *child_data;
+    void **child_slot;
+    u8 *initial_data;
+    u8 *src_byte;
+    u8 *first_dst_byte;
+    u8 *second_dst_byte;
+    u8 initial_byte;
+    s32 index;
     s32 final_color;
     register s32 final_extent ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s16 coord;
+    s16 row_y;
 
-    ASM_KEEP(root);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    first[0] = D_8002012C;
-    first[1] = D_80020134;
+    ASM_KEEP(parent_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    left_data[0] = D_8002012C;
+    left_data[1] = D_80020134;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    second[0] = D_8002013C;
-    second[1] = D_80020140;
-    source = D_80020144;
+    right_data[0] = D_8002013C;
+    right_data[1] = D_80020140;
+    initial_data = D_80020144;
 
     func_800C15C0(0x24, 0x200);
     func_80026CE4(0x5A);
-    func_8003E188(0x3C, (s32)root);
+    func_8003E188(0x3C, (s32)parent_state);
 
-    obj = func_8003FC64(2);
-    if (obj != NULL) {
-        root = (u8 *)obj + 0x20;
-        ((S_800254A4_0 *)obj)->unk_10 = D_80025BC8;
-        ((S_800254A4_1 *)root)->unk_18 = rand() & 1;
+    object = func_8003FC64(2);
+    if (object != NULL) {
+        parent_state = (u8 *)object + 0x20;
+        ((S_800254A4_0 *)object)->unk_10 = D_80025BC8;
+        ((S_800254A4_1 *)parent_state)->unk_18 = rand() & 1;
     }
 
-    i = 2;
-    first_callback = D_8002582C;
-    aux = D_80020148;
-    slot = (void **)(root + 8);
-first_loop:
-    obj = func_8003FC64(0x136);
-    *slot = obj;
-    if (obj != NULL) {
-        ((S_800254A4_0 *)obj)->unk_10 = first_callback;
-        func_8004491C(obj, D_80045340);
-        part1 = (u8 *)obj + 0x20;
-        draw = ((S_800254A4_0 *)obj)->unk_0C;
-        packet = ((S_800254A4_0 *)obj)->unk_08;
+    index = 2;
+    child_callback = D_8002582C;
+    child_data = D_80020148;
+    child_slot = (void **)(parent_state + 8);
+create_child:
+    object = func_8003FC64(0x136);
+    *child_slot = object;
+    if (object != NULL) {
+        ((S_800254A4_0 *)object)->unk_10 = child_callback;
+        func_8004491C(object, D_80045340);
+        child_state = (u8 *)object + 0x20;
+        draw_state = ((S_800254A4_0 *)object)->unk_0C;
+        packet = ((S_800254A4_0 *)object)->unk_08;
         packet->unk_00 = 0x05600000;
-        packet->unk_04 = (i << 0x16) + 0x03E00000;
+        packet->unk_04 = (index << 0x16) + 0x03E00000;
         packet->unk_08 = 0x00800000;
         packet->unk_14 = 0xFFFC0000;
-        ((S_800254A4_0 *)obj)->unk_20 = root;
-        part1->unk_56 = i;
-        draw->unk_1E = 0x1000;
-        draw->unk_1C = 0x1000;
-        func_8003DB94(draw, D_800F7968, 0, packet);
-        draw->unk_0C = 0x00808080;
-        part1->unk_4C = aux;
-        func_8008F074((u8 *)obj + 0x24, ((S_800254A4_0 *)obj)->unk_08, D_80026F50);
+        ((S_800254A4_0 *)object)->unk_20 = parent_state;
+        child_state->unk_56 = index;
+        draw_state->unk_1E = 0x1000;
+        draw_state->unk_1C = 0x1000;
+        func_8003DB94(draw_state, D_800F7968, 0, packet);
+        draw_state->unk_0C = 0x00808080;
+        child_state->unk_4C = child_data;
+        func_8008F074((u8 *)object + 0x24, ((S_800254A4_0 *)object)->unk_08, D_80026F50);
     }
-    i--;
-    slot--;
-    if (i >= 0) {
-        goto first_loop;
+    index--;
+    child_slot--;
+    if (index >= 0) {
+        goto create_child;
     }
 
-    i = 1;
+    index = 1;
     callback = D_80026B78;
-    coord = 0x2C;
+    row_y = 0x2C;
     do {
-        obj = func_8003FD64(1, D_80083498);
-        part2 = (u8 *)obj + 0x20;
-        if (obj != NULL) {
-            ((S_800254A4_0 *)obj)->unk_10 = callback;
-            func_8004491C(obj, D_80053858);
-            part2->unk_14 = 0x20;
-            part2->unk_18 = 3;
-            part2->unk_1A = 0x7C80;
-            part2->unk_16 = coord;
-            part2->unk_10 = 0x00808080;
-            stack_value = first[i];
-            part2->unk_0C = root;
-            part2->unk_04 = stack_value;
+        object = func_8003FD64(1, D_80083498);
+        left_state = (u8 *)object + 0x20;
+        if (object != NULL) {
+            ((S_800254A4_0 *)object)->unk_10 = callback;
+            func_8004491C(object, D_80053858);
+            left_state->unk_14 = 0x20;
+            left_state->unk_18 = 3;
+            left_state->unk_1A = 0x7C80;
+            left_state->unk_16 = row_y;
+            left_state->unk_10 = 0x00808080;
+            row_data = left_data[index];
+            left_state->unk_0C = parent_state;
+            left_state->unk_04 = row_data;
         }
-        i--;
-        coord -= 0xC;
-    } while (i >= 0);
+        index--;
+        row_y -= 0xC;
+    } while (index >= 0);
 
-    i = 1;
+    index = 1;
     do {
-        indexed_source = source + i;
-        dst0 = (u8 *)second[0] + i;
-        dst1 = (u8 *)second[1] + i;
-        byte = *indexed_source;
-        ASM_KEEP(dst0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(dst1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        i--;
-        *dst1 = byte;
-        *dst0 = byte;
-    } while (i >= 0);
+        src_byte = initial_data + index;
+        first_dst_byte = (u8 *)right_data[0] + index;
+        second_dst_byte = (u8 *)right_data[1] + index;
+        initial_byte = *src_byte;
+        ASM_KEEP(first_dst_byte);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(second_dst_byte);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        index--;
+        *second_dst_byte = initial_byte;
+        *first_dst_byte = initial_byte;
+    } while (index >= 0);
 
-    i = 1;
+    index = 1;
     callback = D_80026BC4;
-    coord = 0x2C;
+    row_y = 0x2C;
     do {
-        obj = func_8003FD64(1, D_80083498);
-        part3 = (u8 *)obj + 0x20;
-        if (obj != NULL) {
-            ((S_800254A4_0 *)obj)->unk_10 = callback;
-            func_8004491C(obj, D_80053858);
-            part3->unk_14 = 0x50;
-            part3->unk_18 = 3;
-            part3->unk_1A = 0x7C80;
-            part3->unk_16 = coord;
-            part3->unk_10 = 0x00808080;
-            part3->unk_04 = second[i];
-            if (i != 0) {
-                if (i == 1) {
-                    goto third_nonzero_link;
+        object = func_8003FD64(1, D_80083498);
+        right_state = (u8 *)object + 0x20;
+        if (object != NULL) {
+            ((S_800254A4_0 *)object)->unk_10 = callback;
+            func_8004491C(object, D_80053858);
+            right_state->unk_14 = 0x50;
+            right_state->unk_18 = 3;
+            right_state->unk_1A = 0x7C80;
+            right_state->unk_16 = row_y;
+            right_state->unk_10 = 0x00808080;
+            right_state->unk_04 = right_data[index];
+            if (index != 0) {
+                if (index == 1) {
+                    goto link_second_value;
                 }
-                part3->unk_0C = root;
-                goto third_continue;
+                right_state->unk_0C = parent_state;
+                goto next_right_row;
             } else {
-                link = root + 0x12;
-                goto third_store_link;
+                value_ptr = parent_state + 0x12;
+                goto store_value_ptr;
             }
-third_nonzero_link:
-            link = root + 0x14;
-third_store_link:
-            part3->unk_08 = link;
-            part3->unk_0C = root;
+link_second_value:
+            value_ptr = parent_state + 0x14;
+store_value_ptr:
+            right_state->unk_08 = value_ptr;
+            right_state->unk_0C = parent_state;
         }
-third_continue:
-        i--;
-        coord -= 0xC;
-    } while (i >= 0);
+next_right_row:
+        index--;
+        row_y -= 0xC;
+    } while (index >= 0);
 
-    obj = func_8003FD64(1, D_80083498);
-    if (obj != NULL) {
-        ((S_800254A4_0 *)obj)->unk_10 = D_80026C54;
-        func_8004491C(obj, &D_80053A88);
+    object = func_8003FD64(1, D_80083498);
+    if (object != NULL) {
+        ((S_800254A4_0 *)object)->unk_10 = D_80026C54;
+        func_8004491C(object, &D_80053A88);
         final_color = 0x00404040;
-        final_part = (u8 *)obj + 0x20;
-        ASM_KEEP(final_part);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        final_state = (u8 *)object + 0x20;
+        ASM_KEEP(final_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         final_extent = 0x1C;
-        final_part->unk_0C = final_extent;
-        final_part->unk_0E = final_extent;
-        final_part->unk_12 = final_extent;
-        final_part->unk_16 |= 1;
-        final_part->unk_10 = 0x48;
-        final_part->unk_14 = 2;
-        final_part->unk_08 = final_color;
-        final_part->unk_04 = root;
+        final_state->unk_0C = final_extent;
+        final_state->unk_0E = final_extent;
+        final_state->unk_12 = final_extent;
+        final_state->unk_16 |= 1;
+        final_state->unk_10 = 0x48;
+        final_state->unk_14 = 2;
+        final_state->unk_08 = final_color;
+        final_state->unk_04 = parent_state;
     }
 
     return 0;

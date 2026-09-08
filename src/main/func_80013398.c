@@ -11,12 +11,13 @@ typedef struct S_80026398_0 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_800262BC;
 
-void func_80026398(void *arg0) {
-    s32 temp_v0;
+/* Decrement the record's countdown and reset its pointer when it becomes negative. */
+void func_80026398(void *record_data) {
+    s32 countdown;
 
-    temp_v0 = ((S_80026398_0 *)((u8 *)arg0 - 0x10))->unk_4C - 1;
-    ((S_80026398_0 *)((u8 *)arg0 - 0x10))->unk_4C = temp_v0;
-    if (temp_v0 < 0) {
-        ((S_80026398_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_800262BC;
+    countdown = ((S_80026398_0 *)((u8 *)record_data - 0x10))->unk_4C - 1;
+    ((S_80026398_0 *)((u8 *)record_data - 0x10))->unk_4C = countdown;
+    if (countdown < 0) {
+        ((S_80026398_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_800262BC;
     }
 }

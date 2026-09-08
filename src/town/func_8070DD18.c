@@ -24,6 +24,7 @@ typedef struct S_80016D18_0 {
     void * unk_20;
 } S_80016D18_0;   /* *(void **)D_80016000 in func_80016D18 */
 
+/* Processes event conditions and returns the corresponding data pointer, or null. */
 M2C_UNK *func_80016D18(void) {
     if (func_800197FC(0xD, 6) != 0) {
         ((S_80016D18_1 *)(((S_80016D18_0 *)(*(void **)D_80016000))->unk_20))->unk_78(0);

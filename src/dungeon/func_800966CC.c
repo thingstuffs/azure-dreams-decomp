@@ -46,48 +46,49 @@ extern s32 D_800814A0[3];
 M2C_UNK func_8006658C();              /* extern */
 M2C_UNK func_800667A8();                  /* extern */
 
-void func_8009BE2C(void *arg0, s32 arg1, S_8009BE2C_2 *arg2) {
-    s32 temp_lo;
-    s16 temp_v1;
-    s8 temp_v0;
-    void *temp_s0;
-    void **temp_s1;
+/* Draw a full-screen fade and mark the effect complete when its countdown ends. */
+void func_8009BE2C(void *effect, s32 unused, S_8009BE2C_2 *fade) {
+    s32 intensity;
+    s16 color_value;
+    s8 frames_left;
+    void *packet;
+    void **render_context;
 
-    temp_s0 = ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0;
-    ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0 = (void *) (temp_s0 + 0x10);
-    ((S_8009BE2C_1 *)temp_s0)->unk_0C = 0x140;
-    ((S_8009BE2C_1 *)temp_s0)->unk_08 = 0;
-    ((S_8009BE2C_1 *)temp_s0)->unk_0A = 0;
-    ((S_8009BE2C_1 *)temp_s0)->unk_0E = 0xE0;
-    temp_lo = (0xC0 / (s16) arg2->unk_06) * arg2->unk_05;
-    temp_v1 = temp_lo;
-    temp_s1 = (void **)&D_80083160;
-    if (arg2->unk_04 == 0) {
+    packet = ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0;
+    ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv))->unk_8D0 = (void *) (packet + 0x10);
+    ((S_8009BE2C_1 *)packet)->unk_0C = 0x140;
+    ((S_8009BE2C_1 *)packet)->unk_08 = 0;
+    ((S_8009BE2C_1 *)packet)->unk_0A = 0;
+    ((S_8009BE2C_1 *)packet)->unk_0E = 0xE0;
+    intensity = (0xC0 / (s16) fade->unk_06) * fade->unk_05;
+    color_value = intensity;
+    render_context = (void **)&D_80083160;
+    if (fade->unk_04 == 0) {
         goto set_word;
     }
-    ((S_8009BE2C_1 *)temp_s0)->unk_04.at02.v = temp_v1;
-    ((S_8009BE2C_1 *)temp_s0)->unk_04.at01.v = temp_v1;
-    ((S_8009BE2C_1 *)temp_s0)->unk_04.at00.v = temp_v1;
+    ((S_8009BE2C_1 *)packet)->unk_04.at02.v = color_value;
+    ((S_8009BE2C_1 *)packet)->unk_04.at01.v = color_value;
+    ((S_8009BE2C_1 *)packet)->unk_04.at00.v = color_value;
     goto set_done;
 
 set_word:
     {
-        ((S_8009BE2C_1 *)temp_s0)->unk_04.at00u.v = (s32) (s16) temp_v1;
+        ((S_8009BE2C_1 *)packet)->unk_04.at00u.v = (s32) (s16) color_value;
     }
 
 set_done:
-    func_800667A8(temp_s0, temp_lo);
-    ((S_8009BE2C_1 *)temp_s0)->unk_04.at03.v = (u8) (((S_8009BE2C_1 *)temp_s0)->unk_04.at03.v | 2);
-    func_8006658C(((S_8009BE2C_3 *)temp_s1)->unk_00 + 0xB0, temp_s0);
-    temp_s0 = ((S_8009BE2C_6 *)(((S_8009BE2C_3 *)temp_s1)->unk_00))->unk_8D0;
-    ((S_8009BE2C_6 *)(((S_8009BE2C_3 *)temp_s1)->unk_00))->unk_8D0 = (void *) (temp_s0 + 0xC);
-    ((S_8009BE2C_1 *)temp_s0)->unk_03 = 1;
-    ((S_8009BE2C_1 *)temp_s0)->unk_04.at00u.v = 0xE1000020;
-    func_8006658C(((S_8009BE2C_3 *)temp_s1)->unk_00 + 0xB0, temp_s0);
-    temp_v0 = (u8) arg2->unk_05 - 1;
-    arg2->unk_05 = temp_v0;
-    if ((temp_v0 << 0x18) == 0) {
-        ((S_8009BE2C_4_pre *)arg0)[-1].unk_00 = (u16) (((S_8009BE2C_4_pre *)arg0)[-1].unk_00 | 0x8000);
+    func_800667A8(packet, intensity);
+    ((S_8009BE2C_1 *)packet)->unk_04.at03.v = (u8) (((S_8009BE2C_1 *)packet)->unk_04.at03.v | 2);
+    func_8006658C(((S_8009BE2C_3 *)render_context)->unk_00 + 0xB0, packet);
+    packet = ((S_8009BE2C_6 *)(((S_8009BE2C_3 *)render_context)->unk_00))->unk_8D0;
+    ((S_8009BE2C_6 *)(((S_8009BE2C_3 *)render_context)->unk_00))->unk_8D0 = (void *) (packet + 0xC);
+    ((S_8009BE2C_1 *)packet)->unk_03 = 1;
+    ((S_8009BE2C_1 *)packet)->unk_04.at00u.v = 0xE1000020;
+    func_8006658C(((S_8009BE2C_3 *)render_context)->unk_00 + 0xB0, packet);
+    frames_left = (u8) fade->unk_05 - 1;
+    fade->unk_05 = frames_left;
+    if ((frames_left << 0x18) == 0) {
+        ((S_8009BE2C_4_pre *)effect)[-1].unk_00 = (u16) (((S_8009BE2C_4_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 }

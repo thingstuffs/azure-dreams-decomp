@@ -9,6 +9,7 @@ typedef struct S_800AE4D4_0 {
     M2C_UNK * unk_10;
 } S_800AE4D4_0;   /* arg0 in func_800AE4D4 */
 
-void func_800AE4D4(S_800AE4D4_0 *arg0) {
-    arg0->unk_10 = &D_800AE494;
+/* Sets the object's pointer at offset 0x10 to D_800AE494. */
+void func_800AE4D4(S_800AE4D4_0 *object) {
+    object->unk_10 = &D_800AE494;
 }

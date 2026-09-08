@@ -89,95 +89,95 @@ typedef struct S_80023258_14 {
     s16 unk_08;
 } S_80023258_14;   /* ((S_80023258_9 *)(((S_80023258_4 *)cursor4)->unk_1B8))->unk_04 in func_80023258 */
 
-s32 func_80023258(S_80023258_0 *arg0)
+/* Animate the selection marker and entry offsets, then advance the frame counter. */
+s32 func_80023258(S_80023258_0 *state)
 {
-    s32 stage;
-    s32 difference;
-    s32 scaled;
-    s32 quotient;
-    register s32 current ASM_REG("$4");
-    s32 final_current;
-    s32 index;
-    register s32 result ASM_REG("$2");
-    register u8 *slot ASM_REG("$8");
-    s32 value;
-    register u8 value2 ASM_REG("$2");
-    u8 stored_value;
-    u8 *cursor4;
-    u8 *cursor1;
-    void *node;
-    S_80023258_1 *initial_node;
-    S_80023258_2 *initial_data;
+    s32 start_index;
+    s32 index_delta;
+    s32 scaled_frame;
+    s32 position_delta;
+    register s32 frame;
+    s32 end_frame;
+    s32 entry_index;
+    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *offset_slot ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 old_offset;
+    u8 next_offset;
+    u8 offset;
+    u8 *node_cursor;
+    u8 *offset_cursor;
+    void *color_node;
+    S_80023258_1 *marker_node;
+    S_80023258_2 *marker_data;
 
-    stage = arg0->unk_8C;
-    difference = arg0->unk_88 - stage;
-    scaled = arg0->unk_84 * 0x10;
-    quotient = (difference * scaled) / arg0->unk_80;
-    index = 0;
-    cursor4 = arg0;
-    cursor1 = arg0;
-    initial_node = arg0->unk_1A4;
-    initial_data = initial_node->unk_04;
-    quotient += 10;
-    initial_data->unk_0A = stage * 0x10 + quotient;
+    start_index = state->unk_8C;
+    index_delta = state->unk_88 - start_index;
+    scaled_frame = state->unk_84 * 0x10;
+    position_delta = (index_delta * scaled_frame) / state->unk_80;
+    entry_index = 0;
+    node_cursor = state;
+    offset_cursor = state;
+    marker_node = state->unk_1A4;
+    marker_data = marker_node->unk_04;
+    position_delta += 10;
+    marker_data->unk_0A = start_index * 0x10 + position_delta;
 
 loop:
-    value = ((S_80023258_3 *)cursor1)->unk_7C;
-    slot = cursor1 + 0x7C;
-    if (index == arg0->unk_88) {
-        s32 tail_numerator;
-        register s32 tail_value ASM_REG("$5");
-        register s32 tail_quotient ASM_REG("$3");
+    old_offset = ((S_80023258_3 *)offset_cursor)->unk_7C;
+    offset_slot = offset_cursor + 0x7C;
+    if (entry_index == state->unk_88) {
+        s32 offset_left;
+        s32 active_offset;
+        register s32 offset_step;
 
-        tail_value = value;
-        tail_numerator = 8;
-        result = arg0->unk_80;
-        current = arg0->unk_84;
-        tail_numerator -= tail_value;
-        result -= current;
+        active_offset = old_offset;
+        offset_left = 8;
+        result = state->unk_80;
+        frame = state->unk_84;
+        offset_left -= active_offset;
+        result -= frame;
         result++;
-        tail_quotient = tail_numerator / result;
-        value2 = tail_value + tail_quotient;
+        offset_step = offset_left / result;
+        next_offset = active_offset + offset_step;
     } else {
-        ASM_KEEP_NV(slot);
-        value2 = value;
-        if (value2 != 0) {
-            ASM_KEEP_NV(value2);
-            value2--;
+        next_offset = old_offset;
+        if (next_offset != 0) {
+            ASM_KEEP_NV(next_offset);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            next_offset--;
         }
     }
-    *slot = value2;
-    stored_value = ((S_80023258_3 *)cursor1)->unk_7C;
+    *offset_slot = next_offset;
+    offset = ((S_80023258_3 *)offset_cursor)->unk_7C;
 
-    ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)cursor4)->unk_1C8))->unk_04))->unk_08 =
-        stored_value + 0x24;
-    ((S_80023258_12 *)(((S_80023258_7 *)(((S_80023258_4 *)cursor4)->unk_1D8))->unk_04))->unk_08 =
-        stored_value + 0x8F;
-    ((S_80023258_13 *)(((S_80023258_8 *)(((S_80023258_4 *)cursor4)->unk_1A8))->unk_04))->unk_08 =
-        stored_value + 9;
-    index++;
-    ((S_80023258_14 *)(((S_80023258_9 *)(((S_80023258_4 *)cursor4)->unk_1B8))->unk_04))->unk_08 =
-        stored_value + 0x42;
+    ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)node_cursor)->unk_1C8))->unk_04))->unk_08 =
+        offset + 0x24;
+    ((S_80023258_12 *)(((S_80023258_7 *)(((S_80023258_4 *)node_cursor)->unk_1D8))->unk_04))->unk_08 =
+        offset + 0x8F;
+    ((S_80023258_13 *)(((S_80023258_8 *)(((S_80023258_4 *)node_cursor)->unk_1A8))->unk_04))->unk_08 =
+        offset + 9;
+    entry_index++;
+    ((S_80023258_14 *)(((S_80023258_9 *)(((S_80023258_4 *)node_cursor)->unk_1B8))->unk_04))->unk_08 =
+        offset + 0x42;
 
-    ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)cursor4)->unk_1C8))->unk_04))->unk_00 =
-        ((S_80023258_3 *)cursor1)->unk_7C * 3 + 0x68;
-    ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)cursor4)->unk_1C8))->unk_04))->unk_01 =
-        ((S_80023258_3 *)cursor1)->unk_7C * 3 + 0x68;
-    node = ((S_80023258_4 *)cursor4)->unk_1C8;
-    cursor4 += 4;
-    ((S_80023258_10 *)(((S_80023258_5 *)node)->unk_04))->unk_02 =
-        ((S_80023258_3 *)cursor1)->unk_7C * 4 + 0x60;
-    cursor1++;
-    if (index < 3) {
+    ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)node_cursor)->unk_1C8))->unk_04))->unk_00 =
+        ((S_80023258_3 *)offset_cursor)->unk_7C * 3 + 0x68;
+    ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)node_cursor)->unk_1C8))->unk_04))->unk_01 =
+        ((S_80023258_3 *)offset_cursor)->unk_7C * 3 + 0x68;
+    color_node = ((S_80023258_4 *)node_cursor)->unk_1C8;
+    node_cursor += 4;
+    ((S_80023258_10 *)(((S_80023258_5 *)color_node)->unk_04))->unk_02 =
+        ((S_80023258_3 *)offset_cursor)->unk_7C * 4 + 0x60;
+    offset_cursor++;
+    if (entry_index < 3) {
         goto loop;
     }
 
-    final_current = arg0->unk_84;
-    if (final_current < arg0->unk_80) {
-        result = final_current + 1;
-        arg0->unk_84 = result;
+    end_frame = state->unk_84;
+    if (end_frame < state->unk_80) {
+        result = end_frame + 1;
+        state->unk_84 = result;
     } else {
-        result = final_current + 1;
+        result = end_frame + 1;
     }
     return result;
 }

@@ -17,11 +17,12 @@ extern CallbackEntry *D_800DF640[4];
 extern u8 D_800DF64C[9];
 extern void func_800BD184(u32);
 
-void func_800C7D54(s16 index) {
+/* Runs the selected callback list with each entry's stored arguments. */
+void func_800C7D54(s16 list_index) {
     CallbackEntry *entry;
 
-    func_800BD184(D_800DF64C[index]);
-    entry = D_800DF640[index];
+    func_800BD184(D_800DF64C[list_index]);
+    entry = D_800DF640[list_index];
     while (entry->callback != 0) {
         entry->callback(entry->arg0, entry->arg1, entry->arg2, entry->arg3);
         entry++;

@@ -2,27 +2,28 @@
 
 extern s32 D_800814A0[];
 
-void func_80170EF4(void *arg0, s32 arg1, void *arg2) {
-    u16 value;
-    u16 timer;
-    s8 shade;
+/* Update the effect transform, fade its color, and mark expiration when its timer runs out. */
+void func_80170EF4(void *effect, s32 unused, void *visual) {
+    u16 transform_value;
+    u16 ticks_left;
+    s8 intensity;
 
-    value = *(u16 *)((u8 *)arg2 + 0x1E) + 0x78;
-    *(u16 *)((u8 *)arg2 + 0x1E) = value;
-    *(u16 *)((u8 *)arg2 + 0x1C) = value;
-    *(u16 *)((u8 *)arg2 + 0x1A) += 0x2BC;
+    transform_value = *(u16 *)((u8 *)visual + 0x1E) + 0x78;
+    *(u16 *)((u8 *)visual + 0x1E) = transform_value;
+    *(u16 *)((u8 *)visual + 0x1C) = transform_value;
+    *(u16 *)((u8 *)visual + 0x1A) += 0x2BC;
 
-    timer = *(u16 *)((u8 *)arg0 + 0x18) - 1;
-    *(u16 *)((u8 *)arg0 + 0x18) = timer;
-    if ((s16)timer < 12) {
-        shade = ((s16)timer << 7) / 12;
-        *(s8 *)((u8 *)arg2 + 0xE) = shade;
-        *(s8 *)((u8 *)arg2 + 0xD) = shade;
-        *(s8 *)((u8 *)arg2 + 0xC) = shade;
+    ticks_left = *(u16 *)((u8 *)effect + 0x18) - 1;
+    *(u16 *)((u8 *)effect + 0x18) = ticks_left;
+    if ((s16)ticks_left < 12) {
+        intensity = ((s16)ticks_left << 7) / 12;
+        *(s8 *)((u8 *)visual + 0xE) = intensity;
+        *(s8 *)((u8 *)visual + 0xD) = intensity;
+        *(s8 *)((u8 *)visual + 0xC) = intensity;
     }
 
-    if (*(s16 *)((u8 *)arg0 + 0x18) <= 0) {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    if (*(s16 *)((u8 *)effect + 0x18) <= 0) {
+        *(u16 *)((u8 *)effect - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

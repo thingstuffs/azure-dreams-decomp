@@ -10,14 +10,15 @@ typedef struct S_8009ECF0_0 {
     u16 unk_6C;
 } S_8009ECF0_0;   /* arg0 in func_8009ECF0 */
 
-void func_8009ECF0(S_8009ECF0_0 *arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3) {
-    u16 temp_v0;
+/* Run both updates, decrement the countdown, and check for completion. */
+void func_8009ECF0(S_8009ECF0_0 *state, M2C_UNK update_ctx, M2C_UNK update_data, M2C_UNK finish_ctx) {
+    u16 countdown;
 
-    func_8008F294(arg1, arg2);
-    func_8008F664(arg1, arg2);
-    temp_v0 = arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_8009EC70(arg0, arg1, arg2, arg3);
+    func_8008F294(update_ctx, update_data);
+    func_8008F664(update_ctx, update_data);
+    countdown = state->unk_6C - 1;
+    state->unk_6C = countdown;
+    if ((countdown << 0x10) <= 0) {
+        func_8009EC70(state, update_ctx, update_data, finish_ctx);
     }
 }

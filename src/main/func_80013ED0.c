@@ -13,32 +13,27 @@ extern u8 D_8002B850[];
 extern u8 D_80027DD0[];
 extern u8 D_80026AE4[];
 
-void *func_80026ED0(s32 arg0, s32 arg1)
+/* Creates or resets the shared object and initializes its data and callbacks. */
+void *func_80026ED0(s32 init_value, s32 stored_value)
 {
-    void *base;
-    void *temp_s1;
+    void *object;
+    void *data;
 
-    base = D_8002B850;
-    temp_s1 = (u8 *)base + 0x20;
-    if (func_8004B4A8(base) == 0) {
-        base = func_8003FE78(0, base, 0x45);
-           /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_8004491C(base, D_80027DD0);
+    object = D_8002B850;
+    data = (u8 *)object + 0x20;
+    if (func_8004B4A8(object) == 0) {
+        object = func_8003FE78(0, object, 0x45);
+        func_8004491C(object, D_80027DD0);
     } else {
-        func_80026FB4(base);
-        *(u16 *)((u8 *)base + 0x1E) &= 0x7FFF;
-        bzero(temp_s1, 0xF0);
+        func_80026FB4(object);
+        *(u16 *)((u8 *)object + 0x1E) &= 0x7FFF;
+        bzero(data, 0xF0);
     }
-    func_80026DF0(temp_s1, 4);
-    {
-        void *body = temp_s1;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        *(void **)((u8 *)base + 0xC) = (u8 *)body + 0x50;
-        *(s32 *)((u8 *)body + 0x5C) = func_80026DC8((u8 *)body + 0x60);
-        *(s32 *)((u8 *)body + 0x24) = arg1;
-        func_80026E90(body, arg0);
-    }
-    *(void **)((u8 *)base + 0x10) = D_80026AE4;
-    return base;
+    func_80026DF0(data, 4);
+    *(void **)((u8 *)object + 0xC) = (u8 *)data + 0x50;
+    *(s32 *)((u8 *)data + 0x5C) = func_80026DC8((u8 *)data + 0x60);
+    *(s32 *)((u8 *)data + 0x24) = stored_value;
+    func_80026E90(data, init_value);
+    *(void **)((u8 *)object + 0x10) = D_80026AE4;
+    return object;
 }

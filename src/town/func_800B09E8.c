@@ -25,10 +25,11 @@ typedef struct {
 
 extern TownState D_80082A38;
 
-void func_800AE148(Source *arg0) {
-    D_80082A38.value38 = arg0->value;
-    D_80082A38.valueA8 = arg0->value;
+/* Initialize town state from the source value and block, clearing two state fields. */
+void func_800AE148(Source *source) {
+    D_80082A38.value38 = source->value;
+    D_80082A38.valueA8 = source->value;
     D_80082A38.valueBA = 0;
     D_80082A38.value9C = 0;
-    D_80082A38.block = arg0->block;
+    D_80082A38.block = source->block;
 }

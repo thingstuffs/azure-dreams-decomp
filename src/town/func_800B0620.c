@@ -9,62 +9,73 @@ extern void func_800B17C0(s32 arg0, s32 arg1);
 extern s32 D_80082AB8;
 extern s32 D_80083160[5];
 
-void func_800ADD80(s32 *arg0) {
-    s32 *state;
-    s32 input;
-    s32 flags;
-    s32 shift;
-    s32 count;
-    s32 value;
-    s32 quotient;
-    u8 *entry;
-    state = D_80083160;
-    input = state[2];
-    shift = 0;
-    if (input == 0) return;
-    if (arg0[2] == 0) {
-        if (state[4] & 0x20) {
-            func_80053DA8(0x515); D_80082AB8 = 0;
-            func_800AE30C((u8 *)arg0 - 0x20);
+/* Handles grid menu navigation, confirmation, and cancellation. */
+void func_800ADD80(s32 *menu) {
+    s32 *pad_state;
+    s32 held_buttons;
+    s32 pressed_buttons;
+    s32 selection_step;
+    s32 repeat_ticks;
+    s32 selection;
+    s32 row;
+    u8 *selected_entry;
+    pad_state = D_80083160;
+    held_buttons = pad_state[2];
+    selection_step = 0;
+    if (held_buttons == 0) return;
+    if (menu[2] == 0) {
+        if (pad_state[4] & 0x20) {
+            func_80053DA8(0x515);
+            D_80082AB8 = 0;
+            func_800AE30C((u8 *)menu - 0x20);
         }
         return;
     }
-    flags = state[4];
-    if (flags & 0x20) {
-        func_80053DA8(0x515); D_80082AB8 = 0;
-        func_800AE30C((u8 *)arg0 - 0x20); return;
-    }
-    if (flags & 0x40) {
-        func_80053DA8(0x514); D_80082AB8 = 1;
-        func_800AE30C((u8 *)arg0 - 0x20);
-        entry = (u8 *)(arg0[1] * 4 + arg0[8]); entry[3] |= 0x20;
+    pressed_buttons = pad_state[4];
+    if (pressed_buttons & 0x20) {
+        func_80053DA8(0x515);
+        D_80082AB8 = 0;
+        func_800AE30C((u8 *)menu - 0x20);
         return;
     }
-    if (!(input & 0xF000)) return;
-    if (state[4] & 0xF000) {
-        *(volatile s32 *)&arg0[5] = 0;
-        flags = *(volatile s32 *)&state[4];
-        if (flags & 0x8000) shift = -5;
-        else if (flags & 0x2000) shift = 5;
-        else if (flags & 0x1000) shift = -1;
-        else if (flags & 0x4000) shift = 1;
+    if (pressed_buttons & 0x40) {
+        func_80053DA8(0x514);
+        D_80082AB8 = 1;
+        func_800AE30C((u8 *)menu - 0x20);
+        selected_entry = (u8 *)(menu[1] * 4 + menu[8]);
+        selected_entry[3] |= 0x20;
+        return;
+    }
+    if (!(held_buttons & 0xF000)) return;
+    if (pad_state[4] & 0xF000) {
+        *(volatile s32 *)&menu[5] = 0;
+        pressed_buttons = *(volatile s32 *)&pad_state[4];
+        if (pressed_buttons & 0x8000) selection_step = -5;
+        else if (pressed_buttons & 0x2000) selection_step = 5;
+        else if (pressed_buttons & 0x1000) selection_step = -1;
+        else if (pressed_buttons & 0x4000) selection_step = 1;
     } else {
-        if (arg0[5] >= 9) {
-            if (input & 0x8000) shift = -5;
-            else if (input & 0x2000) shift = 5;
-            else if (input & 0x1000) shift = -1;
-            else if (input & 0x4000) shift = 1;
-            count = *(volatile s32 *)&arg0[5]; arg0[5] = count - 1;
+        if (menu[5] >= 9) {
+            if (held_buttons & 0x8000) selection_step = -5;
+            else if (held_buttons & 0x2000) selection_step = 5;
+            else if (held_buttons & 0x1000) selection_step = -1;
+            else if (held_buttons & 0x4000) selection_step = 1;
+            repeat_ticks = *(volatile s32 *)&menu[5];
+            menu[5] = repeat_ticks - 1;
         } else {
-            arg0[5]++; return;
+            menu[5]++;
+            return;
         }
     }
-    value = func_80049E1C(arg0[1], shift, arg0[2]);
-    quotient = value / 5;
-    if (value == arg0[1]) return;
-    func_80053DA8(0x502); arg0[1] = value;
-    if (quotient != arg0[3]) {
-        arg0[3] = quotient; func_800B1778(arg0[10], quotient, value);
+    selection = func_80049E1C(menu[1], selection_step, menu[2]);
+    row = selection / 5;
+    if (selection == menu[1]) return;
+    func_80053DA8(0x502);
+    menu[1] = selection;
+    if (row != menu[3]) {
+        menu[3] = row;
+        func_800B1778(menu[10], row, selection);
     }
-    func_800B17C0(arg0[10], value); func_800ADB30(arg0);
+    func_800B17C0(menu[10], selection);
+    func_800ADB30(menu);
 }

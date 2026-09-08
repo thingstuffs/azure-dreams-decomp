@@ -20,27 +20,20 @@ extern void func_8005A37C(void);
 
 extern u8 D_80084548[];
 
-/* Fixed-sequence subsystem initializer: invokes 17 setup calls with constant args (no control flow). */
+/* Initializes subsystems with fixed default settings. */
 void func_80053F98(void) {
-    s32 v;
-
     func_8005A2FC();
     func_8005A39C(1);
     func_8005A3F0(0x18);
-    v = 1;
-    func_8005A420(D_80084548, v, v);
+    func_8005A420(D_80084548, 1, 1);
     func_8005ACD0(0);
     func_8005B378(4);
     func_8005E7E0(4);
     func_8005B320();
-    v = 0x3C;
-    func_8005B3D8(v, v);
-    v = 0x7F;
-    func_8005A5C8(v, v);
-    v = 0;
-    func_8005A4E8(v, v, v);
-    v = 0;
-    func_8005A56C(v, v, v);
+    func_8005B3D8(0x3C, 0x3C);
+    func_8005A5C8(0x7F, 0x7F);
+    func_8005A4E8(0, 0, 0);
+    func_8005A56C(0, 0, 0);
     func_80055B44(2);
     func_800559B4();
     func_80055864();

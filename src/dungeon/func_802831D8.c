@@ -25,37 +25,35 @@ extern u8 D_800EA000[16];
 extern void func_80018A70(void *, u32, u32);
 extern void func_80099188(void *);
 
+/* Initializes the global state block and clears associated flags. */
 void func_800161D8(void) {
-    u32 y = 0x2C808080;
-    GlobalState *g = &D_80083160;
-    InitBlock *p = &g->unk1DC;
-    u32 x = 0x3F;
-    u32 z = 6;
+    u32 color_command = 0x2C808080;
+    GlobalState *state = &D_80083160;
+    InitBlock *init_block = &state->unk1DC;
+    u32 block_extent = 0x3F;
+    u32 block_offset = 6;
 
-    ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(p);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(color_command);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(init_block);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    p->unk14 = z;
-    ASM_KEEP(z);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    p->unk16 = 6;
-    p->unk1C = 0x180;
-    p->unk1E = 0x180;
-    p->unk18 = x;
-    p->unk1A = x;
-    g->unkA8 = y;
-    g->unk1DC.unk00 = (u32)D_800EA000;
-    func_80018A70(g, x, y);
+    init_block->unk14 = block_offset;
+    ASM_KEEP(block_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    init_block->unk16 = 6;
+    init_block->unk1C = 0x180;
+    init_block->unk1E = 0x180;
+    init_block->unk18 = block_extent;
+    init_block->unk1A = block_extent;
+    state->unkA8 = color_command;
+    state->unk1DC.unk00 = (u32)D_800EA000;
+    func_80018A70(state, block_extent, color_command);
     D_80080AA0[0] = 0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     {
-        u8 *page = (u8 *)0x800E0000;
+        u8 *flag_page = (u8 *)0x800E0000;
 
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        page[0x3D20] = 0;
+        ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        flag_page[0x3D20] = 0;
         func_80099188(D_800EA000 - 0x9C14);
     }
 }
 
-/* MECHANISM: Preserve the 0x18 frame, pinned early register roles, and exact store order.
-   Fence after D_80080AA0, then keep an unpinned 0x800E0000 page local so its lui precedes
-   the final-call address setup while its zero store remains in the jal delay slot. */

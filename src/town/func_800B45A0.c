@@ -20,32 +20,29 @@ extern void func_8004E994(void *arg0, void *arg1);
 extern void func_8004B1A4(void *arg0);
 extern s32 D_800814A0[3];
 
-void func_800B1D00(Obj_800B45A0 *arg0)
+/* Advance the inner value and mark completion when it exceeds the object's threshold. */
+void func_800B1D00(Obj_800B45A0 *obj)
 {
     Inner_800B45A0 *inner;
-    u16 old;
-    s32 value;
-    s32 adjustment;
+    u16 old_value;
+    s32 next_value;
+    s32 delta_step;
 
-    inner = arg0->field3C;
-    old = inner->field8;
-    value = old + 4;
-    adjustment = (s16)old;
-    adjustment += 4;
-    adjustment -= arg0->field4;
-    adjustment >>= 2;
-    value += adjustment;
-    inner->field8 = value;
+    inner = obj->field3C;
+    old_value = inner->field8;
+    next_value = old_value + 4;
+    delta_step = (s16)old_value;
+    delta_step += 4;
+    delta_step -= obj->field4;
+    delta_step >>= 2;
+    next_value += delta_step;
+    inner->field8 = next_value;
 
-    if (arg0->field4 + 0x80 < arg0->field3C->field8) {
-        func_8004E994(*arg0->field54, inner);
-        func_8004B1A4(arg0->field8);
-        func_8004B1A4(arg0->fieldC);
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    if (obj->field4 + 0x80 < obj->field3C->field8) {
+        func_8004E994(*obj->field54, inner);
+        func_8004B1A4(obj->field8);
+        func_8004B1A4(obj->fieldC);
+        *(u16 *)((u8 *)obj - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }
-
-/* MECHANISM: A 0x18 frame naturally holds arg0 in s0 across all three calls.
-   Separate ordered s32 adjustment statements prevent reassociation of +4 into
-   the field4 load, restoring retail's load-delay nop and v0/v1/a0 lifetimes. */

@@ -8,9 +8,10 @@ typedef struct S_8001D668_0 {
     s32 * unk_21C;
 } S_8001D668_0;   /* arg0 in func_8001D668 */
 
-void func_8001D668(S_8001D668_0 *arg0) {
-    if (arg0 != NULL) {
-        arg0->unk_1C0 = 0x606868;
-        *arg0->unk_21C = 0;
+/* Set the object's default value and clear its linked state if present. */
+void func_8001D668(S_8001D668_0 *object) {
+    if (object != NULL) {
+        object->unk_1C0 = 0x606868;
+        *object->unk_21C = 0;
     }
 }

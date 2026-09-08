@@ -22,28 +22,25 @@ extern void func_800A32A4(Entity *);
 extern void func_8009A3D0(u8, u8, s32);
 extern void func_8009A028(Entity *);
 
-void func_800B30E4(void *arg0, void *arg1, Source *arg2, Entity *arg3) {
+/* Update an entity using source bytes and a flag-dependent mask, then set completion flags. */
+void func_800B30E4(void *unused_0, void *unused_1, Source *source, Entity *entity) {
     State *state = D_80083460;
-    s32 value;
-    u8 first;
-    u8 second;
+    s32 update_mask;
+    u8 source_24;
+    u8 source_25;
 
-    if (state->field_10 == (s32)((u8 *)arg3 - 0x20)) {
+    if (state->field_10 == (s32)((u8 *)entity - 0x20)) {
         state->field_10 &= 0x7FFFFFFF;
     }
-    func_800A32A4(arg3);
-    first = arg2->field_24;
-    second = arg2->field_25;
-    value = 0x3000;
-    if (arg3->flags_1C & 0x2000) {
-        value = 0x300;
+    func_800A32A4(entity);
+    source_24 = source->field_24;
+    source_25 = source->field_25;
+    update_mask = 0x3000;
+    if (entity->flags_1C & 0x2000) {
+        update_mask = 0x300;
     }
-    func_8009A3D0(first, second, value);
-    func_8009A028(arg3);
-    *(u16 *)((u8 *)arg3 - 2) |= 0x8000;
+    func_8009A3D0(source_24, source_25, update_mask);
+    func_8009A028(entity);
+    *(u16 *)((u8 *)entity - 2) |= 0x8000;
     D_800814A0[0] |= 0x8000;
 }
-
-/* MECHANISM: The four-slot ABI assigns source/entity to a2/a3, yielding the
-   retail s1/s0 saved pair and 0x20 frame. Named byte locals make both call
-   arguments live across the flag branch, exposing its load-delay schedule. */

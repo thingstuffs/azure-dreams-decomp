@@ -12,26 +12,27 @@ typedef struct {
     s32 unk2C;
 } MovieEntity;
 
-void func_800408BC(MovieEntity *arg0) {
-    volatile s32 sp0;
-    s32 idx;
-    u16 *p;
-    s32 stride;
+/* Waits for readiness, switching entries and copying the selected pair on timeout. */
+void func_800408BC(MovieEntity *entity) {
+    volatile s32 timeout;
+    s32 entry_index;
+    u16 *entry;
+    s32 entry_stride;
 
-    sp0 = 0x800000;
-    if (arg0->unk2C == 0) {
+    timeout = 0x800000;
+    if (entity->unk2C == 0) {
         do {
-            sp0 = sp0 - 1;
-            if (0 == sp0) {
-                arg0->unk2C = 1;
-                idx = arg0->unk20 == 0;
-                arg0->unk20 = idx;
-                p = (u16 *) ((s32) arg0 + (idx * 8) + 0x10);
-                stride = 8;
-                arg0->unk24 = *p;
-                arg0->unk26 = *(u16 *) ((s32) arg0 + (arg0->unk20 * stride) + 0x12);
+            timeout = timeout - 1;
+            if (0 == timeout) {
+                entity->unk2C = 1;
+                entry_index = entity->unk20 == 0;
+                entity->unk20 = entry_index;
+                entry = (u16 *) ((s32) entity + (entry_index * 8) + 0x10);
+                entry_stride = 8;
+                entity->unk24 = *entry;
+                entity->unk26 = *(u16 *) ((s32) entity + (entity->unk20 * entry_stride) + 0x12);
             }
-        } while (arg0->unk2C == 0);
+        } while (entity->unk2C == 0);
     }
-    arg0->unk2C = 0;
+    entity->unk2C = 0;
 }

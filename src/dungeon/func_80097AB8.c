@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_D_800287A4.h"
 typedef float f32;
 typedef double f64;
 typedef long long s64;
@@ -66,10 +67,6 @@ s32 func_80042900();                 /* extern */
 s32 func_8009D34C();                                /* extern */
 s32 func_800A6D30();                                /* extern */
 M2C_UNK func_800CB82C();         
-typedef struct S_8009D218_0 {
-    u8 pad_00[0x13];
-    s8 unk_13;
-} S_8009D218_0;   /* arg2 in func_8009D218 */
 
 typedef struct S_8009D218_1_pre {
     s32 unk_00;
@@ -79,7 +76,7 @@ typedef struct S_8009D218_1_pre {
 
 /* extern */
 
-s32 func_8009D218(void *arg0, s32 arg1, S_8009D218_0 *arg2) {
+s32 func_8009D218(void *arg0, s32 arg1, Rec_D_800287A4 *arg2) {
     u8 *temp_v0;
 
     if (!(arg1 & 8) && (arg2 != NULL)) {

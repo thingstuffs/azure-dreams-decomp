@@ -35,61 +35,58 @@ typedef struct S_800B63A8_1 {
 M2C_UNK func_800478B8();            /* extern */
 extern M2C_UNK D_800814A0;
 
-void func_800B63A8(void *arg0, void *arg1, void *arg2) {
-    s32 temp_a0;
-    s32 temp_a2;
-    s32 temp_lo;
-    u16 temp_v0_4;
-    u8 temp_v0;
-    u8 temp_v0_2;
-    u8 temp_v0_3;
-    u8 temp_v1;
-    u8 temp_v1_2;
-    u8 temp_v1_3;
+/* Advance effect motion, fade its color, and flag it when its lifetime expires. */
+void func_800B63A8(void *effect, void *motion, void *primitive) {
+    s32 velocity_y;
+    s32 velocity_z;
+    s32 accel_z_step;
+    u16 life_left;
+    u8 faded_red;
+    u8 faded_green;
+    u8 faded_blue;
+    u8 red;
+    u8 green;
+    u8 blue;
 
-    ((S_800B63A8_0 *)arg1)->unk_0C = (s32) (((S_800B63A8_0 *)arg1)->unk_0C + ((S_800B63A8_1 *)arg0)->unk_00);
-    ((S_800B63A8_0 *)arg1)->unk_10 = (s32) (((S_800B63A8_0 *)arg1)->unk_10 + ((S_800B63A8_1 *)arg0)->unk_04);
-    temp_lo = ((S_800B63A8_1 *)arg0)->unk_08 * ((S_800B63A8_1 *)arg0)->unk_10;
-    ((S_800B63A8_0 *)arg1)->unk_14 = (s32) (((S_800B63A8_0 *)arg1)->unk_14 + temp_lo);
-    ((S_800B63A8_1 *)arg0)->unk_10 = (s16) ((u16) ((S_800B63A8_1 *)arg0)->unk_10 + 1);
-    temp_a0 = ((S_800B63A8_0 *)arg1)->unk_10;
-    temp_a2 = ((S_800B63A8_0 *)arg1)->unk_14;
-    ((S_800B63A8_0 *)arg1)->unk_00 = (s32) (((S_800B63A8_0 *)arg1)->unk_00 + ((S_800B63A8_0 *)arg1)->unk_0C);
-    ((S_800B63A8_0 *)arg1)->unk_04 = (s32) (((S_800B63A8_0 *)arg1)->unk_04 + temp_a0);
-    ((S_800B63A8_0 *)arg1)->unk_08 = (s32) (((S_800B63A8_0 *)arg1)->unk_08 + temp_a2);
-    func_800478B8(arg2, arg1, temp_a2);
-    temp_v1 = ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v;
-    if (temp_v1 != 0) {
-        temp_v0 = temp_v1 - ((S_800B63A8_1 *)arg0)->unk_14;
-        ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v = temp_v0;
-        if ((u32) (temp_v0 & 0xFF) >= 0x81U) {
-            ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v = 0x80U;
+    ((S_800B63A8_0 *)motion)->unk_0C = (s32) (((S_800B63A8_0 *)motion)->unk_0C + ((S_800B63A8_1 *)effect)->unk_00);
+    ((S_800B63A8_0 *)motion)->unk_10 = (s32) (((S_800B63A8_0 *)motion)->unk_10 + ((S_800B63A8_1 *)effect)->unk_04);
+    accel_z_step = ((S_800B63A8_1 *)effect)->unk_08 * ((S_800B63A8_1 *)effect)->unk_10;
+    ((S_800B63A8_0 *)motion)->unk_14 = (s32) (((S_800B63A8_0 *)motion)->unk_14 + accel_z_step);
+    ((S_800B63A8_1 *)effect)->unk_10 = (s16) ((u16) ((S_800B63A8_1 *)effect)->unk_10 + 1);
+    velocity_y = ((S_800B63A8_0 *)motion)->unk_10;
+    velocity_z = ((S_800B63A8_0 *)motion)->unk_14;
+    ((S_800B63A8_0 *)motion)->unk_00 = (s32) (((S_800B63A8_0 *)motion)->unk_00 + ((S_800B63A8_0 *)motion)->unk_0C);
+    ((S_800B63A8_0 *)motion)->unk_04 = (s32) (((S_800B63A8_0 *)motion)->unk_04 + velocity_y);
+    ((S_800B63A8_0 *)motion)->unk_08 = (s32) (((S_800B63A8_0 *)motion)->unk_08 + velocity_z);
+    func_800478B8(primitive, motion, velocity_z);
+    red = ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v;
+    if (red != 0) {
+        faded_red = red - ((S_800B63A8_1 *)effect)->unk_14;
+        ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v = faded_red;
+        if ((u32) (faded_red & 0xFF) >= 0x81U) {
+            ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v = 0x80U;
         }
     }
-    temp_v1_2 = ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v;
-    if (temp_v1_2 != 0) {
-        temp_v0_2 = temp_v1_2 - ((S_800B63A8_1 *)arg0)->unk_16;
-        ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v = temp_v0_2;
-        if ((u32) (temp_v0_2 & 0xFF) >= 0x81U) {
-            ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v = 0x80U;
+    green = ((Rec_D_80082E80 *)primitive)->unk_0C.at01_u8.v;
+    if (green != 0) {
+        faded_green = green - ((S_800B63A8_1 *)effect)->unk_16;
+        ((Rec_D_80082E80 *)primitive)->unk_0C.at01_u8.v = faded_green;
+        if ((u32) (faded_green & 0xFF) >= 0x81U) {
+            ((Rec_D_80082E80 *)primitive)->unk_0C.at01_u8.v = 0x80U;
         }
     }
-    temp_v1_3 = ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v;
-    if (temp_v1_3 != 0) {
-        temp_v0_3 = temp_v1_3 - ((S_800B63A8_1 *)arg0)->unk_18;
-        ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v = temp_v0_3;
-        if ((u32) (temp_v0_3 & 0xFF) >= 0x81U) {
-            ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v = 0x80U;
+    blue = ((Rec_D_80082E80 *)primitive)->unk_0C.at02_u8.v;
+    if (blue != 0) {
+        faded_blue = blue - ((S_800B63A8_1 *)effect)->unk_18;
+        ((Rec_D_80082E80 *)primitive)->unk_0C.at02_u8.v = faded_blue;
+        if ((u32) (faded_blue & 0xFF) >= 0x81U) {
+            ((Rec_D_80082E80 *)primitive)->unk_0C.at02_u8.v = 0x80U;
         }
     }
-    temp_v0_4 = ((S_800B63A8_1 *)arg0)->unk_0E - 1;
-    ((S_800B63A8_1 *)arg0)->unk_0E = temp_v0_4;
-    if ((temp_v0_4 << 0x10) <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_800B63A8_1_pre *)arg0)[-1].unk_00 | 0x8000);
+    life_left = ((S_800B63A8_1 *)effect)->unk_0E - 1;
+    ((S_800B63A8_1 *)effect)->unk_0E = life_left;
+    if ((life_left << 0x10) <= 0) {
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800B63A8_1_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0 = (s32) (D_800814A0 | 0x8000);
     }
 }
-
-/* MECHANISM: The three-argument callee contract keeps arg1 in a1 and the updated +0x14 value in a2,
-   removing the seed's extra call-argument move while preserving the s0/s1 32-byte frame.
-   Separate +0x10/+0x14 locals order the two hoisted loads; 2.8.1-G0 holds D_800814A0's page in v1. */

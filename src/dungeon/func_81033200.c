@@ -26,23 +26,24 @@ typedef struct S_80174A00_1 {
 
 
 
-void *func_80174A00(void *arg0, u16 arg1, u16 arg2, s16 arg3) {
-    void *head = arg0;
+/* Finds the first entry matching both keys, the value range, and the type filter. */
+void *func_80174A00(void *node, u16 key_a, u16 key_b, s16 range_center) {
+    void *head = node;
 
-    arg0 = (void *)(((S_80174A00_0 *)arg0)->unk_5C + 0x20);
-    while (arg0 != head) {
-        S_80174A00_1 *data = ((S_80174A00_0_pre *)arg0)[-1].unk_00;
-        void *result = arg0 - 0x20;
-        s16 value;
+    node = (void *)(((S_80174A00_0 *)node)->unk_5C + 0x20);
+    while (node != head) {
+        S_80174A00_1 *node_data = ((S_80174A00_0_pre *)node)[-1].unk_00;
+        void *entry = node - 0x20;
+        s16 node_value;
 
-        if ((data->unk_24 == arg1) &&
-            (data->unk_25 == arg2) &&
-            (value = ((S_80174A00_0 *)arg0)->unk_88, value <= arg3 + 0x20) &&
-            (value >= arg3 - 0x20) &&
-            ((u32)(((S_80174A00_0 *)arg0)->unk_13 - 0x33) < 4)) {
-            return result;
+        if ((node_data->unk_24 == key_a) &&
+            (node_data->unk_25 == key_b) &&
+            (node_value = ((S_80174A00_0 *)node)->unk_88, node_value <= range_center + 0x20) &&
+            (node_value >= range_center - 0x20) &&
+            ((u32)(((S_80174A00_0 *)node)->unk_13 - 0x33) < 4)) {
+            return entry;
         }
-        arg0 = (void *)(((S_80174A00_0 *)arg0)->unk_5C + 0x20);
+        node = (void *)(((S_80174A00_0 *)node)->unk_5C + 0x20);
     }
     return NULL;
 }

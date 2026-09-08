@@ -13,10 +13,11 @@ typedef struct {
 
 extern u8 D_800200A0[];
 
-void *func_80022A30(void *arg0)
+/* Initializes four pairs of records from the value table and returns the buffer end. */
+void *func_80022A30(void *buffer)
 {
     Bytes4 values;
-    s32 i;
+    s32 value_index;
     s32 first_x;
     s32 first_y;
     s32 kind;
@@ -27,9 +28,9 @@ void *func_80022A30(void *arg0)
     Fields *fields;
     u8 *value;
 
-    record = arg0;
+    record = buffer;
     values = *(Bytes4 *)D_800200A0;
-    i = 0;
+    value_index = 0;
     first_x = 5;
     first_y = first_x;
     kind = 0x48;
@@ -43,8 +44,8 @@ void *func_80022A30(void *arg0)
         ((u8 *)fields)[-3] = kind;
         fields->address = address;
         fields++;
-        value = &values.bytes[i];
-        i++;
+        value = &values.bytes[value_index];
+        value_index++;
         record[0] = *value;
         record += 12;
         fields->x = second_x;
@@ -54,7 +55,7 @@ void *func_80022A30(void *arg0)
         fields++;
         record[0] = *value;
         record += 12;
-    } while (i < 4);
+    } while (value_index < 4);
     record[-24] |= 0x80;
     return record;
 }

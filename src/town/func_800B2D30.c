@@ -23,83 +23,80 @@ extern void func_800B0424();
 extern u8 D_80083160[];
 
 
-void func_800B0490(S_800B0490_1 *arg0)
+/* Handles menu actions and directional input with held-button repeat. */
+void func_800B0490(S_800B0490_1 *menu)
 {
     s32 direction;
-    s32 mode;
-    s32 value;
-    s32 input;
-    s32 new_input;
-    s32 flags;
-    u8 *state;
+    s32 move_mode;
+    s32 repeat_ticks;
+    s32 held_buttons;
+    s32 repeat_buttons;
+    s32 pressed_buttons;
+    u8 *pad_state;
 
     direction = 0;
-    mode = direction;
-    state = D_80083160;
-    input = ((S_800B0490_0 *)state)->unk_08.s;
-    if (input == 0) {
+    move_mode = direction;
+    pad_state = D_80083160;
+    held_buttons = ((S_800B0490_0 *)pad_state)->unk_08.s;
+    if (held_buttons == 0) {
         goto done;
     }
 
-    flags = ((S_800B0490_0 *)state)->unk_10;
-    if (flags & 0x20) {
-        func_80053DA8(0x515, state);
-        func_800AE4D4(arg0->unk_08);
+    pressed_buttons = ((S_800B0490_0 *)pad_state)->unk_10;
+    if (pressed_buttons & 0x20) {
+        func_80053DA8(0x515, pad_state);
+        func_800AE4D4(menu->unk_08);
         goto done;
     }
 
-    if (flags & 0x40) {
-        func_80053DA8(0x503, state);
-        func_800B0424(arg0);
+    if (pressed_buttons & 0x40) {
+        func_80053DA8(0x503, pad_state);
+        func_800B0424(menu);
         goto done;
     }
 
-    if (!(input & 0x5000)) {
+    if (!(held_buttons & 0x5000)) {
         goto done;
     }
 
-    if (flags & 0x4000) {
-        arg0->unk_10 = 0;
-        mode = 4;
+    if (pressed_buttons & 0x4000) {
+        menu->unk_10 = 0;
+        move_mode = 4;
         direction = 1;
         goto move;
     }
 
-    if (flags & 0x1000) {
-        arg0->unk_10 = 0;
-        mode = 4;
+    if (pressed_buttons & 0x1000) {
+        menu->unk_10 = 0;
+        move_mode = 4;
         direction = -1;
         goto move;
     }
 
-    value = arg0->unk_10;
-    if (value >= 5) {
-        arg0->unk_10 = value - 3;
-        new_input = ((S_800B0490_0 *)state)->unk_08.u;
-        if (new_input & 0x4000) {
+    repeat_ticks = menu->unk_10;
+    if (repeat_ticks >= 5) {
+        menu->unk_10 = repeat_ticks - 3;
+        repeat_buttons = ((S_800B0490_0 *)pad_state)->unk_08.u;
+        if (repeat_buttons & 0x4000) {
             direction = 1;
-            mode = 4;
+            move_mode = 4;
             goto move;
         }
-        if (new_input & 0x1000) {
+        if (repeat_buttons & 0x1000) {
             direction = -1;
-            mode = 4;
+            move_mode = 4;
         }
     } else {
-        arg0->unk_10 = value + 1;
+        menu->unk_10 = repeat_ticks + 1;
     }
 
 move:
     if (direction == 0) {
         goto done;
     }
-    func_80053DA8(0x502, state);
-    func_800AF1B4(arg0->unk_04, direction, mode);
+    func_80053DA8(0x502, pad_state);
+    func_800AF1B4(menu->unk_04, direction, move_mode);
 
 done:
     return;
 }
-
-/* MECHANISM: A 32-byte frame holds s2=arg0, s0=direction, and s1=mode.
-   One held D_80083160 base feeds the pre-call flag CFG; internal targets are
-   gotos, not the false func_800B05A0/func_800B05C0 calls from the seed. */

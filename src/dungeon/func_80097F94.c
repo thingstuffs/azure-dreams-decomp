@@ -25,110 +25,111 @@ typedef struct S_8009D6F4_0 {
     s16 unk_16;
 } S_8009D6F4_0;   /* temp_t1 in func_8009D6F4 */
 
+/* Refresh nonzero packed grid nibbles from clamped table values, then pass on the saved data. */
 void func_8009D6F4(void) {
-    Copy8 sp10;
-    Copy8 *copy;
+    Copy8 saved_data;
+    Copy8 *data_source;
     register u8 *base;
     register u8 *cursor ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *state;
-    u8 *temp_t1;
+    u8 *grid_dims;
     register u8 *table;
-    s32 var_t6;
-    s32 var_t4;
-    s16 temp_v0_3;
-    register s16 var_t3 ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 first_col;
+    s32 dimension_unit;
+    s16 next_row;
+    register s16 row_index ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 row ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 temp_a0;
-    u8 var_t0;
+    u8 packed_output;
+    u8 packed_input;
 
-    copy = &D_80088CB0;
-    sp10 = *copy;
-    var_t0 = 0;
+    data_source = &D_80088CB0;
+    saved_data = *data_source;
+    packed_input = 0;
     base = D_800E50A8;
     cursor = base;
     ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     state = D_80083160;
-    temp_t1 = state + 0x1DC;
-    if ((1 << ((S_8009D6F4_0 *)temp_t1)->unk_16) > 0) {
-        register s32 var_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 var_v0_2;
+    grid_dims = state + 0x1DC;
+    if ((1 << ((S_8009D6F4_0 *)grid_dims)->unk_16) > 0) {
+        register s32 col_index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 nibble_mask;
         register s32 row_wide ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 next_a2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 next_col ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        var_t3 = 0;
-        var_t6 = 0;
-        var_t4 = 1;
+        row_index = 0;
+        first_col = 0;
+        dimension_unit = 1;
         table = D_800EA000;
-loop_2:
+row_loop:
         ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        var_a2 = 0;
-        if (var_t6 < (var_t4 << ((S_8009D6F4_0 *)temp_t1)->unk_14)) {
-            row_wide = var_t3 << 16;
+        col_index = 0;
+        if (first_col < (dimension_unit << ((S_8009D6F4_0 *)grid_dims)->unk_14)) {
+            row_wide = row_index << 16;
             row = row_wide >> 16;
-loop_4:
-            var_v0_2 = var_a2 & 1;
-            if (var_v0_2 == 0) {
-                var_t0 = *cursor;
+col_loop:
+            nibble_mask = col_index & 1;
+            if (nibble_mask == 0) {
+                packed_input = *cursor;
                 *cursor = 0;
-                var_v0_2 = var_t0 & 0xF;
+                nibble_mask = packed_input & 0xF;
             } else {
-                var_v0_2 = var_t0 & 0xF0;
+                nibble_mask = packed_input & 0xF0;
             }
-            if (var_v0_2 != 0) {
-                register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                s32 temp_v1;
-                register s32 clamp ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            if (nibble_mask != 0) {
+                register s32 value_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s32 level;
+                register s32 clamped_level ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 s32 col;
                 register s16 shift;
 
-                col = (s16) var_a2;
-                shift = ((S_8009D6F4_0 *)temp_t1)->unk_14;
-                temp_v0 = (s16) (((S_8009D6F4_1 *)(((((row << shift) + col) * 6) + table)))->unk_02 + 0x200) / 64;
-                clamp = temp_v0;
-                ASM_KEEP(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                temp_v1 = temp_v0;
-                if (temp_v1 >= 0x10) {
-                    clamp = 15;
+                col = (s16) col_index;
+                shift = ((S_8009D6F4_0 *)grid_dims)->unk_14;
+                value_bits = (s16) (((S_8009D6F4_1 *)(((((row << shift) + col) * 6) + table)))->unk_02 + 0x200) / 64;
+                clamped_level = value_bits;
+                ASM_KEEP(value_bits);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                level = value_bits;
+                if (level >= 0x10) {
+                    clamped_level = 15;
                     goto clamp_value;
                 }
-                if (temp_v1 <= 0) {
-                    clamp = 1;
+                if (level <= 0) {
+                    clamped_level = 1;
                 }
 clamp_value:
-                temp_v0 = clamp << 0x10;
-                temp_v1 = temp_v0 >> 0x10;
-                temp_a0 = *cursor;
-                if (var_a2 & 1) {
-                    temp_v0 = temp_a0 | (temp_v1 << 4);
+                value_bits = clamped_level << 0x10;
+                level = value_bits >> 0x10;
+                packed_output = *cursor;
+                if (col_index & 1) {
+                    value_bits = packed_output | (level << 4);
                     goto store_value;
                 }
-                temp_v0 = temp_a0 | temp_v1;
+                value_bits = packed_output | level;
 store_value:
-                *cursor = temp_v0;
-                goto block_16;
+                *cursor = value_bits;
+                goto advance_col;
             }
-block_16:
-            if (var_a2 & 1) {
-                next_a2 = var_a2 + 1;
+advance_col:
+            if (col_index & 1) {
+                next_col = col_index + 1;
                 cursor += 1;
             } else {
-                next_a2 = var_a2 + 1;
+                next_col = col_index + 1;
             }
-            var_a2 = next_a2;
-            ASM_KEEP_NV(next_a2);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            if ((s16) next_a2 >= (var_t4 << ((S_8009D6F4_0 *)temp_t1)->unk_14)) {
-                goto block_19;
+            col_index = next_col;
+            ASM_KEEP_NV(next_col);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            if ((s16) next_col >= (dimension_unit << ((S_8009D6F4_0 *)grid_dims)->unk_14)) {
+                goto advance_row;
             }
-            goto loop_4;
+            goto col_loop;
         }
-block_19:
-        temp_v0_3 = var_t3 + 1;
-        var_t3 = temp_v0_3;
-        if (temp_v0_3 >= (var_t4 << ((S_8009D6F4_0 *)temp_t1)->unk_16)) {
+advance_row:
+        next_row = row_index + 1;
+        row_index = next_row;
+        if (next_row >= (dimension_unit << ((S_8009D6F4_0 *)grid_dims)->unk_16)) {
             goto done;
         }
-        goto loop_2;
+        goto row_loop;
     }
 done:
-    func_800672D8(&sp10);
+    func_800672D8(&saved_data);
 }

@@ -4,6 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_800B47BC();                         /* extern */
 
-void func_800B4898(s32 arg0) {
-    func_800B47BC(arg0 + 0x20);
+/* Calls func_800B47BC with the value increased by 0x20. */
+void func_800B4898(s32 value) {
+    func_800B47BC(value + 0x20);
 }

@@ -19,9 +19,10 @@ typedef struct S_800AAE30_1 {
     s16 unk_72;
 } S_800AAE30_1;   /* arg0 in func_800AAE30 */
 
-void func_800AAE30(S_800AAE30_1 *arg0, void *arg1, S_800AAE30_0 *arg2) {
-    arg2->unk_0C = (s32) (func_80064584(arg0->unk_72) << 8);
-    arg2->unk_10 = (s32) ((0 - func_800644B8(arg0->unk_72)) << 8);
-    arg2->unk_14 = 0;
-    arg0->unk_50 = &D_800AADB0;
+/* Initialize a vector from the object's angle and assign its data pointer. */
+void func_800AAE30(S_800AAE30_1 *object, void *unusedContext, S_800AAE30_0 *outputVector) {
+    outputVector->unk_0C = (s32) (func_80064584(object->unk_72) << 8);
+    outputVector->unk_10 = (s32) ((0 - func_800644B8(object->unk_72)) << 8);
+    outputVector->unk_14 = 0;
+    object->unk_50 = &D_800AADB0;
 }

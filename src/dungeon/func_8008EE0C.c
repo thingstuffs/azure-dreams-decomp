@@ -17,11 +17,12 @@ typedef struct S_8009456C_1 {
 extern s32 D_800E3D7C;
 
 
-void func_8009456C(s32 arg0, s8 arg1) {
-    s32 temp_a0;
-    s32 temp_v0;
+/* Set the byte at offset 0x45 in the object referenced by the selected entry. */
+void func_8009456C(s32 entry_index, s8 value) {
+    s32 entry_offset;
+    s32 table_base;
 
-    temp_v0 = D_800E3D7C;
-    temp_a0 = (s32) (arg0 << 0x10) >> 0xE;
-    ((S_8009456C_1 *)(((S_8009456C_0 *)(temp_a0 + temp_v0))->unk_AC))->unk_45 = arg1;
+    table_base = D_800E3D7C;
+    entry_offset = (s32) (entry_index << 0x10) >> 0xE;
+    ((S_8009456C_1 *)(((S_8009456C_0 *)(entry_offset + table_base))->unk_AC))->unk_45 = value;
 }

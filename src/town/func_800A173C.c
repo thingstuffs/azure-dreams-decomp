@@ -21,20 +21,21 @@ typedef struct S_8009EE9C_0 {
 } S_8009EE9C_0;   /* arg2 in func_8009EE9C */
 
 
-void func_8009EE9C(Rec_func_8009EE9C_arg0 *arg0, s32 arg1, S_8009EE9C_0 *arg2, M2C_UNK arg3) {
-    s32 temp_s0;
+/* Update position and displacement, then dispatch the active entity handler. */
+void func_8009EE9C(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, M2C_UNK context) {
+    s32 previous_pos;
 
-    temp_s0 = arg2->unk_08;
-    arg2->unk_08 = (u32) (arg0->unk_A0 + (func_800644B8(arg0->unk_6C) << 6) + 0xFFFC0000);
-    arg0->unk_6C = (s16) ((u16) arg0->unk_6C + 0x40);
-    arg2->unk_14 = (s32) (arg2->unk_08 - temp_s0);
-    if (D_800CFCC4[0] == arg1) {
+    previous_pos = motion->unk_08;
+    motion->unk_08 = (u32) (entity->unk_A0 + (func_800644B8(entity->unk_6C) << 6) + 0xFFFC0000);
+    entity->unk_6C = (s16) ((u16) entity->unk_6C + 0x40);
+    motion->unk_14 = (s32) (motion->unk_08 - previous_pos);
+    if (D_800CFCC4[0] == entity_id) {
         if (D_800834B8[0] == &D_80093328) {
-            func_8009F1C0(arg0, D_800CFCC4[0], arg2, arg3);
+            func_8009F1C0(entity, D_800CFCC4[0], motion, context);
             return;
         }
         if (D_800834B8[0] == D_80093524) {
-            func_8009F48C(arg0, D_800CFCC4[0], arg2, arg3);
+            func_8009F48C(entity, D_800CFCC4[0], motion, context);
         }
     }
 }

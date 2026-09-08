@@ -37,18 +37,19 @@ M2C_UNK func_80028534();                         /* extern */
 M2C_UNK func_80028648();                         /* extern */
 extern M2C_UNK D_80027D7C;
 
-void func_80028320(s32 arg0, s32 arg1) {
-    void *temp_s0;
+/* Reset object state, store the initial value, and install its handler. */
+void func_80028320(s32 object_addr, s32 initial_value) {
+    void *state;
 
-    temp_s0 = arg0 + 0x20;
-    ((S_80028320_0 *)((u8 *)temp_s0 - 0x10))->unk_24 = 0;
-    ((S_80028320_2 *)(((S_80028320_1 *)temp_s0)->unk_80))->unk_02 = 0;
-    ((S_80028320_0 *)((u8 *)temp_s0 - 0x10))->unk_48 = arg1;
-    ((S_80028320_0 *)((u8 *)temp_s0 - 0x10))->unk_18 = 0;
-    func_80027454(arg0 + 0x58, ((S_80028320_0 *)((u8 *)temp_s0 - 0x10))->unk_24, 0, ((S_80028320_0 *)((u8 *)temp_s0 - 0x10))->unk_38);
-    func_80027FF4(((S_80028320_0 *)((u8 *)temp_s0 - 0x10))->unk_5C, ((S_80028320_0 *)((u8 *)temp_s0 - 0x10))->unk_24);
-    ((S_80028320_0 *)((u8 *)temp_s0 - 0x10))->unk_94 = func_80027FA4(((S_80028320_0 *)((u8 *)temp_s0 - 0x10))->unk_98);
-    func_80028534(((S_80028320_0 *)((u8 *)temp_s0 - 0x10))->unk_98);
-    func_80028648(arg0);
-    ((S_80028320_0 *)((u8 *)temp_s0 - 0x10))->unk_00 = &D_80027D7C;
+    state = object_addr + 0x20;
+    ((S_80028320_0 *)((u8 *)state - 0x10))->unk_24 = 0;
+    ((S_80028320_2 *)(((S_80028320_1 *)state)->unk_80))->unk_02 = 0;
+    ((S_80028320_0 *)((u8 *)state - 0x10))->unk_48 = initial_value;
+    ((S_80028320_0 *)((u8 *)state - 0x10))->unk_18 = 0;
+    func_80027454(object_addr + 0x58, ((S_80028320_0 *)((u8 *)state - 0x10))->unk_24, 0, ((S_80028320_0 *)((u8 *)state - 0x10))->unk_38);
+    func_80027FF4(((S_80028320_0 *)((u8 *)state - 0x10))->unk_5C, ((S_80028320_0 *)((u8 *)state - 0x10))->unk_24);
+    ((S_80028320_0 *)((u8 *)state - 0x10))->unk_94 = func_80027FA4(((S_80028320_0 *)((u8 *)state - 0x10))->unk_98);
+    func_80028534(((S_80028320_0 *)((u8 *)state - 0x10))->unk_98);
+    func_80028648(object_addr);
+    ((S_80028320_0 *)((u8 *)state - 0x10))->unk_00 = &D_80027D7C;
 }

@@ -71,81 +71,77 @@ typedef struct S_8017589C_5 {
     u16 unk_0A;
 } S_8017589C_5;   /* copy in func_8017589C */
 
-void *func_8017589C(s32 arg0, Copy24 *arg1, Rec_D_80082E80 *arg2)
+/* Creates an object with randomized initial state and source-derived offsets. */
+void *func_8017589C(s32 allocation_param, Copy24 *initial_data, Rec_D_80082E80 *source_node)
 {
     u16 delta[3];
-    s32 temp_v0_2;
-    s32 temp_v1;
-    s32 var_v0;
-    s32 var_v0_2;
+    s32 random_value;
+    s32 random_quotient;
+    s32 adjusted_random;
     void *object;
     S_8017589C_1 *work;
     S_8017589C_2 *node;
     S_8017589C_4 *source;
     Copy24 *copy;
 
-    object = func_8003FD64(0x312, arg0 - 0x20);
+    object = func_8003FD64(0x312, allocation_param - 0x20);
     if (object != NULL) {
         ((S_8017589C_0 *)object)->unk_10 = &D_80175018;
         func_8004491C(object, &D_80045340);
         work = (u8 *)object + 0x20;
 
-    var_v0 = rand();
-    temp_v1 = var_v0;
-    ASM_KEEP(var_v0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    var_v0 >>= 0xC;
-    if (temp_v1 < 0) {
-        var_v0 = (s32)(temp_v1 + 0xFFF) >> 0xC;
-    }
-    work->unk_06 = (s16)(temp_v1 - (var_v0 << 0xC));
+        random_quotient = rand();
+        random_value = random_quotient;
+        ASM_KEEP(random_quotient);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        random_quotient >>= 0xC;
+        if (random_value < 0) {
+            random_quotient = (s32)(random_value + 0xFFF) >> 0xC;
+        }
+        work->unk_06 = (s16)(random_value - (random_quotient << 0xC));
 
-    var_v0_2 = rand();
-    temp_v1 = var_v0_2;
-    if (temp_v1 < 0) {
-        var_v0_2 = temp_v1 + 0xFFF;
-    }
-    work->unk_08 = (s16)(temp_v1 - ((var_v0_2 >> 0xC) << 0xC));
+        adjusted_random = rand();
+        random_value = adjusted_random;
+        if (random_value < 0) {
+            adjusted_random = random_value + 0xFFF;
+        }
+        work->unk_08 = (s16)(random_value - ((adjusted_random >> 0xC) << 0xC));
 
-    work->unk_40 = arg0;
-    work->unk_44 = arg1;
-    work->unk_48 = arg2;
-    work->unk_4C = arg0;
+        work->unk_40 = allocation_param;
+        work->unk_44 = initial_data;
+        work->unk_48 = source_node;
+        work->unk_4C = allocation_param;
 
-    node = ((S_8017589C_0 *)object)->unk_0C;
-    node->unk_28 = arg2->unk_28.at00_s32.v;
-    node->unk_0E = 0x80;
-    node->unk_0D = 0x80;
-    node->unk_0C = 0x80;
-    node->unk_1E = 0x1000;
-    node->unk_1C = 0x1000;
-    node->unk_14 |= 0xC;
-    node->unk_10 |= 0x20;
-    func_80047784(node, 0x3F, 0);
+        node = ((S_8017589C_0 *)object)->unk_0C;
+        node->unk_28 = source_node->unk_28.at00_s32.v;
+        node->unk_0E = 0x80;
+        node->unk_0D = 0x80;
+        node->unk_0C = 0x80;
+        node->unk_1E = 0x1000;
+        node->unk_1C = 0x1000;
+        node->unk_14 |= 0xC;
+        node->unk_10 |= 0x20;
+        func_80047784(node, 0x3F, 0);
 
-    copy = ((S_8017589C_0 *)object)->unk_08;
-    *copy = *arg1;
+        copy = ((S_8017589C_0 *)object)->unk_08;
+        *copy = *initial_data;
 
-    delta[2] = 0;
-    delta[1] = 0;
-    delta[0] = 0;
-    source = work->unk_48;
-    if (func_8003DE58(source->unk_08, source, delta, 3) != 0) {
-        ((S_8017589C_5 *)copy)->unk_02 += delta[0];
-        ((S_8017589C_5 *)copy)->unk_06 += delta[1];
-        ((S_8017589C_5 *)copy)->unk_0A += delta[2];
-        work->unk_0A = delta[0];
-        work->unk_0C = delta[1];
-        work->unk_0E.u = delta[2];
-    } else {
-        work->unk_0A = 0;
-        work->unk_0C = 0;
-        work->unk_0E.s = -0x40;
-    }
+        delta[2] = 0;
+        delta[1] = 0;
+        delta[0] = 0;
+        source = work->unk_48;
+        if (func_8003DE58(source->unk_08, source, delta, 3) != 0) {
+            ((S_8017589C_5 *)copy)->unk_02 += delta[0];
+            ((S_8017589C_5 *)copy)->unk_06 += delta[1];
+            ((S_8017589C_5 *)copy)->unk_0A += delta[2];
+            work->unk_0A = delta[0];
+            work->unk_0C = delta[1];
+            work->unk_0E.u = delta[2];
+        } else {
+            work->unk_0A = 0;
+            work->unk_0C = 0;
+            work->unk_0E.s = -0x40;
+        }
         return object;
     }
     return NULL;
 }
-
-/* MECHANISM: True-space positive CFG preserves the null-result block and return jump.
-   Copy24 assignment groups the six-word copy; delta[3] exposes the contiguous callee output.
-   ASM_KEEP on the first RNG result prevents CSE from replacing retail's v0 shift with v1. */

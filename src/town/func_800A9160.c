@@ -18,24 +18,25 @@ extern u8 D_800D0D54[];
 extern char D_800A630C[];
 extern char D_800A62E8[];
 
-void func_800A68C0(Obj *obj, State *state, VecState *vec, s32 arg3)
+/* Initialize object state and position, then invoke its new callback. */
+void func_800A68C0(Obj *obj, State *state, VecState *motion, s32 callback_arg)
 {
-    s32 call_arg;
+    s32 resource_arg;
     void *resource;
 
-    call_arg = arg3;
+    resource_arg = callback_arg;
     state->flag15 = 0;
     resource = D_80100E28[0];
-    vec->dx = 0;
-    vec->dy = 0;
-    vec->dz = 0;
+    motion->dx = 0;
+    motion->dy = 0;
+    motion->dz = 0;
     obj->callback = func_800A6994;
-    func_800C2E84(obj, call_arg, resource);
+    func_800C2E84(obj, resource_arg, resource);
     func_800A5598();
-    vec->x = D_80083780[0];
-    vec->y = D_80083780[1];
-    vec->z = D_80083780[2];
+    motion->x = D_80083780[0];
+    motion->y = D_80083780[1];
+    motion->z = D_80083780[2];
     func_800A643C(0xE5, D_800A630C);
     func_800A6328(D_800D0D54, D_800A62E8);
-    func_800A6994(obj, state, vec, arg3);
+    func_800A6994(obj, state, motion, callback_arg);
 }

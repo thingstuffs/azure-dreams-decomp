@@ -1,8 +1,5 @@
 #include "common.h"
 
-/* Clears availability bit (16+n) of D_800847D0.flags1 for channel n, notifying the
-   channel-release path (func_8005AC68). If n==0 and status bit 0x100 is set, first
-   fires a stop-note event (func_800553D4(0x71)) and resets field26 to -1. */
 /* Canonical status-block struct at D_800847D0 (established elsewhere in the codebase:
    w_800540A8.c / w_80054C58.c / w_8005405C.c / w_800559B4.c / w_800552C8.c). */
 typedef struct S_800847D0 {
@@ -32,17 +29,18 @@ extern S_800847D0 D_800847D0;
 extern void func_800553D4(s32 a0);
 extern void func_8005AC68(s16 a0);
 
-void func_80055C50(s16 a0) {
-    s16 v0 = a0;
-    S_800847D0 *p = &D_800847D0;
-    if (p->flags1 & (0x10000 << v0)) {
-        if (v0 == 0) {
-            if (p->flags1 & 0x100) {
+/* Releases an available channel, stopping channel zero's note when its status requires it. */
+void func_80055C50(s16 channel) {
+    s16 channel_index = channel;
+    S_800847D0 *status = &D_800847D0;
+    if (status->flags1 & (0x10000 << channel_index)) {
+        if (channel_index == 0) {
+            if (status->flags1 & 0x100) {
                 func_800553D4(0x71);
-                p->field26 = -1;
+                status->field26 = -1;
             }
         }
-        func_8005AC68((s16) a0);
-        D_800847D0.flags1 &= ~(0x10000 << ((s16) a0));
+        func_8005AC68((s16) channel);
+        D_800847D0.flags1 &= ~(0x10000 << ((s16) channel));
     }
 }

@@ -20,7 +20,8 @@ typedef struct S_80023BCC_0 {
     u16 unk_5E;
 } S_80023BCC_0;   /* arg0 in func_80023BCC */
 
-void func_80023BCC(void *arg0)
+/* Updates image-strip animation and sets completion flags when its timer expires. */
+void func_80023BCC(void *anim)
 {
     s16 rect[4];
     s16 phase;
@@ -30,10 +31,10 @@ void func_80023BCC(void *arg0)
     rect[2] = 0x10;
     rect[3] = 1;
 
-    switch (((S_80023BCC_0 *)arg0)->unk_5C.s) {
+    switch (((S_80023BCC_0 *)anim)->unk_5C.s) {
     case 0:
-        ((S_80023BCC_0 *)arg0)->unk_5E = 0x78;
-        ((S_80023BCC_0 *)arg0)->unk_5C.u++;
+        ((S_80023BCC_0 *)anim)->unk_5E = 0x78;
+        ((S_80023BCC_0 *)anim)->unk_5C.u++;
         break;
     case 1:
         break;
@@ -42,7 +43,7 @@ void func_80023BCC(void *arg0)
     }
 
     rect[1] = 0x1D0;
-    if ((((S_80023BCC_0 *)arg0)->unk_5E >> 1) & 1) {
+    if ((((S_80023BCC_0 *)anim)->unk_5E >> 1) & 1) {
         image = D_80024660;
         rect[0] = 0x40;
         func_800672D8(rect, image);
@@ -57,7 +58,7 @@ void func_80023BCC(void *arg0)
     }
 
     rect[1] = 0x1F8;
-    phase = (s16)((S_80023BCC_0 *)arg0)->unk_5E % 3;
+    phase = (s16)((S_80023BCC_0 *)anim)->unk_5E % 3;
     switch (phase) {
     case 0:
         image = D_800246C0;
@@ -86,11 +87,11 @@ void func_80023BCC(void *arg0)
         break;
     }
 
-    timer = ((S_80023BCC_0 *)arg0)->unk_5E - 1;
-    ((S_80023BCC_0 *)arg0)->unk_5E = timer;
+    timer = ((S_80023BCC_0 *)anim)->unk_5E - 1;
+    ((S_80023BCC_0 *)anim)->unk_5E = timer;
     if ((s16)timer <= 0) {
         u8 *page = (u8 *)0x80080000;
-        ((S_80023BCC_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+        ((S_80023BCC_0_pre *)anim)[-1].unk_00 |= 0x8000;
         ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         (*(s32 *)(page + 0x14A0)) |= 0x8000;
     }

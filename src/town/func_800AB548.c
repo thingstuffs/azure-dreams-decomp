@@ -51,49 +51,50 @@ typedef struct S_800A8CA8_2 {
     u16 unk_20;
 } S_800A8CA8_2;   /* arg3 in func_800A8CA8 */
 
-void func_800A8CA8(void *arg0, s32 arg1, void *arg2, S_800A8CA8_2 *arg3) {
-    register S_800A8CA8_1 *temp_src ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u32 temp_arg1;
-    s32 temp_a1;
-    register s32 temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_s1;
-    s32 temp_s4;
-    void *temp_s0_2;
-    void *temp_s0_3;
-    void *temp_s2;
-    void *temp_s5;
-    void *temp_s6;
-    u16 temp_v0_6;
+/* Updates three offset points, their projected coordinates, and phase-based intensities. */
+void func_800A8CA8(void *object, s32 phase, void *source_data, S_800A8CA8_2 *extent) {
+    register S_800A8CA8_1 *source ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 phase_bits;
+    s32 offset_phase;
+    register s32 double_phase ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 y_offset;
+    s32 x_offset;
+    void *start_point;
+    void *projection_scale;
+    void *projection_flags;
+    void *mid_point;
+    void *end_point;
+    u16 z_extent;
 
-    temp_src = arg2;
-    ASM_DEP(temp_src);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp_arg1 = (u32) arg1 + 0x800;
-    temp_arg1 <<= 16;
-    temp_a1 = (s32) temp_arg1 >> 16;
-    temp_s0 = temp_a1 * 2;
-    ((S_800A8CA8_0 *)arg0)->unk_114 = (s8) ((func_800644B8(temp_src->unk_0E + temp_s0) + 0x1000) / 128);
-    ((S_800A8CA8_0 *)arg0)->unk_115 = (s8) ((func_800644B8(temp_src->unk_12 + temp_s0) + 0x1000) / 128);
-    ((S_800A8CA8_0 *)arg0)->unk_116 = (s8) ((func_800644B8(temp_src->unk_16 + temp_s0) + 0x1000) / 128);
-    temp_s0_2 = arg0 + 0x74;
-    func_800A8C84(temp_s0_2, temp_src);
-    temp_s5 = arg0 + 0x7C;
-    func_800A8C84(temp_s5, temp_src);
-    temp_s6 = arg0 + 0x84;
-    func_800A8C84(temp_s6, temp_src);
-    temp_s4 = (func_800644B8(temp_a1) * arg3->unk_1C) / 4096;
-    temp_s1 = (func_80064584(temp_a1) * arg3->unk_1E) / 4096;
-    temp_s0_3 = arg0 + 0x94;
-    temp_s2 = arg0 + 0x98;
-    ((S_800A8CA8_0 *)arg0)->unk_74 = (u16) (((S_800A8CA8_0 *)arg0)->unk_74 + temp_s4);
-    ((S_800A8CA8_0 *)arg0)->unk_76 = (u16) (((S_800A8CA8_0 *)arg0)->unk_76 + temp_s1);
-    ((S_800A8CA8_0 *)arg0)->unk_C4 = func_80065420(temp_s0_2, arg0 + 0xE8, temp_s0_3, temp_s2);
-    ((S_800A8CA8_0 *)arg0)->unk_7C = (u16) (((S_800A8CA8_0 *)arg0)->unk_7C + temp_s4);
-    ((S_800A8CA8_0 *)arg0)->unk_7E = (u16) (((S_800A8CA8_0 *)arg0)->unk_7E + temp_s1);
-    temp_v0_6 = arg3->unk_20;
-    ((S_800A8CA8_0 *)arg0)->unk_80 = (u16) (((S_800A8CA8_0 *)arg0)->unk_80 + ((s16) temp_v0_6 / 2));
-    ((S_800A8CA8_0 *)arg0)->unk_C4 = ((((S_800A8CA8_0 *)arg0)->unk_C4 + func_80065420(temp_s5, arg0 + 0xEC, temp_s0_3, temp_s2)) / 2) - 8;
-    ((S_800A8CA8_0 *)arg0)->unk_84 = (u16) (((S_800A8CA8_0 *)arg0)->unk_84 + temp_s4);
-    ((S_800A8CA8_0 *)arg0)->unk_86 = (u16) (((S_800A8CA8_0 *)arg0)->unk_86 + temp_s1);
-    ((S_800A8CA8_0 *)arg0)->unk_88 = (u16) (((S_800A8CA8_0 *)arg0)->unk_88 + arg3->unk_20);
-    func_80065420(temp_s6, arg0 + 0x124, temp_s0_3, temp_s2);
+    source = source_data;
+    ASM_DEP(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    phase_bits = (u32) phase + 0x800;
+    phase_bits <<= 16;
+    offset_phase = (s32) phase_bits >> 16;
+    double_phase = offset_phase * 2;
+    ((S_800A8CA8_0 *)object)->unk_114 = (s8) ((func_800644B8(source->unk_0E + double_phase) + 0x1000) / 128);
+    ((S_800A8CA8_0 *)object)->unk_115 = (s8) ((func_800644B8(source->unk_12 + double_phase) + 0x1000) / 128);
+    ((S_800A8CA8_0 *)object)->unk_116 = (s8) ((func_800644B8(source->unk_16 + double_phase) + 0x1000) / 128);
+    start_point = object + 0x74;
+    func_800A8C84(start_point, source);
+    mid_point = object + 0x7C;
+    func_800A8C84(mid_point, source);
+    end_point = object + 0x84;
+    func_800A8C84(end_point, source);
+    x_offset = (func_800644B8(offset_phase) * extent->unk_1C) / 4096;
+    y_offset = (func_80064584(offset_phase) * extent->unk_1E) / 4096;
+    projection_scale = object + 0x94;
+    projection_flags = object + 0x98;
+    ((S_800A8CA8_0 *)object)->unk_74 = (u16) (((S_800A8CA8_0 *)object)->unk_74 + x_offset);
+    ((S_800A8CA8_0 *)object)->unk_76 = (u16) (((S_800A8CA8_0 *)object)->unk_76 + y_offset);
+    ((S_800A8CA8_0 *)object)->unk_C4 = func_80065420(start_point, object + 0xE8, projection_scale, projection_flags);
+    ((S_800A8CA8_0 *)object)->unk_7C = (u16) (((S_800A8CA8_0 *)object)->unk_7C + x_offset);
+    ((S_800A8CA8_0 *)object)->unk_7E = (u16) (((S_800A8CA8_0 *)object)->unk_7E + y_offset);
+    z_extent = extent->unk_20;
+    ((S_800A8CA8_0 *)object)->unk_80 = (u16) (((S_800A8CA8_0 *)object)->unk_80 + ((s16) z_extent / 2));
+    ((S_800A8CA8_0 *)object)->unk_C4 = ((((S_800A8CA8_0 *)object)->unk_C4 + func_80065420(mid_point, object + 0xEC, projection_scale, projection_flags)) / 2) - 8;
+    ((S_800A8CA8_0 *)object)->unk_84 = (u16) (((S_800A8CA8_0 *)object)->unk_84 + x_offset);
+    ((S_800A8CA8_0 *)object)->unk_86 = (u16) (((S_800A8CA8_0 *)object)->unk_86 + y_offset);
+    ((S_800A8CA8_0 *)object)->unk_88 = (u16) (((S_800A8CA8_0 *)object)->unk_88 + extent->unk_20);
+    func_80065420(end_point, object + 0x124, projection_scale, projection_flags);
 }

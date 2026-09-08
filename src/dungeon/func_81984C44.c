@@ -37,54 +37,55 @@ extern void func_8002652C(void) __attribute__((noreturn));
 extern s16 func_8009FD40(void *, void *);
 extern s32 func_800A2CB8(void *, void *);
 extern s32 func_800A41F0(void *);
-void *func_81984C44(void *arg0)
+/* Finds an eligible node by owner comparison, halting on a matching nonnegative floor. */
+void *func_81984C44(void *source_entity)
 {
     void *node;
-    u8 *page;
+    u8 *globals;
     register void *entity ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 limit;
-    u8 *page0;
-    s32 limit0;
-    register void *next ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *tail_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s8 floor;
+    s32 owner_limit;
+    u8 *initial_globals;
+    s32 initial_limit;
+    register void *next_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *matched_node ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s8 entity_floor;
     S_81984C44_4 *owner;
 
-    entity = arg0;
-    page0 = (u8 *)0x80080000;
+    entity = source_entity;
+    initial_globals = (u8 *)0x80080000;
     ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(page0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    node = ((S_81984C44_0 *)page0)->unk_14A8;
-    limit0 = 0x100;
+    ASM_KEEP(initial_globals);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    node = ((S_81984C44_0 *)initial_globals)->unk_14A8;
+    initial_limit = 0x100;
     if (((S_81984C44_1 *)entity)->unk_26 < 0) {
-        limit0 = 4;
+        initial_limit = 4;
     }
-    next = ((S_81984C44_2 *)node)->unk_5C;
-    node = (u8 *)next + 0x20;
-    if (node != ((S_81984C44_0 *)page0)->unk_14A8) {
-        page = page0;
-        limit = limit0;
+    next_link = ((S_81984C44_2 *)node)->unk_5C;
+    node = (u8 *)next_link + 0x20;
+    if (node != ((S_81984C44_0 *)initial_globals)->unk_14A8) {
+        globals = initial_globals;
+        owner_limit = initial_limit;
         do {
-            if (((func_800A2CB8(((S_81984C44_3 *)page)->unk_14A8, node) << 16) != 0) &&
+            if (((func_800A2CB8(((S_81984C44_3 *)globals)->unk_14A8, node) << 16) != 0) &&
                 ((func_800A41F0(node) << 16) != 0) &&
                 !(((S_81984C44_2_pre *)node)[-1].unk_12 & 0x2000)) {
-                floor = ((S_81984C44_1 *)entity)->unk_26;
+                entity_floor = ((S_81984C44_1 *)entity)->unk_26;
                 owner = ((S_81984C44_2_pre *)node)[-1].unk_00;
-                if (floor >= 0) {
-                    if (floor == owner->unk_26) {
-                        tail_value = node;
-                        ASM_KEEP(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+                if (entity_floor >= 0) {
+                    if (entity_floor == owner->unk_26) {
+                        matched_node = node;
+                        ASM_KEEP(matched_node);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                         func_8002652C();
                     }
                 } else {
-                    if (func_8009FD40(owner, entity) < limit) {
+                    if (func_8009FD40(owner, entity) < owner_limit) {
                         return node;
                     }
                 }
             }
-            next = ((S_81984C44_2 *)node)->unk_5C;
-            node = (u8 *)next + 0x20;
-        } while (node != ((S_81984C44_3 *)page)->unk_14A8);
+            next_link = ((S_81984C44_2 *)node)->unk_5C;
+            node = (u8 *)next_link + 0x20;
+        } while (node != ((S_81984C44_3 *)globals)->unk_14A8);
     }
     return 0;
 }

@@ -40,56 +40,53 @@ typedef struct S_800A9AFC_1 {
     u8 unk_25;
 } S_800A9AFC_1;   /* arg0 in func_800A9AFC */
 
-void func_800A9AFC(S_800A9AFC_1 *arg0, void *arg1) {
-    M2C_UNK var_a2;
-    M2C_UNK var_a2_2;
-    s32 temp_v0;
-    u8 temp_s0;
-    u8 temp_s1;
+/* Rotates queued coordinates into the current position and updates tile flags. */
+void func_800A9AFC(S_800A9AFC_1 *position, void *state) {
+    M2C_UNK clear_mask;
+    M2C_UNK set_mask;
+    s32 status_result;
+    u8 next_x;
+    u8 next_y;
 
-    if (((S_800A9AFC_0 *)arg1)->unk_71 & 0x7F) {
-        temp_v0 = (s16) func_80042900(arg1, 0x1B);
-        if (temp_v0 == 0) {
-            M2C_UNK temp_cond;
-            u8 temp_a0;
-            u8 temp_a1;
+    if (((S_800A9AFC_0 *)state)->unk_71 & 0x7F) {
+        status_result = (s16) func_80042900(state, 0x1B);
+        if (status_result == 0) {
+            M2C_UNK flags;
+            u8 tile_x;
+            u8 tile_y;
 
-            temp_cond = ((S_800A9AFC_0 *)arg1)->unk_1C;
-            temp_a0 = arg0->unk_24;
-            temp_a1 = arg0->unk_25;
-            var_a2 = 0x3000;
-            if (temp_cond & 0x2000) {
-                var_a2 = 0x300;
+            flags = ((S_800A9AFC_0 *)state)->unk_1C;
+            tile_x = position->unk_24;
+            tile_y = position->unk_25;
+            clear_mask = 0x3000;
+            if (flags & 0x2000) {
+                clear_mask = 0x300;
             }
-            func_8009A3D0(temp_a0, temp_a1, var_a2);
+            func_8009A3D0(tile_x, tile_y, clear_mask);
         }
-        temp_s0 = ((S_800A9AFC_0 *)arg1)->unk_74;
-        temp_s1 = ((S_800A9AFC_0 *)arg1)->unk_7C;
-        func_80069F28(arg1 + 0x74, arg1 + 0x75, 0xF);
-        ((S_800A9AFC_2 *)((arg1 + ((S_800A9AFC_0 *)arg1)->unk_71)))->unk_73 = (u8) arg0->unk_24;
-        ((S_800A9AFC_2 *)((arg1 + ((S_800A9AFC_0 *)arg1)->unk_71)))->unk_7B = (u8) arg0->unk_25;
-        arg0->unk_24 = temp_s0;
-        arg0->unk_25 = temp_s1;
-        ((S_800A9AFC_0 *)arg1)->unk_88 = (u16) ((S_800A9AFC_0 *)arg1)->unk_8A;
-        ((S_800A9AFC_0 *)arg1)->unk_2A = (u16) ((S_800A9AFC_0 *)arg1)->unk_6A;
-        if (temp_v0 == 0) {
-            M2C_UNK temp_cond;
-            u8 temp_a0;
-            u8 temp_a1;
+        next_x = ((S_800A9AFC_0 *)state)->unk_74;
+        next_y = ((S_800A9AFC_0 *)state)->unk_7C;
+        func_80069F28(state + 0x74, state + 0x75, 0xF);
+        ((S_800A9AFC_2 *)((state + ((S_800A9AFC_0 *)state)->unk_71)))->unk_73 = (u8) position->unk_24;
+        ((S_800A9AFC_2 *)((state + ((S_800A9AFC_0 *)state)->unk_71)))->unk_7B = (u8) position->unk_25;
+        position->unk_24 = next_x;
+        position->unk_25 = next_y;
+        ((S_800A9AFC_0 *)state)->unk_88 = (u16) ((S_800A9AFC_0 *)state)->unk_8A;
+        ((S_800A9AFC_0 *)state)->unk_2A = (u16) ((S_800A9AFC_0 *)state)->unk_6A;
+        if (status_result == 0) {
+            M2C_UNK flags;
+            u8 tile_x;
+            u8 tile_y;
 
-            temp_cond = ((S_800A9AFC_0 *)arg1)->unk_1C;
-            temp_a0 = arg0->unk_24;
-            temp_a1 = arg0->unk_25;
-            var_a2_2 = 0x3000;
-            if (temp_cond & 0x2000) {
-                var_a2_2 = 0x300;
+            flags = ((S_800A9AFC_0 *)state)->unk_1C;
+            tile_x = position->unk_24;
+            tile_y = position->unk_25;
+            set_mask = 0x3000;
+            if (flags & 0x2000) {
+                set_mask = 0x300;
             }
-            func_8009A21C(temp_a0, temp_a1, var_a2_2);
+            func_8009A21C(tile_x, tile_y, set_mask);
         }
-        ((S_800A9AFC_0 *)arg1)->unk_8A = 0U;
+        ((S_800A9AFC_0 *)state)->unk_8A = 0U;
     }
 }
-
-/* MECHANISM: An s32 local assigned from an explicit s16 return cast emits the
-   one-time sll/sra normalization and holds the result in s4. Rematerializing
-   arg1+0x74 plus per-call condition/byte locals produces the retail lw/lbu/lbu order. */

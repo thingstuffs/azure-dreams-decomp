@@ -41,9 +41,10 @@ extern u8 D_80024050[];
 extern s32 D_800261E4[];
 extern u8 D_80083498[];
 
-void func_81976BC0(s32 arg0, s32 arg1)
+/* Create an object and initialize its fields and randomized child state. */
+void func_81976BC0(s32 object_value, s32 field_value)
 {
-    s32 value;
+    s32 random_value;
     S_81976BC0_2 *child;
     void *object;
     S_81976BC0_1 *fields;
@@ -55,9 +56,9 @@ void func_81976BC0(s32 arg0, s32 arg1)
         fields->unk_0C = 0;
         fields->unk_0E = 0;
         fields->unk_10 = 0;
-        ((S_81976BC0_0 *)object)->unk_20 = arg0;
+        ((S_81976BC0_0 *)object)->unk_20 = object_value;
         fields->unk_04 = D_80083498;
-        fields->unk_08 = arg1;
+        fields->unk_08 = field_value;
         child = ((S_81976BC0_0 *)object)->unk_0C;
         child->unk_08 = D_800261E4[0];
         child->unk_0E = 0x40;
@@ -65,8 +66,8 @@ void func_81976BC0(s32 arg0, s32 arg1)
         child->unk_0C = 0x40;
         child->unk_1E = 0x1800;
         child->unk_1C = 0x1800;
-        value = rand();
-        child->unk_1A = value % 0x1000;
+        random_value = rand();
+        child->unk_1A = random_value % 0x1000;
         child->unk_12 = 0x7DCF;
         child->unk_10 |= 0x20;
         child->unk_14 |= 0x10C;

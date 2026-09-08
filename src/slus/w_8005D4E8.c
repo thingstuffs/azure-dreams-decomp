@@ -25,18 +25,15 @@ extern S_80079980 D_80079980;
 
 extern s32 func_8005D1D0();
 
-/* Issues a raw SPU-driver "set address" (mode 2) call using the current
- * shift-table value D_80079970.field0 left-shifted by D_80079980.field0,
- * then a bare "start" (mode 1) call, then an "upload chunk" (mode 3) call
- * forwarding a0 (buffer address) and a1 (size). Returns a1 (size). */
-s32 func_8005D4E8(s32 a0, s32 a1)
+/* Uploads a buffer to the current SPU transfer address and returns its size. */
+s32 func_8005D4E8(s32 buffer_addr, s32 size)
 {
-    s32 s1 = a0;
-    s32 s0 = a1;
+    s32 upload_addr = buffer_addr;
+    s32 upload_size = size;
 
     func_8005D1D0(2, (s32)D_80079970.field0 << D_80079980.field0);
     func_8005D1D0(0);
-    func_8005D1D0(3, s1, s0);
+    func_8005D1D0(3, upload_addr, upload_size);
 
-    return s0;
+    return upload_size;
 }

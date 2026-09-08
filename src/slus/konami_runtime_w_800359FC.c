@@ -28,22 +28,23 @@ extern void func_8003C24C(void);
 extern void func_80035CE4(Func800359FCState *arg0, Func800359FCEvent *arg1, void *arg2);
 extern void func_80037C7C(Func800359FCState *arg0, s16 arg1);
 
-void func_800359FC(Func800359FCState *arg0, Func800359FCEvent *arg1, void *arg2) {
+/* Dispatches the event callback, switching handlers when the cursor marker is 0xFE. */
+void func_800359FC(Func800359FCState *state, Func800359FCEvent *event, void *callback_data) {
     u8 *base;
     s16 offset;
     u8 *cursor;
 
-    if (func_80037534(arg0) == 0) {
-        if (arg0->enabled != 0) {
-            base = arg0->cursor_base;
-            offset = arg0->cursor_offset;
+    if (func_80037534(state) == 0) {
+        if (state->enabled != 0) {
+            base = state->cursor_base;
+            offset = state->cursor_offset;
             cursor = base + offset;
             if (cursor[0x4C] == 0xFE) {
                 func_8003C24C();
-                arg0->callback = func_80035CE4;
+                state->callback = func_80035CE4;
             }
         }
-        arg0->callback(arg0, arg1, arg2);
-        func_80037C7C(arg0, arg1->value);
+        state->callback(state, event, callback_data);
+        func_80037C7C(state, event->value);
     }
 }

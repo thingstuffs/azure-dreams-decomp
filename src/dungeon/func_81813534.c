@@ -2,17 +2,18 @@
 
 extern void func_8004E99C(s32);
 
-void func_80028534(void *arg0) {
-    s32 **var_s0;
-    s32 var_s1;
+/* Calls func_8004E99C on nine referenced values, clearing the first eight. */
+void func_80028534(void *state) {
+    s32 **value_slot;
+    s32 slot_index;
 
-    var_s1 = 6;
-    var_s0 = arg0 + 0x18;
+    slot_index = 6;
+    value_slot = state + 0x18;
     do {
-        var_s1 += 1;
-        func_8004E99C(**var_s0);
-        **var_s0 = 0;
-        var_s0 += 1;
-    } while (var_s1 < 0xE);
-    func_8004E99C(**(s32 **)((u8 *)arg0 + 0x38));
+        slot_index += 1;
+        func_8004E99C(**value_slot);
+        **value_slot = 0;
+        value_slot += 1;
+    } while (slot_index < 0xE);
+    func_8004E99C(**(s32 **)((u8 *)state + 0x38));
 }

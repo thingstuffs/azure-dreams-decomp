@@ -26,29 +26,26 @@ typedef struct S_800B6A0C_1 {
     s32 unk_98;
 } S_800B6A0C_1;   /* temp_s1 in func_800B6A0C */
 
-void *func_800B6A0C(s32 arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3, s32 arg4) {
-    S_800B6A0C_1 *temp_s1;
-    void *var_s0;
+/* Allocate and initialize an object, marking it for cleanup if setup fails. */
+void *func_800B6A0C(s32 resource_id, M2C_UNK slot_index, M2C_UNK x, s32 y, s32 z) {
+    S_800B6A0C_1 *state;
+    void *object;
 
-    var_s0 = func_8003FC64(0);
-    temp_s1 = var_s0 + 0x20;
-    if (var_s0 != NULL) {
-        if (func_800B6990(temp_s1, 0x18) != 0) {
-            ((S_800B6A0C_0 *)var_s0)->unk_0C = (void *) (var_s0 + 0xA8);
-            temp_s1->unk_94 = func_800B677C(temp_s1->unk_98);
-            func_800B691C(temp_s1, arg0, arg1, arg2, arg3, arg4);
-            ((S_800B6A0C_0 *)var_s0)->unk_10 = &D_800B6754;
-            func_8004491C(var_s0, &D_8004CAA0);
-            return var_s0;
+    object = func_8003FC64(0);
+    state = object + 0x20;
+    if (object != NULL) {
+        if (func_800B6990(state, 0x18) != 0) {
+            ((S_800B6A0C_0 *)object)->unk_0C = (void *) (object + 0xA8);
+            state->unk_94 = func_800B677C(state->unk_98);
+            func_800B691C(state, resource_id, slot_index, x, y, z);
+            ((S_800B6A0C_0 *)object)->unk_10 = &D_800B6754;
+            func_8004491C(object, &D_8004CAA0);
+            return object;
         }
-        func_8004B248(var_s0 + 0xBC);
-        ((S_800B6A0C_0 *)var_s0)->unk_1E = (u16) (((S_800B6A0C_0 *)var_s0)->unk_1E | 0x8000);
-        var_s0 = NULL;
+        func_8004B248(object + 0xBC);
+        ((S_800B6A0C_0 *)object)->unk_1E = (u16) (((S_800B6A0C_0 *)object)->unk_1E | 0x8000);
+        object = NULL;
         D_800814A0 = (s32) (D_800814A0 | 0x8000);
     }
-    return var_s0;
+    return object;
 }
-/* MECHANISM: Four incoming args stay live into the six-arg initializer, producing the retail
-   s2/s4/s5/s3 holds while the allocation and its +0x20 base occupy s0/s1.
-   Discarding the tail helper result returns s0; one shared fallthrough return removes the
-   extra jump and its +1-word branch-displacement cascade after the direct global RMW. */

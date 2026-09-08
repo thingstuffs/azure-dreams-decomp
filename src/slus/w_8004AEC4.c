@@ -4,54 +4,47 @@
 
 extern void *memcpy(void *dest, void *src, s32 n);
 
-/* Selection sort: for each position i in [0, count-1), find the "best"
- * element in [i, count) via compar, then swap base[i] with best via a
- * 0x100-byte stack temp (frame 0x138, temp at sp+0x10 kept in s7).
- *
- * Retail s-reg roles: s6=count, s5=size, fp=cmp, s3=base/cur, s4=i, s7=tmp.
- * Default -O2 rotates size/i with base; pin i→s4 and size→s5, and compile
- * with -fno-schedule-insns so the prologue param→s-reg order matches
- * (a1, a2, a3, a0) rather than declaration order. */
+/* Sort elements in place by selection sort using the supplied comparator. */
 void func_8004AEC4(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 *)) {
-    u8 temp[0x100];
-    u8 *tmp;
+    u8 swap_buffer[0x100];
+    u8 *swap_data;
     u8 *best;
-    u8 *p;
-    u8 *cur;
-    s32 j;
-    s32 n;
-    s32 (*cmp)(u8 *, u8 *);
-    register s32 i ASM_REG("$20"); /* s4 */
-    register s32 sz ASM_REG("$21"); /* s5 */
+    u8 *candidate;
+    u8 *current;
+    s32 scan_index;
+    s32 element_count;
+    s32 (*compare)(u8 *, u8 *);
+    register s32 sort_index ASM_REG("$20"); /* s4 */
+    register s32 element_size ASM_REG("$21"); /* s5 */
 
-    n = count;
-    sz = size;
-    cmp = compar;
-    cur = base;
+    element_count = count;
+    element_size = size;
+    compare = compar;
+    current = base;
 
-    if (n != 0) {
-        i = 0;
-        if ((n - 1) > 0) {
-            tmp = temp;
+    if (element_count != 0) {
+        sort_index = 0;
+        if ((element_count - 1) > 0) {
+            swap_data = swap_buffer;
             do {
-                best = cur;
-                j = i + 1;
-                p = cur + sz;
-                if (j < n) {
+                best = current;
+                scan_index = sort_index + 1;
+                candidate = current + element_size;
+                if (scan_index < element_count) {
                     do {
-                        if (cmp(best, p) > 0) {
-                            best = p;
+                        if (compare(best, candidate) > 0) {
+                            best = candidate;
                         }
-                        j += 1;
-                        p += sz;
-                    } while (j < n);
+                        scan_index += 1;
+                        candidate += element_size;
+                    } while (scan_index < element_count);
                 }
-                memcpy(tmp, cur, sz);
-                memcpy(cur, best, sz);
-                memcpy(best, tmp, sz);
-                i += 1;
-                cur += sz;
-            } while (i < (n - 1));
+                memcpy(swap_data, current, element_size);
+                memcpy(current, best, element_size);
+                memcpy(best, swap_data, element_size);
+                sort_index += 1;
+                current += element_size;
+            } while (sort_index < (element_count - 1));
         }
     }
 }

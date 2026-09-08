@@ -25,37 +25,38 @@ extern void func_800478B8();
 extern u8 D_80025E04[];
 extern s32 D_800814A0[3];
 
-void func_818BD0C0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2)
+/* Update state counters and cycle the primitive color for up to three flagged updates. */
+void func_818BD0C0(void *state, s32 unused, Rec_D_80082E80 *primitive)
 {
-    S_818BD0C0_1 *p;
-    u16 n;
+    S_818BD0C0_1 *shared_state;
+    u16 cycle_count;
 
-    p = ((S_818BD0C0_0 *)arg0)->unk_00;
-    p->unk_14++;
-    ((S_818BD0C0_0 *)arg0)->unk_06++;
-    func_800478B8(arg2);
+    shared_state = ((S_818BD0C0_0 *)state)->unk_00;
+    shared_state->unk_14++;
+    ((S_818BD0C0_0 *)state)->unk_06++;
+    func_800478B8(primitive);
 
-    if (arg2->unk_14.at00_u16.v & 0x6000) {
-        n = ((S_818BD0C0_0 *)arg0)->unk_04 + 1;
-        ((S_818BD0C0_0 *)arg0)->unk_04 = n;
-        if ((s16)n >= 3) {
-            ((S_818BD0C0_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    if (primitive->unk_14.at00_u16.v & 0x6000) {
+        cycle_count = ((S_818BD0C0_0 *)state)->unk_04 + 1;
+        ((S_818BD0C0_0 *)state)->unk_04 = cycle_count;
+        if ((s16)cycle_count >= 3) {
+            ((S_818BD0C0_0_pre *)state)[-1].unk_00 |= 0x8000;
             D_800814A0[0] = (u32)(D_800814A0[0] | 0x8000);
             func_800249AC();
         }
 
-        func_8003DB94(arg2, D_80025E04, 0);
-        if (arg2->unk_0C.at00_u8.v != 0) {
-            arg2->unk_0C.at00_u8.v = 0;
-            arg2->unk_0C.at01_u8.v = 0x80;
+        func_8003DB94(primitive, D_80025E04, 0);
+        if (primitive->unk_0C.at00_u8.v != 0) {
+            primitive->unk_0C.at00_u8.v = 0;
+            primitive->unk_0C.at01_u8.v = 0x80;
             func_800249AC();
         }
-        if (arg2->unk_0C.at01_u8.v != 0) {
-            arg2->unk_0C.at01_u8.v = 0;
-            arg2->unk_0C.at02_u8.v = 0x80;
+        if (primitive->unk_0C.at01_u8.v != 0) {
+            primitive->unk_0C.at01_u8.v = 0;
+            primitive->unk_0C.at02_u8.v = 0x80;
             func_800249AC();
         }
-        arg2->unk_0C.at02_u8.v = 0;
-        arg2->unk_0C.at00_u8.v = 0x80;
+        primitive->unk_0C.at02_u8.v = 0;
+        primitive->unk_0C.at00_u8.v = 0x80;
     }
 }

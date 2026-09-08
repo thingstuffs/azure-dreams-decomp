@@ -3,6 +3,7 @@
 
 M2C_UNK func_8001DDA0();                            /* extern */
 
+/* Calls func_8001DDA0 and returns zero. */
 s32 func_80016B64(void) {
     func_8001DDA0();
     return 0;

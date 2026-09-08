@@ -20,28 +20,29 @@ typedef struct S_80098544_1 {
 M2C_UNK func_80099754();
 extern M2C_UNK D_800984AC;
 
-void func_80098544(S_80098544_0 *arg0, void *arg1) {
-    S_80098544_1 *out;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+/* Advance the fixed-point coordinates toward their targets and finish when the countdown expires. */
+void func_80098544(S_80098544_0 *state, void *position_data) {
+    S_80098544_1 *position;
     s16 remaining;
-    register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u16 temp_v0;
-    s32 temp_v2;
+    register s32 current_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 steps_left;
+    s32 target_y;
 
-    out = arg1;
-    ASM_KEEP(out);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    temp_v0 = arg0->unk_0A.s - 1;
-    arg0->unk_0A.s = temp_v0;
-    if ((s16) temp_v0 > 0) {
-        temp_v1 = out->unk_00;
-        out->unk_00 = (s32) (temp_v1 + ((s32) ((arg0->unk_36 << 0x10) - temp_v1) / (s16) temp_v0));
-        temp_v2 = arg0->unk_38;
-        temp_v1 = out->unk_04;
-        remaining = arg0->unk_0A.u;
-        out->unk_04 = (s32) (temp_v1 + ((s32) ((temp_v2 << 0x10) - temp_v1) / remaining));
+    position = position_data;
+    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    steps_left = state->unk_0A.s - 1;
+    state->unk_0A.s = steps_left;
+    if ((s16) steps_left > 0) {
+        current_coord = position->unk_00;
+        position->unk_00 = (s32) (current_coord + ((s32) ((state->unk_36 << 0x10) - current_coord) / (s16) steps_left));
+        target_y = state->unk_38;
+        current_coord = position->unk_04;
+        remaining = state->unk_0A.u;
+        position->unk_04 = (s32) (current_coord + ((s32) ((target_y << 0x10) - current_coord) / remaining));
         return;
     }
-    out->unk_00 = (s32) (arg0->unk_36 << 0x10);
-    out->unk_04 = (s32) (arg0->unk_38 << 0x10);
-    func_80099754(out);
-    arg0->unk_04 = &D_800984AC;
+    position->unk_00 = (s32) (state->unk_36 << 0x10);
+    position->unk_04 = (s32) (state->unk_38 << 0x10);
+    func_80099754(position);
+    state->unk_04 = &D_800984AC;
 }

@@ -17,50 +17,51 @@ typedef struct S_8001A8DC_2 {
     s16 unk_02;
 } S_8001A8DC_2;   /* out in func_8001A8DC */
 
-s32 func_8001A8DC(void *arg0, void *arg1, s32 arg2, s32 arg3, void *arg4)
+/* Blend two points using the signed weight over the absolute weight sum; return the scaled y delta. */
+s32 func_8001A8DC(void *base_point, void *other_point, s32 blend_weight, s32 other_weight, void *result_point)
 {
-    s32 temp_lo;
-    s32 other_value;
-    s32 other_value2;
-    s32 var_a3;
-    s32 base_value;
-    s32 base_value2;
+    s32 scaled_y_delta;
+    s32 other_x;
+    s32 other_y;
+    s32 abs_other_weight;
+    s32 base_x;
+    s32 base_y;
     register void *base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register void *other ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 original ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 var_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 weight ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 total_weight ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register void *out ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    base = arg0;
-    other = arg1;
-    original = arg2;
-    out = arg4;
+    base = base_point;
+    other = other_point;
+    weight = blend_weight;
+    out = result_point;
     ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(other);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(out);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    var_a3 = arg3;
-    var_t0 = original;
-    if (original < 0) {
-        var_t0 = -var_t0;
+    abs_other_weight = other_weight;
+    total_weight = weight;
+    if (weight < 0) {
+        total_weight = -total_weight;
     }
-    if (var_a3 < 0) {
-        var_a3 = -var_a3;
+    if (abs_other_weight < 0) {
+        abs_other_weight = -abs_other_weight;
     }
-    var_t0 += var_a3;
-    other_value = ((S_8001A8DC_0 *)other)->unk_00;
-    ASM_KEEP(other_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    base_value = ((S_8001A8DC_1 *)base)->unk_00;
-    ASM_KEEP(base_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    total_weight += abs_other_weight;
+    other_x = ((S_8001A8DC_0 *)other)->unk_00;
+    ASM_KEEP(other_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    base_x = ((S_8001A8DC_1 *)base)->unk_00;
+    ASM_KEEP(base_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ((S_8001A8DC_2 *)out)->unk_00 =
-        base_value
-        + ((other_value - (s16)((S_8001A8DC_1 *)base)->unk_00) * original) / var_t0;
-    other_value2 = ((S_8001A8DC_0 *)other)->unk_02;
-    ASM_KEEP(other_value2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    base_value2 = ((S_8001A8DC_1 *)base)->unk_02;
-    ASM_KEEP(base_value2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    temp_lo =
-        (other_value2 - (s16)((S_8001A8DC_1 *)base)->unk_02) * original;
+        base_x
+        + ((other_x - (s16)((S_8001A8DC_1 *)base)->unk_00) * weight) / total_weight;
+    other_y = ((S_8001A8DC_0 *)other)->unk_02;
+    ASM_KEEP(other_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    base_y = ((S_8001A8DC_1 *)base)->unk_02;
+    ASM_KEEP(base_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    scaled_y_delta =
+        (other_y - (s16)((S_8001A8DC_1 *)base)->unk_02) * weight;
     ((S_8001A8DC_2 *)out)->unk_02 =
-        base_value2 + temp_lo / var_t0;
-    return temp_lo;
+        base_y + scaled_y_delta / total_weight;
+    return scaled_y_delta;
 }

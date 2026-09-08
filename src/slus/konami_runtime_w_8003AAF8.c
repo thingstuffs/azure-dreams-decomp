@@ -13,14 +13,15 @@ typedef struct D80082A38 {
 
 extern D80082A38 D_80082A38;
 
+/* Copies the signed 16-bit fields at AC and AE into the 32-bit fields at 48 and 4C. */
 void func_8003AAF8(void) {
-    D80082A38 *base;
-    s32 value0;
-    s32 value1;
+    D80082A38 *state;
+    s32 value_ac;
+    s32 value_ae;
 
-    base = &D_80082A38;
-    value0 = base->fieldAC;
-    value1 = base->fieldAE;
-    base->field48 = value0;
-    base->field4C = value1;
+    state = &D_80082A38;
+    value_ac = state->fieldAC;
+    value_ae = state->fieldAE;
+    state->field48 = value_ac;
+    state->field4C = value_ae;
 }

@@ -61,55 +61,56 @@ extern s32 D_80024B98[3];
 extern s32 D_80025854[3];
 extern s32 D_80045C34[3];
 
-void *func_80024D90(void *arg0, s16 arg1) {
-    register void *saved_arg0 = arg0;
-    register s16 saved_arg1 = arg1;
-    register s32 var_s3 = 0;
+/* Spawns sixteen effects in a ring around the source position. */
+void *func_80024D90(void *source_pos, s16 effect_param) {
+    register void *origin = source_pos;
+    register s16 state_param = effect_param;
+    register s32 effect_index = 0;
     register s32 *callback = D_80024B98;
     register u16 *counter_page = (u16 *)0x80020000;
-    register s32 var_s4 = -0x400;
-    register void *temp_v0;
-    S_80024D90_2 *temp_s1;
+    register s32 component_offset = -0x400;
+    register void *effect;
+    S_80024D90_2 *position;
     register s32 angle;
-    s32 work;
+    s32 value;
     register void *component;
-    register void *temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 const_400;
+    register void *effect_state ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 fixed_offset;
 
     do {
-        temp_v0 = func_8003FC64(0x202);
-        if (temp_v0 != NULL) {
-            ((S_80024D90_0 *)temp_v0)->unk_10 = callback;
-            func_8004491C(temp_v0, D_80045C34);
-            angle = var_s3 << 8;
-            temp_s1 = ((S_80024D90_0 *)temp_v0)->unk_08;
-            work = ((S_80024D90_1 *)saved_arg0)->unk_02 + (func_80064584(angle) >> 7);
-            temp_s1->unk_02 = work;
-            work = ((S_80024D90_1 *)saved_arg0)->unk_06 + (func_800644B8(angle) >> 7);
-            temp_s1->unk_06 = work;
-            temp_s1->unk_0A =
-                (s16)(((S_80024D90_1 *)saved_arg0)->unk_0A - 0x100);
-            component = ((S_80024D90_0 *)temp_v0)->unk_0C;
+        effect = func_8003FC64(0x202);
+        if (effect != NULL) {
+            ((S_80024D90_0 *)effect)->unk_10 = callback;
+            func_8004491C(effect, D_80045C34);
+            angle = effect_index << 8;
+            position = ((S_80024D90_0 *)effect)->unk_08;
+            value = ((S_80024D90_1 *)origin)->unk_02 + (func_80064584(angle) >> 7);
+            position->unk_02 = value;
+            value = ((S_80024D90_1 *)origin)->unk_06 + (func_800644B8(angle) >> 7);
+            position->unk_06 = value;
+            position->unk_0A =
+                (s16)(((S_80024D90_1 *)origin)->unk_0A - 0x100);
+            component = ((S_80024D90_0 *)effect)->unk_0C;
             ((S_80024D90_3 *)component)->unk_1C = 0x800;
             ((S_80024D90_3 *)component)->unk_1E = 0x1CCC;
             ((S_80024D90_3 *)component)->unk_0C = 0;
             func_8003DB94(component, D_80025854, 0);
-            const_400 = 0x400;
-            ASM_KEEP(const_400);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            work = counter_page[0x57CC / 2];
-            temp_a0 = (u8 *)temp_v0 + 0x20;
-            ((S_80024D90_3 *)component)->unk_16 = const_400;
-            ((S_80024D90_3 *)component)->unk_18 = var_s4;
-            ((S_80024D90_4 *)temp_a0)->unk_24 = var_s3;
-            ((S_80024D90_4 *)temp_a0)->unk_14 = saved_arg1;
-            ((S_80024D90_4 *)temp_a0)->unk_1E = (s16)(var_s3 * 2);
-            work += 1;
-            counter_page[0x57CC / 2] = work;
+            fixed_offset = 0x400;
+            ASM_KEEP(fixed_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            value = counter_page[0x57CC / 2];
+            effect_state = (u8 *)effect + 0x20;
+            ((S_80024D90_3 *)component)->unk_16 = fixed_offset;
+            ((S_80024D90_3 *)component)->unk_18 = component_offset;
+            ((S_80024D90_4 *)effect_state)->unk_24 = effect_index;
+            ((S_80024D90_4 *)effect_state)->unk_14 = state_param;
+            ((S_80024D90_4 *)effect_state)->unk_1E = (s16)(effect_index * 2);
+            value += 1;
+            counter_page[0x57CC / 2] = value;
         }
-        var_s3 += 1;
-        var_s4 += 0x100;
-    } while (var_s3 < 0x10);
-    return temp_v0;
+        effect_index += 1;
+        component_offset += 0x100;
+    } while (effect_index < 0x10);
+    return effect;
 }
 
 /* MECHANISM: The 0x38 frame and ten saved roles come from the natural loop lifetimes.

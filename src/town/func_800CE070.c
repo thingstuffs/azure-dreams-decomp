@@ -8,6 +8,7 @@ typedef struct S_800CB7D0_0 {
     s32 * unk_7C;
 } S_800CB7D0_0;   /* arg0 in func_800CB7D0 */
 
-s32 func_800CB7D0(S_800CB7D0_0 *arg0) {
-    return *arg0->unk_7C == (s32) &D_800D68E8;
+/* Checks whether the object's referenced value is the address of D_800D68E8. */
+s32 func_800CB7D0(S_800CB7D0_0 *object) {
+    return *object->unk_7C == (s32) &D_800D68E8;
 }

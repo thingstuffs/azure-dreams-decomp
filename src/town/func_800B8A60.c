@@ -33,31 +33,32 @@ extern s32 func_800B53BC();
 extern s32 func_800B5918();
 
 
-void func_800B61C0(S_800B61C0_1 *arg0, s32 arg1, s32 arg2)
+/* Populate and position a display row from an entry. */
+void func_800B61C0(S_800B61C0_1 *entry, s32 widgets_base, s32 row)
 {
-    s32 sp18[4];
-    s32 sp28[2];
-    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 temp_s3;
-    register s32 temp_v0 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 *temp_a1;
-    S_800B61C0_0 *temp_s0;
+    s32 detail_info[4];
+    s32 entry_info[2];
+    register s32 row_offset ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 text_y;
+    register s32 entry_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 *info_out;
+    S_800B61C0_0 *widgets;
 
-    temp_a1 = sp28;
-    temp_v0 = func_8004AC3C(arg0, temp_a1);
-    do { temp_s2 = arg2 * 0x10; } while (0);
-    temp_s3 = temp_s2 + 0xD8;
-    temp_s0 = (void *)(arg2 * 4 + arg1);
-    func_800B5264(temp_s0->unk_20, temp_v0, sp28[0], 0x58, temp_s3);
-    func_800B53BC(temp_s0->unk_2C,
-                  func_800B5918(arg0, sp18), 0, 0xA0, temp_s3);
-    ((S_800B61C0_2 *)(temp_s0->unk_38))->unk_00 = func_8004A658(
-        arg0->unk_01, arg0->unk_00);
-    ((S_800B61C0_3 *)(((S_800B61C0_2 *)(temp_s0->unk_38))->unk_04))->unk_08 = -0x30;
-    ((S_800B61C0_3 *)(((S_800B61C0_2 *)(temp_s0->unk_38))->unk_04))->unk_0A =
-        (s16)(temp_s2 + 0x66);
+    info_out = entry_info;
+    entry_value = func_8004AC3C(entry, info_out);
+    do { row_offset = row * 0x10; } while (0);
+    text_y = row_offset + 0xD8;
+    widgets = (void *)(row * 4 + widgets_base);
+    func_800B5264(widgets->unk_20, entry_value, entry_info[0], 0x58, text_y);
+    func_800B53BC(widgets->unk_2C,
+                  func_800B5918(entry, detail_info), 0, 0xA0, text_y);
+    ((S_800B61C0_2 *)(widgets->unk_38))->unk_00 = func_8004A658(
+        entry->unk_01, entry->unk_00);
+    ((S_800B61C0_3 *)(((S_800B61C0_2 *)(widgets->unk_38))->unk_04))->unk_08 = -0x30;
+    ((S_800B61C0_3 *)(((S_800B61C0_2 *)(widgets->unk_38))->unk_04))->unk_0A =
+        (s16)(row_offset + 0x66);
 }
 
-/* MECHANISM: Sibling sp18/sp28 arrays produce the retail 0x48 frame; keeping the
-   sp28 pointer live hoists sp+0x28 and lets the $s2 save fill the first jal slot.
+/* MECHANISM: Sibling detail_info/entry_info arrays produce the retail 0x48 frame; keeping the
+   entry_info pointer live hoists sp+0x28 and lets the $s2 save fill the first jal slot.
    Guarded $s2/$a1 value pins restore the scaled-index role and immediate return copy. */

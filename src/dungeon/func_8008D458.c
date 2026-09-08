@@ -50,12 +50,13 @@ extern void func_8008D368(void *, void *, void *, u8 *, s32);
 extern void func_80091934(void *, void *, void *);
 extern void func_800D7A14(s32);
 
-void func_80092BB8(S_8003E2D8 *arg0, void *arg1, S_arg2 *arg2, S_arg3 *arg3) {
+/* Advance the actor's directional animation state and delayed transition. */
+void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 *facing) {
     s32 state;
-    s32 sp18;
-    s32 index;
+    s32 query_result;
+    s32 direction;
 
-    state = arg0->state;
+    state = controller->state;
     if (state == 1) {
         goto state1_body;
     }
@@ -74,58 +75,58 @@ void func_80092BB8(S_8003E2D8 *arg0, void *arg1, S_arg2 *arg2, S_arg3 *arg3) {
     goto done;
 
 state0_body:
-    if ((s32)((((s32)D_80083160.fieldc8 + arg3->coord + 0x100) >> 9) & 7) == 2) {
-        u8 *table;
+    if ((s32)((((s32)D_80083160.fieldc8 + facing->coord + 0x100) >> 9) & 7) == 2) {
+        u8 *animation_table;
 
-        table = arg0->table;
-        arg2->field2c = table;
-        index = (((s32)D_80083160.fieldc8 + arg3->coord + 0x100) >> 9) & 7;
-        func_80048A44(arg2, table[index], arg0->field10e, 1);
-        arg0->state++;
+        animation_table = controller->table;
+        actor->field2c = animation_table;
+        direction = (((s32)D_80083160.fieldc8 + facing->coord + 0x100) >> 9) & 7;
+        func_80048A44(actor, animation_table[direction], controller->field10e, 1);
+        controller->state++;
     } else {
-        arg3->coord = (u16)arg3->coord + 0x200;
+        facing->coord = (u16)facing->coord + 0x200;
     }
     return;
 
 state1_body:
     if (*D_80013714 & 8) {
-        if (arg2->flags & 0x6000) {
-            if (arg2->field2c == D_800DD148) {
-                arg0->state = 0x10;
+        if (actor->flags & 0x6000) {
+            if (actor->field2c == D_800DD148) {
+                controller->state = 0x10;
             } else {
                 goto state2_store;
             }
         }
-    } else if ((func_8003DE58(arg2->field08, arg2, &sp18, 0) != 0) || (arg2->flags & 0x8000)) {
-        func_800D7A14(arg0->field114);
-        arg0->state++;
+    } else if ((func_8003DE58(actor->field08, actor, &query_result, 0) != 0) || (actor->flags & 0x8000)) {
+        func_800D7A14(controller->field114);
+        controller->state++;
     }
     return;
 
 state2_body:
-    if ((arg2->flags & 0x8000) || (*D_8008346A < 2)) {
-        if (arg0->field110 != 0) {
-            func_80091934(arg0, arg1, arg2);
+    if ((actor->flags & 0x8000) || (*D_8008346A < 2)) {
+        if (controller->field110 != 0) {
+            func_80091934(controller, context, actor);
             return;
         }
-        arg2->field2c = D_800DD150;
-        func_80048A44(arg2, D_800DD150[(((s32)D_80083228[0] + arg3->coord + 0x100) >> 9) & 7], 2, 1);
+        actor->field2c = D_800DD150;
+        func_80048A44(actor, D_800DD150[(((s32)D_80083228[0] + facing->coord + 0x100) >> 9) & 7], 2, 1);
         goto state2_store;
     }
     goto done;
 
 state2_store:
-    arg0->field8c = D_8008ACDC;
+    controller->field8c = D_8008ACDC;
     goto done;
 
 state10_body:
     {
         u16 countdown;
 
-        countdown = arg0->countdown - 1;
-        arg0->countdown = countdown;
+        countdown = controller->countdown - 1;
+        controller->countdown = countdown;
         if ((s32)(countdown << 16) <= 0) {
-            func_8008D368(arg0, arg1, arg2, D_800DD150, 0);
+            func_8008D368(controller, context, actor, D_800DD150, 0);
         }
     }
 

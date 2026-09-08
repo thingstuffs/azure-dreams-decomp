@@ -63,38 +63,39 @@ typedef struct {
 
 extern Global83160 D_80083160;
 
-s32 func_800BB218(void *arg0, void *arg1)
+/* Draws randomized white points around each object in the linked chain. */
+s32 func_800BB218(void *first_object, void *first_coords)
 {
     s16 angle;
-    s32 offset;
+    s32 radius_offset;
     u8 *packet;
-    s32 index;
+    s32 point_index;
     u8 *scratch;
     u8 *object;
     u8 *coords;
-    u32 low_mask;
-    u32 high_mask;
+    u32 addr_mask;
+    u32 tag_mask;
     u8 *arena;
-    u8 *next;
-    s32 value;
-    s32 scale;
+    u8 *next_node;
+    s32 random_value;
+    s32 x_scale;
     u32 packet_tag;
-    u32 merged;
-    unsigned long link;
-    Global83160 *global;
+    u32 linked_tag;
+    unsigned long ot_link;
+    Global83160 *render_state;
 
-    object = arg0;
-    coords = arg1;
-    global = &D_80083160;
+    object = first_object;
+    coords = first_coords;
+    render_state = &D_80083160;
     scratch = (u8 *)0x1F800000;
-    ((S_800BB218_0 *)scratch)->unk_10 = global->ptr + 0xB0;
-    low_mask = 0x00FFFFFF;
-    high_mask = 0xFF000000;
+    ((S_800BB218_0 *)scratch)->unk_10 = render_state->ptr + 0xB0;
+    addr_mask = 0x00FFFFFF;
+    tag_mask = 0xFF000000;
 
 draw_object:
-    index = 0;
+    point_index = 0;
     do {
-        arena = global->ptr;
+        arena = render_state->ptr;
         packet = ((S_800BB218_1 *)arena)->unk_8D0;
         ((S_800BB218_1 *)arena)->unk_8D0 = packet + 0xC;
         packet[3] = 2;
@@ -103,25 +104,25 @@ draw_object:
         packet[5] = 0xFF;
         packet[6] = 0xFF;
 
-        value = rand();
-        angle = (s16)(value % 0x1000);
+        random_value = rand();
+        angle = (s16)(random_value % 0x1000);
 
-        scale = func_800644B8(angle) >> 4;
+        x_scale = func_800644B8(angle) >> 4;
         {
-            s32 height = ((S_800BB218_2 *)object)->unk_97;
-            offset = (index / 8) % 12 + 0x48;
+            s32 base_radius = ((S_800BB218_2 *)object)->unk_97;
+            radius_offset = (point_index / 8) % 12 + 0x48;
             ((S_800BB218_0 *)scratch)->unk_14 =
-                ((S_800BB218_3 *)coords)->unk_02 + ((scale * (height + offset)) >> 8);
+                ((S_800BB218_3 *)coords)->unk_02 + ((x_scale * (base_radius + radius_offset)) >> 8);
         }
 
         ((S_800BB218_0 *)scratch)->unk_16 =
             ((S_800BB218_3 *)coords)->unk_06 +
             (((func_80064584(angle) >> 4) *
-              (((S_800BB218_2 *)object)->unk_97 + offset)) >> 8);
+              (((S_800BB218_2 *)object)->unk_97 + radius_offset)) >> 8);
 
         ((S_800BB218_0 *)scratch)->unk_18 =
             ((S_800BB218_3 *)coords)->unk_0A -
-            (((func_800644B8((index % 16) << 6) >> 4) *
+            (((func_800644B8((point_index % 16) << 6) >> 4) *
               (((S_800BB218_2 *)object)->unk_66 + 0x10)) >> 8);
 
         ((S_800BB218_0 *)scratch)->unk_04 = func_80065420(
@@ -129,28 +130,28 @@ draw_object:
         ((S_800BB218_4 *)packet)->unk_08 = ((S_800BB218_0 *)scratch)->unk_00;
         ((S_800BB218_4 *)packet)->unk_0A = ((S_800BB218_0 *)scratch)->unk_02;
 
-        link = ((S_800BB218_0 *)scratch)->unk_04;
-        if (link < 0x1E0) {
-            link <<= 2;
-            link += (unsigned long)((S_800BB218_0 *)scratch)->unk_10;
+        ot_link = ((S_800BB218_0 *)scratch)->unk_04;
+        if (ot_link < 0x1E0) {
+            ot_link <<= 2;
+            ot_link += (unsigned long)((S_800BB218_0 *)scratch)->unk_10;
             packet_tag = ((S_800BB218_4 *)packet)->unk_00;
-            link = *(u32 *)link;
-            link &= low_mask;
-            merged = packet_tag & high_mask;
-            merged |= link;
-            ((S_800BB218_4 *)packet)->unk_00 = merged;
+            ot_link = *(u32 *)ot_link;
+            ot_link &= addr_mask;
+            linked_tag = packet_tag & tag_mask;
+            linked_tag |= ot_link;
+            ((S_800BB218_4 *)packet)->unk_00 = linked_tag;
             *(u32 *)(((S_800BB218_0 *)scratch)->unk_10 +
                      ((S_800BB218_0 *)scratch)->unk_04 * 4) =
                 (*(u32 *)(((S_800BB218_0 *)scratch)->unk_10 +
-                          ((S_800BB218_0 *)scratch)->unk_04 * 4) & high_mask) |
-                ((u32)packet & low_mask);
+                          ((S_800BB218_0 *)scratch)->unk_04 * 4) & tag_mask) |
+                ((u32)packet & addr_mask);
         }
-    } while (++index < 0x180);
+    } while (++point_index < 0x180);
 
-    next = ((S_800BB218_2_pre *)object)[-1].unk_00;
-    if (next != 0) {
-        object = next + 0x20;
-        coords = ((S_800BB218_5 *)next)->unk_08;
+    next_node = ((S_800BB218_2_pre *)object)[-1].unk_00;
+    if (next_node != 0) {
+        object = next_node + 0x20;
+        coords = ((S_800BB218_5 *)next_node)->unk_08;
         goto draw_object;
     }
     return 0;

@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
+/* Returns without performing any work. */
 void func_800BEA80(void) {
 
 }

@@ -4,6 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_804072CC();                         /* extern */
 
-void func_8002087C(s32 arg0) {
-    func_804072CC(arg0 + 0x20);
+/* Passes the input value plus 0x20 to func_804072CC. */
+void func_8002087C(s32 value) {
+    func_804072CC(value + 0x20);
 }

@@ -16,30 +16,31 @@ extern s32 D_80079054;
 extern s32 D_800790B4;
 extern s32 D_80079114;
 
-void func_80024ACC(u8 *arg0) {
-    void *temp_s1;
-    WinObj *obj;
+/* Initialize window data and configure the four window objects. */
+void func_80024ACC(u8 *window_state) {
+    void *window_data;
+    WinObj *window;
 
-    temp_s1 = arg0 + 4;
-    func_800242D8(temp_s1, 0xF8, 0x48);
+    window_data = window_state + 4;
+    func_800242D8(window_data, 0xF8, 0x48);
 
-    obj = *(WinObj **)(arg0 + 0xB48);
-    obj->field4->w = 0xA0;
-    obj->field4->h = 0xB0;
-    obj->field0 = temp_s1;
+    window = *(WinObj **)(window_state + 0xB48);
+    window->field4->w = 0xA0;
+    window->field4->h = 0xB0;
+    window->field0 = window_data;
 
-    obj = *(WinObj **)(arg0 + 0xB3C);
-    obj->field4->w = 0x60;
-    obj->field4->h = 0x88;
-    obj->field0 = &D_80079054;
+    window = *(WinObj **)(window_state + 0xB3C);
+    window->field4->w = 0x60;
+    window->field4->h = 0x88;
+    window->field0 = &D_80079054;
 
-    obj = *(WinObj **)(arg0 + 0xB40);
-    obj->field4->w = 0xD0;
-    obj->field4->h = 0x88;
-    obj->field0 = &D_800790B4;
+    window = *(WinObj **)(window_state + 0xB40);
+    window->field4->w = 0xD0;
+    window->field4->h = 0x88;
+    window->field0 = &D_800790B4;
 
-    obj = *(WinObj **)(arg0 + 0xB44);
-    obj->field4->w = 0x20;
-    obj->field4->h = 0x88;
-    obj->field0 = &D_80079114;
+    window = *(WinObj **)(window_state + 0xB44);
+    window->field4->w = 0x20;
+    window->field4->h = 0x88;
+    window->field0 = &D_80079114;
 }

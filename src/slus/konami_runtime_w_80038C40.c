@@ -10,13 +10,14 @@ typedef struct {
 
 extern Func80038C40Data D_8002D03C;
 
+/* Returns whether value matches any of the nine bytes in D_8002D03C. */
 s32 func_80038C40(s8 value) {
-    Func80038C40Data data;
-    s32 i;
+    Func80038C40Data byte_table;
+    s32 byte_index;
 
-    data = D_8002D03C;
-    for (i = 0; i < 9; i++) {
-        if (value == ((s8 *)&data)[i]) {
+    byte_table = D_8002D03C;
+    for (byte_index = 0; byte_index < 9; byte_index++) {
+        if (value == ((s8 *)&byte_table)[byte_index]) {
             return 1;
         }
     }

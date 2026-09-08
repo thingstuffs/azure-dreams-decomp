@@ -75,9 +75,10 @@ extern HalfTable D_800200E4;
 extern HalfTable D_800200F0;
 extern s32 D_800814A0[3];
 
+/* Updates actor movement, animation, and collision through its timed states. */
 void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
 {
-    static void *const jt_keep[] = {
+    static void *const state_labels[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
         &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9
     };
@@ -96,36 +97,36 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
         if ((u32)state >= 10U) {
             goto switch_end;
         }
-        (void)jt_keep;
+        (void)state_labels;
         goto *D_80020104[state];
     }
 
 jt_c0: {
-        register s32 r ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        r = rand() & 0xF;
+        register s32 duration_roll ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 duration ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        duration_roll = rand() & 0xF;
         if (owner->kindA >= 25) {
-            r = rand() & 7;
+            duration_roll = rand() & 7;
         } else if (owner->kindA >= 19) {
-            if (r < 3) {
-                r = -rand() & 3;
-            } else if (r < 5) {
-                r = (rand() % 23) + 44;
+            if (duration_roll < 3) {
+                duration_roll = -rand() & 3;
+            } else if (duration_roll < 5) {
+                duration_roll = (rand() % 23) + 44;
             }
         } else if (owner->kindA >= 7) {
-            if (r < 4) {
-                r = -rand() & 3;
-            } else if (r < 8) {
-                r = (rand() % 23) + 44;
+            if (duration_roll < 4) {
+                duration_roll = -rand() & 3;
+            } else if (duration_roll < 8) {
+                duration_roll = (rand() % 23) + 44;
             }
-        } else if (r < 6) {
-            r = -rand() & 3;
-        } else if (r < 7) {
-            r = (rand() % 23) + 44;
+        } else if (duration_roll < 6) {
+            duration_roll = -rand() & 3;
+        } else if (duration_roll < 7) {
+            duration_roll = (rand() % 23) + 44;
         }
-        value = r + 14;
-        actor->timerA2 = value;
-        actor->initialA6 = value;
+        duration = duration_roll + 14;
+        actor->timerA2 = duration;
+        actor->initialA6 = duration;
         motion->vy = -0x400000 / actor->timerA2;
         if (actor->typeA0 < 2) {
             anim->flags14 |= 1;
@@ -142,12 +143,12 @@ jt_c0: {
     }
 
 jt_c1: {
-        s32 value;
+        s32 initial_duration;
         if (actor->timerA2 <= 0) {
             motion->vy = 0;
-            value = actor->initialA6;
-            actor->timerA2 = value * 2;
-            motion->vx = 0x800000 / (s16)(value * 2);
+            initial_duration = actor->initialA6;
+            actor->timerA2 = initial_duration * 2;
+            motion->vx = 0x800000 / (s16)(initial_duration * 2);
             if (actor->typeA0 < 2) {
                 motion->vx = -motion->vx;
             }
@@ -159,33 +160,33 @@ jt_c1: {
 
 jt_c2: {
         if (actor->timerA2 <= 0) {
-            s32 raw;
-            u16 type;
-            s32 value;
-            raw = (u16)actor->initialA6;
-            type = actor->typeA0;
-            actor->timerA2 = raw;
+            s32 initial_duration;
+            u16 actor_type;
+            s32 speed;
+            initial_duration = (u16)actor->initialA6;
+            actor_type = actor->typeA0;
+            actor->timerA2 = initial_duration;
             {
-                register s32 sx ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                sx = actor->timerA2;
-                value = -0x400000 / sx;
+                register s32 duration ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                duration = actor->timerA2;
+                speed = -0x400000 / duration;
             }
             {
-                register s32 flag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                flag = type & 1;
-                if (flag) {
-                s32 out;
-                if ((s16)type == 1) {
-                    out = value;
+                register s32 moves_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                moves_x = actor_type & 1;
+                if (moves_x) {
+                    s32 x_speed;
+                    if ((s16)actor_type == 1) {
+                        x_speed = speed;
+                    } else {
+                        x_speed = -speed;
+                    }
+                    motion->vx = x_speed;
+                    motion->vy = 0;
                 } else {
-                    out = -value;
-                }
-                motion->vx = out;
-                motion->vy = 0;
-                } else {
-                    ASM_UNDEF(flag);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    ASM_UNDEF(moves_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     motion->vx = 0;
-                    motion->vy = value;
+                    motion->vy = speed;
                 }
             }
             actor->state68 = 3;
@@ -208,12 +209,12 @@ jt_c3:
                 motion->vz = (-0x700000 - motion->z) / actor->timerA2;
                 actor->state68 = 4;
             } else {
-                s32 shot;
-                s32 floor;
+                s32 height_offset;
+                s32 height_delta;
                 actor->timerA2 = 12;
-                shot = (rand() & 0xFF) << 12;
-                floor = motion->z + 0x580000;
-                motion->vz = (shot - floor) / actor->timerA2;
+                height_offset = (rand() & 0xFF) << 12;
+                height_delta = motion->z + 0x580000;
+                motion->vz = (height_offset - height_delta) / actor->timerA2;
                 actor->state68 = 5;
             }
         }
@@ -268,21 +269,21 @@ jt_c7:
             owner->flagsC &= ~4;
             actor->timerA2 = 8;
             {
-                register s32 back ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                u16 type = actor->typeA0;
-                back = -0x80000;
-                if (type & 1) {
-                    s32 out;
-                    if ((s16)type != 1) {
-                        out = 0x80000;
+                register s32 exit_speed ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                u16 actor_type = actor->typeA0;
+                exit_speed = -0x80000;
+                if (actor_type & 1) {
+                    s32 x_speed;
+                    if ((s16)actor_type != 1) {
+                        x_speed = 0x80000;
                     } else {
-                        out = back;
+                        x_speed = exit_speed;
                     }
-                    motion->vx = out;
+                    motion->vx = x_speed;
                     motion->vy = 0;
                 } else {
                     motion->vx = 0;
-                    motion->vy = back;
+                    motion->vy = exit_speed;
                 }
             }
             actor->state68 = 8;

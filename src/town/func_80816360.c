@@ -26,17 +26,18 @@ typedef struct S_80020360_2 {
 
 extern s32 D_800814A0;
 
-void func_80020360(void *arg0)
+/* Advances the countdown state, then sets object and global flags when the status bit is set. */
+void func_80020360(void *object)
 {
     s16 state;
-    S_80020360_1 *data;
-    u16 value;
+    S_80020360_1 *status_data;
+    u16 ticks_left;
     u16 flags;
-    u16 count;
+    u16 next_state;
     register u32 page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    state = ((S_80020360_0 *)arg0)->unk_00.s;
-    data = ((S_80020360_0 *)arg0)->unk_04;
+    state = ((S_80020360_0 *)object)->unk_00.s;
+    status_data = ((S_80020360_0 *)object)->unk_04;
     if (state == 0) {
         goto state_zero;
     }
@@ -46,28 +47,24 @@ void func_80020360(void *arg0)
     return;
 
 state_zero:
-    value = ((S_80020360_0 *)arg0)->unk_02 - 1;
-    ((S_80020360_0 *)arg0)->unk_02 = value;
-    if ((value << 16) > 0) {
+    ticks_left = ((S_80020360_0 *)object)->unk_02 - 1;
+    ((S_80020360_0 *)object)->unk_02 = ticks_left;
+    if ((ticks_left << 16) > 0) {
         return;
     }
-    flags = ((S_80020360_0 *)arg0)->unk_16;
-    count = ((S_80020360_0 *)arg0)->unk_00.u;
+    flags = ((S_80020360_0 *)object)->unk_16;
+    next_state = ((S_80020360_0 *)object)->unk_00.u;
     flags &= 0xFFFD;
-    count++;
-    ((S_80020360_0 *)arg0)->unk_16 = flags;
-    ((S_80020360_0 *)arg0)->unk_00.u = count;
+    next_state++;
+    ((S_80020360_0 *)object)->unk_16 = flags;
+    ((S_80020360_0 *)object)->unk_00.u = next_state;
     return;
 
 state_one:
-    if (data->unk_2A & 1) {
+    if (status_data->unk_2A & 1) {
         page = 0x80080000;
         ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ((S_80020360_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+        ((S_80020360_0_pre *)object)[-1].unk_00 |= 0x8000;
         ((S_80020360_2 *)((void *)page))->unk_14A0 |= 0x8000;
     }
 }
-
-/* MECHANISM: Retail is a frameless leaf; both apparent jumps target the local epilogue.
-   The state-zero arm uses sibling halfword temporaries so both loads precede both stores.
-   A guarded $v1 page local holds 0x80080000 for the D_800814A0 RMW tail. */

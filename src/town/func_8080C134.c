@@ -51,13 +51,14 @@ extern Object *func_800374FC(s32 type, void *descriptor);
 extern void func_8003BC18(Object *object, void *callback);
 extern void func_80034A1C(Primitive *primitive, void *arg1, s32 arg2);
 
+/* Create and initialize the owner's eight objects using its kind-specific table. */
 void func_8080C134(Owner *owner)
 {
-    s32 i;
+    s32 slot;
 
-    for (i = 7; i >= 0; i--) {
+    for (slot = 7; slot >= 0; slot--) {
         Object *object = func_800374FC(0x136, D_801328C8);
-        owner->objects[i] = object;
+        owner->objects[slot] = object;
         if (object != 0) {
             ObjectData *data;
             Primitive *primitive;
@@ -67,8 +68,8 @@ void func_8080C134(Owner *owner)
             object->owner = owner;
             data = object->data;
             primitive = object->primitive;
-            data->field_02 = D_8052FF9C[owner->kind][i].field_00;
-            data->field_06 = D_8052FF9C[owner->kind][i].field_02;
+            data->field_02 = D_8052FF9C[owner->kind][slot].field_00;
+            data->field_06 = D_8052FF9C[owner->kind][slot].field_02;
             primitive->field_10 = 0x60;
             primitive->field_0C = 0;
             primitive->field_1E = 0x1000;

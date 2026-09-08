@@ -9,30 +9,31 @@ extern u8 D_8009B594[];
 extern u8 D_8009BDC0[];
 extern u8 D_800CFCB4[];
 
-void func_8009B594(void *arg0, void *arg1, void *arg2, void *arg3) {
-    s32 i;
-    void *state;
-    s32 *value;
+/* Runs handlers when any slot flag is set and copies the stored value for eligible states. */
+void func_8009B594(void *state_owner, void *update_target, void *update_context, void *output) {
+    s32 slot;
+    void *current_state;
+    s32 *stored_value;
 
-    for (i = 0; i < 6; i++) {
-        u8 *entry = D_800CFCB4 + i;
+    for (slot = 0; slot < 6; slot++) {
+        u8 *slot_flags = D_800CFCB4 + slot;
 
-        if (entry[0x3A] != 0 || entry[0x40] != 0) {
+        if (slot_flags[0x3A] != 0 || slot_flags[0x40] != 0) {
             break;
         }
     }
-    if (i < 6) {
-        if (*(u8 *)((u8 *)arg1 + 0x3B) == 0) {
-            func_8009BFC0(arg0, arg1, arg2, arg3);
+    if (slot < 6) {
+        if (*(u8 *)((u8 *)update_target + 0x3B) == 0) {
+            func_8009BFC0(state_owner, update_target, update_context, output);
         }
-        func_8008F664(arg1, arg2);
-        func_8009B2C4(arg0, arg1, arg2, arg3);
+        func_8008F664(update_target, update_context);
+        func_8009B2C4(state_owner, update_target, update_context, output);
     }
-    state = *(void **)((u8 *)arg0 + 0x50);
-    if (state != D_8009B454 && state != D_8009B594 && state != D_8009BDC0) {
-        value = *(s32 **)((u8 *)arg0 + 0x7C);
-        if (value != 0) {
-            *(s32 *)((u8 *)arg3 + 8) = *value;
+    current_state = *(void **)((u8 *)state_owner + 0x50);
+    if (current_state != D_8009B454 && current_state != D_8009B594 && current_state != D_8009BDC0) {
+        stored_value = *(s32 **)((u8 *)state_owner + 0x7C);
+        if (stored_value != 0) {
+            *(s32 *)((u8 *)output + 8) = *stored_value;
         }
     }
 }

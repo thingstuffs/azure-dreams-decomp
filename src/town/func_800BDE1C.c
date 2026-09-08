@@ -26,25 +26,26 @@ extern u8 D_80046398[];
 extern u8 D_80083160[];
 extern u8 D_800D1BDC[];
 
-void func_800BB57C(s32 arg0, void *arg1, FuncData *arg2) {
-    func_8004491C(arg0 - 0x20, D_80046398);
+/* Initialize object state, scale, and color, then offset and configure the object. */
+void func_800BB57C(s32 object_id, void *object, FuncData *state) {
+    func_8004491C(object_id - 0x20, D_80046398);
 
-    arg2->unk12 = 0;
-    arg2->unk14 = 0;
-    arg2->unk10 = 0;
-    arg2->unk16 = 0;
-    arg2->unk18 = 0;
-    arg2->unk1A = 0;
-    arg2->unk0 = 0;
-    arg2->unk4 = 0;
-    arg2->unk5 = 0;
-    arg2->unk1C = 0x1000;
-    arg2->unk1E = 0x1000;
-    arg2->unk20 = 0x1000;
-    arg2->unkC = D_80083160[0xA8];
-    arg2->unkD = D_80083160[0xA9];
-    arg2->unkE = D_80083160[0xAA];
-    *(s32 *)((u8 *)arg1 + 8) += 0x200000;
+    state->unk12 = 0;
+    state->unk14 = 0;
+    state->unk10 = 0;
+    state->unk16 = 0;
+    state->unk18 = 0;
+    state->unk1A = 0;
+    state->unk0 = 0;
+    state->unk4 = 0;
+    state->unk5 = 0;
+    state->unk1C = 0x1000;
+    state->unk1E = 0x1000;
+    state->unk20 = 0x1000;
+    state->unkC = D_80083160[0xA8];
+    state->unkD = D_80083160[0xA9];
+    state->unkE = D_80083160[0xAA];
+    *(s32 *)((u8 *)object + 8) += 0x200000;
 
-    func_8008F104(arg0, arg1, D_800D1BDC);
+    func_8008F104(object_id, object, D_800D1BDC);
 }

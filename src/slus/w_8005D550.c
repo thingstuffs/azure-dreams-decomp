@@ -11,14 +11,12 @@ typedef struct {
 extern D_80079958_t_8005D550 D_80079958;
 extern s32 D_80079980[3]; /* index 0 only used; array padding forces hi/lo codegen */
 
-/* Store a value into the table D_80079958.ptr[a0]; if a2 is nonzero, the
- * stored value is first logically shifted right by the global shift amount
- * D_80079980[0]. */
-void storeU16TableEntry(s32 a0, u32 a1, s32 a2)
+/* Store a table entry, optionally shifting the value right by the global shift amount. */
+void storeU16TableEntry(s32 index, u32 value, s32 apply_shift)
 {
-    if (a2 == 0) {
-        D_80079958.ptr[a0] = (u16)a1;
+    if (apply_shift == 0) {
+        D_80079958.ptr[index] = (u16)value;
     } else {
-        D_80079958.ptr[a0] = (u16)(a1 >> D_80079980[0]);
+        D_80079958.ptr[index] = (u16)(value >> D_80079980[0]);
     }
 }

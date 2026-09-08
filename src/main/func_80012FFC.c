@@ -16,21 +16,22 @@ extern MainRecord D_80027E78[];
 extern void func_8006733C(MainDescriptor *descriptor, void *entry);
 extern void func_80067014(s32 arg0);
 
-void func_80025FFC(void *arg0, s32 arg1)
+/* Copy the selected record into the destination and process three descriptor entries. */
+void func_80025FFC(void *dest, s32 record_index)
 {
     MainDescriptor descriptor;
     u8 *entry;
-    s32 i;
+    s32 entry_index;
 
     descriptor = D_800200B8;
-    *(MainRecord *)((u8 *)arg0 + 0x60) = D_80027E78[arg1];
-    i = 0;
+    *(MainRecord *)((u8 *)dest + 0x60) = D_80027E78[record_index];
+    entry_index = 0;
     entry = (u8 *)(unsigned long)0x80010080;
-    descriptor.second += arg1 * 0x10;
+    descriptor.second += record_index * 0x10;
     do {
         func_8006733C(&descriptor, entry);
         descriptor.first += 4;
         entry += 0x80;
-    } while (++i < 3);
+    } while (++entry_index < 3);
     func_80067014(0);
 }

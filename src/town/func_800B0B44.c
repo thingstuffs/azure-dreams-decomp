@@ -14,13 +14,14 @@ extern void func_800B1DBC(s32 arg0);
 extern s32 D_800814A0[];
 extern s32 D_80082AB4[];
 
-void func_800AE2A4(FuncArg *arg0) {
-    s32 field28;
-    *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
-    field28 = arg0->field28;
+// Set the record and global flags, apply the stored values, and process the record.
+void func_800AE2A4(FuncArg *record) {
+    s32 firstUpdateValue;
+    *(u16 *)((u8 *)record - 2) |= 0x8000;
+    firstUpdateValue = record->field28;
     D_800814A0[0] |= 0x8000;
-    func_800B1718(field28);
-    func_800B1DBC(arg0->field2C);
-    D_80082AB4[0] = arg0->field4;
-    func_800AE148(arg0);
+    func_800B1718(firstUpdateValue);
+    func_800B1DBC(record->field2C);
+    D_80082AB4[0] = record->field4;
+    func_800AE148(record);
 }

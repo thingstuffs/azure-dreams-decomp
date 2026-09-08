@@ -26,52 +26,53 @@ typedef struct S_818B1334_3 {
     u16 unk_0A;
 } S_818B1334_3;   /* arg1 in func_818B1334 */
 
-s32 func_818B1334(S_818B1334_1 *arg0, S_818B1334_3 *arg1, void *arg2) {
-    M2C_UNK sp20[34];
-    M2C_UNK *var_s2;
-    register M2C_UNK *var_s5;
-    s16 temp_s0_2;
-    s32 temp_a1;
-    s32 temp_s0;
-    s32 temp_v0;
-    s32 var_a0;
-    s32 var_s0;
-    s32 var_s1;
-    s32 var_s1_2;
-    u16 temp_a2;
-    void *var_s2_2;
-    void *call_a0;
+/* Build a circular lookup table and submit eight phase-shifted entries. */
+s32 func_818B1334(S_818B1334_1 *source, S_818B1334_3 *target, void *context) {
+    M2C_UNK circle_values[34];
+    M2C_UNK *circle_entry;
+    register M2C_UNK *circle_table;
+    s16 radius;
+    s32 entry_angle;
+    s32 circle_angle;
+    s32 phase;
+    s32 phase_bias;
+    s32 index_bias;
+    s32 circle_index;
+    s32 entry_index;
+    u16 angle_offset;
+    void *offset_cursor;
+    void *source_arg;
 
-    var_s5 = sp20;
-    var_s1 = 0x10;
-    var_s2 = var_s5 + 16;
+    circle_table = circle_values;
+    circle_index = 0x10;
+    circle_entry = circle_table + 16;
     do {
-        var_s0 = var_s1;
-        if (var_s1 < 0) {
-            var_s0 = var_s1 + 0xF;
+        index_bias = circle_index;
+        if (circle_index < 0) {
+            index_bias = circle_index + 0xF;
         }
-        temp_s0 = (var_s1 - ((var_s0 >> 4) * 0x10)) << 8;
-        ((S_818B1334_0 *)var_s2)->unk_00 = (s32) (func_800644B8(temp_s0) >> 4);
-        ((S_818B1334_0 *)var_s2)->unk_44 = (s32) (func_80064584(temp_s0) >> 4);
-        var_s2 -= 1;
-    } while (--var_s1 >= 0);
-    var_s1_2 = 0;
-    var_s2_2 = arg0;
+        circle_angle = (circle_index - ((index_bias >> 4) * 0x10)) << 8;
+        ((S_818B1334_0 *)circle_entry)->unk_00 = (s32) (func_800644B8(circle_angle) >> 4);
+        ((S_818B1334_0 *)circle_entry)->unk_44 = (s32) (func_80064584(circle_angle) >> 4);
+        circle_entry -= 1;
+    } while (--circle_index >= 0);
+    entry_index = 0;
+    offset_cursor = source;
     do {
-        temp_v0 = arg0->unk_10 - var_s1_2;
-        var_a0 = temp_v0;
-        if (temp_v0 < 0) {
-            var_a0 = temp_v0 + 0xF;
+        phase = source->unk_10 - entry_index;
+        phase_bias = phase;
+        if (phase < 0) {
+            phase_bias = phase + 0xF;
         }
-        temp_s0_2 = (func_800644B8((temp_v0 - ((var_a0 >> 4) * 0x10)) << 9) >> 9) + 0x20;
-        func_80064584(var_s1_2 << 0xA);
-        call_a0 = arg0;
-        ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_a2 = ((S_818B1334_2 *)var_s2_2)->unk_1A;
-        var_s2_2 += 2;
-        temp_a1 = var_s1_2 << 0x11;
-        var_s1_2 += 1;
-        func_80024610(call_a0, arg1, arg2, temp_s0_2, (s32) (s16) (arg1->unk_0A - temp_a2), var_s5, 0xFF, temp_a1 >> 0x10);
-    } while (var_s1_2 < 8);
+        radius = (func_800644B8((phase - ((phase_bias >> 4) * 0x10)) << 9) >> 9) + 0x20;
+        func_80064584(entry_index << 0xA);
+        source_arg = source;
+        ASM_KEEP(source_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        angle_offset = ((S_818B1334_2 *)offset_cursor)->unk_1A;
+        offset_cursor += 2;
+        entry_angle = entry_index << 0x11;
+        entry_index += 1;
+        func_80024610(source_arg, target, context, radius, (s32) (s16) (target->unk_0A - angle_offset), circle_table, 0xFF, entry_angle >> 0x10);
+    } while (entry_index < 8);
     return 0;
 }

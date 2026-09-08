@@ -33,99 +33,95 @@ extern s32 func_800644B8();
 extern void func_800A7A7C();
 extern s32 D_800814A0;
 
-void func_8017085C(void *arg0, void *arg1, void *arg2) {
-    s8 sp18[4];
-    s16 temp_v0_4;
-    s16 temp_v1;
-    s16 temp_v1_2;
-    s32 temp_a0;
-    s32 temp_a1;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 var_a1;
-    s32 var_v0;
-    register u16 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u16 temp_v0_5;
-    u16 temp_v0_7;
+/* Updates vertical animation and triggers an effect upon reaching the resting height. */
+void func_8017085C(void *motion, void *position, void *effect) {
+    s8 effect_args[4];
+    s16 world_z;
+    s16 state;
+    s16 world_x;
+    s32 phase;
+    s32 tile_z;
+    s32 height_offset;
+    s32 centered_z;
+    register u16 frame ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u16 elapsed;
+    u16 old_state;
 
-    temp_v1 = ((S_8017085C_0 *)arg0)->unk_12.s;
-    if (temp_v1 == 1) {
-        goto state1;
+    state = ((S_8017085C_0 *)motion)->unk_12.s;
+    if (state == 1) {
+        goto timed_bob;
     }
-    if (temp_v1 < 2) {
-        if (temp_v1 == 0) {
-            goto state0;
+    if (state < 2) {
+        if (state == 0) {
+            goto bob;
         }
         return;
     }
-       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if (temp_v1 == 2) {
-        goto state2;
+    if (state == 2) {
+        goto settle;
     }
     return;
 
-state0:
-    temp_v0 = ((S_8017085C_0 *)arg0)->unk_18;
-    ((S_8017085C_0 *)arg0)->unk_18 = temp_v0 + 1;
-    temp_a0 = (s32)((u32)temp_v0 << 0x10);
-    temp_a0 >>= 4;
-    ((S_8017085C_0 *)arg0)->unk_5C = (0 - func_800644B8(temp_a0 / 80)) << 7;
-    temp_v0_2 = ((S_8017085C_0 *)arg0)->unk_5C - 0x200000;
-    ((S_8017085C_1 *)arg1)->unk_08.at00.v = ((S_8017085C_1 *)arg1)->unk_14 + temp_v0_2;
+bob:
+    frame = ((S_8017085C_0 *)motion)->unk_18;
+    ((S_8017085C_0 *)motion)->unk_18 = frame + 1;
+    phase = (s32)((u32)frame << 0x10);
+    phase >>= 4;
+    ((S_8017085C_0 *)motion)->unk_5C = (0 - func_800644B8(phase / 80)) << 7;
+    height_offset = ((S_8017085C_0 *)motion)->unk_5C - 0x200000;
+    ((S_8017085C_1 *)position)->unk_08.at00.v = ((S_8017085C_1 *)position)->unk_14 + height_offset;
 
     return;
 
-state1:
-    temp_v0 = ((S_8017085C_0 *)arg0)->unk_18;
-    ((S_8017085C_0 *)arg0)->unk_18 = temp_v0 + 1;
-    temp_a0 = (s32)((u32)temp_v0 << 0x10);
-    temp_a0 >>= 4;
-    ((S_8017085C_0 *)arg0)->unk_5C = (0 - func_800644B8(temp_a0 / 80)) << 7;
-    temp_v0_2 = ((S_8017085C_0 *)arg0)->unk_5C - 0x200000;
-    ((S_8017085C_1 *)arg1)->unk_08.at00.v = ((S_8017085C_1 *)arg1)->unk_14 + temp_v0_2;
+timed_bob:
+    frame = ((S_8017085C_0 *)motion)->unk_18;
+    ((S_8017085C_0 *)motion)->unk_18 = frame + 1;
+    phase = (s32)((u32)frame << 0x10);
+    phase >>= 4;
+    ((S_8017085C_0 *)motion)->unk_5C = (0 - func_800644B8(phase / 80)) << 7;
+    height_offset = ((S_8017085C_0 *)motion)->unk_5C - 0x200000;
+    ((S_8017085C_1 *)position)->unk_08.at00.v = ((S_8017085C_1 *)position)->unk_14 + height_offset;
 
-    temp_v0_5 = ((S_8017085C_0 *)arg0)->unk_18;
-    ((S_8017085C_0 *)arg0)->unk_18 = temp_v0_5 + 1;
-    if ((s16)temp_v0_5 < 0x14) {
+    elapsed = ((S_8017085C_0 *)motion)->unk_18;
+    ((S_8017085C_0 *)motion)->unk_18 = elapsed + 1;
+    if ((s16)elapsed < 0x14) {
         return;
     }
 
-    temp_v0_7 = ((S_8017085C_0 *)arg0)->unk_12.u;
-    ((S_8017085C_0 *)arg0)->unk_18 = 0;
-    ((S_8017085C_0 *)arg0)->unk_12.u = temp_v0_7 + 1;
+    old_state = ((S_8017085C_0 *)motion)->unk_12.u;
+    ((S_8017085C_0 *)motion)->unk_18 = 0;
+    ((S_8017085C_0 *)motion)->unk_12.u = old_state + 1;
     return;
 
-state2:
-    ((S_8017085C_1 *)arg1)->unk_08.at00.v += 0x20000;
-    if (((S_8017085C_1 *)arg1)->unk_08.at00.v < ((S_8017085C_1 *)arg1)->unk_14) {
+settle:
+    ((S_8017085C_1 *)position)->unk_08.at00.v += 0x20000;
+    if (((S_8017085C_1 *)position)->unk_08.at00.v < ((S_8017085C_1 *)position)->unk_14) {
         return;
     }
 
-    ((S_8017085C_1 *)arg1)->unk_08.at00.v = ((S_8017085C_1 *)arg1)->unk_14;
-    sp18[1] = 0x12;
-    sp18[0] = 1;
-    sp18[2] = 0x32;
-    sp18[3] = 0;
+    ((S_8017085C_1 *)position)->unk_08.at00.v = ((S_8017085C_1 *)position)->unk_14;
+    effect_args[1] = 0x12;
+    effect_args[0] = 1;
+    effect_args[2] = 0x32;
+    effect_args[3] = 0;
 
-    temp_v1_2 = ((S_8017085C_1 *)arg1)->unk_02;
-    if (temp_v1_2 - 0x20 >= 0) {
-        ((S_8017085C_0 *)arg0)->unk_58 = (temp_v1_2 - 0x20) >> 6;
+    world_x = ((S_8017085C_1 *)position)->unk_02;
+    if (world_x - 0x20 >= 0) {
+        ((S_8017085C_0 *)motion)->unk_58 = (world_x - 0x20) >> 6;
     } else {
-        ((S_8017085C_0 *)arg0)->unk_58 = (temp_v1_2 + 0x1F) >> 6;
+        ((S_8017085C_0 *)motion)->unk_58 = (world_x + 0x1F) >> 6;
     }
 
-    temp_v0_4 = ((S_8017085C_1 *)arg1)->unk_06;
-    var_a1 = temp_v0_4 - 0x20;
-    if (var_a1 < 0) {
-        do {
-            var_a1 = temp_v0_4 + 0x1F;
-        } while (0);
+    world_z = ((S_8017085C_1 *)position)->unk_06;
+    centered_z = world_z - 0x20;
+    if (centered_z < 0) {
+        centered_z = world_z + 0x1F;
     }
-    temp_a1 = var_a1 >> 6;
-    ((S_8017085C_0 *)arg0)->unk_59 = temp_a1;
-    func_800A7A7C(((S_8017085C_0 *)arg0)->unk_58, (s8)temp_a1,
-        ((S_8017085C_1 *)arg1)->unk_08.at02.v, ((S_8017085C_2 *)arg2)->unk_08, sp18);
+    tile_z = centered_z >> 6;
+    ((S_8017085C_0 *)motion)->unk_59 = tile_z;
+    func_800A7A7C(((S_8017085C_0 *)motion)->unk_58, (s8)tile_z,
+        ((S_8017085C_1 *)position)->unk_08.at02.v, ((S_8017085C_2 *)effect)->unk_08, effect_args);
 
-    (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
     D_800814A0 |= 0x8000;
 }

@@ -1,7 +1,5 @@
 #include "common.h"
 
-/* summary: forwards &a0->unkC to func_80050FF4, then stores the result of
-   func_80126890(a0->unk4) into a0->unk8 */
 extern void func_80050FF4(void *a0);
 extern s32 func_80126890(void *a0);
 
@@ -12,8 +10,9 @@ typedef struct S_800510A0 {
     s32 unkC;
 } S_800510A0;
 
-void func_800510A0(S_800510A0 *a0)
+/* Processes the record's unkC field and stores the result for unk4 in unk8. */
+void func_800510A0(S_800510A0 *record)
 {
-    func_80050FF4(&a0->unkC);
-    a0->unk8 = func_80126890(a0->unk4);
+    func_80050FF4(&record->unkC);
+    record->unk8 = func_80126890(record->unk4);
 }

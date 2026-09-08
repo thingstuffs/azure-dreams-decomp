@@ -27,21 +27,22 @@ extern void func_800A6480(void *, s32);
 extern s32 func_800AD6FC(void *, u16, s32);
 extern s32 func_800BBA40(u8, u8, s16, void *, s32, s32, void *);
 
-s32 func_800C0230(u8 *arg0, s32 arg1, s16 arg2, s32 arg3) {
-    u8 *temp_v0;
+/* Apply an event to the target and update the event count on completion. */
+s32 func_800C0230(u8 *entity, s32 event, s16 target_type, s32 target_record) {
+    u8 *entity_info;
 
-    if (arg2 == 0xD) {
-        return func_80098864(arg1, arg3);
+    if (target_type == 0xD) {
+        return func_80098864(event, target_record);
     }
-    if ((void *)arg0 == D_800E3D7C) {
-        *(s32 *)(arg0 + 0x110) = arg1;
-        func_8008D344(arg0, D_80083780, D_80082E80, 0);
+    if ((void *)entity == D_800E3D7C) {
+        *(s32 *)(entity + 0x110) = event;
+        func_8008D344(entity, D_80083780, D_80082E80, 0);
         return 0;
     }
-    if ((u32)arg0 <= 0x9FFFFFFF) {
-        func_800A6480(arg0, arg1);
-        if (func_800AD6FC(arg0, D_800DDE84[arg0[0x13]] & 3, arg1) == 0) {
-            func_800A5F38(arg0, arg1);
+    if ((u32)entity <= 0x9FFFFFFF) {
+        func_800A6480(entity, event);
+        if (func_800AD6FC(entity, D_800DDE84[entity[0x13]] & 3, event) == 0) {
+            func_800A5F38(entity, event);
             return 1;
         }
         D_80083460->count--;
@@ -51,12 +52,12 @@ s32 func_800C0230(u8 *arg0, s32 arg1, s16 arg2, s32 arg3) {
     if (D_80012090 == 0 && D_8008146C == 0x28 && func_80033BC0(0xA2) == 0) {
         func_800997FC(D_800E1375);
         D_80083460->count--;
-        func_80098B38(arg1);
+        func_80098B38(event);
         return 1;
     }
-    temp_v0 = *(u8 **)(arg0 - 0x14);
-    if (func_800BBA40(temp_v0[0x24], temp_v0[0x25],
-                      *(s16 *)(arg0 + 0x88), D_800DF45C,
+    entity_info = *(u8 **)(entity - 0x14);
+    if (func_800BBA40(entity_info[0x24], entity_info[0x25],
+                      *(s16 *)(entity + 0x88), D_800DF45C,
                       0x2800, 0x208020, D_800C0180) == 0) {
         return 0;
     }
@@ -64,6 +65,6 @@ s32 func_800C0230(u8 *arg0, s32 arg1, s16 arg2, s32 arg3) {
     D_80083460->count++;
 
 block_update:
-    func_80098B38(arg1);
+    func_80098B38(event);
     return 1;
 }

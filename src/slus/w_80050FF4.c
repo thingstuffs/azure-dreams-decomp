@@ -15,15 +15,16 @@ extern s32 D_80080BAC;
 extern s32 D_80081480;
 extern s32 func_8003E140;
 
-void func_80050FF4(s8 *arg0) {
-    *arg0 = 0;
+/* Runs two callback sequences, resetting their shared status byte before each. */
+void func_80050FF4(s8 *status) {
+    *status = 0;
     func_8003E4FC(6, &D_80080BAC, NULL);
-    func_8003E4FC(0xFF, &func_8003E140, arg0);
+    func_8003E4FC(0xFF, &func_8003E140, status);
     func_8003F320();
     func_80041344(0x80020000, *(s32 *)0x80081480);
     DrawSync(0);
-    *arg0 = 0;
+    *status = 0;
     func_8003E4FC(6, &D_80080B9C, NULL);
-    func_8003E4FC(0xFF, &func_8003E140, arg0);
+    func_8003E4FC(0xFF, &func_8003E140, status);
     func_8003F320();
 }

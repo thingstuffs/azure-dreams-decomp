@@ -41,54 +41,55 @@ __asm__(".globl func_80016000\n"
 #define BODY_NAME func_80016000
 #endif
 
+/* Initialize projection, lighting, colors, and view bounds. */
 void BODY_NAME(void) {
-    u8 *base;
-    u8 *state;
-    s32 scale;
-    void *call_arg;
-    s32 negative;
-    s32 positive;
+    u8 *render_data;
+    u8 *view_state;
+    s32 default_scale;
+    void *light_matrix;
+    s32 light_coeff_a;
+    s32 light_coeff_b;
 
-    base = D_80083160;
-    state = base + 0x18;
-    scale = 0x200;
-    *(s32 *)(state + 0x88) = scale;
-    func_80064F20(scale);
-    *(s32 *)(state + 0x78) = 0;
-    *(s32 *)(state + 0x7C) = 0;
-    *(s32 *)(state + 0x80) = 0;
+    render_data = D_80083160;
+    view_state = render_data + 0x18;
+    default_scale = 0x200;
+    *(s32 *)(view_state + 0x88) = default_scale;
+    func_80064F20(default_scale);
+    *(s32 *)(view_state + 0x78) = 0;
+    *(s32 *)(view_state + 0x7C) = 0;
+    *(s32 *)(view_state + 0x80) = 0;
     func_80064EE0(0, 0, 0);
-    *(s16 *)(state + 0x58) = scale;
-    *(s16 *)(state + 0x5E) = scale;
-    *(s16 *)(state + 0x64) = scale;
-    *(s16 *)(state + 0x5A) = -0x100;
-    *(s16 *)(state + 0x60) = -0x100;
-    *(s16 *)(state + 0x66) = -0x100;
-    *(s16 *)(state + 0x5C) = 0;
-    *(s16 *)(state + 0x62) = 0;
-    *(s16 *)(state + 0x68) = 0;
-    func_80064D50(base + 0x70);
+    *(s16 *)(view_state + 0x58) = default_scale;
+    *(s16 *)(view_state + 0x5E) = default_scale;
+    *(s16 *)(view_state + 0x64) = default_scale;
+    *(s16 *)(view_state + 0x5A) = -0x100;
+    *(s16 *)(view_state + 0x60) = -0x100;
+    *(s16 *)(view_state + 0x66) = -0x100;
+    *(s16 *)(view_state + 0x5C) = 0;
+    *(s16 *)(view_state + 0x62) = 0;
+    *(s16 *)(view_state + 0x68) = 0;
+    func_80064D50(render_data + 0x70);
 
-    call_arg = base + 0x50;
-    ASM_KEEP_NV(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    negative = -0x800;
-    positive = 0x800;
-    *(s16 *)(state + 0x38) = negative;
-    *(s16 *)(state + 0x3C) = negative;
-    ASM_KEEP_NV(positive);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    negative = 0x800;
-    *(s16 *)(state + 0x3A) = positive;
-    positive = -0x800;
-    *(s16 *)(state + 0x3E) = negative;
-    *(s16 *)(state + 0x40) = positive;
-    *(s16 *)(state + 0x42) = negative;
-    *(s16 *)(state + 0x44) = 0;
-    *(s16 *)(state + 0x46) = 0;
-    *(s16 *)(state + 0x48) = 0;
-    func_80064D20(call_arg);
+    light_matrix = render_data + 0x50;
+    ASM_KEEP_NV(light_matrix);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    light_coeff_a = -0x800;
+    light_coeff_b = 0x800;
+    *(s16 *)(view_state + 0x38) = light_coeff_a;
+    *(s16 *)(view_state + 0x3C) = light_coeff_a;
+    ASM_KEEP_NV(light_coeff_b);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    light_coeff_a = 0x800;
+    *(s16 *)(view_state + 0x3A) = light_coeff_b;
+    light_coeff_b = -0x800;
+    *(s16 *)(view_state + 0x3E) = light_coeff_a;
+    *(s16 *)(view_state + 0x40) = light_coeff_b;
+    *(s16 *)(view_state + 0x42) = light_coeff_a;
+    *(s16 *)(view_state + 0x44) = 0;
+    *(s16 *)(view_state + 0x46) = 0;
+    *(s16 *)(view_state + 0x48) = 0;
+    func_80064D20(light_matrix);
 
-    *(s32 *)(state + 0x84) = 0x1000;
-    func_80064624(0x1000, *(s32 *)(state + 0x88));
+    *(s32 *)(view_state + 0x84) = 0x1000;
+    func_80064624(0x1000, *(s32 *)(view_state + 0x88));
     func_80064EC0(0xA0, 0xA0, 0xA0);
     D_801C9E40.red = 0;
     D_801C9E40.green = 0;
@@ -97,9 +98,9 @@ void BODY_NAME(void) {
     D_801DA714.green = 0;
     D_801DA714.blue = 0;
     func_80064F00(0xA0, 0x78);
-    *(s16 *)(base + 0x18) = -0xBC;
-    *(s16 *)(base + 0x1A) = -0x88;
-    *(s16 *)(base + 0x1C) = 0x172;
-    *(s16 *)(base + 0x1E) = 0x19A;
+    *(s16 *)(render_data + 0x18) = -0xBC;
+    *(s16 *)(render_data + 0x1A) = -0x88;
+    *(s16 *)(render_data + 0x1C) = 0x172;
+    *(s16 *)(render_data + 0x1E) = 0x19A;
     D_80083478 = &D_800DDC7C;
 }

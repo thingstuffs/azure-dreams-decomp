@@ -9,20 +9,21 @@ typedef struct {
 
 extern s32 func_8004383C(S_80043868 *arg0, s16 arg1);
 
-s32 func_80043868(S_80043868 *arg0)
+/* Scales the current value between two bounds, capping the result at 20. */
+s32 func_80043868(S_80043868 *state)
 {
-    s32 lo;
-    s32 hi;
-    register s32 range ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    register s32 ret ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    s32 lower;
+    s32 upper;
+    register s32 range ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register s32 scaled_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
-    lo = func_8004383C(arg0, -1);
-    hi = func_8004383C(arg0, 0);
-    range = hi - lo;
-    lo = arg0->unk18 - lo;
-    ret = (lo * 20) / range;
-    if (ret >= 21) {
-        ret = 20;
+    lower = func_8004383C(state, -1);
+    upper = func_8004383C(state, 0);
+    range = upper - lower;
+    lower = state->unk18 - lower;
+    scaled_value = (lower * 20) / range;
+    if (scaled_value >= 21) {
+        scaled_value = 20;
     }
-    return ret;
+    return scaled_value;
 }

@@ -66,15 +66,16 @@ extern u8 D_80170E54[];
 extern u8 D_80173CDC[];
 extern u8 D_80173CE4[];
 
-void func_80173358(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
+/* Updates actor status and directional animation, then restores the default handler. */
+void func_80173358(void *in_controller, void *in_context, void *in_sprite, void *in_actor)
 {
-    void *arg0 = in_arg0;
-    void *arg1 = in_arg1;
-    void *arg2 = in_arg2;
-    void *arg3 = in_arg3;
+    void *controller = in_controller;
+    void *context = in_context;
+    void *sprite = in_sprite;
+    void *actor = in_actor;
     s32 state;
 
-    state = ((S_80173358_0 *)arg0)->unk_9B;
+    state = ((S_80173358_0 *)controller)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -93,24 +94,24 @@ state_ge_two:
     return;
 
 state_zero:
-    if (((S_80173358_1 *)arg2)->unk_14 & 0xE000) {
-        u8 *table;
+    if (((S_80173358_1 *)sprite)->unk_14 & 0xE000) {
+        u8 *direction_anims;
         u8 *system_base;
 
-        table = D_80173CDC;
-        (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-        func_80047784(arg2,
-            table[((D_80083228 + ((S_80173358_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+        direction_anims = D_80173CDC;
+        (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
+        func_80047784(sprite,
+            direction_anims[((D_80083228 + ((S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         system_base = (u8 *)&D_80083460;
         ((S_80173358_3 *)system_base)->unk_0A--;
-        ((S_80173358_0 *)arg0)->unk_9B++;
+        ((S_80173358_0 *)controller)->unk_9B++;
     }
     return;
 
 state_one:
-    if ((func_80042900(arg3, 1) << 16) != 0) {
-        s32 flags;
+    if ((func_80042900(actor, 1) << 16) != 0) {
+        s32 actor_flags;
         u8 *system_base;
 
         system_base = (u8 *)&D_80083460;
@@ -118,89 +119,89 @@ state_one:
             return;
         }
 
-        if ((((S_80173358_2 *)arg3)->unk_64 != 0) &&
-            (func_800AA6B4(arg0, arg1, arg2, 0) != 0)) {
+        if ((((S_80173358_2 *)actor)->unk_64 != 0) &&
+            (func_800AA6B4(controller, context, sprite, 0) != 0)) {
             return;
         }
 
-        if (((S_80173358_2 *)arg3)->unk_25 == 0) {
+        if (((S_80173358_2 *)actor)->unk_25 == 0) {
             if (((S_80173358_3 *)system_base)->unk_02 & 0x2008) {
                 return;
             }
-            func_800AA79C(arg0, arg1, arg2, arg3);
+            func_800AA79C(controller, context, sprite, actor);
             return;
         }
 
-        if ((func_800A2C34(arg3) << 16) != 0) {
+        if ((func_800A2C34(actor) << 16) != 0) {
             return;
         }
 
-        flags = ((S_80173358_2 *)arg3)->unk_1C;
-        if (flags & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        actor_flags = ((S_80173358_2 *)actor)->unk_1C;
+        if (actor_flags & 0x100) {
+            func_800AA258(controller, context, sprite, actor);
             return;
         }
 
-        if (flags & 0x80000) {
-            func_800AA888(arg0, arg1, arg2, arg3);
-            func_80173A30(arg0, arg1, arg2, arg3);
+        if (actor_flags & 0x80000) {
+            func_800AA888(controller, context, sprite, actor);
+            func_80173A30(controller, context, sprite, actor);
             return;
         }
 
-        if (((S_80173358_2 *)arg3)->unk_6D == 0) {
+        if (((S_80173358_2 *)actor)->unk_6D == 0) {
             return;
         }
 
-        if ((func_800A2C34(arg3) << 16) != 0) {
-            if ((func_8009A180(arg3,
+        if ((func_800A2C34(actor) << 16) != 0) {
+            if ((func_8009A180(actor,
                     (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                 return;
             }
         }
 
-        func_800A9A0C(arg3);
-        func_800A9A04(arg3);
+        func_800A9A0C(actor);
+        func_800A9A04(actor);
 
-        if ((func_80042900(arg3, 1) << 16) != 0) {
+        if ((func_80042900(actor, 1) << 16) != 0) {
             u8 *origin;
             s8 coordinate;
 
             origin = D_80082E80;
-            coordinate = ((S_80173358_1 *)arg2)->unk_26;
+            coordinate = ((S_80173358_1 *)sprite)->unk_26;
             if ((((coordinate == ((S_80173358_5 *)origin)->unk_26) &&
                         (coordinate >= 0)) ||
-                    (func_8009FD40(origin, arg2) < 2)) &&
+                    (func_8009FD40(origin, sprite) < 2)) &&
                 ((func_800A6D30() & 7) == 0)) {
-                func_80042B68(arg3, 1);
+                func_80042B68(actor, 1);
             }
         }
 
-        if ((func_80042900(arg3, 1) << 16) != 0) {
+        if ((func_80042900(actor, 1) << 16) != 0) {
             return;
         }
     }
 
     {
-        u8 *table;
+        u8 *direction_anims;
 
-        table = D_80173CE4;
-        (*(void * *)((u8 *)arg2 + 0x2C)) = table;
-        func_80047784(arg2,
-            table[((D_80083228 + ((S_80173358_2 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+        direction_anims = D_80173CE4;
+        (*(void * *)((u8 *)sprite + 0x2C)) = direction_anims;
+        func_80047784(sprite,
+            direction_anims[((D_80083228 + ((S_80173358_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
-    if (!(((S_80173358_1 *)arg2)->unk_14 & 0x8000)) {
+    if (!(((S_80173358_1 *)sprite)->unk_14 & 0x8000)) {
         u8 *system_base = (u8 *)&D_80083460;
 
         ((S_80173358_3 *)system_base)->unk_0A++;
-        ((S_80173358_0 *)arg0)->unk_9B++;
+        ((S_80173358_0 *)controller)->unk_9B++;
         return;
     }
     goto finish;
 
 state_two:
-    if (!(((S_80173358_1 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((S_80173358_1 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
     {
@@ -209,9 +210,9 @@ state_two:
     }
 
 finish:
-    ((S_80173358_2 *)arg3)->unk_1C &= ~0x200;
-    ((S_80173358_0 *)arg0)->unk_8C = D_80170E54;
-    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(arg2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    ((S_80173358_2 *)actor)->unk_1C &= ~0x200;
+    ((S_80173358_0 *)controller)->unk_8C = D_80170E54;
+    ASM_KEEP(controller);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 }

@@ -1,11 +1,5 @@
 #include "common.h"
 
-/* Finds a free slot: first scans D_80073740[0..D_80073734[0]-1] via
- * func_8005EB78 for an entry that reports "done" (0); if none is free,
- * falls back to scanning D_80085458 for a slot whose f1a field is 0. If a
- * free slot is found (by either scan), dispatches it via func_8005BBFC with
- * the found index and the 6 remaining (s16) parameters, and returns its
- * (s16) result; otherwise returns -1. */
 /* D_80073734: s32 count array (established elsewhere; index 0 = active-entry count). */
 extern s32 D_80073734[4];
 
@@ -28,45 +22,46 @@ extern s32 D_80085F98[4];
 extern s32 func_8005EB78(s32 a0);
 extern s16 func_8005BBFC(s16 idx, s16 a0, s16 a1, s16 a2, s16 a3, s16 a4, s16 a5, s16 a6);
 
-s16 func_8005C130(s16 a0, s16 a1, s16 a2, s16 a3, s16 a4, s16 a5, s16 a6)
+/* Dispatches to the first done or empty slot and returns the result, or -1 if none is available. */
+s16 func_8005C130(s16 dispatch_arg0, s16 dispatch_arg1, s16 dispatch_arg2, s16 dispatch_arg3, s16 dispatch_arg4, s16 dispatch_arg5, s16 dispatch_arg6)
 {
-    s32 i;
+    s32 slot;
 
     D_80085F98[0] = 1;
 
-    i = 0;
+    slot = 0;
     for (;;) {
-        if (func_8005EB78(D_80073740[i]) == 0) {
-            goto found1;
+        if (func_8005EB78(D_80073740[slot]) == 0) {
+            goto checked_done_slots;
         }
-        i++;
-        if (i > D_80073734[0] - 1) {
-            i = -1;
+        slot++;
+        if (slot > D_80073734[0] - 1) {
+            slot = -1;
             break;
         }
     }
-found1:
+checked_done_slots:
 
-    if (i == -1) {
-        i = 0;
+    if (slot == -1) {
+        slot = 0;
         for (;;) {
-            if (D_80085458[i].f1a == 0) {
-                goto found2;
+            if (D_80085458[slot].f1a == 0) {
+                goto checked_empty_slots;
             }
-            i++;
-            if (i > D_80073734[0] - 1) {
-                i = -1;
+            slot++;
+            if (slot > D_80073734[0] - 1) {
+                slot = -1;
                 break;
             }
         }
-    found2:
+    checked_empty_slots:
         ;
     }
 
-    if (i != -1) {
-        i = func_8005BBFC((s16) i, a0, a1, a2, a3, a4, a5, a6);
+    if (slot != -1) {
+        slot = func_8005BBFC((s16) slot, dispatch_arg0, dispatch_arg1, dispatch_arg2, dispatch_arg3, dispatch_arg4, dispatch_arg5, dispatch_arg6);
     }
 
     D_80085F98[0] = 0;
-    return i;
+    return slot;
 }

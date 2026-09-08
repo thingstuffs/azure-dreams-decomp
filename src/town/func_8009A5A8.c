@@ -17,8 +17,9 @@ typedef struct S_80097D08_1 {
 
 extern M2C_UNK D_80097C50;
 
-void func_80097D08(void *arg0, S_80097D08_1 *arg1) {
-    ((S_80097D08_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_80097C50;
-    arg1->unk_08 = (s32) (((S_80097D08_0 *)((u8 *)arg0 - 0x10))->unk_A6 << 0x10);
-    ((S_80097D08_0 *)((u8 *)arg0 - 0x10))->unk_7C = 5;
+/* Set the record pointer and state, and copy its signed byte to the output in 16.16 format. */
+void func_80097D08(void *record_data, S_80097D08_1 *output) {
+    ((S_80097D08_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_80097C50;
+    output->unk_08 = (s32) (((S_80097D08_0 *)((u8 *)record_data - 0x10))->unk_A6 << 0x10);
+    ((S_80097D08_0 *)((u8 *)record_data - 0x10))->unk_7C = 5;
 }

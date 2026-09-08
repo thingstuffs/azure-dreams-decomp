@@ -34,27 +34,28 @@ typedef struct S_80017EB8_0 {
     u8 unk_01;
 } S_80017EB8_0;   /* arg0 in func_80017EB8 */
 
-s32 func_80017EB8(S_80017EB8_0 *arg0) {
-    s32 temp_s0;
-    s32 var_v0;
-    register s32 var_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 temp_a0;
-    u8 temp_a1;
+/* Checks whether the selected entry is 8 or 9 and func_800186D8 returns zero. */
+s32 func_80017EB8(S_80017EB8_0 *position) {
+    s32 entry_value;
+    s32 matches;
+    register s32 value_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 column;
+    u8 row;
 
-    temp_a1 = arg0->unk_01;
-    temp_a0 = arg0->unk_00;
-    temp_s0 = ((S_80017EB8_4 *)((temp_a0 * 0x14) + ((S_80017EB8_3 *)(((temp_a1 * 0x14) + ((S_80017EB8_2 *)(((S_80017EB8_1 *)(D_80016000[0]))->unk_24))->unk_6C)))->unk_0C))->unk_00;
-    if (func_800186D8(temp_a0, temp_a1) != 0) {
+    row = position->unk_01;
+    column = position->unk_00;
+    entry_value = ((S_80017EB8_4 *)((column * 0x14) + ((S_80017EB8_3 *)(((row * 0x14) + ((S_80017EB8_2 *)(((S_80017EB8_1 *)(D_80016000[0]))->unk_24))->unk_6C)))->unk_0C))->unk_00;
+    if (func_800186D8(column, row) != 0) {
         goto zero;
     }
-    var_v0 = 0;
-    var_v1 = temp_s0 - 8;
-    if ((u32) var_v1 < 2U) {
-        var_v0 = 1;
+    matches = 0;
+    value_offset = entry_value - 8;
+    if ((u32) value_offset < 2U) {
+        matches = 1;
         goto done;
     }
 zero:
-    var_v0 = 0;
+    matches = 0;
 done:
-    return var_v0;
+    return matches;
 }

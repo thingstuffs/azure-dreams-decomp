@@ -60,7 +60,8 @@ extern u8 D_8014CE68;
 extern u8 D_80150194[];
 extern u8 D_801501DC[];
 
-void *func_8014C870(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
+/* Creates an actor and initializes its parts and flags for the requested kind. */
+void *func_8014C870(s16 kind_flags, s8 grid_x, s8 grid_y, s16 part_value)
 {
     s32 kind;
     S_8014C870_1 *work;
@@ -68,18 +69,18 @@ void *func_8014C870(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     S_8014C870_2 *part_a;
     S_8014C870_3 *part_b;
     S_8014C870_4 *actor;
-    void *call_a0;
-    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s16 saved_arg3;
-    s8 saved_arg2;
-    s32 left;
-    s32 right;
+    void *init_obj;
+    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_value;
+    s8 saved_y;
+    s32 flags_14;
+    s32 flags_1c;
 
     work = 0;
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
-    ASM_KEEP_NV(saved_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    saved_x = grid_x;
+    saved_value = part_value;
+    saved_y = grid_y;
+    ASM_KEEP_NV(saved_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
         work = (void *)((Work *)((u8 *)obj + 0x20));
@@ -88,46 +89,46 @@ void *func_8014C870(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
         func_8004491C(obj, &D_80045340);
 
         part_a = ((S_8014C870_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_arg3;
+        part_a->unk_0A = saved_value;
         part_b = ((S_8014C870_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
-        part_b->unk_25 = saved_arg2;
+        kind = kind_flags & 3;
+        part_b->unk_25 = saved_y;
         actor = work;
         part_b->unk_2C = D_80150194;
-        part_b->unk_24 = saved_arg1;
+        part_b->unk_24 = saved_x;
 
         if (kind == 1) {
-            left = ((Work *)work)->flags14 | 0x6000;
-            right = ((Work *)work)->flags1c | 0x6000;
+            flags_14 = ((Work *)work)->flags14 | 0x6000;
+            flags_1c = ((Work *)work)->flags1c | 0x6000;
             goto write_kind;
         }
         if (kind < 2) {
             goto normal_kind;
         }
 
-        left = ((Work *)work)->flags14 | 0x2000;
-        right = ((Work *)work)->flags1c | 0x2000;
+        flags_14 = ((Work *)work)->flags14 | 0x2000;
+        flags_1c = ((Work *)work)->flags1c | 0x2000;
 write_kind:
-        ((Work *)work)->flags14 = left;
-        ((Work *)work)->flags1c = right;
+        ((Work *)work)->flags14 = flags_14;
+        ((Work *)work)->flags1c = flags_1c;
         goto post_kind;
 
 normal_kind:
-        call_a0 = obj;
-        if (((arg0 & ~3) << 16) != 0) {
+        init_obj = obj;
+        if (((kind_flags & ~3) << 16) != 0) {
             goto join_kind;
         }
         if (!(((Work *)work)->flags14 & 0x200)) {
             ((Work *)work)->flags1c |= 0x200;
             func_800A48F0(work, 1,
-                          (func_800A6D30(call_a0) & 0x3F) | 0x20);
+                          (func_800A6D30(init_obj) & 0x3F) | 0x20);
             part_b->unk_2C = D_801501DC;
         }
 
 post_kind:
-        call_a0 = obj;
+        init_obj = obj;
 join_kind:
-        func_800A9C18(call_a0, part_a, part_b, arg0);
+        func_800A9C18(init_obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8014CE68;

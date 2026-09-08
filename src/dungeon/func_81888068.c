@@ -27,7 +27,8 @@ extern void func_800478B8(void *arg0);
 
 __asm__(".set D_80026326, 0x80026326");
 
-void func_80025868(Actor *arg0, Motion *arg1, EffectColor *arg2)
+/* Advance and fade the effect, flagging expiration when its timer runs out. */
+void func_80025868(Actor *actor, Motion *motion, EffectColor *color)
 {
     u16 *counter = D_80026326;
     u16 timer;
@@ -37,26 +38,26 @@ void func_80025868(Actor *arg0, Motion *arg1, EffectColor *arg2)
 
     counter[0]++;
 
-    arg1->x += arg1->dx;
-    arg1->y += arg1->dy;
-    arg1->z += arg1->dz;
-    arg1->dx -= arg1->dx >> 3;
-    arg1->dy -= arg1->dy >> 3;
-    arg1->dz += 0x4000;
+    motion->x += motion->dx;
+    motion->y += motion->dy;
+    motion->z += motion->dz;
+    motion->dx -= motion->dx >> 3;
+    motion->dy -= motion->dy >> 3;
+    motion->dz += 0x4000;
 
-    red = arg2->red;
-    green = arg2->green;
-    arg2->red = red - (red >> 2);
-    blue = arg2->blue;
-    arg2->green = green - (green >> 2);
-    arg2->blue = blue - (blue >> 2);
+    red = color->red;
+    green = color->green;
+    color->red = red - (red >> 2);
+    blue = color->blue;
+    color->green = green - (green >> 2);
+    color->blue = blue - (blue >> 2);
 
-    func_800478B8(arg2);
+    func_800478B8(color);
 
-    timer = arg0->timer - 1;
-    arg0->timer = timer;
+    timer = actor->timer - 1;
+    actor->timer = timer;
     if ((s16)timer <= 0) {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+        *(u16 *)((u8 *)actor - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

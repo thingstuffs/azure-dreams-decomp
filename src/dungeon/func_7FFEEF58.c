@@ -16,39 +16,40 @@ typedef struct S_8008C6B8_1 {
     s32 unk_08;
 } S_8008C6B8_1;   /* temp_s0 in func_8008C6B8 */
 
-s16 func_8008C6B8(S_8008C6B8_0 *arg0, s32 arg1, s32 arg2) {
-    s32 sp10[5];
-    s32 temp_a2;
-    s32 temp_v0;
-    s32 temp_v1;
-    s32 var_v0_2;
+/* Evaluates the summed vector and adjusts nonzero results by the entry's integer second component. */
+s16 func_8008C6B8(S_8008C6B8_0 *base_vector, s32 entries_addr, s32 entry_index) {
+    s32 combined_vector[5];
+    s32 entry_offset;
+    s32 query_result;
+    s32 second_fixed;
+    s32 second_whole;
     s32 component;
     register s32 addend ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    S_8008C6B8_1 *temp_s0;
+    S_8008C6B8_1 *entry;
 
-    temp_a2 = arg2 * 0x10;
-    temp_s0 = temp_a2 + arg1;
-    component = arg0->unk_00;
-    addend = temp_s0->unk_00;
+    entry_offset = entry_index * 0x10;
+    entry = entry_offset + entries_addr;
+    component = base_vector->unk_00;
+    addend = entry->unk_00;
     component += addend;
-    sp10[0] = component;
-    component = arg0->unk_04;
-    addend = temp_s0->unk_04;
+    combined_vector[0] = component;
+    component = base_vector->unk_04;
+    addend = entry->unk_04;
     component += addend;
-    sp10[1] = component;
-    component = arg0->unk_08;
-    addend = temp_s0->unk_08;
+    combined_vector[1] = component;
+    component = base_vector->unk_08;
+    addend = entry->unk_08;
     component += addend;
-    sp10[2] = component;
-    temp_v0 = func_8008D050(sp10);
-    if ((temp_v0 << 0x10) == 0) {
+    combined_vector[2] = component;
+    query_result = func_8008D050(combined_vector);
+    if ((query_result << 0x10) == 0) {
         return 0;
     }
-    temp_v1 = temp_s0->unk_04;
-    var_v0_2 = temp_v1 >> 0x10;
-    if (temp_v1 < 0) {
-        temp_v1 += 0xFFFF;
-        var_v0_2 = temp_v1 >> 0x10;
+    second_fixed = entry->unk_04;
+    second_whole = second_fixed >> 0x10;
+    if (second_fixed < 0) {
+        second_fixed += 0xFFFF;
+        second_whole = second_fixed >> 0x10;
     }
-    return temp_v0 - var_v0_2;
+    return query_result - second_whole;
 }

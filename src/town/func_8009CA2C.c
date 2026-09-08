@@ -13,7 +13,8 @@ typedef struct S_8009A18C_1 {
     s32 unk_14;
 } S_8009A18C_1;   /* arg1 in func_8009A18C */
 
-void func_8009A18C(S_8009A18C_0 *arg0, S_8009A18C_1 *arg1) {
-    arg0->unk_04 = &D_80099B00;
-    arg1->unk_14 = 0xFFF60000;
+/* Initializes the data reference and state value. */
+void func_8009A18C(S_8009A18C_0 *data_ref, S_8009A18C_1 *state) {
+    data_ref->unk_04 = &D_80099B00;
+    state->unk_14 = 0xFFF60000;
 }

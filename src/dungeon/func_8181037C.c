@@ -2,6 +2,7 @@
 
 extern s32 func_80025198(s32, s32, s32, s32, s32);
 
-void func_8002537C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    func_80025198(arg0, arg1, arg2, arg3, arg4);
+/* Create an item view with the supplied contexts, mode, descriptor, and data. */
+void func_8002537C(s32 context, s32 related_context, s32 mode, s32 item_id, s32 item_data) {
+    func_80025198(context, related_context, mode, item_id, item_data);
 }

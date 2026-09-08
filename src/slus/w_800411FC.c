@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* Given a u16 index, walks D_8006CE80[idx].unk04->unk0C, a null-terminated list of s32 values, calling func_80041284() on each. */
 typedef struct S_8006CE80_inner {
     s32 unk00;
     s32 unk04;
@@ -17,25 +16,26 @@ typedef struct S_8006CE80 {
 extern S_8006CE80 D_8006CE80[100];
 extern void func_80041284(s32);
 
-void func_800411FC(u16 arg0) {
-    S_8006CE80 *ent;
-    S_8006CE80_inner *rec;
-    s32 *list;
+/* Calls func_80041284 for each value in the indexed entry's zero-terminated list. */
+void func_800411FC(u16 entry_index) {
+    S_8006CE80 *entry;
+    S_8006CE80_inner *record;
+    s32 *callback_args;
 
-    ent = &D_8006CE80[arg0];
-    rec = ent->unk04;
-    if (rec == 0) {
+    entry = &D_8006CE80[entry_index];
+    record = entry->unk04;
+    if (record == 0) {
         return;
     }
-    list = rec->unk0C;
-    if (list == 0) {
+    callback_args = record->unk0C;
+    if (callback_args == 0) {
         return;
     }
-    if (*list == 0) {
+    if (*callback_args == 0) {
         return;
     }
     do {
-        func_80041284(*list);
-        list++;
-    } while (*list != 0);
+        func_80041284(*callback_args);
+        callback_args++;
+    } while (*callback_args != 0);
 }

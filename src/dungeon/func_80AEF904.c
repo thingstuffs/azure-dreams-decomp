@@ -55,7 +55,8 @@ typedef struct S_80171104_2 {
     s32 unk_14;
 } S_80171104_2;   /* motion in func_80171104 */
 
-void func_80171104(void *arg0, void *arg1, void *arg2)
+/* Update actor callbacks, animation, movement, and ground contact. */
+void func_80171104(void *actor_arg, void *motion_arg, void *object_arg)
 {
     register u8 *actor ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *actor_copy ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -65,27 +66,27 @@ void func_80171104(void *arg0, void *arg1, void *arg2)
     s32 old_direction;
     s16 timer;
     u16 flags;
-    s16 direction;
-    s16 height;
+    s16 height_delta;
+    s16 floor_height;
     s16 actor_height;
-    register s32 index_copy ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 view_index_copy ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *animation;
     s32 shifted_direction;
 
-    actor = arg0;
-    motion = arg1;
-    object = arg2;
+    actor = actor_arg;
+    motion = motion_arg;
+    object = object_arg;
     actor_copy = actor;
 
     if (D_80083462 & 0x2000) {
         ActorCallback early_callback;
         void *early_actor;
 
-        early_actor = arg0;
+        early_actor = actor_arg;
         early_callback = (*(ActorCallback *)((u8 *)actor + 0x8C));
         if (early_callback == (ActorCallback)&D_801717F4) {
             ASM_KEEP(early_actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            early_callback(early_actor, arg1, arg2, early_actor);
+            early_callback(early_actor, motion_arg, object_arg, early_actor);
             goto function_return;
         }
         (*(u8 *)((u8 *)actor + 0x71)) &= 0x7F;
@@ -197,25 +198,25 @@ compare_direction:
 
     flags = ((S_80171104_0 *)object)->unk_14.n;
     if (!(flags & 0x8000)) {
-        s16 index_test;
+        s16 view_index;
         u16 object_flags;
 
         old_direction = ((D_80083228 + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7;
-        index_test = old_direction;
-        index_copy = old_direction;
-        if ((*(s16 *)((u8 *)actor + 0x94)) != index_test) {
+        view_index = old_direction;
+        view_index_copy = old_direction;
+        if ((*(s16 *)((u8 *)actor + 0x94)) != view_index) {
             animation = ((S_80171104_0 *)object)->unk_2C;
             if (animation != 0) {
-                func_80047738(object, animation[index_test], ((S_80171104_0 *)object)->unk_04);
+                func_80047738(object, animation[view_index], ((S_80171104_0 *)object)->unk_04);
             }
             (*(s16 *)((u8 *)actor + 0x94)) = old_direction;
         }
 
-        if (D_8006CCF8[index_copy] != 0) {
+        if (D_8006CCF8[view_index_copy] != 0) {
             object_flags = ((S_80171104_0 *)object)->unk_14.n | 1;
             goto store_object_flags;
         }
-        ASM_KEEP(index_copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(view_index_copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         object_flags = ((S_80171104_0 *)object)->unk_14.n & 0xFFFE;
 store_object_flags:
@@ -254,21 +255,21 @@ update_actor_position:
     (*(s32 *)((u8 *)actor + 0x90)) += ((S_80171104_2 *)motion)->unk_14;
 
     if (!((*(u16 *)((u8 *)actor + 0x98)) & 4)) {
-        height = func_800BCB04(((S_80171104_2 *)motion)->unk_00.at02.v, ((S_80171104_2 *)motion)->unk_04.at02.v,
+        floor_height = func_800BCB04(((S_80171104_2 *)motion)->unk_00.at02.v, ((S_80171104_2 *)motion)->unk_04.at02.v,
                                (s16)(((S_80171104_1 *)actor_copy)->unk_88.u - 0x20));
-        if (height < 0x200) {
+        if (floor_height < 0x200) {
             actor_height = ((S_80171104_1 *)actor_copy)->unk_88.s;
-            if ((*(s16 *)((u8 *)actor + 0x92)) + actor_height < height) {
+            if ((*(s16 *)((u8 *)actor + 0x92)) + actor_height < floor_height) {
                 ((S_80171104_1 *)actor_copy)->unk_1C.u &= 0xF7FFFFFF;
                 goto test_special_height;
             }
-            if (height >= actor_height) {
+            if (floor_height >= actor_height) {
                 (*(s32 *)((u8 *)actor + 0x90)) = 0;
                 goto landed;
             }
 
-            direction = height - ((S_80171104_1 *)actor_copy)->unk_88.u;
-            (*(s16 *)((u8 *)actor + 0x92)) = direction;
+            height_delta = floor_height - ((S_80171104_1 *)actor_copy)->unk_88.u;
+            (*(s16 *)((u8 *)actor + 0x92)) = height_delta;
 landed:
             ((S_80171104_2 *)motion)->unk_14 = 0;
             ((S_80171104_1 *)actor_copy)->unk_1C.u |= 0x08000000;
@@ -277,11 +278,11 @@ landed:
 test_special_height:
             if (((S_80171104_1 *)actor_copy)->unk_1C.u & 0x40000000) {
                 ((S_80171104_1 *)actor_copy)->unk_1C.u &= 0xBFFFFFFF;
-                height = func_800BCB04((((S_80171104_0 *)object)->unk_24 << 6) | 0x20,
+                floor_height = func_800BCB04((((S_80171104_0 *)object)->unk_24 << 6) | 0x20,
                                        (((S_80171104_0 *)object)->unk_25 << 6) | 0x20,
                                        (s16)(((S_80171104_1 *)actor_copy)->unk_88.u - 0x20));
-                (*(s16 *)((u8 *)actor + 0x92)) += ((S_80171104_1 *)actor_copy)->unk_88.u - height;
-                ((S_80171104_1 *)actor_copy)->unk_88.s = height;
+                (*(s16 *)((u8 *)actor + 0x92)) += ((S_80171104_1 *)actor_copy)->unk_88.u - floor_height;
+                ((S_80171104_1 *)actor_copy)->unk_88.s = floor_height;
                 goto update_object;
             }
             goto update_object;

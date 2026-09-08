@@ -11,74 +11,69 @@ typedef struct S_8009CD58_1 {
     u8 unk_01;
 } S_8009CD58_1;   /* temp_a0_3 in func_8009CD58 */
 
+/* Returns masked record flags augmented by the selected kind. */
+s32 func_8009CD58(Rec_D_800E3D7C *record, s32 mask, s32 mode) {
+    s32 shifted_mode;
+    s32 base_flags;
+    register s32 flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 extra_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 third_kind;
+    u8 *kind_ptr;
+    s32 kind;
+    S_8009CD58_1 *detail;
 
-
-s32 func_8009CD58(Rec_D_800E3D7C *arg0, s32 arg1, s32 arg2) {
-    s32 temp_a2;
-    s32 temp_t0;
-    register s32 var_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 var_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 var_cmp;
-    u8 *temp_a0_4;
-    s32 temp_a0;
-    S_8009CD58_1 *temp_a0_3;
-
-    temp_a2 = arg2 << 16;
-    temp_t0 = arg0->unk_14.as_u16 & arg1;
-    var_a3 = temp_t0;
-    if (temp_a2 != 0) {
-        temp_a0_3 = arg0->unk_4C.as_pv;
-        if (temp_a0_3 != NULL) {
-            if (temp_a0_3->unk_01 == 15) {
-                temp_a0 = temp_a0_3->unk_00;
-                if (temp_a0 == 5) {
-                    var_mask = arg1 & 1;
-                    goto block_16;
+    shifted_mode = mode << 16;
+    base_flags = record->unk_14.as_u16 & mask;
+    flags = base_flags;
+    if (shifted_mode != 0) {
+        detail = record->unk_4C.as_pv;
+        if (detail != NULL) {
+            if (detail->unk_01 == 15) {
+                kind = detail->unk_00;
+                if (kind == 5) {
+                    extra_flags = mask & 1;
+                    goto merge_flags;
                 }
-                if (temp_a0 == 6) {
-                    var_mask = arg1 & 2;
-                    goto block_16;
+                if (kind == 6) {
+                    extra_flags = mask & 2;
+                    goto merge_flags;
                 }
-                var_cmp = 7;
-                goto block_15;
+                third_kind = 7;
+                goto check_third_kind;
             }
-            temp_a0 = temp_a0_3->unk_00;
-            if (temp_a0 == 6) {
-                var_mask = arg1 & 1;
-                goto block_16;
+            kind = detail->unk_00;
+            if (kind == 6) {
+                extra_flags = mask & 1;
+                goto merge_flags;
             }
-            if (temp_a0 == 7) {
-                var_mask = arg1 & 2;
-                goto block_16;
+            if (kind == 7) {
+                extra_flags = mask & 2;
+                goto merge_flags;
             }
-            var_cmp = 8;
-            goto block_15;
+            third_kind = 8;
+            goto check_third_kind;
         }
-        return var_a3;
+        return flags;
     }
-    temp_a0_4 = arg0->unk_50.at00_pu8.v;
-    if (temp_a0_4 != NULL) {
-        temp_a0 = *temp_a0_4;
-        if (temp_a0 == 8) {
-            var_mask = arg1 & 1;
-            goto block_16;
+    kind_ptr = record->unk_50.at00_pu8.v;
+    if (kind_ptr != NULL) {
+        kind = *kind_ptr;
+        if (kind == 8) {
+            extra_flags = mask & 1;
+            goto merge_flags;
         }
-        if (temp_a0 == 9) {
-            var_mask = arg1 & 2;
-            goto block_16;
+        if (kind == 9) {
+            extra_flags = mask & 2;
+            goto merge_flags;
         }
-        var_cmp = 10;
-block_15:
-        if (temp_a0 != var_cmp) {
-            return var_a3;
+        third_kind = 10;
+check_third_kind:
+        if (kind != third_kind) {
+            return flags;
         }
-        var_mask = arg1 & 4;
-block_16:
-        var_a3 = temp_t0 | var_mask;
+        extra_flags = mask & 4;
+merge_flags:
+        flags = base_flags | extra_flags;
     }
-    return var_a3;
+    return flags;
 }
-
-/* MECHANISM: True-space CFG recovery turns both apparent func_8009CE04 calls into one local compare join, preserving a frameless leaf.
-   A widened lbu local plus edge-local masks pinned to $v0 remove truncations and restore the common branch-delay nop.
-   Pinning the accumulator to $a3 leaves the masked base held in $t0 and produces retail's exact $t0-to-$a3 copy. */

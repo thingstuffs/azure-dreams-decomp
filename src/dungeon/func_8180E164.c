@@ -39,45 +39,46 @@ extern DungeonState D_80083160;
 extern s32 D_800814A0[3];
 extern s32 func_800644B8(s32);
 
-void func_80027164(Effect *arg0, void *arg1, Output *arg2) {
-    u16 count;
-    u16 value;
-    u16 next_state;
-    u16 reset_count;
+/* Advance the effect fades, animate its scale and phase, and pulse the linked output brightness. */
+void func_80027164(Effect *effect, void *unused, Output *output) {
+    u16 tick;
+    u16 brightness;
+    u16 state;
+    u16 duration;
     s16 scale;
-    Output *output;
+    Output *linked_output;
     DungeonState *dungeon = &D_80083160;
 
-    if (arg0->state == 0) {
-        count = arg0->count - 1;
-        arg0->count = count;
-        if ((count << 0x10) <= 0) {
-            reset_count = 0x38;
-            arg0->count = reset_count;
-            next_state = arg0->state;
+    if (effect->state == 0) {
+        tick = effect->count - 1;
+        effect->count = tick;
+        if ((tick << 0x10) <= 0) {
+            duration = 0x38;
+            effect->count = duration;
+            state = effect->state;
             goto increment_state;
         }
         goto update;
     }
 
-    if (arg0->state == 1) {
+    if (effect->state == 1) {
         if (dungeon->flags & 1) {
-            value = (u16)((s32)(arg0->value.u << 0x10) >> 0x11);
+            brightness = (u16)((s32)(effect->value.u << 0x10) >> 0x11);
         } else {
-            if (arg0->value.s < 0xc0) {
-                arg0->value.u = arg0->value.u + 8;
+            if (effect->value.s < 0xc0) {
+                effect->value.u = effect->value.u + 8;
             }
-            value = arg0->value.b;
+            brightness = effect->value.b;
         }
-        arg2->color[2] = (u8)value;
-        arg2->color[1] = (u8)value;
-        arg2->color[0] = (u8)value;
-        count = arg0->count - 1;
-        arg0->count = count;
-        if ((count << 0x10) <= 0) {
-            reset_count = 0x1c;
-            arg0->count = reset_count;
-            next_state = arg0->state;
+        output->color[2] = (u8)brightness;
+        output->color[1] = (u8)brightness;
+        output->color[0] = (u8)brightness;
+        tick = effect->count - 1;
+        effect->count = tick;
+        if ((tick << 0x10) <= 0) {
+            duration = 0x1c;
+            effect->count = duration;
+            state = effect->state;
             goto increment_state;
         }
         goto update;
@@ -86,39 +87,39 @@ void func_80027164(Effect *arg0, void *arg1, Output *arg2) {
     goto state_other;
 
 increment_state:
-    arg0->state = next_state + 1;
+    effect->state = state + 1;
     goto update;
 
 state_other:
     if (dungeon->flags & 1) {
-        *(u32 *)&arg2->color[0] = 0;
+        *(u32 *)&output->color[0] = 0;
     } else {
-        if (arg0->value.s > 0) {
-            arg0->value.u = arg0->value.u - 8;
+        if (effect->value.s > 0) {
+            effect->value.u = effect->value.u - 8;
         }
-        value = arg0->value.b;
-        arg2->color[2] = (u8)value;
-        arg2->color[1] = (u8)value;
-        arg2->color[0] = (u8)value;
+        brightness = effect->value.b;
+        output->color[2] = (u8)brightness;
+        output->color[1] = (u8)brightness;
+        output->color[0] = (u8)brightness;
     }
-    count = arg0->count - 1;
-    arg0->count = count;
-    if ((count << 0x10) <= 0) {
-        ((u16 *)arg0)[-1] = ((u16 *)arg0)[-1] | 0x8000;
+    tick = effect->count - 1;
+    effect->count = tick;
+    if ((tick << 0x10) <= 0) {
+        ((u16 *)effect)[-1] = ((u16 *)effect)[-1] | 0x8000;
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 
 update:
-    count = arg0->frame + 1;
-    arg0->frame = count;
-    if (arg0->state != 0) {
-        scale = (func_800644B8((s32)(count << 0x10) >> 7) >> 4) + 0x1000;
-        arg2->scale_y = scale;
-        arg2->scale_x = scale;
-        arg2->phase = arg2->phase + 0x555;
-        output = ((Link *)((u8 *)arg0->link - 0x14))->output;
-        output->color[0] = (u8)(((*(volatile u16 *)&arg0->frame & 3) << 4) + 0x40);
-        output->color[1] = (u8)(((*(volatile u16 *)&arg0->frame & 3) << 4) + 0x40);
-        output->color[2] = (u8)(((*(volatile u16 *)&arg0->frame & 3) << 4) + 0x40);
+    tick = effect->frame + 1;
+    effect->frame = tick;
+    if (effect->state != 0) {
+        scale = (func_800644B8((s32)(tick << 0x10) >> 7) >> 4) + 0x1000;
+        output->scale_y = scale;
+        output->scale_x = scale;
+        output->phase = output->phase + 0x555;
+        linked_output = ((Link *)((u8 *)effect->link - 0x14))->output;
+        linked_output->color[0] = (u8)(((*(volatile u16 *)&effect->frame & 3) << 4) + 0x40);
+        linked_output->color[1] = (u8)(((*(volatile u16 *)&effect->frame & 3) << 4) + 0x40);
+        linked_output->color[2] = (u8)(((*(volatile u16 *)&effect->frame & 3) << 4) + 0x40);
     }
 }

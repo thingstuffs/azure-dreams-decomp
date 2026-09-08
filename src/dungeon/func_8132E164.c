@@ -41,48 +41,49 @@ typedef struct S_80165164_1 {
 extern s32 D_800814A0[3];
 extern u8 D_80080000[];
 
-void func_80165164(void *arg0, void *arg1) {
-    s16 temp_v0;
-    s32 var_a0;
-    s32 var_a1;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 var_v1;
+/* Update effect motion and color, flagging it near its target or when fully faded. */
+void func_80165164(void *effect, void *position) {
+    s16 fade_level;
+    s32 scaled_red;
+    s32 scaled_green;
+    s32 target_dx;
+    s32 target_dy;
+    s32 scaled_blue;
 
-    ((S_80165164_0 *)arg1)->unk_00.at00.v = (s32) (((S_80165164_0 *)arg1)->unk_00.at00.v + ((S_80165164_1 *)arg0)->unk_4C);
-    ((S_80165164_0 *)arg1)->unk_04.at00.v = (s32) (((S_80165164_0 *)arg1)->unk_04.at00.v + ((S_80165164_1 *)arg0)->unk_50);
-    ((S_80165164_0 *)arg1)->unk_08 = (s32) (((S_80165164_0 *)arg1)->unk_08 + ((S_80165164_1 *)arg0)->unk_54);
-    ((S_80165164_1 *)arg0)->unk_4C = (s32) (((S_80165164_1 *)arg0)->unk_4C + ((S_80165164_1 *)arg0)->unk_58);
-    ((S_80165164_1 *)arg0)->unk_50 = (s32) (((S_80165164_1 *)arg0)->unk_50 + ((S_80165164_1 *)arg0)->unk_5C);
-    ((S_80165164_1 *)arg0)->unk_54 = (s32) (((S_80165164_1 *)arg0)->unk_54 + ((S_80165164_1 *)arg0)->unk_60);
-    var_v0 = abs(((S_80165164_1 *)arg0)->unk_42 - ((S_80165164_0 *)arg1)->unk_00.at02.v);
-    if (var_v0 < 0x10) {
-        var_v0_2 = abs(((S_80165164_1 *)arg0)->unk_44 - ((S_80165164_0 *)arg1)->unk_04.at02.v);
-        if (var_v0_2 < 0x10) {
-            (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_80165164_1_pre *)arg0)[-1].unk_00 | 0x8000);
+    ((S_80165164_0 *)position)->unk_00.at00.v = (s32) (((S_80165164_0 *)position)->unk_00.at00.v + ((S_80165164_1 *)effect)->unk_4C);
+    ((S_80165164_0 *)position)->unk_04.at00.v = (s32) (((S_80165164_0 *)position)->unk_04.at00.v + ((S_80165164_1 *)effect)->unk_50);
+    ((S_80165164_0 *)position)->unk_08 = (s32) (((S_80165164_0 *)position)->unk_08 + ((S_80165164_1 *)effect)->unk_54);
+    ((S_80165164_1 *)effect)->unk_4C = (s32) (((S_80165164_1 *)effect)->unk_4C + ((S_80165164_1 *)effect)->unk_58);
+    ((S_80165164_1 *)effect)->unk_50 = (s32) (((S_80165164_1 *)effect)->unk_50 + ((S_80165164_1 *)effect)->unk_5C);
+    ((S_80165164_1 *)effect)->unk_54 = (s32) (((S_80165164_1 *)effect)->unk_54 + ((S_80165164_1 *)effect)->unk_60);
+    target_dx = abs(((S_80165164_1 *)effect)->unk_42 - ((S_80165164_0 *)position)->unk_00.at02.v);
+    if (target_dx < 0x10) {
+        target_dy = abs(((S_80165164_1 *)effect)->unk_44 - ((S_80165164_0 *)position)->unk_04.at02.v);
+        if (target_dy < 0x10) {
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80165164_1_pre *)effect)[-1].unk_00 | 0x8000);
             (*(s32 *)((u8 *)D_80080000 + 0x14A0)) = (s32) (((Rec_D_80080000 *)D_80080000)->unk_14A0 | 0x8000);
         }
     }
-    var_a0 = ((S_80165164_1 *)arg0)->unk_00 * ((S_80165164_1 *)arg0)->unk_32;
-    if (var_a0 < 0) {
-        var_a0 += 0xFF;
+    scaled_red = ((S_80165164_1 *)effect)->unk_00 * ((S_80165164_1 *)effect)->unk_32;
+    if (scaled_red < 0) {
+        scaled_red += 0xFF;
     }
-    ((S_80165164_1 *)arg0)->unk_04.at00.v = (s8) (var_a0 >> 8);
-    var_a1 = ((S_80165164_1 *)arg0)->unk_01 * ((S_80165164_1 *)arg0)->unk_32;
-    if (var_a1 < 0) {
-        var_a1 += 0xFF;
+    ((S_80165164_1 *)effect)->unk_04.at00.v = (s8) (scaled_red >> 8);
+    scaled_green = ((S_80165164_1 *)effect)->unk_01 * ((S_80165164_1 *)effect)->unk_32;
+    if (scaled_green < 0) {
+        scaled_green += 0xFF;
     }
-    ((S_80165164_1 *)arg0)->unk_04.at01.v = (s8) (var_a1 >> 8);
-    var_v1 = ((S_80165164_1 *)arg0)->unk_02 * ((S_80165164_1 *)arg0)->unk_32;
-    if (var_v1 < 0) {
-        var_v1 += 0xFF;
+    ((S_80165164_1 *)effect)->unk_04.at01.v = (s8) (scaled_green >> 8);
+    scaled_blue = ((S_80165164_1 *)effect)->unk_02 * ((S_80165164_1 *)effect)->unk_32;
+    if (scaled_blue < 0) {
+        scaled_blue += 0xFF;
     }
-    ((S_80165164_1 *)arg0)->unk_04.at02.v = (s8) (var_v1 >> 8);
-    temp_v0 = (u16) ((S_80165164_1 *)arg0)->unk_32 - 8;
-    ((S_80165164_1 *)arg0)->unk_32 = temp_v0;
-    ((S_80165164_1 *)arg0)->unk_08 = (s32) ((S_80165164_1 *)arg0)->unk_04.at00u.v;
-    if ((temp_v0 << 0x10) <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_80165164_1_pre *)arg0)[-1].unk_00 | 0x8000);
+    ((S_80165164_1 *)effect)->unk_04.at02.v = (s8) (scaled_blue >> 8);
+    fade_level = (u16) ((S_80165164_1 *)effect)->unk_32 - 8;
+    ((S_80165164_1 *)effect)->unk_32 = fade_level;
+    ((S_80165164_1 *)effect)->unk_08 = (s32) ((S_80165164_1 *)effect)->unk_04.at00u.v;
+    if ((fade_level << 0x10) <= 0) {
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80165164_1_pre *)effect)[-1].unk_00 | 0x8000);
         (*(s32 *)((u8 *)D_80080000 + 0x14A0)) = (s32) (((Rec_D_80080000 *)D_80080000)->unk_14A0 | 0x8000);
     }
 }

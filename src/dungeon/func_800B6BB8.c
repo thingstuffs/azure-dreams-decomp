@@ -18,18 +18,19 @@ extern S_8003FFF0 *D_80081498[4];
 extern u8 D_800BC388[9];
 extern s32 D_800814A0[3];
 
-void func_800BC318(s32 arg0) {
+// Set bit 0x8000 in the first matching node's flags and the shared flags.
+void func_800BC318(s32 targetId) {
     S_8003FFF0 *node;
 
     node = *D_80081498;
     if (node != NULL) {
         do {
-            if ((node->kind == D_800BC388) && (node->id == arg0)) {
-                u16 flags = node->flags;
-                s32 value = D_800814A0[0];
+            if ((node->kind == D_800BC388) && (node->id == targetId)) {
+                u16 nodeFlags = node->flags;
+                s32 sharedFlags = D_800814A0[0];
 
-                node->flags = flags | 0x8000;
-                D_800814A0[0] = value | 0x8000;
+                node->flags = nodeFlags | 0x8000;
+                D_800814A0[0] = sharedFlags | 0x8000;
                 return;
             }
             node = node->next;

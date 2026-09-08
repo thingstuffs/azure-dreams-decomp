@@ -6,6 +6,7 @@
 
 
 
-void func_8003C0C0(Rec_D_80082D58 *arg0) {
-    arg0->unk_04 = 0;
+/* Clears the record's unk_04 field. */
+void func_8003C0C0(Rec_D_80082D58 *record) {
+    record->unk_04 = 0;
 }

@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
+/* Returns a constant true value. */
 s32 func_80016B2C(void) {
     return 1;
 }

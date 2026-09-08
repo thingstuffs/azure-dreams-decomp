@@ -46,22 +46,23 @@ typedef struct S_8001CDA0_2 {
     void * unk_08;
 } S_8001CDA0_2;   /* arg0 in func_8001CDA0 */
 
-void func_8001CDA0(S_8001CDA0_2 *arg0, S_8001CDA0_0 *arg1, S_8001CDA0_1 *arg2, s32 arg3) {
-    s32 t;
+/* Initialize an entry from defaults and set its row position. */
+void func_8001CDA0(S_8001CDA0_2 *entry, S_8001CDA0_0 *placement, S_8001CDA0_1 *settings, s32 row_index) {
+    s32 settings_header;
 
-    arg1->unk_00 = D_8002D690[0];
-    t = D_8002D6A0[0];
-    arg1->unk_04 = D_8002D694[0];
-    arg1->unk_08 = D_8002D698[0];
-    arg1->unk_0C = D_8002D69C[0];
-    arg2->unk_00 = t;
-    arg2->unk_04 = D_8002D6A4[0];
-    arg2->unk_08 = D_8002D6A8[0];
-    arg0->unk_04 = arg1;
-    arg0->unk_08 = arg2;
-    arg0->unk_00 = 0;
-    ((S_8001CDA0_4 *)(((S_8001CDA0_3 *)arg0)->unk_04))->unk_08 = -0xA0;
-    ((S_8001CDA0_4 *)(((S_8001CDA0_3 *)arg0)->unk_04))->unk_0A = (s16) ((arg3 * 0x18) - 0x78);
-    ((S_8001CDA0_4 *)(((S_8001CDA0_3 *)arg0)->unk_04))->unk_0C = 0x200;
-    ((S_8001CDA0_4 *)(((S_8001CDA0_3 *)arg0)->unk_04))->unk_0F = 4;
+    placement->unk_00 = D_8002D690[0];
+    settings_header = D_8002D6A0[0];
+    placement->unk_04 = D_8002D694[0];
+    placement->unk_08 = D_8002D698[0];
+    placement->unk_0C = D_8002D69C[0];
+    settings->unk_00 = settings_header;
+    settings->unk_04 = D_8002D6A4[0];
+    settings->unk_08 = D_8002D6A8[0];
+    entry->unk_04 = placement;
+    entry->unk_08 = settings;
+    entry->unk_00 = 0;
+    ((S_8001CDA0_4 *)(((S_8001CDA0_3 *)entry)->unk_04))->unk_08 = -0xA0;
+    ((S_8001CDA0_4 *)(((S_8001CDA0_3 *)entry)->unk_04))->unk_0A = (s16) ((row_index * 0x18) - 0x78);
+    ((S_8001CDA0_4 *)(((S_8001CDA0_3 *)entry)->unk_04))->unk_0C = 0x200;
+    ((S_8001CDA0_4 *)(((S_8001CDA0_3 *)entry)->unk_04))->unk_0F = 4;
 }

@@ -6,32 +6,33 @@ extern s32 func_80042900(void *, s8);
 extern s8 D_800712E4[];
 extern u8 D_800712F0[];
 
-u8 func_80049E88(void *arg0) {
-    s32 i;
-    s32 base;
-    void *arg;
-    u8 *table;
-    s32 temp;
-    u8 value;
+/* Selects a table value from descending object queries, with an adjustment for query 7. */
+u8 func_80049E88(void *object) {
+    s32 query_index;
+    s32 query_base;
+    void *query_object;
+    u8 *result_entry;
+    s32 query_table_addr;
+    u8 query_id;
 
-    arg = arg0;
-    i = 0xB;
-    temp = (s32) D_800712E4;
-    base = temp;
+    query_object = object;
+    query_index = 0xB;
+    query_table_addr = (s32) D_800712E4;
+    query_base = query_table_addr;
     do {
-        if ((func_80042900(arg, *(s8 *) (i + base)) << 0x10) != 0) {
+        if ((func_80042900(query_object, *(s8 *) (query_index + query_base)) << 0x10) != 0) {
             break;
         }
-        i--;
-    } while (i > 0);
+        query_index--;
+    } while (query_index > 0);
 
-    value = *(u8 *) (i + base);
-    __asm__ volatile("" : "=r"(base) : "0"(base));
-    if ((value == 7) && ((func_80042900(arg, (s8) value) << 0x10) > 0)) {
-        i--;
+    query_id = *(u8 *) (query_index + query_base);
+    __asm__ volatile("" : "=r"(query_base) : "0"(query_base));
+    if ((query_id == 7) && ((func_80042900(query_object, (s8) query_id) << 0x10) > 0)) {
+        query_index--;
     }
 
-    table = D_800712F0;
-    table += i;
-    return *table;
+    result_entry = D_800712F0;
+    result_entry += query_index;
+    return *result_entry;
 }

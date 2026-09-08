@@ -4,47 +4,48 @@
 
 extern s32 func_80024AE8();
 
-void func_80025710(void *arg0, s32 arg1, s32 arg2, s16 arg3, s32 arg4) {
-    s32 match_x = arg1;
-    s32 match_y = arg2;
-    s32 match_lo;
-    s32 match_hi;
-    s16 temp_v1;
-    u16 temp_v1_2;
-    void *temp_a1;
-    void *temp_a2;
-    register void *temp_next ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    void *var_a0;
-    void *var_s0;
-    register void *var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+/* Mark and process entries at the given coordinates with thresholds in the specified range. */
+void func_80025710(void *list_head, s32 x, s32 y, s16 upper_bound, s32 lower_bound) {
+    s32 match_x = x;
+    s32 match_y = y;
+    s32 upper_limit;
+    s32 lower_limit;
+    s16 threshold;
+    u16 flags;
+    void *range_data;
+    void *position_data;
+    register void *next_entry ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    void *entry;
+    void *list_link;
+    register void *head ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-    var_s0 = arg0;
-    var_s1 = var_s0;
-    temp_next = FIELD(var_s0, s32 *, 0x5C);
-    var_s0 = temp_next + 0x20;
-    if (var_s0 != var_s1) {
-        ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        match_lo = (s16)arg3;
-        match_hi = (s16)arg4;
-        var_a0 = var_s0 - 0x20;
+    list_link = list_head;
+    head = list_link;
+    next_entry = FIELD(list_link, s32 *, 0x5C);
+    list_link = next_entry + 0x20;
+    if (list_link != head) {
+        ASM_KEEP(list_link);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        upper_limit = (s16)upper_bound;
+        lower_limit = (s16)lower_bound;
+        entry = list_link - 0x20;
         do {
-            temp_a2 = FIELD(var_s0, void **, -0x14);
-            temp_a1 = FIELD(var_a0, void **, 8);
-            if ((FIELD(temp_a2, u8 *, 0x24) == (match_x & 0xFFFF)) &&
-                (FIELD(temp_a2, u8 *, 0x25) == (match_y & 0xFFFF))) {
-                temp_v1 = FIELD(temp_a1, s16 *, 0xA);
-                if ((match_lo >= temp_v1) && (match_hi < temp_v1)) {
-                    temp_v1_2 = FIELD(var_a0, u16 *, 0x1E);
-                    if (!(temp_v1_2 & 0x2000)) {
-                        FIELD(var_a0, u16 *, 0x1E) = temp_v1_2 | 0x2000;
-                        func_80024AE8(var_a0, temp_a1, temp_a2);
+            position_data = FIELD(list_link, void **, -0x14);
+            range_data = FIELD(entry, void **, 8);
+            if ((FIELD(position_data, u8 *, 0x24) == (match_x & 0xFFFF)) &&
+                (FIELD(position_data, u8 *, 0x25) == (match_y & 0xFFFF))) {
+                threshold = FIELD(range_data, s16 *, 0xA);
+                if ((upper_limit >= threshold) && (lower_limit < threshold)) {
+                    flags = FIELD(entry, u16 *, 0x1E);
+                    if (!(flags & 0x2000)) {
+                        FIELD(entry, u16 *, 0x1E) = flags | 0x2000;
+                        func_80024AE8(entry, range_data, position_data);
                     }
                 }
             }
-            temp_next = FIELD(var_s0, s32 *, 0x5C);
-            var_s0 = temp_next + 0x20;
-            ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            var_a0 = var_s0 - 0x20;
-        } while (var_s0 != var_s1);
+            next_entry = FIELD(list_link, s32 *, 0x5C);
+            list_link = next_entry + 0x20;
+            ASM_KEEP(list_link);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            entry = list_link - 0x20;
+        } while (list_link != head);
     }
 }

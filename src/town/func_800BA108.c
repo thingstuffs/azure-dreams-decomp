@@ -2,30 +2,31 @@
 
 extern u16 D_80162004[];
 
-void func_800B7868(s16 arg0, s16 arg1, u16 *arg2) {
-    s16 temp_v0;
-    s16 temp_v0_2;
-    s16 var_t2;
-    s16 var_a1;
-    u16 temp_t3;
-    u16 temp_t4;
-    u16 temp_v1;
+/* Copies a width-and-height-prefixed block to the destination grid, skipping zero entries. */
+void func_800B7868(s16 dst_x, s16 dst_y, u16 *src) {
+    s16 next_row;
+    s16 next_col;
+    s16 row;
+    s16 col;
+    u16 height;
+    u16 width;
+    u16 entry;
 
-    temp_t4 = *arg2++;
-    temp_t3 = *arg2++;
-    var_t2 = 0;
-    while ((var_t2 << 0x10) < (temp_t3 << 0x10)) {
-        var_a1 = 0;
-        while (var_a1 < (s16) temp_t4) {
-            temp_v1 = *arg2;
-            if (temp_v1 != 0) {
-                D_80162004[((var_t2 + arg1) << 7) + var_a1 + arg0] = temp_v1;
+    width = *src++;
+    height = *src++;
+    row = 0;
+    while ((row << 0x10) < (height << 0x10)) {
+        col = 0;
+        while (col < (s16) width) {
+            entry = *src;
+            if (entry != 0) {
+                D_80162004[((row + dst_y) << 7) + col + dst_x] = entry;
             }
-            temp_v0_2 = var_a1 + 1;
-            var_a1 = temp_v0_2;
-            arg2++;
+            next_col = col + 1;
+            col = next_col;
+            src++;
         }
-        temp_v0 = var_t2 + 1;
-        var_t2 = temp_v0;
+        next_row = row + 1;
+        row = next_row;
     }
 }

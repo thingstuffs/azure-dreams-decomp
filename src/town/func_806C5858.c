@@ -21,6 +21,7 @@ extern void func_80018C74(s32);
 extern void func_80018CEC(s32);
 extern s32 func_80018D6C(s32);
 
+/* Selects event data when flag conditions match, otherwise clears two event flags. */
 s32 func_80016858(void) {
     if ((func_80018D6C(0x7D1) != 0) &&
         (func_80018D6C(0x7D2) == 0) &&

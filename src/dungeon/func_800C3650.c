@@ -22,31 +22,32 @@ extern s32 D_800DCF20;
 extern M2C_UNK D_800E1937;
 extern M2C_UNK D_800E1A6D;
 
-s32 func_800C8DB0(S_800C8DB0_0 *arg0, s16 arg1, s8 arg2) {
-    s16 temp_v1;
-    s32 temp_a0;
-    u8 temp_a0_2;
+/* Attempts action 6 when the entity passes its state and threshold checks. */
+s32 func_800C8DB0(S_800C8DB0_0 *entity, s16 threshold, s8 action_arg) {
+    s16 remainder;
+    s32 sample;
+    u8 state_byte;
 
-    if ((arg0->unk_13 != 0) && ((arg0->unk_08.at00.v & 0xFF0000FF) || (arg0->unk_0E != 0))) {
-        temp_a0_2 = arg0->unk_0E;
-        if (((u8) arg0->unk_08.at00.v + arg0->unk_08.at03.v + temp_a0_2) != 0) {
-            temp_a0 = func_800A6D30(temp_a0_2) & 0xFFFF;
-            if (arg0->unk_03 != 0) {
-                temp_v1 = temp_a0 % arg0->unk_03;
+    if ((entity->unk_13 != 0) && ((entity->unk_08.at00.v & 0xFF0000FF) || (entity->unk_0E != 0))) {
+        state_byte = entity->unk_0E;
+        if (((u8) entity->unk_08.at00.v + entity->unk_08.at03.v + state_byte) != 0) {
+            sample = func_800A6D30(state_byte) & 0xFFFF;
+            if (entity->unk_03 != 0) {
+                remainder = sample % entity->unk_03;
             } else {
-                temp_v1 = 0;
+                remainder = 0;
             }
-            if ((temp_v1 < arg1 || arg1 == 0xFF) && (s16)func_800A48F0(arg0, 6, arg2) >= 0) {
-                func_80099844(arg0, &D_800E1937);
-                if (arg0->unk_13 == 0) {
+            if ((remainder < threshold || threshold == 0xFF) && (s16)func_800A48F0(entity, 6, action_arg) >= 0) {
+                func_80099844(entity, &D_800E1937);
+                if (entity->unk_13 == 0) {
                     func_800DC1B8(D_800DCF20);
                 }
                 return 1;
             }
         }
     }
-    if (arg0->unk_14 & 0x4000) {
-        func_80099844(arg0, &D_800E1A6D);
+    if (entity->unk_14 & 0x4000) {
+        func_80099844(entity, &D_800E1A6D);
     }
     return 0;
 }

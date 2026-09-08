@@ -4,37 +4,34 @@ extern void func_800478B8(void *arg0, s32 arg1);
 extern s16 D_8002992E[5];
 extern s32 D_800814A0;
 
-void func_800246B0(void *arg0, void *arg1, void *arg2) {
-    s32 temp_a0;
-    s32 temp_a1;
-    u16 temp_v0;
-    u16 temp_v0_2;
+/* Advance effect motion and animation, then mark it finished when its lifetime expires. */
+void func_800246B0(void *effect, void *position, void *visual) {
+    s32 accel_y;
+    s32 accel_z;
+    u16 frame_count;
+    u16 frames_left;
 
-    *(s32 *)((u8 *)arg1 + 0) += *(s32 *)((u8 *)arg0 + 0x7C);
-    *(s32 *)((u8 *)arg1 + 4) += *(s32 *)((u8 *)arg0 + 0x80);
-    *(s32 *)((u8 *)arg1 + 8) += *(s32 *)((u8 *)arg0 + 0x84);
-    temp_a0 = *(s32 *)((u8 *)arg0 + 0x8C);
-    temp_a1 = *(s32 *)((u8 *)arg0 + 0x90);
-    *(s32 *)((u8 *)arg0 + 0x7C) += *(s32 *)((u8 *)arg0 + 0x88);
-    *(s32 *)((u8 *)arg0 + 0x80) += temp_a0;
-    *(s32 *)((u8 *)arg0 + 0x84) += temp_a1;
-    *(u16 *)((u8 *)arg2 + 0x1C) -= 0xC8;
-    *(u16 *)((u8 *)arg2 + 0x1E) -= 0xC8;
-    temp_v0 = *(u16 *)((u8 *)arg0 + 0x2A);
+    *(s32 *)((u8 *)position + 0) += *(s32 *)((u8 *)effect + 0x7C);
+    *(s32 *)((u8 *)position + 4) += *(s32 *)((u8 *)effect + 0x80);
+    *(s32 *)((u8 *)position + 8) += *(s32 *)((u8 *)effect + 0x84);
+    accel_y = *(s32 *)((u8 *)effect + 0x8C);
+    accel_z = *(s32 *)((u8 *)effect + 0x90);
+    *(s32 *)((u8 *)effect + 0x7C) += *(s32 *)((u8 *)effect + 0x88);
+    *(s32 *)((u8 *)effect + 0x80) += accel_y;
+    *(s32 *)((u8 *)effect + 0x84) += accel_z;
+    *(u16 *)((u8 *)visual + 0x1C) -= 0xC8;
+    *(u16 *)((u8 *)visual + 0x1E) -= 0xC8;
+    frame_count = *(u16 *)((u8 *)effect + 0x2A);
     D_8002992E[0] = 1;
-    temp_v0 += 1;
-    *(u16 *)((u8 *)arg0 + 0x2A) = temp_v0;
-    if (!(temp_v0 & 1)) {
-        func_800478B8(arg2, temp_a1);
+    frame_count += 1;
+    *(u16 *)((u8 *)effect + 0x2A) = frame_count;
+    if (!(frame_count & 1)) {
+        func_800478B8(visual, accel_z);
     }
-    temp_v0_2 = *(u16 *)((u8 *)arg0 + 0x28) - 1;
-    *(u16 *)((u8 *)arg0 + 0x28) = temp_v0_2;
-    if ((temp_v0_2 << 0x10) <= 0) {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    frames_left = *(u16 *)((u8 *)effect + 0x28) - 1;
+    *(u16 *)((u8 *)effect + 0x28) = frames_left;
+    if ((frames_left << 0x10) <= 0) {
+        *(u16 *)((u8 *)effect - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }
-
-/* MECHANISM: Retail's 0x18 frame holds arg0 in the sole saved register s0.
-   Independent scalar locals preserve the three velocity loads and their emission order.
-   Splitting the 0x2A read from its increment spans the intervening global flag store. */

@@ -68,82 +68,83 @@ extern u16 func_80066460(s32, s32, s32, s32);
 extern u16 func_8006649C(s32, s32);
 extern void func_80024934(void) __attribute__((noreturn));
 
-s32 func_818390F8(RenderRecord *arg0, PositionFields *arg1)
+/* Advance the animation and enqueue a textured quad at the projected position. */
+s32 func_818390F8(RenderRecord *render_record, PositionFields *position)
 {
-    SVECTOR input;
+    SVECTOR world_point;
     s16 screen[4];
-    GlobalState *global = &D_80083160;
+    GlobalState *render_state = &D_80083160;
     register s16 *screen_base ASM_REG("$23") = screen;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 p;
-    register s32 *p_ptr ASM_REG("$20") = &p;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    RenderRecord *record;
+    s32 half_width;
+    register s32 *projection_out ASM_REG("$20") = &half_width;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    RenderRecord *frame_record;
     u32 depth;
-    s32 i;
+    s32 endpoint;
     s32 height;
     POLY_FT4 *poly;
-    register void *next ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *next_node ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    input.x = arg1->x;
-    record = arg0;
-    input.y = arg1->y;
-    input.z = arg1->z - 14;
+    world_point.x = position->x;
+    frame_record = render_record;
+    world_point.y = position->y;
+    world_point.z = position->z - 14;
 
-    for (i = 0; i < 2; i++) {
-        depth = func_80065420(&input, &screen[i * 2], p_ptr, p_ptr) - 8;
-        input.z += 28;
+    for (endpoint = 0; endpoint < 2; endpoint++) {
+        depth = func_80065420(&world_point, &screen[endpoint * 2], projection_out, projection_out) - 8;
+        world_point.z += 28;
     }
 
     height = screen[1] - screen[3];
-    if (++record->frame >= 12) {
-        record->frame = 8;
+    if (++frame_record->frame >= 12) {
+        frame_record->frame = 8;
     }
 
     if (depth < 480) {
-        u8 u;
-        s32 v;
+        u8 tex_u;
+        s32 tex_v;
         s32 ot_offset;
 
-        poly = (POLY_FT4 *)global->ctx->next_prim;
-        global->ctx->next_prim = (u8 *)poly + sizeof(POLY_FT4);
+        poly = (POLY_FT4 *)render_state->ctx->next_prim;
+        render_state->ctx->next_prim = (u8 *)poly + sizeof(POLY_FT4);
         *(u32 *)&poly->r0 = 0x00808080;
         func_800666F4(poly);
         func_80066640(poly, 1);
         poly->tpage = func_80066460(0, 1, 0x2C0, 0x100);
         poly->clut = func_8006649C(0, 0x1F8);
 
-        p = height >> 1;
-        poly->x0 = poly->x1 = screen[0] + (u16)p;
-        poly->x2 = poly->x3 = screen[0] - (u16)p;
+        half_width = height >> 1;
+        poly->x0 = poly->x1 = screen[0] + (u16)half_width;
+        poly->x2 = poly->x3 = screen[0] - (u16)half_width;
         poly->y0 = poly->y2 = screen[1];
         poly->y1 = poly->y3 = screen[3];
 
-        u = record->frame;
+        tex_u = frame_record->frame;
         ot_offset = depth << 2;
-        u = (u & 3) << 5;
-        poly->u0 = poly->u1 = u;
-        poly->u2 = poly->u3 = u + 31;
-        v = ((s16)record->frame >> 2) * 32;
-        poly->v0 = poly->v2 = v - 128;
-        poly->v1 = poly->v3 = v - 97;
+        tex_u = (tex_u & 3) << 5;
+        poly->u0 = poly->u1 = tex_u;
+        poly->u2 = poly->u3 = tex_u + 31;
+        tex_v = ((s16)frame_record->frame >> 2) * 32;
+        poly->v0 = poly->v2 = tex_v - 128;
+        poly->v1 = poly->v3 = tex_v - 97;
 
         poly->tag = (poly->tag & 0xFF000000) |
-                    (*(u32 *)((u8 *)global->ctx + 0xB0 + ot_offset) &
+                    (*(u32 *)((u8 *)render_state->ctx + 0xB0 + ot_offset) &
                      0x00FFFFFF);
-        *(u32 *)((u8 *)global->ctx + 0xB0 + ot_offset) =
-            (*(u32 *)((u8 *)global->ctx + 0xB0 + ot_offset) & 0xFF000000) |
+        *(u32 *)((u8 *)render_state->ctx + 0xB0 + ot_offset) =
+            (*(u32 *)((u8 *)render_state->ctx + 0xB0 + ot_offset) & 0xFF000000) |
             ((u32)poly & 0x00FFFFFF);
     }
 
     ASM_KEEP(screen_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    next = *(void **)((u8 *)arg0 - 8);
-    if (next != 0) {
-        arg0 = (RenderRecord *)((u8 *)next + 0x20);
-        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        next = *(void **)((u8 *)next + 8);
-        ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    next_node = *(void **)((u8 *)render_record - 8);
+    if (next_node != 0) {
+        render_record = (RenderRecord *)((u8 *)next_node + 0x20);
+        ASM_KEEP(render_record);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        next_node = *(void **)((u8 *)next_node + 8);
+        ASM_KEEP(next_node);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_80024934();
     }
-    ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(next_node);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return 0;
 }
 

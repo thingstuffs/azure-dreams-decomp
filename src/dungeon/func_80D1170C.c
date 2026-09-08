@@ -4,46 +4,47 @@
 
 extern s32 D_800814A0;
 
-void func_80170F0C(void *arg0, void *arg1)
+/* Move and fade the effect, apply vertical acceleration, and flag it when its lifetime ends. */
+void func_80170F0C(void *effect, void *position)
 {
-    s16 timer;
+    s16 life_left;
     s32 red;
     s32 green;
     s32 blue;
-    s32 product;
-    s32 *page;
+    s32 color_product;
+    s32 *flag_page;
 
-    FIELD(arg1, s32 *, 0) += FIELD(arg0, s32 *, 0x40);
-    FIELD(arg1, s32 *, 4) += FIELD(arg0, s32 *, 0x44);
-    FIELD(arg1, s32 *, 8) += FIELD(arg0, s32 *, 0x48);
+    FIELD(position, s32 *, 0) += FIELD(effect, s32 *, 0x40);
+    FIELD(position, s32 *, 4) += FIELD(effect, s32 *, 0x44);
+    FIELD(position, s32 *, 8) += FIELD(effect, s32 *, 0x48);
 
-    product = FIELD(arg0, u8 *, 0) * FIELD(arg0, s16 *, 0x32);
-    red = product / FIELD(arg0, s16 *, 0x34);
+    color_product = FIELD(effect, u8 *, 0) * FIELD(effect, s16 *, 0x32);
+    red = color_product / FIELD(effect, s16 *, 0x34);
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    product = FIELD(arg0, u8 *, 1) * FIELD(arg0, s16 *, 0x32);
-    green = product / FIELD(arg0, s16 *, 0x34);
+    color_product = FIELD(effect, u8 *, 1) * FIELD(effect, s16 *, 0x32);
+    green = color_product / FIELD(effect, s16 *, 0x34);
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    product = FIELD(arg0, u8 *, 2) * FIELD(arg0, s16 *, 0x32);
-    blue = product / FIELD(arg0, s16 *, 0x34);
+    color_product = FIELD(effect, u8 *, 2) * FIELD(effect, s16 *, 0x32);
+    blue = color_product / FIELD(effect, s16 *, 0x34);
 
-    FIELD(arg0, s32 *, 0x48) += FIELD(arg0, s32 *, 0x54);
-    timer = FIELD(arg0, u16 *, 0x32);
-    timer -= 1;
-    FIELD(arg0, u16 *, 0x32) = timer;
-    FIELD(arg0, s8 *, 4) = red;
-    FIELD(arg0, s8 *, 5) = green;
-    FIELD(arg0, s8 *, 6) = blue;
-    FIELD(arg0, s32 *, 8) = FIELD(arg0, s32 *, 4);
+    FIELD(effect, s32 *, 0x48) += FIELD(effect, s32 *, 0x54);
+    life_left = FIELD(effect, u16 *, 0x32);
+    life_left -= 1;
+    FIELD(effect, u16 *, 0x32) = life_left;
+    FIELD(effect, s8 *, 4) = red;
+    FIELD(effect, s8 *, 5) = green;
+    FIELD(effect, s8 *, 6) = blue;
+    FIELD(effect, s32 *, 8) = FIELD(effect, s32 *, 4);
 
-    if ((timer << 16) <= 0) {
-        FIELD(arg0, u16 *, -2) |= 0x8000;
-        page = (s32 *)0x80080000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        page[0x14A0 / sizeof(s32)] =
-            page[0x14A0 / sizeof(s32)] | 0x8000;
+    if ((life_left << 16) <= 0) {
+        FIELD(effect, u16 *, -2) |= 0x8000;
+        flag_page = (s32 *)0x80080000;
+        ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        flag_page[0x14A0 / sizeof(s32)] =
+            flag_page[0x14A0 / sizeof(s32)] | 0x8000;
     }
 }
 
-/* MECHANISM: Frameless leaf; a separate product temp keeps mflo in v0 while
+/* MECHANISM: Frameless leaf; a separate color_product temp keeps mflo in v0 while
    quotient lifetimes color a2/a1/a0, with memory barriers forcing each lh reload.
-   Split u16 decrement selects addiu; kept 0x80080000 page emits lone lui + 0x14a0. */
+   Split u16 decrement selects addiu; kept 0x80080000 flag_page emits lone lui + 0x14a0. */

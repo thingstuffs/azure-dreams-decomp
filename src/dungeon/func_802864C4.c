@@ -13,18 +13,19 @@ extern u8 *D_80083478;
 extern Copy32 D_800DDC9C;
 extern Copy32 D_8014A000;
 
-void func_800194C4(s16 arg0)
+/* Loads an indexed resource and copies two 32-byte blocks and a trailing byte to globals. */
+void func_800194C4(s16 resource_index)
 {
-    s32 local;
-    u8 *src;
+    s32 load_result;
+    u8 *resource_data;
 
-    src = (u8 *)&D_8014A000;
-    func_8003F6D4(1, src, &local, arg0 + 0x3F5E);
-    func_8003E4FC(6, &local, 0);
+    resource_data = (u8 *)&D_8014A000;
+    func_8003F6D4(1, resource_data, &load_result, resource_index + 0x3F5E);
+    func_8003E4FC(6, &load_result, 0);
     func_8003F320();
     *(Copy32 *)D_80083478 = D_8014A000;
-    D_800DDC9C = *(Copy32 *)(src + 0x20);
-    D_8001F584 = src[0x40];
+    D_800DDC9C = *(Copy32 *)(resource_data + 0x20);
+    D_8001F584 = resource_data[0x40];
 }
 
 /* MECHANISM: Packed 32-byte assignments express both retail unaligned copies.

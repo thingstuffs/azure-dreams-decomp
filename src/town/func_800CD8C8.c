@@ -23,7 +23,8 @@ typedef struct S_800CB028_0 {
     M2C_UNK ** unk_7C;
 } S_800CB028_0;   /* arg0 in func_800CB028 */
 
-void func_800CB028(S_800CB028_0 *arg0) {
-    *arg0->unk_7C = &D_800D685C;
-    ((S_800CB028_2 *)(((S_800CB028_1 *)arg0)->unk_80))->unk_04 = &D_800D6870;
+/* Initialize the object's referenced data pointers. */
+void func_800CB028(S_800CB028_0 *object) {
+    *object->unk_7C = &D_800D685C;
+    ((S_800CB028_2 *)(((S_800CB028_1 *)object)->unk_80))->unk_04 = &D_800D6870;
 }

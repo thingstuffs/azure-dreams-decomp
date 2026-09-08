@@ -9,27 +9,28 @@ extern void rename(void *arg0, void *arg1);
 
 extern s32 D_80083E98[][32];
 
-s32 func_80021F18(s32 arg0, void *arg1) {
-    s32 sp18[8];
-    s32 sp38[8];
-    s32 *base;
-    s32 *temp_s1;
-    s32 temp_v0;
+/* Updates slot data using a temporary filename before restoring the slot filename. */
+s32 func_80021F18(s32 slot, void *data) {
+    s32 slot_name[8];
+    s32 temp_name[8];
+    s32 *slot_table;
+    s32 *slot_entry;
+    s32 result;
 
-    func_80021B18(sp18, arg0);
-    func_80021B18(sp38, 5);
-    base = (s32 *)&D_80083E98;
-    temp_s1 = (s32 *)((u8 *)base + (arg0 << 7));
-    if (*temp_s1 != 0) {
-        rename(sp18, sp38);
+    func_80021B18(slot_name, slot);
+    func_80021B18(temp_name, 5);
+    slot_table = (s32 *)&D_80083E98;
+    slot_entry = (s32 *)((u8 *)slot_table + (slot << 7));
+    if (*slot_entry != 0) {
+        rename(slot_name, temp_name);
     }
-    *(s32 *)((u8 *)arg1 + 0x204) = 0;
-    func_80021EB8(arg1);
-    temp_v0 = func_80021C4C(sp38, arg1, 0xC0, 0, *temp_s1);
-    if (temp_v0 != 0) {
-        func_80021DF4(arg0, arg1);
+    *(s32 *)((u8 *)data + 0x204) = 0;
+    func_80021EB8(data);
+    result = func_80021C4C(temp_name, data, 0xC0, 0, *slot_entry);
+    if (result != 0) {
+        func_80021DF4(slot, data);
         func_800220DC();
     }
-    rename(sp38, sp18);
-    return temp_v0;
+    rename(temp_name, slot_name);
+    return result;
 }

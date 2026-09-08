@@ -80,33 +80,34 @@ typedef struct Container {
     u16 f42;
 } Container;
 
-void func_800375C0(Container *arg0, Source *arg1) {
-    arg0->ptr->f60 = arg1->f00;
-    arg0->ptr->f10 = arg1->f04;
-    arg0->ptr->f14 = arg1->f06;
-    arg0->ptr->f18 = arg1->f08;
-    arg0->ptr->f30 = arg1->f0c;
-    arg0->ptr->f34 = arg1->f0e;
-    arg0->ptr->f38 = arg1->f10;
-    arg0->ptr->f08 = arg1->f14;
-    arg0->ptr->f0a = arg1->f16;
-    arg0->ptr->f0c = arg1->f18;
-    arg0->f0c = arg1->f1c;
-    arg0->f10 = arg1->f20;
-    arg0->f14 = arg1->f24;
-    arg0->f18 = arg1->f28;
-    arg0->f1c = arg1->f2c;
-    arg0->f20 = arg1->f30;
-    arg0->f22 = arg1->f32;
-    arg0->f26 = 0;
-    arg0->f24 = 0;
-    arg0->f28 = arg1->f38;
-    arg0->f2c = arg1->f3c;
-    arg0->f30 = arg1->f40;
-    arg0->f34 = arg1->f44;
-    arg0->f38 = arg1->f48;
-    arg0->f3c = arg1->f4c;
-    arg0->f3e = arg1->f4e;
-    arg0->f42 = 0;
-    arg0->f40 = 0;
+/* Copy source fields into the container and its destination, clearing four container fields. */
+void func_800375C0(Container *container, Source *source) {
+    container->ptr->f60 = source->f00;
+    container->ptr->f10 = source->f04;
+    container->ptr->f14 = source->f06;
+    container->ptr->f18 = source->f08;
+    container->ptr->f30 = source->f0c;
+    container->ptr->f34 = source->f0e;
+    container->ptr->f38 = source->f10;
+    container->ptr->f08 = source->f14;
+    container->ptr->f0a = source->f16;
+    container->ptr->f0c = source->f18;
+    container->f0c = source->f1c;
+    container->f10 = source->f20;
+    container->f14 = source->f24;
+    container->f18 = source->f28;
+    container->f1c = source->f2c;
+    container->f20 = source->f30;
+    container->f22 = source->f32;
+    container->f26 = 0;
+    container->f24 = 0;
+    container->f28 = source->f38;
+    container->f2c = source->f3c;
+    container->f30 = source->f40;
+    container->f34 = source->f44;
+    container->f38 = source->f48;
+    container->f3c = source->f4c;
+    container->f3e = source->f4e;
+    container->f42 = 0;
+    container->f40 = 0;
 }

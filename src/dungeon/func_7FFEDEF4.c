@@ -11,20 +11,21 @@ extern void func_8008B818(s32, void *, void *, void *);
 extern s8 D_800CFC2C;
 extern s8 D_800FC418;
 
-s32 func_8008B654(s32 arg0, s32 arg1) {
+/* Allocate and initialize eleven linked objects and their resources. */
+s32 func_8008B654(s32 value_7c, s32 value_78) {
     register s32 count;
     void *objects[11];
     void *resources[11];
-    void **object_write;
-    void **resource_write;
-    void *allocated;
+    void **object_cursor;
+    void **resource_cursor;
+    void *object;
     void *resource;
     count = 0;
-    object_write = objects;
-    resource_write = resources;
+    object_cursor = objects;
+    resource_cursor = resources;
     while (1) {
-        allocated = func_8003FC64(0x11);
-        if (allocated == 0) {
+        object = func_8003FC64(0x11);
+        if (object == 0) {
             break;
         }
         resource = func_80033BE4();
@@ -32,8 +33,8 @@ s32 func_8008B654(s32 arg0, s32 arg1) {
             break;
         }
         func_80033C1C(resource, 0);
-        *object_write++ = allocated;
-        *resource_write++ = resource;
+        *object_cursor++ = object;
+        *resource_cursor++ = resource;
         count++;
         if (count >= 11) {
             break;
@@ -41,35 +42,35 @@ s32 func_8008B654(s32 arg0, s32 arg1) {
     }
 
     if (count < 11) {
-        if (object_write != objects) {
+        if (object_cursor != objects) {
             do {
-                --object_write;
-                func_8003FFF0(*object_write);
-                func_80040044(*object_write);
-            } while (object_write != objects);
-            ++object_write;
+                --object_cursor;
+                func_8003FFF0(*object_cursor);
+                func_80040044(*object_cursor);
+            } while (object_cursor != objects);
+            ++object_cursor;
         }
-        if (resource_write != resources) {
+        if (resource_cursor != resources) {
             do {
-                --resource_write;
-                func_80033C84(*resource_write);
-            } while (resource_write != resources);
+                --resource_cursor;
+                func_80033C84(*resource_cursor);
+            } while (resource_cursor != resources);
         }
         return 0;
     }
 
-    object_write = objects;
-    resource_write = resources;
+    object_cursor = objects;
+    resource_cursor = resources;
     count = 0;
     {
-        s8 *order = &D_800CFC2C;
+        s8 *link_slots = &D_800CFC2C;
         while (1) {
-            s8 slot = *(s8 *)(count + (s32)order);
-            void *other_data;
-            if (slot == count) {
-                other_data = 0;
+            s8 linked_slot = *(s8 *)(count + (s32)link_slots);
+            void *linked_data;
+            if (linked_slot == count) {
+                linked_data = 0;
             } else {
-                other_data = (u8 *)objects[slot] + 0x20;
+                linked_data = (u8 *)objects[linked_slot] + 0x20;
             }
             {
                 struct object_data {
@@ -77,11 +78,11 @@ s32 func_8008B654(s32 arg0, s32 arg1) {
                     s32 field_74;
                     s32 field_78;
                     s32 field_7c;
-                } *data = (struct object_data *)((u8 *)*object_write + 0x20);
-                data->field_74 = 0;
-                data->field_78 = arg1;
-                data->field_7c = arg0;
-                func_8008B818(count++, other_data, *object_write++, *resource_write++);
+                } *payload = (struct object_data *)((u8 *)*object_cursor + 0x20);
+                payload->field_74 = 0;
+                payload->field_78 = value_78;
+                payload->field_7c = value_7c;
+                func_8008B818(count++, linked_data, *object_cursor++, *resource_cursor++);
             }
             if (count >= 11) {
                 D_800FC418 = 0;

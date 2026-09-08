@@ -33,20 +33,21 @@ extern void func_80019458(s32);
 extern s32 func_800194D8(s32);
 extern void func_80019638(void);
 
+/* Process the current cell value and clear it when the handler returns nonzero. */
 s32 func_80016B0C(void) {
-    u8 local[2];
+    u8 fallback_args[2];
     S_80016B0C_0 *state;
     s32 result;
-    s32 index;
+    s32 cell_index;
     u8 *cells;
 
     ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state = *(void **)D_80016000;
-    local[0] = 2;
-    local[1] = 0xFF;
-    index = state->unk_08;
+    fallback_args[0] = 2;
+    fallback_args[1] = 0xFF;
+    cell_index = state->unk_08;
     cells = state->unk_40;
-    D_80019AFC = cells[index * 8 + 4];
+    D_80019AFC = cells[cell_index * 8 + 4];
     result = func_80018504();
 
     if (result != 0) {
@@ -60,13 +61,9 @@ s32 func_80016B0C(void) {
         D_80019AFC = 0;
         func_80018934();
     } else {
-        func_80018D54(D_80019B90, local);
+        func_80018D54(D_80019B90, fallback_args);
         func_80019638();
     }
 
     return result;
 }
-
-/* MECHANISM: The u8[2] stack buffer yields sp+0x10/+0x11 in the 0x28 frame; direct globals hold the s2/s1 pages.
-   A guarded entry $s0 liveness barrier keeps the ra/s2/s1/s0 saves together while result spans both CFG arms.
-   The block-local inline cell clear restores retail's v0/v1 coloring, and both paths converge on one epilogue. */

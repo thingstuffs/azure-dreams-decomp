@@ -24,13 +24,14 @@ extern s8 D_80080A84;
 extern s32 D_800814A0;
 extern s32 D_80126704;
 
-static void *func_80126890(void *arg0) {
+/* Allocates and initializes a node for the supplied data, returning null on failure. */
+static void *func_80126890(void *data) {
     void *node;
     void *payload;
 
     node = func_8003FC64(0);
     if (node != 0) {
-        ((S_80126890_0 *)node)->unk_20 = arg0;
+        ((S_80126890_0 *)node)->unk_20 = data;
         payload = (u8 *)node + 0x20;
         if (func_801264AC(payload) != 0) {
             D_80080A84 = 1;

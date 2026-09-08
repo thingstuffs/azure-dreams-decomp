@@ -43,291 +43,292 @@ extern s16 func_8001C06C(Pos *, Pos *, s16, s16 *, s16 *);
 extern s16 func_8001C5E4(Pos *, Pos *, s16, s16 *, s16 *, s32 *, s32 *);
 extern s32 func_8001CE14(s16, s32, s16);
 
-s32 func_8001AC4C(s16 dir0, s16 dir1, s16 from, s16 to, u8 *marks) {
-    Pos a;
-    Pos b;
-    Pos c;
-    s16 ox1;
-    s16 oy1;
-    s16 ox2;
-    s16 oy2;
-    s16 rx;
-    s16 ry;
-    s32 accA[1];
-    s32 step[1];
-    s32 accB[1];
-    s32 ex;
-    s32 ey;
-    s16 back;
-    Room *r1;
-    s16 total;
-    s16 sdir;
-    Room *r2;
-    DungeonState *st;
-    DungeonCell *p;
-    DungeonCell *q;
-    s16 dir;
-    s16 d3;
-    s16 idx;
-    s16 dx;
-    s16 dy;
-    s32 bx;
-    s32 by;
-    s32 cx;
-    s32 cy;
-    s32 hA;
-    s32 hB;
-    s32 dh;
-    s32 adh;
+/* Connects rooms with a two-cell-wide corridor and interpolates its floor heights. */
+s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room_marks) {
+    Pos start;
+    Pos end;
+    Pos side_start;
+    s16 src_offset_x;
+    s16 src_offset_y;
+    s16 dest_offset_x;
+    s16 dest_offset_y;
+    s16 join_x;
+    s16 join_y;
+    s32 main_height[1];
+    s32 height_step[1];
+    s32 side_height[1];
+    s32 dest_x;
+    s32 dest_y;
+    s16 back_dir;
+    Room *src_room;
+    s16 path_length;
+    s16 saved_dir;
+    Room *dest_room;
+    DungeonState *dungeon;
+    DungeonCell *edge_cell;
+    DungeonCell *inner_cell;
+    s16 travel_dir;
+    s16 entry_dir;
+    s16 room_idx;
+    s16 dest_grid_x;
+    s16 dest_grid_y;
+    s32 src_x;
+    s32 src_y;
+    s32 cursor_x;
+    s32 cursor_y;
+    s32 src_height;
+    s32 dest_height;
+    s32 height_delta;
+    s32 height_gap;
 
-    st = &D_8008333C;
-    r1 = &D_800E2970[from];
-    r2 = &D_800E2970[to];
-    total = 0;
-    func_8001CCEC(dir0, &ox1, &oy1, r1);
-    func_8001CCEC((dir1 + 4) & 6, &ox2, &oy2, r2);
-    dir = dir0;
-    sdir = dir0;
-    if (D_800E2970[from].active) {
-        func_800177D8(from, r1->x + ox1, r1->y + oy1, 0);
+    dungeon = &D_8008333C;
+    src_room = &D_800E2970[src_idx];
+    dest_room = &D_800E2970[dest_idx];
+    path_length = 0;
+    func_8001CCEC(src_dir, &src_offset_x, &src_offset_y, src_room);
+    func_8001CCEC((dest_dir + 4) & 6, &dest_offset_x, &dest_offset_y, dest_room);
+    travel_dir = src_dir;
+    saved_dir = src_dir;
+    if (D_800E2970[src_idx].active) {
+        func_800177D8(src_idx, src_room->x + src_offset_x, src_room->y + src_offset_y, 0);
     }
-    if (D_800E2970[to].active) {
-        func_800177D8(to, r2->x + ox2, r2->y + oy2, 0);
+    if (D_800E2970[dest_idx].active) {
+        func_800177D8(dest_idx, dest_room->x + dest_offset_x, dest_room->y + dest_offset_y, 0);
     }
     func_800A6D60(1);
-    a.x = r1->x + ox1;
-    a.y = r1->y + oy1;
-    a.dir = dir0;
-    if (D_800E2970[from].active) {
-        a.x = a.x + D_8006CCD8[dir];
-        a.y = a.y + D_8006CCE8[dir];
+    start.x = src_room->x + src_offset_x;
+    start.y = src_room->y + src_offset_y;
+    start.dir = src_dir;
+    if (D_800E2970[src_idx].active) {
+        start.x = start.x + D_8006CCD8[travel_dir];
+        start.y = start.y + D_8006CCE8[travel_dir];
     }
-    cx = (s16)(from % D_8001F660) + D_8006CCD8[dir];
-    cy = (s16)(from / D_8001F660) + D_8006CCE8[dir];
-    dx = to % D_8001F660;
-    dy = to / D_8001F660;
+    cursor_x = (s16)(src_idx % D_8001F660) + D_8006CCD8[travel_dir];
+    cursor_y = (s16)(src_idx / D_8001F660) + D_8006CCE8[travel_dir];
+    dest_grid_x = dest_idx % D_8001F660;
+    dest_grid_y = dest_idx / D_8001F660;
     for (;;) {
-        if (cx == dx && cy == dy) {
-            if (D_800E2970[to].active) {
-                b.x = r2->x + ox2;
-                b.y = r2->y + oy2;
+        if (cursor_x == dest_grid_x && cursor_y == dest_grid_y) {
+            if (D_800E2970[dest_idx].active) {
+                end.x = dest_room->x + dest_offset_x;
+                end.y = dest_room->y + dest_offset_y;
             } else {
-                b.x = r2->x;
-                b.y = r2->y;
+                end.x = dest_room->x;
+                end.y = dest_room->y;
             }
-            b.x = b.x - D_8006CCD8[dir1];
-            b.y = b.y - D_8006CCE8[dir1];
-            total += func_8001C06C(&a, &b, 1, &rx, &ry);
-            a.x = a.x + D_8006CCD8[(dir + 2) & 7];
-            a.y = a.y + D_8006CCE8[(dir + 2) & 7];
-            b.x = b.x + D_8006CCD8[(dir1 + 2) & 7];
-            b.y = b.y + D_8006CCE8[(dir1 + 2) & 7];
-            rx = rx - D_8006CCD8[dir];
-            ry = ry - D_8006CCE8[dir];
-            func_8001C06C(&a, &b, 0, &rx, &ry);
+            end.x = end.x - D_8006CCD8[dest_dir];
+            end.y = end.y - D_8006CCE8[dest_dir];
+            path_length += func_8001C06C(&start, &end, 1, &join_x, &join_y);
+            start.x = start.x + D_8006CCD8[(travel_dir + 2) & 7];
+            start.y = start.y + D_8006CCE8[(travel_dir + 2) & 7];
+            end.x = end.x + D_8006CCD8[(dest_dir + 2) & 7];
+            end.y = end.y + D_8006CCE8[(dest_dir + 2) & 7];
+            join_x = join_x - D_8006CCD8[travel_dir];
+            join_y = join_y - D_8006CCE8[travel_dir];
+            func_8001C06C(&start, &end, 0, &join_x, &join_y);
             break;
         }
-        idx = cy * D_8001F660 + cx;
-        marks[idx] = 2;
-        b.x = D_800E2970[idx].x;
-        b.y = D_800E2970[idx].y;
-        total += func_8001C06C(&a, &b, 1, &rx, &ry);
-        c = a;
-        c.x = c.x + D_8006CCD8[(dir + 2) & 7];
-        c.y = c.y + D_8006CCE8[(dir + 2) & 7];
-        rx = rx - D_8006CCD8[dir];
-        ry = ry - D_8006CCE8[dir];
-        func_8001C06C(&c, &b, 0, &rx, &ry);
-        a.x = b.x;
-        a.y = b.y;
-        if (D_8006CCD8[dir] != 0) {
-            if (cx == dx) {
-                a.dir = (func_800A07D0(cx, cy, dx, dy) >> 9) & 6;
+        room_idx = cursor_y * D_8001F660 + cursor_x;
+        room_marks[room_idx] = 2;
+        end.x = D_800E2970[room_idx].x;
+        end.y = D_800E2970[room_idx].y;
+        path_length += func_8001C06C(&start, &end, 1, &join_x, &join_y);
+        side_start = start;
+        side_start.x = side_start.x + D_8006CCD8[(travel_dir + 2) & 7];
+        side_start.y = side_start.y + D_8006CCE8[(travel_dir + 2) & 7];
+        join_x = join_x - D_8006CCD8[travel_dir];
+        join_y = join_y - D_8006CCE8[travel_dir];
+        func_8001C06C(&side_start, &end, 0, &join_x, &join_y);
+        start.x = end.x;
+        start.y = end.y;
+        if (D_8006CCD8[travel_dir] != 0) {
+            if (cursor_x == dest_grid_x) {
+                start.dir = (func_800A07D0(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         } else {
-            if (cy == dy) {
-                a.dir = (func_800A07D0(cx, cy, dx, dy) >> 9) & 6;
+            if (cursor_y == dest_grid_y) {
+                start.dir = (func_800A07D0(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         }
-        cx = cx + D_8006CCD8[a.dir];
-        cy = cy + D_8006CCE8[a.dir];
-        dir = a.dir;
+        cursor_x = cursor_x + D_8006CCD8[start.dir];
+        cursor_y = cursor_y + D_8006CCE8[start.dir];
+        travel_dir = start.dir;
     }
 
-    dir = sdir;
-    back = (dir + 4) & 7;
-    bx = r1->x + ox1;
-    by = r1->y + oy1;
-    p = &D_800EA000[(by << st->stride) + bx];
-    q = &D_800EA000[((by + D_8006CCE8[back]) << st->stride) + bx + D_8006CCD8[back]];
-    ex = r2->x + ox2;
-    ey = r2->y + oy2;
-    if (func_8001CE14(p->kind, 15, 18)) {
-        p->kind = (q->flags >> 1) + (dir / 2) * 5 + 79;
-        p->value = q->value - ((q->flags & 1) << 5);
-        if (func_8001CE14(q->kind, 99, 103)) {
-            p->value = p->value + 96;
+    travel_dir = saved_dir;
+    back_dir = (travel_dir + 4) & 7;
+    src_x = src_room->x + src_offset_x;
+    src_y = src_room->y + src_offset_y;
+    edge_cell = &D_800EA000[(src_y << dungeon->stride) + src_x];
+    inner_cell = &D_800EA000[((src_y + D_8006CCE8[back_dir]) << dungeon->stride) + src_x + D_8006CCD8[back_dir]];
+    dest_x = dest_room->x + dest_offset_x;
+    dest_y = dest_room->y + dest_offset_y;
+    if (func_8001CE14(edge_cell->kind, 15, 18)) {
+        edge_cell->kind = (inner_cell->flags >> 1) + (travel_dir / 2) * 5 + 79;
+        edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
+        if (func_8001CE14(inner_cell->kind, 99, 103)) {
+            edge_cell->value = edge_cell->value + 96;
         }
     }
-    if (func_8001CE14(q->kind, 19, 28)) {
-        q->kind = q->flags + (dir / 2) * 10 + 39;
-    } else if (func_8001CE14(q->kind, 99, 103)) {
-        q->kind = q->flags + (dir / 2) * 10 + 39;
-        q->value = q->value + 96;
+    if (func_8001CE14(inner_cell->kind, 19, 28)) {
+        inner_cell->kind = inner_cell->flags + (travel_dir / 2) * 10 + 39;
+    } else if (func_8001CE14(inner_cell->kind, 99, 103)) {
+        inner_cell->kind = inner_cell->flags + (travel_dir / 2) * 10 + 39;
+        inner_cell->value = inner_cell->value + 96;
     }
 
-    cx = bx + D_8006CCD8[(dir + 2) & 7];
-    cy = by + D_8006CCE8[(dir + 2) & 7];
-    p = &D_800EA000[(cy << st->stride) + cx];
-    q = &D_800EA000[((cy + D_8006CCE8[back]) << st->stride) + cx + D_8006CCD8[back]];
-    if (func_8001CE14(p->kind, 15, 18)) {
-        p->kind = (q->flags >> 1) + (dir / 2) * 5 + 79;
-        p->value = q->value - ((q->flags & 1) << 5);
-        if (func_8001CE14(q->kind, 99, 103)) {
-            p->value = p->value + 96;
+    cursor_x = src_x + D_8006CCD8[(travel_dir + 2) & 7];
+    cursor_y = src_y + D_8006CCE8[(travel_dir + 2) & 7];
+    edge_cell = &D_800EA000[(cursor_y << dungeon->stride) + cursor_x];
+    inner_cell = &D_800EA000[((cursor_y + D_8006CCE8[back_dir]) << dungeon->stride) + cursor_x + D_8006CCD8[back_dir]];
+    if (func_8001CE14(edge_cell->kind, 15, 18)) {
+        edge_cell->kind = (inner_cell->flags >> 1) + (travel_dir / 2) * 5 + 79;
+        edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
+        if (func_8001CE14(inner_cell->kind, 99, 103)) {
+            edge_cell->value = edge_cell->value + 96;
         }
     }
-    if (func_8001CE14(q->kind, 19, 28)) {
-        q->kind = q->flags + (dir / 2) * 10 + 39;
-    } else if (func_8001CE14(q->kind, 99, 103)) {
-        q->kind = q->flags + (dir / 2) * 10 + 39;
-        q->value = q->value + 96;
+    if (func_8001CE14(inner_cell->kind, 19, 28)) {
+        inner_cell->kind = inner_cell->flags + (travel_dir / 2) * 10 + 39;
+    } else if (func_8001CE14(inner_cell->kind, 99, 103)) {
+        inner_cell->kind = inner_cell->flags + (travel_dir / 2) * 10 + 39;
+        inner_cell->value = inner_cell->value + 96;
     }
 
-    if (D_800E2970[to].active) {
-        back = dir1;
-        cx = ex;
-        cy = ey;
-        p = &D_800EA000[(cy << st->stride) + cx];
-        cx = cx + D_8006CCD8[dir1];
-        cy = cy + D_8006CCE8[dir1];
-        q = &D_800EA000[(cy << st->stride) + cx];
-        d3 = (dir1 + 4) & 6;
-        if (func_8001CE14(p->kind, 15, 18)) {
-            p->kind = (q->flags >> 1) + (d3 / 2) * 5 + 79;
-            p->value = q->value - ((q->flags & 1) << 5);
-            if (func_8001CE14(q->kind, 99, 103)) {
-                p->value = p->value + 96;
+    if (D_800E2970[dest_idx].active) {
+        back_dir = dest_dir;
+        cursor_x = dest_x;
+        cursor_y = dest_y;
+        edge_cell = &D_800EA000[(cursor_y << dungeon->stride) + cursor_x];
+        cursor_x = cursor_x + D_8006CCD8[dest_dir];
+        cursor_y = cursor_y + D_8006CCE8[dest_dir];
+        inner_cell = &D_800EA000[(cursor_y << dungeon->stride) + cursor_x];
+        entry_dir = (dest_dir + 4) & 6;
+        if (func_8001CE14(edge_cell->kind, 15, 18)) {
+            edge_cell->kind = (inner_cell->flags >> 1) + (entry_dir / 2) * 5 + 79;
+            edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
+            if (func_8001CE14(inner_cell->kind, 99, 103)) {
+                edge_cell->value = edge_cell->value + 96;
             }
         }
-        if (func_8001CE14(q->kind, 19, 28)) {
-            q->kind = q->flags + (d3 / 2) * 10 + 39;
-        } else if (func_8001CE14(q->kind, 99, 103)) {
-            q->kind = q->flags + (dir / 2) * 10 + 39;
-            q->value = q->value + 96;
+        if (func_8001CE14(inner_cell->kind, 19, 28)) {
+            inner_cell->kind = inner_cell->flags + (entry_dir / 2) * 10 + 39;
+        } else if (func_8001CE14(inner_cell->kind, 99, 103)) {
+            inner_cell->kind = inner_cell->flags + (travel_dir / 2) * 10 + 39;
+            inner_cell->value = inner_cell->value + 96;
         }
 
-        cx = ex + D_8006CCD8[(d3 - 2) & 7];
-        cy = ey + D_8006CCE8[(d3 - 2) & 7];
-        p = &D_800EA000[(cy << st->stride) + cx];
-        q = &D_800EA000[((cy + D_8006CCE8[back]) << st->stride) + cx + D_8006CCD8[back]];
-        if (func_8001CE14(p->kind, 15, 18)) {
-            p->kind = (q->flags >> 1) + (d3 / 2) * 5 + 79;
-            p->value = q->value - ((q->flags & 1) << 5);
-            if (func_8001CE14(q->kind, 99, 103)) {
-                p->value = p->value + 96;
+        cursor_x = dest_x + D_8006CCD8[(entry_dir - 2) & 7];
+        cursor_y = dest_y + D_8006CCE8[(entry_dir - 2) & 7];
+        edge_cell = &D_800EA000[(cursor_y << dungeon->stride) + cursor_x];
+        inner_cell = &D_800EA000[((cursor_y + D_8006CCE8[back_dir]) << dungeon->stride) + cursor_x + D_8006CCD8[back_dir]];
+        if (func_8001CE14(edge_cell->kind, 15, 18)) {
+            edge_cell->kind = (inner_cell->flags >> 1) + (entry_dir / 2) * 5 + 79;
+            edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
+            if (func_8001CE14(inner_cell->kind, 99, 103)) {
+                edge_cell->value = edge_cell->value + 96;
             }
         }
-        if (func_8001CE14(q->kind, 19, 28)) {
-            q->kind = q->flags + (d3 / 2) * 10 + 39;
-        } else if (func_8001CE14(q->kind, 99, 103)) {
-            q->kind = q->flags + (dir / 2) * 10 + 39;
-            q->value = q->value + 96;
+        if (func_8001CE14(inner_cell->kind, 19, 28)) {
+            inner_cell->kind = inner_cell->flags + (entry_dir / 2) * 10 + 39;
+        } else if (func_8001CE14(inner_cell->kind, 99, 103)) {
+            inner_cell->kind = inner_cell->flags + (travel_dir / 2) * 10 + 39;
+            inner_cell->value = inner_cell->value + 96;
         }
     }
 
     func_800A6D60(0);
-    dir = sdir;
-    if (D_800E2970[from].active) {
-        hA = D_800EA000[((r1->y + oy1) << st->stride) + r1->x + ox1].value;
+    travel_dir = saved_dir;
+    if (D_800E2970[src_idx].active) {
+        src_height = D_800EA000[((src_room->y + src_offset_y) << dungeon->stride) + src_room->x + src_offset_x].value;
     } else {
-        hA = D_800EA000[(r1->y << st->stride) + r1->x].value;
+        src_height = D_800EA000[(src_room->y << dungeon->stride) + src_room->x].value;
     }
-    if (D_800E2970[to].active) {
-        hB = D_800EA000[((r2->y + oy2) << st->stride) + r2->x + ox2].value;
+    if (D_800E2970[dest_idx].active) {
+        dest_height = D_800EA000[((dest_room->y + dest_offset_y) << dungeon->stride) + dest_room->x + dest_offset_x].value;
     } else {
-        hB = D_800EA000[(r2->y << st->stride) + r2->x].value;
+        dest_height = D_800EA000[(dest_room->y << dungeon->stride) + dest_room->x].value;
     }
-    if (total == 0) {
-        total = 1;
+    if (path_length == 0) {
+        path_length = 1;
     }
-    dh = hB - hA;
-    adh = __builtin_abs(dh);
-    if ((adh + 31) / 32 > total) {
-    ret1:
+    height_delta = dest_height - src_height;
+    height_gap = __builtin_abs(height_delta);
+    if ((height_gap + 31) / 32 > path_length) {
+    failed:
         return 1;
     }
-    step[0] = (adh << 16) / total;
-    if (hB < hA) {
-        step[0] = -step[0];
+    height_step[0] = (height_gap << 16) / path_length;
+    if (dest_height < src_height) {
+        height_step[0] = -height_step[0];
     }
-    accA[0] = accB[0] = hA << 16;
+    main_height[0] = side_height[0] = src_height << 16;
 
-    a.x = r1->x + ox1;
-    a.y = r1->y + oy1;
-    a.dir = dir;
-    if (D_800E2970[from].active) {
-        a.x = a.x + D_8006CCD8[dir];
-        a.y = a.y + D_8006CCE8[dir];
+    start.x = src_room->x + src_offset_x;
+    start.y = src_room->y + src_offset_y;
+    start.dir = travel_dir;
+    if (D_800E2970[src_idx].active) {
+        start.x = start.x + D_8006CCD8[travel_dir];
+        start.y = start.y + D_8006CCE8[travel_dir];
     }
-    cx = (s16)(from % D_8001F660) + D_8006CCD8[dir];
-    cy = (s16)(from / D_8001F660) + D_8006CCE8[dir];
-    dx = to % D_8001F660;
-    dy = to / D_8001F660;
+    cursor_x = (s16)(src_idx % D_8001F660) + D_8006CCD8[travel_dir];
+    cursor_y = (s16)(src_idx / D_8001F660) + D_8006CCE8[travel_dir];
+    dest_grid_x = dest_idx % D_8001F660;
+    dest_grid_y = dest_idx / D_8001F660;
     for (;;) {
-        if (cx == dx && cy == dy) {
-            if (D_800E2970[to].active) {
-                b.x = r2->x + ox2;
-                b.y = r2->y + oy2;
+        if (cursor_x == dest_grid_x && cursor_y == dest_grid_y) {
+            if (D_800E2970[dest_idx].active) {
+                end.x = dest_room->x + dest_offset_x;
+                end.y = dest_room->y + dest_offset_y;
             } else {
-                b.x = r2->x;
-                b.y = r2->y;
+                end.x = dest_room->x;
+                end.y = dest_room->y;
             }
-            b.x = b.x - D_8006CCD8[dir1];
-            b.y = b.y - D_8006CCE8[dir1];
-            if (func_8001C5E4(&a, &b, 1, &rx, &ry, accA, step) < 0) {
-                goto ret1;
+            end.x = end.x - D_8006CCD8[dest_dir];
+            end.y = end.y - D_8006CCE8[dest_dir];
+            if (func_8001C5E4(&start, &end, 1, &join_x, &join_y, main_height, height_step) < 0) {
+                goto failed;
             }
-            a.x = a.x + D_8006CCD8[(dir + 2) & 7];
-            a.y = a.y + D_8006CCE8[(dir + 2) & 7];
-            b.x = b.x + D_8006CCD8[(dir1 + 2) & 7];
-            b.y = b.y + D_8006CCE8[(dir1 + 2) & 7];
-            rx = rx - D_8006CCD8[dir];
-            ry = ry - D_8006CCE8[dir];
-            if (func_8001C5E4(&a, &b, 0, &rx, &ry, accB, step) < 0) {
-                goto ret1;
+            start.x = start.x + D_8006CCD8[(travel_dir + 2) & 7];
+            start.y = start.y + D_8006CCE8[(travel_dir + 2) & 7];
+            end.x = end.x + D_8006CCD8[(dest_dir + 2) & 7];
+            end.y = end.y + D_8006CCE8[(dest_dir + 2) & 7];
+            join_x = join_x - D_8006CCD8[travel_dir];
+            join_y = join_y - D_8006CCE8[travel_dir];
+            if (func_8001C5E4(&start, &end, 0, &join_x, &join_y, side_height, height_step) < 0) {
+                goto failed;
             }
             break;
         }
-        idx = cy * D_8001F660 + cx;
-        marks[idx] = 2;
-        b.x = D_800E2970[idx].x;
-        b.y = D_800E2970[idx].y;
-        if (func_8001C5E4(&a, &b, 1, &rx, &ry, accA, step) < 0) {
-            goto ret1;
+        room_idx = cursor_y * D_8001F660 + cursor_x;
+        room_marks[room_idx] = 2;
+        end.x = D_800E2970[room_idx].x;
+        end.y = D_800E2970[room_idx].y;
+        if (func_8001C5E4(&start, &end, 1, &join_x, &join_y, main_height, height_step) < 0) {
+            goto failed;
         }
-        c = a;
-        c.x = c.x + D_8006CCD8[(dir + 2) & 7];
-        c.y = c.y + D_8006CCE8[(dir + 2) & 7];
-        rx = rx - D_8006CCD8[dir];
-        ry = ry - D_8006CCE8[dir];
-        if (func_8001C5E4(&c, &b, 0, &rx, &ry, accB, step) < 0) {
-            goto ret1;
+        side_start = start;
+        side_start.x = side_start.x + D_8006CCD8[(travel_dir + 2) & 7];
+        side_start.y = side_start.y + D_8006CCE8[(travel_dir + 2) & 7];
+        join_x = join_x - D_8006CCD8[travel_dir];
+        join_y = join_y - D_8006CCE8[travel_dir];
+        if (func_8001C5E4(&side_start, &end, 0, &join_x, &join_y, side_height, height_step) < 0) {
+            goto failed;
         }
-        a.x = b.x;
-        a.y = b.y;
-        if (D_8006CCD8[dir] != 0) {
-            if (cx == dx) {
-                a.dir = (func_800A07D0(cx, cy, dx, dy) >> 9) & 6;
+        start.x = end.x;
+        start.y = end.y;
+        if (D_8006CCD8[travel_dir] != 0) {
+            if (cursor_x == dest_grid_x) {
+                start.dir = (func_800A07D0(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         } else {
-            if (cy == dy) {
-                a.dir = (func_800A07D0(cx, cy, dx, dy) >> 9) & 6;
+            if (cursor_y == dest_grid_y) {
+                start.dir = (func_800A07D0(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         }
-        cx = cx + D_8006CCD8[a.dir];
-        cy = cy + D_8006CCE8[a.dir];
-        dir = a.dir;
+        cursor_x = cursor_x + D_8006CCD8[start.dir];
+        cursor_y = cursor_y + D_8006CCE8[start.dir];
+        travel_dir = start.dir;
     }
     return 0;
 }

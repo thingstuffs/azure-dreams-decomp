@@ -116,159 +116,163 @@ extern u8 D_80174FCC[];
 extern u8 D_80174FCD[];
 extern s32 D_80174FD0[];
 
-void func_801749A8(void *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
-    M2C_UNK *temp_a1;
-    s16 temp_a0;
-    s32 temp_v0_2;
-    s16 var_v1;
-    u16 temp_v0;
-    s16 temp_v0_3;
-    u16 temp_v1_2;
-    u8 temp_v1;
-    u8 var_v0;
-    S_801749A8_2 *temp_s0;
-    S_801749A8_7 *temp_s0_2;
-    void *temp_v1_3;
-    u16 *temp_83460;
+/* Updates the turning, color fade, effect, and model replacement sequence. */
+void func_801749A8(void *sequence, Rec_D_800E3D7C *position, Rec_D_80082E80 *actor, void *target) {
+    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
+    M2C_UNK *target_color;
+    s16 direction;
+    s32 effect_choice;
+    s32 movement_done;
+    s32 model_addr;
+    s16 effect_index;
+    u16 turn_angle;
+    u16 fade_ticks;
+    s16 ticks_left;
+    u16 fade_timer;
+    u8 state;
+    u8 ready;
+    S_801749A8_2 *object;
+    S_801749A8_7 *sprite;
+    void *model;
+    u16 *effect_counts;
 
-    temp_s0 = &D_80083160;
-    temp_v1 = ((S_801749A8_0 *)arg0)->unk_9B;
-    var_v0 = temp_v1 < 9U;
-    if (var_v0 == 0) {
-        goto block_32;
+    object = &D_80083160;
+    state = ((S_801749A8_0 *)sequence)->unk_9B;
+    ready = state < 9U;
+    if (ready == 0) {
+        goto done;
     }
-    (void)jt_keep; goto *D_80170870[(u32)(temp_v1)];
+    (void)state_labels; goto *D_80170870[(u32)(state)];
 jt_c0:
-    ((S_801749A8_0 *)arg0)->unk_9B = (u8)(((S_801749A8_0 *)arg0)->unk_9B + 1);
+    ((S_801749A8_0 *)sequence)->unk_9B = (u8)(((S_801749A8_0 *)sequence)->unk_9B + 1);
     return;
 jt_c1:
     func_80041588(&D_80174FAC, &D_80174FCC, 0);
-    ((S_801749A8_0 *)arg0)->unk_A8 = 0;
-    ((S_801749A8_0 *)arg0)->unk_9B = (u8) (((S_801749A8_0 *)arg0)->unk_9B + 1);
-    ((Rec_D_80082E80 *)arg3)->unk_8A = (u16) ((Rec_D_80082E80 *)arg3)->unk_28.at02_u16.v;
+    ((S_801749A8_0 *)sequence)->unk_A8 = 0;
+    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+    ((Rec_D_80082E80 *)target)->unk_8A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
 jt_c2:
-    temp_a0 = ((s32) (*D_80083228 + (s16) ((Rec_D_80082E80 *)arg3)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
+    direction = ((s32) (*D_80083228 + (s16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
     if (D_80174FCC[0] == 0) {
-        goto block_7;
+        goto turn_target;
     }
-    if (temp_a0 == 2) {
-        goto block_10;
+    if (direction == 2) {
+        goto start_fade;
     }
-block_7:
-    if (temp_a0 == 2) {
+turn_target:
+    if (direction == 2) {
         return;
     }
-    temp_v0 = ((Rec_D_80082E80 *)arg3)->unk_28.at02_u16.v + 0x200;
-    ((Rec_D_80082E80 *)arg3)->unk_28.at02_u16.v = temp_v0;
+    turn_angle = ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x200;
+    ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v = turn_angle;
     return;
-block_10:
+start_fade:
     func_80041588(&D_80174FAC, &D_80174FCC, 1);
     func_8003F540(0, *D_8006CD58, 0x04000AD4, 0x05000CC4);
     func_8003E4FC(0x15, func_800445E0(), NULL);
     D_80174FCD[0] = 0;
     func_8003E4FC(0xFF, (s32) D_8003E140, &D_80174FCD);
-    func_800C77D0(arg3 - 0x20, arg1, 8, 0x300);
-    ((S_801749A8_0 *)arg0)->unk_96 = 0x10U;
-    ((S_801749A8_0 *)arg0)->unk_9B = (u8) (((S_801749A8_0 *)arg0)->unk_9B + 1);
+    func_800C77D0(target - 0x20, position, 8, 0x300);
+    ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
+    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
 jt_c3:
-    temp_v1_2 = ((S_801749A8_0 *)arg0)->unk_96;
-    temp_v0 = temp_v1_2 - 1;
-    ((S_801749A8_0 *)arg0)->unk_96 = temp_v0;
-    if ((temp_v0 << 0x10) > 0) {
-        goto block_15;
+    fade_timer = ((S_801749A8_0 *)sequence)->unk_96;
+    fade_ticks = fade_timer - 1;
+    ((S_801749A8_0 *)sequence)->unk_96 = fade_ticks;
+    if ((fade_ticks << 0x10) > 0) {
+        goto blend_color;
     }
-    var_v0 = D_80174FCD[0];
-    ((S_801749A8_0 *)arg0)->unk_96 = temp_v1_2;
-    if (var_v0 == 0) {
+    ready = D_80174FCD[0];
+    ((S_801749A8_0 *)sequence)->unk_96 = fade_timer;
+    if (ready == 0) {
         return;
     }
-    ((S_801749A8_0 *)arg0)->unk_9B = (u8) (((S_801749A8_0 *)arg0)->unk_9B + 1);
+    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
     func_800A56E0(0x300);
     return;
-block_15:
-    temp_a1 = D_800DCEEC[func_800498A0(arg3)];
-    temp_s0->unk_A8 = (u8) (temp_s0->unk_A8 + ((s32) (((S_801749A8_3 *)temp_a1)->unk_00 - temp_s0->unk_A8) / (s16) ((S_801749A8_0 *)arg0)->unk_96));
-    temp_s0->unk_A9 = (u8) (temp_s0->unk_A9 + ((s32) (((S_801749A8_3 *)temp_a1)->unk_01 - temp_s0->unk_A9) / (s16) ((S_801749A8_0 *)arg0)->unk_96));
-    temp_s0->unk_AA = (u8) (temp_s0->unk_AA + ((s32) (((S_801749A8_3 *)temp_a1)->unk_02 - temp_s0->unk_AA) / (s16) ((S_801749A8_0 *)arg0)->unk_96));
+blend_color:
+    target_color = D_800DCEEC[func_800498A0(target)];
+    object->unk_A8 = (u8) (object->unk_A8 + ((s32) (((S_801749A8_3 *)target_color)->unk_00 - object->unk_A8) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
+    object->unk_A9 = (u8) (object->unk_A9 + ((s32) (((S_801749A8_3 *)target_color)->unk_01 - object->unk_A9) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
+    object->unk_AA = (u8) (object->unk_AA + ((s32) (((S_801749A8_3 *)target_color)->unk_02 - object->unk_AA) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
     return;
 jt_c4:
-    temp_s0 = func_8003FC64(0x12);
-    if (temp_s0 == 0) {
-        goto block_32;
+    object = func_8003FC64(0x12);
+    if (object == 0) {
+        goto done;
     }
-    temp_s0->unk_10.s = &D_8017487C;
-    func_8004491C(temp_s0, D_80045340);
-    ((S_801749A8_0 *)arg0)->unk_A4 = temp_s0;
-    ((S_801749A8_10 *)(((S_801749A8_8 *)temp_s0)->unk_08))->unk_00 = (s32) arg1->unk_00.at00_s32.v;
-    ((S_801749A8_10 *)(((S_801749A8_8 *)temp_s0)->unk_08))->unk_04 = (s32) arg1->unk_04.at00_s32.v;
-    ((S_801749A8_10 *)(((S_801749A8_8 *)temp_s0)->unk_08))->unk_08 = (s32) arg1->unk_08.at00_s32.v;
-    temp_s0 = temp_s0->unk_0C.s;
-    temp_s0->unk_1E = 0x1000;
-    temp_s0->unk_1C = 0x1000;
-    temp_s0->unk_0C.u = 0x808080;
-    temp_v0_2 = func_800498A0(arg3) - 1;
-    var_v1 = temp_v0_2;
-    if ((temp_v0_2 << 0x10) >= 0) {
-        goto block_20;
+    object->unk_10.s = &D_8017487C;
+    func_8004491C(object, D_80045340);
+    ((S_801749A8_0 *)sequence)->unk_A4 = object;
+    ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_00 = (s32) position->unk_00.at00_s32.v;
+    ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_04 = (s32) position->unk_04.at00_s32.v;
+    ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_08 = (s32) position->unk_08.at00_s32.v;
+    object = object->unk_0C.s;
+    object->unk_1E = 0x1000;
+    object->unk_1C = 0x1000;
+    object->unk_0C.u = 0x808080;
+    effect_choice = func_800498A0(target) - 1;
+    effect_index = effect_choice;
+    if ((effect_choice << 0x10) >= 0) {
+        goto start_effect;
     }
-    var_v1 = rand() % 3;
-block_20:
-    func_8003DB94(temp_s0, &D_8014A000[*(((s32) (var_v1 << 0x10) >> 0x10) + &D_80174FB4)], 0);
-    arg2->unk_14.at00_u16.v = (u16) (arg2->unk_14.at00_u16.v | 0x80);
-    ((S_801749A8_0 *)arg0)->unk_96 = 0U;
-    ((S_801749A8_0 *)arg0)->unk_9B = (u8) (((S_801749A8_0 *)arg0)->unk_9B + 1);
-    func_801745E0(arg0, arg1, arg2);
+    effect_index = rand() % 3;
+start_effect:
+    func_8003DB94(object, &D_8014A000[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
+    actor->unk_14.at00_u16.v = (u16) (actor->unk_14.at00_u16.v | 0x80);
+    ((S_801749A8_0 *)sequence)->unk_96 = 0U;
+    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+    func_801745E0(sequence, position, actor);
     return;
 jt_c5:
-    temp_s0 = ((S_801749A8_0 *)arg0)->unk_A4;
-    temp_s0 = temp_s0->unk_0C.s;
-    if (!(temp_s0->unk_14 & 0xE000)) {
-        goto block_24;
+    object = ((S_801749A8_0 *)sequence)->unk_A4;
+    object = object->unk_0C.s;
+    if (!(object->unk_14 & 0xE000)) {
+        goto check_movement;
     }
-    ((S_801749A8_0 *)arg0)->unk_9B = (u8) (((S_801749A8_0 *)arg0)->unk_9B + 1);
+    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
 jt_c6:
-block_24:
-    if (((S_801749A8_0 *)arg0)->unk_9B != 6) {
+check_movement:
+    if (((S_801749A8_0 *)sequence)->unk_9B != 6) {
         return;
     }
-    temp_v0_2 = func_800ADC4C(arg1, D_80174FD0[0], D_80174F48[0], &D_800DCF5C);
-    if (temp_v0_2 == 0) {
-        goto block_32;
+    movement_done = func_800ADC4C(position, D_80174FD0[0], D_80174F48[0], &D_800DCF5C);
+    if (movement_done == 0) {
+        goto done;
     }
-    ((S_801749A8_0 *)arg0)->unk_96 = 0x10U;
-    ((S_801749A8_0 *)arg0)->unk_9B = (u8) (((S_801749A8_0 *)arg0)->unk_9B + 1);
-    func_800A18E8(((Rec_D_80082E80 *)arg3)->unk_12.at01_u8.v, 3);
-    func_8009A3D0(arg2->unk_24, arg2->unk_25, 0x300);
-    func_8009A028(arg3);
-    temp_s0 = arg3 - 0x20;
-    temp_s0->unk_10.u = temp_s0->unk_10.u | 0x80000000;
+    ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
+    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+    func_800A18E8(((Rec_D_80082E80 *)target)->unk_12.at01_u8.v, 3);
+    func_8009A3D0(actor->unk_24, actor->unk_25, 0x300);
+    func_8009A028(target);
+    object = target - 0x20;
+    object->unk_10.u = object->unk_10.u | 0x80000000;
     return;
 jt_c7:
-    temp_v0_2 = func_800A504C(arg2, arg3);
-    ((Rec_D_80082E80 *)arg3)->unk_60.as_pv = (void *) temp_v0_2;
-    if (temp_v0_2 == 0) {
-        goto block_32;
+    model_addr = func_800A504C(actor, target);
+    ((Rec_D_80082E80 *)target)->unk_60.as_pv = (void *) model_addr;
+    if (model_addr == 0) {
+        goto done;
     }
-    ((S_801749A8_0 *)arg0)->unk_96 = 0x10U;
-    ((S_801749A8_0 *)arg0)->unk_9B = (u8) (((S_801749A8_0 *)arg0)->unk_9B + 1);
-    ((S_801749A8_11 *)(((Rec_D_80082E80 *)arg3)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)arg3)->unk_28.at02_u16.v;
-    temp_v1_3 = ((Rec_D_80082E80 *)arg3)->unk_60.as_pv;
-    temp_s0_2 = ((S_801749A8_6_pre *)temp_v1_3)[-1].unk_00;
-    func_80047738(temp_s0_2, *(temp_s0_2->unk_2C + (((s32) (*D_80083228 + (s16) ((S_801749A8_6 *)temp_v1_3)->unk_2A + 0x100) >> 9) & 7)), temp_s0_2->unk_04);
-    temp_s0_2->unk_14 = (u16) (temp_s0_2->unk_14 & 0xFFFE);
+    ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
+    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+    ((S_801749A8_11 *)(((Rec_D_80082E80 *)target)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
+    model = ((Rec_D_80082E80 *)target)->unk_60.as_pv;
+    sprite = ((S_801749A8_6_pre *)model)[-1].unk_00;
+    func_80047738(sprite, *(sprite->unk_2C + (((s32) (*D_80083228 + (s16) ((S_801749A8_6 *)model)->unk_2A + 0x100) >> 9) & 7)), sprite->unk_04);
+    sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
 jt_c8:
-    temp_v0_3 = ((S_801749A8_0 *)arg0)->unk_96 - 1;
-    ((S_801749A8_0 *)arg0)->unk_96 = temp_v0_3;
-    if (temp_v0_3 > 0) {
-        goto block_32;
+    ticks_left = ((S_801749A8_0 *)sequence)->unk_96 - 1;
+    ((S_801749A8_0 *)sequence)->unk_96 = ticks_left;
+    if (ticks_left > 0) {
+        goto done;
     }
-    ((S_801749A8_11 *)(((Rec_D_80082E80 *)arg3)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)arg3)->unk_8A;
-    ((S_801749A8_0_pre *)arg0)[-1].unk_00 = (u16) (((S_801749A8_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    ((S_801749A8_11 *)(((Rec_D_80082E80 *)target)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)target)->unk_8A;
+    ((S_801749A8_0_pre *)sequence)[-1].unk_00 = (u16) (((S_801749A8_0_pre *)sequence)[-1].unk_00 | 0x8000);
     D_800814A0[0] = D_800814A0[0] | 0x8000;
-    temp_83460 = (u16 *)&D_80083460;
-    temp_83460[5] = (u16)(temp_83460[5] - 1);
-    ((Rec_D_80082E80 *)arg3)->unk_6D = 0;
-block_32:
+    effect_counts = (u16 *)&D_80083460;
+    effect_counts[5] = (u16)(effect_counts[5] - 1);
+    ((Rec_D_80082E80 *)target)->unk_6D = 0;
+done:
     return;
 }

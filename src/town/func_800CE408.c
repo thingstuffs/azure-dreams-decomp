@@ -23,22 +23,23 @@ extern void *func_8009C390();
 extern s16 func_800C2AE8();
 extern M2C_UNK func_800CBAE0();
 
-void func_800CBB68(s32 arg0, s32 arg1, s32 arg2) {
-    s32 temp_s2;
-    S_800CBB68_1 *temp_s0;
-    S_800CBB68_2 *temp_s1;
-    void *temp_v0;
+/* Allocate and initialize an object with the given coordinates and variant. */
+void func_800CBB68(s32 variant, s32 x, s32 y) {
+    s32 setup_arg;
+    S_800CBB68_1 *position;
+    S_800CBB68_2 *state;
+    void *object;
 
-    temp_v0 = func_8009C390(0, 0, 0, 0);
-    if (temp_v0 != NULL) {
-        temp_s0 = ((S_800CBB68_0 *)temp_v0)->unk_08;
-        temp_s2 = ((S_800CBB68_0 *)temp_v0)->unk_0C;
-        temp_s1 = (s8 *)temp_v0 + 0x20;
-        temp_s0->unk_00 = (s32)(arg1 << 0x10);
-        temp_s0->unk_04 = (s32)(arg2 << 0x10);
-        temp_s0->unk_08.at00.v = 0xFF000000;
-        temp_s0->unk_08.at02.v = func_800C2AE8(temp_s0);
-        temp_s1->unk_96 = arg0;
-        func_800CBAE0(temp_s1, temp_s0, temp_s2);
+    object = func_8009C390(0, 0, 0, 0);
+    if (object != NULL) {
+        position = ((S_800CBB68_0 *)object)->unk_08;
+        setup_arg = ((S_800CBB68_0 *)object)->unk_0C;
+        state = (s8 *)object + 0x20;
+        position->unk_00 = (s32)(x << 0x10);
+        position->unk_04 = (s32)(y << 0x10);
+        position->unk_08.at00.v = 0xFF000000;
+        position->unk_08.at02.v = func_800C2AE8(position);
+        state->unk_96 = variant;
+        func_800CBAE0(state, position, setup_arg);
     }
 }

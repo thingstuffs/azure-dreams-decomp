@@ -58,44 +58,45 @@ typedef struct S_80024804_3 {
     union { u16 u; s16 s; } unk_10;   /* accessed as both */
 } S_80024804_3;   /* work in func_80024804 */
 
-void *func_80024804(void *arg0, Copy24 *arg1, s16 arg2)
+/* Creates an effect with scaled parts and offsets it from the origin using the source orientation. */
+void *func_80024804(void *source, Copy24 *origin, s16 size_step)
 {
     register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *held_arg0 = arg0;
-    Copy24 *held_arg1 = arg1;
-    register s16 held_arg2 ASM_REG("$16") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *obj;
+    void *source_data = source;
+    Copy24 *base_position = origin;
+    register s16 saved_step ASM_REG("$16") = size_step;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *effect;
     S_80024804_2 *part;
     Copy24 *position;
-    u8 *work;
-    register s32 angle ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 first;
-    register s32 scaled_first ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 delta;
-    s16 height;
+    u8 *effect_state;
+    register s32 scale_step ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 direction_factor;
+    register s32 scaled_factor ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 random_value;
+    s16 part_scale;
     s32 alloc_kind;
     void *alloc_source;
-    register s32 sign_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 step_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     alloc_kind = 0x212;
-    alloc_source = (u8 *)held_arg0 - 0x20;
+    alloc_source = (u8 *)source_data - 0x20;
     ASM_KEEP_NV(alloc_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(held_arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    obj = func_8003FD64(alloc_kind, alloc_source);
-    if (obj == NULL) {
+    ASM_KEEP_NV(source_data);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(base_position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    effect = func_8003FD64(alloc_kind, alloc_source);
+    if (effect == NULL) {
         goto null_result;
     }
 
-    ((S_80024804_0 *)obj)->unk_10 = &D_80024710;
-    ((S_80024804_0 *)obj)->unk_20 = ((S_80024804_1 *)held_arg0)->unk_00;
+    ((S_80024804_0 *)effect)->unk_10 = &D_80024710;
+    ((S_80024804_0 *)effect)->unk_20 = ((S_80024804_1 *)source_data)->unk_00;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    sign_word = (s32)held_arg2 << 16;
-    angle = sign_word >> 16;
-    part = ((S_80024804_0 *)obj)->unk_0C;
-    part->unk_0D = -0x60 - (angle << 6);
-    part->unk_0C = -0x60 - (angle << 6);
+    step_word = (s32)saved_step << 16;
+    scale_step = step_word >> 16;
+    part = ((S_80024804_0 *)effect)->unk_0C;
+    part->unk_0D = -0x60 - (scale_step << 6);
+    part->unk_0C = -0x60 - (scale_step << 6);
     part->unk_0E = 0xC0;
     part->unk_12 = 0x7DCF;
     part->unk_08 = &D_80025B10;
@@ -104,33 +105,33 @@ void *func_80024804(void *arg0, Copy24 *arg1, s16 arg2)
     part->unk_10 |= 0x0020;
     part->unk_14 |= 0x0100;
 
-    delta = func_80069EF8();
-    work = (u8 *)obj + 0x20;
-    part->unk_1A = delta % 0x1000;
+    random_value = func_80069EF8();
+    effect_state = (u8 *)effect + 0x20;
+    part->unk_1A = random_value % 0x1000;
 
-    height = (angle << 8) + 0x500;
-    part->unk_1E = height;
-    part->unk_1C = height;
-    func_8004491C(obj, &D_80045340);
+    part_scale = (scale_step << 8) + 0x500;
+    part->unk_1E = part_scale;
+    part->unk_1C = part_scale;
+    func_8004491C(effect, &D_80045340);
 
-    position = ((S_80024804_0 *)obj)->unk_08;
-    *position = *held_arg1;
+    position = ((S_80024804_0 *)effect)->unk_08;
+    *position = *base_position;
 
-    ((S_80024804_3 *)work)->unk_0E.u = ((S_80024804_1 *)held_arg0)->unk_0E;
-    ((S_80024804_3 *)work)->unk_10.u = ((S_80024804_1 *)held_arg0)->unk_10;
+    ((S_80024804_3 *)effect_state)->unk_0E.u = ((S_80024804_1 *)source_data)->unk_0E;
+    ((S_80024804_3 *)effect_state)->unk_10.u = ((S_80024804_1 *)source_data)->unk_10;
 
-    first = func_800644B8(((S_80024804_3 *)work)->unk_0E.s);
-    angle += 2;
-    position->word[0] -= (scaled_first = first >> 4) *
-        (func_800644B8(((S_80024804_3 *)work)->unk_10.s) >> 4) * angle * 8;
+    direction_factor = func_800644B8(((S_80024804_3 *)effect_state)->unk_0E.s);
+    scale_step += 2;
+    position->word[0] -= (scaled_factor = direction_factor >> 4) *
+        (func_800644B8(((S_80024804_3 *)effect_state)->unk_10.s) >> 4) * scale_step * 8;
 
-    first = func_800644B8(((S_80024804_3 *)work)->unk_0E.s);
-    position->word[1] -= (scaled_first = first >> 4) *
-        (func_80064584(((S_80024804_3 *)work)->unk_10.s) >> 4) * angle * 8;
+    direction_factor = func_800644B8(((S_80024804_3 *)effect_state)->unk_0E.s);
+    position->word[1] -= (scaled_factor = direction_factor >> 4) *
+        (func_80064584(((S_80024804_3 *)effect_state)->unk_10.s) >> 4) * scale_step * 8;
 
     position->word[2] -=
-        ((func_80064584(((S_80024804_3 *)work)->unk_0E.s) >> 4) * angle) << 11;
-    result = obj;
+        ((func_80064584(((S_80024804_3 *)effect_state)->unk_0E.s) >> 4) * scale_step) << 11;
+    result = effect;
     goto return_result;
 
 null_result:

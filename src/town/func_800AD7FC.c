@@ -11,42 +11,38 @@ extern s16 D_800834C8;
 extern s32 D_80083780;
 extern s32 D_80100E40;
 
+/* Shifts the eight-record history and stores the current values in the first record. */
 void func_800AAF5C(void)
 {
     s32 destination_offset;
-    s32 i;
-    u8 *base;
+    s32 record_index;
+    u8 *records;
     volatile TownRecord *destination;
     volatile TownRecord *source;
 
-    i = 7;
-    base = (u8 *)&D_80100E40;
+    record_index = 7;
+    records = (u8 *)&D_80100E40;
     do {
-        ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        destination_offset = i * 8;
-        i--;
-        source = (TownRecord *)((i * 8) + (u32)base);
-        destination = (TownRecord *)(destination_offset + (u32)base);
+        ASM_KEEP(record_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        destination_offset = record_index * 8;
+        record_index--;
+        source = (TownRecord *)((record_index * 8) + (u32)records);
+        destination = (TownRecord *)(destination_offset + (u32)records);
         destination->field_0 = source->field_0;
         destination->field_2 = source->field_2;
         destination->field_4 = source->field_4;
         ((TownRecord *)destination)->field_6 = source->field_6;
-    } while (i > 0);
+    } while (record_index > 0);
 
     {
-        u16 *tail_source;
-        TownRecord *tail_destination;
+        u16 *current_values;
+        TownRecord *newest_record;
 
-        tail_source = (u16 *)&D_80083780;
-        tail_destination = (TownRecord *)&D_80100E40;
-        tail_destination->field_0 = tail_source[1];
-        tail_destination->field_2 = tail_source[3];
-        tail_destination->field_4 = tail_source[5];
-        tail_destination->field_6 = D_800834C8;
+        current_values = (u16 *)&D_80083780;
+        newest_record = (TownRecord *)&D_80100E40;
+        newest_record->field_0 = current_values[1];
+        newest_record->field_2 = current_values[3];
+        newest_record->field_4 = current_values[5];
+        newest_record->field_6 = D_800834C8;
     }
 }
-
-/* MECHANISM: Frameless leaf with explicit volatile halfword copies in the descending loop.
-   Guarded runtime pins encode the a1 index, a0 destination offset, and v1 source roles;
-   the loop-head index fence keeps its sll below the backedge and frees the branch slot.
-   The final nonvolatile store can fill the branch slot; loop/tail bases stay split. */

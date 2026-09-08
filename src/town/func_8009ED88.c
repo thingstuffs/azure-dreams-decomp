@@ -2,7 +2,7 @@
 #include "records/Rec_D_800E3D7C.h"
 
 
-extern s32 func_80033D08();
+extern s32 func_80033D08(void *, Rec_D_800E3D7C *);
 extern s32 func_80095388();
 extern s32 func_8009539C();
 extern s16 func_800C2AE8();
@@ -41,7 +41,7 @@ void func_8009C4E8(void *arg0, Rec_D_800E3D7C *arg1, S_8009C4E8_2 *arg2) {
     timer = ((S_8009C4E8_0 *)arg0)->unk_6C - 1;
     ((S_8009C4E8_0 *)arg0)->unk_6C = timer;
     if ((s16)(timer) < 0) {
-        func_80033D08();
+        func_80033D08(arg0, arg1);
         ((S_8009C4E8_0_pre *)arg0)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
         return;

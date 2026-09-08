@@ -9,16 +9,17 @@ typedef struct {
     s8 value;
 } Input;
 
-u8 *func_800B5918(Input *arg0, u8 *arg1) {
+/* Formats a nonzero signed value into text, using default text for zero. */
+u8 *func_800B5918(Input *input, u8 *text) {
     s8 value;
 
-    memcpy(arg1, D_80089304, 4);
-    value = arg0->value;
+    memcpy(text, D_80089304, 4);
+    value = input->value;
     if (value != 0) {
-        arg1[0] = value > 0 ? 0x6B : 0x6C;
-        func_8004E5A0(arg0->value >= 0 ? arg0->value : -arg0->value,
-                      2, arg1 + 1);
-        func_8004E69C(arg1);
+        text[0] = value > 0 ? 0x6B : 0x6C;
+        func_8004E5A0(input->value >= 0 ? input->value : -input->value,
+                      2, text + 1);
+        func_8004E69C(text);
     }
-    return arg1;
+    return text;
 }

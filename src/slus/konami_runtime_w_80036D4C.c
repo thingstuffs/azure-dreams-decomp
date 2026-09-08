@@ -65,35 +65,36 @@ extern M2C_UNK D_80082BC0;
 extern M2C_UNK func_80033D54;
 extern M2C_UNK func_80036F24;
 
-void func_80036D4C(s32 arg0, Rec_D_80081FDC *arg1, s32 *arg2, s16 arg3, s32 arg4, s32 arg5) {
-    S_80036D4C_1 *temp_s1;
-    S_80036D4C_3 *temp_s2;
-    void *temp_v0;
+/* Creates a runtime object and initializes its record, state, and display data. */
+void func_80036D4C(s32 create_id, Rec_D_80081FDC *record, s32 *config, s16 initial_mode, s32 initial_value, s32 setup_id) {
+    S_80036D4C_1 *state;
+    S_80036D4C_3 *display;
+    void *object;
 
-    temp_v0 = func_8003FF2C(0x11, arg0, 0x49, &D_80082BC0);
-    ((S_80036D4C_0 *)temp_v0)->unk_10 = &func_80036F24;
-    func_8004491C(temp_v0, &func_80033D54);
-    temp_s1 = temp_v0 + 0x20;
-    temp_s2 = ((S_80036D4C_0 *)temp_v0)->unk_0C;
-    temp_s1->unk_44 = arg2;
-    temp_s1->unk_48 = 1;
-    temp_s1->unk_4A = arg3;
-    func_80033C1C(arg1, *arg2);
-    ((S_80036D4C_0 *)temp_v0)->unk_20 = arg1;
-    arg1->unk_60 = 6;
-    ((S_80036D4C_5 *)(((S_80036D4C_4 *)temp_v0)->unk_20))->unk_10 = 0x47;
-    ((S_80036D4C_5 *)(((S_80036D4C_4 *)temp_v0)->unk_20))->unk_14 = 2;
-    temp_s1->unk_04 = 0;
-    temp_s1->unk_08 = 0;
-    func_800350B0(arg5, temp_s1);
-    temp_s2->unk_0C = 0xC0C0C0;
-    func_80036C7C(temp_s1->unk_44 + 3, &D_8006A958, &D_80082B50);
-    func_80036C7C(temp_s1->unk_44 + 3, &D_8006A964, &D_80082B60);
-    func_80036C7C(temp_s1->unk_44 + 3, &D_8006A970, &D_80082B70);
-    temp_s2->unk_08 = &D_80082B60;
-    temp_s2->unk_00 = 0;
-    temp_s2->unk_04 = 0;
-    temp_s2->unk_05 = 0;
-    temp_s2->unk_14 = (u16) (temp_s2->unk_14 | 0x1C);
-    temp_s1->unk_66 = (s16) arg4;
+    object = func_8003FF2C(0x11, create_id, 0x49, &D_80082BC0);
+    ((S_80036D4C_0 *)object)->unk_10 = &func_80036F24;
+    func_8004491C(object, &func_80033D54);
+    state = object + 0x20;
+    display = ((S_80036D4C_0 *)object)->unk_0C;
+    state->unk_44 = config;
+    state->unk_48 = 1;
+    state->unk_4A = initial_mode;
+    func_80033C1C(record, *config);
+    ((S_80036D4C_0 *)object)->unk_20 = record;
+    record->unk_60 = 6;
+    ((S_80036D4C_5 *)(((S_80036D4C_4 *)object)->unk_20))->unk_10 = 0x47;
+    ((S_80036D4C_5 *)(((S_80036D4C_4 *)object)->unk_20))->unk_14 = 2;
+    state->unk_04 = 0;
+    state->unk_08 = 0;
+    func_800350B0(setup_id, state);
+    display->unk_0C = 0xC0C0C0;
+    func_80036C7C(state->unk_44 + 3, &D_8006A958, &D_80082B50);
+    func_80036C7C(state->unk_44 + 3, &D_8006A964, &D_80082B60);
+    func_80036C7C(state->unk_44 + 3, &D_8006A970, &D_80082B70);
+    display->unk_08 = &D_80082B60;
+    display->unk_00 = 0;
+    display->unk_04 = 0;
+    display->unk_05 = 0;
+    display->unk_14 = (u16) (display->unk_14 | 0x1C);
+    state->unk_66 = (s16) initial_value;
 }

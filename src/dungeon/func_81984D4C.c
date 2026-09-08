@@ -52,43 +52,44 @@ typedef struct S_81984D4C_4 {
     u16 unk_02;
 } S_81984D4C_4;   /* (*(void **)((u8 *)arg0 + 0xC)) in func_81984D4C */
 
-void func_81984D4C(void *arg0) {
-    s16 temp_a0;
-    s16 temp_v0;
-    S_81984D4C_2 *temp_v1;
+/* Advances timers and smooths shared state toward the tracked target. */
+void func_81984D4C(void *tracker) {
+    s16 blend_ticks;
+    s16 next_ticks;
+    S_81984D4C_2 *target;
     u8 *state;
     u8 *timer;
-    u8 *flag;
+    u8 *z_pending;
 
-    temp_a0 = (*(s16 *)((u8 *)arg0 + 0x24));
+    blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
     state = (u8 *)&D_80083178;
-    if (temp_a0 > 0) {
-        ((S_81984D4C_0 *)state)->unk_98.u = (u16) ((S_81984D4C_0 *)state)->unk_98.u + ((s32) ((*(s16 *)((u8 *)arg0 + 0x26)) - ((S_81984D4C_0 *)state)->unk_98.s) / temp_a0);
+    if (blend_ticks > 0) {
+        ((S_81984D4C_0 *)state)->unk_98.u = (u16) ((S_81984D4C_0 *)state)->unk_98.u + ((s32) ((*(s16 *)((u8 *)tracker + 0x26)) - ((S_81984D4C_0 *)state)->unk_98.s) / blend_ticks);
     }
-    temp_v0 = (u16) (*(s16 *)((u8 *)arg0 + 0x24)) - 1;
-    (*(s16 *)((u8 *)arg0 + 0x24)) = temp_v0;
-    if (temp_v0 < -0x80) {
-        (*(s16 *)((u8 *)arg0 + 0x24)) = -0x80;
+    next_ticks = (u16) (*(s16 *)((u8 *)tracker + 0x24)) - 1;
+    (*(s16 *)((u8 *)tracker + 0x24)) = next_ticks;
+    if (next_ticks < -0x80) {
+        (*(s16 *)((u8 *)tracker + 0x24)) = -0x80;
     }
     timer = D_800E3D20;
     if (((S_81984D4C_1 *)timer)->unk_00.u != 0) {
         ((S_81984D4C_1 *)timer)->unk_00.s = (s8) (((S_81984D4C_1 *)timer)->unk_00.u - 1);
     }
-    temp_v1 = (*(void * volatile *)((u8 *)arg0 + 0xC));
-    (*(u16 *)((u8 *)arg0 + 4)) = (u16) ((S_81984D4C_4 *)((*(void **)((u8 *)arg0 + 0xC))))->unk_02;
-    (*(u16 *)((u8 *)arg0 + 6)) = (u16) temp_v1->unk_06;
-    (*(u16 *)((u8 *)arg0 + 8)) = (u16) temp_v1->unk_0A;
-    ((S_81984D4C_0 *)state)->unk_A4.u = (u16) ((S_81984D4C_0 *)state)->unk_A4.u + ((s32) ((s16) (*(u16 *)((u8 *)arg0 + 4)) - ((S_81984D4C_0 *)state)->unk_A4.s) >> 2);
-    ((S_81984D4C_0 *)state)->unk_A6.u = (u16) ((S_81984D4C_0 *)state)->unk_A6.u + ((s32) ((s16) (*(u16 *)((u8 *)arg0 + 6)) - ((S_81984D4C_0 *)state)->unk_A6.s) >> 2);
-    flag = D_80026BE4;
-    if (((S_81984D4C_3 *)flag)->unk_00.u != 0) {
-        ((S_81984D4C_0 *)state)->unk_A8.u = (u16) ((S_81984D4C_0 *)state)->unk_A8.u + ((s32) ((s16) (*(u16 *)((u8 *)arg0 + 8)) - ((S_81984D4C_0 *)state)->unk_A8.s) >> 2);
+    target = (*(void * volatile *)((u8 *)tracker + 0xC));
+    (*(u16 *)((u8 *)tracker + 4)) = (u16) ((S_81984D4C_4 *)((*(void **)((u8 *)tracker + 0xC))))->unk_02;
+    (*(u16 *)((u8 *)tracker + 6)) = (u16) target->unk_06;
+    (*(u16 *)((u8 *)tracker + 8)) = (u16) target->unk_0A;
+    ((S_81984D4C_0 *)state)->unk_A4.u = (u16) ((S_81984D4C_0 *)state)->unk_A4.u + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 4)) - ((S_81984D4C_0 *)state)->unk_A4.s) >> 2);
+    ((S_81984D4C_0 *)state)->unk_A6.u = (u16) ((S_81984D4C_0 *)state)->unk_A6.u + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 6)) - ((S_81984D4C_0 *)state)->unk_A6.s) >> 2);
+    z_pending = D_80026BE4;
+    if (((S_81984D4C_3 *)z_pending)->unk_00.u != 0) {
+        ((S_81984D4C_0 *)state)->unk_A8.u = (u16) ((S_81984D4C_0 *)state)->unk_A8.u + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 8)) - ((S_81984D4C_0 *)state)->unk_A8.s) >> 2);
     }
-    ((S_81984D4C_3 *)flag)->unk_00.s = (s8) (((S_81984D4C_0 *)state)->unk_A8.s != (s16) (*(u16 *)((u8 *)arg0 + 8)));
+    ((S_81984D4C_3 *)z_pending)->unk_00.s = (s8) (((S_81984D4C_0 *)state)->unk_A8.s != (s16) (*(u16 *)((u8 *)tracker + 8)));
     ((S_81984D4C_0 *)state)->unk_94 = (u16) ((s32) (((S_81984D4C_0 *)state)->unk_94 << 0x10) >> 0x12);
     ((S_81984D4C_0 *)state)->unk_96 = (u16) ((s32) (((S_81984D4C_0 *)state)->unk_96 << 0x10) >> 0x12);
 }
 
-/* MECHANISM: Frameless leaf; arg0 stays in a1 and D_80083178 in a2 across the CFG.
-   A volatile cached read of arg0+0xC prevents CSE with the direct first-use load,
+/* MECHANISM: Frameless leaf; tracker stays in a1 and D_80083178 in a2 across the CFG.
+   A volatile cached read of tracker+0xC prevents CSE with the direct first-use load,
    producing retail's paired lw v0/v1 and keeping v1 live for offsets 6/0xA. */

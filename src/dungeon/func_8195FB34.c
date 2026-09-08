@@ -42,62 +42,59 @@ typedef struct S_8195FB34_3 {
     s16 unk_4C;
 } S_8195FB34_3;   /* temp_v1 in func_8195FB34 */
 
-void func_8195FB34(s16 arg0, s16 arg1, s16 arg2) {
-    s16 var_a1;
-    s16 var_v1;
-    s16 temp_v0;
-    s16 temp_v0_2;
-    s32 var_v0;
-    s8 *base;
+/* Clears the 8-by-8 grid and initializes an object at the given position. */
+void func_8195FB34(s16 x, s16 y, s16 z) {
+    s16 row_index;
+    s16 column_index;
+    s16 next_row;
+    s16 next_column;
+    s32 column_shifted;
+    s8 *grid;
     s8 *row;
-    void *call_arg;
+    void *init_object;
     void *callback;
-    S_8195FB34_2 *temp_a0;
-    void *temp_v0_3;
-    S_8195FB34_1 *temp_v0_4;
-    S_8195FB34_3 *temp_v1;
+    S_8195FB34_2 *render_state;
+    void *object;
+    S_8195FB34_1 *position;
+    S_8195FB34_3 *object_data;
 
-    var_a1 = 0;
-    base = D_8002745C;
+    row_index = 0;
+    grid = D_8002745C;
     do {
-        var_v1 = 0;
-        row = (s8 *)(((s32) (var_a1 << 0x10) >> 0xC) + (u32)base);
-loop_2:
-        var_v0 = var_v1 << 0x10;
-        *(s16 *)((var_v0 >> 0xF) + (u32)row) = 0;
-        temp_v0_2 = var_v1 + 1;
-        var_v1 = temp_v0_2;
-        if (temp_v0_2 < 8) {
-            goto loop_2;
+        column_index = 0;
+        row = (s8 *)(((s32) (row_index << 0x10) >> 0xC) + (u32)grid);
+clear_column:
+        column_shifted = column_index << 0x10;
+        *(s16 *)((column_shifted >> 0xF) + (u32)row) = 0;
+        next_column = column_index + 1;
+        column_index = next_column;
+        if (next_column < 8) {
+            goto clear_column;
         }
-        temp_v0 = var_a1 + 1;
-        var_a1 = temp_v0;
-    } while (temp_v0 < 8);
-    temp_v0_3 = func_8003FC64(0x202);
-    if (temp_v0_3 != NULL) {
-        call_arg = temp_v0_3;
-        
+        next_row = row_index + 1;
+        row_index = next_row;
+    } while (next_row < 8);
+    object = func_8003FC64(0x202);
+    if (object != NULL) {
+        init_object = object;
+
         callback = &D_800248BC;
-        
-        ((S_8195FB34_0 *)temp_v0_3)->unk_10 = callback;
-        func_8004491C(call_arg, &D_80025238);
-        temp_v0_4 = ((S_8195FB34_0 *)temp_v0_3)->unk_08;
-        temp_v0_4->unk_02 = arg0;
-        temp_v0_4->unk_06 = arg1;
-        temp_v0_4->unk_0A = arg2;
-        temp_a0 = ((S_8195FB34_0 *)temp_v0_3)->unk_0C;
-        temp_a0->unk_1E = 0x2000;
-        temp_a0->unk_1C = 0x2000;
-        temp_a0->unk_0C = 0x808080;
-        temp_v1 = temp_v0_3 + 0x20;
-        temp_a0->unk_10 = 0x20;
-        ((S_8195FB34_0 *)temp_v0_3)->unk_20 = 0xF8F82CC0;
-        temp_v1->unk_04 = 0x13D;
-        temp_a0->unk_08 = temp_v1;
-        temp_v1->unk_4C = 0x10;
+
+        ((S_8195FB34_0 *)object)->unk_10 = callback;
+        func_8004491C(init_object, &D_80025238);
+        position = ((S_8195FB34_0 *)object)->unk_08;
+        position->unk_02 = x;
+        position->unk_06 = y;
+        position->unk_0A = z;
+        render_state = ((S_8195FB34_0 *)object)->unk_0C;
+        render_state->unk_1E = 0x2000;
+        render_state->unk_1C = 0x2000;
+        render_state->unk_0C = 0x808080;
+        object_data = object + 0x20;
+        render_state->unk_10 = 0x20;
+        ((S_8195FB34_0 *)object)->unk_20 = 0xF8F82CC0;
+        object_data->unk_04 = 0x13D;
+        render_state->unk_08 = object_data;
+        object_data->unk_4C = 0x10;
     }
 }
-
-/* MECHANISM: The one-argument allocator ABI releases a1/a2 for retail's loop roles.
-   Initializing the inner counter inside the outer body fixes the save/init schedule.
-   Integer-form offset-plus-base sums preserve both retail addu operand orders. */

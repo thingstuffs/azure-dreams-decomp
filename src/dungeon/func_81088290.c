@@ -78,21 +78,22 @@ extern u8 D_80083160[];
 extern s32 rand(void);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
-void func_80175A90(S_80175A90_3 *arg0, S_80175A90_4 *arg1)
+/* Draw seven shaded polylines with randomized offsets between two positions. */
+void func_80175A90(S_80175A90_3 *start_pos, S_80175A90_4 *end_pos)
 {
-    void **context_p = (void **)D_80083160;
+    void **context_ptr = (void **)D_80083160;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *prim;
-    s32 i = 0;
-    s32 color = 0xC0;
-    u32 mask = 0x00FFFFFF;
-    u32 high_mask = 0xFF000000;
+    s32 line_index = 0;
+    s32 endpoint_red = 0xC0;
+    u32 addr_mask = 0x00FFFFFF;
+    u32 length_mask = 0xFF000000;
 
-    ((S_80175A90_0 *)scratch)->unk_18.p = (u8 *)*context_p + 0xB0;
+    ((S_80175A90_0 *)scratch)->unk_18.p = (u8 *)*context_ptr + 0xB0;
 
     do {
-        S_80175A90_1 *context = *context_p;
-        s32 amount;
+        S_80175A90_1 *context = *context_ptr;
+        s32 offset;
 
         prim = context->unk_8D0;
         context->unk_8D0 = prim + 0x20;
@@ -102,52 +103,52 @@ void func_80175A90(S_80175A90_3 *arg0, S_80175A90_4 *arg1)
         ((S_80175A90_2 *)prim)->unk_1C = 0x55555555;
         ((S_80175A90_2 *)prim)->unk_07 |= 2;
 
-        ((S_80175A90_0 *)scratch)->unk_64 = arg0->unk_02.u;
-        ((S_80175A90_0 *)scratch)->unk_66 = arg0->unk_06.u;
-        ((S_80175A90_0 *)scratch)->unk_68 = arg0->unk_0A.u;
+        ((S_80175A90_0 *)scratch)->unk_64 = start_pos->unk_02.u;
+        ((S_80175A90_0 *)scratch)->unk_66 = start_pos->unk_06.u;
+        ((S_80175A90_0 *)scratch)->unk_68 = start_pos->unk_0A.u;
 
         ((S_80175A90_0 *)scratch)->unk_6C.s =
-            (arg0->unk_02.s + arg1->unk_02.s) / 2;
+            (start_pos->unk_02.s + end_pos->unk_02.s) / 2;
         ((S_80175A90_0 *)scratch)->unk_6E.s =
-            (arg0->unk_06.s + arg1->unk_06.s) / 2;
+            (start_pos->unk_06.s + end_pos->unk_06.s) / 2;
         ((S_80175A90_0 *)scratch)->unk_70.s =
-            (arg0->unk_0A.s + arg1->unk_0A.s) / 2;
+            (start_pos->unk_0A.s + end_pos->unk_0A.s) / 2;
 
-        ((S_80175A90_0 *)scratch)->unk_74 = arg1->unk_02.u;
-        ((S_80175A90_0 *)scratch)->unk_76 = arg1->unk_06.u;
-        ((S_80175A90_0 *)scratch)->unk_78 = arg1->unk_0A.u;
+        ((S_80175A90_0 *)scratch)->unk_74 = end_pos->unk_02.u;
+        ((S_80175A90_0 *)scratch)->unk_76 = end_pos->unk_06.u;
+        ((S_80175A90_0 *)scratch)->unk_78 = end_pos->unk_0A.u;
 
-        amount = (rand() % 9) + 4;
-        switch (i) {
+        offset = (rand() % 9) + 4;
+        switch (line_index) {
         case 0:
             ((S_80175A90_0 *)scratch)->unk_64 -= 2;
-            ((S_80175A90_0 *)scratch)->unk_6C.u += amount;
-            ((S_80175A90_0 *)scratch)->unk_74 -= amount;
+            ((S_80175A90_0 *)scratch)->unk_6C.u += offset;
+            ((S_80175A90_0 *)scratch)->unk_74 -= offset;
             break;
         case 1:
             ((S_80175A90_0 *)scratch)->unk_66 -= 2;
-            ((S_80175A90_0 *)scratch)->unk_6E.u += amount;
-            ((S_80175A90_0 *)scratch)->unk_76 -= amount;
+            ((S_80175A90_0 *)scratch)->unk_6E.u += offset;
+            ((S_80175A90_0 *)scratch)->unk_76 -= offset;
             break;
         case 2:
             ((S_80175A90_0 *)scratch)->unk_68 -= 2;
-            ((S_80175A90_0 *)scratch)->unk_70.u += amount;
-            ((S_80175A90_0 *)scratch)->unk_78 -= amount;
+            ((S_80175A90_0 *)scratch)->unk_70.u += offset;
+            ((S_80175A90_0 *)scratch)->unk_78 -= offset;
             break;
         case 3:
             ((S_80175A90_0 *)scratch)->unk_64 += 2;
-            ((S_80175A90_0 *)scratch)->unk_6C.u -= amount;
-            ((S_80175A90_0 *)scratch)->unk_74 += amount;
+            ((S_80175A90_0 *)scratch)->unk_6C.u -= offset;
+            ((S_80175A90_0 *)scratch)->unk_74 += offset;
             break;
         case 4:
             ((S_80175A90_0 *)scratch)->unk_66 += 2;
-            ((S_80175A90_0 *)scratch)->unk_6E.u -= amount;
-            ((S_80175A90_0 *)scratch)->unk_76 += amount;
+            ((S_80175A90_0 *)scratch)->unk_6E.u -= offset;
+            ((S_80175A90_0 *)scratch)->unk_76 += offset;
             break;
         case 5:
             ((S_80175A90_0 *)scratch)->unk_68 += 2;
-            ((S_80175A90_0 *)scratch)->unk_70.u -= amount;
-            ((S_80175A90_0 *)scratch)->unk_78 += amount;
+            ((S_80175A90_0 *)scratch)->unk_70.u -= offset;
+            ((S_80175A90_0 *)scratch)->unk_78 += offset;
             break;
         case 6:
             break;
@@ -158,10 +159,10 @@ void func_80175A90(S_80175A90_3 *arg0, S_80175A90_4 *arg1)
         ((S_80175A90_2 *)prim)->unk_0C = 0x40;
         ((S_80175A90_2 *)prim)->unk_15 = 0x40;
         ((S_80175A90_2 *)prim)->unk_16 = 0x40;
-        ((S_80175A90_2 *)prim)->unk_04 = color;
+        ((S_80175A90_2 *)prim)->unk_04 = endpoint_red;
         ((S_80175A90_2 *)prim)->unk_0D = 0;
         ((S_80175A90_2 *)prim)->unk_0E = 0;
-        ((S_80175A90_2 *)prim)->unk_14 = color;
+        ((S_80175A90_2 *)prim)->unk_14 = endpoint_red;
 
         ((S_80175A90_0 *)scratch)->unk_B4.s = func_80065530(
             scratch + 0x64, scratch + 0x6C, scratch + 0x74,
@@ -176,17 +177,17 @@ void func_80175A90(S_80175A90_3 *arg0, S_80175A90_4 *arg1)
         ((S_80175A90_2 *)prim)->unk_1A = ((S_80175A90_0 *)scratch)->unk_E2;
 
         {
-            u32 otz = ((S_80175A90_0 *)scratch)->unk_B4.u;
-            if (otz < 0x1E0) {
+            u32 depth = ((S_80175A90_0 *)scratch)->unk_B4.u;
+            if (depth < 0x1E0) {
                 ((S_80175A90_2 *)prim)->unk_00.at00.v =
-                    (((S_80175A90_2 *)prim)->unk_00.at00.v & high_mask) |
-                    ((*(u32 *)((u8 *)(((S_80175A90_0 *)scratch)->unk_18.p2) + otz * 4)) & mask);
+                    (((S_80175A90_2 *)prim)->unk_00.at00.v & length_mask) |
+                    ((*(u32 *)((u8 *)(((S_80175A90_0 *)scratch)->unk_18.p2) + depth * 4)) & addr_mask);
                 (*(u32 *)((u8 *)(((S_80175A90_0 *)scratch)->unk_18.p2) + ((S_80175A90_0 *)scratch)->unk_B4.u * 4)) =
-                    ((*(u32 *)((u8 *)(((S_80175A90_0 *)scratch)->unk_18.p2) + ((S_80175A90_0 *)scratch)->unk_B4.u * 4)) & high_mask) |
-                    ((u32)prim & mask);
+                    ((*(u32 *)((u8 *)(((S_80175A90_0 *)scratch)->unk_18.p2) + ((S_80175A90_0 *)scratch)->unk_B4.u * 4)) & length_mask) |
+                    ((u32)prim & addr_mask);
             }
         }
 
-        i++;
-    } while (i < 7);
+        line_index++;
+    } while (line_index < 7);
 }

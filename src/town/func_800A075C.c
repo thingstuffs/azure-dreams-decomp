@@ -6,7 +6,7 @@ extern M2C_UNK func_80033D08();
 extern M2C_UNK func_800478B8();
 extern s32 func_8009706C();
 extern M2C_UNK func_800970AC();
-extern s32 func_8009D20C();
+extern s32 func_8009D20C(void *, M2C_UNK);
 extern M2C_UNK D_8009DF84[];
 
 #define FIELD(base, type, offset) (*(type)((s8 *)(base) + (offset)))
@@ -14,7 +14,7 @@ extern M2C_UNK D_8009DF84[];
 void func_8009DEBC(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
     u8 saved;
 
-    if (func_8009D20C() == 2) {
+    if (func_8009D20C(arg0, arg1) == 2) {
         func_80033D08(arg0);
         saved = FIELD(arg0, u8 *, 0x15);
         FIELD(arg0, u8 *, 0x15) = 0;

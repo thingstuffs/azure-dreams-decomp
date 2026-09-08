@@ -1,19 +1,15 @@
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 
-s8 *func_800193F4(s8 *arg0, s32 arg1) {
-    s32 var_v1;
+/* Clears length bytes in the buffer and returns the buffer. */
+s8 *func_800193F4(s8 *buffer, s32 length) {
+    s32 index;
 
-    var_v1 = 0;
-    if (arg1 > 0) {
+    index = 0;
+    if (length > 0) {
         do {
-            *(arg0 + var_v1) = 0;
-            var_v1 += 1;
-        } while (var_v1 < arg1);
+            *(buffer + index) = 0;
+            index += 1;
+        } while (index < length);
     }
-    return arg0;
+    return buffer;
 }
-
-/* MECHANISM: Frameless leaf with no saved registers or stack locals.
-   Byte-typed arg0 removes the scaled index word and selects sb; the original
-   pointer stays live in a0 through the loop and returns in the jr delay slot. */

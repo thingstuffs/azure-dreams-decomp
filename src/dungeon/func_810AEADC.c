@@ -15,19 +15,20 @@ s32 func_800AD9B4();                /* extern */
 extern u16 D_80083462;
 extern M2C_UNK D_80170E54;
 
-void func_801722DC(S_801722DC_0 *arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3) {
-    if (func_800AB1C0(arg0, arg1, arg2, arg3) != 0) {
-        func_800AD594(arg3, 5);
-        func_800A4ACC(arg3);
-        if ((func_800AD9B4(arg2, arg3) << 0x10) > 0) {
-            arg0->unk_8C = &D_80170E54;
-            arg0->unk_90.at00.v = 0;
-            goto block_3;
+/* Process an interaction and reset the object's state when the checks allow it. */
+void func_801722DC(S_801722DC_0 *state, M2C_UNK context, M2C_UNK source, M2C_UNK target) {
+    if (func_800AB1C0(state, context, source, target) != 0) {
+        func_800AD594(target, 5);
+        func_800A4ACC(target);
+        if ((func_800AD9B4(source, target) << 0x10) > 0) {
+            state->unk_8C = &D_80170E54;
+            state->unk_90.at00.v = 0;
+            goto check_reset;
         }
     } else {
-block_3:
+check_reset:
         if (D_80083462 & 0x80) {
-            arg0->unk_90.at02.v = 0;
+            state->unk_90.at02.v = 0;
         }
     }
 }

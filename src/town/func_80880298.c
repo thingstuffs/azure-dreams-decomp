@@ -24,9 +24,10 @@ extern CallbackTable *D_807013B4[];
 extern GlobalState *D_807013A8[];
 extern void func_80701274(void);
 
-void func_80880298(s32 arg0) {
-    u8 *var_a0;
-    void *temp_a0;
+/* Selects a record list and resolves its indices through the global lookup table. */
+void func_80880298(s32 list_index) {
+    u8 *record_tag;
+    void *records;
 
     if (D_80700B0C != 0) {
         D_807013B4[0]->callback68(D_80700B94, D_80700BBC, 0x59);
@@ -34,14 +35,14 @@ void func_80880298(s32 arg0) {
     }
     D_80700B0C = 1;
     func_80701274();
-    D_807013A8[0]->field10 = (void *)D_80700B04[arg0];
-    temp_a0 = D_807013A8[0]->field10;
-    if (((u8 *)temp_a0)[1] != 0x80) {
-        s32 limit = 0x80;
-        var_a0 = temp_a0 + 1;
+    D_807013A8[0]->field10 = (void *)D_80700B04[list_index];
+    records = D_807013A8[0]->field10;
+    if (((u8 *)records)[1] != 0x80) {
+        s32 end_tag = 0x80;
+        record_tag = records + 1;
         do {
-            *(volatile s32 *)(var_a0 + 0xB) = D_807013B0[0][*(volatile s32 *)(var_a0 + 0xB)];
-            var_a0 += 0x14;
-        } while (*var_a0 != limit);
+            *(volatile s32 *)(record_tag + 0xB) = D_807013B0[0][*(volatile s32 *)(record_tag + 0xB)];
+            record_tag += 0x14;
+        } while (*record_tag != end_tag);
     }
 }

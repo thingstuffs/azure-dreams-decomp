@@ -28,36 +28,37 @@ extern s32 func_800A5F38(void *, s32);
 extern s32 func_800A63B8(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
 
-s32 func_800C24A8(DungeonObject *arg0, s32 arg1, s16 arg2) {
-    s32 temp_v0;
-    s32 temp_arg;
+/* Processes an object action, dispatching the player case and reporting failure. */
+s32 func_800C24A8(DungeonObject *object, s32 action, s16 action_type) {
+    s32 message;
+    s32 message_end;
 
-    if (arg0 == D_800E3D7C[0]) {
-        arg0->unk_110 = arg1;
-        func_8008D330(arg0, D_80083780, D_80082E80, arg0);
+    if (object == D_800E3D7C[0]) {
+        object->unk_110 = action;
+        func_8008D330(object, D_80083780, D_80082E80, object);
         return 0;
     }
-    if ((u32) arg0 <= 0x9FFFFFFFU) {
-        func_800A63B8(arg0, arg1, arg2);
-        if (func_800AD6FC(arg0, (D_800DDE84[arg0->unk_13] >> 6) & 3, 0) == 0) {
-            func_800A5F38(arg0, arg1);
+    if ((u32) object <= 0x9FFFFFFFU) {
+        func_800A63B8(object, action, action_type);
+        if (func_800AD6FC(object, (D_800DDE84[object->unk_13] >> 6) & 3, 0) == 0) {
+            func_800A5F38(object, action);
             return 1;
         }
     }
-    if ((func_800A48F0(arg0, 9, 0x60) << 16) != 0) {
-        if (arg0->flags_14 & 0x4000) {
-            temp_v0 = func_800990FC();
-            temp_arg = func_80099734(arg0, temp_v0);
-            temp_arg = func_80099194(D_800E15BB, temp_arg);
+    if ((func_800A48F0(object, 9, 0x60) << 16) != 0) {
+        if (object->flags_14 & 0x4000) {
+            message = func_800990FC();
+            message_end = func_80099734(object, message);
+            message_end = func_80099194(D_800E15BB, message_end);
         } else {
-            temp_v0 = func_800990FC();
-            temp_arg = temp_v0;
-            temp_arg = func_80099194(D_800E15E5, temp_arg);
+            message = func_800990FC();
+            message_end = message;
+            message_end = func_80099194(D_800E15E5, message_end);
         }
-        func_80099290(temp_arg);
-        func_800A5720(temp_v0);
+        func_80099290(message_end);
+        func_800A5720(message);
     }
-    func_80098B38(arg1);
+    func_80098B38(action);
     D_80083460[5] = D_80083460[5] - 1;
     return 1;
 }

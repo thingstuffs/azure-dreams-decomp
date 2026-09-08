@@ -1,37 +1,34 @@
 #include "common.h"
 
-s32 func_8008C3B8(s32 arg0, s32 arg1, s32 arg2) {
-    s32 scale;
-    s32 first;
-    s32 rounded;
-    s32 value;
+/* Returns the sign of a two-component dot product using record coefficients truncated from 12-bit fractional values. */
+s32 func_8008C3B8(s32 recordTableAddress, s32 recordIndexOrCoefficient, s32 componentsOrSum) {
+    s32 firstScale;
+    s32 firstProduct;
+    s32 secondScale;
+    s32 dotProductSign;
 
-    arg1 = (arg1 << 4) + arg0;
-    scale = *(s32 *)arg1;
-    first = *(s16 *)arg2;
-    if (scale < 0) {
-        scale += 4095;
+    recordIndexOrCoefficient = (recordIndexOrCoefficient << 4) + recordTableAddress;
+    firstScale = *(s32 *)recordIndexOrCoefficient;
+    firstProduct = *(s16 *)componentsOrSum;
+    if (firstScale < 0) {
+        firstScale += 4095;
     }
-    scale >>= 12;
-    first *= scale;
-    arg1 = *(s32 *)(arg1 + 4);
-    arg2 = *(s16 *)(arg2 + 2);
-    rounded = arg1 >> 12;
-    if (arg1 < 0) {
-        arg1 += 4095;
-        rounded = arg1 >> 12;
+    firstScale >>= 12;
+    firstProduct *= firstScale;
+    recordIndexOrCoefficient = *(s32 *)(recordIndexOrCoefficient + 4);
+    componentsOrSum = *(s16 *)(componentsOrSum + 2);
+    secondScale = recordIndexOrCoefficient >> 12;
+    if (recordIndexOrCoefficient < 0) {
+        recordIndexOrCoefficient += 4095;
+        secondScale = recordIndexOrCoefficient >> 12;
     }
-    arg2 = first + arg2 * rounded;
-    value = 0;
-    if (arg2 != 0) {
-        value = -1;
-        if (arg2 >= 0) {
-            value = 1;
+    componentsOrSum = firstProduct + componentsOrSum * secondScale;
+    dotProductSign = 0;
+    if (componentsOrSum != 0) {
+        dotProductSign = -1;
+        if (componentsOrSum >= 0) {
+            dotProductSign = 1;
         }
     }
-    return value;
+    return dotProductSign;
 }
-
-/* MECHANISM: Frameless leaf; destructive arg1/arg2 reuse preserves the retail
-   record-pointer, second-word, coefficient, and sum lifetimes. Split pinned
-   v0 scale/rounded lifetimes plus the v1 first product close the color cycle. */

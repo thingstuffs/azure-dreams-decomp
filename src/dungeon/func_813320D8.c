@@ -107,144 +107,145 @@ typedef struct S_801690D8_8 {
     u16 unk_5E;
 } S_801690D8_8;   /* ((temp_s0->unk_1C * 0x60) + table_base) in func_801690D8 */
 
-void func_801690D8(S_801690D8_1 *arg0_in, void *arg1, s32 arg2, s32 arg3) {
-    s32 sp10[8];
-    s32 var_s1;
-    s32 var_s6;
-    s32 temp_a2;
-    s32 var_a0;
-    s32 var_a0_2;
-    s32 var_a0_3;
-    s32 var_a0_4;
-    s32 var_a1;
-    s32 var_a1_2;
-    s32 var_a1_3;
-    s32 var_a1_4;
-    S_801690D8_3 *temp_a0;
-    S_801690D8_4 *temp_a0_2;
-    S_801690D8_7 *temp_a0_3;
-    S_801690D8_0 *temp_s0;
-    void *temp_v0;
-    S_801690D8_6 *arg0_work;
-    s32 *stack_base;
-    u16 *coeff_ptr;
-    u8 *table_base;
-    S_801690D8_5 *arg1_reg;
+/* Creates eight effect segments with positions, colors, and vertex data. */
+void func_801690D8(S_801690D8_1 *source, void *origin, s32 unused, s32 effect_value) {
+    s32 direction_pairs[8];
+    s32 segment;
+    s32 trunc_bias;
+    s32 prev_segment;
+    s32 prev_base_x;
+    s32 prev_base_y;
+    s32 base_x;
+    s32 base_y;
+    s32 prev_tip_x;
+    s32 prev_tip_y;
+    s32 tip_x;
+    s32 tip_y;
+    S_801690D8_3 *render_flags;
+    S_801690D8_4 *position;
+    S_801690D8_7 *appearance;
+    S_801690D8_0 *effect;
+    void *object;
+    S_801690D8_6 *heading_source;
+    s32 *directions;
+    u16 *side_direction;
+    u8 *vertex_table;
+    S_801690D8_5 *origin_pos;
 
-    arg1_reg = arg1;
-    arg0_work = arg0_in;
-    *(Copy32 *)sp10 = D_801648DC;
-    var_s1 = 0;
-    stack_base = sp10;
-    var_s6 = 0xFFFF;
-    table_base = D_80175DD8;
+    origin_pos = origin;
+    heading_source = source;
+    *(Copy32 *)direction_pairs = D_801648DC;
+    segment = 0;
+    directions = direction_pairs;
+    trunc_bias = 0xFFFF;
+    vertex_table = D_80175DD8;
     do {
-        temp_v0 = func_8003FC64(0x12);
-        temp_s0 = temp_v0 + 0x20;
-        if (temp_v0 != NULL) {
-            temp_s0->unk_18 = 0xEU;
-            if ((var_s1 == 0) || (var_s1 == 7)) {
-                temp_s0->unk_18 = 8U;
+        object = func_8003FC64(0x12);
+        effect = object + 0x20;
+        if (object != NULL) {
+            effect->unk_18 = 0xEU;
+            if ((segment == 0) || (segment == 7)) {
+                effect->unk_18 = 8U;
             }
-            if ((var_s1 == 1) || (var_s1 == 6)) {
-                temp_s0->unk_18 = (s16) (temp_s0->unk_18 - 4);
+            if ((segment == 1) || (segment == 6)) {
+                effect->unk_18 = (s16) (effect->unk_18 - 4);
             }
-            if ((var_s1 == 2) || (var_s1 == 5)) {
-                temp_s0->unk_18 = (u16) (temp_s0->unk_18 - 2);
+            if ((segment == 2) || (segment == 5)) {
+                effect->unk_18 = (u16) (effect->unk_18 - 2);
             }
-            temp_s0->unk_1A = (u16) arg0_in->unk_96;
-            temp_s0->unk_1C = var_s1;
-            temp_s0->unk_1E = 0;
-            temp_s0->unk_24 = arg3;
-            ((S_801690D8_2 *)temp_v0)->unk_10 = &D_80168C88;
-            func_8004491C(temp_v0, &D_80045340);
-            temp_a0 = ((S_801690D8_2 *)temp_v0)->unk_0C;
-            temp_a0->unk_10 = 0x20;
-            temp_a0->unk_14 = (u16) (temp_a0->unk_14 | 0x8C);
-            temp_a0_2 = ((S_801690D8_2 *)temp_v0)->unk_08;
-            temp_a0_2->unk_00 = (s32) arg1_reg->unk_00;
-            temp_a0_2->unk_04 = (s32) arg1_reg->unk_04;
-            temp_a0_2->unk_08 = (s32) (arg1_reg->unk_08 + 0xFFC80000);
-            temp_s0->unk_8A = 0U;
-            temp_s0->unk_84 = 0U;
-            temp_s0->unk_7E = 0U;
-            temp_s0->unk_78 = 0U;
-            temp_s0->unk_88 = 0U;
-            temp_s0->unk_82 = 0U;
-            temp_s0->unk_86 = 0U;
-            temp_s0->unk_80 = 0U;
-            temp_s0->unk_74 = (u16) ((*(s16 *)((u8 *)stack_base + ((((u16) arg0_work->unk_2A >> 7) & 0x1C)))) * 0xF);
-            temp_s0->unk_7A = (u16) ((*(s16 *)((u8 *)stack_base + ((((u16) arg0_work->unk_2A >> 7) & 0x1C)))) * 0xF);
-            temp_s0->unk_76 = (u16) ((s16) *(volatile u16 *)(((s8 *) stack_base + (((u16) arg0_work->unk_2A >> 7) & 0x1C)) + 2) * 0xF);
-            temp_s0->unk_7C = (u16) ((s16) *(volatile u16 *)(((s8 *) stack_base + (((u16) arg0_work->unk_2A >> 7) & 0x1C)) + 2) * 0xF);
-            temp_a2 = var_s1 - 1;
-            temp_s0->unk_5C.s = (*(s16 *)((u8 *)stack_base + (((((s32) (arg0_work->unk_2A << 0x10) >> 0x19) + 6) & 7) << 2))) * 0x3333;
-            coeff_ptr = (u16 *)((s8 *)stack_base + (((((s32) (arg0_work->unk_2A << 0x10) >> 0x19) + 6) & 7) << 2));
-            temp_s0->unk_60 = (s32) ((s16) coeff_ptr[1] * 0x3333);
-            var_a1 = temp_s0->unk_5C.s * temp_a2;
-            if (var_a1 < 0) {
-                var_a1 += var_s6;
+            effect->unk_1A = (u16) source->unk_96;
+            effect->unk_1C = segment;
+            effect->unk_1E = 0;
+            effect->unk_24 = effect_value;
+            ((S_801690D8_2 *)object)->unk_10 = &D_80168C88;
+            func_8004491C(object, &D_80045340);
+            render_flags = ((S_801690D8_2 *)object)->unk_0C;
+            render_flags->unk_10 = 0x20;
+            render_flags->unk_14 = (u16) (render_flags->unk_14 | 0x8C);
+            position = ((S_801690D8_2 *)object)->unk_08;
+            position->unk_00 = (s32) origin_pos->unk_00;
+            position->unk_04 = (s32) origin_pos->unk_04;
+            position->unk_08 = (s32) (origin_pos->unk_08 + 0xFFC80000);
+            effect->unk_8A = 0U;
+            effect->unk_84 = 0U;
+            effect->unk_7E = 0U;
+            effect->unk_78 = 0U;
+            effect->unk_88 = 0U;
+            effect->unk_82 = 0U;
+            effect->unk_86 = 0U;
+            effect->unk_80 = 0U;
+            effect->unk_74 = (u16) ((*(s16 *)((u8 *)directions + ((((u16) heading_source->unk_2A >> 7) & 0x1C)))) * 0xF);
+            effect->unk_7A = (u16) ((*(s16 *)((u8 *)directions + ((((u16) heading_source->unk_2A >> 7) & 0x1C)))) * 0xF);
+            effect->unk_76 = (u16) ((s16) *(volatile u16 *)(((s8 *) directions + (((u16) heading_source->unk_2A >> 7) & 0x1C)) + 2) * 0xF);
+            effect->unk_7C = (u16) ((s16) *(volatile u16 *)(((s8 *) directions + (((u16) heading_source->unk_2A >> 7) & 0x1C)) + 2) * 0xF);
+            prev_segment = segment - 1;
+            effect->unk_5C.s = (*(s16 *)((u8 *)directions + (((((s32) (heading_source->unk_2A << 0x10) >> 0x19) + 6) & 7) << 2))) * 0x3333;
+            side_direction = (u16 *)((s8 *)directions + (((((s32) (heading_source->unk_2A << 0x10) >> 0x19) + 6) & 7) << 2));
+            effect->unk_60 = (s32) ((s16) side_direction[1] * 0x3333);
+            prev_tip_x = effect->unk_5C.s * prev_segment;
+            if (prev_tip_x < 0) {
+                prev_tip_x += trunc_bias;
             }
-            var_a0 = temp_s0->unk_5C.u * temp_a2;
-            temp_s0->unk_7A = (u16) (temp_s0->unk_7A + (var_a1 >> 0x10));
-            if (var_a0 < 0) {
-                var_a0 += var_s6;
+            prev_base_x = effect->unk_5C.u * prev_segment;
+            effect->unk_7A = (u16) (effect->unk_7A + (prev_tip_x >> 0x10));
+            if (prev_base_x < 0) {
+                prev_base_x += trunc_bias;
             }
-            var_a1_2 = temp_s0->unk_60 * temp_a2;
-            temp_s0->unk_86 = (u16) (temp_s0->unk_86 + (var_a0 >> 0x10));
-            if (var_a1_2 < 0) {
-                var_a1_2 += var_s6;
+            prev_tip_y = effect->unk_60 * prev_segment;
+            effect->unk_86 = (u16) (effect->unk_86 + (prev_base_x >> 0x10));
+            if (prev_tip_y < 0) {
+                prev_tip_y += trunc_bias;
             }
-            var_a0_2 = temp_s0->unk_60 * temp_a2;
-            temp_s0->unk_7C = (u16) (temp_s0->unk_7C + (var_a1_2 >> 0x10));
-            if (var_a0_2 < 0) {
-                var_a0_2 += var_s6;
+            prev_base_y = effect->unk_60 * prev_segment;
+            effect->unk_7C = (u16) (effect->unk_7C + (prev_tip_y >> 0x10));
+            if (prev_base_y < 0) {
+                prev_base_y += trunc_bias;
             }
-            var_a1_3 = temp_s0->unk_5C.s * var_s1;
-            temp_s0->unk_88 = (u16) (temp_s0->unk_88 + (var_a0_2 >> 0x10));
-            if (var_a1_3 < 0) {
-                var_a1_3 += var_s6;
+            tip_x = effect->unk_5C.s * segment;
+            effect->unk_88 = (u16) (effect->unk_88 + (prev_base_y >> 0x10));
+            if (tip_x < 0) {
+                tip_x += trunc_bias;
             }
-            var_a0_3 = temp_s0->unk_5C.s * var_s1;
-            temp_s0->unk_74 = (u16) (temp_s0->unk_74 + (var_a1_3 >> 0x10));
-            if (var_a0_3 < 0) {
-                var_a0_3 += var_s6;
+            base_x = effect->unk_5C.s * segment;
+            effect->unk_74 = (u16) (effect->unk_74 + (tip_x >> 0x10));
+            if (base_x < 0) {
+                base_x += trunc_bias;
             }
-            var_a1_4 = temp_s0->unk_60 * var_s1;
-            temp_s0->unk_80 = (u16) (temp_s0->unk_80 + (var_a0_3 >> 0x10));
-            if (var_a1_4 < 0) {
-                var_a1_4 += var_s6;
+            tip_y = effect->unk_60 * segment;
+            effect->unk_80 = (u16) (effect->unk_80 + (base_x >> 0x10));
+            if (tip_y < 0) {
+                tip_y += trunc_bias;
             }
-            var_a0_4 = temp_s0->unk_60 * var_s1;
-            temp_s0->unk_76 = (u16) (temp_s0->unk_76 + (var_a1_4 >> 0x10));
-            if (var_a0_4 < 0) {
-                var_a0_4 += var_s6;
+            base_y = effect->unk_60 * segment;
+            effect->unk_76 = (u16) (effect->unk_76 + (tip_y >> 0x10));
+            if (base_y < 0) {
+                base_y += trunc_bias;
             }
-            temp_s0->unk_82 = (u16) (temp_s0->unk_82 + (var_a0_4 >> 0x10));
-            temp_a0_3 = ((S_801690D8_2 *)temp_v0)->unk_0C;
-            temp_a0_3->unk_1E = 0x1000;
-            temp_a0_3->unk_1C = 0x1000;
-            temp_a0_3->unk_0D = 0x60U;
-            temp_s0->unk_00 = (
-                temp_a0_3->unk_0C = 0xF0U,
-                temp_a0_3->unk_0E = 0xFFU,
-                temp_a0_3->unk_0C);
-            temp_s0->unk_01 = (u8) temp_a0_3->unk_0D;
-            temp_s0->unk_02 = (u8) temp_a0_3->unk_0E;
-            func_8003DB94(temp_a0_3, &D_800DEAE0, 0);
-            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_00 = temp_s0->unk_80;
-            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_02 = (u16) temp_s0->unk_82;
-            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_04 = (u16) temp_s0->unk_84;
-            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_06 = (u16) temp_s0->unk_86;
-            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_08 = (u16) temp_s0->unk_88;
-            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_0A = (u16) temp_s0->unk_8A;
-            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_54 = (u16) temp_s0->unk_74;
-            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_56 = (u16) temp_s0->unk_76;
-            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_58 = (u16) temp_s0->unk_78;
-            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_5A = (u16) temp_s0->unk_7A;
-            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_5C = (u16) temp_s0->unk_7C;
-            ((S_801690D8_8 *)(((temp_s0->unk_1C * 0x60) + table_base)))->unk_5E = (u16) temp_s0->unk_7E;
+            effect->unk_82 = (u16) (effect->unk_82 + (base_y >> 0x10));
+            appearance = ((S_801690D8_2 *)object)->unk_0C;
+            appearance->unk_1E = 0x1000;
+            appearance->unk_1C = 0x1000;
+            appearance->unk_0D = 0x60U;
+            effect->unk_00 = (
+                appearance->unk_0C = 0xF0U,
+                appearance->unk_0E = 0xFFU,
+                appearance->unk_0C);
+            effect->unk_01 = (u8) appearance->unk_0D;
+            effect->unk_02 = (u8) appearance->unk_0E;
+            func_8003DB94(appearance, &D_800DEAE0, 0);
+            ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_00 = effect->unk_80;
+            ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_02 = (u16) effect->unk_82;
+            ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_04 = (u16) effect->unk_84;
+            ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_06 = (u16) effect->unk_86;
+            ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_08 = (u16) effect->unk_88;
+            ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_0A = (u16) effect->unk_8A;
+            ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_54 = (u16) effect->unk_74;
+            ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_56 = (u16) effect->unk_76;
+            ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_58 = (u16) effect->unk_78;
+            ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_5A = (u16) effect->unk_7A;
+            ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_5C = (u16) effect->unk_7C;
+            ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_5E = (u16) effect->unk_7E;
         }
-        var_s1 += 1;
-    } while (var_s1 < 8);
+        segment += 1;
+    } while (segment < 8);
 }

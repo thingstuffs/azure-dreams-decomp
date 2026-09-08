@@ -35,28 +35,29 @@ extern void func_80099844(void *arg0, void *arg1);
 extern void func_800B4C7C(s32 mode, void *arg0, s32 arg2, s32 arg3);
 extern u8 D_80024004[];
 
-BODY_STORAGE void BODY_NAME(void *arg0, s32 arg1) BODY_ATTR;
+BODY_STORAGE void BODY_NAME(void *target, s32 threshold_arg) BODY_ATTR;
 
-BODY_STORAGE void BODY_NAME(void *arg0, s32 arg1) {
-    s32 index;
-    s32 limit;
+/* Runs action 0x53 on the target after state and threshold checks. */
+BODY_STORAGE void BODY_NAME(void *target, s32 threshold_arg) {
+    s32 value_index;
+    s32 threshold;
 
-    if (func_8009D218(arg0, 4) != 0) {
+    if (func_8009D218(target, 4) != 0) {
         return;
     }
 
-    index = (s16)(func_800A6DA4(0, ((u8 *)arg0)[3]) - 16);
-    limit = arg1 & 0xFF;
-    if (index < limit) {
-        if (func_800A2424(arg0, 1) != 0) {
+    value_index = (s16)(func_800A6DA4(0, ((u8 *)target)[3]) - 16);
+    threshold = threshold_arg & 0xFF;
+    if (value_index < threshold) {
+        if (func_800A2424(target, 1) != 0) {
             return;
         }
-    } else if (limit == 0xFF) {
-        if (func_800A2424(arg0, 1) != 0) {
+    } else if (threshold == 0xFF) {
+        if (func_800A2424(target, 1) != 0) {
             return;
         }
     }
 
-    func_80099844(arg0, D_80024004);
-    func_800B4C7C(0x53, arg0, -1, 1);
+    func_80099844(target, D_80024004);
+    func_800B4C7C(0x53, target, -1, 1);
 }

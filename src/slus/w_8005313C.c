@@ -45,81 +45,81 @@ typedef struct S_8005313C
   Ent *unk10[16];
 } S_8005313C;
 extern void func_80052C10(s16, FrameB *);
-void func_8005313C(S_8005313C *arg0)
+/* Plays timed entity animations, then flags the sequence and its entities for cleanup. */
+void func_8005313C(S_8005313C *sequence)
 {
-  s16 *new_var;
-  u16 tmp;
-  s16 idx;
-  Ent *ent;
-  Ent *anim_ent;
+  s16 *state_ptr;
+  u16 elapsed_ticks;
+  s16 entity_slot;
+  Ent *entity;
+  Ent *anim_entity;
   AnimSub *anim;
-  FrameB *old;
-  s16 nxt;
-  int i;
-  s32 mask;
-  tmp = arg0->counter + 1;
-  arg0->counter = tmp;
-  switch (arg0->state)
+  FrameB *frame;
+  s16 next_tick;
+  int entity_index;
+  s32 cleanup_flags;
+
+  elapsed_ticks = sequence->counter + 1;
+  sequence->counter = elapsed_ticks;
+  switch (sequence->state)
   {
     case 0:
-      if (arg0->unkA != 0)
-    {
-      arg0->unkA = 0;
-      arg0->counter = 0;
-      arg0->state = arg0->state + 1;
-    }
+      if (sequence->unkA != 0)
+      {
+        sequence->unkA = 0;
+        sequence->counter = 0;
+        sequence->state = sequence->state + 1;
+      }
       break;
 
     case 1:
-      if (arg0->unkC->unk0 == ((s16) tmp))
-    {
-      do
+      if (sequence->unkC->unk0 == ((s16) elapsed_ticks))
       {
-        idx = (arg0->unk8 + 1) % 16;
-        arg0->unk8 = idx;
-        anim_ent = arg0->unk10[idx];
-        anim = &anim_ent->anim;
-        if (anim->unk6 == 0)
+        do
         {
-          anim->unk6 = 1;
-          anim->unkA = arg0->unkC->unk2 - 0x180;
-          anim->unk10 = arg0->unkC->unk2 - 0x180;
-          anim->unkC = arg0->unkC->unk4;
-          anim->unkE = (arg0->unkC->unk6 * 12) + 12;
-          func_80052C10(arg0->unk8, arg0->unkC);
+          entity_slot = (sequence->unk8 + 1) % 16;
+          sequence->unk8 = entity_slot;
+          anim_entity = sequence->unk10[entity_slot];
+          anim = &anim_entity->anim;
+          if (anim->unk6 == 0)
+          {
+            anim->unk6 = 1;
+            anim->unkA = sequence->unkC->unk2 - 0x180;
+            anim->unk10 = sequence->unkC->unk2 - 0x180;
+            anim->unkC = sequence->unkC->unk4;
+            anim->unkE = (sequence->unkC->unk6 * 12) + 12;
+            func_80052C10(sequence->unk8, sequence->unkC);
+          }
+          frame = sequence->unkC;
+          sequence->unkC = frame + 1;
+          next_tick = frame[1].unk0;
+          if (next_tick == 0)
+          {
+            sequence->counter = 0;
+            sequence->state = (*(state_ptr = &sequence->state)) + 1;
+            return;
+          }
         }
-        old = arg0->unkC;
-        arg0->unkC = old + 1;
-        nxt = old[1].unk0;
-        if (nxt == 0)
-        {
-          arg0->counter = 0;
-          arg0->state = (*(new_var = &arg0->state)) + 1;
-          return;
-        }
+        while (next_tick == ((s16) sequence->counter));
       }
-      while (nxt == ((s16) arg0->counter));
-    }
       break;
 
     case 2:
-      if (((s16) tmp) >= 0x190)
-    {
-      arg0->unk0->unk1C = 0;
-      arg0->unk0->unk6 = arg0->unk0->unk6 + 1;
-      for (i = 0; i < 0x10; i++)
+      if (((s16) elapsed_ticks) >= 0x190)
       {
-        ent = arg0->unk10[i];
-        mask = D_800814A0_loop | 0x8000;
-        D_800814A0_loop = mask;
-        ent->flags |= 0x8000;
+        sequence->unk0->unk1C = 0;
+        sequence->unk0->unk6 = sequence->unk0->unk6 + 1;
+        for (entity_index = 0; entity_index < 0x10; entity_index++)
+        {
+          entity = sequence->unk10[entity_index];
+          cleanup_flags = D_800814A0_loop | 0x8000;
+          D_800814A0_loop = cleanup_flags;
+          entity->flags |= 0x8000;
+        }
+
+        *((u16 *) (((u8 *) sequence) - 2)) |= 0x8000;
+        D_800814A0_tail = cleanup_flags;
       }
-
-      *((u16 *) (((u8 *) arg0) - 2)) |= 0x8000;
-      D_800814A0_tail = mask;
-    }
       break;
-
   }
-
 }

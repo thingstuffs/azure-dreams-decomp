@@ -28,39 +28,40 @@ extern void func_80025C6C(void *);
 extern void *func_8004DC14(void *, s32);
 extern void func_80025964(Source *);
 
-void func_80025E3C(Source *src, Owner **dst)
+/* Initializes owner data pointers and patch offsets from shared and source data. */
+void func_80025E3C(Source *source, Owner **owners)
 {
-    s32 i;
+    s32 owner_idx;
 
-    dst[0]->unk0 = D_80078C10;
-    dst[0]->unk4->unkA = 0;
+    owners[0]->unk0 = D_80078C10;
+    owners[0]->unk4->unkA = 0;
 
-    dst[1]->unk0 = D_800789B8;
-    dst[1]->unk4->unk8 = -20;
+    owners[1]->unk0 = D_800789B8;
+    owners[1]->unk4->unk8 = -20;
 
-    dst[2]->unk0 = src->unk74 + 12;
-    dst[2]->unk4->unk8 = -20;
-    func_80025888(dst, 0);
+    owners[2]->unk0 = source->unk74 + 12;
+    owners[2]->unk4->unk8 = -20;
+    func_80025888(owners, 0);
 
-    dst[3]->unk0 = src->unk74;
-    dst[3]->unk4->unkA = -64;
-    func_80025C6C(src->unk74 + 24);
+    owners[3]->unk0 = source->unk74;
+    owners[3]->unk4->unkA = -64;
+    func_80025C6C(source->unk74 + 24);
 
-    dst[4]->unk0 = src->unk74 + 24;
-    dst[4]->unk4->unk8 = -20;
-    dst[4]->unk4->unkA = 8;
+    owners[4]->unk0 = source->unk74 + 24;
+    owners[4]->unk4->unk8 = -20;
+    owners[4]->unk4->unkA = 8;
 
-    dst[5]->unk0 = func_8004DC14(D_80029474, 0);
-    dst[5]->unk4->unk8 = 124;
-    dst[5]->unk4->unkA = 72;
+    owners[5]->unk0 = func_8004DC14(D_80029474, 0);
+    owners[5]->unk4->unk8 = 124;
+    owners[5]->unk4->unkA = 72;
 
-    for (i = 6; i < 11; i++) {
-        dst[i]->unk0 = D_8007795C;
-        dst[i]->unk4->unk8 = -12;
-        dst[i]->unk4->unkA = (i * 16) - 137;
+    for (owner_idx = 6; owner_idx < 11; owner_idx++) {
+        owners[owner_idx]->unk0 = D_8007795C;
+        owners[owner_idx]->unk4->unk8 = -12;
+        owners[owner_idx]->unk4->unkA = (owner_idx * 16) - 137;
     }
 
-    func_80025964(src);
-    dst[12]->unk4->unk8 = -12;
-    dst[12]->unk4->unkA = 23;
+    func_80025964(source);
+    owners[12]->unk4->unk8 = -12;
+    owners[12]->unk4->unkA = 23;
 }

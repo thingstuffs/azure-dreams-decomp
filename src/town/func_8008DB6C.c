@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
+/* sb01_over_pull: return without performing any script action. */
 void func_8008B2CC(void) {
-
 }

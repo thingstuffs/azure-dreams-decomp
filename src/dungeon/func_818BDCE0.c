@@ -35,21 +35,22 @@ typedef struct S_818BDCE0_3 {
 
 extern s32 D_800814A0[];
 
-void func_818BDCE0(void *arg0, S_818BDCE0_3 *arg1, S_818BDCE0_2 *arg2)
+/* Advance effect counters, motion, and rotation, and flag expiry when its timer exceeds the limit. */
+void func_818BDCE0(void *effect, S_818BDCE0_3 *motion, S_818BDCE0_2 *rotation)
 {
-    S_818BDCE0_1 *v1;
+    S_818BDCE0_1 *counter_state;
 
-    v1 = ((S_818BDCE0_0 *)arg0)->unk_00;
-    v1->unk_14++;
-    ((S_818BDCE0_0 *)arg0)->unk_10.s++;
-    arg2->unk_1A += 0x300;
+    counter_state = ((S_818BDCE0_0 *)effect)->unk_00;
+    counter_state->unk_14++;
+    ((S_818BDCE0_0 *)effect)->unk_10.s++;
+    rotation->unk_1A += 0x300;
 
-    arg1->unk_00 += arg1->unk_0C;
-    arg1->unk_04 += arg1->unk_10;
-    arg1->unk_08 += arg1->unk_14;
+    motion->unk_00 += motion->unk_0C;
+    motion->unk_04 += motion->unk_10;
+    motion->unk_08 += motion->unk_14;
 
-    if (((S_818BDCE0_0 *)arg0)->unk_10.u > ((S_818BDCE0_0 *)arg0)->unk_14) {
-        ((S_818BDCE0_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    if (((S_818BDCE0_0 *)effect)->unk_10.u > ((S_818BDCE0_0 *)effect)->unk_14) {
+        ((S_818BDCE0_0_pre *)effect)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

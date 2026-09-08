@@ -9,10 +9,11 @@ typedef struct S_800C17A0_0 {
     s16 unk_06;
 } S_800C17A0_0;   /* base in func_800C17A0 */
 
-void func_800C17A0(s16 arg0, s16 arg1) {
+/* Stores the two field values in D_800D4258. */
+void func_800C17A0(s16 value_04, s16 value_06) {
     u8 *base;
 
     base = D_800D4258;
-    ((S_800C17A0_0 *)base)->unk_04 = arg0;
-    ((S_800C17A0_0 *)base)->unk_06 = arg1;
+    ((S_800C17A0_0 *)base)->unk_04 = value_04;
+    ((S_800C17A0_0 *)base)->unk_06 = value_06;
 }

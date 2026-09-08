@@ -35,27 +35,28 @@ s32 func_800AD6FC();            /* extern */
 M2C_UNK func_800C5BBC(); /* extern */
 extern M2C_UNK D_800E1729;
 
-s32 func_800C30D4(void *arg0, s32 arg1, s16 arg2) {
-    S_800C30D4_1 *temp_v0;
+/* Handles an item action for an entity, including its effect and item cleanup. */
+s32 func_800C30D4(void *entity, s32 item, s16 action_type) {
+    S_800C30D4_1 *tile;
 
-    if (arg0 == *D_800E3D7C) {
-        ((S_800C30D4_0 *)((u8 *)arg0 - 0x14))->unk_124 = arg1;
-        func_8008D330(arg0, D_80083780, D_80082E80, arg0);
+    if (entity == *D_800E3D7C) {
+        ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_124 = item;
+        func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;
     }
-    if ((u32) arg0 <= 0x9FFFFFFFU) {
-        func_800A63B8(arg0, arg1, arg2);
-        if (func_800AD6FC(arg0, (*((u16 *)(D_800DDE84 + ((S_800C30D4_0 *)((u8 *)arg0 - 0x14))->unk_27 * 2)) >> 6) & 3, 0) == 0) {
-            func_800A5F38(arg0, arg1);
+    if ((u32) entity <= 0x9FFFFFFFU) {
+        func_800A63B8(entity, item, action_type);
+        if (func_800AD6FC(entity, (*((u16 *)(D_800DDE84 + ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_27 * 2)) >> 6) & 3, 0) == 0) {
+            func_800A5F38(entity, item);
             return 1;
         }
     }
-    temp_v0 = ((S_800C30D4_0 *)((u8 *)arg0 - 0x14))->unk_00;
-    func_800C5BBC((temp_v0->unk_24 << 6) | 0x20, (temp_v0->unk_25 << 6) | 0x20, ((S_800C30D4_0 *)((u8 *)arg0 - 0x14))->unk_9C, 0x802080, 0x20, 1);
-    if (((func_800A48F0(arg0, 5, 8) << 0x10) != 0) && (((S_800C30D4_0 *)((u8 *)arg0 - 0x14))->unk_28 & 0x4000)) {
-        func_80099844(arg0, &D_800E1729);
+    tile = ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_00;
+    func_800C5BBC((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20, ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_9C, 0x802080, 0x20, 1);
+    if (((func_800A48F0(entity, 5, 8) << 0x10) != 0) && (((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_28 & 0x4000)) {
+        func_80099844(entity, &D_800E1729);
     }
-    func_80098B38(arg1);
+    func_80098B38(item);
     {
         u16 *counter_base = (u16 *)D_80083460;
         counter_base[5] = (u16) (counter_base[5] - 1);

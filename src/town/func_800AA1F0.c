@@ -17,14 +17,15 @@ typedef struct S_800A7950_1 {
 
 
 extern void func_800A79C8(S_800A7950_1 *, void *, S_800A7950_0 *);
-void func_800A7950(S_800A7950_1 *arg0, void *arg1, S_800A7950_0 *arg2) {
-    s16 temp_v0;
+/* Update scale from elapsed ticks and advance when the countdown expires. */
+void func_800A7950(S_800A7950_1 *state, void *context, S_800A7950_0 *scale) {
+    s16 ticks_left;
 
-    arg2->unk_1C = (s16) (((arg0->unk_90 - arg0->unk_6C) * 8) + 0x1000);
-    arg2->unk_1E = (s16) (0x1000 - ((arg0->unk_90 - arg0->unk_6C) * 2));
-    temp_v0 = (u16) arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if (temp_v0 < 0) {
-        func_800A79C8(arg0, arg1, arg2);
+    scale->unk_1C = (s16) (((state->unk_90 - state->unk_6C) * 8) + 0x1000);
+    scale->unk_1E = (s16) (0x1000 - ((state->unk_90 - state->unk_6C) * 2));
+    ticks_left = (u16) state->unk_6C - 1;
+    state->unk_6C = ticks_left;
+    if (ticks_left < 0) {
+        func_800A79C8(state, context, scale);
     }
 }

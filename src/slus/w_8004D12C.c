@@ -25,24 +25,25 @@ typedef struct S_8004D12C_1 {
 } S_8004D12C_1;   /* temp_a2 in func_8004D12C */
 
 
-void func_8004D12C(void *arg0) {
-    s32 temp_v0;
-    u16 temp_a0;
-    u16 temp_a0_2;
-    u16 temp_a0_3;
-    S_8004D12C_1 *temp_a2;
+/* Advances a three-component interpolation and deactivates it when complete. */
+void func_8004D12C(void *record_data) {
+    s32 progress;
+    u16 delta_x;
+    u16 delta_y;
+    u16 delta_z;
+    S_8004D12C_1 *output;
 
-    temp_a2 = ((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_04;
-    temp_v0 = ((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_18 + ((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_1C;
-    ((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_18 = temp_v0;
-    if (temp_v0 >= 0x1000) {
-        ((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_18 = 0x1000;
-        ((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_00 = 0;
+    output = ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_04;
+    progress = ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18 + ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_1C;
+    ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18 = progress;
+    if (progress >= 0x1000) {
+        ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18 = 0x1000;
+        ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_00 = 0;
     }
-    temp_a0 = ((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_08;
-    temp_a2->unk_00 = (s16) ((((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_10 - temp_a0) + ((s32) ((s16) temp_a0 * ((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_18) >> 0xC));
-    temp_a0_2 = ((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_0A;
-    temp_a2->unk_02 = (s16) ((((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_12 - temp_a0_2) + ((s32) ((s16) temp_a0_2 * ((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_18) >> 0xC));
-    temp_a0_3 = ((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_0C;
-    temp_a2->unk_04 = (s16) ((((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_14 - temp_a0_3) + ((s32) ((s16) temp_a0_3 * ((S_8004D12C_0 *)((u8 *)arg0 - 0x4))->unk_18) >> 0xC));
+    delta_x = ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_08;
+    output->unk_00 = (s16) ((((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_10 - delta_x) + ((s32) ((s16) delta_x * ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18) >> 0xC));
+    delta_y = ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_0A;
+    output->unk_02 = (s16) ((((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_12 - delta_y) + ((s32) ((s16) delta_y * ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18) >> 0xC));
+    delta_z = ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_0C;
+    output->unk_04 = (s16) ((((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_14 - delta_z) + ((s32) ((s16) delta_z * ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18) >> 0xC));
 }

@@ -14,11 +14,12 @@ typedef struct S_800DC000_1 {
     s32 unk_04;
 } S_800DC000_1;   /* arg0 in func_800DC000 */
 
-void func_800DC000(S_800DC000_1 *arg0) {
+/* Handle changes to the state value and update its cached copy. */
+void func_800DC000(S_800DC000_1 *cache) {
     void **state = (void **)&D_800814A8;
 
-    if (((S_800DC000_0 *)(*state))->unk_FC != arg0->unk_04) {
-        func_800DBD5C(((S_800DC000_0 *)(*state))->unk_FC, arg0->unk_04, 8, 0x1A8, 0x1E0, 0);
-        arg0->unk_04 = ((S_800DC000_0 *)(*state))->unk_FC;
+    if (((S_800DC000_0 *)(*state))->unk_FC != cache->unk_04) {
+        func_800DBD5C(((S_800DC000_0 *)(*state))->unk_FC, cache->unk_04, 8, 0x1A8, 0x1E0, 0);
+        cache->unk_04 = ((S_800DC000_0 *)(*state))->unk_FC;
     }
 }

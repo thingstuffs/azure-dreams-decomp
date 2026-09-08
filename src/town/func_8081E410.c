@@ -21,49 +21,50 @@ extern void func_80053DA8(s32);
 #define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 
-void func_80020C10(void *arg0, void *arg1, void *arg2)
+/* Update the effect position, spin phases, animated icons, and rotation sound. */
+void func_80020C10(void *state_arg, void *target_arg, void *effect_arg)
 {
-    s32 *world = (s32 *)D_80083780;
-    s32 *close_page;
-    s32 dx = (world[0] + (s32)0xFCA00000) >> 16;
-    s32 dy = (world[1] + (s32)0xFCA00000) >> 16;
+    s32 *world_pos = (s32 *)D_80083780;
+    s32 *close_pos;
+    s32 dx = (world_pos[0] + (s32)0xFCA00000) >> 16;
+    s32 dy = (world_pos[1] + (s32)0xFCA00000) >> 16;
     register void *state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *other;
+    void *target;
     register void *effect ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *sub ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 old_angle;
+    register void *spin_data ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 prev_angle;
     LocalPoint point;
     s32 distance;
-    s32 x2;
-    s32 y2;
-    s32 adx;
-    s32 ady;
-    s32 limit;
-    register s32 step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 threshold;
-    s32 reduced;
-    s32 loop_x;
-    s32 loop_mod;
+    s32 dx_squared;
+    s32 dy_squared;
+    s32 abs_dx;
+    s32 abs_dy;
+    s32 speed_limit;
+    register s32 speed_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 sector_start;
+    s32 reduced_speed;
+    s32 icon_x;
+    s32 icon_frame;
     register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u32 swi;
-    static void *const sw_keep[] = {
-        &&case0, &&case1, &&case2, &&case3,
-        &&case4, &&case5, &&case6, &&case7,
+    u32 phase;
+    static void *const phase_labels[] = {
+        &&idle, &&accelerate, &&spin, &&select_sector,
+        &&decelerate, &&stop_spin, &&start_icons, &&draw_icons,
     };
 
-    state = arg0;
-    other = arg1;
-    ASM_KEEP_NV(other);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    effect = arg2;
-    sub = *(void **)state;
-    old_angle = U16(effect, 0x1A);
+    state = state_arg;
+    target = target_arg;
+    ASM_KEEP_NV(target);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    effect = effect_arg;
+    spin_data = *(void **)state;
+    prev_angle = U16(effect, 0x1A);
     point = *(LocalPoint *)D_8002004C;
-    x2 = dx * dx;
-    y2 = dy * dy;
-    distance = func_80064710(x2 + y2);
-    S32(state, 0x60) = S32(other, 8);
+    dx_squared = dx * dx;
+    dy_squared = dy * dy;
+    distance = func_80064710(dx_squared + dy_squared);
+    S32(state, 0x60) = S32(target, 8);
 
-    if (world[1] > 0x035FFFFF) {
+    if (world_pos[1] > 0x035FFFFF) {
         if (distance < 185) {
             goto close_range;
         }
@@ -73,13 +74,13 @@ void func_80020C10(void *arg0, void *arg1, void *arg2)
     goto middle_range;
 
 close_range:
-    close_page = (s32 *)D_80083780;
-    if (S16(close_page, 0xA) >= S16(other, 0xA)) {
-        close_page[0] = S32(state, 4);
-        close_page[1] = S32(state, 8);
+    close_pos = (s32 *)D_80083780;
+    if (S16(close_pos, 0xA) >= S16(target, 0xA)) {
+        close_pos[0] = S32(state, 4);
+        close_pos[1] = S32(state, 8);
     }
-    S32(state, 0x58) = close_page[0];
-    S32(state, 0x5C) = close_page[1];
+    S32(state, 0x58) = close_pos[0];
+    S32(state, 0x5C) = close_pos[1];
     if (distance < 128) {
         value = (128 - distance) >> 1;
         U16(state, 0x62) = U16(state, 0x62) - value;
@@ -88,45 +89,45 @@ close_range:
 
 middle_range:
     if (distance < 209) {
-        s32 *mid_page;
-        mid_page = (s32 *)D_80083780;
-        if (S16(mid_page, 0xA) >= S16(other, 0xA)) {
-            mid_page[0] = S32(state, 4);
-            mid_page[1] = S32(state, 8);
+        s32 *mid_pos;
+        mid_pos = (s32 *)D_80083780;
+        if (S16(mid_pos, 0xA) >= S16(target, 0xA)) {
+            mid_pos[0] = S32(state, 4);
+            mid_pos[1] = S32(state, 8);
         }
 
-        adx = dx;
-        if (adx < 0) {
-            ASM_KEEP(adx);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            adx = -adx;
+        abs_dx = dx;
+        if (abs_dx < 0) {
+            ASM_KEEP(abs_dx);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            abs_dx = -abs_dx;
         }
-        ady = dy;
-        if (ady < 0) {
-            ASM_KEEP(ady);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            ady = -ady;
+        abs_dy = dy;
+        if (abs_dy < 0) {
+            ASM_KEEP(abs_dy);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            abs_dy = -abs_dy;
         }
-        if (adx > ady) {
+        if (abs_dx > abs_dy) {
             goto x_axis;
         }
-        if (mid_page[1] > 0x033FFFFF) {
+        if (mid_pos[1] > 0x033FFFFF) {
             goto y_axis;
         }
 x_axis:
-    S32(state, 0x5C) = mid_page[1];
-    if (dx > 0) {
-        S32(state, 0x58) = mid_page[0] - 0x00280000;
-    } else {
-        S32(state, 0x58) = mid_page[0] + 0x00280000;
-    }
-    goto position_done;
+        S32(state, 0x5C) = mid_pos[1];
+        if (dx > 0) {
+            S32(state, 0x58) = mid_pos[0] - 0x00280000;
+        } else {
+            S32(state, 0x58) = mid_pos[0] + 0x00280000;
+        }
+        goto position_done;
 
 y_axis:
-    S32(state, 0x58) = mid_page[0];
-    if (dy > 0) {
-        S32(state, 0x5C) = mid_page[1] - 0x00280000;
-    } else {
-        S32(state, 0x5C) = mid_page[1] + 0x00280000;
-    }
+        S32(state, 0x58) = mid_pos[0];
+        if (dy > 0) {
+            S32(state, 0x5C) = mid_pos[1] - 0x00280000;
+        } else {
+            S32(state, 0x5C) = mid_pos[1] + 0x00280000;
+        }
     } else {
         S32(state, 0x58) = 0x03600000;
         S32(state, 0x5C) = 0x03600000;
@@ -138,89 +139,89 @@ position_done:
     S32(state, 8) = S32(D_80083780, 4);
 
     {
-        s32 quot = S32(sub, 0x14) / ((S16(sub, 0x22) << 8) + 0x300);
-        s32 term = quot + 0x40;
-        limit = ((3 - S16(sub, 0x22)) << 5) + term;
+        s32 scaled_speed = S32(spin_data, 0x14) / ((S16(spin_data, 0x22) << 8) + 0x300);
+        s32 base_speed = scaled_speed + 0x40;
+        speed_limit = ((3 - S16(spin_data, 0x22)) << 5) + base_speed;
     }
 
-    swi = S16(state, 0x70);
-    if (swi >= 8) {
-        goto switch_done;
+    phase = S16(state, 0x70);
+    if (phase >= 8) {
+        goto wrap_angle;
     }
-    (void)sw_keep;
-    goto *D_80020058[swi];
+    (void)phase_labels;
+    goto *D_80020058[phase];
 
-case0:
+idle:
     value = U8(effect, 0xE);
     value += (128 - value) >> 1;
     U8(effect, 0xE) = value;
     U8(effect, 0xD) = value;
     U8(effect, 0xC) = value;
     S32(state, 0x6C) = 0x00080000;
-    goto switch_done;
+    goto wrap_angle;
 
-case1:
-    step = (S16(state, 0x72) + 16) >> 4;
-    value = U16(state, 0x72) + step;
+accelerate:
+    speed_step = (S16(state, 0x72) + 16) >> 4;
+    value = U16(state, 0x72) + speed_step;
     U16(state, 0x72) = value;
-    if ((s16)value > limit) {
-        U16(state, 0x72) = limit;
+    if ((s16)value > speed_limit) {
+        U16(state, 0x72) = speed_limit;
         S16(state, 0x70) = 2;
     }
     U16(effect, 0x1A) += U16(state, 0x72);
-    goto switch_done;
+    goto wrap_angle;
 
-case2:
-    U16(effect, 0x1A) += limit;
-    if (distance >= 161 && S32(D_80083780, 4) > 0x03600000 && S16(sub, 0x18) == 5) {
-        S16(state, 0x72) = limit;
+spin:
+    U16(effect, 0x1A) += speed_limit;
+    if (distance >= 161 && S32(D_80083780, 4) > 0x03600000 && S16(spin_data, 0x18) == 5) {
+        S16(state, 0x72) = speed_limit;
         S16(state, 0x70) = 3;
     }
-    goto switch_done;
+    goto wrap_angle;
 
-case3:
+select_sector:
     dx = U16(effect, 0x1A) & 0x7FF;
     if (dx >= 0x6AB) {
-        S16(sub, 0x24) = 0;
-        goto reset_sub;
+        S16(spin_data, 0x24) = 0;
+        goto reset_spin_angle;
     }
     dy = 0x155;
     distance = 4;
-    threshold = 0x554;
-    for (; distance >= 0; distance--, threshold -= dy) {
-        if (dx >= threshold) {
+    sector_start = 0x554;
+    for (; distance >= 0; distance--, sector_start -= dy) {
+        if (dx >= sector_start) {
             break;
         }
     }
     value = distance & 1;
     if (value) {
-        S16(sub, 0x24) = 1;
+        S16(spin_data, 0x24) = 1;
     } else {
-        S16(sub, 0x24) = 2;
+        S16(spin_data, 0x24) = 2;
     }
-reset_sub:
-    S16(sub, 0x1A) = 0;
+reset_spin_angle:
+    S16(spin_data, 0x1A) = 0;
 
-case4:
-    if (S16(sub, 0x22) == 2) {
+decelerate:
+    if (S16(spin_data, 0x22) == 2) {
         dx = 6;
     } else {
         dx = 5;
     }
     value = S16(state, 0x72) >> dx;
-    reduced = U16(state, 0x72) - value;
-    U16(state, 0x72) = reduced;
+    reduced_speed = U16(state, 0x72) - value;
+    U16(state, 0x72) = reduced_speed;
     U16(effect, 0x1A) += U16(state, 0x72);
-    U16(sub, 0x1A) += U16(state, 0x72);
+    U16(spin_data, 0x1A) += U16(state, 0x72);
     if (S16(state, 0x72) < (1 << dx)) {
         S16(state, 0x74) = 0;
         S16(state, 0x70) = 5;
     }
-    goto switch_done;
+    goto wrap_angle;
 
-case5:
+stop_spin:
     U16(effect, 0x1A) += U16(state, 0x72);
-    U16(sub, 0x1A) += U16(state, 0x72);
+    U16(spin_data, 0x1A) += U16(state, 0x72);
     value = U16(state, 0x74) + 1;
     U16(state, 0x74) = value;
     if ((value & 3) == 0) {
@@ -229,28 +230,28 @@ case5:
     if (S16(state, 0x72) < 4) {
         S16(state, 0x70) = 0;
     }
-    goto switch_done;
+    goto wrap_angle;
 
-case6:
+start_icons:
     S16(state, 0x70) = 7;
     S16(state, 0x72) = 0;
 
-case7:
+draw_icons:
     dx = 0;
-    sub = (void *)6;
+    spin_data = (void *)6;
     dy = (s32)D_800245DC;
-    loop_x = 122;
-case7_loop:
+    icon_x = 122;
+icon_loop:
     {
-        point.x = loop_x;
-        point.y = (s32)sub;
-        loop_mod = (S16(state, 0x72) >> 1) + dx;
-        func_800672D8(&point, (void *)((loop_mod % 3) * 32 + dy));
-        loop_x += 16;
+        point.x = icon_x;
+        point.y = (s32)spin_data;
+        icon_frame = (S16(state, 0x72) >> 1) + dx;
+        func_800672D8(&point, (void *)((icon_frame % 3) * 32 + dy));
+        icon_x += 16;
         dx++;
     }
     if (dx < 3) {
-        goto case7_loop;
+        goto icon_loop;
     }
     value = U16(state, 0x72);
     U16(state, 0x72) = value + 1;
@@ -258,10 +259,10 @@ case7_loop:
         S16(state, 0x70) = 0;
     }
 
-switch_done:
+wrap_angle:
     value = U16(effect, 0x1A) & 0xFFF;
     U16(effect, 0x1A) = value;
-    if ((old_angle >> 8) != ((u32)value >> 8)) {
+    if ((prev_angle >> 8) != ((u32)value >> 8)) {
         func_80053DA8(0x701);
     }
 }

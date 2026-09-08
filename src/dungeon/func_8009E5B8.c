@@ -54,75 +54,76 @@ extern s32 func_8009FE94(u8, u8, s16, u8, u8, s16);
 extern s32 func_800A2CB8(void *, void *);
 extern s32 func_800A41F0(void *);
 
-void *func_800A3D18(void *arg0, void *arg1, s32 arg2)
+/* Selects the best eligible list candidate, resolving ties with the global candidate. */
+void *func_800A3D18(void *owner_arg, void *start, s32 score_limit)
 {
     register void *owner ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *cur;
+    void *candidate;
     S_800A3D18_4 *base;
     register void *best ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *special ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s16 special_value;
-    s16 best_value;
+    s16 special_score;
+    s16 best_score;
     u8 *global_page;
-    S_800A3D18_2 *other;
-    void *next;
-    s32 value;
+    S_800A3D18_2 *candidate_owner;
+    void *next_link;
+    s32 score;
     s32 special_cmp;
     s32 best_cmp;
 
-    owner = arg0;
+    owner = owner_arg;
     ASM_KEEP_NV(owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    cur = arg1;
+    candidate = start;
     best = 0;
     special = best;
-    special_value = 0x100;
-    base = cur;
+    special_score = 0x100;
+    base = candidate;
 
-    if ((s16)arg2 >= 0) {
+    if ((s16)score_limit >= 0) {
         goto nonnegative;
     }
-    best_value = -arg2;
+    best_score = -score_limit;
     goto initial;
 
 set_special:
-    special = cur;
-    special_value = 1;
+    special = candidate;
+    special_score = 1;
     goto done;
 
 nonnegative:
-    best_value = 0x100;
+    best_score = 0x100;
     if (((S_800A3D18_0 *)owner)->unk_26 < 0) {
-        best_value = arg2;
+        best_score = score_limit;
     }
 
 initial:
-    next = ((S_800A3D18_1 *)cur)->unk_5C;
-    cur = (u8 *)next + 0x20;
-    if (cur == base) {
+    next_link = ((S_800A3D18_1 *)candidate)->unk_5C;
+    candidate = (u8 *)next_link + 0x20;
+    if (candidate == base) {
         goto done;
     }
     global_page = (u8 *)0x800e0000;
 
 loop:
-    if ((s16)func_800A2CB8(base, cur) == 0) {
+    if ((s16)func_800A2CB8(base, candidate) == 0) {
         goto advance;
     }
-    if ((s16)func_800A41F0(cur) == 0) {
+    if ((s16)func_800A41F0(candidate) == 0) {
         goto advance;
     }
 
-    other = ((S_800A3D18_1_pre *)cur)[-1].unk_00;
-    if (((S_800A3D18_0 *)owner)->unk_26 == other->unk_26) {
-        value = func_8009FD40(other, owner);
-        if ((s16)value >= best_value) {
+    candidate_owner = ((S_800A3D18_1_pre *)candidate)[-1].unk_00;
+    if (((S_800A3D18_0 *)owner)->unk_26 == candidate_owner->unk_26) {
+        score = func_8009FD40(candidate_owner, owner);
+        if ((s16)score >= best_score) {
             goto advance;
         }
-        if (cur == ((S_800A3D18_3 *)global_page)->unk_3D7C) {
-            special = cur;
-            special_value = value;
+        if (candidate == ((S_800A3D18_3 *)global_page)->unk_3D7C) {
+            special = candidate;
+            special_score = score;
         } else {
-            best = cur;
-            best_value = value;
+            best = candidate;
+            best_score = score;
         }
         goto advance;
     }
@@ -130,23 +131,23 @@ loop:
     if ((s16)func_8009FE94(((S_800A3D18_0 *)owner)->unk_24,
                            ((S_800A3D18_0 *)owner)->unk_25,
                            base->unk_88,
-                           other->unk_24,
-                           other->unk_25,
-                           ((S_800A3D18_1 *)cur)->unk_88) == 0) {
+                           candidate_owner->unk_24,
+                           candidate_owner->unk_25,
+                           ((S_800A3D18_1 *)candidate)->unk_88) == 0) {
         goto advance;
     }
-    if (cur == ((S_800A3D18_3 *)global_page)->unk_3D7C) {
+    if (candidate == ((S_800A3D18_3 *)global_page)->unk_3D7C) {
         goto set_special;
     }
-    best = cur;
-    best_value = 1;
+    best = candidate;
+    best_score = 1;
     goto done;
 
 advance:
-    next = ((S_800A3D18_1 *)cur)->unk_5C;
-    ASM_KEEP(cur);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    cur = (u8 *)next + 0x20;
-    if (cur != base) {
+    next_link = ((S_800A3D18_1 *)candidate)->unk_5C;
+    ASM_KEEP(candidate);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    candidate = (u8 *)next_link + 0x20;
+    if (candidate != base) {
         goto loop;
     }
 
@@ -158,14 +159,14 @@ done:
         best = special;
         goto out;
     }
-    special_cmp = (s16)special_value;
-    best_cmp = (s16)best_value;
+    special_cmp = (s16)special_score;
+    best_cmp = (s16)best_score;
     if (special_cmp == best_cmp) {
         if (((S_800A3D18_5 *)best)->unk_1C & 8) {
             best = special;
             goto out;
         }
-        if ((((Rec_D_800E3D7C *)D_800E3D7C)->unk_128 + ((S_800A3D18_1 *)cur)->unk_43) & 3) {
+        if ((((Rec_D_800E3D7C *)D_800E3D7C)->unk_128 + ((S_800A3D18_1 *)candidate)->unk_43) & 3) {
             goto out;
         }
         best = special;

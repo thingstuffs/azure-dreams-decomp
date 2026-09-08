@@ -25,21 +25,22 @@ M2C_UNK func_8009C93C();
 extern u16 D_80083460[];
 extern s32 D_800E3D7C;
 
-s32 func_80098864(s32 arg0, void *arg1) {
-    s32 temp_s0;
-    S_80098864_1 *temp_a0;
+/* Processes a record and updates its linked state on success. */
+s32 func_80098864(s32 request, void *record_data) {
+    s32 record_id;
+    S_80098864_1 *linked_record;
 
     D_80083460[5]--;
-    temp_s0 = ((S_80098864_0 *)((u8 *)arg1 - 0x14))->unk_00;
-    func_800990C8(arg1, arg0);
-    func_8009C93C(arg1, temp_s0, ((S_80098864_0 *)((u8 *)arg1 - 0x14))->unk_3E, 0, 0);
-    if (func_8009C12C(arg1, temp_s0, ((S_80098864_0 *)((u8 *)arg1 - 0x14))->unk_3E, 0) == 0) {
+    record_id = ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_00;
+    func_800990C8(record_data, request);
+    func_8009C93C(record_data, record_id, ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_3E, 0, 0);
+    if (func_8009C12C(record_data, record_id, ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_3E, 0) == 0) {
         return 0;
     }
-    temp_a0 = ((S_80098864_0 *)((u8 *)arg1 - 0x14))->unk_74;
-    if (temp_a0 != 0) {
-        temp_a0->unk_60 = (s32) D_800E3D7C;
+    linked_record = ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_74;
+    if (linked_record != 0) {
+        linked_record->unk_60 = (s32) D_800E3D7C;
     }
-    func_80098B38(arg0);
+    func_80098B38(request);
     return 1;
 }

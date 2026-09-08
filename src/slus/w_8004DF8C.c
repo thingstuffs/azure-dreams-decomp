@@ -14,45 +14,46 @@ extern s32 D_80081550;
 extern s32 D_80081548;
 extern s32 D_8008154C;
 
-void func_8004DF8C(char *arg0)
+/* Builds and dispatches a control-coded string, then resets its referenced words. */
+void func_8004DF8C(char *text)
 {
-    char *base;
-    char *p;
-    char *dst;
-    u32 addr;
-    s32 *q;
+    char *buffer;
+    char *cursor;
+    char *text_start;
+    u32 word_addr;
+    s32 *word_ptr;
     FuncPtr handler;
 
-    p = D_80083E18;
-    p = p + 1;
-    strcpy(p, (D_80083E18[0] = 8, arg0));
+    cursor = D_80083E18;
+    cursor = cursor + 1;
+    strcpy(cursor, (D_80083E18[0] = 8, text));
     do { } while (0);
-    dst = p;
-    ASM_KEEP(dst);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    strcat(dst, D_80071404);
-    base = D_80083E18;
-    p = strrchr(base, 0);
-    *p = 0x19;
-    p = p + 1;
-    *p = 2;
-    p = p - (-1);
-    *p = 0x1A;
-    p = p + 1;
-    q = &D_80081548;
-    addr = (u32)q;
-    p[1] = (char)(addr >> 8);
-    p[2] = (char)(addr >> 16);
-    p[0] = (char)addr;
-    p[3] = (char)(addr >> 24);
-    p = p + 4;
-    q = &D_8008154C;
-    addr = (u32)q;
-    p[1] = (char)(addr >> 8);
-    p[2] = (char)(addr >> 16);
-    p[0] = (char)addr;
-    p[3] = (char)(addr >> 24);
+    text_start = cursor;
+    ASM_KEEP(text_start);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    strcat(text_start, D_80071404);
+    buffer = D_80083E18;
+    cursor = strrchr(buffer, 0);
+    *cursor = 0x19;
+    cursor = cursor + 1;
+    *cursor = 2;
+    cursor = cursor - (-1);
+    *cursor = 0x1A;
+    cursor = cursor + 1;
+    word_ptr = &D_80081548;
+    word_addr = (u32)word_ptr;
+    cursor[1] = (char)(word_addr >> 8);
+    cursor[2] = (char)(word_addr >> 16);
+    cursor[0] = (char)word_addr;
+    cursor[3] = (char)(word_addr >> 24);
+    cursor = cursor + 4;
+    word_ptr = &D_8008154C;
+    word_addr = (u32)word_ptr;
+    cursor[1] = (char)(word_addr >> 8);
+    cursor[2] = (char)(word_addr >> 16);
+    cursor[0] = (char)word_addr;
+    cursor[3] = (char)(word_addr >> 24);
     handler = D_800714A4[D_80081550];
-    handler(base);
-    q[-1] = 0x2300030C;
+    handler(buffer);
+    word_ptr[-1] = 0x2300030C;
     D_8008154C = 0x2300040C;
 }

@@ -11,12 +11,10 @@ extern void func_800509C4(void *a0, void *a1);
 extern void func_8005084C(void *a0, void *a1, void *a2, void *a3);
 extern void func_800506BC(void *a0, void *a1, void *a2);
 
-/* func_80050A00: Re-inits a0 via func_800509C4(a0, a1); inits three sub-objects at
-   a0+0x58/0x30/0x40 via func_8005084C; then calls func_800506BC on the object pointed
-   to by a0->field_68, passing a0 and a1 along. */
-void func_80050A00(S_80050A00 *a0, void *a1)
+/* Reinitializes the object, sets up its sub-objects, and initializes its linked object. */
+void func_80050A00(S_80050A00 *object, void *context)
 {
-    func_800509C4(a0, a1);
-    func_8005084C(a0, (u8 *)a0 + 0x58, (u8 *)a0 + 0x30, (u8 *)a0 + 0x40);
-    func_800506BC(a0->field_68, a0, a1);
+    func_800509C4(object, context);
+    func_8005084C(object, (u8 *)object + 0x58, (u8 *)object + 0x30, (u8 *)object + 0x40);
+    func_800506BC(object->field_68, object, context);
 }

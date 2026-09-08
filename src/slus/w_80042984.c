@@ -10,17 +10,15 @@ typedef struct S_80042984 {
 
 extern s32 func_800429E4(void *a0);
 
-/* If the entity's type/id byte (offset 0x13) is in [3, 45], recompute a
- * status word on the owning object: keep the low 6 bits masked off and
- * OR/add in 4 * func_800429E4(a0). */
-void func_80042984(void *a0)
+/* Update the owner's status word for entities with type IDs from 3 through 45. */
+void func_80042984(void *entity)
 {
-    u8 v0 = ((u8 *)a0)[0x13];
+    u8 type_id = ((u8 *)entity)[0x13];
 
-    if ((u32)(v0 - 3) < 0x2B) {
-        S_80042984 *s0 = *(S_80042984 **)((u8 *)a0 - 0x14);
-        s32 v1 = s0->field_0x12 & 0xFFC0;
+    if ((u32)(type_id - 3) < 0x2B) {
+        S_80042984 *owner = *(S_80042984 **)((u8 *)entity - 0x14);
+        s32 masked_status = owner->field_0x12 & 0xFFC0;
 
-        s0->field_0x12 = v1 + (func_800429E4(a0) << 2);
+        owner->field_0x12 = masked_status + (func_800429E4(entity) << 2);
     }
 }

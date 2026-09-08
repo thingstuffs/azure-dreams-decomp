@@ -57,37 +57,31 @@ typedef struct S_80051BFC_Obj {
     S_80051BFC_Sub sub;
 } S_80051BFC_Obj;
 
-/* Initializes an object: sets its update-function pointer, stashes the
- * second argument (a slot pointer, per the caller func_800525D4 which
- * passes a S_800525D4_sub*) and clears three follow-on shorts, sets up
- * the object's sub-record via func_8003DB94 and tags it with a
- * neutral-gray color, calls func_8004491C with func_80044BB0 as a
- * callback and sets two fields on the sub-record to 0x1000, then writes
- * three fixed constants into the object's render-vector block. */
-void func_80051BFC(void *a0in, void *a1)
+/* Initializes the object's slot state, callbacks, and default rendering values. */
+void func_80051BFC(void *object_ptr, void *slot)
 {
-    S_80051BFC_Obj *a0 = (S_80051BFC_Obj *)a0in;
-    S_80051BFC_Sub *p;
-    S_80051BFC_Dst *v0;
-    s32 *v1;
+    S_80051BFC_Obj *object = (S_80051BFC_Obj *)object_ptr;
+    S_80051BFC_Sub *slot_state;
+    S_80051BFC_Dst *render_state;
+    s32 *render_vector;
 
-    a0->f10 = func_800517CC;
-    p = &a0->sub;
-    a0->sub.val = (s32)a1;
-    p->x = 0;
-    p->y = 0;
-    p->z = 0;
+    object->f10 = func_800517CC;
+    slot_state = &object->sub;
+    object->sub.val = (s32)slot;
+    slot_state->x = 0;
+    slot_state->y = 0;
+    slot_state->z = 0;
 
-    v0 = a0->fc;
-    v0->fc = 0x808080;
-    func_8003DB94(v0, (S_80051BFC_Elem *)D_800720AC, 0);
+    render_state = object->fc;
+    render_state->fc = 0x808080;
+    func_8003DB94(render_state, (S_80051BFC_Elem *)D_800720AC, 0);
 
-    v0->f1e = 0x1000;
-    v0->f1c = 0x1000;
-    func_8004491C(a0, (void *)func_80044BB0);
+    render_state->f1e = 0x1000;
+    render_state->f1c = 0x1000;
+    func_8004491C(object, (void *)func_80044BB0);
 
-    v1 = a0->f8;
-    v1[0] = 0x01A00000;
-    v1[1] = 0x00600000;
-    v1[2] = 0x00700000;
+    render_vector = object->f8;
+    render_vector[0] = 0x01A00000;
+    render_vector[1] = 0x00600000;
+    render_vector[2] = 0x00700000;
 }

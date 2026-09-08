@@ -72,58 +72,59 @@ typedef struct S_8185CE28_3 {
     s16 unk_1E;
 } S_8185CE28_3;   /* temp_s0 in func_8185CE28 */
 
-s32 func_8185CE28(s32 arg0, S_8185CE28_2 *arg1, s16 arg2)
+/* Creates an effect at an indexed radial offset from the supplied position. */
+s32 func_8185CE28(s32 effect_param, S_8185CE28_2 *position, s16 effect_index)
 {
-    s16 temp_v1;
-    s32 temp_a0;
-    S_8185CE28_3 *temp_s0;
-    S_8185CE28_1 *temp_s1;
-    void *temp_v0;
+    s16 phase_index;
+    s32 phase_step;
+    S_8185CE28_3 *component;
+    S_8185CE28_1 *state;
+    void *effect;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_a0 = arg2 * 3;
-        ((S_8185CE28_0 *)temp_v0)->unk_20 = arg0;
-        temp_s1 = temp_v0 + 0x20;
-        ((S_8185CE28_0 *)temp_v0)->unk_10 = D_80024330;
-        temp_v1 = temp_a0 % 8;
-        temp_s1->unk_1C = temp_v1 << 9;
-        temp_s1->unk_20 = 0x20;
-        temp_s1->unk_1E = 0;
-        temp_s1->unk_22 = -8;
-        temp_s1->unk_24 = temp_v1;
-        temp_s1->unk_06 = arg1->unk_02;
-        temp_s1->unk_0A = arg1->unk_06;
-        temp_s1->unk_0E = arg1->unk_0A;
-        temp_s0 = ((S_8185CE28_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        func_8003DB94(temp_s0, D_800DEAE0, 0);
-        temp_s0->unk_1E = 0x1800;
-        temp_s0->unk_1C = 0x1800;
-        temp_s0->unk_12 = 0x7E0B;
-        temp_s0->unk_14 |= 0xC;
-        temp_s0->unk_10 |= 0x20;
-        temp_s0->unk_14 |= 0x100;
-        func_8004491C(temp_v0, D_80045340);
-        temp_s0 = ((S_8185CE28_0 *)temp_v0)->unk_08;
-        temp_s0->unk_02 = temp_s1->unk_06 +
-            ((func_800644B8(temp_s1->unk_1C) >> 4) *
-             temp_s1->unk_20 >> 8);
-        temp_s0->unk_06 = temp_s1->unk_0A +
-            ((func_80064584(temp_s1->unk_1C) >> 4) *
-             temp_s1->unk_20 >> 8);
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        phase_step = effect_index * 3;
+        ((S_8185CE28_0 *)effect)->unk_20 = effect_param;
+        state = effect + 0x20;
+        ((S_8185CE28_0 *)effect)->unk_10 = D_80024330;
+        phase_index = phase_step % 8;
+        state->unk_1C = phase_index << 9;
+        state->unk_20 = 0x20;
+        state->unk_1E = 0;
+        state->unk_22 = -8;
+        state->unk_24 = phase_index;
+        state->unk_06 = position->unk_02;
+        state->unk_0A = position->unk_06;
+        state->unk_0E = position->unk_0A;
+        component = ((S_8185CE28_0 *)effect)->unk_0C;
+        component->unk_0E = 0x80;
+        component->unk_0D = 0x80;
+        component->unk_0C = 0x80;
+        func_8003DB94(component, D_800DEAE0, 0);
+        component->unk_1E = 0x1800;
+        component->unk_1C = 0x1800;
+        component->unk_12 = 0x7E0B;
+        component->unk_14 |= 0xC;
+        component->unk_10 |= 0x20;
+        component->unk_14 |= 0x100;
+        func_8004491C(effect, D_80045340);
+        component = ((S_8185CE28_0 *)effect)->unk_08;
+        component->unk_02 = state->unk_06 +
+            ((func_800644B8(state->unk_1C) >> 4) *
+             state->unk_20 >> 8);
+        component->unk_06 = state->unk_0A +
+            ((func_80064584(state->unk_1C) >> 4) *
+             state->unk_20 >> 8);
         {
-            u16 final_z = temp_s1->unk_0E;
+            u16 final_z = state->unk_0E;
 #ifndef NON_MATCHING
             __asm__ __volatile__("" : : : "$2");
 #endif
             {
                 register s32 v0pin ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                v0pin = (s32)temp_v0;
+                v0pin = (s32)effect;
                 ASM_KEEP(v0pin);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                temp_s0->unk_0A = final_z - 8;
+                component->unk_0A = final_z - 8;
                 func_800247B4();
             }
         }

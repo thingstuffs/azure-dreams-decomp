@@ -44,180 +44,177 @@ extern void func_800CDE40(s32, s32, s32);
 extern void func_800CDF40(s32, s32, s32);
 extern void func_800419EC(s32, s32);
 
-void func_800CE028(DungeonEffect *arg0) {
-    s16 *var_s2;
-    s16 *var_s2_3;
-    s16 temp_v0;
-    s16 temp_v0_3;
-    s16 temp_v1;
-    s32 temp_a2;
-    s32 temp_a2_3;
+/* Animate a 5x5 tile patch to target heights, wait, then restore its initial heights. */
+void func_800CE028(DungeonEffect *effect) {
+    s16 *target_ptr;
+    s16 *initial_ptr;
+    s16 target_ticks;
+    s16 restore_ticks;
+    s16 state;
+    s32 target_step;
+    s32 restore_step;
     DungeonGrid *grid;
     DungeonTile *tiles;
-    s32 var_a0;
-    s32 var_s0;
-    s32 var_s0_2;
-    s32 var_s0_3;
-    s32 var_s0_4;
-    s32 var_s1;
-    s32 var_s1_2;
-    s32 var_s1_3;
-    s32 var_s1_4;
-    s32 temp_y;
-    s32 temp_shift;
-    s32 temp_x;
-    u16 *var_s2_2;
-    u16 *var_s2_4;
-    u16 temp_a2_2;
-    u16 temp_a2_4;
-    u16 temp_v0_2;
-    u8 *temp_v1_2;
-    u8 *temp_v1_3;
-    u8 *var_s4;
-    u8 *var_s4_2;
-    u8 *var_s4_3;
-    u8 *var_s4_4;
+    s32 x_or_mask;
+    s32 target_col;
+    s32 snap_target_col;
+    s32 restore_col;
+    s32 snap_initial_col;
+    s32 target_row;
+    s32 restore_row;
+    s32 origin_y;
+    s32 row_shift;
+    s32 origin_x;
+    u16 *snap_target_ptr;
+    u16 *snap_initial_ptr;
+    u16 target_height;
+    u16 initial_height;
+    u16 delay_ticks;
+    u8 *target_row_base;
+    u8 *snap_target_base;
+    u8 *initial_row_base;
+    u8 *snap_initial_base;
 
-    temp_v1 = arg0->state;
-    if (temp_v1 == 0) {
+    state = effect->state;
+    if (state == 0) {
         grid = (DungeonGrid *)D_8008333C;
         tiles = grid->tiles;
-        var_s1 = 0;
-        var_s4 = arg0;
+        target_row = 0;
+        target_row_base = effect;
         do {
-            var_s0 = 0;
-            var_s2 = (s16 *)(var_s4 + 0x36);
-loop_3:
-            temp_y = arg0->y;
-            temp_shift = grid->row_shift;
-            temp_x = arg0->x;
-            temp_a2 = (s32)(*var_s2 - tiles[((var_s1 + temp_y) << temp_shift) + temp_x + var_s0].height) / arg0->timer;
-            var_s2++;
-            tiles[((var_s1 + temp_y) << temp_shift) + temp_x + var_s0].height =
-                (u16)tiles[((var_s1 + temp_y) << temp_shift) + temp_x + var_s0].height + temp_a2;
-            func_800CDE40((s16)((u16)arg0->x + var_s0),
-                          (s16)((u16)arg0->y + var_s1),
-                          (s16)-temp_a2);
-            var_s0++;
-            if (var_s0 < 5) {
-                goto loop_3;
+            target_col = 0;
+            target_ptr = (s16 *)(target_row_base + 0x36);
+step_target_tile:
+            origin_y = effect->y;
+            row_shift = grid->row_shift;
+            origin_x = effect->x;
+            target_step = (s32)(*target_ptr - tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height) / effect->timer;
+            target_ptr++;
+            tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height =
+                (u16)tiles[((target_row + origin_y) << row_shift) + origin_x + target_col].height + target_step;
+            func_800CDE40((s16)((u16)effect->x + target_col),
+                          (s16)((u16)effect->y + target_row),
+                          (s16)-target_step);
+            target_col++;
+            if (target_col < 5) {
+                goto step_target_tile;
             }
-            var_s1++;
-            var_s4 += 0xA;
-        } while (var_s1 < 5);
+            target_row++;
+            target_row_base += 0xA;
+        } while (target_row < 5);
 
         func_800CDE0C();
-        if (!((u16)arg0->timer & 7)) {
+        if (!((u16)effect->timer & 7)) {
             func_800A56E0(0x818);
         }
-        temp_v0 = (u16)arg0->timer - 1;
-        arg0->timer = temp_v0;
-        var_s1 = 0;
-        if ((temp_v0 << 16) <= 0) {
-            var_s4_2 = arg0;
+        target_ticks = (u16)effect->timer - 1;
+        effect->timer = target_ticks;
+        target_row = 0;
+        if ((target_ticks << 16) <= 0) {
+            snap_target_base = effect;
             do {
-                var_s0_2 = 0;
-                var_s2_2 = (u16 *)(var_s4_2 + 0x36);
-loop_10:
-                temp_y = arg0->y;
-                temp_shift = grid->row_shift;
-                temp_x = arg0->x;
-                tiles[((var_s1 + temp_y) << temp_shift) + temp_x + var_s0_2].height = *var_s2_2;
-                temp_a2_2 = *var_s2_2;
-                var_s2_2++;
-                func_800CDF40((s16)((u16)arg0->x + var_s0_2),
-                                  (s16)((u16)arg0->y + var_s1),
-                                  (s16)-temp_a2_2);
-                var_s0_2++;
-                if (var_s0_2 < 5) {
-                    goto loop_10;
+                snap_target_col = 0;
+                snap_target_ptr = (u16 *)(snap_target_base + 0x36);
+snap_target_tile:
+                origin_y = effect->y;
+                row_shift = grid->row_shift;
+                origin_x = effect->x;
+                tiles[((target_row + origin_y) << row_shift) + origin_x + snap_target_col].height = *snap_target_ptr;
+                target_height = *snap_target_ptr;
+                snap_target_ptr++;
+                func_800CDF40((s16)((u16)effect->x + snap_target_col),
+                                  (s16)((u16)effect->y + target_row),
+                                  (s16)-target_height);
+                snap_target_col++;
+                if (snap_target_col < 5) {
+                    goto snap_target_tile;
                 }
-                var_s1++;
-                var_s4_2 += 0xA;
-            } while (var_s1 < 5);
+                target_row++;
+                snap_target_base += 0xA;
+            } while (target_row < 5);
             func_8009D6F4();
             D_80083460.count--;
             D_800E296C &= 0xFFF7FFFF;
-            arg0->state++;
+            effect->state++;
             goto end;
         }
-    } else if (temp_v1 == 1) {
+    } else if (state == 1) {
         if (D_80083460.flags & 0x10) {
-            temp_v0_2 = (u16)arg0->delay - 1;
-            arg0->delay = temp_v0_2;
-            if ((temp_v0_2 << 16) <= 0) {
+            delay_ticks = (u16)effect->delay - 1;
+            effect->delay = delay_ticks;
+            if ((delay_ticks << 16) <= 0) {
                 D_80083460.count++;
-                arg0->timer = 0x20;
+                effect->timer = 0x20;
                 func_800419EC(0x20, 8);
-                arg0->state++;
+                effect->state++;
                 D_800E296C |= 0x80000;
             }
         }
     } else {
         grid = (DungeonGrid *)D_8008333C;
         tiles = grid->tiles;
-        var_s1_3 = 0;
-        var_s4_3 = arg0;
+        restore_row = 0;
+        initial_row_base = effect;
         do {
-            var_s0_3 = 0;
-            var_s2_3 = (s16 *)(var_s4_3 + 4);
-loop_21:
-            temp_y = arg0->y;
-            temp_shift = grid->row_shift;
-            temp_x = arg0->x;
-            temp_a2_3 = (s32)(*var_s2_3 - tiles[((var_s1_3 + temp_y) << temp_shift) + temp_x + var_s0_3].height) / arg0->timer;
-            var_s2_3++;
-            tiles[((var_s1_3 + temp_y) << temp_shift) + temp_x + var_s0_3].height =
-                (u16)tiles[((var_s1_3 + temp_y) << temp_shift) + temp_x + var_s0_3].height + temp_a2_3;
-            func_800CDE40((s16)((u16)arg0->x + var_s0_3),
-                          (s16)((u16)arg0->y + var_s1_3),
-                          (s16)-temp_a2_3);
-            var_s0_3++;
-            if (var_s0_3 < 5) {
-                goto loop_21;
+            restore_col = 0;
+            initial_ptr = (s16 *)(initial_row_base + 4);
+step_initial_tile:
+            origin_y = effect->y;
+            row_shift = grid->row_shift;
+            origin_x = effect->x;
+            restore_step = (s32)(*initial_ptr - tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height) / effect->timer;
+            initial_ptr++;
+            tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height =
+                (u16)tiles[((restore_row + origin_y) << row_shift) + origin_x + restore_col].height + restore_step;
+            func_800CDE40((s16)((u16)effect->x + restore_col),
+                          (s16)((u16)effect->y + restore_row),
+                          (s16)-restore_step);
+            restore_col++;
+            if (restore_col < 5) {
+                goto step_initial_tile;
             }
-            var_s1_3++;
-            var_s4_3 += 0xA;
-        } while (var_s1_3 < 5);
+            restore_row++;
+            initial_row_base += 0xA;
+        } while (restore_row < 5);
 
-        if (!((u16)arg0->timer & 7)) {
+        if (!((u16)effect->timer & 7)) {
             func_800A56E0(0x818);
         }
-        temp_v0_3 = (u16)arg0->timer - 1;
-        arg0->timer = temp_v0_3;
-        if ((temp_v0_3 << 16) <= 0) {
-            var_s1_3 = 0;
-            var_s4_4 = arg0;
+        restore_ticks = (u16)effect->timer - 1;
+        effect->timer = restore_ticks;
+        if ((restore_ticks << 16) <= 0) {
+            restore_row = 0;
+            snap_initial_base = effect;
             do {
-                var_s0_4 = 0;
-                var_s2_4 = (u16 *)(var_s4_4 + 4);
-loop_28:
-                temp_y = arg0->y;
-                temp_shift = grid->row_shift;
-                temp_x = arg0->x;
-                tiles[((var_s1_3 + temp_y) << temp_shift) + temp_x + var_s0_4].height = *var_s2_4;
-                temp_a2_4 = *var_s2_4;
-                var_s2_4++;
-                var_a0 = (s16)((u16)arg0->x + var_s0_4);
-                func_800CDF40(var_a0,
-                                  (s16)((u16)arg0->y + var_s1_3),
-                                  (s16)-temp_a2_4);
-                var_s0_4++;
-                if (var_s0_4 < 5) {
-                    goto loop_28;
+                snap_initial_col = 0;
+                snap_initial_ptr = (u16 *)(snap_initial_base + 4);
+snap_initial_tile:
+                origin_y = effect->y;
+                row_shift = grid->row_shift;
+                origin_x = effect->x;
+                tiles[((restore_row + origin_y) << row_shift) + origin_x + snap_initial_col].height = *snap_initial_ptr;
+                initial_height = *snap_initial_ptr;
+                snap_initial_ptr++;
+                x_or_mask = (s16)((u16)effect->x + snap_initial_col);
+                func_800CDF40(x_or_mask,
+                                  (s16)((u16)effect->y + restore_row),
+                                  (s16)-initial_height);
+                snap_initial_col++;
+                if (snap_initial_col < 5) {
+                    goto snap_initial_tile;
                 }
-                var_s1_3++;
-                var_s4_4 += 0xA;
-            } while (var_s1_3 < 5);
+                restore_row++;
+                snap_initial_base += 0xA;
+            } while (restore_row < 5);
             func_8009D6F4();
             D_80083460.count--;
-            var_a0 = 0xBFF70000;
-            if (arg0->flag == 0) {
-                var_a0 = 0x7FF70000;
+            x_or_mask = 0xBFF70000;
+            if (effect->flag == 0) {
+                x_or_mask = 0x7FF70000;
             }
-            var_a0 |= 0xFFFF;
-            D_800E296C &= var_a0;
-            FIELD(arg0, u16 *, -2) |= 0x8000;
+            x_or_mask |= 0xFFFF;
+            D_800E296C &= x_or_mask;
+            FIELD(effect, u16 *, -2) |= 0x8000;
             D_800814A0 |= 0x8000;
         }
         func_800CDE0C();

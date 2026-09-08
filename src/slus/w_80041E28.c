@@ -13,11 +13,10 @@ typedef struct S_80041E28_Src {
 extern void func_8003DB6C(int *a0, int *a1, int a2);
 extern void func_80041E70(S_80041E28_Dst *a0);
 
-/* Copy the first 0x13 words from src into dst, then set dst's trailing
- * word from src's, and finish initializing dst. */
-void func_80041E28(S_80041E28_Dst *a0, S_80041E28_Src *a1)
+/* Copy 0x13 words and the trailing field from src to dst, then finish initializing dst. */
+void func_80041E28(S_80041E28_Dst *dst, S_80041E28_Src *src)
 {
-    func_8003DB6C((int *)a0, (int *)a1, 0x13);
-    a0->f54 = a1->f50;
-    func_80041E70(a0);
+    func_8003DB6C((int *)dst, (int *)src, 0x13);
+    dst->f54 = src->f50;
+    func_80041E70(dst);
 }

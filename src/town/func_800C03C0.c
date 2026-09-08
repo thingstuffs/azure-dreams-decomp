@@ -33,24 +33,25 @@ typedef struct S_800BDB20_3 {
     s16 unk_1E;
 } S_800BDB20_3;   /* temp_a0 in func_800BDB20 */
 
-void *func_800BDB20(S_800BDB20_2 *arg0, s32 arg1, M2C_UNK arg2) {
-    S_800BDB20_3 *temp_a0;
-    S_800BDB20_0 *temp_v0;
-    S_800BDB20_1 *temp_v1;
+/* Creates an object at the given position and initializes its graphics. */
+void *func_800BDB20(S_800BDB20_2 *position, s32 object_param, M2C_UNK graphics_id) {
+    S_800BDB20_3 *render_data;
+    S_800BDB20_0 *object;
+    S_800BDB20_1 *object_pos;
 
-    temp_v0 = func_8003FC64(0x132);
-    if (temp_v0 != NULL) {
-        func_8004491C(temp_v0, &D_80045340);
-        temp_a0 = temp_v0->unk_0C;
-        temp_v1 = temp_v0->unk_08;
-        temp_v0->unk_10 = arg1;
-        temp_v1->unk_00 = (s32) arg0->unk_00;
-        temp_v1->unk_04 = (s32) arg0->unk_04;
-        temp_v1->unk_08 = (s32) arg0->unk_08;
-        temp_a0->unk_0C = 0x808080;
-        temp_a0->unk_1E = 0x1000;
-        temp_a0->unk_1C = 0x1000;
-        func_8003DB94(temp_a0, arg2, 0);
+    object = func_8003FC64(0x132);
+    if (object != NULL) {
+        func_8004491C(object, &D_80045340);
+        render_data = object->unk_0C;
+        object_pos = object->unk_08;
+        object->unk_10 = object_param;
+        object_pos->unk_00 = (s32) position->unk_00;
+        object_pos->unk_04 = (s32) position->unk_04;
+        object_pos->unk_08 = (s32) position->unk_08;
+        render_data->unk_0C = 0x808080;
+        render_data->unk_1E = 0x1000;
+        render_data->unk_1C = 0x1000;
+        func_8003DB94(render_data, graphics_id, 0);
     }
-    return temp_v0;
+    return object;
 }

@@ -23,37 +23,38 @@ extern RuntimeState D_80083160;
 extern void func_80053DA8(u32);
 extern void func_80036434(CursorState *, s32, s32);
 
-void func_80036350(CursorState *arg0, s32 arg1, s32 arg2)
+/* Wrap the cursor on directional input and dispatch the selected action. */
+void func_80036350(CursorState *cursor, s32 action_arg1, s32 action_arg2)
 {
     RuntimeState *runtime;
-    u32 value;
-    u32 flags;
+    u32 next_cursor;
+    u32 flags_or_count;
 
     runtime = &D_80083160;
-    flags = runtime->flags_10;
-    if (flags & 0x4000) {
+    flags_or_count = runtime->flags_10;
+    if (flags_or_count & 0x4000) {
         func_80053DA8(0x502);
-        value = arg0->cursor_4D + 1;
-        flags = (u32)arg0->info_74;
-        arg0->cursor_4D = value;
-        value = arg0->cursor_4D;
-        flags = *(u8 *)(flags + 0x26);
-        flags = value % flags;
-        arg0->cursor_4D = flags;
-    } else if (flags & 0x1000) {
+        next_cursor = cursor->cursor_4D + 1;
+        flags_or_count = (u32)cursor->info_74;
+        cursor->cursor_4D = next_cursor;
+        next_cursor = cursor->cursor_4D;
+        flags_or_count = *(u8 *)(flags_or_count + 0x26);
+        flags_or_count = next_cursor % flags_or_count;
+        cursor->cursor_4D = flags_or_count;
+    } else if (flags_or_count & 0x1000) {
         func_80053DA8(0x502);
-        flags = (u32)arg0->info_74;
-        flags = *(u8 *)(flags + 0x26);
-        value = arg0->cursor_4D + flags;
-        value -= 1;
-        arg0->cursor_4D = value;
-        flags = (u32)arg0->info_74;
-        value = arg0->cursor_4D;
-        flags = *(u8 *)(flags + 0x26);
-        flags = value % flags;
-        arg0->cursor_4D = flags;
+        flags_or_count = (u32)cursor->info_74;
+        flags_or_count = *(u8 *)(flags_or_count + 0x26);
+        next_cursor = cursor->cursor_4D + flags_or_count;
+        next_cursor -= 1;
+        cursor->cursor_4D = next_cursor;
+        flags_or_count = (u32)cursor->info_74;
+        next_cursor = cursor->cursor_4D;
+        flags_or_count = *(u8 *)(flags_or_count + 0x26);
+        flags_or_count = next_cursor % flags_or_count;
+        cursor->cursor_4D = flags_or_count;
     }
     if (runtime->flags_10 & 0x40) {
-        func_80036434(arg0, arg1, arg2);
+        func_80036434(cursor, action_arg1, action_arg2);
     }
 }

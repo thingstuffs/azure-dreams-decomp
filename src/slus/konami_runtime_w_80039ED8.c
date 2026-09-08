@@ -7,6 +7,7 @@ typedef struct RuntimeState {
     u8 current;
 } RuntimeState;
 
+/* Consume one event-script byte and store it as the current value. */
 void func_80039ED8(RuntimeState *state)
 {
     u8 *input = state->input;

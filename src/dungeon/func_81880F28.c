@@ -41,58 +41,59 @@ typedef struct S_81880F28_3_pre {
     u8 pad_04[0x10];
 } S_81880F28_3_pre;   /* the 0x14 bytes before ((S_81880F28_0 *)arg0)->unk_00 in func_81880F28, addressed as ((S_81880F28_0 *)arg0)->unk_00[-1] */
 
-void func_81880F28(void *arg0, void *arg1) {
-    register void *motion ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+/* Tint the object red, restore its color, and advance its motion. */
+void func_81880F28(void *effect, void *motion_data) {
+    register void *motion ASM_REG("$5") = motion_data;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *object;
     EffectColor *color;
     s16 state;
-    s32 value;
+    s32 channel_value;
 
     D_800257CE[0]++;
-    state = ((S_81880F28_0 *)arg0)->unk_0A.s;
+    state = ((S_81880F28_0 *)effect)->unk_0A.s;
 
     if (state == 1) {
-        goto state_1;
+        goto redden_color;
     }
     if (state >= 2) {
-        goto check_state_2;
+        goto check_restore;
     }
     if (state == 0) {
-        goto state_0;
+        goto init_effect;
     }
     func_8002491C();
     return;
 
-check_state_2:
+check_restore:
     if (state == 2) {
-        goto state_2;
+        goto restore_color;
     }
     func_8002491C();
     return;
 
-state_0:
-    object = ((S_81880F28_0 *)arg0)->unk_00;
+init_effect:
+    object = ((S_81880F28_0 *)effect)->unk_00;
     ((S_81880F28_1 *)object)->unk_1C |= 0x10000000;
-    ((S_81880F28_0 *)arg0)->unk_0A.u++;
+    ((S_81880F28_0 *)effect)->unk_0A.u++;
 
-state_1:
-    color = ((S_81880F28_3_pre *)(((S_81880F28_0 *)arg0)->unk_00))[-1].unk_00;
+redden_color:
+    color = ((S_81880F28_3_pre *)(((S_81880F28_0 *)effect)->unk_00))[-1].unk_00;
 
-    value = color->red + 1;
-    color->red = value;
-    if ((u32)(value & 0xFF) >= 0xC1U) {
+    channel_value = color->red + 1;
+    color->red = channel_value;
+    if ((u32)(channel_value & 0xFF) >= 0xC1U) {
         color->red = 0xC0;
     }
 
-    value = color->green - 1;
-    color->green = value;
-    if ((u32)(value & 0xFF) < 0x40U) {
+    channel_value = color->green - 1;
+    color->green = channel_value;
+    if ((u32)(channel_value & 0xFF) < 0x40U) {
         color->green = 0x40;
     }
 
-    value = color->blue - 1;
-    color->blue = value;
-    if ((u32)(value & 0xFF) < 0x40U) {
+    channel_value = color->blue - 1;
+    color->blue = channel_value;
+    if ((u32)(channel_value & 0xFF) < 0x40U) {
         color->blue = 0x40;
     }
 
@@ -100,35 +101,35 @@ state_1:
         goto update_motion;
     }
 
-    ((S_81880F28_0 *)arg0)->unk_0A.u++;
+    ((S_81880F28_0 *)effect)->unk_0A.u++;
     func_8002491C();
     return;
 
-state_2:
-    color = ((S_81880F28_3_pre *)(((S_81880F28_0 *)arg0)->unk_00))[-1].unk_00;
+restore_color:
+    color = ((S_81880F28_3_pre *)(((S_81880F28_0 *)effect)->unk_00))[-1].unk_00;
 
-    value = color->red - 4;
-    color->red = value;
-    if ((u32)(value & 0xFF) < 0x80U) {
+    channel_value = color->red - 4;
+    color->red = channel_value;
+    if ((u32)(channel_value & 0xFF) < 0x80U) {
         color->red = 0x80;
     }
 
-    value = color->green + 4;
-    color->green = value;
-    if ((u32)(value & 0xFF) >= 0x81U) {
+    channel_value = color->green + 4;
+    color->green = channel_value;
+    if ((u32)(channel_value & 0xFF) >= 0x81U) {
         color->green = 0x80;
     }
 
-    value = color->blue + 4;
-    color->blue = value;
-    if ((u32)(value & 0xFF) >= 0x81U) {
+    channel_value = color->blue + 4;
+    color->blue = channel_value;
+    if ((u32)(channel_value & 0xFF) >= 0x81U) {
         color->blue = 0x80;
     }
 
     if (D_800257CC[0] == 0) {
-        object = ((S_81880F28_0 *)arg0)->unk_00;
+        object = ((S_81880F28_0 *)effect)->unk_00;
         ((S_81880F28_1 *)object)->unk_1C &= ~0x10000000;
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 
@@ -136,5 +137,5 @@ update_motion:
     ((S_81880F28_2 *)motion)->unk_08 += ((S_81880F28_2 *)motion)->unk_14;
     ((S_81880F28_2 *)motion)->unk_14 += -0x80000;
     func_80024A98(motion);
-    ((S_81880F28_0 *)arg0)->unk_1C++;
+    ((S_81880F28_0 *)effect)->unk_1C++;
 }

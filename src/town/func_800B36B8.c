@@ -19,34 +19,35 @@ extern void func_8004E5A0(s32, s32, u8 *);
 extern u8 *func_8004E69C(u8 *);
 extern s32 func_8004E298(void *, u8 *, s32);
 
-s32 func_800B0E18(void *arg0, Item *arg1) {
-    u8 buffer[0x20];
+/* Formats and outputs an item's value and flag marker for supported categories. */
+s32 func_800B0E18(void *output, Item *item) {
+    u8 text[0x20];
     u8 category;
     s32 kind;
 
-    memset(buffer, 0x20, 0x20);
-    buffer[0x1F] = 0;
-    category = arg1->category;
+    memset(text, 0x20, 0x20);
+    text[0x1F] = 0;
+    category = item->category;
     kind = D_80073414[category].kind;
     if (kind == 1) {
-        s8 value = arg1->value;
+        s8 value = item->value;
 
         if (value != 0) {
-            buffer[0xA] = (value > 0) ? 0x6B : 0x6C;
-            func_8004E5A0((arg1->value >= 0) ? arg1->value : -arg1->value,
-                          2, &buffer[0xB]);
-            func_8004E69C(&buffer[0xB]);
+            text[0xA] = (value > 0) ? 0x6B : 0x6C;
+            func_8004E5A0((item->value >= 0) ? item->value : -item->value,
+                          2, &text[0xB]);
+            func_8004E69C(&text[0xB]);
         }
-        if (arg1->flags & 0x40) {
-            buffer[0xD] = 0xA;
-            buffer[0xE] = 0x7A;
+        if (item->flags & 0x40) {
+            text[0xD] = 0xA;
+            text[0xE] = 0x7A;
         }
     } else {
         if (category != 4) {
             return 0;
         }
-        func_8004E5A0(arg1->value, 2, &buffer[0xB]);
-        func_8004E69C(&buffer[0xB]);
+        func_8004E5A0(item->value, 2, &text[0xB]);
+        func_8004E69C(&text[0xB]);
     }
-    return func_8004E298(arg0, buffer, 0);
+    return func_8004E298(output, text, 0);
 }

@@ -31,46 +31,47 @@ extern S_80044AAC *D_800833E0[0x20];
 extern S_80044AAC *D_80083360[0x20];
 extern void func_8003DB4C(s32 *p, s32 n);
 
+/* Initialize the node pool free list and reset the pointer tables. */
 void func_8003FAD4(void)
 {
-    s32 i;
-    u32 page;
-    S_801EAFE8 *p;
-    S_801EAFE8 *cur;
-    S_80044AAC **e0_base;
-    S_80044AAC **s60_base;
-    S_80044AAC **e0;
-    S_80044AAC **s60;
+    s32 index;
+    u32 pool_page;
+    S_801EAFE8 *free_node;
+    S_801EAFE8 *clear_node;
+    S_80044AAC **slots_a_base;
+    S_80044AAC **slots_b_base;
+    S_80044AAC **slot_a;
+    S_80044AAC **slot_b;
 
-    page = 0x801F0000;
-    ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    p = (S_801EAFE8 *)(page - 20504);
+    pool_page = 0x801F0000;
+    ASM_KEEP_NV(pool_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    free_node = (S_801EAFE8 *)(pool_page - 20504);
 
-    for (i = 0, cur = p; i < 0x100; i++) {
-        func_8003DB4C((s32 *)cur, 0x49);
-        cur = (S_801EAFE8 *)(((u8 *)cur) + 0x124);
+    for (index = 0, clear_node = free_node; index < 0x100; index++) {
+        func_8003DB4C((s32 *)clear_node, 0x49);
+        clear_node = (S_801EAFE8 *)(((u8 *)clear_node) + 0x124);
     }
 
-    for (i = 0xFE; i >= 0; i--) {
-        p->next = (S_801EAFE8 *)(((u8 *)p) + 0x124);
-        p = p->next;
+    for (index = 0xFE; index >= 0; index--) {
+        free_node->next = (S_801EAFE8 *)(((u8 *)free_node) + 0x124);
+        free_node = free_node->next;
     }
 
-    i = 0x1F;
-    e0_base = D_800833E0;
-    e0 = e0_base + 0x1F;
-    ASM_KEEP(e0_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s60_base = D_80083360;
-    s60 = s60_base + 0x1F;
-    ASM_KEEP(s60_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    p->next = 0;
+    index = 0x1F;
+    slots_a_base = D_800833E0;
+    slot_a = slots_a_base + 0x1F;
+    ASM_KEEP(slots_a_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    slots_b_base = D_80083360;
+    slot_b = slots_b_base + 0x1F;
+    ASM_KEEP(slots_b_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    free_node->next = 0;
     D_80081498.head = 0;
     D_80081490.head = D_801EAFE8;
 
-    for (; i >= 0; i--) {
-        *s60 = 0;
-        *e0 = 0;
-        e0--;
-        s60--;
+    for (; index >= 0; index--) {
+        *slot_b = 0;
+        *slot_a = 0;
+        slot_a--;
+        slot_b--;
     }
 }

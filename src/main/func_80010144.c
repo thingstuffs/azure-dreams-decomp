@@ -3,6 +3,7 @@
 
 M2C_UNK func_80022D60();   /* extern */
 
-void func_80023144(M2C_UNK arg0, M2C_UNK arg1) {
-    func_80022D60(arg0, 0x12, 1, arg1);
+/* Initialize operation 0x12 for the owner with the supplied data. */
+void func_80023144(M2C_UNK owner, M2C_UNK data) {
+    func_80022D60(owner, 0x12, 1, data);
 }

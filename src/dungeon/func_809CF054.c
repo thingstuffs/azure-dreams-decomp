@@ -54,7 +54,8 @@ extern M2C_UNK D_8016AE54;
 extern u8 D_8016DC7C[];
 extern u8 D_8016DCDC[];
 
-void *func_8016A854(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
+/* Allocates an actor object and initializes its parts and flags for the requested kind. */
+void *func_8016A854(s16 kind_flags, s8 byte_24, s8 byte_25, s16 value_0a)
 {
     s32 kind;
     void *obj;
@@ -62,26 +63,26 @@ void *func_8016A854(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     S_8016A854_3 *part_b;
     S_8016A854_1 *work;
     S_8016A854_4 *actor;
-    s32 left;
-    s32 right;
-    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *call_a0;
-    register void *call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    s32 primary_bits;
+    s32 secondary_flags;
+    register s8 saved_byte_24 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_value_0a;
+    register s8 saved_byte_25 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *call_obj;
+    register void *call_part ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     /* fidelity ratchet PASSTHRU_NO_ARGS fix (decomp_issues.md 20-22): retail's
      * `jal 0x800A6D30` forwards whatever $a2/$a3 hold -- this row never writes
      * them, so m2c had no name to forward.  These pins ARE that name
      * (section 22); they emit no code because the values are already in their
      * registers.  `need` is a positional SET, so the call carries 0..3
      * (section 21). */
-    register M2C_UNK call_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register M2C_UNK call_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register M2C_UNK forwarded_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register M2C_UNK forwarded_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     work = 0;
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
+    saved_byte_24 = byte_24;
+    saved_value_0a = value_0a;
+    saved_byte_25 = byte_25;
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
@@ -90,40 +91,40 @@ void *func_8016A854(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
         func_8004491C(obj, &D_80045340);
 
         part_a = ((S_8016A854_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_arg3;
+        part_a->unk_0A = saved_value_0a;
         part_b = ((S_8016A854_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
-        part_b->unk_25 = saved_arg2;
+        kind = kind_flags & 3;
+        part_b->unk_25 = saved_byte_25;
         actor = work;
         part_b->unk_2C = D_8016DC7C;
-        part_b->unk_24 = saved_arg1;
+        part_b->unk_24 = saved_byte_24;
 
         if (kind == 1) {
-            left = work->unk_14 | 0x6000;
-            right = work->unk_1C | 0x6000;
+            primary_bits = work->unk_14 | 0x6000;
+            secondary_flags = work->unk_1C | 0x6000;
             goto write_kind;
         }
         if (kind < 2) {
             goto normal_kind;
         }
 
-        left = work->unk_14 | 0x2000;
-        right = work->unk_1C | 0x2000;
+        primary_bits = work->unk_14 | 0x2000;
+        secondary_flags = work->unk_1C | 0x2000;
 write_kind:
-        work->unk_14 = left;
-        work->unk_1C = right;
+        work->unk_14 = primary_bits;
+        work->unk_1C = secondary_flags;
         goto post_kind;
 
 normal_kind:
-        call_a0 = obj;
-        if (((arg0 & ~3) << 16) == 0) {
+        call_obj = obj;
+        if (((kind_flags & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
-                call_a1 = part_a;
-                ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                left = func_800A6D30(call_a0, call_a1, call_a2, call_a3);
-                call_a0 = obj;
-                if (!(left & 1)) {
-                    goto call_a1_setup;
+                call_part = part_a;
+                ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                primary_bits = func_800A6D30(call_obj, call_part, forwarded_a2, forwarded_a3);
+                call_obj = obj;
+                if (!(primary_bits & 1)) {
+                    goto init_actor;
                 }
                 work->unk_1C |= 0x200;
                 func_800A48F0(work, 1,
@@ -132,12 +133,12 @@ normal_kind:
                 goto post_kind;
             }
         }
-        goto call_a1_setup;
+        goto init_actor;
 
 post_kind:
-        call_a0 = obj;
-call_a1_setup:
-        func_800A9C18(call_a0, part_a, part_b, arg0);
+        call_obj = obj;
+init_actor:
+        func_800A9C18(call_obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8016AE54;
@@ -145,7 +146,3 @@ call_a1_setup:
     }
     return work;
 }
-
-/* MECHANISM: Preserve the seed's exact 0x38 frame, s0-s7 holds, CFG, and true-base name.
-   The sole residue was part_b's saved_arg1 byte field at 0x20 versus retail offset 0x24.
-   part_b->unk_24 closes the substitution at emitted word 32. */

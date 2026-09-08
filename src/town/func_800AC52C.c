@@ -4,6 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_80033B2C();                     /* extern */
 
+/* Calls func_80033B2C with 0x11FB. */
 void func_800A9C8C(void) {
     func_80033B2C(0x11FB);
 }

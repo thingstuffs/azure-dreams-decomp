@@ -14,6 +14,7 @@ typedef struct S_80614978_1 {
 extern Rec_D_80016000 *D_80016000;
 
 
+/* Return whether the referenced record's unk_38 field is nonzero. */
 s32 func_80614978(void) {
     return ((S_80614978_1 *)(D_80016000->unk_1C.as_pv))->unk_38 != 0;
 }

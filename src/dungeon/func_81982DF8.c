@@ -75,41 +75,42 @@ typedef struct
 } Arg2;
 extern u16 D_800269F8[5];
 extern s32 D_800814A0[3];
-void func_800245F8(void *arg0, void *arg1, void *arg2)
+/* Move, fade, and expand the effect, marking it finished when its timer expires. */
+void func_800245F8(void *effect_data, void *motion_data, void *sprite_data)
 {
-  Arg2 *p2 = (Arg2 *) arg2;
-  void *p0 = arg0;
-  Arg1 *p1 = (Arg1 *) arg1;
-  s16 temp_v0;
-  s32 temp_v1_0;
-  u16 temp_v1_3;
-  u16 temp_v1_4;
-  int new_var;
-  u8 temp_v1;
-  u8 temp_v1_2;
-  temp_v1_4 = D_800269F8[0] + 1;
-  temp_v1_0 = p1->f0 + p1->fc;
-  D_800269F8[0] = (u16) temp_v1_4;
-  p1->f0 = temp_v1_0;
-  new_var = 0;
-  p1->f4 = p1->f4 + p1->f10;
-  p1->f8 = p1->f8 + p1->f14;
-  p1->f14 = p1->f14 + 0xC000;
-  func_800478B8(p2);
-  temp_v1 = p2->c;
-  temp_v1_2 = temp_v1 - (((s32) temp_v1) / ((s16) (*((s16 *) (((s8 *) p0) + 0x30)))));
-  p2->c = temp_v1_2;
-  p2->d = temp_v1_2;
-  p2->e = temp_v1_2;
-  temp_v1_3 = p2->f1c;
-  temp_v1_4 = temp_v1_3 + (((s32) (0x400 - temp_v1_3)) / ((s16) (*((s16 *) (((s8 *) p0) + 0x30)))));
-  p2->f1c = temp_v1_4;
-  p2->f1e = temp_v1_4;
-  temp_v0 = ((u16) (*((s16 *) (((s8 *) p0) + 0x30)))) - 1;
-  *((s16 *) (((s8 *) p0) + 0x30)) = temp_v0;
-  if ((temp_v0 << 0x10) <= new_var)
+  Arg2 *sprite = (Arg2 *) sprite_data;
+  void *effect = effect_data;
+  Arg1 *motion = (Arg1 *) motion_data;
+  s16 frames_left;
+  s32 next_x;
+  u16 scale;
+  u16 count_or_scale;
+  int zero;
+  u8 brightness;
+  u8 faded_brightness;
+  count_or_scale = D_800269F8[0] + 1;
+  next_x = motion->f0 + motion->fc;
+  D_800269F8[0] = (u16) count_or_scale;
+  motion->f0 = next_x;
+  zero = 0;
+  motion->f4 = motion->f4 + motion->f10;
+  motion->f8 = motion->f8 + motion->f14;
+  motion->f14 = motion->f14 + 0xC000;
+  func_800478B8(sprite);
+  brightness = sprite->c;
+  faded_brightness = brightness - (((s32) brightness) / ((s16) (*((s16 *) (((s8 *) effect) + 0x30)))));
+  sprite->c = faded_brightness;
+  sprite->d = faded_brightness;
+  sprite->e = faded_brightness;
+  scale = sprite->f1c;
+  count_or_scale = scale + (((s32) (0x400 - scale)) / ((s16) (*((s16 *) (((s8 *) effect) + 0x30)))));
+  sprite->f1c = count_or_scale;
+  sprite->f1e = count_or_scale;
+  frames_left = ((u16) (*((s16 *) (((s8 *) effect) + 0x30)))) - 1;
+  *((s16 *) (((s8 *) effect) + 0x30)) = frames_left;
+  if ((frames_left << 0x10) <= zero)
   {
-    *((u16 *) (((s8 *) p0) + (-2))) = (u16) ((*((u16 *) (((s8 *) p0) + (-2)))) | 0x8000);
-    D_800814A0[new_var] = (s32) (D_800814A0[0] | 0x8000);
+    *((u16 *) (((s8 *) effect) + (-2))) = (u16) ((*((u16 *) (((s8 *) effect) + (-2)))) | 0x8000);
+    D_800814A0[zero] = (s32) (D_800814A0[0] | 0x8000);
   }
 }

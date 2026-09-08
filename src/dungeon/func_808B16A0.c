@@ -9,21 +9,22 @@ typedef struct S_808B16A0_0 {
     s16 unk_02;
 } S_808B16A0_0;   /* var_s0 in func_808B16A0 */
 
-void func_808B16A0(void *arg0, s32 arg1) {
+/* Pass both signed 16-bit values in each pair to func_80016BDC. */
+void func_808B16A0(void *pairs, s32 pairCount) {
     char pad[8];
-    s16 temp_a0;
-    s32 var_s1;
-    void *var_s0;
+    s16 secondValue;
+    s32 pairsProcessed;
+    void *currentPair;
 
-    var_s1 = 0;
-    if (arg1 > 0) {
-        var_s0 = arg0;
+    pairsProcessed = 0;
+    if (pairCount > 0) {
+        currentPair = pairs;
         do {
-            var_s1 += 1;
-            func_80016BDC(((S_808B16A0_0 *)var_s0)->unk_00);
-            temp_a0 = ((S_808B16A0_0 *)var_s0)->unk_02;
-            var_s0 += 4;
-            func_80016BDC(temp_a0);
-        } while (var_s1 < arg1);
+            pairsProcessed += 1;
+            func_80016BDC(((S_808B16A0_0 *)currentPair)->unk_00);
+            secondValue = ((S_808B16A0_0 *)currentPair)->unk_02;
+            currentPair += 4;
+            func_80016BDC(secondValue);
+        } while (pairsProcessed < pairCount);
     }
 }

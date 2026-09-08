@@ -12,6 +12,7 @@ extern void func_800954C4(TownMotionState *state);
 extern void func_800954DC(TownMotionState *state);
 extern void func_800954F4(TownMotionState *state);
 
+/* Clear motion along blocked directions and update the affected axes. */
 void func_80095544(TownMotionState *state)
 {
     if (D_800CFCEE[2] != 0 && state->x < 0) {

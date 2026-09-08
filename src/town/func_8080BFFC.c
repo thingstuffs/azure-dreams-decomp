@@ -9,21 +9,22 @@ typedef struct FourWords {
     s32 word[4];
 } FourWords;
 
-void func_8080BFFC(s32 arg0, FourWords *arg1) {
-    u8 *allocated;
-    FourWords *src;
-    FourWords *dst;
-    FourWords *end;
+/* Allocates a record, stores a value and three data blocks, and passes it to func_8003BC18. */
+void func_8080BFFC(s32 record_value, FourWords *data_blocks) {
+    u8 *record;
+    FourWords *src_block;
+    FourWords *dst_block;
+    FourWords *src_end;
 
-    allocated = func_800374FC(1, D_801328C8);
-    dst = (FourWords *)(allocated + 0x20);
-    if (allocated != 0) {
-        src = arg1;
-        end = src + 3;
+    record = func_800374FC(1, D_801328C8);
+    dst_block = (FourWords *)(record + 0x20);
+    if (record != 0) {
+        src_block = data_blocks;
+        src_end = src_block + 3;
         do {
-            *dst++ = *src++;
-        } while (src != end);
-        *(s32 *)(allocated + 0x10) = arg0;
-        func_8003BC18(allocated, D_8005860C);
+            *dst_block++ = *src_block++;
+        } while (src_block != src_end);
+        *(s32 *)(record + 0x10) = record_value;
+        func_8003BC18(record, D_8005860C);
     }
 }

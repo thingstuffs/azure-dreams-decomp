@@ -21,20 +21,21 @@ typedef struct S_80F60808_1 {
 } S_80F60808_1;   /* arg0 in func_80F60808 */
 
 
-void func_80F60808(S_80F60808_1 *arg0, void *arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
-    u16 *state = (u16 *)D_80083460;
-    arg3->unk_71.as_u8 = (u8) (arg3->unk_71.as_u8 & 0x7F);
-    if (!(state[1] & 0x2000) && ((func_800A2BDC(arg3) << 0x10) == 0)) {
-        arg0->unk_9A = 0xD;
-        arg0->unk_8C = 0;
-        arg0->unk_9B = 0;
-        arg2->unk_2C.as_pm = &D_801741D4;
-        func_80047784(arg2, D_801741D4[(((s32) (*D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7)], 0);
-        arg3->unk_1C.as_s32 = (s32) (arg3->unk_1C.as_s32 | 0x200);
-        func_800A48F0(arg3, 1, 4);
-        arg3->unk_44.at02_u16.v = (u16) (arg3->unk_44.at02_u16.v & 0x7FFF);
-        func_800A4ACC(arg3);
-        arg3->unk_6D.as_u8 = (u8) (arg3->unk_6D.as_u8 - 1);
-        state[5] = (u16) (state[5] + 1);
+/* Start the actor's directional animation and update its action state when allowed. */
+void func_80F60808(S_80F60808_1 *action_state, void *unused, Rec_D_80082E80 *sprite, Rec_D_800E3D7C *actor) {
+    u16 *dungeon_state = (u16 *)D_80083460;
+    actor->unk_71.as_u8 = (u8) (actor->unk_71.as_u8 & 0x7F);
+    if (!(dungeon_state[1] & 0x2000) && ((func_800A2BDC(actor) << 0x10) == 0)) {
+        action_state->unk_9A = 0xD;
+        action_state->unk_8C = 0;
+        action_state->unk_9B = 0;
+        sprite->unk_2C.as_pm = &D_801741D4;
+        func_80047784(sprite, D_801741D4[(((s32) (*D_80083228 + actor->unk_2A.as_s16 + 0x100) >> 9) & 7)], 0);
+        actor->unk_1C.as_s32 = (s32) (actor->unk_1C.as_s32 | 0x200);
+        func_800A48F0(actor, 1, 4);
+        actor->unk_44.at02_u16.v = (u16) (actor->unk_44.at02_u16.v & 0x7FFF);
+        func_800A4ACC(actor);
+        actor->unk_6D.as_u8 = (u8) (actor->unk_6D.as_u8 - 1);
+        dungeon_state[5] = (u16) (dungeon_state[5] + 1);
     }
 }

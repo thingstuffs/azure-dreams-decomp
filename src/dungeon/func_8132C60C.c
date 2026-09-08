@@ -6,6 +6,7 @@ typedef struct S_80173E0C_0 {
     s8 unk_360C;
 } S_80173E0C_0;   /* (arg0 + 0x80010000) in func_80173E0C */
 
-void func_80173E0C(s32 arg0, s8 arg1) {
-    ((S_80173E0C_0 *)((arg0 + 0x80010000)))->unk_360C = arg1;
+/* Stores a byte at the given offset from 0x8001360C. */
+void func_80173E0C(s32 offset, s8 value) {
+    ((S_80173E0C_0 *)((offset + 0x80010000)))->unk_360C = value;
 }

@@ -14,8 +14,9 @@ typedef struct S_8008F534_1 {
     s32 unk_10;
 } S_8008F534_1;   /* arg1 in func_8008F534 */
 
-void func_8008F534(S_8008F534_0 *arg0, S_8008F534_1 *arg1, s32 arg2) {
-    arg0->unk_39 = 1;
-    arg1->unk_04 = arg2;
-    arg1->unk_10 = 0;
+/* Set the object flag, store the state value, and clear the state's secondary field. */
+void func_8008F534(S_8008F534_0 *object, S_8008F534_1 *state, s32 value) {
+    object->unk_39 = 1;
+    state->unk_04 = value;
+    state->unk_10 = 0;
 }

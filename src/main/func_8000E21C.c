@@ -6,20 +6,21 @@ extern s32 D_800287C8[];
 extern s32 D_800287CC;
 extern s32 D_800287E0;
 
+/* Processes state 2, returning 5 on reset or advancing to state 3. */
 s32 func_8002121C(void)
 {
-    s32 result;
+    s32 status;
 
-    result = 0;
+    status = 0;
     if (D_800287C8[0] == 2) {
         func_800214A4();
         if (func_80069C08(D_800287CC) == 0) {
             D_800287C8[0] = 0;
-            result = 5;
+            status = 5;
         } else {
             D_800287E0 = 0;
             D_800287C8[0]++;
         }
     }
-    return result;
+    return status;
 }

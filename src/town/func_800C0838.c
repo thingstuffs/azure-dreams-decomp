@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
+/* Performs no operation. */
 void func_800BDF98(void) {
-
 }

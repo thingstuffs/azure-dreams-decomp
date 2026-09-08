@@ -7,12 +7,13 @@ extern M2C_UNK D_8001B234;
 extern M2C_UNK D_8001C358;
 extern M2C_UNK D_8001DE4A;
 
-M2C_UNK *func_800162F8(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    M2C_UNK *var_s3;
+/* Return the lookup result, or the fallback when the override check succeeds. */
+M2C_UNK *func_800162F8(s32 key, M2C_UNK unused, M2C_UNK context) {
+    M2C_UNK *result;
 
-    var_s3 = func_80019DFC(&D_8001B234, &D_8001C358, arg0, arg2);
-    if (func_80019D44(&D_8001B234, arg0, arg2) != 0) {
-        var_s3 = &D_8001DE4A;
+    result = func_80019DFC(&D_8001B234, &D_8001C358, key, context);
+    if (func_80019D44(&D_8001B234, key, context) != 0) {
+        result = &D_8001DE4A;
     }
-    return var_s3;
+    return result;
 }

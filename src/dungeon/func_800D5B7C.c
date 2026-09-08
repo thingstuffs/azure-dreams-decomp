@@ -79,70 +79,67 @@ typedef struct S_800DB2DC_5 {
     s16 unk_06;
 } S_800DB2DC_5;   /* temp_v1 in func_800DB2DC */
 
-void func_800DB2DC(void *arg0, void *arg1, void *arg2, s16 arg3) {
-    register M2C_UNK *held_callback;
-    s32 held_scale;
-    S_800DB2DC_4 *held_arg0;
-    S_800DB2DC_2 *held_arg1;
-    register S_800DB2DC_1 *held_arg2 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s16 held_arg3;
-    s32 var_s0;
-    register s32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u16 temp_v0;
-    u16 temp_u16;
-    s32 temp_s32;
-    S_800DB2DC_3 *temp_a0;
-    S_800DB2DC_5 *temp_v1;
-    void *var_a2;
+/* Creates two groups of four effects using the source position and visual state. */
+void func_800DB2DC(void *position_arg, void *visual_arg, void *source_arg, s16 effect_param) {
+    register M2C_UNK *callback;
+    s32 scale;
+    S_800DB2DC_4 *position;
+    S_800DB2DC_2 *source_visual;
+    register S_800DB2DC_1 *source_object ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 saved_param;
+    s32 effects_left;
+    register s32 group_step ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u16 visual_flags;
+    u16 source_offset;
+    s32 visual_word;
+    S_800DB2DC_3 *visual;
+    S_800DB2DC_5 *effect_state;
+    void *effect;
 
-    var_a2 = arg2;
-    held_arg0 = arg0;
-    held_arg1 = arg1;
-    held_arg2 = arg2;
-    held_arg3 = arg3;
-    var_s1 = 3;
-    held_callback = &D_800DB420;
-    held_scale = 0x1000;
+    effect = source_arg;
+    position = position_arg;
+    source_visual = visual_arg;
+    source_object = source_arg;
+    saved_param = effect_param;
+    group_step = 3;
+    callback = &D_800DB420;
+    scale = 0x1000;
     do {
-        var_s0 = 3;
+        effects_left = 3;
         do {
-        var_a2 = func_8003FD64(0x312, &D_80083498, var_a2);
-        if (var_a2 != 0) {
-            ((S_800DB2DC_0 *)var_a2)->unk_10 = held_callback;
-            temp_a0 = ((S_800DB2DC_0 *)var_a2)->unk_0C;
-            ((S_800DB2DC_0 *)var_a2)->unk_4A =
-                (u16)held_arg2->unk_2A;
-            temp_s32 = held_arg1->unk_28;
-            temp_a0->unk_1E = held_scale;
-            temp_a0->unk_1C = held_scale;
-            temp_a0->unk_28 = temp_s32;
-            temp_v0 = held_arg1->unk_14;
-            temp_a0->unk_14 = temp_v0;
-            temp_u16 = held_arg1->unk_12;
-            temp_a0->unk_0C = 0x808080;
-            temp_a0->unk_14 = (u16)(temp_v0 | 0xC);
-            temp_a0->unk_12 =
-                (s16)(temp_u16 - 0x80);
-            ((S_800DB2DC_0 *)var_a2)->unk_20 = held_arg0;
-            ((S_800DB2DC_7 *)(((S_800DB2DC_6 *)var_a2)->unk_08))->unk_02 =
-                (u16)held_arg0->unk_02;
-            ((S_800DB2DC_7 *)(((S_800DB2DC_6 *)var_a2)->unk_08))->unk_06 =
-                (u16)held_arg0->unk_06;
-            ((S_800DB2DC_7 *)(((S_800DB2DC_6 *)var_a2)->unk_08))->unk_0A =
-                (u16)held_arg0->unk_0A;
-            temp_v1 = var_a2 + 0x20;
-            temp_v1->unk_06 = held_arg3;
-            temp_v1->unk_04 = (s16)(var_s1 != 0);
-            temp_a0->unk_2C =
-                (s32)held_arg1->unk_2C;
-        }
-        ASM_KEEP(var_s0);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        } while (--var_s0 >= 0);
-        var_s1 -= 3;
-    } while (var_s1 >= 0);
-    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            effect = func_8003FD64(0x312, &D_80083498, effect);
+            if (effect != 0) {
+                ((S_800DB2DC_0 *)effect)->unk_10 = callback;
+                visual = ((S_800DB2DC_0 *)effect)->unk_0C;
+                ((S_800DB2DC_0 *)effect)->unk_4A =
+                    (u16)source_object->unk_2A;
+                visual_word = source_visual->unk_28;
+                visual->unk_1E = scale;
+                visual->unk_1C = scale;
+                visual->unk_28 = visual_word;
+                visual_flags = source_visual->unk_14;
+                visual->unk_14 = visual_flags;
+                source_offset = source_visual->unk_12;
+                visual->unk_0C = 0x808080;
+                visual->unk_14 = (u16)(visual_flags | 0xC);
+                visual->unk_12 =
+                    (s16)(source_offset - 0x80);
+                ((S_800DB2DC_0 *)effect)->unk_20 = position;
+                ((S_800DB2DC_7 *)(((S_800DB2DC_6 *)effect)->unk_08))->unk_02 =
+                    (u16)position->unk_02;
+                ((S_800DB2DC_7 *)(((S_800DB2DC_6 *)effect)->unk_08))->unk_06 =
+                    (u16)position->unk_06;
+                ((S_800DB2DC_7 *)(((S_800DB2DC_6 *)effect)->unk_08))->unk_0A =
+                    (u16)position->unk_0A;
+                effect_state = effect + 0x20;
+                effect_state->unk_06 = saved_param;
+                effect_state->unk_04 = (s16)(group_step != 0);
+                visual->unk_2C =
+                    (s32)source_visual->unk_2C;
+            }
+            ASM_KEEP(effects_left);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        } while (--effects_left >= 0);
+        group_step -= 3;
+    } while (group_step >= 0);
+    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }
-
-/* MECHANISM: A 0x38 frame follows from pinned long-lived args/bases and two nested loop counters.
-   Nested do loops independently initialize s1/s0, fixing the ra/s0 save order and loop delay slots.
-   Split +0x28 word and +0x12 halfword live ranges preserve retail scheduling without extra nops. */

@@ -76,138 +76,139 @@ extern u8 D_80174158[];
 extern u8 D_80174160[];
 
 
-void func_8017360C(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advances the actor state sequence and selects effects for its facing direction. */
+void func_8017360C(void *action, void *context, void *entity, void *actor)
 {
-    static void *const jt_keep[] = {
+    static void *const state_labels[] = {
         &&state_0, &&state_1, &&state_2, &&state_3, &&state_4, &&state_5
     };
-    u8 *effect;
-    s32 index;
+    u8 *effect_table;
+    s32 effect_entry;
     s32 next_state;
     u8 state;
 
-    state = ((S_8017360C_0 *)arg0)->unk_9B;
+    state = ((S_8017360C_0 *)action)->unk_9B;
     if (state >= 6) {
         return;
     }
-    (void)jt_keep;
+    (void)state_labels;
     goto *D_801708D0[state];
 
 state_0:
     {
-        u8 *global;
+        u8 *dungeon_state;
         register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) == 0) {
+        if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
         effect_page = (u8 *)0x80170000;
         ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        effect = effect_page + 0x40F8;
-        (*(void * *)((u8 *)arg2 + 0x2C)) = effect;
-        index = (D_80083228 + ((S_8017360C_2 *)arg3)->unk_2A + 0x100) >> 9;
-        index &= 7;
-        index += (s32)effect;
-        func_80047784(arg2, *(u8 *)index, 0);
-        global = (u8 *)&D_80083460;
-        ((S_8017360C_3 *)global)->unk_0A--;
-        next_state = ((S_8017360C_0 *)arg0)->unk_9B + 1;
+        effect_table = effect_page + 0x40F8;
+        (*(void * *)((u8 *)entity + 0x2C)) = effect_table;
+        effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry &= 7;
+        effect_entry += (s32)effect_table;
+        func_80047784(entity, *(u8 *)effect_entry, 0);
+        dungeon_state = (u8 *)&D_80083460;
+        ((S_8017360C_3 *)dungeon_state)->unk_0A--;
+        next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
         goto store_state;
     }
 
 state_1:
-        if (((S_8017360C_0 *)arg0)->unk_92.s != 0) {
+        if (((S_8017360C_0 *)action)->unk_92.s != 0) {
             return;
         }
         {
             register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             effect_page = (u8 *)0x80170000;
             ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            effect = effect_page + 0x4150;
+            effect_table = effect_page + 0x4150;
         }
         goto effect_common;
 
 state_2:
-        if ((s16)((S_8017360C_0 *)arg0)->unk_96++ < 2) {
+        if ((s16)((S_8017360C_0 *)action)->unk_96++ < 2) {
             return;
         }
         {
             register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             effect_page = (u8 *)0x80170000;
             ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            effect = effect_page + 0x4158;
+            effect_table = effect_page + 0x4158;
         }
         goto effect_common;
 
 state_3:
-        if ((func_80042900(arg3, 1) << 16) != 0) {
-            u8 *global = (u8 *)&D_80083460;
-            s32 flags;
+        if ((func_80042900(actor, 1) << 16) != 0) {
+            u8 *dungeon_state = (u8 *)&D_80083460;
+            s32 actor_flags;
 
-            if ((((S_8017360C_3 *)global)->unk_02 & 0x1000) != 0) {
+            if ((((S_8017360C_3 *)dungeon_state)->unk_02 & 0x1000) != 0) {
                 return;
             }
 
-            if ((((S_8017360C_2 *)arg3)->unk_64 != 0) &&
-                func_800AA6B4(arg0, arg1, arg2, 0)) {
+            if ((((S_8017360C_2 *)actor)->unk_64 != 0) &&
+                func_800AA6B4(action, context, entity, 0)) {
                 return;
             }
 
-            if (((S_8017360C_2 *)arg3)->unk_25 == 0) {
-                if ((((S_8017360C_3 *)global)->unk_02 & 0x2008) != 0) {
+            if (((S_8017360C_2 *)actor)->unk_25 == 0) {
+                if ((((S_8017360C_3 *)dungeon_state)->unk_02 & 0x2008) != 0) {
                     return;
                 }
-                func_800AA79C(arg0, arg1, arg2, arg3);
+                func_800AA79C(action, context, entity, actor);
                 goto done;
             }
 
-            if ((s16)func_800A2C34(arg3) != 0) {
+            if ((s16)func_800A2C34(actor) != 0) {
                 return;
             }
 
-            flags = ((S_8017360C_2 *)arg3)->unk_1C.s;
-            if ((flags & 0x100) != 0) {
-                func_800AA258(arg0, arg1, arg2, arg3);
+            actor_flags = ((S_8017360C_2 *)actor)->unk_1C.s;
+            if ((actor_flags & 0x100) != 0) {
+                func_800AA258(action, context, entity, actor);
                 goto done;
             }
 
             {
-            u32 large_flag = 0x80000;
-            if ((flags & large_flag) != 0) {
-                u16 amount;
+            u32 adjustment_flag = 0x80000;
+            if ((actor_flags & adjustment_flag) != 0) {
+                u16 remaining_amount;
 
-                func_800AA888(arg0, arg1, arg2, arg3);
-                amount = ((S_8017360C_0 *)arg0)->unk_92.u;
-                amount -= ((S_8017360C_0 *)arg0)->unk_A2;
-                ((S_8017360C_0 *)arg0)->unk_A2 = 0;
-                ((S_8017360C_0 *)arg0)->unk_9E = 0;
-                ((S_8017360C_0 *)arg0)->unk_92.u = amount;
-                func_80173E00(arg0, arg1, arg2, arg3);
+                func_800AA888(action, context, entity, actor);
+                remaining_amount = ((S_8017360C_0 *)action)->unk_92.u;
+                remaining_amount -= ((S_8017360C_0 *)action)->unk_A2;
+                ((S_8017360C_0 *)action)->unk_A2 = 0;
+                ((S_8017360C_0 *)action)->unk_9E = 0;
+                ((S_8017360C_0 *)action)->unk_92.u = remaining_amount;
+                func_80173E00(action, context, entity, actor);
                 goto done;
             }
             }
 
-            if (((S_8017360C_2 *)arg3)->unk_6D == 0) {
+            if (((S_8017360C_2 *)actor)->unk_6D == 0) {
                 return;
             }
 
-            if ((s16)func_800A2C34(arg3) != 0) {
+            if ((s16)func_800A2C34(actor) != 0) {
                 void *owner = D_800814A8;
 
-                if ((s16)func_8009A180(arg3,
+                if ((s16)func_8009A180(actor,
                         (u8 *)((S_8017360C_4 *)owner)->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
 
-            func_800A9A0C(arg3);
-            func_800A9A04(arg3);
-            if ((func_80042900(arg3, 1) << 16) != 0) {
+            func_800A9A0C(actor);
+            func_800A9A04(actor);
+            if ((func_80042900(actor, 1) << 16) != 0) {
                 u8 *room_base = D_80082E80;
-                s8 room = ((Rec_D_80082E80 *)arg2)->unk_26.as_s8;
+                s8 room_id = ((Rec_D_80082E80 *)entity)->unk_26.as_s8;
 
-                if ((room != ((S_8017360C_5 *)room_base)->unk_26) || (room < 0)) {
-                    if ((s16)func_8009FD40(room_base, arg2) >= 2) {
+                if ((room_id != ((S_8017360C_5 *)room_base)->unk_26) || (room_id < 0)) {
+                    if ((s16)func_8009FD40(room_base, entity) >= 2) {
                         goto final_check;
                     }
                 }
@@ -215,10 +216,10 @@ state_3:
                 if ((func_800A6D30() & 7) != 0) {
                     goto final_check;
                 }
-                func_80042B68(arg3, 1);
+                func_80042B68(actor, 1);
             }
 final_check:
-            if ((func_80042900(arg3, 1) << 16) != 0) {
+            if ((func_80042900(actor, 1) << 16) != 0) {
                 return;
             }
         }
@@ -227,20 +228,20 @@ final_check:
             register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             effect_page = (u8 *)0x80170000;
             ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            effect = effect_page + 0x4160;
+            effect_table = effect_page + 0x4160;
         }
-        (*(void * *)((u8 *)arg2 + 0x2C)) = effect;
-        index = (D_80083228 + ((S_8017360C_2 *)arg3)->unk_2A + 0x100) >> 9;
-        index &= 7;
-        index += (s32)effect;
-        func_80047784(arg2, *(u8 *)index, 0);
-        if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) != 0) {
+        (*(void * *)((u8 *)entity + 0x2C)) = effect_table;
+        effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry &= 7;
+        effect_entry += (s32)effect_table;
+        func_80047784(entity, *(u8 *)effect_entry, 0);
+        if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000) != 0) {
             goto finished;
         }
-        ((S_8017360C_0 *)arg0)->unk_9B++;
+        ((S_8017360C_0 *)action)->unk_9B++;
         {
-            u8 *global = (u8 *)&D_80083460;
-            ((S_8017360C_3 *)global)->unk_0A++;
+            u8 *dungeon_state = (u8 *)&D_80083460;
+            ((S_8017360C_3 *)dungeon_state)->unk_0A++;
         }
         goto done;
 
@@ -250,32 +251,32 @@ state_4:
         register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u32 phase_flags;
 
-        if ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) == 0) {
+        if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
         ASM_KEEP(phase_flag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         effect_page = (u8 *)0x80170000;
         ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        phase_flags = ((S_8017360C_2 *)arg3)->unk_1C.u;
-        effect = effect_page + 0x40F8;
+        phase_flags = ((S_8017360C_2 *)actor)->unk_1C.u;
+        effect_table = effect_page + 0x40F8;
         phase_flags |= phase_flag;
-        ((S_8017360C_2 *)arg3)->unk_1C.u = phase_flags;
+        ((S_8017360C_2 *)actor)->unk_1C.u = phase_flags;
 effect_common:
-        (*(void * *)((u8 *)arg2 + 0x2C)) = effect;
-        index = (D_80083228 + ((S_8017360C_2 *)arg3)->unk_2A + 0x100) >> 9;
-        index &= 7;
-        index += (s32)effect;
-        func_80047784(arg2, *(u8 *)index, 0);
-        ((S_8017360C_0 *)arg0)->unk_96 = 0;
-        next_state = ((S_8017360C_0 *)arg0)->unk_9B + 1;
+        (*(void * *)((u8 *)entity + 0x2C)) = effect_table;
+        effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry &= 7;
+        effect_entry += (s32)effect_table;
+        func_80047784(entity, *(u8 *)effect_entry, 0);
+        ((S_8017360C_0 *)action)->unk_96 = 0;
+        next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
 store_state:
-        ((S_8017360C_0 *)arg0)->unk_9B = next_state;
+        ((S_8017360C_0 *)action)->unk_9B = next_state;
         goto done;
         }
 
 state_5:
-        if ((s16)((S_8017360C_0 *)arg0)->unk_96++ < 4) {
+        if ((s16)((S_8017360C_0 *)action)->unk_96++ < 4) {
             return;
         }
 
@@ -283,20 +284,20 @@ state_5:
             register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             effect_page = (u8 *)0x80170000;
             ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            effect = effect_page + 0x40F0;
+            effect_table = effect_page + 0x40F0;
         }
-        (*(void * *)((u8 *)arg2 + 0x2C)) = effect;
-        index = (D_80083228 + ((S_8017360C_2 *)arg3)->unk_2A + 0x100) >> 9;
-        index &= 7;
-        index += (s32)effect;
-        func_80047784(arg2, *(u8 *)index, 0);
+        (*(void * *)((u8 *)entity + 0x2C)) = effect_table;
+        effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry &= 7;
+        effect_entry += (s32)effect_table;
+        func_80047784(entity, *(u8 *)effect_entry, 0);
         {
-            u8 *global = (u8 *)&D_80083460;
-            ((S_8017360C_3 *)global)->unk_0A--;
+            u8 *dungeon_state = (u8 *)&D_80083460;
+            ((S_8017360C_3 *)dungeon_state)->unk_0A--;
         }
 
 finished:
-        ((S_8017360C_0 *)arg0)->unk_8C = D_801714D4;
+        ((S_8017360C_0 *)action)->unk_8C = D_801714D4;
 done:
         return;
 }

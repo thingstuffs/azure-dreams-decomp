@@ -1,8 +1,5 @@
 #include "common.h"
 
-/* Clears the 0x8000 flag bit in 4 fixed sub-table entries (byte offsets 0x78/0x7E/0xFC/0x102
- * from D_8008333C's base pointer) for indices i=10,11 of a dynamically-scaled index
- * (i << D_8008333C.field14) * 6. Counterpart of func_80043B4C (sets the bit instead). */
 typedef struct S_80043A68_entry {
     /* 0x00 */ s32 unk0;
     /* 0x04 */ u16 flags;
@@ -16,16 +13,17 @@ typedef struct S_8008333C {
 
 extern S_8008333C D_8008333C;
 
+/* Clears flag 0x8000 in four sub-table entries for each scaled index 10 and 11. */
 void func_80043A68(void)
 {
-    S_8008333C *p = &D_8008333C;
-    u8 *base = p->field0;
-    s32 i;
+    S_8008333C *table = &D_8008333C;
+    u8 *base = table->field0;
+    s32 index;
 
-    for (i = 10; i < 12; i++) {
-        ((S_80043A68_entry *)(base + (i << p->field14) * 6 + 0x78))->flags &= 0x7FFF;
-        ((S_80043A68_entry *)(base + (i << p->field14) * 6 + 0x7E))->flags &= 0x7FFF;
-        ((S_80043A68_entry *)(base + (i << p->field14) * 6 + 0xFC))->flags &= 0x7FFF;
-        ((S_80043A68_entry *)(base + (i << p->field14) * 6 + 0x102))->flags &= 0x7FFF;
+    for (index = 10; index < 12; index++) {
+        ((S_80043A68_entry *)(base + (index << table->field14) * 6 + 0x78))->flags &= 0x7FFF;
+        ((S_80043A68_entry *)(base + (index << table->field14) * 6 + 0x7E))->flags &= 0x7FFF;
+        ((S_80043A68_entry *)(base + (index << table->field14) * 6 + 0xFC))->flags &= 0x7FFF;
+        ((S_80043A68_entry *)(base + (index << table->field14) * 6 + 0x102))->flags &= 0x7FFF;
     }
 }

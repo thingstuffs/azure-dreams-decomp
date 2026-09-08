@@ -49,135 +49,136 @@ extern u8 D_800E2368[];
 extern u8 D_800E2370[];
 extern s32 D_80171F1C;
 
-void func_801733B4(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advances the actor's hop animation and finishes the action when its timer expires. */
+void func_801733B4(void *motion, void *position, void *sprite, void *actor)
 {
-    s32 scratch;
-    s32 delta;
-    u16 next;
-    s32 state;
+    s32 facing_aux;
+    s32 y_offset;
+    u16 timer_value;
+    s32 phase;
 
-    state = ((S_801733B4_0 *)arg0)->unk_9B;
-    if (state == 1) {
+    phase = ((S_801733B4_0 *)motion)->unk_9B;
+    if (phase == 1) {
         goto state_one;
     }
-    if (state < 2) {
-        if (state == 0) {
+    if (phase < 2) {
+        if (phase == 0) {
             goto state_zero;
         }
         goto update_timer;
     }
-    if (state == 2) {
+    if (phase == 2) {
         goto state_two;
     }
-    if (state == 3) {
+    if (phase == 3) {
         goto state_three;
     }
     goto update_timer;
 
 state_zero:
-    next = ((S_801733B4_0 *)arg0)->unk_AA.s + 1;
-    ((S_801733B4_0 *)arg0)->unk_AA.s = next;
-    if ((s16)next < 2) {
+    timer_value = ((S_801733B4_0 *)motion)->unk_AA.s + 1;
+    ((S_801733B4_0 *)motion)->unk_AA.s = timer_value;
+    if ((s16)timer_value < 2) {
         goto update_timer;
     }
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_800E2368;
-    func_80047784(arg2,
-        D_800E2368[((D_80083228 + ((S_801733B4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2368;
+    func_80047784(sprite,
+        D_800E2368[((D_80083228 + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
-    ((S_801733B4_0 *)arg0)->unk_98 |= 8;
-    ((S_801733B4_1 *)arg3)->unk_1C.s &= 0xF7FFFFFF;
-    ((S_801733B4_0 *)arg0)->unk_AA.s = 5;
-    ((S_801733B4_0 *)arg0)->unk_A4 = 0;
-    ((S_801733B4_0 *)arg0)->unk_9B++;
+    ((S_801733B4_0 *)motion)->unk_98 |= 8;
+    ((S_801733B4_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
+    ((S_801733B4_0 *)motion)->unk_AA.s = 5;
+    ((S_801733B4_0 *)motion)->unk_A4 = 0;
+    ((S_801733B4_0 *)motion)->unk_9B++;
 
 state_one:
-    ((S_801733B4_0 *)arg0)->unk_90.at00.v -= ((S_801733B4_0 *)arg0)->unk_A4;
-    if (((S_801733B4_0 *)arg0)->unk_AA.u != 0) {
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 =
-            (((((Rec_D_80082E80 *)arg2)->unk_24 << 6) -
-              ({ ((Rec_D_800E3D7C *)arg1)->unk_00.at02_s16.v - 0x20; })) << 16) /
-            ((S_801733B4_0 *)arg0)->unk_AA.u;
-        delta = ((Rec_D_800E3D7C *)arg1)->unk_04.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v =
-            (((((Rec_D_80082E80 *)arg2)->unk_25 << 6) - delta) << 16) /
-            ((S_801733B4_0 *)arg0)->unk_AA.u;
-        ((S_801733B4_0 *)arg0)->unk_A4 =
-            (-func_800644B8(((S_801733B4_0 *)arg0)->unk_AA.u * 0x199)) << 10;
+    ((S_801733B4_0 *)motion)->unk_90.at00.v -= ((S_801733B4_0 *)motion)->unk_A4;
+    if (((S_801733B4_0 *)motion)->unk_AA.u != 0) {
+        ((Rec_D_800E3D7C *)position)->unk_0C.as_s32 =
+            (((((Rec_D_80082E80 *)sprite)->unk_24 << 6) -
+              ({ ((Rec_D_800E3D7C *)position)->unk_00.at02_s16.v - 0x20; })) << 16) /
+            ((S_801733B4_0 *)motion)->unk_AA.u;
+        y_offset = ((Rec_D_800E3D7C *)position)->unk_04.at02_s16.v - 0x20;
+        ((Rec_D_800E3D7C *)position)->unk_10.at00_s32.v =
+            (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - y_offset) << 16) /
+            ((S_801733B4_0 *)motion)->unk_AA.u;
+        ((S_801733B4_0 *)motion)->unk_A4 =
+            (-func_800644B8(((S_801733B4_0 *)motion)->unk_AA.u * 0x199)) << 10;
     }
-    ((S_801733B4_0 *)arg0)->unk_90.at00.v += ((S_801733B4_0 *)arg0)->unk_A4;
-    next = ((S_801733B4_0 *)arg0)->unk_AA.s - 1;
-    ((S_801733B4_0 *)arg0)->unk_AA.s = next;
-    if ((s16)next < 0) {
-        ((S_801733B4_0 *)arg0)->unk_90.at02.v = -0x10;
-        ((S_801733B4_0 *)arg0)->unk_98 &= 0xFFF7;
-        ((S_801733B4_1 *)arg3)->unk_1C.s |= 0x08000000;
-        ((S_801733B4_0 *)arg0)->unk_9B++;
+    ((S_801733B4_0 *)motion)->unk_90.at00.v += ((S_801733B4_0 *)motion)->unk_A4;
+    timer_value = ((S_801733B4_0 *)motion)->unk_AA.s - 1;
+    ((S_801733B4_0 *)motion)->unk_AA.s = timer_value;
+    if ((s16)timer_value < 0) {
+        ((S_801733B4_0 *)motion)->unk_90.at02.v = -0x10;
+        ((S_801733B4_0 *)motion)->unk_98 &= 0xFFF7;
+        ((S_801733B4_1 *)actor)->unk_1C.s |= 0x08000000;
+        ((S_801733B4_0 *)motion)->unk_9B++;
     }
 
 state_two:
-    if (((S_801733B4_1 *)arg3)->unk_1C.s & 0x08000000) {
-        ((S_801733B4_0 *)arg0)->unk_98 &= 0xFFF7;
-        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_800E2370;
-        func_80047784(arg2,
-            D_800E2370[((D_80083228 + ((S_801733B4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+    if (((S_801733B4_1 *)actor)->unk_1C.s & 0x08000000) {
+        ((S_801733B4_0 *)motion)->unk_98 &= 0xFFF7;
+        ((Rec_D_800E3D7C *)position)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)position)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)position)->unk_0C.as_s32 = 0;
+        func_800A2B04(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2370;
+        func_80047784(sprite,
+            D_800E2370[((D_80083228 + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        ((S_801733B4_0 *)arg0)->unk_9B++;
+        ((S_801733B4_0 *)motion)->unk_9B++;
         goto update_timer;
     }
     goto update_timer;
 
 state_three:
-    if (((Rec_D_80082E80 *)arg2)->unk_2C.as_pu8 != D_800E2348) {
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_800E2348;
-        func_80047784(arg2,
-            D_800E2348[((D_80083228 + ((S_801733B4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+    if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_800E2348) {
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2348;
+        func_80047784(sprite,
+            D_800E2348[((D_80083228 + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        ((S_801733B4_0 *)arg0)->unk_9E = 0;
+        ((S_801733B4_0 *)motion)->unk_9E = 0;
     }
 
 update_timer:
-    next = ((S_801733B4_0 *)arg0)->unk_96 - 1;
-    ((S_801733B4_0 *)arg0)->unk_96 = next;
-    if (((s32)next << 16) <= 0) {
-        s32 flags;
-        s16 *counter;
+    timer_value = ((S_801733B4_0 *)motion)->unk_96 - 1;
+    ((S_801733B4_0 *)motion)->unk_96 = timer_value;
+    if (((s32)timer_value << 16) <= 0) {
+        s32 actor_flags;
+        s16 *global_counters;
 
-        ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-        ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25);
-        func_800AD594(arg3, 4);
-        func_800A4ACC(arg3);
-        counter = (s16 *)&D_80083460;
-        if (counter[4] != 0) {
-            ((u16 *)counter)[4]--;
+        ((Rec_D_800E3D7C *)position)->unk_14.as_s32 = 0;
+        ((Rec_D_800E3D7C *)position)->unk_10.at00_s32.v = 0;
+        ((Rec_D_800E3D7C *)position)->unk_0C.as_s32 = 0;
+        func_800A2B04(position, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        func_800AD594(actor, 4);
+        func_800A4ACC(actor);
+        global_counters = (s16 *)&D_80083460;
+        if (global_counters[4] != 0) {
+            ((u16 *)global_counters)[4]--;
         }
-        flags = ((S_801733B4_1 *)arg3)->unk_1C.u;
-        if (flags & 0x2000) {
-            if (((S_801733B4_1 *)arg3)->unk_46 & 0x8000) {
-                ((S_801733B4_1 *)arg3)->unk_46 &= 0x7FFF;
+        actor_flags = ((S_801733B4_1 *)actor)->unk_1C.u;
+        if (actor_flags & 0x2000) {
+            if (((S_801733B4_1 *)actor)->unk_46 & 0x8000) {
+                ((S_801733B4_1 *)actor)->unk_46 &= 0x7FFF;
                 goto check_actor;
             }
         } else {
-            if (flags & 0x410) {
+            if (actor_flags & 0x410) {
                 goto check_actor;
             }
-            if (!(flags & 0x20000)) {
+            if (!(actor_flags & 0x20000)) {
                 goto check_actor;
             }
-            ((S_801733B4_1 *)arg3)->unk_2A = func_800A0818(
-                ((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25,
-                D_80082E80[0x24], D_80082E80[0x25], &scratch);
+            ((S_801733B4_1 *)actor)->unk_2A = func_800A0818(
+                ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                D_80082E80[0x24], D_80082E80[0x25], &facing_aux);
         }
 
 check_actor:
-        if ((func_800AD9B4(arg2, arg3) << 16) > 0) {
-            ((S_801733B4_0 *)arg0)->unk_8C = &D_80171F1C;
-            func_800A9A04(arg3);
+        if ((func_800AD9B4(sprite, actor) << 16) > 0) {
+            ((S_801733B4_0 *)motion)->unk_8C = &D_80171F1C;
+            func_800A9A04(actor);
         }
     }
 }

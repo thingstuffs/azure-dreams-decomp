@@ -37,46 +37,47 @@ typedef struct S_818C3898_4 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_800814A0[3];
 extern void func_800478B8(void *arg0);
-void func_818C3898(void *arg0, void *arg1, Rec_D_80082E80 *arg2) {
-    s16 temp_lo;
-    s32 temp_s0;
-    s32 var_v1;
-    s32 var_v1_adj;
-    s32 temp_a0;
-    u16 temp_v0;
-    S_818C3898_1 *temp_v1;
-    S_818C3898_3 *temp_arg1;
-    s32 *temp_d;
+/* Advance effect motion, color, rotation, and size, and flag lifetime expiration. */
+void func_818C3898(void *effect, void *motion_data, Rec_D_80082E80 *sprite) {
+    s16 size;
+    s32 color_step;
+    s32 color_index;
+    s32 quarter_bias;
+    s32 half_color;
+    u16 frame;
+    S_818C3898_1 *owner;
+    S_818C3898_3 *motion;
+    s32 *global_flags;
 
-    temp_v1 = ((S_818C3898_0 *)arg0)->unk_00;
-    temp_arg1 = arg1;
-    temp_v1->unk_0C = (u16) (temp_v1->unk_0C + 1);
-    temp_v0 = ((S_818C3898_0 *)arg0)->unk_10;
-    temp_v0 = (u16) (temp_v0 + 1);
-    temp_s0 = (s16) temp_v0;
-    ((S_818C3898_0 *)arg0)->unk_10 = temp_v0;
-    temp_s0 = temp_s0 % 7;
-    temp_s0 += 1;
-    func_800478B8(arg2);
-    var_v1 = (s16) temp_s0;
-    arg2->unk_1A.as_u16 = (u16) (arg2->unk_1A.as_u16 + 0x300);
-    var_v1_adj = var_v1;
-    if (var_v1 < 0) {
-        var_v1_adj = var_v1 + 3;
+    owner = ((S_818C3898_0 *)effect)->unk_00;
+    motion = motion_data;
+    owner->unk_0C = (u16) (owner->unk_0C + 1);
+    frame = ((S_818C3898_0 *)effect)->unk_10;
+    frame = (u16) (frame + 1);
+    color_step = (s16) frame;
+    ((S_818C3898_0 *)effect)->unk_10 = frame;
+    color_step = color_step % 7;
+    color_step += 1;
+    func_800478B8(sprite);
+    color_index = (s16) color_step;
+    sprite->unk_1A.as_u16 = (u16) (sprite->unk_1A.as_u16 + 0x300);
+    quarter_bias = color_index;
+    if (color_index < 0) {
+        quarter_bias = color_index + 3;
     }
-    temp_a0 = (s32) (var_v1 + ((u32) (temp_s0 << 0x10) >> 0x1F)) >> 1;
-    arg2->unk_0C.at00_s8.v = (s8) ((var_v1_adj >> 2) << 7);
-    arg2->unk_0C.at01_s8.v = (s8) ((s32) (((s16) temp_a0 - (((s32) ((s16) temp_a0 + ((u32) (temp_a0 << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
-    arg2->unk_0C.at02_s8.v = (s8) ((s32) ((var_v1 - (temp_a0 * 2)) << 0x10) >> 9);
-    temp_lo = (0x1400 / (s16) ((S_818C3898_0 *)arg0)->unk_14) * (s16) ((S_818C3898_0 *)arg0)->unk_10;
-    arg2->unk_1C.at02_s16.v = temp_lo;
-    arg2->unk_1C.at00_s16.v = temp_lo;
-    temp_arg1->unk_00 = (s32) (temp_arg1->unk_00 + temp_arg1->unk_0C);
-    temp_arg1->unk_04 = (s32) (temp_arg1->unk_04 + temp_arg1->unk_10);
-    temp_arg1->unk_08 = (s32) (temp_arg1->unk_08 + temp_arg1->unk_14);
-    if ((s16) ((S_818C3898_0 *)arg0)->unk_10 > ((S_818C3898_0 *)arg0)->unk_14) {
-        ((S_818C3898_0_pre *)arg0)[-1].unk_00 = (u16) (((S_818C3898_0_pre *)arg0)[-1].unk_00 | 0x8000);
-        temp_d = D_800814A0;
-        ((S_818C3898_4 *)temp_d)->unk_00 = (s32) (((S_818C3898_4 *)temp_d)->unk_00 | 0x8000);
+    half_color = (s32) (color_index + ((u32) (color_step << 0x10) >> 0x1F)) >> 1;
+    sprite->unk_0C.at00_s8.v = (s8) ((quarter_bias >> 2) << 7);
+    sprite->unk_0C.at01_s8.v = (s8) ((s32) (((s16) half_color - (((s32) ((s16) half_color + ((u32) (half_color << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
+    sprite->unk_0C.at02_s8.v = (s8) ((s32) ((color_index - (half_color * 2)) << 0x10) >> 9);
+    size = (0x1400 / (s16) ((S_818C3898_0 *)effect)->unk_14) * (s16) ((S_818C3898_0 *)effect)->unk_10;
+    sprite->unk_1C.at02_s16.v = size;
+    sprite->unk_1C.at00_s16.v = size;
+    motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C);
+    motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10);
+    motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14);
+    if ((s16) ((S_818C3898_0 *)effect)->unk_10 > ((S_818C3898_0 *)effect)->unk_14) {
+        ((S_818C3898_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C3898_0_pre *)effect)[-1].unk_00 | 0x8000);
+        global_flags = D_800814A0;
+        ((S_818C3898_4 *)global_flags)->unk_00 = (s32) (((S_818C3898_4 *)global_flags)->unk_00 | 0x8000);
     }
 }

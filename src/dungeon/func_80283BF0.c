@@ -38,90 +38,91 @@ typedef struct S_80016BF0_4 {
 
 extern u8 D_80083160[];
 
-void func_80016BF0(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+/* Apply tile type flags to a map rectangle and mark adjacent tiles where required. */
+void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
 {
-    register s16 held_arg2 ASM_REG("$16") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_a3;
-    s32 temp_v1_3;
-    s32 temp_t6;
-    s32 temp_t5;
-    s32 var_a1;
-    s32 var_t1;
-    u32 temp_a2;
-    u8 *temp_v1;
-    u8 *temp_t4;
-    u8 *temp_v1_2;
-    u8 *temp_v1_6;
-    void *temp_a0;
-    S_80016BF0_0 *temp_t0;
-    u8 *temp_base;
-    S_80016BF0_3 *temp_v1_4;
-    S_80016BF0_4 *temp_v1_5;
+    register s16 held_width ASM_REG("$16") = width;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 tile_y;
+    s32 tile_x;
+    s32 tiles_base;
+    s32 row_width;
+    s32 col;
+    s32 row;
+    u32 tile_id;
+    u8 *flag_table;
+    u8 *tile_flags;
+    u8 *flags;
+    u8 *extra_flags;
+    void *tile;
+    S_80016BF0_0 *map;
+    u8 *state;
+    S_80016BF0_3 *tile_above;
+    S_80016BF0_4 *tile_below;
 
-    temp_base = D_80083160;
-    temp_t0 = temp_base + 0x1DC;
-    temp_v1 = temp_t0->unk_10;
-    if (temp_v1 != 0) {
-        var_t1 = 0;
-        temp_t6 = ((S_80016BF0_1 *)temp_base)->unk_1DC;
-        temp_t4 = temp_v1;
-        if ((arg3 << 0x10) > 0) {
+    state = D_80083160;
+    map = state + 0x1DC;
+    flag_table = map->unk_10;
+    if (flag_table != 0) {
+        row = 0;
+        tiles_base = ((S_80016BF0_1 *)state)->unk_1DC;
+        tile_flags = flag_table;
+        if ((height << 0x10) > 0) {
             do {
-                var_a1 = 0;
-                if (arg2 > 0) {
-                    temp_a3 = arg1 + var_t1;
-                    temp_t5 = held_arg2;
+                col = 0;
+                if (width > 0) {
+                    tile_y = start_y + row;
+                    row_width = held_width;
                     do {
-                        temp_a0 = (void *)(temp_t6 + (((temp_a3 << temp_t0->unk_14) + arg0 + var_a1) * 6));
-                        temp_a2 = ((S_80016BF0_2 *)temp_a0)->unk_00;
-                        temp_v1_2 = temp_t4 + temp_a2;
-                        if (*temp_v1_2 & 1) {
-                            ((S_80016BF0_2 *)temp_a0)->unk_04 = (u16)(((S_80016BF0_2 *)temp_a0)->unk_04 | 1);
+                        tile = (void *)(tiles_base + (((tile_y << map->unk_14) + start_x + col) * 6));
+                        tile_id = ((S_80016BF0_2 *)tile)->unk_00;
+                        flags = tile_flags + tile_id;
+                        if (*flags & 1) {
+                            ((S_80016BF0_2 *)tile)->unk_04 = (u16)(((S_80016BF0_2 *)tile)->unk_04 | 1);
                         }
-                        if (*temp_v1_2 & 4) {
-                            ((S_80016BF0_2 *)temp_a0)->unk_04 = (u16)(((S_80016BF0_2 *)temp_a0)->unk_04 | 4);
+                        if (*flags & 4) {
+                            ((S_80016BF0_2 *)tile)->unk_04 = (u16)(((S_80016BF0_2 *)tile)->unk_04 | 4);
                         }
-                        if (*temp_v1_2 & 8) {
-                            ((S_80016BF0_2 *)temp_a0)->unk_04 = (u16)(((S_80016BF0_2 *)temp_a0)->unk_04 | 8);
+                        if (*flags & 8) {
+                            ((S_80016BF0_2 *)tile)->unk_04 = (u16)(((S_80016BF0_2 *)tile)->unk_04 | 8);
                         }
-                        if (*temp_v1_2 & 0x20) {
-                            ((S_80016BF0_2 *)temp_a0)->unk_04 = (u16)(((S_80016BF0_2 *)temp_a0)->unk_04 | 0x400);
+                        if (*flags & 0x20) {
+                            ((S_80016BF0_2 *)tile)->unk_04 = (u16)(((S_80016BF0_2 *)tile)->unk_04 | 0x400);
                         }
-                        temp_v1_3 = var_a1 + arg0;
-                        if (*temp_v1_2 & 2) {
-                            if (temp_v1_3 > 0) {
-                                ((S_80016BF0_2_pre *)temp_a0)[-1].unk_00 = (u16)(((S_80016BF0_2_pre *)temp_a0)[-1].unk_00 | 1);
+                        tile_x = col + start_x;
+                        if (*flags & 2) {
+                            if (tile_x > 0) {
+                                ((S_80016BF0_2_pre *)tile)[-1].unk_00 = (u16)(((S_80016BF0_2_pre *)tile)[-1].unk_00 | 1);
                             }
-                            if (temp_v1_3 < ((1 << temp_t0->unk_14) - 1)) {
-                                ((S_80016BF0_2 *)temp_a0)->unk_0A = (u16)(((S_80016BF0_2 *)temp_a0)->unk_0A | 1);
+                            if (tile_x < ((1 << map->unk_14) - 1)) {
+                                ((S_80016BF0_2 *)tile)->unk_0A = (u16)(((S_80016BF0_2 *)tile)->unk_0A | 1);
                             }
-                            if (temp_a3 > 0) {
-                                temp_v1_4 = (void *)((((0 - (1 << temp_t0->unk_14)) * 6)) + (u32)temp_a0);
-                                temp_v1_4->unk_04 = (u16)(temp_v1_4->unk_04 | 1);
+                            if (tile_y > 0) {
+                                tile_above = (void *)((((0 - (1 << map->unk_14)) * 6)) + (u32)tile);
+                                tile_above->unk_04 = (u16)(tile_above->unk_04 | 1);
                             }
-                            if (temp_a3 < ((1 << temp_t0->unk_16) - 1)) {
-                                temp_v1_5 = (u8 *)temp_a0 + (6 << temp_t0->unk_14);
-                                temp_v1_5->unk_04 = (u16)(temp_v1_5->unk_04 | 1);
+                            if (tile_y < ((1 << map->unk_16) - 1)) {
+                                tile_below = (u8 *)tile + (6 << map->unk_14);
+                                tile_below->unk_04 = (u16)(tile_below->unk_04 | 1);
                             }
                         }
-                        temp_v1_6 = temp_t4 + temp_a2;
-                        if (*temp_v1_6 & 0x80) {
-                            ((S_80016BF0_2 *)temp_a0)->unk_04 = (u16)(((S_80016BF0_2 *)temp_a0)->unk_04 | 0x8000);
+                        extra_flags = tile_flags + tile_id;
+                        if (*extra_flags & 0x80) {
+                            ((S_80016BF0_2 *)tile)->unk_04 = (u16)(((S_80016BF0_2 *)tile)->unk_04 | 0x8000);
                         }
-                        if (*temp_v1_6 & 0x40) {
-                            ((S_80016BF0_2 *)temp_a0)->unk_04 = (u16)(((S_80016BF0_2 *)temp_a0)->unk_04 | 0x40);
+                        if (*extra_flags & 0x40) {
+                            ((S_80016BF0_2 *)tile)->unk_04 = (u16)(((S_80016BF0_2 *)tile)->unk_04 | 0x40);
                         }
-                        var_a1 += 1;
-                    } while (var_a1 < temp_t5);
+                        col += 1;
+                    } while (col < row_width);
                 }
-                var_t1 += 1;
-            } while (var_t1 < arg3);
+                row += 1;
+            } while (row < height);
         }
     }
-    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(held_width);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }
 
-/* MECHANISM: The 8-byte leaf frame preserves arg2 in pinned s0; the body
+/* MECHANISM: The 8-byte leaf frame preserves width in pinned s0; the body
    holds the D_80083160 base through the early branch and hoists its 0x1dc
    table pointer before both nested loops. The map pointer and signed inner
    bound split v1->t4 and s0->t5; BASE[index] fixes the neighbor addu order. */

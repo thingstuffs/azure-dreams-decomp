@@ -14,25 +14,26 @@ typedef struct {
 extern void func_80033D08(void *arg0);
 extern u32 D_800814A0;
 
-void func_8003C520(void *arg0, void *arg1, Func8003C520Data *arg2) {
-    s32 value_e = arg2->unk_0E;
-    s32 value_1c = arg2->unk_1C;
+/* Decreases intensity and marks the object finished when its countdown expires. */
+void func_8003C520(void *object, void *unused, Func8003C520Data *data) {
+    s32 intensity = data->unk_0E;
+    s32 countdown = data->unk_1C;
 
-    value_e -= 0x10;
-    value_1c -= 0x200;
-    arg2->unk_1C = value_1c;
-    if (value_e < 0) {
-        value_e = 0;
+    intensity -= 0x10;
+    countdown -= 0x200;
+    data->unk_1C = countdown;
+    if (intensity < 0) {
+        intensity = 0;
     }
 
-    arg2->unk_0E = value_e;
-    arg2->unk_0D = value_e;
-    arg2->unk_0C = value_e;
-    if (*(s16 *)&arg2->unk_1C > 0) {
+    data->unk_0E = intensity;
+    data->unk_0D = intensity;
+    data->unk_0C = intensity;
+    if (*(s16 *)&data->unk_1C > 0) {
         return;
     }
 
-    func_80033D08(arg0);
-    *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    func_80033D08(object);
+    *(u16 *)((u8 *)object - 2) |= 0x8000;
     D_800814A0 |= 0x8000;
 }

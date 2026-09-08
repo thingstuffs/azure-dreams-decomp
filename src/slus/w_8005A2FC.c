@@ -14,8 +14,7 @@ typedef struct {
 
 extern S_80086CC0 D_80086CC0;
 
-/* Calls a fixed sequence of init/update routines, then re-initializes
- * D_80086CC0 (a small struct) via func_8005D838 with a size of 0x10. */
+/* Runs initialization and update routines, then reinitializes D_80086CC0. */
 void func_8005A2FC(void)
 {
     func_8005CA70();

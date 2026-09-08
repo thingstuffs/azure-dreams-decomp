@@ -50,20 +50,21 @@ extern s32 D_80175D50;
 extern s32 D_80175DC4;
 extern s16 D_80175DC8;
 
+/* Reset shared state and update the two occupied object slots. */
 void func_8016EE8C(void) {
-    s32 temp_a0;
-    s32 temp_s0;
-    s32 var_s1;
-    void *temp_a3;
+    s32 object_data;
+    s32 slot_offset;
+    s32 slot_index;
+    void *active_data;
     void *page_8001;
     void *page_800e;
-    void *temp_v1;
+    void *object_header;
 
-    var_s1 = 0;
+    slot_index = 0;
     page_8001 = (void *)0x80010000;
     page_800e = (void *)0x800E0000;
-    temp_a3 = D_80175D50 + 0x20;
-    ((S_8016EE8C_0 *)temp_a3)->unk_AF = 1;
+    active_data = D_80175D50 + 0x20;
+    ((S_8016EE8C_0 *)active_data)->unk_AF = 1;
     (*(s16 *)((u8 *)page_8001 + 0x371A)) = 0;
     (*(s16 *)((u8 *)page_8001 + 0x3718)) = 0;
     (*(s16 *)((u8 *)page_8001 + 0x3716)) = 0;
@@ -73,17 +74,17 @@ void func_8016EE8C(void) {
     ((S_8016EE8C_2 *)page_8001)->unk_3714 = (u16) ((((S_8016EE8C_2 *)page_8001)->unk_3714 | 9) & 0xFFEF);
     ((S_8016EE8C_2 *)page_8001)->unk_371C = (s32) D_80173C94;
     D_80175DC4 = D_80173D5C;
-    ((S_8016EE8C_0 *)temp_a3)->unk_AB = 0;
+    ((S_8016EE8C_0 *)active_data)->unk_AB = 0;
     do {
-        temp_s0 = var_s1 * 4;
-        temp_a0 = ((S_8016EE8C_5 *)((temp_s0 + ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v)))->unk_AC;
-        if (temp_a0 != 0) {
-            func_8009A028(temp_a0);
-            temp_v1 = ((S_8016EE8C_5 *)((temp_s0 + ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v)))->unk_AC - 0x20;
-            ((S_8016EE8C_4 *)temp_v1)->unk_10 = (s32) (((S_8016EE8C_4 *)temp_v1)->unk_10 | 0x80000000);
+        slot_offset = slot_index * 4;
+        object_data = ((S_8016EE8C_5 *)((slot_offset + ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v)))->unk_AC;
+        if (object_data != 0) {
+            func_8009A028(object_data);
+            object_header = ((S_8016EE8C_5 *)((slot_offset + ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v)))->unk_AC - 0x20;
+            ((S_8016EE8C_4 *)object_header)->unk_10 = (s32) (((S_8016EE8C_4 *)object_header)->unk_10 | 0x80000000);
         }
-        var_s1 += 1;
-    } while (var_s1 < 2);
+        slot_index += 1;
+    } while (slot_index < 2);
     func_8016E998(&D_80083780);
 }
 

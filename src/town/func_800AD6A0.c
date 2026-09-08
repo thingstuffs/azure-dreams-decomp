@@ -15,8 +15,9 @@ typedef struct S_800AAE00_1 {
     s16 unk_6C;
 } S_800AAE00_1;   /* arg0 in func_800AAE00 */
 
-void func_800AAE00(S_800AAE00_1 *arg0, S_800AAE00_0 *arg1) {
-    arg1->unk_15 = 1;
-    arg0->unk_50 = &D_800AAC64;
-    arg0->unk_6C = 0x15;
+/* Set the status flag and initialize the context's data pointer and code. */
+void func_800AAE00(S_800AAE00_1 *context, S_800AAE00_0 *status) {
+    status->unk_15 = 1;
+    context->unk_50 = &D_800AAC64;
+    context->unk_6C = 0x15;
 }

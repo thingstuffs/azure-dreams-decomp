@@ -8,29 +8,30 @@ extern s32 func_800AD9B4(void *, void *);
 extern u16 D_80083462[];
 extern u8 D_80171A80[];
 
-void func_80172FEC(void *arg0, s32 arg1, void *arg2, void *arg3)
+/* Updates actor behavior and state fields according to mode and input. */
+void func_80172FEC(void *state, s32 unused, void *action_arg, void *actor_arg)
 {
-    void *value = arg2;
-    void *actor = arg3;
+    void *action_data = action_arg;
+    void *actor = actor_arg;
 
     if (func_800AB1C0() != 0) {
-        if (*(u8 *)((u8 *)arg0 + 0xB5) == 0) {
+        if (*(u8 *)((u8 *)state + 0xB5) == 0) {
             func_800AD594(actor, 4);
             func_800A4ACC(actor);
-            if ((func_800AD9B4(value, actor) << 16) <= 0) {
+            if ((func_800AD9B4(action_data, actor) << 16) <= 0) {
                 return;
             }
         } else {
             func_800AD594(actor, 0x10);
             func_800A4ACC(actor);
         }
-        *(void **)((u8 *)arg0 + 0x8C) = D_80171A80;
+        *(void **)((u8 *)state + 0x8C) = D_80171A80;
     }
 
     if (D_80083462[0] & 0x80) {
-        *(s16 *)((u8 *)arg0 + 0x92) = -0x20;
-        if (*(u8 *)((u8 *)arg0 + 0xB5) != 0) {
-            *(s16 *)((u8 *)arg0 + 0x92) = 0;
+        *(s16 *)((u8 *)state + 0x92) = -0x20;
+        if (*(u8 *)((u8 *)state + 0xB5) != 0) {
+            *(s16 *)((u8 *)state + 0x92) = 0;
         }
     }
 }

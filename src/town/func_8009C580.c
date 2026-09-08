@@ -16,9 +16,10 @@ extern u8 D_80082660;
 extern M2C_UNK D_80099790;
 
 
-void func_80099CE0(Rec_func_80094268_arg0 *arg0) {
-    func_80094984(((S_80099CE0_2 *)(((Rec_func_80094268_arg0 *)arg0)->unk_44))->unk_08, arg0);
-    *((arg0->unk_40 * 8) + &D_80082660) = 0;
-    arg0->unk_04.as_pm = &D_80099790;
-    arg0->unk_0A.as_s16 = 0x20;
+/* Updates the object using its linked data, clears its slot flag, and resets its state. */
+void func_80099CE0(Rec_func_80094268_arg0 *object) {
+    func_80094984(((S_80099CE0_2 *)(((Rec_func_80094268_arg0 *)object)->unk_44))->unk_08, object);
+    *((object->unk_40 * 8) + &D_80082660) = 0;
+    object->unk_04.as_pm = &D_80099790;
+    object->unk_0A.as_s16 = 0x20;
 }

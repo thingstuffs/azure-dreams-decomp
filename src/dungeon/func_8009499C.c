@@ -25,6 +25,7 @@ extern struct {
 
 extern void func_80099FDC(void *arg0);
 
+/* Process nodes flagged 0x1000 and clear global bit 28 when D_80012090 is not 1. */
 void func_8009A0FC(void) {
     Node *node = D_80081498.head;
 
@@ -40,7 +41,3 @@ void func_8009A0FC(void) {
         D_800E296C.v &= 0xEFFFFFFF;
     }
 }
-
-/* MECHANISM: The natural list loop holds the node in s0 across the call, producing
-   the 0x18 frame and exact s0/ra saves.  A literal 0x80012090 lvalue selects the
-   absolute-lw macro whose expansion reuses v1 for both the address and loaded value. */

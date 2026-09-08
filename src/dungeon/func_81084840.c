@@ -7,7 +7,8 @@ typedef struct S_80172040_0 {
     s8 unk_9B;
 } S_80172040_0;   /* arg0 in func_80172040 */
 
-void func_80172040(S_80172040_0 *arg0) {
-    arg0->unk_9A = 0x10;
-    arg0->unk_9B = 0;
+/* Initialize the object's two state bytes to 0x10 and zero. */
+void func_80172040(S_80172040_0 *object) {
+    object->unk_9A = 0x10;
+    object->unk_9B = 0;
 }

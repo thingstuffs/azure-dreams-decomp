@@ -62,71 +62,72 @@ extern s32 func_8005D9DC(s32 handle);
 extern void func_8005DF80(void *buf);
 extern void func_8005E7E0(s32 idx);
 extern void func_8005D550(s32 a0, s32 handle, s32 a2);
-inline u8 *inline_fn_8005DA88(S_8005DA88_buf *arg0)
+inline u8 *inline_fn_8005DA88(S_8005DA88_buf *params)
 {
-  return (u8 *) arg0;
+  return (u8 *) params;
 }
 
-s32 func_8005DA88(S_8005DA88 *arg0, s32 arg1, s32 *arg2, s32 arg3)
+/* Update reverb mode, depth, delay and feedback, optionally clearing its work area. */
+s32 func_8005DA88(S_8005DA88 *settings, s32 unused_1, s32 *unused_2, s32 unused_3)
 {
-  S_8005DA88_buf buf;
+  S_8005DA88_buf reverb_params;
   s32 flags;
-  s32 isZero;
-  u32 idx;
-  s32 didC;
-  s32 didInit;
-  s32 didFp;
-  s32 s7flag;
-  s32 clearFlag;
-  s32 i;
-  u8 *src;
-  u8 *dst;
-  s32 i2;
-  u8 *src2;
-  u8 *dst2;
-  s32 i3;
-  u8 *src3;
-  u8 *dst3;
-  s32 temp;
-  s32 temp2;
-  s32 X;
-  u16 rmw;
-  s7flag = 0;
-  didInit = 0;
-  didC = 0;
-  clearFlag = 0;
-  flags = arg0->unk00;
-  didFp = 0;
-  isZero = flags == 0;
-  buf.unk00 = 0;
-  if (isZero || (flags & 1))
+  s32 update_all;
+  u32 mode;
+  s32 delay_changed;
+  s32 mode_changed;
+  s32 feedback_changed;
+  s32 reverb_enabled;
+  s32 clear_work_area;
+  s32 mode_bytes;
+  u8 *mode_src;
+  u8 *mode_dst;
+  s32 delay_bytes;
+  u8 *delay_src;
+  u8 *delay_dst;
+  s32 feedback_bytes;
+  u8 *feedback_src;
+  u8 *feedback_dst;
+  s32 delay;
+  s32 feedback;
+  s32 delay_offset;
+  u16 spu_control;
+  reverb_enabled = 0;
+  mode_changed = 0;
+  delay_changed = 0;
+  clear_work_area = 0;
+  flags = settings->unk00;
+  feedback_changed = 0;
+  update_all = flags == 0;
+  reverb_params.unk00 = 0;
+  if (update_all || (flags & 1))
   {
-    idx = arg0->unk04;
-    if (idx & 0x100)
+    mode = settings->unk04;
+    if (mode & 0x100)
     {
-      idx &= ~0x100;
-      clearFlag = 1;
+      mode &= ~0x100;
+      clear_work_area = 1;
     }
-    if (idx >= 0xAU)
-    {
-      return -1;
-    }
-    if (func_8005D9DC(D_800799C0[idx]) != 0)
+    if (mode >= 0xAU)
     {
       return -1;
     }
-    didInit = 1;
-    D_80079508[0] = idx;
+    if (func_8005D9DC(D_800799C0[mode]) != 0)
+    {
+      return -1;
+    }
+    mode_changed = 1;
+    D_80079508[0] = mode;
     D_80079500[0] = D_800799C0[D_80079508[0]];
-    src = inline_fn_8005DA88(&D_80079A10[D_80079508[0]]);
-    dst = inline_fn_8005DA88(&buf);
-    i = 0x43;
+    mode_src = inline_fn_8005DA88(&D_80079A10[D_80079508[0]]);
+    mode_dst = inline_fn_8005DA88(&reverb_params);
+    mode_bytes = 0x43;
     do
     {
-      *(dst++) = *(src++);
-      i--;
+      *(mode_dst++) = *(mode_src++);
+      mode_bytes--;
     }
-    while (i != (-1));
+    while (mode_bytes != (-1));
     switch (D_80079508[0])
     {
       case 7:
@@ -147,115 +148,115 @@ s32 func_8005DA88(S_8005DA88 *arg0, s32 arg1, s32 *arg2, s32 arg3)
     }
 
   }
-  if (isZero || (flags & 8))
+  if (update_all || (flags & 8))
   {
     if (D_80079508[0] < 9)
     {
       if (D_80079508[0] >= 7)
       {
-        didC = 1;
-        if (!didInit)
+        delay_changed = 1;
+        if (!mode_changed)
         {
-          src2 = inline_fn_8005DA88(&D_80079A10[D_80079508[0]]);
-          dst2 = inline_fn_8005DA88(&buf);
-          i2 = 0x43;
+          delay_src = inline_fn_8005DA88(&D_80079A10[D_80079508[0]]);
+          delay_dst = inline_fn_8005DA88(&reverb_params);
+          delay_bytes = 0x43;
           do
           {
-            *(dst2++) = *(src2++);
-            i2--;
+            *(delay_dst++) = *(delay_src++);
+            delay_bytes--;
           }
-          while (i2 != (-1));
-          buf.unk00 = 0x0C011C00;
+          while (delay_bytes != (-1));
+          reverb_params.unk00 = 0x0C011C00;
         }
-        temp = arg0->unk0C;
-        D_80079510[0] = temp;
-        X = (temp << 12) / 127;
-        buf.unk18 = (s16) (((temp << 13) / 127) - buf.unk04);
-        buf.unk1A = (s16) (X - buf.unk06);
-        buf.unk1C = (s16) (buf.unk1E + X);
-        buf.unk24 = (s16) (buf.unk26 + X);
-        buf.unk38 = (s16) (buf.unk3C + X);
-        buf.unk3A = (s16) (buf.unk3E + X);
+        delay = settings->unk0C;
+        D_80079510[0] = delay;
+        delay_offset = (delay << 12) / 127;
+        reverb_params.unk18 = (s16) (((delay << 13) / 127) - reverb_params.unk04);
+        reverb_params.unk1A = (s16) (delay_offset - reverb_params.unk06);
+        reverb_params.unk1C = (s16) (reverb_params.unk1E + delay_offset);
+        reverb_params.unk24 = (s16) (reverb_params.unk26 + delay_offset);
+        reverb_params.unk38 = (s16) (reverb_params.unk3C + delay_offset);
+        reverb_params.unk3A = (s16) (reverb_params.unk3E + delay_offset);
       }
     }
   }
-  if (isZero || (flags & 0x10))
+  if (update_all || (flags & 0x10))
   {
     if ((double) (D_80079508[0] < 9))
     {
       if (D_80079508[0] >= 7)
       {
-        didFp = 1;
-        if (!didInit)
+        feedback_changed = 1;
+        if (!mode_changed)
         {
-          if (!didC)
+          if (!delay_changed)
           {
-            src3 = inline_fn_8005DA88(&D_80079A10[D_80079508[0]]);
-            dst3 = inline_fn_8005DA88(&buf);
-            i3 = 0x43;
+            feedback_src = inline_fn_8005DA88(&D_80079A10[D_80079508[0]]);
+            feedback_dst = inline_fn_8005DA88(&reverb_params);
+            feedback_bytes = 0x43;
             do
             {
-              *(dst3++) = *(src3++);
-              i3--;
+              *(feedback_dst++) = *(feedback_src++);
+              feedback_bytes--;
             }
-            while (i3 != (-1));
-            buf.unk00 = 0x80;
+            while (feedback_bytes != (-1));
+            reverb_params.unk00 = 0x80;
           }
           else
           {
-            buf.unk00 |= 0x80;
+            reverb_params.unk00 |= 0x80;
           }
         }
-        temp2 = arg0->unk10;
-        D_80079514[0] = temp2;
-        buf.unk12 = (s16) ((temp2 * 0x8100) / 127);
+        feedback = settings->unk10;
+        D_80079514[0] = feedback;
+        reverb_params.unk12 = (s16) ((feedback * 0x8100) / 127);
       }
     }
   }
-  if (didInit)
+  if (mode_changed)
   {
-    s7flag = (D_80079958->field_1AA >> 7) & 1;
-    if (s7flag)
+    reverb_enabled = (D_80079958->field_1AA >> 7) & 1;
+    if (reverb_enabled)
     {
-      rmw = D_80079958->field_1AA;
-      rmw &= 0xFF7F;
-      D_80079958->field_1AA = rmw;
+      spu_control = D_80079958->field_1AA;
+      spu_control &= 0xFF7F;
+      D_80079958->field_1AA = spu_control;
     }
-    goto clears;
+    goto clear_depth;
   }
-  if (isZero || (flags & 2))
+  if (update_all || (flags & 2))
   {
-    D_80079958->field_184 = arg0->unk08;
-    D_8007950C[0] = arg0->unk08;
+    D_80079958->field_184 = settings->unk08;
+    D_8007950C[0] = settings->unk08;
   }
-  if (isZero || (flags & 4))
+  if (update_all || (flags & 4))
   {
-    D_80079958->field_186 = arg0->unk0A;
-    D_8007950E[0] = arg0->unk0A;
+    D_80079958->field_186 = settings->unk0A;
+    D_8007950E[0] = settings->unk0A;
   }
-  goto after_clears;
-clears:
+  goto apply_params;
+clear_depth:
   D_80079958->field_184 = 0;
   D_80079958->field_186 = 0;
   D_8007950C[0] = 0;
   D_8007950E[0] = 0;
-after_clears:
-  if ((didInit || didC) || didFp)
+apply_params:
+  if ((mode_changed || delay_changed) || feedback_changed)
   {
-    func_8005DF80(&buf);
+    func_8005DF80(&reverb_params);
   }
-  if (clearFlag)
+  if (clear_work_area)
   {
     func_8005E7E0(D_80079508[0]);
   }
-  if (didInit)
+  if (mode_changed)
   {
     func_8005D550(0xD1, D_80079500[0], 0);
-    if (s7flag)
+    if (reverb_enabled)
     {
-      rmw = D_80079958->field_1AA;
-      rmw |= 0x80;
-      D_80079958->field_1AA = rmw;
+      spu_control = D_80079958->field_1AA;
+      spu_control |= 0x80;
+      D_80079958->field_1AA = spu_control;
     }
   }
   return 0;

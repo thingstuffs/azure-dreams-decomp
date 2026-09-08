@@ -13,8 +13,9 @@ typedef struct S_800357B0_0 {
 
 extern M2C_UNK func_800357D0;
 
-void func_800357B0(S_800357B0_0 *arg0) {
-    if (arg0->unk_50 == 0x101) {
-        arg0->unk_68 = &func_800357D0;
+/* Assigns func_800357D0 to objects with code 0x101. */
+void func_800357B0(S_800357B0_0 *object) {
+    if (object->unk_50 == 0x101) {
+        object->unk_68 = &func_800357D0;
     }
 }

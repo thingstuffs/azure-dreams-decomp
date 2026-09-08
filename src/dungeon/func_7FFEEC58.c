@@ -1,18 +1,19 @@
 #include "common.h"
 
-s32 func_8008C3B8(s32 *base, s32 index, s16 *coeff) {
-    s32 *entry;
-    s32 sum;
+// Returns the sign of a weighted sum of the selected entry's first two components divided by 4096.
+s32 func_8008C3B8(s32 *entries, s32 entryIndex, s16 *weights) {
+    s32 *selectedEntry;
+    s32 weightedSum;
 
-    index <<= 4;
-    index += (s32)base;
-    entry = (s32 *)index;
-    sum = (coeff[0] * (entry[0] / 4096)) +
-          (coeff[1] * (entry[1] / 4096));
-    if (sum == 0) {
+    entryIndex <<= 4;
+    entryIndex += (s32)entries;
+    selectedEntry = (s32 *)entryIndex;
+    weightedSum = (weights[0] * (selectedEntry[0] / 4096)) +
+                  (weights[1] * (selectedEntry[1] / 4096));
+    if (weightedSum == 0) {
         return 0;
     }
-    if (sum < 0) {
+    if (weightedSum < 0) {
         return -1;
     }
     return 1;

@@ -52,64 +52,65 @@ typedef struct S_800BBA40_3 {
     s32 unk_60;
 } S_800BBA40_3;   /* var_v1 in func_800BBA40 */
 
-void *func_800BBA40(s32 arg0, s32 arg1, s16 arg2, M2C_UNK arg3, s32 arg4, s32 arg5, s32 arg6) {
+/* Creates an effect at the tile center and initializes its rendering and five angles. */
+void *func_800BBA40(s32 tile_x, s32 tile_y, s16 pos_z, M2C_UNK transform_data, s32 scale, s32 setup_word_5c, s32 setup_word_60) {
     s32 call_data[2];
-    s16 var_a1;
-    void *temp_v0;
-    S_800BBA40_1 *temp_v1;
-    S_800BBA40_2 *temp_v1_2;
-    s32 held_arg0 = arg0;
-    register s32 held_arg1 ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 held_arg2 ASM_REG("$21") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register M2C_UNK held_arg3 ASM_REG("$22") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 angle;
+    void *effect;
+    S_800BBA40_1 *position;
+    S_800BBA40_2 *render_data;
+    s32 held_tile_x = tile_x;
+    register s32 held_tile_y ASM_REG("$20") = tile_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 held_pos_z ASM_REG("$21") = pos_z;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register M2C_UNK held_transform ASM_REG("$22") = transform_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *setup_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     call_data[0] = 0x01000340;
     call_data[1] = 0x01000080;
     func_800BB2E4(0, 0, call_data, 1, 0);
-    temp_v0 = func_8003FD64(0x12, &D_80083498);
-    if (temp_v0 != NULL) {
-        s32 var_a0;
-        void *var_v1;
+    effect = func_8003FD64(0x12, &D_80083498);
+    if (effect != NULL) {
+        s32 angle_index;
+        void *setup_cursor;
 
         func_800A56E0(0x704);
-        ((S_800BBA40_0 *)temp_v0)->unk_10 = &D_800BB55C;
-        func_8004491C(temp_v0, &D_800BBA20);
-        temp_v1 = ((S_800BBA40_0 *)temp_v0)->unk_08;
-        temp_v1->unk_02 = (s16) (((s32) (held_arg0 << 0x10) >> 0xA) + 0x20);
-        temp_v1->unk_06 = (s16) (((s32) (held_arg1 << 0x10) >> 0xA) + 0x20);
-        temp_v1->unk_0A = held_arg2;
-        temp_v1_2 = ((S_800BBA40_0 *)temp_v0)->unk_0C;
-        temp_v1_2->unk_08 = &D_800DF3C0;
-        temp_v1_2->unk_1E = 0x1000;
-        temp_v1_2->unk_1C = 0x1000;
-        temp_v1_2->unk_0C = 0x808080;
-        temp_v1_2->unk_06 = 8;
-        func_8003DB94(temp_v0 + 0x2C, held_arg3, 0);
-        ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        setup_base = temp_v0 + 0x20;
+        ((S_800BBA40_0 *)effect)->unk_10 = &D_800BB55C;
+        func_8004491C(effect, &D_800BBA20);
+        position = ((S_800BBA40_0 *)effect)->unk_08;
+        position->unk_02 = (s16) (((s32) (held_tile_x << 0x10) >> 0xA) + 0x20);
+        position->unk_06 = (s16) (((s32) (held_tile_y << 0x10) >> 0xA) + 0x20);
+        position->unk_0A = held_pos_z;
+        render_data = ((S_800BBA40_0 *)effect)->unk_0C;
+        render_data->unk_08 = &D_800DF3C0;
+        render_data->unk_1E = 0x1000;
+        render_data->unk_1C = 0x1000;
+        render_data->unk_0C = 0x808080;
+        render_data->unk_06 = 8;
+        func_8003DB94(effect + 0x2C, held_transform, 0);
+        ASM_KEEP(held_tile_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_pos_z);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_transform);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        setup_base = effect + 0x20;
         ASM_KEEP(setup_base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        var_v1 = setup_base;
-        ((S_800BBA40_3 *)var_v1)->unk_2A = (s16) arg4;
-        ((S_800BBA40_3 *)var_v1)->unk_28 = (s16) arg4;
-        ((S_800BBA40_3 *)var_v1)->unk_18 = 0x808080;
-        var_a1 = -0x400;
-        ((S_800BBA40_3 *)var_v1)->unk_5C = arg5;
-        var_a0 = 0;
-        ((S_800BBA40_3 *)var_v1)->unk_60 = arg6;
+        setup_cursor = setup_base;
+        ((S_800BBA40_3 *)setup_cursor)->unk_2A = (s16) scale;
+        ((S_800BBA40_3 *)setup_cursor)->unk_28 = (s16) scale;
+        ((S_800BBA40_3 *)setup_cursor)->unk_18 = 0x808080;
+        angle = -0x400;
+        ((S_800BBA40_3 *)setup_cursor)->unk_5C = setup_word_5c;
+        angle_index = 0;
+        ((S_800BBA40_3 *)setup_cursor)->unk_60 = setup_word_60;
         do {
-            ((S_800BBA40_3 *)var_v1)->unk_3C = var_a1;
-            var_a1 += 0x999;
-            var_a0 += 1;
-            ASM_KEEP(var_a0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            var_v1 += 2;
-        } while (var_a0 < 5);
-        ASM_KEEP(var_v1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            ((S_800BBA40_3 *)setup_cursor)->unk_3C = angle;
+            angle += 0x999;
+            angle_index += 1;
+            ASM_KEEP(angle_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            setup_cursor += 2;
+        } while (angle_index < 5);
+        ASM_KEEP(setup_cursor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         func_800C77D0(&D_80083498, &D_80083780, 8, 0x300);
     }
-    return temp_v0;
+    return effect;
 }
 
 /* MECHANISM: A two-word stack array preserves both call-data initializers in the 0x40 frame.

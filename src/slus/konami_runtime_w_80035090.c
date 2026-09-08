@@ -27,7 +27,8 @@ typedef struct S_80035090_0 {
 } S_80035090_0;   /* arg0 in func_80035090 */
 
 
-void func_80035090(S_80035090_0 *arg0) {
-    ((S_80035090_2 *)(((S_80035090_1 *)arg0)->unk_04))->unk_08 = (void *) arg0->unk_08;
-    ((S_80035090_3 *)(((S_80035090_1 *)arg0)->unk_08))->unk_04 = (void *) arg0->unk_04;
+/* Unlink a node from a doubly linked list by connecting its neighbors. */
+void func_80035090(S_80035090_0 *node) {
+    ((S_80035090_2 *)(((S_80035090_1 *)node)->unk_04))->unk_08 = (void *) node->unk_08;
+    ((S_80035090_3 *)(((S_80035090_1 *)node)->unk_08))->unk_04 = (void *) node->unk_04;
 }

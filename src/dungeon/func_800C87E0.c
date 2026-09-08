@@ -28,45 +28,46 @@ extern ActiveEntry D_800E3648[32];
 extern FirstEntry D_800E36C8[64];
 extern SecondEntry D_800E39C8[32];
 
-void func_800CDF40(s16 arg0, s16 arg1, s16 arg2) {
-    FirstEntry *entry1;
-    ActiveEntry *status1;
-    SecondEntry *entry2;
-    ActiveEntry *status2;
-    s32 i1;
-    register s32 i2 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 x1;
-    s32 y1;
-    s32 x2;
-    s32 y2;
+/* Sets the value of all active entries at the given coordinates in both tables. */
+void func_800CDF40(s16 x, s16 y, s16 value) {
+    FirstEntry *first_entry;
+    ActiveEntry *first_status;
+    SecondEntry *second_entry;
+    ActiveEntry *second_status;
+    s32 first_index;
+    register s32 second_index ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 first_x;
+    s32 first_y;
+    s32 second_x;
+    s32 second_y;
 
-    i1 = 0;
-    x1 = arg0;
-    y1 = arg1;
-    entry1 = D_800E36C8;
-    status1 = D_800E3548;
+    first_index = 0;
+    first_x = x;
+    first_y = y;
+    first_entry = D_800E36C8;
+    first_status = D_800E3548;
     do {
-        if (status1->active != 0 && entry1->x == x1 && entry1->y == y1) {
-            entry1->value = arg2;
+        if (first_status->active != 0 && first_entry->x == first_x && first_entry->y == first_y) {
+            first_entry->value = value;
         }
-        entry1++;
-        i1++;
-        status1++;
-    } while (i1 < 64);
+        first_entry++;
+        first_index++;
+        first_status++;
+    } while (first_index < 64);
 
-    i2 = 0;
-    x2 = arg0;
-    y2 = arg1;
-    entry2 = D_800E39C8;
-    status2 = D_800E3648;
+    second_index = 0;
+    second_x = x;
+    second_y = y;
+    second_entry = D_800E39C8;
+    second_status = D_800E3648;
     do {
-        if (status2->active != 0 && entry2->x == x2 && entry2->y == y2) {
-            entry2->value = arg2;
+        if (second_status->active != 0 && second_entry->x == second_x && second_entry->y == second_y) {
+            second_entry->value = value;
         }
-        entry2++;
-        i2++;
-        status2++;
-    } while (i2 < 32);
+        second_entry++;
+        second_index++;
+        second_status++;
+    } while (second_index < 32);
 }
 
 /* MECHANISM: Frameless leaf with exact 12-byte/24-byte record strides and narrow stores.

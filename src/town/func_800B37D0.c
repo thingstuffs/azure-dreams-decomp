@@ -5,18 +5,19 @@ M2C_UNK func_8004B1A4();                         /* extern */
 s32 func_8004B404();                         /* extern */
 s32 func_800B0E18();                        /* extern */
 
-s32 func_800B0F30(s32 arg0) {
-    s32 temp_v0;
-    s32 var_v0;
+/* Allocates and initializes an object, releasing it if initialization fails. */
+s32 func_800B0F30(s32 initializationArg) {
+    s32 allocatedObject;
+    s32 resultObject;
 
-    temp_v0 = func_8004B404(0x100);
-    var_v0 = temp_v0;
-    if (temp_v0 != 0) {
-        var_v0 = temp_v0;
-        if (func_800B0E18(temp_v0, arg0) == 0) {
-            func_8004B1A4(temp_v0);
-            var_v0 = 0;
+    allocatedObject = func_8004B404(0x100);
+    resultObject = allocatedObject;
+    if (allocatedObject != 0) {
+        resultObject = allocatedObject;
+        if (func_800B0E18(allocatedObject, initializationArg) == 0) {
+            func_8004B1A4(allocatedObject);
+            resultObject = 0;
         }
     }
-    return var_v0;
+    return resultObject;
 }

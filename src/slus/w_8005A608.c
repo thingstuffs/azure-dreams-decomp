@@ -29,43 +29,42 @@ extern s32 D_8007382C[3]; /* size > 8: forced hi/lo, no $gp */
 extern void func_8005A1D0(s32);
 extern s32 func_80059E94(s32);
 
-s32 func_8005A608(Sound *arg0, s16 arg1)
+/* Initializes a requested or free sound slot and returns its index. */
+s32 func_8005A608(Sound *sound, s16 requested_slot)
 {
-    s16 i;
-    s16 sel;
-    s32 idx;
+    s16 slot_index;
+    s16 selected_slot;
+    s32 result_index;
     S_80086A40 *slot;
-    s32 base;
-    s32 len;
 
     D_8007382C[0] = 0;
-    i = 0;
-    sel = arg1;
-    if (sel == -1) {
+    slot_index = 0;
+    selected_slot = requested_slot;
+    if (selected_slot == -1) {
         do {
-            if (D_80086A40[i].marker == -1) {
+            if (D_80086A40[slot_index].marker == -1) {
                 goto found;
             }
-            i++;
-        } while (i < 16);
+            slot_index++;
+        } while (slot_index < 16);
         return -1;
     }
-    i = sel;
-    if (D_80086A40[i].marker != -1) {
-        func_8005A1D0(D_80086A40[i].unk10);
+    slot_index = selected_slot;
+    if (D_80086A40[slot_index].marker != -1) {
+        func_8005A1D0(D_80086A40[slot_index].unk10);
     }
 found:
-    idx = i;
-    slot = &D_80086A40[idx];
-    slot->marker = i;
-    slot->unk04 = (s32)arg0;
-    slot->unk08 = (arg0->unk12 << 9) + 0xA20;
-    slot->unk14 = arg0->unk0C - slot->unk08;
-    slot->unk18 = arg0->unk18;
-    slot->unk1B = arg0->unk19;
+    result_index = slot_index;
+    slot = &D_80086A40[result_index];
+    slot->marker = slot_index;
+    slot->unk04 = (s32)sound;
+    slot->unk08 = (sound->unk12 << 9) + 0xA20;
+    slot->unk14 = sound->unk0C - slot->unk08;
+    slot->unk18 = sound->unk18;
+    slot->unk1B = sound->unk19;
     slot->unk10 = func_80059E94(slot->unk14);
     if (slot->unk10 == -1) {
         return -1;
     }
-    return idx;
+    return result_index;
 }

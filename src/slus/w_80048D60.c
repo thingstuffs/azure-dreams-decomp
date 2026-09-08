@@ -14,13 +14,14 @@ typedef struct {
 extern int D_800212DC[8]; /* hi/lo global; only its address is used here */
 extern void func_8004B568(void *arg0);
 
-void func_80048D60(void *arg0)
+/* Clear flag 0x2000, reset the data pointer, and update the flagged sub-object. */
+void func_80048D60(void *sub_obj)
 {
-    S_80048D60 *base = (S_80048D60 *)((unsigned char *)arg0 - 0x10);
+    S_80048D60 *header = (S_80048D60 *)((unsigned char *)sub_obj - 0x10);
 
-    if (base->flags & 0x2000) {
-        base->flags &= 0xDFFF;
-        base->field_00 = &D_800212DC;
-        func_8004B568(arg0);
+    if (header->flags & 0x2000) {
+        header->flags &= 0xDFFF;
+        header->field_00 = &D_800212DC;
+        func_8004B568(sub_obj);
     }
 }

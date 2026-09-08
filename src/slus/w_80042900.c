@@ -16,43 +16,44 @@ typedef struct {
     S_80042900_Effect effects[4];
 } S_80042900;
 
-s32 func_80042900(S_80042900 *a0, s32 a1)
+/* Returns an effect value, 0x100 for a zero-valued match, or a type-specific fallback. */
+s32 func_80042900(S_80042900 *entry, s32 effect_id)
 {
-    s32 key = a1;
-    register s32 orig ASM_REG("$7") = a1;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register u8 *effect_base ASM_REG("$3") = (u8 *)a0 + 6;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s32 i;
+    s32 effect_type = effect_id;
+    register s32 saved_id ASM_REG("$7") = effect_id;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register u8 *effect_base ASM_REG("$3") = (u8 *)entry + 6;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 effect_index;
 
-    key = (u32)key << 24;
-    key >>= 24;
-    if (key != 0) {
-        for (i = 3; i >= 0; i--, effect_base -= 2) {
-            if (*(s8 *)(effect_base + 0x2C) == key) {
-                s32 value = *(s8 *)(effect_base + 0x2D);
+    effect_type = (u32)effect_type << 24;
+    effect_type >>= 24;
+    if (effect_type != 0) {
+        for (effect_index = 3; effect_index >= 0; effect_index--, effect_base -= 2) {
+            if (*(s8 *)(effect_base + 0x2C) == effect_type) {
+                s32 effect_value = *(s8 *)(effect_base + 0x2D);
 
-                if (value != 0) {
-                    return value;
+                if (effect_value != 0) {
+                    return effect_value;
                 }
                 return 0x100;
             }
         }
     }
     {
-        s32 temp;
-        s32 signed_orig;
+        s32 result;
+        s32 fallback_type;
 
-        temp = (u32)orig << 24;
-        signed_orig = temp >> 24;
-        if (signed_orig == 0xE) {
-            return *(volatile u8 *)&a0->field_0x28 < 1;
+        result = (u32)saved_id << 24;
+        fallback_type = result >> 24;
+        if (fallback_type == 0xE) {
+            return *(volatile u8 *)&entry->field_0x28 < 1;
         }
-        temp = 0xD;
-        if (signed_orig != temp) {
-            temp = 0;
+        result = 0xD;
+        if (fallback_type != result) {
+            result = 0;
         } else {
-            temp = 0;
-            signed_orig = *((volatile s32 *)&a0->field_0x14);
+            result = 0;
+            fallback_type = *((volatile s32 *)&entry->field_0x14);
         }
-        return temp;
+        return result;
     }
 }

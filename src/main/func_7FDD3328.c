@@ -102,292 +102,289 @@ extern void func_80053DCC();
 extern void func_80053DF0();
 extern void func_80053E14();
 extern void func_80088BD0();
-void func_8008A288(Menu *m)
+/* Handles the options menu, adjusting audio levels and applying display settings. */
+void func_8008A288(Menu *menu)
 {
   Pad *pad;
-  s32 flags;
+  s32 buttons;
   s32 delta;
   s32 row;
-  s32 val;
-  s32 *slot;
-  s32 *bp;
-  s32 t0;
-  s32 *pa;
-  s32 *pd;
-  s32 *pb;
-  s32 *pc;
-  s16 *cell;
-  s32 r;
-  s32 g;
-  s32 b;
-  s32 sh0;
-  s32 chi;
-  s32 packed;
-  u16 f;
-  u16 f2;
-  s32 idx;
-  s32 tb;
-  s32 gc;
+  s32 adjusted_value;
+  s32 *level_slot;
+  s32 *levels;
+  s32 level;
+  s32 *volume_a;
+  s32 *settings_flags;
+  s32 *volume_c;
+  s32 *volume_b;
+  s16 *color_base;
+  s32 scaled_a;
+  s32 green_bits;
+  s32 volume_or_red;
+  s32 shade;
+  s32 blue_bits;
+  s32 red_green;
+  u16 menu_flags;
+  u16 new_flags;
+  s32 channel_or_color;
+  s32 blue;
+  s32 scaled_b;
   D_80080A84 = 1;
   pad = &D_80083160;
-  switch (m->state)
+  switch (menu->state)
   {
     case 0:
-      m->state = ((u16) m->state) + 1;
+      menu->state = ((u16) menu->state) + 1;
 
     case 1:
-      if ((func_80053428(m) << 16) == 0)
-    {
-      return;
-    }
-      m->timer = 300;
-      m->state = ((u16) m->state) + 1;
+      if ((func_80053428(menu) << 16) == 0)
+      {
+        return;
+      }
+      menu->timer = 300;
+      menu->state = ((u16) menu->state) + 1;
       return;
 
     case 2:
-      flags = pad->pressed;
-      if (flags & 0x1000)
-    {
-      func_80053DA8(0x502);
-      m->row = (m->row + 6) % 7;
-    }
-    else
-      if (flags & 0x4000)
-    {
-      func_80053DA8(0x502);
-      m->row = (m->row + 1) % 7;
-    }
-    else
-      if (flags & 0xA000)
-    {
-      if (m->row == 0)
+      buttons = pad->pressed;
+      if (buttons & 0x1000)
       {
         func_80053DA8(0x502);
-        f = m->flags;
-        if (f & 2)
-        {
-          f2 = f & 0xFFFD;
-        }
-        else
-        {
-          f2 = f | 2;
-        }
-        m->flags = f2;
+        menu->row = (menu->row + 6) % 7;
       }
-    }
-      flags = pad->held;
-      delta = -8;
-      if (!(flags & 0x8000))
-    {
-      delta = ((flags & 0x2000) != 0) * 8;
-    }
-      if (delta == 0)
-    {
-      goto shared;
-    }
-      row = m->row;
-      if (row <= 0)
-    {
-      goto shared;
-    }
-      idx = row - 1;
-      if (row < 4)
-    {
-      goto chan;
-    }
-      if (row >= 7)
-    {
-      goto shared;
-    }
-      goto rgb;
-      chan:
-    bp = D_8008B2F0;
-
-      slot = bp + idx;
-      val = *slot + delta;
-      *slot = val;
-      if (val < 0)
-    {
-      *slot = 0;
-    }
-    else
-      if (val >= 0x101)
-    {
-      *slot = 0x100;
-    }
-      if (idx == 1)
-    {
-      func_80053DA8(0x516);
-    }
-      pa = &D_80080A98;
-      r = 0x7FFF;
-      t0 = D_8008B2F0[0];
-      if (t0 < 0x100)
-    {
-      r = t0 << 7;
-    }
-      gc = 0x7FFF;
-      do
-    {
-      *pa = r;
-    }
-    while (0);
-      pc = &D_80080A9C;
-      t0 = D_8008B2F0[1];
-      if (t0 < 0x100)
-    {
-      gc = t0 << 7;
-    }
-      *pc = gc;
-      pb = &D_80080A94;
-      b = 0x7FFF;
-      t0 = D_8008B2F0[2];
-      if (t0 < 0x100)
-    {
-      b = t0 << 7;
-    }
-      *pb = b;
-      func_80053DF0(*((s16 *) pa));
-      func_80053E14(*((s16 *) pc));
-      func_80053DCC(*((s16 *) (&D_80080A94)));
-      goto shared;
-      rgb:
-    idx = m->row - 4;
-      cell = (s16 *) ((u32) (idx * 2) + (u32) m);
-
-      val = ((u16) cell[7]) + delta;
-      cell[7] = val;
-      val = (s16) val;
-      if (val < 0)
-    {
-      cell[7] = 0;
-      goto shared;
-    }
-      if (val >= 0x101)
-    {
-      cell[7] = 0x100;
-    }
-      shared:
-    if ((pad->held & 9) == 9)
-    {
-      if (pad->pressed & 2)
+      else if (buttons & 0x4000)
       {
-        m->shade = (m->shade + 1) & 3;
+        func_80053DA8(0x502);
+        menu->row = (menu->row + 1) % 7;
       }
-    }
+      else if (buttons & 0xA000)
+      {
+        if (menu->row == 0)
+        {
+          func_80053DA8(0x502);
+          menu_flags = menu->flags;
+          if (menu_flags & 2)
+          {
+            new_flags = menu_flags & 0xFFFD;
+          }
+          else
+          {
+            new_flags = menu_flags | 2;
+          }
+          menu->flags = new_flags;
+        }
+      }
+      buttons = pad->held;
+      delta = -8;
+      if (!(buttons & 0x8000))
+      {
+        delta = ((buttons & 0x2000) != 0) * 8;
+      }
+      if (delta == 0)
+      {
+        goto check_confirm;
+      }
+      row = menu->row;
+      if (row <= 0)
+      {
+        goto check_confirm;
+      }
+      channel_or_color = row - 1;
+      if (row < 4)
+      {
+        goto adjust_volume;
+      }
+      if (row >= 7)
+      {
+        goto check_confirm;
+      }
+      goto adjust_color;
+    adjust_volume:
+      levels = D_8008B2F0;
+
+      level_slot = levels + channel_or_color;
+      adjusted_value = *level_slot + delta;
+      *level_slot = adjusted_value;
+      if (adjusted_value < 0)
+      {
+        *level_slot = 0;
+      }
+      else if (adjusted_value >= 0x101)
+      {
+        *level_slot = 0x100;
+      }
+      if (channel_or_color == 1)
+      {
+        func_80053DA8(0x516);
+      }
+      volume_a = &D_80080A98;
+      scaled_a = 0x7FFF;
+      level = D_8008B2F0[0];
+      if (level < 0x100)
+      {
+        scaled_a = level << 7;
+      }
+      scaled_b = 0x7FFF;
+      do
+      {
+        *volume_a = scaled_a;
+      }
+      while (0);
+      volume_b = &D_80080A9C;
+      level = D_8008B2F0[1];
+      if (level < 0x100)
+      {
+        scaled_b = level << 7;
+      }
+      *volume_b = scaled_b;
+      volume_c = &D_80080A94;
+      volume_or_red = 0x7FFF;
+      level = D_8008B2F0[2];
+      if (level < 0x100)
+      {
+        volume_or_red = level << 7;
+      }
+      *volume_c = volume_or_red;
+      func_80053DF0(*((s16 *) volume_a));
+      func_80053E14(*((s16 *) volume_b));
+      func_80053DCC(*((s16 *) (&D_80080A94)));
+      goto check_confirm;
+    adjust_color:
+      channel_or_color = menu->row - 4;
+      color_base = (s16 *) ((u32) (channel_or_color * 2) + (u32) menu);
+
+      adjusted_value = ((u16) color_base[7]) + delta;
+      color_base[7] = adjusted_value;
+      adjusted_value = (s16) adjusted_value;
+      if (adjusted_value < 0)
+      {
+        color_base[7] = 0;
+        goto check_confirm;
+      }
+      if (adjusted_value >= 0x101)
+      {
+        color_base[7] = 0x100;
+      }
+    check_confirm:
+      if ((pad->held & 9) == 9)
+      {
+        if (pad->pressed & 2)
+        {
+          menu->shade = (menu->shade + 1) & 3;
+        }
+      }
 
       if (!(pad->pressed & 0x840))
-    {
-      return;
-    }
-      do
-    {
-      sh0 = (s16) m->shade;
-    }
-    while (0);
-      delta = sh0 << 5;
-      idx = ((Gfx *) 0x80010000)->color & 0xFF000000;
-      b = 0xFF;
-      if (m->red < 0x100)
-    {
-      b = m->red;
-    }
-      t0 = m->green;
-      g = t0 < 0x100;
-      if (g)
-    {
-      g = t0 << 8;
-    }
-    else
-    {
-      g = 0xFF00;
-    }
-      do
-    {
-      packed = b + g;
-    }
-    while (0);
-      do
-    {
-      tb = m->blue;
-    }
-    while (0);
-      if (tb < 0x100)
-    {
-      idx = idx + (packed + (tb << 16));
-    }
-    else
-    {
-      chi = idx + 0xFF0000;
-      idx = chi + packed;
-    }
-      if (((Gfx *) 0x80010000)->shade != delta)
-    {
-      D_80080A8A = 1;
-    }
-      if (((Gfx *) 0x80010000)->color != idx)
-    {
-      D_80080A8A = 1;
-    }
-      if (m->flags & 2)
-    {
-      if (((Gfx *) 0x80010000)->flags & 1)
       {
-        D_80080A8A = 1;
+        return;
       }
-    }
-    else
-      if (!(((Gfx *) 0x80010000)->flags & 1))
-    {
-      D_80080A8A = 1;
-    }
-      if (D_80080A8A == 1)
-    {
-      ((Gfx *) 0x80010000)->shade = delta;
-      D_800814AC = delta;
-      ((Gfx *) 0x80010000)->color = idx;
-      D_80081494 = idx;
-      if (m->flags & 2)
+      do
       {
-        ((Gfx *) 0x80010000)->flags = ((Gfx *) 0x80010000)->flags & 0xFE;
+        shade = (s16) menu->shade;
+      }
+      while (0);
+      delta = shade << 5;
+      channel_or_color = ((Gfx *) 0x80010000)->color & 0xFF000000;
+      volume_or_red = 0xFF;
+      if (menu->red < 0x100)
+      {
+        volume_or_red = menu->red;
+      }
+      level = menu->green;
+      green_bits = level < 0x100;
+      if (green_bits)
+      {
+        green_bits = level << 8;
       }
       else
       {
-        ((Gfx *) 0x80010000)->flags = ((Gfx *) 0x80010000)->flags | 1;
+        green_bits = 0xFF00;
       }
-      D_800814A4 = ((Gfx *) 0x80010000)->flags;
-    }
-      m->flags = m->flags | 0x8000;
-      m->state = ((u16) m->state) + 1;
+      do
+      {
+        red_green = volume_or_red + green_bits;
+      }
+      while (0);
+      do
+      {
+        blue = menu->blue;
+      }
+      while (0);
+      if (blue < 0x100)
+      {
+        channel_or_color = channel_or_color + (red_green + (blue << 16));
+      }
+      else
+      {
+        blue_bits = channel_or_color + 0xFF0000;
+        channel_or_color = blue_bits + red_green;
+      }
+      if (((Gfx *) 0x80010000)->shade != delta)
+      {
+        D_80080A8A = 1;
+      }
+      if (((Gfx *) 0x80010000)->color != channel_or_color)
+      {
+        D_80080A8A = 1;
+      }
+      if (menu->flags & 2)
+      {
+        if (((Gfx *) 0x80010000)->flags & 1)
+        {
+          D_80080A8A = 1;
+        }
+      }
+      else if (!(((Gfx *) 0x80010000)->flags & 1))
+      {
+        D_80080A8A = 1;
+      }
+      if (D_80080A8A == 1)
+      {
+        ((Gfx *) 0x80010000)->shade = delta;
+        D_800814AC = delta;
+        ((Gfx *) 0x80010000)->color = channel_or_color;
+        D_80081494 = channel_or_color;
+        if (menu->flags & 2)
+        {
+          ((Gfx *) 0x80010000)->flags = ((Gfx *) 0x80010000)->flags & 0xFE;
+        }
+        else
+        {
+          ((Gfx *) 0x80010000)->flags = ((Gfx *) 0x80010000)->flags | 1;
+        }
+        D_800814A4 = ((Gfx *) 0x80010000)->flags;
+      }
+      menu->flags = menu->flags | 0x8000;
+      menu->state = ((u16) menu->state) + 1;
       return;
 
     case 3:
       func_80053DA8(0x1200);
-      m->f2 = 0;
-      m->f4 = 0x10;
-      m->state = ((u16) m->state) + 1;
+      menu->f2 = 0;
+      menu->f4 = 0x10;
+      menu->state = ((u16) menu->state) + 1;
 
     case 4:
-      if ((func_80053604(m) << 16) == 0)
-    {
-      return;
-    }
+      if ((func_80053604(menu) << 16) == 0)
+      {
+        return;
+      }
       func_80088BD0();
-      pd = &D_800814A0;
-      ((u16 *) m)[-1] |= 0x8000;
+      settings_flags = &D_800814A0;
+      ((u16 *) menu)[-1] |= 0x8000;
       do
-    {
-      *pd |= 0x8000;
-    }
-    while (0);
+      {
+        *settings_flags |= 0x8000;
+      }
+      while (0);
       if (((Gfx *) 0x80010000)->flags)
-    {
-      return;
-    }
-    else
-    {
-      return;
-    }
+      {
+        return;
+      }
+      else
+      {
+        return;
+      }
 
   }
 

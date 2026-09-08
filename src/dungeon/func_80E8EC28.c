@@ -42,8 +42,6 @@ typedef struct S_80174428_3 {
     s32 unk_10;
 } S_80174428_3;   /* motion in func_80174428 */
 
-
-
 extern u8 D_8006CCD8[9];
 extern u8 D_8006CCE8[9];
 extern s16 D_80081468[3];
@@ -69,94 +67,90 @@ extern void func_800AA53C(void *);
 extern void func_800AD594(void *, s32);
 extern s16 func_800BCB04(s32, s32, s16);
 
-#define state arg0
-#define motion arg1
-#define actor arg2
-#define object arg3
-
-void func_80174428(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Updates movement, destination selection, and recovery animation for the object. */
+void func_80174428(void *state, void *motion, void *actor, void *object)
 {
-    static void *const jt_keep[] = {
+    static void *const state_labels[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&case_5
     };
-    s32 ystep;
-    s32 xstep;
-    register s16 *xstep_ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 y_step;
+    s32 x_step;
+    register s16 *x_step_ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 direction_offset;
     register u32 raw_direction ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s16 result;
-    register s32 case4_result ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 case4_valid ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 counter ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 height;
+    register s32 search_result ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 height_valid ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 attempts_left ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *world;
     s16 *level;
     register void **jump_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u32 jump_offset;
+    u32 jump_address;
     u32 state_id;
     register u32 state_valid ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    xstep_ptr = (s16 *)&D_8006CCD8;
+    x_step_ptr = (s16 *)&D_8006CCD8;
     raw_direction = ((S_80174428_0 *)object)->unk_2A.s;
     direction_offset = raw_direction >> 8;
     direction_offset &= 0xE;
     state_id = ((S_80174428_1 *)state)->unk_9B;
-    xstep_ptr = (s16 *)((u8 *)xstep_ptr + direction_offset);
+    x_step_ptr = (s16 *)((u8 *)x_step_ptr + direction_offset);
     direction_offset += (u32)&D_8006CCE8;
     state_valid = state_id < 6;
-    xstep = *xstep_ptr;
-    ystep = *(s16 *)direction_offset;
+    x_step = *x_step_ptr;
+    y_step = *(s16 *)direction_offset;
     if (!state_valid) {
         return;
     }
-    (void)jt_keep;
+    (void)state_labels;
     jump_base = D_801708F0;
-    jump_offset = state_id << 2;
-    jump_offset = jump_offset + (u32)jump_base;
-    goto **(void **)jump_offset;
+    jump_address = state_id << 2;
+    jump_address = jump_address + (u32)jump_base;
+    goto **(void **)jump_address;
 
 case_0:
-        func_8009A3D0(((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25,
-            (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174EF8;
-        func_80047784(actor,
-            D_80174EF8[((D_80083228 + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
-        ((S_80174428_3 *)motion)->unk_0C = (xstep << 19) + (xstep << 18);
-        ((S_80174428_3 *)motion)->unk_10 = (ystep << 19) + (ystep << 18);
-        ((S_80174428_1 *)state)->unk_96.s = 4;
-        func_800A56E0(0x80E);
-        ((S_80174428_1 *)state)->unk_9B++;
-        if (!(((S_80174428_2 *)actor)->unk_14 & 0x8000)) {
-            ((S_80174428_1 *)state)->unk_96.s--;
-            if (((S_80174428_1 *)state)->unk_96.u > 0) {
-                return;
-            }
+    func_8009A3D0(((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25,
+        (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+    (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174EF8;
+    func_80047784(actor,
+        D_80174EF8[((D_80083228 + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
+    ((S_80174428_3 *)motion)->unk_0C = (x_step << 19) + (x_step << 18);
+    ((S_80174428_3 *)motion)->unk_10 = (y_step << 19) + (y_step << 18);
+    ((S_80174428_1 *)state)->unk_96.s = 4;
+    func_800A56E0(0x80E);
+    ((S_80174428_1 *)state)->unk_9B++;
+    if (!(((S_80174428_2 *)actor)->unk_14 & 0x8000)) {
+        ((S_80174428_1 *)state)->unk_96.s--;
+        if (((S_80174428_1 *)state)->unk_96.u > 0) {
+            return;
         }
-        ((S_80174428_3 *)motion)->unk_10 = 0;
-        ((S_80174428_3 *)motion)->unk_0C = 0;
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F58;
-        func_80047784(actor,
-            D_80174F58[((*(s16 *)(D_80082E80 + 0x3A8) +
-                ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
-        ((S_80174428_1 *)state)->unk_96.s = 0;
-        ((S_80174428_3 *)motion)->unk_0C = (-xstep) << 18;
-        ((S_80174428_3 *)motion)->unk_10 = (-ystep) << 18;
-        goto advance_state;
+    }
+    ((S_80174428_3 *)motion)->unk_10 = 0;
+    ((S_80174428_3 *)motion)->unk_0C = 0;
+    (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F58;
+    func_80047784(actor,
+        D_80174F58[((*(s16 *)(D_80082E80 + 0x3A8) +
+            ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
+    ((S_80174428_1 *)state)->unk_96.s = 0;
+    ((S_80174428_3 *)motion)->unk_0C = (-x_step) << 18;
+    ((S_80174428_3 *)motion)->unk_10 = (-y_step) << 18;
+    goto advance_state;
 
 case_1:
-        if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
-            return;
-        }
-        ((S_80174428_3 *)motion)->unk_10 = 0;
-        ((S_80174428_3 *)motion)->unk_0C = 0;
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F00;
-        func_80047784(actor,
-            D_80174F00[((D_80083228 + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
-        if (((S_80174428_0 *)object)->unk_1C & 0x2000) {
-            ((S_80174428_1 *)state)->unk_96.s = 7;
-            ((S_80174428_1 *)state)->unk_9B = 5;
-            return;
-        }
-        ((S_80174428_0 *)object)->unk_2A.s &= 0xFFF;
-        goto advance_state;
+    if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
+        return;
+    }
+    ((S_80174428_3 *)motion)->unk_10 = 0;
+    ((S_80174428_3 *)motion)->unk_0C = 0;
+    (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F00;
+    func_80047784(actor,
+        D_80174F00[((D_80083228 + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
+    if (((S_80174428_0 *)object)->unk_1C & 0x2000) {
+        ((S_80174428_1 *)state)->unk_96.s = 7;
+        ((S_80174428_1 *)state)->unk_9B = 5;
+        return;
+    }
+    ((S_80174428_0 *)object)->unk_2A.s &= 0xFFF;
+    goto advance_state;
 
 case_2: {
         u16 angle = ((S_80174428_0 *)object)->unk_2A.s;
@@ -174,58 +168,58 @@ case_2: {
     }
 
 case_3:
-        ((S_80174428_2 *)actor)->unk_24 = (u8)xstep;
-        ((S_80174428_2 *)actor)->unk_25 = (u8)ystep;
-        goto advance_state;
+    ((S_80174428_2 *)actor)->unk_24 = (u8)x_step;
+    ((S_80174428_2 *)actor)->unk_25 = (u8)y_step;
+    goto advance_state;
 
 case_4:
-        if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
-            return;
-        }
-        func_80047784(actor, 0x38, 0);
-        counter = 0x40;
-        world = D_80082E80;
-        level = D_80081468;
-        ((S_80174428_1 *)state)->unk_96.s = 0;
-        xstep = ((S_80174428_2 *)actor)->unk_24;
-        ystep = ((S_80174428_2 *)actor)->unk_25;
+    if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
+        return;
+    }
+    func_80047784(actor, 0x38, 0);
+    attempts_left = 0x40;
+    world = D_80082E80;
+    level = D_80081468;
+    ((S_80174428_1 *)state)->unk_96.s = 0;
+    x_step = ((S_80174428_2 *)actor)->unk_24;
+    y_step = ((S_80174428_2 *)actor)->unk_25;
 
-        ASM_KEEP(counter);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        counter--;
+    ASM_KEEP(attempts_left);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    attempts_left--;
 case_4_check:
-        if (counter <= 0) {
-            goto case_3;
+    if (attempts_left <= 0) {
+        goto case_3;
+    }
+    {
+        search_result = func_800A4E2C(actor + 0x24, actor + 0x25);
+        attempts_left--;
+        if (search_result < 0) {
+            goto case_4_check;
         }
-        {
-            case4_result = func_800A4E2C(actor + 0x24, actor + 0x25);
-            counter--;
-            if (case4_result < 0) {
-                goto case_4_check;
-            }
-            counter++;
-            if (case4_result != (s8)world[0x26]) {
-                goto case_4_position;
-            }
-            counter--;
-            if (*(s16 *)((u8 *)level + 6) >= 2) {
-                goto case_4_check;
-            }
-            counter++;
+        attempts_left++;
+        if (search_result != (s8)world[0x26]) {
+            goto case_4_position;
+        }
+        attempts_left--;
+        if (*(s16 *)((u8 *)level + 6) >= 2) {
+            goto case_4_check;
+        }
+        attempts_left++;
 case_4_position:
-            case4_result = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
-                (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
-                (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
-            case4_valid = case4_result < 0x201;
-            counter--;
-            if (!case4_valid) {
-                goto case_4_check;
-            }
-            goto advance_state;
+        search_result = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
+            (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
+            (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
+        height_valid = search_result < 0x201;
+        attempts_left--;
+        if (!height_valid) {
+            goto case_4_check;
         }
+        goto advance_state;
+    }
 
 advance_state:
-        ((S_80174428_1 *)state)->unk_9B++;
-        return;
+    ((S_80174428_1 *)state)->unk_9B++;
+    return;
 
 case_5:
     {
@@ -242,10 +236,10 @@ case_5:
         }
         D_80083460[5]--;
         func_800AA53C(object);
-        result = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
+        height = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
             (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
             (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
-        ((S_80174428_0 *)object)->unk_88 = result;
+        ((S_80174428_0 *)object)->unk_88 = height;
         ((S_80174428_2 *)actor)->unk_2C = D_80174F00;
         func_800AD594(object, 0x200);
         func_80047784(actor,
@@ -262,8 +256,3 @@ case_5:
         return;
     }
 }
-
-#undef state
-#undef motion
-#undef actor
-#undef object

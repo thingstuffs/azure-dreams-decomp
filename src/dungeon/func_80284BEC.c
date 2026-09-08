@@ -137,7 +137,7 @@ loop_4:
             temp_v1_addr = (u16 *)(temp_t1 + temp_v0_2);
             temp_t1 = (u8 *)&D_8006CCE8;
             temp_v0_3 = temp_t1 + temp_v0_2;
-            ASM_KEEP_NV(temp_v0_3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             temp_a2 = (u16)locals.sp10;
                /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             temp_v1_load = *temp_v1_addr;

@@ -14,8 +14,9 @@ typedef struct S_8003C0A4_1 {
 } S_8003C0A4_1;   /* arg0 in func_8003C0A4 */
 
 
-void func_8003C0A4(S_8003C0A4_1 *arg0, S_8003C0A4_0 *arg1) {
-    if (arg1->unk_08 != 0) {
-        arg0->unk_04 = 1;
+/* Set the destination flag when the source value is nonzero. */
+void func_8003C0A4(S_8003C0A4_1 *dest, S_8003C0A4_0 *source) {
+    if (source->unk_08 != 0) {
+        dest->unk_04 = 1;
     }
 }

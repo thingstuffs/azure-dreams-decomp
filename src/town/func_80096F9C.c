@@ -9,7 +9,8 @@ typedef struct S_800946FC_0 {
     s16 unk_0A;
 } S_800946FC_0;   /* arg0 in func_800946FC */
 
-void func_800946FC(S_800946FC_0 *arg0) {
-    arg0->unk_00 = &D_800930E4;
-    arg0->unk_0A = 0x13;
+/* Initializes the object's data pointer and sets its initial value to 0x13. */
+void func_800946FC(S_800946FC_0 *object) {
+    object->unk_00 = &D_800930E4;
+    object->unk_0A = 0x13;
 }

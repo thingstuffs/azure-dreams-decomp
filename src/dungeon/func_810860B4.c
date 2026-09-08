@@ -58,75 +58,76 @@ typedef struct S_801738B4_4 {
     s32 unk_0C;
 } S_801738B4_4;   /* global in func_801738B4 */
 
-void func_801738B4(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advances an actor's item-use sequence and resets its state when the action ends. */
+void func_801738B4(void *action_ctx, void *scene_object, void *entity_arg, void *actor_arg)
 {
-    register void *entity ASM_REG("$18") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *entity ASM_REG("$18") = entity_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *actor ASM_REG("$17") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     static void *const keep_cases[] = {
         &&case_1, &&case_2, &&case_3, &&case_4,
         &&case_5, &&case_6, &&case_7
     };
     u8 *item;
-    s32 special;
-    s32 state;
-    s32 kind;
-    u16 value;
-    s32 x;
-    s32 y;
-    void *object;
+    s32 special_mode;
+    s32 action_state;
+    s32 item_selector;
+    u16 remaining_ticks;
+    s32 target_x;
+    s32 target_y;
+    void *active_object;
     void *copy_object;
-    register u8 *record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *global;
+    register u8 *position_record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *action_status;
 
-    special = 0;
-    state = ((S_801738B4_0 *)arg0)->unk_9B;
-    if (state == 1) {
+    special_mode = 0;
+    action_state = ((S_801738B4_0 *)action_ctx)->unk_9B;
+    if (action_state == 1) {
         goto state_1;
     }
-    if (state < 2) {
-        if (state == 0) {
+    if (action_state < 2) {
+        if (action_state == 0) {
             goto state_0;
         }
         goto done;
     }
-    if (state == 2) {
+    if (action_state == 2) {
         goto state_2;
     }
-    if (state == 3) {
+    if (action_state == 3) {
         goto state_3;
     }
     goto done;
 
 state_0:
     if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
-        kind = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
-        if ((u32)kind >= 7) {
+        item_selector = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
+        if ((u32)item_selector >= 7) {
             goto no_item;
         }
         (void)keep_cases;
-        goto *D_80170868[kind];
+        goto *D_80170868[item_selector];
 
 case_7:
-        special = 1;
+        special_mode = 1;
         goto item_3;
 case_6:
-        special = 1;
+        special_mode = 1;
         goto item_2;
 case_5:
-        special = 1;
+        special_mode = 1;
         goto item_1;
     } else {
-        kind = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
-        if (kind == 2) {
+        item_selector = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
+        if (item_selector == 2) {
             goto item_2;
         }
-        if (kind < 3) {
-            if (kind == 1) {
+        if (item_selector < 3) {
+            if (item_selector == 1) {
                 goto item_1;
             }
             goto no_item;
         }
-        if (kind == 3) {
+        if (item_selector == 3) {
             goto item_3;
         }
         goto no_item;
@@ -153,10 +154,10 @@ have_item:
         goto empty_item;
     }
 
-    ((S_801738B4_0 *)arg0)->unk_98 &= 0xFF7F;
+    ((S_801738B4_0 *)action_ctx)->unk_98 &= 0xFF7F;
     {
-        s32 special_test = (special == 1);
-        if (special_test) {
+        s32 use_shared_object = (special_mode == 1);
+        if (use_shared_object) {
             copy_object = D_800814A8;
             (*(void * *)((u8 *)actor + 0x60)) = copy_object;
             goto copy_position_object;
@@ -176,9 +177,9 @@ have_item:
     }
 
 copy_position_object:
-    record = ((S_801738B4_1_pre *)copy_object)[-1].unk_00;
-    (*(u8 *)((u8 *)actor + 0x72)) = record[0x24];
-    (*(u8 *)((u8 *)actor + 0x73)) = record[0x25];
+    position_record = ((S_801738B4_1_pre *)copy_object)[-1].unk_00;
+    (*(u8 *)((u8 *)actor + 0x72)) = position_record[0x24];
+    (*(u8 *)((u8 *)actor + 0x73)) = position_record[0x25];
     goto call_item;
 
 spawn_object:
@@ -188,37 +189,37 @@ spawn_object:
         (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
     (*(void * volatile *)((u8 *)actor + 0x60)) = copy_object;
     ASM_USE(copy_object);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    x = (*(s8 *)((u8 *)actor + 0x72));
-    y = (*(s8 *)((u8 *)actor + 0x73));
-    if (x < 0) {
-        x = -x;
+    target_x = (*(s8 *)((u8 *)actor + 0x72));
+    target_y = (*(s8 *)((u8 *)actor + 0x73));
+    if (target_x < 0) {
+        target_x = -target_x;
     }
-    if (y < 0) {
-        y = -y;
+    if (target_y < 0) {
+        target_y = -target_y;
     }
-    (*(s8 *)((u8 *)actor + 0x72)) = x;
-    (*(s8 *)((u8 *)actor + 0x73)) = y;
+    (*(s8 *)((u8 *)actor + 0x72)) = target_x;
+    (*(s8 *)((u8 *)actor + 0x73)) = target_y;
 
 call_item:
 apply_item:
-    if (!func_800A94A0(actor, item, special, &((S_801738B4_0 *)arg0)->unk_98)) {
+    if (!func_800A94A0(actor, item, special_mode, &((S_801738B4_0 *)action_ctx)->unk_98)) {
         goto epilogue;
     }
     func_800BB044(actor);
-    ((S_801738B4_0 *)arg0)->unk_9B++;
+    ((S_801738B4_0 *)action_ctx)->unk_9B++;
     goto done;
 
 empty_item:
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
-    object = D_800814A8;
+    ((Rec_D_800E3D7C *)scene_object)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)scene_object)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)scene_object)->unk_0C.as_s32 = 0;
+    func_800A2B04(scene_object, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
+    active_object = D_800814A8;
     D_8008346C = 0;
-    (*(u16 *)((u8 *)object + 0xA6))--;
+    (*(u16 *)((u8 *)active_object + 0xA6))--;
     func_800A4ACC(actor);
     (*(u8 *)((u8 *)actor + 0x6D))--;
-    ((S_801738B4_0 *)arg0)->unk_8C = &D_80170E94;
+    ((S_801738B4_0 *)action_ctx)->unk_8C = &D_80170E94;
     (*(u8 *)((u8 *)actor + 0x73)) = 0;
     (*(u8 *)((u8 *)actor + 0x72)) = 0;
     (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
@@ -230,14 +231,14 @@ state_1:
         goto done;
     }
     ((S_801738B4_2 *)entity)->unk_14 &= 0xF7FF;
-    ((S_801738B4_0 *)arg0)->unk_9B++;
+    ((S_801738B4_0 *)action_ctx)->unk_9B++;
 
 state_2:
     if ((((S_801738B4_2 *)entity)->unk_04 == 3 &&
          (((S_801738B4_2 *)entity)->unk_14 & 0x1000)) ||
         (((S_801738B4_2 *)entity)->unk_14 & 0xE000)) {
-        func_80174BC8(arg0, arg1, entity);
-        ((S_801738B4_0 *)arg0)->unk_9B++;
+        func_80174BC8(action_ctx, scene_object, entity);
+        ((S_801738B4_0 *)action_ctx)->unk_9B++;
     }
 
 state_3:
@@ -245,24 +246,24 @@ state_3:
          (((S_801738B4_2 *)entity)->unk_14 & 0x1000)) ||
         (((S_801738B4_2 *)entity)->unk_14 & 0xE000)) {
         ((S_801738B4_2 *)entity)->unk_14 |= 0x0800;
-        ((S_801738B4_0 *)arg0)->unk_96 = 1;
-        ((S_801738B4_0 *)arg0)->unk_98 |= 0x0080;
+        ((S_801738B4_0 *)action_ctx)->unk_96 = 1;
+        ((S_801738B4_0 *)action_ctx)->unk_98 |= 0x0080;
     }
 
-    value = ((S_801738B4_0 *)arg0)->unk_96 - 1;
-    ((S_801738B4_0 *)arg0)->unk_96 = value;
-    if ((s16)value <= 0) {
-        ((S_801738B4_0 *)arg0)->unk_96 = 0;
+    remaining_ticks = ((S_801738B4_0 *)action_ctx)->unk_96 - 1;
+    ((S_801738B4_0 *)action_ctx)->unk_96 = remaining_ticks;
+    if ((s16)remaining_ticks <= 0) {
+        ((S_801738B4_0 *)action_ctx)->unk_96 = 0;
         ((S_801738B4_2 *)entity)->unk_14 &= 0xF7FF;
     }
     if (!(((S_801738B4_2 *)entity)->unk_14 & 0xE000)) {
         goto epilogue;
     }
 
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
+    ((Rec_D_800E3D7C *)scene_object)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)scene_object)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)scene_object)->unk_0C.as_s32 = 0;
+    func_800A2B04(scene_object, ((S_801738B4_2 *)entity)->unk_24, ((S_801738B4_2 *)entity)->unk_25);
     if (((S_801738B4_2 *)entity)->unk_2C != D_80175F10) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_80175F10;
         func_80047784(entity,
@@ -270,12 +271,12 @@ state_3:
             0);
     }
 
-    global = (u8 *)&D_80083460;
-    if (((S_801738B4_4 *)global)->unk_0C != 0) {
+    action_status = (u8 *)&D_80083460;
+    if (((S_801738B4_4 *)action_status)->unk_0C != 0) {
         goto epilogue;
     }
-    ((S_801738B4_4 *)global)->unk_0A--;
-    ((S_801738B4_0 *)arg0)->unk_8C = &D_80170E94;
+    ((S_801738B4_4 *)action_status)->unk_0A--;
+    ((S_801738B4_0 *)action_ctx)->unk_8C = &D_80170E94;
     func_800A4ACC(actor);
     (*(u8 *)((u8 *)actor + 0x73)) = 0;
     (*(u8 *)((u8 *)actor + 0x72)) = 0;

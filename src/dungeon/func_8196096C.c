@@ -92,35 +92,36 @@ extern void func_80065820(void *arg0, void *arg1);
 extern void func_8006658C(s32 arg0, Record *record);
 extern void func_800666F4(Record *record);
 
-void func_8196096C(s32 arg0, Input *arg1, Input *arg2, s32 arg3) {
+/* Builds and submits a shaded textured quad at the requested screen position. */
+void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth) {
     Root *root = D_80083160;
     Record *record;
-    Record *tail_arg;
-    Input *input = arg2;
+    Record *quad_packet;
+    Input *quad_input = quad_data;
     Globals *globals;
-    TableEntry *table;
+    TableEntry *vertex_table;
     Scratch *scratch;
-    register void *call_a0;
-    register void *call_a1;
-    register s32 *mmio ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register s32 saved_arg0 ASM_REG("$21") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *config;
-    u16 tail_value14;
-    s32 tail_color;
+    register void *rotation;
+    register void *matrix;
+    register s32 *scratch_words ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 saved_y_offset ASM_REG("$21") = y_offset;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *texture_config;
+    u16 corner_uv;
+    s32 neutral_color;
     s32 shade;
-    register s32 coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 coord_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     do { record = root->record; } while (0);
     globals = (Globals *)&D_80083160;
-    mmio = (s32 *)0x1F800000;
-    mmio[8] = arg3;
-    table = globals->table;
+    scratch_words = (s32 *)0x1F800000;
+    scratch_words[8] = draw_depth;
+    vertex_table = globals->table;
     func_800649A0();
     ASM_KEEP_NV(globals);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    call_a0 = (void *)0x1F800028;
-    call_a1 = (void *)0x1F800050;
-    ASM_KEEP_NV(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(call_a1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    rotation = (void *)0x1F800028;
+    matrix = (void *)0x1F800050;
+    ASM_KEEP_NV(rotation);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(matrix);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     ASM_SET(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch = (Scratch *)0x1F800000;
     scratch->w6C = 0;
@@ -129,47 +130,47 @@ void func_8196096C(s32 arg0, Input *arg1, Input *arg2, s32 arg3) {
     scratch->h2C = 0;
     scratch->h2A = 0;
     scratch->h28 = 0;
-    func_80065820(call_a0, call_a1);
+    func_80065820(rotation, matrix);
     func_80064D80(&scratch->w50);
     func_80064CF0(&scratch->w50);
     scratch->h8C = 0x800;
     scratch->h84 = 0x800;
     scratch->h7C = 0x800;
     scratch->h74 = 0x800;
-    if (input != 0) {
-        scratch->w70 = table[input->index0].value;
-        scratch->w78 = table[input->index1].value;
-        scratch->w80 = table[input->index2].value;
-        scratch->w88 = table[input->index3].value;
-        record->fC.w = input->value8;
-        record->f14.w = input->valueC;
-        record->f1C.h[0] = input->value12;
-        tail_color = 0x808080;
-        tail_value14 = input->value14;
-        ASM_KEEP_DEP_NV(record, tail_value14);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        tail_arg = record;
+    if (quad_input != 0) {
+        scratch->w70 = vertex_table[quad_input->index0].value;
+        scratch->w78 = vertex_table[quad_input->index1].value;
+        scratch->w80 = vertex_table[quad_input->index2].value;
+        scratch->w88 = vertex_table[quad_input->index3].value;
+        record->fC.w = quad_input->value8;
+        record->f14.w = quad_input->valueC;
+        record->f1C.h[0] = quad_input->value12;
+        neutral_color = 0x808080;
+        corner_uv = quad_input->value14;
+        ASM_KEEP_DEP_NV(record, corner_uv);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        quad_packet = record;
         ASM_KEEP_NV(record);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        record->f4.w = tail_color;
-        record->f24.h[0] = tail_value14;
-        func_8002638C(tail_arg);
+        record->f4.w = neutral_color;
+        record->f24.h[0] = corner_uv;
+        func_8002638C(quad_packet);
     }
 
     scratch->w78 = 0x40;
     scratch->w70 = 0;
     scratch->w80 = 0x400000;
     scratch->w88 = 0x400040;
-    config = D_80027374;
+    texture_config = D_80027374;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    record->f14.h[1] = *(u16 *)(config + 4);
+    record->f14.h[1] = *(u16 *)(texture_config + 4);
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    record->fC.h[1] = *(u16 *)(config + 6);
-    record->f1C.b[0] = config[8];
+    record->fC.h[1] = *(u16 *)(texture_config + 6);
+    record->f1C.b[0] = texture_config[8];
     record->fC.b[0] = record->f1C.b[0];
-    record->f24.b[0] = config[8] + config[10];
+    record->f24.b[0] = texture_config[8] + texture_config[10];
     record->f14.b[0] = record->f24.b[0];
-    record->f14.b[1] = config[9];
+    record->f14.b[1] = texture_config[9];
     record->fC.b[1] = record->f14.b[1];
-    record->f24.b[1] = config[9] + config[11];
+    record->f24.b[1] = texture_config[9] + texture_config[11];
     record->f1C.b[1] = record->f24.b[1];
     shade = (D_800273A8 << 7) / 240;
     *(volatile u8 *)&record->f4.b[0] = shade;
@@ -185,36 +186,36 @@ void func_8196096C(s32 arg0, Input *arg1, Input *arg2, s32 arg3) {
                   &record->f18.h[0], &record->f20.h[0],
                   &scratch->w90, &scratch->w94);
 
-    coord = record->f8.h[0];
-    coord -= 0xA0;
-    record->f8.h[0] = arg1->index0 + coord;
-    coord = record->f18.h[0];
-    coord -= 0xA0;
-    record->f18.h[0] = arg1->index0 + coord;
-    coord = record->f10.h[0];
-    coord -= 0xA0;
-    record->f10.h[0] = arg1->index0 + coord;
-    coord = record->f20.h[0];
-    coord -= 0xA0;
-    record->f20.h[0] = arg1->index0 + coord;
+    coord_x = record->f8.h[0];
+    coord_x -= 0xA0;
+    record->f8.h[0] = origin->index0 + coord_x;
+    coord_x = record->f18.h[0];
+    coord_x -= 0xA0;
+    record->f18.h[0] = origin->index0 + coord_x;
+    coord_x = record->f10.h[0];
+    coord_x -= 0xA0;
+    record->f10.h[0] = origin->index0 + coord_x;
+    coord_x = record->f20.h[0];
+    coord_x -= 0xA0;
+    record->f20.h[0] = origin->index0 + coord_x;
     {
         s32 coord_y;
         ASM_SET(coord_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         coord_y = record->f8.h[1];
         coord_y -= 0x78;
-        coord_y += arg1->index1 + saved_arg0;
+        coord_y += origin->index1 + saved_y_offset;
         record->f8.h[1] = coord_y;
         coord_y = record->f10.h[1];
         coord_y -= 0x78;
-        coord_y += arg1->index1 + saved_arg0;
+        coord_y += origin->index1 + saved_y_offset;
         record->f10.h[1] = coord_y;
         coord_y = record->f18.h[1];
         coord_y -= 0x78;
-        coord_y += arg1->index1 + saved_arg0;
+        coord_y += origin->index1 + saved_y_offset;
         record->f18.h[1] = coord_y;
         coord_y = record->f20.h[1];
         coord_y -= 0x78;
-        coord_y += arg1->index1 + saved_arg0;
+        coord_y += origin->index1 + saved_y_offset;
         record->f20.h[1] = coord_y;
     }
     func_8006658C(scratch->arg3, record);

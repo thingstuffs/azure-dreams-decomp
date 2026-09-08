@@ -55,96 +55,106 @@ extern s32 rand(void);
 extern s32 D_80045340;
 extern s32 D_800814A0;
 extern M2C_UNK D_800DECF8;
-void func_800240D8(void *arg0, void *arg1, void *arg2)
+/* Updates a rotating effect through movement, fading, and deactivation. */
+void func_800240D8(void *effect, void *position, void *sprite)
 {
-  s32 temp_s0;
-  s32 random;
-  s32 dividend;
-  s32 limit;
+  s32 quarter_turn;
+  s32 rand_value;
+  s32 rounded_random;
+  s32 z_upper;
   s32 scale;
-  s32 color;
+  s32 brightness;
   u16 state;
-  void *inner;
-  inner = *((void **) (((u8 *) arg0) + 0));
-  *((u16 *) (((u8 *) inner) + 0x14)) = (*((u16 *) (((u8 *) inner) + 0x14))) + 1;
-  *((u16 *) (((u8 *) arg0) + 0x36)) = (*((u16 *) (((u8 *) arg0) + 0x36))) + 1;
-  *((u16 *) (((u8 *) arg2) + 0x1A)) = (*((u16 *) (((u8 *) arg2) + 0x1A))) + 0x10;
-  *((u16 *) (((u8 *) arg2) + 0x1A)) = (*((volatile u16 *) (((u8 *) arg2) + 0x1A))) & 0xFFF;
-  switch (*((s16 *) (((u8 *) arg0) + 0x34)))
+  void *owner;
+  owner = *((void **) (((u8 *) effect) + 0));
+  *(u16 *)((u8 *) owner + 0x14) = (*(u16 *)((u8 *) owner + 0x14)) + 1;
+  *(u16 *)((u8 *) effect + 0x36) = (*(u16 *)((u8 *) effect + 0x36)) + 1;
+  *(u16 *)((u8 *) sprite + 0x1A) = (*(u16 *)((u8 *) sprite + 0x1A)) + 0x10;
+  *(u16 *)((u8 *) sprite + 0x1A) = (*(volatile u16 *)((u8 *) sprite + 0x1A)) & 0xFFF;
+  switch (*(s16 *)((u8 *) effect + 0x34))
   {
     case 0:
-      if ((*((s16 *) (((u8 *) arg0) + 0x36))) < (*((s16 *) (((u8 *) arg0) + 0x38))))
-    {
-      break;
-    }
-      state = *((u16 *) (((u8 *) arg0) + 0x34));
-      *((u16 *) (((u8 *) arg0) + 0x36)) = 0;
+      if ((*(s16 *)((u8 *) effect + 0x36)) < (*(s16 *)((u8 *) effect + 0x38)))
+      {
+        break;
+      }
+      state = *(u16 *)((u8 *) effect + 0x34);
+      *(u16 *)((u8 *) effect + 0x36) = 0;
       state++;
-      *((u16 *) (((u8 *) arg0) + 0x34)) = state;
-      func_8004491C(((u8 *) arg0) - 0x20, &D_80045340);
+      *(u16 *)((u8 *) effect + 0x34) = state;
+      func_8004491C(((u8 *) effect) - 0x20, &D_80045340);
       return;
 
     case 1:
-      temp_s0 = 0x400;
-      *((s32 *) (((u8 *) arg1) + 0)) = (*((s32 *) (((u8 *) arg0) + 4))) + ((func_800644B8((temp_s0 / (*((s16 *) (((u8 *) arg0) + 0x3A)))) * (*((s16 *) (((u8 *) arg0) + 0x36)))) >> 4) * ((*((s32 *) (((u8 *) arg0) + 0x28))) >> 8));
-      *((s32 *) (((u8 *) arg1) + 4)) = (*((s32 *) (((u8 *) arg0) + 8))) + ((func_800644B8((temp_s0 / (*((s16 *) (((u8 *) arg0) + 0x3A)))) * (*((s16 *) (((u8 *) arg0) + 0x36)))) >> 4) * ((*((s32 *) (((u8 *) arg0) + 0x2C))) >> 8));
-      *((s32 *) (((u8 *) arg1) + 8)) = (*((s32 *) (((u8 *) arg0) + 0xC))) + ((func_800644B8((temp_s0 / (*((s16 *) (((u8 *) arg0) + 0x3A)))) * (*((s16 *) (((u8 *) arg0) + 0x36)))) >> 4) * ((*((s32 *) (((u8 *) arg0) + 0x30))) >> 8));
-      if ((*((s16 *) (((u8 *) arg0) + 0x36))) < (*((s16 *) (((u8 *) arg0) + 0x3A))))
-    {
-      break;
-    }
-      state = *((u16 *) (((u8 *) arg0) + 0x34));
-      *((u16 *) (((u8 *) arg0) + 0x36)) = 0;
+      quarter_turn = 0x400;
+      *(s32 *)((u8 *) position + 0) =
+          (*(s32 *)((u8 *) effect + 4))
+          + ((func_800644B8((quarter_turn / (*(s16 *)((u8 *) effect + 0x3A)))
+              * (*(s16 *)((u8 *) effect + 0x36))) >> 4)
+          * ((*(s32 *)((u8 *) effect + 0x28)) >> 8));
+      *(s32 *)((u8 *) position + 4) =
+          (*(s32 *)((u8 *) effect + 8))
+          + ((func_800644B8((quarter_turn / (*(s16 *)((u8 *) effect + 0x3A)))
+              * (*(s16 *)((u8 *) effect + 0x36))) >> 4)
+          * ((*(s32 *)((u8 *) effect + 0x2C)) >> 8));
+      *(s32 *)((u8 *) position + 8) =
+          (*(s32 *)((u8 *) effect + 0xC))
+          + ((func_800644B8((quarter_turn / (*(s16 *)((u8 *) effect + 0x3A)))
+              * (*(s16 *)((u8 *) effect + 0x36))) >> 4)
+          * ((*(s32 *)((u8 *) effect + 0x30)) >> 8));
+      if ((*(s16 *)((u8 *) effect + 0x36)) < (*(s16 *)((u8 *) effect + 0x3A)))
+      {
+        break;
+      }
+      state = *(u16 *)((u8 *) effect + 0x34);
+      *(u16 *)((u8 *) effect + 0x36) = 0;
       state++;
-      *((u16 *) (((u8 *) arg0) + 0x34)) = state;
+      *(u16 *)((u8 *) effect + 0x34) = state;
       return;
 
     case 2:
-      random = rand();
-      limit = (*((u16 *) (((u8 *) arg1) + 0xA))) - 1;
-      dividend = random;
-      if (random < 0)
-    {
-      dividend = random + 3;
-    }
-      *((u16 *) (((u8 *) arg1) + 0xA)) = limit - (random - ((dividend >> 2) << 2));
+      rand_value = rand();
+      z_upper = (*(u16 *)((u8 *) position + 0xA)) - 1;
+      rounded_random = rand_value;
+      if (rand_value < 0)
+      {
+        rounded_random = rand_value + 3;
+      }
+      *(u16 *)((u8 *) position + 0xA) = z_upper - (rand_value - ((rounded_random >> 2) << 2));
 
     case 3:
-      *((u8 *) (((u8 *) arg2) + 0xE)) = (color = (*((u8 *) (((u8 *) arg2) + 0xE))) - 8);
-      scale = (*((u16 *) (((u8 *) arg2) + 0x1E))) + 0x100;
-      *((u16 *) (((u8 *) arg2) + 0x1E)) = scale;
-      *((u16 *) (((u8 *) arg2) + 0x1C)) = scale;
-      *((u8 *) (((u8 *) arg2) + 0xD)) = color;
-      *((u8 *) (((u8 *) arg2) + 0xC)) = color;
+      *(u8 *)((u8 *) sprite + 0xE) = (brightness = (*(u8 *)((u8 *) sprite + 0xE)) - 8);
+      scale = (*(u16 *)((u8 *) sprite + 0x1E)) + 0x100;
+      *(u16 *)((u8 *) sprite + 0x1E) = scale;
+      *(u16 *)((u8 *) sprite + 0x1C) = scale;
+      *(u8 *)((u8 *) sprite + 0xD) = brightness;
+      *(u8 *)((u8 *) sprite + 0xC) = brightness;
       if (((u16) scale) < 0x1801U)
-    {
-      break;
-    }
-      *((u16 *) (((u8 *) arg0) + 0x34)) = (*((u16 *) (((u8 *) arg0) + 0x34))) + 1;
-      *((u8 *) (((u8 *) arg2) + 0xE)) = 0x80;
-      *((u8 *) (((u8 *) arg2) + 0xD)) = 0x80;
-      *((u8 *) (((u8 *) arg2) + 0xC)) = 0x80;
-      *((u16 *) (((u8 *) arg2) + 0x1E)) = 0x1000;
-      *((u16 *) (((u8 *) arg2) + 0x1C)) = 0x1000;
-      *((u16 *) (((u8 *) arg2) + 0x10)) |= 0x20;
-      func_8003DB94(arg2, &D_800DECF8, 0);
+      {
+        break;
+      }
+      *(u16 *)((u8 *) effect + 0x34) = (*(u16 *)((u8 *) effect + 0x34)) + 1;
+      *(u8 *)((u8 *) sprite + 0xE) = 0x80;
+      *(u8 *)((u8 *) sprite + 0xD) = 0x80;
+      *(u8 *)((u8 *) sprite + 0xC) = 0x80;
+      *(u16 *)((u8 *) sprite + 0x1E) = 0x1000;
+      *(u16 *)((u8 *) sprite + 0x1C) = 0x1000;
+      *(u16 *)((u8 *) sprite + 0x10) |= 0x20;
+      func_8003DB94(sprite, &D_800DECF8, 0);
       return;
 
     case 4:
-      func_800478B8(arg2);
-      if (!((*((u16 *) (((u8 *) arg2) + 0x14))) & 0x6000))
-    {
-      break;
-    }
+      func_800478B8(sprite);
+      if (!((*(u16 *)((u8 *) sprite + 0x14)) & 0x6000))
+      {
+        break;
+      }
       goto deactivate;
 
     default:
-      deactivate:
-    *((u16 *) (((u8 *) arg0) + (-2))) |= 0x8000;
-
+    deactivate:
+      *(u16 *)((u8 *) effect + (-2)) |= 0x8000;
       D_800814A0 |= 0x8000;
       break;
-
   }
-
 }

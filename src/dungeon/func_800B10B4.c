@@ -70,58 +70,59 @@ extern s32 D_80045340;
 extern s32 D_800B63A8;
 extern s32 D_800DEC00;
 
-void func_800B6814(S_800B6814_2 *arg0)
+/* Spawns a randomized radial burst of particles at the given position. */
+void func_800B6814(S_800B6814_2 *origin)
 {
-    s32 count;
-    s32 step;
+    s32 particle_count;
+    s32 angle_step;
     s32 angle;
-    s32 i;
-    s32 value;
-    S_800B6814_1 *part;
-    void *node;
-    S_800B6814_4 *image;
-    S_800B6814_3 *sub;
+    s32 particle_index;
+    s32 velocity_y;
+    S_800B6814_1 *motion;
+    void *particle;
+    S_800B6814_4 *sprite;
+    S_800B6814_3 *effect_state;
 
-    count = (rand() & 0xF) | 8;
-    step = 0x1000 / count;
-    i = 0;
+    particle_count = (rand() & 0xF) | 8;
+    angle_step = 0x1000 / particle_count;
+    particle_index = 0;
     angle = rand();
-    if ((u16)count != 0) {
+    if ((u16)particle_count != 0) {
         do {
-            node = func_8003FC64(0x212);
+            particle = func_8003FC64(0x212);
             
-            if (node != NULL) {
-                part = ((S_800B6814_0 *)node)->unk_08;
-                image = ((S_800B6814_0 *)node)->unk_0C;
-                ((S_800B6814_0 *)node)->unk_10 = &D_800B63A8;
-                func_8004491C(node, &D_80045340);
-                part->unk_02 =
-                    arg0->unk_02 + (func_80064584(angle) >> 11);
-                part->unk_06 =
-                    arg0->unk_06 + (func_800644B8(angle) >> 11);
-                part->unk_0A = arg0->unk_0A;
-                part->unk_0C = func_80064584(angle) << 6;
-                part->unk_10 = func_800644B8(angle) << 6;
-                part->unk_14 = 0xFFFD0000;
-                ((S_800B6814_0 *)node)->unk_20 = -part->unk_0C >> 6;
-                value = part->unk_10;
-                sub = (u8 *)node + 0x20;
-                sub->unk_08 = 0x2000;
-                sub->unk_04 = -value >> 6;
-                func_8003DB94(image, &D_800DEC00, 0);
-                image->unk_0C = 0x808080;
-                image->unk_1E = 0x400;
-                image->unk_1C = 0x400;
-                image->unk_10 = 0x60;
-                image->unk_12 = 0x7E80;
-                image->unk_14 |= 0x10C;
-                sub->unk_0E = (rand() & 3) | 0x10;
-                sub->unk_16 = 0x10;
-                sub->unk_14 = 0x10;
-                sub->unk_18 = 8;
+            if (particle != NULL) {
+                motion = ((S_800B6814_0 *)particle)->unk_08;
+                sprite = ((S_800B6814_0 *)particle)->unk_0C;
+                ((S_800B6814_0 *)particle)->unk_10 = &D_800B63A8;
+                func_8004491C(particle, &D_80045340);
+                motion->unk_02 =
+                    origin->unk_02 + (func_80064584(angle) >> 11);
+                motion->unk_06 =
+                    origin->unk_06 + (func_800644B8(angle) >> 11);
+                motion->unk_0A = origin->unk_0A;
+                motion->unk_0C = func_80064584(angle) << 6;
+                motion->unk_10 = func_800644B8(angle) << 6;
+                motion->unk_14 = 0xFFFD0000;
+                ((S_800B6814_0 *)particle)->unk_20 = -motion->unk_0C >> 6;
+                velocity_y = motion->unk_10;
+                effect_state = (u8 *)particle + 0x20;
+                effect_state->unk_08 = 0x2000;
+                effect_state->unk_04 = -velocity_y >> 6;
+                func_8003DB94(sprite, &D_800DEC00, 0);
+                sprite->unk_0C = 0x808080;
+                sprite->unk_1E = 0x400;
+                sprite->unk_1C = 0x400;
+                sprite->unk_10 = 0x60;
+                sprite->unk_12 = 0x7E80;
+                sprite->unk_14 |= 0x10C;
+                effect_state->unk_0E = (rand() & 3) | 0x10;
+                effect_state->unk_16 = 0x10;
+                effect_state->unk_14 = 0x10;
+                effect_state->unk_18 = 8;
             }
-            i++;
-            angle += step;
-        } while (i < count);
+            particle_index++;
+            angle += angle_step;
+        } while (particle_index < particle_count);
     }
 }

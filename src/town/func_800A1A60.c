@@ -18,24 +18,24 @@ typedef struct {
 extern Record84 D_80100AF8;
 
 
-void func_8009F1C0(Rec_func_8009EE9C_arg0 *arg0, S_8009F1C0_0 *arg1)
+/* Initialize the entity's action and copy its selected record for state 0x13. */
+void func_8009F1C0(Rec_func_8009EE9C_arg0 *entity, S_8009F1C0_0 *action)
 {
     u8 state;
     void *callback;
 
-    arg1->unk_14 = 4;
+    action->unk_14 = 4;
     callback = &D_8009EF88;
-    arg1->unk_15 = 0;
-    state = arg0->unk_4D;
-    arg0->unk_50.as_pv = callback;
-    arg0->unk_6C = 8;
+    action->unk_15 = 0;
+    state = entity->unk_4D;
+    entity->unk_50.as_pv = callback;
+    entity->unk_6C = 8;
 
     if (state == 0x13) {
         Record84 *records = (Record84 *)0x80010A80;
-        u8 *table = (u8 *)0x80010000;
+        u8 *record_map = (u8 *)0x80010000;
 
-        
         D_80100AF8 = records
-            [table[arg0->unk_95 * 4 + 0x983] & 0x3F];
+            [record_map[entity->unk_95 * 4 + 0x983] & 0x3F];
     }
 }

@@ -61,38 +61,39 @@ typedef struct S_807AFC9C_5 {
     s16 unk_0C;
 } S_807AFC9C_5;   /* temp_v1 in func_807AFC9C */
 
-void func_807AFC9C(s32 arg0, S_807AFC9C_2 *arg1, S_807AFC9C_4 *arg2) {
-    S_807AFC9C_3 *temp_a0;
-    S_807AFC9C_1 *temp_s0;
-    void *temp_v0;
-    S_807AFC9C_5 *temp_v1;
+/* Spawns an effect near the origin with color channels selected by the source flags. */
+void func_807AFC9C(s32 spawn_arg, S_807AFC9C_2 *origin, S_807AFC9C_4 *source) {
+    S_807AFC9C_3 *sprite;
+    S_807AFC9C_1 *position;
+    void *effect;
+    S_807AFC9C_5 *effect_state;
 
-    temp_v0 = func_8003FD64(0x212, arg0);
-    if (temp_v0 != NULL) {
-        ((S_807AFC9C_0 *)temp_v0)->unk_10 = &D_800F7348;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s0 = ((S_807AFC9C_0 *)temp_v0)->unk_08;
-        temp_s0->unk_02 = (s16) ((arg1->unk_02 + (rand() & 0x3F)) - 0x20);
-        temp_s0->unk_06 = (s16) ((arg1->unk_06 + (rand() & 0x3F)) - 0x20);
-        temp_s0->unk_0A = (s16) ((arg1->unk_0A + (rand() & 0x3F)) - 0x20);
-        temp_a0 = ((S_807AFC9C_0 *)temp_v0)->unk_0C;
-        temp_a0->unk_08 = &D_800FBE24;
-        if (arg2->unk_14 & 1) {
-            temp_a0->unk_0C = 0x20;
+    effect = func_8003FD64(0x212, spawn_arg);
+    if (effect != NULL) {
+        ((S_807AFC9C_0 *)effect)->unk_10 = &D_800F7348;
+        func_8004491C(effect, &D_80045340);
+        position = ((S_807AFC9C_0 *)effect)->unk_08;
+        position->unk_02 = (s16) ((origin->unk_02 + (rand() & 0x3F)) - 0x20);
+        position->unk_06 = (s16) ((origin->unk_06 + (rand() & 0x3F)) - 0x20);
+        position->unk_0A = (s16) ((origin->unk_0A + (rand() & 0x3F)) - 0x20);
+        sprite = ((S_807AFC9C_0 *)effect)->unk_0C;
+        sprite->unk_08 = &D_800FBE24;
+        if (source->unk_14 & 1) {
+            sprite->unk_0C = 0x20;
         }
-        if (arg2->unk_14 & 2) {
-            temp_a0->unk_0E = 0x20;
+        if (source->unk_14 & 2) {
+            sprite->unk_0E = 0x20;
         }
-        if (arg2->unk_14 & 4) {
-            temp_a0->unk_0D = 0x20;
+        if (source->unk_14 & 4) {
+            sprite->unk_0D = 0x20;
         }
-        temp_a0->unk_1E = 0x1000;
-        temp_a0->unk_1C = 0x1000;
-        temp_a0->unk_06 = 8;
-        temp_v1 = temp_v0 + 0x20;
-        temp_a0->unk_14 = (u16) (temp_a0->unk_14 | 0xC);
-        temp_v1->unk_0C = 0x10;
-        ((S_807AFC9C_0 *)temp_v0)->unk_20 = arg2;
-        temp_v1->unk_04 = arg1;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_06 = 8;
+        effect_state = effect + 0x20;
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        effect_state->unk_0C = 0x10;
+        ((S_807AFC9C_0 *)effect)->unk_20 = source;
+        effect_state->unk_04 = origin;
     }
 }

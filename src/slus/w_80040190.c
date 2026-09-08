@@ -20,27 +20,24 @@ extern struct S_80081498 {
     s32 pad[2];
 } D_80081498;
 
-/* Walks the global singly-linked list headed by D_80081498. For every node
- * whose field_10 (raw callback pointer) is negative (i.e. set/valid) and
- * whose field_1E does not have bit 0x400 set, invokes that callback as
- * func(node + 0x20, node->field_08, node->field_0C). */
+/* Invokes negative-address callbacks on nodes in D_80081498 whose flags omit bit 0x400. */
 void func_80040190(void)
 {
     S_80081498_Node *node;
-    S_80081498_Node *next;
-    s32 func;
+    S_80081498_Node *nextNode;
+    s32 callbackAddress;
 
     node = D_80081498.head;
     if (node != 0) {
         do {
-            func = node->field_10;
-            next = node->next;
-            if (func >= 0 || (node->field_1E & 0x400)) {
+            callbackAddress = node->field_10;
+            nextNode = node->next;
+            if (callbackAddress >= 0 || (node->field_1E & 0x400)) {
                 ;
             } else {
-                ((void (*)(void *, void *, void *))func)((u8 *)node + 0x20, node->field_08, node->field_0C);
+                ((void (*)(void *, void *, void *))callbackAddress)((u8 *)node + 0x20, node->field_08, node->field_0C);
             }
-            node = next;
+            node = nextNode;
         } while (node != 0);
     }
 }

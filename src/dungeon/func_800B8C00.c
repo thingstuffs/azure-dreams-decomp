@@ -26,63 +26,59 @@ extern s32 D_80083780[];
 extern u16 D_800DDE84[];
 extern s32 D_800E3D7C[];
 
-s32 func_800BE360(void *arg0, void *arg1, s16 arg2, s32 arg3) {
-    s32 idx0;
-    s32 idx1;
-    DungeonItem *ptr;
-    u16 *table_base;
+/* Dispatch an item action using its flags and the target selector, then update the counter. */
+s32 func_800BE360(void *target, void *item, s16 action_type, s32 action_value) {
+    s32 item_index;
+    s32 group_index;
+    DungeonItem *entries;
+    u16 *selector_table;
     u8 *counter_base;
-    u8 *far_page;
-    u8 *direct_page;
-    s32 direct_index;
+    u8 *fallback_page;
+    u8 *selector_page;
+    s32 selector_index;
     s32 selector;
-    s16 val;
-    u16 val2;
+    s16 item_flags;
+    u16 selector_bits;
 
-    if (arg2 == 0xD) {
-        return func_80098864(arg1, arg3);
+    if (action_type == 0xD) {
+        return func_80098864(item, action_value);
     }
-    if ((s32) arg0 == D_800E3D7C[0]) {
-        *(void **)((u8 *)arg0 + 0x110) = arg1;
-        func_8008D344(arg0, D_80083780, D_80082E80, arg0);
+    if ((s32) target == D_800E3D7C[0]) {
+        *(void **)((u8 *)target + 0x110) = item;
+        func_8008D344(target, D_80083780, D_80082E80, target);
         return 0;
     }
-    if ((u32)arg0 <= 0x9FFFFFFFU) {
-        func_800A6480(arg0, arg1, arg2);
-        idx1 = *((u8 *)arg1 + 1);
-        idx0 = *((u8 *)arg1 + 0);
-        ptr = D_80073414[idx1].entries;
-        val = ptr[idx0].flags;
-        if (!(val & 0x8000)) {
-            direct_page = (u8 *)0x800E0000;
-            ASM_KEEP(direct_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            direct_index = *((u8 *)arg0 + 0x13);
+    if ((u32)target <= 0x9FFFFFFFU) {
+        func_800A6480(target, item, action_type);
+        group_index = *((u8 *)item + 1);
+        item_index = *((u8 *)item + 0);
+        entries = D_80073414[group_index].entries;
+        item_flags = entries[item_index].flags;
+        if (!(item_flags & 0x8000)) {
+            selector_page = (u8 *)0x800E0000;
+            ASM_KEEP(selector_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            selector_index = *((u8 *)target + 0x13);
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            direct_page -= 0x217C;
-            ASM_KEEP(direct_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            val2 = ((u16 *)direct_page)[direct_index];
-            selector = val2 & 3;
+            selector_page -= 0x217C;
+            ASM_KEEP(selector_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            selector_bits = ((u16 *)selector_page)[selector_index];
+            selector = selector_bits & 3;
         } else {
-            table_base = D_800DDE84;
-            val2 = table_base[*((u8 *)arg0 + 0x13)];
-            selector = (val2 >> 4) & 3;
+            selector_table = D_800DDE84;
+            selector_bits = selector_table[*((u8 *)target + 0x13)];
+            selector = (selector_bits >> 4) & 3;
         }
-        if (func_800AD6FC(arg0, selector, arg1) == 0) {
-            func_800A5F38(arg0, arg1);
+        if (func_800AD6FC(target, selector, item) == 0) {
+            func_800A5F38(target, item);
             return 1;
         }
-        func_80098B38(arg1);
+        func_80098B38(item);
     } else {
-        far_page = (u8 *)0x800E0000;
-        ASM_KEEP(far_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_800997FC(far_page + 0x101C, arg3, arg2);
+        fallback_page = (u8 *)0x800E0000;
+        ASM_KEEP(fallback_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        func_800997FC(fallback_page + 0x101C, action_value, action_type);
     }
     counter_base = D_80083460;
     *(u16 *)(counter_base + 0xA) = *(u16 *)(counter_base + 0xA) - 1;
     return 1;
 }
-
-/* MECHANISM: The true-base CFG uses local selector, decrement, and epilogue joins
-   under a 0x20 frame holding s0/s1; DungeonGroup typing preserves base-plus-0xC.
-   Split page live ranges plus a v0 pin and scheduling seam emit lui/lbu/addiu.
-   Held far/counter bases preserve signed offsets and predecessor delay-slot hoists. */

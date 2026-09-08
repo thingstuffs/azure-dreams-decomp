@@ -6,9 +6,10 @@ typedef struct S_80173DF0_0 {
     u8 unk_360C;
 } S_80173DF0_0;   /* temp_a0 in func_80173DF0 */
 
-void func_80173DF0(s32 arg0) {
-    S_80173DF0_0 *temp_a0;
+/* Increment the byte counter in the record at the given base-relative offset. */
+void func_80173DF0(s32 record_offset) {
+    S_80173DF0_0 *record;
 
-    temp_a0 = arg0 + 0x80010000;
-    temp_a0->unk_360C = (u8) (temp_a0->unk_360C + 1);
+    record = record_offset + 0x80010000;
+    record->unk_360C = (u8) (record->unk_360C + 1);
 }

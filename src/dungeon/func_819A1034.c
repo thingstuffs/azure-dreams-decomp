@@ -27,42 +27,43 @@ extern s16 D_800261B0;
 extern s32 D_800814A0;
 
 
-void func_819A1034(void *arg0)
+/* Decrement the fade timer, scale four colors, and flag completion at zero. */
+void func_819A1034(void *fade_data)
 {
-    void *base;
-    s32 i;
-    register u8 *p ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *page;
-    u16 count;
+    void *fade;
+    s32 color_index;
+    register u8 *color_ptr ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *global_page;
+    u16 ticks_left;
 
-    base = arg0;
-    do { i = 0; } while (0);
-    p = base;
+    fade = fade_data;
+    do { color_index = 0; } while (0);
+    color_ptr = fade;
 #ifdef NON_MATCHING
-    page = (u8 *)&D_800261B0 - 0x5FF4;
+    global_page = (u8 *)&D_800261B0 - 0x5FF4;
 #else
-    page = (u8 *)0x80020000;
+    global_page = (u8 *)0x80020000;
 #endif
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    count = ((S_819A1034_0 *)base)->unk_3A.s;
-    ((S_819A1034_1 *)page)->unk_61B0 = 1;
-    count--;
-    ((S_819A1034_0 *)base)->unk_3A.s = count;
+    ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ticks_left = ((S_819A1034_0 *)fade)->unk_3A.s;
+    ((S_819A1034_1 *)global_page)->unk_61B0 = 1;
+    ticks_left--;
+    ((S_819A1034_0 *)fade)->unk_3A.s = ticks_left;
     do {
-        ((S_819A1034_2 *)p)->unk_0C =
-            ((S_819A1034_2 *)p)->unk_1C * ((S_819A1034_0 *)base)->unk_3A.u /
-            ((S_819A1034_0 *)base)->unk_3C;
-        ((S_819A1034_2 *)p)->unk_0D =
-            ((S_819A1034_2 *)p)->unk_1D * ((S_819A1034_0 *)base)->unk_3A.u /
-            ((S_819A1034_0 *)base)->unk_3C;
-        i++;
-        ((S_819A1034_2 *)p)->unk_0E =
-            ((S_819A1034_2 *)p)->unk_1E * ((S_819A1034_0 *)base)->unk_3A.u /
-            ((S_819A1034_0 *)base)->unk_3C;
-        p += 4;
-    } while (i < 4);
-    if (((S_819A1034_0 *)base)->unk_3A.u <= 0) {
-        (*(u16 *)((u8 *)base + -2)) |= 0x8000;
+        ((S_819A1034_2 *)color_ptr)->unk_0C =
+            ((S_819A1034_2 *)color_ptr)->unk_1C * ((S_819A1034_0 *)fade)->unk_3A.u /
+            ((S_819A1034_0 *)fade)->unk_3C;
+        ((S_819A1034_2 *)color_ptr)->unk_0D =
+            ((S_819A1034_2 *)color_ptr)->unk_1D * ((S_819A1034_0 *)fade)->unk_3A.u /
+            ((S_819A1034_0 *)fade)->unk_3C;
+        color_index++;
+        ((S_819A1034_2 *)color_ptr)->unk_0E =
+            ((S_819A1034_2 *)color_ptr)->unk_1E * ((S_819A1034_0 *)fade)->unk_3A.u /
+            ((S_819A1034_0 *)fade)->unk_3C;
+        color_ptr += 4;
+    } while (color_index < 4);
+    if (((S_819A1034_0 *)fade)->unk_3A.u <= 0) {
+        (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

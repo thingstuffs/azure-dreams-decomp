@@ -50,76 +50,77 @@ extern s16 D_80086D50[8];
 extern u8 D_8007382A[16];
 extern S_800561D8_D80073738 D_80073738;
 
-void func_800561D8(S_800561D8_Arg0 *arg0, S_800561D8_Arg1 *arg1)
+/* Compute voice pan and stereo volumes from channel gains and sound parameters. */
+void func_800561D8(S_800561D8_Arg0 *voice_arg, S_800561D8_Arg1 *sound_params)
 {
-    S_800561D8_Arg0 *t0 = arg0;
-    S_800561D8_D80086A40 *baseA = D_80086A40;
-    S_800561D8_D80086A40 *entryA;
-    register s32 a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 prod;
-    s32 a2;
-    s32 a3;
+    S_800561D8_Arg0 *voice = voice_arg;
+    S_800561D8_D80086A40 *channels = D_80086A40;
+    S_800561D8_D80086A40 *channel;
+    register s32 pan_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 product;
+    s32 left_volume;
+    s32 right_volume;
     s32 scale;
-    s32 sum;
+    s32 pan_sum;
 
-    a0 = D_80086D50[0];
-    entryA = &baseA[a0];
-    sum = entryA->unk1B + t0->unk16;
-    ASM_KEEP(sum);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    sum += t0->unk17;
-    a0 = arg1->unk4;
-    sum += a0;
-    a0 = sum - 0xC0;
+    pan_value = D_80086D50[0];
+    channel = &channels[pan_value];
+    pan_sum = channel->unk1B + voice->unk16;
+    ASM_KEEP(pan_sum);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    pan_sum += voice->unk17;
+    pan_value = sound_params->unk4;
+    pan_sum += pan_value;
+    pan_value = pan_sum - 0xC0;
     if (D_8007382A[0] != 0) {
-        a0 = 0x40;
+        pan_value = 0x40;
     }
-    if (a0 < 0) {
-        a0 = 0;
+    if (pan_value < 0) {
+        pan_value = 0;
     }
-    if (a0 >= 0x80) {
-        a0 = 0x7F;
+    if (pan_value >= 0x80) {
+        pan_value = 0x7F;
     }
-    t0->unk18 = a0;
+    voice->unk18 = pan_value;
 
-    prod = entryA->unk18 * D_80073738.f0;
-    prod *= arg1->unk14;
-    prod *= arg1->unkC;
-    prod = (u32)prod >> 0xE;
-    prod *= t0->unk14;
-    scale = prod * t0->unk15;
+    product = channel->unk18 * D_80073738.f0;
+    product *= sound_params->unk14;
+    product *= sound_params->unkC;
+    product = (u32)product >> 0xE;
+    product *= voice->unk14;
+    scale = product * voice->unk15;
     {
-        register s32 shifted ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        shifted = scale >> 0xE;
-        a2 = shifted;
-        if (a0 >= 0x40) {
-            a3 = shifted;
-            prod = a0 & 0x3F;
-            scale = 0x40 - prod;
-            prod = a3 * 2;
-            a2 = (scale * prod) >> 7;
+        register s32 volume ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        volume = scale >> 0xE;
+        left_volume = volume;
+        if (pan_value >= 0x40) {
+            right_volume = volume;
+            product = pan_value & 0x3F;
+            scale = 0x40 - product;
+            product = right_volume * 2;
+            left_volume = (scale * product) >> 7;
         } else {
-            s32 doubled;
-            doubled = a2 * 2;
-            a3 = (a0 * doubled) >> 7;
+            s32 doubled_volume;
+            doubled_volume = left_volume * 2;
+            right_volume = (pan_value * doubled_volume) >> 7;
         }
     }
 
     {
-        S_800561D8_D80086C00 *baseC = D_80086C00;
-        S_800561D8_D80086C00 *entryC;
-        a0 = D_80086D50[0];
-        entryC = &baseC[a0];
-        prod = a2 * entryC->unk8;
-        scale = entryC->unkA;
-        a0 = a3 * scale;
-        a2 = prod >> 7;
-        a3 = a0 >> 7;
-        t0->unk10 = (u16)((a2 * (t0->unk1C & 0x7F)) >> 7);
-        t0->unk12 = (u16)((a3 * (t0->unk1C & 0x7F)) >> 7);
+        S_800561D8_D80086C00 *channel_gains = D_80086C00;
+        S_800561D8_D80086C00 *gain_entry;
+        pan_value = D_80086D50[0];
+        gain_entry = &channel_gains[pan_value];
+        product = left_volume * gain_entry->unk8;
+        scale = gain_entry->unkA;
+        pan_value = right_volume * scale;
+        left_volume = product >> 7;
+        right_volume = pan_value >> 7;
+        voice->unk10 = (u16)((left_volume * (voice->unk1C & 0x7F)) >> 7);
+        voice->unk12 = (u16)((right_volume * (voice->unk1C & 0x7F)) >> 7);
     }
 
-    if (((u32)arg1->unk2C) >= 0x40) {
-        t0->unk10 = (u16)((t0->unk10 * t0->unk10) >> 14);
-        t0->unk12 = (u16)((t0->unk12 * t0->unk12) >> 14);
+    if (((u32)sound_params->unk2C) >= 0x40) {
+        voice->unk10 = (u16)((voice->unk10 * voice->unk10) >> 14);
+        voice->unk12 = (u16)((voice->unk12 * voice->unk12) >> 14);
     }
 }

@@ -57,59 +57,60 @@ s32 rand();                                /* extern */
 M2C_UNK func_800D4BD4(); /* extern */
 extern M2C_UNK D_800D50FC[3];
 
-void func_800D5294(void *arg0, Rec_func_800D4BD4_arg2 *arg1, M2C_UNK arg2) {
-    s32 var_s1;
-    u16 temp_v0;
-    u16 temp_v0_4;
-    s16 temp_v1;
-    s16 temp_s3;
-    S_800D5294_5 *temp_a0;
-    S_800D5294_4 *temp_s0;
-    u16 *fixed;
-    M2C_UNK *temp_s5;
-    void *temp_v0_2;
-    S_800D5294_2 *temp_v0_3;
+/* Emit randomized particles at the parent-relative position and expire the emitter when its lifetime ends. */
+void func_800D5294(void *emitter, Rec_func_800D4BD4_arg2 *position, M2C_UNK spawn_context) {
+    s32 particle_index;
+    u16 tick_or_offset;
+    u16 life_left;
+    s16 coord;
+    s16 particle_size;
+    S_800D5294_5 *parent;
+    S_800D5294_4 *particle_motion;
+    u16 *effect_counters;
+    M2C_UNK *particle_data;
+    void *particle;
+    S_800D5294_2 *particle_state;
 
-    temp_a0 = ((Rec_func_800D4BD4_arg1 *)arg0)->unk_24;
-    arg1->unk_02.as_s16 = (s16) (((S_800D5294_6 *)(temp_a0->unk_08))->unk_02 + ((Rec_func_800D4BD4_arg1 *)arg0)->unk_3C);
-    arg1->unk_06.as_s16 = (s16) (((S_800D5294_6 *)(temp_a0->unk_08))->unk_06 + ((Rec_func_800D4BD4_arg1 *)arg0)->unk_3E);
-    arg1->unk_0A.as_s16 = (s16) (((S_800D5294_6 *)(temp_a0->unk_08))->unk_0A + ((Rec_func_800D4BD4_arg1 *)arg0)->unk_40);
-    temp_v0 = ((Rec_func_800D4BD4_arg1 *)arg0)->unk_16 + 1;
-    ((Rec_func_800D4BD4_arg1 *)arg0)->unk_16 = temp_v0;
-    if ((s16) temp_v0 < 0x14) {
-        var_s1 = 0;
-        temp_s3 = 0x20;
-        temp_s5 = D_800D50FC;
+    parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
+    position->unk_02.as_s16 = (s16) (((S_800D5294_6 *)(parent->unk_08))->unk_02 + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
+    position->unk_06.as_s16 = (s16) (((S_800D5294_6 *)(parent->unk_08))->unk_06 + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
+    position->unk_0A.as_s16 = (s16) (((S_800D5294_6 *)(parent->unk_08))->unk_0A + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
+    tick_or_offset = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;
+    ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 = tick_or_offset;
+    if ((s16) tick_or_offset < 0x14) {
+        particle_index = 0;
+        particle_size = 0x20;
+        particle_data = D_800D50FC;
         do {
-            temp_v0_2 = func_8003FC64(0x212);
-            if (temp_v0_2 != NULL) {
-                func_800D4BD4(temp_v0_2, arg0, arg1, arg2);
-                temp_v0_3 = temp_v0_2 + 0x20;
-                temp_v0_3->unk_1E = temp_s3;
-                temp_v0_3->unk_20 = temp_s3;
-                ((S_800D5294_3 *)temp_v0_2)->unk_10 = temp_s5;
-                temp_s0 = ((S_800D5294_3 *)temp_v0_2)->unk_08;
-                temp_v0 = rand() & 0x3F;
-                temp_v1 = temp_s0->unk_02;
-                temp_v1 = temp_v1 - 0x1F;
-                temp_s0->unk_02 = temp_v1 + temp_v0;
-                temp_v0 = rand() & 0x3F;
-                temp_v1 = temp_s0->unk_06;
-                temp_v1 = temp_v1 - 0x1F;
-                temp_s0->unk_06 = temp_v1 + temp_v0;
-                temp_v0 = rand() & 0x1F;
-                temp_s0->unk_0A = (s16) (temp_s0->unk_0A - temp_v0);
-                temp_s0->unk_14 = (s32) ((0 - ((rand() & 0xFFFF) + 0x10000)) * 2);
+            particle = func_8003FC64(0x212);
+            if (particle != NULL) {
+                func_800D4BD4(particle, emitter, position, spawn_context);
+                particle_state = particle + 0x20;
+                particle_state->unk_1E = particle_size;
+                particle_state->unk_20 = particle_size;
+                ((S_800D5294_3 *)particle)->unk_10 = particle_data;
+                particle_motion = ((S_800D5294_3 *)particle)->unk_08;
+                tick_or_offset = rand() & 0x3F;
+                coord = particle_motion->unk_02;
+                coord = coord - 0x1F;
+                particle_motion->unk_02 = coord + tick_or_offset;
+                tick_or_offset = rand() & 0x3F;
+                coord = particle_motion->unk_06;
+                coord = coord - 0x1F;
+                particle_motion->unk_06 = coord + tick_or_offset;
+                tick_or_offset = rand() & 0x1F;
+                particle_motion->unk_0A = (s16) (particle_motion->unk_0A - tick_or_offset);
+                particle_motion->unk_14 = (s32) ((0 - ((rand() & 0xFFFF) + 0x10000)) * 2);
             }
-            var_s1 += 1;
-        } while (var_s1 < 4);
+            particle_index += 1;
+        } while (particle_index < 4);
     }
-    temp_v0_4 = ((Rec_func_800D4BD4_arg1 *)arg0)->unk_1E - 1;
-    ((Rec_func_800D4BD4_arg1 *)arg0)->unk_1E = temp_v0_4;
-    if ((temp_v0_4 << 0x10) <= 0) {
-        ((S_800D5294_0_pre *)arg0)[-1].unk_00 = (u16) (((S_800D5294_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    life_left = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_1E - 1;
+    ((Rec_func_800D4BD4_arg1 *)emitter)->unk_1E = life_left;
+    if ((life_left << 0x10) <= 0) {
+        ((S_800D5294_0_pre *)emitter)[-1].unk_00 = (u16) (((S_800D5294_0_pre *)emitter)[-1].unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
-        fixed = D_80083460;
-        fixed[5] = fixed[5] - 1;
+        effect_counters = D_80083460;
+        effect_counters[5] = effect_counters[5] - 1;
     }
 }

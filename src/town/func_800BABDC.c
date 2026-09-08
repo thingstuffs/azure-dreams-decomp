@@ -11,28 +11,29 @@ extern void func_800B7B48();
 extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];
 
+/* Processes populated entity entries and sets their state field to 1. */
 void func_800B833C(void)
 {
-    s32 i = 0;
-    u8 *entity = D_800D2644;
+    s32 entry_index = 0;
+    u8 *entities = D_800D2644;
     u8 *record = D_800D2EA4;
-    u8 *page = (u8 *)0x80010000;
-    u8 id;
+    u8 *ram_page = (u8 *)0x80010000;
+    u8 entity_id;
 
     do {
-        id = page[(i * 2) + 0x33A4];
-        if (id != 0) {
-            register s32 one ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            s16 *slot;
+        entity_id = ram_page[(entry_index * 2) + 0x33A4];
+        if (entity_id != 0) {
+            register s32 state_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            s16 *entity_state;
 
             func_800B7B48(record[0], record[1],
-                          *(u8 *)((uptr)(id << 5) + (uptr)entity));
-            id = page[(i * 2) + 0x33A4];
-            one = 1;
-            slot = (s16 *)((uptr)(id << 5) + (uptr)entity + 0xA);
-            *slot = one;
+                          *(u8 *)((uptr)(entity_id << 5) + (uptr)entities));
+            entity_id = ram_page[(entry_index * 2) + 0x33A4];
+            state_value = 1;
+            entity_state = (s16 *)((uptr)(entity_id << 5) + (uptr)entities + 0xA);
+            *entity_state = state_value;
         }
         record += 8;
-        i++;
-    } while (i < 0x21);
+        entry_index++;
+    } while (entry_index < 0x21);
 }

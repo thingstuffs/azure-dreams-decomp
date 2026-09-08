@@ -104,297 +104,297 @@ extern u16 D_80082EA4;
 extern M2C_UNK D_80083460;
 extern D_800E2970Entry D_800E2970[];
 
-void func_8016BF74(void *raw_arg0, void *arg1, void *raw_arg2, void *raw_arg3) {
-    void *arg0;
-    S_8016BF74_2 *arg2;
-    void *arg3;
-    register s32 var_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 var_s6;
-    register u8 *var_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    M2C_UNK var_a2;
-    M2C_UNK var_a2_2;
-    register s8 *var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s8 *loop_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 temp_a1;
-    s32 temp_a2;
-    s32 temp_t1;
-    s32 temp_t2;
-    s32 temp_w1;
-    s32 temp_w2;
-    s16 temp_v0_4;
-    s16 temp_v0_6;
-    register s32 temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    u8 *temp_v1_ptr;
-    s32 temp_v0_3;
-    register s32 temp_high_bit ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s32 var_v0;
-    s8 temp_a0;
+/* Selects a movement direction and advances the actor path through available tiles. */
+void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *raw_actor) {
+    void *motion;
+    S_8016BF74_2 *position;
+    void *actor;
+    register s32 turn_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 near_target;
+    register u8 *x_offsets ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    M2C_UNK old_tile_mask;
+    M2C_UNK new_tile_mask;
+    register s8 *angle_offsets ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s8 *offset_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 target_y;
+    s32 target_x;
+    s32 y_offset;
+    s32 x_offset;
+    s32 world_y;
+    s32 world_x;
+    s16 target_angle;
+    s16 actor_distance;
+    register s32 tile_x_or_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *x_offset_ptr;
+    s32 move_value;
+    register s32 initialized_bit ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 actor_flags;
+    s32 direction_offset;
+    s32 result;
+    s8 tile_index;
     s8 *state;
     s32 state_flags;
-    register void *temp_v0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    S_8016BF74_4 *temp_v0_2;
-    void *temp_v0_7;
-    register void *temp_v0_5 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temp_c008;
-    s32 temp_call_a1;
-    s32 loop_angle;
-    s16 loop_sum;
-    void *first_position;
-    s32 first_a0;
-    s32 first_a1;
-    s32 first_a2;
-    s32 first_a3;
-    register s32 loop_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 loop_flags2;
-    s32 loop_table_y;
-    s32 loop_call_a0;
-    s32 first_compare_x;
-    register s32 loop_next ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 loop_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u8 *loop_table_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 *loop_table_ptr;
-    u8 *world_call;
+    register void *target_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_8016BF74_4 *target_position;
+    void *ahead_target;
+    register void *nearby_target ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 active_actor;
+    s32 path_status;
+    s32 tile_y;
+    s32 current_angle;
+    s16 candidate_angle;
+    void *motion_flags;
+    s32 source_x;
+    s32 source_y;
+    s32 dest_x;
+    s32 dest_y;
+    register s32 old_tile_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 new_tile_flags;
+    s32 step_y;
+    s32 next_x;
+    s32 current_x;
+    register s32 next_path_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 current_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u8 *y_offsets ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *y_offset_ptr;
+    u8 *world_position;
 
-    arg0 = raw_arg0;
-    arg2 = raw_arg2;
-    arg3 = raw_arg3;
+    motion = raw_motion;
+    position = raw_position;
+    actor = raw_actor;
     state = (s8 *)&D_80083460;
-    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state_flags = ((S_8016BF74_0 *)state)->unk_02;
-    var_s6 = 0;
-    if ((state_flags & 0x4000) || (((S_8016BF74_1 *)arg3)->unk_71.s >= 0)) {
-        if (((u8) ((S_8016BF74_1 *)arg3)->unk_12 >= 2U) || ((func_8016C720(arg0, arg1, arg2, arg3) << 0x10) == 0)) {
-            func_800A9A0C(arg3);
+    near_target = 0;
+    if ((state_flags & 0x4000) || (((S_8016BF74_1 *)actor)->unk_71.s >= 0)) {
+        if (((u8) ((S_8016BF74_1 *)actor)->unk_12 >= 2U) || ((func_8016C720(motion, context, position, actor) << 0x10) == 0)) {
+            func_800A9A0C(actor);
             return;
         }
-        temp_c008 = ((S_8016BF74_0 *)state)->unk_0C;
-        if ((void *)temp_c008 == arg3) {
-            temp_c008 = 0xC008;
-            ((S_8016BF74_1 *)arg3)->unk_46 = (u16) temp_c008;
+        active_actor = ((S_8016BF74_0 *)state)->unk_0C;
+        if ((void *)active_actor == actor) {
+            path_status = 0xC008;
+            ((S_8016BF74_1 *)actor)->unk_46 = (u16) path_status;
             return;
         }
         return;
     }
     if (state_flags & 0x2000) {
-        func_800A19E4(arg2, arg3, 3, 6, arg0 + 0x9C);
-        temp_v1 = ((S_8016BF74_1 *)arg3)->unk_1C;
-        if (temp_v1 & 0x410) {
-            if (temp_v1 & 0x400) {
-                temp_v0 = func_800A02AC(arg3, arg2->unk_24.at00.v, arg2->unk_24.at01.v);
-                if (temp_v0 != NULL) {
-                    first_a0 = arg2->unk_24.at00.v;
-                    temp_v0_2 = ((S_8016BF74_3_pre *)temp_v0)[-1].unk_00;
-                    first_a1 = arg2->unk_24.at01.v;
-                    first_a2 = temp_v0_2->unk_24;
-                    first_a3 = temp_v0_2->unk_25;
-                    first_position = arg0 + 0x98;
-                    ((S_8016BF74_1 *)arg3)->unk_2A.u = func_800A0818(first_a0, first_a1, first_a2, first_a3, first_position);
-                    ((S_8016BF74_1 *)arg3)->unk_71.u &= 0x7F;
+        func_800A19E4(position, actor, 3, 6, motion + 0x9C);
+        actor_flags = ((S_8016BF74_1 *)actor)->unk_1C;
+        if (actor_flags & 0x410) {
+            if (actor_flags & 0x400) {
+                target_entry = func_800A02AC(actor, position->unk_24.at00.v, position->unk_24.at01.v);
+                if (target_entry != NULL) {
+                    source_x = position->unk_24.at00.v;
+                    target_position = ((S_8016BF74_3_pre *)target_entry)[-1].unk_00;
+                    source_y = position->unk_24.at01.v;
+                    dest_x = target_position->unk_24;
+                    dest_y = target_position->unk_25;
+                    motion_flags = motion + 0x98;
+                    ((S_8016BF74_1 *)actor)->unk_2A.u = func_800A0818(source_x, source_y, dest_x, dest_y, motion_flags);
+                    ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
                     return;
                 }
-                temp_v0_3 = ((S_8016BF74_1 *)arg3)->unk_14;
-                if (temp_v0_3 >= 0) {
-                    temp_high_bit = 0x80000000;
-                    temp_v0_3 |= temp_high_bit;
-                    ((S_8016BF74_1 *)arg3)->unk_14 = temp_v0_3;
-                    var_v0 = func_800A6D30();
-                    ((S_8016BF74_1 *)arg3)->unk_2A.u += (var_v0 & 7) << 9;
-                    goto block_46;
+                move_value = ((S_8016BF74_1 *)actor)->unk_14;
+                if (move_value >= 0) {
+                    initialized_bit = 0x80000000;
+                    move_value |= initialized_bit;
+                    ((S_8016BF74_1 *)actor)->unk_14 = move_value;
+                    result = func_800A6D30();
+                    ((S_8016BF74_1 *)actor)->unk_2A.u += (result & 7) << 9;
+                    goto start_search;
                 }
-                goto block_46;
+                goto start_search;
             }
-            temp_v0_7 = func_800A04F0(arg3, arg2->unk_24.at00.v, arg2->unk_24.at01.v, (s16) ((S_8016BF74_1 *)arg3)->unk_2A.u);
-            var_s3 = 0;
-            if (temp_v0_7 == NULL) {
-                goto block_47;
+            ahead_target = func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v, (s16) ((S_8016BF74_1 *)actor)->unk_2A.u);
+            turn_index = 0;
+            if (ahead_target == NULL) {
+                goto init_offsets;
             }
-            goto block_clear_71;
+            goto finish_path;
         }
-        if (((S_8016BF74_5 *)arg0)->unk_B2 != 0) {
-                var_s3 = 0;
-                if (!(((S_8016BF74_1 *)arg3)->unk_46 & 0x8000)) {
-                    if (temp_v1 & 0x20000) {
-                    temp_v1_2 = ((((S_8016BF74_1 *)arg3)->unk_45 + ((s32) (((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 << 0x10) >> 0x19)) & 7) * 2;
-                    temp_w2 = D_80082E80[0x24];
-                    temp_w1 = D_80082E80[0x25];
-                    temp_t2 = (*(u16 *)((u8 *)(&D_8006CCD8) + temp_v1_2));
-                    temp_t1 = (*(u16 *)((u8 *)(&D_8006CCE8) + temp_v1_2));
+        if (((S_8016BF74_5 *)motion)->unk_B2 != 0) {
+            turn_index = 0;
+            if (!(((S_8016BF74_1 *)actor)->unk_46 & 0x8000)) {
+                if (actor_flags & 0x20000) {
+                    direction_offset = ((((S_8016BF74_1 *)actor)->unk_45 + ((s32) (((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 << 0x10) >> 0x19)) & 7) * 2;
+                    world_x = D_80082E80[0x24];
+                    world_y = D_80082E80[0x25];
+                    x_offset = (*(u16 *)((u8 *)(&D_8006CCD8) + direction_offset));
+                    y_offset = (*(u16 *)((u8 *)(&D_8006CCE8) + direction_offset));
                     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                    first_compare_x = arg2->unk_24.at00.v;
-                    temp_a2 = temp_w2 + temp_t2;
-                    temp_a1 = temp_w1 + temp_t1;
-                    ASM_KEEP(first_compare_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    ASM_USE_NV(temp_t2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    if ((first_compare_x != (temp_a2 & 0xFFFF)) || (arg2->unk_24.at01.v != (temp_a1 & 0xFFFF))) {
-                        temp_v0_4 = func_800A0818(arg2->unk_24.at00.v, arg2->unk_24.at01.v, (s16) temp_a2, (s16) temp_a1, arg0 + 0x98);
-                        ((S_8016BF74_1 *)arg3)->unk_2A.u = (u16) temp_v0_4;
-                        if ((func_8009A66C(temp_v0_4, arg2, arg3, 0x20) << 0x10) <= 0) {
-                            u8 *wcf;
+                    current_x = position->unk_24.at00.v;
+                    target_x = world_x + x_offset;
+                    target_y = world_y + y_offset;
+                    ASM_KEEP(current_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    ASM_USE_NV(x_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    if ((current_x != (target_x & 0xFFFF)) || (position->unk_24.at01.v != (target_y & 0xFFFF))) {
+                        target_angle = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, (s16) target_x, (s16) target_y, motion + 0x98);
+                        ((S_8016BF74_1 *)actor)->unk_2A.u = (u16) target_angle;
+                        if ((func_8009A66C(target_angle, position, actor, 0x20) << 0x10) <= 0) {
+                            u8 *fallback_position;
 
-                            wcf = (u8 *)&D_80082EA4 - 0x24;
-                            ((S_8016BF74_1 *)arg3)->unk_2A.u = func_800A0818(arg2->unk_24.at00.v, arg2->unk_24.at01.v, wcf[0x24], wcf[0x25], arg0 + 0x98);
+                            fallback_position = (u8 *)&D_80082EA4 - 0x24;
+                            ((S_8016BF74_1 *)actor)->unk_2A.u = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, fallback_position[0x24], fallback_position[0x25], motion + 0x98);
                         }
-                        world_call = (u8 *)&D_80082EA4 - 0x24;
-                        var_v0 = func_8009FD7C(arg2->unk_24.at00.v, arg2->unk_24.at01.v, world_call[0x24], world_call[0x25]);
+                        world_position = (u8 *)&D_80082EA4 - 0x24;
+                        result = func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v, world_position[0x24], world_position[0x25]);
                         ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                        var_s3 = 0;
-                        if ((var_v0 << 0x10) == 0) {
-                            goto block_47;
+                        turn_index = 0;
+                        if ((result << 0x10) == 0) {
+                            goto init_offsets;
                         }
-                        var_s6 = 1;
-                        goto block_47;
+                        near_target = 1;
+                        goto init_offsets;
                     }
-                    goto block_clear_71;
+                    goto finish_path;
                 }
-                goto block_44;
+                goto choose_direction;
             }
-            goto block_47;
+            goto init_offsets;
         }
-        temp_a0 = arg2->unk_26;
-        if ((temp_a0 < 0) || !(D_800E2970[temp_a0].flags & 2)) {
-            var_s3 = 0;
-            if (!(((S_8016BF74_1 *)arg3)->unk_46 & 0x8000)) {
-                temp_v0_5 = func_800A04F0(arg3, arg2->unk_24.at00.v, arg2->unk_24.at01.v, (s16) ((S_8016BF74_1 *)arg3)->unk_2A.u);
-                if ((temp_v0_5 == NULL) || !(((S_8016BF74_7 *)temp_v0_5)->unk_1C & 0x2000) || (func_800A0134(temp_v0_5, arg3) >= 0x81) || ((func_8009A540(((s32) (((S_8016BF74_1 *)arg3)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF, arg2->unk_24.at00.v, arg2->unk_24.at01.v, (s16) (((S_8016BF74_1 *)arg3)->unk_88 - 0x20)) << 0x10) == 0)) {
-                    if (((S_8016BF74_1 *)arg3)->unk_1C & 0x20000) {
-                        u8 *world2;
+        tile_index = position->unk_26;
+        if ((tile_index < 0) || !(D_800E2970[tile_index].flags & 2)) {
+            turn_index = 0;
+            if (!(((S_8016BF74_1 *)actor)->unk_46 & 0x8000)) {
+                nearby_target = func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v, (s16) ((S_8016BF74_1 *)actor)->unk_2A.u);
+                if ((nearby_target == NULL) || !(((S_8016BF74_7 *)nearby_target)->unk_1C & 0x2000) || (func_800A0134(nearby_target, actor) >= 0x81) || ((func_8009A540(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF, position->unk_24.at00.v, position->unk_24.at01.v, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20)) << 0x10) == 0)) {
+                    if (((S_8016BF74_1 *)actor)->unk_1C & 0x20000) {
+                        u8 *world_origin;
 
-                        world2 = (u8 *)&D_80082E80;
-                        ((S_8016BF74_1 *)arg3)->unk_2A.u = func_800A0818(arg2->unk_24.at00.v, arg2->unk_24.at01.v, world2[0x24], world2[0x25], arg0 + 0x98);
-                        if ((func_8009FD7C(arg2->unk_24.at00.v, arg2->unk_24.at01.v, world2[0x24], world2[0x25]) << 0x10) != 0) {
-                            temp_v0_6 = func_800A0134(D_800814A8, arg3);
-                            var_s3 = 0;
-                            if (temp_v0_6 < 0x81) {
-                                var_v0 = func_8009A540(((s32) (((S_8016BF74_1 *)arg3)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF, arg2->unk_24.at00.v, arg2->unk_24.at01.v, (s16) (((S_8016BF74_1 *)arg3)->unk_88 - 0x20));
+                        world_origin = (u8 *)&D_80082E80;
+                        ((S_8016BF74_1 *)actor)->unk_2A.u = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, world_origin[0x24], world_origin[0x25], motion + 0x98);
+                        if ((func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v, world_origin[0x24], world_origin[0x25]) << 0x10) != 0) {
+                            actor_distance = func_800A0134(D_800814A8, actor);
+                            turn_index = 0;
+                            if (actor_distance < 0x81) {
+                                result = func_8009A540(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF, position->unk_24.at00.v, position->unk_24.at01.v, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20));
                                 ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                                var_s3 = 0;
-                                if ((var_v0 << 0x10) == 0) {
-                                    goto block_47;
+                                turn_index = 0;
+                                if ((result << 0x10) == 0) {
+                                    goto init_offsets;
                                 }
-                                goto block_clear_71;
+                                goto finish_path;
                             }
-                            goto block_47;
+                            goto init_offsets;
                         }
-                        goto block_46;
+                        goto start_search;
                     }
-block_44:
-                    goto block_45;
+choose_direction:
+                    goto update_direction;
                 }
-                goto block_clear_71;
+                goto finish_path;
             }
-            goto block_47;
+            goto init_offsets;
         }
-block_45:
-        func_800A0E6C(arg2, ((S_8016BF74_5 *)arg0)->unk_9C, arg3, arg0 + 0x98);
-block_46:
-        var_s3 = 0;
-block_47:
+update_direction:
+        func_800A0E6C(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
+start_search:
+        turn_index = 0;
+init_offsets:
 #ifdef __mips__
-        loop_page = (s8 *)0x80070000;
+        offset_page = (s8 *)0x80070000;
 #else
-        loop_page = (s8 *)&D_8006CCD8 + 0x3328;
+        offset_page = (s8 *)&D_8006CCD8 + 0x3328;
 #endif
-        ASM_KEEP(loop_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        var_s7 = (u8 *)(loop_page - 0x3328);
+        ASM_KEEP(offset_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        x_offsets = (u8 *)(offset_page - 0x3328);
 #ifdef __mips__
-        loop_page = (s8 *)0x80070000;
+        offset_page = (s8 *)0x80070000;
 #else
-        loop_page = (s8 *)&D_8006CD00 + 0x3300;
+        offset_page = (s8 *)&D_8006CD00 + 0x3300;
 #endif
-        ASM_KEEP(loop_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        var_s1 = loop_page - 0x3300;
-loop_48:
-        loop_angle = ((S_8016BF74_1 *)arg3)->unk_2A.s;
-        if (((S_8016BF74_5 *)arg0)->unk_98 & 2) {
-            temp_v0_3 = *(s16 *)var_s1;
-            loop_sum = loop_angle - temp_v0_3;
-            goto block_444;
+        ASM_KEEP(offset_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        angle_offsets = offset_page - 0x3300;
+try_direction:
+        current_angle = ((S_8016BF74_1 *)actor)->unk_2A.s;
+        if (((S_8016BF74_5 *)motion)->unk_98 & 2) {
+            move_value = *(s16 *)angle_offsets;
+            candidate_angle = current_angle - move_value;
+            goto check_direction;
         }
-        temp_v0_3 = *(s16 *)var_s1;
-        loop_sum = loop_angle + temp_v0_3;
-block_444:
-        if ((func_8009A66C(loop_sum, arg2, arg3, 0x20) << 0x10) > 0) {
-            if (var_s3 < 3) {
-                goto block_step_loop;
+        move_value = *(s16 *)angle_offsets;
+        candidate_angle = current_angle + move_value;
+check_direction:
+        if ((func_8009A66C(candidate_angle, position, actor, 0x20) << 0x10) > 0) {
+            if (turn_index < 3) {
+                goto take_step;
             }
-            temp_v0_3 = var_s6;
-            if (temp_v0_3 != 0) {
-                goto block_cleanup_loop;
+            move_value = near_target;
+            if (move_value != 0) {
+                goto finish_search;
             }
-block_step_loop:
-                ((S_8016BF74_1 *)arg3)->unk_2A.u = (u16) loop_sum;
-                ((S_8016BF74_9 *)((arg3 + ((u8) ((S_8016BF74_1 *)arg3)->unk_71.s & 0x7F))))->unk_74 = (u8) arg2->unk_24.at00.v;
-                ((S_8016BF74_9 *)((arg3 + ((u8) ((S_8016BF74_1 *)arg3)->unk_71.s & 0x7F))))->unk_7C = (u8) arg2->unk_24.at01.v;
-                loop_next = (u8) ((S_8016BF74_1 *)arg3)->unk_71.s + 1;
-                loop_flags = ((S_8016BF74_1 *)arg3)->unk_1C & 0x2000;
-                ((S_8016BF74_1 *)arg3)->unk_71.s = (s8) loop_next;
-                temp_a0_2 = arg2->unk_24.at00.v;
-                temp_call_a1 = arg2->unk_24.at01.v;
-                var_a2 = 0x3000;
-                if (loop_flags) {
-                    var_a2 = 0x300;
-                }
-                func_8009A3D0(temp_a0_2, temp_call_a1, var_a2);
-                temp_a0_2 = ((u16) ((S_8016BF74_1 *)arg3)->unk_2A.u >> 8) & 0xE;
-                temp_v1_ptr = (u8 *)((u32) temp_a0_2 + (u32) var_s7);
-                arg2->unk_24.at00.v = (u8) (arg2->unk_24.at00.v + *temp_v1_ptr);
-                ASM_KEEP(var_s7);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                loop_table_base = (u8 *)&D_8006CCE8;
-                loop_table_ptr = (u8 *)((u32) temp_a0_2 + (u32) loop_table_base);
-                loop_y = arg2->unk_24.at01.v;
-                loop_table_y = *loop_table_ptr;
-                loop_call_a0 = arg2->unk_24.at00.v;
-                arg2->unk_24.at01.v = (u8) (loop_y + loop_table_y);
-                var_a2_2 = 0x3000;
-                loop_flags2 = ((S_8016BF74_1 *)arg3)->unk_1C & 0x2000;
-                temp_call_a1 = arg2->unk_24.at01.v;
-                if (loop_flags2) {
-                    var_a2_2 = 0x300;
-                }
-                func_8009A21C(loop_call_a0, temp_call_a1, var_a2_2);
-                var_v0 = var_s3 < 8;
-                goto block_594;
-block_cleanup_loop:
-            goto block_clear_71;
+take_step:
+            ((S_8016BF74_1 *)actor)->unk_2A.u = (u16) candidate_angle;
+            ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_74 = (u8) position->unk_24.at00.v;
+            ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_7C = (u8) position->unk_24.at01.v;
+            next_path_index = (u8) ((S_8016BF74_1 *)actor)->unk_71.s + 1;
+            old_tile_flags = ((S_8016BF74_1 *)actor)->unk_1C & 0x2000;
+            ((S_8016BF74_1 *)actor)->unk_71.s = (s8) next_path_index;
+            tile_x_or_offset = position->unk_24.at00.v;
+            tile_y = position->unk_24.at01.v;
+            old_tile_mask = 0x3000;
+            if (old_tile_flags) {
+                old_tile_mask = 0x300;
+            }
+            func_8009A3D0(tile_x_or_offset, tile_y, old_tile_mask);
+            tile_x_or_offset = ((u16) ((S_8016BF74_1 *)actor)->unk_2A.u >> 8) & 0xE;
+            x_offset_ptr = (u8 *)((u32) tile_x_or_offset + (u32) x_offsets);
+            position->unk_24.at00.v = (u8) (position->unk_24.at00.v + *x_offset_ptr);
+            ASM_KEEP(x_offsets);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            y_offsets = (u8 *)&D_8006CCE8;
+            y_offset_ptr = (u8 *)((u32) tile_x_or_offset + (u32) y_offsets);
+            current_y = position->unk_24.at01.v;
+            step_y = *y_offset_ptr;
+            next_x = position->unk_24.at00.v;
+            position->unk_24.at01.v = (u8) (current_y + step_y);
+            new_tile_mask = 0x3000;
+            new_tile_flags = ((S_8016BF74_1 *)actor)->unk_1C & 0x2000;
+            tile_y = position->unk_24.at01.v;
+            if (new_tile_flags) {
+                new_tile_mask = 0x300;
+            }
+            func_8009A21C(next_x, tile_y, new_tile_mask);
+            result = turn_index < 8;
+            goto complete_step;
+finish_search:
+            goto finish_path;
         }
-        if ((var_s3 != 0) || (D_80082EA4 == arg2->unk_24.at00u.v) || (var_v0 = func_8009A180(arg3, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10, (var_v0 == 0))) {
-            var_s3 += 1;
-            var_s1 += 2;
-            if (var_s3 >= 8) {
-                s8 *state2;
+        if ((turn_index != 0) || (D_80082EA4 == position->unk_24.at00u.v) || (result = func_8009A180(actor, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10, (result == 0))) {
+            turn_index += 1;
+            angle_offsets += 2;
+            if (turn_index >= 8) {
+                s8 *step_state;
 
-                ASM_KEEP(var_s3);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                var_v0 = var_s3 < 8;
-block_594:
-                if (var_v0 == 0) {
-                    ((S_8016BF74_1 *)arg3)->unk_71.s = (s8) ((u8) ((S_8016BF74_1 *)arg3)->unk_71.s & 0x7F);
-                    ((S_8016BF74_1 *)arg3)->unk_46 = (u16) (((S_8016BF74_1 *)arg3)->unk_46 & 0x7FFF);
-                    func_800A9A0C(arg3);
+                ASM_KEEP(turn_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                result = turn_index < 8;
+complete_step:
+                if (result == 0) {
+                    ((S_8016BF74_1 *)actor)->unk_71.s = (s8) ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F);
+                    ((S_8016BF74_1 *)actor)->unk_46 = (u16) (((S_8016BF74_1 *)actor)->unk_46 & 0x7FFF);
+                    func_800A9A0C(actor);
                     return;
                 }
-                ((S_8016BF74_1 *)arg3)->unk_46 = (u16) (((S_8016BF74_1 *)arg3)->unk_46 & 0x7FFF);
-                ((S_8016BF74_5 *)arg0)->unk_9C = (s8) (u8) arg2->unk_26;
-                ((S_8016BF74_1 *)arg3)->unk_6D.u = (u8) (((S_8016BF74_1 *)arg3)->unk_6D.u - 1);
-                state2 = (s8 *)&D_80083460;
-                ((S_8016BF74_8 *)state2)->unk_08 = (u16) (((S_8016BF74_8 *)state2)->unk_08 + 1);
-                if (((S_8016BF74_1 *)arg3)->unk_6D.s == 0) {
-block_clear_71:
-                    ((S_8016BF74_1 *)arg3)->unk_71.u &= 0x7F;
+                ((S_8016BF74_1 *)actor)->unk_46 = (u16) (((S_8016BF74_1 *)actor)->unk_46 & 0x7FFF);
+                ((S_8016BF74_5 *)motion)->unk_9C = (s8) (u8) position->unk_26;
+                ((S_8016BF74_1 *)actor)->unk_6D.u = (u8) (((S_8016BF74_1 *)actor)->unk_6D.u - 1);
+                step_state = (s8 *)&D_80083460;
+                ((S_8016BF74_8 *)step_state)->unk_08 = (u16) (((S_8016BF74_8 *)step_state)->unk_08 + 1);
+                if (((S_8016BF74_1 *)actor)->unk_6D.s == 0) {
+finish_path:
+                    ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
                     return;
                 }
-                var_s3 = func_800BCB04((arg2->unk_24.at00.v << 6) | 0x20, (arg2->unk_24.at01.v << 6) | 0x20, (s16) (((S_8016BF74_1 *)arg3)->unk_88 - 0x20));
-                var_v0 = var_s3 < 0x200;
-                if (var_v0 != 0) {
-                    ((S_8016BF74_1 *)arg3)->unk_88 = (u16) var_s3;
+                turn_index = func_800BCB04((position->unk_24.at00.v << 6) | 0x20, (position->unk_24.at01.v << 6) | 0x20, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20));
+                result = turn_index < 0x200;
+                if (result != 0) {
+                    ((S_8016BF74_1 *)actor)->unk_88 = (u16) turn_index;
                 }
-                /* Duplicate return node #72. Try simplifying control flow for better match */
                 return;
             }
-            goto loop_48;
+            goto try_direction;
         }
-        /* Duplicate return node #72. Try simplifying control flow for better match */
         return;
     }
     return;

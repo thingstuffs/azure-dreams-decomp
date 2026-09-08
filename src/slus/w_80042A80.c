@@ -24,40 +24,41 @@ typedef struct S_80042A80_CategoryEntry
 extern u8 D_80082E6A[9];
 extern S_80042A80_Rec20 *D_80073470[3];
 extern S_80042A80_CategoryEntry itemCategoryTable[];
-s32 func_80042A80(S_80042A80_Item *a0)
+/* Returns category-dependent item flags when the current mode is 2. */
+s32 func_80042A80(S_80042A80_Item *item)
 {
-  S_80042A80_CategoryEntry *cat;
-  s32 result;
-  s16 t;
+  S_80042A80_CategoryEntry *category;
+  s32 item_flags;
+  s16 record_flags;
   u8 kind;
   if (D_80082E6A[0] != 2)
   {
     return 0;
   }
-  kind = a0->f1;
+  kind = item->f1;
   if (kind == 4)
   {
-    result = ((D_80073470[0][a0->f0].f0 & 0x400) != 0) << 10;
-    if (a0->f3 & 0x80)
+    item_flags = ((D_80073470[0][item->f0].f0 & 0x400) != 0) << 10;
+    if (item->f3 & 0x80)
     {
-      result |= 0x80;
+      item_flags |= 0x80;
     }
-    return result;
+    return item_flags;
   }
   if (3 > ((u32) (kind - 15)))
   {
-    return a0->f3 & 0x80;
+    return item->f3 & 0x80;
   }
   {
-    S_80042A80_CategoryEntry *base = itemCategoryTable;
-    u32 index = ((volatile S_80042A80_Item *) a0)->f1;
-    cat = &base[index];
+    S_80042A80_CategoryEntry *categories = itemCategoryTable;
+    u32 category_index = ((volatile S_80042A80_Item *) item)->f1;
+    category = &categories[category_index];
   }
-  if (cat->kind != 0)
+  if (category->kind != 0)
   {
     return 0;
   }
-  t = cat->records[a0->f0].f0 & 0x400;
-  ASM_KEEP(t);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  return t;
+  record_flags = category->records[item->f0].f0 & 0x400;
+  ASM_KEEP(record_flags);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+  return record_flags;
 }

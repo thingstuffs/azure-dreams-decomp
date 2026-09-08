@@ -74,128 +74,128 @@ typedef struct S_819613A8_0 {
     s16 unk_0A;
 } S_819613A8_0;   /* arg2 in func_819613A8 */
 
-void func_819613A8(s16 arg0, s32 arg1, S_819613A8_0 *arg2) {
-    
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s16 temp_v0_5;
-    register s32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 temp_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 temp_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 temp_t0;
-    s32 temp_t1;
-    register s32 temp_t2 ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_v1;
-    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register s32 temp_sum ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 temp_t5 ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 temp_t6 ASM_REG("$14");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 temp_t7 ASM_REG("$15");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 temp_s4;
-    register s32 temp_tail ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register TempObj *temp_arg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register void *temp_init ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s8 *temp_base;
-    register void *temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s16 *temp_t3 ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 temp_t4;
-    TempObj *temp_v0;
+/* Creates a terrain tile quad using grid heights and the supplied origin. */
+void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
+    s16 left_x;
+    s16 right_x;
+    s16 top_y;
+    s16 bottom_y;
+    register s32 row_or_bottom_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 bottom_heights_addr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 row_offset ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 y_offset;
+    s32 column;
+    register s32 x_offset ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 x_or_height;
+    register s32 y_or_color ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 height ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 height_bl ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 height_br ASM_REG("$14");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 origin_height ASM_REG("$15");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 saved_row;
+    register s32 texture_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register TempObj *init_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register void *object_handler ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s8 *height_row;
+    register void *output ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s16 *top_heights ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 height_or_child;
+    TempObj *object;
 
-    temp_v0 = func_8003FC64(0x202);
-    if (temp_v0 != NULL) {
-        temp_s4 = arg1;
-        ASM_KEEP(temp_s4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_s0 = arg1;
-        temp_arg0 = temp_v0;
-        temp_init = &D_800264D4;
-        temp_v0->field10 = temp_init;
-        func_8004491C(temp_arg0, &D_800269CC);
-        temp_t1 = (s16) arg0;
-        temp_t2 = (temp_t1 - 3) << 6;
-        ASM_KEEP(temp_t2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_a1 = (s16) temp_s0;
-        temp_base = D_8002745C;
-        temp_s0 = temp_a1 * 0x10;
-        temp_t3 = (s16 *)(temp_s0 + (s32)temp_base);
-        temp_a3 = temp_t1 * 2;
-        temp_t3 = (s16 *)(temp_a3 + (s32)temp_t3);
-        temp_base += 0x10;
-        temp_base = (s8 *)(temp_s0 + (s32)temp_base);
-        temp_a3 += (s32)temp_base;
-        temp_t0 = (temp_a1 - 3) << 6;
-        temp_a2 = temp_v0->field8;
-        temp_v1 = ((s16 *)arg2)[1];
-        temp_a0 = ((s16 *)arg2)[3];
-        temp_sum = temp_t3[0];
-        temp_t4 = temp_t3[1];
-        temp_t5 = ((s16 *)temp_a3)[0];
-        temp_t6 = ((s16 *)temp_a3)[1];
-        temp_t7 = ((s16 *)arg2)[5];
-        temp_v1 += temp_t2;
-        temp_a0 += temp_t0;
-        temp_sum += temp_t4;
-        temp_sum += temp_t5;
-        temp_sum += temp_t6;
-        temp_sum >>= 2;
-        temp_sum += temp_t7;
-        ((TempBuffer *)temp_a2)->fieldA = temp_sum;
-        ((TempBuffer *)temp_a2)->field2 = temp_v1;
-        ((TempBuffer *)temp_a2)->field6 = temp_a0;
-        temp_t4 = (s32)temp_v0->fieldC;
-        temp_a2 = (void *)&temp_v0->field20;
-        ((TempChild *)temp_t4)->field1E = 0x800;
-        ((TempChild *)temp_t4)->field1C = 0x800;
-        ((TempChild *)temp_t4)->field14 = 0xC;
-        temp_v0_2 = ((u16) arg2->unk_02 + temp_t2) - 0x20;
-        ((TempOutput *)temp_a2)->field20 = temp_v0_2;
-        ((TempOutput *)temp_a2)->field10 = temp_v0_2;
-        temp_v0_3 = ((u16) arg2->unk_02 + ((temp_t1 - 2) << 6)) - 0x20;
-        ((TempOutput *)temp_a2)->field28 = temp_v0_3;
-        ((TempOutput *)temp_a2)->field18 = temp_v0_3;
-        temp_v0_4 = ((u16) arg2->unk_06 + temp_t0) - 0x20;
-        ((TempOutput *)temp_a2)->field1A = temp_v0_4;
-        ((TempOutput *)temp_a2)->field12 = temp_v0_4;
-        temp_a1 = (temp_a1 - 2) << 6;
-        temp_v0_5 = ((u16) arg2->unk_06 + temp_a1) - 0x20;
-        ((TempOutput *)temp_a2)->field2A = temp_v0_5;
-        ((TempOutput *)temp_a2)->field22 = temp_v0_5;
-        ((TempOutput *)temp_a2)->field14 = (s16) ((u16) arg2->unk_0A + (u16) temp_t3[0]);
-        ((TempOutput *)temp_a2)->field1C = (s16) ((u16) arg2->unk_0A + (u16) temp_t3[1]);
-        temp_s0 -= 0x80;
-        temp_sum = (u16) arg2->unk_0A;
-        temp_v1 = (u16) ((s16 *)temp_a3)[0];
-        temp_sum += temp_v1;
-        ((TempOutput *)temp_a2)->field24 = temp_sum;
-        temp_sum = (u16) arg2->unk_0A;
-        temp_v1 = (u16) ((s16 *)temp_a3)[1];
-        temp_sum += temp_v1;
-        ((TempOutput *)temp_a2)->field2C = temp_sum;
-        temp_a0 = 0xF8F82CC0;
-        temp_tail = 0x13D;
-        temp_v0->field20 = temp_a0;
-        ((TempOutput *)temp_a2)->field4 = temp_tail;
-        temp_tail = temp_t1 * 0x10;
-        ((TempOutput *)temp_a2)->field8 = (s8) temp_tail;
-        temp_tail = 6;
-        ((TempOutput *)temp_a2)->field9 = (s8) temp_s0;
-        if (temp_t1 == temp_tail) {
-            temp_tail = 0xF;
-            ASM_TAILSLOT_PIN(temp_tail);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80026D84(temp_a0, temp_a1, temp_a2, temp_a3);
+    object = func_8003FC64(0x202);
+    if (object != NULL) {
+        saved_row = tile_y;
+        ASM_KEEP(saved_row);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        row_offset = tile_y;
+        init_object = object;
+        object_handler = &D_800264D4;
+        object->field10 = object_handler;
+        func_8004491C(init_object, &D_800269CC);
+        column = (s16) tile_x;
+        x_offset = (column - 3) << 6;
+        ASM_KEEP(x_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        row_or_bottom_y = (s16) row_offset;
+        height_row = D_8002745C;
+        row_offset = row_or_bottom_y * 0x10;
+        top_heights = (s16 *)(row_offset + (s32)height_row);
+        bottom_heights_addr = column * 2;
+        top_heights = (s16 *)(bottom_heights_addr + (s32)top_heights);
+        height_row += 0x10;
+        height_row = (s8 *)(row_offset + (s32)height_row);
+        bottom_heights_addr += (s32)height_row;
+        y_offset = (row_or_bottom_y - 3) << 6;
+        output = object->field8;
+        x_or_height = ((s16 *)origin)[1];
+        y_or_color = ((s16 *)origin)[3];
+        height = top_heights[0];
+        height_or_child = top_heights[1];
+        height_bl = ((s16 *)bottom_heights_addr)[0];
+        height_br = ((s16 *)bottom_heights_addr)[1];
+        origin_height = ((s16 *)origin)[5];
+        x_or_height += x_offset;
+        y_or_color += y_offset;
+        height += height_or_child;
+        height += height_bl;
+        height += height_br;
+        height >>= 2;
+        height += origin_height;
+        ((TempBuffer *)output)->fieldA = height;
+        ((TempBuffer *)output)->field2 = x_or_height;
+        ((TempBuffer *)output)->field6 = y_or_color;
+        height_or_child = (s32)object->fieldC;
+        output = (void *)&object->field20;
+        ((TempChild *)height_or_child)->field1E = 0x800;
+        ((TempChild *)height_or_child)->field1C = 0x800;
+        ((TempChild *)height_or_child)->field14 = 0xC;
+        left_x = ((u16) origin->unk_02 + x_offset) - 0x20;
+        ((TempOutput *)output)->field20 = left_x;
+        ((TempOutput *)output)->field10 = left_x;
+        right_x = ((u16) origin->unk_02 + ((column - 2) << 6)) - 0x20;
+        ((TempOutput *)output)->field28 = right_x;
+        ((TempOutput *)output)->field18 = right_x;
+        top_y = ((u16) origin->unk_06 + y_offset) - 0x20;
+        ((TempOutput *)output)->field1A = top_y;
+        ((TempOutput *)output)->field12 = top_y;
+        row_or_bottom_y = (row_or_bottom_y - 2) << 6;
+        bottom_y = ((u16) origin->unk_06 + row_or_bottom_y) - 0x20;
+        ((TempOutput *)output)->field2A = bottom_y;
+        ((TempOutput *)output)->field22 = bottom_y;
+        ((TempOutput *)output)->field14 = (s16) ((u16) origin->unk_0A + (u16) top_heights[0]);
+        ((TempOutput *)output)->field1C = (s16) ((u16) origin->unk_0A + (u16) top_heights[1]);
+        row_offset -= 0x80;
+        height = (u16) origin->unk_0A;
+        x_or_height = (u16) ((s16 *)bottom_heights_addr)[0];
+        height += x_or_height;
+        ((TempOutput *)output)->field24 = height;
+        height = (u16) origin->unk_0A;
+        x_or_height = (u16) ((s16 *)bottom_heights_addr)[1];
+        height += x_or_height;
+        ((TempOutput *)output)->field2C = height;
+        y_or_color = 0xF8F82CC0;
+        texture_value = 0x13D;
+        object->field20 = y_or_color;
+        ((TempOutput *)output)->field4 = texture_value;
+        texture_value = column * 0x10;
+        ((TempOutput *)output)->field8 = (s8) texture_value;
+        texture_value = 6;
+        ((TempOutput *)output)->field9 = (s8) row_offset;
+        if (column == texture_value) {
+            texture_value = 0xF;
+            ASM_TAILSLOT_PIN(texture_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            func_80026D84(y_or_color, row_or_bottom_y, output, bottom_heights_addr);
             return;
         }
-        ((TempOutput *)temp_a2)->fieldA = 0x10;
-        temp_tail = (s16) temp_s4;
-        temp_v1 = 6;
-        if (temp_tail == temp_v1) {
-            temp_tail = 0xF;
+        ((TempOutput *)output)->fieldA = 0x10;
+        texture_value = (s16) saved_row;
+        x_or_height = 6;
+        if (texture_value == x_or_height) {
+            texture_value = 0xF;
         } else {
-            temp_tail = 0x10;
+            texture_value = 0x10;
         }
-        ((TempOutput *)temp_a2)->fieldB = temp_tail;
-        ((TempChild *)temp_t4)->field8 = temp_a2;
-        ((TempOutput *)temp_a2)->field4C = 8;
+        ((TempOutput *)output)->fieldB = texture_value;
+        ((TempChild *)height_or_child)->field8 = output;
+        ((TempOutput *)output)->field4C = 8;
         (*(s16 *)D_800273BC) = (s16) ((*(u16 *)D_800273BC) + 1);
     }
 }

@@ -28,35 +28,33 @@ typedef struct S_800ABD74_0 {
     u16 unk_0A;
 } S_800ABD74_0;   /* base in func_800ABD74 */
 
-void func_800ABD74(void *arg0) {
-    S_800ABD74_0 *base;
-    StackRecord sp10;
-    s32 var_s0;
-    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temp_s4;
-    s32 var_s1;
+/* Spawns effects near the source position in evenly spaced directions. */
+void func_800ABD74(void *source) {
+    S_800ABD74_0 *origin;
+    StackRecord effect;
+    s32 angle;
+    register s32 effect_count ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 angle_step;
+    s32 effects_spawned;
 
-    base = arg0;
-    temp_s2 = (rand() & 7) | 4;
-    temp_s4 = 0x1000 / temp_s2;
-    var_s1 = 0;
-    var_s0 = rand();
-    ASM_KEEP(temp_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    sp10.z = base->unk_0A;
-    sp10.c = -4;
-    if (temp_s2 != 0) {
+    origin = source;
+    effect_count = (rand() & 7) | 4;
+    angle_step = 0x1000 / effect_count;
+    effects_spawned = 0;
+    angle = rand();
+    ASM_KEEP(effect_count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    effect.z = origin->unk_0A;
+    effect.c = -4;
+    if (effect_count != 0) {
         do {
-            var_s1 += 1;
-            sp10.x = (base->unk_02 + (rand() & 0x1F)) - 0x10;
-            sp10.y = (base->unk_06 + (rand() & 0x1F)) - 0x10;
-            sp10.a = func_80064584(var_s0) << 5;
-            sp10.b = func_800644B8(var_s0) << 5;
-            func_800ABC00(&sp10, var_s0);
-            var_s0 += temp_s4;
-        } while (var_s1 < temp_s2);
+            effects_spawned += 1;
+            effect.x = (origin->unk_02 + (rand() & 0x1F)) - 0x10;
+            effect.y = (origin->unk_06 + (rand() & 0x1F)) - 0x10;
+            effect.a = func_80064584(angle) << 5;
+            effect.b = func_800644B8(angle) << 5;
+            func_800ABC00(&effect, angle);
+            angle += angle_step;
+        } while (effects_spawned < effect_count);
     }
 }
 
-/* MECHANISM: One 24-byte stack record reproduces the overlapping sp+0x10 fields and 0x40 frame.
-   The base pin holds arg0 in s3; the s2 pin/early keeps retain the otherwise-folded beqz.
-   The s16 callee ABI and load-before--4-store order close the tail and its delay slot. */

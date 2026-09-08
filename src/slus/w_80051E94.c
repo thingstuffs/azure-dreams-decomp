@@ -51,33 +51,32 @@ typedef struct S_80051E94 {
 
 extern void func_8004491C(S_80051E94 *a0, void (*a1)(void));
 
-/* summary: initialize an object's update-func, embedded sub-object, D_80071A68
- * lookup-derived ptr fields, then finish init via func_8004491C and fill vecPtr. */
-void func_80051E94(S_80051E94 *a0, s32 a1)
+/* Initialize an object's update callback, sub-object, lookup defaults, and fixed-point vector. */
+void func_80051E94(S_80051E94 *object, s32 sub_value)
 {
     S_80051E94_Sub *sub;
     S_80051E94_Ptr *ptr;
     S_80051E94_Vec *vec;
-    s32 val;
+    s32 kind_value;
 
-    a0->update_func = func_80051CC4;
-    sub = &a0->sub;
-    sub->field_0x00 = a1;
+    object->update_func = func_80051CC4;
+    sub = &object->sub;
+    sub->field_0x00 = sub_value;
     sub->field_0x04 = 0;
     sub->field_0x06 = 0;
     sub->field_0x0A = 0;
     sub->field_0x0C = 0;
 
-    ptr = a0->ptr;
+    ptr = object->ptr;
     ptr->field_0x0C = 0;
-    val = D_80071A68[sub->field_0x0A].field_0x00;
+    kind_value = D_80071A68[sub->field_0x0A].field_0x00;
     ptr->field_0x1E = 0x1000;
     ptr->field_0x1C = 0x1000;
-    ptr->field_0x08 = val;
+    ptr->field_0x08 = kind_value;
 
-    func_8004491C(a0, func_80044BB0);
+    func_8004491C(object, func_80044BB0);
 
-    vec = a0->vecPtr;
+    vec = object->vecPtr;
     vec->field_0x00 = 0x380000;
     vec->field_0x04 = 0x280000;
     vec->field_0x08 = 0x900000;

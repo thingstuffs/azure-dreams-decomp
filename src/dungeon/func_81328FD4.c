@@ -13,7 +13,8 @@ typedef struct S_801707D4_1 {
     u16 unk_46;
 } S_801707D4_1;   /* arg3 in func_801707D4 */
 
-void func_801707D4(S_801707D4_0 *arg0, M2C_UNK arg1, M2C_UNK arg2, S_801707D4_1 *arg3) {
-    arg0->unk_8C = &D_8016F78C;
-    arg3->unk_46 = (u16) (arg3->unk_46 & 0x7FFF);
+/* Set the object's data pointer and clear the flag owner's high flag bit. */
+void func_801707D4(S_801707D4_0 *object, M2C_UNK unused_1, M2C_UNK unused_2, S_801707D4_1 *flag_owner) {
+    object->unk_8C = &D_8016F78C;
+    flag_owner->unk_46 = (u16) (flag_owner->unk_46 & 0x7FFF);
 }

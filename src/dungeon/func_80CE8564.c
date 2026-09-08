@@ -67,77 +67,78 @@ extern u8 D_80175E54[];
 extern u8 D_80175E5C[];
 extern u8 D_80175E64[];
 
-void *func_80171D64(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Creates an object and initializes its position, flags, and directional frame table. */
+void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 height)
 {
-    s32 saved_arg0;
+    s32 saved_flags;
     void *result;
-    s32 saved_arg1;
-    s32 reused_arg3;
-    register s32 reused_arg2 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 original_arg0 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    void *created;
+    s32 saved_x;
+    s32 height_or_sprite;
+    register s32 y_or_state ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 init_flags ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *object;
     register void *position ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 selector ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 kind_e;
-    s32 kind_f;
-    s32 field_4b;
-    void *new_callback;
+    register s32 mode_or_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 kind_or_position;
+    s32 alternate_kind;
+    s32 state_flags;
+    void *new_frames;
     s32 kind;
     u32 global_kind;
     u32 branch_flags;
-    void *current_callback;
-    void *initial_callback;
-    u8 *table;
-    s32 table_index;
+    void *current_frames;
+    void *default_frames;
+    u8 *frame_table;
+    s32 direction_index;
 
-    saved_arg0 = arg0;
+    saved_flags = spawn_flags;
     result = 0;
-    selector = 0x112;
-    saved_arg1 = arg1;
-    ASM_KEEP_DEP_NV(saved_arg1, selector);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    kind_e = (s32)D_80083498;
-    ASM_KEEP_DEP_NV(kind_e, saved_arg1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    reused_arg3 = arg3;
-    ASM_KEEP_DEP_NV(reused_arg3, kind_e);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    reused_arg2 = arg2;
-    created = func_8003FD64(selector, (void *)kind_e);
-    original_arg0 = saved_arg0;
-    if (created == 0) {
+    mode_or_object = 0x112;
+    saved_x = sprite_x;
+    ASM_KEEP_DEP_NV(saved_x, mode_or_object);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    kind_or_position = (s32)D_80083498;
+    ASM_KEEP_DEP_NV(kind_or_position, saved_x);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    height_or_sprite = height;
+    ASM_KEEP_DEP_NV(height_or_sprite, kind_or_position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    y_or_state = sprite_y;
+    object = func_8003FD64(mode_or_object, (void *)kind_or_position);
+    init_flags = saved_flags;
+    if (object == 0) {
         goto done;
     }
 
-    result = (u8 *)created + 0x20;
-    ((S_80171D64_0 *)created)->unk_10 = D_801720B4;
+    result = (u8 *)object + 0x20;
+    ((S_80171D64_0 *)object)->unk_10 = D_801720B4;
     ((S_80171D64_1 *)result)->unk_13 = 0x16;
-    func_8004491C(created, &D_80045340);
+    func_8004491C(object, &D_80045340);
 
-    initial_callback = D_80175E24;
-    kind_e = 0xE;
-    position = ((S_80171D64_0 *)created)->unk_08;
-    kind_f = 0xF;
-    ((S_80171D64_2 *)position)->unk_0A = reused_arg3;
-    reused_arg3 = (s32)((S_80171D64_0 *)created)->unk_0C;
-    ASM_KEEP(reused_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    selector = saved_arg0 & 3;
-    ((S_80171D64_3 *)((void *)reused_arg3))->unk_2C = initial_callback;
-    ASM_KEEP(initial_callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    field_4b = 0x20;
-    ASM_KEEP(field_4b);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_80171D64_3 *)((void *)reused_arg3))->unk_25 = reused_arg2;
-    reused_arg2 = (s32)result;
-    ((S_80171D64_3 *)((void *)reused_arg3))->unk_24 = saved_arg1;
-    ((S_80171D64_1 *)result)->unk_4B = field_4b;
-    ((S_80171D64_1 *)result)->unk_48 = kind_e;
-    ((S_80171D64_1 *)result)->unk_49 = kind_f;
+    default_frames = D_80175E24;
+    kind_or_position = 0xE;
+    position = ((S_80171D64_0 *)object)->unk_08;
+    alternate_kind = 0xF;
+    ((S_80171D64_2 *)position)->unk_0A = height_or_sprite;
+    height_or_sprite = (s32)((S_80171D64_0 *)object)->unk_0C;
+    ASM_KEEP(height_or_sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    mode_or_object = saved_flags & 3;
+    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C = default_frames;
+    ASM_KEEP(default_frames);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    state_flags = 0x20;
+    ASM_KEEP(state_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_25 = y_or_state;
+    y_or_state = (s32)result;
+    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_24 = saved_x;
+    ((S_80171D64_1 *)result)->unk_4B = state_flags;
+    ((S_80171D64_1 *)result)->unk_48 = kind_or_position;
+    ((S_80171D64_1 *)result)->unk_49 = alternate_kind;
 
-    if (selector == 1) {
+    if (mode_or_object == 1) {
         (*(u32 *)((u8 *)result + 0x14)) |= 0x6000;
         branch_flags = ((S_80171D64_1 *)result)->unk_1C;
         global_kind = (u8)D_800E2968;
         ((S_80171D64_1 *)result)->unk_1C = branch_flags | 0x6000;
         if (global_kind >= 0xA) {
             if (global_kind < 0xD) {
-                ((S_80171D64_1 *)result)->unk_48 = kind_f;
+                ((S_80171D64_1 *)result)->unk_48 = alternate_kind;
             } else {
                 ((S_80171D64_1 *)result)->unk_48 = 0xD;
             }
@@ -145,8 +146,8 @@ void *func_80171D64(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         goto setup;
     }
 
-    if (selector >= 2) {
-        ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    if (mode_or_object >= 2) {
+        ASM_KEEP(mode_or_object);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_80171D64_1 *)result)->unk_14 |= 0x2000;
         ((S_80171D64_1 *)result)->unk_1C |= 0x2000;
         goto setup;
@@ -154,24 +155,24 @@ void *func_80171D64(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 
     global_kind = (u8)D_800E2968;
     if (global_kind < 0xA) {
-        ((S_80171D64_1 *)result)->unk_48 = kind_e;
+        ((S_80171D64_1 *)result)->unk_48 = kind_or_position;
     } else if (global_kind < 0xD) {
-        ((S_80171D64_1 *)result)->unk_48 = kind_f;
+        ((S_80171D64_1 *)result)->unk_48 = alternate_kind;
     } else {
         ((S_80171D64_1 *)result)->unk_48 = 0xD;
     }
 
-    if (((original_arg0 & ~3) << 16) == 0) {
-        selector = (s32)created;
-        ASM_KEEP_NV(selector);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    if (((init_flags & ~3) << 16) == 0) {
+        mode_or_object = (s32)object;
+        ASM_KEEP_NV(mode_or_object);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (!(((S_80171D64_1 *)result)->unk_14 & 0x200)) {
-            kind_e = (s32)position;
-            ASM_KEEP(kind_e);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            field_4b = func_800A6D30((void *)selector, (void *)kind_e);
-            selector = (s32)created;
-            if (field_4b & 1) {
+            kind_or_position = (s32)position;
+            ASM_KEEP(kind_or_position);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            state_flags = func_800A6D30((void *)mode_or_object, (void *)kind_or_position);
+            mode_or_object = (s32)object;
+            if (state_flags & 1) {
                 func_800A48F0(result, 1,
-                    (func_800A6D30((void *)selector) & 0x3F) | 0x20);
+                    (func_800A6D30((void *)mode_or_object) & 0x3F) | 0x20);
                 kind = ((S_80171D64_1 *)result)->unk_48;
                 if (kind == 0xE) {
                     goto callback_e;
@@ -188,40 +189,40 @@ void *func_80171D64(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                 goto setup;
 
 callback_d:
-                current_callback = ((S_80171D64_3 *)((void *)reused_arg3))->unk_2C;
-                new_callback = D_80175E54;
+                current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
+                new_frames = D_80175E54;
                 goto callback_compare;
 callback_e:
-                current_callback = ((S_80171D64_3 *)((void *)reused_arg3))->unk_2C;
-                new_callback = D_80175E5C;
+                current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
+                new_frames = D_80175E5C;
                 goto callback_compare;
 callback_f:
-                current_callback = ((S_80171D64_3 *)((void *)reused_arg3))->unk_2C;
-                new_callback = D_80175E64;
+                current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
+                new_frames = D_80175E64;
 callback_compare:
-                if (current_callback != new_callback) {
-                    ((S_80171D64_3 *)((void *)reused_arg3))->unk_2C = new_callback;
+                if (current_frames != new_frames) {
+                    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C = new_frames;
                 }
             } else {
                 goto setup_args_ready;
             }
         } else {
-            kind_e = (s32)position;
+            kind_or_position = (s32)position;
             goto setup_args2_ready;
         }
     }
 
 setup:
-    selector = (s32)created;
+    mode_or_object = (s32)object;
 setup_args_ready:
-    kind_e = (s32)position;
+    kind_or_position = (s32)position;
 setup_args2_ready:
-    func_800A9C18((void *)selector, (void *)kind_e, (void *)reused_arg3,
-        (s16)original_arg0);
-    ((S_80171D64_4 *)((void *)reused_arg2))->unk_9A = 0xFF;
-    ((S_80171D64_4 *)((void *)reused_arg2))->unk_9C = -1;
-    ((S_80171D64_4 *)((void *)reused_arg2))->unk_8C = D_801724BC;
-    func_800AA36C((void *)reused_arg2, position, (void *)reused_arg3, result);
+    func_800A9C18((void *)mode_or_object, (void *)kind_or_position, (void *)height_or_sprite,
+        (s16)init_flags);
+    ((S_80171D64_4 *)((void *)y_or_state))->unk_9A = 0xFF;
+    ((S_80171D64_4 *)((void *)y_or_state))->unk_9C = -1;
+    ((S_80171D64_4 *)((void *)y_or_state))->unk_8C = D_801724BC;
+    func_800AA36C((void *)y_or_state, position, (void *)height_or_sprite, result);
 
     kind = ((S_80171D64_1 *)result)->unk_48;
     if (kind == 0xE) {
@@ -239,30 +240,30 @@ setup_args2_ready:
     return result;
 
 select_d:
-    current_callback = ((S_80171D64_3 *)((void *)reused_arg3))->unk_2C;
-    table = D_80175E24;
-    if (current_callback == table) {
+    current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
+    frame_table = D_80175E24;
+    if (current_frames == frame_table) {
         goto done;
     }
     goto table_store;
 select_e:
-    current_callback = ((S_80171D64_3 *)((void *)reused_arg3))->unk_2C;
-    table = D_80175E2C;
-    if (current_callback == table) {
+    current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
+    frame_table = D_80175E2C;
+    if (current_frames == frame_table) {
         goto done;
     }
     goto table_store;
 select_f:
-    current_callback = ((S_80171D64_3 *)((void *)reused_arg3))->unk_2C;
-    table = D_80175E34;
-    if (current_callback == table) {
+    current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
+    frame_table = D_80175E34;
+    if (current_frames == frame_table) {
         goto done;
     }
 table_store:
-    (*(void * *)((u8 *)((void *)reused_arg3) + 0x2C)) = table;
-    table_index = ((D_80083228 + ((S_80171D64_1 *)result)->unk_2A + 0x100) >> 9) & 7;
-    func_80047784((void *)reused_arg3,
-        *(u8 *)((u32)table_index + (u32)table),
+    (*(void * *)((u8 *)((void *)height_or_sprite) + 0x2C)) = frame_table;
+    direction_index = ((D_80083228 + ((S_80171D64_1 *)result)->unk_2A + 0x100) >> 9) & 7;
+    func_80047784((void *)height_or_sprite,
+        *(u8 *)((u32)direction_index + (u32)frame_table),
         0);
 done:
     return result;

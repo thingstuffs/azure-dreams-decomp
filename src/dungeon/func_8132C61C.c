@@ -6,6 +6,7 @@ typedef struct S_80173E1C_0 {
     u8 unk_360C;
 } S_80173E1C_0;   /* (arg0 + 0x80010000) in func_80173E1C */
 
-s32 func_80173E1C(s32 arg0, s32 arg1) {
-    return ((S_80173E1C_0 *)((arg0 + 0x80010000)))->unk_360C != arg1;
+/* Return whether the byte at the given offset differs from the expected value. */
+s32 func_80173E1C(s32 byte_offset, s32 expected_value) {
+    return ((S_80173E1C_0 *)((byte_offset + 0x80010000)))->unk_360C != expected_value;
 }

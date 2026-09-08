@@ -6,6 +6,7 @@ typedef struct S_800A2CAC_0 {
     u8 unk_25;
 } S_800A2CAC_0;   /* arg0 in func_800A2CAC */
 
-s32 func_800A2CAC(S_800A2CAC_0 *arg0) {
-    return (u8) arg0->unk_25 < 0x40U;
+/* Checks whether the record's byte at offset 0x25 is below 0x40. */
+s32 func_800A2CAC(S_800A2CAC_0 *record) {
+    return (u8) record->unk_25 < 0x40U;
 }

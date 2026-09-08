@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* Walks a chain of entries (skipping ones with flag 0x80 set), invoking func_800453E0 on each live entry and bailing out early if func_80045310 signals a stop condition on the current global-state target. Advances to the next group via the caller's sub-pointer (stored 8 bytes before it), or terminates the whole walk when that pointer is null. */
 /* set to 0 at entry and again on the "list exhausted" exit path */
 extern s32 D_80081510;
 
@@ -38,30 +37,31 @@ typedef struct {
     u32 flag;
 } S_80045340_HwFlag;
 
-s32 func_80045340(void *a0, s32 a1, S_80045340_Entry *a2, s32 a3)
+/* Processes unflagged entries across groups until the stop condition or end of the chain. */
+s32 func_80045340(void *group_data, s32 context, S_80045340_Entry *entry, s32 unused)
 {
-    void *s0 = a0;
-    S_80045340_Entry *cur = a2;
-    S_80045340_Entry *nxt;
+    void *current_data = group_data;
+    S_80045340_Entry *current_entry = entry;
+    S_80045340_Entry *next_group;
 
     D_80081510 = 0;
     ((S_80045340_HwFlag *)0x1F800000)->flag = 0;
 
     for (;;) {
-        if (!(cur->unk14 & 0x80)) {
-            func_800453E0(s0, a1, cur, cur->unk06);
+        if (!(current_entry->unk14 & 0x80)) {
+            func_800453E0(current_data, context, current_entry, current_entry->unk06);
             if (func_80045310(((S_80045340_Target *)D_80083160[0])->unk8D0)) {
                 return 0;
             }
         }
 
-        nxt = *(S_80045340_Entry **)((u8 *)s0 - 8);
-        if (nxt == 0) {
+        next_group = *(S_80045340_Entry **)((u8 *)current_data - 8);
+        if (next_group == 0) {
             D_80081510 = 0;
             return 0;
         }
-        s0 = (u8 *)nxt + 0x20;
-        a1 = (s32)nxt->unk08;
-        cur = nxt->unk0C;
+        current_data = (u8 *)next_group + 0x20;
+        context = (s32)next_group->unk08;
+        current_entry = next_group->unk0C;
     }
 }

@@ -19,26 +19,27 @@ typedef struct S_800C8C3C_0 {
 } S_800C8C3C_0;   /* arg1 in func_800C8C3C */
 
 
-void func_800C8C3C(Rec_D_80082D58 *arg0, S_800C8C3C_0 *arg1, s32 arg2)
+/* Advance motion and handle ground contact or continued movement. */
+void func_800C8C3C(Rec_D_80082D58 *entity, S_800C8C3C_0 *motion, s32 context)
 {
     s32 *velocity;
-    u16 temp_v0;
+    u16 contacts_left;
 
     velocity = D_800D636C;
-    arg1->unk_00 += velocity[0];
-    arg1->unk_04 += velocity[1];
-    arg1->unk_08.at00.v += arg1->unk_14;
-    if (func_800C2AE8(arg1) < arg1->unk_08.at02.v) {
-        arg1->unk_08.at02.v = func_800C2AE8(arg1);
-        temp_v0 = arg0->unk_90.as_u16 - 1;
-        arg0->unk_90.as_u16 = temp_v0;
-        if ((s16)temp_v0 < 0) {
-            func_80033D08(arg0);
-            func_800C8D34(arg0, arg1, arg2);
+    motion->unk_00 += velocity[0];
+    motion->unk_04 += velocity[1];
+    motion->unk_08.at00.v += motion->unk_14;
+    if (func_800C2AE8(motion) < motion->unk_08.at02.v) {
+        motion->unk_08.at02.v = func_800C2AE8(motion);
+        contacts_left = entity->unk_90.as_u16 - 1;
+        entity->unk_90.as_u16 = contacts_left;
+        if ((s16)contacts_left < 0) {
+            func_80033D08(entity);
+            func_800C8D34(entity, motion, context);
             return;
         }
-        func_800C8B5C(arg0, arg1, arg2);
+        func_800C8B5C(entity, motion, context);
         return;
     }
-    func_80095388(arg1);
+    func_80095388(motion);
 }

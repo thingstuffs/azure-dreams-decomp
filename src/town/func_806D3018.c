@@ -23,18 +23,19 @@ typedef struct S_80016818_0 {
     s16 unk_1A;
 } S_80016818_0;   /* arg0 in func_80016818 */
 
-s32 func_80016818(S_80016818_0 *arg0) {
-    s32 var_s0;
+/* Run callbacks until one returns zero, then return its index. */
+s32 func_80016818(S_80016818_0 *context) {
+    s32 callback_index;
 
-    if ((((s32) arg0->unk_00 >> 0x17) & 1) ||
+    if ((((s32) context->unk_00 >> 0x17) & 1) ||
         (func_80016D78(D_800160B2[0]) == 0)) {
-        func_800167B4(arg0->unk_14,
-                      arg0->unk_1A);
+        func_800167B4(context->unk_14,
+                      context->unk_1A);
     }
-    var_s0 = 0;
+    callback_index = 0;
     
-    while (arg0->unk_10[var_s0].callback(arg0, var_s0) != 0) {
-        var_s0++;
+    while (context->unk_10[callback_index].callback(context, callback_index) != 0) {
+        callback_index++;
     }
-    return var_s0;
+    return callback_index;
 }

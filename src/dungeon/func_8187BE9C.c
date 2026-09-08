@@ -34,54 +34,55 @@ extern s32 D_800814A0[3];
 extern void func_800256EC(void) __attribute__((noreturn));
 extern void func_800256F0(void) __attribute__((noreturn));
 
-void func_8187BE9C(void *arg0, s32 arg1, S_8187BE9C_1 *arg2)
+/* Advance the effect fade, scale primitive colors, and flag completion. */
+void func_8187BE9C(void *effect, s32 unused, S_8187BE9C_1 *primitive)
 {
-    s16 state;
+    s16 phase;
 
     D_8002694C[0] = 1;
-    ((S_8187BE9C_0 *)arg0)->unk_02.s--;
+    ((S_8187BE9C_0 *)effect)->unk_02.s--;
 
-    state = ((S_8187BE9C_0 *)arg0)->unk_42;
-    if (state == 0) {
+    phase = ((S_8187BE9C_0 *)effect)->unk_42;
+    if (phase == 0) {
         goto state_0;
     }
-    if (state == 1) {
+    if (phase == 1) {
         goto state_1;
     }
     func_800256F0();
 
 state_0:
     {
-        s32 tail_value;
+        s32 adjusted_value;
 
-        ((S_8187BE9C_0 *)arg0)->unk_42 = 1;
-        tail_value = ((S_8187BE9C_0 *)arg0)->unk_4C + 24;
-        ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ((S_8187BE9C_0 *)effect)->unk_42 = 1;
+        adjusted_value = ((S_8187BE9C_0 *)effect)->unk_4C + 24;
+        ASM_TAILSLOT_PIN_TIED(adjusted_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800256EC();
     }
 
 state_1:
-    ((S_8187BE9C_0 *)arg0)->unk_42 = 0;
-    ((S_8187BE9C_0 *)arg0)->unk_4C -= 24;
+    ((S_8187BE9C_0 *)effect)->unk_42 = 0;
+    ((S_8187BE9C_0 *)effect)->unk_4C -= 24;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    arg2->unk_0C =
-        ((S_8187BE9C_0 *)arg0)->unk_36 * ((S_8187BE9C_0 *)arg0)->unk_02.u /
-        ((S_8187BE9C_0 *)arg0)->unk_04;
-    arg2->unk_0D =
-        ((S_8187BE9C_0 *)arg0)->unk_37 * ((S_8187BE9C_0 *)arg0)->unk_02.u /
-        ((S_8187BE9C_0 *)arg0)->unk_04;
-    arg2->unk_0E =
-        ((S_8187BE9C_0 *)arg0)->unk_38 * ((S_8187BE9C_0 *)arg0)->unk_02.u /
-        ((S_8187BE9C_0 *)arg0)->unk_04;
+    primitive->unk_0C =
+        ((S_8187BE9C_0 *)effect)->unk_36 * ((S_8187BE9C_0 *)effect)->unk_02.u /
+        ((S_8187BE9C_0 *)effect)->unk_04;
+    primitive->unk_0D =
+        ((S_8187BE9C_0 *)effect)->unk_37 * ((S_8187BE9C_0 *)effect)->unk_02.u /
+        ((S_8187BE9C_0 *)effect)->unk_04;
+    primitive->unk_0E =
+        ((S_8187BE9C_0 *)effect)->unk_38 * ((S_8187BE9C_0 *)effect)->unk_02.u /
+        ((S_8187BE9C_0 *)effect)->unk_04;
 
-    if (((S_8187BE9C_0 *)arg0)->unk_02.u <= 0) {
-        ((S_8187BE9C_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    if (((S_8187BE9C_0 *)effect)->unk_02.u <= 0) {
+        ((S_8187BE9C_0_pre *)effect)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 
-    if (arg2->unk_14 & 0x8000) {
-        ((S_8187BE9C_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+    if (primitive->unk_14 & 0x8000) {
+        ((S_8187BE9C_0_pre *)effect)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

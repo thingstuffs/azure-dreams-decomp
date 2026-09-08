@@ -11,29 +11,26 @@ extern M2C_UNK D_800189BC;
 extern M2C_UNK D_80018B94;
 extern M2C_UNK D_8001A04A;
 
-M2C_UNK *func_806D4430(s32 arg0, s32 arg1, s32 arg2) {
+/* Selects a request result and conditionally advances a three-state cursor. */
+M2C_UNK *func_806D4430(s32 entry_id, s32 unused, s32 request_id) {
     M2C_UNK *result;
-    s32 temp_s0;
+    s32 cursor;
 
-    result = func_80016E00(arg2);
+    result = func_80016E00(request_id);
     if (result != NULL) {
         return result;
     }
-    result = func_80017960(&D_800189BC, &D_80018B94, arg0, arg2);
-    temp_s0 = func_80018868(0x990, 2);
+    result = func_80017960(&D_800189BC, &D_80018B94, entry_id, request_id);
+    cursor = func_80018868(0x990, 2);
     if (func_8001868C(0x997) == 0) {
-        temp_s0++;
-        if (temp_s0 == 3) {
-            temp_s0 = 0;
+        cursor++;
+        if (cursor == 3) {
+            cursor = 0;
         }
-        func_800188E8(0x990, temp_s0, 2);
+        func_800188E8(0x990, cursor, 2);
     }
-    if ((arg2 == 0xB) && (func_800178A8(&D_800189BC, arg0, 0xB) != 0)) {
+    if ((request_id == 0xB) && (func_800178A8(&D_800189BC, entry_id, 0xB) != 0)) {
         result = &D_8001A04A;
     }
     return result;
 }
-
-/* MECHANISM: Preserve the unused middle ABI argument so arg2 arrives in a2 and
-   merge both result paths into s1 and mutate the cursor directly in s0.
-   The cdk schedule fills the early branch slot and preserves the 0x28 frame. */

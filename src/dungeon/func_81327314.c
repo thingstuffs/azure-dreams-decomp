@@ -81,71 +81,72 @@ extern void *D_80174704;
 extern s16 D_80174708[16];
 
 
+/* Spawn an object at the owner's position and initialize its motion and appearance. */
 void func_8016EB14(void)
 {
     s32 x;
-    s32 y;
-    s32 table_y;
-    void *root;
-    S_8016EB14_5 *source;
-    S_8016EB14_6 *owner;
-    register void *body ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    void *object;
-    S_8016EB14_2 *part;
-    S_8016EB14_4 *target;
-    u8 *table;
-    u8 *entry;
+    s32 source_y;
+    s32 direction_y;
+    void *owner_object;
+    S_8016EB14_5 *source_pos;
+    S_8016EB14_6 *owner_state;
+    register void *object_state ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *spawned_object;
+    S_8016EB14_2 *render_part;
+    S_8016EB14_4 *spawn_pos;
+    u8 *direction_table;
+    u8 *direction_entry;
 
-    root = D_80174704;
-    source = ((S_8016EB14_0 *)root)->unk_08;
-    owner = (u8 *)root + 0x20;
-    object = func_8003FC64(0x12);
-    if (object != 0) {
-        ((S_8016EB14_1 *)object)->unk_10 = &D_8016E528;
-        func_8004491C(object, &D_80045340);
-        part = ((S_8016EB14_1 *)object)->unk_0C;
-        part->unk_14 &= 0xFFF3;
-        body = (u8 *)object + 0x20;
-        ((S_8016EB14_3 *)body)->unk_24 = owner;
-        target = ((S_8016EB14_1 *)object)->unk_08;
-        target->unk_02 = source->unk_02.s;
-        target->unk_06 = source->unk_06.s;
-        target->unk_0A = source->unk_0A - 0x20;
+    owner_object = D_80174704;
+    source_pos = ((S_8016EB14_0 *)owner_object)->unk_08;
+    owner_state = (u8 *)owner_object + 0x20;
+    spawned_object = func_8003FC64(0x12);
+    if (spawned_object != 0) {
+        ((S_8016EB14_1 *)spawned_object)->unk_10 = &D_8016E528;
+        func_8004491C(spawned_object, &D_80045340);
+        render_part = ((S_8016EB14_1 *)spawned_object)->unk_0C;
+        render_part->unk_14 &= 0xFFF3;
+        object_state = (u8 *)spawned_object + 0x20;
+        ((S_8016EB14_3 *)object_state)->unk_24 = owner_state;
+        spawn_pos = ((S_8016EB14_1 *)spawned_object)->unk_08;
+        spawn_pos->unk_02 = source_pos->unk_02.s;
+        spawn_pos->unk_06 = source_pos->unk_06.s;
+        spawn_pos->unk_0A = source_pos->unk_0A - 0x20;
 #ifdef NON_MATCHING
-        table = (u8 *)D_80174708;
+        direction_table = (u8 *)D_80174708;
 #else
-        table = (u8 *)0x80170000;
-        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        table += 0x4708;
+        direction_table = (u8 *)0x80170000;
+        ASM_KEEP(direction_table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        direction_table += 0x4708;
 #endif
-        x = *(s16 *)(u8 *)(((owner->unk_2A >> 7) & 0x1C) +
-                           (u32)table);
-        ((S_8016EB14_3 *)body)->unk_4C = x << 18;
-        table_y = *(s16 *)((u8 *)(((owner->unk_2A >> 7) & 0x1C) +
-                                  (u32)table) + 2);
-        ((S_8016EB14_3 *)body)->unk_54 = 0xFFF80000;
-        ((S_8016EB14_3 *)body)->unk_60 = 0x14900;
-        ((S_8016EB14_3 *)body)->unk_50 = table_y << 18;
+        x = *(s16 *)(u8 *)(((owner_state->unk_2A >> 7) & 0x1C) +
+                           (u32)direction_table);
+        ((S_8016EB14_3 *)object_state)->unk_4C = x << 18;
+        direction_y = *(s16 *)((u8 *)(((owner_state->unk_2A >> 7) & 0x1C) +
+                                  (u32)direction_table) + 2);
+        ((S_8016EB14_3 *)object_state)->unk_54 = 0xFFF80000;
+        ((S_8016EB14_3 *)object_state)->unk_60 = 0x14900;
+        ((S_8016EB14_3 *)object_state)->unk_50 = direction_y << 18;
 
-        ((S_8016EB14_3 *)body)->unk_18 = (owner->unk_2A >> 9) & 7;
-        part = ((S_8016EB14_1 *)object)->unk_0C;
-        part->unk_1E = 0x1000;
-        part->unk_1C = 0x1000;
-        entry = (u8 *)(((owner->unk_2A >> 7) & 0x1C) + (u32)table);
-        part->unk_06 = *(s16 *)(entry + 2) * 6;
-        owner->unk_AA = 0x4D;
+        ((S_8016EB14_3 *)object_state)->unk_18 = (owner_state->unk_2A >> 9) & 7;
+        render_part = ((S_8016EB14_1 *)spawned_object)->unk_0C;
+        render_part->unk_1E = 0x1000;
+        render_part->unk_1C = 0x1000;
+        direction_entry = (u8 *)(((owner_state->unk_2A >> 7) & 0x1C) + (u32)direction_table);
+        render_part->unk_06 = *(s16 *)(direction_entry + 2) * 6;
+        owner_state->unk_AA = 0x4D;
 
-        x = source->unk_02.u;
-        ((S_8016EB14_3 *)body)->unk_48 = x / 64;
-        y = source->unk_06.u;
-        ((S_8016EB14_3 *)body)->unk_49 = y / 64;
-        part->unk_0E = 0x80;
-        part->unk_0D = 0x80;
-        part->unk_0C = 0x80;
-        part->unk_08 = &D_800777B8;
-        ((S_8016EB14_3 *)body)->unk_44 = 0xF;
-        ((S_8016EB14_3 *)body)->unk_45 = 1;
-        ((S_8016EB14_3 *)body)->unk_46 = 0;
-        ((S_8016EB14_3 *)body)->unk_47 = 0;
+        x = source_pos->unk_02.u;
+        ((S_8016EB14_3 *)object_state)->unk_48 = x / 64;
+        source_y = source_pos->unk_06.u;
+        ((S_8016EB14_3 *)object_state)->unk_49 = source_y / 64;
+        render_part->unk_0E = 0x80;
+        render_part->unk_0D = 0x80;
+        render_part->unk_0C = 0x80;
+        render_part->unk_08 = &D_800777B8;
+        ((S_8016EB14_3 *)object_state)->unk_44 = 0xF;
+        ((S_8016EB14_3 *)object_state)->unk_45 = 1;
+        ((S_8016EB14_3 *)object_state)->unk_46 = 0;
+        ((S_8016EB14_3 *)object_state)->unk_47 = 0;
     }
 }

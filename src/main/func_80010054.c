@@ -3,7 +3,8 @@
 
 M2C_UNK func_80022D60();   /* extern */
 
-void func_80023054(s32 arg0) {
-    s32 temp = 0;
-    func_80022D60(arg0, 0xd, temp, temp);
+/* Forwards the input value with 0xD and two zero arguments to func_80022D60. */
+void func_80023054(s32 input_value) {
+    s32 zero = 0;
+    func_80022D60(input_value, 0xd, zero, zero);
 }

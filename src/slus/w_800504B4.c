@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* Decays each of a0->arr[1..6]'s sub-object counter field (offset 2) by 0x100 while positive, else clamps it to 0; if a0->arr[6]'s counter has reached exactly 0, installs func_80050494 as a0's vtable-like function pointer (offset 0); then tail-calls func_80050308(a0). */
 typedef union S_800504B4_Val {
     s16 s;
     u16 u;
@@ -25,20 +24,21 @@ typedef struct S_800504B4 {
 extern void func_80050494(void *a0);
 extern void func_80050308(void *a0);
 
-void func_800504B4(S_800504B4 *a0)
+/* Decays six counters, switches callbacks when the last reaches zero, and updates the object. */
+void func_800504B4(S_800504B4 *object)
 {
-    s32 i;
-    for (i = 1; i < 7; i++) {
-        S_800504B4_Elem *e = a0->arr[i];
-        S_800504B4_Sub *s = e->sub;
-        if (s->val.s > 0) {
-            s->val.u = s->val.u - 0x100;
+    s32 elem_index;
+    for (elem_index = 1; elem_index < 7; elem_index++) {
+        S_800504B4_Elem *elem = object->arr[elem_index];
+        S_800504B4_Sub *counter = elem->sub;
+        if (counter->val.s > 0) {
+            counter->val.u = counter->val.u - 0x100;
         } else {
-            s->val.s = 0;
+            counter->val.s = 0;
         }
     }
-    if (a0->arr[6]->sub->val.s == 0) {
-        a0->func = func_80050494;
+    if (object->arr[6]->sub->val.s == 0) {
+        object->func = func_80050494;
     }
-    func_80050308(a0);
+    func_80050308(object);
 }

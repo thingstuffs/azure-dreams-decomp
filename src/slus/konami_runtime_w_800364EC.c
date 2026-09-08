@@ -28,13 +28,14 @@ extern u8 D_80082538[9];
 extern void func_80037030(void *, void *, Object *, s32, s16, u32);
 extern void func_80036574(Object *);
 
-void func_800364EC(Object *arg0) {
-    s16 value;
+/* Initializes the object from its child and sets a 90-tick delay and next callback. */
+void func_800364EC(Object *object) {
+    s16 adjusted_value;
 
-    value = arg0->child->unk22 - (arg0->child->unk26 - 1);
-    arg0->unk4d = arg0->child->unk27;
-    func_80037030(D_80082538, D_80082040, arg0, 1, value,
-                  arg0->child->unk80);
-    arg0->unk64 = 0x5a;
-    arg0->unk68 = func_80036574;
+    adjusted_value = object->child->unk22 - (object->child->unk26 - 1);
+    object->unk4d = object->child->unk27;
+    func_80037030(D_80082538, D_80082040, object, 1, adjusted_value,
+                  object->child->unk80);
+    object->unk64 = 0x5a;
+    object->unk68 = func_80036574;
 }

@@ -27,52 +27,49 @@ typedef struct {
     /*0x238*/ S_8004F0DC_Slot *unk238;
 } S_8004F0DC;
 
-/* Wire seven slot records on the object: each gets a UV-style s16 pair on its
- * inner and a buffer pointer into the object's embedded regions. Order is the
- * retail access order (0x220, 0x234, 0x238, then the 0x224..0x230 quartet that
- * shares the 0x170 buffer). */
-void func_8004F0DC(S_8004F0DC *arg0)
+/* Initialize seven slots with coordinate pairs and pointers to embedded buffers. */
+void func_8004F0DC(S_8004F0DC *host)
 {
-    S_8004F0DC_Slot *s;
-    void *shared;
-    s16 x;
-    s16 y;
+    S_8004F0DC_Slot *slot;
+    void *shared_buffer;
+    s16 right_x;
+    s16 bottom_y;
 
-    s = arg0->unk220;
-    s->unk04->unk08 = 6;
-    s->unk04->unk0A = 0x10;
-    s->unk00 = (u8 *)arg0 + 8;
+    slot = host->unk220;
+    slot->unk04->unk08 = 6;
+    slot->unk04->unk0A = 0x10;
+    slot->unk00 = (u8 *)host + 8;
 
-    s = arg0->unk234;
-    s->unk04->unk08 = 0;
-    s->unk04->unk0A = 0;
-    s->unk00 = (u8 *)arg0 + 0x80;
+    slot = host->unk234;
+    slot->unk04->unk08 = 0;
+    slot->unk04->unk0A = 0;
+    slot->unk00 = (u8 *)host + 0x80;
 
-    s = arg0->unk238;
-    s->unk04->unk08 = 0x68;
-    s->unk04->unk0A = 0;
-    s->unk00 = (u8 *)arg0 + 0xF8;
+    slot = host->unk238;
+    slot->unk04->unk08 = 0x68;
+    slot->unk04->unk0A = 0;
+    slot->unk00 = (u8 *)host + 0xF8;
 
-    s = arg0->unk224;
-    x = 0xA0;
-    y = 0x70;
-    s->unk04->unk08 = x;
-    shared = (u8 *)arg0 + 0x170;
-    s->unk04->unk0A = y;
-    s->unk00 = shared;
+    slot = host->unk224;
+    right_x = 0xA0;
+    bottom_y = 0x70;
+    slot->unk04->unk08 = right_x;
+    shared_buffer = (u8 *)host + 0x170;
+    slot->unk04->unk0A = bottom_y;
+    slot->unk00 = shared_buffer;
 
-    s = arg0->unk228;
-    s->unk04->unk08 = 0;
-    s->unk04->unk0A = y;
-    s->unk00 = shared;
+    slot = host->unk228;
+    slot->unk04->unk08 = 0;
+    slot->unk04->unk0A = bottom_y;
+    slot->unk00 = shared_buffer;
 
-    s = arg0->unk22C;
-    s->unk04->unk08 = x;
-    s->unk04->unk0A = 0;
-    s->unk00 = shared;
+    slot = host->unk22C;
+    slot->unk04->unk08 = right_x;
+    slot->unk04->unk0A = 0;
+    slot->unk00 = shared_buffer;
 
-    s = arg0->unk230;
-    s->unk04->unk08 = 0;
-    s->unk04->unk0A = 0;
-    s->unk00 = shared;
+    slot = host->unk230;
+    slot->unk04->unk08 = 0;
+    slot->unk04->unk0A = 0;
+    slot->unk00 = shared_buffer;
 }

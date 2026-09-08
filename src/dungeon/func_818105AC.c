@@ -8,6 +8,7 @@ typedef struct S_800255AC_0 {
     s32 unk_40;
 } S_800255AC_0;   /* arg0 in func_800255AC */
 
-void func_800255AC(S_800255AC_0 *arg0) {
-    func_80026340(arg0->unk_40);
+/* Passes the object's stored value to func_80026340. */
+void func_800255AC(S_800255AC_0 *object) {
+    func_80026340(object->unk_40);
 }

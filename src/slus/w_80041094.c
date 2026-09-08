@@ -15,13 +15,12 @@ extern S_80082E60 D_80082E60;
 
 extern void func_80040AA0(u16 a0);
 
-/* Masks a0 to 16 bits and forwards it to func_80040AA0, then stores the
- * remaining four arguments into D_80082E60's field_10..field_16 (s16 slots). */
-void func_80041094(s32 a0, s16 a1, s16 a2, s16 a3, s32 a4)
+/* Forwards a 16-bit notification value and updates four shared state fields. */
+void func_80041094(s32 notify_value, s16 state_10, s16 state_12, s16 state_14, s32 state_16)
 {
-    func_80040AA0((u16)a0);
-    D_80082E60.field_10 = a1;
-    D_80082E60.field_12 = a2;
-    D_80082E60.field_14 = a3;
-    D_80082E60.field_16 = a4;
+    func_80040AA0((u16)notify_value);
+    D_80082E60.field_10 = state_10;
+    D_80082E60.field_12 = state_12;
+    D_80082E60.field_14 = state_14;
+    D_80082E60.field_16 = state_16;
 }

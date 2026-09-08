@@ -27,44 +27,45 @@ extern s8 D_8006CCD8;
 extern s8 D_8006CCE8;
 extern s32 D_800814A0;
 
-void func_81814C48(void *arg0, void *arg1, void *arg2)
+/* Updates a position with randomized motion, reduces speed, and flags completion. */
+void func_81814C48(void *state, void *position, void *linked_state)
 {
-    s16 temp_v0;
-    s32 temp_a0;
-    s32 temp_a0_2;
-    s32 accum;
-    s32 random;
-    s32 call_a0;
-    s32 call_a1;
-    s32 call_a2;
-    register s32 tail_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 speed;
+    s32 x_step;
+    s32 y_step;
+    s32 coord_value;
+    s32 z_random;
+    s32 x;
+    s32 y;
+    s32 z;
+    register s32 z_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    call_a2 = (*(u16 *)((u8 *)arg1 + 0xA));
-    call_a0 = ((S_81814C48_0 *)arg1)->unk_00.at02.v;
-    call_a1 = ((S_81814C48_0 *)arg1)->unk_04.at02.v;
+    z = (*(u16 *)((u8 *)position + 0xA));
+    x = ((S_81814C48_0 *)position)->unk_00.at02.v;
+    y = ((S_81814C48_0 *)position)->unk_04.at02.v;
     D_80025338 = 1;
-    if ((s16)((S_81814C48_0 *)arg1)->unk_08.at02.v <
-        func_800BCB04(call_a0, call_a1, (s16)(call_a2 + 2))) {
-        temp_a0 = ((*(s16 *)(&D_8006CCD8 + (((S_81814C48_1 *)arg0)->unk_14 * 2)) *
-                    ((S_81814C48_1 *)arg0)->unk_32) << 9) +
+    if ((s16)((S_81814C48_0 *)position)->unk_08.at02.v <
+        func_800BCB04(x, y, (s16)(z + 2))) {
+        x_step = ((*(s16 *)(&D_8006CCD8 + (((S_81814C48_1 *)state)->unk_14 * 2)) *
+                    ((S_81814C48_1 *)state)->unk_32) << 9) +
                   (rand() & 0xFFFF);
-        accum = ((S_81814C48_0 *)arg1)->unk_00.at00.v + temp_a0;
-        ((S_81814C48_0 *)arg1)->unk_00.at00.v = accum;
-        temp_a0_2 = ((*(s16 *)(&D_8006CCE8 + (((S_81814C48_1 *)arg0)->unk_14 * 2)) *
-                      ((S_81814C48_1 *)arg0)->unk_32) << 9) +
-                    (rand(temp_a0) & 0xFFFF);
-        accum = ((S_81814C48_0 *)arg1)->unk_04.at00.v + temp_a0_2;
-        ((S_81814C48_0 *)arg1)->unk_04.at00.v = accum;
-        random = rand(temp_a0_2);
-        tail_offset = 0xFFFE0000;
-        accum = ((S_81814C48_0 *)arg1)->unk_08.at00.v + tail_offset;
-        accum -= random & 0xFFF;
-        ((S_81814C48_0 *)arg1)->unk_08.at00.v = accum;
+        coord_value = ((S_81814C48_0 *)position)->unk_00.at00.v + x_step;
+        ((S_81814C48_0 *)position)->unk_00.at00.v = coord_value;
+        y_step = ((*(s16 *)(&D_8006CCE8 + (((S_81814C48_1 *)state)->unk_14 * 2)) *
+                      ((S_81814C48_1 *)state)->unk_32) << 9) +
+                    (rand(x_step) & 0xFFFF);
+        coord_value = ((S_81814C48_0 *)position)->unk_04.at00.v + y_step;
+        ((S_81814C48_0 *)position)->unk_04.at00.v = coord_value;
+        z_random = rand(y_step);
+        z_step = 0xFFFE0000;
+        coord_value = ((S_81814C48_0 *)position)->unk_08.at00.v + z_step;
+        coord_value -= z_random & 0xFFF;
+        ((S_81814C48_0 *)position)->unk_08.at00.v = coord_value;
     }
-    temp_v0 = (u16)((S_81814C48_1 *)arg0)->unk_32 - 8;
-    ((S_81814C48_1 *)arg0)->unk_32 = temp_v0;
-    if (((temp_v0 << 16) <= 0) || (((S_81814C48_2 *)arg2)->unk_14 & 0x8000)) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    speed = (u16)((S_81814C48_1 *)state)->unk_32 - 8;
+    ((S_81814C48_1 *)state)->unk_32 = speed;
+    if (((speed << 16) <= 0) || (((S_81814C48_2 *)linked_state)->unk_14 & 0x8000)) {
+        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

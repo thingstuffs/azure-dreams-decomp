@@ -70,70 +70,71 @@ extern s32 rand(void);
 extern void *func_8003FC64(s32);
 extern s32 func_8004491C(void *, void *);
 
-void func_800C4944(FuncArg *arg0) {
-    register s32 counter ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    FuncSub *sub;
-    FuncItem *item;
-    FuncBlock *block;
-    FuncData *data_block;
-    FuncData *data;
-    FuncMeta *meta;
-    u8 *effect;
-    u8 *table;
-    u8 *tile;
+/* Spawn two effects at the source position and decrement its remaining count. */
+void func_800C4944(FuncArg *source) {
+    register s32 effect_index ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    FuncSub *effect_state;
+    FuncItem *effect_item;
+    FuncBlock *effect_block;
+    FuncData *effect_pos;
+    FuncData *source_pos;
+    FuncMeta *source_meta;
+    u8 *effect_def;
+    u8 *height_offsets;
+    u8 *tile_data;
     u16 x;
     u16 y;
-    s32 seeds[3];
+    s32 random_values[3];
 
-    seeds[0] = rand();
-    seeds[1] = rand();
-    seeds[2] = rand();
-    counter = 1;
-    effect = D_800C4640;
-    table = D_800DDC40;
-    tile = D_800DF564;
+    random_values[0] = rand();
+    random_values[1] = rand();
+    random_values[2] = rand();
+    effect_index = 1;
+    effect_def = D_800C4640;
+    height_offsets = D_800DDC40;
+    tile_data = D_800DF564;
     loop:
-    item = func_8003FC64(0x202);
-    if (item != 0) {
-        item->field10 = effect;
-        sub = (FuncSub *)((u8 *)item + 0x20);
-        func_8004491C(item, D_80045340);
-        sub->field12 = (seeds[0] & 0xF) + 0x10;
-        sub->field16 = seeds[1];
-        data = (FuncData *)arg0->data;
-        data_block = item->data_block;
-        x = data->x;
-        data_block->x = x;
-        sub->fieldC = x;
-        y = ((FuncData *)arg0->data)->y;
-        data_block->y = y;
-        sub->fieldE = y;
-        meta = (FuncMeta *)arg0->meta;
-        data_block->z = ((FuncData *)arg0->data)->z - *(u8 *)(meta->index + (s32)table) - (seeds[2] & 0xF);
-        sub->field1C = arg0->data;
-        block = item->block;
-        block->field14 = 0xC;
-        block->field8 = tile;
-        if (counter != 0) {
-            block->field10 = 0x20;
+    effect_item = func_8003FC64(0x202);
+    if (effect_item != 0) {
+        effect_item->field10 = effect_def;
+        effect_state = (FuncSub *)((u8 *)effect_item + 0x20);
+        func_8004491C(effect_item, D_80045340);
+        effect_state->field12 = (random_values[0] & 0xF) + 0x10;
+        effect_state->field16 = random_values[1];
+        source_pos = (FuncData *)source->data;
+        effect_pos = effect_item->data_block;
+        x = source_pos->x;
+        effect_pos->x = x;
+        effect_state->fieldC = x;
+        y = ((FuncData *)source->data)->y;
+        effect_pos->y = y;
+        effect_state->fieldE = y;
+        source_meta = (FuncMeta *)source->meta;
+        effect_pos->z = ((FuncData *)source->data)->z - *(u8 *)(source_meta->index + (s32)height_offsets) - (random_values[2] & 0xF);
+        effect_state->field1C = source->data;
+        effect_block = effect_item->block;
+        effect_block->field14 = 0xC;
+        effect_block->field8 = tile_data;
+        if (effect_index != 0) {
+            effect_block->field10 = 0x20;
         } else {
-            block->field10 = 0x60;
+            effect_block->field10 = 0x60;
         }
-        sub->field2 = 8;
-        sub->field18 = counter;
+        effect_state->field2 = 8;
+        effect_state->field18 = effect_index;
     }
-    counter -= 1;
-    if (counter >= 0) {
+    effect_index -= 1;
+    if (effect_index >= 0) {
         goto loop;
     }
     {
-        u16 new_count;
-        new_count = arg0->count - 1;
-        arg0->count = new_count;
-        if ((new_count << 0x10) <= 0) {
-            u16 *before_count;
-            before_count = (u16 *)arg0 - 1;
-            *before_count = *before_count | 0x8000;
+        u16 remaining;
+        remaining = source->count - 1;
+        source->count = remaining;
+        if ((remaining << 0x10) <= 0) {
+            u16 *source_flags;
+            source_flags = (u16 *)source - 1;
+            *source_flags = *source_flags | 0x8000;
             D_800814A0[0] = D_800814A0[0] | 0x8000;
             D_80083460.fieldA = D_80083460.fieldA - 1;
         }
@@ -142,14 +143,14 @@ void func_800C4944(FuncArg *arg0) {
 
 /* MECHANISM: rowbase TRUE-SPACE row (region xfer_dungeon_A3000, delta 0x7FFE5760,
    true base 0x800C4944).  Three residues, three separate levers:
-   1. Retail reloads `arg0->data` a THIRD time for the z field (word 53, which is
+   1. Retail reloads `source->data` a THIRD time for the z field (word 53, which is
       what fills that load-delay slot); the warm cdk idiom held the first pointer
       live from the x load all the way through z and emitted a nop instead.
-      Spelling z as its own `((FuncData *)arg0->data)->z` deref restores it.
-   2. That reload flips gcc's callee-save assignment (arg0 -> $s2, counter -> $s3);
-      retail is arg0 -> $s3, counter -> $s2.  Pinning `counter` to $s2 restores
+      Spelling z as its own `((FuncData *)source->data)->z` deref restores it.
+   2. That reload flips gcc's callee-save assignment (source -> $s2, effect_index -> $s3);
+      retail is source -> $s3, effect_index -> $s2.  Pinning `effect_index` to $s2 restores
       both roles and every $s2/$s3-bearing word in the function.
-   3. `table[meta->index]` is a POINTER-array ref, so gcc canonicalises the address
+   3. `height_offsets[source_meta->index]` is a POINTER-array ref, so gcc canonicalises the address
       add base-first (`addu v0,s5,v0`).  Retail has `addu v0,v0,s5` -- an integer
       addition that keeps source order.  Writing the index first against an
       integer-cast base reproduces it. */

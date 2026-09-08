@@ -20,38 +20,35 @@ extern void memcpy(void *, void *, s32);
 extern s32 func_8008ACE8(s32);
 extern void func_8008AD90(s32, s32);
 
-void func_8008AE4C(s32 index)
+/* Move the selected entry and its data to the first slot. */
+void func_8008AE4C(s32 entry_index)
 {
     TownEntry *entries;
     TownEntry *entry;
     TownState *state;
-    void *buffer;
-    s32 field0;
-    s32 field1;
-    s32 field2;
-    s32 field4;
-    s32 offset;
+    void *scratch;
+    s32 saved_field0;
+    s32 saved_field1;
+    s32 saved_field2;
+    s32 data_size;
+    s32 data_offset;
 
     entries = D_800CF720;
-    entry = &entries[index];
-    field0 = entry->field0;
-    field1 = entry->field1;
-    field2 = entry->field2;
-    field4 = entry->field4;
+    entry = &entries[entry_index];
+    saved_field0 = entry->field0;
+    saved_field1 = entry->field1;
+    saved_field2 = entry->field2;
+    data_size = entry->field4;
 
-    buffer = func_80040574(0x8000);
-    offset = func_8008ACE8(index);
+    scratch = func_80040574(0x8000);
+    data_offset = func_8008ACE8(entry_index);
     state = &D_801131B8;
-    memcpy(buffer, state->field2C + offset, field4);
-    func_8008AD90(index, field4);
-    memcpy(state->field2C, buffer, field4);
+    memcpy(scratch, state->field2C + data_offset, data_size);
+    func_8008AD90(entry_index, data_size);
+    memcpy(state->field2C, scratch, data_size);
 
-    D_800CF720[0].field0 = field0;
-    entries[0].field1 = field1;
-    entries[0].field2 = field2;
-    entries[0].field4 = field4;
+    D_800CF720[0].field0 = saved_field0;
+    entries[0].field1 = saved_field1;
+    entries[0].field2 = saved_field2;
+    entries[0].field4 = data_size;
 }
-
-/* MECHANISM: Typed eight-byte TownEntry indexing forces the retail sll-by-three shape.
-   A held entries base plus a direct field0 store exposes both retail D_800CF720 bases;
-   promoted signed field locals and the held TownState base encode the nine-value hold set. */

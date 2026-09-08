@@ -4,6 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_80019928();                            /* extern */
 
-void func_80016800(void) {
-    func_80019928();
+/* Forwards the context and entry index to func_80019928. */
+void func_80016800(s32 context, s32 entry_index) {
+    func_80019928(context, entry_index);
 }

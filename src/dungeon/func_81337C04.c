@@ -19,7 +19,8 @@ extern void func_8009A3D0(s32, s32, s32);
 extern void func_800A2B04(void *, s32, s32);
 extern void func_8009A21C(s32, s32, s32);
 
-void func_8016EC04(s32 arg0)
+/* Reposition the current entity relative to the origin using the selected offset. */
+void func_8016EC04(s32 offset_index)
 {
     s16 delta[2] = { 0, -12 };
     u8 *object;
@@ -40,7 +41,7 @@ void func_8016EC04(s32 arg0)
                   (((S_8016EC04_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
     origin = D_80082E80;
-    step = (u8 *)&delta[arg0 * 2];
+    step = (u8 *)&delta[offset_index * 2];
     entity[0x24] = origin[0x24] + step[0];
     entity[0x25] = origin[0x25] + step[2];
 

@@ -50,256 +50,257 @@ extern s32 func_80174698();
 extern s32 func_80174EB4();
 extern s32 func_80175ED4();
 
-void func_80170E94(void *arg0, void *arg1, void *arg2, void *arg3) {
-    s16 out;
-    s32 tile;
-    u32 swi;
+/* Update an actor's dungeon actions, status, facing, and animation. */
+void func_80170E94(void *actor, void *context, void *sprite, void *stats) {
+    s16 heading_flags;
+    s32 tile_index;
+    u32 action_index;
     u32 state;
-    u32 state25;
-    u32 state_work;
-    u8 *seq;
-    register u8 *seq10 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 *effect_ptr;
-    u8 *map;
-    static void *const sw_keep[] = {
+    u32 active_state;
+    u32 idle_state;
+    u8 *active_anims;
+    register u8 *next_anims ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *anim_entry;
+    u8 *leader_sprite;
+    static void *const action_labels[] = {
         &&case_1, &&case_1, &&case_1, &&case_default,
         &&case_5, &&case_5, &&case_5, &&case_8,
         &&case_9, &&case_default, &&case_11, &&case_12,
     };
 
-    if ((F(arg0, u8, 0xAE) == 0) && (D_80083462 & 0x1000)) {
-        F(arg0, u8, 0x9A) = 14;
-        func_801716B4();
+    if ((F(actor, u8, 0xAE) == 0) && (D_80083462 & 0x1000)) {
+        F(actor, u8, 0x9A) = 14;
+        func_801716B4(actor, context, sprite, stats);
         goto done;
     }
 
-    if (F(arg3, u8, 0x25) == 0) {
-        func_80175ED4(arg0, arg3);
-        func_800AA79C(arg0, arg1, arg2, arg3);
-        if (F(arg2, void *, 0x2C) == &D_80175F28) {
+    if (F(stats, u8, 0x25) == 0) {
+        func_80175ED4(actor, stats);
+        func_800AA79C(actor, context, sprite, stats);
+        if (F(sprite, void *, 0x2C) == &D_80175F28) {
             goto done;
         }
-        seq10 = &D_80175F20;
-        goto set_seq10;
+        next_anims = &D_80175F20;
+        goto set_anims;
     }
 
-    if (F(arg3, u32, 0x1C) & 0x200) {
-        if (F(arg2, void *, 0x2C) == &D_80175F28) {
-            F(arg0, u8, 0x9A) = 13;
-            F(arg0, u8, 0x9B) = 1;
-            F(arg0, u32, 0x8C) = 0;
-            F(arg3, u32, 0x1C) &= ~0x40000;
+    if (F(stats, u32, 0x1C) & 0x200) {
+        if (F(sprite, void *, 0x2C) == &D_80175F28) {
+            F(actor, u8, 0x9A) = 13;
+            F(actor, u8, 0x9B) = 1;
+            F(actor, u32, 0x8C) = 0;
+            F(stats, u32, 0x1C) &= ~0x40000;
             goto done;
         }
-        func_80175ED4(arg0, arg3);
-        if (func_800AA924(arg0, arg1, arg2, &D_80175F20)) {
+        func_80175ED4(actor, stats);
+        if (func_800AA924(actor, context, sprite, &D_80175F20)) {
             goto done;
         }
     }
 
     if (!(D_80083462 & 0x2000)) {
-        if (F(arg3, u32, 0x1C) & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        if (F(stats, u32, 0x1C) & 0x100) {
+            func_800AA258(actor, context, sprite, stats);
             goto done;
         }
 
-        state = F(arg0, u8, 0x9A);
-        state25 = 25;
-        state_work = 14;
-        if (state == state25) {
+        state = F(actor, u8, 0x9A);
+        active_state = 25;
+        idle_state = 14;
+        if (state == active_state) {
             goto state_check_14;
         }
-        if (F(arg0, u8, 0xAE) != 0) {
-            u8 *active_seq = D_80175F38;
-            if (F(arg2, void *, 0x2C) != active_seq) {
-                func_80174EB4(arg0, arg1, arg2);
-                F(arg2, void *, 0x2C) = active_seq;
-                func_80047784(arg2,
-                    active_seq[((D_80083228 + F(arg3, s16, 0x2A) + 0x100) >> 9) & 7],
+        if (F(actor, u8, 0xAE) != 0) {
+            u8 *active_table = D_80175F38;
+            if (F(sprite, void *, 0x2C) != active_table) {
+                func_80174EB4(actor, context, sprite);
+                F(sprite, void *, 0x2C) = active_table;
+                func_80047784(sprite,
+                    active_table[((D_80083228 + F(stats, s16, 0x2A) + 0x100) >> 9) & 7],
                     0);
             }
-            F(arg0, u8, 0x9A) = state25;
+            F(actor, u8, 0x9A) = active_state;
             goto state_done;
         }
 state_check_14:
-        state = F(arg0, u8, 0x9A);
-        state_work = 14;
-        if (state != state_work) {
-            if (F(arg0, u8, 0xAE) == 0) {
-                u8 *state_seq = D_80175F10;
-                if (F(arg2, void *, 0x2C) != state_seq) {
-                    F(arg2, void *, 0x2C) = state_seq;
-                    func_80047784(arg2,
-                        state_seq[((D_80083228 + F(arg3, s16, 0x2A) + 0x100) >> 9) & 7],
+        state = F(actor, u8, 0x9A);
+        idle_state = 14;
+        if (state != idle_state) {
+            if (F(actor, u8, 0xAE) == 0) {
+                u8 *idle_table = D_80175F10;
+                if (F(sprite, void *, 0x2C) != idle_table) {
+                    F(sprite, void *, 0x2C) = idle_table;
+                    func_80047784(sprite,
+                        idle_table[((D_80083228 + F(stats, s16, 0x2A) + 0x100) >> 9) & 7],
                         0);
                 }
-                F(arg0, u8, 0x9A) = state_work;
+                F(actor, u8, 0x9A) = idle_state;
             }
         }
 
 state_done:
-        F(arg0, u16, 0x98) &= 0xFFF3;
-        if (F(arg3, s16, 0x64) != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, &D_80175F50)) {
+        F(actor, u16, 0x98) &= 0xFFF3;
+        if (F(stats, s16, 0x64) != 0) {
+            if (func_800AA6B4(actor, context, sprite, &D_80175F50)) {
                 goto done;
             }
         }
-        if (F(arg3, u32, 0x1C) & 0x80000) {
-            func_800AA888(arg0, arg1, arg2, arg3);
-            func_80174698(arg0, arg1, arg2, arg3);
+        if (F(stats, u32, 0x1C) & 0x80000) {
+            func_800AA888(actor, context, sprite, stats);
+            func_80174698(actor, context, sprite, stats);
             goto done;
         }
-        if ((s16)func_800A1C58(arg3) != 0) {
-            func_800AAB10(arg0, arg1, arg2, arg3);
+        if ((s16)func_800A1C58(stats) != 0) {
+            func_800AAB10(actor, context, sprite, stats);
         }
     }
 
-    tile = func_8009FB34(F(arg2, u8, 0x24), F(arg2, u8, 0x25));
-    F(arg2, u8, 0x26) = tile;
-    if (F(arg3, s8, 0x6D) <= 0) {
+    tile_index = func_8009FB34(F(sprite, u8, 0x24), F(sprite, u8, 0x25));
+    F(sprite, u8, 0x26) = tile_index;
+    if (F(stats, s8, 0x6D) <= 0) {
         goto health_zero;
     }
-    if (F(arg3, u32, 0x1C) & 0x20) {
+    if (F(stats, u32, 0x1C) & 0x20) {
         goto kill;
     }
-    if ((F(arg2, u16, 0x24) == *(u16 *)&D_80082EA4) &&
-        (F(arg0, u8, 0xAE) == 0)) {
-        func_80175ED4(arg0, arg3);
-        func_801718F8(arg0, arg1, arg2, arg3);
+    if ((F(sprite, u16, 0x24) == *(u16 *)&D_80082EA4) &&
+        (F(actor, u8, 0xAE) == 0)) {
+        func_80175ED4(actor, stats);
+        func_801718F8(actor, context, sprite, stats);
         goto done;
     }
 
-    if (!(F(arg3, u16, 0x46) & 0x8000)) {
+    if (!(F(stats, u16, 0x46) & 0x8000)) {
         if (D_80083462 & 0x2000) {
-            if ((s16)func_8009A180(arg3,
+            if ((s16)func_8009A180(stats,
                     (u8 *)F(D_800814A8, void *, 0x58) + 0x20) != 0) {
                 goto done;
             }
         }
-        if (F(arg0, u8, 0xAE) == 0) {
-            if ((s16)func_801727D8(arg0, arg1, arg2, 0) == 0) {
+        if (F(actor, u8, 0xAE) == 0) {
+            if ((s16)func_801727D8(actor, context, sprite, 0) == 0) {
                 goto done;
             }
         }
-        F(arg3, u16, 0x46) |= 0x4000;
-        if (!(F(arg3, u16, 0x46) & 0x8000)) {
+        F(stats, u16, 0x46) |= 0x4000;
+        if (!(F(stats, u16, 0x46) & 0x8000)) {
             goto case_default;
         }
     }
 
-    swi = (F(arg3, u16, 0x46) & 0x3FFF) - 1;
-    if (swi >= 12) {
+    action_index = (F(stats, u16, 0x46) & 0x3FFF) - 1;
+    if (action_index >= 12) {
         goto case_default;
     }
-    (void)sw_keep;
-    goto *D_80170808[swi];
+    (void)action_labels;
+    goto *D_80170808[action_index];
 
 case_12:
-    if (func_80175ED4(arg0, arg3) == 0) {
+    if (func_80175ED4(actor, stats) == 0) {
         goto kill;
     }
-    seq10 = D_80175F10;
-    F(arg2, void *, 0x2C) = seq10;
-    func_80047784(arg2,
-        seq10[((D_80083228 + F(arg3, s16, 0x2A) + 0x100) >> 9) & 7], 0);
+    next_anims = D_80175F10;
+    F(sprite, void *, 0x2C) = next_anims;
+    func_80047784(sprite,
+        next_anims[((D_80083228 + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
     goto kill;
 
 case_11:
-    func_801718F8(arg0, arg1, arg2, arg3);
+    func_801718F8(actor, context, sprite, stats);
     goto final_cleanup;
 
 case_8:
-    func_80175ED4(arg0, arg3);
-    if ((s16)func_80172050(arg0, arg1, arg2, arg3) != 0) {
+    func_80175ED4(actor, stats);
+    if ((s16)func_80172050(actor, context, sprite, stats) != 0) {
         goto done;
     }
-    func_80172218(arg0, arg1, arg2, arg3);
+    func_80172218(actor, context, sprite, stats);
     goto done;
 
 case_9:
     {
-    register void *effect_owner;
+    register void *anim_sprite;
 
-    if (F(arg0, u8, 0xAE) != 0) {
-        if (F(arg3, u32, 0x1C) & 0x400) {
-            register s32 value ASM_REG("$2") = F(arg3, s32, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            if (value >= 0) {
-                register void *random_arg0 ASM_REG("$4") = arg0;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                register void *random_arg1 ASM_REG("$5") = arg1;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                value = (u32)value | 0x80000000;
-                F(arg3, u32, 0x14) = value;
-                F(arg3, u16, 0x2A) +=
-                    (func_800A6D30(random_arg0, random_arg1) & 7) << 9;
+    if (F(actor, u8, 0xAE) != 0) {
+        if (F(stats, u32, 0x1C) & 0x400) {
+            register s32 turn_flags ASM_REG("$2") = F(stats, s32, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            if (turn_flags >= 0) {
+                register void *random_actor ASM_REG("$4") = actor;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                register void *random_context ASM_REG("$5") = context;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                turn_flags = (u32)turn_flags | 0x80000000;
+                F(stats, u32, 0x14) = turn_flags;
+                F(stats, u16, 0x2A) +=
+                    (func_800A6D30(random_actor, random_context) & 7) << 9;
             }
         }
-        func_80172504(arg0, arg1, arg2, arg3);
+        func_80172504(actor, context, sprite, stats);
         goto done;
     }
-    func_801723D8(arg0, arg1, arg2, arg3);
+    func_801723D8(actor, context, sprite, stats);
     goto done;
 
 case_5: {
-        s16 next_tile;
+        s16 heading;
         void *leader;
 
-        next_tile = func_800A0818(
-            F(arg2, u8, 0x24), F(arg2, u8, 0x25),
-            D_80082E80[0x24], D_80082E80[0x25], &out);
+        heading = func_800A0818(
+            F(sprite, u8, 0x24), F(sprite, u8, 0x25),
+            D_80082E80[0x24], D_80082E80[0x25], &heading_flags);
         leader = D_800814A8;
-        F(arg3, s16, 0x2A) = next_tile;
+        F(stats, s16, 0x2A) = heading;
         if (F(leader, u8, 0x9A) == 17) {
             goto case_1;
         }
     }
 
 kill:
-    func_800A9A0C(arg3);
+    func_800A9A0C(stats);
     goto done;
 
 case_1:
-    func_80175ED4(arg0, arg3);
-    func_800AAF00(arg0, arg1, arg2, &D_80175F60, func_80170E94);
+    func_80175ED4(actor, stats);
+    func_800AAF00(actor, context, sprite, &D_80175F60, func_80170E94);
     goto done;
 
 case_default:
-    func_801718F8(arg0, arg1, arg2, arg3);
-    if (F(arg0, u8, 0xAE) == 0) {
+    func_801718F8(actor, context, sprite, stats);
+    if (F(actor, u8, 0xAE) == 0) {
         goto done;
     }
 
 final_cleanup:
-    func_80175ED4(arg0, arg3);
+    func_80175ED4(actor, stats);
     goto done;
 
 health_zero:
-    if (F(arg0, u8, 0xAE) == 0) {
-        u32 flags = F(arg3, u32, 0x1C);
+    if (F(actor, u8, 0xAE) == 0) {
+        u32 flags = F(stats, u32, 0x1C);
         if (flags & 0x2000) {
             goto flag_2000;
         }
-        if ((s8)tile >= 0) {
-            if (D_800E2970[(s8)tile].flags & 2) {
+        if ((s8)tile_index >= 0) {
+            if (D_800E2970[(s8)tile_index].flags & 2) {
                 goto final_checks;
             }
         }
         if (flags & 0x430) {
             goto final_checks;
         }
-        map = D_80082E80;
-        if ((s16)func_8009FD7C(F(arg2, u8, 0x24), F(arg2, u8, 0x25),
-                map[0x24], map[0x25]) != 0) {
-            F(arg3, s16, 0x2A) = func_800A0818(
-                F(arg2, u8, 0x24), F(arg2, u8, 0x25),
-                map[0x24], map[0x25], &out);
+        leader_sprite = D_80082E80;
+        if ((s16)func_8009FD7C(F(sprite, u8, 0x24), F(sprite, u8, 0x25),
+                leader_sprite[0x24], leader_sprite[0x25]) != 0) {
+            F(stats, s16, 0x2A) = func_800A0818(
+                F(sprite, u8, 0x24), F(sprite, u8, 0x25),
+                leader_sprite[0x24], leader_sprite[0x25], &heading_flags);
         }
         goto final_checks;
 
 flag_2000:
-        if ((s16)func_80042900(arg3, 4) != 0) {
+        if ((s16)func_80042900(stats, 4) != 0) {
             goto final_checks;
         }
         if (F(D_800814A8, u8, 0x9A) == 23) {
-            func_80172334(arg0, arg1, arg2, arg3);
+            func_80172334(actor, context, sprite, stats);
         }
     }
 
@@ -307,38 +308,38 @@ final_checks:
     if (D_80083462 & 0x2000) {
         goto done;
     }
-    if (F(arg2, u16, 0x14) & 0x40) {
+    if (F(sprite, u16, 0x14) & 0x40) {
         goto done;
     }
-    if (F(arg0, u8, 0xAE) != 0) {
-        seq = D_80175F38;
-        if (F(arg2, void *, 0x2C) == seq) {
+    if (F(actor, u8, 0xAE) != 0) {
+        active_anims = D_80175F38;
+        if (F(sprite, void *, 0x2C) == active_anims) {
             goto done;
         }
-        func_80174EB4(arg0, arg1, arg2);
-        F(arg2, void *, 0x2C) = seq;
-        effect_owner = arg2;
-        effect_ptr = seq + (((D_80083228 + F(arg3, s16, 0x2A) + 0x100) >> 9) & 7);
+        func_80174EB4(actor, context, sprite);
+        F(sprite, void *, 0x2C) = active_anims;
+        anim_sprite = sprite;
+        anim_entry = active_anims + (((D_80083228 + F(stats, s16, 0x2A) + 0x100) >> 9) & 7);
     } else {
-        void *current_seq;
-        u8 *default_seq;
+        void *current_anims;
+        u8 *idle_anims;
 
-        current_seq = F(arg2, void *, 0x2C);
-        default_seq = D_80175F10;
-        if (current_seq == default_seq) {
+        current_anims = F(sprite, void *, 0x2C);
+        idle_anims = D_80175F10;
+        if (current_anims == idle_anims) {
             goto done;
         }
-        seq10 = default_seq;
+        next_anims = idle_anims;
 
-set_seq10:
-        F(arg2, void *, 0x2C) = seq10;
-        effect_owner = arg2;
-        effect_ptr = (u8 *)((unsigned long)
-            (((D_80083228 + F(arg3, s16, 0x2A) + 0x100) >> 9) & 7) +
-            (unsigned long)seq10);
+set_anims:
+        F(sprite, void *, 0x2C) = next_anims;
+        anim_sprite = sprite;
+        anim_entry = (u8 *)((unsigned long)
+            (((D_80083228 + F(stats, s16, 0x2A) + 0x100) >> 9) & 7) +
+            (unsigned long)next_anims);
     }
 
-    func_80047784(effect_owner, *effect_ptr, 0);
+    func_80047784(anim_sprite, *anim_entry, 0);
     }
 
 done:

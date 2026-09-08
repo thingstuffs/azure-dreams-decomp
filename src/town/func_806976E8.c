@@ -11,6 +11,7 @@ typedef struct S_806976E8_0 {
     s32 unk_24;
 } S_806976E8_0;   /* D_80018BE8 in func_806976E8 */
 
+/* Cache the current object's field at 0x24 and return its field at 0x20. */
 s32 func_806976E8(void) {
     D_80018BEC = ((S_806976E8_0 *)D_80018BE8)->unk_24;
     return ((S_806976E8_0 *)D_80018BE8)->unk_20;

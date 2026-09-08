@@ -14,20 +14,21 @@ extern u8 D_800AB708[];
 #define TF14_KEEP(var) __asm__ __volatile__("" : "=r"(var) : "0"(var))
 #endif
 
-void func_800AB158(void *arg0, void *arg1) {
-    *(void **)((s8 *)arg0 - 0x10) = D_800AB1E0;
+/* Initialize state and copy default values, adjusting the final output value. */
+void func_800AB158(void *state, void *output) {
+    *(void **)((s8 *)state - 0x10) = D_800AB1E0;
     func_800AAEFC();
-    *(s16 *)((s8 *)arg0 + 0x90) = 0;
-    *(void **)((s8 *)arg0 + 0x50) = D_800AB708;
-    *(s16 *)((s8 *)arg0 + 0x6A) = 0;
+    *(s16 *)((s8 *)state + 0x90) = 0;
+    *(void **)((s8 *)state + 0x50) = D_800AB708;
+    *(s16 *)((s8 *)state + 0x6A) = 0;
 
     {
-        u16 *p;
+        u16 *defaults;
         TF14_BARRIER();
-        p = (u16 *)D_80083780;
-        TF14_KEEP(p);
-        *(u16 *)((s8 *)arg1 + 2) = p[1];
-        *(u16 *)((s8 *)arg1 + 6) = p[3];
-        *(s16 *)((s8 *)arg1 + 0xA) = p[5] - func_800AAE98(arg1);
+        defaults = (u16 *)D_80083780;
+        TF14_KEEP(defaults);
+        *(u16 *)((s8 *)output + 2) = defaults[1];
+        *(u16 *)((s8 *)output + 6) = defaults[3];
+        *(s16 *)((s8 *)output + 0xA) = defaults[5] - func_800AAE98(output);
     }
 }

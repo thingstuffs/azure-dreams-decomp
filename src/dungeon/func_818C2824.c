@@ -13,20 +13,21 @@ extern void func_800AD568(Obj *, s32);
 extern void func_800B4C7C(s32, Obj *, s16, s32);
 extern void func_800AD4D0(Obj *);
 
-void func_818C2824(Obj *arg0, s32 arg1)
+/* Applies a flag-adjusted value increase and updates the target. */
+void func_818C2824(Obj *target, s32 amount_param)
 {
-    register s32 amount ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 adjusted;
+    register s32 base_amount ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 adjusted_amount;
 
-    if (func_8009D218(arg0, 4) == 0) {
-        amount = func_800A6870(arg1 & 0xFF) + 0x10;
-        adjusted = amount;
-        if (arg0->flags & 1) {
-            adjusted = amount + ((s16)amount >> 1);
+    if (func_8009D218(target, 4) == 0) {
+        base_amount = func_800A6870(amount_param & 0xFF) + 0x10;
+        adjusted_amount = base_amount;
+        if (target->flags & 1) {
+            adjusted_amount = base_amount + ((s16)base_amount >> 1);
         }
-        arg0->value64 += adjusted;
-        func_800AD568(arg0, adjusted);
-        func_800B4C7C(0x8004, arg0, (s16)arg0->value64, 1);
-        func_800AD4D0(arg0);
+        target->value64 += adjusted_amount;
+        func_800AD568(target, adjusted_amount);
+        func_800B4C7C(0x8004, target, (s16)target->value64, 1);
+        func_800AD4D0(target);
     }
 }

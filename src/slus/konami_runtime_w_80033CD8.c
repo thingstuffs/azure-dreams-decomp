@@ -11,8 +11,9 @@ typedef struct S_80033CD8_0_pre {
 
 M2C_UNK func_8004491C();                      /* extern */
 
-void func_80033CD8(void *arg0) {
-    if (((S_80033CD8_0_pre *)arg0)[-1].unk_00 == 0) {
-        func_8004491C(arg0 - 0x20);
+/* Call func_8004491C on the block header when the preceding status is zero. */
+void func_80033CD8(void *block_data) {
+    if (((S_80033CD8_0_pre *)block_data)[-1].unk_00 == 0) {
+        func_8004491C(block_data - 0x20);
     }
 }

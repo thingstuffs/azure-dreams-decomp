@@ -27,37 +27,38 @@ extern s32 rand();
 extern void func_8002472C(void) __attribute__((noreturn));
 extern u16 D_80027330[5];
 
-void func_8195EE48(S_8195EE48_0 *arg0, S_8195EE48_1 *arg1)
+/* Interpolates height with jitter until the phase ends, then advances position by velocity. */
+void func_8195EE48(S_8195EE48_0 *state, S_8195EE48_1 *motion)
 {
-    s32 temp_a0;
-    s16 temp_a1;
-    s16 temp_v0;
+    s32 phase_or_height;
+    s16 ticks_left;
+    s16 next_ticks;
     register u16 counter ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     counter = D_80027330[0];
-    temp_a0 = arg0->unk_48;
+    phase_or_height = state->unk_48;
     D_80027330[0] = counter + 1;
-    if (temp_a0 == 0) {
-        temp_a1 = arg0->unk_4C;
-        if (temp_a1 > 0) {
-            temp_a0 = arg0->unk_3C;
-            arg0->unk_3C =
-                (u16)arg0->unk_3C +
-                ((arg0->unk_62 + arg0->unk_60 - temp_a0) / temp_a1);
-            arg1->unk_08.at02.v =
-                ((u16)arg0->unk_3C + (rand(temp_a0, temp_a1) & 3)) - 2;
+    if (phase_or_height == 0) {
+        ticks_left = state->unk_4C;
+        if (ticks_left > 0) {
+            phase_or_height = state->unk_3C;
+            state->unk_3C =
+                (u16)state->unk_3C +
+                ((state->unk_62 + state->unk_60 - phase_or_height) / ticks_left);
+            motion->unk_08.at02.v =
+                ((u16)state->unk_3C + (rand(phase_or_height, ticks_left) & 3)) - 2;
         }
-        temp_v0 = (u16)arg0->unk_4C - 1;
-        arg0->unk_4C = temp_v0;
-        if ((temp_v0 << 16) <= 0) {
-            arg0->unk_4C = 0x20;
-            arg0->unk_48 = (u16)arg0->unk_48 + 1;
+        next_ticks = (u16)state->unk_4C - 1;
+        state->unk_4C = next_ticks;
+        if ((next_ticks << 16) <= 0) {
+            state->unk_4C = 0x20;
+            state->unk_48 = (u16)state->unk_48 + 1;
             func_8002472C();
         }
     } else {
-        arg1->unk_00 += arg1->unk_0C;
-        arg1->unk_04 += arg1->unk_10;
-        arg1->unk_08.at00.v += arg1->unk_14;
+        motion->unk_00 += motion->unk_0C;
+        motion->unk_04 += motion->unk_10;
+        motion->unk_08.at00.v += motion->unk_14;
     }
 }
 

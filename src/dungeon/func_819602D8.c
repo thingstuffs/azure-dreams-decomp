@@ -19,100 +19,101 @@ typedef struct S_819602D8_0 {
     s32 unk_14;
 } S_819602D8_0;   /* temp_v0 in func_819602D8 */
 
-void func_819602D8(s16 arg0, s32 arg1) {
+/* Sample a 7 by 7 area around the given tile and flag the tiles found there. */
+void func_819602D8(s16 center_x, s32 center_y) {
     volatile union {
         u16 h;
         u8 b;
-    } subroutine_arg4;
-    register s32 var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 var_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 var_s5;
-    u8 *var_s7;
-    s32 temp_s6;
-    s32 temp_s8;
-    register u16 *var_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u32 var_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u32 var_s4;
+    } saved_center_x;
+    register s32 tile_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 signed_y ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 tile_y;
+    u8 *sample_row;
+    s32 world_y;
+    s32 sample_y;
+    register u16 *sample_ptr ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u32 col ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u32 row;
     u8 *store_page;
-    s32 var_a0;
-    s32 first_result;
-    void *lookup_arg;
-    S_819602D8_0 *temp_v0;
+    s32 sample_x;
+    s32 tile_sample;
+    void *map;
+    S_819602D8_0 *tile;
 
-    var_s5 = arg1 - 3;
-    var_s4 = 0;
-    var_s7 = D_800273CC;
+    tile_y = center_y - 3;
+    row = 0;
+    sample_row = D_800273CC;
     store_page = (u8 *)0x80020000;
-    subroutine_arg4.h = arg0;
+    saved_center_x.h = center_x;
     {
-        register u32 store_byte ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        store_byte = subroutine_arg4.b;
-        ASM_KEEP4_NV(store_page, var_s4, var_s5, var_s7);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        store_page[0x744C] = store_byte;
+        register u32 center_x_byte ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        center_x_byte = saved_center_x.b;
+        ASM_KEEP4_NV(store_page, row, tile_y, sample_row);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        store_page[0x744C] = center_x_byte;
     }
-    do { *D_8002744D = arg1; } while (0);
-loop_1:
+    do { *D_8002744D = center_y; } while (0);
+row_loop:
     {
-        register u32 loop_arg ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 sign_temp ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        loop_arg = subroutine_arg4.h;
-        ASM_KEEP_NV(loop_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        var_s1 = 0;
-        sign_temp = var_s5 << 16;
-        var_s3 = sign_temp >> 16;
-        temp_s6 = var_s3 << 6;
-        ASM_KEEP_NV(temp_s6);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_s8 = temp_s6 + 0x20;
-        ASM_KEEP_NV(temp_s6);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        var_s2 = (u16 *)var_s7;
-        var_s0 = loop_arg - 3;
+        register u32 row_center_x ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 shifted_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        row_center_x = saved_center_x.h;
+        ASM_KEEP_NV(row_center_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        col = 0;
+        shifted_y = tile_y << 16;
+        signed_y = shifted_y >> 16;
+        world_y = signed_y << 6;
+        ASM_KEEP_NV(world_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        sample_y = world_y + 0x20;
+        ASM_KEEP_NV(world_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        sample_ptr = (u16 *)sample_row;
+        tile_x = row_center_x - 3;
     }
-    ASM_USE2_NV(temp_s6, var_s5);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_USE_NV(var_s4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-loop_2:
-    first_result = func_800BCA68((var_s0 << 6) & 0xFFC0, temp_s6);
-    lookup_arg = *D_800E3D7C;
-    *var_s2 = 0 - first_result;
-    temp_v0 = func_8009B4B0(lookup_arg, var_s0, var_s5);
-    if ((temp_v0 != NULL) && (temp_v0 != D_8002732C)) {
-        temp_v0->unk_14 = (s32)(temp_v0->unk_14 | 0x100000);
+    ASM_USE2_NV(world_y, tile_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_USE_NV(row);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+col_loop:
+    tile_sample = func_800BCA68((tile_x << 6) & 0xFFC0, world_y);
+    map = *D_800E3D7C;
+    *sample_ptr = 0 - tile_sample;
+    tile = func_8009B4B0(map, tile_x, tile_y);
+    if ((tile != NULL) && (tile != D_8002732C)) {
+        tile->unk_14 = (s32)(tile->unk_14 | 0x100000);
     }
-    var_a0 = (s16)var_s0;
-    if (var_a0 < 0) {
+    sample_x = (s16)tile_x;
+    if (sample_x < 0) {
         goto bounds_fail;
     }
     {
-        s32 shift0;
+        s32 width_check;
         {
-            register s16 *bounds0 ASM_REG("$7") = (s16 *)D_8008333C;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            shift0 = bounds0[10];
-            ASM_USE_NV(bounds0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            register s16 *width_info ASM_REG("$7") = (s16 *)D_8008333C;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            width_check = width_info[10];
+            ASM_USE_NV(width_info);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         }
         {
-            register s32 one0 ASM_REG("$7") = 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            shift0 = one0 << shift0;
+            register s32 width_unit ASM_REG("$7") = 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            width_check = width_unit << width_check;
         }
-        shift0 = var_a0 < shift0;
-        if (!shift0) {
+        width_check = sample_x < width_check;
+        if (!width_check) {
             goto bounds_fail;
         }
     }
-    if (var_s3 < 0) {
+    if (signed_y < 0) {
         goto bounds_fail;
     }
     {
-        s32 shift1;
+        s32 height_check;
         {
-            register s16 *bounds1 ASM_REG("$7") = D_8008333C_second;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            shift1 = bounds1[11];
-            ASM_USE_NV(bounds1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            register s16 *height_info ASM_REG("$7") = D_8008333C_second;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            height_check = height_info[11];
+            ASM_USE_NV(height_info);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         }
         {
-            register s32 one1 ASM_REG("$7") = 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            shift1 = one1 << shift1;
+            register s32 height_unit ASM_REG("$7") = 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            height_check = height_unit << height_check;
         }
-        shift1 = var_s3 < shift1;
-        if (shift1) {
+        height_check = signed_y < height_check;
+        if (height_check) {
             goto bounds_ok;
         }
     }
@@ -127,28 +128,28 @@ bounds_ok:
         s32 *output_base;
         register u32 output_row ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 output_value;
-        var_a0 <<= 6;
-        var_a0 += 0x20;
-        var_a0 &= 0xFFE0;
-        output_value = func_80025D30(var_a0, temp_s8 & 0xFFFF, -0x400);
+        sample_x <<= 6;
+        sample_x += 0x20;
+        sample_x &= 0xFFE0;
+        output_value = func_80025D30(sample_x, sample_y & 0xFFFF, -0x400);
         ASM_KEEP_NV(output_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         output_base = &D_800274DC[0][0];
         ASM_KEEP_NV(output_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        output_row = var_s4 << 5;
+        output_row = row << 5;
         output_row += (u32)output_base;
-        ((s32 *)output_row)[var_s1] = output_value;
+        ((s32 *)output_row)[col] = output_value;
     }
-    var_s2 += 1;
-    var_s1 += 1;
-    var_s0 += 1;
-    if (var_s1 >= 7U) {
-        var_s7 += 16;
-        var_s4 += 1;
-        var_s5 += 1;
-        if (var_s4 >= 7U) {
+    sample_ptr += 1;
+    col += 1;
+    tile_x += 1;
+    if (col >= 7U) {
+        sample_row += 16;
+        row += 1;
+        tile_y += 1;
+        if (row >= 7U) {
             return;
         }
-        goto loop_1;
+        goto row_loop;
     }
-    goto loop_2;
+    goto col_loop;
 }

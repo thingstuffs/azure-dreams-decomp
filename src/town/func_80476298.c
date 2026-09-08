@@ -4,6 +4,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_800198D0();                     /* extern */
 
+/* Calls func_800198D0 with argument 0x14. */
 void func_80476298(void) {
     func_800198D0(0x14);
 }

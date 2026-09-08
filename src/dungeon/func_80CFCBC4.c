@@ -41,110 +41,111 @@ extern u8 D_80163DDC[8];
 extern u8 D_80163DE4[8];
 extern u8 D_80163DEC[8];
 
-void func_801623C4(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advance the actor's timed action sequence and update its animation and effects. */
+void func_801623C4(void *action, void *motion, void *animation, void *actor)
 {
-    static void *const jt_keep[] = {
-        &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5
+    static void *const state_labels[] = {
+        &&initialize, &&select_animation, &&wait_action, &&finish_action, &&done, &&special_action
     };
     s16 timer;
     u8 state;
 
-    state = ((S_801623C4_0 *)arg0)->unk_9B;
+    state = ((S_801623C4_0 *)action)->unk_9B;
     if (state >= 6) {
-        goto jt_c4;
+        goto done;
     }
-    (void)jt_keep;
+    (void)state_labels;
     goto *D_8015E838[state];
 
-jt_c0:
-    ((S_801623C4_1 *)arg1)->unk_14 = 0;
-    ((S_801623C4_1 *)arg1)->unk_10 = 0;
-    ((S_801623C4_1 *)arg1)->unk_0C = 0;
-    ((S_801623C4_0 *)arg0)->unk_96.s = 0;
-    ((S_801623C4_0 *)arg0)->unk_9B++;
-    if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        goto jt_c4;
+initialize:
+    ((S_801623C4_1 *)motion)->unk_14 = 0;
+    ((S_801623C4_1 *)motion)->unk_10 = 0;
+    ((S_801623C4_1 *)motion)->unk_0C = 0;
+    ((S_801623C4_0 *)action)->unk_96.s = 0;
+    ((S_801623C4_0 *)action)->unk_9B++;
+    if (!(((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
+        goto done;
     }
 
-jt_c1:
-    timer = ((S_801623C4_0 *)arg0)->unk_96.s + 1;
-    ((S_801623C4_0 *)arg0)->unk_96.s = timer;
-    if ((timer != 4) && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        goto jt_c4;
+select_animation:
+    timer = ((S_801623C4_0 *)action)->unk_96.s + 1;
+    ((S_801623C4_0 *)action)->unk_96.s = timer;
+    if ((timer != 4) && !(((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
+        goto done;
     }
-    ((S_801623C4_0 *)arg0)->unk_96.s = 0;
-    ((S_801623C4_0 *)arg0)->unk_9B++;
-    switch (((Rec_D_800E3D7C *)arg3)->unk_48.at00_u8.v) {
+    ((S_801623C4_0 *)action)->unk_96.s = 0;
+    ((S_801623C4_0 *)action)->unk_9B++;
+    switch (((Rec_D_800E3D7C *)actor)->unk_48.at00_u8.v) {
     case 13:
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80163DDC;
-        func_80047784(arg2,
-            D_80163DDC[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DDC;
+        func_80047784(animation,
+            D_80163DDC[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        goto jt_c4;
+        goto done;
     case 14:
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80163DE4;
-        func_80047784(arg2,
-            D_80163DE4[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DE4;
+        func_80047784(animation,
+            D_80163DE4[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        goto jt_c4;
+        goto done;
     case 15:
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = D_80163DEC;
-        func_80047784(arg2,
-            D_80163DEC[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        (*(u8 * *)((u8 *)animation + 0x2C)) = D_80163DEC;
+        func_80047784(animation,
+            D_80163DEC[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        ((S_801623C4_0 *)arg0)->unk_9B = 5;
+        ((S_801623C4_0 *)action)->unk_9B = 5;
         func_800A56E0(0x60C);
-        goto jt_c4;
+        goto done;
     default:
-        goto jt_c4;
+        goto done;
     }
 
-jt_c2:
-    timer = ((S_801623C4_0 *)arg0)->unk_96.s + 1;
-    ((S_801623C4_0 *)arg0)->unk_96.s = timer;
-    if ((timer == 5) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16, 1);
-        ((S_801623C4_0 *)arg0)->unk_96.s = 0;
-        ((S_801623C4_0 *)arg0)->unk_9B++;
+wait_action:
+    timer = ((S_801623C4_0 *)action)->unk_96.s + 1;
+    ((S_801623C4_0 *)action)->unk_96.s = timer;
+    if ((timer == 5) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
+        func_8009C12C(actor, animation, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
+        ((S_801623C4_0 *)action)->unk_96.s = 0;
+        ((S_801623C4_0 *)action)->unk_9B++;
     }
-    if (((S_801623C4_0 *)arg0)->unk_96.u == 3) {
+    if (((S_801623C4_0 *)action)->unk_96.u == 3) {
         func_800A56E0(0x804);
-        goto jt_c4;
+        goto done;
     }
-    goto jt_c4;
+    goto done;
 
-jt_c3:
-    if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
-        func_800AD594(arg3, 0x100);
-        ((S_801623C4_0 *)arg0)->unk_8C = D_801604BC;
+finish_action:
+    if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
+        func_800AD594(actor, 0x100);
+        ((S_801623C4_0 *)action)->unk_8C = D_801604BC;
         D_8008346C = 0;
-        func_800A4ACC(arg3);
-        ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v &= 0x7FFF;
+        func_800A4ACC(actor);
+        ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
     }
-    goto jt_c4;
+    goto done;
 
-jt_c5:
-    timer = ((S_801623C4_0 *)arg0)->unk_96.s + 1;
-    ((S_801623C4_0 *)arg0)->unk_96.s = timer;
-    if ((timer == 10) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x0800;
+special_action:
+    timer = ((S_801623C4_0 *)action)->unk_96.s + 1;
+    ((S_801623C4_0 *)action)->unk_96.s = timer;
+    if ((timer == 10) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
+        ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v |= 0x0800;
         func_800A56E0(0x804);
-        func_8015F21C(arg0, arg1, arg2, arg3);
-        func_8015F4FC(arg0, arg1, arg2, arg3);
+        func_8015F21C(action, motion, animation, actor);
+        func_8015F4FC(action, motion, animation, actor);
     }
-    if ((((S_801623C4_0 *)arg0)->unk_96.u == 12) ||
-        (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(arg3, arg2, ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16,
-            ((S_801623C4_0 *)arg0)->unk_AA);
+    if ((((S_801623C4_0 *)action)->unk_96.u == 12) ||
+        (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
+        func_8009C12C(actor, animation, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16,
+            ((S_801623C4_0 *)action)->unk_AA);
     }
-    if ((((S_801623C4_0 *)arg0)->unk_96.u != 20) &&
-        !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-        goto jt_c4;
+    if ((((S_801623C4_0 *)action)->unk_96.u != 20) &&
+        !(((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
+        goto done;
     }
-    ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v &= 0xF7FF;
-    ((S_801623C4_0 *)arg0)->unk_96.s = 0;
-    ((S_801623C4_0 *)arg0)->unk_9B = 3;
+    ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v &= 0xF7FF;
+    ((S_801623C4_0 *)action)->unk_96.s = 0;
+    ((S_801623C4_0 *)action)->unk_9B = 3;
 
-jt_c4:
+done:
     return;
 }

@@ -16,17 +16,16 @@ extern void *func_8004B404();
  * argument (still unmatched, INCLUDE_ASM'd in code.c). */
 extern void func_8004E298(void *a0, char *a1, int a2);
 
-/* summary: Allocate a 0x100-byte buffer and fill it by parsing a0 (unless a0
- * is blank/empty), returning the buffer pointer (or NULL on any failure). */
-void *allocParsedString(char *a0, int a1)
+/* Parses nonblank text into a new 0x100-byte buffer, returning NULL if blank or allocation fails. */
+void *allocParsedString(char *text, int parse_arg)
 {
-    void *s0 = 0;
+    void *buffer = 0;
 
-    if (func_8004E8D8(a0) != 0) {
-        s0 = func_8004B404(0x100);
-        if (s0 != 0)
-            func_8004E298(s0, a0, a1);
+    if (func_8004E8D8(text) != 0) {
+        buffer = func_8004B404(0x100);
+        if (buffer != 0)
+            func_8004E298(buffer, text, parse_arg);
     }
 
-    return s0;
+    return buffer;
 }

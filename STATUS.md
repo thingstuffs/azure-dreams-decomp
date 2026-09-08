@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-08T03:40:06Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-08T10:29:42Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -23,17 +23,17 @@ Baseline NOT exact: 0 rows
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 32 | 6,088 | 0.2% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 120 | 122,816 | 4.8% |
-| m2c local names | 5182 | 2,172,128 | 84.9% | 5182 | 2,172,128 | 84.9% |
-| ASM_ pins | 2137 | 1,466,884 | 57.3% | 2054 | 1,432,384 | 56.0% |
-| goto | 1545 | 1,318,412 | 51.5% | 1545 | 1,318,412 | 51.5% |
+| m2c local names | 5182 | 2,172,128 | 84.9% | 3662 | 1,553,044 | 60.7% |
+| ASM_ pins | 2137 | 1,466,884 | 57.3% | 2040 | 1,426,252 | 55.8% |
+| goto | 1545 | 1,318,412 | 51.5% | 1538 | 1,315,760 | 51.4% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 317 | 437,288 | 17.1% |
-| inline asm outside macros | 362 | 256,260 | 10.0% | 362 | 256,260 | 10.0% |
+| inline asm outside macros | 362 | 256,260 | 10.0% | 355 | 254,424 | 9.9% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 1070 | 559,652 | 21.9% |
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 2327 | 1,197,616 | 46.8% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 637 | 518,168 | 20.3% |
-| maspsx marker pins (scaffolding) | 394 | 351,668 | 13.7% | 381 | 346,700 | 13.6% |
-| local address-named struct | 633 | 346,988 | 13.6% | 3182 | 1,613,264 | 63.1% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 155,088 | 6.1% | 1242 | 192,948 | 7.5% |
+| maspsx marker pins (scaffolding) | 394 | 351,668 | 13.7% | 380 | 345,976 | 13.5% |
+| local address-named struct | 633 | 346,988 | 13.6% | 3175 | 1,611,560 | 63.0% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 155,088 | 6.1% | 2110 | 378,440 | 14.8% |
 
 Pin sites: 25,878 total; REG 12,818, KEEP 6,889, KEEP_NV 2,501, SCHED_BARRIER 1,355, TAILSLOT_PIN 501, USE 299, USE_NV 261, KEEP_DEP_NV 184.
 
@@ -42,13 +42,13 @@ Pin sites: 25,878 total; REG 12,818, KEEP 6,889, KEEP_NV 2,501, SCHED_BARRIER 1,
 | level | bytes | % |
 |---|---:|---:|
 | L0 | 2,558,124 | 100.0% |
-| L1 | 1,991,104 | 77.8% |
-| L2 | 1,891,456 | 73.9% |
-| L3 | 1,593,004 | 62.3% |
+| L1 | 2,000,776 | 78.2% |
+| L2 | 1,899,768 | 74.3% |
+| L3 | 1,780,564 | 69.6% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
-On shared record headers (T7, `include/records/`): 1168 rows, 659,544 bytes (25.8%); records used: 88.
+On shared record headers (T7, `include/records/`): 1164 rows, 658,600 bytes (25.7%); records used: 102.
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

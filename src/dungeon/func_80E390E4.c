@@ -79,20 +79,21 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, void *, s32, u16 *);
 extern void func_800BB044(void *);
 
-void func_801728E4(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advances an actor's item action through source selection, animation, and cleanup. */
+void func_801728E4(void *action, void *item, void *sprite, void *actor)
 {
     u8 state;
-    register s32 special ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u16 flags;
-    s32 kind;
-    register u8 *table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 use_global_source ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u16 action_flags;
+    s32 item_kind;
+    register u8 *anim_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
     static void *const kind_labels[] = {
         &&K8, &&KB, &&KE, &&KNone, &&K8Special, &&KBSpecial, &&KESpecial
     };
 
-    state = ((S_801728E4_0 *)arg0)->unk_9B;
-    special = 0;
+    state = ((S_801728E4_0 *)action)->unk_9B;
+    use_global_source = 0;
     if ((u32)state >= 5) {
         return;
     }
@@ -100,30 +101,30 @@ void func_801728E4(void *arg0, void *arg1, void *arg2, void *arg3)
 
 L0:
 {
-    register void *source ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *source_entity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    arg1 = 0;
-    if (((S_801728E4_1 *)arg3)->unk_1C & 0x2000) {
-        s32 index = (((S_801728E4_1 *)arg3)->unk_46 & 0x3FFF) - 1;
+    item = 0;
+    if (((S_801728E4_1 *)actor)->unk_1C & 0x2000) {
+        s32 kind_index = (((S_801728E4_1 *)actor)->unk_46 & 0x3FFF) - 1;
 
-        if ((u32)index >= 7) {
+        if ((u32)kind_index >= 7) {
             goto HaveSource;
         }
-        goto *D_80170850[index];
+        goto *D_80170850[kind_index];
 
 KESpecial:
-        special = 1;
+        use_global_source = 1;
         goto KE;
 KBSpecial:
-        special = 1;
+        use_global_source = 1;
         goto KB;
 K8Special:
-        special = 1;
+        use_global_source = 1;
         goto K8;
     }
 
-    kind = ((S_801728E4_1 *)arg3)->unk_46 & 0x3FFF;
-    switch (kind) {
+    item_kind = ((S_801728E4_1 *)actor)->unk_46 & 0x3FFF;
+    switch (item_kind) {
     case 1:
         goto K8;
     case 2:
@@ -135,148 +136,148 @@ K8Special:
     }
 
 KE:
-    arg1 = (u8 *)arg3 + 0xE;
+    item = (u8 *)actor + 0xE;
     goto HaveSource;
 KB:
-    arg1 = (u8 *)arg3 + 0xB;
+    item = (u8 *)actor + 0xB;
     goto HaveSource;
 K8:
-    arg1 = (u8 *)arg3 + 8;
+    item = (u8 *)actor + 8;
 KNone:
 HaveSource:
-    if (((Rec_D_800E3D7C *)arg1)->unk_00.at00_u8.v == 0) {
+    if (((Rec_D_800E3D7C *)item)->unk_00.at00_u8.v == 0) {
         return;
     }
 
     {
-        s32 special_test;
+        s32 global_source_test;
 
-        ((S_801728E4_0 *)arg0)->unk_98 &= 0xFF7F;
-        special_test = special;
-        ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (special_test) {
-            source = D_800814A8;
-            ((S_801728E4_1 *)arg3)->unk_60 = source;
+        ((S_801728E4_0 *)action)->unk_98 &= 0xFF7F;
+        global_source_test = use_global_source;
+        ASM_KEEP(global_source_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        if (global_source_test) {
+            source_entity = D_800814A8;
+            ((S_801728E4_1 *)actor)->unk_60 = source_entity;
             goto CopyFacing;
         }
     }
 
-    if (D_8006DE24[((Rec_D_800E3D7C *)arg1)->unk_00.at00_u8.v].field12 != 2) {
+    if (D_8006DE24[((Rec_D_800E3D7C *)item)->unk_00.at00_u8.v].field12 != 2) {
         goto MakeSource;
     }
 
-    source = ((S_801728E4_1 *)arg3)->unk_60;
-    if (source == 0) {
+    source_entity = ((S_801728E4_1 *)actor)->unk_60;
+    if (source_entity == 0) {
         goto CallUpdate;
     }
 
 CopyFacing:
-    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     {
-        u8 *entry = *(u8 **)((u8 *)source - 0x14);
-        ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((S_801728E4_1 *)arg3)->unk_72.s = ((S_801728E4_3 *)entry)->unk_24;
-        ((S_801728E4_1 *)arg3)->unk_73.s = ((S_801728E4_3 *)entry)->unk_25;
+        u8 *source_sprite = *(u8 **)((u8 *)source_entity - 0x14);
+        ASM_KEEP(source_entity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ((S_801728E4_1 *)actor)->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
+        ((S_801728E4_1 *)actor)->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
     }
     goto Update;
 }
 
 MakeSource:
     {
-        s32 x;
-        s32 z;
+        s32 target_x;
+        s32 target_z;
 
-        ((S_801728E4_1 *)arg3)->unk_60 =
-            func_800A05A4(arg3,
-                          ((S_801728E4_4 *)arg2)->unk_24,
-                          ((S_801728E4_4 *)arg2)->unk_25,
-                          ((S_801728E4_1 *)arg3)->unk_2A,
+        ((S_801728E4_1 *)actor)->unk_60 =
+            func_800A05A4(actor,
+                          ((S_801728E4_4 *)sprite)->unk_24,
+                          ((S_801728E4_4 *)sprite)->unk_25,
+                          ((S_801728E4_1 *)actor)->unk_2A,
                           0x10);
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        x = ((S_801728E4_1 *)arg3)->unk_72.u;
-        z = ((S_801728E4_1 *)arg3)->unk_73.u;
-        if (x < 0) {
-            x = -x;
+        target_x = ((S_801728E4_1 *)actor)->unk_72.u;
+        target_z = ((S_801728E4_1 *)actor)->unk_73.u;
+        if (target_x < 0) {
+            target_x = -target_x;
         }
-        if (z < 0) {
-            z = -z;
+        if (target_z < 0) {
+            target_z = -target_z;
         }
-        ((S_801728E4_1 *)arg3)->unk_72.u = x;
-        ((S_801728E4_1 *)arg3)->unk_73.u = z;
+        ((S_801728E4_1 *)actor)->unk_72.u = target_x;
+        ((S_801728E4_1 *)actor)->unk_73.u = target_z;
     }
 
 Update:
 CallUpdate:
-    if (!func_800A94A0(arg3, arg1, special, (u16 *)((u8 *)arg0 + 0x98))) {
+    if (!func_800A94A0(actor, item, use_global_source, (u16 *)((u8 *)action + 0x98))) {
         return;
     }
-    func_800BB044(arg3);
+    func_800BB044(actor);
     goto AdvanceState;
 
 L1:
     if (func_8003F270()) {
-        ((S_801728E4_4 *)arg2)->unk_14 |= 0x0800;
+        ((S_801728E4_4 *)sprite)->unk_14 |= 0x0800;
         return;
     }
-    ((S_801728E4_4 *)arg2)->unk_14 &= 0xF7FF;
-    ((S_801728E4_0 *)arg0)->unk_9B++;
+    ((S_801728E4_4 *)sprite)->unk_14 &= 0xF7FF;
+    ((S_801728E4_0 *)action)->unk_9B++;
 
 L2:
-    if (!(((S_801728E4_4 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((S_801728E4_4 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
-    table = D_80176648;
+    anim_table = D_80176648;
     goto PlayEffect;
 
 L3:
-    if (((S_801728E4_4 *)arg2)->unk_04 == 6 && (((S_801728E4_4 *)arg2)->unk_14 & 0x1000)) {
-        ((S_801728E4_0 *)arg0)->unk_98 |= 0x80;
-    } else if (((S_801728E4_4 *)arg2)->unk_14 & 0xE000) {
-        ((S_801728E4_0 *)arg0)->unk_98 |= 0x80;
+    if (((S_801728E4_4 *)sprite)->unk_04 == 6 && (((S_801728E4_4 *)sprite)->unk_14 & 0x1000)) {
+        ((S_801728E4_0 *)action)->unk_98 |= 0x80;
+    } else if (((S_801728E4_4 *)sprite)->unk_14 & 0xE000) {
+        ((S_801728E4_0 *)action)->unk_98 |= 0x80;
     }
-    if (!(((S_801728E4_0 *)arg0)->unk_98 & 0x80)) {
+    if (!(((S_801728E4_0 *)action)->unk_98 & 0x80)) {
         return;
     }
-    if (!(((S_801728E4_4 *)arg2)->unk_14 & 0xE000)) {
+    if (!(((S_801728E4_4 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
-    table = D_80176668;
+    anim_table = D_80176668;
 
 PlayEffect:
-    (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
-    func_80047784(arg2,
-        *(u8 *)((uptr)(((D_80083228 + ((S_801728E4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7) +
-                (uptr)table),
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+    func_80047784(sprite,
+        *(u8 *)((uptr)(((D_80083228 + ((S_801728E4_1 *)actor)->unk_2A + 0x100) >> 9) & 7) +
+                (uptr)anim_table),
         0);
 AdvanceState:
-    ((S_801728E4_0 *)arg0)->unk_9B++;
+    ((S_801728E4_0 *)action)->unk_9B++;
     return;
 
 L4:
-    if (((S_801728E4_4 *)arg2)->unk_14 & 0xE000) {
-        table = D_801765D8;
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
-        func_80047784(arg2,
-            table[((D_80083228 + ((S_801728E4_1 *)arg3)->unk_2A + 0x100) >> 9) & 7],
+    if (((S_801728E4_4 *)sprite)->unk_14 & 0xE000) {
+        anim_table = D_801765D8;
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+        func_80047784(sprite,
+            anim_table[((D_80083228 + ((S_801728E4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
-    ((Rec_D_800E3D7C *)arg1)->unk_14.as_s32 = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_10.at00_s32.v = 0;
-    ((Rec_D_800E3D7C *)arg1)->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, ((S_801728E4_4 *)arg2)->unk_24, ((S_801728E4_4 *)arg2)->unk_25);
+    ((Rec_D_800E3D7C *)item)->unk_14.as_s32 = 0;
+    ((Rec_D_800E3D7C *)item)->unk_10.at00_s32.v = 0;
+    ((Rec_D_800E3D7C *)item)->unk_0C.as_s32 = 0;
+    func_800A2B04(item, ((S_801728E4_4 *)sprite)->unk_24, ((S_801728E4_4 *)sprite)->unk_25);
     {
-        u8 *global = D_80083460;
+        u8 *action_status = D_80083460;
 
-        if (((S_801728E4_5 *)global)->unk_0C != 0) {
+        if (((S_801728E4_5 *)action_status)->unk_0C != 0) {
             return;
         }
-        ((S_801728E4_5 *)global)->unk_0A--;
+        ((S_801728E4_5 *)action_status)->unk_0A--;
     }
-    ((S_801728E4_0 *)arg0)->unk_8C = D_80170EE4;
-    func_800A4ACC(arg3);
-    ((S_801728E4_1 *)arg3)->unk_73.s = 0;
-    ((S_801728E4_1 *)arg3)->unk_72.s = 0;
-    ((S_801728E4_1 *)arg3)->unk_6D--;
-    ((S_801728E4_1 *)arg3)->unk_46 &= 0x7FFF;
+    ((S_801728E4_0 *)action)->unk_8C = D_80170EE4;
+    func_800A4ACC(actor);
+    ((S_801728E4_1 *)actor)->unk_73.s = 0;
+    ((S_801728E4_1 *)actor)->unk_72.s = 0;
+    ((S_801728E4_1 *)actor)->unk_6D--;
+    ((S_801728E4_1 *)actor)->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
 }

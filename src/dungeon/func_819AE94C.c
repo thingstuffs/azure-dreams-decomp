@@ -47,30 +47,31 @@ extern void *func_8003FC64(s32 arg0);
 extern s32 func_8004491C(void *arg0, void *arg1);
 extern s32 func_800644B8(s32 arg0);
 extern s32 func_80064584(s32 arg0);
-void *func_8002614C(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4);
+void *func_8002614C(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor);
 
-void *func_8002614C(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4) {
+/* Spawns an effect actor or builds a curved trail toward the saved position. */
+void *func_8002614C(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
     Actor *actor;
     Coord *coord;
     Prim *prim;
-    s16 dx;
-    s16 dy;
-    s16 dz;
-    s16 cx;
-    s16 cy;
-    s16 cz;
-    s32 i;
+    s16 step_x;
+    s16 step_y;
+    s16 step_z;
+    s16 trail_x;
+    s16 trail_y;
+    s16 trail_z;
+    s32 trail_index;
 
     actor = NULL;
-    if (arg4 != 0) {
+    if (spawn_actor != 0) {
         actor = func_8003FC64(530);
         if (actor != NULL) {
             actor->update = D_800260D4;
             func_8004491C(actor, D_80045340);
             coord = actor->pos;
-            coord->x = arg0;
-            coord->y = arg1;
-            coord->z = arg2;
+            coord->x = x;
+            coord->y = y;
+            coord->z = z;
             prim = actor->prim;
             prim->unk1E = 1024;
             prim->unk1C = 1024;
@@ -82,25 +83,25 @@ void *func_8002614C(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4) {
         }
     } else {
         if (D_80027450 == 3) {
-            dx = (D_800287B0.x - arg0) / 16;
-            dy = (D_800287B0.y - arg1) / 16;
-            dz = (D_800287B0.z - arg2) / 16;
-            cx = arg0 + dx;
-            cy = arg1 + dy;
-            cz = arg2 + dz;
-            for (i = 0; i < 16; i++) {
-                func_8002614C(cx + ((func_80064584(arg3) * func_800644B8(i << 7)) >> 21),
-                              cy + ((func_800644B8(arg3) * func_800644B8(i << 7)) >> 21),
-                              cz, arg3, 1);
-                cx += dx;
-                cy += dy;
-                cz += dz;
+            step_x = (D_800287B0.x - x) / 16;
+            step_y = (D_800287B0.y - y) / 16;
+            step_z = (D_800287B0.z - z) / 16;
+            trail_x = x + step_x;
+            trail_y = y + step_y;
+            trail_z = z + step_z;
+            for (trail_index = 0; trail_index < 16; trail_index++) {
+                func_8002614C(trail_x + ((func_80064584(angle) * func_800644B8(trail_index << 7)) >> 21),
+                              trail_y + ((func_800644B8(angle) * func_800644B8(trail_index << 7)) >> 21),
+                              trail_z, angle, 1);
+                trail_x += step_x;
+                trail_y += step_y;
+                trail_z += step_z;
             }
         }
         if (D_80027450 == 0) {
-            D_800287B0.x = arg0;
-            D_800287B0.y = arg1;
-            D_800287B0.z = arg2;
+            D_800287B0.x = x;
+            D_800287B0.y = y;
+            D_800287B0.z = z;
         }
         D_80027450 = D_80027450 + 1;
     }

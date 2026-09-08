@@ -9,19 +9,20 @@ typedef struct S_800B1E80_0 {
     u16 unk_02;
 } S_800B1E80_0;   /* arg0 in func_800B1E80 */
 
-void func_800B1E80(S_800B1E80_0 *arg0) {
-    u16 temp_v0;
-    u16 temp_v0_2;
+/* Advance the cyclic table index every four ticks and apply the selected entry. */
+void func_800B1E80(S_800B1E80_0 *state) {
+    u16 ticks_left;
+    u16 entry_index;
 
-    temp_v0 = arg0->unk_00 - 1;
-    arg0->unk_00 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        arg0->unk_00 = 4U;
-        temp_v0_2 = arg0->unk_02 + 8;
-        arg0->unk_02 = temp_v0_2;
-        if ((s16) temp_v0_2 >= 0x60) {
-            arg0->unk_02 = 0U;
+    ticks_left = state->unk_00 - 1;
+    state->unk_00 = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        state->unk_00 = 4U;
+        entry_index = state->unk_02 + 8;
+        state->unk_02 = entry_index;
+        if ((s16) entry_index >= 0x60) {
+            state->unk_02 = 0U;
         }
-        func_8003F80C(((s16) arg0->unk_02 * 4) + D_800DF068, 0x7340, 1, 2);
+        func_8003F80C(((s16) state->unk_02 * 4) + D_800DF068, 0x7340, 1, 2);
     }
 }

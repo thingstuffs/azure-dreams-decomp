@@ -25,21 +25,22 @@ extern volatile s32 D_80081568;
 extern s32 D_8008156C;
 extern S_80081568_Hi D_80081568_hi asm("D_80081568");
 
-void func_80053CFC(S_80053CFC *arg0, s32 arg1)
+/* Builds and submits a command from the source fields and packed value. */
+void func_80053CFC(S_80053CFC *source, s32 packed_value)
 {
-    register s32 saved_arg1 ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s32 low;
-    S_80081568_Hi *global_ptr;
+    register s32 saved_value ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 low_bits;
+    S_80081568_Hi *command;
 
-    saved_arg1 = arg1;
-    ASM_KEEP_INPUT(saved_arg1);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    D_80081568 = arg0->field_0;
-    D_8008156C = arg0->field_4;
-    __asm__ volatile("" : "=r"(saved_arg1) : "0"(saved_arg1), "m"(D_80081568) : "memory");
-    low = saved_arg1 & 0x7FFFFF;
-    global_ptr = &D_80081568_hi;
-    D_80081568 = ((((u32)D_80081568 + 0x7FF) >> 11) << 23) | low;
-    __asm__ volatile("" : : "r"(global_ptr));
-    func_8003E4FC(6, global_ptr, saved_arg1);
+    saved_value = packed_value;
+    ASM_KEEP_INPUT(saved_value);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    D_80081568 = source->field_0;
+    D_8008156C = source->field_4;
+    __asm__ volatile("" : "=r"(saved_value) : "0"(saved_value), "m"(D_80081568) : "memory");
+    low_bits = saved_value & 0x7FFFFF;
+    command = &D_80081568_hi;
+    D_80081568 = ((((u32)D_80081568 + 0x7FF) >> 11) << 23) | low_bits;
+    __asm__ volatile("" : : "r"(command));
+    func_8003E4FC(6, command, saved_value);
     func_8003F320();
 }

@@ -1,17 +1,18 @@
 #include "common.h"
 
-void func_80024160(void *arg0) {
-    s32 i;
-    u8 *ptr;
-    s32 *out;
+/* Clear the ten values referenced by the pointer table at offset 0x25C. */
+void func_80024160(void *object) {
+    s32 slot;
+    u8 *cursor;
+    s32 *value;
 
-    ptr = arg0;
-    i = 0;
+    cursor = object;
+    slot = 0;
     do {
-        out = *(s32 **)(ptr + 0x25C);
-        asm volatile("" : : "r"(out));
-        *out = 0;
-        i++;
-        ptr += 4;
-    } while (i < 10);
+        value = *(s32 **)(cursor + 0x25C);
+        asm volatile("" : : "r"(value));
+        *value = 0;
+        slot++;
+        cursor += 4;
+    } while (slot < 10);
 }

@@ -16,23 +16,24 @@ typedef struct {
     SubStruct2 *unk4;
 } SubStruct;
 
-void func_8001CE54(u8 *arg0) {
-    SubStruct *temp;
-    s32 idx;
+/* Initializes data pointers and layout values for three child entries. */
+void func_8001CE54(u8 *owner) {
+    SubStruct *child;
+    s32 resource_index;
 
-    temp = *(SubStruct **)(arg0 + 0x1DC);
-    idx = func_80402268() >= 3;
-    temp->unk0 = (void *) func_80051B50(arg0 + 8, D_80408CB0[idx], 1);
-    temp->unk4->unk8 = 0xF0;
-    temp->unk4->unkA = 0x91;
+    child = *(SubStruct **)(owner + 0x1DC);
+    resource_index = func_80402268() >= 3;
+    child->unk0 = (void *) func_80051B50(owner + 8, D_80408CB0[resource_index], 1);
+    child->unk4->unk8 = 0xF0;
+    child->unk4->unkA = 0x91;
 
-    temp = *(SubStruct **)(arg0 + 0x1EC);
-    temp->unk4->unk8 = 0x70;
-    temp->unk4->unkA = 0x10;
-    temp->unk0 = (void *) &D_8008432C;
+    child = *(SubStruct **)(owner + 0x1EC);
+    child->unk4->unk8 = 0x70;
+    child->unk4->unkA = 0x10;
+    child->unk0 = (void *) &D_8008432C;
 
-    temp = *(SubStruct **)(arg0 + 0x1F4);
-    temp->unk0 = (void *) (arg0 + 0xB0);
-    temp->unk4->unk8 = 0xAE;
-    temp->unk4->unkA = 0x18;
+    child = *(SubStruct **)(owner + 0x1F4);
+    child->unk0 = (void *) (owner + 0xB0);
+    child->unk4->unk8 = 0xAE;
+    child->unk4->unkA = 0x18;
 }

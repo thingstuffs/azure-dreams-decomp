@@ -5,6 +5,7 @@
 M2C_UNK func_800171D8();                   /* extern */
 extern M2C_UNK D_80018AE8;
 
+/* Passes D_80018AE8 to func_800171D8. */
 void func_80697800(void) {
     func_800171D8(&D_80018AE8);
 }

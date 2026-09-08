@@ -20,79 +20,77 @@ extern void *D_800E3DE8;
 extern u8 D_80170E68;
 extern u8 D_80173894[];
 
-void func_80172698(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Advances an actor action through animation setup, a delay, and completion. */
+void func_80172698(void *action, void *motion, void *sprite, void *actor)
 {
-    s32 mode;
-    s32 next_mode;
-    u16 count;
+    s32 phase;
+    s32 loaded_phase;
+    u16 delay_ticks;
 
-    mode = U8(arg0, 0x9B);
-    if (mode == 1) {
-        goto mode_one;
+    phase = U8(action, 0x9B);
+    if (phase == 1) {
+        goto wait_delay;
     }
-    if (mode < 2) {
-        if (mode == 0) {
-            goto mode_zero;
+    if (phase < 2) {
+        if (phase == 0) {
+            goto begin_action;
         }
         goto done;
     }
-    if (mode == 2) {
-        goto mode_two;
+    if (phase == 2) {
+        goto finish_action;
     }
     goto done;
 
-mode_zero:
-    if (U16(arg2, 0x14) & 0x8000) {
-        U8(arg0, 0x9B) = 2;
-        U16(arg2, 0x14) |= 0x6000;
-        func_8009C12C(arg3, arg2, S16(arg3, 0x2A), 1);
+begin_action:
+    if (U16(sprite, 0x14) & 0x8000) {
+        U8(action, 0x9B) = 2;
+        U16(sprite, 0x14) |= 0x6000;
+        func_8009C12C(actor, sprite, S16(actor, 0x2A), 1);
         goto done;
     }
 
-    S32(arg1, 0x14) = 0;
-    S32(arg1, 0x10) = 0;
-    S32(arg1, 0x0C) = 0;
-    PTR(arg2, 0x2C) = D_80173894;
-    func_80047784(arg2,
-        D_80173894[((D_80083228 + S16(arg3, 0x2A) + 0x100) >> 9) & 7],
+    S32(motion, 0x14) = 0;
+    S32(motion, 0x10) = 0;
+    S32(motion, 0x0C) = 0;
+    PTR(sprite, 0x2C) = D_80173894;
+    func_80047784(sprite,
+        D_80173894[((D_80083228 + S16(actor, 0x2A) + 0x100) >> 9) & 7],
         0);
-    next_mode = U8(arg0, 0x9B);
-    U16(arg0, 0x96) = 0;
-    goto increment_loaded;
+    loaded_phase = U8(action, 0x9B);
+    U16(action, 0x96) = 0;
+    goto advance_phase;
 
-mode_one:
-    count = U16(arg0, 0x96) + 1;
-    U16(arg0, 0x96) = count;
-    if ((s16)count != 10) {
+wait_delay:
+    delay_ticks = U16(action, 0x96) + 1;
+    U16(action, 0x96) = delay_ticks;
+    if ((s16)delay_ticks != 10) {
         goto done;
     }
     func_800A56E0(0x808);
-    func_8009C12C(arg3, arg2, S16(arg3, 0x2A), 1);
-    next_mode = U8(arg0, 0x9B);
+    func_8009C12C(actor, sprite, S16(actor, 0x2A), 1);
+    loaded_phase = U8(action, 0x9B);
 
-increment_loaded:
-    U8(arg0, 0x9B) = next_mode + 1;
+advance_phase:
+    U8(action, 0x9B) = loaded_phase + 1;
     goto done;
 
-mode_two:
-    if (!(U16(arg2, 0x14) & 0xE000)) {
+finish_action:
+    if (!(U16(sprite, 0x14) & 0xE000)) {
         goto done;
     }
-    func_800A2B04(arg1, U8(arg2, 0x24), U8(arg2, 0x25));
-    func_800AD594(arg3, 0x100);
-    PTR(arg0, 0x8C) = &D_80170E68;
+    func_800A2B04(motion, U8(sprite, 0x24), U8(sprite, 0x25));
+    func_800AD594(actor, 0x100);
+    PTR(action, 0x8C) = &D_80170E68;
     D_8008346C = 0;
-    func_800A4ACC(arg3);
-    if (S8(arg3, 0x6D) == 0) {
-        U16(arg3, 0x46) &= 0x7FFF;
+    func_800A4ACC(actor);
+    if (S8(actor, 0x6D) == 0) {
+        U16(actor, 0x46) &= 0x7FFF;
     } else {
-        D_800E3DE8 = (u8 *)arg3 - 0x20;
+        D_800E3DE8 = (u8 *)actor - 0x20;
     }
 
 done:
     return;
 }
 
-/* MECHANISM: True-space calls were recovered as increment_loaded/done CFG joins, with
-   retail block order and natural s2/s0/s1 argument holds. Byte-scaled table indexing
-   preserves lbu/shift-nine; distinct mode and next_mode live ranges put reloads in v0. */

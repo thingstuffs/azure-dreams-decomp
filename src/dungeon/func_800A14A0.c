@@ -55,36 +55,37 @@ typedef struct S_800A6C00_4 {
     u8 unk_03;
 } S_800A6C00_4;   /* temp_s0 in func_800A6C00 */
 
+/* Allocate an object and initialize its sprite, position, scale, and render state. */
 void *func_800A6C00(void) {
-    S_800A6C00_3 *temp_a2;
-    S_800A6C00_4 *temp_s0;
-    S_800A6C00_2 *temp_s1;
-    void *temp_v0;
-    S_800A6C00_1 *temp_v1;
+    S_800A6C00_3 *transform;
+    S_800A6C00_4 *sprite;
+    S_800A6C00_2 *render_state;
+    void *object;
+    S_800A6C00_1 *position;
 
-    temp_v0 = func_8003FC64(0x12);
-    if (temp_v0 != 0) {
-        temp_v1 = ((S_800A6C00_0 *)temp_v0)->unk_08;
-        temp_a2 = ((S_800A6C00_0 *)temp_v0)->unk_0C;
-        temp_s1 = temp_v0 + 0x20;
-        temp_v1->unk_02 = 0x3C;
-        temp_v1->unk_06 = 0x40;
-        temp_s1->unk_08 = 1;
-        temp_a2->unk_1E = 0x1800;
-        temp_a2->unk_1C = 0x1800;
-        ((S_800A6C00_0 *)temp_v0)->unk_10 = &D_800A6B70;
-        func_8004491C(temp_v0, &D_800B06F0);
-        temp_s0 = temp_v0 + 0x30;
-        ((S_800A6C00_0 *)temp_v0)->unk_20 = (void *)(temp_v0 + 0xF0);
-        temp_s1->unk_04 = (void *)(temp_v0 + 0xC0);
-        ((S_800A6C00_0 *)temp_v0)->unk_F0 = func_8004DA74(temp_s0, &D_80089074, 0) & 0x7FFFFFFF;
-        func_800B1320(temp_s0, 0xA8, (s16)((0 - (s8)temp_s0->unk_03) + 8));
-        func_800A6BBC(temp_s0, 4);
-        func_800B135C(temp_s0, 8);
-        func_800B13CC(temp_s0, 0x20);
-        func_800B1400(temp_s0, 2);
-        ((S_800A6C00_0 *)temp_v0)->unk_C0 = 0x808080;
-        ((S_800A6C00_0 *)temp_v0)->unk_F4 = 0;
+    object = func_8003FC64(0x12);
+    if (object != 0) {
+        position = ((S_800A6C00_0 *)object)->unk_08;
+        transform = ((S_800A6C00_0 *)object)->unk_0C;
+        render_state = object + 0x20;
+        position->unk_02 = 0x3C;
+        position->unk_06 = 0x40;
+        render_state->unk_08 = 1;
+        transform->unk_1E = 0x1800;
+        transform->unk_1C = 0x1800;
+        ((S_800A6C00_0 *)object)->unk_10 = &D_800A6B70;
+        func_8004491C(object, &D_800B06F0);
+        sprite = object + 0x30;
+        ((S_800A6C00_0 *)object)->unk_20 = (void *)(object + 0xF0);
+        render_state->unk_04 = (void *)(object + 0xC0);
+        ((S_800A6C00_0 *)object)->unk_F0 = func_8004DA74(sprite, &D_80089074, 0) & 0x7FFFFFFF;
+        func_800B1320(sprite, 0xA8, (s16)((0 - (s8)sprite->unk_03) + 8));
+        func_800A6BBC(sprite, 4);
+        func_800B135C(sprite, 8);
+        func_800B13CC(sprite, 0x20);
+        func_800B1400(sprite, 2);
+        ((S_800A6C00_0 *)object)->unk_C0 = 0x808080;
+        ((S_800A6C00_0 *)object)->unk_F4 = 0;
     }
-    return temp_v0;
+    return object;
 }

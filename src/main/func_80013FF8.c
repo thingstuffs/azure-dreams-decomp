@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
-void func_80026FF8(s32 arg0) {
-    func_80026B18(arg0 + 0x20);
+/* Pass the data at offset 0x20 to func_80026B18. */
+void func_80026FF8(s32 base_addr) {
+    func_80026B18(base_addr + 0x20);
 }

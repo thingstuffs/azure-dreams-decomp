@@ -59,35 +59,36 @@ typedef struct S_80024AEC_4 {
 } S_80024AEC_4;   /* temp_v1_2 in func_80024AEC */
 
 
-void func_80024AEC(S_80024AEC_1 *arg0, Rec_func_800247B8_arg1 *arg1) {
-    S_80024AEC_3 *temp_a3;
-    void *temp_v0;
-    S_80024AEC_0 *temp_v1;
-    S_80024AEC_4 *temp_v1_2;
+/* Create an effect at the supplied position and initialize its rendering state. */
+void func_80024AEC(S_80024AEC_1 *source, Rec_func_800247B8_arg1 *position) {
+    S_80024AEC_3 *render_state;
+    void *effect;
+    S_80024AEC_0 *effect_state;
+    S_80024AEC_4 *effect_position;
 
-    temp_v0 = func_8003FC64(0x12);
-    temp_v1 = temp_v0 + 0x20;
-    if (temp_v0 != NULL) {
-        temp_v1->unk_5A = 0x3C;
-        temp_v1->unk_5C = 0x3C;
-        temp_v1->unk_88 = (s32) arg0->unk_88;
-        ((S_80024AEC_2 *)temp_v0)->unk_10 = &D_800249FC;
-        func_8004491C(temp_v0, D_80045340);
-        temp_a3 = ((S_80024AEC_2 *)temp_v0)->unk_0C;
-        temp_a3->unk_10 = 0x40;
-        temp_a3->unk_06 = 0xA;
-        temp_a3->unk_14 = (u16) (temp_a3->unk_14 | 0xC);
-        temp_v1_2 = ((S_80024AEC_2 *)temp_v0)->unk_08;
-        temp_v1_2->unk_02 = (u16) arg1->unk_02;
-        temp_v1_2->unk_06 = (u16) arg1->unk_06;
-        temp_v1_2->unk_0A = (u16) arg1->unk_0A;
-        temp_a3 = ((S_80024AEC_2 *)temp_v0)->unk_0C;
-        temp_a3->unk_0E = 0x50;
-        temp_a3->unk_0D = 0x50;
-        temp_a3->unk_0C = 0x50;
-        temp_a3->unk_1E = 0;
-        temp_a3->unk_1C = 0;
-        *(U12 *)((u8 *)temp_v0 + 0x96) = *(U12 *)&D_80025B48;
-        temp_a3->unk_08 = (void *) (temp_v0 + 0x96);
+    effect = func_8003FC64(0x12);
+    effect_state = effect + 0x20;
+    if (effect != NULL) {
+        effect_state->unk_5A = 0x3C;
+        effect_state->unk_5C = 0x3C;
+        effect_state->unk_88 = (s32) source->unk_88;
+        ((S_80024AEC_2 *)effect)->unk_10 = &D_800249FC;
+        func_8004491C(effect, D_80045340);
+        render_state = ((S_80024AEC_2 *)effect)->unk_0C;
+        render_state->unk_10 = 0x40;
+        render_state->unk_06 = 0xA;
+        render_state->unk_14 = (u16) (render_state->unk_14 | 0xC);
+        effect_position = ((S_80024AEC_2 *)effect)->unk_08;
+        effect_position->unk_02 = (u16) position->unk_02;
+        effect_position->unk_06 = (u16) position->unk_06;
+        effect_position->unk_0A = (u16) position->unk_0A;
+        render_state = ((S_80024AEC_2 *)effect)->unk_0C;
+        render_state->unk_0E = 0x50;
+        render_state->unk_0D = 0x50;
+        render_state->unk_0C = 0x50;
+        render_state->unk_1E = 0;
+        render_state->unk_1C = 0;
+        *(U12 *)((u8 *)effect + 0x96) = *(U12 *)&D_80025B48;
+        render_state->unk_08 = (void *) (effect + 0x96);
     }
 }

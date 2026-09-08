@@ -17,19 +17,17 @@ extern s32 func_8004951C(void *a0, void *a1);
  * flags field 2 bytes before the object pointer, plus a global flags word. */
 extern void func_8004B1A4(u16 *a0);
 
-/* Allocates a 0x104-byte object and initializes it via func_8004951C(). If
- * initialization fails, releases the object's flag bit via func_8004B1A4()
- * and returns NULL; otherwise returns the allocated object. */
-void *func_80049790(void *arg)
+/* Allocates and initializes a 0x104-byte object, returning NULL on failure. */
+void *func_80049790(void *init_data)
 {
-    void *v0;
+    void *object;
 
-    v0 = func_8004B404(0x104);
-    if (v0 != 0) {
-        if (func_8004951C(v0, arg) == 0) {
-            func_8004B1A4(v0);
-            v0 = 0;
+    object = func_8004B404(0x104);
+    if (object != 0) {
+        if (func_8004951C(object, init_data) == 0) {
+            func_8004B1A4(object);
+            object = 0;
         }
     }
-    return v0;
+    return object;
 }

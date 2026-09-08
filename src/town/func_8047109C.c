@@ -16,6 +16,7 @@ extern Rec_D_80016000 *D_80016000;
 extern M2C_UNK D_8001B218;
 extern s32 D_8001B318;
 
+/* Prepares D_8001B218, passes it to the active object's callback, and saves the result. */
 void func_8001809C(void) {
     func_80018824(&D_8001B218, 0x100);
     func_80017F3C(&D_8001B218);

@@ -8,15 +8,16 @@ typedef struct S_80017560_0 {
     s16 unk_0C;
 } S_80017560_0;   /* var_v0 in func_80017560 */
 
+/* Clears the field at offset 0x0C in each of the 36 table entries. */
 void func_80017560(void) {
-    s8 *var_v0;
-    s32 var_v1;
+    s8 *entry;
+    s32 remaining;
 
-    var_v0 = &D_800E2970;
-    var_v1 = 0x24;
+    entry = &D_800E2970;
+    remaining = 0x24;
     do {
-        ((S_80017560_0 *)var_v0)->unk_0C = 0;
-        var_v1 -= 1;
-        var_v0 += 0x14;
-    } while (var_v1 > 0);
+        ((S_80017560_0 *)entry)->unk_0C = 0;
+        remaining -= 1;
+        entry += 0x14;
+    } while (remaining > 0);
 }

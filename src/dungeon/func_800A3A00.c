@@ -32,60 +32,61 @@ typedef struct {
 
 extern DungeonGroup D_80073414[];
 
+/* Packs each dungeon group's cell flag 0x400 into its RAM bitset. */
 void func_800A9160(void)
 {
-    DungeonGroup *var_t2;
-    register DungeonGroup *var_t0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temp_t1;
-    s32 var_a0;
-    s32 var_a1;
-    s32 var_a2;
-    u8 *var_a3;
-    s32 var_t3;
-    s32 var_v0;
+    DungeonGroup *group;
+    register DungeonGroup *cell_group ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 group_bits_offset;
+    s32 set_index;
+    s32 bit_index;
+    s32 cell_index;
+    u8 *cell_offset;
+    s32 group_index;
+    s32 clear_index;
     s32 one;
-    S_800A9160_1 *temp_a0;
+    S_800A9160_1 *bit_byte;
     RamPage *ram;
 
-    var_t3 = 0;
+    group_index = 0;
     ram = (RamPage *)0x80010000;
-    var_t2 = D_80073414;
+    group = D_80073414;
     do {
-        var_a2 = 0;
-        if (var_t2->count != 0) {
-            temp_t1 = var_t3 * 8;
-            var_t0 = var_t2;
-            ASM_KEEP(temp_t1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(var_t0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            var_a3 = 0;
+        cell_index = 0;
+        if (group->count != 0) {
+            group_bits_offset = group_index * 8;
+            cell_group = group;
+            ASM_KEEP(group_bits_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(cell_group);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            cell_offset = 0;
             do {
-                if (!(var_a2 & 7)) {
-                    var_v0 = var_a2;
-                    if (var_a2 < 0) {
-                        var_v0 = var_a2 + 7;
+                if (!(cell_index & 7)) {
+                    clear_index = cell_index;
+                    if (cell_index < 0) {
+                        clear_index = cell_index + 7;
                     }
-                    ((S_800A9160_0 *)(temp_t1 + (var_v0 >> 3) + (s32)ram))->unk_5720 = 0;
+                    ((S_800A9160_0 *)(group_bits_offset + (clear_index >> 3) + (s32)ram))->unk_5720 = 0;
                 }
-                if (*(u16 *)(var_a3 + (s32)var_t0->cells) & 0x400) {
-                    var_a0 = var_a2;
-                    if (var_a2 < 0) {
-                        var_a0 = var_a2 + 7;
+                if (*(u16 *)(cell_offset + (s32)cell_group->cells) & 0x400) {
+                    set_index = cell_index;
+                    if (cell_index < 0) {
+                        set_index = cell_index + 7;
                     }
-                    temp_a0 = temp_t1 + (var_a0 >> 3) + (s32)ram;
-                    var_a1 = var_a2 & 7;
+                    bit_byte = group_bits_offset + (set_index >> 3) + (s32)ram;
+                    bit_index = cell_index & 7;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     one = 1;
                     ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    temp_a0->unk_5720 =
-                        temp_a0->unk_5720 |
-                        (one << var_a1);
+                    bit_byte->unk_5720 =
+                        bit_byte->unk_5720 |
+                        (one << bit_index);
                 }
-                var_a3 += sizeof(DungeonCell);
-            } while (++var_a2 < (s32)var_t0->count);
+                cell_offset += sizeof(DungeonCell);
+            } while (++cell_index < (s32)cell_group->count);
         }
-        var_t3 += 1;
-        var_t2 += 1;
-    } while (var_t3 < 0x13);
+        group_index += 1;
+        group += 1;
+    } while (group_index < 0x13);
 }
 
 /* MECHANISM: Frameless leaf; typed 20-byte groups recover the two local do-loops

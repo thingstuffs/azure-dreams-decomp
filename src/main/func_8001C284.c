@@ -3,6 +3,7 @@
 
 M2C_UNK func_80402F84();   /* extern */
 
-void func_8001C284(M2C_UNK arg0) {
-    func_80402F84(arg0, 0xc, 0, 0);
+/* Forwards the input to func_80402F84 with arguments 0xC, 0, and 0. */
+void func_8001C284(M2C_UNK input) {
+    func_80402F84(input, 0xc, 0, 0);
 }

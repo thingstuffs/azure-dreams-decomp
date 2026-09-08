@@ -14,9 +14,9 @@ extern s32 D_8008099C;
 #define PPTR(v)     ((void *)(u32)(v))
 #define PVAL(p)     ((u32)(p))
 
-/* port body: port/hal/scene_gap.c:159 */
-s32 func_80033D44(s32 arg0)
+/* Stores the value in D_8008099C and returns it. */
+s32 func_80033D44(s32 value)
 {
-    D_8008099C = arg0;
-    return arg0;
+    D_8008099C = value;
+    return value;
 }

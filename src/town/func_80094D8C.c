@@ -32,51 +32,52 @@ extern s32 D_800CFCB4;
 extern u8 D_800CFCEF;
 extern u8 D_800FE488[];
 
-void func_800924EC(void *arg0, void *arg1, s32 arg2)
+/* Update the entity and dispatch its handler according to state flags and checks. */
+void func_800924EC(void *context, void *entity, s32 update_arg)
 {
     u8 *state = D_80083160;
-    s16 value;
+    s16 reference_value;
     s32 state_flags;
-    s32 result;
+    s32 check_result;
 
-    func_80095C80(arg1);
-    func_80095094(arg1);
-    value = func_80095978(arg1, D_800FE488);
-    if ((value - ((Rec_D_800E3D7C *)arg1)->unk_08.at02_s16.v) >= 4)
+    func_80095C80(entity);
+    func_80095094(entity);
+    reference_value = func_80095978(entity, D_800FE488);
+    if ((reference_value - ((Rec_D_800E3D7C *)entity)->unk_08.at02_s16.v) >= 4)
     {
         if (D_800CFCEF == 0)
         {
-            func_80094378(arg0, arg1, arg2);
+            func_80094378(context, entity, update_arg);
             goto block_end;
         }
     }
     else if (D_800CFCEF == 0)
     {
-        func_80095A94(arg1, value, D_800FE488);
+        func_80095A94(entity, reference_value, D_800FE488);
     }
 
     state_flags = ((S_800924EC_1 *)state)->unk_10;
     if (state_flags & 0x10)
     {
-        func_800942B0(arg0, arg1, arg2);
+        func_800942B0(context, entity, update_arg);
         goto block_end;
     }
     if (state_flags & 0x40)
     {
-        result = func_80095840(arg0, &D_800CFCB4);
-        if (result != 0)
+        check_result = func_80095840(context, &D_800CFCB4);
+        if (check_result != 0)
         {
-            if (result == 2)
+            if (check_result == 2)
             {
-                func_8009451C(arg0, arg1, arg2);
+                func_8009451C(context, entity, update_arg);
                 goto block_end;
             }
-            func_800944BC(arg0, arg1, arg2);
+            func_800944BC(context, entity, update_arg);
             goto block_end;
         }
         if (func_80033B2C(0xA4) != 0)
         {
-            func_80094088(arg0, arg1, arg2);
+            func_80094088(context, entity, update_arg);
             goto block_end;
         }
     }
@@ -84,19 +85,15 @@ void func_800924EC(void *arg0, void *arg1, s32 arg2)
     {
         if (((S_800924EC_1 *)state)->unk_08 & 0xF000)
         {
-            func_80094C1C(arg0);
+            func_80094C1C(context);
             if (func_8009567C(&D_800CFCB4) > 0)
             {
                 goto block_end;
             }
         }
-        func_80094474(arg0, arg1, arg2);
+        func_80094474(context, entity, update_arg);
     }
 
 block_end:
     return;
 }
-
-/* MECHANISM: The state base is held and the work base is first materialized at its call,
-   producing the five saved registers and 0x28 frame; 0x80092674 is a local epilogue.
-   The one-argument func_80094C1C ABI and reused state flags preserve the retail CFG. */

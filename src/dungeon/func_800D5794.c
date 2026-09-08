@@ -78,28 +78,29 @@ extern u8 D_80083498[];
 extern s32 D_800DB164;
 extern s32 D_800DEA68;
 
-void func_800DAEF4(void *arg0, void *arg1)
+/* Spawns up to 13 scattered objects and marks the owner finished when its timer expires. */
+void func_800DAEF4(void *source_owner, void *spawn_params)
 {
     void *owner;
     void *params;
-    register s32 count ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 remaining ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *link;
     void *object;
     void *node;
     register u8 *work ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 random;
-    s32 other2;
-    s32 random2;
+    s32 offset_roll_a;
+    s32 spread_roll_b;
+    s32 spread_roll_a;
     s32 divisor;
-    s32 x;
-    s32 linkValue;
+    s32 height_delta;
+    s32 link_value;
     u16 timer;
-    u16 paramValue;
+    u16 target_height;
     void *part;
 
-    owner = arg0;
-    params = arg1;
-    count = 12;
+    owner = source_owner;
+    params = spawn_params;
+    remaining = 12;
     link = (u8 *)&D_800DEA68;
     do {
         object = func_8003FD64(0x312, D_80083498);
@@ -109,41 +110,41 @@ void func_800DAEF4(void *arg0, void *arg1)
             node = ((S_800DAEF4_0 *)object)->unk_0C;
             work = (u8 *)object + 0x20;
 
-            random = func_80069EF8();
+            offset_roll_a = func_80069EF8();
             do {
-                const s32 other = func_80069EF8();
-                register s32 firstWork ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                s32 secondWork;
-                register s32 randomSum ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                const s32 offset_roll_b = func_80069EF8();
+                register s32 roll_remainder ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                s32 biased_roll;
+                register s32 offset_sum ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 part = ((S_800DAEF4_0 *)object)->unk_08;
-                firstWork = random;
-                if (random < 0) {
-                    firstWork = random + 63;
+                roll_remainder = offset_roll_a;
+                if (offset_roll_a < 0) {
+                    roll_remainder = offset_roll_a + 63;
                 }
-                secondWork = other;
-                randomSum = (firstWork >> 6) << 6;
-                firstWork = random - randomSum;
-                if (other < 0) {
-                    secondWork = other + 63;
+                biased_roll = offset_roll_b;
+                offset_sum = (roll_remainder >> 6) << 6;
+                roll_remainder = offset_roll_a - offset_sum;
+                if (offset_roll_b < 0) {
+                    biased_roll = offset_roll_b + 63;
                 }
-                randomSum = (secondWork >> 6) << 6;
-                randomSum = firstWork + (other - randomSum) - 64;
-                ASM_USE_NV(other);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                ((S_800DAEF4_1 *)part)->unk_02 = ((S_800DAEF4_2 *)params)->unk_02 + randomSum / 2;
+                offset_sum = (biased_roll >> 6) << 6;
+                offset_sum = roll_remainder + (offset_roll_b - offset_sum) - 64;
+                ASM_USE_NV(offset_roll_b);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                ((S_800DAEF4_1 *)part)->unk_02 = ((S_800DAEF4_2 *)params)->unk_02 + offset_sum / 2;
             } while (0);
 
-            random2 = func_80069EF8();
-            other2 = func_80069EF8();
-            ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_06 = ((S_800DAEF4_2 *)params)->unk_06 + (random2 % 64 + other2 % 64 - 64) / 2;
+            spread_roll_a = func_80069EF8();
+            spread_roll_b = func_80069EF8();
+            ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_06 = ((S_800DAEF4_2 *)params)->unk_06 + (spread_roll_a % 64 + spread_roll_b % 64 - 64) / 2;
 
             ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_0A = ((S_800DAEF4_3 *)owner)->unk_10.s;
             ((S_800DAEF4_4 *)work)->unk_10 = ((S_800DAEF4_2 *)params)->unk_08.at02.v;
 
             divisor = (func_80069EF8() & 3) + 4;
-            x = ((S_800DAEF4_2 *)params)->unk_08.at00.v;
-            x -= ((S_800DAEF4_3 *)owner)->unk_10.u << 16;
-            ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_14 = x / divisor;
+            height_delta = ((S_800DAEF4_2 *)params)->unk_08.at00.v;
+            height_delta -= ((S_800DAEF4_3 *)owner)->unk_10.u << 16;
+            ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_14 = height_delta / divisor;
 
             ((S_800DAEF4_5 *)node)->unk_14 |= 0xC;
             ((S_800DAEF4_5 *)node)->unk_1C = 0x1000;
@@ -154,16 +155,16 @@ void func_800DAEF4(void *arg0, void *arg1)
             ((S_800DAEF4_5 *)node)->unk_10 = 0x60;
             ((S_800DAEF4_5 *)node)->unk_0C = 0xC06060;
             ((S_800DAEF4_5 *)node)->unk_00 = link;
-            linkValue = ((S_800DAEF4_6 *)link)->unk_04;
+            link_value = ((S_800DAEF4_6 *)link)->unk_04;
             ((S_800DAEF4_5 *)node)->unk_04 = 0;
             ((S_800DAEF4_5 *)node)->unk_05 = 0;
-            ((S_800DAEF4_5 *)node)->unk_08 = linkValue;
-            paramValue = ((S_800DAEF4_2 *)params)->unk_08.at02.v;
+            ((S_800DAEF4_5 *)node)->unk_08 = link_value;
+            target_height = ((S_800DAEF4_2 *)params)->unk_08.at02.v;
             ((S_800DAEF4_4 *)work)->unk_48 = 4;
-            ((S_800DAEF4_4 *)work)->unk_10 = paramValue;
+            ((S_800DAEF4_4 *)work)->unk_10 = target_height;
         }
-        count--;
-    } while (count >= 0);
+        remaining--;
+    } while (remaining >= 0);
 
     timer = ((S_800DAEF4_3 *)owner)->unk_48 - 1;
     ((S_800DAEF4_3 *)owner)->unk_48 = timer;

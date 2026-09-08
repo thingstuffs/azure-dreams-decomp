@@ -69,109 +69,110 @@ extern M2C_UNK D_80176358;
 extern M2C_UNK D_80176360;
 extern M2C_UNK D_80176370;
 
-static __inline__ void set_map(void *arg2, void *arg3, u8 *ptr) {
-    (*(void **)((u8 *)arg2 + 0x2C)) = (void *)ptr;
-    func_80047784(arg2, ptr[((s32) (D_80083228 + ((S_set_map_0 *)arg3)->unk_2A + 0x100) >> 9) & 7], 0);
+static __inline__ void set_map(void *sprite, void *creature, u8 *direction_map) {
+    (*(void **)((u8 *)sprite + 0x2C)) = (void *)direction_map;
+    func_80047784(sprite, direction_map[((s32) (D_80083228 + ((S_set_map_0 *)creature)->unk_2A + 0x100) >> 9) & 7], 0);
 }
 
-void func_80173B98(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
-    static void *const jt_keep[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
-    M2C_UNK sp18;
-    s32 temp_a1;
-    s32 temp_v0_3;
-    s8 temp_v0;
-    u8 *map;
-    u16 temp_v0_2;
+/* Updates dungeon creature actions, facing direction, and animation. */
+void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
+    static void *const action_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
+    M2C_UNK direction_aux;
+    s32 status_flags;
+    s32 action_id;
+    s8 tile_index;
+    u8 *target;
+    u16 action_flags;
 
     if (D_80083462 & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 14;
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 14;
         func_80174924();
         return;
     }
-    if (((Rec_D_800E3D7C *)arg3)->unk_24.at01_u8.v == 0) {
-        func_800AA79C(arg0, arg1, arg2, arg3);
-        if (((S_80173B98_2 *)arg2)->unk_2C == &D_80176360) {
+    if (((Rec_D_800E3D7C *)creature)->unk_24.at01_u8.v == 0) {
+        func_800AA79C(actor, context, sprite, creature);
+        if (((S_80173B98_2 *)sprite)->unk_2C == &D_80176360) {
             return;
         }
-        set_map(arg2, arg3, (u8 *)&D_80176358);
+        set_map(sprite, creature, (u8 *)&D_80176358);
         return;
     }
-    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x200) {
-        if (((S_80173B98_2 *)arg2)->unk_2C == &D_80176360) {
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 13;
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9B.as_s8 = 1;
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_8C = 0;
-            ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 &= 0xFFFBFFFF;
+    if (((Rec_D_800E3D7C *)creature)->unk_1C.as_s32 & 0x200) {
+        if (((S_80173B98_2 *)sprite)->unk_2C == &D_80176360) {
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 13;
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = 1;
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+            ((Rec_D_800E3D7C *)creature)->unk_1C.as_s32 &= 0xFFFBFFFF;
             return;
         }
-        if (func_800AA924(arg0, arg1, arg2, &D_80176358) != 0) {
+        if (func_800AA924(actor, context, sprite, &D_80176358) != 0) {
             return;
         }
     }
     if (!(D_80083462 & 0x2000)) {
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        if (((Rec_D_800E3D7C *)creature)->unk_1C.as_s32 & 0x100) {
+            func_800AA258(actor, context, sprite, creature);
             return;
         }
-        if (((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 != 14) {
-            if (((S_80173B98_2 *)arg2)->unk_2C != (void *)D_80176320) {
-                set_map(arg2, arg3, D_80176320);
+        if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 14) {
+            if (((S_80173B98_2 *)sprite)->unk_2C != (void *)D_80176320) {
+                set_map(sprite, creature, D_80176320);
             }
-            ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 14;
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 14;
         }
-        ((Rec_func_800A9E70_arg0 *)arg0)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)arg0)->unk_98 & 0xFFF3);
-        if (((Rec_D_800E3D7C *)arg3)->unk_64.as_s16 != 0) {
-            if (func_800AA6B4(arg0, arg1, arg2, &D_80176370) != 0) {
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 0xFFF3);
+        if (((Rec_D_800E3D7C *)creature)->unk_64.as_s16 != 0) {
+            if (func_800AA6B4(actor, context, sprite, &D_80176370) != 0) {
                 return;
             }
         }
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x80000) {
-            func_800AA888(arg0, arg1, arg2, arg3);
-            func_80173720(arg0, arg1, arg2, arg3);
+        if (((Rec_D_800E3D7C *)creature)->unk_1C.as_s32 & 0x80000) {
+            func_800AA888(actor, context, sprite, creature);
+            func_80173720(actor, context, sprite, creature);
             return;
         }
-        if ((func_800A1C58(arg3) << 0x10) != 0) {
-            func_800AAB10(arg0, arg1, arg2, arg3);
+        if ((func_800A1C58(creature) << 0x10) != 0) {
+            func_800AAB10(actor, context, sprite, creature);
         }
     }
-    temp_v0 = func_8009FB34(((S_80173B98_2 *)arg2)->unk_24.at00.v, ((S_80173B98_2 *)arg2)->unk_24.at01.v);
-    ((S_80173B98_2 *)arg2)->unk_26 = temp_v0;
-    if (((Rec_D_800E3D7C *)arg3)->unk_6D.as_s8 > 0) {
-        if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x20) {
-            func_800A9A0C(arg3);
+    tile_index = func_8009FB34(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v);
+    ((S_80173B98_2 *)sprite)->unk_26 = tile_index;
+    if (((Rec_D_800E3D7C *)creature)->unk_6D.as_s8 > 0) {
+        if (((Rec_D_800E3D7C *)creature)->unk_1C.as_s32 & 0x20) {
+            func_800A9A0C(creature);
             return;
         }
-        if (((S_80173B98_2 *)arg2)->unk_24.at00u.v == D_80082EA4) {
-            func_8017405C(arg0, arg1, arg2, arg3);
+        if (((S_80173B98_2 *)sprite)->unk_24.at00u.v == D_80082EA4) {
+            func_8017405C(actor, context, sprite, creature);
             return;
         }
-        if (!(((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x8000)) {
+        if (!(((Rec_D_800E3D7C *)creature)->unk_44.at02_u16.v & 0x8000)) {
             if (D_80083462 & 0x2000) {
-                if ((func_8009A180(arg3, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) != 0) {
+                if ((func_8009A180(creature, ((Rec_D_800814A8 *)D_800814A8)->unk_58.as_s32 + 0x20) << 0x10) != 0) {
                     return;
                 }
             }
-            if ((func_80175C94(arg0, arg1, arg2, 0) << 0x10) == 0) {
+            if ((func_80175C94(actor, context, sprite, 0) << 0x10) == 0) {
                 return;
             }
-            temp_v0_2 = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v | 0x4000;
-            ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v = temp_v0_2;
-            if (!(temp_v0_2 & 0x8000)) {
-                func_8017405C(arg0, arg1, arg2, arg3);
+            action_flags = ((Rec_D_800E3D7C *)creature)->unk_44.at02_u16.v | 0x4000;
+            ((Rec_D_800E3D7C *)creature)->unk_44.at02_u16.v = action_flags;
+            if (!(action_flags & 0x8000)) {
+                func_8017405C(actor, context, sprite, creature);
                 return;
             }
         }
-        temp_v0_3 = ((Rec_D_800E3D7C *)arg3)->unk_44.at02_u16.v & 0x3FFF;
-        if ((u32) (temp_v0_3 - 1) >= 0xCU) {
-            func_8017405C(arg0, arg1, arg2, arg3);
+        action_id = ((Rec_D_800E3D7C *)creature)->unk_44.at02_u16.v & 0x3FFF;
+        if ((u32) (action_id - 1) >= 0xCU) {
+            func_8017405C(actor, context, sprite, creature);
             return;
         }
-        (void)jt_keep; goto *D_80170858[(u32)((temp_v0_3) - 1)];
+        (void)action_labels; goto *D_80170858[(u32)((action_id) - 1)];
 jt_c9:
-        if (func_80175E6C(arg0, arg1, arg2, arg3) != 0) {
+        if (func_80175E6C(actor, context, sprite, creature) != 0) {
             return;
         }
-        func_8017405C(arg0, arg1, arg2, arg3);
+        func_8017405C(actor, context, sprite, creature);
         return;
 jt_c1:
 jt_c2:
@@ -181,33 +182,32 @@ jt_c6:
 jt_c7:
 jt_c8:
 jt_c12:
-        func_800A9A0C(arg3);
+        func_800A9A0C(creature);
         return;
 jt_c4:
 jt_c10:
 jt_c11:
-        func_8017405C(arg0, arg1, arg2, arg3);
+        func_8017405C(actor, context, sprite, creature);
         return;
     }
-    temp_a1 = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32;
-    if (!(temp_a1 & 0x2000)) {
-        if (temp_v0 >= 0 && (D_800E2970[temp_v0].flags & 2)) {
-            // skip
-        } else if (!(temp_a1 & 0x430)) {
-            map = (u8 *)&D_80082E80;
-            if ((func_8009FD7C(((S_80173B98_2 *)arg2)->unk_24.at00.v, ((S_80173B98_2 *)arg2)->unk_24.at01.v, ((S_80173B98_4 *)map)->unk_24, ((S_80173B98_4 *)map)->unk_25) << 0x10) != 0) {
-                ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 = func_800A0818(((S_80173B98_2 *)arg2)->unk_24.at00.v, ((S_80173B98_2 *)arg2)->unk_24.at01.v, ((S_80173B98_4 *)map)->unk_24, ((S_80173B98_4 *)map)->unk_25, &sp18);
+    status_flags = ((Rec_D_800E3D7C *)creature)->unk_1C.as_s32;
+    if (!(status_flags & 0x2000)) {
+        if (tile_index >= 0 && (D_800E2970[tile_index].flags & 2)) {
+        } else if (!(status_flags & 0x430)) {
+            target = (u8 *)&D_80082E80;
+            if ((func_8009FD7C(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v, ((S_80173B98_4 *)target)->unk_24, ((S_80173B98_4 *)target)->unk_25) << 0x10) != 0) {
+                ((Rec_D_800E3D7C *)creature)->unk_2A.as_s16 = func_800A0818(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v, ((S_80173B98_4 *)target)->unk_24, ((S_80173B98_4 *)target)->unk_25, &direction_aux);
             }
         }
     }
     if (D_80083462 & 0x2000) {
         return;
     }
-    if (((S_80173B98_2 *)arg2)->unk_14 & 0x40) {
+    if (((S_80173B98_2 *)sprite)->unk_14 & 0x40) {
         return;
     }
-    if (((S_80173B98_2 *)arg2)->unk_2C == (void *)D_80176320) {
+    if (((S_80173B98_2 *)sprite)->unk_2C == (void *)D_80176320) {
         return;
     }
-    set_map(arg2, arg3, D_80176320);
+    set_map(sprite, creature, D_80176320);
 }

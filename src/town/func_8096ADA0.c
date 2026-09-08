@@ -30,31 +30,32 @@ typedef struct Row {
 
 extern Row D_801331D0[0x10];
 
+/* Initializes 16 entries with fixed attributes and coordinates in a three-column grid. */
 void func_80123238(void)
 {
-    s32 temp_a0;
-    s32 temp_v1;
-    s32 var_a2;
-    s8 *var_a1;
-    Row *var_a3;
+    s32 grid_row;
+    s32 grid_col;
+    s32 entry_index;
+    s8 *entry_tail;
+    Row *entry;
 
-    var_a3 = &D_801331D0[0];
-    var_a2 = 0;
+    entry = &D_801331D0[0];
+    entry_index = 0;
     do {
-        var_a1 = (s8 *)var_a3 + 0xB;
-        var_a3->f0 = 0xC0;
-        ((S_80123238_0_pre *)var_a1)[-1].unk_00 = 0x2C;
-        (*(s8 *)((u8 *)var_a1 + -9)) = 0;
-        (*(s8 *)((u8 *)var_a1 + -8)) = 0;
-        (*(s16 *)((u8 *)var_a1 + -7)) = 6;
-        (*(s16 *)((u8 *)var_a1 + -5)) = 0x7C81;
-        temp_a0 = var_a2 / 3;
-        temp_v1 = var_a2 % 3;
-        var_a2 += 1;
-        ((S_80123238_0_pre *)var_a1)[-1].unk_07 = (s8)(temp_v1 * 0x48);
-        ((S_80123238_0_pre *)var_a1)[-1].unk_08 = (s8)((temp_a0 * 0x10) - 0x80);
-        ((S_80123238_0_pre *)var_a1)[-1].unk_09 = 0x48;
-        ((S_80123238_0 *)var_a1)->unk_00 = 0x10;
-        var_a3 += 1;
-    } while (var_a2 < 0x10);
+        entry_tail = (s8 *)entry + 0xB;
+        entry->f0 = 0xC0;
+        ((S_80123238_0_pre *)entry_tail)[-1].unk_00 = 0x2C;
+        (*(s8 *)((u8 *)entry_tail + -9)) = 0;
+        (*(s8 *)((u8 *)entry_tail + -8)) = 0;
+        (*(s16 *)((u8 *)entry_tail + -7)) = 6;
+        (*(s16 *)((u8 *)entry_tail + -5)) = 0x7C81;
+        grid_row = entry_index / 3;
+        grid_col = entry_index % 3;
+        entry_index += 1;
+        ((S_80123238_0_pre *)entry_tail)[-1].unk_07 = (s8)(grid_col * 0x48);
+        ((S_80123238_0_pre *)entry_tail)[-1].unk_08 = (s8)((grid_row * 0x10) - 0x80);
+        ((S_80123238_0_pre *)entry_tail)[-1].unk_09 = 0x48;
+        ((S_80123238_0 *)entry_tail)->unk_00 = 0x10;
+        entry += 1;
+    } while (entry_index < 0x10);
 }

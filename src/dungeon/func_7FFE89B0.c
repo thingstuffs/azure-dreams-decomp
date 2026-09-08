@@ -81,47 +81,48 @@ extern u8 D_800E0F20[];
 extern u16 D_80094422;
 extern M2C_UNK D_8010B4EC;
 
-void func_7FFE89B0(void *arg0, void *arg1, M2C_UNK arg2) {
-    s32 var_s2;
-    u16 temp_v0;
-    u16 temp_v0_3;
-    void *temp_a0;
-    void *temp_s0;
-    void *temp_v0_2;
+/* Emit particles at the parent-relative position and retire the emitter when its lifetime expires. */
+void func_7FFE89B0(void *emitter, void *position, M2C_UNK spawn_context) {
+    s32 spawn_index;
+    u16 age;
+    u16 lifetime;
+    void *parent;
+    void *particle_state;
+    void *particle;
 
-    temp_a0 = ((S_7FFE89B0_0 *)arg0)->unk_24;
-    ((S_7FFE89B0_1 *)arg1)->unk_02 = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)temp_a0)->unk_08))->unk_02 + ((S_7FFE89B0_0 *)arg0)->unk_3C);
-    ((S_7FFE89B0_1 *)arg1)->unk_06 = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)temp_a0)->unk_08))->unk_06 + ((S_7FFE89B0_0 *)arg0)->unk_3E);
-    ((S_7FFE89B0_1 *)arg1)->unk_0A = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)temp_a0)->unk_08))->unk_0A + ((S_7FFE89B0_0 *)arg0)->unk_40);
-    temp_v0 = ((S_7FFE89B0_0 *)arg0)->unk_16 + 1;
-    ((S_7FFE89B0_0 *)arg0)->unk_16 = temp_v0;
-    if ((s16) temp_v0 < 0x14) {
-        var_s2 = 0;
+    parent = ((S_7FFE89B0_0 *)emitter)->unk_24;
+    ((S_7FFE89B0_1 *)position)->unk_02 = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_02 + ((S_7FFE89B0_0 *)emitter)->unk_3C);
+    ((S_7FFE89B0_1 *)position)->unk_06 = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_06 + ((S_7FFE89B0_0 *)emitter)->unk_3E);
+    ((S_7FFE89B0_1 *)position)->unk_0A = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_0A + ((S_7FFE89B0_0 *)emitter)->unk_40);
+    age = ((S_7FFE89B0_0 *)emitter)->unk_16 + 1;
+    ((S_7FFE89B0_0 *)emitter)->unk_16 = age;
+    if ((s16) age < 0x14) {
+        spawn_index = 0;
         do {
-            temp_v0_2 = func_7003CF18(0x212);
-            var_s2 += 1;
-            if (temp_v0_2 != NULL) {
-                func_7010B864(temp_v0_2, arg0, arg1, arg2);
-                ((S_7FFE89B0_3 *)temp_v0_2)->unk_3E = 0xA;
-                ((S_7FFE89B0_3 *)temp_v0_2)->unk_40 = 0xA;
-                ((S_7FFE89B0_3 *)temp_v0_2)->unk_10 = &D_8010B4EC;
-                temp_s0 = ((S_7FFE89B0_3 *)temp_v0_2)->unk_08;
-                ((S_7FFE89B0_4 *)temp_s0)->unk_0C = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
-                ((S_7FFE89B0_4 *)temp_s0)->unk_10 = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
-                ((S_7FFE89B0_4 *)temp_s0)->unk_14 = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
-                ((S_7FFE89B0_4 *)temp_s0)->unk_0A = (u16) (((S_7FFE89B0_4 *)temp_s0)->unk_0A - (D_800E0F20[((S_7FFE89B0_6 *)(((S_7FFE89B0_0 *)arg0)->unk_00))->unk_13] >> 1));
+            particle = func_7003CF18(0x212);
+            spawn_index += 1;
+            if (particle != NULL) {
+                func_7010B864(particle, emitter, position, spawn_context);
+                ((S_7FFE89B0_3 *)particle)->unk_3E = 0xA;
+                ((S_7FFE89B0_3 *)particle)->unk_40 = 0xA;
+                ((S_7FFE89B0_3 *)particle)->unk_10 = &D_8010B4EC;
+                particle_state = ((S_7FFE89B0_3 *)particle)->unk_08;
+                ((S_7FFE89B0_4 *)particle_state)->unk_0C = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
+                ((S_7FFE89B0_4 *)particle_state)->unk_10 = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
+                ((S_7FFE89B0_4 *)particle_state)->unk_14 = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
+                ((S_7FFE89B0_4 *)particle_state)->unk_0A = (u16) (((S_7FFE89B0_4 *)particle_state)->unk_0A - (D_800E0F20[((S_7FFE89B0_6 *)(((S_7FFE89B0_0 *)emitter)->unk_00))->unk_13] >> 1));
             }
-        } while (var_s2 < 4);
+        } while (spawn_index < 4);
     }
-    temp_v0_3 = ((S_7FFE89B0_0 *)arg0)->unk_1E - 1;
-    ((S_7FFE89B0_0 *)arg0)->unk_1E = temp_v0_3;
-    if ((temp_v0_3 << 0x10) <= 0) {
-        u16 *counter = &D_80094422;
-        u16 next_counter;
+    lifetime = ((S_7FFE89B0_0 *)emitter)->unk_1E - 1;
+    ((S_7FFE89B0_0 *)emitter)->unk_1E = lifetime;
+    if ((lifetime << 0x10) <= 0) {
+        u16 *active_count = &D_80094422;
+        u16 next_active_count;
 
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_7FFE89B0_0_pre *)arg0)[-1].unk_00 | 0x8000);
-        next_counter = *counter - 1;
+        (*(u16 *)((u8 *)emitter + -2)) = (u16) (((S_7FFE89B0_0_pre *)emitter)[-1].unk_00 | 0x8000);
+        next_active_count = *active_count - 1;
         D_80086AD8 |= 0x8000;
-        *counter = next_counter;
+        *active_count = next_active_count;
     }
 }

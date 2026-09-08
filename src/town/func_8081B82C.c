@@ -57,109 +57,110 @@ typedef struct Local {
     s16 e;
 } Local;
 
-void func_8002582C(A *e, C *c, D *o) {
-    B *b = e->unk0;
-    s32 t;
-    s32 st;
-    s32 n;
-    s32 r;
-    s32 x;
+/* Updates entity animation, vertical motion, particles, and timed removal. */
+void func_8002582C(A *entity, C *motion, D *sprite) {
+    B *cell = entity->unk0;
+    s32 cell_flags;
+    s32 state;
+    s32 particles_left;
+    s32 random_value;
+    s32 particle_x;
     static void *const keepalive[5] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
 
-    if (e->flags & 2) {
-        if (o->f0c.b) {
-            o->f0c.w += 0xfffefeff;
+    if (entity->flags & 2) {
+        if (sprite->f0c.b) {
+            sprite->f0c.w += 0xfffefeff;
         }
     }
 
-    t = b->field1a;
-    b->field1a = t | 2;
-    if (e->flags & 1) {
-        b->field1a = t | 6;
+    cell_flags = cell->field1a;
+    cell->field1a = cell_flags | 2;
+    if (entity->flags & 1) {
+        cell->field1a = cell_flags | 6;
     }
 
-    func_800478B8(o);
-    if (e->flags & 4) {
-        if (o->unk0 == (void *)D_800F7968) {
-            func_8003DB94(o, D_800F79E8, 0);
+    func_800478B8(sprite);
+    if (entity->flags & 4) {
+        if (sprite->unk0 == (void *)D_800F7968) {
+            func_8003DB94(sprite, D_800F79E8, 0);
         }
     }
-    if (o->h14 & 0x6000) {
-        func_8003DB94(o, D_800F7968, 0);
+    if (sprite->h14 & 0x6000) {
+        func_8003DB94(sprite, D_800F7968, 0);
     }
 
-    st = e->state;
-    if ((u32)st >= 5U) {
+    state = entity->state;
+    if ((u32)state >= 5U) {
         goto END;
     }
-    goto *D_8002014C[st];
+    goto *D_8002014C[state];
 
 L0:
-    if (c->w8 > 0) {
-        c->w8 += c->w20;
-        n = 3;
+    if (motion->w8 > 0) {
+        motion->w8 += motion->w20;
+        particles_left = 3;
         for (;;) {
-            r = rand();
-            x = c->w0;
-            x += ((r & 0xff) - 128) << 14;
-            r = rand();
-            func_800252B8(0x808080, x, c->w4 + 0x80000, (r & 0xf) << 16);
-            if (--n < 0) {
+            random_value = rand();
+            particle_x = motion->w0;
+            particle_x += ((random_value & 0xff) - 128) << 14;
+            random_value = rand();
+            func_800252B8(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
+            if (--particles_left < 0) {
                 goto END;
             }
         }
     }
-    c->w8 = 0;
-    c->w20 = 0;
-    e->state = 1;
+    motion->w8 = 0;
+    motion->w20 = 0;
+    entity->state = 1;
     goto END;
 
 L1:
-    if (b->field1a & 1) {
-        Local lo;
-        u8 *elem = D_80026F80 + b->field18 * 400 + b->field10 * 40 + (e->field56 * 12 + 4);
-        lo.d = *(u16 *)(elem + 8);
-        lo.a = *(s32 *)(elem + 0);
-        lo.b = *(s32 *)(elem + 4);
-        lo.c = 0;
-        lo.e = 0;
-        lo.p = e;
-        func_800253BC(&lo, c->w4, 0);
+    if (cell->field1a & 1) {
+        Local effect;
+        u8 *effect_entry = D_80026F80 + cell->field18 * 400 + cell->field10 * 40 + (entity->field56 * 12 + 4);
+        effect.d = *(u16 *)(effect_entry + 8);
+        effect.a = *(s32 *)(effect_entry + 0);
+        effect.b = *(s32 *)(effect_entry + 4);
+        effect.c = 0;
+        effect.e = 0;
+        effect.p = entity;
+        func_800253BC(&effect, motion->w4, 0);
     }
     goto END;
 
 L2:
     {
-        s32 nt = e->timer - 1;
-        e->timer = nt;
-        if ((s16)nt <= 0) {
-            if (e->field56 == 0) {
+        s32 timer_left = entity->timer - 1;
+        entity->timer = timer_left;
+        if ((s16)timer_left <= 0) {
+            if (entity->field56 == 0) {
                 func_80026CE4(90);
             }
-            c->w20 = 0x40000;
-            e->state = 3;
+            motion->w20 = 0x40000;
+            entity->state = 3;
         }
     }
     goto END;
 
 L3:
-    if (c->w8 > 0x7fffff) {
+    if (motion->w8 > 0x7fffff) {
         goto L3_over;
     }
     {
-        s32 nv = c->w8 + c->w20;
-        c->w8 = nv;
-        if (nv <= 0x3fffff) {
-            n = 3;
+        s32 height = motion->w8 + motion->w20;
+        motion->w8 = height;
+        if (height <= 0x3fffff) {
+            particles_left = 3;
             for (;;) {
-                r = rand();
-                x = r & 0xff;
-                x -= 128;
-                x <<= 14;
-                x += 0x5600000;
-                r = rand();
-                func_800252B8(0x808080, x, c->w4 + 0x80000, (r & 0xf) << 16);
-                if (--n < 0) {
+                random_value = rand();
+                particle_x = random_value & 0xff;
+                particle_x -= 128;
+                particle_x <<= 14;
+                particle_x += 0x5600000;
+                random_value = rand();
+                func_800252B8(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
+                if (--particles_left < 0) {
                     goto END;
                 }
             }
@@ -168,21 +169,21 @@ L3:
     goto END;
 
 L3_over:
-    e->timer = 2;
-    e->state = 4;
+    entity->timer = 2;
+    entity->state = 4;
     goto END;
 
 L4:
     {
-        s32 nt = e->timer - 1;
-        e->timer = nt;
-        if ((s16)nt <= 0) {
-            func_8008F134((u8 *)e + 4);
-            *(u16 *)((u8 *)e - 2) |= 0x8000;
+        s32 timer_left = entity->timer - 1;
+        entity->timer = timer_left;
+        if ((s16)timer_left <= 0) {
+            func_8008F134((u8 *)entity + 4);
+            *(u16 *)((u8 *)entity - 2) |= 0x8000;
             D_800814A0 |= 0x8000;
         }
     }
 
 END:
-    e->flags &= ~2;
+    entity->flags &= ~2;
 }

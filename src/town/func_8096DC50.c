@@ -41,7 +41,8 @@ extern void *D_8011AD90[];
 extern TownInitialPosition D_80126AF8[5];
 extern void *D_80129728[];
 
-void func_801260E8(Rec_func_801237A4_arg0 *arg0)
+/* Initializes, updates, or clears town objects according to the current action. */
+void func_801260E8(Rec_func_801237A4_arg0 *context)
 {
     static void *const switch_labels[] = {
         &&case_0,
@@ -65,125 +66,125 @@ void func_801260E8(Rec_func_801237A4_arg0 *arg0)
         &&done,
         &&done
     };
-    s32 selector;
-    s32 counter;
-    s32 offset;
-    s8 *source_base;
-    s32 *source;
-    void **object_base;
-    register void **objects_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    S_801260E8_2 *destination;
+    s32 action_index;
+    s32 object_index;
+    s32 initial_offset;
+    s8 *initial_base;
+    s32 *initial_data;
+    void **object_table;
+    register void **object_cursor ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_801260E8_2 *target_object;
     S_801260E8_4 *object_data;
-    s32 value;
-    u16 half;
+    s32 data_word;
+    u16 object_word;
 
-    selector = (s16)(arg0->unk_04.as_u16 - 1);
-    if ((u32)selector >= 20) {
+    action_index = (s16)(context->unk_04.as_u16 - 1);
+    if ((u32)action_index >= 20) {
         goto done;
     }
     (void)switch_labels;
-    goto *D_8011AD90[selector];
+    goto *D_8011AD90[action_index];
 
 case_0:
     {
         S_801260E8_1 *clear_target;
 
-        clear_target = arg0->unk_58;
+        clear_target = context->unk_58;
         clear_target = clear_target->unk_70;
         clear_target->unk_00 = 0;
     }
     func_80123700();
-    func_80124728(arg0);
+    func_80124728(context);
     func_801235EC();
-    func_801247F8(arg0);
-    func_801237E8(arg0);
-    func_80123898(arg0);
+    func_801247F8(context);
+    func_801237E8(context);
+    func_80123898(context);
     {
-        s32 clear_count;
+        s32 clear_index;
         u8 *clear_base;
         s32 **clear_cursor;
         s32 *clear_entry;
 
-        clear_count = 14;
+        clear_index = 14;
         clear_base = (u8 *)D_80129728;
         clear_cursor = (s32 **)(clear_base + 0x38);
         do {
             clear_entry = *clear_cursor;
             ASM_KEEP(clear_entry);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            clear_count += 1;
+            clear_index += 1;
             *clear_entry = 0;
             clear_cursor = (s32 **)((u8 *)clear_cursor + 4);
-        } while (clear_count < 16);
+        } while (clear_index < 16);
     }
     goto done;
 
 case_7:
-    counter = 14;
-    source_base = (s8 *)D_80126AF8;
-    offset = 0;
-    object_base = D_80129728;
-    objects_a1 = &object_base[14];
+    object_index = 14;
+    initial_base = (s8 *)D_80126AF8;
+    initial_offset = 0;
+    object_table = D_80129728;
+    object_cursor = &object_table[14];
     do {
-        source = (s32 *)((u32)offset + (u32)source_base);
-        offset += 8;
-        destination = *objects_a1;
-        ASM_KEEP(destination);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        value = *source;
-        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        counter += 1;
-        destination->unk_00 = value;
-        objects_a1 += 1;
-    } while (counter < 16);
+        initial_data = (s32 *)((u32)initial_offset + (u32)initial_base);
+        initial_offset += 8;
+        target_object = *object_cursor;
+        ASM_KEEP(target_object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        data_word = *initial_data;
+        ASM_KEEP(data_word);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        object_index += 1;
+        target_object->unk_00 = data_word;
+        object_cursor += 1;
+    } while (object_index < 16);
 
 case_8_10:
-    counter = 14;
-    object_base = D_80129728;
-    objects_a1 = &object_base[14];
+    object_index = 14;
+    object_table = D_80129728;
+    object_cursor = &object_table[14];
     do {
-        object_data = ((S_801260E8_3 *)(*objects_a1))->unk_08;
-        half = object_data->unk_02;
-        ASM_KEEP(half);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        counter += 1;
-        object_data->unk_02 = (u16)(half - 0x100);
-        objects_a1 += 1;
-    } while (counter < 28);
+        object_data = ((S_801260E8_3 *)(*object_cursor))->unk_08;
+        object_word = object_data->unk_02;
+        ASM_KEEP(object_word);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        object_index += 1;
+        object_data->unk_02 = (u16)(object_word - 0x100);
+        object_cursor += 1;
+    } while (object_index < 28);
     goto done;
 
 case_11:
-    func_801238E4(arg0);
+    func_801238E4(context);
 
 case_12_14:
-    counter = 14;
-    object_base = D_80129728;
-    objects_a1 = &object_base[14];
+    object_index = 14;
+    object_table = D_80129728;
+    object_cursor = &object_table[14];
     do {
-        object_data = ((S_801260E8_3 *)(*objects_a1))->unk_08;
-        half = object_data->unk_02;
-        ASM_KEEP(half);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        counter += 1;
-        object_data->unk_02 = (u16)(half - 0x100);
-        objects_a1 += 1;
-    } while (counter < 28);
+        object_data = ((S_801260E8_3 *)(*object_cursor))->unk_08;
+        object_word = object_data->unk_02;
+        ASM_KEEP(object_word);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        object_index += 1;
+        object_data->unk_02 = (u16)(object_word - 0x100);
+        object_cursor += 1;
+    } while (object_index < 28);
     goto done;
 
 case_16:
-    func_801237E8(arg0);
+    func_801237E8(context);
     {
-        s32 clear_count;
+        s32 clear_index;
         u8 *clear_base;
         s32 **clear_cursor;
         s32 *clear_entry;
 
-        clear_count = 14;
+        clear_index = 14;
         clear_base = (u8 *)D_80129728;
         clear_cursor = (s32 **)(clear_base + 0x38);
         do {
             clear_entry = *clear_cursor;
             ASM_KEEP(clear_entry);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            clear_count += 1;
+            clear_index += 1;
             *clear_entry = 0;
             clear_cursor = (s32 **)((u8 *)clear_cursor + 4);
-        } while (clear_count < 28);
+        } while (clear_index < 28);
     }
 
 done:

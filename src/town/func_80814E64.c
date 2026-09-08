@@ -13,19 +13,20 @@ typedef struct {
 extern void func_8003EA54(Object *arg0);
 extern s32 D_80084D5C;
 
-void func_80814E64(u16 *arg0, Movement *arg1, Object *arg2) {
-    s32 value;
+/* Advance position by velocity, update the object, and propagate its status flags. */
+void func_80814E64(u16 *state, Movement *movement, Object *object) {
+    s32 global_flags;
 
-    arg1->position[0] += arg1->velocity[0];
-    arg1->position[1] += arg1->velocity[1];
-    arg1->position[2] += arg1->velocity[2];
-    func_8003EA54(arg2);
-    if (arg2->flags & 0x6000) {
-        arg0[-1] |= 0x8000;
+    movement->position[0] += movement->velocity[0];
+    movement->position[1] += movement->velocity[1];
+    movement->position[2] += movement->velocity[2];
+    func_8003EA54(object);
+    if (object->flags & 0x6000) {
+        state[-1] |= 0x8000;
         do {
-            value = D_80084D5C;
+            global_flags = D_80084D5C;
         } while (0);
-        value |= 0x8000;
-        D_80084D5C = value;
+        global_flags |= 0x8000;
+        D_80084D5C = global_flags;
     }
 }

@@ -1,7 +1,5 @@
 #include "common.h"
 
-/* Boot/init: video+CD+pad+graphics subsystem bring-up, config-global reset,
- * and CD-stream state-pointer advance past its default sentinel. */
 extern s32 SetVideoMode(s32 mode);
 extern void CdInit(void);
 extern s32 ResetGraph(s32 mode);
@@ -57,11 +55,12 @@ extern u32 D_80081478[3];
 extern u8 D_801D8D7A[12];
 extern u8 D_801E964E[12];
 
+/* Initialize video, CD, pads, graphics, configuration defaults, and stream state. */
 void func_8003D5A4(void)
 {
-    void **s0 = D_80083160;
-    s32 i;
-    u8 *p;
+    void **stream_slot = D_80083160;
+    s32 pad_byte;
+    u8 *stream_state;
 
     SetVideoMode(0);
     CdInit();
@@ -73,9 +72,9 @@ void func_8003D5A4(void)
     func_80053DF0(*(s16 *)0x80080A98);
     func_80053E14(*(s16 *)0x80080A9C);
 
-    for (i = 0; i < 0x22; i++) {
-        D_800830C0[i] = 0xFF;
-        D_800830E8[i] = 0xFF;
+    for (pad_byte = 0; pad_byte < 0x22; pad_byte++) {
+        D_800830C0[pad_byte] = 0xFF;
+        D_800830E8[pad_byte] = 0xFF;
     }
     InitPAD(D_800830C0, 0x22, D_800830E8, 0x22);
 
@@ -90,36 +89,36 @@ void func_8003D5A4(void)
     func_8003D468();
 
     {
-        u8 *pg = (u8 *)0x80010000;
-        u32 val0 = 0x2A080808;
-        u8 val4, val6;
+        u8 *config_base = (u8 *)0x80010000;
+        u32 config_word = 0x2A080808;
+        u8 config_byte4, config_byte6;
 
-        *(u32 *)(pg + 0x3180) = val0; /* D_80013180 */
-        *(u32 *)0x80081494 = val0;
-        val4 = 0x20;
-        *(u8 *)(pg + 0x3184) = val4; /* D_80013184 */
-        *(u8 *)0x800814AC = val4;
-        val6 = 3;
-        *(u8 *)(pg + 0x3186) = val6; /* D_80013186 */
-        *(u8 *)0x800814A4 = val6;
-        *(s16 *)(pg + 0x2094) = 5;   /* D_80012094 */
-        *(u8 *)(pg + 0x2D6E) = 0;    /* D_80012D6E */
-        *(s16 *)(pg + 0x2098) = 2;   /* D_80012098 */
+        *(u32 *)(config_base + 0x3180) = config_word; /* D_80013180 */
+        *(u32 *)0x80081494 = config_word;
+        config_byte4 = 0x20;
+        *(u8 *)(config_base + 0x3184) = config_byte4; /* D_80013184 */
+        *(u8 *)0x800814AC = config_byte4;
+        config_byte6 = 3;
+        *(u8 *)(config_base + 0x3186) = config_byte6; /* D_80013186 */
+        *(u8 *)0x800814A4 = config_byte6;
+        *(s16 *)(config_base + 0x2094) = 5;   /* D_80012094 */
+        *(u8 *)(config_base + 0x2D6E) = 0;    /* D_80012D6E */
+        *(s16 *)(config_base + 0x2098) = 2;   /* D_80012098 */
     }
     func_80043674();
 
-    p = (u8 *)D_801C9E40;
-    if (*s0 == (void *)D_801C9E40) {
-        p = p + 0x108D4;
+    stream_state = (u8 *)D_801C9E40;
+    if (*stream_slot == (void *)D_801C9E40) {
+        stream_state = stream_state + 0x108D4;
     }
-    *s0 = p;
-    *(u32 *)(p + 0x8D0) = (u32)(p + 0x8D4);
+    *stream_slot = stream_state;
+    *(u32 *)(stream_state + 0x8D0) = (u32)(stream_state + 0x8D4);
     D_80083208[0] = 0x2C808080;
     func_8003CAC4();
 
     {
-        u32 *q = D_80081478;
-        *q = (u32)D_801D8D7A;
-        q[1] = (u32)D_801E964E;
+        u32 *buffer_ptrs = D_80081478;
+        *buffer_ptrs = (u32)D_801D8D7A;
+        buffer_ptrs[1] = (u32)D_801E964E;
     }
 }

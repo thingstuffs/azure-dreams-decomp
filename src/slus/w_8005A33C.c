@@ -8,8 +8,7 @@ extern int D_80073824[4];
 
 extern void func_800585A0(void);
 
-/* If D_80086D4C is set and in range (0, 4), run func_800585A0(); then
- * unconditionally set the flag/counter at D_80073824 to 1. */
+/* Call func_800585A0 when D_80086D4C[0] is 1 through 3, then always set D_80073824[0] to 1. */
 void func_8005A33C(void)
 {
     if (D_80086D4C[0] > 0)

@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
+/* sb01_over_push: Handle the town script command with no action. */
 void func_8008B2C4(void) {
-
 }

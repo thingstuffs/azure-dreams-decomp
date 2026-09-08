@@ -38,30 +38,31 @@ extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DE870;
 extern M2C_UNK D_80170D60;
 
-void func_80170DCC(void *unused, void *arg1) {
-    Node *temp_v0;
-    Sub *temp_a0;
-    Vec3 *temp_a0_2;
-    Sub *temp_a0_3;
+/* Creates and configures a node at a fixed offset from the given position. */
+void func_80170DCC(void *unused, void *origin) {
+    Node *node;
+    Sub *node_sub;
+    Vec3 *position;
+    Sub *display_sub;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != 0) {
-        temp_v0->callback = &D_80170D60;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_a0 = temp_v0->sub;
-        temp_a0->field_10 = 0x20;
-        temp_a0->field_06 = 6;
-        temp_a0->flags_14 |= 0xC;
-        temp_a0_2 = temp_v0->position;
-        temp_a0_2->x = ((Vec3 *)arg1)->x + 0x180000;
-        temp_a0_2->y = ((Vec3 *)arg1)->y;
-        temp_a0_2->z = ((Vec3 *)arg1)->z + 0xFFF00000;
-        temp_a0_3 = temp_v0->sub;
-        temp_a0_3->field_1E = 0x1400;
-        temp_a0_3->field_1C = 0x1400;
-        temp_a0_3->field_0E = 0x80;
-        temp_a0_3->field_0D = 0x80;
-        temp_a0_3->field_0C = 0x80;
-        func_8003DB94(temp_a0_3, &D_800DE870, 0);
+    node = func_8003FC64(0x212);
+    if (node != 0) {
+        node->callback = &D_80170D60;
+        func_8004491C(node, &D_80045340);
+        node_sub = node->sub;
+        node_sub->field_10 = 0x20;
+        node_sub->field_06 = 6;
+        node_sub->flags_14 |= 0xC;
+        position = node->position;
+        position->x = ((Vec3 *)origin)->x + 0x180000;
+        position->y = ((Vec3 *)origin)->y;
+        position->z = ((Vec3 *)origin)->z + 0xFFF00000;
+        display_sub = node->sub;
+        display_sub->field_1E = 0x1400;
+        display_sub->field_1C = 0x1400;
+        display_sub->field_0E = 0x80;
+        display_sub->field_0D = 0x80;
+        display_sub->field_0C = 0x80;
+        func_8003DB94(display_sub, &D_800DE870, 0);
     }
 }

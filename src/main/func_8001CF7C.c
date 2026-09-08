@@ -26,34 +26,35 @@ typedef struct {
 
 extern BigEntry D_8009DDE4[];
 
-void func_8001CF7C(u8 *arg0) {
-    SubStruct *temp;
-    s32 sp10;
+/* Sets up display element content and positions for the selected entry. */
+void func_8001CF7C(u8 *screen) {
+    SubStruct *element;
+    s32 formatted_value;
 
-    temp = *(SubStruct **)(arg0 + 0x1EC);
-    temp->unk4->unk8 = 0x70;
-    temp->unk4->unkA = 0x10;
-    temp->unk0 = (void *) &D_80084158;
+    element = *(SubStruct **)(screen + 0x1EC);
+    element->unk4->unk8 = 0x70;
+    element->unk4->unkA = 0x10;
+    element->unk0 = (void *) &D_80084158;
 
-    temp = *(SubStruct **)(arg0 + 0x1DC);
-    temp->unk0 = (void *) func_80051B50(arg0 + 8, (*(s32 *)arg0 << 7) + (s32) &D_8009DDE4[0], 1);
-    temp->unk4->unk8 = 0xF0;
-    temp->unk4->unkA = 0x91;
+    element = *(SubStruct **)(screen + 0x1DC);
+    element->unk0 = (void *) func_80051B50(screen + 8, (*(s32 *)screen << 7) + (s32) &D_8009DDE4[0], 1);
+    element->unk4->unk8 = 0xF0;
+    element->unk4->unkA = 0x91;
 
-    temp = *(SubStruct **)(arg0 + 0x1E0);
-    temp->unk0 = (void *) func_80051B50(arg0 + 0x50, (s32) &D_804005EC, 1);
-    temp->unk4->unk8 = 0x160;
-    temp->unk4->unkA = 0x91;
+    element = *(SubStruct **)(screen + 0x1E0);
+    element->unk0 = (void *) func_80051B50(screen + 0x50, (s32) &D_804005EC, 1);
+    element->unk4->unk8 = 0x160;
+    element->unk4->unkA = 0x91;
 
-    temp = *(SubStruct **)(arg0 + 0x1E8);
-    func_80051804(D_8009DDE4[*(s32 *)arg0].unk20, 4, &sp10);
-    func_80051900(&sp10);
-    temp->unk0 = (void *) func_80051520(arg0 + 0x80, &sp10, 1);
-    temp->unk4->unk8 = 0x13F;
-    temp->unk4->unkA = 0x91;
+    element = *(SubStruct **)(screen + 0x1E8);
+    func_80051804(D_8009DDE4[*(s32 *)screen].unk20, 4, &formatted_value);
+    func_80051900(&formatted_value);
+    element->unk0 = (void *) func_80051520(screen + 0x80, &formatted_value, 1);
+    element->unk4->unk8 = 0x13F;
+    element->unk4->unkA = 0x91;
 
-    temp = *(SubStruct **)(arg0 + 0x1F4);
-    temp->unk0 = (void *) (arg0 + 0xB0);
-    temp->unk4->unk8 = 0xAE;
-    temp->unk4->unkA = 0x18;
+    element = *(SubStruct **)(screen + 0x1F4);
+    element->unk0 = (void *) (screen + 0xB0);
+    element->unk4->unk8 = 0xAE;
+    element->unk4->unkA = 0x18;
 }

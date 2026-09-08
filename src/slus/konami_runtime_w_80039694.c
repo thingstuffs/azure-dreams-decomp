@@ -9,22 +9,23 @@ typedef struct Func80039694State {
 
 extern s32 func_80033B2C(s32 arg0);
 
-u32 func_80039694(Func80039694State *arg0) {
-    u32 ptr = (u32)arg0->read_ptr;
-    u32 lo = *(u8 *)ptr;
-    u32 hi = *(u8 *)(ptr + 1);
-    s16 key = (s16)(lo + (hi << 8));
-    u32 value;
+/* Reads a key and either follows the stored target address or skips it based on the key check. */
+u32 func_80039694(Func80039694State *state) {
+    u32 key_addr = (u32)state->read_ptr;
+    u32 key_lo = *(u8 *)key_addr;
+    u32 key_hi = *(u8 *)(key_addr + 1);
+    s16 key = (s16)(key_lo + (key_hi << 8));
+    u32 target_addr;
 
-    arg0->read_ptr = (u8 *)(ptr + 2);
+    state->read_ptr = (u8 *)(key_addr + 2);
     if (func_80033B2C(key) == 0) {
-        u32 next = (u32)arg0->read_ptr + 4;
-        arg0->read_ptr = (u8 *)next;
-        return next;
+        u32 next_addr = (u32)state->read_ptr + 4;
+        state->read_ptr = (u8 *)next_addr;
+        return next_addr;
     } else {
-        u8 *data = arg0->read_ptr;
-        value = data[0] + (data[1] << 8) + (data[2] << 16) + (data[3] << 24);
-        arg0->read_ptr = (u8 *)value;
-        return value;
+        u8 *target_bytes = state->read_ptr;
+        target_addr = target_bytes[0] + (target_bytes[1] << 8) + (target_bytes[2] << 16) + (target_bytes[3] << 24);
+        state->read_ptr = (u8 *)target_addr;
+        return target_addr;
     }
 }

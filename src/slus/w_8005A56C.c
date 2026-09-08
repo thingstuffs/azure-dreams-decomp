@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* Builds a mode-tagged command block on the stack (mode 0xC0 or 0xC00 chosen by whether arg0's low 16 bits are nonzero) with two scaled s16 fields (arg1,arg2 sign-extended-then-<<8) placed at different offsets per mode, and dispatches it to func_8005EDA0. */
 typedef struct {
     s32 unk00;
     s8  pad04[0x0C];
@@ -14,20 +13,21 @@ typedef struct {
 
 extern void func_8005EDA0(S_8005A56C_Cmd *arg0);
 
-void func_8005A56C(s32 arg0, s32 arg1, s32 arg2)
+/* Dispatches a mode-selected command containing two values scaled by 256. */
+void func_8005A56C(s32 mode, s32 value_1, s32 value_2)
 {
-    S_8005A56C_Cmd buf;
-    s32 t1 = (arg1 << 16) >> 8;
-    s32 t2 = (arg2 << 16) >> 8;
+    S_8005A56C_Cmd command;
+    s32 scaled_1 = (value_1 << 16) >> 8;
+    s32 scaled_2 = (value_2 << 16) >> 8;
 
-    if ((arg0 << 16) == 0) {
-        buf.unk00 = 0xC0;
-        buf.unk10 = t1;
-        buf.unk12 = t2;
+    if ((mode << 16) == 0) {
+        command.unk00 = 0xC0;
+        command.unk10 = scaled_1;
+        command.unk12 = scaled_2;
     } else {
-        buf.unk00 = 0xC00;
-        buf.unk1C = t1;
-        buf.unk1E = t2;
+        command.unk00 = 0xC00;
+        command.unk1C = scaled_1;
+        command.unk1E = scaled_2;
     }
-    func_8005EDA0(&buf);
+    func_8005EDA0(&command);
 }

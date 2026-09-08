@@ -52,58 +52,59 @@ extern void func_80099F70(s32 arg0);
 extern void func_800A56E0(s32 arg0);
 extern s32 func_800A5C70(void);
 
-void func_80090298(Arg0Struct *arg0, void *arg1, Arg2Struct *arg2, Arg3Struct *arg3) {
-    s32 code;
-    S_80083160 *base = &D_80083160;
+/* Advances actor animation states, periodic events, and handler transitions. */
+void func_80090298(Arg0Struct *controller, void *unused, Arg2Struct *animation, Arg3Struct *actor) {
+    s32 event_code;
+    S_80083160 *scene = &D_80083160;
 
-    (void)arg1;
-    switch (arg0->state) {
+    (void)unused;
+    switch (controller->state) {
     case 0:
-        if (arg2->flags14 & 0xE000) {
-            arg2->table = &D_800DD0F0;
-            func_80048A44(arg2, (&D_800DD0F0)[((s32)(base->offset_c8 + arg3->angle + 0x100) >> 9) & 7], 0, 1);
-            arg0->handler = &D_8008B870;
-            arg0->state = (s8)(arg0->state + 1);
+        if (animation->flags14 & 0xE000) {
+            animation->table = &D_800DD0F0;
+            func_80048A44(animation, (&D_800DD0F0)[((s32)(scene->offset_c8 + actor->angle + 0x100) >> 9) & 7], 0, 1);
+            controller->handler = &D_8008B870;
+            controller->state = (s8)(controller->state + 1);
         }
         break;
 
     case 1:
-        if (!(arg0->timer & 0x1F)) {
-            code = 0x50F;
-            if (arg0->timer & 0x20) {
-                code = 0x50E;
+        if (!(controller->timer & 0x1F)) {
+            event_code = 0x50F;
+            if (controller->timer & 0x20) {
+                event_code = 0x50E;
             }
-            func_800A56E0(code);
+            func_800A56E0(event_code);
         }
-        if (!(D_80083460[1] & 4) && (arg0->flagsa2 & 0x10)) {
-            if ((base->flags & 0x20) && (func_800A5C70() != 0)) {
+        if (!(D_80083460[1] & 4) && (controller->flagsa2 & 0x10)) {
+            if ((scene->flags & 0x20) && (func_800A5C70() != 0)) {
                 D_80083460[1] |= 0x80;
             }
-            if ((func_80042900(arg3, 1) << 0x10) == 0) {
-                arg2->table = D_800DD0F8;
-                func_80048A44(arg2, D_800DD0F8[((s32)(*D_80083228 + arg3->angle + 0x100) >> 9) & 7], 0, 1);
-                arg0->handler = NULL;
+            if ((func_80042900(actor, 1) << 0x10) == 0) {
+                animation->table = D_800DD0F8;
+                func_80048A44(animation, D_800DD0F8[((s32)(*D_80083228 + actor->angle + 0x100) >> 9) & 7], 0, 1);
+                controller->handler = NULL;
                 D_80083460[5] += 1;
-                arg0->state += 1;
+                controller->state += 1;
             } else {
-                func_80099F70(arg3->val5c);
-                func_80099F04(arg3->val5c);
+                func_80099F70(actor->val5c);
+                func_80099F04(actor->val5c);
                 D_80083460[1] |= 0x812;
             }
         }
         break;
 
     case 2:
-        if (arg2->flags14 & 0xE000) {
-            arg3->flags1c &= ~0x200;
-            func_80099F70(arg3->val5c);
-            func_80099F04(arg3->val5c);
+        if (animation->flags14 & 0xE000) {
+            actor->flags1c &= ~0x200;
+            func_80099F70(actor->val5c);
+            func_80099F04(actor->val5c);
             D_80083460[1] |= 0x812;
-            arg0->handler = D_8008ACDC;
+            controller->handler = D_8008ACDC;
             D_80083460[5] -= 1;
         }
         break;
     }
 
-    arg0->timer += 1;
+    controller->timer += 1;
 }

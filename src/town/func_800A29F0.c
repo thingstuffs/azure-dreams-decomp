@@ -10,49 +10,50 @@ typedef struct {
 
 extern u8 D_80010A80[];
 
-void func_800A0150(s32 arg0, u8 *arg1, TownRecord *arg2, s8 arg3)
+/* Store slot flags and copy the record with its extra byte for type 0x13. */
+void func_800A0150(s32 slot, u8 *entry_flags, TownRecord *record, s8 record_byte)
 {
     u8 *flags;
-    u8 *flags_after;
-    u8 *page_after;
-    u8 *record_after;
-    s32 *src;
-    s32 *dst;
-    s32 *end;
+    u8 *copy_flags;
+    u8 *copy_page;
+    u8 *record_base;
+    s32 *record_src;
+    s32 *record_dst;
+    s32 *chunk_end;
     s32 flag_bits;
-    s32 tail_offset;
-    register s32 index ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 flags_offset;
+    register s32 slot_index ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    index = arg0;
-    ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    slot_index = slot;
+    ASM_KEEP(slot_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     flags = (u8 *)0x80010000;
-    arg0 = index * 4;
-    flags += arg0;
-    flags[0x980] = arg1[0];
-    flags[0x981] = arg1[1];
-    flags[0x982] = arg1[2];
-    flags[0x983] = arg1[3];
+    slot = slot_index * 4;
+    flags += slot;
+    flags[0x980] = entry_flags[0];
+    flags[0x981] = entry_flags[1];
+    flags[0x982] = entry_flags[2];
+    flags[0x983] = entry_flags[3];
 
-    if (arg1[1] == 0x13) {
-        src = (s32 *)arg2;
-        dst = (s32 *)((u8 *)0x80010A80 + (index * 0x54));
-        end = src + 20;
+    if (entry_flags[1] == 0x13) {
+        record_src = (s32 *)record;
+        record_dst = (s32 *)((u8 *)0x80010A80 + (slot_index * 0x54));
+        chunk_end = record_src + 20;
         do {
-            *(CopyChunk *)dst = *(CopyChunk *)src;
-            src += 4;
-            dst += 4;
-        } while (src != end);
-        *dst = *src;
+            *(CopyChunk *)record_dst = *(CopyChunk *)record_src;
+            record_src += 4;
+            record_dst += 4;
+        } while (record_src != chunk_end);
+        *record_dst = *record_src;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        tail_offset = index * 4;
-        page_after = (u8 *)0x80010000;
-        flags_after = page_after + tail_offset;
-        record_after = page_after + (index * 0x54);
-        flag_bits = flags_after[0x983];
+        flags_offset = slot_index * 4;
+        copy_page = (u8 *)0x80010000;
+        copy_flags = copy_page + flags_offset;
+        record_base = copy_page + (slot_index * 0x54);
+        flag_bits = copy_flags[0x983];
         flag_bits &= 0xC0;
-        flag_bits |= index;
-        flags_after[0x983] = flag_bits;
-        record_after[0xAC4] = arg3;
+        flag_bits |= slot_index;
+        copy_flags[0x983] = flag_bits;
+        record_base[0xAC4] = record_byte;
     }
 }
 

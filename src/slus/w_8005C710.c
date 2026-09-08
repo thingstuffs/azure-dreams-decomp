@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* Looks up D_80073740[a0] into a 0x40-byte stack request record (same size/shape as the D_80084918 request struct used by sibling functions), calls func_8005FA34 with it, and copies back the two s16 fields it fills in via the out-pointers a1/a2. Always returns 0. */
 extern s32 D_80073740[64];
 
 /* Local request record built on the stack and handed to func_8005FA34.
@@ -18,13 +17,14 @@ typedef struct S_8005C710_Req {
 
 extern s32 func_8005FA34(S_8005C710_Req *arg);
 
-s32 func_8005C710(s16 a0, s16 *a1, s16 *a2) {
-    S_8005C710_Req tmp;
+/* Processes the indexed table entry and copies the two request results to the output pointers. */
+s32 func_8005C710(s16 entry_index, s16 *out_field8, s16 *out_field_a) {
+    S_8005C710_Req request;
 
-    tmp.field4 = 0;
-    tmp.field0 = D_80073740[a0];
-    func_8005FA34(&tmp);
-    *a1 = tmp.field8;
-    *a2 = tmp.fieldA;
+    request.field4 = 0;
+    request.field0 = D_80073740[entry_index];
+    func_8005FA34(&request);
+    *out_field8 = request.field8;
+    *out_field_a = request.fieldA;
     return 0;
 }

@@ -10,35 +10,36 @@ typedef struct {
 extern u8 D_8053019C[][12];
 extern void func_8006E91C(Rect *, s32, s32);
 
-void func_80812A2C(s16 arg0, s16 arg1, s16 arg2)
+/* Draws a wrapped tile column with vertical scrolling and top-edge clipping. */
+void func_80812A2C(s16 column, s16 row, s16 scroll_y)
 {
     Rect rect;
-    s32 i;
-    s32 edge;
+    s32 row_offset;
+    s32 top_offset;
     s32 draw_x;
-    s32 draw_width;
-    s16 wrapped;
-    s32 cell;
+    s32 draw_y;
+    s16 row_base;
+    s32 tile_id;
 
-    wrapped = arg1 + 12;
-    draw_x = (arg0 << 4) + 384;
+    row_base = row + 12;
+    draw_x = (column << 4) + 384;
 
     rect.w = 16;
     rect.h = 32;
 
-    for (i = -1; i < 3; i++) {
-        if (i >= 0 || arg2 != 0) {
-            cell = D_8053019C[arg0][(wrapped + i) % 12];
-            rect.x = ((cell & 3) << 4) + 384;
-            rect.y = (cell >> 2) << 5;
-            edge = ((2 - i) << 5) - arg2;
-            draw_width = edge + 128;
-            if (edge < 0) {
-                rect.y -= edge;
-                rect.h = edge + 32;
-                draw_width = 128;
+    for (row_offset = -1; row_offset < 3; row_offset++) {
+        if (row_offset >= 0 || scroll_y != 0) {
+            tile_id = D_8053019C[column][(row_base + row_offset) % 12];
+            rect.x = ((tile_id & 3) << 4) + 384;
+            rect.y = (tile_id >> 2) << 5;
+            top_offset = ((2 - row_offset) << 5) - scroll_y;
+            draw_y = top_offset + 128;
+            if (top_offset < 0) {
+                rect.y -= top_offset;
+                rect.h = top_offset + 32;
+                draw_y = 128;
             }
-            func_8006E91C(&rect, draw_x, draw_width);
+            func_8006E91C(&rect, draw_x, draw_y);
         }
     }
 }

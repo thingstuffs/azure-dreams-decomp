@@ -7,39 +7,40 @@ typedef struct {
 extern void *D_80016000;
 extern ByteBlock8 D_80016164;
 
+/* Sum the weights selected by type flags for enabled records. */
 s32 func_8001AF7C(void) {
-    ByteBlock8 local;
-    s32 index;
-    register s32 sum ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 value;
-    u8 *records;
-    register u8 *table ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register ByteBlock8 *source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *page;
-    u8 *entry;
+    ByteBlock8 weights;
+    s32 record_index;
+    register s32 total_weight ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 flags;
+    u8 *record_data;
+    register u8 *type_table ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register ByteBlock8 *weight_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *data_page;
+    u8 *record;
 
-    sum = 0;
-    ASM_KEEP(sum);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    table = **(u8 ***)((u8 *)D_80016000 + 0x30);
-    ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    page = (u8 *)0x80010000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    source = (ByteBlock8 *)(page + 0x6164);
-    ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    local = *source;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    index = sum;
-    ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    records = *(u8 **)((u8 *)D_80016000 + 0x38);
+    total_weight = 0;
+    ASM_KEEP(total_weight);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    type_table = **(u8 ***)((u8 *)D_80016000 + 0x30);
+    ASM_KEEP(type_table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    data_page = (u8 *)0x80010000;
+    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    weight_source = (ByteBlock8 *)(data_page + 0x6164);
+    ASM_KEEP(weight_source);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    weights = *weight_source;
+    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    record_index = total_weight;
+    ASM_KEEP(record_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    record_data = *(u8 **)((u8 *)D_80016000 + 0x38);
     do {
-        entry = records + (index * 2);
-        value = table[(entry[0x33A4] << 5) + 2];
-        if (value & 1) {
-            sum += local.bytes[(value >> 3) & 7];
+        record = record_data + (record_index * 2);
+        flags = type_table[(record[0x33A4] << 5) + 2];
+        if (flags & 1) {
+            total_weight += weights.bytes[(flags >> 3) & 7];
         }
-        index++;
-    } while (index < 0x22);
-    return sum;
+        record_index++;
+    } while (record_index < 0x22);
+    return total_weight;
 }
 
 /* MECHANISM: The eight-byte local is copied through a2 while a 0x80010000 page

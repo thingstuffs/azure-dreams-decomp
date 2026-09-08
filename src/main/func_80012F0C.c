@@ -8,37 +8,38 @@ extern s16 D_80010208;
 extern s32 D_80028294[];
 extern s32 D_800282A0;
 
-void func_80025F0C(s32 arg0, s32 arg1) {
-    s32 sp10[4];
-    s32 *settings;
-    s32 temp_s0;
-    s32 call_context;
-    s32 saved_arg1;
-    s32 selected;
-    s32 final_value;
+/* Build text from a one-based index, global state, and a trailing value. */
+void func_80025F0C(s32 record, s32 index) {
+    s32 number_text[4];
+    s32 *text_parts;
+    s32 output_text;
+    s32 append_text;
+    s32 saved_index;
+    s32 state_text;
+    s32 suffix_value;
 
-    saved_arg1 = arg1;
-    temp_s0 = arg0 + 4;
-    settings = D_80028294;
-    strcpy(temp_s0, settings[0]);
-    func_8003AD08(saved_arg1 + 1, sp10);
-    strcat(temp_s0, (s32)sp10);
-    strcat(temp_s0, settings[3]);
-    strcat(temp_s0, 0x8001020C);
-    strcat(temp_s0, settings[3]);
+    saved_index = index;
+    output_text = record + 4;
+    text_parts = D_80028294;
+    strcpy(output_text, text_parts[0]);
+    func_8003AD08(saved_index + 1, number_text);
+    strcat(output_text, (s32)number_text);
+    strcat(output_text, text_parts[3]);
+    strcat(output_text, 0x8001020C);
+    strcat(output_text, text_parts[3]);
 
-    call_context = temp_s0;
+    append_text = output_text;
     if (D_80010208 != 0) {
-        selected = settings[1];
+        state_text = text_parts[1];
     } else {
-        selected = settings[2];
+        state_text = text_parts[2];
     }
-    ASM_KEEP(saved_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    strcat(call_context, selected);
+    ASM_KEEP(saved_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    strcat(append_text, state_text);
 
-    temp_s0 = arg0 + 4;
-    strcat(temp_s0, D_800282A0);
-    final_value = *(s32 *)0x8001022C;
-    func_8003AD08(final_value, sp10);
-    strcat(temp_s0, (s32)sp10);
+    output_text = record + 4;
+    strcat(output_text, D_800282A0);
+    suffix_value = *(s32 *)0x8001022C;
+    func_8003AD08(suffix_value, number_text);
+    strcat(output_text, (s32)number_text);
 }

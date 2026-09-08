@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* For each of the 3 handles embedded at a0+0x24 (skipping zero entries), calls func_8001832C(handle). Then sets the 0x8000 "used" bit both on the 16-bit flags field at a0+0x1E and on the global flags word D_800814A0. No-op if a0 is NULL. */
 /* Canonical global flags word shared by several sibling functions in this
  * TU family (code9.c, code10.c, code11.c, code5.c, w_8004F558.c, ...).
  * w_8004F558.c (same D_800814A0 |= 0x8000 tail as this function) declares
@@ -21,21 +20,22 @@ typedef struct S_8004FE78_a0 {
 
 extern void func_8001832C(s32 arg0);
 
-void func_8004FE78(S_8004FE78_a0 *a0)
+/* Process a non-null entity's nonzero handles and set its flags and the global flags to include 0x8000. */
+void func_8004FE78(S_8004FE78_a0 *entity)
 {
-    s32 i;
-    s32 *p;
+    s32 handle_index;
+    s32 *handle_cursor;
 
-    if (a0 != 0) {
-        i = 0;
-        p = (s32 *)((char *)a0 + 0x20);
-        for (; i < 3; i++) {
-            if (p[1] != 0) {
-                func_8001832C(p[1]);
+    if (entity != 0) {
+        handle_index = 0;
+        handle_cursor = (s32 *)((char *)entity + 0x20);
+        for (; handle_index < 3; handle_index++) {
+            if (handle_cursor[1] != 0) {
+                func_8001832C(handle_cursor[1]);
             }
-            p++;
+            handle_cursor++;
         }
-        a0->field_1E |= 0x8000;
+        entity->field_1E |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

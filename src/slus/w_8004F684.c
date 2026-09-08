@@ -2,10 +2,6 @@
 
 #include "common.h"
 
-/* Sibling of func_8004F780 (matched @ 2.7.2-cdk): same a0 layout and
- * D_80071784 3-byte-row walk, but writes two interpolated s16 fields
- * (scaled by 30 / 12) into entry->obj->target rather than an RGB triple. */
-
 typedef struct S_8004F684_Target {
     /* 0x00 */ u8 pad[0xA];
     /* 0x0A */ s16 field_A;
@@ -34,51 +30,52 @@ typedef struct S_8004F684 {
 
 extern u8 D_80071784[];
 
-void func_8004F684(S_8004F684 *a0)
+/* Interpolate table values into each target's fields with scales of 30 and 12 and fixed offsets. */
+void func_8004F684(S_8004F684 *state)
 {
-    S_8004F684 *self;
-    s32 i;
-    u8 *row;
-    S_8004F684_Entry **slot;
-    s32 valA;
-    s32 diff;
-    s32 m;
-    register s32 quot ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s32 scaled;
-    register void *p ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    S_8004F684 *settings;
+    s32 entry_index;
+    u8 *value_row;
+    S_8004F684_Entry **entry_slot;
+    s32 start_value;
+    s32 value_delta;
+    s32 scaled_weight;
+    register s32 offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 target_value;
+    register void *entry_or_target ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     S_8004F684_Obj *obj;
 
-    self = a0;
-    i = 0;
-    if (self->count > 0) {
-        row = D_80071784;
-        slot = (S_8004F684_Entry **)self;
+    settings = state;
+    entry_index = 0;
+    if (settings->count > 0) {
+        value_row = D_80071784;
+        entry_slot = (S_8004F684_Entry **)settings;
         do {
-            valA = row[self->idxA];
-            diff = row[self->idxB] - valA;
+            start_value = value_row[settings->idxA];
+            value_delta = value_row[settings->idxB] - start_value;
 
-            m = self->multiplier * 30;
-            quot = (diff * m) / self->divisor;
-            p = slot[1];
-            obj = ((S_8004F684_Entry *)p)->obj;
-            p = obj->target;
-            scaled = valA * 30;
-            quot = quot + 0x200;
-            scaled = scaled + quot;
-            ((S_8004F684_Target *)p)->field_C = (s16)scaled;
+            scaled_weight = settings->multiplier * 30;
+            offset = (value_delta * scaled_weight) / settings->divisor;
+            entry_or_target = entry_slot[1];
+            obj = ((S_8004F684_Entry *)entry_or_target)->obj;
+            entry_or_target = obj->target;
+            target_value = start_value * 30;
+            offset = offset + 0x200;
+            target_value = target_value + offset;
+            ((S_8004F684_Target *)entry_or_target)->field_C = (s16)target_value;
 
-            m = self->multiplier * 12;
-            quot = (diff * m) / self->divisor;
-            slot++;
-            i++;
-            p = obj->target;
-            scaled = valA * 12;
-            quot = quot - 0x40;
-            scaled = scaled + quot;
-            ((S_8004F684_Target *)p)->field_A = (s16)scaled;
+            scaled_weight = settings->multiplier * 12;
+            offset = (value_delta * scaled_weight) / settings->divisor;
+            entry_slot++;
+            entry_index++;
+            entry_or_target = obj->target;
+            target_value = start_value * 12;
+            offset = offset - 0x40;
+            target_value = target_value + offset;
+            ((S_8004F684_Target *)entry_or_target)->field_A = (s16)target_value;
 
-            row += 3;
-        } while (i < self->count);
+            value_row += 3;
+        } while (entry_index < settings->count);
     }
-    ASM_KEEP(i);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 }

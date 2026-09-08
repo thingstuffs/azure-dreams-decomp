@@ -9,14 +9,15 @@ typedef struct S_8001CD7C_0 {
     s32 unk_AC;
 } S_8001CD7C_0;   /* arg0 in func_8001CD7C */
 
-void func_8001CD7C(S_8001CD7C_0 *arg0, s32 arg1) {
-    s32 temp_v1;
+/* Saves and replaces the object's value, setting its control fields to 0 and 3. */
+void func_8001CD7C(S_8001CD7C_0 *object, s32 new_value) {
+    s32 previous_value;
 
-    if (arg0 != NULL) {
-        temp_v1 = arg0->unk_A8;
-        arg0->unk_A4 = 0;
-        arg0->unk_A0 = 3;
-        arg0->unk_A8 = arg1;
-        arg0->unk_AC = temp_v1;
+    if (object != NULL) {
+        previous_value = object->unk_A8;
+        object->unk_A4 = 0;
+        object->unk_A0 = 3;
+        object->unk_A8 = new_value;
+        object->unk_AC = previous_value;
     }
 }

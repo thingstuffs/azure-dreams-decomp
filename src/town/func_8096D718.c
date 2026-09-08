@@ -35,45 +35,46 @@ extern u16 D_80126B20[];
 extern u16 D_80126B24;
 extern u8 D_80127B64[];
 
+/* Updates the object's number display and paired fields for its current state. */
 void func_80125BB0(TownObject *obj)
 {
     register TownObject *object ASM_REG("$18") = obj;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 offset;
-    s32 value;
-    s32 slot;
-    s32 temp;
-    s32 hi;
-    s32 lo;
+    s32 side_offset;
+    s32 entry_index;
+    s32 slot_index;
+    s32 index_base;
+    s32 side_stride16;
+    s32 side_stride8;
     Pair *pair;
-    HalfFields *fields;
-    HalfFields *other;
+    HalfFields *primary;
+    HalfFields *secondary;
 
     switch (object->state) {
     case 1:
-        temp = 1 - object->side;
-        lo = temp << 3;
-        hi = temp << 4;
-        offset = hi + lo;
-        slot = offset + 33;
-        temp = object->digit << 4;
-        temp = temp + 1;
-        value = temp - object->side;
+        index_base = 1 - object->side;
+        side_stride8 = index_base << 3;
+        side_stride16 = index_base << 4;
+        side_offset = side_stride16 + side_stride8;
+        slot_index = side_offset + 33;
+        index_base = object->digit << 4;
+        index_base = index_base + 1;
+        entry_index = index_base - object->side;
 
-        if (func_80123200((u8)value) != 0) {
-            s32 number = value + 1;
+        if (func_80123200((u8)entry_index) != 0) {
+            s32 display_number = entry_index + 1;
 
-            *object->pool->slots[slot] = (u32)D_80127B64;
-            slot = offset + 34;
-            *object->pool->slots[slot] = D_801269D0[number / 10];
-            slot = offset + 35;
-            *object->pool->slots[slot] = D_801269D0[number % 10];
+            *object->pool->slots[slot_index] = (u32)D_80127B64;
+            slot_index = side_offset + 34;
+            *object->pool->slots[slot_index] = D_801269D0[display_number / 10];
+            slot_index = side_offset + 35;
+            *object->pool->slots[slot_index] = D_801269D0[display_number % 10];
         }
         break;
 
     case 2: {
-        HalfFields *f2 = object->pool->pair->first;
-        f2->field6 = 0;
-        f2->field4 = 0;
+        HalfFields *primary = object->pool->pair->first;
+        primary->field6 = 0;
+        primary->field4 = 0;
         return;
     }
 
@@ -87,14 +88,14 @@ void func_80125BB0(TownObject *obj)
     }
 
     pair = object->pool->pair;
-    fields = pair->first;
-    other = pair->second;
-    other->field6 = fields->field8;
+    primary = pair->first;
+    secondary = pair->second;
+    secondary->field6 = primary->field8;
     pair = object->pool->pair;
-    fields = pair->first;
-    other = pair->second;
-    other->field8 = fields->fieldA;
-    fields = object->pool->pair->first;
-    fields->field6 = 0x800;
-    fields->field4 = 0x800;
+    primary = pair->first;
+    secondary = pair->second;
+    secondary->field8 = primary->fieldA;
+    primary = object->pool->pair->first;
+    primary->field6 = 0x800;
+    primary->field4 = 0x800;
 }

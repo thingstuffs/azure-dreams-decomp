@@ -72,146 +72,143 @@ extern void *D_800D1BCC[];
 extern u8 D_800F8A1C[];
 extern u8 D_800F8A28[];
 
-void func_800BA930(Core *arg0, Position *arg1) {
-    s32 value;
-    s32 rounded;
-    s32 i;
-    s32 childValue;
-    s32 childY0;
-    s32 childY1;
-    s32 childY2;
-    s32 childY3;
-    u8 childBlue;
-    Object *obj;
-    Core *core;
-    void *parent;
-    Primitive *particlePrim;
-    Primitive *texturePrim;
-    Position *position;
+/* Initialize an effect with a random angle and spawn its particle and textured children. */
+void func_800BA930(Core *effect, Position *origin) {
+    s32 random_angle;
+    s32 biased_angle;
+    s32 child_index;
+    s32 child_value;
+    s32 particle_y;
+    s32 sprite_y;
+    s32 overlay_y;
+    s32 center_y;
+    u8 particle_blue;
+    Object *child_obj;
+    Core *child_core;
+    void *parent_obj;
+    Primitive *particle_prim;
+    Primitive *texture_prim;
+    Position *child_pos;
 
-    ((S_800BA930_0_pre *)arg0)[-1].unk_00 = D_800B9CB8;
-    value = rand();
-    rounded = value;
-    if (value < 0) {
-        rounded = value + 0xFFF;
+    ((S_800BA930_0_pre *)effect)[-1].unk_00 = D_800B9CB8;
+    random_angle = rand();
+    biased_angle = random_angle;
+    if (random_angle < 0) {
+        biased_angle = random_angle + 0xFFF;
     }
 
-    i = 0;
-    arg0->angle = value - ((rounded >> 12) << 12);
-    arg0->index = 0;
+    child_index = 0;
+    effect->angle = random_angle - ((biased_angle >> 12) << 12);
+    effect->index = 0;
     do {
-        obj = func_8003FD64(0x136, (u8 *)arg0 - 0x20);
-        if (obj != NULL) {
-            obj->update = D_800BA8C4;
-            func_8004491C(obj, D_80046398);
-            childValue = arg0->value;
-            core = (Core *)((u8 *)obj + 0x20);
-            core->parent = arg0;
-            core->angle = 0;
-            core->index = i;
-            core->value = childValue;
-            particlePrim = obj->primitive;
-            particlePrim->scaleX = 0x1000;
-            particlePrim->scaleY = 0x1000;
-            particlePrim->scaleZ = 0xAAA;
-            particlePrim->red = D_80083160[0xA8];
-            particlePrim->green = D_80083160[0xA9];
-            childBlue = D_80083160[0xAA];
-            ((S_800BA930_1 *)particlePrim)->unk_08 = i + 0x1A;
-            particlePrim->blue = childBlue;
-            position = obj->position;
-            position->x = arg1->x;
-            childY0 = arg1->y;
-            position->z = 0;
-            position->y = childY0;
-            func_8008F104(core, position, D_800D1BCC[i]);
+        child_obj = func_8003FD64(0x136, (u8 *)effect - 0x20);
+        if (child_obj != NULL) {
+            child_obj->update = D_800BA8C4;
+            func_8004491C(child_obj, D_80046398);
+            child_value = effect->value;
+            child_core = (Core *)((u8 *)child_obj + 0x20);
+            child_core->parent = effect;
+            child_core->angle = 0;
+            child_core->index = child_index;
+            child_core->value = child_value;
+            particle_prim = child_obj->primitive;
+            particle_prim->scaleX = 0x1000;
+            particle_prim->scaleY = 0x1000;
+            particle_prim->scaleZ = 0xAAA;
+            particle_prim->red = D_80083160[0xA8];
+            particle_prim->green = D_80083160[0xA9];
+            particle_blue = D_80083160[0xAA];
+            ((S_800BA930_1 *)particle_prim)->unk_08 = child_index + 0x1A;
+            particle_prim->blue = particle_blue;
+            child_pos = child_obj->position;
+            child_pos->x = origin->x;
+            particle_y = origin->y;
+            child_pos->z = 0;
+            child_pos->y = particle_y;
+            func_8008F104(child_core, child_pos, D_800D1BCC[child_index]);
         }
-        i += 1;
-    } while (i < 4);
+        child_index += 1;
+    } while (child_index < 4);
 
-    i = 0;
+    child_index = 0;
     do {
-        obj = func_8003FD64(0x36, (u8 *)arg0 - 0x20);
-        if (obj != NULL) {
-            obj->update = D_800B9EDC;
-            func_8004491C(obj, D_80045C34);
-            childValue = arg0->value;
-            core = (Core *)((u8 *)obj + 0x20);
-            core->parent = arg0;
-            core->index = i;
-            core->value = childValue;
-            texturePrim = obj->primitive;
-            texturePrim->image = D_800F8A1C;
-            texturePrim->blue = 0x80;
-            texturePrim->green = 0x80;
-            texturePrim->red = 0x80;
-            texturePrim->unk16 = 0x370;
-            texturePrim->unk18 = 0;
-            texturePrim->angle = arg0->angle + (i << 10);
-            texturePrim->scaleY = 0x1000;
-            texturePrim->scaleX = 0x1000;
-            position = obj->position;
-            position->x = arg1->x;
-            childY1 = arg1->y;
-            position->z = 0xFF2C0000;
-            childY1 += 0x200000;
-            position->y = childY1;
+        child_obj = func_8003FD64(0x36, (u8 *)effect - 0x20);
+        if (child_obj != NULL) {
+            child_obj->update = D_800B9EDC;
+            func_8004491C(child_obj, D_80045C34);
+            child_value = effect->value;
+            child_core = (Core *)((u8 *)child_obj + 0x20);
+            child_core->parent = effect;
+            child_core->index = child_index;
+            child_core->value = child_value;
+            texture_prim = child_obj->primitive;
+            texture_prim->image = D_800F8A1C;
+            texture_prim->blue = 0x80;
+            texture_prim->green = 0x80;
+            texture_prim->red = 0x80;
+            texture_prim->unk16 = 0x370;
+            texture_prim->unk18 = 0;
+            texture_prim->angle = effect->angle + (child_index << 10);
+            texture_prim->scaleY = 0x1000;
+            texture_prim->scaleX = 0x1000;
+            child_pos = child_obj->position;
+            child_pos->x = origin->x;
+            sprite_y = origin->y;
+            child_pos->z = 0xFF2C0000;
+            sprite_y += 0x200000;
+            child_pos->y = sprite_y;
         }
-        i += 1;
-    } while (i < 4);
+        child_index += 1;
+    } while (child_index < 4);
 
-    parent = (u8 *)arg0 - 0x20;
-    obj = func_8003FD64(0x36, parent);
-    if (obj != NULL) {
-        obj->update = D_800B9EDC;
-        func_8004491C(obj, D_80045C34);
-        childValue = arg0->value;
-        core = (Core *)((u8 *)obj + 0x20);
-        core->parent = arg0;
-        core->value = childValue;
-        texturePrim = obj->primitive;
-        texturePrim->image = D_800F8A28;
-        texturePrim->blue = 0x80;
-        texturePrim->green = 0x80;
-        texturePrim->red = 0x80;
-        texturePrim->unk16 = 0x370;
-        texturePrim->unk18 = 0;
-        texturePrim->angle = arg0->angle;
-        texturePrim->scaleY = 0x1000;
-        texturePrim->scaleX = 0x1000;
-        position = obj->position;
-        position->x = arg1->x;
-        childY2 = arg1->y;
-        position->z = 0xFF2C0000;
-        childY2 += 0x200000;
-        position->y = childY2;
+    parent_obj = (u8 *)effect - 0x20;
+    child_obj = func_8003FD64(0x36, parent_obj);
+    if (child_obj != NULL) {
+        child_obj->update = D_800B9EDC;
+        func_8004491C(child_obj, D_80045C34);
+        child_value = effect->value;
+        child_core = (Core *)((u8 *)child_obj + 0x20);
+        child_core->parent = effect;
+        child_core->value = child_value;
+        texture_prim = child_obj->primitive;
+        texture_prim->image = D_800F8A28;
+        texture_prim->blue = 0x80;
+        texture_prim->green = 0x80;
+        texture_prim->red = 0x80;
+        texture_prim->unk16 = 0x370;
+        texture_prim->unk18 = 0;
+        texture_prim->angle = effect->angle;
+        texture_prim->scaleY = 0x1000;
+        texture_prim->scaleX = 0x1000;
+        child_pos = child_obj->position;
+        child_pos->x = origin->x;
+        overlay_y = origin->y;
+        child_pos->z = 0xFF2C0000;
+        overlay_y += 0x200000;
+        child_pos->y = overlay_y;
     }
 
-    obj = func_8003FD64(0x136, parent);
-    if (obj != NULL) {
-        obj->update = D_800B9F74;
-        func_8004491C(obj, D_80046398);
-        childValue = arg0->value;
-        core = (Core *)((u8 *)obj + 0x20);
-        core->parent = arg0;
-        core->value = childValue;
-        particlePrim = obj->primitive;
-        particlePrim->scaleX = 0x1000;
-        particlePrim->scaleY = 0x1000;
-        particlePrim->scaleZ = 0x1000;
-        particlePrim->angle = arg0->angle;
-        particlePrim->red = D_80083160[0xA8];
-        particlePrim->green = D_80083160[0xA9];
-        particlePrim->blue = D_80083160[0xAA];
-        position = obj->position;
-        ((S_800BA930_1 *)particlePrim)->unk_08 = 0x19;
-        position->x = arg1->x;
-        childY3 = arg1->y;
-        position->z = 0;
-        position->y = childY3;
+    child_obj = func_8003FD64(0x136, parent_obj);
+    if (child_obj != NULL) {
+        child_obj->update = D_800B9F74;
+        func_8004491C(child_obj, D_80046398);
+        child_value = effect->value;
+        child_core = (Core *)((u8 *)child_obj + 0x20);
+        child_core->parent = effect;
+        child_core->value = child_value;
+        particle_prim = child_obj->primitive;
+        particle_prim->scaleX = 0x1000;
+        particle_prim->scaleY = 0x1000;
+        particle_prim->scaleZ = 0x1000;
+        particle_prim->angle = effect->angle;
+        particle_prim->red = D_80083160[0xA8];
+        particle_prim->green = D_80083160[0xA9];
+        particle_prim->blue = D_80083160[0xAA];
+        child_pos = child_obj->position;
+        ((S_800BA930_1 *)particle_prim)->unk_08 = 0x19;
+        child_pos->x = origin->x;
+        center_y = origin->y;
+        child_pos->z = 0;
+        child_pos->y = center_y;
     }
 }
-
-/* MECHANISM: Direct indexed globals expose callback/colors/entry in retail s6/s4/s3 order
-   while preserving the natural 0x30 frame and s0-s6 save set; angle-before-scale forms lhu;li.
-   Four sibling childY locals split simple v0 copies from in-place v1 offset additions. */

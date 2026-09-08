@@ -5,77 +5,74 @@ extern s16 func_800BCB04(u16, u16, s16);
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
 
-s32 func_8009A540(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
+/* Checks the sides of a diagonal direction for terrain above 0x200. */
+s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height)
 {
-    s32 local;
-    s32 i;
-    s32 first_row;
-    s32 second_row;
-    register s32 in_range ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 tile_flags;
+    s32 side_offset;
+    s32 center_x;
+    s32 center_y;
+    register s32 side_blocked ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 x;
     s32 y;
-    register u16 *first ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u16 *first_at;
-    u16 *second;
-    u32 index;
-    u32 first_value;
-    u32 second_value;
-    s32 third;
-    register s32 held_arg0 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 held_arg3 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u16 *x_offsets ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 *x_offset_ptr;
+    u16 *y_offsets;
+    u32 side_dir;
+    u32 x_offset;
+    u32 y_offset;
+    s32 probe_height;
+    register s32 saved_direction ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 saved_height ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u32 table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    held_arg0 = arg0;
-    held_arg3 = arg3;
-    arg0 &= 1;
-    if (arg0) {
-        ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        i = -1;
-        x = (s16)arg1;
-        first_row = (x << 6) + 0x20;
+    saved_direction = direction;
+    saved_height = height;
+    direction &= 1;
+    if (direction) {
+        ASM_KEEP(saved_direction);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(saved_height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        side_offset = -1;
+        x = (s16)tile_x;
+        center_x = (x << 6) + 0x20;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        page = 0x800E0000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        first = (u16 *)(page - 0x3154);
-        y = (s16)arg2;
-        second_row = (y << 6) + 0x20;
+        table_page = 0x800E0000;
+        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        x_offsets = (u16 *)(table_page - 0x3154);
+        y = (s16)tile_y;
+        center_y = (y << 6) + 0x20;
 loop:
-        if ((func_8009A350(x, y, (held_arg0 + i) & 7, &local) << 16) == 0) {
+        if ((func_8009A350(x, y, (saved_direction + side_offset) & 7, &tile_flags) << 16) == 0) {
             goto next;
         }
-        index = ((u16)held_arg0 + i) & 7;
-        first_at = (u16 *)((index << 1) + (u32)first);
-        third = (s16)held_arg3;
-        first_value = *first_at;
+        side_dir = ((u16)saved_direction + side_offset) & 7;
+        x_offset_ptr = (u16 *)((side_dir << 1) + (u32)x_offsets);
+        probe_height = (s16)saved_height;
+        x_offset = *x_offset_ptr;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        second = D_800DCEBC;
-        ASM_KEEP(second);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        second_value = second[index];
+        y_offsets = D_800DCEBC;
+        ASM_KEEP(y_offsets);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        y_offset = y_offsets[side_dir];
         if (func_800BCB04(
-                (first_value + first_row) & 0xFFFF,
-                (second_value + second_row) & 0xFFFF,
-                third) >= 0x201) {
-            in_range = i < 2;
+                (x_offset + center_x) & 0xFFFF,
+                (y_offset + center_y) & 0xFFFF,
+                probe_height) >= 0x201) {
+            side_blocked = side_offset < 2;
             goto decision;
         } else {
 next:
-            i += 2;
-            if (i < 2) {
+            side_offset += 2;
+            if (side_offset < 2) {
                 goto loop;
             }
-            ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            in_range = i < 2;
+            ASM_KEEP(side_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            side_blocked = side_offset < 2;
         }
 decision:
-        if (in_range) {
+        if (side_blocked) {
             return 0;
         }
     }
     return 1;
 }
 
-/* MECHANISM: True-name rowbase uses a 0x40 frame with one local and s0-s7/ra.
-   Raw arg0/arg3 holds plus signed row values reproduce the callee ABI lifetimes.
-   A rewritten v0 page builds s7; a byte-scaled v1 index orders both table loads.
-   Post-loop ASM_KEEP(i) preserves retail's redundant slti v1 instead of zero-folding. */

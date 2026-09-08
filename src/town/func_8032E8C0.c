@@ -39,21 +39,22 @@ extern u8 D_80016034[16];
 extern u8 D_8001605C[];
 extern void *func_80018F20(void **slots);
 
+/* Copies a four-byte entry, clears its flag bits, and appends it to the object list. */
 void func_800190C0(const Copy4 *input)
 {
-    u8 source_byte = input->bytes[0];
+    u8 first_byte = input->bytes[0];
     const Copy4 *source;
     TownArena *arena;
     void **slot;
     Copy4 *entry;
 
-    if (source_byte != 0)
+    if (first_byte != 0)
         source = input;
     else
-        source = (const Copy4 *)((const u8 *)input + source_byte);
+        source = (const Copy4 *)((const u8 *)input + first_byte);
     arena = (TownArena *)(unsigned long)
         (0x80010000U | (source->bytes[0] ^ source->bytes[0]));
-    if (source_byte != 0) {
+    if (first_byte != 0) {
         TownRoot *initial_root = arena->root;
         slot = initial_root->object_base->list.entries;
     } else {

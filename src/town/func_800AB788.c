@@ -52,97 +52,98 @@ extern void func_80066640(void *, s32);
 extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
-void func_800A8EE8(Func800AB788Arg *arg0)
+/* Queue two adjoining shaded quads whose vertices fall within the screen margin. */
+void func_800A8EE8(Func800AB788Arg *strip)
 {
     Func800AB788Poly *poly;
     u8 *tpage;
-    u8 *global = D_80083160;
+    u8 *render_state_ptr = D_80083160;
 
-    if ((((u16)(arg0->x0 + 0x20) < 0x181) &&
-         ((u16)(arg0->y0 + 0x20) < 0x121)) |
-        (((u16)(arg0->x1 + 0x20) < 0x181) &&
-         ((u16)(arg0->y1 + 0x20) < 0x121)) |
-        (((u16)(arg0->x2 + 0x20) < 0x181) &&
-         ((u16)(arg0->y2 + 0x20) < 0x121)) |
-        (((u16)(arg0->x3 + 0x20) < 0x181) &&
-         ((u16)(arg0->y3 + 0x20) < 0x121))) {
-        Func800AB788State *primState;
-        Func800AB788State *tpageState;
+    if ((((u16)(strip->x0 + 0x20) < 0x181) &&
+         ((u16)(strip->y0 + 0x20) < 0x121)) |
+        (((u16)(strip->x1 + 0x20) < 0x181) &&
+         ((u16)(strip->y1 + 0x20) < 0x121)) |
+        (((u16)(strip->x2 + 0x20) < 0x181) &&
+         ((u16)(strip->y2 + 0x20) < 0x121)) |
+        (((u16)(strip->x3 + 0x20) < 0x181) &&
+         ((u16)(strip->y3 + 0x20) < 0x121))) {
+        Func800AB788State *poly_state;
+        Func800AB788State *tpage_state;
 
-        primState = *(Func800AB788State * volatile *)global;
-        poly = (Func800AB788Poly *)primState->nextPrim;
-        primState->nextPrim = (u8 *)poly + sizeof(*poly);
+        poly_state = *(Func800AB788State * volatile *)render_state_ptr;
+        poly = (Func800AB788Poly *)poly_state->nextPrim;
+        poly_state->nextPrim = (u8 *)poly + sizeof(*poly);
 
         poly->color0 = 0x383838;
-        poly->color1 = arg0->color1;
+        poly->color1 = strip->color1;
         poly->color2 = 0x383838;
-        poly->color3 = arg0->color3;
+        poly->color3 = strip->color3;
         func_80066708(poly);
         func_80066640(poly, 1);
 
         poly->tag = (poly->tag & 0xFF000000) |
-                    (arg0->ot[arg0->otIndex] & 0x00FFFFFF);
-        arg0->ot[arg0->otIndex] =
-            (arg0->ot[arg0->otIndex] & 0xFF000000) |
+                    (strip->ot[strip->otIndex] & 0x00FFFFFF);
+        strip->ot[strip->otIndex] =
+            (strip->ot[strip->otIndex] & 0xFF000000) |
             ((u32)poly & 0x00FFFFFF);
 
-        poly->x0 = arg0->x0;
-        poly->y0 = arg0->y0;
-        poly->x1 = arg0->x1;
-        poly->y1 = arg0->y1;
-        poly->x2 = arg0->x2;
-        poly->y2 = arg0->y2;
-        poly->x3 = arg0->x3;
-        ((volatile Func800AB788Poly *)poly)->y3 = arg0->y3;
+        poly->x0 = strip->x0;
+        poly->y0 = strip->y0;
+        poly->x1 = strip->x1;
+        poly->y1 = strip->y1;
+        poly->x2 = strip->x2;
+        poly->y2 = strip->y2;
+        poly->x3 = strip->x3;
+        ((volatile Func800AB788Poly *)poly)->y3 = strip->y3;
 
-        tpageState = *(Func800AB788State * volatile *)global;
-        tpage = tpageState->nextPrim;
-        tpageState->nextPrim = tpage + 0xC;
+        tpage_state = *(Func800AB788State * volatile *)render_state_ptr;
+        tpage = tpage_state->nextPrim;
+        tpage_state->nextPrim = tpage + 0xC;
         func_80067F20(tpage, 1, 0, func_80066460(0, 1, 0x140, 0), 0);
-        func_8006658C(arg0->ot + arg0->otIndex, tpage);
+        func_8006658C(strip->ot + strip->otIndex, tpage);
     }
 
-    if ((((u16)(arg0->x1 + 0x20) < 0x181) &&
-         ((u16)(arg0->y1 + 0x20) < 0x121)) |
-        (((u16)(arg0->x4 + 0x20) < 0x181) &&
-         ((u16)(arg0->y4 + 0x20) < 0x121)) |
-        (((u16)(arg0->x3 + 0x20) < 0x181) &&
-         ((u16)(arg0->y3 + 0x20) < 0x121)) |
-        (((u16)(arg0->x5 + 0x20) < 0x181) &&
-         ((u16)(arg0->y5 + 0x20) < 0x121))) {
-        Func800AB788State *primState;
-        Func800AB788State *tpageState;
+    if ((((u16)(strip->x1 + 0x20) < 0x181) &&
+         ((u16)(strip->y1 + 0x20) < 0x121)) |
+        (((u16)(strip->x4 + 0x20) < 0x181) &&
+         ((u16)(strip->y4 + 0x20) < 0x121)) |
+        (((u16)(strip->x3 + 0x20) < 0x181) &&
+         ((u16)(strip->y3 + 0x20) < 0x121)) |
+        (((u16)(strip->x5 + 0x20) < 0x181) &&
+         ((u16)(strip->y5 + 0x20) < 0x121))) {
+        Func800AB788State *poly_state;
+        Func800AB788State *tpage_state;
 
-        primState = *(Func800AB788State * volatile *)global;
-        poly = (Func800AB788Poly *)primState->nextPrim;
-        primState->nextPrim = (u8 *)poly + sizeof(*poly);
+        poly_state = *(Func800AB788State * volatile *)render_state_ptr;
+        poly = (Func800AB788Poly *)poly_state->nextPrim;
+        poly_state->nextPrim = (u8 *)poly + sizeof(*poly);
 
-        poly->color0 = arg0->color1;
+        poly->color0 = strip->color1;
         poly->color1 = 0;
-        poly->color2 = arg0->color3;
+        poly->color2 = strip->color3;
         poly->color3 = 0;
         func_80066708(poly);
         func_80066640(poly, 1);
 
         poly->tag = (poly->tag & 0xFF000000) |
-                    (arg0->ot[arg0->otIndex] & 0x00FFFFFF);
-        arg0->ot[arg0->otIndex] =
-            (arg0->ot[arg0->otIndex] & 0xFF000000) |
+                    (strip->ot[strip->otIndex] & 0x00FFFFFF);
+        strip->ot[strip->otIndex] =
+            (strip->ot[strip->otIndex] & 0xFF000000) |
             ((u32)poly & 0x00FFFFFF);
 
-        poly->x0 = arg0->x1;
-        poly->y0 = arg0->y1;
-        poly->x1 = arg0->x4;
-        poly->y1 = arg0->y4;
-        poly->x2 = arg0->x3;
-        poly->y2 = arg0->y3;
-        poly->x3 = arg0->x5;
-        ((volatile Func800AB788Poly *)poly)->y3 = arg0->y5;
+        poly->x0 = strip->x1;
+        poly->y0 = strip->y1;
+        poly->x1 = strip->x4;
+        poly->y1 = strip->y4;
+        poly->x2 = strip->x3;
+        poly->y2 = strip->y3;
+        poly->x3 = strip->x5;
+        ((volatile Func800AB788Poly *)poly)->y3 = strip->y5;
 
-        tpageState = *(Func800AB788State * volatile *)global;
-        tpage = tpageState->nextPrim;
-        tpageState->nextPrim = tpage + 0xC;
+        tpage_state = *(Func800AB788State * volatile *)render_state_ptr;
+        tpage = tpage_state->nextPrim;
+        tpage_state->nextPrim = tpage + 0xC;
         func_80067F20(tpage, 1, 0, func_80066460(0, 1, 0x140, 0), 0);
-        func_8006658C(arg0->ot + arg0->otIndex, tpage);
+        func_8006658C(strip->ot + strip->otIndex, tpage);
     }
 }

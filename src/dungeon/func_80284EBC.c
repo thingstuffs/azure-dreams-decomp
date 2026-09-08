@@ -23,31 +23,32 @@ typedef struct {
 extern DungeonEntry D_800E2970[];
 extern DungeonState D_8008333C;
 
-s16 func_80017EBC(s16 arg0) {
+/* Counts cells in the selected dungeon entry with no flags in mask 0x8500. */
+s16 func_80017EBC(s16 entry_index) {
     s16 count = 0;
-    u8 *base = (u8 *)D_800E2970;
-    DungeonEntry *temp_v1 = (DungeonEntry *)(base + (arg0 * 20));
+    u8 *entry_base = (u8 *)D_800E2970;
+    DungeonEntry *region = (DungeonEntry *)(entry_base + (entry_index * 20));
     DungeonState *state = &D_8008333C;
-    s16 height = temp_v1->height;
-    u16 y = temp_v1->y;
-    s16 h_rem = height;
+    s16 height = region->height;
+    u16 y = region->y;
+    s16 rows_left = height;
 
     if (height > 0) {
-        DungeonEntry *entry = temp_v1;
+        DungeonEntry *entry = region;
 
-        while (h_rem > 0) {
+        while (rows_left > 0) {
             DungeonCell *cell = (DungeonCell *)((u8 *)state->cells + (((s16)y << state->shift) * 6) + (entry->x * 6));
-            s16 width = entry->width;
+            s16 cols_left = entry->width;
 
-            while (width > 0) {
+            while (cols_left > 0) {
                 if (!(cell->flags & 0x8500)) {
                     count++;
                 }
                 cell++;
-                width--;
+                cols_left--;
             }
             y++;
-            h_rem--;
+            rows_left--;
         }
     }
     return count;

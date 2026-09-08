@@ -37,23 +37,21 @@ extern void func_8005A3D4(void);
 extern int func_8005A3E0(void);
 extern int CdMix(CdlATV *vol);
 
-/* Sets the CD-audio mix level: full volume (0x4F) + status bit 0x20 when a0==1,
-   otherwise low volume (0x7F on L/R, 0 on the cross channels) + status bit 0x10,
-   then applies it via CdMix. */
-void func_80055B44(unsigned char a0) {
-    CdlATV vol;
+/* Applies the selected CD-audio mix and updates the corresponding status flags. */
+void func_80055B44(unsigned char mix_mode) {
+    CdlATV cd_volume;
 
-    if (a0 == 1) {
+    if (mix_mode == 1) {
         func_8005A3E0();
-        vol.val0 = vol.val2 = 0x4F;
-        vol.val1 = vol.val3 = 0x4F;
+        cd_volume.val0 = cd_volume.val2 = 0x4F;
+        cd_volume.val1 = cd_volume.val3 = 0x4F;
         D_800847D0.flags1 = (D_800847D0.flags1 & ~0x10) | 0x20;
     } else {
         func_8005A3D4();
-        vol.val0 = vol.val2 = 0x7F;
-        vol.val1 = vol.val3 = 0;
+        cd_volume.val0 = cd_volume.val2 = 0x7F;
+        cd_volume.val1 = cd_volume.val3 = 0;
         D_800847D0.flags1 = (D_800847D0.flags1 & ~0x20) | 0x10;
     }
 
-    CdMix(&vol);
+    CdMix(&cd_volume);
 }

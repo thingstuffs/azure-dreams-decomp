@@ -1,7 +1,5 @@
 #include "common.h"
 
-/* Runs some per-frame update, then installs func_80043E04 as the handler
-   for the current D_80081500-indexed slot of D_80083120 if not already set. */
 /* element type for the D_80083120 dispatch/state table, indexed by *8 (element size 8) */
 typedef struct S_80083120 {
     s16 field_0;
@@ -17,6 +15,7 @@ extern void func_80043EB8(void);
 extern void func_80043E04(void);
 extern void func_80040A88(int a0);
 
+/* Updates the current slot and installs func_80043E04 as its handler if inactive. */
 void func_80043DB8(void) {
     func_80043EB8();
     if (D_80083120[D_80081500].field_0 == 0) {

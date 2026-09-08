@@ -1,10 +1,5 @@
 #include "common.h"
 
-/* Advances an entity's position (unk14/unk18) by a signed velocity derived
- * from D_80083CA8's fields while its countdown timer is running, then
- * ticks the timer down and decays the accumulator toward 0. */
-#include "common.h"
-
 /* D_80083160: shared state table (own view). Only the flags halfword at
  * offset 0x4 is touched here (bit0/bit1 select add-vs-subtract direction
  * for the two axis offsets below). */
@@ -46,22 +41,23 @@ typedef struct {
     s32 unk18;
 } S_80041900_Obj;
 
-void func_80041900(S_80041900_Obj *arg0)
+/* Moves the entity while the timer runs, then ticks the timer and decays the motion accumulator. */
+void func_80041900(S_80041900_Obj *entity)
 {
-    S_80041900_D80083160 *p2 = &D_80083160;
-    S_80041900_D80083CA8 *p1 = &D_80083CA8;
+    S_80041900_D80083160 *direction_state = &D_80083160;
+    S_80041900_D80083CA8 *motion_state = &D_80083CA8;
 
-    if (p1->field8 != 0) {
-        if (p2->flags & 2) {
-            arg0->unk18 += (s16)p1->u.h.field6 >> 1;
+    if (motion_state->field8 != 0) {
+        if (direction_state->flags & 2) {
+            entity->unk18 += (s16)motion_state->u.h.field6 >> 1;
         } else {
-            arg0->unk18 -= (s16)p1->u.h.field6 >> 1;
+            entity->unk18 -= (s16)motion_state->u.h.field6 >> 1;
         }
 
-        if (p2->flags & 1) {
-            arg0->unk14 += (s16)D_80083CAE >> 2;
+        if (direction_state->flags & 1) {
+            entity->unk14 += (s16)D_80083CAE >> 2;
         } else {
-            arg0->unk14 -= (s16)D_80083CAE >> 2;
+            entity->unk14 -= (s16)D_80083CAE >> 2;
         }
 
         D_80083CA8.field8 -= 1;

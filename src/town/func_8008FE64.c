@@ -31,10 +31,11 @@ extern GlobalState D_80083160;
 extern s32 D_800FE480;
 extern s32 D_800FE484;
 
-s32 func_8008D5C4(s32 arg0, s32 arg1, s16 arg2) {
+/* Find the highest surface at the given position within 20 units above the height. */
+s32 func_8008D5C4(s32 world_x, s32 world_y, s16 height) {
     u32 x_sum;
-    u16 x_carrier = arg0;
-    s16 scan_y = arg1;
+    u16 scan_x = world_x;
+    s16 scan_y = world_y;
     ScratchArena *arena = (ScratchArena *)0x1F800000;
     Scratch *scratch = &arena->full;
     GlobalState *global = &D_80083160;
@@ -43,33 +44,33 @@ s32 func_8008D5C4(s32 arg0, s32 arg1, s16 arg2) {
     Vec8 *vertices;
     Vec8 *plane_base;
     u32 plane_index;
-    u32 selected_index;
+    u32 normal_index;
     u32 vertex_index;
-    s32 a;
-    s32 b;
-    s32 tile;
-    s32 tile2;
+    s32 biased_x;
+    s32 biased_y;
+    s32 tile_x;
+    s32 tile_index;
     s16 row_y;
     s16 col_x;
-    s16 edge;
-    s16 origin_x;
-    s32 value;
-    s32 dx = arg0 & 0x3F;
-    s32 dy = arg1 & 0x3F;
+    s16 normal_z;
+    s16 local_x;
+    s32 result;
+    s32 offset_x = world_x & 0x3F;
+    s32 offset_y = world_y & 0x3F;
 
     scratch->best = -0x7FFF;
     map = &global->map;
-    scratch->x = dx;
-    scratch->y = dy;
-    scratch->limit = arg2 + 0x14;
-    scratch->base_y = dy;
+    scratch->x = offset_x;
+    scratch->y = offset_y;
+    scratch->limit = height + 0x14;
+    scratch->base_y = offset_y;
     scratch->planes = map->planes;
-    scratch->base_x = dx;
+    scratch->base_x = offset_x;
     grid = global->map.grid;
     vertices = map->vertices;
     {
         s32 step_x = scratch->x;
-        if (step_x >= 0x20) { dx = 0; step_x = 0x40; }
+        if (step_x >= 0x20) { offset_x = 0; step_x = 0x40; }
         else step_x = -0x40;
         *(volatile s32 *)&scratch->step_x = step_x;
     }
@@ -80,7 +81,7 @@ s32 func_8008D5C4(s32 arg0, s32 arg1, s16 arg2) {
         *(volatile s32 *)&scratch->step_y = step_y;
     }
     *(volatile s32 *)&scratch->outer_count = 0;
-    scratch->orig_x = x_carrier;
+    scratch->orig_x = scan_x;
     scratch->orig_y = scan_y;
     scratch->outer_delta = 0;
 
@@ -97,26 +98,26 @@ scan_row:
         scratch->inner_delta = 0;
         scratch->y = (u16)scratch->base_y - (u16)scratch->outer_delta;
         while (scratch->inner_count < 2) {
-            s32 step;
+            s32 x_step;
             x_sum = (u16)scratch->orig_x + (u16)scratch->inner_delta;
-            step = scratch->step_x;
-            x_carrier = x_sum;
+            x_step = scratch->step_x;
+            scan_x = x_sum;
             col_x = x_sum;
-            if (step < 0) goto negative_x;
+            if (x_step < 0) goto negative_x;
             if (col_x >= D_800FE480) break;
             goto scan_cell;
 negative_x:
             col_x = x_sum;
             if (col_x < 0) break;
 scan_cell:
-            a = (s16)x_carrier;
-            if (a < 0) a += 0x3F;
-            tile = map->x_mask & (a >> 6);
-            scratch->tile = tile;
-            b = scan_y;
-            if (b < 0) b += 0x3F;
-            tile2 = tile + ((s16)(map->y_mask & (b >> 6)) << map->shift);
-            scratch->tile = tile2;
+            biased_x = (s16)scan_x;
+            if (biased_x < 0) biased_x += 0x3F;
+            tile_x = map->x_mask & (biased_x >> 6);
+            scratch->tile = tile_x;
+            biased_y = scan_y;
+            if (biased_y < 0) biased_y += 0x3F;
+            tile_index = tile_x + ((s16)(map->y_mask & (biased_y >> 6)) << map->shift);
+            scratch->tile = tile_index;
 
             if (grid[(s16)scratch->tile] != 0) {
                 CellRecord *cell;
@@ -127,51 +128,51 @@ scan_cell:
                 if (!(cell->flags & 0x40)) {
                     cell = (CellRecord *)((u8 *)cell - 0x0C);
                     do {
-                    if ((scratch->planes[cell->v8].z > 0) && !(cell->edge_flags & 1)) {
-                        scratch->quad.words[0] = vertices[cell->v4].xy;
-                        scratch->quad.vals[0] -= scratch->x;
-                        scratch->quad.vals[1] -= scratch->y;
-                        scratch->quad.words[1] = vertices[cell->v6].xy;
-                        scratch->quad.vals[2] -= scratch->x;
-                        scratch->quad.vals[3] -= scratch->y;
-                        scratch->quad.words[2] = vertices[cell->v2].xy;
-                        scratch->quad.vals[4] -= scratch->x;
-                        scratch->quad.vals[5] -= scratch->y;
-                        scratch->quad.words[3] = vertices[cell->v0].xy;
-                        scratch->quad.vals[6] -= scratch->x;
-                        scratch->quad.vals[7] -= scratch->y;
-                        value = func_8008CE08(scratch);
-                        if (value != 0) {
-                            s32 term_x;
-                            s32 term_y;
-                            s32 term_z;
-                            if ((value & 1) != 0)
-                                plane_index = cell->v8;
-                            else
-                                plane_index = cell->v8 + ((value & 1) != 0);
-                            plane_base = scratch->planes;
-                            vertex_index = cell->v0;
-                            origin_x = scratch->x;
-                            if (plane_base != 0)
-                                selected_index = plane_index;
-                            else
-                                selected_index = plane_index + (plane_base != 0);
-                            edge = plane_base[selected_index].z;
-                            term_x = (s16)plane_base[selected_index].xy *
-                                     ((s16)vertices[vertex_index].xy - origin_x);
-                            term_y = (s16)(plane_base[selected_index].xy >> 16) *
-                                     ((s16)(vertices[vertex_index].xy >> 16) -
-                                      (s16)scratch->y);
-                            term_z = edge * vertices[vertex_index].z;
-                            value = term_x + term_y + term_z;
-                            scratch->value = value / edge;
-                            if (scratch->limit >= scratch->value &&
-                                scratch->best < scratch->value)
-                                scratch->best = scratch->value;
+                        if ((scratch->planes[cell->v8].z > 0) && !(cell->edge_flags & 1)) {
+                            scratch->quad.words[0] = vertices[cell->v4].xy;
+                            scratch->quad.vals[0] -= scratch->x;
+                            scratch->quad.vals[1] -= scratch->y;
+                            scratch->quad.words[1] = vertices[cell->v6].xy;
+                            scratch->quad.vals[2] -= scratch->x;
+                            scratch->quad.vals[3] -= scratch->y;
+                            scratch->quad.words[2] = vertices[cell->v2].xy;
+                            scratch->quad.vals[4] -= scratch->x;
+                            scratch->quad.vals[5] -= scratch->y;
+                            scratch->quad.words[3] = vertices[cell->v0].xy;
+                            scratch->quad.vals[6] -= scratch->x;
+                            scratch->quad.vals[7] -= scratch->y;
+                            result = func_8008CE08(scratch);
+                            if (result != 0) {
+                                s32 term_x;
+                                s32 term_y;
+                                s32 term_z;
+                                if ((result & 1) != 0)
+                                    plane_index = cell->v8;
+                                else
+                                    plane_index = cell->v8 + ((result & 1) != 0);
+                                plane_base = scratch->planes;
+                                vertex_index = cell->v0;
+                                local_x = scratch->x;
+                                if (plane_base != 0)
+                                    normal_index = plane_index;
+                                else
+                                    normal_index = plane_index + (plane_base != 0);
+                                normal_z = plane_base[normal_index].z;
+                                term_x = (s16)plane_base[normal_index].xy *
+                                         ((s16)vertices[vertex_index].xy - local_x);
+                                term_y = (s16)(plane_base[normal_index].xy >> 16) *
+                                         ((s16)(vertices[vertex_index].xy >> 16) -
+                                          (s16)scratch->y);
+                                term_z = normal_z * vertices[vertex_index].z;
+                                result = term_x + term_y + term_z;
+                                scratch->value = result / normal_z;
+                                if (scratch->limit >= scratch->value &&
+                                    scratch->best < scratch->value)
+                                    scratch->best = scratch->value;
+                            }
                         }
-                    }
-                    if ((s8)cell->edge_flags < 0) break;
-                    cell = (CellRecord *)((u8 *)cell - 0x0C);
+                        if ((s8)cell->edge_flags < 0) break;
+                        cell = (CellRecord *)((u8 *)cell - 0x0C);
                     } while (1);
                 }
             }

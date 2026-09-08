@@ -10,14 +10,15 @@ extern u8 D_8007382B;
 extern s32 D_80073830[9];
 extern void func_80059DAC(void);
 
+/* Register or resize a memory block at the requested address. */
 s32 func_80059F8C(u32 addr, s32 size)
 {
-    S_800869C0 *e;
-    S_800869C0 *q;
-    s32 i;
-    s32 j;
-    u32 cur;
-    u32 nxt;
+    S_800869C0 *block;
+    S_800869C0 *next_block;
+    s32 slot;
+    s32 next_slot;
+    u32 block_addr;
+    u32 next_addr;
 
     if ((u32)(addr - 0x1010) > 0x7EFEF) {
         return -1;
@@ -25,98 +26,98 @@ s32 func_80059F8C(u32 addr, s32 size)
     if (addr + size > 0x7FFFF) {
         return -1;
     }
-    e = D_800869C0;
+    block = D_800869C0;
     if (D_800869C0[0].addr != 0) {
         goto scan;
     }
     if (addr + size < (u32)(0x80000 - D_80073830[D_8007382B])) {
         D_800869C0[0].addr = addr;
-        e->size = size;
-        goto sort_ret;
+        block->size = size;
+        goto sort_return;
     }
     return -1;
 
-exact:
-    e->addr = addr;
-    e->size = size;
+update_block:
+    block->addr = addr;
+    block->size = size;
     return addr;
 
-ins_q:
-    q->addr = addr;
-    q->size = size;
-    goto sort_ret;
+append_block:
+    next_block->addr = addr;
+    next_block->size = size;
+    goto sort_return;
 
 scan:
-    i = 0;
+    slot = 0;
     do {
-        if (i != 0) {
-            goto chk;
+        if (slot != 0) {
+            goto check_start;
         }
-        nxt = D_800869C0[0].addr;
-        if (addr < nxt) {
-            if (nxt < size + addr) {
+        next_addr = D_800869C0[0].addr;
+        if (addr < next_addr) {
+            if (next_addr < size + addr) {
                 return -1;
             }
-            for (; i < 16; i++) {
-                if (D_800869C0[i].size == 0) {
-                    goto foundA;
+            for (; slot < 16; slot++) {
+                if (D_800869C0[slot].size == 0) {
+                    goto insert_first;
                 }
             }
-            goto done;
-foundA:
-            D_800869C0[i].addr = addr;
-            D_800869C0[i].size = size;
-            goto done;
+            goto check_slot;
+insert_first:
+            D_800869C0[slot].addr = addr;
+            D_800869C0[slot].size = size;
+            goto check_slot;
         }
-        goto mid;
-chk:
-        if (addr < e->addr) {
-            goto next;
+        goto check_gap;
+check_start:
+        if (addr < block->addr) {
+            goto advance;
         }
-mid:
-        cur = e->addr;
-        if (cur == addr) {
-            goto exact;
+check_gap:
+        block_addr = block->addr;
+        if (block_addr == addr) {
+            goto update_block;
         }
-        j = i + 1;
-        q = &D_800869C0[j];
-        if (q->size == 0) {
+        next_slot = slot + 1;
+        next_block = &D_800869C0[next_slot];
+        if (next_block->size == 0) {
             if (size + addr < (u32)(0x80000 - D_80073830[D_8007382B])) {
-                goto ins_q;
+                goto append_block;
             }
             return -1;
         }
-        if (cur >= addr) {
-            goto next;
+        if (block_addr >= addr) {
+            goto advance;
         }
-        nxt = q->addr;
-        if (addr >= nxt) {
-            goto next;
+        next_addr = next_block->addr;
+        if (addr >= next_addr) {
+            goto advance;
         }
-        if (addr < cur + e->size) {
+        if (addr < block_addr + block->size) {
             return -1;
         }
-        if ((s32)nxt < (s32)(addr + size)) {
+        if ((s32)next_addr < (s32)(addr + size)) {
             return -1;
         }
-        for (; i < 16; i++) {
-            if (D_800869C0[i].size == 0) {
-                D_800869C0[i].addr = addr;
-                D_800869C0[i].size = size;
+        for (; slot < 16; slot++) {
+            if (D_800869C0[slot].size == 0) {
+                D_800869C0[slot].addr = addr;
+                D_800869C0[slot].size = size;
                 break;
             }
         }
-done:
-        if (i != 16) {
-            goto sort_ret;
+check_slot:
+        if (slot != 16) {
+            goto sort_return;
         }
         return -1;
-next:
-        i++;
-        e++;
-    } while (i < 16);
+advance:
+        slot++;
+        block++;
+    } while (slot < 16);
 
-sort_ret:
+sort_return:
     func_80059DAC();
     return addr;
 }

@@ -25,21 +25,22 @@ typedef struct S_80025170_1 {
     s16 unk_1E;
 } S_80025170_1;   /* temp_s0 in func_80025170 */
 
-void *func_80025170(s32 arg0) {
-    S_80025170_1 *temp_s0;
-    S_80025170_0 *temp_v0;
+/* Allocates an object and initializes its sprite and user data. */
+void *func_80025170(s32 user_data) {
+    S_80025170_1 *sprite;
+    S_80025170_0 *object;
 
-    temp_v0 = func_8003FC64(0x12);
-    if (temp_v0 != NULL) {
-        temp_s0 = temp_v0->unk_0C;
-        temp_v0->unk_10 = &D_80025014;
-        func_8003DB94(temp_s0, &D_80079444, 0);
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        temp_s0->unk_0C = 0x2C808080;
-        temp_s0->unk_10 = 0x20;
-        temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-        temp_v0->unk_20 = arg0;
+    object = func_8003FC64(0x12);
+    if (object != NULL) {
+        sprite = object->unk_0C;
+        object->unk_10 = &D_80025014;
+        func_8003DB94(sprite, &D_80079444, 0);
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_0C = 0x2C808080;
+        sprite->unk_10 = 0x20;
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        object->unk_20 = user_data;
     }
-    return temp_v0;
+    return object;
 }

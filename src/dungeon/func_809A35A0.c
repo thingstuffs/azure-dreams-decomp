@@ -63,46 +63,47 @@ extern void *func_8003FD64();
 extern u8 D_80174AD4[9];
 extern u8 D_80175F90[9];
 
-void func_80174DA0(Rec_D_800E3D7C *arg0, s32 arg1, u8 *arg2)
+/* Creates an effect at the parent position and initializes its display and state. */
+void func_80174DA0(Rec_D_800E3D7C *parent, s32 effect_param, u8 *effect_data)
 {
-    void *obj;
-    S_80174DA0_2 *dst;
-    S_80174DA0_3 *aux;
-    S_80174DA0_4 *tail;
-    void *p8;
-    u16 value;
+    void *effect;
+    S_80174DA0_2 *position;
+    S_80174DA0_3 *display;
+    S_80174DA0_4 *state;
+    void *parent_position;
+    u16 coordinate;
 
-    obj = func_8003FD64(0x12, arg0);
-    if (obj != 0) {
-        ((S_80174DA0_0 *)obj)->unk_10 = D_80174AD4;
-        dst = ((S_80174DA0_0 *)obj)->unk_08;
+    effect = func_8003FD64(0x12, parent);
+    if (effect != 0) {
+        ((S_80174DA0_0 *)effect)->unk_10 = D_80174AD4;
+        position = ((S_80174DA0_0 *)effect)->unk_08;
 
-        value = ((S_80174DA0_5 *)(arg0->unk_08.at00_pv.v))->unk_02;
-        dst->unk_0E = value;
-        dst->unk_02 = value;
+        coordinate = ((S_80174DA0_5 *)(parent->unk_08.at00_pv.v))->unk_02;
+        position->unk_0E = coordinate;
+        position->unk_02 = coordinate;
 
-        value = ((S_80174DA0_5 *)(arg0->unk_08.at00_pv.v))->unk_06;
-        dst->unk_12 = value;
-        dst->unk_06 = value;
+        coordinate = ((S_80174DA0_5 *)(parent->unk_08.at00_pv.v))->unk_06;
+        position->unk_12 = coordinate;
+        position->unk_06 = coordinate;
 
-        value = ((S_80174DA0_5 *)(arg0->unk_08.at00_pv.v))->unk_0A;
-        dst->unk_16 = value;
-        dst->unk_0A = value;
+        coordinate = ((S_80174DA0_5 *)(parent->unk_08.at00_pv.v))->unk_0A;
+        position->unk_16 = coordinate;
+        position->unk_0A = coordinate;
 
-        aux = ((S_80174DA0_0 *)obj)->unk_0C;
-        aux->unk_08 = D_80175F90;
-        aux->unk_1E = 0x1000;
-        aux->unk_1C = 0x1000;
-        aux->unk_0C = 0;
-        aux->unk_06 = 8;
+        display = ((S_80174DA0_0 *)effect)->unk_0C;
+        display->unk_08 = D_80175F90;
+        display->unk_1E = 0x1000;
+        display->unk_1C = 0x1000;
+        display->unk_0C = 0;
+        display->unk_06 = 8;
 
-        p8 = arg0->unk_08.at00_pv.v;
-        tail = (u8 *)obj + 0x20;
-        tail->unk_0C = arg1;
-        tail->unk_10 = arg2;
-        tail->unk_1C = p8;
-        tail->unk_16 = *arg2;
-        ((S_80174DA0_0 *)obj)->unk_20 = 0x40;
-        tail->unk_04 = 0;
+        parent_position = parent->unk_08.at00_pv.v;
+        state = (u8 *)effect + 0x20;
+        state->unk_0C = effect_param;
+        state->unk_10 = effect_data;
+        state->unk_1C = parent_position;
+        state->unk_16 = *effect_data;
+        ((S_80174DA0_0 *)effect)->unk_20 = 0x40;
+        state->unk_04 = 0;
     }
 }

@@ -21,6 +21,7 @@ typedef struct {
 
 extern TownState *D_80016000;
 
+/* Invoke the town callback with 1 and advance both position coordinates by 0x40. */
 void func_800171CC(void)
 {
     D_80016000->callbacks->callback(1);

@@ -14,16 +14,17 @@ typedef struct {
 
 extern EntryS80083E98 D_80083E98[];
 
-void func_80023E14(s32 *arg0) {
-    func_80023BE4((u8 *)arg0 + 0x134, 0x80, 0x18);
-    func_80023BE4((u8 *)arg0 + 0x1AC, 0x2A, 0x14);
-    if (D_80083E98[*arg0].unk0 != 0) {
-        func_80023C44(arg0);
-        if (D_80083E98[*arg0].unk8 != 0) {
-            func_80023D64(arg0);
+/* Processes two buffers and selects handlers using the state's indexed entry. */
+void func_80023E14(s32 *state) {
+    func_80023BE4((u8 *)state + 0x134, 0x80, 0x18);
+    func_80023BE4((u8 *)state + 0x1AC, 0x2A, 0x14);
+    if (D_80083E98[*state].unk0 != 0) {
+        func_80023C44(state);
+        if (D_80083E98[*state].unk8 != 0) {
+            func_80023D64(state);
             return;
         }
     } else {
-        func_80023B18(arg0);
+        func_80023B18(state);
     }
 }

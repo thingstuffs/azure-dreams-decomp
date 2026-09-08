@@ -35,16 +35,17 @@ typedef struct S_80026CF0_0 {
     void * unk_6C;
 } S_80026CF0_0;   /* arg0 in func_80026CF0 */
 
-void func_80026CF0(void *arg0) {
-    S_80026CF0_1 *temp_a2;
-    S_80026CF0_2 *temp_a2_2;
+/* Position and initialize the left and right items. */
+void func_80026CF0(void *state) {
+    S_80026CF0_1 *left_item;
+    S_80026CF0_2 *right_item;
 
-    temp_a2 = ((S_80026CF0_0 *)arg0)->unk_68;
-    ((S_80026CF0_3 *)(temp_a2->unk_04))->unk_08 = 0x40;
-    ((S_80026CF0_3 *)(temp_a2->unk_04))->unk_0A = 0x20;
-    func_8004CBFC(arg0 + 4, &D_80027E68, temp_a2);
-    temp_a2_2 = ((S_80026CF0_0 *)arg0)->unk_6C;
-    ((S_80026CF0_4 *)(temp_a2_2->unk_04))->unk_08 = 0xC0;
-    ((S_80026CF0_4 *)(temp_a2_2->unk_04))->unk_0A = 0x20;
-    func_8004CBFC(arg0 + 0x10, &D_80027E68, temp_a2_2);
+    left_item = ((S_80026CF0_0 *)state)->unk_68;
+    ((S_80026CF0_3 *)(left_item->unk_04))->unk_08 = 0x40;
+    ((S_80026CF0_3 *)(left_item->unk_04))->unk_0A = 0x20;
+    func_8004CBFC(state + 4, &D_80027E68, left_item);
+    right_item = ((S_80026CF0_0 *)state)->unk_6C;
+    ((S_80026CF0_4 *)(right_item->unk_04))->unk_08 = 0xC0;
+    ((S_80026CF0_4 *)(right_item->unk_04))->unk_0A = 0x20;
+    func_8004CBFC(state + 0x10, &D_80027E68, right_item);
 }

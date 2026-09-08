@@ -69,71 +69,72 @@ extern u8 D_800D4158;
 extern u8 D_800D4494;
 extern u8 D_800DEEC0;
 
-void *func_800D3F74(s16 arg0, u8 arg1, u8 arg2, s16 arg3)
+/* Creates an object at the given tile and height, initializing its sprite and tile flags. */
+void *func_800D3F74(s16 variant, u8 tile_x, u8 tile_y, s16 spawn_height)
 {
-    s8 *part0;
-    s8 *result = NULL;
+    s8 *position;
+    s8 *entity = NULL;
     s8 *object;
-    register u8 held_arg2 ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u8 held_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s8 *part1;
-    s16 height;
-    s32 mode;
-    u8 x;
-    u8 y;
+    register u8 saved_tile_y ASM_REG("$20") = tile_y;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u8 saved_tile_x ASM_REG("$21") = tile_x;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 *sprite;
+    s16 ground_height;
+    s32 tile_flags;
+    u8 sprite_tile_x;
+    u8 sprite_tile_y;
 
     object = func_8003FD64(0x112, &D_80083498);
     if (object != NULL) {
-        result = object + 0x20;
-        ((S_800D3F74_0 *)result)->unk_13 = 0x34;
-        if (arg0 == 1) {
-            ((S_800D3F74_0 *)result)->unk_14 |= 0x2000;
-            ((S_800D3F74_0 *)result)->unk_1C |= 0x2000;
+        entity = object + 0x20;
+        ((S_800D3F74_0 *)entity)->unk_13 = 0x34;
+        if (variant == 1) {
+            ((S_800D3F74_0 *)entity)->unk_14 |= 0x2000;
+            ((S_800D3F74_0 *)entity)->unk_1C |= 0x2000;
         }
         func_8004491C(object, &D_80045340);
-        part0 = ((S_800D3F74_1 *)object)->unk_08;
-        ((S_800D3F74_2 *)part0)->unk_0A = arg3;
-        part1 = ((S_800D3F74_1 *)object)->unk_0C;
-        ((S_800D3F74_3 *)part1)->unk_0C.at02.v = 0x80;
-        ((S_800D3F74_3 *)part1)->unk_0C.at01.v = 0x80;
-        ((S_800D3F74_3 *)part1)->unk_0C.at00.v = 0x80;
-        ((S_800D3F74_3 *)part1)->unk_1E = 0x1000;
-        ((S_800D3F74_3 *)part1)->unk_1C = 0x1000;
-        ((S_800D3F74_3 *)part1)->unk_24 = held_arg1;
-        ((S_800D3F74_3 *)part1)->unk_25 = held_arg2;
-        ((S_800D3F74_3 *)part1)->unk_12 = 0x7E40;
-        ((S_800D3F74_3 *)part1)->unk_14 |= 0x100;
-        func_8003DB94(part1, &D_800DEEC0, 0);
+        position = ((S_800D3F74_1 *)object)->unk_08;
+        ((S_800D3F74_2 *)position)->unk_0A = spawn_height;
+        sprite = ((S_800D3F74_1 *)object)->unk_0C;
+        ((S_800D3F74_3 *)sprite)->unk_0C.at02.v = 0x80;
+        ((S_800D3F74_3 *)sprite)->unk_0C.at01.v = 0x80;
+        ((S_800D3F74_3 *)sprite)->unk_0C.at00.v = 0x80;
+        ((S_800D3F74_3 *)sprite)->unk_1E = 0x1000;
+        ((S_800D3F74_3 *)sprite)->unk_1C = 0x1000;
+        ((S_800D3F74_3 *)sprite)->unk_24 = saved_tile_x;
+        ((S_800D3F74_3 *)sprite)->unk_25 = saved_tile_y;
+        ((S_800D3F74_3 *)sprite)->unk_12 = 0x7E40;
+        ((S_800D3F74_3 *)sprite)->unk_14 |= 0x100;
+        func_8003DB94(sprite, &D_800DEEC0, 0);
         ((S_800D3F74_1 *)object)->unk_10 = &D_800D4158;
-        ((S_800D3F74_0 *)result)->unk_8C = &D_800D4494;
-        ((S_800D3F74_3 *)part1)->unk_26 =
-            func_8009FB34(((S_800D3F74_3 *)part1)->unk_24, ((S_800D3F74_3 *)part1)->unk_25);
-        func_800A2B04(part0, ((S_800D3F74_3 *)part1)->unk_24,
-                     ((S_800D3F74_3 *)part1)->unk_25);
-        height = func_800BCB04(((S_800D3F74_2 *)part0)->unk_02,
-                               ((S_800D3F74_2 *)part0)->unk_06,
-                               ((S_800D3F74_2 *)part0)->unk_0A);
-        ((S_800D3F74_0 *)result)->unk_88 = height;
-        ((S_800D3F74_0 *)result)->unk_90.at00.v = 0;
-        ((S_800D3F74_0 *)result)->unk_90.at02.v = arg3 - height;
-        ((S_800D3F74_3 *)part1)->unk_0C.at00u.v = 0x2C808080;
-        ((S_800D3F74_3 *)part1)->unk_14 |= 0x8000;
+        ((S_800D3F74_0 *)entity)->unk_8C = &D_800D4494;
+        ((S_800D3F74_3 *)sprite)->unk_26 =
+            func_8009FB34(((S_800D3F74_3 *)sprite)->unk_24, ((S_800D3F74_3 *)sprite)->unk_25);
+        func_800A2B04(position, ((S_800D3F74_3 *)sprite)->unk_24,
+                     ((S_800D3F74_3 *)sprite)->unk_25);
+        ground_height = func_800BCB04(((S_800D3F74_2 *)position)->unk_02,
+                               ((S_800D3F74_2 *)position)->unk_06,
+                               ((S_800D3F74_2 *)position)->unk_0A);
+        ((S_800D3F74_0 *)entity)->unk_88 = ground_height;
+        ((S_800D3F74_0 *)entity)->unk_90.at00.v = 0;
+        ((S_800D3F74_0 *)entity)->unk_90.at02.v = spawn_height - ground_height;
+        ((S_800D3F74_3 *)sprite)->unk_0C.at00u.v = 0x2C808080;
+        ((S_800D3F74_3 *)sprite)->unk_14 |= 0x8000;
         func_80099FDC(object);
-        x = ((S_800D3F74_3 *)part1)->unk_24;
-        y = ((S_800D3F74_3 *)part1)->unk_25;
-        mode = 0x3000;
-        if (((S_800D3F74_0 *)result)->unk_1C & 0x2000) {
-            mode = 0x300;
+        sprite_tile_x = ((S_800D3F74_3 *)sprite)->unk_24;
+        sprite_tile_y = ((S_800D3F74_3 *)sprite)->unk_25;
+        tile_flags = 0x3000;
+        if (((S_800D3F74_0 *)entity)->unk_1C & 0x2000) {
+            tile_flags = 0x300;
         }
-        func_8009A21C(x, y, mode);
-        ((S_800D3F74_0 *)result)->unk_9A = 0xE;
-        ((S_800D3F74_0 *)result)->unk_9C = -1;
-        ((S_800D3F74_0 *)result)->unk_1C |= 0x40000200;
+        func_8009A21C(sprite_tile_x, sprite_tile_y, tile_flags);
+        ((S_800D3F74_0 *)entity)->unk_9A = 0xE;
+        ((S_800D3F74_0 *)entity)->unk_9C = -1;
+        ((S_800D3F74_0 *)entity)->unk_1C |= 0x40000200;
     }
-    return result;
+    return entity;
 }
 
 /* MECHANISM: The true-space function uses a 0x30 frame and fixed s1-s5 object/part/argument roles;
-   arg0 and arg3 remain naturally allocated so their temporary computations stay in v0.
-   Naming x/y before the mode test hoists both lbu operations and removes the one-word load-delay nop;
+   variant and spawn_height remain naturally allocated so their temporary computations stay in v0.
+   Naming sprite_tile_x/sprite_tile_y before the tile_flags test hoists both lbu operations and removes the one-word load-delay nop;
    the retail store-slot lineage requires 2.7.2-cdk-G0. */

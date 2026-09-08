@@ -50,63 +50,64 @@ extern s32 SetSprt(S_80053858_prim *);
 extern void SetSemiTrans(S_80053858_prim *, s32);
 extern s32 GetTPage(s32, s16, s32, s32);
 extern void SetDrawMode(S_80053858_prim *, s32, s32, s32, s32);
-s32 func_80053858(S_80053858_rec *arg0)
+/* Builds character sprites and draw modes for a linked list of text records. */
+s32 func_80053858(S_80053858_rec *first_text)
 {
-  S_80053858_rec *cur = arg0;
-  S_80083160_t *base = &D_80083160;
-  S_80053858_rec *r;
-  int new_var2;
-  register S_80053858_rec *next ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-  int new_var = 0xFFFFFF;
+  S_80053858_rec *text_record = first_text;
+  S_80083160_t *render_state = &D_80083160;
+  S_80053858_rec *text;
+  int texture_page;
+  register S_80053858_rec *next_node ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+  int link_mask = 0xFFFFFF;
   do
   {
-    s32 i = 0;
-    register s32 acc ASM_REG("$20");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    r = cur;
-    acc = r->unk14;
-    if (r->unk4[0] != 0)
+    s32 char_index = 0;
+    register s32 cursor_x ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    text = text_record;
+    cursor_x = text->unk14;
+    if (text->unk4[0] != 0)
     {
       do
       {
-        u8 buf[4];
-        S_80053858_prim *p;
-        func_8004E21C(buf, r->unk4[i]);
-        p = (S_80053858_prim *) base->unk0->unk8D0;
-        base->unk0->unk8D0 = ((u8 *) p) + 0x14;
-        p->unk8 = acc;
-        p->unkA = r->unk16;
-        p->unkE = r->unk1A;
-        p->unk4 = r->unk10;
-        p->unkC = buf[0];
-        p->unkD = buf[1];
-        p->unk10 = buf[2];
-        p->unk12 = buf[3];
-        acc = acc + buf[2];
-        SetSprt(p);
-        if (r->unk1C & 1)
+        u8 glyph_rect[4];
+        S_80053858_prim *sprite;
+        func_8004E21C(glyph_rect, text->unk4[char_index]);
+        sprite = (S_80053858_prim *) render_state->unk0->unk8D0;
+        render_state->unk0->unk8D0 = ((u8 *) sprite) + 0x14;
+        sprite->unk8 = cursor_x;
+        sprite->unkA = text->unk16;
+        sprite->unkE = text->unk1A;
+        sprite->unk4 = text->unk10;
+        sprite->unkC = glyph_rect[0];
+        sprite->unkD = glyph_rect[1];
+        sprite->unk10 = glyph_rect[2];
+        sprite->unk12 = glyph_rect[3];
+        cursor_x = cursor_x + glyph_rect[2];
+        SetSprt(sprite);
+        if (text->unk1C & 1)
         {
-          SetSemiTrans(p, 1);
+          SetSemiTrans(sprite, 1);
         }
-        if (!(r->unk1C & 2))
+        if (!(text->unk1C & 2))
         {
-          p->tag = (p->tag & 0xFF000000) | (base->unk0->unk70 & new_var);
-          base->unk0->unk70 = (base->unk0->unk70 & 0xFF000000) | (((u32) p) & new_var);
+          sprite->tag = (sprite->tag & 0xFF000000) | (render_state->unk0->unk70 & link_mask);
+          render_state->unk0->unk70 = (render_state->unk0->unk70 & 0xFF000000) | (((u32) sprite) & link_mask);
         }
-        i++;
+        char_index++;
       }
-      while (r->unk4[i] != 0);
+      while (text->unk4[char_index] != 0);
     }
     {
-      S_80053858_prim *p2 = (S_80053858_prim *) base->unk0->unk8D0;
-      base->unk0->unk8D0 = ((u8 *) p2) + 0xC;
-      SetDrawMode(p2, 0, 0, new_var2 = GetTPage(0, r->unk18, 0x3C0, 0) & 0xFFFF, 0);
-      p2->tag = (p2->tag & 0xFF000000) | (base->unk0->unk70 & new_var);
-      base->unk0->unk70 = (base->unk0->unk70 & 0xFF000000) | (((u32) p2) & new_var);
+      S_80053858_prim *draw_mode = (S_80053858_prim *) render_state->unk0->unk8D0;
+      render_state->unk0->unk8D0 = ((u8 *) draw_mode) + 0xC;
+      SetDrawMode(draw_mode, 0, 0, texture_page = GetTPage(0, text->unk18, 0x3C0, 0) & 0xFFFF, 0);
+      draw_mode->tag = (draw_mode->tag & 0xFF000000) | (render_state->unk0->unk70 & link_mask);
+      render_state->unk0->unk70 = (render_state->unk0->unk70 & 0xFF000000) | (((u32) draw_mode) & link_mask);
     }
-    next = *((S_80053858_rec **) (((char *) cur) - 8));
-    cur = (S_80053858_rec *) (((char *) next) + 0x20);
+    next_node = *((S_80053858_rec **) (((char *) text_record) - 8));
+    text_record = (S_80053858_rec *) (((char *) next_node) + 0x20);
   }
-  while (next != 0);
-  ASM_KEEP(next);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+  while (next_node != 0);
+  ASM_KEEP(next_node);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
  do { return 0; } while (0);
 }

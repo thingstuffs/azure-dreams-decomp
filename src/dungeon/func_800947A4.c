@@ -13,16 +13,17 @@ typedef struct S_80099F04_1 {
     s32 unk_5C;
 } S_80099F04_1;   /* var_s0 in func_80099F04 */
 
-void func_80099F04(s32 arg0) {
-    S_80099F04_1 *var_s0;
+/* Walk the linked entries and process those without flag 0x4000. */
+void func_80099F04(s32 firstEntryBase) {
+    S_80099F04_1 *entry;
 
-    var_s0 = arg0 + 0x20;
-    if (var_s0 != ((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_s32) {
+    entry = firstEntryBase + 0x20;
+    if (entry != ((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_s32) {
         do {
-            if (!(var_s0->unk_14 & 0x4000)) {
-                func_80099EA4(var_s0);
+            if (!(entry->unk_14 & 0x4000)) {
+                func_80099EA4(entry);
             }
-            var_s0 = var_s0->unk_5C + 0x20;
-        } while (var_s0 != ((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_s32);
+            entry = entry->unk_5C + 0x20;
+        } while (entry != ((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_s32);
     }
 }

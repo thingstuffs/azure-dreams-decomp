@@ -19,12 +19,13 @@ extern Rec_D_80016000 *D_80016000;
 extern M2C_UNK D_8002116C;
 
 
+/* Initializes resources and assigns their data pointer when lookup succeeds. */
 void func_80016DBC(void) {
-    s32 temp_v0;
+    s32 resource_id;
 
-    temp_v0 = func_800198A4(0xD, 6);
-    if (temp_v0 != -1) {
-        func_80018F8C(temp_v0);
+    resource_id = func_800198A4(0xD, 6);
+    if (resource_id != -1) {
+        func_80018F8C(resource_id);
         func_8001A554(0x92C);
         func_8001A554(0x92D);
         func_8001A554(0x92E);

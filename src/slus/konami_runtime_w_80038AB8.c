@@ -26,19 +26,20 @@ extern s32 func_80039AE8(void *);
 extern s32 func_8003ADB4(s32);
 extern ActionFunc D_8006AA90[];
 
-s32 func_80038AB8(RuntimeContext *arg0, u8 *arg1, s32 arg2, s32 arg3)
+/* Dispatch script opcodes, advance active text, and report whether processing can continue. */
+s32 func_80038AB8(RuntimeContext *context, u8 *owner, s32 update_arg2, s32 update_arg3)
 {
     s8 *cursor;
     u8 opcode;
-    ActionFunc *table;
-    ActionFunc sentinel;
+    ActionFunc *opcode_handlers;
+    ActionFunc dispatch_action;
 
-    if (*arg0->cursor <= 0) {
-        if (arg0->active != 0) {
-            func_80038CB8(arg0, (s32)arg1, arg2, arg3);
-            if ((arg0->state != 2) ||
-                (func_80038C40(*arg0->cursor) == 0)) {
-                arg0->state = 0;
+    if (*context->cursor <= 0) {
+        if (context->active != 0) {
+            func_80038CB8(context, (s32)owner, update_arg2, update_arg3);
+            if ((context->state != 2) ||
+                (func_80038C40(*context->cursor) == 0)) {
+                context->state = 0;
                 goto return_zero;
             }
             return 1;
@@ -46,39 +47,39 @@ s32 func_80038AB8(RuntimeContext *arg0, u8 *arg1, s32 arg2, s32 arg3)
         goto fallback;
     }
 
-    table = D_8006AA90;
-    sentinel = func_80038A10;
+    opcode_handlers = D_8006AA90;
+    dispatch_action = func_80038A10;
 
 dispatch:
-    cursor = arg0->cursor;
+    cursor = context->cursor;
     opcode = (u8)*cursor;
-    arg0->cursor = cursor + 1;
-    table[opcode](arg0);
-    if (*arg0->cursor > 0) {
-        if (arg0->action == sentinel) {
+    context->cursor = cursor + 1;
+    opcode_handlers[opcode](context);
+    if (*context->cursor > 0) {
+        if (context->action == dispatch_action) {
             goto dispatch;
         }
     }
 
-    if (arg0->action == func_80039AE8) {
-        arg0->action = 0;
-        if (arg0->active == 0) {
+    if (context->action == func_80039AE8) {
+        context->action = 0;
+        if (context->active == 0) {
 fallback:
-            if (func_80034FD0(arg1) == 0) {
+            if (func_80034FD0(owner) == 0) {
                 func_8003ADB4(0xB4);
-                func_80034EF8(arg1, arg1[2]);
-                func_80034F58(arg1);
+                func_80034EF8(owner, owner[2]);
+                func_80034F58(owner);
                 return 0;
             }
             return 0;
         }
-        arg0->cursor = arg0->cursor + 1;
-        arg0->action = func_800381D0(arg0);
+        context->cursor = context->cursor + 1;
+        context->action = func_800381D0(context);
         goto check_state;
     }
 
 check_state:
-    if (arg0->state == 2) {
+    if (context->state == 2) {
         return 1;
     }
 return_zero:

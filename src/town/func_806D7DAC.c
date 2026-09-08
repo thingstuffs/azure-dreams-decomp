@@ -10,21 +10,22 @@ extern u8 D_8001A212[];
 extern u8 D_8001ABCC[];
 extern u8 D_80019397[];
 
-s32 func_800165AC(s32 arg0, s32 unused, s32 arg2)
+/* Looks up an entry and applies conditional overrides for variants 45 through 47. */
+s32 func_800165AC(s32 entry_id, s32 unused, s32 variant_id)
 {
-    s32 result;
+    s32 default_result;
 
-    result = func_80017B0C(D_800189D8, D_80019104, arg0, arg2);
+    default_result = func_80017B0C(D_800189D8, D_80019104, entry_id, variant_id);
 
-    if (arg2 == 45 && func_80017A54(D_800189D8, arg0, 45)) {
+    if (variant_id == 45 && func_80017A54(D_800189D8, entry_id, 45)) {
         func_800185C0(0x9AE);
         return (s32)D_8001A212;
     }
-    if (arg2 == 46 && func_80017A54(D_800189D8, arg0, 46)) {
+    if (variant_id == 46 && func_80017A54(D_800189D8, entry_id, 46)) {
         return (s32)D_8001ABCC;
     }
-    if (arg2 == 47 && func_80017A54(D_800189D8, arg0, 47)) {
+    if (variant_id == 47 && func_80017A54(D_800189D8, entry_id, 47)) {
         return (s32)D_80019397;
     }
-    return result;
+    return default_result;
 }

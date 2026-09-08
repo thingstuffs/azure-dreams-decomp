@@ -3,6 +3,7 @@
 
 M2C_UNK func_800AE56C();                         /* extern */
 
-void func_800AF234(s32 arg0) {
-    func_800AE56C(arg0 + 0x20);
+/* Calls func_800AE56C with the offset increased by 0x20. */
+void func_800AF234(s32 offset) {
+    func_800AE56C(offset + 0x20);
 }

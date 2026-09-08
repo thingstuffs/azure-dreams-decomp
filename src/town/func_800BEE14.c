@@ -68,59 +68,57 @@ typedef struct S_800BC574_5 {
     s32 unk_0C;
 } S_800BC574_5;   /* (void *) tail_v0 in func_800BC574 */
 
-s32 func_800BC574(void *arg0, s32 arg1) {
-    s32 copy_value;
-    S_800BC574_4 *temp_s2;
-    S_800BC574_0 *temp_v0;
-    S_800BC574_2 *held_arg0 = arg0;
-    u8 *held_base = (u8 *) &D_80083160;
-    S_800BC574_1 *copy_dst;
-    register s32 held_arg1 ASM_REG("$19") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+/* Creates an effect at the supplied position with directional motion and initializes its sprite. */
+s32 func_800BC574(void *position, s32 angle) {
+    s32 position_z;
+    S_800BC574_4 *sprite;
+    S_800BC574_0 *effect;
+    S_800BC574_2 *source_pos = position;
+    u8 *world_state = (u8 *) &D_80083160;
+    S_800BC574_1 *data_ptr;
+    register s32 saved_angle ASM_REG("$19") = angle;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    temp_v0 = func_8003FD64(0x312, &D_80083498);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_800BC6CC;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s2 = temp_v0->unk_0C;
-        copy_dst = temp_v0->unk_08;
-        copy_dst->unk_00 = (s32) held_arg0->unk_00;
-        copy_dst = temp_v0->unk_08;
-        copy_dst->unk_04 = (s32) held_arg0->unk_04;
-        copy_dst = temp_v0->unk_08;
-        copy_value = held_arg0->unk_08;
+    effect = func_8003FD64(0x312, &D_80083498);
+    if (effect != NULL) {
+        effect->unk_10 = &D_800BC6CC;
+        func_8004491C(effect, &D_80045340);
+        sprite = effect->unk_0C;
+        data_ptr = effect->unk_08;
+        data_ptr->unk_00 = (s32) source_pos->unk_00;
+        data_ptr = effect->unk_08;
+        data_ptr->unk_04 = (s32) source_pos->unk_04;
+        data_ptr = effect->unk_08;
+        position_z = source_pos->unk_08;
         {
-            register s32 narrowed_arg1 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            register s32 angle_short ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-            ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            narrowed_arg1 = (s16) held_arg1;
-            copy_dst->unk_08 = copy_value;
-            ((S_800BC574_7 *)(((S_800BC574_6 *)temp_v0)->unk_08))->unk_0C = (s32) (func_80064584(narrowed_arg1 + ((S_800BC574_3 *)held_base)->unk_C8) * 0x30);
-            ((S_800BC574_7 *)(((S_800BC574_6 *)temp_v0)->unk_08))->unk_10 = (s32) (func_800644B8(narrowed_arg1 + ((S_800BC574_3 *)held_base)->unk_C8) * 0x30);
+            ASM_KEEP(saved_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            angle_short = (s16) saved_angle;
+            data_ptr->unk_08 = position_z;
+            ((S_800BC574_7 *)(((S_800BC574_6 *)effect)->unk_08))->unk_0C = (s32) (func_80064584(angle_short + ((S_800BC574_3 *)world_state)->unk_C8) * 0x30);
+            ((S_800BC574_7 *)(((S_800BC574_6 *)effect)->unk_08))->unk_10 = (s32) (func_800644B8(angle_short + ((S_800BC574_3 *)world_state)->unk_C8) * 0x30);
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         }
         {
-            register s32 tail_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            register s32 init_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-            tail_v0 = 0x1000;
-            temp_s2->unk_1E = tail_v0;
-            temp_s2->unk_1C = tail_v0;
-            tail_v0 = (s32) temp_v0->unk_08;
-            tail_v0 = ((S_800BC574_5 *)((void *) tail_v0))->unk_0C;
-            if (tail_v0 > 0) {
-                temp_s2->unk_14 = (u16) (temp_s2->unk_14 | 1);
+            init_value = 0x1000;
+            sprite->unk_1E = init_value;
+            sprite->unk_1C = init_value;
+            init_value = (s32) effect->unk_08;
+            init_value = ((S_800BC574_5 *)((void *) init_value))->unk_0C;
+            if (init_value > 0) {
+                sprite->unk_14 = (u16) (sprite->unk_14 | 1);
             }
-            tail_v0 = 0x808080;
-            copy_dst = &D_800F15E4;
-            temp_s2->unk_00 = copy_dst;
-            copy_dst = (void *) copy_dst->unk_04;
-            temp_s2->unk_04 = 0;
-            temp_s2->unk_05 = 0;
-            temp_s2->unk_0C = tail_v0;
-            temp_s2->unk_08 = (s32) copy_dst;
+            init_value = 0x808080;
+            data_ptr = &D_800F15E4;
+            sprite->unk_00 = data_ptr;
+            data_ptr = (void *) data_ptr->unk_04;
+            sprite->unk_04 = 0;
+            sprite->unk_05 = 0;
+            sprite->unk_0C = init_value;
+            sprite->unk_08 = (s32) data_ptr;
         }
     }
     return 0;
 }
-/* MECHANISM: Split full-width and narrowed arg1 live ranges let dead s0 be reused after the three-word copy while s4 holds D_80083160.
-   Guarded v1/v0 overwrite chains reproduce the copy and tail loads; a zero-word fence keeps the second scaled-result store ordered.
-   The rebuilt shape is exact at 2.7.2-cdk-G0; 2.95.2-G0 retained six pure-reorder divergences. */

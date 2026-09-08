@@ -25,40 +25,41 @@ extern State80083160 D_80083160;
 extern u8 D_800CFCEF[9];
 extern u8 D_800FE488[9];
 
-void func_800AA844(Obj800AD0E4 *arg0, Obj800AD0E4 *arg1, s32 arg2) {
+/* Update the object and dispatch actions based on its value, timer, and state flags. */
+void func_800AA844(Obj800AD0E4 *timer_obj, Obj800AD0E4 *object, s32 action_arg) {
     State80083160 *state = &D_80083160;
-    s16 value;
+    s16 next_value;
     u16 timer;
 
-    func_80095C80(arg1);
-    func_80095094(arg1);
-    value = func_80095978(arg1, D_800FE488);
+    func_80095C80(object);
+    func_80095094(object);
+    next_value = func_80095978(object, D_800FE488);
 
-    if ((value - (s16)arg1->field_A) >= 4) {
+    if ((next_value - (s16)object->field_A) >= 4) {
         if (D_800CFCEF[0] == 0) {
-            func_80094378(arg0, arg1, arg2);
+            func_80094378(timer_obj, object, action_arg);
             return;
         }
     } else if (D_800CFCEF[0] == 0) {
-        func_80095A94(arg1, value, D_800FE488);
+        func_80095A94(object, next_value, D_800FE488);
     }
 
-    timer = arg0->field_A - 1;
-    arg0->field_A = timer;
+    timer = timer_obj->field_A - 1;
+    timer_obj->field_A = timer;
     if ((s16)timer < 0) {
-        func_80093D48(arg0, arg1, arg2);
+        func_80093D48(timer_obj, object, action_arg);
         return;
     }
 
     if (state->field_8 & 0xF000) {
-        func_80093ED8(arg0, arg1, arg2);
+        func_80093ED8(timer_obj, object, action_arg);
         return;
     }
 
     if (state->field_10 & 0x10) {
-        func_800942B0(arg0, arg1, arg2);
+        func_800942B0(timer_obj, object, action_arg);
         return;
     }
 
-    func_800A9F14(arg1);
+    func_800A9F14(object);
 }

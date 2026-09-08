@@ -26,6 +26,7 @@ extern M2C_UNK D_80016000;
 extern M2C_UNK D_80019890;
 
 
+/* Dispatches IDs 0x3EB and 0x631, then invokes object callbacks with 0 and &D_80019890. */
 void func_805D3588(void) {
     func_800193E0(0x3EB);
     func_80019458(0x631);

@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
+/* ms_mot_accpt_ow: town event-script command 200; performs no operation. */
 void func_8008B2D4(void) {
-
 }

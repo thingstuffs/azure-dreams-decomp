@@ -59,45 +59,46 @@ extern u8 D_80045340[];
 extern u8 D_80083160[];
 extern u8 D_800DE870[];
 
-void func_80024550(S_80024550_4 *arg0)
+/* Spawn an effect at a random radial offset from the given position. */
+void func_80024550(S_80024550_4 *origin)
 {
-    s16 *global_base;
-    s32 temp_v1;
-    s32 var_v0;
-    S_80024550_2 *temp_s0;
-    S_80024550_3 *temp_s0_2;
-    S_80024550_1 *temp_s2;
-    void *temp_v0;
+    s16 *scene_state;
+    s32 random_value;
+    s32 adjusted_random;
+    S_80024550_2 *render_data;
+    S_80024550_3 *position;
+    S_80024550_1 *effect_state;
+    void *effect;
 
-    global_base = (s16 *)D_80083160;
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != 0) {
-        ((S_80024550_0 *)temp_v0)->unk_10 = D_800244A4;
-        var_v0 = rand();
-        temp_v1 = var_v0;
-        temp_s2 = (u8 *)temp_v0 + 0x20;
-        if (temp_v1 < 0) {
-            var_v0 = temp_v1 + 0xFFF;
+    scene_state = (s16 *)D_80083160;
+    effect = func_8003FC64(0x212);
+    if (effect != 0) {
+        ((S_80024550_0 *)effect)->unk_10 = D_800244A4;
+        adjusted_random = rand();
+        random_value = adjusted_random;
+        effect_state = (u8 *)effect + 0x20;
+        if (random_value < 0) {
+            adjusted_random = random_value + 0xFFF;
         }
-        temp_s2->unk_08 = temp_v1 - ((var_v0 >> 12) << 12);
-        temp_s0 = ((S_80024550_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        func_8003DB94(temp_s0, D_800DE870, 0);
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        temp_s0->unk_10 |= 0x20;
-        temp_s0->unk_14 |= 0xC;
-        temp_s0->unk_1A =
-            (s32)(0 - ((func_80064584(temp_s2->unk_08 -
-                                      global_base[0x64]) >> 4) << 8)) >> 8;
-        func_8004491C(temp_v0, D_80045340);
-        temp_s0_2 = ((S_80024550_0 *)temp_v0)->unk_08;
-        temp_s0_2->unk_02 = arg0->unk_02 +
-            ((func_800644B8(temp_s2->unk_08) * 2) >> 8);
-        temp_s0_2->unk_06 = arg0->unk_06 +
-            ((func_80064584(temp_s2->unk_08) * 2) >> 8);
-        temp_s0_2->unk_0A = arg0->unk_0A;
+        effect_state->unk_08 = random_value - ((adjusted_random >> 12) << 12);
+        render_data = ((S_80024550_0 *)effect)->unk_0C;
+        render_data->unk_0E = 0x80;
+        render_data->unk_0D = 0x80;
+        render_data->unk_0C = 0x80;
+        func_8003DB94(render_data, D_800DE870, 0);
+        render_data->unk_1E = 0x1000;
+        render_data->unk_1C = 0x1000;
+        render_data->unk_10 |= 0x20;
+        render_data->unk_14 |= 0xC;
+        render_data->unk_1A =
+            (s32)(0 - ((func_80064584(effect_state->unk_08 -
+                                      scene_state[0x64]) >> 4) << 8)) >> 8;
+        func_8004491C(effect, D_80045340);
+        position = ((S_80024550_0 *)effect)->unk_08;
+        position->unk_02 = origin->unk_02 +
+            ((func_800644B8(effect_state->unk_08) * 2) >> 8);
+        position->unk_06 = origin->unk_06 +
+            ((func_80064584(effect_state->unk_08) * 2) >> 8);
+        position->unk_0A = origin->unk_0A;
     }
 }

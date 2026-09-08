@@ -15,24 +15,25 @@ extern u16 D_80024500[8];
 extern u8 D_80045340[];
 extern u8 D_800F8E9C[16];
 
-void func_80023EB0(void *arg0)
+/* Initialize two child objects, blink their color, and ease their positions toward active or resting targets. */
+void func_80023EB0(void *state_ptr)
 {
-    static void *const sw_keep[] = {
+    static void *const kind_labels[] = {
         &&sw_0, &&sw_1, &&sw_2, &&sw_3, &&sw_4
     };
-    u8 *state = arg0;
-    register void *obj ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *part;
-    register u8 *work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *state = state_ptr;
+    register void *child_obj ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *render_part;
+    register u8 *child_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *object_data;
     u8 *part_data;
     s32 scale;
     s32 kind;
-    s32 store_value;
+    s32 target_pos;
     s32 mask_index;
     s32 color;
-    register s32 index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u16 counter;
+    register s32 child_index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u16 blink_ticks;
 
     switch (S16_AT(state, 0x18)) {
     case 0:
@@ -47,60 +48,60 @@ void func_80023EB0(void *arg0)
         if ((u32)kind >= 5) {
             goto init_done;
         }
-        (void)sw_keep;
+        (void)kind_labels;
         goto *D_80020284[kind];
 
 sw_0:
-        store_value = -0x60;
+        target_pos = -0x60;
         goto store_both;
 sw_1:
-        store_value = -0x98;
+        target_pos = -0x98;
         goto store_both;
 sw_2:
-        store_value = -0x30;
+        target_pos = -0x30;
 store_both:
-        S16_AT(state, 0x1E) = store_value;
-        S16_AT(state, 0x1C) = store_value;
+        S16_AT(state, 0x1E) = target_pos;
+        S16_AT(state, 0x1C) = target_pos;
         goto init_done;
 sw_3:
-        store_value = -0xB0;
-        S16_AT(state, 0x1C) = store_value;
-        store_value = -0x10;
+        target_pos = -0xB0;
+        S16_AT(state, 0x1C) = target_pos;
+        target_pos = -0x10;
         goto store_second;
 sw_4:
-        store_value = -0x10;
-        S16_AT(state, 0x1C) = store_value;
-        store_value = -0xB0;
+        target_pos = -0x10;
+        S16_AT(state, 0x1C) = target_pos;
+        target_pos = -0xB0;
 store_second:
-        S16_AT(state, 0x1E) = store_value;
+        S16_AT(state, 0x1E) = target_pos;
 
 init_done:
-        index = 1;
+        child_index = 1;
         object_data = D_80024334;
         scale = 0x800;
         part_data = D_800F8E9C;
 alloc_loop:
-        obj = func_8003FC64(0x136);
-        if (obj != 0) {
-            PTR_AT(obj, 0x10) = object_data;
-            func_8004491C(obj, D_80045340);
-            part = PTR_AT(obj, 0xC);
-            S16_AT(part, 0x14) = 0xC;
+        child_obj = func_8003FC64(0x136);
+        if (child_obj != 0) {
+            PTR_AT(child_obj, 0x10) = object_data;
+            func_8004491C(child_obj, D_80045340);
+            render_part = PTR_AT(child_obj, 0xC);
+            S16_AT(render_part, 0x14) = 0xC;
             color = 0x00808080;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            work = (u8 *)obj + 0x20;
-            ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            S16_AT(part, 0x1E) = scale;
-            S16_AT(part, 0x1C) = scale;
-            PTR_AT(part, 8) = part_data;
-            U8_AT(part, 4) = 0;
-            U8_AT(part, 5) = 0;
-            S32_AT(part, 0xC) = color;
-            PTR_AT(obj, 0x20) = state;
-            S16_AT(work, 8) = index;
+            child_state = (u8 *)child_obj + 0x20;
+            ASM_KEEP(child_state);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            S16_AT(render_part, 0x1E) = scale;
+            S16_AT(render_part, 0x1C) = scale;
+            PTR_AT(render_part, 8) = part_data;
+            U8_AT(render_part, 4) = 0;
+            U8_AT(render_part, 5) = 0;
+            S32_AT(render_part, 0xC) = color;
+            PTR_AT(child_obj, 0x20) = state;
+            S16_AT(child_state, 8) = child_index;
         }
-        index--;
-        if (index >= 0) {
+        child_index--;
+        if (child_index >= 0) {
             goto alloc_loop;
         }
         S16_AT(state, 0x18) = 1;
@@ -113,9 +114,9 @@ alloc_loop:
         goto done;
     }
 
-    counter = U16_AT(state, 0x1A) + 1;
-    U16_AT(state, 0x1A) = counter;
-    if (((counter >> 2) & 1) != 0) {
+    blink_ticks = U16_AT(state, 0x1A) + 1;
+    U16_AT(state, 0x1A) = blink_ticks;
+    if (((blink_ticks >> 2) & 1) != 0) {
         mask_index = S16_AT(state, 0x22);
         if ((U16_AT(PTR_AT(state, 0), 0x62) & D_80024500[mask_index]) != 0) {
             S32_AT(state, 0x14) = 0;
@@ -126,30 +127,30 @@ alloc_loop:
 
 color_done:
     if (U16_AT(PTR_AT(state, 0), 0x64) >= U16_AT(state, 0x20)) {
-        s32 dx = (S16_AT(state, 0x1C) - S16_AT(state, 8)) >> 1;
-        s32 dy = (S16_AT(state, 0x1E) - S16_AT(state, 0x10)) >> 1;
+        s32 first_step = (S16_AT(state, 0x1C) - S16_AT(state, 8)) >> 1;
+        s32 second_step = (S16_AT(state, 0x1E) - S16_AT(state, 0x10)) >> 1;
 
-        S16_AT(state, 8) = U16_AT(state, 8) + dx;
-        S16_AT(state, 0x10) = U16_AT(state, 0x10) + dy;
+        S16_AT(state, 8) = U16_AT(state, 8) + first_step;
+        S16_AT(state, 0x10) = U16_AT(state, 0x10) + second_step;
         U16_AT(state, 0x24) &= ~1;
         goto done;
     }
 
     {
-        s32 dx = (-0x60 - S16_AT(state, 8)) >> 1;
-        s32 dy = (-0x60 - S16_AT(state, 0x10)) >> 1;
-        s32 other;
-        s32 value;
+        s32 first_step = (-0x60 - S16_AT(state, 8)) >> 1;
+        s32 second_step = (-0x60 - S16_AT(state, 0x10)) >> 1;
+        s32 second_pos;
+        s32 rest_distance;
 
-        S16_AT(state, 8) = U16_AT(state, 8) + dx;
-        other = U16_AT(state, 0x10) + dy;
-        S16_AT(state, 0x10) = other;
+        S16_AT(state, 8) = U16_AT(state, 8) + first_step;
+        second_pos = U16_AT(state, 0x10) + second_step;
+        S16_AT(state, 0x10) = second_pos;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        value = (s16)other + 0x60;
-        if (value < 0) {
-            value = -value;
+        rest_distance = (s16)second_pos + 0x60;
+        if (rest_distance < 0) {
+            rest_distance = -rest_distance;
         }
-        if (value < 2) {
+        if (rest_distance < 2) {
             U16_AT(state, 0x24) |= 1;
         }
     }
@@ -158,21 +159,3 @@ done:
     return;
 }
 
-/* MECHANISM: closed by SCOPE-SPLIT + two portable SCHED FENCES, no new pins.
-   (1) `value`/`other` were function-scope names shared by BOTH tail arms, fusing
-   their live ranges and rotating path A's coloring; block-scoping dx/dy per arm
-   made path A byte-exact unchanged.  (2) Both tail arms are the SAME shape
-   (deltas-first, then the two stores); path B only differs by the trailing
-   abs() test, whose sll/sra/addiu chain hangs off the 0x10 store value and so
-   out-prioritises the whole 8-coord group in sched1 (it also let dbr steal the
-   store into the bgez delay slot).  ASM_SCHED_BARRIER() between the 0x10 store
-   and the sign-extend cuts that dependence out of the region: retail's order and
-   its bgez nop return exactly.  ASM_KEEP is WRONG here -- its "=r" def puts the
-   held value back on the critical chain and reorders the arm.  (3) In the alloc
-   loop the same fence pair restores the frame: `color = 0x00808080;` before an
-   ASM_SCHED_BARRIER() keeps the lui/ori in the pre-fence region (retail words
-   1-2), and `work = obj+0x20; ` after it defeats gcc's fold of
-   obj+0x20+8 into 40(obj) while pinning the addu to retail's word 6; the
-   $2 pin then hands part=$3 / twelve=$2 / work=$2 exactly as retail colours it.
-   DEPIN note: the inherited ASM_KEEP(index) was itself the residue -- it blocked
-   dbr from filling the loop's bgez delay slot with `li $2,1`. */

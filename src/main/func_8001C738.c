@@ -55,25 +55,22 @@ typedef struct S_8001C738_8 {
     s16 unk_08;
 } S_8001C738_8;   /* ((S_8001C738_4 *)(((S_8001C738_0 *)var_a0)->unk_1F0))->unk_04 in func_8001C738 */
 
+/* Initializes values in four groups of four linked records. */
+void func_8001C738(void *record_groups) {
+    s32 slot_index;
+    void *group_slot;
 
-
-
-
-void func_8001C738(void *arg0) {
-    s32 var_v1;
-    void *var_a0;
-
-    var_a0 = arg0;
-    var_v1 = 0;
+    group_slot = record_groups;
+    slot_index = 0;
     do {
-        ((S_8001C738_5 *)(((S_8001C738_1 *)(((S_8001C738_0 *)var_a0)->unk_1E0))->unk_04))->unk_08 = 0x24;
-        *((S_8001C738_1 *)(((S_8001C738_0 *)var_a0)->unk_1E0))->unk_04 = 0x68;
-        ((S_8001C738_5 *)(((S_8001C738_1 *)(((S_8001C738_0 *)var_a0)->unk_1E0))->unk_04))->unk_01 = 0x68;
-        ((S_8001C738_5 *)(((S_8001C738_1 *)(((S_8001C738_0 *)var_a0)->unk_1E0))->unk_04))->unk_02 = 0x60;
-        ((S_8001C738_6 *)(((S_8001C738_2 *)(((S_8001C738_0 *)var_a0)->unk_1C0))->unk_04))->unk_08 = 9;
-        ((S_8001C738_7 *)(((S_8001C738_3 *)(((S_8001C738_0 *)var_a0)->unk_1D0))->unk_04))->unk_08 = 0x42;
-        var_v1 += 1;
-        ((S_8001C738_8 *)(((S_8001C738_4 *)(((S_8001C738_0 *)var_a0)->unk_1F0))->unk_04))->unk_08 = 0x8F;
-        var_a0 += 4;
-    } while (var_v1 < 4);
+        ((S_8001C738_5 *)(((S_8001C738_1 *)(((S_8001C738_0 *)group_slot)->unk_1E0))->unk_04))->unk_08 = 0x24;
+        *((S_8001C738_1 *)(((S_8001C738_0 *)group_slot)->unk_1E0))->unk_04 = 0x68;
+        ((S_8001C738_5 *)(((S_8001C738_1 *)(((S_8001C738_0 *)group_slot)->unk_1E0))->unk_04))->unk_01 = 0x68;
+        ((S_8001C738_5 *)(((S_8001C738_1 *)(((S_8001C738_0 *)group_slot)->unk_1E0))->unk_04))->unk_02 = 0x60;
+        ((S_8001C738_6 *)(((S_8001C738_2 *)(((S_8001C738_0 *)group_slot)->unk_1C0))->unk_04))->unk_08 = 9;
+        ((S_8001C738_7 *)(((S_8001C738_3 *)(((S_8001C738_0 *)group_slot)->unk_1D0))->unk_04))->unk_08 = 0x42;
+        slot_index += 1;
+        ((S_8001C738_8 *)(((S_8001C738_4 *)(((S_8001C738_0 *)group_slot)->unk_1F0))->unk_04))->unk_08 = 0x8F;
+        group_slot += 4;
+    } while (slot_index < 4);
 }

@@ -4,33 +4,34 @@ extern u8 D_8006CCD8[];
 extern u8 D_8006CCE8[];
 extern u8 D_80083160[];
 
-s32 func_8009A2B8(s16 arg0, s16 arg1, s32 arg2) {
-    s32 x;
-    s32 y;
-    s32 value;
-    u8 *base;
-    u8 *entry;
+/* Checks whether the adjacent tile has masked flags or a zero tile value. */
+s32 func_8009A2B8(s16 origin_x, s16 origin_y, s32 direction) {
+    s32 tile_index;
+    s32 tile_y;
+    s32 result;
+    u8 *dungeon;
+    u8 *tile;
 
-    base = D_80083160;
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    x = arg0 + ((s16 *)D_8006CCD8)[(s16)arg2];
-    y = arg1 + ((s16 *)D_8006CCE8)[(s16)arg2];
-    x += y << *(s16 *)(base + 0x1F0);
-    entry = *(u8 **)(base + 0x1DC) + x * 6;
-    value = *(u16 *)(entry + 4) & 0xF320;
-    if (value != 0) {
-        value = 1;
+    dungeon = D_80083160;
+    ASM_KEEP(dungeon);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    tile_index = origin_x + ((s16 *)D_8006CCD8)[(s16)direction];
+    tile_y = origin_y + ((s16 *)D_8006CCE8)[(s16)direction];
+    tile_index += tile_y << *(s16 *)(dungeon + 0x1F0);
+    tile = *(u8 **)(dungeon + 0x1DC) + tile_index * 6;
+    result = *(u16 *)(tile + 4) & 0xF320;
+    if (result != 0) {
+        result = 1;
         goto done;
     }
-    value = *(u16 *)entry;
-    if (value != 0) {
-        value = 0;
+    result = *(u16 *)tile;
+    if (result != 0) {
+        result = 0;
         goto done;
     }
-    value = 1;
+    result = 1;
 done:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    return value;
+    return result;
 }
 
 /* MECHANISM: Frameless leaf; ASM_KEEP holds D_80083160 at words 0-1.

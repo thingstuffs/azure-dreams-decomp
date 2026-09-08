@@ -130,96 +130,97 @@ __asm__(".globl func_8015E800\n"
 #define BODY_ATTR
 #endif
 
-void *BODY_NAME(s32 arg0, s8 arg1, s8 arg2, s16 arg3) BODY_ATTR;
+void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) BODY_ATTR;
 
-void *BODY_NAME(s32 arg0, s8 arg1, s8 arg2, s16 arg3) {
-    s32 unksp24;
-    s32 unksp28;
-    s32 sp24;
-    s32 sp28;
-    s32 temp_v1;
+/* Allocate and initialize a dungeon node with the supplied setup and placement. */
+void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
+    s32 unused_byte_neg_d58;
+    s32 unused_byte_a64;
+    s32 unused_slot_24;
+    s32 unused_slot_28;
+    s32 mode;
     register s32 call_count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register void *call_target ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register void *check_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s8 saved_arg1;
-    s16 saved_arg3;
-    s8 saved_arg2;
-    DungeonSub2 *temp_s2;
-    register void *temp_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    DungeonNode *temp_v0;
-    DungeonSub1 *var_s0;
-    DungeonSub1 *temp_s5;
-    register void *arg0_alias ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    DungeonArgBits temp_s7;
-    s32 temp_flag0;
-    register s32 temp_flag1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 temp_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s8 saved_grid_x;
+    s16 saved_placement;
+    s8 saved_grid_y;
+    DungeonSub2 *placement;
+    register void *node_data ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    DungeonNode *node;
+    DungeonSub1 *state;
+    DungeonSub1 *init_state;
+    register void *setup_alias ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    DungeonArgBits saved_setup;
+    s32 state_flags;
+    register s32 status_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 setup_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    var_s0 = NULL;
+    state = NULL;
     call_count = 0x112;
-    saved_arg1 = arg1;
+    saved_grid_x = grid_x;
     call_target = &D_80083498;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
-    ASM_KEEP_DEP_NV(saved_arg1, call_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_DEP_NV(saved_arg3, call_target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_DEP_NV(saved_arg2, call_target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    unksp28 = (s32) *(s8 *)0xA64;
-    unksp24 = (s32) *(s8 *)-0xD58;
-    temp_v0 = func_8003FD64(call_count, call_target);
-    if (temp_v0 != NULL) {
-        arg0_alias = (void *) arg0;
+    saved_placement = placement_value;
+    saved_grid_y = grid_y;
+    ASM_KEEP_DEP_NV(saved_grid_x, call_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_DEP_NV(saved_placement, call_target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_DEP_NV(saved_grid_y, call_target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    unused_byte_a64 = (s32) *(s8 *)0xA64;
+    unused_byte_neg_d58 = (s32) *(s8 *)-0xD58;
+    node = func_8003FD64(call_count, call_target);
+    if (node != NULL) {
+        setup_alias = (void *) setup_bits;
         do {
-            temp_s7.p = (void *) arg0;
+            saved_setup.p = (void *) setup_bits;
         } while (0);
-        var_s0 = (DungeonSub1 *)((u8 *)temp_v0 + 0x20);
-        temp_v0->field10 = &D_8015EA7C;
-        var_s0->field13 = 0x28;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s4 = temp_v0->field08;
-        *(s16 *)((u8 *)temp_s4 + 0x0a) = saved_arg3;
-        temp_s2 = temp_v0->field0c;
-        temp_v1 = (s32) arg0_alias & 3;
-        temp_s2->field25 = saved_arg2;
-        temp_s5 = var_s0;
-        temp_s2->field2c = &D_80162038;
-        temp_s2->field24 = saved_arg1;
-        if (temp_v1 == 1) {
-            temp_flag0 = var_s0->field14;
-            temp_flag1 = var_s0->field1c;
-            temp_flag0 |= 0x6000;
-            temp_flag1 |= 0x6000;
+        state = (DungeonSub1 *)((u8 *)node + 0x20);
+        node->field10 = &D_8015EA7C;
+        state->field13 = 0x28;
+        func_8004491C(node, &D_80045340);
+        node_data = node->field08;
+        *(s16 *)((u8 *)node_data + 0x0a) = saved_placement;
+        placement = node->field0c;
+        mode = (s32) setup_alias & 3;
+        placement->field25 = saved_grid_y;
+        init_state = state;
+        placement->field2c = &D_80162038;
+        placement->field24 = saved_grid_x;
+        if (mode == 1) {
+            state_flags = state->field14;
+            status_flags = state->field1c;
+            state_flags |= 0x6000;
+            status_flags |= 0x6000;
             goto store_flags;
         }
-        else if (temp_v1 >= 2) {
-            temp_flag0 = var_s0->field14;
-            temp_flag1 = var_s0->field1c;
-            temp_flag0 |= 0x2000;
-            temp_flag1 |= 0x2000;
+        else if (mode >= 2) {
+            state_flags = state->field14;
+            status_flags = state->field1c;
+            state_flags |= 0x2000;
+            status_flags |= 0x2000;
 store_flags:
-            var_s0->field14 = temp_flag0;
-            var_s0->field1c = temp_flag1;
+            state->field14 = state_flags;
+            state->field1c = status_flags;
             goto final_call;
         }
-        temp_mask = ((s32) arg0_alias & ~3) << 0x10;
-        if (temp_mask == 0) {
-            check_obj = temp_v0;
-            if (!(var_s0->field14 & 0x200)) {
-                call_target = temp_s4;
+        setup_mask = ((s32) setup_alias & ~3) << 0x10;
+        if (setup_mask == 0) {
+            check_obj = node;
+            if (!(state->field14 & 0x200)) {
+                call_target = node_data;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
                 if (func_800A6D30(check_obj, call_target) & 1) {
-                    var_s0->field1c |= 0x200;
-                    func_800A48F0(var_s0, 1, (func_800A6D30(check_obj) & 0x3F) | 0x20);
-                    temp_s2->field2c = &D_80162088;
+                    state->field1c |= 0x200;
+                    func_800A48F0(state, 1, (func_800A6D30(check_obj) & 0x3F) | 0x20);
+                    placement->field2c = &D_80162088;
                 }
             }
         }
 final_call:
-        func_800A9C18(temp_v0, temp_s4, temp_s2, (s16) temp_s7.i);
-        temp_s5->field9a = 0xff;
-        temp_s5->field9c = -1;
-        temp_s5->field8c = &D_8015EEA8;
-        func_800AA36C(temp_s5, temp_s4, temp_s2, var_s0);
+        func_800A9C18(node, node_data, placement, (s16) saved_setup.i);
+        init_state->field9a = 0xff;
+        init_state->field9c = -1;
+        init_state->field8c = &D_8015EEA8;
+        func_800AA36C(init_state, node_data, placement, state);
     }
-    return var_s0;
+    return state;
 }

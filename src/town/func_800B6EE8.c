@@ -16,17 +16,18 @@ typedef struct S_800B4648_0 {
     s32 unk_5C;
 } S_800B4648_0;   /* arg0 in func_800B4648 */
 
-void func_800B4648(S_800B4648_0 *arg0) {
-    s32 temp_a0;
-    s32 temp_s0;
-    s32 var_s1;
+/* Passes each of five paired entry values to func_8004E99C. */
+void func_800B4648(S_800B4648_0 *owner) {
+    s32 entry_value;
+    s32 entry_offset;
+    s32 entry_index;
 
-    var_s1 = 0;
+    entry_index = 0;
     do {
-        temp_s0 = var_s1 * 4;
-        temp_a0 = *((S_800B4648_1 *)((temp_s0 + arg0->unk_5C)))->unk_18;
-        var_s1 += 1;
-        func_8004E99C(temp_a0);
-        func_8004E99C(*((S_800B4648_1 *)((temp_s0 + arg0->unk_5C)))->unk_48);
-    } while (var_s1 < 5);
+        entry_offset = entry_index * 4;
+        entry_value = *((S_800B4648_1 *)((entry_offset + owner->unk_5C)))->unk_18;
+        entry_index += 1;
+        func_8004E99C(entry_value);
+        func_8004E99C(*((S_800B4648_1 *)((entry_offset + owner->unk_5C)))->unk_48);
+    } while (entry_index < 5);
 }

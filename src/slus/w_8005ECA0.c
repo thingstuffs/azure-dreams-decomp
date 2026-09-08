@@ -12,20 +12,16 @@ extern s32 D_80079980[3];
 
 extern s32 func_8005D598(s32 a0, s32 a1);
 
-/* func_8005ECA0: Validates that a0 lies within a fixed address/id window
- * [0x1010, 0x1010+0x7EFE8]; if it does, asks func_8005D598 for a value
- * (mode -1) using a0 as the second argument, latches the low 16 bits of that
- * value into D_80079970, and returns that 16-bit value left-shifted by the
- * global shift amount D_80079980[0]. Returns 0 if a0 is out of range. */
-s32 func_8005ECA0(s32 a0)
+/* Latch and shift the value for an in-range address, or return zero. */
+s32 func_8005ECA0(s32 address)
 {
-    u16 v;
+    u16 shift_input;
 
-    if ((u32)(a0 - 0x1010) > 0x7EFE8) {
+    if ((u32)(address - 0x1010) > 0x7EFE8) {
         return 0;
     }
 
-    v = (u16)func_8005D598(-1, a0);
-    *(u16 *)D_80079970 = v;
-    return (s32)v << D_80079980[0];
+    shift_input = (u16)func_8005D598(-1, address);
+    *(u16 *)D_80079970 = shift_input;
+    return (s32)shift_input << D_80079980[0];
 }

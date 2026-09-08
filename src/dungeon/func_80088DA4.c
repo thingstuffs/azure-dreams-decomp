@@ -53,91 +53,92 @@ extern void func_800419EC(s32, s32);
 extern void func_80048A44(void *, u8, s32, s32);
 extern s32 func_80094EA4(void);
 
-void func_8008E504(S_8008E504_0 *arg0, S_8008E504_1 *arg1, S_8008E504_4 *arg2, S_8008E504_2 *arg3) {
-    u16 temp_v0;
-    u16 temp_v0_2;
-    s32 temp_v1;
-    s32 saved;
-    s32 arg3_flags;
+/* Advances an actor's timed animation state and selects its next behavior. */
+void func_8008E504(S_8008E504_0 *actor, S_8008E504_1 *action, S_8008E504_4 *sprite, S_8008E504_2 *entity) {
+    u16 state_or_ticks;
+    u16 sprite_flags;
+    s32 state;
+    s32 saved_status;
+    s32 entity_flags;
     s32 object_flags;
-    S_8008E504_3 *temp_a0;
+    S_8008E504_3 *linked_object;
 
-    temp_v1 = arg0->unk_9B;
-    if (temp_v1 == 1) {
+    state = actor->unk_9B;
+    if (state == 1) {
         goto state_one;
     }
-    if (temp_v1 >= 2) {
+    if (state >= 2) {
         goto state_two_check;
     }
-    if (temp_v1 == 0) {
+    if (state == 0) {
         goto state_zero;
     }
     goto done;
 
 state_two_check:
-    temp_v0 = 2;
-    if (temp_v1 == temp_v0) {
+    state_or_ticks = 2;
+    if (state == state_or_ticks) {
         goto state_two_body;
     }
     goto done;
 
 state_zero:
-    if (!(arg0->unk_A2 & 0x10)) {
+    if (!(actor->unk_A2 & 0x10)) {
         goto done;
     }
-    arg1->unk_14 = 0;
-    if ((arg3->unk_88 - arg3->unk_8A) < 0x41) {
+    action->unk_14 = 0;
+    if ((entity->unk_88 - entity->unk_8A) < 0x41) {
         goto state_zero_short;
     }
     func_800419EC(8, 0x10);
-    if (arg3->unk_1C & 0x100000) {
-        temp_a0 = arg0->unk_124;
-        saved = D_80081484;
-        object_flags = temp_a0->unk_1C;
+    if (entity->unk_1C & 0x100000) {
+        linked_object = actor->unk_124;
+        saved_status = D_80081484;
+        object_flags = linked_object->unk_1C;
         D_80081484 = 0;
-        temp_a0->unk_1C = object_flags & 0xFFF7FFFF;
-        arg3_flags = arg3->unk_1C;
-        D_800E3540 = saved;
-        arg3->unk_1C = arg3_flags & 0xFFEFFFFF;
+        linked_object->unk_1C = object_flags & 0xFFF7FFFF;
+        entity_flags = entity->unk_1C;
+        D_800E3540 = saved_status;
+        entity->unk_1C = entity_flags & 0xFFEFFFFF;
     }
-    temp_v0 = 0xC;
-    arg0->unk_96 = temp_v0;
+    state_or_ticks = 0xC;
+    actor->unk_96 = state_or_ticks;
     goto increment_state;
 
 state_zero_short:
-    arg0->unk_96 = 1U;
+    actor->unk_96 = 1U;
 
 increment_state:
-    arg0->unk_9B = (u8)(arg0->unk_9B + 1);
+    actor->unk_9B = (u8)(actor->unk_9B + 1);
 
 state_one:
-    if (arg3->unk_1C & 0x100000) {
-        arg0->unk_8C = D_8008EAC8;
+    if (entity->unk_1C & 0x100000) {
+        actor->unk_8C = D_8008EAC8;
         goto done;
     }
-    arg2->unk_2C = D_800DD058;
-    func_80048A44(arg2,
-        D_800DD058[((D_80083228[0] + arg3->unk_2A + 0x100) >> 9) & 7],
+    sprite->unk_2C = D_800DD058;
+    func_80048A44(sprite,
+        D_800DD058[((D_80083228[0] + entity->unk_2A + 0x100) >> 9) & 7],
         0, 1);
-    arg2->unk_14 = (u16)(arg2->unk_14 | 0x800);
-    arg0->unk_9B = (u8)(arg0->unk_9B + 1);
+    sprite->unk_14 = (u16)(sprite->unk_14 | 0x800);
+    actor->unk_9B = (u8)(actor->unk_9B + 1);
     goto done;
 
 state_two_body:
-    temp_v0 = arg0->unk_96 - 1;
-    arg0->unk_96 = temp_v0;
-    if ((temp_v0 << 0x10) > 0) {
+    state_or_ticks = actor->unk_96 - 1;
+    actor->unk_96 = state_or_ticks;
+    if ((state_or_ticks << 0x10) > 0) {
         goto done;
     }
-    temp_v0_2 = arg2->unk_14;
-    arg2->unk_14 = (u16)(temp_v0_2 & 0xF7FF);
-    if ((temp_v0_2 & 0xE000) != 0 || ((func_80094EA4() << 0x10) != 0)) {
+    sprite_flags = sprite->unk_14;
+    sprite->unk_14 = (u16)(sprite_flags & 0xF7FF);
+    if ((sprite_flags & 0xE000) != 0 || ((func_80094EA4() << 0x10) != 0)) {
         goto assign_dispatch;
     }
     goto done;
 
 assign_dispatch:
-    arg0->unk_8C = D_8008ACDC;
+    actor->unk_8C = D_8008ACDC;
 
 done:
     return;

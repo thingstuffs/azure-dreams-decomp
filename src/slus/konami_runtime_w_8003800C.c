@@ -37,52 +37,53 @@ extern s32 func_80053EF0(s32);
 extern void func_800387D0(Func8003800CState *);
 extern void func_80038A10(Func8003800CState *);
 
-void func_8003800C(Func8003800CState *arg0)
+/* Synchronize changed data, consume the pending value, and run the state callback. */
+void func_8003800C(Func8003800CState *state)
 {
     func_80043FB8(D_800809C4);
     func_80043FB8(D_8002D030, func_80053EF0(4));
     func_80043FB8(D_800809C4);
 
     {
-        Func8003800CData *data = arg0->field80;
-        s8 field3 = data->field3;
-        s8 field4 = data->field4;
-        u8 copy = data->field3;
+        Func8003800CData *data = state->field80;
+        s8 current_value = data->field3;
+        s8 previous_value = data->field4;
+        u8 value_byte = data->field3;
 
-        if (field3 != field4) {
-            data->field4 = copy;
-            arg0->field28 = copy;
+        if (current_value != previous_value) {
+            data->field4 = value_byte;
+            state->field28 = value_byte;
         }
     }
 
-    if (arg0->field80->field34 != 0) {
-        if (arg0->callback == func_800387D0) {
+    if (state->field80->field34 != 0) {
+        if (state->callback == func_800387D0) {
             do {
-                func_800387D0(arg0);
-            } while (arg0->callback != func_80038A10);
+                func_800387D0(state);
+            } while (state->callback != func_80038A10);
         }
 
         {
-            s32 field34;
+            s32 pending_value;
             Func8003800CData *value_data;
             Func8003800CData *clear_data;
 
-            value_data = *(Func8003800CData * volatile *)&arg0->field80;
+            value_data = *(Func8003800CData * volatile *)&state->field80;
             do {
-                clear_data = arg0->field80;
+                clear_data = state->field80;
             } while (0);
-            field34 = value_data->field34;
+            pending_value = value_data->field34;
 
-            arg0->callback = func_80038A10;
-            arg0->field2E = 0;
-            arg0->field7C = &arg0->field3C;
-            arg0->field1C = field34;
+            state->callback = func_80038A10;
+            state->field2E = 0;
+            state->field7C = &state->field3C;
+            state->field1C = pending_value;
             clear_data->field34 = 0;
         }
     }
 
-    if (arg0->callback == 0) {
-        arg0->callback = func_80038A10;
+    if (state->callback == 0) {
+        state->callback = func_80038A10;
     }
-    arg0->callback(arg0);
+    state->callback(state);
 }

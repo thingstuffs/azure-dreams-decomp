@@ -60,39 +60,40 @@ extern u8 D_800D2364[];
 extern s32 D_800D237C[];
 extern u8 D_800F9F78[];
 
-void func_800BF9E4(void *arg0, S_800BF9E4_1 *arg1, M2C_UNK arg2) {
-    void *temp_v0;
-    S_800BF9E4_5 *temp_v0_2;
-    S_800BF9E4_3 *temp_v1;
-    S_800BF9E4_4 *temp_v1_2;
+/* Initialize the object and create a positioned visual child linked to it. */
+void func_800BF9E4(void *object, S_800BF9E4_1 *position, M2C_UNK resource_context) {
+    void *child;
+    S_800BF9E4_5 *child_data;
+    S_800BF9E4_3 *child_visual;
+    S_800BF9E4_4 *child_position;
 
-    ((S_800BF9E4_0_pre *)arg0)[-1].unk_00 = &D_800BF8DC[0];
-    ((Rec_func_8008F074_arg0 *)arg0)->unk_50 = 0;
-    func_8004491C(arg0 - 0x20, &D_80045340[0]);
-    arg1->unk_00 = 0x0F200000;
-    arg1->unk_04 = 0x02600000;
-    arg1->unk_08 = 0;
-    func_8008F074(arg0, arg1, &D_800D2364[0]);
-    func_8003DB94(arg2, &D_800F9F78[0], 0);
-    ((Rec_func_8008F074_arg0 *)arg0)->unk_48 = D_800D237C[0];
-    temp_v0 = func_8003FC64(0x136);
-    if (temp_v0 != 0) {
-        func_8004491C(temp_v0, &D_80046398[0]);
-        temp_v1 = ((S_800BF9E4_2 *)temp_v0)->unk_0C;
-        ((S_800BF9E4_2 *)temp_v0)->unk_10 = &D_800BF72C[0];
-        temp_v1->unk_1C = 0x1000;
-        temp_v1->unk_1E = 0x1000;
-        temp_v1->unk_20 = 0x1000;
-        temp_v1->unk_1A = 0;
-        temp_v1->unk_0C = 0x808080;
-        temp_v1->unk_08 = 0x75;
-        temp_v1_2 = ((S_800BF9E4_2 *)temp_v0)->unk_08;
-        temp_v1_2->unk_00 = 0x0FA00000;
-        temp_v1_2->unk_04 = 0x02300000;
-        temp_v0_2 = temp_v0 + 0x20;
-        ASM_USE(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_v1_2->unk_08 = 0;
-        temp_v0_2->unk_A0 = arg0;
+    ((S_800BF9E4_0_pre *)object)[-1].unk_00 = &D_800BF8DC[0];
+    ((Rec_func_8008F074_arg0 *)object)->unk_50 = 0;
+    func_8004491C(object - 0x20, &D_80045340[0]);
+    position->unk_00 = 0x0F200000;
+    position->unk_04 = 0x02600000;
+    position->unk_08 = 0;
+    func_8008F074(object, position, &D_800D2364[0]);
+    func_8003DB94(resource_context, &D_800F9F78[0], 0);
+    ((Rec_func_8008F074_arg0 *)object)->unk_48 = D_800D237C[0];
+    child = func_8003FC64(0x136);
+    if (child != 0) {
+        func_8004491C(child, &D_80046398[0]);
+        child_visual = ((S_800BF9E4_2 *)child)->unk_0C;
+        ((S_800BF9E4_2 *)child)->unk_10 = &D_800BF72C[0];
+        child_visual->unk_1C = 0x1000;
+        child_visual->unk_1E = 0x1000;
+        child_visual->unk_20 = 0x1000;
+        child_visual->unk_1A = 0;
+        child_visual->unk_0C = 0x808080;
+        child_visual->unk_08 = 0x75;
+        child_position = ((S_800BF9E4_2 *)child)->unk_08;
+        child_position->unk_00 = 0x0FA00000;
+        child_position->unk_04 = 0x02300000;
+        child_data = child + 0x20;
+        ASM_USE(child_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        child_position->unk_08 = 0;
+        child_data->unk_A0 = object;
     }
 }
 

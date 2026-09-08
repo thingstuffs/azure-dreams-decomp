@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800AC82C(void);
+extern s32 func_800AC82C(void *, s32, void *, void *);
 extern s32 func_800AD9B4(void *, void *);
 extern void func_80047784(void *, u8, s32);
 extern void func_801708B8(void *, s32, void *);
@@ -12,7 +12,7 @@ extern u8 D_80171A80[];
 
 void func_80174A68(void *arg0, s32 arg1, void *arg2, void *arg3)
 {
-    if (func_800AC82C() != 0) {
+    if (func_800AC82C(arg0, arg1, arg2, arg3) != 0) {
         if ((func_800AD9B4(arg2, arg3) << 16) > 0) {
             *(void **)((u8 *)arg0 + 0x8C) = D_80171A80;
             return;

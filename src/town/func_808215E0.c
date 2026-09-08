@@ -16,31 +16,32 @@ typedef struct Town215E0Actor {
     u16 field16;
 } Town215E0Actor;
 
-void func_80023DE0(Town215E0State *arg0, s32 arg1, Town215E0Actor *arg2) {
-    u16 value;
+/* Updates a triggered rise-and-decay cycle for the actor's field16. */
+void func_80023DE0(Town215E0State *cycle, s32 unused, Town215E0Actor *actor) {
+    u16 reduced_value;
 
-    arg0->timer--;
-    switch (arg0->state) {
+    cycle->timer--;
+    switch (cycle->state) {
     case 0:
-        if (arg0->inner->field5C == 4) {
-            arg0->timer = 10;
-            arg0->state++;
+        if (cycle->inner->field5C == 4) {
+            cycle->timer = 10;
+            cycle->state++;
         }
         break;
 
     case 1:
-        arg2->field16 += 64;
-        if (arg0->timer <= 0) {
-            arg0->state++;
+        actor->field16 += 64;
+        if (cycle->timer <= 0) {
+            cycle->state++;
         }
         break;
 
     case 2:
-        value = arg2->field16 - 24;
-        arg2->field16 = value;
-        if (value < 24) {
-            arg2->field16 = 0;
-            arg0->state = 0;
+        reduced_value = actor->field16 - 24;
+        actor->field16 = reduced_value;
+        if (reduced_value < 24) {
+            actor->field16 = 0;
+            cycle->state = 0;
         }
         break;
 

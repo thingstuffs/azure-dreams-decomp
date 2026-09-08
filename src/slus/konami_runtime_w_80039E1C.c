@@ -21,20 +21,21 @@ typedef struct Func80039E1CReader {
     Func80039E1CTable *table;
 } Func80039E1CReader;
 
-void func_80039E1C(Func80039E1CReader *arg0) {
-    u8 *ptr = arg0->read_ptr;
-    Func80039E1CTable *table = arg0->table;
-    u8 index = *ptr++;
-    u8 *data;
+/* Read a handler index and table reference, call the handler, and store its result. */
+void func_80039E1C(Func80039E1CReader *reader) {
+    u8 *read_ptr = reader->read_ptr;
+    Func80039E1CTable *table = reader->table;
+    u8 handler_index = *read_ptr++;
+    u8 *table_ref;
     Func80039E1CHandler *handlers;
 
-    arg0->read_ptr = ptr;
-    data = (u8 *)(ptr[0] + (ptr[1] << 8) +
-                  (ptr[2] << 16) + (ptr[3] << 24));
-    ptr += 4;
-    handlers = (Func80039E1CHandler *)(data[0] + (data[1] << 8) +
-                                       (data[2] << 16) + (data[3] << 24));
-    arg0->read_ptr = ptr;
-    table->result = handlers[index](table->arg0, table->arg1,
-                                    table->arg2, table->arg3);
+    reader->read_ptr = read_ptr;
+    table_ref = (u8 *)(read_ptr[0] + (read_ptr[1] << 8) +
+                      (read_ptr[2] << 16) + (read_ptr[3] << 24));
+    read_ptr += 4;
+    handlers = (Func80039E1CHandler *)(table_ref[0] + (table_ref[1] << 8) +
+                                     (table_ref[2] << 16) + (table_ref[3] << 24));
+    reader->read_ptr = read_ptr;
+    table->result = handlers[handler_index](table->arg0, table->arg1,
+                                           table->arg2, table->arg3);
 }

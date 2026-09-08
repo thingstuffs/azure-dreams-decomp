@@ -44,24 +44,21 @@ typedef struct S_80019DE0_2 {
     s32 unk_08;
 } S_80019DE0_2;   /* temp_a0_2 in func_80019DE0 */
 
-void func_80019DE0(S_80019DE0_0 *arg0) {
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u32 temp_shift;
-    S_80019DE0_1 *temp_a0;
-    S_80019DE0_2 *temp_a0_2;
+/* Calls the active callback and adds signed half-deltas, rounded toward zero, to two target fields. */
+void func_80019DE0(S_80019DE0_0 *deltas) {
+    u16 first_delta;
+    u16 second_delta;
+    u32 shifted_delta;
+    S_80019DE0_1 *first_target;
+    S_80019DE0_2 *second_target;
 
     ((S_80019DE0_8 *)(((S_80019DE0_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20))->unk_258(1);
-    temp_v0 = arg0->unk_00;
-    temp_a0 = ((S_80019DE0_6 *)((*(void **)((u8 *)D_80016000 + 0))))->unk_1C;
-    temp_shift = (u32) temp_v0 << 0x10;
-    temp_a0->unk_04 = (s32) (temp_a0->unk_04 + ((s32) (((s32) temp_shift >> 0x10) + (temp_shift >> 0x1F)) >> 1));
-    temp_v0_2 = arg0->unk_02;
-    temp_a0_2 = ((S_80019DE0_7 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_1C;
-    temp_shift = (u32) temp_v0_2 << 0x10;
-    temp_a0_2->unk_08 = (s32) (temp_a0_2->unk_08 + ((s32) (((s32) temp_shift >> 0x10) + (temp_shift >> 0x1F)) >> 1));
+    first_delta = deltas->unk_00;
+    first_target = ((S_80019DE0_6 *)((*(void **)((u8 *)D_80016000 + 0))))->unk_1C;
+    shifted_delta = (u32) first_delta << 0x10;
+    first_target->unk_04 = (s32) (first_target->unk_04 + ((s32) (((s32) shifted_delta >> 0x10) + (shifted_delta >> 0x1F)) >> 1));
+    second_delta = deltas->unk_02;
+    second_target = ((S_80019DE0_7 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_1C;
+    shifted_delta = (u32) second_delta << 0x10;
+    second_target->unk_08 = (s32) (second_target->unk_08 + ((s32) (((s32) shifted_delta >> 0x10) + (shifted_delta >> 0x1F)) >> 1));
 }
-
-/* MECHANISM: The true-space function holds the hi/lo-class D_80016000 page in s0
-   and arg0 in s1 across the indirect call; all three root loads use one pointer slot.
-   The narrow u16 loads plus explicit s16 rounding preserve the two arithmetic sequences. */

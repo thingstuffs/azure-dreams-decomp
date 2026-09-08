@@ -7,54 +7,52 @@ typedef struct {
 extern s8 D_80016000[];
 extern UA32 D_8001C31C;
 
-UA32 *func_80018B64(UA32 *arg0)
+/* Copies the header and coordinate entries, flags entries whose grid field is zero, and appends a terminator. */
+UA32 *func_80018B64(UA32 *buffer)
 {
-    UA32 *ret;
-    u8 *page;
-    u8 *table;
-    u32 hi;
-    register UA32 *src ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    UA32 **cursor;
-    register u8 *out ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    u8 *list;
-    u8 *root;
+    UA32 *result;
+    u8 *global_page;
+    u8 *grid_rows;
+    u32 header_page;
+    register UA32 *header ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    UA32 **entry_ptr;
+    register u8 *write_ptr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *entry_list;
+    u8 *state;
     u8 y;
     u8 x;
-    u8 *row;
+    u8 *grid_row;
 
-    ret = arg0;
-    page = (u8 *)0x80010000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    root = *(u8 **)(page + 0x6000);
-    table = *(u8 **)(*(u8 **)(root + 0x24) + 0x6C);
-    hi = 0x80020000;
-    ASM_KEEP(hi);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    src = (UA32 *)(hi - 0x3CE4);
-    ASM_KEEP(src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    *ret = *src;
-    ASM_KEEP(hi);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    result = buffer;
+    global_page = (u8 *)0x80010000;
+    ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    state = *(u8 **)(global_page + 0x6000);
+    grid_rows = *(u8 **)(*(u8 **)(state + 0x24) + 0x6C);
+    header_page = 0x80020000;
+    ASM_KEEP(header_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    header = (UA32 *)(header_page - 0x3CE4);
+    ASM_KEEP(header);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    *result = *header;
+    ASM_KEEP(header_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-    root = *(u8 **)(page + 0x6000);
-    list = *(u8 **)(root + 0x38);
-    cursor = (UA32 **)(list + 0x29C);
-    out = (u8 *)ret + 4;
-    if (*(UA32 **)(list + 0x29C) != 0) {
+    state = *(u8 **)(global_page + 0x6000);
+    entry_list = *(u8 **)(state + 0x38);
+    entry_ptr = (UA32 **)(entry_list + 0x29C);
+    write_ptr = (u8 *)result + 4;
+    if (*(UA32 **)(entry_list + 0x29C) != 0) {
         do {
-            *(UA32 *)out = **cursor;
-            y = out[1];
-            row = (u8 *)((u32)(y * 0x14) + (u32)table);
-            x = out[0];
-            if (*(s16 *)(*(u8 **)(row + 0xC) + (x * 0x14) + 0x12) == 0) {
-                out[3] |= 0x80;
+            *(UA32 *)write_ptr = **entry_ptr;
+            y = write_ptr[1];
+            grid_row = (u8 *)((u32)(y * 0x14) + (u32)grid_rows);
+            x = write_ptr[0];
+            if (*(s16 *)(*(u8 **)(grid_row + 0xC) + (x * 0x14) + 0x12) == 0) {
+                write_ptr[3] |= 0x80;
             }
-            cursor++;
-            out += 4;
-        } while (*cursor != 0);
+            entry_ptr++;
+            write_ptr += 4;
+        } while (*entry_ptr != 0);
     }
-    *(s32 *)out = 0;
-    return ret;
+    *(s32 *)write_ptr = 0;
+    return result;
 }
 
-/* MECHANISM: A frameless leaf holds ret/page/table/cursor in the retail caller-saved roles.
-   Packed UA32 assignments reproduce both lwl/lwr + swl/swr copies; split list/cursor names
-   force the fresh null-check load, and integer-form scaled addition preserves operand order. */

@@ -10,7 +10,8 @@ typedef struct S_80025598_0 {
     s32 unk_2C;
 } S_80025598_0;   /* arg0 in func_80025598 */
 
-void func_80025598(S_80025598_0 *arg0) {
-    arg0->unk_2C = 0;
-    arg0->unk_10 = &D_80025548;
+/* Clear the object's state and set its default data pointer. */
+void func_80025598(S_80025598_0 *object) {
+    object->unk_2C = 0;
+    object->unk_10 = &D_80025548;
 }

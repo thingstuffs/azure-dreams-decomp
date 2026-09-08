@@ -38,36 +38,37 @@ extern u16 D_800D5070[];
 
 extern void func_800C2E84(void *, s32, s32);
 
-void func_800C4D80(s8 arg0, s8 arg1)
+/* Apply a table value to the matching town object and refresh its child state. */
+void func_800C4D80(s8 object_slot, s8 value_index)
 {
     TownEntry *table;
-    s32 index;
-    void *kind;
-    u16 value;
+    s32 object_index;
+    void *object_kind;
+    u16 lookup_value;
     void *object;
     S_800C4D80_1 *entry;
     S_800C4D80_2 *child;
-    S_800C4D80_0 *data;
+    S_800C4D80_0 *object_data;
 
     table = D_80082660;
-    index = arg0;
-    object = table[index].object;
+    object_index = object_slot;
+    object = table[object_index].object;
     if (object != 0) {
-        value = D_800D5070[arg1];
+        lookup_value = D_800D5070[value_index];
         entry = object;
-        data = (u8 *)object + 0x20;
-        if (index == data->unk_60) {
-            if (index == 1) {
-                kind = entry->unk_10;
-                if (kind != D_800C3174 && kind != D_800C321C) {
-                    data->unk_10 = value;
+        object_data = (u8 *)object + 0x20;
+        if (object_index == object_data->unk_60) {
+            if (object_index == 1) {
+                object_kind = entry->unk_10;
+                if (object_kind != D_800C3174 && object_kind != D_800C321C) {
+                    object_data->unk_10 = lookup_value;
                     return;
                 }
             }
-            child = data->unk_80;
-            data->unk_6E = value;
-            data->unk_72 = value;
-            func_800C2E84(data, entry->unk_0C,
+            child = object_data->unk_80;
+            object_data->unk_6E = lookup_value;
+            object_data->unk_72 = lookup_value;
+            func_800C2E84(object_data, entry->unk_0C,
                           child->unk_04);
         }
     }

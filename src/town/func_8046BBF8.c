@@ -29,6 +29,7 @@ extern s32 *D_80018868[];
 extern u8 *D_80018874[];
 extern TownRecord *D_80018A18;
 
+/* Populate town records and conditionally change the first kind-11 record to kind 10. */
 TownRecord *func_8001CBF8(void)
 {
     s32 index;
@@ -41,9 +42,9 @@ TownRecord *func_8001CBF8(void)
     index = 0;
     values = value_table[D_80016000->dispatch->index(index)];
     if ((((volatile TownRecord *)D_80018A18)->flags & 0xC0) != 0x80) {
-        register s32 work;
-        u8 next_flags;
-        s32 masked_flags;
+        register s32 next_addr_or_end;
+        u8 value_or_flags;
+        s32 record_flags;
         TownRecord *record;
 
         do {
@@ -53,33 +54,33 @@ TownRecord *func_8001CBF8(void)
             record = (TownRecord *)((u8 *)D_80018A18 + (index * sizeof(TownRecord)));
             func_8001A188(record, copy_source);
             write_record = (TownRecord *)((s32)(index * sizeof(TownRecord)) + (s32)D_80018A18);
-            next_flags = values[index];
-            write_record->value = next_flags;
+            value_or_flags = values[index];
+            write_record->value = value_or_flags;
             index++;
-            work = (s32)(index * sizeof(TownRecord)) + (s32)D_80018A18;
-            next_flags = *(volatile u8 *)&((TownRecord *)work)->flags;
-            masked_flags = next_flags;
-            work = 128;
-            masked_flags &= 0xC0;
-        } while (masked_flags != work);
+            next_addr_or_end = (s32)(index * sizeof(TownRecord)) + (s32)D_80018A18;
+            value_or_flags = *(volatile u8 *)&((TownRecord *)next_addr_or_end)->flags;
+            record_flags = value_or_flags;
+            next_addr_or_end = 128;
+            record_flags &= 0xC0;
+        } while (record_flags != next_addr_or_end);
     }
     if ((((volatile TownRecord *)D_80018A18)->flags & 0xC0) != 0x80) {
-        s32 i = 0;
+        s32 scan_index = 0;
         s32 end_flags;
 
         for (;;) {
-            TownRecord *record = (TownRecord *)((s32)(i * sizeof(TownRecord)) + (s32)D_80018A18);
+            TownRecord *record = (TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (s32)D_80018A18);
             if (record->kind == 11) {
                 end_flags = 128;
                 if (func_8001C57C(D_80018A18) != 0)
                     goto done;
-                ((TownRecord *)((s32)(i * sizeof(TownRecord)) + (s32)D_80018A18))->kind = 10;
+                ((TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (s32)D_80018A18))->kind = 10;
                 goto done;
             } else {
                 end_flags = 128;
             }
-            i++;
-            record = (TownRecord *)((s32)(i * sizeof(TownRecord)) + (s32)D_80018A18);
+            scan_index++;
+            record = (TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (s32)D_80018A18);
             if ((record->flags & 0xC0) == end_flags)
                 break;
         }

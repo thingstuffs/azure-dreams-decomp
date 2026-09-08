@@ -16,6 +16,7 @@ extern M2C_UNK D_80016F88;
 extern M2C_UNK D_80016FC8;
 extern M2C_UNK D_8001700C;
 
+/* Initialize shared state and attach its data pointers. */
 void func_80016C34(void) {
     func_80016510(D_800160B0, D_800160B2);
     func_80016098();

@@ -5,6 +5,7 @@
 M2C_UNK func_800997FC();                   /* extern */
 extern M2C_UNK D_800E092B;
 
+/* Passes D_800E092B to func_800997FC by address. */
 void func_800A6508(void) {
     func_800997FC(&D_800E092B);
 }

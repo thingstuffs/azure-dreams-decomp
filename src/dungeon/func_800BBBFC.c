@@ -39,20 +39,21 @@ typedef struct S_800C135C_0 {
 
 
 
+/* Looks up an entry, clears its linked state, and processes it if found. */
 s32 func_800C135C(void) {
-    s32 result;
-    S_800C135C_0 *temp_v0;
+    s32 found;
+    S_800C135C_0 *entry;
 
-    temp_v0 = func_800C9850(
+    entry = func_800C9850(
         D_80082E80.unk24,
         D_80082E80.unk25,
         D_800E3D7C->unk88);
-    if (temp_v0 != 0) {
-        ((S_800C135C_1 *)(((S_800C135C_0_pre *)temp_v0)[-1].unk_00))->unk_0C = 0;
-        func_80042640(temp_v0, temp_v0->unk_13);
-        result = 1;
+    if (entry != 0) {
+        ((S_800C135C_1 *)(((S_800C135C_0_pre *)entry)[-1].unk_00))->unk_0C = 0;
+        func_80042640(entry, entry->unk_13);
+        found = 1;
     } else {
-        result = 0;
+        found = 0;
     }
-    return result;
+    return found;
 }

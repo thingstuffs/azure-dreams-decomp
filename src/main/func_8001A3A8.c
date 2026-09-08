@@ -18,13 +18,14 @@ extern s32 D_804094E8_2[4];
 __asm__(".set D_804094E8, 0x804094E8");
 __asm__(".set D_804094E8_2, 0x804094E8");
 
+/* Clears the pending flag and returns 4 if it was set, or 0 otherwise. */
 s32 func_8001A3A8(void) {
-    s32 var_v1;
+    s32 status;
 
-    var_v1 = 0;
+    status = 0;
     if (D_804094E8[0] != 0) {
-        var_v1 = 4;
+        status = 4;
         D_804094E8_2[0] = 0;
     }
-    return var_v1;
+    return status;
 }

@@ -25,94 +25,95 @@ extern void func_800AD4D0(void *);
 extern void func_800B66C8(void *);
 extern void func_800419EC(s32, s32);
 
-void func_801730E0(S_801730E0_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3) {
-    s16 temp_v1;
-    u16 temp_v0;
-    s16 var_v1;
-    s32 *var_a0;
-    u8 *var_v0;
+/* Advance the action wait states, then reset motion and switch scripts. */
+void func_801730E0(S_801730E0_0 *state, Rec_D_800E3D7C *motion, Rec_D_80082E80 *action, void *entity) {
+    s16 phase;
+    u16 ticks_left;
+    s16 wait_ticks;
+    s32 *entity_slots;
+    u8 *next_script;
 
-    temp_v1 = arg0->unk_9B;
-    if (temp_v1 == 1)
-        goto case_1;
-    if (temp_v1 < 2) {
-        if (temp_v1 == 0)
-            goto case_0;
-        goto epilogue;
+    phase = state->unk_9B;
+    if (phase == 1)
+        goto wait_action;
+    if (phase < 2) {
+        if (phase == 0)
+            goto start_action;
+        goto done;
     }
-    if (temp_v1 == 2)
-        goto case_2;
-    goto epilogue;
+    if (phase == 2)
+        goto finish_action;
+    goto done;
 
-case_0:
-        func_800AD4D0(arg3);
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800B66C8(arg1);
-        func_800B66C8(arg1);
-        func_800B66C8(arg1);
-        func_800B66C8(arg1);
+start_action:
+        func_800AD4D0(entity);
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800B66C8(motion);
+        func_800B66C8(motion);
+        func_800B66C8(motion);
+        func_800B66C8(motion);
         func_800419EC(4, 6);
-        arg0->unk_9B = arg0->unk_9B + 1;
-        if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
-            if (arg2->unk_14.at00_u16.v & 0x8000) {
-                arg0->unk_96.s = 0;
-                arg0->unk_9B = 2;
-                goto epilogue;
+        state->unk_9B = state->unk_9B + 1;
+        if (((Rec_D_800E3D7C *)entity)->unk_28 != 0) {
+            if (action->unk_14.at00_u16.v & 0x8000) {
+                state->unk_96.s = 0;
+                state->unk_9B = 2;
+                goto done;
             }
-            var_v1 = -1U;
-            if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228)
-                var_v1 = 8;
-            arg0->unk_96.s = var_v1;
-            goto block_15;
+            wait_ticks = -1U;
+            if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x228)
+                wait_ticks = 8;
+            state->unk_96.s = wait_ticks;
+            goto update_wait;
         }
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800AAA54(arg0, arg1, arg2, &D_801752E4);
-        goto epilogue;
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800AAA54(state, motion, action, &D_801752E4);
+        goto done;
 
-case_1:
-block_15:
-        if (arg0->unk_96.u > 0) {
-            temp_v0 = arg0->unk_96.s - 1;
-            arg0->unk_96.s = temp_v0;
-            goto block_20;
+wait_action:
+update_wait:
+        if (state->unk_96.u > 0) {
+            ticks_left = state->unk_96.s - 1;
+            state->unk_96.s = ticks_left;
+            goto check_wait;
         }
-        if (arg2->unk_14.at00_u16.v & 0x6000)
-            arg0->unk_96.s = 0;
-block_20:
-        if (arg0->unk_96.u != 0)
-            goto epilogue;
-        if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
-            arg1->unk_14.as_s32 = 0;
-            arg1->unk_10.at00_s32.v = 0;
-            arg1->unk_0C.as_s32 = 0;
-            func_800AAA54(arg0, arg1, arg2, &D_801752E4);
-            goto epilogue;
+        if (action->unk_14.at00_u16.v & 0x6000)
+            state->unk_96.s = 0;
+check_wait:
+        if (state->unk_96.u != 0)
+            goto done;
+        if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
+            motion->unk_14.as_s32 = 0;
+            motion->unk_10.at00_s32.v = 0;
+            motion->unk_0C.as_s32 = 0;
+            func_800AAA54(state, motion, action, &D_801752E4);
+            goto done;
         }
         func_800419EC(1, 1);
-        arg0->unk_96.s = 8;
-        arg0->unk_9B = arg0->unk_9B + 1;
-        goto epilogue;
+        state->unk_96.s = 8;
+        state->unk_9B = state->unk_9B + 1;
+        goto done;
 
-case_2:
-        temp_v0 = arg0->unk_96.s - 1;
-        arg0->unk_96.s = temp_v0;
-        if ((temp_v0 << 0x10) > 0)
-            goto epilogue;
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-        var_a0 = D_80083460;
-        if (var_a0[4] == (arg3 - 0x20)) {
-            var_a0[4] = var_a0[4] & 0x7FFFFFFF;
+finish_action:
+        ticks_left = state->unk_96.s - 1;
+        state->unk_96.s = ticks_left;
+        if ((ticks_left << 0x10) > 0)
+            goto done;
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800A2B04(motion, action->unk_24, action->unk_25);
+        entity_slots = D_80083460;
+        if (entity_slots[4] == (entity - 0x20)) {
+            entity_slots[4] = entity_slots[4] & 0x7FFFFFFF;
         }
-        var_v0 = D_8017102C;
-        arg0->unk_8C = var_v0;
-        goto epilogue;
+        next_script = D_8017102C;
+        state->unk_8C = next_script;
+        goto done;
 
-epilogue:
+done:
     return;
 }

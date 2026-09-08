@@ -17,13 +17,14 @@ typedef struct {
     u8 unkE;
 } Struct800CED50Arg2;
 
-void func_800CC4B0(Struct800CED50Arg0 *arg0, s32 arg1, Struct800CED50Arg2 *arg2) {
-    if ((s16)(--arg0->unk6C) <= 0) {
+// Decrements the countdown and resets the state and color when it expires.
+void func_800CC4B0(Struct800CED50Arg0 *state, s32 unusedArg, Struct800CED50Arg2 *color) {
+    if ((s16)(--state->unk6C) <= 0) {
         func_80033AA8(0x97);
-        arg0->unk54 = &D_800CC524;
-        arg0->unk6C = 0xA;
-        arg2->unkE = 0x80;
-        arg2->unkD = 0x80;
-        arg2->unkC = 0x80;
+        state->unk54 = &D_800CC524;
+        state->unk6C = 0xA;
+        color->unkE = 0x80;
+        color->unkD = 0x80;
+        color->unkC = 0x80;
     }
 }

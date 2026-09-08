@@ -26,27 +26,28 @@ extern s8 D_80016000[];
 #define CURRENT_FLOOR() \
     ((S_800161C0_2 *)(((S_800161C0_1 *)(((S_800161C0_0 *)(*(void **)D_80016000))->unk_24))->unk_74))->unk_2A
 
-s32 func_800161C0(s32 arg0, s32 arg1) {
-    s32 result;
-    s32 next;
-    s32 selected;
+/* Advance the counter up to five and process the current floor unless an early exit applies. */
+s32 func_800161C0(s32 fallback_arg_a, s32 fallback_arg_b) {
+    s32 count;
+    s32 next_count;
+    s32 capped_count;
 
     if (func_8001ADE0(0x1462) != 0) {
-        func_80019958(arg0, arg1);
+        func_80019958(fallback_arg_a, fallback_arg_b);
         return 1;
     }
 
-    result = func_8001B0E8(0xD84, 3);
-    if ((CURRENT_FLOOR() == 7) && (result >= 5)) {
+    count = func_8001B0E8(0xD84, 3);
+    if ((CURRENT_FLOOR() == 7) && (count >= 5)) {
         return 1;
     }
 
-    next = result + 1;
-    selected = 5;
-    if (next < 6) {
-        selected = next;
+    next_count = count + 1;
+    capped_count = 5;
+    if (next_count < 6) {
+        capped_count = next_count;
     }
-    func_8001B168(0xD84, selected, 3);
+    func_8001B168(0xD84, capped_count, 3);
     func_8001DCD4(CURRENT_FLOOR());
     return 0;
 }

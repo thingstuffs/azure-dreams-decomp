@@ -7,6 +7,7 @@ typedef struct S_8008B9D8_0 {
 } S_8008B9D8_0;   /* arg0 in func_8008B9D8 */
 
 
-void func_8008B9D8(S_8008B9D8_0 *arg0) {
-    arg0->unk_68();
+/* Invoke the object's callback. */
+void func_8008B9D8(S_8008B9D8_0 *object) {
+    object->unk_68();
 }

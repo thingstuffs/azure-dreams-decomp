@@ -14,16 +14,15 @@ struct S_800505BC {
 extern void func_80050550(void *arg, s32 arg1, s32 arg2);
 extern void func_800504B4(S_800505BC *arg0, s32 arg1, s32 arg2);
 
-/* Advances the sub-timer at +0x58, resetting the state to func_800504B4 once
- * the internal counter reaches 3, then always invokes func_800504B4. */
-void func_800505BC(S_800505BC *arg0, s32 arg1, s32 arg2) {
-    arg0->counter += 1;
-    func_80050550(&arg0->unk58, arg0->counter, 3);
+/* Advances the sub-timer, restores the callback at count three, and invokes func_800504B4. */
+void func_800505BC(S_800505BC *state, s32 callback_arg1, s32 callback_arg2) {
+    state->counter += 1;
+    func_80050550(&state->unk58, state->counter, 3);
 
-    if (arg0->counter >= 3) {
-        arg0->counter = 0;
-        arg0->func = func_800504B4;
+    if (state->counter >= 3) {
+        state->counter = 0;
+        state->func = func_800504B4;
     }
 
-    func_800504B4(arg0, arg1, arg2);
+    func_800504B4(state, callback_arg1, callback_arg2);
 }

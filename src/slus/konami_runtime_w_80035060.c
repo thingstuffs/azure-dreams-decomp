@@ -6,6 +6,7 @@
 
 
 
-void func_80035060(Rec_D_80082A38 *arg0, s8 arg1) {
-    arg0->unk_03 = arg1;
+/* Sets the record's byte at offset 0x03. */
+void func_80035060(Rec_D_80082A38 *record, s8 value) {
+    record->unk_03 = value;
 }

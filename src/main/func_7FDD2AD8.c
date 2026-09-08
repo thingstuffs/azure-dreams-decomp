@@ -36,19 +36,17 @@ extern void func_800478B8(void *);
 extern u32 D_800814A0;
 extern int abs(int);
 
-void func_80089A38(State *state, Motion *motion, void *arg2)
+/* Updates phased motion and marks completion when stopped or out of bounds. */
+void func_80089A38(State *state, Motion *motion, void *update_data)
 {
     Owner *owner;
     s16 step;
-    s16 short_value;
-    s32 temp_a0;
-    s32 temp_a1;
-    s32 temp_v1;
-    s32 value;
-    s32 check3;
+    s32 x_velocity;
+    s32 horizontal_value;
+    s32 previous_y;
 
     owner = state->owner;
-    func_800478B8(arg2);
+    func_800478B8(update_data);
     if (owner->flags & 1)
         state->step = 255;
 
@@ -58,58 +56,58 @@ void func_80089A38(State *state, Motion *motion, void *arg2)
             if (step == 0)
                 goto epilogue;
             if (step == 1)
-                goto state1;
+                goto advance_motion;
             goto epilogue;
         }
         if (step == 3)
-            goto state3;
+            goto accelerate_motion;
         if (step == 255)
-            goto state255;
+            goto mark_complete;
         goto epilogue;
     }
-    goto state2;
+    goto reset_motion;
 
-state1:
+advance_motion:
     motion->x += motion->dx;
     motion->y += motion->dy;
     motion->dx += state->direction != 0 ? -0x10000 : 0x10000;
     motion->dy += 0x8000;
     if (motion->dx != 0)
         goto epilogue;
-    goto increment;
+    goto advance_step;
 
-state2:
-    value = 232;
+reset_motion:
+    horizontal_value = 232;
     if (state->direction != 0)
-        value = 88;
-    *(s16 *)((unsigned char *)motion + 2) = value;
+        horizontal_value = 88;
+    *(s16 *)((unsigned char *)motion + 2) = horizontal_value;
     *(s16 *)((unsigned char *)motion + 6) = owner->height * 16 + 168;
     if (owner->kind != 32)
         goto epilogue;
-    value = -0x20000;
+    horizontal_value = -0x20000;
     if (state->direction != 0)
-        value = 0x20000;
-    motion->dx = value;
+        horizontal_value = 0x20000;
+    motion->dx = horizontal_value;
     motion->dy = -0x40000;
 
-increment:
+advance_step:
     state->step++;
     goto epilogue;
 
-state3:
+accelerate_motion:
     {
-    check3 = motion->y;
-    motion->x += motion->dx;
-    motion->y += motion->dy;
-    temp_v1 = motion->dx;
-    motion->dx = temp_v1 + (temp_v1 >> 3);
-    if (abs(((MotionView *)motion)->half[1]) < 361)
+        previous_y = motion->y;
+        motion->x += motion->dx;
+        motion->y += motion->dy;
+        x_velocity = motion->dx;
+        motion->dx = x_velocity + (x_velocity >> 3);
+        if (abs(((MotionView *)motion)->half[1]) < 361)
+            goto epilogue;
+        state->step = 255;
         goto epilogue;
-    state->step = 255;
-    goto epilogue;
     }
 
-state255:
+mark_complete:
     *(u16 *)((unsigned char *)state - 2) |= 0x8000;
     D_800814A0 |= 0x8000;
 

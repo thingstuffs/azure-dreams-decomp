@@ -59,136 +59,137 @@ extern void func_800672D8(Rect8 *, u16 *);
 extern void func_8006733C(Rect8 *, u16 *);
 extern void func_800B8FC8(void *, Rect8 *, s16 *, s32, s32);
 
-void func_818FF19C(void *arg0, void *arg1, void *arg2) {
-    Rect8 *call_rect;
-    Rect8 first;
-    Rect8 second;
-    s16 pos[2];
-    s32 outer;
-    s32 inner;
-    s32 cell;
-    s32 adjusted_phase;
-    s32 quarter;
-    s32 state;
-    s32 status;
-    s16 base_y;
-    s16 row_y;
-    s16 base_x;
-    u16 empty;
-    u8 *grid_page;
-    s32 phase;
-    s16 next_phase;
-    u16 *scan;
+/* Updates the tiled texture and draws a moving, fading effect until completion. */
+void func_818FF19C(void *effect, void *offset_state, void *render_state) {
+    Rect8 *end_rect;
+    Rect8 moving_rect;
+    Rect8 tile_rect;
+    s16 draw_pos[2];
+    s32 tile_col;
+    s32 tile_row;
+    s32 pixel_index;
+    s32 rounded_frame;
+    s32 y_offset;
+    s32 stage;
+    s32 offset_applied;
+    s16 column_x;
+    s16 tile_x;
+    s16 tile_y;
+    u16 fill_pixel;
+    u8 *buffer_base;
+    s32 frame;
+    s16 next_frame;
+    u16 *pixel;
 
-    first = D_80024028;
-    second = D_80024030;
-    status = ((S_818FF19C_0 *)arg0)->unk_0A;
+    moving_rect = D_80024028;
+    tile_rect = D_80024030;
+    offset_applied = ((S_818FF19C_0 *)effect)->unk_0A;
     D_80025E80 = 1;
-    if (status == 0) {
-        s32 old_value;
-        s32 delta;
+    if (offset_applied == 0) {
+        s32 old_offset;
+        s32 offset_step;
 
-        ((S_818FF19C_0 *)arg0)->unk_0A = 1;
-        old_value = ((S_818FF19C_1 *)arg1)->unk_08;
-        delta = -0x20000;
-        ASM_KEEP(old_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(delta);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        ((S_818FF19C_0 *)effect)->unk_0A = 1;
+        old_offset = ((S_818FF19C_1 *)offset_state)->unk_08;
+        offset_step = -0x20000;
+        ASM_KEEP(old_offset);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_TAILSLOT_PIN(offset_step);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80024A54();
     }
 
-    ((S_818FF19C_0 *)arg0)->unk_0A = 0;
-    ((S_818FF19C_1 *)arg1)->unk_08 += 0x20000;
-    state = ((S_818FF19C_0 *)arg0)->unk_00.s;
-    if (state != 0) {
-        if (state != 1) {
-            call_rect = &second;
+    ((S_818FF19C_0 *)effect)->unk_0A = 0;
+    ((S_818FF19C_1 *)offset_state)->unk_08 += 0x20000;
+    stage = ((S_818FF19C_0 *)effect)->unk_00.s;
+    if (stage != 0) {
+        if (stage != 1) {
+            end_rect = &tile_rect;
             func_80024D54();
         }
         goto draw;
     }
 
-    outer = 0;
-    grid_page = (u8 *)0x80020000;
-    empty = 0xFFFF;
-    base_y = 0x340;
+    tile_col = 0;
+    buffer_base = (u8 *)0x80020000;
+    fill_pixel = 0xFFFF;
+    column_x = 0x340;
     do {
-        inner = 0;
-        row_y = base_y;
-        base_x = 0x154;
+        tile_row = 0;
+        tile_x = column_x;
+        tile_y = 0x154;
         do {
-            second.x = row_y;
-            second.y = base_x;
-            second.w = 0x18;
-            second.h = 0x15;
-            func_8006733C(&second, (u16 *)(grid_page + 0x5EE8));
+            tile_rect.x = tile_x;
+            tile_rect.y = tile_y;
+            tile_rect.w = 0x18;
+            tile_rect.h = 0x15;
+            func_8006733C(&tile_rect, (u16 *)(buffer_base + 0x5EE8));
             do {
             } while (func_80067014(1) != 0);
 
-            scan = (u16 *)(grid_page + 0x5EE8);
-            cell = 0;
+            pixel = (u16 *)(buffer_base + 0x5EE8);
+            pixel_index = 0;
             do {
-                if (*scan == 0) {
-                    *scan = empty;
-                    func_80024AEC(cell);
+                if (*pixel == 0) {
+                    *pixel = fill_pixel;
+                    func_80024AEC(pixel_index);
                 }
-                *scan = 0;
-                cell++;
-                scan++;
-            } while (cell < 0x1F8);
+                *pixel = 0;
+                pixel_index++;
+                pixel++;
+            } while (pixel_index < 0x1F8);
 
-            func_800672D8(&second, (u16 *)(grid_page + 0x5EE8));
-            inner++;
-            base_x += 0x15;
-        } while (inner < 4);
+            func_800672D8(&tile_rect, (u16 *)(buffer_base + 0x5EE8));
+            tile_row++;
+            tile_y += 0x15;
+        } while (tile_row < 4);
 
-        outer++;
-        base_y += 0x18;
-    } while (outer < 4);
+        tile_col++;
+        column_x += 0x18;
+    } while (tile_col < 4);
 
-    ((S_818FF19C_0 *)arg0)->unk_00.u++;
-    ((S_818FF19C_2 *)arg2)->unk_14 &= 0xFF7F;
+    ((S_818FF19C_0 *)effect)->unk_00.u++;
+    ((S_818FF19C_2 *)render_state)->unk_14 &= 0xFF7F;
 
 draw:
-    second.x = 0x340;
-    second.y = 0x100;
-    second.w = 0x60;
-    second.h = 0x54;
-    pos[0] = 0x370;
-    pos[1] = 0x148;
-    func_800B8FC8(((S_818FF19C_0 *)arg0)->unk_38, &second, pos, 0, 1);
+    tile_rect.x = 0x340;
+    tile_rect.y = 0x100;
+    tile_rect.w = 0x60;
+    tile_rect.h = 0x54;
+    draw_pos[0] = 0x370;
+    draw_pos[1] = 0x148;
+    func_800B8FC8(((S_818FF19C_0 *)effect)->unk_38, &tile_rect, draw_pos, 0, 1);
 
-    pos[0] = first.x + (first.w >> 1) - 6;
-    adjusted_phase = ((S_818FF19C_0 *)arg0)->unk_02;
-    if (adjusted_phase < 0) {
-        adjusted_phase += 3;
+    draw_pos[0] = moving_rect.x + (moving_rect.w >> 1) - 6;
+    rounded_frame = ((S_818FF19C_0 *)effect)->unk_02;
+    if (rounded_frame < 0) {
+        rounded_frame += 3;
     }
-    quarter = (adjusted_phase >> 2) - 0x4E;
-    pos[1] = first.y - quarter;
-    func_800B8FC8(((S_818FF19C_0 *)arg0)->unk_3C, &first, pos, 1, 1);
+    y_offset = (rounded_frame >> 2) - 0x4E;
+    draw_pos[1] = moving_rect.y - y_offset;
+    func_800B8FC8(((S_818FF19C_0 *)effect)->unk_3C, &moving_rect, draw_pos, 1, 1);
 
-    phase = ((S_818FF19C_0 *)arg0)->unk_02;
-    if (phase < 0x15) {
-        ((S_818FF19C_2 *)arg2)->unk_0E = (phase << 7) / 20;
-        ((S_818FF19C_2 *)arg2)->unk_0D = (((S_818FF19C_0 *)arg0)->unk_02 << 7) / 20;
-        ((S_818FF19C_2 *)arg2)->unk_0C = (((S_818FF19C_0 *)arg0)->unk_02 << 7) / 20;
+    frame = ((S_818FF19C_0 *)effect)->unk_02;
+    if (frame < 0x15) {
+        ((S_818FF19C_2 *)render_state)->unk_0E = (frame << 7) / 20;
+        ((S_818FF19C_2 *)render_state)->unk_0D = (((S_818FF19C_0 *)effect)->unk_02 << 7) / 20;
+        ((S_818FF19C_2 *)render_state)->unk_0C = (((S_818FF19C_0 *)effect)->unk_02 << 7) / 20;
     }
-    if (((S_818FF19C_0 *)arg0)->unk_02 >= 0x51) {
-        ((S_818FF19C_2 *)arg2)->unk_0E = ((0x64 - ((S_818FF19C_0 *)arg0)->unk_02) << 7) / 20;
-        ((S_818FF19C_2 *)arg2)->unk_0D = ((0x64 - ((S_818FF19C_0 *)arg0)->unk_02) << 7) / 20;
-        ((S_818FF19C_2 *)arg2)->unk_0C = ((0x64 - ((S_818FF19C_0 *)arg0)->unk_02) << 7) / 20;
+    if (((S_818FF19C_0 *)effect)->unk_02 >= 0x51) {
+        ((S_818FF19C_2 *)render_state)->unk_0E = ((0x64 - ((S_818FF19C_0 *)effect)->unk_02) << 7) / 20;
+        ((S_818FF19C_2 *)render_state)->unk_0D = ((0x64 - ((S_818FF19C_0 *)effect)->unk_02) << 7) / 20;
+        ((S_818FF19C_2 *)render_state)->unk_0C = ((0x64 - ((S_818FF19C_0 *)effect)->unk_02) << 7) / 20;
     }
 
-    next_phase = (u16)((S_818FF19C_0 *)arg0)->unk_02 + 1;
-    ((S_818FF19C_0 *)arg0)->unk_02 = next_phase;
-    if (next_phase >= 0x65) {
-        ((S_818FF19C_0 *)arg0)->unk_02 = 0;
-        ((S_818FF19C_0 *)arg0)->unk_00.u++;
-        ((S_818FF19C_3 *)(((S_818FF19C_0 *)arg0)->unk_34))->unk_90 = 1;
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    next_frame = (u16)((S_818FF19C_0 *)effect)->unk_02 + 1;
+    ((S_818FF19C_0 *)effect)->unk_02 = next_frame;
+    if (next_frame >= 0x65) {
+        ((S_818FF19C_0 *)effect)->unk_02 = 0;
+        ((S_818FF19C_0 *)effect)->unk_00.u++;
+        ((S_818FF19C_3 *)(((S_818FF19C_0 *)effect)->unk_34))->unk_90 = 1;
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 
-    if ((u32)(((S_818FF19C_4 *)(((S_818FF19C_0 *)arg0)->unk_30))->unk_13 - 0x33) < 4U) {
-        ((S_818FF19C_2 *)arg2)->unk_14 |= 0x80;
+    if ((u32)(((S_818FF19C_4 *)(((S_818FF19C_0 *)effect)->unk_30))->unk_13 - 0x33) < 4U) {
+        ((S_818FF19C_2 *)render_state)->unk_14 |= 0x80;
     }
 }

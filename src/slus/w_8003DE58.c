@@ -1,11 +1,5 @@
 #include "common.h"
 
-/* Table-lookup dispatcher: finds arg0's record for id=arg3 via func_8004CAE8;
- * if found, derives an orientation Vec via func_8003DBD0 and copies it into
- * *arg2. If not found and arg1's status flags (0x14) have bit 0x2000 or
- * 0x4000 set, resets *arg2 to (0,0,-0x40) and returns arg0 unchanged. */
-#include "common.h"
-
 #ifndef NULL
 #define NULL 0
 #endif
@@ -16,7 +10,7 @@
 typedef struct S_8004CAE8 S_8004CAE8;
 extern S_8004CAE8 *func_8004CAE8(S_8004CAE8 *a0, u32 a1);
 
-/* arg1: entity/actor-like struct; only the status/flag halfword at 0x14 is
+/* actor: entity/actor-like struct; only the status/flag halfword at 0x14 is
  * touched directly here (bits 0x6000), the rest is opaque and forwarded on
  * to func_8003DBD0. */
 typedef struct S_8003DE58_Ent {
@@ -34,25 +28,22 @@ typedef struct S_8003DE58_Vec {
 
 extern void func_8003DBD0(S_8003DE58_Ent *a0, void *a1, S_8003DE58_Vec *a2);
 
-/* If arg0's table lookup (keyed by arg3) succeeds, compute arg2 via
- * func_8003DBD0 into a stack temp and copy it out. Otherwise, if arg1's
- * status flags have either of bits 0x2000/0x4000 set, fall back to a fixed
- * "reset" orientation (0,0,-0x40) and return arg0 itself. */
-S_8004CAE8 *func_8003DE58(S_8004CAE8 *arg0, S_8003DE58_Ent *arg1, S_8003DE58_Vec *arg2, s16 arg3) {
-    S_8003DE58_Vec tmp;
-    register S_8004CAE8 *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+/* Compute orientation from a matching record, or reset it when actor flags require a fallback. */
+S_8004CAE8 *func_8003DE58(S_8004CAE8 *records, S_8003DE58_Ent *actor, S_8003DE58_Vec *out_vec, s16 record_id) {
+    S_8003DE58_Vec orientation;
+    register S_8004CAE8 *record ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
-    var_s0 = func_8004CAE8(arg0, arg3);
-    if (var_s0 != NULL) {
-        func_8003DBD0(arg1, (void *)var_s0, &tmp);
-        arg2->x = tmp.x;
-        arg2->y = tmp.y;
-        arg2->z = tmp.z;
-    } else if (arg1->unk14 & 0x6000) {
-        var_s0 = arg0;
-        arg2->y = 0;
-        arg2->x = 0;
-        arg2->z = (s16)-0x40;
+    record = func_8004CAE8(records, record_id);
+    if (record != NULL) {
+        func_8003DBD0(actor, (void *)record, &orientation);
+        out_vec->x = orientation.x;
+        out_vec->y = orientation.y;
+        out_vec->z = orientation.z;
+    } else if (actor->unk14 & 0x6000) {
+        record = records;
+        out_vec->y = 0;
+        out_vec->x = 0;
+        out_vec->z = (s16)-0x40;
     }
-    return var_s0;
+    return record;
 }

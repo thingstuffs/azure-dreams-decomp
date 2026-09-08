@@ -47,36 +47,37 @@ typedef struct S_800BC0A8_3 {
     s16 unk_1A;
 } S_800BC0A8_3;   /* temp_a0 in func_800BC0A8 */
 
-void *func_800BC0A8(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
-    register s32 hold4 ASM_REG("$21") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 hold5 ASM_REG("$23") = arg5;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 hold7 ASM_REG("$22") = arg7;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    S_800BC0A8_3 *temp_a0;
-    S_800BC0A8_2 *temp_a1;
-    void *temp_v0;
-    S_800BC0A8_1 *temp_v0_2;
+/* Creates an object and initializes its position, angle, and state. */
+void *func_800BC0A8(s16 x, s16 y, s16 z, s16 angle, s32 value_50, s32 value_58, s32 state_word, s32 value_48) {
+    register s32 saved_value_50 ASM_REG("$21") = value_50;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 saved_value_58 ASM_REG("$23") = value_58;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 saved_value_48 ASM_REG("$22") = value_48;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    S_800BC0A8_3 *transform;
+    S_800BC0A8_2 *state;
+    void *object;
+    S_800BC0A8_1 *position;
 
-    temp_v0 = func_8003FD64(0x202, &D_80083498);
-    if (temp_v0 != NULL) {
-        ((S_800BC0A8_0 *)temp_v0)->unk_10 = &D_800BBBE0;
-        func_8004491C(temp_v0, &D_800BC054);
-        temp_v0_2 = ((S_800BC0A8_0 *)temp_v0)->unk_08;
-        temp_a1 = temp_v0 + 0x20;
-        temp_v0_2->unk_02 = arg0;
-        temp_a1->unk_04 = arg0;
-        temp_v0_2->unk_06 = arg1;
-        temp_a1->unk_06 = arg1;
-        temp_v0_2->unk_0A = arg2;
-        temp_a1->unk_08 = arg2;
-        temp_a0 = ((S_800BC0A8_0 *)temp_v0)->unk_0C;
-        temp_a0->unk_1A = (s16) (arg3 + 0x400);
-        temp_a0->unk_14 = (u16) (temp_a0->unk_14 | 0xC);
-        temp_a1->unk_4E = arg3;
-        temp_a1->unk_4C = 4;
-        temp_a1->unk_50 = (s16) hold4;
-        ((S_800BC0A8_0 *)temp_v0)->unk_20 = arg6;
-        temp_a1->unk_58 = (s16) hold5;
-        temp_a1->unk_48 = (s16) hold7;
+    object = func_8003FD64(0x202, &D_80083498);
+    if (object != NULL) {
+        ((S_800BC0A8_0 *)object)->unk_10 = &D_800BBBE0;
+        func_8004491C(object, &D_800BC054);
+        position = ((S_800BC0A8_0 *)object)->unk_08;
+        state = object + 0x20;
+        position->unk_02 = x;
+        state->unk_04 = x;
+        position->unk_06 = y;
+        state->unk_06 = y;
+        position->unk_0A = z;
+        state->unk_08 = z;
+        transform = ((S_800BC0A8_0 *)object)->unk_0C;
+        transform->unk_1A = (s16) (angle + 0x400);
+        transform->unk_14 = (u16) (transform->unk_14 | 0xC);
+        state->unk_4E = angle;
+        state->unk_4C = 4;
+        state->unk_50 = (s16) saved_value_50;
+        ((S_800BC0A8_0 *)object)->unk_20 = state_word;
+        state->unk_58 = (s16) saved_value_58;
+        state->unk_48 = (s16) saved_value_48;
     }
-    return temp_v0;
+    return object;
 }

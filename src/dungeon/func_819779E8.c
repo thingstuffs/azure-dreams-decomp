@@ -30,24 +30,25 @@ typedef struct LoopEntry {
     s16 field82;
 } LoopEntry;
 
-void func_800251E8(void *arg0)
+/* Advances the object's timed state and updates its 30 entries. */
+void func_800251E8(void *object_data)
 {
-    static void *const jt_keep[] = {
+    static void *const state_targets[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4
     };
     void *object;
     S_800251E8_1 *linked;
     s32 state;
-    s32 condition;
-    s32 i;
-    u32 offset;
-    u16 value46;
-    u16 loop_amount;
-    u16 valueA;
-    s32 value82;
-    s32 adjusted82;
+    s32 state_pending;
+    s32 entry_index;
+    u32 entry_offset;
+    u16 accumulated_value;
+    u16 increment;
+    u16 counter;
+    s32 signed_value;
+    s32 adjusted_value;
 
-    object = arg0;
+    object = object_data;
     linked = ((S_800251E8_0 *)object)->unk_00;
     linked->unk_1A++;
     ((S_800251E8_0 *)object)->unk_06.s++;
@@ -55,7 +56,7 @@ void func_800251E8(void *arg0)
     if ((u32)state >= 5U) {
         goto loop_init;
     }
-    (void)jt_keep;
+    (void)state_targets;
     goto *D_80024008[state];
 
 jt_c0:
@@ -66,19 +67,19 @@ jt_c0:
     goto reset_state;
 
 jt_c1:
-    condition = ((S_800251E8_0 *)object)->unk_06.u < 12;
+    state_pending = ((S_800251E8_0 *)object)->unk_06.u < 12;
     goto shared_test;
 
 jt_c2:
-    condition = ((S_800251E8_0 *)object)->unk_06.u < 4;
+    state_pending = ((S_800251E8_0 *)object)->unk_06.u < 4;
     goto shared_test;
 
 jt_c3:
-    condition = ((S_800251E8_0 *)object)->unk_06.u < 8;
+    state_pending = ((S_800251E8_0 *)object)->unk_06.u < 8;
 
 shared_test:
-    i = 0;
-    if (condition) {
+    entry_index = 0;
+    if (state_pending) {
         goto loop_body;
     }
 
@@ -93,31 +94,31 @@ jt_c4:
     return;
 
 loop_init:
-    i = 0;
+    entry_index = 0;
 
 loop_body:
-    offset = 0;
+    entry_offset = 0;
     do {
-        value46 = ((u16 *)object)[offset + 0x23];
-        loop_amount = ((S_800251E8_0 *)object)->unk_08;
-        valueA = ((u16 *)object)[offset + 5];
-        valueA++;
-        ((u16 *)object)[offset + 0x23] = value46 + loop_amount;
-        valueA += i / 6;
-        ((u16 *)object)[offset + 5] = valueA;
-        if (i >= 6) {
-            value82 = ((s16 *)object)[offset + 0x41];
-            if (i < 24) {
-                adjusted82 = value82 + 5;
-                adjusted82 -= i;
+        accumulated_value = ((u16 *)object)[entry_offset + 0x23];
+        increment = ((S_800251E8_0 *)object)->unk_08;
+        counter = ((u16 *)object)[entry_offset + 5];
+        counter++;
+        ((u16 *)object)[entry_offset + 0x23] = accumulated_value + increment;
+        counter += entry_index / 6;
+        ((u16 *)object)[entry_offset + 5] = counter;
+        if (entry_index >= 6) {
+            signed_value = ((s16 *)object)[entry_offset + 0x41];
+            if (entry_index < 24) {
+                adjusted_value = signed_value + 5;
+                adjusted_value -= entry_index;
             } else {
-                adjusted82 = value82 - 19;
+                adjusted_value = signed_value - 19;
             }
-            ((s16 *)object)[offset + 0x41] = adjusted82;
+            ((s16 *)object)[entry_offset + 0x41] = adjusted_value;
         }
-        i++;
-        offset++;
-    } while (i < 30);
+        entry_index++;
+        entry_offset++;
+    } while (entry_index < 30);
 
     return;
 }

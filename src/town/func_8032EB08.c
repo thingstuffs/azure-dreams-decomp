@@ -3,6 +3,7 @@
 
 M2C_UNK func_8001922C();                /* extern */
 
-void func_80019308(s32 arg0) {
-    func_8001922C(arg0 + 4, 1);
+/* Forwards the base value plus four to func_8001922C with mode 1. */
+void func_80019308(s32 base_value) {
+    func_8001922C(base_value + 4, 1);
 }

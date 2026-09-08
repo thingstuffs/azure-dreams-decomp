@@ -44,23 +44,24 @@ extern u8 D_80082E80[];
 extern s32 D_80083460;
 extern u8 D_801724BC[];
 
-void func_8017406C(S_8017406C_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3)
+/* Animate movement to the target tile and finalize the actor when the timer expires. */
+void func_8017406C(S_8017406C_0 *animation, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile, Rec_D_800E3D7C *actor)
 {
     s32 state;
-    s32 remaining;
-    s32 tile_x;
-    s32 x;
-    s32 sum;
-    s32 velocity;
-    s32 y;
-    s32 counter;
-    s32 timer;
-    s32 flags;
-    s32 sp18;
+    s32 arc_ticks;
+    s32 target_x;
+    s32 world_x;
+    s32 height;
+    s32 arc_offset;
+    s32 world_y;
+    s32 next_arc_ticks;
+    s32 ticks_left;
+    s32 actor_flags;
+    s32 coord_result;
     u8 *global_base;
     u8 *map_base;
 
-    state = arg0->unk_9B;
+    state = animation->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -76,103 +77,103 @@ void func_8017406C(S_8017406C_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg
     goto decrement_timer;
 
 state_zero:
-    arg0->unk_98 |= 8;
-    arg3->unk_1C.as_s32 &= 0xF7FFFFFF;
-    arg0->unk_9E.s = 5;
-    arg0->unk_A0 = 0;
-    arg0->unk_9B++;
+    animation->unk_98 |= 8;
+    actor->unk_1C.as_s32 &= 0xF7FFFFFF;
+    animation->unk_9E.s = 5;
+    animation->unk_A0 = 0;
+    animation->unk_9B++;
 
 state_one:
-    remaining = arg0->unk_9E.s;
-    arg0->unk_90 -= arg0->unk_A0;
-    if (remaining != 0) {
-        tile_x = arg2->unk_24;
-        x = arg1->unk_00.at02_s16.v;
-        tile_x <<= 6;
-        x -= 0x20;
+    arc_ticks = animation->unk_9E.s;
+    animation->unk_90 -= animation->unk_A0;
+    if (arc_ticks != 0) {
+        target_x = tile->unk_24;
+        world_x = motion->unk_00.at02_s16.v;
+        target_x <<= 6;
+        world_x -= 0x20;
         
-        arg1->unk_0C.as_s32 =
-            ((tile_x - x) << 16) / remaining;
+        motion->unk_0C.as_s32 =
+            ((target_x - world_x) << 16) / arc_ticks;
 
-        y = arg1->unk_04.at02_s16.v;
-        y -= 0x20;
-        arg1->unk_10.at00_s32.v =
-            (((arg2->unk_25 << 6) - y) << 16) /
-            arg0->unk_9E.s;
+        world_y = motion->unk_04.at02_s16.v;
+        world_y -= 0x20;
+        motion->unk_10.at00_s32.v =
+            (((tile->unk_25 << 6) - world_y) << 16) /
+            animation->unk_9E.s;
 
-        arg0->unk_A0 =
-            (-func_800644B8(arg0->unk_9E.s * 0x199)) << 10;
+        animation->unk_A0 =
+            (-func_800644B8(animation->unk_9E.s * 0x199)) << 10;
     }
 
-    sum = arg0->unk_90;
-    velocity = arg0->unk_A0;
-    counter = arg0->unk_9E.u;
-    sum += velocity;
-    counter -= 1;
-    arg0->unk_9E.u = counter;
-    arg0->unk_90 = sum;
-    if ((counter << 16) >= 0) {
+    height = animation->unk_90;
+    arc_offset = animation->unk_A0;
+    next_arc_ticks = animation->unk_9E.u;
+    height += arc_offset;
+    next_arc_ticks -= 1;
+    animation->unk_9E.u = next_arc_ticks;
+    animation->unk_90 = height;
+    if ((next_arc_ticks << 16) >= 0) {
         goto state_two;
     }
 
-    arg0->unk_90 = 0;
-    arg0->unk_98 &= 0xFFF7;
-    arg3->unk_1C.as_s32 |= 0x08000000;
-    arg0->unk_9B++;
+    animation->unk_90 = 0;
+    animation->unk_98 &= 0xFFF7;
+    actor->unk_1C.as_s32 |= 0x08000000;
+    animation->unk_9B++;
 
 state_two:
-    if (arg3->unk_1C.as_s32 & 0x08000000) {
-        arg0->unk_98 &= 0xFFF7;
-        arg1->unk_14.as_s32 = 0;
-        arg1->unk_10.at00_s32.v = 0;
-        arg1->unk_0C.as_s32 = 0;
-        func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-        arg0->unk_9B++;
+    if (actor->unk_1C.as_s32 & 0x08000000) {
+        animation->unk_98 &= 0xFFF7;
+        motion->unk_14.as_s32 = 0;
+        motion->unk_10.at00_s32.v = 0;
+        motion->unk_0C.as_s32 = 0;
+        func_800A2B04(motion, tile->unk_24, tile->unk_25);
+        animation->unk_9B++;
     }
 
 decrement_timer:
-    timer = arg0->unk_96 - 1;
-    arg0->unk_96 = timer;
-    if ((timer << 16) > 0) {
+    ticks_left = animation->unk_96 - 1;
+    animation->unk_96 = ticks_left;
+    if ((ticks_left << 16) > 0) {
         return;
     }
 
-    arg1->unk_14.as_s32 = 0;
-    arg1->unk_10.at00_s32.v = 0;
-    arg1->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-    func_800AD594(arg3, 4);
-    func_800A4ACC(arg3);
+    motion->unk_14.as_s32 = 0;
+    motion->unk_10.at00_s32.v = 0;
+    motion->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, tile->unk_24, tile->unk_25);
+    func_800AD594(actor, 4);
+    func_800A4ACC(actor);
 
     global_base = (u8 *)&D_80083460;
     if (((S_8017406C_4 *)global_base)->unk_08.s != 0) {
         ((S_8017406C_4 *)global_base)->unk_08.u--;
     }
 
-    flags = arg3->unk_1C.as_s32;
-    if (flags & 0x2000) {
-        if (arg3->unk_44.at02_u16.v & 0x8000) {
-            arg3->unk_44.at02_u16.v &= 0x7FFF;
+    actor_flags = actor->unk_1C.as_s32;
+    if (actor_flags & 0x2000) {
+        if (actor->unk_44.at02_u16.v & 0x8000) {
+            actor->unk_44.at02_u16.v &= 0x7FFF;
         }
         goto collision_check;
     }
-    if (flags & 0x410) {
+    if (actor_flags & 0x410) {
         goto collision_check;
     }
-    if (!(flags & 0x20000)) {
+    if (!(actor_flags & 0x20000)) {
         goto collision_check;
     }
     map_base = D_80082E80;
-    arg3->unk_2A.as_s16 = func_800A0818(
-        arg2->unk_24,
-        arg2->unk_25,
+    actor->unk_2A.as_s16 = func_800A0818(
+        tile->unk_24,
+        tile->unk_25,
         ((S_8017406C_5 *)map_base)->unk_24,
         ((S_8017406C_5 *)map_base)->unk_25,
-        &sp18);
+        &coord_result);
 
 collision_check:
-    if ((func_800AD9B4(arg2, arg3) << 16) > 0) {
-        arg0->unk_8C = D_801724BC;
-        func_800A9A04(arg3);
+    if ((func_800AD9B4(tile, actor) << 16) > 0) {
+        animation->unk_8C = D_801724BC;
+        func_800A9A04(actor);
     }
 }

@@ -18,26 +18,27 @@ extern u16 D_8006CCE8[];
 s32 func_8009A350();
 s16 func_800BCB04();
 
-s32 func_8009B164(u32 arg0, Arg1 *arg1, Arg2 *arg2) {
-    u16 sp10;
-    Arg1 *temp_s2;
-    Arg2 *temp_s1;
-    s32 temp_s0;
-    s32 temp_a0;
-    s32 temp_a1;
+/* Checks the neighboring tile in the encoded direction for blocking flags and height. */
+s32 func_8009B164(u32 direction_bits, Arg1 *state_in, Arg2 *position_in) {
+    u16 tile_flags;
+    Arg1 *state;
+    Arg2 *position;
+    s32 direction;
+    s32 next_x;
+    s32 next_y;
 
-    temp_s2 = arg1;
-    temp_s1 = arg2;
-    temp_s0 = (arg0 >> 9) & 7;
-    if ((func_8009A350(temp_s1->x, temp_s1->y, temp_s0, &sp10) << 0x10) == 0) {
+    state = state_in;
+    position = position_in;
+    direction = (direction_bits >> 9) & 7;
+    if ((func_8009A350(position->x, position->y, direction, &tile_flags) << 0x10) == 0) {
         goto return_one;
     }
-    if (sp10 & 0x8000) {
+    if (tile_flags & 0x8000) {
         goto return_zero;
     }
-    temp_a0 = temp_s1->x + D_8006CCD8[temp_s0];
-    temp_a1 = temp_s1->y + D_8006CCE8[temp_s0];
-    if (func_800BCB04((((s32) (temp_a0 << 0x10) >> 0xA) | 0x20) & 0xFFE0, (((s32) (temp_a1 << 0x10) >> 0xA) | 0x20) & 0xFFE0, (s32) (temp_s2->unk8 + (temp_s2->unk14 * 2)) >> 0x10) >= 0x200) {
+    next_x = position->x + D_8006CCD8[direction];
+    next_y = position->y + D_8006CCE8[direction];
+    if (func_800BCB04((((s32) (next_x << 0x10) >> 0xA) | 0x20) & 0xFFE0, (((s32) (next_y << 0x10) >> 0xA) | 0x20) & 0xFFE0, (s32) (state->unk8 + (state->unk14 * 2)) >> 0x10) >= 0x200) {
         goto return_zero;
     }
 return_one:

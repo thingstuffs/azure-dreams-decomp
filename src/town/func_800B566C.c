@@ -11,16 +11,13 @@ typedef struct {
     TownPosition *position;
 } TownObject;
 
+/* Position ten objects in two columns of five. */
 void func_800B2DCC(TownObject **objects) {
-    s32 i = 0;
+    s32 objectIndex = 0;
 
     do {
-        objects[i]->position->x = (i / 5) * 128 + 88;
-        objects[i]->position->y = (i % 5) * 16 + 136;
-        i++;
-    } while (i < 10);
+        objects[objectIndex]->position->x = (objectIndex / 5) * 128 + 88;
+        objects[objectIndex]->position->y = (objectIndex % 5) * 16 + 136;
+        objectIndex++;
+    } while (objectIndex < 10);
 }
-
-/* MECHANISM: A frameless leaf with no saved registers or stack locals.
-   Typed nested records preserve the two retail pointer reloads and color the
-   quotient in $a0, producing the retail store-before-remainder schedule. */

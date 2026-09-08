@@ -44,32 +44,33 @@ extern u8 D_80077EF0[];
 extern u8 D_80077EFC[];
 
 
-void func_800233D0(void *arg0)
+/* Initialize the object's shared references and three data block references. */
+void func_800233D0(void *object)
 {
-    u8 *cursor;
-    void *base4;
-    void *source0;
-    void *source1;
-    s32 result;
-    s32 index;
-    s32 offset;
+    u8 *slot_cursor;
+    void *shared_data;
+    void *primary_table;
+    void *secondary_table;
+    s32 kind_value;
+    s32 slot_index;
+    s32 block_offset;
 
-    result = func_80049E6C(3);
-    index = 0;
-    source0 = D_80077EF0;
-    source1 = D_80077EFC;
-    base4 = (u8 *)arg0 + 4;
-    offset = 0x90;
-    ((S_800233D0_2 *)(((Rec_func_800233D0_arg0 *)arg0)->unk_1A0))->unk_00 = result;
-    ((S_800233D0_3 *)(((Rec_func_800233D0_arg0 *)arg0)->unk_1A4))->unk_00 = D_80077E84;
-    cursor = arg0;
+    kind_value = func_80049E6C(3);
+    slot_index = 0;
+    primary_table = D_80077EF0;
+    secondary_table = D_80077EFC;
+    shared_data = (u8 *)object + 4;
+    block_offset = 0x90;
+    ((S_800233D0_2 *)(((Rec_func_800233D0_arg0 *)object)->unk_1A0))->unk_00 = kind_value;
+    ((S_800233D0_3 *)(((Rec_func_800233D0_arg0 *)object)->unk_1A4))->unk_00 = D_80077E84;
+    slot_cursor = object;
     do {
-        ((S_800233D0_4 *)(((S_800233D0_1 *)cursor)->unk_1A8))->unk_00 = source0;
-        ((S_800233D0_5 *)(((S_800233D0_1 *)cursor)->unk_1B8))->unk_00 = source1;
-        ((S_800233D0_6 *)(((S_800233D0_1 *)cursor)->unk_1C8))->unk_00 = base4;
-        ((S_800233D0_7 *)(((S_800233D0_1 *)cursor)->unk_1D8))->unk_00 = (u8 *)arg0 + offset;
-        offset += 0x48;
-        index++;
-        cursor += 4;
-    } while (index < 3);
+        ((S_800233D0_4 *)(((S_800233D0_1 *)slot_cursor)->unk_1A8))->unk_00 = primary_table;
+        ((S_800233D0_5 *)(((S_800233D0_1 *)slot_cursor)->unk_1B8))->unk_00 = secondary_table;
+        ((S_800233D0_6 *)(((S_800233D0_1 *)slot_cursor)->unk_1C8))->unk_00 = shared_data;
+        ((S_800233D0_7 *)(((S_800233D0_1 *)slot_cursor)->unk_1D8))->unk_00 = (u8 *)object + block_offset;
+        block_offset += 0x48;
+        slot_index++;
+        slot_cursor += 4;
+    } while (slot_index < 3);
 }

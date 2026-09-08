@@ -10,20 +10,21 @@ typedef struct S_8008B23C_0 {
     s32 unk_04;
 } S_8008B23C_0;   /* var_s0 in func_8008B23C */
 
-void func_8008B23C(u8 *arg0) {
-    u8 *var_s0;
-    u32 temp_a2;
+/* Unpack and dispatch each entry until its second word is zero. */
+void func_8008B23C(u8 *entries) {
+    u8 *entry;
+    u32 packed_fields;
 
-    var_s0 = arg0;
-    if (((S_8008B23C_0 *)var_s0)->unk_04 != 0) {
+    entry = entries;
+    if (((S_8008B23C_0 *)entry)->unk_04 != 0) {
         do {
-            temp_a2 = ((S_8008B23C_0 *)var_s0)->unk_00;
+            packed_fields = ((S_8008B23C_0 *)entry)->unk_00;
             func_8008B0E8(
-                (temp_a2 >> 0x17) & 1,
-                (u32)(temp_a2 & 0x3F000000) >> 0x18,
-                (u32)(temp_a2 & 0x7F0000) >> 0x10
+                (packed_fields >> 0x17) & 1,
+                (u32)(packed_fields & 0x3F000000) >> 0x18,
+                (u32)(packed_fields & 0x7F0000) >> 0x10
             );
-            var_s0 += 8;
-        } while (((S_8008B23C_0 *)var_s0)->unk_04 != 0);
+            entry += 8;
+        } while (((S_8008B23C_0 *)entry)->unk_04 != 0);
     }
 }

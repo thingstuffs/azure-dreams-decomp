@@ -9,20 +9,21 @@ struct S_800C56BC {
 
 extern struct S_800C56BC D_80083160;
 
-s32 func_800C2E1C(s32 arg0, s16 arg1)
+/* Quantizes the wrapped angle from the shared heading plus a quarter turn into sectors. */
+s32 func_800C2E1C(s32 referenceAngle, s16 sectorCount)
 {
-    struct S_800C56BC *base = &D_80083160;
-    s16 var_v1;
-    s32 temp_lo;
-    s32 val;
+    struct S_800C56BC *sharedState = &D_80083160;
+    s16 effectiveSectorCount;
+    s32 sectorAngle;
+    s32 roundedAngle;
 
-    var_v1 = arg1;
-    if (arg1 == 0) {
-        var_v1 = 1;
+    effectiveSectorCount = sectorCount;
+    if (sectorCount == 0) {
+        effectiveSectorCount = 1;
     }
-    temp_lo = 0x1000 / var_v1;
-    val = base->unkC8 + (s16) temp_lo / 2;
-    val += 0x400;
-    val -= arg0;
-    return (s32) (val & 0xFFF) / (s16) temp_lo;
+    sectorAngle = 0x1000 / effectiveSectorCount;
+    roundedAngle = sharedState->unkC8 + (s16) sectorAngle / 2;
+    roundedAngle += 0x400;
+    roundedAngle -= referenceAngle;
+    return (s32) (roundedAngle & 0xFFF) / (s16) sectorAngle;
 }

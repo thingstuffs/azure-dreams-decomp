@@ -15,10 +15,11 @@ typedef struct S_80039640_1 {
 } S_80039640_1;   /* temp_v1 in func_80039640; pointer addresses record offset 0x4 */
 
 
-void func_80039640(S_80039640_0 *arg0) {
-    void *temp_v1;
+/* Move the cursor back one word and load that word into the state. */
+void func_80039640(S_80039640_0 *state) {
+    void *cursor;
 
-    temp_v1 = arg0->unk_7C;
-    arg0->unk_7C = (void *) (temp_v1 - 4);
-    arg0->unk_1C = (s32) ((S_80039640_1 *)((u8 *)temp_v1 - 0x4))->unk_00;
+    cursor = state->unk_7C;
+    state->unk_7C = (void *) (cursor - 4);
+    state->unk_1C = (s32) ((S_80039640_1 *)((u8 *)cursor - 0x4))->unk_00;
 }

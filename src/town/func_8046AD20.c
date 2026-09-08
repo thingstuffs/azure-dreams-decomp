@@ -39,15 +39,16 @@ typedef struct S_8001BD20_3 {
     void * unk_40;
 } S_8001BD20_3;   /* ((S_8001BD20_2 *)((*(void * *)((u8 *)page + 0x6000))))->unk_1C in func_8001BD20 */
 
-s32 func_8001BD20(s32 arg0, s32 arg1) {
-    LocalValues local;
+/* Applies flag-dependent setup or forwards the arguments to the fallback handler. */
+s32 func_8001BD20(s32 fallback_first, s32 fallback_second) {
+    LocalValues indexed_values;
     void *page;
-    s32 hold0;
-    s32 hold1;
+    s32 saved_first;
+    s32 second_or_base;
 
-    hold0 = arg0;
-    hold1 = arg1;
-    local = D_80019164;
+    saved_first = fallback_first;
+    second_or_base = fallback_second;
+    indexed_values = D_80019164;
     if (func_8001E670(0xA3) != 0) {
         if (func_8001E670(0x408) == 0) {
             D_8001E950[1] = 1;
@@ -57,10 +58,10 @@ s32 func_8001BD20(s32 arg0, s32 arg1) {
     }
 
     if (D_8001E950[1] == 0) {
-        hold1 = 0x80010000;
-        page = (void *)hold1;
+        second_or_base = 0x80010000;
+        page = (void *)second_or_base;
         (*(UseValue *)((u8 *)(((S_8001BD20_1 *)(((S_8001BD20_0 *)page)->unk_6000))->unk_20) + 0x2EC))(
-            (*(s16 *)((u8 *)(local.value) + (*(GetIndex *)((u8 *)(((S_8001BD20_1 *)(((S_8001BD20_0 *)page)->unk_6000))->unk_20) + 0x2D4))(0) * 2)),
+            (*(s16 *)((u8 *)(indexed_values.value) + (*(GetIndex *)((u8 *)(((S_8001BD20_1 *)(((S_8001BD20_0 *)page)->unk_6000))->unk_20) + 0x2D4))(0) * 2)),
             0x100);
 
         (*(CallPair *)((u8 *)(((S_8001BD20_1 *)(((S_8001BD20_0 *)page)->unk_6000))->unk_20) + 0x2F8))(0x27, 0x200);
@@ -75,8 +76,8 @@ s32 func_8001BD20(s32 arg0, s32 arg1) {
         return 1;
     }
 
-    ASM_KEEP(hold0);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    func_8001BC98(hold0, hold1);
+    ASM_KEEP(saved_first);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    func_8001BC98(saved_first, second_or_base);
     return 0;
 }
 

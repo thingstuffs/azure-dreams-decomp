@@ -18,27 +18,23 @@ extern volatile s32 D_80081484;
 extern s32 D_800E3540;
 extern void *D_800E3D7C;
 
+/* Clear the root and linked object flags, saving and resetting D_80081484 when the root flag is set. */
 void func_80094E34(void) {
     void *root;
-    S_80094E34_1 *object;
-    s32 saved;
-    s32 flags;
+    S_80094E34_1 *linkedObject;
+    s32 savedGlobalValue;
+    s32 rootFlags;
 
     root = D_800E3D7C;
     if (((S_80094E34_0 *)root)->unk_1C.s & 0x100000) {
-        object = ((S_80094E34_0 *)root)->unk_124;
-        if (object != 0) {
-            object->unk_1C = (s32)(object->unk_1C & 0xFFF7FFFF);
+        linkedObject = ((S_80094E34_0 *)root)->unk_124;
+        if (linkedObject != 0) {
+            linkedObject->unk_1C = (s32)(linkedObject->unk_1C & 0xFFF7FFFF);
         }
-        flags = ((S_80094E34_0 *)root)->unk_1C.u;
-        saved = D_80081484;
+        rootFlags = ((S_80094E34_0 *)root)->unk_1C.u;
+        savedGlobalValue = D_80081484;
         D_80081484 = 0;
-        ((S_80094E34_0 *)root)->unk_1C.u = flags & 0xFFEFFFFF;
-        D_800E3540 = saved;
-        
+        ((S_80094E34_0 *)root)->unk_1C.u = rootFlags & 0xFFEFFFFF;
+        D_800E3540 = savedGlobalValue;
     }
 }
-
-/* MECHANISM: Frameless leaf holds the root pointer across both flag regions and pins the saved word in $a1.
-   Splitting the final flag read/store gives $v0 its retail lifetime and forces the page base into $v1.
-   Volatile ordering preserves root-load, saved-load, clear-store, root-store and closes the last lw swap. */

@@ -1,6 +1,5 @@
 #include "common.h"
 
-/* cfail-repair: tf7-phase1-cache-v3 */
+/* Returns without doing any work. */
 void func_805D35FC(void) {
-
 }

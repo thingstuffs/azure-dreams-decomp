@@ -88,26 +88,27 @@ extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern u8 D_80083160[];
 
-void func_800BBDEC(S_800BBDEC_4 *arg0, S_800BBDEC_1 *arg1, S_800BBDEC_3 *arg2)
+/* Projects and queues a shaded quad with optional semitransparency. */
+void func_800BBDEC(S_800BBDEC_4 *object, S_800BBDEC_1 *position, S_800BBDEC_3 *appearance)
 {
     u8 *scratch = (u8 *)0x1F800000;
-    void **global = (void **)D_80083160;
+    void **render_ctx = (void **)D_80083160;
     u8 *prim;
-    u32 index;
-    s32 primWord;
-    s16 y;
+    u32 depth_index;
+    s32 color_word;
+    s16 end_z;
 
-    ((S_800BBDEC_0 *)scratch)->unk_20 = (u8 *)*global + 0xB0;
-    ((S_800BBDEC_0 *)scratch)->unk_E4 = arg1->unk_02;
-    ((S_800BBDEC_0 *)scratch)->unk_E8 = arg1->unk_06;
-    ((S_800BBDEC_0 *)scratch)->unk_EC = arg1->unk_0A;
-    prim = ((S_800BBDEC_2 *)(*global))->unk_8D0;
+    ((S_800BBDEC_0 *)scratch)->unk_20 = (u8 *)*render_ctx + 0xB0;
+    ((S_800BBDEC_0 *)scratch)->unk_E4 = position->unk_02;
+    ((S_800BBDEC_0 *)scratch)->unk_E8 = position->unk_06;
+    ((S_800BBDEC_0 *)scratch)->unk_EC = position->unk_0A;
+    prim = ((S_800BBDEC_2 *)(*render_ctx))->unk_8D0;
 
     func_800649A0();
 
-    ((S_800BBDEC_0 *)scratch)->unk_100 = arg2->unk_16;
-    ((S_800BBDEC_0 *)scratch)->unk_104 = arg2->unk_1A;
-    ((S_800BBDEC_0 *)scratch)->unk_102 = arg2->unk_18;
+    ((S_800BBDEC_0 *)scratch)->unk_100 = appearance->unk_16;
+    ((S_800BBDEC_0 *)scratch)->unk_104 = appearance->unk_1A;
+    ((S_800BBDEC_0 *)scratch)->unk_102 = appearance->unk_18;
     func_80065820(scratch + 0x100, scratch + 0xD0);
     func_80064AE0(scratch + 0x11C);
     func_80064840(scratch + 0x11C, scratch + 0xD0, scratch + 0x50);
@@ -116,7 +117,7 @@ void func_800BBDEC(S_800BBDEC_4 *arg0, S_800BBDEC_1 *arg1, S_800BBDEC_3 *arg2)
 
     ((S_800BBDEC_0 *)scratch)->unk_7C = 0;
     ((S_800BBDEC_0 *)scratch)->unk_74 = 0;
-    y = -arg0->unk_50;
+    end_z = -object->unk_50;
     ((S_800BBDEC_0 *)scratch)->unk_88 = 0x10;
     ((S_800BBDEC_0 *)scratch)->unk_78 = 0x10;
     ((S_800BBDEC_0 *)scratch)->unk_80 = 0;
@@ -125,26 +126,26 @@ void func_800BBDEC(S_800BBDEC_4 *arg0, S_800BBDEC_1 *arg1, S_800BBDEC_3 *arg2)
     ((S_800BBDEC_0 *)scratch)->unk_72 = 0;
     ((S_800BBDEC_0 *)scratch)->unk_8A = 0;
     ((S_800BBDEC_0 *)scratch)->unk_82 = 0;
-    ((S_800BBDEC_0 *)scratch)->unk_8C = y;
-    ((S_800BBDEC_0 *)scratch)->unk_84 = y;
+    ((S_800BBDEC_0 *)scratch)->unk_8C = end_z;
+    ((S_800BBDEC_0 *)scratch)->unk_84 = end_z;
 
-    index = func_80065590(scratch + 0x70, scratch + 0x78,
+    depth_index = func_80065590(scratch + 0x70, scratch + 0x78,
                           scratch + 0x80, scratch + 0x88,
                           prim + 8, prim + 0x10, prim + 0x18, prim + 0x20,
                           scratch + 0x90, scratch + 0x94);
-    ((S_800BBDEC_0 *)scratch)->unk_C0 = index;
+    ((S_800BBDEC_0 *)scratch)->unk_C0 = depth_index;
 
-    if (index < 0x1E0U) {
-        primWord = arg2->unk_0C;
+    if (depth_index < 0x1E0U) {
+        color_word = appearance->unk_0C;
         ((S_800BBDEC_5 *)prim)->unk_14 = 0;
         ((S_800BBDEC_5 *)prim)->unk_1C = 0;
-        ((S_800BBDEC_5 *)prim)->unk_04.at00.v = primWord;
+        ((S_800BBDEC_5 *)prim)->unk_04.at00.v = color_word;
         ((S_800BBDEC_5 *)prim)->unk_0C = ((S_800BBDEC_5 *)prim)->unk_04.at00u.v >> 2;
         ((S_800BBDEC_5 *)prim)->unk_0D = ((S_800BBDEC_5 *)prim)->unk_04.at01.v >> 2;
         ((S_800BBDEC_5 *)prim)->unk_0E = ((S_800BBDEC_5 *)prim)->unk_04.at02.v >> 2;
         func_80066708(prim);
 
-        if (arg2->unk_14 & 4) {
+        if (appearance->unk_14 & 4) {
             ((S_800BBDEC_5 *)prim)->unk_04.at03.v |= 2;
         }
 
@@ -153,7 +154,7 @@ void func_800BBDEC(S_800BBDEC_4 *arg0, S_800BBDEC_1 *arg1, S_800BBDEC_3 *arg2)
                       prim);
         prim += 0x24;
 
-        if (arg2->unk_14 & 4) {
+        if (appearance->unk_14 & 4) {
             func_80067F20(prim, 0, 0, 0x20, 0);
             func_8006658C((u8 *)((S_800BBDEC_0 *)scratch)->unk_20 +
                               ((S_800BBDEC_0 *)scratch)->unk_C0 * 4,
@@ -163,5 +164,5 @@ void func_800BBDEC(S_800BBDEC_4 *arg0, S_800BBDEC_1 *arg1, S_800BBDEC_3 *arg2)
     }
 
     func_80064A40();
-    ((S_800BBDEC_2 *)(*global))->unk_8D0 = prim;
+    ((S_800BBDEC_2 *)(*render_ctx))->unk_8D0 = prim;
 }

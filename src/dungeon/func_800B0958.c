@@ -27,41 +27,39 @@ M2C_UNK func_800B5F80();                         /* extern */
 extern void func_8009A21C();
 extern D_800E39C8_entry D_800E39C8[];
 
-s32 func_800B60B8(s16 arg0, s16 arg1, s16 arg2, s32 arg3, s32 arg4) {
-    s32 temp_s1;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 var_s1;
-    s32 temp_s4;
-    D_800E39C8_entry *temp_s0;
-    D_800E3648_entry *temp_base;
-    D_800E3648_entry *temp_v1;
+/* Selects and initializes an entry at the given position, returning its slot. */
+s32 func_800B60B8(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value) {
+    s32 slot;
+    s32 slot_sign;
+    s32 entry_type;
+    D_800E3648_entry *entries;
+    D_800E3648_entry *entry;
 
-    temp_s4 = arg3;
-    temp_s1 = func_800B500C(arg0, arg1, arg2);
-    var_s1 = temp_s1 << 0x10;
-    if (var_s1 < 0) {
-        temp_s1 = func_800B5128();
-        var_s1 = temp_s1 << 0x10;
-        if (var_s1 < 0) {
-            temp_s1 = 0x1F;
+    entry_type = type_id;
+    slot = func_800B500C(x, y, z);
+    slot_sign = slot << 0x10;
+    if (slot_sign < 0) {
+        slot = func_800B5128();
+        slot_sign = slot << 0x10;
+        if (slot_sign < 0) {
+            slot = 0x1F;
         }
     }
-    temp_s1 = temp_s1 << 0x10;
-    temp_s1 = temp_s1 >> 0x10;
-    func_800B5F80(temp_s1);
-    temp_base = D_800E3648;
-    temp_v1 = &temp_base[temp_s1];
-    temp_v1->field1 = 0x15;
-    temp_v1->field3 = 0xC0;
-    temp_v1->field0 = temp_s4;
-    temp_v1->field2 = 0;
-    D_800E39C8[temp_s1].field6 = (s8) arg0;
-    D_800E39C8[temp_s1].field7 = (s8) arg1;
-    func_8009A21C(arg0, arg1, 0x20);
-    D_800E39C8[temp_s1].field10 = arg2;
-    D_800E39C8[temp_s1].field14 = 0;
-    D_800E39C8[temp_s1].fieldC = arg4;
-    D_800E39C8[temp_s1].field8 = *(s32 *)(((s32) (temp_s4 << 0x10) >> 0xE) + D_800DF258);
-    return temp_s1;
+    slot = slot << 0x10;
+    slot = slot >> 0x10;
+    func_800B5F80(slot);
+    entries = D_800E3648;
+    entry = &entries[slot];
+    entry->field1 = 0x15;
+    entry->field3 = 0xC0;
+    entry->field0 = entry_type;
+    entry->field2 = 0;
+    D_800E39C8[slot].field6 = (s8) x;
+    D_800E39C8[slot].field7 = (s8) y;
+    func_8009A21C(x, y, 0x20);
+    D_800E39C8[slot].field10 = z;
+    D_800E39C8[slot].field14 = 0;
+    D_800E39C8[slot].fieldC = entry_value;
+    D_800E39C8[slot].field8 = *(s32 *)(((s32) (entry_type << 0x10) >> 0xE) + D_800DF258);
+    return slot;
 }

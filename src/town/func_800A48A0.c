@@ -38,8 +38,9 @@ typedef struct S_800A2000_2 {
 extern void *func_8003FD64();
 extern u8 D_80083160[];
 
-void *func_800A2000(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
-    void *obj = func_8003FD64(0x136, arg0 - 0x20);
+/* Allocate an object and initialize its payload, display transform, and color. */
+void *func_800A2000(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param, s32 object_value) {
+    void *obj = func_8003FD64(0x136, object_key - 0x20);
     S_800A2000_2 *display;
     S_800A2000_1 *payload;
 
@@ -47,13 +48,13 @@ void *func_800A2000(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) 
         return 0;
     }
     display = ((S_800A2000_0 *)obj)->unk_0C;
-    ((S_800A2000_0 *)obj)->unk_10 = arg4;
-    ((S_800A2000_0 *)obj)->unk_20 = arg5;
+    ((S_800A2000_0 *)obj)->unk_10 = object_param;
+    ((S_800A2000_0 *)obj)->unk_20 = object_value;
     payload = (u8 *)obj + 0x20;
-    payload->unk_10 = arg0;
-    payload->unk_14 = arg2;
-    payload->unk_20 = arg3;
-    payload->unk_40 = arg1;
+    payload->unk_10 = object_key;
+    payload->unk_14 = payload_param;
+    payload->unk_20 = payload_halfword;
+    payload->unk_40 = payload_value;
     display->unk_20 = 0x1000;
     display->unk_1E = 0x1000;
     display->unk_1C = 0x1000;

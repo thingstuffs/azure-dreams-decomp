@@ -19,20 +19,21 @@ extern s32 D_80019AFC[];
 extern void func_80017E1C(void);
 extern s32 func_80018504(void);
 
+/* Updates the current town entry and clears its state on a nonzero result or global state 1. */
 s32 func_805D2D5C(void)
 {
-    s32 result;
-    u8 state;
+    s32 update_result;
+    u8 entry_state;
 
-    result = 0;
-    state = D_80016000[0]->entries[D_80016000[0]->entry_index].state;
-    D_80019AFC[0] = state;
-    if (state != 2) {
-        result = func_80018504();
+    update_result = 0;
+    entry_state = D_80016000[0]->entries[D_80016000[0]->entry_index].state;
+    D_80019AFC[0] = entry_state;
+    if (entry_state != 2) {
+        update_result = func_80018504();
     }
-    if ((result != 0) || (func_80017E1C(), D_80019AFC[0] == 1)) {
+    if ((update_result != 0) || (func_80017E1C(), D_80019AFC[0] == 1)) {
         D_80016000[0]->entries[D_80016000[0]->entry_index].state = 0;
         D_80019AFC[0] = 0;
     }
-    return result;
+    return update_result;
 }

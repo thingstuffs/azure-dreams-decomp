@@ -50,39 +50,40 @@ typedef struct {
     u16 z;
 } OutputVector;
 
-void func_8002455C(void *arg0, void *arg1, void *arg2) {
-    InputVector sp10;
-    OutputVector sp18;
-    s32 temp_lo;
-    u16 temp_v0_2;
-    u8 temp_v0;
-    void *temp_v1;
+/* Updates a rotating effect, fades and shrinks its sprite, and flags completion. */
+void func_8002455C(void *effect, void *position, void *sprite) {
+    InputVector local_offset;
+    OutputVector rotated_offset;
+    s32 y_product;
+    u16 scale;
+    u8 brightness;
+    void *counter_state;
 
-    temp_v1 = ((S_8002455C_0 *)arg0)->unk_00;
-    ((S_8002455C_1 *)temp_v1)->unk_1A = (u16) (((S_8002455C_1 *)temp_v1)->unk_1A + 1);
-    ((S_8002455C_0 *)arg0)->unk_2E = (u16) (((S_8002455C_0 *)arg0)->unk_2E + 0x100);
-    ((S_8002455C_2 *)arg1)->unk_00.at00.v = (s32) ((S_8002455C_2 *)arg1)->unk_0C;
-    ((S_8002455C_2 *)arg1)->unk_04.at00.v = (s32) ((S_8002455C_2 *)arg1)->unk_10;
-    ((S_8002455C_2 *)arg1)->unk_08.at00.v = (s32) ((S_8002455C_2 *)arg1)->unk_14;
-    sp10.x = (s16) ((s32) ((func_800644B8((s16) ((S_8002455C_0 *)arg0)->unk_2E) >> 4) * ((S_8002455C_0 *)arg0)->unk_2C) >> 8);
-    temp_lo = (func_80064584((s16) ((S_8002455C_0 *)arg0)->unk_2E) >> 4) * ((S_8002455C_0 *)arg0)->unk_2C;
-    sp10.z = 0;
-    sp10.y = (s16) (temp_lo >> 8);
+    counter_state = ((S_8002455C_0 *)effect)->unk_00;
+    ((S_8002455C_1 *)counter_state)->unk_1A = (u16) (((S_8002455C_1 *)counter_state)->unk_1A + 1);
+    ((S_8002455C_0 *)effect)->unk_2E = (u16) (((S_8002455C_0 *)effect)->unk_2E + 0x100);
+    ((S_8002455C_2 *)position)->unk_00.at00.v = (s32) ((S_8002455C_2 *)position)->unk_0C;
+    ((S_8002455C_2 *)position)->unk_04.at00.v = (s32) ((S_8002455C_2 *)position)->unk_10;
+    ((S_8002455C_2 *)position)->unk_08.at00.v = (s32) ((S_8002455C_2 *)position)->unk_14;
+    local_offset.x = (s16) ((s32) ((func_800644B8((s16) ((S_8002455C_0 *)effect)->unk_2E) >> 4) * ((S_8002455C_0 *)effect)->unk_2C) >> 8);
+    y_product = (func_80064584((s16) ((S_8002455C_0 *)effect)->unk_2E) >> 4) * ((S_8002455C_0 *)effect)->unk_2C;
+    local_offset.z = 0;
+    local_offset.y = (s16) (y_product >> 8);
     func_800649A0();
-    func_80064B30(arg0 + 4, &sp10, &sp18);
+    func_80064B30(effect + 4, &local_offset, &rotated_offset);
     func_80064A40();
-    ((S_8002455C_2 *)arg1)->unk_00.at02.v = (u16) (((S_8002455C_2 *)arg1)->unk_00.at02.v + sp18.x);
-    ((S_8002455C_2 *)arg1)->unk_04.at02.v = (u16) (((S_8002455C_2 *)arg1)->unk_04.at02.v + sp18.y);
-    ((S_8002455C_2 *)arg1)->unk_08.at02.v = (u16) (((S_8002455C_2 *)arg1)->unk_08.at02.v + sp18.z);
-    if (((S_8002455C_0 *)arg0)->unk_30 != 0) {
-        ((S_8002455C_0 *)arg0)->unk_30 = 0U;
+    ((S_8002455C_2 *)position)->unk_00.at02.v = (u16) (((S_8002455C_2 *)position)->unk_00.at02.v + rotated_offset.x);
+    ((S_8002455C_2 *)position)->unk_04.at02.v = (u16) (((S_8002455C_2 *)position)->unk_04.at02.v + rotated_offset.y);
+    ((S_8002455C_2 *)position)->unk_08.at02.v = (u16) (((S_8002455C_2 *)position)->unk_08.at02.v + rotated_offset.z);
+    if (((S_8002455C_0 *)effect)->unk_30 != 0) {
+        ((S_8002455C_0 *)effect)->unk_30 = 0U;
     }
-    temp_v0 = ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v - 8;
-    ((Rec_D_80082E80 *)arg2)->unk_0C.at02_u8.v = temp_v0;
-    ((Rec_D_80082E80 *)arg2)->unk_0C.at01_u8.v = temp_v0;
-    ((Rec_D_80082E80 *)arg2)->unk_0C.at00_u8.v = temp_v0;
-    if (!(temp_v0 & 0xFF) || (temp_v0_2 = ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v - 0x100, ((Rec_D_80082E80 *)arg2)->unk_1C.at02_u16.v = temp_v0_2, ((Rec_D_80082E80 *)arg2)->unk_1C.at00_u16.v = temp_v0_2, ((Rec_D_80082E80 *)arg2)->unk_1A.as_u16 = (u16) ((S_8002455C_0 *)arg0)->unk_2E, func_800478B8(arg2), ((((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x6000) != 0))) {
-        (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_8002455C_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    brightness = ((Rec_D_80082E80 *)sprite)->unk_0C.at02_u8.v - 8;
+    ((Rec_D_80082E80 *)sprite)->unk_0C.at02_u8.v = brightness;
+    ((Rec_D_80082E80 *)sprite)->unk_0C.at01_u8.v = brightness;
+    ((Rec_D_80082E80 *)sprite)->unk_0C.at00_u8.v = brightness;
+    if (!(brightness & 0xFF) || (scale = ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v - 0x100, ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = scale, ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = scale, ((Rec_D_80082E80 *)sprite)->unk_1A.as_u16 = (u16) ((S_8002455C_0 *)effect)->unk_2E, func_800478B8(sprite), ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) != 0))) {
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8002455C_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0 |= 0x8000;
     }
 }

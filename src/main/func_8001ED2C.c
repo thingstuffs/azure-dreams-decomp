@@ -10,12 +10,13 @@ typedef struct S_8001ED2C_0 {
 
 extern M2C_UNK D_80405CB8;
 
-void func_8001ED2C(void *arg0) {
-    s32 temp_v0;
+/* Decrement the record's counter and replace its pointer when the counter becomes negative. */
+void func_8001ED2C(void *record_data) {
+    s32 counter;
 
-    temp_v0 = ((S_8001ED2C_0 *)((u8 *)arg0 - 0x10))->unk_4C - 1;
-    ((S_8001ED2C_0 *)((u8 *)arg0 - 0x10))->unk_4C = temp_v0;
-    if (temp_v0 < 0) {
-        ((S_8001ED2C_0 *)((u8 *)arg0 - 0x10))->unk_00 = &D_80405CB8;
+    counter = ((S_8001ED2C_0 *)((u8 *)record_data - 0x10))->unk_4C - 1;
+    ((S_8001ED2C_0 *)((u8 *)record_data - 0x10))->unk_4C = counter;
+    if (counter < 0) {
+        ((S_8001ED2C_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_80405CB8;
     }
 }

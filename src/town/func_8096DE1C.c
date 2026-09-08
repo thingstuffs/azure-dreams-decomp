@@ -30,6 +30,7 @@ extern void func_80124728(TownObject *);
 extern void func_801235EC(void);
 extern void func_801247F8(TownObject *);
 
+/* Resets the object or updates entry values and words according to its state. */
 void func_801262B4(TownObject *obj)
 {
     switch ((s16)(obj->state - 1)) {
@@ -44,70 +45,70 @@ void func_801262B4(TownObject *obj)
     case 7:
     case 8:
     case 9: {
-        s32 i;
-        Entry **base;
+        s32 entry_index;
+        Entry **entries;
         Entry *entry;
         Inner *inner;
 
-        do { i = 14; } while (0);
-        base = D_80129728;
+        do { entry_index = 14; } while (0);
+        entries = D_80129728;
         do {
-            entry = base[i];
+            entry = entries[entry_index];
             inner = entry->inner;
             inner->value += 0x100;
-            i++;
-        } while (i < 28);
+            entry_index++;
+        } while (entry_index < 28);
         break;
     }
 
     case 10: {
-        s32 i;
-        Entry **base;
+        s32 entry_index;
+        Entry **entries;
         Entry *entry;
         Inner *inner;
 
-        i = 16;
-        base = D_80129728;
+        entry_index = 16;
+        entries = D_80129728;
         do {
-            base[i]->word0 = 0;
-            i++;
-        } while (i < 28);
+            entries[entry_index]->word0 = 0;
+            entry_index++;
+        } while (entry_index < 28);
 
     case 11:
     case 12:
     case 13:
-        i = 14;
-        base = D_80129728;
+        entry_index = 14;
+        entries = D_80129728;
         do {
-            entry = base[i];
+            entry = entries[entry_index];
             inner = entry->inner;
             inner->value += 0x100;
-            i++;
-        } while (i < 28);
+            entry_index++;
+        } while (entry_index < 28);
         break;
     }
 
     case 14: {
-        s32 i;
-        Entry **base;
+        s32 entry_index;
+        Entry **entries;
         Entry *entry;
         Inner *inner;
 
-        i = 14;
-        base = D_80129728;
+        entry_index = 14;
+        entries = D_80129728;
         do {
-            entry = base[i];
+            entry = entries[entry_index];
             inner = entry->inner;
             inner->value += 0x100;
-            i++;
-        } while (i < 28);
+            entry_index++;
+        } while (entry_index < 28);
 
-        i = 14;
-        base = D_80129728;
+        entry_index = 14;
+        entries = D_80129728;
         do {
-            base[i]->word0 = 0;
-            i++;
-        } while (i < 16);
+            entries[entry_index]->word0 = 0;
+            entry_index++;
+        } while (entry_index < 16);
         break;
     }
 
@@ -116,7 +117,3 @@ void func_801262B4(TownObject *obj)
         break;
     }
 }
-
-/* MECHANISM: The true-space rowbase function naturally forms retail's 0x18 frame and s0-held object.
-   Narrowing state-1 to s16 restores the two-word sll/sra switch-index sequence.
-   Shared locals across the case-10 fallthrough preserve retail's a0 index and a1 base coloring. */

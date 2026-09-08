@@ -51,38 +51,39 @@ typedef struct StackWork {
     s32 out24;
 } StackWork;
 
-void func_80BC1880(void *arg0, S_80BC1880_2 *arg1, S_80BC1880_0 *arg2)
+/* Update the effect's transform, color, and depth, and flag it when its lifetime expires. */
+void func_80BC1880(void *effect, S_80BC1880_2 *position, S_80BC1880_0 *render_state)
 {
-    StackWork work;
-    s16 count;
+    StackWork projection;
+    s16 ticks_left;
 
-    arg2->unk_1C -= 500;
-    arg2->unk_1E -= 500;
-    arg2->unk_1A += 400;
+    render_state->unk_1C -= 500;
+    render_state->unk_1E -= 500;
+    render_state->unk_1A += 400;
 
-    arg2->unk_0C =
-        ((S_80BC1880_1 *)arg0)->unk_02 *
-        (((S_80BC1880_1 *)arg0)->unk_1C - ((S_80BC1880_1 *)arg0)->unk_1A.s) /
-        ((S_80BC1880_1 *)arg0)->unk_1C;
-    arg2->unk_0D =
-        ((S_80BC1880_1 *)arg0)->unk_03 *
-        (((S_80BC1880_1 *)arg0)->unk_1C - ((S_80BC1880_1 *)arg0)->unk_1A.s) /
-        ((S_80BC1880_1 *)arg0)->unk_1C;
-    arg2->unk_0E =
-        ((S_80BC1880_1 *)arg0)->unk_04 *
-        (((S_80BC1880_1 *)arg0)->unk_1C - ((S_80BC1880_1 *)arg0)->unk_1A.s) /
-        ((S_80BC1880_1 *)arg0)->unk_1C;
+    render_state->unk_0C =
+        ((S_80BC1880_1 *)effect)->unk_02 *
+        (((S_80BC1880_1 *)effect)->unk_1C - ((S_80BC1880_1 *)effect)->unk_1A.s) /
+        ((S_80BC1880_1 *)effect)->unk_1C;
+    render_state->unk_0D =
+        ((S_80BC1880_1 *)effect)->unk_03 *
+        (((S_80BC1880_1 *)effect)->unk_1C - ((S_80BC1880_1 *)effect)->unk_1A.s) /
+        ((S_80BC1880_1 *)effect)->unk_1C;
+    render_state->unk_0E =
+        ((S_80BC1880_1 *)effect)->unk_04 *
+        (((S_80BC1880_1 *)effect)->unk_1C - ((S_80BC1880_1 *)effect)->unk_1A.s) /
+        ((S_80BC1880_1 *)effect)->unk_1C;
 
-    work.xyz[0] = arg1->unk_02;
-    work.xyz[1] = arg1->unk_06;
-    work.xyz[2] = arg1->unk_0A;
-    arg2->unk_06 =
-        func_80065420(work.xyz, &work.out18, &work.out20, &work.out24) - 8;
+    projection.xyz[0] = position->unk_02;
+    projection.xyz[1] = position->unk_06;
+    projection.xyz[2] = position->unk_0A;
+    render_state->unk_06 =
+        func_80065420(projection.xyz, &projection.out18, &projection.out20, &projection.out24) - 8;
 
-    count = ((S_80BC1880_1 *)arg0)->unk_1A.u - 1;
-    ((S_80BC1880_1 *)arg0)->unk_1A.u = count;
-    if ((count << 16) <= 0) {
-        ((S_80BC1880_1_pre *)arg0)[-1].unk_00 |= 0x8000;
+    ticks_left = ((S_80BC1880_1 *)effect)->unk_1A.u - 1;
+    ((S_80BC1880_1 *)effect)->unk_1A.u = ticks_left;
+    if ((ticks_left << 16) <= 0) {
+        ((S_80BC1880_1_pre *)effect)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

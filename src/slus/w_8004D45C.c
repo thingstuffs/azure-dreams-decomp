@@ -20,17 +20,16 @@ typedef struct S_8004D45C_Buf {
 
 extern s32 func_8004D294(void *a0, void *a1, u16 a2, s32 a3);
 
-/* Builds a compact 3xs16 buffer from a0's high halfwords (or passes NULL through
-   if a0 is NULL), then tail-calls func_8004D294 forwarding a1/a3 and masking a2. */
-s32 func_8004D45C(S_8004D45C_Src *a0, void *a1, u32 a2, s32 a3) {
-    S_8004D45C_Buf buf;
-    void *v1 = 0;
+/* Packs the source's high halfwords, preserving NULL, and calls func_8004D294 with a 16-bit value. */
+s32 func_8004D45C(S_8004D45C_Src *source, void *forwarded_ptr, u32 value, s32 forwarded_value) {
+    S_8004D45C_Buf high_words;
+    void *packed_source = 0;
 
-    if (a0 != 0) {
-        buf.f0 = a0->f2;
-        buf.f2 = a0->f6;
-        buf.f4 = a0->fA;
-        v1 = &buf;
+    if (source != 0) {
+        high_words.f0 = source->f2;
+        high_words.f2 = source->f6;
+        high_words.f4 = source->fA;
+        packed_source = &high_words;
     }
-    return func_8004D294(v1, a1, a2 & 0xFFFF, a3);
+    return func_8004D294(packed_source, forwarded_ptr, value & 0xFFFF, forwarded_value);
 }

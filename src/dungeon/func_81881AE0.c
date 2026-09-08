@@ -69,72 +69,73 @@ extern void func_80067F20();
 extern u8 D_80080000[];
 extern u8 D_80083160[];
 
-s32 func_800252E0(void *arg0, void *arg1, void *arg2) {
-    void *input = arg1;
-    void *arg2use = arg2;
+/* Queue projected point primitives from a linked list into the ordering table. */
+s32 func_800252E0(void *node_data, void *position_data, void *appearance_data) {
+    void *position = position_data;
+    void *appearance = appearance_data;
     u8 *scratch = (u8 *)0x1F800000;
-    u8 *global_slot = D_80080000 + 0x3160;
-    u32 low_mask = 0x00FFFFFF;
-    u32 high_mask = 0xFF000000;
-    void *p;
-    s32 *tag;
+    u8 *render_slot = D_80080000 + 0x3160;
+    u32 addr_mask = 0x00FFFFFF;
+    u32 length_mask = 0xFF000000;
+    void *packet;
+    s32 *ot_entry;
 
     {
-        void *global = (*(void * *)((u8 *)D_80080000 + 0x3160));
-        void *cursor = ((S_800252E0_0 *)global)->unk_8D0;
-        ((S_800252E0_1 *)scratch)->unk_20 = (u8 *)global + 0xB0;
-        ((S_800252E0_1 *)scratch)->unk_18 = cursor;
+        void *render_state = (*(void * *)((u8 *)D_80080000 + 0x3160));
+        void *packet_cursor = ((S_800252E0_0 *)render_state)->unk_8D0;
+        ((S_800252E0_1 *)scratch)->unk_20 = (u8 *)render_state + 0xB0;
+        ((S_800252E0_1 *)scratch)->unk_18 = packet_cursor;
     }
     for (;;) {
-        register u16 first_coord ASM_REG("$2") = ((S_800252E0_2 *)input)->unk_02;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_800252E0_1 *)scratch)->unk_00 = first_coord;
-        ((S_800252E0_1 *)scratch)->unk_02 = ((S_800252E0_2 *)input)->unk_06;
-        ((S_800252E0_1 *)scratch)->unk_04 = ((S_800252E0_2 *)input)->unk_0A;
-        p = ((S_800252E0_1 *)scratch)->unk_18;
-        ((S_800252E0_1 *)scratch)->unk_18 = (u8 *)p + 0xC;
+        register u16 coord_x ASM_REG("$2") = ((S_800252E0_2 *)position)->unk_02;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ((S_800252E0_1 *)scratch)->unk_00 = coord_x;
+        ((S_800252E0_1 *)scratch)->unk_02 = ((S_800252E0_2 *)position)->unk_06;
+        ((S_800252E0_1 *)scratch)->unk_04 = ((S_800252E0_2 *)position)->unk_0A;
+        packet = ((S_800252E0_1 *)scratch)->unk_18;
+        ((S_800252E0_1 *)scratch)->unk_18 = (u8 *)packet + 0xC;
         ((S_800252E0_1 *)scratch)->unk_C0 = func_80065420(
-            scratch, (u8 *)p + 8, scratch + 0x90, scratch + 0x94);
+            scratch, (u8 *)packet + 8, scratch + 0x90, scratch + 0x94);
         if (((S_800252E0_1 *)scratch)->unk_C0 < 0x1E0) {
-            s32 value = ((S_800252E0_3 *)arg2use)->unk_0C;
-            ((S_800252E0_4 *)p)->unk_00.at03.v = 2;
-            ((S_800252E0_4 *)p)->unk_04.at00.v = value;
-            ((S_800252E0_4 *)p)->unk_04.at03.v = 0x6A;
-            ((S_800252E0_4 *)p)->unk_00.at00.v = (((S_800252E0_4 *)p)->unk_00.at00.v & high_mask) |
+            s32 color = ((S_800252E0_3 *)appearance)->unk_0C;
+            ((S_800252E0_4 *)packet)->unk_00.at03.v = 2;
+            ((S_800252E0_4 *)packet)->unk_04.at00.v = color;
+            ((S_800252E0_4 *)packet)->unk_04.at03.v = 0x6A;
+            ((S_800252E0_4 *)packet)->unk_00.at00.v = (((S_800252E0_4 *)packet)->unk_00.at00.v & length_mask) |
                 (*(s32 *)((((S_800252E0_1 *)scratch)->unk_C0 << 2) +
-                          (u32)((S_800252E0_1 *)scratch)->unk_20) & low_mask);
+                          (u32)((S_800252E0_1 *)scratch)->unk_20) & addr_mask);
             {
-                u32 tag_offset;
-                tag_offset = *(volatile u32 *)(scratch + 0xC0);
-                tag = (s32 *)((tag_offset << 2) +
+                u32 depth_index;
+                depth_index = *(volatile u32 *)(scratch + 0xC0);
+                ot_entry = (s32 *)((depth_index << 2) +
                               (u32)*(void * volatile *)(scratch + 0x20));
             }
-            *tag = (*tag & high_mask) | ((u32)p & low_mask);
-            p = ((S_800252E0_1 *)scratch)->unk_18;
-            ((S_800252E0_1 *)scratch)->unk_18 = (u8 *)p + 0xC;
-            func_80067F20(p, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
-            ((S_800252E0_4 *)p)->unk_00.at00.v = (((S_800252E0_4 *)p)->unk_00.at00.v & high_mask) |
+            *ot_entry = (*ot_entry & length_mask) | ((u32)packet & addr_mask);
+            packet = ((S_800252E0_1 *)scratch)->unk_18;
+            ((S_800252E0_1 *)scratch)->unk_18 = (u8 *)packet + 0xC;
+            func_80067F20(packet, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+            ((S_800252E0_4 *)packet)->unk_00.at00.v = (((S_800252E0_4 *)packet)->unk_00.at00.v & length_mask) |
                 (*(s32 *)((((S_800252E0_1 *)scratch)->unk_C0 << 2) +
-                          (u32)((S_800252E0_1 *)scratch)->unk_20) & low_mask);
+                          (u32)((S_800252E0_1 *)scratch)->unk_20) & addr_mask);
             {
-                register u32 tag_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                tag_addr = *(volatile u32 *)(scratch + 0xC0);
-                tag_addr = (tag_addr << 2) +
+                register u32 ot_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                ot_addr = *(volatile u32 *)(scratch + 0xC0);
+                ot_addr = (ot_addr << 2) +
                            (u32)*(void * volatile *)(scratch + 0x20);
-                p = (void *)((u32)p & low_mask);
-                *(s32 *)tag_addr = (*(s32 *)tag_addr & high_mask) |
-                                   (u32)p;
+                packet = (void *)((u32)packet & addr_mask);
+                *(s32 *)ot_addr = (*(s32 *)ot_addr & length_mask) |
+                                   (u32)packet;
             }
         }
         {
-            void *next = ((S_800252E0_5_pre *)arg0)[-1].unk_00;
-            if (next == NULL) {
-                ((S_800252E0_8 *)(((S_800252E0_6 *)global_slot)->unk_00))->unk_8D0 =
+            void *next_node = ((S_800252E0_5_pre *)node_data)[-1].unk_00;
+            if (next_node == NULL) {
+                ((S_800252E0_8 *)(((S_800252E0_6 *)render_slot)->unk_00))->unk_8D0 =
                     ((S_800252E0_1 *)scratch)->unk_18;
                 return 0;
             }
-            arg0 = (u8 *)next + 0x20;
-            input = ((S_800252E0_7 *)next)->unk_08;
-            arg2use = ((S_800252E0_7 *)next)->unk_0C;
+            node_data = (u8 *)next_node + 0x20;
+            position = ((S_800252E0_7 *)next_node)->unk_08;
+            appearance = ((S_800252E0_7 *)next_node)->unk_0C;
         }
     }
 }

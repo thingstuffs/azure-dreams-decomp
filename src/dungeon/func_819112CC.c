@@ -90,9 +90,6 @@ typedef struct S_819112CC_5 {
 
 #define SP16(off) (*(u16 *)(scratch + (off)))
 #define SP32(off) (*(u32 *)(scratch + (off)))
-#define temp_s1 prim
-#define temp_s1_2 prim
-#define temp_s1_3 prim
 /* Same address as D_80083160 (0x80083178 - 0x18); this spelling keeps its
    page construction shared with the other references below. */
 #define GFX_ROOT_SLOT (((u8 *)&D_80083178) - 0x18)
@@ -109,241 +106,241 @@ typedef struct {
 typedef struct {} EmptyArg;
 extern RenderContext *D_80083160;
 
-void func_819112CC(void *arg0_in, S_819112CC_1 *arg1, s16 arg2_in, s16 arg3_in)
+/* Build and queue interpolated vertical quads around five perimeter points. */
+void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 duration_in)
 {
-    void *arg0 = arg0_in;
-    s32 arg2 = arg2_in;
-    s32 arg3 = arg3_in;
+    void *effect = effect_in;
+    s32 step = step_in;
+    s32 duration = duration_in;
     register u32 low_mask ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *prim;
-    register s32 s0_value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 sp28;
-    s32 sp2C;
-    s32 c2;
-    s32 sp30;
-    s32 sp34;
-    s16 temp_v0_12;
-    s16 temp_v0_5;
-    s16 temp_v0_6;
-    s16 temp_v1_2;
-    s16 temp_v1_3;
+    register s32 angle_x_or_mask ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 target_x;
+    s32 target_y;
+    s32 radial_y;
+    s32 interpolate;
+    s32 vertex_base;
+    s16 next_end_y;
+    s16 end_y;
+    s16 bottom_z;
+    s16 end_x;
+    s16 next_end_x;
     register u32 *link ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 call_coord ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 projected_x;
-    s32 temp_v0;
-    s32 temp_v0_11;
-    s32 temp_v0_4;
-    s32 temp_v0_9;
-    s32 temp_v1;
-    s32 var_s5;
-    s32 var_v1;
-    u16 d10E;
-    u16 temp_v0_10;
-    u16 temp_v0_2;
-    u16 temp_v0_3;
-    u16 temp_v0_7;
-    u16 temp_v0_8;
-    register u32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *temp_a3;
-    register s32 idx4 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 angle ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 radial_x;
+    s32 next_delta_y;
+    s32 delta_y;
+    s32 next_delta_x;
+    s32 delta_x;
+    s32 point_index;
+    s32 twice_index;
+    u16 y_step;
+    u16 next_start_y;
+    u16 start_x;
+    u16 start_y;
+    u16 top_z;
+    u16 next_start_x;
+    register u32 depth ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *point;
+    register s32 coord_or_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    u8 *new_var;
+    u8 *context_slot;
     EmptyArg empty_arg;
-    u8 *global = *(u8 **)GFX_ROOT_SLOT;
+    u8 *render_context = *(u8 **)GFX_ROOT_SLOT;
 
-    new_var = GFX_ROOT_SLOT;
-    var_s5 = 0;
+    context_slot = GFX_ROOT_SLOT;
+    point_index = 0;
     scratch = (u8 *)0x1F800000;
-    sp30 = arg2 < arg3;
-    sp34 = 0x1F800064;
+    interpolate = step < duration;
+    vertex_base = 0x1F800064;
     low_mask = 0x00FFFFFF;
-    SP32(0x18) = (u32)global + 0xB0;
-    while (var_s5 < 5) {
-        var_v1 = var_s5 * 2;
-        s0_value = (var_v1 + 1) * 0x199;
-        call_coord = s0_value + ((S_819112CC_0 *)arg0)->unk_0A;
-        projected_x = func_800644B8(call_coord);
-        call_coord = ((S_819112CC_0 *)arg0)->unk_0A;
-        call_coord = s0_value + call_coord;
-        s0_value = arg1->unk_00;
-        s0_value += (((projected_x >> 4) *
-                     ((S_819112CC_0 *)arg0)->unk_0E) << 8);
-        ASM_KEEP_NV(s0_value);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        idx4 = func_80064584(call_coord);
-        sp28 = s0_value;
-        idx4 >>= 4;
-        c2 = arg1->unk_04 +
-            ((idx4 * ((S_819112CC_0 *)arg0)->unk_0E) << 8);
-        sp2C = c2;
+    SP32(0x18) = (u32)render_context + 0xB0;
+    while (point_index < 5) {
+        twice_index = point_index * 2;
+        angle_x_or_mask = (twice_index + 1) * 0x199;
+        angle = angle_x_or_mask + ((S_819112CC_0 *)effect)->unk_0A;
+        radial_x = func_800644B8(angle);
+        angle = ((S_819112CC_0 *)effect)->unk_0A;
+        angle = angle_x_or_mask + angle;
+        angle_x_or_mask = origin->unk_00;
+        angle_x_or_mask += (((radial_x >> 4) *
+                     ((S_819112CC_0 *)effect)->unk_0E) << 8);
+        ASM_KEEP_NV(angle_x_or_mask);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        coord_or_offset = func_80064584(angle);
+        target_x = angle_x_or_mask;
+        coord_or_offset >>= 4;
+        radial_y = origin->unk_04 +
+            ((coord_or_offset * ((S_819112CC_0 *)effect)->unk_0E) << 8);
+        target_y = radial_y;
         {
-            RenderContext **pool = (RenderContext **)new_var;
-            temp_s1 = (*pool)->nextPrim;
-            (*pool)->nextPrim = temp_s1 + 0x24;
+            RenderContext **pool = (RenderContext **)context_slot;
+            prim = (*pool)->nextPrim;
+            (*pool)->nextPrim = prim + 0x24;
         }
-        ((S_819112CC_2 *)temp_s1)->unk_00.at03.v = 8;
-        ((S_819112CC_2 *)temp_s1)->unk_07 = 0x3A;
-        ((S_819112CC_2 *)temp_s1)->unk_04 = ((S_819112CC_0 *)arg0)->unk_40;
-        ((S_819112CC_2 *)temp_s1)->unk_05 = ((S_819112CC_0 *)arg0)->unk_41;
-        ((S_819112CC_2 *)temp_s1)->unk_06 = ((S_819112CC_0 *)arg0)->unk_42;
-        ((S_819112CC_2 *)temp_s1)->unk_0C = ((S_819112CC_0 *)arg0)->unk_40;
-        ((S_819112CC_2 *)temp_s1)->unk_0D = ((S_819112CC_0 *)arg0)->unk_41;
-        ((S_819112CC_2 *)temp_s1)->unk_0E = ((S_819112CC_0 *)arg0)->unk_42;
-        ((S_819112CC_2 *)temp_s1)->unk_14 = ((S_819112CC_0 *)arg0)->unk_40;
-        ((S_819112CC_2 *)temp_s1)->unk_15 = ((S_819112CC_0 *)arg0)->unk_41;
-        ((S_819112CC_2 *)temp_s1)->unk_16 = ((S_819112CC_0 *)arg0)->unk_42;
-        ((S_819112CC_2 *)temp_s1)->unk_1C = ((S_819112CC_0 *)arg0)->unk_40;
-        ((S_819112CC_2 *)temp_s1)->unk_1D = ((S_819112CC_0 *)arg0)->unk_41;
-        idx4 = var_s5 * 4;
-        temp_a3 = (u8 *)arg0 + idx4;
-        ((S_819112CC_2 *)temp_s1)->unk_1E = ((S_819112CC_0 *)arg0)->unk_42;
-        temp_v0_2 = ((S_819112CC_3 *)temp_a3)->unk_18.at02.v;
-        SP16(0x74) = temp_v0_2;
-        SP16(0x64) = temp_v0_2;
-        temp_v1 = s0_value - ((S_819112CC_3 *)temp_a3)->unk_18.at00.v;
-        SP32(0x108) = temp_v1;
-        if (sp30 != 0) {
-            SP32(0x108) = (temp_v1 / arg3) * arg2;
+        ((S_819112CC_2 *)prim)->unk_00.at03.v = 8;
+        ((S_819112CC_2 *)prim)->unk_07 = 0x3A;
+        ((S_819112CC_2 *)prim)->unk_04 = ((S_819112CC_0 *)effect)->unk_40;
+        ((S_819112CC_2 *)prim)->unk_05 = ((S_819112CC_0 *)effect)->unk_41;
+        ((S_819112CC_2 *)prim)->unk_06 = ((S_819112CC_0 *)effect)->unk_42;
+        ((S_819112CC_2 *)prim)->unk_0C = ((S_819112CC_0 *)effect)->unk_40;
+        ((S_819112CC_2 *)prim)->unk_0D = ((S_819112CC_0 *)effect)->unk_41;
+        ((S_819112CC_2 *)prim)->unk_0E = ((S_819112CC_0 *)effect)->unk_42;
+        ((S_819112CC_2 *)prim)->unk_14 = ((S_819112CC_0 *)effect)->unk_40;
+        ((S_819112CC_2 *)prim)->unk_15 = ((S_819112CC_0 *)effect)->unk_41;
+        ((S_819112CC_2 *)prim)->unk_16 = ((S_819112CC_0 *)effect)->unk_42;
+        ((S_819112CC_2 *)prim)->unk_1C = ((S_819112CC_0 *)effect)->unk_40;
+        ((S_819112CC_2 *)prim)->unk_1D = ((S_819112CC_0 *)effect)->unk_41;
+        coord_or_offset = point_index * 4;
+        point = (u8 *)effect + coord_or_offset;
+        ((S_819112CC_2 *)prim)->unk_1E = ((S_819112CC_0 *)effect)->unk_42;
+        start_x = ((S_819112CC_3 *)point)->unk_18.at02.v;
+        SP16(0x74) = start_x;
+        SP16(0x64) = start_x;
+        delta_x = angle_x_or_mask - ((S_819112CC_3 *)point)->unk_18.at00.v;
+        SP32(0x108) = delta_x;
+        if (interpolate != 0) {
+            SP32(0x108) = (delta_x / duration) * step;
         }
-        temp_v1_2 = ((S_819112CC_3 *)temp_a3)->unk_18.at02.v + SP16(0x10A);
-        SP16(0x7C) = temp_v1_2;
-        SP16(0x6C) = temp_v1_2;
-        temp_v0_3 = ((S_819112CC_3 *)temp_a3)->unk_2C.at02.v;
-        SP16(0x76) = temp_v0_3;
-        SP16(0x66) = temp_v0_3;
-        temp_v0_4 = c2 - ((S_819112CC_3 *)temp_a3)->unk_2C.at00.v;
-        SP32(0x10C) = temp_v0_4;
-        if (sp30 != 0) {
-            SP32(0x10C) = (temp_v0_4 / arg3) * arg2;
+        end_x = ((S_819112CC_3 *)point)->unk_18.at02.v + SP16(0x10A);
+        SP16(0x7C) = end_x;
+        SP16(0x6C) = end_x;
+        start_y = ((S_819112CC_3 *)point)->unk_2C.at02.v;
+        SP16(0x76) = start_y;
+        SP16(0x66) = start_y;
+        delta_y = radial_y - ((S_819112CC_3 *)point)->unk_2C.at00.v;
+        SP32(0x10C) = delta_y;
+        if (interpolate != 0) {
+            SP32(0x10C) = (delta_y / duration) * step;
         }
-        temp_v0_5 = ((S_819112CC_3 *)temp_a3)->unk_2C.at02.v + SP16(0x10E);
-        SP16(0x7E) = temp_v0_5;
-        SP16(0x6E) = temp_v0_5;
-        temp_v0_6 = arg1->unk_0A - ((S_819112CC_0 *)arg0)->unk_10;
-        SP16(0x70) = temp_v0_6;
-        SP16(0x68) = temp_v0_6;
-        temp_v0_7 = arg1->unk_0A;
-        SP32(0xB4) = func_80065590(sp34, scratch + 0x6C,
+        end_y = ((S_819112CC_3 *)point)->unk_2C.at02.v + SP16(0x10E);
+        SP16(0x7E) = end_y;
+        SP16(0x6E) = end_y;
+        bottom_z = origin->unk_0A - ((S_819112CC_0 *)effect)->unk_10;
+        SP16(0x70) = bottom_z;
+        SP16(0x68) = bottom_z;
+        top_z = origin->unk_0A;
+        SP32(0xB4) = func_80065590(vertex_base, scratch + 0x6C,
                                   scratch + 0x74, scratch + 0x7C,
                                   scratch + 0xD8, scratch + 0xDC,
                                   scratch + 0xE0, scratch + 0xE4,
                                   scratch + 0x84, scratch + 0x88,
-                                  (SP16(0x78) = temp_v0_7,
-                                   SP16(0x80) = temp_v0_7,
+                                  (SP16(0x78) = top_z,
+                                   SP16(0x80) = top_z,
                                    empty_arg));
-        ((S_819112CC_2 *)temp_s1)->unk_08 = SP16(0xD8);
-        ((S_819112CC_2 *)temp_s1)->unk_0A = SP16(0xDA);
-        ((S_819112CC_2 *)temp_s1)->unk_10 = SP16(0xDC);
-        ((S_819112CC_2 *)temp_s1)->unk_12 = SP16(0xDE);
-        ((S_819112CC_2 *)temp_s1)->unk_18 = SP16(0xE0);
-        ((S_819112CC_2 *)temp_s1)->unk_1A = SP16(0xE2);
-        ((S_819112CC_2 *)temp_s1)->unk_20 = SP16(0xE4);
-        ((S_819112CC_2 *)temp_s1)->unk_22 = SP16(0xE6);
-        temp_a0 = SP32(0xB4);
-        if (temp_a0 < 0x1E0U) {
-            idx4 = temp_a0 << 2;
-            s0_value = (s32)0xFF000000;
-            idx4 += SP32(0x18);
-            ((S_819112CC_2 *)temp_s1)->unk_00.at00.v = (((S_819112CC_2 *)temp_s1)->unk_00.at00.v & (u32)s0_value) |
-                (*(u32 *)idx4 & low_mask);
+        ((S_819112CC_2 *)prim)->unk_08 = SP16(0xD8);
+        ((S_819112CC_2 *)prim)->unk_0A = SP16(0xDA);
+        ((S_819112CC_2 *)prim)->unk_10 = SP16(0xDC);
+        ((S_819112CC_2 *)prim)->unk_12 = SP16(0xDE);
+        ((S_819112CC_2 *)prim)->unk_18 = SP16(0xE0);
+        ((S_819112CC_2 *)prim)->unk_1A = SP16(0xE2);
+        ((S_819112CC_2 *)prim)->unk_20 = SP16(0xE4);
+        ((S_819112CC_2 *)prim)->unk_22 = SP16(0xE6);
+        depth = SP32(0xB4);
+        if (depth < 0x1E0U) {
+            coord_or_offset = depth << 2;
+            angle_x_or_mask = (s32)0xFF000000;
+            coord_or_offset += SP32(0x18);
+            ((S_819112CC_2 *)prim)->unk_00.at00.v = (((S_819112CC_2 *)prim)->unk_00.at00.v & (u32)angle_x_or_mask) |
+                (*(u32 *)coord_or_offset & low_mask);
             link = (u32 *)((SP32(0xB4) << 2) + SP32(0x18));
-            *link = (*link & (u32)s0_value) | ((u32)temp_s1 & low_mask);
+            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & low_mask);
             {
-                RenderContext *ctx = *(RenderContext **)new_var;
-                    temp_s1_2 = ctx->nextPrim;
-                ctx->nextPrim = temp_s1_2 + 0xC;
+                RenderContext *ctx = *(RenderContext **)context_slot;
+                prim = ctx->nextPrim;
+                ctx->nextPrim = prim + 0xC;
             }
-            func_80067F20(temp_s1_2, 0, 0,
-                         func_80066460(0, ((S_819112CC_0 *)arg0)->unk_12, 0, 0) & 0xFFFF,
+            func_80067F20(prim, 0, 0,
+                         func_80066460(0, ((S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
                          0);
-            ((S_819112CC_4 *)temp_s1_2)->unk_00 = (((S_819112CC_4 *)temp_s1_2)->unk_00 & (u32)s0_value) |
+            ((S_819112CC_4 *)prim)->unk_00 = (((S_819112CC_4 *)prim)->unk_00 & (u32)angle_x_or_mask) |
                 (((u32 *)SP32(0x18))[SP32(0xB4)] & low_mask);
             link = (u32 *)((SP32(0xB4) << 2) + SP32(0x18));
-            *link = (*link & (u32)s0_value) | ((u32)temp_s1_2 & low_mask);
+            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & low_mask);
         }
         {
-            RenderContext **pool = (RenderContext **)new_var;
-            temp_s1_3 = (*pool)->nextPrim;
-            (*pool)->nextPrim = temp_s1_3 + 0x24;
+            RenderContext **pool = (RenderContext **)context_slot;
+            prim = (*pool)->nextPrim;
+            (*pool)->nextPrim = prim + 0x24;
         }
-        ((S_819112CC_5 *)temp_s1_3)->unk_00.at03.v = 8;
-        ((S_819112CC_5 *)temp_s1_3)->unk_07 = 0x3A;
-        ((S_819112CC_5 *)temp_s1_3)->unk_04 = ((S_819112CC_0 *)arg0)->unk_40;
-        ((S_819112CC_5 *)temp_s1_3)->unk_05 = ((S_819112CC_0 *)arg0)->unk_41;
-        ((S_819112CC_5 *)temp_s1_3)->unk_06 = ((S_819112CC_0 *)arg0)->unk_42;
-        var_s5 += 1;
-        ((S_819112CC_5 *)temp_s1_3)->unk_0C = ((S_819112CC_0 *)arg0)->unk_40;
-        ((S_819112CC_5 *)temp_s1_3)->unk_0D = ((S_819112CC_0 *)arg0)->unk_41;
-        ((S_819112CC_5 *)temp_s1_3)->unk_0E = ((S_819112CC_0 *)arg0)->unk_42;
-        ((S_819112CC_5 *)temp_s1_3)->unk_14 = ((S_819112CC_0 *)arg0)->unk_40;
-        ((S_819112CC_5 *)temp_s1_3)->unk_15 = ((S_819112CC_0 *)arg0)->unk_41;
-        ((S_819112CC_5 *)temp_s1_3)->unk_16 = ((S_819112CC_0 *)arg0)->unk_42;
-        ((S_819112CC_5 *)temp_s1_3)->unk_1C = ((S_819112CC_0 *)arg0)->unk_40;
-        ((S_819112CC_5 *)temp_s1_3)->unk_1D = ((S_819112CC_0 *)arg0)->unk_41;
-        idx4 = ((S_819112CC_0 *)arg0)->unk_42;
-        ((S_819112CC_5 *)temp_s1_3)->unk_1E = idx4;
-        idx4 = var_s5 % 5;
-        idx4 *= 4;
-        temp_a3 = (u8 *)arg0 + idx4;
-        ASM_KEEP_NV(var_s5);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        temp_v0_8 = ((S_819112CC_3 *)temp_a3)->unk_18.at02.v;
-        SP16(0x74) = temp_v0_8;
-        SP16(0x64) = temp_v0_8;
-        temp_v0_9 = sp28 - ((S_819112CC_3 *)temp_a3)->unk_18.at00.v;
-        SP32(0x108) = temp_v0_9;
-        if (sp30 != 0) {
-            SP32(0x108) = (temp_v0_9 / arg3) * arg2;
+        ((S_819112CC_5 *)prim)->unk_00.at03.v = 8;
+        ((S_819112CC_5 *)prim)->unk_07 = 0x3A;
+        ((S_819112CC_5 *)prim)->unk_04 = ((S_819112CC_0 *)effect)->unk_40;
+        ((S_819112CC_5 *)prim)->unk_05 = ((S_819112CC_0 *)effect)->unk_41;
+        ((S_819112CC_5 *)prim)->unk_06 = ((S_819112CC_0 *)effect)->unk_42;
+        point_index += 1;
+        ((S_819112CC_5 *)prim)->unk_0C = ((S_819112CC_0 *)effect)->unk_40;
+        ((S_819112CC_5 *)prim)->unk_0D = ((S_819112CC_0 *)effect)->unk_41;
+        ((S_819112CC_5 *)prim)->unk_0E = ((S_819112CC_0 *)effect)->unk_42;
+        ((S_819112CC_5 *)prim)->unk_14 = ((S_819112CC_0 *)effect)->unk_40;
+        ((S_819112CC_5 *)prim)->unk_15 = ((S_819112CC_0 *)effect)->unk_41;
+        ((S_819112CC_5 *)prim)->unk_16 = ((S_819112CC_0 *)effect)->unk_42;
+        ((S_819112CC_5 *)prim)->unk_1C = ((S_819112CC_0 *)effect)->unk_40;
+        ((S_819112CC_5 *)prim)->unk_1D = ((S_819112CC_0 *)effect)->unk_41;
+        coord_or_offset = ((S_819112CC_0 *)effect)->unk_42;
+        ((S_819112CC_5 *)prim)->unk_1E = coord_or_offset;
+        coord_or_offset = point_index % 5;
+        coord_or_offset *= 4;
+        point = (u8 *)effect + coord_or_offset;
+        ASM_KEEP_NV(point_index);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        next_start_x = ((S_819112CC_3 *)point)->unk_18.at02.v;
+        SP16(0x74) = next_start_x;
+        SP16(0x64) = next_start_x;
+        next_delta_x = target_x - ((S_819112CC_3 *)point)->unk_18.at00.v;
+        SP32(0x108) = next_delta_x;
+        if (interpolate != 0) {
+            SP32(0x108) = (next_delta_x / duration) * step;
         }
-        temp_v1_3 = ((S_819112CC_3 *)temp_a3)->unk_18.at02.v + SP16(0x10A);
-        SP16(0x7C) = temp_v1_3;
-        SP16(0x6C) = temp_v1_3;
-        temp_v0_10 = ((S_819112CC_3 *)temp_a3)->unk_2C.at02.v;
-        SP16(0x76) = temp_v0_10;
-        SP16(0x66) = temp_v0_10;
-        temp_v0_11 = sp2C - ((S_819112CC_3 *)temp_a3)->unk_2C.at00.v;
-        SP32(0x10C) = temp_v0_11;
-        if (sp30 != 0) {
-            SP32(0x10C) = (temp_v0_11 / arg3) * arg2;
+        next_end_x = ((S_819112CC_3 *)point)->unk_18.at02.v + SP16(0x10A);
+        SP16(0x7C) = next_end_x;
+        SP16(0x6C) = next_end_x;
+        next_start_y = ((S_819112CC_3 *)point)->unk_2C.at02.v;
+        SP16(0x76) = next_start_y;
+        SP16(0x66) = next_start_y;
+        next_delta_y = target_y - ((S_819112CC_3 *)point)->unk_2C.at00.v;
+        SP32(0x10C) = next_delta_y;
+        if (interpolate != 0) {
+            SP32(0x10C) = (next_delta_y / duration) * step;
         }
-        temp_v0_12 = ((S_819112CC_3 *)temp_a3)->unk_2C.at02.v;
-        d10E = SP16(0x10E);
-        SP32(0xB4) = func_80065590(sp34, scratch + 0x6C,
+        next_end_y = ((S_819112CC_3 *)point)->unk_2C.at02.v;
+        y_step = SP16(0x10E);
+        SP32(0xB4) = func_80065590(vertex_base, scratch + 0x6C,
                                   scratch + 0x74, scratch + 0x7C,
                                   scratch + 0xD8, scratch + 0xDC,
                                   scratch + 0xE0, scratch + 0xE4,
                                   scratch + 0x84, scratch + 0x88,
-                                  (temp_v0_12 += d10E,
-                                   SP16(0x7E) = temp_v0_12,
-                                   SP16(0x6E) = temp_v0_12,
+                                  (next_end_y += y_step,
+                                   SP16(0x7E) = next_end_y,
+                                   SP16(0x6E) = next_end_y,
                                    empty_arg));
-        ((S_819112CC_5 *)temp_s1_3)->unk_08 = SP16(0xD8);
-        ((S_819112CC_5 *)temp_s1_3)->unk_0A = SP16(0xDA);
-        ((S_819112CC_5 *)temp_s1_3)->unk_10 = SP16(0xDC);
-        ((S_819112CC_5 *)temp_s1_3)->unk_12 = SP16(0xDE);
-        ((S_819112CC_5 *)temp_s1_3)->unk_18 = SP16(0xE0);
-        ((S_819112CC_5 *)temp_s1_3)->unk_1A = SP16(0xE2);
-        ((S_819112CC_5 *)temp_s1_3)->unk_20 = SP16(0xE4);
-        ((S_819112CC_5 *)temp_s1_3)->unk_22 = SP16(0xE6);
-        temp_a0 = SP32(0xB4);
-        if (temp_a0 < 0x1E0U) {
-            idx4 = temp_a0 << 2;
-            s0_value = (s32)0xFF000000;
-            idx4 += SP32(0x18);
-            ((S_819112CC_5 *)temp_s1_3)->unk_00.at00.v = (((S_819112CC_5 *)temp_s1_3)->unk_00.at00.v & (u32)s0_value) |
-                (*(u32 *)idx4 & low_mask);
+        ((S_819112CC_5 *)prim)->unk_08 = SP16(0xD8);
+        ((S_819112CC_5 *)prim)->unk_0A = SP16(0xDA);
+        ((S_819112CC_5 *)prim)->unk_10 = SP16(0xDC);
+        ((S_819112CC_5 *)prim)->unk_12 = SP16(0xDE);
+        ((S_819112CC_5 *)prim)->unk_18 = SP16(0xE0);
+        ((S_819112CC_5 *)prim)->unk_1A = SP16(0xE2);
+        ((S_819112CC_5 *)prim)->unk_20 = SP16(0xE4);
+        ((S_819112CC_5 *)prim)->unk_22 = SP16(0xE6);
+        depth = SP32(0xB4);
+        if (depth < 0x1E0U) {
+            coord_or_offset = depth << 2;
+            angle_x_or_mask = (s32)0xFF000000;
+            coord_or_offset += SP32(0x18);
+            ((S_819112CC_5 *)prim)->unk_00.at00.v = (((S_819112CC_5 *)prim)->unk_00.at00.v & (u32)angle_x_or_mask) |
+                (*(u32 *)coord_or_offset & low_mask);
             link = (u32 *)((SP32(0xB4) << 2) + SP32(0x18));
-            *link = (*link & (u32)s0_value) | ((u32)temp_s1_3 & low_mask);
+            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & low_mask);
             {
-                RenderContext *ctx = *(RenderContext **)new_var;
-                    temp_s1_2 = ctx->nextPrim;
-                ctx->nextPrim = temp_s1_2 + 0xC;
+                RenderContext *ctx = *(RenderContext **)context_slot;
+                prim = ctx->nextPrim;
+                ctx->nextPrim = prim + 0xC;
             }
-            func_80067F20(temp_s1_2, 0, 0,
-                         func_80066460(0, ((S_819112CC_0 *)arg0)->unk_12, 0, 0) & 0xFFFF,
+            func_80067F20(prim, 0, 0,
+                         func_80066460(0, ((S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
                          0);
-            ((S_819112CC_4 *)temp_s1_2)->unk_00 = (((S_819112CC_4 *)temp_s1_2)->unk_00 & (u32)s0_value) |
+            ((S_819112CC_4 *)prim)->unk_00 = (((S_819112CC_4 *)prim)->unk_00 & (u32)angle_x_or_mask) |
                 (((u32 *)SP32(0x18))[SP32(0xB4)] & low_mask);
             link = (u32 *)((SP32(0xB4) << 2) + SP32(0x18));
-            *link = (*link & (u32)s0_value) | ((u32)temp_s1_2 & low_mask);
+            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & low_mask);
         }
     }
 }

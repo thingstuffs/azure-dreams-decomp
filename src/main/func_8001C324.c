@@ -3,6 +3,7 @@
 
 M2C_UNK func_80402F84();   /* extern */
 
-void func_8001C324(M2C_UNK arg0, M2C_UNK arg1) {
-    func_80402F84(arg0, 0xf, 2, arg1);
+/* Dispatches operation 0xf in mode 2 with the supplied target and value. */
+void func_8001C324(M2C_UNK target, M2C_UNK value) {
+    func_80402F84(target, 0xf, 2, value);
 }

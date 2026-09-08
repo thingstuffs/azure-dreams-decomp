@@ -3,7 +3,8 @@
 
 M2C_UNK func_80022D60();   /* extern */
 
-void func_800230A4(s32 arg0) {
-    s32 temp = 0;
-    func_80022D60(arg0, 7, temp, temp);
+/* Passes the value and fixed arguments (7, 0, 0) to func_80022D60. */
+void func_800230A4(s32 value) {
+    s32 zero = 0;
+    func_80022D60(value, 7, zero, zero);
 }

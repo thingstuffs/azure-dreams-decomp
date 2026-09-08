@@ -8,15 +8,16 @@ extern M2C_UNK D_800C84B8;
 extern M2C_UNK D_800D62AC;
 
 
-void func_800C8524(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    u16 temp_v0;
+/* Decrement the object's countdown and advance its state when it expires. */
+void func_800C8524(Rec_func_80094268_arg0 *object, M2C_UNK update_context, M2C_UNK state_context) {
+    u16 ticks_left;
 
-    temp_v0 = arg0->unk_6C.as_u16 - 1;
-    arg0->unk_6C.as_u16 = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        func_800C8A68(arg1);
-        func_800C2E84(arg0, arg2, &D_800D62AC);
-        arg0->unk_54 = &D_800C84B8;
-        arg0->unk_6C.as_u16 = 0x15U;
+    ticks_left = object->unk_6C.as_u16 - 1;
+    object->unk_6C.as_u16 = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        func_800C8A68(update_context);
+        func_800C2E84(object, state_context, &D_800D62AC);
+        object->unk_54 = &D_800C84B8;
+        object->unk_6C.as_u16 = 0x15U;
     }
 }

@@ -61,63 +61,64 @@ typedef struct S_818C370C_3 {
     s16 unk_1E;
 } S_818C370C_3;   /* temp_s0 in func_818C370C */
 
-s32 func_818C370C(S_818C370C_2 *arg0, void *arg1) {
-    s32 temp_lo;
-    s32 temp_ret;
-    s32 temp_v0_2;
-    s32 temp_v1_2;
-    s32 var_v0;
-    s32 word4;
-    s32 word5;
-    char byte_value;
-    S_818C370C_3 *temp_s0;
-    S_818C370C_1 *temp_s2;
-    void *temp_v0;
-    void *temp_v1;
-    register s32 tail_ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+/* Creates an object with randomized state and initializes its rendering and data. */
+s32 func_818C370C(S_818C370C_2 *owner, void *source_data) {
+    s32 scale;
+    s32 variant_random;
+    s32 angle_random;
+    s32 angle_value;
+    s32 angle_quotient;
+    s32 data_word4;
+    s32 data_word5;
+    char color_value;
+    S_818C370C_3 *render_data;
+    S_818C370C_1 *state;
+    void *object;
+    void *object_data;
+    register s32 object_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != 0) {
-        temp_s2 = temp_v0 + 0x20;
-        ((S_818C370C_0 *)temp_v0)->unk_10 = &D_80024C48;
-        ((S_818C370C_0 *)temp_v0)->unk_20 = arg0;
-        temp_s2->unk_0E = 0;
-        temp_s2->unk_10 = 0;
-        temp_ret = func_80069EF8();
-        temp_s2->unk_12 = (s16)(temp_ret % 7);
-        byte_value = 0x80;
-        temp_s2->unk_14 = arg0->unk_14;
-        temp_s0 = ((S_818C370C_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_0E = byte_value;
-        temp_s0->unk_0D = byte_value;
-        temp_s0->unk_0C = byte_value;
-        temp_s0->unk_12 = 0x7DCF;
-        temp_s0->unk_14 = temp_s0->unk_14 | 0xC;
-        temp_s0->unk_10 = temp_s0->unk_10 | 0x20;
-        temp_s0->unk_14 = temp_s0->unk_14 | 0x100;
-        func_8003DB94(temp_s0, &D_80025AF0, 0);
-        temp_v0_2 = func_80069EF8();
-        temp_v1_2 = temp_v0_2;
-        ASM_KEEP(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        var_v0 = temp_v0_2 >> 0xC;
-        if (temp_v1_2 < 0) {
-            var_v0 = (temp_v1_2 + 0xFFF) >> 0xC;
+    object = func_8003FC64(0x212);
+    if (object != 0) {
+        state = object + 0x20;
+        ((S_818C370C_0 *)object)->unk_10 = &D_80024C48;
+        ((S_818C370C_0 *)object)->unk_20 = owner;
+        state->unk_0E = 0;
+        state->unk_10 = 0;
+        variant_random = func_80069EF8();
+        state->unk_12 = (s16)(variant_random % 7);
+        color_value = 0x80;
+        state->unk_14 = owner->unk_14;
+        render_data = ((S_818C370C_0 *)object)->unk_0C;
+        render_data->unk_0E = color_value;
+        render_data->unk_0D = color_value;
+        render_data->unk_0C = color_value;
+        render_data->unk_12 = 0x7DCF;
+        render_data->unk_14 = render_data->unk_14 | 0xC;
+        render_data->unk_10 = render_data->unk_10 | 0x20;
+        render_data->unk_14 = render_data->unk_14 | 0x100;
+        func_8003DB94(render_data, &D_80025AF0, 0);
+        angle_random = func_80069EF8();
+        angle_value = angle_random;
+        ASM_KEEP(angle_random);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        angle_quotient = angle_random >> 0xC;
+        if (angle_value < 0) {
+            angle_quotient = (angle_value + 0xFFF) >> 0xC;
         }
-        temp_s0->unk_1A = temp_v1_2 - (var_v0 << 0xC);
-        temp_lo = 0x1400 / (s16)temp_s2->unk_14;
-        temp_s0->unk_1E = temp_lo;
-        temp_s0->unk_1C = temp_lo;
-        func_8004491C(temp_v0, D_80045C34);
-        temp_v1 = ((S_818C370C_0 *)temp_v0)->unk_08;
-        tail_ret = (s32)temp_v0;
-        *(Copy16 *)temp_v1 = *(Copy16 *)arg1;
-        ASM_KEEP(tail_ret);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        word4 = ((Copy24 *)arg1)->words[4];
-        word5 = ((Copy24 *)arg1)->words[5];
-        ((Copy24 *)temp_v1)->words[4] = word4;
-        ((Copy24 *)temp_v1)->words[5] = word5;
-        func_80025078(word4, word5);
-        return (s32)temp_v0;
+        render_data->unk_1A = angle_value - (angle_quotient << 0xC);
+        scale = 0x1400 / (s16)state->unk_14;
+        render_data->unk_1E = scale;
+        render_data->unk_1C = scale;
+        func_8004491C(object, D_80045C34);
+        object_data = ((S_818C370C_0 *)object)->unk_08;
+        object_addr = (s32)object;
+        *(Copy16 *)object_data = *(Copy16 *)source_data;
+        ASM_KEEP(object_addr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        data_word4 = ((Copy24 *)source_data)->words[4];
+        data_word5 = ((Copy24 *)source_data)->words[5];
+        ((Copy24 *)object_data)->words[4] = data_word4;
+        ((Copy24 *)object_data)->words[5] = data_word5;
+        func_80025078(data_word4, data_word5);
+        return (s32)object;
     }
     return 0;
 }

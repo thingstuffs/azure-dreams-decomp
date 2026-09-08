@@ -23,14 +23,15 @@ M2C_UNK func_80058588();               /* extern */
 s32 func_80071424();                             /* extern */
 extern s32 D_80084D5C;
 
-void func_80815160(void *arg0) {
-    void *temp_s1;
+/* Processes a state-zero record and sets record/global flags if its linked record has bit 3 set. */
+void func_80815160(void *record) {
+    void *linked_record;
 
-    temp_s1 = ((S_80815160_0 *)arg0)->unk_0C;
-    if (((S_80815160_0 *)arg0)->unk_00 == 0) {
-        func_80058588(*((S_80815160_0 *)arg0)->unk_08, func_80071424(((S_80815160_0 *)arg0)->unk_04), ((S_80815160_0 *)arg0)->unk_04);
-        if (((S_80815160_1 *)temp_s1)->unk_1A & 8) {
-            (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_80815160_0_pre *)arg0)[-1].unk_00 | 0x8000);
+    linked_record = ((S_80815160_0 *)record)->unk_0C;
+    if (((S_80815160_0 *)record)->unk_00 == 0) {
+        func_80058588(*((S_80815160_0 *)record)->unk_08, func_80071424(((S_80815160_0 *)record)->unk_04), ((S_80815160_0 *)record)->unk_04);
+        if (((S_80815160_1 *)linked_record)->unk_1A & 8) {
+            (*(u16 *)((u8 *)record + -2)) = (u16) (((S_80815160_0_pre *)record)[-1].unk_00 | 0x8000);
             D_80084D5C |= 0x8000;
         }
     }

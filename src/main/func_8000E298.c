@@ -9,20 +9,21 @@ extern void func_80021538(void);
 extern s32 func_80069C18(s32 arg0);
 extern s32 func_80069C38(s32 arg0);
 
+/* Updates the operation state and returns its status, clearing the selected slot in state 3. */
 s32 func_80021298(void)
 {
     s32 state;
-    s32 result;
+    s32 status;
 
     state = D_800287C8;
-    result = 0;
+    status = 0;
     if (state == 0) {
         goto done;
     }
     if (state == 1) {
         goto state_one;
     }
-    result = 5;
+    status = 5;
     if (state == 3) {
         goto state_three;
     }
@@ -36,28 +37,28 @@ state_one:
             D_800287C8++;
             goto done;
         }
-        result = 5;
+        status = 5;
         D_800287C8 = 0;
         goto done;
     }
-    result = 5;
+    status = 5;
     D_800287C8 = 0;
     goto done;
 
 state_three:
     {
-        s32 *value;
+        s32 *selected_slot;
 
-        value = &D_80084118[0];
+        selected_slot = &D_80084118[0];
         if (D_800287CC != 0) {
-            value = &D_80084118[1];
+            selected_slot = &D_80084118[1];
         }
-        result = 3;
-        *value = 0;
+        status = 3;
+        *selected_slot = 0;
         D_800287C8 = 0;
         ASM_SCHED_BARRIER();
     }
 
 done:
-    return result;
+    return status;
 }

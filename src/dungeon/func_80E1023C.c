@@ -50,100 +50,101 @@ extern s32 D_800814A0;
 extern s32 D_80083460;
 extern s16 D_8008346A;
 
-void func_80173A3C(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Fades and reshapes the sprite, then removes the entity when the effect ends. */
+void func_80173A3C(void *fade_state, void *position, void *sprite, void *entity)
 {
-    u8 state;
-    u16 timer;
+    u8 fade_phase;
+    u16 frames_left;
 
-    state = ((S_80173A3C_0 *)arg0)->unk_9B;
-    if (state == 0) {
-        goto state_zero;
+    fade_phase = ((S_80173A3C_0 *)fade_state)->unk_9B;
+    if (fade_phase == 0) {
+        goto begin_fade;
     }
-    if (state == 1) {
-        goto update;
+    if (fade_phase == 1) {
+        goto update_fade;
     }
     return;
 
-state_zero:
+begin_fade:
     if (D_8008346A != 0) {
         return;
     }
 
-    ((S_80173A3C_0 *)arg0)->unk_9B = 1;
-    ((S_80173A3C_1 *)arg2)->unk_10 = 0x20;
-    ((S_80173A3C_1 *)arg2)->unk_12 -= 0x80;
-    ((S_80173A3C_1 *)arg2)->unk_14 |= 0xC;
-    ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 |= 0x10000000;
+    ((S_80173A3C_0 *)fade_state)->unk_9B = 1;
+    ((S_80173A3C_1 *)sprite)->unk_10 = 0x20;
+    ((S_80173A3C_1 *)sprite)->unk_12 -= 0x80;
+    ((S_80173A3C_1 *)sprite)->unk_14 |= 0xC;
+    ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 |= 0x10000000;
     func_800A56E0(0x805);
-    ((S_80173A3C_1 *)arg2)->unk_0C.at00.v = 0x00808080;
-    ((S_80173A3C_0 *)arg0)->unk_96.s = 0xC;
+    ((S_80173A3C_1 *)sprite)->unk_0C.at00.v = 0x00808080;
+    ((S_80173A3C_0 *)fade_state)->unk_96.s = 0xC;
 
-update:
-    ((S_80173A3C_1 *)arg2)->unk_0C.at00u.v -= ((S_80173A3C_1 *)arg2)->unk_0C.at00u.v / ((S_80173A3C_0 *)arg0)->unk_96.s;
-    ((S_80173A3C_1 *)arg2)->unk_0C.at01.v -= ((S_80173A3C_1 *)arg2)->unk_0C.at01.v / ((S_80173A3C_0 *)arg0)->unk_96.s;
-    ((S_80173A3C_1 *)arg2)->unk_0C.at02.v -= ((S_80173A3C_1 *)arg2)->unk_0C.at02.v / ((S_80173A3C_0 *)arg0)->unk_96.s;
+update_fade:
+    ((S_80173A3C_1 *)sprite)->unk_0C.at00u.v -= ((S_80173A3C_1 *)sprite)->unk_0C.at00u.v / ((S_80173A3C_0 *)fade_state)->unk_96.s;
+    ((S_80173A3C_1 *)sprite)->unk_0C.at01.v -= ((S_80173A3C_1 *)sprite)->unk_0C.at01.v / ((S_80173A3C_0 *)fade_state)->unk_96.s;
+    ((S_80173A3C_1 *)sprite)->unk_0C.at02.v -= ((S_80173A3C_1 *)sprite)->unk_0C.at02.v / ((S_80173A3C_0 *)fade_state)->unk_96.s;
 
-    ((S_80173A3C_1 *)arg2)->unk_1C >>= 2;
-    ((S_80173A3C_1 *)arg2)->unk_1E >>= 1;
-    ((S_80173A3C_1 *)arg2)->unk_1C *= 3;
-    ((S_80173A3C_1 *)arg2)->unk_1E *= 3;
+    ((S_80173A3C_1 *)sprite)->unk_1C >>= 2;
+    ((S_80173A3C_1 *)sprite)->unk_1E >>= 1;
+    ((S_80173A3C_1 *)sprite)->unk_1C *= 3;
+    ((S_80173A3C_1 *)sprite)->unk_1E *= 3;
 
-    timer = ((S_80173A3C_0 *)arg0)->unk_96.u - 1;
-    ((S_80173A3C_0 *)arg0)->unk_96.u = timer;
-    if (((s32)timer << 16) > 0) {
-        if ((((S_80173A3C_1 *)arg2)->unk_14 & 0x8000) == 0) {
+    frames_left = ((S_80173A3C_0 *)fade_state)->unk_96.u - 1;
+    ((S_80173A3C_0 *)fade_state)->unk_96.u = frames_left;
+    if (((s32)frames_left << 16) > 0) {
+        if ((((S_80173A3C_1 *)sprite)->unk_14 & 0x8000) == 0) {
             return;
         }
     }
 
-    if ((((Rec_D_800E3D7C *)arg3)->unk_14.as_u32 & 0x20000000) == 0) {
-        u8 *global = (u8 *)&D_80083460;
-        if (((S_80173A3C_3 *)global)->unk_10.p == (u8 *)arg3 - 0x20) {
-            ((S_80173A3C_3 *)global)->unk_10.i &= 0x7FFFFFFF;
+    if ((((Rec_D_800E3D7C *)entity)->unk_14.as_u32 & 0x20000000) == 0) {
+        u8 *entity_tracker = (u8 *)&D_80083460;
+        if (((S_80173A3C_3 *)entity_tracker)->unk_10.p == (u8 *)entity - 0x20) {
+            ((S_80173A3C_3 *)entity_tracker)->unk_10.i &= 0x7FFFFFFF;
         }
     }
 
-    if ((((Rec_D_800E3D7C *)arg3)->unk_14.as_u32 & 0x4000) == 0) {
-        func_800A2FE0(arg3);
-        func_800A32A4(arg3);
-        if (((Rec_D_800E3D7C *)arg3)->unk_48.at01_u8.v != 0 &&
-            (((Rec_D_800E3D7C *)arg3)->unk_48.at03_u8.v & 0x20) == 0) {
-            func_800B8228(((S_80173A3C_4 *)arg1)->unk_02, ((S_80173A3C_4 *)arg1)->unk_06,
-                          ((Rec_D_800E3D7C *)arg3)->unk_88.as_s16, (u8 *)arg3 + 0x48);
+    if ((((Rec_D_800E3D7C *)entity)->unk_14.as_u32 & 0x4000) == 0) {
+        func_800A2FE0(entity);
+        func_800A32A4(entity);
+        if (((Rec_D_800E3D7C *)entity)->unk_48.at01_u8.v != 0 &&
+            (((Rec_D_800E3D7C *)entity)->unk_48.at03_u8.v & 0x20) == 0) {
+            func_800B8228(((S_80173A3C_4 *)position)->unk_02, ((S_80173A3C_4 *)position)->unk_06,
+                          ((Rec_D_800E3D7C *)entity)->unk_88.as_s16, (u8 *)entity + 0x48);
         }
-        if ((func_80042900(arg3, 0x1B) << 16) == 0) {
-            s32 flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32;
-            s32 color0 = ((S_80173A3C_1 *)arg2)->unk_24;
-            s32 color1 = ((S_80173A3C_1 *)arg2)->unk_25;
-            s32 effect = 0x3000;
-            if (flags & 0x2000) {
-                effect = 0x300;
+        if ((func_80042900(entity, 0x1B) << 16) == 0) {
+            s32 entity_flags = ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32;
+            s32 effect_color_0 = ((S_80173A3C_1 *)sprite)->unk_24;
+            s32 effect_color_1 = ((S_80173A3C_1 *)sprite)->unk_25;
+            s32 effect_mask = 0x3000;
+            if (entity_flags & 0x2000) {
+                effect_mask = 0x300;
             }
-            func_8009A3D0(color0, color1, effect);
+            func_8009A3D0(effect_color_0, effect_color_1, effect_mask);
         }
-        func_8009A028(arg3);
-        (*(u16 *)((u8 *)arg3 + -2)) |= 0x8000;
+        func_8009A028(entity);
+        (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
         return;
     }
 
-    if ((((Rec_D_800E3D7C *)arg3)->unk_14.as_u32 & 0x20000000) == 0) {
-        func_800ACF88(arg3);
+    if ((((Rec_D_800E3D7C *)entity)->unk_14.as_u32 & 0x20000000) == 0) {
+        func_800ACF88(entity);
     }
-    func_800A2FE0(arg3);
-    func_800A32A4(arg3);
-    if ((func_80042900(arg3, 0x1B) << 16) == 0) {
-        s32 flags = ((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32;
-        s32 color0 = ((S_80173A3C_1 *)arg2)->unk_24;
-        s32 color1 = ((S_80173A3C_1 *)arg2)->unk_25;
-        s32 effect = 0x3000;
-        if (flags & 0x2000) {
-            effect = 0x300;
+    func_800A2FE0(entity);
+    func_800A32A4(entity);
+    if ((func_80042900(entity, 0x1B) << 16) == 0) {
+        s32 entity_flags = ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32;
+        s32 effect_color_0 = ((S_80173A3C_1 *)sprite)->unk_24;
+        s32 effect_color_1 = ((S_80173A3C_1 *)sprite)->unk_25;
+        s32 effect_mask = 0x3000;
+        if (entity_flags & 0x2000) {
+            effect_mask = 0x300;
         }
-        func_8009A3D0(color0, color1, effect);
+        func_8009A3D0(effect_color_0, effect_color_1, effect_mask);
     }
-    func_8009A028(arg3);
-    (*(u16 *)((u8 *)arg3 + -2)) |= 0x8000;
+    func_8009A028(entity);
+    (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
     D_800814A0 |= 0x8000;
     func_800A56E0(0x609);
 }

@@ -6,50 +6,51 @@ typedef struct {
     volatile u8 unk21;
 } S_800565D8;
 
-s32 func_800565D8(S_800565D8 *arg0, u32 arg1)
+/* Computes a signed 16-bit value using separate scales below and above 0x40. */
+s32 func_800565D8(S_800565D8 *scales, u32 level)
 {
-    s32 ret;
+    s32 result;
 
-    if (arg1 < 0x40) {
+    if (level < 0x40) {
         register s32 delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        s32 doubled;
-        s32 product;
+        s32 doubled_scale;
+        s32 scaled_delta;
 
-        if (arg0->unk21 == 0) {
+        if (scales->unk21 == 0) {
             goto zero;
         }
-        delta = 0x3F - arg1;
-        doubled = arg0->unk21;
-        doubled *= 2;
-        product = doubled * delta;
-        ret = -product;
+        delta = 0x3F - level;
+        doubled_scale = scales->unk21;
+        doubled_scale *= 2;
+        scaled_delta = doubled_scale * delta;
+        result = -scaled_delta;
         goto sign;
     }
 
-    if (arg1 != 0x40) {
+    if (level != 0x40) {
         goto positive;
     }
 
 zero:
-    ret = 0;
+    result = 0;
     goto done;
 
 positive:
     {
-        register s32 delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        register s32 delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
-        delta = arg1 - 0x40;
-        if (arg0->unk20 == 0) {
+        delta = level - 0x40;
+        if (scales->unk20 == 0) {
             goto zero;
         }
-        ret = arg0->unk20;
-        ret *= 2;
-        ret *= delta;
+        result = scales->unk20;
+        result *= 2;
+        result *= delta;
     }
 
 sign:
-    ret = (s16)ret;
+    result = (s16)result;
 
 done:
-    return ret;
+    return result;
 }

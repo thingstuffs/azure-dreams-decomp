@@ -11,7 +11,8 @@ typedef struct S_800CA744_0 {
     s16 unk_6C;
 } S_800CA744_0;   /* arg0 in func_800CA744 */
 
-void func_800CA744(S_800CA744_0 *arg0) {
-    arg0->unk_54 = &D_800CA134;
-    arg0->unk_6C = 0xA;
+/* Initializes the object's data pointer and associated value to 10. */
+void func_800CA744(S_800CA744_0 *object) {
+    object->unk_54 = &D_800CA134;
+    object->unk_6C = 0xA;
 }

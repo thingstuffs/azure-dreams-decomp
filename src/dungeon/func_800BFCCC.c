@@ -72,7 +72,8 @@ extern void func_8004491C(void *, void *);
 extern s16 rand(void *, void *);
 extern void func_800A56E0(s32);
 
-void *func_800C542C(void *arg0, s16 arg1, s32 arg2, s16 arg3)
+/* Creates and initializes a display object linked to its owner. */
+void *func_800C542C(void *owner, s16 effect_value, s32 direction, s16 effect_mode)
 {
     void *object;
     S_800C542C_1 *display;
@@ -81,13 +82,13 @@ void *func_800C542C(void *arg0, s16 arg1, s32 arg2, s16 arg3)
     S_800C542C_5 *record;
     void *callback;
     void *call_object;
-    register s16 stored_arg3 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s16 mode;
-    s32 scaled;
+    register s16 saved_mode ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 initial_state;
+    s32 direction_fixed;
     s32 parent;
 
     object = func_8003FC64(0x12);
-    stored_arg3 = arg3;
+    saved_mode = effect_mode;
     if (object != NULL) {
         call_object = object;
         ASM_KEEP(call_object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -101,39 +102,39 @@ void *func_800C542C(void *arg0, s16 arg1, s32 arg2, s16 arg3)
         display->unk_08 = D_800DF630;
         display->unk_06 = 0xC;
 
-        source = ((S_800C542C_2_pre *)arg0)[-1].unk_00;
+        source = ((S_800C542C_2_pre *)owner)[-1].unk_00;
         target = ((S_800C542C_0 *)object)->unk_08;
         target->unk_02 = source->unk_02;
         target->unk_06 = source->unk_06;
         record = (u8 *)object + 0x20;
         target->unk_0A = source->unk_0A;
 
-        scaled = arg2 << 0x10;
-        record->unk_30 = arg1;
+        direction_fixed = direction << 0x10;
+        record->unk_30 = effect_value;
         record->unk_1C = source;
-        parent = ((S_800C542C_2_pre *)arg0)[-1].unk_04;
-        record->unk_2E = (s16)(scaled >> 5);
-        record->unk_24 = arg0;
+        parent = ((S_800C542C_2_pre *)owner)[-1].unk_04;
+        record->unk_2E = (s16)(direction_fixed >> 5);
+        record->unk_24 = owner;
         record->unk_20 = parent;
         display->unk_20 = 0x2000;
         record->unk_32 = 0x400;
         record->unk_2C = rand(source, display);
 
-        if (arg3 == 1) {
+        if (effect_mode == 1) {
             record->unk_2A = 0;
         } else {
-            if (arg3 == 0) {
+            if (effect_mode == 0) {
                 func_800A56E0(0x802);
-                mode = 0x10;
+                initial_state = 0x10;
             } else {
                 func_800A56E0(0x802);
-                mode = 0x20;
+                initial_state = 0x20;
             }
-            record->unk_2A = mode;
+            record->unk_2A = initial_state;
         }
 
-        record->unk_36 = stored_arg3;
-        ((Rec_D_80082E80 *)arg0)->unk_14.at00_s32.v |= 0x100000;
+        record->unk_36 = saved_mode;
+        ((Rec_D_80082E80 *)owner)->unk_14.at00_s32.v |= 0x100000;
     }
     return object;
 }

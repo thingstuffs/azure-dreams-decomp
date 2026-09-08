@@ -1,5 +1,7 @@
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
+#include "records/Rec_func_80171CD4_arg0.h"
+#include "records/Rec_func_80171CD4_arg1.h"
 
 
 extern s32 func_80047784();
@@ -27,22 +29,7 @@ typedef struct S_80171CD4_0 {
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
 } S_80171CD4_0;   /* state in func_80171CD4 */
 
-typedef struct S_80171CD4_1 {
-    u8 pad_00[0x8C];
-    s32 unk_8C;
-    s32 unk_90;
-    u8 pad_94[0x2];
-    s16 unk_96;
-    u8 pad_98[0x2];
-    u8 unk_9A;
-    u8 pad_9B[0x2];
-    s8 unk_9D;
-} S_80171CD4_1;   /* arg0 in func_80171CD4 */
 
-typedef struct S_80171CD4_2 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_80171CD4_2;   /* arg1 in func_80171CD4 */
 
 
 typedef struct S_80171CD4_4 {
@@ -64,10 +51,10 @@ void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
         return;
     }
 
-    if (((S_80171CD4_1 *)arg0)->unk_9A != 0xF) {
-        ((S_80171CD4_1 *)arg0)->unk_90 = 0;
-        ((S_80171CD4_2 *)arg1)->unk_14 = 0;
-        ((S_80171CD4_1 *)arg0)->unk_9D = 0;
+    if (((Rec_func_80171CD4_arg0 *)arg0)->unk_9A.as_u8 != 0xF) {
+        ((Rec_func_80171CD4_arg0 *)arg0)->unk_90 = 0;
+        ((Rec_func_80171CD4_arg1 *)arg1)->unk_14 = 0;
+        ((Rec_func_80171CD4_arg0 *)arg0)->unk_9D = 0;
     }
 
     if (((S_80171CD4_0 *)state)->unk_71.u <= ((S_80171CD4_0 *)state)->unk_8A.s) {
@@ -119,28 +106,28 @@ void func_80171CD4(void *arg0, void *arg1, void *arg2, void *arg3) {
     if (result == 3) {
         if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
             func_80172688(arg0, arg1, arg2, state);
-            ((S_80171CD4_1 *)arg0)->unk_8C = 0;
+            ((Rec_func_80171CD4_arg0 *)arg0)->unk_8C = 0;
             func_80171EC0();
             return;
         }
-        ((S_80171CD4_1 *)arg0)->unk_9A = 0xF;
+        ((Rec_func_80171CD4_arg0 *)arg0)->unk_9A.as_u8 = 0xF;
         func_80171EBC();
         return;
     }
 
-    ((S_80171CD4_1 *)arg0)->unk_9A = 0xF;
-    ((S_80171CD4_1 *)arg0)->unk_8C = 0;
+    ((Rec_func_80171CD4_arg0 *)arg0)->unk_9A.as_u8 = 0xF;
+    ((Rec_func_80171CD4_arg0 *)arg0)->unk_8C = 0;
     (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
     if (D_80083462 & 0x80) {
-        ((S_80171CD4_1 *)arg0)->unk_96 = 0;
+        ((Rec_func_80171CD4_arg0 *)arg0)->unk_96 = 0;
         return;
     }
 
-    ((S_80171CD4_1 *)arg0)->unk_96 = 8;
+    ((Rec_func_80171CD4_arg0 *)arg0)->unk_96 = 8;
     {
         s32 count = ((S_80171CD4_0 *)state)->unk_71.u;
         if (count > 0) {
-            ((S_80171CD4_1 *)arg0)->unk_96 = 8 / count;
+            ((Rec_func_80171CD4_arg0 *)arg0)->unk_96 = 8 / count;
         }
     }
 }

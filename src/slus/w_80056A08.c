@@ -1,8 +1,5 @@
 #include "common.h"
 
-/* Global-state initializer: resets D_80085FA8[32], D_80085458[count], D_80084960[16]
-   tables and D_80073738; OR-accumulates flags from D_80073740 into a value passed
-   to func_8005E97C. Matches gcc-2.7.2-cdk -O2 (code8.c TU). */
 typedef struct { s16 f0; s16 pad[7]; } S_80073738;
 
 typedef struct {
@@ -49,92 +46,93 @@ extern S_80085FA8 D_80085FA8[32];
 extern s32 func_80056DB4(s32 arg0);
 extern void func_8005E97C(s32 arg0, s32 arg1);
 
+/* Resets global state tables and applies per-entry and combined flags. */
 void func_80056A08(void) {
-    s32 acc;
-    s32 i;
-    s32 tmp;
+    s32 combined_flags;
+    s32 entry_index;
+    s32 entry_flags;
 
-    acc = 0;
+    combined_flags = 0;
     D_80073738.f0 = 0x7F;
-    for (i = 0; i < 0x20; i++) {
-        D_80085FA8[i].f00 = 0;
-        D_80085FA8[i].f04 = 0;
-        D_80085FA8[i].f08 = 0;
-        D_80085FA8[i].f0c = 0;
-        D_80085FA8[i].f10 = 0;
-        D_80085FA8[i].f18 = 0;
-        D_80085FA8[i].f1c = 0;
-        D_80085FA8[i].f20 = 0;
-        D_80085FA8[i].f24 = 0;
-        D_80085FA8[i].f28 = 0;
-        D_80085FA8[i].f2c = 1;
-        D_80085FA8[i].f34 = 0;
-        D_80085FA8[i].f38 = 0;
-        D_80085FA8[i].f3c = 0x78;
-        D_80085FA8[i].f40 = 0;
-        D_80085FA8[i].f48 = 0;
-        D_80085FA8[i].f49 = 0xFF;
-        D_80085FA8[i].f4a = 0;
-        D_80085FA8[i].f4c = 0;
+    for (entry_index = 0; entry_index < 0x20; entry_index++) {
+        D_80085FA8[entry_index].f00 = 0;
+        D_80085FA8[entry_index].f04 = 0;
+        D_80085FA8[entry_index].f08 = 0;
+        D_80085FA8[entry_index].f0c = 0;
+        D_80085FA8[entry_index].f10 = 0;
+        D_80085FA8[entry_index].f18 = 0;
+        D_80085FA8[entry_index].f1c = 0;
+        D_80085FA8[entry_index].f20 = 0;
+        D_80085FA8[entry_index].f24 = 0;
+        D_80085FA8[entry_index].f28 = 0;
+        D_80085FA8[entry_index].f2c = 1;
+        D_80085FA8[entry_index].f34 = 0;
+        D_80085FA8[entry_index].f38 = 0;
+        D_80085FA8[entry_index].f3c = 0x78;
+        D_80085FA8[entry_index].f40 = 0;
+        D_80085FA8[entry_index].f48 = 0;
+        D_80085FA8[entry_index].f49 = 0xFF;
+        D_80085FA8[entry_index].f4a = 0;
+        D_80085FA8[entry_index].f4c = 0;
     }
 
-    for (i = 0; i < D_80073734[0]; i++) {
-        if ((u16)D_80085458[i].f06 < 0x10) {
-            D_80085458[i].f00 = i;
-            D_80085458[i].f1a = 0;
-            D_80085458[i].f18 = 0x40;
-            D_80085458[i].f1d = 0;
-            D_80085458[i].f27 = 0;
-            D_80085458[i].f26 = 0;
-            D_80085458[i].f28 = 0;
-            D_80085458[i].f2c = 0;
-            D_80085458[i].f30 = 0;
-            D_80085458[i].f3c = 0;
-            D_80085458[i].f43 = 0;
-            D_80085458[i].f42 = 0;
-            D_80085458[i].f44 = 0;
-            D_80085458[i].f48 = 0;
-            D_80085458[i].f4c = 0;
-            D_80085458[i].f58 = 0;
-            D_80085458[i].f70 = 0x40;
-            D_80085458[i].f74 = 0x40;
-            tmp = D_80073740[i];
-            func_80056DB4(i);
-            acc |= tmp;
-            func_8005E97C(0, tmp);
+    for (entry_index = 0; entry_index < D_80073734[0]; entry_index++) {
+        if ((u16)D_80085458[entry_index].f06 < 0x10) {
+            D_80085458[entry_index].f00 = entry_index;
+            D_80085458[entry_index].f1a = 0;
+            D_80085458[entry_index].f18 = 0x40;
+            D_80085458[entry_index].f1d = 0;
+            D_80085458[entry_index].f27 = 0;
+            D_80085458[entry_index].f26 = 0;
+            D_80085458[entry_index].f28 = 0;
+            D_80085458[entry_index].f2c = 0;
+            D_80085458[entry_index].f30 = 0;
+            D_80085458[entry_index].f3c = 0;
+            D_80085458[entry_index].f43 = 0;
+            D_80085458[entry_index].f42 = 0;
+            D_80085458[entry_index].f44 = 0;
+            D_80085458[entry_index].f48 = 0;
+            D_80085458[entry_index].f4c = 0;
+            D_80085458[entry_index].f58 = 0;
+            D_80085458[entry_index].f70 = 0x40;
+            D_80085458[entry_index].f74 = 0x40;
+            entry_flags = D_80073740[entry_index];
+            func_80056DB4(entry_index);
+            combined_flags |= entry_flags;
+            func_8005E97C(0, entry_flags);
         }
     }
 
-    for (i = 0; i < 0x10; i++) {
-        D_80084960[i].f0c = 0x7F;
-        D_80084960[i].f04 = 0x40;
-        D_80084960[i].f18 = 0;
-        D_80084960[i].f1c = 0x40;
-        D_80084960[i].f14 = 0x7F;
-        D_80084960[i].f20 = 0x7F;
-        D_80084960[i].f24 = 0x7F;
-        D_80084960[i].f08 = 0;
-        D_80084960[i].f3a = 0;
-        D_80084960[i].f44 = 0;
-        D_80084960[i].f40 = 0;
-        D_80084960[i].f48 = 0;
-        D_80084960[i].f94 = 0;
-        D_80084960[i].f30 = 0;
-        D_80084960[i].f60 = 0;
-        D_80084960[i].f5f = 0;
-        D_80084960[i].f61 = 0;
-        D_80084960[i].f64 = 0;
-        D_80084960[i].f68 = 0;
-        D_80084960[i].f7b = 0;
-        D_80084960[i].f7a = 0;
-        D_80084960[i].f7c = 0;
-        D_80084960[i].f80 = 0;
-        D_80084960[i].f84 = 0;
-        D_80084960[i].f28 = 0;
-        D_80084960[i].f2c = 0;
-        D_80084960[i].f50 = 0;
-        D_80084960[i].f98 = 0;
+    for (entry_index = 0; entry_index < 0x10; entry_index++) {
+        D_80084960[entry_index].f0c = 0x7F;
+        D_80084960[entry_index].f04 = 0x40;
+        D_80084960[entry_index].f18 = 0;
+        D_80084960[entry_index].f1c = 0x40;
+        D_80084960[entry_index].f14 = 0x7F;
+        D_80084960[entry_index].f20 = 0x7F;
+        D_80084960[entry_index].f24 = 0x7F;
+        D_80084960[entry_index].f08 = 0;
+        D_80084960[entry_index].f3a = 0;
+        D_80084960[entry_index].f44 = 0;
+        D_80084960[entry_index].f40 = 0;
+        D_80084960[entry_index].f48 = 0;
+        D_80084960[entry_index].f94 = 0;
+        D_80084960[entry_index].f30 = 0;
+        D_80084960[entry_index].f60 = 0;
+        D_80084960[entry_index].f5f = 0;
+        D_80084960[entry_index].f61 = 0;
+        D_80084960[entry_index].f64 = 0;
+        D_80084960[entry_index].f68 = 0;
+        D_80084960[entry_index].f7b = 0;
+        D_80084960[entry_index].f7a = 0;
+        D_80084960[entry_index].f7c = 0;
+        D_80084960[entry_index].f80 = 0;
+        D_80084960[entry_index].f84 = 0;
+        D_80084960[entry_index].f28 = 0;
+        D_80084960[entry_index].f2c = 0;
+        D_80084960[entry_index].f50 = 0;
+        D_80084960[entry_index].f98 = 0;
     }
 
-    func_8005E97C(0, acc);
+    func_8005E97C(0, combined_flags);
 }

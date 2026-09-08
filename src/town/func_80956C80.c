@@ -28,86 +28,87 @@ typedef struct S_80023C80_1 {
 
 extern s32 D_800814A0;
 
-void func_80023C80(void *arg0) {
+/* Advances object state, updates coordinates and size, or sets status flags. */
+void func_80023C80(void *object) {
     void *obj;
-    s32 temp_v1;
-    s32 var_v0_3;
-    u16 temp_a1;
+    s32 state;
+    s32 size;
+    u16 state_bits;
 
-    obj = arg0;
-    
-    temp_v1 = ((S_80023C80_0 *)obj)->unk_00.s;
-    temp_a1 = (u16) ((S_80023C80_0 *)obj)->unk_00.s;
+    obj = object;
 
-    if (temp_v1 == 1) {
-        goto case1;
+    state = ((S_80023C80_0 *)obj)->unk_00.s;
+    state_bits = (u16) ((S_80023C80_0 *)obj)->unk_00.s;
+
+    if (state == 1) {
+        goto update_geometry;
     }
-    if (temp_v1 >= 2) {
-        goto check2;
+    if (state >= 2) {
+        goto check_flag_state;
     }
-    if (temp_v1 == 0) {
-        goto case0;
+    if (state == 0) {
+        goto initialize;
     }
-    goto end;
+    goto done;
 
-check2:
-    if (temp_v1 == 2) {
-        goto case2;
+check_flag_state:
+    if (state == 2) {
+        goto set_flags;
     }
-    goto end;
+    goto done;
 
-case0:
-    ((S_80023C80_0 *)obj)->unk_00.u = temp_a1 + 1;
-    goto end;
+initialize:
+    ((S_80023C80_0 *)obj)->unk_00.u = state_bits + 1;
+    goto done;
 
-case1:
+update_geometry:
 {
-    void **temp_v1_2;
-    s32 work;
-    s32 var_a1;
+    void **coords_ref;
+    s32 coord;
+    s32 offset;
 
-    temp_v1_2 = ((S_80023C80_0 *)obj)->unk_04;
-    work = (s32)*temp_v1_2;
-    work = ((S_80023C80_1 *)((void *)work))->unk_02;
-    if (work < 0) {
-        work += 0x1F;
+    coords_ref = ((S_80023C80_0 *)obj)->unk_04;
+    coord = (s32)*coords_ref;
+    coord = ((S_80023C80_1 *)((void *)coord))->unk_02;
+    if (coord < 0) {
+        coord += 0x1F;
     }
-    ((S_80023C80_0 *)obj)->unk_0C.s = (u16) ((work >> 5) + 0x94);
-    work = (s32)*temp_v1_2;
-    work = ((S_80023C80_1 *)((void *)work))->unk_06;
-    if (work < 0) {
-        work += 0x1F;
+    ((S_80023C80_0 *)obj)->unk_0C.s = (u16) ((coord >> 5) + 0x94);
+    coord = (s32)*coords_ref;
+    coord = ((S_80023C80_1 *)((void *)coord))->unk_06;
+    if (coord < 0) {
+        coord += 0x1F;
     }
-    ((S_80023C80_0 *)obj)->unk_0E.s = (u16) ((work >> 5) + 0x75);
-    work = (s32)*temp_v1_2;
-    work = ((S_80023C80_1 *)((void *)work))->unk_0A;
-    work = 0 - work;
-    var_a1 = work >> 6;
-    if (work < 0) {
-        var_a1 = (s32) (work + 0x3F) >> 6;
+    ((S_80023C80_0 *)obj)->unk_0E.s = (u16) ((coord >> 5) + 0x75);
+    coord = (s32)*coords_ref;
+    coord = ((S_80023C80_1 *)((void *)coord))->unk_0A;
+    coord = 0 - coord;
+    offset = coord >> 6;
+    if (coord < 0) {
+        offset = (s32) (coord + 0x3F) >> 6;
     }
-    var_v0_3 = var_a1 + 3;
-    if (var_a1 < 0) {
-        var_a1 = 0;
-        ASM_KEEP_NV(var_a1);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        var_v0_3 = var_a1 + 3;
+    size = offset + 3;
+    if (offset < 0) {
+        offset = 0;
+        ASM_KEEP_NV(offset);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        size = offset + 3;
     }
-    ((S_80023C80_0 *)obj)->unk_12 = var_v0_3;
-    ((S_80023C80_0 *)obj)->unk_10 = var_v0_3;
+    ((S_80023C80_0 *)obj)->unk_12 = size;
+    ((S_80023C80_0 *)obj)->unk_10 = size;
     ((S_80023C80_0 *)obj)->unk_0C.s =
-        (u16) (((S_80023C80_0 *)obj)->unk_0C.u - var_a1);
+        (u16) (((S_80023C80_0 *)obj)->unk_0C.u - offset);
     ((S_80023C80_0 *)obj)->unk_0E.s =
-        (u16) (((S_80023C80_0 *)obj)->unk_0E.u - var_a1);
-    goto end;
+        (u16) (((S_80023C80_0 *)obj)->unk_0E.u - offset);
+    goto done;
 }
 
-case2:
+set_flags:
     (*(u16 *)((u8 *)obj + -2)) =
         (u16) (((S_80023C80_0_pre *)obj)[-1].unk_00 | 0x8000);
     D_800814A0 |= 0x8000;
 
-end:
-    
+done:
+
 }
 
 /* MECHANISM: The signed 0/1/2 dispatch is laid out in retail block order and

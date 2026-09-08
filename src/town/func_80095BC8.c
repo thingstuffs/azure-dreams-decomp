@@ -17,21 +17,22 @@ extern s32 D_800FE518;
 
 
 
-void func_80093328(void *arg0, void *arg1, s32 arg2) {
-    s16 temp_v0;
+/* Updates the entity and dispatches a state transition when its countdown expires. */
+void func_80093328(void *state, void *entity, s32 transition_arg) {
+    s16 countdown;
 
-    func_80095C80(arg1);
-    func_80095094(arg1);
-    temp_v0 = ((Rec_func_80094268_arg0 *)arg0)->unk_0A.as_u16 - 1;
-    ((Rec_func_80094268_arg0 *)arg0)->unk_0A.as_u16 = temp_v0;
-    if (temp_v0 < 0) {
-        func_80099754(arg1);
-        func_8009550C(arg1);
-        if (D_800FE518 != 0 && func_80094B0C(arg0 - 0x20) != 0) {
-            func_80094984(&D_800D0078, arg0, arg2);
-            func_80093D18(arg0, arg1, arg2);
+    func_80095C80(entity);
+    func_80095094(entity);
+    countdown = ((Rec_func_80094268_arg0 *)state)->unk_0A.as_u16 - 1;
+    ((Rec_func_80094268_arg0 *)state)->unk_0A.as_u16 = countdown;
+    if (countdown < 0) {
+        func_80099754(entity);
+        func_8009550C(entity);
+        if (D_800FE518 != 0 && func_80094B0C(state - 0x20) != 0) {
+            func_80094984(&D_800D0078, state, transition_arg);
+            func_80093D18(state, entity, transition_arg);
             return;
         }
-        func_80093D48(arg0, arg1, arg2);
+        func_80093D48(state, entity, transition_arg);
     }
 }

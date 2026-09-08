@@ -1,37 +1,3 @@
-/* func_8005F134 -- BYTE-EXACT, LINKABLE candidate (computed-goto idiom).
- * Config: tools/match.py --gcc 2.7.2 --opt O2 (aspsx 2.56).
- * NOTE: --preserve-casesi-at is NO LONGER NEEDED. The computed goto emits
- * `lw $v0,jtbl($v0)`, which the assembler macro-expands through $at into
- * retail's exact dispatch (lui $at,%hi / addu $at,$at,$v0 / lw $v0,%lo($at)).
- * Verified byte-exact both with and without the flag.
- *
- * Both switches dispatch through the RETAIL tables jtbl_8003327C /
- * jtbl_8003329C (absolutes in config/generated/slus_006.14.undefined_syms.txt),
- * so this TU emits NO compiler-generated jump table into .text-referenced
- * .rodata and links. Idiom from src/w_800595C0.c: `keepalive` exists only to
- * stop gcc deleting the case labels; it lands in .rodata but is unreferenced
- * from .text, so the linker discards it silently.
- *
- * WHY THE ASM_REG PINS (they are forced by the idiom, not by the C):
- * taking a label's address puts it in gcc's forced_labels, and flow.c then
- * gives every computed goto an edge to EVERY such label. A value that is live
- * across the dispatch (voll / volr) therefore looks live-in at the labels, and
- * so live all the way around the loop and across the func_8005D598 calls ->
- * gcc parks it in a callee-saved register and grows the frame by 8 bytes.
- * Retail (compiled from a real switch, with exact flow) keeps it in $a1.
- * The pins restore retail's assignment. voll / volr / tmp share $a1 because
- * their live ranges are strictly disjoint -- voll dies at the end of the
- * mask&1 block, volr at the end of the mask&2 block, tmp inside each ADSR
- * block -- which is exactly why retail's allocator reused $a1 for all three.
- * Same pattern as src/w_800595C0.c, which pins four distinct locals to $2.
- * Under -DNON_MATCHING every pin degrades to a plain local, so the portable
- * build is unaffected.
- *
- * Identity: PsyQ libspu's SpuSetVoiceAttr worker -- arg0 is SpuVoiceAttr,
- * D_80079958.ptr is the SPU voice-register shadow (_spu_RXX, 8 u16 per voice),
- * D_80079520[] the per-voice sample-note table, func_8005F7D0 the note->pitch
- * converter, func_8005D598 the (already landed) SPU address-register writer.
- */
 #include "common.h"
 
 typedef struct SpuVolume_ {
@@ -72,227 +38,228 @@ extern void *jtbl_8003329C[];
 extern s16 func_8005F7D0(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8005D598(s32 reg, u32 val);
 
+/* Apply masked voice attributes to the selected SPU voices. */
 void func_8005F134(SpuVoiceAttr_ *attr)
 {
-    s32 i;
+    s32 voice;
     u32 mask;
-    s32 vreg;
-    s32 all;
-    register s32 voll ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 volr ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 mode;
-    s32 sub;
-    register u16 tmp ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u16 old;
-    register u16 vraw ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    u16 cn;
-    u16 nt;
-    s16 vm;
-    s32 idx;
-    static void *const keepalive[] = {
+    s32 reg_base;
+    s32 set_all;
+    register s32 left_volume ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 right_volume ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 volume_mode;
+    s32 env_mode;
+    register u16 env_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u16 adsr;
+    register u16 raw_volume ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+    u16 sample_note;
+    u16 note;
+    s16 mode_offset;
+    s32 mode_index;
+    static void *const volume_labels[] = {
         &&L_vl_1, &&L_vl_2, &&L_vl_3, &&L_vl_4, &&L_vl_5, &&L_vl_6, &&L_vl_7,
         &&L_vr_1, &&L_vr_2, &&L_vr_3, &&L_vr_4, &&L_vr_5, &&L_vr_6, &&L_vr_7
     };
-    volatile s32 j;
-    volatile s32 x;
+    volatile s32 delay_step;
+    volatile s32 delay_value;
 
-    (void)keepalive;
+    (void)volume_labels;
 
     mask = attr->mask;
-    all = (mask == 0);
-    for (i = 0; i < 24; i++) {
-        if (attr->voice & (1 << i)) {
-            vreg = i * 8;
-            if (all || (mask & 0x10)) {
-                D_80079958.ptr[i * 8 + 2] = attr->pitch;
+    set_all = (mask == 0);
+    for (voice = 0; voice < 24; voice++) {
+        if (attr->voice & (1 << voice)) {
+            reg_base = voice * 8;
+            if (set_all || (mask & 0x10)) {
+                D_80079958.ptr[voice * 8 + 2] = attr->pitch;
             }
-            if (all || (mask & 0x40)) {
-                D_80079520[i] = attr->sample_note;
+            if (set_all || (mask & 0x40)) {
+                D_80079520[voice] = attr->sample_note;
             }
-            if (all || (mask & 0x20)) {
-                cn = D_80079520[i];
-                nt = attr->note;
-                D_80079958.ptr[vreg + 2] =
-                    func_8005F7D0(cn >> 8, cn & 0xFF, nt >> 8, nt & 0xFF);
+            if (set_all || (mask & 0x20)) {
+                sample_note = D_80079520[voice];
+                note = attr->note;
+                D_80079958.ptr[reg_base + 2] =
+                    func_8005F7D0(sample_note >> 8, sample_note & 0xFF, note >> 8, note & 0xFF);
             }
-            if (all || (mask & 0x1)) {
-                mode = 0;
-                vraw = attr->volume.left;
-                voll = vraw & 0x7FFF;
-                if (all || (mask & 0x4)) {
-                    vm = attr->volmode.left - 1;
-                    idx = vm;
-                    if ((u32)idx >= 7) {
+            if (set_all || (mask & 0x1)) {
+                volume_mode = 0;
+                raw_volume = attr->volume.left;
+                left_volume = raw_volume & 0x7FFF;
+                if (set_all || (mask & 0x4)) {
+                    mode_offset = attr->volmode.left - 1;
+                    mode_index = mode_offset;
+                    if ((u32)mode_index >= 7) {
                         goto L_vl_end;
                     }
-                    goto *jtbl_8003327C[idx];
+                    goto *jtbl_8003327C[mode_index];
 L_vl_1:
-                    mode = 0x8000;
+                    volume_mode = 0x8000;
                     goto L_vl_end;
 L_vl_2:
-                    mode = 0x9000;
+                    volume_mode = 0x9000;
                     goto L_vl_end;
 L_vl_3:
-                    mode = 0xA000;
+                    volume_mode = 0xA000;
                     goto L_vl_end;
 L_vl_4:
-                    mode = 0xB000;
+                    volume_mode = 0xB000;
                     goto L_vl_end;
 L_vl_5:
-                    mode = 0xC000;
+                    volume_mode = 0xC000;
                     goto L_vl_end;
 L_vl_6:
-                    mode = 0xD000;
+                    volume_mode = 0xD000;
                     goto L_vl_end;
 L_vl_7:
-                    mode = 0xE000;
+                    volume_mode = 0xE000;
 L_vl_end:
                     ;
                 }
-                if (mode != 0) {
+                if (volume_mode != 0) {
                     if (attr->volume.left >= 0x80) {
-                        voll = 0x7F;
+                        left_volume = 0x7F;
                     } else if (attr->volume.left < 0) {
-                        voll = 0;
+                        left_volume = 0;
                     }
                 }
-                D_80079958.ptr[vreg + 0] = voll | mode;
+                D_80079958.ptr[reg_base + 0] = left_volume | volume_mode;
             }
-            if (all || (mask & 0x2)) {
-                mode = 0;
-                vraw = attr->volume.right;
-                volr = vraw & 0x7FFF;
-                if (all || (mask & 0x8)) {
-                    vm = attr->volmode.right - 1;
-                    idx = vm;
-                    if ((u32)idx >= 7) {
+            if (set_all || (mask & 0x2)) {
+                volume_mode = 0;
+                raw_volume = attr->volume.right;
+                right_volume = raw_volume & 0x7FFF;
+                if (set_all || (mask & 0x8)) {
+                    mode_offset = attr->volmode.right - 1;
+                    mode_index = mode_offset;
+                    if ((u32)mode_index >= 7) {
                         goto L_vr_end;
                     }
-                    goto *jtbl_8003329C[idx];
+                    goto *jtbl_8003329C[mode_index];
 L_vr_1:
-                    mode = 0x8000;
+                    volume_mode = 0x8000;
                     goto L_vr_end;
 L_vr_2:
-                    mode = 0x9000;
+                    volume_mode = 0x9000;
                     goto L_vr_end;
 L_vr_3:
-                    mode = 0xA000;
+                    volume_mode = 0xA000;
                     goto L_vr_end;
 L_vr_4:
-                    mode = 0xB000;
+                    volume_mode = 0xB000;
                     goto L_vr_end;
 L_vr_5:
-                    mode = 0xC000;
+                    volume_mode = 0xC000;
                     goto L_vr_end;
 L_vr_6:
-                    mode = 0xD000;
+                    volume_mode = 0xD000;
                     goto L_vr_end;
 L_vr_7:
-                    mode = 0xE000;
+                    volume_mode = 0xE000;
 L_vr_end:
                     ;
                 }
-                if (mode != 0) {
+                if (volume_mode != 0) {
                     if (attr->volume.right >= 0x80) {
-                        volr = 0x7F;
+                        right_volume = 0x7F;
                     } else if (attr->volume.right < 0) {
-                        volr = 0;
+                        right_volume = 0;
                     }
                 }
-                D_80079958.ptr[vreg + 1] = volr | mode;
+                D_80079958.ptr[reg_base + 1] = right_volume | volume_mode;
             }
-            if (all || (mask & 0x80)) {
-                func_8005D598(vreg + 3, attr->addr);
+            if (set_all || (mask & 0x80)) {
+                func_8005D598(reg_base + 3, attr->addr);
             }
-            if (all || (mask & 0x10000)) {
-                func_8005D598(vreg + 7, attr->loop_addr);
+            if (set_all || (mask & 0x10000)) {
+                func_8005D598(reg_base + 7, attr->loop_addr);
             }
-            if (all || (mask & 0x20000)) {
-                D_80079958.ptr[vreg + 4] = attr->adsr1;
+            if (set_all || (mask & 0x20000)) {
+                D_80079958.ptr[reg_base + 4] = attr->adsr1;
             }
-            if (all || (mask & 0x40000)) {
-                D_80079958.ptr[vreg + 5] = attr->adsr2;
+            if (set_all || (mask & 0x40000)) {
+                D_80079958.ptr[reg_base + 5] = attr->adsr2;
             }
-            if (all || (mask & 0x800)) {
-                tmp = attr->ar;
-                if (tmp >= 0x80) {
-                    tmp = 0x7F;
+            if (set_all || (mask & 0x800)) {
+                env_value = attr->ar;
+                if (env_value >= 0x80) {
+                    env_value = 0x7F;
                 }
-                sub = 0;
-                if (all || (mask & 0x100)) {
+                env_mode = 0;
+                if (set_all || (mask & 0x100)) {
                     if (attr->a_mode == 5) {
-                        sub = 0x80;
+                        env_mode = 0x80;
                     }
                 }
-                old = D_80079958.ptr[vreg + 4];
-                old = (old & 0xFF) | ((tmp | sub) << 8);
-                D_80079958.ptr[vreg + 4] = old;
+                adsr = D_80079958.ptr[reg_base + 4];
+                adsr = (adsr & 0xFF) | ((env_value | env_mode) << 8);
+                D_80079958.ptr[reg_base + 4] = adsr;
             }
-            if (all || (mask & 0x1000)) {
-                tmp = attr->dr;
-                if (tmp >= 0x10) {
-                    tmp = 0xF;
+            if (set_all || (mask & 0x1000)) {
+                env_value = attr->dr;
+                if (env_value >= 0x10) {
+                    env_value = 0xF;
                 }
-                old = D_80079958.ptr[vreg + 4];
-                old = (old & 0xFF0F) | (tmp << 4);
-                D_80079958.ptr[vreg + 4] = old;
+                adsr = D_80079958.ptr[reg_base + 4];
+                adsr = (adsr & 0xFF0F) | (env_value << 4);
+                D_80079958.ptr[reg_base + 4] = adsr;
             }
-            if (all || (mask & 0x2000)) {
-                tmp = attr->sr;
-                if (tmp >= 0x80) {
-                    tmp = 0x7F;
+            if (set_all || (mask & 0x2000)) {
+                env_value = attr->sr;
+                if (env_value >= 0x80) {
+                    env_value = 0x7F;
                 }
-                sub = 0x100;
-                if (all || (mask & 0x200)) {
+                env_mode = 0x100;
+                if (set_all || (mask & 0x200)) {
                     switch (attr->s_mode) {
                     case 1:
-                        sub = 0;
+                        env_mode = 0;
                         break;
                     case 5:
-                        sub = 0x200;
+                        env_mode = 0x200;
                         break;
                     case 7:
-                        sub = 0x300;
+                        env_mode = 0x300;
                         break;
                     }
                 }
-                old = D_80079958.ptr[vreg + 5];
-                old = (old & 0x3F) | ((tmp | sub) << 6);
-                D_80079958.ptr[vreg + 5] = old;
+                adsr = D_80079958.ptr[reg_base + 5];
+                adsr = (adsr & 0x3F) | ((env_value | env_mode) << 6);
+                D_80079958.ptr[reg_base + 5] = adsr;
             }
-            if (all || (mask & 0x4000)) {
-                tmp = attr->rr;
-                if (tmp >= 0x20) {
-                    tmp = 0x1F;
+            if (set_all || (mask & 0x4000)) {
+                env_value = attr->rr;
+                if (env_value >= 0x20) {
+                    env_value = 0x1F;
                 }
-                sub = 0;
-                if (all || (mask & 0x400)) {
+                env_mode = 0;
+                if (set_all || (mask & 0x400)) {
                     switch (attr->r_mode) {
                     case 3:
-                        sub = 0;
+                        env_mode = 0;
                         break;
                     case 7:
-                        sub = 0x20;
+                        env_mode = 0x20;
                         break;
                     }
                 }
-                old = D_80079958.ptr[vreg + 5];
-                old = (old & 0xFFC0) | (tmp | sub);
-                D_80079958.ptr[vreg + 5] = old;
+                adsr = D_80079958.ptr[reg_base + 5];
+                adsr = (adsr & 0xFFC0) | (env_value | env_mode);
+                D_80079958.ptr[reg_base + 5] = adsr;
             }
-            if (all || (mask & 0x8000)) {
-                tmp = attr->sl;
-                if (tmp >= 0x10) {
-                    tmp = 0xF;
+            if (set_all || (mask & 0x8000)) {
+                env_value = attr->sl;
+                if (env_value >= 0x10) {
+                    env_value = 0xF;
                 }
-                old = D_80079958.ptr[vreg + 4];
-                old = (old & 0xFFF0) | tmp;
-                D_80079958.ptr[vreg + 4] = old;
+                adsr = D_80079958.ptr[reg_base + 4];
+                adsr = (adsr & 0xFFF0) | env_value;
+                D_80079958.ptr[reg_base + 4] = adsr;
             }
         }
     }
-    x = 1;
-    for (j = 0; j < 2; j++) {
-        x = x * 13;
+    delay_value = 1;
+    for (delay_step = 0; delay_step < 2; delay_step++) {
+        delay_value = delay_value * 13;
     }
 }

@@ -26,29 +26,30 @@ extern void func_800B2DCC(void *arg0);
 extern void func_800B2F38(void *arg0);
 extern void func_800B3440(void *arg0);
 
-void func_800B3734(Obj *arg0) {
-    Obj *this = arg0;
-    register void *sp28 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 i;
+/* Initialize slot data pointers and offsets, then set up the object. */
+void func_800B3734(Obj *object) {
+    Obj *obj = object;
+    register void *slot_data ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 slot_index;
 
-    for (i = 0; i < 2; i++) {
-        this->unk0xA8[i]->unk00 = D_80078CDC;
-        this->unk0xA8[i]->unk04->unk08 = i << 7;
+    for (slot_index = 0; slot_index < 2; slot_index++) {
+        obj->unk0xA8[slot_index]->unk00 = D_80078CDC;
+        obj->unk0xA8[slot_index]->unk04->unk08 = slot_index << 7;
     }
 
-    sp28 = (u8 *)this + 0x28;
-    func_800B3558(sp28);
+    slot_data = (u8 *)obj + 0x28;
+    func_800B3558(slot_data);
 
-    for (i = 2; i < 4; i++) {
-        this->unk0xA8[i]->unk00 = sp28;
-        this->unk0xA8[i]->unk04->unk08 = (i - 2) << 7;
+    for (slot_index = 2; slot_index < 4; slot_index++) {
+        obj->unk0xA8[slot_index]->unk00 = slot_data;
+        obj->unk0xA8[slot_index]->unk04->unk08 = (slot_index - 2) << 7;
     }
 
-    func_800B2E3C(this);
-    func_800B2F88((u8 *)this->unk0xA8 + 0x18);
-    func_800B3108((u8 *)this->unk0xA8 + 0x40);
-    func_800B331C(this->unk0xA8);
-    func_800B2DCC((u8 *)this->unk0xA8 + 0x68);
-    func_800B2F38(this);
-    func_800B3440(this);
+    func_800B2E3C(obj);
+    func_800B2F88((u8 *)obj->unk0xA8 + 0x18);
+    func_800B3108((u8 *)obj->unk0xA8 + 0x40);
+    func_800B331C(obj->unk0xA8);
+    func_800B2DCC((u8 *)obj->unk0xA8 + 0x68);
+    func_800B2F38(obj);
+    func_800B3440(obj);
 }

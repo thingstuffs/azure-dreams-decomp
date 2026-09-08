@@ -38,27 +38,28 @@ typedef struct S_800F6090_2 {
     s16 unk_0A;
 } S_800F6090_2;   /* temp_s0_2 in func_800F6090 */
 
-void func_800F6090(s16 arg0, s16 arg1) {
-    S_800F6090_1 *temp_s0;
-    S_800F6090_2 *temp_s0_2;
-    S_800F6090_0 *temp_v0;
-    u32 temp_v1;
+/* Creates and initializes an object at the given coordinates with adjusted height. */
+void func_800F6090(s16 x, s16 y) {
+    S_800F6090_1 *render_state;
+    S_800F6090_2 *position;
+    S_800F6090_0 *object;
+    u32 render_config;
 
-    temp_v0 = func_8003FC64(0x16);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_800F6070;
-        func_8004491C(temp_v0, D_80045340);
-        temp_s0 = temp_v0->unk_0C;
-        temp_v1 = (u32) *D_80083208;
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        temp_s0->unk_0C = temp_v1;
-        func_8003DB94(temp_s0, D_800DEAE0, 0);
-        temp_s0->unk_10 = 0x20;
-        temp_s0->unk_14 = 0xC;
-        temp_s0_2 = temp_v0->unk_08;
-        temp_s0_2->unk_02 = arg0;
-        temp_s0_2->unk_06 = arg1;
-        temp_s0_2->unk_0A = (s16) (func_800BCB04(arg0 & 0xFFFF, arg1 & 0xFFFF, -0x400) - 8);
+    object = func_8003FC64(0x16);
+    if (object != NULL) {
+        object->unk_10 = &D_800F6070;
+        func_8004491C(object, D_80045340);
+        render_state = object->unk_0C;
+        render_config = (u32) *D_80083208;
+        render_state->unk_1E = 0x1000;
+        render_state->unk_1C = 0x1000;
+        render_state->unk_0C = render_config;
+        func_8003DB94(render_state, D_800DEAE0, 0);
+        render_state->unk_10 = 0x20;
+        render_state->unk_14 = 0xC;
+        position = object->unk_08;
+        position->unk_02 = x;
+        position->unk_06 = y;
+        position->unk_0A = (s16) (func_800BCB04(x & 0xFFFF, y & 0xFFFF, -0x400) - 8);
     }
 }

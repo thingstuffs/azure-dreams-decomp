@@ -9,27 +9,28 @@ extern void func_8004491C(void *, void *);
 extern s32 func_800A7A38(void *);
 extern void func_800BC26C(void *, s32, s32, s32);
 
-void *func_800A8608(s32 a0, s32 a1, s16 a2, s32 a3, volatile s32 a4) {
-    s32 a4w = a4;
-    void *v0;
-    void *s0;
-    void *v02;
+/* Create a sprite object with the supplied position and default color and scale. */
+void *func_800A8608(s32 parent, s32 sprite_source, s16 x, s32 y, volatile s32 z) {
+    s32 z_value = z;
+    void *object;
+    void *sprite;
+    void *position;
 
-    v0 = func_8003FD64(0x12, (void *)a0);
-    if (v0 != NULL) {
-        v02 = F(v0, void **, 8);
-        s0 = F(v0, void **, 0xC);
-        F(v02, s16 *, 2) = a2;
-        F(v02, s16 *, 6) = a3;
-        F(v02, s16 *, 0xA) = (s16)a4w;
-        func_8004491C(v0, D_80045340);
-        F(s0, u8 *, 0xE) = 0x80;
-        F(s0, u8 *, 0xD) = 0x80;
-        F(s0, u8 *, 0xC) = 0x80;
-        F(s0, s16 *, 0x1E) = 0x1000;
-        F(s0, s16 *, 0x1C) = 0x1000;
-        F(s0, s32 *, 8) = func_800A7A38((void *)a1);
-        func_800BC26C(v0, 0, 0, 0);
+    object = func_8003FD64(0x12, (void *)parent);
+    if (object != NULL) {
+        position = F(object, void **, 8);
+        sprite = F(object, void **, 0xC);
+        F(position, s16 *, 2) = x;
+        F(position, s16 *, 6) = y;
+        F(position, s16 *, 0xA) = (s16)z_value;
+        func_8004491C(object, D_80045340);
+        F(sprite, u8 *, 0xE) = 0x80;
+        F(sprite, u8 *, 0xD) = 0x80;
+        F(sprite, u8 *, 0xC) = 0x80;
+        F(sprite, s16 *, 0x1E) = 0x1000;
+        F(sprite, s16 *, 0x1C) = 0x1000;
+        F(sprite, s32 *, 8) = func_800A7A38((void *)sprite_source);
+        func_800BC26C(object, 0, 0, 0);
     }
-    return v0;
+    return object;
 }

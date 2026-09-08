@@ -9,10 +9,11 @@ extern M2C_UNK D_80097DE8;
 extern M2C_UNK D_800D0178;
 
 
-void func_800989C8(Rec_func_80094268_arg0 *arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    func_80099754(arg1);
-    func_80094984(&D_800D0178, arg0, arg2);
-    arg0->unk_04.as_pm = &D_80097DE8;
+/* Initializes the object, assigns its handler table, and clears two global flags. */
+void func_800989C8(Rec_func_80094268_arg0 *object, M2C_UNK setupValue, M2C_UNK initializationValue) {
+    func_80099754(setupValue);
+    func_80094984(&D_800D0178, object, initializationValue);
+    object->unk_04.as_pm = &D_80097DE8;
     D_80082660[8] = 0;
     D_80082660[9] = 0;
 }

@@ -32,60 +32,61 @@ typedef struct Entity {
 extern Template4 D_8002E5D8;
 extern Template3 D_8002E5E8;
 
-void func_80022B48(Entity *arg0, s32 count)
+/* Initialize entity nodes with template data and link them to shared common data. */
+void func_80022B48(Entity *entity, s32 node_count)
 {
-    register Entity *self ASM_REG("$11");
-    register s32 index ASM_REG("$7");
-    u8 *data_base;
-    u8 *pointer_base;
+    register Entity *self ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 node_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *slot_base;
+    u8 *pointer_cursor;
     s32 node_offset;
     s32 data_offset;
     Template3 *common;
     u8 *source_page;
-    Template4 *source;
-    s32 value0;
-    s32 value1;
-    s32 value2;
-    s32 value3;
+    Template4 *data_template;
+    s32 template_word_0;
+    s32 template_word_1;
+    s32 template_word_2;
+    s32 template_word_3;
 
-    self = arg0;
-    ASM_KEEP(self);
-    index = 0;
-    if (count > 0) {
+    self = entity;
+    ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    node_index = 0;
+    if (node_count > 0) {
 #ifdef NON_MATCHING
         source_page = (u8 *)&D_8002E5D8 + 0x1A28;
 #else
         source_page = (u8 *)0x80030000;
 #endif
-        ASM_KEEP(source_page);
-        source = (Template4 *)(source_page - 0x1A28);
+        ASM_KEEP(source_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        data_template = (Template4 *)(source_page - 0x1A28);
         common = &self->common;
         data_offset = 0x958;
-        data_base = (u8 *)self;
+        slot_base = (u8 *)self;
         node_offset = 0x8E8;
-        pointer_base = (u8 *)self;
+        pointer_cursor = (u8 *)self;
         do {
             Template4 *data;
 
             data = (Template4 *)((u8 *)self + data_offset);
             data_offset += 0x10;
-            value0 = *(s32 *)(source_page - 0x1A28);
-            *(Node **)(pointer_base + 0x8CC) =
+            template_word_0 = *(s32 *)(source_page - 0x1A28);
+            *(Node **)(pointer_cursor + 0x8CC) =
                 (Node *)((u8 *)self + node_offset);
-            *(s32 *)(data_base + 0x958) = value0;
-            value1 = source->unk4;
+            *(s32 *)(slot_base + 0x958) = template_word_0;
+            template_word_1 = data_template->unk4;
             node_offset += 0x10;
-            *(s32 *)(data_base + 0x95C) = value1;
-            value2 = source->unk8;
-            pointer_base += 4;
-            *(s32 *)(data_base + 0x960) = value2;
-            value3 = source->unkC;
-            index++;
-            *(Template4 **)(data_base + 0x8EC) = data;
-            *(Template3 **)(data_base + 0x8F0) = common;
-            *(s32 *)(data_base + 0x964) = value3;
-            data_base += 0x10;
-        } while (index < count);
+            *(s32 *)(slot_base + 0x95C) = template_word_1;
+            template_word_2 = data_template->unk8;
+            pointer_cursor += 4;
+            *(s32 *)(slot_base + 0x960) = template_word_2;
+            template_word_3 = data_template->unkC;
+            node_index++;
+            *(Template4 **)(slot_base + 0x8EC) = data;
+            *(Template3 **)(slot_base + 0x8F0) = common;
+            *(s32 *)(slot_base + 0x964) = template_word_3;
+            slot_base += 0x10;
+        } while (node_index < node_count);
     }
 
     self->common.unk0 = D_8002E5E8.unk0;

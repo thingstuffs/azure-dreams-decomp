@@ -44,29 +44,30 @@ typedef struct S_8002596C_2 {
     s16 unk_1E;
 } S_8002596C_2;   /* temp_s0_2 in func_8002596C */
 
-void func_8002596C(s16 arg0, s16 arg1, s16 arg2) {
-    S_8002596C_1 *temp_s0;
-    S_8002596C_2 *temp_s0_2;
-    S_8002596C_0 *temp_v0;
+/* Create a sprite effect at the given position with a randomized rotation. */
+void func_8002596C(s16 x, s16 y, s16 z) {
+    S_8002596C_1 *transform;
+    S_8002596C_2 *sprite;
+    S_8002596C_0 *effect;
 
-    temp_v0 = func_8003FC64(0x202);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_80025868;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_s0 = temp_v0->unk_08;
-        temp_s0->unk_02 = arg0;
-        temp_s0->unk_06 = arg1;
-        temp_s0->unk_0A = arg2;
-        temp_s0->unk_0E = 0;
-        temp_s0->unk_12 = 0;
-        temp_s0->unk_16 = (s16) (rand() & 7);
-        temp_s0_2 = temp_v0->unk_0C;
-        temp_s0_2->unk_0C = 0x808080;
-        func_8003DB94(temp_s0_2, &D_800263F8, 0);
-        temp_s0_2->unk_1E = 0x1000;
-        temp_s0_2->unk_1C = 0x1000;
-        temp_s0_2->unk_10 = 0x20;
-        temp_s0_2->unk_14 = (u16) (temp_s0_2->unk_14 | 0xC);
-        temp_v0->unk_3A = 0x10;
+    effect = func_8003FC64(0x202);
+    if (effect != NULL) {
+        effect->unk_10 = &D_80025868;
+        func_8004491C(effect, &D_80045340);
+        transform = effect->unk_08;
+        transform->unk_02 = x;
+        transform->unk_06 = y;
+        transform->unk_0A = z;
+        transform->unk_0E = 0;
+        transform->unk_12 = 0;
+        transform->unk_16 = (s16) (rand() & 7);
+        sprite = effect->unk_0C;
+        sprite->unk_0C = 0x808080;
+        func_8003DB94(sprite, &D_800263F8, 0);
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_10 = 0x20;
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        effect->unk_3A = 0x10;
     }
 }

@@ -56,64 +56,65 @@ extern void func_8004491C(void *, void *);
 extern void func_80024B6C(void);
 extern void func_800248EC(void);
 
+/* Creates an object with randomized position offsets and initializes its state and callbacks. */
 void func_80024BBC(
-    Rec_D_800E3D7C *arg0, s16 arg1, void *arg2, s16 arg3,
-    s32 arg4, s32 arg5, s32 arg6)
+    Rec_D_800E3D7C *source, s16 field_14_value, void *payload, s16 field_32_value,
+    s32 x_offset, s32 y_offset, s32 z_offset)
 {
-    register s32 held_arg4 ASM_REG("$18") = arg4;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 held_arg5 ASM_REG("$19") = arg5;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 held_arg6 ASM_REG("$20") = arg6;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 held_x_offset ASM_REG("$18") = x_offset;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 held_y_offset ASM_REG("$19") = y_offset;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 held_z_offset ASM_REG("$20") = z_offset;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *object;
-    S_80024BBC_5 *base;
+    S_80024BBC_5 *state;
 
-    object = func_8003FD64(0x211, arg0);
+    object = func_8003FD64(0x211, source);
     if (object != NULL) {
-        s32 random1;
-        s32 random2;
-        s32 random3;
-        s32 offset1;
-        s32 offset2;
-        s32 offset3;
-        s32 value1;
-        s32 value2;
-        s32 value3;
-        S_80024BBC_2 *dest1;
-        S_80024BBC_3 *dest2;
-        S_80024BBC_4 *dest3;
+        s32 x_jitter;
+        s32 y_jitter;
+        s32 z_jitter;
+        s32 x_bias;
+        s32 y_bias;
+        s32 z_bias;
+        s32 x_pos;
+        s32 y_pos;
+        s32 z_pos;
+        S_80024BBC_2 *x_dest;
+        S_80024BBC_3 *y_dest;
+        S_80024BBC_4 *z_dest;
 
         ((S_80024BBC_0 *)object)->unk_10 = func_80024B6C;
 
-        random1 = rand() & 0x1F;
-        value1 = ((S_80024BBC_6 *)(arg0->unk_08.at00_pv.v))->unk_02;
-        dest1 = ((S_80024BBC_0 *)object)->unk_08;
-        value1 += random1;
-        offset1 = held_arg4 - 0x10;
-        value1 += offset1;
-        dest1->unk_02 = value1;
-        random2 = rand() & 0x1F;
-        value2 = ((S_80024BBC_6 *)(arg0->unk_08.at00_pv.v))->unk_06;
-        dest2 = ((S_80024BBC_0 *)object)->unk_08;
-        value2 += random2;
-        offset2 = held_arg5 - 0x10;
-        value2 += offset2;
-        dest2->unk_06 = value2;
+        x_jitter = rand() & 0x1F;
+        x_pos = ((S_80024BBC_6 *)(source->unk_08.at00_pv.v))->unk_02;
+        x_dest = ((S_80024BBC_0 *)object)->unk_08;
+        x_pos += x_jitter;
+        x_bias = held_x_offset - 0x10;
+        x_pos += x_bias;
+        x_dest->unk_02 = x_pos;
+        y_jitter = rand() & 0x1F;
+        y_pos = ((S_80024BBC_6 *)(source->unk_08.at00_pv.v))->unk_06;
+        y_dest = ((S_80024BBC_0 *)object)->unk_08;
+        y_pos += y_jitter;
+        y_bias = held_y_offset - 0x10;
+        y_pos += y_bias;
+        y_dest->unk_06 = y_pos;
 
-        base = (u8 *)object + 0x20;
-        random3 = rand() & 0x1F;
-        value3 = ((S_80024BBC_6 *)(arg0->unk_08.at00_pv.v))->unk_0A;
-        dest3 = ((S_80024BBC_0 *)object)->unk_08;
-        value3 += random3;
-        offset3 = held_arg6 - 0x10;
-        value3 += offset3;
-        dest3->unk_0A = value3;
-        base->unk_14 = arg1;
-        base->unk_32 = arg3;
+        state = (u8 *)object + 0x20;
+        z_jitter = rand() & 0x1F;
+        z_pos = ((S_80024BBC_6 *)(source->unk_08.at00_pv.v))->unk_0A;
+        z_dest = ((S_80024BBC_0 *)object)->unk_08;
+        z_pos += z_jitter;
+        z_bias = held_z_offset - 0x10;
+        z_pos += z_bias;
+        z_dest->unk_0A = z_pos;
+        state->unk_14 = field_14_value;
+        state->unk_32 = field_32_value;
         func_8004491C(object, func_800248EC);
-        base->unk_50 = -0x2000;
-        base->unk_08 = arg2;
-        ASM_KEEP(held_arg4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg5);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_arg6);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        state->unk_50 = -0x2000;
+        state->unk_08 = payload;
+        ASM_KEEP(held_x_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_y_offset);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(held_z_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     }
 }
 

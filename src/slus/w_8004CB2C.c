@@ -14,18 +14,19 @@ typedef struct FrameState {
     FrameNode *node;
 } FrameState;
 
+/* Advances the frame sequence and updates its output when the countdown expires. */
 s32 func_8004CB2C(FrameState *state)
 {
     s32 status = -1;
-    s32 countdown;
+    s32 ticks_left;
     FrameNode *node;
-    FrameNode *tail_node;
+    FrameNode *timed_node;
     s32 duration;
-    s32 divisor;
+    s32 duration_scale;
 
     if (state->output != 0) {
-        countdown = state->countdown--;
-        if (countdown <= 0) {
+        ticks_left = state->countdown--;
+        if (ticks_left <= 0) {
             node = state->node;
             if (node->tag == 2) {
                 state->node = node + 1;
@@ -45,11 +46,11 @@ s32 func_8004CB2C(FrameState *state)
                 status = -2;
             }
 
-            tail_node = state->node;
-            ASM_KEEP(tail_node);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            divisor = D_80080A84[0];
-            duration = tail_node->duration;
-            state->countdown = duration / divisor;
+            timed_node = state->node;
+            ASM_KEEP(timed_node);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            duration_scale = D_80080A84[0];
+            duration = timed_node->duration;
+            state->countdown = duration / duration_scale;
         }
     }
     return status;

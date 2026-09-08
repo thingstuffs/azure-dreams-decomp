@@ -15,18 +15,19 @@ typedef struct S_800B29D0_0 {
     s32 unk_44;
 } S_800B29D0_0;   /* arg0 in func_800B29D0 */
 
-s32 func_800B29D0(void *arg0) {
-    s32 temp_v0;
-    s32 temp_v0_2;
+/* Acquires a resource and initializes its associated state on success. */
+s32 func_800B29D0(void *state) {
+    s32 resourceHandle;
+    s32 resourceConfig;
 
-    temp_v0 = func_8004B404(0x100);
-    ((S_800B29D0_0 *)arg0)->unk_40 = temp_v0;
-    if (temp_v0 != 0) {
-        temp_v0_2 = func_800B2918();
-        ((S_800B29D0_0 *)arg0)->unk_44 = temp_v0_2;
-        func_800B2964(((S_800B29D0_0 *)arg0)->unk_40, temp_v0_2);
-        ((S_800B29D0_0 *)arg0)->unk_38 = func_800B29A4(((S_800B29D0_0 *)arg0)->unk_40);
-        func_800B23C0(arg0 + 0x2C);
+    resourceHandle = func_8004B404(0x100);
+    ((S_800B29D0_0 *)state)->unk_40 = resourceHandle;
+    if (resourceHandle != 0) {
+        resourceConfig = func_800B2918();
+        ((S_800B29D0_0 *)state)->unk_44 = resourceConfig;
+        func_800B2964(((S_800B29D0_0 *)state)->unk_40, resourceConfig);
+        ((S_800B29D0_0 *)state)->unk_38 = func_800B29A4(((S_800B29D0_0 *)state)->unk_40);
+        func_800B23C0(state + 0x2C);
     }
-    return ((S_800B29D0_0 *)arg0)->unk_40;
+    return ((S_800B29D0_0 *)state)->unk_40;
 }

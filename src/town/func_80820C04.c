@@ -15,7 +15,8 @@ typedef struct S_80023404_0 {
 extern void *D_80020264[5];
 extern void func_80023578(s16, s16, s16);
 
-void func_80023404(S_80023404_0 *arg0)
+/* Updates scrolling through 12 positions, accelerating or settling according to state. */
+void func_80023404(S_80023404_0 *scroll)
 {
     static void *const switch_labels[] = {
         &&case_0,
@@ -25,7 +26,7 @@ void func_80023404(S_80023404_0 *arg0)
         &&case_4
     };
     s32 state;
-    state = arg0->unk_04.s;
+    state = scroll->unk_04.s;
     if ((u32)state >= 5) {
         goto done;
     }
@@ -33,51 +34,48 @@ void func_80023404(S_80023404_0 *arg0)
     goto *D_80020264[state];
 
 case_0:
-    arg0->unk_0E.s = 0;
-    arg0->unk_0C.s = 0;
-    func_80023578(arg0->unk_08,
-                  arg0->unk_0A,
-                  arg0->unk_0E.s);
-    arg0->unk_04.s = 1;
+    scroll->unk_0E.s = 0;
+    scroll->unk_0C.s = 0;
+    func_80023578(scroll->unk_08,
+                  scroll->unk_0A,
+                  scroll->unk_0E.s);
+    scroll->unk_04.s = 1;
     goto done;
 
 case_2:
     {
-        u16 count;
-        count = arg0->unk_06;
-        arg0->unk_06 = count + 1;
-        if ((count & 1) != 0) {
-        if (arg0->unk_0C.s < 12) {
-            arg0->unk_0C.s++;
-        } else {
-            arg0->unk_04.s = 3;
-        }
+        u16 tick;
+        tick = scroll->unk_06;
+        scroll->unk_06 = tick + 1;
+        if ((tick & 1) != 0) {
+            if (scroll->unk_0C.s < 12) {
+                scroll->unk_0C.s++;
+            } else {
+                scroll->unk_04.s = 3;
+            }
         }
     }
 
 case_3:
-    arg0->unk_0E.u =
-        arg0->unk_0E.u - arg0->unk_0C.u;
-    if ((s16)arg0->unk_0E.u < 0) {
+    scroll->unk_0E.u = scroll->unk_0E.u - scroll->unk_0C.u;
+    if ((s16)scroll->unk_0E.u < 0) {
         do {
-            arg0->unk_0E.u += 32;
-            arg0->unk_0A =
-                (arg0->unk_0A + 1) % 12;
-        } while ((s16)arg0->unk_0E.u < 0);
+            scroll->unk_0E.u += 32;
+            scroll->unk_0A = (scroll->unk_0A + 1) % 12;
+        } while ((s16)scroll->unk_0E.u < 0);
     }
     goto common_call;
 
 case_4:
-    arg0->unk_0E.u -=
-        (s32)(arg0->unk_0E.u << 16) >> 18;
-    if ((s16)arg0->unk_0E.u < 4) {
-        arg0->unk_0E.u = 0;
-        arg0->unk_04.u = 0;
+    scroll->unk_0E.u -= (s32)(scroll->unk_0E.u << 16) >> 18;
+    if ((s16)scroll->unk_0E.u < 4) {
+        scroll->unk_0E.u = 0;
+        scroll->unk_04.u = 0;
     }
 common_call:
-    func_80023578(arg0->unk_08,
-                  arg0->unk_0A,
-                  arg0->unk_0E.s);
+    func_80023578(scroll->unk_08,
+                  scroll->unk_0A,
+                  scroll->unk_0E.s);
     goto done;
 
 case_1:

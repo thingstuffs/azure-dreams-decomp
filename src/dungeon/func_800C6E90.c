@@ -94,38 +94,39 @@ extern void *func_8003FC64();
 extern void func_8004491C();
 extern s32 D_800CC4F0;
 extern s32 D_800E03D4[3];
-void *func_800CC5F0(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, u16 arg5)
+/* Create a dungeon object at the tile center and initialize its rendering settings. */
+void *func_800CC5F0(s16 tile_x, s16 tile_y, s16 z, s16 tail_value, s16 render_mode, u16 tail_config)
 {
   DungeonObject *obj;
   DungeonVertex *vertex;
   DungeonVertex *tail_vertex;
   DungeonPacket *packet;
   s32 packet_color;
-  s16 x;
-  s16 y;
-  s16 sp5;
+  s16 world_x;
+  s16 world_y;
+  s16 saved_render_mode;
   obj = func_8003FC64(0x202);
-  sp5 = (s16) arg4;
+  saved_render_mode = (s16) render_mode;
   if (obj != 0)
   {
     obj->field10 = &D_800CC4F0;
     func_8004491C(obj, D_800CEEFC);
     packet_color = 0x00800000;
-    x = ((arg0 << 0x10) >> 0xA) + 0x20;
+    world_x = ((tile_x << 0x10) >> 0xA) + 0x20;
     vertex = obj->field8;
     packet_color |= 0x8080;
-    vertex->field2 = x;
-    vertex->fieldE = x;
-    y = ((arg1 << 0x10) >> 0xA) + 0x20;
-    vertex->field6 = y;
-    vertex->field12 = y;
-    vertex->fieldA = arg2;
-    vertex->field16 = arg2;
+    vertex->field2 = world_x;
+    vertex->fieldE = world_x;
+    world_y = ((tile_y << 0x10) >> 0xA) + 0x20;
+    vertex->field6 = world_y;
+    vertex->field12 = world_y;
+    vertex->fieldA = z;
+    vertex->field16 = z;
     packet = obj->fieldC;
     packet->fieldC = packet_color;
     packet->field8 = D_800E03D4;
     packet->field14 = packet->field14 | 0xC;
-    if ((arg4 << 0x10) != 0)
+    if ((render_mode << 0x10) != 0)
     {
       packet->field1E = 0x1000;
     }
@@ -134,7 +135,7 @@ void *func_800CC5F0(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, u16 arg5)
       packet->field1E = 0x400;
     }
     packet->field1C = packet->field1E;
-    if ((sp5 << 0x10) == 0)
+    if ((saved_render_mode << 0x10) == 0)
     {
       packet->field10 = 0x20;
     }
@@ -144,9 +145,9 @@ void *func_800CC5F0(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, u16 arg5)
     }
     packet->field6 = 0x20;
     tail_vertex = (DungeonVertex *) (((s8 *) obj) + 0x20);
-    *((s16 *) (((s8 *) tail_vertex) + 4)) = arg3;
+    *((s16 *) (((s8 *) tail_vertex) + 4)) = tail_value;
     tail_vertex->field2 = 8;
-    *((u16 *) (((s8 *) tail_vertex) + 6)) = arg5;
+    *((u16 *) (((s8 *) tail_vertex) + 6)) = tail_config;
   }
   return obj;
 }

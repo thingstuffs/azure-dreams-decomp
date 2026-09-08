@@ -23,68 +23,69 @@ extern s32 func_80064584();
 extern u8 D_80027452[16];
 extern s32 D_800814A0;
 
-void func_80025D28(void *arg0, void *arg1, void *arg2) {
-    s32 temp_s1;
-    s32 temp_s1_raw;
-    s32 temp_lo;
-    s32 temp_lo_2;
-    s32 temp_prod;
-    s32 temp_prod_2;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 temp_s0_3;
-    s32 temp_s0_4;
-    s32 temp_s2;
-    s32 temp_s2_2;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    u16 temp_v0_2;
-    u8 temp_v0;
+/* Update two animated points, fade their intensity, and flag expiration. */
+void func_80025D28(void *state, void *points, void *appearance) {
+    s32 phase_angle;
+    s32 phase_step;
+    s32 side_offset_x;
+    s32 side_offset_y;
+    s32 radial_offset_x;
+    s32 radial_offset_y;
+    s32 start_wave_x;
+    s32 start_wave_y;
+    s32 direction_x;
+    s32 direction_y;
+    s32 end_wave_x;
+    s32 end_wave_y;
+    s32 side_direction_x;
+    s32 side_direction_y;
+    u16 ticks_left;
+    u8 intensity;
 
-    temp_s1_raw = ((Rec_func_80025D28_arg0 *)arg0)->unk_38;
-    temp_s1 = (s16)(temp_s1_raw << 6);
+    phase_step = ((Rec_func_80025D28_arg0 *)state)->unk_38;
+    phase_angle = (s16)(phase_step << 6);
     *(u16 *)D_80027452 = *(u16 *)D_80027452 + 1;
-    temp_s0 = func_800644B8(temp_s1);
-    ((S_80025D28_1 *)arg1)->unk_00 = (((Rec_func_80025D28_arg0 *)arg0)->unk_1C << 0x10) +
-        ((s32)(temp_s0 * func_80064584(((Rec_func_80025D28_arg0 *)arg0)->unk_36 + 0x400) * ((Rec_func_80025D28_arg0 *)arg0)->unk_3E) >> 7);
-    temp_s0_2 = func_800644B8(temp_s1);
-    ((S_80025D28_1 *)arg1)->unk_04 = (((Rec_func_80025D28_arg0 *)arg0)->unk_1E << 0x10) +
-        ((s32)(temp_s0_2 * func_800644B8(((Rec_func_80025D28_arg0 *)arg0)->unk_36 + 0x400) * ((Rec_func_80025D28_arg0 *)arg0)->unk_3E) >> 7);
-    ((S_80025D28_1 *)arg1)->unk_08 = (((Rec_func_80025D28_arg0 *)arg0)->unk_20 << 0x10) +
-        ((func_80064584(temp_s1) * ((Rec_func_80025D28_arg0 *)arg0)->unk_3E) << 5);
-    temp_s2 = func_800644B8(temp_s1);
-    temp_s0_3 = func_80064584(((Rec_func_80025D28_arg0 *)arg0)->unk_36 + 0x400);
-    temp_v0_3 = func_80064584(((Rec_func_80025D28_arg0 *)arg0)->unk_36 + 0x800);
-    temp_prod = temp_s2 * temp_s0_3;
-    temp_prod *= ((Rec_func_80025D28_arg0 *)arg0)->unk_3E;
+    start_wave_x = func_800644B8(phase_angle);
+    ((S_80025D28_1 *)points)->unk_00 = (((Rec_func_80025D28_arg0 *)state)->unk_1C << 0x10) +
+        ((s32)(start_wave_x * func_80064584(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) >> 7);
+    start_wave_y = func_800644B8(phase_angle);
+    ((S_80025D28_1 *)points)->unk_04 = (((Rec_func_80025D28_arg0 *)state)->unk_1E << 0x10) +
+        ((s32)(start_wave_y * func_800644B8(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) >> 7);
+    ((S_80025D28_1 *)points)->unk_08 = (((Rec_func_80025D28_arg0 *)state)->unk_20 << 0x10) +
+        ((func_80064584(phase_angle) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) << 5);
+    end_wave_x = func_800644B8(phase_angle);
+    direction_x = func_80064584(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400);
+    side_direction_x = func_80064584(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x800);
+    radial_offset_x = end_wave_x * direction_x;
+    radial_offset_x *= ((Rec_func_80025D28_arg0 *)state)->unk_3E;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    temp_lo = temp_v0_3 * ((Rec_func_80025D28_arg0 *)arg0)->unk_40;
-    ((S_80025D28_1 *)arg1)->unk_0C = (((Rec_func_80025D28_arg0 *)arg0)->unk_1C << 0x10) +
-        (temp_prod >> 7) + (temp_lo << 6);
-    temp_s2_2 = func_800644B8(temp_s1, temp_lo);
-    temp_s0_4 = func_800644B8(((Rec_func_80025D28_arg0 *)arg0)->unk_36 + 0x400);
-    temp_v0_4 = func_800644B8(((Rec_func_80025D28_arg0 *)arg0)->unk_36 + 0x800);
-    temp_prod_2 = temp_s2_2 * temp_s0_4;
-    temp_prod_2 *= ((Rec_func_80025D28_arg0 *)arg0)->unk_3E;
+    side_offset_x = side_direction_x * ((Rec_func_80025D28_arg0 *)state)->unk_40;
+    ((S_80025D28_1 *)points)->unk_0C = (((Rec_func_80025D28_arg0 *)state)->unk_1C << 0x10) +
+        (radial_offset_x >> 7) + (side_offset_x << 6);
+    end_wave_y = func_800644B8(phase_angle, side_offset_x);
+    direction_y = func_800644B8(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400);
+    side_direction_y = func_800644B8(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x800);
+    radial_offset_y = end_wave_y * direction_y;
+    radial_offset_y *= ((Rec_func_80025D28_arg0 *)state)->unk_3E;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    temp_lo_2 = temp_v0_4 * ((Rec_func_80025D28_arg0 *)arg0)->unk_40;
-    ((S_80025D28_1 *)arg1)->unk_10 = (((Rec_func_80025D28_arg0 *)arg0)->unk_1E << 0x10) +
-        (temp_prod_2 >> 7) + (temp_lo_2 << 6);
-    ((S_80025D28_1 *)arg1)->unk_14 = (((Rec_func_80025D28_arg0 *)arg0)->unk_20 << 0x10) +
-        ((func_80064584(temp_s1, temp_lo_2) * ((Rec_func_80025D28_arg0 *)arg0)->unk_3E) << 5);
-    ((Rec_func_80025D28_arg0 *)arg0)->unk_40 = (u16)((Rec_func_80025D28_arg0 *)arg0)->unk_40 + 2;
-    ((Rec_func_80025D28_arg0 *)arg0)->unk_38 = (u16)((Rec_func_80025D28_arg0 *)arg0)->unk_38 + 1;
-    temp_v0 = ((S_80025D28_2 *)arg2)->unk_0D;
-    ((S_80025D28_2 *)arg2)->unk_0D = temp_v0 - (temp_v0 >> 3);
-    temp_v0_2 = ((Rec_func_80025D28_arg0 *)arg0)->unk_30 - 1;
-    ((Rec_func_80025D28_arg0 *)arg0)->unk_30 = temp_v0_2;
-    if ((temp_v0_2 << 0x10) <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    side_offset_y = side_direction_y * ((Rec_func_80025D28_arg0 *)state)->unk_40;
+    ((S_80025D28_1 *)points)->unk_10 = (((Rec_func_80025D28_arg0 *)state)->unk_1E << 0x10) +
+        (radial_offset_y >> 7) + (side_offset_y << 6);
+    ((S_80025D28_1 *)points)->unk_14 = (((Rec_func_80025D28_arg0 *)state)->unk_20 << 0x10) +
+        ((func_80064584(phase_angle, side_offset_y) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) << 5);
+    ((Rec_func_80025D28_arg0 *)state)->unk_40 = (u16)((Rec_func_80025D28_arg0 *)state)->unk_40 + 2;
+    ((Rec_func_80025D28_arg0 *)state)->unk_38 = (u16)((Rec_func_80025D28_arg0 *)state)->unk_38 + 1;
+    intensity = ((S_80025D28_2 *)appearance)->unk_0D;
+    ((S_80025D28_2 *)appearance)->unk_0D = intensity - (intensity >> 3);
+    ticks_left = ((Rec_func_80025D28_arg0 *)state)->unk_30 - 1;
+    ((Rec_func_80025D28_arg0 *)state)->unk_30 = ticks_left;
+    if ((ticks_left << 0x10) <= 0) {
+        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
-    ((Rec_func_80025D28_arg0 *)arg0)->unk_34 = ((Rec_func_80025D28_arg0 *)arg0)->unk_34 + 1;
+    ((Rec_func_80025D28_arg0 *)state)->unk_34 = ((Rec_func_80025D28_arg0 *)state)->unk_34 + 1;
 }
 
 /* MECHANISM: Natural long-lived arguments and results produce the retail 0x30 frame and s5/s4/s3/s2/s1/s0 roles.
-   A short raw signed-load local selects lh before the shift/truncation while preserving temp_s1 in s1.
+   A short raw signed-load local selects lh before the shift/truncation while preserving phase_angle in s1.
    Zero-operand scheduling barriers after both chained products reproduce retail multiply/mflo emission order. */

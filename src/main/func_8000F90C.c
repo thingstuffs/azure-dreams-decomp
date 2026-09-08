@@ -21,11 +21,12 @@ typedef struct S_8002290C_1 {
     void * unk_00;
 } S_8002290C_1;   /* temp_v1 in func_8002290C */
 
-void func_8002290C(void *arg0) {
-    S_8002290C_1 *temp_v1;
+/* Set the linked coordinates to (160, 120) and bind the object's data. */
+void func_8002290C(void *object) {
+    S_8002290C_1 *linked_state;
 
-    temp_v1 = ((Rec_func_8002290C_arg0 *)arg0)->unk_8E0;
-    ((S_8002290C_3 *)(((S_8002290C_2 *)temp_v1)->unk_04))->unk_08 = 0xA0;
-    ((S_8002290C_3 *)(((S_8002290C_2 *)temp_v1)->unk_04))->unk_0A = 0x78;
-    temp_v1->unk_00 = (void *) (arg0 + 0x24);
+    linked_state = ((Rec_func_8002290C_arg0 *)object)->unk_8E0;
+    ((S_8002290C_3 *)(((S_8002290C_2 *)linked_state)->unk_04))->unk_08 = 0xA0;
+    ((S_8002290C_3 *)(((S_8002290C_2 *)linked_state)->unk_04))->unk_0A = 0x78;
+    linked_state->unk_00 = (void *) (object + 0x24);
 }

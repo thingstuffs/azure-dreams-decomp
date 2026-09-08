@@ -6,8 +6,9 @@
 
 
 
-void func_80034F88(void *arg0, s32 arg1) {
-    ((Rec_D_80082A38 *)arg0)->unk_34 = arg1;
-    ((Rec_D_80082A38 *)arg0)->unk_38 = arg1;
-    ((Rec_D_80082A38 *)arg0)->unk_108 = (s32) (arg0 + 0xC8);
+/* Sets two record fields to a shared value and initializes an internal buffer pointer. */
+void func_80034F88(void *record, s32 value) {
+    ((Rec_D_80082A38 *)record)->unk_34 = value;
+    ((Rec_D_80082A38 *)record)->unk_38 = value;
+    ((Rec_D_80082A38 *)record)->unk_108 = (s32) (record + 0xC8);
 }

@@ -31,45 +31,46 @@ typedef struct S_80171284_2 {
 
 extern s32 D_800814A0;
 
-void func_80171284(void *arg0, void *arg1, void *arg2) {
-    u16 value;
-    u16 total;
-    s16 age;
+/* Update the effect countdown and motion, fade its color, and flag expiration. */
+void func_80171284(void *effect, void *transform, void *color) {
+    u16 next_value;
+    u16 next_total;
+    s16 ticks_left;
 
-    value = ((S_80171284_0 *)arg0)->unk_24.s - 1;
-    ((S_80171284_0 *)arg0)->unk_24.s = value;
-    if ((s16)value < 8) {
-        ((S_80171284_0 *)arg0)->unk_4E = ((S_80171284_0 *)arg0)->unk_4E - 1;
+    next_value = ((S_80171284_0 *)effect)->unk_24.s - 1;
+    ((S_80171284_0 *)effect)->unk_24.s = next_value;
+    if ((s16)next_value < 8) {
+        ((S_80171284_0 *)effect)->unk_4E = ((S_80171284_0 *)effect)->unk_4E - 1;
     }
 
-    if ((s16)((S_80171284_0 *)arg0)->unk_4E < 2) {
-        ((S_80171284_0 *)arg0)->unk_4E = 2;
+    if ((s16)((S_80171284_0 *)effect)->unk_4E < 2) {
+        ((S_80171284_0 *)effect)->unk_4E = 2;
     }
 
-    if ((s16)((S_80171284_0 *)arg0)->unk_24.s < 10) {
-        value = ((S_80171284_0 *)arg0)->unk_2A + 1;
-        total = ((S_80171284_0 *)arg0)->unk_50 + value;
-        ((S_80171284_0 *)arg0)->unk_2A = value;
-        ((S_80171284_0 *)arg0)->unk_50 = total;
+    if ((s16)((S_80171284_0 *)effect)->unk_24.s < 10) {
+        next_value = ((S_80171284_0 *)effect)->unk_2A + 1;
+        next_total = ((S_80171284_0 *)effect)->unk_50 + next_value;
+        ((S_80171284_0 *)effect)->unk_2A = next_value;
+        ((S_80171284_0 *)effect)->unk_50 = next_total;
     } else {
-        ((S_80171284_0 *)arg0)->unk_50 = ((S_80171284_0 *)arg0)->unk_50 + 1;
+        ((S_80171284_0 *)effect)->unk_50 = ((S_80171284_0 *)effect)->unk_50 + 1;
     }
 
-    if ((s16)((S_80171284_0 *)arg0)->unk_24.s < 11) {
-        value = ((S_80171284_0 *)arg0)->unk_2C + 2;
-        ((S_80171284_0 *)arg0)->unk_2C = value;
-        ((S_80171284_1 *)arg1)->unk_0A = ((S_80171284_1 *)arg1)->unk_0A - value;
+    if ((s16)((S_80171284_0 *)effect)->unk_24.s < 11) {
+        next_value = ((S_80171284_0 *)effect)->unk_2C + 2;
+        ((S_80171284_0 *)effect)->unk_2C = next_value;
+        ((S_80171284_1 *)transform)->unk_0A = ((S_80171284_1 *)transform)->unk_0A - next_value;
     }
 
-    age = ((S_80171284_0 *)arg0)->unk_24.u;
-    if (age < 5) {
-        ((S_80171284_2 *)arg2)->unk_0C = (((S_80171284_0 *)arg0)->unk_02 * age) / 5;
-        ((S_80171284_2 *)arg2)->unk_0D = (((S_80171284_0 *)arg0)->unk_03 * ((S_80171284_0 *)arg0)->unk_24.u) / 5;
-        ((S_80171284_2 *)arg2)->unk_0E = (((S_80171284_0 *)arg0)->unk_04 * ((S_80171284_0 *)arg0)->unk_24.u) / 5;
+    ticks_left = ((S_80171284_0 *)effect)->unk_24.u;
+    if (ticks_left < 5) {
+        ((S_80171284_2 *)color)->unk_0C = (((S_80171284_0 *)effect)->unk_02 * ticks_left) / 5;
+        ((S_80171284_2 *)color)->unk_0D = (((S_80171284_0 *)effect)->unk_03 * ((S_80171284_0 *)effect)->unk_24.u) / 5;
+        ((S_80171284_2 *)color)->unk_0E = (((S_80171284_0 *)effect)->unk_04 * ((S_80171284_0 *)effect)->unk_24.u) / 5;
     }
 
-    if (((S_80171284_0 *)arg0)->unk_24.u <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    if (((S_80171284_0 *)effect)->unk_24.u <= 0) {
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

@@ -48,74 +48,75 @@ typedef struct S_807AFDEC_1 {
     s32 unk_14;
 } S_807AFDEC_1;   /* ((S_807AFDEC_0 *)arg0)->unk_00 in func_807AFDEC */
 
-void func_807AFDEC(void *arg0, Position3 *arg1, ColorPart *arg2)
+/* Position the effect and fade its selected color channels in, then out. */
+void func_807AFDEC(void *effect, Position3 *position, ColorPart *tint)
 {
-    void *call_base;
+    void *effect_base;
     Offset3 offset;
-    Position3 *source;
-    s32 color;
-    u16 value;
-    s16 timer;
+    Position3 *source_pos;
+    s32 intensity;
+    u16 source_x;
+    s16 ticks_left;
 
     offset.x = 0;
     offset.y = 0;
     offset.z = -D_800DDC42 - 8;
 
-    source = ((S_807AFDEC_1_pre *)(((S_807AFDEC_0 *)arg0)->unk_00))[-1].unk_00;
-    value = source->x;
-    arg1->x = value;
-    arg1->y = source->y + offset.y;
-    arg1->z = source->z + offset.z;
+    source_pos = ((S_807AFDEC_1_pre *)(((S_807AFDEC_0 *)effect)->unk_00))[-1].unk_00;
+    source_x = source_pos->x;
+    position->x = source_x;
+    position->y = source_pos->y + offset.y;
+    position->z = source_pos->z + offset.z;
 
-    if (((S_807AFDEC_0 *)arg0)->unk_08.s == 0) {
-        color = arg2->b | (arg2->r | arg2->g);
-        color += (0xC0 - color) / ((S_807AFDEC_0 *)arg0)->unk_0C.s;
+    if (((S_807AFDEC_0 *)effect)->unk_08.s == 0) {
+        intensity = tint->b | (tint->r | tint->g);
+        intensity += (0xC0 - intensity) / ((S_807AFDEC_0 *)effect)->unk_0C.s;
 
-        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)arg0)->unk_00))->unk_14 & 1) {
-            arg2->r = color;
+        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)effect)->unk_00))->unk_14 & 1) {
+            tint->r = intensity;
         }
-        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)arg0)->unk_00))->unk_14 & 4) {
-            arg2->g = color;
+        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)effect)->unk_00))->unk_14 & 4) {
+            tint->g = intensity;
         }
-        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)arg0)->unk_00))->unk_14 & 2) {
-            arg2->b = color;
+        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)effect)->unk_00))->unk_14 & 2) {
+            tint->b = intensity;
         }
 
         {
-            call_base = (u8 *)arg0 - 0x20;
+            effect_base = (u8 *)effect - 0x20;
 
-            if (((S_807AFDEC_0 *)arg0)->unk_0C.s >= 8) {
-                func_800F749C(call_base, arg1, ((S_807AFDEC_0 *)arg0)->unk_00);
-                func_800F749C(call_base, arg1, ((S_807AFDEC_0 *)arg0)->unk_00);
-                func_800F749C(call_base, arg1, ((S_807AFDEC_0 *)arg0)->unk_00);
+            if (((S_807AFDEC_0 *)effect)->unk_0C.s >= 8) {
+                func_800F749C(effect_base, position, ((S_807AFDEC_0 *)effect)->unk_00);
+                func_800F749C(effect_base, position, ((S_807AFDEC_0 *)effect)->unk_00);
+                func_800F749C(effect_base, position, ((S_807AFDEC_0 *)effect)->unk_00);
             }
 
-            timer = ((S_807AFDEC_0 *)arg0)->unk_0C.u - 1;
-            ((S_807AFDEC_0 *)arg0)->unk_0C.u = timer;
-            if ((timer << 16) <= 0) {
-                ((S_807AFDEC_0 *)arg0)->unk_0C.u = 8;
-                ((S_807AFDEC_0 *)arg0)->unk_08.u++;
+            ticks_left = ((S_807AFDEC_0 *)effect)->unk_0C.u - 1;
+            ((S_807AFDEC_0 *)effect)->unk_0C.u = ticks_left;
+            if ((ticks_left << 16) <= 0) {
+                ((S_807AFDEC_0 *)effect)->unk_0C.u = 8;
+                ((S_807AFDEC_0 *)effect)->unk_08.u++;
                 func_800F7830();
             }
         }
     } else {
-        color = arg2->b | (arg2->r | arg2->g);
-        color += -color / ((S_807AFDEC_0 *)arg0)->unk_0C.s;
+        intensity = tint->b | (tint->r | tint->g);
+        intensity += -intensity / ((S_807AFDEC_0 *)effect)->unk_0C.s;
 
-        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)arg0)->unk_00))->unk_14 & 1) {
-            arg2->r = color;
+        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)effect)->unk_00))->unk_14 & 1) {
+            tint->r = intensity;
         }
-        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)arg0)->unk_00))->unk_14 & 4) {
-            arg2->g = color;
+        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)effect)->unk_00))->unk_14 & 4) {
+            tint->g = intensity;
         }
-        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)arg0)->unk_00))->unk_14 & 2) {
-            arg2->b = color;
+        if (((S_807AFDEC_1 *)(((S_807AFDEC_0 *)effect)->unk_00))->unk_14 & 2) {
+            tint->b = intensity;
         }
 
-        timer = ((S_807AFDEC_0 *)arg0)->unk_0C.u - 1;
-        ((S_807AFDEC_0 *)arg0)->unk_0C.u = timer;
-        if ((timer << 16) <= 0) {
-            (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        ticks_left = ((S_807AFDEC_0 *)effect)->unk_0C.u - 1;
+        ((S_807AFDEC_0 *)effect)->unk_0C.u = ticks_left;
+        if ((ticks_left << 16) <= 0) {
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
             D_800814A0 |= 0x8000;
         }
     }

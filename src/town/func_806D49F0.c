@@ -8,19 +8,20 @@ extern u8 D_800189FC[16];
 extern u8 D_80018B98[16];
 extern u8 D_8001ABA0[16];
 
-void *func_800169F0(s32 arg0, s32 arg1, s32 arg2)
+/* Returns a direct lookup result or a table entry, with a special case for type 0xB. */
+void *func_800169F0(s32 entry_id, s32 unused, s32 entry_type)
 {
     void *result;
-    u8 *base;
+    u8 *entry_table;
 
-    result = func_80016D98(arg2);
+    result = func_80016D98(entry_type);
     if (result != 0) {
         return result;
     }
 
-    base = D_800189FC;
-    result = func_80017960(base, D_80018B98, arg0, arg2);
-    if ((arg2 == 0xB) && (func_800178A8(base, arg0, 0xB) != 0)) {
+    entry_table = D_800189FC;
+    result = func_80017960(entry_table, D_80018B98, entry_id, entry_type);
+    if ((entry_type == 0xB) && (func_800178A8(entry_table, entry_id, 0xB) != 0)) {
         return D_8001ABA0;
     }
     return result;

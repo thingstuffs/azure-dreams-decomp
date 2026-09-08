@@ -61,22 +61,23 @@ typedef struct S_818A4A64_3 {
     u16 unk_0A;
 } S_818A4A64_3;   /* temp_v1 in func_818A4A64 */
 
-void *func_818A4A64(s32 arg0, S_818A4A64_2 *arg1) {
-    S_818A4A64_1 *temp_s0;
-    S_818A4A64_0 *temp_v0;
-    S_818A4A64_3 *temp_v1;
+/* Creates an object, initializes its rendering state, and copies its position. */
+void *func_818A4A64(s32 context_value, S_818A4A64_2 *initial_position) {
+    S_818A4A64_1 *render_state;
+    S_818A4A64_0 *object;
+    S_818A4A64_3 *position;
     u8 *call_data;
 #ifdef NON_MATCHING
     u32 match_v0;
 #endif
 
-    temp_v0 = func_8003FC64(0x212);
+    object = func_8003FC64(0x212);
 #ifndef NON_MATCHING
     call_data = (u8 *) 0x800E0000;
 #else
     call_data = D_800DEAE0;
 #endif
-    if (temp_v0 == NULL) {
+    if (object == NULL) {
         match_v0 = 0;
         func_80024320();
     }
@@ -89,27 +90,27 @@ void *func_818A4A64(s32 arg0, S_818A4A64_2 *arg1) {
 #else
     match_v0 = (u32) D_80024230;
 #endif
-    temp_s0 = temp_v0->unk_0C;
-    temp_v0->unk_10 = (M2C_UNK *) match_v0;
-    temp_v0->unk_20 = arg0;
-    temp_s0->unk_0E = 0;
-    temp_s0->unk_0D = 0;
-    temp_s0->unk_0C = 0;
-    func_8003DB94(temp_s0, call_data, 0);
-    match_v0 = temp_s0->unk_14;
-    temp_s0->unk_1E = 0x1000;
-    temp_s0->unk_1C = 0x1000;
+    render_state = object->unk_0C;
+    object->unk_10 = (M2C_UNK *) match_v0;
+    object->unk_20 = context_value;
+    render_state->unk_0E = 0;
+    render_state->unk_0D = 0;
+    render_state->unk_0C = 0;
+    func_8003DB94(render_state, call_data, 0);
+    match_v0 = render_state->unk_14;
+    render_state->unk_1E = 0x1000;
+    render_state->unk_1C = 0x1000;
     match_v0 |= 0xC;
-    temp_s0->unk_14 = (u16) match_v0;
-    func_8004491C(temp_v0, D_80045340);
-    temp_v1 = temp_v0->unk_08;
+    render_state->unk_14 = (u16) match_v0;
+    func_8004491C(object, D_80045340);
+    position = object->unk_08;
 #ifndef NON_MATCHING
-    __asm__ __volatile__("" : : "r"(arg1));
+    __asm__ __volatile__("" : : "r"(initial_position));
 #endif
-    match_v0 = arg1->unk_02;
-    temp_v1->unk_02 = (u16) match_v0;
-    match_v0 = arg1->unk_06;
-    temp_v1->unk_06 = (u16) match_v0;
-    temp_v1->unk_0A = (u16) arg1->unk_0A;
-    return temp_v0;
+    match_v0 = initial_position->unk_02;
+    position->unk_02 = (u16) match_v0;
+    match_v0 = initial_position->unk_06;
+    position->unk_06 = (u16) match_v0;
+    position->unk_0A = (u16) initial_position->unk_0A;
+    return object;
 }

@@ -51,46 +51,47 @@ typedef struct S_8016738C_3 {
     s32 unk_08;
 } S_8016738C_3;   /* arg0 in func_8016738C */
 
-void func_8016738C(S_8016738C_3 *arg0)
+/* Create and initialize an object at the supplied position with a fixed Z offset. */
+void func_8016738C(S_8016738C_3 *origin)
 {
-    void *obj;
-    S_8016738C_2 *dst;
-    S_8016738C_1 *ctrl;
+    void *object;
+    S_8016738C_2 *position;
+    S_8016738C_1 *control;
     S_8016738C_0 *node;
 
-    obj = func_8003FC64(0x212);
-    if (obj != NULL) {
-        node = (u8 *)obj + 0x20;
+    object = func_8003FC64(0x212);
+    if (object != NULL) {
+        node = (u8 *)object + 0x20;
         node->unk_18 = 0x1E;
         node->unk_1A = 0x1E;
-        (*(void * *)((u8 *)obj + 0x10)) = &D_801671AC;
-        func_8004491C(obj, &D_80045340);
+        (*(void * *)((u8 *)object + 0x10)) = &D_801671AC;
+        func_8004491C(object, &D_80045340);
 
-        ctrl = (*(void * *)((u8 *)obj + 0xC));
-        
-        ctrl->unk_10 = 0x20;
-        ctrl->unk_14 = ctrl->unk_14 | 0xC;
+        control = (*(void * *)((u8 *)object + 0xC));
 
-        dst = (*(void * *)((u8 *)obj + 8));
-        dst->unk_00 = arg0->unk_00;
-        dst->unk_04 = arg0->unk_04;
-        dst->unk_08 = arg0->unk_08 + 0x180000;
+        control->unk_10 = 0x20;
+        control->unk_14 = control->unk_14 | 0xC;
 
-        ctrl = (*(void * *)((u8 *)obj + 0xC));
-        
-        ctrl->unk_1C = 0x1400;
-        ctrl->unk_1E = 0x1400;
-        ctrl->unk_0E = 0;
-        ctrl->unk_0D = 0;
-        ctrl->unk_0C = 0;
-        ctrl->unk_06 = 0;
-        ctrl->unk_14 = ctrl->unk_14 | 0x80;
+        position = (*(void * *)((u8 *)object + 8));
+        position->unk_00 = origin->unk_00;
+        position->unk_04 = origin->unk_04;
+        position->unk_08 = origin->unk_08 + 0x180000;
 
-        (*(PackedCopy12 *)((u8 *)obj + 0x48)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0));
-        (*(PackedCopy12 *)((u8 *)obj + 0x54)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0xC));
-        (*(PackedCopy12 *)((u8 *)obj + 0x60)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0x18));
-        (*(PackedCopy12 *)((u8 *)obj + 0x6C)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0x24));
-        ctrl->unk_08 = (u8 *)obj + 0x48;
+        control = (*(void * *)((u8 *)object + 0xC));
+
+        control->unk_1C = 0x1400;
+        control->unk_1E = 0x1400;
+        control->unk_0E = 0;
+        control->unk_0D = 0;
+        control->unk_0C = 0;
+        control->unk_06 = 0;
+        control->unk_14 = control->unk_14 | 0x80;
+
+        (*(PackedCopy12 *)((u8 *)object + 0x48)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0));
+        (*(PackedCopy12 *)((u8 *)object + 0x54)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0xC));
+        (*(PackedCopy12 *)((u8 *)object + 0x60)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0x18));
+        (*(PackedCopy12 *)((u8 *)object + 0x6C)) = (*(PackedCopy12 *)((u8 *)D_80173B58 + 0x24));
+        control->unk_08 = (u8 *)object + 0x48;
     }
 }
 

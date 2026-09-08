@@ -57,43 +57,44 @@ typedef struct S_800B6094_3 {
     void * unk_38;
 } S_800B6094_3;   /* temp_v1 in func_800B6094 */
 
-void func_800B6094(void *arg0, s32 arg1, s32 arg2) {
-    register S_800B6094_0 *held_arg0 ASM_REG("$19") = arg0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 held_arg1 = arg1;
-    s32 held_arg2 = arg2;
+/* Populate a display row with entry text and a positioned icon. */
+void func_800B6094(void *entry_data, s32 display_base, s32 row_index) {
+    register S_800B6094_0 *entry ASM_REG("$19") = entry_data;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 row_base = display_base;
+    s32 row = row_index;
     register s32 first_zero ASM_REG("$6") = 0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    M2C_UNK sp18[3];
-    s32 *temp_s1_2;
-    s32 temp_s0_2;
-    s32 temp_s2;
-    s32 branch_result;
-    S_800B6094_2 *temp_s0;
-    register void *temp_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    S_800B6094_3 *temp_v1;
+    M2C_UNK text_buffer[3];
+    s32 *icon_slot;
+    s32 icon_id;
+    s32 text_y;
+    s32 display_value;
+    S_800B6094_2 *entry_info;
+    register void *row_display ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_800B6094_3 *display_node;
 
-    temp_s2 = (held_arg2 * 0x10) + 0xD8;
-    temp_s1 = (void *) (held_arg2 * 4);
-    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp_s0 = (held_arg0->unk_00 * 0x14) + D_8006DE24;
-    temp_s1 = (void *) ((s8 *)temp_s1 + (s32)held_arg1);
-    func_800B5264(((S_800B6094_1 *)temp_s1)->unk_20, temp_s0->unk_00, first_zero, 0x58, temp_s2);
-    func_800B53BC(((S_800B6094_1 *)temp_s1)->unk_2C, func_800B6030(held_arg0->unk_01, sp18), 0, 0xA0, temp_s2);
-    ASM_KEEP(held_arg0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    temp_s0_2 = func_80049944(temp_s0->unk_10);
-    temp_s1_2 = ((S_800B6094_1 *)temp_s1)->unk_38;
-    if (func_800439BC(held_arg0->unk_00) != 0) {
-        branch_result = func_800498EC(temp_s0_2);
+    text_y = (row * 0x10) + 0xD8;
+    row_display = (void *) (row * 4);
+    ASM_KEEP(row);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    entry_info = (entry->unk_00 * 0x14) + D_8006DE24;
+    row_display = (void *) ((s8 *)row_display + (s32)row_base);
+    func_800B5264(((S_800B6094_1 *)row_display)->unk_20, entry_info->unk_00, first_zero, 0x58, text_y);
+    func_800B53BC(((S_800B6094_1 *)row_display)->unk_2C, func_800B6030(entry->unk_01, text_buffer), 0, 0xA0, text_y);
+    ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    icon_id = func_80049944(entry_info->unk_10);
+    icon_slot = ((S_800B6094_1 *)row_display)->unk_38;
+    if (func_800439BC(entry->unk_00) != 0) {
+        display_value = func_800498EC(icon_id);
     } else {
-        branch_result = func_80049918(temp_s0_2);
+        display_value = func_80049918(icon_id);
     }
-    temp_v1 = (held_arg2 * 4) + held_arg1;
-    ASM_KEEP(branch_result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    *temp_s1_2 = branch_result;
-    ((S_800B6094_6 *)(((S_800B6094_5 *)(((S_800B6094_4 *)temp_v1)->unk_38))->unk_04))->unk_08 = -0x30;
-    temp_v1 = temp_v1->unk_38;
-    branch_result = (held_arg2 * 0x10) + 0x67;
-    temp_v1 = temp_v1->unk_04;
-    temp_v1->unk_0A = (s16) branch_result;
+    display_node = (row * 4) + row_base;
+    ASM_KEEP(display_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(row_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(row);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    *icon_slot = display_value;
+    ((S_800B6094_6 *)(((S_800B6094_5 *)(((S_800B6094_4 *)display_node)->unk_38))->unk_04))->unk_08 = -0x30;
+    display_node = display_node->unk_38;
+    display_value = (row * 0x10) + 0x67;
+    display_node = display_node->unk_04;
+    display_node->unk_0A = (s16) display_value;
 }

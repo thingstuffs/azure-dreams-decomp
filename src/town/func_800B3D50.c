@@ -28,7 +28,8 @@ extern void func_8004B248(u16 **a0);
 
 extern int D_800814A0;
 
-void *func_800B14B0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6)
+/* Allocate and initialize a paged item-list node, returning null on failure. */
+void *func_800B14B0(s32 parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, s32 item_base, s32 display_mode)
 {
     S_800B3D50_node *node = func_8003FC64(0);
     S_800B3D50_sub *sub;
@@ -38,7 +39,7 @@ void *func_800B14B0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, 
         if (func_800B1434(sub, 0x1F) != 0) {
             node->field_0xC = (u8 *)node + 0xDC;
             sub->result = func_800B091C(sub->input);
-            func_800B13D4(sub, arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+            func_800B13D4(sub, parent, selected_index, item_count, page_index, last_page, item_base, display_mode);
             func_8004491C(node, (void *)func_8004CAA0);
             return node;
         }
@@ -49,7 +50,3 @@ void *func_800B14B0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, 
     }
     return node;
 }
-
-/* MECHANISM: The node/sub locals naturally hold $s0/$s1 and preserve the exact 0x40 frame.
-   Discarding func_800B1590's result keeps the pre-call node as the function return value.
-   LEAD 22 then places the live move v0,s0 in the converted tail-jump delay slot. */

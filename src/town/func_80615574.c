@@ -6,6 +6,7 @@ extern s8 D_80016000[];
 extern s32 D_80018FB4;
 extern s32 func_80018BD0(s32);
 
+/* Runs the global interface setup sequence and saves its initial result. */
 s32 func_80016D74(void) {
     D_80018FB4 = FIELD(
         FIELD(FIELD(D_80016000, void **, 0), void **, 0x20),

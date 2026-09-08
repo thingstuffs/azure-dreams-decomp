@@ -64,44 +64,45 @@ extern s32 rand(void);
 extern u8 D_80045340[];
 extern u8 D_801763D0[];
 
-void func_80E3CC80(S_80E3CC80_4 *arg0, S_80E3CC80_2 *arg1) {
-    s32 count;
+/* Spawns up to sixteen particles with randomized offsets and velocities. */
+void func_80E3CC80(S_80E3CC80_4 *origin, S_80E3CC80_2 *source_sprite) {
+    s32 remaining;
     s32 image;
-    u16 flags;
-    u16 y;
-    S_80E3CC80_0 *object;
-    S_80E3CC80_1 *a;
-    S_80E3CC80_3 *b;
+    u16 sprite_flags;
+    u16 source_y;
+    S_80E3CC80_0 *particle;
+    S_80E3CC80_1 *sprite;
+    S_80E3CC80_3 *motion;
 
-    count = 0x10;
+    remaining = 0x10;
     do {
-        object = func_8003FC64(0x300);
-        if (object != NULL) {
-            object->unk_10 = D_801763D0;
-            func_8004491C(object, D_80045340);
-            a = object->unk_0C;
-            a->unk_1E = 0x800;
-            a->unk_1C = 0x800;
-            a->unk_0C = 0x808080;
-            a->unk_10 = 0x20;
-            image = arg1->unk_28;
-            a->unk_28 = image;
-            flags = a->unk_14;
-            y = arg1->unk_12;
-            a->unk_14 = flags | 0xC;
-            a->unk_12 = y - 0x80;
-            func_80047784(a, 0x41, 0);
-            b = object->unk_08;
-            b->unk_02 = arg0->unk_02;
-            b->unk_06 = arg0->unk_06;
-            b->unk_0A = arg0->unk_0A - (rand() & 0x1F);
-            b->unk_16 = ((0 - (rand() & 0xF)) - 8) * 2;
-            b->unk_0C = ((rand() & 3) - 2) << 0x10;
-            b->unk_10 = ((rand() & 3) - 2) << 0x10;
-            object->unk_40 = 0x10;
+        particle = func_8003FC64(0x300);
+        if (particle != NULL) {
+            particle->unk_10 = D_801763D0;
+            func_8004491C(particle, D_80045340);
+            sprite = particle->unk_0C;
+            sprite->unk_1E = 0x800;
+            sprite->unk_1C = 0x800;
+            sprite->unk_0C = 0x808080;
+            sprite->unk_10 = 0x20;
+            image = source_sprite->unk_28;
+            sprite->unk_28 = image;
+            sprite_flags = sprite->unk_14;
+            source_y = source_sprite->unk_12;
+            sprite->unk_14 = sprite_flags | 0xC;
+            sprite->unk_12 = source_y - 0x80;
+            func_80047784(sprite, 0x41, 0);
+            motion = particle->unk_08;
+            motion->unk_02 = origin->unk_02;
+            motion->unk_06 = origin->unk_06;
+            motion->unk_0A = origin->unk_0A - (rand() & 0x1F);
+            motion->unk_16 = ((0 - (rand() & 0xF)) - 8) * 2;
+            motion->unk_0C = ((rand() & 3) - 2) << 0x10;
+            motion->unk_10 = ((rand() & 3) - 2) << 0x10;
+            particle->unk_40 = 0x10;
         }
-        count -= 1;
-    } while (count > 0);
+        remaining -= 1;
+    } while (remaining > 0);
 }
 
 /* MECHANISM: Named word and halfword read locals extend the arg1 value live ranges,

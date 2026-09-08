@@ -13,293 +13,281 @@ extern void func_8008F55C(void *, void *, void *);
 extern void func_8008F5B4(void *, void *, void *);
 extern void func_8008F60C(void *, void *, void *);
 
-void func_8008F664(void *arg0, void *arg1) {
+/* Resolve bounding-box overlaps with linked colliders along the least-penetrating axis. */
+void func_8008F664(void *collider, void *position) {
     u8 *scratch;
-    void *root;
-    void *cur;
-    void *next_obj;
-    void *part;
-    void *p0;
-    void *pc;
-    s32 d0;
-    s32 d1;
-    s32 d2;
-    s32 d3;
-    s32 d4;
-    s32 d5;
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 ax;
-    s32 ay;
-    s32 az;
-    s32 i;
+    void *bounds;
+    void *other_bounds;
+    s32 shift_x;
+    s32 shift_y;
+    s32 shift_z;
+    s32 face_index;
 
-    root = PTR_AT(arg0, 0xC);
+    bounds = PTR_AT(collider, 0xC);
     scratch = (u8 *)0x1F800000;
     SC32(scratch, 0x38) = 0;
-    SCPTR(scratch, 0) = root;
+    SCPTR(scratch, 0) = bounds;
     do {
-        *(u8 *)((u32)arg0 + SC32(scratch, 0x38) + 0x3A) = 0;
-        i = SC32(scratch, 0x38) + 1;
-        SC32(scratch, 0x38) = i;
-    } while (i < 6);
+        *(u8 *)((u32)collider + SC32(scratch, 0x38) + 0x3A) = 0;
+        face_index = SC32(scratch, 0x38) + 1;
+        SC32(scratch, 0x38) = face_index;
+    } while (face_index < 6);
 
-    SCPTR(scratch, 4) = PTR_AT(arg0, 4);
-    if (SCPTR(scratch, 4) == arg0) {
+    SCPTR(scratch, 4) = PTR_AT(collider, 4);
+    if (SCPTR(scratch, 4) == collider) {
         goto clear_tail;
     }
 
 object_loop:
     {
-    void *loop_cur;
-    register void *loop_next ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        void *other;
+        register void *object_ref ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    loop_cur = SCPTR(scratch, 4);
-    loop_next = PTR_AT(VSPTR(scratch, 4), 8);
-    SCPTR(scratch, 8) = loop_next;
-    part = PTR_AT(loop_cur, 0xC);
-    ASM_KEEP_NV(part);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    loop_next = loop_cur;
-    ASM_KEEP_NV(loop_next);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    SCPTR(scratch, 0xC) = part;
-    if (U8_AT(loop_next, 0x15) == 0) {
-        goto next_object;
-    }
-    }
-
-    {
-    void *q0;
-    register void *q8 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 left;
-    register s32 q0v ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 right ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 pv0;
-    register s32 pvc ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-    q0 = VSPTR(scratch, 0);
-    left = S32_AT(arg1, 0);
-    q0v = S32_AT(q0, 0);
-    q8 = VSPTR(scratch, 8);
-    left += q0v;
-    right = S32_AT(q8, 0);
-    pv0 = S32_AT(part, 0);
-    pvc = S32_AT(part, 0xC);
-    right += pv0;
-    right += pvc;
-    left -= right;
-    SC32(scratch, 0x10) = left;
-    if (left > 0) {
-        goto next_object;
-    }
+        other = SCPTR(scratch, 4);
+        object_ref = PTR_AT(VSPTR(scratch, 4), 8);
+        SCPTR(scratch, 8) = object_ref;
+        other_bounds = PTR_AT(other, 0xC);
+        ASM_KEEP_NV(other_bounds);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        object_ref = other;
+        ASM_KEEP_NV(object_ref);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        SCPTR(scratch, 0xC) = other_bounds;
+        if (U8_AT(object_ref, 0x15) == 0) {
+            goto next_object;
+        }
     }
 
     {
-    register void *q0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *q8;
-    register void *qc ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 left;
-    s32 q0v;
-    s32 extra;
-    s32 right;
-    register s32 qcv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        void *self_box;
+        register void *other_pos ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 separation;
+        register s32 self_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        register s32 other_edge ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 other_offset;
+        register s32 other_size ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    q0 = VSPTR(scratch, 0);
-    left = S32_AT(arg1, 0);
-    q0v = S32_AT(q0, 0);
-    extra = S32_AT(q0, 0xC);
-    qc = VSPTR(scratch, 0xC);
-    left += q0v;
-    q8 = VSPTR(scratch, 8);
-    qcv = S32_AT(qc, 0);
-    right = S32_AT(q8, 0);
-    left += extra;
-    right += qcv;
-    left -= right;
-    SC32(scratch, 0x14) = left;
-    if (left < 0) {
-        goto next_object;
-    }
+        self_box = VSPTR(scratch, 0);
+        separation = S32_AT(position, 0);
+        self_offset = S32_AT(self_box, 0);
+        other_pos = VSPTR(scratch, 8);
+        separation += self_offset;
+        other_edge = S32_AT(other_pos, 0);
+        other_offset = S32_AT(other_bounds, 0);
+        other_size = S32_AT(other_bounds, 0xC);
+        other_edge += other_offset;
+        other_edge += other_size;
+        separation -= other_edge;
+        SC32(scratch, 0x10) = separation;
+        if (separation > 0) {
+            goto next_object;
+        }
     }
 
     {
-    void *q0;
-    register void *q8 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *qc;
-    s32 left;
-    register s32 q0v ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 right;
-    register s32 qcv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 qce ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        register void *self_box ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        void *other_pos;
+        register void *other_box ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 separation;
+        s32 self_offset;
+        s32 self_size;
+        s32 other_edge;
+        register s32 other_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    q0 = VSPTR(scratch, 0);
-    left = S32_AT(arg1, 4);
-    q0v = S32_AT(q0, 4);
-    qc = VSPTR(scratch, 0xC);
-    left += q0v;
-    q8 = VSPTR(scratch, 8);
-    qcv = S32_AT(qc, 4);
-    right = S32_AT(q8, 4);
-    qce = S32_AT(qc, 0x10);
-    right += qcv;
-    right += qce;
-    left -= right;
-    SC32(scratch, 0x18) = left;
-    if (left > 0) {
-        goto next_object;
-    }
-    }
-
-    {
-    register void *q0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *q8;
-    register void *qc ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 left;
-    s32 q0v;
-    s32 extra;
-    s32 right;
-    register s32 qcv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-    q0 = VSPTR(scratch, 0);
-    left = S32_AT(arg1, 4);
-    q0v = S32_AT(q0, 4);
-    extra = S32_AT(q0, 0x10);
-    qc = VSPTR(scratch, 0xC);
-    left += q0v;
-    q8 = VSPTR(scratch, 8);
-    qcv = S32_AT(qc, 4);
-    right = S32_AT(q8, 4);
-    left += extra;
-    right += qcv;
-    left -= right;
-    SC32(scratch, 0x1C) = left;
-    if (left < 0) {
-        goto next_object;
-    }
+        self_box = VSPTR(scratch, 0);
+        separation = S32_AT(position, 0);
+        self_offset = S32_AT(self_box, 0);
+        self_size = S32_AT(self_box, 0xC);
+        other_box = VSPTR(scratch, 0xC);
+        separation += self_offset;
+        other_pos = VSPTR(scratch, 8);
+        other_offset = S32_AT(other_box, 0);
+        other_edge = S32_AT(other_pos, 0);
+        separation += self_size;
+        other_edge += other_offset;
+        separation -= other_edge;
+        SC32(scratch, 0x14) = separation;
+        if (separation < 0) {
+            goto next_object;
+        }
     }
 
     {
-    void *q0;
-    register void *q8 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *qc;
-    s32 left;
-    register s32 q0v ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 right;
-    register s32 qcv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 qce ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        void *self_box;
+        register void *other_pos ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        void *other_box;
+        s32 separation;
+        register s32 self_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 other_edge;
+        register s32 other_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 other_size ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-    q0 = VSPTR(scratch, 0);
-    left = S32_AT(arg1, 8);
-    q0v = S32_AT(q0, 8);
-    qc = VSPTR(scratch, 0xC);
-    left += q0v;
-    q8 = VSPTR(scratch, 8);
-    qcv = S32_AT(qc, 8);
-    right = S32_AT(q8, 8);
-    qce = S32_AT(qc, 0x14);
-    right += qcv;
-    right += qce;
-    left -= right;
-    SC32(scratch, 0x20) = left;
-    if (left > 0) {
-        goto next_object;
-    }
-    }
-
-    {
-    register void *q0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *q8;
-    register void *qc ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 left;
-    s32 q0v;
-    s32 extra;
-    s32 right;
-    register s32 qcv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-    q0 = VSPTR(scratch, 0);
-    left = S32_AT(arg1, 8);
-    q0v = S32_AT(q0, 8);
-    extra = S32_AT(q0, 0x14);
-    qc = VSPTR(scratch, 0xC);
-    left += q0v;
-    q8 = VSPTR(scratch, 8);
-    qcv = S32_AT(qc, 8);
-    right = S32_AT(q8, 8);
-    left += extra;
-    right += qcv;
-    left -= right;
-    SC32(scratch, 0x24) = left;
-    if (left < 0) {
-        goto next_object;
-    }
+        self_box = VSPTR(scratch, 0);
+        separation = S32_AT(position, 4);
+        self_offset = S32_AT(self_box, 4);
+        other_box = VSPTR(scratch, 0xC);
+        separation += self_offset;
+        other_pos = VSPTR(scratch, 8);
+        other_offset = S32_AT(other_box, 4);
+        other_edge = S32_AT(other_pos, 4);
+        other_size = S32_AT(other_box, 0x10);
+        other_edge += other_offset;
+        other_edge += other_size;
+        separation -= other_edge;
+        SC32(scratch, 0x18) = separation;
+        if (separation > 0) {
+            goto next_object;
+        }
     }
 
     {
-    s32 sx;
-    s32 sy;
-    register s32 say ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 pick ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        register void *self_box ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        void *other_pos;
+        register void *other_box ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 separation;
+        s32 self_offset;
+        s32 self_size;
+        s32 other_edge;
+        register s32 other_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    sx = SC32(scratch, 0x10);
-    sy = SC32(scratch, 0x14);
-    if (sx < 0) {
-        sx = -sx;
-    }
-    say = sy;
-    if (sy < 0) {
-        say = -say;
-    }
-    pick = sx < say;
-    if (pick) {
-        SCU8(scratch, 0x28) = U8_AT(arg0, 0x37);
-        SC32(scratch, 0x2C) = 2;
-    } else {
-        SC32(scratch, 0x10) = sy;
-        SCU8(scratch, 0x28) = U8_AT(arg0, 0x36);
-        SC32(scratch, 0x2C) = 3;
-    }
-
-    sx = SC32(scratch, 0x18);
-    sy = SC32(scratch, 0x1C);
-    if (sx < 0) {
-        sx = -sx;
-    }
-    say = sy;
-    if (sy < 0) {
-        say = -say;
-    }
-    pick = sx < say;
-    if (pick) {
-        SCU8(scratch, 0x29) = U8_AT(arg0, 0x39);
-        SC32(scratch, 0x30) = 4;
-    } else {
-        SC32(scratch, 0x18) = sy;
-        SCU8(scratch, 0x29) = U8_AT(arg0, 0x38);
-        SC32(scratch, 0x30) = 5;
+        self_box = VSPTR(scratch, 0);
+        separation = S32_AT(position, 4);
+        self_offset = S32_AT(self_box, 4);
+        self_size = S32_AT(self_box, 0x10);
+        other_box = VSPTR(scratch, 0xC);
+        separation += self_offset;
+        other_pos = VSPTR(scratch, 8);
+        other_offset = S32_AT(other_box, 4);
+        other_edge = S32_AT(other_pos, 4);
+        separation += self_size;
+        other_edge += other_offset;
+        separation -= other_edge;
+        SC32(scratch, 0x1C) = separation;
+        if (separation < 0) {
+            goto next_object;
+        }
     }
 
-    sx = SC32(scratch, 0x20);
-    sy = SC32(scratch, 0x24);
-    if (sx < 0) {
-        sx = -sx;
-    }
-    say = sy;
-    if (sy < 0) {
-        say = -say;
-    }
-    pick = sx < say;
-    if (pick) {
-        SCU8(scratch, 0x2A) = U8_AT(arg0, 0x35);
-        SC32(scratch, 0x34) = 0;
-    } else {
-        SC32(scratch, 0x20) = sy;
-        SCU8(scratch, 0x2A) = U8_AT(arg0, 0x34);
-        SC32(scratch, 0x34) = 1;
-    }
+    {
+        void *self_box;
+        register void *other_pos ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        void *other_box;
+        s32 separation;
+        register s32 self_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 other_edge;
+        register s32 other_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 other_size ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+
+        self_box = VSPTR(scratch, 0);
+        separation = S32_AT(position, 8);
+        self_offset = S32_AT(self_box, 8);
+        other_box = VSPTR(scratch, 0xC);
+        separation += self_offset;
+        other_pos = VSPTR(scratch, 8);
+        other_offset = S32_AT(other_box, 8);
+        other_edge = S32_AT(other_pos, 8);
+        other_size = S32_AT(other_box, 0x14);
+        other_edge += other_offset;
+        other_edge += other_size;
+        separation -= other_edge;
+        SC32(scratch, 0x20) = separation;
+        if (separation > 0) {
+            goto next_object;
+        }
     }
 
-    x = SC32(scratch, 0x10);
-    if (x == 0) {
+    {
+        register void *self_box ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        void *other_pos;
+        register void *other_box ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 separation;
+        s32 self_offset;
+        s32 self_size;
+        s32 other_edge;
+        register s32 other_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+
+        self_box = VSPTR(scratch, 0);
+        separation = S32_AT(position, 8);
+        self_offset = S32_AT(self_box, 8);
+        self_size = S32_AT(self_box, 0x14);
+        other_box = VSPTR(scratch, 0xC);
+        separation += self_offset;
+        other_pos = VSPTR(scratch, 8);
+        other_offset = S32_AT(other_box, 8);
+        other_edge = S32_AT(other_pos, 8);
+        separation += self_size;
+        other_edge += other_offset;
+        separation -= other_edge;
+        SC32(scratch, 0x24) = separation;
+        if (separation < 0) {
+            goto next_object;
+        }
+    }
+
+    {
+        s32 min_depth;
+        s32 max_shift;
+        register s32 max_depth ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        register s32 use_min ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+
+        min_depth = SC32(scratch, 0x10);
+        max_shift = SC32(scratch, 0x14);
+        if (min_depth < 0) {
+            min_depth = -min_depth;
+        }
+        max_depth = max_shift;
+        if (max_shift < 0) {
+            max_depth = -max_depth;
+        }
+        use_min = min_depth < max_depth;
+        if (use_min) {
+            SCU8(scratch, 0x28) = U8_AT(collider, 0x37);
+            SC32(scratch, 0x2C) = 2;
+        } else {
+            SC32(scratch, 0x10) = max_shift;
+            SCU8(scratch, 0x28) = U8_AT(collider, 0x36);
+            SC32(scratch, 0x2C) = 3;
+        }
+
+        min_depth = SC32(scratch, 0x18);
+        max_shift = SC32(scratch, 0x1C);
+        if (min_depth < 0) {
+            min_depth = -min_depth;
+        }
+        max_depth = max_shift;
+        if (max_shift < 0) {
+            max_depth = -max_depth;
+        }
+        use_min = min_depth < max_depth;
+        if (use_min) {
+            SCU8(scratch, 0x29) = U8_AT(collider, 0x39);
+            SC32(scratch, 0x30) = 4;
+        } else {
+            SC32(scratch, 0x18) = max_shift;
+            SCU8(scratch, 0x29) = U8_AT(collider, 0x38);
+            SC32(scratch, 0x30) = 5;
+        }
+
+        min_depth = SC32(scratch, 0x20);
+        max_shift = SC32(scratch, 0x24);
+        if (min_depth < 0) {
+            min_depth = -min_depth;
+        }
+        max_depth = max_shift;
+        if (max_shift < 0) {
+            max_depth = -max_depth;
+        }
+        use_min = min_depth < max_depth;
+        if (use_min) {
+            SCU8(scratch, 0x2A) = U8_AT(collider, 0x35);
+            SC32(scratch, 0x34) = 0;
+        } else {
+            SC32(scratch, 0x20) = max_shift;
+            SCU8(scratch, 0x2A) = U8_AT(collider, 0x34);
+            SC32(scratch, 0x34) = 1;
+        }
+    }
+
+    shift_x = SC32(scratch, 0x10);
+    if (shift_x == 0) {
         if (SC32(scratch, 0x18) == 0) {
             goto next_object;
         }
@@ -307,78 +295,78 @@ object_loop:
             goto next_object;
         }
     }
-    y = SC32(scratch, 0x18);
-    if (y == 0 && SC32(scratch, 0x20) == 0) {
+    shift_y = SC32(scratch, 0x18);
+    if (shift_y == 0 && SC32(scratch, 0x20) == 0) {
         goto next_object;
     }
-    z = SC32(scratch, 0x20);
-    if (z > 0 && S32_AT(arg1, 0x14) >= z && x != 0 && y != 0) {
+    shift_z = SC32(scratch, 0x20);
+    if (shift_z > 0 && S32_AT(position, 0x14) >= shift_z && shift_x != 0 && shift_y != 0) {
         goto call_60c;
     }
 
     {
-    s32 dx;
-    register s32 dax ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    s32 dy;
-    s32 dz;
-    register s32 daz ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 x_depth;
+        register s32 abs_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        s32 y_depth;
+        s32 z_depth;
+        register s32 abs_z ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    dx = VSC32(scratch, 0x10);
-    dy = VSC32(scratch, 0x18);
-    dax = dx;
-    if (dx < 0) {
-        dax = -dax;
-    }
-    if (dy < 0) {
-        dy = -dy;
-    }
-    ASM_KEEP_NV(dy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    if (dax < dy) {
-        dz = VSC32(scratch, 0x20);
-        daz = dz;
-        if (dz < 0) {
-            daz = -daz;
+        x_depth = VSC32(scratch, 0x10);
+        y_depth = VSC32(scratch, 0x18);
+        abs_x = x_depth;
+        if (x_depth < 0) {
+            abs_x = -abs_x;
         }
-        dz = dy < daz;
-        if (dz) {
-            goto call_55c;
+        if (y_depth < 0) {
+            y_depth = -y_depth;
         }
-        dz = dax < daz;
-        if (!dz) {
-            goto call_60c;
-        }
+        ASM_KEEP_NV(y_depth);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        if (abs_x < y_depth) {
+            z_depth = VSC32(scratch, 0x20);
+            abs_z = z_depth;
+            if (z_depth < 0) {
+                abs_z = -abs_z;
+            }
+            z_depth = y_depth < abs_z;
+            if (z_depth) {
+                goto call_55c;
+            }
+            z_depth = abs_x < abs_z;
+            if (!z_depth) {
+                goto call_60c;
+            }
 call_55c:
-        func_8008F55C(arg0, arg1, scratch);
-        goto next_object;
-    } else {
-        dz = VSC32(scratch, 0x20);
-        if (dz < 0) {
-            dz = -dz;
+            func_8008F55C(collider, position, scratch);
+            goto next_object;
+        } else {
+            z_depth = VSC32(scratch, 0x20);
+            if (z_depth < 0) {
+                z_depth = -z_depth;
+            }
+            if (y_depth < z_depth) {
+                goto call_5b4;
+            }
         }
-        if (dy < dz) {
-            goto call_5b4;
-        }
-    }
     }
 
 call_60c:
-    func_8008F60C(arg0, arg1, scratch);
+    func_8008F60C(collider, position, scratch);
     goto next_object;
 
 call_5b4:
-    func_8008F5B4(arg0, arg1, scratch);
+    func_8008F5B4(collider, position, scratch);
 
 next_object:
     SCPTR(scratch, 4) = PTR_AT(SCPTR(scratch, 4), 4);
-    if (SCPTR(scratch, 4) != arg0) {
+    if (SCPTR(scratch, 4) != collider) {
         goto object_loop;
     }
 
 clear_tail:
     SC32(scratch, 0x38) = 0;
     do {
-        *(u8 *)((u32)arg0 + SC32(scratch, 0x38) + 0x34) = 0;
-        i = SC32(scratch, 0x38) + 1;
-        SC32(scratch, 0x38) = i;
-    } while (i < 6);
+        *(u8 *)((u32)collider + SC32(scratch, 0x38) + 0x34) = 0;
+        face_index = SC32(scratch, 0x38) + 1;
+        SC32(scratch, 0x38) = face_index;
+    } while (face_index < 6);
 }

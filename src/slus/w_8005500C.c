@@ -43,60 +43,61 @@ extern void func_800553D4(s32 a0);
 extern void func_800550E8(void);
 extern void func_80054F9C(s32 a0, S_800848F8 *a1);
 
-void func_8005500C(s32 a0)
+/* Dispatches a packed code by its high nibble or stores it for a state update. */
+void func_8005500C(s32 code)
 {
-    s32 a1 = a0;
+    s32 packed_code = code;
 
-    a0 &= 0xF000;
-    if (a0 == 0x2000) {
+    code &= 0xF000;
+    if (code == 0x2000) {
         goto set_e1;
     }
-    if (a0 >= 0x2001) {
+    if (code >= 0x2001) {
         goto upper;
     }
-    if (a0 == 0) {
+    if (code == 0) {
         goto special;
     }
-    if (a0 == 0x1000) {
+    if (code == 0x1000) {
         goto do_71;
         do { } while (0);
     }
     return;
 
 upper:
-    if (a0 == 0x8000) {
+    if (code == 0x8000) {
         if (1) {
             goto special;
         }
     }
-    if (a0 > 0x8000) {
+    if (code > 0x8000) {
         goto high;
     }
-    if (a0 == 0x4000) {
+    if (code == 0x4000) {
         goto do_f1;
     }
     return;
 
 high:
-    if (a0 != 0x9000) {
+    if (code != 0x9000) {
         return;
     }
 
 special:
     {
-        S_800847D0 *p = &D_800847D0;
-        s32 v = a1 & 0xFF;
+        S_800847D0 *state = &D_800847D0;
+        s32 low_byte = packed_code & 0xFF;
 
         do { } while (0);
-        a0 = a1 & 0xF000;
-        p->field26 = (s16)v;
-        if (a0 != 0) {
-            p->field26 = (s16)(v | a0);
+        code = packed_code & 0xF000;
+        state->field26 = (s16)low_byte;
+        if (code != 0) {
+            state->field26 = (s16)(low_byte | code);
         }
         if (D_800847D0.flags1 & 0x100) {
             func_80054F9C(0xB1, &D_800848F8);
             return;
-            a0 = a1;
+            code = packed_code;
         }
     }
 
@@ -104,16 +105,16 @@ special:
     return;
 
 set_e1:
-    a0 = 0xE1;
+    code = 0xE1;
     goto call;
 
 do_71:
-    a0 = 0x71;
+    code = 0x71;
     goto call;
 
 do_f1:
-    a0 = 0xF1;
+    code = 0xF1;
 
 call:
-    func_800553D4(a0);
+    func_800553D4(code);
 }

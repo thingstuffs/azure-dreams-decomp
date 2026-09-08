@@ -22,44 +22,37 @@ extern S_8005ACDC_85458 D_80085458[64];
 extern s32 func_8005EB78(s32 a0);
 extern void func_8005E97C(s32 a0, s32 a1);
 
-/* Per-frame "damage-over-time flag" processor: for each of the first
- * D_80073734[0] entries with an active f1a counter, checks func_8005EB78's
- * dispatch state; on state 3 either bumps the counter (states 0-1) or, once
- * the counter has saturated at >=2, OR-accumulates its D_80073740 flag value
- * and drains it via func_8005E97C until func_8005EB78 reports done (0) or
- * cancelled (2), then clears the counter. Finally re-broadcasts the
- * accumulated flags once via func_8005E97C, unless D_80073828[0] is set
- * (global suppression) or there are no active entries. */
+/* Advance active entry counters, drain ready flags, and apply the combined flags unless suppressed. */
 void func_8005ACDC(void)
 {
-    s32 i;
-    s32 flags;
+    s32 entry_index;
+    s32 pending_flags;
 
-    flags = 0;
+    pending_flags = 0;
     if (D_80073828[0] == 0) {
-        for (i = 0; i < D_80073734[0]; i++) {
-            if (D_80085458[i].f1a != 0) {
-                if (func_8005EB78(D_80073740[i]) == 3) {
-                    s32 v0;
-                    u32 v1;
+        for (entry_index = 0; entry_index < D_80073734[0]; entry_index++) {
+            if (D_80085458[entry_index].f1a != 0) {
+                if (func_8005EB78(D_80073740[entry_index]) == 3) {
+                    s32 dispatch_state;
+                    u32 counter;
 
-                    v1 = D_80085458[i].f1a;
-                    if (v1 >= 2) {
-                        flags |= D_80073740[i];
+                    counter = D_80085458[entry_index].f1a;
+                    if (counter >= 2) {
+                        pending_flags |= D_80073740[entry_index];
                         do {
-                            func_8005E97C(0, D_80073740[i]);
-                            v0 = func_8005EB78(D_80073740[i]);
-                        } while (v0 != 2 && v0 != 0);
-                        D_80085458[i].f1a = 0;
+                            func_8005E97C(0, D_80073740[entry_index]);
+                            dispatch_state = func_8005EB78(D_80073740[entry_index]);
+                        } while (dispatch_state != 2 && dispatch_state != 0);
+                        D_80085458[entry_index].f1a = 0;
                     } else {
-                        D_80085458[i].f1a = v1 + 1;
+                        D_80085458[entry_index].f1a = counter + 1;
                     }
                 }
             }
         }
     }
 
-    if (flags != 0) {
-        func_8005E97C(0, flags);
+    if (pending_flags != 0) {
+        func_8005E97C(0, pending_flags);
     }
 }

@@ -15,14 +15,15 @@ extern TownCallbackOwner *D_80700E4C[];
 extern s32 D_80700710[];
 extern s32 D_8070070C[];
 
-void func_80883004(s32 arg0) {
-    u8 *base = D_807007B4;
+/* Invoke the town callback for three entries using the supplied and stored values. */
+void func_80883004(s32 first_value) {
+    u8 *callback_data = D_807007B4;
     TownCallback callback;
 
     callback = D_80700E4C[0]->func68;
-    callback(base, D_807007C0, arg0);
+    callback(callback_data, D_807007C0, first_value);
     callback = D_80700E4C[0]->func68;
-    callback(base, D_807007C8, D_80700710[0]);
+    callback(callback_data, D_807007C8, D_80700710[0]);
     callback = D_80700E4C[0]->func68;
-    callback(base, D_807007D0, D_8070070C[0]);
+    callback(callback_data, D_807007D0, D_8070070C[0]);
 }

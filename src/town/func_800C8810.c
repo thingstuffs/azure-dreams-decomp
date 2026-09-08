@@ -6,20 +6,17 @@ extern u8 D_80082660[][8];
 extern s32 D_800C5FDC[];
 extern s32 D_800D5590[];
 
-void func_800C5F70(void *arg0, s32 arg1, s32 arg2) {
-    void *call_obj;
-    s32 call_arg;
+/* Clears the object's table flag, updates the object, and installs D_800C5FDC. */
+void func_800C5F70(void *object, s32 unusedArgument, s32 updateValue) {
+    void *updateObject;
+    s32 stagedUpdateValue;
 
-    D_80082660[*((s32 *)arg0 + 0x18)][0] = 0;
-    func_800C46A8(arg0);
-    call_obj = arg0;
-    ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    call_arg = arg2;
-    ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    func_800C2E84(call_obj, call_arg, D_800D5590);
-    *((s32 **)arg0 + 0x15) = D_800C5FDC;
+    D_80082660[*((s32 *)object + 0x18)][0] = 0;
+    func_800C46A8(object);
+    updateObject = object;
+    ASM_KEEP(updateObject);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    stagedUpdateValue = updateValue;
+    ASM_KEEP(stagedUpdateValue);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    func_800C2E84(updateObject, stagedUpdateValue, D_800D5590);
+    *((s32 **)object + 0x15) = D_800C5FDC;
 }
-
-/* MECHANISM: The seed already had retail's 0x20 frame and s0/s1/ra hold contract.
-   Guarded $a0 then $a1 call-register staging keeps both moves ahead of D_800D5590's lui.
-   This closes the equal-length reorder-only residue without changing CFG or word count. */

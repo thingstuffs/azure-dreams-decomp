@@ -61,42 +61,43 @@ extern FuncTemp *func_8003FC64(u32);
 extern void func_8004491C(FuncTemp *, u8 *);
 extern void func_80047784(FuncInner *, s16, s16);
 
-s32 func_801755A8(FuncArg0 *arg0, FuncArg1 *arg1, FuncArg2 *arg2) {
-    FuncTemp *temp;
-    FuncTail *tail;
-    FuncInner *inner;
-    FuncArg1 *buffer;
-    s16 value;
-    s32 rounded;
+/* Creates a directional effect and applies the supplied position offsets. */
+s32 func_801755A8(FuncArg0 *source, FuncArg1 *position, FuncArg2 *render_context) {
+    FuncTemp *effect;
+    FuncTail *direction_state;
+    FuncInner *sprite;
+    FuncArg1 *effect_position;
+    s16 angle;
+    s32 biased_angle;
 
-    temp = func_8003FC64(0x312);
-    if (temp != NULL) {
-        temp->field10 = &D_80175480;
-        func_8004491C(temp, D_80045340);
-        value = arg0->field2A;
-        tail = &temp->tail;
-        rounded = value;
-        if (value < 0) {
-            rounded = value + 0xFFF;
+    effect = func_8003FC64(0x312);
+    if (effect != NULL) {
+        effect->field10 = &D_80175480;
+        func_8004491C(effect, D_80045340);
+        angle = source->field2A;
+        direction_state = &effect->tail;
+        biased_angle = angle;
+        if (angle < 0) {
+            biased_angle = angle + 0xFFF;
         }
-        tail->field04 = (s16) (((value - ((rounded >> 0xC) << 0xC)) << 0x10) >> 0x19);
-        tail->field06 = arg0->fieldB0;
-        inner = temp->inner;
-        inner->field28 = arg2->field28;
-        inner->field14 |= 0x100;
-        inner->field12 = tail->field06 + ((tail->field04 + 6) % 8);
-        inner->field0C = 0x808080;
-        inner->field1E = 0x1000;
-        inner->field1C = 0x1000;
-        inner->field06 = 1;
-        inner->field14 |= 0xC;
-        inner->field10 |= 0x20;
-        func_80047784(inner, 0x31, 0);
-        buffer = temp->buffer;
-        *buffer = *arg1;
-        buffer->field00 += buffer->field0C;
-        buffer->field04 += buffer->field10;
-        return (s32) temp;
+        direction_state->field04 = (s16) (((angle - ((biased_angle >> 0xC) << 0xC)) << 0x10) >> 0x19);
+        direction_state->field06 = source->fieldB0;
+        sprite = effect->inner;
+        sprite->field28 = render_context->field28;
+        sprite->field14 |= 0x100;
+        sprite->field12 = direction_state->field06 + ((direction_state->field04 + 6) % 8);
+        sprite->field0C = 0x808080;
+        sprite->field1E = 0x1000;
+        sprite->field1C = 0x1000;
+        sprite->field06 = 1;
+        sprite->field14 |= 0xC;
+        sprite->field10 |= 0x20;
+        func_80047784(sprite, 0x31, 0);
+        effect_position = effect->buffer;
+        *effect_position = *position;
+        effect_position->field00 += effect_position->field0C;
+        effect_position->field04 += effect_position->field10;
+        return (s32) effect;
     }
     return 0;
 }

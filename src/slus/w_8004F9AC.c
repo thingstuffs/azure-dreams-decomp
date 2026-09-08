@@ -24,30 +24,31 @@ typedef struct S_8004F9AC_Obj
   s32 field_0x20;
   s32 count;
 } S_8004F9AC_Obj;
-void func_8004F9AC(S_8004F9AC_Obj *a0)
+/* Assign evenly spaced list values and increase spacing, switching callbacks at the limit. */
+void func_8004F9AC(S_8004F9AC_Obj *obj)
 {
-  s32 a3 = a0->field_0x20;
-  s32 a2;
-  s32 i;
-  S_8004F9AC_L1 **p;
-  if (a3 >= 0x21)
+  s32 spacing = obj->field_0x20;
+  s32 value;
+  s32 index;
+  S_8004F9AC_L1 **entry;
+  if (spacing >= 0x21)
   {
-    a3 = 0x20;
-    a0->func = func_8004F67C;
+    spacing = 0x20;
+    obj->func = func_8004F67C;
   }
-  do { i = 0; } while (0);
-  if (a0->count > 0)
+  do { index = 0; } while (0);
+  if (obj->count > 0)
   {
-    a2 = 0x18;
-    p = (S_8004F9AC_L1 **) a0;
+    value = 0x18;
+    entry = (S_8004F9AC_L1 **) obj;
     do
     {
-      (*(*(&p[1]))).l2->l3->val = a2;
-      p++;
-      i++;
-      a2 += a3;
+      (*(*(&entry[1]))).l2->l3->val = value;
+      entry++;
+      index++;
+      value += spacing;
     }
-    while (i < a0->count);
+    while (index < obj->count);
   }
-  a0->field_0x20 = a3 + ((0x28 - a3) >> 3);
+  obj->field_0x20 = spacing + ((0x28 - spacing) >> 3);
 }

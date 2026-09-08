@@ -62,144 +62,145 @@ extern void *func_8003FD64();
 extern void func_800537D0();
 extern s32 strlen();
 
+/* Draw a labeled grid with triangular entries of row and column products. */
 void func_800204F8(void)
 {
-    Screen s;
-    Screen *p;
-    Screen *q;
-    void *allocated;
+    Screen screen;
+    Screen *header_screen;
+    Screen *value_screen;
+    void *allocation;
     void *buffer;
-    s32 i;
-    s32 j;
-    s32 word_index;
-    s32 column_y;
-    s16 row_x;
-    s16 *row_scale;
-    s16 *column_scale;
-    register s16 *cbase ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 grid_index;
+    s32 row_index;
+    s32 value_index;
+    s32 row_y;
+    s16 column_x;
+    s16 *column_factor;
+    s16 *row_factor;
+    register s16 *row_factors ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     buffer = 0;
-    s.text_words = D_80020010;
-    s.number_words = D_80020050;
-    allocated = func_8003FD64(1, D_80083498);
-    if (allocated != 0) {
-        buffer = (u8 *)allocated + 0x20;
-        *(void **)((u8 *)allocated + 0x10) = D_80020900;
+    screen.text_words = D_80020010;
+    screen.number_words = D_80020050;
+    allocation = func_8003FD64(1, D_80083498);
+    if (allocation != 0) {
+        buffer = (u8 *)allocation + 0x20;
+        *(void **)((u8 *)allocation + 0x10) = D_80020900;
     }
 
-    s.text.x = 0x14;
-    s.text.y = 0x14;
-    s.text.type = 3;
-    s.text.vram = 0x7C80;
-    s.text.unk1C = 0;
-    s.text.color = 0x00808080;
-    s.text.source = D_80020068;
-    s.text.unk0 = 0;
-    s.text.buffer = buffer;
-    func_800201C8(D_800204AC, &s.text);
+    screen.text.x = 0x14;
+    screen.text.y = 0x14;
+    screen.text.type = 3;
+    screen.text.vram = 0x7C80;
+    screen.text.unk1C = 0;
+    screen.text.color = 0x00808080;
+    screen.text.source = D_80020068;
+    screen.text.unk0 = 0;
+    screen.text.buffer = buffer;
+    func_800201C8(D_800204AC, &screen.text);
 
-    i = 2;
-    p = &s;
+    grid_index = 2;
+    header_screen = &screen;
     do {
-        s.text.x = (i * 0x28) + 0x48;
-        s.text.source = (void *)p->text_words.words[i];
-        func_800201C8(D_800204AC, &p->text);
-        i--;
-    } while (i >= 0);
+        screen.text.x = (grid_index * 0x28) + 0x48;
+        screen.text.source = (void *)header_screen->text_words.words[grid_index];
+        func_800201C8(D_800204AC, &header_screen->text);
+        grid_index--;
+    } while (grid_index >= 0);
 
-    s.text.x = 0x20;
-    i = 2;
+    screen.text.x = 0x20;
+    grid_index = 2;
     do {
-        s.text.y = (i * 0x10) + 0x24;
-        s.text.source = (void *)s.text_words.words[i + 1];
-        func_800201C8(D_800204AC, &s.text);
-        i--;
-    } while (i >= 0);
+        screen.text.y = (grid_index * 0x10) + 0x24;
+        screen.text.source = (void *)screen.text_words.words[grid_index + 1];
+        func_800201C8(D_800204AC, &screen.text);
+        grid_index--;
+    } while (grid_index >= 0);
 
-    s.box.x = 0x10;
-    s.box.y = 0x10;
-    s.box.width = 0xA0;
-    s.box.height = 0x40;
-    s.box.type = 2;
-    s.box.visible = 1;
-    s.box.color = 0x00606060;
-    s.box.unk0 = 0;
-    s.box.buffer = buffer;
-    func_8002025C(D_800203D8, &s.box);
+    screen.box.x = 0x10;
+    screen.box.y = 0x10;
+    screen.box.width = 0xA0;
+    screen.box.height = 0x40;
+    screen.box.type = 2;
+    screen.box.visible = 1;
+    screen.box.color = 0x00606060;
+    screen.box.unk0 = 0;
+    screen.box.buffer = buffer;
+    func_8002025C(D_800203D8, &screen.box);
 
-    s.box.y = 0x12;
-    s.box.width = 1;
-    s.box.height = 0x3C;
-    s.box.type = 0;
-    s.box.visible = 1;
-    s.box.color = 0x00808080;
-    s.box.unk0 = 0;
-    s.box.buffer = buffer;
-    i = 2;
+    screen.box.y = 0x12;
+    screen.box.width = 1;
+    screen.box.height = 0x3C;
+    screen.box.type = 0;
+    screen.box.visible = 1;
+    screen.box.color = 0x00808080;
+    screen.box.unk0 = 0;
+    screen.box.buffer = buffer;
+    grid_index = 2;
     do {
-        s.box.x = (i * 0x28) + 0x38;
-        func_8002025C(D_80020468, &s.box);
-        i--;
-    } while (i >= 0);
+        screen.box.x = (grid_index * 0x28) + 0x38;
+        func_8002025C(D_80020468, &screen.box);
+        grid_index--;
+    } while (grid_index >= 0);
 
-    s.box.x = 0x12;
-    s.box.width = 0x9C;
-    s.box.height = 1;
-    s.box.type = 0;
-    s.box.visible = 1;
-    s.box.color = 0x00808080;
-    s.box.unk0 = 0;
-    s.box.buffer = buffer;
-    i = 2;
+    screen.box.x = 0x12;
+    screen.box.width = 0x9C;
+    screen.box.height = 1;
+    screen.box.type = 0;
+    screen.box.visible = 1;
+    screen.box.color = 0x00808080;
+    screen.box.unk0 = 0;
+    screen.box.buffer = buffer;
+    grid_index = 2;
     do {
-        s.box.y = (i * 0x10) + 0x20;
-        func_8002025C(D_80020468, &s.box);
-        i--;
-    } while (i >= 0);
+        screen.box.y = (grid_index * 0x10) + 0x20;
+        func_8002025C(D_80020468, &screen.box);
+        grid_index--;
+    } while (grid_index >= 0);
 
-    s.box.x = 0x8C;
-    s.box.width = 0x20;
-    s.box.height = 1;
-    s.box.type = 0;
-    s.box.visible = 1;
-    s.box.color = 0x00C0C0C0;
-    s.box.unk0 = 0;
-    s.box.buffer = buffer;
-    i = 1;
+    screen.box.x = 0x8C;
+    screen.box.width = 0x20;
+    screen.box.height = 1;
+    screen.box.type = 0;
+    screen.box.visible = 1;
+    screen.box.color = 0x00C0C0C0;
+    screen.box.unk0 = 0;
+    screen.box.buffer = buffer;
+    grid_index = 1;
     do {
-        s.box.y = (i * 0x10) + 0x28;
-        func_8002025C(D_80020468, &s.box);
-        i--;
-    } while (i >= 0);
+        screen.box.y = (grid_index * 0x10) + 0x28;
+        func_8002025C(D_80020468, &screen.box);
+        grid_index--;
+    } while (grid_index >= 0);
 
-    s.box.x -= 0x28;
-    func_8002025C(D_80020468, &s.box);
-    word_index = 0;
-    i = 0;
-    q = &s;
+    screen.box.x -= 0x28;
+    func_8002025C(D_80020468, &screen.box);
+    value_index = 0;
+    grid_index = 0;
+    value_screen = &screen;
 
-    row_scale = D_80024308;
+    column_factor = D_80024308;
     do {
-        j = i;
-        if (i < 3) {
-            row_x = (i * 0x28) + 0x3C;
-            cbase = D_8002430A;
-            column_scale = cbase + i;
-            column_y = (i * 0x10) + 0x24;
+        row_index = grid_index;
+        if (grid_index < 3) {
+            column_x = (grid_index * 0x28) + 0x3C;
+            row_factors = D_8002430A;
+            row_factor = row_factors + grid_index;
+            row_y = (grid_index * 0x10) + 0x24;
             do {
-                s.text.x = row_x;
-                s.text.y = column_y;
-                s.text.source = (void *)q->number_words.words[word_index];
-                word_index++;
-                column_y += 0x10;
-                j++;
-                func_800537D0(*row_scale * *column_scale,
-                              strlen(s.text.source), s.text.source);
-                column_scale++;
-                func_800201C8(D_800204AC, q);
-            } while (j < 3);
+                screen.text.x = column_x;
+                screen.text.y = row_y;
+                screen.text.source = (void *)value_screen->number_words.words[value_index];
+                value_index++;
+                row_y += 0x10;
+                row_index++;
+                func_800537D0(*column_factor * *row_factor,
+                              strlen(screen.text.source), screen.text.source);
+                row_factor++;
+                func_800201C8(D_800204AC, value_screen);
+            } while (row_index < 3);
         }
-        row_scale++;
-        i++;
-    } while (i < 3);
+        column_factor++;
+        grid_index++;
+    } while (grid_index < 3);
 }

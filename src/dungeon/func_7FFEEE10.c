@@ -18,28 +18,29 @@ typedef struct S_8008C570_1 {
     s32 unk_08;
 } S_8008C570_1;   /* temp_s0 in func_8008C570 */
 
-s32 func_8008C570(S_8008C570_0 *arg0, s32 arg1, s32 arg2) {
-    s32 sp10[5];
-    s32 temp_a2;
-    s32 temp_v0;
-    s32 temp_v1;
-    s32 var_v0_2;
-    S_8008C570_1 *temp_s0;
+/* Evaluates the summed vector and subtracts the entry's integer first component on success. */
+s32 func_8008C570(S_8008C570_0 *vector, s32 entry_base, s32 entry_index) {
+    s32 summed_vector[5];
+    s32 entry_offset;
+    s32 result;
+    s32 first_fixed;
+    s32 first_integer;
+    S_8008C570_1 *entry;
 
-    temp_a2 = arg2 * 0x10;
-    temp_s0 = temp_a2 + arg1;
-    sp10[0] = arg0->unk_00 + temp_s0->unk_00;
-    sp10[1] = arg0->unk_04 + temp_s0->unk_04;
-    sp10[2] = arg0->unk_08 + temp_s0->unk_08;
-    temp_v0 = func_8008CFE8(sp10, arg1, temp_a2);
-    if ((temp_v0 << 0x10) == 0) {
+    entry_offset = entry_index * 0x10;
+    entry = entry_offset + entry_base;
+    summed_vector[0] = vector->unk_00 + entry->unk_00;
+    summed_vector[1] = vector->unk_04 + entry->unk_04;
+    summed_vector[2] = vector->unk_08 + entry->unk_08;
+    result = func_8008CFE8(summed_vector, entry_base, entry_offset);
+    if ((result << 0x10) == 0) {
         return 0;
     }
-    temp_v1 = temp_s0->unk_00;
-    var_v0_2 = temp_v1 >> 0x10;
-    if (temp_v1 < 0) {
-        temp_v1 += 0xFFFF;
-        var_v0_2 = temp_v1 >> 0x10;
+    first_fixed = entry->unk_00;
+    first_integer = first_fixed >> 0x10;
+    if (first_fixed < 0) {
+        first_fixed += 0xFFFF;
+        first_integer = first_fixed >> 0x10;
     }
-    return (s16) (temp_v0 - var_v0_2);
+    return (s16) (result - first_integer);
 }

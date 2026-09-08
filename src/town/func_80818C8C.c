@@ -45,106 +45,102 @@ extern void func_80022E64(void *, s32, void *, void *);
 extern void func_8004491C(void *, void *);
 extern void func_8008F104(void *, void *, void *);
 
+/* Creates linked town objects at fixed positions and initializes their display data. */
 s32 func_80022C8C(void)
 {
-    s32 work[6];
-    s32 state;
-    void *link;
-    S_80022C8C_1 *record;
-    void *held;
-    void *tail_base;
-    s32 even_value;
-    s32 odd_value;
-    s32 odd_half;
+    s32 position[6];
+    s32 object_or_slot;
+    void *parent_link;
+    S_80022C8C_1 *render_record;
+    void *shared_data;
+    void *object_data;
+    s32 left_x;
+    s32 right_x;
+    s32 top_y;
     s32 count;
-    u8 *held_page;
+    u8 *data_page;
     volatile u16 *count_page;
-    s32 remat;
-    void *call_work;
-    s32 call_kind;
-    void *call_table;
+    s32 bottom_y;
+    void *spawn_position;
+    s32 spawn_kind;
+    void *spawn_table;
 
-    link = NULL;
-    held_page = (u8 *)0x80020000;
-    ASM_KEEP_NV(held_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    parent_link = NULL;
+    data_page = (u8 *)0x80020000;
+    ASM_KEEP_NV(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     count_page = (volatile u16 *)0x80010000;
     count = (s16)*(count_page + (0x35C2 / 2));
-    held = held_page + 0x54;
+    shared_data = data_page + 0x54;
     if (count < 20) {
         *(count_page + (0x35C2 / 2)) = 20;
     }
 
-    state = (s32)func_8003FC64(2);
-    if (state != 0) {
-        link = (u8 *)state + 0x20;
-        ((S_80022C8C_0 *)((void *)state))->unk_10 = &D_80022F60;
+    object_or_slot = (s32)func_8003FC64(2);
+    if (object_or_slot != 0) {
+        parent_link = (u8 *)object_or_slot + 0x20;
+        ((S_80022C8C_0 *)((void *)object_or_slot))->unk_10 = &D_80022F60;
     }
 
-    work[0] = 0x03800000;
-    work[1] = 0x02600000;
-    work[2] = (s32)0xFFA00000;
-    func_80022E64(work, 0x34, &D_8002390C, link);
+    position[0] = 0x03800000;
+    position[1] = 0x02600000;
+    position[2] = (s32)0xFFA00000;
+    func_80022E64(position, 0x34, &D_8002390C, parent_link);
 
-    state = 3;
-    even_value = 0x02700000;
-    odd_value = 0x04900000;
-    odd_half = 0x02E00000;
-    work[2] = (s32)0xFFE00000;
+    object_or_slot = 3;
+    left_x = 0x02700000;
+    right_x = 0x04900000;
+    top_y = 0x02E00000;
+    position[2] = (s32)0xFFE00000;
     do {
-        if ((state >> 1) != 0) {
-            work[0] = even_value;
+        if ((object_or_slot >> 1) != 0) {
+            position[0] = left_x;
         } else {
-            work[0] = odd_value;
+            position[0] = right_x;
         }
 
-        if (state & 1) {
-            work[1] = odd_half;
+        if (object_or_slot & 1) {
+            position[1] = top_y;
         } else {
-            remat = 0x03E00000;
-            ASM_KEEP(remat);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            work[1] = remat;
+            bottom_y = 0x03E00000;
+            ASM_KEEP(bottom_y);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            position[1] = bottom_y;
         }
 
-        call_work = work;
-        ASM_KEEP(call_work);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        call_kind = 0x35;
-        ASM_KEEP(call_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        call_table = (void *)0x80020000;
-        ASM_KEEP(call_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        call_table = (u8 *)call_table + 0x3920;
-        func_80022E64(call_work, call_kind, call_table, link);
-        state--;
-    } while (state >= 0);
+        spawn_position = position;
+        ASM_KEEP(spawn_position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        spawn_kind = 0x35;
+        ASM_KEEP(spawn_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        spawn_table = (void *)0x80020000;
+        ASM_KEEP(spawn_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        spawn_table = (u8 *)spawn_table + 0x3920;
+        func_80022E64(spawn_position, spawn_kind, spawn_table, parent_link);
+        object_or_slot--;
+    } while (object_or_slot >= 0);
 
-    state = (s32)func_8003FC64(0x136);
-    if (state != 0) {
-        ((S_80022C8C_0 *)((void *)state))->unk_10 = &D_800240B0;
-        func_8004491C((void *)state, &D_80045340);
+    object_or_slot = (s32)func_8003FC64(0x136);
+    if (object_or_slot != 0) {
+        ((S_80022C8C_0 *)((void *)object_or_slot))->unk_10 = &D_800240B0;
+        func_8004491C((void *)object_or_slot, &D_80045340);
 
-        record = ((S_80022C8C_0 *)((void *)state))->unk_0C;
-        record->unk_1E = 0x1000;
-        record->unk_1C = 0x1000;
-        record->unk_08 = &D_800F9B40;
-        record->unk_04 = 0;
-        record->unk_05 = 0;
-        record->unk_0C = 0x00808080;
-        tail_base = (u8 *)state + 0x20;
-        (*(void * volatile *)((u8 *)tail_base + 0x4C)) = held;
+        render_record = ((S_80022C8C_0 *)((void *)object_or_slot))->unk_0C;
+        render_record->unk_1E = 0x1000;
+        render_record->unk_1C = 0x1000;
+        render_record->unk_08 = &D_800F9B40;
+        render_record->unk_04 = 0;
+        render_record->unk_05 = 0;
+        render_record->unk_0C = 0x00808080;
+        object_data = (u8 *)object_or_slot + 0x20;
+        (*(void * volatile *)((u8 *)object_data + 0x4C)) = shared_data;
 
-        func_8008F104((u8 *)state + 0x24,
-                      ((S_80022C8C_0 *)((void *)state))->unk_08,
+        func_8008F104((u8 *)object_or_slot + 0x24,
+                      ((S_80022C8C_0 *)((void *)object_or_slot))->unk_08,
                       &D_80026F0C);
 
-        ((S_80022C8C_2 *)(((S_80022C8C_0 *)((void *)state))->unk_08))->unk_00 = 0x03800000;
-        ((S_80022C8C_2 *)(((S_80022C8C_0 *)((void *)state))->unk_08))->unk_04 = 0x03C00000;
-        ((S_80022C8C_2 *)(((S_80022C8C_0 *)((void *)state))->unk_08))->unk_08 = 0;
-        ((S_80022C8C_0 *)((void *)state))->unk_20 = link;
+        ((S_80022C8C_2 *)(((S_80022C8C_0 *)((void *)object_or_slot))->unk_08))->unk_00 = 0x03800000;
+        ((S_80022C8C_2 *)(((S_80022C8C_0 *)((void *)object_or_slot))->unk_08))->unk_04 = 0x03C00000;
+        ((S_80022C8C_2 *)(((S_80022C8C_0 *)((void *)object_or_slot))->unk_08))->unk_08 = 0;
+        ((S_80022C8C_0 *)((void *)object_or_slot))->unk_20 = parent_link;
     }
 
     return 0;
 }
-
-/* MECHANISM: A 24-byte escaping work record and local in-range joins establish the 0x48 frame/CFG.
-   One s32 state web reuses s0 for both object pointers and the loop counter.
-   Guarded v0/a2 rematerialization removes two false loop-invariant saved-register holds.
-   Split page bases plus ASM_KEEP_NV place the prologue lui pair and delayed s5 addiu exactly. */

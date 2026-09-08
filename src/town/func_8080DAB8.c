@@ -48,96 +48,97 @@ M2C_UNK func_8006DD4C();
 M2C_UNK func_8006F49C();
 extern u8 *D_8012F130;
 
-s32 func_8080DAB8(void *arg0) {
-    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 temp_a1;
-    s32 temp_s0;
-    M2C_UNK *temp_s1;
-    s32 var_v1;
-    s32 var_v1_2;
-    u16 temp_v0;
-    u16 temp_v0_2;
-    u32 temp_v1;
-    u32 temp_v1_2;
-    u32 coord0_shifted;
-    u32 coord1_shifted;
-    s32 coord0_signed;
-    s32 coord1_signed;
-    u32 temp_low;
-    register S_8080DAB8_3 *temp_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void *temp_a1_2;
-    void *var_s3;
-    u8 **rootp;
-    register u8 *scratch0;
-    u8 *scratch1;
-    u8 *scratch2;
-    register u8 *bound_base0 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *bound_base1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u32 mask_low ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u32 mask_high;
-    register u32 bound_const ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+/* Build projected primitives and draw modes for linked records and add them to the ordering table. */
+s32 func_8080DAB8(void *first_record) {
+    register s32 next_record ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 ot_slot;
+    s32 primitive;
+    M2C_UNK *draw_mode;
+    s32 primitive_cursor;
+    s32 mode_cursor;
+    u16 depth0_raw;
+    u16 depth1_raw;
+    u32 primitive_end;
+    u32 mode_end;
+    u32 depth0_shifted;
+    u32 depth1_shifted;
+    s32 depth0;
+    s32 depth1;
+    u32 packet_addr;
+    register S_8080DAB8_3 *ot_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *unused_ptr;
+    void *record;
+    u8 **render_root;
+    register u8 *screen_coords;
+    u8 *depths;
+    u8 *transform_scratch;
+    register u8 *primitive_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *mode_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 addr_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u32 tag_mask;
+    register u32 buffer_limit ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-    var_s3 = arg0;
-    rootp = &D_8012F130;
-    scratch0 = (u8 *)0x1F800000;
-    scratch1 = (u8 *)0x1F800100;
-    scratch2 = (u8 *)0x1F800180;
-    mask_low = 0x00FFFFFF;
-    mask_high = 0xFF000000;
+    record = first_record;
+    render_root = &D_8012F130;
+    screen_coords = (u8 *)0x1F800000;
+    depths = (u8 *)0x1F800100;
+    transform_scratch = (u8 *)0x1F800180;
+    addr_mask = 0x00FFFFFF;
+    tag_mask = 0xFF000000;
     do {
-        func_8006BFA0(var_s3 + 8, scratch0, scratch1, scratch2, scratch2, 2);
-        var_v1 = 0;
-        ASM_KEEP_NV(var_v1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_s0 = ((S_8080DAB8_0 *)(*rootp))->unk_8D0;
-        if (temp_s0 != 0) {
-            temp_v1 = temp_s0 + 0x14;
-            bound_base0 = (u8 *)*rootp;
-            ASM_KEEP_NV(bound_base0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            bound_const = 0x108D4;
-            var_v1 = temp_v1 & (0 - ((u32)(bound_base0 + bound_const) >= temp_v1));
+        func_8006BFA0(record + 8, screen_coords, depths, transform_scratch, transform_scratch, 2);
+        primitive_cursor = 0;
+        ASM_KEEP_NV(primitive_cursor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        primitive = ((S_8080DAB8_0 *)(*render_root))->unk_8D0;
+        if (primitive != 0) {
+            primitive_end = primitive + 0x14;
+            primitive_base = (u8 *)*render_root;
+            ASM_KEEP_NV(primitive_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            buffer_limit = 0x108D4;
+            primitive_cursor = primitive_end & (0 - ((u32)(primitive_base + buffer_limit) >= primitive_end));
         }
-        ((S_8080DAB8_0 *)(*rootp))->unk_8D0 = var_v1;
-        var_v1_2 = 0;
-        ASM_KEEP_NV(var_v1_2);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_s1 = ((S_8080DAB8_0 *)(*rootp))->unk_8D0;
-        if (temp_s1 != 0) {
-            temp_v1_2 = (u8 *)temp_s1 + 0xC;
-            bound_base1 = (u8 *)*rootp;
-            ASM_KEEP_NV(bound_base1);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            bound_const = 0x108D4;
-            var_v1_2 = temp_v1_2 & (0 - ((u32)(bound_base1 + bound_const) >= temp_v1_2));
+        ((S_8080DAB8_0 *)(*render_root))->unk_8D0 = primitive_cursor;
+        mode_cursor = 0;
+        ASM_KEEP_NV(mode_cursor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        draw_mode = ((S_8080DAB8_0 *)(*render_root))->unk_8D0;
+        if (draw_mode != 0) {
+            mode_end = (u8 *)draw_mode + 0xC;
+            mode_base = (u8 *)*render_root;
+            ASM_KEEP_NV(mode_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            buffer_limit = 0x108D4;
+            mode_cursor = mode_end & (0 - ((u32)(mode_base + buffer_limit) >= mode_end));
         }
-        ((S_8080DAB8_0 *)(*rootp))->unk_8D0 = var_v1_2;
-        func_8006F49C((s32 *)temp_s1, 0, 0, func_8006D9DC(0, 0, 0, 0) & 0xFFFF, 0);
-        ((S_8080DAB8_1 *)temp_s0)->unk_04 = (s32)((S_8080DAB8_2 *)((u8 *)var_s3 - 0x8))->unk_20;
-        ((S_8080DAB8_1 *)temp_s0)->unk_0C = (s32)((S_8080DAB8_2 *)((u8 *)var_s3 - 0x8))->unk_24;
-        func_8006DD4C((s32 *)temp_s0);
-        func_8006DBBC((s32 *)temp_s0, 1);
-        ((S_8080DAB8_1 *)temp_s0)->unk_08 = (s32)*(s32 *)scratch0;
-        ((S_8080DAB8_1 *)temp_s0)->unk_10 = (s32)*(s32 *)(scratch0 + 4);
-        temp_v0 = *(volatile u16 *)scratch1;
-        coord0_shifted = temp_v0 << 0x10;
-        temp_v0_2 = *((volatile u16 *)scratch1 + 1);
+        ((S_8080DAB8_0 *)(*render_root))->unk_8D0 = mode_cursor;
+        func_8006F49C((s32 *)draw_mode, 0, 0, func_8006D9DC(0, 0, 0, 0) & 0xFFFF, 0);
+        ((S_8080DAB8_1 *)primitive)->unk_04 = (s32)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_20;
+        ((S_8080DAB8_1 *)primitive)->unk_0C = (s32)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_24;
+        func_8006DD4C((s32 *)primitive);
+        func_8006DBBC((s32 *)primitive, 1);
+        ((S_8080DAB8_1 *)primitive)->unk_08 = (s32)*(s32 *)screen_coords;
+        ((S_8080DAB8_1 *)primitive)->unk_10 = (s32)*(s32 *)(screen_coords + 4);
+        depth0_raw = *(volatile u16 *)depths;
+        depth0_shifted = depth0_raw << 0x10;
+        depth1_raw = *((volatile u16 *)depths + 1);
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        coord0_signed = (s32)coord0_shifted >> 0x10;
-        coord1_shifted = temp_v0_2 << 0x10;
-        coord1_signed = (s32)coord1_shifted >> 0x10;
-        coord0_shifted = (u32)((s32)coord0_shifted >> 0x13);
-        if (coord0_signed >= coord1_signed) {
-            coord0_shifted = (u32)((s32)coord1_shifted >> 0x13);
+        depth0 = (s32)depth0_shifted >> 0x10;
+        depth1_shifted = depth1_raw << 0x10;
+        depth1 = (s32)depth1_shifted >> 0x10;
+        depth0_shifted = (u32)((s32)depth0_shifted >> 0x13);
+        if (depth0 >= depth1) {
+            depth0_shifted = (u32)((s32)depth1_shifted >> 0x13);
         }
-        temp_a1 = (s32)(coord0_shifted << 0x10) >> 0xE;
-        ((S_8080DAB8_1 *)temp_s0)->unk_00 = (s32)((((S_8080DAB8_1 *)temp_s0)->unk_00 & mask_high) | (((S_8080DAB8_5 *)((u8 *)((u32)temp_a1 + (u32)*rootp)))->unk_B0 & mask_low));
-        temp_a0_2 = (void *)((u32)temp_a1 + (u32)*rootp);
-        temp_low = temp_s0 & mask_low;
-        temp_a0_2->unk_B0 = (s32)((temp_a0_2->unk_B0 & mask_high) | temp_low);
-        *temp_s1 = (s32)((*temp_s1 & mask_high) | (((S_8080DAB8_5 *)((u8 *)((u32)temp_a1 + (u32)*rootp)))->unk_B0 & mask_low));
-        temp_a1 = temp_a1 + (u8 *)*rootp;
-        temp_low = (u32)temp_s1 & mask_low;
-        ((S_8080DAB8_4 *)((u8 *)temp_a1))->unk_B0 = (s32)((((S_8080DAB8_4 *)((u8 *)temp_a1))->unk_B0 & mask_high) | temp_low);
-        temp_a0 = ((S_8080DAB8_2 *)((u8 *)var_s3 - 0x8))->unk_00;
-        var_s3 = temp_a0 + 0x20;
-    } while (temp_a0 != 0);
-    ASM_KEEP_NV(temp_a0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ot_slot = (s32)(depth0_shifted << 0x10) >> 0xE;
+        ((S_8080DAB8_1 *)primitive)->unk_00 = (s32)((((S_8080DAB8_1 *)primitive)->unk_00 & tag_mask) | (((S_8080DAB8_5 *)((u8 *)((u32)ot_slot + (u32)*render_root)))->unk_B0 & addr_mask));
+        ot_entry = (void *)((u32)ot_slot + (u32)*render_root);
+        packet_addr = primitive & addr_mask;
+        ot_entry->unk_B0 = (s32)((ot_entry->unk_B0 & tag_mask) | packet_addr);
+        *draw_mode = (s32)((*draw_mode & tag_mask) | (((S_8080DAB8_5 *)((u8 *)((u32)ot_slot + (u32)*render_root)))->unk_B0 & addr_mask));
+        ot_slot = ot_slot + (u8 *)*render_root;
+        packet_addr = (u32)draw_mode & addr_mask;
+        ((S_8080DAB8_4 *)((u8 *)ot_slot))->unk_B0 = (s32)((((S_8080DAB8_4 *)((u8 *)ot_slot))->unk_B0 & tag_mask) | packet_addr);
+        next_record = ((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_00;
+        record = next_record + 0x20;
+    } while (next_record != 0);
+    ASM_KEEP_NV(next_record);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return 0;
 }

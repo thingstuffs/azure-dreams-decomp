@@ -10,9 +10,10 @@ typedef struct S_8001BEA4_0 {
     s32 unk_20;
 } S_8001BEA4_0;   /* arg0 in func_8001BEA4 */
 
-void func_8001BEA4(S_8001BEA4_0 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    arg0->unk_14 = arg1;
-    arg0->unk_08 = arg2;
-    arg0->unk_0C = arg3;
-    arg0->unk_20 = arg4;
+/* Sets four record fields to the supplied values. */
+void func_8001BEA4(S_8001BEA4_0 *record, s32 value_14, s32 value_08, s32 value_0c, s32 value_20) {
+    record->unk_14 = value_14;
+    record->unk_08 = value_08;
+    record->unk_0C = value_0c;
+    record->unk_20 = value_20;
 }

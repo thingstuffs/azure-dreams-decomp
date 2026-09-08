@@ -1,12 +1,5 @@
 #include "common.h"
 
-/* Per-frame scroll/animation stepper: resets the accumulator triple
- * (D_80080B10/12/14) whenever the session generation counter
- * D_80083164 changes from the last-seen value D_80081530, then
- * accumulates arg0's row/col deltas into the shared position/carry
- * state and writes back the current position into arg0->field_8/9. */
-#include "common.h"
-
 /* S_80083164: state/generation counter global; only offset 0 (u16) is
  * ever read across the sibling family (func_80047338/func_80047468/
  * func_8003E758). Declared >8 bytes (padded out to the next known
@@ -34,10 +27,11 @@ struct S_80048660 {
     u8 field_B;
 };
 
-void func_80048660(struct S_80048660 *arg0)
+/* Advances shared scroll coordinates, resetting them when the session generation changes. */
+void func_80048660(struct S_80048660 *state)
 {
-    s32 temp_a1;
-    s32 temp_a2;
+    s32 row_step;
+    s32 col_step;
 
     if (D_80083164.field_0 != D_80081530) {
         D_80080B14 = 0;
@@ -46,26 +40,26 @@ void func_80048660(struct S_80048660 *arg0)
         D_80081530 = D_80083164.field_0;
     }
 
-    temp_a1 = (s32)(arg0->field_A + 1) >> 1;
-    temp_a2 = arg0->field_B + 1;
+    row_step = (s32)(state->field_A + 1) >> 1;
+    col_step = state->field_B + 1;
 
-    if ((s32)(D_80080B12 + temp_a2) >= 0x100) {
+    if ((s32)(D_80080B12 + col_step) >= 0x100) {
         D_80080B10 = D_80080B10 + D_80080B14;
         D_80080B12 = 0;
     }
 
-    if ((s32)(D_80080B10 + temp_a1) >= 0x20) {
+    if ((s32)(D_80080B10 + row_step) >= 0x20) {
         D_80080B10 = 0;
         D_80080B12 = 0;
         D_80080B14 = 0;
     }
 
-    arg0->field_8 = (s8)(D_80080B10 << 1);
-    arg0->field_9 = (u8)D_80080B12;
+    state->field_8 = (s8)(D_80080B10 << 1);
+    state->field_9 = (u8)D_80080B12;
 
-    if ((s32)D_80080B14 < temp_a1) {
-        D_80080B14 = (u16)temp_a1;
+    if ((s32)D_80080B14 < row_step) {
+        D_80080B14 = (u16)row_step;
     }
 
-    D_80080B12 = D_80080B12 + temp_a2;
+    D_80080B12 = D_80080B12 + col_step;
 }

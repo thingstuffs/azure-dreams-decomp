@@ -60,22 +60,23 @@ extern s32 func_800A2B5C(void *);
 extern s32 func_800A2CB8(void *, s32);
 extern void func_800C7930(void *, s32, s32, s32);
 
-s32 func_80171E28(Arg0 *arg0, s32 arg1, Arg2 *arg2, Arg3 *arg3) {
+/* Validates the actor's direction and state, then initializes its action and animation. */
+s32 func_80171E28(Arg0 *action_state, s32 action_id, Arg2 *sprite, Arg3 *actor) {
     Global83460 *flags_base;
-    u8 *table;
+    u8 *direction_frames;
     u16 flags;
-    s32 temp;
+    s32 target_angle;
     s32 result;
 
-    arg3->field_71 &= 0x7F;
+    actor->field_71 &= 0x7F;
     flags_base = (Global83460 *)((u8 *)D_80083462 - 2);
     result = 0;
     if (flags_base->flags & 0x2000) {
         return -1;
     }
 
-    temp = func_800A04F0(arg3, arg2->field_24, arg2->field_25, arg3->field_2a);
-    if ((func_800A2CB8(arg3, temp) << 16) == 0) {
+    target_angle = func_800A04F0(actor, sprite->field_24, sprite->field_25, actor->field_2a);
+    if ((func_800A2CB8(actor, target_angle) << 16) == 0) {
         return result;
     }
 
@@ -83,49 +84,49 @@ s32 func_80171E28(Arg0 *arg0, s32 arg1, Arg2 *arg2, Arg3 *arg3) {
     if (flags & 0x2000) {
         return -1;
     }
-    if ((arg3->field_46 & 0x8000) == 0 && (flags & 8) != 0) {
+    if ((actor->field_46 & 0x8000) == 0 && (flags & 8) != 0) {
         return -1;
     }
 
-    if ((u32)((0 - func_800A0134(temp, arg3) + 0x40) & 0xFFFF) >= 0x81U) {
+    if ((u32)((0 - func_800A0134(target_angle, actor) + 0x40) & 0xFFFF) >= 0x81U) {
         return result;
     }
     result = 1;
-    if ((func_800A2B5C(arg3) << 16) != 0) {
+    if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
 
-    func_800C7930((u8 *)arg3 - 0x20, arg1, 8, 0x300);
-    if ((func_800A2B5C(arg3) << 16) != 0) {
+    func_800C7930((u8 *)actor - 0x20, action_id, 8, 0x300);
+    if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
 
-    arg0->field_9b = 0;
-    arg0->field_8c = 0;
-    if (arg0->field_98 & 0x8000) {
-        arg0->field_9a = 0x17;
-        if (arg3->field_1c & 0x1000) {
-            arg0->field_98 |= 0x4000;
+    action_state->field_9b = 0;
+    action_state->field_8c = 0;
+    if (action_state->field_98 & 0x8000) {
+        action_state->field_9a = 0x17;
+        if (actor->field_1c & 0x1000) {
+            action_state->field_98 |= 0x4000;
         } else {
-            arg0->field_98 &= 0xBFFF;
+            action_state->field_98 &= 0xBFFF;
         }
-        arg0->field_ac = arg3->field_03;
-        arg3->field_03 = 0xFF;
-        arg3->field_84 = 0x7E;
+        action_state->field_ac = actor->field_03;
+        actor->field_03 = 0xFF;
+        actor->field_84 = 0x7E;
     } else {
-        arg0->field_9a = 0x11;
-        arg3->field_84 = 0x7C;
+        action_state->field_9a = 0x11;
+        actor->field_84 = 0x7C;
     }
-    arg3->field_85 = 8;
-    ASM_KEEP(arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    actor->field_85 = 8;
+    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    table = D_80174038;
-    arg2->field_2c = table;
-    func_80047784(arg2, table[(((s32)D_80083228[0] + arg3->field_2a + 0x100) >> 9) & 7], 0);
-    arg3->field_6d--;
-    func_8009C93C(arg3, arg2, arg3->field_2a, 1, 0);
-    if ((arg0->field_98 & 0x8000) == 0) {
-        arg3->field_1c &= 0xFEFFFFFF;
+    direction_frames = D_80174038;
+    sprite->field_2c = direction_frames;
+    func_80047784(sprite, direction_frames[(((s32)D_80083228[0] + actor->field_2a + 0x100) >> 9) & 7], 0);
+    actor->field_6d--;
+    func_8009C93C(actor, sprite, actor->field_2a, 1, 0);
+    if ((action_state->field_98 & 0x8000) == 0) {
+        actor->field_1c &= 0xFEFFFFFF;
     }
     return result;
 }

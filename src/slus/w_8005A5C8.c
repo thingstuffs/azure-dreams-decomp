@@ -1,8 +1,5 @@
 #include "common.h"
 
-/* Builds a sound/SPU channel-parameter block on the stack (flags=0xF; two
-   fields set to arg0<<7 / arg1<<7; two fields zeroed) and dispatches it to
-   func_8005EDA0. */
 typedef struct {
     s32 unk00;
     s16 unk04;
@@ -14,14 +11,15 @@ typedef struct {
 
 extern void func_8005EDA0(S_8005A5C8_Snd *arg0);
 
-void func_8005A5C8(s32 arg0, s32 arg1)
+/* Applies left and right sound volumes scaled by 128 with zero volume modes. */
+void func_8005A5C8(s32 left_volume, s32 right_volume)
 {
-    S_8005A5C8_Snd buf;
+    S_8005A5C8_Snd sound_params;
 
-    buf.unk00 = 0xF;
-    buf.unk04 = arg0 << 7;
-    buf.unk06 = arg1 << 7;
-    buf.unk08 = 0;
-    buf.unk0A = 0;
-    func_8005EDA0(&buf);
+    sound_params.unk00 = 0xF;
+    sound_params.unk04 = left_volume << 7;
+    sound_params.unk06 = right_volume << 7;
+    sound_params.unk08 = 0;
+    sound_params.unk0A = 0;
+    func_8005EDA0(&sound_params);
 }

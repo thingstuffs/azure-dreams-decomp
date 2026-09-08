@@ -13,11 +13,11 @@ extern s32 func_800199DC(Rec_func_800165F4_arg0 *);
 extern s32 func_8001ACE8(s16 value);
 extern s32 func_8001AD60(s16 value);
 
-s32 func_80019B54(Rec_func_800165F4_arg0 *arg0, s32 arg1) {
-    if (func_800199DC(arg0) != 0) {
-        func_8001ACE8(((S_80019B54_1 *)((arg1 * 0x10) + arg0->unk_10))->unk_0C);
-        func_8001AD60(arg0->unk_18);
-           /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+/* Apply the selected entry and record values if the record passes its check. */
+s32 func_80019B54(Rec_func_800165F4_arg0 *record, s32 entry_index) {
+    if (func_800199DC(record) != 0) {
+        func_8001ACE8(((S_80019B54_1 *)((entry_index * 0x10) + record->unk_10))->unk_0C);
+        func_8001AD60(record->unk_18);
         return 1;
     }
     return 0;

@@ -59,39 +59,40 @@ typedef struct S_80025FCC_3 {
     s16 unk_40;
 } S_80025FCC_3;   /* temp_s0 in func_80025FCC */
 
-void *func_80025FCC(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
-    S_80025FCC_3 *temp_s0;
-    void *temp_v0;
-    S_80025FCC_1 *temp_v0_2;
-    S_80025FCC_2 *temp_v1;
+/* Creates an effect at the supplied position and initializes its rendering and state. */
+void *func_80025FCC(s16 x, s16 y, s16 z, s16 effect_param) {
+    S_80025FCC_3 *effect_state;
+    void *effect;
+    S_80025FCC_1 *position;
+    S_80025FCC_2 *render_state;
 
-    temp_v0 = func_8003FC64(0x202);
-    if (temp_v0 != NULL) {
-        ((S_80025FCC_0 *)temp_v0)->unk_10 = &D_80025D28;
-        func_8004491C(temp_v0, &D_800CEEFC);
-        temp_v0_2 = ((S_80025FCC_0 *)temp_v0)->unk_08;
-        temp_s0 = temp_v0 + 0x20;
-        temp_v0_2->unk_0E = arg0;
-        temp_v0_2->unk_02 = arg0;
-        temp_v0_2->unk_12 = arg1;
-        temp_v0_2->unk_06 = arg1;
-        temp_v0_2->unk_16 = arg2;
-        temp_v0_2->unk_0A = arg2;
-        temp_v1 = ((S_80025FCC_0 *)temp_v0)->unk_0C;
-        temp_v1->unk_1E = 0x200;
-        temp_v1->unk_1C = 0x200;
-        temp_v1->unk_0D = 0x20;
-        temp_v1->unk_14 = 0xC;
-        temp_v1->unk_08 = &D_80027460;
-        temp_v1->unk_10 = 0x20;
-        temp_s0->unk_30 = 0x20;
-        temp_s0->unk_3E = 0x10;
-        temp_s0->unk_36 = arg3;
-        temp_s0->unk_40 = 0x18;
-        temp_s0->unk_38 = rand();
-        temp_s0->unk_1C = arg0;
-        temp_s0->unk_1E = arg1;
-        temp_s0->unk_20 = arg2;
+    effect = func_8003FC64(0x202);
+    if (effect != NULL) {
+        ((S_80025FCC_0 *)effect)->unk_10 = &D_80025D28;
+        func_8004491C(effect, &D_800CEEFC);
+        position = ((S_80025FCC_0 *)effect)->unk_08;
+        effect_state = effect + 0x20;
+        position->unk_0E = x;
+        position->unk_02 = x;
+        position->unk_12 = y;
+        position->unk_06 = y;
+        position->unk_16 = z;
+        position->unk_0A = z;
+        render_state = ((S_80025FCC_0 *)effect)->unk_0C;
+        render_state->unk_1E = 0x200;
+        render_state->unk_1C = 0x200;
+        render_state->unk_0D = 0x20;
+        render_state->unk_14 = 0xC;
+        render_state->unk_08 = &D_80027460;
+        render_state->unk_10 = 0x20;
+        effect_state->unk_30 = 0x20;
+        effect_state->unk_3E = 0x10;
+        effect_state->unk_36 = effect_param;
+        effect_state->unk_40 = 0x18;
+        effect_state->unk_38 = rand();
+        effect_state->unk_1C = x;
+        effect_state->unk_1E = y;
+        effect_state->unk_20 = z;
     }
-    return temp_v0;
+    return effect;
 }

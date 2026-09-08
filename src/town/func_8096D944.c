@@ -19,9 +19,10 @@ extern void func_801247F8(void *);
 extern void *D_8011AD08[];
 extern s8 D_80129728;
 
-void func_80125DDC(Rec_func_801237A4_arg0 *arg0)
+/* Updates or clears table entries according to the request code. */
+void func_80125DDC(Rec_func_801237A4_arg0 *request)
 {
-    static void *const sw_keep[20] = {
+    static void *const dispatch_labels[20] = {
         &&case_0,
         &&done, &&done, &&done, &&done, &&done, &&done,
         &&case_789, &&case_789, &&case_789,
@@ -30,137 +31,133 @@ void func_80125DDC(Rec_func_801237A4_arg0 *arg0)
         &&case_14,
         &&done, &&done, &&done, &&done, &&done
     };
-    s32 swi;
+    s32 action_index;
 
-    swi = (s16)(arg0->unk_04.as_u16 - 1);
-    if ((u32)swi >= 20) {
+    action_index = (s16)(request->unk_04.as_u16 - 1);
+    if ((u32)action_index >= 20) {
         goto done;
     }
-    (void)sw_keep;
-    goto *D_8011AD08[swi];
+    (void)dispatch_labels;
+    goto *D_8011AD08[action_index];
 
 case_0:
     func_801235EC();
-    func_801247F8(arg0);
+    func_801247F8(request);
     goto done;
 
 case_789:
     {
-        s32 count;
-        u8 *base;
-        void **cursor;
+        s32 entry_index;
+        u8 *entry_table;
+        void **entry_slot;
         void *entry;
-        void *inner;
-        u16 value;
+        void *entry_data;
+        u16 field_value;
 
-        count = 0x1C;
-        base = (u8 *)&D_80129728;
-        cursor = (void **)(base + 0x70);
-        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        entry_index = 0x1C;
+        entry_table = (u8 *)&D_80129728;
+        entry_slot = (void **)(entry_table + 0x70);
+        ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         do {
-            entry = *cursor;
-            inner = ((S_80125DDC_1 *)entry)->unk_08;
-            value = ((S_80125DDC_2 *)inner)->unk_02;
-            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            count++;
-            value += 0x100;
-            ((S_80125DDC_2 *)inner)->unk_02 = value;
-            cursor = (void **)((u8 *)cursor + 4);
-        } while (count < 0x62);
+            entry = *entry_slot;
+            entry_data = ((S_80125DDC_1 *)entry)->unk_08;
+            field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
+            ASM_KEEP(field_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            entry_index++;
+            field_value += 0x100;
+            ((S_80125DDC_2 *)entry_data)->unk_02 = field_value;
+            entry_slot = (void **)((u8 *)entry_slot + 4);
+        } while (entry_index < 0x62);
     }
     goto done;
 
 case_10:
     {
-        s32 count;
-        u8 *base;
-        s32 **cursor;
+        s32 entry_index;
+        u8 *entry_table;
+        s32 **entry_slot;
         s32 *entry;
 
-        count = 0x1E;
-        base = (u8 *)&D_80129728;
-        cursor = (s32 **)(base + 0x78);
+        entry_index = 0x1E;
+        entry_table = (u8 *)&D_80129728;
+        entry_slot = (s32 **)(entry_table + 0x78);
         do {
-            entry = *cursor;
+            entry = *entry_slot;
             ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            count++;
+            entry_index++;
             *entry = 0;
-            cursor = (s32 **)((u8 *)cursor + 4);
-        } while (count < 0x62);
+            entry_slot = (s32 **)((u8 *)entry_slot + 4);
+        } while (entry_index < 0x62);
     }
 
 case_111213:
     {
-        s32 count;
-        u8 *base;
-        void **cursor;
+        s32 entry_index;
+        u8 *entry_table;
+        void **entry_slot;
         void *entry;
-        void *inner;
-        u16 value;
+        void *entry_data;
+        u16 field_value;
 
-        count = 0x1C;
-        base = (u8 *)&D_80129728;
-        cursor = (void **)(base + 0x70);
-        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        entry_index = 0x1C;
+        entry_table = (u8 *)&D_80129728;
+        entry_slot = (void **)(entry_table + 0x70);
+        ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         do {
-            entry = *cursor;
-            inner = ((S_80125DDC_1 *)entry)->unk_08;
-            value = ((S_80125DDC_2 *)inner)->unk_02;
-            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            count++;
-            value += 0x100;
-            ((S_80125DDC_2 *)inner)->unk_02 = value;
-            cursor = (void **)((u8 *)cursor + 4);
-        } while (count < 0x62);
+            entry = *entry_slot;
+            entry_data = ((S_80125DDC_1 *)entry)->unk_08;
+            field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
+            ASM_KEEP(field_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            entry_index++;
+            field_value += 0x100;
+            ((S_80125DDC_2 *)entry_data)->unk_02 = field_value;
+            entry_slot = (void **)((u8 *)entry_slot + 4);
+        } while (entry_index < 0x62);
     }
     goto done;
 
 case_14:
     {
-        s32 count;
-        u8 *base;
-        void **cursor;
+        s32 entry_index;
+        u8 *entry_table;
+        void **entry_slot;
         void *entry;
-        void *inner;
-        u16 value;
+        void *entry_data;
+        u16 field_value;
 
-        count = 0x1C;
-        base = (u8 *)&D_80129728;
-        cursor = (void **)(base + 0x70);
-        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        entry_index = 0x1C;
+        entry_table = (u8 *)&D_80129728;
+        entry_slot = (void **)(entry_table + 0x70);
+        ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         do {
-            entry = *cursor;
-            inner = ((S_80125DDC_1 *)entry)->unk_08;
-            value = ((S_80125DDC_2 *)inner)->unk_02;
-            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            count++;
-            value += 0x100;
-            ((S_80125DDC_2 *)inner)->unk_02 = value;
-            cursor = (void **)((u8 *)cursor + 4);
-        } while (count < 0x62);
+            entry = *entry_slot;
+            entry_data = ((S_80125DDC_1 *)entry)->unk_08;
+            field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
+            ASM_KEEP(field_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            entry_index++;
+            field_value += 0x100;
+            ((S_80125DDC_2 *)entry_data)->unk_02 = field_value;
+            entry_slot = (void **)((u8 *)entry_slot + 4);
+        } while (entry_index < 0x62);
     }
     {
-        s32 count;
-        u8 *base;
-        s32 **cursor;
+        s32 entry_index;
+        u8 *entry_table;
+        s32 **entry_slot;
         s32 *entry;
 
-        count = 0x1C;
-        base = (u8 *)&D_80129728;
-        cursor = (s32 **)(base + 0x70);
+        entry_index = 0x1C;
+        entry_table = (u8 *)&D_80129728;
+        entry_slot = (s32 **)(entry_table + 0x70);
         do {
-            entry = *cursor;
+            entry = *entry_slot;
             ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            count++;
+            entry_index++;
             *entry = 0;
-            cursor = (s32 **)((u8 *)cursor + 4);
-        } while (count < 0x1E);
+            entry_slot = (s32 **)((u8 *)entry_slot + 4);
+        } while (entry_index < 0x1E);
     }
 
 done:
     return;
 }
-
-/* MECHANISM: The true-space CFG uses the external 20-entry dispatch table and a local epilogue.
-   Short-lived D_80129728 bases plus an a0 count pin reproduce each loop's address/register roles.
-   ASM_KEEP on loaded values lets count++ fill every lhu/lw delay; the natural frame is 0x18 with s0/ra. */

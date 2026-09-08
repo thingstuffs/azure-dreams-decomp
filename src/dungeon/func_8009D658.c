@@ -68,26 +68,27 @@ typedef struct S_800A2DB8_8 {
     s32 unk_14;
 } S_800A2DB8_8;   /* final_target in func_800A2DB8 */
 
-s32 func_800A2DB8(S_800A2DB8_0 *arg0)
+/* Award experience to the target or its party and display experience popups. */
+s32 func_800A2DB8(S_800A2DB8_0 *source)
 {
     void *initial_target;
     void *target;
     S_800A2DB8_8 *final_target;
     S_800A2DB8_7 *global_member;
     S_800A2DB8_3 *member;
-    u8 *slot;
+    u8 *member_slot;
     u8 *global_page;
-    s32 count;
-    register s32 index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    s32 diff;
-    s32 amount;
-    s32 numerator;
-    s32 opcode;
-    s32 result;
-    s32 shift;
+    s32 recipient_count;
+    register s32 member_index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes a delay-member_slot fill; the source shape that makes it unnecessary has not been found */
+    s32 level_delta;
+    s32 award;
+    s32 rounded_exp;
+    s32 popup_code;
+    s32 experience;
+    s32 bonus_shift;
 
-    initial_target = arg0->unk_60;
-    result = 0;
+    initial_target = source->unk_60;
+    experience = 0;
     if (initial_target == NULL) {
         goto done;
     }
@@ -95,78 +96,73 @@ s32 func_800A2DB8(S_800A2DB8_0 *arg0)
         goto done;
     }
 
-    result = arg0->unk_06.u;
+    experience = source->unk_06.u;
     if (((S_800A2DB8_1 *)initial_target)->unk_54 & 0x20) {
-        result *= 2;
+        experience *= 2;
     }
 
-    count = 1;
-    if (arg0->unk_54 & 0x40) {
-        result *= 2;
+    recipient_count = 1;
+    if (source->unk_54 & 0x40) {
+        experience *= 2;
     }
 
-    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    index = count;
-    slot = (u8 *)D_800E3D7C[0] + 4;
+    ASM_KEEP(recipient_count);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    member_index = recipient_count;
+    member_slot = (u8 *)D_800E3D7C[0] + 4;
     do {
-        member = ((S_800A2DB8_2 *)slot)->unk_AC;
+        member = ((S_800A2DB8_2 *)member_slot)->unk_AC;
         if ((member != NULL) && (member->unk_28 != 0)) {
-            count++;
+            recipient_count++;
         }
-        index--;
-        slot -= 4;
-    } while (index >= 0);
+        member_index--;
+        member_slot -= 4;
+    } while (member_index >= 0);
 
-    numerator = result + count;
-    target = arg0->unk_60;
-    result = (numerator - 1) / count;
+    rounded_exp = experience + recipient_count;
+    target = source->unk_60;
+    experience = (rounded_exp - 1) / recipient_count;
 
     if (((S_800A2DB8_4 *)target)->unk_14 & 0x4000) {
-        index = 1;
+        member_index = 1;
         do {
-            member = ((S_800A2DB8_5 *)((u8 *)D_800E3D7C[0] + index * 4))->unk_AC;
+            member = ((S_800A2DB8_5 *)((u8 *)D_800E3D7C[0] + member_index * 4))->unk_AC;
             if ((member != NULL) && (member->unk_28 != 0)) {
-                diff = member->unk_11 - arg0->unk_11;
-                amount = result;
-                if (diff < 0) {
-                    shift = (diff < 2) ^ 1;
-                    amount = result + (result >> shift);
+                level_delta = member->unk_11 - source->unk_11;
+                award = experience;
+                if (level_delta < 0) {
+                    bonus_shift = (level_delta < 2) ^ 1;
+                    award = experience + (experience >> bonus_shift);
                 }
-                func_800B4C7C(0x82, member, (s16)amount, 1);
-                func_800A2D68(member, amount & 0xFFFF);
+                func_800B4C7C(0x82, member, (s16)award, 1);
+                func_800A2D68(member, award & 0xFFFF);
             }
-            index--;
-        } while (index >= 0);
+            member_index--;
+        } while (member_index >= 0);
 
         global_page = (u8 *)0x800E0000;
         global_member = ((S_800A2DB8_6 *)global_page)->unk_3D7C;
         if (global_member->unk_28 == 0) {
             return 0;
         }
-        diff = global_member->unk_11 - arg0->unk_11;
-        amount = result;
-        if (diff < 0) {
-            shift = (diff < 2) ^ 1;
-            amount = result + (result >> shift);
+        level_delta = global_member->unk_11 - source->unk_11;
+        award = experience;
+        if (level_delta < 0) {
+            bonus_shift = (level_delta < 2) ^ 1;
+            award = experience + (experience >> bonus_shift);
         }
-        func_800A2D68(global_member, amount & 0xFFFF);
-        func_800B4C7C(0x82, ((S_800A2DB8_6 *)global_page)->unk_3D7C, (s16)amount, 1);
-        return amount;
+        func_800A2D68(global_member, award & 0xFFFF);
+        func_800B4C7C(0x82, ((S_800A2DB8_6 *)global_page)->unk_3D7C, (s16)award, 1);
+        return award;
     }
 
-    result = arg0->unk_06.u;
-    func_800A2D68(target, result);
-    final_target = arg0->unk_60;
-    opcode = 0x83;
+    experience = source->unk_06.u;
+    func_800A2D68(target, experience);
+    final_target = source->unk_60;
+    popup_code = 0x83;
     if (final_target->unk_14 & 0x2000) {
-        opcode = 0x82;
+        popup_code = 0x82;
     }
-    func_800B4C7C(opcode, final_target, arg0->unk_06.s, 1);
+    func_800B4C7C(popup_code, final_target, source->unk_06.s, 1);
 done:
-    return result;
+    return experience;
 }
-
-/* MECHANISM: The 0x28 frame follows from s4=arg0, s3=result, s2=amount,
-   s1=index, and s0=loop member; guarded pins preserve the measured volatile roles.
-   Splitting numerator/shift live ranges and the global member lets v1/v0 hold the
-   arithmetic while the 0x800e page and its loaded member naturally take s0/a0. */

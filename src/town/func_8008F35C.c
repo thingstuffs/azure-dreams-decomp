@@ -2,21 +2,22 @@
 
 extern s16 func_8008C570(s32, s32, s32);
 
-s16 func_8008CABC(s32 arg0, s32 arg1, s32 arg2) {
-    s16 temp_v0;
-    s16 var_s1;
-    s32 var_s0;
+/* Return the largest indexed lookup value, with a minimum result of zero. */
+s16 func_8008CABC(s32 lookup_a, s32 lookup_b, s32 count) {
+    s16 value;
+    s16 max_value;
+    s32 index;
 
-    var_s1 = 0;
-    var_s0 = 0;
-    if (arg2 > 0) {
+    max_value = 0;
+    index = 0;
+    if (count > 0) {
         do {
-            temp_v0 = func_8008C570(arg0, arg1, var_s0);
-            if ((temp_v0 << 0x10) > (var_s1 << 0x10)) {
-                var_s1 = temp_v0;
+            value = func_8008C570(lookup_a, lookup_b, index);
+            if ((value << 0x10) > (max_value << 0x10)) {
+                max_value = value;
             }
-            var_s0 += 1;
-        } while (var_s0 < arg2);
+            index += 1;
+        } while (index < count);
     }
-    return var_s1;
+    return max_value;
 }

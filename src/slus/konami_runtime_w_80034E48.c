@@ -11,6 +11,7 @@ extern M2C_UNK D_800809A8;
 extern M2C_UNK D_800809B0;
 extern M2C_UNK D_80082A38;
 
+/* Reset graphics state and clear both image regions to black. */
 void func_80034E48(void) {
     func_8003C920();
     func_80034EB4(&D_80082A38);

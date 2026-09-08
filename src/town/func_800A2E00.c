@@ -17,6 +17,7 @@ extern s32 D_800CFCB4;
 extern s32 func_8009FF50(void);
 extern void func_800A0404(void *);
 
+/* Process active type-4 town links that have no associated object. */
 void func_800A0560(void)
 {
     TownLink *sentinel = (TownLink *)&D_800CFCB4;
@@ -37,7 +38,3 @@ void func_800A0560(void)
         link = link->next;
     } while (link != sentinel);
 }
-
-/* MECHANISM: A typed sentinel/list local makes &D_800CFCB4, the current link,
-   and loop constants naturally occupy the four retail saved registers.
-   Field widths mirror lbu/lb/lw; the do-while preserves the retail backedge. */

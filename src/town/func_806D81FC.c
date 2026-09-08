@@ -19,6 +19,7 @@ extern void func_80018548(s32);
 extern void func_800185C0(s32);
 extern s32 func_80018640(s32);
 
+/* Resets the town buffer and updates callback-dependent and default flags. */
 void func_800169FC(void) {
     D_80019118 = D_80018AF8;
     D_80019114 = 0;
@@ -48,7 +49,3 @@ void func_800169FC(void) {
     func_800185C0(0x9BA);
     func_80018548(0x9BB);
 }
-
-/* MECHANISM: The retail CFG uses three ordinary if/else joins, not early-return
-   calls at the local jump targets. A typed callback chain rematerializes the
-   global load for each call, leaving a 0x18 frame with only the ra save. */

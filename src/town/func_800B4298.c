@@ -69,27 +69,28 @@ typedef struct S_800B19F8_0 {
     void * unk_0C;
 } S_800B19F8_0;   /* arg0 in func_800B19F8 */
 
-void func_800B19F8(S_800B19F8_0 *arg0)
+/* Initialize panel content and element positions. */
+void func_800B19F8(S_800B19F8_0 *panel)
 {
-    register s32 v88 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 footer_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-    ((S_800B19F8_2 *)(((S_800B19F8_1 *)arg0)->unk_48))->unk_00 = (s32) D_80078D6C;
-    ((S_800B19F8_6 *)(((S_800B19F8_2 *)(((S_800B19F8_1 *)arg0)->unk_48))->unk_04))->unk_08 = 0;
-    ((S_800B19F8_6 *)(((S_800B19F8_2 *)(((S_800B19F8_1 *)arg0)->unk_48))->unk_04))->unk_0A = 0;
+    ((S_800B19F8_2 *)(((S_800B19F8_1 *)panel)->unk_48))->unk_00 = (s32) D_80078D6C;
+    ((S_800B19F8_6 *)(((S_800B19F8_2 *)(((S_800B19F8_1 *)panel)->unk_48))->unk_04))->unk_08 = 0;
+    ((S_800B19F8_6 *)(((S_800B19F8_2 *)(((S_800B19F8_1 *)panel)->unk_48))->unk_04))->unk_0A = 0;
 
-    ((S_800B19F8_3 *)(((S_800B19F8_1 *)arg0)->unk_4C))->unk_00 = arg0->unk_08;
-    ((S_800B19F8_7 *)(((S_800B19F8_3 *)(((S_800B19F8_1 *)arg0)->unk_4C))->unk_04))->unk_08 = 0;
-    ((S_800B19F8_7 *)(((S_800B19F8_3 *)(((S_800B19F8_1 *)arg0)->unk_4C))->unk_04))->unk_0A = 0xF;
+    ((S_800B19F8_3 *)(((S_800B19F8_1 *)panel)->unk_4C))->unk_00 = panel->unk_08;
+    ((S_800B19F8_7 *)(((S_800B19F8_3 *)(((S_800B19F8_1 *)panel)->unk_4C))->unk_04))->unk_08 = 0;
+    ((S_800B19F8_7 *)(((S_800B19F8_3 *)(((S_800B19F8_1 *)panel)->unk_4C))->unk_04))->unk_0A = 0xF;
 
-    ((S_800B19F8_4 *)(((S_800B19F8_1 *)arg0)->unk_54))->unk_00 =
-        (s32) func_8004DA74(arg0->unk_0C, D_800D1560, 0);
-    ((S_800B19F8_8 *)(((S_800B19F8_4 *)(((S_800B19F8_1 *)arg0)->unk_54))->unk_04))->unk_08 = 0x43;
-    v88 = 0x88;
-    ((S_800B19F8_8 *)(((S_800B19F8_4 *)(((S_800B19F8_1 *)arg0)->unk_54))->unk_04))->unk_0A = v88;
+    ((S_800B19F8_4 *)(((S_800B19F8_1 *)panel)->unk_54))->unk_00 =
+        (s32) func_8004DA74(panel->unk_0C, D_800D1560, 0);
+    ((S_800B19F8_8 *)(((S_800B19F8_4 *)(((S_800B19F8_1 *)panel)->unk_54))->unk_04))->unk_08 = 0x43;
+    footer_y = 0x88;
+    ((S_800B19F8_8 *)(((S_800B19F8_4 *)(((S_800B19F8_1 *)panel)->unk_54))->unk_04))->unk_0A = footer_y;
 
-    ((S_800B19F8_9 *)(((S_800B19F8_5 *)(((S_800B19F8_1 *)arg0)->unk_50))->unk_04))->unk_08 = 0x67;
-    ((S_800B19F8_9 *)(((S_800B19F8_5 *)(((S_800B19F8_1 *)arg0)->unk_50))->unk_04))->unk_0A = v88;
+    ((S_800B19F8_9 *)(((S_800B19F8_5 *)(((S_800B19F8_1 *)panel)->unk_50))->unk_04))->unk_08 = 0x67;
+    ((S_800B19F8_9 *)(((S_800B19F8_5 *)(((S_800B19F8_1 *)panel)->unk_50))->unk_04))->unk_0A = footer_y;
 
-    func_800B180C(arg0, v88);
-    func_800B18F8(arg0->unk_08);
+    func_800B180C(panel, footer_y);
+    func_800B18F8(panel->unk_08);
 }

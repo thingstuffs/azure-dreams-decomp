@@ -39,64 +39,61 @@ extern u8 D_800E3E41;
 extern void func_800A56E0(s32);
 extern void func_800A5A18(void *, Object *, void *);
 
-s32 func_800C7DEC(Object *object, Other *other) {
-    u8 *target;
-    s16 available;
+/* Applies a mode-adjusted quarter-value change when the source and target cell permit it. */
+s32 func_800C7DEC(Object *object, Other *source) {
+    u8 *target_pos;
+    s16 total_value;
     u8 mode;
-    s16 amount;
+    s16 adjustment;
 
-    if (other->flags54 & 0x8000) {
-    target = object->target4C;
-    if (target != 0) {
-        u8 row;
-        DungeonGroup *groups;
-        DungeonGroup *group;
-        DungeonCell *cells;
-        u8 column;
+    if (source->flags54 & 0x8000) {
+        target_pos = object->target4C;
+        if (target_pos != 0) {
+            u8 row;
+            DungeonGroup *groups;
+            DungeonGroup *group;
+            DungeonCell *cells;
+            u8 column;
 
-        row = target[1];
-        groups = D_80073414;
-        group = &groups[row];
-        column = target[0];
-        
-        cells = group->cells;
-        if (!(cells[column].flags & 0x8000)) {
+            row = target_pos[1];
+            groups = D_80073414;
+            group = &groups[row];
+            column = target_pos[0];
+
+            cells = group->cells;
+            if (!(cells[column].flags & 0x8000)) {
+                return 0;
+            }
+        }
+        total_value = object->value28 + object->value64;
+        if (total_value <= 0) {
             return 0;
         }
-    }
-    available = object->value28 + object->value64;
-    if (available <= 0) {
-        return 0;
-    }
-    amount = (s16)other->value64 >> 2;
-    if (amount == 0) {
-        amount = -1;
-    }
-    if (-available >= (s16)amount) {
-        return 0;
-    }
-    if (object->mode50 != 0) {
-        mode = object->mode50[0];
-        if ((u32)(mode - 1) < 2) {
-            amount = (amount - 1) / 2;
-        } else if (mode == 10) {
+        adjustment = (s16)source->value64 >> 2;
+        if (adjustment == 0) {
+            adjustment = -1;
+        }
+        if (-total_value >= (s16)adjustment) {
             return 0;
         }
-    }
-    *(volatile u16 *)&object->value64 = amount;
-    D_80083470 = (u8 *)object - 0x20;
-    object->value60 = 0;
-    func_800A5A18(*(void **)((u8 *)object - 0x18), object, target);
-    func_800A56E0(0x60F);
-    object->flags1C |= 0x20000000;
-    if (object->value13 == 0) {
-        D_800E3E41 = 2;
-    }
-    return 1;
+        if (object->mode50 != 0) {
+            mode = object->mode50[0];
+            if ((u32)(mode - 1) < 2) {
+                adjustment = (adjustment - 1) / 2;
+            } else if (mode == 10) {
+                return 0;
+            }
+        }
+        *(volatile u16 *)&object->value64 = adjustment;
+        D_80083470 = (u8 *)object - 0x20;
+        object->value60 = 0;
+        func_800A5A18(*(void **)((u8 *)object - 0x18), object, target_pos);
+        func_800A56E0(0x60F);
+        object->flags1C |= 0x20000000;
+        if (object->value13 == 0) {
+            D_800E3E41 = 2;
+        }
+        return 1;
     }
     return 0;
 }
-
-/* MECHANISM: True-space CFG uses a 24-byte frame, only s0, and a late default-zero tail.
-   Correct Object/Other offsets plus a kept group base reproduce the table lookup and a2 hold.
-   A narrow s16 amount fixes a0/a1 roles; volatile sh plus a post-store fence closes ordering. */

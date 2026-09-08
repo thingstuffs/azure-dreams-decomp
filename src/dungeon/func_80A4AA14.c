@@ -56,81 +56,82 @@ extern void func_8004491C(void *, void *, void *);
 extern u8 D_80173E94[];
 extern u8 D_801740E4[];
 
+/* Creates an object with randomized offsets from the source position and initializes its fields. */
 void func_80174214(
-    void *arg0,
-    s16 arg1,
-    s32 arg2,
-    s16 arg3,
-    s32 arg4,
-    s32 arg5,
-    s32 arg6)
+    void *source,
+    s16 value_34,
+    s32 value_28,
+    s16 value_52,
+    s32 x_offset,
+    s32 y_offset,
+    s32 z_offset)
 {
-    register s32 held_arg4 ASM_REG("$18") = arg4;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    S_80174214_1 *held_arg0 = arg0;
-    register s16 held_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 held_arg2 ASM_REG("$23") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 held_arg3 ASM_REG("$22") = arg3;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 held_arg5 = arg5;
-    s32 held_arg6 = arg6;
-    S_80174214_0 *temp_s0;
-    s32 random1;
-    s32 random2;
-    s32 random3;
-    s32 offset1;
-    s32 offset2;
-    s32 offset3;
-    s32 value1;
-    s32 value2;
-    s32 value3;
+    register s32 saved_x_offset ASM_REG("$18") = x_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    S_80174214_1 *source_obj = source;
+    register s16 saved_value_34 ASM_REG("$21") = value_34;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 saved_value_28 ASM_REG("$23") = value_28;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 saved_value_52 ASM_REG("$22") = value_52;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 saved_y_offset = y_offset;
+    s32 saved_z_offset = z_offset;
+    S_80174214_0 *object_fields;
+    s32 x_jitter;
+    s32 y_jitter;
+    s32 z_jitter;
+    s32 x_bias;
+    s32 y_bias;
+    s32 z_bias;
+    s32 x_pos;
+    s32 y_pos;
+    s32 z_pos;
     u32 descriptor_page;
-    register void *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *call_data;
-    S_80174214_2 *dest1;
-    S_80174214_3 *dest2;
-    S_80174214_5 *dest3;
+    register void *new_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *init_data;
+    S_80174214_2 *x_dest;
+    S_80174214_3 *y_dest;
+    S_80174214_5 *z_dest;
 
-    temp_s0 = func_8003FD64(0x211, held_arg0);
-    if (temp_s0 != NULL) {
+    object_fields = func_8003FD64(0x211, source_obj);
+    if (object_fields != NULL) {
         descriptor_page = 0x80170000;
         ASM_KEEP(descriptor_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        temp_s0->unk_10 = descriptor_page + 0x40E4;
-        random1 = rand() & 0x1F;
-        value1 = ((S_80174214_6 *)(held_arg0->unk_08))->unk_02;
-        dest1 = temp_s0->unk_08.s;
-        value1 += random1;
-        offset1 = held_arg4 - 0x10;
-        value1 += offset1;
-        dest1->unk_02 = (s16)value1;
+        object_fields->unk_10 = descriptor_page + 0x40E4;
+        x_jitter = rand() & 0x1F;
+        x_pos = ((S_80174214_6 *)(source_obj->unk_08))->unk_02;
+        x_dest = object_fields->unk_08.s;
+        x_pos += x_jitter;
+        x_bias = saved_x_offset - 0x10;
+        x_pos += x_bias;
+        x_dest->unk_02 = (s16)x_pos;
 
-        random2 = rand() & 0x1F;
-        value2 = ((S_80174214_6 *)(held_arg0->unk_08))->unk_06;
-        dest2 = temp_s0->unk_08.s;
-        value2 += random2;
-        offset2 = held_arg5 - 0x10;
-        value2 += offset2;
-        dest2->unk_06 = (s16)value2;
+        y_jitter = rand() & 0x1F;
+        y_pos = ((S_80174214_6 *)(source_obj->unk_08))->unk_06;
+        y_dest = object_fields->unk_08.s;
+        y_pos += y_jitter;
+        y_bias = saved_y_offset - 0x10;
+        y_pos += y_bias;
+        y_dest->unk_06 = (s16)y_pos;
 
-        random3 = rand();
-        call_obj = temp_s0;
-        call_data = &D_80173E94;
-        ASM_USE2(call_obj, call_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        random3 &= 0x1F;
-        value3 = ((S_80174214_6 *)(held_arg0->unk_08))->unk_0A;
-        temp_s0 = (u8 *)call_obj + 0x20;
-        dest3 = ((S_80174214_4 *)call_obj)->unk_08;
-        value3 += random3;
-        offset3 = held_arg6 - 0x10;
-        value3 += offset3;
-        dest3->unk_0A = (s16)value3;
-        ASM_KEEP(held_arg4);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(temp_s0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        temp_s0->unk_14 = held_arg1;
-        ASM_KEEP(held_arg1);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_s0->unk_32 = held_arg3;
-        func_8004491C(call_obj, call_data, dest3);
-        ASM_KEEP(held_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_s0->unk_08.u = held_arg2;
-        ASM_KEEP(held_arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        z_jitter = rand();
+        new_object = object_fields;
+        init_data = &D_80173E94;
+        ASM_USE2(new_object, init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        z_jitter &= 0x1F;
+        z_pos = ((S_80174214_6 *)(source_obj->unk_08))->unk_0A;
+        object_fields = (u8 *)new_object + 0x20;
+        z_dest = ((S_80174214_4 *)new_object)->unk_08;
+        z_pos += z_jitter;
+        z_bias = saved_z_offset - 0x10;
+        z_pos += z_bias;
+        z_dest->unk_0A = (s16)z_pos;
+        ASM_KEEP(saved_x_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(object_fields);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        object_fields->unk_14 = saved_value_34;
+        ASM_KEEP(saved_value_34);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        object_fields->unk_32 = saved_value_52;
+        func_8004491C(new_object, init_data, z_dest);
+        ASM_KEEP(saved_value_52);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        object_fields->unk_08.u = saved_value_28;
+        ASM_KEEP(saved_value_28);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }
 

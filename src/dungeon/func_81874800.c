@@ -43,31 +43,29 @@ __asm__(".globl func_81874800\n"
 #define BODY_ATTR
 #endif
 
-BODY_STORAGE void BODY_NAME(void *arg0, s32 arg1) BODY_ATTR;
-BODY_STORAGE void BODY_NAME(void *arg0, s32 arg1)
+BODY_STORAGE void BODY_NAME(void *entity, s32 direction) BODY_ATTR;
+/* Applies a directional effect and reports the result for flagged entities. */
+BODY_STORAGE void BODY_NAME(void *entity, s32 direction)
 {
-    s32 saved;
-    s32 value;
+    s32 message_start;
+    s32 message_end;
 
-    if (func_8009D218(arg0, 2) == 0) {
+    if (func_8009D218(entity, 2) == 0) {
         if (func_800A48F0(
-                arg0, 0x13,
-                ((func_800A6870(arg1 & 0xFF) + 4) << 24) >> 24) << 16) {
-            if (*(s32 *)((u8 *)arg0 + 0x14) & 0x4000) {
-                func_80099844(arg0, &D_800E1C8A);
+                entity, 0x13,
+                ((func_800A6870(direction & 0xFF) + 4) << 24) >> 24) << 16) {
+            if (*(s32 *)((u8 *)entity + 0x14) & 0x4000) {
+                func_80099844(entity, &D_800E1C8A);
                 func_80024170();
             }
-        } else if (*(s32 *)((u8 *)arg0 + 0x14) & 0x4000) {
-            value = func_800990FC();
-            saved = value;
-            value = func_80099194(&D_80024004, value);
-            value = func_80099734(arg0, value);
-            value = func_80099194(&D_80024034, value);
-            func_80099290(value);
-            func_800A5720(saved);
+        } else if (*(s32 *)((u8 *)entity + 0x14) & 0x4000) {
+            message_end = func_800990FC();
+            message_start = message_end;
+            message_end = func_80099194(&D_80024004, message_end);
+            message_end = func_80099734(entity, message_end);
+            message_end = func_80099194(&D_80024034, message_end);
+            func_80099290(message_end);
+            func_800A5720(message_start);
         }
     }
 }
-
-/* MECHANISM: Preserve the row's byte-backed identity/data bank, then express
- * the executable suffix with the retail call nesting and live-range order. */

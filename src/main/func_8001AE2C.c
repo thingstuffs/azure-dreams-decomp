@@ -7,26 +7,27 @@ extern s32 D_804094EC[];
 extern s32 D_80136140[];
 extern u8 D_8009DDD8[];
 
-s32 func_8001AE2C(s32 arg0) {
-    u8 sp10[32];
-    s32 *var_a0;
-    s32 temp_s0;
-    s32 temp_v0;
-    s32 var_s1;
+/* Looks up a slot's data and processes its record when the lookup succeeds. */
+s32 func_8001AE2C(s32 slot_index) {
+    u8 slot_data[32];
+    s32 *lookup_key;
+    s32 slot_offset;
+    s32 lookup_result;
+    s32 result;
 
-    var_s1 = 1;
-    func_80401BF4(sp10, arg0);
+    result = 1;
+    func_80401BF4(slot_data, slot_index);
     if (D_804094EC[0] != 0) {
-        var_a0 = D_80136140 + 1;
+        lookup_key = D_80136140 + 1;
     } else {
-        var_a0 = D_80136140;
+        lookup_key = D_80136140;
     }
-    temp_s0 = arg0 << 7;
-    temp_v0 = func_80401AA4(*var_a0, &sp10[5]);
-    *(s32 *)(D_8009DDD8 + temp_s0) = temp_v0;
-    if (temp_v0 != 0) {
-        var_s1 = func_80401C70(sp10, D_8009DDD8 + temp_s0, 1, 4);
-        *(s32 *)(D_8009DDD8 + temp_s0) = 1;
+    slot_offset = slot_index << 7;
+    lookup_result = func_80401AA4(*lookup_key, &slot_data[5]);
+    *(s32 *)(D_8009DDD8 + slot_offset) = lookup_result;
+    if (lookup_result != 0) {
+        result = func_80401C70(slot_data, D_8009DDD8 + slot_offset, 1, 4);
+        *(s32 *)(D_8009DDD8 + slot_offset) = 1;
     }
-    return var_s1;
+    return result;
 }

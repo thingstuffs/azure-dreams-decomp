@@ -60,60 +60,61 @@ typedef struct S_80921B2C_6 {
     u16 unk_02;
 } S_80921B2C_6;   /* (s8 *)temp_buf + (((u16) ((S_80921B2C_4 *)temp_s6)->unk_2A >> 7) & 0x1C) in func_80921B2C */
 
-void func_80921B2C(S_80921B2C_3 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    u8 sp[32];
-    u8 *temp_source;
-    s32 saved_arg2 = arg2;
-    s32 saved_arg3 = arg3;
-    u16 temp_v0_2;
-    register s32 temp_call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u8 *temp_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *temp_s6 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    S_80921B2C_2 *temp_a0_2;
-    S_80921B2C_5 *temp_a0_3;
-    S_80921B2C_0 *temp_v0;
+/* Creates an effect at an offset position with direction-based motion and sprite settings. */
+void func_80921B2C(S_80921B2C_3 *position, s32 x_offset, s32 y_offset, s32 z_offset) {
+    u8 direction_table[32];
+    u8 *direction_source;
+    s32 saved_y_offset = y_offset;
+    s32 saved_z_offset = z_offset;
+    u16 render_flags;
+    register s32 effect_type ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u8 *global_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *direction_state ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_80921B2C_2 *motion;
+    S_80921B2C_5 *sprite;
+    S_80921B2C_0 *effect;
 
-    temp_source = D_800F6000;
-    memcpy(sp, temp_source, 0x20);
-    temp_call_arg = 0x212;
-    ASM_USE_NV(temp_call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    temp_page = D_80083498;
-    temp_s6 = temp_page + 0x20;
-    temp_v0 = func_8003FC64(temp_call_arg);
-    if (temp_v0 != NULL) {
-        u8 *temp_buf = sp;
+    direction_source = D_800F6000;
+    memcpy(direction_table, direction_source, 0x20);
+    effect_type = 0x212;
+    ASM_USE_NV(effect_type);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    global_state = D_80083498;
+    direction_state = global_state + 0x20;
+    effect = func_8003FC64(effect_type);
+    if (effect != NULL) {
+        u8 *directions = direction_table;
 
-        temp_v0->unk_10 = &D_800F6A44;
-        func_8004491C(temp_v0, D_80045340);
+        effect->unk_10 = &D_800F6A44;
+        func_8004491C(effect, D_80045340);
         {
-            S_80921B2C_1 *temp_a0;
+            S_80921B2C_1 *render_state;
 
-            temp_a0 = temp_v0->unk_0C;
-            temp_v0_2 = temp_a0->unk_14.n;
-            ASM_USE(temp_v0_2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            temp_a0->unk_10 = 0x20;
-            temp_a0->unk_06 = 6;
+            render_state = effect->unk_0C;
+            render_flags = render_state->unk_14.n;
+            ASM_USE(render_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            render_state->unk_10 = 0x20;
+            render_state->unk_06 = 6;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            temp_v0_2 |= 0xC;
-            temp_a0->unk_14.v = temp_v0_2;
-            temp_v0_2 |= 2;
-            temp_a0->unk_14.v = temp_v0_2;
+            render_flags |= 0xC;
+            render_state->unk_14.v = render_flags;
+            render_flags |= 2;
+            render_state->unk_14.v = render_flags;
         }
-        temp_a0_2 = temp_v0->unk_08;
-        temp_a0_2->unk_00.at00.v = (s32) arg0->unk_00;
-        temp_a0_2->unk_04.at00.v = (s32) arg0->unk_04;
-        temp_a0_2->unk_08.at00.v = (s32) arg0->unk_08;
-        temp_a0_2->unk_00.at02.v = (u16) (temp_a0_2->unk_00.at02.v + arg1);
-        temp_a0_2->unk_04.at02.v = (u16) (temp_a0_2->unk_04.at02.v + saved_arg2);
-        temp_a0_2->unk_08.at02.v = (u16) (temp_a0_2->unk_08.at02.v + saved_arg3);
-        temp_a0_2->unk_0C = (s32) ((*(s16 *)((u8 *)temp_buf + (((u16) ((S_80921B2C_4 *)temp_s6)->unk_2A >> 7) & 0x1C))) * 0x180000);
-        temp_a0_2->unk_10 = (s32) ((s16) ((S_80921B2C_6 *)((s8 *)temp_buf + (((u16) ((S_80921B2C_4 *)temp_s6)->unk_2A >> 7) & 0x1C)))->unk_02 * 0x180000);
-        temp_a0_3 = temp_v0->unk_0C;
-        temp_a0_3->unk_1E = 0x800;
-        temp_a0_3->unk_1C = 0x800;
-        temp_a0_3->unk_0E = 0x80;
-        temp_a0_3->unk_0D = 0x80;
-        temp_a0_3->unk_0C = 0x80;
-        func_8003DB94(temp_a0_3, D_800DEC70, 0);
+        motion = effect->unk_08;
+        motion->unk_00.at00.v = (s32) position->unk_00;
+        motion->unk_04.at00.v = (s32) position->unk_04;
+        motion->unk_08.at00.v = (s32) position->unk_08;
+        motion->unk_00.at02.v = (u16) (motion->unk_00.at02.v + x_offset);
+        motion->unk_04.at02.v = (u16) (motion->unk_04.at02.v + saved_y_offset);
+        motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v + saved_z_offset);
+        motion->unk_0C = (s32) ((*(s16 *)((u8 *)directions + (((u16) ((S_80921B2C_4 *)direction_state)->unk_2A >> 7) & 0x1C))) * 0x180000);
+        motion->unk_10 = (s32) ((s16) ((S_80921B2C_6 *)((s8 *)directions + (((u16) ((S_80921B2C_4 *)direction_state)->unk_2A >> 7) & 0x1C)))->unk_02 * 0x180000);
+        sprite = effect->unk_0C;
+        sprite->unk_1E = 0x800;
+        sprite->unk_1C = 0x800;
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
+        func_8003DB94(sprite, D_800DEC70, 0);
     }
 }

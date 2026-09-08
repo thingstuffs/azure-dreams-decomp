@@ -12,22 +12,23 @@ typedef struct {
     u8 blue;
 } EffectColor;
 
-void func_80024AB4(u16 *arg0, s32 arg1, EffectColor *arg2) {
+/* Fade the effect color and set flags when red falls below four. */
+void func_80024AB4(u16 *effect_data, s32 unused, EffectColor *color) {
     u8 red;
     u8 green;
     u8 blue;
 
     D_800269F8[0]++;
 
-    red = arg2->red;
-    green = arg2->green;
-    arg2->red = red - (red >> 2);
-    blue = arg2->blue;
-    arg2->green = green - (green >> 2);
-    arg2->blue = blue - (blue >> 2);
+    red = color->red;
+    green = color->green;
+    color->red = red - (red >> 2);
+    blue = color->blue;
+    color->green = green - (green >> 2);
+    color->blue = blue - (blue >> 2);
 
-    if (arg2->red < 4) {
-        arg0[-1] |= 0x8000;
+    if (color->red < 4) {
+        effect_data[-1] |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

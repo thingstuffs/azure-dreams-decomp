@@ -11,7 +11,8 @@ typedef struct S_800CA75C_0 {
     s16 unk_6C;
 } S_800CA75C_0;   /* arg0 in func_800CA75C */
 
-void func_800CA75C(S_800CA75C_0 *arg0) {
-    arg0->unk_54 = &D_800CA214;
-    arg0->unk_6C = 0xD;
+/* Set the object's data pointer and state to 13. */
+void func_800CA75C(S_800CA75C_0 *object) {
+    object->unk_54 = &D_800CA214;
+    object->unk_6C = 0xD;
 }

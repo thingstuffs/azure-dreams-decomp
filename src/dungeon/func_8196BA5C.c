@@ -78,31 +78,32 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_800B8FC8(void *, Rect16 *, void *, s32, s32);
 
-void func_8196BA5C(void *arg0) {
+/* Creates an object in the first free rectangle slot and marks completion when the timer expires. */
+void func_8196BA5C(void *owner) {
     s16 center[2];
-    RectTable table;
-    u8 *src;
-    u8 *dst;
-    u8 *end;
-    s16 index;
-    s32 rectOffset;
+    RectTable slot_rects;
+    u8 *copy_src;
+    u8 *copy_dst;
+    u8 *copy_end;
+    s16 slot;
+    s32 rect_offset;
     Rect16 *rect;
-    void *obj;
-    u8 *work;
+    void *child;
+    u8 *child_work;
     Display *display;
-    void *from;
-    void *to;
-    u16 timer;
+    void *source_vector;
+    void *child_vector;
+    u16 ticks_left;
 
-    dst = (u8 *)&table;
-    src = (u8 *)&D_80024024;
-    if ((u32)src & 3) {
-        end = src + sizeof(RectTable);
+    copy_dst = (u8 *)&slot_rects;
+    copy_src = (u8 *)&D_80024024;
+    if ((u32)copy_src & 3) {
+        copy_end = copy_src + sizeof(RectTable);
         do {
-            *(PackedBlock *)dst = *(PackedBlock *)src;
-            src += sizeof(PackedBlock);
-            dst += sizeof(PackedBlock);
-        } while (src != end);
+            *(PackedBlock *)copy_dst = *(PackedBlock *)copy_src;
+            copy_src += sizeof(PackedBlock);
+            copy_dst += sizeof(PackedBlock);
+        } while (copy_src != copy_end);
         {
             register u32 page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
@@ -111,71 +112,71 @@ void func_8196BA5C(void *arg0) {
             func_80025320();
         }
     } else {
-        end = src + sizeof(RectTable);
+        copy_end = copy_src + sizeof(RectTable);
         do {
-            *(AlignedBlock *)dst = *(AlignedBlock *)src;
-            src += sizeof(AlignedBlock);
-            dst += sizeof(AlignedBlock);
-        } while (src != end);
+            *(AlignedBlock *)copy_dst = *(AlignedBlock *)copy_src;
+            copy_src += sizeof(AlignedBlock);
+            copy_dst += sizeof(AlignedBlock);
+        } while (copy_src != copy_end);
     }
 
     D_800269B4 = 1;
 
-    index = 0;
+    slot = 0;
 slot_loop:
-    if ((*(s16 *)((u8 *)arg0 + 0x64 + (((s32)index << 16) >> 15))) != 0) {
-        index++;
-        if (index < 8) {
+    if ((*(s16 *)((u8 *)owner + 0x64 + (((s32)slot << 16) >> 15))) != 0) {
+        slot++;
+        if (slot < 8) {
             goto slot_loop;
         }
     }
 
-    if (index != 8) {
-        (*(s16 *)((u8 *)arg0 + 0x64 + index * 2)) = 1;
-        rectOffset = (s32)index << 3;
-        rect = (Rect16 *)((u8 *)&table + rectOffset);
+    if (slot != 8) {
+        (*(s16 *)((u8 *)owner + 0x64 + slot * 2)) = 1;
+        rect_offset = (s32)slot << 3;
+        rect = (Rect16 *)((u8 *)&slot_rects + rect_offset);
         center[0] = rect->x + ((s16)rect->w >> 1);
         center[1] = rect->y + 0x30;
         func_800B8FC8(D_800814A8, rect, center, 1, 1);
 
-        obj = func_8003FC64(0x212);
-        if (obj != 0) {
-            work = (u8 *)obj + 0x20;
-            ((S_8196BA5C_0 *)work)->unk_2C = 7;
-            ((S_8196BA5C_0 *)work)->unk_2E = 7;
-            ((S_8196BA5C_0 *)work)->unk_50 = index;
-            ((S_8196BA5C_0 *)work)->unk_7C = arg0;
-            ((S_8196BA5C_1 *)obj)->unk_10 = D_8002407C;
-            func_8004491C(obj, D_80045340);
+        child = func_8003FC64(0x212);
+        if (child != 0) {
+            child_work = (u8 *)child + 0x20;
+            ((S_8196BA5C_0 *)child_work)->unk_2C = 7;
+            ((S_8196BA5C_0 *)child_work)->unk_2E = 7;
+            ((S_8196BA5C_0 *)child_work)->unk_50 = slot;
+            ((S_8196BA5C_0 *)child_work)->unk_7C = owner;
+            ((S_8196BA5C_1 *)child)->unk_10 = D_8002407C;
+            func_8004491C(child, D_80045340);
 
-            display = ((S_8196BA5C_1 *)obj)->unk_0C;
+            display = ((S_8196BA5C_1 *)child)->unk_0C;
             display->field6 = 4;
             display->flags &= 0xFFF3;
 
-            from = ((S_8196BA5C_2_pre *)D_800814A8)[-1].unk_00;
-            to = ((S_8196BA5C_1 *)obj)->unk_08;
-            ((s32 *)to)[0] = ((s32 *)from)[0];
-            ((s32 *)to)[1] = ((s32 *)from)[1];
-            ((s32 *)to)[2] = ((s32 *)from)[2];
+            source_vector = ((S_8196BA5C_2_pre *)D_800814A8)[-1].unk_00;
+            child_vector = ((S_8196BA5C_1 *)child)->unk_08;
+            ((s32 *)child_vector)[0] = ((s32 *)source_vector)[0];
+            ((s32 *)child_vector)[1] = ((s32 *)source_vector)[1];
+            ((s32 *)child_vector)[2] = ((s32 *)source_vector)[2];
 
-            display = ((S_8196BA5C_1 *)obj)->unk_0C;
+            display = ((S_8196BA5C_1 *)child)->unk_0C;
             display->scaleX = 0x1000;
             display->scaleY = 0x1000;
             display->blue = 0x80;
             display->green = 0x80;
             display->red = 0x80;
 
-            *(PackedVec3 *)((u8 *)obj + 0x58) = D_80026978;
-            display->vector = (u8 *)obj + 0x58;
-            ((S_8196BA5C_0 *)work)->unk_40 = (u8)rect->x - 0x40;
-            ((S_8196BA5C_0 *)work)->unk_41 = (u8)rect->y;
+            *(PackedVec3 *)((u8 *)child + 0x58) = D_80026978;
+            display->vector = (u8 *)child + 0x58;
+            ((S_8196BA5C_0 *)child_work)->unk_40 = (u8)rect->x - 0x40;
+            ((S_8196BA5C_0 *)child_work)->unk_41 = (u8)rect->y;
         }
     }
 
-    timer = (*(u16 *)((u8 *)arg0 + 0x2C)) - 1;
-    (*(u16 *)((u8 *)arg0 + 0x2C)) = timer;
-    if ((s16)timer <= 0) {
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+    ticks_left = (*(u16 *)((u8 *)owner + 0x2C)) - 1;
+    (*(u16 *)((u8 *)owner + 0x2C)) = ticks_left;
+    if ((s16)ticks_left <= 0) {
+        (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

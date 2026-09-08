@@ -15,21 +15,22 @@ typedef struct {
     SubStruct2 *unk4;
 } SubStruct;
 
-void func_8001D0C8(u8 *arg0) {
-    SubStruct *temp;
+/* Initializes three object entries with data pointers and attribute values. */
+void func_8001D0C8(u8 *object) {
+    SubStruct *entry;
 
-    temp = *(SubStruct **)(arg0 + 0x1F0);
-    temp->unk4->unk8 = 0x100;
-    temp->unk4->unkA = 0x10;
-    temp->unk0 = (void *) &D_80084110;
+    entry = *(SubStruct **)(object + 0x1F0);
+    entry->unk4->unk8 = 0x100;
+    entry->unk4->unkA = 0x10;
+    entry->unk0 = (void *) &D_80084110;
 
-    temp = *(SubStruct **)(arg0 + 0x1E4);
-    temp->unk0 = (void *) func_80051B50(arg0 + 0x5C, &D_804005F0, 1);
-    temp->unk4->unk8 = 0x181;
-    temp->unk4->unkA = 0x91;
+    entry = *(SubStruct **)(object + 0x1E4);
+    entry->unk0 = (void *) func_80051B50(object + 0x5C, &D_804005F0, 1);
+    entry->unk4->unk8 = 0x181;
+    entry->unk4->unkA = 0x91;
 
-    temp = *(SubStruct **)(arg0 + 0x1F8);
-    temp->unk0 = (void *) (arg0 + 0x128);
-    temp->unk4->unk8 = 0x112;
-    temp->unk4->unkA = 0x18;
+    entry = *(SubStruct **)(object + 0x1F8);
+    entry->unk0 = (void *) (object + 0x128);
+    entry->unk4->unk8 = 0x112;
+    entry->unk4->unkA = 0x18;
 }

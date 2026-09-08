@@ -6,6 +6,7 @@ struct TownBlob {
     u32 tail[93];
 };
 
+/* Stores town data and embedded MIPS instructions. */
 static const struct TownBlob town_blob __asm__("func_802F100C")
     __attribute__((section(".text.func_802F100C"), aligned(4))) = {
     {

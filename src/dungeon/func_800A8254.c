@@ -36,71 +36,68 @@ typedef struct S_800AD9B4_3 {
     u16 unk_08;
 } S_800AD9B4_3;   /* state in func_800AD9B4 */
 
-s32 func_800AD9B4(Rec_D_80082E80 *arg0, void *arg1)
+/* Process an eligible dungeon entry and apply its state updates. */
+s32 func_800AD9B4(Rec_D_80082E80 *actor, void *target)
 {
-    u8 *base;
-    u8 *state;
-    DungeonEntry *table;
-    register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 index;
+    u8 *player;
+    u8 *dungeon_state;
+    DungeonEntry *entries;
+    register u8 *data_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 entry_index;
     s32 result;
-    s8 amount;
+    s8 adjustment;
 
-    if (((S_800AD9B4_0_pre *)arg1)[-1].unk_00 & 0x8000) {
-        goto tail;
+    if (((S_800AD9B4_0_pre *)target)[-1].unk_00 & 0x8000) {
+        goto skip;
     }
-    page = (u8 *)0x80080000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    base = page + 0x2E80;
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    if (((S_800AD9B4_1 *)base)->unk_26 == arg0->unk_26.as_s8) {
-        goto body;
+    data_page = (u8 *)0x80080000;
+    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    player = data_page + 0x2E80;
+    ASM_KEEP(player);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    if (((S_800AD9B4_1 *)player)->unk_26 == actor->unk_26.as_s8) {
+        goto process_entry;
     }
-    if (func_8009FD40(base, arg0) < 7) {
-        goto body;
+    if (func_8009FD40(player, actor) < 7) {
+        goto process_entry;
     }
 
-tail:
+skip:
     return 1;
 
-body:
-    if (((Rec_D_800E3D7C *)arg1)->unk_24.at01_u8.v == 0) {
-        goto tail;
+process_entry:
+    if (((Rec_D_800E3D7C *)target)->unk_24.at01_u8.v == 0) {
+        goto skip;
     }
 
-    index = func_800B500C(arg0->unk_24,
-                          arg0->unk_25,
-                          ((Rec_D_800E3D7C *)arg1)->unk_88.as_s16);
-    ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    entry_index = func_800B500C(actor->unk_24,
+                           actor->unk_25,
+                           ((Rec_D_800E3D7C *)target)->unk_88.as_s16);
+    ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     result = 1;
-    if (index >= 0) {
-        table = D_800E3648;
-        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        if (!(table[index].flags & 0x80)) {
-            goto tail;
+    if (entry_index >= 0) {
+        entries = D_800E3648;
+        ASM_KEEP(entries);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        if (!(entries[entry_index].flags & 0x80)) {
+            goto skip;
         }
 
-        page = (u8 *)0x80080000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        state = page + 0x3460;
-        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        if (((S_800AD9B4_3 *)state)->unk_02 & 0x1000) {
-            amount = ((Rec_D_800E3D7C *)arg1)->unk_71.as_s8;
-            if (amount > 0) {
-                ((S_800AD9B4_3 *)state)->unk_08 =
-                    ((S_800AD9B4_3 *)state)->unk_08 -
-                    (amount - ((Rec_D_800E3D7C *)arg1)->unk_8A.as_u16);
-                ((Rec_D_800E3D7C *)arg1)->unk_71.as_s8 = 0;
+        data_page = (u8 *)0x80080000;
+        ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        dungeon_state = data_page + 0x3460;
+        ASM_KEEP(dungeon_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        if (((S_800AD9B4_3 *)dungeon_state)->unk_02 & 0x1000) {
+            adjustment = ((Rec_D_800E3D7C *)target)->unk_71.as_s8;
+            if (adjustment > 0) {
+                ((S_800AD9B4_3 *)dungeon_state)->unk_08 =
+                    ((S_800AD9B4_3 *)dungeon_state)->unk_08 -
+                    (adjustment - ((Rec_D_800E3D7C *)target)->unk_8A.as_u16);
+                ((Rec_D_800E3D7C *)target)->unk_71.as_s8 = 0;
             }
         }
 
-        func_800A9A0C(arg1, state);
-        func_800AAA28(arg0, arg1);
+        func_800A9A0C(target, dungeon_state);
+        func_800AAA28(actor, target);
         result = 0;
     }
     return result;
 }
-
-/* MECHANISM: The 0x20 frame follows from holding arg1 in s0 and arg0 in s1.
-   Dispatcher-first CFG plus a v1 signed index fixes branch and return-value roles.
-   Kept table/state bases and a v0 0x8008 page split reproduce address emission order. */

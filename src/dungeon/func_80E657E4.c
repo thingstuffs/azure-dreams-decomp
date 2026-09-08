@@ -16,37 +16,38 @@ extern u8 D_80083460[];
 extern u8 D_801755B4[];
 extern u8 D_80175660[];
 
-void func_80174FE4(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Starts a direction-based action when the object's state and global flags allow it. */
+void func_80174FE4(void *action_state, void *unused, void *animation, void *object)
 {
-    register u8 *base ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *table;
-    s32 index;
+    register u8 *state_data ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *data_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *direction_table;
+    s32 direction_index;
 
-    base = D_80175660;
-    *(u16 *)(base + 0x6C) = *(u16 *)((u8 *)arg3 + 0x6C);
-    *(u16 *)(base + 0x6E) = *(u16 *)((u8 *)arg3 + 0x6E);
-    func_80099EA4(base);
+    state_data = D_80175660;
+    *(u16 *)(state_data + 0x6C) = *(u16 *)((u8 *)object + 0x6C);
+    *(u16 *)(state_data + 0x6E) = *(u16 *)((u8 *)object + 0x6E);
+    func_80099EA4(state_data);
 
-    if (*(s8 *)(base + 0x6D) != 0) {
-        *(u8 *)((u8 *)arg3 + 0x71) &= 0x7F;
-        ASM_USE(base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        page = (u8 *)0x80080000;
-        LEGACY_ASM_KEEP(page);
-        base = page + 0x3460;
-        if (!(*(u16 *)(base + 2) & 0x2000)) {
-            table = D_801755B4;
-            *(s8 *)((u8 *)arg0 + 0x9A) = 0x17;
-            *(s32 *)((u8 *)arg0 + 0x8C) = 0;
-            *(s8 *)((u8 *)arg0 + 0x9B) = 0;
-            *(s16 *)((u8 *)arg0 + 0x96) = 0;
+    if (*(s8 *)(state_data + 0x6D) != 0) {
+        *(u8 *)((u8 *)object + 0x71) &= 0x7F;
+        ASM_USE(state_data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        data_page = (u8 *)0x80080000;
+        LEGACY_ASM_KEEP(data_page);
+        state_data = data_page + 0x3460;
+        if (!(*(u16 *)(state_data + 2) & 0x2000)) {
+            direction_table = D_801755B4;
+            *(s8 *)((u8 *)action_state + 0x9A) = 0x17;
+            *(s32 *)((u8 *)action_state + 0x8C) = 0;
+            *(s8 *)((u8 *)action_state + 0x9B) = 0;
+            *(s16 *)((u8 *)action_state + 0x96) = 0;
 
-            *(u8 **)((u8 *)arg2 + 0x2C) = table;
-            index = (D_80083228[0] + *(s16 *)((u8 *)arg3 + 0x2A) + 0x100) >> 9;
-            func_80047784(arg2, table[index & 7], 0);
-            func_800A4ACC(arg3);
-            *(u8 *)((u8 *)arg3 + 0x6D) -= 1;
-            *(u16 *)(base + 0xA) += 1;
+            *(u8 **)((u8 *)animation + 0x2C) = direction_table;
+            direction_index = (D_80083228[0] + *(s16 *)((u8 *)object + 0x2A) + 0x100) >> 9;
+            func_80047784(animation, direction_table[direction_index & 7], 0);
+            func_800A4ACC(object);
+            *(u8 *)((u8 *)object + 0x6D) -= 1;
+            *(u16 *)(state_data + 0xA) += 1;
         }
     }
 }

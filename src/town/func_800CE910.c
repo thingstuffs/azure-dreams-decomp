@@ -21,40 +21,38 @@ extern void func_800C2E84(void *, s32, void *);
 extern s32 D_800D6ABC;
 extern s32 D_800D6AD0;
 
-void func_800CC070(S_800CC070_0 *arg0, S_800CC070_1 *arg1, s32 arg2, s16 arg3)
+/* Advances a jump through ascent and descent, clamping the landing height. */
+void func_800CC070(S_800CC070_0 *actor, S_800CC070_1 *motion, s32 animation_id, s16 jump_velocity)
 {
     s16 state;
 
-    state = arg0->unk_6A.s;
+    state = actor->unk_6A.s;
     switch (state) {
     case 0:
-        func_800C2E84(arg0, arg2, &D_800D6ABC);
-        arg1->unk_14.at02.v = arg3;
-        arg0->unk_6A.u++;
+        func_800C2E84(actor, animation_id, &D_800D6ABC);
+        motion->unk_14.at02.v = jump_velocity;
+        actor->unk_6A.u++;
         break;
 
     case 1:
-        arg1->unk_08.at00.v += arg1->unk_14.at00.v;
-        func_80095388(arg1);
-        if (arg1->unk_14.at00.v >= 0) {
-            func_800C2E84(arg0, arg2, &D_800D6AD0);
-            arg0->unk_6A.u++;
+        motion->unk_08.at00.v += motion->unk_14.at00.v;
+        func_80095388(motion);
+        if (motion->unk_14.at00.v >= 0) {
+            func_800C2E84(actor, animation_id, &D_800D6AD0);
+            actor->unk_6A.u++;
         }
         break;
 
     case 2:
-        arg1->unk_08.at00.v += arg1->unk_14.at00.v;
-        if (func_800C2AE8(arg1) < arg1->unk_08.at02.v) {
-            arg1->unk_14.at00.v = 0;
-            arg1->unk_08.at02.v = func_800C2AE8(arg1);
-            arg0->unk_6A.s = 0;
-            arg0->unk_68++;
+        motion->unk_08.at00.v += motion->unk_14.at00.v;
+        if (func_800C2AE8(motion) < motion->unk_08.at02.v) {
+            motion->unk_14.at00.v = 0;
+            motion->unk_08.at02.v = func_800C2AE8(motion);
+            actor->unk_6A.s = 0;
+            actor->unk_68++;
         } else {
-            func_80095388(arg1);
+            func_80095388(motion);
         }
         break;
     }
 }
-
-/* MECHANISM: The true-space definition turns all in-range jumps into switch joins and one epilogue.
-   Four live arguments force the 0x28 frame and s1/s0/s3/s2 hold set; field widths follow lh/lhu/sh. */

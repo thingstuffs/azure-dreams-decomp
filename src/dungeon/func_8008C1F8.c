@@ -29,35 +29,32 @@ extern u8 D_8008EAC8[];
 
 void *func_800BA074(s32);
 
-void func_80091958(S_80091958_0 *arg0, s32 arg1, s32 arg2, S_80091958_2 *arg3)
+/* Starts an operation, waits for completion, then selects the next action from context flags. */
+void func_80091958(S_80091958_0 *state, s32 unused_1, s32 unused_2, S_80091958_2 *context)
 {
-    void *temp;
+    void *operation;
 
-    switch (arg0->unk_9B) {
+    switch (state->unk_9B) {
     case 0:
-        temp = func_800BA074(D_80082EB0);
-        arg0->unk_C8 = temp;
-        if (temp == 0) {
+        operation = func_800BA074(D_80082EB0);
+        state->unk_C8 = operation;
+        if (operation == 0) {
             break;
         }
-        arg0->unk_9B++;
+        state->unk_9B++;
     case 1:
-        if (((S_80091958_3 *)(arg0->unk_C8))->unk_1E & 0x8000) {
-            arg0->unk_C8 = 0;
-            arg0->unk_9B++;
+        if (((S_80091958_3 *)(state->unk_C8))->unk_1E & 0x8000) {
+            state->unk_C8 = 0;
+            state->unk_9B++;
         }
         break;
     case 2:
         ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_08 = 0;
-        if (arg3->unk_1C & 0x100000) {
-            arg0->unk_8C = D_8008EAC8;
+        if (context->unk_1C & 0x100000) {
+            state->unk_8C = D_8008EAC8;
         } else {
-            arg0->unk_8C = &D_8008ACDC;
+            state->unk_8C = &D_8008ACDC;
         }
         break;
     }
 }
-
-/* MECHANISM: True-space function naming turns 0x80091A20/24 into local CFG joins.
-   A natural 0/1/2 switch preserves the median dispatch and case fallthrough;
-   the four-argument ABI keeps the live context in a3 and arg0 held in s0. */

@@ -20,28 +20,29 @@ typedef struct S_8009D940_2 {
     s16 unk_02;
 } S_8009D940_2;   /* arg1 in func_8009D940 */
 
-void func_8009D940(S_8009D940_1 *arg0, S_8009D940_2 *arg1, void **arg2, void **arg3) {
-    s32 temp_a0;
-    s32 temp_t1;
-    void **var_a2;
-    void **var_a3;
-    S_8009D940_0 *temp_t0;
+/* Collect rectangles overlapping the query bounds into a null-terminated list. */
+void func_8009D940(S_8009D940_1 *query_max, S_8009D940_2 *query_min, void **entries, void **matches) {
+    s32 top;
+    s32 left;
+    void **entry_ptr;
+    void **match_ptr;
+    S_8009D940_0 *rect;
 
-    var_a2 = arg2;
-    var_a3 = arg3;
-    if (*var_a2 != NULL) {
+    entry_ptr = entries;
+    match_ptr = matches;
+    if (*entry_ptr != NULL) {
         do {
-            temp_t0 = *var_a2;
-            temp_t1 = temp_t0->unk_00 + temp_t0->unk_04;
-            if (arg0->unk_00 >= temp_t1) {
-                temp_a0 = temp_t0->unk_02 + temp_t0->unk_06;
-                if ((arg0->unk_02 >= temp_a0) && ((temp_t1 + temp_t0->unk_08) >= arg1->unk_00) && ((temp_a0 + temp_t0->unk_0A) >= arg1->unk_02)) {
-                    *var_a3 = temp_t0;
-                    var_a3 = (void **)((s8 *)((void **)((s8 *)var_a3 + 4)));
+            rect = *entry_ptr;
+            left = rect->unk_00 + rect->unk_04;
+            if (query_max->unk_00 >= left) {
+                top = rect->unk_02 + rect->unk_06;
+                if ((query_max->unk_02 >= top) && ((left + rect->unk_08) >= query_min->unk_00) && ((top + rect->unk_0A) >= query_min->unk_02)) {
+                    *match_ptr = rect;
+                    match_ptr = (void **)((s8 *)((void **)((s8 *)match_ptr + 4)));
                 }
             }
-            var_a2 = (void **)((s8 *)((void **)((s8 *)var_a2 + 4)));
-        } while (*var_a2 != NULL);
+            entry_ptr = (void **)((s8 *)((void **)((s8 *)entry_ptr + 4)));
+        } while (*entry_ptr != NULL);
     }
-    *var_a3 = NULL;
+    *match_ptr = NULL;
 }

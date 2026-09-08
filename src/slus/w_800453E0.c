@@ -94,93 +94,89 @@ extern void SetRotMatrix(void *);
 #define PS16(base, off) (*(s16 *)((u8 *)(base) + (off)))
 #define P32(base, off) (*(u32 *)((u8 *)(base) + (off)))
 
-void func_800453E0(void *arg0, void *arg1, Entry *entry, s16 depth_bias)
+/* Project sprite commands and link visible textured quads into the ordering table. */
+void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
-    void **global = D_80083160;
+    void **render_state = D_80083160;
     Packet *packet;
     Command *command;
-    void *rotation_matrix;
-    u32 projected;
-    u32 adjusted;
+    u32 projected_depth;
+    u32 sort_depth;
     s32 callback_result;
     s16 coord;
-    s16 coord_a;
-    s16 coord_b;
-    u32 extent;
-    u16 rotation_y;
-    s32 rotation_x;
+    u32 sprite_extent;
+    s32 rotation_y;
     u32 scale_x;
     u32 scale_y;
-    u32 visible0;
-    u32 visible1;
-    u32 visible2;
-    u32 visible3;
-    u32 combined;
-    u32 value;
-    u32 flags;
-    u32 low_mask;
-    u8 first;
-    u8 second;
+    u32 vertex_0_visible;
+    u32 vertex_1_visible;
+    u32 vertex_2_visible;
+    u32 vertex_3_visible;
+    u32 any_visible;
+    u32 uv_edge;
+    u32 address_mask;
+    u8 uv_start;
+    u8 uv_extent;
 
     SP32(scratch, 0xEC) = 0;
     SP16(scratch, 0x8C) = 0;
     SP16(scratch, 0x84) = 0;
     SP16(scratch, 0x7C) = 0;
     SP16(scratch, 0x74) = 0;
-    SP32(scratch, 0x20) = (u32)global[0] + 0xB0;
+    SP32(scratch, 0x20) = (u32)render_state[0] + 0xB0;
 
-    SP16(scratch, 0x00) = *(u16 *)((u8 *)arg1 + 2);
-    SP16(scratch, 0x02) = *(u16 *)((u8 *)arg1 + 6);
-    SP16(scratch, 0x04) = *(u16 *)((u8 *)arg1 + 0xA);
-    packet = *(Packet **)((u8 *)global[0] + 0x8D0);
+    SP16(scratch, 0x00) = *(u16 *)((u8 *)position + 2);
+    SP16(scratch, 0x02) = *(u16 *)((u8 *)position + 6);
+    SP16(scratch, 0x04) = *(u16 *)((u8 *)position + 0xA);
+    packet = *(Packet **)((u8 *)render_state[0] + 0x8D0);
 
     SP32(scratch, 0xC0) = RotTransPers(scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);
     E16(entry, 0x14) |= 0x8000;
-    projected = *(volatile u32 *)(scratch + 0xC0);
+    projected_depth = *(volatile u32 *)(scratch + 0xC0);
     {
-        u32 bias_temp;
-        adjusted = (bias_temp = projected - 10, bias_temp - depth_bias);
+        u32 base_depth;
+        sort_depth = (base_depth = projected_depth - 10, base_depth - depth_bias);
     }
-    D_8006CD30[7] = projected * 4;
-    SP32(scratch, 0xC0) = adjusted;
+    D_8006CD30[7] = projected_depth * 4;
+    SP32(scratch, 0xC0) = sort_depth;
 
-    if (adjusted < 0x1D6U) {
+    if (sort_depth < 0x1D6U) {
         PushMatrix();
-        low_mask = 0xFFFFFF;
+        address_mask = 0xFFFFFF;
 
         {
-        register u8 *rotation_input ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        u16 b8_value;
-        register u32 a1blk ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        s32 v104;
-        rotation_input = scratch;
-        ASM_KEEP_NV(rotation_input);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        b8_value = *(volatile u16 *)(scratch + 0xB8);
-        rotation_input = (u8 *)((u32)rotation_input | 0x100);
-        SP16(scratch, 0xB8) = b8_value - 0xA0;
-        SP16(scratch, 0xBA) -= 0x78;
-        SP32(scratch, 0x30) = *(s16 *)((u8 *)global + 0xC4);
-        SP32(scratch, 0x34) = *(s16 *)((u8 *)global + 0xC6);
-        SP32(scratch, 0x38) = *(s16 *)((u8 *)global + 0xC8);
+            register u8 *rotation_input ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            u16 screen_x;
+            register u32 matrix_arg_guard ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            s32 rotation_z;
+            rotation_input = scratch;
+            ASM_KEEP_NV(rotation_input);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            screen_x = *(volatile u16 *)(scratch + 0xB8);
+            rotation_input = (u8 *)((u32)rotation_input | 0x100);
+            SP16(scratch, 0xB8) = screen_x - 0xA0;
+            SP16(scratch, 0xBA) -= 0x78;
+            SP32(scratch, 0x30) = *(s16 *)((u8 *)render_state + 0xC4);
+            SP32(scratch, 0x34) = *(s16 *)((u8 *)render_state + 0xC6);
+            SP32(scratch, 0x38) = *(s16 *)((u8 *)render_state + 0xC8);
 
-        SP16(scratch, 0x100) = E16(entry, 0x16);
-        ASM_KEEP_NV(a1blk);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        v104 = *(u16 *)((u8 *)global + 0xB8) +
-            (E16(entry, 0x1A) - SP16(scratch, 0x34));
-        SP16(scratch, 0x104) = v104;
-        ASM_USE2_NV(a1blk, v104);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        rotation_x = E16(entry, 0x18) - 0x100;
-        rotation_x += (SP16(scratch, 0x38) + 0x100) & 0x1FF;
-        SP16(scratch, 0x102) = rotation_x;
-        extent = E16(entry, 0x20);
-        SP32(scratch, 0xE4) = extent;
-        SP16(scratch, 0x108) = extent;
-        extent = E16(entry, 0x22);
-        SP32(scratch, 0xE8) = extent;
-        SP16(scratch, 0x10A) = extent;
+            SP16(scratch, 0x100) = E16(entry, 0x16);
+            ASM_KEEP_NV(matrix_arg_guard);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            rotation_z = *(u16 *)((u8 *)render_state + 0xB8) +
+                (E16(entry, 0x1A) - SP16(scratch, 0x34));
+            SP16(scratch, 0x104) = rotation_z;
+            ASM_USE2_NV(matrix_arg_guard, rotation_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            rotation_y = E16(entry, 0x18) - 0x100;
+            rotation_y += (SP16(scratch, 0x38) + 0x100) & 0x1FF;
+            SP16(scratch, 0x102) = rotation_y;
+            sprite_extent = E16(entry, 0x20);
+            SP32(scratch, 0xE4) = sprite_extent;
+            SP16(scratch, 0x108) = sprite_extent;
+            sprite_extent = E16(entry, 0x22);
+            SP32(scratch, 0xE8) = sprite_extent;
+            SP16(scratch, 0x10A) = sprite_extent;
 
-        RotMatrix(rotation_input, scratch + 0xD0);
+            RotMatrix(rotation_input, scratch + 0xD0);
         }
         scale_x = E16(entry, 0x1C);
         SP32(scratch, 0x30) = scale_x;
@@ -197,20 +193,20 @@ void func_800453E0(void *arg0, void *arg1, Entry *entry, s16 depth_bias)
 
         do {
             if (!(C8(command, 0) & 0x20)) {
-                first = C8(command, 8);
-                SP32(scratch, 0x08) = first;
-                second = C8(command, 0xA);
-                SP32(scratch, 0x10) = second;
-                if ((first + second >= 0x100) || E16(entry, 0x1A) != 0) {
-                    SP32(scratch, 0x10) = second - 1;
+                uv_start = C8(command, 8);
+                SP32(scratch, 0x08) = uv_start;
+                uv_extent = C8(command, 0xA);
+                SP32(scratch, 0x10) = uv_extent;
+                if ((uv_start + uv_extent >= 0x100) || E16(entry, 0x1A) != 0) {
+                    SP32(scratch, 0x10) = uv_extent - 1;
                 }
 
-                first = C8(command, 9);
-                SP32(scratch, 0x0C) = first;
-                second = C8(command, 0xB);
-                SP32(scratch, 0x14) = second;
-                if ((first + second >= 0x100) || E16(entry, 0x1A) != 0) {
-                    SP32(scratch, 0x14) = second - 1;
+                uv_start = C8(command, 9);
+                SP32(scratch, 0x0C) = uv_start;
+                uv_extent = C8(command, 0xB);
+                SP32(scratch, 0x14) = uv_extent;
+                if ((uv_start + uv_extent >= 0x100) || E16(entry, 0x1A) != 0) {
+                    SP32(scratch, 0x14) = uv_extent - 1;
                 }
 
                 if ((C8(command, 0) ^ SP16(scratch, 0x24)) & 1) {
@@ -257,29 +253,29 @@ void func_800453E0(void *arg0, void *arg1, Entry *entry, s16 depth_bias)
                 *(volatile u16 *)((u8 *)packet + 0x12) = SP16(scratch, 0xF6) + SP16(scratch, 0xBA);
                 *(volatile u16 *)((u8 *)packet + 0x18) = SP16(scratch, 0xF8) + SP16(scratch, 0xB8);
                 *(volatile u16 *)((u8 *)packet + 0x1A) = SP16(scratch, 0xFA) + SP16(scratch, 0xBA);
-                visible0 = 0;
+                vertex_0_visible = 0;
                 *(volatile u16 *)((u8 *)packet + 0x20) = SP16(scratch, 0xFC) + SP16(scratch, 0xB8);
                 coord = SP16(scratch, 0xFE) + SP16(scratch, 0xBA);
                 P16(packet, 0x22) = coord;
 
                 if ((u16)(P16(packet, 8) + 0x20) < 0x181U) {
-                    visible0 = (u16)(P16(packet, 0xA) + 0x20) < 0x121U;
+                    vertex_0_visible = (u16)(P16(packet, 0xA) + 0x20) < 0x121U;
                 }
-                visible1 = 0;
+                vertex_1_visible = 0;
                 if ((u16)(P16(packet, 0x10) + 0x20) < 0x181U) {
-                    visible1 = (u16)(P16(packet, 0x12) + 0x20) < 0x121U;
+                    vertex_1_visible = (u16)(P16(packet, 0x12) + 0x20) < 0x121U;
                 }
-                visible2 = 0;
-                if ((visible0 = visible1 | visible0,
+                vertex_2_visible = 0;
+                if ((vertex_0_visible = vertex_1_visible | vertex_0_visible,
                      (u16)(P16(packet, 0x18) + 0x20) < 0x181U)) {
-                    visible2 = (u16)(P16(packet, 0x1A) + 0x20) < 0x121U;
+                    vertex_2_visible = (u16)(P16(packet, 0x1A) + 0x20) < 0x121U;
                 }
-                visible3 = 0;
-                if ((combined = visible0 | visible2,
+                vertex_3_visible = 0;
+                if ((any_visible = vertex_0_visible | vertex_2_visible,
                      (u16)(P16(packet, 0x20) + 0x20) < 0x181U)) {
-                    visible3 = (u16)(coord + 0x20) < 0x121U;
+                    vertex_3_visible = (u16)(coord + 0x20) < 0x121U;
                 }
-                if (combined | visible3) {
+                if (any_visible | vertex_3_visible) {
                     *(u8 *)((u8 *)packet + 3) = 9;
                     E16(entry, 0x14) &= 0x7FFF;
 
@@ -304,40 +300,40 @@ void func_800453E0(void *arg0, void *arg1, Entry *entry, s16 depth_bias)
                     P16(packet, 0x24) = SP16(scratch, 0x14) | SP16(scratch, 0x10);
 
                     if (SPS16(scratch, 0x50) >= 0x1800) {
-                        value = *(u8 *)((u8 *)packet + 0x24);
-                        *(u8 *)((u8 *)packet + 0x24) = value + 0xFF;
-                        *(u8 *)((u8 *)packet + 0x14) = value;
+                        uv_edge = *(u8 *)((u8 *)packet + 0x24);
+                        *(u8 *)((u8 *)packet + 0x24) = uv_edge + 0xFF;
+                        *(u8 *)((u8 *)packet + 0x14) = uv_edge;
                     }
                     if (SPS16(scratch, 0x58) >= 0x1800) {
-                        value = *(u8 *)((u8 *)packet + 0x25);
-                        *(u8 *)((u8 *)packet + 0x25) = value + 0xFF;
-                        *(u8 *)((u8 *)packet + 0x1D) = value;
+                        uv_edge = *(u8 *)((u8 *)packet + 0x25);
+                        *(u8 *)((u8 *)packet + 0x25) = uv_edge + 0xFF;
+                        *(u8 *)((u8 *)packet + 0x1D) = uv_edge;
                     }
                     if (PS16(packet, 8) > PS16(packet, 0x20)) {
-                        value = *(u8 *)((u8 *)packet + 0x24);
-                        *(u8 *)((u8 *)packet + 0x24) = value + 0xFF;
-                        *(u8 *)((u8 *)packet + 0x14) = value;
+                        uv_edge = *(u8 *)((u8 *)packet + 0x24);
+                        *(u8 *)((u8 *)packet + 0x24) = uv_edge + 0xFF;
+                        *(u8 *)((u8 *)packet + 0x14) = uv_edge;
                     }
                     if (PS16(packet, 0xA) > PS16(packet, 0x22)) {
-                        value = *(u8 *)((u8 *)packet + 0x25);
-                        *(u8 *)((u8 *)packet + 0x25) = value + 0xFF;
-                        *(u8 *)((u8 *)packet + 0x1D) = value;
+                        uv_edge = *(u8 *)((u8 *)packet + 0x25);
+                        *(u8 *)((u8 *)packet + 0x25) = uv_edge + 0xFF;
+                        *(u8 *)((u8 *)packet + 0x1D) = uv_edge;
                     }
 
                     {
-                        u32 flag_first;
-                        u32 flag_bits;
-                        u32 flag_value;
-                        flag_first = C8(command, 1);
-                        E8(entry, 0x0F) = flag_first;
-                        flag_bits = SP16(scratch, 0x24);
-                        if (flag_bits & 8) {
-                            if (flag_bits & 4) {
-                                flag_value = flag_first | 2;
+                        u32 command_mode;
+                        u32 entry_flags;
+                        u32 packet_mode;
+                        command_mode = C8(command, 1);
+                        E8(entry, 0x0F) = command_mode;
+                        entry_flags = SP16(scratch, 0x24);
+                        if (entry_flags & 8) {
+                            if (entry_flags & 4) {
+                                packet_mode = command_mode | 2;
                             } else {
-                                flag_value = flag_first & 0xFD;
+                                packet_mode = command_mode & 0xFD;
                             }
-                            E8(entry, 0x0F) = flag_value;
+                            E8(entry, 0x0F) = packet_mode;
                         }
                     }
 
@@ -352,30 +348,30 @@ void func_800453E0(void *arg0, void *arg1, Entry *entry, s16 depth_bias)
                     }
 
                     {
-                        u32 c0_or_high = SP32(scratch, 0xC0);
-                        u32 cc_value = SP32(scratch, 0xCC);
-                    if (c0_or_high + cc_value < 0x1D6U) {
-                        u32 c0_scaled;
-                        u32 cc_scaled;
-                        u32 table_base;
-                        do {
-                            cc_scaled = cc_value * 4;
-                            c0_scaled = c0_or_high * 4;
-                        } while (0);
-                        table_base = SP32(scratch, 0x20);
-                        c0_or_high = 0xFF000000;
-                        c0_scaled += table_base;
-                        cc_scaled += c0_scaled;
-                        P32(packet, 0) = (P32(packet, 0) & c0_or_high) |
-                            (*(u32 *)cc_scaled & low_mask);
-                        *(u32 *)(SP32(scratch, 0x20) +
-                            (SP32(scratch, 0xC0) * 4) +
-                            (SP32(scratch, 0xCC) * 4)) =
-                            (*(u32 *)(SP32(scratch, 0x20) +
-                            (SP32(scratch, 0xC0) * 4) +
-                            (SP32(scratch, 0xCC) * 4)) & c0_or_high) |
-                            ((u32)packet & low_mask);
-                    }
+                        u32 depth_or_tag_mask = SP32(scratch, 0xC0);
+                        u32 depth_offset = SP32(scratch, 0xCC);
+                        if (depth_or_tag_mask + depth_offset < 0x1D6U) {
+                            u32 depth_address;
+                            u32 bucket_address;
+                            u32 ordering_table;
+                            do {
+                                bucket_address = depth_offset * 4;
+                                depth_address = depth_or_tag_mask * 4;
+                            } while (0);
+                            ordering_table = SP32(scratch, 0x20);
+                            depth_or_tag_mask = 0xFF000000;
+                            depth_address += ordering_table;
+                            bucket_address += depth_address;
+                            P32(packet, 0) = (P32(packet, 0) & depth_or_tag_mask) |
+                                (*(u32 *)bucket_address & address_mask);
+                            *(u32 *)(SP32(scratch, 0x20) +
+                                (SP32(scratch, 0xC0) * 4) +
+                                (SP32(scratch, 0xCC) * 4)) =
+                                (*(u32 *)(SP32(scratch, 0x20) +
+                                (SP32(scratch, 0xC0) * 4) +
+                                (SP32(scratch, 0xCC) * 4)) & depth_or_tag_mask) |
+                                ((u32)packet & address_mask);
+                        }
                     }
                     packet++;
                 }
@@ -383,7 +379,7 @@ void func_800453E0(void *arg0, void *arg1, Entry *entry, s16 depth_bias)
                 CommandFn callback = *(CommandFn *)((u8 *)command + 8);
                 if (callback != 0) {
                     SP32(scratch, 0xCC) = SP32(scratch, 0xC0);
-                    callback_result = callback(arg0, arg1, entry, command, packet);
+                    callback_result = callback(context, position, entry, command, packet);
                     if (callback_result > 0) {
                         command = (Command *)(callback_result | 0x80000000U);
                     } else {
@@ -397,5 +393,5 @@ void func_800453E0(void *arg0, void *arg1, Entry *entry, s16 depth_bias)
         PopMatrix();
     }
 
-    *(Packet **)((u8 *)global[0] + 0x8D0) = packet;
+    *(Packet **)((u8 *)render_state[0] + 0x8D0) = packet;
 }

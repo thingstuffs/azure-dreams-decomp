@@ -17,40 +17,41 @@ typedef struct S_80126704_0 {
 extern void (*D_80126B34[])();
 extern void (*D_80126B74[])(void *);
 
-void func_80126704(S_80126704_0 *arg0) {
-    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u32 temp_v0;
-    u32 temp_v1;
-    u32 temp_test;
+/* Runs the initial handler, packs and bounds the state code, then runs the final handler. */
+void func_80126704(S_80126704_0 *state) {
+    register s32 middle_bits ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 packed_code;
+    u32 code_bits;
+    u32 below_limit;
 
     {
-        u32 first_index;
-        void (*first_func)();
+        u32 handler_index;
+        void (*initial_handler)();
 
-        first_index = arg0->unk_0A;
-        first_func = D_80126B34[first_index];
-        first_func();
+        handler_index = state->unk_0A;
+        initial_handler = D_80126B34[handler_index];
+        initial_handler();
     }
-    temp_v1 = arg0->unk_0F;
-    temp_a0 = arg0->unk_10;
-    temp_v0 = arg0->unk_11;
-    temp_v1 <<= 4;
-    temp_a0 <<= 3;
-    temp_v1 += temp_a0;
-    temp_v0 += temp_v1;
-    temp_v1 = temp_v0 & 0xFF;
-    arg0->unk_13.s = temp_v0;
+    code_bits = state->unk_0F;
+    middle_bits = state->unk_10;
+    packed_code = state->unk_11;
+    code_bits <<= 4;
+    middle_bits <<= 3;
+    code_bits += middle_bits;
+    packed_code += code_bits;
+    code_bits = packed_code & 0xFF;
+    state->unk_13.s = packed_code;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    temp_test = temp_v1 < 0x38U;
-    if (temp_test == 0) {
-        arg0->unk_13.u = 0x31;
+    below_limit = code_bits < 0x38U;
+    if (below_limit == 0) {
+        state->unk_13.u = 0x31;
     } else {
-        temp_test = temp_v1 < 0x31U;
-        if (temp_test == 0) {
-            arg0->unk_13.u = 0x30;
+        below_limit = code_bits < 0x31U;
+        if (below_limit == 0) {
+            state->unk_13.u = 0x30;
         }
     }
-    D_80126B74[arg0->unk_0A](arg0);
+    D_80126B74[state->unk_0A](state);
 }
 
 /* MECHANISM: The true-space body uses a 24-byte frame and a local join at 0x8012677C, not a phantom call.

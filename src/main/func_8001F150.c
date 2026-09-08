@@ -8,23 +8,24 @@ extern void func_80405A64(void);
 extern void func_80405FC4(void);
 extern s32 D_8009DDD8[];
 
-void func_80406150(void *arg0)
+/* Selects the object's next callback based on whether its indexed entry is active. */
+void func_80406150(void *object_state)
 {
-    void (*callback)(void);
-    void *call_arg;
-    s32 index;
-    s32 active;
+    void (*next_callback)(void);
+    void *object_base;
+    s32 entry_index;
+    s32 entry_active;
 
-    index = FIELD(arg0, s32 *, 0x28);
-    active = *(s32 *)((u8 *)D_8009DDD8 + index * 0x80);
-    call_arg = (u8 *)arg0 - 0x20;
-    if (active != 0) {
-        callback = func_80405FC4;
-        FIELD(arg0, s32 *, 0x2C) = index;
+    entry_index = FIELD(object_state, s32 *, 0x28);
+    entry_active = *(s32 *)((u8 *)D_8009DDD8 + entry_index * 0x80);
+    object_base = (u8 *)object_state - 0x20;
+    if (entry_active != 0) {
+        next_callback = func_80405FC4;
+        FIELD(object_state, s32 *, 0x2C) = entry_index;
     } else {
-        FIELD(arg0, void (**)(void), 0x34) = func_80406368;
-        func_804032FC(call_arg);
-        callback = func_80405A64;
+        FIELD(object_state, void (**)(void), 0x34) = func_80406368;
+        func_804032FC(object_base);
+        next_callback = func_80405A64;
     }
-    FIELD(arg0, void (**)(void), -0x10) = callback;
+    FIELD(object_state, void (**)(void), -0x10) = next_callback;
 }

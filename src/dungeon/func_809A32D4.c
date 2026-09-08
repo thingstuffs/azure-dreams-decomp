@@ -95,113 +95,114 @@ extern u8 D_801C9E40[16];
 #define DUNGEON_INITIAL (D_80083160.ptr)
 #define DUNGEON_FROM_PAGE (D_80083160.ptr)
 
-void func_80174AD4(u8 *arg0, u8 *arg1, u8 *arg2)
+/* Updates the actor rendering state, effect level, and output position. */
+void func_80174AD4(u8 *actor_data, u8 *output_data, u8 *effect_data)
 {
-    LocalArgs local;
+    LocalArgs draw_region;
     Actor *actor;
-    Output *out;
-    u8 *dungeon0;
-    u8 *dungeon1;
-    u8 *dungeon2;
-    u8 *dungeon_end;
-    u8 *scratch;
-    void *packet0;
-    void *packet1;
-    void *packet2;
-    u8 other;
-    u8 flag;
-    s16 count;
-    s16 next_count;
-    s32 y;
-    s32 u;
-    s32 wh;
+    Output *output;
+    u8 *initial_page;
+    u8 *rect_page;
+    u8 *region_page;
+    u8 *base_page;
+    u8 *packet_list;
+    void *page_packet;
+    void *rect_packet;
+    void *region_packet;
+    u8 alternate_page;
+    u8 adjust_y;
+    s16 steps_left;
+    s16 next_steps;
+    s32 draw_y;
+    s32 texture_u;
+    s32 packed_size;
     s32 state;
-    u8 timer3;
-    u8 timer_default;
+    u8 decay_level;
+    u8 rise_level;
 
-    actor = (Actor *)arg0;
-    out = (Output *)arg1;
-    dungeon0 = DUNGEON_INITIAL;
-    dungeon_end = D_801C9E40;
+    actor = (Actor *)actor_data;
+    output = (Output *)output_data;
+    initial_page = DUNGEON_INITIAL;
+    base_page = D_801C9E40;
     state = actor->state;
-    other = dungeon0 != dungeon_end;
-    scratch = dungeon0 + 0xB0;
+    alternate_page = initial_page != base_page;
+    packet_list = initial_page + 0xB0;
 
     if (state == 0) {
-        packet0 = ((S_80174AD4_0 *)dungeon0)->unk_8D0;
-        ((S_80174AD4_0 *)dungeon0)->unk_8D0 = (u8 *)packet0 + 0xC;
-        func_80067E2C(packet0, DUNGEON_FROM_PAGE);
-        func_8006658C(scratch, packet0);
+        page_packet = ((S_80174AD4_0 *)initial_page)->unk_8D0;
+        ((S_80174AD4_0 *)initial_page)->unk_8D0 = (u8 *)page_packet + 0xC;
+        func_80067E2C(page_packet, DUNGEON_FROM_PAGE);
+        func_8006658C(packet_list, page_packet);
 
-        y = 0x110;
-        local.x = 0x340;
-        local.y = 0x100;
-        local.w = 0x20;
-        local.h = 0x20;
-        u = 0x350;
-        local.u = u;
-        flag = other;
-        if (flag != 0) {
-            y = 0x30;
+        draw_y = 0x110;
+        draw_region.x = 0x340;
+        draw_region.y = 0x100;
+        draw_region.w = 0x20;
+        draw_region.h = 0x20;
+        texture_u = 0x350;
+        draw_region.u = texture_u;
+        adjust_y = alternate_page;
+        if (adjust_y != 0) {
+            draw_y = 0x30;
         }
-        local.v = y;
+        draw_region.v = draw_y;
 
-        func_801750E4(0x10, 0x10, 0, 0, u, local.v,
-                     actor, (u8 *)actor + 4, scratch, 0, 0x20);
+        func_801750E4(0x10, 0x10, 0, 0, texture_u, draw_region.v,
+                     actor, (u8 *)actor + 4, packet_list, 0, 0x20);
 
-        dungeon1 = DUNGEON_FROM_PAGE;
-        packet1 = ((S_80174AD4_1 *)dungeon1)->unk_8D0;
-        ((S_80174AD4_1 *)dungeon1)->unk_8D0 = (u8 *)packet1 + 0x10;
-        ((S_80174AD4_2 *)packet1)->unk_04 = 0x60000000;
-        ((S_80174AD4_2 *)packet1)->unk_03 = 3;
-        ((S_80174AD4_2 *)packet1)->unk_08 = local.x;
-        y = local.y;
-        if (flag != 0) {
-            y -= 0xE0;
+        rect_page = DUNGEON_FROM_PAGE;
+        rect_packet = ((S_80174AD4_1 *)rect_page)->unk_8D0;
+        ((S_80174AD4_1 *)rect_page)->unk_8D0 = (u8 *)rect_packet + 0x10;
+        ((S_80174AD4_2 *)rect_packet)->unk_04 = 0x60000000;
+        ((S_80174AD4_2 *)rect_packet)->unk_03 = 3;
+        ((S_80174AD4_2 *)rect_packet)->unk_08 = draw_region.x;
+        draw_y = draw_region.y;
+        if (adjust_y != 0) {
+            draw_y -= 0xE0;
         }
-        wh = *(s32 *)&local.w;
-        ((S_80174AD4_2 *)packet1)->unk_0A = y;
-        ((S_80174AD4_2 *)packet1)->unk_0C = wh;
-        func_8006658C(scratch, packet1);
+        packed_size = *(s32 *)&draw_region.w;
+        ((S_80174AD4_2 *)rect_packet)->unk_0A = draw_y;
+        ((S_80174AD4_2 *)rect_packet)->unk_0C = packed_size;
+        func_8006658C(packet_list, rect_packet);
 
-        dungeon2 = DUNGEON_FROM_PAGE;
-        packet2 = ((S_80174AD4_3 *)dungeon2)->unk_8D0;
-        ((S_80174AD4_3 *)dungeon2)->unk_8D0 = (u8 *)packet2 + 0xC;
-        func_80067E2C(packet2, (void *)&local);
-        func_8006658C(scratch, packet2);
+        region_page = DUNGEON_FROM_PAGE;
+        region_packet = ((S_80174AD4_3 *)region_page)->unk_8D0;
+        ((S_80174AD4_3 *)region_page)->unk_8D0 = (u8 *)region_packet + 0xC;
+        func_80067E2C(region_packet, (void *)&draw_region);
+        func_8006658C(packet_list, region_packet);
     } else if (state == 1) {
         func_8004491C((u8 *)actor - 0x20, D_800CEEFC);
     } else if (state == 3) {
-        timer3 = ((S_80174AD4_4 *)arg2)->unk_0C;
-        if (timer3 != 0) {
-            timer3 -= 8;
-            ((S_80174AD4_4 *)arg2)->unk_0C = timer3;
-            if (timer3 == 0) {
+        decay_level = ((S_80174AD4_4 *)effect_data)->unk_0C;
+        if (decay_level != 0) {
+            decay_level -= 8;
+            ((S_80174AD4_4 *)effect_data)->unk_0C = decay_level;
+            if (decay_level == 0) {
                 (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
                 D_800814A0 |= 0x8000;
             }
         }
-        goto tail;
+        goto update_output;
     } else {
-        timer_default = ((S_80174AD4_4 *)arg2)->unk_0C;
-        if (timer_default < 0xC0) {
-            ((S_80174AD4_4 *)arg2)->unk_0C = timer_default + 0x20;
+        rise_level = ((S_80174AD4_4 *)effect_data)->unk_0C;
+        if (rise_level < 0xC0) {
+            ((S_80174AD4_4 *)effect_data)->unk_0C = rise_level + 0x20;
         }
         if (actor->field16 == *actor->field10) {
-            goto tail;
+            goto update_output;
         }
     }
     actor->state++;
-tail:
-    count = 4;
+update_output:
+    steps_left = 4;
     if (actor->state != 3) {
-        out->field02 = ((S_80174AD4_5 *)(actor->field1C))->unk_02;
-        out->field06 = ((S_80174AD4_5 *)(actor->field1C))->unk_06;
-        out->field0A = ((S_80174AD4_5 *)(actor->field1C))->unk_0A - 0xC;
+        output->field02 = ((S_80174AD4_5 *)(actor->field1C))->unk_02;
+        output->field06 = ((S_80174AD4_5 *)(actor->field1C))->unk_06;
+        output->field0A = ((S_80174AD4_5 *)(actor->field1C))->unk_0A - 0xC;
         do {
             func_80174FC0((u8 *)actor - 0x20, (((S_80174AD4_7 *)(((S_80174AD4_6 *)actor)->unk_0C))->unk_00 >> 9) & 7, 0xFF);
-            next_count = count - 1;
-            count = next_count;
-        } while ((next_count << 16) > 0);
+            next_steps = steps_left - 1;
+            steps_left = next_steps;
+        } while ((next_steps << 16) > 0);
     }
 }

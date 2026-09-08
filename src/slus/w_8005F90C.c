@@ -1,75 +1,72 @@
 #include "common.h"
 
-/* PsyQ 4.0 LIBSPU: pitch -> (note, fine) reverse of _spu_note2pitch.
- * Finds the MSB of ~pitch to get the octave, then walks the 48x32 pitch
- * table (built incrementally from the 0x103B semitone ratio) for the
- * 1/32-semitone slot that brackets `pitch`. */
-u32 func_8005F90C(u16 centerNote, u16 centerFine, u16 pitch)
+/* Convert SPU pitch to a packed note and fine value relative to the center note and fine offset. */
+u32 func_8005F90C(u16 center_note, u16 center_fine, u16 pitch)
 {
-    u16 inv;
-    s32 msb;
+    u16 inverted_pitch;
+    s32 top_bit;
     s32 octave;
-    s32 bitval;
+    s32 octave_pitch;
     u32 scale;
-    u32 base;
-    u32 next;
-    u32 step;
-    u32 acc;
-    u32 hi;
-    u32 lo;
-    u32 up;
-    u32 sa;
-    u32 sb;
-    s32 o;
-    s32 i;
-    s32 index;
-    s32 oi;
-    s32 q;
-    s32 r;
+    u32 row_base;
+    u32 row_end;
+    u32 pitch_step;
+    u32 lower_offset;
+    u32 upper_offset;
+    u32 lower_pitch;
+    u32 upper_pitch;
+    u32 lower_fixed;
+    u32 upper_fixed;
+    s32 scan_index;
+    s32 slot;
+    s32 pitch_index;
+    s32 row_index;
+    s32 note_offset;
+    s32 fine_offset;
     s32 note;
     s32 fine;
 
-    inv = (~(s32)pitch) & 0xFFFF;
-    msb = 0;
-    for (o = 15; o >= 0; o--) {
-        if (((inv >> o) & 1) == 0) {
-            msb = o;
+    inverted_pitch = (~(s32)pitch) & 0xFFFF;
+    top_bit = 0;
+    for (scan_index = 15; scan_index >= 0; scan_index--) {
+        if (((inverted_pitch >> scan_index) & 1) == 0) {
+            top_bit = scan_index;
             break;
         }
     }
-    octave = msb - 12;
-    bitval = 1 << msb;
+    octave = top_bit - 12;
+    octave_pitch = 1 << top_bit;
     scale = 0x1000;
-    for (o = 0; o < 0x30; o++) {
-        base = (u32)bitval * scale;
+    for (scan_index = 0; scan_index < 0x30; scan_index++) {
+        row_base = (u32)octave_pitch * scale;
         scale *= 0x103B;
         scale >>= 12;
-        next = (u32)bitval * scale;
-        step = (next - base) >> 5;
-        i = 0;
-        oi = o * 32;
-        acc = 0;
-        hi = step;
-        for (; i < 0x20; i++) {
-            sa = base + acc;
-            sb = base + hi;
-            lo = sa >> 12;
-            up = sb >> 12;
-            if ((u32)pitch >= lo) {
-                if ((u32)pitch < up) {
-                    index = oi + i;
+        row_end = (u32)octave_pitch * scale;
+        pitch_step = (row_end - row_base) >> 5;
+        slot = 0;
+        row_index = scan_index * 32;
+        lower_offset = 0;
+        upper_offset = pitch_step;
+        for (; slot < 0x20; slot++) {
+            lower_fixed = row_base + lower_offset;
+            upper_fixed = row_base + upper_offset;
+            lower_pitch = lower_fixed >> 12;
+            upper_pitch = upper_fixed >> 12;
+            if ((u32)pitch >= lower_pitch) {
+                if ((u32)pitch < upper_pitch) {
+                    pitch_index = row_index + slot;
                     goto done;
                 }
             }
-            hi += step;
-            acc += step;
+            upper_offset += pitch_step;
+            lower_offset += pitch_step;
         }
     }
-    index = 1536;
+    pitch_index = 1536;
 done:
-    q = index / 128;
-    r = index - q * 128;
-    note = (s32)centerNote + q + octave * 12;
-    fine = (s32)centerFine + r;
+    note_offset = pitch_index / 128;
+    fine_offset = pitch_index - note_offset * 128;
+    note = (s32)center_note + note_offset + octave * 12;
+    fine = (s32)center_fine + fine_offset;
     return (u32)((note << 8) | fine);
 }

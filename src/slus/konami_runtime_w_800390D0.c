@@ -16,16 +16,17 @@ s32 func_80053EF0();                         /* extern */
 extern u8 D_80082E6A;
 extern M2C_UNK func_80038A00;
 
-void func_800390D0(S_800390D0_0 *arg0) {
+/* Selects the next callback or clears it and decrements the state counter. */
+void func_800390D0(S_800390D0_0 *state) {
     if (D_80082E6A != 2) {
         if (func_80053EF0(4) != 0x100) {
             func_80053DA8(0xC4);
-            goto block_5;
+            goto set_callback;
         }
-        arg0->unk_10 = NULL;
-        arg0->unk_1C = (s32) (arg0->unk_1C - 1);
+        state->unk_10 = NULL;
+        state->unk_1C = (s32) (state->unk_1C - 1);
         return;
     }
-block_5:
-    arg0->unk_10 = &func_80038A00;
+set_callback:
+    state->unk_10 = &func_80038A00;
 }

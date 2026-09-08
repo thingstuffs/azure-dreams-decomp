@@ -26,10 +26,11 @@ typedef struct S_8001890C_3 {
 extern u8 D_80016000[0x10];
 
 
+/* Checks whether the stored value is at least the callback result for query {5, 0x17}. */
 s32 func_8001890C(void) {
-    s8 sp10[2];
+    s8 queryArgs[2];
 
-    sp10[1] = 0x17;
-    sp10[0] = 5;
-    return (s32) ((S_8001890C_2 *)(((S_8001890C_1 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_40))->unk_110 >= ((S_8001890C_3 *)(((S_8001890C_1 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20))->unk_50(sp10);
+    queryArgs[1] = 0x17;
+    queryArgs[0] = 5;
+    return (s32) ((S_8001890C_2 *)(((S_8001890C_1 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_40))->unk_110 >= ((S_8001890C_3 *)(((S_8001890C_1 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20))->unk_50(queryArgs);
 }

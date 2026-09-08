@@ -11,43 +11,40 @@ extern DungeonState D_80083460;
 extern s16 D_80083228[];
 extern void func_80047784(void *, s32, s32);
 
-s32 func_800AA924(void *arg0, s32 arg1, void *arg2, u8 *arg3)
+/* Resets actor action state and selects a sprite frame for its facing direction. */
+s32 func_800AA924(void *actor, s32 unused, void *sprite, u8 *direction_frames)
 {
     DungeonState *state = &D_80083460;
 
-    *(u8 *)((u8 *)arg0 + 0x71) &= 0x7F;
+    *(u8 *)((u8 *)actor + 0x71) &= 0x7F;
     if (state->flags & 0x2008) {
-        *(volatile s8 *)((u8 *)arg0 + 0x9A) = 0xE;
+        *(volatile s8 *)((u8 *)actor + 0x9A) = 0xE;
         return 1;
     }
-    if (*(s32 *)((u8 *)arg0 + 0x1C) & 0x20) {
+    if (*(s32 *)((u8 *)actor + 0x1C) & 0x20) {
         register s32 dispatch_id ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        s32 state_word = 0xE;
-        register s32 mask ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 state_bits = 0xE;
+        register s32 mask ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-        *(s8 *)((u8 *)arg0 + 0x9A) = state_word;
+        *(s8 *)((u8 *)actor + 0x9A) = state_bits;
         ASM_KEEP(dispatch_id);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        state_word = *(volatile s32 *)((u8 *)arg0 + 0x1C);
+        state_bits = *(volatile s32 *)((u8 *)actor + 0x1C);
         mask = ~0x200;
-        state_word &= mask;
-        *(s32 *)((u8 *)arg0 + 0x1C) = state_word;
+        state_bits &= mask;
+        *(s32 *)((u8 *)actor + 0x1C) = state_bits;
         return;
     }
 
-    *(s8 *)((u8 *)arg0 + 0x9A) = 0xD;
-    *(s8 *)((u8 *)arg0 + 0x9B) = 0;
-    *(s32 *)((u8 *)arg0 + 0x8C) = 0;
-    if (arg3 != 0) {
-        *(u8 **)((u8 *)arg2 + 0x2C) = arg3;
-        func_80047784(arg2,
-            arg3[((D_80083228[0] + *(s16 *)((u8 *)arg0 + 0x2A) + 0x100) >> 9) & 7],
+    *(s8 *)((u8 *)actor + 0x9A) = 0xD;
+    *(s8 *)((u8 *)actor + 0x9B) = 0;
+    *(s32 *)((u8 *)actor + 0x8C) = 0;
+    if (direction_frames != 0) {
+        *(u8 **)((u8 *)sprite + 0x2C) = direction_frames;
+        func_80047784(sprite,
+            direction_frames[((D_80083228[0] + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);
     }
     state->count++;
-    *(s32 *)((u8 *)arg0 + 0x1C) &= ~0x40000;
+    *(s32 *)((u8 *)actor + 0x1C) &= ~0x40000;
     return 1;
 }
-
-/* MECHANISM: Natural s0/s1 holds reproduce the 0x20 frame and save contract.
-   The second tail ABI pins dispatch $v0=0, RMW $v1, and mask/argument $a0=-0x201.
-   A volatile load plus ordinary store lets the RMW store fill the sibcall delay. */

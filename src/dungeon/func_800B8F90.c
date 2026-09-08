@@ -70,128 +70,130 @@ extern u8 D_800E1095[0x1E];
 extern u8 D_800E10B3[];
 extern u8 *D_800E3D7C;
 
-s32 func_800BE6F0(void *arg0, s32 arg1, s16 arg2)
+/* Handles entity removal, displays its message, and updates dungeon state. */
+s32 func_800BE6F0(void *entity, s32 source, s16 reason)
 {
-    u8 local[4];
-    s32 temp_s1;
-    s32 temp_v0;
-    s32 index;
-    s32 arg_a2;
-    u8 type;
-    u8 type2;
-    u8 record_x;
-    u8 record_y;
-    S_800BE6F0_1 *record1;
-    S_800BE6F0_3 *record2;
+    u8 spawn_data[4];
+    s32 text_buffer;
+    s32 text_end;
+    s32 entity_index;
+    s32 linked_entity;
+    s32 tile_mask;
+    u8 entity_type;
+    u8 spawn_type;
+    u8 tile_x;
+    u8 tile_y;
+    S_800BE6F0_1 *position;
+    S_800BE6F0_3 *map_position;
     u8 *message;
-    s32 *state_base1;
-    s32 *state_base2;
+    s32 *selection_state;
+    s32 *dungeon_state;
     s32 *state_page;
-    s32 *index_base;
+    s32 *entity_table;
     s32 *flags_page;
     u8 *entity_base;
-    s32 state_value;
-    s32 state_masked;
+    s32 selected_entity;
+    s32 cleared_selection;
 
-    if (arg0 == D_800E3D7C) {
-        ((Rec_D_800E3D7C *)arg0)->unk_110 = arg1;
-        func_8008D330(arg0, D_80083780, D_80082E80, arg0);
+    if (entity == D_800E3D7C) {
+        ((Rec_D_800E3D7C *)entity)->unk_110 = source;
+        func_8008D330(entity, D_80083780, D_80082E80, entity);
         return 0;
     }
 
-    if ((u32)arg0 <= 0x9FFFFFFF) {
-        func_800A63B8(arg0, arg1, arg2);
+    if ((u32)entity <= 0x9FFFFFFF) {
+        func_800A63B8(entity, source, reason);
     }
 
-    if (((Rec_D_800E3D7C *)arg0)->unk_14.as_s32 & 0x4000) {
-        temp_s1 = func_800990FC();
-        if ((u32)(((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v - 3) < 0x2B) {
-            temp_v0 = func_80099734(arg0, temp_s1);
+    if (((Rec_D_800E3D7C *)entity)->unk_14.as_s32 & 0x4000) {
+        text_buffer = func_800990FC();
+        if ((u32)(((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v - 3) < 0x2B) {
+            text_end = func_80099734(entity, text_buffer);
             message = (u8 *)0x800E0000;
             ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             message += 0x1095;
         } else {
-            temp_v0 = func_80099734(arg0, temp_s1);
-            temp_v0 = func_80099194(D_800E10B3, temp_v0);
-            temp_v0 = func_80099368(arg1, temp_v0);
+            text_end = func_80099734(entity, text_buffer);
+            text_end = func_80099194(D_800E10B3, text_end);
+            text_end = func_80099368(source, text_end);
             message = D_80089360;
         }
-        temp_v0 = func_80099194(message, temp_v0);
-        func_80099290(temp_v0);
-        func_800A5720(temp_s1);
+        text_end = func_80099194(message, text_end);
+        func_80099290(text_end);
+        func_800A5720(text_buffer);
     }
 
-    type = ((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v;
-    if ((u32)(type - 3) < 0x2B) {
-        local[0] = type;
-        type2 = ((Rec_D_800E3D7C *)arg0)->unk_10.at03_u8.v;
-        if ((type2 == 3) || (type2 == 5) || (type2 == 7) ||
-            (type2 == 9) || (type2 == 0xB) || (type2 == 0xD) ||
-            (type2 == 0xF) || (type2 == 0x11) || (type2 == 0x13)) {
-            local[0]++;
+    entity_type = ((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v;
+    if ((u32)(entity_type - 3) < 0x2B) {
+        spawn_data[0] = entity_type;
+        spawn_type = ((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v;
+        if ((spawn_type == 3) || (spawn_type == 5) || (spawn_type == 7) ||
+            (spawn_type == 9) || (spawn_type == 0xB) || (spawn_type == 0xD) ||
+            (spawn_type == 0xF) || (spawn_type == 0x11) || (spawn_type == 0x13)) {
+            spawn_data[0]++;
         }
-        local[1] = 0x12;
-        local[2] = (func_800A6D30() & 0xF) + 0xA;
-        local[3] = 0;
-        func_800A90E8(local);
+        spawn_data[1] = 0x12;
+        spawn_data[2] = (func_800A6D30() & 0xF) + 0xA;
+        spawn_data[3] = 0;
+        func_800A90E8(spawn_data);
 
-        record1 = ((S_800BE6F0_0_pre *)arg0)[-1].unk_00;
+        position = ((S_800BE6F0_0_pre *)entity)[-1].unk_00;
         func_800B8228(
-            record1->unk_02,
-            record1->unk_06,
-            record1->unk_0A,
-            local);
+            position->unk_02,
+            position->unk_06,
+            position->unk_0A,
+            spawn_data);
 
         state_page = (s32 *)0x80080000;
         ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        state_base1 = (s32 *)((u8 *)state_page + 0x3460);
-        ASM_KEEP(state_base1);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        state_value = ((S_800BE6F0_2 *)state_base1)->unk_10;
-        ASM_KEEP(state_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        if (state_value == (s32)((u8 *)arg0 - 0x20)) {
-            state_masked = state_value & 0x7FFFFFFF;
-            ((S_800BE6F0_2 *)state_base1)->unk_10 = state_masked;
+        selection_state = (s32 *)((u8 *)state_page + 0x3460);
+        ASM_KEEP(selection_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        selected_entity = ((S_800BE6F0_2 *)selection_state)->unk_10;
+        ASM_KEEP(selected_entity);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        if (selected_entity == (s32)((u8 *)entity - 0x20)) {
+            cleared_selection = selected_entity & 0x7FFFFFFF;
+            ((S_800BE6F0_2 *)selection_state)->unk_10 = cleared_selection;
         }
 
-        temp_v0 = func_800A32A4(arg0);
-        if (temp_v0 != 0) {
-            index = func_800A6620(temp_v0, 0);
-            if (index < 0x40) {
-                index_base = (s32 *)0x80010980;
+        linked_entity = func_800A32A4(entity);
+        if (linked_entity != 0) {
+            entity_index = func_800A6620(linked_entity, 0);
+            if (entity_index < 0x40) {
+                entity_table = (s32 *)0x80010980;
                 entity_base = (u8 *)0x80010000;
                 ASM_KEEP(entity_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                entity_base[index * 0x54 + 0xA93] = 0;
-                index_base[index] = 0;
+                entity_base[entity_index * 0x54 + 0xA93] = 0;
+                entity_table[entity_index] = 0;
             }
         }
 
-        if ((func_80042900(arg0, 0x1B) << 16) == 0) {
-            record2 = ((S_800BE6F0_0_pre *)arg0)[-1].unk_04;
-            record_x = record2->unk_24;
-            record_y = record2->unk_25;
-            arg_a2 = 0x3000;
-            if (((Rec_D_800E3D7C *)arg0)->unk_1C.as_s32 & 0x2000) {
-                arg_a2 = 0x300;
+        if ((func_80042900(entity, 0x1B) << 16) == 0) {
+            map_position = ((S_800BE6F0_0_pre *)entity)[-1].unk_04;
+            tile_x = map_position->unk_24;
+            tile_y = map_position->unk_25;
+            tile_mask = 0x3000;
+            if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x2000) {
+                tile_mask = 0x300;
             }
-            func_8009A3D0(record_x, record_y, arg_a2);
+            func_8009A3D0(tile_x, tile_y, tile_mask);
         }
 
-        func_8009A028(arg0);
-        ((S_800BE6F0_0_pre *)arg0)[-1].unk_16 |= 0x8000;
+        func_8009A028(entity);
+        ((S_800BE6F0_0_pre *)entity)[-1].unk_16 |= 0x8000;
         flags_page = (s32 *)0x80080000;
         ASM_KEEP(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         ((S_800BE6F0_4 *)flags_page)->unk_14A0 |= 0x8000;
         goto success_cleanup;
     }
 
-    func_800A5F38(arg0, arg1);
+    func_800A5F38(entity, source);
     return 1;
 
 success_cleanup:
-    func_80098B38(arg1);
-    state_base2 = D_80083460;
-    ASM_KEEP(state_base2);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    ((S_800BE6F0_5 *)state_base2)->unk_0A--;
+    func_80098B38(source);
+    dungeon_state = D_80083460;
+    ASM_KEEP(dungeon_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    ((S_800BE6F0_5 *)dungeon_state)->unk_0A--;
     return 1;
 }
 

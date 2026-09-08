@@ -2,13 +2,14 @@
 
 extern s16 D_80083228[5];
 
-u32 func_800C2D0C(s32 arg0) {
-    s32 value;
+/* Returns the quarter-turn sector of the stored angle relative to the offset input angle. */
+u32 func_800C2D0C(s32 angle) {
+    s32 angle_delta;
 
-    arg0 -= 0x600;
-    value = (D_80083228[0] - arg0) & 0xFFF;
-    if (value < 0) {
-        value += 0x3FF;
+    angle -= 0x600;
+    angle_delta = (D_80083228[0] - angle) & 0xFFF;
+    if (angle_delta < 0) {
+        angle_delta += 0x3FF;
     }
-    return (u32)value >> 10;
+    return (u32)angle_delta >> 10;
 }

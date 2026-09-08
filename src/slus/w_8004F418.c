@@ -26,11 +26,12 @@ extern void *func_8004F308(void *);
 extern void func_8004F3D8(void *, s32);
 extern void func_8004EEBC(S_8004EEBC_Obj *);
 
-void *func_8004F418(s32 arg0, s32 arg1)
+/* Initialize or reset the shared node, link its owner and state, and select its active sub-object. */
+void *func_8004F418(s32 owner, s32 state)
 {
     S_8004F418_Node *node = &D_80084138;
     u8 *body = node->body;
-    u8 *field210;
+    u8 *template_node;
 
     if (func_8004B4A8(node) == 0) {
         node = func_8003FE78(0, node, 0xCF);
@@ -49,11 +50,11 @@ void *func_8004F418(s32 arg0, s32 arg1)
     D_801C9E40[0x108EF] = 0;
     func_8004F330(body, 7);
 
-    field210 = body + 0x210;
-    node->unkC = field210;
+    template_node = body + 0x210;
+    node->unkC = template_node;
     *(void **)(body + 0x21C) = func_8004F308(body + 0x220);
-    *(s32 *)(body + 4) = arg1;
-    func_8004F3D8(body, arg0);
+    *(s32 *)(body + 4) = state;
+    func_8004F3D8(body, owner);
     node->unk10 = func_8004EEBC;
     func_8004EEBC((S_8004EEBC_Obj *)body);
     return node;

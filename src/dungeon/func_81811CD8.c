@@ -7,7 +7,8 @@ typedef struct S_80026CD8_0 {
     s32 * unk_10;
 } S_80026CD8_0;   /* arg0 in func_80026CD8 */
 
-void func_80026CD8(S_80026CD8_0 *arg0) {
-    *arg0->unk_0C = 0;
-    *arg0->unk_10 = 0;
+/* Clear both values referenced by the state. */
+void func_80026CD8(S_80026CD8_0 *state) {
+    *state->unk_0C = 0;
+    *state->unk_10 = 0;
 }

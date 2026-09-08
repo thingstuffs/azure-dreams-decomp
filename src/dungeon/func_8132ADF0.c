@@ -9,6 +9,7 @@ typedef struct S_801725F0_0 {
 
 extern S_801725F0_0 *D_80174CE0;
 
-s32 func_801725F0(s32 arg0) {
-    return (s32) D_80174CE0->unk_BA >= arg0;
+/* Check whether the stored byte meets the threshold. */
+s32 func_801725F0(s32 threshold) {
+    return (s32) D_80174CE0->unk_BA >= threshold;
 }

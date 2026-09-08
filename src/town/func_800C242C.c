@@ -53,77 +53,76 @@ extern M2C_UNK D_80083498;
 extern M2C_UNK D_800BFD14;
 extern M2C_UNK D_800BFFF4;
 
-void func_800BFB8C(void *arg0)
+/* Spawn objects at randomized coordinates and mark completion when the countdown expires. */
+void func_800BFB8C(void *source)
 {
-    s16 temp_v0_3;
-    register s16 temp_v0_4 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s16 temp_v1;
-    s32 temp_a0;
-    register s32 temp_v0_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 var_s1;
-    s32 initial_v0;
-    register s32 rng_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 final_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 var_v0;
+    register s16 fixed_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 state;
+    s32 coord_term;
+    register s32 random_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 spawn_count;
+    s32 count_bits;
+    register s32 random_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 spawn_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 base_coord;
-    u16 temp_v0_5;
+    u16 next_value;
     u8 *town;
     u8 *kind;
-    void *temp_s0;
-    register void *temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *temp_v0;
-    void *var_a0;
+    void *coords;
+    register void *emitter ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *new_object;
+    void *object;
     void *callback;
 
-    var_a0 = arg0;
-    temp_s2 = var_a0;
-    initial_v0 = ((S_800BFB8C_0 *)temp_s2)->unk_0E;
-    initial_v0 <<= 0x10;
-    var_s1 = initial_v0 >> 0x11;
+    object = source;
+    emitter = object;
+    count_bits = ((S_800BFB8C_0 *)emitter)->unk_0E;
+    count_bits <<= 0x10;
+    spawn_count = count_bits >> 0x11;
     town = (u8 *)&D_80083160;
-    if (var_s1 >= 0) {
+    if (spawn_count >= 0) {
         kind = (u8 *)&D_800BFD14;
         do {
-            temp_v0 = func_8003FD64((void *)0x202, &D_80083498);
-            if (temp_v0 != NULL) {
-                var_a0 = temp_v0;
+            new_object = func_8003FD64((void *)0x202, &D_80083498);
+            if (new_object != NULL) {
+                object = new_object;
                 callback = &D_800BFFF4;
-                temp_s0 = var_a0 + 0x20;
-                ((S_800BFB8C_1 *)var_a0)->unk_10 = (M2C_UNK *)kind;
-                func_8004491C(var_a0, callback);
-                rng_v0 = rand();
-                temp_v0_2 = rng_v0;
-                temp_a0 = ((S_800BFB8C_2 *)town)->unk_BC;
-                rng_v0 >>= 0xA;
-                if (temp_v0_2 < 0) {
-                    rng_v0 = (s32)(temp_v0_2 + 0x3FF) >> 0xA;
+                coords = object + 0x20;
+                ((S_800BFB8C_1 *)object)->unk_10 = (M2C_UNK *)kind;
+                func_8004491C(object, callback);
+                random_coord = rand();
+                random_value = random_coord;
+                coord_term = ((S_800BFB8C_2 *)town)->unk_BC;
+                random_coord >>= 0xA;
+                if (random_value < 0) {
+                    random_coord = (s32)(random_value + 0x3FF) >> 0xA;
                 }
-                rng_v0 <<= 0xA;
-                rng_v0 = temp_v0_2 - rng_v0;
-                rng_v0 = temp_a0 + rng_v0;
-                rng_v0 -= 0x200;
-                ((S_800BFB8C_3 *)temp_s0)->unk_0C = rng_v0;
-                ((S_800BFB8C_3 *)temp_s0)->unk_1E = rng_v0;
-                temp_a0 = rand()
-                        % (s16)((S_800BFB8C_0 *)temp_s2)->unk_0A;
-                base_coord = ((S_800BFB8C_0 *)temp_s2)->unk_08;
-                temp_v0_4 = -0x180;
-                ((S_800BFB8C_3 *)temp_s0)->unk_10 = temp_v0_4;
-                ((S_800BFB8C_3 *)temp_s0)->unk_26 = temp_v0_4;
-                final_v0 = base_coord;
-                final_v0 += temp_a0;
-                ((S_800BFB8C_3 *)temp_s0)->unk_0E = final_v0;
-                ((S_800BFB8C_3 *)temp_s0)->unk_22 = final_v0;
+                random_coord <<= 0xA;
+                random_coord = random_value - random_coord;
+                random_coord = coord_term + random_coord;
+                random_coord -= 0x200;
+                ((S_800BFB8C_3 *)coords)->unk_0C = random_coord;
+                ((S_800BFB8C_3 *)coords)->unk_1E = random_coord;
+                coord_term = rand()
+                        % (s16)((S_800BFB8C_0 *)emitter)->unk_0A;
+                base_coord = ((S_800BFB8C_0 *)emitter)->unk_08;
+                fixed_coord = -0x180;
+                ((S_800BFB8C_3 *)coords)->unk_10 = fixed_coord;
+                ((S_800BFB8C_3 *)coords)->unk_26 = fixed_coord;
+                spawn_coord = base_coord;
+                spawn_coord += coord_term;
+                ((S_800BFB8C_3 *)coords)->unk_0E = spawn_coord;
+                ((S_800BFB8C_3 *)coords)->unk_22 = spawn_coord;
             }
-            var_s1 -= 1;
-            var_a0 = (void *)0x202;
-        } while (var_s1 >= 0);
+            spawn_count -= 1;
+            object = (void *)0x202;
+        } while (spawn_count >= 0);
     }
-    temp_v1 = ((S_800BFB8C_0 *)temp_s2)->unk_0C.s;
-    if (temp_v1 == 0) {
+    state = ((S_800BFB8C_0 *)emitter)->unk_0C.s;
+    if (state == 0) {
         goto state_zero;
     }
-    if (temp_v1 == 1) {
+    if (state == 1) {
         goto state_one;
     }
     goto done;
@@ -132,23 +131,19 @@ state_zero:
     if (func_80033BC0(0xA1) == 0) {
         goto done;
     }
-    temp_v0_5 = ((S_800BFB8C_0 *)temp_s2)->unk_0C.u + 1;
-    ((S_800BFB8C_0 *)temp_s2)->unk_0C.u = temp_v0_5;
+    next_value = ((S_800BFB8C_0 *)emitter)->unk_0C.u + 1;
+    ((S_800BFB8C_0 *)emitter)->unk_0C.u = next_value;
     goto done;
 
 state_one:
-    temp_v0_5 = ((S_800BFB8C_0 *)temp_s2)->unk_0E - 1;
-    ((S_800BFB8C_0 *)temp_s2)->unk_0E = temp_v0_5;
-    if ((temp_v0_5 << 0x10) <= 0) {
-        (*(u16 *)((u8 *)temp_s2 + -2)) =
-            (u16)(((S_800BFB8C_0_pre *)temp_s2)[-1].unk_00 | 0x8000);
+    next_value = ((S_800BFB8C_0 *)emitter)->unk_0E - 1;
+    ((S_800BFB8C_0 *)emitter)->unk_0E = next_value;
+    if ((next_value << 0x10) <= 0) {
+        (*(u16 *)((u8 *)emitter + -2)) =
+            (u16)(((S_800BFB8C_0_pre *)emitter)[-1].unk_00 | 0x8000);
         D_800814A0 = D_800814A0 | 0x8000;
     }
 
 done:
     return;
 }
-
-/* MECHANISM: The in-range 800BFCF0 transfers are explicit local CFG edges.
-   Guarded v1/a0 roles feed a named s32 v0 sum; separate assignment and +=
-   let combine preserve retail's commutative order. The tail flag is direct RMW. */

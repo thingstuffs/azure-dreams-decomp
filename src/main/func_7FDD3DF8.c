@@ -16,46 +16,47 @@ typedef struct ColorRampEffect {
 
 extern u32 D_800814A0[];
 
+/* Ramp the effect color using owner flags and active state, then propagate the owner high bit. */
 void func_8008AD58(ColorRampEffect *effect)
 {
-    u16 masks[2];
+    u16 flag_masks[2];
     EffectOwner *owner;
-    s32 active;
-    s32 color;
-    u32 loaded_active;
-    u16 flags;
+    s32 brighten;
+    s32 next_color;
+    u32 state_bits;
+    u16 selected_flags;
 
     owner = effect->owner;
-    masks[0] = 2;
-    masks[1] = 1;
-    active = 0;
-    flags = owner->flags;
-    flags &= *(u16 *)((unsigned long)(effect->selector * 2)
-                      + (unsigned long)masks);
+    flag_masks[0] = 2;
+    flag_masks[1] = 1;
+    brighten = 0;
+    selected_flags = owner->flags;
+    selected_flags &= *(u16 *)((unsigned long)(effect->selector * 2)
+                      + (unsigned long)flag_masks);
 
-    if (flags != 0) {
-        loaded_active = effect->active;
-        switch (loaded_active) {
+    if (selected_flags != 0) {
+        state_bits = effect->active;
+        switch (state_bits) {
         case 0:
-            active = 0;
+            brighten = 0;
             break;
         default:
-            active = 1;
+            brighten = 1;
             break;
         }
         goto update_color;
     }
 
     if (effect->active == 0) {
-        active = 1;
+        brighten = 1;
     }
 update_color:
-    if (active != 0) {
-        color = effect->color + 0x101010;
-        effect->color = color;
-        if (color > 0x808080) {
-            color = 0x808080;
-            effect->color = color;
+    if (brighten != 0) {
+        next_color = effect->color + 0x101010;
+        effect->color = next_color;
+        if (next_color > 0x808080) {
+            next_color = 0x808080;
+            effect->color = next_color;
             goto propagate_flag;
         }
     } else {
@@ -66,8 +67,8 @@ update_color:
     }
 
 propagate_flag:
-    loaded_active = (s16)owner->flags;
-    if ((loaded_active & 0x8000) != 0) {
+    state_bits = (s16)owner->flags;
+    if ((state_bits & 0x8000) != 0) {
         ((u16 *)effect)[-1] |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }

@@ -21,50 +21,41 @@ typedef struct S_80048B8C {
     u8 *listEnd;
 } S_80048B8C;
 
-/* Walk outer 8-byte entries from list+index*4 to listEnd. For type==2 nodes
- * without flag 0x08, set that flag and clear the low 6 bits of each 0x0C-stride
- * node's val then add 0xE, until a node with flag 0x80.
- *
- * Match levers:
- * - signed char mask: hoists li 2 before li -64
- * - volatile u16 val: keeps both same-address stores
- * - ASM_REG pins $2/$3 + empty-asm "=r"/"0" barriers (gcc 2.7.2 has no +r):
- *   force lhu→$v0, and→$v1, first sh of $v1, then addiu $v0,$v1,14 / sh $v0
- */
-void func_80048B8C(S_80048B8C *arg0) {
-    u8 *cur;
+/* Mark unprocessed type-2 node sequences and set the low six value bits to 14. */
+void func_80048B8C(S_80048B8C *entries) {
+    u8 *entry_pos;
     S_80048B8C_node *node;
     S_80048B8C_entry *entry;
-    volatile u16 *valptr;
-    register int loaded ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register int new_var ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    signed char mask;
+    volatile u16 *value_ptr;
+    register int value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register int masked_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    signed char value_mask;
 
-    cur = arg0->list + (arg0->index << 2);
-    if (cur < arg0->listEnd) {
-        entry = (S_80048B8C_entry *)cur;
-        mask = ~0x3F;
+    entry_pos = entries->list + (entries->index << 2);
+    if (entry_pos < entries->listEnd) {
+        entry = (S_80048B8C_entry *)entry_pos;
+        value_mask = ~0x3F;
         do {
             if (entry->type == 2) {
                 node = entry->node;
                 if (!(node->flags & 8)) {
                     node->flags |= 8;
-                    valptr = &node->val;
+                    value_ptr = &node->val;
                     do {
-                        loaded = *valptr;
-                        __asm__("" : "=r"(loaded) : "0"(loaded));
-                        new_var = loaded & mask;
-                        __asm__("" : "=r"(new_var) : "0"(new_var));
-                        *valptr = new_var;
-                        __asm__("" : "=r"(new_var) : "0"(new_var));
-                        loaded = new_var + 0xE;
-                        *valptr = loaded;
-                        valptr = (volatile u16 *)((u8 *)valptr + 0xC);
+                        value = *value_ptr;
+                        __asm__("" : "=r"(value) : "0"(value));
+                        masked_value = value & value_mask;
+                        __asm__("" : "=r"(masked_value) : "0"(masked_value));
+                        *value_ptr = masked_value;
+                        __asm__("" : "=r"(masked_value) : "0"(masked_value));
+                        value = masked_value + 0xE;
+                        *value_ptr = value;
+                        value_ptr = (volatile u16 *)((u8 *)value_ptr + 0xC);
                     } while (!((node++)->flags & 0x80));
                 }
             }
             entry = (S_80048B8C_entry *)((u8 *)entry + 8);
-            cur += 8;
-        } while (cur < arg0->listEnd);
+            entry_pos += 8;
+        } while (entry_pos < entries->listEnd);
     }
 }

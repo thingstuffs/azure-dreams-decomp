@@ -42,35 +42,36 @@ typedef struct S_80171C7C_2 {
     s32 unk_08;
 } S_80171C7C_2;   /* temp_v1 in func_80171C7C */
 
+/* Creates an object with default coordinates and initializes its rendering state. */
 void func_80171C7C(void) {
-    s32 *temp_v1;
-    S_80171C7C_1 *temp_a0;
-    S_80171C7C_0 *temp_a3;
-    void *temp_v0;
-    u16 temp_flags;
+    s32 *default_coords;
+    S_80171C7C_1 *coords;
+    S_80171C7C_0 *render_state;
+    void *object;
+    u16 render_flags;
 
-    temp_v0 = func_8003FC64(0x12);
-    if (temp_v0 != 0) {
-        (*(s16 *)((u8 *)temp_v0 + 0x38)) = 0;
-        (*(s32 * *)((u8 *)temp_v0 + 0x10)) = &D_801717A8;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_a3 = (*(void * *)((u8 *)temp_v0 + 0xC));
-        temp_a3->unk_06 = 0;
-        temp_a0 = (*(void * *)((u8 *)temp_v0 + 8));
-        temp_v1 = D_80083780;
-        temp_a0->unk_00 = ((S_80171C7C_2 *)temp_v1)->unk_00;
-        temp_a0->unk_04 = ((S_80171C7C_2 *)temp_v1)->unk_04;
-        temp_a0->unk_08 = ((S_80171C7C_2 *)temp_v1)->unk_08;
-        temp_a3 = (*(void * *)((u8 *)temp_v0 + 0xC));
-        temp_a3->unk_1E = 0x1000;
-        temp_a3->unk_1C = 0x1000;
-        temp_a3->unk_0E = 0x80;
-        temp_a3->unk_0D = 0x80;
-        temp_a3->unk_0C = 0x80;
-        temp_flags = temp_a3->unk_14;
-        D_80175D60 = temp_v0;
-        temp_a3->unk_14 = temp_flags | 0x80;
-        (*(PackedVec *)((u8 *)temp_v0 + 0x48)) = D_80173B40;
-        temp_a3->unk_08 = (u8 *)temp_v0 + 0x48;
+    object = func_8003FC64(0x12);
+    if (object != 0) {
+        (*(s16 *)((u8 *)object + 0x38)) = 0;
+        (*(s32 * *)((u8 *)object + 0x10)) = &D_801717A8;
+        func_8004491C(object, &D_80045340);
+        render_state = (*(void * *)((u8 *)object + 0xC));
+        render_state->unk_06 = 0;
+        coords = (*(void * *)((u8 *)object + 8));
+        default_coords = D_80083780;
+        coords->unk_00 = ((S_80171C7C_2 *)default_coords)->unk_00;
+        coords->unk_04 = ((S_80171C7C_2 *)default_coords)->unk_04;
+        coords->unk_08 = ((S_80171C7C_2 *)default_coords)->unk_08;
+        render_state = (*(void * *)((u8 *)object + 0xC));
+        render_state->unk_1E = 0x1000;
+        render_state->unk_1C = 0x1000;
+        render_state->unk_0E = 0x80;
+        render_state->unk_0D = 0x80;
+        render_state->unk_0C = 0x80;
+        render_flags = render_state->unk_14;
+        D_80175D60 = object;
+        render_state->unk_14 = render_flags | 0x80;
+        (*(PackedVec *)((u8 *)object + 0x48)) = D_80173B40;
+        render_state->unk_08 = (u8 *)object + 0x48;
     }
 }

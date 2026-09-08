@@ -6,8 +6,9 @@ typedef struct {
 } S_800814A0;
 extern S_800814A0 D_800814A0;
 
-void func_7FDD2AB4(unsigned short *arg0)
+/* Set bit 15 in the preceding halfword and the global value. */
+void func_7FDD2AB4(unsigned short *data)
 {
-    arg0[-1] |= 0x8000;
+    data[-1] |= 0x8000;
     D_800814A0.val |= 0x8000;
 }

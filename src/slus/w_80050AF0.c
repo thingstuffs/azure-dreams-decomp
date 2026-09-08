@@ -13,25 +13,23 @@ typedef struct S_80050AF0 {
     s32 unk6C[3];
 } S_80050AF0;
 
-/* Allocates/initializes a0's sub-buffer array starting at offset 0x6C (size 0xC),
- * stashing its 0x68-offset pointer and 0x2C-offset scratch word along the way.
- * Returns 1 on full success, 0 if any allocation step failed. */
-s32 func_80050AF0(S_80050AF0 *a0, s32 a1)
+/* Allocates and initializes sub-buffers, returning 1 if all steps succeed. */
+s32 func_80050AF0(S_80050AF0 *state, s32 allocation_arg)
 {
-    s32 *field6C = a0->unk6C;
-    s32 result = 0;
-    s32 v0;
+    s32 *sub_buffers = state->unk6C;
+    s32 success = 0;
+    s32 step_result;
 
-    v0 = func_80049004(field6C, a1, 0xC);
-    a0->unk68 = v0;
-    if (v0 != 0) {
-        v0 = (s32)func_80049150(field6C, 9, 0xC);
-        if (v0 != 0) {
-            func_80050A58((s32 *)a0->unk68, v0);
-            v0 = func_80048FBC(field6C, 0xC);
-            result = (v0 != 0);
-            a0->unk2C = v0;
+    step_result = func_80049004(sub_buffers, allocation_arg, 0xC);
+    state->unk68 = step_result;
+    if (step_result != 0) {
+        step_result = (s32)func_80049150(sub_buffers, 9, 0xC);
+        if (step_result != 0) {
+            func_80050A58((s32 *)state->unk68, step_result);
+            step_result = func_80048FBC(sub_buffers, 0xC);
+            success = (step_result != 0);
+            state->unk2C = step_result;
         }
     }
-    return result;
+    return success;
 }

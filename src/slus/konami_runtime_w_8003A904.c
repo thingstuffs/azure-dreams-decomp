@@ -9,40 +9,41 @@ typedef struct {
     u8 *values;
 } Func8003A904State;
 
-void func_8003A904(Func8003A904State *arg0) {
-    u8 *data;
-    u8 *next;
-    u8 *ptr;
-    u8 *base;
+/* Load a little-endian word from an indexed table address into the destination value slot. */
+void func_8003A904(Func8003A904State *state) {
+    u8 *operands;
+    u8 *address_bytes;
+    u8 *entry;
+    u8 *values;
     u32 dst_index;
     u32 src_index;
-    u32 table_index;
+    u32 table_offset;
     u32 address_byte_2;
     u32 value;
 
-    data = arg0->read_ptr;
-    dst_index = data[0];
-    base = arg0->values;
-    data = data + 1;
-    arg0->read_ptr = data;
-    src_index = data[0];
-    next = data + 1;
-    arg0->read_ptr = next;
+    operands = state->read_ptr;
+    dst_index = operands[0];
+    values = state->values;
+    operands = operands + 1;
+    state->read_ptr = operands;
+    src_index = operands[0];
+    address_bytes = operands + 1;
+    state->read_ptr = address_bytes;
 
-    table_index = *(u32 *)(base + (src_index * 4) + 0x48);
-    address_byte_2 = next[2];
-    table_index <<= 2;
-    ptr = (u8 *)((u32)data[1] + ((u32)next[1] << 8)
-               + (address_byte_2 << 16) + ((u32)next[3] << 24)
-               + table_index);
-    arg0->read_ptr = data + 5;
+    table_offset = *(u32 *)(values + (src_index * 4) + 0x48);
+    address_byte_2 = address_bytes[2];
+    table_offset <<= 2;
+    entry = (u8 *)((u32)operands[1] + ((u32)address_bytes[1] << 8)
+               + (address_byte_2 << 16) + ((u32)address_bytes[3] << 24)
+               + table_offset);
+    state->read_ptr = operands + 5;
 
-    value = ptr[0];
-    *(u32 *)(base + (dst_index * 4) + 0x48) = value;
-    value += (u32)ptr[1] << 8;
-    *(u32 *)(base + (dst_index * 4) + 0x48) = value;
-    value += (u32)ptr[2] << 16;
-    *(u32 *)(base + (dst_index * 4) + 0x48) = value;
-    value += (u32)ptr[3] << 24;
-    *(u32 *)(base + (dst_index * 4) + 0x48) = value;
+    value = entry[0];
+    *(u32 *)(values + (dst_index * 4) + 0x48) = value;
+    value += (u32)entry[1] << 8;
+    *(u32 *)(values + (dst_index * 4) + 0x48) = value;
+    value += (u32)entry[2] << 16;
+    *(u32 *)(values + (dst_index * 4) + 0x48) = value;
+    value += (u32)entry[3] << 24;
+    *(u32 *)(values + (dst_index * 4) + 0x48) = value;
 }

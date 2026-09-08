@@ -9,8 +9,9 @@ typedef struct S_800B2CE8_0 {
     M2C_UNK * unk_10;
 } S_800B2CE8_0;   /* arg0 in func_800B2CE8 */
 
-void func_800B2CE8(S_800B2CE8_0 *arg0) {
-    if (arg0 != NULL) {
-        arg0->unk_10 = &D_800B2C6C;
+/* Set the object's data pointer when the object is present. */
+void func_800B2CE8(S_800B2CE8_0 *object) {
+    if (object != NULL) {
+        object->unk_10 = &D_800B2C6C;
     }
 }

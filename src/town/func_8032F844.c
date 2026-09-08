@@ -89,151 +89,152 @@ extern u8 D_800160CC[];
 extern u8 D_800160FC[];
 extern u8 D_8001DC10[];
 
-void func_8001A044(s32 *arg0, void *arg1, void *arg2)
+/* Builds record data and grouped pointer lists, then reports their counts. */
+void func_8001A044(s32 *records, void *data_buffer, void *list_buffer)
 {
-    register u8 *var_v1;
-    s32 *var_a2;
-    s32 temp_a0;
-    s32 temp_a1;
-    register s32 temp_a1_2;
-    s32 temp_a2;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    register s32 temp_v1;
-    s32 temp_v1_2;
-    register s32 var_a0;
-    s32 var_a2_2;
-    register s32 var_s1;
-    s32 var_v0;
-    S_8001A044_3 *temp_s0;
-    S_8001A044_4 *temp_v0_2_ptr;
-    register void *temp_v0_3;
-    register void *temp_v0_4;
-    register u8 *page;
-    register u8 *page2;
-    register void *root1;
-    TownCallback temp_callback;
-    void *l1_v0;
-    void *l1_v1;
+    register u8 *pending_entry;
+    s32 *list_cursor;
+    s32 bank_bits;
+    s32 group_bits;
+    register s32 group_id;
+    s32 updated_flags;
+    s32 flag_bits;
+    s32 variant_index;
+    register s32 record_flags;
+    s32 entry_address;
+    register s32 previous_group;
+    s32 pending_count;
+    register s32 record_index;
+    s32 scaled_index;
+    S_8001A044_3 *record;
+    S_8001A044_4 *direct_record;
+    register void *group_data;
+    register void *lookup_entry;
+    register u8 *data_page;
+    register u8 *list_page;
+    register void *callbacks;
+    TownCallback report_count;
+    void *group_bank;
+    void *group_entry;
 
     {
-    u8 *next_s3;
-    u8 *current;
+        u8 *next_data;
+        u8 *data_cursor;
 
-    var_s1 = 0;
-    current = arg1;
-    if (*arg0 != 0) {
-        page = (u8 *)0x80010000;
-        goto first_scale;
-loop_2:
-        var_v0 = var_s1 * 8;
-        goto loop_body;
-first_scale:
-        var_v0 = var_s1 * 8;
-loop_body:
-        temp_v0 = *(s32 *)(((var_v0 - var_s1) * 4) + (u8 *)arg0);
-        temp_a1 = temp_v0 >> 0x13;
-        temp_v0 = temp_v0 >> 0x17;
-        temp_a0 = temp_v0 & 1;
-        l1_v1 = ((S_8001A044_10 *)(((S_8001A044_0 *)page)->unk_6000))->unk_30;
-        l1_v0 = (void *)(temp_a0 * 4);
-        l1_v0 = (void *)((u32)l1_v0 + (u32)l1_v1);
-        l1_v1 = (void *)(temp_a1 & 0x7E0);
-        l1_v0 = ((S_8001A044_1 *)l1_v0)->unk_00;
-        l1_v1 = (void *)((u32)l1_v1 + (u32)l1_v0);
-        if (((S_8001A044_2 *)l1_v1)->unk_0A != 0) {
-            temp_s0 = (void *)((u32)(var_s1 * 0x1C) + (u32)arg0);
-            goto process_record;
-        }
-        if (temp_a0 != 0) {
-            temp_s0 = (void *)((u32)(var_s1 * 0x1C) + (u32)arg0);
-            goto process_record;
-        }
-        goto block_9;
-process_record:
-            if (temp_s0->unk_08 != 0) {
-                ((S_8001A044_10 *)(((S_8001A044_0 *)page)->unk_6000))->unk_14 = var_s1;
-                temp_v0_2 = func_80019F94(temp_s0, temp_a1);
-                temp_a2 = (temp_s0->unk_00 & ~0xFF) |
-                           (temp_v0_2 & 0xFF);
-                temp_s0->unk_00 = temp_a2;
-                next_s3 = func_8001976C(current,
-                      (void *)((S_8001A044_11 *)((temp_v0_2 * 0x10) +
-                                    (u8 *)temp_s0->unk_10))->unk_08,
-                      temp_a2, var_s1);
-                if ((next_s3 - 0x14) != current) {
-                    func_800196E4(D_8001DC10, temp_s0);
-                    temp_s0->unk_04 = current;
-                    current = next_s3;
-                }
-            } else {
-                temp_v0_2_ptr = (void *)((u32)(var_s1 * 0x1C) +
-                                         (u32)arg0);
-                temp_v0_2_ptr->unk_04 = current;
-                current = func_8001976C(current,
-                    (void *)temp_v0_2_ptr->unk_10, 0, var_s1);
+        record_index = 0;
+        data_cursor = data_buffer;
+        if (*records != 0) {
+            data_page = (u8 *)0x80010000;
+            goto first_record;
+    next_record:
+            scaled_index = record_index * 8;
+            goto read_record;
+    first_record:
+            scaled_index = record_index * 8;
+    read_record:
+            flag_bits = *(s32 *)(((scaled_index - record_index) * 4) + (u8 *)records);
+            group_bits = flag_bits >> 0x13;
+            flag_bits = flag_bits >> 0x17;
+            bank_bits = flag_bits & 1;
+            group_entry = ((S_8001A044_10 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_30;
+            group_bank = (void *)(bank_bits * 4);
+            group_bank = (void *)((u32)group_bank + (u32)group_entry);
+            group_entry = (void *)(group_bits & 0x7E0);
+            group_bank = ((S_8001A044_1 *)group_bank)->unk_00;
+            group_entry = (void *)((u32)group_entry + (u32)group_bank);
+            if (((S_8001A044_2 *)group_entry)->unk_0A != 0) {
+                record = (void *)((u32)(record_index * 0x1C) + (u32)records);
+                goto process_record;
             }
-block_9:
-        var_s1 += 1;
-        var_v0 = var_s1 * 8;
-        if (*(s32 *)(((var_v0 - var_s1) * 4) + (u8 *)arg0) != 0) {
-            goto loop_2;
+            if (bank_bits != 0) {
+                record = (void *)((u32)(record_index * 0x1C) + (u32)records);
+                goto process_record;
+            }
+            goto advance_record;
+    process_record:
+                if (record->unk_08 != 0) {
+                    ((S_8001A044_10 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_14 = record_index;
+                    variant_index = func_80019F94(record, group_bits);
+                    updated_flags = (record->unk_00 & ~0xFF) |
+                               (variant_index & 0xFF);
+                    record->unk_00 = updated_flags;
+                    next_data = func_8001976C(data_cursor,
+                          (void *)((S_8001A044_11 *)((variant_index * 0x10) +
+                                        (u8 *)record->unk_10))->unk_08,
+                          updated_flags, record_index);
+                    if ((next_data - 0x14) != data_cursor) {
+                        func_800196E4(D_8001DC10, record);
+                        record->unk_04 = data_cursor;
+                        data_cursor = next_data;
+                    }
+                } else {
+                    direct_record = (void *)((u32)(record_index * 0x1C) +
+                                             (u32)records);
+                    direct_record->unk_04 = data_cursor;
+                    data_cursor = func_8001976C(data_cursor,
+                        (void *)direct_record->unk_10, 0, record_index);
+                }
+    advance_record:
+            record_index += 1;
+            scaled_index = record_index * 8;
+            if (*(s32 *)(((scaled_index - record_index) * 4) + (u8 *)records) != 0) {
+                goto next_record;
+            }
         }
+
+        callbacks = ((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20;
+        (*(TownCallback *)((u8 *)callbacks + 0x168))
+            (D_80016094, D_800160A0,
+             (u32)(data_cursor - (u8 *)data_buffer) / 20);
     }
 
-    root1 = ((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20;
-    (*(TownCallback *)((u8 *)root1 + 0x168))
-        (D_80016094, D_800160A0,
-         (u32)(current - (u8 *)arg1) / 20);
-    }
-
-    var_a0 = 0;
-    var_a2 = (s32 *)((u8 *)arg2 - 4);
-    var_s1 = var_a0;
-    if (*arg0 != 0) {
-        page2 = (u8 *)0x80010000;
-loop_11:
-        temp_v1 = *(s32 *)((((var_s1 * 8) - var_s1) * 4) + (u8 *)arg0);
-        temp_v0 = temp_v1 >> 0x18;
-        temp_a1_2 = temp_v0 & 0x3F;
-        if (temp_a1_2 != var_a0) {
-            temp_a0 = temp_v1 >> 0x15;
-            temp_v0_3 = ((S_8001A044_13 *)(((S_8001A044_6 *)page2)->unk_6000))->unk_30;
-            temp_v0 = temp_a0 & 4;
-            temp_v0_4 = (void *)((u32)temp_v0 + (u32)temp_v0_3);
-            temp_v1_2 = temp_a1_2 << 5;
-            temp_v0_4 = ((S_8001A044_7 *)temp_v0_4)->unk_00.p;
-            temp_v0_3 = (void *)((u32)temp_v1_2 + (u32)temp_v0_4);
-            var_a2 += 1;
-            ((S_8001A044_8 *)temp_v0_3)->unk_18 = var_a2;
-            *var_a2 = 0;
-            var_a0 = temp_a1_2;
+    previous_group = 0;
+    list_cursor = (s32 *)((u8 *)list_buffer - 4);
+    record_index = previous_group;
+    if (*records != 0) {
+        list_page = (u8 *)0x80010000;
+build_group_list:
+        record_flags = *(s32 *)((((record_index * 8) - record_index) * 4) + (u8 *)records);
+        flag_bits = record_flags >> 0x18;
+        group_id = flag_bits & 0x3F;
+        if (group_id != previous_group) {
+            bank_bits = record_flags >> 0x15;
+            group_data = ((S_8001A044_13 *)(((S_8001A044_6 *)list_page)->unk_6000))->unk_30;
+            flag_bits = bank_bits & 4;
+            lookup_entry = (void *)((u32)flag_bits + (u32)group_data);
+            entry_address = group_id << 5;
+            lookup_entry = ((S_8001A044_7 *)lookup_entry)->unk_00.p;
+            group_data = (void *)((u32)entry_address + (u32)lookup_entry);
+            list_cursor += 1;
+            ((S_8001A044_8 *)group_data)->unk_18 = list_cursor;
+            *list_cursor = 0;
+            previous_group = group_id;
         }
-        temp_v0_4 = (void *)((u32)(var_s1 * 0x1C) + (u32)arg0);
-        temp_v1_2 = ((S_8001A044_7 *)temp_v0_4)->unk_04;
-        if ((temp_v1_2 != 0) &&
-            !((((S_8001A044_7 *)temp_v0_4)->unk_00.i >> 0xF) & 1)) {
-            *var_a2 = temp_v1_2;
-            var_a2 += 1;
-            *var_a2 = 0;
+        lookup_entry = (void *)((u32)(record_index * 0x1C) + (u32)records);
+        entry_address = ((S_8001A044_7 *)lookup_entry)->unk_04;
+        if ((entry_address != 0) &&
+            !((((S_8001A044_7 *)lookup_entry)->unk_00.i >> 0xF) & 1)) {
+            *list_cursor = entry_address;
+            list_cursor += 1;
+            *list_cursor = 0;
         }
-        var_s1 += 1;
-        if (*(s32 *)((var_s1 * 0x1C) + (u8 *)arg0) != 0) {
-            goto loop_11;
+        record_index += 1;
+        if (*(s32 *)((record_index * 0x1C) + (u8 *)records) != 0) {
+            goto build_group_list;
         }
     }
 
     (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x168))
-        (D_80016094, D_800160CC, ((u32)var_a2 - (u32)arg2) >> 2);
+        (D_80016094, D_800160CC, ((u32)list_cursor - (u32)list_buffer) >> 2);
 
-    var_v1 = D_8001DC10;
-    var_a2_2 = 1;
-    if (((S_8001A044_9 *)var_v1)->unk_04 != 0) {
+    pending_entry = D_8001DC10;
+    pending_count = 1;
+    if (((S_8001A044_9 *)pending_entry)->unk_04 != 0) {
         do {
-            var_v1 += 8;
-            var_a2_2 += 1;
-        } while (((S_8001A044_9 *)var_v1)->unk_04 != 0);
+            pending_entry += 8;
+            pending_count += 1;
+        } while (((S_8001A044_9 *)pending_entry)->unk_04 != 0);
     }
-    temp_callback = (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x168));
-    temp_callback(D_80016094, D_800160FC, var_a2_2);
+    report_count = (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20) + 0x168));
+    report_count(D_80016094, D_800160FC, pending_count);
 }

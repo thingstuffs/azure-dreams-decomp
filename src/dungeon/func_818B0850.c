@@ -9,22 +9,23 @@ extern void func_800AD568(void *arg0, s32 arg1);
 extern void func_800B4C7C(s32 arg0, void *arg1, s32 arg2, s32 arg3);
 
 
-void func_818B0850(void *arg0, s32 arg1) {
-    if (func_8009D218(arg0, 4) == 0) {
-        register s32 temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        s16 temp_v0;
-        s32 var_a1;
+/* Applies a flag-adjusted value increase to an eligible entity and updates it. */
+void func_818B0850(void *entity, s32 value_id) {
+    if (func_8009D218(entity, 4) == 0) {
+        register s32 base_gain ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        s16 bonus;
+        s32 gain;
 
-        temp_v1 = func_800A6870(arg1 & 0xFF) + 8;
-        temp_v0 = ((Rec_D_800E3D7C *)arg0)->unk_28 & 4;
-        var_a1 = temp_v1;
-        if (temp_v0) {
-            temp_v0 = (s32) (temp_v1 << 16) >> 18;
-            var_a1 = temp_v1 + temp_v0;
+        base_gain = func_800A6870(value_id & 0xFF) + 8;
+        bonus = ((Rec_D_800E3D7C *)entity)->unk_28 & 4;
+        gain = base_gain;
+        if (bonus) {
+            bonus = (s32) (base_gain << 16) >> 18;
+            gain = base_gain + bonus;
         }
-        ((Rec_D_800E3D7C *)arg0)->unk_64.as_u16 = (u16) (((Rec_D_800E3D7C *)arg0)->unk_64.as_u16 + var_a1);
-        func_800AD568(arg0, var_a1);
-        func_800B4C7C(0x8004, arg0, (s16) ((Rec_D_800E3D7C *)arg0)->unk_64.as_u16, 1);
-        func_800AD4D0(arg0);
+        ((Rec_D_800E3D7C *)entity)->unk_64.as_u16 = (u16) (((Rec_D_800E3D7C *)entity)->unk_64.as_u16 + gain);
+        func_800AD568(entity, gain);
+        func_800B4C7C(0x8004, entity, (s16) ((Rec_D_800E3D7C *)entity)->unk_64.as_u16, 1);
+        func_800AD4D0(entity);
     }
 }

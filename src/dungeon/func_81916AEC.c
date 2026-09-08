@@ -56,39 +56,40 @@ typedef struct S_800242EC_3 {
     s16 unk_1E;
 } S_800242EC_3;   /* temp_s0 in func_800242EC */
 
-void *func_800242EC(s32 arg0, void *arg1, S_800242EC_2 *arg2)
+/* Creates an object, initializes its visual state, and copies the initial data. */
+void *func_800242EC(s32 object_id, void *initial_data, S_800242EC_2 *source)
 {
-    S_800242EC_3 *temp_s0;
-    void *temp_v0;
-    S_800242EC_1 *temp_v1;
-    Copy6 *temp_v1_2;
-    register void *var_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_800242EC_3 *visual;
+    void *object;
+    S_800242EC_1 *state;
+    Copy6 *object_data;
+    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    temp_v0 = func_8003FC64(0x212);
-    var_v0 = NULL;
-    if (temp_v0 != NULL) {
-        temp_v1 = (u8 *)temp_v0 + 0x20;
-        ((S_800242EC_0 *)temp_v0)->unk_10 = &D_800241E4;
-        ((S_800242EC_0 *)temp_v0)->unk_20 = arg0;
-        temp_v1->unk_04 = 0;
-        temp_v1->unk_06 = 8;
-        temp_v1->unk_08 = 8;
-        temp_v1->unk_0A = arg2->unk_2A;
-        temp_s0 = ((S_800242EC_0 *)temp_v0)->unk_0C;
-        temp_s0->unk_0D = 0x30;
-        temp_s0->unk_0C = 0x30;
-        temp_s0->unk_0E = 0xC0;
-        temp_s0->unk_12 = 0x7DCF;
-        temp_s0->unk_14 |= 0xC;
-        temp_s0->unk_10 |= 0x20;
-        temp_s0->unk_14 |= 0x100;
-        func_8003DB94(temp_s0, &D_800DEC70, 0);
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v1_2 = ((S_800242EC_0 *)temp_v0)->unk_08;
-        var_v0 = temp_v0;
-        *temp_v1_2 = *(Copy6 *)arg1;
+    object = func_8003FC64(0x212);
+    result = NULL;
+    if (object != NULL) {
+        state = (u8 *)object + 0x20;
+        ((S_800242EC_0 *)object)->unk_10 = &D_800241E4;
+        ((S_800242EC_0 *)object)->unk_20 = object_id;
+        state->unk_04 = 0;
+        state->unk_06 = 8;
+        state->unk_08 = 8;
+        state->unk_0A = source->unk_2A;
+        visual = ((S_800242EC_0 *)object)->unk_0C;
+        visual->unk_0D = 0x30;
+        visual->unk_0C = 0x30;
+        visual->unk_0E = 0xC0;
+        visual->unk_12 = 0x7DCF;
+        visual->unk_14 |= 0xC;
+        visual->unk_10 |= 0x20;
+        visual->unk_14 |= 0x100;
+        func_8003DB94(visual, &D_800DEC70, 0);
+        visual->unk_1E = 0x1000;
+        visual->unk_1C = 0x1000;
+        func_8004491C(object, &D_80045340);
+        object_data = ((S_800242EC_0 *)object)->unk_08;
+        result = object;
+        *object_data = *(Copy6 *)initial_data;
     }
-    return var_v0;
+    return result;
 }

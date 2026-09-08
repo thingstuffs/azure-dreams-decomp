@@ -37,19 +37,20 @@ extern M2C_UNK D_80046398;
 extern M2C_UNK D_800A24A8;
 extern M2C_UNK D_800D0A48;
 
-void func_800A23D0(void *arg0, S_800A23D0_1 *arg1, S_800A23D0_0 *arg2) {
-    M2C_UNK *table;
-    arg2->unk_00 = 0;
-    arg2->unk_04 = 0;
-    arg2->unk_05 = 0;
-    func_8004491C(arg0 - 0x20, &D_80046398);
-    arg1->unk_00.at00.v = (s32) ((S_800A23D0_3 *)(((S_800A23D0_2 *)arg0)->unk_14))->unk_00;
-    arg1->unk_04.at00.v = (s32) ((S_800A23D0_3 *)(((S_800A23D0_2 *)arg0)->unk_14))->unk_04;
-    arg1->unk_08 = (s32) ((S_800A23D0_3 *)(((S_800A23D0_2 *)arg0)->unk_14))->unk_08;
-    ((S_800A23D0_2 *)arg0)->unk_00 = &D_800A24A8;
-    table = &D_800D0A48;
-    arg2->unk_08 = (s32) table[((S_800A23D0_2 *)arg0)->unk_20];
-    arg1->unk_00.at02.v = (u16) (arg1->unk_00.at02.v + 0x28);
-    arg1->unk_04.at02.v = (u16) (arg1->unk_04.at02.v - 8);
-    arg2->unk_1A = 0;
+/* Initialize object state and copy its position with an offset. */
+void func_800A23D0(void *object, S_800A23D0_1 *position, S_800A23D0_0 *state) {
+    M2C_UNK *value_table;
+    state->unk_00 = 0;
+    state->unk_04 = 0;
+    state->unk_05 = 0;
+    func_8004491C(object - 0x20, &D_80046398);
+    position->unk_00.at00.v = (s32) ((S_800A23D0_3 *)(((S_800A23D0_2 *)object)->unk_14))->unk_00;
+    position->unk_04.at00.v = (s32) ((S_800A23D0_3 *)(((S_800A23D0_2 *)object)->unk_14))->unk_04;
+    position->unk_08 = (s32) ((S_800A23D0_3 *)(((S_800A23D0_2 *)object)->unk_14))->unk_08;
+    ((S_800A23D0_2 *)object)->unk_00 = &D_800A24A8;
+    value_table = &D_800D0A48;
+    state->unk_08 = (s32) value_table[((S_800A23D0_2 *)object)->unk_20];
+    position->unk_00.at02.v = (u16) (position->unk_00.at02.v + 0x28);
+    position->unk_04.at02.v = (u16) (position->unk_04.at02.v - 8);
+    state->unk_1A = 0;
 }

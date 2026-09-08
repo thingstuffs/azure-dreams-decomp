@@ -80,50 +80,51 @@ extern s16 D_8006CCE8[8];
 extern s32 D_800ABB20;
 extern s32 D_800D1464;
 
-void func_800ABC00(void *arg0, u32 arg1)
+/* Spawns an offset effect with randomized motion opposite the source velocity. */
+void func_800ABC00(void *source_data, u32 angle)
 {
-    S_800ABC00_1 *held_arg0;
-    s16 *temp_a0_2;
-    s16 *table0;
-    u32 index;
-    S_800ABC00_2 *temp_s0;
-    S_800ABC00_0 *temp_s1;
-    SubObject *temp_s2;
-    Object *temp_v0;
+    S_800ABC00_1 *source;
+    s16 *y_step;
+    s16 *x_steps;
+    u32 direction;
+    S_800ABC00_2 *sprite;
+    S_800ABC00_0 *motion;
+    SubObject *effect_state;
+    Object *effect;
 
-    held_arg0 = arg0;
-    arg1 >>= 9;
-    index = arg1 & 7;
-    temp_v0 = func_8003FC64(0x212, arg1);
-    if (temp_v0 != NULL) {
-        temp_s1 = temp_v0->unk8;
-        temp_s0 = temp_v0->unkC;
-        temp_s2 = &temp_v0->sub20;
-        temp_v0->unk10 = &D_800ABB20;
-        func_8004491C(temp_v0, &D_80045340);
-        table0 = D_8006CCD8;
-        temp_a0_2 = &D_8006CCE8[index];
-        temp_s1->unk_02 =
-            (s16)(held_arg0->unk_02 -
-                  (table0[index] * 0x10));
-        temp_s1->unk_06 =
-            (s16)(held_arg0->unk_06 - (*temp_a0_2 * 0x10));
-        temp_s1->unk_0A = held_arg0->unk_0A;
-        temp_s1->unk_0C =
-            0 - (held_arg0->unk_0C *
-                 ((rand(temp_a0_2) & 1) + 2));
-        temp_s1->unk_10 =
-            0 - (held_arg0->unk_10 *
+    source = source_data;
+    angle >>= 9;
+    direction = angle & 7;
+    effect = func_8003FC64(0x212, angle);
+    if (effect != NULL) {
+        motion = effect->unk8;
+        sprite = effect->unkC;
+        effect_state = &effect->sub20;
+        effect->unk10 = &D_800ABB20;
+        func_8004491C(effect, &D_80045340);
+        x_steps = D_8006CCD8;
+        y_step = &D_8006CCE8[direction];
+        motion->unk_02 =
+            (s16)(source->unk_02 -
+                  (x_steps[direction] * 0x10));
+        motion->unk_06 =
+            (s16)(source->unk_06 - (*y_step * 0x10));
+        motion->unk_0A = source->unk_0A;
+        motion->unk_0C =
+            0 - (source->unk_0C *
+                 ((rand(y_step) & 1) + 2));
+        motion->unk_10 =
+            0 - (source->unk_10 *
                  ((rand() & 1) + 2));
-        temp_s1->unk_14 = (~rand() & 1) << 0xF;
-        func_8003DB94(temp_s0, &D_800D1464, 0);
-        temp_s0->unk_0E = 0x80;
-        temp_s0->unk_0D = 0x80;
-        temp_s0->unk_0C = 0x80;
-        temp_s0->unk_1E = 0x1000;
-        temp_s0->unk_1C = 0x1000;
-        temp_s0->unk_10 = 0x60;
-        temp_s0->unk_14 |= 0xC;
-        ((S_800ABC00_3 *)temp_s2)->unk_02 = (rand() & 3) | 4;
+        motion->unk_14 = (~rand() & 1) << 0xF;
+        func_8003DB94(sprite, &D_800D1464, 0);
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_10 = 0x60;
+        sprite->unk_14 |= 0xC;
+        ((S_800ABC00_3 *)effect_state)->unk_02 = (rand() & 3) | 4;
     }
 }

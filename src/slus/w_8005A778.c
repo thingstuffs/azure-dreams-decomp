@@ -34,63 +34,64 @@ extern S_8007382C D_8007382C;
 extern void func_8005A1D0(s32 arg0);
 extern s32 func_80059F8C(void *arg0, s32 arg1);
 
-s32 func_8005A778(S_8005A778_Arg0 *arg0, s32 arg1, void *arg2)
+/* Initializes a free or requested slot from the header and returns its index. */
+s32 func_8005A778(S_8005A778_Arg0 *header, s32 requested_slot, void *payload)
 {
-    s16 idx;
+    s16 slot;
     s32 result;
-    register s32 raw ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s32 base;
+    register s32 raw_slot ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 offset_blocks;
     S_8005A778_D80086A40 *entry;
-    S_8005A778_Arg0 *reader;
+    S_8005A778_Arg0 *header_fields;
 
-    idx = 0;
+    slot = 0;
     D_8007382C.unk00 = 0;
-    raw = arg1;
-    ASM_KEEP_NV(raw);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    reader = arg0;
-    ASM_KEEP_NV(reader);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    arg1 <<= 16;
-    arg1 >>= 16;
+    raw_slot = requested_slot;
+    ASM_KEEP_NV(raw_slot);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    header_fields = header;
+    ASM_KEEP_NV(header_fields);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    requested_slot <<= 16;
+    requested_slot >>= 16;
 
-    if (arg1 == -1) {
+    if (requested_slot == -1) {
         for (;;) {
-            if (D_80086A40[idx].unk00 == -1) {
+            if (D_80086A40[slot].unk00 == -1) {
                 goto found;
             }
-            idx = idx + 1;
-            if (idx >= 16) {
+            slot = slot + 1;
+            if (slot >= 16) {
                 return -1;
             }
         }
     } else {
-        S_8005A778_D80086A40 *checkBase;
-        S_8005A778_D80086A40 *check;
+        S_8005A778_D80086A40 *slots;
+        S_8005A778_D80086A40 *old_entry;
 
-        idx = raw;
-        if (idx >= 16) {
+        slot = raw_slot;
+        if (slot >= 16) {
             return -1;
         }
-        checkBase = D_80086A40;
-        check = &checkBase[idx];
-        if (check->unk00 != -1) {
-            func_8005A1D0(check->unk10);
+        slots = D_80086A40;
+        old_entry = &slots[slot];
+        if (old_entry->unk00 != -1) {
+            func_8005A1D0(old_entry->unk10);
         }
     }
 
 found:
-    entry = &D_80086A40[idx];
-    entry->unk00 = (s16)idx;
-    entry->unk04 = arg0;
-    base = reader->unk12;
-    entry->unk10 = (s32)arg2;
-    entry->unk08 = (base << 9) + 0xA20;
-    entry->unk14 = reader->unk0C - *(volatile s32 *)&entry->unk08;
-    entry->unk18 = reader->unk18;
-    entry->unk1B = reader->unk19;
+    entry = &D_80086A40[slot];
+    entry->unk00 = (s16)slot;
+    entry->unk04 = header;
+    offset_blocks = header_fields->unk12;
+    entry->unk10 = (s32)payload;
+    entry->unk08 = (offset_blocks << 9) + 0xA20;
+    entry->unk14 = header_fields->unk0C - *(volatile s32 *)&entry->unk08;
+    entry->unk18 = header_fields->unk18;
+    entry->unk1B = header_fields->unk19;
 
-    result = (entry->unk10 = func_80059F8C(arg2, entry->unk14));
+    result = (entry->unk10 = func_80059F8C(payload, entry->unk14));
     if (result == -1) {
         return -1;
     }
-    return idx;
+    return slot;
 }

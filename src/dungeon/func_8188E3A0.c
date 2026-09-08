@@ -29,121 +29,122 @@ extern Cell D_80026648[];
 #define SET_COUNT_PAGE() (count_page = (u8 *)&D_80026476)
 #define READ_COUNT_PAGE() (*(s16 *)count_page)
 #else
-#define SET_COUNT_PAGE() (temp_v0 = 0x80020000)
-#define READ_COUNT_PAGE() FIELD((void *)temp_v0, s16, 0x6476)
+#define SET_COUNT_PAGE() (addr_or_coord = 0x80020000)
+#define READ_COUNT_PAGE() FIELD((void *)addr_or_coord, s16, 0x6476)
 #endif
 
+/* Spawn quad effects at cell centers with randomized motion, then clear the pending count. */
 void func_80025BA0(void) {
-    Cell *base;
-    register Cell *current ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    Cell *p1;
-    Cell *p2;
-    Cell *p4;
-    void *obj;
+    Cell *vertices;
+    register Cell *corner ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    Cell *diagonal;
+    Cell *below;
+    Cell *right;
+    void *effect;
     void *motion;
     void *angles;
-    void *dst;
-    s32 i;
-    s32 block;
-    register s32 next ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 byte_offset;
-    s32 y1;
-    s32 y2;
-    s32 y3;
-    register s32 value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 z1;
-    s32 z2;
-    s32 z3;
-    register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 rounded;
-    s32 limit;
+    void *quad_data;
+    s32 quad_index;
+    s32 row_start;
+    register s32 index_or_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 right_offset;
+    s32 right_y;
+    s32 below_y;
+    s32 diagonal_y;
+    register s32 effect_or_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 right_z;
+    s32 below_z;
+    s32 diagonal_z;
+    register s32 addr_or_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 rounded_index;
+    s32 quad_count;
 #ifdef NON_MATCHING
     u8 *count_page;
 #endif
 
-    i = 0;
+    quad_index = 0;
     if (D_80026476 > 0) {
-        base = D_800265C8;
-        current = base;
+        vertices = D_800265C8;
+        corner = vertices;
         do {
-            obj = func_8003FC64(0x202);
+            effect = func_8003FC64(0x202);
             SET_COUNT_PAGE();
-            if (obj != NULL) {
-                value = (s32)obj;
-                temp_v0 = (s32)D_800255E8;
-                FIELD(obj, void *, 0x10) = (void *)temp_v0;
-                func_8004491C((void *)value, D_800259DC);
+            if (effect != NULL) {
+                effect_or_x = (s32)effect;
+                addr_or_coord = (s32)D_800255E8;
+                FIELD(effect, void *, 0x10) = (void *)addr_or_coord;
+                func_8004491C((void *)effect_or_x, D_800259DC);
 
-                block = i & ~0xF;
+                row_start = quad_index & ~0xF;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                next = (i + 1) & 0xF;
-                byte_offset = (block + next) * 8;
-                p4 = (Cell *)((unsigned long)byte_offset + (unsigned long)base);
-                p2 = (Cell *)((unsigned long)((i + 0x10) * 8) + (unsigned long)base);
-                ASM_KEEP(next);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                next += 0x10;
-                p1 = (Cell *)((unsigned long)((block + next) * 8) + (unsigned long)base);
+                index_or_coord = (quad_index + 1) & 0xF;
+                right_offset = (row_start + index_or_coord) * 8;
+                right = (Cell *)((unsigned long)right_offset + (unsigned long)vertices);
+                below = (Cell *)((unsigned long)((quad_index + 0x10) * 8) + (unsigned long)vertices);
+                ASM_KEEP(index_or_coord);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                index_or_coord += 0x10;
+                diagonal = (Cell *)((unsigned long)((row_start + index_or_coord) * 8) + (unsigned long)vertices);
 
-                value = current->x;
-                temp_v0 = p4->x;
-                next = p1->x;
-                motion = FIELD(obj, void *, 8);
-                y1 = p4->y;
-                y2 = p2->y;
-                y3 = p1->y;
-                z1 = p4->z;
-                z2 = p2->z;
-                value += temp_v0;
-                temp_v0 = p2->x;
-                z3 = p1->z;
-                value += temp_v0;
-                value += next;
-                temp_v0 = current->y;
-                next = current->z;
-                value >>= 2;
-                FIELD(motion, s16, 2) = value;
-                temp_v0 = (temp_v0 + y1 + y2 + y3) >> 2;
-                FIELD(motion, s16, 6) = temp_v0;
-                next = (next + z1 + z2 + z3) >> 2;
-                FIELD(motion, s16, 0xA) = next;
+                effect_or_x = corner->x;
+                addr_or_coord = right->x;
+                index_or_coord = diagonal->x;
+                motion = FIELD(effect, void *, 8);
+                right_y = right->y;
+                below_y = below->y;
+                diagonal_y = diagonal->y;
+                right_z = right->z;
+                below_z = below->z;
+                effect_or_x += addr_or_coord;
+                addr_or_coord = below->x;
+                diagonal_z = diagonal->z;
+                effect_or_x += addr_or_coord;
+                effect_or_x += index_or_coord;
+                addr_or_coord = corner->y;
+                index_or_coord = corner->z;
+                effect_or_x >>= 2;
+                FIELD(motion, s16, 2) = effect_or_x;
+                addr_or_coord = (addr_or_coord + right_y + below_y + diagonal_y) >> 2;
+                FIELD(motion, s16, 6) = addr_or_coord;
+                index_or_coord = (index_or_coord + right_z + below_z + diagonal_z) >> 2;
+                FIELD(motion, s16, 0xA) = index_or_coord;
 
                 FIELD(motion, s32, 0xC) = ((func_80069EF8() & 0xF) - 8) << 0x10;
                 FIELD(motion, s32, 0x10) = ((func_80069EF8() & 0xF) - 8) << 0x10;
                 FIELD(motion, s32, 0x14) = ((func_80069EF8() & 0xF) - 8) << 0x10;
 
-                angles = FIELD(obj, void *, 0xC);
+                angles = FIELD(effect, void *, 0xC);
                 FIELD(angles, s16, 0x16) = (func_80069EF8() & 0x1FF) - 0x100;
                 FIELD(angles, s16, 0x18) = (func_80069EF8() & 0x1FF) - 0x100;
 
-                dst = (u8 *)obj + 0x20;
-                FIELD(dst, s16, 0x1A) = 0x20;
-                FIELD(dst, s32, 0x34) = *(s32 *)current;
-                FIELD(dst, u16, 0x38) = current->z;
-                FIELD(dst, s32, 0x3C) = *(s32 *)p4;
-                FIELD(dst, u16, 0x40) = p4->z;
-                FIELD(dst, s32, 0x44) = *(s32 *)&D_80026648[i];
-                FIELD(dst, u16, 0x48) = p2->z;
-                FIELD(dst, s32, 0x4C) = *(s32 *)((u8 *)D_80026648 + byte_offset);
-                FIELD(dst, u16, 0x50) = p1->z;
+                quad_data = (u8 *)effect + 0x20;
+                FIELD(quad_data, s16, 0x1A) = 0x20;
+                FIELD(quad_data, s32, 0x34) = *(s32 *)corner;
+                FIELD(quad_data, u16, 0x38) = corner->z;
+                FIELD(quad_data, s32, 0x3C) = *(s32 *)right;
+                FIELD(quad_data, u16, 0x40) = right->z;
+                FIELD(quad_data, s32, 0x44) = *(s32 *)&D_80026648[quad_index];
+                FIELD(quad_data, u16, 0x48) = below->z;
+                FIELD(quad_data, s32, 0x4C) = *(s32 *)((u8 *)D_80026648 + right_offset);
+                FIELD(quad_data, u16, 0x50) = diagonal->z;
 
-                rounded = i;
-                if (i < 0) {
-                    rounded = i + 0x1F;
+                rounded_index = quad_index;
+                if (quad_index < 0) {
+                    rounded_index = quad_index + 0x1F;
                 }
-                if ((i - ((rounded >> 5) << 5)) < 0x10) {
-                    FIELD(dst, s32, 0x54) = D_800265C0;
-                    FIELD(dst, s32, 0x58) = D_800265C4;
+                if ((quad_index - ((rounded_index >> 5) << 5)) < 0x10) {
+                    FIELD(quad_data, s32, 0x54) = D_800265C0;
+                    FIELD(quad_data, s32, 0x58) = D_800265C4;
                 } else {
-                    FIELD(dst, s32, 0x58) = D_800265C0;
-                    FIELD(dst, s32, 0x54) = D_800265C4;
+                    FIELD(quad_data, s32, 0x58) = D_800265C0;
+                    FIELD(quad_data, s32, 0x54) = D_800265C4;
                 }
                 SET_COUNT_PAGE();
             }
-            limit = READ_COUNT_PAGE();
+            quad_count = READ_COUNT_PAGE();
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            i++;
-            current++;
-        } while (i < limit);
+            quad_index++;
+            corner++;
+        } while (quad_index < quad_count);
     }
     *(volatile s16 *)&D_80026476 = 0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

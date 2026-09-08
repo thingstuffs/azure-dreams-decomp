@@ -9,19 +9,20 @@ extern u8 D_80019AB6[];
 extern u8 D_8001ABCC[];
 extern u8 D_80019397[];
 
-s32 func_80016334(s32 arg0, s32 unused, s32 arg2)
+/* Looks up an entry, substituting fixed data for matching IDs 45 through 47. */
+s32 func_80016334(s32 lookup_key, s32 unused, s32 entry_id)
 {
     s32 result;
 
-    result = func_80017B0C(D_80018998, D_80019104, arg0, arg2);
+    result = func_80017B0C(D_80018998, D_80019104, lookup_key, entry_id);
 
-    if (arg2 == 45 && func_80017A54(D_80018998, arg0, 45)) {
+    if (entry_id == 45 && func_80017A54(D_80018998, lookup_key, 45)) {
         return (s32)D_80019AB6;
     }
-    if (arg2 == 46 && func_80017A54(D_80018998, arg0, 46)) {
+    if (entry_id == 46 && func_80017A54(D_80018998, lookup_key, 46)) {
         return (s32)D_8001ABCC;
     }
-    if (arg2 == 47 && func_80017A54(D_80018998, arg0, 47)) {
+    if (entry_id == 47 && func_80017A54(D_80018998, lookup_key, 47)) {
         return (s32)D_80019397;
     }
     return result;

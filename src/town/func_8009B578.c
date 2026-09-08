@@ -11,7 +11,8 @@ typedef struct S_80098CD8_0 {
     s16 unk_10;
 } S_80098CD8_0;   /* arg0 in func_80098CD8 */
 
-void func_80098CD8(S_80098CD8_0 *arg0) {
-    arg0->unk_04 = &D_80098160;
-    arg0->unk_10 = 0x400;
+/* Initialize the object's data pointer and set its initial value to 0x400. */
+void func_80098CD8(S_80098CD8_0 *object) {
+    object->unk_04 = &D_80098160;
+    object->unk_10 = 0x400;
 }

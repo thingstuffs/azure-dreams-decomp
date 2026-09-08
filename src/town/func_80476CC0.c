@@ -7,17 +7,14 @@ extern s32 D_80019BB4[3];
 
 extern s32 func_80018FC8(s32 *, s32 *, s32, s32);
 
-s32 func_80017CC0(s32 arg0, s32 arg1, s32 arg2) {
-    s32 ret;
+/* Returns the selected table value for mode 1, or delegates the lookup for other modes. */
+s32 func_80017CC0(s32 lookupInput, s32 unused, s32 mode) {
+    s32 result;
 
-    if (arg2 != 1) {
-        ret = func_80018FC8(D_8001673C, D_800170CC, arg0, arg2);
+    if (mode != 1) {
+        result = func_80018FC8(D_8001673C, D_800170CC, lookupInput, mode);
     } else {
-        ret = D_80016754[D_80019BB4[0]];
+        result = D_80016754[D_80019BB4[0]];
     }
-    return ret;
+    return result;
 }
-
-/* MECHANISM: The true-space three-argument definition holds the fourth call
-   argument in a3 while a2 receives arg0; both arms join one return value. Wide array
-   declarations force the retail hi/lo indexed-global addressing. */

@@ -4,24 +4,25 @@ typedef s32 Callback(s32);
 
 extern void *D_80016000;
 
+/* Calls the callback with zero, then maps states 0-2 to results 1-3, defaulting to zero. */
 void func_80016428(void)
 {
-    void *temp_a0;
-    void *temp_a0_2;
-    void *temp_v1;
+    void *state_one;
+    void *state_two;
+    void *state_zero;
 
     (*(Callback **)((s8 *)*(void **)((s8 *)D_80016000 + 0x20) + 0x244))(0);
     *(s32 *)((s8 *)*(void **)((s8 *)D_80016000 + 0x1C) + 0x38) = 0;
-    temp_v1 = *(void **)((s8 *)D_80016000 + 0x1C);
-    if (*(s32 *)temp_v1 == 0) {
-        *(s32 *)((s8 *)temp_v1 + 0x38) = 1;
+    state_zero = *(void **)((s8 *)D_80016000 + 0x1C);
+    if (*(s32 *)state_zero == 0) {
+        *(s32 *)((s8 *)state_zero + 0x38) = 1;
     }
-    temp_a0 = *(void **)((s8 *)D_80016000 + 0x1C);
-    if (*(s32 *)temp_a0 == 1) {
-        *(s32 *)((s8 *)temp_a0 + 0x38) = 2;
+    state_one = *(void **)((s8 *)D_80016000 + 0x1C);
+    if (*(s32 *)state_one == 1) {
+        *(s32 *)((s8 *)state_one + 0x38) = 2;
     }
-    temp_a0_2 = *(void **)((s8 *)D_80016000 + 0x1C);
-    if (*(s32 *)temp_a0_2 == 2) {
-        *(s32 *)((s8 *)temp_a0_2 + 0x38) = 3;
+    state_two = *(void **)((s8 *)D_80016000 + 0x1C);
+    if (*(s32 *)state_two == 2) {
+        *(s32 *)((s8 *)state_two + 0x38) = 3;
     }
 }

@@ -89,6 +89,7 @@ extern u8 D_801DA714[16];
 #endif
 
 void func_8001677C(void) ROW_ATTR;
+/* Updates two states and invokes the active object's callback. */
 void func_8001677C(void)
 {
 #ifdef __mips__
@@ -157,53 +158,54 @@ static void (*const dispatch_table[])(void)
 #endif
 
 static void func_804FE87C(void) ROW_ATTR;
+/* Initializes lighting, projection, and viewport state. */
 static void func_804FE87C(void)
 {
-    u8 *base = D_80083160;
-    u8 *state = base + 0x18;
-    s32 c1;
-    s32 c2;
-    void *call_arg;
+    u8 *render_data = D_80083160;
+    u8 *render_state = render_data + 0x18;
+    s32 light_xz;
+    s32 light_y;
+    void *light_matrix;
 
-    ((S_804FE87C_0 *)state)->unk_88 = 0x200;
+    ((S_804FE87C_0 *)render_state)->unk_88 = 0x200;
     func_80064F20(0x200);
 
-    ((S_804FE87C_0 *)state)->unk_78 = 0;
-    ((S_804FE87C_0 *)state)->unk_7C = 0;
-    ((S_804FE87C_0 *)state)->unk_80 = 0;
+    ((S_804FE87C_0 *)render_state)->unk_78 = 0;
+    ((S_804FE87C_0 *)render_state)->unk_7C = 0;
+    ((S_804FE87C_0 *)render_state)->unk_80 = 0;
     func_80064EE0(0, 0, 0);
 
-    ((S_804FE87C_0 *)state)->unk_58 = 0x200;
-    ((S_804FE87C_0 *)state)->unk_5E = 0x200;
-    ((S_804FE87C_0 *)state)->unk_64 = 0x200;
-    ((S_804FE87C_0 *)state)->unk_5A = -0x100;
-    ((S_804FE87C_0 *)state)->unk_60 = -0x100;
-    ((S_804FE87C_0 *)state)->unk_66 = -0x100;
-    ((S_804FE87C_0 *)state)->unk_5C = 0;
-    ((S_804FE87C_0 *)state)->unk_62 = 0;
-    ((S_804FE87C_0 *)state)->unk_68 = 0;
-    func_80064D50(base + 0x70);
+    ((S_804FE87C_0 *)render_state)->unk_58 = 0x200;
+    ((S_804FE87C_0 *)render_state)->unk_5E = 0x200;
+    ((S_804FE87C_0 *)render_state)->unk_64 = 0x200;
+    ((S_804FE87C_0 *)render_state)->unk_5A = -0x100;
+    ((S_804FE87C_0 *)render_state)->unk_60 = -0x100;
+    ((S_804FE87C_0 *)render_state)->unk_66 = -0x100;
+    ((S_804FE87C_0 *)render_state)->unk_5C = 0;
+    ((S_804FE87C_0 *)render_state)->unk_62 = 0;
+    ((S_804FE87C_0 *)render_state)->unk_68 = 0;
+    func_80064D50(render_data + 0x70);
 
-    call_arg = base + 0x50;
-    ASM_KEEP(call_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    c1 = -0x800;
-    c2 = 0x800;
-    ASM_KEEP(c2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ((S_804FE87C_0 *)state)->unk_38 = c1;
-    ((S_804FE87C_0 *)state)->unk_3C = c1;
-    c1 = 0x800;
-    ((S_804FE87C_0 *)state)->unk_3A = c2;
-    c2 = -0x800;
-    ((S_804FE87C_0 *)state)->unk_3E = c1;
-    ((S_804FE87C_0 *)state)->unk_40 = c2;
-    ((S_804FE87C_0 *)state)->unk_42 = c1;
-    ((S_804FE87C_0 *)state)->unk_44 = 0;
-    ((S_804FE87C_0 *)state)->unk_46 = 0;
-    ((S_804FE87C_0 *)state)->unk_48 = 0;
-    func_80064D20(call_arg);
+    light_matrix = render_data + 0x50;
+    ASM_KEEP(light_matrix);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    light_xz = -0x800;
+    light_y = 0x800;
+    ASM_KEEP(light_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ((S_804FE87C_0 *)render_state)->unk_38 = light_xz;
+    ((S_804FE87C_0 *)render_state)->unk_3C = light_xz;
+    light_xz = 0x800;
+    ((S_804FE87C_0 *)render_state)->unk_3A = light_y;
+    light_y = -0x800;
+    ((S_804FE87C_0 *)render_state)->unk_3E = light_xz;
+    ((S_804FE87C_0 *)render_state)->unk_40 = light_y;
+    ((S_804FE87C_0 *)render_state)->unk_42 = light_xz;
+    ((S_804FE87C_0 *)render_state)->unk_44 = 0;
+    ((S_804FE87C_0 *)render_state)->unk_46 = 0;
+    ((S_804FE87C_0 *)render_state)->unk_48 = 0;
+    func_80064D20(light_matrix);
 
-    ((S_804FE87C_0 *)state)->unk_84 = 0x1000;
-    func_80064624(0x1000, ((S_804FE87C_0 *)state)->unk_88);
+    ((S_804FE87C_0 *)render_state)->unk_84 = 0x1000;
+    func_80064624(0x1000, ((S_804FE87C_0 *)render_state)->unk_88);
     func_80064EC0(0xA0, 0xA0, 0xA0);
 
     D_801C9E40[0x19] = 0;
@@ -214,10 +216,10 @@ static void func_804FE87C(void)
     D_801DA714[0x1B] = 0;
     func_80064F00(0xA0, 0x78);
 
-    ((S_804FE87C_1 *)base)->unk_18 = -0xBC;
-    ((S_804FE87C_1 *)base)->unk_1A = -0x88;
-    ((S_804FE87C_1 *)base)->unk_1C = 0x172;
-    ((S_804FE87C_1 *)base)->unk_1E = 0x19A;
+    ((S_804FE87C_1 *)render_data)->unk_18 = -0xBC;
+    ((S_804FE87C_1 *)render_data)->unk_1A = -0x88;
+    ((S_804FE87C_1 *)render_data)->unk_1C = 0x172;
+    ((S_804FE87C_1 *)render_data)->unk_1E = 0x19A;
     D_80083478 = D_800DDC7C;
 }
 

@@ -17,13 +17,14 @@ typedef struct {
 extern void func_800478B8(void *arg0);
 extern s32 D_800814A0[];
 
-void func_80EB886C(EffectState *arg0, VecState *arg1, void *arg2) {
-    arg1->x += arg1->vx;
-    arg1->y += arg1->vy;
-    arg1->z += arg1->vz;
-    func_800478B8(arg2);
-    if ((s16)--arg0->timer <= 0) {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+/* Advance effect motion, update its data, and set expiry flags when its timer runs out. */
+void func_80EB886C(EffectState *effect, VecState *motion, void *update_data) {
+    motion->x += motion->vx;
+    motion->y += motion->vy;
+    motion->z += motion->vz;
+    func_800478B8(update_data);
+    if ((s16)--effect->timer <= 0) {
+        *(u16 *)((u8 *)effect - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

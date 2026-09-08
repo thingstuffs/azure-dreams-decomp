@@ -56,100 +56,101 @@ extern void func_800AD594(void *, s32);
 extern void func_8017442C(void *, s32, s32, s32);
 extern void func_80174670(void *, s32, s32, s32);
 
-void func_80174898(void *arg0, void *arg1, void *arg2, void *arg3)
+/* Updates timed directional effects, then resets animation and action state. */
+void func_80174898(void *action, void *position, void *sprite, void *entity)
 {
-    OffsetTable offsets = D_80170854;
-    s32 scratch;
+    OffsetTable direction_offsets = D_80170854;
+    s32 offset_coord;
 
-    switch (((S_80174898_0 *)arg0)->unk_9B) {
+    switch (((S_80174898_0 *)action)->unk_9B) {
     case 0:
-        ((S_80174898_1 *)arg1)->unk_14 = 0;
-        ((S_80174898_1 *)arg1)->unk_10 = 0;
-        ((S_80174898_1 *)arg1)->unk_0C = 0;
-        ((S_80174898_0 *)arg0)->unk_96 = 0x14;
-        ((S_80174898_0 *)arg0)->unk_9B++;
+        ((S_80174898_1 *)position)->unk_14 = 0;
+        ((S_80174898_1 *)position)->unk_10 = 0;
+        ((S_80174898_1 *)position)->unk_0C = 0;
+        ((S_80174898_0 *)action)->unk_96 = 0x14;
+        ((S_80174898_0 *)action)->unk_9B++;
         break;
 
     case 1:
-        if ((--((S_80174898_0 *)arg0)->unk_96 == 0x11) ||
-            (((S_80174898_2 *)arg2)->unk_14 & 0x8000)) {
-            OffsetPair *offset;
+        if ((--((S_80174898_0 *)action)->unk_96 == 0x11) ||
+            (((S_80174898_2 *)sprite)->unk_14 & 0x8000)) {
+            OffsetPair *direction_offset;
             u16 flags;
             s32 height;
-            s32 x_sum;
-            s32 x_raw;
+            s32 target_x;
+            s32 tile_x;
             s32 y_offset;
-            s32 ox;
+            s32 x_offset;
 
-            flags = ((S_80174898_2 *)arg2)->unk_14;
-            ((S_80174898_2 *)arg2)->unk_14 = flags | 0x0800;
-            height = ((S_80174898_1 *)arg1)->unk_0A;
-            x_raw = ((S_80174898_2 *)arg2)->unk_24;
-            offset = &offsets.entries[(((S_80174898_3 *)arg3)->unk_2A.s >> 9) & 7];
-            ox = offset->x;
-            x_sum = x_raw + ox;
-            y_offset = offset->y;
-            scratch = ((S_80174898_2 *)arg2)->unk_25 + y_offset;
-            x_sum = x_sum & 0xFFFF;
-            func_80174670(arg3, x_sum, scratch & 0xFFFF, height);
+            flags = ((S_80174898_2 *)sprite)->unk_14;
+            ((S_80174898_2 *)sprite)->unk_14 = flags | 0x0800;
+            height = ((S_80174898_1 *)position)->unk_0A;
+            tile_x = ((S_80174898_2 *)sprite)->unk_24;
+            direction_offset = &direction_offsets.entries[(((S_80174898_3 *)entity)->unk_2A.s >> 9) & 7];
+            x_offset = direction_offset->x;
+            target_x = tile_x + x_offset;
+            y_offset = direction_offset->y;
+            offset_coord = ((S_80174898_2 *)sprite)->unk_25 + y_offset;
+            target_x = target_x & 0xFFFF;
+            func_80174670(entity, target_x, offset_coord & 0xFFFF, height);
         }
-        if ((((S_80174898_0 *)arg0)->unk_96 == 0x0A) ||
-            (((S_80174898_2 *)arg2)->unk_14 & 0x8000)) {
-            ((S_80174898_2 *)arg2)->unk_14 &= 0xF7FF;
+        if ((((S_80174898_0 *)action)->unk_96 == 0x0A) ||
+            (((S_80174898_2 *)sprite)->unk_14 & 0x8000)) {
+            ((S_80174898_2 *)sprite)->unk_14 &= 0xF7FF;
             func_800A56E0(0x606);
         }
-        if ((((S_80174898_0 *)arg0)->unk_96 == 9) ||
-            (((S_80174898_2 *)arg2)->unk_14 & 0x8000)) {
-            OffsetPair *offset;
+        if ((((S_80174898_0 *)action)->unk_96 == 9) ||
+            (((S_80174898_2 *)sprite)->unk_14 & 0x8000)) {
+            OffsetPair *direction_offset;
             u16 angle;
             s32 height;
-            s32 x_raw;
+            s32 tile_x;
             s32 x;
-            s32 x_sum;
+            s32 target_x;
             s32 y_offset;
 
-            angle = ((S_80174898_3 *)arg3)->unk_2A.s;
-            offset = offsets.entries + ((angle >> 9) & 7);
-            height = ((S_80174898_1 *)arg1)->unk_0A;
-            x_raw = ((S_80174898_2 *)arg2)->unk_24;
-            scratch = offset->x;
-            x_sum = x_raw + scratch;
-            y_offset = offset->y;
-            scratch = ((S_80174898_2 *)arg2)->unk_25 + y_offset;
-            x = x_sum & 0xFFFF;
-            func_8017442C(arg3, x, scratch & 0xFFFF, height);
+            angle = ((S_80174898_3 *)entity)->unk_2A.s;
+            direction_offset = direction_offsets.entries + ((angle >> 9) & 7);
+            height = ((S_80174898_1 *)position)->unk_0A;
+            tile_x = ((S_80174898_2 *)sprite)->unk_24;
+            offset_coord = direction_offset->x;
+            target_x = tile_x + offset_coord;
+            y_offset = direction_offset->y;
+            offset_coord = ((S_80174898_2 *)sprite)->unk_25 + y_offset;
+            x = target_x & 0xFFFF;
+            func_8017442C(entity, x, offset_coord & 0xFFFF, height);
         }
-        if ((((S_80174898_0 *)arg0)->unk_96 <= 0) ||
-            (((S_80174898_2 *)arg2)->unk_14 & 0x8000)) {
-            ((S_80174898_0 *)arg0)->unk_96 = 0;
-            ((S_80174898_0 *)arg0)->unk_9B++;
+        if ((((S_80174898_0 *)action)->unk_96 <= 0) ||
+            (((S_80174898_2 *)sprite)->unk_14 & 0x8000)) {
+            ((S_80174898_0 *)action)->unk_96 = 0;
+            ((S_80174898_0 *)action)->unk_9B++;
         }
         break;
 
     case 2:
-        if (((S_80174898_2 *)arg2)->unk_14 & 0xE000) {
-            ((S_80174898_1 *)arg1)->unk_14 = 0;
-            ((S_80174898_1 *)arg1)->unk_10 = 0;
-            ((S_80174898_1 *)arg1)->unk_0C = 0;
-            func_800A2B04(arg1,
-                ((S_80174898_2 *)arg2)->unk_24, ((S_80174898_2 *)arg2)->unk_25);
-            if (((S_80174898_2 *)arg2)->unk_2C != D_80175988) {
-                ((S_80174898_2 *)arg2)->unk_2C = D_80175988;
-                ((S_80174898_2 *)arg2)->unk_14 &= 0xF7FF;
-                func_80047784(arg2,
-                    ((S_80174898_2 *)arg2)->unk_2C[((D_80083228 +
-                        ((S_80174898_3 *)arg3)->unk_2A.u + 0x100) >> 9) & 7],
+        if (((S_80174898_2 *)sprite)->unk_14 & 0xE000) {
+            ((S_80174898_1 *)position)->unk_14 = 0;
+            ((S_80174898_1 *)position)->unk_10 = 0;
+            ((S_80174898_1 *)position)->unk_0C = 0;
+            func_800A2B04(position,
+                ((S_80174898_2 *)sprite)->unk_24, ((S_80174898_2 *)sprite)->unk_25);
+            if (((S_80174898_2 *)sprite)->unk_2C != D_80175988) {
+                ((S_80174898_2 *)sprite)->unk_2C = D_80175988;
+                ((S_80174898_2 *)sprite)->unk_14 &= 0xF7FF;
+                func_80047784(sprite,
+                    ((S_80174898_2 *)sprite)->unk_2C[((D_80083228 +
+                        ((S_80174898_3 *)entity)->unk_2A.u + 0x100) >> 9) & 7],
                     0);
-                ((S_80174898_0 *)arg0)->unk_9B++;
+                ((S_80174898_0 *)action)->unk_9B++;
             }
         }
         break;
 
     case 3:
-        func_800AD594(arg3, 0x400);
-        ((S_80174898_0 *)arg0)->unk_8C = &D_801717F4;
+        func_800AD594(entity, 0x400);
+        ((S_80174898_0 *)action)->unk_8C = &D_801717F4;
         D_8008346C = 0;
-        (*(u16 *)((u8 *)arg3 + 0x46)) &= 0x7FFF;
+        (*(u16 *)((u8 *)entity + 0x46)) &= 0x7FFF;
         break;
     }
 }

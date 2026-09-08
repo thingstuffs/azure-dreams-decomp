@@ -16,18 +16,19 @@ extern s16 D_80128A20[];
 extern Entry *D_80129720;
 extern s16 D_80129724;
 
-s16 *func_80122FA8(s16 arg0)
+/* Returns cached glyph data, loading it on a miss and updating cache order. */
+s16 *func_80122FA8(s16 char_code)
 {
-    u16 id;
-    Entry *scan;
-    Entry *cur;
-    Entry *prev;
-    Entry *loop_head;
-    Entry *next;
-    s16 *result;
+    u16 glyph_id;
+    Entry *entry;
+    Entry *last_entry;
+    Entry *last_prev;
+    Entry *cache_head;
+    Entry *next_entry;
+    s16 *glyph_data;
 
-    id = arg0;
-    if (Krom2RawAdd(id) == -1) {
+    glyph_id = char_code;
+    if (Krom2RawAdd(glyph_id) == -1) {
         goto fail;
     }
 
@@ -36,50 +37,50 @@ s16 *func_80122FA8(s16 arg0)
         D_80129724 = 0;
     }
 
-    cur = D_80129720;
-    prev = cur;
-    scan = cur;
-    if (scan != 0) {
+    last_entry = D_80129720;
+    last_prev = last_entry;
+    entry = last_entry;
+    if (entry != 0) {
         do {
-            if ((u16)scan->state == id) {
-                result = &D_80128A20[(u16)scan->value];
-                loop_head = D_80129720;
-                if (scan == loop_head) {
+            if ((u16)entry->state == glyph_id) {
+                glyph_data = &D_80128A20[(u16)entry->value];
+                cache_head = D_80129720;
+                if (entry == cache_head) {
                     goto found_head;
                 }
-                next = scan->next;
-                D_80129720 = scan;
-                cur->next = next;
-                scan->next = loop_head;
+                next_entry = entry->next;
+                D_80129720 = entry;
+                last_entry->next = next_entry;
+                entry->next = cache_head;
                 D_80129724++;
-                return result;
+                return glyph_data;
             }
-            prev = cur;
-            cur = scan;
-            scan = cur->next;
-        } while (scan != 0);
+            last_prev = last_entry;
+            last_entry = entry;
+            entry = last_entry->next;
+        } while (entry != 0);
     }
 
-    result = func_80121C90((u16)arg0,
-                           &D_80128A20[(u16)cur->value]);
-    if (result != &D_80128A20[(u16)cur->value]) {
+    glyph_data = func_80121C90((u16)char_code,
+                               &D_80128A20[(u16)last_entry->value]);
+    if (glyph_data != &D_80128A20[(u16)last_entry->value]) {
         goto fail;
     }
     {
         Entry *old_head;
 
-        cur->state = arg0;
-        prev->next = 0;
+        last_entry->state = char_code;
+        last_prev->next = 0;
         old_head = D_80129720;
-        D_80129720 = cur;
-        cur->next = old_head;
+        D_80129720 = last_entry;
+        last_entry->next = old_head;
         D_80129724++;
-        return result;
+        return glyph_data;
     }
 
 found_head:
     D_80129724++;
-    return result;
+    return glyph_data;
 
 fail:
     return 0;

@@ -17,18 +17,19 @@ typedef struct DungeonFade {
 
 extern s32 D_800814A0[3];
 
-void func_80171CC0(DungeonFade *arg0, void *arg1) {
-    s16 step;
+/* Update the fade color and mark completion when its countdown ends. */
+void func_80171CC0(DungeonFade *fade, void *progress) {
+    s16 steps_left;
 
-    *(s32 *)((u8 *)arg1 + 8) += 0x10000;
-    arg0->scaled_r = (arg0->r * arg0->step) / arg0->divisor;
-    arg0->scaled_g = (arg0->g * arg0->step) / arg0->divisor;
-    arg0->scaled_b = (arg0->b * arg0->step) / arg0->divisor;
-    step = (u16)arg0->step - 1;
-    arg0->step = step;
-    arg0->value = *(s32 *)&arg0->scaled_r;
-    if ((step << 16) <= 0) {
-        *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    *(s32 *)((u8 *)progress + 8) += 0x10000;
+    fade->scaled_r = (fade->r * fade->step) / fade->divisor;
+    fade->scaled_g = (fade->g * fade->step) / fade->divisor;
+    fade->scaled_b = (fade->b * fade->step) / fade->divisor;
+    steps_left = (u16)fade->step - 1;
+    fade->step = steps_left;
+    fade->value = *(s32 *)&fade->scaled_r;
+    if ((steps_left << 16) <= 0) {
+        *(u16 *)((u8 *)fade - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

@@ -9,33 +9,34 @@ typedef struct TownState {
 
 extern TownState D_80083160;
 
-s32 func_800B3C04(s32 *arg0)
+// Selects a choice from enabled town flags, marks its array entry with 4, and returns it.
+s32 func_800B3C04(s32 *choice_values)
 {
     s32 choice;
-    s32 flags;
-    s32 store_value;
-    TownState *base;
+    s32 town_flags;
+    s32 selected_value;
+    TownState *town_state;
 
-    base = &D_80083160;
+    town_state = &D_80083160;
     choice = -1;
-    if (base->enabled != 0) {
-        flags = base->flags;
-        if (flags & 0x40) {
+    if (town_state->enabled != 0) {
+        town_flags = town_state->flags;
+        if (town_flags & 0x40) {
             choice = 2;
             goto selected;
         }
-        if (flags & 0x10) {
+        if (town_flags & 0x10) {
             choice = 3;
             goto selected;
         }
-        if (flags & 0x20) {
+        if (town_flags & 0x20) {
             choice = 4;
         }
     }
 selected:
-    store_value = 4;
+    selected_value = 4;
     if (choice != -1) {
-        arg0[choice + 3] = store_value;
+        choice_values[choice + 3] = selected_value;
     }
     return choice;
 }

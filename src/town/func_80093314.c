@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
+#include "records/Rec_func_8009431C_arg0.h"
 
 s32 func_80033B2C();                         /* extern */
 M2C_UNK func_8008B158();                         /* extern */
@@ -37,86 +38,76 @@ typedef struct S_80090A74_2 {
     s32 unk_10;
 } S_80090A74_2;   /* temp_s4 in func_80090A74 */
 
-typedef struct S_80090A74_3 {
-    u8 pad_00[0x2C];
-    s32 unk_2C;
-} S_80090A74_3;   /* arg0 in func_80090A74 */
 
 typedef struct S_80090A74_4 {
     u8 pad_00[0x10];
     s32 unk_10;
 } S_80090A74_4;   /* temp_s3 in func_80090A74 */
 
-void func_80090A74(S_80090A74_3 *arg0, Rec_D_800E3D7C *arg1, M2C_UNK arg2) {
-    s16 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    register u8 *page_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *temp_s4 = D_80083160;
+/* Update the actor and dispatch town actions from input and interaction state. */
+void func_80090A74(Rec_func_8009431C_arg0 *actor, Rec_D_800E3D7C *record, M2C_UNK context) {
+    s16 height;
+    s32 action_result;
+    s32 interaction_result;
+    register u8 *page_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *shared_data ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *input_state = D_80083160;
 
-    func_80095C80(arg1);
-    func_80095094(arg1);
+    func_80095C80(record);
+    func_80095094(record);
     {
-        void *call_a0 = arg1;
+        void *height_record = record;
 
-        ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        page_v0 = (u8 *)0x80100000;
-        ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        temp_s3 = page_v0 - 0x1B78;
-        temp_v0 = func_80095978(call_a0, temp_s3);
+        ASM_KEEP(height_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        page_base = (u8 *)0x80100000;
+        ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        shared_data = page_base - 0x1B78;
+        height = func_80095978(height_record, shared_data);
     }
-    if ((temp_v0 - arg1->unk_08.at02_s16.v) >= 4) {
+    if ((height - record->unk_08.at02_s16.v) >= 4) {
         if (((S_80090A74_1 *)(&D_800CFCEF))->unk_00 == 0) {
-            func_80094378(arg0, arg1, arg2);
+            func_80094378(actor, record, context);
             return;
         }
-        goto block_6;
+    } else if (((S_80090A74_1 *)(&D_800CFCEF))->unk_00 == 0) {
+        func_80095A94(record, height, shared_data);
     }
-    if (((S_80090A74_1 *)(&D_800CFCEF))->unk_00 == 0) {
-        func_80095A94(arg1, temp_v0, temp_s3);
-    }
-block_6:
-    if (((S_80090A74_2 *)temp_s4)->unk_10 & 0x10) {
-        func_800942B0(arg0, arg1, arg2);
+    if (((S_80090A74_2 *)input_state)->unk_10 & 0x10) {
+        func_800942B0(actor, record, context);
         return;
     }
-    if (((S_80090A74_2 *)temp_s4)->unk_10 & 0x40) {
-        temp_v0_2 = func_80095840(arg0, &D_800CFCB4);
-        if (temp_v0_2 != 0) {
-            if (temp_v0_2 == 2) {
-                func_8009451C(arg0, arg1, arg2);
+    if (((S_80090A74_2 *)input_state)->unk_10 & 0x40) {
+        action_result = func_80095840(actor, &D_800CFCB4);
+        if (action_result != 0) {
+            if (action_result == 2) {
+                func_8009451C(actor, record, context);
                 return;
             }
-            func_800944BC(arg0, arg1, arg2);
+            func_800944BC(actor, record, context);
             return;
         }
         if (func_80033B2C(0xA4) != 0) {
-            func_80094088(arg0, arg1, arg2);
+            func_80094088(actor, record, context);
             return;
         }
     } else {
-        page_v0 = (u8 *)0x800D0000;
-        ASM_KEEP(page_v0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        temp_s3 = page_v0 - 0x34C;
-        temp_v0_3 = func_8009567C(temp_s3);
-        if (temp_v0_3 != 0) {
-            if (temp_v0_3 == -1) {
-                func_80094C1C(arg0);
-                func_80098868(arg0, arg1, arg2);
-                arg0->unk_2C = 0;
-                func_8008B158(((S_80090A74_4 *)temp_s3)->unk_10);
+        page_base = (u8 *)0x800D0000;
+        ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        shared_data = page_base - 0x34C;
+        interaction_result = func_8009567C(shared_data);
+        if (interaction_result != 0) {
+            if (interaction_result == -1) {
+                func_80094C1C(actor);
+                func_80098868(actor, record, context);
+                actor->unk_2C = 0;
+                func_8008B158(((S_80090A74_4 *)shared_data)->unk_10);
                 return;
             }
-            func_800943B8(arg0, arg1, arg2);
+            func_800943B8(actor, record, context);
             return;
         }
-        if (((S_80090A74_2 *)temp_s4)->unk_08 & 0xF000) {
-            func_80093ED8(arg0, arg1, arg2);
+        if (((S_80090A74_2 *)input_state)->unk_08 & 0xF000) {
+            func_80093ED8(actor, record, context);
         }
     }
 }
-/* MECHANISM: At 2.7.2-cdk-G0, s4 holds D_80083160 and s3 is reused for
-   D_800FE488/D_800CFCB4 via pinned v0 page bases. The corrected one-argument
-   func_8009567C ABI removes an extra move; a scoped a0 fence schedules the
-   third-call argument before its page-base pair. */

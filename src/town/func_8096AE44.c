@@ -71,123 +71,124 @@ extern s8 D_80128614[];
 extern void *D_80129728[];
 extern s8 D_801331D0[];
 
+/* Initialize town object data, grid positions, and display dimensions. */
 void func_801232DC(void)
 {
-    s32 var_s0;
-    TownInitialPosition *var_a0;
-    s8 *var_t0;
-    s8 *var_a2_data;
-    s16 temp_a0_2;
-    s32 temp_a0;
-    s32 temp_a0_3;
-    s32 temp_a1;
-    s32 temp_v1_2;
+    s32 object_index;
+    TownInitialPosition *initial_pos;
+    s8 *group_data;
+    s8 *entry_data;
+    s16 detail_y;
+    s32 row_offset;
+    s32 row;
+    s32 column_offset;
+    s32 column;
     s32 object_offset;
-    register s32 var_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s32 var_a3_2;
-    register s32 var_a3_3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s32 var_a3_4;
+    register s32 initial_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 group_index;
+    register s32 entry_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 display_index;
     s32 final_width;
     register s32 final_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u16 temp_v1;
+    u16 initial_y;
     S_801232DC_1 *object;
-    void **var_a0_2;
-    void **var_a1;
-    void **var_a1_2;
-    void **var_a2;
+    void **display_slot;
+    void **initial_slot;
+    void **entry_slot;
+    void **group_slot;
 
-    var_s0 = 0x1C;
+    object_index = 0x1C;
     func_80123238();
-    var_a3 = 0;
+    initial_index = 0;
     {
         void **object_base;
         object_base = D_80129728;
-        var_a1 = &object_base[0x1C];
+        initial_slot = &object_base[0x1C];
     }
-    var_a0 = D_80126AF8;
+    initial_pos = D_80126AF8;
     do {
-        ((S_801232DC_0 *)(*var_a1))->unk_00 = var_a0->data;
-        object = *var_a1;
-        var_a3 += 1;
-        ((S_801232DC_6 *)(object->unk_04))->unk_08.s = var_a0->x;
-        var_s0 += 1;
-        object = *var_a1;
-        temp_v1 = var_a0->y;
-        var_a0 += 1;
-        ((S_801232DC_6 *)(object->unk_04))->unk_0A = temp_v1;
-        var_a1 += 1;
-    } while (var_a3 < 5);
+        ((S_801232DC_0 *)(*initial_slot))->unk_00 = initial_pos->data;
+        object = *initial_slot;
+        initial_index += 1;
+        ((S_801232DC_6 *)(object->unk_04))->unk_08.s = initial_pos->x;
+        object_index += 1;
+        object = *initial_slot;
+        initial_y = initial_pos->y;
+        initial_pos += 1;
+        ((S_801232DC_6 *)(object->unk_04))->unk_0A = initial_y;
+        initial_slot += 1;
+    } while (initial_index < 5);
 
-    var_a3_2 = 0;
-    var_t0 = D_801331D0;
+    group_index = 0;
+    group_data = D_801331D0;
     {
         void **object_base;
         object_base = D_80129728;
         ASM_KEEP(object_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        object_offset = var_s0 << 2;
-        var_a2 = (void **)(object_offset + (u32)object_base);
+        object_offset = object_index << 2;
+        group_slot = (void **)(object_offset + (u32)object_base);
     }
     do {
-        object = *var_a2;
-        temp_a1 = var_a3_2 >> 3;
-        object->unk_00 = var_t0;
-        object = *var_a2;
-        temp_a1 <<= 7;
-        ((S_801232DC_6 *)(object->unk_04))->unk_08.u = temp_a1 + 0x38;
-        temp_a0 = (var_a3_2 & 7) * 0x12;
-        ((S_801232DC_7 *)(((S_801232DC_2 *)(*var_a2))->unk_04))->unk_0A = temp_a0 + 0x2C;
-        var_a2 += 1;
-        ((S_801232DC_7 *)(((S_801232DC_2 *)(*var_a2))->unk_04))->unk_08 = temp_a1 + 0x3E;
-        var_s0 += 3;
-        object = *var_a2;
-        temp_a0_2 = temp_a0 + 0x30;
+        object = *group_slot;
+        column_offset = group_index >> 3;
+        object->unk_00 = group_data;
+        object = *group_slot;
+        column_offset <<= 7;
+        ((S_801232DC_6 *)(object->unk_04))->unk_08.u = column_offset + 0x38;
+        row_offset = (group_index & 7) * 0x12;
+        ((S_801232DC_7 *)(((S_801232DC_2 *)(*group_slot))->unk_04))->unk_0A = row_offset + 0x2C;
+        group_slot += 1;
+        ((S_801232DC_7 *)(((S_801232DC_2 *)(*group_slot))->unk_04))->unk_08 = column_offset + 0x3E;
+        object_index += 3;
+        object = *group_slot;
+        detail_y = row_offset + 0x30;
         object = object->unk_04;
-        var_a2 += 1;
-        object->unk_08.at02.v = temp_a0_2;
-        var_t0 += 0xC;
-        ((S_801232DC_7 *)(((S_801232DC_2 *)(*var_a2))->unk_04))->unk_08 = temp_a1 + 0x44;
-        var_a3_2 += 1;
-        ((S_801232DC_7 *)(((S_801232DC_2 *)(*var_a2))->unk_04))->unk_0A = temp_a0_2;
-        var_a2 += 1;
-    } while (var_a3_2 < 0x10);
+        group_slot += 1;
+        object->unk_08.at02.v = detail_y;
+        group_data += 0xC;
+        ((S_801232DC_7 *)(((S_801232DC_2 *)(*group_slot))->unk_04))->unk_08 = column_offset + 0x44;
+        group_index += 1;
+        ((S_801232DC_7 *)(((S_801232DC_2 *)(*group_slot))->unk_04))->unk_0A = detail_y;
+        group_slot += 1;
+    } while (group_index < 0x10);
 
-    var_a3_3 = 0;
+    entry_index = 0;
     {
         void **object_base;
         object_base = D_80129728;
         ASM_KEEP(object_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        object_offset = var_s0 << 2;
-        var_a1_2 = (void **)(object_offset + (u32)object_base);
+        object_offset = object_index << 2;
+        entry_slot = (void **)(object_offset + (u32)object_base);
     }
-    var_a2_data = D_801331D0;
+    entry_data = D_801331D0;
     do {
-        temp_v1_2 = var_a3_3 >> 3;
-        temp_a0_3 = var_a3_3 & 7;
-        var_a3_3 += 1;
-        ((S_801232DC_3 *)(*var_a1_2))->unk_00 = var_a2_data;
-        var_a2_data += 0xC;
-        ((S_801232DC_8 *)(((S_801232DC_3 *)(*var_a1_2))->unk_04))->unk_08 = (temp_v1_2 << 7) + 0x54;
-        ((S_801232DC_8 *)(((S_801232DC_3 *)(*var_a1_2))->unk_04))->unk_0A = temp_a0_3 * 0x12 + 0x30;
-        var_a1_2 += 1;
-    } while (var_a3_3 < 0x10);
+        column = entry_index >> 3;
+        row = entry_index & 7;
+        entry_index += 1;
+        ((S_801232DC_3 *)(*entry_slot))->unk_00 = entry_data;
+        entry_data += 0xC;
+        ((S_801232DC_8 *)(((S_801232DC_3 *)(*entry_slot))->unk_04))->unk_08 = (column << 7) + 0x54;
+        ((S_801232DC_8 *)(((S_801232DC_3 *)(*entry_slot))->unk_04))->unk_0A = row * 0x12 + 0x30;
+        entry_slot += 1;
+    } while (entry_index < 0x10);
 
-    var_a3_4 = 0;
+    display_index = 0;
     final_width = 0x10;
     final_x = 0xE0;
     {
         void **object_base;
         object_base = D_80129728;
-        var_a0_2 = &object_base[0x1C];
+        display_slot = &object_base[0x1C];
         ((S_801232DC_4 *)(object_base[0x61]))->unk_00 = D_80128614;
     }
     do {
-        ((S_801232DC_9 *)(((S_801232DC_5 *)(*var_a0_2))->unk_08))->unk_06 = final_width;
+        ((S_801232DC_9 *)(((S_801232DC_5 *)(*display_slot))->unk_08))->unk_06 = final_width;
         ASM_KEEP(final_width);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        object = *var_a0_2;
-        var_a3_4 += 1;
+        object = *display_slot;
+        display_index += 1;
         ((S_801232DC_10 *)(object->unk_08.at00.v))->unk_08 = final_x;
-        var_a0_2 += 1;
-    } while (var_a3_4 < 0x46);
+        display_slot += 1;
+    } while (display_index < 0x46);
 }
 
 /* MECHANISM: The 24-byte frame keeps only s0, with loop counters/data roles pinned at their ABI seams.

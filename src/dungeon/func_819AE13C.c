@@ -50,14 +50,15 @@ extern void func_80065AB0(u16, void *);
 extern void func_80065C50(u16, void *);
 extern void func_80065DF0(u16, void *);
 
-void func_8002593C(void *arg0, S_8002593C_1 *arg1, S_8002593C_2 *arg2)
+/* Build and install a transform from position, rotation, and a base matrix. */
+void func_8002593C(void *base_matrix, S_8002593C_1 *position, S_8002593C_2 *rotation)
 {
     u8 *scratch = (u8 *)0x1F800000;
     MATRIX matrix;
 
-    ((S_8002593C_0 *)scratch)->unk_40 = arg1->unk_02;
-    ((S_8002593C_0 *)scratch)->unk_44 = arg1->unk_06;
-    ((S_8002593C_0 *)scratch)->unk_48 = arg1->unk_0A;
+    ((S_8002593C_0 *)scratch)->unk_40 = position->unk_02;
+    ((S_8002593C_0 *)scratch)->unk_44 = position->unk_06;
+    ((S_8002593C_0 *)scratch)->unk_48 = position->unk_0A;
     func_80064AE0(&matrix);
 
     ((S_8002593C_0 *)scratch)->unk_50 = ((S_8002593C_0 *)scratch)->unk_58 =
@@ -66,11 +67,11 @@ void func_8002593C(void *arg0, S_8002593C_1 *arg1, S_8002593C_2 *arg2)
         ((S_8002593C_0 *)scratch)->unk_56 = ((S_8002593C_0 *)scratch)->unk_5A =
         ((S_8002593C_0 *)scratch)->unk_5C = ((S_8002593C_0 *)scratch)->unk_5E = 0;
 
-    func_80065AB0(arg2->unk_16, scratch + 0x50);
-    func_80065DF0(arg2->unk_1A, scratch + 0x50);
-    func_80065C50(arg2->unk_18, scratch + 0x50);
+    func_80065AB0(rotation->unk_16, scratch + 0x50);
+    func_80065DF0(rotation->unk_1A, scratch + 0x50);
+    func_80065C50(rotation->unk_18, scratch + 0x50);
     func_80064B90(scratch + 0x50, scratch + 0x40);
-    func_80064840(scratch + 0x50, arg0, scratch + 0xD0);
+    func_80064840(scratch + 0x50, base_matrix, scratch + 0xD0);
     func_80064D80(scratch + 0xD0);
     func_80064CF0(scratch + 0xD0);
 }

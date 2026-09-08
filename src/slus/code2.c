@@ -2,7 +2,6 @@
 
 /* --- gcc 2.8.x translation unit (address-caching CSE; see PLAN.md multi-compiler finding) --- */
 
-/* stores a0 into D_80082E60.field_4 and clears field_D and field_C */
 struct S_80082E60 {
     char pad0[4];
     int field_4;
@@ -16,15 +15,15 @@ struct S_80082E60 {
 
 extern struct S_80082E60 D_80082E60;
 
-void func_80040A88(int a0) {
-    struct S_80082E60 *p = &D_80082E60;
+/* Stores the value in D_80082E60 and clears its two flag bytes. */
+void func_80040A88(int value) {
+    struct S_80082E60 *state = &D_80082E60;
 
-    p->field_4 = a0;
-    p->field_D = 0;
-    p->field_C = 0;
+    state->field_4 = value;
+    state->field_D = 0;
+    state->field_C = 0;
 }
 
-/* Stores four arguments into consecutive fields of the global struct D_8006CE34 */
 extern struct {
     int f0;
     int f1;
@@ -32,34 +31,35 @@ extern struct {
     int f3;
 } D_8006CE34;
 
-void func_8003F540(int a0, int a1, int a2, int a3)
+/* Stores four values in consecutive fields of D_8006CE34. */
+void func_8003F540(int value_0, int value_1, int value_2, int value_3)
 {
-    struct { int f0; int f1; int f2; int f3; } *p = &D_8006CE34;
-    p->f0 = a0;
-    p->f1 = a1;
-    p->f2 = a2;
-    p->f3 = a3;
+    struct { int f0; int f1; int f2; int f3; } *values = &D_8006CE34;
+    values->f0 = value_0;
+    values->f1 = value_1;
+    values->f2 = value_2;
+    values->f3 = value_3;
 }
 
 /* func_800410FC — gcc 2.8.1 */
-/* Points D_800814E0 at D_80083C68 and clears the first word of D_80083C68 */
+
 extern int D_80083C68[8];
 extern void *D_800814E0;
 
+/* Points D_800814E0 at D_80083C68 and clears its first word. */
 void func_800410FC(void) {
     D_800814E0 = D_80083C68;
     D_80083C68[0] = 0;
 }
 
 /* func_8004D0C8 — gcc 2.8.1 */
-/* Registers a struct/state pointer and a default callback function pointer into
-   the global state table D_80083178 (stores at offsets 0xD8 and 0xB4). */
 
 void func_8004D09C(void);
 
-void func_8004D0C8(void *a0)
+/* Registers the state pointer and the default callback func_8004D09C. */
+void func_8004D0C8(void *state)
 {
-    D_80083178.ptr = a0;
+    D_80083178.ptr = state;
     D_80083178.callback = func_8004D09C;
 }
 
@@ -77,33 +77,32 @@ extern struct {
     short field8;
 } D_80083CA8;
 
-void func_800419EC(unsigned short a0, unsigned int a1) {
-    D_80083CA8.field8 = a0;
-    D_80083CA8.field6 = a1;
-    D_80083CA8.field0 = a1 / a0;
+/* Sets the countdown, amount, and per-tick quotient in D_80083CA8. */
+void func_800419EC(unsigned short countdown, unsigned int amount) {
+    D_80083CA8.field8 = countdown;
+    D_80083CA8.field6 = amount;
+    D_80083CA8.field0 = amount / countdown;
 }
 
 /* func_8004D110 — gcc 2.8.1 */
-/* func_8004D110 -- gcc 2.8.1
- * Registers a pointer and the default callback func_8004D0E4 into the
- * global state table D_80083178 (stores at offsets 0xB8 and 0xB4). */
 
 void func_8004D0E4(void);
 
-void func_8004D110(void *a0)
+/* Registers the state pointer and the default callback func_8004D0E4. */
+void func_8004D110(void *state)
 {
-    D_80083178.field_B8 = a0;
+    D_80083178.field_B8 = state;
     D_80083178.callback = func_8004D0E4;
 }
 
 extern unsigned char D_8007382A[16];
 
-/* Sets a global flag byte to 1 and returns 1. */
+/* Sets D_8007382A to 1 and returns 1. */
 int func_8005A3E0(void) {
-    unsigned char *p = &D_8007382A[0];
-    int v = 1;
-    *p = v;
-    return v;
+    unsigned char *flag = &D_8007382A[0];
+    int enabled = 1;
+    *flag = enabled;
+    return enabled;
 }
 
 extern int D_800869B4[3];
@@ -117,21 +116,19 @@ typedef struct {
 
 extern Struct80085FA8 D_80085FA8[];
 
-/* For each of the D_800869B4[0] active entries in D_80085FA8, set fields at
- * offset 0x20 and 0x24 to the given value (unused parameter is passed in $a0
- * but never read). */
+/* Sets both value fields of every active entry in D_80085FA8. */
 void func_8005C818(int unused, int value) {
-    unsigned int i;
+    unsigned int index;
     unsigned int count;
 
     if (D_800869B4[0] != 0) {
-        i = 0;
+        index = 0;
         count = D_800869B4[0];
         do {
-            D_80085FA8[i].field_24 = value;
-            D_80085FA8[i].field_20 = value;
-            i++;
-        } while (i < count);
+            D_80085FA8[index].field_24 = value;
+            D_80085FA8[index].field_20 = value;
+            index++;
+        } while (index < count);
     }
 }
 
@@ -143,26 +140,25 @@ typedef struct {
     s32 unk1C;
 } Struct_80050F74;
 
-/* Stores arg1 into two fields (offsets 0x38, 0x3C from arg0) of the struct/sub-object at arg0+0x20 */
-void func_80050F74(void *arg0, s32 arg1) {
-    Struct_80050F74 *temp = (Struct_80050F74 *)((u8 *)arg0 + 0x20);
-    temp->unk1C = arg1;
-    temp->unk18 = arg1;
+/* Stores the value at offsets 0x38 and 0x3C of the object. */
+void func_80050F74(void *object, s32 value) {
+    Struct_80050F74 *fields = (Struct_80050F74 *)((u8 *)object + 0x20);
+    fields->unk1C = value;
+    fields->unk18 = value;
 }
 
 /* extern data: force %hi/%lo addressing (not $gp-relative) by giving it size > 8 bytes */
 extern short D_800847F6[8];
 
-/* summary: sets D_800847F6 to -1 (sentinel/disable flag) and returns -1 */
+/* Sets D_800847F6 to -1 and returns -1. */
 int func_800542AC(void) {
-    short *p = &D_800847F6[0];
-    int v;
-    v = -1;
-    *p = v;
-    return v;
+    short *flag = &D_800847F6[0];
+    int disabled;
+    disabled = -1;
+    *flag = disabled;
+    return disabled;
 }
 
-/* Reset four 16-bit fields (at byte offsets 0,4,8,0xC) of a global struct to -1 */
 typedef struct {
     short a;
     short pad0;
@@ -175,6 +171,7 @@ typedef struct {
 
 extern D_80083D78_t D_80083D78;
 
+/* Resets the four short fields of D_80083D78 to -1. */
 void func_800499BC(void) {
     D_80083D78.a = -1;
     D_80083D78.b = -1;
@@ -199,20 +196,21 @@ typedef struct {
  * element 0, matching the target's lui/lw access to the pointer value itself. */
 extern Entry8007359C *D_8007359C[4];
 
-int func_8004AC18(int arg0)
+/* Returns the word at offset 4 of the indexed D_8007359C entry. */
+int func_8004AC18(int index)
 {
-    Entry8007359C *p = D_8007359C[0];
-    return p[arg0].unk4;
+    Entry8007359C *entries = D_8007359C[0];
+    return entries[index].unk4;
 }
 
-/* Zero the first 0x200 bytes (128 words) of the D_80082EC0 array, counting down. */
 extern int D_80082EC0[128];
 
+/* Clears all 128 words of D_80082EC0 in reverse order. */
 void func_8003F7E4(void) {
-    s32 i;
+    s32 index;
 
-    for (i = 0x7F; i >= 0; i--) {
-        D_80082EC0[i] = 0;
+    for (index = 0x7F; index >= 0; index--) {
+        D_80082EC0[index] = 0;
     }
 }
 
@@ -224,26 +222,26 @@ extern int func_80047BC0(short);
 struct Target_827C { char pad[0x28]; void *entry; };
 struct Source_827C { char pad[0xC]; struct Target_827C *target; };
 
-struct Source_827C *func_8004827C(struct Source_827C *a0, short a1) {
-    a0->target->entry = &D_80083D08[func_80047BC0(a1)];
-    return a0;
+/* Assigns the resolved D_80083D08 entry to the source target and returns the source. */
+struct Source_827C *func_8004827C(struct Source_827C *source, short entry_id) {
+    source->target->entry = &D_80083D08[func_80047BC0(entry_id)];
+    return source;
 }
 
 /* --- v6 (maspsx LEAD 2 %lo-fold) --- */
-/* Zeroes both shorts of D_80013564[func_8004A6C0()] when the index < 0x14.
-   (maspsx LEAD 2 folds %lo into the two stores; retail keeps one %hi base.) */
+
 extern struct { short a, b; } D_80013564[];
 extern int func_8004A6C0(void);
 
+/* Clears both shorts of the selected D_80013564 entry when its index is below 20. */
 void func_8004A8D8(void)
 {
-    int i = func_8004A6C0();
-    if (i < 0x14) {
-        D_80013564[i].a = 0;
-        D_80013564[i].b = 0;
+    int index = func_8004A6C0();
+    if (index < 0x14) {
+        D_80013564[index].a = 0;
+        D_80013564[index].b = 0;
     }
 }
-
 
 /* shared D_80084960 table (0x9C stride) */
 typedef struct {
@@ -254,7 +252,7 @@ extern Entry80084960 D_80084960[];
 
 extern void func_80040BB4(void);
 
-/* Copies D_80082E60.field_B into D_80082E60.field_18, then invokes func_80040BB4. */
+/* Copies field_B into field_18 of D_80082E60, then calls func_80040BB4. */
 void func_80040B88(void)
 {
     D_80082E60.field_18 = D_80082E60.field_B;
@@ -265,16 +263,15 @@ extern u8 D_80080B18[16];
 extern u8 D_80080B1B;
 extern u8 D_80080B1C;
 
-/* Stashes two derived byte counters from arg1 into small globals, then indexes
-   a fixed byte table (D_80080B18) by arg0 and returns the looked-up byte. */
-u8 func_80048DA0(s32 arg0, s32 arg1)
+/* Updates two byte counters from count and returns the indexed D_80080B18 byte. */
+u8 func_80048DA0(s32 index, s32 count)
 {
-    u8 *p;
+    u8 *table;
 
-    D_80080B1B = arg1 + 5;
-    p = D_80080B18;
-    D_80080B1C = (arg1 * 2) + 5;
-    return p[arg0];
+    D_80080B1B = count + 5;
+    table = D_80080B18;
+    D_80080B1C = (count * 2) + 5;
+    return table[index];
 }
 
 extern char D_8006ADC0[16]; /* >8B forces hi/lo addressing (pointer stored at offset 0) */
@@ -282,13 +279,11 @@ extern char D_800812C8[16]; /* >8B forces hi/lo addressing (address-of target) *
 
 extern void func_80053C6C(void);
 
-/* Stashes the address of D_800812C8 into D_8006ADC0 (as a pointer slot at its
- * start), then calls func_80053C6C(). The store lands in the jal delay slot
- * (maspsx delay-slot-store idiom fires before jal too, not just before jr/j). */
+/* Stores the address of D_800812C8 in D_8006ADC0, then calls func_80053C6C. */
 void func_80053CA4(void)
 {
-    char **dst = (char **)D_8006ADC0;
-    *dst = D_800812C8;
+    char **pointer_slot = (char **)D_8006ADC0;
+    *pointer_slot = D_800812C8;
     func_80053C6C();
 }
 
@@ -302,18 +297,17 @@ typedef struct {
 extern u8 D_800814D0;
 extern Struct80083968 D_80083968[32];
 
-/* Returns the tag/type byte of the history entry immediately BEFORE the
- * current ring-buffer head (D_800814D0), wrapping mod 32. */
+/* Returns the previous history entry byte, wrapping the ring index modulo 32. */
 u8 func_8003F240(void) {
     return D_80083968[(D_800814D0 + 0x1F) & 0x1F].unk00;
 }
 
-/* Resets D_8007382B to 0, then calls two initialization/reset routines with arg 0. */
 extern unsigned char D_8007382B[9];
 
 extern void func_8005D88C(int arg0);
 extern void func_8005E450(int arg0);
 
+/* Clears D_8007382B and calls both reset routines with zero. */
 void func_8005B348(void)
 {
     D_8007382B[0] = 0;
@@ -321,18 +315,15 @@ void func_8005B348(void)
     func_8005E450(0);
 }
 
-/* Struct array entry accessor: returns the 32-bit field at offset 0x4
- * of D_80084960[a1] (element size 0x9C / 156 bytes). a0 is unused. */
-
-int func_8005C8B8(int a0, short a1)
+/* Returns the word at offset 4 of the indexed D_80084960 entry. */
+int func_8005C8B8(int unused, short index)
 {
-    return D_80084960[a1].unk04;
+    return D_80084960[index].unk04;
 }
 
-/* Entry struct in the D_80084960 table is 0x9C (156) bytes; this getter
- * returns the 32-bit field at offset 0x1C for entry index a1. */
-int func_8005C918(int a0, short a1) {
-    return D_80084960[a1].unk1C;
+/* Returns the word at offset 0x1C of the indexed D_80084960 entry. */
+int func_8005C918(int unused, short index) {
+    return D_80084960[index].unk1C;
 }
 
 /* D_80084960 is an array of structs, each 0x9C (156) bytes; offset 0x1C
@@ -343,7 +334,7 @@ typedef struct {
     u8 pad20[0x9C - 0x1C - 4];
 } EntryStruct; /* size 0x9C */
 
-/* Sets D_80084960[index].unk1C = value & 0x7F. First argument is unused. */
+/* Stores the low seven bits of value in the indexed D_80084960 entry. */
 void func_8005C94C(s32 unused, s16 index, s32 value) {
     D_80084960[index].unk1C = value & 0x7F;
 }
@@ -362,13 +353,12 @@ extern StructADBC D_8006ADBC;
 
 extern void func_80053C3C(s32 a0);
 
-/* Read D_8006ADBC.field4, mirror it into field0, and if nonzero forward it
-   to func_80053C3C. */
+/* Copies field4 to field0 of D_8006ADBC and forwards nonzero values to func_80053C3C. */
 void func_80053C6C(void) {
-    s32 a0 = D_8006ADBC.field4;
+    s32 value = D_8006ADBC.field4;
 
-    D_8006ADBC.field0 = a0;
-    if (a0 != 0) {
-        func_80053C3C(a0);
+    D_8006ADBC.field0 = value;
+    if (value != 0) {
+        func_80053C3C(value);
     }
 }

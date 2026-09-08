@@ -8,7 +8,8 @@ typedef struct S_800CCF60_0 {
     s16 unk_72;
 } S_800CCF60_0;   /* arg0 in func_800CCF60 */
 
-void func_800CCF60(S_800CCF60_0 *arg0) {
-    arg0->unk_72 = 0;
-    arg0->unk_68 = (u16) (arg0->unk_68 + 1);
+/* Clear the value at 0x72 and increment the counter at 0x68. */
+void func_800CCF60(S_800CCF60_0 *state) {
+    state->unk_72 = 0;
+    state->unk_68 = (u16) (state->unk_68 + 1);
 }

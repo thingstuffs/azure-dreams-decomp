@@ -1,157 +1,158 @@
 #include "common.h"
 
-u8 *func_800407C0(u8 *sp0, u8 *dp0)
+/* Copies raw bytes or decodes nibble RLE in linear or column order. */
+u8 *func_800407C0(u8 *src_start, u8 *dst_start)
 {
-    register u8 *dp ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u8 *rowbase;
-    u8 *rowend;
-    u8 *end;
-    register u8 *q ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 hdr ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    register u8 *dst ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 *column_start;
+    u8 *first_row_end;
+    u8 *dst_end;
+    register u8 *dst_byte ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 header ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     s32 stride;
     s32 size;
-    s32 cnt;
-    s32 phase;
-    s32 sphase;
-    s32 v;
-    s32 vA;
-    register s32 vst ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 t;
-    s32 u;
-    u32 b;
-    u8 *sp;
+    s32 remaining;
+    s32 dst_high;
+    s32 src_low;
+    s32 nibble;
+    s32 high_nibble;
+    register s32 repeat_nibble ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 saved_byte;
+    s32 column_byte;
+    u32 packed;
+    u8 *src;
 
-    sp = sp0;
-    ASM_KEEP_NV(sp);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    dp = dp0;
-    phase = 0;
-    rowbase = dp;
-    hdr = *sp++;
-    if (hdr & 1) {
+    src = src_start;
+    ASM_KEEP_NV(src);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    dst = dst_start;
+    dst_high = 0;
+    column_start = dst;
+    header = *src++;
+    if (header & 1) {
         for (;;) {
-            b = *sp++;
-            if ((b & 0xF0) == 0) {
-                cnt = (b & 0xFF) * 2;
-                if ((b & 0xFF) == 0) {
-                    goto ret_dp1;
+            packed = *src++;
+            if ((packed & 0xF0) == 0) {
+                remaining = (packed & 0xFF) * 2;
+                if ((packed & 0xFF) == 0) {
+                    goto return_linear_end;
                 }
-                sphase = 0;
-                while (cnt > 0) {
-                    if (sphase == 0) {
-                        b = *sp++;
+                src_low = 0;
+                while (remaining > 0) {
+                    if (src_low == 0) {
+                        packed = *src++;
                     }
-                    q = dp;
-                    if (phase == 0) {
-                        if (sphase != 0) {
-                            *dp = b & 0xF;
+                    dst_byte = dst;
+                    if (dst_high == 0) {
+                        if (src_low != 0) {
+                            *dst = packed & 0xF;
                         } else {
-                            *dp = b >> 4;
+                            *dst = packed >> 4;
                         }
                     } else {
-                        t = *dp;
-                        dp++;
-                        if (sphase != 0) {
-                            vA = (b << 4) & 0xF0;
+                        saved_byte = *dst;
+                        dst++;
+                        if (src_low != 0) {
+                            high_nibble = (packed << 4) & 0xF0;
                         } else {
-                            vA = b & 0xF0;
+                            high_nibble = packed & 0xF0;
                         }
-                        *q = t | vA;
+                        *dst_byte = saved_byte | high_nibble;
                     }
-                    sphase ^= 1;
-                    cnt--;
-                    phase ^= 1;
+                    src_low ^= 1;
+                    remaining--;
+                    dst_high ^= 1;
                 }
             } else {
-                cnt = b >> 4;
-                v = b & 0xF;
-                vst = v;
-                while (cnt >= 0) {
-                    if (phase == 0) {
-                        *dp = vst;
+                remaining = packed >> 4;
+                nibble = packed & 0xF;
+                repeat_nibble = nibble;
+                while (remaining >= 0) {
+                    if (dst_high == 0) {
+                        *dst = repeat_nibble;
                     } else {
-                        *dp |= v << 4;
-                        dp++;
+                        *dst |= nibble << 4;
+                        dst++;
                     }
-                    cnt--;
-                    phase ^= 1;
+                    remaining--;
+                    dst_high ^= 1;
                 }
             }
         }
-    ret_dp1:
-        return dp + 1;
+    return_linear_end:
+        return dst + 1;
     }
-    if (hdr != 0) {
-    stride = hdr >> 1;
-    size = sp[0] + (sp[1] << 8);
-    sp += 2;
-    rowend = dp + stride;
-    end = dp + size;
-    do {
-        b = *sp++;
-        if ((b & 0xF0) == 0) {
-            cnt = b * 2;
-            sphase = 0;
-            while (cnt > 0) {
-                if (sphase == 0) {
-                    b = *sp++;
-                }
-                if (phase == 0) {
-                    v = b & 0xF;
-                    if (sphase == 0) {
-                        v = b >> 4;
+    if (header != 0) {
+        stride = header >> 1;
+        size = src[0] + (src[1] << 8);
+        src += 2;
+        first_row_end = dst + stride;
+        dst_end = dst + size;
+        do {
+            packed = *src++;
+            if ((packed & 0xF0) == 0) {
+                remaining = packed * 2;
+                src_low = 0;
+                while (remaining > 0) {
+                    if (src_low == 0) {
+                        packed = *src++;
                     }
-                    *dp = v;
-                } else {
-                    u = *dp;
-                    if (sphase != 0) {
-                        v = (b << 4) & 0xF0;
+                    if (dst_high == 0) {
+                        nibble = packed & 0xF;
+                        if (src_low == 0) {
+                            nibble = packed >> 4;
+                        }
+                        *dst = nibble;
                     } else {
-                        v = b & 0xF0;
-                    }
-                    *dp = u | v;
-                }
-                dp += stride;
-                sphase ^= 1;
-                if (dp >= end) {
-                    phase ^= 1;
-                    if (phase == 0) {
-                        rowbase++;
-                        if (rowbase >= rowend) {
-                            return end;
+                        column_byte = *dst;
+                        if (src_low != 0) {
+                            nibble = (packed << 4) & 0xF0;
+                        } else {
+                            nibble = packed & 0xF0;
                         }
+                        *dst = column_byte | nibble;
                     }
-                    dp = rowbase;
-                }
-                cnt--;
-            }
-        } else {
-            cnt = b >> 4;
-            v = b & 0xF;
-            vst = v;
-            while (cnt >= 0) {
-                if (phase == 0) {
-                    *dp = vst;
-                } else {
-                    *dp |= v << 4;
-                }
-                dp += stride;
-                if (dp >= end) {
-                    phase ^= 1;
-                    if (phase == 0) {
-                        rowbase++;
-                        if (rowbase >= rowend) {
-                            return end;
+                    dst += stride;
+                    src_low ^= 1;
+                    if (dst >= dst_end) {
+                        dst_high ^= 1;
+                        if (dst_high == 0) {
+                            column_start++;
+                            if (column_start >= first_row_end) {
+                                return dst_end;
+                            }
                         }
+                        dst = column_start;
                     }
-                    dp = rowbase;
+                    remaining--;
                 }
-                cnt--;
+            } else {
+                remaining = packed >> 4;
+                nibble = packed & 0xF;
+                repeat_nibble = nibble;
+                while (remaining >= 0) {
+                    if (dst_high == 0) {
+                        *dst = repeat_nibble;
+                    } else {
+                        *dst |= nibble << 4;
+                    }
+                    dst += stride;
+                    if (dst >= dst_end) {
+                        dst_high ^= 1;
+                        if (dst_high == 0) {
+                            column_start++;
+                            if (column_start >= first_row_end) {
+                                return dst_end;
+                            }
+                        }
+                        dst = column_start;
+                    }
+                    remaining--;
+                }
             }
-        }
-    } while (dp + stride < end || phase == 0 || rowbase + 1 < rowend);
-    return end;
+        } while (dst + stride < dst_end || dst_high == 0 || column_start + 1 < first_row_end);
+        return dst_end;
     }
-    size = sp[0] + (sp[1] << 8);
-    memcpy(dp, sp + 2, size);
-    return dp + size;
+    size = src[0] + (src[1] << 8);
+    memcpy(dst, src + 2, size);
+    return dst + size;
 }

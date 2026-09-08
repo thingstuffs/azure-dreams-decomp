@@ -25,22 +25,23 @@ extern void func_800DBF5C();
 extern void strcpy();
 extern u8 D_80082E6A[9];
 
-void func_800253C0(Entity *arg0) {
+/* Processes entity fields and copies its string for selected type and state values. */
+void func_800253C0(Entity *entity) {
     s32 state;
 
-    func_80026294(arg0->field_20);
-    func_800285B0(arg0->field_24);
-    func_80026B94(arg0->field_28);
-    func_8004A464(arg0->field_2C, 0);
-    func_8004A464(arg0->field_30, 0);
-    func_8004A464(arg0->field_34, 0);
+    func_80026294(entity->field_20);
+    func_800285B0(entity->field_24);
+    func_80026B94(entity->field_28);
+    func_8004A464(entity->field_2C, 0);
+    func_8004A464(entity->field_30, 0);
+    func_8004A464(entity->field_34, 0);
     if (D_80082E6A[0] != 1) {
         func_800DBF5C();
     }
-    if (arg0->field_14 == 0x13) {
-        state = arg0->field_1C;
+    if (entity->field_14 == 0x13) {
+        state = entity->field_1C;
         if (state == 2 || state == 0x39) {
-            strcpy((void *)0x80010238, arg0->field_4);
+            strcpy((void *)0x80010238, entity->field_4);
         }
     }
 }

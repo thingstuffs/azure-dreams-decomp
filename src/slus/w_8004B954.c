@@ -16,150 +16,151 @@ extern s32 func_8004C010(void *a, void *b);
 extern s32 rsin(s32 a);
 extern s32 rcos(s32 a);
 
-void *func_8004B954(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4,
-                    s32 *arg5, s32 arg6)
+/* Builds a triangle fan for an ellipse or quarter ellipse. */
+void *func_8004B954(void *color_a, void *color_b, void *primitives,
+                    void *color_data, void *style, s32 *out_count, s32 shaded)
 {
-    DVEC pos;
-    s32 basex;
-    s32 dx;
-    s32 step;
-    s32 i;
-    s32 j;
-    register s32 ang ASM_REG("$18");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    s32 basey;
-    s32 cnt;
-    s32 dy;
-    register u8 *src ASM_REG("$20");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    u8 *dst14;
-    u8 *dst1c;
-    register u8 *m ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u8 f;
-    u32 t14;
+    DVEC edge_pos;
+    s32 center_x;
+    s32 radius_x;
+    s32 angle_step;
+    s32 first_segment;
+    s32 segment;
+    register s32 angle ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 center_y;
+    s32 segment_count;
+    s32 radius_y;
+    register u8 *template ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    u8 *flat_tri;
+    u8 *shaded_tri;
+    register u8 *field_ptr ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 flags;
+    u32 copied_word;
 
-    i = 1;
-    src = (u8 *)arg2;
-    dst14 = src;
-    dx = S16_AT(dst14, 0x10) - S16_AT(dst14, 0x08);
-    dy = S16_AT(dst14, 0x22) - S16_AT(dst14, 0x0A);
-    f = U8_AT(arg4, 0);
-    dst1c = src;
-    if (!(f & 0x20)) {
-        cnt = 0x10;
-        if (f & 0x10) {
-            cnt = 0x20;
+    first_segment = 1;
+    template = (u8 *)primitives;
+    flat_tri = template;
+    radius_x = S16_AT(flat_tri, 0x10) - S16_AT(flat_tri, 0x08);
+    radius_y = S16_AT(flat_tri, 0x22) - S16_AT(flat_tri, 0x0A);
+    flags = U8_AT(style, 0);
+    shaded_tri = template;
+    if (!(flags & 0x20)) {
+        segment_count = 0x10;
+        if (flags & 0x10) {
+            segment_count = 0x20;
         }
     } else {
-        cnt = 0x40;
+        segment_count = 0x40;
     }
-    step = 0x1000 / cnt;
-    f = U8_AT(arg4, 0);
-    if (f & 0x40) {
-        if (f & 1) {
-            i += 0x400;
-            basex = S16_AT(arg2, 0x08) - dx;
+    angle_step = 0x1000 / segment_count;
+    flags = U8_AT(style, 0);
+    if (flags & 0x40) {
+        if (flags & 1) {
+            first_segment += 0x400;
+            center_x = S16_AT(primitives, 0x08) - radius_x;
         } else {
-            basex = S16_AT(arg2, 0x08);
+            center_x = S16_AT(primitives, 0x08);
         }
-        if (U8_AT(arg4, 0) & 2) {
-            i += 0x800;
+        if (U8_AT(style, 0) & 2) {
+            first_segment += 0x800;
             {
-                s32 ty = S16_AT(arg2, 0x0A);
-                basey = ty - dy;
+                s32 corner_y = S16_AT(primitives, 0x0A);
+                center_y = corner_y - radius_y;
             }
         } else {
-            basey = S16_AT(arg2, 0x0A);
+            center_y = S16_AT(primitives, 0x0A);
         }
-        cnt = cnt / 4;
+        segment_count = segment_count / 4;
     } else {
-        dy = dy >> 1;
-        dx = dx >> 1;
-        basex = S16_AT(arg2, 0x08) + dx;
+        radius_y = radius_y >> 1;
+        radius_x = radius_x >> 1;
+        center_x = S16_AT(primitives, 0x08) + radius_x;
         {
-            s32 ty2 = S16_AT(arg2, 0x0A);
-            basey = ty2 + dy;
+            s32 corner_y = S16_AT(primitives, 0x0A);
+            center_y = corner_y + radius_y;
         }
     }
 
-    if (dx != 0 && dy != 0) {
-        pos.vx = ((rcos(0) * dx) >> 12) + basex;
+    if (radius_x != 0 && radius_y != 0) {
+        edge_pos.vx = ((rcos(0) * radius_x) >> 12) + center_x;
         {
-            s32 py = (rsin(0) * dy) >> 12;
-            pos.vy = py + basey;
+            s32 offset_y = (rsin(0) * radius_y) >> 12;
+            edge_pos.vy = offset_y + center_y;
         }
-        S16_AT(dst1c, 0x08) = S8_AT(arg4, 0x08) + basex;
-        S16_AT(dst1c, 0x0A) = S8_AT(arg4, 0x09) + basey;
-        if (arg6 == 0) {
-            U8_AT(dst1c, 0x03) = 4;
+        S16_AT(shaded_tri, 0x08) = S8_AT(style, 0x08) + center_x;
+        S16_AT(shaded_tri, 0x0A) = S8_AT(style, 0x09) + center_y;
+        if (shaded == 0) {
+            U8_AT(shaded_tri, 0x03) = 4;
         } else {
-            U8_AT(dst1c, 0x03) = 6;
+            U8_AT(shaded_tri, 0x03) = 6;
         }
-        m = dst1c + 4;
-        U32_AT(arg2, 0x04) = U32_AT(arg4, 0x04);
-        func_8004C010(m, arg0);
-        func_8004C010(m, arg1);
-        U8_AT(dst1c, 0x07) = U8_AT(arg4, 0x01) & 0x7F;
-        m = dst1c + 0xC;
-        if (arg6 != 0) {
-            arg3 = (void *)((u8 *)arg3 + 0xC);
-            U32_AT(dst1c, 0x0C) = U32_AT(arg3, 0);
-            func_8004C010(m, arg0);
-            func_8004C010(m, arg1);
+        field_ptr = shaded_tri + 4;
+        U32_AT(primitives, 0x04) = U32_AT(style, 0x04);
+        func_8004C010(field_ptr, color_a);
+        func_8004C010(field_ptr, color_b);
+        U8_AT(shaded_tri, 0x07) = U8_AT(style, 0x01) & 0x7F;
+        field_ptr = shaded_tri + 0xC;
+        if (shaded != 0) {
+            color_data = (void *)((u8 *)color_data + 0xC);
+            U32_AT(shaded_tri, 0x0C) = U32_AT(color_data, 0);
+            func_8004C010(field_ptr, color_a);
+            func_8004C010(field_ptr, color_b);
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            U32_AT(dst1c, 0x14) = U32_AT(dst1c, 0x0C);
-            m = dst1c + 0x18;
-            j = i;
-            if (j <= i + cnt) {
-                ang = j * step;
+            U32_AT(shaded_tri, 0x14) = U32_AT(shaded_tri, 0x0C);
+            field_ptr = shaded_tri + 0x18;
+            segment = first_segment;
+            if (segment <= first_segment + segment_count) {
+                angle = segment * angle_step;
                 do {
-                    U32_AT(dst1c, 0x00) = U32_AT(src, 0x00);
-                    U32_AT(m, -0x14) = U32_AT(src, 0x04);
-                    U32_AT(m, -0x10) = U32_AT(src, 0x08);
-                    U32_AT(m, -0x0C) = U32_AT(src, 0x0C);
-                    t14 = U32_AT(src, 0x14);
-                    U32_AT(m, -0x08) = *(u32 *)&pos;
-                    U32_AT(m, -0x04) = t14;
-                    pos.vx = ((rcos(ang) * dx) >> 12) + basex;
-                    j++;
-                    dst1c += 0x1C;
+                    U32_AT(shaded_tri, 0x00) = U32_AT(template, 0x00);
+                    U32_AT(field_ptr, -0x14) = U32_AT(template, 0x04);
+                    U32_AT(field_ptr, -0x10) = U32_AT(template, 0x08);
+                    U32_AT(field_ptr, -0x0C) = U32_AT(template, 0x0C);
+                    copied_word = U32_AT(template, 0x14);
+                    U32_AT(field_ptr, -0x08) = *(u32 *)&edge_pos;
+                    U32_AT(field_ptr, -0x04) = copied_word;
+                    edge_pos.vx = ((rcos(angle) * radius_x) >> 12) + center_x;
+                    segment++;
+                    shaded_tri += 0x1C;
                     {
-                        s32 py = (rsin(ang) * dy) >> 12;
-                        pos.vy = py + basey;
+                        s32 offset_y = (rsin(angle) * radius_y) >> 12;
+                        edge_pos.vy = offset_y + center_y;
                     }
-                    ang += step;
-                    U32_AT(m, 0x00) = *(u32 *)&pos;
-                    m += 0x1C;
-                } while (j <= i + cnt);
+                    angle += angle_step;
+                    U32_AT(field_ptr, 0x00) = *(u32 *)&edge_pos;
+                    field_ptr += 0x1C;
+                } while (segment <= first_segment + segment_count);
             }
         } else {
-            j = i;
-            m = dst14 + 0x10;
-            if (j <= i + cnt) {
-                ang = j * step;
+            segment = first_segment;
+            field_ptr = flat_tri + 0x10;
+            if (segment <= first_segment + segment_count) {
+                angle = segment * angle_step;
                 do {
-                    U32_AT(dst14, 0x00) = U32_AT(src, 0x00);
-                    U32_AT(m, -0x0C) = U32_AT(src, 0x04);
-                    t14 = U32_AT(src, 0x08);
-                    U32_AT(m, -0x04) = *(u32 *)&pos;
-                    U32_AT(m, -0x08) = t14;
-                    pos.vx = ((rcos(ang) * dx) >> 12) + basex;
-                    j++;
-                    dst14 += 0x14;
+                    U32_AT(flat_tri, 0x00) = U32_AT(template, 0x00);
+                    U32_AT(field_ptr, -0x0C) = U32_AT(template, 0x04);
+                    copied_word = U32_AT(template, 0x08);
+                    U32_AT(field_ptr, -0x04) = *(u32 *)&edge_pos;
+                    U32_AT(field_ptr, -0x08) = copied_word;
+                    edge_pos.vx = ((rcos(angle) * radius_x) >> 12) + center_x;
+                    segment++;
+                    flat_tri += 0x14;
                     {
-                        s32 py = (rsin(ang) * dy) >> 12;
-                        pos.vy = py + basey;
+                        s32 offset_y = (rsin(angle) * radius_y) >> 12;
+                        edge_pos.vy = offset_y + center_y;
                     }
-                    ang += step;
-                    U32_AT(m, 0x00) = *(u32 *)&pos;
-                    m += 0x14;
-                } while (j <= i + cnt);
+                    angle += angle_step;
+                    U32_AT(field_ptr, 0x00) = *(u32 *)&edge_pos;
+                    field_ptr += 0x14;
+                } while (segment <= first_segment + segment_count);
             }
         }
-        *arg5 = cnt;
+        *out_count = segment_count;
     } else {
-        if (arg6 != 0) {
-            arg3 = (void *)((u8 *)arg3 + 0xC);
+        if (shaded != 0) {
+            color_data = (void *)((u8 *)color_data + 0xC);
         }
-        *arg5 = 0;
+        *out_count = 0;
     }
-    return arg3;
+    return color_data;
 }

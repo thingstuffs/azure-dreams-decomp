@@ -2,6 +2,7 @@
 
 #include "common.h"
 
-void func_80033C84(s32 *arg0) {
-    *arg0 = 0;
+/* Clears the supplied value. */
+void func_80033C84(s32 *value) {
+    *value = 0;
 }

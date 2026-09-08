@@ -4,7 +4,7 @@ typedef s32 M2C_UNK;
 
 #define FIELD(base, type, offset) (*(type)((s8 *)(base) + (offset)))
 
-extern s32 func_8009CFE0(void);
+extern s32 func_8009CFE0(void *, M2C_UNK);
 extern void func_80033D08(void *arg0);
 extern s32 D_800814A0[3];
 
@@ -12,7 +12,7 @@ void func_800A6C4C(void *arg0, M2C_UNK arg1, M2C_UNK arg2) {
     s8 *temp_v0;
     M2C_UNK (*temp_v0_2)(void *, M2C_UNK, M2C_UNK);
 
-    if (func_8009CFE0() != 0) {
+    if (func_8009CFE0(arg0, arg1) != 0) {
         temp_v0 = FIELD(arg0, s8 **, 0x98);
         if (temp_v0 != 0) {
             *temp_v0 = 0;

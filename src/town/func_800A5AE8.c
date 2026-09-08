@@ -20,7 +20,8 @@ extern u8 D_80083498[];
 extern void func_800A32C8(void);
 extern void func_800A32F0(void);
 
-AllocatedObject *func_800A3248(CopyData *arg0)
+/* Allocate an object, copy its initial data, and set its callbacks. */
+AllocatedObject *func_800A3248(CopyData *source)
 {
     AllocatedObject *obj;
     CopyData *data;
@@ -31,9 +32,9 @@ AllocatedObject *func_800A3248(CopyData *arg0)
     }
 
     data = obj->data;
-    data->field_0 = arg0->field_0;
-    data->field_4 = arg0->field_4;
-    data->field_8 = arg0->field_8;
+    data->field_0 = source->field_0;
+    data->field_4 = source->field_4;
+    data->field_8 = source->field_8;
     obj->callback_10 = func_800A32C8;
     obj->callback_20 = func_800A32F0;
     return obj;

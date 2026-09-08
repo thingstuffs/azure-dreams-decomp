@@ -15,19 +15,20 @@ s32 func_800AD9B4();                /* extern */
 extern u16 D_80083462;
 extern M2C_UNK D_80170E54;
 
-void func_801721C0(S_801721C0_0 *arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3) {
+/* Updates object state after checking the target and conditionally clears its value. */
+void func_801721C0(S_801721C0_0 *object, M2C_UNK unused, M2C_UNK check_data, M2C_UNK target) {
     if (func_800AB1C0() != 0) {
-        func_800AD594(arg3, 4);
-        func_800A4ACC(arg3);
-        if ((func_800AD9B4(arg2, arg3) << 0x10) > 0) {
-            arg0->unk_8C = &D_80170E54;
-            goto block_3;
+        func_800AD594(target, 4);
+        func_800A4ACC(target);
+        if ((func_800AD9B4(check_data, target) << 0x10) > 0) {
+            object->unk_8C = &D_80170E54;
+            goto check_reset;
         }
     } else {
-block_3:
+check_reset:
         if (D_80083462 & 0x80) {
-            arg0->unk_90.at02.v = 0;
-            arg0->unk_90.at00.v = 0;
+            object->unk_90.at02.v = 0;
+            object->unk_90.at00.v = 0;
         }
     }
 }

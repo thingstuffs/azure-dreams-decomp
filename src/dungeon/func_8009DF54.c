@@ -30,57 +30,58 @@ typedef struct S_800A36B4_3 {
 extern s32 func_800A44E0(u16, u16, s16, s16);
 extern s32 func_800BCB04(s32, s32, s16);
 
-s32 func_800A36B4(void *arg0, void *arg1) {
-    s32 temp_s5;
-    s32 temp_s6;
-    S_800A36B4_2 *temp_a3;
-    S_800A36B4_3 *temp_s3;
-    s32 temp_s7;
-    s32 temp_s1;
-    s32 temp_s0;
-    s32 temp_s4;
-    s16 temp_s2;
+/* Checks whether the tile path from source to target is clear. */
+s32 func_800A36B4(void *source, void *target) {
+    s32 step_y;
+    s32 step_x;
+    S_800A36B4_2 *source_pos;
+    S_800A36B4_3 *target_pos;
+    s32 check_param;
+    s32 tile_x;
+    s32 tile_y;
+    s32 height;
+    s16 check_height;
 
-    temp_a3 = ((S_800A36B4_0 *)((u8 *)arg0 - 0x14))->unk_00;
-    temp_s3 = ((S_800A36B4_1 *)((u8 *)arg1 - 0x14))->unk_00;
-    temp_s6 = temp_a3->unk_24 - temp_s3->unk_24;
-    temp_s7 = ((S_800A36B4_0 *)((u8 *)arg0 - 0x14))->unk_3E;
-    if (temp_s6 != 0) {
-        if (temp_s6 > 0) {
-            temp_s6 = 1;
+    source_pos = ((S_800A36B4_0 *)((u8 *)source - 0x14))->unk_00;
+    target_pos = ((S_800A36B4_1 *)((u8 *)target - 0x14))->unk_00;
+    step_x = source_pos->unk_24 - target_pos->unk_24;
+    check_param = ((S_800A36B4_0 *)((u8 *)source - 0x14))->unk_3E;
+    if (step_x != 0) {
+        if (step_x > 0) {
+            step_x = 1;
         } else {
-            temp_s6 = -1;
+            step_x = -1;
         }
     }
-    temp_s5 = temp_a3->unk_25 - temp_s3->unk_25;
-    if (temp_s5 != 0) {
-        if (temp_s5 > 0) {
-            temp_s5 = 1;
+    step_y = source_pos->unk_25 - target_pos->unk_25;
+    if (step_y != 0) {
+        if (step_y > 0) {
+            step_y = 1;
         } else {
-            temp_s5 = -1;
+            step_y = -1;
         }
     }
-    temp_s1 = temp_a3->unk_24;
-    temp_s0 = temp_a3->unk_25;
-    temp_s4 = ((S_800A36B4_0 *)((u8 *)arg0 - 0x14))->unk_9C;
+    tile_x = source_pos->unk_24;
+    tile_y = source_pos->unk_25;
+    height = ((S_800A36B4_0 *)((u8 *)source - 0x14))->unk_9C;
 
-    while (temp_s1 != temp_s3->unk_24 ||
-           temp_s0 != temp_s3->unk_25) {
-        temp_s2 = temp_s4;
-        if ((func_800A44E0((temp_s1 << 6) & 0xFFC0,
-                           (temp_s0 << 6) & 0xFFC0,
-                           temp_s2, temp_s7) << 16) != 0) {
+    while (tile_x != target_pos->unk_24 ||
+           tile_y != target_pos->unk_25) {
+        check_height = height;
+        if ((func_800A44E0((tile_x << 6) & 0xFFC0,
+                           (tile_y << 6) & 0xFFC0,
+                           check_height, check_param) << 16) != 0) {
             return 0;
         }
-        temp_s1 -= temp_s6;
-        temp_s0 -= temp_s5;
+        tile_x -= step_x;
+        tile_y -= step_y;
         {
-            s32 temp_v1;
-            temp_v1 = func_800BCB04(((temp_s1 << 6) + 0x20) & 0xFFE0,
-                                     ((temp_s0 << 6) + 0x20) & 0xFFE0,
-                                     temp_s4 - 0x20);
-            if ((s16)temp_v1 < temp_s2) {
-                temp_s4 = temp_v1;
+            s32 next_height;
+            next_height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0,
+                                     ((tile_y << 6) + 0x20) & 0xFFE0,
+                                     height - 0x20);
+            if ((s16)next_height < check_height) {
+                height = next_height;
             }
         }
     }

@@ -68,39 +68,40 @@ typedef struct S_807B09A0_3 {
     s32 unk_04;
 } S_807B09A0_3;   /* &D_800DEED0 in func_807B09A0 */
 
-void func_807B09A0(S_807B09A0_0 *arg0) {
-    s32 temp_a0;
-    s32 temp_a0_2;
-    s32 temp_v0_3;
-    u16 temp_v0;
-    S_807B09A0_2 *temp_s0;
-    S_807B09A0_1 *temp_v0_2;
+/* Spawn a particle near the emitter with randomized motion every other update. */
+void func_807B09A0(S_807B09A0_0 *emitter) {
+    s32 spawn_x;
+    s32 spawn_y;
+    s32 sprite_config;
+    u16 tick_count;
+    S_807B09A0_2 *sprite;
+    S_807B09A0_1 *particle;
 
-    temp_v0 = arg0->unk_08 + 1;
-    arg0->unk_08 = temp_v0;
-    if (temp_v0 & 1) {
-        temp_v0_2 = func_8003FD64(0x312, &D_80083498);
-        if (temp_v0_2 != NULL) {
-            temp_v0_2->unk_10 = &D_800F89B8;
-            func_8004491C(temp_v0_2, &D_80045340);
-            temp_s0 = temp_v0_2->unk_0C;
-            temp_a0 = (arg0->unk_00 + (rand() % 48)) - 0x18;
-            ((S_807B09A0_5 *)(((S_807B09A0_4 *)temp_v0_2)->unk_08))->unk_02 = temp_a0;
-            temp_a0_2 = (arg0->unk_02 + (rand() % 48)) - 0x18;
-            ((S_807B09A0_5 *)(((S_807B09A0_4 *)temp_v0_2)->unk_08))->unk_06 = temp_a0_2;
-            ((S_807B09A0_5 *)(((S_807B09A0_4 *)temp_v0_2)->unk_08))->unk_0A = (u16) (arg0->unk_04 - (rand() & 7));
-            ((S_807B09A0_5 *)(((S_807B09A0_4 *)temp_v0_2)->unk_08))->unk_0C = (s32) (((rand() & 0xFF) - 0x7F) << 0xA);
-            ((S_807B09A0_5 *)(((S_807B09A0_4 *)temp_v0_2)->unk_08))->unk_10 = (s32) (((rand() & 0xFF) - 0x7F) << 0xA);
-            temp_s0->unk_1E = 0xC00;
-            temp_s0->unk_1C = 0xC00;
-            temp_s0->unk_10 = 0x60;
-            temp_s0->unk_00 = &D_800DEED0;
-            temp_s0->unk_14 = (u16) (temp_s0->unk_14 | 0xC);
-            temp_v0_3 = ((S_807B09A0_3 *)(&D_800DEED0))->unk_04;
-            temp_s0->unk_04 = 0;
-            temp_s0->unk_05 = 0;
-            temp_s0->unk_0C = 0xA0A0A0;
-            temp_s0->unk_08 = temp_v0_3;
+    tick_count = emitter->unk_08 + 1;
+    emitter->unk_08 = tick_count;
+    if (tick_count & 1) {
+        particle = func_8003FD64(0x312, &D_80083498);
+        if (particle != NULL) {
+            particle->unk_10 = &D_800F89B8;
+            func_8004491C(particle, &D_80045340);
+            sprite = particle->unk_0C;
+            spawn_x = (emitter->unk_00 + (rand() % 48)) - 0x18;
+            ((S_807B09A0_5 *)(((S_807B09A0_4 *)particle)->unk_08))->unk_02 = spawn_x;
+            spawn_y = (emitter->unk_02 + (rand() % 48)) - 0x18;
+            ((S_807B09A0_5 *)(((S_807B09A0_4 *)particle)->unk_08))->unk_06 = spawn_y;
+            ((S_807B09A0_5 *)(((S_807B09A0_4 *)particle)->unk_08))->unk_0A = (u16) (emitter->unk_04 - (rand() & 7));
+            ((S_807B09A0_5 *)(((S_807B09A0_4 *)particle)->unk_08))->unk_0C = (s32) (((rand() & 0xFF) - 0x7F) << 0xA);
+            ((S_807B09A0_5 *)(((S_807B09A0_4 *)particle)->unk_08))->unk_10 = (s32) (((rand() & 0xFF) - 0x7F) << 0xA);
+            sprite->unk_1E = 0xC00;
+            sprite->unk_1C = 0xC00;
+            sprite->unk_10 = 0x60;
+            sprite->unk_00 = &D_800DEED0;
+            sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+            sprite_config = ((S_807B09A0_3 *)(&D_800DEED0))->unk_04;
+            sprite->unk_04 = 0;
+            sprite->unk_05 = 0;
+            sprite->unk_0C = 0xA0A0A0;
+            sprite->unk_08 = sprite_config;
         }
     }
 }

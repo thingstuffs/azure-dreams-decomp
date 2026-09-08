@@ -35,24 +35,25 @@ typedef struct S_800B8D64_2 {
     s16 unk_1E;
 } S_800B8D64_2;   /* temp_v1 in func_800B8D64 */
 
-void func_800B8D64(s16 arg0, s16 arg1, s16 arg2) {
-    S_800B8D64_0 *temp_v0;
-    S_800B8D64_1 *temp_v0_2;
-    S_800B8D64_2 *temp_v1;
+/* Create and initialize an effect at the given position. */
+void func_800B8D64(s16 x, s16 y, s16 z) {
+    S_800B8D64_0 *effect;
+    S_800B8D64_1 *position;
+    S_800B8D64_2 *sprite;
 
-    temp_v0 = func_8003FC64(0x212);
-    if (temp_v0 != NULL) {
-        temp_v0->unk_10 = &D_800B8CF0;
-        func_8004491C(temp_v0, &D_80045340);
-        temp_v0_2 = temp_v0->unk_08;
-        temp_v0_2->unk_02 = arg0;
-        temp_v0_2->unk_06 = arg1;
-        temp_v0_2->unk_0A = arg2;
-        temp_v1 = temp_v0->unk_0C;
-        temp_v1->unk_08 = &D_800DF358;
-        temp_v1->unk_1E = 0x800;
-        temp_v1->unk_1C = 0x800;
-        temp_v1->unk_14 = (u16) (temp_v1->unk_14 | 0xC);
-        temp_v0->unk_22 = 6;
+    effect = func_8003FC64(0x212);
+    if (effect != NULL) {
+        effect->unk_10 = &D_800B8CF0;
+        func_8004491C(effect, &D_80045340);
+        position = effect->unk_08;
+        position->unk_02 = x;
+        position->unk_06 = y;
+        position->unk_0A = z;
+        sprite = effect->unk_0C;
+        sprite->unk_08 = &D_800DF358;
+        sprite->unk_1E = 0x800;
+        sprite->unk_1C = 0x800;
+        sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
+        effect->unk_22 = 6;
     }
 }

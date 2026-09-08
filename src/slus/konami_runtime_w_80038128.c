@@ -22,22 +22,23 @@ typedef struct {
 extern Func80038128Global D_80083160;
 extern void func_80038A10(void *arg0);
 
-void func_80038128(Func80038128State *arg0) {
+/* Advance to the next handler when the countdown expires or the global flag permits. */
+void func_80038128(Func80038128State *state) {
     Func80038128Global *global = &D_80083160;
 
-    if (arg0->field87 == 0) {
+    if (state->field87 == 0) {
         if ((global->field8 & 0x20) != 0) {
-            if (arg0->field2E == 0) {
-                arg0->field2E = 1;
+            if (state->field2E == 0) {
+                state->field2E = 1;
             }
-            arg0->half18 = 0;
-            arg0->func10 = func_80038A10;
+            state->half18 = 0;
+            state->func10 = func_80038A10;
             return;
         }
     }
 
-    arg0->half18 -= 1;
-    if ((s16)arg0->half18 <= 0) {
-        arg0->func10 = func_80038A10;
+    state->half18 -= 1;
+    if ((s16)state->half18 <= 0) {
+        state->func10 = func_80038A10;
     }
 }

@@ -49,11 +49,12 @@ extern s32 D_80083460;
 extern u8 D_800D8C64[];
 extern u8 D_800E262C[];
 
-void func_800DA014(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
+/* Advances the actor action state and updates its directional animation. */
+void func_800DA014(void *controller, void *action_context, void *sprite, void *actor)
 {
     s32 state;
 
-    state = ((S_800DA014_0 *)in_arg0)->unk_9B;
+    state = ((S_800DA014_0 *)controller)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -72,24 +73,24 @@ state_ge_two:
     return;
 
 state_zero:
-    if (((Rec_D_80082E80 *)in_arg2)->unk_14.at00_u16.v & 0xE000) {
-        u8 *table;
+    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+        u8 *direction_table;
         u8 *system_base;
 
-        table = D_800E262C;
-        (*(void * *)((u8 *)in_arg2 + 0x2C)) = table;
-        func_8003DB94(in_arg2,
-            *(void **)(table + (((D_80083228 + ((Rec_D_800E3D7C *)in_arg3)->unk_2A.as_s16 + 0x100) >> 7) & 28)),
+        direction_table = D_800E262C;
+        (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
+        func_8003DB94(sprite,
+            *(void **)(direction_table + (((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 28)),
             0);
         system_base = (u8 *)&D_80083460;
         ((S_800DA014_3 *)system_base)->unk_0A--;
-        ((S_800DA014_0 *)in_arg0)->unk_9B++;
+        ((S_800DA014_0 *)controller)->unk_9B++;
     }
     return;
 
 state_one:
     {
-        s32 flags;
+        s32 actor_flags;
         u8 *system_base;
 
         system_base = (u8 *)&D_80083460;
@@ -97,87 +98,87 @@ state_one:
             return;
         }
 
-        if ((((Rec_D_800E3D7C *)in_arg3)->unk_64.as_s16 != 0) &&
-            (func_800AA6B4(in_arg0, in_arg1, in_arg2, 0) != 0)) {
+        if ((((Rec_D_800E3D7C *)actor)->unk_64.as_s16 != 0) &&
+            (func_800AA6B4(controller, action_context, sprite, 0) != 0)) {
             return;
         }
 
-        if (((Rec_D_800E3D7C *)in_arg3)->unk_24.at01_u8.v == 0) {
+        if (((Rec_D_800E3D7C *)actor)->unk_24.at01_u8.v == 0) {
             if (((S_800DA014_3 *)system_base)->unk_02 & 0x2008) {
                 return;
             }
-            func_800AA79C(in_arg0, in_arg1, in_arg2, in_arg3);
+            func_800AA79C(controller, action_context, sprite, actor);
             return;
         }
 
-        if ((func_800A2C34(in_arg3) << 16) != 0) {
+        if ((func_800A2C34(actor) << 16) != 0) {
             return;
         }
 
-        flags = ((Rec_D_800E3D7C *)in_arg3)->unk_1C.as_s32;
-        if (flags & 0x100) {
-            func_800AA258(in_arg0, in_arg1, in_arg2, in_arg3);
+        actor_flags = ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32;
+        if (actor_flags & 0x100) {
+            func_800AA258(controller, action_context, sprite, actor);
             return;
         }
 
-        if (flags & 0x80000) {
-            func_800AA888(in_arg0, in_arg1, in_arg2, in_arg3);
-            func_800DA660(in_arg0, in_arg1, in_arg2, in_arg3);
+        if (actor_flags & 0x80000) {
+            func_800AA888(controller, action_context, sprite, actor);
+            func_800DA660(controller, action_context, sprite, actor);
             return;
         }
 
-        if (((Rec_D_800E3D7C *)in_arg3)->unk_6D.as_s8 == 0) {
+        if (((Rec_D_800E3D7C *)actor)->unk_6D.as_s8 == 0) {
             return;
         }
 
-        if ((func_800A2C34(in_arg3) << 16) != 0) {
-            if ((func_8009A180(in_arg3,
+        if ((func_800A2C34(actor) << 16) != 0) {
+            if ((func_8009A180(actor,
                     (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
                 return;
             }
         }
 
-        func_800A9A0C(in_arg3);
-        func_800A9A04(in_arg3);
+        func_800A9A0C(actor);
+        func_800A9A04(actor);
 
-        if ((func_80042900(in_arg3, 1) << 16) != 0) {
-            u8 *origin;
+        if ((func_80042900(actor, 1) << 16) != 0) {
+            u8 *reference_sprite;
             s8 coordinate;
 
-            origin = D_80082E80;
-            coordinate = ((Rec_D_80082E80 *)in_arg2)->unk_26.as_s8;
-            if ((((coordinate == ((S_800DA014_5 *)origin)->unk_26) &&
+            reference_sprite = D_80082E80;
+            coordinate = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
+            if ((((coordinate == ((S_800DA014_5 *)reference_sprite)->unk_26) &&
                         (coordinate >= 0)) ||
-                    (func_8009FD40(origin, in_arg2) < 2)) &&
+                    (func_8009FD40(reference_sprite, sprite) < 2)) &&
                 ((func_800A6D30() & 7) == 0)) {
-                func_80042B68(in_arg3, 1);
+                func_80042B68(actor, 1);
             }
         }
 
-        if ((func_80042900(in_arg3, 1) << 16) == 0) {
-        u8 *table;
+        if ((func_80042900(actor, 1) << 16) == 0) {
+            u8 *direction_table;
 
-        table = D_800E262C;
-        (*(void * *)((u8 *)in_arg2 + 0x2C)) = table;
-        func_8003DB94(in_arg2,
-            *(void **)(table + (((D_80083228 + ((Rec_D_800E3D7C *)in_arg3)->unk_2A.as_s16 + 0x100) >> 7) & 28)),
-            0);
+            direction_table = D_800E262C;
+            (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
+            func_8003DB94(sprite,
+                *(void **)(direction_table + (((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 7) & 28)),
+                0);
         } else {
             return;
         }
     }
 
-    if (!(((Rec_D_80082E80 *)in_arg2)->unk_14.at00_u16.v & 0x8000)) {
+    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
         u8 *system_base = (u8 *)&D_80083460;
 
         ((S_800DA014_3 *)system_base)->unk_0A++;
-        ((S_800DA014_0 *)in_arg0)->unk_9B++;
+        ((S_800DA014_0 *)controller)->unk_9B++;
         return;
     }
     goto finish;
 
 state_two:
-    if (!(((Rec_D_80082E80 *)in_arg2)->unk_14.at00_u16.v & 0xE000)) {
+    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
     {
@@ -186,6 +187,6 @@ state_two:
     }
 
 finish:
-    ((Rec_D_800E3D7C *)in_arg3)->unk_1C.as_s32 &= ~0x200;
-    ((S_800DA014_0 *)in_arg0)->unk_8C = D_800D8C64;
+    ((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 &= ~0x200;
+    ((S_800DA014_0 *)controller)->unk_8C = D_800D8C64;
 }

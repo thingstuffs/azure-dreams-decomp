@@ -6,7 +6,8 @@ extern s16 D_8006CCD8[];
 extern s16 D_8006CCE8[];
 extern u8 D_8008333C[32];
 
-s32 func_800D112C(s16 arg0, s32 arg1, s32 arg2) {
+/* Counts flagged tiles along a direction for up to eleven steps. */
+s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
     struct {
         u16 flags;
         u16 pad;
@@ -26,12 +27,12 @@ s32 func_800D112C(s16 arg0, s32 arg1, s32 arg2) {
     s32 count;
 
     remaining = 11;
-    direction = arg0;
+    direction = scan_direction;
     x_base = (u8 *)D_8006CCD8;
     byte_offset = direction * 2;
     x_step = (u16 *)(x_base + byte_offset);
     count = 0;
-    x_acc = arg1 - *x_step;
+    x_acc = start_x - *x_step;
     x = (u16)x_acc;
     bounds = D_8008333C;
 
@@ -45,7 +46,7 @@ s32 func_800D112C(s16 arg0, s32 arg1, s32 arg2) {
 
         y_base = (u8 *)D_8006CCE8;
         y_step = (u16 *)(y_base + byte_offset);
-        y_acc = arg2 - *y_step;
+        y_acc = start_y - *y_step;
     }
     y = (s16)y_acc;
     if (y < 0) {

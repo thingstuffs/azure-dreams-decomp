@@ -36,28 +36,29 @@ typedef struct S_808139C8_1 {
     s16 unk_1E;
 } S_808139C8_1;   /* temp_v1 in func_808139C8 */
 
-void func_808139C8(FiveWords *arg0, s32 arg1)
+/* Creates an object and initializes its position and sprite data. */
+void func_808139C8(FiveWords *init_data, s32 y_position)
 {
-    u8 *temp_a0;
-    u8 *temp_v0;
-    u8 *temp_v1;
+    u8 *position;
+    u8 *object;
+    u8 *sprite;
 
-    temp_v0 = func_800373DC(0x136);
-    if (temp_v0 != NULL) {
-        (*(FiveWords *)((u8 *)temp_v0 + 0x20)) = *arg0;
-        (*(s32 *)((u8 *)temp_v0 + 0x10)) = (s32)D_8052F2C8;
-        func_8003BC18(temp_v0, D_8003C558);
-        temp_a0 = (*(u8 * *)((u8 *)temp_v0 + 8));
-        temp_v1 = (*(u8 * *)((u8 *)temp_v0 + 0xC));
-        ((S_808139C8_0 *)temp_a0)->unk_00 = 0x05380000;
-        ((S_808139C8_0 *)temp_a0)->unk_04 = arg1;
-        ((S_808139C8_0 *)temp_a0)->unk_08 = 0xFFE00000;
-        ((S_808139C8_1 *)temp_v1)->unk_1E = 0x1000;
-        ((S_808139C8_1 *)temp_v1)->unk_1C = 0x1000;
-        ((S_808139C8_1 *)temp_v1)->unk_08 = (s32)D_8028E170;
-        ((S_808139C8_1 *)temp_v1)->unk_04 = 0;
-        ((S_808139C8_1 *)temp_v1)->unk_05 = 0;
-        ((S_808139C8_1 *)temp_v1)->unk_0C = 0x808080;
-        ((S_808139C8_1 *)temp_v1)->unk_14 = ((S_808139C8_1 *)temp_v1)->unk_14 | 0x80;
+    object = func_800373DC(0x136);
+    if (object != NULL) {
+        (*(FiveWords *)((u8 *)object + 0x20)) = *init_data;
+        (*(s32 *)((u8 *)object + 0x10)) = (s32)D_8052F2C8;
+        func_8003BC18(object, D_8003C558);
+        position = (*(u8 * *)((u8 *)object + 8));
+        sprite = (*(u8 * *)((u8 *)object + 0xC));
+        ((S_808139C8_0 *)position)->unk_00 = 0x05380000;
+        ((S_808139C8_0 *)position)->unk_04 = y_position;
+        ((S_808139C8_0 *)position)->unk_08 = 0xFFE00000;
+        ((S_808139C8_1 *)sprite)->unk_1E = 0x1000;
+        ((S_808139C8_1 *)sprite)->unk_1C = 0x1000;
+        ((S_808139C8_1 *)sprite)->unk_08 = (s32)D_8028E170;
+        ((S_808139C8_1 *)sprite)->unk_04 = 0;
+        ((S_808139C8_1 *)sprite)->unk_05 = 0;
+        ((S_808139C8_1 *)sprite)->unk_0C = 0x808080;
+        ((S_808139C8_1 *)sprite)->unk_14 = ((S_808139C8_1 *)sprite)->unk_14 | 0x80;
     }
 }

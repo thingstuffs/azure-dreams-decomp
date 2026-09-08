@@ -43,39 +43,40 @@ typedef struct S_8191CA88_4 {
 extern void func_80024388() __attribute__((noreturn));
 extern void func_800243C4() __attribute__((noreturn));
 
-void func_8191CA88(void *arg0, void *arg1, S_8191CA88_2 *arg2) {
-    void *object = arg0;
+/* Updates object motion and timers through movement, waiting, falling, and completion states. */
+void func_8191CA88(void *object_data, void *motion_data, S_8191CA88_2 *effect) {
+    void *object = object_data;
     S_8191CA88_3 *motion;
     register s32 state ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 state_u ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s32 state_unsigned ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 timer;
     register s32 old_timer ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 compare_left;
-    s32 compare_right;
-    s32 compare_result;
-    s32 timer_signed;
-    s32 threshold_value;
-    s32 threshold_result;
+    s32 move_timer;
+    s32 move_duration;
+    s32 moving;
+    s32 signed_timer;
+    s32 wait_duration;
+    s32 waiting;
     u8 *global_base;
-    s32 position;
-    s32 acceleration;
-    s32 next_state;
+    s32 x_position;
     s32 x_velocity;
+    s32 next_state;
     s32 y_velocity;
-    u16 arg2_field;
+    s32 z_velocity;
+    u16 phase;
     S_8191CA88_1 *inner;
 
     inner = ((S_8191CA88_0 *)object)->unk_00;
     inner->unk_14 = inner->unk_14 + 1;
-    arg2_field = arg2->unk_1A;
-    ASM_USE(arg2_field);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    motion = arg1;
+    phase = effect->unk_1A;
+    ASM_USE(phase);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    motion = motion_data;
     ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    arg2->unk_1A = arg2_field + 0x300;
+    effect->unk_1A = phase + 0x300;
     old_timer = ((S_8191CA88_0 *)object)->unk_10.s;
     state = ((S_8191CA88_0 *)object)->unk_0E.s;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    state_u = ((S_8191CA88_0 *)object)->unk_0E.u;
+    state_unsigned = ((S_8191CA88_0 *)object)->unk_0E.u;
     ASM_USE(old_timer);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     timer = old_timer + 1;
     ((S_8191CA88_0 *)object)->unk_10.u = timer;
@@ -87,7 +88,7 @@ void func_8191CA88(void *arg0, void *arg1, S_8191CA88_2 *arg2) {
         if (state == 0) {
             goto state_0;
         }
-        func_800243C4(state, state_u, arg2, object);
+        func_800243C4(state, state_unsigned, effect, object);
     }
     if (state == 2) {
         goto state_2;
@@ -95,33 +96,33 @@ void func_8191CA88(void *arg0, void *arg1, S_8191CA88_2 *arg2) {
     if (state == 3) {
         goto state_3;
     }
-    func_800243C4(state, state_u, arg2, object);
+    func_800243C4(state, state_unsigned, effect, object);
 
 state_0:
-    position = motion->unk_00;
-    acceleration = motion->unk_0C;
-    x_velocity = motion->unk_10;
-    y_velocity = motion->unk_14;
-    motion->unk_00 = position + acceleration;
-    motion->unk_04 += x_velocity;
-    motion->unk_08 += y_velocity;
-    compare_left = ((S_8191CA88_0 *)object)->unk_10.p;
-    compare_right = ((S_8191CA88_0 *)object)->unk_14;
-    compare_result = compare_left < compare_right;
-    ASM_TAILSLOT_PIN_TIED(compare_result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_80024388(x_velocity, y_velocity, arg2, object);
+    x_position = motion->unk_00;
+    x_velocity = motion->unk_0C;
+    y_velocity = motion->unk_10;
+    z_velocity = motion->unk_14;
+    motion->unk_00 = x_position + x_velocity;
+    motion->unk_04 += y_velocity;
+    motion->unk_08 += z_velocity;
+    move_timer = ((S_8191CA88_0 *)object)->unk_10.p;
+    move_duration = ((S_8191CA88_0 *)object)->unk_14;
+    moving = move_timer < move_duration;
+    ASM_TAILSLOT_PIN_TIED(moving);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    func_80024388(y_velocity, z_velocity, effect, object);
 
 state_1:
-    timer_signed = timer << 16;
-    threshold_value = ((S_8191CA88_0 *)object)->unk_16;
-    timer_signed >>= 16;
-    threshold_result = timer_signed < threshold_value;
-    if (threshold_result != 0) {
+    signed_timer = timer << 16;
+    wait_duration = ((S_8191CA88_0 *)object)->unk_16;
+    signed_timer >>= 16;
+    waiting = signed_timer < wait_duration;
+    if (waiting != 0) {
         goto done;
     }
-    ((S_8191CA88_0 *)object)->unk_0E.s = state_u + 1;
+    ((S_8191CA88_0 *)object)->unk_0E.s = state_unsigned + 1;
     ((S_8191CA88_0 *)object)->unk_10.u = 0;
-    func_800243C4(state, state_u, arg2, object);
+    func_800243C4(state, state_unsigned, effect, object);
 
 state_2:
     motion->unk_08 -= timer << 16;
@@ -131,7 +132,7 @@ state_2:
     next_state = ((S_8191CA88_0 *)object)->unk_0E.p + 1;
     ((S_8191CA88_0 *)object)->unk_10.u = 0;
     ((S_8191CA88_0 *)object)->unk_0E.p = next_state;
-    func_800243C4(state, state_u, arg2, object);
+    func_800243C4(state, state_unsigned, effect, object);
 
 state_3:
     ((S_8191CA88_0_pre *)object)[-1].unk_00 |= 0x8000;

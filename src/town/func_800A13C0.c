@@ -15,8 +15,9 @@ typedef struct S_8009EB20_1 {
     s16 unk_6C;
 } S_8009EB20_1;   /* arg0 in func_8009EB20 */
 
-void func_8009EB20(S_8009EB20_1 *arg0, S_8009EB20_0 *arg1) {
-    arg1->unk_15 = 0;
-    arg0->unk_50 = &D_8009E994;
-    arg0->unk_6C = 8;
+/* Clear the status byte and initialize the state pointer and counter. */
+void func_8009EB20(S_8009EB20_1 *state, S_8009EB20_0 *status) {
+    status->unk_15 = 0;
+    state->unk_50 = &D_8009E994;
+    state->unk_6C = 8;
 }
