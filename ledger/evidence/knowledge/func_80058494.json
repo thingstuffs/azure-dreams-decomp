@@ -1,0 +1,13 @@
+{
+ "func": "func_80058494",
+ "doc": "Sets D_80084960[index].unk1C = value & 0x7F (where index is the first param, byte-masked; second param is unused/dead), then calls the stub notifier func_80055E7C(1, index, value & 0xFF).",
+ "globals": [
+  {
+   "name": "D_80084960",
+   "decl": "typedef struct { u8 pad00[0x1C]; s32 unk1C; u8 pad20[0x9C - 0x1C - 4]; } S_80084960; extern S_80084960 D_80084960[]; /* stride 0x9C=156 bytes; this function writes unk1C (offset 0x1C, s32) */"
+  }
+ ],
+ "calls": [
+  "func_80055E7C(1, index, value & 0xFF) -- declared 'extern void func_80055E7C();' (K&R no-prototype) since the already-matched definition is 'void func_80055E7C(void) {}' (empty stub); calling it with 3 args requires the unprototyped decl so only arg setup is checked."
+ ]
+}

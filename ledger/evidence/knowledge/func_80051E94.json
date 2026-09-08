@@ -1,0 +1,15 @@
+{
+ "func": "func_80051E94",
+ "doc": "Object constructor: sets the object's update-function pointer (offset 0x10) to func_80051CC4, initializes the embedded sub-object at offset 0x20 (stores the caller's a1 into its first word, zeroes fields at 0x04/0x06/0x0A/0x0C), looks up D_80071A68[sub.kind] (kind is 0 right after zeroing) and stores it plus two 0x1000 constants into the struct pointed to by a0->ptr (offset 0xC), calls func_8004491C(a0, func_80044BB0) to finish initialization (which sets up a0->vecPtr as a side effect), then fills *vecPtr with three 16.16 fixed-point constants (56.0, 40.0, 144.0 as raw hi-only words).",
+ "globals": [
+  {
+   "name": "D_80071A68",
+   "decl": "typedef struct S_80071A68 { /* 0x00 */ s32 field_0x00; } S_80071A68; extern S_80071A68 D_80071A68[]; // array of >=4-byte elements indexed by an object's sub.field_0x0A (\"kind\", a s16); only field_0x00 (a s32) is read by this function via D_80071A68[kind].field_0x00 -- element size confirmed 4 bytes by the sll-by-2 (x4) index scaling."
+  }
+ ],
+ "calls": [
+  "func_80051CC4(void) - stored as a function-pointer value into a0->update_func (never called here)",
+  "func_80044BB0(void) - address stored as second arg to func_8004491C, never called directly",
+  "func_8004491C(S_80051E94 *a0, void (*a1)(void)) - object init helper; as a side effect populates a0->vecPtr (dereferenced right after the call returns)"
+ ]
+}

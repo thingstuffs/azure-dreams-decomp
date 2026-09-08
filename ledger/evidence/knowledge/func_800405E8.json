@@ -1,0 +1,21 @@
+{
+ "func": "func_800405E8",
+ "doc": "Checks whether the streaming decode buffer's write pointer (D_80081480) plus a0 has reached the buffer's base+size (D_8008148C + D_80080A7C); if so, resets the write pointer to the buffer base (D_80081480 = D_8008148C) and waits for the GPU (DrawSync(0)). Then computes and returns (D_8008148C + D_80080A7C - a0), while shrinking the remaining-size counter D_80080A7C by a0.",
+ "globals": [
+  {
+   "name": "D_80081480",
+   "decl": "typedef struct { s32 field_0; s32 pad4; s32 pad8; } S_80081480; extern S_80081480 D_80081480; /* 12B, hi/lo-addressed; only field_0 (offset 0) touched by this function */"
+  },
+  {
+   "name": "D_8008148C",
+   "decl": "typedef struct { s32 field_0; s32 pad4; s32 pad8; } S_8008148C; extern S_8008148C D_8008148C; /* 12B, hi/lo-addressed; only field_0 (offset 0) touched; located exactly 12 bytes after D_80081480 (D_8008148C == D_80081480+0xC) */"
+  },
+  {
+   "name": "D_80080A7C",
+   "decl": "typedef struct { s32 field_0; s32 pad4; s32 pad8; } S_80080A7C; extern S_80080A7C D_80080A7C; /* plain scalar counter elsewhere (gp_rel in -G0 TUs like src/code5.c), but THIS TU's asm shows hi/lo addressing for it, so declare >8B here. D_80080A84 (existing global, src/code.c) sits at offset +8 and D_80080A90 (existing global, src/w_80047A68.c) sits at offset +0x14 relative to this symbol -- confirmed via pointer arithmetic used to defeat gcc's address-CSE across this function's 3 independent touches of the same word. */"
+  }
+ ],
+ "calls": [
+  "extern void DrawSync(s32 a0); // called as DrawSync(0)"
+ ]
+}

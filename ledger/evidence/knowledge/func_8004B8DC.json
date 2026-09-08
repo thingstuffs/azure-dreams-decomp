@@ -1,0 +1,9 @@
+{
+ "func": "func_8004B8DC",
+ "doc": "Trivial 5-arg wrapper: calls func_8004B834(void) then func_8003F320(void) for side effects, then forwards all five original arguments (a0-a3 in registers, a4 passed on the caller's stack) to func_800B6A0C.",
+ "calls": [
+  "func_8004B834(void)",
+  "func_8003F320(void)",
+  "func_800B6A0C(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4)"
+ ]
+}

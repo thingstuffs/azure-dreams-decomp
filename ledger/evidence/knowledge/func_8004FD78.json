@@ -1,0 +1,7 @@
+{
+ "func": "func_8004FD78",
+ "doc": "Resolves a1 to a target id via func_8002137C(a1), then linear-searches the caller's fixed-size s32 array at a0->unk10[0..a0->unk24) for that id. Returns the matching index if found, otherwise returns a0->unk24 (the count itself), which is also what's returned (0) when the count is <= 0.",
+ "calls": [
+  "func_8002137C(void *a0) -> s32 : resolves an id/handle from a1 (raw arg forwarded, exact param type unconstrained by callers seen so far; used only as a single register arg)"
+ ]
+}

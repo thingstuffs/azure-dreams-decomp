@@ -1,0 +1,14 @@
+{
+ "func": "func_80043674",
+ "doc": "Builds a 100-entry cumulative table D_800835E8[0..99]: starting from D_800835E8[0]=0, each subsequent entry is the previous entry plus floor((n^3)/8) where n runs 4,5,6,...,102; once the companion counter m (running -19..79, i.e. n-24... specifically m = i-20) becomes positive, an extra term (m^2)*32 is added to that same entry. Finally writes a fixed 32-bit constant 0xFA56EA00 into an unrelated global D_80083778.",
+ "globals": [
+  {
+   "name": "D_800835E8",
+   "decl": "extern s32 D_800835E8[100]; /* 100-entry s32 cumulative table, index 0 initialized to 0, indices 1..99 filled by this function */"
+  },
+  {
+   "name": "D_80083778",
+   "decl": "extern s32 D_80083778[3]; /* only offset 0 (first s32) is written by this function; declared >8B to force %hi/%lo addressing instead of $gp_rel (next linked symbol D_80083780 is 8 bytes away, but the >8B decl is needed purely for correct codegen selection, matching learnings) */"
+  }
+ ]
+}

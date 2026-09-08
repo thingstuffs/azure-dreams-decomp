@@ -1,0 +1,7 @@
+{
+ "func": "func_80048870",
+ "doc": "Builds a scaled tile-position header (S_8004878C_hdr: unk00/02/04/06 s16 fields) on the stack from arg0's packed byte/word fields (a u16 tile-size word at offset 0x4 plus four sub-byte fields at 0x8-0xB), then calls func_8004878C with a computed image-data pointer (arg1->unkC + arg2) and the freshly-built header.",
+ "calls": [
+  "func_8004878C(void *a0, S_8004878C_hdr *a1) -- extern, matched at gcc 2.7.2, defined in src/w_8004878C.c"
+ ]
+}

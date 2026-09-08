@@ -1,0 +1,14 @@
+{
+ "func": "func_80044B48",
+ "doc": "Allocates the next primitive from the current display-list buffer pointed to by D_80083160[0]->cur, initializes it via SetDrawMode(prim,0,0,0,0), links it into the OT with AddPrim(D_80083160[0]->ot, prim), then advances the cursor by 0xC bytes (one primitive slot).",
+ "globals": [
+  {
+   "name": "D_80083160",
+   "decl": "extern S_80044B48 *D_80083160[3]; /* array of 3 pointers to graphics-context structs; here D_80083160[0]->ot (offset 0x8AC, s32[9]) is the OT array and D_80083160[0]->cur (offset 0x8D0, void*) is the primitive buffer cursor. Other TUs in this codebase model D_80083160 differently (as a scalar struct with fields like field_BC/field_154/etc.) \u2014 those views need reconciling against this array-of-pointers layout during integration, matching the existing code8.c declaration `extern void *D_80083160[3];`."
+  }
+ ],
+ "calls": [
+  "SetDrawMode(void *prim, s32 a1, s32 a2, s32 a3, s32 a4) - args: prim, 0, 0, 0, 0 (psyq libgpu/SYS, named 2026-08-23 cd681dea -- was func_80067F20)",
+  "AddPrim(void *ot, void *prim) - args: D_80083160[0]->ot, prim (standard PSX GPU OT-link primitive)"
+ ]
+}

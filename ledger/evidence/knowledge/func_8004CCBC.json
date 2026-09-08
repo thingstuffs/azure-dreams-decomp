@@ -1,0 +1,10 @@
+{
+ "func": "func_8004CCBC",
+ "doc": "Copies the 3-word vector D_8002E5E8 (x,y,z) into ->vec of each entry of an array of entity pointers, a1 times, advancing a0 by one pointer-slot per iteration.",
+ "globals": [
+  {
+   "name": "D_8002E5E8",
+   "decl": "extern struct S_8002E5E8 { s32 x; s32 y; s32 z; } D_8002E5E8; /* 12-byte vec3-like global, fields at offset 0/4/8, forces %hi/%lo (base t0 materialised once, reused with +0/+4/+8 for the a3 alias too) */"
+  }
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "func": "func_80047AB0",
+ "doc": "Streams N (=4) image tiles via func_8004713C into a scratch address (func_80047AA4(a4) = a4+0x8000), issues two func_8003F80C draw/DMA calls (sizes 0x10, mode 2) around a DrawSync(0) and a func_80047200(addr,0x10,0) call, then finalizes the target object via func_80046F88(a0) and func_80047054(a0,a1,a2,a3), returning the original object pointer a0 unchanged. Signature: void *func_80047AB0(void *a0, u16 a1, s32 a2, s32 a3, s32 a4) -- a4 is the 5th (stack) argument. a1 is masked to u16 once at entry (reused across 2 calls); a2/a3 are kept as plain s32 locals and only masked to u16 at the single call site (func_80047054) that needs it, which is how the extern prototypes for the not-yet-decompiled callees were chosen (their real signatures are still open -- callee args only need to reproduce register content, not real behavior).",
+ "calls": [
+  "func_8004713C(s32 a0, u16 a1, s32 a2) -- image/tile streaming loop (LoadImage), a2=loop count, a3 unused (leftover reg not read)",
+  "func_80047AA4(int a0) -- ALREADY MATCHED: returns a0+0x8000 (VRAM offset -> scratch buffer address)",
+  "func_8003F80C(s32 a0, s32 a1, s32 a2, s32 a3) -- called twice with (addr, size/offset, 0x10, 2)",
+  "DrawSync(s32 a0) -- library function, called with 0",
+  "func_80047200(s32 a0, s32 a1, s32 a2) -- called with (addr, 0x10, 0)",
+  "func_80046F88(void *a0) -- called with original a0 object pointer",
+  "func_80047054(void *a0, u16 a1, u16 a2, u16 a3) -- finalize call with all masked params"
+ ]
+}

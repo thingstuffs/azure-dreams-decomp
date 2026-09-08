@@ -1,0 +1,1041 @@
+{
+ "source": "Azure Dreams De-Randomizer (ProGrammar-R, MPL-2.0): facts about the retail binary only, no code",
+ "offset_scheme": "disc_offset = raw disc-image byte offset (2352-byte sectors); ram = load address where the map states it",
+ "romAddresses": [
+  {
+   "name": "balloonDescription",
+   "disc_offset": "0x10CA8",
+   "ram": "0x8002F220",
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0x2A20",
+   "row": null
+  },
+  {
+   "name": "malletDescription",
+   "disc_offset": "0x10E40",
+   "ram": "0x8002F3B8",
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0x2BB8",
+   "row": null
+  },
+  {
+   "name": "ropeDescription",
+   "disc_offset": "0x10E84",
+   "ram": "0x8002F3EC",
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0x2BFC",
+   "row": null
+  },
+  {
+   "name": "goUpTrapDescription",
+   "disc_offset": "0x13260",
+   "ram": "0x80031318",
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0x4B18",
+   "row": null
+  },
+  {
+   "name": "anUpperFloorText",
+   "disc_offset": "0x1329B",
+   "ram": "0x80031353",
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0x4B53",
+   "row": null
+  },
+  {
+   "name": "initialRedCollarStatus",
+   "disc_offset": "0x1ECD8",
+   "ram": "0x8003B5D0",
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0xEDD0",
+   "row": "slus/konami_runtime_w_8003B470",
+   "symbol": "func_8003B470",
+   "offset_in_function": 352
+  },
+  {
+   "name": "pauseAfterDeathText",
+   "disc_offset": "0x55B71",
+   "ram": null,
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0x3EA69",
+   "row": null
+  },
+  {
+   "name": "initialStatsTable",
+   "disc_offset": "0x57F30",
+   "ram": "0x8006D168",
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0x40968",
+   "row": null,
+   "rows": [
+    "dungeon/func_8009C5EC",
+    "dungeon/func_8009CCC4"
+   ]
+  },
+  {
+   "name": "elevatorIcon",
+   "disc_offset": "0x5E786",
+   "ram": "0x80072CAE",
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0x464AE",
+   "row": null
+  },
+  {
+   "name": "suspiciousElevatorDesc",
+   "disc_offset": "0x5E7A4",
+   "ram": "0x80072CCC",
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0x464CC",
+   "row": null
+  },
+  {
+   "name": "trapTable",
+   "disc_offset": "0x5E7A8",
+   "ram": "0x80072CD0",
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0x464D0",
+   "row": null
+  },
+  {
+   "name": "itemCategoryTable",
+   "disc_offset": "0x5F01C",
+   "ram": "0x80073414",
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0x46C14",
+   "row": null,
+   "rows": [
+    "town/func_800B36B8",
+    "dungeon/func_800A133C",
+    "dungeon/func_800A38C4",
+    "dungeon/func_800A3988",
+    "dungeon/func_800A3A00",
+    "dungeon/func_800B8C00",
+    "dungeon/func_800C268C",
+    "dungeon/func_8028A0F4",
+    "dungeon/func_8028B18C",
+    "dungeon/func_8028B994",
+    "dungeon/func_8028BAA4",
+    "dungeon/func_80E64DB4",
+    "dungeon/func_80E65598",
+    "dungeon/func_818108B8",
+    "dungeon/func_81934800"
+   ]
+  },
+  {
+   "name": "elevatorUseOptions",
+   "disc_offset": "0x5F1BC",
+   "ram": "0x800735B4",
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0x46DB4",
+   "row": null
+  },
+  {
+   "name": "itemCategoryNamesKanji",
+   "disc_offset": "0x6F128",
+   "ram": "0x800813E0",
+   "note": "",
+   "file": "SLUS_006.14",
+   "file_offset": "0x54BE0",
+   "row": null
+  },
+  {
+   "name": "markQuestAsLoaded1",
+   "disc_offset": "0x6CC7F8",
+   "ram": "0x80022090",
+   "note": "",
+   "file": "MAIN/MAIN.BIN",
+   "file_offset": "0x25F090",
+   "row": "main/func_8000EFF0",
+   "symbol": "func_8000EFF0",
+   "offset_in_function": 160
+  },
+  {
+   "name": "markQuestAsLoaded2",
+   "disc_offset": "0x6CC814",
+   "ram": "0x800220AC",
+   "note": "",
+   "file": "MAIN/MAIN.BIN",
+   "file_offset": "0x25F0AC",
+   "row": "main/func_8000EFF0",
+   "symbol": "func_8000EFF0",
+   "offset_in_function": 188
+  },
+  {
+   "name": "towerItemCap",
+   "disc_offset": "0x70F624",
+   "ram": "0x800A0C5C",
+   "note": "",
+   "file": "TOWN/TOWN.BIN",
+   "file_offset": "0x234FC",
+   "row": "town/func_800A34D0",
+   "symbol": "func_800A34D0",
+   "offset_in_function": 44
+  },
+  {
+   "name": "angelFirstWord",
+   "disc_offset": "0xEE5F97",
+   "ram": null,
+   "note": "",
+   "file": "TOWN/TOWN.BIN",
+   "file_offset": "0x6F681F",
+   "row": null
+  },
+  {
+   "name": "checkKohDeathTopFloor",
+   "disc_offset": "0x1C5E360",
+   "ram": "0x8008E058",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xA88F8",
+   "row": "dungeon/func_80088688",
+   "symbol": "func_80088688",
+   "offset_in_function": 624
+  },
+  {
+   "name": "pauseAfterDeathCode",
+   "disc_offset": "0x1C5E470",
+   "ram": null,
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xA8A08",
+   "row": null
+  },
+  {
+   "name": "elevatorAltPath",
+   "disc_offset": "0x1C6A62F",
+   "ram": "0x80098A37",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xB32D7",
+   "row": "dungeon/func_800931C0",
+   "symbol": "func_800931C0",
+   "offset_in_function": 279
+  },
+  {
+   "name": "beldoCrashFixPart1",
+   "disc_offset": "0x1C6C354",
+   "ram": "0x8009A3CC",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xB4C6C",
+   "row": "dungeon/func_80094BF0",
+   "symbol": "func_80094BF0",
+   "offset_in_function": 124
+  },
+  {
+   "name": "beldoCrashFixPart2",
+   "disc_offset": "0x1C6D498",
+   "ram": "0x8009B2B0",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xB5B50",
+   "row": "dungeon/func_80095AFC",
+   "symbol": "func_80095AFC",
+   "offset_in_function": 84
+  },
+  {
+   "name": "placeMonsterRollGamma",
+   "disc_offset": "0x1C73950",
+   "ram": "0x800A0A58",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xBB2F8",
+   "row": "dungeon/func_8009B140",
+   "symbol": "func_8009B140",
+   "offset_in_function": 440
+  },
+  {
+   "name": "placeMonsterLeveledUp",
+   "disc_offset": "0x1C73A00",
+   "ram": "0x800A0B08",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xBB3A8",
+   "row": "dungeon/func_8009B140",
+   "symbol": "func_8009B140",
+   "offset_in_function": 616
+  },
+  {
+   "name": "turnMonsterSpawnRate",
+   "disc_offset": "0x1C73D14",
+   "ram": "0x800A0E1C",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xBB6BC",
+   "row": "dungeon/func_8009B678",
+   "symbol": "func_8009B678",
+   "offset_in_function": 68
+  },
+  {
+   "name": "popupExperience1",
+   "disc_offset": "0x1C762A4",
+   "ram": "0x800A2EEC",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xBD78C",
+   "row": "dungeon/func_8009D658",
+   "symbol": "func_8009D658",
+   "offset_in_function": 308
+  },
+  {
+   "name": "popupExperience2",
+   "disc_offset": "0x1C76450",
+   "ram": "0x800A2F68",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xBD808",
+   "row": "dungeon/func_8009D658",
+   "symbol": "func_8009D658",
+   "offset_in_function": 432
+  },
+  {
+   "name": "initMonsterSpawnRate",
+   "disc_offset": "0x1C7A720",
+   "ram": "0x800A69E8",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xC1288",
+   "row": "dungeon/func_800A1284",
+   "symbol": "func_800A1284",
+   "offset_in_function": 4
+  },
+  {
+   "name": "resetElementStartAtk",
+   "disc_offset": "0x1C88FD0",
+   "ram": "0x800B34E8",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xCDD88",
+   "row": "dungeon/func_800ADD2C",
+   "symbol": "func_800ADD2C",
+   "offset_in_function": 92
+  },
+  {
+   "name": "resetElementAfterMix",
+   "disc_offset": "0x1C898CC",
+   "ram": "0x800B3CB4",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xCE554",
+   "row": "dungeon/func_800ADD2C",
+   "symbol": "func_800ADD2C",
+   "offset_in_function": 2088
+  },
+  {
+   "name": "experiencePopupBug",
+   "disc_offset": "0x1C8AD8C",
+   "ram": "0x800B4F14",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xCF7B4",
+   "row": "dungeon/func_800AF51C",
+   "symbol": "func_800AF51C",
+   "offset_in_function": 664
+  },
+  {
+   "name": "eggBombLevelUp",
+   "disc_offset": "0x1C8DEE4",
+   "ram": "0x800B794C",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xD21EC",
+   "row": "dungeon/func_800B2014",
+   "symbol": "func_800B2014",
+   "offset_in_function": 472
+  },
+  {
+   "name": "goUpTrapIncrement",
+   "disc_offset": "0x1CA4FE8",
+   "ram": "0x800CBAD0",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xE6370",
+   "row": "dungeon/func_800C627C",
+   "symbol": "func_800C627C",
+   "offset_in_function": 244
+  },
+  {
+   "name": "monsterDenLeveledUp",
+   "disc_offset": "0x1CA88B0",
+   "ram": "0x800CEC78",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xE9518",
+   "row": "dungeon/func_800C92E4",
+   "symbol": "func_800C92E4",
+   "offset_in_function": 564
+  },
+  {
+   "name": "usedBallItemTable",
+   "disc_offset": "0x1CB922C",
+   "ram": "0x800DD384",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xF7C24",
+   "row": null
+  },
+  {
+   "name": "statGrowthTable",
+   "disc_offset": "0x1CB9C94",
+   "ram": "0x800DDCBC",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xF855C",
+   "row": null,
+   "rows": [
+    "dungeon/func_8008B4B0",
+    "dungeon/func_8009C5EC",
+    "dungeon/func_8009CCC4"
+   ]
+  },
+  {
+   "name": "itemCategDamageTable",
+   "disc_offset": "0x1CB95AC",
+   "ram": "0x800DD704",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xF7FA4",
+   "row": null,
+   "rows": [
+    "dungeon/func_80093968"
+   ]
+  },
+  {
+   "name": "salamParticleGraphic",
+   "disc_offset": "0x1CBC978",
+   "ram": "0x800E03B0",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xFAC50",
+   "row": null,
+   "rows": [
+    "dungeon/func_800C587C"
+   ]
+  },
+  {
+   "name": "isExhaustedBattleText",
+   "disc_offset": "0x1CBCC3C",
+   "ram": null,
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xFAF14",
+   "row": null
+  },
+  {
+   "name": "toUpstairsBattleText",
+   "disc_offset": "0x1CBE450",
+   "ram": "0x800E1AF8",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0xFC398",
+   "row": null
+  },
+  {
+   "name": "hardcodeKohProperty1",
+   "disc_offset": "0x1EA5094",
+   "ram": "0x800170DC",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2A40DC",
+   "row": "dungeon/func_80284068",
+   "symbol": "func_80284068",
+   "offset_in_function": 116
+  },
+  {
+   "name": "multiElevatorSpawns1",
+   "disc_offset": "0x1EA5B1C",
+   "ram": "0x80017A34",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2A4A34",
+   "row": "dungeon/func_8028484C",
+   "symbol": "func_8028484C",
+   "offset_in_function": 488
+  },
+  {
+   "name": "predefElevatorAppear1",
+   "disc_offset": "0x1EA68CF",
+   "ram": "0x800186B7",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2A56B7",
+   "row": "dungeon/func_80285464",
+   "symbol": "func_80285464",
+   "offset_in_function": 595
+  },
+  {
+   "name": "callCheckFor2ndTower1",
+   "disc_offset": "0x1EA692C",
+   "ram": "0x80018714",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2A5714",
+   "row": "dungeon/func_80285464",
+   "symbol": "func_80285464",
+   "offset_in_function": 688
+  },
+  {
+   "name": "callReplaceKewneTut1",
+   "disc_offset": "0x1EA7210",
+   "ram": "0x80018EC8",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2A5EC8",
+   "row": "dungeon/func_80285E80",
+   "symbol": "func_80285E80",
+   "offset_in_function": 72
+  },
+  {
+   "name": "floor2CheckFirstTime1",
+   "disc_offset": "0x1EA7324",
+   "ram": "0x80018FDC",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2A5FDC",
+   "row": "dungeon/func_80285E80",
+   "symbol": "func_80285E80",
+   "offset_in_function": 348
+  },
+  {
+   "name": "tutorialFloorId1",
+   "disc_offset": "0x1EA75B8",
+   "ram": "0x80019140",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2A6140",
+   "row": "dungeon/func_80285E80",
+   "symbol": "func_80285E80",
+   "offset_in_function": 704
+  },
+  {
+   "name": "checkIfTower2Availbl1",
+   "disc_offset": "0x1EA7F70",
+   "ram": "0x800199C8",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2A69C8",
+   "row": "dungeon/func_802869C8",
+   "symbol": "func_802869C8",
+   "offset_in_function": 0
+  },
+  {
+   "name": "windCrystalCheck1",
+   "disc_offset": "0x1EAD384",
+   "ram": "0x8001E32C",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2AB32C",
+   "row": "dungeon/func_8028B18C",
+   "symbol": "func_8028B18C",
+   "offset_in_function": 416
+  },
+  {
+   "name": "trapRollMaxSingleRm1",
+   "disc_offset": "0x1EAE330",
+   "ram": "0x8001F078",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2AC078",
+   "row": "dungeon/func_8028BF0C",
+   "symbol": "func_8028BF0C",
+   "offset_in_function": 364
+  },
+  {
+   "name": "setTrapsInitBudget1",
+   "disc_offset": "0x1EAE388",
+   "ram": "0x8001F0D0",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2AC0D0",
+   "row": "dungeon/func_8028BF0C",
+   "symbol": "func_8028BF0C",
+   "offset_in_function": 452
+  },
+  {
+   "name": "trapRollMaxPerFloor1",
+   "disc_offset": "0x1EAE398",
+   "ram": "0x8001F0E0",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2AC0E0",
+   "row": "dungeon/func_8028BF0C",
+   "symbol": "func_8028BF0C",
+   "offset_in_function": 468
+  },
+  {
+   "name": "setTrapsChooseType1",
+   "disc_offset": "0x1EAE410",
+   "ram": "0x8001F158",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2AC158",
+   "row": "dungeon/func_8028BF0C",
+   "symbol": "func_8028BF0C",
+   "offset_in_function": 588
+  },
+  {
+   "name": "trapRollLowestId1",
+   "disc_offset": "0x1EAE420",
+   "ram": "0x8001F168",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x2AC168",
+   "row": "dungeon/func_8028BF0C",
+   "symbol": "func_8028BF0C",
+   "offset_in_function": 604
+  },
+  {
+   "name": "hardcodeKohProperty2",
+   "disc_offset": "0x217EDE4",
+   "ram": "0x800170DC",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x51F8DC",
+   "row": "dungeon/func_80284068",
+   "symbol": "func_80284068",
+   "offset_in_function": 116
+  },
+  {
+   "name": "multiElevatorSpawns2",
+   "disc_offset": "0x217F86C",
+   "ram": "0x80017A34",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x520234",
+   "row": "dungeon/func_8028484C",
+   "symbol": "func_8028484C",
+   "offset_in_function": 488
+  },
+  {
+   "name": "predefElevatorAppear2",
+   "disc_offset": "0x218061F",
+   "ram": "0x800186B7",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x520EB7",
+   "row": "dungeon/func_80285464",
+   "symbol": "func_80285464",
+   "offset_in_function": 595
+  },
+  {
+   "name": "callCheckFor2ndTower2",
+   "disc_offset": "0x218067C",
+   "ram": "0x80018714",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x520F14",
+   "row": "dungeon/func_80285464",
+   "symbol": "func_80285464",
+   "offset_in_function": 688
+  },
+  {
+   "name": "callReplaceKewneTut2",
+   "disc_offset": "0x2180F60",
+   "ram": "0x80018EC8",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x5216C8",
+   "row": "dungeon/func_80285E80",
+   "symbol": "func_80285E80",
+   "offset_in_function": 72
+  },
+  {
+   "name": "floor2CheckFirstTime2",
+   "disc_offset": "0x2181074",
+   "ram": "0x80018FDC",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x5217DC",
+   "row": "dungeon/func_80285E80",
+   "symbol": "func_80285E80",
+   "offset_in_function": 348
+  },
+  {
+   "name": "tutorialFloorId2",
+   "disc_offset": "0x2181308",
+   "ram": "0x80019140",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x521940",
+   "row": "dungeon/func_80285E80",
+   "symbol": "func_80285E80",
+   "offset_in_function": 704
+  },
+  {
+   "name": "checkIfTower2Availbl2",
+   "disc_offset": "0x2181CC0",
+   "ram": "0x800199C8",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x5221C8",
+   "row": "dungeon/func_802869C8",
+   "symbol": "func_802869C8",
+   "offset_in_function": 0
+  },
+  {
+   "name": "windCrystalCheck2",
+   "disc_offset": "0x21870D4",
+   "ram": "0x8001E32C",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x526B2C",
+   "row": "dungeon/func_8028B18C",
+   "symbol": "func_8028B18C",
+   "offset_in_function": 416
+  },
+  {
+   "name": "trapRollMaxSingleRm2",
+   "disc_offset": "0x2188080",
+   "ram": "0x8001F078",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x527878",
+   "row": "dungeon/func_8028BF0C",
+   "symbol": "func_8028BF0C",
+   "offset_in_function": 364
+  },
+  {
+   "name": "setTrapsInitBudget2",
+   "disc_offset": "0x21880D8",
+   "ram": "0x8001F0D0",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x5278D0",
+   "row": "dungeon/func_8028BF0C",
+   "symbol": "func_8028BF0C",
+   "offset_in_function": 452
+  },
+  {
+   "name": "trapRollMaxPerFloor2",
+   "disc_offset": "0x21880E8",
+   "ram": "0x8001F0E0",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x5278E0",
+   "row": "dungeon/func_8028BF0C",
+   "symbol": "func_8028BF0C",
+   "offset_in_function": 468
+  },
+  {
+   "name": "setTrapsChooseType2",
+   "disc_offset": "0x2188160",
+   "ram": "0x8001F158",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x527958",
+   "row": "dungeon/func_8028BF0C",
+   "symbol": "func_8028BF0C",
+   "offset_in_function": 588
+  },
+  {
+   "name": "trapRollLowestId2",
+   "disc_offset": "0x2188170",
+   "ram": "0x8001F168",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x527968",
+   "row": "dungeon/func_8028BF0C",
+   "symbol": "func_8028BF0C",
+   "offset_in_function": 604
+  },
+  {
+   "name": "floorMonsterTable",
+   "disc_offset": "0x24638E8",
+   "ram": "0x800DDC7C",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x7A4800",
+   "row": null,
+   "rows": [
+    "dungeon/func_80283000",
+    "dungeon/func_804FE77C"
+   ]
+  },
+  {
+   "name": "tutorialFloorLayout",
+   "disc_offset": "0x248CE50",
+   "ram": null,
+   "note": "",
+   "file": null,
+   "file_offset": null,
+   "row": null
+  },
+  {
+   "name": "tutorialElevatorYpos",
+   "disc_offset": "0x248CF73",
+   "ram": null,
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x7C890B",
+   "row": null
+  },
+  {
+   "name": "tutorialStartingItems",
+   "disc_offset": "0x248CF78",
+   "ram": null,
+   "note": "X Y ID category status quality",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x7C8910",
+   "row": null
+  },
+  {
+   "name": "tutorialTrap",
+   "disc_offset": "0x248CF9E",
+   "ram": null,
+   "note": "X Y ID category",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x7C8936",
+   "row": null
+  },
+  {
+   "name": "tutorialPulunpa",
+   "disc_offset": "0x248CFAC",
+   "ram": null,
+   "note": "X Y ID category ??? level",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x7C8944",
+   "row": null
+  },
+  {
+   "name": "tutorialNewElevator",
+   "disc_offset": "0x248D844",
+   "ram": null,
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x7C90AC",
+   "row": null
+  },
+  {
+   "name": "f2suspElevAppearance",
+   "disc_offset": "0x2492B66",
+   "ram": "0x800EADB0",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x7CD91E",
+   "row": null
+  },
+  {
+   "name": "f2waterAppearance",
+   "disc_offset": "0x2492C87",
+   "ram": null,
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x7CDA3F",
+   "row": null
+  },
+  {
+   "name": "debugFloorLayout",
+   "disc_offset": "0x2493360",
+   "ram": null,
+   "note": "",
+   "file": null,
+   "file_offset": null,
+   "row": null
+  },
+  {
+   "name": "debugFloorElevator",
+   "disc_offset": "0x249338E",
+   "ram": null,
+   "note": "X Y 00 00 00 00",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x7CE016",
+   "row": null
+  },
+  {
+   "name": "debugFloorFirstItem",
+   "disc_offset": "0x2493394",
+   "ram": null,
+   "note": "X Y ID category status quality",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x7CE01C",
+   "row": null
+  },
+  {
+   "name": "debugFloorItemEnd",
+   "disc_offset": "0x2493514",
+   "ram": null,
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x7CE19C",
+   "row": null
+  },
+  {
+   "name": "kohsReplyToGhoshPart",
+   "disc_offset": "0x2497096",
+   "ram": "0x800F8DFE",
+   "note": "(this is the space after \"[No thank\")",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x7D15FE",
+   "row": null
+  },
+  {
+   "name": "beldoLocation",
+   "disc_offset": "0x263CBB2",
+   "ram": "0x800E604A",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x94084A",
+   "row": null
+  },
+  {
+   "name": "beldoLevel",
+   "disc_offset": "0x263CBB7",
+   "ram": null,
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x94084F",
+   "row": null
+  },
+  {
+   "name": "beldoSetFast",
+   "disc_offset": "0x31CDDCC",
+   "ram": "0x80169FA4",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x1352FA4",
+   "row": "dungeon/func_81332EC0",
+   "symbol": "func_81332EC0",
+   "offset_in_function": 228
+  },
+  {
+   "name": "beldoInvulnerability",
+   "disc_offset": "0x31D0AA0",
+   "ram": "0x8016C688",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x1355688",
+   "row": "dungeon/func_81324774",
+   "symbol": "func_81324774",
+   "offset_in_function": 1812
+  },
+  {
+   "name": "customBeldoCode",
+   "disc_offset": "0x31D6ED4",
+   "ram": "0x80171DAC",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x135ADAC",
+   "row": "dungeon/func_810ADDF4",
+   "symbol": "func_810ADDF4",
+   "offset_in_function": 1976
+  },
+  {
+   "name": "beldoIdle",
+   "disc_offset": "0x31D91B4",
+   "ram": "0x80173BCC",
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x135CBCC",
+   "row": "dungeon/func_8132B8AC",
+   "symbol": "func_8132B8AC",
+   "offset_in_function": 2848
+  },
+  {
+   "name": "hiddenSpellTable",
+   "disc_offset": "0x376318C",
+   "ram": null,
+   "note": "",
+   "file": "DUNGEON/DUNGEON.BIN",
+   "file_offset": "0x182F7B4",
+   "row": null
+  }
+ ],
+ "rowLength": {
+  "trap": 12,
+  "initialStats": 24,
+  "statGrowth": 8
+ },
+ "monsterStats_layout": {
+  "attack": 0,
+  "defense": 1,
+  "agility": 2,
+  "luck": 3,
+  "mp": 4,
+  "hp": 5,
+  "xpGiven": 6,
+  "spell1Id": 8,
+  "spell1Level": 9,
+  "spell1LevelAlt": 10,
+  "spell2Id": 11,
+  "spell2Level": 12,
+  "spell2LevelAlt": 13,
+  "spell3Id": 14,
+  "spell3Level": 15,
+  "spell3LevelAlt": 16,
+  "level": 17,
+  "ai": 18,
+  "id": 19,
+  "element": 20,
+  "pushable": 21,
+  "flyingLiftable": 22
+ },
+ "item_TYPE": {
+  "HERB": 1,
+  "FRUIT": 2,
+  "SEED": 3,
+  "BALL": 4,
+  "SCROLL": 5,
+  "CRYSTAL": 6,
+  "BELL": 7,
+  "GLASSES": 8,
+  "LOUPE": 9,
+  "SAND": 10,
+  "GIFT": 11,
+  "SPECIAL": 12,
+  "QUEST": 13,
+  "COIN": 14,
+  "SWORD": 15,
+  "WAND": 16,
+  "SHIELD": 17,
+  "EGG": 18,
+  "FAMILIAR": 19,
+  "ELEVATOR": 20,
+  "TRAP": 21
+ },
+ "TRAP_TYPES": {
+  "spawns": 0,
+  "reversal": 1,
+  "slow": 2,
+  "warp": 3,
+  "goUp": 4,
+  "chaos": 5,
+  "bomb": 7,
+  "slam": 8,
+  "sleep": 9,
+  "blinder": 10,
+  "poison": 11,
+  "prison": 12,
+  "frog": 13,
+  "bump": 14,
+  "crack": 15,
+  "upheaval": 16,
+  "seal": 17,
+  "rust": 18,
+  "monsterDen": 19
+ },
+ "spells": {
+  "poison": 13,
+  "deaheal": 25,
+  "deoforth": 30,
+  "lagrave": 43,
+  "darkWave": 46
+ },
+ "lcgConstants": {
+  "modulus": "0x1fffFFFFffff",
+  "multiplier": "0x5DEECE66D",
+  "increment": 11
+ }
+}

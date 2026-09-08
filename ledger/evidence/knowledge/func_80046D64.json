@@ -1,0 +1,14 @@
+{
+ "func": "func_80046D64",
+ "doc": "Builds four \"list pointer\" fields in a small sub-record of the shared state global D_80083160 (at +0x1DC: fields f4/f8/fC/f10) by adding arg0 (a base pointer, e.g. a loaded resource blob address) to word-offsets (*4) looked up from D_8006E7F0[arg1] (a per-type info record with a u16 count at +6 and four u16 word-offsets at +8/+0xA/+0xC/+0xE). It also relocates the first of those lists in place: each of D_8006E7F0[arg1]->count entries starting at the first computed pointer has arg0 added to it, turning stored relative word-offsets into absolute addresses.",
+ "globals": [
+  {
+   "name": "D_8006E7F0",
+   "decl": "extern S_80046D64_Info *D_8006E7F0[]; /* array of pointers to per-type info records; record fields: u16 count@0x6, u16 off8@0x8, u16 offA@0xA, u16 offC@0xC, u16 offE@0xE (incomplete array to force %hi/%lo addressing) */"
+  },
+  {
+   "name": "D_80083160",
+   "decl": "extern S_80083160_View D_80083160; /* shared state table; this TU's local view is char pad[0x1DC] followed by a 5-field s32 sub-record (f0 untouched, f4/f8/fC/f10 written here). Other TUs declare their own independent views of D_80083160 per the merge-safety contract. */"
+  }
+ ]
+}

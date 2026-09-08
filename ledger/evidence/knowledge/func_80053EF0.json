@@ -1,0 +1,18 @@
+{
+ "func": "func_80053EF0",
+ "doc": "n/a",
+ "globals": [
+  {
+   "name": "D_800847D0",
+   "decl": "extern struct { u32 flags1; u32 flags2; u32 pad8; } D_800847D0; /* only flags1 (0x0) and flags2 (0x4) touched here; padded >8B to force %hi/%lo like retail; matches the established canonical S_800847D0 (real size 0x34) from src/w_800559B4.c */"
+  },
+  {
+   "name": "D_8008485C",
+   "decl": "extern s32 D_8008485C[3]; /* only [0] accessed; declared >8B to force %hi/%lo addressing */"
+  },
+  {
+   "name": "D_800848FC",
+   "decl": "extern s32 D_800848FC[3]; /* only [0] accessed; declared >8B to force %hi/%lo addressing */"
+  }
+ ]
+}

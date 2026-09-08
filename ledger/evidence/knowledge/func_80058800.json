@@ -1,0 +1,4 @@
+{
+ "func": "func_80058800",
+ "doc": "Byte-comparison routine (memcmp-like): compares n bytes at p1/p2. Returns -1 if n==0. Otherwise loops decrementing n first (while(--n) shape); on the first mismatching byte returns (int)*p1-(int)*p2 immediately; if all bytes through n-1 match, falls out of loop and returns (int)*p1-(int)*p2 for the final byte pair unconditionally (no equality check on the last pair)."
+}

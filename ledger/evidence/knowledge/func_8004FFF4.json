@@ -1,0 +1,4 @@
+{
+ "func": "func_8004FFF4",
+ "doc": "Resets 6 consecutive \"slot\" objects reachable through a0. a0 advances by 4 bytes per iteration, so on each iteration it reads two pointer fields (at offsets 0x4 and 0x28 relative to the current a0) that slide across an overlapping array-of-pointers region. For each slot: the field reached via the offset-0x4 chain (double indirection, ->unk4->unk4) has its halfword at +8 zeroed; the field reached via the offset-0x28 chain has its halfword at +8 set to 0x1E (30) and its 3 bytes at +0/+1/+2 set to 0x58 (88); the offset-0x4 chain's own 3 bytes at +0/+1/+2 are also set to 0x58. Reads the same pointer chain from memory fresh for every single field write (no CSE across statements), consistent with gcc 2.7.2's conservative pointer-aliasing behavior \u2014 this is very likely a \"reset color/highlight to default grey\" pass over 6 UI or entity slots."
+}

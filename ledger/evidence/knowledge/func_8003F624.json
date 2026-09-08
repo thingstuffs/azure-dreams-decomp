@@ -1,0 +1,19 @@
+{
+ "func": "func_8003F624",
+ "doc": "Sets CD command-buffer byte D_800814D4=0x84 (mode flags), then retries CdControlB(CdlSetmode=0xE, &buf, NULL) up to 16 times until it returns nonzero (success); if all 16 attempts fail, calls func_8003E70C() (CD re-init) before finally calling func_8003F5EC() (busy-wait ~0x200 VSyncs) unconditionally.",
+ "globals": [
+  {
+   "name": "D_800814D4",
+   "decl": "extern u8 D_800814D4; // single command-mode byte, gp_rel scalar store"
+  },
+  {
+   "name": "D_800814D3",
+   "decl": "extern u8 D_800814D3[8]; // neighbour >8B array whose [1] element aliases D_800814D4; used only to force hi/lo address-of codegen for &D_800814D4 passed as CdControlB's param pointer"
+  }
+ ],
+ "calls": [
+  "func_8003F5EC(void) -- already matched, gcc 2.7.2, src/code.c",
+  "func_8003E70C(void) -- no arguments (its own body never reads a0)",
+  "CdControlB(u8 com, u8 *param, u8 *result) -- PSY-Q libcd function, addr 0x80061064"
+ ]
+}

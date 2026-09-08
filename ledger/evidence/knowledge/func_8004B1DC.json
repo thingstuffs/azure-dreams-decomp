@@ -1,0 +1,7 @@
+{
+ "func": "func_8004B1DC",
+ "doc": "Iterates over an array of `count` pointers; for each non-null entry, calls func_8004B1A4 on it (which sets a flag bit on the referenced object and a global) and then clears the array slot to NULL.",
+ "calls": [
+  "func_8004B1A4(u16 *a0) - matched at gcc 2.7.2, defined in src/code5.c"
+ ]
+}

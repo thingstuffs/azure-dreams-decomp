@@ -1,0 +1,14 @@
+{
+ "func": "func_8005D9DC",
+ "doc": "Left-shifts the argument a0 by the global shift amount D_80079980[0], then scans the entry list pointed to by D_800799BC[0] (terminated implicitly / gated by a \"stop\" flag bit) looking for an entry whose masked 28-bit base value is >= the shifted a0, or whose [base, base+count) range contains it; returns 1 if such an entry is found, 0 if the list is null, an entry has its \"stop\" bit (0x40000000) set before a match is found, or the scan otherwise falls through (loop only exits via return/goto in practice). Entries with the \"skip\" bit (0x80000000) set are ignored and passed over.",
+ "globals": [
+  {
+   "name": "D_80079980",
+   "decl": "extern s32 D_80079980[3]; /* index 0 only used; array padding (>8 bytes) forces %hi/%lo codegen instead of $gp-relative, matching sibling functions' view of this global (shift-amount scalar at index 0) */"
+  },
+  {
+   "name": "D_800799BC",
+   "decl": "extern S_800799BC *D_800799BC[3]; /* index 0 only used; array padding (>8 bytes) forces %hi/%lo codegen, matching D_80079980's convention. Points to a NULL-or-pointer to an array of S_800799BC entries: typedef struct S_800799BC { u32 flags; u32 count; } S_800799BC; -- flags packs a 0x80000000 skip bit, 0x40000000 stop bit, and a 0x0FFFFFFF base value; count is added to base to form a [base,base+count) range."
+  }
+ ]
+}

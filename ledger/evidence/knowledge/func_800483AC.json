@@ -1,0 +1,21 @@
+{
+ "func": "func_800483AC",
+ "doc": "Allocates a 0x2000-byte scratch buffer via func_80040574(0x2000), zeroes it with bzero, then based on the s16 flag parameter a0, LoadImage()s one of two RECT/TIM headers (D_800710DC if a0!=0, else D_800710D4) into the buffer, DMAs/draws it out via two separate func_8003F80C calls (offset 0x7A40/0x7A41 then 0x79C0/0x79C1, both with a2=1,a3=2), and finally calls DrawSync(0). The two branches each contain their own full pair of func_8003F80C calls (not a shared post-if call) -- gcc's cross-jump/tail-merge only fuses the identical suffix (a2=1;jal;a3=2) of the second call in each branch, leaving the differing a1 immediate (0x79C0 vs 0x79C1) and the (identical but unmerged) a0=buf setup duplicated in each arm.",
+ "globals": [
+  {
+   "name": "D_800710D4",
+   "decl": "struct { s16 x, y, w, h; s32 pad; } D_800710D4; /* real data is a RECT (8B); pad forces hi/lo addressing over $gp */"
+  },
+  {
+   "name": "D_800710DC",
+   "decl": "struct { s16 x, y, w, h; s32 pad; } D_800710DC; /* real data is a RECT (8B); pad forces hi/lo addressing over $gp; immediately follows D_800710D4 by 8 bytes in retail, i.e. likely element [1] of a RECT[2] array, but kept as a separate symbol since splat already emits it separately */"
+  }
+ ],
+ "calls": [
+  "func_80040574(s32 a0) -> void* : bump/ring allocator, called with 0x2000 (size), returns scratch buffer pointer",
+  "bzero(void *ptr, s32 len) -- library, called with (buf, 0x2000)",
+  "LoadImage(RECT *rect, void *p) -- real BIOS func @0x800672d8, takes address of a RECT/TIM header struct and a VRAM/RAM buffer pointer",
+  "func_8003F80C(s32 a0, s32 a1, s32 a2, s32 a3) -- called 4 times total (2 per branch): (buf, 0x7A40/0x7A41, 1, 2) then (buf, 0x79C0/0x79C1, 1, 2)",
+  "DrawSync(s32 a0) -- library, called with 0"
+ ]
+}

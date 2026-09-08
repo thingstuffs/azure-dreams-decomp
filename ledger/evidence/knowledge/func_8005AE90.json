@@ -1,0 +1,34 @@
+{
+ "func": "func_8005AE90",
+ "doc": "Activates a table slot (D_80086C00[a0]) for playback/display. Skips entirely if a0==-1 or the slot's field_0==-1 (empty slot). Otherwise: calls func_80056A08(); records the slot's field_0 into the \"current slot\" global D_80086D50[0]; stores the sub-id arg (a2) into D_80086D48[0]; sets a base value D_800869B0[0]=0x10000; copies the slot's field_4 (a data/buffer pointer) into D_80085FA4[0]; calls func_800599B0(); then, depending on whether arg1's low byte is nonzero, sets a mode pair (D_800737A4/D_80085F98) to (1,0) or (0,1) and writes the corresponding mode value (1 or 4) back into the slot entry's field_2.",
+ "globals": [
+  {
+   "name": "D_80086C00",
+   "decl": "typedef struct { /*0x00*/ s16 field_0; /*0x02*/ s16 field_2; /*0x04*/ s32 field_4; /*0x08*/ u16 field_8; /*0x0A*/ u16 field_A; } S_80086C00; extern S_80086C00 D_80086C00[8]; /* size 0xC per entry; field_0 read as both signed (lh, compare vs -1) and unsigned (lhu, stored to D_80086D50) at offset 0; field_2 (offset 2) is a mode value written 1 or 4; field_4 (offset 4, s32) is a data/buffer pointer copied out to D_80085FA4 */"
+  },
+  {
+   "name": "D_80086D50",
+   "decl": "extern s16 D_80086D50[8]; /* hi/lo forced via size>8; [0] receives the slot's field_0 (\"current slot\" id) */"
+  },
+  {
+   "name": "D_800869B0",
+   "decl": "extern s32 D_800869B0[4]; /* hi/lo forced via size>8; [0] set to constant 0x10000 in this function; sibling init func_800587B4 sets [0]=0xC000 */"
+  },
+  {
+   "name": "D_80086D50_sibling_D_80086D48",
+   "decl": "extern s16 D_80086D48[8]; /* hi/lo forced via size>8; [0] receives arg2 (a s16 sub-id) */"
+  },
+  {
+   "name": "D_80085FA4",
+   "decl": "extern s32 D_80085FA4[4]; /* hi/lo forced via size>8; [0] set to the slot's field_4 (a data/buffer pointer) in this function; sibling init func_800587B4 sets [0]=0x80080000 */"
+  },
+  {
+   "name": "D_800737A4",
+   "decl": "extern s32 D_800737A4[4]; /* hi/lo forced via size>8; [0] is a mode flag set to 0 or 1 depending on arg1&0xFF; paired with D_80085F98 (inverse value) */"
+  }
+ ],
+ "calls": [
+  "func_80056A08(void) -- called with no meaningful args (leftover $a0 garbage from index sign-extension, ignored)",
+  "func_800599B0(void) -- called with no args; runs after D_80085FA4[0] is set"
+ ]
+}

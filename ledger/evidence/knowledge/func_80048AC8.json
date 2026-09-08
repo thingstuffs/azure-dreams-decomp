@@ -1,0 +1,8 @@
+{
+ "func": "func_80048AC8",
+ "doc": "Runs func_800477F4(a0), then if bits 0x1220 are set in the struct's 0x14 halfword flags field, forwards (a0,a1) to func_80048998 and clears bit 0x20 in that flags field.",
+ "calls": [
+  "func_800477F4(void *arg0) - already defined in src/code.c as extern void func_800477F4(void *arg0);",
+  "func_80048998(void *arg0, void *arg1) - two-pointer-arg leaf; assumed extern void func_80048998(void *arg0, void *arg1);"
+ ]
+}

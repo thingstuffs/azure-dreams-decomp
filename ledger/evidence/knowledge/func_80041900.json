@@ -1,0 +1,18 @@
+{
+ "func": "func_80041900",
+ "doc": "Advances an entity's position (fields at offset 0x14/0x18) by a signed velocity derived from the shared \"shake/impulse\" state D_80083CA8 while its countdown timer (offset 8) is nonzero, direction-selected per-axis by flag bits in D_80083160+4; then decrements the timer and decays the D_80083CA8 accumulator (offset 4) toward 0 by subtracting its rate (offset 0), clamping negative results to 0.",
+ "globals": [
+  {
+   "decl": "typedef struct { char pad0[4]; u16 flags; char pad6[6]; } S_80041900_D80083160; extern S_80041900_D80083160 D_80083160; /* only offset 0x4 (flags, bits 0/1 used) is touched; padded >8B to force hi/lo addressing, matches other established D_80083160 views in code13.c/code14.c/w_*.c which independently declare their own offset windows into this same shared global */",
+   "name": "D_80083160"
+  },
+  {
+   "decl": "typedef struct { s32 field0; union { s32 accum; struct { u16 pad4; u16 field6; } h; } u; u16 field8; } S_80041900_D80083CA8; extern S_80041900_D80083CA8 D_80083CA8; /* matches the layout already documented in src/code2.c's func_800419EC (field0=rate/quotient offset 0, accumulator offset 4, field6/D_80083CAE alias offset 6, countdown timer offset 8); the offset-4 slot is read here both as a full s32 accumulator (lw/sw) and, via the union, as its offset-6 u16 half (lhu) -- both are real accesses in this function",
+   "name": "D_80083CA8"
+  },
+  {
+   "decl": "extern u16 D_80083CAE; /* same address as D_80083CA8+6 / D_80083CA8.u.h.field6, but retail re-fetches it via a FRESH hi/lo rather than reusing the already-materialized D_80083CA8 base register -- must stay a separate extern symbol, not folded into the struct access, or the codegen shape (fresh lui vs reused base-reg) won't match */",
+   "name": "D_80083CAE"
+  }
+ ]
+}

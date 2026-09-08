@@ -1,0 +1,22 @@
+{
+ "func": "func_80055864",
+ "doc": "Init routine: populates a 4-pointer destination-buffer table D_80084538 (base D_801B9000 plus fixed offsets 0x3000/0x4020/0x4E40), and two parallel 4-word size/offset tables D_800847C0 and D_80084768, consumed together with D_80084538 by the func_80055D84 subsystem-add family (D_80084538[idx]/D_800847C0[idx] are passed as a0/a2 to func_8005A778 there).",
+ "globals": [
+  {
+   "name": "D_80084538",
+   "decl": "typedef struct { void *f0; void *f1; void *f2; void *f3; } S_80084538; extern S_80084538 D_80084538; -- 4-pointer table, each field a pointer into the D_801B9000 buffer (base, base+0x3000, base+0x4020, base+0x4E40). Matches sibling convention `extern void *D_80084538[]` established in src/w_80055D84.c/config/knowledge_packs/fam_func_80055D84.md (element passed as a0 to func_8005A778); struct-of-4-pointers here is byte-identical to that array view."
+  },
+  {
+   "name": "D_800847C0",
+   "decl": "typedef struct { s32 f0; s32 f1; s32 f2; s32 f3; } S_800847C0; extern S_800847C0 D_800847C0; -- 4-word table of raw constants (0x1010, 0x3B990, 0x576E0, 0x69020), most likely sizes/offsets rather than pointers despite the sibling w_80055D84.c declaring this symbol as `void *D_800847C0[]` (element passed as a2 to func_8005A778) -- CONFLICT: this function's asm shows plain 32-bit integer stores (not address materialization), so the true field type is ambiguous (void* vs s32) but the byte layout (4 words, stride 4) agrees with the sibling."
+  },
+  {
+   "name": "D_80084768",
+   "decl": "typedef struct { s32 f0; s32 f1; s32 f2; s32 f3; } S_80084768; extern S_80084768 D_80084768; -- 4-word table of raw constants (0x3A980, 0x1BD50, 0x11940, 0xFA00); not referenced elsewhere yet in src/*.c, first establishment here."
+  },
+  {
+   "name": "D_801B9000",
+   "decl": "extern u8 D_801B9000[]; -- large staging/buffer symbol; only its address (plus fixed byte offsets 0x3000/0x4020/0x4E40) is taken here, never dereferenced. Declared as incomplete array to force %hi/%lo addressing (matches the target's lui+addiu materialization)."
+  }
+ ]
+}

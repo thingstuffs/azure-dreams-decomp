@@ -1,0 +1,8 @@
+{
+ "func": "func_8004FFA8",
+ "doc": "Checks a sub-state via func_8004FF20(a0). If the result is non-zero, it restores a saved callback pointer (a0[+0x4]) back into the active-callback slot (a0[-0x10]) and invokes the cleanup routine func_80050EA8 on the nested sub-struct located at a0-0x20. Returns the func_8004FF20 result unchanged.",
+ "calls": [
+  "func_8004FF20(void *a0) -> s32  // extern s32 func_8004FF20(void *a0);",
+  "func_80050EA8(void *a0) -> void // extern void func_80050EA8(void *a0);"
+ ]
+}

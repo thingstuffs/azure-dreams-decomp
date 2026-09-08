@@ -1,0 +1,13 @@
+{
+ "func": "func_8004A784",
+ "doc": "Looks up the index returned by func_8004A6C0(a0, a1) and, if it's a valid slot (< 20), returns a pointer to the corresponding 19-byte record in the private table at 0x800133E8 (parallel to the {short,short} table D_80013564, and immediately preceding it: 20*19 = 0x17C = 0x80013564-0x800133E8). Returns NULL if the index is out of range.",
+ "globals": [
+  {
+   "decl": "typedef struct { char unk[0x13]; } S_800133E8; /* accessed only via a raw literal base cast (S_800133E8*)0x800133E8, NOT an extern symbol -- no %hi/%lo reference to it exists anywhere in the codebase */",
+   "name": "0x800133E8 (no symbol name; 20-entry, 19-byte-stride table, immediately before D_80013564)"
+  }
+ ],
+ "calls": [
+  "func_8004A6C0(int a0, int a1) -- forwarded verbatim from func_8004A784's own params"
+ ]
+}

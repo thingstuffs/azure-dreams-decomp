@@ -1,0 +1,12 @@
+{
+ "func": "func_80048088",
+ "doc": "Entity spawn/registration dispatcher keyed by entity type a0. If the type is 0x38 (56), first runs two housekeeping passes over the D_80083D08[6] slot table (func_800481E0 marks status bit0 for active flags; func_80047C00 zeroes flagged slots). Then looks up or allocates the entity's data slot via func_80047CD8(a0); if a slot pointer was obtained, runs func_8003F320's processing loop once and dispatches initialization to func_80047EEC(0x38, p) for type 0x38 or func_80047FF4(a0, p) for any other type.",
+ "calls": [
+  "func_800481E0(void) -> void",
+  "func_80047C00(void) -> void",
+  "func_80047CD8(s16 a0) -> void*",
+  "func_8003F320(void) -> void",
+  "func_80047EEC(s32 a0, void *a1) -> void",
+  "func_80047FF4(s32 a0, void *a1) -> void"
+ ]
+}

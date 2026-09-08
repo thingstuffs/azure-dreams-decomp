@@ -1,0 +1,22 @@
+{
+ "func": "func_8003D7DC",
+ "doc": "Initialises the double-buffered GsWORK draw/disp environments for the 320x224 (0x140x0xE0) NTSC screen: SetDefDrawEnv/SetDefDispEnv on buffer0 (D_801C9E40) and buffer1 (D_801DA714, exactly 0x108D4 bytes after buffer0 -- the same stride func_8003D5A4 toggles by), then patches each DISPENV's screen.y/screen.h to 12/224 (SetDefDefEnv zeros them by default) and forces isbg=1 (auto-clear) on both DRAWENVs via a packed s32 store (isbg+r0+g0+b0 all-zero-but-isbg, little-endian). D_801DA72C (buffer1's isbg, aliased separately here) also gets set to 1.",
+ "globals": [
+  {
+   "decl": "typedef struct { s16 clip_x, clip_y, clip_w, clip_h; s16 ofs0, ofs1; s16 tw_x, tw_y, tw_w, tw_h; u16 tpage; u8 dtd, dfe; s32 isbg; /* 0x18, packs isbg+r0+g0+b0 LE */ u8 dr_env[0x40]; /* 0x1C..0x5B reserved GPU env packet */ s16 disp_x, disp_y, disp_w, disp_h; /* 0x5C RECT disp */ s16 screen_x, screen_y, screen_w, screen_h; /* 0x64 RECT screen */ u8 isinter, isrgb24, disp_pad0, disp_pad1; /* 0x6C */ } S_801C9E40; extern S_801C9E40 D_801C9E40;",
+   "name": "D_801C9E40"
+  },
+  {
+   "decl": "extern S_801C9E40 D_801DA714;  /* == (u8*)&D_801C9E40 + 0x108D4, same struct shape; second GsWORK double-buffer copy -- confirmed identity via func_8003D5A4's `p = p + 0x108D4` sentinel-toggle */",
+   "name": "D_801DA714"
+  },
+  {
+   "decl": "extern s32 D_801DA72C[3];  /* == (u8*)&D_801DA714 + 0x18, i.e. buffer1's DRAWENV.isbg word; accessed here as its OWN symbol (fresh %hi/%lo), not via D_801DA714+offset arithmetic -- size>8 decl forces hi/lo per globals_gp.md */",
+   "name": "D_801DA72C"
+  }
+ ],
+ "calls": [
+  "SetDefDrawEnv(void *env, s32 x, s32 y, s32 w, s32 h) -> void*  (PSY-Q libgpu; sets DRAWENV clip/ofs/tw/tpage/dtd/dfe/isbg=0)",
+  "SetDefDispEnv(void *env, s32 x, s32 y, s32 w, s32 h) -> void*  (PSY-Q libgpu; sets DISPENV disp/screen/isinter/isrgb24)"
+ ]
+}

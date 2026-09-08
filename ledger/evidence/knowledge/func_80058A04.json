@@ -1,0 +1,7 @@
+{
+ "func": "func_80058A04",
+ "doc": "Reads a variable-length (LEB128-style) integer via repeated calls to func_800589B8(a0): the first byte's low 7 bits seed the accumulator (returns 0 immediately if the first call returns 0; returns the byte as-is if its MSB is clear), otherwise masks off the continuation bit and loops, each further byte shifting the accumulator left 7 and adding in that byte's low 7 bits, while the MSB stays set.",
+ "calls": [
+  "func_800589B8(int a0) -- signature confirmed by sibling src/w_80058B2C.c which calls it the same way and already matches at gcc 2.7.2 default"
+ ]
+}

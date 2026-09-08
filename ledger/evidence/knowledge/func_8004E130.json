@@ -1,0 +1,22 @@
+{
+ "func": "func_8004E130",
+ "doc": "Marks the next free slot D_80081554 (masked to 0-15) as occupied in the D_80083D98 registration table, mirrors the slot index into D_80081558, then advances the D_80081554 counter and calls two no-arg helper leaves (func_8003528C, func_800352B4).",
+ "globals": [
+  {
+   "name": "D_80081554",
+   "decl": "extern s32 D_80081554; /* gp-rel 'next free slot' counter into D_80083D98; reset to 0 in func_8004DDB4; here masked with 0xF (so effectively 0-15 of the 32-slot table) then incremented by 1 each call */"
+  },
+  {
+   "name": "D_80081558",
+   "decl": "extern s32 D_80081558; /* gp-rel mirror of the (masked) slot index written by this function; reset alongside D_80081554 in func_8004DDB4 */"
+  },
+  {
+   "name": "D_80083D98",
+   "decl": "extern void *D_80083D98[32]; /* 32-slot table of registered pointers (0x80 bytes to next symbol D_80083E18, /4 = 32 entries), per src/w_8004DCA8.c which writes real pointers via D_80083D98[D_80081554++] = a1; this function instead writes a non-null sentinel (void*)1 into D_80083D98[D_80081554 & 0xF], i.e. marks a slot 'occupied' without a real payload pointer -- plain flat array, no struct fields needed"
+  }
+ ],
+ "calls": [
+  "func_8003528C(void) - no-arg leaf, extern void func_8003528C(void);",
+  "func_800352B4(void) - no-arg leaf, extern void func_800352B4(void);"
+ ]
+}

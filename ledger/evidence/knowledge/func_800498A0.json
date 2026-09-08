@@ -1,0 +1,10 @@
+{
+ "func": "func_800498A0",
+ "doc": "Copies an 8-byte global lookup table onto the stack and returns the byte at the offset (a0->field_0x14 & 7). This is a struct-copy-then-mask-index idiom typical of small circular/lookup tables.",
+ "globals": [
+  {
+   "name": "D_80080B20",
+   "decl": "extern struct { u8 b[8]; } D_80080B20;  /* 8-byte lookup table, accessed as a byte array via a masked index */"
+  }
+ ]
+}

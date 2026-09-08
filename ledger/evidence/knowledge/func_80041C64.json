@@ -1,0 +1,18 @@
+{
+ "func": "func_80041C64",
+ "doc": "Calls func_80041CBC(), then if the current D_800814E8-indexed slot of D_80083120's field0 is zero, sets bit 0 of D_80082E60.field_0 and invokes func_80040B88().",
+ "globals": [
+  {
+   "name": "D_80083120",
+   "decl": "typedef struct S_80083120 { s16 field0; s16 field2; s16 field4; s16 field6; } S_80083120; extern S_80083120 D_80083120[8]; -- dispatch/state table, element size 8, indexed by D_800814E8. Matches sibling func_80041B98's view (src/w_80041B98.c)."
+  },
+  {
+   "name": "D_800814E8",
+   "decl": "extern s16 D_800814E8; -- gp_rel s16 index into D_80083120."
+  }
+ ],
+ "calls": [
+  "func_80041CBC(void) - extern void func_80041CBC(void);",
+  "func_80040B88(void) - extern void func_80040B88(void); (matched, defined in src/code2.c)"
+ ]
+}

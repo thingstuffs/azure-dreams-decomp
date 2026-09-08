@@ -1,0 +1,7 @@
+{
+ "func": "func_8004761C",
+ "doc": "Walks an array of 0xC-byte entries (terminated by an entry whose flags byte has bit 0x80 set). For each entry whose flags byte has neither of bits 0x20/0x40 set, decrements a running u16* cursor (starting at the array base reinterpreted as u16*) and calls func_80047468, passing the entry pointer, *arg1, and the u16 value at the cursor.",
+ "calls": [
+  "extern void func_80047468(struct S_8004761C_Entry *a0, s32 a1, s32 a2); -- matches sibling src/w_800482C8.c's declaration exactly (same callee)"
+ ]
+}

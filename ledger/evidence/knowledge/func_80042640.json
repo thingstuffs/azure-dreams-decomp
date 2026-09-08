@@ -1,0 +1,17 @@
+{
+ "func": "func_80042640",
+ "doc": "Initializes a monster-object struct (arg0) from initialStatsTable[arg1] (24-byte monster initial-stats record indexed by monster id arg1): copies the first 4 words (0x00-0x0F) and the word at 0x10 verbatim, ORs the record's flag word (offset 0x14) into the object's pre-existing flags at the same offset, stamps the object's id byte (0x13) from arg1, copies a few individual stat bytes from the record (byte5->0x28, byte4->0x25, byte0->0x26, byte1->0x27), sets fixed bytes 0x24=0xFF, 0x45=6, 0x42=0, 0x41=0, seeds obj+0x54 from a per-monster-id word table D_8006D6D8[arg1], then calls func_80041E70(obj) to run further post-init fixups.",
+ "globals": [
+  {
+   "name": "initialStatsTable",
+   "decl": "extern u8 initialStatsTable[24]; /* real table at RAM 0x8006D168 (adrando: monsterStats), 24B/record, real length far larger than 1 - declared size is only large enough (>8) to force %hi/%lo codegen per gp-vs-hilo-extern-size tip. Record fields accessed by func_80042640: word0 (0x00, copied to obj+0x00, low byte also read separately as obj+0x26), word1 (0x04, copied to obj+0x04, low byte also read separately as obj+0x25), word2 (0x08->obj+0x08), word3 (0x0C->obj+0x0C), word4 (0x10->obj+0x10), byte5 (->obj+0x28), byte1 (->obj+0x27), word5/flags (0x14, ORed into obj+0x14)."
+  },
+  {
+   "name": "D_8006D6D8",
+   "decl": "extern s32 D_8006D6D8[4]; /* word array indexed by monster id (arg1); only D_8006D6D8[arg1] is read here (into obj+0x54). Provisional length 4, only the >8-byte-size threshold matters for %hi/%lo codegen. */"
+  }
+ ],
+ "calls": [
+  "func_80041E70(void *arg0) - post-init fixup pass run on the just-populated object; only the single-pointer arg setup (a0 unchanged from caller) needed to match here."
+ ]
+}

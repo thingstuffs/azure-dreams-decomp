@@ -1,0 +1,13 @@
+{
+ "func": "func_8004FE78",
+ "doc": "For each of 3 handles embedded at a0+0x24 (a 3-element array inside a sub-object at a0+0x20, same sub-object base as func_8004FF00 in this TU), calls func_8001832C(handle) when the handle is nonzero. Then sets the 0x8000 \\\"used\\\"/flag bit both on the 16-bit flags field at a0+0x1E and on the global flags word D_800814A0. No-op if a0 is NULL.",
+ "globals": [
+  {
+   "name": "D_800814A0",
+   "decl": "extern int D_800814A0; /* plain 4-byte flags word, |= 0x8000 here. NOTE: sibling code9.c models this same symbol as `typedef struct S_800814A0 { s32 val; s32 pad[2]; } S_800814A0; extern S_800814A0 D_800814A0;` with `.val` field access -- that shape ALSO byte-matches in code9.c's context (single access, address reused, no recompute) but does NOT reproduce this function's asm (which needs address recomputed twice, in different registers, achieved here via the plain `extern int` + `-G0` TU flag, matching w_8004F558.c's identical tail). When reconciling: the struct-with-.val shape and the plain-int shape are both valid VIEWS of the same 4-byte global depending on which TU/flags it's compiled under; canonical layout is a single s32 flags word at offset 0, this function only ever touches offset 0."
+  }
+ ],
+ "calls": [
+  "extern void func_8001832C(s32 arg0); -- called with the loaded handle/id word from the sub-object array; arg matches asm jal with a0 already loaded"
+ ]
+}

@@ -1,0 +1,10 @@
+{
+ "func": "func_80040190",
+ "doc": "Walks the global singly-linked list headed by D_80081498. For every node whose raw callback-pointer field at offset 0x10 is negative (a valid KSEG0/1 address, since PSX RAM addresses 0x8000xxxx are negative as signed s32) and whose 16-bit flags field at 0x1E does NOT have bit 0x400 set, invokes that callback as func(node+0x20, node-&gt;field_08, node-&gt;field_0C). The bgez check in the asm is a raw signed-integer comparison of the s32 field (not a pointer != NULL compare), which is why the field must be typed s32 rather than a function pointer directly.",
+ "globals": [
+  {
+   "name": "D_80081498",
+   "decl": "extern struct S_80081498 { S_80081498_Node *head; s32 pad[2]; } D_80081498;  /* S_80081498_Node: next@0x00 (Node*), field_08@0x08 (void*, callback arg1), field_0C@0x0C (void*, callback arg2), field_10@0x10 (s32, raw callback function pointer - MUST be s32 not a function-pointer type, since it's tested with a raw signed bgez, not a pointer!=NULL compare), field_1E@0x1E (u16 flags; bit 0x400 suppresses the callback; bit 0x8000 and 0x200 and 0x80 are used by sibling functions func_800401FC/func_80040418/func_8003FB98 which share this same Node layout with next@0x00 and field_1E@0x1E)."
+  }
+ ]
+}

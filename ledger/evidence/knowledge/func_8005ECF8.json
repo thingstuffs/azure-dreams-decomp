@@ -1,0 +1,21 @@
+{
+ "func": "func_8005ECF8",
+ "doc": "Waits for/checks the SPU transfer-complete event on D_800794EC[0] and reports/latches completion status into D_8007998C[0]. If the channel is already marked busy (D_800794F4[0]==1) or a completion was already latched (D_8007998C[0]==1), returns 1 immediately without touching D_8007998C. Otherwise polls TestEvent() once; if called with a1==1 it busy-waits (blocking) until the event fires and always reports/latches 1. If called with a1!=1 it is non-blocking: unless the single poll already returned exactly 1, it returns that raw poll result without latching D_8007998C.",
+ "globals": [
+  {
+   "name": "D_800794EC",
+   "decl": "extern s32 D_800794EC[3]; /* scalar SPU-transfer-target channel value at element 0; established array-of-3 convention (forces hi/lo not gp_rel) matches src/w_8005E7E0.c's extern s32 D_800794EC[3]; only [0] read here, passed to TestEvent */"
+  },
+  {
+   "name": "D_8007998C",
+   "decl": "extern s32 D_8007998C[3]; /* pending completion-latch flag/value at element 0; array-of-3 convention matches src/w_8005E7E0.c's extern volatile s32 D_8007998C[3] (that TU uses volatile only to defeat CSE across a save/restore of the same byte-aliased region; this function's direct single read+single write of [0] does not need volatile to byte-match) */"
+  },
+  {
+   "name": "D_800794F4",
+   "decl": "extern s32 D_800794F4[3]; /* channel-busy scalar at element 0; same array-of-3 hi/lo-forcing convention as the other globals in this family (src/w_8005CA90.c uses the identical D_800794F4[3] declaration) */"
+  }
+ ],
+ "calls": [
+  "TestEvent(s32 event) -> s32  (BIOS event-test function, standard signature reused from sibling files)"
+ ]
+}

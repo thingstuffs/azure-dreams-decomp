@@ -1,0 +1,9 @@
+{
+ "func": "func_80051164",
+ "doc": "Registers a new task (id=1, priority=0x1E) running func_800510A0 with `a0` as its argument via func_80044144. If task creation succeeds, patches the callback field at offset 0x10 of the struct pointed to by a0->unk4 to func_800510DC.",
+ "calls": [
+  "func_80044144(s16 a0, s16 a1, void *callback, void *arg) -> void* : task-create; existing INCLUDE_ASM stub in src/code.c, no fixed C signature yet but this call site's arg setup (li a0,1; li a1,30; lui/addiu a2=&func_800510A0; move a3,s0) matches byte-for-byte",
+  "func_800510A0(void *a0) : already matched (src/w_800510A0.c), used here only as a function-pointer VALUE (callback registration), not called directly",
+  "func_800510DC(void) : still INCLUDE_ASM stub in src/code.c; used here only as a function-pointer VALUE stored into a task struct field"
+ ]
+}

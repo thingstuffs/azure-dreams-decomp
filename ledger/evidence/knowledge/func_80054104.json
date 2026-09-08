@@ -1,0 +1,14 @@
+{
+ "func": "func_80054104",
+ "doc": "Copies an 8-byte lookup table (D_80032E0C, 4 halfwords) onto the stack via gcc's inline unaligned-memcpy expansion (lwl/lwr + swl/swr). Then for each i in [0,0x30) and each j in [0,3): reads table[j], packs it with the high nibble of i into a byte code (val), asks func_8005405C(table[j]) whether the entry is \"available\" (bit test against a global availability/lock bitmask), and if the low 16 bits of the result are nonzero, forwards (val, region_offset) to func_80055730 where region_offset = ((i&0xF)<<10)+0x1C00.",
+ "globals": [
+  {
+   "decl": "extern struct { s16 v[4]; } D_80032E0C;  /* 8-byte lookup table, accessed as 4 halfwords; %hi/%lo addressed, copied to a stack buffer via inline unaligned memcpy at function entry */",
+   "name": "D_80032E0C"
+  }
+ ],
+ "calls": [
+  "func_8005405C(s16 n) -> s32  (matched sig from src/w_8005405C.c; called here with a0 = the just-loaded table halfword, register never clobbered between the lh and the jal)",
+  "func_80055730 \u2014 declared K&R-style `extern void func_80055730();` (no prototype) even though its OWN definition in src/code.c is `void func_80055730(void)`; this caller passes (a0=val, a1=base) which the callee simply ignores. Using a prototyped `void func_80055730(void)` here would be a language error at the 2-arg call site."
+ ]
+}

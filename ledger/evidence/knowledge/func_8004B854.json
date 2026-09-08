@@ -1,0 +1,9 @@
+{
+ "func": "func_8004B854",
+ "doc": "Calls func_8004B834() first (discards result, void). Builds a 2-byte local struct on the stack: byte0 = truncated a2 param, byte1 = constant 0x13 (a message/event code). Calls func_8003F320() (its return value is unused \u2014 a `li v0,19` executed just before happens to leave v0=0x13 in the delay slot of that jal, which is what actually gets stored, not v0's real return). Finally calls func_8002537C(a0, 0, 0, &localPacket, a1) \u2014 the two 0 args reuse the same immediate-load register (a compiler regalloc artifact, reproduced in C by passing the same local variable for both), and the original a1 parameter is passed as this function's 5th (stack) argument.",
+ "calls": [
+  "func_8004B834(void) -> void",
+  "func_8003F320(void) -> void",
+  "func_8002537C(int a0, int a1, int a2, S_8004B854 *a3, int a4) -> void (library-only/undefined func; signature inferred from call site: a0=object ptr, a1=0, a2=0, a3=&{u8,u8} local packet, a4=original a1 param)"
+ ]
+}

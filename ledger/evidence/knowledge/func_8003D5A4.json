@@ -1,0 +1,57 @@
+{
+ "func": "func_8003D5A4",
+ "doc": "Boot/init routine. Calls SetVideoMode(0), CdInit(), func_8003E34C(), ResetGraph(0), func_80053F98(); forwards three short config globals (D_80080A94/98/9C) to func_80053DCC/func_80053DF0/func_80053E14; fills two 0x22-byte pad-mask buffers (D_800830C0, D_800830E8) with 0xFF and calls InitPAD on them; calls StartPAD(), func_8003D56C(1), SetGraphDebug(0), InitGeom(); zeroes D_80082E6B and bzeroes an 8-byte buffer D_80081468; calls func_8003D468(); writes a batch of small config globals sharing one %hi(0x8001xxxx) page (D_80013180/84/86, D_80012094/98, D_80012D6E) plus their D_8008149x mirrors, and calls func_80043674(); advances (or leaves) the CD/stream state pointer D_80083160[0] past a fixed sentinel D_801C9E40 (+0x108D4 header skip), writes a linked-list-style self-pointer header at +0x8D0/+0x8D4, sets flags word D_80083208, and calls func_8003CAC4(); finally stashes two fixed data addresses (D_801D8D7A, D_801E964E) into D_80081478[0..1].",
+ "globals": [
+  {
+   "decl": "extern u32 D_80013180; /* accessed as *(u32*)0x80013180 = 0x2A080808 */",
+   "name": "D_80013180"
+  },
+  {
+   "decl": "extern u8 D_80013184; /* *(u8*)0x80013184 = 0x20 */",
+   "name": "D_80013184"
+  },
+  {
+   "decl": "extern u8 D_80013186; /* *(u8*)0x80013186 = 3 */",
+   "name": "D_80013186"
+  },
+  {
+   "decl": "extern s16 D_80012094; /* *(s16*)0x80012094 = 5 */",
+   "name": "D_80012094"
+  },
+  {
+   "decl": "extern s16 D_80012098; /* *(s16*)0x80012098 = 2 (a plain constant, NOT func_80043674's return value -- func_80043674() is called separately right after, its result discarded) */",
+   "name": "D_80012098"
+  },
+  {
+   "decl": "extern u8 D_80012D6E; /* *(u8*)0x80012D6E = 0 */",
+   "name": "D_80012D6E"
+  },
+  {
+   "decl": "extern void *D_80083160[3]; /* [0] is the CD/stream state pointer; matches established src/code8.c and src/w_80044B48.c declarations */",
+   "name": "D_80083160"
+  },
+  {
+   "decl": "extern u32 D_80081478[3]; /* [0]=&D_801D8D7A, [1]=&D_801E964E; matches established src/code8.c declaration */",
+   "name": "D_80081478"
+  }
+ ],
+ "calls": [
+  "func_8003CAC4(void) -- already matched, void(void)",
+  "func_8003D56C(s32) -- already matched as void(void) elsewhere; called here as func_8003D56C(1) (arg is a0=1, dead/ignored by the callee's own body, but retail's caller DOES set a0=1 before the jal, so the caller-side prototype needs one int param)",
+  "func_80053DCC(s16) -- already matched",
+  "func_80053E14(s16) -- already matched",
+  "func_80053DF0(s16) -- unmatched sibling, asm shows same short-arg-then-tailcall shape as func_80053DCC/func_80053E14",
+  "func_8003E34C(void)",
+  "func_80053F98(void)",
+  "StartPAD(void) -- psyq libapi/PAD, named 2026-08-23 cd681dea -- was func_8006A444",
+  "InitGeom(void) -- psyq libgte/MSC00, named 2026-08-23 cd681dea -- was func_80064688",
+  "func_8003D468(void)",
+  "func_80043674(void) -- called, return value discarded",
+  "SetVideoMode(s32) -- PSY-Q libetc",
+  "CdInit(void) -- PSY-Q libcd",
+  "ResetGraph(s32) -- PSY-Q libgpu",
+  "SetGraphDebug(s32) -- PSY-Q libgpu",
+  "InitPAD(u8*,s32,u8*,s32) -- PSY-Q libetc",
+  "bzero(void*,s32) -- already-established codebase idiom"
+ ]
+}

@@ -1,0 +1,11 @@
+{
+ "func": "func_8004DC14",
+ "doc": "Allocates a fixed-size (0x100) object via func_8004B404, forwarding this function's own a1-a3 straight through unused by itself (zero setup instructions -- strong evidence func_8004DC14's real signature does carry those extra params, just to relay them). If allocation fails, returns NULL. Otherwise formats/parses a0 (as a format string) plus a1 into the new object via func_8004DA74; on failure frees it via func_8004B1A4 and returns NULL (obj reset to 0, shared return path with the allocation-failure case). On success, if func_8004B4DC's result on the object is below 0x16 returns the object as-is; otherwise also echoes a0 via puts() before returning the object.",
+ "calls": [
+  "func_8004B404(s32 a0, s32 a1, s32 a2, s32 a3) -> void* (locally declared as returning a pointer instead of code7.c's `void`, since this call site captures $v0 -- the real body tail-calls the still-unmatched func_8004B364 and $v0 passes through untouched)",
+  "func_8004DA74(void *a0, char *a1, s32 a2) -> s32 (NOT YET MATCHED anywhere -- signature invented purely to match this call site's arg registers: a0=allocated object, a1=format string, a2=value)",
+  "func_8004B4DC(void *a0) -> s32 (reused matched signature from src/code.c, param retyped void* instead of Unk8004B4DC* since it's only passed through, never dereferenced here)",
+  "func_8004B1A4(void *a0) -> void (reused matched signature from src/code5.c, retyped void* instead of unsigned short* for the same reason)",
+  "puts(const char *s) -> int (libc)"
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "func": "func_80050308",
+ "doc": "State-machine driver for an object embedded 0x20 bytes into a larger allocation (entity struct). Reacts to global flag bits in D_80083160 (offsets 0x8/0x10): bit 0x20 of field10 tears down/resets via func_80050DA8 on the nested sub-object at a0-0x20; bit 0x40 of field10 re-derives the entity's unk20 slot via func_800502E0 and either (func_8004FF20 not-ready) swaps in func_8004FFA8 as the entity's active callback (unk_neg0x10), saving the previous callback into unk04, or (ready) hands off to func_80050EA8; otherwise if field8 has bit 0x5000 set, derives a ramp direction s1 (+-1/0) from field10's 0x4000/0x1000 bits, or (failing that) from a saturating counter at unk0C that re-checks field8 directly once it saturates, and once a nonzero direction is established re-wraps the index field (unk1C) via func_80049DE8, saving the old value to unk18. Always finishes by forwarding to func_800500B4(entity->unk68, entity).",
+ "globals": [
+  {
+   "name": "D_80083160",
+   "decl": "this TU's slice: struct { u8 pad00[8]; s32 unk08 /* offset 0x8, flags/status word */; u8 pad0C[4]; s32 unk10 /* offset 0x10, flags word: bits 0x20/0x40/0x1000/0x4000 tested */; } (>8 bytes total to force %hi/%lo addressing; other TUs declare independent overlapping views of the same shared global per this codebase's convention)"
+  }
+ ],
+ "calls": [
+  "func_80053DA8(s32 a0) -> s16, already matched, called with constants 0x515/0x514/0x502",
+  "func_80050DA8(void *a0), unmatched INCLUDE_ASM, called with (char*)a0_param - 0x20",
+  "func_800502E0(void *a0) -> s32 (this TU declares it returning s32 since its return value is stored; code.c's own definition is void but ignores the return -- the tail-call return value passes through v0 untouched either way)",
+  "func_8004FF20(void *a0) -> s32, unmatched INCLUDE_ASM elsewhere but already referenced with this signature in src/w_8004FFA8.c",
+  "func_8004FFA8(void *a0), address only taken (installed as a callback function pointer), never called here",
+  "func_80050EA8(void *a0), already matched (its real signature is S_80050EA8*, but void* is a compatible caller-side declaration)",
+  "func_80049DE8(s32 a0, s32 a1, s32 a2) -> s32, already matched in src/code.c",
+  "func_800500B4(s32 a0, void *a1), unmatched INCLUDE_ASM, declared here with the args this call site uses"
+ ]
+}

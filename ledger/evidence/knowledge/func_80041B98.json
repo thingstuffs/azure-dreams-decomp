@@ -1,0 +1,19 @@
+{
+ "func": "func_80041B98",
+ "doc": "Calls func_80041CBC() unconditionally, then checks D_80083120[D_800814E8].field0 (a per-state s16 flag array indexed by a small gp_rel state-index variable, stride 8 bytes/4 s16 fields); if that flag is zero (state not yet active), registers func_80041BE4 as the next callback via func_80040A88((int)func_80041BE4).",
+ "globals": [
+  {
+   "name": "D_80083120",
+   "decl": "extern struct S_80083120 { s16 field0; s16 field2; s16 field4; s16 field6; } D_80083120[8]; /* 8-entry state table, 8 bytes/entry, indexed by D_800814E8 or D_80081500 depending on caller; field0 used as an active/type flag (s16, can be negative per func_8003F6F4's abs()); field2/field4/field6 set together with field0 in func_8003F794 (a0,0,a1,0) and func_80043FD0 (6,1,1,0) */"
+  },
+  {
+   "name": "D_800814E8",
+   "decl": "extern s16 D_800814E8; /* gp_rel s16 state-table index, read here, written in func_80041AE4/func_80041BE4 */"
+  }
+ ],
+ "calls": [
+  "func_80041CBC(void) - extern, no args, return value unused",
+  "func_80040A88(int a0) - already matched (gcc 2.8.1, src/code2.c): stores a0 into D_80082E60.field_4, clears field_D and field_C",
+  "func_80041BE4(void) - sibling function; its address is passed (cast to int) as the callback registered via func_80040A88"
+ ]
+}

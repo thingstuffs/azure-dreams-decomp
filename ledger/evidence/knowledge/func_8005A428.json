@@ -1,0 +1,20 @@
+{
+ "func": "func_8005A428",
+ "doc": "Runs the shared per-frame update (func_80056C30), conditionally runs func_8005863C when the D_80086D4C[0] counter is in the open range (0, 4), then walks the first 8 entries of the 0x1C-byte-stride D_80086A40 slot table, calling func_8005A1D0 on the unk10 field (offset 0x10) of every entry whose unk00 slot-marker (offset 0x00, s16) is non-negative, and finally re-initializes the slot table via func_8005A26C.",
+ "globals": [
+  {
+   "name": "D_80086D4C",
+   "decl": "extern int D_80086D4C[3]; // element [0] used as a counter/flag, forced hi/lo via size>8"
+  },
+  {
+   "name": "D_80086A40",
+   "decl": "extern S_8005A428_D80086A40 D_80086A40[16]; // 0x1C-byte-stride slot table; struct { s16 unk00 (slot marker, negative=unused) @0x00; s32 unk10 @0x10 (value passed to func_8005A1D0); rest padding }"
+  }
+ ],
+ "calls": [
+  "func_80056C30(void) -- matched gcc 2.7.2-cdk",
+  "func_8005863C(void) -- matched gcc 2.7.2-cdk",
+  "func_8005A1D0(s32 arg0) -- unmatched sibling, arg0 = D_80086A40[i].unk10 (s32 offset 0x10)",
+  "func_8005A26C(void) -- unmatched sibling, no args"
+ ]
+}

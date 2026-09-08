@@ -1,0 +1,10 @@
+{
+ "func": "func_8004EDA8",
+ "doc": "Clears bit 0x2000 in a0's 0x1E flags halfword, then allocates a node via func_8003FC64(0). If allocation succeeds: stores a1 at node+0x24, stores a0 at node+0x20, fires a status event via func_80053DA8(0xD1), installs func_8004ED5C's address as the node's callback at node+0x10, and forwards node+0x28 to func_8004EB3C to finish initializing it. Returns the allocated node pointer (or NULL if allocation failed).",
+ "calls": [
+  "func_8003FC64(s32 a0) -> void* : allocator, called with a0=0 (matched gcc 2.7.2, src/w_8003FC64.c)",
+  "func_8004EB3C(void *a0) : called with a0 = (u8*)node + 0x28 (matched gcc 2.7.2, src/w_8004EB3C.c)",
+  "func_8004ED5C(void *a0) : its address is stored as a callback function pointer at node+0x10, never called directly here (matched gcc 2.8.1, src/w_8004ED5C.c)",
+  "func_80053DA8(s32 a0) -> s16 : called with a0=0xD1, return value unused (matched gcc 2.7.2, src/code.c)"
+ ]
+}

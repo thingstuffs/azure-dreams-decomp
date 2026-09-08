@@ -1,0 +1,4 @@
+{
+ "func": "func_8004E478",
+ "doc": "In-place byte-reversal helper: reverses the first `len` bytes of the buffer pointed to by `buf` and returns the original buffer pointer (classic strrev/byte-swap idiom, likely used for endian/byte-order flipping of a small buffer)."
+}

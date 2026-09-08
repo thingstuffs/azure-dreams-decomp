@@ -1,0 +1,7 @@
+{
+ "func": "func_80042984",
+ "doc": "If the entity's type/id byte at offset 0x13 is in [3,45], reload the u16 status word at offset 0x12 of the entity's owner (pointer stored at offset -0x14 relative to a0), mask off its low 6 bits, and re-OR in 4*func_800429E4(a0) before storing it back.",
+ "calls": [
+  "func_800429E4(void *a0) -> s32: returns 0-3, dispatched on flags at a0+0x14 vs initialStatsTable; already declared in src/code.c as taking (void*)."
+ ]
+}

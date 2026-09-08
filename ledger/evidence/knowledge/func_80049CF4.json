@@ -1,0 +1,4 @@
+{
+ "func": "func_80049CF4",
+ "doc": "Fills in two consecutive 0xC-byte GPU-primitive-like packets starting at a0, copying every-other byte (offsets 0,2,4,6) from an 8-byte source record a1, tagging each with the same constant \"code\" byte (0x48) but a different constant 4-byte color/value word. The first packet's id byte (offset 0) is left untouched by this function (presumably already set by the caller); the second packet's id byte is explicitly set to 3. Returns a pointer just past the second packet (a0_in + 0x18)."
+}

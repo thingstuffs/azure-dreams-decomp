@@ -1,0 +1,10 @@
+{
+ "func": "func_8004A0C0",
+ "doc": "Scans a 13-entry table of {value, mask} pairs starting at D_800712FC; returns the value of the first entry whose mask has any bit set in common with the given flags argument, or 0 if none match.",
+ "globals": [
+  {
+   "name": "D_800712FC",
+   "decl": "struct { s32 value; s32 mask; } D_800712FC[13]; /* array of 13 (value,mask) pairs, 8 bytes each; only accessed via offset 0 (value) and offset 4 (mask) in this function */"
+  }
+ ]
+}

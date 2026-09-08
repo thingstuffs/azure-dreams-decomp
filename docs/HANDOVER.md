@@ -35,11 +35,15 @@ Dashboard: http://<lan-host>:8002/ (`tools/dashboard_serve.sh`; restart it if th
   --min-size A --max-size B --workers 3 --limit 900 --commit --tag campaign` (log
   `work/astra_campaignN.log`, journal `ledger/agents/gpt-6-astra-high-campaign.jsonl`, resumable;
   the prompt now attempts scaffolding removal and journals `pins_in/out`, `sites_in/out`).
-  All-time: 3,234 accepted, 11 rejected. Running now: the 1000–2000 B tier (197/201 accepted,
-  34 rows left). Pools still to serve (eligible = level ≥ 1, ovmovie excluded), in order:
-  2000–4000 B (79 rows), 4000+ B (13), then **100–600 B again (288 rows: they became eligible when
-  the burn-down cleared their blocking sites)**, then 0–100 B (1,995 tiny rows; cheap, mostly
-  pin-removal attempts). When a tier prints `0 rows`, launch the next; when the log shows
+  All-time (2026-09-08 03:00 UTC): 3,460 accepted, 15 rejected. The 1000–2000 B tier completed
+  (222 rows served, commit `e83a229b`). **Running now: the 2000–4000 B tier (79 rows, log
+  `work/astra_campaign9.log`).** Pools still to serve (eligible = level ≥ 1, ovmovie excluded), in
+  order: 4000+ B (13), then **100–1000 B again (305 rows: 288 in 100–600 and 17 in 600–1000 became
+  eligible when the burn-down cleared their blocking sites)**, then 0–100 B (2,004 tiny rows; cheap,
+  mostly pin-removal attempts). Since 03:00 UTC the prompt also carries the row's evidence block
+  (`docs/EVIDENCE.md`; journal field `evidence`); the 562 evidence rows already accepted before
+  that are to be re-served once with `--rows $(python3 -c "import json;print(','.join(json.loads(l)['id'] for l in open('ledger/evidence/rows.jsonl')))")`
+  after the size tiers (one process at a time). When a tier prints `0 rows`, launch the next; when the log shows
   `quota` outcomes the harness stops cleanly after three in a row — relaunch after the reset.
   Commit campaign output separately: `git add ledger/agents refine && git commit -m "campaign: …"`
   (the scrub hook runs; push after). Kill only by PID (`pgrep -f '[a]gent_task.py --model'`).
@@ -55,9 +59,16 @@ Dashboard: http://<lan-host>:8002/ (`tools/dashboard_serve.sh`; restart it if th
 ## What happens next (in order)
 
 1. **Names and modules (L4).** The 12 record headers are the place to name things: a member
-   name changed in `include/records/Rec_*.h` reaches every user, and the gate proves it. Evidence
-   for names: the randomizer data map (README credits), call-site roles, the parameter classes
-   (dungeon handler ABI). Then modules: group rows by record/dispatcher into `src/<container>/
+   name changed in `include/records/Rec_*.h` reaches every user, and the gate proves it. **Start
+   from `docs/EVIDENCE.md`** (2026-09-08): every source of real names is in-tree and joined to rows
+   in `ledger/evidence/rows.jsonl` — Konami's assertion sites (15 real source file names with
+   line numbers, 39 rows), the developer identifiers the debug prints kept (`OSETDT`, `ost_w`,
+   `osel_w`, `cdhd_cnt`, `ov_work.kind`, `gsw->check_sum`, …; the `main.c` triple sits in all 54
+   TOWN event-script modules), the randomizer address map (data tables with record layouts, 52
+   code sites), the event-script VM handler table (opcode numbering, 72 SLUS rows) and 281 prior
+   notes. The lane prompt carries the row's block; `levels.jsonl` carries `evidence: [...]`; the
+   L4 module gate must place a row with an assertion file in that file's module. Then call-site
+   roles and the parameter classes (dungeon handler ABI). Then modules: group rows by record/dispatcher into `src/<container>/
    <module>.c` in retail order (the per-row ledger stays the unit of proof).
 2. Lower the T7 threshold (`tools/gen_records.py --min-rows 5`, then the sweep and the gate)
    once the ≥ 10 classes have names, so small classes inherit them.

@@ -1,0 +1,9 @@
+{
+ "func": "func_80054A7C",
+ "doc": "Dispatches on the low byte of a0 (an event/state-id byte): case 3 -> func_800540A8() (state-machine init A), case 4 -> func_800541E8() (state-machine init B), case 1 or 2 -> func_80055B44(a0 & 0xFFFF) (passes the ORIGINAL 32-bit a0 masked to 16 bits, not the byte-masked value used for dispatch); case 0 and any value >=5 do nothing.",
+ "calls": [
+  "func_800540A8(void) -- extern void func_800540A8(void); [matched gcc 2.7.2-cdk, src/w_800540A8.c]",
+  "func_800541E8(void) -- extern void func_800541E8(void); [matched gcc 2.7.2, src/w_800541E8.c]",
+  "func_80055B44(s32 a0) -- extern void func_80055B44(s32 a0); (not yet matched at time of this wave; internally masks a0&0xFF and compares to 1)"
+ ]
+}

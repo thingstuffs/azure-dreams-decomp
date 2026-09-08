@@ -1,0 +1,10 @@
+{
+ "func": "func_8005405C",
+ "doc": "Bit-test helper against the game's global flag struct D_800847D0. Given a bit index n (0-7, effectively), returns 1 only if bit (16+n) is set in D_800847D0.avail AND bit (24+n) is NOT set in D_800847D0.locked; otherwise returns 0. The \"locked\" check short-circuits to 0 via a shared epilogue (goto), matching the retail single-return-site codegen.",
+ "globals": [
+  {
+   "name": "D_800847D0",
+   "decl": "struct S_800847D0 { u32 avail; /*0x0*/ u32 locked; /*0x4*/ u32 pad[1]; /*0x8, size must exceed 8B to force %hi/%lo addressing*/ }; extern S_800847D0 D_800847D0;  /* Confirmed >=0x34 bytes total by sibling func_800540A8 which zeroes fields at offsets 0x8,0xC,0x10,0x14,0x18 (words) and 0x30-0x33 (bytes) */"
+  }
+ ]
+}

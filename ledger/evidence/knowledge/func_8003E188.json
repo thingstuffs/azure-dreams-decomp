@@ -1,0 +1,10 @@
+{
+ "func": "func_8003E188",
+ "doc": "Sets a 2-bit packed flag/state in the byte table D_80013614. arg0 encodes both the byte index (its value, treated as s16, arithmetic-shifted right 2 = arg0/4) and a 2-bit sub-field selector (arg0 & 3, giving a bit-shift of 0/2/4/6 within the byte). arg1's low 16 bits being nonzero selects the 2-bit value 0b11 (3), otherwise 0b01 (1); that value is shifted into the selected sub-field position and OR'd (not masked/cleared) into the existing byte.",
+ "globals": [
+  {
+   "name": "D_80013614",
+   "decl": "extern u8 D_80013614[16]; /* byte array, each byte packs four 2-bit fields; accessed via %hi/%lo (>8B), byte-indexed (element size 1, no scale) */"
+  }
+ ]
+}

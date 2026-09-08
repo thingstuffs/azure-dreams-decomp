@@ -1,0 +1,13 @@
+{
+ "func": "func_80041038",
+ "doc": "Given index a0 (masked to u16), looks up D_8006CE80[a0] (0xC-byte entries), follows its `unk4` \\\"next\\\" pointer, then follows THAT entry's `unk4` pointer too; if both hops are non-null, dispatches the final entry to func_8003F9E0.",
+ "globals": [
+  {
+   "name": "D_8006CE80",
+   "decl": "extern struct S_8006CE80 { s32 unk0; struct S_8006CE80 *unk4; s32 unk8; } D_8006CE80[]; /* 0xC-byte entries; accessed here only via D_8006CE80[idx].unk4 (offset 0x4, self-referential 'next' pointer) */"
+  }
+ ],
+ "calls": [
+  "func_8003F9E0(S_8006CE80 *a0) - assumed to take a pointer to an S_8006CE80-layout entry (only the pointer value is forwarded; its own body walks a distinct 0xC-byte linked list of {ptr,u16,u16})"
+ ]
+}

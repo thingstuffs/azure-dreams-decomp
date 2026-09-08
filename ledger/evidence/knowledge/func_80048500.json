@@ -1,0 +1,20 @@
+{
+ "func": "func_80048500",
+ "doc": "Looks up D_800710E4[a1] (an array of pointers to 8-byte element arrays), passes &that[a0] to func_80041284, calls func_8003F320(), reads a s16 field at offset 0x18 of the struct pointed to by D_80081480.field_0, calls DrawSync(0), then calls func_8004846C(val) and returns its result.",
+ "globals": [
+  {
+   "name": "D_800710E4",
+   "decl": "extern S_80048500_elem *D_800710E4[100]; /* array of pointers to 8-byte elements (2x s32); indexed [a1][a0] pattern; only accessed here so exact bound/count unconfirmed beyond >2 elements (needs >8B total to force hi/lo) */"
+  },
+  {
+   "name": "D_80081480",
+   "decl": "struct { S_80048500_target *field_0; s32 pad4; s32 pad8; } D_80081480; NOTE: sibling files src/w_80041AB0.c and src/w_80043CD0.c declare D_80081480's field_0/field0 as a plain s32 (copied by value from D_8008148C), but THIS function loads it as a pointer and dereferences offset 0x18 as a s16. Both views are compatible bit-for-bit (a pointer stored/read as a 32-bit word) but need reconciling into one canonical struct: field_0 is really a pointer-sized value used both as a raw s32 (copy) and as a pointer to a struct with an s16 at offset 0x18."
+  }
+ ],
+ "calls": [
+  "func_80041284(void *arg) - takes address of an 8-byte element within D_800710E4[a1] sub-array",
+  "func_8003F320(void) - no args",
+  "DrawSync(s32 a0) - called with 0",
+  "func_8004846C(s32 a0) - returns s32, this function's return value is passed through directly"
+ ]
+}

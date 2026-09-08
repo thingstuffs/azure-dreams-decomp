@@ -1,0 +1,20 @@
+{
+ "func": "func_8005560C",
+ "doc": "Splits a 'gauge' fraction (D_80084808[0], scaled against D_800847EE[0], out of 32767) into a primary segment clamped via func_80055750, and \u2014 if a *second* fraction computed from func_8003E14C()'s secondary max (doubled D_80084808[0]) is nonzero \u2014 an 'overflow' segment. Issues one or two func_8005B4D0 draw/update calls accordingly. Both divisions by 32767 compile via gcc's magic-number reciprocal-multiply (confirmed magic=0x80010003, shift=14 <=> divisor 32767 via Hacker's Delight algorithm).",
+ "globals": [
+  {
+   "name": "D_80084808",
+   "decl": "extern short D_80084808[8]; /* only element [0] (s16) touched by this function */"
+  },
+  {
+   "name": "D_800847EE",
+   "decl": "extern unsigned short D_800847EE[8]; /* only element [0] (u16) touched; array size kept >8 bytes to force %hi/%lo addressing */"
+  }
+ ],
+ "calls": [
+  "func_8005BAB0(void) \u2014 no-arg trampoline, extern void func_8005BAB0(void);",
+  "func_80055750(s16 arg0) \u2014 ALREADY-MATCHED, clamps s16 to [0,0x7F], returns s32",
+  "func_8003E14C(void) \u2014 no-arg leaf, returns s32 in [0,0x28] depending on D_80082E6A/D_8008146C",
+  "func_8005B4D0(s32 a0, void *a1, u16 a2, u16 a3, s32 a4) \u2014 still-unmatched, called with (a0,a1) forwarded from func_8005560C's own params, a2==a3 (a masked 16-bit gauge fraction), a4 a 0/1 flag"
+ ]
+}

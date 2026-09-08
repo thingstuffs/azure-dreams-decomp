@@ -1,0 +1,15 @@
+{
+ "func": "func_80043DB8",
+ "doc": "Runs the per-tick update func_80043EB8(), then checks the D_80081500-indexed slot of the D_80083120 state/dispatch table; if that slot's first field (field_0) is still zero (uninitialized), installs func_80043E04 as its handler via func_80040A88((int)func_80043E04).",
+ "globals": [
+  {
+   "name": "D_80083120",
+   "decl": "typedef struct S_80083120 { s16 field_0; s16 field_2; s16 field_4; s16 field_6; } S_80083120; extern S_80083120 D_80083120[]; // 8-byte element, indexed by D_80081500/D_800814E8 (short) via <<3; field_0 checked as init flag by func_80043DB8/func_80041B98 family; func_80043FD0 (siblings) also writes field_2/field_4/field_6 = 1,1,0 and reads field_0."
+  }
+ ],
+ "calls": [
+  "func_80043EB8(void) - extern void, no args, return value unused",
+  "func_80040A88(int a0) - matched at gcc 2.8.1 in src/code2.c: void func_80040A88(int a0) { stores a0 into D_80082E60.field_4, clears field_C/field_D }",
+  "func_80043E04(void) - address-of only, passed as (int) cast to func_80040A88; sibling function also using D_80083120/D_80081500"
+ ]
+}

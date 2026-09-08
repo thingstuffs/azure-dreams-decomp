@@ -1,0 +1,9 @@
+{
+ "func": "func_80052A90",
+ "doc": "Draws a two-byte-code (Shift-JIS-ish) string as font-tile blits at a PS1 GPU level. For each 2-byte code read from arg0: builds code=(hi<<8)|lo, advances the source pointer by 2, then classifies code into a tile index via a small range/equality table (0x8140 -> 0, two ~0x1A-wide contiguous ranges and one ~0xA-wide range map through code+0x7DC0/0x7DC1, plus literal 0x8144->0xE and 0x817C->0xD); anything else clears the draw flag (glyph is skipped, pen still advances). When the flag is set, computes source tile (x,y) from the index (tile_x = (index&7)*3+0x340, tile_y = (index>>3)<<4, fixed w=3,h=0x10), StoreImage's it into a scratch buffer, LoadImage's it back at (arg1_pen, arg2), calls DrawSync(0), then advances the pen by 3 and loops until the next code byte is 0.",
+ "calls": [
+  "StoreImage(RECT *rect, void *p) - copies a tile-sized region out of the font sheet into a scratch VRAM/buf staging area",
+  "LoadImage(RECT *rect, void *p) - loads the staged tile back in at the destination (x, dest_y) position",
+  "DrawSync(s32 mode) - DrawSync(0), waits for the GPU transfer to finish before the next glyph"
+ ]
+}

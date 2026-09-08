@@ -1,0 +1,16 @@
+{
+ "func": "func_80051708",
+ "doc": "Initializes an object at a0: sets its update-function pointer (offset 0x10) to func_80051548, stores the passed-in a1 pointer at offset 0x20 and clears the two following short fields (0x24/0x26), then takes the linked sub-record pointer at offset 0xC and primes it (sets its 'fc' field to 0x808080) via func_8003DB94(sub, D_80072044, 0), sets two flag/state shorts on that sub-record (offsets 0x1C/0x1E) to 0x1000, invokes func_8004491C(a0, func_80044BB0) to register a callback, and finally fills a 3-word vector pointed to by offset 0x8 with fixed constants (0x1C00000, 0xC00000, 0x800000).",
+ "globals": [
+  {
+   "name": "D_80072044",
+   "decl": "extern struct Elem D_80072044[2]; /* struct Elem {u8 b0; u8 pad1; u8 pad2; u8 pad3; int f4;} -- declared as a 2-element array (>8B) to force %hi/%lo addressing since a single Elem is exactly 8B (the $gp-rel small-data boundary); passed by address (array-decay) as the a1 arg to func_8003DB94 */"
+  }
+ ],
+ "calls": [
+  "func_8003DB94(struct Dst *a0, struct Elem *a1, short a2) -- reused exact existing signature from src/code.c",
+  "func_8004491C(void *a0, void (*a1)(void)) -- inferred: object pointer + callback function pointer, return value unused",
+  "func_80051548(void) -- existing extern from src/code.c (update-function callback address)",
+  "func_80044BB0(void) -- existing extern from src/code.c (callback address)"
+ ]
+}

@@ -1,0 +1,10 @@
+{
+ "func": "func_80052A20",
+ "doc": "Initializes a fixed-size array of 16 twelve-byte template records at D_80084478. Each record gets identical constant fields except a per-index byte at offset 9 set to (index << 4). Likely a table of default \"slot\" configs (e.g. item/monster template rows) later customized elsewhere.",
+ "globals": [
+  {
+   "name": "D_80084478",
+   "decl": "typedef struct { u8 f0; u8 f1; u8 f2; u8 f3; u16 f4; u16 f6; u8 f8; u8 f9; u8 f10; u8 f11; } S_80084478; extern S_80084478 D_80084478[16]; /* 12-byte records; f9 varies per index (index<<4), all other fields constant: f0=0xC0 f1=0x2C f2=0 f3=0 f4=0xE f6=0x7080 f8=0 f10=0xFC f11=0x10 */"
+  }
+ ]
+}

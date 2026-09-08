@@ -1,0 +1,14 @@
+{
+ "func": "func_8004EA70",
+ "doc": "Advances past a name/string field: runs func_8004E9EC(arg0, arg1) to fill the first 2*arg1 bytes of the buffer, then copies 2 bytes of the D_80080B70 pattern to the position right after (arg0 + 2*arg1) via strncpy, and returns a pointer to that appended position.",
+ "globals": [
+  {
+   "name": "D_80080B70",
+   "decl": "typedef struct S_80080B70 { /* 0x0 */ s8 b0; /* 0x1 */ s8 b1; /* 0x2 */ s8 b2; /* 0x3 */ s8 pad[13]; } S_80080B70; /* size 0x10, only bytes 0-2 are read as a 3-byte fill pattern; must be declared >8B total so address-of forces %hi/%lo instead of $gp-relative */ extern S_80080B70 D_80080B70;"
+  }
+ ],
+ "calls": [
+  "func_8004E9EC(u8 *arg0, s32 arg1) -- void return, fills up to 2*arg1 bytes of arg0 using D_80080B70 as a repeating pattern",
+  "strncpy(char *dst, const char *src, u32 n) -- standard libc strncpy, resolved via symbol table"
+ ]
+}

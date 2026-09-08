@@ -1,0 +1,8 @@
+{
+ "func": "func_800504B4",
+ "doc": "Loops over a0->arr[1..6] (7-element array of Elem* hanging off offset 0x68), decaying each element's sub-object HP/timer-like s16 field at offset+2: if positive, subtracts 0x100 (via the unsigned view of the same field); otherwise clamps to 0. After the loop, checks a0->arr[6]'s same field; if it has hit exactly zero, installs func_80050494 as a0's function-pointer field (offset 0). Finally tail-calls func_80050308(a0).",
+ "calls": [
+  "func_80050494(void *a0) -- matched, defined in src/code.c, thin wrapper forwarding to func_80050308",
+  "func_80050308(void *a0) -- extern, declared in src/code.c (INCLUDE_ASM), not yet matched"
+ ]
+}

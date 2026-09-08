@@ -30,7 +30,7 @@ The file below already compiles to the retail bytes. Make it READABLE without ch
 Verify with:  {verify}
 It prints JSON; "exact": true is required. You may run it as often as you like. Write the final file to {out} (overwrite). Reply with one line: DONE <n_verify_runs> or GAVEUP <reason>.
 
---- {name} ---
+{evidence}--- {name} ---
 {src}
 """
 
@@ -69,11 +69,16 @@ def one(row, model, effort, timeout):
     work = Path(tempfile.mkdtemp(prefix="agent_", dir=str(ROOT / "work")))
     out = work / name; out.write_text(src)
     verify_cmd = f"python3 {ROOT}/tools/verify.py {row['id']} {out} --include-root {INCLUDE}"
-    prompt = PROMPT.format(verify=verify_cmd, out=out, name=name, src=src)
+    try:
+        from evidence import prompt_block   # facts from the disc and earlier analysis for this row (docs/EVIDENCE.md); '' when none
+        ev = prompt_block(row["id"])
+    except Exception:
+        ev = ""
+    prompt = PROMPT.format(verify=verify_cmd, out=out, name=name, src=src, evidence=ev)
     rc, secs, usage, err = run_codex(model, effort, prompt, work, timeout)
     new = out.read_text(errors="replace") if out.exists() else src
     reply = (work / "last_message.txt").read_text(errors="replace").strip()[-200:] if (work / "last_message.txt").exists() else ""
-    rec = {"id": row["id"], "model": model, "effort": effort, "rc": rc, "secs": secs, "usage": usage, "reply": reply,
+    rec = {"id": row["id"], "model": model, "effort": effort, "rc": rc, "secs": secs, "usage": usage, "reply": reply, "evidence": bool(ev),
            "changed": new != src, "in_sha": sha_text(src), "lines_in": src.count("\n"), "lines_out": new.count("\n")}
     quota = rc != 0 and any(k in (err or "").lower() for k in ("rate limit", "usage limit", "quota", "429", "too many requests"))
     if quota:

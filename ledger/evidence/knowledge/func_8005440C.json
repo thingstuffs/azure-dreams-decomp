@@ -1,0 +1,21 @@
+{
+ "func": "func_8005440C",
+ "doc": "Fires event func_800550E8() if D_800847D0.flags2 bit 0x2 is set. Then, if D_800847D0.flags1 bit 0x100 is set, checks a CD/task status via func_80059D60(): if it returns 3, or otherwise if func_800545F4(&D_800848F8) signals failure (-1), raises event 0x71 via func_800553D4. Finally, always dispatches func_80054538 on D_800848F8 (the short-circuit `||` mirrors the asm's beq-to-common-call structure exactly).",
+ "globals": [
+  {
+   "name": "D_800848F8",
+   "decl": "typedef struct S_800848F8 { /*0x00*/ void (*func)(void); /*0x04*/ s32 field4; /*0x08*/ s16 field8; /*0x0A*/ u8 pad0A[0x36]; } S_800848F8; extern S_800848F8 D_800848F8; /* Only the address is taken in this function (passed opaquely to func_800545F4/func_80054538); field layout at 0x0 (func ptr, set in sibling func_800559B4/func_800550E8), 0x4 (s32, set to 1 in func_800550E8), and 0x8 (s16, set/read as a timer in func_800552C8/func_800559B4) inferred from other same-wave siblings touching this global -- reconcile against their exact offsets. Total size is a guess (>8B placeholder) since no sibling seen so far indicates the true extent. */"
+  },
+  {
+   "name": "D_800847D0",
+   "decl": "typedef struct S_800847D0 { /*0x00*/ u32 flags1; /*0x04*/ u32 flags2; /*0x08*/ u8 pad08[0x2C]; } S_800847D0; extern S_800847D0 D_800847D0; /* Matches already-matched src/w_80054C58.c's S_800847D0 layout exactly (flags1@0x0, flags2@0x4, ... field30/31/32/33 etc further out) -- this function only reads flags1 (bit 0x100) and flags2 (bit 0x2). */"
+  }
+ ],
+ "calls": [
+  "func_800550E8(void) -> void",
+  "func_80059D60(void) -> s32",
+  "func_800545F4(S_800848F8 *a0) -> s32",
+  "func_800553D4(s32 a0) -> void",
+  "func_80054538(S_800848F8 *a0) -> void"
+ ]
+}

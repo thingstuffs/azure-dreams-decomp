@@ -1,0 +1,7 @@
+{
+ "func": "func_8004D690",
+ "doc": "Loop: repeatedly checks a callback slot pointed to by a0 (dereferenced through **a0**). If *a0 is a nonzero function pointer, it is invoked with (a0+4) [i.e. the address one element past a0, treating a0 as an array-of-function-pointer base] and the routine returns. Otherwise it checks *a1: if zero, returns; if nonzero, calls func_8004D7E8(a2) and loops back to re-check *a0. Net effect: spin-copy via func_8004D7E8 until either a0's callback becomes set (then invoke it once and stop) or a1's flag clears (then stop).",
+ "calls": [
+  "func_8004D7E8(void *a0) -- matched at gcc 2.8.1, defined in src/w_8004D7E8.c; called here as func_8004D7E8(a2) where a2 is func_8004D690's third parameter (void*)."
+ ]
+}

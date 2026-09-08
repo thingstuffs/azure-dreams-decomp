@@ -1,0 +1,16 @@
+{
+ "func": "func_80041818",
+ "doc": "Advances/refreshes the current dispatch-table entry: looks up D_8006CE80[D_80082E60.field_B], calls func_801768AC(), copies the entry's unk2 halfword into D_80082E60.field_8, calls func_80040B88(). Re-reads the (possibly changed) indexed entry and, unless its unk0 field equals 4, resets via func_800411FC(0) and func_800499BC().",
+ "globals": [
+  {
+   "name": "D_80082E60",
+   "decl": "struct S_80082E60 { char pad0[8]; union { u8 b; u16 h; } field_8; s8 pad_A; u8 field_B; s8 field_C; s8 field_D; s8 field_E; char pad_F[0xA]; s8 field_18; } D_80082E60;  /* NOTE: this function's use of field_B requires it UNSIGNED (u8) -- it feeds a *12 array-index multiply via lbu, unlike the sibling declaration `s8 field_B` in w_80040BB4.c/w_80043E60.c/w_80041C64.c which only ever copies the byte verbatim (sign doesn't matter there). Reconcile as u8 field_B across the family. field_8 accessed here as the .h (u16) union member, matching w_80040BB4.c's existing union shape."
+  }
+ ],
+ "calls": [
+  "func_801768AC(void) -- library-only symbol (undefined_funcs.txt), called with no args here",
+  "func_80040B88(void)",
+  "func_800411FC(u16 a0)",
+  "func_800499BC(void)"
+ ]
+}

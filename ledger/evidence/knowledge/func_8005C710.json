@@ -1,0 +1,13 @@
+{
+ "func": "func_8005C710",
+ "doc": "Looks up D_80073740[a0] (a0 a s16 index), stores it plus a zeroed second word into a 0x40-byte stack-local request record (same shape/size as the D_80084918 record family), passes it to func_8005FA34, then copies the two s16 result fields it writes back (offsets 0x8/0xA) out through the a1/a2 out-pointers. Always returns 0.",
+ "globals": [
+  {
+   "name": "D_80073740",
+   "decl": "extern s32 D_80073740[64]; /* plain s32 flag-value array, one entry per slot; NOT a struct -- indexed directly by a signed 16-bit id (D_80073740[a0], a0 an s16) which compiles to sll 16/sra 14 (index*4 with sign-extension from bit15) */"
+  }
+ ],
+ "calls": [
+  "func_8005FA34: extern s32 func_8005FA34(S_8005C710_Req *arg); /* arg points to a 0x40-byte record; reads word at offset 0x0 (arg->field0), writes fields throughout up to offset 0x3C (matches the D_80084918 request-record family's layout); return value discarded by this caller */"
+ ]
+}

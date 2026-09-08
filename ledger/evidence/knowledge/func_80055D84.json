@@ -1,0 +1,29 @@
+{
+ "func": "func_80055D84",
+ "doc": "Given an entry index idx (s16, sign-extended at entry): tries to register the entry via func_8005A778(D_80084538[idx], idx, D_800847C0[idx]). If that fails (-1), reports status 0x01 for idx via func_8003F52C. Otherwise tries func_8005AAA8(D_80084758[idx], idx); if that succeeds (!=-1), marks entry idx available in D_800847D0.avail (bit 16+idx) and reactivates the subsystem via func_8005AC30(1) (no report). If the retry also fails, cancels the pending entry via func_80055C50(idx) and reports status 0x02 for idx via func_8003F52C. The report word packs: bits 24-31 = 1 (fixed \"kind\" tag), bits 16-23 = status (1 or 2), bits 8-15 = idx&0xFF, bits 0-7 = 0.",
+ "globals": [
+  {
+   "name": "D_800847D0",
+   "decl": "typedef struct { u32 avail; u32 locked; u32 pad[1]; } S_800847D0; extern S_800847D0 D_800847D0;  -- only .avail (offset 0) touched here: D_800847D0.avail |= (0x10000<<idx); canonical struct already established in w_8005405C.c/w_80054E00.c/etc, keep name+layout in sync with those."
+  },
+  {
+   "name": "D_80084538",
+   "decl": "extern void *D_80084538[];  -- pointer array, stride 4, indexed by idx (s16 sign-extended); element passed as a0 to func_8005A778."
+  },
+  {
+   "name": "D_800847C0",
+   "decl": "extern void *D_800847C0[];  -- pointer array, stride 4, indexed by idx; element passed as a2 to func_8005A778."
+  },
+  {
+   "name": "D_80084758",
+   "decl": "extern void *D_80084758[];  -- pointer array, stride 4, indexed by idx; element passed as a0 to func_8005AAA8."
+  }
+ ],
+ "calls": [
+  "func_8005A778(void *a0, s32 a1, void *a2) -> s32 (return only tested as (s16)r == -1)",
+  "func_8005AAA8(void *a0, s32 a1) -> s32 (return only tested as (s16)r != -1)",
+  "func_80055C50(s32 a0) -> void",
+  "func_8003F52C(s32 a0) -> void [already matched, src/code.c]",
+  "func_8005AC30(s32 a0) -> void [already matched, src/w_8005AC30.c]"
+ ]
+}

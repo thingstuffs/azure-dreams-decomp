@@ -1,0 +1,14 @@
+{
+ "func": "func_8004EB3C",
+ "doc": "Zeroes *a0, then registers two task/callback entries via func_8003E4FC: task id 6 pointing at global buffer D_8007164C, and task id 0xFF whose callback is func_8003E140 called with a0 as its argument.",
+ "globals": [
+  {
+   "name": "D_8007164C",
+   "decl": "extern unsigned char D_8007164C[12]; /* size unconfirmed beyond >8 bytes; only referenced here by address, never accessed */"
+  }
+ ],
+ "calls": [
+  "func_8003E4FC(int a0, void *a1, void *a2) -- matched signature reused (int, void*, void*), first call task=6/D_8007164C/0, second task=0xFF/func_8003E140/a0",
+  "func_8003E140(unsigned char *a0) -- reused exact matched signature from src/code.c, passed as function-pointer callback"
+ ]
+}

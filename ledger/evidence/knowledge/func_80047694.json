@@ -1,0 +1,15 @@
+{
+ "func": "func_80047694",
+ "doc": "Dispatcher: given a state/entity struct, checks a u16 flags field (offset 0x14) for bit 0x400; if set, hands off to func_800482C8. Otherwise checks global byte D_80082E6A and dispatches to func_8004761C (if ==1) or func_800475A4 (otherwise), passing the struct's field_8 (entry-array pointer) and field_28 (s32* cursor) through in both cases.",
+ "globals": [
+  {
+   "name": "D_80082E6A",
+   "decl": "struct S_80082E6A { u8 field_0; u8 pad[11]; }; extern struct S_80082E6A D_80082E6A; // only field_0 (offset 0) accessed here, as a byte; declared >8B to force hi/lo addressing (lui %hi / lbu %lo) matching the target. Numerically adjacent to (but treated as a DISTINCT symbol from) D_80082E60 used elsewhere -- do not merge without checking a sibling that reconciles both."
+  }
+ ],
+ "calls": [
+  "func_8004761C(struct S_8004761C_Entry *arg0, s32 *arg1) -- reused exact matched signature",
+  "func_800482C8(struct S_800482C8_Entry *arg0, s32 *arg1) -- reused exact matched signature",
+  "func_800475A4(struct S_8004761C_Entry *arg0, s32 *arg1) -- inferred; not yet matched, same call-site pattern as the two matched siblings (arg0=field_8 pointer, arg1=field_28 s32* pointer)"
+ ]
+}

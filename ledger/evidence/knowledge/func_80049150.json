@@ -1,0 +1,8 @@
+{
+ "func": "func_80049150",
+ "doc": "Advances past the first `a2` (or fewer, if a zero/sentinel entry is hit sooner) live s32 entries of the array at a0 via func_80048F8C, then attempts to reserve `a1/21 + 1` slots starting at that advanced position via func_8004B42C. Returns the advanced pointer on success, or NULL if the reservation failed.",
+ "calls": [
+  "func_80048F8C(s32 *a0, s32 a1) -> s32  (already matched, from src/code.c: counts non-zero entries in a0[] up to a1, or until a zero entry)",
+  "func_8004B42C(s32 *a0, s32 a1) -> s32  (unmatched; a0=array pointer, a1=count; fills a0[0..a1) via func_8004B404, returns a0 on full success or 0 and frees via func_8004B248 on first zero/failure)"
+ ]
+}

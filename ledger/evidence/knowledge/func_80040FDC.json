@@ -1,0 +1,13 @@
+{
+ "func": "func_80040FDC",
+ "doc": "Given a u16 index, looks up D_8006CE80[idx] (12-byte struct elements). If the element's `unk4` pointer is non-null, and that pointed-to struct's `unk8` field is also non-null, calls func_8003F8F8() with that inner pointer.",
+ "globals": [
+  {
+   "name": "D_8006CE80",
+   "decl": "extern S_8006CE80 D_8006CE80[64]; where S_8006CE80 = { s32 unk0; /*0x0*/ S_8006CE80_inner *unk4; /*0x4, pointer*/ s32 unk8; /*0x8*/ } (12 bytes, only unk4 accessed by this function; unk4 points to a struct whose offset-8 field, S_8006CE80_inner.unk8, is a void* passed to func_8003F8F8)."
+  }
+ ],
+ "calls": [
+  "func_8003F8F8(void *arg) - callee receiving the raw pointer loaded from elem->unk4->unk8; only arg register setup needed to match (a0 = q)."
+ ]
+}

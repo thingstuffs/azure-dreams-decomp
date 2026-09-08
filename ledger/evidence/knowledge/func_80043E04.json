@@ -1,0 +1,21 @@
+{
+ "func": "func_80043E04",
+ "doc": "Runs a per-frame update via func_80043EB8, then, if D_80082E6E.field_0 is set, primes D_80081500 with func_8003F794(6,8) and installs func_80043E60 as the next state handler via func_80040A88; otherwise falls back to func_8003D92C.",
+ "globals": [
+  {
+   "name": "D_80081500",
+   "decl": "extern s16 D_80081500;  // %gp_rel small scalar, sh-written here with func_8003F794(6,8)'s result"
+  },
+  {
+   "name": "D_80082E6E",
+   "decl": "extern struct { u8 field_0; u8 pad[8]; } D_80082E6E;  // only field_0 (byte) touched; padded >8 bytes so gcc emits %hi/%lo addressing instead of %gp_rel, matching target asm"
+  }
+ ],
+ "calls": [
+  "func_80043EB8(void) -> void",
+  "func_8003F794(s16 a0, s16 a1) -> s16",
+  "func_80040A88(int a0) -> void  // installs a1-typeless function pointer as next-state callback",
+  "func_80043E60(void) -> void",
+  "func_8003D92C(void) -> void"
+ ]
+}

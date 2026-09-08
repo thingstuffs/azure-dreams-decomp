@@ -1,0 +1,18 @@
+{
+ "func": "func_80047E30",
+ "doc": "Advances the D_80016000 timer/particle-system state via func_80046F88(&D_80016000) [single-arg call], applies a fixed effect via func_80047054(&D_80016000, 0xB, 0x7900, 0xD), then publishes D_80016000's address into D_8008152C (the second jal's return value is discarded; the stored value is the saved $s0 == &D_80016000).",
+ "globals": [
+  {
+   "name": "D_80016000",
+   "decl": "extern u8 D_80016000[0x10]; /* S_80016000: opaque 16-byte blob in this wave's views (func_80047E30, func_80047DF0, func_80047D44, func_80047DB8, func_80047AB0 all only take &D_80016000 as an opaque pointer arg -- no direct field deref appears in any of these callers; field layout, if any, lives inside callees func_80046F88/func_80047054/func_800479D4/func_80047AA4 which are outside this wave). Keep as u8[0x10] (>8B) so hi/lo codegen + maspsx delay-store patch fire, consistent with existing src/w_80047DF0.c and src/code7.c declarations."
+  },
+  {
+   "name": "D_8008152C",
+   "decl": "extern void *D_8008152C; /* S_8008152C: single pointer-sized (4B, <=8B) global. In THIS TU (and in already-integrated src/w_80047DF0.c) it is accessed gp-relative ($gp) since the extern decl size is <=8B under -G8; a DIFFERENT sibling TU (src/code7.c, func_80047DB8) instead sees it via %hi/%lo because that TU declares it as u8 D_8008152C[0x10] (>8B) purely to force address materialization for a return value -- the two views don't conflict, they're just per-TU declaration-size choices for the same underlying 4-byte pointer slot. Canonical field layout: no substructure, it holds ONE pointer value (observed values: &D_80016000 here and in func_80047D44; func_80047AB0's return value in func_80047DF0)."
+  }
+ ],
+ "calls": [
+  "extern void func_80046F88(void *a0); -- confirmed single-arg call shape by cross-checking already-decompiled-style caller func_80047AB0.s, which also calls func_80046F88(s2) with only a0 set before the jal (a1-a3 not touched).",
+  "extern void func_80047054(void *a0, u16 a1, u16 a2, u16 a3); -- func_80047AB0.s calls it as func_80047054(a0, a1&0xFFFF, a2&0xFFFF, a3&0xFFFF) confirming u16 params; here the constants 0xB/0x7900/0xD are loaded directly via addiu with no andi mask since they already fit in 16 bits unsigned."
+ ]
+}

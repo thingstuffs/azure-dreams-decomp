@@ -1,0 +1,14 @@
+{
+ "func": "func_80047784",
+ "doc": "Re-select the current table entry via func_80047738, derive a rate byte (entry's leading u16 divided by the global divisor table's first byte), clear flag bits 0x6000 in unk14, store the rate byte, then re-run func_80047694 on the same object.",
+ "globals": [
+  {
+   "name": "D_80080A84",
+   "decl": "extern unsigned char D_80080A84[16]; /* accessed here as D_80080A84[0], consistent with existing src/code.c declaration `extern unsigned char D_80080A84[16];` used by func_8004CBFC as a divisor-rate table */"
+  }
+ ],
+ "calls": [
+  "func_80047738(S_80047784 *a0, s16 a1, s16 a2) -- reused matched signature, same underlying struct pointer",
+  "func_80047694(void *arg0) -- matches existing extern declaration in src/code.c"
+ ]
+}

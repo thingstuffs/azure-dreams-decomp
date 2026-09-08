@@ -1,0 +1,9 @@
+{
+ "func": "func_8004ED5C",
+ "doc": "Registers a handler via func_80044144(1, 0x1E, func_8004EC20, self); if that succeeds (v0 != 0), installs func_8004ED00 as the object's update-callback at offset -0x10 relative to the passed-in pointer (a sibling field also written by func_8004ED00 and func_8004EDA8, all at the same -0x10 offset from the same class of \"self\" pointer).",
+ "calls": [
+  "func_80044144(s32 a0, s32 a1, void *a2, void *a3) -> s32 : registers an input/handler binding for the object (a3=self)",
+  "func_8004EC20(void *a0) : callback passed to func_80044144 (address-of only, not called here)",
+  "func_8004ED00(void *a0) : update-callback installed into the object on success (address-of only)"
+ ]
+}

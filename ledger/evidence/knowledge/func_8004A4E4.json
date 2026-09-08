@@ -1,0 +1,4 @@
+{
+ "func": "func_8004A4E4",
+ "doc": "Adjusts a base value by adding a scaled correction from a small struct's signed byte field (result += (a0/10) * struct->field_2, using unsigned division-by-10 magic), optionally scales the result by 5 if a flag bit (0x40) is set in another byte field, then clamps the result to be at least 1 (returns 1 if result <= 0)."
+}

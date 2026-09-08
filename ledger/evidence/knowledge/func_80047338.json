@@ -1,0 +1,29 @@
+{
+ "func": "func_80047338",
+ "doc": "Shelf/atlas packer step: builds a tile-position header (S_80047270_hdr) for func_80047270 from a per-object header (arg0, same shape as sibling func_80048870's S_80048870_hdr) and a record whose field 0xC is a data-base pointer (arg1, offset by arg2). On a frame-tag change (D_80083164 vs cached D_8008151E) resets the shelf packer (D_80081518=shelf Y, D_8008151A=shelf X cursor, D_8008151C=shelf max height). Advances the X cursor by the tile's width+1, wrapping to a new row (adding the row height, resetting X) past 0x100; resets the whole packer past 0x40 total height; tracks the running max row height; computes the header's tile-space offset fields from the current shelf position and arg0's unk4 tile-size word; writes the shelf position back into arg0 (unk8/unk9, byte-truncated) for later reuse; advances the X cursor by the tile height and calls func_80047270 with the offset data pointer and the built header.",
+ "globals": [
+  {
+   "name": "D_80083164",
+   "decl": "extern u16 D_80083164[]; -- accessed only as D_80083164[0] (%hi/%lo, forced size>8 decl); a live frame/tick counter. SIBLINGS in this wave touch this same symbol -- canonical struct for reconciliation: S_80083164 { /* 0x0 */ u16 frameTag; ... (only offset 0 observed here) }."
+  },
+  {
+   "name": "D_80081518",
+   "decl": "extern u16 D_80081518; -- shelf(row) Y position, gp_rel scalar. Also read truncated as a byte via *(u8*)&D_80081518 (retail keeps this as a SEPARATE lbu, not CSE'd from the u16 lhu moments earlier -- do not let a sibling's decl collapse these into one read)."
+  },
+  {
+   "name": "D_8008151A",
+   "decl": "extern u16 D_8008151A; -- shelf X cursor, gp_rel scalar. Same byte-truncation-read pattern as D_80081518 (*(u8*)&D_8008151A)."
+  },
+  {
+   "name": "D_8008151C",
+   "decl": "extern u16 D_8008151C; -- current shelf's running max tile height, gp_rel scalar."
+  },
+  {
+   "name": "D_8008151E",
+   "decl": "extern u16 D_8008151E; -- last-seen D_80083164 frame tag (reset detector), gp_rel scalar."
+  }
+ ],
+ "calls": [
+  "func_80047270(void *a0, S_80047270_hdr *a1) -- matched sibling, src/w_80047270.c; a1 is a 4x s16 tile-position header {unk00,unk02,unk04,unk06}, a0 is a decode-buffer-relative data pointer"
+ ]
+}

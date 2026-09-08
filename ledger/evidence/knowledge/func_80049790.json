@@ -1,0 +1,9 @@
+{
+ "func": "func_80049790",
+ "doc": "Allocates a 0x104-byte object via func_8004B404 and initializes it from the caller-supplied source via func_8004951C(). If initialization fails, releases the object's used-flag via func_8004B1A4() and returns NULL; otherwise returns the allocated object.",
+ "calls": [
+  "func_8004B404(s32 a0) -> void* : matched at gcc 2.8.1 in code7.c; this call site only sets $a0 (size=0x104) and treats the tail-call-forwarded $v0 as the return value.",
+  "func_8004B1A4(u16 *a0) -> void : matched at gcc 2.7.2 in code5.c; called with the freshly-allocated object pointer to clear/flag it before it's discarded.",
+  "func_8004951C(void *a0, void *a1) -> s32 : not yet matched; prototype inferred purely from this call site's register setup (a0=newly allocated object, a1=this function's own argument); return value is compared against 0."
+ ]
+}

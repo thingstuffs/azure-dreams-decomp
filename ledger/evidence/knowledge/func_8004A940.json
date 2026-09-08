@@ -1,0 +1,10 @@
+{
+ "func": "func_8004A940",
+ "doc": "For each of the 20 {category,index} pairs in the table at raw address 0x80013564, if category != 0, sets itemCategoryTable[category].records[index].fieldC to the current pointer into the 19-byte-stride record table at raw address 0x800133E8 (advancing that pointer by 0x13 every iteration regardless of whether the store happened). This wires up per-item pointers into the 19-byte record table, keyed by (category, index) pairs -- likely an item/effect linkage init routine.",
+ "globals": [
+  {
+   "decl": "typedef struct S_8004A940_CategoryEntry { u8 pad0[0xC]; S_8004A940_Rec *records; u8 pad1[4]; } S_8004A940_CategoryEntry; extern S_8004A940_CategoryEntry itemCategoryTable[];",
+   "name": "itemCategoryTable"
+  }
+ ]
+}

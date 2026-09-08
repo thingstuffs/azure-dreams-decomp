@@ -1,0 +1,14 @@
+{
+ "func": "func_80041134",
+ "doc": "Searches the zero-terminated int list D_80083C68 (max 8 entries, matches existing code2.c decl `extern int D_80083C68[8]`) for a value equal to arg0. If found, removes it in place by shifting all subsequent entries (including the trailing 0 terminator) down by one slot, and shrinks the D_800814E0 write-cursor pointer by one int (D_800814E0--). If the list is empty or arg0 is not present, does nothing.",
+ "globals": [
+  {
+   "name": "D_80083C68",
+   "decl": "extern s32 D_80083C68[8]; /* zero-terminated int list; matches existing code2.c decl `extern int D_80083C68[8]` where D_800814E0 is initialized to point into it */"
+  },
+  {
+   "name": "D_800814E0",
+   "decl": "extern s32 *D_800814E0; /* gp_rel int* write-cursor into D_80083C68's list; matches existing code.c decl `extern int *D_800814E0;` */"
+  }
+ ]
+}

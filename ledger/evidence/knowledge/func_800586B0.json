@@ -1,0 +1,15 @@
+{
+ "func": "func_800586B0",
+ "doc": "Sets the D_800737C0 busy/lock flag to 1, enters a critical section, calls the RCnt helper StopRCnt(0xF2000002) (hardware timer 2), leaves the critical section, then clears the D_80085F98 mode flag and the D_800737C0 lock flag back to 0.",
+ "globals": [
+  {
+   "name": "D_800737C0",
+   "decl": "typedef struct { /*0x00*/ s32 v; /*0x04*/ s32 pad[2]; } S_800737C0; extern S_800737C0 D_800737C0; -- only field .v (offset 0) is accessed by this wave's functions (func_800586B0, func_8005863C, func_800585A0), always as a plain 0/1 flag; declared with >8B padding purely to force hi/lo codegen with %hi reused/%lo folded per store (do NOT let gcc CSE a materialized full-address base -- it must stay a per-store %lo(D_800737C0)(reused-hi-reg) fold, matching 2.7.2-cdk codegen)."
+  }
+ ],
+ "calls": [
+  "EnterCriticalSection(void) -> s32 (return value discarded here; used for side effect only)",
+  "ExitCriticalSection(void) -> s32 (return value discarded)",
+  "StopRCnt(s32 a0) -> void (RCnt helper, called with a0=0xF2000002; psyq COUNTER.OBJ, named 2026-08-23 cd681dea -- was func_8006A27C)"
+ ]
+}

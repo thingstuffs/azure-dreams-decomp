@@ -1,0 +1,9 @@
+{
+ "func": "func_800404F8",
+ "doc": "Allocates a load-buffer sized from `(((s16)s-&gt;unk4)&gt;&gt;1) * s-&gt;unk6` via func_80040574, zeroes that many ints via func_8003DB4C, then calls LoadImage(s, buffer). The size expression is written twice in source (once per call site) rather than cached in a local, which is why gcc recomputes it (lhu+sll+sra+mult) fresh after the intervening call instead of keeping it live across the call in a saved register.",
+ "calls": [
+  "func_80040574(s32 size) -> s32 (returns allocated buffer pointer as int)",
+  "func_8003DB4C(int *p, int n) -- already matched, zeroes n ints at p",
+  "LoadImage(void *rect, s32 *p) -- PSX BIOS call, args only"
+ ]
+}

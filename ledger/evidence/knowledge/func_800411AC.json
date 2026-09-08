@@ -1,0 +1,10 @@
+{
+ "func": "func_800411AC",
+ "doc": "Callback-list dispatcher: walks the null-terminated array of function pointers D_80083C68, calling each entry in order until it hits a null (0) entry.",
+ "globals": [
+  {
+   "name": "D_80083C68",
+   "decl": "extern S_80083C68 D_80083C68[]; /* S_80083C68 = void(*)(void); array of function pointers, null (0) terminated; walked and each non-null entry called in sequence */"
+  }
+ ]
+}

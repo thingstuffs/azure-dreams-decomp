@@ -1,0 +1,14 @@
+{
+ "func": "func_8004F780",
+ "doc": "Loop over a0->count entries. For each entry i: pick a 3-byte row from D_80071784 (i*3 stride), use a0->idxA/idxB as column selectors within that row to fetch two byte values, look each up in a 4-byte-strided table D_80071790 (byte 0 of each entry), linearly interpolate between the two table values by a0->multiplier/a0->divisor, and write the resulting byte into a target buffer reached via a0->entries[i]->obj->buf (all 3 buffer bytes set to the same interpolated value, e.g. an RGB triple driven by one channel). Classic LERP: result = valA + (valB-valA)*mult/div.",
+ "globals": [
+  {
+   "name": "D_80071784",
+   "decl": "extern u8 D_80071784[]; /* logically an array of 3-byte rows: struct S_80071784 { u8 col0; u8 col1; u8 col2; } rows[]; accessed dynamically as D_80071784[i*3 + col] where col is a runtime field (a0->idxA / a0->idxB, values 0-2) read from the caller's struct, NOT a fixed C struct-member access -- kept as a flat u8[] extern to force %hi/%lo addressing (incomplete-array rule) while letting the runtime column index vary. Sibling functions touching this symbol should reconcile to the SAME 3-byte-row shape / S_80071784 struct name."
+  },
+  {
+   "name": "D_80071790",
+   "decl": "extern u8 D_80071790[]; /* lookup table, 4-byte stride per logical entry, only byte offset 0 read here: D_80071790[key*4]. Logically struct S_80071790 { u8 v0; u8 pad[3]; } table[]; -- declared as flat u8[] (incomplete array) so codegen emits %hi/%lo + the key*4 byte-offset math exactly as retail (lui/addiu base register reused across both lookups in the same loop iteration).*/"
+  }
+ ]
+}

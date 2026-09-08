@@ -1,0 +1,22 @@
+{
+ "func": "func_800552C8",
+ "doc": "If D_800847D0's status flags (flags1) have bit 0x100 set, computes a stereo-pan-like value: D_800848F8.field8 * D_8008480A (== D_80084808[1]) / 32767, truncated to s16, then multiplied by D_800848F8.field10 and divided by 128 (rounding toward zero, classic signed-div-by-power-of-2 idiom), clamped via func_80055750, and issued together with D_800847D0.field22 to func_8005B27C(field22, s2, s2).",
+ "globals": [
+  {
+   "name": "D_8008480A",
+   "decl": "This IS D_80084808[1] \u2014 same s16[8] array established in src/w_800559B4.c / src/w_8005560C.c (extern s16 D_80084808[8];). Access it as D_80084808[1], not as a standalone symbol \u2014 the hi/lo relocation resolves to the same final address either way."
+  },
+  {
+   "name": "D_800847D0",
+   "decl": "typedef struct S_800847D0 { u32 flags1; u32 flags2; u32 field8; u32 fieldC; u32 field10; u32 field14; u32 field18; u8 pad1C[2]; s16 field1E; s16 field20; s16 field22; u8 pad24[2]; s16 field26; u8 field28; u8 pad29[7]; s8 field30; s8 field31; s8 field32; s8 field33; } S_800847D0; extern S_800847D0 D_800847D0; -- this function reads flags1 (bit 0x100) and field22 (s16 @0x22); canonical layout already established across w_800540A8.c/w_80054C58.c/w_8005405C.c/w_800559B4.c."
+  },
+  {
+   "name": "D_800848F8",
+   "decl": "typedef struct S_800848F8 { void (*field0)(void); s32 field4; s16 field8; s16 fieldA; s32 fieldC; s16 field10; s16 field12; s16 field14; s16 field16; s16 field18; } S_800848F8; extern S_800848F8 D_800848F8; -- this function reads field8 and field10 (both s16); canonical layout already established in w_800559B4.c (S_80084858-family)."
+  }
+ ],
+ "calls": [
+  "func_80055750(s16 arg0) -> s32  (clamps arg0 to [0,0x7F], matched in src/code8.c)",
+  "func_8005B27C(s16 a0, s32 a1, s32 a2) -> void  (matched in src/w_8005B27C.c)"
+ ]
+}

@@ -1,0 +1,10 @@
+{
+ "func": "func_8005B470",
+ "doc": "Looks up entry idx in the D_80086A40 table (28-byte structs). If the entry's first s16 field is -1 (unused/invalid slot), returns -1. Otherwise copies a fixed 32-byte string (pointed to by the entry's second field) from that entry into the caller's dst buffer, and returns 0.",
+ "globals": [
+  {
+   "name": "D_80086A40",
+   "decl": "extern struct { s16 unk0; s16 unk2; u8 *unk4; u8 pad8[20]; } D_80086A40[]; /* 0x1C=28-byte-stride table; only offsets 0x0 (s16 flag, -1 = empty) and 0x4 (u8* to a 32-byte data block) are accessed by this function */"
+  }
+ ]
+}

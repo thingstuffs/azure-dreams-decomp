@@ -1,0 +1,7 @@
+{
+ "func": "func_8005A56C",
+ "doc": "Builds a command block on the stack: sets a mode word (0xC0 or 0xC00 depending on whether arg0's low 16 bits are nonzero) and writes two scaled s16 fields (arg1, arg2 sign-extended from their low 16 bits then <<8, i.e. ((s16)arg1)<<8) into different offsets of the block depending on the chosen mode, then dispatches it via func_8005EDA0. This mirrors the sibling func_8005A5C8 which builds a similar (but simpler) command block for the same dispatcher, suggesting func_8005EDA0 is a sound/SPU command processor whose interpretation of the trailing fields depends on the mode/flags word.",
+ "calls": [
+  "func_8005EDA0(S_8005A56C_Cmd *arg0) - takes pointer to on-stack command block, dispatches it (sound/SPU command, per sibling func_8005A5C8's S_8005A5C8_Snd usage)"
+ ]
+}

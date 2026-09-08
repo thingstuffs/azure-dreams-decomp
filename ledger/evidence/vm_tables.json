@@ -1,0 +1,1304 @@
+[
+ {
+  "vram": "0x8006AA90",
+  "file_offset": "0x3E290",
+  "entries": 89,
+  "role": "event-script VM handler table: entry i = handler for opcode i; four slots share the 8-byte 'unimplemented opcode' stub; the 89th word is the default/terminator (state-transition dispatcher)",
+  "targets": [
+   {
+    "index": 0,
+    "target": "0x800391B4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391B4"
+   },
+   {
+    "index": 1,
+    "target": "0x800390D0",
+    "row": "slus/konami_runtime_w_800390D0",
+    "symbol": "func_800390D0"
+   },
+   {
+    "index": 2,
+    "target": "0x8003919C",
+    "row": "slus/konami_runtime",
+    "symbol": "func_8003919C"
+   },
+   {
+    "index": 3,
+    "target": "0x800391A4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391A4"
+   },
+   {
+    "index": 4,
+    "target": "0x800391AC",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391AC"
+   },
+   {
+    "index": 5,
+    "target": "0x800399EC",
+    "row": "slus/konami_runtime_w_800399EC",
+    "symbol": "func_800399EC"
+   },
+   {
+    "index": 6,
+    "target": "0x80039A08",
+    "row": "slus/konami_runtime_w_80039A08",
+    "symbol": "func_80039A08"
+   },
+   {
+    "index": 7,
+    "target": "0x800391B4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391B4"
+   },
+   {
+    "index": 8,
+    "target": "0x800391BC",
+    "row": "slus/konami_runtime_w_800391BC",
+    "symbol": "func_800391BC"
+   },
+   {
+    "index": 9,
+    "target": "0x800391EC",
+    "row": "slus/konami_runtime_w_800391EC",
+    "symbol": "func_800391EC"
+   },
+   {
+    "index": 10,
+    "target": "0x80039148",
+    "row": "slus/konami_runtime_w_80038CB8",
+    "symbol": "func_80039148"
+   },
+   {
+    "index": 11,
+    "target": "0x80039208",
+    "row": "slus/konami_runtime_w_80039208",
+    "symbol": "func_80039208"
+   },
+   {
+    "index": 12,
+    "target": "0x80039214",
+    "row": "slus/konami_runtime_w_80039214",
+    "symbol": "func_80039214"
+   },
+   {
+    "index": 13,
+    "target": "0x80039258",
+    "row": "slus/konami_runtime_w_80039258",
+    "symbol": "func_80039258"
+   },
+   {
+    "index": 14,
+    "target": "0x8003929C",
+    "row": "slus/konami_runtime",
+    "symbol": "func_8003929C"
+   },
+   {
+    "index": 15,
+    "target": "0x8003931C",
+    "row": "slus/konami_runtime_w_8003931C",
+    "symbol": "func_8003931C"
+   },
+   {
+    "index": 16,
+    "target": "0x80039560",
+    "row": "slus/konami_runtime",
+    "symbol": "func_80039560"
+   },
+   {
+    "index": 17,
+    "target": "0x80039568",
+    "row": "slus/konami_runtime_w_80039568",
+    "symbol": "func_80039568"
+   },
+   {
+    "index": 18,
+    "target": "0x80039578",
+    "row": "slus/konami_runtime_w_80039578",
+    "symbol": "func_80039578"
+   },
+   {
+    "index": 19,
+    "target": "0x800395B0",
+    "row": "slus/konami_runtime_w_800395B0",
+    "symbol": "func_800395B0"
+   },
+   {
+    "index": 20,
+    "target": "0x800395E8",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800395E8"
+   },
+   {
+    "index": 21,
+    "target": "0x800395F0",
+    "row": "slus/konami_runtime_w_800395F0",
+    "symbol": "func_800395F0"
+   },
+   {
+    "index": 22,
+    "target": "0x80039640",
+    "row": "slus/konami_runtime_w_80038F48",
+    "symbol": "func_80039640"
+   },
+   {
+    "index": 23,
+    "target": "0x8003965C",
+    "row": "slus/konami_runtime_w_8003965C",
+    "symbol": "func_8003965C"
+   },
+   {
+    "index": 24,
+    "target": "0x80039694",
+    "row": "slus/konami_runtime_w_80039694",
+    "symbol": "func_80039694"
+   },
+   {
+    "index": 25,
+    "target": "0x80039730",
+    "row": "slus/konami_runtime_w_80039730",
+    "symbol": "func_80039730"
+   },
+   {
+    "index": 26,
+    "target": "0x80039760",
+    "row": "slus/konami_runtime_w_80039760",
+    "symbol": "func_80039760"
+   },
+   {
+    "index": 27,
+    "target": "0x800397A0",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800397A0"
+   },
+   {
+    "index": 28,
+    "target": "0x800397A8",
+    "row": "slus/konami_runtime_w_800397A8",
+    "symbol": "func_800397A8"
+   },
+   {
+    "index": 29,
+    "target": "0x800398BC",
+    "row": "slus/konami_runtime_w_800398BC",
+    "symbol": "func_800398BC"
+   },
+   {
+    "index": 30,
+    "target": "0x80039B28",
+    "row": "slus/konami_runtime_w_80039B28",
+    "symbol": "func_80039B28"
+   },
+   {
+    "index": 31,
+    "target": "0x80039B64",
+    "row": "slus/konami_runtime",
+    "symbol": "func_80039B64"
+   },
+   {
+    "index": 32,
+    "target": "0x80039B6C",
+    "row": "slus/konami_runtime",
+    "symbol": "func_80039B6C"
+   },
+   {
+    "index": 33,
+    "target": "0x80039B74",
+    "row": "slus/konami_runtime",
+    "symbol": "func_80039B74"
+   },
+   {
+    "index": 34,
+    "target": "0x80039B7C",
+    "row": "slus/konami_runtime",
+    "symbol": "func_80039B7C"
+   },
+   {
+    "index": 35,
+    "target": "0x80039B84",
+    "row": "slus/konami_runtime_w_80039B84",
+    "symbol": "func_80039B84"
+   },
+   {
+    "index": 36,
+    "target": "0x80039B94",
+    "row": "slus/konami_runtime_w_80039B94",
+    "symbol": "func_80039B94"
+   },
+   {
+    "index": 37,
+    "target": "0x80039BBC",
+    "row": "slus/konami_runtime_w_80039BBC",
+    "symbol": "func_80039BBC"
+   },
+   {
+    "index": 38,
+    "target": "0x80039BE4",
+    "row": "slus/konami_runtime_w_80039BE4",
+    "symbol": "func_80039BE4"
+   },
+   {
+    "index": 39,
+    "target": "0x80039C0C",
+    "row": "slus/konami_runtime_w_80039C0C",
+    "symbol": "func_80039C0C"
+   },
+   {
+    "index": 40,
+    "target": "0x800391B4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391B4"
+   },
+   {
+    "index": 41,
+    "target": "0x800391B4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391B4"
+   },
+   {
+    "index": 42,
+    "target": "0x80039C44",
+    "row": "slus/konami_runtime_w_80039C44",
+    "symbol": "func_80039C44"
+   },
+   {
+    "index": 43,
+    "target": "0x80039C74",
+    "row": "slus/konami_runtime_w_80039C74",
+    "symbol": "func_80039C74"
+   },
+   {
+    "index": 44,
+    "target": "0x80039D10",
+    "row": "slus/konami_runtime_w_80039D10",
+    "symbol": "func_80039D10"
+   },
+   {
+    "index": 45,
+    "target": "0x80039D40",
+    "row": "slus/konami_runtime",
+    "symbol": "func_80039D40"
+   },
+   {
+    "index": 46,
+    "target": "0x80039DBC",
+    "row": "slus/konami_runtime_w_80039DBC",
+    "symbol": "func_80039DBC"
+   },
+   {
+    "index": 47,
+    "target": "0x80039E1C",
+    "row": "slus/konami_runtime_w_80039E1C",
+    "symbol": "func_80039E1C"
+   },
+   {
+    "index": 48,
+    "target": "0x80039ED0",
+    "row": "slus/konami_runtime_w_80039ED0",
+    "symbol": "func_80039ED0"
+   },
+   {
+    "index": 49,
+    "target": "0x80039F28",
+    "row": "slus/konami_runtime_w_80039F28",
+    "symbol": "func_80039F28"
+   },
+   {
+    "index": 50,
+    "target": "0x80039F4C",
+    "row": "slus/konami_runtime_w_80039F4C",
+    "symbol": "func_80039F4C"
+   },
+   {
+    "index": 51,
+    "target": "0x80039F80",
+    "row": "slus/konami_runtime_w_80039F80",
+    "symbol": "func_80039F80"
+   },
+   {
+    "index": 52,
+    "target": "0x80039FC0",
+    "row": "slus/konami_runtime_w_80039FC0",
+    "symbol": "func_80039FC0"
+   },
+   {
+    "index": 53,
+    "target": "0x8003A01C",
+    "row": "slus/konami_runtime_w_8003A01C",
+    "symbol": "func_8003A01C"
+   },
+   {
+    "index": 54,
+    "target": "0x8003A060",
+    "row": "slus/konami_runtime_w_8003A060",
+    "symbol": "func_8003A060"
+   },
+   {
+    "index": 55,
+    "target": "0x8003A248",
+    "row": "slus/konami_runtime_w_8003A248",
+    "symbol": "func_8003A248"
+   },
+   {
+    "index": 56,
+    "target": "0x8003A288",
+    "row": "slus/konami_runtime_w_8003A288",
+    "symbol": "func_8003A288"
+   },
+   {
+    "index": 57,
+    "target": "0x8003A29C",
+    "row": "slus/konami_runtime_w_8003A29C",
+    "symbol": "func_8003A29C"
+   },
+   {
+    "index": 58,
+    "target": "0x8003A2E0",
+    "row": "slus/konami_runtime_w_8003A2E0",
+    "symbol": "func_8003A2E0"
+   },
+   {
+    "index": 59,
+    "target": "0x8003A468",
+    "row": "slus/konami_runtime_w_8003A468",
+    "symbol": "func_8003A468"
+   },
+   {
+    "index": 60,
+    "target": "0x8003A4B4",
+    "row": "slus/konami_runtime_w_8003A4B4",
+    "symbol": "func_8003A4B4"
+   },
+   {
+    "index": 61,
+    "target": "0x8003A500",
+    "row": "slus/konami_runtime_w_8003A500",
+    "symbol": "func_8003A500"
+   },
+   {
+    "index": 62,
+    "target": "0x8003A54C",
+    "row": "slus/konami_runtime_w_8003A54C",
+    "symbol": "func_8003A54C"
+   },
+   {
+    "index": 63,
+    "target": "0x8003A5B4",
+    "row": "slus/konami_runtime_w_8003A5B4",
+    "symbol": "func_8003A5B4"
+   },
+   {
+    "index": 64,
+    "target": "0x8003A61C",
+    "row": "slus/konami_runtime_w_8003A61C",
+    "symbol": "func_8003A61C"
+   },
+   {
+    "index": 65,
+    "target": "0x8003A684",
+    "row": "slus/konami_runtime_w_8003A684",
+    "symbol": "func_8003A684"
+   },
+   {
+    "index": 66,
+    "target": "0x8003A6EC",
+    "row": "slus/konami_runtime_w_8003A6EC",
+    "symbol": "func_8003A6EC"
+   },
+   {
+    "index": 67,
+    "target": "0x8003A754",
+    "row": "slus/konami_runtime_w_8003A754",
+    "symbol": "func_8003A754"
+   },
+   {
+    "index": 68,
+    "target": "0x8003A7BC",
+    "row": "slus/konami_runtime_w_8003A7BC",
+    "symbol": "func_8003A7BC"
+   },
+   {
+    "index": 69,
+    "target": "0x8003A7FC",
+    "row": "slus/konami_runtime_w_8003A7FC",
+    "symbol": "func_8003A7FC"
+   },
+   {
+    "index": 70,
+    "target": "0x8003A858",
+    "row": "slus/konami_runtime_w_8003A858",
+    "symbol": "func_8003A858"
+   },
+   {
+    "index": 71,
+    "target": "0x8003A904",
+    "row": "slus/konami_runtime_w_8003A904",
+    "symbol": "func_8003A904"
+   },
+   {
+    "index": 72,
+    "target": "0x8003A9B8",
+    "row": "slus/konami_runtime_w_8003A9B8",
+    "symbol": "func_8003A9B8"
+   },
+   {
+    "index": 73,
+    "target": "0x8003A9E4",
+    "row": "slus/konami_runtime_w_8003A9E4",
+    "symbol": "func_8003A9E4"
+   },
+   {
+    "index": 74,
+    "target": "0x8003AA34",
+    "row": "slus/konami_runtime_w_8003AA34",
+    "symbol": "func_8003AA34"
+   },
+   {
+    "index": 75,
+    "target": "0x8003AA84",
+    "row": "slus/konami_runtime_w_8003AA84",
+    "symbol": "func_8003AA84"
+   },
+   {
+    "index": 76,
+    "target": "0x80039D48",
+    "row": "slus/konami_runtime_w_80039D48",
+    "symbol": "func_80039D48"
+   },
+   {
+    "index": 77,
+    "target": "0x8003A10C",
+    "row": "slus/konami_runtime_w_8003A10C",
+    "symbol": "func_8003A10C"
+   },
+   {
+    "index": 78,
+    "target": "0x8003A374",
+    "row": "slus/konami_runtime_w_8003A374",
+    "symbol": "func_8003A374"
+   },
+   {
+    "index": 79,
+    "target": "0x8003A1A4",
+    "row": "slus/konami_runtime_w_8003A1A4",
+    "symbol": "func_8003A1A4"
+   },
+   {
+    "index": 80,
+    "target": "0x8003A3E8",
+    "row": "slus/konami_runtime_w_8003A3E8",
+    "symbol": "func_8003A3E8"
+   },
+   {
+    "index": 81,
+    "target": "0x800391B4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391B4"
+   },
+   {
+    "index": 82,
+    "target": "0x800391B4",
+    "row": "slus/konami_runtime",
+    "symbol": "func_800391B4"
+   },
+   {
+    "index": 83,
+    "target": "0x80039814",
+    "row": "slus/konami_runtime_w_80039814",
+    "symbol": "func_80039814"
+   },
+   {
+    "index": 84,
+    "target": "0x80039ED8",
+    "row": "slus/konami_runtime_w_80039ED8",
+    "symbol": "func_80039ED8"
+   },
+   {
+    "index": 85,
+    "target": "0x80039EF4",
+    "row": "slus/konami_runtime_w_80039EF4",
+    "symbol": "func_80039EF4"
+   },
+   {
+    "index": 86,
+    "target": "0x80039A88",
+    "row": "slus/konami_runtime_w_80039A88",
+    "symbol": "func_80039A88"
+   },
+   {
+    "index": 87,
+    "target": "0x80039ACC",
+    "row": "slus/konami_runtime_w_80039ACC",
+    "symbol": "func_80039ACC"
+   },
+   {
+    "index": 88,
+    "target": "0x8003B470",
+    "row": "slus/konami_runtime_w_8003B470",
+    "symbol": "func_8003B470"
+   }
+  ]
+ },
+ {
+  "vram": "0x8006AC9C",
+  "file_offset": "0x3E49C",
+  "entries": 19,
+  "role": "resident function-pointer table (role not yet named)",
+  "targets": [
+   {
+    "index": 0,
+    "target": "0x8002D2D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 1,
+    "target": "0x8002D2C8",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 2,
+    "target": "0x8002D2BC",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 3,
+    "target": "0x8002D2AC",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 4,
+    "target": "0x8002D2A0",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 5,
+    "target": "0x8002D290",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 6,
+    "target": "0x8002D284",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 7,
+    "target": "0x8002D274",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 8,
+    "target": "0x8002D268",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 9,
+    "target": "0x8002D25C",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 10,
+    "target": "0x8002D250",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 11,
+    "target": "0x8002D244",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 12,
+    "target": "0x8002D234",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 13,
+    "target": "0x8002D228",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 14,
+    "target": "0x8002D21C",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 15,
+    "target": "0x8002D210",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 16,
+    "target": "0x8002D204",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 17,
+    "target": "0x8002D1F8",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 18,
+    "target": "0x8002D1EC",
+    "row": null,
+    "symbol": null
+   }
+  ]
+ },
+ {
+  "vram": "0x8006AD74",
+  "file_offset": "0x3E574",
+  "entries": 12,
+  "role": "resident function-pointer table (role not yet named)",
+  "targets": [
+   {
+    "index": 0,
+    "target": "0x8002D0B4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 1,
+    "target": "0x8002D0B4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 2,
+    "target": "0x8002D0B4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 3,
+    "target": "0x8002D0B4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 4,
+    "target": "0x8002D188",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 5,
+    "target": "0x8002D0A8",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 6,
+    "target": "0x8002D0A8",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 7,
+    "target": "0x8002D0A8",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 8,
+    "target": "0x8002D0A8",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 9,
+    "target": "0x8002D098",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 10,
+    "target": "0x8002D088",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 11,
+    "target": "0x8002D078",
+    "row": null,
+    "symbol": null
+   }
+  ]
+ },
+ {
+  "vram": "0x8006B01C",
+  "file_offset": "0x3E81C",
+  "entries": 33,
+  "role": "resident function-pointer table (role not yet named)",
+  "targets": [
+   {
+    "index": 0,
+    "target": "0x8002D560",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 1,
+    "target": "0x8002D554",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 2,
+    "target": "0x8002D544",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 3,
+    "target": "0x8002D538",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 4,
+    "target": "0x8002D52C",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 5,
+    "target": "0x8002D520",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 6,
+    "target": "0x8002D514",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 7,
+    "target": "0x8002D508",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 8,
+    "target": "0x8002D4F8",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 9,
+    "target": "0x8002D4EC",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 10,
+    "target": "0x8002D4E0",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 11,
+    "target": "0x8002D4D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 12,
+    "target": "0x8002D4C4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 13,
+    "target": "0x8002D4B4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 14,
+    "target": "0x8002D4A8",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 15,
+    "target": "0x8002D49C",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 16,
+    "target": "0x8002D490",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 17,
+    "target": "0x8002D484",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 18,
+    "target": "0x8002D478",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 19,
+    "target": "0x8002D468",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 20,
+    "target": "0x8002D458",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 21,
+    "target": "0x8002D44C",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 22,
+    "target": "0x8002D440",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 23,
+    "target": "0x8002D430",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 24,
+    "target": "0x8002D424",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 25,
+    "target": "0x8002D414",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 26,
+    "target": "0x8002D404",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 27,
+    "target": "0x8002D3F4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 28,
+    "target": "0x8002D3E4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 29,
+    "target": "0x8002D3D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 30,
+    "target": "0x8002D3C8",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 31,
+    "target": "0x8002D3BC",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 32,
+    "target": "0x8002D3AC",
+    "row": null,
+    "symbol": null
+   }
+  ]
+ },
+ {
+  "vram": "0x8007AED8",
+  "file_offset": "0x4E6D8",
+  "entries": 40,
+  "role": "resident function-pointer table (role not yet named)",
+  "targets": [
+   {
+    "index": 0,
+    "target": "0x80033474",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 1,
+    "target": "0x8003346C",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 2,
+    "target": "0x80033460",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 3,
+    "target": "0x80033458",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 4,
+    "target": "0x8003344C",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 5,
+    "target": "0x80033440",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 6,
+    "target": "0x80033434",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 7,
+    "target": "0x80033428",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 8,
+    "target": "0x80033420",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 9,
+    "target": "0x80033414",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 10,
+    "target": "0x80033408",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 11,
+    "target": "0x80033400",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 12,
+    "target": "0x800333F4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 13,
+    "target": "0x800333E4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 14,
+    "target": "0x800333D8",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 15,
+    "target": "0x800333D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 16,
+    "target": "0x800333C8",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 17,
+    "target": "0x800333BC",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 18,
+    "target": "0x800333D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 19,
+    "target": "0x800333B0",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 20,
+    "target": "0x800333A4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 21,
+    "target": "0x80033398",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 22,
+    "target": "0x8003338C",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 23,
+    "target": "0x800333D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 24,
+    "target": "0x800333D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 25,
+    "target": "0x800333D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 26,
+    "target": "0x800333D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 27,
+    "target": "0x80033380",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 28,
+    "target": "0x800333D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 29,
+    "target": "0x800333D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 30,
+    "target": "0x800333D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 31,
+    "target": "0x800333D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 32,
+    "target": "0x800334B4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 33,
+    "target": "0x800334A8",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 34,
+    "target": "0x8003349C",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 35,
+    "target": "0x80033490",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 36,
+    "target": "0x80033488",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 37,
+    "target": "0x8003347C",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 38,
+    "target": "0x800333D4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 39,
+    "target": "0x800333D4",
+    "row": null,
+    "symbol": null
+   }
+  ]
+ },
+ {
+  "vram": "0x8008077C",
+  "file_offset": "0x53F7C",
+  "entries": 16,
+  "role": "resident function-pointer table (role not yet named)",
+  "targets": [
+   {
+    "index": 0,
+    "target": "0x800336FC",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 1,
+    "target": "0x800690AC",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 2,
+    "target": "0x800690D0",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 3,
+    "target": "0x80068888",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 4,
+    "target": "0x80068FA4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 5,
+    "target": "0x80068FE0",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 6,
+    "target": "0x80069030",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 7,
+    "target": "0x80068D20",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 8,
+    "target": "0x80068AE4",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 9,
+    "target": "0x800693B0",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 10,
+    "target": "0x80068FCC",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 11,
+    "target": "0x800687A0",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 12,
+    "target": "0x8006907C",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 13,
+    "target": "0x8006969C",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 14,
+    "target": "0x80068788",
+    "row": null,
+    "symbol": null
+   },
+   {
+    "index": 15,
+    "target": "0x800697F8",
+    "row": null,
+    "symbol": null
+   }
+  ]
+ }
+]

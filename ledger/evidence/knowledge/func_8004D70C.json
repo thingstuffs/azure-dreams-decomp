@@ -1,0 +1,14 @@
+{
+ "func": "func_8004D70C",
+ "doc": "Kicks off the D_80083160 dispatch table: runs func_8004D690 over dispatch-slot pair (D_80083160+0xCC, D_80083160+0x110) with index 0, then over pair (D_80083160+0x154, D_80083160+0x198) with index 1 (each slot is 0x44 bytes, matching the S_80083178 dispatch-table stride), then calls func_8004D4AC() to rebuild matrices.",
+ "globals": [
+  {
+   "name": "D_80083160",
+   "decl": "struct S_8004D70C_D80083160 { char pad0[0xCC]; char f_CC[0x44]; char f_110[0x44]; char f_154[0x44]; char f_198[0x44]; }; extern struct S_8004D70C_D80083160 D_80083160; /* base of the S_80083178-family dispatch table, offset -0x18 from D_80083178; four 0x44-byte dispatch slots at +0xCC/+0x110/+0x154/+0x198 == S_80083178 +0xB4/+0xF8/+0x13C/+0x180 */"
+  }
+ ],
+ "calls": [
+  "func_8004D690(void *a0, void *a1, s32 a2) -- dispatch-slot pump: if slot a0's callback (offset 0) is set, jalr it with a0+4 as arg and return; else if slot a1's callback is set, calls func_8004D7E8(a2) and loops.",
+  "func_8004D4AC(void) -- matrix-rebuild routine, no args."
+ ]
+}

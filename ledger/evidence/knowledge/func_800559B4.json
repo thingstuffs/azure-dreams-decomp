@@ -1,0 +1,31 @@
+{
+ "func": "func_800559B4",
+ "doc": "Global init routine: clears/reinitializes the D_800847D0 status block (flags1=0x10, flags2=0, field1E=0x5A, field26=-1, field8/C/10/14/18/20/22=0, field30/31/32/33=0, field28=0xC8), saturates the D_80084808 short array (3 entries) to 0x7FFF, zeroes D_80084850, initializes two task/timer objects D_800848F8 and D_80084858 via func_80055990, then installs their callback function pointers (func_800552C8 / func_80054D64 respectively) and remaining constant fields (0x64/0x64/0x50/2 for D_800848F8; 0x7F/0x7F/0x14/0 for D_80084858).",
+ "globals": [
+  {
+   "name": "D_800847D0",
+   "decl": "S_800847D0 (0x34+ bytes): u32 flags1@0x00, flags2@0x04, field8@0x08, fieldC@0x0C, field10@0x10, field14@0x14, field18@0x18(u32), pad@0x1C(2B), field1E@0x1E(s16), field20@0x20(s16), field22@0x22(s16), pad@0x24(2B), field26@0x26(s16), field28@0x28(u8), pad@0x29(7B), field30/31/32/33@0x30-0x33 (s8 each)"
+  },
+  {
+   "name": "D_80084858",
+   "decl": "S_80084858 (0x1A bytes, D_80055990_Struct family): field0@0x00 (void(*)(void), function pointer -- newly revealed, was pad0[4] in code.c's own D_80055990_Struct), field4@0x04 (s32), field8@0x08 (s16), fieldA@0x0A (s16), fieldC@0x0C (s32), field10@0x10 (s16), field12@0x12 (s16), field14@0x14 (s16), field16@0x16 (s16), field18@0x18 (s16)"
+  },
+  {
+   "name": "D_800848F8",
+   "decl": "S_800848F8 (0x1A bytes, same layout as D_80084858 above, independently named per address convention): field0@0x00 (void(*)(void)), field4@0x04 (s32), field8@0x08 (s16), fieldA@0x0A (s16), fieldC@0x0C (s32), field10@0x10 (s16), field12@0x12 (s16), field14@0x14 (s16), field16@0x16 (s16), field18@0x18 (s16)"
+  },
+  {
+   "name": "D_80084808",
+   "decl": "s16 D_80084808[8] (existing include/globals.h decl `extern short D_80084808[8];` reused as-is)"
+  },
+  {
+   "name": "D_80084850",
+   "decl": "s32 D_80084850 (scalar, %hi/%lo addressed under -G0)"
+  }
+ ],
+ "calls": [
+  "func_80055990(void *a0) -- task/timer-object initializer, already matched in src/code.c (own signature D_80055990_Struct*; only the address is passed here, no field access at the call site, so a void* extern is sufficient and byte-identical)",
+  "func_800552C8(void) -- function-pointer literal only, address stored into D_800848F8.field0",
+  "func_80054D64(void) -- function-pointer literal only, address stored into D_80084858.field0"
+ ]
+}

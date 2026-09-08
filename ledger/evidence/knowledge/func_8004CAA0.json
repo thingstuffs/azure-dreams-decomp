@@ -1,0 +1,7 @@
+{
+ "func": "func_8004CAA0",
+ "doc": "Coroutine/stack-switch trampoline: saves the current $sp into the last word of PSX scratchpad RAM (0x1F8003FC), repoints $sp to (scratchpad_end - 4), calls func_8004C36C(a0, a2) on that temporary mini-stack, then restores $sp from the saved word and returns 0.",
+ "calls": [
+  "func_8004C36C(void *a0, void *a1)"
+ ]
+}

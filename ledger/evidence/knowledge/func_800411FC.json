@@ -1,0 +1,13 @@
+{
+ "func": "func_800411FC",
+ "doc": "Given a u16 index arg0, looks up D_8006CE80[arg0].unk04 (a pointer to an inner record). If non-null, reads unk04->unk0C (a pointer to a null-terminated array of s32 values). If that list is non-empty, calls func_80041284() on each element in turn until a 0 terminator is reached.",
+ "globals": [
+  {
+   "name": "D_8006CE80",
+   "decl": "struct S_8006CE80 { s32 unk00; S_8006CE80_inner *unk04; s32 unk08; } D_8006CE80[100]; /* 12-byte elements; only unk04 (offset 4, pointer to inner record) is accessed by this function; unk00/unk08 are unconfirmed padding/fields */"
+  }
+ ],
+ "calls": [
+  "func_80041284(s32) - called with each non-null s32 element from the list"
+ ]
+}

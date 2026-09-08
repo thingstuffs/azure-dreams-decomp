@@ -1,0 +1,17 @@
+{
+ "func": "func_8005E450",
+ "doc": "If a0 is non-zero, calls func_8005D9DC(D_80079500.ptr); if that call returns 0, sets D_800794FC.v = 1 and returns 1. Otherwise (a0==0, or the call returned non-zero) sets D_800794FC.v = 0 and returns 0.",
+ "globals": [
+  {
+   "name": "D_80079500",
+   "decl": "struct S_80079500 { void *ptr; s32 pad[2]; } D_80079500; // only .ptr (offset 0) accessed here; padded to >8B to force %hi/%lo codegen (was accessed via lui/lw, not gp_rel)"
+  },
+  {
+   "name": "D_800794FC",
+   "decl": "struct S_800794FC { s32 v; s32 pad[2]; } D_800794FC; // only .v (offset 0) accessed here, written with two separate values (1 or 0); padded to >8B to force %hi/%lo codegen"
+  }
+ ],
+ "calls": [
+  "func_8005D9DC(void *arg) -> s32  (arg = D_80079500.ptr; return value only checked for zero/nonzero)"
+ ]
+}

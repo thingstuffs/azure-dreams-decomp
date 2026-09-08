@@ -1,0 +1,10 @@
+{
+ "func": "func_8004CC38",
+ "doc": "Loop over a pointer-to-pointer array of `count` entries; for each entry, dereference to get an S_8004CC38_Node whose `unk4` field is a pointer to a 16-byte record, and overwrite that record's 4 words with the contents of the global D_8002E5D8 struct (4 s32 fields). Advances the array pointer by one element (4 bytes) each iteration.",
+ "globals": [
+  {
+   "decl": "typedef struct S_8002E5D8 { s32 unk0; s32 unk4; s32 unk8; s32 unkC; } S_8002E5D8; extern S_8002E5D8 D_8002E5D8;",
+   "name": "D_8002E5D8"
+  }
+ ]
+}

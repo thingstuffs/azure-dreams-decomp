@@ -1,0 +1,19 @@
+{
+ "func": "func_800546B0",
+ "doc": "Waits for the CD read position to catch up to D_800847DC; if it hasn't caught up yet, or has caught up but func_800545F4(&D_80084858) reports failure (-1), it fires a timeout/retry event via func_80054E00(0x74).",
+ "globals": [
+  {
+   "name": "D_80084858",
+   "decl": "typedef struct S_80084858 { u8 pad[0x40]; } S_80084858; extern S_80084858 D_80084858; /* only the address is taken here (passed to func_800545F4); no fields read/written by this function, so field layout is unconstrained by this view */"
+  },
+  {
+   "name": "D_800847DC",
+   "decl": "extern u32 D_800847DC[3]; /* single unsigned 32-bit scalar read (compared via sltu); declared >8B to force %hi/%lo codegen matching the target's lui+lw addressing */"
+  }
+ ],
+ "calls": [
+  "func_80053D64() -> int (already matched, no args)",
+  "func_800545F4(S_80084858 *a0) -> int",
+  "func_80054E00(s32 a0) -> void"
+ ]
+}

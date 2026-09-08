@@ -1,0 +1,8 @@
+{
+ "func": "func_8005497C",
+ "doc": "Masks the low byte of a0 (an event/message code), reports it via func_800558FC, then for a small whitelist of codes (0x11,0x12,0x14,0x18) translates it to a sequential index (0,1,2,3) and forwards that to func_80055BD8; other codes are ignored.",
+ "calls": [
+  "func_800558FC(s32 a0) -- extern void, called with (a0 & 0xFF)",
+  "func_80055BD8(s32 a0) -- extern void, called with translated event code"
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "func": "func_80056D44",
+ "doc": "Builds/refreshes the global entity struct D_80084918 from a lookup-table value (indexed by a0 into D_80073740) and three fields copied out of *a1, then hands the struct off to func_8005F134 and returns its result.",
+ "globals": [
+  {
+   "name": "D_80084918",
+   "decl": "struct S_80084918 { /*0x00*/ s32 field0; /*0x04*/ u32 field4; /*0x08*/ u8 pad08[0x1C]; /*0x24*/ s32 field24; /*0x28*/ u8 pad28[0x12]; /*0x3A*/ u16 field3A; /*0x3C*/ u16 field3C; } D_80084918; -- only fields 0x00,0x04,0x24,0x3A,0x3C observed in this function; struct likely extends further (size >= 0x3E), gaps are unknown/padding here."
+  }
+ ],
+ "calls": [
+  "func_8005F134(S_80084918 *arg0) -> s32 : callback that consumes/dispatches the just-populated D_80084918 struct; return value is passed through untouched to this function's own return."
+ ]
+}

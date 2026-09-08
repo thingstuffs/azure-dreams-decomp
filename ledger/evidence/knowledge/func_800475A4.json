@@ -1,0 +1,7 @@
+{
+ "func": "func_800475A4",
+ "doc": "Iterates a linked array of 0xC-byte entries starting at arg0 (struct S_800475A4_Entry, first byte a flags bitfield). For each entry whose flags & 0x60 == 0, decrements a rolling u16 pointer (aliased to the same memory as the entry array, viewed 2 bytes at a time) and calls func_80047338(entry, *arg1, *rollingU16Ptr). Loop advances entry by 0xC and stops after processing the entry whose flags & 0x80 is set (do-while, tested post-increment).",
+ "calls": [
+  "func_80047338(struct S_800475A4_Entry *a0, s32 a1, u16 a2) -- a0: pointer to current entry (passed through), a1: the s32 value pointed to by func_800475A4's second argument (a fixed source, re-read each call), a2: u16 value read from a rolling cursor that starts aliased to arg0 and is decremented by 2 bytes each time this branch is taken (independent of the 0xC-byte entry stride)."
+ ]
+}

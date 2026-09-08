@@ -1,0 +1,8 @@
+{
+ "func": "func_80050EA8",
+ "doc": "If a0->unk10 (a pending value) is non-zero, stash it at a0->unk20.unk24 (the sub-struct beginning at a0+0x20, field at absolute offset a0+0x44) and clear a0->unk10. Then call func_80044A50(a0) unconditionally. After that, take the pointer stored at a0->unk20.unk28 (absolute a0+0x48) and pass it to func_8004FE78, then clear that field.",
+ "calls": [
+  "func_80044A50(S_80050EA8 *a0)",
+  "func_8004FE78(void *a0)"
+ ]
+}

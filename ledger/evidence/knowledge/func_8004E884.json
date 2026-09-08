@@ -1,0 +1,7 @@
+{
+ "func": "func_8004E884",
+ "doc": "Walk a linked array of 12-byte entries starting at a0 (may be NULL, in which case nothing happens), calling func_8004E264(entry, a1) on each entry, stopping once an entry's first byte has bit 0x80 set.",
+ "calls": [
+  "func_8004E264(void *a0, s32 a1) - matched at gcc 2.7.2, src/code.c"
+ ]
+}

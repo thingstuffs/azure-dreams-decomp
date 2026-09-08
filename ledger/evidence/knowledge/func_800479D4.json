@@ -1,0 +1,9 @@
+{
+ "func": "func_800479D4",
+ "doc": "Registers two callbacks (kind 6) with func_8003E4FC: the results of func_80043704(a2,a0) and func_800437A4(a2,a1), where a2 is a s16 id and a0/a1 are opaque pointer-ish s32 args (likely entity/object handles).",
+ "calls": [
+  "func_80043704(s16 a0, s32 a1) -> void* (returns a value used as a callback pointer arg)",
+  "func_800437A4(s16 a0, s32 a1) -> void* (returns a value used as a callback pointer arg)",
+  "func_8003E4FC(s32 kind, void *callback, void *arg) -> s32 (registers a callback, kind=6 here)"
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "func": "func_8003E2D8",
+ "doc": "Reads controller/pad state via func_8003E240(0) into D_80083160's \"cur\" slot (offset 0x8). Saves the previous reading into the \"old\" slot (offset 0xC), clears the new reading to 0 if its top nibble reads 0xF (e.g. no controller connected / not-ready sentinel), then recomputes the \"trg\" (newly-pressed/newly-set-bits) mask at offset 0x10 as (new ^ old) & new.",
+ "globals": [
+  {
+   "name": "D_80083160",
+   "decl": "struct S_8003E2D8 { char pad0[8]; s32 field_8 /*cur*/; s32 field_C /*old*/; s32 field_10 /*trg*/; } D_80083160; (matches this function's view; other TUs in the codebase already declare independent views of the same shared-state global at different offsets)"
+  }
+ ],
+ "calls": [
+  "func_8003E240(s32 a0) -> s32: reads pad/controller state for port a0; called with a0=0"
+ ]
+}

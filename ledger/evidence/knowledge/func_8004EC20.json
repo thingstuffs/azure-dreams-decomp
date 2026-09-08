@@ -1,0 +1,15 @@
+{
+ "func": "func_8004EC20",
+ "doc": "Guarded dispatch: if the struct's byte flag at +0x8 is set AND the byte flag at +0x9 is set, busy-wait (calling func_80044618(2) each iteration) until func_8004EBDC() returns nonzero, then invoke a callback looked up in the D_80071654 function-pointer table by the struct's s32 field at +0x4, passing (u8*)this - 0x20 as the argument, and return its result. Otherwise return 0.",
+ "globals": [
+  {
+   "decl": "extern s32 (*D_80071654[])(void *);",
+   "name": "D_80071654"
+  }
+ ],
+ "calls": [
+  "func_8004EBDC(void) -> s32  [already matched, gcc 2.7.2]",
+  "func_80044618(s32) -> void  [not yet matched; assumed signature void func_80044618(s32) matching existing extern decls in src/w_8003F320.c]",
+  "D_80071654[idx](void *arg) -> s32  [function-pointer table; callback signature assumed s32 (*)(void *)]"
+ ]
+}

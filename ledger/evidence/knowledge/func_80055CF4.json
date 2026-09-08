@@ -1,0 +1,13 @@
+{
+ "func": "func_80055CF4",
+ "doc": "Scans the top nibble (bits 24-27, mask 0xFF000000 & (0x1000000<<i)) of D_800847D0.flags2 -- the per-channel \"locked\" flags -- for i in 0..3. On the first set bit, calls func_80055D84(i) to release/reactivate that channel (which sets the corresponding bit in D_800847D0.flags1's \"avail\" range), then clears the located bit in flags2 and returns. If no bit is set in any of the 4 slots, returns without calling anything.",
+ "globals": [
+  {
+   "name": "D_800847D0",
+   "decl": "typedef struct S_800847D0 { u32 flags1; /*0x00*/ u32 flags2; /*0x04, only field this function touches: top byte = per-channel locked bits (0x1000000<<i for i in 0..3)*/ u32 field8; /*0x08*/ u32 fieldC; /*0x0C*/ u32 field10; /*0x10*/ u32 field14; /*0x14*/ u32 field18; /*0x18*/ u8 pad1C[2]; /*0x1C*/ s16 field1E; /*0x1E*/ s16 field20; /*0x20*/ s16 field22; /*0x22*/ u8 pad24[2]; /*0x24*/ s16 field26; /*0x26*/ u8 field28; /*0x28*/ u8 pad29[7]; /*0x29*/ s8 field30; /*0x30*/ s8 field31; /*0x31*/ s8 field32; /*0x32*/ s8 field33; /*0x33*/ } S_800847D0; extern S_800847D0 D_800847D0;"
+  }
+ ],
+ "calls": [
+  "func_80055D84(s16 param_0) -- extern void func_80055D84(s16 param_0); (matched at gcc 2.7.2-cdk, src/w_80055D84.c). Called with the sign-extended loop index i (0..3)."
+ ]
+}

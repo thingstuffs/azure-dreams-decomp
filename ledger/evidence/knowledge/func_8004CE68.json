@@ -1,0 +1,4 @@
+{
+ "func": "func_8004CE68",
+ "doc": "Walks a linked chain of fixed-size (0xC-byte) sub-records starting at `a0`, updating a status flag (bit 0x2 at byte offset 1) on each record based on `a1`, then advances to the next record: +0x18 if the record's \"type\" field (bits 2-7 of byte 1) equals 0x0E (0x38 when masked with 0xFC), otherwise +0xC. Stops when a record's byte 0 has bit 0x80 set, or immediately if `a0` is NULL."
+}

@@ -1,0 +1,8 @@
+{
+ "func": "func_8004F95C",
+ "doc": "Increments a counter field and, once it reaches a limit field, installs a callback function pointer (func_8004F67C, a no-op) into the struct's first field. Also unconditionally forwards the struct to func_8004F884 first.",
+ "calls": [
+  "func_8004F884(S_8004F95C *a0)",
+  "func_8004F67C(void)"
+ ]
+}

@@ -1,0 +1,4 @@
+{
+ "func": "func_800537D0",
+ "doc": "Right-justifies a decimal integer into a fixed-width character field: writes `value` in base 10 into buf[0..width-1] filling from the least-significant end (buf[width-1]) leftward. Once the running quotient (value/10) hits zero, all remaining (more-significant, i.e. lower-index) positions are filled with spaces instead of '0' digits \u2014 this is a \"blank-padded\" numeric field formatter (e.g. for an HP/score/stat display), not zero-padded. No return value; caller supplies value, field width, and destination buffer pointer."
+}

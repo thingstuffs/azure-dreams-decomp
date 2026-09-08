@@ -1,0 +1,30 @@
+{
+ "func": "func_80054E00",
+ "doc": "Message/event dispatcher keyed by a byte opcode (arg0 & 0xFF) for a CD-cue countdown subsystem: 0xE4 arms/queries a countdown clamped against a CD-position-derived value (func_80053D64), storing derived timing into D_800847D0's pending fields and setting flags1 bit 0x4000; 0x74 commits the countdown (once armed, i.e. field18==0 and field10!=0) by rotating the pending fields into the active fields via func_80054C58/func_80054CD4, after resetting flags1 bit 0x400 and re-arming via func_8005A4E8/func_8003E4FC; 0xF4 cancels an armed countdown (flags1 bit 0x4000 set) via the same commit path.",
+ "globals": [
+  {
+   "name": "D_800847D0",
+   "decl": "typedef struct S_800847D0 { u32 flags1; /*0x0*/ u32 flags2; /*0x4*/ u32 field8; /*0x8*/ u32 fieldC; /*0xC*/ u32 field10; /*0x10*/ u32 field14; /*0x14*/ u32 field18; /*0x18*/ s16 field1C; /*0x1C, NEW: previously an unnamed pad window, now confirmed as a signed 16-bit field read via `lh`*/ s16 field1E; /*0x1E*/ s16 field20; /*0x20*/ s16 field22; /*0x22*/ u8 pad24[2]; s16 field26; /*0x26*/ u8 field28; /*0x28*/ u8 pad29[7]; s8 field30; /*0x30*/ s8 field31; /*0x31*/ s8 field32; /*0x32*/ s8 field33; /*0x33*/ } S_800847D0; extern S_800847D0 D_800847D0;"
+  },
+  {
+   "name": "D_80084858",
+   "decl": "typedef struct S_80084858 { void (*field0)(void); /*0x0*/ s32 field4; /*0x4*/ s16 field8; /*0x8*/ s16 fieldA; /*0xA*/ s32 fieldC; /*0xC*/ s16 field10; /*0x10*/ s16 field12; /*0x12*/ s16 field14; /*0x14*/ s16 field16; /*0x16*/ s16 field18; /*0x18*/ } S_80084858; extern S_80084858 D_80084858; (unchanged from prior canonical layout; this function only touches field4/field8/fieldA)"
+  },
+  {
+   "name": "D_80084904",
+   "decl": "typedef struct S_80084904 { s32 v; /*0x0, only field touched: single scalar write of 1*/ u8 pad4[8]; } S_80084904; extern S_80084904 D_80084904; (padded >8B purely to force %hi/%lo addressing instead of $gp_rel)"
+  },
+  {
+   "name": "D_80084864",
+   "decl": "typedef struct S_80084864 { s32 v; /*0x0, only field touched: single scalar write of 2*/ u8 pad4[8]; } S_80084864; extern S_80084864 D_80084864; (padded >8B purely to force %hi/%lo addressing instead of $gp_rel)"
+  }
+ ],
+ "calls": [
+  "func_8005A4E8(u8 a0, u8 a1, u8 a2) - matched 2.7.2, src/w_8005A4E8.c",
+  "func_8003E4FC(s32 a0, void *a1, void *a2) - callback-table registration helper, extern only",
+  "func_80053D64(void) returns s32 (CD position) - matched 2.7.2, src/w_80053D64.c",
+  "func_80054AF0(int arg0) returns int - matched 2.7.2, src/code.c",
+  "func_80054C58(void) - matched 2.7.2-cdk, src/w_80054C58.c",
+  "func_80054CD4(void) - not yet matched, extern void only"
+ ]
+}

@@ -1,0 +1,18 @@
+{
+ "func": "func_8004F068",
+ "doc": "Initializes two adjacent sub-structures inside the object pointed to by arg0: sets/ORs flag bytes at offsets 0x0/0x1, copies three global words (D_80071678/D_80071680/D_8007167C) into offsets 0x8/0x4/0xC, then bumps to arg0+0x18 and does the same for a second smaller header (flag byte, two u16 fields), returning a pointer to (arg0+0x18+0xC).",
+ "globals": [
+  {
+   "name": "D_80071678",
+   "decl": "single s32 word, hi/lo addressed (not gp_rel) \u2014 declare as struct { s32 v; s32 pad[2]; } so size>8 forces %hi/%lo codegen; only .v is read"
+  },
+  {
+   "name": "D_8007167C",
+   "decl": "same shape as D_80071678; only .v read"
+  },
+  {
+   "name": "D_80071680",
+   "decl": "same shape as D_80071678; only .v read"
+  }
+ ]
+}

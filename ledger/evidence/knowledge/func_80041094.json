@@ -1,0 +1,13 @@
+{
+ "func": "func_80041094",
+ "doc": "Masks a0 to 16 bits and forwards it to func_80040AA0 (some sort of state-transition dispatch), then stores the remaining four 16-bit arguments (a1..a3 plus a stack-passed 5th arg) into D_80082E60's field_10..field_16 -- a block of four contiguous s16 slots (likely a position/coords quad) inside the shared D_80082E60 global-state struct.",
+ "globals": [
+  {
+   "name": "D_80082E60",
+   "decl": "struct S_80082E60 { u8 pad0[0x10]; s16 field_10; s16 field_12; s16 field_14; s16 field_16; /* ... additional fields established by sibling TUs (field_0 s32, field_4 s32, field_8 union u8/u16, field_B/C/D/E s8, field_18 s8) live before/after this window */ };  -- this function only touches field_10..field_16 (4 contiguous s16 slots at 0x10-0x17)"
+  }
+ ],
+ "calls": [
+  "func_80040AA0(u16 a0) - only arg setup matters here (masks the notify id to 16 bits before forwarding); callee itself remains an unmatched INCLUDE_ASM stub in src/code.c"
+ ]
+}

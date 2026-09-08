@@ -1,0 +1,4 @@
+{
+ "func": "func_8003DF0C",
+ "doc": "Scans an array of 0xC-byte entries starting at `ent`, looking for one whose flags byte has bit 0x20 set and whose id field (u16 at offset 6) equals `want`. Records the (adjusted) scan index of the match, or leaves it 0, at *idxOut, and returns a pointer to the matching entry (or NULL if none matched). The scan processes entries until (and including) the one whose flags byte has bit 0x80 set (a \"last entry\" sentinel). After the scan, the value stored at *idxOut is reduced by half of the total entry count scanned (rounded down towards zero), giving a signed/relative index rather than an absolute one."
+}

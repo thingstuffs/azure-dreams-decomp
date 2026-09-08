@@ -1,0 +1,13 @@
+{
+ "func": "func_8005C668",
+ "doc": "Builds a partially-initialized ~0x40-byte request struct on the stack: unk4 (offset 4) = constant 3 (a mode/type tag), unk0 (offset 0) = D_80073740[a0] (a flags bitmask looked up by a signed 16-bit index), unk8/unkA (offsets 8/0xA) = the two s16 params a1/a2 verbatim. The remaining ~0x34 bytes of the struct are left uninitialized (stack garbage) - only these four fields are ever written by this caller. Passes &struct to func_8005F134 and unconditionally returns 0.",
+ "globals": [
+  {
+   "name": "D_80073740",
+   "decl": "extern s32 D_80073740[]; /* array of s32 flag-bitmask words, indexed by a signed 16-bit index (index*4 byte stride confirmed by sll16/sra14 idiom); element type/size confirmed as word by direct lw of D_80073740[idx] */"
+  }
+ ],
+ "calls": [
+  "func_8005F134(void *a0) - takes pointer to the ~0x40-byte request struct; reads offset 0 as a flags bitmask and offset 4 as a small count, iterating bit-by-bit."
+ ]
+}

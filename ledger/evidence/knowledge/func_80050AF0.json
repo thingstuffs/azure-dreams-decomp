@@ -1,0 +1,10 @@
+{
+ "func": "func_80050AF0",
+ "doc": "Allocates/initializes a0's sub-buffer array starting at struct offset 0x6C (size 0xC bytes): calls func_80049004(field6C, a1, 0xC) and stores the returned pointer into a0->unk68 unconditionally (even on failure, mirroring the retail delay-slot store); if that succeeded, advances via func_80049150(field6C, 9, 0xC); if that also succeeded, wires the two buffers together via func_80050A58(a0->unk68, ptr) (return value discarded), then does a final allocation via func_80048FBC(field6C, 0xC), storing its result into a0->unk2C and returning whether it was nonzero. Any earlier failure returns 0.",
+ "calls": [
+  "func_80049004(s32 *a0, s32 a1, s32 a2) -> s32 : still-nonmatching itself; called as func_80049004(field6C, a1, 0xC) forwarding func_80050AF0's own a1 param unmodified",
+  "func_80049150(s32 *a0, u32 a1, s32 a2) -> s32* : matched at gcc 2.7.2, src/w_80049150.c; called as func_80049150(field6C, 9, 0xC)",
+  "func_80050A58(s32 *a0, s32 a1) -> s32 (unused) : still-nonmatching itself; called as func_80050A58(a0->unk68, resultOfFunc_80049150) purely for its side effect, return value discarded",
+  "func_80048FBC(s32 *a0, s32 a1) -> s32 : matched at gcc 2.7.2, src/w_80048FBC.c; called as func_80048FBC(field6C, 0xC)"
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "func": "func_80056A08",
+ "doc": "Global-state initializer. (1) Sets D_80073738 (s16) = 0x7F. (2) Loops 32 entries of D_80085FA8[] (stride 0x50): zeroes most fields, sets f2c=1, f3c=0x78, f49=0xFF. (3) For i in [0, D_80073734[0]): if (u16)D_80085458[i].f06 < 0x10, initializes that 0x78-byte entry (f00=i, f18/f70/f74=0x40, rest 0), reads tmp=D_80073740[i], calls func_80056DB4(i), OR-accumulates tmp into acc, calls func_8005E97C(0, tmp). (4) Loops 16 entries of D_80084960[] (stride 0x9C): sets f04/f1c=0x40, f0c/f14/f20/f24=0x7F, zeroes the rest. (5) Calls func_8005E97C(0, acc). tmp=D_80073740[i] is read into a local BEFORE the func_80056DB4 call (survives it and is reused); func_80056DB4's return is discarded.",
+ "globals": [
+  {
+   "name": "D_80073738",
+   "decl": "extern S_80073738 D_80073738; /* struct { s16 f0; s16 pad[7]; }; only f0 (offset 0, s16) accessed = 0x7F. Large decl forces %hi/%lo under -G0. */"
+  },
+  {
+   "name": "D_80084960",
+   "decl": "extern S_80084960 D_80084960[16]; /* stride 0x9C. Fields: s32 f00,f04,f08,f0c,f10,f14,f18,f1c,f20,f24,f28,f2c; s8 f30; s16 f3a; s16 f40; s32 f44,f48; s16 f50; s8 f5f,f60,f61; s32 f64,f68; s8 f7a,f7b,f7c; s32 f80,f84,f94; s8 f98. */"
+  },
+  {
+   "name": "D_80085FA8",
+   "decl": "extern S_80085FA8 D_80085FA8[32]; /* stride 0x50. Fields: s32 f00..f44 (every 4); s8 f48; u8 f49; s8 f4a,f4c. */"
+  },
+  {
+   "name": "D_80073734",
+   "decl": "extern s32 D_80073734[4]; /* [0] = loop-2 count (signed, tested >0). Distinct %hi/%lo symbol. */"
+  },
+  {
+   "name": "D_80073740",
+   "decl": "extern s32 D_80073740[64]; /* int array indexed [i]; value OR-accumulated and passed to func_8005E97C. */"
+  },
+  {
+   "name": "D_80085458",
+   "decl": "extern S_80085458 D_80085458[64]; /* stride 0x78. Fields: s16 f00; u16 f06(read, gate <0x10); s16 f18,f1a; s8 f1c,f1d,f26,f27,f28; s32 f2c,f30,f3c; s8 f42,f43,f44; s32 f48,f4c,f58,f70,f74. */"
+  }
+ ],
+ "calls": [
+  "func_80056DB4(s32 arg0): called with loop index i; return value discarded",
+  "func_8005E97C(s32 arg0, s32 arg1): called as (0, D_80073740[i]) inside loop 2 and (0, acc) at end; returns void"
+ ]
+}

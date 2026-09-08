@@ -1,0 +1,8 @@
+{
+ "func": "func_8004E5E8",
+ "doc": "Sibling of func_8004E5A0 (which wraps func_8004E57C, the space-padded formatter). This one calls func_8004E4C0 directly with the pad char hardcoded to '0' (0x30), then reverses the digits via func_8004E478, and returns the buffer pointer. Both callees remain nonmatching in src/code.c but their signatures were inferred from the already-matched wrapper func_8004E57C and this function's own register flow.",
+ "calls": [
+  "func_8004E4C0(int value, unsigned short width, char *buf, int pad) - existing extern declared in src/code.c at func_8004E57C's site",
+  "func_8004E478(char *buf, unsigned short width) - reverses `width` bytes at buf in place, returns buf unchanged (v0 == a0 at entry)"
+ ]
+}

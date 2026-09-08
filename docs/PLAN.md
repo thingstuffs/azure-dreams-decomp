@@ -102,7 +102,9 @@ azure-clean/
   names.tsv                 semantic names with evidence; aliases keep func_ addresses
   tools/                    census, verify, xform/*, sweep, refresh, status  (small)
   ledger/                   per-row: source sha, verdict, level, tool hashes (jsonl, append-only)
-  docs/PLAN.md STATUS.md
+  ledger/evidence/          naming/module evidence per row: assertion file:line sites, developer
+                            identifiers, randomizer map, resident pointer tables, prior notes
+  docs/PLAN.md STATUS.md docs/EVIDENCE.md (index of the evidence and how each level uses it)
 ```
 
 Cleanliness levels per row (the metric; `STATUS.md` reports bytes at ≥ each level):
@@ -113,7 +115,7 @@ Cleanliness levels per row (the metric; `STATUS.md` reports bytes at ≥ each le
 | L1 | no boilerplate, no dead pins, no `LABEL_AS_CALL` / zero-arg pass-through (fidelity classes) and no pseudo-call to a label inside the row (checked from the text, not only the baseline audit) — the mechanical sweeps have been tried on every site (`t8_passthru`, `t10_epilogue`, the mid-row lanes) |
 | L2 | no `M2C_FIELD`: typed access through a (possibly partial, `unk_`-padded) struct |
 | L3 | locals named, one-line summary comment, control flow simplified where match allows; **every remaining pin, marker and tail-call spelling was attempted for removal** by the lane that refined the row (journalled counts before/after) |
-| L4 | in a module with a shared header; struct declared once; globals typed |
+| L4 | in a module with a shared header; struct declared once; globals typed; names and module membership agree with the row's evidence (`docs/EVIDENCE.md`: a row carrying `main.c:40` is in `main.c`) |
 | L5 | **strict, nothing left**: no `ASM_*` pin or marker, no noreturn tail-call spelling, no fidelity site of any audit class (blocking or byte-derived), no computed-goto table, no inline asm, no `NON_MATCHING` guard. A row that cannot get there stays at L4 with each residue documented with the measured reason (`ledger/levels.jsonl` `l5_residue` names it) |
 
 A row can sit at L3 with pins. Honest scaffolding with a comment is readable; silent
@@ -183,9 +185,11 @@ fits. This is where the **Astra evaluation** happens (§5).
 
 - Access census across *all* users of a base pointer (globals `D_xxx`, arguments traced through
   callers) → candidate layouts; merge the ~600 local `S_` structs where they agree.
-- Headers per subsystem; modules from the assertion catalogue where it exists (`main.c`,
-  `lshop.c`, `player.c`, … for TOWN/MAIN) and from call-graph clusters and address ranges
-  elsewhere. A module `.c` is generated from its rows in retail order; the per-row ledger keeps
+- Headers per subsystem; modules from the assertion source map where it exists (`main.c`,
+  `lshop.c`, `player.c`, … for TOWN/MAIN; `docs/EVIDENCE.md` §2, `ledger/evidence/assertions.jsonl`)
+  and from call-graph clusters and address ranges elsewhere. Names from the evidence in trust order
+  (assertion text and developer identifiers, randomizer table names, pointer-table roles, prior
+  notes, call-site roles); every lane prompt already carries the row's evidence block. A module `.c` is generated from its rows in retail order; the per-row ledger keeps
   the row identity.
 - Every user re-verified after each header change; the header hash goes into the ledger.
 
@@ -220,7 +224,7 @@ Upstream hand-back of L1 at the first bridge-wave hold point.
 
 Reused from upstream (read-only): toolchain, `aligned_score.py`, `match.py`, `cc.sh` recipes,
 `decomp_audit.py`, `neutralise.py`, `names.tsv`/`ccproc.py` alias mechanism, `STYLE.md`,
-`NAMING.md`, assertion catalogue, local `S_` structs.
+`NAMING.md`, assertion catalogue (now in-tree: `docs/evidence/`, `ledger/evidence/`), local `S_` structs.
 
 Reused from the earlier attempt (imported, re-verified, credited): the 62 hand-cleaned bodies as
 `refine/` candidates, its three headers as header seeds, its maspsx policy note as policy.

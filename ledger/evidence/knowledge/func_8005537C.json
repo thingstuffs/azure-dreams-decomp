@@ -1,0 +1,17 @@
+{
+ "func": "func_8005537C",
+ "doc": "Clamps/normalizes a note value stored in D_800848F8.unk0A (and mirrors it into unk08): if D_800847D0[0] has bit 0x20 set, subtracts 0x18 from arg0 before storing as the tentative note (an octave-shift flag). Then runs the note through func_80055750 (clamp to 0..0x7F range) and stores the clamped result back into both unk0A and unk08.",
+ "globals": [
+  {
+   "name": "D_800848F8",
+   "decl": "struct S_800848F8 { u8 pad00[8]; s16 unk08; s16 unk0A; } D_800848F8; // unk08 and unk0A are s16 note/pitch fields written together at the end of this function; unk0A also serves as a scratch note value read back before the func_80055750 call"
+  },
+  {
+   "name": "D_800847D0",
+   "decl": "s32 D_800847D0[3]; // must be declared >8 bytes (array/large) so gcc emits a %hi/%lo lui+lw load instead of a $gp-relative access; only element [0] is read here, tested against bit mask 0x20"
+  }
+ ],
+ "calls": [
+  "func_80055750(s16 arg0) -> s32  // already matched, defined in src/code8.c"
+ ]
+}

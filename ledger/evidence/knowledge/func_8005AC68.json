@@ -1,0 +1,13 @@
+{
+ "func": "func_8005AC68",
+ "doc": "Clears one slot of the 0x1C-byte-stride slot table D_80086A40[16] (shared with func_80057A50): if D_80086A40[arg0].marker != -1, calls func_8005A1D0(D_80086A40[arg0].unk10) and then sets the marker to -1 to free the slot.",
+ "globals": [
+  {
+   "name": "D_80086A40",
+   "decl": "S_8005AC68 D_80086A40[16]; struct S_8005AC68 { /*0x00*/ s16 marker; /*0x02*/ u8 pad02[2]; /*0x04*/ s32 unk04; /*0x08*/ u8 pad08[8]; /*0x10*/ s32 unk10; /*0x14*/ u8 pad14[8]; }; // size 0x1C (28), same slot table as func_80057A50's D_80086A40 (which names offset 0x04 as unk04/data-buffer base); offset 0x10 holds the value passed to func_8005A1D0"
+  }
+ ],
+ "calls": [
+  "func_8005A1D0(s32 arg0) -- called with the slot's unk10 field (data pointer stored as s32)"
+ ]
+}

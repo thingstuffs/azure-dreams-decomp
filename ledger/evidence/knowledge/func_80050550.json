@@ -1,0 +1,4 @@
+{
+ "func": "func_80050550",
+ "doc": "Computes three fixed-ratio values from (a1, a2) via `a1*K/a2` for K in {80, -128, 1024}, then writes: a 3-byte-repeated value (result1+0x30) into offset 0,1,2 of *a0->fieldA, a 16-bit value (0x180 - result2) into offset 0xC of *a0->fieldA, and a 16-bit value (0x400 - result3) into offset 2 of *a0->fieldB. Looks like an RGB triple + two 16-bit intensity/scale fields (e.g. brightness/light-radius ramp) derived proportionally from a1/a2 (e.g. current/max ratio)."
+}

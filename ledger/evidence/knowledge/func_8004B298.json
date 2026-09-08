@@ -1,0 +1,10 @@
+{
+ "func": "func_8004B298",
+ "doc": "If the value pointed to by a1's indirect pointer field (*a1->unk04) is zero, sets the \"used\"/flag bit (0x8000) both on the 16-bit flags field located one halfword before a0, and on the global 32-bit flags word D_800814A0.",
+ "globals": [
+  {
+   "name": "D_800814A0",
+   "decl": "extern int D_800814A0; /* 32-bit global flags word; scalar, but this TU compiles -G0 so it's always addressed via lui/%hi + lw|sw/%lo, never $gp */"
+  }
+ ]
+}

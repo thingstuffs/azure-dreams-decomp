@@ -1,0 +1,17 @@
+{
+ "func": "func_8005D4E8",
+ "doc": "Issues a raw SPU-driver mode-2 (\"set address\") call using the current shift-table value D_80079970.field0 left-shifted by D_80079980.field0, then a bare mode-1 (\"start\") call, then a mode-3 (\"upload chunk\") call forwarding a0 (buffer address) and a1 (size). Returns a1 (size). Structurally identical to sibling func_8005D460 minus its busy-flag fast path.",
+ "globals": [
+  {
+   "name": "D_80079970",
+   "decl": "typedef struct { u16 field0; u16 pad2; s32 field4; s32 pad8[2]; } S_80079970; extern S_80079970 D_80079970; /* field0 @0x0 = current shift/mode (u16, read here and in func_8005D460); field4 @0x4 = busy-flag save slot (s32, written by func_8005E7E0 as D_80079970[1]); total size >8B forces hi/lo addressing */"
+  },
+  {
+   "name": "D_80079980",
+   "decl": "typedef struct { s32 field0; s32 pad4; s32 pad8; } S_80079980; extern S_80079980 D_80079980; /* field0 @0x0 = shift amount, only field accessed by this function; size >8B forces hi/lo addressing, consistent with existing s32 D_80079980[3] convention used by func_8005D63C/func_8005D550/func_8005E7E0 */"
+  }
+ ],
+ "calls": [
+  "extern s32 func_8005D1D0(); /* K&R-style unprototyped, called with varying arg counts (1, 2, or 3 args) by this and sibling functions func_8005D460/func_8005E7E0 */"
+ ]
+}

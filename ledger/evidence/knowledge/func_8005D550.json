@@ -1,0 +1,14 @@
+{
+ "func": "func_8005D550",
+ "doc": "Stores a value into a u16 table (D_80079958.ptr[a0]); if a2 is nonzero, the value is first logically shifted right by the count in D_80079980[0] before storing.",
+ "globals": [
+  {
+   "name": "D_80079958",
+   "decl": "struct { volatile u16 *ptr; u32 pad2[2]; } D_80079958; /* first field is a u16* table pointer; sibling func_8005D63C and func_8005DA68 view the same struct (also with a pad2[2] tail) confirming layout/size>8 */"
+  },
+  {
+   "name": "D_80079980",
+   "decl": "extern s32 D_80079980[3]; /* only index 0 read, used as a shift-count; array padding forces hi/lo codegen, same decl as sibling func_8005D63C */"
+  }
+ ]
+}

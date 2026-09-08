@@ -1,0 +1,10 @@
+{
+ "func": "func_8004846C",
+ "doc": "Captures a 16x1-pixel VRAM tile (chosen by tile index a0: x=(a0&0x3F)<<4, y=a0>>6) into a scratch buffer via StoreImage, calls DrawSync(0), then redraws/shifts it 0x80 pixels via func_80047200 and func_8003F80C, followed by another DrawSync(0).",
+ "calls": [
+  "extern void StoreImage(S_8004846C_RECT *rect, void *p); // BIOS StoreImage(RECT*, u_long*)",
+  "extern void DrawSync(s32 a0);",
+  "extern s32 func_80047200(s32 a0, s32 a1, s32 a2); // takes addr as int, matches src/w_80047AB0.c usage",
+  "extern s32 func_8003F80C(s32 a0, s32 a1, s32 a2, s32 a3); // declared in src/w_80047AB0.c and src/code.c"
+ ]
+}

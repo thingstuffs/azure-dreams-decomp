@@ -1,0 +1,4 @@
+{
+ "func": "func_800489F4",
+ "doc": "Looks up a frame/keyframe entry from a 4-level pointer table using two 16-bit indices and installs it (plus its secondary pointer) into the object, updating an animation-state flag. a0->unk28 is a table pointer chain (4 pointer levels deep); a1 indexes an array of Frame* (elemsize 4) to get a base Frame*, a2 indexes that Frame array (elemsize 8) to get the target Frame. The Frame's address is stored to a0->unk0, its unk4 pointer field is copied to a0->unk8, a2 (truncated to u8) is stored to a0->unk4, and a0->unk14 has bit 0x40 cleared / bit 0x20 set."
+}

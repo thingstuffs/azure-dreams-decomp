@@ -1,0 +1,22 @@
+{
+ "func": "func_8003FC64",
+ "doc": "Allocates a node: if global flag D_80013714 bit 0x2 is set and a0 has bit 0x200 set, returns NULL immediately. Otherwise pops the head of the freelist D_80081490; if the freelist is empty, falls back to func_8003FB98(a0, NULL) (unless a0 has bit 0x200 set, in which case NULL). On a successful pop the node is zeroed via func_8003DB4C(node, 0x49), pushed onto the front of the active list D_80081498, its flags field (offset 0x1E) is set to a0|0x4000, and one of 4 candidate sub-buffer pointers (node+0xF4 / node+0x100 / node+0x10C / node+0x124, selected by a0's low bits 0x100/0x6/0x41, default 0x124) is stored at node+0xC (skipped only for the default/0x124 case); if a0 has any of bits 0x157 set, node+0x8 is set to that pointer minus 0x18. Returns the node.",
+ "globals": [
+  {
+   "name": "D_80013714",
+   "decl": "extern struct { u16 flags; u8 pad[8]; } D_80013714;  /* only .flags (offset 0, bit 0x2) is read; pad forces >8-byte size so gcc emits %hi/%lo instead of $gp-relative */"
+  },
+  {
+   "name": "D_80081490",
+   "decl": "extern struct { S_80081490 *head; s32 pad[2]; } D_80081490;  /* freelist head pointer, offset 0; same padded-struct-for-hi/lo pattern as D_80081498's established sibling declarations */"
+  },
+  {
+   "name": "D_80081498",
+   "decl": "extern struct { S_80081490 *head; s32 pad[2]; } D_80081498;  /* active/allocated-node list head pointer, offset 0; matches the layout already established in src/w_8003FFF0.c, src/w_800401FC.c, src/w_80040454.c (S_8003FFF0/Node: next@0x00, prev@0x04, flags(u16)@0x1E) */"
+  }
+ ],
+ "calls": [
+  "func_8003DB4C(void *p, s32 n) - already matched (src/code.c); zeros n words starting at p",
+  "func_8003FB98(s32 a0, void *a1) - already matched (src/w_8003FB98.c); void* func_8003FB98(void *a0, void *a1) in its own source but called here as func_8003FB98(a0, 0) with a0 as the s32 flags word and a1=NULL"
+ ]
+}

@@ -1,0 +1,7 @@
+{
+ "func": "func_8004E634",
+ "doc": "Converts unsigned integer `num` to a decimal ASCII string written into `buf`: repeatedly divides by 10 (compiler emits the 0xCCCCCCCD magic-multiply idiom) writing least-significant digit first at increasing addresses, counting digits in `count`. Since the digits are produced LSB-first, the buffer holds the string reversed; after NUL-terminating, the original start address is recovered as `buf - count` and passed with the digit count to func_8004E478, which reverses it in place to produce the correct decimal string. Returns func_8004E478's result (the string start pointer) via tail call.",
+ "calls": [
+  "func_8004E478(char *a0, u16 a1) -- in-place string reverse of buf[0..len-1], returns original buf pointer (sibling callers func_8004E5A0/func_8004E5E8 already pass a masked-to-u16 length the same way)"
+ ]
+}

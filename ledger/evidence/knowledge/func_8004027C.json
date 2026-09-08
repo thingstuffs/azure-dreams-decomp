@@ -1,0 +1,10 @@
+{
+ "func": "func_8004027C",
+ "doc": "Walks the global singly-linked list headed by D_80081498.head. For every node whose field_1E has bit 0x8 set, integrates its position vector by its velocity vector (pos->x += pos->vx; pos->y += pos->vy; pos->z += pos->vz), where pos is a pointer stored at node offset 0x8.",
+ "globals": [
+  {
+   "name": "D_80081498",
+   "decl": "extern struct { Node *head; int pad[2]; } D_80081498;  // Node: next@0x0 (struct Node*), unk04@0x4..0x8 padding, pos@0x8 (struct S_8004027C_vec*), pad to 0x1E, field_1E@0x1E (u16 flags). This is the SAME shape already established by func_80040418/func_800401FC/func_8003FB98 in src/code.c, src/w_800401FC.c, src/w_8003FB98.c. This wave's sibling adds pos@0x8 pointing to a 6x-s32 vector block {x,y,z,vx,vy,vz} that gets integrated (pos += vel) when field_1E & 0x8 is set."
+  }
+ ]
+}

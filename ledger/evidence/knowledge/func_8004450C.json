@@ -1,0 +1,31 @@
+{
+ "func": "func_8004450C",
+ "doc": "If arg0 already matches the current registered state (D_80080AF3), return 1 without doing anything. Otherwise register the record's two callbacks from D_8006E6F4[arg0] via func_8003E4FC, sync the vblank (DrawSync), propagate D_8008148C.field_0 into D_80081480.field_0, mark arg0 as the new active state (D_80080AF3), restart the frame loop (func_8003F320), re-arm the display-mode/buffer setter (func_8003F5E0 with D_8008148C.field_0), set a fixed pad-event flag (func_80053DA8(0x11)), pump the pad dispatcher (func_800542BC), spin on func_8005405C(0) until it reports available (1), and return 0.",
+ "globals": [
+  {
+   "name": "D_80080AF3",
+   "decl": "extern s8 D_80080AF3; /* gp-relative scalar byte: currently-registered state id */"
+  },
+  {
+   "name": "D_8006E6F4",
+   "decl": "typedef struct { s32 field0; s32 field4; } S_8006E6F4; extern S_8006E6F4 D_8006E6F4[]; /* 8-byte record array indexed by state id; field0/field4 are callback pointers forwarded to func_8003E4FC */"
+  },
+  {
+   "name": "D_80081480",
+   "decl": "struct S_80081480 { s32 field_0; s8 pad[8]; }; extern struct S_80081480 D_80081480; /* only field_0 (offset 0) accessed; padded past 8 bytes so gcc uses %hi/%lo not %gp_rel; layout must reconcile with src/w_8004425C.c's S_80081480 (field_0,pad4,pad8) */"
+  },
+  {
+   "name": "D_8008148C",
+   "decl": "struct S_8008148C { s32 field_0; s8 pad[8]; }; extern struct S_8008148C D_8008148C; /* only field_0 (offset 0) accessed; padded past 8 bytes so gcc uses %hi/%lo; read twice (dual-access idiom) via a second alias symbol to force independent %hi/%lo recomputation; layout must reconcile with src/w_8004425C.c's S_8008148C (field_0,pad4,pad8) */"
+  }
+ ],
+ "calls": [
+  "func_8003E4FC(s32 a0, void *a1, s32 a2)",
+  "DrawSync(s32 a0)",
+  "func_8003F320(void)",
+  "func_8003F5E0(s32 a0)",
+  "func_80053DA8(s32 a0)",
+  "func_800542BC(void)",
+  "func_8005405C(s16 n)"
+ ]
+}

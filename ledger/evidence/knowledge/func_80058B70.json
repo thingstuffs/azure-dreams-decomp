@@ -1,0 +1,53 @@
+{
+ "func": "func_80058B70",
+ "doc": "Configures the D_80085FA8[0] playback/sequencer slot according to mode word D_800737C8. Clears D_800737D4 first, then dispatches on the mode via a 3-way switch (comparison tree, not a jump table): mode 1 parses a stream \u2014 func_80058850 seeds slot.f00, func_80058ABC/func_80058B2C fill D_80085FA0 and the 16-bit counts D_800869B8/D_800869B4/D_800869A8, then either a single or a counted func_80058940 scan (bounded by D_800869B4) advances an accumulator stored in D_800869B0 and slot.f1c; mode 0 initializes tempo state: slot.f00=8, computes lo=60000000/(rate>>8), writes slot.f20/f24, scales by /115, clamps to 0xFF, then halves slot.f24 by time signature (>>1 for 0x18/0x3C, >>2 for 0x1E) and calls func_800589B8; mode 2 copies three fields (off 8/0xC/4) out of the struct pointed to by D_80085FA4[0]. Finally stores D_800869A8 into D_800737C4 (with a dead but present >=0x60 conditional) and returns 1 (or 0 if the mode-1 scan returned -1).",
+ "globals": [
+  {
+   "name": "D_80085FA8",
+   "decl": "extern S_80058B70 D_80085FA8[32]; /* canonical S_80085FA8 (src/w_80056A08.c): s32 f00..f44 then bytes; this func uses f00(0x00), f1c(0x1C), f20(0x20), f24(0x24) */"
+  },
+  {
+   "name": "D_80085FA4",
+   "decl": "extern s32 D_80085FA4[4]; /* [0]=base ptr; reads *(s32*)(base+4),+8,+0xC in mode 2 */"
+  },
+  {
+   "name": "D_80085FA0",
+   "decl": "extern s32 D_80085FA0[4]; /* [0]=func_80058ABC(slot) result in mode 1 */"
+  },
+  {
+   "name": "D_800737C4",
+   "decl": "extern s32 D_800737C4[4]; /* [0] output = D_800869A8[0] */"
+  },
+  {
+   "name": "D_800737C8",
+   "decl": "extern s32 D_800737C8[4]; /* [0]=mode selector (switch 0/1/2) */"
+  },
+  {
+   "name": "D_800737D4",
+   "decl": "extern s32 D_800737D4[4]; /* [0] cleared at entry */"
+  },
+  {
+   "name": "D_800869A8",
+   "decl": "extern s32 D_800869A8[4]; /* [0] running count / time-sig selector */"
+  },
+  {
+   "name": "D_800869B0",
+   "decl": "extern s32 D_800869B0[4]; /* [0] scan accumulator / base value */"
+  },
+  {
+   "name": "D_800869B4",
+   "decl": "extern s32 D_800869B4[4]; /* [0] loop bound (compared unsigned) */"
+  },
+  {
+   "name": "D_800869B8",
+   "decl": "extern s32 D_800869B8[4]; /* [0] flag/count */"
+  }
+ ],
+ "calls": [
+  "func_80058850(s32) -> s32 (called with 0)",
+  "func_80058940(s32) -> s32",
+  "func_80058ABC(S_80058B70 *) -> u32",
+  "func_80058B2C(S_80058B70 *) -> s32 (result masked &0xFFFF)",
+  "func_800589B8(S_80058B70 *) -> void"
+ ]
+}

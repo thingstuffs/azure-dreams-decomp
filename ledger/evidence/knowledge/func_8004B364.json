@@ -1,0 +1,8 @@
+{
+ "func": "func_8004B364",
+ "doc": "Allocates a pool node via func_8003FC64(0). If allocation succeeds and both a0 and a1 are non-null, stores a1 and a0 into the node's sub-record (pointed to by the node's field_0x8, at offsets 0x00/0x04) and installs func_8004B324 as the node's callback (field_0x10). Returns a pointer 0x20 bytes past the start of the node (regardless of whether the write happened), or NULL if allocation failed.",
+ "calls": [
+  "func_8003FC64(s32 a0) -> void* : matched (gcc 2.7.2, src/w_8003FC64.c) pool-node allocator; called here as func_8003FC64(0).",
+  "func_8004B324(void *a0, void *a1) -> void : matched (gcc 2.7.2, src/w_8004B324.c) trivial wrapper; stored here as a callback function pointer into the node's field_0x10 slot, not directly called."
+ ]
+}

@@ -1,0 +1,10 @@
+{
+ "func": "func_80043A68",
+ "doc": "Clears the 0x8000 (high) bit of a u16 \"flags\" field in 4 fixed sub-tables (byte offsets 0x78, 0x7E, 0xFC, 0x102 from a dynamic base pointer) for array indices 10 and 11 of a dynamically-scaled index (index = i << D_8008333C.field14, stride 6 bytes/entry). Counterpart of func_80043B4C which sets the same bit instead of clearing it (OR 0x8000 vs AND ~0x8000/0x7FFF).",
+ "globals": [
+  {
+   "name": "D_8008333C",
+   "decl": "typedef struct S_8008333C { /* 0x00 */ u8 *field0; /* 0x04 */ u8 unk04[0x10]; /* 0x14 */ s16 field14; } S_8008333C; extern S_8008333C D_8008333C;  // field0: pointer to a dynamic array of 6-byte entries {s32 unk0; u16 flags;} used with a runtime-scaled index (idx << field14); field14: signed 16-bit shift/scale factor re-read fresh on every access (no cross-statement CSE observed in retail). Sibling func_80043B4C touches the SAME struct with the SAME field offsets (0x00 pointer, 0x14 s16 shift) -- reconcile any wider view onto this layout."
+  }
+ ]
+}

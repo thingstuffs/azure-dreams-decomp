@@ -1,0 +1,22 @@
+{
+ "func": "func_80053E20",
+ "doc": "Sets a player-stat halfword by index arg1: arg1==2 -> D_80084808[0]=arg0; arg1==1 -> D_8008480A[0]=arg0 then calls func_800552C8(); arg1==4 -> D_8008480C[0]=arg0 then calls func_80054D64(); any other value -> no-op. Mirrors the getter func_80053E90 (same three-array family, same goto-shaped control flow required to reproduce the exact branch/delay-slot layout, including the retail lui-hoist into a branch delay slot on the not-taken path).",
+ "globals": [
+  {
+   "name": "D_80084808",
+   "decl": "extern s16 D_80084808[8]; /* player-stat halfword array; index 0 written here; already established this shape in include/globals.h and src/*.c (w_80053E90.c, w_800552C8.c, w_800559B4.c, w_8005560C.c, code.c) */"
+  },
+  {
+   "name": "D_8008480A",
+   "decl": "extern s16 D_8008480A[8]; /* sibling stat array, independent extern symbol (see w_80053E90.c, w_80054D64.c reference the same family); index 0 written here */"
+  },
+  {
+   "name": "D_8008480C",
+   "decl": "extern s16 D_8008480C[8]; /* sibling stat array, independent extern symbol (see src/code.c func_80053DCC: D_8008480C[0] = arg0; func_80054D64();); index 0 written here */"
+  }
+ ],
+ "calls": [
+  "func_80054D64(void) -- already matched, no args, reads globals directly",
+  "func_800552C8(void) -- already matched, no args, reads globals directly"
+ ]
+}
