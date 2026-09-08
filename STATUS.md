@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-08T10:29:42Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-08T12:44:03Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -23,7 +23,7 @@ Baseline NOT exact: 0 rows
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 32 | 6,088 | 0.2% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 120 | 122,816 | 4.8% |
-| m2c local names | 5182 | 2,172,128 | 84.9% | 3662 | 1,553,044 | 60.7% |
+| m2c local names | 5182 | 2,172,128 | 84.9% | 3638 | 1,552,048 | 60.7% |
 | ASM_ pins | 2137 | 1,466,884 | 57.3% | 2040 | 1,426,252 | 55.8% |
 | goto | 1545 | 1,318,412 | 51.5% | 1538 | 1,315,760 | 51.4% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 317 | 437,288 | 17.1% |
@@ -33,7 +33,7 @@ Baseline NOT exact: 0 rows
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 637 | 518,168 | 20.3% |
 | maspsx marker pins (scaffolding) | 394 | 351,668 | 13.7% | 380 | 345,976 | 13.5% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3175 | 1,611,560 | 63.0% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 155,088 | 6.1% | 2110 | 378,440 | 14.8% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 155,088 | 6.1% | 2133 | 379,392 | 14.8% |
 
 Pin sites: 25,878 total; REG 12,818, KEEP 6,889, KEEP_NV 2,501, SCHED_BARRIER 1,355, TAILSLOT_PIN 501, USE 299, USE_NV 261, KEEP_DEP_NV 184.
 
@@ -44,7 +44,7 @@ Pin sites: 25,878 total; REG 12,818, KEEP 6,889, KEEP_NV 2,501, SCHED_BARRIER 1,
 | L0 | 2,558,124 | 100.0% |
 | L1 | 2,000,776 | 78.2% |
 | L2 | 1,899,768 | 74.3% |
-| L3 | 1,780,564 | 69.6% |
+| L3 | 1,784,376 | 69.8% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
@@ -54,9 +54,9 @@ On shared record headers (T7, `include/records/`): 1164 rows, 658,600 bytes (25.
 
 | container | assert file:line / expression | developer identifiers | randomizer map (code) | randomizer map (data tables) | resident pointer tables | script function names | prior notes | applied names | any (rows / bytes) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| slus | 0 | 0 | 1 | 0 | 72 | 2 | 408 | 14 | 475 / 327,604 |
+| slus | 0 | 0 | 1 | 0 | 72 | 7 | 408 | 14 | 479 / 328,024 |
 | main | 18 | 5 | 1 | 0 | 0 | 0 | 0 | 0 | 19 / 6,420 |
-| town | 21 | 8 | 1 | 1 | 0 | 51 | 0 | 0 | 74 / 10,228 |
+| town | 21 | 8 | 1 | 1 | 0 | 114 | 0 | 0 | 137 / 18,196 |
 | dungeon | 0 | 0 | 24 | 21 | 0 | 0 | 0 | 0 | 44 / 35,592 |
 
 Every lane prompt (tools/agent_task.py) carries the row's block; L4 module placement must agree with the assertion source map.

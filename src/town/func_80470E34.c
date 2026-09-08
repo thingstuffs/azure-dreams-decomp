@@ -13,6 +13,7 @@ typedef struct MainStruct {
 
 extern MainStruct *D_80016000;
 
+/* Set the substructure's unk4 and unk8 fields to 864 and 1056. */
 void func_80017E34(void) {
     D_80016000->sub->unk4 = 864;
     D_80016000->sub->unk8 = 1056;

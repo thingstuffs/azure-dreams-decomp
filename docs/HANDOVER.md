@@ -78,11 +78,15 @@ Dashboard: served on the LAN by `tools/dashboard_serve.sh` (port 8002; restart i
    TOWN event-script modules), the randomizer address map (data tables with record layouts, 52
    code sites), the event-script VM handler table (opcode numbering, 72 SLUS rows), 281 prior
    notes, and **the script symbol dump found in the TOWN.BIN devkit blob** (3,587 developer
-   constants: `FNO_` function numbers → 52 functions named through the dispatch table at
-   `0x800D3D0C`, ready in `ledger/evidence/names_proposed.tsv`; `F_` flags, `SSTP_` steps, `S_`
+   constants: `S_` + `FNO_` call numbers → 125 functions named through the script call table at
+   `0x800D3CC8` (entry = number + 1; proven by the 2026-09-08 research workflow,
+   `docs/evidence/script_call_table_20260908.md`), ready in `ledger/evidence/names_proposed.tsv`; `F_` flags, `SSTP_` steps, `S_`
    system calls, `IMG_`, `PSN_DM_*` ... in `include/script_symbols.h`; `docs/SYMBOLS.md` §5).
-   Open: the 65 stubbed function numbers 118–182 (find the per-scene implementations), the `S_`
-   ↔ `0x8006B01C` trampoline hypothesis, and which resident routine consumes the flag numbers. The lane prompt carries the row's block; `levels.jsonl` carries `evidence: [...]`; the
+   Open (research record §Critic): the 13 shop entries 0–13 that hold group-slot addresses in
+   `0x80110E80..` (the bytecode VM's table-of-tables `D_80110E98`), `S_printf` = 34 vs the assert
+   macro calling number 89, `FNO_func_sn_casino` = 3 / `S_open_buy_dougu` = 5327, the polymorphic
+   word at `0x80016000`, the resident scene registry records at `0x8006ADC0`, and which resident
+   routine consumes the `F_` flag numbers. The lane prompt carries the row's block; `levels.jsonl` carries `evidence: [...]`; the
    L4 module gate must place a row with an assertion file in that file's module. Then call-site
    roles and the parameter classes (dungeon handler ABI). Then modules: group rows by record/dispatcher into `src/<container>/
    <module>.c` in retail order (the per-row ledger stays the unit of proof).

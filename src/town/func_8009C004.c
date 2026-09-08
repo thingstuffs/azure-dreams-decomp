@@ -3,12 +3,13 @@
 extern u8 D_80082660[];
 extern u8 D_800D05E0[];
 
-void func_80099764(void *arg0) {
-    u8 *base;
+/* Initializes the object state and registers its enclosing record globally. */
+void func_80099764(void *object) {
+    u8 *global_state;
 
-    *(void **)((u8 *)arg0 + 0x44) = D_800D05E0;
-    *(s32 *)((u8 *)arg0 + 0x40) = 1;
-    base = D_80082660;
-    *(void **)(base + 0xC) = (u8 *)arg0 - 0x20;
-    base[8] = 0;
+    *(void **)((u8 *)object + 0x44) = D_800D05E0;
+    *(s32 *)((u8 *)object + 0x40) = 1;
+    global_state = D_80082660;
+    *(void **)(global_state + 0xC) = (u8 *)object - 0x20;
+    global_state[8] = 0;
 }

@@ -1,18 +1,19 @@
 #include "common.h"
 
-s32 func_8009F750(s32 arg0, s32 arg1, s32 arg2) {
-    s32 var_v1;
+/* Returns the index of a matching address in a four-byte stride range, or -1. */
+s32 func_8009F750(s32 target_addr, s32 slot_addr, s32 slot_count) {
+    s32 slot_index;
 
-    var_v1 = 0;
-    if (arg2 > 0) {
-loop_1:
-        if (arg0 == arg1) {
-            return var_v1;
+    slot_index = 0;
+    if (slot_count > 0) {
+next_slot:
+        if (target_addr == slot_addr) {
+            return slot_index;
         }
-        var_v1 += 1;
-        if (var_v1 < arg2) {
-            arg1 += 4;
-            goto loop_1;
+        slot_index += 1;
+        if (slot_index < slot_count) {
+            slot_addr += 4;
+            goto next_slot;
         }
     }
     return -1;

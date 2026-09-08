@@ -12,9 +12,10 @@ typedef struct S_8065C424_1 {
 extern Rec_D_80016000 *D_80016000;
 extern s32 D_80018340;
 
+/* Subtract D_80018340 from the current record's linked state value. */
 void func_8065C424(void) {
-    S_8065C424_1 *temp_a0;
+    S_8065C424_1 *state;
 
-    temp_a0 = D_80016000->unk_38.as_pv;
-    temp_a0->unk_2D5C = (s32) (temp_a0->unk_2D5C - D_80018340);
+    state = D_80016000->unk_38.as_pv;
+    state->unk_2D5C = (s32) (state->unk_2D5C - D_80018340);
 }

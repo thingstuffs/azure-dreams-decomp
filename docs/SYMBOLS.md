@@ -113,19 +113,19 @@ The Azure Dreams De-Randomizer (ProGrammar-R, MPL-2.0) documents where the game'
 | `ropeDescription` | `0x8002F3EC` | SLUS_006.14 @ 0x2BFC |  | — | `D_8002F3EC` → `ropeDescription` |
 | `goUpTrapDescription` | `0x80031318` | SLUS_006.14 @ 0x4B18 |  | — | `D_80031318` → `goUpTrapDescription` |
 | `anUpperFloorText` | `0x80031353` | SLUS_006.14 @ 0x4B53 |  | — | `D_80031353` → `anUpperFloorText` |
-| `initialStatsTable` | `0x8006D168` | SLUS_006.14 @ 0x40968 | 24 B/record | `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4` | `D_8006D168` → `initialStatsTable` (typed `initialStatsRecord`) |
+| `initialStatsTable` | `0x8006D168` | SLUS_006.14 @ 0x40968 | 24 B/record | `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4` | `D_8006D168` → `initialStatsTable` (typed `initialStatsRecord`) |
 | `elevatorIcon` | `0x80072CAE` | SLUS_006.14 @ 0x464AE |  | — | `D_80072CAE` → `elevatorIcon` |
 | `suspiciousElevatorDesc` | `0x80072CCC` | SLUS_006.14 @ 0x464CC |  | — | `D_80072CCC` → `suspiciousElevatorDesc` |
 | `trapTable` | `0x80072CD0` | SLUS_006.14 @ 0x464D0 | 12 B/record | — | `D_80072CD0` → `trapTable` (typed `trapRecord`) |
-| `itemCategoryTable` | `0x80073414` | SLUS_006.14 @ 0x46C14 |  | `town/func_800B36B8`, `dungeon/func_800A133C`, `dungeon/func_800A38C4`, `dungeon/func_800A3988`, `dungeon/func_800A3A00`, `dungeon/func_800B8C00`, `dungeon/func_800C268C`, `dungeon/func_8028A0F4`, `dungeon/func_8028B18C`, `dungeon/func_8028B994`, `dungeon/func_8028BAA4`, `dungeon/func_80E64DB4`, `dungeon/func_80E65598`, `dungeon/func_818108B8`, `dungeon/func_81934800`, `town/func_800B36B8`, `dungeon/func_800A133C`, `dungeon/func_800A38C4`, `dungeon/func_800A3988`, `dungeon/func_800A3A00`, `dungeon/func_800B8C00`, `dungeon/func_800C268C`, `dungeon/func_8028A0F4`, `dungeon/func_8028B18C`, `dungeon/func_8028B994`, `dungeon/func_8028BAA4`, `dungeon/func_80E64DB4`, `dungeon/func_80E65598`, `dungeon/func_818108B8`, `dungeon/func_81934800`, `town/func_800B36B8`, `dungeon/func_800A133C`, `dungeon/func_800A38C4`, `dungeon/func_800A3988`, `dungeon/func_800A3A00`, `dungeon/func_800B8C00`, `dungeon/func_800C268C`, `dungeon/func_8028A0F4`, `dungeon/func_8028B18C`, `dungeon/func_8028B994`, `dungeon/func_8028BAA4`, `dungeon/func_80E64DB4`, `dungeon/func_80E65598`, `dungeon/func_818108B8`, `dungeon/func_81934800` | `D_80073414` → `itemCategoryTable` |
+| `itemCategoryTable` | `0x80073414` | SLUS_006.14 @ 0x46C14 |  | `town/func_800B36B8`, `dungeon/func_800A133C`, `dungeon/func_800A38C4`, `dungeon/func_800A3988`, `dungeon/func_800A3A00`, `dungeon/func_800B8C00`, `dungeon/func_800C268C`, `dungeon/func_8028A0F4`, `dungeon/func_8028B18C`, `dungeon/func_8028B994`, `dungeon/func_8028BAA4`, `dungeon/func_80E64DB4`, `dungeon/func_80E65598`, `dungeon/func_818108B8`, `dungeon/func_81934800`, `town/func_800B36B8`, `dungeon/func_800A133C`, `dungeon/func_800A38C4`, `dungeon/func_800A3988`, `dungeon/func_800A3A00`, `dungeon/func_800B8C00`, `dungeon/func_800C268C`, `dungeon/func_8028A0F4`, `dungeon/func_8028B18C`, `dungeon/func_8028B994`, `dungeon/func_8028BAA4`, `dungeon/func_80E64DB4`, `dungeon/func_80E65598`, `dungeon/func_818108B8`, `dungeon/func_81934800`, `town/func_800B36B8`, `dungeon/func_800A133C`, `dungeon/func_800A38C4`, `dungeon/func_800A3988`, `dungeon/func_800A3A00`, `dungeon/func_800B8C00`, `dungeon/func_800C268C`, `dungeon/func_8028A0F4`, `dungeon/func_8028B18C`, `dungeon/func_8028B994`, `dungeon/func_8028BAA4`, `dungeon/func_80E64DB4`, `dungeon/func_80E65598`, `dungeon/func_818108B8`, `dungeon/func_81934800`, `town/func_800B36B8`, `dungeon/func_800A133C`, `dungeon/func_800A38C4`, `dungeon/func_800A3988`, `dungeon/func_800A3A00`, `dungeon/func_800B8C00`, `dungeon/func_800C268C`, `dungeon/func_8028A0F4`, `dungeon/func_8028B18C`, `dungeon/func_8028B994`, `dungeon/func_8028BAA4`, `dungeon/func_80E64DB4`, `dungeon/func_80E65598`, `dungeon/func_818108B8`, `dungeon/func_81934800`, `town/func_800B36B8`, `dungeon/func_800A133C`, `dungeon/func_800A38C4`, `dungeon/func_800A3988`, `dungeon/func_800A3A00`, `dungeon/func_800B8C00`, `dungeon/func_800C268C`, `dungeon/func_8028A0F4`, `dungeon/func_8028B18C`, `dungeon/func_8028B994`, `dungeon/func_8028BAA4`, `dungeon/func_80E64DB4`, `dungeon/func_80E65598`, `dungeon/func_818108B8`, `dungeon/func_81934800` | `D_80073414` → `itemCategoryTable` |
 | `elevatorUseOptions` | `0x800735B4` | SLUS_006.14 @ 0x46DB4 |  | — | `D_800735B4` → `elevatorUseOptions` |
 | `itemCategoryNamesKanji` | `0x800813E0` | SLUS_006.14 @ 0x54BE0 |  | — | `D_800813E0` → `itemCategoryNamesKanji` |
 | `usedBallItemTable` | `0x800DD384` | DUNGEON/DUNGEON.BIN @ 0xF7C24 |  | — | `D_800DD384` → `usedBallItemTable` |
-| `statGrowthTable` | `0x800DDCBC` | DUNGEON/DUNGEON.BIN @ 0xF855C | 8 B/record | `dungeon/func_8008B4B0`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8008B4B0`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8008B4B0`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4` | `D_800DDCBC` → `statGrowthTable` (typed `statGrowthRecord`) |
-| `itemCategDamageTable` | `0x800DD704` | DUNGEON/DUNGEON.BIN @ 0xF7FA4 |  | `dungeon/func_80093968`, `dungeon/func_80093968`, `dungeon/func_80093968` | `D_800DD704` → `itemCategDamageTable` |
-| `salamParticleGraphic` | `0x800E03B0` | DUNGEON/DUNGEON.BIN @ 0xFAC50 |  | `dungeon/func_800C587C`, `dungeon/func_800C587C`, `dungeon/func_800C587C` | `D_800E03B0` → `salamParticleGraphic` |
+| `statGrowthTable` | `0x800DDCBC` | DUNGEON/DUNGEON.BIN @ 0xF855C | 8 B/record | `dungeon/func_8008B4B0`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8008B4B0`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8008B4B0`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8008B4B0`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4`, `dungeon/func_8008B4B0`, `dungeon/func_8009C5EC`, `dungeon/func_8009CCC4` | `D_800DDCBC` → `statGrowthTable` (typed `statGrowthRecord`) |
+| `itemCategDamageTable` | `0x800DD704` | DUNGEON/DUNGEON.BIN @ 0xF7FA4 |  | `dungeon/func_80093968`, `dungeon/func_80093968`, `dungeon/func_80093968`, `dungeon/func_80093968`, `dungeon/func_80093968` | `D_800DD704` → `itemCategDamageTable` |
+| `salamParticleGraphic` | `0x800E03B0` | DUNGEON/DUNGEON.BIN @ 0xFAC50 |  | `dungeon/func_800C587C`, `dungeon/func_800C587C`, `dungeon/func_800C587C`, `dungeon/func_800C587C`, `dungeon/func_800C587C` | `D_800E03B0` → `salamParticleGraphic` |
 | `toUpstairsBattleText` | `0x800E1AF8` | DUNGEON/DUNGEON.BIN @ 0xFC398 |  | — | `D_800E1AF8` → `toUpstairsBattleText` |
-| `floorMonsterTable` | `0x800DDC7C` | DUNGEON/DUNGEON.BIN @ 0x7A4800 |  | `dungeon/func_80283000`, `dungeon/func_804FE77C`, `dungeon/func_80283000`, `dungeon/func_804FE77C`, `dungeon/func_80283000`, `dungeon/func_804FE77C` | `D_800DDC7C` → `floorMonsterTable` |
+| `floorMonsterTable` | `0x800DDC7C` | DUNGEON/DUNGEON.BIN @ 0x7A4800 |  | `dungeon/func_80283000`, `dungeon/func_804FE77C`, `dungeon/func_80283000`, `dungeon/func_804FE77C`, `dungeon/func_80283000`, `dungeon/func_804FE77C`, `dungeon/func_80283000`, `dungeon/func_804FE77C`, `dungeon/func_80283000`, `dungeon/func_804FE77C` | `D_800DDC7C` → `floorMonsterTable` |
 | `f2suspElevAppearance` | `0x800EADB0` | DUNGEON/DUNGEON.BIN @ 0x7CD91E |  | — | `D_800EADB0` → `f2suspElevAppearance` |
 | `kohsReplyToGhoshPart` | `0x800F8DFE` | DUNGEON/DUNGEON.BIN @ 0x7D15FE |  | — | `D_800F8DFE` → `kohsReplyToGhoshPart` |
 | `beldoLocation` | `0x800E604A` | DUNGEON/DUNGEON.BIN @ 0x94084A |  | — | `D_800E604A` → `beldoLocation` |
@@ -198,12 +198,12 @@ the day a lane proves that a literal in the C is one of these numbers.
 | `Ftt_` | 202 | event flags, talk-table variant (same number space) | flag constants |
 | `SSTP_` | 138 | scene step ids: the per-scene state-machine steps the scripts wait on (SSTP_ANGEL_APPEAR ...) | step constants and scene summaries |
 | `mamonogoya_` | 128 | monster-hut (mamono-goya) flags and status slots; 0x8000-based numbers are a second flag bank | flag constants |
-| `FNO_` | 113 | script function numbers: the town event-script VM calls C functions by number through a dispatch table (entry = number - 100); the text after FNO_ is the developer's name of that C function | function names (ledger/evidence/names_proposed.tsv), per-row evidence |
+| `FNO_` | 113 | script call numbers 100-211: entries of the script call table at 0x800D3CC8 (entry = number + 1) that the compiled event-script modules and the bytecode VM call by number; the text after FNO_ is the developer's name of that C function | function names (ledger/evidence/names_proposed.tsv), per-row evidence |
 | `IMG_` | 79 | portrait image ids per character (IMG_B<name>_<pose>; 0..12 within each character's set) | image constants |
 | `Ft_` | 64 | event flags, talk variant | flag constants |
 | `GOODS_` | 56 | shop goods save flags (GOODS_SAVE_FLG_NN), in the flag number space | flag constants |
 | `Fr_` | 53 | event flags, reserve variant | flag constants |
-| `S_` | 44 | script system-call numbers: the VM's built-in operations (S_open_shop, S_flgtst, S_rand_sn, S_printf/S_sprintf/S_getchar/S_exit ...) | opcode/builtin names for the VM handlers |
+| `S_` | 44 | script call numbers 0-34 (and the developer-console band 90-92): the system-call entries of the same call table (S_open_shop, S_flgtst, S_rand_sn ...; 5 and 15 are the NULL words S_NULL1/S_NULL2; 0-13 except 8 hold group-slot addresses rather than code) | function names for entries 14-33 (ledger/evidence/names_proposed.tsv), per-row evidence |
 | `V_` | 25 | script variable slots (V_sys, V_gamew2, V_pobj, V_pad03..) | variable-slot constants |
 | `sn_` | 22 | scene numbers and scene switches (sn_win_sw0.., sn_open_*) | scene constants |
 | `PSN_` | 21 | person (NPC) demo-motion commands PSN_DM_* (home position, talk, walk a way, jump, display on/off, delete) | NPC command constants |
@@ -227,143 +227,183 @@ the day a lane proves that a literal in the C is one of these numbers.
 | `Frg_` | 1 | event flag | flag constants |
 | `NUM_` | 1 | counts (NUM_SN_VAR_WORK) | constants |
 
-### 5.1 Script function numbers: the dispatch table, resolved
+### 5.1 Script call numbers: the call table, resolved
 
-The `FNO_` numbers are how a town script calls C code: the VM takes the number, subtracts 100 and indexes the
-function-pointer table at `0x800D3D0C` (TOWN.BIN file 0x565AC, 122 entries, in the town main
-overlay). 111/112 of the named numbers land exactly on a known function start, so **the text
-after `FNO_` is the developer's own name for that C function**. 46 of them resolve to a function this tree owns
-(the resident ones through the SLUS rows); they are listed in `ledger/evidence/names_proposed.tsv` in `config/names.tsv`
-format, to be applied at L4 through the alias mechanism (byte-exact by construction). Names that begin with `func_`
-(`FNO_func_sn_ball` ...) collide with the address-derived namespace the tools reserve and are proposed with a `scr_` prefix.
-65 numbers (118–182) point at one stub (`0x800C0E5C`) in this overlay: their
-implementations live in the scene overlays or script modules and are still to be located. Numbers 212–221
-have functions but no name in the dump (the dump predates them); `FNO_func_sn_casino` = 3 is the one number below 100.
+The `S_` and `FNO_` numbers are one numbering into **one call table** at `0x800D3CC8` (TOWN.BIN file 0x56568, in the
+town main overlay). A script call number *n* selects entry *n+1*. The table is published two ways: the town main overlay stores its
+system record (`D_801131B8`) at the fixed word `0x80016000`, and the 54 compiled event-script modules call
+`(*(TownState **)0x80016000)->field20[n+1](...)`; and the resident installs the same table into the bytecode VM's system object
+(`D_80082A38+0x40`, from the resident data word `0x8006ADD8`), where opcode 46 (`func_80039DBC`) calls entry *n* once, opcode 37
+(`func_80039BBC` → `func_80038690`) calls it every frame until it returns nonzero, and opcode 47 (`func_80039E1C`) names a table
+explicitly. The sibling table at `0x800D401C` (`+0x44`) is the script **variable** table (30 pointers), the `V_` namespace.
+Proof of the index rule: the only two NULL words are numbers 5 and 15 = `S_NULL1` / `S_NULL2`; number 20 = `S_rand_sn` is
+`rand() % arg`; number 32 = `S_set_no_change_seq` sets one byte; numbers 167 and 169 = `FNO_nouse___168` / `FNO_nouse___170` are
+the only `FNO_` entries on the empty stub; `FNO_strcmp` = 154 is the BIOS strcmp thunk; a dungeon overlay calls number 133 =
+`FNO_change_map`. Layout: numbers 0–33 are the `S_` system calls (12 of the shop/twin-shop entries 0–13 hold addresses of
+group slots in `0x80110E80..` rather than code: the bytecode VM's table-of-tables `D_80110E98`, still to be read), 34–98 are 65
+copies of the empty stub `0x800C0E5C` (the developer-console band: `S_printf` 34, `S_sprintf` / `S_getchar` / `S_exit` 90–92),
+100–211 are the `FNO_` functions. **125 named numbers resolve to a function the tree owns** (112 town rows,
+13 resident); they are in `ledger/evidence/names_proposed.tsv` in `config/names.tsv` format, to be
+applied at L4 through the alias mechanism. Names beginning with `func_` are proposed with a `scr_` prefix. Open: the 13 group-slot
+entries, `FNO_func_sn_casino` = 3 (collides with `S_open_buy_mamono`), `S_open_buy_dougu` = 5327, `S_printf` = 34 while the
+modules' assert macro calls number 89, and the resident scene registry at `0x8006ADC0` nobody has read yet
+(`docs/evidence/script_call_table_20260908.md`).
 
-| number | developer name | function (row) | note |
+| number | developer symbol | function (row) | note |
 |---|---|---|---|
-| 100 | `start_mogura_func` | `town/func_8008E094` |  |
-| 101 | `start_tako_func` | `town/func_800BAE88` |  |
-| 102 | `func_koya_tamago_pal_ld` | `town/func_800BB264` |  |
-| 103 | `func_koya_mon_talk_pal_ld` | `slus/code` (func_8004A638) |  |
-| 104 | `ext_plsel_hold_item_set` | `town/func_800C371C` |  |
-| 105 | `ext_plsel_kaesu_set` | `town/func_800C374C` |  |
-| 106 | `koya_mon_status_open` | `town/func_800C3704` |  |
-| 107 | `koya_mon_status_close` | `town/func_800B5440` |  |
-| 108 | `koya_mon_namewin_open` | `slus/code` (func_8003E4FC) |  |
-| 109 | `koya_mon_namewin_closechk` | `town/func_800B0A4C` |  |
-| 110 | `file_load_com` | `slus/code` (func_8004A618) |  |
-| 111 | `mcard_func_set` | `town/func_800BAC7C` |  |
-| 112 | `mcard_end_check` | `town/func_80095F70` |  |
-| 113 | `jyotyu_set_reserve_all` | `town/func_80095FE4` |  |
-| 114 | `jyotyu_set_reserve_papa` | `town/func_800A29F0` |  |
-| 115 | `jyotyu_set_reserve_nyul` | `slus/code` (func_8004B834) |  |
-| 116 | `jyotyu_set_reserve_pool` | `town/func_800C37F0` |  |
-| 117 | `jyotyu_set_reserve_dngn` | `town/func_800CABAC` |  |
-| 118 | `plt_init_sleep_set` | `town/func_800C36FC` | stub in this overlay |
-| 119 | `get_item_chk` | `town/func_800C36FC` | stub in this overlay |
-| 120 | `mam_bita_give` | `town/func_800C36FC` | stub in this overlay |
-| 121 | `reserve_twch_load` | `town/func_800C36FC` | stub in this overlay |
-| 122 | `start_keima_func` | `town/func_800C36FC` | stub in this overlay |
-| 123 | `start_keima2_func` | `town/func_800C36FC` | stub in this overlay |
-| 124 | `reserve_tw_mon_load` | `town/func_800C36FC` | stub in this overlay |
-| 125 | `sn_namewin_open` | `town/func_800C36FC` | stub in this overlay |
-| 126 | `sn_namewin_close_check` | `town/func_800C36FC` | stub in this overlay |
-| 127 | `change_map_of` | `town/func_800C36FC` | stub in this overlay |
-| 128 | `func_sn_ball` | `town/func_800C36FC` | stub in this overlay |
-| 129 | `tcame_chase_set` | `town/func_800C36FC` | stub in this overlay |
-| 130 | `tcame_chase2_set` | `town/func_800C36FC` | stub in this overlay |
-| 131 | `tcame_lock` | `town/func_800C36FC` | stub in this overlay |
-| 132 | `tcame_return` | `town/func_800C36FC` | stub in this overlay |
-| 133 | `change_map` | `town/func_800C36FC` | stub in this overlay |
-| 134 | `door_open_demo_set` | `town/func_800C36FC` | stub in this overlay |
-| 135 | `set_item_w0` | `town/func_800C36FC` | stub in this overlay |
-| 136 | `tcame_chase_fix` | `town/func_800C36FC` | stub in this overlay |
-| 137 | `tcame_chase_fix_reset` | `town/func_800C36FC` | stub in this overlay |
-| 138 | `baken_uriba` | `town/func_800C36FC` | stub in this overlay |
-| 139 | `set_user_name_win` | `town/func_800C36FC` | stub in this overlay |
-| 140 | `tw_sd_se_ld_call` | `town/func_800C36FC` | stub in this overlay |
-| 141 | `tw_sd_sq_ld_call` | `town/func_800C36FC` | stub in this overlay |
-| 142 | `town_sd_se_callagain` | `town/func_800C36FC` | stub in this overlay |
-| 143 | `town_sd_sq_callagain` | `town/func_800C36FC` | stub in this overlay |
-| 144 | `player_now_ang_get` | `town/func_800C36FC` | stub in this overlay |
-| 145 | `player_now_pos_get` | `town/func_800C36FC` | stub in this overlay |
-| 146 | `anyone_org_ang_get` | `town/func_800C36FC` | stub in this overlay |
-| 147 | `anyone_org_pos_get` | `town/func_800C36FC` | stub in this overlay |
-| 148 | `anyone_now_ang_get` | `town/func_800C36FC` | stub in this overlay |
-| 149 | `anyone_now_pos_get` | `town/func_800C36FC` | stub in this overlay |
-| 150 | `serch_item_kt` | `town/func_800C36FC` | stub in this overlay |
-| 151 | `del_t_item_w_ptr` | `town/func_800C36FC` | stub in this overlay |
-| 152 | `mia_storker_set` | `town/func_800C36FC` | stub in this overlay |
-| 153 | `door_atari_on_off` | `town/func_800C36FC` | stub in this overlay |
-| 154 | `strcmp` | `town/func_800C36FC` | stub in this overlay |
-| 155 | `event_tori_in` | `town/func_800C36FC` | stub in this overlay |
-| 156 | `event_pool_clean_in` | `town/func_800C36FC` | stub in this overlay |
-| 157 | `fukidasi_set` | `town/func_800C36FC` | stub in this overlay |
-| 158 | `pool_clut_store` | `town/func_800C36FC` | stub in this overlay |
-| 159 | `SD_Call` | `town/func_800C36FC` | stub in this overlay |
-| 160 | `zukan_func_set` | `town/func_800C36FC` | stub in this overlay |
-| 161 | `zukan_end_check` | `town/func_800C36FC` | stub in this overlay |
-| 162 | `p_came_set` | `town/func_800C36FC` | stub in this overlay |
-| 163 | `p_came_rotset` | `town/func_800C36FC` | stub in this overlay |
-| 164 | `t_soukowin_open` | `town/func_800C36FC` | stub in this overlay |
-| 165 | `t_soukowin_close_check` | `town/func_800C36FC` | stub in this overlay |
-| 166 | `town_movie_exe` | `town/func_800C36FC` | stub in this overlay |
-| 167 | `nouse___168` | `town/func_800C36FC` | stub in this overlay |
-| 168 | `town_movie3_call` | `town/func_800C36FC` | stub in this overlay |
-| 169 | `nouse___170` | `town/func_800C36FC` | stub in this overlay |
-| 170 | `into_dn_door_jobs` | `town/func_800C36FC` | stub in this overlay |
-| 171 | `washed_dish_suu_set` | `town/func_800C36FC` | stub in this overlay |
-| 172 | `washed_dish_suu_inc` | `town/func_800C36FC` | stub in this overlay |
-| 173 | `into_dn_door_demo_set` | `town/func_800C36FC` | stub in this overlay |
-| 174 | `obj_disp23_cancel_sw_set` | `town/func_800C36FC` | stub in this overlay |
-| 175 | `start_gym_func` | `town/func_800C36FC` | stub in this overlay |
-| 176 | `psn_lookable_get` | `town/func_800C36FC` | stub in this overlay |
-| 177 | `func_sn_casino_slot` | `town/func_800C36FC` | stub in this overlay |
-| 178 | `koya_into_exe` | `town/func_800C36FC` | stub in this overlay |
-| 179 | `town_map_mod_yorozu_item` | `town/func_800C36FC` | stub in this overlay |
-| 180 | `get_player_homerank` | `town/func_800C36FC` | stub in this overlay |
-| 181 | `came_bright_set` | `town/func_800C36FC` | stub in this overlay |
-| 182 | `chg_map_second_house_sel` | `town/func_800C36FC` | stub in this overlay |
-| 183 | `set_item_equip_00` | `town/func_800C4D18` |  |
-| 184 | `moin_zukan_flag_set` | `town/func_800C4B78` |  |
-| 185 | `kewn_namewin_open` | `town/func_800C4BAC` |  |
-| 186 | `town_rain_in` | `town/func_800C3368` |  |
-| 187 | `town_sdall_reserve` | `town/func_800C3394` |  |
-| 188 | `town_se_reserve` | `town/func_800C33C0` |  |
-| 189 | `town_seq_reserve` | `town/func_800C33EC` |  |
-| 190 | `get_target_itemp` | `town/func_800C3418` |  |
-| 191 | `sarch_koyaw_free` | `town/func_800C3444` |  |
-| 192 | `trget_psn_ang_set` | `town/func_800C3470` |  |
-| 193 | `kewn_namewin_close_check` | `town/func_800C349C` |  |
-| 194 | `town_sd_sq_callagain_sub` | `slus/code` (func_80041284) |  |
-| 195 | `tw_sd_sq_ld_call_sub` | `town/func_800C438C` |  |
-| 196 | `town_map_mod_read_p` | `town/func_800C43C0` |  |
-| 197 | `tw_seq_end_chk` | `town/func_8008DB5C` |  |
-| 198 | `sb01_over_push` | `town/func_8008DB64` |  |
-| 199 | `sb01_over_pull` | `town/func_8008DB6C` |  |
-| 200 | `ms_mot_accpt_ow` | `town/func_8008DB74` |  |
-| 201 | `all_item_egg_kaeru` | `town/func_8008DB7C` |  |
-| 202 | `mes_skip_disable_set` | `town/func_80092C48` |  |
-| 203 | `akichi_vivian_chk` | `town/func_800A1F84` |  |
-| 204 | `event_fountain_chk` | `town/func_800CA9C0` |  |
-| 205 | `to_camera_zero_00` | `town/func_8008DCA8` |  |
-| 206 | `present_flower_set` | `town/func_800C4C7C` |  |
-| 207 | `town_sd_se_load_init` | `town/func_800C4CB0` |  |
-| 208 | `door_open_demo_set_sub` | `town/func_8008DDF0` |  |
-| 209 | `tcame_return_plus` | `town/func_800C4074` |  |
-| 210 | `tcame_chase_tgt_reset` | `—` | target 0x800C1804 is not a function start the tree knows |
-| 211 | `serch_item_plown` | `town/func_800C4D68` |  |
-| 212 | `—` | `town/func_800C4BE0` |  |
-| 213 | `—` | `town/func_800A7934` |  |
-| 214 | `—` | `town/func_800A7958` |  |
-| 215 | `—` | `town/func_800A7980` |  |
-| 216 | `—` | `town/func_800A79AC` |  |
-| 217 | `—` | `slus/konami_runtime_w_8003B470` (func_8003BAF8) |  |
-| 218 | `—` | `town/func_800A32D4` |  |
-| 219 | `—` | `town/func_800A2590` |  |
-| 220 | `—` | `town/func_800A7A00` |  |
-| 221 | `—` | `town/func_800A7A0C` |  |
+| 0 | `S_open_sell_dougu` | `—` | group slot in 0x80110E80.. (data) |
+| 1 | `S_open_buy_buki` | `—` | group slot in 0x80110E80.. (data) |
+| 2 | `S_open_sell_buki` | `—` | group slot in 0x80110E80.. (data) |
+| 3 | `FNO_func_sn_casino`, `S_open_buy_mamono` | `—` | group slot in 0x80110E80.. (data) |
+| 4 | `S_open_sell_mamono` | `—` | group slot in 0x80110E80.. (data) |
+| 5 | `S_NULL1` | `—` | NULL |
+| 6 | `S_open_sell_mama` | `—` | group slot in 0x80110E80.. (data) |
+| 7 | `S_open_buy_daiku` | `—` | group slot in 0x80110E80.. (data) |
+| 8 | `S_close_twin_shop` | `town/func_800B0BAC` |  |
+| 9 | `S_active_twin_shop` | `—` | group slot in 0x80110E80.. (data) |
+| 10 | `S_sleep_twin_shop` | `—` | group slot in 0x80110E80.. (data) |
+| 11 | `S_store_twin_shop` | `—` | group slot in 0x80110E80.. (data) |
+| 12 | `S_openbox_twin_shop` | `—` | group slot in 0x80110E80.. (data) |
+| 13 | `S_closebox_twin_shop` | `—` | group slot in 0x80110E80.. (data) |
+| 14 | `S_town_map_set` | `town/func_8008DEF4` |  |
+| 15 | `S_NULL2` | `—` | NULL |
+| 16 | `S_town_map_del` | `town/func_8008E094` |  |
+| 17 | `S_CheckBuildBuildingLandNo` | `town/func_800BAE88` |  |
+| 18 | `S_BuildLandBuilding` | `town/func_800BB264` |  |
+| 19 | `S_get_item_buy_money` | `slus/code` (func_8004A638) |  |
+| 20 | `S_rand_sn` | `town/func_800C371C` |  |
+| 21 | `S_flgtst`, `S_ARG_MYMONEY`, `S_ARG_MAX_TOWER` | `town/func_800C374C` |  |
+| 22 | `S_f_LandBuildingNo`, `S_ARG_TOWER` | `town/func_800C3704` |  |
+| 23 | `S_open_twin_souko`, `S_ARG_CNT_TOWER` | `town/func_800B5440` |  |
+| 24 | `S_Control_CD`, `S_AEG_SNFG_P` | `slus/code` (func_8003E4FC) |  |
+| 25 | `S_open_shop` | `town/func_800B0A4C` |  |
+| 26 | `S_get_item_sell_money` | `slus/code` (func_8004A618) |  |
+| 27 | `S_CheckBuildBuildingLand` | `town/func_800BAC7C` |  |
+| 28 | `S_plt_carry_on_chk_ext` | `town/func_80095F70` |  |
+| 29 | `S_plt_carry_item_del_ext` | `town/func_80095FE4` |  |
+| 30 | `S_itm_mon_koyaw_set` | `town/func_800A29F0` |  |
+| 31 | `S_load_bin_nametwin` | `slus/code` (func_8004B834) |  |
+| 32 | `S_set_no_change_seq` | `town/func_800C37F0` |  |
+| 33 | `S_mascot_anime_chg` | `town/func_800CABAC` |  |
+| 34 | `S_printf` | `town/func_800C36FC` | empty stub |
+| 90 | `S_sprintf` | `town/func_800C36FC` | empty stub |
+| 91 | `S_getchar` | `town/func_800C36FC` | empty stub |
+| 92 | `S_exit` | `town/func_800C36FC` | empty stub |
+| 99 | `—` | `town/func_800C4D18` |  |
+| 100 | `FNO_start_mogura_func` | `town/func_800C4B78` |  |
+| 101 | `FNO_start_tako_func` | `town/func_800C4BAC` |  |
+| 102 | `FNO_func_koya_tamago_pal_ld` | `town/func_800C3368` |  |
+| 103 | `FNO_func_koya_mon_talk_pal_ld` | `town/func_800C3394` |  |
+| 104 | `FNO_ext_plsel_hold_item_set` | `town/func_800C33C0` |  |
+| 105 | `FNO_ext_plsel_kaesu_set` | `town/func_800C33EC` |  |
+| 106 | `FNO_koya_mon_status_open` | `town/func_800C3418` |  |
+| 107 | `FNO_koya_mon_status_close` | `town/func_800C3444` |  |
+| 108 | `FNO_koya_mon_namewin_open` | `town/func_800C3470` |  |
+| 109 | `FNO_koya_mon_namewin_closechk` | `town/func_800C349C` |  |
+| 110 | `FNO_file_load_com` | `slus/code` (func_80041284) |  |
+| 111 | `FNO_mcard_func_set` | `town/func_800C438C` |  |
+| 112 | `FNO_mcard_end_check` | `town/func_800C43C0` |  |
+| 113 | `FNO_jyotyu_set_reserve_all` | `town/func_8008DB5C` |  |
+| 114 | `FNO_jyotyu_set_reserve_papa` | `town/func_8008DB64` |  |
+| 115 | `FNO_jyotyu_set_reserve_nyul` | `town/func_8008DB6C` |  |
+| 116 | `FNO_jyotyu_set_reserve_pool` | `town/func_8008DB74` |  |
+| 117 | `FNO_jyotyu_set_reserve_dngn` | `town/func_8008DB7C` |  |
+| 118 | `FNO_plt_init_sleep_set` | `town/func_80092C48` |  |
+| 119 | `FNO_get_item_chk` | `town/func_800A1F84` |  |
+| 120 | `FNO_mam_bita_give` | `town/func_800CA9C0` |  |
+| 121 | `FNO_reserve_twch_load` | `town/func_8008DCA8` |  |
+| 122 | `FNO_start_keima_func` | `town/func_800C4C7C` |  |
+| 123 | `FNO_start_keima2_func` | `town/func_800C4CB0` |  |
+| 124 | `FNO_reserve_tw_mon_load` | `town/func_8008DDF0` |  |
+| 125 | `FNO_sn_namewin_open` | `town/func_800C4074` |  |
+| 126 | `FNO_sn_namewin_close_check` | `—` | target 0x800C1804 is code the tree has not carved |
+| 127 | `FNO_change_map_of` | `town/func_800C4D68` |  |
+| 128 | `FNO_func_sn_ball` | `town/func_800C4BE0` |  |
+| 129 | `FNO_tcame_chase_set` | `town/func_800A7934` |  |
+| 130 | `FNO_tcame_chase2_set` | `town/func_800A7958` |  |
+| 131 | `FNO_tcame_lock` | `town/func_800A7980` |  |
+| 132 | `FNO_tcame_return` | `town/func_800A79AC` |  |
+| 133 | `FNO_change_map` | `slus/konami_runtime_w_8003B470` (func_8003BAF8) |  |
+| 134 | `FNO_door_open_demo_set` | `town/func_800A32D4` |  |
+| 135 | `FNO_set_item_w0` | `town/func_800A2590` |  |
+| 136 | `FNO_tcame_chase_fix` | `town/func_800A7A00` |  |
+| 137 | `FNO_tcame_chase_fix_reset` | `town/func_800A7A0C` |  |
+| 138 | `FNO_baken_uriba` | `town/func_809534F8` |  |
+| 139 | `FNO_set_user_name_win` | `slus/konami_runtime_w_80035D40` (func_80035D40) |  |
+| 140 | `FNO_tw_sd_se_ld_call` | `town/func_800C3D04` |  |
+| 141 | `FNO_tw_sd_sq_ld_call` | `town/func_800C3E60` |  |
+| 142 | `FNO_town_sd_se_callagain` | `town/func_800C3D60` |  |
+| 143 | `FNO_town_sd_sq_callagain` | `town/func_800C3FAC` |  |
+| 144 | `FNO_player_now_ang_get` | `town/func_8009CE94` |  |
+| 145 | `FNO_player_now_pos_get` | `town/func_8009CEF4` |  |
+| 146 | `FNO_anyone_org_ang_get` | `town/func_800C7480` |  |
+| 147 | `FNO_anyone_org_pos_get` | `town/func_800C74DC` |  |
+| 148 | `FNO_anyone_now_ang_get` | `town/func_800C7528` |  |
+| 149 | `FNO_anyone_now_pos_get` | `town/func_800C75C0` |  |
+| 150 | `FNO_serch_item_kt` | `town/func_800A1480` |  |
+| 151 | `FNO_del_t_item_w_ptr` | `town/func_800B4AE4` |  |
+| 152 | `FNO_mia_storker_set` | `town/func_800CB660` |  |
+| 153 | `FNO_door_atari_on_off` | `town/func_800A32F4` |  |
+| 154 | `FNO_strcmp` | `—` | target 0x80069E58 is code the tree has not carved |
+| 155 | `FNO_event_tori_in` | `town/func_800C0220` |  |
+| 156 | `FNO_event_pool_clean_in` | `town/func_800C1370` |  |
+| 157 | `FNO_fukidasi_set` | `town/func_800A9E84` |  |
+| 158 | `FNO_pool_clut_store` | `town/func_800C1328` |  |
+| 159 | `FNO_SD_Call` | `slus/code` (func_80053DA8) |  |
+| 160 | `FNO_zukan_func_set` | `town/func_800C43D0` |  |
+| 161 | `FNO_zukan_end_check` | `—` | target 0x800C1B64 is code the tree has not carved |
+| 162 | `FNO_p_came_set` | `town/func_800A712C` |  |
+| 163 | `FNO_p_came_rotset` | `town/func_800A7138` |  |
+| 164 | `FNO_t_soukowin_open` | `town/func_800A0D5C` |  |
+| 165 | `FNO_t_soukowin_close_check` | `town/func_800A0D8C` |  |
+| 166 | `FNO_town_movie_exe` | `slus/konami_runtime_w_8003AF94` (func_8003AF94) |  |
+| 167 | `FNO_nouse___168` | `town/func_800C36FC` | empty stub |
+| 168 | `FNO_town_movie3_call` | `town/func_800C40BC` |  |
+| 169 | `FNO_nouse___170` | `town/func_800C36FC` | empty stub |
+| 170 | `FNO_into_dn_door_jobs` | `town/func_800A3758` |  |
+| 171 | `FNO_washed_dish_suu_set` | `town/func_800AACA8` |  |
+| 172 | `FNO_washed_dish_suu_inc` | `town/func_800AACB8` |  |
+| 173 | `FNO_into_dn_door_demo_set` | `town/func_800A3328` |  |
+| 174 | `FNO_obj_disp23_cancel_sw_set` | `slus/konami_runtime_w_80033D44` (func_80033D44) |  |
+| 175 | `FNO_start_gym_func` | `town/func_800C4C14` |  |
+| 176 | `FNO_psn_lookable_get` | `town/func_800C5828` |  |
+| 177 | `FNO_func_sn_casino_slot` | `town/func_800C4D40` |  |
+| 178 | `FNO_koya_into_exe` | `town/func_800C4444` |  |
+| 179 | `FNO_town_map_mod_yorozu_item` | `town/func_800C0D74` |  |
+| 180 | `FNO_get_player_homerank` | `town/func_800B50D4` |  |
+| 181 | `FNO_came_bright_set` | `town/func_800A7144` |  |
+| 182 | `FNO_chg_map_second_house_sel` | `slus/konami_runtime_w_8003B470` (func_8003B9E8) |  |
+| 183 | `FNO_set_item_equip_00` | `town/func_800A21D8` |  |
+| 184 | `FNO_moin_zukan_flag_set` | `—` | target 0x8003E188 is code the tree has not carved |
+| 185 | `FNO_kewn_namewin_open` | `town/func_800A0C8C` |  |
+| 186 | `FNO_town_rain_in` | `town/func_800C23A0` |  |
+| 187 | `FNO_town_sdall_reserve` | `town/func_800C4010` |  |
+| 188 | `FNO_town_se_reserve` | `town/func_800C402C` |  |
+| 189 | `FNO_town_seq_reserve` | `town/func_800C4040` |  |
+| 190 | `FNO_get_target_itemp` | `town/func_800A1B10` |  |
+| 191 | `FNO_sarch_koyaw_free` | `town/func_800A2274` |  |
+| 192 | `FNO_trget_psn_ang_set` | `town/func_800C7620` |  |
+| 193 | `FNO_kewn_namewin_close_check` | `town/func_800A0CC4` |  |
+| 194 | `FNO_town_sd_sq_callagain_sub` | `town/func_800C3E80` |  |
+| 195 | `FNO_tw_sd_sq_ld_call_sub` | `town/func_800C3E04` |  |
+| 196 | `FNO_town_map_mod_read_p` | `town/func_8008E990` |  |
+| 197 | `FNO_tw_seq_end_chk` | `town/func_800C4054` |  |
+| 198 | `FNO_sb01_over_push` | `town/func_800C4470` |  |
+| 199 | `FNO_sb01_over_pull` | `—` | target 0x800C1C1C is code the tree has not carved |
+| 200 | `FNO_ms_mot_accpt_ow` | `slus/konami_runtime_w_80038408` (func_800392A4) |  |
+| 201 | `FNO_all_item_egg_kaeru` | `town/func_800A1F74` |  |
+| 202 | `FNO_mes_skip_disable_set` | `slus/konami_runtime_w_80038000` (func_80038000) |  |
+| 203 | `FNO_akichi_vivian_chk` | `town/func_800BB8D4` |  |
+| 204 | `FNO_event_fountain_chk` | `town/func_800BB8E4` |  |
+| 205 | `FNO_to_camera_zero_00` | `town/func_80093240` |  |
+| 206 | `FNO_present_flower_set` | `town/func_800AA878` |  |
+| 207 | `FNO_town_sd_se_load_init` | `town/func_800C3844` |  |
+| 208 | `FNO_door_open_demo_set_sub` | `town/func_800A3294` |  |
+| 209 | `FNO_tcame_return_plus` | `town/func_800A79D0` |  |
+| 210 | `FNO_tcame_chase_tgt_reset` | `town/func_800A7920` |  |
+| 211 | `FNO_serch_item_plown` | `town/func_800A212C` |  |
+
+Script variable table (`0x800D401C`, the `V_` namespace): 0=V_cheriru00→`D_80113160`, 1=V_daiku_num_bilud→`D_80113164`, 2=V_pad03→`D_80113168`, 3=V_pad04→`D_8011316C`, 4=V_pad05→`D_80113170`, 5=V_pad06→`D_80113174`, 6=V_pad07→`D_80113178`, 7=V_pad08→`D_8011317C`, 8=V_pad09→`D_80113180`, 9=V_pad10→`D_80113184`, 10=V_pad11→`D_80113188`, 11=V_pad12→`D_8011318C`, 12=V_pad13→`D_80113190`, 13=V_pad14→`D_80113194`, 14=V_pad15→`D_80113198`, 15=V_pad16→`D_8011319C`, 16=V_pad17→`D_801131A0`, 17=V_pad18→`D_801131A4`, 18=V_pad19→`D_801131A8`, 19=V_pad20→`D_801131AC`, 20=?→`D_801131B0`, 21=?→`D_80012D5C`, 22=?→`D_80012D60`, 25=V_pobj→`D_80012D70`, 26=V_item_type_data→`D_80083498`, 27=V_sys→`D_80073414`, 28=V_gamew2→`D_80083160`, 29=?→`D_8006ADBC`
 
 ### 5.2 The small families in full
 
@@ -378,13 +418,9 @@ have functions but no name in the dump (the dump predates them); `FNO_func_sn_ca
 - **`mam_`** (7): `mam_first_01_talk`=23, `mam_first_02_talk`=24, `mam_first_03_talk`=25, `mam_first_04_talk`=26, `mam_first_07_talk`=27, `mam_first_08_talk`=28, `mam_first_220_talk`=29
 - **`fg_`** (5): `fg_ost_demo_home_00_end`=31, `fg_ost_demo_home_01_end`=32, `fg_ost_demo_home_02_end`=33, `fg_ost_demo_home_03_end`=34, `fg_ost_demo_home_04_end`=35
 
-The `S_` numbers are the script system calls (`S_open_shop`, `S_flgtst`, `S_rand_sn` ...). They are **not** the VM's
-opcode numbers: the interpreter (`func_80038AB8`) dispatches `D_8006AA90[opcode]` for opcodes 0–88, and the entries
-the `S_NULL1` / `S_NULL2` placeholders would predict are real handlers. An earlier guess that they index the 33-entry
-table at `0x8006B01C` is refuted: that table holds the 33 monster names. How a script reaches `S_open_shop` (which opcode
-carries the number, and which resident or overlay routine answers it) is the open question the research workflow
-addresses; `S_printf` / `S_sprintf` / `S_getchar` / `S_exit` (34, 90–92) are the developer-console calls the port found
-unimplemented in retail.
+The `S_` numbers are the script system calls, and §5.1 shows they live in the same call table as the `FNO_` functions
+(numbers 0–33). They are not VM opcode numbers (the interpreter `func_80038AB8` dispatches `D_8006AA90[opcode]` for opcodes
+0–88) and not the 33-entry table at `0x8006B01C` (that is the monster name table).
 
 ### 5.3 The flags (`F_` and its variants, `GOODS_`, `mamonogoya_`)
 

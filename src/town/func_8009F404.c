@@ -3,6 +3,7 @@
 extern s32 D_800D0678[];
 extern void func_8009C7A8(s32, s32, s32, s32, s32, s32 *);
 
-void func_8009CB64(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    func_8009C7A8(arg0, arg1, arg2, arg3, arg3, D_800D0678);
+/* Initialize the actor's action with shared state data and D_800D0678. */
+void func_8009CB64(s32 actor, s32 action_id, s32 action_state, s32 state_data) {
+    func_8009C7A8(actor, action_id, action_state, state_data, state_data, D_800D0678);
 }

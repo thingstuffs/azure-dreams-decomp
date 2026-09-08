@@ -10,12 +10,13 @@ typedef struct S_800A092C_0 {
     u16 unk_6C;
 } S_800A092C_0;   /* arg0 in func_800A092C */
 
-void func_800A092C(S_800A092C_0 *arg0) {
-    u16 temp_v0;
+/* Decrement the countdown and switch to D_800A0958 when it expires. */
+void func_800A092C(S_800A092C_0 *state) {
+    u16 countdown;
 
-    temp_v0 = arg0->unk_6C - 1;
-    arg0->unk_6C = temp_v0;
-    if ((temp_v0 << 0x10) <= 0) {
-        arg0->unk_50 = &D_800A0958;
+    countdown = state->unk_6C - 1;
+    state->unk_6C = countdown;
+    if ((countdown << 0x10) <= 0) {
+        state->unk_50 = &D_800A0958;
     }
 }

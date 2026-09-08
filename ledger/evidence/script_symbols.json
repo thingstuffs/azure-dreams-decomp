@@ -33,7 +33,7 @@
   },
   "FNO_": {
    "count": 113,
-   "what": "script function numbers: the town event-script VM calls C functions by number through a dispatch table (entry = number - 100); the text after FNO_ is the developer's name of that C function",
+   "what": "script call numbers 100-211: entries of the script call table at 0x800D3CC8 (entry = number + 1) that the compiled event-script modules and the bytecode VM call by number; the text after FNO_ is the developer's name of that C function",
    "use": "function names (ledger/evidence/names_proposed.tsv), per-row evidence"
   },
   "IMG_": {
@@ -58,8 +58,8 @@
   },
   "S_": {
    "count": 44,
-   "what": "script system-call numbers: the VM's built-in operations (S_open_shop, S_flgtst, S_rand_sn, S_printf/S_sprintf/S_getchar/S_exit ...)",
-   "use": "opcode/builtin names for the VM handlers"
+   "what": "script call numbers 0-34 (and the developer-console band 90-92): the system-call entries of the same call table (S_open_shop, S_flgtst, S_rand_sn ...; 5 and 15 are the NULL words S_NULL1/S_NULL2; 0-13 except 8 hold group-slot addresses rather than code)",
+   "use": "function names for entries 14-33 (ledger/evidence/names_proposed.tsv), per-row evidence"
   },
   "V_": {
    "count": 25,

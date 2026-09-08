@@ -55,9 +55,10 @@ typedef unsigned int u32;
 typedef int s32;
 typedef s8 M2C_UNK8;
 extern int D_80016000[0x10];
+/* Add 0x20 to the linked object's 32-bit field at offset 8. */
 void func_80016E60(void)
 {
-  void *temp_v1;
-  temp_v1 = *((void **) (((s8 *) (*D_80016000)) + 0x1C));
-  *((s32 *) (((s8 *) temp_v1) + 8)) = (s32) ((*((s32 *) (((s8 *) temp_v1) + 8))) + 0x20);
+  void *object_data;
+  object_data = *((void **) (((s8 *) (*D_80016000)) + 0x1C));
+  *((s32 *) (((s8 *) object_data) + 8)) = (s32) ((*((s32 *) (((s8 *) object_data) + 8))) + 0x20);
 }

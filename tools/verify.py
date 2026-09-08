@@ -158,6 +158,9 @@ def gate_candidate(row, cfile):
     from common import covering_windows, clean_path
     if row["kind"] != "overlay" or not row.get("gate_config"):
         return {"gate": "n/a"}
+    if row.get("true_name"):
+        # the scorer links this row where the gate does (its true name): the window adds nothing but minutes
+        return {"gate": "not needed: row linked at its true name (scorer and gate agree)"}
     wins = {Path(row["gate_config"]).name}
     for w in covering_windows(row["container"], row["foff"], row["size"]):
         n = Path(w[0]).name

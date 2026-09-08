@@ -2,7 +2,7 @@
 
 extern u16 D_800834B6;
 
-/* town_map_mod_read_p: return the masked 0x2000 flag from D_800834B6. */
+/* mcard_end_check: return the masked 0x2000 flag from D_800834B6. */
 s32 func_800C1B20(void) {
     return D_800834B6 & 0x2000;
 }

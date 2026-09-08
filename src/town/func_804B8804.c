@@ -13,6 +13,7 @@ typedef struct Outer {
 
 extern Outer *D_80016000;
 
+/* Sets the global object's inner fields to 1248 and 1184. */
 void func_80017004(void) {
     Outer *outer = D_80016000;
     outer->inner->unk4 = 1248;

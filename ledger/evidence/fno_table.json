@@ -1,1108 +1,2464 @@
 {
- "file_offset": "0x565AC",
- "vram": "0x800D3D0C",
- "entries": 122,
- "index": "number - 100",
- "named_numbers_on_function_starts": "111/112",
- "stub_target": "0x800C0E5C",
+ "vram": "0x800D3CC8",
+ "file_offset": "0x56568",
+ "index": "number n -> entry n+1 (base 0x800D3CC8)",
+ "published_via": "0x80016000 -> TownState D_801131B8 ->field20 (compiled script modules); D_80082A38+0x40 (bytecode VM opcodes 46/37/47)",
+ "counts": {
+  "group-slot": 12,
+  "NULL": 2,
+  "row": 113,
+  "resident": 13,
+  "stub": 67,
+  "unowned-function": 5
+ },
+ "named_on_functions": 125,
  "table": [
   {
-   "number": 100,
-   "symbol": "FNO_start_mogura_func",
-   "dev_name": "start_mogura_func",
+   "number": 0,
+   "target": "0x80110E80",
+   "kind": "group-slot",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "S_open_sell_dougu"
+   ],
+   "dev_name": "open_sell_dougu"
+  },
+  {
+   "number": 1,
+   "target": "0x80110EA0",
+   "kind": "group-slot",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "S_open_buy_buki"
+   ],
+   "dev_name": "open_buy_buki"
+  },
+  {
+   "number": 2,
+   "target": "0x80110EAC",
+   "kind": "group-slot",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "S_open_sell_buki"
+   ],
+   "dev_name": "open_sell_buki"
+  },
+  {
+   "number": 3,
+   "target": "0x80110E84",
+   "kind": "group-slot",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "FNO_func_sn_casino",
+    "S_open_buy_mamono"
+   ],
+   "dev_name": "func_sn_casino"
+  },
+  {
+   "number": 4,
+   "target": "0x80110E90",
+   "kind": "group-slot",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "S_open_sell_mamono"
+   ],
+   "dev_name": "open_sell_mamono"
+  },
+  {
+   "number": 5,
+   "target": "0x00000000",
+   "kind": "NULL",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "S_NULL1"
+   ],
+   "dev_name": null
+  },
+  {
+   "number": 6,
+   "target": "0x80110EA8",
+   "kind": "group-slot",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "S_open_sell_mama"
+   ],
+   "dev_name": "open_sell_mama"
+  },
+  {
+   "number": 7,
+   "target": "0x80110EB0",
+   "kind": "group-slot",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "S_open_buy_daiku"
+   ],
+   "dev_name": "open_buy_daiku"
+  },
+  {
+   "number": 8,
+   "target": "0x800AE30C",
+   "kind": "row",
+   "row": "town/func_800B0BAC",
+   "row_func": "func_800B0BAC",
+   "symbols": [
+    "S_close_twin_shop"
+   ],
+   "dev_name": "close_twin_shop"
+  },
+  {
+   "number": 9,
+   "target": "0x80110E94",
+   "kind": "group-slot",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "S_active_twin_shop"
+   ],
+   "dev_name": "active_twin_shop"
+  },
+  {
+   "number": 10,
+   "target": "0x80110E88",
+   "kind": "group-slot",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "S_sleep_twin_shop"
+   ],
+   "dev_name": "sleep_twin_shop"
+  },
+  {
+   "number": 11,
+   "target": "0x80110E8C",
+   "kind": "group-slot",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "S_store_twin_shop"
+   ],
+   "dev_name": "store_twin_shop"
+  },
+  {
+   "number": 12,
+   "target": "0x80110E9C",
+   "kind": "group-slot",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "S_openbox_twin_shop"
+   ],
+   "dev_name": "openbox_twin_shop"
+  },
+  {
+   "number": 13,
+   "target": "0x80110EA4",
+   "kind": "group-slot",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "S_closebox_twin_shop"
+   ],
+   "dev_name": "closebox_twin_shop"
+  },
+  {
+   "number": 14,
+   "target": "0x8008B654",
+   "kind": "row",
+   "row": "town/func_8008DEF4",
+   "row_func": "func_8008DEF4",
+   "symbols": [
+    "S_town_map_set"
+   ],
+   "dev_name": "town_map_set"
+  },
+  {
+   "number": 15,
+   "target": "0x00000000",
+   "kind": "NULL",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "S_NULL2"
+   ],
+   "dev_name": null
+  },
+  {
+   "number": 16,
    "target": "0x8008B7F4",
+   "kind": "row",
    "row": "town/func_8008E094",
    "row_func": "func_8008E094",
-   "stub": false
+   "symbols": [
+    "S_town_map_del"
+   ],
+   "dev_name": "town_map_del"
+  },
+  {
+   "number": 17,
+   "target": "0x800B85E8",
+   "kind": "row",
+   "row": "town/func_800BAE88",
+   "row_func": "func_800BAE88",
+   "symbols": [
+    "S_CheckBuildBuildingLandNo"
+   ],
+   "dev_name": "CheckBuildBuildingLandNo"
+  },
+  {
+   "number": 18,
+   "target": "0x800B89C4",
+   "kind": "row",
+   "row": "town/func_800BB264",
+   "row_func": "func_800BB264",
+   "symbols": [
+    "S_BuildLandBuilding"
+   ],
+   "dev_name": "BuildLandBuilding"
+  },
+  {
+   "number": 19,
+   "target": "0x8004A638",
+   "kind": "resident",
+   "row": "slus/code",
+   "row_func": "func_8004A638",
+   "symbols": [
+    "S_get_item_buy_money"
+   ],
+   "dev_name": "get_item_buy_money"
+  },
+  {
+   "number": 20,
+   "target": "0x800C0E7C",
+   "kind": "row",
+   "row": "town/func_800C371C",
+   "row_func": "func_800C371C",
+   "symbols": [
+    "S_rand_sn"
+   ],
+   "dev_name": "rand_sn"
+  },
+  {
+   "number": 21,
+   "target": "0x800C0EAC",
+   "kind": "row",
+   "row": "town/func_800C374C",
+   "row_func": "func_800C374C",
+   "symbols": [
+    "S_flgtst",
+    "S_ARG_MYMONEY",
+    "S_ARG_MAX_TOWER"
+   ],
+   "dev_name": "flgtst"
+  },
+  {
+   "number": 22,
+   "target": "0x800C0E64",
+   "kind": "row",
+   "row": "town/func_800C3704",
+   "row_func": "func_800C3704",
+   "symbols": [
+    "S_f_LandBuildingNo",
+    "S_ARG_TOWER"
+   ],
+   "dev_name": "f_LandBuildingNo"
+  },
+  {
+   "number": 23,
+   "target": "0x800B2BA0",
+   "kind": "row",
+   "row": "town/func_800B5440",
+   "row_func": "func_800B5440",
+   "symbols": [
+    "S_open_twin_souko",
+    "S_ARG_CNT_TOWER"
+   ],
+   "dev_name": "open_twin_souko"
+  },
+  {
+   "number": 24,
+   "target": "0x8003E4FC",
+   "kind": "resident",
+   "row": "slus/code",
+   "row_func": "func_8003E4FC",
+   "symbols": [
+    "S_Control_CD",
+    "S_AEG_SNFG_P"
+   ],
+   "dev_name": "Control_CD"
+  },
+  {
+   "number": 25,
+   "target": "0x800AE1AC",
+   "kind": "row",
+   "row": "town/func_800B0A4C",
+   "row_func": "func_800B0A4C",
+   "symbols": [
+    "S_open_shop"
+   ],
+   "dev_name": "open_shop"
+  },
+  {
+   "number": 26,
+   "target": "0x8004A618",
+   "kind": "resident",
+   "row": "slus/code",
+   "row_func": "func_8004A618",
+   "symbols": [
+    "S_get_item_sell_money"
+   ],
+   "dev_name": "get_item_sell_money"
+  },
+  {
+   "number": 27,
+   "target": "0x800B83DC",
+   "kind": "row",
+   "row": "town/func_800BAC7C",
+   "row_func": "func_800BAC7C",
+   "symbols": [
+    "S_CheckBuildBuildingLand"
+   ],
+   "dev_name": "CheckBuildBuildingLand"
+  },
+  {
+   "number": 28,
+   "target": "0x800936D0",
+   "kind": "row",
+   "row": "town/func_80095F70",
+   "row_func": "func_80095F70",
+   "symbols": [
+    "S_plt_carry_on_chk_ext"
+   ],
+   "dev_name": "plt_carry_on_chk_ext"
+  },
+  {
+   "number": 29,
+   "target": "0x80093744",
+   "kind": "row",
+   "row": "town/func_80095FE4",
+   "row_func": "func_80095FE4",
+   "symbols": [
+    "S_plt_carry_item_del_ext"
+   ],
+   "dev_name": "plt_carry_item_del_ext"
+  },
+  {
+   "number": 30,
+   "target": "0x800A0150",
+   "kind": "row",
+   "row": "town/func_800A29F0",
+   "row_func": "func_800A29F0",
+   "symbols": [
+    "S_itm_mon_koyaw_set"
+   ],
+   "dev_name": "itm_mon_koyaw_set"
+  },
+  {
+   "number": 31,
+   "target": "0x8004B834",
+   "kind": "resident",
+   "row": "slus/code",
+   "row_func": "func_8004B834",
+   "symbols": [
+    "S_load_bin_nametwin"
+   ],
+   "dev_name": "load_bin_nametwin"
+  },
+  {
+   "number": 32,
+   "target": "0x800C0F50",
+   "kind": "row",
+   "row": "town/func_800C37F0",
+   "row_func": "func_800C37F0",
+   "symbols": [
+    "S_set_no_change_seq"
+   ],
+   "dev_name": "set_no_change_seq"
+  },
+  {
+   "number": 33,
+   "target": "0x800C830C",
+   "kind": "row",
+   "row": "town/func_800CABAC",
+   "row_func": "func_800CABAC",
+   "symbols": [
+    "S_mascot_anime_chg"
+   ],
+   "dev_name": "mascot_anime_chg"
+  },
+  {
+   "number": 34,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [
+    "S_printf"
+   ],
+   "dev_name": "printf"
+  },
+  {
+   "number": 35,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 36,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 37,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 38,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 39,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 40,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 41,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 42,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 43,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 44,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 45,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 46,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 47,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 48,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 49,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 50,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 51,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 52,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 53,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 54,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 55,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 56,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 57,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 58,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 59,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 60,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 61,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 62,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 63,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 64,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 65,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 66,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 67,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 68,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 69,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 70,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 71,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 72,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 73,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 74,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 75,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 76,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 77,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 78,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 79,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 80,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 81,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 82,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 83,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 84,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 85,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 86,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 87,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 88,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 89,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 90,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [
+    "S_sprintf"
+   ],
+   "dev_name": "sprintf"
+  },
+  {
+   "number": 91,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [
+    "S_getchar"
+   ],
+   "dev_name": "getchar"
+  },
+  {
+   "number": 92,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [
+    "S_exit"
+   ],
+   "dev_name": "exit"
+  },
+  {
+   "number": 93,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 94,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 95,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 96,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 97,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 98,
+   "target": "0x800C0E5C",
+   "kind": "stub",
+   "row": "town/func_800C36FC",
+   "row_func": "func_800C36FC",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 99,
+   "target": "0x800C2478",
+   "kind": "row",
+   "row": "town/func_800C4D18",
+   "row_func": "func_800C4D18",
+   "symbols": [],
+   "dev_name": null
+  },
+  {
+   "number": 100,
+   "target": "0x800C22D8",
+   "kind": "row",
+   "row": "town/func_800C4B78",
+   "row_func": "func_800C4B78",
+   "symbols": [
+    "FNO_start_mogura_func"
+   ],
+   "dev_name": "start_mogura_func"
   },
   {
    "number": 101,
-   "symbol": "FNO_start_tako_func",
-   "dev_name": "start_tako_func",
-   "target": "0x800B85E8",
-   "row": "town/func_800BAE88",
-   "row_func": "func_800BAE88",
-   "stub": false
+   "target": "0x800C230C",
+   "kind": "row",
+   "row": "town/func_800C4BAC",
+   "row_func": "func_800C4BAC",
+   "symbols": [
+    "FNO_start_tako_func"
+   ],
+   "dev_name": "start_tako_func"
   },
   {
    "number": 102,
-   "symbol": "FNO_func_koya_tamago_pal_ld",
-   "dev_name": "func_koya_tamago_pal_ld",
-   "target": "0x800B89C4",
-   "row": "town/func_800BB264",
-   "row_func": "func_800BB264",
-   "stub": false
+   "target": "0x800C0AC8",
+   "kind": "row",
+   "row": "town/func_800C3368",
+   "row_func": "func_800C3368",
+   "symbols": [
+    "FNO_func_koya_tamago_pal_ld"
+   ],
+   "dev_name": "func_koya_tamago_pal_ld"
   },
   {
    "number": 103,
-   "symbol": "FNO_func_koya_mon_talk_pal_ld",
-   "dev_name": "func_koya_mon_talk_pal_ld",
-   "target": "0x8004A638",
-   "row": "slus/code",
-   "row_func": "func_8004A638",
-   "stub": false
+   "target": "0x800C0AF4",
+   "kind": "row",
+   "row": "town/func_800C3394",
+   "row_func": "func_800C3394",
+   "symbols": [
+    "FNO_func_koya_mon_talk_pal_ld"
+   ],
+   "dev_name": "func_koya_mon_talk_pal_ld"
   },
   {
    "number": 104,
-   "symbol": "FNO_ext_plsel_hold_item_set",
-   "dev_name": "ext_plsel_hold_item_set",
-   "target": "0x800C0E7C",
-   "row": "town/func_800C371C",
-   "row_func": "func_800C371C",
-   "stub": false
+   "target": "0x800C0B20",
+   "kind": "row",
+   "row": "town/func_800C33C0",
+   "row_func": "func_800C33C0",
+   "symbols": [
+    "FNO_ext_plsel_hold_item_set"
+   ],
+   "dev_name": "ext_plsel_hold_item_set"
   },
   {
    "number": 105,
-   "symbol": "FNO_ext_plsel_kaesu_set",
-   "dev_name": "ext_plsel_kaesu_set",
-   "target": "0x800C0EAC",
-   "row": "town/func_800C374C",
-   "row_func": "func_800C374C",
-   "stub": false
+   "target": "0x800C0B4C",
+   "kind": "row",
+   "row": "town/func_800C33EC",
+   "row_func": "func_800C33EC",
+   "symbols": [
+    "FNO_ext_plsel_kaesu_set"
+   ],
+   "dev_name": "ext_plsel_kaesu_set"
   },
   {
    "number": 106,
-   "symbol": "FNO_koya_mon_status_open",
-   "dev_name": "koya_mon_status_open",
-   "target": "0x800C0E64",
-   "row": "town/func_800C3704",
-   "row_func": "func_800C3704",
-   "stub": false
+   "target": "0x800C0B78",
+   "kind": "row",
+   "row": "town/func_800C3418",
+   "row_func": "func_800C3418",
+   "symbols": [
+    "FNO_koya_mon_status_open"
+   ],
+   "dev_name": "koya_mon_status_open"
   },
   {
    "number": 107,
-   "symbol": "FNO_koya_mon_status_close",
-   "dev_name": "koya_mon_status_close",
-   "target": "0x800B2BA0",
-   "row": "town/func_800B5440",
-   "row_func": "func_800B5440",
-   "stub": false
+   "target": "0x800C0BA4",
+   "kind": "row",
+   "row": "town/func_800C3444",
+   "row_func": "func_800C3444",
+   "symbols": [
+    "FNO_koya_mon_status_close"
+   ],
+   "dev_name": "koya_mon_status_close"
   },
   {
    "number": 108,
-   "symbol": "FNO_koya_mon_namewin_open",
-   "dev_name": "koya_mon_namewin_open",
-   "target": "0x8003E4FC",
-   "row": "slus/code",
-   "row_func": "func_8003E4FC",
-   "stub": false
+   "target": "0x800C0BD0",
+   "kind": "row",
+   "row": "town/func_800C3470",
+   "row_func": "func_800C3470",
+   "symbols": [
+    "FNO_koya_mon_namewin_open"
+   ],
+   "dev_name": "koya_mon_namewin_open"
   },
   {
    "number": 109,
-   "symbol": "FNO_koya_mon_namewin_closechk",
-   "dev_name": "koya_mon_namewin_closechk",
-   "target": "0x800AE1AC",
-   "row": "town/func_800B0A4C",
-   "row_func": "func_800B0A4C",
-   "stub": false
+   "target": "0x800C0BFC",
+   "kind": "row",
+   "row": "town/func_800C349C",
+   "row_func": "func_800C349C",
+   "symbols": [
+    "FNO_koya_mon_namewin_closechk"
+   ],
+   "dev_name": "koya_mon_namewin_closechk"
   },
   {
    "number": 110,
-   "symbol": "FNO_file_load_com",
-   "dev_name": "file_load_com",
-   "target": "0x8004A618",
+   "target": "0x80041284",
+   "kind": "resident",
    "row": "slus/code",
-   "row_func": "func_8004A618",
-   "stub": false
+   "row_func": "func_80041284",
+   "symbols": [
+    "FNO_file_load_com"
+   ],
+   "dev_name": "file_load_com"
   },
   {
    "number": 111,
-   "symbol": "FNO_mcard_func_set",
-   "dev_name": "mcard_func_set",
-   "target": "0x800B83DC",
-   "row": "town/func_800BAC7C",
-   "row_func": "func_800BAC7C",
-   "stub": false
+   "target": "0x800C1AEC",
+   "kind": "row",
+   "row": "town/func_800C438C",
+   "row_func": "func_800C438C",
+   "symbols": [
+    "FNO_mcard_func_set"
+   ],
+   "dev_name": "mcard_func_set"
   },
   {
    "number": 112,
-   "symbol": "FNO_mcard_end_check",
-   "dev_name": "mcard_end_check",
-   "target": "0x800936D0",
-   "row": "town/func_80095F70",
-   "row_func": "func_80095F70",
-   "stub": false
+   "target": "0x800C1B20",
+   "kind": "row",
+   "row": "town/func_800C43C0",
+   "row_func": "func_800C43C0",
+   "symbols": [
+    "FNO_mcard_end_check"
+   ],
+   "dev_name": "mcard_end_check"
   },
   {
    "number": 113,
-   "symbol": "FNO_jyotyu_set_reserve_all",
-   "dev_name": "jyotyu_set_reserve_all",
-   "target": "0x80093744",
-   "row": "town/func_80095FE4",
-   "row_func": "func_80095FE4",
-   "stub": false
+   "target": "0x8008B2BC",
+   "kind": "row",
+   "row": "town/func_8008DB5C",
+   "row_func": "func_8008DB5C",
+   "symbols": [
+    "FNO_jyotyu_set_reserve_all"
+   ],
+   "dev_name": "jyotyu_set_reserve_all"
   },
   {
    "number": 114,
-   "symbol": "FNO_jyotyu_set_reserve_papa",
-   "dev_name": "jyotyu_set_reserve_papa",
-   "target": "0x800A0150",
-   "row": "town/func_800A29F0",
-   "row_func": "func_800A29F0",
-   "stub": false
+   "target": "0x8008B2C4",
+   "kind": "row",
+   "row": "town/func_8008DB64",
+   "row_func": "func_8008DB64",
+   "symbols": [
+    "FNO_jyotyu_set_reserve_papa"
+   ],
+   "dev_name": "jyotyu_set_reserve_papa"
   },
   {
    "number": 115,
-   "symbol": "FNO_jyotyu_set_reserve_nyul",
-   "dev_name": "jyotyu_set_reserve_nyul",
-   "target": "0x8004B834",
-   "row": "slus/code",
-   "row_func": "func_8004B834",
-   "stub": false
+   "target": "0x8008B2CC",
+   "kind": "row",
+   "row": "town/func_8008DB6C",
+   "row_func": "func_8008DB6C",
+   "symbols": [
+    "FNO_jyotyu_set_reserve_nyul"
+   ],
+   "dev_name": "jyotyu_set_reserve_nyul"
   },
   {
    "number": 116,
-   "symbol": "FNO_jyotyu_set_reserve_pool",
-   "dev_name": "jyotyu_set_reserve_pool",
-   "target": "0x800C0F50",
-   "row": "town/func_800C37F0",
-   "row_func": "func_800C37F0",
-   "stub": false
+   "target": "0x8008B2D4",
+   "kind": "row",
+   "row": "town/func_8008DB74",
+   "row_func": "func_8008DB74",
+   "symbols": [
+    "FNO_jyotyu_set_reserve_pool"
+   ],
+   "dev_name": "jyotyu_set_reserve_pool"
   },
   {
    "number": 117,
-   "symbol": "FNO_jyotyu_set_reserve_dngn",
-   "dev_name": "jyotyu_set_reserve_dngn",
-   "target": "0x800C830C",
-   "row": "town/func_800CABAC",
-   "row_func": "func_800CABAC",
-   "stub": false
+   "target": "0x8008B2DC",
+   "kind": "row",
+   "row": "town/func_8008DB7C",
+   "row_func": "func_8008DB7C",
+   "symbols": [
+    "FNO_jyotyu_set_reserve_dngn"
+   ],
+   "dev_name": "jyotyu_set_reserve_dngn"
   },
   {
    "number": 118,
-   "symbol": "FNO_plt_init_sleep_set",
-   "dev_name": "plt_init_sleep_set",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800903A8",
+   "kind": "row",
+   "row": "town/func_80092C48",
+   "row_func": "func_80092C48",
+   "symbols": [
+    "FNO_plt_init_sleep_set"
+   ],
+   "dev_name": "plt_init_sleep_set"
   },
   {
    "number": 119,
-   "symbol": "FNO_get_item_chk",
-   "dev_name": "get_item_chk",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x8009F6E4",
+   "kind": "row",
+   "row": "town/func_800A1F84",
+   "row_func": "func_800A1F84",
+   "symbols": [
+    "FNO_get_item_chk"
+   ],
+   "dev_name": "get_item_chk"
   },
   {
    "number": 120,
-   "symbol": "FNO_mam_bita_give",
-   "dev_name": "mam_bita_give",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C8120",
+   "kind": "row",
+   "row": "town/func_800CA9C0",
+   "row_func": "func_800CA9C0",
+   "symbols": [
+    "FNO_mam_bita_give"
+   ],
+   "dev_name": "mam_bita_give"
   },
   {
    "number": 121,
-   "symbol": "FNO_reserve_twch_load",
-   "dev_name": "reserve_twch_load",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x8008B408",
+   "kind": "row",
+   "row": "town/func_8008DCA8",
+   "row_func": "func_8008DCA8",
+   "symbols": [
+    "FNO_reserve_twch_load"
+   ],
+   "dev_name": "reserve_twch_load"
   },
   {
    "number": 122,
-   "symbol": "FNO_start_keima_func",
-   "dev_name": "start_keima_func",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C23DC",
+   "kind": "row",
+   "row": "town/func_800C4C7C",
+   "row_func": "func_800C4C7C",
+   "symbols": [
+    "FNO_start_keima_func"
+   ],
+   "dev_name": "start_keima_func"
   },
   {
    "number": 123,
-   "symbol": "FNO_start_keima2_func",
-   "dev_name": "start_keima2_func",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C2410",
+   "kind": "row",
+   "row": "town/func_800C4CB0",
+   "row_func": "func_800C4CB0",
+   "symbols": [
+    "FNO_start_keima2_func"
+   ],
+   "dev_name": "start_keima2_func"
   },
   {
    "number": 124,
-   "symbol": "FNO_reserve_tw_mon_load",
-   "dev_name": "reserve_tw_mon_load",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x8008B550",
+   "kind": "row",
+   "row": "town/func_8008DDF0",
+   "row_func": "func_8008DDF0",
+   "symbols": [
+    "FNO_reserve_tw_mon_load"
+   ],
+   "dev_name": "reserve_tw_mon_load"
   },
   {
    "number": 125,
-   "symbol": "FNO_sn_namewin_open",
-   "dev_name": "sn_namewin_open",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C17D4",
+   "kind": "row",
+   "row": "town/func_800C4074",
+   "row_func": "func_800C4074",
+   "symbols": [
+    "FNO_sn_namewin_open"
+   ],
+   "dev_name": "sn_namewin_open"
   },
   {
    "number": 126,
-   "symbol": "FNO_sn_namewin_close_check",
-   "dev_name": "sn_namewin_close_check",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C1804",
+   "kind": "unowned-function",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "FNO_sn_namewin_close_check"
+   ],
+   "dev_name": "sn_namewin_close_check"
   },
   {
    "number": 127,
-   "symbol": "FNO_change_map_of",
-   "dev_name": "change_map_of",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C24C8",
+   "kind": "row",
+   "row": "town/func_800C4D68",
+   "row_func": "func_800C4D68",
+   "symbols": [
+    "FNO_change_map_of"
+   ],
+   "dev_name": "change_map_of"
   },
   {
    "number": 128,
-   "symbol": "FNO_func_sn_ball",
-   "dev_name": "func_sn_ball",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C2340",
+   "kind": "row",
+   "row": "town/func_800C4BE0",
+   "row_func": "func_800C4BE0",
+   "symbols": [
+    "FNO_func_sn_ball"
+   ],
+   "dev_name": "func_sn_ball"
   },
   {
    "number": 129,
-   "symbol": "FNO_tcame_chase_set",
-   "dev_name": "tcame_chase_set",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A5094",
+   "kind": "row",
+   "row": "town/func_800A7934",
+   "row_func": "func_800A7934",
+   "symbols": [
+    "FNO_tcame_chase_set"
+   ],
+   "dev_name": "tcame_chase_set"
   },
   {
    "number": 130,
-   "symbol": "FNO_tcame_chase2_set",
-   "dev_name": "tcame_chase2_set",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A50B8",
+   "kind": "row",
+   "row": "town/func_800A7958",
+   "row_func": "func_800A7958",
+   "symbols": [
+    "FNO_tcame_chase2_set"
+   ],
+   "dev_name": "tcame_chase2_set"
   },
   {
    "number": 131,
-   "symbol": "FNO_tcame_lock",
-   "dev_name": "tcame_lock",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A50E0",
+   "kind": "row",
+   "row": "town/func_800A7980",
+   "row_func": "func_800A7980",
+   "symbols": [
+    "FNO_tcame_lock"
+   ],
+   "dev_name": "tcame_lock"
   },
   {
    "number": 132,
-   "symbol": "FNO_tcame_return",
-   "dev_name": "tcame_return",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A510C",
+   "kind": "row",
+   "row": "town/func_800A79AC",
+   "row_func": "func_800A79AC",
+   "symbols": [
+    "FNO_tcame_return"
+   ],
+   "dev_name": "tcame_return"
   },
   {
    "number": 133,
-   "symbol": "FNO_change_map",
-   "dev_name": "change_map",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x8003BAF8",
+   "kind": "resident",
+   "row": "slus/konami_runtime_w_8003B470",
+   "row_func": "func_8003BAF8",
+   "symbols": [
+    "FNO_change_map"
+   ],
+   "dev_name": "change_map"
   },
   {
    "number": 134,
-   "symbol": "FNO_door_open_demo_set",
-   "dev_name": "door_open_demo_set",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A0A34",
+   "kind": "row",
+   "row": "town/func_800A32D4",
+   "row_func": "func_800A32D4",
+   "symbols": [
+    "FNO_door_open_demo_set"
+   ],
+   "dev_name": "door_open_demo_set"
   },
   {
    "number": 135,
-   "symbol": "FNO_set_item_w0",
-   "dev_name": "set_item_w0",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x8009FCF0",
+   "kind": "row",
+   "row": "town/func_800A2590",
+   "row_func": "func_800A2590",
+   "symbols": [
+    "FNO_set_item_w0"
+   ],
+   "dev_name": "set_item_w0"
   },
   {
    "number": 136,
-   "symbol": "FNO_tcame_chase_fix",
-   "dev_name": "tcame_chase_fix",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A5160",
+   "kind": "row",
+   "row": "town/func_800A7A00",
+   "row_func": "func_800A7A00",
+   "symbols": [
+    "FNO_tcame_chase_fix"
+   ],
+   "dev_name": "tcame_chase_fix"
   },
   {
    "number": 137,
-   "symbol": "FNO_tcame_chase_fix_reset",
-   "dev_name": "tcame_chase_fix_reset",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A516C",
+   "kind": "row",
+   "row": "town/func_800A7A0C",
+   "row_func": "func_800A7A0C",
+   "symbols": [
+    "FNO_tcame_chase_fix_reset"
+   ],
+   "dev_name": "tcame_chase_fix_reset"
   },
   {
    "number": 138,
-   "symbol": "FNO_baken_uriba",
-   "dev_name": "baken_uriba",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800204F8",
+   "kind": "row",
+   "row": "town/func_809534F8",
+   "row_func": "func_809534F8",
+   "symbols": [
+    "FNO_baken_uriba"
+   ],
+   "dev_name": "baken_uriba"
   },
   {
    "number": 139,
-   "symbol": "FNO_set_user_name_win",
-   "dev_name": "set_user_name_win",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x80035D40",
+   "kind": "resident",
+   "row": "slus/konami_runtime_w_80035D40",
+   "row_func": "func_80035D40",
+   "symbols": [
+    "FNO_set_user_name_win"
+   ],
+   "dev_name": "set_user_name_win"
   },
   {
    "number": 140,
-   "symbol": "FNO_tw_sd_se_ld_call",
-   "dev_name": "tw_sd_se_ld_call",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C1464",
+   "kind": "row",
+   "row": "town/func_800C3D04",
+   "row_func": "func_800C3D04",
+   "symbols": [
+    "FNO_tw_sd_se_ld_call"
+   ],
+   "dev_name": "tw_sd_se_ld_call"
   },
   {
    "number": 141,
-   "symbol": "FNO_tw_sd_sq_ld_call",
-   "dev_name": "tw_sd_sq_ld_call",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C15C0",
+   "kind": "row",
+   "row": "town/func_800C3E60",
+   "row_func": "func_800C3E60",
+   "symbols": [
+    "FNO_tw_sd_sq_ld_call"
+   ],
+   "dev_name": "tw_sd_sq_ld_call"
   },
   {
    "number": 142,
-   "symbol": "FNO_town_sd_se_callagain",
-   "dev_name": "town_sd_se_callagain",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C14C0",
+   "kind": "row",
+   "row": "town/func_800C3D60",
+   "row_func": "func_800C3D60",
+   "symbols": [
+    "FNO_town_sd_se_callagain"
+   ],
+   "dev_name": "town_sd_se_callagain"
   },
   {
    "number": 143,
-   "symbol": "FNO_town_sd_sq_callagain",
-   "dev_name": "town_sd_sq_callagain",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C170C",
+   "kind": "row",
+   "row": "town/func_800C3FAC",
+   "row_func": "func_800C3FAC",
+   "symbols": [
+    "FNO_town_sd_sq_callagain"
+   ],
+   "dev_name": "town_sd_sq_callagain"
   },
   {
    "number": 144,
-   "symbol": "FNO_player_now_ang_get",
-   "dev_name": "player_now_ang_get",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x8009A5F4",
+   "kind": "row",
+   "row": "town/func_8009CE94",
+   "row_func": "func_8009CE94",
+   "symbols": [
+    "FNO_player_now_ang_get"
+   ],
+   "dev_name": "player_now_ang_get"
   },
   {
    "number": 145,
-   "symbol": "FNO_player_now_pos_get",
-   "dev_name": "player_now_pos_get",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x8009A654",
+   "kind": "row",
+   "row": "town/func_8009CEF4",
+   "row_func": "func_8009CEF4",
+   "symbols": [
+    "FNO_player_now_pos_get"
+   ],
+   "dev_name": "player_now_pos_get"
   },
   {
    "number": 146,
-   "symbol": "FNO_anyone_org_ang_get",
-   "dev_name": "anyone_org_ang_get",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C4BE0",
+   "kind": "row",
+   "row": "town/func_800C7480",
+   "row_func": "func_800C7480",
+   "symbols": [
+    "FNO_anyone_org_ang_get"
+   ],
+   "dev_name": "anyone_org_ang_get"
   },
   {
    "number": 147,
-   "symbol": "FNO_anyone_org_pos_get",
-   "dev_name": "anyone_org_pos_get",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C4C3C",
+   "kind": "row",
+   "row": "town/func_800C74DC",
+   "row_func": "func_800C74DC",
+   "symbols": [
+    "FNO_anyone_org_pos_get"
+   ],
+   "dev_name": "anyone_org_pos_get"
   },
   {
    "number": 148,
-   "symbol": "FNO_anyone_now_ang_get",
-   "dev_name": "anyone_now_ang_get",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C4C88",
+   "kind": "row",
+   "row": "town/func_800C7528",
+   "row_func": "func_800C7528",
+   "symbols": [
+    "FNO_anyone_now_ang_get"
+   ],
+   "dev_name": "anyone_now_ang_get"
   },
   {
    "number": 149,
-   "symbol": "FNO_anyone_now_pos_get",
-   "dev_name": "anyone_now_pos_get",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C4D20",
+   "kind": "row",
+   "row": "town/func_800C75C0",
+   "row_func": "func_800C75C0",
+   "symbols": [
+    "FNO_anyone_now_pos_get"
+   ],
+   "dev_name": "anyone_now_pos_get"
   },
   {
    "number": 150,
-   "symbol": "FNO_serch_item_kt",
-   "dev_name": "serch_item_kt",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x8009EBE0",
+   "kind": "row",
+   "row": "town/func_800A1480",
+   "row_func": "func_800A1480",
+   "symbols": [
+    "FNO_serch_item_kt"
+   ],
+   "dev_name": "serch_item_kt"
   },
   {
    "number": 151,
-   "symbol": "FNO_del_t_item_w_ptr",
-   "dev_name": "del_t_item_w_ptr",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800B2244",
+   "kind": "row",
+   "row": "town/func_800B4AE4",
+   "row_func": "func_800B4AE4",
+   "symbols": [
+    "FNO_del_t_item_w_ptr"
+   ],
+   "dev_name": "del_t_item_w_ptr"
   },
   {
    "number": 152,
-   "symbol": "FNO_mia_storker_set",
-   "dev_name": "mia_storker_set",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C8DC0",
+   "kind": "row",
+   "row": "town/func_800CB660",
+   "row_func": "func_800CB660",
+   "symbols": [
+    "FNO_mia_storker_set"
+   ],
+   "dev_name": "mia_storker_set"
   },
   {
    "number": 153,
-   "symbol": "FNO_door_atari_on_off",
-   "dev_name": "door_atari_on_off",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A0A54",
+   "kind": "row",
+   "row": "town/func_800A32F4",
+   "row_func": "func_800A32F4",
+   "symbols": [
+    "FNO_door_atari_on_off"
+   ],
+   "dev_name": "door_atari_on_off"
   },
   {
    "number": 154,
-   "symbol": "FNO_strcmp",
-   "dev_name": "strcmp",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x80069E58",
+   "kind": "unowned-function",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "FNO_strcmp"
+   ],
+   "dev_name": "strcmp"
   },
   {
    "number": 155,
-   "symbol": "FNO_event_tori_in",
-   "dev_name": "event_tori_in",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800BD980",
+   "kind": "row",
+   "row": "town/func_800C0220",
+   "row_func": "func_800C0220",
+   "symbols": [
+    "FNO_event_tori_in"
+   ],
+   "dev_name": "event_tori_in"
   },
   {
    "number": 156,
-   "symbol": "FNO_event_pool_clean_in",
-   "dev_name": "event_pool_clean_in",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800BEAD0",
+   "kind": "row",
+   "row": "town/func_800C1370",
+   "row_func": "func_800C1370",
+   "symbols": [
+    "FNO_event_pool_clean_in"
+   ],
+   "dev_name": "event_pool_clean_in"
   },
   {
    "number": 157,
-   "symbol": "FNO_fukidasi_set",
-   "dev_name": "fukidasi_set",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A75E4",
+   "kind": "row",
+   "row": "town/func_800A9E84",
+   "row_func": "func_800A9E84",
+   "symbols": [
+    "FNO_fukidasi_set"
+   ],
+   "dev_name": "fukidasi_set"
   },
   {
    "number": 158,
-   "symbol": "FNO_pool_clut_store",
-   "dev_name": "pool_clut_store",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800BEA88",
+   "kind": "row",
+   "row": "town/func_800C1328",
+   "row_func": "func_800C1328",
+   "symbols": [
+    "FNO_pool_clut_store"
+   ],
+   "dev_name": "pool_clut_store"
   },
   {
    "number": 159,
-   "symbol": "FNO_SD_Call",
-   "dev_name": "SD_Call",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x80053DA8",
+   "kind": "resident",
+   "row": "slus/code",
+   "row_func": "func_80053DA8",
+   "symbols": [
+    "FNO_SD_Call"
+   ],
+   "dev_name": "SD_Call"
   },
   {
    "number": 160,
-   "symbol": "FNO_zukan_func_set",
-   "dev_name": "zukan_func_set",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C1B30",
+   "kind": "row",
+   "row": "town/func_800C43D0",
+   "row_func": "func_800C43D0",
+   "symbols": [
+    "FNO_zukan_func_set"
+   ],
+   "dev_name": "zukan_func_set"
   },
   {
    "number": 161,
-   "symbol": "FNO_zukan_end_check",
-   "dev_name": "zukan_end_check",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C1B64",
+   "kind": "unowned-function",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "FNO_zukan_end_check"
+   ],
+   "dev_name": "zukan_end_check"
   },
   {
    "number": 162,
-   "symbol": "FNO_p_came_set",
-   "dev_name": "p_came_set",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A488C",
+   "kind": "row",
+   "row": "town/func_800A712C",
+   "row_func": "func_800A712C",
+   "symbols": [
+    "FNO_p_came_set"
+   ],
+   "dev_name": "p_came_set"
   },
   {
    "number": 163,
-   "symbol": "FNO_p_came_rotset",
-   "dev_name": "p_came_rotset",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A4898",
+   "kind": "row",
+   "row": "town/func_800A7138",
+   "row_func": "func_800A7138",
+   "symbols": [
+    "FNO_p_came_rotset"
+   ],
+   "dev_name": "p_came_rotset"
   },
   {
    "number": 164,
-   "symbol": "FNO_t_soukowin_open",
-   "dev_name": "t_soukowin_open",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x8009E4BC",
+   "kind": "row",
+   "row": "town/func_800A0D5C",
+   "row_func": "func_800A0D5C",
+   "symbols": [
+    "FNO_t_soukowin_open"
+   ],
+   "dev_name": "t_soukowin_open"
   },
   {
    "number": 165,
-   "symbol": "FNO_t_soukowin_close_check",
-   "dev_name": "t_soukowin_close_check",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x8009E4EC",
+   "kind": "row",
+   "row": "town/func_800A0D8C",
+   "row_func": "func_800A0D8C",
+   "symbols": [
+    "FNO_t_soukowin_close_check"
+   ],
+   "dev_name": "t_soukowin_close_check"
   },
   {
    "number": 166,
-   "symbol": "FNO_town_movie_exe",
-   "dev_name": "town_movie_exe",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x8003AF94",
+   "kind": "resident",
+   "row": "slus/konami_runtime_w_8003AF94",
+   "row_func": "func_8003AF94",
+   "symbols": [
+    "FNO_town_movie_exe"
+   ],
+   "dev_name": "town_movie_exe"
   },
   {
    "number": 167,
-   "symbol": "FNO_nouse___168",
-   "dev_name": "nouse___168",
    "target": "0x800C0E5C",
+   "kind": "stub",
    "row": "town/func_800C36FC",
    "row_func": "func_800C36FC",
-   "stub": true
+   "symbols": [
+    "FNO_nouse___168"
+   ],
+   "dev_name": "nouse___168"
   },
   {
    "number": 168,
-   "symbol": "FNO_town_movie3_call",
-   "dev_name": "town_movie3_call",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C181C",
+   "kind": "row",
+   "row": "town/func_800C40BC",
+   "row_func": "func_800C40BC",
+   "symbols": [
+    "FNO_town_movie3_call"
+   ],
+   "dev_name": "town_movie3_call"
   },
   {
    "number": 169,
-   "symbol": "FNO_nouse___170",
-   "dev_name": "nouse___170",
    "target": "0x800C0E5C",
+   "kind": "stub",
    "row": "town/func_800C36FC",
    "row_func": "func_800C36FC",
-   "stub": true
+   "symbols": [
+    "FNO_nouse___170"
+   ],
+   "dev_name": "nouse___170"
   },
   {
    "number": 170,
-   "symbol": "FNO_into_dn_door_jobs",
-   "dev_name": "into_dn_door_jobs",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A0EB8",
+   "kind": "row",
+   "row": "town/func_800A3758",
+   "row_func": "func_800A3758",
+   "symbols": [
+    "FNO_into_dn_door_jobs"
+   ],
+   "dev_name": "into_dn_door_jobs"
   },
   {
    "number": 171,
-   "symbol": "FNO_washed_dish_suu_set",
-   "dev_name": "washed_dish_suu_set",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A8408",
+   "kind": "row",
+   "row": "town/func_800AACA8",
+   "row_func": "func_800AACA8",
+   "symbols": [
+    "FNO_washed_dish_suu_set"
+   ],
+   "dev_name": "washed_dish_suu_set"
   },
   {
    "number": 172,
-   "symbol": "FNO_washed_dish_suu_inc",
-   "dev_name": "washed_dish_suu_inc",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A8418",
+   "kind": "row",
+   "row": "town/func_800AACB8",
+   "row_func": "func_800AACB8",
+   "symbols": [
+    "FNO_washed_dish_suu_inc"
+   ],
+   "dev_name": "washed_dish_suu_inc"
   },
   {
    "number": 173,
-   "symbol": "FNO_into_dn_door_demo_set",
-   "dev_name": "into_dn_door_demo_set",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A0A88",
+   "kind": "row",
+   "row": "town/func_800A3328",
+   "row_func": "func_800A3328",
+   "symbols": [
+    "FNO_into_dn_door_demo_set"
+   ],
+   "dev_name": "into_dn_door_demo_set"
   },
   {
    "number": 174,
-   "symbol": "FNO_obj_disp23_cancel_sw_set",
-   "dev_name": "obj_disp23_cancel_sw_set",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x80033D44",
+   "kind": "resident",
+   "row": "slus/konami_runtime_w_80033D44",
+   "row_func": "func_80033D44",
+   "symbols": [
+    "FNO_obj_disp23_cancel_sw_set"
+   ],
+   "dev_name": "obj_disp23_cancel_sw_set"
   },
   {
    "number": 175,
-   "symbol": "FNO_start_gym_func",
-   "dev_name": "start_gym_func",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C2374",
+   "kind": "row",
+   "row": "town/func_800C4C14",
+   "row_func": "func_800C4C14",
+   "symbols": [
+    "FNO_start_gym_func"
+   ],
+   "dev_name": "start_gym_func"
   },
   {
    "number": 176,
-   "symbol": "FNO_psn_lookable_get",
-   "dev_name": "psn_lookable_get",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C2F88",
+   "kind": "row",
+   "row": "town/func_800C5828",
+   "row_func": "func_800C5828",
+   "symbols": [
+    "FNO_psn_lookable_get"
+   ],
+   "dev_name": "psn_lookable_get"
   },
   {
    "number": 177,
-   "symbol": "FNO_func_sn_casino_slot",
-   "dev_name": "func_sn_casino_slot",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C24A0",
+   "kind": "row",
+   "row": "town/func_800C4D40",
+   "row_func": "func_800C4D40",
+   "symbols": [
+    "FNO_func_sn_casino_slot"
+   ],
+   "dev_name": "func_sn_casino_slot"
   },
   {
    "number": 178,
-   "symbol": "FNO_koya_into_exe",
-   "dev_name": "koya_into_exe",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800C1BA4",
+   "kind": "row",
+   "row": "town/func_800C4444",
+   "row_func": "func_800C4444",
+   "symbols": [
+    "FNO_koya_into_exe"
+   ],
+   "dev_name": "koya_into_exe"
   },
   {
    "number": 179,
-   "symbol": "FNO_town_map_mod_yorozu_item",
-   "dev_name": "town_map_mod_yorozu_item",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800BE4D4",
+   "kind": "row",
+   "row": "town/func_800C0D74",
+   "row_func": "func_800C0D74",
+   "symbols": [
+    "FNO_town_map_mod_yorozu_item"
+   ],
+   "dev_name": "town_map_mod_yorozu_item"
   },
   {
    "number": 180,
-   "symbol": "FNO_get_player_homerank",
-   "dev_name": "get_player_homerank",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800B2834",
+   "kind": "row",
+   "row": "town/func_800B50D4",
+   "row_func": "func_800B50D4",
+   "symbols": [
+    "FNO_get_player_homerank"
+   ],
+   "dev_name": "get_player_homerank"
   },
   {
    "number": 181,
-   "symbol": "FNO_came_bright_set",
-   "dev_name": "came_bright_set",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x800A48A4",
+   "kind": "row",
+   "row": "town/func_800A7144",
+   "row_func": "func_800A7144",
+   "symbols": [
+    "FNO_came_bright_set"
+   ],
+   "dev_name": "came_bright_set"
   },
   {
    "number": 182,
-   "symbol": "FNO_chg_map_second_house_sel",
-   "dev_name": "chg_map_second_house_sel",
-   "target": "0x800C0E5C",
-   "row": "town/func_800C36FC",
-   "row_func": "func_800C36FC",
-   "stub": true
+   "target": "0x8003B9E8",
+   "kind": "resident",
+   "row": "slus/konami_runtime_w_8003B470",
+   "row_func": "func_8003B9E8",
+   "symbols": [
+    "FNO_chg_map_second_house_sel"
+   ],
+   "dev_name": "chg_map_second_house_sel"
   },
   {
    "number": 183,
-   "symbol": "FNO_set_item_equip_00",
-   "dev_name": "set_item_equip_00",
-   "target": "0x800C2478",
-   "row": "town/func_800C4D18",
-   "row_func": "func_800C4D18",
-   "stub": false
+   "target": "0x8009F938",
+   "kind": "row",
+   "row": "town/func_800A21D8",
+   "row_func": "func_800A21D8",
+   "symbols": [
+    "FNO_set_item_equip_00"
+   ],
+   "dev_name": "set_item_equip_00"
   },
   {
    "number": 184,
-   "symbol": "FNO_moin_zukan_flag_set",
-   "dev_name": "moin_zukan_flag_set",
-   "target": "0x800C22D8",
-   "row": "town/func_800C4B78",
-   "row_func": "func_800C4B78",
-   "stub": false
+   "target": "0x8003E188",
+   "kind": "unowned-function",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "FNO_moin_zukan_flag_set"
+   ],
+   "dev_name": "moin_zukan_flag_set"
   },
   {
    "number": 185,
-   "symbol": "FNO_kewn_namewin_open",
-   "dev_name": "kewn_namewin_open",
-   "target": "0x800C230C",
-   "row": "town/func_800C4BAC",
-   "row_func": "func_800C4BAC",
-   "stub": false
+   "target": "0x8009E3EC",
+   "kind": "row",
+   "row": "town/func_800A0C8C",
+   "row_func": "func_800A0C8C",
+   "symbols": [
+    "FNO_kewn_namewin_open"
+   ],
+   "dev_name": "kewn_namewin_open"
   },
   {
    "number": 186,
-   "symbol": "FNO_town_rain_in",
-   "dev_name": "town_rain_in",
-   "target": "0x800C0AC8",
-   "row": "town/func_800C3368",
-   "row_func": "func_800C3368",
-   "stub": false
+   "target": "0x800BFB00",
+   "kind": "row",
+   "row": "town/func_800C23A0",
+   "row_func": "func_800C23A0",
+   "symbols": [
+    "FNO_town_rain_in"
+   ],
+   "dev_name": "town_rain_in"
   },
   {
    "number": 187,
-   "symbol": "FNO_town_sdall_reserve",
-   "dev_name": "town_sdall_reserve",
-   "target": "0x800C0AF4",
-   "row": "town/func_800C3394",
-   "row_func": "func_800C3394",
-   "stub": false
+   "target": "0x800C1770",
+   "kind": "row",
+   "row": "town/func_800C4010",
+   "row_func": "func_800C4010",
+   "symbols": [
+    "FNO_town_sdall_reserve"
+   ],
+   "dev_name": "town_sdall_reserve"
   },
   {
    "number": 188,
-   "symbol": "FNO_town_se_reserve",
-   "dev_name": "town_se_reserve",
-   "target": "0x800C0B20",
-   "row": "town/func_800C33C0",
-   "row_func": "func_800C33C0",
-   "stub": false
+   "target": "0x800C178C",
+   "kind": "row",
+   "row": "town/func_800C402C",
+   "row_func": "func_800C402C",
+   "symbols": [
+    "FNO_town_se_reserve"
+   ],
+   "dev_name": "town_se_reserve"
   },
   {
    "number": 189,
-   "symbol": "FNO_town_seq_reserve",
-   "dev_name": "town_seq_reserve",
-   "target": "0x800C0B4C",
-   "row": "town/func_800C33EC",
-   "row_func": "func_800C33EC",
-   "stub": false
+   "target": "0x800C17A0",
+   "kind": "row",
+   "row": "town/func_800C4040",
+   "row_func": "func_800C4040",
+   "symbols": [
+    "FNO_town_seq_reserve"
+   ],
+   "dev_name": "town_seq_reserve"
   },
   {
    "number": 190,
-   "symbol": "FNO_get_target_itemp",
-   "dev_name": "get_target_itemp",
-   "target": "0x800C0B78",
-   "row": "town/func_800C3418",
-   "row_func": "func_800C3418",
-   "stub": false
+   "target": "0x8009F270",
+   "kind": "row",
+   "row": "town/func_800A1B10",
+   "row_func": "func_800A1B10",
+   "symbols": [
+    "FNO_get_target_itemp"
+   ],
+   "dev_name": "get_target_itemp"
   },
   {
    "number": 191,
-   "symbol": "FNO_sarch_koyaw_free",
-   "dev_name": "sarch_koyaw_free",
-   "target": "0x800C0BA4",
-   "row": "town/func_800C3444",
-   "row_func": "func_800C3444",
-   "stub": false
+   "target": "0x8009F9D4",
+   "kind": "row",
+   "row": "town/func_800A2274",
+   "row_func": "func_800A2274",
+   "symbols": [
+    "FNO_sarch_koyaw_free"
+   ],
+   "dev_name": "sarch_koyaw_free"
   },
   {
    "number": 192,
-   "symbol": "FNO_trget_psn_ang_set",
-   "dev_name": "trget_psn_ang_set",
-   "target": "0x800C0BD0",
-   "row": "town/func_800C3470",
-   "row_func": "func_800C3470",
-   "stub": false
+   "target": "0x800C4D80",
+   "kind": "row",
+   "row": "town/func_800C7620",
+   "row_func": "func_800C7620",
+   "symbols": [
+    "FNO_trget_psn_ang_set"
+   ],
+   "dev_name": "trget_psn_ang_set"
   },
   {
    "number": 193,
-   "symbol": "FNO_kewn_namewin_close_check",
-   "dev_name": "kewn_namewin_close_check",
-   "target": "0x800C0BFC",
-   "row": "town/func_800C349C",
-   "row_func": "func_800C349C",
-   "stub": false
+   "target": "0x8009E424",
+   "kind": "row",
+   "row": "town/func_800A0CC4",
+   "row_func": "func_800A0CC4",
+   "symbols": [
+    "FNO_kewn_namewin_close_check"
+   ],
+   "dev_name": "kewn_namewin_close_check"
   },
   {
    "number": 194,
-   "symbol": "FNO_town_sd_sq_callagain_sub",
-   "dev_name": "town_sd_sq_callagain_sub",
-   "target": "0x80041284",
-   "row": "slus/code",
-   "row_func": "func_80041284",
-   "stub": false
+   "target": "0x800C15E0",
+   "kind": "row",
+   "row": "town/func_800C3E80",
+   "row_func": "func_800C3E80",
+   "symbols": [
+    "FNO_town_sd_sq_callagain_sub"
+   ],
+   "dev_name": "town_sd_sq_callagain_sub"
   },
   {
    "number": 195,
-   "symbol": "FNO_tw_sd_sq_ld_call_sub",
-   "dev_name": "tw_sd_sq_ld_call_sub",
-   "target": "0x800C1AEC",
-   "row": "town/func_800C438C",
-   "row_func": "func_800C438C",
-   "stub": false
+   "target": "0x800C1564",
+   "kind": "row",
+   "row": "town/func_800C3E04",
+   "row_func": "func_800C3E04",
+   "symbols": [
+    "FNO_tw_sd_sq_ld_call_sub"
+   ],
+   "dev_name": "tw_sd_sq_ld_call_sub"
   },
   {
    "number": 196,
-   "symbol": "FNO_town_map_mod_read_p",
-   "dev_name": "town_map_mod_read_p",
-   "target": "0x800C1B20",
-   "row": "town/func_800C43C0",
-   "row_func": "func_800C43C0",
-   "stub": false
+   "target": "0x8008C0F0",
+   "kind": "row",
+   "row": "town/func_8008E990",
+   "row_func": "func_8008E990",
+   "symbols": [
+    "FNO_town_map_mod_read_p"
+   ],
+   "dev_name": "town_map_mod_read_p"
   },
   {
    "number": 197,
-   "symbol": "FNO_tw_seq_end_chk",
-   "dev_name": "tw_seq_end_chk",
-   "target": "0x8008B2BC",
-   "row": "town/func_8008DB5C",
-   "row_func": "func_8008DB5C",
-   "stub": false
+   "target": "0x800C17B4",
+   "kind": "row",
+   "row": "town/func_800C4054",
+   "row_func": "func_800C4054",
+   "symbols": [
+    "FNO_tw_seq_end_chk"
+   ],
+   "dev_name": "tw_seq_end_chk"
   },
   {
    "number": 198,
-   "symbol": "FNO_sb01_over_push",
-   "dev_name": "sb01_over_push",
-   "target": "0x8008B2C4",
-   "row": "town/func_8008DB64",
-   "row_func": "func_8008DB64",
-   "stub": false
+   "target": "0x800C1BD0",
+   "kind": "row",
+   "row": "town/func_800C4470",
+   "row_func": "func_800C4470",
+   "symbols": [
+    "FNO_sb01_over_push"
+   ],
+   "dev_name": "sb01_over_push"
   },
   {
    "number": 199,
-   "symbol": "FNO_sb01_over_pull",
-   "dev_name": "sb01_over_pull",
-   "target": "0x8008B2CC",
-   "row": "town/func_8008DB6C",
-   "row_func": "func_8008DB6C",
-   "stub": false
+   "target": "0x800C1C1C",
+   "kind": "unowned-function",
+   "row": null,
+   "row_func": null,
+   "symbols": [
+    "FNO_sb01_over_pull"
+   ],
+   "dev_name": "sb01_over_pull"
   },
   {
    "number": 200,
-   "symbol": "FNO_ms_mot_accpt_ow",
-   "dev_name": "ms_mot_accpt_ow",
-   "target": "0x8008B2D4",
-   "row": "town/func_8008DB74",
-   "row_func": "func_8008DB74",
-   "stub": false
+   "target": "0x800392A4",
+   "kind": "resident",
+   "row": "slus/konami_runtime_w_80038408",
+   "row_func": "func_800392A4",
+   "symbols": [
+    "FNO_ms_mot_accpt_ow"
+   ],
+   "dev_name": "ms_mot_accpt_ow"
   },
   {
    "number": 201,
-   "symbol": "FNO_all_item_egg_kaeru",
-   "dev_name": "all_item_egg_kaeru",
-   "target": "0x8008B2DC",
-   "row": "town/func_8008DB7C",
-   "row_func": "func_8008DB7C",
-   "stub": false
+   "target": "0x8009F6D4",
+   "kind": "row",
+   "row": "town/func_800A1F74",
+   "row_func": "func_800A1F74",
+   "symbols": [
+    "FNO_all_item_egg_kaeru"
+   ],
+   "dev_name": "all_item_egg_kaeru"
   },
   {
    "number": 202,
-   "symbol": "FNO_mes_skip_disable_set",
-   "dev_name": "mes_skip_disable_set",
-   "target": "0x800903A8",
-   "row": "town/func_80092C48",
-   "row_func": "func_80092C48",
-   "stub": false
+   "target": "0x80038000",
+   "kind": "resident",
+   "row": "slus/konami_runtime_w_80038000",
+   "row_func": "func_80038000",
+   "symbols": [
+    "FNO_mes_skip_disable_set"
+   ],
+   "dev_name": "mes_skip_disable_set"
   },
   {
    "number": 203,
-   "symbol": "FNO_akichi_vivian_chk",
-   "dev_name": "akichi_vivian_chk",
-   "target": "0x8009F6E4",
-   "row": "town/func_800A1F84",
-   "row_func": "func_800A1F84",
-   "stub": false
+   "target": "0x800B9034",
+   "kind": "row",
+   "row": "town/func_800BB8D4",
+   "row_func": "func_800BB8D4",
+   "symbols": [
+    "FNO_akichi_vivian_chk"
+   ],
+   "dev_name": "akichi_vivian_chk"
   },
   {
    "number": 204,
-   "symbol": "FNO_event_fountain_chk",
-   "dev_name": "event_fountain_chk",
-   "target": "0x800C8120",
-   "row": "town/func_800CA9C0",
-   "row_func": "func_800CA9C0",
-   "stub": false
+   "target": "0x800B9044",
+   "kind": "row",
+   "row": "town/func_800BB8E4",
+   "row_func": "func_800BB8E4",
+   "symbols": [
+    "FNO_event_fountain_chk"
+   ],
+   "dev_name": "event_fountain_chk"
   },
   {
    "number": 205,
-   "symbol": "FNO_to_camera_zero_00",
-   "dev_name": "to_camera_zero_00",
-   "target": "0x8008B408",
-   "row": "town/func_8008DCA8",
-   "row_func": "func_8008DCA8",
-   "stub": false
+   "target": "0x800909A0",
+   "kind": "row",
+   "row": "town/func_80093240",
+   "row_func": "func_80093240",
+   "symbols": [
+    "FNO_to_camera_zero_00"
+   ],
+   "dev_name": "to_camera_zero_00"
   },
   {
    "number": 206,
-   "symbol": "FNO_present_flower_set",
-   "dev_name": "present_flower_set",
-   "target": "0x800C23DC",
-   "row": "town/func_800C4C7C",
-   "row_func": "func_800C4C7C",
-   "stub": false
+   "target": "0x800A7FD8",
+   "kind": "row",
+   "row": "town/func_800AA878",
+   "row_func": "func_800AA878",
+   "symbols": [
+    "FNO_present_flower_set"
+   ],
+   "dev_name": "present_flower_set"
   },
   {
    "number": 207,
-   "symbol": "FNO_town_sd_se_load_init",
-   "dev_name": "town_sd_se_load_init",
-   "target": "0x800C2410",
-   "row": "town/func_800C4CB0",
-   "row_func": "func_800C4CB0",
-   "stub": false
+   "target": "0x800C0FA4",
+   "kind": "row",
+   "row": "town/func_800C3844",
+   "row_func": "func_800C3844",
+   "symbols": [
+    "FNO_town_sd_se_load_init"
+   ],
+   "dev_name": "town_sd_se_load_init"
   },
   {
    "number": 208,
-   "symbol": "FNO_door_open_demo_set_sub",
-   "dev_name": "door_open_demo_set_sub",
-   "target": "0x8008B550",
-   "row": "town/func_8008DDF0",
-   "row_func": "func_8008DDF0",
-   "stub": false
+   "target": "0x800A09F4",
+   "kind": "row",
+   "row": "town/func_800A3294",
+   "row_func": "func_800A3294",
+   "symbols": [
+    "FNO_door_open_demo_set_sub"
+   ],
+   "dev_name": "door_open_demo_set_sub"
   },
   {
    "number": 209,
-   "symbol": "FNO_tcame_return_plus",
-   "dev_name": "tcame_return_plus",
-   "target": "0x800C17D4",
-   "row": "town/func_800C4074",
-   "row_func": "func_800C4074",
-   "stub": false
+   "target": "0x800A5130",
+   "kind": "row",
+   "row": "town/func_800A79D0",
+   "row_func": "func_800A79D0",
+   "symbols": [
+    "FNO_tcame_return_plus"
+   ],
+   "dev_name": "tcame_return_plus"
   },
   {
    "number": 210,
-   "symbol": "FNO_tcame_chase_tgt_reset",
-   "dev_name": "tcame_chase_tgt_reset",
-   "target": "0x800C1804",
-   "row": null,
-   "row_func": null,
-   "stub": false
+   "target": "0x800A5080",
+   "kind": "row",
+   "row": "town/func_800A7920",
+   "row_func": "func_800A7920",
+   "symbols": [
+    "FNO_tcame_chase_tgt_reset"
+   ],
+   "dev_name": "tcame_chase_tgt_reset"
   },
   {
    "number": 211,
-   "symbol": "FNO_serch_item_plown",
-   "dev_name": "serch_item_plown",
-   "target": "0x800C24C8",
-   "row": "town/func_800C4D68",
-   "row_func": "func_800C4D68",
-   "stub": false
-  },
-  {
-   "number": 212,
-   "symbol": null,
-   "dev_name": null,
-   "target": "0x800C2340",
-   "row": "town/func_800C4BE0",
-   "row_func": "func_800C4BE0",
-   "stub": false
-  },
-  {
-   "number": 213,
-   "symbol": null,
-   "dev_name": null,
-   "target": "0x800A5094",
-   "row": "town/func_800A7934",
-   "row_func": "func_800A7934",
-   "stub": false
-  },
-  {
-   "number": 214,
-   "symbol": null,
-   "dev_name": null,
-   "target": "0x800A50B8",
-   "row": "town/func_800A7958",
-   "row_func": "func_800A7958",
-   "stub": false
-  },
-  {
-   "number": 215,
-   "symbol": null,
-   "dev_name": null,
-   "target": "0x800A50E0",
-   "row": "town/func_800A7980",
-   "row_func": "func_800A7980",
-   "stub": false
-  },
-  {
-   "number": 216,
-   "symbol": null,
-   "dev_name": null,
-   "target": "0x800A510C",
-   "row": "town/func_800A79AC",
-   "row_func": "func_800A79AC",
-   "stub": false
-  },
-  {
-   "number": 217,
-   "symbol": null,
-   "dev_name": null,
-   "target": "0x8003BAF8",
-   "row": "slus/konami_runtime_w_8003B470",
-   "row_func": "func_8003BAF8",
-   "stub": false
-  },
-  {
-   "number": 218,
-   "symbol": null,
-   "dev_name": null,
-   "target": "0x800A0A34",
-   "row": "town/func_800A32D4",
-   "row_func": "func_800A32D4",
-   "stub": false
-  },
-  {
-   "number": 219,
-   "symbol": null,
-   "dev_name": null,
-   "target": "0x8009FCF0",
-   "row": "town/func_800A2590",
-   "row_func": "func_800A2590",
-   "stub": false
-  },
-  {
-   "number": 220,
-   "symbol": null,
-   "dev_name": null,
-   "target": "0x800A5160",
-   "row": "town/func_800A7A00",
-   "row_func": "func_800A7A00",
-   "stub": false
-  },
-  {
-   "number": 221,
-   "symbol": null,
-   "dev_name": null,
-   "target": "0x800A516C",
-   "row": "town/func_800A7A0C",
-   "row_func": "func_800A7A0C",
-   "stub": false
+   "target": "0x8009F88C",
+   "kind": "row",
+   "row": "town/func_800A212C",
+   "row_func": "func_800A212C",
+   "symbols": [
+    "FNO_serch_item_plown"
+   ],
+   "dev_name": "serch_item_plown"
   }
- ]
+ ],
+ "variable_table": {
+  "vram": "0x800D401C",
+  "entries": [
+   {
+    "index": 0,
+    "target": "0x80113160",
+    "symbol": "D_80113160",
+    "names": [
+     "V_cheriru00"
+    ]
+   },
+   {
+    "index": 1,
+    "target": "0x80113164",
+    "symbol": "D_80113164",
+    "names": [
+     "V_daiku_num_bilud"
+    ]
+   },
+   {
+    "index": 2,
+    "target": "0x80113168",
+    "symbol": "D_80113168",
+    "names": [
+     "V_pad03"
+    ]
+   },
+   {
+    "index": 3,
+    "target": "0x8011316C",
+    "symbol": "D_8011316C",
+    "names": [
+     "V_pad04"
+    ]
+   },
+   {
+    "index": 4,
+    "target": "0x80113170",
+    "symbol": "D_80113170",
+    "names": [
+     "V_pad05"
+    ]
+   },
+   {
+    "index": 5,
+    "target": "0x80113174",
+    "symbol": "D_80113174",
+    "names": [
+     "V_pad06"
+    ]
+   },
+   {
+    "index": 6,
+    "target": "0x80113178",
+    "symbol": "D_80113178",
+    "names": [
+     "V_pad07"
+    ]
+   },
+   {
+    "index": 7,
+    "target": "0x8011317C",
+    "symbol": "D_8011317C",
+    "names": [
+     "V_pad08"
+    ]
+   },
+   {
+    "index": 8,
+    "target": "0x80113180",
+    "symbol": "D_80113180",
+    "names": [
+     "V_pad09"
+    ]
+   },
+   {
+    "index": 9,
+    "target": "0x80113184",
+    "symbol": "D_80113184",
+    "names": [
+     "V_pad10"
+    ]
+   },
+   {
+    "index": 10,
+    "target": "0x80113188",
+    "symbol": "D_80113188",
+    "names": [
+     "V_pad11"
+    ]
+   },
+   {
+    "index": 11,
+    "target": "0x8011318C",
+    "symbol": "D_8011318C",
+    "names": [
+     "V_pad12"
+    ]
+   },
+   {
+    "index": 12,
+    "target": "0x80113190",
+    "symbol": "D_80113190",
+    "names": [
+     "V_pad13"
+    ]
+   },
+   {
+    "index": 13,
+    "target": "0x80113194",
+    "symbol": "D_80113194",
+    "names": [
+     "V_pad14"
+    ]
+   },
+   {
+    "index": 14,
+    "target": "0x80113198",
+    "symbol": "D_80113198",
+    "names": [
+     "V_pad15"
+    ]
+   },
+   {
+    "index": 15,
+    "target": "0x8011319C",
+    "symbol": "D_8011319C",
+    "names": [
+     "V_pad16"
+    ]
+   },
+   {
+    "index": 16,
+    "target": "0x801131A0",
+    "symbol": "D_801131A0",
+    "names": [
+     "V_pad17"
+    ]
+   },
+   {
+    "index": 17,
+    "target": "0x801131A4",
+    "symbol": "D_801131A4",
+    "names": [
+     "V_pad18"
+    ]
+   },
+   {
+    "index": 18,
+    "target": "0x801131A8",
+    "symbol": "D_801131A8",
+    "names": [
+     "V_pad19"
+    ]
+   },
+   {
+    "index": 19,
+    "target": "0x801131AC",
+    "symbol": "D_801131AC",
+    "names": [
+     "V_pad20"
+    ]
+   },
+   {
+    "index": 20,
+    "target": "0x801131B0",
+    "symbol": "D_801131B0",
+    "names": []
+   },
+   {
+    "index": 21,
+    "target": "0x80012D5C",
+    "symbol": "D_80012D5C",
+    "names": []
+   },
+   {
+    "index": 22,
+    "target": "0x80012D60",
+    "symbol": "D_80012D60",
+    "names": []
+   },
+   {
+    "index": 23,
+    "target": "0x00000000",
+    "symbol": null,
+    "names": []
+   },
+   {
+    "index": 24,
+    "target": "0x00000000",
+    "symbol": null,
+    "names": []
+   },
+   {
+    "index": 25,
+    "target": "0x80012D70",
+    "symbol": "D_80012D70",
+    "names": [
+     "V_pobj"
+    ]
+   },
+   {
+    "index": 26,
+    "target": "0x80083498",
+    "symbol": "D_80083498",
+    "names": [
+     "V_item_type_data"
+    ]
+   },
+   {
+    "index": 27,
+    "target": "0x80073414",
+    "symbol": "D_80073414",
+    "names": [
+     "V_sys"
+    ]
+   },
+   {
+    "index": 28,
+    "target": "0x80083160",
+    "symbol": "D_80083160",
+    "names": [
+     "V_gamew2"
+    ]
+   },
+   {
+    "index": 29,
+    "target": "0x8006ADBC",
+    "symbol": "D_8006ADBC",
+    "names": []
+   }
+  ]
+ }
 }
