@@ -80,13 +80,13 @@ DEV_STRINGS = [  # §7.1 of the catalogue: other developer strings, with contain
     {"string": "$Id: intr.c,v 1.76 / bios.c,v 1.86 / sys.c,v 1.129", "container": "slus", "foff": ["0x6AC8", "0x6D78", "0x6EFC"], "note": "PSY-Q library RCS ids"},
 ]
 # Resident pointer tables (docs/evidence: exe_census §2.2). (vram, file offset in slus_006.14, entries, role)
-VM_TABLES = [
-    ("0x8006AA90", 0x3E290, 89, "event-script VM handler table: entry i = handler for opcode i; four slots share the 8-byte 'unimplemented opcode' stub; the 89th word is the default/terminator (state-transition dispatcher)"),
-    ("0x8006AC9C", 0x3E49C, 19, "resident function-pointer table (role not yet named)"),
-    ("0x8006AD74", 0x3E574, 12, "resident function-pointer table (role not yet named)"),
-    ("0x8006B01C", 0x3E81C, 33, "resident function-pointer table (role not yet named)"),
-    ("0x8007AED8", 0x4E6D8, 40, "resident function-pointer table (role not yet named)"),
-    ("0x8008077C", 0x53F7C, 16, "resident function-pointer table (role not yet named)"),
+VM_TABLES = [   # (vram, file offset in slus_006.14, entries, kind, role)
+    ("0x8006AA90", 0x3E290, 89, "code", "event-script VM handler table: entry i = handler for opcode i (the interpreter func_80038AB8 does `D_8006AA90[opcode](context)`); four slots share the 8-byte 'unimplemented opcode' stub; the 89th word is the default/terminator (state-transition dispatcher)"),
+    ("0x8006AC9C", 0x3E49C, 19, "text", "town NPC name table (Shift-JIS fullwidth: Barry, Beldo, Okami, Barten, Wotta, Silver, Jorda, Dr.Hal, Tonka, Hush, Nadia, Coppe, NcsDad, Angel, Issac, Jacof, Etto, Romi, Shin)"),
+    ("0x8006AD74", 0x3E574, 12, "text", "second NPC name table (Danser x4, Aunt, Horse x4, Shiela, Butler, Bunny2)"),
+    ("0x8006B01C", 0x3E81C, 33, "text", "monster (familiar) name table in monster-id order (ifrit, flame, grineu, griff, saber, snow, ashra, aran, battne, nyuel, death, clown, univer, unicon, metal, block, pulun, troll, noise, u-boat, baloon, dream, blume, volcan, cyclo, maneva, barong, picket, kraken, weadog, steal, viper, naplas): the id space initialStatsTable (24-byte records) is indexed by"),
+    ("0x8007AED8", 0x4E6D8, 40, "text", "libcd command-name table (gCdCommandStringTable in config/slus_006.14.symbols.txt): CdlSync, CdlNop, ... DiskError"),
+    ("0x8008077C", 0x53F7C, 16, "unknown", "resident pointer table (targets not yet classified)"),
 ]
 
 # ---- the script symbol dump (TOWN.BIN devkit blob): 36-byte records, u32 value + char name[32] ----
@@ -384,13 +384,24 @@ def build():
     slus = ROOT / "baserom" / "slus_006.14"; tables = []
     if slus.exists():
         b = slus.read_bytes()
-        for vram, foff, n, role in VM_TABLES:
+        def cstr(v):
+            o = v - 0x8002D000 + 0x800
+            if not (0 <= o < len(b)): return None
+            e = b.find(b"\0", o); raw = b[o:min(e if e >= 0 else o + 64, o + 64)]
+            for enc in ("shift_jis", "latin1"):
+                try: return raw.decode(enc)
+                except Exception: pass
+            return None
+        for vram, foff, n, kind, role in VM_TABLES:
             ws = struct.unpack_from("<%dI" % n, b, foff); ents = []
             for i, w in enumerate(ws):
-                hit = _lookup(idx, "slus", w); sym = f"func_{w:08X}"
-                ents.append({"index": i, "target": f"0x{w:08X}", "row": hit[0] if hit else None, "symbol": (names.get(sym, (sym,))[0]) if hit and hit[2] == 0 else (hit[1] if hit else None)})
-                if hit and hit[2] == 0: per[hit[0]]["vm"].append({"table": vram, "index": i, "role": role.split(":")[0]})
-            tables.append({"vram": vram, "file_offset": f"0x{foff:X}", "entries": n, "role": role, "targets": ents})
+                if kind == "code":
+                    hit = _lookup(idx, "slus", w); sym = f"func_{w:08X}"
+                    ents.append({"index": i, "target": f"0x{w:08X}", "row": hit[0] if hit else None, "symbol": (names.get(sym, (sym,))[0]) if hit and hit[2] == 0 else (hit[1] if hit else None)})
+                    if hit and hit[2] == 0: per[hit[0]]["vm"].append({"table": vram, "index": i, "role": role.split(":")[0]})
+                else:
+                    ents.append({"index": i, "target": f"0x{w:08X}", "text": cstr(w) if kind == "text" else None})
+            tables.append({"vram": vram, "file_offset": f"0x{foff:X}", "entries": n, "kind": kind, "role": role, "targets": ents})
     (EV / "vm_tables.json").write_text(json.dumps(tables, indent=1) + "\n")
     # 4. knowledge notes (by nominal func name, or by the renamed symbol through names.tsv)
     kd = EV / "knowledge"; k_hits = 0
@@ -678,11 +689,13 @@ have functions but no name in the dump (the dump predates them); `FNO_func_sn_ca
             if not items: continue
             O.append(f"- **{title}** ({len(items)}): " + ", ".join(f"`{n}`={v}" for v, n in items))
         O.append("")
-        O.append("""The `S_` numbers 0–32 line up one-for-one with the 33-entry resident pointer table at `0x8006B01C` (a table of small
-trampolines at the start of the SLUS text, listed in `ledger/evidence/vm_tables.json`): `S_open_sell_dougu` = 0 ...
-`S_set_no_change_seq` = 32. That is a hypothesis from the counts and order, not yet a proof; reading the VM's system-call
-handler settles it, and would name those 33 trampolines and the overlay functions behind them. `S_printf` /
-`S_sprintf` / `S_getchar` / `S_exit` (34, 90–92) are the developer-console calls the port found unimplemented in retail.
+        O.append("""The `S_` numbers are the script system calls (`S_open_shop`, `S_flgtst`, `S_rand_sn` ...). They are **not** the VM's
+opcode numbers: the interpreter (`func_80038AB8`) dispatches `D_8006AA90[opcode]` for opcodes 0–88, and the entries
+the `S_NULL1` / `S_NULL2` placeholders would predict are real handlers. An earlier guess that they index the 33-entry
+table at `0x8006B01C` is refuted: that table holds the 33 monster names. How a script reaches `S_open_shop` (which opcode
+carries the number, and which resident or overlay routine answers it) is the open question the research workflow
+addresses; `S_printf` / `S_sprintf` / `S_getchar` / `S_exit` (34, 90–92) are the developer-console calls the port found
+unimplemented in retail.
 """)
         O.append("### 5.3 The flags (`F_` and its variants, `GOODS_`, `mamonogoya_`)\n")
         F = sorted(set(by["F_"]))
@@ -704,7 +717,13 @@ Examples: """ + ", ".join(f"`{n}`={v}" for v, n in F[:10]) + " ...\n")
         for x in t0["targets"]:
             O.append(f"| {x['index']} | `{x['symbol'] or x['target']}`{' (unimplemented-opcode stub)' if x['target'] == stub else ''} | `{x['row'] or '?'}` |")
         O.append("")
-        O.append("Five more resident function-pointer tables are resolved to rows but not yet named: " + ", ".join(f"`{x['vram']}` ({x['entries']} entries)" for x in vm[1:]) + ". Their roles come from reading the dispatcher that indexes them.\n")
+        O.append("The other resident pointer tables are **name tables**, i.e. data symbols with a known meaning:\n")
+        for x in vm[1:]:
+            if x.get("kind") == "text":
+                O.append(f"- `D_{x['vram'][2:]}` ({x['entries']} entries): {x['role']}")
+            else:
+                O.append(f"- `D_{x['vram'][2:]}` ({x['entries']} entries): {x['role']}")
+        O.append("")
     # 6. names + notes
     O.append("## 7. Names already applied, and the prior notes\n")
     O.append(f"`config/names.tsv` holds {len(names)} function renames applied through the alias mechanism (byte-exact by construction), each with an evidence line:\n")
