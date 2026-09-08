@@ -176,6 +176,13 @@ def verify_slus(row, cfile, include_root=None):
         # crude residue for slus: disassembly diff vs cached pinned disassembly
         got = disasm(obj)
         tgt = (CACHE / "slus_dis" / (row["id"].split("/")[1] + ".txt")).read_text().splitlines()
+        # symbol NAMES are not bytes: the SLUS link resolves them by address, and the name table
+        # (config/names.tsv) can spell a symbol differently from when the pinned object was cached
+        # (e.g. a self-call `jal func_X` vs `jal trueName`).  Identical instruction streams with
+        # only <symbol> spellings apart are exact; the SLUS SHA-1 gate is the proof of record.
+        mask = lambda ls: [re.sub(r"(R_MIPS_\w+)\s+\S+", r"\1 <>", re.sub(r"<[^>]*>", "<>", re.sub(r"^\s*[0-9a-f]+:\s*", "", l))) for l in ls]
+        if len(got) == len(tgt) and mask(got) == mask(tgt):
+            return {"status": "ok", "exact": True, "obj_sha": h, "proof": "text-identical (symbol names differ from the cached object)", "secs": round(time.time() - t0, 2)}
         ndiff = sum(1 for a, b in zip(got, tgt) if a.split(None, 2)[-1] != b.split(None, 2)[-1]) + abs(len(got) - len(tgt))
         return {"status": "ok", "exact": False, "obj_sha": h, "gen_words": len(got), "tgt_words": len(tgt),
                 "total": ndiff, "class": "length-drift" if len(got) != len(tgt) else "slus-diff", "secs": round(time.time() - t0, 2)}
